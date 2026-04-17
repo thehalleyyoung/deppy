@@ -67,14 +67,20 @@ if jax:
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(TestCharacteristicCurveFunction(*args), correctly constructs a TestCharacteristicCurveFunction instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ TestCharacteristicCurveFunction : Any → {Any | code_p...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f2cb990eba42ec0a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestCharacteristicCurveFunction","kind":"class","src_hash":"167a8bedea890dff","in":{"base":"Any"},"out":{"base":"Any","pred":"code_printer().doprint(f1 * f2 * f3) == expected"},"spec":{"lhs":"TestCharacteristicCurveFunction(*args)","rhs":"correctly constructs a TestCharacteristicCurveFunction instance","over":{"base":"Any"},"name":"TestCharacteristicCurveFunction_class_invariant"},"guarantee":"correctly constructs a TestCharacteristicCurveFunction instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f2cb990eba42ec0a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestCharacteristicCurveFunction","kind":"class","src_hash":"167a8bedea890dff","in":{"base":"Any"},"out":{"base":"Any","pred":"code_printer().doprint(f1 * f2 * f3) == expected"},"spec":{"lhs":"TestCharacteristicCurveFunction(*args)","rhs":"correctly constructs a TestCharacteristicCurveFunction instance","over":{"base":"Any"},"name":"TestCharacteristicCurveFunction_class_invariant"},"guarantee":"correctly constructs a TestCharacteristicCurveFunction instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f2cb990eba42ec0a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial"},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function TestCharacteristicCurveFunction not found in source"]}}
 class TestCharacteristicCurveFunction:
 
     @staticmethod
@@ -99,16 +105,23 @@ class TestCharacteristicCurveFunction:
         ]
     )
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_print_code_parenthesize(cod), test_print_code_parenthesize produces the expected output) over Any ║
+# ║ Path(test_print_code_parenthesize(code_printer, expected), a + b) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_print_code_parenthesize : Any → Any                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  code_printer().doprint(f1 * f2 * f3) == e...   ║
+# ║   returns:  a + b                                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_print_code_parenthesize : Any → {Any | result sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2fd35fea5a1a7a18  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | be70cd3c61f86d56  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestCharacteristicCurveFunction.test_print_code_parenthesize","kind":"staticmethod","src_hash":"678d3668ba4141ca","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_print_code_parenthesize(cod)","rhs":"test_print_code_parenthesize produces the expected output","over":{"base":"Any"},"name":"test_print_code_parenthesize_correct"},"guarantee":"test_print_code_parenthesize produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestCharacteristicCurveFunction.test_print_code_parenthesize_correct","statement":"Path(test_print_code_parenthesize(x), test_print_code_parenthesize produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2fd35fea5a1a7a18"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestCharacteristicCurveFunction.test_print_code_parenthesize","kind":"staticmethod","src_hash":"678d3668ba4141ca","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (a + b)"},"spec":{"lhs":"test_print_code_parenthesize(code_printer, expected)","rhs":"a + b","over":{"base":"Any"},"name":"test_print_code_parenthesize_correct"},"guarantee":"returns a + b; code_printer().doprint(f1 * f2 * f3) == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestCharacteristicCurveFunction.test_print_code_parenthesize_correct","statement":"Path(test_print_code_parenthesize(x), returns a + b; code_printer().doprint(f1 * f2 * f3) == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"be70cd3c61f86d56","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["code_printer().doprint(f1 * f2 * f3) == expected"],"returns_expr":"a + b","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_print_code_parenthesize(code_printer, expected):
 
         class ExampleFunction(CharacteristicCurveFunction):
@@ -131,28 +144,40 @@ class TestCharacteristicCurveFunction:
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(TestTendonForceLengthDeGroote2016(*args), correctly constructs a TestTendonForceLengthDeGroote2016 instance) over {Any | isinstance(fl_T, TendonForceLengthDeGroote2016)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ TestTendonForceLengthDeGroote2016 : {Any | isinstance...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6d267ae688ad7ee2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthDeGroote2016","kind":"class","src_hash":"57892da7ec2e33ef","in":{"base":"Any","pred":"isinstance(fl_T, TendonForceLengthDeGroote2016)"},"out":{"base":"Any","pred":"issubclass(TendonForceLengthDeGroote2016, Function) and issubclass(TendonForceLengthDeGroote2016, CharacteristicCurveFunction) and TendonForceLengthDeGroote2016.__name__ == 'TendonForceLengthDeGroote2016' and isinstance(fl_T, TendonForceLengthDeGroote2016) and str(fl_T) == 'TendonForceLengthDeGroote2016(l_T_tilde, c_0, c_1, c_2, c_3)' and fl_T == self.c0 * exp(self.c3 * (self.l_T_tilde - self.c1)) - self.c2 and fl_T_manual == fl_T_constants and fl_T.diff(self.l_T_tilde) == expected and fl_T.diff(self.c0) == expected and fl_T.diff(self.c1) == expected and fl_T.diff(self.c2) == expected and fl_T.diff(self.c3) == expected and fl_T.inverse() is TendonForceLengthInverseDeGroote2016 and LatexPrinter().doprint(fl_T) == expected and LatexPrinter().doprint(fl_T.doit()) == expected and code_printer().doprint(fl_T) == expected and PythonCodePrinter().doprint(dfl_T_dl_T_tilde) == expected and fl_T_callable(1.0) == pytest.approx(-0.013014055039221595)"},"spec":{"lhs":"TestTendonForceLengthDeGroote2016(*args)","rhs":"correctly constructs a TestTendonForceLengthDeGroote2016 instance","over":{"base":"Any","pred":"isinstance(fl_T, TendonForceLengthDeGroote2016)"},"name":"TestTendonForceLengthDeGroote2016_class_invariant"},"guarantee":"correctly constructs a TestTendonForceLengthDeGroote2016 instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6d267ae688ad7ee2"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthDeGroote2016","kind":"class","src_hash":"57892da7ec2e33ef","in":{"base":"Any","pred":"isinstance(fl_T, TendonForceLengthDeGroote2016)"},"out":{"base":"Any","pred":"issubclass(TendonForceLengthDeGroote2016, Function) and issubclass(TendonForceLengthDeGroote2016, CharacteristicCurveFunction) and TendonForceLengthDeGroote2016.__name__ == 'TendonForceLengthDeGroote2016' and isinstance(fl_T, TendonForceLengthDeGroote2016) and str(fl_T) == 'TendonForceLengthDeGroote2016(l_T_tilde, c_0, c_1, c_2, c_3)' and fl_T == self.c0 * exp(self.c3 * (self.l_T_tilde - self.c1)) - self.c2 and fl_T_manual == fl_T_constants and fl_T.diff(self.l_T_tilde) == expected and fl_T.diff(self.c0) == expected and fl_T.diff(self.c1) == expected and fl_T.diff(self.c2) == expected and fl_T.diff(self.c3) == expected and fl_T.inverse() is TendonForceLengthInverseDeGroote2016 and LatexPrinter().doprint(fl_T) == expected and LatexPrinter().doprint(fl_T.doit()) == expected and code_printer().doprint(fl_T) == expected and PythonCodePrinter().doprint(dfl_T_dl_T_tilde) == expected and fl_T_callable(1.0) == pytest.approx(-0.013014055039221595)"},"spec":{"lhs":"TestTendonForceLengthDeGroote2016(*args)","rhs":"correctly constructs a TestTendonForceLengthDeGroote2016 instance","over":{"base":"Any","pred":"isinstance(fl_T, TendonForceLengthDeGroote2016)"},"name":"TestTendonForceLengthDeGroote2016_class_invariant"},"guarantee":"correctly constructs a TestTendonForceLengthDeGroote2016 instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6d267ae688ad7ee2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial"},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function TestTendonForceLengthDeGroote2016 not found in source"]}}
 class TestTendonForceLengthDeGroote2016:
 
     @pytest.fixture(autouse=True)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_tendon_force_length_arguments_fixture(), internal helper behaves correctly) over Any ║
+# ║ Path(_tendon_force_length_arguments_fixture(), <unspecified:_tendon_force_length_arguments_fixture>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _tendon_force_length_arguments_fixture : Any → Any         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c83306fd60872ee7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthDeGroote2016._tendon_force_length_arguments_fixture","kind":"method","src_hash":"f542cc73c411dfa5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_tendon_force_length_arguments_fixture()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_tendon_force_length_arguments_fixture_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthDeGroote2016._tendon_force_length_arguments_fixture_correct","statement":"Path(_tendon_force_length_arguments_fixture(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c83306fd60872ee7"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthDeGroote2016._tendon_force_length_arguments_fixture","kind":"method","src_hash":"f542cc73c411dfa5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_tendon_force_length_arguments_fixture()","rhs":"<unspecified:_tendon_force_length_arguments_fixture>","over":{"base":"Any"},"name":"_tendon_force_length_arguments_fixture_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthDeGroote2016._tendon_force_length_arguments_fixture_correct","statement":"Path(_tendon_force_length_arguments_fixture(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c83306fd60872ee7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self.c0","self.c1","self.c2","self.c3"],"writes":["self.c0","self.c1","self.c2","self.c3","self.constants","self.l_T_tilde"]},"state_contract":{"modifies":["self.c0","self.c1","self.c2","self.c3","self.constants","self.l_T_tilde"],"old_bindings":{"old_self_c0":"self.c0","old_self_c1":"self.c1","old_self_c2":"self.c2","old_self_c3":"self.c3","old_self_constants":"self.constants","old_self_l_T_tilde":"self.l_T_tilde"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _tendon_force_length_arguments_fixture(self):
         self.l_T_tilde = Symbol('l_T_tilde')
         self.c0 = Symbol('c_0')
@@ -163,78 +188,111 @@ class TestTendonForceLengthDeGroote2016:
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_class(), test_class produces the expected output) over Any ║
+# ║ Path(test_class(), issubclass(TendonForceLengthDeGroote2016, Function) and issubclass(TendonForceLengthDeGroote2016, CharacteristicCurveFunction) and TendonForceLengthDeGroote2016.__name__ == 'TendonForceLengthDeGroote2016') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_class : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  issubclass(TendonForceLengthDeGroote2016,...   ║
+# ║   ensures:  issubclass(TendonForceLengthDeGroote2016,...   ║
+# ║   ensures:  TendonForceLengthDeGroote2016.__name__ ==...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_class : Any → {Any | result satisfies: issubclas...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0c14460969074d01  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | adcaba212bd5f944  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthDeGroote2016.test_class","kind":"staticmethod","src_hash":"eeae7e5f55db9836","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_class()","rhs":"test_class produces the expected output","over":{"base":"Any"},"name":"test_class_correct"},"guarantee":"test_class produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthDeGroote2016.test_class_correct","statement":"Path(test_class(x), test_class produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0c14460969074d01"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthDeGroote2016.test_class","kind":"staticmethod","src_hash":"eeae7e5f55db9836","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: issubclass(TendonForceLengthDeGroote2016, Function) and issubclass(TendonForceLengthDeGroote2016, CharacteristicCurveFunction) and TendonForceLengthDeGroote2016.__name__ == 'TendonForceLengthDeGroote2016'"},"spec":{"lhs":"test_class()","rhs":"issubclass(TendonForceLengthDeGroote2016, Function) and issubclass(TendonForceLengthDeGroote2016, CharacteristicCurveFunction) and TendonForceLengthDeGroote2016.__name__ == 'TendonForceLengthDeGroote2016'","over":{"base":"Any"},"name":"test_class_correct"},"guarantee":"issubclass(TendonForceLengthDeGroote2016, Function); issubclass(TendonForceLengthDeGroote2016, CharacteristicCurveFunction); TendonForceLengthDeGroote2016.__name__ == 'TendonForceLengthDeGroote2016'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthDeGroote2016.test_class_correct","statement":"Path(test_class(x), issubclass(TendonForceLengthDeGroote2016, Function); issubclass(TendonForceLengthDeGroote2016, CharacteristicCurveFunction); TendonForceLengthDeGroote2016.__name__ == 'TendonForceLengthDeGroote2016')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"adcaba212bd5f944","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["issubclass(TendonForceLengthDeGroote2016, Function)","issubclass(TendonForceLengthDeGroote2016, CharacteristicCurveFunction)","TendonForceLengthDeGroote2016.__name__ == 'TendonForceLengthDeGroote2016'"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_class():
         assert issubclass(TendonForceLengthDeGroote2016, Function)
         assert issubclass(TendonForceLengthDeGroote2016, CharacteristicCurveFunction)
         assert TendonForceLengthDeGroote2016.__name__ == 'TendonForceLengthDeGroote2016'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_instance(), test_instance produces the expected output) over Any ║
+# ║ Path(test_instance(), isinstance(fl_T, TendonForceLengthDeGroote2016) and str(fl_T) == 'TendonForceLengthDeGroote2016(l_T_tilde, c_0, c_1, c_2, c_3)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_instance : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(fl_T, TendonForceLengthDeGroot...   ║
+# ║   ensures:  str(fl_T) == 'TendonForceLengthDeGroote20...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_instance : Any → {Any | result satisfies: isinst...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 682c5292d3aadc5a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 75327e41c7978f34  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthDeGroote2016.test_instance","kind":"method","src_hash":"6a60248887a75882","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_instance()","rhs":"test_instance produces the expected output","over":{"base":"Any"},"name":"test_instance_correct"},"guarantee":"test_instance produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthDeGroote2016.test_instance_correct","statement":"Path(test_instance(x), test_instance produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"682c5292d3aadc5a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthDeGroote2016.test_instance","kind":"method","src_hash":"6a60248887a75882","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(fl_T, TendonForceLengthDeGroote2016) and str(fl_T) == 'TendonForceLengthDeGroote2016(l_T_tilde, c_0, c_1, c_2, c_3)'"},"spec":{"lhs":"test_instance()","rhs":"isinstance(fl_T, TendonForceLengthDeGroote2016) and str(fl_T) == 'TendonForceLengthDeGroote2016(l_T_tilde, c_0, c_1, c_2, c_3)'","over":{"base":"Any"},"name":"test_instance_correct"},"guarantee":"isinstance(fl_T, TendonForceLengthDeGroote2016); str(fl_T) == 'TendonForceLengthDeGroote2016(l_T_tilde, c_0, c_1, c_2, c_3)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthDeGroote2016.test_instance_correct","statement":"Path(test_instance(x), isinstance(fl_T, TendonForceLengthDeGroote2016); str(fl_T) == 'TendonForceLengthDeGroote2016(l_T_tilde, c_0, c_1, c_2, c_3)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"75327e41c7978f34","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(fl_T, TendonForceLengthDeGroote2016)","str(fl_T) == 'TendonForceLengthDeGroote2016(l_T_tilde, c_0, c_1, c_2, c_3)'"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.constants","self.l_T_tilde"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_instance(self):
         fl_T = TendonForceLengthDeGroote2016(self.l_T_tilde, *self.constants)
         assert isinstance(fl_T, TendonForceLengthDeGroote2016)
         assert str(fl_T) == 'TendonForceLengthDeGroote2016(l_T_tilde, c_0, c_1, c_2, c_3)'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_doit(), test_doit produces the expected output) over Any ║
+# ║ Path(test_doit(), fl_T == self.c0 * exp(self.c3 * (self.l_T_tilde - self.c1)) - self.c2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_doit : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  fl_T == self.c0 * exp(self.c3 * (self.l_T...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_doit : Any → {Any | result satisfies: fl_T == se...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0cf8e20f48ef99f6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 78146509d9c15eb8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthDeGroote2016.test_doit","kind":"method","src_hash":"c72d6dba0cdf13eb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_doit()","rhs":"test_doit produces the expected output","over":{"base":"Any"},"name":"test_doit_correct"},"guarantee":"test_doit produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthDeGroote2016.test_doit_correct","statement":"Path(test_doit(x), test_doit produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0cf8e20f48ef99f6"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthDeGroote2016.test_doit","kind":"method","src_hash":"c72d6dba0cdf13eb","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: fl_T == self.c0 * exp(self.c3 * (self.l_T_tilde - self.c1)) - self.c2"},"spec":{"lhs":"test_doit()","rhs":"fl_T == self.c0 * exp(self.c3 * (self.l_T_tilde - self.c1)) - self.c2","over":{"base":"Any"},"name":"test_doit_correct"},"guarantee":"fl_T == self.c0 * exp(self.c3 * (self.l_T_tilde - self.c1)) - self.c2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthDeGroote2016.test_doit_correct","statement":"Path(test_doit(x), fl_T == self.c0 * exp(self.c3 * (self.l_T_tilde - self.c1)) - self.c2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"78146509d9c15eb8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["fl_T == self.c0 * exp(self.c3 * (self.l_T_tilde - self.c1)) - self.c2"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.c0","self.c1","self.c2","self.c3","self.constants","self.l_T_tilde"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_doit(self):
         fl_T = TendonForceLengthDeGroote2016(self.l_T_tilde, *self.constants).doit()
         assert fl_T == self.c0*exp(self.c3*(self.l_T_tilde - self.c1)) - self.c2
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_doit_evaluate_false(), test_doit_evaluate_false produces the expected output) over Any ║
+# ║ Path(test_doit_evaluate_false(), fl_T == self.c0 * exp(self.c3 * UnevaluatedExpr(self.l_T_tilde - self.c1)) - self.c2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_doit_evaluate_false : Any → Any                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  fl_T == self.c0 * exp(self.c3 * Unevaluat...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_doit_evaluate_false : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a56cb65b2cc5a261  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9f27e90d4f719141  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthDeGroote2016.test_doit_evaluate_false","kind":"method","src_hash":"358bc513079d2666","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_doit_evaluate_false()","rhs":"test_doit_evaluate_false produces the expected output","over":{"base":"Any"},"name":"test_doit_evaluate_false_correct"},"guarantee":"test_doit_evaluate_false produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthDeGroote2016.test_doit_evaluate_false_correct","statement":"Path(test_doit_evaluate_false(x), test_doit_evaluate_false produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a56cb65b2cc5a261"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthDeGroote2016.test_doit_evaluate_false","kind":"method","src_hash":"358bc513079d2666","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: fl_T == self.c0 * exp(self.c3 * UnevaluatedExpr(self.l_T_tilde - self.c1)) - self.c2"},"spec":{"lhs":"test_doit_evaluate_false()","rhs":"fl_T == self.c0 * exp(self.c3 * UnevaluatedExpr(self.l_T_tilde - self.c1)) - self.c2","over":{"base":"Any"},"name":"test_doit_evaluate_false_correct"},"guarantee":"fl_T == self.c0 * exp(self.c3 * UnevaluatedExpr(self.l_T_tilde - self.c1)) - self.c2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthDeGroote2016.test_doit_evaluate_false_correct","statement":"Path(test_doit_evaluate_false(x), fl_T == self.c0 * exp(self.c3 * UnevaluatedExpr(self.l_T_tilde - self.c1)) - self.c2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9f27e90d4f719141","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["fl_T == self.c0 * exp(self.c3 * UnevaluatedExpr(self.l_T_tilde - self.c1)) - self.c2"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.c0","self.c1","self.c2","self.c3","self.constants","self.l_T_tilde"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_doit_evaluate_false(self):
         fl_T = TendonForceLengthDeGroote2016(self.l_T_tilde, *self.constants).doit(evaluate=False)
         assert fl_T == self.c0*exp(self.c3*UnevaluatedExpr(self.l_T_tilde - self.c1)) - self.c2
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_with_defaults(), test_with_defaults produces the expected output) over Any ║
+# ║ Path(test_with_defaults(), fl_T_manual == fl_T_constants) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_with_defaults : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  fl_T_manual == fl_T_constants                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_with_defaults : Any → {Any | result satisfies: f...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 00dc9764b54136cf  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 47d21bc3e79435b7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthDeGroote2016.test_with_defaults","kind":"method","src_hash":"a25d3a87c72c5ef9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_with_defaults()","rhs":"test_with_defaults produces the expected output","over":{"base":"Any"},"name":"test_with_defaults_correct"},"guarantee":"test_with_defaults produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthDeGroote2016.test_with_defaults_correct","statement":"Path(test_with_defaults(x), test_with_defaults produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"00dc9764b54136cf"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthDeGroote2016.test_with_defaults","kind":"method","src_hash":"a25d3a87c72c5ef9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: fl_T_manual == fl_T_constants"},"spec":{"lhs":"test_with_defaults()","rhs":"fl_T_manual == fl_T_constants","over":{"base":"Any"},"name":"test_with_defaults_correct"},"guarantee":"fl_T_manual == fl_T_constants","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthDeGroote2016.test_with_defaults_correct","statement":"Path(test_with_defaults(x), fl_T_manual == fl_T_constants)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"47d21bc3e79435b7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["fl_T_manual == fl_T_constants"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.l_T_tilde"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_with_defaults(self):
         constants = (
             Float('0.2'),
@@ -247,127 +305,175 @@ class TestTendonForceLengthDeGroote2016:
         assert fl_T_manual == fl_T_constants
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_differentiate_wrt_l_T_tilde(), test_differentiate_wrt_l_T_tilde produces the expected output) over Any ║
+# ║ Path(test_differentiate_wrt_l_T_tilde(), fl_T.diff(self.l_T_tilde) == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_differentiate_wrt_l_T_tilde : Any → Any               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  fl_T.diff(self.l_T_tilde) == expected          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_differentiate_wrt_l_T_tilde : Any → {Any | resul...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e8af845417678bb8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b8479715d293cd81  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthDeGroote2016.test_differentiate_wrt_l_T_tilde","kind":"method","src_hash":"e55ca9698bcd548e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_differentiate_wrt_l_T_tilde()","rhs":"test_differentiate_wrt_l_T_tilde produces the expected output","over":{"base":"Any"},"name":"test_differentiate_wrt_l_T_tilde_correct"},"guarantee":"test_differentiate_wrt_l_T_tilde produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthDeGroote2016.test_differentiate_wrt_l_T_tilde_correct","statement":"Path(test_differentiate_wrt_l_T_tilde(x), test_differentiate_wrt_l_T_tilde produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e8af845417678bb8"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthDeGroote2016.test_differentiate_wrt_l_T_tilde","kind":"method","src_hash":"e55ca9698bcd548e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: fl_T.diff(self.l_T_tilde) == expected"},"spec":{"lhs":"test_differentiate_wrt_l_T_tilde()","rhs":"fl_T.diff(self.l_T_tilde) == expected","over":{"base":"Any"},"name":"test_differentiate_wrt_l_T_tilde_correct"},"guarantee":"fl_T.diff(self.l_T_tilde) == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthDeGroote2016.test_differentiate_wrt_l_T_tilde_correct","statement":"Path(test_differentiate_wrt_l_T_tilde(x), fl_T.diff(self.l_T_tilde) == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b8479715d293cd81","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["fl_T.diff(self.l_T_tilde) == expected"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.c0","self.c1","self.c3","self.constants","self.l_T_tilde"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_differentiate_wrt_l_T_tilde(self):
         fl_T = TendonForceLengthDeGroote2016(self.l_T_tilde, *self.constants)
         expected = self.c0*self.c3*exp(self.c3*UnevaluatedExpr(-self.c1 + self.l_T_tilde))
         assert fl_T.diff(self.l_T_tilde) == expected
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_differentiate_wrt_c0(), test_differentiate_wrt_c0 produces the expected output) over Any ║
+# ║ Path(test_differentiate_wrt_c0(), fl_T.diff(self.c0) == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_differentiate_wrt_c0 : Any → Any                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  fl_T.diff(self.c0) == expected                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_differentiate_wrt_c0 : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 830581b2d161a43b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 575f1a3c012715ac  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthDeGroote2016.test_differentiate_wrt_c0","kind":"method","src_hash":"d8dd963fa15c3e35","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_differentiate_wrt_c0()","rhs":"test_differentiate_wrt_c0 produces the expected output","over":{"base":"Any"},"name":"test_differentiate_wrt_c0_correct"},"guarantee":"test_differentiate_wrt_c0 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthDeGroote2016.test_differentiate_wrt_c0_correct","statement":"Path(test_differentiate_wrt_c0(x), test_differentiate_wrt_c0 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"830581b2d161a43b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthDeGroote2016.test_differentiate_wrt_c0","kind":"method","src_hash":"d8dd963fa15c3e35","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: fl_T.diff(self.c0) == expected"},"spec":{"lhs":"test_differentiate_wrt_c0()","rhs":"fl_T.diff(self.c0) == expected","over":{"base":"Any"},"name":"test_differentiate_wrt_c0_correct"},"guarantee":"fl_T.diff(self.c0) == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthDeGroote2016.test_differentiate_wrt_c0_correct","statement":"Path(test_differentiate_wrt_c0(x), fl_T.diff(self.c0) == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"575f1a3c012715ac","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["fl_T.diff(self.c0) == expected"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.c0","self.c1","self.c3","self.constants","self.l_T_tilde"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_differentiate_wrt_c0(self):
         fl_T = TendonForceLengthDeGroote2016(self.l_T_tilde, *self.constants)
         expected = exp(self.c3*UnevaluatedExpr(-self.c1 + self.l_T_tilde))
         assert fl_T.diff(self.c0) == expected
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_differentiate_wrt_c1(), test_differentiate_wrt_c1 produces the expected output) over Any ║
+# ║ Path(test_differentiate_wrt_c1(), fl_T.diff(self.c1) == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_differentiate_wrt_c1 : Any → Any                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  fl_T.diff(self.c1) == expected                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_differentiate_wrt_c1 : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6284018e9d1e6293  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6aae216eccfd0da8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthDeGroote2016.test_differentiate_wrt_c1","kind":"method","src_hash":"d63fb3c6c0d333d0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_differentiate_wrt_c1()","rhs":"test_differentiate_wrt_c1 produces the expected output","over":{"base":"Any"},"name":"test_differentiate_wrt_c1_correct"},"guarantee":"test_differentiate_wrt_c1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthDeGroote2016.test_differentiate_wrt_c1_correct","statement":"Path(test_differentiate_wrt_c1(x), test_differentiate_wrt_c1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6284018e9d1e6293"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthDeGroote2016.test_differentiate_wrt_c1","kind":"method","src_hash":"d63fb3c6c0d333d0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: fl_T.diff(self.c1) == expected"},"spec":{"lhs":"test_differentiate_wrt_c1()","rhs":"fl_T.diff(self.c1) == expected","over":{"base":"Any"},"name":"test_differentiate_wrt_c1_correct"},"guarantee":"fl_T.diff(self.c1) == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthDeGroote2016.test_differentiate_wrt_c1_correct","statement":"Path(test_differentiate_wrt_c1(x), fl_T.diff(self.c1) == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6aae216eccfd0da8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["fl_T.diff(self.c1) == expected"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.c0","self.c1","self.c3","self.constants","self.l_T_tilde"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_differentiate_wrt_c1(self):
         fl_T = TendonForceLengthDeGroote2016(self.l_T_tilde, *self.constants)
         expected = -self.c0*self.c3*exp(self.c3*UnevaluatedExpr(self.l_T_tilde - self.c1))
         assert fl_T.diff(self.c1) == expected
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_differentiate_wrt_c2(), test_differentiate_wrt_c2 produces the expected output) over Any ║
+# ║ Path(test_differentiate_wrt_c2(), fl_T.diff(self.c2) == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_differentiate_wrt_c2 : Any → Any                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  fl_T.diff(self.c2) == expected                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_differentiate_wrt_c2 : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 352bb1f8cfecf01b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 03086e9953c4ee3c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthDeGroote2016.test_differentiate_wrt_c2","kind":"method","src_hash":"0bc6ce5cb400ad7c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_differentiate_wrt_c2()","rhs":"test_differentiate_wrt_c2 produces the expected output","over":{"base":"Any"},"name":"test_differentiate_wrt_c2_correct"},"guarantee":"test_differentiate_wrt_c2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthDeGroote2016.test_differentiate_wrt_c2_correct","statement":"Path(test_differentiate_wrt_c2(x), test_differentiate_wrt_c2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"352bb1f8cfecf01b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthDeGroote2016.test_differentiate_wrt_c2","kind":"method","src_hash":"0bc6ce5cb400ad7c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: fl_T.diff(self.c2) == expected"},"spec":{"lhs":"test_differentiate_wrt_c2()","rhs":"fl_T.diff(self.c2) == expected","over":{"base":"Any"},"name":"test_differentiate_wrt_c2_correct"},"guarantee":"fl_T.diff(self.c2) == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthDeGroote2016.test_differentiate_wrt_c2_correct","statement":"Path(test_differentiate_wrt_c2(x), fl_T.diff(self.c2) == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"03086e9953c4ee3c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["fl_T.diff(self.c2) == expected"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.c2","self.constants","self.l_T_tilde"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_differentiate_wrt_c2(self):
         fl_T = TendonForceLengthDeGroote2016(self.l_T_tilde, *self.constants)
         expected = Integer(-1)
         assert fl_T.diff(self.c2) == expected
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_differentiate_wrt_c3(), test_differentiate_wrt_c3 produces the expected output) over Any ║
+# ║ Path(test_differentiate_wrt_c3(), fl_T.diff(self.c3) == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_differentiate_wrt_c3 : Any → Any                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  fl_T.diff(self.c3) == expected                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_differentiate_wrt_c3 : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2723c20accd20d67  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 358334515f5e86ca  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthDeGroote2016.test_differentiate_wrt_c3","kind":"method","src_hash":"484f51fdc739e363","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_differentiate_wrt_c3()","rhs":"test_differentiate_wrt_c3 produces the expected output","over":{"base":"Any"},"name":"test_differentiate_wrt_c3_correct"},"guarantee":"test_differentiate_wrt_c3 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthDeGroote2016.test_differentiate_wrt_c3_correct","statement":"Path(test_differentiate_wrt_c3(x), test_differentiate_wrt_c3 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2723c20accd20d67"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthDeGroote2016.test_differentiate_wrt_c3","kind":"method","src_hash":"484f51fdc739e363","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: fl_T.diff(self.c3) == expected"},"spec":{"lhs":"test_differentiate_wrt_c3()","rhs":"fl_T.diff(self.c3) == expected","over":{"base":"Any"},"name":"test_differentiate_wrt_c3_correct"},"guarantee":"fl_T.diff(self.c3) == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthDeGroote2016.test_differentiate_wrt_c3_correct","statement":"Path(test_differentiate_wrt_c3(x), fl_T.diff(self.c3) == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"358334515f5e86ca","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["fl_T.diff(self.c3) == expected"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.c0","self.c1","self.c3","self.constants","self.l_T_tilde"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_differentiate_wrt_c3(self):
         fl_T = TendonForceLengthDeGroote2016(self.l_T_tilde, *self.constants)
         expected = self.c0*(self.l_T_tilde - self.c1)*exp(self.c3*UnevaluatedExpr(self.l_T_tilde - self.c1))
         assert fl_T.diff(self.c3) == expected
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_inverse(), test_inverse produces the expected output) over Any ║
+# ║ Path(test_inverse(), fl_T.inverse() is TendonForceLengthInverseDeGroote2016) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_inverse : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  fl_T.inverse() is TendonForceLengthInvers...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_inverse : Any → {Any | result satisfies: fl_T.in...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b258971ea84d49ed  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bef289346f71b960  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthDeGroote2016.test_inverse","kind":"method","src_hash":"81ae37c0ea8c1d30","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_inverse()","rhs":"test_inverse produces the expected output","over":{"base":"Any"},"name":"test_inverse_correct"},"guarantee":"test_inverse produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthDeGroote2016.test_inverse_correct","statement":"Path(test_inverse(x), test_inverse produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b258971ea84d49ed"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthDeGroote2016.test_inverse","kind":"method","src_hash":"81ae37c0ea8c1d30","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: fl_T.inverse() is TendonForceLengthInverseDeGroote2016"},"spec":{"lhs":"test_inverse()","rhs":"fl_T.inverse() is TendonForceLengthInverseDeGroote2016","over":{"base":"Any"},"name":"test_inverse_correct"},"guarantee":"fl_T.inverse() is TendonForceLengthInverseDeGroote2016","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthDeGroote2016.test_inverse_correct","statement":"Path(test_inverse(x), fl_T.inverse() is TendonForceLengthInverseDeGroote2016)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bef289346f71b960","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["fl_T.inverse() is TendonForceLengthInverseDeGroote2016"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.constants","self.l_T_tilde"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_inverse(self):
         fl_T = TendonForceLengthDeGroote2016(self.l_T_tilde, *self.constants)
         assert fl_T.inverse() is TendonForceLengthInverseDeGroote2016
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_function_print_latex(), test_function_print_latex produces the expected output) over Any ║
+# ║ Path(test_function_print_latex(), LatexPrinter().doprint(fl_T) == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_function_print_latex : Any → Any                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  LatexPrinter().doprint(fl_T) == expected       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_function_print_latex : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3e8fea42fea240cd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5be9ac453085d480  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthDeGroote2016.test_function_print_latex","kind":"method","src_hash":"b8c448b85b6848ea","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_function_print_latex()","rhs":"test_function_print_latex produces the expected output","over":{"base":"Any"},"name":"test_function_print_latex_correct"},"guarantee":"test_function_print_latex produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthDeGroote2016.test_function_print_latex_correct","statement":"Path(test_function_print_latex(x), test_function_print_latex produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3e8fea42fea240cd"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthDeGroote2016.test_function_print_latex","kind":"method","src_hash":"b8c448b85b6848ea","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: LatexPrinter().doprint(fl_T) == expected"},"spec":{"lhs":"test_function_print_latex()","rhs":"LatexPrinter().doprint(fl_T) == expected","over":{"base":"Any"},"name":"test_function_print_latex_correct"},"guarantee":"LatexPrinter().doprint(fl_T) == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthDeGroote2016.test_function_print_latex_correct","statement":"Path(test_function_print_latex(x), LatexPrinter().doprint(fl_T) == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5be9ac453085d480","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["LatexPrinter().doprint(fl_T) == expected"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.constants","self.l_T_tilde"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_function_print_latex(self):
         fl_T = TendonForceLengthDeGroote2016(self.l_T_tilde, *self.constants)
         expected = r'\operatorname{fl}^T \left( l_{T tilde} \right)'
         assert LatexPrinter().doprint(fl_T) == expected
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_expression_print_latex(), test_expression_print_latex produces the expected output) over Any ║
+# ║ Path(test_expression_print_latex(), LatexPrinter().doprint(fl_T.doit()) == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_expression_print_latex : Any → Any                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  LatexPrinter().doprint(fl_T.doit()) == ex...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_expression_print_latex : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4682579e433dad11  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 61c046c3cc9fdfc7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthDeGroote2016.test_expression_print_latex","kind":"method","src_hash":"46d4acc5ed62119e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_expression_print_latex()","rhs":"test_expression_print_latex produces the expected output","over":{"base":"Any"},"name":"test_expression_print_latex_correct"},"guarantee":"test_expression_print_latex produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthDeGroote2016.test_expression_print_latex_correct","statement":"Path(test_expression_print_latex(x), test_expression_print_latex produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4682579e433dad11"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthDeGroote2016.test_expression_print_latex","kind":"method","src_hash":"46d4acc5ed62119e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: LatexPrinter().doprint(fl_T.doit()) == expected"},"spec":{"lhs":"test_expression_print_latex()","rhs":"LatexPrinter().doprint(fl_T.doit()) == expected","over":{"base":"Any"},"name":"test_expression_print_latex_correct"},"guarantee":"LatexPrinter().doprint(fl_T.doit()) == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthDeGroote2016.test_expression_print_latex_correct","statement":"Path(test_expression_print_latex(x), LatexPrinter().doprint(fl_T.doit()) == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"61c046c3cc9fdfc7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["LatexPrinter().doprint(fl_T.doit()) == expected"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.constants","self.l_T_tilde"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_expression_print_latex(self):
         fl_T = TendonForceLengthDeGroote2016(self.l_T_tilde, *self.constants)
         expected = r'c_{0} e^{c_{3} \left(- c_{1} + l_{T tilde}\right)} - c_{2}'
@@ -441,31 +547,43 @@ class TestTendonForceLengthDeGroote2016:
         ]
     )
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_print_code(cod), test_print_code produces the expected output) over Any ║
+# ║ Path(test_print_code(code_printer, expected), code_printer().doprint(fl_T) == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_print_code : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  code_printer().doprint(fl_T) == expected       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_print_code : Any → {Any | result satisfies: code...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8c09de7812fa5de0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 647a0aa2bcaa57f4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthDeGroote2016.test_print_code","kind":"method","src_hash":"085bb606e87ce846","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_print_code(cod)","rhs":"test_print_code produces the expected output","over":{"base":"Any"},"name":"test_print_code_correct"},"guarantee":"test_print_code produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthDeGroote2016.test_print_code_correct","statement":"Path(test_print_code(x), test_print_code produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8c09de7812fa5de0"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthDeGroote2016.test_print_code","kind":"method","src_hash":"085bb606e87ce846","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: code_printer().doprint(fl_T) == expected"},"spec":{"lhs":"test_print_code(code_printer, expected)","rhs":"code_printer().doprint(fl_T) == expected","over":{"base":"Any"},"name":"test_print_code_correct"},"guarantee":"code_printer().doprint(fl_T) == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthDeGroote2016.test_print_code_correct","statement":"Path(test_print_code(x), code_printer().doprint(fl_T) == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"647a0aa2bcaa57f4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["code_printer().doprint(fl_T) == expected"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.l_T_tilde"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_print_code(self, code_printer, expected):
         fl_T = TendonForceLengthDeGroote2016.with_defaults(self.l_T_tilde)
         assert code_printer().doprint(fl_T) == expected
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_derivative_print_code(), test_derivative_print_code produces the expected output) over Any ║
+# ║ Path(test_derivative_print_code(), PythonCodePrinter().doprint(dfl_T_dl_T_tilde) == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_derivative_print_code : Any → Any                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  PythonCodePrinter().doprint(dfl_T_dl_T_ti...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_derivative_print_code : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2adb1647b3c88376  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9a6a4d0c78f0b10c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthDeGroote2016.test_derivative_print_code","kind":"method","src_hash":"a2adeb62a943f6cb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_derivative_print_code()","rhs":"test_derivative_print_code produces the expected output","over":{"base":"Any"},"name":"test_derivative_print_code_correct"},"guarantee":"test_derivative_print_code produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthDeGroote2016.test_derivative_print_code_correct","statement":"Path(test_derivative_print_code(x), test_derivative_print_code produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2adb1647b3c88376"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthDeGroote2016.test_derivative_print_code","kind":"method","src_hash":"a2adeb62a943f6cb","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: PythonCodePrinter().doprint(dfl_T_dl_T_tilde) == expected"},"spec":{"lhs":"test_derivative_print_code()","rhs":"PythonCodePrinter().doprint(dfl_T_dl_T_tilde) == expected","over":{"base":"Any"},"name":"test_derivative_print_code_correct"},"guarantee":"PythonCodePrinter().doprint(dfl_T_dl_T_tilde) == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthDeGroote2016.test_derivative_print_code_correct","statement":"Path(test_derivative_print_code(x), PythonCodePrinter().doprint(dfl_T_dl_T_tilde) == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9a6a4d0c78f0b10c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["PythonCodePrinter().doprint(dfl_T_dl_T_tilde) == expected"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.l_T_tilde"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_derivative_print_code(self):
         fl_T = TendonForceLengthDeGroote2016.with_defaults(self.l_T_tilde)
         dfl_T_dl_T_tilde = fl_T.diff(self.l_T_tilde)
@@ -473,16 +591,22 @@ class TestTendonForceLengthDeGroote2016:
         assert PythonCodePrinter().doprint(dfl_T_dl_T_tilde) == expected
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_lambdify(), test_lambdify produces the expected output) over Any ║
+# ║ Path(test_lambdify(), fl_T_callable(1.0) == pytest.approx(-0.013014055039221595)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_lambdify : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  fl_T_callable(1.0) == pytest.approx(-0.01...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_lambdify : Any → {Any | result satisfies: fl_T_c...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 344bccfe1cd1c861  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 26425ef4d31908e0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthDeGroote2016.test_lambdify","kind":"method","src_hash":"a29f562dccff0a25","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_lambdify()","rhs":"test_lambdify produces the expected output","over":{"base":"Any"},"name":"test_lambdify_correct"},"guarantee":"test_lambdify produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthDeGroote2016.test_lambdify_correct","statement":"Path(test_lambdify(x), test_lambdify produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"344bccfe1cd1c861"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthDeGroote2016.test_lambdify","kind":"method","src_hash":"a29f562dccff0a25","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: fl_T_callable(1.0) == pytest.approx(-0.013014055039221595)"},"spec":{"lhs":"test_lambdify()","rhs":"fl_T_callable(1.0) == pytest.approx(-0.013014055039221595)","over":{"base":"Any"},"name":"test_lambdify_correct"},"guarantee":"fl_T_callable(1.0) == pytest.approx(-0.013014055039221595)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthDeGroote2016.test_lambdify_correct","statement":"Path(test_lambdify(x), fl_T_callable(1.0) == pytest.approx(-0.013014055039221595))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"26425ef4d31908e0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["fl_T_callable(1.0) == pytest.approx(-0.013014055039221595)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.l_T_tilde"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_lambdify(self):
         fl_T = TendonForceLengthDeGroote2016.with_defaults(self.l_T_tilde)
         fl_T_callable = lambdify(self.l_T_tilde, fl_T)
@@ -490,16 +614,22 @@ class TestTendonForceLengthDeGroote2016:
 
     @pytest.mark.skipif(numpy is None, reason='NumPy not installed')
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_lambdify_numpy(), test_lambdify_numpy produces the expected output) over Any ║
+# ║ Path(test_lambdify_numpy(), <unspecified:test_lambdify_numpy>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_lambdify_numpy : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fcb0eb015ebf4b5b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthDeGroote2016.test_lambdify_numpy","kind":"method","src_hash":"b2b35675f752e648","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_lambdify_numpy()","rhs":"test_lambdify_numpy produces the expected output","over":{"base":"Any"},"name":"test_lambdify_numpy_correct"},"guarantee":"test_lambdify_numpy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthDeGroote2016.test_lambdify_numpy_correct","statement":"Path(test_lambdify_numpy(x), test_lambdify_numpy produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fcb0eb015ebf4b5b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthDeGroote2016.test_lambdify_numpy","kind":"method","src_hash":"b2b35675f752e648","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_lambdify_numpy()","rhs":"<unspecified:test_lambdify_numpy>","over":{"base":"Any"},"name":"test_lambdify_numpy_correct"},"guarantee":"test_lambdify_numpy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthDeGroote2016.test_lambdify_numpy_correct","statement":"Path(test_lambdify_numpy(x), test_lambdify_numpy produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fcb0eb015ebf4b5b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.l_T_tilde"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_lambdify_numpy(self):
         fl_T = TendonForceLengthDeGroote2016.with_defaults(self.l_T_tilde)
         fl_T_callable = lambdify(self.l_T_tilde, fl_T, 'numpy')
@@ -514,16 +644,22 @@ class TestTendonForceLengthDeGroote2016:
 
     @pytest.mark.skipif(jax is None, reason='JAX not installed')
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_lambdify_jax(), test_lambdify_jax produces the expected output) over Any ║
+# ║ Path(test_lambdify_jax(), <unspecified:test_lambdify_jax>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_lambdify_jax : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e335a255e127d303  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthDeGroote2016.test_lambdify_jax","kind":"method","src_hash":"6dde43b6ce2ba900","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_lambdify_jax()","rhs":"test_lambdify_jax produces the expected output","over":{"base":"Any"},"name":"test_lambdify_jax_correct"},"guarantee":"test_lambdify_jax produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthDeGroote2016.test_lambdify_jax_correct","statement":"Path(test_lambdify_jax(x), test_lambdify_jax produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e335a255e127d303"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthDeGroote2016.test_lambdify_jax","kind":"method","src_hash":"6dde43b6ce2ba900","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_lambdify_jax()","rhs":"<unspecified:test_lambdify_jax>","over":{"base":"Any"},"name":"test_lambdify_jax_correct"},"guarantee":"test_lambdify_jax produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthDeGroote2016.test_lambdify_jax_correct","statement":"Path(test_lambdify_jax(x), test_lambdify_jax produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e335a255e127d303","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.l_T_tilde"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_lambdify_jax(self):
         fl_T = TendonForceLengthDeGroote2016.with_defaults(self.l_T_tilde)
         fl_T_callable = jax.jit(lambdify(self.l_T_tilde, fl_T, 'jax'))
@@ -540,28 +676,40 @@ class TestTendonForceLengthDeGroote2016:
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(TestTendonForceLengthInverseDeGroote2016(*args), correctly constructs a TestTendonForceLengthInverseDeGroote2016 instance) over {Any | isinstance(fl_T_inv, TendonForceLengthInverseDeGroote2016)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ TestTendonForceLengthInverseDeGroote2016 : {Any | isi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 471430f67358d69b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthInverseDeGroote2016","kind":"class","src_hash":"0ddc33b729f203c6","in":{"base":"Any","pred":"isinstance(fl_T_inv, TendonForceLengthInverseDeGroote2016)"},"out":{"base":"Any","pred":"issubclass(TendonForceLengthInverseDeGroote2016, Function) and issubclass(TendonForceLengthInverseDeGroote2016, CharacteristicCurveFunction) and isinstance(fl_T_inv, TendonForceLengthInverseDeGroote2016) and fl_T_inv == log((self.fl_T + self.c2) / self.c0) / self.c3 + self.c1 and fl_T_inv_manual == fl_T_inv_constants and fl_T_inv.diff(self.fl_T) == expected and fl_T_inv.diff(self.c0) == expected and fl_T_inv.diff(self.c1) == expected and fl_T_inv.diff(self.c2) == expected and fl_T_inv.diff(self.c3) == expected and fl_T_inv.inverse() is TendonForceLengthDeGroote2016 and LatexPrinter().doprint(fl_T_inv) == expected and LatexPrinter().doprint(fl_T.doit()) == expected and code_printer().doprint(fl_T_inv) == expected and PythonCodePrinter().doprint(dfl_T_inv_dfl_T) == expected and fl_T_inv_callable(0.0) == pytest.approx(1.0015752885)"},"spec":{"lhs":"TestTendonForceLengthInverseDeGroote2016(*args)","rhs":"correctly constructs a TestTendonForceLengthInverseDeGroote2016 instance","over":{"base":"Any","pred":"isinstance(fl_T_inv, TendonForceLengthInverseDeGroote2016)"},"name":"TestTendonForceLengthInverseDeGroote2016_class_invariant"},"guarantee":"correctly constructs a TestTendonForceLengthInverseDeGroote2016 instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"471430f67358d69b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthInverseDeGroote2016","kind":"class","src_hash":"0ddc33b729f203c6","in":{"base":"Any","pred":"isinstance(fl_T_inv, TendonForceLengthInverseDeGroote2016)"},"out":{"base":"Any","pred":"issubclass(TendonForceLengthInverseDeGroote2016, Function) and issubclass(TendonForceLengthInverseDeGroote2016, CharacteristicCurveFunction) and isinstance(fl_T_inv, TendonForceLengthInverseDeGroote2016) and fl_T_inv == log((self.fl_T + self.c2) / self.c0) / self.c3 + self.c1 and fl_T_inv_manual == fl_T_inv_constants and fl_T_inv.diff(self.fl_T) == expected and fl_T_inv.diff(self.c0) == expected and fl_T_inv.diff(self.c1) == expected and fl_T_inv.diff(self.c2) == expected and fl_T_inv.diff(self.c3) == expected and fl_T_inv.inverse() is TendonForceLengthDeGroote2016 and LatexPrinter().doprint(fl_T_inv) == expected and LatexPrinter().doprint(fl_T.doit()) == expected and code_printer().doprint(fl_T_inv) == expected and PythonCodePrinter().doprint(dfl_T_inv_dfl_T) == expected and fl_T_inv_callable(0.0) == pytest.approx(1.0015752885)"},"spec":{"lhs":"TestTendonForceLengthInverseDeGroote2016(*args)","rhs":"correctly constructs a TestTendonForceLengthInverseDeGroote2016 instance","over":{"base":"Any","pred":"isinstance(fl_T_inv, TendonForceLengthInverseDeGroote2016)"},"name":"TestTendonForceLengthInverseDeGroote2016_class_invariant"},"guarantee":"correctly constructs a TestTendonForceLengthInverseDeGroote2016 instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"471430f67358d69b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial"},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function TestTendonForceLengthInverseDeGroote2016 not found in source"]}}
 class TestTendonForceLengthInverseDeGroote2016:
 
     @pytest.fixture(autouse=True)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_tendon_force_length_inverse_arguments_fixture(), internal helper behaves correctly) over Any ║
+# ║ Path(_tendon_force_length_inverse_arguments_fixture(), <unspecified:_tendon_force_length_inverse_arguments_fixture>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _tendon_force_length_inverse_arguments_fixture : Any ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e2febec1e6685ab8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthInverseDeGroote2016._tendon_force_length_inverse_arguments_fixture","kind":"method","src_hash":"43229882f8a5c479","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_tendon_force_length_inverse_arguments_fixture()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_tendon_force_length_inverse_arguments_fixture_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthInverseDeGroote2016._tendon_force_length_inverse_arguments_fixture_correct","statement":"Path(_tendon_force_length_inverse_arguments_fixture(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e2febec1e6685ab8"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthInverseDeGroote2016._tendon_force_length_inverse_arguments_fixture","kind":"method","src_hash":"43229882f8a5c479","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_tendon_force_length_inverse_arguments_fixture()","rhs":"<unspecified:_tendon_force_length_inverse_arguments_fixture>","over":{"base":"Any"},"name":"_tendon_force_length_inverse_arguments_fixture_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthInverseDeGroote2016._tendon_force_length_inverse_arguments_fixture_correct","statement":"Path(_tendon_force_length_inverse_arguments_fixture(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e2febec1e6685ab8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self.c0","self.c1","self.c2","self.c3"],"writes":["self.c0","self.c1","self.c2","self.c3","self.constants","self.fl_T"]},"state_contract":{"modifies":["self.c0","self.c1","self.c2","self.c3","self.constants","self.fl_T"],"old_bindings":{"old_self_c0":"self.c0","old_self_c1":"self.c1","old_self_c2":"self.c2","old_self_c3":"self.c3","old_self_constants":"self.constants","old_self_fl_T":"self.fl_T"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _tendon_force_length_inverse_arguments_fixture(self):
         self.fl_T = Symbol('fl_T')
         self.c0 = Symbol('c_0')
@@ -572,78 +720,111 @@ class TestTendonForceLengthInverseDeGroote2016:
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_class(), test_class produces the expected output) over Any ║
+# ║ Path(test_class(), issubclass(TendonForceLengthInverseDeGroote2016, Function) and issubclass(TendonForceLengthInverseDeGroote2016, CharacteristicCurveFunction) and TendonForceLengthInverseDeGroote2016.__name__ == 'TendonForceLengthInverseDeGroote2016') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_class : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  issubclass(TendonForceLengthInverseDeGroo...   ║
+# ║   ensures:  issubclass(TendonForceLengthInverseDeGroo...   ║
+# ║   ensures:  TendonForceLengthInverseDeGroote2016.__na...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_class : Any → {Any | result satisfies: issubclas...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 60d13fddea42c6c9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5ed3b2a25885abf5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthInverseDeGroote2016.test_class","kind":"staticmethod","src_hash":"83dc7c6f0e1494f0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_class()","rhs":"test_class produces the expected output","over":{"base":"Any"},"name":"test_class_correct"},"guarantee":"test_class produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthInverseDeGroote2016.test_class_correct","statement":"Path(test_class(x), test_class produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"60d13fddea42c6c9"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthInverseDeGroote2016.test_class","kind":"staticmethod","src_hash":"83dc7c6f0e1494f0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: issubclass(TendonForceLengthInverseDeGroote2016, Function) and issubclass(TendonForceLengthInverseDeGroote2016, CharacteristicCurveFunction) and TendonForceLengthInverseDeGroote2016.__name__ == 'TendonForceLengthInverseDeGroote2016'"},"spec":{"lhs":"test_class()","rhs":"issubclass(TendonForceLengthInverseDeGroote2016, Function) and issubclass(TendonForceLengthInverseDeGroote2016, CharacteristicCurveFunction) and TendonForceLengthInverseDeGroote2016.__name__ == 'TendonForceLengthInverseDeGroote2016'","over":{"base":"Any"},"name":"test_class_correct"},"guarantee":"issubclass(TendonForceLengthInverseDeGroote2016, Function); issubclass(TendonForceLengthInverseDeGroote2016, CharacteristicCurveFunction); TendonForceLengthInverseDeGroote2016.__name__ == 'TendonForceLengthInverseDeGroote2016'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthInverseDeGroote2016.test_class_correct","statement":"Path(test_class(x), issubclass(TendonForceLengthInverseDeGroote2016, Function); issubclass(TendonForceLengthInverseDeGroote2016, CharacteristicCurveFunction); TendonForceLengthInverseDeGroote2016.__name__ == 'TendonForceLengthInverseDeGroote2016')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5ed3b2a25885abf5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["issubclass(TendonForceLengthInverseDeGroote2016, Function)","issubclass(TendonForceLengthInverseDeGroote2016, CharacteristicCurveFunction)","TendonForceLengthInverseDeGroote2016.__name__ == 'TendonForceLengthInverseDeGroote2016'"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_class():
         assert issubclass(TendonForceLengthInverseDeGroote2016, Function)
         assert issubclass(TendonForceLengthInverseDeGroote2016, CharacteristicCurveFunction)
         assert TendonForceLengthInverseDeGroote2016.__name__ == 'TendonForceLengthInverseDeGroote2016'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_instance(), test_instance produces the expected output) over Any ║
+# ║ Path(test_instance(), isinstance(fl_T_inv, TendonForceLengthInverseDeGroote2016) and str(fl_T_inv) == 'TendonForceLengthInverseDeGroote2016(fl_T, c_0, c_1, c_2, c_3)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_instance : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(fl_T_inv, TendonForceLengthInv...   ║
+# ║   ensures:  str(fl_T_inv) == 'TendonForceLengthInvers...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_instance : Any → {Any | result satisfies: isinst...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 50d8d496426df5c4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 17a5460459173177  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthInverseDeGroote2016.test_instance","kind":"method","src_hash":"caf2344421007770","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_instance()","rhs":"test_instance produces the expected output","over":{"base":"Any"},"name":"test_instance_correct"},"guarantee":"test_instance produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthInverseDeGroote2016.test_instance_correct","statement":"Path(test_instance(x), test_instance produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"50d8d496426df5c4"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthInverseDeGroote2016.test_instance","kind":"method","src_hash":"caf2344421007770","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(fl_T_inv, TendonForceLengthInverseDeGroote2016) and str(fl_T_inv) == 'TendonForceLengthInverseDeGroote2016(fl_T, c_0, c_1, c_2, c_3)'"},"spec":{"lhs":"test_instance()","rhs":"isinstance(fl_T_inv, TendonForceLengthInverseDeGroote2016) and str(fl_T_inv) == 'TendonForceLengthInverseDeGroote2016(fl_T, c_0, c_1, c_2, c_3)'","over":{"base":"Any"},"name":"test_instance_correct"},"guarantee":"isinstance(fl_T_inv, TendonForceLengthInverseDeGroote2016); str(fl_T_inv) == 'TendonForceLengthInverseDeGroote2016(fl_T, c_0, c_1, c_2, c_3)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthInverseDeGroote2016.test_instance_correct","statement":"Path(test_instance(x), isinstance(fl_T_inv, TendonForceLengthInverseDeGroote2016); str(fl_T_inv) == 'TendonForceLengthInverseDeGroote2016(fl_T, c_0, c_1, c_2, c_3)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"17a5460459173177","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(fl_T_inv, TendonForceLengthInverseDeGroote2016)","str(fl_T_inv) == 'TendonForceLengthInverseDeGroote2016(fl_T, c_0, c_1, c_2, c_3)'"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.constants","self.fl_T"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_instance(self):
         fl_T_inv = TendonForceLengthInverseDeGroote2016(self.fl_T, *self.constants)
         assert isinstance(fl_T_inv, TendonForceLengthInverseDeGroote2016)
         assert str(fl_T_inv) == 'TendonForceLengthInverseDeGroote2016(fl_T, c_0, c_1, c_2, c_3)'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_doit(), test_doit produces the expected output) over Any ║
+# ║ Path(test_doit(), fl_T_inv == log((self.fl_T + self.c2) / self.c0) / self.c3 + self.c1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_doit : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  fl_T_inv == log((self.fl_T + self.c2) / s...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_doit : Any → {Any | result satisfies: fl_T_inv =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9d18435c2b54133d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 79e3f474e505b798  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthInverseDeGroote2016.test_doit","kind":"method","src_hash":"d0a3eb33397067bc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_doit()","rhs":"test_doit produces the expected output","over":{"base":"Any"},"name":"test_doit_correct"},"guarantee":"test_doit produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthInverseDeGroote2016.test_doit_correct","statement":"Path(test_doit(x), test_doit produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9d18435c2b54133d"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthInverseDeGroote2016.test_doit","kind":"method","src_hash":"d0a3eb33397067bc","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: fl_T_inv == log((self.fl_T + self.c2) / self.c0) / self.c3 + self.c1"},"spec":{"lhs":"test_doit()","rhs":"fl_T_inv == log((self.fl_T + self.c2) / self.c0) / self.c3 + self.c1","over":{"base":"Any"},"name":"test_doit_correct"},"guarantee":"fl_T_inv == log((self.fl_T + self.c2) / self.c0) / self.c3 + self.c1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthInverseDeGroote2016.test_doit_correct","statement":"Path(test_doit(x), fl_T_inv == log((self.fl_T + self.c2) / self.c0) / self.c3 + self.c1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"79e3f474e505b798","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["fl_T_inv == log((self.fl_T + self.c2) / self.c0) / self.c3 + self.c1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.c0","self.c1","self.c2","self.c3","self.constants","self.fl_T"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_doit(self):
         fl_T_inv = TendonForceLengthInverseDeGroote2016(self.fl_T, *self.constants).doit()
         assert fl_T_inv == log((self.fl_T + self.c2)/self.c0)/self.c3 + self.c1
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_doit_evaluate_false(), test_doit_evaluate_false produces the expected output) over Any ║
+# ║ Path(test_doit_evaluate_false(), fl_T_inv == log(UnevaluatedExpr((self.fl_T + self.c2) / self.c0)) / self.c3 + self.c1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_doit_evaluate_false : Any → Any                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  fl_T_inv == log(UnevaluatedExpr((self.fl_...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_doit_evaluate_false : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 99e70d22c50ef7f4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0cc16c4ccdab0fcf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthInverseDeGroote2016.test_doit_evaluate_false","kind":"method","src_hash":"27dce8aaae517c4d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_doit_evaluate_false()","rhs":"test_doit_evaluate_false produces the expected output","over":{"base":"Any"},"name":"test_doit_evaluate_false_correct"},"guarantee":"test_doit_evaluate_false produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthInverseDeGroote2016.test_doit_evaluate_false_correct","statement":"Path(test_doit_evaluate_false(x), test_doit_evaluate_false produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"99e70d22c50ef7f4"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthInverseDeGroote2016.test_doit_evaluate_false","kind":"method","src_hash":"27dce8aaae517c4d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: fl_T_inv == log(UnevaluatedExpr((self.fl_T + self.c2) / self.c0)) / self.c3 + self.c1"},"spec":{"lhs":"test_doit_evaluate_false()","rhs":"fl_T_inv == log(UnevaluatedExpr((self.fl_T + self.c2) / self.c0)) / self.c3 + self.c1","over":{"base":"Any"},"name":"test_doit_evaluate_false_correct"},"guarantee":"fl_T_inv == log(UnevaluatedExpr((self.fl_T + self.c2) / self.c0)) / self.c3 + self.c1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthInverseDeGroote2016.test_doit_evaluate_false_correct","statement":"Path(test_doit_evaluate_false(x), fl_T_inv == log(UnevaluatedExpr((self.fl_T + self.c2) / self.c0)) / self.c3 + self.c1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0cc16c4ccdab0fcf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["fl_T_inv == log(UnevaluatedExpr((self.fl_T + self.c2) / self.c0)) / self.c3 + self.c1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.c0","self.c1","self.c2","self.c3","self.constants","self.fl_T"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_doit_evaluate_false(self):
         fl_T_inv = TendonForceLengthInverseDeGroote2016(self.fl_T, *self.constants).doit(evaluate=False)
         assert fl_T_inv == log(UnevaluatedExpr((self.fl_T + self.c2)/self.c0))/self.c3 + self.c1
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_with_defaults(), test_with_defaults produces the expected output) over Any ║
+# ║ Path(test_with_defaults(), fl_T_inv_manual == fl_T_inv_constants) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_with_defaults : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  fl_T_inv_manual == fl_T_inv_constants          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_with_defaults : Any → {Any | result satisfies: f...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e6bca7f629fa144d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d3fec930d4e4b0e6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthInverseDeGroote2016.test_with_defaults","kind":"method","src_hash":"ee63ca8728ee1951","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_with_defaults()","rhs":"test_with_defaults produces the expected output","over":{"base":"Any"},"name":"test_with_defaults_correct"},"guarantee":"test_with_defaults produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthInverseDeGroote2016.test_with_defaults_correct","statement":"Path(test_with_defaults(x), test_with_defaults produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e6bca7f629fa144d"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthInverseDeGroote2016.test_with_defaults","kind":"method","src_hash":"ee63ca8728ee1951","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: fl_T_inv_manual == fl_T_inv_constants"},"spec":{"lhs":"test_with_defaults()","rhs":"fl_T_inv_manual == fl_T_inv_constants","over":{"base":"Any"},"name":"test_with_defaults_correct"},"guarantee":"fl_T_inv_manual == fl_T_inv_constants","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthInverseDeGroote2016.test_with_defaults_correct","statement":"Path(test_with_defaults(x), fl_T_inv_manual == fl_T_inv_constants)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d3fec930d4e4b0e6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["fl_T_inv_manual == fl_T_inv_constants"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.fl_T"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_with_defaults(self):
         constants = (
             Float('0.2'),
@@ -656,127 +837,175 @@ class TestTendonForceLengthInverseDeGroote2016:
         assert fl_T_inv_manual == fl_T_inv_constants
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_differentiate_wrt_fl_T(), test_differentiate_wrt_fl_T produces the expected output) over Any ║
+# ║ Path(test_differentiate_wrt_fl_T(), fl_T_inv.diff(self.fl_T) == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_differentiate_wrt_fl_T : Any → Any                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  fl_T_inv.diff(self.fl_T) == expected           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_differentiate_wrt_fl_T : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 00dfba47997f766e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | da366aca66e58d32  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthInverseDeGroote2016.test_differentiate_wrt_fl_T","kind":"method","src_hash":"29f050b7251f92a0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_differentiate_wrt_fl_T()","rhs":"test_differentiate_wrt_fl_T produces the expected output","over":{"base":"Any"},"name":"test_differentiate_wrt_fl_T_correct"},"guarantee":"test_differentiate_wrt_fl_T produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthInverseDeGroote2016.test_differentiate_wrt_fl_T_correct","statement":"Path(test_differentiate_wrt_fl_T(x), test_differentiate_wrt_fl_T produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"00dfba47997f766e"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthInverseDeGroote2016.test_differentiate_wrt_fl_T","kind":"method","src_hash":"29f050b7251f92a0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: fl_T_inv.diff(self.fl_T) == expected"},"spec":{"lhs":"test_differentiate_wrt_fl_T()","rhs":"fl_T_inv.diff(self.fl_T) == expected","over":{"base":"Any"},"name":"test_differentiate_wrt_fl_T_correct"},"guarantee":"fl_T_inv.diff(self.fl_T) == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthInverseDeGroote2016.test_differentiate_wrt_fl_T_correct","statement":"Path(test_differentiate_wrt_fl_T(x), fl_T_inv.diff(self.fl_T) == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"da366aca66e58d32","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["fl_T_inv.diff(self.fl_T) == expected"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.c2","self.c3","self.constants","self.fl_T"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_differentiate_wrt_fl_T(self):
         fl_T_inv = TendonForceLengthInverseDeGroote2016(self.fl_T, *self.constants)
         expected = 1/(self.c3*(self.fl_T + self.c2))
         assert fl_T_inv.diff(self.fl_T) == expected
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_differentiate_wrt_c0(), test_differentiate_wrt_c0 produces the expected output) over Any ║
+# ║ Path(test_differentiate_wrt_c0(), fl_T_inv.diff(self.c0) == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_differentiate_wrt_c0 : Any → Any                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  fl_T_inv.diff(self.c0) == expected             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_differentiate_wrt_c0 : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 69784163b545bb20  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4cfcb3563bf3fd29  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthInverseDeGroote2016.test_differentiate_wrt_c0","kind":"method","src_hash":"65fbf61270e7fb87","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_differentiate_wrt_c0()","rhs":"test_differentiate_wrt_c0 produces the expected output","over":{"base":"Any"},"name":"test_differentiate_wrt_c0_correct"},"guarantee":"test_differentiate_wrt_c0 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthInverseDeGroote2016.test_differentiate_wrt_c0_correct","statement":"Path(test_differentiate_wrt_c0(x), test_differentiate_wrt_c0 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"69784163b545bb20"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthInverseDeGroote2016.test_differentiate_wrt_c0","kind":"method","src_hash":"65fbf61270e7fb87","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: fl_T_inv.diff(self.c0) == expected"},"spec":{"lhs":"test_differentiate_wrt_c0()","rhs":"fl_T_inv.diff(self.c0) == expected","over":{"base":"Any"},"name":"test_differentiate_wrt_c0_correct"},"guarantee":"fl_T_inv.diff(self.c0) == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthInverseDeGroote2016.test_differentiate_wrt_c0_correct","statement":"Path(test_differentiate_wrt_c0(x), fl_T_inv.diff(self.c0) == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4cfcb3563bf3fd29","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["fl_T_inv.diff(self.c0) == expected"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.c0","self.c3","self.constants","self.fl_T"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_differentiate_wrt_c0(self):
         fl_T_inv = TendonForceLengthInverseDeGroote2016(self.fl_T, *self.constants)
         expected = -1/(self.c0*self.c3)
         assert fl_T_inv.diff(self.c0) == expected
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_differentiate_wrt_c1(), test_differentiate_wrt_c1 produces the expected output) over Any ║
+# ║ Path(test_differentiate_wrt_c1(), fl_T_inv.diff(self.c1) == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_differentiate_wrt_c1 : Any → Any                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  fl_T_inv.diff(self.c1) == expected             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_differentiate_wrt_c1 : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ba2455f94705aae5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 806fa40f1ecf3d41  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthInverseDeGroote2016.test_differentiate_wrt_c1","kind":"method","src_hash":"d044156540e47415","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_differentiate_wrt_c1()","rhs":"test_differentiate_wrt_c1 produces the expected output","over":{"base":"Any"},"name":"test_differentiate_wrt_c1_correct"},"guarantee":"test_differentiate_wrt_c1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthInverseDeGroote2016.test_differentiate_wrt_c1_correct","statement":"Path(test_differentiate_wrt_c1(x), test_differentiate_wrt_c1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ba2455f94705aae5"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthInverseDeGroote2016.test_differentiate_wrt_c1","kind":"method","src_hash":"d044156540e47415","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: fl_T_inv.diff(self.c1) == expected"},"spec":{"lhs":"test_differentiate_wrt_c1()","rhs":"fl_T_inv.diff(self.c1) == expected","over":{"base":"Any"},"name":"test_differentiate_wrt_c1_correct"},"guarantee":"fl_T_inv.diff(self.c1) == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthInverseDeGroote2016.test_differentiate_wrt_c1_correct","statement":"Path(test_differentiate_wrt_c1(x), fl_T_inv.diff(self.c1) == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"806fa40f1ecf3d41","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["fl_T_inv.diff(self.c1) == expected"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.c1","self.constants","self.fl_T"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_differentiate_wrt_c1(self):
         fl_T_inv = TendonForceLengthInverseDeGroote2016(self.fl_T, *self.constants)
         expected = Integer(1)
         assert fl_T_inv.diff(self.c1) == expected
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_differentiate_wrt_c2(), test_differentiate_wrt_c2 produces the expected output) over Any ║
+# ║ Path(test_differentiate_wrt_c2(), fl_T_inv.diff(self.c2) == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_differentiate_wrt_c2 : Any → Any                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  fl_T_inv.diff(self.c2) == expected             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_differentiate_wrt_c2 : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aaaa2ade32ca3250  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7cd9fcf5594f9520  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthInverseDeGroote2016.test_differentiate_wrt_c2","kind":"method","src_hash":"b4e373c2c0d1227e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_differentiate_wrt_c2()","rhs":"test_differentiate_wrt_c2 produces the expected output","over":{"base":"Any"},"name":"test_differentiate_wrt_c2_correct"},"guarantee":"test_differentiate_wrt_c2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthInverseDeGroote2016.test_differentiate_wrt_c2_correct","statement":"Path(test_differentiate_wrt_c2(x), test_differentiate_wrt_c2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aaaa2ade32ca3250"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthInverseDeGroote2016.test_differentiate_wrt_c2","kind":"method","src_hash":"b4e373c2c0d1227e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: fl_T_inv.diff(self.c2) == expected"},"spec":{"lhs":"test_differentiate_wrt_c2()","rhs":"fl_T_inv.diff(self.c2) == expected","over":{"base":"Any"},"name":"test_differentiate_wrt_c2_correct"},"guarantee":"fl_T_inv.diff(self.c2) == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthInverseDeGroote2016.test_differentiate_wrt_c2_correct","statement":"Path(test_differentiate_wrt_c2(x), fl_T_inv.diff(self.c2) == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7cd9fcf5594f9520","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["fl_T_inv.diff(self.c2) == expected"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.c2","self.c3","self.constants","self.fl_T"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_differentiate_wrt_c2(self):
         fl_T_inv = TendonForceLengthInverseDeGroote2016(self.fl_T, *self.constants)
         expected = 1/(self.c3*(self.fl_T + self.c2))
         assert fl_T_inv.diff(self.c2) == expected
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_differentiate_wrt_c3(), test_differentiate_wrt_c3 produces the expected output) over Any ║
+# ║ Path(test_differentiate_wrt_c3(), fl_T_inv.diff(self.c3) == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_differentiate_wrt_c3 : Any → Any                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  fl_T_inv.diff(self.c3) == expected             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_differentiate_wrt_c3 : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 975ca6aa7e3cf594  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9a12697bba569dc5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthInverseDeGroote2016.test_differentiate_wrt_c3","kind":"method","src_hash":"7703108c2d0d9b17","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_differentiate_wrt_c3()","rhs":"test_differentiate_wrt_c3 produces the expected output","over":{"base":"Any"},"name":"test_differentiate_wrt_c3_correct"},"guarantee":"test_differentiate_wrt_c3 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthInverseDeGroote2016.test_differentiate_wrt_c3_correct","statement":"Path(test_differentiate_wrt_c3(x), test_differentiate_wrt_c3 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"975ca6aa7e3cf594"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthInverseDeGroote2016.test_differentiate_wrt_c3","kind":"method","src_hash":"7703108c2d0d9b17","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: fl_T_inv.diff(self.c3) == expected"},"spec":{"lhs":"test_differentiate_wrt_c3()","rhs":"fl_T_inv.diff(self.c3) == expected","over":{"base":"Any"},"name":"test_differentiate_wrt_c3_correct"},"guarantee":"fl_T_inv.diff(self.c3) == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthInverseDeGroote2016.test_differentiate_wrt_c3_correct","statement":"Path(test_differentiate_wrt_c3(x), fl_T_inv.diff(self.c3) == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9a12697bba569dc5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["fl_T_inv.diff(self.c3) == expected"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.c0","self.c2","self.c3","self.constants","self.fl_T"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_differentiate_wrt_c3(self):
         fl_T_inv = TendonForceLengthInverseDeGroote2016(self.fl_T, *self.constants)
         expected = -log(UnevaluatedExpr((self.fl_T + self.c2)/self.c0))/self.c3**2
         assert fl_T_inv.diff(self.c3) == expected
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_inverse(), test_inverse produces the expected output) over Any ║
+# ║ Path(test_inverse(), fl_T_inv.inverse() is TendonForceLengthDeGroote2016) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_inverse : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  fl_T_inv.inverse() is TendonForceLengthDe...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_inverse : Any → {Any | result satisfies: fl_T_in...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6cf92854c565f531  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c79bff754d90e853  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthInverseDeGroote2016.test_inverse","kind":"method","src_hash":"1bf32089ce636894","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_inverse()","rhs":"test_inverse produces the expected output","over":{"base":"Any"},"name":"test_inverse_correct"},"guarantee":"test_inverse produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthInverseDeGroote2016.test_inverse_correct","statement":"Path(test_inverse(x), test_inverse produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6cf92854c565f531"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthInverseDeGroote2016.test_inverse","kind":"method","src_hash":"1bf32089ce636894","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: fl_T_inv.inverse() is TendonForceLengthDeGroote2016"},"spec":{"lhs":"test_inverse()","rhs":"fl_T_inv.inverse() is TendonForceLengthDeGroote2016","over":{"base":"Any"},"name":"test_inverse_correct"},"guarantee":"fl_T_inv.inverse() is TendonForceLengthDeGroote2016","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthInverseDeGroote2016.test_inverse_correct","statement":"Path(test_inverse(x), fl_T_inv.inverse() is TendonForceLengthDeGroote2016)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c79bff754d90e853","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["fl_T_inv.inverse() is TendonForceLengthDeGroote2016"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.constants","self.fl_T"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_inverse(self):
         fl_T_inv = TendonForceLengthInverseDeGroote2016(self.fl_T, *self.constants)
         assert fl_T_inv.inverse() is TendonForceLengthDeGroote2016
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_function_print_latex(), test_function_print_latex produces the expected output) over Any ║
+# ║ Path(test_function_print_latex(), LatexPrinter().doprint(fl_T_inv) == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_function_print_latex : Any → Any                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  LatexPrinter().doprint(fl_T_inv) == expected   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_function_print_latex : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 524cf1a2b7d80ef4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4e9fe505d56bc8e6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthInverseDeGroote2016.test_function_print_latex","kind":"method","src_hash":"71b5d4078f6fac20","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_function_print_latex()","rhs":"test_function_print_latex produces the expected output","over":{"base":"Any"},"name":"test_function_print_latex_correct"},"guarantee":"test_function_print_latex produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthInverseDeGroote2016.test_function_print_latex_correct","statement":"Path(test_function_print_latex(x), test_function_print_latex produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"524cf1a2b7d80ef4"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthInverseDeGroote2016.test_function_print_latex","kind":"method","src_hash":"71b5d4078f6fac20","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: LatexPrinter().doprint(fl_T_inv) == expected"},"spec":{"lhs":"test_function_print_latex()","rhs":"LatexPrinter().doprint(fl_T_inv) == expected","over":{"base":"Any"},"name":"test_function_print_latex_correct"},"guarantee":"LatexPrinter().doprint(fl_T_inv) == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthInverseDeGroote2016.test_function_print_latex_correct","statement":"Path(test_function_print_latex(x), LatexPrinter().doprint(fl_T_inv) == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4e9fe505d56bc8e6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["LatexPrinter().doprint(fl_T_inv) == expected"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.constants","self.fl_T"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_function_print_latex(self):
         fl_T_inv = TendonForceLengthInverseDeGroote2016(self.fl_T, *self.constants)
         expected = r'\left( \operatorname{fl}^T \right)^{-1} \left( fl_{T} \right)'
         assert LatexPrinter().doprint(fl_T_inv) == expected
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_expression_print_latex(), test_expression_print_latex produces the expected output) over Any ║
+# ║ Path(test_expression_print_latex(), LatexPrinter().doprint(fl_T.doit()) == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_expression_print_latex : Any → Any                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  LatexPrinter().doprint(fl_T.doit()) == ex...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_expression_print_latex : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 55532567309422a1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a3708ee201c9bc74  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthInverseDeGroote2016.test_expression_print_latex","kind":"method","src_hash":"00cfbf5259d5e6b3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_expression_print_latex()","rhs":"test_expression_print_latex produces the expected output","over":{"base":"Any"},"name":"test_expression_print_latex_correct"},"guarantee":"test_expression_print_latex produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthInverseDeGroote2016.test_expression_print_latex_correct","statement":"Path(test_expression_print_latex(x), test_expression_print_latex produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"55532567309422a1"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthInverseDeGroote2016.test_expression_print_latex","kind":"method","src_hash":"00cfbf5259d5e6b3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: LatexPrinter().doprint(fl_T.doit()) == expected"},"spec":{"lhs":"test_expression_print_latex()","rhs":"LatexPrinter().doprint(fl_T.doit()) == expected","over":{"base":"Any"},"name":"test_expression_print_latex_correct"},"guarantee":"LatexPrinter().doprint(fl_T.doit()) == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthInverseDeGroote2016.test_expression_print_latex_correct","statement":"Path(test_expression_print_latex(x), LatexPrinter().doprint(fl_T.doit()) == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a3708ee201c9bc74","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["LatexPrinter().doprint(fl_T.doit()) == expected"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.constants","self.fl_T"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_expression_print_latex(self):
         fl_T = TendonForceLengthInverseDeGroote2016(self.fl_T, *self.constants)
         expected = r'c_{1} + \frac{\log{\left(\frac{c_{2} + fl_{T}}{c_{0}} \right)}}{c_{3}}'
@@ -850,31 +1079,43 @@ class TestTendonForceLengthInverseDeGroote2016:
         ]
     )
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_print_code(cod), test_print_code produces the expected output) over Any ║
+# ║ Path(test_print_code(code_printer, expected), code_printer().doprint(fl_T_inv) == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_print_code : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  code_printer().doprint(fl_T_inv) == expected   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_print_code : Any → {Any | result satisfies: code...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 64fa22bfbc16f9fe  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 12f45226dcf17b84  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthInverseDeGroote2016.test_print_code","kind":"method","src_hash":"2b14c4641a6d294d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_print_code(cod)","rhs":"test_print_code produces the expected output","over":{"base":"Any"},"name":"test_print_code_correct"},"guarantee":"test_print_code produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthInverseDeGroote2016.test_print_code_correct","statement":"Path(test_print_code(x), test_print_code produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"64fa22bfbc16f9fe"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthInverseDeGroote2016.test_print_code","kind":"method","src_hash":"2b14c4641a6d294d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: code_printer().doprint(fl_T_inv) == expected"},"spec":{"lhs":"test_print_code(code_printer, expected)","rhs":"code_printer().doprint(fl_T_inv) == expected","over":{"base":"Any"},"name":"test_print_code_correct"},"guarantee":"code_printer().doprint(fl_T_inv) == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthInverseDeGroote2016.test_print_code_correct","statement":"Path(test_print_code(x), code_printer().doprint(fl_T_inv) == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"12f45226dcf17b84","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["code_printer().doprint(fl_T_inv) == expected"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.fl_T"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_print_code(self, code_printer, expected):
         fl_T_inv = TendonForceLengthInverseDeGroote2016.with_defaults(self.fl_T)
         assert code_printer().doprint(fl_T_inv) == expected
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_derivative_print_code(), test_derivative_print_code produces the expected output) over Any ║
+# ║ Path(test_derivative_print_code(), PythonCodePrinter().doprint(dfl_T_inv_dfl_T) == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_derivative_print_code : Any → Any                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  PythonCodePrinter().doprint(dfl_T_inv_dfl...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_derivative_print_code : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 310ff00b23daca6f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f59f557252ce518d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthInverseDeGroote2016.test_derivative_print_code","kind":"method","src_hash":"3aa915c2b36ace2f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_derivative_print_code()","rhs":"test_derivative_print_code produces the expected output","over":{"base":"Any"},"name":"test_derivative_print_code_correct"},"guarantee":"test_derivative_print_code produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthInverseDeGroote2016.test_derivative_print_code_correct","statement":"Path(test_derivative_print_code(x), test_derivative_print_code produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"310ff00b23daca6f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthInverseDeGroote2016.test_derivative_print_code","kind":"method","src_hash":"3aa915c2b36ace2f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: PythonCodePrinter().doprint(dfl_T_inv_dfl_T) == expected"},"spec":{"lhs":"test_derivative_print_code()","rhs":"PythonCodePrinter().doprint(dfl_T_inv_dfl_T) == expected","over":{"base":"Any"},"name":"test_derivative_print_code_correct"},"guarantee":"PythonCodePrinter().doprint(dfl_T_inv_dfl_T) == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthInverseDeGroote2016.test_derivative_print_code_correct","statement":"Path(test_derivative_print_code(x), PythonCodePrinter().doprint(dfl_T_inv_dfl_T) == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f59f557252ce518d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["PythonCodePrinter().doprint(dfl_T_inv_dfl_T) == expected"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.fl_T"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_derivative_print_code(self):
         fl_T_inv = TendonForceLengthInverseDeGroote2016.with_defaults(self.fl_T)
         dfl_T_inv_dfl_T = fl_T_inv.diff(self.fl_T)
@@ -882,16 +1123,22 @@ class TestTendonForceLengthInverseDeGroote2016:
         assert PythonCodePrinter().doprint(dfl_T_inv_dfl_T) == expected
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_lambdify(), test_lambdify produces the expected output) over Any ║
+# ║ Path(test_lambdify(), fl_T_inv_callable(0.0) == pytest.approx(1.0015752885)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_lambdify : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  fl_T_inv_callable(0.0) == pytest.approx(1...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_lambdify : Any → {Any | result satisfies: fl_T_i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a1da6a7653fa2707  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9b38555e25ec17f8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthInverseDeGroote2016.test_lambdify","kind":"method","src_hash":"ebcaffceef43b919","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_lambdify()","rhs":"test_lambdify produces the expected output","over":{"base":"Any"},"name":"test_lambdify_correct"},"guarantee":"test_lambdify produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthInverseDeGroote2016.test_lambdify_correct","statement":"Path(test_lambdify(x), test_lambdify produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a1da6a7653fa2707"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthInverseDeGroote2016.test_lambdify","kind":"method","src_hash":"ebcaffceef43b919","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: fl_T_inv_callable(0.0) == pytest.approx(1.0015752885)"},"spec":{"lhs":"test_lambdify()","rhs":"fl_T_inv_callable(0.0) == pytest.approx(1.0015752885)","over":{"base":"Any"},"name":"test_lambdify_correct"},"guarantee":"fl_T_inv_callable(0.0) == pytest.approx(1.0015752885)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthInverseDeGroote2016.test_lambdify_correct","statement":"Path(test_lambdify(x), fl_T_inv_callable(0.0) == pytest.approx(1.0015752885))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9b38555e25ec17f8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["fl_T_inv_callable(0.0) == pytest.approx(1.0015752885)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.fl_T"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_lambdify(self):
         fl_T_inv = TendonForceLengthInverseDeGroote2016.with_defaults(self.fl_T)
         fl_T_inv_callable = lambdify(self.fl_T, fl_T_inv)
@@ -899,16 +1146,22 @@ class TestTendonForceLengthInverseDeGroote2016:
 
     @pytest.mark.skipif(numpy is None, reason='NumPy not installed')
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_lambdify_numpy(), test_lambdify_numpy produces the expected output) over Any ║
+# ║ Path(test_lambdify_numpy(), <unspecified:test_lambdify_numpy>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_lambdify_numpy : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 28befefe1481a393  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthInverseDeGroote2016.test_lambdify_numpy","kind":"method","src_hash":"590b01755a411a20","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_lambdify_numpy()","rhs":"test_lambdify_numpy produces the expected output","over":{"base":"Any"},"name":"test_lambdify_numpy_correct"},"guarantee":"test_lambdify_numpy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthInverseDeGroote2016.test_lambdify_numpy_correct","statement":"Path(test_lambdify_numpy(x), test_lambdify_numpy produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"28befefe1481a393"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthInverseDeGroote2016.test_lambdify_numpy","kind":"method","src_hash":"590b01755a411a20","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_lambdify_numpy()","rhs":"<unspecified:test_lambdify_numpy>","over":{"base":"Any"},"name":"test_lambdify_numpy_correct"},"guarantee":"test_lambdify_numpy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthInverseDeGroote2016.test_lambdify_numpy_correct","statement":"Path(test_lambdify_numpy(x), test_lambdify_numpy produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"28befefe1481a393","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.fl_T"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_lambdify_numpy(self):
         fl_T_inv = TendonForceLengthInverseDeGroote2016.with_defaults(self.fl_T)
         fl_T_inv_callable = lambdify(self.fl_T, fl_T_inv, 'numpy')
@@ -925,16 +1178,22 @@ class TestTendonForceLengthInverseDeGroote2016:
 
     @pytest.mark.skipif(jax is None, reason='JAX not installed')
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_lambdify_jax(), test_lambdify_jax produces the expected output) over Any ║
+# ║ Path(test_lambdify_jax(), <unspecified:test_lambdify_jax>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_lambdify_jax : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9c49ac3dcc4d994b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthInverseDeGroote2016.test_lambdify_jax","kind":"method","src_hash":"d9fcf31a1db3fe0f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_lambdify_jax()","rhs":"test_lambdify_jax produces the expected output","over":{"base":"Any"},"name":"test_lambdify_jax_correct"},"guarantee":"test_lambdify_jax produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthInverseDeGroote2016.test_lambdify_jax_correct","statement":"Path(test_lambdify_jax(x), test_lambdify_jax produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9c49ac3dcc4d994b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthInverseDeGroote2016.test_lambdify_jax","kind":"method","src_hash":"d9fcf31a1db3fe0f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_lambdify_jax()","rhs":"<unspecified:test_lambdify_jax>","over":{"base":"Any"},"name":"test_lambdify_jax_correct"},"guarantee":"test_lambdify_jax produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestTendonForceLengthInverseDeGroote2016.test_lambdify_jax_correct","statement":"Path(test_lambdify_jax(x), test_lambdify_jax produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9c49ac3dcc4d994b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.fl_T"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_lambdify_jax(self):
         fl_T_inv = TendonForceLengthInverseDeGroote2016.with_defaults(self.fl_T)
         fl_T_inv_callable = jax.jit(lambdify(self.fl_T, fl_T_inv, 'jax'))
@@ -953,28 +1212,40 @@ class TestTendonForceLengthInverseDeGroote2016:
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(TestFiberForceLengthPassiveDeGroote2016(*args), correctly constructs a TestFiberForceLengthPassiveDeGroote2016 instance) over {Any | isinstance(fl_M_pas, FiberForceLengthPassiveDeGroote2016)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ TestFiberForceLengthPassiveDeGroote2016 : {Any | isin...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1c14ec0d1f49e50e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveDeGroote2016","kind":"class","src_hash":"d36ee876c0919d59","in":{"base":"Any","pred":"isinstance(fl_M_pas, FiberForceLengthPassiveDeGroote2016)"},"out":{"base":"Any","pred":"issubclass(FiberForceLengthPassiveDeGroote2016, Function) and issubclass(FiberForceLengthPassiveDeGroote2016, CharacteristicCurveFunction) and isinstance(fl_M_pas, FiberForceLengthPassiveDeGroote2016) and str(fl_M_pas) == 'FiberForceLengthPassiveDeGroote2016(l_M_tilde, c_0, c_1)' and fl_M_pas_manual == fl_M_pas_constants and fl_M_pas.diff(self.l_M_tilde) == expected and fl_M_pas.diff(self.c0) == expected and fl_M_pas.diff(self.c1) == expected and fl_M_pas.inverse() is FiberForceLengthPassiveInverseDeGroote2016 and LatexPrinter().doprint(fl_M_pas) == expected and LatexPrinter().doprint(fl_M_pas.doit()) == expected and code_printer().doprint(fl_M_pas) == expected and PythonCodePrinter().doprint(fl_M_pas_dl_M_tilde) == expected and fl_M_pas_callable(1.0) == pytest.approx(0.0)"},"spec":{"lhs":"TestFiberForceLengthPassiveDeGroote2016(*args)","rhs":"correctly constructs a TestFiberForceLengthPassiveDeGroote2016 instance","over":{"base":"Any","pred":"isinstance(fl_M_pas, FiberForceLengthPassiveDeGroote2016)"},"name":"TestFiberForceLengthPassiveDeGroote2016_class_invariant"},"guarantee":"correctly constructs a TestFiberForceLengthPassiveDeGroote2016 instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1c14ec0d1f49e50e"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveDeGroote2016","kind":"class","src_hash":"d36ee876c0919d59","in":{"base":"Any","pred":"isinstance(fl_M_pas, FiberForceLengthPassiveDeGroote2016)"},"out":{"base":"Any","pred":"issubclass(FiberForceLengthPassiveDeGroote2016, Function) and issubclass(FiberForceLengthPassiveDeGroote2016, CharacteristicCurveFunction) and isinstance(fl_M_pas, FiberForceLengthPassiveDeGroote2016) and str(fl_M_pas) == 'FiberForceLengthPassiveDeGroote2016(l_M_tilde, c_0, c_1)' and fl_M_pas_manual == fl_M_pas_constants and fl_M_pas.diff(self.l_M_tilde) == expected and fl_M_pas.diff(self.c0) == expected and fl_M_pas.diff(self.c1) == expected and fl_M_pas.inverse() is FiberForceLengthPassiveInverseDeGroote2016 and LatexPrinter().doprint(fl_M_pas) == expected and LatexPrinter().doprint(fl_M_pas.doit()) == expected and code_printer().doprint(fl_M_pas) == expected and PythonCodePrinter().doprint(fl_M_pas_dl_M_tilde) == expected and fl_M_pas_callable(1.0) == pytest.approx(0.0)"},"spec":{"lhs":"TestFiberForceLengthPassiveDeGroote2016(*args)","rhs":"correctly constructs a TestFiberForceLengthPassiveDeGroote2016 instance","over":{"base":"Any","pred":"isinstance(fl_M_pas, FiberForceLengthPassiveDeGroote2016)"},"name":"TestFiberForceLengthPassiveDeGroote2016_class_invariant"},"guarantee":"correctly constructs a TestFiberForceLengthPassiveDeGroote2016 instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1c14ec0d1f49e50e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial"},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function TestFiberForceLengthPassiveDeGroote2016 not found in source"]}}
 class TestFiberForceLengthPassiveDeGroote2016:
 
     @pytest.fixture(autouse=True)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_fiber_force_length_passive_arguments_fixture(), internal helper behaves correctly) over Any ║
+# ║ Path(_fiber_force_length_passive_arguments_fixture(), <unspecified:_fiber_force_length_passive_arguments_fixture>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _fiber_force_length_passive_arguments_fixture : Any →...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b0c92907f012a1a2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveDeGroote2016._fiber_force_length_passive_arguments_fixture","kind":"method","src_hash":"24f29020d5ac0759","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_fiber_force_length_passive_arguments_fixture()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_fiber_force_length_passive_arguments_fixture_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveDeGroote2016._fiber_force_length_passive_arguments_fixture_correct","statement":"Path(_fiber_force_length_passive_arguments_fixture(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b0c92907f012a1a2"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveDeGroote2016._fiber_force_length_passive_arguments_fixture","kind":"method","src_hash":"24f29020d5ac0759","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_fiber_force_length_passive_arguments_fixture()","rhs":"<unspecified:_fiber_force_length_passive_arguments_fixture>","over":{"base":"Any"},"name":"_fiber_force_length_passive_arguments_fixture_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveDeGroote2016._fiber_force_length_passive_arguments_fixture_correct","statement":"Path(_fiber_force_length_passive_arguments_fixture(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b0c92907f012a1a2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self.c0","self.c1"],"writes":["self.c0","self.c1","self.constants","self.l_M_tilde"]},"state_contract":{"modifies":["self.c0","self.c1","self.constants","self.l_M_tilde"],"old_bindings":{"old_self_c0":"self.c0","old_self_c1":"self.c1","old_self_constants":"self.constants","old_self_l_M_tilde":"self.l_M_tilde"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _fiber_force_length_passive_arguments_fixture(self):
         self.l_M_tilde = Symbol('l_M_tilde')
         self.c0 = Symbol('c_0')
@@ -983,78 +1254,111 @@ class TestFiberForceLengthPassiveDeGroote2016:
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_class(), test_class produces the expected output) over Any ║
+# ║ Path(test_class(), issubclass(FiberForceLengthPassiveDeGroote2016, Function) and issubclass(FiberForceLengthPassiveDeGroote2016, CharacteristicCurveFunction) and FiberForceLengthPassiveDeGroote2016.__name__ == 'FiberForceLengthPassiveDeGroote2016') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_class : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  issubclass(FiberForceLengthPassiveDeGroot...   ║
+# ║   ensures:  issubclass(FiberForceLengthPassiveDeGroot...   ║
+# ║   ensures:  FiberForceLengthPassiveDeGroote2016.__nam...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_class : Any → {Any | result satisfies: issubclas...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f212ff827a552025  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b7eb5a8aa069fa9f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveDeGroote2016.test_class","kind":"staticmethod","src_hash":"7346bbdcc700e99c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_class()","rhs":"test_class produces the expected output","over":{"base":"Any"},"name":"test_class_correct"},"guarantee":"test_class produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveDeGroote2016.test_class_correct","statement":"Path(test_class(x), test_class produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f212ff827a552025"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveDeGroote2016.test_class","kind":"staticmethod","src_hash":"7346bbdcc700e99c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: issubclass(FiberForceLengthPassiveDeGroote2016, Function) and issubclass(FiberForceLengthPassiveDeGroote2016, CharacteristicCurveFunction) and FiberForceLengthPassiveDeGroote2016.__name__ == 'FiberForceLengthPassiveDeGroote2016'"},"spec":{"lhs":"test_class()","rhs":"issubclass(FiberForceLengthPassiveDeGroote2016, Function) and issubclass(FiberForceLengthPassiveDeGroote2016, CharacteristicCurveFunction) and FiberForceLengthPassiveDeGroote2016.__name__ == 'FiberForceLengthPassiveDeGroote2016'","over":{"base":"Any"},"name":"test_class_correct"},"guarantee":"issubclass(FiberForceLengthPassiveDeGroote2016, Function); issubclass(FiberForceLengthPassiveDeGroote2016, CharacteristicCurveFunction); FiberForceLengthPassiveDeGroote2016.__name__ == 'FiberForceLengthPassiveDeGroote2016'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveDeGroote2016.test_class_correct","statement":"Path(test_class(x), issubclass(FiberForceLengthPassiveDeGroote2016, Function); issubclass(FiberForceLengthPassiveDeGroote2016, CharacteristicCurveFunction); FiberForceLengthPassiveDeGroote2016.__name__ == 'FiberForceLengthPassiveDeGroote2016')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b7eb5a8aa069fa9f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["issubclass(FiberForceLengthPassiveDeGroote2016, Function)","issubclass(FiberForceLengthPassiveDeGroote2016, CharacteristicCurveFunction)","FiberForceLengthPassiveDeGroote2016.__name__ == 'FiberForceLengthPassiveDeGroote2016'"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_class():
         assert issubclass(FiberForceLengthPassiveDeGroote2016, Function)
         assert issubclass(FiberForceLengthPassiveDeGroote2016, CharacteristicCurveFunction)
         assert FiberForceLengthPassiveDeGroote2016.__name__ == 'FiberForceLengthPassiveDeGroote2016'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_instance(), test_instance produces the expected output) over Any ║
+# ║ Path(test_instance(), isinstance(fl_M_pas, FiberForceLengthPassiveDeGroote2016) and str(fl_M_pas) == 'FiberForceLengthPassiveDeGroote2016(l_M_tilde, c_0, c_1)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_instance : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(fl_M_pas, FiberForceLengthPass...   ║
+# ║   ensures:  str(fl_M_pas) == 'FiberForceLengthPassive...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_instance : Any → {Any | result satisfies: isinst...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 39c53b0fbd502757  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5e55e6c1f6cf54e5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveDeGroote2016.test_instance","kind":"method","src_hash":"b1f4672dff5e3a8a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_instance()","rhs":"test_instance produces the expected output","over":{"base":"Any"},"name":"test_instance_correct"},"guarantee":"test_instance produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveDeGroote2016.test_instance_correct","statement":"Path(test_instance(x), test_instance produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"39c53b0fbd502757"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveDeGroote2016.test_instance","kind":"method","src_hash":"b1f4672dff5e3a8a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(fl_M_pas, FiberForceLengthPassiveDeGroote2016) and str(fl_M_pas) == 'FiberForceLengthPassiveDeGroote2016(l_M_tilde, c_0, c_1)'"},"spec":{"lhs":"test_instance()","rhs":"isinstance(fl_M_pas, FiberForceLengthPassiveDeGroote2016) and str(fl_M_pas) == 'FiberForceLengthPassiveDeGroote2016(l_M_tilde, c_0, c_1)'","over":{"base":"Any"},"name":"test_instance_correct"},"guarantee":"isinstance(fl_M_pas, FiberForceLengthPassiveDeGroote2016); str(fl_M_pas) == 'FiberForceLengthPassiveDeGroote2016(l_M_tilde, c_0, c_1)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveDeGroote2016.test_instance_correct","statement":"Path(test_instance(x), isinstance(fl_M_pas, FiberForceLengthPassiveDeGroote2016); str(fl_M_pas) == 'FiberForceLengthPassiveDeGroote2016(l_M_tilde, c_0, c_1)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5e55e6c1f6cf54e5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(fl_M_pas, FiberForceLengthPassiveDeGroote2016)","str(fl_M_pas) == 'FiberForceLengthPassiveDeGroote2016(l_M_tilde, c_0, c_1)'"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.constants","self.l_M_tilde"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_instance(self):
         fl_M_pas = FiberForceLengthPassiveDeGroote2016(self.l_M_tilde, *self.constants)
         assert isinstance(fl_M_pas, FiberForceLengthPassiveDeGroote2016)
         assert str(fl_M_pas) == 'FiberForceLengthPassiveDeGroote2016(l_M_tilde, c_0, c_1)'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_doit(), test_doit produces the expected output) over Any ║
+# ║ Path(test_doit(), fl_M_pas == (exp(self.c1 * (self.l_M_tilde - 1) / self.c0) - 1) / (exp(self.c1) - 1)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_doit : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  fl_M_pas == (exp(self.c1 * (self.l_M_tild...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_doit : Any → {Any | result satisfies: fl_M_pas =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6ceed9497da125d9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8ae91e66205d200e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveDeGroote2016.test_doit","kind":"method","src_hash":"3def9867fd052c09","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_doit()","rhs":"test_doit produces the expected output","over":{"base":"Any"},"name":"test_doit_correct"},"guarantee":"test_doit produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveDeGroote2016.test_doit_correct","statement":"Path(test_doit(x), test_doit produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6ceed9497da125d9"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveDeGroote2016.test_doit","kind":"method","src_hash":"3def9867fd052c09","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: fl_M_pas == (exp(self.c1 * (self.l_M_tilde - 1) / self.c0) - 1) / (exp(self.c1) - 1)"},"spec":{"lhs":"test_doit()","rhs":"fl_M_pas == (exp(self.c1 * (self.l_M_tilde - 1) / self.c0) - 1) / (exp(self.c1) - 1)","over":{"base":"Any"},"name":"test_doit_correct"},"guarantee":"fl_M_pas == (exp(self.c1 * (self.l_M_tilde - 1) / self.c0) - 1) / (exp(self.c1) - 1)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveDeGroote2016.test_doit_correct","statement":"Path(test_doit(x), fl_M_pas == (exp(self.c1 * (self.l_M_tilde - 1) / self.c0) - 1) / (exp(self.c1) - 1))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8ae91e66205d200e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["fl_M_pas == (exp(self.c1 * (self.l_M_tilde - 1) / self.c0) - 1) / (exp(self.c1) - 1)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.c0","self.c1","self.constants","self.l_M_tilde"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_doit(self):
         fl_M_pas = FiberForceLengthPassiveDeGroote2016(self.l_M_tilde, *self.constants).doit()
         assert fl_M_pas == (exp((self.c1*(self.l_M_tilde - 1))/self.c0) - 1)/(exp(self.c1) - 1)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_doit_evaluate_false(), test_doit_evaluate_false produces the expected output) over Any ║
+# ║ Path(test_doit_evaluate_false(), fl_M_pas == (exp(self.c1 * UnevaluatedExpr(self.l_M_tilde - 1) / self.c0) - 1) / (exp(self.c1) - 1)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_doit_evaluate_false : Any → Any                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  fl_M_pas == (exp(self.c1 * UnevaluatedExp...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_doit_evaluate_false : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1910f7d96e780fe6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9206f021bd110de0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveDeGroote2016.test_doit_evaluate_false","kind":"method","src_hash":"81c89782ece385ae","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_doit_evaluate_false()","rhs":"test_doit_evaluate_false produces the expected output","over":{"base":"Any"},"name":"test_doit_evaluate_false_correct"},"guarantee":"test_doit_evaluate_false produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveDeGroote2016.test_doit_evaluate_false_correct","statement":"Path(test_doit_evaluate_false(x), test_doit_evaluate_false produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1910f7d96e780fe6"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveDeGroote2016.test_doit_evaluate_false","kind":"method","src_hash":"81c89782ece385ae","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: fl_M_pas == (exp(self.c1 * UnevaluatedExpr(self.l_M_tilde - 1) / self.c0) - 1) / (exp(self.c1) - 1)"},"spec":{"lhs":"test_doit_evaluate_false()","rhs":"fl_M_pas == (exp(self.c1 * UnevaluatedExpr(self.l_M_tilde - 1) / self.c0) - 1) / (exp(self.c1) - 1)","over":{"base":"Any"},"name":"test_doit_evaluate_false_correct"},"guarantee":"fl_M_pas == (exp(self.c1 * UnevaluatedExpr(self.l_M_tilde - 1) / self.c0) - 1) / (exp(self.c1) - 1)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveDeGroote2016.test_doit_evaluate_false_correct","statement":"Path(test_doit_evaluate_false(x), fl_M_pas == (exp(self.c1 * UnevaluatedExpr(self.l_M_tilde - 1) / self.c0) - 1) / (exp(self.c1) - 1))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9206f021bd110de0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["fl_M_pas == (exp(self.c1 * UnevaluatedExpr(self.l_M_tilde - 1) / self.c0) - 1) / (exp(self.c1) - 1)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.c0","self.c1","self.constants","self.l_M_tilde"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_doit_evaluate_false(self):
         fl_M_pas = FiberForceLengthPassiveDeGroote2016(self.l_M_tilde, *self.constants).doit(evaluate=False)
         assert fl_M_pas == (exp((self.c1*UnevaluatedExpr(self.l_M_tilde - 1))/self.c0) - 1)/(exp(self.c1) - 1)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_with_defaults(), test_with_defaults produces the expected output) over Any ║
+# ║ Path(test_with_defaults(), fl_M_pas_manual == fl_M_pas_constants) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_with_defaults : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  fl_M_pas_manual == fl_M_pas_constants          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_with_defaults : Any → {Any | result satisfies: f...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | abb730f257917249  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0cf92b696f136ecf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveDeGroote2016.test_with_defaults","kind":"method","src_hash":"d78f00b7d89b0bc0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_with_defaults()","rhs":"test_with_defaults produces the expected output","over":{"base":"Any"},"name":"test_with_defaults_correct"},"guarantee":"test_with_defaults produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveDeGroote2016.test_with_defaults_correct","statement":"Path(test_with_defaults(x), test_with_defaults produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"abb730f257917249"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveDeGroote2016.test_with_defaults","kind":"method","src_hash":"d78f00b7d89b0bc0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: fl_M_pas_manual == fl_M_pas_constants"},"spec":{"lhs":"test_with_defaults()","rhs":"fl_M_pas_manual == fl_M_pas_constants","over":{"base":"Any"},"name":"test_with_defaults_correct"},"guarantee":"fl_M_pas_manual == fl_M_pas_constants","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveDeGroote2016.test_with_defaults_correct","statement":"Path(test_with_defaults(x), fl_M_pas_manual == fl_M_pas_constants)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0cf92b696f136ecf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["fl_M_pas_manual == fl_M_pas_constants"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.l_M_tilde"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_with_defaults(self):
         constants = (
             Float('0.6'),
@@ -1065,32 +1369,44 @@ class TestFiberForceLengthPassiveDeGroote2016:
         assert fl_M_pas_manual == fl_M_pas_constants
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_differentiate_wrt_l_M_tilde(), test_differentiate_wrt_l_M_tilde produces the expected output) over Any ║
+# ║ Path(test_differentiate_wrt_l_M_tilde(), fl_M_pas.diff(self.l_M_tilde) == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_differentiate_wrt_l_M_tilde : Any → Any               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  fl_M_pas.diff(self.l_M_tilde) == expected      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_differentiate_wrt_l_M_tilde : Any → {Any | resul...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e818a22e069817ec  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6e7b91cfa786f607  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveDeGroote2016.test_differentiate_wrt_l_M_tilde","kind":"method","src_hash":"4ca55c2318a38421","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_differentiate_wrt_l_M_tilde()","rhs":"test_differentiate_wrt_l_M_tilde produces the expected output","over":{"base":"Any"},"name":"test_differentiate_wrt_l_M_tilde_correct"},"guarantee":"test_differentiate_wrt_l_M_tilde produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveDeGroote2016.test_differentiate_wrt_l_M_tilde_correct","statement":"Path(test_differentiate_wrt_l_M_tilde(x), test_differentiate_wrt_l_M_tilde produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e818a22e069817ec"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveDeGroote2016.test_differentiate_wrt_l_M_tilde","kind":"method","src_hash":"4ca55c2318a38421","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: fl_M_pas.diff(self.l_M_tilde) == expected"},"spec":{"lhs":"test_differentiate_wrt_l_M_tilde()","rhs":"fl_M_pas.diff(self.l_M_tilde) == expected","over":{"base":"Any"},"name":"test_differentiate_wrt_l_M_tilde_correct"},"guarantee":"fl_M_pas.diff(self.l_M_tilde) == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveDeGroote2016.test_differentiate_wrt_l_M_tilde_correct","statement":"Path(test_differentiate_wrt_l_M_tilde(x), fl_M_pas.diff(self.l_M_tilde) == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6e7b91cfa786f607","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["fl_M_pas.diff(self.l_M_tilde) == expected"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.c0","self.c1","self.constants","self.l_M_tilde"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_differentiate_wrt_l_M_tilde(self):
         fl_M_pas = FiberForceLengthPassiveDeGroote2016(self.l_M_tilde, *self.constants)
         expected = self.c1*exp(self.c1*UnevaluatedExpr(self.l_M_tilde - 1)/self.c0)/(self.c0*(exp(self.c1) - 1))
         assert fl_M_pas.diff(self.l_M_tilde) == expected
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_differentiate_wrt_c0(), test_differentiate_wrt_c0 produces the expected output) over Any ║
+# ║ Path(test_differentiate_wrt_c0(), fl_M_pas.diff(self.c0) == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_differentiate_wrt_c0 : Any → Any                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  fl_M_pas.diff(self.c0) == expected             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_differentiate_wrt_c0 : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 856df541116e299b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8dd36c948335ed40  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveDeGroote2016.test_differentiate_wrt_c0","kind":"method","src_hash":"8d8d9d4363517dce","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_differentiate_wrt_c0()","rhs":"test_differentiate_wrt_c0 produces the expected output","over":{"base":"Any"},"name":"test_differentiate_wrt_c0_correct"},"guarantee":"test_differentiate_wrt_c0 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveDeGroote2016.test_differentiate_wrt_c0_correct","statement":"Path(test_differentiate_wrt_c0(x), test_differentiate_wrt_c0 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"856df541116e299b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveDeGroote2016.test_differentiate_wrt_c0","kind":"method","src_hash":"8d8d9d4363517dce","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: fl_M_pas.diff(self.c0) == expected"},"spec":{"lhs":"test_differentiate_wrt_c0()","rhs":"fl_M_pas.diff(self.c0) == expected","over":{"base":"Any"},"name":"test_differentiate_wrt_c0_correct"},"guarantee":"fl_M_pas.diff(self.c0) == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveDeGroote2016.test_differentiate_wrt_c0_correct","statement":"Path(test_differentiate_wrt_c0(x), fl_M_pas.diff(self.c0) == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8dd36c948335ed40","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["fl_M_pas.diff(self.c0) == expected"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.c0","self.c1","self.constants","self.l_M_tilde"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_differentiate_wrt_c0(self):
         fl_M_pas = FiberForceLengthPassiveDeGroote2016(self.l_M_tilde, *self.constants)
         expected = (
@@ -1100,16 +1416,22 @@ class TestFiberForceLengthPassiveDeGroote2016:
         assert fl_M_pas.diff(self.c0) == expected
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_differentiate_wrt_c1(), test_differentiate_wrt_c1 produces the expected output) over Any ║
+# ║ Path(test_differentiate_wrt_c1(), fl_M_pas.diff(self.c1) == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_differentiate_wrt_c1 : Any → Any                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  fl_M_pas.diff(self.c1) == expected             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_differentiate_wrt_c1 : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 33ebfd1aac86f854  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f03a26ca7fcf73ad  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveDeGroote2016.test_differentiate_wrt_c1","kind":"method","src_hash":"7ede2f0c60fdc596","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_differentiate_wrt_c1()","rhs":"test_differentiate_wrt_c1 produces the expected output","over":{"base":"Any"},"name":"test_differentiate_wrt_c1_correct"},"guarantee":"test_differentiate_wrt_c1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveDeGroote2016.test_differentiate_wrt_c1_correct","statement":"Path(test_differentiate_wrt_c1(x), test_differentiate_wrt_c1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"33ebfd1aac86f854"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveDeGroote2016.test_differentiate_wrt_c1","kind":"method","src_hash":"7ede2f0c60fdc596","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: fl_M_pas.diff(self.c1) == expected"},"spec":{"lhs":"test_differentiate_wrt_c1()","rhs":"fl_M_pas.diff(self.c1) == expected","over":{"base":"Any"},"name":"test_differentiate_wrt_c1_correct"},"guarantee":"fl_M_pas.diff(self.c1) == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveDeGroote2016.test_differentiate_wrt_c1_correct","statement":"Path(test_differentiate_wrt_c1(x), fl_M_pas.diff(self.c1) == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f03a26ca7fcf73ad","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["fl_M_pas.diff(self.c1) == expected"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.c0","self.c1","self.constants","self.l_M_tilde"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_differentiate_wrt_c1(self):
         fl_M_pas = FiberForceLengthPassiveDeGroote2016(self.l_M_tilde, *self.constants)
         expected = (
@@ -1119,47 +1441,65 @@ class TestFiberForceLengthPassiveDeGroote2016:
         assert fl_M_pas.diff(self.c1) == expected
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_inverse(), test_inverse produces the expected output) over Any ║
+# ║ Path(test_inverse(), fl_M_pas.inverse() is FiberForceLengthPassiveInverseDeGroote2016) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_inverse : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  fl_M_pas.inverse() is FiberForceLengthPas...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_inverse : Any → {Any | result satisfies: fl_M_pa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 41e2f8ed6506e2ef  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 97249da1edf51bbb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveDeGroote2016.test_inverse","kind":"method","src_hash":"d3c33b72ea9d5340","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_inverse()","rhs":"test_inverse produces the expected output","over":{"base":"Any"},"name":"test_inverse_correct"},"guarantee":"test_inverse produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveDeGroote2016.test_inverse_correct","statement":"Path(test_inverse(x), test_inverse produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"41e2f8ed6506e2ef"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveDeGroote2016.test_inverse","kind":"method","src_hash":"d3c33b72ea9d5340","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: fl_M_pas.inverse() is FiberForceLengthPassiveInverseDeGroote2016"},"spec":{"lhs":"test_inverse()","rhs":"fl_M_pas.inverse() is FiberForceLengthPassiveInverseDeGroote2016","over":{"base":"Any"},"name":"test_inverse_correct"},"guarantee":"fl_M_pas.inverse() is FiberForceLengthPassiveInverseDeGroote2016","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveDeGroote2016.test_inverse_correct","statement":"Path(test_inverse(x), fl_M_pas.inverse() is FiberForceLengthPassiveInverseDeGroote2016)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"97249da1edf51bbb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["fl_M_pas.inverse() is FiberForceLengthPassiveInverseDeGroote2016"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.constants","self.l_M_tilde"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_inverse(self):
         fl_M_pas = FiberForceLengthPassiveDeGroote2016(self.l_M_tilde, *self.constants)
         assert fl_M_pas.inverse() is FiberForceLengthPassiveInverseDeGroote2016
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_function_print_latex(), test_function_print_latex produces the expected output) over Any ║
+# ║ Path(test_function_print_latex(), LatexPrinter().doprint(fl_M_pas) == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_function_print_latex : Any → Any                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  LatexPrinter().doprint(fl_M_pas) == expected   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_function_print_latex : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5a597e06328d6b96  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1f09536e2211607f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveDeGroote2016.test_function_print_latex","kind":"method","src_hash":"0255126cd0242c55","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_function_print_latex()","rhs":"test_function_print_latex produces the expected output","over":{"base":"Any"},"name":"test_function_print_latex_correct"},"guarantee":"test_function_print_latex produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveDeGroote2016.test_function_print_latex_correct","statement":"Path(test_function_print_latex(x), test_function_print_latex produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5a597e06328d6b96"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveDeGroote2016.test_function_print_latex","kind":"method","src_hash":"0255126cd0242c55","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: LatexPrinter().doprint(fl_M_pas) == expected"},"spec":{"lhs":"test_function_print_latex()","rhs":"LatexPrinter().doprint(fl_M_pas) == expected","over":{"base":"Any"},"name":"test_function_print_latex_correct"},"guarantee":"LatexPrinter().doprint(fl_M_pas) == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveDeGroote2016.test_function_print_latex_correct","statement":"Path(test_function_print_latex(x), LatexPrinter().doprint(fl_M_pas) == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1f09536e2211607f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["LatexPrinter().doprint(fl_M_pas) == expected"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.constants","self.l_M_tilde"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_function_print_latex(self):
         fl_M_pas = FiberForceLengthPassiveDeGroote2016(self.l_M_tilde, *self.constants)
         expected = r'\operatorname{fl}^M_{pas} \left( l_{M tilde} \right)'
         assert LatexPrinter().doprint(fl_M_pas) == expected
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_expression_print_latex(), test_expression_print_latex produces the expected output) over Any ║
+# ║ Path(test_expression_print_latex(), LatexPrinter().doprint(fl_M_pas.doit()) == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_expression_print_latex : Any → Any                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  LatexPrinter().doprint(fl_M_pas.doit()) =...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_expression_print_latex : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 097481e6a338f21a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 12febc40295016dd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveDeGroote2016.test_expression_print_latex","kind":"method","src_hash":"48eefafbface0889","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_expression_print_latex()","rhs":"test_expression_print_latex produces the expected output","over":{"base":"Any"},"name":"test_expression_print_latex_correct"},"guarantee":"test_expression_print_latex produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveDeGroote2016.test_expression_print_latex_correct","statement":"Path(test_expression_print_latex(x), test_expression_print_latex produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"097481e6a338f21a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveDeGroote2016.test_expression_print_latex","kind":"method","src_hash":"48eefafbface0889","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: LatexPrinter().doprint(fl_M_pas.doit()) == expected"},"spec":{"lhs":"test_expression_print_latex()","rhs":"LatexPrinter().doprint(fl_M_pas.doit()) == expected","over":{"base":"Any"},"name":"test_expression_print_latex_correct"},"guarantee":"LatexPrinter().doprint(fl_M_pas.doit()) == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveDeGroote2016.test_expression_print_latex_correct","statement":"Path(test_expression_print_latex(x), LatexPrinter().doprint(fl_M_pas.doit()) == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"12febc40295016dd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["LatexPrinter().doprint(fl_M_pas.doit()) == expected"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.constants","self.l_M_tilde"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_expression_print_latex(self):
         fl_M_pas = FiberForceLengthPassiveDeGroote2016(self.l_M_tilde, *self.constants)
         expected = r'\frac{e^{\frac{c_{1} \left(l_{M tilde} - 1\right)}{c_{0}}} - 1}{e^{c_{1}} - 1}'
@@ -1233,31 +1573,43 @@ class TestFiberForceLengthPassiveDeGroote2016:
         ]
     )
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_print_code(cod), test_print_code produces the expected output) over Any ║
+# ║ Path(test_print_code(code_printer, expected), code_printer().doprint(fl_M_pas) == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_print_code : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  code_printer().doprint(fl_M_pas) == expected   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_print_code : Any → {Any | result satisfies: code...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 474e7696c476c685  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c12fc35880cb1700  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveDeGroote2016.test_print_code","kind":"method","src_hash":"bcb5bd7ded080e54","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_print_code(cod)","rhs":"test_print_code produces the expected output","over":{"base":"Any"},"name":"test_print_code_correct"},"guarantee":"test_print_code produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveDeGroote2016.test_print_code_correct","statement":"Path(test_print_code(x), test_print_code produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"474e7696c476c685"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveDeGroote2016.test_print_code","kind":"method","src_hash":"bcb5bd7ded080e54","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: code_printer().doprint(fl_M_pas) == expected"},"spec":{"lhs":"test_print_code(code_printer, expected)","rhs":"code_printer().doprint(fl_M_pas) == expected","over":{"base":"Any"},"name":"test_print_code_correct"},"guarantee":"code_printer().doprint(fl_M_pas) == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveDeGroote2016.test_print_code_correct","statement":"Path(test_print_code(x), code_printer().doprint(fl_M_pas) == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c12fc35880cb1700","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["code_printer().doprint(fl_M_pas) == expected"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.l_M_tilde"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_print_code(self, code_printer, expected):
         fl_M_pas = FiberForceLengthPassiveDeGroote2016.with_defaults(self.l_M_tilde)
         assert code_printer().doprint(fl_M_pas) == expected
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_derivative_print_code(), test_derivative_print_code produces the expected output) over Any ║
+# ║ Path(test_derivative_print_code(), PythonCodePrinter().doprint(fl_M_pas_dl_M_tilde) == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_derivative_print_code : Any → Any                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  PythonCodePrinter().doprint(fl_M_pas_dl_M...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_derivative_print_code : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 22bbced69b94d5c8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ae8361cf0426d010  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveDeGroote2016.test_derivative_print_code","kind":"method","src_hash":"59ee5b779b7bb02d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_derivative_print_code()","rhs":"test_derivative_print_code produces the expected output","over":{"base":"Any"},"name":"test_derivative_print_code_correct"},"guarantee":"test_derivative_print_code produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveDeGroote2016.test_derivative_print_code_correct","statement":"Path(test_derivative_print_code(x), test_derivative_print_code produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"22bbced69b94d5c8"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveDeGroote2016.test_derivative_print_code","kind":"method","src_hash":"59ee5b779b7bb02d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: PythonCodePrinter().doprint(fl_M_pas_dl_M_tilde) == expected"},"spec":{"lhs":"test_derivative_print_code()","rhs":"PythonCodePrinter().doprint(fl_M_pas_dl_M_tilde) == expected","over":{"base":"Any"},"name":"test_derivative_print_code_correct"},"guarantee":"PythonCodePrinter().doprint(fl_M_pas_dl_M_tilde) == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveDeGroote2016.test_derivative_print_code_correct","statement":"Path(test_derivative_print_code(x), PythonCodePrinter().doprint(fl_M_pas_dl_M_tilde) == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ae8361cf0426d010","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["PythonCodePrinter().doprint(fl_M_pas_dl_M_tilde) == expected"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.l_M_tilde"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_derivative_print_code(self):
         fl_M_pas = FiberForceLengthPassiveDeGroote2016.with_defaults(self.l_M_tilde)
         fl_M_pas_dl_M_tilde = fl_M_pas.diff(self.l_M_tilde)
@@ -1265,16 +1617,22 @@ class TestFiberForceLengthPassiveDeGroote2016:
         assert PythonCodePrinter().doprint(fl_M_pas_dl_M_tilde) == expected
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_lambdify(), test_lambdify produces the expected output) over Any ║
+# ║ Path(test_lambdify(), fl_M_pas_callable(1.0) == pytest.approx(0.0)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_lambdify : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  fl_M_pas_callable(1.0) == pytest.approx(0.0)   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_lambdify : Any → {Any | result satisfies: fl_M_p...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 34c946b1fdb37774  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4a5d5eeb244fb6db  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveDeGroote2016.test_lambdify","kind":"method","src_hash":"0e14f2f8d7e57973","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_lambdify()","rhs":"test_lambdify produces the expected output","over":{"base":"Any"},"name":"test_lambdify_correct"},"guarantee":"test_lambdify produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveDeGroote2016.test_lambdify_correct","statement":"Path(test_lambdify(x), test_lambdify produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"34c946b1fdb37774"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveDeGroote2016.test_lambdify","kind":"method","src_hash":"0e14f2f8d7e57973","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: fl_M_pas_callable(1.0) == pytest.approx(0.0)"},"spec":{"lhs":"test_lambdify()","rhs":"fl_M_pas_callable(1.0) == pytest.approx(0.0)","over":{"base":"Any"},"name":"test_lambdify_correct"},"guarantee":"fl_M_pas_callable(1.0) == pytest.approx(0.0)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveDeGroote2016.test_lambdify_correct","statement":"Path(test_lambdify(x), fl_M_pas_callable(1.0) == pytest.approx(0.0))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4a5d5eeb244fb6db","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["fl_M_pas_callable(1.0) == pytest.approx(0.0)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.l_M_tilde"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_lambdify(self):
         fl_M_pas = FiberForceLengthPassiveDeGroote2016.with_defaults(self.l_M_tilde)
         fl_M_pas_callable = lambdify(self.l_M_tilde, fl_M_pas)
@@ -1282,16 +1640,22 @@ class TestFiberForceLengthPassiveDeGroote2016:
 
     @pytest.mark.skipif(numpy is None, reason='NumPy not installed')
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_lambdify_numpy(), test_lambdify_numpy produces the expected output) over Any ║
+# ║ Path(test_lambdify_numpy(), <unspecified:test_lambdify_numpy>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_lambdify_numpy : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 141a769d64725679  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveDeGroote2016.test_lambdify_numpy","kind":"method","src_hash":"5fd5a21b9de3a6be","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_lambdify_numpy()","rhs":"test_lambdify_numpy produces the expected output","over":{"base":"Any"},"name":"test_lambdify_numpy_correct"},"guarantee":"test_lambdify_numpy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveDeGroote2016.test_lambdify_numpy_correct","statement":"Path(test_lambdify_numpy(x), test_lambdify_numpy produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"141a769d64725679"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveDeGroote2016.test_lambdify_numpy","kind":"method","src_hash":"5fd5a21b9de3a6be","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_lambdify_numpy()","rhs":"<unspecified:test_lambdify_numpy>","over":{"base":"Any"},"name":"test_lambdify_numpy_correct"},"guarantee":"test_lambdify_numpy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveDeGroote2016.test_lambdify_numpy_correct","statement":"Path(test_lambdify_numpy(x), test_lambdify_numpy produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"141a769d64725679","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.l_M_tilde"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_lambdify_numpy(self):
         fl_M_pas = FiberForceLengthPassiveDeGroote2016.with_defaults(self.l_M_tilde)
         fl_M_pas_callable = lambdify(self.l_M_tilde, fl_M_pas, 'numpy')
@@ -1309,16 +1673,22 @@ class TestFiberForceLengthPassiveDeGroote2016:
 
     @pytest.mark.skipif(jax is None, reason='JAX not installed')
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_lambdify_jax(), test_lambdify_jax produces the expected output) over Any ║
+# ║ Path(test_lambdify_jax(), <unspecified:test_lambdify_jax>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_lambdify_jax : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1c9bdd21b85970e6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveDeGroote2016.test_lambdify_jax","kind":"method","src_hash":"1ae020757f22bcff","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_lambdify_jax()","rhs":"test_lambdify_jax produces the expected output","over":{"base":"Any"},"name":"test_lambdify_jax_correct"},"guarantee":"test_lambdify_jax produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveDeGroote2016.test_lambdify_jax_correct","statement":"Path(test_lambdify_jax(x), test_lambdify_jax produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1c9bdd21b85970e6"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveDeGroote2016.test_lambdify_jax","kind":"method","src_hash":"1ae020757f22bcff","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_lambdify_jax()","rhs":"<unspecified:test_lambdify_jax>","over":{"base":"Any"},"name":"test_lambdify_jax_correct"},"guarantee":"test_lambdify_jax produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveDeGroote2016.test_lambdify_jax_correct","statement":"Path(test_lambdify_jax(x), test_lambdify_jax produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1c9bdd21b85970e6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.l_M_tilde"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_lambdify_jax(self):
         fl_M_pas = FiberForceLengthPassiveDeGroote2016.with_defaults(self.l_M_tilde)
         fl_M_pas_callable = jax.jit(lambdify(self.l_M_tilde, fl_M_pas, 'jax'))
@@ -1338,28 +1708,40 @@ class TestFiberForceLengthPassiveDeGroote2016:
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(TestFiberForceLengthPassiveInverseDeGroote2016(*args), correctly constructs a TestFiberForceLengthPassiveInverseDeGroote2016 instance) over {Any | isinstance(fl_M_pas_inv, FiberForceLengthPassiveInverseDeGroote2016)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ TestFiberForceLengthPassiveInverseDeGroote2016 : {Any...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6603e66b6c65e5ae  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveInverseDeGroote2016","kind":"class","src_hash":"8824efd7167e4dca","in":{"base":"Any","pred":"isinstance(fl_M_pas_inv, FiberForceLengthPassiveInverseDeGroote2016)"},"out":{"base":"Any","pred":"issubclass(FiberForceLengthPassiveInverseDeGroote2016, Function) and isinstance(fl_M_pas_inv, FiberForceLengthPassiveInverseDeGroote2016) and fl_M_pas_inv_manual == fl_M_pas_inv_constants and fl_M_pas_inv.diff(self.fl_M_pas) == expected and fl_M_pas_inv.diff(self.c0) == expected and fl_M_pas_inv.diff(self.c1) == expected and fl_M_pas_inv.inverse() is FiberForceLengthPassiveDeGroote2016 and LatexPrinter().doprint(fl_M_pas_inv) == expected and LatexPrinter().doprint(fl_T.doit()) == expected and code_printer().doprint(fl_M_pas_inv) == expected and PythonCodePrinter().doprint(dfl_M_pas_inv_dfl_T) == expected and fl_M_pas_inv_callable(0.0) == pytest.approx(1.0)"},"spec":{"lhs":"TestFiberForceLengthPassiveInverseDeGroote2016(*args)","rhs":"correctly constructs a TestFiberForceLengthPassiveInverseDeGroote2016 instance","over":{"base":"Any","pred":"isinstance(fl_M_pas_inv, FiberForceLengthPassiveInverseDeGroote2016)"},"name":"TestFiberForceLengthPassiveInverseDeGroote2016_class_invariant"},"guarantee":"correctly constructs a TestFiberForceLengthPassiveInverseDeGroote2016 instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6603e66b6c65e5ae"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveInverseDeGroote2016","kind":"class","src_hash":"8824efd7167e4dca","in":{"base":"Any","pred":"isinstance(fl_M_pas_inv, FiberForceLengthPassiveInverseDeGroote2016)"},"out":{"base":"Any","pred":"issubclass(FiberForceLengthPassiveInverseDeGroote2016, Function) and isinstance(fl_M_pas_inv, FiberForceLengthPassiveInverseDeGroote2016) and fl_M_pas_inv_manual == fl_M_pas_inv_constants and fl_M_pas_inv.diff(self.fl_M_pas) == expected and fl_M_pas_inv.diff(self.c0) == expected and fl_M_pas_inv.diff(self.c1) == expected and fl_M_pas_inv.inverse() is FiberForceLengthPassiveDeGroote2016 and LatexPrinter().doprint(fl_M_pas_inv) == expected and LatexPrinter().doprint(fl_T.doit()) == expected and code_printer().doprint(fl_M_pas_inv) == expected and PythonCodePrinter().doprint(dfl_M_pas_inv_dfl_T) == expected and fl_M_pas_inv_callable(0.0) == pytest.approx(1.0)"},"spec":{"lhs":"TestFiberForceLengthPassiveInverseDeGroote2016(*args)","rhs":"correctly constructs a TestFiberForceLengthPassiveInverseDeGroote2016 instance","over":{"base":"Any","pred":"isinstance(fl_M_pas_inv, FiberForceLengthPassiveInverseDeGroote2016)"},"name":"TestFiberForceLengthPassiveInverseDeGroote2016_class_invariant"},"guarantee":"correctly constructs a TestFiberForceLengthPassiveInverseDeGroote2016 instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6603e66b6c65e5ae","spec_source":"static","formal_spec":{"source":"static","strength":"trivial"},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function TestFiberForceLengthPassiveInverseDeGroote2016 not found in source"]}}
 class TestFiberForceLengthPassiveInverseDeGroote2016:
 
     @pytest.fixture(autouse=True)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_fiber_force_length_passive_arguments_fixture(), internal helper behaves correctly) over Any ║
+# ║ Path(_fiber_force_length_passive_arguments_fixture(), <unspecified:_fiber_force_length_passive_arguments_fixture>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _fiber_force_length_passive_arguments_fixture : Any →...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8fc616079a2c5a45  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveInverseDeGroote2016._fiber_force_length_passive_arguments_fixture","kind":"method","src_hash":"9e741f25bad94755","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_fiber_force_length_passive_arguments_fixture()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_fiber_force_length_passive_arguments_fixture_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveInverseDeGroote2016._fiber_force_length_passive_arguments_fixture_correct","statement":"Path(_fiber_force_length_passive_arguments_fixture(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8fc616079a2c5a45"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveInverseDeGroote2016._fiber_force_length_passive_arguments_fixture","kind":"method","src_hash":"9e741f25bad94755","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_fiber_force_length_passive_arguments_fixture()","rhs":"<unspecified:_fiber_force_length_passive_arguments_fixture>","over":{"base":"Any"},"name":"_fiber_force_length_passive_arguments_fixture_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveInverseDeGroote2016._fiber_force_length_passive_arguments_fixture_correct","statement":"Path(_fiber_force_length_passive_arguments_fixture(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8fc616079a2c5a45","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self.c0","self.c1"],"writes":["self.c0","self.c1","self.constants","self.fl_M_pas"]},"state_contract":{"modifies":["self.c0","self.c1","self.constants","self.fl_M_pas"],"old_bindings":{"old_self_c0":"self.c0","old_self_c1":"self.c1","old_self_constants":"self.constants","old_self_fl_M_pas":"self.fl_M_pas"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _fiber_force_length_passive_arguments_fixture(self):
         self.fl_M_pas = Symbol('fl_M_pas')
         self.c0 = Symbol('c_0')
@@ -1368,78 +1750,111 @@ class TestFiberForceLengthPassiveInverseDeGroote2016:
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_class(), test_class produces the expected output) over Any ║
+# ║ Path(test_class(), issubclass(FiberForceLengthPassiveInverseDeGroote2016, Function) and issubclass(FiberForceLengthPassiveInverseDeGroote2016, CharacteristicCurveFunction) and FiberForceLengthPassiveInverseDeGroote2016.__name__ == 'FiberForceLengthPassiveInverseDeGroote2016') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_class : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  issubclass(FiberForceLengthPassiveInverse...   ║
+# ║   ensures:  issubclass(FiberForceLengthPassiveInverse...   ║
+# ║   ensures:  FiberForceLengthPassiveInverseDeGroote201...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_class : Any → {Any | result satisfies: issubclas...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f33bc06f90ad0876  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9f993c401dbf9280  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveInverseDeGroote2016.test_class","kind":"staticmethod","src_hash":"eade952970854581","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_class()","rhs":"test_class produces the expected output","over":{"base":"Any"},"name":"test_class_correct"},"guarantee":"test_class produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveInverseDeGroote2016.test_class_correct","statement":"Path(test_class(x), test_class produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f33bc06f90ad0876"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveInverseDeGroote2016.test_class","kind":"staticmethod","src_hash":"eade952970854581","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: issubclass(FiberForceLengthPassiveInverseDeGroote2016, Function) and issubclass(FiberForceLengthPassiveInverseDeGroote2016, CharacteristicCurveFunction) and FiberForceLengthPassiveInverseDeGroote2016.__name__ == 'FiberForceLengthPassiveInverseDeGroote2016'"},"spec":{"lhs":"test_class()","rhs":"issubclass(FiberForceLengthPassiveInverseDeGroote2016, Function) and issubclass(FiberForceLengthPassiveInverseDeGroote2016, CharacteristicCurveFunction) and FiberForceLengthPassiveInverseDeGroote2016.__name__ == 'FiberForceLengthPassiveInverseDeGroote2016'","over":{"base":"Any"},"name":"test_class_correct"},"guarantee":"issubclass(FiberForceLengthPassiveInverseDeGroote2016, Function); issubclass(FiberForceLengthPassiveInverseDeGroote2016, CharacteristicCurveFunction); FiberForceLengthPassiveInverseDeGroote2016.__name__ == 'FiberForceLengthPassiveInverseDeGroote2016'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveInverseDeGroote2016.test_class_correct","statement":"Path(test_class(x), issubclass(FiberForceLengthPassiveInverseDeGroote2016, Function); issubclass(FiberForceLengthPassiveInverseDeGroote2016, CharacteristicCurveFunction); FiberForceLengthPassiveInverseDeGroote2016.__name__ == 'FiberForceLengthPassiveInverseDeGroote2016')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9f993c401dbf9280","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["issubclass(FiberForceLengthPassiveInverseDeGroote2016, Function)","issubclass(FiberForceLengthPassiveInverseDeGroote2016, CharacteristicCurveFunction)","FiberForceLengthPassiveInverseDeGroote2016.__name__ == 'FiberForceLengthPassiveInverseDeGroote2016'"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_class():
         assert issubclass(FiberForceLengthPassiveInverseDeGroote2016, Function)
         assert issubclass(FiberForceLengthPassiveInverseDeGroote2016, CharacteristicCurveFunction)
         assert FiberForceLengthPassiveInverseDeGroote2016.__name__ == 'FiberForceLengthPassiveInverseDeGroote2016'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_instance(), test_instance produces the expected output) over Any ║
+# ║ Path(test_instance(), isinstance(fl_M_pas_inv, FiberForceLengthPassiveInverseDeGroote2016) and str(fl_M_pas_inv) == 'FiberForceLengthPassiveInverseDeGroote2016(fl_M_pas, c_0, c_1)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_instance : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(fl_M_pas_inv, FiberForceLength...   ║
+# ║   ensures:  str(fl_M_pas_inv) == 'FiberForceLengthPas...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_instance : Any → {Any | result satisfies: isinst...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9d249fb1225fecd1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9baef689a1490eb4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveInverseDeGroote2016.test_instance","kind":"method","src_hash":"962fabc2ac892ab3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_instance()","rhs":"test_instance produces the expected output","over":{"base":"Any"},"name":"test_instance_correct"},"guarantee":"test_instance produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveInverseDeGroote2016.test_instance_correct","statement":"Path(test_instance(x), test_instance produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9d249fb1225fecd1"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveInverseDeGroote2016.test_instance","kind":"method","src_hash":"962fabc2ac892ab3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(fl_M_pas_inv, FiberForceLengthPassiveInverseDeGroote2016) and str(fl_M_pas_inv) == 'FiberForceLengthPassiveInverseDeGroote2016(fl_M_pas, c_0, c_1)'"},"spec":{"lhs":"test_instance()","rhs":"isinstance(fl_M_pas_inv, FiberForceLengthPassiveInverseDeGroote2016) and str(fl_M_pas_inv) == 'FiberForceLengthPassiveInverseDeGroote2016(fl_M_pas, c_0, c_1)'","over":{"base":"Any"},"name":"test_instance_correct"},"guarantee":"isinstance(fl_M_pas_inv, FiberForceLengthPassiveInverseDeGroote2016); str(fl_M_pas_inv) == 'FiberForceLengthPassiveInverseDeGroote2016(fl_M_pas, c_0, c_1)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveInverseDeGroote2016.test_instance_correct","statement":"Path(test_instance(x), isinstance(fl_M_pas_inv, FiberForceLengthPassiveInverseDeGroote2016); str(fl_M_pas_inv) == 'FiberForceLengthPassiveInverseDeGroote2016(fl_M_pas, c_0, c_1)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9baef689a1490eb4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(fl_M_pas_inv, FiberForceLengthPassiveInverseDeGroote2016)","str(fl_M_pas_inv) == 'FiberForceLengthPassiveInverseDeGroote2016(fl_M_pas, c_0, c_1)'"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.constants","self.fl_M_pas"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_instance(self):
         fl_M_pas_inv = FiberForceLengthPassiveInverseDeGroote2016(self.fl_M_pas, *self.constants)
         assert isinstance(fl_M_pas_inv, FiberForceLengthPassiveInverseDeGroote2016)
         assert str(fl_M_pas_inv) == 'FiberForceLengthPassiveInverseDeGroote2016(fl_M_pas, c_0, c_1)'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_doit(), test_doit produces the expected output) over Any ║
+# ║ Path(test_doit(), fl_M_pas_inv == self.c0 * log(self.fl_M_pas * (exp(self.c1) - 1) + 1) / self.c1 + 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_doit : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  fl_M_pas_inv == self.c0 * log(self.fl_M_p...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_doit : Any → {Any | result satisfies: fl_M_pas_i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 639388f9d9ea20b5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f9e6e5d7f4140841  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveInverseDeGroote2016.test_doit","kind":"method","src_hash":"fd55e0ce286fcc7a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_doit()","rhs":"test_doit produces the expected output","over":{"base":"Any"},"name":"test_doit_correct"},"guarantee":"test_doit produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveInverseDeGroote2016.test_doit_correct","statement":"Path(test_doit(x), test_doit produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"639388f9d9ea20b5"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveInverseDeGroote2016.test_doit","kind":"method","src_hash":"fd55e0ce286fcc7a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: fl_M_pas_inv == self.c0 * log(self.fl_M_pas * (exp(self.c1) - 1) + 1) / self.c1 + 1"},"spec":{"lhs":"test_doit()","rhs":"fl_M_pas_inv == self.c0 * log(self.fl_M_pas * (exp(self.c1) - 1) + 1) / self.c1 + 1","over":{"base":"Any"},"name":"test_doit_correct"},"guarantee":"fl_M_pas_inv == self.c0 * log(self.fl_M_pas * (exp(self.c1) - 1) + 1) / self.c1 + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveInverseDeGroote2016.test_doit_correct","statement":"Path(test_doit(x), fl_M_pas_inv == self.c0 * log(self.fl_M_pas * (exp(self.c1) - 1) + 1) / self.c1 + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f9e6e5d7f4140841","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["fl_M_pas_inv == self.c0 * log(self.fl_M_pas * (exp(self.c1) - 1) + 1) / self.c1 + 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.c0","self.c1","self.constants","self.fl_M_pas"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_doit(self):
         fl_M_pas_inv = FiberForceLengthPassiveInverseDeGroote2016(self.fl_M_pas, *self.constants).doit()
         assert fl_M_pas_inv == self.c0*log(self.fl_M_pas*(exp(self.c1) - 1) + 1)/self.c1 + 1
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_doit_evaluate_false(), test_doit_evaluate_false produces the expected output) over Any ║
+# ║ Path(test_doit_evaluate_false(), fl_M_pas_inv == self.c0 * log(UnevaluatedExpr(self.fl_M_pas * (exp(self.c1) - 1)) + 1) / self.c1 + 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_doit_evaluate_false : Any → Any                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  fl_M_pas_inv == self.c0 * log(Unevaluated...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_doit_evaluate_false : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a78d09abda6859d8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 359ea8002db4f304  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveInverseDeGroote2016.test_doit_evaluate_false","kind":"method","src_hash":"8e0497b1a8f55878","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_doit_evaluate_false()","rhs":"test_doit_evaluate_false produces the expected output","over":{"base":"Any"},"name":"test_doit_evaluate_false_correct"},"guarantee":"test_doit_evaluate_false produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveInverseDeGroote2016.test_doit_evaluate_false_correct","statement":"Path(test_doit_evaluate_false(x), test_doit_evaluate_false produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a78d09abda6859d8"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveInverseDeGroote2016.test_doit_evaluate_false","kind":"method","src_hash":"8e0497b1a8f55878","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: fl_M_pas_inv == self.c0 * log(UnevaluatedExpr(self.fl_M_pas * (exp(self.c1) - 1)) + 1) / self.c1 + 1"},"spec":{"lhs":"test_doit_evaluate_false()","rhs":"fl_M_pas_inv == self.c0 * log(UnevaluatedExpr(self.fl_M_pas * (exp(self.c1) - 1)) + 1) / self.c1 + 1","over":{"base":"Any"},"name":"test_doit_evaluate_false_correct"},"guarantee":"fl_M_pas_inv == self.c0 * log(UnevaluatedExpr(self.fl_M_pas * (exp(self.c1) - 1)) + 1) / self.c1 + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveInverseDeGroote2016.test_doit_evaluate_false_correct","statement":"Path(test_doit_evaluate_false(x), fl_M_pas_inv == self.c0 * log(UnevaluatedExpr(self.fl_M_pas * (exp(self.c1) - 1)) + 1) / self.c1 + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"359ea8002db4f304","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["fl_M_pas_inv == self.c0 * log(UnevaluatedExpr(self.fl_M_pas * (exp(self.c1) - 1)) + 1) / self.c1 + 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.c0","self.c1","self.constants","self.fl_M_pas"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_doit_evaluate_false(self):
         fl_M_pas_inv = FiberForceLengthPassiveInverseDeGroote2016(self.fl_M_pas, *self.constants).doit(evaluate=False)
         assert fl_M_pas_inv == self.c0*log(UnevaluatedExpr(self.fl_M_pas*(exp(self.c1) - 1)) + 1)/self.c1 + 1
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_with_defaults(), test_with_defaults produces the expected output) over Any ║
+# ║ Path(test_with_defaults(), fl_M_pas_inv_manual == fl_M_pas_inv_constants) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_with_defaults : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  fl_M_pas_inv_manual == fl_M_pas_inv_const...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_with_defaults : Any → {Any | result satisfies: f...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 73c4cb216683e39f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 36cedb8aec19d613  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveInverseDeGroote2016.test_with_defaults","kind":"method","src_hash":"98d6b437f03a311e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_with_defaults()","rhs":"test_with_defaults produces the expected output","over":{"base":"Any"},"name":"test_with_defaults_correct"},"guarantee":"test_with_defaults produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveInverseDeGroote2016.test_with_defaults_correct","statement":"Path(test_with_defaults(x), test_with_defaults produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"73c4cb216683e39f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveInverseDeGroote2016.test_with_defaults","kind":"method","src_hash":"98d6b437f03a311e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: fl_M_pas_inv_manual == fl_M_pas_inv_constants"},"spec":{"lhs":"test_with_defaults()","rhs":"fl_M_pas_inv_manual == fl_M_pas_inv_constants","over":{"base":"Any"},"name":"test_with_defaults_correct"},"guarantee":"fl_M_pas_inv_manual == fl_M_pas_inv_constants","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveInverseDeGroote2016.test_with_defaults_correct","statement":"Path(test_with_defaults(x), fl_M_pas_inv_manual == fl_M_pas_inv_constants)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"36cedb8aec19d613","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["fl_M_pas_inv_manual == fl_M_pas_inv_constants"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.fl_M_pas"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_with_defaults(self):
         constants = (
             Float('0.6'),
@@ -1450,48 +1865,66 @@ class TestFiberForceLengthPassiveInverseDeGroote2016:
         assert fl_M_pas_inv_manual == fl_M_pas_inv_constants
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_differentiate_wrt_fl_T(), test_differentiate_wrt_fl_T produces the expected output) over Any ║
+# ║ Path(test_differentiate_wrt_fl_T(), fl_M_pas_inv.diff(self.fl_M_pas) == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_differentiate_wrt_fl_T : Any → Any                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  fl_M_pas_inv.diff(self.fl_M_pas) == expected   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_differentiate_wrt_fl_T : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 494f8edcbf8939f5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 512a7e88e88827dd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveInverseDeGroote2016.test_differentiate_wrt_fl_T","kind":"method","src_hash":"28311040ab429a25","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_differentiate_wrt_fl_T()","rhs":"test_differentiate_wrt_fl_T produces the expected output","over":{"base":"Any"},"name":"test_differentiate_wrt_fl_T_correct"},"guarantee":"test_differentiate_wrt_fl_T produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveInverseDeGroote2016.test_differentiate_wrt_fl_T_correct","statement":"Path(test_differentiate_wrt_fl_T(x), test_differentiate_wrt_fl_T produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"494f8edcbf8939f5"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveInverseDeGroote2016.test_differentiate_wrt_fl_T","kind":"method","src_hash":"28311040ab429a25","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: fl_M_pas_inv.diff(self.fl_M_pas) == expected"},"spec":{"lhs":"test_differentiate_wrt_fl_T()","rhs":"fl_M_pas_inv.diff(self.fl_M_pas) == expected","over":{"base":"Any"},"name":"test_differentiate_wrt_fl_T_correct"},"guarantee":"fl_M_pas_inv.diff(self.fl_M_pas) == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveInverseDeGroote2016.test_differentiate_wrt_fl_T_correct","statement":"Path(test_differentiate_wrt_fl_T(x), fl_M_pas_inv.diff(self.fl_M_pas) == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"512a7e88e88827dd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["fl_M_pas_inv.diff(self.fl_M_pas) == expected"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.c0","self.c1","self.constants","self.fl_M_pas"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_differentiate_wrt_fl_T(self):
         fl_M_pas_inv = FiberForceLengthPassiveInverseDeGroote2016(self.fl_M_pas, *self.constants)
         expected = self.c0*(exp(self.c1) - 1)/(self.c1*(self.fl_M_pas*(exp(self.c1) - 1) + 1))
         assert fl_M_pas_inv.diff(self.fl_M_pas) == expected
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_differentiate_wrt_c0(), test_differentiate_wrt_c0 produces the expected output) over Any ║
+# ║ Path(test_differentiate_wrt_c0(), fl_M_pas_inv.diff(self.c0) == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_differentiate_wrt_c0 : Any → Any                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  fl_M_pas_inv.diff(self.c0) == expected         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_differentiate_wrt_c0 : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cd0c80e2a705e19c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 966bcbbb2e862278  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveInverseDeGroote2016.test_differentiate_wrt_c0","kind":"method","src_hash":"56421e25b5fc3897","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_differentiate_wrt_c0()","rhs":"test_differentiate_wrt_c0 produces the expected output","over":{"base":"Any"},"name":"test_differentiate_wrt_c0_correct"},"guarantee":"test_differentiate_wrt_c0 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveInverseDeGroote2016.test_differentiate_wrt_c0_correct","statement":"Path(test_differentiate_wrt_c0(x), test_differentiate_wrt_c0 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cd0c80e2a705e19c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveInverseDeGroote2016.test_differentiate_wrt_c0","kind":"method","src_hash":"56421e25b5fc3897","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: fl_M_pas_inv.diff(self.c0) == expected"},"spec":{"lhs":"test_differentiate_wrt_c0()","rhs":"fl_M_pas_inv.diff(self.c0) == expected","over":{"base":"Any"},"name":"test_differentiate_wrt_c0_correct"},"guarantee":"fl_M_pas_inv.diff(self.c0) == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveInverseDeGroote2016.test_differentiate_wrt_c0_correct","statement":"Path(test_differentiate_wrt_c0(x), fl_M_pas_inv.diff(self.c0) == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"966bcbbb2e862278","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["fl_M_pas_inv.diff(self.c0) == expected"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.c0","self.c1","self.constants","self.fl_M_pas"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_differentiate_wrt_c0(self):
         fl_M_pas_inv = FiberForceLengthPassiveInverseDeGroote2016(self.fl_M_pas, *self.constants)
         expected = log(self.fl_M_pas*(exp(self.c1) - 1) + 1)/self.c1
         assert fl_M_pas_inv.diff(self.c0) == expected
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_differentiate_wrt_c1(), test_differentiate_wrt_c1 produces the expected output) over Any ║
+# ║ Path(test_differentiate_wrt_c1(), fl_M_pas_inv.diff(self.c1) == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_differentiate_wrt_c1 : Any → Any                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  fl_M_pas_inv.diff(self.c1) == expected         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_differentiate_wrt_c1 : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d41663bfdcae0c67  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 46f9b1a0441a91f0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveInverseDeGroote2016.test_differentiate_wrt_c1","kind":"method","src_hash":"311ebd905c221649","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_differentiate_wrt_c1()","rhs":"test_differentiate_wrt_c1 produces the expected output","over":{"base":"Any"},"name":"test_differentiate_wrt_c1_correct"},"guarantee":"test_differentiate_wrt_c1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveInverseDeGroote2016.test_differentiate_wrt_c1_correct","statement":"Path(test_differentiate_wrt_c1(x), test_differentiate_wrt_c1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d41663bfdcae0c67"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveInverseDeGroote2016.test_differentiate_wrt_c1","kind":"method","src_hash":"311ebd905c221649","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: fl_M_pas_inv.diff(self.c1) == expected"},"spec":{"lhs":"test_differentiate_wrt_c1()","rhs":"fl_M_pas_inv.diff(self.c1) == expected","over":{"base":"Any"},"name":"test_differentiate_wrt_c1_correct"},"guarantee":"fl_M_pas_inv.diff(self.c1) == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveInverseDeGroote2016.test_differentiate_wrt_c1_correct","statement":"Path(test_differentiate_wrt_c1(x), fl_M_pas_inv.diff(self.c1) == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"46f9b1a0441a91f0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["fl_M_pas_inv.diff(self.c1) == expected"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.c0","self.c1","self.constants","self.fl_M_pas"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_differentiate_wrt_c1(self):
         fl_M_pas_inv = FiberForceLengthPassiveInverseDeGroote2016(self.fl_M_pas, *self.constants)
         expected = (
@@ -1501,47 +1934,65 @@ class TestFiberForceLengthPassiveInverseDeGroote2016:
         assert fl_M_pas_inv.diff(self.c1) == expected
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_inverse(), test_inverse produces the expected output) over Any ║
+# ║ Path(test_inverse(), fl_M_pas_inv.inverse() is FiberForceLengthPassiveDeGroote2016) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_inverse : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  fl_M_pas_inv.inverse() is FiberForceLengt...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_inverse : Any → {Any | result satisfies: fl_M_pa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1d837cced2bf43f3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f022b1eb5f2c24aa  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveInverseDeGroote2016.test_inverse","kind":"method","src_hash":"31bd02223adc8a95","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_inverse()","rhs":"test_inverse produces the expected output","over":{"base":"Any"},"name":"test_inverse_correct"},"guarantee":"test_inverse produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveInverseDeGroote2016.test_inverse_correct","statement":"Path(test_inverse(x), test_inverse produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1d837cced2bf43f3"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveInverseDeGroote2016.test_inverse","kind":"method","src_hash":"31bd02223adc8a95","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: fl_M_pas_inv.inverse() is FiberForceLengthPassiveDeGroote2016"},"spec":{"lhs":"test_inverse()","rhs":"fl_M_pas_inv.inverse() is FiberForceLengthPassiveDeGroote2016","over":{"base":"Any"},"name":"test_inverse_correct"},"guarantee":"fl_M_pas_inv.inverse() is FiberForceLengthPassiveDeGroote2016","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveInverseDeGroote2016.test_inverse_correct","statement":"Path(test_inverse(x), fl_M_pas_inv.inverse() is FiberForceLengthPassiveDeGroote2016)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f022b1eb5f2c24aa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["fl_M_pas_inv.inverse() is FiberForceLengthPassiveDeGroote2016"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.constants","self.fl_M_pas"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_inverse(self):
         fl_M_pas_inv = FiberForceLengthPassiveInverseDeGroote2016(self.fl_M_pas, *self.constants)
         assert fl_M_pas_inv.inverse() is FiberForceLengthPassiveDeGroote2016
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_function_print_latex(), test_function_print_latex produces the expected output) over Any ║
+# ║ Path(test_function_print_latex(), LatexPrinter().doprint(fl_M_pas_inv) == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_function_print_latex : Any → Any                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  LatexPrinter().doprint(fl_M_pas_inv) == e...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_function_print_latex : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d1c0b46d35bc01fc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c76ad423c579388b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveInverseDeGroote2016.test_function_print_latex","kind":"method","src_hash":"852a4431c14ddfae","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_function_print_latex()","rhs":"test_function_print_latex produces the expected output","over":{"base":"Any"},"name":"test_function_print_latex_correct"},"guarantee":"test_function_print_latex produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveInverseDeGroote2016.test_function_print_latex_correct","statement":"Path(test_function_print_latex(x), test_function_print_latex produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d1c0b46d35bc01fc"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveInverseDeGroote2016.test_function_print_latex","kind":"method","src_hash":"852a4431c14ddfae","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: LatexPrinter().doprint(fl_M_pas_inv) == expected"},"spec":{"lhs":"test_function_print_latex()","rhs":"LatexPrinter().doprint(fl_M_pas_inv) == expected","over":{"base":"Any"},"name":"test_function_print_latex_correct"},"guarantee":"LatexPrinter().doprint(fl_M_pas_inv) == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveInverseDeGroote2016.test_function_print_latex_correct","statement":"Path(test_function_print_latex(x), LatexPrinter().doprint(fl_M_pas_inv) == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c76ad423c579388b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["LatexPrinter().doprint(fl_M_pas_inv) == expected"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.constants","self.fl_M_pas"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_function_print_latex(self):
         fl_M_pas_inv = FiberForceLengthPassiveInverseDeGroote2016(self.fl_M_pas, *self.constants)
         expected = r'\left( \operatorname{fl}^M_{pas} \right)^{-1} \left( fl_{M pas} \right)'
         assert LatexPrinter().doprint(fl_M_pas_inv) == expected
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_expression_print_latex(), test_expression_print_latex produces the expected output) over Any ║
+# ║ Path(test_expression_print_latex(), LatexPrinter().doprint(fl_T.doit()) == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_expression_print_latex : Any → Any                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  LatexPrinter().doprint(fl_T.doit()) == ex...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_expression_print_latex : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 738822b5fcbfab3f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7ee344dca19c000a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveInverseDeGroote2016.test_expression_print_latex","kind":"method","src_hash":"1d41fcdbd2544d82","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_expression_print_latex()","rhs":"test_expression_print_latex produces the expected output","over":{"base":"Any"},"name":"test_expression_print_latex_correct"},"guarantee":"test_expression_print_latex produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveInverseDeGroote2016.test_expression_print_latex_correct","statement":"Path(test_expression_print_latex(x), test_expression_print_latex produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"738822b5fcbfab3f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveInverseDeGroote2016.test_expression_print_latex","kind":"method","src_hash":"1d41fcdbd2544d82","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: LatexPrinter().doprint(fl_T.doit()) == expected"},"spec":{"lhs":"test_expression_print_latex()","rhs":"LatexPrinter().doprint(fl_T.doit()) == expected","over":{"base":"Any"},"name":"test_expression_print_latex_correct"},"guarantee":"LatexPrinter().doprint(fl_T.doit()) == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveInverseDeGroote2016.test_expression_print_latex_correct","statement":"Path(test_expression_print_latex(x), LatexPrinter().doprint(fl_T.doit()) == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7ee344dca19c000a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["LatexPrinter().doprint(fl_T.doit()) == expected"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.constants","self.fl_M_pas"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_expression_print_latex(self):
         fl_T = FiberForceLengthPassiveInverseDeGroote2016(self.fl_M_pas, *self.constants)
         expected = r'\frac{c_{0} \log{\left(fl_{M pas} \left(e^{c_{1}} - 1\right) + 1 \right)}}{c_{1}} + 1'
@@ -1614,31 +2065,43 @@ class TestFiberForceLengthPassiveInverseDeGroote2016:
         ]
     )
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_print_code(cod), test_print_code produces the expected output) over Any ║
+# ║ Path(test_print_code(code_printer, expected), code_printer().doprint(fl_M_pas_inv) == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_print_code : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  code_printer().doprint(fl_M_pas_inv) == e...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_print_code : Any → {Any | result satisfies: code...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 064d9d7e6c821e09  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0f552627224aed12  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveInverseDeGroote2016.test_print_code","kind":"method","src_hash":"e5cda2fe8387a39c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_print_code(cod)","rhs":"test_print_code produces the expected output","over":{"base":"Any"},"name":"test_print_code_correct"},"guarantee":"test_print_code produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveInverseDeGroote2016.test_print_code_correct","statement":"Path(test_print_code(x), test_print_code produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"064d9d7e6c821e09"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveInverseDeGroote2016.test_print_code","kind":"method","src_hash":"e5cda2fe8387a39c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: code_printer().doprint(fl_M_pas_inv) == expected"},"spec":{"lhs":"test_print_code(code_printer, expected)","rhs":"code_printer().doprint(fl_M_pas_inv) == expected","over":{"base":"Any"},"name":"test_print_code_correct"},"guarantee":"code_printer().doprint(fl_M_pas_inv) == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveInverseDeGroote2016.test_print_code_correct","statement":"Path(test_print_code(x), code_printer().doprint(fl_M_pas_inv) == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0f552627224aed12","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["code_printer().doprint(fl_M_pas_inv) == expected"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.fl_M_pas"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_print_code(self, code_printer, expected):
         fl_M_pas_inv = FiberForceLengthPassiveInverseDeGroote2016.with_defaults(self.fl_M_pas)
         assert code_printer().doprint(fl_M_pas_inv) == expected
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_derivative_print_code(), test_derivative_print_code produces the expected output) over Any ║
+# ║ Path(test_derivative_print_code(), PythonCodePrinter().doprint(dfl_M_pas_inv_dfl_T) == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_derivative_print_code : Any → Any                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  PythonCodePrinter().doprint(dfl_M_pas_inv...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_derivative_print_code : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 574b00a70754bc56  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 72a9fce9714df24b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveInverseDeGroote2016.test_derivative_print_code","kind":"method","src_hash":"c876ba8926ec8718","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_derivative_print_code()","rhs":"test_derivative_print_code produces the expected output","over":{"base":"Any"},"name":"test_derivative_print_code_correct"},"guarantee":"test_derivative_print_code produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveInverseDeGroote2016.test_derivative_print_code_correct","statement":"Path(test_derivative_print_code(x), test_derivative_print_code produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"574b00a70754bc56"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveInverseDeGroote2016.test_derivative_print_code","kind":"method","src_hash":"c876ba8926ec8718","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: PythonCodePrinter().doprint(dfl_M_pas_inv_dfl_T) == expected"},"spec":{"lhs":"test_derivative_print_code()","rhs":"PythonCodePrinter().doprint(dfl_M_pas_inv_dfl_T) == expected","over":{"base":"Any"},"name":"test_derivative_print_code_correct"},"guarantee":"PythonCodePrinter().doprint(dfl_M_pas_inv_dfl_T) == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveInverseDeGroote2016.test_derivative_print_code_correct","statement":"Path(test_derivative_print_code(x), PythonCodePrinter().doprint(dfl_M_pas_inv_dfl_T) == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"72a9fce9714df24b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["PythonCodePrinter().doprint(dfl_M_pas_inv_dfl_T) == expected"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.fl_M_pas"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_derivative_print_code(self):
         fl_M_pas_inv = FiberForceLengthPassiveInverseDeGroote2016.with_defaults(self.fl_M_pas)
         dfl_M_pas_inv_dfl_T = fl_M_pas_inv.diff(self.fl_M_pas)
@@ -1646,16 +2109,22 @@ class TestFiberForceLengthPassiveInverseDeGroote2016:
         assert PythonCodePrinter().doprint(dfl_M_pas_inv_dfl_T) == expected
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_lambdify(), test_lambdify produces the expected output) over Any ║
+# ║ Path(test_lambdify(), fl_M_pas_inv_callable(0.0) == pytest.approx(1.0)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_lambdify : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  fl_M_pas_inv_callable(0.0) == pytest.appr...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_lambdify : Any → {Any | result satisfies: fl_M_p...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b4eb1506b3985323  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 15c676c5e82b9db3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveInverseDeGroote2016.test_lambdify","kind":"method","src_hash":"082c67d26273db22","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_lambdify()","rhs":"test_lambdify produces the expected output","over":{"base":"Any"},"name":"test_lambdify_correct"},"guarantee":"test_lambdify produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveInverseDeGroote2016.test_lambdify_correct","statement":"Path(test_lambdify(x), test_lambdify produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b4eb1506b3985323"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveInverseDeGroote2016.test_lambdify","kind":"method","src_hash":"082c67d26273db22","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: fl_M_pas_inv_callable(0.0) == pytest.approx(1.0)"},"spec":{"lhs":"test_lambdify()","rhs":"fl_M_pas_inv_callable(0.0) == pytest.approx(1.0)","over":{"base":"Any"},"name":"test_lambdify_correct"},"guarantee":"fl_M_pas_inv_callable(0.0) == pytest.approx(1.0)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveInverseDeGroote2016.test_lambdify_correct","statement":"Path(test_lambdify(x), fl_M_pas_inv_callable(0.0) == pytest.approx(1.0))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"15c676c5e82b9db3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["fl_M_pas_inv_callable(0.0) == pytest.approx(1.0)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.fl_M_pas"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_lambdify(self):
         fl_M_pas_inv = FiberForceLengthPassiveInverseDeGroote2016.with_defaults(self.fl_M_pas)
         fl_M_pas_inv_callable = lambdify(self.fl_M_pas, fl_M_pas_inv)
@@ -1663,16 +2132,22 @@ class TestFiberForceLengthPassiveInverseDeGroote2016:
 
     @pytest.mark.skipif(numpy is None, reason='NumPy not installed')
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_lambdify_numpy(), test_lambdify_numpy produces the expected output) over Any ║
+# ║ Path(test_lambdify_numpy(), <unspecified:test_lambdify_numpy>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_lambdify_numpy : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 321edfd444792523  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveInverseDeGroote2016.test_lambdify_numpy","kind":"method","src_hash":"d0bc91f2515b9ddd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_lambdify_numpy()","rhs":"test_lambdify_numpy produces the expected output","over":{"base":"Any"},"name":"test_lambdify_numpy_correct"},"guarantee":"test_lambdify_numpy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveInverseDeGroote2016.test_lambdify_numpy_correct","statement":"Path(test_lambdify_numpy(x), test_lambdify_numpy produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"321edfd444792523"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveInverseDeGroote2016.test_lambdify_numpy","kind":"method","src_hash":"d0bc91f2515b9ddd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_lambdify_numpy()","rhs":"<unspecified:test_lambdify_numpy>","over":{"base":"Any"},"name":"test_lambdify_numpy_correct"},"guarantee":"test_lambdify_numpy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveInverseDeGroote2016.test_lambdify_numpy_correct","statement":"Path(test_lambdify_numpy(x), test_lambdify_numpy produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"321edfd444792523","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.fl_M_pas"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_lambdify_numpy(self):
         fl_M_pas_inv = FiberForceLengthPassiveInverseDeGroote2016.with_defaults(self.fl_M_pas)
         fl_M_pas_inv_callable = lambdify(self.fl_M_pas, fl_M_pas_inv, 'numpy')
@@ -1689,16 +2164,22 @@ class TestFiberForceLengthPassiveInverseDeGroote2016:
 
     @pytest.mark.skipif(jax is None, reason='JAX not installed')
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_lambdify_jax(), test_lambdify_jax produces the expected output) over Any ║
+# ║ Path(test_lambdify_jax(), <unspecified:test_lambdify_jax>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_lambdify_jax : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3a813f5bfb50e0c8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveInverseDeGroote2016.test_lambdify_jax","kind":"method","src_hash":"70361061e8f748e8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_lambdify_jax()","rhs":"test_lambdify_jax produces the expected output","over":{"base":"Any"},"name":"test_lambdify_jax_correct"},"guarantee":"test_lambdify_jax produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveInverseDeGroote2016.test_lambdify_jax_correct","statement":"Path(test_lambdify_jax(x), test_lambdify_jax produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3a813f5bfb50e0c8"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveInverseDeGroote2016.test_lambdify_jax","kind":"method","src_hash":"70361061e8f748e8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_lambdify_jax()","rhs":"<unspecified:test_lambdify_jax>","over":{"base":"Any"},"name":"test_lambdify_jax_correct"},"guarantee":"test_lambdify_jax produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthPassiveInverseDeGroote2016.test_lambdify_jax_correct","statement":"Path(test_lambdify_jax(x), test_lambdify_jax produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3a813f5bfb50e0c8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.fl_M_pas"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_lambdify_jax(self):
         fl_M_pas_inv = FiberForceLengthPassiveInverseDeGroote2016.with_defaults(self.fl_M_pas)
         fl_M_pas_inv_callable = jax.jit(lambdify(self.fl_M_pas, fl_M_pas_inv, 'jax'))
@@ -1717,28 +2198,40 @@ class TestFiberForceLengthPassiveInverseDeGroote2016:
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(TestFiberForceLengthActiveDeGroote2016(*args), correctly constructs a TestFiberForceLengthActiveDeGroote2016 instance) over {Any | isinstance(fl_M_act, FiberForceLengthActiveDeGroote2016)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ TestFiberForceLengthActiveDeGroote2016 : {Any | isins...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 3.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b11044d8c606d2e8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthActiveDeGroote2016","kind":"class","src_hash":"fe5a4015cc27abd6","in":{"base":"Any","pred":"isinstance(fl_M_act, FiberForceLengthActiveDeGroote2016)"},"out":{"base":"Any","pred":"issubclass(FiberForceLengthActiveDeGroote2016, Function) and issubclass(FiberForceLengthActiveDeGroote2016, CharacteristicCurveFunction) and isinstance(fl_M_act, FiberForceLengthActiveDeGroote2016) and fl_M_act_manual == fl_M_act_constants and fl_M_act.diff(self.l_M_tilde) == expected and fl_M_act.doit().diff(self.c0) == expected and fl_M_act.diff(self.c1) == expected and fl_M_act.diff(self.c2) == expected and fl_M_act.diff(self.c3) == expected and fl_M_act.diff(self.c4) == expected and fl_M_act.diff(self.c5) == expected and fl_M_act.diff(self.c6) == expected and fl_M_act.diff(self.c7) == expected and fl_M_act.diff(self.c8) == expected and fl_M_act.diff(self.c9) == expected and fl_M_act.diff(self.c10) == expected and fl_M_act.diff(self.c11) == expected and LatexPrinter().doprint(fl_M_act) == expected and LatexPrinter().doprint(fl_M_act.doit()) == expected and code_printer().doprint(fl_M_act) == expected and PythonCodePrinter().doprint(fl_M_act_dl_M_tilde) == expected and fl_M_act_callable(1.0) == pytest.approx(0.9941398866)"},"spec":{"lhs":"TestFiberForceLengthActiveDeGroote2016(*args)","rhs":"correctly constructs a TestFiberForceLengthActiveDeGroote2016 instance","over":{"base":"Any","pred":"isinstance(fl_M_act, FiberForceLengthActiveDeGroote2016)"},"name":"TestFiberForceLengthActiveDeGroote2016_class_invariant"},"guarantee":"correctly constructs a TestFiberForceLengthActiveDeGroote2016 instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b11044d8c606d2e8"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthActiveDeGroote2016","kind":"class","src_hash":"fe5a4015cc27abd6","in":{"base":"Any","pred":"isinstance(fl_M_act, FiberForceLengthActiveDeGroote2016)"},"out":{"base":"Any","pred":"issubclass(FiberForceLengthActiveDeGroote2016, Function) and issubclass(FiberForceLengthActiveDeGroote2016, CharacteristicCurveFunction) and isinstance(fl_M_act, FiberForceLengthActiveDeGroote2016) and fl_M_act_manual == fl_M_act_constants and fl_M_act.diff(self.l_M_tilde) == expected and fl_M_act.doit().diff(self.c0) == expected and fl_M_act.diff(self.c1) == expected and fl_M_act.diff(self.c2) == expected and fl_M_act.diff(self.c3) == expected and fl_M_act.diff(self.c4) == expected and fl_M_act.diff(self.c5) == expected and fl_M_act.diff(self.c6) == expected and fl_M_act.diff(self.c7) == expected and fl_M_act.diff(self.c8) == expected and fl_M_act.diff(self.c9) == expected and fl_M_act.diff(self.c10) == expected and fl_M_act.diff(self.c11) == expected and LatexPrinter().doprint(fl_M_act) == expected and LatexPrinter().doprint(fl_M_act.doit()) == expected and code_printer().doprint(fl_M_act) == expected and PythonCodePrinter().doprint(fl_M_act_dl_M_tilde) == expected and fl_M_act_callable(1.0) == pytest.approx(0.9941398866)"},"spec":{"lhs":"TestFiberForceLengthActiveDeGroote2016(*args)","rhs":"correctly constructs a TestFiberForceLengthActiveDeGroote2016 instance","over":{"base":"Any","pred":"isinstance(fl_M_act, FiberForceLengthActiveDeGroote2016)"},"name":"TestFiberForceLengthActiveDeGroote2016_class_invariant"},"guarantee":"correctly constructs a TestFiberForceLengthActiveDeGroote2016 instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b11044d8c606d2e8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial"},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":3.0,"verdict_class":"assumed","binding":false,"binding_errors":["Function TestFiberForceLengthActiveDeGroote2016 not found in source"]}}
 class TestFiberForceLengthActiveDeGroote2016:
 
     @pytest.fixture(autouse=True)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_fiber_force_length_active_arguments_fixture(), internal helper behaves correctly) over Any ║
+# ║ Path(_fiber_force_length_active_arguments_fixture(), <unspecified:_fiber_force_length_active_arguments_fixture>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _fiber_force_length_active_arguments_fixture : Any → Any   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 712a4f57138a17a2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthActiveDeGroote2016._fiber_force_length_active_arguments_fixture","kind":"method","src_hash":"73ed3e65ab9712f6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_fiber_force_length_active_arguments_fixture()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_fiber_force_length_active_arguments_fixture_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthActiveDeGroote2016._fiber_force_length_active_arguments_fixture_correct","statement":"Path(_fiber_force_length_active_arguments_fixture(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"712a4f57138a17a2"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthActiveDeGroote2016._fiber_force_length_active_arguments_fixture","kind":"method","src_hash":"73ed3e65ab9712f6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_fiber_force_length_active_arguments_fixture()","rhs":"<unspecified:_fiber_force_length_active_arguments_fixture>","over":{"base":"Any"},"name":"_fiber_force_length_active_arguments_fixture_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthActiveDeGroote2016._fiber_force_length_active_arguments_fixture_correct","statement":"Path(_fiber_force_length_active_arguments_fixture(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"712a4f57138a17a2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self.c0","self.c1","self.c10","self.c11","self.c2","self.c3","self.c4","self.c5","self.c6","self.c7","self.c8","self.c9"],"writes":["self.c0","self.c1","self.c10","self.c11","self.c2","self.c3","self.c4","self.c5","self.c6","self.c7","self.c8","self.c9","self.constants","self.l_M_tilde"]},"state_contract":{"modifies":["self.c0","self.c1","self.c10","self.c11","self.c2","self.c3","self.c4","self.c5","self.c6","self.c7","self.c8","self.c9","self.constants","self.l_M_tilde"],"old_bindings":{"old_self_c0":"self.c0","old_self_c1":"self.c1","old_self_c10":"self.c10","old_self_c11":"self.c11","old_self_c2":"self.c2","old_self_c3":"self.c3","old_self_c4":"self.c4","old_self_c5":"self.c5","old_self_c6":"self.c6","old_self_c7":"self.c7","old_self_c8":"self.c8","old_self_c9":"self.c9","old_self_constants":"self.constants","old_self_l_M_tilde":"self.l_M_tilde"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _fiber_force_length_active_arguments_fixture(self):
         self.l_M_tilde = Symbol('l_M_tilde')
         self.c0 = Symbol('c_0')
@@ -1760,32 +2253,47 @@ class TestFiberForceLengthActiveDeGroote2016:
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_class(), test_class produces the expected output) over Any ║
+# ║ Path(test_class(), issubclass(FiberForceLengthActiveDeGroote2016, Function) and issubclass(FiberForceLengthActiveDeGroote2016, CharacteristicCurveFunction) and FiberForceLengthActiveDeGroote2016.__name__ == 'FiberForceLengthActiveDeGroote2016') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_class : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  issubclass(FiberForceLengthActiveDeGroote...   ║
+# ║   ensures:  issubclass(FiberForceLengthActiveDeGroote...   ║
+# ║   ensures:  FiberForceLengthActiveDeGroote2016.__name...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_class : Any → {Any | result satisfies: issubclas...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 20fd58e80d008e40  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ebabab7be625562d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthActiveDeGroote2016.test_class","kind":"staticmethod","src_hash":"a81477bef10dadba","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_class()","rhs":"test_class produces the expected output","over":{"base":"Any"},"name":"test_class_correct"},"guarantee":"test_class produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthActiveDeGroote2016.test_class_correct","statement":"Path(test_class(x), test_class produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"20fd58e80d008e40"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthActiveDeGroote2016.test_class","kind":"staticmethod","src_hash":"a81477bef10dadba","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: issubclass(FiberForceLengthActiveDeGroote2016, Function) and issubclass(FiberForceLengthActiveDeGroote2016, CharacteristicCurveFunction) and FiberForceLengthActiveDeGroote2016.__name__ == 'FiberForceLengthActiveDeGroote2016'"},"spec":{"lhs":"test_class()","rhs":"issubclass(FiberForceLengthActiveDeGroote2016, Function) and issubclass(FiberForceLengthActiveDeGroote2016, CharacteristicCurveFunction) and FiberForceLengthActiveDeGroote2016.__name__ == 'FiberForceLengthActiveDeGroote2016'","over":{"base":"Any"},"name":"test_class_correct"},"guarantee":"issubclass(FiberForceLengthActiveDeGroote2016, Function); issubclass(FiberForceLengthActiveDeGroote2016, CharacteristicCurveFunction); FiberForceLengthActiveDeGroote2016.__name__ == 'FiberForceLengthActiveDeGroote2016'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthActiveDeGroote2016.test_class_correct","statement":"Path(test_class(x), issubclass(FiberForceLengthActiveDeGroote2016, Function); issubclass(FiberForceLengthActiveDeGroote2016, CharacteristicCurveFunction); FiberForceLengthActiveDeGroote2016.__name__ == 'FiberForceLengthActiveDeGroote2016')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ebabab7be625562d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["issubclass(FiberForceLengthActiveDeGroote2016, Function)","issubclass(FiberForceLengthActiveDeGroote2016, CharacteristicCurveFunction)","FiberForceLengthActiveDeGroote2016.__name__ == 'FiberForceLengthActiveDeGroote2016'"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_class():
         assert issubclass(FiberForceLengthActiveDeGroote2016, Function)
         assert issubclass(FiberForceLengthActiveDeGroote2016, CharacteristicCurveFunction)
         assert FiberForceLengthActiveDeGroote2016.__name__ == 'FiberForceLengthActiveDeGroote2016'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_instance(), test_instance produces the expected output) over Any ║
+# ║ Path(test_instance(), isinstance(fl_M_act, FiberForceLengthActiveDeGroote2016) and str(fl_M_act) == 'FiberForceLengthActiveDeGroote2016(l_M_tilde, c_0, c_1, c_2, c_3, c_4, c_5, c_6, c_7, c_8, c_9, c_10, c_11)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_instance : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(fl_M_act, FiberForceLengthActi...   ║
+# ║   ensures:  str(fl_M_act) == 'FiberForceLengthActiveD...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_instance : Any → {Any | result satisfies: isinst...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e25440f34d0648f1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ce5b155ba26c7e3b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthActiveDeGroote2016.test_instance","kind":"method","src_hash":"9ae4d8718eba764c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_instance()","rhs":"test_instance produces the expected output","over":{"base":"Any"},"name":"test_instance_correct"},"guarantee":"test_instance produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthActiveDeGroote2016.test_instance_correct","statement":"Path(test_instance(x), test_instance produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e25440f34d0648f1"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthActiveDeGroote2016.test_instance","kind":"method","src_hash":"9ae4d8718eba764c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(fl_M_act, FiberForceLengthActiveDeGroote2016) and str(fl_M_act) == 'FiberForceLengthActiveDeGroote2016(l_M_tilde, c_0, c_1, c_2, c_3, c_4, c_5, c_6, c_7, c_8, c_9, c_10, c_11)'"},"spec":{"lhs":"test_instance()","rhs":"isinstance(fl_M_act, FiberForceLengthActiveDeGroote2016) and str(fl_M_act) == 'FiberForceLengthActiveDeGroote2016(l_M_tilde, c_0, c_1, c_2, c_3, c_4, c_5, c_6, c_7, c_8, c_9, c_10, c_11)'","over":{"base":"Any"},"name":"test_instance_correct"},"guarantee":"isinstance(fl_M_act, FiberForceLengthActiveDeGroote2016); str(fl_M_act) == 'FiberForceLengthActiveDeGroote2016(l_M_tilde, c_0, c_1, c_2, c_3, c_4, c_5, c_6, c_7, c_8, c_9, c_10, c_11)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthActiveDeGroote2016.test_instance_correct","statement":"Path(test_instance(x), isinstance(fl_M_act, FiberForceLengthActiveDeGroote2016); str(fl_M_act) == 'FiberForceLengthActiveDeGroote2016(l_M_tilde, c_0, c_1, c_2, c_3, c_4, c_5, c_6, c_7, c_8, c_9, c_10, c_11)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ce5b155ba26c7e3b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(fl_M_act, FiberForceLengthActiveDeGroote2016)","str(fl_M_act) == 'FiberForceLengthActiveDeGroote2016(l_M_tilde, c_0, c_1, c_2, c_3, c_4, c_5, c_6, c_7, c_8, c_9, c_10, c_11)'"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.constants","self.l_M_tilde"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_instance(self):
         fl_M_act = FiberForceLengthActiveDeGroote2016(self.l_M_tilde, *self.constants)
         assert isinstance(fl_M_act, FiberForceLengthActiveDeGroote2016)
@@ -1795,16 +2303,22 @@ class TestFiberForceLengthActiveDeGroote2016:
         )
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_doit(), test_doit produces the expected output) over Any ║
+# ║ Path(test_doit(), fl_M_act == self.c0 * exp(-((self.l_M_tilde - self.c1) / (self.c2 + self.c3 * self.l_M_tilde)) ** 2 / 2) + self.c4 * exp(-((self.l_M_tilde - self.c5) / (self.c6 + self.c7 * self.l_M_tilde)) ** 2 / 2) + self.c8 * exp(-((self.l_M_tilde - self.c9) / (self.c10 + self.c11 * self.l_M_tilde)) ** 2 / 2)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_doit : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  fl_M_act == self.c0 * exp(-((self.l_M_til...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_doit : Any → {Any | result satisfies: fl_M_act =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 424715a026d86855  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c0c591e7440b37f6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthActiveDeGroote2016.test_doit","kind":"method","src_hash":"fbdc8e1f8553d215","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_doit()","rhs":"test_doit produces the expected output","over":{"base":"Any"},"name":"test_doit_correct"},"guarantee":"test_doit produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthActiveDeGroote2016.test_doit_correct","statement":"Path(test_doit(x), test_doit produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"424715a026d86855"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthActiveDeGroote2016.test_doit","kind":"method","src_hash":"fbdc8e1f8553d215","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: fl_M_act == self.c0 * exp(-((self.l_M_tilde - self.c1) / (self.c2 + self.c3 * self.l_M_tilde)) ** 2 / 2) + self.c4 * exp(-((self.l_M_tilde - self.c5) / (self.c6 + self.c7 * self.l_M_tilde)) ** 2 / 2) + self.c8 * exp(-((self.l_M_tilde - self.c9) / (self.c10 + self.c11 * self.l_M_tilde)) ** 2 / 2)"},"spec":{"lhs":"test_doit()","rhs":"fl_M_act == self.c0 * exp(-((self.l_M_tilde - self.c1) / (self.c2 + self.c3 * self.l_M_tilde)) ** 2 / 2) + self.c4 * exp(-((self.l_M_tilde - self.c5) / (self.c6 + self.c7 * self.l_M_tilde)) ** 2 / 2) + self.c8 * exp(-((self.l_M_tilde - self.c9) / (self.c10 + self.c11 * self.l_M_tilde)) ** 2 / 2)","over":{"base":"Any"},"name":"test_doit_correct"},"guarantee":"fl_M_act == self.c0 * exp(-((self.l_M_tilde - self.c1) / (self.c2 + self.c3 * self.l_M_tilde)) ** 2 / 2) + self.c4 * exp(-((self.l_M_tilde - self.c5) / (self.c6 + self.c7 * self.l_M_tilde)) ** 2 / 2) + self.c8 * exp(-((self.l_M_tilde - self.c9) / (self.c10 + self.c11 * self.l_M_tilde)) ** 2 / 2)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthActiveDeGroote2016.test_doit_correct","statement":"Path(test_doit(x), fl_M_act == self.c0 * exp(-((self.l_M_tilde - self.c1) / (self.c2 + self.c3 * self.l_M_tilde)) ** 2 / 2) + self.c4 * exp(-((self.l_M_tilde - self.c5) / (self.c6 + self.c7 * self.l_M_tilde)) ** 2 / 2) + self.c8 * exp(-((self.l_M_tilde - self.c9) / (self.c10 + self.c11 * self.l_M_tilde)) ** 2 / 2))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c0c591e7440b37f6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["fl_M_act == self.c0 * exp(-((self.l_M_tilde - self.c1) / (self.c2 + self.c3 * self.l_M_tilde)) ** 2 / 2) + self.c4 * exp(-((self.l_M_tilde - self.c5) / (self.c6 + self.c7 * self.l_M_tilde)) ** 2 / 2) + self.c8 * exp(-((self.l_M_tilde - self.c9) / (self.c10 + self.c11 * self.l_M_tilde)) ** 2 / 2)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.c0","self.c1","self.c10","self.c11","self.c2","self.c3","self.c4","self.c5","self.c6","self.c7","self.c8","self.c9","self.constants","self.l_M_tilde"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_doit(self):
         fl_M_act = FiberForceLengthActiveDeGroote2016(self.l_M_tilde, *self.constants).doit()
         assert fl_M_act == (
@@ -1814,16 +2328,22 @@ class TestFiberForceLengthActiveDeGroote2016:
         )
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_doit_evaluate_false(), test_doit_evaluate_false produces the expected output) over Any ║
+# ║ Path(test_doit_evaluate_false(), fl_M_act == self.c0 * exp(-(UnevaluatedExpr(self.l_M_tilde - self.c1) / (self.c2 + self.c3 * self.l_M_tilde)) ** 2 / 2) + self.c4 * exp(-(UnevaluatedExpr(self.l_M_tilde - self.c5) / (self.c6 + self.c7 * self.l_M_tilde)) ** 2 / 2) + self.c8 * exp(-(UnevaluatedExpr(self.l_M_tilde - self.c9) / (self.c10 + self.c11 * self.l_M_tilde)) ** 2 / 2)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_doit_evaluate_false : Any → Any                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  fl_M_act == self.c0 * exp(-(UnevaluatedEx...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_doit_evaluate_false : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b7e243fed9c23b16  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 88665f21ffe7ab10  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthActiveDeGroote2016.test_doit_evaluate_false","kind":"method","src_hash":"ed51f06ef531cdb2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_doit_evaluate_false()","rhs":"test_doit_evaluate_false produces the expected output","over":{"base":"Any"},"name":"test_doit_evaluate_false_correct"},"guarantee":"test_doit_evaluate_false produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthActiveDeGroote2016.test_doit_evaluate_false_correct","statement":"Path(test_doit_evaluate_false(x), test_doit_evaluate_false produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b7e243fed9c23b16"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthActiveDeGroote2016.test_doit_evaluate_false","kind":"method","src_hash":"ed51f06ef531cdb2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: fl_M_act == self.c0 * exp(-(UnevaluatedExpr(self.l_M_tilde - self.c1) / (self.c2 + self.c3 * self.l_M_tilde)) ** 2 / 2) + self.c4 * exp(-(UnevaluatedExpr(self.l_M_tilde - self.c5) / (self.c6 + self.c7 * self.l_M_tilde)) ** 2 / 2) + self.c8 * exp(-(UnevaluatedExpr(self.l_M_tilde - self.c9) / (self.c10 + self.c11 * self.l_M_tilde)) ** 2 / 2)"},"spec":{"lhs":"test_doit_evaluate_false()","rhs":"fl_M_act == self.c0 * exp(-(UnevaluatedExpr(self.l_M_tilde - self.c1) / (self.c2 + self.c3 * self.l_M_tilde)) ** 2 / 2) + self.c4 * exp(-(UnevaluatedExpr(self.l_M_tilde - self.c5) / (self.c6 + self.c7 * self.l_M_tilde)) ** 2 / 2) + self.c8 * exp(-(UnevaluatedExpr(self.l_M_tilde - self.c9) / (self.c10 + self.c11 * self.l_M_tilde)) ** 2 / 2)","over":{"base":"Any"},"name":"test_doit_evaluate_false_correct"},"guarantee":"fl_M_act == self.c0 * exp(-(UnevaluatedExpr(self.l_M_tilde - self.c1) / (self.c2 + self.c3 * self.l_M_tilde)) ** 2 / 2) + self.c4 * exp(-(UnevaluatedExpr(self.l_M_tilde - self.c5) / (self.c6 + self.c7 * self.l_M_tilde)) ** 2 / 2) + self.c8 * exp(-(UnevaluatedExpr(self.l_M_tilde - self.c9) / (self.c10 + self.c11 * self.l_M_tilde)) ** 2 / 2)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthActiveDeGroote2016.test_doit_evaluate_false_correct","statement":"Path(test_doit_evaluate_false(x), fl_M_act == self.c0 * exp(-(UnevaluatedExpr(self.l_M_tilde - self.c1) / (self.c2 + self.c3 * self.l_M_tilde)) ** 2 / 2) + self.c4 * exp(-(UnevaluatedExpr(self.l_M_tilde - self.c5) / (self.c6 + self.c7 * self.l_M_tilde)) ** 2 / 2) + self.c8 * exp(-(UnevaluatedExpr(self.l_M_tilde - self.c9) / (self.c10 + self.c11 * self.l_M_tilde)) ** 2 / 2))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"88665f21ffe7ab10","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["fl_M_act == self.c0 * exp(-(UnevaluatedExpr(self.l_M_tilde - self.c1) / (self.c2 + self.c3 * self.l_M_tilde)) ** 2 / 2) + self.c4 * exp(-(UnevaluatedExpr(self.l_M_tilde - self.c5) / (self.c6 + self.c7 * self.l_M_tilde)) ** 2 / 2) + self.c8 * exp(-(UnevaluatedExpr(self.l_M_tilde - self.c9) / (self.c10 + self.c11 * self.l_M_tilde)) ** 2 / 2)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.c0","self.c1","self.c10","self.c11","self.c2","self.c3","self.c4","self.c5","self.c6","self.c7","self.c8","self.c9","self.constants","self.l_M_tilde"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_doit_evaluate_false(self):
         fl_M_act = FiberForceLengthActiveDeGroote2016(self.l_M_tilde, *self.constants).doit(evaluate=False)
         assert fl_M_act == (
@@ -1833,16 +2353,22 @@ class TestFiberForceLengthActiveDeGroote2016:
         )
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_with_defaults(), test_with_defaults produces the expected output) over Any ║
+# ║ Path(test_with_defaults(), fl_M_act_manual == fl_M_act_constants) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_with_defaults : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  fl_M_act_manual == fl_M_act_constants          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_with_defaults : Any → {Any | result satisfies: f...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1fddac267869c53f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5a9ab20ee5a8a4e5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthActiveDeGroote2016.test_with_defaults","kind":"method","src_hash":"ff44582eee8012ce","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_with_defaults()","rhs":"test_with_defaults produces the expected output","over":{"base":"Any"},"name":"test_with_defaults_correct"},"guarantee":"test_with_defaults produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthActiveDeGroote2016.test_with_defaults_correct","statement":"Path(test_with_defaults(x), test_with_defaults produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1fddac267869c53f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthActiveDeGroote2016.test_with_defaults","kind":"method","src_hash":"ff44582eee8012ce","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: fl_M_act_manual == fl_M_act_constants"},"spec":{"lhs":"test_with_defaults()","rhs":"fl_M_act_manual == fl_M_act_constants","over":{"base":"Any"},"name":"test_with_defaults_correct"},"guarantee":"fl_M_act_manual == fl_M_act_constants","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthActiveDeGroote2016.test_with_defaults_correct","statement":"Path(test_with_defaults(x), fl_M_act_manual == fl_M_act_constants)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5a9ab20ee5a8a4e5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["fl_M_act_manual == fl_M_act_constants"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.l_M_tilde"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_with_defaults(self):
         constants = (
             Float('0.814'),
@@ -1863,16 +2389,22 @@ class TestFiberForceLengthActiveDeGroote2016:
         assert fl_M_act_manual == fl_M_act_constants
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_differentiate_wrt_l_M_tilde(), test_differentiate_wrt_l_M_tilde produces the expected output) over Any ║
+# ║ Path(test_differentiate_wrt_l_M_tilde(), fl_M_act.diff(self.l_M_tilde) == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_differentiate_wrt_l_M_tilde : Any → Any               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  fl_M_act.diff(self.l_M_tilde) == expected      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_differentiate_wrt_l_M_tilde : Any → {Any | resul...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 881bfc21be7ac4b7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 43b20688b1c4559d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthActiveDeGroote2016.test_differentiate_wrt_l_M_tilde","kind":"method","src_hash":"f73bc04ae5b0d332","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_differentiate_wrt_l_M_tilde()","rhs":"test_differentiate_wrt_l_M_tilde produces the expected output","over":{"base":"Any"},"name":"test_differentiate_wrt_l_M_tilde_correct"},"guarantee":"test_differentiate_wrt_l_M_tilde produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthActiveDeGroote2016.test_differentiate_wrt_l_M_tilde_correct","statement":"Path(test_differentiate_wrt_l_M_tilde(x), test_differentiate_wrt_l_M_tilde produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"881bfc21be7ac4b7"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthActiveDeGroote2016.test_differentiate_wrt_l_M_tilde","kind":"method","src_hash":"f73bc04ae5b0d332","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: fl_M_act.diff(self.l_M_tilde) == expected"},"spec":{"lhs":"test_differentiate_wrt_l_M_tilde()","rhs":"fl_M_act.diff(self.l_M_tilde) == expected","over":{"base":"Any"},"name":"test_differentiate_wrt_l_M_tilde_correct"},"guarantee":"fl_M_act.diff(self.l_M_tilde) == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthActiveDeGroote2016.test_differentiate_wrt_l_M_tilde_correct","statement":"Path(test_differentiate_wrt_l_M_tilde(x), fl_M_act.diff(self.l_M_tilde) == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"43b20688b1c4559d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["fl_M_act.diff(self.l_M_tilde) == expected"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.c0","self.c1","self.c10","self.c11","self.c2","self.c3","self.c4","self.c5","self.c6","self.c7","self.c8","self.c9","self.constants","self.l_M_tilde"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_differentiate_wrt_l_M_tilde(self):
         fl_M_act = FiberForceLengthActiveDeGroote2016(self.l_M_tilde, *self.constants)
         expected = (
@@ -1892,32 +2424,44 @@ class TestFiberForceLengthActiveDeGroote2016:
         assert fl_M_act.diff(self.l_M_tilde) == expected
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_differentiate_wrt_c0(), test_differentiate_wrt_c0 produces the expected output) over Any ║
+# ║ Path(test_differentiate_wrt_c0(), fl_M_act.doit().diff(self.c0) == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_differentiate_wrt_c0 : Any → Any                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  fl_M_act.doit().diff(self.c0) == expected      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_differentiate_wrt_c0 : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ef62fd8f773cc88a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b3fefb7c89575603  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthActiveDeGroote2016.test_differentiate_wrt_c0","kind":"method","src_hash":"fca7b258d155312d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_differentiate_wrt_c0()","rhs":"test_differentiate_wrt_c0 produces the expected output","over":{"base":"Any"},"name":"test_differentiate_wrt_c0_correct"},"guarantee":"test_differentiate_wrt_c0 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthActiveDeGroote2016.test_differentiate_wrt_c0_correct","statement":"Path(test_differentiate_wrt_c0(x), test_differentiate_wrt_c0 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ef62fd8f773cc88a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthActiveDeGroote2016.test_differentiate_wrt_c0","kind":"method","src_hash":"fca7b258d155312d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: fl_M_act.doit().diff(self.c0) == expected"},"spec":{"lhs":"test_differentiate_wrt_c0()","rhs":"fl_M_act.doit().diff(self.c0) == expected","over":{"base":"Any"},"name":"test_differentiate_wrt_c0_correct"},"guarantee":"fl_M_act.doit().diff(self.c0) == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthActiveDeGroote2016.test_differentiate_wrt_c0_correct","statement":"Path(test_differentiate_wrt_c0(x), fl_M_act.doit().diff(self.c0) == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b3fefb7c89575603","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["fl_M_act.doit().diff(self.c0) == expected"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.c0","self.c1","self.c2","self.c3","self.constants","self.l_M_tilde"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_differentiate_wrt_c0(self):
         fl_M_act = FiberForceLengthActiveDeGroote2016(self.l_M_tilde, *self.constants)
         expected = exp(-(self.l_M_tilde - self.c1)**2/(2*(self.c2 + self.c3*self.l_M_tilde)**2))
         assert fl_M_act.doit().diff(self.c0) == expected
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_differentiate_wrt_c1(), test_differentiate_wrt_c1 produces the expected output) over Any ║
+# ║ Path(test_differentiate_wrt_c1(), fl_M_act.diff(self.c1) == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_differentiate_wrt_c1 : Any → Any                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  fl_M_act.diff(self.c1) == expected             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_differentiate_wrt_c1 : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0c04f3ec73e29901  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 97b3b1fe49d97c3e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthActiveDeGroote2016.test_differentiate_wrt_c1","kind":"method","src_hash":"c719e9d46812a671","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_differentiate_wrt_c1()","rhs":"test_differentiate_wrt_c1 produces the expected output","over":{"base":"Any"},"name":"test_differentiate_wrt_c1_correct"},"guarantee":"test_differentiate_wrt_c1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthActiveDeGroote2016.test_differentiate_wrt_c1_correct","statement":"Path(test_differentiate_wrt_c1(x), test_differentiate_wrt_c1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0c04f3ec73e29901"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthActiveDeGroote2016.test_differentiate_wrt_c1","kind":"method","src_hash":"c719e9d46812a671","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: fl_M_act.diff(self.c1) == expected"},"spec":{"lhs":"test_differentiate_wrt_c1()","rhs":"fl_M_act.diff(self.c1) == expected","over":{"base":"Any"},"name":"test_differentiate_wrt_c1_correct"},"guarantee":"fl_M_act.diff(self.c1) == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthActiveDeGroote2016.test_differentiate_wrt_c1_correct","statement":"Path(test_differentiate_wrt_c1(x), fl_M_act.diff(self.c1) == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"97b3b1fe49d97c3e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["fl_M_act.diff(self.c1) == expected"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.c0","self.c1","self.c2","self.c3","self.constants","self.l_M_tilde"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_differentiate_wrt_c1(self):
         fl_M_act = FiberForceLengthActiveDeGroote2016(self.l_M_tilde, *self.constants)
         expected = (
@@ -1927,16 +2471,22 @@ class TestFiberForceLengthActiveDeGroote2016:
         assert fl_M_act.diff(self.c1) == expected
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_differentiate_wrt_c2(), test_differentiate_wrt_c2 produces the expected output) over Any ║
+# ║ Path(test_differentiate_wrt_c2(), fl_M_act.diff(self.c2) == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_differentiate_wrt_c2 : Any → Any                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  fl_M_act.diff(self.c2) == expected             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_differentiate_wrt_c2 : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 24b63946836d0f11  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4fa142caac0ce81b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthActiveDeGroote2016.test_differentiate_wrt_c2","kind":"method","src_hash":"674193fe2c203cfe","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_differentiate_wrt_c2()","rhs":"test_differentiate_wrt_c2 produces the expected output","over":{"base":"Any"},"name":"test_differentiate_wrt_c2_correct"},"guarantee":"test_differentiate_wrt_c2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthActiveDeGroote2016.test_differentiate_wrt_c2_correct","statement":"Path(test_differentiate_wrt_c2(x), test_differentiate_wrt_c2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"24b63946836d0f11"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthActiveDeGroote2016.test_differentiate_wrt_c2","kind":"method","src_hash":"674193fe2c203cfe","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: fl_M_act.diff(self.c2) == expected"},"spec":{"lhs":"test_differentiate_wrt_c2()","rhs":"fl_M_act.diff(self.c2) == expected","over":{"base":"Any"},"name":"test_differentiate_wrt_c2_correct"},"guarantee":"fl_M_act.diff(self.c2) == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthActiveDeGroote2016.test_differentiate_wrt_c2_correct","statement":"Path(test_differentiate_wrt_c2(x), fl_M_act.diff(self.c2) == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4fa142caac0ce81b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["fl_M_act.diff(self.c2) == expected"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.c0","self.c1","self.c2","self.c3","self.constants","self.l_M_tilde"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_differentiate_wrt_c2(self):
         fl_M_act = FiberForceLengthActiveDeGroote2016(self.l_M_tilde, *self.constants)
         expected = (
@@ -1946,16 +2496,22 @@ class TestFiberForceLengthActiveDeGroote2016:
         assert fl_M_act.diff(self.c2) == expected
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_differentiate_wrt_c3(), test_differentiate_wrt_c3 produces the expected output) over Any ║
+# ║ Path(test_differentiate_wrt_c3(), fl_M_act.diff(self.c3) == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_differentiate_wrt_c3 : Any → Any                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  fl_M_act.diff(self.c3) == expected             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_differentiate_wrt_c3 : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b9170d6f28e5e0db  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ae54dd388366e7a3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthActiveDeGroote2016.test_differentiate_wrt_c3","kind":"method","src_hash":"227ef16eb83772df","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_differentiate_wrt_c3()","rhs":"test_differentiate_wrt_c3 produces the expected output","over":{"base":"Any"},"name":"test_differentiate_wrt_c3_correct"},"guarantee":"test_differentiate_wrt_c3 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthActiveDeGroote2016.test_differentiate_wrt_c3_correct","statement":"Path(test_differentiate_wrt_c3(x), test_differentiate_wrt_c3 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b9170d6f28e5e0db"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthActiveDeGroote2016.test_differentiate_wrt_c3","kind":"method","src_hash":"227ef16eb83772df","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: fl_M_act.diff(self.c3) == expected"},"spec":{"lhs":"test_differentiate_wrt_c3()","rhs":"fl_M_act.diff(self.c3) == expected","over":{"base":"Any"},"name":"test_differentiate_wrt_c3_correct"},"guarantee":"fl_M_act.diff(self.c3) == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthActiveDeGroote2016.test_differentiate_wrt_c3_correct","statement":"Path(test_differentiate_wrt_c3(x), fl_M_act.diff(self.c3) == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ae54dd388366e7a3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["fl_M_act.diff(self.c3) == expected"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.c0","self.c1","self.c2","self.c3","self.constants","self.l_M_tilde"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_differentiate_wrt_c3(self):
         fl_M_act = FiberForceLengthActiveDeGroote2016(self.l_M_tilde, *self.constants)
         expected = (
@@ -1965,32 +2521,44 @@ class TestFiberForceLengthActiveDeGroote2016:
         assert fl_M_act.diff(self.c3) == expected
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_differentiate_wrt_c4(), test_differentiate_wrt_c4 produces the expected output) over Any ║
+# ║ Path(test_differentiate_wrt_c4(), fl_M_act.diff(self.c4) == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_differentiate_wrt_c4 : Any → Any                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  fl_M_act.diff(self.c4) == expected             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_differentiate_wrt_c4 : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b8c443980387f390  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 062672309f949000  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthActiveDeGroote2016.test_differentiate_wrt_c4","kind":"method","src_hash":"d94d2e2cc022db39","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_differentiate_wrt_c4()","rhs":"test_differentiate_wrt_c4 produces the expected output","over":{"base":"Any"},"name":"test_differentiate_wrt_c4_correct"},"guarantee":"test_differentiate_wrt_c4 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthActiveDeGroote2016.test_differentiate_wrt_c4_correct","statement":"Path(test_differentiate_wrt_c4(x), test_differentiate_wrt_c4 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b8c443980387f390"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthActiveDeGroote2016.test_differentiate_wrt_c4","kind":"method","src_hash":"d94d2e2cc022db39","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: fl_M_act.diff(self.c4) == expected"},"spec":{"lhs":"test_differentiate_wrt_c4()","rhs":"fl_M_act.diff(self.c4) == expected","over":{"base":"Any"},"name":"test_differentiate_wrt_c4_correct"},"guarantee":"fl_M_act.diff(self.c4) == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthActiveDeGroote2016.test_differentiate_wrt_c4_correct","statement":"Path(test_differentiate_wrt_c4(x), fl_M_act.diff(self.c4) == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"062672309f949000","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["fl_M_act.diff(self.c4) == expected"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.c4","self.c5","self.c6","self.c7","self.constants","self.l_M_tilde"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_differentiate_wrt_c4(self):
         fl_M_act = FiberForceLengthActiveDeGroote2016(self.l_M_tilde, *self.constants)
         expected = exp(-(self.l_M_tilde - self.c5)**2/(2*(self.c6 + self.c7*self.l_M_tilde)**2))
         assert fl_M_act.diff(self.c4) == expected
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_differentiate_wrt_c5(), test_differentiate_wrt_c5 produces the expected output) over Any ║
+# ║ Path(test_differentiate_wrt_c5(), fl_M_act.diff(self.c5) == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_differentiate_wrt_c5 : Any → Any                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  fl_M_act.diff(self.c5) == expected             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_differentiate_wrt_c5 : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 912e1fd51583fb49  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 70125b515e9e1903  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthActiveDeGroote2016.test_differentiate_wrt_c5","kind":"method","src_hash":"e814130716c884bd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_differentiate_wrt_c5()","rhs":"test_differentiate_wrt_c5 produces the expected output","over":{"base":"Any"},"name":"test_differentiate_wrt_c5_correct"},"guarantee":"test_differentiate_wrt_c5 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthActiveDeGroote2016.test_differentiate_wrt_c5_correct","statement":"Path(test_differentiate_wrt_c5(x), test_differentiate_wrt_c5 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"912e1fd51583fb49"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthActiveDeGroote2016.test_differentiate_wrt_c5","kind":"method","src_hash":"e814130716c884bd","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: fl_M_act.diff(self.c5) == expected"},"spec":{"lhs":"test_differentiate_wrt_c5()","rhs":"fl_M_act.diff(self.c5) == expected","over":{"base":"Any"},"name":"test_differentiate_wrt_c5_correct"},"guarantee":"fl_M_act.diff(self.c5) == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthActiveDeGroote2016.test_differentiate_wrt_c5_correct","statement":"Path(test_differentiate_wrt_c5(x), fl_M_act.diff(self.c5) == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"70125b515e9e1903","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["fl_M_act.diff(self.c5) == expected"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.c4","self.c5","self.c6","self.c7","self.constants","self.l_M_tilde"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_differentiate_wrt_c5(self):
         fl_M_act = FiberForceLengthActiveDeGroote2016(self.l_M_tilde, *self.constants)
         expected = (
@@ -2000,16 +2568,22 @@ class TestFiberForceLengthActiveDeGroote2016:
         assert fl_M_act.diff(self.c5) == expected
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_differentiate_wrt_c6(), test_differentiate_wrt_c6 produces the expected output) over Any ║
+# ║ Path(test_differentiate_wrt_c6(), fl_M_act.diff(self.c6) == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_differentiate_wrt_c6 : Any → Any                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  fl_M_act.diff(self.c6) == expected             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_differentiate_wrt_c6 : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a610829e1c7fbbb6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d414bd37f7f35c91  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthActiveDeGroote2016.test_differentiate_wrt_c6","kind":"method","src_hash":"0bf83ff656ef0c2b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_differentiate_wrt_c6()","rhs":"test_differentiate_wrt_c6 produces the expected output","over":{"base":"Any"},"name":"test_differentiate_wrt_c6_correct"},"guarantee":"test_differentiate_wrt_c6 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthActiveDeGroote2016.test_differentiate_wrt_c6_correct","statement":"Path(test_differentiate_wrt_c6(x), test_differentiate_wrt_c6 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a610829e1c7fbbb6"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthActiveDeGroote2016.test_differentiate_wrt_c6","kind":"method","src_hash":"0bf83ff656ef0c2b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: fl_M_act.diff(self.c6) == expected"},"spec":{"lhs":"test_differentiate_wrt_c6()","rhs":"fl_M_act.diff(self.c6) == expected","over":{"base":"Any"},"name":"test_differentiate_wrt_c6_correct"},"guarantee":"fl_M_act.diff(self.c6) == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthActiveDeGroote2016.test_differentiate_wrt_c6_correct","statement":"Path(test_differentiate_wrt_c6(x), fl_M_act.diff(self.c6) == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d414bd37f7f35c91","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["fl_M_act.diff(self.c6) == expected"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.c4","self.c5","self.c6","self.c7","self.constants","self.l_M_tilde"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_differentiate_wrt_c6(self):
         fl_M_act = FiberForceLengthActiveDeGroote2016(self.l_M_tilde, *self.constants)
         expected = (
@@ -2019,16 +2593,22 @@ class TestFiberForceLengthActiveDeGroote2016:
         assert fl_M_act.diff(self.c6) == expected
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_differentiate_wrt_c7(), test_differentiate_wrt_c7 produces the expected output) over Any ║
+# ║ Path(test_differentiate_wrt_c7(), fl_M_act.diff(self.c7) == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_differentiate_wrt_c7 : Any → Any                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  fl_M_act.diff(self.c7) == expected             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_differentiate_wrt_c7 : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 038b9e18a52cf64a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9c58b4d0aa70e728  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthActiveDeGroote2016.test_differentiate_wrt_c7","kind":"method","src_hash":"e404a5a9a5a160be","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_differentiate_wrt_c7()","rhs":"test_differentiate_wrt_c7 produces the expected output","over":{"base":"Any"},"name":"test_differentiate_wrt_c7_correct"},"guarantee":"test_differentiate_wrt_c7 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthActiveDeGroote2016.test_differentiate_wrt_c7_correct","statement":"Path(test_differentiate_wrt_c7(x), test_differentiate_wrt_c7 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"038b9e18a52cf64a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthActiveDeGroote2016.test_differentiate_wrt_c7","kind":"method","src_hash":"e404a5a9a5a160be","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: fl_M_act.diff(self.c7) == expected"},"spec":{"lhs":"test_differentiate_wrt_c7()","rhs":"fl_M_act.diff(self.c7) == expected","over":{"base":"Any"},"name":"test_differentiate_wrt_c7_correct"},"guarantee":"fl_M_act.diff(self.c7) == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthActiveDeGroote2016.test_differentiate_wrt_c7_correct","statement":"Path(test_differentiate_wrt_c7(x), fl_M_act.diff(self.c7) == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9c58b4d0aa70e728","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["fl_M_act.diff(self.c7) == expected"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.c4","self.c5","self.c6","self.c7","self.constants","self.l_M_tilde"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_differentiate_wrt_c7(self):
         fl_M_act = FiberForceLengthActiveDeGroote2016(self.l_M_tilde, *self.constants)
         expected = (
@@ -2038,32 +2618,44 @@ class TestFiberForceLengthActiveDeGroote2016:
         assert fl_M_act.diff(self.c7) == expected
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_differentiate_wrt_c8(), test_differentiate_wrt_c8 produces the expected output) over Any ║
+# ║ Path(test_differentiate_wrt_c8(), fl_M_act.diff(self.c8) == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_differentiate_wrt_c8 : Any → Any                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  fl_M_act.diff(self.c8) == expected             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_differentiate_wrt_c8 : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b602c6d3b62ee442  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 146201ba4a7e2e6e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthActiveDeGroote2016.test_differentiate_wrt_c8","kind":"method","src_hash":"378c9e71617ab095","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_differentiate_wrt_c8()","rhs":"test_differentiate_wrt_c8 produces the expected output","over":{"base":"Any"},"name":"test_differentiate_wrt_c8_correct"},"guarantee":"test_differentiate_wrt_c8 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthActiveDeGroote2016.test_differentiate_wrt_c8_correct","statement":"Path(test_differentiate_wrt_c8(x), test_differentiate_wrt_c8 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b602c6d3b62ee442"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthActiveDeGroote2016.test_differentiate_wrt_c8","kind":"method","src_hash":"378c9e71617ab095","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: fl_M_act.diff(self.c8) == expected"},"spec":{"lhs":"test_differentiate_wrt_c8()","rhs":"fl_M_act.diff(self.c8) == expected","over":{"base":"Any"},"name":"test_differentiate_wrt_c8_correct"},"guarantee":"fl_M_act.diff(self.c8) == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthActiveDeGroote2016.test_differentiate_wrt_c8_correct","statement":"Path(test_differentiate_wrt_c8(x), fl_M_act.diff(self.c8) == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"146201ba4a7e2e6e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["fl_M_act.diff(self.c8) == expected"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.c10","self.c11","self.c8","self.c9","self.constants","self.l_M_tilde"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_differentiate_wrt_c8(self):
         fl_M_act = FiberForceLengthActiveDeGroote2016(self.l_M_tilde, *self.constants)
         expected = exp(-(self.l_M_tilde - self.c9)**2/(2*(self.c10 + self.c11*self.l_M_tilde)**2))
         assert fl_M_act.diff(self.c8) == expected
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_differentiate_wrt_c9(), test_differentiate_wrt_c9 produces the expected output) over Any ║
+# ║ Path(test_differentiate_wrt_c9(), fl_M_act.diff(self.c9) == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_differentiate_wrt_c9 : Any → Any                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  fl_M_act.diff(self.c9) == expected             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_differentiate_wrt_c9 : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 605ab0bbe35f9577  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 46eef1eddd589b27  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthActiveDeGroote2016.test_differentiate_wrt_c9","kind":"method","src_hash":"7b60fcc71afbffdb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_differentiate_wrt_c9()","rhs":"test_differentiate_wrt_c9 produces the expected output","over":{"base":"Any"},"name":"test_differentiate_wrt_c9_correct"},"guarantee":"test_differentiate_wrt_c9 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthActiveDeGroote2016.test_differentiate_wrt_c9_correct","statement":"Path(test_differentiate_wrt_c9(x), test_differentiate_wrt_c9 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"605ab0bbe35f9577"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthActiveDeGroote2016.test_differentiate_wrt_c9","kind":"method","src_hash":"7b60fcc71afbffdb","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: fl_M_act.diff(self.c9) == expected"},"spec":{"lhs":"test_differentiate_wrt_c9()","rhs":"fl_M_act.diff(self.c9) == expected","over":{"base":"Any"},"name":"test_differentiate_wrt_c9_correct"},"guarantee":"fl_M_act.diff(self.c9) == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthActiveDeGroote2016.test_differentiate_wrt_c9_correct","statement":"Path(test_differentiate_wrt_c9(x), fl_M_act.diff(self.c9) == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"46eef1eddd589b27","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["fl_M_act.diff(self.c9) == expected"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.c10","self.c11","self.c8","self.c9","self.constants","self.l_M_tilde"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_differentiate_wrt_c9(self):
         fl_M_act = FiberForceLengthActiveDeGroote2016(self.l_M_tilde, *self.constants)
         expected = (
@@ -2073,16 +2665,22 @@ class TestFiberForceLengthActiveDeGroote2016:
         assert fl_M_act.diff(self.c9) == expected
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_differentiate_wrt_c10(), test_differentiate_wrt_c10 produces the expected output) over Any ║
+# ║ Path(test_differentiate_wrt_c10(), fl_M_act.diff(self.c10) == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_differentiate_wrt_c10 : Any → Any                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  fl_M_act.diff(self.c10) == expected            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_differentiate_wrt_c10 : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d1f0804c366f89fd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 43e0c10bc9c378d9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthActiveDeGroote2016.test_differentiate_wrt_c10","kind":"method","src_hash":"7cc9e8da7b3539f9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_differentiate_wrt_c10()","rhs":"test_differentiate_wrt_c10 produces the expected output","over":{"base":"Any"},"name":"test_differentiate_wrt_c10_correct"},"guarantee":"test_differentiate_wrt_c10 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthActiveDeGroote2016.test_differentiate_wrt_c10_correct","statement":"Path(test_differentiate_wrt_c10(x), test_differentiate_wrt_c10 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d1f0804c366f89fd"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthActiveDeGroote2016.test_differentiate_wrt_c10","kind":"method","src_hash":"7cc9e8da7b3539f9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: fl_M_act.diff(self.c10) == expected"},"spec":{"lhs":"test_differentiate_wrt_c10()","rhs":"fl_M_act.diff(self.c10) == expected","over":{"base":"Any"},"name":"test_differentiate_wrt_c10_correct"},"guarantee":"fl_M_act.diff(self.c10) == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthActiveDeGroote2016.test_differentiate_wrt_c10_correct","statement":"Path(test_differentiate_wrt_c10(x), fl_M_act.diff(self.c10) == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"43e0c10bc9c378d9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["fl_M_act.diff(self.c10) == expected"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.c10","self.c11","self.c8","self.c9","self.constants","self.l_M_tilde"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_differentiate_wrt_c10(self):
         fl_M_act = FiberForceLengthActiveDeGroote2016(self.l_M_tilde, *self.constants)
         expected = (
@@ -2092,16 +2690,22 @@ class TestFiberForceLengthActiveDeGroote2016:
         assert fl_M_act.diff(self.c10) == expected
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_differentiate_wrt_c11(), test_differentiate_wrt_c11 produces the expected output) over Any ║
+# ║ Path(test_differentiate_wrt_c11(), fl_M_act.diff(self.c11) == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_differentiate_wrt_c11 : Any → Any                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  fl_M_act.diff(self.c11) == expected            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_differentiate_wrt_c11 : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c61692ba0ee668f2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1e55fdc8b6acbe8f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthActiveDeGroote2016.test_differentiate_wrt_c11","kind":"method","src_hash":"6dd77fddafdb3107","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_differentiate_wrt_c11()","rhs":"test_differentiate_wrt_c11 produces the expected output","over":{"base":"Any"},"name":"test_differentiate_wrt_c11_correct"},"guarantee":"test_differentiate_wrt_c11 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthActiveDeGroote2016.test_differentiate_wrt_c11_correct","statement":"Path(test_differentiate_wrt_c11(x), test_differentiate_wrt_c11 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c61692ba0ee668f2"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthActiveDeGroote2016.test_differentiate_wrt_c11","kind":"method","src_hash":"6dd77fddafdb3107","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: fl_M_act.diff(self.c11) == expected"},"spec":{"lhs":"test_differentiate_wrt_c11()","rhs":"fl_M_act.diff(self.c11) == expected","over":{"base":"Any"},"name":"test_differentiate_wrt_c11_correct"},"guarantee":"fl_M_act.diff(self.c11) == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthActiveDeGroote2016.test_differentiate_wrt_c11_correct","statement":"Path(test_differentiate_wrt_c11(x), fl_M_act.diff(self.c11) == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1e55fdc8b6acbe8f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["fl_M_act.diff(self.c11) == expected"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.c10","self.c11","self.c8","self.c9","self.constants","self.l_M_tilde"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_differentiate_wrt_c11(self):
         fl_M_act = FiberForceLengthActiveDeGroote2016(self.l_M_tilde, *self.constants)
         expected = (
@@ -2111,32 +2715,44 @@ class TestFiberForceLengthActiveDeGroote2016:
         assert fl_M_act.diff(self.c11) == expected
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_function_print_latex(), test_function_print_latex produces the expected output) over Any ║
+# ║ Path(test_function_print_latex(), LatexPrinter().doprint(fl_M_act) == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_function_print_latex : Any → Any                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  LatexPrinter().doprint(fl_M_act) == expected   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_function_print_latex : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3c141ac8067d38c2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2994116810caa200  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthActiveDeGroote2016.test_function_print_latex","kind":"method","src_hash":"5c885e62dc303023","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_function_print_latex()","rhs":"test_function_print_latex produces the expected output","over":{"base":"Any"},"name":"test_function_print_latex_correct"},"guarantee":"test_function_print_latex produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthActiveDeGroote2016.test_function_print_latex_correct","statement":"Path(test_function_print_latex(x), test_function_print_latex produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3c141ac8067d38c2"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthActiveDeGroote2016.test_function_print_latex","kind":"method","src_hash":"5c885e62dc303023","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: LatexPrinter().doprint(fl_M_act) == expected"},"spec":{"lhs":"test_function_print_latex()","rhs":"LatexPrinter().doprint(fl_M_act) == expected","over":{"base":"Any"},"name":"test_function_print_latex_correct"},"guarantee":"LatexPrinter().doprint(fl_M_act) == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthActiveDeGroote2016.test_function_print_latex_correct","statement":"Path(test_function_print_latex(x), LatexPrinter().doprint(fl_M_act) == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2994116810caa200","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["LatexPrinter().doprint(fl_M_act) == expected"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.constants","self.l_M_tilde"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_function_print_latex(self):
         fl_M_act = FiberForceLengthActiveDeGroote2016(self.l_M_tilde, *self.constants)
         expected = r'\operatorname{fl}^M_{act} \left( l_{M tilde} \right)'
         assert LatexPrinter().doprint(fl_M_act) == expected
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_expression_print_latex(), test_expression_print_latex produces the expected output) over Any ║
+# ║ Path(test_expression_print_latex(), LatexPrinter().doprint(fl_M_act.doit()) == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_expression_print_latex : Any → Any                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  LatexPrinter().doprint(fl_M_act.doit()) =...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_expression_print_latex : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8c7233dc3c925be2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1a4ec9f93f7837b1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthActiveDeGroote2016.test_expression_print_latex","kind":"method","src_hash":"8a624c5857a3d1ed","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_expression_print_latex()","rhs":"test_expression_print_latex produces the expected output","over":{"base":"Any"},"name":"test_expression_print_latex_correct"},"guarantee":"test_expression_print_latex produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthActiveDeGroote2016.test_expression_print_latex_correct","statement":"Path(test_expression_print_latex(x), test_expression_print_latex produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8c7233dc3c925be2"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthActiveDeGroote2016.test_expression_print_latex","kind":"method","src_hash":"8a624c5857a3d1ed","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: LatexPrinter().doprint(fl_M_act.doit()) == expected"},"spec":{"lhs":"test_expression_print_latex()","rhs":"LatexPrinter().doprint(fl_M_act.doit()) == expected","over":{"base":"Any"},"name":"test_expression_print_latex_correct"},"guarantee":"LatexPrinter().doprint(fl_M_act.doit()) == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthActiveDeGroote2016.test_expression_print_latex_correct","statement":"Path(test_expression_print_latex(x), LatexPrinter().doprint(fl_M_act.doit()) == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1a4ec9f93f7837b1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["LatexPrinter().doprint(fl_M_act.doit()) == expected"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.constants","self.l_M_tilde"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_expression_print_latex(self):
         fl_M_act = FiberForceLengthActiveDeGroote2016(self.l_M_tilde, *self.constants)
         expected = (
@@ -2246,31 +2862,43 @@ class TestFiberForceLengthActiveDeGroote2016:
         ]
     )
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_print_code(cod), test_print_code produces the expected output) over Any ║
+# ║ Path(test_print_code(code_printer, expected), code_printer().doprint(fl_M_act) == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_print_code : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  code_printer().doprint(fl_M_act) == expected   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_print_code : Any → {Any | result satisfies: code...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f25183a07e6453b4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a91c313967715d86  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthActiveDeGroote2016.test_print_code","kind":"method","src_hash":"f89ff4749f1603b3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_print_code(cod)","rhs":"test_print_code produces the expected output","over":{"base":"Any"},"name":"test_print_code_correct"},"guarantee":"test_print_code produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthActiveDeGroote2016.test_print_code_correct","statement":"Path(test_print_code(x), test_print_code produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f25183a07e6453b4"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthActiveDeGroote2016.test_print_code","kind":"method","src_hash":"f89ff4749f1603b3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: code_printer().doprint(fl_M_act) == expected"},"spec":{"lhs":"test_print_code(code_printer, expected)","rhs":"code_printer().doprint(fl_M_act) == expected","over":{"base":"Any"},"name":"test_print_code_correct"},"guarantee":"code_printer().doprint(fl_M_act) == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthActiveDeGroote2016.test_print_code_correct","statement":"Path(test_print_code(x), code_printer().doprint(fl_M_act) == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a91c313967715d86","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["code_printer().doprint(fl_M_act) == expected"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.l_M_tilde"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_print_code(self, code_printer, expected):
         fl_M_act = FiberForceLengthActiveDeGroote2016.with_defaults(self.l_M_tilde)
         assert code_printer().doprint(fl_M_act) == expected
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_derivative_print_code(), test_derivative_print_code produces the expected output) over Any ║
+# ║ Path(test_derivative_print_code(), PythonCodePrinter().doprint(fl_M_act_dl_M_tilde) == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_derivative_print_code : Any → Any                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  PythonCodePrinter().doprint(fl_M_act_dl_M...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_derivative_print_code : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a89b8d4c60bcae15  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d36afa96e6f42399  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthActiveDeGroote2016.test_derivative_print_code","kind":"method","src_hash":"12c45c7ab41f36a9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_derivative_print_code()","rhs":"test_derivative_print_code produces the expected output","over":{"base":"Any"},"name":"test_derivative_print_code_correct"},"guarantee":"test_derivative_print_code produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthActiveDeGroote2016.test_derivative_print_code_correct","statement":"Path(test_derivative_print_code(x), test_derivative_print_code produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a89b8d4c60bcae15"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthActiveDeGroote2016.test_derivative_print_code","kind":"method","src_hash":"12c45c7ab41f36a9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: PythonCodePrinter().doprint(fl_M_act_dl_M_tilde) == expected"},"spec":{"lhs":"test_derivative_print_code()","rhs":"PythonCodePrinter().doprint(fl_M_act_dl_M_tilde) == expected","over":{"base":"Any"},"name":"test_derivative_print_code_correct"},"guarantee":"PythonCodePrinter().doprint(fl_M_act_dl_M_tilde) == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthActiveDeGroote2016.test_derivative_print_code_correct","statement":"Path(test_derivative_print_code(x), PythonCodePrinter().doprint(fl_M_act_dl_M_tilde) == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d36afa96e6f42399","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["PythonCodePrinter().doprint(fl_M_act_dl_M_tilde) == expected"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.l_M_tilde"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_derivative_print_code(self):
         fl_M_act = FiberForceLengthActiveDeGroote2016.with_defaults(self.l_M_tilde)
         fl_M_act_dl_M_tilde = fl_M_act.diff(self.l_M_tilde)
@@ -2280,16 +2908,22 @@ class TestFiberForceLengthActiveDeGroote2016:
         assert PythonCodePrinter().doprint(fl_M_act_dl_M_tilde) == expected
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_lambdify(), test_lambdify produces the expected output) over Any ║
+# ║ Path(test_lambdify(), fl_M_act_callable(1.0) == pytest.approx(0.9941398866)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_lambdify : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  fl_M_act_callable(1.0) == pytest.approx(0...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_lambdify : Any → {Any | result satisfies: fl_M_a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ca6321affccb9f0f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 74a7b1dfc1ec714e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthActiveDeGroote2016.test_lambdify","kind":"method","src_hash":"610486912310245a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_lambdify()","rhs":"test_lambdify produces the expected output","over":{"base":"Any"},"name":"test_lambdify_correct"},"guarantee":"test_lambdify produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthActiveDeGroote2016.test_lambdify_correct","statement":"Path(test_lambdify(x), test_lambdify produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ca6321affccb9f0f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthActiveDeGroote2016.test_lambdify","kind":"method","src_hash":"610486912310245a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: fl_M_act_callable(1.0) == pytest.approx(0.9941398866)"},"spec":{"lhs":"test_lambdify()","rhs":"fl_M_act_callable(1.0) == pytest.approx(0.9941398866)","over":{"base":"Any"},"name":"test_lambdify_correct"},"guarantee":"fl_M_act_callable(1.0) == pytest.approx(0.9941398866)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthActiveDeGroote2016.test_lambdify_correct","statement":"Path(test_lambdify(x), fl_M_act_callable(1.0) == pytest.approx(0.9941398866))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"74a7b1dfc1ec714e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["fl_M_act_callable(1.0) == pytest.approx(0.9941398866)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.l_M_tilde"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_lambdify(self):
         fl_M_act = FiberForceLengthActiveDeGroote2016.with_defaults(self.l_M_tilde)
         fl_M_act_callable = lambdify(self.l_M_tilde, fl_M_act)
@@ -2297,16 +2931,22 @@ class TestFiberForceLengthActiveDeGroote2016:
 
     @pytest.mark.skipif(numpy is None, reason='NumPy not installed')
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_lambdify_numpy(), test_lambdify_numpy produces the expected output) over Any ║
+# ║ Path(test_lambdify_numpy(), <unspecified:test_lambdify_numpy>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_lambdify_numpy : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4a0ac675ea1d7e7e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthActiveDeGroote2016.test_lambdify_numpy","kind":"method","src_hash":"f0302df7b18d4b90","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_lambdify_numpy()","rhs":"test_lambdify_numpy produces the expected output","over":{"base":"Any"},"name":"test_lambdify_numpy_correct"},"guarantee":"test_lambdify_numpy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthActiveDeGroote2016.test_lambdify_numpy_correct","statement":"Path(test_lambdify_numpy(x), test_lambdify_numpy produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4a0ac675ea1d7e7e"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthActiveDeGroote2016.test_lambdify_numpy","kind":"method","src_hash":"f0302df7b18d4b90","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_lambdify_numpy()","rhs":"<unspecified:test_lambdify_numpy>","over":{"base":"Any"},"name":"test_lambdify_numpy_correct"},"guarantee":"test_lambdify_numpy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthActiveDeGroote2016.test_lambdify_numpy_correct","statement":"Path(test_lambdify_numpy(x), test_lambdify_numpy produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4a0ac675ea1d7e7e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.l_M_tilde"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_lambdify_numpy(self):
         fl_M_act = FiberForceLengthActiveDeGroote2016.with_defaults(self.l_M_tilde)
         fl_M_act_callable = lambdify(self.l_M_tilde, fl_M_act, 'numpy')
@@ -2322,16 +2962,22 @@ class TestFiberForceLengthActiveDeGroote2016:
 
     @pytest.mark.skipif(jax is None, reason='JAX not installed')
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_lambdify_jax(), test_lambdify_jax produces the expected output) over Any ║
+# ║ Path(test_lambdify_jax(), <unspecified:test_lambdify_jax>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_lambdify_jax : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4efe57458951e0b1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthActiveDeGroote2016.test_lambdify_jax","kind":"method","src_hash":"c16822e106682faf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_lambdify_jax()","rhs":"test_lambdify_jax produces the expected output","over":{"base":"Any"},"name":"test_lambdify_jax_correct"},"guarantee":"test_lambdify_jax produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthActiveDeGroote2016.test_lambdify_jax_correct","statement":"Path(test_lambdify_jax(x), test_lambdify_jax produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4efe57458951e0b1"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthActiveDeGroote2016.test_lambdify_jax","kind":"method","src_hash":"c16822e106682faf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_lambdify_jax()","rhs":"<unspecified:test_lambdify_jax>","over":{"base":"Any"},"name":"test_lambdify_jax_correct"},"guarantee":"test_lambdify_jax produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceLengthActiveDeGroote2016.test_lambdify_jax_correct","statement":"Path(test_lambdify_jax(x), test_lambdify_jax produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4efe57458951e0b1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.l_M_tilde"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_lambdify_jax(self):
         fl_M_act = FiberForceLengthActiveDeGroote2016.with_defaults(self.l_M_tilde)
         fl_M_act_callable = jax.jit(lambdify(self.l_M_tilde, fl_M_act, 'jax'))
@@ -2349,28 +2995,40 @@ class TestFiberForceLengthActiveDeGroote2016:
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(TestFiberForceVelocityDeGroote2016(*args), correctly constructs a TestFiberForceVelocityDeGroote2016 instance) over {Any | isinstance(fv_M, FiberForceVelocityDeGroote2016)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ TestFiberForceVelocityDeGroote2016 : {Any | isinstanc...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0d7bd809bb64b6cf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityDeGroote2016","kind":"class","src_hash":"b20258d3e7965a05","in":{"base":"Any","pred":"isinstance(fv_M, FiberForceVelocityDeGroote2016)"},"out":{"base":"Any","pred":"issubclass(FiberForceVelocityDeGroote2016, Function) and issubclass(FiberForceVelocityDeGroote2016, CharacteristicCurveFunction) and FiberForceVelocityDeGroote2016.__name__ == 'FiberForceVelocityDeGroote2016' and isinstance(fv_M, FiberForceVelocityDeGroote2016) and str(fv_M) == 'FiberForceVelocityDeGroote2016(v_M_tilde, c_0, c_1, c_2, c_3)' and fv_M == expected and fv_M == expected and fv_M_manual == fv_M_constants and fv_M.diff(self.v_M_tilde) == expected and fv_M.diff(self.c0) == expected and fv_M.diff(self.c1) == expected and fv_M.diff(self.c2) == expected and fv_M.diff(self.c3) == expected and fv_M.inverse() is FiberForceVelocityInverseDeGroote2016 and LatexPrinter().doprint(fv_M) == expected and LatexPrinter().doprint(fv_M.doit()) == expected and code_printer().doprint(fv_M) == expected and PythonCodePrinter().doprint(dfv_M_dv_M_tilde) == expected and fv_M_callable(0.0) == pytest.approx(1.002320622548512)"},"spec":{"lhs":"TestFiberForceVelocityDeGroote2016(*args)","rhs":"correctly constructs a TestFiberForceVelocityDeGroote2016 instance","over":{"base":"Any","pred":"isinstance(fv_M, FiberForceVelocityDeGroote2016)"},"name":"TestFiberForceVelocityDeGroote2016_class_invariant"},"guarantee":"correctly constructs a TestFiberForceVelocityDeGroote2016 instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0d7bd809bb64b6cf"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityDeGroote2016","kind":"class","src_hash":"b20258d3e7965a05","in":{"base":"Any","pred":"isinstance(fv_M, FiberForceVelocityDeGroote2016)"},"out":{"base":"Any","pred":"issubclass(FiberForceVelocityDeGroote2016, Function) and issubclass(FiberForceVelocityDeGroote2016, CharacteristicCurveFunction) and FiberForceVelocityDeGroote2016.__name__ == 'FiberForceVelocityDeGroote2016' and isinstance(fv_M, FiberForceVelocityDeGroote2016) and str(fv_M) == 'FiberForceVelocityDeGroote2016(v_M_tilde, c_0, c_1, c_2, c_3)' and fv_M == expected and fv_M == expected and fv_M_manual == fv_M_constants and fv_M.diff(self.v_M_tilde) == expected and fv_M.diff(self.c0) == expected and fv_M.diff(self.c1) == expected and fv_M.diff(self.c2) == expected and fv_M.diff(self.c3) == expected and fv_M.inverse() is FiberForceVelocityInverseDeGroote2016 and LatexPrinter().doprint(fv_M) == expected and LatexPrinter().doprint(fv_M.doit()) == expected and code_printer().doprint(fv_M) == expected and PythonCodePrinter().doprint(dfv_M_dv_M_tilde) == expected and fv_M_callable(0.0) == pytest.approx(1.002320622548512)"},"spec":{"lhs":"TestFiberForceVelocityDeGroote2016(*args)","rhs":"correctly constructs a TestFiberForceVelocityDeGroote2016 instance","over":{"base":"Any","pred":"isinstance(fv_M, FiberForceVelocityDeGroote2016)"},"name":"TestFiberForceVelocityDeGroote2016_class_invariant"},"guarantee":"correctly constructs a TestFiberForceVelocityDeGroote2016 instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0d7bd809bb64b6cf","spec_source":"static","formal_spec":{"source":"static","strength":"trivial"},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function TestFiberForceVelocityDeGroote2016 not found in source"]}}
 class TestFiberForceVelocityDeGroote2016:
 
     @pytest.fixture(autouse=True)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_muscle_fiber_force_velocity_arguments_fixture(), internal helper behaves correctly) over Any ║
+# ║ Path(_muscle_fiber_force_velocity_arguments_fixture(), <unspecified:_muscle_fiber_force_velocity_arguments_fixture>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _muscle_fiber_force_velocity_arguments_fixture : Any ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 05200a121aba726d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityDeGroote2016._muscle_fiber_force_velocity_arguments_fixture","kind":"method","src_hash":"7afb0ffd7b9fb7b6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_muscle_fiber_force_velocity_arguments_fixture()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_muscle_fiber_force_velocity_arguments_fixture_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityDeGroote2016._muscle_fiber_force_velocity_arguments_fixture_correct","statement":"Path(_muscle_fiber_force_velocity_arguments_fixture(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"05200a121aba726d"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityDeGroote2016._muscle_fiber_force_velocity_arguments_fixture","kind":"method","src_hash":"7afb0ffd7b9fb7b6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_muscle_fiber_force_velocity_arguments_fixture()","rhs":"<unspecified:_muscle_fiber_force_velocity_arguments_fixture>","over":{"base":"Any"},"name":"_muscle_fiber_force_velocity_arguments_fixture_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityDeGroote2016._muscle_fiber_force_velocity_arguments_fixture_correct","statement":"Path(_muscle_fiber_force_velocity_arguments_fixture(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"05200a121aba726d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self.c0","self.c1","self.c2","self.c3"],"writes":["self.c0","self.c1","self.c2","self.c3","self.constants","self.v_M_tilde"]},"state_contract":{"modifies":["self.c0","self.c1","self.c2","self.c3","self.constants","self.v_M_tilde"],"old_bindings":{"old_self_c0":"self.c0","old_self_c1":"self.c1","old_self_c2":"self.c2","old_self_c3":"self.c3","old_self_constants":"self.constants","old_self_v_M_tilde":"self.v_M_tilde"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _muscle_fiber_force_velocity_arguments_fixture(self):
         self.v_M_tilde = Symbol('v_M_tilde')
         self.c0 = Symbol('c_0')
@@ -2381,48 +3039,69 @@ class TestFiberForceVelocityDeGroote2016:
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_class(), test_class produces the expected output) over Any ║
+# ║ Path(test_class(), issubclass(FiberForceVelocityDeGroote2016, Function) and issubclass(FiberForceVelocityDeGroote2016, CharacteristicCurveFunction) and FiberForceVelocityDeGroote2016.__name__ == 'FiberForceVelocityDeGroote2016') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_class : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  issubclass(FiberForceVelocityDeGroote2016...   ║
+# ║   ensures:  issubclass(FiberForceVelocityDeGroote2016...   ║
+# ║   ensures:  FiberForceVelocityDeGroote2016.__name__ =...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_class : Any → {Any | result satisfies: issubclas...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 69cc7633cda28c80  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4fde8849ab117c1f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityDeGroote2016.test_class","kind":"staticmethod","src_hash":"a98935bc5e3a23b2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_class()","rhs":"test_class produces the expected output","over":{"base":"Any"},"name":"test_class_correct"},"guarantee":"test_class produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityDeGroote2016.test_class_correct","statement":"Path(test_class(x), test_class produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"69cc7633cda28c80"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityDeGroote2016.test_class","kind":"staticmethod","src_hash":"a98935bc5e3a23b2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: issubclass(FiberForceVelocityDeGroote2016, Function) and issubclass(FiberForceVelocityDeGroote2016, CharacteristicCurveFunction) and FiberForceVelocityDeGroote2016.__name__ == 'FiberForceVelocityDeGroote2016'"},"spec":{"lhs":"test_class()","rhs":"issubclass(FiberForceVelocityDeGroote2016, Function) and issubclass(FiberForceVelocityDeGroote2016, CharacteristicCurveFunction) and FiberForceVelocityDeGroote2016.__name__ == 'FiberForceVelocityDeGroote2016'","over":{"base":"Any"},"name":"test_class_correct"},"guarantee":"issubclass(FiberForceVelocityDeGroote2016, Function); issubclass(FiberForceVelocityDeGroote2016, CharacteristicCurveFunction); FiberForceVelocityDeGroote2016.__name__ == 'FiberForceVelocityDeGroote2016'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityDeGroote2016.test_class_correct","statement":"Path(test_class(x), issubclass(FiberForceVelocityDeGroote2016, Function); issubclass(FiberForceVelocityDeGroote2016, CharacteristicCurveFunction); FiberForceVelocityDeGroote2016.__name__ == 'FiberForceVelocityDeGroote2016')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4fde8849ab117c1f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["issubclass(FiberForceVelocityDeGroote2016, Function)","issubclass(FiberForceVelocityDeGroote2016, CharacteristicCurveFunction)","FiberForceVelocityDeGroote2016.__name__ == 'FiberForceVelocityDeGroote2016'"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_class():
         assert issubclass(FiberForceVelocityDeGroote2016, Function)
         assert issubclass(FiberForceVelocityDeGroote2016, CharacteristicCurveFunction)
         assert FiberForceVelocityDeGroote2016.__name__ == 'FiberForceVelocityDeGroote2016'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_instance(), test_instance produces the expected output) over Any ║
+# ║ Path(test_instance(), isinstance(fv_M, FiberForceVelocityDeGroote2016) and str(fv_M) == 'FiberForceVelocityDeGroote2016(v_M_tilde, c_0, c_1, c_2, c_3)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_instance : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(fv_M, FiberForceVelocityDeGroo...   ║
+# ║   ensures:  str(fv_M) == 'FiberForceVelocityDeGroote2...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_instance : Any → {Any | result satisfies: isinst...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 204726b931aa8f8b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8b49f53ee10cd808  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityDeGroote2016.test_instance","kind":"method","src_hash":"644f1a4182968203","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_instance()","rhs":"test_instance produces the expected output","over":{"base":"Any"},"name":"test_instance_correct"},"guarantee":"test_instance produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityDeGroote2016.test_instance_correct","statement":"Path(test_instance(x), test_instance produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"204726b931aa8f8b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityDeGroote2016.test_instance","kind":"method","src_hash":"644f1a4182968203","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(fv_M, FiberForceVelocityDeGroote2016) and str(fv_M) == 'FiberForceVelocityDeGroote2016(v_M_tilde, c_0, c_1, c_2, c_3)'"},"spec":{"lhs":"test_instance()","rhs":"isinstance(fv_M, FiberForceVelocityDeGroote2016) and str(fv_M) == 'FiberForceVelocityDeGroote2016(v_M_tilde, c_0, c_1, c_2, c_3)'","over":{"base":"Any"},"name":"test_instance_correct"},"guarantee":"isinstance(fv_M, FiberForceVelocityDeGroote2016); str(fv_M) == 'FiberForceVelocityDeGroote2016(v_M_tilde, c_0, c_1, c_2, c_3)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityDeGroote2016.test_instance_correct","statement":"Path(test_instance(x), isinstance(fv_M, FiberForceVelocityDeGroote2016); str(fv_M) == 'FiberForceVelocityDeGroote2016(v_M_tilde, c_0, c_1, c_2, c_3)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8b49f53ee10cd808","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(fv_M, FiberForceVelocityDeGroote2016)","str(fv_M) == 'FiberForceVelocityDeGroote2016(v_M_tilde, c_0, c_1, c_2, c_3)'"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.constants","self.v_M_tilde"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_instance(self):
         fv_M = FiberForceVelocityDeGroote2016(self.v_M_tilde, *self.constants)
         assert isinstance(fv_M, FiberForceVelocityDeGroote2016)
         assert str(fv_M) == 'FiberForceVelocityDeGroote2016(v_M_tilde, c_0, c_1, c_2, c_3)'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_doit(), test_doit produces the expected output) over Any ║
+# ║ Path(test_doit(), fv_M == expected) over Any               ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_doit : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  fv_M == expected                               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_doit : Any → {Any | result satisfies: fv_M == ex...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f8356507c2f7a383  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 43432dcb1a0a9071  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityDeGroote2016.test_doit","kind":"method","src_hash":"0349df0c52e3cda4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_doit()","rhs":"test_doit produces the expected output","over":{"base":"Any"},"name":"test_doit_correct"},"guarantee":"test_doit produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityDeGroote2016.test_doit_correct","statement":"Path(test_doit(x), test_doit produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f8356507c2f7a383"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityDeGroote2016.test_doit","kind":"method","src_hash":"0349df0c52e3cda4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: fv_M == expected"},"spec":{"lhs":"test_doit()","rhs":"fv_M == expected","over":{"base":"Any"},"name":"test_doit_correct"},"guarantee":"fv_M == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityDeGroote2016.test_doit_correct","statement":"Path(test_doit(x), fv_M == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"43432dcb1a0a9071","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["fv_M == expected"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.c0","self.c1","self.c2","self.c3","self.constants","self.v_M_tilde"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_doit(self):
         fv_M = FiberForceVelocityDeGroote2016(self.v_M_tilde, *self.constants).doit()
         expected = (
@@ -2432,16 +3111,22 @@ class TestFiberForceVelocityDeGroote2016:
         assert fv_M == expected
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_doit_evaluate_false(), test_doit_evaluate_false produces the expected output) over Any ║
+# ║ Path(test_doit_evaluate_false(), fv_M == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_doit_evaluate_false : Any → Any                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  fv_M == expected                               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_doit_evaluate_false : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2dc2e60191e36d60  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 55fe6c3ce9fd6be2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityDeGroote2016.test_doit_evaluate_false","kind":"method","src_hash":"36216731bf28b2e0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_doit_evaluate_false()","rhs":"test_doit_evaluate_false produces the expected output","over":{"base":"Any"},"name":"test_doit_evaluate_false_correct"},"guarantee":"test_doit_evaluate_false produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityDeGroote2016.test_doit_evaluate_false_correct","statement":"Path(test_doit_evaluate_false(x), test_doit_evaluate_false produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2dc2e60191e36d60"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityDeGroote2016.test_doit_evaluate_false","kind":"method","src_hash":"36216731bf28b2e0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: fv_M == expected"},"spec":{"lhs":"test_doit_evaluate_false()","rhs":"fv_M == expected","over":{"base":"Any"},"name":"test_doit_evaluate_false_correct"},"guarantee":"fv_M == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityDeGroote2016.test_doit_evaluate_false_correct","statement":"Path(test_doit_evaluate_false(x), fv_M == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"55fe6c3ce9fd6be2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["fv_M == expected"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.c0","self.c1","self.c2","self.c3","self.constants","self.v_M_tilde"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_doit_evaluate_false(self):
         fv_M = FiberForceVelocityDeGroote2016(self.v_M_tilde, *self.constants).doit(evaluate=False)
         expected = (
@@ -2451,16 +3136,22 @@ class TestFiberForceVelocityDeGroote2016:
         assert fv_M == expected
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_with_defaults(), test_with_defaults produces the expected output) over Any ║
+# ║ Path(test_with_defaults(), fv_M_manual == fv_M_constants) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_with_defaults : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  fv_M_manual == fv_M_constants                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_with_defaults : Any → {Any | result satisfies: f...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 80614975a9a83e2b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b41a84666715598f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityDeGroote2016.test_with_defaults","kind":"method","src_hash":"2cd570c4d2791280","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_with_defaults()","rhs":"test_with_defaults produces the expected output","over":{"base":"Any"},"name":"test_with_defaults_correct"},"guarantee":"test_with_defaults produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityDeGroote2016.test_with_defaults_correct","statement":"Path(test_with_defaults(x), test_with_defaults produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"80614975a9a83e2b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityDeGroote2016.test_with_defaults","kind":"method","src_hash":"2cd570c4d2791280","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: fv_M_manual == fv_M_constants"},"spec":{"lhs":"test_with_defaults()","rhs":"fv_M_manual == fv_M_constants","over":{"base":"Any"},"name":"test_with_defaults_correct"},"guarantee":"fv_M_manual == fv_M_constants","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityDeGroote2016.test_with_defaults_correct","statement":"Path(test_with_defaults(x), fv_M_manual == fv_M_constants)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b41a84666715598f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["fv_M_manual == fv_M_constants"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.v_M_tilde"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_with_defaults(self):
         constants = (
             Float('-0.318'),
@@ -2473,16 +3164,22 @@ class TestFiberForceVelocityDeGroote2016:
         assert fv_M_manual == fv_M_constants
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_differentiate_wrt_v_M_tilde(), test_differentiate_wrt_v_M_tilde produces the expected output) over Any ║
+# ║ Path(test_differentiate_wrt_v_M_tilde(), fv_M.diff(self.v_M_tilde) == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_differentiate_wrt_v_M_tilde : Any → Any               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  fv_M.diff(self.v_M_tilde) == expected          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_differentiate_wrt_v_M_tilde : Any → {Any | resul...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a277535dfeb53290  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6c8d2e802c292fac  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityDeGroote2016.test_differentiate_wrt_v_M_tilde","kind":"method","src_hash":"c93c984baeb9f812","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_differentiate_wrt_v_M_tilde()","rhs":"test_differentiate_wrt_v_M_tilde produces the expected output","over":{"base":"Any"},"name":"test_differentiate_wrt_v_M_tilde_correct"},"guarantee":"test_differentiate_wrt_v_M_tilde produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityDeGroote2016.test_differentiate_wrt_v_M_tilde_correct","statement":"Path(test_differentiate_wrt_v_M_tilde(x), test_differentiate_wrt_v_M_tilde produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a277535dfeb53290"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityDeGroote2016.test_differentiate_wrt_v_M_tilde","kind":"method","src_hash":"c93c984baeb9f812","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: fv_M.diff(self.v_M_tilde) == expected"},"spec":{"lhs":"test_differentiate_wrt_v_M_tilde()","rhs":"fv_M.diff(self.v_M_tilde) == expected","over":{"base":"Any"},"name":"test_differentiate_wrt_v_M_tilde_correct"},"guarantee":"fv_M.diff(self.v_M_tilde) == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityDeGroote2016.test_differentiate_wrt_v_M_tilde_correct","statement":"Path(test_differentiate_wrt_v_M_tilde(x), fv_M.diff(self.v_M_tilde) == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6c8d2e802c292fac","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["fv_M.diff(self.v_M_tilde) == expected"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.c0","self.c1","self.c2","self.constants","self.v_M_tilde"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_differentiate_wrt_v_M_tilde(self):
         fv_M = FiberForceVelocityDeGroote2016(self.v_M_tilde, *self.constants)
         expected = (
@@ -2492,16 +3189,22 @@ class TestFiberForceVelocityDeGroote2016:
         assert fv_M.diff(self.v_M_tilde) == expected
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_differentiate_wrt_c0(), test_differentiate_wrt_c0 produces the expected output) over Any ║
+# ║ Path(test_differentiate_wrt_c0(), fv_M.diff(self.c0) == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_differentiate_wrt_c0 : Any → Any                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  fv_M.diff(self.c0) == expected                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_differentiate_wrt_c0 : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 63823faae9dd1597  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a229ee78e95a23f2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityDeGroote2016.test_differentiate_wrt_c0","kind":"method","src_hash":"4e3643e2057a7bb9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_differentiate_wrt_c0()","rhs":"test_differentiate_wrt_c0 produces the expected output","over":{"base":"Any"},"name":"test_differentiate_wrt_c0_correct"},"guarantee":"test_differentiate_wrt_c0 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityDeGroote2016.test_differentiate_wrt_c0_correct","statement":"Path(test_differentiate_wrt_c0(x), test_differentiate_wrt_c0 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"63823faae9dd1597"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityDeGroote2016.test_differentiate_wrt_c0","kind":"method","src_hash":"4e3643e2057a7bb9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: fv_M.diff(self.c0) == expected"},"spec":{"lhs":"test_differentiate_wrt_c0()","rhs":"fv_M.diff(self.c0) == expected","over":{"base":"Any"},"name":"test_differentiate_wrt_c0_correct"},"guarantee":"fv_M.diff(self.c0) == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityDeGroote2016.test_differentiate_wrt_c0_correct","statement":"Path(test_differentiate_wrt_c0(x), fv_M.diff(self.c0) == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a229ee78e95a23f2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["fv_M.diff(self.c0) == expected"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.c0","self.c1","self.c2","self.constants","self.v_M_tilde"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_differentiate_wrt_c0(self):
         fv_M = FiberForceVelocityDeGroote2016(self.v_M_tilde, *self.constants)
         expected = log(
@@ -2511,16 +3214,22 @@ class TestFiberForceVelocityDeGroote2016:
         assert fv_M.diff(self.c0) == expected
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_differentiate_wrt_c1(), test_differentiate_wrt_c1 produces the expected output) over Any ║
+# ║ Path(test_differentiate_wrt_c1(), fv_M.diff(self.c1) == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_differentiate_wrt_c1 : Any → Any                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  fv_M.diff(self.c1) == expected                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_differentiate_wrt_c1 : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7c176d436a6e2d65  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2299fccc20d2b644  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityDeGroote2016.test_differentiate_wrt_c1","kind":"method","src_hash":"5ffb2e2a4ec463ef","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_differentiate_wrt_c1()","rhs":"test_differentiate_wrt_c1 produces the expected output","over":{"base":"Any"},"name":"test_differentiate_wrt_c1_correct"},"guarantee":"test_differentiate_wrt_c1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityDeGroote2016.test_differentiate_wrt_c1_correct","statement":"Path(test_differentiate_wrt_c1(x), test_differentiate_wrt_c1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7c176d436a6e2d65"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityDeGroote2016.test_differentiate_wrt_c1","kind":"method","src_hash":"5ffb2e2a4ec463ef","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: fv_M.diff(self.c1) == expected"},"spec":{"lhs":"test_differentiate_wrt_c1()","rhs":"fv_M.diff(self.c1) == expected","over":{"base":"Any"},"name":"test_differentiate_wrt_c1_correct"},"guarantee":"fv_M.diff(self.c1) == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityDeGroote2016.test_differentiate_wrt_c1_correct","statement":"Path(test_differentiate_wrt_c1(x), fv_M.diff(self.c1) == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2299fccc20d2b644","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["fv_M.diff(self.c1) == expected"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.c0","self.c1","self.c2","self.constants","self.v_M_tilde"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_differentiate_wrt_c1(self):
         fv_M = FiberForceVelocityDeGroote2016(self.v_M_tilde, *self.constants)
         expected = (
@@ -2530,16 +3239,22 @@ class TestFiberForceVelocityDeGroote2016:
         assert fv_M.diff(self.c1) == expected
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_differentiate_wrt_c2(), test_differentiate_wrt_c2 produces the expected output) over Any ║
+# ║ Path(test_differentiate_wrt_c2(), fv_M.diff(self.c2) == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_differentiate_wrt_c2 : Any → Any                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  fv_M.diff(self.c2) == expected                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_differentiate_wrt_c2 : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 60a12fca5472df82  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a927e01e8c28f2e2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityDeGroote2016.test_differentiate_wrt_c2","kind":"method","src_hash":"459f1c468fd8d994","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_differentiate_wrt_c2()","rhs":"test_differentiate_wrt_c2 produces the expected output","over":{"base":"Any"},"name":"test_differentiate_wrt_c2_correct"},"guarantee":"test_differentiate_wrt_c2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityDeGroote2016.test_differentiate_wrt_c2_correct","statement":"Path(test_differentiate_wrt_c2(x), test_differentiate_wrt_c2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"60a12fca5472df82"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityDeGroote2016.test_differentiate_wrt_c2","kind":"method","src_hash":"459f1c468fd8d994","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: fv_M.diff(self.c2) == expected"},"spec":{"lhs":"test_differentiate_wrt_c2()","rhs":"fv_M.diff(self.c2) == expected","over":{"base":"Any"},"name":"test_differentiate_wrt_c2_correct"},"guarantee":"fv_M.diff(self.c2) == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityDeGroote2016.test_differentiate_wrt_c2_correct","statement":"Path(test_differentiate_wrt_c2(x), fv_M.diff(self.c2) == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a927e01e8c28f2e2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["fv_M.diff(self.c2) == expected"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.c0","self.c1","self.c2","self.constants","self.v_M_tilde"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_differentiate_wrt_c2(self):
         fv_M = FiberForceVelocityDeGroote2016(self.v_M_tilde, *self.constants)
         expected = (
@@ -2549,63 +3264,87 @@ class TestFiberForceVelocityDeGroote2016:
         assert fv_M.diff(self.c2) == expected
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_differentiate_wrt_c3(), test_differentiate_wrt_c3 produces the expected output) over Any ║
+# ║ Path(test_differentiate_wrt_c3(), fv_M.diff(self.c3) == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_differentiate_wrt_c3 : Any → Any                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  fv_M.diff(self.c3) == expected                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_differentiate_wrt_c3 : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2ce9b0ec14cb55d0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8b15d00aa5b8fafe  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityDeGroote2016.test_differentiate_wrt_c3","kind":"method","src_hash":"86282b63d215ba14","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_differentiate_wrt_c3()","rhs":"test_differentiate_wrt_c3 produces the expected output","over":{"base":"Any"},"name":"test_differentiate_wrt_c3_correct"},"guarantee":"test_differentiate_wrt_c3 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityDeGroote2016.test_differentiate_wrt_c3_correct","statement":"Path(test_differentiate_wrt_c3(x), test_differentiate_wrt_c3 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2ce9b0ec14cb55d0"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityDeGroote2016.test_differentiate_wrt_c3","kind":"method","src_hash":"86282b63d215ba14","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: fv_M.diff(self.c3) == expected"},"spec":{"lhs":"test_differentiate_wrt_c3()","rhs":"fv_M.diff(self.c3) == expected","over":{"base":"Any"},"name":"test_differentiate_wrt_c3_correct"},"guarantee":"fv_M.diff(self.c3) == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityDeGroote2016.test_differentiate_wrt_c3_correct","statement":"Path(test_differentiate_wrt_c3(x), fv_M.diff(self.c3) == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8b15d00aa5b8fafe","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["fv_M.diff(self.c3) == expected"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.c3","self.constants","self.v_M_tilde"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_differentiate_wrt_c3(self):
         fv_M = FiberForceVelocityDeGroote2016(self.v_M_tilde, *self.constants)
         expected = Integer(1)
         assert fv_M.diff(self.c3) == expected
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_inverse(), test_inverse produces the expected output) over Any ║
+# ║ Path(test_inverse(), fv_M.inverse() is FiberForceVelocityInverseDeGroote2016) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_inverse : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  fv_M.inverse() is FiberForceVelocityInver...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_inverse : Any → {Any | result satisfies: fv_M.in...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ab312d9bd9c565f3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e1d7b65d8c72a776  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityDeGroote2016.test_inverse","kind":"method","src_hash":"a30bc9f9905d95fa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_inverse()","rhs":"test_inverse produces the expected output","over":{"base":"Any"},"name":"test_inverse_correct"},"guarantee":"test_inverse produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityDeGroote2016.test_inverse_correct","statement":"Path(test_inverse(x), test_inverse produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ab312d9bd9c565f3"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityDeGroote2016.test_inverse","kind":"method","src_hash":"a30bc9f9905d95fa","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: fv_M.inverse() is FiberForceVelocityInverseDeGroote2016"},"spec":{"lhs":"test_inverse()","rhs":"fv_M.inverse() is FiberForceVelocityInverseDeGroote2016","over":{"base":"Any"},"name":"test_inverse_correct"},"guarantee":"fv_M.inverse() is FiberForceVelocityInverseDeGroote2016","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityDeGroote2016.test_inverse_correct","statement":"Path(test_inverse(x), fv_M.inverse() is FiberForceVelocityInverseDeGroote2016)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e1d7b65d8c72a776","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["fv_M.inverse() is FiberForceVelocityInverseDeGroote2016"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.constants","self.v_M_tilde"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_inverse(self):
         fv_M = FiberForceVelocityDeGroote2016(self.v_M_tilde, *self.constants)
         assert fv_M.inverse() is FiberForceVelocityInverseDeGroote2016
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_function_print_latex(), test_function_print_latex produces the expected output) over Any ║
+# ║ Path(test_function_print_latex(), LatexPrinter().doprint(fv_M) == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_function_print_latex : Any → Any                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  LatexPrinter().doprint(fv_M) == expected       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_function_print_latex : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 808ebd493bae72c6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 060d08207f322bb2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityDeGroote2016.test_function_print_latex","kind":"method","src_hash":"a6e2f8da86349cba","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_function_print_latex()","rhs":"test_function_print_latex produces the expected output","over":{"base":"Any"},"name":"test_function_print_latex_correct"},"guarantee":"test_function_print_latex produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityDeGroote2016.test_function_print_latex_correct","statement":"Path(test_function_print_latex(x), test_function_print_latex produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"808ebd493bae72c6"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityDeGroote2016.test_function_print_latex","kind":"method","src_hash":"a6e2f8da86349cba","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: LatexPrinter().doprint(fv_M) == expected"},"spec":{"lhs":"test_function_print_latex()","rhs":"LatexPrinter().doprint(fv_M) == expected","over":{"base":"Any"},"name":"test_function_print_latex_correct"},"guarantee":"LatexPrinter().doprint(fv_M) == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityDeGroote2016.test_function_print_latex_correct","statement":"Path(test_function_print_latex(x), LatexPrinter().doprint(fv_M) == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"060d08207f322bb2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["LatexPrinter().doprint(fv_M) == expected"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.constants","self.v_M_tilde"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_function_print_latex(self):
         fv_M = FiberForceVelocityDeGroote2016(self.v_M_tilde, *self.constants)
         expected = r'\operatorname{fv}^M \left( v_{M tilde} \right)'
         assert LatexPrinter().doprint(fv_M) == expected
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_expression_print_latex(), test_expression_print_latex produces the expected output) over Any ║
+# ║ Path(test_expression_print_latex(), LatexPrinter().doprint(fv_M.doit()) == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_expression_print_latex : Any → Any                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  LatexPrinter().doprint(fv_M.doit()) == ex...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_expression_print_latex : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1f613be2c7f4ab0f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 381cbbc21d462fd7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityDeGroote2016.test_expression_print_latex","kind":"method","src_hash":"d6b8139454a8a619","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_expression_print_latex()","rhs":"test_expression_print_latex produces the expected output","over":{"base":"Any"},"name":"test_expression_print_latex_correct"},"guarantee":"test_expression_print_latex produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityDeGroote2016.test_expression_print_latex_correct","statement":"Path(test_expression_print_latex(x), test_expression_print_latex produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1f613be2c7f4ab0f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityDeGroote2016.test_expression_print_latex","kind":"method","src_hash":"d6b8139454a8a619","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: LatexPrinter().doprint(fv_M.doit()) == expected"},"spec":{"lhs":"test_expression_print_latex()","rhs":"LatexPrinter().doprint(fv_M.doit()) == expected","over":{"base":"Any"},"name":"test_expression_print_latex_correct"},"guarantee":"LatexPrinter().doprint(fv_M.doit()) == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityDeGroote2016.test_expression_print_latex_correct","statement":"Path(test_expression_print_latex(x), LatexPrinter().doprint(fv_M.doit()) == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"381cbbc21d462fd7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["LatexPrinter().doprint(fv_M.doit()) == expected"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.constants","self.v_M_tilde"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_expression_print_latex(self):
         fv_M = FiberForceVelocityDeGroote2016(self.v_M_tilde, *self.constants)
         expected = (
@@ -2699,31 +3438,43 @@ class TestFiberForceVelocityDeGroote2016:
         ]
     )
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_print_code(cod), test_print_code produces the expected output) over Any ║
+# ║ Path(test_print_code(code_printer, expected), code_printer().doprint(fv_M) == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_print_code : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  code_printer().doprint(fv_M) == expected       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_print_code : Any → {Any | result satisfies: code...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 707e52e0a94b9a04  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 07a769fefc20aadc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityDeGroote2016.test_print_code","kind":"method","src_hash":"36990fedf90dc92f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_print_code(cod)","rhs":"test_print_code produces the expected output","over":{"base":"Any"},"name":"test_print_code_correct"},"guarantee":"test_print_code produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityDeGroote2016.test_print_code_correct","statement":"Path(test_print_code(x), test_print_code produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"707e52e0a94b9a04"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityDeGroote2016.test_print_code","kind":"method","src_hash":"36990fedf90dc92f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: code_printer().doprint(fv_M) == expected"},"spec":{"lhs":"test_print_code(code_printer, expected)","rhs":"code_printer().doprint(fv_M) == expected","over":{"base":"Any"},"name":"test_print_code_correct"},"guarantee":"code_printer().doprint(fv_M) == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityDeGroote2016.test_print_code_correct","statement":"Path(test_print_code(x), code_printer().doprint(fv_M) == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"07a769fefc20aadc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["code_printer().doprint(fv_M) == expected"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.v_M_tilde"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_print_code(self, code_printer, expected):
         fv_M = FiberForceVelocityDeGroote2016.with_defaults(self.v_M_tilde)
         assert code_printer().doprint(fv_M) == expected
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_derivative_print_code(), test_derivative_print_code produces the expected output) over Any ║
+# ║ Path(test_derivative_print_code(), PythonCodePrinter().doprint(dfv_M_dv_M_tilde) == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_derivative_print_code : Any → Any                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  PythonCodePrinter().doprint(dfv_M_dv_M_ti...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_derivative_print_code : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 78f2386a0c17ffe6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 22515974933c6bf8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityDeGroote2016.test_derivative_print_code","kind":"method","src_hash":"52508807ef1863a9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_derivative_print_code()","rhs":"test_derivative_print_code produces the expected output","over":{"base":"Any"},"name":"test_derivative_print_code_correct"},"guarantee":"test_derivative_print_code produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityDeGroote2016.test_derivative_print_code_correct","statement":"Path(test_derivative_print_code(x), test_derivative_print_code produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"78f2386a0c17ffe6"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityDeGroote2016.test_derivative_print_code","kind":"method","src_hash":"52508807ef1863a9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: PythonCodePrinter().doprint(dfv_M_dv_M_tilde) == expected"},"spec":{"lhs":"test_derivative_print_code()","rhs":"PythonCodePrinter().doprint(dfv_M_dv_M_tilde) == expected","over":{"base":"Any"},"name":"test_derivative_print_code_correct"},"guarantee":"PythonCodePrinter().doprint(dfv_M_dv_M_tilde) == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityDeGroote2016.test_derivative_print_code_correct","statement":"Path(test_derivative_print_code(x), PythonCodePrinter().doprint(dfv_M_dv_M_tilde) == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"22515974933c6bf8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["PythonCodePrinter().doprint(dfv_M_dv_M_tilde) == expected"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.v_M_tilde"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_derivative_print_code(self):
         fv_M = FiberForceVelocityDeGroote2016.with_defaults(self.v_M_tilde)
         dfv_M_dv_M_tilde = fv_M.diff(self.v_M_tilde)
@@ -2731,16 +3482,22 @@ class TestFiberForceVelocityDeGroote2016:
         assert PythonCodePrinter().doprint(dfv_M_dv_M_tilde) == expected
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_lambdify(), test_lambdify produces the expected output) over Any ║
+# ║ Path(test_lambdify(), fv_M_callable(0.0) == pytest.approx(1.002320622548512)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_lambdify : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  fv_M_callable(0.0) == pytest.approx(1.002...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_lambdify : Any → {Any | result satisfies: fv_M_c...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0fe4390ac05d40e7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 610996564f4a3df0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityDeGroote2016.test_lambdify","kind":"method","src_hash":"326c8e01715d9b4f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_lambdify()","rhs":"test_lambdify produces the expected output","over":{"base":"Any"},"name":"test_lambdify_correct"},"guarantee":"test_lambdify produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityDeGroote2016.test_lambdify_correct","statement":"Path(test_lambdify(x), test_lambdify produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0fe4390ac05d40e7"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityDeGroote2016.test_lambdify","kind":"method","src_hash":"326c8e01715d9b4f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: fv_M_callable(0.0) == pytest.approx(1.002320622548512)"},"spec":{"lhs":"test_lambdify()","rhs":"fv_M_callable(0.0) == pytest.approx(1.002320622548512)","over":{"base":"Any"},"name":"test_lambdify_correct"},"guarantee":"fv_M_callable(0.0) == pytest.approx(1.002320622548512)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityDeGroote2016.test_lambdify_correct","statement":"Path(test_lambdify(x), fv_M_callable(0.0) == pytest.approx(1.002320622548512))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"610996564f4a3df0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["fv_M_callable(0.0) == pytest.approx(1.002320622548512)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.v_M_tilde"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_lambdify(self):
         fv_M = FiberForceVelocityDeGroote2016.with_defaults(self.v_M_tilde)
         fv_M_callable = lambdify(self.v_M_tilde, fv_M)
@@ -2748,16 +3505,22 @@ class TestFiberForceVelocityDeGroote2016:
 
     @pytest.mark.skipif(numpy is None, reason='NumPy not installed')
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_lambdify_numpy(), test_lambdify_numpy produces the expected output) over Any ║
+# ║ Path(test_lambdify_numpy(), <unspecified:test_lambdify_numpy>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_lambdify_numpy : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 81501fe7b7590719  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityDeGroote2016.test_lambdify_numpy","kind":"method","src_hash":"f297a1972a6307bd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_lambdify_numpy()","rhs":"test_lambdify_numpy produces the expected output","over":{"base":"Any"},"name":"test_lambdify_numpy_correct"},"guarantee":"test_lambdify_numpy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityDeGroote2016.test_lambdify_numpy_correct","statement":"Path(test_lambdify_numpy(x), test_lambdify_numpy produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"81501fe7b7590719"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityDeGroote2016.test_lambdify_numpy","kind":"method","src_hash":"f297a1972a6307bd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_lambdify_numpy()","rhs":"<unspecified:test_lambdify_numpy>","over":{"base":"Any"},"name":"test_lambdify_numpy_correct"},"guarantee":"test_lambdify_numpy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityDeGroote2016.test_lambdify_numpy_correct","statement":"Path(test_lambdify_numpy(x), test_lambdify_numpy produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"81501fe7b7590719","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.v_M_tilde"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_lambdify_numpy(self):
         fv_M = FiberForceVelocityDeGroote2016.with_defaults(self.v_M_tilde)
         fv_M_callable = lambdify(self.v_M_tilde, fv_M, 'numpy')
@@ -2772,16 +3535,22 @@ class TestFiberForceVelocityDeGroote2016:
 
     @pytest.mark.skipif(jax is None, reason='JAX not installed')
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_lambdify_jax(), test_lambdify_jax produces the expected output) over Any ║
+# ║ Path(test_lambdify_jax(), <unspecified:test_lambdify_jax>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_lambdify_jax : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 100958f52ece0345  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityDeGroote2016.test_lambdify_jax","kind":"method","src_hash":"5404b3ee12849398","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_lambdify_jax()","rhs":"test_lambdify_jax produces the expected output","over":{"base":"Any"},"name":"test_lambdify_jax_correct"},"guarantee":"test_lambdify_jax produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityDeGroote2016.test_lambdify_jax_correct","statement":"Path(test_lambdify_jax(x), test_lambdify_jax produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"100958f52ece0345"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityDeGroote2016.test_lambdify_jax","kind":"method","src_hash":"5404b3ee12849398","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_lambdify_jax()","rhs":"<unspecified:test_lambdify_jax>","over":{"base":"Any"},"name":"test_lambdify_jax_correct"},"guarantee":"test_lambdify_jax produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityDeGroote2016.test_lambdify_jax_correct","statement":"Path(test_lambdify_jax(x), test_lambdify_jax produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"100958f52ece0345","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.v_M_tilde"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_lambdify_jax(self):
         fv_M = FiberForceVelocityDeGroote2016.with_defaults(self.v_M_tilde)
         fv_M_callable = jax.jit(lambdify(self.v_M_tilde, fv_M, 'jax'))
@@ -2798,28 +3567,40 @@ class TestFiberForceVelocityDeGroote2016:
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(TestFiberForceVelocityInverseDeGroote2016(*args), correctly constructs a TestFiberForceVelocityInverseDeGroote2016 instance) over {Any | isinstance(fv_M_inv, FiberForceVelocityInverseDeGroote2016)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ TestFiberForceVelocityInverseDeGroote2016 : {Any | is...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.5ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ab2fa840756ff85f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityInverseDeGroote2016","kind":"class","src_hash":"77f24d10080c42fd","in":{"base":"Any","pred":"isinstance(fv_M_inv, FiberForceVelocityInverseDeGroote2016)"},"out":{"base":"Any","pred":"issubclass(FiberForceVelocityInverseDeGroote2016, Function) and issubclass(FiberForceVelocityInverseDeGroote2016, CharacteristicCurveFunction) and isinstance(fv_M_inv, FiberForceVelocityInverseDeGroote2016) and fv_M_inv == (sinh((self.fv_M - self.c3) / self.c0) - self.c2) / self.c1 and fv_M_inv_manual == fv_M_inv_constants and fv_M_inv.diff(self.fv_M) == expected and fv_M_inv.diff(self.c0) == expected and fv_M_inv.diff(self.c1) == expected and fv_M_inv.diff(self.c2) == expected and fv_M_inv.diff(self.c3) == expected and fv_M_inv.inverse() is FiberForceVelocityDeGroote2016 and LatexPrinter().doprint(fv_M_inv) == expected and LatexPrinter().doprint(fv_M.doit()) == expected and code_printer().doprint(fv_M_inv) == expected and PythonCodePrinter().doprint(dfv_M_inv_dfv_M) == expected and fv_M_inv_callable(1.0) == pytest.approx(-0.0009548832444487479)"},"spec":{"lhs":"TestFiberForceVelocityInverseDeGroote2016(*args)","rhs":"correctly constructs a TestFiberForceVelocityInverseDeGroote2016 instance","over":{"base":"Any","pred":"isinstance(fv_M_inv, FiberForceVelocityInverseDeGroote2016)"},"name":"TestFiberForceVelocityInverseDeGroote2016_class_invariant"},"guarantee":"correctly constructs a TestFiberForceVelocityInverseDeGroote2016 instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ab2fa840756ff85f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityInverseDeGroote2016","kind":"class","src_hash":"77f24d10080c42fd","in":{"base":"Any","pred":"isinstance(fv_M_inv, FiberForceVelocityInverseDeGroote2016)"},"out":{"base":"Any","pred":"issubclass(FiberForceVelocityInverseDeGroote2016, Function) and issubclass(FiberForceVelocityInverseDeGroote2016, CharacteristicCurveFunction) and isinstance(fv_M_inv, FiberForceVelocityInverseDeGroote2016) and fv_M_inv == (sinh((self.fv_M - self.c3) / self.c0) - self.c2) / self.c1 and fv_M_inv_manual == fv_M_inv_constants and fv_M_inv.diff(self.fv_M) == expected and fv_M_inv.diff(self.c0) == expected and fv_M_inv.diff(self.c1) == expected and fv_M_inv.diff(self.c2) == expected and fv_M_inv.diff(self.c3) == expected and fv_M_inv.inverse() is FiberForceVelocityDeGroote2016 and LatexPrinter().doprint(fv_M_inv) == expected and LatexPrinter().doprint(fv_M.doit()) == expected and code_printer().doprint(fv_M_inv) == expected and PythonCodePrinter().doprint(dfv_M_inv_dfv_M) == expected and fv_M_inv_callable(1.0) == pytest.approx(-0.0009548832444487479)"},"spec":{"lhs":"TestFiberForceVelocityInverseDeGroote2016(*args)","rhs":"correctly constructs a TestFiberForceVelocityInverseDeGroote2016 instance","over":{"base":"Any","pred":"isinstance(fv_M_inv, FiberForceVelocityInverseDeGroote2016)"},"name":"TestFiberForceVelocityInverseDeGroote2016_class_invariant"},"guarantee":"correctly constructs a TestFiberForceVelocityInverseDeGroote2016 instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ab2fa840756ff85f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial"},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.5,"verdict_class":"assumed","binding":false,"binding_errors":["Function TestFiberForceVelocityInverseDeGroote2016 not found in source"]}}
 class TestFiberForceVelocityInverseDeGroote2016:
 
     @pytest.fixture(autouse=True)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_tendon_force_length_inverse_arguments_fixture(), internal helper behaves correctly) over Any ║
+# ║ Path(_tendon_force_length_inverse_arguments_fixture(), <unspecified:_tendon_force_length_inverse_arguments_fixture>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _tendon_force_length_inverse_arguments_fixture : Any ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4d8e664b8fc9508f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityInverseDeGroote2016._tendon_force_length_inverse_arguments_fixture","kind":"method","src_hash":"34b6de6125088628","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_tendon_force_length_inverse_arguments_fixture()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_tendon_force_length_inverse_arguments_fixture_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityInverseDeGroote2016._tendon_force_length_inverse_arguments_fixture_correct","statement":"Path(_tendon_force_length_inverse_arguments_fixture(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4d8e664b8fc9508f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityInverseDeGroote2016._tendon_force_length_inverse_arguments_fixture","kind":"method","src_hash":"34b6de6125088628","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_tendon_force_length_inverse_arguments_fixture()","rhs":"<unspecified:_tendon_force_length_inverse_arguments_fixture>","over":{"base":"Any"},"name":"_tendon_force_length_inverse_arguments_fixture_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityInverseDeGroote2016._tendon_force_length_inverse_arguments_fixture_correct","statement":"Path(_tendon_force_length_inverse_arguments_fixture(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4d8e664b8fc9508f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self.c0","self.c1","self.c2","self.c3"],"writes":["self.c0","self.c1","self.c2","self.c3","self.constants","self.fv_M"]},"state_contract":{"modifies":["self.c0","self.c1","self.c2","self.c3","self.constants","self.fv_M"],"old_bindings":{"old_self_c0":"self.c0","old_self_c1":"self.c1","old_self_c2":"self.c2","old_self_c3":"self.c3","old_self_constants":"self.constants","old_self_fv_M":"self.fv_M"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _tendon_force_length_inverse_arguments_fixture(self):
         self.fv_M = Symbol('fv_M')
         self.c0 = Symbol('c_0')
@@ -2830,78 +3611,111 @@ class TestFiberForceVelocityInverseDeGroote2016:
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_class(), test_class produces the expected output) over Any ║
+# ║ Path(test_class(), issubclass(FiberForceVelocityInverseDeGroote2016, Function) and issubclass(FiberForceVelocityInverseDeGroote2016, CharacteristicCurveFunction) and FiberForceVelocityInverseDeGroote2016.__name__ == 'FiberForceVelocityInverseDeGroote2016') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_class : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  issubclass(FiberForceVelocityInverseDeGro...   ║
+# ║   ensures:  issubclass(FiberForceVelocityInverseDeGro...   ║
+# ║   ensures:  FiberForceVelocityInverseDeGroote2016.__n...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_class : Any → {Any | result satisfies: issubclas...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 85364a4e1348d205  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 00dc907ab7c69d5b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityInverseDeGroote2016.test_class","kind":"staticmethod","src_hash":"80c92bd2906563f1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_class()","rhs":"test_class produces the expected output","over":{"base":"Any"},"name":"test_class_correct"},"guarantee":"test_class produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityInverseDeGroote2016.test_class_correct","statement":"Path(test_class(x), test_class produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"85364a4e1348d205"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityInverseDeGroote2016.test_class","kind":"staticmethod","src_hash":"80c92bd2906563f1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: issubclass(FiberForceVelocityInverseDeGroote2016, Function) and issubclass(FiberForceVelocityInverseDeGroote2016, CharacteristicCurveFunction) and FiberForceVelocityInverseDeGroote2016.__name__ == 'FiberForceVelocityInverseDeGroote2016'"},"spec":{"lhs":"test_class()","rhs":"issubclass(FiberForceVelocityInverseDeGroote2016, Function) and issubclass(FiberForceVelocityInverseDeGroote2016, CharacteristicCurveFunction) and FiberForceVelocityInverseDeGroote2016.__name__ == 'FiberForceVelocityInverseDeGroote2016'","over":{"base":"Any"},"name":"test_class_correct"},"guarantee":"issubclass(FiberForceVelocityInverseDeGroote2016, Function); issubclass(FiberForceVelocityInverseDeGroote2016, CharacteristicCurveFunction); FiberForceVelocityInverseDeGroote2016.__name__ == 'FiberForceVelocityInverseDeGroote2016'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityInverseDeGroote2016.test_class_correct","statement":"Path(test_class(x), issubclass(FiberForceVelocityInverseDeGroote2016, Function); issubclass(FiberForceVelocityInverseDeGroote2016, CharacteristicCurveFunction); FiberForceVelocityInverseDeGroote2016.__name__ == 'FiberForceVelocityInverseDeGroote2016')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"00dc907ab7c69d5b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["issubclass(FiberForceVelocityInverseDeGroote2016, Function)","issubclass(FiberForceVelocityInverseDeGroote2016, CharacteristicCurveFunction)","FiberForceVelocityInverseDeGroote2016.__name__ == 'FiberForceVelocityInverseDeGroote2016'"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_class():
         assert issubclass(FiberForceVelocityInverseDeGroote2016, Function)
         assert issubclass(FiberForceVelocityInverseDeGroote2016, CharacteristicCurveFunction)
         assert FiberForceVelocityInverseDeGroote2016.__name__ == 'FiberForceVelocityInverseDeGroote2016'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_instance(), test_instance produces the expected output) over Any ║
+# ║ Path(test_instance(), isinstance(fv_M_inv, FiberForceVelocityInverseDeGroote2016) and str(fv_M_inv) == 'FiberForceVelocityInverseDeGroote2016(fv_M, c_0, c_1, c_2, c_3)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_instance : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(fv_M_inv, FiberForceVelocityIn...   ║
+# ║   ensures:  str(fv_M_inv) == 'FiberForceVelocityInver...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_instance : Any → {Any | result satisfies: isinst...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 14f3656cfe90c59e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3b69e096053956be  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityInverseDeGroote2016.test_instance","kind":"method","src_hash":"c630a0882fcc6ef1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_instance()","rhs":"test_instance produces the expected output","over":{"base":"Any"},"name":"test_instance_correct"},"guarantee":"test_instance produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityInverseDeGroote2016.test_instance_correct","statement":"Path(test_instance(x), test_instance produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"14f3656cfe90c59e"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityInverseDeGroote2016.test_instance","kind":"method","src_hash":"c630a0882fcc6ef1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(fv_M_inv, FiberForceVelocityInverseDeGroote2016) and str(fv_M_inv) == 'FiberForceVelocityInverseDeGroote2016(fv_M, c_0, c_1, c_2, c_3)'"},"spec":{"lhs":"test_instance()","rhs":"isinstance(fv_M_inv, FiberForceVelocityInverseDeGroote2016) and str(fv_M_inv) == 'FiberForceVelocityInverseDeGroote2016(fv_M, c_0, c_1, c_2, c_3)'","over":{"base":"Any"},"name":"test_instance_correct"},"guarantee":"isinstance(fv_M_inv, FiberForceVelocityInverseDeGroote2016); str(fv_M_inv) == 'FiberForceVelocityInverseDeGroote2016(fv_M, c_0, c_1, c_2, c_3)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityInverseDeGroote2016.test_instance_correct","statement":"Path(test_instance(x), isinstance(fv_M_inv, FiberForceVelocityInverseDeGroote2016); str(fv_M_inv) == 'FiberForceVelocityInverseDeGroote2016(fv_M, c_0, c_1, c_2, c_3)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3b69e096053956be","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(fv_M_inv, FiberForceVelocityInverseDeGroote2016)","str(fv_M_inv) == 'FiberForceVelocityInverseDeGroote2016(fv_M, c_0, c_1, c_2, c_3)'"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.constants","self.fv_M"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_instance(self):
         fv_M_inv = FiberForceVelocityInverseDeGroote2016(self.fv_M, *self.constants)
         assert isinstance(fv_M_inv, FiberForceVelocityInverseDeGroote2016)
         assert str(fv_M_inv) == 'FiberForceVelocityInverseDeGroote2016(fv_M, c_0, c_1, c_2, c_3)'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_doit(), test_doit produces the expected output) over Any ║
+# ║ Path(test_doit(), fv_M_inv == (sinh((self.fv_M - self.c3) / self.c0) - self.c2) / self.c1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_doit : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  fv_M_inv == (sinh((self.fv_M - self.c3) /...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_doit : Any → {Any | result satisfies: fv_M_inv =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5b549a87b6ab64ec  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1f5bb5a2e295b489  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityInverseDeGroote2016.test_doit","kind":"method","src_hash":"57d2472387595ac7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_doit()","rhs":"test_doit produces the expected output","over":{"base":"Any"},"name":"test_doit_correct"},"guarantee":"test_doit produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityInverseDeGroote2016.test_doit_correct","statement":"Path(test_doit(x), test_doit produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5b549a87b6ab64ec"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityInverseDeGroote2016.test_doit","kind":"method","src_hash":"57d2472387595ac7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: fv_M_inv == (sinh((self.fv_M - self.c3) / self.c0) - self.c2) / self.c1"},"spec":{"lhs":"test_doit()","rhs":"fv_M_inv == (sinh((self.fv_M - self.c3) / self.c0) - self.c2) / self.c1","over":{"base":"Any"},"name":"test_doit_correct"},"guarantee":"fv_M_inv == (sinh((self.fv_M - self.c3) / self.c0) - self.c2) / self.c1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityInverseDeGroote2016.test_doit_correct","statement":"Path(test_doit(x), fv_M_inv == (sinh((self.fv_M - self.c3) / self.c0) - self.c2) / self.c1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1f5bb5a2e295b489","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["fv_M_inv == (sinh((self.fv_M - self.c3) / self.c0) - self.c2) / self.c1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.c0","self.c1","self.c2","self.c3","self.constants","self.fv_M"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_doit(self):
         fv_M_inv = FiberForceVelocityInverseDeGroote2016(self.fv_M, *self.constants).doit()
         assert fv_M_inv == (sinh((self.fv_M - self.c3)/self.c0) - self.c2)/self.c1
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_doit_evaluate_false(), test_doit_evaluate_false produces the expected output) over Any ║
+# ║ Path(test_doit_evaluate_false(), fv_M_inv == (sinh(UnevaluatedExpr(self.fv_M - self.c3) / self.c0) - self.c2) / self.c1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_doit_evaluate_false : Any → Any                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  fv_M_inv == (sinh(UnevaluatedExpr(self.fv...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_doit_evaluate_false : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1cc40d3f8faae9dd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c25f5f0037362361  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityInverseDeGroote2016.test_doit_evaluate_false","kind":"method","src_hash":"0ddbe68b63c9d9ef","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_doit_evaluate_false()","rhs":"test_doit_evaluate_false produces the expected output","over":{"base":"Any"},"name":"test_doit_evaluate_false_correct"},"guarantee":"test_doit_evaluate_false produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityInverseDeGroote2016.test_doit_evaluate_false_correct","statement":"Path(test_doit_evaluate_false(x), test_doit_evaluate_false produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1cc40d3f8faae9dd"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityInverseDeGroote2016.test_doit_evaluate_false","kind":"method","src_hash":"0ddbe68b63c9d9ef","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: fv_M_inv == (sinh(UnevaluatedExpr(self.fv_M - self.c3) / self.c0) - self.c2) / self.c1"},"spec":{"lhs":"test_doit_evaluate_false()","rhs":"fv_M_inv == (sinh(UnevaluatedExpr(self.fv_M - self.c3) / self.c0) - self.c2) / self.c1","over":{"base":"Any"},"name":"test_doit_evaluate_false_correct"},"guarantee":"fv_M_inv == (sinh(UnevaluatedExpr(self.fv_M - self.c3) / self.c0) - self.c2) / self.c1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityInverseDeGroote2016.test_doit_evaluate_false_correct","statement":"Path(test_doit_evaluate_false(x), fv_M_inv == (sinh(UnevaluatedExpr(self.fv_M - self.c3) / self.c0) - self.c2) / self.c1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c25f5f0037362361","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["fv_M_inv == (sinh(UnevaluatedExpr(self.fv_M - self.c3) / self.c0) - self.c2) / self.c1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.c0","self.c1","self.c2","self.c3","self.constants","self.fv_M"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_doit_evaluate_false(self):
         fv_M_inv = FiberForceVelocityInverseDeGroote2016(self.fv_M, *self.constants).doit(evaluate=False)
         assert fv_M_inv == (sinh(UnevaluatedExpr(self.fv_M - self.c3)/self.c0) - self.c2)/self.c1
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_with_defaults(), test_with_defaults produces the expected output) over Any ║
+# ║ Path(test_with_defaults(), fv_M_inv_manual == fv_M_inv_constants) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_with_defaults : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  fv_M_inv_manual == fv_M_inv_constants          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_with_defaults : Any → {Any | result satisfies: f...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3877e3613b23a7b4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 02fe155857fc2bb4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityInverseDeGroote2016.test_with_defaults","kind":"method","src_hash":"1e40130b8214c006","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_with_defaults()","rhs":"test_with_defaults produces the expected output","over":{"base":"Any"},"name":"test_with_defaults_correct"},"guarantee":"test_with_defaults produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityInverseDeGroote2016.test_with_defaults_correct","statement":"Path(test_with_defaults(x), test_with_defaults produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3877e3613b23a7b4"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityInverseDeGroote2016.test_with_defaults","kind":"method","src_hash":"1e40130b8214c006","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: fv_M_inv_manual == fv_M_inv_constants"},"spec":{"lhs":"test_with_defaults()","rhs":"fv_M_inv_manual == fv_M_inv_constants","over":{"base":"Any"},"name":"test_with_defaults_correct"},"guarantee":"fv_M_inv_manual == fv_M_inv_constants","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityInverseDeGroote2016.test_with_defaults_correct","statement":"Path(test_with_defaults(x), fv_M_inv_manual == fv_M_inv_constants)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"02fe155857fc2bb4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["fv_M_inv_manual == fv_M_inv_constants"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.fv_M"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_with_defaults(self):
         constants = (
             Float('-0.318'),
@@ -2914,127 +3728,175 @@ class TestFiberForceVelocityInverseDeGroote2016:
         assert fv_M_inv_manual == fv_M_inv_constants
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_differentiate_wrt_fv_M(), test_differentiate_wrt_fv_M produces the expected output) over Any ║
+# ║ Path(test_differentiate_wrt_fv_M(), fv_M_inv.diff(self.fv_M) == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_differentiate_wrt_fv_M : Any → Any                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  fv_M_inv.diff(self.fv_M) == expected           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_differentiate_wrt_fv_M : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b1b9a8d34cd46382  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 428c9a083e73414d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityInverseDeGroote2016.test_differentiate_wrt_fv_M","kind":"method","src_hash":"29bd388dfbc35ac6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_differentiate_wrt_fv_M()","rhs":"test_differentiate_wrt_fv_M produces the expected output","over":{"base":"Any"},"name":"test_differentiate_wrt_fv_M_correct"},"guarantee":"test_differentiate_wrt_fv_M produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityInverseDeGroote2016.test_differentiate_wrt_fv_M_correct","statement":"Path(test_differentiate_wrt_fv_M(x), test_differentiate_wrt_fv_M produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b1b9a8d34cd46382"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityInverseDeGroote2016.test_differentiate_wrt_fv_M","kind":"method","src_hash":"29bd388dfbc35ac6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: fv_M_inv.diff(self.fv_M) == expected"},"spec":{"lhs":"test_differentiate_wrt_fv_M()","rhs":"fv_M_inv.diff(self.fv_M) == expected","over":{"base":"Any"},"name":"test_differentiate_wrt_fv_M_correct"},"guarantee":"fv_M_inv.diff(self.fv_M) == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityInverseDeGroote2016.test_differentiate_wrt_fv_M_correct","statement":"Path(test_differentiate_wrt_fv_M(x), fv_M_inv.diff(self.fv_M) == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"428c9a083e73414d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["fv_M_inv.diff(self.fv_M) == expected"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.c0","self.c1","self.c3","self.constants","self.fv_M"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_differentiate_wrt_fv_M(self):
         fv_M_inv = FiberForceVelocityInverseDeGroote2016(self.fv_M, *self.constants)
         expected = cosh((self.fv_M - self.c3)/self.c0)/(self.c0*self.c1)
         assert fv_M_inv.diff(self.fv_M) == expected
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_differentiate_wrt_c0(), test_differentiate_wrt_c0 produces the expected output) over Any ║
+# ║ Path(test_differentiate_wrt_c0(), fv_M_inv.diff(self.c0) == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_differentiate_wrt_c0 : Any → Any                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  fv_M_inv.diff(self.c0) == expected             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_differentiate_wrt_c0 : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9aee8ff444bcbc85  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2a1a72510348a683  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityInverseDeGroote2016.test_differentiate_wrt_c0","kind":"method","src_hash":"46a126d7be1a7f47","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_differentiate_wrt_c0()","rhs":"test_differentiate_wrt_c0 produces the expected output","over":{"base":"Any"},"name":"test_differentiate_wrt_c0_correct"},"guarantee":"test_differentiate_wrt_c0 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityInverseDeGroote2016.test_differentiate_wrt_c0_correct","statement":"Path(test_differentiate_wrt_c0(x), test_differentiate_wrt_c0 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9aee8ff444bcbc85"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityInverseDeGroote2016.test_differentiate_wrt_c0","kind":"method","src_hash":"46a126d7be1a7f47","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: fv_M_inv.diff(self.c0) == expected"},"spec":{"lhs":"test_differentiate_wrt_c0()","rhs":"fv_M_inv.diff(self.c0) == expected","over":{"base":"Any"},"name":"test_differentiate_wrt_c0_correct"},"guarantee":"fv_M_inv.diff(self.c0) == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityInverseDeGroote2016.test_differentiate_wrt_c0_correct","statement":"Path(test_differentiate_wrt_c0(x), fv_M_inv.diff(self.c0) == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2a1a72510348a683","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["fv_M_inv.diff(self.c0) == expected"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.c0","self.c1","self.c3","self.constants","self.fv_M"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_differentiate_wrt_c0(self):
         fv_M_inv = FiberForceVelocityInverseDeGroote2016(self.fv_M, *self.constants)
         expected = (self.c3 - self.fv_M)*cosh((self.fv_M - self.c3)/self.c0)/(self.c0**2*self.c1)
         assert fv_M_inv.diff(self.c0) == expected
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_differentiate_wrt_c1(), test_differentiate_wrt_c1 produces the expected output) over Any ║
+# ║ Path(test_differentiate_wrt_c1(), fv_M_inv.diff(self.c1) == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_differentiate_wrt_c1 : Any → Any                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  fv_M_inv.diff(self.c1) == expected             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_differentiate_wrt_c1 : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 290584a469350421  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f2e6a4e8985539cd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityInverseDeGroote2016.test_differentiate_wrt_c1","kind":"method","src_hash":"1bac4f923cc7c8e1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_differentiate_wrt_c1()","rhs":"test_differentiate_wrt_c1 produces the expected output","over":{"base":"Any"},"name":"test_differentiate_wrt_c1_correct"},"guarantee":"test_differentiate_wrt_c1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityInverseDeGroote2016.test_differentiate_wrt_c1_correct","statement":"Path(test_differentiate_wrt_c1(x), test_differentiate_wrt_c1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"290584a469350421"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityInverseDeGroote2016.test_differentiate_wrt_c1","kind":"method","src_hash":"1bac4f923cc7c8e1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: fv_M_inv.diff(self.c1) == expected"},"spec":{"lhs":"test_differentiate_wrt_c1()","rhs":"fv_M_inv.diff(self.c1) == expected","over":{"base":"Any"},"name":"test_differentiate_wrt_c1_correct"},"guarantee":"fv_M_inv.diff(self.c1) == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityInverseDeGroote2016.test_differentiate_wrt_c1_correct","statement":"Path(test_differentiate_wrt_c1(x), fv_M_inv.diff(self.c1) == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f2e6a4e8985539cd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["fv_M_inv.diff(self.c1) == expected"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.c0","self.c1","self.c2","self.c3","self.constants","self.fv_M"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_differentiate_wrt_c1(self):
         fv_M_inv = FiberForceVelocityInverseDeGroote2016(self.fv_M, *self.constants)
         expected = (self.c2 - sinh((self.fv_M - self.c3)/self.c0))/self.c1**2
         assert fv_M_inv.diff(self.c1) == expected
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_differentiate_wrt_c2(), test_differentiate_wrt_c2 produces the expected output) over Any ║
+# ║ Path(test_differentiate_wrt_c2(), fv_M_inv.diff(self.c2) == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_differentiate_wrt_c2 : Any → Any                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  fv_M_inv.diff(self.c2) == expected             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_differentiate_wrt_c2 : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 819c4ae229d02ccf  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3b0f446809ddd6d4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityInverseDeGroote2016.test_differentiate_wrt_c2","kind":"method","src_hash":"f832e5d0603405d5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_differentiate_wrt_c2()","rhs":"test_differentiate_wrt_c2 produces the expected output","over":{"base":"Any"},"name":"test_differentiate_wrt_c2_correct"},"guarantee":"test_differentiate_wrt_c2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityInverseDeGroote2016.test_differentiate_wrt_c2_correct","statement":"Path(test_differentiate_wrt_c2(x), test_differentiate_wrt_c2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"819c4ae229d02ccf"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityInverseDeGroote2016.test_differentiate_wrt_c2","kind":"method","src_hash":"f832e5d0603405d5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: fv_M_inv.diff(self.c2) == expected"},"spec":{"lhs":"test_differentiate_wrt_c2()","rhs":"fv_M_inv.diff(self.c2) == expected","over":{"base":"Any"},"name":"test_differentiate_wrt_c2_correct"},"guarantee":"fv_M_inv.diff(self.c2) == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityInverseDeGroote2016.test_differentiate_wrt_c2_correct","statement":"Path(test_differentiate_wrt_c2(x), fv_M_inv.diff(self.c2) == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3b0f446809ddd6d4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["fv_M_inv.diff(self.c2) == expected"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.c1","self.c2","self.constants","self.fv_M"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_differentiate_wrt_c2(self):
         fv_M_inv = FiberForceVelocityInverseDeGroote2016(self.fv_M, *self.constants)
         expected = -1/self.c1
         assert fv_M_inv.diff(self.c2) == expected
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_differentiate_wrt_c3(), test_differentiate_wrt_c3 produces the expected output) over Any ║
+# ║ Path(test_differentiate_wrt_c3(), fv_M_inv.diff(self.c3) == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_differentiate_wrt_c3 : Any → Any                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  fv_M_inv.diff(self.c3) == expected             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_differentiate_wrt_c3 : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2490f00da8d15a11  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | edf1c986c7caf425  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityInverseDeGroote2016.test_differentiate_wrt_c3","kind":"method","src_hash":"eaf7fa75478dc6ce","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_differentiate_wrt_c3()","rhs":"test_differentiate_wrt_c3 produces the expected output","over":{"base":"Any"},"name":"test_differentiate_wrt_c3_correct"},"guarantee":"test_differentiate_wrt_c3 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityInverseDeGroote2016.test_differentiate_wrt_c3_correct","statement":"Path(test_differentiate_wrt_c3(x), test_differentiate_wrt_c3 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2490f00da8d15a11"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityInverseDeGroote2016.test_differentiate_wrt_c3","kind":"method","src_hash":"eaf7fa75478dc6ce","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: fv_M_inv.diff(self.c3) == expected"},"spec":{"lhs":"test_differentiate_wrt_c3()","rhs":"fv_M_inv.diff(self.c3) == expected","over":{"base":"Any"},"name":"test_differentiate_wrt_c3_correct"},"guarantee":"fv_M_inv.diff(self.c3) == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityInverseDeGroote2016.test_differentiate_wrt_c3_correct","statement":"Path(test_differentiate_wrt_c3(x), fv_M_inv.diff(self.c3) == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"edf1c986c7caf425","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["fv_M_inv.diff(self.c3) == expected"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.c0","self.c1","self.c3","self.constants","self.fv_M"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_differentiate_wrt_c3(self):
         fv_M_inv = FiberForceVelocityInverseDeGroote2016(self.fv_M, *self.constants)
         expected = -cosh((self.fv_M - self.c3)/self.c0)/(self.c0*self.c1)
         assert fv_M_inv.diff(self.c3) == expected
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_inverse(), test_inverse produces the expected output) over Any ║
+# ║ Path(test_inverse(), fv_M_inv.inverse() is FiberForceVelocityDeGroote2016) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_inverse : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  fv_M_inv.inverse() is FiberForceVelocityD...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_inverse : Any → {Any | result satisfies: fv_M_in...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b018468bd9821c58  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 434de8134d0c7cc8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityInverseDeGroote2016.test_inverse","kind":"method","src_hash":"156cb35e701da418","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_inverse()","rhs":"test_inverse produces the expected output","over":{"base":"Any"},"name":"test_inverse_correct"},"guarantee":"test_inverse produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityInverseDeGroote2016.test_inverse_correct","statement":"Path(test_inverse(x), test_inverse produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b018468bd9821c58"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityInverseDeGroote2016.test_inverse","kind":"method","src_hash":"156cb35e701da418","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: fv_M_inv.inverse() is FiberForceVelocityDeGroote2016"},"spec":{"lhs":"test_inverse()","rhs":"fv_M_inv.inverse() is FiberForceVelocityDeGroote2016","over":{"base":"Any"},"name":"test_inverse_correct"},"guarantee":"fv_M_inv.inverse() is FiberForceVelocityDeGroote2016","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityInverseDeGroote2016.test_inverse_correct","statement":"Path(test_inverse(x), fv_M_inv.inverse() is FiberForceVelocityDeGroote2016)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"434de8134d0c7cc8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["fv_M_inv.inverse() is FiberForceVelocityDeGroote2016"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.constants","self.fv_M"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_inverse(self):
         fv_M_inv = FiberForceVelocityInverseDeGroote2016(self.fv_M, *self.constants)
         assert fv_M_inv.inverse() is FiberForceVelocityDeGroote2016
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_function_print_latex(), test_function_print_latex produces the expected output) over Any ║
+# ║ Path(test_function_print_latex(), LatexPrinter().doprint(fv_M_inv) == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_function_print_latex : Any → Any                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  LatexPrinter().doprint(fv_M_inv) == expected   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_function_print_latex : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8fd4f2d7ea781709  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 44730e580786487d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityInverseDeGroote2016.test_function_print_latex","kind":"method","src_hash":"2bf017efd1a66571","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_function_print_latex()","rhs":"test_function_print_latex produces the expected output","over":{"base":"Any"},"name":"test_function_print_latex_correct"},"guarantee":"test_function_print_latex produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityInverseDeGroote2016.test_function_print_latex_correct","statement":"Path(test_function_print_latex(x), test_function_print_latex produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8fd4f2d7ea781709"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityInverseDeGroote2016.test_function_print_latex","kind":"method","src_hash":"2bf017efd1a66571","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: LatexPrinter().doprint(fv_M_inv) == expected"},"spec":{"lhs":"test_function_print_latex()","rhs":"LatexPrinter().doprint(fv_M_inv) == expected","over":{"base":"Any"},"name":"test_function_print_latex_correct"},"guarantee":"LatexPrinter().doprint(fv_M_inv) == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityInverseDeGroote2016.test_function_print_latex_correct","statement":"Path(test_function_print_latex(x), LatexPrinter().doprint(fv_M_inv) == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"44730e580786487d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["LatexPrinter().doprint(fv_M_inv) == expected"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.constants","self.fv_M"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_function_print_latex(self):
         fv_M_inv = FiberForceVelocityInverseDeGroote2016(self.fv_M, *self.constants)
         expected = r'\left( \operatorname{fv}^M \right)^{-1} \left( fv_{M} \right)'
         assert LatexPrinter().doprint(fv_M_inv) == expected
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_expression_print_latex(), test_expression_print_latex produces the expected output) over Any ║
+# ║ Path(test_expression_print_latex(), LatexPrinter().doprint(fv_M.doit()) == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_expression_print_latex : Any → Any                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  LatexPrinter().doprint(fv_M.doit()) == ex...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_expression_print_latex : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9788e05286dad067  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cdcc01c06a76ee83  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityInverseDeGroote2016.test_expression_print_latex","kind":"method","src_hash":"69c8807f14c5167a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_expression_print_latex()","rhs":"test_expression_print_latex produces the expected output","over":{"base":"Any"},"name":"test_expression_print_latex_correct"},"guarantee":"test_expression_print_latex produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityInverseDeGroote2016.test_expression_print_latex_correct","statement":"Path(test_expression_print_latex(x), test_expression_print_latex produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9788e05286dad067"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityInverseDeGroote2016.test_expression_print_latex","kind":"method","src_hash":"69c8807f14c5167a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: LatexPrinter().doprint(fv_M.doit()) == expected"},"spec":{"lhs":"test_expression_print_latex()","rhs":"LatexPrinter().doprint(fv_M.doit()) == expected","over":{"base":"Any"},"name":"test_expression_print_latex_correct"},"guarantee":"LatexPrinter().doprint(fv_M.doit()) == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityInverseDeGroote2016.test_expression_print_latex_correct","statement":"Path(test_expression_print_latex(x), LatexPrinter().doprint(fv_M.doit()) == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cdcc01c06a76ee83","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["LatexPrinter().doprint(fv_M.doit()) == expected"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.constants","self.fv_M"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_expression_print_latex(self):
         fv_M = FiberForceVelocityInverseDeGroote2016(self.fv_M, *self.constants)
         expected = r'\frac{- c_{2} + \sinh{\left(\frac{- c_{3} + fv_{M}}{c_{0}} \right)}}{c_{1}}'
@@ -3123,31 +3985,43 @@ class TestFiberForceVelocityInverseDeGroote2016:
         ]
     )
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_print_code(cod), test_print_code produces the expected output) over Any ║
+# ║ Path(test_print_code(code_printer, expected), code_printer().doprint(fv_M_inv) == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_print_code : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  code_printer().doprint(fv_M_inv) == expected   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_print_code : Any → {Any | result satisfies: code...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 728872e59b5e022b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 110979aeb53dac7d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityInverseDeGroote2016.test_print_code","kind":"method","src_hash":"bace131ac97a39b6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_print_code(cod)","rhs":"test_print_code produces the expected output","over":{"base":"Any"},"name":"test_print_code_correct"},"guarantee":"test_print_code produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityInverseDeGroote2016.test_print_code_correct","statement":"Path(test_print_code(x), test_print_code produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"728872e59b5e022b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityInverseDeGroote2016.test_print_code","kind":"method","src_hash":"bace131ac97a39b6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: code_printer().doprint(fv_M_inv) == expected"},"spec":{"lhs":"test_print_code(code_printer, expected)","rhs":"code_printer().doprint(fv_M_inv) == expected","over":{"base":"Any"},"name":"test_print_code_correct"},"guarantee":"code_printer().doprint(fv_M_inv) == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityInverseDeGroote2016.test_print_code_correct","statement":"Path(test_print_code(x), code_printer().doprint(fv_M_inv) == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"110979aeb53dac7d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["code_printer().doprint(fv_M_inv) == expected"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.fv_M"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_print_code(self, code_printer, expected):
         fv_M_inv = FiberForceVelocityInverseDeGroote2016.with_defaults(self.fv_M)
         assert code_printer().doprint(fv_M_inv) == expected
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_derivative_print_code(), test_derivative_print_code produces the expected output) over Any ║
+# ║ Path(test_derivative_print_code(), PythonCodePrinter().doprint(dfv_M_inv_dfv_M) == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_derivative_print_code : Any → Any                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  PythonCodePrinter().doprint(dfv_M_inv_dfv...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_derivative_print_code : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 05d72578c051403c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d3dd4c5af602c9d5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityInverseDeGroote2016.test_derivative_print_code","kind":"method","src_hash":"3502001163d73b93","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_derivative_print_code()","rhs":"test_derivative_print_code produces the expected output","over":{"base":"Any"},"name":"test_derivative_print_code_correct"},"guarantee":"test_derivative_print_code produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityInverseDeGroote2016.test_derivative_print_code_correct","statement":"Path(test_derivative_print_code(x), test_derivative_print_code produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"05d72578c051403c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityInverseDeGroote2016.test_derivative_print_code","kind":"method","src_hash":"3502001163d73b93","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: PythonCodePrinter().doprint(dfv_M_inv_dfv_M) == expected"},"spec":{"lhs":"test_derivative_print_code()","rhs":"PythonCodePrinter().doprint(dfv_M_inv_dfv_M) == expected","over":{"base":"Any"},"name":"test_derivative_print_code_correct"},"guarantee":"PythonCodePrinter().doprint(dfv_M_inv_dfv_M) == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityInverseDeGroote2016.test_derivative_print_code_correct","statement":"Path(test_derivative_print_code(x), PythonCodePrinter().doprint(dfv_M_inv_dfv_M) == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d3dd4c5af602c9d5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["PythonCodePrinter().doprint(dfv_M_inv_dfv_M) == expected"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.fv_M"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_derivative_print_code(self):
         fv_M_inv = FiberForceVelocityInverseDeGroote2016.with_defaults(self.fv_M)
         dfv_M_inv_dfv_M = fv_M_inv.diff(self.fv_M)
@@ -3158,16 +4032,22 @@ class TestFiberForceVelocityInverseDeGroote2016:
         assert PythonCodePrinter().doprint(dfv_M_inv_dfv_M) == expected
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_lambdify(), test_lambdify produces the expected output) over Any ║
+# ║ Path(test_lambdify(), fv_M_inv_callable(1.0) == pytest.approx(-0.0009548832444487479)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_lambdify : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  fv_M_inv_callable(1.0) == pytest.approx(-...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_lambdify : Any → {Any | result satisfies: fv_M_i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1fb1fb5bdf3fc316  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 25186e434cb6900d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityInverseDeGroote2016.test_lambdify","kind":"method","src_hash":"23cad4748f05752f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_lambdify()","rhs":"test_lambdify produces the expected output","over":{"base":"Any"},"name":"test_lambdify_correct"},"guarantee":"test_lambdify produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityInverseDeGroote2016.test_lambdify_correct","statement":"Path(test_lambdify(x), test_lambdify produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1fb1fb5bdf3fc316"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityInverseDeGroote2016.test_lambdify","kind":"method","src_hash":"23cad4748f05752f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: fv_M_inv_callable(1.0) == pytest.approx(-0.0009548832444487479)"},"spec":{"lhs":"test_lambdify()","rhs":"fv_M_inv_callable(1.0) == pytest.approx(-0.0009548832444487479)","over":{"base":"Any"},"name":"test_lambdify_correct"},"guarantee":"fv_M_inv_callable(1.0) == pytest.approx(-0.0009548832444487479)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityInverseDeGroote2016.test_lambdify_correct","statement":"Path(test_lambdify(x), fv_M_inv_callable(1.0) == pytest.approx(-0.0009548832444487479))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"25186e434cb6900d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["fv_M_inv_callable(1.0) == pytest.approx(-0.0009548832444487479)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.fv_M"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_lambdify(self):
         fv_M_inv = FiberForceVelocityInverseDeGroote2016.with_defaults(self.fv_M)
         fv_M_inv_callable = lambdify(self.fv_M, fv_M_inv)
@@ -3175,16 +4055,22 @@ class TestFiberForceVelocityInverseDeGroote2016:
 
     @pytest.mark.skipif(numpy is None, reason='NumPy not installed')
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_lambdify_numpy(), test_lambdify_numpy produces the expected output) over Any ║
+# ║ Path(test_lambdify_numpy(), <unspecified:test_lambdify_numpy>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_lambdify_numpy : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b554546dbe29f91e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityInverseDeGroote2016.test_lambdify_numpy","kind":"method","src_hash":"bc1ed372f73ee89b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_lambdify_numpy()","rhs":"test_lambdify_numpy produces the expected output","over":{"base":"Any"},"name":"test_lambdify_numpy_correct"},"guarantee":"test_lambdify_numpy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityInverseDeGroote2016.test_lambdify_numpy_correct","statement":"Path(test_lambdify_numpy(x), test_lambdify_numpy produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b554546dbe29f91e"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityInverseDeGroote2016.test_lambdify_numpy","kind":"method","src_hash":"bc1ed372f73ee89b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_lambdify_numpy()","rhs":"<unspecified:test_lambdify_numpy>","over":{"base":"Any"},"name":"test_lambdify_numpy_correct"},"guarantee":"test_lambdify_numpy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityInverseDeGroote2016.test_lambdify_numpy_correct","statement":"Path(test_lambdify_numpy(x), test_lambdify_numpy produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b554546dbe29f91e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.fv_M"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_lambdify_numpy(self):
         fv_M_inv = FiberForceVelocityInverseDeGroote2016.with_defaults(self.fv_M)
         fv_M_inv_callable = lambdify(self.fv_M, fv_M_inv, 'numpy')
@@ -3200,16 +4086,22 @@ class TestFiberForceVelocityInverseDeGroote2016:
 
     @pytest.mark.skipif(jax is None, reason='JAX not installed')
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_lambdify_jax(), test_lambdify_jax produces the expected output) over Any ║
+# ║ Path(test_lambdify_jax(), <unspecified:test_lambdify_jax>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_lambdify_jax : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cf838f48a48eb19b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityInverseDeGroote2016.test_lambdify_jax","kind":"method","src_hash":"4a7ad355d38b5ed0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_lambdify_jax()","rhs":"test_lambdify_jax produces the expected output","over":{"base":"Any"},"name":"test_lambdify_jax_correct"},"guarantee":"test_lambdify_jax produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityInverseDeGroote2016.test_lambdify_jax_correct","statement":"Path(test_lambdify_jax(x), test_lambdify_jax produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cf838f48a48eb19b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityInverseDeGroote2016.test_lambdify_jax","kind":"method","src_hash":"4a7ad355d38b5ed0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_lambdify_jax()","rhs":"<unspecified:test_lambdify_jax>","over":{"base":"Any"},"name":"test_lambdify_jax_correct"},"guarantee":"test_lambdify_jax produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestFiberForceVelocityInverseDeGroote2016.test_lambdify_jax_correct","statement":"Path(test_lambdify_jax(x), test_lambdify_jax produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cf838f48a48eb19b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.fv_M"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_lambdify_jax(self):
         fv_M_inv = FiberForceVelocityInverseDeGroote2016.with_defaults(self.fv_M)
         fv_M_inv_callable = jax.jit(lambdify(self.fv_M, fv_M_inv, 'jax'))
@@ -3227,28 +4119,42 @@ class TestFiberForceVelocityInverseDeGroote2016:
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(TestCharacteristicCurveCollection(*args), correctly constructs a TestCharacteristicCurveCollection instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ TestCharacteristicCurveCollection : Any → {Any | curv...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9b9e7a2fca00ff8c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestCharacteristicCurveCollection","kind":"class","src_hash":"3ba0aa9bc5289423","in":{"base":"Any"},"out":{"base":"Any","pred":"curves.tendon_force_length is TendonForceLengthDeGroote2016 and curves.tendon_force_length_inverse is TendonForceLengthInverseDeGroote2016 and curves.fiber_force_length_passive is FiberForceLengthPassiveDeGroote2016 and curves.fiber_force_length_active is FiberForceLengthActiveDeGroote2016 and curves.fiber_force_velocity is FiberForceVelocityDeGroote2016 and curves.fiber_force_velocity_inverse is FiberForceVelocityInverseDeGroote2016"},"spec":{"lhs":"TestCharacteristicCurveCollection(*args)","rhs":"correctly constructs a TestCharacteristicCurveCollection instance","over":{"base":"Any"},"name":"TestCharacteristicCurveCollection_class_invariant"},"guarantee":"correctly constructs a TestCharacteristicCurveCollection instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9b9e7a2fca00ff8c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestCharacteristicCurveCollection","kind":"class","src_hash":"3ba0aa9bc5289423","in":{"base":"Any"},"out":{"base":"Any","pred":"curves.tendon_force_length is TendonForceLengthDeGroote2016 and curves.tendon_force_length_inverse is TendonForceLengthInverseDeGroote2016 and curves.fiber_force_length_passive is FiberForceLengthPassiveDeGroote2016 and curves.fiber_force_length_active is FiberForceLengthActiveDeGroote2016 and curves.fiber_force_velocity is FiberForceVelocityDeGroote2016 and curves.fiber_force_velocity_inverse is FiberForceVelocityInverseDeGroote2016"},"spec":{"lhs":"TestCharacteristicCurveCollection(*args)","rhs":"correctly constructs a TestCharacteristicCurveCollection instance","over":{"base":"Any"},"name":"TestCharacteristicCurveCollection_class_invariant"},"guarantee":"correctly constructs a TestCharacteristicCurveCollection instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9b9e7a2fca00ff8c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial"},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":false,"binding_errors":["Function TestCharacteristicCurveCollection not found in source"]}}
 class TestCharacteristicCurveCollection:
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_valid_constructor(), test_valid_constructor produces the expected output) over Any ║
+# ║ Path(test_valid_constructor(), curves.tendon_force_length is TendonForceLengthDeGroote2016 and curves.tendon_force_length_inverse is TendonForceLengthInverseDeGroote2016 and curves.fiber_force_length_passive is FiberForceLengthPassiveDeGroote2016 and curves.fiber_force_length_passive_inverse is FiberForceLengthPassiveInverseDeGroote2016 and curves.fiber_force_length_active is FiberForceLengthActiveDeGroote2016 and curves.fiber_force_velocity is FiberForceVelocityDeGroote2016 and curves.fiber_force_velocity_inverse is FiberForceVelocityInverseDeGroote2016) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_valid_constructor : Any → Any                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  curves.tendon_force_length is TendonForce...   ║
+# ║   ensures:  curves.tendon_force_length_inverse is Ten...   ║
+# ║   ensures:  curves.fiber_force_length_passive is Fibe...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_valid_constructor : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6a5924dedea2ec83  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a1ecc517dccc17bc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestCharacteristicCurveCollection.test_valid_constructor","kind":"staticmethod","src_hash":"f23fd2c70dbb5b36","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_valid_constructor()","rhs":"test_valid_constructor produces the expected output","over":{"base":"Any"},"name":"test_valid_constructor_correct"},"guarantee":"test_valid_constructor produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestCharacteristicCurveCollection.test_valid_constructor_correct","statement":"Path(test_valid_constructor(x), test_valid_constructor produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6a5924dedea2ec83"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestCharacteristicCurveCollection.test_valid_constructor","kind":"staticmethod","src_hash":"f23fd2c70dbb5b36","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: curves.tendon_force_length is TendonForceLengthDeGroote2016 and curves.tendon_force_length_inverse is TendonForceLengthInverseDeGroote2016 and curves.fiber_force_length_passive is FiberForceLengthPassiveDeGroote2016 and curves.fiber_force_length_passive_inverse is FiberForceLengthPassiveInverseDeGroote2016 and curves.fiber_force_length_active is FiberForceLengthActiveDeGroote2016 and curves.fiber_force_velocity is FiberForceVelocityDeGroote2016 and curves.fiber_force_velocity_inverse is FiberForceVelocityInverseDeGroote2016"},"spec":{"lhs":"test_valid_constructor()","rhs":"curves.tendon_force_length is TendonForceLengthDeGroote2016 and curves.tendon_force_length_inverse is TendonForceLengthInverseDeGroote2016 and curves.fiber_force_length_passive is FiberForceLengthPassiveDeGroote2016 and curves.fiber_force_length_passive_inverse is FiberForceLengthPassiveInverseDeGroote2016 and curves.fiber_force_length_active is FiberForceLengthActiveDeGroote2016 and curves.fiber_force_velocity is FiberForceVelocityDeGroote2016 and curves.fiber_force_velocity_inverse is FiberForceVelocityInverseDeGroote2016","over":{"base":"Any"},"name":"test_valid_constructor_correct"},"guarantee":"curves.tendon_force_length is TendonForceLengthDeGroote2016; curves.tendon_force_length_inverse is TendonForceLengthInverseDeGroote2016; curves.fiber_force_length_passive is FiberForceLengthPassiveDeGroote2016","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestCharacteristicCurveCollection.test_valid_constructor_correct","statement":"Path(test_valid_constructor(x), curves.tendon_force_length is TendonForceLengthDeGroote2016; curves.tendon_force_length_inverse is TendonForceLengthInverseDeGroote2016; curves.fiber_force_length_passive is FiberForceLengthPassiveDeGroote2016)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a1ecc517dccc17bc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["curves.tendon_force_length is TendonForceLengthDeGroote2016","curves.tendon_force_length_inverse is TendonForceLengthInverseDeGroote2016","curves.fiber_force_length_passive is FiberForceLengthPassiveDeGroote2016","curves.fiber_force_length_passive_inverse is FiberForceLengthPassiveInverseDeGroote2016","curves.fiber_force_length_active is FiberForceLengthActiveDeGroote2016","curves.fiber_force_velocity is FiberForceVelocityDeGroote2016","curves.fiber_force_velocity_inverse is FiberForceVelocityInverseDeGroote2016"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_valid_constructor():
         curves = CharacteristicCurveCollection(
             tendon_force_length=TendonForceLengthDeGroote2016,
@@ -3270,16 +4176,22 @@ class TestCharacteristicCurveCollection:
     @staticmethod
     @pytest.mark.skip(reason='kw_only dataclasses only valid in Python >3.10')
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_invalid_constructor_keyword_only(), test_invalid_constructor_keyword_only produces the expected output) over Any ║
+# ║ Path(test_invalid_constructor_keyword_only(), <unspecified:test_invalid_constructor_keyword_only>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_invalid_constructor_keyword_only : Any → Any          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 045fadfcef7d65a0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestCharacteristicCurveCollection.test_invalid_constructor_keyword_only","kind":"staticmethod","src_hash":"c059fa74275f6602","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_invalid_constructor_keyword_only()","rhs":"test_invalid_constructor_keyword_only produces the expected output","over":{"base":"Any"},"name":"test_invalid_constructor_keyword_only_correct"},"guarantee":"test_invalid_constructor_keyword_only produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestCharacteristicCurveCollection.test_invalid_constructor_keyword_only_correct","statement":"Path(test_invalid_constructor_keyword_only(x), test_invalid_constructor_keyword_only produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"045fadfcef7d65a0"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestCharacteristicCurveCollection.test_invalid_constructor_keyword_only","kind":"staticmethod","src_hash":"c059fa74275f6602","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_invalid_constructor_keyword_only()","rhs":"<unspecified:test_invalid_constructor_keyword_only>","over":{"base":"Any"},"name":"test_invalid_constructor_keyword_only_correct"},"guarantee":"test_invalid_constructor_keyword_only produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestCharacteristicCurveCollection.test_invalid_constructor_keyword_only_correct","statement":"Path(test_invalid_constructor_keyword_only(x), test_invalid_constructor_keyword_only produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"045fadfcef7d65a0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_invalid_constructor_keyword_only():
         with pytest.raises(TypeError):
             _ = CharacteristicCurveCollection(
@@ -3310,32 +4222,44 @@ class TestCharacteristicCurveCollection:
         ]
     )
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_invalid_constructor_wrong_number_args(kwa), test_invalid_constructor_wrong_number_args produces the expected output) over Any ║
+# ║ Path(test_invalid_constructor_wrong_number_args(kwargs), <unspecified:test_invalid_constructor_wrong_number_args>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_invalid_constructor_wrong_number_args : Any → Any     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 235f54e4b8b7d045  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestCharacteristicCurveCollection.test_invalid_constructor_wrong_number_args","kind":"staticmethod","src_hash":"1b8c63b2b545f057","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_invalid_constructor_wrong_number_args(kwa)","rhs":"test_invalid_constructor_wrong_number_args produces the expected output","over":{"base":"Any"},"name":"test_invalid_constructor_wrong_number_args_correct"},"guarantee":"test_invalid_constructor_wrong_number_args produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestCharacteristicCurveCollection.test_invalid_constructor_wrong_number_args_correct","statement":"Path(test_invalid_constructor_wrong_number_args(x), test_invalid_constructor_wrong_number_args produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"235f54e4b8b7d045"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestCharacteristicCurveCollection.test_invalid_constructor_wrong_number_args","kind":"staticmethod","src_hash":"1b8c63b2b545f057","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_invalid_constructor_wrong_number_args(kwargs)","rhs":"<unspecified:test_invalid_constructor_wrong_number_args>","over":{"base":"Any"},"name":"test_invalid_constructor_wrong_number_args_correct"},"guarantee":"test_invalid_constructor_wrong_number_args produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestCharacteristicCurveCollection.test_invalid_constructor_wrong_number_args_correct","statement":"Path(test_invalid_constructor_wrong_number_args(x), test_invalid_constructor_wrong_number_args produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"235f54e4b8b7d045","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_invalid_constructor_wrong_number_args(kwargs):
         with pytest.raises(TypeError):
             _ = CharacteristicCurveCollection(**kwargs)
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_instance_is_immutable(), test_instance_is_immutable produces the expected output) over Any ║
+# ║ Path(test_instance_is_immutable(), <unspecified:test_instance_is_immutable>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_instance_is_immutable : Any → Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 263251cc7a0508b4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestCharacteristicCurveCollection.test_instance_is_immutable","kind":"staticmethod","src_hash":"210992e1e030c670","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_instance_is_immutable()","rhs":"test_instance_is_immutable produces the expected output","over":{"base":"Any"},"name":"test_instance_is_immutable_correct"},"guarantee":"test_instance_is_immutable produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestCharacteristicCurveCollection.test_instance_is_immutable_correct","statement":"Path(test_instance_is_immutable(x), test_instance_is_immutable produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"263251cc7a0508b4"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_curve.TestCharacteristicCurveCollection.test_instance_is_immutable","kind":"staticmethod","src_hash":"210992e1e030c670","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_instance_is_immutable()","rhs":"<unspecified:test_instance_is_immutable>","over":{"base":"Any"},"name":"test_instance_is_immutable_correct"},"guarantee":"test_instance_is_immutable produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_curve.TestCharacteristicCurveCollection.test_instance_is_immutable_correct","statement":"Path(test_instance_is_immutable(x), test_instance_is_immutable produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"263251cc7a0508b4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_instance_is_immutable():
         curves = CharacteristicCurveCollection(
             tendon_force_length=TendonForceLengthDeGroote2016,

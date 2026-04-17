@@ -25,16 +25,22 @@ from sympy.functions.special.spherical_harmonics import Ynm
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(R_nl(n, ), id) over Any                               ║
+# ║ Path(R_nl(n, l, r), id) over Any                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  C * r0 ** l * assoc_laguerre(n_r, 2 * l +...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ R_nl : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 4a5e5b52265f4675   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.hydrogen.R_nl","kind":"function","src_hash":"3679d0f54db97e57","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"R_nl(n, )","rhs":"returns the hydrogen radial wavefunction r_{nl}","over":{"base":"Any"},"name":"R_nl_correct","kind":"composition"},"guarantee":"returns the hydrogen radial wavefunction r_{nl}","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"assoc_laguerre","by":"library_axiom"},{"fn":"expand","by":"library_axiom"},{"fn":"exp","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4a5e5b52265f4675"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.hydrogen.R_nl","kind":"function","src_hash":"3679d0f54db97e57","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"R_nl(n, l, r)","rhs":"C * r0 ** l * assoc_laguerre(n_r, 2 * l + 1, r0).expand() * exp(-r0 / 2)","over":{"base":"Any"},"name":"R_nl_correct","kind":"composition"},"guarantee":"returns C * r0 ** l * assoc_laguerre(n_r, 2 * l + 1, r0).expand() * exp(-r0 / 2)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"assoc_laguerre","by":"library_axiom"},{"fn":"expand","by":"library_axiom"},{"fn":"exp","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4a5e5b52265f4675","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"C * r0 ** l * assoc_laguerre(n_r, 2 * l + 1, r0).expand() * exp(-r0 / 2)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def R_nl(n, l, r, Z=1):
     """
     Returns the Hydrogen radial wavefunction R_{nl}.
@@ -121,16 +127,25 @@ def R_nl(n, l, r, Z=1):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(Psi_nlm(n, ), returns the hydrogen wave function psi_{nlm}) over Any ║
+# ║ Path(Psi_nlm(n, l, m), R_nl(n, l, r, Z) * Ynm(l, m, theta, phi).expand(func=True)) over {Any | not (n.is_integer and n < 1) and not (l.is_integer and (not n > l)) and not (m.is_integer and (not abs(m) <= l)) and hasattr(n, 'is_integer') and hasattr(l, 'is_integer') and hasattr(m, 'is_integer')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Psi_nlm : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (n.is_integer and n < 1)                   ║
+# ║   requires: not (l.is_integer and (not n > l))             ║
+# ║   requires: not (m.is_integer and (not abs(m) <= l))       ║
+# ║   returns:  R_nl(n, l, r, Z) * Ynm(l, m, theta, phi)....   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Psi_nlm : {Any | not (n.is_integer and n < 1) and not...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 966d2af70fa758cf  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 45ccd32f04563dd6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.hydrogen.Psi_nlm","kind":"function","src_hash":"112703b2e28b5c0d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Psi_nlm(n, )","rhs":"returns the hydrogen wave function psi_{nlm}","over":{"base":"Any"},"name":"Psi_nlm_correct"},"guarantee":"returns the hydrogen wave function psi_{nlm}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.hydrogen.Psi_nlm_correct","statement":"Path(Psi_nlm(x), returns the hydrogen wave function psi_{nlm})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"966d2af70fa758cf"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.hydrogen.Psi_nlm","kind":"function","src_hash":"112703b2e28b5c0d","in":{"base":"Any","pred":"not (n.is_integer and n < 1) and not (l.is_integer and (not n > l)) and not (m.is_integer and (not abs(m) <= l)) and hasattr(n, 'is_integer') and hasattr(l, 'is_integer') and hasattr(m, 'is_integer')"},"out":{"base":"Any"},"spec":{"lhs":"Psi_nlm(n, l, m)","rhs":"R_nl(n, l, r, Z) * Ynm(l, m, theta, phi).expand(func=True)","over":{"base":"Any","pred":"not (n.is_integer and n < 1) and not (l.is_integer and (not n > l)) and not (m.is_integer and (not abs(m) <= l)) and hasattr(n, 'is_integer') and hasattr(l, 'is_integer') and hasattr(m, 'is_integer')"},"name":"Psi_nlm_correct"},"guarantee":"returns R_nl(n, l, r, Z) * Ynm(l, m, theta, phi).expand(func=True)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.hydrogen.Psi_nlm_correct","statement":"Path(Psi_nlm(x), returns R_nl(n, l, r, Z) * Ynm(l, m, theta, phi).expand(func=True))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"45ccd32f04563dd6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (n.is_integer and n < 1)","not (l.is_integer and (not n > l))","not (m.is_integer and (not abs(m) <= l))","hasattr(n, 'is_integer')","hasattr(l, 'is_integer')","hasattr(m, 'is_integer')"],"returns_expr":"R_nl(n, l, r, Z) * Ynm(l, m, theta, phi).expand(func=True)","pure":false,"effects":{"effect_type":"reads_state","reads":["l.is_integer","m.is_integer","n.is_integer"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def Psi_nlm(n, l, m, r, phi, theta, Z=1):
     """
     Returns the Hydrogen wave function psi_{nlm}. It's the product of
@@ -200,16 +215,24 @@ def Psi_nlm(n, l, m, r, phi, theta, Z=1):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(E_nl(n, ), returns the energy of the state (n, l) in hartree atomic units) over Any ║
+# ║ Path(E_nl(n, Z), -Z ** 2 / (2 * n ** 2)) over {Any | not (n.is_integer and n < 1) and hasattr(n, 'is_integer')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ E_nl : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (n.is_integer and n < 1)                   ║
+# ║   requires: hasattr(n, 'is_integer')                       ║
+# ║   returns:  -Z ** 2 / (2 * n ** 2)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ E_nl : {Any | not (n.is_integer and n < 1) and hasatt...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f3a8c06104b5f5c7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c6e2a2b1cbb4eb17  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.hydrogen.E_nl","kind":"function","src_hash":"6b089033fd286e02","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"E_nl(n, )","rhs":"returns the energy of the state (n, l) in hartree atomic units","over":{"base":"Any"},"name":"E_nl_correct"},"guarantee":"returns the energy of the state (n, l) in hartree atomic units","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.hydrogen.E_nl_correct","statement":"Path(E_nl(x), returns the energy of the state (n, l) in hartree atomic units)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f3a8c06104b5f5c7"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.hydrogen.E_nl","kind":"function","src_hash":"6b089033fd286e02","in":{"base":"Any","pred":"not (n.is_integer and n < 1) and hasattr(n, 'is_integer')"},"out":{"base":"Any"},"spec":{"lhs":"E_nl(n, Z)","rhs":"-Z ** 2 / (2 * n ** 2)","over":{"base":"Any","pred":"not (n.is_integer and n < 1) and hasattr(n, 'is_integer')"},"name":"E_nl_correct"},"guarantee":"returns -Z ** 2 / (2 * n ** 2)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.hydrogen.E_nl_correct","statement":"Path(E_nl(x), returns -Z ** 2 / (2 * n ** 2))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c6e2a2b1cbb4eb17","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (n.is_integer and n < 1)","hasattr(n, 'is_integer')"],"returns_expr":"-Z ** 2 / (2 * n ** 2)","pure":false,"effects":{"effect_type":"reads_state","reads":["n.is_integer"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def E_nl(n, Z=1):
     """
     Returns the energy of the state (n, l) in Hartree atomic units.
@@ -249,16 +272,25 @@ def E_nl(n, Z=1):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(E_nl_dirac(n, ), returns the relativistic energy of the state (n, l, spin) in hartree atomic units) over Any ║
+# ║ Path(E_nl_dirac(n, l, spin_up), c ** 2 / sqrt(1 + Z ** 2 / (n + skappa + beta) ** 2 / c ** 2) - c ** 2) over {Any | l >= 0 and n > l and not (l == 0 and spin_up is False)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ E_nl_dirac : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: l >= 0                                         ║
+# ║   requires: n > l                                          ║
+# ║   requires: not (l == 0 and spin_up is False)              ║
+# ║   returns:  c ** 2 / sqrt(1 + Z ** 2 / (n + skappa + ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ E_nl_dirac : {Any | l >= 0 and n > l and not (l == 0 ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | de733d7a67a08fa7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8522fd3c846aa0ed  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.hydrogen.E_nl_dirac","kind":"function","src_hash":"7dc07ccb5318b1c3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"E_nl_dirac(n, )","rhs":"returns the relativistic energy of the state (n, l, spin) in hartree atomic units","over":{"base":"Any"},"name":"E_nl_dirac_correct"},"guarantee":"returns the relativistic energy of the state (n, l, spin) in hartree atomic units","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.hydrogen.E_nl_dirac_correct","statement":"Path(E_nl_dirac(x), returns the relativistic energy of the state (n, l, spin) in hartree atomic units)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"de733d7a67a08fa7"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.hydrogen.E_nl_dirac","kind":"function","src_hash":"7dc07ccb5318b1c3","in":{"base":"Any","pred":"l >= 0 and n > l and not (l == 0 and spin_up is False)"},"out":{"base":"Any"},"spec":{"lhs":"E_nl_dirac(n, l, spin_up)","rhs":"c ** 2 / sqrt(1 + Z ** 2 / (n + skappa + beta) ** 2 / c ** 2) - c ** 2","over":{"base":"Any","pred":"l >= 0 and n > l and not (l == 0 and spin_up is False)"},"name":"E_nl_dirac_correct"},"guarantee":"returns c ** 2 / sqrt(1 + Z ** 2 / (n + skappa + beta) ** 2 / c ** 2) - c ** 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.hydrogen.E_nl_dirac_correct","statement":"Path(E_nl_dirac(x), returns c ** 2 / sqrt(1 + Z ** 2 / (n + skappa + beta) ** 2 / c ** 2) - c ** 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8522fd3c846aa0ed","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["l >= 0","n > l","not (l == 0 and spin_up is False)"],"returns_expr":"c ** 2 / sqrt(1 + Z ** 2 / (n + skappa + beta) ** 2 / c ** 2) - c ** 2","pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def E_nl_dirac(n, l, spin_up=True, Z=1, c=Float("137.035999037")):
     """
     Returns the relativistic energy of the state (n, l, spin) in Hartree atomic

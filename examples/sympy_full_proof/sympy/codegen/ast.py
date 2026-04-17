@@ -159,7 +159,10 @@ from sympy.utilities.iterables import (iterable, topological_sort,
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_mk_Tuple(arg), create a sympy tuple object from an iterable, converting python strings to ast strings) over {Any | isinstance(arg, str)} ║
+# ║ Path(_mk_Tuple(args), Tuple(*args)) over {Any | isinstance(arg, str)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Tuple(*args)                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _mk_Tuple : {Any | isinstance(arg, str)} → Any             ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -171,9 +174,12 @@ from sympy.utilities.iterables import (iterable, topological_sort,
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.3ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | d2294585...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.ast._mk_Tuple","kind":"function","src_hash":"2338b5863b1f5edf","in":{"base":"Any","pred":"isinstance(arg, str)"},"out":{"base":"Any"},"spec":{"lhs":"_mk_Tuple(arg)","rhs":"create a sympy tuple object from an iterable, converting python strings to ast strings","over":{"base":"Any","pred":"isinstance(arg, str)"},"name":"_mk_Tuple_correct"},"guarantee":"create a sympy tuple object from an iterable, converting python strings to ast strings","fibers":[{"name":"str","pred":"isinstance(arg, str)","path":{"lhs":"_mk_Tuple(x)","rhs":"create a sympy tuple object from an iterable, converting python strings to ast strings","over":{"base":"str","pred":"isinstance(arg, str)"},"name":"_mk_Tuple_str_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.ast._mk_Tuple_str_correct","statement":"_mk_Tuple satisfies spec on str inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"d22945854b649dd0"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.ast._mk_Tuple","kind":"function","src_hash":"2338b5863b1f5edf","in":{"base":"Any","pred":"isinstance(arg, str)"},"out":{"base":"Any"},"spec":{"lhs":"_mk_Tuple(args)","rhs":"Tuple(*args)","over":{"base":"Any","pred":"isinstance(arg, str)"},"name":"_mk_Tuple_correct"},"guarantee":"returns Tuple(*args)","fibers":[{"name":"str","pred":"isinstance(arg, str)","path":{"lhs":"_mk_Tuple(x)","rhs":"returns Tuple(*args)","over":{"base":"str","pred":"isinstance(arg, str)"},"name":"_mk_Tuple_str_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.ast._mk_Tuple_str_correct","statement":"_mk_Tuple satisfies spec on str inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"d22945854b649dd0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Tuple(*args)","pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.3,"verdict_class":"failed","binding":true}}
 def _mk_Tuple(args):
     """
     Create a SymPy Tuple object from an iterable, converting Python strings to
@@ -195,16 +201,22 @@ def _mk_Tuple(args):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(CodegenAST(), correctly constructs a CodegenAST instance) over Any ║
+# ║ Path(CodegenAST(), isinstance(self, Basic)) over Any       ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ CodegenAST : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Basic)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ CodegenAST : Any → {Any | result satisfies: isinstanc...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b4b2be8e72d9cf16           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.CodegenAST","kind":"class","src_hash":"bcb3b235a98864ff","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"CodegenAST()","rhs":"correctly constructs a CodegenAST instance","over":{"base":"Any"},"name":"CodegenAST_correct"},"guarantee":"correctly constructs a CodegenAST instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b4b2be8e72d9cf16"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.CodegenAST","kind":"class","src_hash":"bcb3b235a98864ff","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Basic)"},"spec":{"lhs":"CodegenAST()","rhs":"isinstance(self, Basic)","over":{"base":"Any"},"name":"CodegenAST_correct"},"guarantee":"isinstance(self, Basic)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b4b2be8e72d9cf16","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Basic)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function CodegenAST not found in source"]}}
 class CodegenAST(Basic):
     __slots__ = ()
 
@@ -212,14 +224,20 @@ class CodegenAST(Basic):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a Token instance) preserved by Token(*args) over {Any | isinstance(v, Tuple) and isinstance(arg, Dummy) and isinstance(args[0], cls)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, CodegenAST)                   ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ Token : {Any | isinstance(v, Tuple) and isinstance(ar...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.5ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 44d9b03a06ce97f8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.Token","kind":"class","src_hash":"324e82748e2e4eb4","in":{"base":"Any","pred":"isinstance(v, Tuple) and isinstance(arg, Dummy) and isinstance(args[0], cls)"},"out":{"base":"Any"},"spec":{"lhs":"Token(*args)","rhs":"correctly constructs a Token instance","over":{"base":"Any","pred":"isinstance(v, Tuple) and isinstance(arg, Dummy) and isinstance(args[0], cls)"},"name":"Token_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a Token instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_Atom","pred":"self.is_Atom","kind":"class"}],"methods_preserving":["is_Atom","__eq__","_hashable_content","__hash__","_joiner","_indented","_sympyrepr","__repr__","kwargs"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"44d9b03a06ce97f8"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.Token","kind":"class","src_hash":"324e82748e2e4eb4","in":{"base":"Any","pred":"isinstance(v, Tuple) and isinstance(arg, Dummy) and isinstance(args[0], cls)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, CodegenAST)"},"spec":{"lhs":"Token(*args)","rhs":"correctly constructs a Token instance","over":{"base":"Any","pred":"isinstance(v, Tuple) and isinstance(arg, Dummy) and isinstance(args[0], cls)"},"name":"Token_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, CodegenAST)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_Atom","pred":"self.is_Atom","kind":"class"}],"methods_preserving":["is_Atom","__eq__","_hashable_content","__hash__","_joiner","_indented","_sympyrepr","__repr__","kwargs"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"44d9b03a06ce97f8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, CodegenAST)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.5,"verdict_class":"assumed","binding":false,"binding_errors":["Function Token not found in source"]}}
 class Token(CodegenAST):
     """ Base class for the AST types.
 
@@ -246,47 +264,69 @@ class Token(CodegenAST):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_Atom(), returns the is_Atom attribute) over Any    ║
+# ║ Path(is_Atom(), len(self._fields) == 0) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  len(self._fields) == 0                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_Atom : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 57ec4f329bafbd1c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.Token.is_Atom","kind":"property","src_hash":"1458124f79f55d90","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_Atom()","rhs":"returns the is_Atom attribute","over":{"base":"Any"},"name":"is_Atom_correct"},"guarantee":"returns the is_Atom attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"57ec4f329bafbd1c"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.Token.is_Atom","kind":"property","src_hash":"1458124f79f55d90","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_Atom()","rhs":"len(self._fields) == 0","over":{"base":"Any"},"name":"is_Atom_correct"},"guarantee":"returns len(self._fields) == 0","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"57ec4f329bafbd1c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"len(self._fields) == 0","pure":false,"effects":{"effect_type":"reads_state","reads":["self._fields"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_Atom(self):
         return len(self._fields) == 0
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_constructor(cls), get the constructor function for an attribute by name) over Any ║
+# ║ Path(_get_constructor(cls, attr), getattr(cls, '_construct_%s' % attr, lambda x: x)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  getattr(cls, '_construct_%s' % attr, lamb...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_constructor : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a8f10bf155934539           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.Token._get_constructor","kind":"classmethod","src_hash":"19f7716ba22b0934","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_constructor(cls)","rhs":"get the constructor function for an attribute by name","over":{"base":"Any"},"name":"_get_constructor_correct"},"guarantee":"get the constructor function for an attribute by name","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a8f10bf155934539"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.Token._get_constructor","kind":"classmethod","src_hash":"19f7716ba22b0934","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_constructor(cls, attr)","rhs":"getattr(cls, '_construct_%s' % attr, lambda x: x)","over":{"base":"Any"},"name":"_get_constructor_correct"},"guarantee":"returns getattr(cls, '_construct_%s' % attr, lambda x: x)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a8f10bf155934539","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"getattr(cls, '_construct_%s' % attr, lambda x: x)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_constructor(cls, attr):
         """ Get the constructor function for an attribute by name. """
         return getattr(cls, '_construct_%s' % attr, lambda x: x)
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_construct(cls), construct an attribute value from argument passed to ``__new__()``) over Any ║
+# ║ Path(_construct(cls, attr, arg), result == (cls.defaults.get(attr, none) if arg == None else arg if isinstance(arg, Dummy) else cls._get_constructor(attr)(arg)) and result == cls.defaults.get(attr, none) or result == arg or result == cls._get_constructor(attr)(arg)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _construct : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (cls.defaults.get(attr, none) i...   ║
+# ║   ensures:  result == cls.defaults.get(attr, none) or...   ║
+# ║   fiber[case_0]: arg == None => cls.defaults.get(attr...   ║
+# ║   fiber[Dummy]: isinstance(arg, Dummy) => arg              ║
+# ║   fiber[Dummy]: not (arg == None) and not (isinstance...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _construct : Any → {Any | result satisfies: result ==...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1c88f69d6d5fbbc5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eab8aefcfe93f92d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.Token._construct","kind":"classmethod","src_hash":"d3387b45bbe2435d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_construct(cls)","rhs":"construct an attribute value from argument passed to ``__new__()``","over":{"base":"Any"},"name":"_construct_correct"},"guarantee":"construct an attribute value from argument passed to ``__new__()``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.ast.Token._construct_correct","statement":"Path(_construct(x), construct an attribute value from argument passed to ``__new__()``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1c88f69d6d5fbbc5"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.Token._construct","kind":"classmethod","src_hash":"d3387b45bbe2435d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (cls.defaults.get(attr, none) if arg == None else arg if isinstance(arg, Dummy) else cls._get_constructor(attr)(arg)) and result == cls.defaults.get(attr, none) or result == arg or result == cls._get_constructor(attr)(arg)"},"spec":{"lhs":"_construct(cls, attr, arg)","rhs":"result == (cls.defaults.get(attr, none) if arg == None else arg if isinstance(arg, Dummy) else cls._get_constructor(attr)(arg)) and result == cls.defaults.get(attr, none) or result == arg or result == cls._get_constructor(attr)(arg)","over":{"base":"Any"},"name":"_construct_correct"},"guarantee":"result == (cls.defaults.get(attr, none) if arg == None else arg if isinstance(arg, Dummy) else cls._get_constructor(attr)(arg)); result == cls.defaults.get(attr, none) or result == arg or result == cls._get_constructor(attr)(arg); 3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.ast.Token._construct_correct","statement":"Path(_construct(x), result == (cls.defaults.get(attr, none) if arg == None else arg if isinstance(arg, Dummy) else cls._get_constructor(attr)(arg)); result == cls.defaults.get(attr, none) or result == arg or result == cls._get_constructor(attr)(arg); 3-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eab8aefcfe93f92d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (cls.defaults.get(attr, none) if arg == None else arg if isinstance(arg, Dummy) else cls._get_constructor(attr)(arg))","result == cls.defaults.get(attr, none) or result == arg or result == cls._get_constructor(attr)(arg)"],"fibers":[{"name":"case_0","guard":"arg == None","ensures":["result == cls.defaults.get(attr, none)"],"decidability":"z3","returns_expr":"cls.defaults.get(attr, none)"},{"name":"Dummy","guard":"isinstance(arg, Dummy)","ensures":["result == arg"],"decidability":"structural","returns_expr":"arg"},{"name":"Dummy","guard":"not (arg == None) and not (isinstance(arg, Dummy))","ensures":["result == cls._get_constructor(attr)(arg)"],"decidability":"structural","returns_expr":"cls._get_constructor(attr)(arg)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["cls._get_constructor","cls.defaults"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _construct(cls, attr, arg):
         """ Construct an attribute value from argument passed to ``__new__()``. """
         # arg may be ``NoneToken()``, so comparison is done using == instead of ``is`` operator
@@ -299,16 +339,25 @@ class Token(CodegenAST):
                 return cls._get_constructor(attr)(arg)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, *args, **kwargs), len(attrvals) == old_len_attrvals + 1 and len(kwargs) == old_len_kwargs - 1) over {Any | not (len(args) > len(cls._fields)) and len(kwargs) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (len(args) > len(cls._fields))             ║
+# ║   requires: len(kwargs) > 0                                ║
+# ║   ensures:  len(attrvals) == old_len_attrvals + 1          ║
+# ║   ensures:  len(kwargs) == old_len_kwargs - 1              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | not (len(args) > len(cls._fields)) a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a28be6ff30ecbf1b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.Token.__new__","kind":"method","src_hash":"86da9063674503da","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a28be6ff30ecbf1b"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.Token.__new__","kind":"method","src_hash":"86da9063674503da","in":{"base":"Any","pred":"not (len(args) > len(cls._fields)) and len(kwargs) > 0"},"out":{"base":"Any","pred":"result satisfies: len(attrvals) == old_len_attrvals + 1 and len(kwargs) == old_len_kwargs - 1"},"spec":{"lhs":"__new__(cls, *args, **kwargs)","rhs":"len(attrvals) == old_len_attrvals + 1 and len(kwargs) == old_len_kwargs - 1","over":{"base":"Any","pred":"not (len(args) > len(cls._fields)) and len(kwargs) > 0"},"name":"__new___correct"},"guarantee":"len(attrvals) == old_len_attrvals + 1; len(kwargs) == old_len_kwargs - 1","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a28be6ff30ecbf1b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (len(args) > len(cls._fields))","len(kwargs) > 0"],"ensures":["len(attrvals) == old_len_attrvals + 1","len(kwargs) == old_len_kwargs - 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["cls._construct","cls._fields","cls.defaults","cls.not_in_args"],"calls_mutating":["attrvals.append","kwargs.pop"],"raises":["TypeError","ValueError"]},"state_contract":{"modifies":["attrvals.*","kwargs.*"],"old_bindings":{"old_len_attrvals":"len(attrvals)","old_len_kwargs":"len(kwargs)"},"pre_requires":["len(kwargs) > 0"],"post_ensures":["len(attrvals) == old_len_attrvals + 1","len(kwargs) == old_len_kwargs - 1"],"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, *args, **kwargs):
         # Pass through existing instances when given as sole argument
         if len(args) == 1 and not kwargs and isinstance(args[0], cls):
@@ -356,16 +405,22 @@ class Token(CodegenAST):
         return obj
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__eq__(oth), correctly determines equality) over Any  ║
+# ║ Path(__eq__(other), <unspecified:__eq__>) over Any         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __eq__ : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 08c0a2aaa2f811ab           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.Token.__eq__","kind":"method","src_hash":"27391f187d82fe11","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(oth)","rhs":"correctly determines equality","over":{"base":"Any"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"08c0a2aaa2f811ab"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.Token.__eq__","kind":"method","src_hash":"27391f187d82fe11","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(other)","rhs":"<unspecified:__eq__>","over":{"base":"Any"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"08c0a2aaa2f811ab","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","self.__class__","self._fields"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __eq__(self, other):
         if not isinstance(other, self.__class__):
             return False
@@ -375,58 +430,86 @@ class Token(CodegenAST):
         return True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_hashable_content(), internal helper behaves correctly) over Any ║
+# ║ Path(_hashable_content(), tuple([getattr(self, attr) for attr in self._fields])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  tuple([getattr(self, attr) for attr in se...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _hashable_content : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b1697156898217ff           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.Token._hashable_content","kind":"method","src_hash":"daaa24c69358239a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_hashable_content()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_hashable_content_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b1697156898217ff"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.Token._hashable_content","kind":"method","src_hash":"daaa24c69358239a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_hashable_content()","rhs":"tuple([getattr(self, attr) for attr in self._fields])","over":{"base":"Any"},"name":"_hashable_content_correct"},"guarantee":"returns tuple([getattr(self, attr) for attr in self._fields])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b1697156898217ff","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"tuple([getattr(self, attr) for attr in self._fields])","pure":false,"effects":{"effect_type":"reads_state","reads":["self._fields"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _hashable_content(self):
         return tuple([getattr(self, attr) for attr in self._fields])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__hash__(), returns a consistent hash value) over Any ║
+# ║ Path(__hash__(), super().__hash__()) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  super().__hash__()                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __hash__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0fd3a2ce613c074d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.Token.__hash__","kind":"method","src_hash":"9b68e66048eb71e0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__hash__()","rhs":"returns a consistent hash value","over":{"base":"Any"},"name":"__hash___correct"},"guarantee":"returns a consistent hash value","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0fd3a2ce613c074d"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.Token.__hash__","kind":"method","src_hash":"9b68e66048eb71e0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__hash__()","rhs":"super().__hash__()","over":{"base":"Any"},"name":"__hash___correct"},"guarantee":"returns super().__hash__()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0fd3a2ce613c074d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"super().__hash__()","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __hash__(self):
         return super().__hash__()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_joiner(k, ), internal helper behaves correctly) over Any ║
+# ║ Path(_joiner(k, indent_level), ',\n' + ' ' * indent_level if k in self.indented_args else ', ') over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  ',\n' + ' ' * indent_level if k in self.i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _joiner : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 233ac092de336c98           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.Token._joiner","kind":"method","src_hash":"4188e98f7776bbe8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_joiner(k, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_joiner_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"233ac092de336c98"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.Token._joiner","kind":"method","src_hash":"4188e98f7776bbe8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_joiner(k, indent_level)","rhs":"',\\n' + ' ' * indent_level if k in self.indented_args else ', '","over":{"base":"Any"},"name":"_joiner_correct"},"guarantee":"returns ',\\n' + ' ' * indent_level if k in self.indented_args else ', '","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"233ac092de336c98","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"',\\n' + ' ' * indent_level if k in self.indented_args else ', '","pure":false,"effects":{"effect_type":"reads_state","reads":["self.indented_args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _joiner(self, k, indent_level):
         return (',\n' + ' '*indent_level) if k in self.indented_args else ', '
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_indented(pri), id) over Any                          ║
+# ║ Path(_indented(printer, k, v), id) over {Any | hasattr(printer, '_context') and hasattr(printer, '_print') and hasattr(v, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _indented : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(printer, '_context')                   ║
+# ║   requires: hasattr(printer, '_print')                     ║
+# ║   requires: hasattr(v, 'args')                             ║
+# ║   fiber[Tuple]: isinstance(v, Tuple)                       ║
+# ║   fiber[Tuple]: not (isinstance(v, Tuple)) => _print(v)    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _indented : {Any | hasattr(printer, '_context') and h...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 3ea5f46005b7be3b   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.Token._indented","kind":"method","src_hash":"ff50993523352752","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_indented(pri)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_indented_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"_print","by":"library_axiom"},{"fn":"_joiner","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3ea5f46005b7be3b"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.Token._indented","kind":"method","src_hash":"ff50993523352752","in":{"base":"Any","pred":"hasattr(printer, '_context') and hasattr(printer, '_print') and hasattr(v, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_indented(printer, k, v)","rhs":"<unspecified:_indented>","over":{"base":"Any","pred":"hasattr(printer, '_context') and hasattr(printer, '_print') and hasattr(v, 'args')"},"name":"_indented_correct","kind":"composition"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"_print","by":"library_axiom"},{"fn":"_joiner","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3ea5f46005b7be3b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(printer, '_context')","hasattr(printer, '_print')","hasattr(v, 'args')"],"fibers":[{"name":"Tuple","guard":"isinstance(v, Tuple)","ensures":[],"decidability":"structural"},{"name":"Tuple","guard":"not (isinstance(v, Tuple))","ensures":["result == _print(v)"],"decidability":"structural","returns_expr":"_print(v)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["printer._context","printer._print","self._joiner","self.indented_args","v.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _indented(self, printer, k, v, *args, **kwargs):
         il = printer._context['indent_level']
         def _print(arg):
@@ -445,16 +528,24 @@ class Token(CodegenAST):
             return _print(v)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_sympyrepr(pri), id) over Any                         ║
+# ║ Path(_sympyrepr(printer, *args, joiner), id) over {Any | hasattr(printer, '_context') and hasattr(joiner, 'join')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _sympyrepr : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(printer, '_context')                   ║
+# ║   requires: hasattr(joiner, 'join')                        ║
+# ║   returns:  '{}({})'.format(self.__class__.__name__, ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _sympyrepr : {Any | hasattr(printer, '_context') and ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 00a27ff5042fc31d   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.Token._sympyrepr","kind":"method","src_hash":"c0dc56528d1e2768","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sympyrepr(pri)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_sympyrepr_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"format","by":"library_axiom"},{"fn":"join","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"00a27ff5042fc31d"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.Token._sympyrepr","kind":"method","src_hash":"c0dc56528d1e2768","in":{"base":"Any","pred":"hasattr(printer, '_context') and hasattr(joiner, 'join')"},"out":{"base":"Any"},"spec":{"lhs":"_sympyrepr(printer, *args, joiner)","rhs":"'{}({})'.format(self.__class__.__name__, joiner.join(arg_reprs))","over":{"base":"Any","pred":"hasattr(printer, '_context') and hasattr(joiner, 'join')"},"name":"_sympyrepr_correct","kind":"composition"},"guarantee":"returns '{}({})'.format(self.__class__.__name__, joiner.join(arg_reprs))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"format","by":"library_axiom"},{"fn":"join","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"00a27ff5042fc31d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(printer, '_context')","hasattr(joiner, 'join')"],"returns_expr":"'{}({})'.format(self.__class__.__name__, joiner.join(arg_reprs))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _sympyrepr(self, printer, *args, joiner=', ', **kwargs):
         from sympy.printing.printer import printer_context
         exclude = kwargs.get('exclude', ())
@@ -481,31 +572,46 @@ class Token(CodegenAST):
     _sympystr = _sympyrepr
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__repr__(), returns a faithful string representation) over Any ║
+# ║ Path(__repr__(), srepr(self)) over Any                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  srepr(self)                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __repr__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | af36f855cbcd077d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.Token.__repr__","kind":"method","src_hash":"c69379ec8238590d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"returns a faithful string representation","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns a faithful string representation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"af36f855cbcd077d"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.Token.__repr__","kind":"method","src_hash":"c69379ec8238590d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"srepr(self)","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns srepr(self)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"af36f855cbcd077d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"srepr(self)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __repr__(self):  # sympy.core.Basic.__repr__ uses sstr
         from sympy.printing import srepr
         return srepr(self)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(kwargs(exc), id) over Any                             ║
+# ║ Path(kwargs(exclude, apply), id) over Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ kwargs : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == ({k: apply(v) for k, v in kwarg...   ║
+# ║   ensures:  result == {k: apply(v) for k, v in kwargs...   ║
+# ║   fiber[case_0]: apply is not None => {k: apply(v) fo...   ║
+# ║   fiber[case_1]: not (apply is not None) => kwargs         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ kwargs : Any → {Any | result satisfies: result == ({k...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 780b56474573f62d   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.Token.kwargs","kind":"method","src_hash":"5528cbb255634dca","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"kwargs(exc)","rhs":"get instance's attributes as dict of keyword arguments","over":{"base":"Any"},"name":"kwargs_correct","kind":"composition"},"guarantee":"get instance's attributes as dict of keyword arguments","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"apply","by":"library_axiom"},{"fn":"items","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"780b56474573f62d"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.Token.kwargs","kind":"method","src_hash":"5528cbb255634dca","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == ({k: apply(v) for k, v in kwargs.items()} if apply is not None else kwargs) and result == {k: apply(v) for k, v in kwargs.items()} or result == kwargs"},"spec":{"lhs":"kwargs(exclude, apply)","rhs":"result == ({k: apply(v) for k, v in kwargs.items()} if apply is not None else kwargs) and result == {k: apply(v) for k, v in kwargs.items()} or result == kwargs","over":{"base":"Any"},"name":"kwargs_correct","kind":"composition"},"guarantee":"result == ({k: apply(v) for k, v in kwargs.items()} if apply is not None else kwargs); result == {k: apply(v) for k, v in kwargs.items()} or result == kwargs; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"apply","by":"library_axiom"},{"fn":"items","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"780b56474573f62d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == ({k: apply(v) for k, v in kwargs.items()} if apply is not None else kwargs)","result == {k: apply(v) for k, v in kwargs.items()} or result == kwargs"],"fibers":[{"name":"case_0","guard":"apply is not None","ensures":["result == {k: apply(v) for k, v in kwargs.items()}"],"decidability":"library","returns_expr":"{k: apply(v) for k, v in kwargs.items()}"},{"name":"case_1","guard":"not (apply is not None)","ensures":["result == kwargs"],"decidability":"library","returns_expr":"kwargs"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._fields"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def kwargs(self, exclude=(), apply=None):
         """ Get instance's attributes as dict of keyword arguments.
 
@@ -525,16 +631,22 @@ class Token(CodegenAST):
             return kwargs
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(BreakToken(), correctly constructs a BreakToken instance) over Any ║
+# ║ Path(BreakToken(), isinstance(self, Token)) over Any       ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ BreakToken : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Token)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ BreakToken : Any → {Any | result satisfies: isinstanc...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | adcd43d71078afba           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.BreakToken","kind":"class","src_hash":"e6290266e03ae14c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"BreakToken()","rhs":"correctly constructs a BreakToken instance","over":{"base":"Any"},"name":"BreakToken_correct"},"guarantee":"correctly constructs a BreakToken instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"adcd43d71078afba"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.BreakToken","kind":"class","src_hash":"e6290266e03ae14c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Token)"},"spec":{"lhs":"BreakToken()","rhs":"isinstance(self, Token)","over":{"base":"Any"},"name":"BreakToken_correct"},"guarantee":"isinstance(self, Token)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"adcd43d71078afba","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Token)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function BreakToken not found in source"]}}
 class BreakToken(Token):
     """ Represents 'break' in C/Python ('exit' in Fortran).
 
@@ -555,16 +667,22 @@ break_ = BreakToken()
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ContinueToken(), correctly constructs a ContinueToken instance) over Any ║
+# ║ Path(ContinueToken(), isinstance(self, Token)) over Any    ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ ContinueToken : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Token)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ ContinueToken : Any → {Any | result satisfies: isinst...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3a3b762bf593ac3b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.ContinueToken","kind":"class","src_hash":"ae2195d5920e789d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ContinueToken()","rhs":"correctly constructs a ContinueToken instance","over":{"base":"Any"},"name":"ContinueToken_correct"},"guarantee":"correctly constructs a ContinueToken instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3a3b762bf593ac3b"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.ContinueToken","kind":"class","src_hash":"ae2195d5920e789d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Token)"},"spec":{"lhs":"ContinueToken()","rhs":"isinstance(self, Token)","over":{"base":"Any"},"name":"ContinueToken_correct"},"guarantee":"isinstance(self, Token)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3a3b762bf593ac3b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Token)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function ContinueToken not found in source"]}}
 class ContinueToken(Token):
     """ Represents 'continue' in C/Python ('cycle' in Fortran)
 
@@ -586,14 +704,20 @@ continue_ = ContinueToken()
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(NoneToken(*args), correctly constructs a NoneToken instance) over {Any | isinstance(other, NoneToken)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ NoneToken : {Any | isinstance(other, NoneToken)} → Any     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Token)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ NoneToken : {Any | isinstance(other, NoneToken)} → {A...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 14334622d569e299  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.NoneToken","kind":"class","src_hash":"a0846350b4d19009","in":{"base":"Any","pred":"isinstance(other, NoneToken)"},"out":{"base":"Any"},"spec":{"lhs":"NoneToken(*args)","rhs":"correctly constructs a NoneToken instance","over":{"base":"Any","pred":"isinstance(other, NoneToken)"},"name":"NoneToken_class_invariant"},"guarantee":"correctly constructs a NoneToken instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"14334622d569e299"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.NoneToken","kind":"class","src_hash":"a0846350b4d19009","in":{"base":"Any","pred":"isinstance(other, NoneToken)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Token)"},"spec":{"lhs":"NoneToken(*args)","rhs":"correctly constructs a NoneToken instance","over":{"base":"Any","pred":"isinstance(other, NoneToken)"},"name":"NoneToken_class_invariant"},"guarantee":"isinstance(self, Token)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"14334622d569e299","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Token)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function NoneToken not found in source"]}}
 class NoneToken(Token):
     """ The AST equivalence of Python's NoneType
 
@@ -609,44 +733,62 @@ class NoneToken(Token):
 
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__eq__(oth), correctly determines equality) over Any  ║
+# ║ Path(__eq__(other), other is None or isinstance(other, NoneToken)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  other is None or isinstance(other, NoneTo...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __eq__ : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f23498c698d967ba           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.NoneToken.__eq__","kind":"method","src_hash":"1682aec90bf02368","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(oth)","rhs":"correctly determines equality","over":{"base":"Any"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f23498c698d967ba"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.NoneToken.__eq__","kind":"method","src_hash":"1682aec90bf02368","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(other)","rhs":"other is None or isinstance(other, NoneToken)","over":{"base":"Any"},"name":"__eq___correct"},"guarantee":"returns other is None or isinstance(other, NoneToken)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f23498c698d967ba","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"other is None or isinstance(other, NoneToken)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __eq__(self, other):
         return other is None or isinstance(other, NoneToken)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_hashable_content(), internal helper behaves correctly) over Any ║
+# ║ Path(_hashable_content(), ()) over Any                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  ()                                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _hashable_content : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f9f8081552e9f9ff           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.NoneToken._hashable_content","kind":"method","src_hash":"7edb60dfdc7fb45f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_hashable_content()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_hashable_content_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f9f8081552e9f9ff"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.NoneToken._hashable_content","kind":"method","src_hash":"7edb60dfdc7fb45f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_hashable_content()","rhs":"()","over":{"base":"Any"},"name":"_hashable_content_correct"},"guarantee":"returns ()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f9f8081552e9f9ff","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"()","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _hashable_content(self):
         return ()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__hash__(), returns a consistent hash value) over Any ║
+# ║ Path(__hash__(), super().__hash__()) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  super().__hash__()                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __hash__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a29d97df65d41fbd           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.NoneToken.__hash__","kind":"method","src_hash":"9b68e66048eb71e0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__hash__()","rhs":"returns a consistent hash value","over":{"base":"Any"},"name":"__hash___correct"},"guarantee":"returns a consistent hash value","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a29d97df65d41fbd"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.NoneToken.__hash__","kind":"method","src_hash":"9b68e66048eb71e0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__hash__()","rhs":"super().__hash__()","over":{"base":"Any"},"name":"__hash___correct"},"guarantee":"returns super().__hash__()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a29d97df65d41fbd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"super().__hash__()","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __hash__(self):
         return super().__hash__()
 
@@ -657,14 +799,20 @@ none = NoneToken()
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(AssignmentBase(*args), correctly constructs a AssignmentBase instance) over {Any | isinstance(lhs, assignable) and isinstance(lhs, Indexed)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, CodegenAST)                   ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ AssignmentBase : {Any | isinstance(lhs, assignable) a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 72c912cbe5dabd3c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.AssignmentBase","kind":"class","src_hash":"3f37a78e8b6b7835","in":{"base":"Any","pred":"isinstance(lhs, assignable) and isinstance(lhs, Indexed)"},"out":{"base":"Any"},"spec":{"lhs":"AssignmentBase(*args)","rhs":"correctly constructs a AssignmentBase instance","over":{"base":"Any","pred":"isinstance(lhs, assignable) and isinstance(lhs, Indexed)"},"name":"AssignmentBase_class_invariant"},"guarantee":"correctly constructs a AssignmentBase instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"72c912cbe5dabd3c"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.AssignmentBase","kind":"class","src_hash":"3f37a78e8b6b7835","in":{"base":"Any","pred":"isinstance(lhs, assignable) and isinstance(lhs, Indexed)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, CodegenAST)"},"spec":{"lhs":"AssignmentBase(*args)","rhs":"correctly constructs a AssignmentBase instance","over":{"base":"Any","pred":"isinstance(lhs, assignable) and isinstance(lhs, Indexed)"},"name":"AssignmentBase_class_invariant"},"guarantee":"isinstance(self, CodegenAST)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"72c912cbe5dabd3c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, CodegenAST)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":false,"binding_errors":["Function AssignmentBase not found in source"]}}
 class AssignmentBase(CodegenAST):
     """ Abstract base class for Assignment and AugmentedAssignment.
 
@@ -676,16 +824,22 @@ class AssignmentBase(CodegenAST):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, lhs, rhs), super().__new__(cls, lhs, rhs)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  super().__new__(cls, lhs, rhs)                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1a4e1ecc24bb4631           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.AssignmentBase.__new__","kind":"method","src_hash":"178c6f7fef83df8b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1a4e1ecc24bb4631"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.AssignmentBase.__new__","kind":"method","src_hash":"178c6f7fef83df8b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, lhs, rhs)","rhs":"super().__new__(cls, lhs, rhs)","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"returns super().__new__(cls, lhs, rhs)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1a4e1ecc24bb4631","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"super().__new__(cls, lhs, rhs)","pure":false,"effects":{"effect_type":"reads_state","reads":["cls._check_args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, lhs, rhs):
         lhs = _sympify(lhs)
         rhs = _sympify(rhs)
@@ -696,46 +850,67 @@ class AssignmentBase(CodegenAST):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(lhs(), returns the lhs attribute) over Any            ║
+# ║ Path(lhs(), self.args[0]) over Any                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ lhs : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1015dfb4a956e0e8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.AssignmentBase.lhs","kind":"property","src_hash":"2c28c893a4bc87eb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"lhs()","rhs":"returns the lhs attribute","over":{"base":"Any"},"name":"lhs_correct"},"guarantee":"returns the lhs attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1015dfb4a956e0e8"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.AssignmentBase.lhs","kind":"property","src_hash":"2c28c893a4bc87eb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"lhs()","rhs":"self.args[0]","over":{"base":"Any"},"name":"lhs_correct"},"guarantee":"returns self.args[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1015dfb4a956e0e8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def lhs(self):
         return self.args[0]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rhs(), returns the rhs attribute) over Any            ║
+# ║ Path(rhs(), self.args[1]) over Any                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[1]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ rhs : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b096a8e2fdeb01e8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.AssignmentBase.rhs","kind":"property","src_hash":"829c9ea6ef2a650c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rhs()","rhs":"returns the rhs attribute","over":{"base":"Any"},"name":"rhs_correct"},"guarantee":"returns the rhs attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b096a8e2fdeb01e8"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.AssignmentBase.rhs","kind":"property","src_hash":"829c9ea6ef2a650c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rhs()","rhs":"self.args[1]","over":{"base":"Any"},"name":"rhs_correct"},"guarantee":"returns self.args[1]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b096a8e2fdeb01e8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[1]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def rhs(self):
         return self.args[1]
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_check_args(cls), check arguments to __new__ and raise exception if any problems found) over Any ║
+# ║ Path(_check_args(cls, lhs, rhs), <unspecified:_check_args>) over {Any | isinstance(lhs, assignable) and hasattr(lhs, 'shape') and hasattr(rhs, 'shape')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _check_args : Any → Any                                    ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(lhs, assignable)                    ║
+# ║   requires: hasattr(lhs, 'shape')                          ║
+# ║   requires: hasattr(rhs, 'shape')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _check_args : {Any | isinstance(lhs, assignable) and ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3cff6b63b1e59fe6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.AssignmentBase._check_args","kind":"classmethod","src_hash":"89e771626899dcc4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_check_args(cls)","rhs":"check arguments to __new__ and raise exception if any problems found","over":{"base":"Any"},"name":"_check_args_correct"},"guarantee":"check arguments to __new__ and raise exception if any problems found","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.ast.AssignmentBase._check_args_correct","statement":"Path(_check_args(x), check arguments to __new__ and raise exception if any problems found)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3cff6b63b1e59fe6"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.AssignmentBase._check_args","kind":"classmethod","src_hash":"89e771626899dcc4","in":{"base":"Any","pred":"isinstance(lhs, assignable) and hasattr(lhs, 'shape') and hasattr(rhs, 'shape')"},"out":{"base":"Any"},"spec":{"lhs":"_check_args(cls, lhs, rhs)","rhs":"<unspecified:_check_args>","over":{"base":"Any","pred":"isinstance(lhs, assignable) and hasattr(lhs, 'shape') and hasattr(rhs, 'shape')"},"name":"_check_args_correct"},"guarantee":"check arguments to __new__ and raise exception if any problems found","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.ast.AssignmentBase._check_args_correct","statement":"Path(_check_args(x), check arguments to __new__ and raise exception if any problems found)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3cff6b63b1e59fe6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(lhs, assignable)","hasattr(lhs, 'shape')","hasattr(rhs, 'shape')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["lhs.shape","rhs.shape"],"raises":["TypeError","ValueError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _check_args(cls, lhs, rhs):
         """ Check arguments to __new__ and raise exception if any problems found.
 
@@ -769,16 +944,22 @@ class AssignmentBase(CodegenAST):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(Assignment(), correctly constructs a Assignment instance) over Any ║
+# ║ Path(Assignment(), isinstance(self, AssignmentBase)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Assignment : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, AssignmentBase)               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Assignment : Any → {Any | result satisfies: isinstanc...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7cbce7470dc2bef3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.Assignment","kind":"class","src_hash":"8429096d6fc029ef","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Assignment()","rhs":"correctly constructs a Assignment instance","over":{"base":"Any"},"name":"Assignment_correct"},"guarantee":"correctly constructs a Assignment instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7cbce7470dc2bef3"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.Assignment","kind":"class","src_hash":"8429096d6fc029ef","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, AssignmentBase)"},"spec":{"lhs":"Assignment()","rhs":"isinstance(self, AssignmentBase)","over":{"base":"Any"},"name":"Assignment_correct"},"guarantee":"isinstance(self, AssignmentBase)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7cbce7470dc2bef3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, AssignmentBase)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function Assignment not found in source"]}}
 class Assignment(AssignmentBase):
     """
     Represents variable assignment for code generation.
@@ -822,14 +1003,20 @@ class Assignment(AssignmentBase):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(AugmentedAssignment(*args), correctly constructs a AugmentedAssignment instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ AugmentedAssignment : Any → Any                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, AssignmentBase)               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ AugmentedAssignment : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6ac4322fa6df5e30  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.AugmentedAssignment","kind":"class","src_hash":"bd3df4f3af220969","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"AugmentedAssignment(*args)","rhs":"correctly constructs a AugmentedAssignment instance","over":{"base":"Any"},"name":"AugmentedAssignment_class_invariant"},"guarantee":"correctly constructs a AugmentedAssignment instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6ac4322fa6df5e30"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.AugmentedAssignment","kind":"class","src_hash":"bd3df4f3af220969","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, AssignmentBase)"},"spec":{"lhs":"AugmentedAssignment(*args)","rhs":"correctly constructs a AugmentedAssignment instance","over":{"base":"Any"},"name":"AugmentedAssignment_class_invariant"},"guarantee":"isinstance(self, AssignmentBase)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6ac4322fa6df5e30","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, AssignmentBase)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function AugmentedAssignment not found in source"]}}
 class AugmentedAssignment(AssignmentBase):
     """
     Base class for augmented assignments.
@@ -845,91 +1032,127 @@ class AugmentedAssignment(AssignmentBase):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(op(), returns the op attribute) over Any              ║
+# ║ Path(op(), self.binop + '=') over Any                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.binop + '='                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ op : Any → Any                                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 870c1455cfb21bed           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.AugmentedAssignment.op","kind":"property","src_hash":"b722cd32b91342f0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"op()","rhs":"returns the op attribute","over":{"base":"Any"},"name":"op_correct"},"guarantee":"returns the op attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"870c1455cfb21bed"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.AugmentedAssignment.op","kind":"property","src_hash":"b722cd32b91342f0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"op()","rhs":"self.binop + '='","over":{"base":"Any"},"name":"op_correct"},"guarantee":"returns self.binop + '='","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"870c1455cfb21bed","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.binop + '='","pure":false,"effects":{"effect_type":"reads_state","reads":["self.binop"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def op(self):
         return self.binop + '='
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(AddAugmentedAssignment(), correctly constructs a AddAugmentedAssignment instance) over Any ║
+# ║ Path(AddAugmentedAssignment(), isinstance(self, AugmentedAssignment)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ AddAugmentedAssignment : Any → Any                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, AugmentedAssignment)          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ AddAugmentedAssignment : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b87708cac2edde8e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.AddAugmentedAssignment","kind":"class","src_hash":"8e53ea30885ead9e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"AddAugmentedAssignment()","rhs":"correctly constructs a AddAugmentedAssignment instance","over":{"base":"Any"},"name":"AddAugmentedAssignment_correct"},"guarantee":"correctly constructs a AddAugmentedAssignment instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b87708cac2edde8e"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.AddAugmentedAssignment","kind":"class","src_hash":"8e53ea30885ead9e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, AugmentedAssignment)"},"spec":{"lhs":"AddAugmentedAssignment()","rhs":"isinstance(self, AugmentedAssignment)","over":{"base":"Any"},"name":"AddAugmentedAssignment_correct"},"guarantee":"isinstance(self, AugmentedAssignment)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b87708cac2edde8e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, AugmentedAssignment)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function AddAugmentedAssignment not found in source"]}}
 class AddAugmentedAssignment(AugmentedAssignment):
     binop = '+'
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(SubAugmentedAssignment(), correctly constructs a SubAugmentedAssignment instance) over Any ║
+# ║ Path(SubAugmentedAssignment(), isinstance(self, AugmentedAssignment)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ SubAugmentedAssignment : Any → Any                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, AugmentedAssignment)          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ SubAugmentedAssignment : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1d41de778b1a900b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.SubAugmentedAssignment","kind":"class","src_hash":"d8e7f9d0dc9cb533","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"SubAugmentedAssignment()","rhs":"correctly constructs a SubAugmentedAssignment instance","over":{"base":"Any"},"name":"SubAugmentedAssignment_correct"},"guarantee":"correctly constructs a SubAugmentedAssignment instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1d41de778b1a900b"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.SubAugmentedAssignment","kind":"class","src_hash":"d8e7f9d0dc9cb533","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, AugmentedAssignment)"},"spec":{"lhs":"SubAugmentedAssignment()","rhs":"isinstance(self, AugmentedAssignment)","over":{"base":"Any"},"name":"SubAugmentedAssignment_correct"},"guarantee":"isinstance(self, AugmentedAssignment)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1d41de778b1a900b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, AugmentedAssignment)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function SubAugmentedAssignment not found in source"]}}
 class SubAugmentedAssignment(AugmentedAssignment):
     binop = '-'
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(MulAugmentedAssignment(), correctly constructs a MulAugmentedAssignment instance) over Any ║
+# ║ Path(MulAugmentedAssignment(), isinstance(self, AugmentedAssignment)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ MulAugmentedAssignment : Any → Any                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, AugmentedAssignment)          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ MulAugmentedAssignment : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 52e2f42532761af6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.MulAugmentedAssignment","kind":"class","src_hash":"4caec80566ff83c6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"MulAugmentedAssignment()","rhs":"correctly constructs a MulAugmentedAssignment instance","over":{"base":"Any"},"name":"MulAugmentedAssignment_correct"},"guarantee":"correctly constructs a MulAugmentedAssignment instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"52e2f42532761af6"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.MulAugmentedAssignment","kind":"class","src_hash":"4caec80566ff83c6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, AugmentedAssignment)"},"spec":{"lhs":"MulAugmentedAssignment()","rhs":"isinstance(self, AugmentedAssignment)","over":{"base":"Any"},"name":"MulAugmentedAssignment_correct"},"guarantee":"isinstance(self, AugmentedAssignment)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"52e2f42532761af6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, AugmentedAssignment)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function MulAugmentedAssignment not found in source"]}}
 class MulAugmentedAssignment(AugmentedAssignment):
     binop = '*'
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(DivAugmentedAssignment(), correctly constructs a DivAugmentedAssignment instance) over Any ║
+# ║ Path(DivAugmentedAssignment(), isinstance(self, AugmentedAssignment)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ DivAugmentedAssignment : Any → Any                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, AugmentedAssignment)          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ DivAugmentedAssignment : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 629749b504803a6c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.DivAugmentedAssignment","kind":"class","src_hash":"640261f6564414b3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"DivAugmentedAssignment()","rhs":"correctly constructs a DivAugmentedAssignment instance","over":{"base":"Any"},"name":"DivAugmentedAssignment_correct"},"guarantee":"correctly constructs a DivAugmentedAssignment instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"629749b504803a6c"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.DivAugmentedAssignment","kind":"class","src_hash":"640261f6564414b3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, AugmentedAssignment)"},"spec":{"lhs":"DivAugmentedAssignment()","rhs":"isinstance(self, AugmentedAssignment)","over":{"base":"Any"},"name":"DivAugmentedAssignment_correct"},"guarantee":"isinstance(self, AugmentedAssignment)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"629749b504803a6c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, AugmentedAssignment)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function DivAugmentedAssignment not found in source"]}}
 class DivAugmentedAssignment(AugmentedAssignment):
     binop = '/'
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ModAugmentedAssignment(), correctly constructs a ModAugmentedAssignment instance) over Any ║
+# ║ Path(ModAugmentedAssignment(), isinstance(self, AugmentedAssignment)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ ModAugmentedAssignment : Any → Any                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, AugmentedAssignment)          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ ModAugmentedAssignment : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1e3062406a582bf6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.ModAugmentedAssignment","kind":"class","src_hash":"d53d08846e18c3ee","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ModAugmentedAssignment()","rhs":"correctly constructs a ModAugmentedAssignment instance","over":{"base":"Any"},"name":"ModAugmentedAssignment_correct"},"guarantee":"correctly constructs a ModAugmentedAssignment instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1e3062406a582bf6"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.ModAugmentedAssignment","kind":"class","src_hash":"d53d08846e18c3ee","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, AugmentedAssignment)"},"spec":{"lhs":"ModAugmentedAssignment()","rhs":"isinstance(self, AugmentedAssignment)","over":{"base":"Any"},"name":"ModAugmentedAssignment_correct"},"guarantee":"isinstance(self, AugmentedAssignment)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1e3062406a582bf6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, AugmentedAssignment)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function ModAugmentedAssignment not found in source"]}}
 class ModAugmentedAssignment(AugmentedAssignment):
     binop = '%'
 
@@ -944,16 +1167,23 @@ augassign_classes = {
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(aug_assign(lhs), create 'lhs op= rhs') over Any       ║
+# ║ Path(aug_assign(lhs, op, rhs), augassign_classes[op](lhs, rhs)) over {Any | not (op not in augassign_classes)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ aug_assign : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (op not in augassign_classes)              ║
+# ║   returns:  augassign_classes[op](lhs, rhs)                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ aug_assign : {Any | not (op not in augassign_classes)...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 017a622244db288c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a13b1697e28e4fbb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.aug_assign","kind":"function","src_hash":"8e30bd1de21e5c56","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"aug_assign(lhs)","rhs":"create 'lhs op= rhs'","over":{"base":"Any"},"name":"aug_assign_correct"},"guarantee":"create 'lhs op= rhs'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.ast.aug_assign_correct","statement":"Path(aug_assign(x), create 'lhs op= rhs')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"017a622244db288c"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.aug_assign","kind":"function","src_hash":"8e30bd1de21e5c56","in":{"base":"Any","pred":"not (op not in augassign_classes)"},"out":{"base":"Any"},"spec":{"lhs":"aug_assign(lhs, op, rhs)","rhs":"augassign_classes[op](lhs, rhs)","over":{"base":"Any","pred":"not (op not in augassign_classes)"},"name":"aug_assign_correct"},"guarantee":"returns augassign_classes[op](lhs, rhs)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.ast.aug_assign_correct","statement":"Path(aug_assign(x), returns augassign_classes[op](lhs, rhs))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a13b1697e28e4fbb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (op not in augassign_classes)"],"returns_expr":"augassign_classes[op](lhs, rhs)","pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def aug_assign(lhs, op, rhs):
     """
     Create 'lhs op= rhs'.
@@ -1000,14 +1230,20 @@ def aug_assign(lhs, op, rhs):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(CodeBlock(*args), correctly constructs a CodeBlock instance) over {Any | isinstance(i, Assignment) and isinstance(i, AugmentedAssignment)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, CodegenAST)                   ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ CodeBlock : {Any | isinstance(i, Assignment) and isin...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.8ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b3c6369696c241fa  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.CodeBlock","kind":"class","src_hash":"85f268df1bf8f60f","in":{"base":"Any","pred":"isinstance(i, Assignment) and isinstance(i, AugmentedAssignment)"},"out":{"base":"Any"},"spec":{"lhs":"CodeBlock(*args)","rhs":"correctly constructs a CodeBlock instance","over":{"base":"Any","pred":"isinstance(i, Assignment) and isinstance(i, AugmentedAssignment)"},"name":"CodeBlock_class_invariant"},"guarantee":"correctly constructs a CodeBlock instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b3c6369696c241fa"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.CodeBlock","kind":"class","src_hash":"85f268df1bf8f60f","in":{"base":"Any","pred":"isinstance(i, Assignment) and isinstance(i, AugmentedAssignment)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, CodegenAST)"},"spec":{"lhs":"CodeBlock(*args)","rhs":"correctly constructs a CodeBlock instance","over":{"base":"Any","pred":"isinstance(i, Assignment) and isinstance(i, AugmentedAssignment)"},"name":"CodeBlock_class_invariant"},"guarantee":"isinstance(self, CodegenAST)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b3c6369696c241fa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, CodegenAST)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"assumed","binding":false,"binding_errors":["Function CodeBlock not found in source"]}}
 class CodeBlock(CodegenAST):
     """
     Represents a block of code.
@@ -1050,16 +1286,22 @@ class CodeBlock(CodegenAST):
 
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, *args), <unspecified:__new__>) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 85c18c3d535224dc           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.CodeBlock.__new__","kind":"method","src_hash":"6d24efa3b8a66568","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"85c18c3d535224dc"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.CodeBlock.__new__","kind":"method","src_hash":"6d24efa3b8a66568","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, *args)","rhs":"<unspecified:__new__>","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"85c18c3d535224dc","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, *args):
         left_hand_sides = []
         right_hand_sides = []
@@ -1076,30 +1318,44 @@ class CodeBlock(CodegenAST):
         return obj
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__iter__(), yields all elements in order) over Any    ║
+# ║ Path(__iter__(), iter(self.args)) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  iter(self.args)                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __iter__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | de754addc78ab566           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.CodeBlock.__iter__","kind":"method","src_hash":"bc4bd12099820d6d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__iter__()","rhs":"yields all elements in order","over":{"base":"Any"},"name":"__iter___correct"},"guarantee":"yields all elements in order","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"de754addc78ab566"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.CodeBlock.__iter__","kind":"method","src_hash":"bc4bd12099820d6d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__iter__()","rhs":"iter(self.args)","over":{"base":"Any"},"name":"__iter___correct"},"guarantee":"returns iter(self.args)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"de754addc78ab566","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"iter(self.args)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __iter__(self):
         return iter(self.args)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_sympyrepr(pri), internal helper behaves correctly) over Any ║
+# ║ Path(_sympyrepr(printer, *args, **kwargs), '{}(\n'.format(' ' * (il - 4) + self.__class__.__name__) + ' ' * il + joined + '\n' + ' ' * (il - 4) + ')') over {Any | hasattr(printer, '_context') and hasattr(printer, '_print')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _sympyrepr : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(printer, '_context')                   ║
+# ║   requires: hasattr(printer, '_print')                     ║
+# ║   returns:  '{}(\n'.format(' ' * (il - 4) + self.__cl...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _sympyrepr : {Any | hasattr(printer, '_context') and ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c2a72293e9fe29fb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4796d756af57462e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.CodeBlock._sympyrepr","kind":"method","src_hash":"a4e713cb448ec033","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sympyrepr(pri)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_sympyrepr_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.ast.CodeBlock._sympyrepr_correct","statement":"Path(_sympyrepr(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c2a72293e9fe29fb"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.CodeBlock._sympyrepr","kind":"method","src_hash":"a4e713cb448ec033","in":{"base":"Any","pred":"hasattr(printer, '_context') and hasattr(printer, '_print')"},"out":{"base":"Any"},"spec":{"lhs":"_sympyrepr(printer, *args, **kwargs)","rhs":"'{}(\\n'.format(' ' * (il - 4) + self.__class__.__name__) + ' ' * il + joined + '\\n' + ' ' * (il - 4) + ')'","over":{"base":"Any","pred":"hasattr(printer, '_context') and hasattr(printer, '_print')"},"name":"_sympyrepr_correct"},"guarantee":"returns '{}(\\n'.format(' ' * (il - 4) + self.__class__.__name__) + ' ' * il + joined + '\\n' + ' ' * (il - 4) + ')'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.ast.CodeBlock._sympyrepr_correct","statement":"Path(_sympyrepr(x), returns '{}(\\n'.format(' ' * (il - 4) + self.__class__.__name__) + ' ' * il + joined + '\\n' + ' ' * (il - 4) + ')')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4796d756af57462e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(printer, '_context')","hasattr(printer, '_print')"],"returns_expr":"'{}(\\n'.format(' ' * (il - 4) + self.__class__.__name__) + ' ' * il + joined + '\\n' + ' ' * (il - 4) + ')'","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","printer._context","printer._print","self.__class__","self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _sympyrepr(self, printer, *args, **kwargs):
         il = printer._context.get('indent_level', 0)
         joiner = ',\n' + ' '*il
@@ -1111,31 +1367,46 @@ class CodeBlock(CodegenAST):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(free_symbols(), returns the free_symbols attribute) over Any ║
+# ║ Path(free_symbols(), super().free_symbols - set(self.left_hand_sides)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  super().free_symbols - set(self.left_hand...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ free_symbols : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3ee400f42cd0ef8d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.CodeBlock.free_symbols","kind":"property","src_hash":"1d091c0d7418beed","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"free_symbols()","rhs":"returns the free_symbols attribute","over":{"base":"Any"},"name":"free_symbols_correct"},"guarantee":"returns the free_symbols attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3ee400f42cd0ef8d"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.CodeBlock.free_symbols","kind":"property","src_hash":"1d091c0d7418beed","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"free_symbols()","rhs":"super().free_symbols - set(self.left_hand_sides)","over":{"base":"Any"},"name":"free_symbols_correct"},"guarantee":"returns super().free_symbols - set(self.left_hand_sides)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3ee400f42cd0ef8d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"super().free_symbols - set(self.left_hand_sides)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.left_hand_sides"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def free_symbols(self):
         return super().free_symbols - set(self.left_hand_sides)
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(topological_sort(cls), return a codeblock with topologically sorted assignments so that variables are assigned before they are used) over Any ║
+# ║ Path(topological_sort(cls, assignments), cls(*[a for i, a in ordered_assignments])) over {Any | all((isinstance(i, Assignment) for i in assignments)) and not (any((isinstance(i, AugmentedAssignment) for i in assignments)))} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ topological_sort : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: all((isinstance(i, Assignment) for i in a...   ║
+# ║   requires: not (any((isinstance(i, AugmentedAssignme...   ║
+# ║   ensures:  len(E) == old_len_E + 1                        ║
+# ║   returns:  cls(*[a for i, a in ordered_assignments])      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ topological_sort : {Any | all((isinstance(i, Assignme...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e7bd324e981414c0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 793dfd096ee4c810  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.CodeBlock.topological_sort","kind":"classmethod","src_hash":"d1674f8c5a364e4d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"topological_sort(cls)","rhs":"return a codeblock with topologically sorted assignments so that variables are assigned before they are used","over":{"base":"Any"},"name":"topological_sort_correct"},"guarantee":"return a codeblock with topologically sorted assignments so that variables are assigned before they are used","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.ast.CodeBlock.topological_sort_correct","statement":"Path(topological_sort(x), return a codeblock with topologically sorted assignments so that variables are assigned before they are used)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e7bd324e981414c0"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.CodeBlock.topological_sort","kind":"classmethod","src_hash":"d1674f8c5a364e4d","in":{"base":"Any","pred":"all((isinstance(i, Assignment) for i in assignments)) and not (any((isinstance(i, AugmentedAssignment) for i in assignments)))"},"out":{"base":"Any","pred":"result satisfies: result == (cls(*[a for i, a in ordered_assignments]))"},"spec":{"lhs":"topological_sort(cls, assignments)","rhs":"cls(*[a for i, a in ordered_assignments])","over":{"base":"Any","pred":"all((isinstance(i, Assignment) for i in assignments)) and not (any((isinstance(i, AugmentedAssignment) for i in assignments)))"},"name":"topological_sort_correct"},"guarantee":"returns cls(*[a for i, a in ordered_assignments]); len(E) == old_len_E + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.ast.CodeBlock.topological_sort_correct","statement":"Path(topological_sort(x), returns cls(*[a for i, a in ordered_assignments]); len(E) == old_len_E + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"793dfd096ee4c810","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["all((isinstance(i, Assignment) for i in assignments))","not (any((isinstance(i, AugmentedAssignment) for i in assignments)))"],"ensures":["len(E) == old_len_E + 1"],"returns_expr":"cls(*[a for i, a in ordered_assignments])","pure":false,"effects":{"effect_type":"reads_state","calls_mutating":["E.append"],"raises":["NotImplementedError"]},"state_contract":{"modifies":["E.*"],"old_bindings":{"old_len_E":"len(E)"},"post_ensures":["len(E) == old_len_E + 1"],"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def topological_sort(cls, assignments):
         """
         Return a CodeBlock with topologically sorted assignments so that
@@ -1217,16 +1488,24 @@ class CodeBlock(CodegenAST):
         return cls(*[a for i, a in ordered_assignments])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(cse(sym), return a new code block with common subexpressions eliminated) over Any ║
+# ║ Path(cse(symbols, optimizations, postprocess), self.topological_sort(new_assignments + new_block)) over {Any | all((isinstance(i, Assignment) for i in self.args)) and not (any((isinstance(i, AugmentedAssignment) for i in self.args)))} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ cse : Any → Any                                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: all((isinstance(i, Assignment) for i in s...   ║
+# ║   requires: not (any((isinstance(i, AugmentedAssignme...   ║
+# ║   returns:  self.topological_sort(new_assignments + n...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ cse : {Any | all((isinstance(i, Assignment) for i in ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0185f44548ac3a86  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d824b33b6e06086d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.CodeBlock.cse","kind":"method","src_hash":"fe85bf004afa9eb2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"cse(sym)","rhs":"return a new code block with common subexpressions eliminated","over":{"base":"Any"},"name":"cse_correct"},"guarantee":"return a new code block with common subexpressions eliminated","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.ast.CodeBlock.cse_correct","statement":"Path(cse(x), return a new code block with common subexpressions eliminated)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0185f44548ac3a86"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.CodeBlock.cse","kind":"method","src_hash":"fe85bf004afa9eb2","in":{"base":"Any","pred":"all((isinstance(i, Assignment) for i in self.args)) and not (any((isinstance(i, AugmentedAssignment) for i in self.args)))"},"out":{"base":"Any"},"spec":{"lhs":"cse(symbols, optimizations, postprocess)","rhs":"self.topological_sort(new_assignments + new_block)","over":{"base":"Any","pred":"all((isinstance(i, Assignment) for i in self.args)) and not (any((isinstance(i, AugmentedAssignment) for i in self.args)))"},"name":"cse_correct"},"guarantee":"returns self.topological_sort(new_assignments + new_block)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.ast.CodeBlock.cse_correct","statement":"Path(cse(x), returns self.topological_sort(new_assignments + new_block))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d824b33b6e06086d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["all((isinstance(i, Assignment) for i in self.args))","not (any((isinstance(i, AugmentedAssignment) for i in self.args)))"],"returns_expr":"self.topological_sort(new_assignments + new_block)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.atoms","self.left_hand_sides","self.right_hand_sides","self.topological_sort"],"raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def cse(self, symbols=None, optimizations=None, postprocess=None,
         order='canonical'):
         """
@@ -1294,14 +1573,20 @@ class CodeBlock(CodegenAST):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(For(*args), correctly constructs a For instance) over {Any | isinstance(itr, CodeBlock) and isinstance(itr, list)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Token)                        ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ For : {Any | isinstance(itr, CodeBlock) and isinstanc...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ccdc5e852afaf51f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.For","kind":"class","src_hash":"34a7cf34ecdfdfc2","in":{"base":"Any","pred":"isinstance(itr, CodeBlock) and isinstance(itr, list)"},"out":{"base":"Any"},"spec":{"lhs":"For(*args)","rhs":"correctly constructs a For instance","over":{"base":"Any","pred":"isinstance(itr, CodeBlock) and isinstance(itr, list)"},"name":"For_class_invariant"},"guarantee":"correctly constructs a For instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ccdc5e852afaf51f"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.For","kind":"class","src_hash":"34a7cf34ecdfdfc2","in":{"base":"Any","pred":"isinstance(itr, CodeBlock) and isinstance(itr, list)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Token)"},"spec":{"lhs":"For(*args)","rhs":"correctly constructs a For instance","over":{"base":"Any","pred":"isinstance(itr, CodeBlock) and isinstance(itr, list)"},"name":"For_class_invariant"},"guarantee":"isinstance(self, Token)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ccdc5e852afaf51f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Token)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function For not found in source"]}}
 class For(Token):
     """Represents a 'for-loop' in the code.
 
@@ -1350,16 +1635,25 @@ class For(Token):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_construct_body(cls), internal helper behaves correctly) over Any ║
+# ║ Path(_construct_body(cls, itr), result == (itr if isinstance(itr, CodeBlock) else CodeBlock(*itr)) and result == itr or result == CodeBlock(*itr)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _construct_body : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (itr if isinstance(itr, CodeBlo...   ║
+# ║   ensures:  result == itr or result == CodeBlock(*itr)     ║
+# ║   fiber[CodeBlock]: isinstance(itr, CodeBlock) => itr      ║
+# ║   fiber[CodeBlock]: not (isinstance(itr, CodeBlock)) ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _construct_body : Any → {Any | result satisfies: resu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 723aa66967edb12d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1161961e3e753c41  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.For._construct_body","kind":"classmethod","src_hash":"9b94378d75efd914","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_construct_body(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_construct_body_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.ast.For._construct_body_correct","statement":"Path(_construct_body(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"723aa66967edb12d"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.For._construct_body","kind":"classmethod","src_hash":"9b94378d75efd914","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (itr if isinstance(itr, CodeBlock) else CodeBlock(*itr)) and result == itr or result == CodeBlock(*itr)"},"spec":{"lhs":"_construct_body(cls, itr)","rhs":"result == (itr if isinstance(itr, CodeBlock) else CodeBlock(*itr)) and result == itr or result == CodeBlock(*itr)","over":{"base":"Any"},"name":"_construct_body_correct"},"guarantee":"result == (itr if isinstance(itr, CodeBlock) else CodeBlock(*itr)); result == itr or result == CodeBlock(*itr); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.ast.For._construct_body_correct","statement":"Path(_construct_body(x), result == (itr if isinstance(itr, CodeBlock) else CodeBlock(*itr)); result == itr or result == CodeBlock(*itr); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1161961e3e753c41","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (itr if isinstance(itr, CodeBlock) else CodeBlock(*itr))","result == itr or result == CodeBlock(*itr)"],"fibers":[{"name":"CodeBlock","guard":"isinstance(itr, CodeBlock)","ensures":["result == itr"],"decidability":"structural","returns_expr":"itr"},{"name":"CodeBlock","guard":"not (isinstance(itr, CodeBlock))","ensures":["result == CodeBlock(*itr)"],"decidability":"structural","returns_expr":"CodeBlock(*itr)"}],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _construct_body(cls, itr):
         if isinstance(itr, CodeBlock):
             return itr
@@ -1368,16 +1662,23 @@ class For(Token):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_construct_iterable(cls), internal helper behaves correctly) over Any ║
+# ║ Path(_construct_iterable(cls, itr), _sympify(itr)) over {Any | iterable(itr)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _construct_iterable : Any → Any                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: iterable(itr)                                  ║
+# ║   returns:  _sympify(itr)                                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _construct_iterable : {Any | iterable(itr)} → Any          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c475f1c865df066f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a486fb45438bb15a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.For._construct_iterable","kind":"classmethod","src_hash":"089b5d8a11b2d41e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_construct_iterable(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_construct_iterable_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.ast.For._construct_iterable_correct","statement":"Path(_construct_iterable(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c475f1c865df066f"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.For._construct_iterable","kind":"classmethod","src_hash":"089b5d8a11b2d41e","in":{"base":"Any","pred":"iterable(itr)"},"out":{"base":"Any"},"spec":{"lhs":"_construct_iterable(cls, itr)","rhs":"_sympify(itr)","over":{"base":"Any","pred":"iterable(itr)"},"name":"_construct_iterable_correct"},"guarantee":"returns _sympify(itr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.ast.For._construct_iterable_correct","statement":"Path(_construct_iterable(x), returns _sympify(itr))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a486fb45438bb15a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["iterable(itr)"],"returns_expr":"_sympify(itr)","pure":false,"effects":{"effect_type":"reads_state","raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _construct_iterable(cls, itr):
         if not iterable(itr):
             raise TypeError("iterable must be an iterable")
@@ -1389,14 +1690,21 @@ class For(Token):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(String(*args), correctly constructs a String instance) over {Any | isinstance(text, str)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ String : {Any | isinstance(text, str)} → Any               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Atom)                         ║
+# ║   ensures:  isinstance(self, Token)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ String : {Any | isinstance(text, str)} → {Any | resul...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c181daa8046c9f26  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.String","kind":"class","src_hash":"79d0f1bc3ea03768","in":{"base":"Any","pred":"isinstance(text, str)"},"out":{"base":"Any"},"spec":{"lhs":"String(*args)","rhs":"correctly constructs a String instance","over":{"base":"Any","pred":"isinstance(text, str)"},"name":"String_class_invariant"},"guarantee":"correctly constructs a String instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c181daa8046c9f26"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.String","kind":"class","src_hash":"79d0f1bc3ea03768","in":{"base":"Any","pred":"isinstance(text, str)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Atom) and isinstance(self, Token)"},"spec":{"lhs":"String(*args)","rhs":"correctly constructs a String instance","over":{"base":"Any","pred":"isinstance(text, str)"},"name":"String_class_invariant"},"guarantee":"isinstance(self, Atom); isinstance(self, Token)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c181daa8046c9f26","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Atom)","isinstance(self, Token)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function String not found in source"]}}
 class String(Atom, Token):
     """ SymPy object representing a string.
 
@@ -1428,119 +1736,169 @@ class String(Atom, Token):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_construct_text(cls), internal helper behaves correctly) over Any ║
+# ║ Path(_construct_text(cls, text), text) over {Any | isinstance(text, str)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _construct_text : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(text, str)                          ║
+# ║   ensures:  result == text                                 ║
+# ║   returns:  text                                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _construct_text : {Any | isinstance(text, str)} → {An...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2e59f7d0c7e6a3fe  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ed335508154b500b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.String._construct_text","kind":"classmethod","src_hash":"2d80086edb8af760","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_construct_text(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_construct_text_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.ast.String._construct_text_correct","statement":"Path(_construct_text(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2e59f7d0c7e6a3fe"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.String._construct_text","kind":"classmethod","src_hash":"2d80086edb8af760","in":{"base":"Any","pred":"isinstance(text, str)"},"out":{"base":"Any","pred":"result satisfies: result == (text)"},"spec":{"lhs":"_construct_text(cls, text)","rhs":"text","over":{"base":"Any","pred":"isinstance(text, str)"},"name":"_construct_text_correct"},"guarantee":"returns text; result == text","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.ast.String._construct_text_correct","statement":"Path(_construct_text(x), returns text; result == text)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ed335508154b500b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(text, str)"],"ensures":["result == text"],"returns_expr":"text","pure":false,"effects":{"effect_type":"reads_state","raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _construct_text(cls, text):
         if not isinstance(text, str):
             raise TypeError("Argument text is not a string type.")
         return text
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_sympystr(pri), internal helper behaves correctly) over Any ║
+# ║ Path(_sympystr(printer, *args, **kwargs), self.text) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.text                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _sympystr : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d893375f4895161d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.String._sympystr","kind":"method","src_hash":"2d082e6834fc4f64","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sympystr(pri)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_sympystr_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d893375f4895161d"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.String._sympystr","kind":"method","src_hash":"2d082e6834fc4f64","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sympystr(printer, *args, **kwargs)","rhs":"self.text","over":{"base":"Any"},"name":"_sympystr_correct"},"guarantee":"returns self.text","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d893375f4895161d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.text","pure":false,"effects":{"effect_type":"reads_state","reads":["self.text"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _sympystr(self, printer, *args, **kwargs):
         return self.text
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(kwargs(exc), kwargs produces the expected output) over Any ║
+# ║ Path(kwargs(exclude, apply), {}) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  {}                                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ kwargs : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 408b28be9f714147           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.String.kwargs","kind":"method","src_hash":"eeb68b1226d95687","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"kwargs(exc)","rhs":"kwargs produces the expected output","over":{"base":"Any"},"name":"kwargs_correct"},"guarantee":"kwargs produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"408b28be9f714147"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.String.kwargs","kind":"method","src_hash":"eeb68b1226d95687","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"kwargs(exclude, apply)","rhs":"{}","over":{"base":"Any"},"name":"kwargs_correct"},"guarantee":"returns {}","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"408b28be9f714147","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"{}","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def kwargs(self, exclude = (), apply = None):
         return {}
 
     #to be removed when Atom is given a suitable func
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(func(), returns the func attribute) over Any          ║
+# ║ Path(func(), lambda: self) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  lambda: self                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ func : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7c1a02185160de49           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.String.func","kind":"property","src_hash":"d7af15cb7e3fe5ca","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"func()","rhs":"returns the func attribute","over":{"base":"Any"},"name":"func_correct"},"guarantee":"returns the func attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7c1a02185160de49"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.String.func","kind":"property","src_hash":"d7af15cb7e3fe5ca","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"func()","rhs":"lambda: self","over":{"base":"Any"},"name":"func_correct"},"guarantee":"returns lambda: self","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7c1a02185160de49","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"lambda: self","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def func(self):
         return lambda: self
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_latex(pri), id) over Any                             ║
+# ║ Path(_latex(printer), id) over Any                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  '\\texttt{{"{}"}}'.format(latex_escape(se...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _latex : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | d7cd5d211961b7ee   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.String._latex","kind":"method","src_hash":"623b58b559a3ad54","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_latex(pri)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_latex_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"format","by":"library_axiom"},{"fn":"latex_escape","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d7cd5d211961b7ee"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.String._latex","kind":"method","src_hash":"623b58b559a3ad54","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_latex(printer)","rhs":"'\\\\texttt{{\"{}\"}}'.format(latex_escape(self.text))","over":{"base":"Any"},"name":"_latex_correct","kind":"composition"},"guarantee":"returns '\\\\texttt{{\"{}\"}}'.format(latex_escape(self.text))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"format","by":"library_axiom"},{"fn":"latex_escape","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d7cd5d211961b7ee","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'\\\\texttt{{\"{}\"}}'.format(latex_escape(self.text))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.text"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _latex(self, printer):
         from sympy.printing.latex import latex_escape
         return r'\texttt{{"{}"}}'.format(latex_escape(self.text))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(QuotedString(), correctly constructs a QuotedString instance) over Any ║
+# ║ Path(QuotedString(), isinstance(self, String)) over Any    ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ QuotedString : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, String)                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ QuotedString : Any → {Any | result satisfies: isinsta...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d85628c51d51e1dc           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.QuotedString","kind":"class","src_hash":"7eb01b63063c9486","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"QuotedString()","rhs":"correctly constructs a QuotedString instance","over":{"base":"Any"},"name":"QuotedString_correct"},"guarantee":"correctly constructs a QuotedString instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d85628c51d51e1dc"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.QuotedString","kind":"class","src_hash":"7eb01b63063c9486","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, String)"},"spec":{"lhs":"QuotedString()","rhs":"isinstance(self, String)","over":{"base":"Any"},"name":"QuotedString_correct"},"guarantee":"isinstance(self, String)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d85628c51d51e1dc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, String)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function QuotedString not found in source"]}}
 class QuotedString(String):
     """ Represents a string which should be printed with quotes. """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(Comment(), correctly constructs a Comment instance) over Any ║
+# ║ Path(Comment(), isinstance(self, String)) over Any         ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Comment : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, String)                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Comment : Any → {Any | result satisfies: isinstance(s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a1a5ca550e64ce1a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.Comment","kind":"class","src_hash":"790c1a43b9d01352","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Comment()","rhs":"correctly constructs a Comment instance","over":{"base":"Any"},"name":"Comment_correct"},"guarantee":"correctly constructs a Comment instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a1a5ca550e64ce1a"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.Comment","kind":"class","src_hash":"790c1a43b9d01352","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, String)"},"spec":{"lhs":"Comment()","rhs":"isinstance(self, String)","over":{"base":"Any"},"name":"Comment_correct"},"guarantee":"isinstance(self, String)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a1a5ca550e64ce1a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, String)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function Comment not found in source"]}}
 class Comment(String):
     """ Represents a comment. """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Node(*args), correctly constructs a Node instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Node : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Token)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Node : Any → {Any | result satisfies: isinstance(self...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1bab7d3c8ee5f5c4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.Node","kind":"class","src_hash":"d68a3093550b8b46","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Node(*args)","rhs":"correctly constructs a Node instance","over":{"base":"Any"},"name":"Node_class_invariant"},"guarantee":"correctly constructs a Node instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1bab7d3c8ee5f5c4"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.Node","kind":"class","src_hash":"d68a3093550b8b46","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Token)"},"spec":{"lhs":"Node(*args)","rhs":"correctly constructs a Node instance","over":{"base":"Any"},"name":"Node_class_invariant"},"guarantee":"isinstance(self, Token)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1bab7d3c8ee5f5c4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Token)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function Node not found in source"]}}
 class Node(Token):
     """ Subclass of Token, carrying the attribute 'attrs' (Tuple)
 
@@ -1570,16 +1928,22 @@ class Node(Token):
     _construct_attrs = staticmethod(_mk_Tuple)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(attr_params(loo), returns the parameters of the attribute with name ``looking_for`` in self.attrs) over Any ║
+# ║ Path(attr_params(looking_for), attr.parameters) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  attr.parameters                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ attr_params : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b1f4824e98da9924  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 615d9118bf6c72f2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.Node.attr_params","kind":"method","src_hash":"68ad8bec926e0da9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"attr_params(loo)","rhs":"returns the parameters of the attribute with name ``looking_for`` in self.attrs","over":{"base":"Any"},"name":"attr_params_correct"},"guarantee":"returns the parameters of the attribute with name ``looking_for`` in self.attrs","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.ast.Node.attr_params_correct","statement":"Path(attr_params(x), returns the parameters of the attribute with name ``looking_for`` in self.attrs)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b1f4824e98da9924"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.Node.attr_params","kind":"method","src_hash":"68ad8bec926e0da9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"attr_params(looking_for)","rhs":"attr.parameters","over":{"base":"Any"},"name":"attr_params_correct"},"guarantee":"returns attr.parameters","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.ast.Node.attr_params_correct","statement":"Path(attr_params(x), returns attr.parameters)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"615d9118bf6c72f2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"attr.parameters","pure":false,"effects":{"effect_type":"reads_state","reads":["self.attrs"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def attr_params(self, looking_for):
         """ Returns the parameters of the Attribute with name ``looking_for`` in self.attrs """
         for attr in self.attrs:
@@ -1590,14 +1954,20 @@ class Node(Token):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Type(*args), correctly constructs a Type instance) over {Any | isinstance(expr, (float, Float)) and isinstance(expr, (int, Integer)) and isinstance(expr, complex)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Token)                        ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ Type : {Any | isinstance(expr, (float, Float)) and is...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 43c7e4a7c63b95a5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.Type","kind":"class","src_hash":"5e441fa9d7c45d81","in":{"base":"Any","pred":"isinstance(expr, (float, Float)) and isinstance(expr, (int, Integer)) and isinstance(expr, complex)"},"out":{"base":"Any"},"spec":{"lhs":"Type(*args)","rhs":"correctly constructs a Type instance","over":{"base":"Any","pred":"isinstance(expr, (float, Float)) and isinstance(expr, (int, Integer)) and isinstance(expr, complex)"},"name":"Type_class_invariant"},"guarantee":"correctly constructs a Type instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"43c7e4a7c63b95a5"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.Type","kind":"class","src_hash":"5e441fa9d7c45d81","in":{"base":"Any","pred":"isinstance(expr, (float, Float)) and isinstance(expr, (int, Integer)) and isinstance(expr, complex)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Token)"},"spec":{"lhs":"Type(*args)","rhs":"correctly constructs a Type instance","over":{"base":"Any","pred":"isinstance(expr, (float, Float)) and isinstance(expr, (int, Integer)) and isinstance(expr, complex)"},"name":"Type_class_invariant"},"guarantee":"isinstance(self, Token)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"43c7e4a7c63b95a5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Token)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function Type not found in source"]}}
 class Type(Token):
     """ Represents a type.
 
@@ -1659,31 +2029,43 @@ class Type(Token):
     _construct_name = String
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_sympystr(pri), internal helper behaves correctly) over Any ║
+# ║ Path(_sympystr(printer, *args, **kwargs), str(self.name)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  str(self.name)                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _sympystr : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0a674bcaac5893d3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.Type._sympystr","kind":"method","src_hash":"15c5ff6cf8fdfea7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sympystr(pri)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_sympystr_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0a674bcaac5893d3"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.Type._sympystr","kind":"method","src_hash":"15c5ff6cf8fdfea7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sympystr(printer, *args, **kwargs)","rhs":"str(self.name)","over":{"base":"Any"},"name":"_sympystr_correct"},"guarantee":"returns str(self.name)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0a674bcaac5893d3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"str(self.name)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.name"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _sympystr(self, printer, *args, **kwargs):
         return str(self.name)
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_expr(cls), deduces type from an expression or a ``symbol``) over Any ║
+# ║ Path(from_expr(cls, expr), <unspecified:from_expr>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ from_expr : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b291e990e6b87ae1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.Type.from_expr","kind":"classmethod","src_hash":"b7729dc800188d50","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_expr(cls)","rhs":"deduces type from an expression or a ``symbol``","over":{"base":"Any"},"name":"from_expr_correct"},"guarantee":"deduces type from an expression or a ``symbol``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.ast.Type.from_expr_correct","statement":"Path(from_expr(x), deduces type from an expression or a ``symbol``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b291e990e6b87ae1"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.Type.from_expr","kind":"classmethod","src_hash":"b7729dc800188d50","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_expr(cls, expr)","rhs":"<unspecified:from_expr>","over":{"base":"Any"},"name":"from_expr_correct"},"guarantee":"deduces type from an expression or a ``symbol``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.ast.Type.from_expr_correct","statement":"Path(from_expr(x), deduces type from an expression or a ``symbol``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b291e990e6b87ae1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_expr(cls, expr):
         """ Deduces type from an expression or a ``Symbol``.
 
@@ -1727,30 +2109,42 @@ class Type(Token):
             raise ValueError("Could not deduce type from expr.")
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_check(val), internal helper behaves correctly) over Any ║
+# ║ Path(_check(value), <unspecified:_check>) over Any         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _check : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 94fe270865e1c6c6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.Type._check","kind":"method","src_hash":"2116a1194f640678","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_check(val)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_check_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"94fe270865e1c6c6"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.Type._check","kind":"method","src_hash":"2116a1194f640678","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_check(value)","rhs":"<unspecified:_check>","over":{"base":"Any"},"name":"_check_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"94fe270865e1c6c6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _check(self, value):
         pass
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(cast_check(val), casts a value to the data type of the instance) over Any ║
+# ║ Path(cast_check(value, rtol, atol), <unspecified:cast_check>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ cast_check : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1ab909490d17b15c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.Type.cast_check","kind":"method","src_hash":"8a7dc082146db85d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"cast_check(val)","rhs":"casts a value to the data type of the instance","over":{"base":"Any"},"name":"cast_check_correct"},"guarantee":"casts a value to the data type of the instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.ast.Type.cast_check_correct","statement":"Path(cast_check(x), casts a value to the data type of the instance)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1ab909490d17b15c"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.Type.cast_check","kind":"method","src_hash":"8a7dc082146db85d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"cast_check(value, rtol, atol)","rhs":"<unspecified:cast_check>","over":{"base":"Any"},"name":"cast_check_correct"},"guarantee":"casts a value to the data type of the instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.ast.Type.cast_check_correct","statement":"Path(cast_check(x), casts a value to the data type of the instance)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1ab909490d17b15c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._check","self.cast_nocheck"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def cast_check(self, value, rtol=None, atol=0, precision_targets=None):
         """ Casts a value to the data type of the instance.
 
@@ -1819,16 +2213,22 @@ class Type(Token):
         return new_val
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_latex(pri), id) over Any                             ║
+# ║ Path(_latex(printer), id) over Any                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  '\\text{{{}}}\\left(\\texttt{{{}}}\\right...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _latex : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | cd65efd384875dbe   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.Type._latex","kind":"method","src_hash":"a451324b0d9d2f6e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_latex(pri)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_latex_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"left","by":"library_axiom"},{"fn":"format","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cd65efd384875dbe"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.Type._latex","kind":"method","src_hash":"a451324b0d9d2f6e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_latex(printer)","rhs":"'\\\\text{{{}}}\\\\left(\\\\texttt{{{}}}\\\\right)'.format(type_name, name)","over":{"base":"Any"},"name":"_latex_correct","kind":"composition"},"guarantee":"returns '\\\\text{{{}}}\\\\left(\\\\texttt{{{}}}\\\\right)'.format(type_name, name)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"left","by":"library_axiom"},{"fn":"format","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cd65efd384875dbe","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'\\\\text{{{}}}\\\\left(\\\\texttt{{{}}}\\\\right)'.format(type_name, name)","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","self.__class__","self.name"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _latex(self, printer):
         from sympy.printing.latex import latex_escape
         type_name = latex_escape(self.__class__.__name__)
@@ -1837,16 +2237,22 @@ class Type(Token):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(IntBaseType(), correctly constructs a IntBaseType instance) over Any ║
+# ║ Path(IntBaseType(), isinstance(self, Type)) over Any       ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ IntBaseType : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Type)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ IntBaseType : Any → {Any | result satisfies: isinstan...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 102d84c908c02288           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.IntBaseType","kind":"class","src_hash":"bbbfb442e05b5f61","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"IntBaseType()","rhs":"correctly constructs a IntBaseType instance","over":{"base":"Any"},"name":"IntBaseType_correct"},"guarantee":"correctly constructs a IntBaseType instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"102d84c908c02288"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.IntBaseType","kind":"class","src_hash":"bbbfb442e05b5f61","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Type)"},"spec":{"lhs":"IntBaseType()","rhs":"isinstance(self, Type)","over":{"base":"Any"},"name":"IntBaseType_correct"},"guarantee":"isinstance(self, Type)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"102d84c908c02288","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Type)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Function IntBaseType not found in source"]}}
 class IntBaseType(Type):
     """ Integer base type, contains no size information. """
     __slots__ = ()
@@ -1856,14 +2262,20 @@ class IntBaseType(Type):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(_SizedIntType(*args), correctly constructs a _SizedIntType instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _SizedIntType : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, IntBaseType)                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _SizedIntType : Any → {Any | result satisfies: isinst...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c79ca2652ccf4b5d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.ast._SizedIntType","kind":"class","src_hash":"b0fed137c854c034","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_SizedIntType(*args)","rhs":"correctly constructs a _SizedIntType instance","over":{"base":"Any"},"name":"_SizedIntType_class_invariant"},"guarantee":"correctly constructs a _SizedIntType instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c79ca2652ccf4b5d"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.ast._SizedIntType","kind":"class","src_hash":"b0fed137c854c034","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, IntBaseType)"},"spec":{"lhs":"_SizedIntType(*args)","rhs":"correctly constructs a _SizedIntType instance","over":{"base":"Any"},"name":"_SizedIntType_class_invariant"},"guarantee":"isinstance(self, IntBaseType)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c79ca2652ccf4b5d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, IntBaseType)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function _SizedIntType not found in source"]}}
 class _SizedIntType(IntBaseType):
     __slots__ = ('nbits',)
     _fields = Type._fields + __slots__
@@ -1871,16 +2283,24 @@ class _SizedIntType(IntBaseType):
     _construct_nbits = Integer
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_check(val), internal helper behaves correctly) over Any ║
+# ║ Path(_check(value), <unspecified:_check>) over {Any | not (value < self.min) and not (value > self.max)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _check : Any → Any                                         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (value < self.min)                         ║
+# ║   requires: not (value > self.max)                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _check : {Any | not (value < self.min) and not (value...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9c8c372046fb479e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.ast._SizedIntType._check","kind":"method","src_hash":"51677e64f9702c84","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_check(val)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_check_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.ast._SizedIntType._check_correct","statement":"Path(_check(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9c8c372046fb479e"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.ast._SizedIntType._check","kind":"method","src_hash":"51677e64f9702c84","in":{"base":"Any","pred":"not (value < self.min) and not (value > self.max)"},"out":{"base":"Any"},"spec":{"lhs":"_check(value)","rhs":"<unspecified:_check>","over":{"base":"Any","pred":"not (value < self.min) and not (value > self.max)"},"name":"_check_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.ast._SizedIntType._check_correct","statement":"Path(_check(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9c8c372046fb479e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (value < self.min)","not (value > self.max)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.max","self.min"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _check(self, value):
         if value < self.min:
             raise ValueError("Value is too small: %d < %d" % (value, self.min))
@@ -1891,44 +2311,62 @@ class _SizedIntType(IntBaseType):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(SignedIntType(*args), correctly constructs a SignedIntType instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ SignedIntType : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, _SizedIntType)                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ SignedIntType : Any → {Any | result satisfies: isinst...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 408d1e0d963d9a05  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.SignedIntType","kind":"class","src_hash":"47c035d721d22e98","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"SignedIntType(*args)","rhs":"correctly constructs a SignedIntType instance","over":{"base":"Any"},"name":"SignedIntType_class_invariant"},"guarantee":"correctly constructs a SignedIntType instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"408d1e0d963d9a05"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.SignedIntType","kind":"class","src_hash":"47c035d721d22e98","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, _SizedIntType)"},"spec":{"lhs":"SignedIntType(*args)","rhs":"correctly constructs a SignedIntType instance","over":{"base":"Any"},"name":"SignedIntType_class_invariant"},"guarantee":"isinstance(self, _SizedIntType)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"408d1e0d963d9a05","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, _SizedIntType)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function SignedIntType not found in source"]}}
 class SignedIntType(_SizedIntType):
     """ Represents a signed integer type. """
     __slots__ = ()
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(min(), returns the min attribute) over Any            ║
+# ║ Path(min(), -2 ** (self.nbits - 1)) over Any               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  -2 ** (self.nbits - 1)                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ min : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8e42eeb0040bd145           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.SignedIntType.min","kind":"property","src_hash":"112a35546f8cca16","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"min()","rhs":"returns the min attribute","over":{"base":"Any"},"name":"min_correct"},"guarantee":"returns the min attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8e42eeb0040bd145"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.SignedIntType.min","kind":"property","src_hash":"112a35546f8cca16","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"min()","rhs":"-2 ** (self.nbits - 1)","over":{"base":"Any"},"name":"min_correct"},"guarantee":"returns -2 ** (self.nbits - 1)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8e42eeb0040bd145","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"-2 ** (self.nbits - 1)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.nbits"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def min(self):
         return -2**(self.nbits-1)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(max(), returns the max attribute) over Any            ║
+# ║ Path(max(), 2 ** (self.nbits - 1) - 1) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  2 ** (self.nbits - 1) - 1                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ max : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 20664c62adb134cd           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.SignedIntType.max","kind":"property","src_hash":"edb7cda656363413","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"max()","rhs":"returns the max attribute","over":{"base":"Any"},"name":"max_correct"},"guarantee":"returns the max attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"20664c62adb134cd"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.SignedIntType.max","kind":"property","src_hash":"edb7cda656363413","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"max()","rhs":"2 ** (self.nbits - 1) - 1","over":{"base":"Any"},"name":"max_correct"},"guarantee":"returns 2 ** (self.nbits - 1) - 1","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"20664c62adb134cd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"2 ** (self.nbits - 1) - 1","pure":false,"effects":{"effect_type":"reads_state","reads":["self.nbits"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def max(self):
         return 2**(self.nbits-1) - 1
 
@@ -1936,60 +2374,84 @@ class SignedIntType(_SizedIntType):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(UnsignedIntType(*args), correctly constructs a UnsignedIntType instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ UnsignedIntType : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, _SizedIntType)                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ UnsignedIntType : Any → {Any | result satisfies: isin...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b31208a208f1da09  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.UnsignedIntType","kind":"class","src_hash":"53550b02b143e417","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"UnsignedIntType(*args)","rhs":"correctly constructs a UnsignedIntType instance","over":{"base":"Any"},"name":"UnsignedIntType_class_invariant"},"guarantee":"correctly constructs a UnsignedIntType instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b31208a208f1da09"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.UnsignedIntType","kind":"class","src_hash":"53550b02b143e417","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, _SizedIntType)"},"spec":{"lhs":"UnsignedIntType(*args)","rhs":"correctly constructs a UnsignedIntType instance","over":{"base":"Any"},"name":"UnsignedIntType_class_invariant"},"guarantee":"isinstance(self, _SizedIntType)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b31208a208f1da09","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, _SizedIntType)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function UnsignedIntType not found in source"]}}
 class UnsignedIntType(_SizedIntType):
     """ Represents an unsigned integer type. """
     __slots__ = ()
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(min(), returns the min attribute) over Any            ║
+# ║ Path(min(), 0) over Any                                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  0                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ min : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 715f5ce072f8d9f2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.UnsignedIntType.min","kind":"property","src_hash":"0d64d040a6a80947","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"min()","rhs":"returns the min attribute","over":{"base":"Any"},"name":"min_correct"},"guarantee":"returns the min attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"715f5ce072f8d9f2"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.UnsignedIntType.min","kind":"property","src_hash":"0d64d040a6a80947","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"min()","rhs":"0","over":{"base":"Any"},"name":"min_correct"},"guarantee":"returns 0","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"715f5ce072f8d9f2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"0","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def min(self):
         return 0
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(max(), returns the max attribute) over Any            ║
+# ║ Path(max(), 2 ** self.nbits - 1) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  2 ** self.nbits - 1                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ max : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9d13dea8f84e23ff           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.UnsignedIntType.max","kind":"property","src_hash":"02c7c9e49b4de5e0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"max()","rhs":"returns the max attribute","over":{"base":"Any"},"name":"max_correct"},"guarantee":"returns the max attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9d13dea8f84e23ff"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.UnsignedIntType.max","kind":"property","src_hash":"02c7c9e49b4de5e0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"max()","rhs":"2 ** self.nbits - 1","over":{"base":"Any"},"name":"max_correct"},"guarantee":"returns 2 ** self.nbits - 1","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9d13dea8f84e23ff","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"2 ** self.nbits - 1","pure":false,"effects":{"effect_type":"reads_state","reads":["self.nbits"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def max(self):
         return 2**self.nbits - 1
 
 two = Integer(2)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(FloatBaseType(), correctly constructs a FloatBaseType instance) over Any ║
+# ║ Path(FloatBaseType(), isinstance(self, Type)) over Any     ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ FloatBaseType : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Type)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ FloatBaseType : Any → {Any | result satisfies: isinst...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 167cd8ae258f7f19           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.FloatBaseType","kind":"class","src_hash":"9cc1b1c689024059","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"FloatBaseType()","rhs":"correctly constructs a FloatBaseType instance","over":{"base":"Any"},"name":"FloatBaseType_correct"},"guarantee":"correctly constructs a FloatBaseType instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"167cd8ae258f7f19"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.FloatBaseType","kind":"class","src_hash":"9cc1b1c689024059","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Type)"},"spec":{"lhs":"FloatBaseType()","rhs":"isinstance(self, Type)","over":{"base":"Any"},"name":"FloatBaseType_correct"},"guarantee":"isinstance(self, Type)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"167cd8ae258f7f19","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Type)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function FloatBaseType not found in source"]}}
 class FloatBaseType(Type):
     """ Represents a floating point number type. """
     __slots__ = ()
@@ -1998,14 +2460,20 @@ class FloatBaseType(Type):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(FloatType(*args), correctly constructs a FloatType instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ FloatType : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, FloatBaseType)                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ FloatType : Any → {Any | result satisfies: isinstance...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1ef14895279af3dc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.FloatType","kind":"class","src_hash":"b71945c71424018d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"FloatType(*args)","rhs":"correctly constructs a FloatType instance","over":{"base":"Any"},"name":"FloatType_class_invariant"},"guarantee":"correctly constructs a FloatType instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1ef14895279af3dc"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.FloatType","kind":"class","src_hash":"b71945c71424018d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, FloatBaseType)"},"spec":{"lhs":"FloatType(*args)","rhs":"correctly constructs a FloatType instance","over":{"base":"Any"},"name":"FloatType_class_invariant"},"guarantee":"isinstance(self, FloatBaseType)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1ef14895279af3dc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, FloatBaseType)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":false,"binding_errors":["Function FloatType not found in source"]}}
 class FloatType(FloatBaseType):
     """ Represents a floating point type with fixed bit width.
 
@@ -2055,16 +2523,22 @@ class FloatType(FloatBaseType):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(max_exponent(), returns the max_exponent attribute) over Any ║
+# ║ Path(max_exponent(), two ** (self.nexp - 1)) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  two ** (self.nexp - 1)                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ max_exponent : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f88ab57cc037779c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.FloatType.max_exponent","kind":"property","src_hash":"8428fab93a1c87a7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"max_exponent()","rhs":"returns the max_exponent attribute","over":{"base":"Any"},"name":"max_exponent_correct"},"guarantee":"returns the max_exponent attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f88ab57cc037779c"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.FloatType.max_exponent","kind":"property","src_hash":"8428fab93a1c87a7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"max_exponent()","rhs":"two ** (self.nexp - 1)","over":{"base":"Any"},"name":"max_exponent_correct"},"guarantee":"returns two ** (self.nexp - 1)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f88ab57cc037779c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"two ** (self.nexp - 1)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.nexp"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def max_exponent(self):
         """ The largest positive number n, such that 2**(n - 1) is a representable finite value. """
         # cf. C++'s ``std::numeric_limits::max_exponent``
@@ -2072,16 +2546,22 @@ class FloatType(FloatBaseType):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(min_exponent(), returns the min_exponent attribute) over Any ║
+# ║ Path(min_exponent(), 3 - self.max_exponent) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  3 - self.max_exponent                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ min_exponent : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 088586da2a335bcb           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.FloatType.min_exponent","kind":"property","src_hash":"6a3ce3769de0987d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"min_exponent()","rhs":"returns the min_exponent attribute","over":{"base":"Any"},"name":"min_exponent_correct"},"guarantee":"returns the min_exponent attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"088586da2a335bcb"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.FloatType.min_exponent","kind":"property","src_hash":"6a3ce3769de0987d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"min_exponent()","rhs":"3 - self.max_exponent","over":{"base":"Any"},"name":"min_exponent_correct"},"guarantee":"returns 3 - self.max_exponent","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"088586da2a335bcb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"3 - self.max_exponent","pure":false,"effects":{"effect_type":"reads_state","reads":["self.max_exponent"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def min_exponent(self):
         """ The lowest negative number n, such that 2**(n - 1) is a valid normalized number. """
         # cf. C++'s ``std::numeric_limits::min_exponent``
@@ -2089,32 +2569,44 @@ class FloatType(FloatBaseType):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(max(), returns the max attribute) over Any            ║
+# ║ Path(max(), (1 - two ** (-(self.nmant + 1))) * two ** self.max_exponent) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (1 - two ** (-(self.nmant + 1))) * two **...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ max : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9022bed182a713b8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.FloatType.max","kind":"property","src_hash":"58dc45d74594aa6e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"max()","rhs":"returns the max attribute","over":{"base":"Any"},"name":"max_correct"},"guarantee":"returns the max attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9022bed182a713b8"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.FloatType.max","kind":"property","src_hash":"58dc45d74594aa6e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"max()","rhs":"(1 - two ** (-(self.nmant + 1))) * two ** self.max_exponent","over":{"base":"Any"},"name":"max_correct"},"guarantee":"returns (1 - two ** (-(self.nmant + 1))) * two ** self.max_exponent","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9022bed182a713b8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(1 - two ** (-(self.nmant + 1))) * two ** self.max_exponent","pure":false,"effects":{"effect_type":"reads_state","reads":["self.max_exponent","self.nmant"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def max(self):
         """ Maximum value representable. """
         return (1 - two**-(self.nmant+1))*two**self.max_exponent
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(tiny(), returns the tiny attribute) over Any          ║
+# ║ Path(tiny(), two ** (self.min_exponent - 1)) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  two ** (self.min_exponent - 1)                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ tiny : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b5418f403bc91d53           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.FloatType.tiny","kind":"property","src_hash":"b3aba8466b75025d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"tiny()","rhs":"returns the tiny attribute","over":{"base":"Any"},"name":"tiny_correct"},"guarantee":"returns the tiny attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b5418f403bc91d53"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.FloatType.tiny","kind":"property","src_hash":"b3aba8466b75025d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"tiny()","rhs":"two ** (self.min_exponent - 1)","over":{"base":"Any"},"name":"tiny_correct"},"guarantee":"returns two ** (self.min_exponent - 1)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b5418f403bc91d53","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"two ** (self.min_exponent - 1)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.min_exponent"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def tiny(self):
         """ The minimum positive normalized value. """
         # See C macros: FLT_MIN, DBL_MIN, LDBL_MIN
@@ -2125,32 +2617,44 @@ class FloatType(FloatBaseType):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eps(), returns the eps attribute) over Any            ║
+# ║ Path(eps(), two ** (-self.nmant)) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  two ** (-self.nmant)                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ eps : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0ef0c7164427a078           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.FloatType.eps","kind":"property","src_hash":"3600df6c1f5c85bb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eps()","rhs":"returns the eps attribute","over":{"base":"Any"},"name":"eps_correct"},"guarantee":"returns the eps attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0ef0c7164427a078"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.FloatType.eps","kind":"property","src_hash":"3600df6c1f5c85bb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eps()","rhs":"two ** (-self.nmant)","over":{"base":"Any"},"name":"eps_correct"},"guarantee":"returns two ** (-self.nmant)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0ef0c7164427a078","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"two ** (-self.nmant)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.nmant"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eps(self):
         """ Difference between 1.0 and the next representable value. """
         return two**(-self.nmant)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dig(), returns the dig attribute) over Any            ║
+# ║ Path(dig(), floor(self.nmant * log(2) / log(10))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  floor(self.nmant * log(2) / log(10))           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dig : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 15c70298b4e0ecba           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.FloatType.dig","kind":"property","src_hash":"1f7bbacd6c514b1e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dig()","rhs":"returns the dig attribute","over":{"base":"Any"},"name":"dig_correct"},"guarantee":"returns the dig attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"15c70298b4e0ecba"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.FloatType.dig","kind":"property","src_hash":"1f7bbacd6c514b1e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dig()","rhs":"floor(self.nmant * log(2) / log(10))","over":{"base":"Any"},"name":"dig_correct"},"guarantee":"returns floor(self.nmant * log(2) / log(10))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"15c70298b4e0ecba","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"floor(self.nmant * log(2) / log(10))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.nmant"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dig(self):
         """ Number of decimal digits that are guaranteed to be preserved in text.
 
@@ -2162,16 +2666,22 @@ class FloatType(FloatBaseType):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(decimal_dig(), returns the decimal_dig attribute) over Any ║
+# ║ Path(decimal_dig(), ceiling((self.nmant + 1) * log(2) / log(10) + 1)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  ceiling((self.nmant + 1) * log(2) / log(1...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ decimal_dig : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d5405fbdc7118378           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.FloatType.decimal_dig","kind":"property","src_hash":"b594482145ab8092","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"decimal_dig()","rhs":"returns the decimal_dig attribute","over":{"base":"Any"},"name":"decimal_dig_correct"},"guarantee":"returns the decimal_dig attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d5405fbdc7118378"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.FloatType.decimal_dig","kind":"property","src_hash":"b594482145ab8092","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"decimal_dig()","rhs":"ceiling((self.nmant + 1) * log(2) / log(10) + 1)","over":{"base":"Any"},"name":"decimal_dig_correct"},"guarantee":"returns ceiling((self.nmant + 1) * log(2) / log(10) + 1)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d5405fbdc7118378","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"ceiling((self.nmant + 1) * log(2) / log(10) + 1)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.nmant"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def decimal_dig(self):
         """ Number of digits needed to store & load without loss.
 
@@ -2187,16 +2697,25 @@ class FloatType(FloatBaseType):
         return ceiling((self.nmant + 1) * log(2)/log(10) + 1)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(cast_nocheck(val), casts without checking if out of bounds or subnormal) over Any ║
+# ║ Path(cast_nocheck(value), result == (float(oo) if value == oo else float(-oo)) and result == float(oo) or result == float(-oo)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ cast_nocheck : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (float(oo) if value == oo else ...   ║
+# ║   ensures:  result == float(oo) or result == float(-oo)    ║
+# ║   fiber[case_0]: value == oo => float(oo)                  ║
+# ║   fiber[case_1]: value == -oo => float(-oo)                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ cast_nocheck : Any → {Any | result satisfies: result ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 07159885e20eedd0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f153fe1f36df3c4e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.FloatType.cast_nocheck","kind":"method","src_hash":"a5612d0b99b1143c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"cast_nocheck(val)","rhs":"casts without checking if out of bounds or subnormal","over":{"base":"Any"},"name":"cast_nocheck_correct"},"guarantee":"casts without checking if out of bounds or subnormal","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.ast.FloatType.cast_nocheck_correct","statement":"Path(cast_nocheck(x), casts without checking if out of bounds or subnormal)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"07159885e20eedd0"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.FloatType.cast_nocheck","kind":"method","src_hash":"a5612d0b99b1143c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (float(oo) if value == oo else float(-oo)) and result == float(oo) or result == float(-oo)"},"spec":{"lhs":"cast_nocheck(value)","rhs":"result == (float(oo) if value == oo else float(-oo)) and result == float(oo) or result == float(-oo)","over":{"base":"Any"},"name":"cast_nocheck_correct"},"guarantee":"result == (float(oo) if value == oo else float(-oo)); result == float(oo) or result == float(-oo); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.ast.FloatType.cast_nocheck_correct","statement":"Path(cast_nocheck(x), result == (float(oo) if value == oo else float(-oo)); result == float(oo) or result == float(-oo); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f153fe1f36df3c4e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (float(oo) if value == oo else float(-oo))","result == float(oo) or result == float(-oo)"],"fibers":[{"name":"case_0","guard":"value == oo","ensures":["result == float(oo)"],"decidability":"z3","returns_expr":"float(oo)"},{"name":"case_1","guard":"value == -oo","ensures":["result == float(-oo)"],"decidability":"z3","returns_expr":"float(-oo)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.decimal_dig"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def cast_nocheck(self, value):
         """ Casts without checking if out of bounds or subnormal. """
         if value == oo:  # float(oo) or oo
@@ -2206,16 +2725,25 @@ class FloatType(FloatBaseType):
         return Float(str(sympify(value).evalf(self.decimal_dig)), self.decimal_dig)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_check(val), internal helper behaves correctly) over Any ║
+# ║ Path(_check(value), <unspecified:_check>) over {Any | not (value < -self.max) and not (value > self.max) and not (abs(value) < self.tiny)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _check : Any → Any                                         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (value < -self.max)                        ║
+# ║   requires: not (value > self.max)                         ║
+# ║   requires: not (abs(value) < self.tiny)                   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _check : {Any | not (value < -self.max) and not (valu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 45b00eeb9ffa8ba7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.FloatType._check","kind":"method","src_hash":"b1af5d7acd782825","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_check(val)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_check_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.ast.FloatType._check_correct","statement":"Path(_check(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"45b00eeb9ffa8ba7"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.FloatType._check","kind":"method","src_hash":"b1af5d7acd782825","in":{"base":"Any","pred":"not (value < -self.max) and not (value > self.max) and not (abs(value) < self.tiny)"},"out":{"base":"Any"},"spec":{"lhs":"_check(value)","rhs":"<unspecified:_check>","over":{"base":"Any","pred":"not (value < -self.max) and not (value > self.max) and not (abs(value) < self.tiny)"},"name":"_check_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.ast.FloatType._check_correct","statement":"Path(_check(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"45b00eeb9ffa8ba7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (value < -self.max)","not (value > self.max)","not (abs(value) < self.tiny)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.max","self.tiny"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _check(self, value):
         if value < -self.max:
             raise ValueError("Value is too small: %d < %d" % (value, -self.max))
@@ -2227,29 +2755,41 @@ class FloatType(FloatBaseType):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(ComplexBaseType(*args), correctly constructs a ComplexBaseType instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ ComplexBaseType : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, FloatBaseType)                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ ComplexBaseType : Any → {Any | result satisfies: isin...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dfbe5700f5e3ab0f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.ComplexBaseType","kind":"class","src_hash":"7a21f0f46e9d6e1e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ComplexBaseType(*args)","rhs":"correctly constructs a ComplexBaseType instance","over":{"base":"Any"},"name":"ComplexBaseType_class_invariant"},"guarantee":"correctly constructs a ComplexBaseType instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dfbe5700f5e3ab0f"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.ComplexBaseType","kind":"class","src_hash":"7a21f0f46e9d6e1e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, FloatBaseType)"},"spec":{"lhs":"ComplexBaseType(*args)","rhs":"correctly constructs a ComplexBaseType instance","over":{"base":"Any"},"name":"ComplexBaseType_class_invariant"},"guarantee":"isinstance(self, FloatBaseType)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dfbe5700f5e3ab0f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, FloatBaseType)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function ComplexBaseType not found in source"]}}
 class ComplexBaseType(FloatBaseType):
 
     __slots__ = ()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(cast_nocheck(val), casts without checking if out of bounds or subnormal) over Any ║
+# ║ Path(cast_nocheck(value), super().cast_nocheck(re(value)) + super().cast_nocheck(im(value)) * 1j) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  super().cast_nocheck(re(value)) + super()...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ cast_nocheck : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9d0f4aec32d3c2bc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4ecab58cd2152af3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.ComplexBaseType.cast_nocheck","kind":"method","src_hash":"14d8a6e21dd1766c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"cast_nocheck(val)","rhs":"casts without checking if out of bounds or subnormal","over":{"base":"Any"},"name":"cast_nocheck_correct"},"guarantee":"casts without checking if out of bounds or subnormal","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.ast.ComplexBaseType.cast_nocheck_correct","statement":"Path(cast_nocheck(x), casts without checking if out of bounds or subnormal)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9d0f4aec32d3c2bc"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.ComplexBaseType.cast_nocheck","kind":"method","src_hash":"14d8a6e21dd1766c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"cast_nocheck(value)","rhs":"super().cast_nocheck(re(value)) + super().cast_nocheck(im(value)) * 1j","over":{"base":"Any"},"name":"cast_nocheck_correct"},"guarantee":"returns super().cast_nocheck(re(value)) + super().cast_nocheck(im(value)) * 1j","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.ast.ComplexBaseType.cast_nocheck_correct","statement":"Path(cast_nocheck(x), returns super().cast_nocheck(re(value)) + super().cast_nocheck(im(value)) * 1j)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4ecab58cd2152af3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"super().cast_nocheck(re(value)) + super().cast_nocheck(im(value)) * 1j","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def cast_nocheck(self, value):
         """ Casts without checking if out of bounds or subnormal. """
         from sympy.functions import re, im
@@ -2259,16 +2799,22 @@ class ComplexBaseType(FloatBaseType):
         )
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_check(val), internal helper behaves correctly) over Any ║
+# ║ Path(_check(value), <unspecified:_check>) over Any         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _check : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4eaa088eddeec2c9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.ComplexBaseType._check","kind":"method","src_hash":"aff6ea45086e8373","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_check(val)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_check_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.ast.ComplexBaseType._check_correct","statement":"Path(_check(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4eaa088eddeec2c9"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.ComplexBaseType._check","kind":"method","src_hash":"aff6ea45086e8373","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_check(value)","rhs":"<unspecified:_check>","over":{"base":"Any"},"name":"_check_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.ast.ComplexBaseType._check_correct","statement":"Path(_check(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4eaa088eddeec2c9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _check(self, value):
         from sympy.functions import re, im
         super()._check(re(value))
@@ -2276,16 +2822,23 @@ class ComplexBaseType(FloatBaseType):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ComplexType(), correctly constructs a ComplexType instance) over Any ║
+# ║ Path(ComplexType(), isinstance(self, ComplexBaseType) and isinstance(self, FloatType)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ ComplexType : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, ComplexBaseType)              ║
+# ║   ensures:  isinstance(self, FloatType)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ ComplexType : Any → {Any | result satisfies: isinstan...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 645b6f9fcd2183d6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.ComplexType","kind":"class","src_hash":"5b12e48d9c19e839","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ComplexType()","rhs":"correctly constructs a ComplexType instance","over":{"base":"Any"},"name":"ComplexType_correct"},"guarantee":"correctly constructs a ComplexType instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"645b6f9fcd2183d6"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.ComplexType","kind":"class","src_hash":"5b12e48d9c19e839","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, ComplexBaseType) and isinstance(self, FloatType)"},"spec":{"lhs":"ComplexType()","rhs":"isinstance(self, ComplexBaseType) and isinstance(self, FloatType)","over":{"base":"Any"},"name":"ComplexType_correct"},"guarantee":"isinstance(self, ComplexBaseType); isinstance(self, FloatType)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"645b6f9fcd2183d6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, ComplexBaseType)","isinstance(self, FloatType)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function ComplexType not found in source"]}}
 class ComplexType(ComplexBaseType, FloatType):
     """ Represents a complex floating point number. """
     __slots__ = ()
@@ -2323,14 +2876,20 @@ bool_ = Type('bool')
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Attribute(*args), correctly constructs a Attribute instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Attribute : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Token)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Attribute : Any → {Any | result satisfies: isinstance...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f07b2d0098c340d0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.Attribute","kind":"class","src_hash":"ddc4daaa972425f1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Attribute(*args)","rhs":"correctly constructs a Attribute instance","over":{"base":"Any"},"name":"Attribute_class_invariant"},"guarantee":"correctly constructs a Attribute instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f07b2d0098c340d0"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.Attribute","kind":"class","src_hash":"ddc4daaa972425f1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Token)"},"spec":{"lhs":"Attribute(*args)","rhs":"correctly constructs a Attribute instance","over":{"base":"Any"},"name":"Attribute_class_invariant"},"guarantee":"isinstance(self, Token)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f07b2d0098c340d0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Token)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function Attribute not found in source"]}}
 class Attribute(Token):
     """ Attribute (possibly parametrized)
 
@@ -2365,16 +2924,23 @@ class Attribute(Token):
     _construct_parameters = staticmethod(_mk_Tuple)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_sympystr(pri), internal helper behaves correctly) over Any ║
+# ║ Path(_sympystr(printer, *args, **kwargs), <unspecified:_sympystr>) over {Any | hasattr(printer, '_print')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _sympystr : Any → Any                                      ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(printer, '_print')                     ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _sympystr : {Any | hasattr(printer, '_print')} → Any       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 07d19d571f31b887  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.Attribute._sympystr","kind":"method","src_hash":"dcb40e269b6e4470","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sympystr(pri)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_sympystr_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.ast.Attribute._sympystr_correct","statement":"Path(_sympystr(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"07d19d571f31b887"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.Attribute._sympystr","kind":"method","src_hash":"dcb40e269b6e4470","in":{"base":"Any","pred":"hasattr(printer, '_print')"},"out":{"base":"Any"},"spec":{"lhs":"_sympystr(printer, *args, **kwargs)","rhs":"<unspecified:_sympystr>","over":{"base":"Any","pred":"hasattr(printer, '_print')"},"name":"_sympystr_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.ast.Attribute._sympystr_correct","statement":"Path(_sympystr(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"07d19d571f31b887","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(printer, '_print')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["printer._print","self.name","self.parameters"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _sympystr(self, printer, *args, **kwargs):
         result = str(self.name)
         if self.parameters:
@@ -2389,14 +2955,20 @@ pointer_const = Attribute('pointer_const')
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Variable(*args), correctly constructs a Variable instance) over {Any | isinstance(symbol, Variable)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Variable : {Any | isinstance(symbol, Variable)} → Any      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Node)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Variable : {Any | isinstance(symbol, Variable)} → {An...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0542f70715f822f8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.Variable","kind":"class","src_hash":"06eef9e5b4e986d7","in":{"base":"Any","pred":"isinstance(symbol, Variable)"},"out":{"base":"Any"},"spec":{"lhs":"Variable(*args)","rhs":"correctly constructs a Variable instance","over":{"base":"Any","pred":"isinstance(symbol, Variable)"},"name":"Variable_class_invariant"},"guarantee":"correctly constructs a Variable instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0542f70715f822f8"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.Variable","kind":"class","src_hash":"06eef9e5b4e986d7","in":{"base":"Any","pred":"isinstance(symbol, Variable)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Node)"},"spec":{"lhs":"Variable(*args)","rhs":"correctly constructs a Variable instance","over":{"base":"Any","pred":"isinstance(symbol, Variable)"},"name":"Variable_class_invariant"},"guarantee":"isinstance(self, Node)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0542f70715f822f8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Node)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function Variable not found in source"]}}
 class Variable(Node):
     """ Represents a variable.
 
@@ -2458,16 +3030,22 @@ class Variable(Node):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(deduced(cls), alt) over Any                           ║
+# ║ Path(deduced(cls, symbol, value), <unspecified:deduced>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ deduced : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a4344b7f9ec36e99  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.Variable.deduced","kind":"classmethod","src_hash":"6b1ac11e8fbf30f1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"deduced(cls)","rhs":"alt","over":{"base":"Any"},"name":"deduced_correct"},"guarantee":"alt","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.ast.Variable.deduced_correct","statement":"Path(deduced(x), alt)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a4344b7f9ec36e99"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.Variable.deduced","kind":"classmethod","src_hash":"6b1ac11e8fbf30f1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"deduced(cls, symbol, value)","rhs":"<unspecified:deduced>","over":{"base":"Any"},"name":"deduced_correct"},"guarantee":"alt","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.ast.Variable.deduced_correct","statement":"Path(deduced(x), alt)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a4344b7f9ec36e99","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def deduced(cls, symbol, value=None, attrs=Tuple(), cast_check=True):
         """ Alt. constructor with type deduction from ``Type.from_expr``.
 
@@ -2513,16 +3091,22 @@ class Variable(Node):
         return cls(symbol, type=type_, value=value, attrs=attrs)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(as_Declaration(**k), id) over Any                     ║
+# ║ Path(as_Declaration(**kwargs), id) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Declaration(self.func(**kw))                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ as_Declaration : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | eb902c94d8641b49   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.Variable.as_Declaration","kind":"method","src_hash":"740689d2f55807d7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_Declaration(**k)","rhs":"convenience method for creating a declaration instance","over":{"base":"Any"},"name":"as_Declaration_correct","kind":"composition"},"guarantee":"convenience method for creating a declaration instance","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Declaration","by":"library_axiom"},{"fn":"func","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eb902c94d8641b49"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.Variable.as_Declaration","kind":"method","src_hash":"740689d2f55807d7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_Declaration(**kwargs)","rhs":"Declaration(self.func(**kw))","over":{"base":"Any"},"name":"as_Declaration_correct","kind":"composition"},"guarantee":"returns Declaration(self.func(**kw))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Declaration","by":"library_axiom"},{"fn":"func","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eb902c94d8641b49","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Declaration(self.func(**kw))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def as_Declaration(self, **kwargs):
         """ Convenience method for creating a Declaration instance.
 
@@ -2556,16 +3140,22 @@ class Variable(Node):
         return Declaration(self.func(**kw))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_relation(rhs), internal helper behaves correctly) over Any ║
+# ║ Path(_relation(rhs, op), op(self, rhs, evaluate=False)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  op(self, rhs, evaluate=False)                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _relation : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0a110ec659c9e9d1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 708fb6eb45431e49  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.Variable._relation","kind":"method","src_hash":"5c9f33d02047f088","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_relation(rhs)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_relation_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.ast.Variable._relation_correct","statement":"Path(_relation(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0a110ec659c9e9d1"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.Variable._relation","kind":"method","src_hash":"5c9f33d02047f088","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_relation(rhs, op)","rhs":"op(self, rhs, evaluate=False)","over":{"base":"Any"},"name":"_relation_correct"},"guarantee":"returns op(self, rhs, evaluate=False)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.ast.Variable._relation_correct","statement":"Path(_relation(x), returns op(self, rhs, evaluate=False))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"708fb6eb45431e49","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"op(self, rhs, evaluate=False)","pure":false,"effects":{"effect_type":"reads_state","raises":["TypeError"],"catches":["SympifyError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _relation(self, rhs, op):
         try:
             rhs = _sympify(rhs)
@@ -2581,14 +3171,20 @@ class Variable(Node):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Pointer(*args), correctly constructs a Pointer instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Pointer : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Variable)                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Pointer : Any → {Any | result satisfies: isinstance(s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f66328c34783fd84  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.Pointer","kind":"class","src_hash":"2c87b327ffc879f2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Pointer(*args)","rhs":"correctly constructs a Pointer instance","over":{"base":"Any"},"name":"Pointer_class_invariant"},"guarantee":"correctly constructs a Pointer instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f66328c34783fd84"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.Pointer","kind":"class","src_hash":"2c87b327ffc879f2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Variable)"},"spec":{"lhs":"Pointer(*args)","rhs":"correctly constructs a Pointer instance","over":{"base":"Any"},"name":"Pointer_class_invariant"},"guarantee":"isinstance(self, Variable)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f66328c34783fd84","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Variable)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function Pointer not found in source"]}}
 class Pointer(Variable):
     """ Represents a pointer. See ``Variable``.
 
@@ -2608,16 +3204,22 @@ class Pointer(Variable):
     __slots__ = ()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__getitem__(key), returns the element at the given index) over Any ║
+# ║ Path(__getitem__(key), <unspecified:__getitem__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __getitem__ : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | aac1cf48875abdb6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.Pointer.__getitem__","kind":"method","src_hash":"f296afa0aa9031a2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getitem__(key)","rhs":"returns the element at the given index","over":{"base":"Any"},"name":"__getitem___correct"},"guarantee":"returns the element at the given index","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"aac1cf48875abdb6"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.Pointer.__getitem__","kind":"method","src_hash":"f296afa0aa9031a2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getitem__(key)","rhs":"<unspecified:__getitem__>","over":{"base":"Any"},"name":"__getitem___correct"},"guarantee":"returns the element at the given index","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"aac1cf48875abdb6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.symbol"],"catches":["TypeError"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __getitem__(self, key):
         try:
             return Element(self.symbol, key)
@@ -2626,16 +3228,22 @@ class Pointer(Variable):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(Element(), correctly constructs a Element instance) over Any ║
+# ║ Path(Element(), isinstance(self, Token)) over Any          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Element : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Token)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Element : Any → {Any | result satisfies: isinstance(s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | cec8d5f7d741a9d8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.Element","kind":"class","src_hash":"567a8de6182d9ff7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Element()","rhs":"correctly constructs a Element instance","over":{"base":"Any"},"name":"Element_correct"},"guarantee":"correctly constructs a Element instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cec8d5f7d741a9d8"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.Element","kind":"class","src_hash":"567a8de6182d9ff7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Token)"},"spec":{"lhs":"Element()","rhs":"isinstance(self, Token)","over":{"base":"Any"},"name":"Element_correct"},"guarantee":"isinstance(self, Token)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cec8d5f7d741a9d8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Token)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Function Element not found in source"]}}
 class Element(Token):
     """ Element in (a possibly N-dimensional) array.
 
@@ -2664,16 +3272,22 @@ class Element(Token):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(Declaration(), correctly constructs a Declaration instance) over Any ║
+# ║ Path(Declaration(), isinstance(self, Token)) over Any      ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Declaration : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Token)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Declaration : Any → {Any | result satisfies: isinstan...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b39a43e17b8cfb1e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.Declaration","kind":"class","src_hash":"ff29a5935998b9bc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Declaration()","rhs":"correctly constructs a Declaration instance","over":{"base":"Any"},"name":"Declaration_correct"},"guarantee":"correctly constructs a Declaration instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b39a43e17b8cfb1e"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.Declaration","kind":"class","src_hash":"ff29a5935998b9bc","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Token)"},"spec":{"lhs":"Declaration()","rhs":"isinstance(self, Token)","over":{"base":"Any"},"name":"Declaration_correct"},"guarantee":"isinstance(self, Token)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b39a43e17b8cfb1e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Token)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function Declaration not found in source"]}}
 class Declaration(Token):
     """ Represents a variable declaration
 
@@ -2704,14 +3318,20 @@ class Declaration(Token):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(While(*args), correctly constructs a While instance) over {Any | isinstance(itr, CodeBlock)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ While : {Any | isinstance(itr, CodeBlock)} → Any           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Token)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ While : {Any | isinstance(itr, CodeBlock)} → {Any | r...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 06443d1f39e025e8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.While","kind":"class","src_hash":"69fbeb77bb9d72a0","in":{"base":"Any","pred":"isinstance(itr, CodeBlock)"},"out":{"base":"Any"},"spec":{"lhs":"While(*args)","rhs":"correctly constructs a While instance","over":{"base":"Any","pred":"isinstance(itr, CodeBlock)"},"name":"While_class_invariant"},"guarantee":"correctly constructs a While instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"06443d1f39e025e8"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.While","kind":"class","src_hash":"69fbeb77bb9d72a0","in":{"base":"Any","pred":"isinstance(itr, CodeBlock)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Token)"},"spec":{"lhs":"While(*args)","rhs":"correctly constructs a While instance","over":{"base":"Any","pred":"isinstance(itr, CodeBlock)"},"name":"While_class_invariant"},"guarantee":"isinstance(self, Token)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"06443d1f39e025e8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Token)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function While not found in source"]}}
 class While(Token):
     """ Represents a 'for-loop' in the code.
 
@@ -2744,16 +3364,25 @@ class While(Token):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_construct_body(cls), internal helper behaves correctly) over Any ║
+# ║ Path(_construct_body(cls, itr), result == (itr if isinstance(itr, CodeBlock) else CodeBlock(*itr)) and result == itr or result == CodeBlock(*itr)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _construct_body : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (itr if isinstance(itr, CodeBlo...   ║
+# ║   ensures:  result == itr or result == CodeBlock(*itr)     ║
+# ║   fiber[CodeBlock]: isinstance(itr, CodeBlock) => itr      ║
+# ║   fiber[CodeBlock]: not (isinstance(itr, CodeBlock)) ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _construct_body : Any → {Any | result satisfies: resu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 84fdc4672c582536  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e51fbd1ccea8de60  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.While._construct_body","kind":"classmethod","src_hash":"9b94378d75efd914","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_construct_body(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_construct_body_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.ast.While._construct_body_correct","statement":"Path(_construct_body(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"84fdc4672c582536"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.While._construct_body","kind":"classmethod","src_hash":"9b94378d75efd914","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (itr if isinstance(itr, CodeBlock) else CodeBlock(*itr)) and result == itr or result == CodeBlock(*itr)"},"spec":{"lhs":"_construct_body(cls, itr)","rhs":"result == (itr if isinstance(itr, CodeBlock) else CodeBlock(*itr)) and result == itr or result == CodeBlock(*itr)","over":{"base":"Any"},"name":"_construct_body_correct"},"guarantee":"result == (itr if isinstance(itr, CodeBlock) else CodeBlock(*itr)); result == itr or result == CodeBlock(*itr); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.ast.While._construct_body_correct","statement":"Path(_construct_body(x), result == (itr if isinstance(itr, CodeBlock) else CodeBlock(*itr)); result == itr or result == CodeBlock(*itr); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e51fbd1ccea8de60","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (itr if isinstance(itr, CodeBlock) else CodeBlock(*itr))","result == itr or result == CodeBlock(*itr)"],"fibers":[{"name":"CodeBlock","guard":"isinstance(itr, CodeBlock)","ensures":["result == itr"],"decidability":"structural","returns_expr":"itr"},{"name":"CodeBlock","guard":"not (isinstance(itr, CodeBlock))","ensures":["result == CodeBlock(*itr)"],"decidability":"structural","returns_expr":"CodeBlock(*itr)"}],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _construct_body(cls, itr):
         if isinstance(itr, CodeBlock):
             return itr
@@ -2764,14 +3393,20 @@ class While(Token):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Scope(*args), correctly constructs a Scope instance) over {Any | isinstance(itr, CodeBlock)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Scope : {Any | isinstance(itr, CodeBlock)} → Any           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Token)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Scope : {Any | isinstance(itr, CodeBlock)} → {Any | r...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 78138c1577aefdca  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.Scope","kind":"class","src_hash":"566fcb272235a8eb","in":{"base":"Any","pred":"isinstance(itr, CodeBlock)"},"out":{"base":"Any"},"spec":{"lhs":"Scope(*args)","rhs":"correctly constructs a Scope instance","over":{"base":"Any","pred":"isinstance(itr, CodeBlock)"},"name":"Scope_class_invariant"},"guarantee":"correctly constructs a Scope instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"78138c1577aefdca"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.Scope","kind":"class","src_hash":"566fcb272235a8eb","in":{"base":"Any","pred":"isinstance(itr, CodeBlock)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Token)"},"spec":{"lhs":"Scope(*args)","rhs":"correctly constructs a Scope instance","over":{"base":"Any","pred":"isinstance(itr, CodeBlock)"},"name":"Scope_class_invariant"},"guarantee":"isinstance(self, Token)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"78138c1577aefdca","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Token)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function Scope not found in source"]}}
 class Scope(Token):
     """ Represents a scope in the code.
 
@@ -2786,16 +3421,25 @@ class Scope(Token):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_construct_body(cls), internal helper behaves correctly) over Any ║
+# ║ Path(_construct_body(cls, itr), result == (itr if isinstance(itr, CodeBlock) else CodeBlock(*itr)) and result == itr or result == CodeBlock(*itr)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _construct_body : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (itr if isinstance(itr, CodeBlo...   ║
+# ║   ensures:  result == itr or result == CodeBlock(*itr)     ║
+# ║   fiber[CodeBlock]: isinstance(itr, CodeBlock) => itr      ║
+# ║   fiber[CodeBlock]: not (isinstance(itr, CodeBlock)) ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _construct_body : Any → {Any | result satisfies: resu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 010681efea055069  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 63eb975f9c59970c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.Scope._construct_body","kind":"classmethod","src_hash":"9b94378d75efd914","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_construct_body(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_construct_body_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.ast.Scope._construct_body_correct","statement":"Path(_construct_body(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"010681efea055069"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.Scope._construct_body","kind":"classmethod","src_hash":"9b94378d75efd914","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (itr if isinstance(itr, CodeBlock) else CodeBlock(*itr)) and result == itr or result == CodeBlock(*itr)"},"spec":{"lhs":"_construct_body(cls, itr)","rhs":"result == (itr if isinstance(itr, CodeBlock) else CodeBlock(*itr)) and result == itr or result == CodeBlock(*itr)","over":{"base":"Any"},"name":"_construct_body_correct"},"guarantee":"result == (itr if isinstance(itr, CodeBlock) else CodeBlock(*itr)); result == itr or result == CodeBlock(*itr); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.ast.Scope._construct_body_correct","statement":"Path(_construct_body(x), result == (itr if isinstance(itr, CodeBlock) else CodeBlock(*itr)); result == itr or result == CodeBlock(*itr); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"63eb975f9c59970c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (itr if isinstance(itr, CodeBlock) else CodeBlock(*itr))","result == itr or result == CodeBlock(*itr)"],"fibers":[{"name":"CodeBlock","guard":"isinstance(itr, CodeBlock)","ensures":["result == itr"],"decidability":"structural","returns_expr":"itr"},{"name":"CodeBlock","guard":"not (isinstance(itr, CodeBlock))","ensures":["result == CodeBlock(*itr)"],"decidability":"structural","returns_expr":"CodeBlock(*itr)"}],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _construct_body(cls, itr):
         if isinstance(itr, CodeBlock):
             return itr
@@ -2804,16 +3448,22 @@ class Scope(Token):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(Stream(), correctly constructs a Stream instance) over Any ║
+# ║ Path(Stream(), isinstance(self, Token)) over Any           ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Stream : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Token)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Stream : Any → {Any | result satisfies: isinstance(se...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | bb2538c6ad9f71b7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.Stream","kind":"class","src_hash":"aa5706e63be38182","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Stream()","rhs":"correctly constructs a Stream instance","over":{"base":"Any"},"name":"Stream_correct"},"guarantee":"correctly constructs a Stream instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bb2538c6ad9f71b7"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.Stream","kind":"class","src_hash":"aa5706e63be38182","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Token)"},"spec":{"lhs":"Stream()","rhs":"isinstance(self, Token)","over":{"base":"Any"},"name":"Stream_correct"},"guarantee":"isinstance(self, Token)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bb2538c6ad9f71b7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Token)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function Stream not found in source"]}}
 class Stream(Token):
     """ Represents a stream.
 
@@ -2844,16 +3494,22 @@ stderr = Stream('stderr')
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(Print(), correctly constructs a Print instance) over Any ║
+# ║ Path(Print(), isinstance(self, Token)) over Any            ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Print : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Token)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Print : Any → {Any | result satisfies: isinstance(sel...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 95d65044290a154b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.Print","kind":"class","src_hash":"59c127f7f52b4508","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Print()","rhs":"correctly constructs a Print instance","over":{"base":"Any"},"name":"Print_correct"},"guarantee":"correctly constructs a Print instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"95d65044290a154b"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.Print","kind":"class","src_hash":"59c127f7f52b4508","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Token)"},"spec":{"lhs":"Print()","rhs":"isinstance(self, Token)","over":{"base":"Any"},"name":"Print_correct"},"guarantee":"isinstance(self, Token)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"95d65044290a154b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Token)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Function Print not found in source"]}}
 class Print(Token):
     r""" Represents print command in the code.
 
@@ -2884,14 +3540,20 @@ class Print(Token):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(FunctionPrototype(*args), correctly constructs a FunctionPrototype instance) over {Any | isinstance(arg, Declaration) and isinstance(func_def, FunctionDefinition) and isinstance(arg, Variable)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Node)                         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ FunctionPrototype : {Any | isinstance(arg, Declaratio...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8bf0cdcdf56cb32b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.FunctionPrototype","kind":"class","src_hash":"55eda73e42f61589","in":{"base":"Any","pred":"isinstance(arg, Declaration) and isinstance(func_def, FunctionDefinition) and isinstance(arg, Variable)"},"out":{"base":"Any","pred":"result satisfies: type"},"spec":{"lhs":"FunctionPrototype(*args)","rhs":"correctly constructs a FunctionPrototype instance","over":{"base":"Any","pred":"isinstance(arg, Declaration) and isinstance(func_def, FunctionDefinition) and isinstance(arg, Variable)"},"name":"FunctionPrototype_class_invariant"},"guarantee":"correctly constructs a FunctionPrototype instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8bf0cdcdf56cb32b"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.FunctionPrototype","kind":"class","src_hash":"55eda73e42f61589","in":{"base":"Any","pred":"isinstance(arg, Declaration) and isinstance(func_def, FunctionDefinition) and isinstance(arg, Variable)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Node)"},"spec":{"lhs":"FunctionPrototype(*args)","rhs":"correctly constructs a FunctionPrototype instance","over":{"base":"Any","pred":"isinstance(arg, Declaration) and isinstance(func_def, FunctionDefinition) and isinstance(arg, Variable)"},"name":"FunctionPrototype_class_invariant"},"guarantee":"isinstance(self, Node)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8bf0cdcdf56cb32b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Node)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function FunctionPrototype not found in source"]}}
 class FunctionPrototype(Node):
     """ Represents a function prototype
 
@@ -2925,16 +3587,22 @@ class FunctionPrototype(Node):
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_construct_parameters(arg), internal helper behaves correctly) over Any ║
+# ║ Path(_construct_parameters(args), <unspecified:_construct_parameters>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _construct_parameters : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4b385b7f791f05f8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.FunctionPrototype._construct_parameters","kind":"staticmethod","src_hash":"121ab0daa52e2341","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_construct_parameters(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_construct_parameters_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.ast.FunctionPrototype._construct_parameters_correct","statement":"Path(_construct_parameters(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4b385b7f791f05f8"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.FunctionPrototype._construct_parameters","kind":"staticmethod","src_hash":"121ab0daa52e2341","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_construct_parameters(args)","rhs":"<unspecified:_construct_parameters>","over":{"base":"Any"},"name":"_construct_parameters_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.ast.FunctionPrototype._construct_parameters_correct","statement":"Path(_construct_parameters(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4b385b7f791f05f8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _construct_parameters(args):
         def _var(arg):
             if isinstance(arg, Declaration):
@@ -2947,16 +3615,24 @@ class FunctionPrototype(Node):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_FunctionDefinition(cls), id) over Any            ║
+# ║ Path(from_FunctionDefinition(cls, func_def), id) over {Any | isinstance(func_def, FunctionDefinition) and hasattr(func_def, 'kwargs')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_FunctionDefinition : Any → Any                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(func_def, FunctionDefinition)       ║
+# ║   requires: hasattr(func_def, 'kwargs')                    ║
+# ║   returns:  cls(**func_def.kwargs(exclude=('body',)))      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_FunctionDefinition : {Any | isinstance(func_def,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | e07394478ed5135b   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.FunctionPrototype.from_FunctionDefinition","kind":"classmethod","src_hash":"4c3192d23152e032","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_FunctionDefinition(cls)","rhs":"from_FunctionDefinition produces the expected output","over":{"base":"Any"},"name":"from_FunctionDefinition_correct","kind":"composition"},"guarantee":"from_FunctionDefinition produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"cls","by":"library_axiom"},{"fn":"kwargs","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e07394478ed5135b"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.FunctionPrototype.from_FunctionDefinition","kind":"classmethod","src_hash":"4c3192d23152e032","in":{"base":"Any","pred":"isinstance(func_def, FunctionDefinition) and hasattr(func_def, 'kwargs')"},"out":{"base":"Any"},"spec":{"lhs":"from_FunctionDefinition(cls, func_def)","rhs":"cls(**func_def.kwargs(exclude=('body',)))","over":{"base":"Any","pred":"isinstance(func_def, FunctionDefinition) and hasattr(func_def, 'kwargs')"},"name":"from_FunctionDefinition_correct","kind":"composition"},"guarantee":"returns cls(**func_def.kwargs(exclude=('body',)))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"cls","by":"library_axiom"},{"fn":"kwargs","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e07394478ed5135b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(func_def, FunctionDefinition)","hasattr(func_def, 'kwargs')"],"returns_expr":"cls(**func_def.kwargs(exclude=('body',)))","pure":false,"effects":{"effect_type":"reads_state","reads":["func_def.kwargs"],"raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_FunctionDefinition(cls, func_def):
         if not isinstance(func_def, FunctionDefinition):
             raise TypeError("func_def is not an instance of FunctionDefinition")
@@ -2966,14 +3642,20 @@ class FunctionPrototype(Node):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(FunctionDefinition(*args), correctly constructs a FunctionDefinition instance) over {Any | isinstance(itr, CodeBlock) and isinstance(func_proto, FunctionPrototype)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, FunctionPrototype)            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ FunctionDefinition : {Any | isinstance(itr, CodeBlock...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8461abf6fced18c8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.FunctionDefinition","kind":"class","src_hash":"3af65637949a85a7","in":{"base":"Any","pred":"isinstance(itr, CodeBlock) and isinstance(func_proto, FunctionPrototype)"},"out":{"base":"Any","pred":"result satisfies: type"},"spec":{"lhs":"FunctionDefinition(*args)","rhs":"correctly constructs a FunctionDefinition instance","over":{"base":"Any","pred":"isinstance(itr, CodeBlock) and isinstance(func_proto, FunctionPrototype)"},"name":"FunctionDefinition_class_invariant"},"guarantee":"correctly constructs a FunctionDefinition instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8461abf6fced18c8"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.FunctionDefinition","kind":"class","src_hash":"3af65637949a85a7","in":{"base":"Any","pred":"isinstance(itr, CodeBlock) and isinstance(func_proto, FunctionPrototype)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, FunctionPrototype)"},"spec":{"lhs":"FunctionDefinition(*args)","rhs":"correctly constructs a FunctionDefinition instance","over":{"base":"Any","pred":"isinstance(itr, CodeBlock) and isinstance(func_proto, FunctionPrototype)"},"name":"FunctionDefinition_class_invariant"},"guarantee":"isinstance(self, FunctionPrototype)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8461abf6fced18c8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, FunctionPrototype)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function FunctionDefinition not found in source"]}}
 class FunctionDefinition(FunctionPrototype):
     """ Represents a function definition in the code.
 
@@ -3009,16 +3691,25 @@ class FunctionDefinition(FunctionPrototype):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_construct_body(cls), internal helper behaves correctly) over Any ║
+# ║ Path(_construct_body(cls, itr), result == (itr if isinstance(itr, CodeBlock) else CodeBlock(*itr)) and result == itr or result == CodeBlock(*itr)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _construct_body : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (itr if isinstance(itr, CodeBlo...   ║
+# ║   ensures:  result == itr or result == CodeBlock(*itr)     ║
+# ║   fiber[CodeBlock]: isinstance(itr, CodeBlock) => itr      ║
+# ║   fiber[CodeBlock]: not (isinstance(itr, CodeBlock)) ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _construct_body : Any → {Any | result satisfies: resu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cb63a84d8933989a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1ea86f9bd871d7ac  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.FunctionDefinition._construct_body","kind":"classmethod","src_hash":"9b94378d75efd914","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_construct_body(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_construct_body_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.ast.FunctionDefinition._construct_body_correct","statement":"Path(_construct_body(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cb63a84d8933989a"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.FunctionDefinition._construct_body","kind":"classmethod","src_hash":"9b94378d75efd914","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (itr if isinstance(itr, CodeBlock) else CodeBlock(*itr)) and result == itr or result == CodeBlock(*itr)"},"spec":{"lhs":"_construct_body(cls, itr)","rhs":"result == (itr if isinstance(itr, CodeBlock) else CodeBlock(*itr)) and result == itr or result == CodeBlock(*itr)","over":{"base":"Any"},"name":"_construct_body_correct"},"guarantee":"result == (itr if isinstance(itr, CodeBlock) else CodeBlock(*itr)); result == itr or result == CodeBlock(*itr); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.ast.FunctionDefinition._construct_body_correct","statement":"Path(_construct_body(x), result == (itr if isinstance(itr, CodeBlock) else CodeBlock(*itr)); result == itr or result == CodeBlock(*itr); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1ea86f9bd871d7ac","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (itr if isinstance(itr, CodeBlock) else CodeBlock(*itr))","result == itr or result == CodeBlock(*itr)"],"fibers":[{"name":"CodeBlock","guard":"isinstance(itr, CodeBlock)","ensures":["result == itr"],"decidability":"structural","returns_expr":"itr"},{"name":"CodeBlock","guard":"not (isinstance(itr, CodeBlock))","ensures":["result == CodeBlock(*itr)"],"decidability":"structural","returns_expr":"CodeBlock(*itr)"}],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _construct_body(cls, itr):
         if isinstance(itr, CodeBlock):
             return itr
@@ -3027,16 +3718,24 @@ class FunctionDefinition(FunctionPrototype):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_FunctionPrototype(cls), id) over Any             ║
+# ║ Path(from_FunctionPrototype(cls, func_proto, body), id) over {Any | isinstance(func_proto, FunctionPrototype) and hasattr(func_proto, 'kwargs')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_FunctionPrototype : Any → Any                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(func_proto, FunctionPrototype)      ║
+# ║   requires: hasattr(func_proto, 'kwargs')                  ║
+# ║   returns:  cls(body=body, **func_proto.kwargs())          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_FunctionPrototype : {Any | isinstance(func_proto...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 22c6bf83b371216b   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.FunctionDefinition.from_FunctionPrototype","kind":"classmethod","src_hash":"c5260ef27fe232ec","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_FunctionPrototype(cls)","rhs":"from_FunctionPrototype produces the expected output","over":{"base":"Any"},"name":"from_FunctionPrototype_correct","kind":"composition"},"guarantee":"from_FunctionPrototype produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"cls","by":"library_axiom"},{"fn":"kwargs","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"22c6bf83b371216b"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.FunctionDefinition.from_FunctionPrototype","kind":"classmethod","src_hash":"c5260ef27fe232ec","in":{"base":"Any","pred":"isinstance(func_proto, FunctionPrototype) and hasattr(func_proto, 'kwargs')"},"out":{"base":"Any"},"spec":{"lhs":"from_FunctionPrototype(cls, func_proto, body)","rhs":"cls(body=body, **func_proto.kwargs())","over":{"base":"Any","pred":"isinstance(func_proto, FunctionPrototype) and hasattr(func_proto, 'kwargs')"},"name":"from_FunctionPrototype_correct","kind":"composition"},"guarantee":"returns cls(body=body, **func_proto.kwargs())","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"cls","by":"library_axiom"},{"fn":"kwargs","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"22c6bf83b371216b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(func_proto, FunctionPrototype)","hasattr(func_proto, 'kwargs')"],"returns_expr":"cls(body=body, **func_proto.kwargs())","pure":false,"effects":{"effect_type":"reads_state","reads":["func_proto.kwargs"],"raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_FunctionPrototype(cls, func_proto, body):
         if not isinstance(func_proto, FunctionPrototype):
             raise TypeError("func_proto is not an instance of FunctionPrototype")
@@ -3044,16 +3743,22 @@ class FunctionDefinition(FunctionPrototype):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(Return(), correctly constructs a Return instance) over Any ║
+# ║ Path(Return(), isinstance(self, Token)) over Any           ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Return : Any → {Any | result satisfies: basic}             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Token)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Return : Any → {Any | result satisfies: isinstance(se...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5783ee24dcbb2459           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.Return","kind":"class","src_hash":"bc89217851e53718","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: basic"},"spec":{"lhs":"Return()","rhs":"correctly constructs a Return instance","over":{"base":"Any"},"name":"Return_correct"},"guarantee":"correctly constructs a Return instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5783ee24dcbb2459"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.Return","kind":"class","src_hash":"bc89217851e53718","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Token)"},"spec":{"lhs":"Return()","rhs":"isinstance(self, Token)","over":{"base":"Any"},"name":"Return_correct"},"guarantee":"isinstance(self, Token)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5783ee24dcbb2459","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Token)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Function Return not found in source"]}}
 class Return(Token):
     """ Represents a return command in the code.
 
@@ -3078,16 +3783,23 @@ class Return(Token):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(FunctionCall(), correctly constructs a FunctionCall instance) over Any ║
+# ║ Path(FunctionCall(), isinstance(self, Token) and isinstance(self, Expr)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ FunctionCall : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Token)                        ║
+# ║   ensures:  isinstance(self, Expr)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ FunctionCall : Any → {Any | result satisfies: isinsta...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1aabd658d7baf415           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.FunctionCall","kind":"class","src_hash":"949c34c3f76787f9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"FunctionCall()","rhs":"correctly constructs a FunctionCall instance","over":{"base":"Any"},"name":"FunctionCall_correct"},"guarantee":"correctly constructs a FunctionCall instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1aabd658d7baf415"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.FunctionCall","kind":"class","src_hash":"949c34c3f76787f9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Token) and isinstance(self, Expr)"},"spec":{"lhs":"FunctionCall()","rhs":"isinstance(self, Token) and isinstance(self, Expr)","over":{"base":"Any"},"name":"FunctionCall_correct"},"guarantee":"isinstance(self, Token); isinstance(self, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1aabd658d7baf415","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Token)","isinstance(self, Expr)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Function FunctionCall not found in source"]}}
 class FunctionCall(Token, Expr):
     """ Represents a call to a function in the code.
 
@@ -3114,32 +3826,44 @@ class FunctionCall(Token, Expr):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(Raise(), correctly constructs a Raise instance) over Any ║
+# ║ Path(Raise(), isinstance(self, Token)) over Any            ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Raise : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Token)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Raise : Any → {Any | result satisfies: isinstance(sel...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 30cd61588c9ef8fc           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.Raise","kind":"class","src_hash":"a4c604f363e1e777","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Raise()","rhs":"correctly constructs a Raise instance","over":{"base":"Any"},"name":"Raise_correct"},"guarantee":"correctly constructs a Raise instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"30cd61588c9ef8fc"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.Raise","kind":"class","src_hash":"a4c604f363e1e777","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Token)"},"spec":{"lhs":"Raise()","rhs":"isinstance(self, Token)","over":{"base":"Any"},"name":"Raise_correct"},"guarantee":"isinstance(self, Token)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"30cd61588c9ef8fc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Token)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function Raise not found in source"]}}
 class Raise(Token):
     """ Prints as 'raise ...' in Python, 'throw ...' in C++"""
     __slots__ = _fields = ('exception',)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(RuntimeError_(), correctly constructs a RuntimeError_ instance) over Any ║
+# ║ Path(RuntimeError_(), isinstance(self, Token)) over Any    ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ RuntimeError_ : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Token)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ RuntimeError_ : Any → {Any | result satisfies: isinst...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b60536b6a3eda51d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.RuntimeError_","kind":"class","src_hash":"1a7cb6746c203bb0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"RuntimeError_()","rhs":"correctly constructs a RuntimeError_ instance","over":{"base":"Any"},"name":"RuntimeError__correct"},"guarantee":"correctly constructs a RuntimeError_ instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b60536b6a3eda51d"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.ast.RuntimeError_","kind":"class","src_hash":"1a7cb6746c203bb0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Token)"},"spec":{"lhs":"RuntimeError_()","rhs":"isinstance(self, Token)","over":{"base":"Any"},"name":"RuntimeError__correct"},"guarantee":"isinstance(self, Token)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b60536b6a3eda51d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Token)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function RuntimeError_ not found in source"]}}
 class RuntimeError_(Token):
     """ Represents 'std::runtime_error' in C++ and 'RuntimeError' in Python.
 

@@ -21,16 +21,24 @@ from sympy.polys.domains.rationalfield import QQ
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_RecurrenceOperator(), test_RecurrenceOperator produces the expected output) over Any ║
+# ║ Path(test_RecurrenceOperator(), Sn * n == (n + 1) * Sn and Sn * n ** 2 == (n ** 2 + 1 + 2 * n) * Sn and Sn ** 2 * n ** 2 == (n ** 2 + 4 * n + 4) * Sn ** 2 and p == q) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_RecurrenceOperator : Any → {Any | Sn * n == (n +...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Sn * n == (n + 1) * Sn                         ║
+# ║   ensures:  Sn * n ** 2 == (n ** 2 + 1 + 2 * n) * Sn       ║
+# ║   ensures:  Sn ** 2 * n ** 2 == (n ** 2 + 4 * n + 4) ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_RecurrenceOperator : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 92f03f41d569af56  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e2f693447f3250df  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.tests.test_recurrence.test_RecurrenceOperator","kind":"function","src_hash":"eaab937f8b3e6c68","in":{"base":"Any"},"out":{"base":"Any","pred":"Sn * n == (n + 1) * Sn and Sn * n ** 2 == (n ** 2 + 1 + 2 * n) * Sn and Sn ** 2 * n ** 2 == (n ** 2 + 4 * n + 4) * Sn ** 2 and p == q"},"spec":{"lhs":"test_RecurrenceOperator()","rhs":"test_RecurrenceOperator produces the expected output","over":{"base":"Any"},"name":"test_RecurrenceOperator_correct"},"guarantee":"test_RecurrenceOperator produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.tests.test_recurrence.test_RecurrenceOperator_correct","statement":"Path(test_RecurrenceOperator(x), test_RecurrenceOperator produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"92f03f41d569af56"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.tests.test_recurrence.test_RecurrenceOperator","kind":"function","src_hash":"eaab937f8b3e6c68","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Sn * n == (n + 1) * Sn and Sn * n ** 2 == (n ** 2 + 1 + 2 * n) * Sn and Sn ** 2 * n ** 2 == (n ** 2 + 4 * n + 4) * Sn ** 2 and p == q"},"spec":{"lhs":"test_RecurrenceOperator()","rhs":"Sn * n == (n + 1) * Sn and Sn * n ** 2 == (n ** 2 + 1 + 2 * n) * Sn and Sn ** 2 * n ** 2 == (n ** 2 + 4 * n + 4) * Sn ** 2 and p == q","over":{"base":"Any"},"name":"test_RecurrenceOperator_correct"},"guarantee":"Sn * n == (n + 1) * Sn; Sn * n ** 2 == (n ** 2 + 1 + 2 * n) * Sn; Sn ** 2 * n ** 2 == (n ** 2 + 4 * n + 4) * Sn ** 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.tests.test_recurrence.test_RecurrenceOperator_correct","statement":"Path(test_RecurrenceOperator(x), Sn * n == (n + 1) * Sn; Sn * n ** 2 == (n ** 2 + 1 + 2 * n) * Sn; Sn ** 2 * n ** 2 == (n ** 2 + 4 * n + 4) * Sn ** 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e2f693447f3250df","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Sn * n == (n + 1) * Sn","Sn * n ** 2 == (n ** 2 + 1 + 2 * n) * Sn","Sn ** 2 * n ** 2 == (n ** 2 + 4 * n + 4) * Sn ** 2","p == q"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_RecurrenceOperator():
     n = symbols('n', integer=True)
     R, Sn = RecurrenceOperators(QQ.old_poly_ring(n), 'Sn')
@@ -44,16 +52,23 @@ def test_RecurrenceOperator():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_RecurrenceOperatorEqPoly(), test_RecurrenceOperatorEqPoly produces the expected output) over Any ║
+# ║ Path(test_RecurrenceOperatorEqPoly(), not rr == rr2 and not rr2 == d2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_RecurrenceOperatorEqPoly : Any → {Any | not rr =...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  not rr == rr2                                  ║
+# ║   ensures:  not rr2 == d2                                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_RecurrenceOperatorEqPoly : Any → {Any | result s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6d8a6769ffafb831  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 04a0d79d9fde927c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.tests.test_recurrence.test_RecurrenceOperatorEqPoly","kind":"function","src_hash":"268f131c5005f668","in":{"base":"Any"},"out":{"base":"Any","pred":"not rr == rr2 and not rr2 == d2"},"spec":{"lhs":"test_RecurrenceOperatorEqPoly()","rhs":"test_RecurrenceOperatorEqPoly produces the expected output","over":{"base":"Any"},"name":"test_RecurrenceOperatorEqPoly_correct"},"guarantee":"test_RecurrenceOperatorEqPoly produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.tests.test_recurrence.test_RecurrenceOperatorEqPoly_correct","statement":"Path(test_RecurrenceOperatorEqPoly(x), test_RecurrenceOperatorEqPoly produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6d8a6769ffafb831"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.tests.test_recurrence.test_RecurrenceOperatorEqPoly","kind":"function","src_hash":"268f131c5005f668","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: not rr == rr2 and not rr2 == d2"},"spec":{"lhs":"test_RecurrenceOperatorEqPoly()","rhs":"not rr == rr2 and not rr2 == d2","over":{"base":"Any"},"name":"test_RecurrenceOperatorEqPoly_correct"},"guarantee":"not rr == rr2; not rr2 == d2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.tests.test_recurrence.test_RecurrenceOperatorEqPoly_correct","statement":"Path(test_RecurrenceOperatorEqPoly(x), not rr == rr2; not rr2 == d2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"04a0d79d9fde927c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["not rr == rr2","not rr2 == d2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_RecurrenceOperatorEqPoly():
     n = symbols('n', integer=True)
     R, Sn = RecurrenceOperators(QQ.old_poly_ring(n), 'Sn')
@@ -71,16 +86,22 @@ def test_RecurrenceOperatorEqPoly():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_RecurrenceOperatorPow(), test_RecurrenceOperatorPow produces the expected output) over Any ║
+# ║ Path(test_RecurrenceOperatorPow(), <unspecified:test_RecurrenceOperatorPow>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_RecurrenceOperatorPow : Any → {Any | a == rr ** m}    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d98b078b339dddf2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.tests.test_recurrence.test_RecurrenceOperatorPow","kind":"function","src_hash":"0bbbcf88de79d725","in":{"base":"Any"},"out":{"base":"Any","pred":"a == rr ** m"},"spec":{"lhs":"test_RecurrenceOperatorPow()","rhs":"test_RecurrenceOperatorPow produces the expected output","over":{"base":"Any"},"name":"test_RecurrenceOperatorPow_correct"},"guarantee":"test_RecurrenceOperatorPow produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.tests.test_recurrence.test_RecurrenceOperatorPow_correct","statement":"Path(test_RecurrenceOperatorPow(x), test_RecurrenceOperatorPow produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d98b078b339dddf2"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.tests.test_recurrence.test_RecurrenceOperatorPow","kind":"function","src_hash":"0bbbcf88de79d725","in":{"base":"Any"},"out":{"base":"Any","pred":"a == rr ** m"},"spec":{"lhs":"test_RecurrenceOperatorPow()","rhs":"<unspecified:test_RecurrenceOperatorPow>","over":{"base":"Any"},"name":"test_RecurrenceOperatorPow_correct"},"guarantee":"test_RecurrenceOperatorPow produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.tests.test_recurrence.test_RecurrenceOperatorPow_correct","statement":"Path(test_RecurrenceOperatorPow(x), test_RecurrenceOperatorPow produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d98b078b339dddf2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_RecurrenceOperatorPow():
     n = symbols('n', integer=True)
     R, _ = RecurrenceOperators(QQ.old_poly_ring(n), 'Sn')

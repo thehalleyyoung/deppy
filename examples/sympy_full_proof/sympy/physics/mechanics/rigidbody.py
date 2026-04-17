@@ -27,14 +27,20 @@ __all__ = ['RigidBody']
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a RigidBody instance) preserved by RigidBody(*args) over {Any | isinstance(F, ReferenceFrame) and isinstance(I, Dyadic) and isinstance(I[1], Point)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, BodyBase)                     ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ RigidBody : {Any | isinstance(F, ReferenceFrame) and ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b2522fade6ff769c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.rigidbody.RigidBody","kind":"class","src_hash":"dca5b428b4667aa3","in":{"base":"Any","pred":"isinstance(F, ReferenceFrame) and isinstance(I, Dyadic) and isinstance(I[1], Point)"},"out":{"base":"Any"},"spec":{"lhs":"RigidBody(*args)","rhs":"correctly constructs a RigidBody instance","over":{"base":"Any","pred":"isinstance(F, ReferenceFrame) and isinstance(I, Dyadic) and isinstance(I[1], Point)"},"name":"RigidBody_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a RigidBody instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'frame') and hasattr(self, 'inertia')","kind":"class","induction":"structural on frame, inertia"}],"methods_preserving":["__init__","__repr__","frame","frame","x","y","z","inertia","inertia","central_inertia","central_inertia","linear_momentum","angular_momentum","kinetic_energy","set_potential_energy","parallel_axis"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b2522fade6ff769c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.rigidbody.RigidBody","kind":"class","src_hash":"dca5b428b4667aa3","in":{"base":"Any","pred":"isinstance(F, ReferenceFrame) and isinstance(I, Dyadic) and isinstance(I[1], Point)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, BodyBase)"},"spec":{"lhs":"RigidBody(*args)","rhs":"correctly constructs a RigidBody instance","over":{"base":"Any","pred":"isinstance(F, ReferenceFrame) and isinstance(I, Dyadic) and isinstance(I[1], Point)"},"name":"RigidBody_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, BodyBase); preserves 2 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'frame') and hasattr(self, 'inertia')","kind":"class","induction":"structural on frame, inertia"}],"methods_preserving":["__init__","__repr__","frame","frame","x","y","z","inertia","inertia","central_inertia","central_inertia","linear_momentum","angular_momentum","kinetic_energy","set_potential_energy","parallel_axis"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b2522fade6ff769c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, BodyBase)"],"invariants":["hasattr(self, 'frame')","hasattr(self, 'inertia')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"assumed","binding":false,"binding_errors":["Function RigidBody not found in source"]}}
 class RigidBody(BodyBase):
     """An idealized rigid body.
 
@@ -83,16 +89,23 @@ class RigidBody(BodyBase):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(nam), initializes the instance correctly) over Any ║
+# ║ Path(__init__(name, masscenter, frame), self.frame == frame and self.inertia == inertia) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  self.frame == frame                            ║
+# ║   ensures:  self.inertia == inertia                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : Any → {Any | result satisfies: self.frame ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 47368b8f5e37cc35           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.rigidbody.RigidBody.__init__","kind":"method","src_hash":"7ab4aed2859d5909","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(nam)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"47368b8f5e37cc35"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.rigidbody.RigidBody.__init__","kind":"method","src_hash":"7ab4aed2859d5909","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: self.frame == frame and self.inertia == inertia"},"spec":{"lhs":"__init__(name, masscenter, frame)","rhs":"self.frame == frame and self.inertia == inertia","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"self.frame == frame; self.inertia == inertia","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"47368b8f5e37cc35","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["self.frame == frame","self.inertia == inertia"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, name, masscenter=None, frame=None, mass=None,
                  inertia=None):
         super().__init__(name, masscenter, mass)
@@ -111,16 +124,22 @@ class RigidBody(BodyBase):
         self.inertia = inertia
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__repr__(), returns a faithful string representation) over Any ║
+# ║ Path(__repr__(), f'{self.__class__.__name__}({repr(self.name)}, masscenter={repr(self.masscenter)}, frame={repr(self.frame)}, mass={repr(self.mass)}, inertia={repr(self.inertia)})') over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  f'{self.__class__.__name__}({repr(self.na...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __repr__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 13d006a980a64698           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.rigidbody.RigidBody.__repr__","kind":"method","src_hash":"b0a91462b6d90a7c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"returns a faithful string representation","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns a faithful string representation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"13d006a980a64698"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.rigidbody.RigidBody.__repr__","kind":"method","src_hash":"b0a91462b6d90a7c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"f'{self.__class__.__name__}({repr(self.name)}, masscenter={repr(self.masscenter)}, frame={repr(self.frame)}, mass={repr(self.mass)}, inertia={repr(self.inertia)})'","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns f'{self.__class__.__name__}({repr(self.name)}, masscenter={repr(self.masscenter)}, frame={repr(self.frame)}, mass={repr(self.mass)}, inertia={repr(self.inertia)})'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"13d006a980a64698","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"f'{self.__class__.__name__}({repr(self.name)}, masscenter={repr(self.masscenter)}, frame={repr(self.frame)}, mass={repr(self.mass)}, inertia={repr(self.inertia)})'","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","self.__class__","self.frame","self.inertia","self.mass","self.masscenter","self.name"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __repr__(self):
         return (f'{self.__class__.__name__}({repr(self.name)}, masscenter='
                 f'{repr(self.masscenter)}, frame={repr(self.frame)}, mass='
@@ -128,32 +147,45 @@ class RigidBody(BodyBase):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(frame(), returns the frame attribute) over Any        ║
+# ║ Path(frame(), self._frame) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._frame                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ frame : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ae5e10c884aafd17           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.rigidbody.RigidBody.frame","kind":"property","src_hash":"4a8a4f7964dc532b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"frame()","rhs":"returns the frame attribute","over":{"base":"Any"},"name":"frame_correct"},"guarantee":"returns the frame attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ae5e10c884aafd17"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.rigidbody.RigidBody.frame","kind":"property","src_hash":"4a8a4f7964dc532b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"frame()","rhs":"self._frame","over":{"base":"Any"},"name":"frame_correct"},"guarantee":"returns self._frame","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ae5e10c884aafd17","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._frame","pure":false,"effects":{"effect_type":"reads_state","reads":["self._frame"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def frame(self):
         """The ReferenceFrame fixed to the body."""
         return self._frame
 
     @frame.setter
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(frame(F), frame produces the expected output) over Any ║
+# ║ Path(frame(F), <unspecified:frame>) over {Any | isinstance(F, ReferenceFrame)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ frame : Any → Any                                          ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(F, ReferenceFrame)                  ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ frame : {Any | isinstance(F, ReferenceFrame)} → Any        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 62cb55fafbfcc849  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.rigidbody.RigidBody.frame","kind":"method","src_hash":"37b4db01f44f7696","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"frame(F)","rhs":"frame produces the expected output","over":{"base":"Any"},"name":"frame_correct"},"guarantee":"frame produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.rigidbody.RigidBody.frame_correct","statement":"Path(frame(x), frame produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"62cb55fafbfcc849"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.rigidbody.RigidBody.frame","kind":"method","src_hash":"37b4db01f44f7696","in":{"base":"Any","pred":"isinstance(F, ReferenceFrame)"},"out":{"base":"Any"},"spec":{"lhs":"frame(F)","rhs":"<unspecified:frame>","over":{"base":"Any","pred":"isinstance(F, ReferenceFrame)"},"name":"frame_correct"},"guarantee":"frame produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.rigidbody.RigidBody.frame_correct","statement":"Path(frame(x), frame produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"62cb55fafbfcc849","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(F, ReferenceFrame)"],"pure":false,"effects":{"effect_type":"mutates_self","writes":["self._frame"],"raises":["TypeError"]},"state_contract":{"modifies":["self._frame"],"old_bindings":{"old_self__frame":"self._frame"},"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def frame(self, F):
         if not isinstance(F, ReferenceFrame):
             raise TypeError("RigidBody frame must be a ReferenceFrame object.")
@@ -161,80 +193,111 @@ class RigidBody(BodyBase):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(x(), returns the x attribute) over Any                ║
+# ║ Path(x(), self.frame.x) over Any                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.frame.x                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ x : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b9b59c856a3d3e05           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.rigidbody.RigidBody.x","kind":"property","src_hash":"a8e04e6a6ca4af45","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"x()","rhs":"returns the x attribute","over":{"base":"Any"},"name":"x_correct"},"guarantee":"returns the x attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b9b59c856a3d3e05"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.rigidbody.RigidBody.x","kind":"property","src_hash":"a8e04e6a6ca4af45","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"x()","rhs":"self.frame.x","over":{"base":"Any"},"name":"x_correct"},"guarantee":"returns self.frame.x","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b9b59c856a3d3e05","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.frame.x","pure":false,"effects":{"effect_type":"reads_state","reads":["self.frame"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def x(self):
         """The basis Vector for the body, in the x direction. """
         return self.frame.x
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(y(), returns the y attribute) over Any                ║
+# ║ Path(y(), self.frame.y) over Any                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.frame.y                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ y : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e18704e0f5d1c213           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.rigidbody.RigidBody.y","kind":"property","src_hash":"bf557b659cbf3d95","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"y()","rhs":"returns the y attribute","over":{"base":"Any"},"name":"y_correct"},"guarantee":"returns the y attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e18704e0f5d1c213"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.rigidbody.RigidBody.y","kind":"property","src_hash":"bf557b659cbf3d95","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"y()","rhs":"self.frame.y","over":{"base":"Any"},"name":"y_correct"},"guarantee":"returns self.frame.y","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e18704e0f5d1c213","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.frame.y","pure":false,"effects":{"effect_type":"reads_state","reads":["self.frame"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def y(self):
         """The basis Vector for the body, in the y direction. """
         return self.frame.y
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(z(), returns the z attribute) over Any                ║
+# ║ Path(z(), self.frame.z) over Any                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.frame.z                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ z : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | bdd1bf63868d0f7a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.rigidbody.RigidBody.z","kind":"property","src_hash":"bf4035c2868a7731","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"z()","rhs":"returns the z attribute","over":{"base":"Any"},"name":"z_correct"},"guarantee":"returns the z attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bdd1bf63868d0f7a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.rigidbody.RigidBody.z","kind":"property","src_hash":"bf4035c2868a7731","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"z()","rhs":"self.frame.z","over":{"base":"Any"},"name":"z_correct"},"guarantee":"returns self.frame.z","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bdd1bf63868d0f7a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.frame.z","pure":false,"effects":{"effect_type":"reads_state","reads":["self.frame"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def z(self):
         """The basis Vector for the body, in the z direction. """
         return self.frame.z
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(inertia(), returns the inertia attribute) over Any    ║
+# ║ Path(inertia(), self._inertia) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._inertia                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ inertia : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5f60dffc6599c38a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.rigidbody.RigidBody.inertia","kind":"property","src_hash":"8476f23567f1fab2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"inertia()","rhs":"returns the inertia attribute","over":{"base":"Any"},"name":"inertia_correct"},"guarantee":"returns the inertia attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5f60dffc6599c38a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.rigidbody.RigidBody.inertia","kind":"property","src_hash":"8476f23567f1fab2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"inertia()","rhs":"self._inertia","over":{"base":"Any"},"name":"inertia_correct"},"guarantee":"returns self._inertia","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5f60dffc6599c38a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._inertia","pure":false,"effects":{"effect_type":"reads_state","reads":["self._inertia"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def inertia(self):
         """The body's inertia about a point; stored as (Dyadic, Point)."""
         return self._inertia
 
     @inertia.setter
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(inertia(I), inertia produces the expected output) over Any ║
+# ║ Path(inertia(I), <unspecified:inertia>) over {Any | not (len(I) != 2 or not isinstance(I[0], Dyadic) or (not isinstance(I[1], Point)))} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ inertia : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (len(I) != 2 or not isinstance(I[0], ...   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ inertia : {Any | not (len(I) != 2 or not isinstance(I...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7f205ed14a9e6870  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.rigidbody.RigidBody.inertia","kind":"method","src_hash":"f848646ae34a18df","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"inertia(I)","rhs":"inertia produces the expected output","over":{"base":"Any"},"name":"inertia_correct"},"guarantee":"inertia produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.rigidbody.RigidBody.inertia_correct","statement":"Path(inertia(x), inertia produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7f205ed14a9e6870"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.rigidbody.RigidBody.inertia","kind":"method","src_hash":"f848646ae34a18df","in":{"base":"Any","pred":"not (len(I) != 2 or not isinstance(I[0], Dyadic) or (not isinstance(I[1], Point)))"},"out":{"base":"Any"},"spec":{"lhs":"inertia(I)","rhs":"<unspecified:inertia>","over":{"base":"Any","pred":"not (len(I) != 2 or not isinstance(I[0], Dyadic) or (not isinstance(I[1], Point)))"},"name":"inertia_correct"},"guarantee":"inertia produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.rigidbody.RigidBody.inertia_correct","statement":"Path(inertia(x), inertia produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7f205ed14a9e6870","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (len(I) != 2 or not isinstance(I[0], Dyadic) or (not isinstance(I[1], Point)))"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self.frame","self.mass","self.masscenter"],"writes":["self._central_inertia","self._inertia"],"raises":["TypeError"]},"state_contract":{"modifies":["self._central_inertia","self._inertia"],"old_bindings":{"old_self__central_inertia":"self._central_inertia","old_self__inertia":"self._inertia"},"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def inertia(self, I):
         # check if I is of the form (Dyadic, Point)
         if len(I) != 2 or not isinstance(I[0], Dyadic) or not isinstance(I[1], Point):
@@ -251,48 +314,67 @@ class RigidBody(BodyBase):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(central_inertia(), returns the central_inertia attribute) over Any ║
+# ║ Path(central_inertia(), self._central_inertia) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._central_inertia                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ central_inertia : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6a272698c4ea78bc           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.rigidbody.RigidBody.central_inertia","kind":"property","src_hash":"8c499effe2d9e4dd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"central_inertia()","rhs":"returns the central_inertia attribute","over":{"base":"Any"},"name":"central_inertia_correct"},"guarantee":"returns the central_inertia attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6a272698c4ea78bc"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.rigidbody.RigidBody.central_inertia","kind":"property","src_hash":"8c499effe2d9e4dd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"central_inertia()","rhs":"self._central_inertia","over":{"base":"Any"},"name":"central_inertia_correct"},"guarantee":"returns self._central_inertia","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6a272698c4ea78bc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._central_inertia","pure":false,"effects":{"effect_type":"reads_state","reads":["self._central_inertia"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def central_inertia(self):
         """The body's central inertia dyadic."""
         return self._central_inertia
 
     @central_inertia.setter
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(central_inertia(I), central_inertia produces the expected output) over Any ║
+# ║ Path(central_inertia(I), <unspecified:central_inertia>) over {Any | isinstance(I, Dyadic)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ central_inertia : Any → Any                                ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(I, Dyadic)                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ central_inertia : {Any | isinstance(I, Dyadic)} → Any      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c152fb1f02925b39  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.rigidbody.RigidBody.central_inertia","kind":"method","src_hash":"770f826498ad9a07","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"central_inertia(I)","rhs":"central_inertia produces the expected output","over":{"base":"Any"},"name":"central_inertia_correct"},"guarantee":"central_inertia produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.rigidbody.RigidBody.central_inertia_correct","statement":"Path(central_inertia(x), central_inertia produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c152fb1f02925b39"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.rigidbody.RigidBody.central_inertia","kind":"method","src_hash":"770f826498ad9a07","in":{"base":"Any","pred":"isinstance(I, Dyadic)"},"out":{"base":"Any"},"spec":{"lhs":"central_inertia(I)","rhs":"<unspecified:central_inertia>","over":{"base":"Any","pred":"isinstance(I, Dyadic)"},"name":"central_inertia_correct"},"guarantee":"central_inertia produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.rigidbody.RigidBody.central_inertia_correct","statement":"Path(central_inertia(x), central_inertia produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c152fb1f02925b39","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(I, Dyadic)"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self.masscenter"],"writes":["self.inertia"],"raises":["TypeError"]},"state_contract":{"modifies":["self.inertia"],"old_bindings":{"old_self_inertia":"self.inertia"},"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def central_inertia(self, I):
         if not isinstance(I, Dyadic):
             raise TypeError("RigidBody inertia must be a Dyadic object.")
         self.inertia = Inertia(I, self.masscenter)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(linear_momentum(fra), linear momentum of the rigid body) over Any ║
+# ║ Path(linear_momentum(frame), self.mass * self.masscenter.vel(frame)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.mass * self.masscenter.vel(frame)         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ linear_momentum : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ff02548bf179ef21           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.rigidbody.RigidBody.linear_momentum","kind":"method","src_hash":"1783359294511c3b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"linear_momentum(fra)","rhs":"linear momentum of the rigid body","over":{"base":"Any"},"name":"linear_momentum_correct"},"guarantee":"linear momentum of the rigid body","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ff02548bf179ef21"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.rigidbody.RigidBody.linear_momentum","kind":"method","src_hash":"1783359294511c3b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"linear_momentum(frame)","rhs":"self.mass * self.masscenter.vel(frame)","over":{"base":"Any"},"name":"linear_momentum_correct"},"guarantee":"returns self.mass * self.masscenter.vel(frame)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ff02548bf179ef21","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.mass * self.masscenter.vel(frame)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.mass","self.masscenter"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def linear_momentum(self, frame):
         """ Linear momentum of the rigid body.
 
@@ -335,16 +417,22 @@ class RigidBody(BodyBase):
         return self.mass * self.masscenter.vel(frame)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(angular_momentum(poi), id) over Any                   ║
+# ║ Path(angular_momentum(point, frame), id) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  I.dot(w) + r.cross(m * v)                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ angular_momentum : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 7a45602c9e2c7fea   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.rigidbody.RigidBody.angular_momentum","kind":"method","src_hash":"02a2c33fde19c714","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"angular_momentum(poi)","rhs":"returns the angular momentum of the rigid body about a point in the given frame","over":{"base":"Any"},"name":"angular_momentum_correct","kind":"composition"},"guarantee":"returns the angular momentum of the rigid body about a point in the given frame","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"dot","by":"library_axiom"},{"fn":"cross","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7a45602c9e2c7fea"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.rigidbody.RigidBody.angular_momentum","kind":"method","src_hash":"02a2c33fde19c714","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"angular_momentum(point, frame)","rhs":"I.dot(w) + r.cross(m * v)","over":{"base":"Any"},"name":"angular_momentum_correct","kind":"composition"},"guarantee":"returns I.dot(w) + r.cross(m * v)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"dot","by":"library_axiom"},{"fn":"cross","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7a45602c9e2c7fea","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"I.dot(w) + r.cross(m * v)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.central_inertia","self.frame","self.mass","self.masscenter"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def angular_momentum(self, point, frame):
         """Returns the angular momentum of the rigid body about a point in the
         given frame.
@@ -398,16 +486,22 @@ class RigidBody(BodyBase):
         return I.dot(w) + r.cross(m * v)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(kinetic_energy(fra), kinetic energy of the rigid body) over Any ║
+# ║ Path(kinetic_energy(frame), rotational_KE + translational_KE) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  rotational_KE + translational_KE               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ kinetic_energy : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5e5af897ea6335b1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7be3556ec1aba5c0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.rigidbody.RigidBody.kinetic_energy","kind":"method","src_hash":"ea91f70f4b743ee1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"kinetic_energy(fra)","rhs":"kinetic energy of the rigid body","over":{"base":"Any"},"name":"kinetic_energy_correct"},"guarantee":"kinetic energy of the rigid body","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.rigidbody.RigidBody.kinetic_energy_correct","statement":"Path(kinetic_energy(x), kinetic energy of the rigid body)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5e5af897ea6335b1"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.rigidbody.RigidBody.kinetic_energy","kind":"method","src_hash":"ea91f70f4b743ee1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"kinetic_energy(frame)","rhs":"rotational_KE + translational_KE","over":{"base":"Any"},"name":"kinetic_energy_correct"},"guarantee":"returns rotational_KE + translational_KE","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.rigidbody.RigidBody.kinetic_energy_correct","statement":"Path(kinetic_energy(x), returns rotational_KE + translational_KE)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7be3556ec1aba5c0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"rotational_KE + translational_KE","pure":false,"effects":{"effect_type":"reads_state","reads":["self.central_inertia","self.frame","self.mass","self.masscenter"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def kinetic_energy(self, frame):
         """Kinetic energy of the rigid body.
 
@@ -459,16 +553,22 @@ class RigidBody(BodyBase):
         return rotational_KE + translational_KE
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(set_potential_energy(sca), set_potential_energy produces the expected output) over Any ║
+# ║ Path(set_potential_energy(scalar), <unspecified:set_potential_energy>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ set_potential_energy : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c18a523719b1f847  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.rigidbody.RigidBody.set_potential_energy","kind":"method","src_hash":"b232548578dbf83d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"set_potential_energy(sca)","rhs":"set_potential_energy produces the expected output","over":{"base":"Any"},"name":"set_potential_energy_correct"},"guarantee":"set_potential_energy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.rigidbody.RigidBody.set_potential_energy_correct","statement":"Path(set_potential_energy(x), set_potential_energy produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c18a523719b1f847"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.rigidbody.RigidBody.set_potential_energy","kind":"method","src_hash":"b232548578dbf83d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"set_potential_energy(scalar)","rhs":"<unspecified:set_potential_energy>","over":{"base":"Any"},"name":"set_potential_energy_correct"},"guarantee":"set_potential_energy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.rigidbody.RigidBody.set_potential_energy_correct","statement":"Path(set_potential_energy(x), set_potential_energy produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c18a523719b1f847","spec_source":"static","formal_spec":{"source":"static","strength":"trivial"},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def set_potential_energy(self, scalar):
         sympy_deprecation_warning(
             """
@@ -483,16 +583,22 @@ method is deprecated. Instead use
         self.potential_energy = scalar
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(parallel_axis(poi), returns the inertia dyadic of the body with respect to another point) over Any ║
+# ║ Path(parallel_axis(point, frame), self.central_inertia + inertia_of_point_mass(self.mass, self.masscenter.pos_from(point), frame)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.central_inertia + inertia_of_point_m...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ parallel_axis : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 28a197c4876106a0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 41799e0930556c79  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.rigidbody.RigidBody.parallel_axis","kind":"method","src_hash":"3ade4f78b08712c5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"parallel_axis(poi)","rhs":"returns the inertia dyadic of the body with respect to another point","over":{"base":"Any"},"name":"parallel_axis_correct"},"guarantee":"returns the inertia dyadic of the body with respect to another point","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.rigidbody.RigidBody.parallel_axis_correct","statement":"Path(parallel_axis(x), returns the inertia dyadic of the body with respect to another point)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"28a197c4876106a0"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.rigidbody.RigidBody.parallel_axis","kind":"method","src_hash":"3ade4f78b08712c5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"parallel_axis(point, frame)","rhs":"self.central_inertia + inertia_of_point_mass(self.mass, self.masscenter.pos_from(point), frame)","over":{"base":"Any"},"name":"parallel_axis_correct"},"guarantee":"returns self.central_inertia + inertia_of_point_mass(self.mass, self.masscenter.pos_from(point), frame)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.rigidbody.RigidBody.parallel_axis_correct","statement":"Path(parallel_axis(x), returns self.central_inertia + inertia_of_point_mass(self.mass, self.masscenter.pos_from(point), frame))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"41799e0930556c79","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.central_inertia + inertia_of_point_mass(self.mass, self.masscenter.pos_from(point), frame)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.central_inertia","self.frame","self.mass","self.masscenter"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def parallel_axis(self, point, frame=None):
         """Returns the inertia dyadic of the body with respect to another point.
 

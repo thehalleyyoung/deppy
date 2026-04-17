@@ -23,9 +23,13 @@ from sympy.strategies.tools import subs
 from sympy.unify.usympy import rebuild, unify
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rewriterule(sou), rewrite rule) over {Any | isinstance(expr2, Expr)} ║
+# ║ Path(rewriterule(source, target, variables), <unspecified:rewriterule>) over {Any | isinstance(expr2, Expr) and hasattr(assume, 'xreplace')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ rewriterule : {Any | isinstance(expr2, Expr)} → Any        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(assume, 'xreplace')                    ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ rewriterule : {Any | isinstance(expr2, Expr) and hasa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   Expr: {isinstance(expr2, Expr)} → library_axiom          ║
@@ -35,9 +39,12 @@ from sympy.unify.usympy import rebuild, unify
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.2ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 7bad183a...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.unify.rewrite.rewriterule","kind":"function","src_hash":"b9c9f8bc09d1c5d9","in":{"base":"Any","pred":"isinstance(expr2, Expr)"},"out":{"base":"Any"},"spec":{"lhs":"rewriterule(sou)","rhs":"rewrite rule","over":{"base":"Any","pred":"isinstance(expr2, Expr)"},"name":"rewriterule_correct"},"guarantee":"rewrite rule","fibers":[{"name":"Expr","pred":"isinstance(expr2, Expr)","path":{"lhs":"rewriterule(x)","rhs":"rewrite rule","over":{"base":"Expr","pred":"isinstance(expr2, Expr)"},"name":"rewriterule_Expr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.unify.rewrite.rewriterule_Expr_correct","statement":"rewriterule satisfies spec on Expr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"7bad183aff8517bb"}
+# @cctt_verify {"v":2,"sym":"sympy.unify.rewrite.rewriterule","kind":"function","src_hash":"b9c9f8bc09d1c5d9","in":{"base":"Any","pred":"isinstance(expr2, Expr) and hasattr(assume, 'xreplace')"},"out":{"base":"Any"},"spec":{"lhs":"rewriterule(source, target, variables)","rhs":"<unspecified:rewriterule>","over":{"base":"Any","pred":"isinstance(expr2, Expr) and hasattr(assume, 'xreplace')"},"name":"rewriterule_correct"},"guarantee":"rewrite rule","fibers":[{"name":"Expr","pred":"isinstance(expr2, Expr)","path":{"lhs":"rewriterule(x)","rhs":"rewrite rule","over":{"base":"Expr","pred":"isinstance(expr2, Expr)"},"name":"rewriterule_Expr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.unify.rewrite.rewriterule_Expr_correct","statement":"rewriterule satisfies spec on Expr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"7bad183aff8517bb","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(assume, 'xreplace')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["assume.xreplace"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.2,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(expr2, Expr)'}, fibers={'Expr'})"]}}
 def rewriterule(source, target, variables=(), condition=None, assume=None):
     """ Rewrite rule.
 

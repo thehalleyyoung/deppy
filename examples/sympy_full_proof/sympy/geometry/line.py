@@ -67,14 +67,20 @@ t, u = [Dummy('line_dummy') for i in range(2)]
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(LinearEntity(*args), correctly constructs a LinearEntity instance) over {Any | isinstance(other, Point) and isinstance(self, Ray) and isinstance(other, GeometryEntity)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, GeometrySet)                  ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ LinearEntity : {Any | isinstance(other, Point) and is...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 2.9ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 001ca3974e677f4d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.line.LinearEntity","kind":"class","src_hash":"dd3315d8c114c637","in":{"base":"Any","pred":"isinstance(other, Point) and isinstance(self, Ray) and isinstance(other, GeometryEntity)"},"out":{"base":"Any"},"spec":{"lhs":"LinearEntity(*args)","rhs":"correctly constructs a LinearEntity instance","over":{"base":"Any","pred":"isinstance(other, Point) and isinstance(self, Ray) and isinstance(other, GeometryEntity)"},"name":"LinearEntity_class_invariant"},"guarantee":"correctly constructs a LinearEntity instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"001ca3974e677f4d"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.line.LinearEntity","kind":"class","src_hash":"dd3315d8c114c637","in":{"base":"Any","pred":"isinstance(other, Point) and isinstance(self, Ray) and isinstance(other, GeometryEntity)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, GeometrySet)"},"spec":{"lhs":"LinearEntity(*args)","rhs":"correctly constructs a LinearEntity instance","over":{"base":"Any","pred":"isinstance(other, Point) and isinstance(self, Ray) and isinstance(other, GeometryEntity)"},"name":"LinearEntity_class_invariant"},"guarantee":"isinstance(self, GeometrySet)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"001ca3974e677f4d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, GeometrySet)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.9,"verdict_class":"assumed","binding":false,"binding_errors":["Function LinearEntity not found in source"]}}
 class LinearEntity(GeometrySet):
     """A base class for all linear entities (Line, Ray and Segment)
     in n-dimensional Euclidean space.
@@ -101,16 +107,24 @@ class LinearEntity(GeometrySet):
 
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, p1, p2), GeometryEntity.__new__(cls, p1, p2, **kwargs)) over {Any | not (p1 == p2) and not (len(p1) != len(p2))} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (p1 == p2)                                 ║
+# ║   requires: not (len(p1) != len(p2))                       ║
+# ║   returns:  GeometryEntity.__new__(cls, p1, p2, **kwa...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | not (p1 == p2) and not (len(p1) != l...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1cb05399ce3f539c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.line.LinearEntity.__new__","kind":"method","src_hash":"e6f885cc6c3f23f2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1cb05399ce3f539c"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.line.LinearEntity.__new__","kind":"method","src_hash":"e6f885cc6c3f23f2","in":{"base":"Any","pred":"not (p1 == p2) and not (len(p1) != len(p2))"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, p1, p2)","rhs":"GeometryEntity.__new__(cls, p1, p2, **kwargs)","over":{"base":"Any","pred":"not (p1 == p2) and not (len(p1) != len(p2))"},"name":"__new___correct"},"guarantee":"returns GeometryEntity.__new__(cls, p1, p2, **kwargs)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1cb05399ce3f539c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (p1 == p2)","not (len(p1) != len(p2))"],"returns_expr":"GeometryEntity.__new__(cls, p1, p2, **kwargs)","pure":false,"effects":{"effect_type":"reads_state","reads":["cls.__name__"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, p1, p2=None, **kwargs):
         p1, p2 = Point._normalize_dimension(p1, p2)
         if p1 == p2:
@@ -125,16 +139,23 @@ class LinearEntity(GeometrySet):
         return GeometryEntity.__new__(cls, p1, p2, **kwargs)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__contains__(oth), correctly tests membership) over Any ║
+# ║ Path(__contains__(other), <unspecified:__contains__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: result is not None => result              ║
+# ║   fiber[case_1]: not (result is not None)                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __contains__ : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b7e380451aed3cb2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.line.LinearEntity.__contains__","kind":"method","src_hash":"e58be3d3c4120048","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__contains__(oth)","rhs":"correctly tests membership","over":{"base":"Any"},"name":"__contains___correct"},"guarantee":"correctly tests membership","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b7e380451aed3cb2"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.line.LinearEntity.__contains__","kind":"method","src_hash":"e58be3d3c4120048","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__contains__(other)","rhs":"<unspecified:__contains__>","over":{"base":"Any"},"name":"__contains___correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b7e380451aed3cb2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"result is not None","ensures":["result == result"],"decidability":"library","returns_expr":"result"},{"name":"case_1","guard":"not (result is not None)","ensures":[],"decidability":"library"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.contains"],"raises":["Undecidable"]},"state_contract":{"exceptional_post":{"Undecidable":["isinstance(raised, Undecidable)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __contains__(self, other):
         """Return a definitive answer or else raise an error if it cannot
         be determined that other is on the boundaries of self."""
@@ -147,16 +168,22 @@ class LinearEntity(GeometrySet):
                 "Cannot decide whether '%s' contains '%s'" % (self, other))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_span_test(oth), test whether the point `other` lies in the positive span of `self`. a point x is 'in front' of a point y if x.dot(y) >= 0) over Any ║
+# ║ Path(_span_test(other), <unspecified:_span_test>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _span_test : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 89becf09d21a1851  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.line.LinearEntity._span_test","kind":"method","src_hash":"8761b4d15c25ca41","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_span_test(oth)","rhs":"test whether the point `other` lies in the positive span of `self`. a point x is 'in front' of a point y if x.dot(y) >= 0","over":{"base":"Any"},"name":"_span_test_correct"},"guarantee":"test whether the point `other` lies in the positive span of `self`. a point x is 'in front' of a point y if x.dot(y) >= 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.line.LinearEntity._span_test_correct","statement":"Path(_span_test(x), test whether the point `other` lies in the positive span of `self`. a point x is 'in front' of a point y if x.dot(y) >= 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"89becf09d21a1851"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.line.LinearEntity._span_test","kind":"method","src_hash":"8761b4d15c25ca41","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_span_test(other)","rhs":"<unspecified:_span_test>","over":{"base":"Any"},"name":"_span_test_correct"},"guarantee":"test whether the point `other` lies in the positive span of `self`. a point x is 'in front' of a point y if x.dot(y) >= 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.line.LinearEntity._span_test_correct","statement":"Path(_span_test(x), test whether the point `other` lies in the positive span of `self`. a point x is 'in front' of a point y if x.dot(y) >= 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"89becf09d21a1851","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.direction","self.p1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _span_test(self, other):
         """Test whether the point `other` lies in the positive span of `self`.
         A point x is 'in front' of a point y if x.dot(y) >= 0.  Return
@@ -173,16 +200,22 @@ class LinearEntity(GeometrySet):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ambient_dimension(), returns the ambient_dimension attribute) over Any ║
+# ║ Path(ambient_dimension(), len(self.p1)) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  len(self.p1)                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ ambient_dimension : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 430ed691d40aa5c7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.line.LinearEntity.ambient_dimension","kind":"property","src_hash":"1f3baf2e89dfe179","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ambient_dimension()","rhs":"returns the ambient_dimension attribute","over":{"base":"Any"},"name":"ambient_dimension_correct"},"guarantee":"returns the ambient_dimension attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"430ed691d40aa5c7"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.line.LinearEntity.ambient_dimension","kind":"property","src_hash":"1f3baf2e89dfe179","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ambient_dimension()","rhs":"len(self.p1)","over":{"base":"Any"},"name":"ambient_dimension_correct"},"guarantee":"returns len(self.p1)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"430ed691d40aa5c7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"len(self.p1)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.p1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def ambient_dimension(self):
         """A property method that returns the dimension of LinearEntity
         object.
@@ -216,16 +249,25 @@ class LinearEntity(GeometrySet):
         return len(self.p1)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(angle_between(l1,), id) over Any                      ║
+# ║ Path(angle_between(l1, l2), id) over {Any | not (not isinstance(l1, LinearEntity) and (not isinstance(l2, LinearEntity))) and hasattr(l1, 'direction') and hasattr(l2, 'direction')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ angle_between : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (not isinstance(l1, LinearEntity) and...   ║
+# ║   requires: hasattr(l1, 'direction')                       ║
+# ║   requires: hasattr(l2, 'direction')                       ║
+# ║   returns:  acos(v1.dot(v2) / (abs(v1) * abs(v2)))         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ angle_between : {Any | not (not isinstance(l1, Linear...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 91f4c276ad562244   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.line.LinearEntity.angle_between","kind":"method","src_hash":"27f96eb48f539596","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"angle_between(l1,)","rhs":"return the non-reflex angle formed by rays emanating from the origin with directions the same as the direction vectors of the linear entities","over":{"base":"Any"},"name":"angle_between_correct","kind":"composition"},"guarantee":"return the non-reflex angle formed by rays emanating from the origin with directions the same as the direction vectors of the linear entities","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"acos","by":"library_axiom"},{"fn":"dot","by":"library_axiom"},{"fn":"abs","by":"library_axiom"},{"fn":"abs","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"91f4c276ad562244"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.line.LinearEntity.angle_between","kind":"method","src_hash":"27f96eb48f539596","in":{"base":"Any","pred":"not (not isinstance(l1, LinearEntity) and (not isinstance(l2, LinearEntity))) and hasattr(l1, 'direction') and hasattr(l2, 'direction')"},"out":{"base":"Any"},"spec":{"lhs":"angle_between(l1, l2)","rhs":"acos(v1.dot(v2) / (abs(v1) * abs(v2)))","over":{"base":"Any","pred":"not (not isinstance(l1, LinearEntity) and (not isinstance(l2, LinearEntity))) and hasattr(l1, 'direction') and hasattr(l2, 'direction')"},"name":"angle_between_correct","kind":"composition"},"guarantee":"returns acos(v1.dot(v2) / (abs(v1) * abs(v2)))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"acos","by":"library_axiom"},{"fn":"dot","by":"library_axiom"},{"fn":"abs","by":"library_axiom"},{"fn":"abs","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"91f4c276ad562244","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (not isinstance(l1, LinearEntity) and (not isinstance(l2, LinearEntity)))","hasattr(l1, 'direction')","hasattr(l2, 'direction')"],"returns_expr":"acos(v1.dot(v2) / (abs(v1) * abs(v2)))","pure":false,"effects":{"effect_type":"reads_state","reads":["l1.direction","l2.direction"],"raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def angle_between(l1, l2):
         """Return the non-reflex angle formed by rays emanating from
         the origin with directions the same as the direction vectors
@@ -291,16 +333,25 @@ class LinearEntity(GeometrySet):
         return acos(v1.dot(v2)/(abs(v1)*abs(v2)))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(smallest_angle_between(l1,), id) over Any             ║
+# ║ Path(smallest_angle_between(l1, l2), id) over {Any | not (not isinstance(l1, LinearEntity) and (not isinstance(l2, LinearEntity))) and hasattr(l1, 'direction') and hasattr(l2, 'direction')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ smallest_angle_between : Any → Any                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (not isinstance(l1, LinearEntity) and...   ║
+# ║   requires: hasattr(l1, 'direction')                       ║
+# ║   requires: hasattr(l2, 'direction')                       ║
+# ║   returns:  acos(abs(v1.dot(v2)) / (abs(v1) * abs(v2)))    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ smallest_angle_between : {Any | not (not isinstance(l...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | b4bbafab1ffc3feb   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.line.LinearEntity.smallest_angle_between","kind":"method","src_hash":"9614eab350a5e92b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"smallest_angle_between(l1,)","rhs":"return the smallest angle formed at the intersection of the lines containing the linear entities","over":{"base":"Any"},"name":"smallest_angle_between_correct","kind":"composition"},"guarantee":"return the smallest angle formed at the intersection of the lines containing the linear entities","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"acos","by":"library_axiom"},{"fn":"abs","by":"library_axiom"},{"fn":"dot","by":"library_axiom"},{"fn":"abs","by":"library_axiom"},{"fn":"abs","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b4bbafab1ffc3feb"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.line.LinearEntity.smallest_angle_between","kind":"method","src_hash":"9614eab350a5e92b","in":{"base":"Any","pred":"not (not isinstance(l1, LinearEntity) and (not isinstance(l2, LinearEntity))) and hasattr(l1, 'direction') and hasattr(l2, 'direction')"},"out":{"base":"Any"},"spec":{"lhs":"smallest_angle_between(l1, l2)","rhs":"acos(abs(v1.dot(v2)) / (abs(v1) * abs(v2)))","over":{"base":"Any","pred":"not (not isinstance(l1, LinearEntity) and (not isinstance(l2, LinearEntity))) and hasattr(l1, 'direction') and hasattr(l2, 'direction')"},"name":"smallest_angle_between_correct","kind":"composition"},"guarantee":"returns acos(abs(v1.dot(v2)) / (abs(v1) * abs(v2)))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"acos","by":"library_axiom"},{"fn":"abs","by":"library_axiom"},{"fn":"dot","by":"library_axiom"},{"fn":"abs","by":"library_axiom"},{"fn":"abs","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b4bbafab1ffc3feb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (not isinstance(l1, LinearEntity) and (not isinstance(l2, LinearEntity)))","hasattr(l1, 'direction')","hasattr(l2, 'direction')"],"returns_expr":"acos(abs(v1.dot(v2)) / (abs(v1) * abs(v2)))","pure":false,"effects":{"effect_type":"reads_state","reads":["l1.direction","l2.direction"],"raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def smallest_angle_between(l1, l2):
         """Return the smallest angle formed at the intersection of the
         lines containing the linear entities.
@@ -337,16 +388,23 @@ class LinearEntity(GeometrySet):
         return acos(abs(v1.dot(v2))/(abs(v1)*abs(v2)))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(arbitrary_point(par), a parameterized point on the line) over Any ║
+# ║ Path(arbitrary_point(parameter), self.p1 + (self.p2 - self.p1) * t) over {Any | not (t.name in (f.name for f in self.free_symbols))} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ arbitrary_point : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (t.name in (f.name for f in self.free...   ║
+# ║   returns:  self.p1 + (self.p2 - self.p1) * t              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ arbitrary_point : {Any | not (t.name in (f.name for f...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e12d8085c94780d1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b2a867676047c97f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.line.LinearEntity.arbitrary_point","kind":"method","src_hash":"18f734a6f0387873","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"arbitrary_point(par)","rhs":"a parameterized point on the line","over":{"base":"Any"},"name":"arbitrary_point_correct"},"guarantee":"a parameterized point on the line","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.line.LinearEntity.arbitrary_point_correct","statement":"Path(arbitrary_point(x), a parameterized point on the line)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e12d8085c94780d1"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.line.LinearEntity.arbitrary_point","kind":"method","src_hash":"18f734a6f0387873","in":{"base":"Any","pred":"not (t.name in (f.name for f in self.free_symbols))"},"out":{"base":"Any"},"spec":{"lhs":"arbitrary_point(parameter)","rhs":"self.p1 + (self.p2 - self.p1) * t","over":{"base":"Any","pred":"not (t.name in (f.name for f in self.free_symbols))"},"name":"arbitrary_point_correct"},"guarantee":"returns self.p1 + (self.p2 - self.p1) * t","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.line.LinearEntity.arbitrary_point_correct","statement":"Path(arbitrary_point(x), returns self.p1 + (self.p2 - self.p1) * t)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b2a867676047c97f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (t.name in (f.name for f in self.free_symbols))"],"returns_expr":"self.p1 + (self.p2 - self.p1) * t","pure":false,"effects":{"effect_type":"reads_state","reads":["self.free_symbols","self.p1","self.p2"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def arbitrary_point(self, parameter='t'):
         """A parameterized point on the Line.
 
@@ -402,16 +460,22 @@ class LinearEntity(GeometrySet):
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(are_concurrent(*li), is a sequence of linear entities concurrent?) over Any ║
+# ║ Path(are_concurrent(*lines), <unspecified:are_concurrent>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ are_concurrent : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 65e1a8fab30837ca  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.line.LinearEntity.are_concurrent","kind":"staticmethod","src_hash":"944d96c8b3e6e799","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"are_concurrent(*li)","rhs":"is a sequence of linear entities concurrent?","over":{"base":"Any"},"name":"are_concurrent_correct"},"guarantee":"is a sequence of linear entities concurrent?","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.line.LinearEntity.are_concurrent_correct","statement":"Path(are_concurrent(x), is a sequence of linear entities concurrent?)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"65e1a8fab30837ca"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.line.LinearEntity.are_concurrent","kind":"staticmethod","src_hash":"944d96c8b3e6e799","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"are_concurrent(*lines)","rhs":"<unspecified:are_concurrent>","over":{"base":"Any"},"name":"are_concurrent_correct"},"guarantee":"is a sequence of linear entities concurrent?","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.line.LinearEntity.are_concurrent_correct","statement":"Path(are_concurrent(x), is a sequence of linear entities concurrent?)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"65e1a8fab30837ca","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def are_concurrent(*lines):
         """Is a sequence of linear entities concurrent?
 
@@ -464,16 +528,22 @@ class LinearEntity(GeometrySet):
         return False
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(contains(oth), subclasses should implement this method and should return true if other is on the boundaries of self; false if not on the boundaries of self; none if a determination cannot be made) over Any ║
+# ║ Path(contains(other), <unspecified:contains>) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ contains : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 57e4c127db0bc9e9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.line.LinearEntity.contains","kind":"method","src_hash":"8f11c80755b0a7cc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"contains(oth)","rhs":"subclasses should implement this method and should return true if other is on the boundaries of self; false if not on the boundaries of self; none if a determination cannot be made","over":{"base":"Any"},"name":"contains_correct"},"guarantee":"subclasses should implement this method and should return true if other is on the boundaries of self; false if not on the boundaries of self; none if a determination cannot be made","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"57e4c127db0bc9e9"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.line.LinearEntity.contains","kind":"method","src_hash":"8f11c80755b0a7cc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"contains(other)","rhs":"<unspecified:contains>","over":{"base":"Any"},"name":"contains_correct"},"guarantee":"subclasses should implement this method and should return true if other is on the boundaries of self; false if not on the boundaries of self; none if a determination cannot be made","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"57e4c127db0bc9e9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def contains(self, other):
         """Subclasses should implement this method and should return
             True if other is on the boundaries of self;
@@ -483,16 +553,22 @@ class LinearEntity(GeometrySet):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(direction(), returns the direction attribute) over Any ║
+# ║ Path(direction(), self.p2 - self.p1) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.p2 - self.p1                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ direction : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 343abeacae5d582f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.line.LinearEntity.direction","kind":"property","src_hash":"7539004fc8a7d930","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"direction()","rhs":"returns the direction attribute","over":{"base":"Any"},"name":"direction_correct"},"guarantee":"returns the direction attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"343abeacae5d582f"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.line.LinearEntity.direction","kind":"property","src_hash":"7539004fc8a7d930","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"direction()","rhs":"self.p2 - self.p1","over":{"base":"Any"},"name":"direction_correct"},"guarantee":"returns self.p2 - self.p1","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"343abeacae5d582f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.p2 - self.p1","pure":false,"effects":{"effect_type":"reads_state","reads":["self.p1","self.p2"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def direction(self):
         """The direction vector of the LinearEntity.
 
@@ -526,16 +602,25 @@ class LinearEntity(GeometrySet):
         return self.p2 - self.p1
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(intersection(oth), the intersection with another geometrical entity) over Any ║
+# ║ Path(intersection(other), <unspecified:intersection>) over {Any | hasattr(other, 'is_Point') and hasattr(other, 'intersection') and hasattr(other, 'p1') and hasattr(other, 'p2') and hasattr(other, 'contains') and hasattr(other, 'atoms') and hasattr(other, 'arbitrary_point')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ intersection : Any → Any                                   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, 'is_Point')                     ║
+# ║   requires: hasattr(other, 'intersection')                 ║
+# ║   requires: hasattr(other, 'p1')                           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ intersection : {Any | hasattr(other, 'is_Point') and ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e8d3dc6f21ce4489  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.line.LinearEntity.intersection","kind":"method","src_hash":"dd574d9b8d7a27e3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"intersection(oth)","rhs":"the intersection with another geometrical entity","over":{"base":"Any"},"name":"intersection_correct"},"guarantee":"the intersection with another geometrical entity","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.line.LinearEntity.intersection_correct","statement":"Path(intersection(x), the intersection with another geometrical entity)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e8d3dc6f21ce4489"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.line.LinearEntity.intersection","kind":"method","src_hash":"dd574d9b8d7a27e3","in":{"base":"Any","pred":"hasattr(other, 'is_Point') and hasattr(other, 'intersection') and hasattr(other, 'p1') and hasattr(other, 'p2') and hasattr(other, 'contains') and hasattr(other, 'atoms') and hasattr(other, 'arbitrary_point')"},"out":{"base":"Any"},"spec":{"lhs":"intersection(other)","rhs":"<unspecified:intersection>","over":{"base":"Any","pred":"hasattr(other, 'is_Point') and hasattr(other, 'intersection') and hasattr(other, 'p1') and hasattr(other, 'p2') and hasattr(other, 'contains') and hasattr(other, 'atoms') and hasattr(other, 'arbitrary_point')"},"name":"intersection_correct"},"guarantee":"the intersection with another geometrical entity","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.line.LinearEntity.intersection_correct","statement":"Path(intersection(x), the intersection with another geometrical entity)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e8d3dc6f21ce4489","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, 'is_Point')","hasattr(other, 'intersection')","hasattr(other, 'p1')","hasattr(other, 'p2')","hasattr(other, 'contains')","hasattr(other, 'atoms')","hasattr(other, 'arbitrary_point')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.arbitrary_point","other.atoms","other.contains","other.intersection","other.is_Point","other.p1","other.p2","self.ambient_dimension","self.arbitrary_point","self.atoms","self.contains","self.p1","self.p2"],"raises":["GeometryError","ValueError"]},"state_contract":{"exceptional_post":{"GeometryError":["isinstance(raised, GeometryError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def intersection(self, other):
         """The intersection with another geometrical entity.
 
@@ -718,16 +803,25 @@ class LinearEntity(GeometrySet):
         return other.intersection(self)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_parallel(l1,), are two linear entities parallel?) over Any ║
+# ║ Path(is_parallel(l1, l2), l1.direction.is_scalar_multiple(l2.direction)) over {Any | not (not isinstance(l1, LinearEntity) and (not isinstance(l2, LinearEntity))) and hasattr(l2, 'direction') and hasattr(l1, 'direction')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ is_parallel : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (not isinstance(l1, LinearEntity) and...   ║
+# ║   requires: hasattr(l2, 'direction')                       ║
+# ║   requires: hasattr(l1, 'direction')                       ║
+# ║   returns:  l1.direction.is_scalar_multiple(l2.direct...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ is_parallel : {Any | not (not isinstance(l1, LinearEn...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8b986a6cfe3bb550  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f0e867f4161afe0c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.line.LinearEntity.is_parallel","kind":"method","src_hash":"65ce9bb1f6f2e07d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_parallel(l1,)","rhs":"are two linear entities parallel?","over":{"base":"Any"},"name":"is_parallel_correct"},"guarantee":"are two linear entities parallel?","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.line.LinearEntity.is_parallel_correct","statement":"Path(is_parallel(x), are two linear entities parallel?)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8b986a6cfe3bb550"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.line.LinearEntity.is_parallel","kind":"method","src_hash":"65ce9bb1f6f2e07d","in":{"base":"Any","pred":"not (not isinstance(l1, LinearEntity) and (not isinstance(l2, LinearEntity))) and hasattr(l2, 'direction') and hasattr(l1, 'direction')"},"out":{"base":"Any"},"spec":{"lhs":"is_parallel(l1, l2)","rhs":"l1.direction.is_scalar_multiple(l2.direction)","over":{"base":"Any","pred":"not (not isinstance(l1, LinearEntity) and (not isinstance(l2, LinearEntity))) and hasattr(l2, 'direction') and hasattr(l1, 'direction')"},"name":"is_parallel_correct"},"guarantee":"returns l1.direction.is_scalar_multiple(l2.direction)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.line.LinearEntity.is_parallel_correct","statement":"Path(is_parallel(x), returns l1.direction.is_scalar_multiple(l2.direction))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f0e867f4161afe0c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (not isinstance(l1, LinearEntity) and (not isinstance(l2, LinearEntity)))","hasattr(l2, 'direction')","hasattr(l1, 'direction')"],"returns_expr":"l1.direction.is_scalar_multiple(l2.direction)","pure":false,"effects":{"effect_type":"reads_state","reads":["l1.direction","l2.direction"],"raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_parallel(l1, l2):
         """Are two linear entities parallel?
 
@@ -779,16 +873,25 @@ class LinearEntity(GeometrySet):
         return l1.direction.is_scalar_multiple(l2.direction)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_perpendicular(l1,), id) over Any                   ║
+# ║ Path(is_perpendicular(l1, l2), id) over {Any | not (not isinstance(l1, LinearEntity) and (not isinstance(l2, LinearEntity))) and hasattr(l2, 'direction') and hasattr(l1, 'direction')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ is_perpendicular : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (not isinstance(l1, LinearEntity) and...   ║
+# ║   requires: hasattr(l2, 'direction')                       ║
+# ║   requires: hasattr(l1, 'direction')                       ║
+# ║   returns:  S.Zero.equals(l1.direction.dot(l2.directi...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ is_perpendicular : {Any | not (not isinstance(l1, Lin...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 1008142ba267602d   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.line.LinearEntity.is_perpendicular","kind":"method","src_hash":"57a5da3c88a6b551","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_perpendicular(l1,)","rhs":"are two linear entities perpendicular?","over":{"base":"Any"},"name":"is_perpendicular_correct","kind":"composition"},"guarantee":"are two linear entities perpendicular?","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"equals","by":"library_axiom"},{"fn":"dot","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1008142ba267602d"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.line.LinearEntity.is_perpendicular","kind":"method","src_hash":"57a5da3c88a6b551","in":{"base":"Any","pred":"not (not isinstance(l1, LinearEntity) and (not isinstance(l2, LinearEntity))) and hasattr(l2, 'direction') and hasattr(l1, 'direction')"},"out":{"base":"Any"},"spec":{"lhs":"is_perpendicular(l1, l2)","rhs":"S.Zero.equals(l1.direction.dot(l2.direction))","over":{"base":"Any","pred":"not (not isinstance(l1, LinearEntity) and (not isinstance(l2, LinearEntity))) and hasattr(l2, 'direction') and hasattr(l1, 'direction')"},"name":"is_perpendicular_correct","kind":"composition"},"guarantee":"returns S.Zero.equals(l1.direction.dot(l2.direction))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"equals","by":"library_axiom"},{"fn":"dot","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1008142ba267602d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (not isinstance(l1, LinearEntity) and (not isinstance(l2, LinearEntity)))","hasattr(l2, 'direction')","hasattr(l1, 'direction')"],"returns_expr":"S.Zero.equals(l1.direction.dot(l2.direction))","pure":false,"effects":{"effect_type":"reads_state","reads":["l1.direction","l2.direction"],"raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_perpendicular(l1, l2):
         """Are two linear entities perpendicular?
 
@@ -838,16 +941,22 @@ class LinearEntity(GeometrySet):
         return S.Zero.equals(l1.direction.dot(l2.direction))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_similar(oth), return true if self and other are contained in the same line) over Any ║
+# ║ Path(is_similar(other), l.contains(other)) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  l.contains(other)                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_similar : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | da8a02938f8a33ff  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ebda912bb4843d5a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.line.LinearEntity.is_similar","kind":"method","src_hash":"0aa42418dcb90a23","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_similar(oth)","rhs":"return true if self and other are contained in the same line","over":{"base":"Any"},"name":"is_similar_correct"},"guarantee":"return true if self and other are contained in the same line","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.line.LinearEntity.is_similar_correct","statement":"Path(is_similar(x), return true if self and other are contained in the same line)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"da8a02938f8a33ff"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.line.LinearEntity.is_similar","kind":"method","src_hash":"0aa42418dcb90a23","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_similar(other)","rhs":"l.contains(other)","over":{"base":"Any"},"name":"is_similar_correct"},"guarantee":"returns l.contains(other)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.line.LinearEntity.is_similar_correct","statement":"Path(is_similar(x), returns l.contains(other))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ebda912bb4843d5a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"l.contains(other)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.p1","self.p2"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_similar(self, other):
         """
         Return True if self and other are contained in the same line.
@@ -867,16 +976,22 @@ class LinearEntity(GeometrySet):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(length(), returns the length attribute) over Any      ║
+# ║ Path(length(), S.Infinity) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  S.Infinity                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ length : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9ce1dc6d2986aa13           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.line.LinearEntity.length","kind":"property","src_hash":"3e10a8e09e6c8fde","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"length()","rhs":"returns the length attribute","over":{"base":"Any"},"name":"length_correct"},"guarantee":"returns the length attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9ce1dc6d2986aa13"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.line.LinearEntity.length","kind":"property","src_hash":"3e10a8e09e6c8fde","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"length()","rhs":"S.Infinity","over":{"base":"Any"},"name":"length_correct"},"guarantee":"returns S.Infinity","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9ce1dc6d2986aa13","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"S.Infinity","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def length(self):
         """
         The length of the line.
@@ -894,16 +1009,22 @@ class LinearEntity(GeometrySet):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(p1(), returns the p1 attribute) over Any              ║
+# ║ Path(p1(), self.args[0]) over Any                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ p1 : Any → Any                                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e906fb1cdc082b0a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.line.LinearEntity.p1","kind":"property","src_hash":"6d03d5905b24513e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"p1()","rhs":"returns the p1 attribute","over":{"base":"Any"},"name":"p1_correct"},"guarantee":"returns the p1 attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e906fb1cdc082b0a"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.line.LinearEntity.p1","kind":"property","src_hash":"6d03d5905b24513e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"p1()","rhs":"self.args[0]","over":{"base":"Any"},"name":"p1_correct"},"guarantee":"returns self.args[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e906fb1cdc082b0a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def p1(self):
         """The first defining point of a linear entity.
 
@@ -926,16 +1047,22 @@ class LinearEntity(GeometrySet):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(p2(), returns the p2 attribute) over Any              ║
+# ║ Path(p2(), self.args[1]) over Any                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[1]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ p2 : Any → Any                                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 40fa757ff7e4bfc6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.line.LinearEntity.p2","kind":"property","src_hash":"ae8082f21716fea8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"p2()","rhs":"returns the p2 attribute","over":{"base":"Any"},"name":"p2_correct"},"guarantee":"returns the p2 attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"40fa757ff7e4bfc6"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.line.LinearEntity.p2","kind":"property","src_hash":"ae8082f21716fea8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"p2()","rhs":"self.args[1]","over":{"base":"Any"},"name":"p2_correct"},"guarantee":"returns self.args[1]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"40fa757ff7e4bfc6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[1]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def p2(self):
         """The second defining point of a linear entity.
 
@@ -957,16 +1084,22 @@ class LinearEntity(GeometrySet):
         return self.args[1]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(parallel_line(p), create a new line parallel to this linear entity which passes through the point `p`) over Any ║
+# ║ Path(parallel_line(p), Line(p, p + self.direction)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Line(p, p + self.direction)                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ parallel_line : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8884c60ced047c4d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0e58ce533422084b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.line.LinearEntity.parallel_line","kind":"method","src_hash":"99c57e28f7ed6db2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"parallel_line(p)","rhs":"create a new line parallel to this linear entity which passes through the point `p`","over":{"base":"Any"},"name":"parallel_line_correct"},"guarantee":"create a new line parallel to this linear entity which passes through the point `p`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.line.LinearEntity.parallel_line_correct","statement":"Path(parallel_line(x), create a new line parallel to this linear entity which passes through the point `p`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8884c60ced047c4d"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.line.LinearEntity.parallel_line","kind":"method","src_hash":"99c57e28f7ed6db2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"parallel_line(p)","rhs":"Line(p, p + self.direction)","over":{"base":"Any"},"name":"parallel_line_correct"},"guarantee":"returns Line(p, p + self.direction)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.line.LinearEntity.parallel_line_correct","statement":"Path(parallel_line(x), returns Line(p, p + self.direction))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0e58ce533422084b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Line(p, p + self.direction)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.ambient_dimension","self.direction"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def parallel_line(self, p):
         """Create a new Line parallel to this linear entity which passes
         through the point `p`.
@@ -1013,14 +1146,20 @@ class LinearEntity(GeometrySet):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(perpendicular_line(p), id) over Any                   ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Line(p, self.projection(p))                    ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ perpendicular_line : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 2e77d20709841b34   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.line.LinearEntity.perpendicular_line","kind":"method","src_hash":"4d1334ceac407759","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"perpendicular_line(p)","rhs":"create a new line perpendicular to this linear entity which passes through the point `p`","over":{"base":"Any"},"name":"perpendicular_line_correct","kind":"composition"},"guarantee":"create a new line perpendicular to this linear entity which passes through the point `p`","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Line","by":"library_axiom"},{"fn":"projection","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2e77d20709841b34"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.line.LinearEntity.perpendicular_line","kind":"method","src_hash":"4d1334ceac407759","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"perpendicular_line(p)","rhs":"Line(p, self.projection(p))","over":{"base":"Any"},"name":"perpendicular_line_correct","kind":"composition"},"guarantee":"returns Line(p, self.projection(p))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Line","by":"library_axiom"},{"fn":"projection","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2e77d20709841b34","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Line(p, self.projection(p))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.ambient_dimension","self.direction","self.projection"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def perpendicular_line(self, p):
         """Create a new Line perpendicular to this linear entity which passes
         through the point `p`.
@@ -1064,16 +1203,22 @@ class LinearEntity(GeometrySet):
         return Line(p, self.projection(p))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(perpendicular_segment(p), create a perpendicular line segment from `p` to this line) over Any ║
+# ║ Path(perpendicular_segment(p), <unspecified:perpendicular_segment>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ perpendicular_segment : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f35aec8c1739669d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.line.LinearEntity.perpendicular_segment","kind":"method","src_hash":"9fd2398ded7eda4c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"perpendicular_segment(p)","rhs":"create a perpendicular line segment from `p` to this line","over":{"base":"Any"},"name":"perpendicular_segment_correct"},"guarantee":"create a perpendicular line segment from `p` to this line","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.line.LinearEntity.perpendicular_segment_correct","statement":"Path(perpendicular_segment(x), create a perpendicular line segment from `p` to this line)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f35aec8c1739669d"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.line.LinearEntity.perpendicular_segment","kind":"method","src_hash":"9fd2398ded7eda4c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"perpendicular_segment(p)","rhs":"<unspecified:perpendicular_segment>","over":{"base":"Any"},"name":"perpendicular_segment_correct"},"guarantee":"create a perpendicular line segment from `p` to this line","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.line.LinearEntity.perpendicular_segment_correct","statement":"Path(perpendicular_segment(x), create a perpendicular line segment from `p` to this line)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f35aec8c1739669d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.ambient_dimension","self.p1","self.p2","self.perpendicular_line"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def perpendicular_segment(self, p):
         """Create a perpendicular line segment from `p` to this line.
 
@@ -1137,16 +1282,22 @@ class LinearEntity(GeometrySet):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(points(), returns the points attribute) over Any      ║
+# ║ Path(points(), (self.p1, self.p2)) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (self.p1, self.p2)                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ points : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5bd45841555148f8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.line.LinearEntity.points","kind":"property","src_hash":"6008dc767b81225d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"points()","rhs":"returns the points attribute","over":{"base":"Any"},"name":"points_correct"},"guarantee":"returns the points attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5bd45841555148f8"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.line.LinearEntity.points","kind":"property","src_hash":"6008dc767b81225d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"points()","rhs":"(self.p1, self.p2)","over":{"base":"Any"},"name":"points_correct"},"guarantee":"returns (self.p1, self.p2)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5bd45841555148f8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(self.p1, self.p2)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.p1","self.p2"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def points(self):
         """The two points used to define this linear entity.
 
@@ -1173,16 +1324,24 @@ class LinearEntity(GeometrySet):
         return (self.p1, self.p2)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(projection(oth), project a point, line, ray, or segment onto this linear entity) over Any ║
+# ║ Path(projection(other), <unspecified:projection>) over {Any | hasattr(other, 'p1') and hasattr(other, 'p2')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ projection : Any → Any                                     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, 'p1')                           ║
+# ║   requires: hasattr(other, 'p2')                           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ projection : {Any | hasattr(other, 'p1') and hasattr(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 385c7d9ec56ff804  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.line.LinearEntity.projection","kind":"method","src_hash":"097caa7671fb08a1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"projection(oth)","rhs":"project a point, line, ray, or segment onto this linear entity","over":{"base":"Any"},"name":"projection_correct"},"guarantee":"project a point, line, ray, or segment onto this linear entity","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.line.LinearEntity.projection_correct","statement":"Path(projection(x), project a point, line, ray, or segment onto this linear entity)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"385c7d9ec56ff804"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.line.LinearEntity.projection","kind":"method","src_hash":"097caa7671fb08a1","in":{"base":"Any","pred":"hasattr(other, 'p1') and hasattr(other, 'p2')"},"out":{"base":"Any"},"spec":{"lhs":"projection(other)","rhs":"<unspecified:projection>","over":{"base":"Any","pred":"hasattr(other, 'p1') and hasattr(other, 'p2')"},"name":"projection_correct"},"guarantee":"project a point, line, ray, or segment onto this linear entity","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.line.LinearEntity.projection_correct","statement":"Path(projection(x), project a point, line, ray, or segment onto this linear entity)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"385c7d9ec56ff804","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, 'p1')","hasattr(other, 'p2')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","other.__class__","other.p1","other.p2","self.ambient_dimension","self.direction","self.p1"],"raises":["GeometryError"]},"state_contract":{"exceptional_post":{"GeometryError":["isinstance(raised, GeometryError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def projection(self, other):
         """Project a point, line, ray, or segment onto this linear entity.
 
@@ -1273,16 +1432,22 @@ class LinearEntity(GeometrySet):
             "Do not know how to project %s onto %s" % (other, self))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(random_point(see), id) over Any                       ║
+# ║ Path(random_point(seed), id) over Any                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  pt.subs(t, Rational(v))                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ random_point : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 25a4a59fde8b851f   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.line.LinearEntity.random_point","kind":"method","src_hash":"6f4d304534d7bbbb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"random_point(see)","rhs":"a random point on a linearentity","over":{"base":"Any"},"name":"random_point_correct","kind":"composition"},"guarantee":"a random point on a linearentity","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"subs","by":"library_axiom"},{"fn":"Rational","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"25a4a59fde8b851f"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.line.LinearEntity.random_point","kind":"method","src_hash":"6f4d304534d7bbbb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"random_point(seed)","rhs":"pt.subs(t, Rational(v))","over":{"base":"Any"},"name":"random_point_correct","kind":"composition"},"guarantee":"returns pt.subs(t, Rational(v))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"subs","by":"library_axiom"},{"fn":"Rational","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"25a4a59fde8b851f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"pt.subs(t, Rational(v))","pure":false,"effects":{"effect_type":"nondeterministic","reads":["self.arbitrary_point"],"raises":["NotImplementedError"],"nondeterministic_sources":["rng.gauss","rng.random"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def random_point(self, seed=None):
         """A random point on a LinearEntity.
 
@@ -1329,16 +1494,24 @@ class LinearEntity(GeometrySet):
         return pt.subs(t, Rational(v))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(bisectors(oth), returns the perpendicular lines which pass through the intersections of self and other that are in the same plane) over Any ║
+# ║ Path(bisectors(other), <unspecified:bisectors>) over {Any | isinstance(other, LinearEntity) and point} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ bisectors : Any → Any                                      ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(other, LinearEntity)                ║
+# ║   requires: point                                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ bisectors : {Any | isinstance(other, LinearEntity) an...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 58dd025601b55dbb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.line.LinearEntity.bisectors","kind":"method","src_hash":"01a3a02bda93836c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bisectors(oth)","rhs":"returns the perpendicular lines which pass through the intersections of self and other that are in the same plane","over":{"base":"Any"},"name":"bisectors_correct"},"guarantee":"returns the perpendicular lines which pass through the intersections of self and other that are in the same plane","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.line.LinearEntity.bisectors_correct","statement":"Path(bisectors(x), returns the perpendicular lines which pass through the intersections of self and other that are in the same plane)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"58dd025601b55dbb"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.line.LinearEntity.bisectors","kind":"method","src_hash":"01a3a02bda93836c","in":{"base":"Any","pred":"isinstance(other, LinearEntity) and point"},"out":{"base":"Any"},"spec":{"lhs":"bisectors(other)","rhs":"<unspecified:bisectors>","over":{"base":"Any","pred":"isinstance(other, LinearEntity) and point"},"name":"bisectors_correct"},"guarantee":"returns the perpendicular lines which pass through the intersections of self and other that are in the same plane","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.line.LinearEntity.bisectors_correct","statement":"Path(bisectors(x), returns the perpendicular lines which pass through the intersections of self and other that are in the same plane)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"58dd025601b55dbb","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(other, LinearEntity)","point"],"pure":false,"effects":{"effect_type":"reads_state","raises":["GeometryError"]},"state_contract":{"exceptional_post":{"GeometryError":["isinstance(raised, GeometryError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def bisectors(self, other):
         """Returns the perpendicular lines which pass through the intersections
         of self and other that are in the same plane.
@@ -1401,14 +1574,20 @@ class LinearEntity(GeometrySet):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Line(*args), correctly constructs a Line instance) over {Any | isinstance(other, Point) and isinstance(other, LinearEntity) and isinstance(args[0], (Expr, Eq))} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, LinearEntity)                 ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ Line : {Any | isinstance(other, Point) and isinstance...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1dabc610ba23d836  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.line.Line","kind":"class","src_hash":"cd9d0fe884a95f4c","in":{"base":"Any","pred":"isinstance(other, Point) and isinstance(other, LinearEntity) and isinstance(args[0], (Expr, Eq))"},"out":{"base":"Any"},"spec":{"lhs":"Line(*args)","rhs":"correctly constructs a Line instance","over":{"base":"Any","pred":"isinstance(other, Point) and isinstance(other, LinearEntity) and isinstance(args[0], (Expr, Eq))"},"name":"Line_class_invariant"},"guarantee":"correctly constructs a Line instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1dabc610ba23d836"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.line.Line","kind":"class","src_hash":"cd9d0fe884a95f4c","in":{"base":"Any","pred":"isinstance(other, Point) and isinstance(other, LinearEntity) and isinstance(args[0], (Expr, Eq))"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, LinearEntity)"},"spec":{"lhs":"Line(*args)","rhs":"correctly constructs a Line instance","over":{"base":"Any","pred":"isinstance(other, Point) and isinstance(other, LinearEntity) and isinstance(args[0], (Expr, Eq))"},"name":"Line_class_invariant"},"guarantee":"isinstance(self, LinearEntity)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1dabc610ba23d836","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, LinearEntity)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":false,"binding_errors":["Function Line not found in source"]}}
 class Line(LinearEntity):
     """An infinite line in space.
 
@@ -1482,16 +1661,25 @@ class Line(LinearEntity):
     Line2D(Point2D(0, -18), Point2D(1, -21))
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, *args, **kwargs), len(kwargs) == old_len_kwargs - 1) over {Any | len(kwargs) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: len(kwargs) > 0                                ║
+# ║   ensures:  len(kwargs) == old_len_kwargs - 1              ║
+# ║   fiber[case_0]: len(args) == 1 and isinstance(args[0...   ║
+# ║   fiber[positive]: len(args) > 0 => LinearEntity.__ne...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | len(kwargs) > 0} → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5c668b1a6e2b205d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.line.Line.__new__","kind":"method","src_hash":"d76befa56142b3bf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5c668b1a6e2b205d"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.line.Line.__new__","kind":"method","src_hash":"d76befa56142b3bf","in":{"base":"Any","pred":"len(kwargs) > 0"},"out":{"base":"Any","pred":"result satisfies: len(kwargs) == old_len_kwargs - 1"},"spec":{"lhs":"__new__(cls, *args, **kwargs)","rhs":"len(kwargs) == old_len_kwargs - 1","over":{"base":"Any","pred":"len(kwargs) > 0"},"name":"__new___correct"},"guarantee":"len(kwargs) == old_len_kwargs - 1; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5c668b1a6e2b205d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["len(kwargs) > 0"],"ensures":["len(kwargs) == old_len_kwargs - 1"],"fibers":[{"name":"case_0","guard":"len(args) == 1 and isinstance(args[0], (Expr, Eq))","ensures":[],"decidability":"structural"},{"name":"positive","guard":"len(args) > 0","ensures":["result == LinearEntity.__new__(cls, p1, p2, **kwargs)"],"decidability":"z3","returns_expr":"LinearEntity.__new__(cls, p1, p2, **kwargs)"}],"pure":false,"effects":{"effect_type":"reads_state","calls_mutating":["kwargs.pop"],"raises":["ValueError"],"catches":["ValueError"]},"state_contract":{"modifies":["kwargs.*"],"old_bindings":{"old_len_kwargs":"len(kwargs)"},"pre_requires":["len(kwargs) > 0"],"post_ensures":["len(kwargs) == old_len_kwargs - 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, *args, **kwargs):
         if len(args) == 1 and isinstance(args[0], (Expr, Eq)):
             missing = uniquely_named_symbol('?', args)
@@ -1550,16 +1738,24 @@ class Line(LinearEntity):
                 return LinearEntity.__new__(cls, p1, p2, **kwargs)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(contains(oth), return true if `other` is on this line, or false otherwise) over Any ║
+# ║ Path(contains(other), <unspecified:contains>) over {Any | hasattr(other, 'p1') and hasattr(other, 'p2')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ contains : Any → Any                                       ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, 'p1')                           ║
+# ║   requires: hasattr(other, 'p2')                           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ contains : {Any | hasattr(other, 'p1') and hasattr(ot...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f95a957e6b311f9b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.line.Line.contains","kind":"method","src_hash":"0679b8f126d86374","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"contains(oth)","rhs":"return true if `other` is on this line, or false otherwise","over":{"base":"Any"},"name":"contains_correct"},"guarantee":"return true if `other` is on this line, or false otherwise","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.line.Line.contains_correct","statement":"Path(contains(x), return true if `other` is on this line, or false otherwise)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f95a957e6b311f9b"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.line.Line.contains","kind":"method","src_hash":"0679b8f126d86374","in":{"base":"Any","pred":"hasattr(other, 'p1') and hasattr(other, 'p2')"},"out":{"base":"Any"},"spec":{"lhs":"contains(other)","rhs":"<unspecified:contains>","over":{"base":"Any","pred":"hasattr(other, 'p1') and hasattr(other, 'p2')"},"name":"contains_correct"},"guarantee":"return true if `other` is on this line, or false otherwise","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.line.Line.contains_correct","statement":"Path(contains(x), return true if `other` is on this line, or false otherwise)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f95a957e6b311f9b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, 'p1')","hasattr(other, 'p2')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.p1","other.p2","self.ambient_dimension","self.p1","self.p2"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def contains(self, other):
         """
         Return True if `other` is on this Line, or False otherwise.
@@ -1596,16 +1792,22 @@ class Line(LinearEntity):
         return False
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(distance(oth), finds the shortest distance between a line and a point) over Any ║
+# ║ Path(distance(other), <unspecified:distance>) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ distance : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8118361ca48d665b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.line.Line.distance","kind":"method","src_hash":"d4ebb55042b6b4e8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"distance(oth)","rhs":"finds the shortest distance between a line and a point","over":{"base":"Any"},"name":"distance_correct"},"guarantee":"finds the shortest distance between a line and a point","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.line.Line.distance_correct","statement":"Path(distance(x), finds the shortest distance between a line and a point)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8118361ca48d665b"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.line.Line.distance","kind":"method","src_hash":"d4ebb55042b6b4e8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"distance(other)","rhs":"<unspecified:distance>","over":{"base":"Any"},"name":"distance_correct"},"guarantee":"finds the shortest distance between a line and a point","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.line.Line.distance_correct","statement":"Path(distance(x), finds the shortest distance between a line and a point)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8118361ca48d665b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.ambient_dimension","self.contains","self.perpendicular_segment"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def distance(self, other):
         """
         Finds the shortest distance between a line and a point.
@@ -1640,16 +1842,24 @@ class Line(LinearEntity):
         return self.perpendicular_segment(other).length
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(equals(oth), returns true if self and other are the same mathematical entities) over Any ║
+# ║ Path(equals(other), <unspecified:equals>) over {Any | hasattr(other, 'p1') and hasattr(other, 'p2')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ equals : Any → Any                                         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, 'p1')                           ║
+# ║   requires: hasattr(other, 'p2')                           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ equals : {Any | hasattr(other, 'p1') and hasattr(othe...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 50083026ed525dfb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.line.Line.equals","kind":"method","src_hash":"ee5b0eec23e2f2ad","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"equals(oth)","rhs":"returns true if self and other are the same mathematical entities","over":{"base":"Any"},"name":"equals_correct"},"guarantee":"returns true if self and other are the same mathematical entities","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.line.Line.equals_correct","statement":"Path(equals(x), returns true if self and other are the same mathematical entities)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"50083026ed525dfb"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.line.Line.equals","kind":"method","src_hash":"ee5b0eec23e2f2ad","in":{"base":"Any","pred":"hasattr(other, 'p1') and hasattr(other, 'p2')"},"out":{"base":"Any"},"spec":{"lhs":"equals(other)","rhs":"<unspecified:equals>","over":{"base":"Any","pred":"hasattr(other, 'p1') and hasattr(other, 'p2')"},"name":"equals_correct"},"guarantee":"returns true if self and other are the same mathematical entities","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.line.Line.equals_correct","statement":"Path(equals(x), returns true if self and other are the same mathematical entities)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"50083026ed525dfb","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, 'p1')","hasattr(other, 'p2')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.p1","other.p2","self.p1","self.p2"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def equals(self, other):
         """Returns True if self and other are the same mathematical entities"""
         if not isinstance(other, Line):
@@ -1657,16 +1867,22 @@ class Line(LinearEntity):
         return Point.is_collinear(self.p1, other.p1, self.p2, other.p2)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(plot_interval(par), the plot interval for the default geometric plot of line) over Any ║
+# ║ Path(plot_interval(parameter), [t, -5, 5]) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [t, -5, 5]                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ plot_interval : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 58f162705c1b8c59  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c49075f9831d1a1a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.line.Line.plot_interval","kind":"method","src_hash":"dab199210c818c3a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"plot_interval(par)","rhs":"the plot interval for the default geometric plot of line","over":{"base":"Any"},"name":"plot_interval_correct"},"guarantee":"the plot interval for the default geometric plot of line","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.line.Line.plot_interval_correct","statement":"Path(plot_interval(x), the plot interval for the default geometric plot of line)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"58f162705c1b8c59"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.line.Line.plot_interval","kind":"method","src_hash":"dab199210c818c3a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"plot_interval(parameter)","rhs":"[t, -5, 5]","over":{"base":"Any"},"name":"plot_interval_correct"},"guarantee":"returns [t, -5, 5]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.line.Line.plot_interval_correct","statement":"Path(plot_interval(x), returns [t, -5, 5])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c49075f9831d1a1a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[t, -5, 5]","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def plot_interval(self, parameter='t'):
         """The plot interval for the default geometric plot of line. Gives
         values that will produce a line that is +/- 5 units long (where a
@@ -1701,14 +1917,20 @@ class Line(LinearEntity):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Ray(*args), correctly constructs a Ray instance) over {Any | isinstance(other, Point) and isinstance(other, GeometryEntity) and isinstance(other, Ray)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, LinearEntity)                 ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ Ray : {Any | isinstance(other, Point) and isinstance(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ecb5757d694451ae  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.line.Ray","kind":"class","src_hash":"d8232930e7d56ccb","in":{"base":"Any","pred":"isinstance(other, Point) and isinstance(other, GeometryEntity) and isinstance(other, Ray)"},"out":{"base":"Any"},"spec":{"lhs":"Ray(*args)","rhs":"correctly constructs a Ray instance","over":{"base":"Any","pred":"isinstance(other, Point) and isinstance(other, GeometryEntity) and isinstance(other, Ray)"},"name":"Ray_class_invariant"},"guarantee":"correctly constructs a Ray instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ecb5757d694451ae"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.line.Ray","kind":"class","src_hash":"d8232930e7d56ccb","in":{"base":"Any","pred":"isinstance(other, Point) and isinstance(other, GeometryEntity) and isinstance(other, Ray)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, LinearEntity)"},"spec":{"lhs":"Ray(*args)","rhs":"correctly constructs a Ray instance","over":{"base":"Any","pred":"isinstance(other, Point) and isinstance(other, GeometryEntity) and isinstance(other, Ray)"},"name":"Ray_class_invariant"},"guarantee":"isinstance(self, LinearEntity)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ecb5757d694451ae","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, LinearEntity)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":false,"binding_errors":["Function Ray not found in source"]}}
 class Ray(LinearEntity):
     """A Ray is a semi-line in the space with a source point and a direction.
 
@@ -1763,16 +1985,22 @@ class Ray(LinearEntity):
 
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, p1, p2), <unspecified:__new__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 76c6065185f10b88           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.line.Ray.__new__","kind":"method","src_hash":"b5befdd51128ae33","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"76c6065185f10b88"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.line.Ray.__new__","kind":"method","src_hash":"b5befdd51128ae33","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, p1, p2)","rhs":"<unspecified:__new__>","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"76c6065185f10b88","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, p1, p2=None, **kwargs):
         p1 = Point(p1)
         if p2 is not None:
@@ -1786,16 +2014,22 @@ class Ray(LinearEntity):
         return LinearEntity.__new__(cls, p1, p2, **kwargs)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_svg(sca), returns svg path element for the linearentity) over Any ║
+# ║ Path(_svg(scale_factor, fill_color), <unspecified:_svg>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _svg : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2f7bc3785f488362  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.line.Ray._svg","kind":"method","src_hash":"7c5bc4dc52ffa349","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_svg(sca)","rhs":"returns svg path element for the linearentity","over":{"base":"Any"},"name":"_svg_correct"},"guarantee":"returns svg path element for the linearentity","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.line.Ray._svg_correct","statement":"Path(_svg(x), returns svg path element for the linearentity)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2f7bc3785f488362"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.line.Ray._svg","kind":"method","src_hash":"7c5bc4dc52ffa349","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_svg(scale_factor, fill_color)","rhs":"<unspecified:_svg>","over":{"base":"Any"},"name":"_svg_correct"},"guarantee":"returns svg path element for the linearentity","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.line.Ray._svg_correct","statement":"Path(_svg(x), returns svg path element for the linearentity)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2f7bc3785f488362","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.p1","self.p2"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _svg(self, scale_factor=1., fill_color="#66cc99"):
         """Returns SVG path element for the LinearEntity.
 
@@ -1818,16 +2052,24 @@ class Ray(LinearEntity):
         ).format(2.*scale_factor, path, fill_color)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(contains(oth), id) over Any                           ║
+# ║ Path(contains(other), id) over {Any | hasattr(other, 'p1') and hasattr(other, 'p2')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ contains : Any → Any                                       ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, 'p1')                           ║
+# ║   requires: hasattr(other, 'p2')                           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ contains : {Any | hasattr(other, 'p1') and hasattr(ot...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | f42ca79793cc053f   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.line.Ray.contains","kind":"method","src_hash":"93a387c1acb1cc3f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"contains(oth)","rhs":"is other geometryentity contained in this ray?","over":{"base":"Any"},"name":"contains_correct","kind":"composition"},"guarantee":"is other geometryentity contained in this ray?","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"bool","by":"library_axiom"},{"fn":"dot","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f42ca79793cc053f"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.line.Ray.contains","kind":"method","src_hash":"93a387c1acb1cc3f","in":{"base":"Any","pred":"hasattr(other, 'p1') and hasattr(other, 'p2')"},"out":{"base":"Any"},"spec":{"lhs":"contains(other)","rhs":"<unspecified:contains>","over":{"base":"Any","pred":"hasattr(other, 'p1') and hasattr(other, 'p2')"},"name":"contains_correct","kind":"composition"},"guarantee":"is other geometryentity contained in this ray?","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"bool","by":"library_axiom"},{"fn":"dot","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f42ca79793cc053f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, 'p1')","hasattr(other, 'p2')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.p1","other.p2","self.ambient_dimension","self.p1","self.p2"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def contains(self, other):
         """
         Is other GeometryEntity contained in this Ray?
@@ -1877,16 +2119,22 @@ class Ray(LinearEntity):
         return False
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(distance(oth), finds the shortest distance between the ray and a point) over Any ║
+# ║ Path(distance(other), <unspecified:distance>) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ distance : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cf29b49f89e55331  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.line.Ray.distance","kind":"method","src_hash":"9e3dea5ceab16cfe","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"distance(oth)","rhs":"finds the shortest distance between the ray and a point","over":{"base":"Any"},"name":"distance_correct"},"guarantee":"finds the shortest distance between the ray and a point","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.line.Ray.distance_correct","statement":"Path(distance(x), finds the shortest distance between the ray and a point)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cf29b49f89e55331"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.line.Ray.distance","kind":"method","src_hash":"9e3dea5ceab16cfe","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"distance(other)","rhs":"<unspecified:distance>","over":{"base":"Any"},"name":"distance_correct"},"guarantee":"finds the shortest distance between the ray and a point","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.line.Ray.distance_correct","statement":"Path(distance(x), finds the shortest distance between the ray and a point)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cf29b49f89e55331","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.ambient_dimension","self.contains","self.p1","self.p2","self.source"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def distance(self, other):
         """
         Finds the shortest distance between the ray and a point.
@@ -1928,16 +2176,24 @@ class Ray(LinearEntity):
             return abs(other - self.source)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(equals(oth), returns true if self and other are the same mathematical entities) over Any ║
+# ║ Path(equals(other), <unspecified:equals>) over {Any | hasattr(other, 'source') and hasattr(other, 'p2')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ equals : Any → Any                                         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, 'source')                       ║
+# ║   requires: hasattr(other, 'p2')                           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ equals : {Any | hasattr(other, 'source') and hasattr(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3f9f7357b5548902  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.line.Ray.equals","kind":"method","src_hash":"ce5e396e89efa00c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"equals(oth)","rhs":"returns true if self and other are the same mathematical entities","over":{"base":"Any"},"name":"equals_correct"},"guarantee":"returns true if self and other are the same mathematical entities","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.line.Ray.equals_correct","statement":"Path(equals(x), returns true if self and other are the same mathematical entities)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3f9f7357b5548902"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.line.Ray.equals","kind":"method","src_hash":"ce5e396e89efa00c","in":{"base":"Any","pred":"hasattr(other, 'source') and hasattr(other, 'p2')"},"out":{"base":"Any"},"spec":{"lhs":"equals(other)","rhs":"<unspecified:equals>","over":{"base":"Any","pred":"hasattr(other, 'source') and hasattr(other, 'p2')"},"name":"equals_correct"},"guarantee":"returns true if self and other are the same mathematical entities","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.line.Ray.equals_correct","statement":"Path(equals(x), returns true if self and other are the same mathematical entities)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3f9f7357b5548902","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, 'source')","hasattr(other, 'p2')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.p2","other.source","self.source"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def equals(self, other):
         """Returns True if self and other are the same mathematical entities"""
         if not isinstance(other, Ray):
@@ -1945,16 +2201,22 @@ class Ray(LinearEntity):
         return self.source == other.source and other.p2 in self
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(plot_interval(par), the plot interval for the default geometric plot of the ray) over Any ║
+# ║ Path(plot_interval(parameter), [t, 0, 10]) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [t, 0, 10]                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ plot_interval : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6592d82b1a675705  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4b564c621701c967  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.line.Ray.plot_interval","kind":"method","src_hash":"7fa84b2974e4f9a6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"plot_interval(par)","rhs":"the plot interval for the default geometric plot of the ray","over":{"base":"Any"},"name":"plot_interval_correct"},"guarantee":"the plot interval for the default geometric plot of the ray","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.line.Ray.plot_interval_correct","statement":"Path(plot_interval(x), the plot interval for the default geometric plot of the ray)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6592d82b1a675705"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.line.Ray.plot_interval","kind":"method","src_hash":"7fa84b2974e4f9a6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"plot_interval(parameter)","rhs":"[t, 0, 10]","over":{"base":"Any"},"name":"plot_interval_correct"},"guarantee":"returns [t, 0, 10]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.line.Ray.plot_interval_correct","statement":"Path(plot_interval(x), returns [t, 0, 10])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4b564c621701c967","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[t, 0, 10]","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def plot_interval(self, parameter='t'):
         """The plot interval for the default geometric plot of the Ray. Gives
         values that will produce a ray that is 10 units long (where a unit is
@@ -1986,16 +2248,22 @@ class Ray(LinearEntity):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(source(), returns the source attribute) over Any      ║
+# ║ Path(source(), self.p1) over Any                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.p1                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ source : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7eeb1f56a9b78ac1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.line.Ray.source","kind":"property","src_hash":"46459ab604421838","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"source()","rhs":"returns the source attribute","over":{"base":"Any"},"name":"source_correct"},"guarantee":"returns the source attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7eeb1f56a9b78ac1"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.line.Ray.source","kind":"property","src_hash":"46459ab604421838","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"source()","rhs":"self.p1","over":{"base":"Any"},"name":"source_correct"},"guarantee":"returns self.p1","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7eeb1f56a9b78ac1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.p1","pure":false,"effects":{"effect_type":"reads_state","reads":["self.p1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def source(self):
         """The point from which the ray emanates.
 
@@ -2024,14 +2292,20 @@ class Ray(LinearEntity):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Segment(*args), correctly constructs a Segment instance) over {Any | isinstance(other, Point) and isinstance(other, Segment) and isinstance(other, GeometryEntity)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, LinearEntity)                 ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ Segment : {Any | isinstance(other, Point) and isinsta...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.9ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b745ac7a45a0420e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.line.Segment","kind":"class","src_hash":"81503a3801e6ce7e","in":{"base":"Any","pred":"isinstance(other, Point) and isinstance(other, Segment) and isinstance(other, GeometryEntity)"},"out":{"base":"Any"},"spec":{"lhs":"Segment(*args)","rhs":"correctly constructs a Segment instance","over":{"base":"Any","pred":"isinstance(other, Point) and isinstance(other, Segment) and isinstance(other, GeometryEntity)"},"name":"Segment_class_invariant"},"guarantee":"correctly constructs a Segment instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b745ac7a45a0420e"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.line.Segment","kind":"class","src_hash":"81503a3801e6ce7e","in":{"base":"Any","pred":"isinstance(other, Point) and isinstance(other, Segment) and isinstance(other, GeometryEntity)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, LinearEntity)"},"spec":{"lhs":"Segment(*args)","rhs":"correctly constructs a Segment instance","over":{"base":"Any","pred":"isinstance(other, Point) and isinstance(other, Segment) and isinstance(other, GeometryEntity)"},"name":"Segment_class_invariant"},"guarantee":"isinstance(self, LinearEntity)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b745ac7a45a0420e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, LinearEntity)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.9,"verdict_class":"assumed","binding":false,"binding_errors":["Function Segment not found in source"]}}
 class Segment(LinearEntity):
     """A line segment in space.
 
@@ -2089,16 +2363,25 @@ class Segment(LinearEntity):
 
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, p1, p2), result == (Segment2D(p1, p2, **kwargs) if dim == 2 else Segment3D(p1, p2, **kwargs)) and result == Segment2D(p1, p2, **kwargs) or result == Segment3D(p1, p2, **kwargs)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (Segment2D(p1, p2, **kwargs) if...   ║
+# ║   ensures:  result == Segment2D(p1, p2, **kwargs) or ...   ║
+# ║   fiber[case_0]: dim == 2 => Segment2D(p1, p2, **kwargs)   ║
+# ║   fiber[case_1]: dim == 3 => Segment3D(p1, p2, **kwargs)   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : Any → {Any | result satisfies: result == (S...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 31d6601d44539733           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.line.Segment.__new__","kind":"method","src_hash":"0485ecb35650c7e6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"31d6601d44539733"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.line.Segment.__new__","kind":"method","src_hash":"0485ecb35650c7e6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (Segment2D(p1, p2, **kwargs) if dim == 2 else Segment3D(p1, p2, **kwargs)) and result == Segment2D(p1, p2, **kwargs) or result == Segment3D(p1, p2, **kwargs)"},"spec":{"lhs":"__new__(cls, p1, p2)","rhs":"result == (Segment2D(p1, p2, **kwargs) if dim == 2 else Segment3D(p1, p2, **kwargs)) and result == Segment2D(p1, p2, **kwargs) or result == Segment3D(p1, p2, **kwargs)","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"result == (Segment2D(p1, p2, **kwargs) if dim == 2 else Segment3D(p1, p2, **kwargs)); result == Segment2D(p1, p2, **kwargs) or result == Segment3D(p1, p2, **kwargs); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"31d6601d44539733","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (Segment2D(p1, p2, **kwargs) if dim == 2 else Segment3D(p1, p2, **kwargs))","result == Segment2D(p1, p2, **kwargs) or result == Segment3D(p1, p2, **kwargs)"],"fibers":[{"name":"case_0","guard":"dim == 2","ensures":["result == Segment2D(p1, p2, **kwargs)"],"decidability":"z3","returns_expr":"Segment2D(p1, p2, **kwargs)"},{"name":"case_1","guard":"dim == 3","ensures":["result == Segment3D(p1, p2, **kwargs)"],"decidability":"z3","returns_expr":"Segment3D(p1, p2, **kwargs)"}],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, p1, p2, **kwargs):
         p1, p2 = Point._normalize_dimension(Point(p1), Point(p2))
         dim = len(p1)
@@ -2110,16 +2393,25 @@ class Segment(LinearEntity):
         return LinearEntity.__new__(cls, p1, p2, **kwargs)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(contains(oth), is the other geometryentity contained within this segment?) over Any ║
+# ║ Path(contains(other), <unspecified:contains>) over {Any | hasattr(other, 'p1') and hasattr(other, 'p2') and hasattr(other, 'x') and hasattr(other, 'y')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ contains : Any → Any                                       ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, 'p1')                           ║
+# ║   requires: hasattr(other, 'p2')                           ║
+# ║   requires: hasattr(other, 'x')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ contains : {Any | hasattr(other, 'p1') and hasattr(ot...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 89f1e5d5a8fdaeed  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.line.Segment.contains","kind":"method","src_hash":"86065950f7e31edb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"contains(oth)","rhs":"is the other geometryentity contained within this segment?","over":{"base":"Any"},"name":"contains_correct"},"guarantee":"is the other geometryentity contained within this segment?","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.line.Segment.contains_correct","statement":"Path(contains(x), is the other geometryentity contained within this segment?)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"89f1e5d5a8fdaeed"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.line.Segment.contains","kind":"method","src_hash":"86065950f7e31edb","in":{"base":"Any","pred":"hasattr(other, 'p1') and hasattr(other, 'p2') and hasattr(other, 'x') and hasattr(other, 'y')"},"out":{"base":"Any"},"spec":{"lhs":"contains(other)","rhs":"<unspecified:contains>","over":{"base":"Any","pred":"hasattr(other, 'p1') and hasattr(other, 'p2') and hasattr(other, 'x') and hasattr(other, 'y')"},"name":"contains_correct"},"guarantee":"is the other geometryentity contained within this segment?","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.line.Segment.contains_correct","statement":"Path(contains(x), is the other geometryentity contained within this segment?)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"89f1e5d5a8fdaeed","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, 'p1')","hasattr(other, 'p2')","hasattr(other, 'x')","hasattr(other, 'y')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.p1","other.p2","other.x","other.y","self.ambient_dimension","self.p1","self.p2","self.slope"],"raises":["Undecidable"],"catches":["TypeError"]},"state_contract":{"exceptional_post":{"Undecidable":["isinstance(raised, Undecidable)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def contains(self, other):
         """
         Is the other GeometryEntity contained within this Segment?
@@ -2176,32 +2468,45 @@ class Segment(LinearEntity):
         return False
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(equals(oth), id) over Any                             ║
+# ║ Path(equals(other), id) over {Any | hasattr(other, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ equals : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, 'args')                         ║
+# ║   returns:  isinstance(other, self.func) and list(ord...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ equals : {Any | hasattr(other, 'args')} → Any              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 90ea76013439f913   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.line.Segment.equals","kind":"method","src_hash":"3adb25c069301732","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"equals(oth)","rhs":"returns true if self and other are the same mathematical entities","over":{"base":"Any"},"name":"equals_correct","kind":"composition"},"guarantee":"returns true if self and other are the same mathematical entities","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"isinstance","by":"library_axiom"},{"fn":"list","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"90ea76013439f913"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.line.Segment.equals","kind":"method","src_hash":"3adb25c069301732","in":{"base":"Any","pred":"hasattr(other, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"equals(other)","rhs":"isinstance(other, self.func) and list(ordered(self.args)) == list(ordered(other.args))","over":{"base":"Any","pred":"hasattr(other, 'args')"},"name":"equals_correct","kind":"composition"},"guarantee":"returns isinstance(other, self.func) and list(ordered(self.args)) == list(ordered(other.args))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"isinstance","by":"library_axiom"},{"fn":"list","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"90ea76013439f913","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, 'args')"],"returns_expr":"isinstance(other, self.func) and list(ordered(self.args)) == list(ordered(other.args))","pure":false,"effects":{"effect_type":"reads_state","reads":["other.args","self.args","self.func"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def equals(self, other):
         """Returns True if self and other are the same mathematical entities"""
         return isinstance(other, self.func) and list(
             ordered(self.args)) == list(ordered(other.args))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(distance(oth), id) over Any                           ║
+# ║ Path(distance(other), id) over Any                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ distance : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 4e4270af130fcd22   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.line.Segment.distance","kind":"method","src_hash":"a09ce7b1ebddcda1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"distance(oth)","rhs":"finds the shortest distance between a line segment and a point","over":{"base":"Any"},"name":"distance_correct","kind":"composition"},"guarantee":"finds the shortest distance between a line segment and a point","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Line","by":"library_axiom"},{"fn":"distance","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4e4270af130fcd22"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.line.Segment.distance","kind":"method","src_hash":"a09ce7b1ebddcda1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"distance(other)","rhs":"<unspecified:distance>","over":{"base":"Any"},"name":"distance_correct","kind":"composition"},"guarantee":"finds the shortest distance between a line segment and a point","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Line","by":"library_axiom"},{"fn":"distance","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4e4270af130fcd22","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.ambient_dimension","self.direction","self.p1","self.p2"],"raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def distance(self, other):
         """
         Finds the shortest distance between a line segment and a point.
@@ -2247,16 +2552,22 @@ class Segment(LinearEntity):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(length(), returns the length attribute) over Any      ║
+# ║ Path(length(), Point.distance(self.p1, self.p2)) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Point.distance(self.p1, self.p2)               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ length : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5f760d18259e0d52           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.line.Segment.length","kind":"property","src_hash":"9a6e9ef96fdf3706","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"length()","rhs":"returns the length attribute","over":{"base":"Any"},"name":"length_correct"},"guarantee":"returns the length attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5f760d18259e0d52"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.line.Segment.length","kind":"property","src_hash":"9a6e9ef96fdf3706","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"length()","rhs":"Point.distance(self.p1, self.p2)","over":{"base":"Any"},"name":"length_correct"},"guarantee":"returns Point.distance(self.p1, self.p2)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5f760d18259e0d52","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Point.distance(self.p1, self.p2)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.p1","self.p2"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def length(self):
         """The length of the line segment.
 
@@ -2284,16 +2595,22 @@ class Segment(LinearEntity):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(midpoint(), returns the midpoint attribute) over Any  ║
+# ║ Path(midpoint(), Point.midpoint(self.p1, self.p2)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Point.midpoint(self.p1, self.p2)               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ midpoint : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3154b272955d4200           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.line.Segment.midpoint","kind":"property","src_hash":"5c01e960430a5a88","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"midpoint()","rhs":"returns the midpoint attribute","over":{"base":"Any"},"name":"midpoint_correct"},"guarantee":"returns the midpoint attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3154b272955d4200"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.line.Segment.midpoint","kind":"property","src_hash":"5c01e960430a5a88","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"midpoint()","rhs":"Point.midpoint(self.p1, self.p2)","over":{"base":"Any"},"name":"midpoint_correct"},"guarantee":"returns Point.midpoint(self.p1, self.p2)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3154b272955d4200","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Point.midpoint(self.p1, self.p2)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.p1","self.p2"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def midpoint(self):
         """The midpoint of the line segment.
 
@@ -2320,16 +2637,22 @@ class Segment(LinearEntity):
         return Point.midpoint(self.p1, self.p2)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(perpendicular_bisector(p), the perpendicular bisector of this segment) over Any ║
+# ║ Path(perpendicular_bisector(p), <unspecified:perpendicular_bisector>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ perpendicular_bisector : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b5c7cac1ca54bf37  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.line.Segment.perpendicular_bisector","kind":"method","src_hash":"425ed56e5cf05f8b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"perpendicular_bisector(p)","rhs":"the perpendicular bisector of this segment","over":{"base":"Any"},"name":"perpendicular_bisector_correct"},"guarantee":"the perpendicular bisector of this segment","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.line.Segment.perpendicular_bisector_correct","statement":"Path(perpendicular_bisector(x), the perpendicular bisector of this segment)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b5c7cac1ca54bf37"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.line.Segment.perpendicular_bisector","kind":"method","src_hash":"425ed56e5cf05f8b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"perpendicular_bisector(p)","rhs":"<unspecified:perpendicular_bisector>","over":{"base":"Any"},"name":"perpendicular_bisector_correct"},"guarantee":"the perpendicular bisector of this segment","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.line.Segment.perpendicular_bisector_correct","statement":"Path(perpendicular_bisector(x), the perpendicular bisector of this segment)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b5c7cac1ca54bf37","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.ambient_dimension","self.midpoint","self.perpendicular_line"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def perpendicular_bisector(self, p=None):
         """The perpendicular bisector of this segment.
 
@@ -2374,16 +2697,22 @@ class Segment(LinearEntity):
         return l
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(plot_interval(par), the plot interval for the default geometric plot of the segment gives values that will produce the full segment in a plot) over Any ║
+# ║ Path(plot_interval(parameter), [t, 0, 1]) over Any         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [t, 0, 1]                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ plot_interval : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a3e2752bb6e21302  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c8d5f96437b98fd5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.line.Segment.plot_interval","kind":"method","src_hash":"74695d304dcdcf8b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"plot_interval(par)","rhs":"the plot interval for the default geometric plot of the segment gives values that will produce the full segment in a plot","over":{"base":"Any"},"name":"plot_interval_correct"},"guarantee":"the plot interval for the default geometric plot of the segment gives values that will produce the full segment in a plot","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.line.Segment.plot_interval_correct","statement":"Path(plot_interval(x), the plot interval for the default geometric plot of the segment gives values that will produce the full segment in a plot)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a3e2752bb6e21302"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.line.Segment.plot_interval","kind":"method","src_hash":"74695d304dcdcf8b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"plot_interval(parameter)","rhs":"[t, 0, 1]","over":{"base":"Any"},"name":"plot_interval_correct"},"guarantee":"returns [t, 0, 1]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.line.Segment.plot_interval_correct","statement":"Path(plot_interval(x), returns [t, 0, 1])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c8d5f96437b98fd5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[t, 0, 1]","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def plot_interval(self, parameter='t'):
         """The plot interval for the default geometric plot of the Segment gives
         values that will produce the full segment in a plot.
@@ -2417,14 +2746,20 @@ class Segment(LinearEntity):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(LinearEntity2D(*args), correctly constructs a LinearEntity2D instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ LinearEntity2D : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, LinearEntity)                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ LinearEntity2D : Any → {Any | result satisfies: isins...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 44e8143c39aa916f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.line.LinearEntity2D","kind":"class","src_hash":"a4c7ada633787d9c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"LinearEntity2D(*args)","rhs":"correctly constructs a LinearEntity2D instance","over":{"base":"Any"},"name":"LinearEntity2D_class_invariant"},"guarantee":"correctly constructs a LinearEntity2D instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"44e8143c39aa916f"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.line.LinearEntity2D","kind":"class","src_hash":"a4c7ada633787d9c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, LinearEntity)"},"spec":{"lhs":"LinearEntity2D(*args)","rhs":"correctly constructs a LinearEntity2D instance","over":{"base":"Any"},"name":"LinearEntity2D_class_invariant"},"guarantee":"isinstance(self, LinearEntity)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"44e8143c39aa916f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, LinearEntity)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function LinearEntity2D not found in source"]}}
 class LinearEntity2D(LinearEntity):
     """A base class for all linear entities (line, ray and segment)
     in a 2-dimensional Euclidean space.
@@ -2451,16 +2786,22 @@ class LinearEntity2D(LinearEntity):
     """
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(bounds(), returns the bounds attribute) over Any      ║
+# ║ Path(bounds(), (min(xs), min(ys), max(xs), max(ys))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (min(xs), min(ys), max(xs), max(ys))           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ bounds : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9008770e37cb40f5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.line.LinearEntity2D.bounds","kind":"property","src_hash":"7398bec2c5c3ca07","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bounds()","rhs":"returns the bounds attribute","over":{"base":"Any"},"name":"bounds_correct"},"guarantee":"returns the bounds attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9008770e37cb40f5"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.line.LinearEntity2D.bounds","kind":"property","src_hash":"7398bec2c5c3ca07","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bounds()","rhs":"(min(xs), min(ys), max(xs), max(ys))","over":{"base":"Any"},"name":"bounds_correct"},"guarantee":"returns (min(xs), min(ys), max(xs), max(ys))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9008770e37cb40f5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(min(xs), min(ys), max(xs), max(ys))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.points"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def bounds(self):
         """Return a tuple (xmin, ymin, xmax, ymax) representing the bounding
         rectangle for the geometric figure.
@@ -2472,16 +2813,22 @@ class LinearEntity2D(LinearEntity):
         return (min(xs), min(ys), max(xs), max(ys))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(perpendicular_line(p), create a new line perpendicular to this linear entity which passes through the point `p`) over Any ║
+# ║ Path(perpendicular_line(p), Line(p, p + self.direction.orthogonal_direction)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Line(p, p + self.direction.orthogonal_dir...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ perpendicular_line : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4b2510f9c8cce3e6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 581f4c01da2093b6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.line.LinearEntity2D.perpendicular_line","kind":"method","src_hash":"fe05192b3fa7f5bd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"perpendicular_line(p)","rhs":"create a new line perpendicular to this linear entity which passes through the point `p`","over":{"base":"Any"},"name":"perpendicular_line_correct"},"guarantee":"create a new line perpendicular to this linear entity which passes through the point `p`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.line.LinearEntity2D.perpendicular_line_correct","statement":"Path(perpendicular_line(x), create a new line perpendicular to this linear entity which passes through the point `p`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4b2510f9c8cce3e6"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.line.LinearEntity2D.perpendicular_line","kind":"method","src_hash":"fe05192b3fa7f5bd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"perpendicular_line(p)","rhs":"Line(p, p + self.direction.orthogonal_direction)","over":{"base":"Any"},"name":"perpendicular_line_correct"},"guarantee":"returns Line(p, p + self.direction.orthogonal_direction)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.line.LinearEntity2D.perpendicular_line_correct","statement":"Path(perpendicular_line(x), returns Line(p, p + self.direction.orthogonal_direction))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"581f4c01da2093b6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Line(p, p + self.direction.orthogonal_direction)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.ambient_dimension","self.direction"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def perpendicular_line(self, p):
         """Create a new Line perpendicular to this linear entity which passes
         through the point `p`.
@@ -2529,16 +2876,22 @@ class LinearEntity2D(LinearEntity):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(slope(), returns the slope attribute) over Any        ║
+# ║ Path(slope(), <unspecified:slope>) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ slope : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6c063d0182f393d9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.line.LinearEntity2D.slope","kind":"property","src_hash":"5839a9b6556d98b1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"slope()","rhs":"returns the slope attribute","over":{"base":"Any"},"name":"slope_correct"},"guarantee":"returns the slope attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6c063d0182f393d9"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.line.LinearEntity2D.slope","kind":"property","src_hash":"5839a9b6556d98b1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"slope()","rhs":"<unspecified:slope>","over":{"base":"Any"},"name":"slope_correct"},"guarantee":"returns the slope attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6c063d0182f393d9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.p1","self.p2"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def slope(self):
         """The slope of this linear entity, or infinity if vertical.
 
@@ -2576,14 +2929,21 @@ class LinearEntity2D(LinearEntity):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Line2D(*args), correctly constructs a Line2D instance) over {Any | isinstance(p1, LinearEntity)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Line2D : {Any | isinstance(p1, LinearEntity)} → Any        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, LinearEntity2D)               ║
+# ║   ensures:  isinstance(self, Line)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Line2D : {Any | isinstance(p1, LinearEntity)} → {Any ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b6f2e2d4d7106e32  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.line.Line2D","kind":"class","src_hash":"a3c6fd6573509186","in":{"base":"Any","pred":"isinstance(p1, LinearEntity)"},"out":{"base":"Any"},"spec":{"lhs":"Line2D(*args)","rhs":"correctly constructs a Line2D instance","over":{"base":"Any","pred":"isinstance(p1, LinearEntity)"},"name":"Line2D_class_invariant"},"guarantee":"correctly constructs a Line2D instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b6f2e2d4d7106e32"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.line.Line2D","kind":"class","src_hash":"a3c6fd6573509186","in":{"base":"Any","pred":"isinstance(p1, LinearEntity)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, LinearEntity2D) and isinstance(self, Line)"},"spec":{"lhs":"Line2D(*args)","rhs":"correctly constructs a Line2D instance","over":{"base":"Any","pred":"isinstance(p1, LinearEntity)"},"name":"Line2D_class_invariant"},"guarantee":"isinstance(self, LinearEntity2D); isinstance(self, Line)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b6f2e2d4d7106e32","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, LinearEntity2D)","isinstance(self, Line)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":false,"binding_errors":["Function Line2D not found in source"]}}
 class Line2D(LinearEntity2D, Line):
     """An infinite line in space 2D.
 
@@ -2628,16 +2988,25 @@ class Line2D(LinearEntity2D, Line):
     x
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, p1, pt), LinearEntity2D.__new__(cls, p1, p2, **kwargs)) over {Any | hasattr(p1, 'args') and hasattr(slope, 'is_finite') and hasattr(p1, 'x') and hasattr(p1, 'y')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(p1, 'args')                            ║
+# ║   requires: hasattr(slope, 'is_finite')                    ║
+# ║   requires: hasattr(p1, 'x')                               ║
+# ║   returns:  LinearEntity2D.__new__(cls, p1, p2, **kwa...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | hasattr(p1, 'args') and hasattr(slop...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 50c2da702e0c405c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.line.Line2D.__new__","kind":"method","src_hash":"db83316b56de4f7e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"50c2da702e0c405c"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.line.Line2D.__new__","kind":"method","src_hash":"db83316b56de4f7e","in":{"base":"Any","pred":"hasattr(p1, 'args') and hasattr(slope, 'is_finite') and hasattr(p1, 'x') and hasattr(p1, 'y')"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, p1, pt)","rhs":"LinearEntity2D.__new__(cls, p1, p2, **kwargs)","over":{"base":"Any","pred":"hasattr(p1, 'args') and hasattr(slope, 'is_finite') and hasattr(p1, 'x') and hasattr(p1, 'y')"},"name":"__new___correct"},"guarantee":"returns LinearEntity2D.__new__(cls, p1, p2, **kwargs)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"50c2da702e0c405c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(p1, 'args')","hasattr(slope, 'is_finite')","hasattr(p1, 'x')","hasattr(p1, 'y')"],"returns_expr":"LinearEntity2D.__new__(cls, p1, p2, **kwargs)","pure":false,"effects":{"effect_type":"reads_state","reads":["p1.args","p1.x","p1.y","slope.is_finite"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, p1, pt=None, slope=None, **kwargs):
         if isinstance(p1, LinearEntity):
             if pt is not None:
@@ -2670,16 +3039,22 @@ class Line2D(LinearEntity2D, Line):
         return LinearEntity2D.__new__(cls, p1, p2, **kwargs)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_svg(sca), returns svg path element for the linearentity) over Any ║
+# ║ Path(_svg(scale_factor, fill_color), <unspecified:_svg>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _svg : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7cdee703322dad0c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.line.Line2D._svg","kind":"method","src_hash":"70a0778c6085d00e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_svg(sca)","rhs":"returns svg path element for the linearentity","over":{"base":"Any"},"name":"_svg_correct"},"guarantee":"returns svg path element for the linearentity","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.line.Line2D._svg_correct","statement":"Path(_svg(x), returns svg path element for the linearentity)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7cdee703322dad0c"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.line.Line2D._svg","kind":"method","src_hash":"70a0778c6085d00e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_svg(scale_factor, fill_color)","rhs":"<unspecified:_svg>","over":{"base":"Any"},"name":"_svg_correct"},"guarantee":"returns svg path element for the linearentity","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.line.Line2D._svg_correct","statement":"Path(_svg(x), returns svg path element for the linearentity)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7cdee703322dad0c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.p1","self.p2"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _svg(self, scale_factor=1., fill_color="#66cc99"):
         """Returns SVG path element for the LinearEntity.
 
@@ -2703,16 +3078,25 @@ class Line2D(LinearEntity2D, Line):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(coefficients(), returns the coefficients attribute) over Any ║
+# ║ Path(coefficients(), result == ((S.One, S.Zero, -p1.x) if p1.x == p2.x else (S.Zero, S.One, -p1.y)) and result == (S.One, S.Zero, -p1.x) or result == (S.Zero, S.One, -p1.y)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ coefficients : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == ((S.One, S.Zero, -p1.x) if p1.x...   ║
+# ║   ensures:  result == (S.One, S.Zero, -p1.x) or resul...   ║
+# ║   fiber[case_0]: p1.x == p2.x => (S.One, S.Zero, -p1.x)    ║
+# ║   fiber[case_1]: p1.y == p2.y => (S.Zero, S.One, -p1.y)    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ coefficients : Any → {Any | result satisfies: result ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c85aac2a3ce932ed           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.line.Line2D.coefficients","kind":"property","src_hash":"a50788c1a5f19b1f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"coefficients()","rhs":"returns the coefficients attribute","over":{"base":"Any"},"name":"coefficients_correct"},"guarantee":"returns the coefficients attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c85aac2a3ce932ed"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.line.Line2D.coefficients","kind":"property","src_hash":"a50788c1a5f19b1f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == ((S.One, S.Zero, -p1.x) if p1.x == p2.x else (S.Zero, S.One, -p1.y)) and result == (S.One, S.Zero, -p1.x) or result == (S.Zero, S.One, -p1.y)"},"spec":{"lhs":"coefficients()","rhs":"result == ((S.One, S.Zero, -p1.x) if p1.x == p2.x else (S.Zero, S.One, -p1.y)) and result == (S.One, S.Zero, -p1.x) or result == (S.Zero, S.One, -p1.y)","over":{"base":"Any"},"name":"coefficients_correct"},"guarantee":"result == ((S.One, S.Zero, -p1.x) if p1.x == p2.x else (S.Zero, S.One, -p1.y)); result == (S.One, S.Zero, -p1.x) or result == (S.Zero, S.One, -p1.y); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c85aac2a3ce932ed","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == ((S.One, S.Zero, -p1.x) if p1.x == p2.x else (S.Zero, S.One, -p1.y))","result == (S.One, S.Zero, -p1.x) or result == (S.Zero, S.One, -p1.y)"],"fibers":[{"name":"case_0","guard":"p1.x == p2.x","ensures":["result == (S.One, S.Zero, -p1.x)"],"decidability":"z3","returns_expr":"(S.One, S.Zero, -p1.x)"},{"name":"case_1","guard":"p1.y == p2.y","ensures":["result == (S.Zero, S.One, -p1.y)"],"decidability":"z3","returns_expr":"(S.Zero, S.One, -p1.y)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.p1","self.p2","self.points"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def coefficients(self):
         """The coefficients (`a`, `b`, `c`) for `ax + by + c = 0`.
 
@@ -2748,16 +3132,25 @@ class Line2D(LinearEntity2D, Line):
                        self.p1.x*self.p2.y - self.p1.y*self.p2.x)])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(equation(x, ), the equation of the line: ax + by + c) over Any ║
+# ║ Path(equation(x, y), result == (x - p1.x if p1.x == p2.x else y - p1.y) and result == x - p1.x or result == y - p1.y) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ equation : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (x - p1.x if p1.x == p2.x else ...   ║
+# ║   ensures:  result == x - p1.x or result == y - p1.y       ║
+# ║   fiber[case_0]: p1.x == p2.x => x - p1.x                  ║
+# ║   fiber[case_1]: p1.y == p2.y => y - p1.y                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ equation : Any → {Any | result satisfies: result == (...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 98617aa5f48e2b86  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1caf07d244cc06ee  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.line.Line2D.equation","kind":"method","src_hash":"3e63846a84e9b7c7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"equation(x, )","rhs":"the equation of the line: ax + by + c","over":{"base":"Any"},"name":"equation_correct"},"guarantee":"the equation of the line: ax + by + c","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.line.Line2D.equation_correct","statement":"Path(equation(x), the equation of the line: ax + by + c)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"98617aa5f48e2b86"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.line.Line2D.equation","kind":"method","src_hash":"3e63846a84e9b7c7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (x - p1.x if p1.x == p2.x else y - p1.y) and result == x - p1.x or result == y - p1.y"},"spec":{"lhs":"equation(x, y)","rhs":"result == (x - p1.x if p1.x == p2.x else y - p1.y) and result == x - p1.x or result == y - p1.y","over":{"base":"Any"},"name":"equation_correct"},"guarantee":"result == (x - p1.x if p1.x == p2.x else y - p1.y); result == x - p1.x or result == y - p1.y; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.line.Line2D.equation_correct","statement":"Path(equation(x), result == (x - p1.x if p1.x == p2.x else y - p1.y); result == x - p1.x or result == y - p1.y; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1caf07d244cc06ee","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (x - p1.x if p1.x == p2.x else y - p1.y)","result == x - p1.x or result == y - p1.y"],"fibers":[{"name":"case_0","guard":"p1.x == p2.x","ensures":["result == x - p1.x"],"decidability":"z3","returns_expr":"x - p1.x"},{"name":"case_1","guard":"p1.y == p2.y","ensures":["result == y - p1.y"],"decidability":"z3","returns_expr":"y - p1.y"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.coefficients","self.points"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def equation(self, x='x', y='y'):
         """The equation of the line: ax + by + c.
 
@@ -2804,14 +3197,21 @@ class Line2D(LinearEntity2D, Line):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Ray2D(*args), correctly constructs a Ray2D instance) over {Any | isinstance(r, Ray2D)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Ray2D : {Any | isinstance(r, Ray2D)} → Any                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, LinearEntity2D)               ║
+# ║   ensures:  isinstance(self, Ray)                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Ray2D : {Any | isinstance(r, Ray2D)} → {Any | result ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ea8a6afdefe03e1f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.line.Ray2D","kind":"class","src_hash":"092a2b2de92d723e","in":{"base":"Any","pred":"isinstance(r, Ray2D)"},"out":{"base":"Any"},"spec":{"lhs":"Ray2D(*args)","rhs":"correctly constructs a Ray2D instance","over":{"base":"Any","pred":"isinstance(r, Ray2D)"},"name":"Ray2D_class_invariant"},"guarantee":"correctly constructs a Ray2D instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ea8a6afdefe03e1f"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.line.Ray2D","kind":"class","src_hash":"092a2b2de92d723e","in":{"base":"Any","pred":"isinstance(r, Ray2D)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, LinearEntity2D) and isinstance(self, Ray)"},"spec":{"lhs":"Ray2D(*args)","rhs":"correctly constructs a Ray2D instance","over":{"base":"Any","pred":"isinstance(r, Ray2D)"},"name":"Ray2D_class_invariant"},"guarantee":"isinstance(self, LinearEntity2D); isinstance(self, Ray)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ea8a6afdefe03e1f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, LinearEntity2D)","isinstance(self, Ray)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":false,"binding_errors":["Function Ray2D not found in source"]}}
 class Ray2D(LinearEntity2D, Ray):
     """
     A Ray is a semi-line in the space with a source point and a direction.
@@ -2860,16 +3260,22 @@ class Ray2D(LinearEntity2D, Ray):
 
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, p1, pt), LinearEntity2D.__new__(cls, p1, p2, **kwargs)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  LinearEntity2D.__new__(cls, p1, p2, **kwa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | cfe83b5f50fdd18a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.line.Ray2D.__new__","kind":"method","src_hash":"a6f0fac4684e6af7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cfe83b5f50fdd18a"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.line.Ray2D.__new__","kind":"method","src_hash":"a6f0fac4684e6af7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, p1, pt)","rhs":"LinearEntity2D.__new__(cls, p1, p2, **kwargs)","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"returns LinearEntity2D.__new__(cls, p1, p2, **kwargs)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cfe83b5f50fdd18a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"LinearEntity2D.__new__(cls, p1, p2, **kwargs)","pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, p1, pt=None, angle=None, **kwargs):
         p1 = Point(p1, dim=2)
         if pt is not None and angle is None:
@@ -2916,16 +3322,26 @@ class Ray2D(LinearEntity2D, Ray):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(xdirection(), returns the xdirection attribute) over Any ║
+# ║ Path(xdirection(), result == (S.Infinity if self.p1.x < self.p2.x else S.Zero if self.p1.x == self.p2.x else S.NegativeInfinity) and result == S.Infinity or result == S.Zero or result == S.NegativeInfinity) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ xdirection : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (S.Infinity if self.p1.x < self...   ║
+# ║   ensures:  result == S.Infinity or result == S.Zero ...   ║
+# ║   fiber[case_0]: self.p1.x < self.p2.x => S.Infinity       ║
+# ║   fiber[case_1]: self.p1.x == self.p2.x => S.Zero          ║
+# ║   fiber[case_2]: not (self.p1.x < self.p2.x) and not ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ xdirection : Any → {Any | result satisfies: result ==...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 07f8d31295ef6f3f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.line.Ray2D.xdirection","kind":"property","src_hash":"a02d2f563494e989","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"xdirection()","rhs":"returns the xdirection attribute","over":{"base":"Any"},"name":"xdirection_correct"},"guarantee":"returns the xdirection attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"07f8d31295ef6f3f"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.line.Ray2D.xdirection","kind":"property","src_hash":"a02d2f563494e989","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (S.Infinity if self.p1.x < self.p2.x else S.Zero if self.p1.x == self.p2.x else S.NegativeInfinity) and result == S.Infinity or result == S.Zero or result == S.NegativeInfinity"},"spec":{"lhs":"xdirection()","rhs":"result == (S.Infinity if self.p1.x < self.p2.x else S.Zero if self.p1.x == self.p2.x else S.NegativeInfinity) and result == S.Infinity or result == S.Zero or result == S.NegativeInfinity","over":{"base":"Any"},"name":"xdirection_correct"},"guarantee":"result == (S.Infinity if self.p1.x < self.p2.x else S.Zero if self.p1.x == self.p2.x else S.NegativeInfinity); result == S.Infinity or result == S.Zero or result == S.NegativeInfinity; 3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"07f8d31295ef6f3f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (S.Infinity if self.p1.x < self.p2.x else S.Zero if self.p1.x == self.p2.x else S.NegativeInfinity)","result == S.Infinity or result == S.Zero or result == S.NegativeInfinity"],"fibers":[{"name":"case_0","guard":"self.p1.x < self.p2.x","ensures":["result == S.Infinity"],"decidability":"z3","returns_expr":"S.Infinity"},{"name":"case_1","guard":"self.p1.x == self.p2.x","ensures":["result == S.Zero"],"decidability":"z3","returns_expr":"S.Zero"},{"name":"case_2","guard":"not (self.p1.x < self.p2.x) and not (self.p1.x == self.p2.x)","ensures":["result == S.NegativeInfinity"],"decidability":"z3","returns_expr":"S.NegativeInfinity"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.p1","self.p2"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def xdirection(self):
         """The x direction of the ray.
 
@@ -2959,16 +3375,26 @@ class Ray2D(LinearEntity2D, Ray):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ydirection(), returns the ydirection attribute) over Any ║
+# ║ Path(ydirection(), result == (S.Infinity if self.p1.y < self.p2.y else S.Zero if self.p1.y == self.p2.y else S.NegativeInfinity) and result == S.Infinity or result == S.Zero or result == S.NegativeInfinity) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ ydirection : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (S.Infinity if self.p1.y < self...   ║
+# ║   ensures:  result == S.Infinity or result == S.Zero ...   ║
+# ║   fiber[case_0]: self.p1.y < self.p2.y => S.Infinity       ║
+# ║   fiber[case_1]: self.p1.y == self.p2.y => S.Zero          ║
+# ║   fiber[case_2]: not (self.p1.y < self.p2.y) and not ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ ydirection : Any → {Any | result satisfies: result ==...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 84a3bb3a512f3e59           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.line.Ray2D.ydirection","kind":"property","src_hash":"e73445812269b65d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ydirection()","rhs":"returns the ydirection attribute","over":{"base":"Any"},"name":"ydirection_correct"},"guarantee":"returns the ydirection attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"84a3bb3a512f3e59"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.line.Ray2D.ydirection","kind":"property","src_hash":"e73445812269b65d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (S.Infinity if self.p1.y < self.p2.y else S.Zero if self.p1.y == self.p2.y else S.NegativeInfinity) and result == S.Infinity or result == S.Zero or result == S.NegativeInfinity"},"spec":{"lhs":"ydirection()","rhs":"result == (S.Infinity if self.p1.y < self.p2.y else S.Zero if self.p1.y == self.p2.y else S.NegativeInfinity) and result == S.Infinity or result == S.Zero or result == S.NegativeInfinity","over":{"base":"Any"},"name":"ydirection_correct"},"guarantee":"result == (S.Infinity if self.p1.y < self.p2.y else S.Zero if self.p1.y == self.p2.y else S.NegativeInfinity); result == S.Infinity or result == S.Zero or result == S.NegativeInfinity; 3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"84a3bb3a512f3e59","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (S.Infinity if self.p1.y < self.p2.y else S.Zero if self.p1.y == self.p2.y else S.NegativeInfinity)","result == S.Infinity or result == S.Zero or result == S.NegativeInfinity"],"fibers":[{"name":"case_0","guard":"self.p1.y < self.p2.y","ensures":["result == S.Infinity"],"decidability":"z3","returns_expr":"S.Infinity"},{"name":"case_1","guard":"self.p1.y == self.p2.y","ensures":["result == S.Zero"],"decidability":"z3","returns_expr":"S.Zero"},{"name":"case_2","guard":"not (self.p1.y < self.p2.y) and not (self.p1.y == self.p2.y)","ensures":["result == S.NegativeInfinity"],"decidability":"z3","returns_expr":"S.NegativeInfinity"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.p1","self.p2"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def ydirection(self):
         """The y direction of the ray.
 
@@ -3001,16 +3427,25 @@ class Ray2D(LinearEntity2D, Ray):
             return S.NegativeInfinity
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(closing_angle(r1,), return the angle by which r2 must be rotated so it faces the same direction as r1) over Any ║
+# ║ Path(closing_angle(r1, r2), a1 - a2) over {Any | all((isinstance(r, Ray2D) for r in (r1, r2))) and hasattr(r1, 'direction') and hasattr(r2, 'direction')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ closing_angle : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: all((isinstance(r, Ray2D) for r in (r1, r...   ║
+# ║   requires: hasattr(r1, 'direction')                       ║
+# ║   requires: hasattr(r2, 'direction')                       ║
+# ║   returns:  a1 - a2                                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ closing_angle : {Any | all((isinstance(r, Ray2D) for ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 99530ca4a3251a97  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c43d6705a597da23  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.line.Ray2D.closing_angle","kind":"method","src_hash":"db8619cbb37f3fbd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"closing_angle(r1,)","rhs":"return the angle by which r2 must be rotated so it faces the same direction as r1","over":{"base":"Any"},"name":"closing_angle_correct"},"guarantee":"return the angle by which r2 must be rotated so it faces the same direction as r1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.line.Ray2D.closing_angle_correct","statement":"Path(closing_angle(x), return the angle by which r2 must be rotated so it faces the same direction as r1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"99530ca4a3251a97"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.line.Ray2D.closing_angle","kind":"method","src_hash":"db8619cbb37f3fbd","in":{"base":"Any","pred":"all((isinstance(r, Ray2D) for r in (r1, r2))) and hasattr(r1, 'direction') and hasattr(r2, 'direction')"},"out":{"base":"Any"},"spec":{"lhs":"closing_angle(r1, r2)","rhs":"a1 - a2","over":{"base":"Any","pred":"all((isinstance(r, Ray2D) for r in (r1, r2))) and hasattr(r1, 'direction') and hasattr(r2, 'direction')"},"name":"closing_angle_correct"},"guarantee":"returns a1 - a2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.line.Ray2D.closing_angle_correct","statement":"Path(closing_angle(x), returns a1 - a2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c43d6705a597da23","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["all((isinstance(r, Ray2D) for r in (r1, r2)))","hasattr(r1, 'direction')","hasattr(r2, 'direction')"],"returns_expr":"a1 - a2","pure":false,"effects":{"effect_type":"reads_state","reads":["r1.direction","r2.direction"],"raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def closing_angle(r1, r2):
         """Return the angle by which r2 must be rotated so it faces the same
         direction as r1.
@@ -3061,14 +3496,21 @@ class Ray2D(LinearEntity2D, Ray):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Segment2D(*args), correctly constructs a Segment2D instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Segment2D : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, LinearEntity2D)               ║
+# ║   ensures:  isinstance(self, Segment)                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Segment2D : Any → {Any | result satisfies: isinstance...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2ae148b453b8239f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.line.Segment2D","kind":"class","src_hash":"cbc5ab24c97fc94e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Segment2D(*args)","rhs":"correctly constructs a Segment2D instance","over":{"base":"Any"},"name":"Segment2D_class_invariant"},"guarantee":"correctly constructs a Segment2D instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2ae148b453b8239f"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.line.Segment2D","kind":"class","src_hash":"cbc5ab24c97fc94e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, LinearEntity2D) and isinstance(self, Segment)"},"spec":{"lhs":"Segment2D(*args)","rhs":"correctly constructs a Segment2D instance","over":{"base":"Any"},"name":"Segment2D_class_invariant"},"guarantee":"isinstance(self, LinearEntity2D); isinstance(self, Segment)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2ae148b453b8239f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, LinearEntity2D)","isinstance(self, Segment)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function Segment2D not found in source"]}}
 class Segment2D(LinearEntity2D, Segment):
     """A line segment in 2D space.
 
@@ -3108,16 +3550,22 @@ class Segment2D(LinearEntity2D, Segment):
 
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, p1, p2), <unspecified:__new__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3b35c17d2a029a62           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.line.Segment2D.__new__","kind":"method","src_hash":"fa7631a75c5e4b1f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3b35c17d2a029a62"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.line.Segment2D.__new__","kind":"method","src_hash":"fa7631a75c5e4b1f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, p1, p2)","rhs":"<unspecified:__new__>","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3b35c17d2a029a62","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, p1, p2, **kwargs):
         p1 = Point(p1, dim=2)
         p2 = Point(p2, dim=2)
@@ -3128,16 +3576,22 @@ class Segment2D(LinearEntity2D, Segment):
         return LinearEntity2D.__new__(cls, p1, p2, **kwargs)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_svg(sca), returns svg path element for the linearentity) over Any ║
+# ║ Path(_svg(scale_factor, fill_color), '<path fill-rule="evenodd" fill="{2}" stroke="#555555" stroke-width="{0}" opacity="0.6" d="{1}" />'.format(2.0 * scale_factor, path, fill_color)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  '<path fill-rule="evenodd" fill="{2}" str...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _svg : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9175811944ca40f4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7c255a7f73b76989  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.line.Segment2D._svg","kind":"method","src_hash":"3255a77de13f84f4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_svg(sca)","rhs":"returns svg path element for the linearentity","over":{"base":"Any"},"name":"_svg_correct"},"guarantee":"returns svg path element for the linearentity","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.line.Segment2D._svg_correct","statement":"Path(_svg(x), returns svg path element for the linearentity)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9175811944ca40f4"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.line.Segment2D._svg","kind":"method","src_hash":"3255a77de13f84f4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_svg(scale_factor, fill_color)","rhs":"'<path fill-rule=\"evenodd\" fill=\"{2}\" stroke=\"#555555\" stroke-width=\"{0}\" opacity=\"0.6\" d=\"{1}\" />'.format(2.0 * scale_factor, path, fill_color)","over":{"base":"Any"},"name":"_svg_correct"},"guarantee":"returns '<path fill-rule=\"evenodd\" fill=\"{2}\" stroke=\"#555555\" stroke-width=\"{0}\" opacity=\"0.6\" d=\"{1}\" />'.format(2.0 * scale_factor, path, fill_color)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.line.Segment2D._svg_correct","statement":"Path(_svg(x), returns '<path fill-rule=\"evenodd\" fill=\"{2}\" stroke=\"#555555\" stroke-width=\"{0}\" opacity=\"0.6\" d=\"{1}\" />'.format(2.0 * scale_factor, path, fill_color))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7c255a7f73b76989","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'<path fill-rule=\"evenodd\" fill=\"{2}\" stroke=\"#555555\" stroke-width=\"{0}\" opacity=\"0.6\" d=\"{1}\" />'.format(2.0 * scale_factor, path, fill_color)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.p1","self.p2"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _svg(self, scale_factor=1., fill_color="#66cc99"):
         """Returns SVG path element for the LinearEntity.
 
@@ -3161,14 +3615,20 @@ class Segment2D(LinearEntity2D, Segment):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(LinearEntity3D(*args), correctly constructs a LinearEntity3D instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ LinearEntity3D : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, LinearEntity)                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ LinearEntity3D : Any → {Any | result satisfies: isins...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 742f7387f083be33  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.line.LinearEntity3D","kind":"class","src_hash":"fc3dda9f134f69db","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"LinearEntity3D(*args)","rhs":"correctly constructs a LinearEntity3D instance","over":{"base":"Any"},"name":"LinearEntity3D_class_invariant"},"guarantee":"correctly constructs a LinearEntity3D instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"742f7387f083be33"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.line.LinearEntity3D","kind":"class","src_hash":"fc3dda9f134f69db","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, LinearEntity)"},"spec":{"lhs":"LinearEntity3D(*args)","rhs":"correctly constructs a LinearEntity3D instance","over":{"base":"Any"},"name":"LinearEntity3D_class_invariant"},"guarantee":"isinstance(self, LinearEntity)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"742f7387f083be33","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, LinearEntity)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function LinearEntity3D not found in source"]}}
 class LinearEntity3D(LinearEntity):
     """An base class for all linear entities (line, ray and segment)
     in a 3-dimensional Euclidean space.
@@ -3188,16 +3648,23 @@ class LinearEntity3D(LinearEntity):
     This is a base class and is not meant to be instantiated.
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, p1, p2), GeometryEntity.__new__(cls, p1, p2, **kwargs)) over {Any | not (p1 == p2)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (p1 == p2)                                 ║
+# ║   returns:  GeometryEntity.__new__(cls, p1, p2, **kwa...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | not (p1 == p2)} → Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | aa2313a52c934a90           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.line.LinearEntity3D.__new__","kind":"method","src_hash":"2f3f38193558c7ec","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"aa2313a52c934a90"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.line.LinearEntity3D.__new__","kind":"method","src_hash":"2f3f38193558c7ec","in":{"base":"Any","pred":"not (p1 == p2)"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, p1, p2)","rhs":"GeometryEntity.__new__(cls, p1, p2, **kwargs)","over":{"base":"Any","pred":"not (p1 == p2)"},"name":"__new___correct"},"guarantee":"returns GeometryEntity.__new__(cls, p1, p2, **kwargs)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"aa2313a52c934a90","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (p1 == p2)"],"returns_expr":"GeometryEntity.__new__(cls, p1, p2, **kwargs)","pure":false,"effects":{"effect_type":"reads_state","reads":["cls.__name__"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, p1, p2, **kwargs):
         p1 = Point3D(p1, dim=3)
         p2 = Point3D(p2, dim=3)
@@ -3212,16 +3679,22 @@ class LinearEntity3D(LinearEntity):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(direction_ratio(), returns the direction_ratio attribute) over Any ║
+# ║ Path(direction_ratio(), p1.direction_ratio(p2)) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  p1.direction_ratio(p2)                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ direction_ratio : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 63c8584c9ebe15aa           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.line.LinearEntity3D.direction_ratio","kind":"property","src_hash":"0fb2d2d485f376e8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"direction_ratio()","rhs":"returns the direction_ratio attribute","over":{"base":"Any"},"name":"direction_ratio_correct"},"guarantee":"returns the direction_ratio attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"63c8584c9ebe15aa"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.line.LinearEntity3D.direction_ratio","kind":"property","src_hash":"0fb2d2d485f376e8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"direction_ratio()","rhs":"p1.direction_ratio(p2)","over":{"base":"Any"},"name":"direction_ratio_correct"},"guarantee":"returns p1.direction_ratio(p2)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"63c8584c9ebe15aa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"p1.direction_ratio(p2)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.points"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def direction_ratio(self):
         """The direction ratio of a given line in 3D.
 
@@ -3244,16 +3717,22 @@ class LinearEntity3D(LinearEntity):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(direction_cosine(), returns the direction_cosine attribute) over Any ║
+# ║ Path(direction_cosine(), p1.direction_cosine(p2)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  p1.direction_cosine(p2)                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ direction_cosine : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4b1b21630f7b79dc           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.line.LinearEntity3D.direction_cosine","kind":"property","src_hash":"282e44ed317c375b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"direction_cosine()","rhs":"returns the direction_cosine attribute","over":{"base":"Any"},"name":"direction_cosine_correct"},"guarantee":"returns the direction_cosine attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4b1b21630f7b79dc"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.line.LinearEntity3D.direction_cosine","kind":"property","src_hash":"282e44ed317c375b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"direction_cosine()","rhs":"p1.direction_cosine(p2)","over":{"base":"Any"},"name":"direction_cosine_correct"},"guarantee":"returns p1.direction_cosine(p2)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4b1b21630f7b79dc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"p1.direction_cosine(p2)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.points"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def direction_cosine(self):
         """The normalized direction ratio of a given line in 3D.
 
@@ -3280,14 +3759,21 @@ class LinearEntity3D(LinearEntity):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Line3D(*args), correctly constructs a Line3D instance) over {Any | isinstance(p1, LinearEntity3D) and isinstance(other, (tuple, list)) and isinstance(other, Point3D)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, LinearEntity3D)               ║
+# ║   ensures:  isinstance(self, Line)                         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ Line3D : {Any | isinstance(p1, LinearEntity3D) and is...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d3e0dcedf419d0e0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.line.Line3D","kind":"class","src_hash":"aa587de54d502d58","in":{"base":"Any","pred":"isinstance(p1, LinearEntity3D) and isinstance(other, (tuple, list)) and isinstance(other, Point3D)"},"out":{"base":"Any"},"spec":{"lhs":"Line3D(*args)","rhs":"correctly constructs a Line3D instance","over":{"base":"Any","pred":"isinstance(p1, LinearEntity3D) and isinstance(other, (tuple, list)) and isinstance(other, Point3D)"},"name":"Line3D_class_invariant"},"guarantee":"correctly constructs a Line3D instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d3e0dcedf419d0e0"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.line.Line3D","kind":"class","src_hash":"aa587de54d502d58","in":{"base":"Any","pred":"isinstance(p1, LinearEntity3D) and isinstance(other, (tuple, list)) and isinstance(other, Point3D)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, LinearEntity3D) and isinstance(self, Line)"},"spec":{"lhs":"Line3D(*args)","rhs":"correctly constructs a Line3D instance","over":{"base":"Any","pred":"isinstance(p1, LinearEntity3D) and isinstance(other, (tuple, list)) and isinstance(other, Point3D)"},"name":"Line3D_class_invariant"},"guarantee":"isinstance(self, LinearEntity3D); isinstance(self, Line)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d3e0dcedf419d0e0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, LinearEntity3D)","isinstance(self, Line)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":false,"binding_errors":["Function Line3D not found in source"]}}
 class Line3D(LinearEntity3D, Line):
     """An infinite 3D line in space.
 
@@ -3319,16 +3805,25 @@ class Line3D(LinearEntity3D, Line):
     (Point3D(2, 3, 4), Point3D(3, 5, 1))
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, p1, pt), LinearEntity3D.__new__(cls, p1, pt, **kwargs)) over {Any | hasattr(p1, 'args') and hasattr(p1, 'x') and hasattr(p1, 'y') and hasattr(p1, 'z')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(p1, 'args')                            ║
+# ║   requires: hasattr(p1, 'x')                               ║
+# ║   requires: hasattr(p1, 'y')                               ║
+# ║   returns:  LinearEntity3D.__new__(cls, p1, pt, **kwa...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | hasattr(p1, 'args') and hasattr(p1, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 64084031f88f727f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.line.Line3D.__new__","kind":"method","src_hash":"22a76325f1369da3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"64084031f88f727f"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.line.Line3D.__new__","kind":"method","src_hash":"22a76325f1369da3","in":{"base":"Any","pred":"hasattr(p1, 'args') and hasattr(p1, 'x') and hasattr(p1, 'y') and hasattr(p1, 'z')"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, p1, pt)","rhs":"LinearEntity3D.__new__(cls, p1, pt, **kwargs)","over":{"base":"Any","pred":"hasattr(p1, 'args') and hasattr(p1, 'x') and hasattr(p1, 'y') and hasattr(p1, 'z')"},"name":"__new___correct"},"guarantee":"returns LinearEntity3D.__new__(cls, p1, pt, **kwargs)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"64084031f88f727f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(p1, 'args')","hasattr(p1, 'x')","hasattr(p1, 'y')","hasattr(p1, 'z')"],"returns_expr":"LinearEntity3D.__new__(cls, p1, pt, **kwargs)","pure":false,"effects":{"effect_type":"reads_state","reads":["p1.args","p1.x","p1.y","p1.z"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, p1, pt=None, direction_ratio=(), **kwargs):
         if isinstance(p1, LinearEntity3D):
             if pt is not None:
@@ -3348,16 +3843,22 @@ class Line3D(LinearEntity3D, Line):
         return LinearEntity3D.__new__(cls, p1, pt, **kwargs)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(equation(x, ), id) over Any                           ║
+# ║ Path(equation(x, y, z), id) over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Tuple(*[i.subs(k, kk).as_numer_denom()[0]...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ equation : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 052c477a40f71209   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.line.Line3D.equation","kind":"method","src_hash":"4321e89cdb4da18f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"equation(x, )","rhs":"return the equations that define the line in 3d","over":{"base":"Any"},"name":"equation_correct","kind":"composition"},"guarantee":"return the equations that define the line in 3d","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Tuple","by":"library_axiom"},{"fn":"subs","by":"library_axiom"},{"fn":"as_numer_denom","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"052c477a40f71209"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.line.Line3D.equation","kind":"method","src_hash":"4321e89cdb4da18f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"equation(x, y, z)","rhs":"Tuple(*[i.subs(k, kk).as_numer_denom()[0] for i in eqs])","over":{"base":"Any"},"name":"equation_correct","kind":"composition"},"guarantee":"returns Tuple(*[i.subs(k, kk).as_numer_denom()[0] for i in eqs])","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Tuple","by":"library_axiom"},{"fn":"subs","by":"library_axiom"},{"fn":"as_numer_denom","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"052c477a40f71209","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Tuple(*[i.subs(k, kk).as_numer_denom()[0] for i in eqs])","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def equation(self, x='x', y='y', z='z'):
         """Return the equations that define the line in 3D.
 
@@ -3402,16 +3903,25 @@ class Line3D(LinearEntity3D, Line):
         return Tuple(*[i.subs(k, kk).as_numer_denom()[0] for i in eqs])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(distance(oth), id) over Any                           ║
+# ║ Path(distance(other), id) over {Any | hasattr(other, 'direction_ratio') and hasattr(other, 'distance') and hasattr(other, 'p1')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ distance : Any → Any                                       ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, 'direction_ratio')              ║
+# ║   requires: hasattr(other, 'distance')                     ║
+# ║   requires: hasattr(other, 'p1')                           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ distance : {Any | hasattr(other, 'direction_ratio') a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 0b5d0777b4bd91d8   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.line.Line3D.distance","kind":"method","src_hash":"6e248ad408d53532","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"distance(oth)","rhs":"finds the shortest distance between a line and another object","over":{"base":"Any"},"name":"distance_correct","kind":"composition"},"guarantee":"finds the shortest distance between a line and another object","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"super","by":"library_axiom"},{"fn":"distance","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0b5d0777b4bd91d8"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.line.Line3D.distance","kind":"method","src_hash":"6e248ad408d53532","in":{"base":"Any","pred":"hasattr(other, 'direction_ratio') and hasattr(other, 'distance') and hasattr(other, 'p1')"},"out":{"base":"Any"},"spec":{"lhs":"distance(other)","rhs":"<unspecified:distance>","over":{"base":"Any","pred":"hasattr(other, 'direction_ratio') and hasattr(other, 'distance') and hasattr(other, 'p1')"},"name":"distance_correct","kind":"composition"},"guarantee":"finds the shortest distance between a line and another object","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"super","by":"library_axiom"},{"fn":"distance","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0b5d0777b4bd91d8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, 'direction_ratio')","hasattr(other, 'distance')","hasattr(other, 'p1')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.direction_ratio","other.distance","other.p1","self.direction_ratio","self.is_parallel","self.p1"],"raises":["NotImplementedError"],"catches":["ValueError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def distance(self, other):
         """
         Finds the shortest distance between a line and another object.
@@ -3490,14 +4000,21 @@ class Line3D(LinearEntity3D, Line):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Ray3D(*args), correctly constructs a Ray3D instance) over {Any | isinstance(p1, LinearEntity3D)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Ray3D : {Any | isinstance(p1, LinearEntity3D)} → Any       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, LinearEntity3D)               ║
+# ║   ensures:  isinstance(self, Ray)                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Ray3D : {Any | isinstance(p1, LinearEntity3D)} → {Any...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f9be11f9c03e7020  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.line.Ray3D","kind":"class","src_hash":"b5993e20a05bb338","in":{"base":"Any","pred":"isinstance(p1, LinearEntity3D)"},"out":{"base":"Any"},"spec":{"lhs":"Ray3D(*args)","rhs":"correctly constructs a Ray3D instance","over":{"base":"Any","pred":"isinstance(p1, LinearEntity3D)"},"name":"Ray3D_class_invariant"},"guarantee":"correctly constructs a Ray3D instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f9be11f9c03e7020"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.line.Ray3D","kind":"class","src_hash":"b5993e20a05bb338","in":{"base":"Any","pred":"isinstance(p1, LinearEntity3D)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, LinearEntity3D) and isinstance(self, Ray)"},"spec":{"lhs":"Ray3D(*args)","rhs":"correctly constructs a Ray3D instance","over":{"base":"Any","pred":"isinstance(p1, LinearEntity3D)"},"name":"Ray3D_class_invariant"},"guarantee":"isinstance(self, LinearEntity3D); isinstance(self, Ray)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f9be11f9c03e7020","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, LinearEntity3D)","isinstance(self, Ray)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function Ray3D not found in source"]}}
 class Ray3D(LinearEntity3D, Ray):
     """
     A Ray is a semi-line in the space with a source point and a direction.
@@ -3545,16 +4062,25 @@ class Ray3D(LinearEntity3D, Ray):
 
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, p1, pt), LinearEntity3D.__new__(cls, p1, pt, **kwargs)) over {Any | hasattr(p1, 'args') and hasattr(p1, 'x') and hasattr(p1, 'y') and hasattr(p1, 'z')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(p1, 'args')                            ║
+# ║   requires: hasattr(p1, 'x')                               ║
+# ║   requires: hasattr(p1, 'y')                               ║
+# ║   returns:  LinearEntity3D.__new__(cls, p1, pt, **kwa...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | hasattr(p1, 'args') and hasattr(p1, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e271f95faf59429a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.line.Ray3D.__new__","kind":"method","src_hash":"c02f9dbdb4d70912","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e271f95faf59429a"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.line.Ray3D.__new__","kind":"method","src_hash":"c02f9dbdb4d70912","in":{"base":"Any","pred":"hasattr(p1, 'args') and hasattr(p1, 'x') and hasattr(p1, 'y') and hasattr(p1, 'z')"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, p1, pt)","rhs":"LinearEntity3D.__new__(cls, p1, pt, **kwargs)","over":{"base":"Any","pred":"hasattr(p1, 'args') and hasattr(p1, 'x') and hasattr(p1, 'y') and hasattr(p1, 'z')"},"name":"__new___correct"},"guarantee":"returns LinearEntity3D.__new__(cls, p1, pt, **kwargs)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e271f95faf59429a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(p1, 'args')","hasattr(p1, 'x')","hasattr(p1, 'y')","hasattr(p1, 'z')"],"returns_expr":"LinearEntity3D.__new__(cls, p1, pt, **kwargs)","pure":false,"effects":{"effect_type":"reads_state","reads":["p1.args","p1.x","p1.y","p1.z"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, p1, pt=None, direction_ratio=(), **kwargs):
         if isinstance(p1, LinearEntity3D):
             if pt is not None:
@@ -3576,16 +4102,26 @@ class Ray3D(LinearEntity3D, Ray):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(xdirection(), returns the xdirection attribute) over Any ║
+# ║ Path(xdirection(), result == (S.Infinity if self.p1.x < self.p2.x else S.Zero if self.p1.x == self.p2.x else S.NegativeInfinity) and result == S.Infinity or result == S.Zero or result == S.NegativeInfinity) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ xdirection : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (S.Infinity if self.p1.x < self...   ║
+# ║   ensures:  result == S.Infinity or result == S.Zero ...   ║
+# ║   fiber[case_0]: self.p1.x < self.p2.x => S.Infinity       ║
+# ║   fiber[case_1]: self.p1.x == self.p2.x => S.Zero          ║
+# ║   fiber[case_2]: not (self.p1.x < self.p2.x) and not ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ xdirection : Any → {Any | result satisfies: result ==...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 82cf94b5910c605f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.line.Ray3D.xdirection","kind":"property","src_hash":"444e46775c7b7138","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"xdirection()","rhs":"returns the xdirection attribute","over":{"base":"Any"},"name":"xdirection_correct"},"guarantee":"returns the xdirection attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"82cf94b5910c605f"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.line.Ray3D.xdirection","kind":"property","src_hash":"444e46775c7b7138","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (S.Infinity if self.p1.x < self.p2.x else S.Zero if self.p1.x == self.p2.x else S.NegativeInfinity) and result == S.Infinity or result == S.Zero or result == S.NegativeInfinity"},"spec":{"lhs":"xdirection()","rhs":"result == (S.Infinity if self.p1.x < self.p2.x else S.Zero if self.p1.x == self.p2.x else S.NegativeInfinity) and result == S.Infinity or result == S.Zero or result == S.NegativeInfinity","over":{"base":"Any"},"name":"xdirection_correct"},"guarantee":"result == (S.Infinity if self.p1.x < self.p2.x else S.Zero if self.p1.x == self.p2.x else S.NegativeInfinity); result == S.Infinity or result == S.Zero or result == S.NegativeInfinity; 3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"82cf94b5910c605f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (S.Infinity if self.p1.x < self.p2.x else S.Zero if self.p1.x == self.p2.x else S.NegativeInfinity)","result == S.Infinity or result == S.Zero or result == S.NegativeInfinity"],"fibers":[{"name":"case_0","guard":"self.p1.x < self.p2.x","ensures":["result == S.Infinity"],"decidability":"z3","returns_expr":"S.Infinity"},{"name":"case_1","guard":"self.p1.x == self.p2.x","ensures":["result == S.Zero"],"decidability":"z3","returns_expr":"S.Zero"},{"name":"case_2","guard":"not (self.p1.x < self.p2.x) and not (self.p1.x == self.p2.x)","ensures":["result == S.NegativeInfinity"],"decidability":"z3","returns_expr":"S.NegativeInfinity"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.p1","self.p2"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def xdirection(self):
         """The x direction of the ray.
 
@@ -3619,16 +4155,26 @@ class Ray3D(LinearEntity3D, Ray):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ydirection(), returns the ydirection attribute) over Any ║
+# ║ Path(ydirection(), result == (S.Infinity if self.p1.y < self.p2.y else S.Zero if self.p1.y == self.p2.y else S.NegativeInfinity) and result == S.Infinity or result == S.Zero or result == S.NegativeInfinity) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ ydirection : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (S.Infinity if self.p1.y < self...   ║
+# ║   ensures:  result == S.Infinity or result == S.Zero ...   ║
+# ║   fiber[case_0]: self.p1.y < self.p2.y => S.Infinity       ║
+# ║   fiber[case_1]: self.p1.y == self.p2.y => S.Zero          ║
+# ║   fiber[case_2]: not (self.p1.y < self.p2.y) and not ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ ydirection : Any → {Any | result satisfies: result ==...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 58e745ddfe32978a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.line.Ray3D.ydirection","kind":"property","src_hash":"1fa828c4579a13f1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ydirection()","rhs":"returns the ydirection attribute","over":{"base":"Any"},"name":"ydirection_correct"},"guarantee":"returns the ydirection attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"58e745ddfe32978a"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.line.Ray3D.ydirection","kind":"property","src_hash":"1fa828c4579a13f1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (S.Infinity if self.p1.y < self.p2.y else S.Zero if self.p1.y == self.p2.y else S.NegativeInfinity) and result == S.Infinity or result == S.Zero or result == S.NegativeInfinity"},"spec":{"lhs":"ydirection()","rhs":"result == (S.Infinity if self.p1.y < self.p2.y else S.Zero if self.p1.y == self.p2.y else S.NegativeInfinity) and result == S.Infinity or result == S.Zero or result == S.NegativeInfinity","over":{"base":"Any"},"name":"ydirection_correct"},"guarantee":"result == (S.Infinity if self.p1.y < self.p2.y else S.Zero if self.p1.y == self.p2.y else S.NegativeInfinity); result == S.Infinity or result == S.Zero or result == S.NegativeInfinity; 3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"58e745ddfe32978a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (S.Infinity if self.p1.y < self.p2.y else S.Zero if self.p1.y == self.p2.y else S.NegativeInfinity)","result == S.Infinity or result == S.Zero or result == S.NegativeInfinity"],"fibers":[{"name":"case_0","guard":"self.p1.y < self.p2.y","ensures":["result == S.Infinity"],"decidability":"z3","returns_expr":"S.Infinity"},{"name":"case_1","guard":"self.p1.y == self.p2.y","ensures":["result == S.Zero"],"decidability":"z3","returns_expr":"S.Zero"},{"name":"case_2","guard":"not (self.p1.y < self.p2.y) and not (self.p1.y == self.p2.y)","ensures":["result == S.NegativeInfinity"],"decidability":"z3","returns_expr":"S.NegativeInfinity"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.p1","self.p2"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def ydirection(self):
         """The y direction of the ray.
 
@@ -3662,16 +4208,26 @@ class Ray3D(LinearEntity3D, Ray):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(zdirection(), returns the zdirection attribute) over Any ║
+# ║ Path(zdirection(), result == (S.Infinity if self.p1.z < self.p2.z else S.Zero if self.p1.z == self.p2.z else S.NegativeInfinity) and result == S.Infinity or result == S.Zero or result == S.NegativeInfinity) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ zdirection : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (S.Infinity if self.p1.z < self...   ║
+# ║   ensures:  result == S.Infinity or result == S.Zero ...   ║
+# ║   fiber[case_0]: self.p1.z < self.p2.z => S.Infinity       ║
+# ║   fiber[case_1]: self.p1.z == self.p2.z => S.Zero          ║
+# ║   fiber[case_2]: not (self.p1.z < self.p2.z) and not ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ zdirection : Any → {Any | result satisfies: result ==...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2b533e4baa624b24           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.line.Ray3D.zdirection","kind":"property","src_hash":"73a261a52bc1a943","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"zdirection()","rhs":"returns the zdirection attribute","over":{"base":"Any"},"name":"zdirection_correct"},"guarantee":"returns the zdirection attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2b533e4baa624b24"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.line.Ray3D.zdirection","kind":"property","src_hash":"73a261a52bc1a943","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (S.Infinity if self.p1.z < self.p2.z else S.Zero if self.p1.z == self.p2.z else S.NegativeInfinity) and result == S.Infinity or result == S.Zero or result == S.NegativeInfinity"},"spec":{"lhs":"zdirection()","rhs":"result == (S.Infinity if self.p1.z < self.p2.z else S.Zero if self.p1.z == self.p2.z else S.NegativeInfinity) and result == S.Infinity or result == S.Zero or result == S.NegativeInfinity","over":{"base":"Any"},"name":"zdirection_correct"},"guarantee":"result == (S.Infinity if self.p1.z < self.p2.z else S.Zero if self.p1.z == self.p2.z else S.NegativeInfinity); result == S.Infinity or result == S.Zero or result == S.NegativeInfinity; 3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2b533e4baa624b24","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (S.Infinity if self.p1.z < self.p2.z else S.Zero if self.p1.z == self.p2.z else S.NegativeInfinity)","result == S.Infinity or result == S.Zero or result == S.NegativeInfinity"],"fibers":[{"name":"case_0","guard":"self.p1.z < self.p2.z","ensures":["result == S.Infinity"],"decidability":"z3","returns_expr":"S.Infinity"},{"name":"case_1","guard":"self.p1.z == self.p2.z","ensures":["result == S.Zero"],"decidability":"z3","returns_expr":"S.Zero"},{"name":"case_2","guard":"not (self.p1.z < self.p2.z) and not (self.p1.z == self.p2.z)","ensures":["result == S.NegativeInfinity"],"decidability":"z3","returns_expr":"S.NegativeInfinity"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.p1","self.p2"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def zdirection(self):
         """The z direction of the ray.
 
@@ -3709,14 +4265,21 @@ class Ray3D(LinearEntity3D, Ray):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Segment3D(*args), correctly constructs a Segment3D instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Segment3D : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, LinearEntity3D)               ║
+# ║   ensures:  isinstance(self, Segment)                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Segment3D : Any → {Any | result satisfies: isinstance...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 375ef0fcd571d555  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.line.Segment3D","kind":"class","src_hash":"acbe5da22dbe18fa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Segment3D(*args)","rhs":"correctly constructs a Segment3D instance","over":{"base":"Any"},"name":"Segment3D_class_invariant"},"guarantee":"correctly constructs a Segment3D instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"375ef0fcd571d555"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.line.Segment3D","kind":"class","src_hash":"acbe5da22dbe18fa","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, LinearEntity3D) and isinstance(self, Segment)"},"spec":{"lhs":"Segment3D(*args)","rhs":"correctly constructs a Segment3D instance","over":{"base":"Any"},"name":"Segment3D_class_invariant"},"guarantee":"isinstance(self, LinearEntity3D); isinstance(self, Segment)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"375ef0fcd571d555","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, LinearEntity3D)","isinstance(self, Segment)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function Segment3D not found in source"]}}
 class Segment3D(LinearEntity3D, Segment):
     """A line segment in a 3D space.
 
@@ -3754,16 +4317,22 @@ class Segment3D(LinearEntity3D, Segment):
 
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, p1, p2), <unspecified:__new__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | af9d4c128974f5c6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.line.Segment3D.__new__","kind":"method","src_hash":"40b537e1c23dda74","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"af9d4c128974f5c6"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.line.Segment3D.__new__","kind":"method","src_hash":"40b537e1c23dda74","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, p1, p2)","rhs":"<unspecified:__new__>","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"af9d4c128974f5c6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, p1, p2, **kwargs):
         p1 = Point(p1, dim=3)
         p2 = Point(p2, dim=3)

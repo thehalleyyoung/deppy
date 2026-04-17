@@ -18,16 +18,22 @@
 """Functions that involve magic. """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(pollute(nam), pollute the global namespace with symbols -> objects mapping) over Any ║
+# ║ Path(pollute(names, objects), <unspecified:pollute>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ pollute : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cc3f83077671346e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.magic.pollute","kind":"function","src_hash":"e6734221bc925ab8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pollute(nam)","rhs":"pollute the global namespace with symbols -> objects mapping","over":{"base":"Any"},"name":"pollute_correct"},"guarantee":"pollute the global namespace with symbols -> objects mapping","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.magic.pollute_correct","statement":"Path(pollute(x), pollute the global namespace with symbols -> objects mapping)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cc3f83077671346e"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.magic.pollute","kind":"function","src_hash":"e6734221bc925ab8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pollute(names, objects)","rhs":"<unspecified:pollute>","over":{"base":"Any"},"name":"pollute_correct"},"guarantee":"pollute the global namespace with symbols -> objects mapping","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.magic.pollute_correct","statement":"Path(pollute(x), pollute the global namespace with symbols -> objects mapping)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cc3f83077671346e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def pollute(names, objects):
     """Pollute the global namespace with symbols -> objects mapping. """
     from inspect import currentframe

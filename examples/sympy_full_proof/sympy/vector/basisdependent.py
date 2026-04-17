@@ -34,14 +34,20 @@ if TYPE_CHECKING:
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(BasisDependent(*args), correctly constructs a BasisDependent instance) over {Any | isinstance(x, BasisDependent)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Expr)                         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ BasisDependent : {Any | isinstance(x, BasisDependent)...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.9ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ea7ebeb1847fbc34  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.basisdependent.BasisDependent","kind":"class","src_hash":"3a5951136ada1bd6","in":{"base":"Any","pred":"isinstance(x, BasisDependent)"},"out":{"base":"Any"},"spec":{"lhs":"BasisDependent(*args)","rhs":"correctly constructs a BasisDependent instance","over":{"base":"Any","pred":"isinstance(x, BasisDependent)"},"name":"BasisDependent_class_invariant"},"guarantee":"correctly constructs a BasisDependent instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ea7ebeb1847fbc34"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.basisdependent.BasisDependent","kind":"class","src_hash":"3a5951136ada1bd6","in":{"base":"Any","pred":"isinstance(x, BasisDependent)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Expr)"},"spec":{"lhs":"BasisDependent(*args)","rhs":"correctly constructs a BasisDependent instance","over":{"base":"Any","pred":"isinstance(x, BasisDependent)"},"name":"BasisDependent_class_invariant"},"guarantee":"isinstance(self, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ea7ebeb1847fbc34","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Expr)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.9,"verdict_class":"assumed","binding":false,"binding_errors":["Function BasisDependent not found in source"]}}
 class BasisDependent(Expr):
     """
     Super class containing functionality common to vectors and
@@ -54,152 +60,212 @@ class BasisDependent(Expr):
 
     @call_highest_priority('__radd__')
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__add__(oth), returns the sum/concatenation) over Any ║
+# ║ Path(__add__(other), self._add_func(self, other)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._add_func(self, other)                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __add__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f5061cb29b052f71           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.basisdependent.BasisDependent.__add__","kind":"method","src_hash":"bf6367898f001715","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__add__(oth)","rhs":"returns the sum/concatenation","over":{"base":"Any"},"name":"__add___correct"},"guarantee":"returns the sum/concatenation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f5061cb29b052f71"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.basisdependent.BasisDependent.__add__","kind":"method","src_hash":"bf6367898f001715","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__add__(other)","rhs":"self._add_func(self, other)","over":{"base":"Any"},"name":"__add___correct"},"guarantee":"returns self._add_func(self, other)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f5061cb29b052f71","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._add_func(self, other)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._add_func"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __add__(self, other):
         return self._add_func(self, other)
 
     @call_highest_priority('__add__')
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__radd__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__radd__(other), self._add_func(other, self)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._add_func(other, self)                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __radd__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 20742c1ea4e450fb           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.basisdependent.BasisDependent.__radd__","kind":"method","src_hash":"db1c53db568a60a2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__radd__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__radd___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"20742c1ea4e450fb"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.basisdependent.BasisDependent.__radd__","kind":"method","src_hash":"db1c53db568a60a2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__radd__(other)","rhs":"self._add_func(other, self)","over":{"base":"Any"},"name":"__radd___correct"},"guarantee":"returns self._add_func(other, self)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"20742c1ea4e450fb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._add_func(other, self)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._add_func"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __radd__(self, other):
         return self._add_func(other, self)
 
     @call_highest_priority('__rsub__')
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__sub__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__sub__(other), self._add_func(self, -other)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._add_func(self, -other)                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __sub__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | fd6cb2c5ccb54d3e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.basisdependent.BasisDependent.__sub__","kind":"method","src_hash":"3243a0947286bdad","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__sub__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__sub___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fd6cb2c5ccb54d3e"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.basisdependent.BasisDependent.__sub__","kind":"method","src_hash":"3243a0947286bdad","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__sub__(other)","rhs":"self._add_func(self, -other)","over":{"base":"Any"},"name":"__sub___correct"},"guarantee":"returns self._add_func(self, -other)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fd6cb2c5ccb54d3e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._add_func(self, -other)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._add_func"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __sub__(self, other):
         return self._add_func(self, -other)
 
     @call_highest_priority('__sub__')
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__rsub__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__rsub__(other), self._add_func(other, -self)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._add_func(other, -self)                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __rsub__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 719146aff215e9c3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.basisdependent.BasisDependent.__rsub__","kind":"method","src_hash":"bae3df9d0d904d7e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rsub__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__rsub___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"719146aff215e9c3"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.basisdependent.BasisDependent.__rsub__","kind":"method","src_hash":"bae3df9d0d904d7e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rsub__(other)","rhs":"self._add_func(other, -self)","over":{"base":"Any"},"name":"__rsub___correct"},"guarantee":"returns self._add_func(other, -self)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"719146aff215e9c3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._add_func(other, -self)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._add_func"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __rsub__(self, other):
         return self._add_func(other, -self)
 
     @_sympifyit('other', NotImplemented)
     @call_highest_priority('__rmul__')
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__mul__(oth), returns the product) over Any           ║
+# ║ Path(__mul__(other), self._mul_func(self, other)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._mul_func(self, other)                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __mul__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 58a0bf985a58d434           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.basisdependent.BasisDependent.__mul__","kind":"method","src_hash":"9c5ef64a7c385fb0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__mul__(oth)","rhs":"returns the product","over":{"base":"Any"},"name":"__mul___correct"},"guarantee":"returns the product","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"58a0bf985a58d434"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.basisdependent.BasisDependent.__mul__","kind":"method","src_hash":"9c5ef64a7c385fb0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__mul__(other)","rhs":"self._mul_func(self, other)","over":{"base":"Any"},"name":"__mul___correct"},"guarantee":"returns self._mul_func(self, other)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"58a0bf985a58d434","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._mul_func(self, other)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._mul_func"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __mul__(self, other):
         return self._mul_func(self, other)
 
     @_sympifyit('other', NotImplemented)
     @call_highest_priority('__mul__')
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__rmul__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__rmul__(other), self._mul_func(other, self)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._mul_func(other, self)                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __rmul__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 486844f3aa6b2217           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.basisdependent.BasisDependent.__rmul__","kind":"method","src_hash":"561ea81571bc9d99","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rmul__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__rmul___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"486844f3aa6b2217"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.basisdependent.BasisDependent.__rmul__","kind":"method","src_hash":"561ea81571bc9d99","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rmul__(other)","rhs":"self._mul_func(other, self)","over":{"base":"Any"},"name":"__rmul___correct"},"guarantee":"returns self._mul_func(other, self)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"486844f3aa6b2217","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._mul_func(other, self)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._mul_func"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __rmul__(self, other):
         return self._mul_func(other, self)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__neg__(), returns the additive inverse) over Any     ║
+# ║ Path(__neg__(), self._mul_func(S.NegativeOne, self)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._mul_func(S.NegativeOne, self)            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __neg__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 02019e5efd4bb5b1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.basisdependent.BasisDependent.__neg__","kind":"method","src_hash":"5433a74e03eee530","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__neg__()","rhs":"returns the additive inverse","over":{"base":"Any"},"name":"__neg___correct"},"guarantee":"returns the additive inverse","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"02019e5efd4bb5b1"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.basisdependent.BasisDependent.__neg__","kind":"method","src_hash":"5433a74e03eee530","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__neg__()","rhs":"self._mul_func(S.NegativeOne, self)","over":{"base":"Any"},"name":"__neg___correct"},"guarantee":"returns self._mul_func(S.NegativeOne, self)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"02019e5efd4bb5b1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._mul_func(S.NegativeOne, self)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._mul_func"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __neg__(self):
         return self._mul_func(S.NegativeOne, self)
 
     @_sympifyit('other', NotImplemented)
     @call_highest_priority('__rtruediv__')
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__truediv__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__truediv__(other), self._div_helper(other)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._div_helper(other)                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __truediv__ : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c0a68c1f14c2a892           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.basisdependent.BasisDependent.__truediv__","kind":"method","src_hash":"10d01c24be69365f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__truediv__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__truediv___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c0a68c1f14c2a892"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.basisdependent.BasisDependent.__truediv__","kind":"method","src_hash":"10d01c24be69365f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__truediv__(other)","rhs":"self._div_helper(other)","over":{"base":"Any"},"name":"__truediv___correct"},"guarantee":"returns self._div_helper(other)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c0a68c1f14c2a892","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._div_helper(other)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._div_helper"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __truediv__(self, other):
         return self._div_helper(other)
 
     @call_highest_priority('__truediv__')
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__rtruediv__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__rtruediv__(other), TypeError('Invalid divisor for division')) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  TypeError('Invalid divisor for division')      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __rtruediv__ : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0dca6f484098605e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.basisdependent.BasisDependent.__rtruediv__","kind":"method","src_hash":"2e1bac8d3c923149","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rtruediv__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__rtruediv___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0dca6f484098605e"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.basisdependent.BasisDependent.__rtruediv__","kind":"method","src_hash":"2e1bac8d3c923149","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rtruediv__(other)","rhs":"TypeError('Invalid divisor for division')","over":{"base":"Any"},"name":"__rtruediv___correct"},"guarantee":"returns TypeError('Invalid divisor for division')","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0dca6f484098605e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"TypeError('Invalid divisor for division')","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __rtruediv__(self, other):
         return TypeError("Invalid divisor for division")
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(evalf(n, ), implements the sympy evalf routine for this quantity) over Any ║
+# ║ Path(evalf(n, subs, maxn), <unspecified:evalf>) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ evalf : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ed57706d0e708ef4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.basisdependent.BasisDependent.evalf","kind":"method","src_hash":"8a28015d93120b8a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"evalf(n, )","rhs":"implements the sympy evalf routine for this quantity","over":{"base":"Any"},"name":"evalf_correct"},"guarantee":"implements the sympy evalf routine for this quantity","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.basisdependent.BasisDependent.evalf_correct","statement":"Path(evalf(x), implements the sympy evalf routine for this quantity)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ed57706d0e708ef4"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.basisdependent.BasisDependent.evalf","kind":"method","src_hash":"8a28015d93120b8a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"evalf(n, subs, maxn)","rhs":"<unspecified:evalf>","over":{"base":"Any"},"name":"evalf_correct"},"guarantee":"implements the sympy evalf routine for this quantity","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.basisdependent.BasisDependent.evalf_correct","statement":"Path(evalf(x), implements the sympy evalf routine for this quantity)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ed57706d0e708ef4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.components","self.zero"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def evalf(self, n=15, subs=None, maxn=100, chop=False, strict=False, quad=None, verbose=False):
         """
         Implements the SymPy evalf routine for this quantity.
@@ -220,16 +286,22 @@ class BasisDependent(Expr):
     n = evalf # type: ignore
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(simplify(**k), implements the sympy simplify routine for this quantity) over Any ║
+# ║ Path(simplify(**kwargs), self._add_func(*simp_components)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._add_func(*simp_components)               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ simplify : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1c55459f2193f7ff  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b20c267c01e5db18  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.basisdependent.BasisDependent.simplify","kind":"method","src_hash":"ed477be6ebe3270e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"simplify(**k)","rhs":"implements the sympy simplify routine for this quantity","over":{"base":"Any"},"name":"simplify_correct"},"guarantee":"implements the sympy simplify routine for this quantity","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.basisdependent.BasisDependent.simplify_correct","statement":"Path(simplify(x), implements the sympy simplify routine for this quantity)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1c55459f2193f7ff"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.basisdependent.BasisDependent.simplify","kind":"method","src_hash":"ed477be6ebe3270e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"simplify(**kwargs)","rhs":"self._add_func(*simp_components)","over":{"base":"Any"},"name":"simplify_correct"},"guarantee":"returns self._add_func(*simp_components)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.basisdependent.BasisDependent.simplify_correct","statement":"Path(simplify(x), returns self._add_func(*simp_components))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b20c267c01e5db18","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._add_func(*simp_components)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._add_func","self.components"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def simplify(self, **kwargs):
         """
         Implements the SymPy simplify routine for this quantity.
@@ -245,16 +317,22 @@ class BasisDependent(Expr):
     simplify.__doc__ += simp.__doc__  # type: ignore
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(trigsimp(**o), implements the sympy trigsimp routine, for this quantity) over Any ║
+# ║ Path(trigsimp(**opts), self._add_func(*trig_components)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._add_func(*trig_components)               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ trigsimp : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5adf2729950ac2f6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f1341d52632bb5d2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.basisdependent.BasisDependent.trigsimp","kind":"method","src_hash":"7e49f393eccf8468","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"trigsimp(**o)","rhs":"implements the sympy trigsimp routine, for this quantity","over":{"base":"Any"},"name":"trigsimp_correct"},"guarantee":"implements the sympy trigsimp routine, for this quantity","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.basisdependent.BasisDependent.trigsimp_correct","statement":"Path(trigsimp(x), implements the sympy trigsimp routine, for this quantity)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5adf2729950ac2f6"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.basisdependent.BasisDependent.trigsimp","kind":"method","src_hash":"7e49f393eccf8468","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"trigsimp(**opts)","rhs":"self._add_func(*trig_components)","over":{"base":"Any"},"name":"trigsimp_correct"},"guarantee":"returns self._add_func(*trig_components)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.basisdependent.BasisDependent.trigsimp_correct","statement":"Path(trigsimp(x), returns self._add_func(*trig_components))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f1341d52632bb5d2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._add_func(*trig_components)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._add_func","self.components"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def trigsimp(self, **opts):
         """
         Implements the SymPy trigsimp routine, for this quantity.
@@ -270,74 +348,104 @@ class BasisDependent(Expr):
     trigsimp.__doc__ += tsimp.__doc__  # type: ignore
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_simplify(**k), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_simplify(**kwargs), self.simplify(**kwargs)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.simplify(**kwargs)                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_simplify : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c3c67702c462d1e5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.basisdependent.BasisDependent._eval_simplify","kind":"method","src_hash":"a455368b90f68f0f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_simplify(**k)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_simplify_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c3c67702c462d1e5"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.basisdependent.BasisDependent._eval_simplify","kind":"method","src_hash":"a455368b90f68f0f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_simplify(**kwargs)","rhs":"self.simplify(**kwargs)","over":{"base":"Any"},"name":"_eval_simplify_correct"},"guarantee":"returns self.simplify(**kwargs)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c3c67702c462d1e5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.simplify(**kwargs)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.simplify"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_simplify(self, **kwargs):
         return self.simplify(**kwargs)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_trigsimp(**o), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_trigsimp(**opts), self.trigsimp(**opts)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.trigsimp(**opts)                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_trigsimp : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f2e0daaca00268ed           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.basisdependent.BasisDependent._eval_trigsimp","kind":"method","src_hash":"57a2aa4e1e76e4d3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_trigsimp(**o)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_trigsimp_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f2e0daaca00268ed"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.basisdependent.BasisDependent._eval_trigsimp","kind":"method","src_hash":"57a2aa4e1e76e4d3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_trigsimp(**opts)","rhs":"self.trigsimp(**opts)","over":{"base":"Any"},"name":"_eval_trigsimp_correct"},"guarantee":"returns self.trigsimp(**opts)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f2e0daaca00268ed","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.trigsimp(**opts)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.trigsimp"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_trigsimp(self, **opts):
         return self.trigsimp(**opts)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_derivative(wrt), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_derivative(wrt), self.diff(wrt)) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.diff(wrt)                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_derivative : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a8efd45417457f02           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.basisdependent.BasisDependent._eval_derivative","kind":"method","src_hash":"7779b743f7207b99","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_derivative(wrt)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_derivative_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a8efd45417457f02"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.basisdependent.BasisDependent._eval_derivative","kind":"method","src_hash":"7779b743f7207b99","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_derivative(wrt)","rhs":"self.diff(wrt)","over":{"base":"Any"},"name":"_eval_derivative_correct"},"guarantee":"returns self.diff(wrt)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a8efd45417457f02","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.diff(wrt)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.diff"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_derivative(self, wrt):
         return self.diff(wrt)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_Integral(*sy), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_Integral(*symbols, **assumptions), self._add_func(*integral_components)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._add_func(*integral_components)           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_Integral : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d3c262e957eade95  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cc514b83cb988234  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.basisdependent.BasisDependent._eval_Integral","kind":"method","src_hash":"217b587bacc79ffd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_Integral(*sy)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_Integral_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.basisdependent.BasisDependent._eval_Integral_correct","statement":"Path(_eval_Integral(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d3c262e957eade95"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.basisdependent.BasisDependent._eval_Integral","kind":"method","src_hash":"217b587bacc79ffd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_Integral(*symbols, **assumptions)","rhs":"self._add_func(*integral_components)","over":{"base":"Any"},"name":"_eval_Integral_correct"},"guarantee":"returns self._add_func(*integral_components)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.basisdependent.BasisDependent._eval_Integral_correct","statement":"Path(_eval_Integral(x), returns self._add_func(*integral_components))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cc514b83cb988234","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._add_func(*integral_components)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._add_func","self.components"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_Integral(self, *symbols, **assumptions):
         integral_components = [Integral(v, *symbols, **assumptions) * k
                                for k, v in self.components.items()]
         return self._add_func(*integral_components)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(as_numer_denom(), returns the expression as a tuple wrt the following transformation -) over Any ║
+# ║ Path(as_numer_denom(), (self, S.One)) over Any             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (self, S.One)                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ as_numer_denom : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 918026e2f028bf1e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.basisdependent.BasisDependent.as_numer_denom","kind":"method","src_hash":"6220cf1953ff9ddb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_numer_denom()","rhs":"returns the expression as a tuple wrt the following transformation -","over":{"base":"Any"},"name":"as_numer_denom_correct"},"guarantee":"returns the expression as a tuple wrt the following transformation -","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"918026e2f028bf1e"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.basisdependent.BasisDependent.as_numer_denom","kind":"method","src_hash":"6220cf1953ff9ddb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_numer_denom()","rhs":"(self, S.One)","over":{"base":"Any"},"name":"as_numer_denom_correct"},"guarantee":"returns (self, S.One)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"918026e2f028bf1e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(self, S.One)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def as_numer_denom(self):
         """
         Returns the expression as a tuple wrt the following
@@ -349,16 +457,22 @@ class BasisDependent(Expr):
         return self, S.One
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(factor(*ar), implements the sympy factor routine, on the scalar parts of a basis-dependent expression) over Any ║
+# ║ Path(factor(*args, **kwargs), self._add_func(*fctr_components)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._add_func(*fctr_components)               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ factor : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 28e117d0a5a68cdd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 745056b06260e797  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.basisdependent.BasisDependent.factor","kind":"method","src_hash":"65553714997fd116","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"factor(*ar)","rhs":"implements the sympy factor routine, on the scalar parts of a basis-dependent expression","over":{"base":"Any"},"name":"factor_correct"},"guarantee":"implements the sympy factor routine, on the scalar parts of a basis-dependent expression","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.basisdependent.BasisDependent.factor_correct","statement":"Path(factor(x), implements the sympy factor routine, on the scalar parts of a basis-dependent expression)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"28e117d0a5a68cdd"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.basisdependent.BasisDependent.factor","kind":"method","src_hash":"65553714997fd116","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"factor(*args, **kwargs)","rhs":"self._add_func(*fctr_components)","over":{"base":"Any"},"name":"factor_correct"},"guarantee":"returns self._add_func(*fctr_components)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.basisdependent.BasisDependent.factor_correct","statement":"Path(factor(x), returns self._add_func(*fctr_components))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"745056b06260e797","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._add_func(*fctr_components)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._add_func","self.components"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def factor(self, *args, **kwargs):
         """
         Implements the SymPy factor routine, on the scalar parts
@@ -375,46 +489,64 @@ class BasisDependent(Expr):
     factor.__doc__ += fctr.__doc__  # type: ignore
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(as_coeff_Mul(rat), efficiently extract the coefficient of a product) over Any ║
+# ║ Path(as_coeff_Mul(rational), (S.One, self)) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (S.One, self)                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ as_coeff_Mul : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 985df3b7d36000f0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.basisdependent.BasisDependent.as_coeff_Mul","kind":"method","src_hash":"f67b62b4cf99ca1b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_coeff_Mul(rat)","rhs":"efficiently extract the coefficient of a product","over":{"base":"Any"},"name":"as_coeff_Mul_correct"},"guarantee":"efficiently extract the coefficient of a product","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"985df3b7d36000f0"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.basisdependent.BasisDependent.as_coeff_Mul","kind":"method","src_hash":"f67b62b4cf99ca1b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_coeff_Mul(rational)","rhs":"(S.One, self)","over":{"base":"Any"},"name":"as_coeff_Mul_correct"},"guarantee":"returns (S.One, self)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"985df3b7d36000f0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(S.One, self)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def as_coeff_Mul(self, rational=False):
         """Efficiently extract the coefficient of a product."""
         return (S.One, self)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(as_coeff_add(*de), efficiently extract the coefficient of a summation) over Any ║
+# ║ Path(as_coeff_add(*deps), (0, tuple((x * self.components[x] for x in self.components)))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (0, tuple((x * self.components[x] for x i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ as_coeff_add : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8793bcb1620381cf           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.basisdependent.BasisDependent.as_coeff_add","kind":"method","src_hash":"4f38f3c90a33ca15","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_coeff_add(*de)","rhs":"efficiently extract the coefficient of a summation","over":{"base":"Any"},"name":"as_coeff_add_correct"},"guarantee":"efficiently extract the coefficient of a summation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8793bcb1620381cf"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.basisdependent.BasisDependent.as_coeff_add","kind":"method","src_hash":"4f38f3c90a33ca15","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_coeff_add(*deps)","rhs":"(0, tuple((x * self.components[x] for x in self.components)))","over":{"base":"Any"},"name":"as_coeff_add_correct"},"guarantee":"returns (0, tuple((x * self.components[x] for x in self.components)))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8793bcb1620381cf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(0, tuple((x * self.components[x] for x in self.components)))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.components"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def as_coeff_add(self, *deps):
         """Efficiently extract the coefficient of a summation."""
         return 0, tuple(x * self.components[x] for x in self.components)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(diff(*ar), implements the sympy diff routine, for vectors) over Any ║
+# ║ Path(diff(*args, **kwargs), self._add_func(*diff_components)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._add_func(*diff_components)               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ diff : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3a15b141c31c4db1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 89055ccf6d55b986  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.basisdependent.BasisDependent.diff","kind":"method","src_hash":"db1a47a814ccb2fd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"diff(*ar)","rhs":"implements the sympy diff routine, for vectors","over":{"base":"Any"},"name":"diff_correct"},"guarantee":"implements the sympy diff routine, for vectors","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.basisdependent.BasisDependent.diff_correct","statement":"Path(diff(x), implements the sympy diff routine, for vectors)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3a15b141c31c4db1"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.basisdependent.BasisDependent.diff","kind":"method","src_hash":"db1a47a814ccb2fd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"diff(*args, **kwargs)","rhs":"self._add_func(*diff_components)","over":{"base":"Any"},"name":"diff_correct"},"guarantee":"returns self._add_func(*diff_components)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.basisdependent.BasisDependent.diff_correct","statement":"Path(diff(x), returns self._add_func(*diff_components))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"89055ccf6d55b986","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._add_func(*diff_components)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._add_func","self.components"],"raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def diff(self, *args, **kwargs):
         """
         Implements the SymPy diff routine, for vectors.
@@ -433,16 +565,22 @@ class BasisDependent(Expr):
     diff.__doc__ += df.__doc__  # type: ignore
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(doit(**h), calls .doit() on each term in the dyadic) over Any ║
+# ║ Path(doit(**hints), self._add_func(*doit_components)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._add_func(*doit_components)               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ doit : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ce1475ffc6c9680f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 46b15461ac40ea2e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.basisdependent.BasisDependent.doit","kind":"method","src_hash":"1a84b51103e21c21","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"doit(**h)","rhs":"calls .doit() on each term in the dyadic","over":{"base":"Any"},"name":"doit_correct"},"guarantee":"calls .doit() on each term in the dyadic","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.basisdependent.BasisDependent.doit_correct","statement":"Path(doit(x), calls .doit() on each term in the dyadic)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ce1475ffc6c9680f"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.basisdependent.BasisDependent.doit","kind":"method","src_hash":"1a84b51103e21c21","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"doit(**hints)","rhs":"self._add_func(*doit_components)","over":{"base":"Any"},"name":"doit_correct"},"guarantee":"returns self._add_func(*doit_components)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.basisdependent.BasisDependent.doit_correct","statement":"Path(doit(x), returns self._add_func(*doit_components))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"46b15461ac40ea2e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._add_func(*doit_components)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._add_func","self.components"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def doit(self, **hints):
         """Calls .doit() on each term in the Dyadic"""
         doit_components = [self.components[x].doit(**hints) * x
@@ -453,14 +591,21 @@ class BasisDependent(Expr):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(BasisDependentAdd(*args), correctly constructs a BasisDependentAdd instance) over {Any | isinstance(obj, Mul) and isinstance(arg, cls._expr_type) and isinstance(arg, Add)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, BasisDependent)               ║
+# ║   ensures:  isinstance(self, Add)                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ BasisDependentAdd : {Any | isinstance(obj, Mul) and i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7f8edcb0c27d70dd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.basisdependent.BasisDependentAdd","kind":"class","src_hash":"680a39cba677c506","in":{"base":"Any","pred":"isinstance(obj, Mul) and isinstance(arg, cls._expr_type) and isinstance(arg, Add)"},"out":{"base":"Any"},"spec":{"lhs":"BasisDependentAdd(*args)","rhs":"correctly constructs a BasisDependentAdd instance","over":{"base":"Any","pred":"isinstance(obj, Mul) and isinstance(arg, cls._expr_type) and isinstance(arg, Add)"},"name":"BasisDependentAdd_class_invariant"},"guarantee":"correctly constructs a BasisDependentAdd instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7f8edcb0c27d70dd"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.basisdependent.BasisDependentAdd","kind":"class","src_hash":"680a39cba677c506","in":{"base":"Any","pred":"isinstance(obj, Mul) and isinstance(arg, cls._expr_type) and isinstance(arg, Add)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, BasisDependent) and isinstance(self, Add)"},"spec":{"lhs":"BasisDependentAdd(*args)","rhs":"correctly constructs a BasisDependentAdd instance","over":{"base":"Any","pred":"isinstance(obj, Mul) and isinstance(arg, cls._expr_type) and isinstance(arg, Add)"},"name":"BasisDependentAdd_class_invariant"},"guarantee":"isinstance(self, BasisDependent); isinstance(self, Add)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7f8edcb0c27d70dd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, BasisDependent)","isinstance(self, Add)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function BasisDependentAdd not found in source"]}}
 class BasisDependentAdd(BasisDependent, Add):
     """
     Denotes sum of basis dependent quantities such that they cannot
@@ -468,16 +613,22 @@ class BasisDependentAdd(BasisDependent, Add):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, *args, **options), <unspecified:__new__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c9a3e6af2faed567           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.basisdependent.BasisDependentAdd.__new__","kind":"method","src_hash":"2ceb724df95ec341","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c9a3e6af2faed567"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.basisdependent.BasisDependentAdd.__new__","kind":"method","src_hash":"2ceb724df95ec341","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, *args, **options)","rhs":"<unspecified:__new__>","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c9a3e6af2faed567","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["cls._add_func","cls._expr_type","cls._mul_func","cls.zero"],"raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, *args, **options):
         components = {}
 
@@ -523,45 +674,64 @@ class BasisDependentAdd(BasisDependent, Add):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(BasisDependentMul(*args), correctly constructs a BasisDependentMul instance) over {Any | isinstance(expr, cls._add_func) and isinstance(obj, Add) and isinstance(arg, cls._zero_func)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, BasisDependent)               ║
+# ║   ensures:  isinstance(self, Mul)                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ BasisDependentMul : {Any | isinstance(expr, cls._add_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3693b3fddce0c93d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.basisdependent.BasisDependentMul","kind":"class","src_hash":"65ddb761ca8e5e11","in":{"base":"Any","pred":"isinstance(expr, cls._add_func) and isinstance(obj, Add) and isinstance(arg, cls._zero_func)"},"out":{"base":"Any"},"spec":{"lhs":"BasisDependentMul(*args)","rhs":"correctly constructs a BasisDependentMul instance","over":{"base":"Any","pred":"isinstance(expr, cls._add_func) and isinstance(obj, Add) and isinstance(arg, cls._zero_func)"},"name":"BasisDependentMul_class_invariant"},"guarantee":"correctly constructs a BasisDependentMul instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3693b3fddce0c93d"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.basisdependent.BasisDependentMul","kind":"class","src_hash":"65ddb761ca8e5e11","in":{"base":"Any","pred":"isinstance(expr, cls._add_func) and isinstance(obj, Add) and isinstance(arg, cls._zero_func)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, BasisDependent) and isinstance(self, Mul)"},"spec":{"lhs":"BasisDependentMul(*args)","rhs":"correctly constructs a BasisDependentMul instance","over":{"base":"Any","pred":"isinstance(expr, cls._add_func) and isinstance(obj, Add) and isinstance(arg, cls._zero_func)"},"name":"BasisDependentMul_class_invariant"},"guarantee":"isinstance(self, BasisDependent); isinstance(self, Mul)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3693b3fddce0c93d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, BasisDependent)","isinstance(self, Mul)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":false,"binding_errors":["Function BasisDependentMul not found in source"]}}
 class BasisDependentMul(BasisDependent, Mul):
     """
     Denotes product of base- basis dependent quantity with a scalar.
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, *args, **options), <unspecified:__new__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3079312ccd32884c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.basisdependent.BasisDependentMul.__new__","kind":"method","src_hash":"450e3f4d9eacf307","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3079312ccd32884c"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.basisdependent.BasisDependentMul.__new__","kind":"method","src_hash":"450e3f4d9eacf307","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, *args, **options)","rhs":"<unspecified:__new__>","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3079312ccd32884c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["cls._new"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, *args, **options):
         obj = cls._new(*args, **options)
         return obj
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_new_rawargs(*ar), internal helper behaves correctly) over Any ║
+# ║ Path(_new_rawargs(*args), type(self)(*args)) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  type(self)(*args)                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _new_rawargs : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e08677fd41214d56           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.basisdependent.BasisDependentMul._new_rawargs","kind":"method","src_hash":"7839b1eebe2e4b99","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_new_rawargs(*ar)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_new_rawargs_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e08677fd41214d56"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.basisdependent.BasisDependentMul._new_rawargs","kind":"method","src_hash":"7839b1eebe2e4b99","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_new_rawargs(*args)","rhs":"type(self)(*args)","over":{"base":"Any"},"name":"_new_rawargs_correct"},"guarantee":"returns type(self)(*args)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e08677fd41214d56","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"type(self)(*args)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _new_rawargs(self, *args):
         # XXX: This is needed because Add.flatten() uses it but the default
         # implementation does not work for Vectors because they assign
@@ -570,16 +740,24 @@ class BasisDependentMul(BasisDependent, Mul):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_new(cls), internal helper behaves correctly) over Any ║
+# ║ Path(_new(cls, *args, **options), len(extra_args) == old_len_extra_args + 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _new : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(extra_args) == old_len_extra_args + 1      ║
+# ║   fiber[case_0]: count > 1                                 ║
+# ║   fiber[zero_or_none]: count == 0 => Mul(*args, **opt...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _new : Any → {Any | result satisfies: len(extra_args)...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a7622a1177cb001b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bee966ba13a845f0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.basisdependent.BasisDependentMul._new","kind":"classmethod","src_hash":"a225abc8801ab011","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_new(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_new_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.basisdependent.BasisDependentMul._new_correct","statement":"Path(_new(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a7622a1177cb001b"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.basisdependent.BasisDependentMul._new","kind":"classmethod","src_hash":"a225abc8801ab011","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(extra_args) == old_len_extra_args + 1"},"spec":{"lhs":"_new(cls, *args, **options)","rhs":"len(extra_args) == old_len_extra_args + 1","over":{"base":"Any"},"name":"_new_correct"},"guarantee":"len(extra_args) == old_len_extra_args + 1; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.basisdependent.BasisDependentMul._new_correct","statement":"Path(_new(x), len(extra_args) == old_len_extra_args + 1; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bee966ba13a845f0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(extra_args) == old_len_extra_args + 1"],"fibers":[{"name":"case_0","guard":"count > 1","ensures":[],"decidability":"z3"},{"name":"zero_or_none","guard":"count == 0","ensures":["result == Mul(*args, **options)"],"decidability":"z3","returns_expr":"Mul(*args, **options)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["cls._add_func","cls._base_func","cls._mul_func","cls._zero_func","cls.zero"],"calls_mutating":["extra_args.append"],"raises":["ValueError"]},"state_contract":{"modifies":["extra_args.*"],"old_bindings":{"old_len_extra_args":"len(extra_args)"},"post_ensures":["len(extra_args) == old_len_extra_args + 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _new(cls, *args, **options):
         from sympy.vector import Cross, Dot, Curl, Gradient
         count = 0
@@ -639,16 +817,23 @@ class BasisDependentMul(BasisDependent, Mul):
         return obj
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_sympystr(pri), internal helper behaves correctly) over Any ║
+# ║ Path(_sympystr(printer), measure_str + '*' + printer._print(self._base_instance)) over {Any | hasattr(printer, '_print')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _sympystr : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(printer, '_print')                     ║
+# ║   returns:  measure_str + '*' + printer._print(self._...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _sympystr : {Any | hasattr(printer, '_print')} → Any       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 950a42add7eafe30  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4cf7456f8ebfbc8f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.basisdependent.BasisDependentMul._sympystr","kind":"method","src_hash":"05af4fa04793f0bd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sympystr(pri)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_sympystr_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.basisdependent.BasisDependentMul._sympystr_correct","statement":"Path(_sympystr(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"950a42add7eafe30"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.basisdependent.BasisDependentMul._sympystr","kind":"method","src_hash":"05af4fa04793f0bd","in":{"base":"Any","pred":"hasattr(printer, '_print')"},"out":{"base":"Any"},"spec":{"lhs":"_sympystr(printer)","rhs":"measure_str + '*' + printer._print(self._base_instance)","over":{"base":"Any","pred":"hasattr(printer, '_print')"},"name":"_sympystr_correct"},"guarantee":"returns measure_str + '*' + printer._print(self._base_instance)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.basisdependent.BasisDependentMul._sympystr_correct","statement":"Path(_sympystr(x), returns measure_str + '*' + printer._print(self._base_instance))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4cf7456f8ebfbc8f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(printer, '_print')"],"returns_expr":"measure_str + '*' + printer._print(self._base_instance)","pure":false,"effects":{"effect_type":"reads_state","reads":["printer._print","self._base_instance","self._measure_number"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _sympystr(self, printer):
         measure_str = printer._print(self._measure_number)
         if ('(' in measure_str or '-' in measure_str or
@@ -660,14 +845,20 @@ class BasisDependentMul(BasisDependent, Mul):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(BasisDependentZero(*args), correctly constructs a BasisDependentZero instance) over {Any | isinstance(other, self._zero_func) and isinstance(other, self._expr_type)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, BasisDependent)               ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ BasisDependentZero : {Any | isinstance(other, self._z...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2d132ccc7d44904b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.basisdependent.BasisDependentZero","kind":"class","src_hash":"497d8c05cabe495d","in":{"base":"Any","pred":"isinstance(other, self._zero_func) and isinstance(other, self._expr_type)"},"out":{"base":"Any"},"spec":{"lhs":"BasisDependentZero(*args)","rhs":"correctly constructs a BasisDependentZero instance","over":{"base":"Any","pred":"isinstance(other, self._zero_func) and isinstance(other, self._expr_type)"},"name":"BasisDependentZero_class_invariant"},"guarantee":"correctly constructs a BasisDependentZero instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2d132ccc7d44904b"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.basisdependent.BasisDependentZero","kind":"class","src_hash":"497d8c05cabe495d","in":{"base":"Any","pred":"isinstance(other, self._zero_func) and isinstance(other, self._expr_type)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, BasisDependent)"},"spec":{"lhs":"BasisDependentZero(*args)","rhs":"correctly constructs a BasisDependentZero instance","over":{"base":"Any","pred":"isinstance(other, self._zero_func) and isinstance(other, self._expr_type)"},"name":"BasisDependentZero_class_invariant"},"guarantee":"isinstance(self, BasisDependent)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2d132ccc7d44904b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, BasisDependent)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function BasisDependentZero not found in source"]}}
 class BasisDependentZero(BasisDependent):
     """
     Class to denote a zero basis dependent instance.
@@ -676,16 +867,22 @@ class BasisDependentZero(BasisDependent):
     _latex_form: str
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls), <unspecified:__new__>) over Any         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 864a3dd648fd2318           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.basisdependent.BasisDependentZero.__new__","kind":"method","src_hash":"2cf1067320120481","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"864a3dd648fd2318"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.basisdependent.BasisDependentZero.__new__","kind":"method","src_hash":"2cf1067320120481","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"<unspecified:__new__>","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"864a3dd648fd2318","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls):
         obj = super().__new__(cls)
         # Pre-compute a specific hash value for the zero vector
@@ -694,31 +891,43 @@ class BasisDependentZero(BasisDependent):
         return obj
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__hash__(), returns a consistent hash value) over Any ║
+# ║ Path(__hash__(), self._hash) over Any                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._hash                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __hash__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6a3dc24f23d837fc           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.basisdependent.BasisDependentZero.__hash__","kind":"method","src_hash":"96f49e4531c3bb98","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__hash__()","rhs":"returns a consistent hash value","over":{"base":"Any"},"name":"__hash___correct"},"guarantee":"returns a consistent hash value","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6a3dc24f23d837fc"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.basisdependent.BasisDependentZero.__hash__","kind":"method","src_hash":"96f49e4531c3bb98","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__hash__()","rhs":"self._hash","over":{"base":"Any"},"name":"__hash___correct"},"guarantee":"returns self._hash","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6a3dc24f23d837fc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._hash","pure":false,"effects":{"effect_type":"reads_state","reads":["self._hash"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __hash__(self):
         return self._hash
 
     @call_highest_priority('__req__')
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__eq__(oth), correctly determines equality) over Any  ║
+# ║ Path(__eq__(other), isinstance(other, self._zero_func)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  isinstance(other, self._zero_func)             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __eq__ : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7820a33656285f63           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.basisdependent.BasisDependentZero.__eq__","kind":"method","src_hash":"75f82d70fb967d38","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(oth)","rhs":"correctly determines equality","over":{"base":"Any"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7820a33656285f63"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.basisdependent.BasisDependentZero.__eq__","kind":"method","src_hash":"75f82d70fb967d38","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(other)","rhs":"isinstance(other, self._zero_func)","over":{"base":"Any"},"name":"__eq___correct"},"guarantee":"returns isinstance(other, self._zero_func)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7820a33656285f63","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"isinstance(other, self._zero_func)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._zero_func"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __eq__(self, other):
         return isinstance(other, self._zero_func)
 
@@ -726,16 +935,23 @@ class BasisDependentZero(BasisDependent):
 
     @call_highest_priority('__radd__')
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__add__(oth), returns the sum/concatenation) over Any ║
+# ║ Path(__add__(other), <unspecified:__add__>) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: isinstance(other, self._expr_type) =...   ║
+# ║   fiber[case_1]: not (isinstance(other, self._expr_ty...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __add__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | dfac5ecf4dd14080           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.basisdependent.BasisDependentZero.__add__","kind":"method","src_hash":"159cacbe97f2cfda","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__add__(oth)","rhs":"returns the sum/concatenation","over":{"base":"Any"},"name":"__add___correct"},"guarantee":"returns the sum/concatenation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"dfac5ecf4dd14080"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.basisdependent.BasisDependentZero.__add__","kind":"method","src_hash":"159cacbe97f2cfda","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__add__(other)","rhs":"<unspecified:__add__>","over":{"base":"Any"},"name":"__add___correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"dfac5ecf4dd14080","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"isinstance(other, self._expr_type)","ensures":["result == other"],"decidability":"structural","returns_expr":"other"},{"name":"case_1","guard":"not (isinstance(other, self._expr_type))","ensures":[],"decidability":"structural"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._expr_type"],"raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __add__(self, other):
         if isinstance(other, self._expr_type):
             return other
@@ -744,16 +960,23 @@ class BasisDependentZero(BasisDependent):
 
     @call_highest_priority('__add__')
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__radd__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__radd__(other), <unspecified:__radd__>) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: isinstance(other, self._expr_type) =...   ║
+# ║   fiber[case_1]: not (isinstance(other, self._expr_ty...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __radd__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 69396469f5060dc9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.basisdependent.BasisDependentZero.__radd__","kind":"method","src_hash":"a9097d471ed8be54","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__radd__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__radd___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"69396469f5060dc9"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.basisdependent.BasisDependentZero.__radd__","kind":"method","src_hash":"a9097d471ed8be54","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__radd__(other)","rhs":"<unspecified:__radd__>","over":{"base":"Any"},"name":"__radd___correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"69396469f5060dc9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"isinstance(other, self._expr_type)","ensures":["result == other"],"decidability":"structural","returns_expr":"other"},{"name":"case_1","guard":"not (isinstance(other, self._expr_type))","ensures":[],"decidability":"structural"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._expr_type"],"raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __radd__(self, other):
         if isinstance(other, self._expr_type):
             return other
@@ -762,16 +985,23 @@ class BasisDependentZero(BasisDependent):
 
     @call_highest_priority('__rsub__')
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__sub__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__sub__(other), <unspecified:__sub__>) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: isinstance(other, self._expr_type) =...   ║
+# ║   fiber[case_1]: not (isinstance(other, self._expr_ty...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __sub__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f1e904de6de46586           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.basisdependent.BasisDependentZero.__sub__","kind":"method","src_hash":"a8bbf4aa6cb11580","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__sub__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__sub___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f1e904de6de46586"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.basisdependent.BasisDependentZero.__sub__","kind":"method","src_hash":"a8bbf4aa6cb11580","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__sub__(other)","rhs":"<unspecified:__sub__>","over":{"base":"Any"},"name":"__sub___correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f1e904de6de46586","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"isinstance(other, self._expr_type)","ensures":["result == -other"],"decidability":"structural","returns_expr":"-other"},{"name":"case_1","guard":"not (isinstance(other, self._expr_type))","ensures":[],"decidability":"structural"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._expr_type"],"raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __sub__(self, other):
         if isinstance(other, self._expr_type):
             return -other
@@ -780,16 +1010,23 @@ class BasisDependentZero(BasisDependent):
 
     @call_highest_priority('__sub__')
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__rsub__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__rsub__(other), <unspecified:__rsub__>) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: isinstance(other, self._expr_type) =...   ║
+# ║   fiber[case_1]: not (isinstance(other, self._expr_ty...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __rsub__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | cc6acfaa22742abb           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.basisdependent.BasisDependentZero.__rsub__","kind":"method","src_hash":"5db1767c8ee218d6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rsub__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__rsub___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cc6acfaa22742abb"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.basisdependent.BasisDependentZero.__rsub__","kind":"method","src_hash":"5db1767c8ee218d6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rsub__(other)","rhs":"<unspecified:__rsub__>","over":{"base":"Any"},"name":"__rsub___correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cc6acfaa22742abb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"isinstance(other, self._expr_type)","ensures":["result == other"],"decidability":"structural","returns_expr":"other"},{"name":"case_1","guard":"not (isinstance(other, self._expr_type))","ensures":[],"decidability":"structural"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._expr_type"],"raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __rsub__(self, other):
         if isinstance(other, self._expr_type):
             return other
@@ -797,30 +1034,44 @@ class BasisDependentZero(BasisDependent):
             raise TypeError("Invalid argument types for subtraction")
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__neg__(), returns the additive inverse) over Any     ║
+# ║ Path(__neg__(), self) over Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __neg__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == self                                 ║
+# ║   returns:  self                                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __neg__ : Any → {Any | result satisfies: result == (s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2367064dc6dd8bba           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.basisdependent.BasisDependentZero.__neg__","kind":"method","src_hash":"31c41fa24cf348f8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__neg__()","rhs":"returns the additive inverse","over":{"base":"Any"},"name":"__neg___correct"},"guarantee":"returns the additive inverse","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2367064dc6dd8bba"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.basisdependent.BasisDependentZero.__neg__","kind":"method","src_hash":"31c41fa24cf348f8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (self)"},"spec":{"lhs":"__neg__()","rhs":"self","over":{"base":"Any"},"name":"__neg___correct"},"guarantee":"returns self; result == self","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2367064dc6dd8bba","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == self"],"returns_expr":"self","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __neg__(self):
         return self
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(normalize(), returns the normalized version of this vector) over Any ║
+# ║ Path(normalize(), self) over Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ normalize : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == self                                 ║
+# ║   returns:  self                                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ normalize : Any → {Any | result satisfies: result == ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4137a9dcc2f2eae4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.basisdependent.BasisDependentZero.normalize","kind":"method","src_hash":"ce1534856063140e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"normalize()","rhs":"returns the normalized version of this vector","over":{"base":"Any"},"name":"normalize_correct"},"guarantee":"returns the normalized version of this vector","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4137a9dcc2f2eae4"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.basisdependent.BasisDependentZero.normalize","kind":"method","src_hash":"ce1534856063140e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (self)"},"spec":{"lhs":"normalize()","rhs":"self","over":{"base":"Any"},"name":"normalize_correct"},"guarantee":"returns self; result == self","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4137a9dcc2f2eae4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == self"],"returns_expr":"self","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def normalize(self):
         """
         Returns the normalized version of this vector.
@@ -828,15 +1079,21 @@ class BasisDependentZero(BasisDependent):
         return self
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_sympystr(pri), internal helper behaves correctly) over Any ║
+# ║ Path(_sympystr(printer), '0') over Any                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  '0'                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _sympystr : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8b10ddbf4dfce63b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.basisdependent.BasisDependentZero._sympystr","kind":"method","src_hash":"dcf65947deaeedcd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sympystr(pri)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_sympystr_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8b10ddbf4dfce63b"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.basisdependent.BasisDependentZero._sympystr","kind":"method","src_hash":"dcf65947deaeedcd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sympystr(printer)","rhs":"'0'","over":{"base":"Any"},"name":"_sympystr_correct"},"guarantee":"returns '0'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8b10ddbf4dfce63b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'0'","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _sympystr(self, printer):
         return '0'

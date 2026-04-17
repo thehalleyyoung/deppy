@@ -35,16 +35,24 @@ R1, R2 = symbols('R1, R2')
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Beam(), test_Beam produces the expected output) over Any ║
+# ║ Path(test_Beam(), b.length == 1 and b.elastic_modulus == E and b.second_moment == I and b.variable == x and b.length == 4 and b.elastic_modulus == E_1 and b.second_moment is I_1 and b.variable is y and b.boundary_conditions == {'deflection': [(0, 2)], 'slope': [(0, 1)], 'bending_moment': [(0, 5)], 'shear_force': [(2, 1)]} and sf_bcs == [(2, 1), (1, 1), (2, 3)] and bm_bcs == [(0, 5), (1, 3), (5, 3)] and s_bcs == [(0, 1), (4, 3), (5, 0)] and d_bcs == [(0, 2), (4, 3), (5, 0)] and bcs_new == {'deflection': [(0, 2), (4, 3), (5, 0)], 'slope': [(0, 1), (4, 3), (5, 0)], 'bending_moment': [(0, 5), (1, 3), (5, 3)], 'shear_force': [(2, 1), (1, 1), (2, 3)]} and p == q and p == q / (E * I) and expand(p) == expand(q) and simplify(p - q) == 0 and p == q + C4 and p == q / (E * I) + C3 and p == q / (E * I) + C3 * x + C4) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Beam : Any → {Any | b.length == 1 and b.elastic_...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  b.length == 1                                  ║
+# ║   ensures:  b.elastic_modulus == E                         ║
+# ║   ensures:  b.second_moment == I                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Beam : Any → {Any | result satisfies: b.length =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2df75fa55bcb6576  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 2.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 96cdcfd1f0686636  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.tests.test_beam.test_Beam","kind":"function","src_hash":"ffae351cb73577c1","in":{"base":"Any"},"out":{"base":"Any","pred":"b.length == 1 and b.elastic_modulus == E and b.second_moment == I and b.variable == x and b.length == 4 and b.elastic_modulus == E_1 and b.second_moment is I_1 and b.variable is y and sf_bcs == [(2, 1), (1, 1), (2, 3)] and bm_bcs == [(0, 5), (1, 3), (5, 3)] and s_bcs == [(0, 1), (4, 3), (5, 0)] and d_bcs == [(0, 2), (4, 3), (5, 0)] and p == q and p == q and p == q and p == q and p == q and p == q / (E * I) and p == q / (E * I) and p == q and p == q and p == q and p == q and expand(p) == expand(q) and simplify(p - q) == 0 and p == q and p == q and p == q and p == q and p == q + C4 and p == q and p == q and p == q and p == q / (E * I) + C3 and p == q / (E * I) + C3 * x + C4"},"spec":{"lhs":"test_Beam()","rhs":"test_Beam produces the expected output","over":{"base":"Any"},"name":"test_Beam_correct"},"guarantee":"test_Beam produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.tests.test_beam.test_Beam_correct","statement":"Path(test_Beam(x), test_Beam produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2df75fa55bcb6576"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.tests.test_beam.test_Beam","kind":"function","src_hash":"ffae351cb73577c1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: b.length == 1 and b.elastic_modulus == E and b.second_moment == I and b.variable == x and b.length == 4 and b.elastic_modulus == E_1 and b.second_moment is I_1 and b.variable is y and b.boundary_conditions == {'deflection': [(0, 2)], 'slope': [(0, 1)], 'bending_moment': [(0, 5)], 'shear_force': [(2, 1)]} and sf_bcs == [(2, 1), (1, 1), (2, 3)] and bm_bcs == [(0, 5), (1, 3), (5, 3)] and s_bcs == [(0, 1), (4, 3), (5, 0)] and d_bcs == [(0, 2), (4, 3), (5, 0)] and bcs_new == {'deflection': [(0, 2), (4, 3), (5, 0)], 'slope': [(0, 1), (4, 3), (5, 0)], 'bending_moment': [(0, 5), (1, 3), (5, 3)], 'shear_force': [(2, 1), (1, 1), (2, 3)]} and p == q and p == q / (E * I) and expand(p) == expand(q) and simplify(p - q) == 0 and p == q + C4 and p == q / (E * I) + C3 and p == q / (E * I) + C3 * x + C4"},"spec":{"lhs":"test_Beam()","rhs":"b.length == 1 and b.elastic_modulus == E and b.second_moment == I and b.variable == x and b.length == 4 and b.elastic_modulus == E_1 and b.second_moment is I_1 and b.variable is y and b.boundary_conditions == {'deflection': [(0, 2)], 'slope': [(0, 1)], 'bending_moment': [(0, 5)], 'shear_force': [(2, 1)]} and sf_bcs == [(2, 1), (1, 1), (2, 3)] and bm_bcs == [(0, 5), (1, 3), (5, 3)] and s_bcs == [(0, 1), (4, 3), (5, 0)] and d_bcs == [(0, 2), (4, 3), (5, 0)] and bcs_new == {'deflection': [(0, 2), (4, 3), (5, 0)], 'slope': [(0, 1), (4, 3), (5, 0)], 'bending_moment': [(0, 5), (1, 3), (5, 3)], 'shear_force': [(2, 1), (1, 1), (2, 3)]} and p == q and p == q / (E * I) and expand(p) == expand(q) and simplify(p - q) == 0 and p == q + C4 and p == q / (E * I) + C3 and p == q / (E * I) + C3 * x + C4","over":{"base":"Any"},"name":"test_Beam_correct"},"guarantee":"b.length == 1; b.elastic_modulus == E; b.second_moment == I","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.tests.test_beam.test_Beam_correct","statement":"Path(test_Beam(x), b.length == 1; b.elastic_modulus == E; b.second_moment == I)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"96cdcfd1f0686636","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["b.length == 1","b.elastic_modulus == E","b.second_moment == I","b.variable == x","b.length == 4","b.elastic_modulus == E_1","b.second_moment is I_1","b.variable is y","b.boundary_conditions == {'deflection': [(0, 2)], 'slope': [(0, 1)], 'bending_moment': [(0, 5)], 'shear_force': [(2, 1)]}","sf_bcs == [(2, 1), (1, 1), (2, 3)]","bm_bcs == [(0, 5), (1, 3), (5, 3)]","s_bcs == [(0, 1), (4, 3), (5, 0)]","d_bcs == [(0, 2), (4, 3), (5, 0)]","bcs_new == {'deflection': [(0, 2), (4, 3), (5, 0)], 'slope': [(0, 1), (4, 3), (5, 0)], 'bending_moment': [(0, 5), (1, 3), (5, 3)], 'shear_force': [(2, 1), (1, 1), (2, 3)]}","p == q","p == q / (E * I)","expand(p) == expand(q)","simplify(p - q) == 0","p == q + C4","p == q / (E * I) + C3","p == q / (E * I) + C3 * x + C4"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.6,"verdict_class":"assumed","binding":true}}
 def test_Beam():
     E = Symbol('E')
     E_1 = Symbol('E_1')
@@ -283,16 +291,24 @@ def test_Beam():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_insufficient_bconditions(), test_insufficient_bconditions produces the expected output) over Any ║
+# ║ Path(test_insufficient_bconditions(), p == q / (E * I) + a3 and p == q / (E * I) + a3 * x + a4 and p == q / (E * I)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_insufficient_bconditions : Any → {Any | p == q /...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  p == q / (E * I) + a3                          ║
+# ║   ensures:  p == q / (E * I) + a3 * x + a4                 ║
+# ║   ensures:  p == q / (E * I)                               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_insufficient_bconditions : Any → {Any | result s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d4c0b683c6593cf7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b45a0807a6f2a0d4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.tests.test_beam.test_insufficient_bconditions","kind":"function","src_hash":"3eac202a98b61cb7","in":{"base":"Any"},"out":{"base":"Any","pred":"p == q / (E * I) + a3 and p == q / (E * I) + a3 * x + a4 and p == q / (E * I) and p == q / (E * I)"},"spec":{"lhs":"test_insufficient_bconditions()","rhs":"test_insufficient_bconditions produces the expected output","over":{"base":"Any"},"name":"test_insufficient_bconditions_correct"},"guarantee":"test_insufficient_bconditions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.tests.test_beam.test_insufficient_bconditions_correct","statement":"Path(test_insufficient_bconditions(x), test_insufficient_bconditions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d4c0b683c6593cf7"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.tests.test_beam.test_insufficient_bconditions","kind":"function","src_hash":"3eac202a98b61cb7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: p == q / (E * I) + a3 and p == q / (E * I) + a3 * x + a4 and p == q / (E * I)"},"spec":{"lhs":"test_insufficient_bconditions()","rhs":"p == q / (E * I) + a3 and p == q / (E * I) + a3 * x + a4 and p == q / (E * I)","over":{"base":"Any"},"name":"test_insufficient_bconditions_correct"},"guarantee":"p == q / (E * I) + a3; p == q / (E * I) + a3 * x + a4; p == q / (E * I)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.tests.test_beam.test_insufficient_bconditions_correct","statement":"Path(test_insufficient_bconditions(x), p == q / (E * I) + a3; p == q / (E * I) + a3 * x + a4; p == q / (E * I))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b45a0807a6f2a0d4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["p == q / (E * I) + a3","p == q / (E * I) + a3 * x + a4","p == q / (E * I)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_insufficient_bconditions():
     # Test cases when required number of boundary conditions
     # are not provided to solve the integration constants.
@@ -325,16 +341,22 @@ def test_insufficient_bconditions():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_statically_indeterminate(), test_statically_indeterminate produces the expected output) over Any ║
+# ║ Path(test_statically_indeterminate(), p == q) over Any     ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_statically_indeterminate : Any → {Any | p == q}       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  p == q                                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_statically_indeterminate : Any → {Any | result s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b13f92c954387f97  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5541f801fadb5f06  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.tests.test_beam.test_statically_indeterminate","kind":"function","src_hash":"5e6246fa4b43f344","in":{"base":"Any"},"out":{"base":"Any","pred":"p == q"},"spec":{"lhs":"test_statically_indeterminate()","rhs":"test_statically_indeterminate produces the expected output","over":{"base":"Any"},"name":"test_statically_indeterminate_correct"},"guarantee":"test_statically_indeterminate produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.tests.test_beam.test_statically_indeterminate_correct","statement":"Path(test_statically_indeterminate(x), test_statically_indeterminate produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b13f92c954387f97"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.tests.test_beam.test_statically_indeterminate","kind":"function","src_hash":"5e6246fa4b43f344","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: p == q"},"spec":{"lhs":"test_statically_indeterminate()","rhs":"p == q","over":{"base":"Any"},"name":"test_statically_indeterminate_correct"},"guarantee":"p == q","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.tests.test_beam.test_statically_indeterminate_correct","statement":"Path(test_statically_indeterminate(x), p == q)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5541f801fadb5f06","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["p == q"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_statically_indeterminate():
     E = Symbol('E')
     I = Symbol('I')
@@ -359,16 +381,24 @@ def test_statically_indeterminate():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_beam_units(), test_beam_units produces the expected output) over Any ║
+# ║ Path(test_beam_units(), b.reaction_loads == {R1: -13750 * newton, R2: -31250 * newton} and b.reaction_loads == {R1: newton * Rational(-28000, 3), R2: newton * Rational(4000, 3)} and b.deflection().subs(x, 1 * meter) == 62000 * meter / (9 * E * I)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_beam_units : Any → {Any | b.reaction_loads == {R...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  b.reaction_loads == {R1: -13750 * newton,...   ║
+# ║   ensures:  b.reaction_loads == {R1: newton * Rationa...   ║
+# ║   ensures:  b.deflection().subs(x, 1 * meter) == 6200...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_beam_units : Any → {Any | result satisfies: b.re...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a0c7ad82becfc47d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 16ed99ce7c1852e6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.tests.test_beam.test_beam_units","kind":"function","src_hash":"49de5b01a97ce984","in":{"base":"Any"},"out":{"base":"Any","pred":"b.reaction_loads == {R1: -13750 * newton, R2: -31250 * newton} and b.deflection().subs(x, 1 * meter) == 62000 * meter / (9 * E * I)"},"spec":{"lhs":"test_beam_units()","rhs":"test_beam_units produces the expected output","over":{"base":"Any"},"name":"test_beam_units_correct"},"guarantee":"test_beam_units produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.tests.test_beam.test_beam_units_correct","statement":"Path(test_beam_units(x), test_beam_units produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a0c7ad82becfc47d"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.tests.test_beam.test_beam_units","kind":"function","src_hash":"49de5b01a97ce984","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: b.reaction_loads == {R1: -13750 * newton, R2: -31250 * newton} and b.reaction_loads == {R1: newton * Rational(-28000, 3), R2: newton * Rational(4000, 3)} and b.deflection().subs(x, 1 * meter) == 62000 * meter / (9 * E * I)"},"spec":{"lhs":"test_beam_units()","rhs":"b.reaction_loads == {R1: -13750 * newton, R2: -31250 * newton} and b.reaction_loads == {R1: newton * Rational(-28000, 3), R2: newton * Rational(4000, 3)} and b.deflection().subs(x, 1 * meter) == 62000 * meter / (9 * E * I)","over":{"base":"Any"},"name":"test_beam_units_correct"},"guarantee":"b.reaction_loads == {R1: -13750 * newton, R2: -31250 * newton}; b.reaction_loads == {R1: newton * Rational(-28000, 3), R2: newton * Rational(4000, 3)}; b.deflection().subs(x, 1 * meter) == 62000 * meter / (9 * E * I)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.tests.test_beam.test_beam_units_correct","statement":"Path(test_beam_units(x), b.reaction_loads == {R1: -13750 * newton, R2: -31250 * newton}; b.reaction_loads == {R1: newton * Rational(-28000, 3), R2: newton * Rational(4000, 3)}; b.deflection().subs(x, 1 * meter) == 62000 * meter / (9 * E * I))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"16ed99ce7c1852e6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["b.reaction_loads == {R1: -13750 * newton, R2: -31250 * newton}","b.reaction_loads == {R1: newton * Rational(-28000, 3), R2: newton * Rational(4000, 3)}","b.deflection().subs(x, 1 * meter) == 62000 * meter / (9 * E * I)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_beam_units():
     E = Symbol('E')
     I = Symbol('I')
@@ -398,16 +428,24 @@ def test_beam_units():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_variable_moment(), test_variable_moment produces the expected output) over Any ║
+# ║ Path(test_variable_moment(), b.slope().expand() == ((10 * x * SingularityFunction(x, 0, 0) - 10 * (x - 4) * SingularityFunction(x, 4, 0)) / E).expand() and b.deflection().expand() == ((5 * x ** 2 * SingularityFunction(x, 0, 0) - 10 * Piecewise((0, Abs(x) / 4 < 1), (x ** 2 * meijerg(((-1, 1), ()), ((), (-2, 0)), x / 4), True)) + 40 * SingularityFunction(x, 4, 1)) / E).expand() and b.slope().expand() == ((-80 * (-log(-E) + log(-E + x)) * SingularityFunction(x, 0, 0) + 80 * (-log(-E + 4) + log(-E + x)) * SingularityFunction(x, 4, 0) + 20 * (-E * log(-E) + E * log(-E + x) + x) * SingularityFunction(x, 0, 0) - 20 * (-E * log(-E + 4) + E * log(-E + x) + x - 4) * SingularityFunction(x, 4, 0)) / I).expand()) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_variable_moment : Any → Any                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  b.slope().expand() == ((10 * x * Singular...   ║
+# ║   ensures:  b.deflection().expand() == ((5 * x ** 2 *...   ║
+# ║   ensures:  b.slope().expand() == ((-80 * (-log(-E) +...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_variable_moment : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 680cc83e950387ca  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8772be7cc079b01d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.tests.test_beam.test_variable_moment","kind":"function","src_hash":"61b8dab32bea6560","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_variable_moment()","rhs":"test_variable_moment produces the expected output","over":{"base":"Any"},"name":"test_variable_moment_correct"},"guarantee":"test_variable_moment produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.tests.test_beam.test_variable_moment_correct","statement":"Path(test_variable_moment(x), test_variable_moment produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"680cc83e950387ca"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.tests.test_beam.test_variable_moment","kind":"function","src_hash":"61b8dab32bea6560","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: b.slope().expand() == ((10 * x * SingularityFunction(x, 0, 0) - 10 * (x - 4) * SingularityFunction(x, 4, 0)) / E).expand() and b.deflection().expand() == ((5 * x ** 2 * SingularityFunction(x, 0, 0) - 10 * Piecewise((0, Abs(x) / 4 < 1), (x ** 2 * meijerg(((-1, 1), ()), ((), (-2, 0)), x / 4), True)) + 40 * SingularityFunction(x, 4, 1)) / E).expand() and b.slope().expand() == ((-80 * (-log(-E) + log(-E + x)) * SingularityFunction(x, 0, 0) + 80 * (-log(-E + 4) + log(-E + x)) * SingularityFunction(x, 4, 0) + 20 * (-E * log(-E) + E * log(-E + x) + x) * SingularityFunction(x, 0, 0) - 20 * (-E * log(-E + 4) + E * log(-E + x) + x - 4) * SingularityFunction(x, 4, 0)) / I).expand()"},"spec":{"lhs":"test_variable_moment()","rhs":"b.slope().expand() == ((10 * x * SingularityFunction(x, 0, 0) - 10 * (x - 4) * SingularityFunction(x, 4, 0)) / E).expand() and b.deflection().expand() == ((5 * x ** 2 * SingularityFunction(x, 0, 0) - 10 * Piecewise((0, Abs(x) / 4 < 1), (x ** 2 * meijerg(((-1, 1), ()), ((), (-2, 0)), x / 4), True)) + 40 * SingularityFunction(x, 4, 1)) / E).expand() and b.slope().expand() == ((-80 * (-log(-E) + log(-E + x)) * SingularityFunction(x, 0, 0) + 80 * (-log(-E + 4) + log(-E + x)) * SingularityFunction(x, 4, 0) + 20 * (-E * log(-E) + E * log(-E + x) + x) * SingularityFunction(x, 0, 0) - 20 * (-E * log(-E + 4) + E * log(-E + x) + x - 4) * SingularityFunction(x, 4, 0)) / I).expand()","over":{"base":"Any"},"name":"test_variable_moment_correct"},"guarantee":"b.slope().expand() == ((10 * x * SingularityFunction(x, 0, 0) - 10 * (x - 4) * SingularityFunction(x, 4, 0)) / E).expand(); b.deflection().expand() == ((5 * x ** 2 * SingularityFunction(x, 0, 0) - 10 * Piecewise((0, Abs(x) / 4 < 1), (x ** 2 * meijerg(((-1, 1), ()), ((), (-2, 0)), x / 4), True)) + 40 * SingularityFunction(x, 4, 1)) / E).expand(); b.slope().expand() == ((-80 * (-log(-E) + log(-E + x)) * SingularityFunction(x, 0, 0) + 80 * (-log(-E + 4) + log(-E + x)) * SingularityFunction(x, 4, 0) + 20 * (-E * log(-E) + E * log(-E + x) + x) * SingularityFunction(x, 0, 0) - 20 * (-E * log(-E + 4) + E * log(-E + x) + x - 4) * SingularityFunction(x, 4, 0)) / I).expand()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.tests.test_beam.test_variable_moment_correct","statement":"Path(test_variable_moment(x), b.slope().expand() == ((10 * x * SingularityFunction(x, 0, 0) - 10 * (x - 4) * SingularityFunction(x, 4, 0)) / E).expand(); b.deflection().expand() == ((5 * x ** 2 * SingularityFunction(x, 0, 0) - 10 * Piecewise((0, Abs(x) / 4 < 1), (x ** 2 * meijerg(((-1, 1), ()), ((), (-2, 0)), x / 4), True)) + 40 * SingularityFunction(x, 4, 1)) / E).expand(); b.slope().expand() == ((-80 * (-log(-E) + log(-E + x)) * SingularityFunction(x, 0, 0) + 80 * (-log(-E + 4) + log(-E + x)) * SingularityFunction(x, 4, 0) + 20 * (-E * log(-E) + E * log(-E + x) + x) * SingularityFunction(x, 0, 0) - 20 * (-E * log(-E + 4) + E * log(-E + x) + x - 4) * SingularityFunction(x, 4, 0)) / I).expand())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8772be7cc079b01d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["b.slope().expand() == ((10 * x * SingularityFunction(x, 0, 0) - 10 * (x - 4) * SingularityFunction(x, 4, 0)) / E).expand()","b.deflection().expand() == ((5 * x ** 2 * SingularityFunction(x, 0, 0) - 10 * Piecewise((0, Abs(x) / 4 < 1), (x ** 2 * meijerg(((-1, 1), ()), ((), (-2, 0)), x / 4), True)) + 40 * SingularityFunction(x, 4, 1)) / E).expand()","b.slope().expand() == ((-80 * (-log(-E) + log(-E + x)) * SingularityFunction(x, 0, 0) + 80 * (-log(-E + 4) + log(-E + x)) * SingularityFunction(x, 4, 0) + 20 * (-E * log(-E) + E * log(-E + x) + x) * SingularityFunction(x, 0, 0) - 20 * (-E * log(-E + 4) + E * log(-E + x) + x - 4) * SingularityFunction(x, 4, 0)) / I).expand()"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def test_variable_moment():
     E = Symbol('E')
     I = Symbol('I')
@@ -441,16 +479,24 @@ def test_variable_moment():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_composite_beam(), test_composite_beam produces the expected output) over Any ║
+# ║ Path(test_composite_beam(), b.length == 4 and b.second_moment == Piecewise((1.5 * I, x <= 2), (I, x <= 4)) and b.slope().subs(x, 4) == 120.0 / (E * I) and b.slope().subs(x, 2) == 80.0 / (E * I) and int(b.deflection().subs(x, 4).args[0]) == -302 and b.reaction_loads == {R3: -P / 2, R2: P * Rational(-5, 4), M1: -P * l / 4, R1: P * Rational(3, 4)} and b.slope().subs(x, 3 * l) == -7 * P * l ** 2 / (48 * E * I) and b.deflection().subs(x, 2 * l) == 7 * P * l ** 3 / (24 * E * I) and b.deflection().subs(x, 3 * l) == 5 * P * l ** 3 / (16 * E * I) and b.slope() == -2 * SingularityFunction(x, 0, 1) / 5625 + SingularityFunction(x, 0, 2) / 1875 - 133 * SingularityFunction(x, 1, 2) / 135000 + SingularityFunction(x, 3, 2) / 1000 - 37 * SingularityFunction(x, 4, 2) / 67500 and b.deflection() == -SingularityFunction(x, 0, 2) / 5625 + SingularityFunction(x, 0, 3) / 5625 - 133 * SingularityFunction(x, 1, 3) / 405000 + SingularityFunction(x, 3, 3) / 3000 - 37 * SingularityFunction(x, 4, 3) / 202500) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_composite_beam : Any → {Any | b.length == 4 and ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  b.length == 4                                  ║
+# ║   ensures:  b.second_moment == Piecewise((1.5 * I, x ...   ║
+# ║   ensures:  b.slope().subs(x, 4) == 120.0 / (E * I)        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_composite_beam : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8e357171f50c9ac8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.9ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 62663a7fdf92d704  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.tests.test_beam.test_composite_beam","kind":"function","src_hash":"739198cf8d4de40d","in":{"base":"Any"},"out":{"base":"Any","pred":"b.length == 4 and b.second_moment == Piecewise((1.5 * I, x <= 2), (I, x <= 4)) and b.slope().subs(x, 4) == 120.0 / (E * I) and b.slope().subs(x, 2) == 80.0 / (E * I) and int(b.deflection().subs(x, 4).args[0]) == -302 and b.slope().subs(x, 3 * l) == -7 * P * l ** 2 / (48 * E * I) and b.deflection().subs(x, 2 * l) == 7 * P * l ** 3 / (24 * E * I) and b.deflection().subs(x, 3 * l) == 5 * P * l ** 3 / (16 * E * I)"},"spec":{"lhs":"test_composite_beam()","rhs":"test_composite_beam produces the expected output","over":{"base":"Any"},"name":"test_composite_beam_correct"},"guarantee":"test_composite_beam produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.tests.test_beam.test_composite_beam_correct","statement":"Path(test_composite_beam(x), test_composite_beam produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8e357171f50c9ac8"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.tests.test_beam.test_composite_beam","kind":"function","src_hash":"739198cf8d4de40d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: b.length == 4 and b.second_moment == Piecewise((1.5 * I, x <= 2), (I, x <= 4)) and b.slope().subs(x, 4) == 120.0 / (E * I) and b.slope().subs(x, 2) == 80.0 / (E * I) and int(b.deflection().subs(x, 4).args[0]) == -302 and b.reaction_loads == {R3: -P / 2, R2: P * Rational(-5, 4), M1: -P * l / 4, R1: P * Rational(3, 4)} and b.slope().subs(x, 3 * l) == -7 * P * l ** 2 / (48 * E * I) and b.deflection().subs(x, 2 * l) == 7 * P * l ** 3 / (24 * E * I) and b.deflection().subs(x, 3 * l) == 5 * P * l ** 3 / (16 * E * I) and b.slope() == -2 * SingularityFunction(x, 0, 1) / 5625 + SingularityFunction(x, 0, 2) / 1875 - 133 * SingularityFunction(x, 1, 2) / 135000 + SingularityFunction(x, 3, 2) / 1000 - 37 * SingularityFunction(x, 4, 2) / 67500 and b.deflection() == -SingularityFunction(x, 0, 2) / 5625 + SingularityFunction(x, 0, 3) / 5625 - 133 * SingularityFunction(x, 1, 3) / 405000 + SingularityFunction(x, 3, 3) / 3000 - 37 * SingularityFunction(x, 4, 3) / 202500"},"spec":{"lhs":"test_composite_beam()","rhs":"b.length == 4 and b.second_moment == Piecewise((1.5 * I, x <= 2), (I, x <= 4)) and b.slope().subs(x, 4) == 120.0 / (E * I) and b.slope().subs(x, 2) == 80.0 / (E * I) and int(b.deflection().subs(x, 4).args[0]) == -302 and b.reaction_loads == {R3: -P / 2, R2: P * Rational(-5, 4), M1: -P * l / 4, R1: P * Rational(3, 4)} and b.slope().subs(x, 3 * l) == -7 * P * l ** 2 / (48 * E * I) and b.deflection().subs(x, 2 * l) == 7 * P * l ** 3 / (24 * E * I) and b.deflection().subs(x, 3 * l) == 5 * P * l ** 3 / (16 * E * I) and b.slope() == -2 * SingularityFunction(x, 0, 1) / 5625 + SingularityFunction(x, 0, 2) / 1875 - 133 * SingularityFunction(x, 1, 2) / 135000 + SingularityFunction(x, 3, 2) / 1000 - 37 * SingularityFunction(x, 4, 2) / 67500 and b.deflection() == -SingularityFunction(x, 0, 2) / 5625 + SingularityFunction(x, 0, 3) / 5625 - 133 * SingularityFunction(x, 1, 3) / 405000 + SingularityFunction(x, 3, 3) / 3000 - 37 * SingularityFunction(x, 4, 3) / 202500","over":{"base":"Any"},"name":"test_composite_beam_correct"},"guarantee":"b.length == 4; b.second_moment == Piecewise((1.5 * I, x <= 2), (I, x <= 4)); b.slope().subs(x, 4) == 120.0 / (E * I)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.tests.test_beam.test_composite_beam_correct","statement":"Path(test_composite_beam(x), b.length == 4; b.second_moment == Piecewise((1.5 * I, x <= 2), (I, x <= 4)); b.slope().subs(x, 4) == 120.0 / (E * I))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"62663a7fdf92d704","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["b.length == 4","b.second_moment == Piecewise((1.5 * I, x <= 2), (I, x <= 4))","b.slope().subs(x, 4) == 120.0 / (E * I)","b.slope().subs(x, 2) == 80.0 / (E * I)","int(b.deflection().subs(x, 4).args[0]) == -302","b.reaction_loads == {R3: -P / 2, R2: P * Rational(-5, 4), M1: -P * l / 4, R1: P * Rational(3, 4)}","b.slope().subs(x, 3 * l) == -7 * P * l ** 2 / (48 * E * I)","b.deflection().subs(x, 2 * l) == 7 * P * l ** 3 / (24 * E * I)","b.deflection().subs(x, 3 * l) == 5 * P * l ** 3 / (16 * E * I)","b.slope() == -2 * SingularityFunction(x, 0, 1) / 5625 + SingularityFunction(x, 0, 2) / 1875 - 133 * SingularityFunction(x, 1, 2) / 135000 + SingularityFunction(x, 3, 2) / 1000 - 37 * SingularityFunction(x, 4, 2) / 67500","b.deflection() == -SingularityFunction(x, 0, 2) / 5625 + SingularityFunction(x, 0, 3) / 5625 - 133 * SingularityFunction(x, 1, 3) / 405000 + SingularityFunction(x, 3, 3) / 3000 - 37 * SingularityFunction(x, 4, 3) / 202500"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.9,"verdict_class":"assumed","binding":true}}
 def test_composite_beam():
     E = Symbol('E')
     I = Symbol('I')
@@ -507,16 +553,23 @@ def test_composite_beam():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_point_cflexure(), test_point_cflexure produces the expected output) over Any ║
+# ║ Path(test_point_cflexure(), b.point_cflexure() == [Rational(10, 3)] and b.point_cflexure() == [Rational(1200, 163), 12, Rational(163, 12)]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_point_cflexure : Any → {Any | b.point_cflexure()...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  b.point_cflexure() == [Rational(10, 3)]        ║
+# ║   ensures:  b.point_cflexure() == [Rational(1200, 163...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_point_cflexure : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ecddcb59a58cf12b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 70daf94de197f3fe  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.tests.test_beam.test_point_cflexure","kind":"function","src_hash":"f23ee61bf0648f9c","in":{"base":"Any"},"out":{"base":"Any","pred":"b.point_cflexure() == [Rational(10, 3)] and b.point_cflexure() == [Rational(1200, 163), 12, Rational(163, 12)]"},"spec":{"lhs":"test_point_cflexure()","rhs":"test_point_cflexure produces the expected output","over":{"base":"Any"},"name":"test_point_cflexure_correct"},"guarantee":"test_point_cflexure produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.tests.test_beam.test_point_cflexure_correct","statement":"Path(test_point_cflexure(x), test_point_cflexure produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ecddcb59a58cf12b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.tests.test_beam.test_point_cflexure","kind":"function","src_hash":"f23ee61bf0648f9c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: b.point_cflexure() == [Rational(10, 3)] and b.point_cflexure() == [Rational(1200, 163), 12, Rational(163, 12)]"},"spec":{"lhs":"test_point_cflexure()","rhs":"b.point_cflexure() == [Rational(10, 3)] and b.point_cflexure() == [Rational(1200, 163), 12, Rational(163, 12)]","over":{"base":"Any"},"name":"test_point_cflexure_correct"},"guarantee":"b.point_cflexure() == [Rational(10, 3)]; b.point_cflexure() == [Rational(1200, 163), 12, Rational(163, 12)]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.tests.test_beam.test_point_cflexure_correct","statement":"Path(test_point_cflexure(x), b.point_cflexure() == [Rational(10, 3)]; b.point_cflexure() == [Rational(1200, 163), 12, Rational(163, 12)])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"70daf94de197f3fe","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["b.point_cflexure() == [Rational(10, 3)]","b.point_cflexure() == [Rational(1200, 163), 12, Rational(163, 12)]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_point_cflexure():
     E = Symbol('E')
     I = Symbol('I')
@@ -555,16 +608,24 @@ def test_point_cflexure():
         b.point_cflexure()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_remove_load(), test_remove_load produces the expected output) over Any ║
+# ║ Path(test_remove_load(), b.load == -3 * SingularityFunction(x, 0, -2) + 4 * SingularityFunction(x, 2, -1) and b.applied_loads == [(-3, 0, -2, None), (4, 2, -1, None)] and b.load == 0 and b.applied_loads == []) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_remove_load : Any → {Any | b.applied_loads == [(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  b.load == -3 * SingularityFunction(x, 0, ...   ║
+# ║   ensures:  b.applied_loads == [(-3, 0, -2, None), (4...   ║
+# ║   ensures:  b.load == 0                                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_remove_load : Any → {Any | result satisfies: b.l...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 05ab00977960bae2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8d4c0ae17c47c53b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.tests.test_beam.test_remove_load","kind":"function","src_hash":"a2995d3b05c04e5a","in":{"base":"Any"},"out":{"base":"Any","pred":"b.applied_loads == [(-3, 0, -2, None), (4, 2, -1, None)] and b.load == 0 and b.applied_loads == [] and False and False and True and True"},"spec":{"lhs":"test_remove_load()","rhs":"test_remove_load produces the expected output","over":{"base":"Any"},"name":"test_remove_load_correct"},"guarantee":"test_remove_load produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.tests.test_beam.test_remove_load_correct","statement":"Path(test_remove_load(x), test_remove_load produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"05ab00977960bae2"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.tests.test_beam.test_remove_load","kind":"function","src_hash":"a2995d3b05c04e5a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: b.load == -3 * SingularityFunction(x, 0, -2) + 4 * SingularityFunction(x, 2, -1) and b.applied_loads == [(-3, 0, -2, None), (4, 2, -1, None)] and b.load == 0 and b.applied_loads == []"},"spec":{"lhs":"test_remove_load()","rhs":"b.load == -3 * SingularityFunction(x, 0, -2) + 4 * SingularityFunction(x, 2, -1) and b.applied_loads == [(-3, 0, -2, None), (4, 2, -1, None)] and b.load == 0 and b.applied_loads == []","over":{"base":"Any"},"name":"test_remove_load_correct"},"guarantee":"b.load == -3 * SingularityFunction(x, 0, -2) + 4 * SingularityFunction(x, 2, -1); b.applied_loads == [(-3, 0, -2, None), (4, 2, -1, None)]; b.load == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.tests.test_beam.test_remove_load_correct","statement":"Path(test_remove_load(x), b.load == -3 * SingularityFunction(x, 0, -2) + 4 * SingularityFunction(x, 2, -1); b.applied_loads == [(-3, 0, -2, None), (4, 2, -1, None)]; b.load == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8d4c0ae17c47c53b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["b.load == -3 * SingularityFunction(x, 0, -2) + 4 * SingularityFunction(x, 2, -1)","b.applied_loads == [(-3, 0, -2, None), (4, 2, -1, None)]","b.load == 0","b.applied_loads == []"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_remove_load():
     E = Symbol('E')
     I = Symbol('I')
@@ -601,16 +662,24 @@ def test_remove_load():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_apply_support(), test_apply_support produces the expected output) over Any ║
+# ║ Path(test_apply_support(), simplify(b.slope()) == simplify((80 * SingularityFunction(x, 0, 1) - 10 * SingularityFunction(x, 0, 2) + 10 * SingularityFunction(x, 4, 2)) / (E * I)) and simplify(b.deflection()) == simplify((40 * SingularityFunction(x, 0, 2) - 10 * SingularityFunction(x, 0, 3) / 3 + 10 * SingularityFunction(x, 4, 3) / 3) / (E * I)) and b.slope() == (-4 * SingularityFunction(x, 0, 2) + 3 * SingularityFunction(x, 10, 2) + 120 * SingularityFunction(x, 30, 1) + SingularityFunction(x, 30, 2) + Rational(4000, 3)) / (E * I) and b.deflection() == (x * Rational(4000, 3) - 4 * SingularityFunction(x, 0, 3) / 3 + SingularityFunction(x, 10, 3) + 60 * SingularityFunction(x, 30, 2) + SingularityFunction(x, 30, 3) / 3 - 12000) / (E * I) and p0 == R_10 and b.reaction_loads == {R_10: 6, R_30: 2} and b.reaction_loads[p0] == 6 and p0 == R_0 and m0 == M_0 and p1 == R_8 and b.reaction_loads == {R_0: 25, M_0: -40, R_8: 15} and b.reaction_loads[m0] == -40 and b.reaction_loads == {R_0: P / 2, R_L: P / 2, M_0: -L * P / 8, M_L: L * P / 8}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_apply_support : Any → {Any | p0 == R_10 and b.re...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  simplify(b.slope()) == simplify((80 * Sin...   ║
+# ║   ensures:  simplify(b.deflection()) == simplify((40 ...   ║
+# ║   ensures:  b.slope() == (-4 * SingularityFunction(x,...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_apply_support : Any → {Any | result satisfies: s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bd04c8c8c3f5f6aa  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.8ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9e2ff47e5119b518  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.tests.test_beam.test_apply_support","kind":"function","src_hash":"cec8463965fdafd9","in":{"base":"Any"},"out":{"base":"Any","pred":"p0 == R_10 and b.reaction_loads == {R_10: 6, R_30: 2} and b.reaction_loads[p0] == 6 and p0 == R_0 and m0 == M_0 and p1 == R_8 and b.reaction_loads == {R_0: 25, M_0: -40, R_8: 15} and b.reaction_loads[m0] == -40 and b.reaction_loads == {R_0: P / 2, R_L: P / 2, M_0: -L * P / 8, M_L: L * P / 8}"},"spec":{"lhs":"test_apply_support()","rhs":"test_apply_support produces the expected output","over":{"base":"Any"},"name":"test_apply_support_correct"},"guarantee":"test_apply_support produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.tests.test_beam.test_apply_support_correct","statement":"Path(test_apply_support(x), test_apply_support produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bd04c8c8c3f5f6aa"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.tests.test_beam.test_apply_support","kind":"function","src_hash":"cec8463965fdafd9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: simplify(b.slope()) == simplify((80 * SingularityFunction(x, 0, 1) - 10 * SingularityFunction(x, 0, 2) + 10 * SingularityFunction(x, 4, 2)) / (E * I)) and simplify(b.deflection()) == simplify((40 * SingularityFunction(x, 0, 2) - 10 * SingularityFunction(x, 0, 3) / 3 + 10 * SingularityFunction(x, 4, 3) / 3) / (E * I)) and b.slope() == (-4 * SingularityFunction(x, 0, 2) + 3 * SingularityFunction(x, 10, 2) + 120 * SingularityFunction(x, 30, 1) + SingularityFunction(x, 30, 2) + Rational(4000, 3)) / (E * I) and b.deflection() == (x * Rational(4000, 3) - 4 * SingularityFunction(x, 0, 3) / 3 + SingularityFunction(x, 10, 3) + 60 * SingularityFunction(x, 30, 2) + SingularityFunction(x, 30, 3) / 3 - 12000) / (E * I) and p0 == R_10 and b.reaction_loads == {R_10: 6, R_30: 2} and b.reaction_loads[p0] == 6 and p0 == R_0 and m0 == M_0 and p1 == R_8 and b.reaction_loads == {R_0: 25, M_0: -40, R_8: 15} and b.reaction_loads[m0] == -40 and b.reaction_loads == {R_0: P / 2, R_L: P / 2, M_0: -L * P / 8, M_L: L * P / 8}"},"spec":{"lhs":"test_apply_support()","rhs":"simplify(b.slope()) == simplify((80 * SingularityFunction(x, 0, 1) - 10 * SingularityFunction(x, 0, 2) + 10 * SingularityFunction(x, 4, 2)) / (E * I)) and simplify(b.deflection()) == simplify((40 * SingularityFunction(x, 0, 2) - 10 * SingularityFunction(x, 0, 3) / 3 + 10 * SingularityFunction(x, 4, 3) / 3) / (E * I)) and b.slope() == (-4 * SingularityFunction(x, 0, 2) + 3 * SingularityFunction(x, 10, 2) + 120 * SingularityFunction(x, 30, 1) + SingularityFunction(x, 30, 2) + Rational(4000, 3)) / (E * I) and b.deflection() == (x * Rational(4000, 3) - 4 * SingularityFunction(x, 0, 3) / 3 + SingularityFunction(x, 10, 3) + 60 * SingularityFunction(x, 30, 2) + SingularityFunction(x, 30, 3) / 3 - 12000) / (E * I) and p0 == R_10 and b.reaction_loads == {R_10: 6, R_30: 2} and b.reaction_loads[p0] == 6 and p0 == R_0 and m0 == M_0 and p1 == R_8 and b.reaction_loads == {R_0: 25, M_0: -40, R_8: 15} and b.reaction_loads[m0] == -40 and b.reaction_loads == {R_0: P / 2, R_L: P / 2, M_0: -L * P / 8, M_L: L * P / 8}","over":{"base":"Any"},"name":"test_apply_support_correct"},"guarantee":"simplify(b.slope()) == simplify((80 * SingularityFunction(x, 0, 1) - 10 * SingularityFunction(x, 0, 2) + 10 * SingularityFunction(x, 4, 2)) / (E * I)); simplify(b.deflection()) == simplify((40 * SingularityFunction(x, 0, 2) - 10 * SingularityFunction(x, 0, 3) / 3 + 10 * SingularityFunction(x, 4, 3) / 3) / (E * I)); b.slope() == (-4 * SingularityFunction(x, 0, 2) + 3 * SingularityFunction(x, 10, 2) + 120 * SingularityFunction(x, 30, 1) + SingularityFunction(x, 30, 2) + Rational(4000, 3)) / (E * I)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.tests.test_beam.test_apply_support_correct","statement":"Path(test_apply_support(x), simplify(b.slope()) == simplify((80 * SingularityFunction(x, 0, 1) - 10 * SingularityFunction(x, 0, 2) + 10 * SingularityFunction(x, 4, 2)) / (E * I)); simplify(b.deflection()) == simplify((40 * SingularityFunction(x, 0, 2) - 10 * SingularityFunction(x, 0, 3) / 3 + 10 * SingularityFunction(x, 4, 3) / 3) / (E * I)); b.slope() == (-4 * SingularityFunction(x, 0, 2) + 3 * SingularityFunction(x, 10, 2) + 120 * SingularityFunction(x, 30, 1) + SingularityFunction(x, 30, 2) + Rational(4000, 3)) / (E * I))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9e2ff47e5119b518","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["simplify(b.slope()) == simplify((80 * SingularityFunction(x, 0, 1) - 10 * SingularityFunction(x, 0, 2) + 10 * SingularityFunction(x, 4, 2)) / (E * I))","simplify(b.deflection()) == simplify((40 * SingularityFunction(x, 0, 2) - 10 * SingularityFunction(x, 0, 3) / 3 + 10 * SingularityFunction(x, 4, 3) / 3) / (E * I))","b.slope() == (-4 * SingularityFunction(x, 0, 2) + 3 * SingularityFunction(x, 10, 2) + 120 * SingularityFunction(x, 30, 1) + SingularityFunction(x, 30, 2) + Rational(4000, 3)) / (E * I)","b.deflection() == (x * Rational(4000, 3) - 4 * SingularityFunction(x, 0, 3) / 3 + SingularityFunction(x, 10, 3) + 60 * SingularityFunction(x, 30, 2) + SingularityFunction(x, 30, 3) / 3 - 12000) / (E * I)","p0 == R_10","b.reaction_loads == {R_10: 6, R_30: 2}","b.reaction_loads[p0] == 6","p0 == R_0","m0 == M_0","p1 == R_8","b.reaction_loads == {R_0: 25, M_0: -40, R_8: 15}","b.reaction_loads[m0] == -40","b.reaction_loads == {R_0: P / 2, R_L: P / 2, M_0: -L * P / 8, M_L: L * P / 8}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"assumed","binding":true}}
 def test_apply_support():
     E = Symbol('E')
     I = Symbol('I')
@@ -666,16 +735,24 @@ def test_apply_support():
     assert b.reaction_loads == {R_0: P/2, R_L: P/2, M_0: -L*P/8, M_L: L*P/8}
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_apply_rotation_hinge(), test_apply_rotation_hinge produces the expected output) over Any ║
+# ║ Path(test_apply_rotation_hinge(), all((abs(b.reaction_loads[r] - expected_reactions[r]) < tolerance for r in reaction_symbols)) and all((abs(b.rotation_jumps[r] - expected_rotations[r]) < tolerance for r in rotation_symbols)) and b.bending_moment().expand() == expected_bending_moment.expand() and b.slope().expand() == expected_slope.expand() and b.deflection().expand() == expected_deflection.expand() and b.reaction_loads == {R_0: -F / 2, M_0: 3 * F, R_10: -F / 2} and b.bending_moment() == -3 * F * SingularityFunction(x, 0, 0) + F * SingularityFunction(x, 0, 1) / 2 + 17 * F * SingularityFunction(x, 6, -1) - F * SingularityFunction(x, 8, 1) + F * SingularityFunction(x, 10, 1) / 2 and b.reaction_loads[r0] == -F * l3 / (l2 + l3) and b.reaction_loads[m0] == F * l1 * l3 / (l2 + l3) and b.reaction_loads[r1] == -F * l2 / (l2 + l3) and simplify(b.bending_moment().expand()) == simplify(expected_bending_moment.expand())) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_apply_rotation_hinge : Any → {Any | b.bending_mo...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  all((abs(b.reaction_loads[r] - expected_r...   ║
+# ║   ensures:  all((abs(b.rotation_jumps[r] - expected_r...   ║
+# ║   ensures:  b.bending_moment().expand() == expected_b...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_apply_rotation_hinge : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a17d33f20f6989e6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5406a62894d654df  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.tests.test_beam.test_apply_rotation_hinge","kind":"function","src_hash":"71e6d1084d4e9ef5","in":{"base":"Any"},"out":{"base":"Any","pred":"b.bending_moment().expand() == expected_bending_moment.expand() and b.slope().expand() == expected_slope.expand() and b.deflection().expand() == expected_deflection.expand() and b.reaction_loads == {R_0: -F / 2, M_0: 3 * F, R_10: -F / 2} and b.deflection().expand() == expected_deflection.expand() and b.reaction_loads[r0] == -F * l3 / (l2 + l3) and b.reaction_loads[m0] == F * l1 * l3 / (l2 + l3) and b.reaction_loads[r1] == -F * l2 / (l2 + l3)"},"spec":{"lhs":"test_apply_rotation_hinge()","rhs":"test_apply_rotation_hinge produces the expected output","over":{"base":"Any"},"name":"test_apply_rotation_hinge_correct"},"guarantee":"test_apply_rotation_hinge produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.tests.test_beam.test_apply_rotation_hinge_correct","statement":"Path(test_apply_rotation_hinge(x), test_apply_rotation_hinge produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a17d33f20f6989e6"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.tests.test_beam.test_apply_rotation_hinge","kind":"function","src_hash":"71e6d1084d4e9ef5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: all((abs(b.reaction_loads[r] - expected_reactions[r]) < tolerance for r in reaction_symbols)) and all((abs(b.rotation_jumps[r] - expected_rotations[r]) < tolerance for r in rotation_symbols)) and b.bending_moment().expand() == expected_bending_moment.expand() and b.slope().expand() == expected_slope.expand() and b.deflection().expand() == expected_deflection.expand() and b.reaction_loads == {R_0: -F / 2, M_0: 3 * F, R_10: -F / 2} and b.bending_moment() == -3 * F * SingularityFunction(x, 0, 0) + F * SingularityFunction(x, 0, 1) / 2 + 17 * F * SingularityFunction(x, 6, -1) - F * SingularityFunction(x, 8, 1) + F * SingularityFunction(x, 10, 1) / 2 and b.reaction_loads[r0] == -F * l3 / (l2 + l3) and b.reaction_loads[m0] == F * l1 * l3 / (l2 + l3) and b.reaction_loads[r1] == -F * l2 / (l2 + l3) and simplify(b.bending_moment().expand()) == simplify(expected_bending_moment.expand())"},"spec":{"lhs":"test_apply_rotation_hinge()","rhs":"all((abs(b.reaction_loads[r] - expected_reactions[r]) < tolerance for r in reaction_symbols)) and all((abs(b.rotation_jumps[r] - expected_rotations[r]) < tolerance for r in rotation_symbols)) and b.bending_moment().expand() == expected_bending_moment.expand() and b.slope().expand() == expected_slope.expand() and b.deflection().expand() == expected_deflection.expand() and b.reaction_loads == {R_0: -F / 2, M_0: 3 * F, R_10: -F / 2} and b.bending_moment() == -3 * F * SingularityFunction(x, 0, 0) + F * SingularityFunction(x, 0, 1) / 2 + 17 * F * SingularityFunction(x, 6, -1) - F * SingularityFunction(x, 8, 1) + F * SingularityFunction(x, 10, 1) / 2 and b.reaction_loads[r0] == -F * l3 / (l2 + l3) and b.reaction_loads[m0] == F * l1 * l3 / (l2 + l3) and b.reaction_loads[r1] == -F * l2 / (l2 + l3) and simplify(b.bending_moment().expand()) == simplify(expected_bending_moment.expand())","over":{"base":"Any"},"name":"test_apply_rotation_hinge_correct"},"guarantee":"all((abs(b.reaction_loads[r] - expected_reactions[r]) < tolerance for r in reaction_symbols)); all((abs(b.rotation_jumps[r] - expected_rotations[r]) < tolerance for r in rotation_symbols)); b.bending_moment().expand() == expected_bending_moment.expand()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.tests.test_beam.test_apply_rotation_hinge_correct","statement":"Path(test_apply_rotation_hinge(x), all((abs(b.reaction_loads[r] - expected_reactions[r]) < tolerance for r in reaction_symbols)); all((abs(b.rotation_jumps[r] - expected_rotations[r]) < tolerance for r in rotation_symbols)); b.bending_moment().expand() == expected_bending_moment.expand())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5406a62894d654df","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["all((abs(b.reaction_loads[r] - expected_reactions[r]) < tolerance for r in reaction_symbols))","all((abs(b.rotation_jumps[r] - expected_rotations[r]) < tolerance for r in rotation_symbols))","b.bending_moment().expand() == expected_bending_moment.expand()","b.slope().expand() == expected_slope.expand()","b.deflection().expand() == expected_deflection.expand()","b.reaction_loads == {R_0: -F / 2, M_0: 3 * F, R_10: -F / 2}","b.bending_moment() == -3 * F * SingularityFunction(x, 0, 0) + F * SingularityFunction(x, 0, 1) / 2 + 17 * F * SingularityFunction(x, 6, -1) - F * SingularityFunction(x, 8, 1) + F * SingularityFunction(x, 10, 1) / 2","b.reaction_loads[r0] == -F * l3 / (l2 + l3)","b.reaction_loads[m0] == F * l1 * l3 / (l2 + l3)","b.reaction_loads[r1] == -F * l2 / (l2 + l3)","simplify(b.bending_moment().expand()) == simplify(expected_bending_moment.expand())"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.5,"verdict_class":"assumed","binding":true}}
 def test_apply_rotation_hinge():
     b = Beam(15, 20, 20)
     r0, m0 = b.apply_support(0, type='fixed')
@@ -755,16 +832,24 @@ def test_apply_rotation_hinge():
     assert simplify(b.bending_moment().expand()) == simplify(expected_bending_moment.expand())
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_apply_sliding_hinge(), test_apply_sliding_hinge produces the expected output) over Any ║
+# ║ Path(test_apply_sliding_hinge(), b.reaction_loads == {R_0: 10, M_0: -50, R_13: 0} and abs(b.deflection_jumps[w8] - 85 / 24) < tolerance and b.bending_moment() == 50 * SingularityFunction(x, 0, 0) - 10 * SingularityFunction(x, 0, 1) + 10 * SingularityFunction(x, 5, 1) - 4250 * SingularityFunction(x, 8, -2) / 3 and b.deflection() == -SingularityFunction(x, 0, 2) / 16 + SingularityFunction(x, 0, 3) / 240 - SingularityFunction(x, 5, 3) / 240 + 85 * SingularityFunction(x, 8, 0) / 24 and b.deflection_jumps == {W_8: 4250 / (3 * E * I2)} and b.bending_moment() == l1 * q * SingularityFunction(x, 0, 1) / 2 + l1 * q * SingularityFunction(x, l1, 1) / 2 - q * SingularityFunction(x, 0, 2) / 2 + q * SingularityFunction(x, l1, 2) / 2 + (-l1 ** 3 * l2 * q / 24 - l1 ** 3 * l3 * q / 24) * SingularityFunction(x, l1 + l2, -2) and b.deflection() == (l1 ** 3 * q * x / 24 - l1 * q * SingularityFunction(x, 0, 3) / 12 - l1 * q * SingularityFunction(x, l1, 3) / 12 + q * SingularityFunction(x, 0, 4) / 24 - q * SingularityFunction(x, l1, 4) / 24 + (l1 ** 3 * l2 * q / 24 + l1 ** 3 * l3 * q / 24) * SingularityFunction(x, l1 + l2, 0)) / (E * I)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_apply_sliding_hinge : Any → {Any | b.reaction_lo...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  b.reaction_loads == {R_0: 10, M_0: -50, R...   ║
+# ║   ensures:  abs(b.deflection_jumps[w8] - 85 / 24) < t...   ║
+# ║   ensures:  b.bending_moment() == 50 * SingularityFun...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_apply_sliding_hinge : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a583794097902fcd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.8ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e109ead44b5d698e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.tests.test_beam.test_apply_sliding_hinge","kind":"function","src_hash":"0503ff54c2ed7b65","in":{"base":"Any"},"out":{"base":"Any","pred":"b.reaction_loads == {R_0: 10, M_0: -50, R_13: 0} and abs(b.deflection_jumps[w8] - 85 / 24) < tolerance and b.deflection_jumps == {W_8: 4250 / (3 * E * I2)}"},"spec":{"lhs":"test_apply_sliding_hinge()","rhs":"test_apply_sliding_hinge produces the expected output","over":{"base":"Any"},"name":"test_apply_sliding_hinge_correct"},"guarantee":"test_apply_sliding_hinge produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.tests.test_beam.test_apply_sliding_hinge_correct","statement":"Path(test_apply_sliding_hinge(x), test_apply_sliding_hinge produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a583794097902fcd"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.tests.test_beam.test_apply_sliding_hinge","kind":"function","src_hash":"0503ff54c2ed7b65","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: b.reaction_loads == {R_0: 10, M_0: -50, R_13: 0} and abs(b.deflection_jumps[w8] - 85 / 24) < tolerance and b.bending_moment() == 50 * SingularityFunction(x, 0, 0) - 10 * SingularityFunction(x, 0, 1) + 10 * SingularityFunction(x, 5, 1) - 4250 * SingularityFunction(x, 8, -2) / 3 and b.deflection() == -SingularityFunction(x, 0, 2) / 16 + SingularityFunction(x, 0, 3) / 240 - SingularityFunction(x, 5, 3) / 240 + 85 * SingularityFunction(x, 8, 0) / 24 and b.deflection_jumps == {W_8: 4250 / (3 * E * I2)} and b.bending_moment() == l1 * q * SingularityFunction(x, 0, 1) / 2 + l1 * q * SingularityFunction(x, l1, 1) / 2 - q * SingularityFunction(x, 0, 2) / 2 + q * SingularityFunction(x, l1, 2) / 2 + (-l1 ** 3 * l2 * q / 24 - l1 ** 3 * l3 * q / 24) * SingularityFunction(x, l1 + l2, -2) and b.deflection() == (l1 ** 3 * q * x / 24 - l1 * q * SingularityFunction(x, 0, 3) / 12 - l1 * q * SingularityFunction(x, l1, 3) / 12 + q * SingularityFunction(x, 0, 4) / 24 - q * SingularityFunction(x, l1, 4) / 24 + (l1 ** 3 * l2 * q / 24 + l1 ** 3 * l3 * q / 24) * SingularityFunction(x, l1 + l2, 0)) / (E * I)"},"spec":{"lhs":"test_apply_sliding_hinge()","rhs":"b.reaction_loads == {R_0: 10, M_0: -50, R_13: 0} and abs(b.deflection_jumps[w8] - 85 / 24) < tolerance and b.bending_moment() == 50 * SingularityFunction(x, 0, 0) - 10 * SingularityFunction(x, 0, 1) + 10 * SingularityFunction(x, 5, 1) - 4250 * SingularityFunction(x, 8, -2) / 3 and b.deflection() == -SingularityFunction(x, 0, 2) / 16 + SingularityFunction(x, 0, 3) / 240 - SingularityFunction(x, 5, 3) / 240 + 85 * SingularityFunction(x, 8, 0) / 24 and b.deflection_jumps == {W_8: 4250 / (3 * E * I2)} and b.bending_moment() == l1 * q * SingularityFunction(x, 0, 1) / 2 + l1 * q * SingularityFunction(x, l1, 1) / 2 - q * SingularityFunction(x, 0, 2) / 2 + q * SingularityFunction(x, l1, 2) / 2 + (-l1 ** 3 * l2 * q / 24 - l1 ** 3 * l3 * q / 24) * SingularityFunction(x, l1 + l2, -2) and b.deflection() == (l1 ** 3 * q * x / 24 - l1 * q * SingularityFunction(x, 0, 3) / 12 - l1 * q * SingularityFunction(x, l1, 3) / 12 + q * SingularityFunction(x, 0, 4) / 24 - q * SingularityFunction(x, l1, 4) / 24 + (l1 ** 3 * l2 * q / 24 + l1 ** 3 * l3 * q / 24) * SingularityFunction(x, l1 + l2, 0)) / (E * I)","over":{"base":"Any"},"name":"test_apply_sliding_hinge_correct"},"guarantee":"b.reaction_loads == {R_0: 10, M_0: -50, R_13: 0}; abs(b.deflection_jumps[w8] - 85 / 24) < tolerance; b.bending_moment() == 50 * SingularityFunction(x, 0, 0) - 10 * SingularityFunction(x, 0, 1) + 10 * SingularityFunction(x, 5, 1) - 4250 * SingularityFunction(x, 8, -2) / 3","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.tests.test_beam.test_apply_sliding_hinge_correct","statement":"Path(test_apply_sliding_hinge(x), b.reaction_loads == {R_0: 10, M_0: -50, R_13: 0}; abs(b.deflection_jumps[w8] - 85 / 24) < tolerance; b.bending_moment() == 50 * SingularityFunction(x, 0, 0) - 10 * SingularityFunction(x, 0, 1) + 10 * SingularityFunction(x, 5, 1) - 4250 * SingularityFunction(x, 8, -2) / 3)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e109ead44b5d698e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["b.reaction_loads == {R_0: 10, M_0: -50, R_13: 0}","abs(b.deflection_jumps[w8] - 85 / 24) < tolerance","b.bending_moment() == 50 * SingularityFunction(x, 0, 0) - 10 * SingularityFunction(x, 0, 1) + 10 * SingularityFunction(x, 5, 1) - 4250 * SingularityFunction(x, 8, -2) / 3","b.deflection() == -SingularityFunction(x, 0, 2) / 16 + SingularityFunction(x, 0, 3) / 240 - SingularityFunction(x, 5, 3) / 240 + 85 * SingularityFunction(x, 8, 0) / 24","b.deflection_jumps == {W_8: 4250 / (3 * E * I2)}","b.bending_moment() == l1 * q * SingularityFunction(x, 0, 1) / 2 + l1 * q * SingularityFunction(x, l1, 1) / 2 - q * SingularityFunction(x, 0, 2) / 2 + q * SingularityFunction(x, l1, 2) / 2 + (-l1 ** 3 * l2 * q / 24 - l1 ** 3 * l3 * q / 24) * SingularityFunction(x, l1 + l2, -2)","b.deflection() == (l1 ** 3 * q * x / 24 - l1 * q * SingularityFunction(x, 0, 3) / 12 - l1 * q * SingularityFunction(x, l1, 3) / 12 + q * SingularityFunction(x, 0, 4) / 24 - q * SingularityFunction(x, l1, 4) / 24 + (l1 ** 3 * l2 * q / 24 + l1 ** 3 * l3 * q / 24) * SingularityFunction(x, l1 + l2, 0)) / (E * I)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"assumed","binding":true}}
 def test_apply_sliding_hinge():
     b = Beam(13, 20, 20)
     r0, m0 = b.apply_support(0, type="fixed")
@@ -818,16 +903,24 @@ def test_apply_sliding_hinge():
                              + (l1**3*l2*q/24 + l1**3*l3*q/24)*SingularityFunction(x, l1 + l2, 0))/(E*I)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_max_shear_force(), test_max_shear_force produces the expected output) over Any ║
+# ║ Path(test_max_shear_force(), b.max_shear_force() == (Interval(0, 2), 8) and max_shear[0] == 0 and simplify(max_shear[1] - l * Abs(P) / 2) == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_max_shear_force : Any → {Any | b.max_shear_force...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  b.max_shear_force() == (Interval(0, 2), 8)     ║
+# ║   ensures:  max_shear[0] == 0                              ║
+# ║   ensures:  simplify(max_shear[1] - l * Abs(P) / 2) == 0   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_max_shear_force : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8fbe849b45ec6f9e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e891fea8f1dae755  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.tests.test_beam.test_max_shear_force","kind":"function","src_hash":"d8038f68a1a4bbc8","in":{"base":"Any"},"out":{"base":"Any","pred":"b.max_shear_force() == (Interval(0, 2), 8) and max_shear[0] == 0 and simplify(max_shear[1] - l * Abs(P) / 2) == 0"},"spec":{"lhs":"test_max_shear_force()","rhs":"test_max_shear_force produces the expected output","over":{"base":"Any"},"name":"test_max_shear_force_correct"},"guarantee":"test_max_shear_force produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.tests.test_beam.test_max_shear_force_correct","statement":"Path(test_max_shear_force(x), test_max_shear_force produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8fbe849b45ec6f9e"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.tests.test_beam.test_max_shear_force","kind":"function","src_hash":"d8038f68a1a4bbc8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: b.max_shear_force() == (Interval(0, 2), 8) and max_shear[0] == 0 and simplify(max_shear[1] - l * Abs(P) / 2) == 0"},"spec":{"lhs":"test_max_shear_force()","rhs":"b.max_shear_force() == (Interval(0, 2), 8) and max_shear[0] == 0 and simplify(max_shear[1] - l * Abs(P) / 2) == 0","over":{"base":"Any"},"name":"test_max_shear_force_correct"},"guarantee":"b.max_shear_force() == (Interval(0, 2), 8); max_shear[0] == 0; simplify(max_shear[1] - l * Abs(P) / 2) == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.tests.test_beam.test_max_shear_force_correct","statement":"Path(test_max_shear_force(x), b.max_shear_force() == (Interval(0, 2), 8); max_shear[0] == 0; simplify(max_shear[1] - l * Abs(P) / 2) == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e891fea8f1dae755","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["b.max_shear_force() == (Interval(0, 2), 8)","max_shear[0] == 0","simplify(max_shear[1] - l * Abs(P) / 2) == 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_max_shear_force():
     E = Symbol('E')
     I = Symbol('I')
@@ -856,16 +949,23 @@ def test_max_shear_force():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_max_bmoment(), test_max_bmoment produces the expected output) over Any ║
+# ║ Path(test_max_bmoment(), b.max_bmoment() == (l / 2, P * l / 4) and b.max_bmoment() == (l / 2, P * l ** 2 / 8)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_max_bmoment : Any → {Any | b.max_bmoment() == (l...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  b.max_bmoment() == (l / 2, P * l / 4)          ║
+# ║   ensures:  b.max_bmoment() == (l / 2, P * l ** 2 / 8)     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_max_bmoment : Any → {Any | result satisfies: b.m...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 82f12425fee5b497  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e8b506a293b909cb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.tests.test_beam.test_max_bmoment","kind":"function","src_hash":"64f75c230fe52000","in":{"base":"Any"},"out":{"base":"Any","pred":"b.max_bmoment() == (l / 2, P * l / 4) and b.max_bmoment() == (l / 2, P * l ** 2 / 8)"},"spec":{"lhs":"test_max_bmoment()","rhs":"test_max_bmoment produces the expected output","over":{"base":"Any"},"name":"test_max_bmoment_correct"},"guarantee":"test_max_bmoment produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.tests.test_beam.test_max_bmoment_correct","statement":"Path(test_max_bmoment(x), test_max_bmoment produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"82f12425fee5b497"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.tests.test_beam.test_max_bmoment","kind":"function","src_hash":"64f75c230fe52000","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: b.max_bmoment() == (l / 2, P * l / 4) and b.max_bmoment() == (l / 2, P * l ** 2 / 8)"},"spec":{"lhs":"test_max_bmoment()","rhs":"b.max_bmoment() == (l / 2, P * l / 4) and b.max_bmoment() == (l / 2, P * l ** 2 / 8)","over":{"base":"Any"},"name":"test_max_bmoment_correct"},"guarantee":"b.max_bmoment() == (l / 2, P * l / 4); b.max_bmoment() == (l / 2, P * l ** 2 / 8)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.tests.test_beam.test_max_bmoment_correct","statement":"Path(test_max_bmoment(x), b.max_bmoment() == (l / 2, P * l / 4); b.max_bmoment() == (l / 2, P * l ** 2 / 8))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e8b506a293b909cb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["b.max_bmoment() == (l / 2, P * l / 4)","b.max_bmoment() == (l / 2, P * l ** 2 / 8)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_max_bmoment():
     E = Symbol('E')
     I = Symbol('I')
@@ -890,16 +990,22 @@ def test_max_bmoment():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_max_deflection(), test_max_deflection produces the expected output) over Any ║
+# ║ Path(test_max_deflection(), b.max_deflection() == (l / 2, F * l ** 3 / (192 * E * I))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_max_deflection : Any → {Any | b.max_deflection()...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  b.max_deflection() == (l / 2, F * l ** 3 ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_max_deflection : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 90d341943bc7972c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c48098a874800819  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.tests.test_beam.test_max_deflection","kind":"function","src_hash":"db747d5a0fa8468a","in":{"base":"Any"},"out":{"base":"Any","pred":"b.max_deflection() == (l / 2, F * l ** 3 / (192 * E * I))"},"spec":{"lhs":"test_max_deflection()","rhs":"test_max_deflection produces the expected output","over":{"base":"Any"},"name":"test_max_deflection_correct"},"guarantee":"test_max_deflection produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.tests.test_beam.test_max_deflection_correct","statement":"Path(test_max_deflection(x), test_max_deflection produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"90d341943bc7972c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.tests.test_beam.test_max_deflection","kind":"function","src_hash":"db747d5a0fa8468a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: b.max_deflection() == (l / 2, F * l ** 3 / (192 * E * I))"},"spec":{"lhs":"test_max_deflection()","rhs":"b.max_deflection() == (l / 2, F * l ** 3 / (192 * E * I))","over":{"base":"Any"},"name":"test_max_deflection_correct"},"guarantee":"b.max_deflection() == (l / 2, F * l ** 3 / (192 * E * I))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.tests.test_beam.test_max_deflection_correct","statement":"Path(test_max_deflection(x), b.max_deflection() == (l / 2, F * l ** 3 / (192 * E * I)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c48098a874800819","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["b.max_deflection() == (l / 2, F * l ** 3 / (192 * E * I))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_max_deflection():
     E, I, l, F = symbols('E, I, l, F', positive=True)
     b = Beam(l, E, I)
@@ -913,16 +1019,24 @@ def test_max_deflection():
     assert b.max_deflection() == (l/2, F*l**3/(192*E*I))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_solve_for_ild_reactions(), test_solve_for_ild_reactions produces the expected output) over Any ║
+# ║ Path(test_solve_for_ild_reactions(), b.ild_reactions == {R_0: -SingularityFunction(a, 0, 0) + SingularityFunction(a, 0, 1) / 10 - SingularityFunction(a, 10, 1) / 10, R_10: -SingularityFunction(a, 0, 1) / 10 + SingularityFunction(a, 10, 0) + SingularityFunction(a, 10, 1) / 10} and b.ild_reactions == {R_L: -F * SingularityFunction(a, 0, 0) + F * SingularityFunction(a, L, 0) - F, M_L: -F * L * SingularityFunction(a, 0, 0) - F * L + F * SingularityFunction(a, 0, 1) - F * SingularityFunction(a, L, 1)} and b.ild_reactions[r0].subs(a, 4) == -Rational(59, 475) and b.ild_reactions[r5].subs(a, 4) == -Rational(2296, 2375) and b.ild_reactions[r10].subs(a, 4) == Rational(243, 2375) and b.ild_reactions[r20].subs(a, 12) == -Rational(83, 475) and b.ild_reactions[m20].subs(a, 12) == -Rational(264, 475)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_solve_for_ild_reactions : Any → {Any | b.ild_rea...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  b.ild_reactions == {R_0: -SingularityFunc...   ║
+# ║   ensures:  b.ild_reactions == {R_L: -F * Singularity...   ║
+# ║   ensures:  b.ild_reactions[r0].subs(a, 4) == -Ration...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_solve_for_ild_reactions : Any → {Any | result sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e0d45a66a705ac7d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 850090bfdeff873e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.tests.test_beam.test_solve_for_ild_reactions","kind":"function","src_hash":"0d2d76b1567f5b37","in":{"base":"Any"},"out":{"base":"Any","pred":"b.ild_reactions[r0].subs(a, 4) == -Rational(59, 475) and b.ild_reactions[r5].subs(a, 4) == -Rational(2296, 2375) and b.ild_reactions[r10].subs(a, 4) == Rational(243, 2375) and b.ild_reactions[r20].subs(a, 12) == -Rational(83, 475) and b.ild_reactions[m20].subs(a, 12) == -Rational(264, 475)"},"spec":{"lhs":"test_solve_for_ild_reactions()","rhs":"test_solve_for_ild_reactions produces the expected output","over":{"base":"Any"},"name":"test_solve_for_ild_reactions_correct"},"guarantee":"test_solve_for_ild_reactions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.tests.test_beam.test_solve_for_ild_reactions_correct","statement":"Path(test_solve_for_ild_reactions(x), test_solve_for_ild_reactions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e0d45a66a705ac7d"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.tests.test_beam.test_solve_for_ild_reactions","kind":"function","src_hash":"0d2d76b1567f5b37","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: b.ild_reactions == {R_0: -SingularityFunction(a, 0, 0) + SingularityFunction(a, 0, 1) / 10 - SingularityFunction(a, 10, 1) / 10, R_10: -SingularityFunction(a, 0, 1) / 10 + SingularityFunction(a, 10, 0) + SingularityFunction(a, 10, 1) / 10} and b.ild_reactions == {R_L: -F * SingularityFunction(a, 0, 0) + F * SingularityFunction(a, L, 0) - F, M_L: -F * L * SingularityFunction(a, 0, 0) - F * L + F * SingularityFunction(a, 0, 1) - F * SingularityFunction(a, L, 1)} and b.ild_reactions[r0].subs(a, 4) == -Rational(59, 475) and b.ild_reactions[r5].subs(a, 4) == -Rational(2296, 2375) and b.ild_reactions[r10].subs(a, 4) == Rational(243, 2375) and b.ild_reactions[r20].subs(a, 12) == -Rational(83, 475) and b.ild_reactions[m20].subs(a, 12) == -Rational(264, 475)"},"spec":{"lhs":"test_solve_for_ild_reactions()","rhs":"b.ild_reactions == {R_0: -SingularityFunction(a, 0, 0) + SingularityFunction(a, 0, 1) / 10 - SingularityFunction(a, 10, 1) / 10, R_10: -SingularityFunction(a, 0, 1) / 10 + SingularityFunction(a, 10, 0) + SingularityFunction(a, 10, 1) / 10} and b.ild_reactions == {R_L: -F * SingularityFunction(a, 0, 0) + F * SingularityFunction(a, L, 0) - F, M_L: -F * L * SingularityFunction(a, 0, 0) - F * L + F * SingularityFunction(a, 0, 1) - F * SingularityFunction(a, L, 1)} and b.ild_reactions[r0].subs(a, 4) == -Rational(59, 475) and b.ild_reactions[r5].subs(a, 4) == -Rational(2296, 2375) and b.ild_reactions[r10].subs(a, 4) == Rational(243, 2375) and b.ild_reactions[r20].subs(a, 12) == -Rational(83, 475) and b.ild_reactions[m20].subs(a, 12) == -Rational(264, 475)","over":{"base":"Any"},"name":"test_solve_for_ild_reactions_correct"},"guarantee":"b.ild_reactions == {R_0: -SingularityFunction(a, 0, 0) + SingularityFunction(a, 0, 1) / 10 - SingularityFunction(a, 10, 1) / 10, R_10: -SingularityFunction(a, 0, 1) / 10 + SingularityFunction(a, 10, 0) + SingularityFunction(a, 10, 1) / 10}; b.ild_reactions == {R_L: -F * SingularityFunction(a, 0, 0) + F * SingularityFunction(a, L, 0) - F, M_L: -F * L * SingularityFunction(a, 0, 0) - F * L + F * SingularityFunction(a, 0, 1) - F * SingularityFunction(a, L, 1)}; b.ild_reactions[r0].subs(a, 4) == -Rational(59, 475)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.tests.test_beam.test_solve_for_ild_reactions_correct","statement":"Path(test_solve_for_ild_reactions(x), b.ild_reactions == {R_0: -SingularityFunction(a, 0, 0) + SingularityFunction(a, 0, 1) / 10 - SingularityFunction(a, 10, 1) / 10, R_10: -SingularityFunction(a, 0, 1) / 10 + SingularityFunction(a, 10, 0) + SingularityFunction(a, 10, 1) / 10}; b.ild_reactions == {R_L: -F * SingularityFunction(a, 0, 0) + F * SingularityFunction(a, L, 0) - F, M_L: -F * L * SingularityFunction(a, 0, 0) - F * L + F * SingularityFunction(a, 0, 1) - F * SingularityFunction(a, L, 1)}; b.ild_reactions[r0].subs(a, 4) == -Rational(59, 475))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"850090bfdeff873e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["b.ild_reactions == {R_0: -SingularityFunction(a, 0, 0) + SingularityFunction(a, 0, 1) / 10 - SingularityFunction(a, 10, 1) / 10, R_10: -SingularityFunction(a, 0, 1) / 10 + SingularityFunction(a, 10, 0) + SingularityFunction(a, 10, 1) / 10}","b.ild_reactions == {R_L: -F * SingularityFunction(a, 0, 0) + F * SingularityFunction(a, L, 0) - F, M_L: -F * L * SingularityFunction(a, 0, 0) - F * L + F * SingularityFunction(a, 0, 1) - F * SingularityFunction(a, L, 1)}","b.ild_reactions[r0].subs(a, 4) == -Rational(59, 475)","b.ild_reactions[r5].subs(a, 4) == -Rational(2296, 2375)","b.ild_reactions[r10].subs(a, 4) == Rational(243, 2375)","b.ild_reactions[r20].subs(a, 12) == -Rational(83, 475)","b.ild_reactions[m20].subs(a, 12) == -Rational(264, 475)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def test_solve_for_ild_reactions():
     E = Symbol('E')
     I = Symbol('I')
@@ -967,16 +1081,24 @@ def test_solve_for_ild_reactions():
     assert b.ild_reactions[m20].subs(a, 12) == -Rational(264, 475)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_solve_for_ild_shear(), test_solve_for_ild_shear produces the expected output) over Any ║
+# ║ Path(test_solve_for_ild_shear(), b.ild_shear.expand() == expected_shear.expand() and b.ild_shear.subs(a, 12) == Rational(96, 475) and b.ild_shear.subs(a, 4) == -Rational(216, 2375)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_solve_for_ild_shear : Any → {Any | b.ild_shear.e...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  b.ild_shear.expand() == expected_shear.ex...   ║
+# ║   ensures:  b.ild_shear.subs(a, 12) == Rational(96, 475)   ║
+# ║   ensures:  b.ild_shear.subs(a, 4) == -Rational(216, ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_solve_for_ild_shear : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e6025efa9157e429  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e79ca28399d46d0a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.tests.test_beam.test_solve_for_ild_shear","kind":"function","src_hash":"91dd76c92b14da3a","in":{"base":"Any"},"out":{"base":"Any","pred":"b.ild_shear.expand() == expected_shear.expand() and b.ild_shear.subs(a, 12) == Rational(96, 475) and b.ild_shear.subs(a, 4) == -Rational(216, 2375)"},"spec":{"lhs":"test_solve_for_ild_shear()","rhs":"test_solve_for_ild_shear produces the expected output","over":{"base":"Any"},"name":"test_solve_for_ild_shear_correct"},"guarantee":"test_solve_for_ild_shear produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.tests.test_beam.test_solve_for_ild_shear_correct","statement":"Path(test_solve_for_ild_shear(x), test_solve_for_ild_shear produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e6025efa9157e429"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.tests.test_beam.test_solve_for_ild_shear","kind":"function","src_hash":"91dd76c92b14da3a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: b.ild_shear.expand() == expected_shear.expand() and b.ild_shear.subs(a, 12) == Rational(96, 475) and b.ild_shear.subs(a, 4) == -Rational(216, 2375)"},"spec":{"lhs":"test_solve_for_ild_shear()","rhs":"b.ild_shear.expand() == expected_shear.expand() and b.ild_shear.subs(a, 12) == Rational(96, 475) and b.ild_shear.subs(a, 4) == -Rational(216, 2375)","over":{"base":"Any"},"name":"test_solve_for_ild_shear_correct"},"guarantee":"b.ild_shear.expand() == expected_shear.expand(); b.ild_shear.subs(a, 12) == Rational(96, 475); b.ild_shear.subs(a, 4) == -Rational(216, 2375)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.tests.test_beam.test_solve_for_ild_shear_correct","statement":"Path(test_solve_for_ild_shear(x), b.ild_shear.expand() == expected_shear.expand(); b.ild_shear.subs(a, 12) == Rational(96, 475); b.ild_shear.subs(a, 4) == -Rational(216, 2375))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e79ca28399d46d0a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["b.ild_shear.expand() == expected_shear.expand()","b.ild_shear.subs(a, 12) == Rational(96, 475)","b.ild_shear.subs(a, 4) == -Rational(216, 2375)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def test_solve_for_ild_shear():
     E = Symbol('E')
     I = Symbol('I')
@@ -1011,16 +1133,24 @@ def test_solve_for_ild_shear():
     assert b.ild_shear.subs(a, 4) == -Rational(216, 2375)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_solve_for_ild_moment(), test_solve_for_ild_moment produces the expected output) over Any ║
+# ║ Path(test_solve_for_ild_moment(), b.ild_moment.subs(a, 3).subs(L1, 5).subs(L2, 5) == -3 * F / 2 and b.ild_moment.subs(a, 12) == -Rational(96, 475) and b.ild_moment.subs(a, 4) == Rational(36, 95)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_solve_for_ild_moment : Any → {Any | b.ild_moment...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  b.ild_moment.subs(a, 3).subs(L1, 5).subs(...   ║
+# ║   ensures:  b.ild_moment.subs(a, 12) == -Rational(96,...   ║
+# ║   ensures:  b.ild_moment.subs(a, 4) == Rational(36, 95)    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_solve_for_ild_moment : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 704c088d275802b1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3194ce843abc6562  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.tests.test_beam.test_solve_for_ild_moment","kind":"function","src_hash":"025ed0ad33db9e76","in":{"base":"Any"},"out":{"base":"Any","pred":"b.ild_moment.subs(a, 3).subs(L1, 5).subs(L2, 5) == -3 * F / 2 and b.ild_moment.subs(a, 12) == -Rational(96, 475) and b.ild_moment.subs(a, 4) == Rational(36, 95)"},"spec":{"lhs":"test_solve_for_ild_moment()","rhs":"test_solve_for_ild_moment produces the expected output","over":{"base":"Any"},"name":"test_solve_for_ild_moment_correct"},"guarantee":"test_solve_for_ild_moment produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.tests.test_beam.test_solve_for_ild_moment_correct","statement":"Path(test_solve_for_ild_moment(x), test_solve_for_ild_moment produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"704c088d275802b1"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.tests.test_beam.test_solve_for_ild_moment","kind":"function","src_hash":"025ed0ad33db9e76","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: b.ild_moment.subs(a, 3).subs(L1, 5).subs(L2, 5) == -3 * F / 2 and b.ild_moment.subs(a, 12) == -Rational(96, 475) and b.ild_moment.subs(a, 4) == Rational(36, 95)"},"spec":{"lhs":"test_solve_for_ild_moment()","rhs":"b.ild_moment.subs(a, 3).subs(L1, 5).subs(L2, 5) == -3 * F / 2 and b.ild_moment.subs(a, 12) == -Rational(96, 475) and b.ild_moment.subs(a, 4) == Rational(36, 95)","over":{"base":"Any"},"name":"test_solve_for_ild_moment_correct"},"guarantee":"b.ild_moment.subs(a, 3).subs(L1, 5).subs(L2, 5) == -3 * F / 2; b.ild_moment.subs(a, 12) == -Rational(96, 475); b.ild_moment.subs(a, 4) == Rational(36, 95)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.tests.test_beam.test_solve_for_ild_moment_correct","statement":"Path(test_solve_for_ild_moment(x), b.ild_moment.subs(a, 3).subs(L1, 5).subs(L2, 5) == -3 * F / 2; b.ild_moment.subs(a, 12) == -Rational(96, 475); b.ild_moment.subs(a, 4) == Rational(36, 95))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3194ce843abc6562","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["b.ild_moment.subs(a, 3).subs(L1, 5).subs(L2, 5) == -3 * F / 2","b.ild_moment.subs(a, 12) == -Rational(96, 475)","b.ild_moment.subs(a, 4) == Rational(36, 95)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_solve_for_ild_moment():
     E = Symbol('E')
     I = Symbol('I')
@@ -1048,16 +1178,24 @@ def test_solve_for_ild_moment():
     assert b.ild_moment.subs(a, 4) == Rational(36, 95)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_ild_with_rotation_hinge(), test_ild_with_rotation_hinge produces the expected output) over Any ║
+# ║ Path(test_ild_with_rotation_hinge(), b.ild_reactions[r0].subs(a, 4).subs(L1, 5).subs(L2, 5).subs(L3, 10) == -3 * F / 5 and b.ild_reactions[r0].subs(a, -10).subs(L1, 5).subs(L2, 5).subs(L3, 10) == 0 and b.ild_reactions[r0].subs(a, 25).subs(L1, 5).subs(L2, 5).subs(L3, 10) == 0 and b.ild_reactions[r1].subs(a, 4).subs(L1, 5).subs(L2, 5).subs(L3, 10) == -2 * F / 5 and b.ild_reactions[r2].subs(a, 18).subs(L1, 5).subs(L2, 5).subs(L3, 10) == -4 * F / 5 and b.ild_shear.subs(a, 7).subs(L1, 5).subs(L2, 5).subs(L3, 10) == -3 * F / 10 and b.ild_shear.subs(a, 70).subs(L1, 5).subs(L2, 5).subs(L3, 10) == 0 and b.ild_moment.subs(a, 1).subs(L1, 5).subs(L2, 5).subs(L3, 10) == -F / 2 and b.ild_moment.subs(a, 8).subs(L1, 5).subs(L2, 5).subs(L3, 10) == -F) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_ild_with_rotation_hinge : Any → {Any | b.ild_rea...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  b.ild_reactions[r0].subs(a, 4).subs(L1, 5...   ║
+# ║   ensures:  b.ild_reactions[r0].subs(a, -10).subs(L1,...   ║
+# ║   ensures:  b.ild_reactions[r0].subs(a, 25).subs(L1, ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_ild_with_rotation_hinge : Any → {Any | result sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c0e0502368868acc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f04c455fe63322a9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.tests.test_beam.test_ild_with_rotation_hinge","kind":"function","src_hash":"eedf7024e4f209a4","in":{"base":"Any"},"out":{"base":"Any","pred":"b.ild_reactions[r0].subs(a, -10).subs(L1, 5).subs(L2, 5).subs(L3, 10) == 0 and b.ild_reactions[r0].subs(a, 25).subs(L1, 5).subs(L2, 5).subs(L3, 10) == 0 and b.ild_shear.subs(a, 7).subs(L1, 5).subs(L2, 5).subs(L3, 10) == -3 * F / 10 and b.ild_shear.subs(a, 70).subs(L1, 5).subs(L2, 5).subs(L3, 10) == 0 and b.ild_moment.subs(a, 1).subs(L1, 5).subs(L2, 5).subs(L3, 10) == -F / 2 and b.ild_moment.subs(a, 8).subs(L1, 5).subs(L2, 5).subs(L3, 10) == -F"},"spec":{"lhs":"test_ild_with_rotation_hinge()","rhs":"test_ild_with_rotation_hinge produces the expected output","over":{"base":"Any"},"name":"test_ild_with_rotation_hinge_correct"},"guarantee":"test_ild_with_rotation_hinge produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.tests.test_beam.test_ild_with_rotation_hinge_correct","statement":"Path(test_ild_with_rotation_hinge(x), test_ild_with_rotation_hinge produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c0e0502368868acc"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.tests.test_beam.test_ild_with_rotation_hinge","kind":"function","src_hash":"eedf7024e4f209a4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: b.ild_reactions[r0].subs(a, 4).subs(L1, 5).subs(L2, 5).subs(L3, 10) == -3 * F / 5 and b.ild_reactions[r0].subs(a, -10).subs(L1, 5).subs(L2, 5).subs(L3, 10) == 0 and b.ild_reactions[r0].subs(a, 25).subs(L1, 5).subs(L2, 5).subs(L3, 10) == 0 and b.ild_reactions[r1].subs(a, 4).subs(L1, 5).subs(L2, 5).subs(L3, 10) == -2 * F / 5 and b.ild_reactions[r2].subs(a, 18).subs(L1, 5).subs(L2, 5).subs(L3, 10) == -4 * F / 5 and b.ild_shear.subs(a, 7).subs(L1, 5).subs(L2, 5).subs(L3, 10) == -3 * F / 10 and b.ild_shear.subs(a, 70).subs(L1, 5).subs(L2, 5).subs(L3, 10) == 0 and b.ild_moment.subs(a, 1).subs(L1, 5).subs(L2, 5).subs(L3, 10) == -F / 2 and b.ild_moment.subs(a, 8).subs(L1, 5).subs(L2, 5).subs(L3, 10) == -F"},"spec":{"lhs":"test_ild_with_rotation_hinge()","rhs":"b.ild_reactions[r0].subs(a, 4).subs(L1, 5).subs(L2, 5).subs(L3, 10) == -3 * F / 5 and b.ild_reactions[r0].subs(a, -10).subs(L1, 5).subs(L2, 5).subs(L3, 10) == 0 and b.ild_reactions[r0].subs(a, 25).subs(L1, 5).subs(L2, 5).subs(L3, 10) == 0 and b.ild_reactions[r1].subs(a, 4).subs(L1, 5).subs(L2, 5).subs(L3, 10) == -2 * F / 5 and b.ild_reactions[r2].subs(a, 18).subs(L1, 5).subs(L2, 5).subs(L3, 10) == -4 * F / 5 and b.ild_shear.subs(a, 7).subs(L1, 5).subs(L2, 5).subs(L3, 10) == -3 * F / 10 and b.ild_shear.subs(a, 70).subs(L1, 5).subs(L2, 5).subs(L3, 10) == 0 and b.ild_moment.subs(a, 1).subs(L1, 5).subs(L2, 5).subs(L3, 10) == -F / 2 and b.ild_moment.subs(a, 8).subs(L1, 5).subs(L2, 5).subs(L3, 10) == -F","over":{"base":"Any"},"name":"test_ild_with_rotation_hinge_correct"},"guarantee":"b.ild_reactions[r0].subs(a, 4).subs(L1, 5).subs(L2, 5).subs(L3, 10) == -3 * F / 5; b.ild_reactions[r0].subs(a, -10).subs(L1, 5).subs(L2, 5).subs(L3, 10) == 0; b.ild_reactions[r0].subs(a, 25).subs(L1, 5).subs(L2, 5).subs(L3, 10) == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.tests.test_beam.test_ild_with_rotation_hinge_correct","statement":"Path(test_ild_with_rotation_hinge(x), b.ild_reactions[r0].subs(a, 4).subs(L1, 5).subs(L2, 5).subs(L3, 10) == -3 * F / 5; b.ild_reactions[r0].subs(a, -10).subs(L1, 5).subs(L2, 5).subs(L3, 10) == 0; b.ild_reactions[r0].subs(a, 25).subs(L1, 5).subs(L2, 5).subs(L3, 10) == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f04c455fe63322a9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["b.ild_reactions[r0].subs(a, 4).subs(L1, 5).subs(L2, 5).subs(L3, 10) == -3 * F / 5","b.ild_reactions[r0].subs(a, -10).subs(L1, 5).subs(L2, 5).subs(L3, 10) == 0","b.ild_reactions[r0].subs(a, 25).subs(L1, 5).subs(L2, 5).subs(L3, 10) == 0","b.ild_reactions[r1].subs(a, 4).subs(L1, 5).subs(L2, 5).subs(L3, 10) == -2 * F / 5","b.ild_reactions[r2].subs(a, 18).subs(L1, 5).subs(L2, 5).subs(L3, 10) == -4 * F / 5","b.ild_shear.subs(a, 7).subs(L1, 5).subs(L2, 5).subs(L3, 10) == -3 * F / 10","b.ild_shear.subs(a, 70).subs(L1, 5).subs(L2, 5).subs(L3, 10) == 0","b.ild_moment.subs(a, 1).subs(L1, 5).subs(L2, 5).subs(L3, 10) == -F / 2","b.ild_moment.subs(a, 8).subs(L1, 5).subs(L2, 5).subs(L3, 10) == -F"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def test_ild_with_rotation_hinge():
     E = Symbol('E')
     I = Symbol('I')
@@ -1085,16 +1223,24 @@ def test_ild_with_rotation_hinge():
     assert b.ild_moment.subs(a, 8).subs(L1, 5).subs(L2, 5).subs(L3, 10) == -F
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_ild_with_sliding_hinge(), test_ild_with_sliding_hinge produces the expected output) over Any ║
+# ║ Path(test_ild_with_sliding_hinge(), b.ild_reactions[r0].subs(a, 3) == -1 and b.ild_reactions[r6].subs(a, 3) == Rational(9, 14) and b.ild_reactions[r13].subs(a, 9) == -Rational(207, 343) and b.ild_reactions[m13].subs(a, 9) == -Rational(60, 49) and b.ild_reactions[m13].subs(a, 15) == 0 and b.ild_reactions[m13].subs(a, -3) == 0 and b.ild_deflection_jumps[w3].subs(a, 9) == -Rational(9, 35000) and b.ild_shear.subs(a, 8) == -Rational(200, 343) and b.ild_moment.subs(a, 3) == -Rational(12, 7)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_ild_with_sliding_hinge : Any → {Any | b.ild_reac...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  b.ild_reactions[r0].subs(a, 3) == -1           ║
+# ║   ensures:  b.ild_reactions[r6].subs(a, 3) == Rationa...   ║
+# ║   ensures:  b.ild_reactions[r13].subs(a, 9) == -Ratio...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_ild_with_sliding_hinge : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0a5fab1255c9681f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4c3f977bdd431625  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.tests.test_beam.test_ild_with_sliding_hinge","kind":"function","src_hash":"0cbb3ea714e3719c","in":{"base":"Any"},"out":{"base":"Any","pred":"b.ild_reactions[r0].subs(a, 3) == -1 and b.ild_reactions[r6].subs(a, 3) == Rational(9, 14) and b.ild_reactions[r13].subs(a, 9) == -Rational(207, 343) and b.ild_reactions[m13].subs(a, 9) == -Rational(60, 49) and b.ild_reactions[m13].subs(a, 15) == 0 and b.ild_reactions[m13].subs(a, -3) == 0 and b.ild_deflection_jumps[w3].subs(a, 9) == -Rational(9, 35000) and b.ild_shear.subs(a, 8) == -Rational(200, 343) and b.ild_moment.subs(a, 3) == -Rational(12, 7)"},"spec":{"lhs":"test_ild_with_sliding_hinge()","rhs":"test_ild_with_sliding_hinge produces the expected output","over":{"base":"Any"},"name":"test_ild_with_sliding_hinge_correct"},"guarantee":"test_ild_with_sliding_hinge produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.tests.test_beam.test_ild_with_sliding_hinge_correct","statement":"Path(test_ild_with_sliding_hinge(x), test_ild_with_sliding_hinge produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0a5fab1255c9681f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.tests.test_beam.test_ild_with_sliding_hinge","kind":"function","src_hash":"0cbb3ea714e3719c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: b.ild_reactions[r0].subs(a, 3) == -1 and b.ild_reactions[r6].subs(a, 3) == Rational(9, 14) and b.ild_reactions[r13].subs(a, 9) == -Rational(207, 343) and b.ild_reactions[m13].subs(a, 9) == -Rational(60, 49) and b.ild_reactions[m13].subs(a, 15) == 0 and b.ild_reactions[m13].subs(a, -3) == 0 and b.ild_deflection_jumps[w3].subs(a, 9) == -Rational(9, 35000) and b.ild_shear.subs(a, 8) == -Rational(200, 343) and b.ild_moment.subs(a, 3) == -Rational(12, 7)"},"spec":{"lhs":"test_ild_with_sliding_hinge()","rhs":"b.ild_reactions[r0].subs(a, 3) == -1 and b.ild_reactions[r6].subs(a, 3) == Rational(9, 14) and b.ild_reactions[r13].subs(a, 9) == -Rational(207, 343) and b.ild_reactions[m13].subs(a, 9) == -Rational(60, 49) and b.ild_reactions[m13].subs(a, 15) == 0 and b.ild_reactions[m13].subs(a, -3) == 0 and b.ild_deflection_jumps[w3].subs(a, 9) == -Rational(9, 35000) and b.ild_shear.subs(a, 8) == -Rational(200, 343) and b.ild_moment.subs(a, 3) == -Rational(12, 7)","over":{"base":"Any"},"name":"test_ild_with_sliding_hinge_correct"},"guarantee":"b.ild_reactions[r0].subs(a, 3) == -1; b.ild_reactions[r6].subs(a, 3) == Rational(9, 14); b.ild_reactions[r13].subs(a, 9) == -Rational(207, 343)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.tests.test_beam.test_ild_with_sliding_hinge_correct","statement":"Path(test_ild_with_sliding_hinge(x), b.ild_reactions[r0].subs(a, 3) == -1; b.ild_reactions[r6].subs(a, 3) == Rational(9, 14); b.ild_reactions[r13].subs(a, 9) == -Rational(207, 343))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4c3f977bdd431625","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["b.ild_reactions[r0].subs(a, 3) == -1","b.ild_reactions[r6].subs(a, 3) == Rational(9, 14)","b.ild_reactions[r13].subs(a, 9) == -Rational(207, 343)","b.ild_reactions[m13].subs(a, 9) == -Rational(60, 49)","b.ild_reactions[m13].subs(a, 15) == 0","b.ild_reactions[m13].subs(a, -3) == 0","b.ild_deflection_jumps[w3].subs(a, 9) == -Rational(9, 35000)","b.ild_shear.subs(a, 8) == -Rational(200, 343)","b.ild_moment.subs(a, 3) == -Rational(12, 7)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_ild_with_sliding_hinge():
     b = Beam(13, 200, 200)
     r0 = b.apply_support(0, type="pin")
@@ -1116,16 +1262,24 @@ def test_ild_with_sliding_hinge():
     assert b.ild_moment.subs(a, 3) == -Rational(12, 7)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Beam3D(), test_Beam3D produces the expected output) over Any ║
+# ║ Path(test_Beam3D(), b.polar_moment() == 2 * I and b.shear_force() == [0, -q * x, 0] and b.shear_stress() == [0, -q * x / A, 0] and b.axial_stress() == 0 and b.bending_moment() == [0, 0, -m * x + q * x ** 2 / 2] and dx == dz == 0 and simplify(dy - expected_deflection) == 0 and b2.reaction_loads == {R1: -750, R2: -750} and b2.slope() == [0, 0, 25 * x ** 3 / (3 * E * I) - 375 * x ** 2 / (E * I) + 3750 * x / (E * I)] and dy == expected_deflection and b3.reaction_loads == {R1: -120, R2: -120, R3: -1350, R4: -2700}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Beam3D : Any → {Any | b.polar_moment() == 2 * I ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  b.polar_moment() == 2 * I                      ║
+# ║   ensures:  b.shear_force() == [0, -q * x, 0]              ║
+# ║   ensures:  b.shear_stress() == [0, -q * x / A, 0]         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Beam3D : Any → {Any | result satisfies: b.polar_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cbe21c1bd449133a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6d09344a42d8657e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.tests.test_beam.test_Beam3D","kind":"function","src_hash":"6764c71a752216ca","in":{"base":"Any"},"out":{"base":"Any","pred":"b.polar_moment() == 2 * I and b.shear_force() == [0, -q * x, 0] and b.shear_stress() == [0, -q * x / A, 0] and b.axial_stress() == 0 and b.bending_moment() == [0, 0, -m * x + q * x ** 2 / 2] and dx == dz == 0 and simplify(dy - expected_deflection) == 0 and b2.reaction_loads == {R1: -750, R2: -750} and dx == dz == 0 and dy == expected_deflection and b3.reaction_loads == {R1: -120, R2: -120, R3: -1350, R4: -2700}"},"spec":{"lhs":"test_Beam3D()","rhs":"test_Beam3D produces the expected output","over":{"base":"Any"},"name":"test_Beam3D_correct"},"guarantee":"test_Beam3D produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.tests.test_beam.test_Beam3D_correct","statement":"Path(test_Beam3D(x), test_Beam3D produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cbe21c1bd449133a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.tests.test_beam.test_Beam3D","kind":"function","src_hash":"6764c71a752216ca","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: b.polar_moment() == 2 * I and b.shear_force() == [0, -q * x, 0] and b.shear_stress() == [0, -q * x / A, 0] and b.axial_stress() == 0 and b.bending_moment() == [0, 0, -m * x + q * x ** 2 / 2] and dx == dz == 0 and simplify(dy - expected_deflection) == 0 and b2.reaction_loads == {R1: -750, R2: -750} and b2.slope() == [0, 0, 25 * x ** 3 / (3 * E * I) - 375 * x ** 2 / (E * I) + 3750 * x / (E * I)] and dy == expected_deflection and b3.reaction_loads == {R1: -120, R2: -120, R3: -1350, R4: -2700}"},"spec":{"lhs":"test_Beam3D()","rhs":"b.polar_moment() == 2 * I and b.shear_force() == [0, -q * x, 0] and b.shear_stress() == [0, -q * x / A, 0] and b.axial_stress() == 0 and b.bending_moment() == [0, 0, -m * x + q * x ** 2 / 2] and dx == dz == 0 and simplify(dy - expected_deflection) == 0 and b2.reaction_loads == {R1: -750, R2: -750} and b2.slope() == [0, 0, 25 * x ** 3 / (3 * E * I) - 375 * x ** 2 / (E * I) + 3750 * x / (E * I)] and dy == expected_deflection and b3.reaction_loads == {R1: -120, R2: -120, R3: -1350, R4: -2700}","over":{"base":"Any"},"name":"test_Beam3D_correct"},"guarantee":"b.polar_moment() == 2 * I; b.shear_force() == [0, -q * x, 0]; b.shear_stress() == [0, -q * x / A, 0]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.tests.test_beam.test_Beam3D_correct","statement":"Path(test_Beam3D(x), b.polar_moment() == 2 * I; b.shear_force() == [0, -q * x, 0]; b.shear_stress() == [0, -q * x / A, 0])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6d09344a42d8657e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["b.polar_moment() == 2 * I","b.shear_force() == [0, -q * x, 0]","b.shear_stress() == [0, -q * x / A, 0]","b.axial_stress() == 0","b.bending_moment() == [0, 0, -m * x + q * x ** 2 / 2]","dx == dz == 0","simplify(dy - expected_deflection) == 0","b2.reaction_loads == {R1: -750, R2: -750}","b2.slope() == [0, 0, 25 * x ** 3 / (3 * E * I) - 375 * x ** 2 / (E * I) + 3750 * x / (E * I)]","dy == expected_deflection","b3.reaction_loads == {R1: -120, R2: -120, R3: -1350, R4: -2700}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.1,"verdict_class":"assumed","binding":true}}
 def test_Beam3D():
     l, E, G, I, A = symbols('l, E, G, I, A')
     R1, R2, R3, R4 = symbols('R1, R2, R3, R4')
@@ -1181,16 +1335,22 @@ def test_Beam3D():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_polar_moment_Beam3D(), test_polar_moment_Beam3D produces the expected output) over Any ║
+# ║ Path(test_polar_moment_Beam3D(), b.polar_moment() == I1 + I2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_polar_moment_Beam3D : Any → {Any | b.polar_momen...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  b.polar_moment() == I1 + I2                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_polar_moment_Beam3D : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 377b28f1e7035889  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 246f903ffd1775a6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.tests.test_beam.test_polar_moment_Beam3D","kind":"function","src_hash":"125961c2e07e6b7d","in":{"base":"Any"},"out":{"base":"Any","pred":"b.polar_moment() == I1 + I2"},"spec":{"lhs":"test_polar_moment_Beam3D()","rhs":"test_polar_moment_Beam3D produces the expected output","over":{"base":"Any"},"name":"test_polar_moment_Beam3D_correct"},"guarantee":"test_polar_moment_Beam3D produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.tests.test_beam.test_polar_moment_Beam3D_correct","statement":"Path(test_polar_moment_Beam3D(x), test_polar_moment_Beam3D produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"377b28f1e7035889"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.tests.test_beam.test_polar_moment_Beam3D","kind":"function","src_hash":"125961c2e07e6b7d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: b.polar_moment() == I1 + I2"},"spec":{"lhs":"test_polar_moment_Beam3D()","rhs":"b.polar_moment() == I1 + I2","over":{"base":"Any"},"name":"test_polar_moment_Beam3D_correct"},"guarantee":"b.polar_moment() == I1 + I2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.tests.test_beam.test_polar_moment_Beam3D_correct","statement":"Path(test_polar_moment_Beam3D(x), b.polar_moment() == I1 + I2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"246f903ffd1775a6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["b.polar_moment() == I1 + I2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_polar_moment_Beam3D():
     l, E, G, A, I1, I2 = symbols('l, E, G, A, I1, I2')
     I = [I1, I2]
@@ -1200,16 +1360,24 @@ def test_polar_moment_Beam3D():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_parabolic_loads(), test_parabolic_loads produces the expected output) over Any ║
+# ║ Path(test_parabolic_loads(), beam.reaction_loads[R] == -L ** 3 / 3 and loading.xreplace({x: 5}) == 40 and loading.xreplace({x: 15}) == 0 and beam.load == P * SingularityFunction(x, 0, 1) - P * SingularityFunction(x, L, 1) - P * L * SingularityFunction(x, L, 0) and loading.xreplace({x: 5}) == 40 * 5 ** 8) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_parabolic_loads : Any → {Any | beam.reaction_loa...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  beam.reaction_loads[R] == -L ** 3 / 3          ║
+# ║   ensures:  loading.xreplace({x: 5}) == 40                 ║
+# ║   ensures:  loading.xreplace({x: 15}) == 0                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_parabolic_loads : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5f4672316487ab66  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6f8bb71d3cb1476e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.tests.test_beam.test_parabolic_loads","kind":"function","src_hash":"cf9d50bff4be198b","in":{"base":"Any"},"out":{"base":"Any","pred":"beam.reaction_loads[R] == -L ** 3 / 3 and beam.reaction_loads[R] == -L ** 3 / 3 and loading.xreplace({x: 5}) == 40 and loading.xreplace({x: 15}) == 0 and loading.xreplace({x: 5}) == 40 * 5 ** 8 and loading.xreplace({x: 15}) == 0"},"spec":{"lhs":"test_parabolic_loads()","rhs":"test_parabolic_loads produces the expected output","over":{"base":"Any"},"name":"test_parabolic_loads_correct"},"guarantee":"test_parabolic_loads produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.tests.test_beam.test_parabolic_loads_correct","statement":"Path(test_parabolic_loads(x), test_parabolic_loads produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5f4672316487ab66"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.tests.test_beam.test_parabolic_loads","kind":"function","src_hash":"cf9d50bff4be198b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: beam.reaction_loads[R] == -L ** 3 / 3 and loading.xreplace({x: 5}) == 40 and loading.xreplace({x: 15}) == 0 and beam.load == P * SingularityFunction(x, 0, 1) - P * SingularityFunction(x, L, 1) - P * L * SingularityFunction(x, L, 0) and loading.xreplace({x: 5}) == 40 * 5 ** 8"},"spec":{"lhs":"test_parabolic_loads()","rhs":"beam.reaction_loads[R] == -L ** 3 / 3 and loading.xreplace({x: 5}) == 40 and loading.xreplace({x: 15}) == 0 and beam.load == P * SingularityFunction(x, 0, 1) - P * SingularityFunction(x, L, 1) - P * L * SingularityFunction(x, L, 0) and loading.xreplace({x: 5}) == 40 * 5 ** 8","over":{"base":"Any"},"name":"test_parabolic_loads_correct"},"guarantee":"beam.reaction_loads[R] == -L ** 3 / 3; loading.xreplace({x: 5}) == 40; loading.xreplace({x: 15}) == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.tests.test_beam.test_parabolic_loads_correct","statement":"Path(test_parabolic_loads(x), beam.reaction_loads[R] == -L ** 3 / 3; loading.xreplace({x: 5}) == 40; loading.xreplace({x: 15}) == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6f8bb71d3cb1476e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["beam.reaction_loads[R] == -L ** 3 / 3","loading.xreplace({x: 5}) == 40","loading.xreplace({x: 15}) == 0","beam.load == P * SingularityFunction(x, 0, 1) - P * SingularityFunction(x, L, 1) - P * L * SingularityFunction(x, L, 0)","loading.xreplace({x: 5}) == 40 * 5 ** 8"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_parabolic_loads():
 
     E, I, L = symbols('E, I, L', positive=True, real=True)
@@ -1271,16 +1439,24 @@ def test_parabolic_loads():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_cross_section(), test_cross_section produces the expected output) over Any ║
+# ║ Path(test_cross_section(), b0.second_moment == I and b0.cross_section == None and b0.second_moment == pi * Rational(625, 4) and b0.cross_section == Circle((0, 0), 5) and b0.second_moment == 2 * n - 6 and b1.cross_section == Circle((0, 0), r) and b1.second_moment == pi * r * Abs(r) ** 3 / 4 and b1.load == -10 * SingularityFunction(x, 0, -1) + 82 * SingularityFunction(x, 5, -1) / S(9) + 90 * SingularityFunction(x, 45, -2) + 8 * SingularityFunction(x, 50, -1) / 9 and b1.bending_moment() == 10 * SingularityFunction(x, 0, 1) - 82 * SingularityFunction(x, 5, 1) / 9 - 90 * SingularityFunction(x, 45, 0) - 8 * SingularityFunction(x, 50, 1) / 9 and b1.slope() == C3 + 4 * q and b1.deflection() == C3 * x + C4 + 4 * q and b2.cross_section == Polygon((0, 0), (a, 0), (a, c), (0, c)) and b2.second_moment == a * c ** 3 / 12 and b3.cross_section == Triangle(Point2D(0, 0), Point2D(g, 0), Point2D(g / 2, h)) and b3.second_moment == g * h ** 3 / 36 and b.second_moment == Piecewise((a * c ** 3 / 12, x <= 20), (g * h ** 3 / 36, x <= 35)) and b.cross_section == None and b.length == 35 and b.slope().subs(x, 7) == 8400 / (E * a * c ** 3) and b.slope().subs(x, 25) == 52200 / (E * g * h ** 3) + 39600 / (E * a * c ** 3) and b.deflection().subs(x, 30) == -537000 / (E * g * h ** 3) - 712000 / (E * a * c ** 3)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_cross_section : Any → {Any | b0.second_moment ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  b0.second_moment == I                          ║
+# ║   ensures:  b0.cross_section == None                       ║
+# ║   ensures:  b0.second_moment == pi * Rational(625, 4)      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_cross_section : Any → {Any | result satisfies: b...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9ab6b6f0c0b66634  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2cc0fda814dffff5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.tests.test_beam.test_cross_section","kind":"function","src_hash":"e24aa54e5da608c1","in":{"base":"Any"},"out":{"base":"Any","pred":"b0.second_moment == I and b0.cross_section == None and b0.second_moment == pi * Rational(625, 4) and b0.cross_section == Circle((0, 0), 5) and b0.second_moment == 2 * n - 6 and b0.cross_section == None and b1.cross_section == Circle((0, 0), r) and b1.second_moment == pi * r * Abs(r) ** 3 / 4 and b1.slope() == C3 + 4 * q and b1.deflection() == C3 * x + C4 + 4 * q and b2.cross_section == Polygon((0, 0), (a, 0), (a, c), (0, c)) and b2.second_moment == a * c ** 3 / 12 and b3.cross_section == Triangle(Point2D(0, 0), Point2D(g, 0), Point2D(g / 2, h)) and b3.second_moment == g * h ** 3 / 36 and b.cross_section == None and b.length == 35 and b.slope().subs(x, 7) == 8400 / (E * a * c ** 3) and b.slope().subs(x, 25) == 52200 / (E * g * h ** 3) + 39600 / (E * a * c ** 3)"},"spec":{"lhs":"test_cross_section()","rhs":"test_cross_section produces the expected output","over":{"base":"Any"},"name":"test_cross_section_correct"},"guarantee":"test_cross_section produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.tests.test_beam.test_cross_section_correct","statement":"Path(test_cross_section(x), test_cross_section produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9ab6b6f0c0b66634"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.tests.test_beam.test_cross_section","kind":"function","src_hash":"e24aa54e5da608c1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: b0.second_moment == I and b0.cross_section == None and b0.second_moment == pi * Rational(625, 4) and b0.cross_section == Circle((0, 0), 5) and b0.second_moment == 2 * n - 6 and b1.cross_section == Circle((0, 0), r) and b1.second_moment == pi * r * Abs(r) ** 3 / 4 and b1.load == -10 * SingularityFunction(x, 0, -1) + 82 * SingularityFunction(x, 5, -1) / S(9) + 90 * SingularityFunction(x, 45, -2) + 8 * SingularityFunction(x, 50, -1) / 9 and b1.bending_moment() == 10 * SingularityFunction(x, 0, 1) - 82 * SingularityFunction(x, 5, 1) / 9 - 90 * SingularityFunction(x, 45, 0) - 8 * SingularityFunction(x, 50, 1) / 9 and b1.slope() == C3 + 4 * q and b1.deflection() == C3 * x + C4 + 4 * q and b2.cross_section == Polygon((0, 0), (a, 0), (a, c), (0, c)) and b2.second_moment == a * c ** 3 / 12 and b3.cross_section == Triangle(Point2D(0, 0), Point2D(g, 0), Point2D(g / 2, h)) and b3.second_moment == g * h ** 3 / 36 and b.second_moment == Piecewise((a * c ** 3 / 12, x <= 20), (g * h ** 3 / 36, x <= 35)) and b.cross_section == None and b.length == 35 and b.slope().subs(x, 7) == 8400 / (E * a * c ** 3) and b.slope().subs(x, 25) == 52200 / (E * g * h ** 3) + 39600 / (E * a * c ** 3) and b.deflection().subs(x, 30) == -537000 / (E * g * h ** 3) - 712000 / (E * a * c ** 3)"},"spec":{"lhs":"test_cross_section()","rhs":"b0.second_moment == I and b0.cross_section == None and b0.second_moment == pi * Rational(625, 4) and b0.cross_section == Circle((0, 0), 5) and b0.second_moment == 2 * n - 6 and b1.cross_section == Circle((0, 0), r) and b1.second_moment == pi * r * Abs(r) ** 3 / 4 and b1.load == -10 * SingularityFunction(x, 0, -1) + 82 * SingularityFunction(x, 5, -1) / S(9) + 90 * SingularityFunction(x, 45, -2) + 8 * SingularityFunction(x, 50, -1) / 9 and b1.bending_moment() == 10 * SingularityFunction(x, 0, 1) - 82 * SingularityFunction(x, 5, 1) / 9 - 90 * SingularityFunction(x, 45, 0) - 8 * SingularityFunction(x, 50, 1) / 9 and b1.slope() == C3 + 4 * q and b1.deflection() == C3 * x + C4 + 4 * q and b2.cross_section == Polygon((0, 0), (a, 0), (a, c), (0, c)) and b2.second_moment == a * c ** 3 / 12 and b3.cross_section == Triangle(Point2D(0, 0), Point2D(g, 0), Point2D(g / 2, h)) and b3.second_moment == g * h ** 3 / 36 and b.second_moment == Piecewise((a * c ** 3 / 12, x <= 20), (g * h ** 3 / 36, x <= 35)) and b.cross_section == None and b.length == 35 and b.slope().subs(x, 7) == 8400 / (E * a * c ** 3) and b.slope().subs(x, 25) == 52200 / (E * g * h ** 3) + 39600 / (E * a * c ** 3) and b.deflection().subs(x, 30) == -537000 / (E * g * h ** 3) - 712000 / (E * a * c ** 3)","over":{"base":"Any"},"name":"test_cross_section_correct"},"guarantee":"b0.second_moment == I; b0.cross_section == None; b0.second_moment == pi * Rational(625, 4)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.tests.test_beam.test_cross_section_correct","statement":"Path(test_cross_section(x), b0.second_moment == I; b0.cross_section == None; b0.second_moment == pi * Rational(625, 4))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2cc0fda814dffff5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["b0.second_moment == I","b0.cross_section == None","b0.second_moment == pi * Rational(625, 4)","b0.cross_section == Circle((0, 0), 5)","b0.second_moment == 2 * n - 6","b1.cross_section == Circle((0, 0), r)","b1.second_moment == pi * r * Abs(r) ** 3 / 4","b1.load == -10 * SingularityFunction(x, 0, -1) + 82 * SingularityFunction(x, 5, -1) / S(9) + 90 * SingularityFunction(x, 45, -2) + 8 * SingularityFunction(x, 50, -1) / 9","b1.bending_moment() == 10 * SingularityFunction(x, 0, 1) - 82 * SingularityFunction(x, 5, 1) / 9 - 90 * SingularityFunction(x, 45, 0) - 8 * SingularityFunction(x, 50, 1) / 9","b1.slope() == C3 + 4 * q","b1.deflection() == C3 * x + C4 + 4 * q","b2.cross_section == Polygon((0, 0), (a, 0), (a, c), (0, c))","b2.second_moment == a * c ** 3 / 12","b3.cross_section == Triangle(Point2D(0, 0), Point2D(g, 0), Point2D(g / 2, h))","b3.second_moment == g * h ** 3 / 36","b.second_moment == Piecewise((a * c ** 3 / 12, x <= 20), (g * h ** 3 / 36, x <= 35))","b.cross_section == None","b.length == 35","b.slope().subs(x, 7) == 8400 / (E * a * c ** 3)","b.slope().subs(x, 25) == 52200 / (E * g * h ** 3) + 39600 / (E * a * c ** 3)","b.deflection().subs(x, 30) == -537000 / (E * g * h ** 3) - 712000 / (E * a * c ** 3)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.1,"verdict_class":"assumed","binding":true}}
 def test_cross_section():
     I = Symbol('I')
     l = Symbol('l')
@@ -1347,16 +1523,22 @@ def test_cross_section():
     assert b.deflection().subs(x, 30) == -537000/(E*g*h**3) - 712000/(E*a*c**3)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_max_shear_force_Beam3D(), test_max_shear_force_Beam3D produces the expected output) over Any ║
+# ║ Path(test_max_shear_force_Beam3D(), b.max_shear_force() == [(0, 0), (20, 2400), (20, 300)]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_max_shear_force_Beam3D : Any → {Any | b.max_shea...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  b.max_shear_force() == [(0, 0), (20, 2400...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_max_shear_force_Beam3D : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ad9c2f0fbfb4fee0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cf4cd3a3a9a934bb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.tests.test_beam.test_max_shear_force_Beam3D","kind":"function","src_hash":"d7a295887beaf3b8","in":{"base":"Any"},"out":{"base":"Any","pred":"b.max_shear_force() == [(0, 0), (20, 2400), (20, 300)]"},"spec":{"lhs":"test_max_shear_force_Beam3D()","rhs":"test_max_shear_force_Beam3D produces the expected output","over":{"base":"Any"},"name":"test_max_shear_force_Beam3D_correct"},"guarantee":"test_max_shear_force_Beam3D produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.tests.test_beam.test_max_shear_force_Beam3D_correct","statement":"Path(test_max_shear_force_Beam3D(x), test_max_shear_force_Beam3D produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ad9c2f0fbfb4fee0"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.tests.test_beam.test_max_shear_force_Beam3D","kind":"function","src_hash":"d7a295887beaf3b8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: b.max_shear_force() == [(0, 0), (20, 2400), (20, 300)]"},"spec":{"lhs":"test_max_shear_force_Beam3D()","rhs":"b.max_shear_force() == [(0, 0), (20, 2400), (20, 300)]","over":{"base":"Any"},"name":"test_max_shear_force_Beam3D_correct"},"guarantee":"b.max_shear_force() == [(0, 0), (20, 2400), (20, 300)]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.tests.test_beam.test_max_shear_force_Beam3D_correct","statement":"Path(test_max_shear_force_Beam3D(x), b.max_shear_force() == [(0, 0), (20, 2400), (20, 300)])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cf4cd3a3a9a934bb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["b.max_shear_force() == [(0, 0), (20, 2400), (20, 300)]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_max_shear_force_Beam3D():
     x = symbols('x')
     b = Beam3D(20, 40, 21, 100, 25)
@@ -1366,16 +1548,22 @@ def test_max_shear_force_Beam3D():
     assert b.max_shear_force() == [(0, 0), (20, 2400), (20, 300)]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_max_bending_moment_Beam3D(), test_max_bending_moment_Beam3D produces the expected output) over Any ║
+# ║ Path(test_max_bending_moment_Beam3D(), b.max_bmoment() == [(0, 0), (20, 3000), (20, 16000)]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_max_bending_moment_Beam3D : Any → {Any | b.max_b...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  b.max_bmoment() == [(0, 0), (20, 3000), (...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_max_bending_moment_Beam3D : Any → {Any | result ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ea49a3e74b291d2d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e78f90cffaed8986  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.tests.test_beam.test_max_bending_moment_Beam3D","kind":"function","src_hash":"f29946e6f08ab93f","in":{"base":"Any"},"out":{"base":"Any","pred":"b.max_bmoment() == [(0, 0), (20, 3000), (20, 16000)]"},"spec":{"lhs":"test_max_bending_moment_Beam3D()","rhs":"test_max_bending_moment_Beam3D produces the expected output","over":{"base":"Any"},"name":"test_max_bending_moment_Beam3D_correct"},"guarantee":"test_max_bending_moment_Beam3D produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.tests.test_beam.test_max_bending_moment_Beam3D_correct","statement":"Path(test_max_bending_moment_Beam3D(x), test_max_bending_moment_Beam3D produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ea49a3e74b291d2d"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.tests.test_beam.test_max_bending_moment_Beam3D","kind":"function","src_hash":"f29946e6f08ab93f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: b.max_bmoment() == [(0, 0), (20, 3000), (20, 16000)]"},"spec":{"lhs":"test_max_bending_moment_Beam3D()","rhs":"b.max_bmoment() == [(0, 0), (20, 3000), (20, 16000)]","over":{"base":"Any"},"name":"test_max_bending_moment_Beam3D_correct"},"guarantee":"b.max_bmoment() == [(0, 0), (20, 3000), (20, 16000)]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.tests.test_beam.test_max_bending_moment_Beam3D_correct","statement":"Path(test_max_bending_moment_Beam3D(x), b.max_bmoment() == [(0, 0), (20, 3000), (20, 16000)])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e78f90cffaed8986","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["b.max_bmoment() == [(0, 0), (20, 3000), (20, 16000)]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_max_bending_moment_Beam3D():
     x = symbols('x')
     b = Beam3D(20, 40, 21, 100, 25)
@@ -1385,16 +1573,22 @@ def test_max_bending_moment_Beam3D():
     assert b.max_bmoment() == [(0, 0), (20, 3000), (20, 16000)]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_max_deflection_Beam3D(), test_max_deflection_Beam3D produces the expected output) over Any ║
+# ║ Path(test_max_deflection_Beam3D(), b.max_deflection() == [(0, 0), (10, c), (p, q)]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_max_deflection_Beam3D : Any → {Any | b.max_defle...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  b.max_deflection() == [(0, 0), (10, c), (...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_max_deflection_Beam3D : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cbb3fa087cc3469f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 20f0ce6475e69d0e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.tests.test_beam.test_max_deflection_Beam3D","kind":"function","src_hash":"fce8b4405703d1ed","in":{"base":"Any"},"out":{"base":"Any","pred":"b.max_deflection() == [(0, 0), (10, c), (p, q)]"},"spec":{"lhs":"test_max_deflection_Beam3D()","rhs":"test_max_deflection_Beam3D produces the expected output","over":{"base":"Any"},"name":"test_max_deflection_Beam3D_correct"},"guarantee":"test_max_deflection_Beam3D produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.tests.test_beam.test_max_deflection_Beam3D_correct","statement":"Path(test_max_deflection_Beam3D(x), test_max_deflection_Beam3D produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cbb3fa087cc3469f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.tests.test_beam.test_max_deflection_Beam3D","kind":"function","src_hash":"fce8b4405703d1ed","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: b.max_deflection() == [(0, 0), (10, c), (p, q)]"},"spec":{"lhs":"test_max_deflection_Beam3D()","rhs":"b.max_deflection() == [(0, 0), (10, c), (p, q)]","over":{"base":"Any"},"name":"test_max_deflection_Beam3D_correct"},"guarantee":"b.max_deflection() == [(0, 0), (10, c), (p, q)]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.tests.test_beam.test_max_deflection_Beam3D_correct","statement":"Path(test_max_deflection_Beam3D(x), b.max_deflection() == [(0, 0), (10, c), (p, q)])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"20f0ce6475e69d0e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["b.max_deflection() == [(0, 0), (10, c), (p, q)]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_max_deflection_Beam3D():
     x = symbols('x')
     b = Beam3D(20, 40, 21, 100, 25)
@@ -1408,16 +1602,24 @@ def test_max_deflection_Beam3D():
     assert b.max_deflection() == [(0, 0), (10, c), (p, q)]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_torsion_Beam3D(), test_torsion_Beam3D produces the expected output) over Any ║
+# ║ Path(test_torsion_Beam3D(), b.angular_deflection().subs(x, 3) == sympify('1/40') and b.angular_deflection().subs(x, 9) == sympify('17/280') and b.angular_deflection().subs(x, 12) == sympify('53/840') and b.angular_deflection().subs(x, 17) == sympify('2/35') and b.angular_deflection().subs(x, 20) == sympify('3/56')) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_torsion_Beam3D : Any → {Any | b.angular_deflecti...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  b.angular_deflection().subs(x, 3) == symp...   ║
+# ║   ensures:  b.angular_deflection().subs(x, 9) == symp...   ║
+# ║   ensures:  b.angular_deflection().subs(x, 12) == sym...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_torsion_Beam3D : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 663abb1dc37951b2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3816fbabfd440e09  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.tests.test_beam.test_torsion_Beam3D","kind":"function","src_hash":"37d6995cf71b0c26","in":{"base":"Any"},"out":{"base":"Any","pred":"b.angular_deflection().subs(x, 3) == sympify('1/40') and b.angular_deflection().subs(x, 9) == sympify('17/280') and b.angular_deflection().subs(x, 12) == sympify('53/840') and b.angular_deflection().subs(x, 17) == sympify('2/35') and b.angular_deflection().subs(x, 20) == sympify('3/56')"},"spec":{"lhs":"test_torsion_Beam3D()","rhs":"test_torsion_Beam3D produces the expected output","over":{"base":"Any"},"name":"test_torsion_Beam3D_correct"},"guarantee":"test_torsion_Beam3D produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.tests.test_beam.test_torsion_Beam3D_correct","statement":"Path(test_torsion_Beam3D(x), test_torsion_Beam3D produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"663abb1dc37951b2"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.tests.test_beam.test_torsion_Beam3D","kind":"function","src_hash":"37d6995cf71b0c26","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: b.angular_deflection().subs(x, 3) == sympify('1/40') and b.angular_deflection().subs(x, 9) == sympify('17/280') and b.angular_deflection().subs(x, 12) == sympify('53/840') and b.angular_deflection().subs(x, 17) == sympify('2/35') and b.angular_deflection().subs(x, 20) == sympify('3/56')"},"spec":{"lhs":"test_torsion_Beam3D()","rhs":"b.angular_deflection().subs(x, 3) == sympify('1/40') and b.angular_deflection().subs(x, 9) == sympify('17/280') and b.angular_deflection().subs(x, 12) == sympify('53/840') and b.angular_deflection().subs(x, 17) == sympify('2/35') and b.angular_deflection().subs(x, 20) == sympify('3/56')","over":{"base":"Any"},"name":"test_torsion_Beam3D_correct"},"guarantee":"b.angular_deflection().subs(x, 3) == sympify('1/40'); b.angular_deflection().subs(x, 9) == sympify('17/280'); b.angular_deflection().subs(x, 12) == sympify('53/840')","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.tests.test_beam.test_torsion_Beam3D_correct","statement":"Path(test_torsion_Beam3D(x), b.angular_deflection().subs(x, 3) == sympify('1/40'); b.angular_deflection().subs(x, 9) == sympify('17/280'); b.angular_deflection().subs(x, 12) == sympify('53/840'))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3816fbabfd440e09","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["b.angular_deflection().subs(x, 3) == sympify('1/40')","b.angular_deflection().subs(x, 9) == sympify('17/280')","b.angular_deflection().subs(x, 12) == sympify('53/840')","b.angular_deflection().subs(x, 17) == sympify('2/35')","b.angular_deflection().subs(x, 20) == sympify('3/56')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_torsion_Beam3D():
     x = symbols('x')
     b = Beam3D(20, 40, 21, 100, 25)

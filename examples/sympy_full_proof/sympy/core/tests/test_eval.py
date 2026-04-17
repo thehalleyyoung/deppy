@@ -26,16 +26,24 @@ from sympy.testing.pytest import XFAIL
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_add_eval(), test_add_eval produces the expected output) over Any ║
+# ║ Path(test_add_eval(), a * b + c + p == a * b + 6 and c + a + p == a + 6 and c + a - p == a + -4 and a + a == 2 * a and a + p + a == 2 * a + 5 and c + p == Rational(6) and b + a - b == a) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_add_eval : Any → {Any | a * b + c + p == a * b +...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  a * b + c + p == a * b + 6                     ║
+# ║   ensures:  c + a + p == a + 6                             ║
+# ║   ensures:  c + a - p == a + -4                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_add_eval : Any → {Any | result satisfies: a * b ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 302fa422c87a68e0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 52b8fd8f76577bd1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_eval.test_add_eval","kind":"function","src_hash":"af4549418d11c379","in":{"base":"Any"},"out":{"base":"Any","pred":"a * b + c + p == a * b + 6 and c + a + p == a + 6 and c + a - p == a + -4 and a + a == 2 * a and a + p + a == 2 * a + 5 and c + p == Rational(6) and b + a - b == a"},"spec":{"lhs":"test_add_eval()","rhs":"test_add_eval produces the expected output","over":{"base":"Any"},"name":"test_add_eval_correct"},"guarantee":"test_add_eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_eval.test_add_eval_correct","statement":"Path(test_add_eval(x), test_add_eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"302fa422c87a68e0"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_eval.test_add_eval","kind":"function","src_hash":"af4549418d11c379","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: a * b + c + p == a * b + 6 and c + a + p == a + 6 and c + a - p == a + -4 and a + a == 2 * a and a + p + a == 2 * a + 5 and c + p == Rational(6) and b + a - b == a"},"spec":{"lhs":"test_add_eval()","rhs":"a * b + c + p == a * b + 6 and c + a + p == a + 6 and c + a - p == a + -4 and a + a == 2 * a and a + p + a == 2 * a + 5 and c + p == Rational(6) and b + a - b == a","over":{"base":"Any"},"name":"test_add_eval_correct"},"guarantee":"a * b + c + p == a * b + 6; c + a + p == a + 6; c + a - p == a + -4","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_eval.test_add_eval_correct","statement":"Path(test_add_eval(x), a * b + c + p == a * b + 6; c + a + p == a + 6; c + a - p == a + -4)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"52b8fd8f76577bd1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["a * b + c + p == a * b + 6","c + a + p == a + 6","c + a - p == a + -4","a + a == 2 * a","a + p + a == 2 * a + 5","c + p == Rational(6)","b + a - b == a"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_add_eval():
     a = Symbol("a")
     b = Symbol("b")
@@ -51,16 +59,24 @@ def test_add_eval():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_addmul_eval(), test_addmul_eval produces the expected output) over Any ║
+# ║ Path(test_addmul_eval(), c + a + b * c + a - p == 2 * a + b + -4 and a * 2 + p + a == a * 2 + 5 + a and a * 2 + p + a == 3 * a + 5 and a * 2 + a == 3 * a) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_addmul_eval : Any → {Any | c + a + b * c + a - p...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  c + a + b * c + a - p == 2 * a + b + -4        ║
+# ║   ensures:  a * 2 + p + a == a * 2 + 5 + a                 ║
+# ║   ensures:  a * 2 + p + a == 3 * a + 5                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_addmul_eval : Any → {Any | result satisfies: c +...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d07544d75dccd4c1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6d541a9a1c928fab  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_eval.test_addmul_eval","kind":"function","src_hash":"efa855178ebfbc66","in":{"base":"Any"},"out":{"base":"Any","pred":"c + a + b * c + a - p == 2 * a + b + -4 and a * 2 + p + a == a * 2 + 5 + a and a * 2 + p + a == 3 * a + 5 and a * 2 + a == 3 * a"},"spec":{"lhs":"test_addmul_eval()","rhs":"test_addmul_eval produces the expected output","over":{"base":"Any"},"name":"test_addmul_eval_correct"},"guarantee":"test_addmul_eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_eval.test_addmul_eval_correct","statement":"Path(test_addmul_eval(x), test_addmul_eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d07544d75dccd4c1"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_eval.test_addmul_eval","kind":"function","src_hash":"efa855178ebfbc66","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: c + a + b * c + a - p == 2 * a + b + -4 and a * 2 + p + a == a * 2 + 5 + a and a * 2 + p + a == 3 * a + 5 and a * 2 + a == 3 * a"},"spec":{"lhs":"test_addmul_eval()","rhs":"c + a + b * c + a - p == 2 * a + b + -4 and a * 2 + p + a == a * 2 + 5 + a and a * 2 + p + a == 3 * a + 5 and a * 2 + a == 3 * a","over":{"base":"Any"},"name":"test_addmul_eval_correct"},"guarantee":"c + a + b * c + a - p == 2 * a + b + -4; a * 2 + p + a == a * 2 + 5 + a; a * 2 + p + a == 3 * a + 5","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_eval.test_addmul_eval_correct","statement":"Path(test_addmul_eval(x), c + a + b * c + a - p == 2 * a + b + -4; a * 2 + p + a == a * 2 + 5 + a; a * 2 + p + a == 3 * a + 5)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6d541a9a1c928fab","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["c + a + b * c + a - p == 2 * a + b + -4","a * 2 + p + a == a * 2 + 5 + a","a * 2 + p + a == 3 * a + 5","a * 2 + a == 3 * a"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_addmul_eval():
     a = Symbol("a")
     b = Symbol("b")
@@ -73,16 +89,24 @@ def test_addmul_eval():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pow_eval(), test_pow_eval produces the expected output) over Any ║
+# ║ Path(test_pow_eval(), sqrt(-1) == I and sqrt(-4) == 2 * I and sqrt(4) == 2 and 8 ** Rational(1, 3) == 2 and (-8) ** Rational(1, 3) == 2 * (-1) ** Rational(1, 3) and sqrt(-2) == I * sqrt(2) and (-1) ** Rational(1, 3) != I and (-10) ** Rational(1, 3) != I * 10 ** Rational(1, 3) and (-2) ** Rational(1, 4) != 2 ** Rational(1, 4) and 64 ** Rational(1, 3) == 4 and 64 ** Rational(2, 3) == 16 and 24 / sqrt(64) == 3 and (-27) ** Rational(1, 3) == 3 * (-1) ** Rational(1, 3) and (cos(2) / tan(2)) ** 2 == (cos(2) / tan(2)) ** 2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_pow_eval : Any → {Any | sqrt(-1) == I and sqrt(-...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  sqrt(-1) == I                                  ║
+# ║   ensures:  sqrt(-4) == 2 * I                              ║
+# ║   ensures:  sqrt(4) == 2                                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_pow_eval : Any → {Any | result satisfies: sqrt(-...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 23054bfbea7ba20c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f1a688ae69b7fb96  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_eval.test_pow_eval","kind":"function","src_hash":"4ff82de4ebbe315e","in":{"base":"Any"},"out":{"base":"Any","pred":"sqrt(-1) == I and sqrt(-4) == 2 * I and sqrt(4) == 2 and 8 ** Rational(1, 3) == 2 and (-8) ** Rational(1, 3) == 2 * (-1) ** Rational(1, 3) and sqrt(-2) == I * sqrt(2) and (-1) ** Rational(1, 3) != I and (-10) ** Rational(1, 3) != I * 10 ** Rational(1, 3) and (-2) ** Rational(1, 4) != 2 ** Rational(1, 4) and 64 ** Rational(1, 3) == 4 and 64 ** Rational(2, 3) == 16 and 24 / sqrt(64) == 3 and (-27) ** Rational(1, 3) == 3 * (-1) ** Rational(1, 3) and (cos(2) / tan(2)) ** 2 == (cos(2) / tan(2)) ** 2"},"spec":{"lhs":"test_pow_eval()","rhs":"test_pow_eval produces the expected output","over":{"base":"Any"},"name":"test_pow_eval_correct"},"guarantee":"test_pow_eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_eval.test_pow_eval_correct","statement":"Path(test_pow_eval(x), test_pow_eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"23054bfbea7ba20c"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_eval.test_pow_eval","kind":"function","src_hash":"4ff82de4ebbe315e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: sqrt(-1) == I and sqrt(-4) == 2 * I and sqrt(4) == 2 and 8 ** Rational(1, 3) == 2 and (-8) ** Rational(1, 3) == 2 * (-1) ** Rational(1, 3) and sqrt(-2) == I * sqrt(2) and (-1) ** Rational(1, 3) != I and (-10) ** Rational(1, 3) != I * 10 ** Rational(1, 3) and (-2) ** Rational(1, 4) != 2 ** Rational(1, 4) and 64 ** Rational(1, 3) == 4 and 64 ** Rational(2, 3) == 16 and 24 / sqrt(64) == 3 and (-27) ** Rational(1, 3) == 3 * (-1) ** Rational(1, 3) and (cos(2) / tan(2)) ** 2 == (cos(2) / tan(2)) ** 2"},"spec":{"lhs":"test_pow_eval()","rhs":"sqrt(-1) == I and sqrt(-4) == 2 * I and sqrt(4) == 2 and 8 ** Rational(1, 3) == 2 and (-8) ** Rational(1, 3) == 2 * (-1) ** Rational(1, 3) and sqrt(-2) == I * sqrt(2) and (-1) ** Rational(1, 3) != I and (-10) ** Rational(1, 3) != I * 10 ** Rational(1, 3) and (-2) ** Rational(1, 4) != 2 ** Rational(1, 4) and 64 ** Rational(1, 3) == 4 and 64 ** Rational(2, 3) == 16 and 24 / sqrt(64) == 3 and (-27) ** Rational(1, 3) == 3 * (-1) ** Rational(1, 3) and (cos(2) / tan(2)) ** 2 == (cos(2) / tan(2)) ** 2","over":{"base":"Any"},"name":"test_pow_eval_correct"},"guarantee":"sqrt(-1) == I; sqrt(-4) == 2 * I; sqrt(4) == 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_eval.test_pow_eval_correct","statement":"Path(test_pow_eval(x), sqrt(-1) == I; sqrt(-4) == 2 * I; sqrt(4) == 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f1a688ae69b7fb96","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["sqrt(-1) == I","sqrt(-4) == 2 * I","sqrt(4) == 2","8 ** Rational(1, 3) == 2","(-8) ** Rational(1, 3) == 2 * (-1) ** Rational(1, 3)","sqrt(-2) == I * sqrt(2)","(-1) ** Rational(1, 3) != I","(-10) ** Rational(1, 3) != I * 10 ** Rational(1, 3)","(-2) ** Rational(1, 4) != 2 ** Rational(1, 4)","64 ** Rational(1, 3) == 4","64 ** Rational(2, 3) == 16","24 / sqrt(64) == 3","(-27) ** Rational(1, 3) == 3 * (-1) ** Rational(1, 3)","(cos(2) / tan(2)) ** 2 == (cos(2) / tan(2)) ** 2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_pow_eval():
     # XXX Pow does not fully support conversion of negative numbers
     #     to their complex equivalent
@@ -109,31 +133,44 @@ def test_pow_eval():
 
 @XFAIL
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pow_eval_X1(), test_pow_eval_X1 produces the expected output) over Any ║
+# ║ Path(test_pow_eval_X1(), (-1) ** Rational(1, 3) == S.Half + S.Half * I * sqrt(3)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_pow_eval_X1 : Any → {Any | (-1) ** Rational(1, 3...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (-1) ** Rational(1, 3) == S.Half + S.Half...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_pow_eval_X1 : Any → {Any | result satisfies: (-1...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d31fa5186175c5c2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 05e6455956a6a2a3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_eval.test_pow_eval_X1","kind":"function","src_hash":"228e14a7f0f0c239","in":{"base":"Any"},"out":{"base":"Any","pred":"(-1) ** Rational(1, 3) == S.Half + S.Half * I * sqrt(3)"},"spec":{"lhs":"test_pow_eval_X1()","rhs":"test_pow_eval_X1 produces the expected output","over":{"base":"Any"},"name":"test_pow_eval_X1_correct"},"guarantee":"test_pow_eval_X1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_eval.test_pow_eval_X1_correct","statement":"Path(test_pow_eval_X1(x), test_pow_eval_X1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d31fa5186175c5c2"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_eval.test_pow_eval_X1","kind":"function","src_hash":"228e14a7f0f0c239","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (-1) ** Rational(1, 3) == S.Half + S.Half * I * sqrt(3)"},"spec":{"lhs":"test_pow_eval_X1()","rhs":"(-1) ** Rational(1, 3) == S.Half + S.Half * I * sqrt(3)","over":{"base":"Any"},"name":"test_pow_eval_X1_correct"},"guarantee":"(-1) ** Rational(1, 3) == S.Half + S.Half * I * sqrt(3)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_eval.test_pow_eval_X1_correct","statement":"Path(test_pow_eval_X1(x), (-1) ** Rational(1, 3) == S.Half + S.Half * I * sqrt(3))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"05e6455956a6a2a3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(-1) ** Rational(1, 3) == S.Half + S.Half * I * sqrt(3)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_pow_eval_X1():
     assert (-1)**Rational(1, 3) == S.Half + S.Half*I*sqrt(3)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_mulpow_eval(), test_mulpow_eval produces the expected output) over Any ║
+# ║ Path(test_mulpow_eval(), sqrt(50) / (sqrt(2) * x) == 5 / x and sqrt(27) / sqrt(3) == 3) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_mulpow_eval : Any → {Any | sqrt(50) / (sqrt(2) *...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  sqrt(50) / (sqrt(2) * x) == 5 / x              ║
+# ║   ensures:  sqrt(27) / sqrt(3) == 3                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_mulpow_eval : Any → {Any | result satisfies: sqr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 26a4914c4b8bf43b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4a58d7678e6d1d23  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_eval.test_mulpow_eval","kind":"function","src_hash":"2c41a9b130dada1a","in":{"base":"Any"},"out":{"base":"Any","pred":"sqrt(50) / (sqrt(2) * x) == 5 / x and sqrt(27) / sqrt(3) == 3"},"spec":{"lhs":"test_mulpow_eval()","rhs":"test_mulpow_eval produces the expected output","over":{"base":"Any"},"name":"test_mulpow_eval_correct"},"guarantee":"test_mulpow_eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_eval.test_mulpow_eval_correct","statement":"Path(test_mulpow_eval(x), test_mulpow_eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"26a4914c4b8bf43b"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_eval.test_mulpow_eval","kind":"function","src_hash":"2c41a9b130dada1a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: sqrt(50) / (sqrt(2) * x) == 5 / x and sqrt(27) / sqrt(3) == 3"},"spec":{"lhs":"test_mulpow_eval()","rhs":"sqrt(50) / (sqrt(2) * x) == 5 / x and sqrt(27) / sqrt(3) == 3","over":{"base":"Any"},"name":"test_mulpow_eval_correct"},"guarantee":"sqrt(50) / (sqrt(2) * x) == 5 / x; sqrt(27) / sqrt(3) == 3","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_eval.test_mulpow_eval_correct","statement":"Path(test_mulpow_eval(x), sqrt(50) / (sqrt(2) * x) == 5 / x; sqrt(27) / sqrt(3) == 3)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4a58d7678e6d1d23","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["sqrt(50) / (sqrt(2) * x) == 5 / x","sqrt(27) / sqrt(3) == 3"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_mulpow_eval():
     x = Symbol('x')
     assert sqrt(50)/(sqrt(2)*x) == 5/x
@@ -141,16 +178,23 @@ def test_mulpow_eval():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_evalpow_bug(), test_evalpow_bug produces the expected output) over Any ║
+# ║ Path(test_evalpow_bug(), 1 / (1 / x) == x and 1 / (-1 / x) == -x) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_evalpow_bug : Any → {Any | 1 / (1 / x) == x and ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  1 / (1 / x) == x                               ║
+# ║   ensures:  1 / (-1 / x) == -x                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_evalpow_bug : Any → {Any | result satisfies: 1 /...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ad6c012636f08ef7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b252047ea4d2337d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_eval.test_evalpow_bug","kind":"function","src_hash":"d621084472662f25","in":{"base":"Any"},"out":{"base":"Any","pred":"1 / (1 / x) == x and 1 / (-1 / x) == -x"},"spec":{"lhs":"test_evalpow_bug()","rhs":"test_evalpow_bug produces the expected output","over":{"base":"Any"},"name":"test_evalpow_bug_correct"},"guarantee":"test_evalpow_bug produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_eval.test_evalpow_bug_correct","statement":"Path(test_evalpow_bug(x), test_evalpow_bug produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ad6c012636f08ef7"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_eval.test_evalpow_bug","kind":"function","src_hash":"d621084472662f25","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: 1 / (1 / x) == x and 1 / (-1 / x) == -x"},"spec":{"lhs":"test_evalpow_bug()","rhs":"1 / (1 / x) == x and 1 / (-1 / x) == -x","over":{"base":"Any"},"name":"test_evalpow_bug_correct"},"guarantee":"1 / (1 / x) == x; 1 / (-1 / x) == -x","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_eval.test_evalpow_bug_correct","statement":"Path(test_evalpow_bug(x), 1 / (1 / x) == x; 1 / (-1 / x) == -x)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b252047ea4d2337d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["1 / (1 / x) == x","1 / (-1 / x) == -x"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_evalpow_bug():
     x = Symbol("x")
     assert 1/(1/x) == x
@@ -158,16 +202,24 @@ def test_evalpow_bug():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_symbol_expand(), test_symbol_expand produces the expected output) over Any ║
+# ║ Path(test_symbol_expand(), f == x ** 4 * y ** 4 and f == f.expand() and g == f and g.expand() == f and g.expand() == g.expand().expand()) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_symbol_expand : Any → {Any | f == x ** 4 * y ** ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f == x ** 4 * y ** 4                           ║
+# ║   ensures:  f == f.expand()                                ║
+# ║   ensures:  g == f                                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_symbol_expand : Any → {Any | result satisfies: f...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 019821e0b88e9a87  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 29450ec9100d6255  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_eval.test_symbol_expand","kind":"function","src_hash":"10e2e39138fa8d8e","in":{"base":"Any"},"out":{"base":"Any","pred":"f == x ** 4 * y ** 4 and f == f.expand() and g == f and g.expand() == f and g.expand() == g.expand().expand()"},"spec":{"lhs":"test_symbol_expand()","rhs":"test_symbol_expand produces the expected output","over":{"base":"Any"},"name":"test_symbol_expand_correct"},"guarantee":"test_symbol_expand produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_eval.test_symbol_expand_correct","statement":"Path(test_symbol_expand(x), test_symbol_expand produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"019821e0b88e9a87"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_eval.test_symbol_expand","kind":"function","src_hash":"10e2e39138fa8d8e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f == x ** 4 * y ** 4 and f == f.expand() and g == f and g.expand() == f and g.expand() == g.expand().expand()"},"spec":{"lhs":"test_symbol_expand()","rhs":"f == x ** 4 * y ** 4 and f == f.expand() and g == f and g.expand() == f and g.expand() == g.expand().expand()","over":{"base":"Any"},"name":"test_symbol_expand_correct"},"guarantee":"f == x ** 4 * y ** 4; f == f.expand(); g == f","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_eval.test_symbol_expand_correct","statement":"Path(test_symbol_expand(x), f == x ** 4 * y ** 4; f == f.expand(); g == f)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"29450ec9100d6255","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f == x ** 4 * y ** 4","f == f.expand()","g == f","g.expand() == f","g.expand() == g.expand().expand()"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_symbol_expand():
     x = Symbol('x')
     y = Symbol('y')
@@ -183,16 +235,23 @@ def test_symbol_expand():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_function(), test_function produces the expected output) over Any ║
+# ║ Path(test_function(), exp(l(x)) * l(x) / exp(l(x)) == l(x) and exp(f(x)) * f(x) / exp(f(x)) == f(x)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_function : Any → {Any | exp(l(x)) * l(x) / exp(l...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  exp(l(x)) * l(x) / exp(l(x)) == l(x)           ║
+# ║   ensures:  exp(f(x)) * f(x) / exp(f(x)) == f(x)           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_function : Any → {Any | result satisfies: exp(l(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fd57c620351a503a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5b8690c8c928dd63  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_eval.test_function","kind":"function","src_hash":"ed5a94f8179ee630","in":{"base":"Any"},"out":{"base":"Any","pred":"exp(l(x)) * l(x) / exp(l(x)) == l(x) and exp(f(x)) * f(x) / exp(f(x)) == f(x)"},"spec":{"lhs":"test_function()","rhs":"test_function produces the expected output","over":{"base":"Any"},"name":"test_function_correct"},"guarantee":"test_function produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_eval.test_function_correct","statement":"Path(test_function(x), test_function produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fd57c620351a503a"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_eval.test_function","kind":"function","src_hash":"ed5a94f8179ee630","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: exp(l(x)) * l(x) / exp(l(x)) == l(x) and exp(f(x)) * f(x) / exp(f(x)) == f(x)"},"spec":{"lhs":"test_function()","rhs":"exp(l(x)) * l(x) / exp(l(x)) == l(x) and exp(f(x)) * f(x) / exp(f(x)) == f(x)","over":{"base":"Any"},"name":"test_function_correct"},"guarantee":"exp(l(x)) * l(x) / exp(l(x)) == l(x); exp(f(x)) * f(x) / exp(f(x)) == f(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_eval.test_function_correct","statement":"Path(test_function(x), exp(l(x)) * l(x) / exp(l(x)) == l(x); exp(f(x)) * f(x) / exp(f(x)) == f(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5b8690c8c928dd63","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["exp(l(x)) * l(x) / exp(l(x)) == l(x)","exp(f(x)) * f(x) / exp(f(x)) == f(x)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_function():
     f, l = map(Function, 'fl')
     x = Symbol('x')

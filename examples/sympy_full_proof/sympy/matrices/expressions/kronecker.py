@@ -37,16 +37,23 @@ from .matpow import MatPow
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(kronecker_product(*ma), the kronecker product of two or more arguments) over Any ║
+# ║ Path(kronecker_product(*matrices), <unspecified:kronecker_product>) over {Any | matrices} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ kronecker_product : Any → Any                              ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: matrices                                       ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ kronecker_product : {Any | matrices} → Any                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fbd4942d83a09e05  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.kronecker.kronecker_product","kind":"function","src_hash":"d5cc88c29de783d0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"kronecker_product(*ma)","rhs":"the kronecker product of two or more arguments","over":{"base":"Any"},"name":"kronecker_product_correct"},"guarantee":"the kronecker product of two or more arguments","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.kronecker.kronecker_product_correct","statement":"Path(kronecker_product(x), the kronecker product of two or more arguments)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fbd4942d83a09e05"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.kronecker.kronecker_product","kind":"function","src_hash":"d5cc88c29de783d0","in":{"base":"Any","pred":"matrices"},"out":{"base":"Any"},"spec":{"lhs":"kronecker_product(*matrices)","rhs":"<unspecified:kronecker_product>","over":{"base":"Any","pred":"matrices"},"name":"kronecker_product_correct"},"guarantee":"the kronecker product of two or more arguments","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.kronecker.kronecker_product_correct","statement":"Path(kronecker_product(x), the kronecker product of two or more arguments)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fbd4942d83a09e05","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["matrices"],"pure":false,"effects":{"effect_type":"reads_state","raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=[], spec=['*matrices']"]}}
 def kronecker_product(*matrices):
     """
     The Kronecker product of two or more arguments.
@@ -114,14 +121,20 @@ def kronecker_product(*matrices):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(KroneckerProduct(*args), correctly constructs a KroneckerProduct instance) over {Any | isinstance(other, KroneckerProduct) and isinstance(a, MatrixBase)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, MatrixExpr)                   ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ KroneckerProduct : {Any | isinstance(other, Kronecker...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.9ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 03e193f3ef9124a2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.kronecker.KroneckerProduct","kind":"class","src_hash":"6b6e2a1886b4a265","in":{"base":"Any","pred":"isinstance(other, KroneckerProduct) and isinstance(a, MatrixBase)"},"out":{"base":"Any"},"spec":{"lhs":"KroneckerProduct(*args)","rhs":"correctly constructs a KroneckerProduct instance","over":{"base":"Any","pred":"isinstance(other, KroneckerProduct) and isinstance(a, MatrixBase)"},"name":"KroneckerProduct_class_invariant"},"guarantee":"correctly constructs a KroneckerProduct instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"03e193f3ef9124a2"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.kronecker.KroneckerProduct","kind":"class","src_hash":"6b6e2a1886b4a265","in":{"base":"Any","pred":"isinstance(other, KroneckerProduct) and isinstance(a, MatrixBase)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, MatrixExpr)"},"spec":{"lhs":"KroneckerProduct(*args)","rhs":"correctly constructs a KroneckerProduct instance","over":{"base":"Any","pred":"isinstance(other, KroneckerProduct) and isinstance(a, MatrixBase)"},"name":"KroneckerProduct_class_invariant"},"guarantee":"isinstance(self, MatrixExpr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"03e193f3ef9124a2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, MatrixExpr)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.9,"verdict_class":"assumed","binding":false,"binding_errors":["Function KroneckerProduct not found in source"]}}
 class KroneckerProduct(MatrixExpr):
     """
     The Kronecker product of two or more arguments.
@@ -144,16 +157,22 @@ class KroneckerProduct(MatrixExpr):
     is_KroneckerProduct = True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, *args, check), <unspecified:__new__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a9cd4f704306ca88           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.kronecker.KroneckerProduct.__new__","kind":"method","src_hash":"1f92e310d4f5ca6b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a9cd4f704306ca88"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.kronecker.KroneckerProduct.__new__","kind":"method","src_hash":"1f92e310d4f5ca6b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, *args, check)","rhs":"<unspecified:__new__>","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a9cd4f704306ca88","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, *args, check=True):
         args = list(map(sympify, args))
         if all(a.is_Identity for a in args):
@@ -169,16 +188,22 @@ class KroneckerProduct(MatrixExpr):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(shape(), returns the shape attribute) over Any        ║
+# ║ Path(shape(), (rows, cols)) over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (rows, cols)                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ shape : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 982feb4453e833cd           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.kronecker.KroneckerProduct.shape","kind":"property","src_hash":"a7316c1d5062d5c1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"shape()","rhs":"returns the shape attribute","over":{"base":"Any"},"name":"shape_correct"},"guarantee":"returns the shape attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"982feb4453e833cd"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.kronecker.KroneckerProduct.shape","kind":"property","src_hash":"a7316c1d5062d5c1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"shape()","rhs":"(rows, cols)","over":{"base":"Any"},"name":"shape_correct"},"guarantee":"returns (rows, cols)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"982feb4453e833cd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(rows, cols)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def shape(self):
         rows, cols = self.args[0].shape
         for mat in self.args[1:]:
@@ -187,16 +212,22 @@ class KroneckerProduct(MatrixExpr):
         return (rows, cols)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_entry(i, ), internal helper behaves correctly) over Any ║
+# ║ Path(_entry(i, j, **kwargs), <unspecified:_entry>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _entry : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c3c103a622f5340b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.kronecker.KroneckerProduct._entry","kind":"method","src_hash":"69517a9f4ae5c02e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_entry(i, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_entry_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.kronecker.KroneckerProduct._entry_correct","statement":"Path(_entry(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c3c103a622f5340b"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.kronecker.KroneckerProduct._entry","kind":"method","src_hash":"69517a9f4ae5c02e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_entry(i, j, **kwargs)","rhs":"<unspecified:_entry>","over":{"base":"Any"},"name":"_entry_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.kronecker.KroneckerProduct._entry_correct","statement":"Path(_entry(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c3c103a622f5340b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _entry(self, i, j, **kwargs):
         result = 1
         for mat in reversed(self.args):
@@ -206,73 +237,103 @@ class KroneckerProduct(MatrixExpr):
         return result
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_adjoint(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_adjoint(), KroneckerProduct(*list(map(adjoint, self.args))).doit()) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  KroneckerProduct(*list(map(adjoint, self....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_adjoint : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d6257cac5b85b5a2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.kronecker.KroneckerProduct._eval_adjoint","kind":"method","src_hash":"a9f2384b28cfcd07","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_adjoint()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_adjoint_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d6257cac5b85b5a2"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.kronecker.KroneckerProduct._eval_adjoint","kind":"method","src_hash":"a9f2384b28cfcd07","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_adjoint()","rhs":"KroneckerProduct(*list(map(adjoint, self.args))).doit()","over":{"base":"Any"},"name":"_eval_adjoint_correct"},"guarantee":"returns KroneckerProduct(*list(map(adjoint, self.args))).doit()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d6257cac5b85b5a2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"KroneckerProduct(*list(map(adjoint, self.args))).doit()","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_adjoint(self):
         return KroneckerProduct(*list(map(adjoint, self.args))).doit()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_conjugate(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_conjugate(), KroneckerProduct(*[a.conjugate() for a in self.args]).doit()) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  KroneckerProduct(*[a.conjugate() for a in...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_conjugate : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f4d1746974ee36c4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.kronecker.KroneckerProduct._eval_conjugate","kind":"method","src_hash":"ea8eed11e646de8e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_conjugate()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_conjugate_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f4d1746974ee36c4"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.kronecker.KroneckerProduct._eval_conjugate","kind":"method","src_hash":"ea8eed11e646de8e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_conjugate()","rhs":"KroneckerProduct(*[a.conjugate() for a in self.args]).doit()","over":{"base":"Any"},"name":"_eval_conjugate_correct"},"guarantee":"returns KroneckerProduct(*[a.conjugate() for a in self.args]).doit()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f4d1746974ee36c4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"KroneckerProduct(*[a.conjugate() for a in self.args]).doit()","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_conjugate(self):
         return KroneckerProduct(*[a.conjugate() for a in self.args]).doit()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_transpose(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_transpose(), KroneckerProduct(*list(map(transpose, self.args))).doit()) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  KroneckerProduct(*list(map(transpose, sel...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_transpose : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f71f571cdf77d205           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.kronecker.KroneckerProduct._eval_transpose","kind":"method","src_hash":"ba2c2bb0cbf654de","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_transpose()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_transpose_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f71f571cdf77d205"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.kronecker.KroneckerProduct._eval_transpose","kind":"method","src_hash":"ba2c2bb0cbf654de","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_transpose()","rhs":"KroneckerProduct(*list(map(transpose, self.args))).doit()","over":{"base":"Any"},"name":"_eval_transpose_correct"},"guarantee":"returns KroneckerProduct(*list(map(transpose, self.args))).doit()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f71f571cdf77d205","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"KroneckerProduct(*list(map(transpose, self.args))).doit()","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_transpose(self):
         return KroneckerProduct(*list(map(transpose, self.args))).doit()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(_eval_trace(), id) over Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Mul(*[trace(a) for a in self.args])            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_trace : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | c3f874b6e77bb5c2   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.kronecker.KroneckerProduct._eval_trace","kind":"method","src_hash":"64193aab6737ef5b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_trace()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_trace_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Mul","by":"library_axiom"},{"fn":"trace","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c3f874b6e77bb5c2"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.kronecker.KroneckerProduct._eval_trace","kind":"method","src_hash":"64193aab6737ef5b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_trace()","rhs":"Mul(*[trace(a) for a in self.args])","over":{"base":"Any"},"name":"_eval_trace_correct","kind":"composition"},"guarantee":"returns Mul(*[trace(a) for a in self.args])","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Mul","by":"library_axiom"},{"fn":"trace","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c3f874b6e77bb5c2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Mul(*[trace(a) for a in self.args])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_trace(self):
         from .trace import trace
         return Mul(*[trace(a) for a in self.args])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_determinant(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_determinant(), <unspecified:_eval_determinant>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_determinant : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 936fe028816e2cc5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.kronecker.KroneckerProduct._eval_determinant","kind":"method","src_hash":"0d0296dcd473d709","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_determinant()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_determinant_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.kronecker.KroneckerProduct._eval_determinant_correct","statement":"Path(_eval_determinant(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"936fe028816e2cc5"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.kronecker.KroneckerProduct._eval_determinant","kind":"method","src_hash":"0d0296dcd473d709","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_determinant()","rhs":"<unspecified:_eval_determinant>","over":{"base":"Any"},"name":"_eval_determinant_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.kronecker.KroneckerProduct._eval_determinant_correct","statement":"Path(_eval_determinant(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"936fe028816e2cc5","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.rows"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_determinant(self):
         from .determinant import det, Determinant
         if not all(a.is_square for a in self.args):
@@ -284,14 +345,20 @@ class KroneckerProduct(MatrixExpr):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(_eval_inverse(), id) over Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_inverse : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | a34eed5d542e763a   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.kronecker.KroneckerProduct._eval_inverse","kind":"method","src_hash":"80b83cba46e7f4e2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_inverse()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_inverse_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"KroneckerProduct","by":"library_axiom"},{"fn":"inverse","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a34eed5d542e763a"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.kronecker.KroneckerProduct._eval_inverse","kind":"method","src_hash":"80b83cba46e7f4e2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_inverse()","rhs":"<unspecified:_eval_inverse>","over":{"base":"Any"},"name":"_eval_inverse_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"KroneckerProduct","by":"library_axiom"},{"fn":"inverse","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a34eed5d542e763a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"],"catches":["ShapeError"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_inverse(self):
         try:
             return KroneckerProduct(*[a.inverse() for a in self.args])
@@ -300,16 +367,24 @@ class KroneckerProduct(MatrixExpr):
             return Inverse(self)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(structurally_equal(oth), determine whether two matrices have the same kronecker product structure) over Any ║
+# ║ Path(structurally_equal(other), isinstance(other, KroneckerProduct) and self.shape == other.shape and (len(self.args) == len(other.args)) and all((a.shape == b.shape for a, b in zip(self.args, other.args)))) over {Any | hasattr(other, 'shape') and hasattr(other, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ structurally_equal : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, 'shape')                        ║
+# ║   requires: hasattr(other, 'args')                         ║
+# ║   returns:  isinstance(other, KroneckerProduct) and s...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ structurally_equal : {Any | hasattr(other, 'shape') a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 876651562e9e4116  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d139dfe285f8e66c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.kronecker.KroneckerProduct.structurally_equal","kind":"method","src_hash":"30f480da5e479798","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"structurally_equal(oth)","rhs":"determine whether two matrices have the same kronecker product structure","over":{"base":"Any"},"name":"structurally_equal_correct"},"guarantee":"determine whether two matrices have the same kronecker product structure","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.kronecker.KroneckerProduct.structurally_equal_correct","statement":"Path(structurally_equal(x), determine whether two matrices have the same kronecker product structure)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"876651562e9e4116"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.kronecker.KroneckerProduct.structurally_equal","kind":"method","src_hash":"30f480da5e479798","in":{"base":"Any","pred":"hasattr(other, 'shape') and hasattr(other, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"structurally_equal(other)","rhs":"isinstance(other, KroneckerProduct) and self.shape == other.shape and (len(self.args) == len(other.args)) and all((a.shape == b.shape for a, b in zip(self.args, other.args)))","over":{"base":"Any","pred":"hasattr(other, 'shape') and hasattr(other, 'args')"},"name":"structurally_equal_correct"},"guarantee":"returns isinstance(other, KroneckerProduct) and self.shape == other.shape and (len(self.args) == len(other.args)) and all((a.shape == b.shape for a, b in zip(self.args, other.args)))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.kronecker.KroneckerProduct.structurally_equal_correct","statement":"Path(structurally_equal(x), returns isinstance(other, KroneckerProduct) and self.shape == other.shape and (len(self.args) == len(other.args)) and all((a.shape == b.shape for a, b in zip(self.args, other.args))))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d139dfe285f8e66c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, 'shape')","hasattr(other, 'args')"],"returns_expr":"isinstance(other, KroneckerProduct) and self.shape == other.shape and (len(self.args) == len(other.args)) and all((a.shape == b.shape for a, b in zip(self.args, other.args)))","pure":false,"effects":{"effect_type":"reads_state","reads":["other.args","other.shape","self.args","self.shape"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def structurally_equal(self, other):
         '''Determine whether two matrices have the same Kronecker product structure
 
@@ -336,16 +411,24 @@ class KroneckerProduct(MatrixExpr):
                 and all(a.shape == b.shape for (a, b) in zip(self.args, other.args)))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(has_matching_shape(oth), determine whether two matrices have the appropriate structure to bring matrix multiplication inside the kroneckerprodut) over Any ║
+# ║ Path(has_matching_shape(other), isinstance(other, KroneckerProduct) and self.cols == other.rows and (len(self.args) == len(other.args)) and all((a.cols == b.rows for a, b in zip(self.args, other.args)))) over {Any | hasattr(other, 'rows') and hasattr(other, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ has_matching_shape : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, 'rows')                         ║
+# ║   requires: hasattr(other, 'args')                         ║
+# ║   returns:  isinstance(other, KroneckerProduct) and s...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ has_matching_shape : {Any | hasattr(other, 'rows') an...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 21331b3fcb2ad87b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cabe52f18319d944  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.kronecker.KroneckerProduct.has_matching_shape","kind":"method","src_hash":"8914513be3215db8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"has_matching_shape(oth)","rhs":"determine whether two matrices have the appropriate structure to bring matrix multiplication inside the kroneckerprodut","over":{"base":"Any"},"name":"has_matching_shape_correct"},"guarantee":"determine whether two matrices have the appropriate structure to bring matrix multiplication inside the kroneckerprodut","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.kronecker.KroneckerProduct.has_matching_shape_correct","statement":"Path(has_matching_shape(x), determine whether two matrices have the appropriate structure to bring matrix multiplication inside the kroneckerprodut)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"21331b3fcb2ad87b"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.kronecker.KroneckerProduct.has_matching_shape","kind":"method","src_hash":"8914513be3215db8","in":{"base":"Any","pred":"hasattr(other, 'rows') and hasattr(other, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"has_matching_shape(other)","rhs":"isinstance(other, KroneckerProduct) and self.cols == other.rows and (len(self.args) == len(other.args)) and all((a.cols == b.rows for a, b in zip(self.args, other.args)))","over":{"base":"Any","pred":"hasattr(other, 'rows') and hasattr(other, 'args')"},"name":"has_matching_shape_correct"},"guarantee":"returns isinstance(other, KroneckerProduct) and self.cols == other.rows and (len(self.args) == len(other.args)) and all((a.cols == b.rows for a, b in zip(self.args, other.args)))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.kronecker.KroneckerProduct.has_matching_shape_correct","statement":"Path(has_matching_shape(x), returns isinstance(other, KroneckerProduct) and self.cols == other.rows and (len(self.args) == len(other.args)) and all((a.cols == b.rows for a, b in zip(self.args, other.args))))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cabe52f18319d944","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, 'rows')","hasattr(other, 'args')"],"returns_expr":"isinstance(other, KroneckerProduct) and self.cols == other.rows and (len(self.args) == len(other.args)) and all((a.cols == b.rows for a, b in zip(self.args, other.args)))","pure":false,"effects":{"effect_type":"reads_state","reads":["other.args","other.rows","self.args","self.cols"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def has_matching_shape(self, other):
         '''Determine whether two matrices have the appropriate structure to bring matrix
         multiplication inside the KroneckerProdut
@@ -369,30 +452,46 @@ class KroneckerProduct(MatrixExpr):
                 and all(a.cols == b.rows for (a, b) in zip(self.args, other.args)))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_expand_kroneckerproduct(**h), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_expand_kroneckerproduct(**hints), flatten(canon(typed({KroneckerProduct: distribute(KroneckerProduct, MatAdd)}))(self))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  flatten(canon(typed({KroneckerProduct: di...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_expand_kroneckerproduct : Any → Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | fb63dee677a06958           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.kronecker.KroneckerProduct._eval_expand_kroneckerproduct","kind":"method","src_hash":"7d7b392c2d738fd6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_expand_kroneckerproduct(**h)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_expand_kroneckerproduct_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fb63dee677a06958"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.kronecker.KroneckerProduct._eval_expand_kroneckerproduct","kind":"method","src_hash":"7d7b392c2d738fd6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_expand_kroneckerproduct(**hints)","rhs":"flatten(canon(typed({KroneckerProduct: distribute(KroneckerProduct, MatAdd)}))(self))","over":{"base":"Any"},"name":"_eval_expand_kroneckerproduct_correct"},"guarantee":"returns flatten(canon(typed({KroneckerProduct: distribute(KroneckerProduct, MatAdd)}))(self))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fb63dee677a06958","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"flatten(canon(typed({KroneckerProduct: distribute(KroneckerProduct, MatAdd)}))(self))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_expand_kroneckerproduct(self, **hints):
         return flatten(canon(typed({KroneckerProduct: distribute(KroneckerProduct, MatAdd)}))(self))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_kronecker_add(oth), id) over Any                     ║
+# ║ Path(_kronecker_add(other), id) over {Any | hasattr(other, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _kronecker_add : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, 'args')                         ║
+# ║   ensures:  result == (self.__class__(*[a + b for a, ...   ║
+# ║   ensures:  result == self.__class__(*[a + b for a, b...   ║
+# ║   fiber[case_0]: self.structurally_equal(other) => se...   ║
+# ║   fiber[case_1]: not (self.structurally_equal(other))...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _kronecker_add : {Any | hasattr(other, 'args')} → {An...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | c2cbe1c0a3b6b155   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.kronecker.KroneckerProduct._kronecker_add","kind":"method","src_hash":"debdc1b974b7dab5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_kronecker_add(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_kronecker_add_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"__class__","by":"library_axiom"},{"fn":"zip","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c2cbe1c0a3b6b155"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.kronecker.KroneckerProduct._kronecker_add","kind":"method","src_hash":"debdc1b974b7dab5","in":{"base":"Any","pred":"hasattr(other, 'args')"},"out":{"base":"Any","pred":"result satisfies: result == (self.__class__(*[a + b for a, b in zip(self.args, other.args)]) if self.structurally_equal(other) else self + other) and result == self.__class__(*[a + b for a, b in zip(self.args, other.args)]) or result == self + other"},"spec":{"lhs":"_kronecker_add(other)","rhs":"result == (self.__class__(*[a + b for a, b in zip(self.args, other.args)]) if self.structurally_equal(other) else self + other) and result == self.__class__(*[a + b for a, b in zip(self.args, other.args)]) or result == self + other","over":{"base":"Any","pred":"hasattr(other, 'args')"},"name":"_kronecker_add_correct","kind":"composition"},"guarantee":"result == (self.__class__(*[a + b for a, b in zip(self.args, other.args)]) if self.structurally_equal(other) else self + other); result == self.__class__(*[a + b for a, b in zip(self.args, other.args)]) or result == self + other; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"__class__","by":"library_axiom"},{"fn":"zip","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c2cbe1c0a3b6b155","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, 'args')"],"ensures":["result == (self.__class__(*[a + b for a, b in zip(self.args, other.args)]) if self.structurally_equal(other) else self + other)","result == self.__class__(*[a + b for a, b in zip(self.args, other.args)]) or result == self + other"],"fibers":[{"name":"case_0","guard":"self.structurally_equal(other)","ensures":["result == self.__class__(*[a + b for a, b in zip(self.args, other.args)])"],"decidability":"library","returns_expr":"self.__class__(*[a + b for a, b in zip(self.args, other.args)])"},{"name":"case_1","guard":"not (self.structurally_equal(other))","ensures":["result == self + other"],"decidability":"library","returns_expr":"self + other"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","other.args","self.__class__","self.args","self.structurally_equal"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _kronecker_add(self, other):
         if self.structurally_equal(other):
             return self.__class__(*[a + b for (a, b) in zip(self.args, other.args)])
@@ -400,16 +499,26 @@ class KroneckerProduct(MatrixExpr):
             return self + other
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_kronecker_mul(oth), id) over Any                     ║
+# ║ Path(_kronecker_mul(other), id) over {Any | hasattr(other, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _kronecker_mul : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, 'args')                         ║
+# ║   ensures:  result == (self.__class__(*[a * b for a, ...   ║
+# ║   ensures:  result == self.__class__(*[a * b for a, b...   ║
+# ║   fiber[case_0]: self.has_matching_shape(other) => se...   ║
+# ║   fiber[case_1]: not (self.has_matching_shape(other))...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _kronecker_mul : {Any | hasattr(other, 'args')} → {An...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 949edf0b4c1fe99c   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.kronecker.KroneckerProduct._kronecker_mul","kind":"method","src_hash":"89ba6eb250fd79a7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_kronecker_mul(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_kronecker_mul_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"__class__","by":"library_axiom"},{"fn":"zip","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"949edf0b4c1fe99c"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.kronecker.KroneckerProduct._kronecker_mul","kind":"method","src_hash":"89ba6eb250fd79a7","in":{"base":"Any","pred":"hasattr(other, 'args')"},"out":{"base":"Any","pred":"result satisfies: result == (self.__class__(*[a * b for a, b in zip(self.args, other.args)]) if self.has_matching_shape(other) else self * other) and result == self.__class__(*[a * b for a, b in zip(self.args, other.args)]) or result == self * other"},"spec":{"lhs":"_kronecker_mul(other)","rhs":"result == (self.__class__(*[a * b for a, b in zip(self.args, other.args)]) if self.has_matching_shape(other) else self * other) and result == self.__class__(*[a * b for a, b in zip(self.args, other.args)]) or result == self * other","over":{"base":"Any","pred":"hasattr(other, 'args')"},"name":"_kronecker_mul_correct","kind":"composition"},"guarantee":"result == (self.__class__(*[a * b for a, b in zip(self.args, other.args)]) if self.has_matching_shape(other) else self * other); result == self.__class__(*[a * b for a, b in zip(self.args, other.args)]) or result == self * other; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"__class__","by":"library_axiom"},{"fn":"zip","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"949edf0b4c1fe99c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, 'args')"],"ensures":["result == (self.__class__(*[a * b for a, b in zip(self.args, other.args)]) if self.has_matching_shape(other) else self * other)","result == self.__class__(*[a * b for a, b in zip(self.args, other.args)]) or result == self * other"],"fibers":[{"name":"case_0","guard":"self.has_matching_shape(other)","ensures":["result == self.__class__(*[a * b for a, b in zip(self.args, other.args)])"],"decidability":"library","returns_expr":"self.__class__(*[a * b for a, b in zip(self.args, other.args)])"},{"name":"case_1","guard":"not (self.has_matching_shape(other))","ensures":["result == self * other"],"decidability":"library","returns_expr":"self * other"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","other.args","self.__class__","self.args","self.has_matching_shape"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _kronecker_mul(self, other):
         if self.has_matching_shape(other):
             return self.__class__(*[a*b for (a, b) in zip(self.args, other.args)])
@@ -417,16 +526,22 @@ class KroneckerProduct(MatrixExpr):
             return self * other
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(doit(**h), id) over Any                               ║
+# ║ Path(doit(**hints), id) over Any                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  canonicalize(KroneckerProduct(*args))          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ doit : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 245dcc4b03dea710   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.kronecker.KroneckerProduct.doit","kind":"method","src_hash":"fc3309ba846367cd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"doit(**h)","rhs":"doit produces the expected output","over":{"base":"Any"},"name":"doit_correct","kind":"composition"},"guarantee":"doit produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"canonicalize","by":"library_axiom"},{"fn":"KroneckerProduct","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"245dcc4b03dea710"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.kronecker.KroneckerProduct.doit","kind":"method","src_hash":"fc3309ba846367cd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"doit(**hints)","rhs":"canonicalize(KroneckerProduct(*args))","over":{"base":"Any"},"name":"doit_correct","kind":"composition"},"guarantee":"returns canonicalize(KroneckerProduct(*args))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"canonicalize","by":"library_axiom"},{"fn":"KroneckerProduct","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"245dcc4b03dea710","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"canonicalize(KroneckerProduct(*args))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def doit(self, **hints):
         deep = hints.get('deep', True)
         if deep:
@@ -437,16 +552,23 @@ class KroneckerProduct(MatrixExpr):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(validate(*ar), validate produces the expected output) over Any ║
+# ║ Path(validate(*args), <unspecified:validate>) over {Any | all((arg.is_Matrix for arg in args))} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ validate : Any → Any                                       ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: all((arg.is_Matrix for arg in args))           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ validate : {Any | all((arg.is_Matrix for arg in args)...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3d1050485925cba3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.kronecker.validate","kind":"function","src_hash":"d39631c4cbef00b1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"validate(*ar)","rhs":"validate produces the expected output","over":{"base":"Any"},"name":"validate_correct"},"guarantee":"validate produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.kronecker.validate_correct","statement":"Path(validate(x), validate produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3d1050485925cba3"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.kronecker.validate","kind":"function","src_hash":"d39631c4cbef00b1","in":{"base":"Any","pred":"all((arg.is_Matrix for arg in args))"},"out":{"base":"Any"},"spec":{"lhs":"validate(*args)","rhs":"<unspecified:validate>","over":{"base":"Any","pred":"all((arg.is_Matrix for arg in args))"},"name":"validate_correct"},"guarantee":"validate produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.kronecker.validate_correct","statement":"Path(validate(x), validate produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3d1050485925cba3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["all((arg.is_Matrix for arg in args))"],"pure":false,"effects":{"effect_type":"reads_state","raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=[], spec=['*args']"]}}
 def validate(*args):
     if not all(arg.is_Matrix for arg in args):
         raise TypeError("Mix of Matrix and Scalar symbols")
@@ -455,16 +577,23 @@ def validate(*args):
 # rules
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(extract_commutative(kro), extract_commutative produces the expected output) over Any ║
+# ║ Path(extract_commutative(kron), <unspecified:extract_commutative>) over {Any | hasattr(kron, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ extract_commutative : Any → Any                            ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(kron, 'args')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ extract_commutative : {Any | hasattr(kron, 'args')} →...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3d9810ce8c7ec012  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.kronecker.extract_commutative","kind":"function","src_hash":"59f15520bf62c3ac","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"extract_commutative(kro)","rhs":"extract_commutative produces the expected output","over":{"base":"Any"},"name":"extract_commutative_correct"},"guarantee":"extract_commutative produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.kronecker.extract_commutative_correct","statement":"Path(extract_commutative(x), extract_commutative produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3d9810ce8c7ec012"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.kronecker.extract_commutative","kind":"function","src_hash":"59f15520bf62c3ac","in":{"base":"Any","pred":"hasattr(kron, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"extract_commutative(kron)","rhs":"<unspecified:extract_commutative>","over":{"base":"Any","pred":"hasattr(kron, 'args')"},"name":"extract_commutative_correct"},"guarantee":"extract_commutative produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.kronecker.extract_commutative_correct","statement":"Path(extract_commutative(x), extract_commutative produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3d9810ce8c7ec012","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(kron, 'args')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def extract_commutative(kron):
     c_part = []
     nc_part = []
@@ -480,7 +609,11 @@ def extract_commutative(kron):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(matrix_kronecker_product(*ma), compute the kronecker product of a sequence of sympy matrices) over {Any | isinstance(matrix_expansion, MatrixClass) and isinstance(m, MatrixBase)} ║
+# ║ Path(matrix_kronecker_product(*matrices), <unspecified:matrix_kronecker_product>) over {Any | isinstance(matrix_expansion, MatrixClass) and isinstance(m, MatrixBase) and all((isinstance(m, MatrixBase) for m in matrices))} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: all((isinstance(m, MatrixBase) for m in m...   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ matrix_kronecker_product : {Any | isinstance(matrix_e...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -493,9 +626,12 @@ def extract_commutative(kron):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?2 ✗2 VCs | 4.3ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | b111ee0d...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.kronecker.matrix_kronecker_product","kind":"function","src_hash":"300eb2b1e2b9b1ba","in":{"base":"Any","pred":"isinstance(matrix_expansion, MatrixClass) and isinstance(m, MatrixBase)"},"out":{"base":"Any"},"spec":{"lhs":"matrix_kronecker_product(*ma)","rhs":"compute the kronecker product of a sequence of sympy matrices","over":{"base":"Any","pred":"isinstance(matrix_expansion, MatrixClass) and isinstance(m, MatrixBase)"},"name":"matrix_kronecker_product_correct"},"guarantee":"compute the kronecker product of a sequence of sympy matrices","fibers":[{"name":"MatrixClass","pred":"isinstance(matrix_expansion, MatrixClass)","path":{"lhs":"matrix_kronecker_product(x)","rhs":"compute the kronecker product of a sequence of sympy matrices","over":{"base":"MatrixClass","pred":"isinstance(matrix_expansion, MatrixClass)"},"name":"matrix_kronecker_product_MatrixClass_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.kronecker.matrix_kronecker_product_MatrixClass_correct","statement":"matrix_kronecker_product satisfies spec on MatrixClass inputs"},"trust":"LIBRARY"},{"name":"MatrixBase","pred":"isinstance(m, MatrixBase)","path":{"lhs":"matrix_kronecker_product(x)","rhs":"compute the kronecker product of a sequence of sympy matrices","over":{"base":"MatrixBase","pred":"isinstance(m, MatrixBase)"},"name":"matrix_kronecker_product_MatrixBase_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.kronecker.matrix_kronecker_product_MatrixBase_correct","statement":"matrix_kronecker_product satisfies spec on MatrixBase inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"b111ee0d944d1344"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.kronecker.matrix_kronecker_product","kind":"function","src_hash":"300eb2b1e2b9b1ba","in":{"base":"Any","pred":"isinstance(matrix_expansion, MatrixClass) and isinstance(m, MatrixBase) and all((isinstance(m, MatrixBase) for m in matrices))"},"out":{"base":"Any"},"spec":{"lhs":"matrix_kronecker_product(*matrices)","rhs":"<unspecified:matrix_kronecker_product>","over":{"base":"Any","pred":"isinstance(matrix_expansion, MatrixClass) and isinstance(m, MatrixBase) and all((isinstance(m, MatrixBase) for m in matrices))"},"name":"matrix_kronecker_product_correct"},"guarantee":"compute the kronecker product of a sequence of sympy matrices","fibers":[{"name":"MatrixClass","pred":"isinstance(matrix_expansion, MatrixClass)","path":{"lhs":"matrix_kronecker_product(x)","rhs":"compute the kronecker product of a sequence of sympy matrices","over":{"base":"MatrixClass","pred":"isinstance(matrix_expansion, MatrixClass)"},"name":"matrix_kronecker_product_MatrixClass_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.kronecker.matrix_kronecker_product_MatrixClass_correct","statement":"matrix_kronecker_product satisfies spec on MatrixClass inputs"},"trust":"LIBRARY"},{"name":"MatrixBase","pred":"isinstance(m, MatrixBase)","path":{"lhs":"matrix_kronecker_product(x)","rhs":"compute the kronecker product of a sequence of sympy matrices","over":{"base":"MatrixBase","pred":"isinstance(m, MatrixBase)"},"name":"matrix_kronecker_product_MatrixBase_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.kronecker.matrix_kronecker_product_MatrixBase_correct","statement":"matrix_kronecker_product satisfies spec on MatrixBase inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"b111ee0d944d1344","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["all((isinstance(m, MatrixBase) for m in matrices))"],"pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__"],"raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":1,"n_assumed":2,"n_failed":2,"trust_level":"LIBRARY_ASSUMED","compile_ms":4.3,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=[], spec=['*matrices']","Poor branch-fiber coverage: 0% (branches={'not all((isinstance(m, MatrixBase) for m in matrices))', 'isinstance(matrix_expansion, MatrixClass)', 'i == 0'}, fibers={'MatrixBase', 'MatrixClass'})"]}}
 def matrix_kronecker_product(*matrices):
     """Compute the Kronecker product of a sequence of SymPy Matrices.
 
@@ -577,7 +713,11 @@ def matrix_kronecker_product(*matrices):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(explicit_kronecker_product(kro), explicit_kronecker_product produces the expected output) over {Any | isinstance(m, MatrixBase)} ║
+# ║ Path(explicit_kronecker_product(kron), <unspecified:explicit_kronecker_product>) over {Any | isinstance(m, MatrixBase) and hasattr(kron, 'args')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(kron, 'args')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ explicit_kronecker_product : {Any | isinstance(m, Mat...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -589,9 +729,12 @@ def matrix_kronecker_product(*matrices):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 0.9ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | b2804011...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.kronecker.explicit_kronecker_product","kind":"function","src_hash":"1aeb9e35b281873b","in":{"base":"Any","pred":"isinstance(m, MatrixBase)"},"out":{"base":"Any"},"spec":{"lhs":"explicit_kronecker_product(kro)","rhs":"explicit_kronecker_product produces the expected output","over":{"base":"Any","pred":"isinstance(m, MatrixBase)"},"name":"explicit_kronecker_product_correct"},"guarantee":"explicit_kronecker_product produces the expected output","fibers":[{"name":"MatrixBase","pred":"isinstance(m, MatrixBase)","path":{"lhs":"explicit_kronecker_product(x)","rhs":"explicit_kronecker_product produces the expected output","over":{"base":"MatrixBase","pred":"isinstance(m, MatrixBase)"},"name":"explicit_kronecker_product_MatrixBase_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.kronecker.explicit_kronecker_product_MatrixBase_correct","statement":"explicit_kronecker_product satisfies spec on MatrixBase inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"b2804011842906d4"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.kronecker.explicit_kronecker_product","kind":"function","src_hash":"1aeb9e35b281873b","in":{"base":"Any","pred":"isinstance(m, MatrixBase) and hasattr(kron, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"explicit_kronecker_product(kron)","rhs":"<unspecified:explicit_kronecker_product>","over":{"base":"Any","pred":"isinstance(m, MatrixBase) and hasattr(kron, 'args')"},"name":"explicit_kronecker_product_correct"},"guarantee":"explicit_kronecker_product produces the expected output","fibers":[{"name":"MatrixBase","pred":"isinstance(m, MatrixBase)","path":{"lhs":"explicit_kronecker_product(x)","rhs":"explicit_kronecker_product produces the expected output","over":{"base":"MatrixBase","pred":"isinstance(m, MatrixBase)"},"name":"explicit_kronecker_product_MatrixBase_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.kronecker.explicit_kronecker_product_MatrixBase_correct","statement":"explicit_kronecker_product satisfies spec on MatrixBase inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"b2804011842906d4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(kron, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["kron.args"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.9,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'not all((isinstance(m, MatrixBase) for m in kron.args))'}, fibers={'MatrixBase'})"]}}
 def explicit_kronecker_product(kron):
     # Make sure we have a sequence of Matrices
     if not all(isinstance(m, MatrixBase) for m in kron.args):
@@ -610,7 +753,14 @@ canonicalize = exhaust(condition(lambda x: isinstance(x, KroneckerProduct),
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_kronecker_dims_key(exp), internal helper behaves correctly) over {Any | isinstance(expr, KroneckerProduct)} ║
+# ║ Path(_kronecker_dims_key(expr), result == (tuple((a.shape for a in expr.args)) if isinstance(expr, KroneckerProduct) else (0,)) and result == tuple((a.shape for a in expr.args)) or result == (0,)) over {Any | isinstance(expr, KroneckerProduct) and hasattr(expr, 'args')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   ensures:  result == (tuple((a.shape for a in expr.a...   ║
+# ║   ensures:  result == tuple((a.shape for a in expr.ar...   ║
+# ║   fiber[KroneckerProduct]: isinstance(expr, Kronecker...   ║
+# ║   fiber[KroneckerProduct]: not (isinstance(expr, Kron...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _kronecker_dims_key : {Any | isinstance(expr, Kroneck...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -622,9 +772,12 @@ canonicalize = exhaust(condition(lambda x: isinstance(x, KroneckerProduct),
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 0.8ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 92c57d91...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.kronecker._kronecker_dims_key","kind":"function","src_hash":"c51b2b89257398d8","in":{"base":"Any","pred":"isinstance(expr, KroneckerProduct)"},"out":{"base":"Any"},"spec":{"lhs":"_kronecker_dims_key(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any","pred":"isinstance(expr, KroneckerProduct)"},"name":"_kronecker_dims_key_correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"KroneckerProduct","pred":"isinstance(expr, KroneckerProduct)","path":{"lhs":"_kronecker_dims_key(x)","rhs":"internal helper behaves correctly","over":{"base":"KroneckerProduct","pred":"isinstance(expr, KroneckerProduct)"},"name":"_kronecker_dims_key_KroneckerProduct_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.kronecker._kronecker_dims_key_KroneckerProduct_correct","statement":"_kronecker_dims_key satisfies spec on KroneckerProduct inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"92c57d91393a9b21"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.kronecker._kronecker_dims_key","kind":"function","src_hash":"c51b2b89257398d8","in":{"base":"Any","pred":"isinstance(expr, KroneckerProduct) and hasattr(expr, 'args')"},"out":{"base":"Any","pred":"result satisfies: result == (tuple((a.shape for a in expr.args)) if isinstance(expr, KroneckerProduct) else (0,)) and result == tuple((a.shape for a in expr.args)) or result == (0,)"},"spec":{"lhs":"_kronecker_dims_key(expr)","rhs":"result == (tuple((a.shape for a in expr.args)) if isinstance(expr, KroneckerProduct) else (0,)) and result == tuple((a.shape for a in expr.args)) or result == (0,)","over":{"base":"Any","pred":"isinstance(expr, KroneckerProduct) and hasattr(expr, 'args')"},"name":"_kronecker_dims_key_correct"},"guarantee":"result == (tuple((a.shape for a in expr.args)) if isinstance(expr, KroneckerProduct) else (0,)); result == tuple((a.shape for a in expr.args)) or result == (0,); 2-fiber decomposition","fibers":[{"name":"KroneckerProduct","pred":"isinstance(expr, KroneckerProduct)","path":{"lhs":"_kronecker_dims_key(x)","rhs":"result == (tuple((a.shape for a in expr.args)) if isinstance(expr, KroneckerProduct) else (0,)); result == tuple((a.shape for a in expr.args)) or result == (0,); 2-fiber decomposition","over":{"base":"KroneckerProduct","pred":"isinstance(expr, KroneckerProduct)"},"name":"_kronecker_dims_key_KroneckerProduct_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.kronecker._kronecker_dims_key_KroneckerProduct_correct","statement":"_kronecker_dims_key satisfies spec on KroneckerProduct inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"92c57d91393a9b21","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'args')"],"ensures":["result == (tuple((a.shape for a in expr.args)) if isinstance(expr, KroneckerProduct) else (0,))","result == tuple((a.shape for a in expr.args)) or result == (0,)"],"fibers":[{"name":"KroneckerProduct","guard":"isinstance(expr, KroneckerProduct)","ensures":["result == tuple((a.shape for a in expr.args))"],"decidability":"structural","returns_expr":"tuple((a.shape for a in expr.args))"},{"name":"KroneckerProduct","guard":"not (isinstance(expr, KroneckerProduct))","ensures":["result == (0,)"],"decidability":"structural","returns_expr":"(0,)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(expr, KroneckerProduct)'}, fibers={'KroneckerProduct'})"]}}
 def _kronecker_dims_key(expr):
     if isinstance(expr, KroneckerProduct):
         return tuple(a.shape for a in expr.args)
@@ -633,16 +786,23 @@ def _kronecker_dims_key(expr):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(kronecker_mat_add(exp), kronecker_mat_add produces the expected output) over Any ║
+# ║ Path(kronecker_mat_add(expr), <unspecified:kronecker_mat_add>) over {Any | hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ kronecker_mat_add : Any → Any                              ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ kronecker_mat_add : {Any | hasattr(expr, 'args')} → Any    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ea4d4671d0d2a4c0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.kronecker.kronecker_mat_add","kind":"function","src_hash":"299d123179d60b06","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"kronecker_mat_add(exp)","rhs":"kronecker_mat_add produces the expected output","over":{"base":"Any"},"name":"kronecker_mat_add_correct"},"guarantee":"kronecker_mat_add produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.kronecker.kronecker_mat_add_correct","statement":"Path(kronecker_mat_add(x), kronecker_mat_add produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ea4d4671d0d2a4c0"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.kronecker.kronecker_mat_add","kind":"function","src_hash":"299d123179d60b06","in":{"base":"Any","pred":"hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"kronecker_mat_add(expr)","rhs":"<unspecified:kronecker_mat_add>","over":{"base":"Any","pred":"hasattr(expr, 'args')"},"name":"kronecker_mat_add_correct"},"guarantee":"kronecker_mat_add produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.kronecker.kronecker_mat_add_correct","statement":"Path(kronecker_mat_add(x), kronecker_mat_add produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ea4d4671d0d2a4c0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'args')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def kronecker_mat_add(expr):
     args = sift(expr.args, _kronecker_dims_key)
     nonkrons = args.pop((0,), None)
@@ -659,7 +819,11 @@ def kronecker_mat_add(expr):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(kronecker_mat_mul(exp), kronecker_mat_mul produces the expected output) over {Any | isinstance(A, KroneckerProduct)} ║
+# ║ Path(kronecker_mat_mul(expr), factor * MatMul(*matrices)) over {Any | isinstance(A, KroneckerProduct) and hasattr(expr, 'as_coeff_matrices')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'as_coeff_matrices')             ║
+# ║   returns:  factor * MatMul(*matrices)                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ kronecker_mat_mul : {Any | isinstance(A, KroneckerPro...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -671,9 +835,12 @@ def kronecker_mat_add(expr):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 02a0d101...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.kronecker.kronecker_mat_mul","kind":"function","src_hash":"9b1624290370f857","in":{"base":"Any","pred":"isinstance(A, KroneckerProduct)"},"out":{"base":"Any"},"spec":{"lhs":"kronecker_mat_mul(exp)","rhs":"kronecker_mat_mul produces the expected output","over":{"base":"Any","pred":"isinstance(A, KroneckerProduct)"},"name":"kronecker_mat_mul_correct"},"guarantee":"kronecker_mat_mul produces the expected output","fibers":[{"name":"KroneckerProduct","pred":"isinstance(A, KroneckerProduct)","path":{"lhs":"kronecker_mat_mul(x)","rhs":"kronecker_mat_mul produces the expected output","over":{"base":"KroneckerProduct","pred":"isinstance(A, KroneckerProduct)"},"name":"kronecker_mat_mul_KroneckerProduct_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.kronecker.kronecker_mat_mul_KroneckerProduct_correct","statement":"kronecker_mat_mul satisfies spec on KroneckerProduct inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"02a0d10147235aa2"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.kronecker.kronecker_mat_mul","kind":"function","src_hash":"9b1624290370f857","in":{"base":"Any","pred":"isinstance(A, KroneckerProduct) and hasattr(expr, 'as_coeff_matrices')"},"out":{"base":"Any"},"spec":{"lhs":"kronecker_mat_mul(expr)","rhs":"factor * MatMul(*matrices)","over":{"base":"Any","pred":"isinstance(A, KroneckerProduct) and hasattr(expr, 'as_coeff_matrices')"},"name":"kronecker_mat_mul_correct"},"guarantee":"returns factor * MatMul(*matrices)","fibers":[{"name":"KroneckerProduct","pred":"isinstance(A, KroneckerProduct)","path":{"lhs":"kronecker_mat_mul(x)","rhs":"returns factor * MatMul(*matrices)","over":{"base":"KroneckerProduct","pred":"isinstance(A, KroneckerProduct)"},"name":"kronecker_mat_mul_KroneckerProduct_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.kronecker.kronecker_mat_mul_KroneckerProduct_correct","statement":"kronecker_mat_mul satisfies spec on KroneckerProduct inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"02a0d10147235aa2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'as_coeff_matrices')"],"returns_expr":"factor * MatMul(*matrices)","pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(A, KroneckerProduct) and isinstance(B, KroneckerProduct)'}, fibers={'KroneckerProduct'})"]}}
 def kronecker_mat_mul(expr):
     # modified from block matrix code
     factor, matrices = expr.as_coeff_matrices()
@@ -691,7 +858,15 @@ def kronecker_mat_mul(expr):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(kronecker_mat_pow(exp), kronecker_mat_pow produces the expected output) over {Any | isinstance(expr.base, KroneckerProduct)} ║
+# ║ Path(kronecker_mat_pow(expr), result == (KroneckerProduct(*[MatPow(a, expr.exp) for a in expr.base.args]) if isinstance(expr.base, KroneckerProduct) and all((a.is_square for a in expr.base.args)) else expr) and result == KroneckerProduct(*[MatPow(a, expr.exp) for a in expr.base.args]) or result == expr) over {Any | isinstance(expr.base, KroneckerProduct) and hasattr(expr, 'base') and hasattr(expr, 'exp')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'base')                          ║
+# ║   requires: hasattr(expr, 'exp')                           ║
+# ║   ensures:  result == (KroneckerProduct(*[MatPow(a, e...   ║
+# ║   ensures:  result == KroneckerProduct(*[MatPow(a, ex...   ║
+# ║   fiber[case_0]: isinstance(expr.base, KroneckerProdu...   ║
+# ║   fiber[case_1]: not (isinstance(expr.base, Kronecker...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ kronecker_mat_pow : {Any | isinstance(expr.base, Kron...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -703,9 +878,12 @@ def kronecker_mat_mul(expr):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 0.2ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 0f0fce33...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.kronecker.kronecker_mat_pow","kind":"function","src_hash":"d271d1387e837776","in":{"base":"Any","pred":"isinstance(expr.base, KroneckerProduct)"},"out":{"base":"Any"},"spec":{"lhs":"kronecker_mat_pow(exp)","rhs":"kronecker_mat_pow produces the expected output","over":{"base":"Any","pred":"isinstance(expr.base, KroneckerProduct)"},"name":"kronecker_mat_pow_correct"},"guarantee":"kronecker_mat_pow produces the expected output","fibers":[{"name":"KroneckerProduct","pred":"isinstance(expr.base, KroneckerProduct)","path":{"lhs":"kronecker_mat_pow(x)","rhs":"kronecker_mat_pow produces the expected output","over":{"base":"KroneckerProduct","pred":"isinstance(expr.base, KroneckerProduct)"},"name":"kronecker_mat_pow_KroneckerProduct_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.kronecker.kronecker_mat_pow_KroneckerProduct_correct","statement":"kronecker_mat_pow satisfies spec on KroneckerProduct inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"0f0fce3346503cc6"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.kronecker.kronecker_mat_pow","kind":"function","src_hash":"d271d1387e837776","in":{"base":"Any","pred":"isinstance(expr.base, KroneckerProduct) and hasattr(expr, 'base') and hasattr(expr, 'exp')"},"out":{"base":"Any","pred":"result satisfies: result == (KroneckerProduct(*[MatPow(a, expr.exp) for a in expr.base.args]) if isinstance(expr.base, KroneckerProduct) and all((a.is_square for a in expr.base.args)) else expr) and result == KroneckerProduct(*[MatPow(a, expr.exp) for a in expr.base.args]) or result == expr"},"spec":{"lhs":"kronecker_mat_pow(expr)","rhs":"result == (KroneckerProduct(*[MatPow(a, expr.exp) for a in expr.base.args]) if isinstance(expr.base, KroneckerProduct) and all((a.is_square for a in expr.base.args)) else expr) and result == KroneckerProduct(*[MatPow(a, expr.exp) for a in expr.base.args]) or result == expr","over":{"base":"Any","pred":"isinstance(expr.base, KroneckerProduct) and hasattr(expr, 'base') and hasattr(expr, 'exp')"},"name":"kronecker_mat_pow_correct"},"guarantee":"result == (KroneckerProduct(*[MatPow(a, expr.exp) for a in expr.base.args]) if isinstance(expr.base, KroneckerProduct) and all((a.is_square for a in expr.base.args)) else expr); result == KroneckerProduct(*[MatPow(a, expr.exp) for a in expr.base.args]) or result == expr; 2-fiber decomposition","fibers":[{"name":"KroneckerProduct","pred":"isinstance(expr.base, KroneckerProduct)","path":{"lhs":"kronecker_mat_pow(x)","rhs":"result == (KroneckerProduct(*[MatPow(a, expr.exp) for a in expr.base.args]) if isinstance(expr.base, KroneckerProduct) and all((a.is_square for a in expr.base.args)) else expr); result == KroneckerProduct(*[MatPow(a, expr.exp) for a in expr.base.args]) or result == expr; 2-fiber decomposition","over":{"base":"KroneckerProduct","pred":"isinstance(expr.base, KroneckerProduct)"},"name":"kronecker_mat_pow_KroneckerProduct_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.kronecker.kronecker_mat_pow_KroneckerProduct_correct","statement":"kronecker_mat_pow satisfies spec on KroneckerProduct inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"0f0fce3346503cc6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'base')","hasattr(expr, 'exp')"],"ensures":["result == (KroneckerProduct(*[MatPow(a, expr.exp) for a in expr.base.args]) if isinstance(expr.base, KroneckerProduct) and all((a.is_square for a in expr.base.args)) else expr)","result == KroneckerProduct(*[MatPow(a, expr.exp) for a in expr.base.args]) or result == expr"],"fibers":[{"name":"case_0","guard":"isinstance(expr.base, KroneckerProduct) and all((a.is_square for a in expr.base.args))","ensures":["result == KroneckerProduct(*[MatPow(a, expr.exp) for a in expr.base.args])"],"decidability":"structural","returns_expr":"KroneckerProduct(*[MatPow(a, expr.exp) for a in expr.base.args])"},{"name":"case_1","guard":"not (isinstance(expr.base, KroneckerProduct) and all((a.is_square for a in expr.base.args)))","ensures":["result == expr"],"decidability":"structural","returns_expr":"expr"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.base","expr.exp"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(expr.base, KroneckerProduct) and all((a.is_square for a in expr.base.args))'}, fibers={'KroneckerProduct'})"]}}
 def kronecker_mat_pow(expr):
     if isinstance(expr.base, KroneckerProduct) and all(a.is_square for a in expr.base.args):
         return KroneckerProduct(*[MatPow(a, expr.exp) for a in expr.base.args])
@@ -714,7 +892,14 @@ def kronecker_mat_pow(expr):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(combine_kronecker(exp), combine kronekeckerproduct with expression) over {Any | isinstance(expr, MatrixExpr)} ║
+# ║ Path(combine_kronecker(expr), result == (doit() if doit is not None else result) and result == doit() or result == result) over {Any | isinstance(expr, MatrixExpr) and hasattr(expr, 'has')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'has')                           ║
+# ║   ensures:  result == (doit() if doit is not None els...   ║
+# ║   ensures:  result == doit() or result == result           ║
+# ║   fiber[case_0]: doit is not None => doit()                ║
+# ║   fiber[case_1]: not (doit is not None) => result          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ combine_kronecker : {Any | isinstance(expr, MatrixExp...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -726,9 +911,12 @@ def kronecker_mat_pow(expr):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | fd1ee9fd...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.kronecker.combine_kronecker","kind":"function","src_hash":"df1747007af3ce93","in":{"base":"Any","pred":"isinstance(expr, MatrixExpr)"},"out":{"base":"Any"},"spec":{"lhs":"combine_kronecker(exp)","rhs":"combine kronekeckerproduct with expression","over":{"base":"Any","pred":"isinstance(expr, MatrixExpr)"},"name":"combine_kronecker_correct"},"guarantee":"combine kronekeckerproduct with expression","fibers":[{"name":"MatrixExpr","pred":"isinstance(expr, MatrixExpr)","path":{"lhs":"combine_kronecker(x)","rhs":"combine kronekeckerproduct with expression","over":{"base":"MatrixExpr","pred":"isinstance(expr, MatrixExpr)"},"name":"combine_kronecker_MatrixExpr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.kronecker.combine_kronecker_MatrixExpr_correct","statement":"combine_kronecker satisfies spec on MatrixExpr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"fd1ee9fdfb6099cc"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.kronecker.combine_kronecker","kind":"function","src_hash":"df1747007af3ce93","in":{"base":"Any","pred":"isinstance(expr, MatrixExpr) and hasattr(expr, 'has')"},"out":{"base":"Any","pred":"result satisfies: result == (doit() if doit is not None else result) and result == doit() or result == result"},"spec":{"lhs":"combine_kronecker(expr)","rhs":"result == (doit() if doit is not None else result) and result == doit() or result == result","over":{"base":"Any","pred":"isinstance(expr, MatrixExpr) and hasattr(expr, 'has')"},"name":"combine_kronecker_correct"},"guarantee":"result == (doit() if doit is not None else result); result == doit() or result == result; 2-fiber decomposition","fibers":[{"name":"MatrixExpr","pred":"isinstance(expr, MatrixExpr)","path":{"lhs":"combine_kronecker(x)","rhs":"result == (doit() if doit is not None else result); result == doit() or result == result; 2-fiber decomposition","over":{"base":"MatrixExpr","pred":"isinstance(expr, MatrixExpr)"},"name":"combine_kronecker_MatrixExpr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.kronecker.combine_kronecker_MatrixExpr_correct","statement":"combine_kronecker satisfies spec on MatrixExpr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"fd1ee9fdfb6099cc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'has')"],"ensures":["result == (doit() if doit is not None else result)","result == doit() or result == result"],"fibers":[{"name":"case_0","guard":"doit is not None","ensures":["result == doit()"],"decidability":"library","returns_expr":"doit()"},{"name":"case_1","guard":"not (doit is not None)","ensures":["result == result"],"decidability":"library","returns_expr":"result"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.has"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"failed","binding":true}}
 def combine_kronecker(expr):
     """Combine KronekeckerProduct with expression.
 

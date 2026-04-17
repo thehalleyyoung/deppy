@@ -41,27 +41,39 @@ from sympy.testing.pytest import warns_deprecated_sympy
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(CustomKet(*args), correctly constructs a CustomKet instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ CustomKet : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Ket)                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ CustomKet : Any → {Any | result satisfies: isinstance...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 320c9a9667b66343  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_operator.CustomKet","kind":"class","src_hash":"19ae5d2fb0c0cab4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"CustomKet(*args)","rhs":"correctly constructs a CustomKet instance","over":{"base":"Any"},"name":"CustomKet_class_invariant"},"guarantee":"correctly constructs a CustomKet instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"320c9a9667b66343"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_operator.CustomKet","kind":"class","src_hash":"19ae5d2fb0c0cab4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Ket)"},"spec":{"lhs":"CustomKet(*args)","rhs":"correctly constructs a CustomKet instance","over":{"base":"Any"},"name":"CustomKet_class_invariant"},"guarantee":"isinstance(self, Ket)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"320c9a9667b66343","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Ket)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function CustomKet not found in source"]}}
 class CustomKet(Ket):
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(default_args(), default_args produces the expected output) over Any ║
+# ║ Path(default_args(), ('t',)) over Any                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  ('t',)                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ default_args : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 60d504775a346029           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_operator.CustomKet.default_args","kind":"classmethod","src_hash":"af5286dc3d1b1a3a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"default_args()","rhs":"default_args produces the expected output","over":{"base":"Any"},"name":"default_args_correct"},"guarantee":"default_args produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"60d504775a346029"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_operator.CustomKet.default_args","kind":"classmethod","src_hash":"af5286dc3d1b1a3a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"default_args()","rhs":"('t',)","over":{"base":"Any"},"name":"default_args_correct"},"guarantee":"returns ('t',)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"60d504775a346029","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"('t',)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def default_args(self):
         return ("t",)
 
@@ -69,27 +81,39 @@ class CustomKet(Ket):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(CustomOp(*args), correctly constructs a CustomOp instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ CustomOp : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, HermitianOperator)            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ CustomOp : Any → {Any | result satisfies: isinstance(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1785e7456cade545  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_operator.CustomOp","kind":"class","src_hash":"d272ea2452fd04ed","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"CustomOp(*args)","rhs":"correctly constructs a CustomOp instance","over":{"base":"Any"},"name":"CustomOp_class_invariant"},"guarantee":"correctly constructs a CustomOp instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1785e7456cade545"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_operator.CustomOp","kind":"class","src_hash":"d272ea2452fd04ed","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, HermitianOperator)"},"spec":{"lhs":"CustomOp(*args)","rhs":"correctly constructs a CustomOp instance","over":{"base":"Any"},"name":"CustomOp_class_invariant"},"guarantee":"isinstance(self, HermitianOperator)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1785e7456cade545","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, HermitianOperator)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Function CustomOp not found in source"]}}
 class CustomOp(HermitianOperator):
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(default_args(), default_args produces the expected output) over Any ║
+# ║ Path(default_args(), ('T',)) over Any                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  ('T',)                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ default_args : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 71fad24760f074e8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_operator.CustomOp.default_args","kind":"classmethod","src_hash":"01ec1a360edb8a53","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"default_args()","rhs":"default_args produces the expected output","over":{"base":"Any"},"name":"default_args_correct"},"guarantee":"default_args produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"71fad24760f074e8"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_operator.CustomOp.default_args","kind":"classmethod","src_hash":"01ec1a360edb8a53","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"default_args()","rhs":"('T',)","over":{"base":"Any"},"name":"default_args_correct"},"guarantee":"returns ('T',)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"71fad24760f074e8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"('T',)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def default_args(self):
         return ("T",)
 
@@ -98,7 +122,12 @@ t_op = CustomOp()
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_operator(), test_operator produces the expected output) over {Any | isinstance(A, Operator) and isinstance(A, QExpr)} ║
+# ║ Path(test_operator(), isinstance(A, Operator) and isinstance(A, QExpr) and A.label == (Symbol('A'),) and A.is_commutative is False and A.hilbert_space == HilbertSpace() and A * B != B * A and (A * (B + C)).expand() == A * B + A * C and ((A + B) ** 2).expand() == A ** 2 + A * B + B * A + B ** 2 and t_op.label[0] == Symbol(t_op.default_args()[0]) and Operator() == Operator('O')) over {Any | isinstance(A, Operator) and isinstance(A, QExpr)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(A, Operator)                        ║
+# ║   ensures:  isinstance(A, QExpr)                           ║
+# ║   ensures:  A.label == (Symbol('A'),)                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_operator : {Any | isinstance(A, Operator) and is...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -111,9 +140,12 @@ t_op = CustomOp()
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?2 ✗1 VCs | 2.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 1f6b53fb...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_operator.test_operator","kind":"function","src_hash":"73087267b2c6f413","in":{"base":"Any","pred":"isinstance(A, Operator) and isinstance(A, QExpr)"},"out":{"base":"Any","pred":"isinstance(A, Operator) and isinstance(A, QExpr) and A.label == (Symbol('A'),) and A.is_commutative is False and A.hilbert_space == HilbertSpace() and A * B != B * A and (A * (B + C)).expand() == A * B + A * C and ((A + B) ** 2).expand() == A ** 2 + A * B + B * A + B ** 2 and t_op.label[0] == Symbol(t_op.default_args()[0]) and Operator() == Operator('O') and A * IdentityOperator() == A"},"spec":{"lhs":"test_operator()","rhs":"test_operator produces the expected output","over":{"base":"Any","pred":"isinstance(A, Operator) and isinstance(A, QExpr)"},"name":"test_operator_correct"},"guarantee":"test_operator produces the expected output","fibers":[{"name":"Operator","pred":"isinstance(A, Operator)","path":{"lhs":"test_operator(x)","rhs":"test_operator produces the expected output","over":{"base":"Operator","pred":"isinstance(A, Operator)"},"name":"test_operator_Operator_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_operator.test_operator_Operator_correct","statement":"test_operator satisfies spec on Operator inputs"},"trust":"LIBRARY"},{"name":"QExpr","pred":"isinstance(A, QExpr)","path":{"lhs":"test_operator(x)","rhs":"test_operator produces the expected output","over":{"base":"QExpr","pred":"isinstance(A, QExpr)"},"name":"test_operator_QExpr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_operator.test_operator_QExpr_correct","statement":"test_operator satisfies spec on QExpr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"1f6b53fbf9a35056"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_operator.test_operator","kind":"function","src_hash":"73087267b2c6f413","in":{"base":"Any","pred":"isinstance(A, Operator) and isinstance(A, QExpr)"},"out":{"base":"Any","pred":"result satisfies: isinstance(A, Operator) and isinstance(A, QExpr) and A.label == (Symbol('A'),) and A.is_commutative is False and A.hilbert_space == HilbertSpace() and A * B != B * A and (A * (B + C)).expand() == A * B + A * C and ((A + B) ** 2).expand() == A ** 2 + A * B + B * A + B ** 2 and t_op.label[0] == Symbol(t_op.default_args()[0]) and Operator() == Operator('O')"},"spec":{"lhs":"test_operator()","rhs":"isinstance(A, Operator) and isinstance(A, QExpr) and A.label == (Symbol('A'),) and A.is_commutative is False and A.hilbert_space == HilbertSpace() and A * B != B * A and (A * (B + C)).expand() == A * B + A * C and ((A + B) ** 2).expand() == A ** 2 + A * B + B * A + B ** 2 and t_op.label[0] == Symbol(t_op.default_args()[0]) and Operator() == Operator('O')","over":{"base":"Any","pred":"isinstance(A, Operator) and isinstance(A, QExpr)"},"name":"test_operator_correct"},"guarantee":"isinstance(A, Operator); isinstance(A, QExpr); A.label == (Symbol('A'),)","fibers":[{"name":"Operator","pred":"isinstance(A, Operator)","path":{"lhs":"test_operator(x)","rhs":"isinstance(A, Operator); isinstance(A, QExpr); A.label == (Symbol('A'),)","over":{"base":"Operator","pred":"isinstance(A, Operator)"},"name":"test_operator_Operator_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_operator.test_operator_Operator_correct","statement":"test_operator satisfies spec on Operator inputs"},"trust":"LIBRARY"},{"name":"QExpr","pred":"isinstance(A, QExpr)","path":{"lhs":"test_operator(x)","rhs":"isinstance(A, Operator); isinstance(A, QExpr); A.label == (Symbol('A'),)","over":{"base":"QExpr","pred":"isinstance(A, QExpr)"},"name":"test_operator_QExpr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_operator.test_operator_QExpr_correct","statement":"test_operator satisfies spec on QExpr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"1f6b53fbf9a35056","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(A, Operator)","isinstance(A, QExpr)","A.label == (Symbol('A'),)","A.is_commutative is False","A.hilbert_space == HilbertSpace()","A * B != B * A","(A * (B + C)).expand() == A * B + A * C","((A + B) ** 2).expand() == A ** 2 + A * B + B * A + B ** 2","t_op.label[0] == Symbol(t_op.default_args()[0])","Operator() == Operator('O')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":2,"n_assumed":2,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.1,"verdict_class":"failed","binding":true}}
 def test_operator():
     A = Operator('A')
     B = Operator('B')
@@ -139,16 +171,23 @@ def test_operator():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_operator_inv(), test_operator_inv produces the expected output) over Any ║
+# ║ Path(test_operator_inv(), A * A.inv() == 1 and A.inv() * A == 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_operator_inv : Any → {Any | A * A.inv() == 1 and...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A * A.inv() == 1                               ║
+# ║   ensures:  A.inv() * A == 1                               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_operator_inv : Any → {Any | result satisfies: A ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ddb1e10b48fa0fc8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ea5e5172992bf1ab  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_operator.test_operator_inv","kind":"function","src_hash":"5592ab7bc4b30c8f","in":{"base":"Any"},"out":{"base":"Any","pred":"A * A.inv() == 1 and A.inv() * A == 1"},"spec":{"lhs":"test_operator_inv()","rhs":"test_operator_inv produces the expected output","over":{"base":"Any"},"name":"test_operator_inv_correct"},"guarantee":"test_operator_inv produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_operator.test_operator_inv_correct","statement":"Path(test_operator_inv(x), test_operator_inv produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ddb1e10b48fa0fc8"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_operator.test_operator_inv","kind":"function","src_hash":"5592ab7bc4b30c8f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A * A.inv() == 1 and A.inv() * A == 1"},"spec":{"lhs":"test_operator_inv()","rhs":"A * A.inv() == 1 and A.inv() * A == 1","over":{"base":"Any"},"name":"test_operator_inv_correct"},"guarantee":"A * A.inv() == 1; A.inv() * A == 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_operator.test_operator_inv_correct","statement":"Path(test_operator_inv(x), A * A.inv() == 1; A.inv() * A == 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ea5e5172992bf1ab","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A * A.inv() == 1","A.inv() * A == 1"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_operator_inv():
     A = Operator('A')
     assert A*A.inv() == 1
@@ -156,7 +195,12 @@ def test_operator_inv():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_hermitian(), test_hermitian produces the expected output) over {Any | isinstance(H, HermitianOperator) and isinstance(H, Operator)} ║
+# ║ Path(test_hermitian(), isinstance(H, HermitianOperator) and isinstance(H, Operator) and Dagger(H) == H and H.inv() != H and H.is_commutative is False and Dagger(H).is_commutative is False) over {Any | isinstance(H, HermitianOperator) and isinstance(H, Operator)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(H, HermitianOperator)               ║
+# ║   ensures:  isinstance(H, Operator)                        ║
+# ║   ensures:  Dagger(H) == H                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_hermitian : {Any | isinstance(H, HermitianOperat...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -169,9 +213,12 @@ def test_operator_inv():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?2 ✗1 VCs | 1.5ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 24f9d1f1...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_operator.test_hermitian","kind":"function","src_hash":"24086b6c18fdf7f4","in":{"base":"Any","pred":"isinstance(H, HermitianOperator) and isinstance(H, Operator)"},"out":{"base":"Any","pred":"isinstance(H, HermitianOperator) and isinstance(H, Operator) and Dagger(H) == H and H.inv() != H and H.is_commutative is False and Dagger(H).is_commutative is False"},"spec":{"lhs":"test_hermitian()","rhs":"test_hermitian produces the expected output","over":{"base":"Any","pred":"isinstance(H, HermitianOperator) and isinstance(H, Operator)"},"name":"test_hermitian_correct"},"guarantee":"test_hermitian produces the expected output","fibers":[{"name":"HermitianOperator","pred":"isinstance(H, HermitianOperator)","path":{"lhs":"test_hermitian(x)","rhs":"test_hermitian produces the expected output","over":{"base":"HermitianOperator","pred":"isinstance(H, HermitianOperator)"},"name":"test_hermitian_HermitianOperator_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_operator.test_hermitian_HermitianOperator_correct","statement":"test_hermitian satisfies spec on HermitianOperator inputs"},"trust":"LIBRARY"},{"name":"Operator","pred":"isinstance(H, Operator)","path":{"lhs":"test_hermitian(x)","rhs":"test_hermitian produces the expected output","over":{"base":"Operator","pred":"isinstance(H, Operator)"},"name":"test_hermitian_Operator_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_operator.test_hermitian_Operator_correct","statement":"test_hermitian satisfies spec on Operator inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"24f9d1f13f6c27e7"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_operator.test_hermitian","kind":"function","src_hash":"24086b6c18fdf7f4","in":{"base":"Any","pred":"isinstance(H, HermitianOperator) and isinstance(H, Operator)"},"out":{"base":"Any","pred":"result satisfies: isinstance(H, HermitianOperator) and isinstance(H, Operator) and Dagger(H) == H and H.inv() != H and H.is_commutative is False and Dagger(H).is_commutative is False"},"spec":{"lhs":"test_hermitian()","rhs":"isinstance(H, HermitianOperator) and isinstance(H, Operator) and Dagger(H) == H and H.inv() != H and H.is_commutative is False and Dagger(H).is_commutative is False","over":{"base":"Any","pred":"isinstance(H, HermitianOperator) and isinstance(H, Operator)"},"name":"test_hermitian_correct"},"guarantee":"isinstance(H, HermitianOperator); isinstance(H, Operator); Dagger(H) == H","fibers":[{"name":"HermitianOperator","pred":"isinstance(H, HermitianOperator)","path":{"lhs":"test_hermitian(x)","rhs":"isinstance(H, HermitianOperator); isinstance(H, Operator); Dagger(H) == H","over":{"base":"HermitianOperator","pred":"isinstance(H, HermitianOperator)"},"name":"test_hermitian_HermitianOperator_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_operator.test_hermitian_HermitianOperator_correct","statement":"test_hermitian satisfies spec on HermitianOperator inputs"},"trust":"LIBRARY"},{"name":"Operator","pred":"isinstance(H, Operator)","path":{"lhs":"test_hermitian(x)","rhs":"isinstance(H, HermitianOperator); isinstance(H, Operator); Dagger(H) == H","over":{"base":"Operator","pred":"isinstance(H, Operator)"},"name":"test_hermitian_Operator_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_operator.test_hermitian_Operator_correct","statement":"test_hermitian satisfies spec on Operator inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"24f9d1f13f6c27e7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(H, HermitianOperator)","isinstance(H, Operator)","Dagger(H) == H","H.inv() != H","H.is_commutative is False","Dagger(H).is_commutative is False"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":2,"n_assumed":2,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.5,"verdict_class":"failed","binding":true}}
 def test_hermitian():
     H = HermitianOperator('H')
 
@@ -185,7 +232,12 @@ def test_hermitian():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_unitary(), test_unitary produces the expected output) over {Any | isinstance(U, UnitaryOperator) and isinstance(U, Operator)} ║
+# ║ Path(test_unitary(), isinstance(U, UnitaryOperator) and isinstance(U, Operator) and U.inv() == Dagger(U) and U * Dagger(U) == 1 and Dagger(U) * U == 1 and U.is_commutative is False and Dagger(U).is_commutative is False) over {Any | isinstance(U, UnitaryOperator) and isinstance(U, Operator)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(U, UnitaryOperator)                 ║
+# ║   ensures:  isinstance(U, Operator)                        ║
+# ║   ensures:  U.inv() == Dagger(U)                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_unitary : {Any | isinstance(U, UnitaryOperator) ...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -198,9 +250,12 @@ def test_hermitian():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?2 ✗1 VCs | 1.5ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 1a46edbd...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_operator.test_unitary","kind":"function","src_hash":"5e59d01241c575fc","in":{"base":"Any","pred":"isinstance(U, UnitaryOperator) and isinstance(U, Operator)"},"out":{"base":"Any","pred":"isinstance(U, UnitaryOperator) and isinstance(U, Operator) and U.inv() == Dagger(U) and U * Dagger(U) == 1 and Dagger(U) * U == 1 and U.is_commutative is False and Dagger(U).is_commutative is False"},"spec":{"lhs":"test_unitary()","rhs":"test_unitary produces the expected output","over":{"base":"Any","pred":"isinstance(U, UnitaryOperator) and isinstance(U, Operator)"},"name":"test_unitary_correct"},"guarantee":"test_unitary produces the expected output","fibers":[{"name":"UnitaryOperator","pred":"isinstance(U, UnitaryOperator)","path":{"lhs":"test_unitary(x)","rhs":"test_unitary produces the expected output","over":{"base":"UnitaryOperator","pred":"isinstance(U, UnitaryOperator)"},"name":"test_unitary_UnitaryOperator_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_operator.test_unitary_UnitaryOperator_correct","statement":"test_unitary satisfies spec on UnitaryOperator inputs"},"trust":"LIBRARY"},{"name":"Operator","pred":"isinstance(U, Operator)","path":{"lhs":"test_unitary(x)","rhs":"test_unitary produces the expected output","over":{"base":"Operator","pred":"isinstance(U, Operator)"},"name":"test_unitary_Operator_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_operator.test_unitary_Operator_correct","statement":"test_unitary satisfies spec on Operator inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"1a46edbde996a2b7"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_operator.test_unitary","kind":"function","src_hash":"5e59d01241c575fc","in":{"base":"Any","pred":"isinstance(U, UnitaryOperator) and isinstance(U, Operator)"},"out":{"base":"Any","pred":"result satisfies: isinstance(U, UnitaryOperator) and isinstance(U, Operator) and U.inv() == Dagger(U) and U * Dagger(U) == 1 and Dagger(U) * U == 1 and U.is_commutative is False and Dagger(U).is_commutative is False"},"spec":{"lhs":"test_unitary()","rhs":"isinstance(U, UnitaryOperator) and isinstance(U, Operator) and U.inv() == Dagger(U) and U * Dagger(U) == 1 and Dagger(U) * U == 1 and U.is_commutative is False and Dagger(U).is_commutative is False","over":{"base":"Any","pred":"isinstance(U, UnitaryOperator) and isinstance(U, Operator)"},"name":"test_unitary_correct"},"guarantee":"isinstance(U, UnitaryOperator); isinstance(U, Operator); U.inv() == Dagger(U)","fibers":[{"name":"UnitaryOperator","pred":"isinstance(U, UnitaryOperator)","path":{"lhs":"test_unitary(x)","rhs":"isinstance(U, UnitaryOperator); isinstance(U, Operator); U.inv() == Dagger(U)","over":{"base":"UnitaryOperator","pred":"isinstance(U, UnitaryOperator)"},"name":"test_unitary_UnitaryOperator_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_operator.test_unitary_UnitaryOperator_correct","statement":"test_unitary satisfies spec on UnitaryOperator inputs"},"trust":"LIBRARY"},{"name":"Operator","pred":"isinstance(U, Operator)","path":{"lhs":"test_unitary(x)","rhs":"isinstance(U, UnitaryOperator); isinstance(U, Operator); U.inv() == Dagger(U)","over":{"base":"Operator","pred":"isinstance(U, Operator)"},"name":"test_unitary_Operator_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_operator.test_unitary_Operator_correct","statement":"test_unitary satisfies spec on Operator inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"1a46edbde996a2b7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(U, UnitaryOperator)","isinstance(U, Operator)","U.inv() == Dagger(U)","U * Dagger(U) == 1","Dagger(U) * U == 1","U.is_commutative is False","Dagger(U).is_commutative is False"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":2,"n_assumed":2,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.5,"verdict_class":"failed","binding":true}}
 def test_unitary():
     U = UnitaryOperator('U')
 
@@ -215,7 +270,10 @@ def test_unitary():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_identity(), test_identity produces the expected output) over {Any | isinstance(I, IdentityOperator) and isinstance(I, Operator)} ║
+# ║ Path(test_identity(), <unspecified:test_identity>) over {Any | isinstance(I, IdentityOperator) and isinstance(I, Operator)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_identity : {Any | isinstance(I, IdentityOperator...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -228,9 +286,12 @@ def test_unitary():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?2 ✗1 VCs | 1.7ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | dcf2cc0c...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_operator.test_identity","kind":"function","src_hash":"74b6dd8750733ddb","in":{"base":"Any","pred":"isinstance(I, IdentityOperator) and isinstance(I, Operator)"},"out":{"base":"Any","pred":"isinstance(I, IdentityOperator) and isinstance(I, Operator) and I * O == O and O * I == O and I * Dagger(O) == Dagger(O) and Dagger(O) * I == Dagger(O) and isinstance(I * I, IdentityOperator) and three * I == three and I * x == x and I.inv() == I and Dagger(I) == I and qapply(I * O) == O and qapply(O * I) == O and represent(IdentityOperator(n)) == eye(n)"},"spec":{"lhs":"test_identity()","rhs":"test_identity produces the expected output","over":{"base":"Any","pred":"isinstance(I, IdentityOperator) and isinstance(I, Operator)"},"name":"test_identity_correct"},"guarantee":"test_identity produces the expected output","fibers":[{"name":"IdentityOperator","pred":"isinstance(I, IdentityOperator)","path":{"lhs":"test_identity(x)","rhs":"test_identity produces the expected output","over":{"base":"IdentityOperator","pred":"isinstance(I, IdentityOperator)"},"name":"test_identity_IdentityOperator_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_operator.test_identity_IdentityOperator_correct","statement":"test_identity satisfies spec on IdentityOperator inputs"},"trust":"LIBRARY"},{"name":"Operator","pred":"isinstance(I, Operator)","path":{"lhs":"test_identity(x)","rhs":"test_identity produces the expected output","over":{"base":"Operator","pred":"isinstance(I, Operator)"},"name":"test_identity_Operator_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_operator.test_identity_Operator_correct","statement":"test_identity satisfies spec on Operator inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"dcf2cc0cd9a5bbd7"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_operator.test_identity","kind":"function","src_hash":"74b6dd8750733ddb","in":{"base":"Any","pred":"isinstance(I, IdentityOperator) and isinstance(I, Operator)"},"out":{"base":"Any","pred":"isinstance(I, IdentityOperator) and isinstance(I, Operator) and I * O == O and O * I == O and I * Dagger(O) == Dagger(O) and Dagger(O) * I == Dagger(O) and isinstance(I * I, IdentityOperator) and three * I == three and I * x == x and I.inv() == I and Dagger(I) == I and qapply(I * O) == O and qapply(O * I) == O and represent(IdentityOperator(n)) == eye(n)"},"spec":{"lhs":"test_identity()","rhs":"<unspecified:test_identity>","over":{"base":"Any","pred":"isinstance(I, IdentityOperator) and isinstance(I, Operator)"},"name":"test_identity_correct"},"guarantee":"test_identity produces the expected output","fibers":[{"name":"IdentityOperator","pred":"isinstance(I, IdentityOperator)","path":{"lhs":"test_identity(x)","rhs":"test_identity produces the expected output","over":{"base":"IdentityOperator","pred":"isinstance(I, IdentityOperator)"},"name":"test_identity_IdentityOperator_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_operator.test_identity_IdentityOperator_correct","statement":"test_identity satisfies spec on IdentityOperator inputs"},"trust":"LIBRARY"},{"name":"Operator","pred":"isinstance(I, Operator)","path":{"lhs":"test_identity(x)","rhs":"test_identity produces the expected output","over":{"base":"Operator","pred":"isinstance(I, Operator)"},"name":"test_identity_Operator_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_operator.test_identity_Operator_correct","statement":"test_identity satisfies spec on Operator inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"dcf2cc0cd9a5bbd7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":2,"n_assumed":2,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.7,"verdict_class":"failed","binding":true}}
 def test_identity():
     with warns_deprecated_sympy():
         I = IdentityOperator()
@@ -258,7 +319,12 @@ def test_identity():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_outer_product(), test_outer_product produces the expected output) over {Any | isinstance(op, OuterProduct) and isinstance(op, Operator)} ║
+# ║ Path(test_outer_product(), isinstance(op, OuterProduct) and isinstance(op, Operator) and op.ket == k and op.bra == b and op.label == (k, b) and op.is_commutative is False and op == Mul(Integer(2), k, b) and op == Mul(Integer(2), OuterProduct(k, b)) and Dagger(k * b) == OuterProduct(Dagger(b), Dagger(k)) and Dagger(k * b).is_commutative is False and Tr(OuterProduct(JzKet(1, 1), JzBra(1, 1))).doit() == 1 and OuterProduct(2 * k, b) == 2 * OuterProduct(k, b) and OuterProduct(k, 2 * b) == 2 * OuterProduct(k, b) and OuterProduct(k1 + k2, b1) == OuterProduct(k1, b1) + OuterProduct(k2, b1) and OuterProduct(k1, b1 + b2) == OuterProduct(k1, b1) + OuterProduct(k1, b2) and OuterProduct(1 * k1 + 2 * k2, 3 * b1 + 4 * b2) == 3 * OuterProduct(k1, b1) + 4 * OuterProduct(k1, b2) + 6 * OuterProduct(k2, b1) + 8 * OuterProduct(k2, b2)) over {Any | isinstance(op, OuterProduct) and isinstance(op, Operator)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(op, OuterProduct)                   ║
+# ║   ensures:  isinstance(op, Operator)                       ║
+# ║   ensures:  op.ket == k                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_outer_product : {Any | isinstance(op, OuterProdu...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -271,9 +337,12 @@ def test_identity():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?2 ✗1 VCs | 2.2ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | ef2531ac...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_operator.test_outer_product","kind":"function","src_hash":"8aa4e9380b007511","in":{"base":"Any","pred":"isinstance(op, OuterProduct) and isinstance(op, Operator)"},"out":{"base":"Any","pred":"isinstance(op, OuterProduct) and isinstance(op, Operator) and op.ket == k and op.bra == b and op.label == (k, b) and op.is_commutative is False and isinstance(op, OuterProduct) and isinstance(op, Operator) and op.ket == k and op.bra == b and op.label == (k, b) and op.is_commutative is False and op == Mul(Integer(2), k, b) and op == Mul(Integer(2), OuterProduct(k, b)) and Dagger(k * b) == OuterProduct(Dagger(b), Dagger(k)) and Dagger(k * b).is_commutative is False and Tr(OuterProduct(JzKet(1, 1), JzBra(1, 1))).doit() == 1 and OuterProduct(2 * k, b) == 2 * OuterProduct(k, b) and OuterProduct(k, 2 * b) == 2 * OuterProduct(k, b) and OuterProduct(k1 + k2, b1) == OuterProduct(k1, b1) + OuterProduct(k2, b1) and OuterProduct(k1, b1 + b2) == OuterProduct(k1, b1) + OuterProduct(k1, b2)"},"spec":{"lhs":"test_outer_product()","rhs":"test_outer_product produces the expected output","over":{"base":"Any","pred":"isinstance(op, OuterProduct) and isinstance(op, Operator)"},"name":"test_outer_product_correct"},"guarantee":"test_outer_product produces the expected output","fibers":[{"name":"OuterProduct","pred":"isinstance(op, OuterProduct)","path":{"lhs":"test_outer_product(x)","rhs":"test_outer_product produces the expected output","over":{"base":"OuterProduct","pred":"isinstance(op, OuterProduct)"},"name":"test_outer_product_OuterProduct_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_operator.test_outer_product_OuterProduct_correct","statement":"test_outer_product satisfies spec on OuterProduct inputs"},"trust":"LIBRARY"},{"name":"Operator","pred":"isinstance(op, Operator)","path":{"lhs":"test_outer_product(x)","rhs":"test_outer_product produces the expected output","over":{"base":"Operator","pred":"isinstance(op, Operator)"},"name":"test_outer_product_Operator_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_operator.test_outer_product_Operator_correct","statement":"test_outer_product satisfies spec on Operator inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"ef2531ac1c1e5846"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_operator.test_outer_product","kind":"function","src_hash":"8aa4e9380b007511","in":{"base":"Any","pred":"isinstance(op, OuterProduct) and isinstance(op, Operator)"},"out":{"base":"Any","pred":"result satisfies: isinstance(op, OuterProduct) and isinstance(op, Operator) and op.ket == k and op.bra == b and op.label == (k, b) and op.is_commutative is False and op == Mul(Integer(2), k, b) and op == Mul(Integer(2), OuterProduct(k, b)) and Dagger(k * b) == OuterProduct(Dagger(b), Dagger(k)) and Dagger(k * b).is_commutative is False and Tr(OuterProduct(JzKet(1, 1), JzBra(1, 1))).doit() == 1 and OuterProduct(2 * k, b) == 2 * OuterProduct(k, b) and OuterProduct(k, 2 * b) == 2 * OuterProduct(k, b) and OuterProduct(k1 + k2, b1) == OuterProduct(k1, b1) + OuterProduct(k2, b1) and OuterProduct(k1, b1 + b2) == OuterProduct(k1, b1) + OuterProduct(k1, b2) and OuterProduct(1 * k1 + 2 * k2, 3 * b1 + 4 * b2) == 3 * OuterProduct(k1, b1) + 4 * OuterProduct(k1, b2) + 6 * OuterProduct(k2, b1) + 8 * OuterProduct(k2, b2)"},"spec":{"lhs":"test_outer_product()","rhs":"isinstance(op, OuterProduct) and isinstance(op, Operator) and op.ket == k and op.bra == b and op.label == (k, b) and op.is_commutative is False and op == Mul(Integer(2), k, b) and op == Mul(Integer(2), OuterProduct(k, b)) and Dagger(k * b) == OuterProduct(Dagger(b), Dagger(k)) and Dagger(k * b).is_commutative is False and Tr(OuterProduct(JzKet(1, 1), JzBra(1, 1))).doit() == 1 and OuterProduct(2 * k, b) == 2 * OuterProduct(k, b) and OuterProduct(k, 2 * b) == 2 * OuterProduct(k, b) and OuterProduct(k1 + k2, b1) == OuterProduct(k1, b1) + OuterProduct(k2, b1) and OuterProduct(k1, b1 + b2) == OuterProduct(k1, b1) + OuterProduct(k1, b2) and OuterProduct(1 * k1 + 2 * k2, 3 * b1 + 4 * b2) == 3 * OuterProduct(k1, b1) + 4 * OuterProduct(k1, b2) + 6 * OuterProduct(k2, b1) + 8 * OuterProduct(k2, b2)","over":{"base":"Any","pred":"isinstance(op, OuterProduct) and isinstance(op, Operator)"},"name":"test_outer_product_correct"},"guarantee":"isinstance(op, OuterProduct); isinstance(op, Operator); op.ket == k","fibers":[{"name":"OuterProduct","pred":"isinstance(op, OuterProduct)","path":{"lhs":"test_outer_product(x)","rhs":"isinstance(op, OuterProduct); isinstance(op, Operator); op.ket == k","over":{"base":"OuterProduct","pred":"isinstance(op, OuterProduct)"},"name":"test_outer_product_OuterProduct_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_operator.test_outer_product_OuterProduct_correct","statement":"test_outer_product satisfies spec on OuterProduct inputs"},"trust":"LIBRARY"},{"name":"Operator","pred":"isinstance(op, Operator)","path":{"lhs":"test_outer_product(x)","rhs":"isinstance(op, OuterProduct); isinstance(op, Operator); op.ket == k","over":{"base":"Operator","pred":"isinstance(op, Operator)"},"name":"test_outer_product_Operator_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_operator.test_outer_product_Operator_correct","statement":"test_outer_product satisfies spec on Operator inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"ef2531ac1c1e5846","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(op, OuterProduct)","isinstance(op, Operator)","op.ket == k","op.bra == b","op.label == (k, b)","op.is_commutative is False","op == Mul(Integer(2), k, b)","op == Mul(Integer(2), OuterProduct(k, b))","Dagger(k * b) == OuterProduct(Dagger(b), Dagger(k))","Dagger(k * b).is_commutative is False","Tr(OuterProduct(JzKet(1, 1), JzBra(1, 1))).doit() == 1","OuterProduct(2 * k, b) == 2 * OuterProduct(k, b)","OuterProduct(k, 2 * b) == 2 * OuterProduct(k, b)","OuterProduct(k1 + k2, b1) == OuterProduct(k1, b1) + OuterProduct(k2, b1)","OuterProduct(k1, b1 + b2) == OuterProduct(k1, b1) + OuterProduct(k1, b2)","OuterProduct(1 * k1 + 2 * k2, 3 * b1 + 4 * b2) == 3 * OuterProduct(k1, b1) + 4 * OuterProduct(k1, b2) + 6 * OuterProduct(k2, b1) + 8 * OuterProduct(k2, b2)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":2,"n_assumed":2,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.2,"verdict_class":"failed","binding":true}}
 def test_outer_product():
     k = Ket('k')
     b = Bra('b')
@@ -330,16 +399,24 @@ def test_outer_product():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_operator_dagger(), test_operator_dagger produces the expected output) over Any ║
+# ║ Path(test_operator_dagger(), Dagger(A * B) == Dagger(B) * Dagger(A) and Dagger(A + B) == Dagger(A) + Dagger(B) and Dagger(A ** 2) == Dagger(A) ** 2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_operator_dagger : Any → {Any | Dagger(A * B) == ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Dagger(A * B) == Dagger(B) * Dagger(A)         ║
+# ║   ensures:  Dagger(A + B) == Dagger(A) + Dagger(B)         ║
+# ║   ensures:  Dagger(A ** 2) == Dagger(A) ** 2               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_operator_dagger : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e86141c944a2daf9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 572db82370db5028  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_operator.test_operator_dagger","kind":"function","src_hash":"1b5c0b7bcd527f25","in":{"base":"Any"},"out":{"base":"Any","pred":"Dagger(A * B) == Dagger(B) * Dagger(A) and Dagger(A + B) == Dagger(A) + Dagger(B) and Dagger(A ** 2) == Dagger(A) ** 2"},"spec":{"lhs":"test_operator_dagger()","rhs":"test_operator_dagger produces the expected output","over":{"base":"Any"},"name":"test_operator_dagger_correct"},"guarantee":"test_operator_dagger produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_operator.test_operator_dagger_correct","statement":"Path(test_operator_dagger(x), test_operator_dagger produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e86141c944a2daf9"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_operator.test_operator_dagger","kind":"function","src_hash":"1b5c0b7bcd527f25","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Dagger(A * B) == Dagger(B) * Dagger(A) and Dagger(A + B) == Dagger(A) + Dagger(B) and Dagger(A ** 2) == Dagger(A) ** 2"},"spec":{"lhs":"test_operator_dagger()","rhs":"Dagger(A * B) == Dagger(B) * Dagger(A) and Dagger(A + B) == Dagger(A) + Dagger(B) and Dagger(A ** 2) == Dagger(A) ** 2","over":{"base":"Any"},"name":"test_operator_dagger_correct"},"guarantee":"Dagger(A * B) == Dagger(B) * Dagger(A); Dagger(A + B) == Dagger(A) + Dagger(B); Dagger(A ** 2) == Dagger(A) ** 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_operator.test_operator_dagger_correct","statement":"Path(test_operator_dagger(x), Dagger(A * B) == Dagger(B) * Dagger(A); Dagger(A + B) == Dagger(A) + Dagger(B); Dagger(A ** 2) == Dagger(A) ** 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"572db82370db5028","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Dagger(A * B) == Dagger(B) * Dagger(A)","Dagger(A + B) == Dagger(A) + Dagger(B)","Dagger(A ** 2) == Dagger(A) ** 2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_operator_dagger():
     A = Operator('A')
     B = Operator('B')
@@ -349,16 +426,24 @@ def test_operator_dagger():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_differential_operator(), test_differential_operator produces the expected output) over Any ║
+# ║ Path(test_differential_operator(), qapply(d * g) == Wavefunction(2 * x, x) and d.expr == Derivative(f(x), x) and d.function == f(x) and d.variables == (x,) and diff(d, x) == DifferentialOperator(Derivative(f(x), x, 2), f(x)) and qapply(d * g) == Wavefunction(6 * x, x) and d.expr == Derivative(f(x), x, 2) and diff(d, x) == DifferentialOperator(Derivative(f(x), x, 3), f(x)) and d.expr == 1 / x * Derivative(f(x), x) and diff(d, x) == DifferentialOperator(Derivative(1 / x * Derivative(f(x), x), x), f(x)) and qapply(d * g) == Wavefunction(3 * x, x) and d.expr == Derivative(f(x, y), x, 2) + Derivative(f(x, y), y, 2) and d.function == f(x, y) and d.variables == (x, y) and diff(d, x) == DifferentialOperator(Derivative(d.expr, x), f(x, y)) and diff(d, y) == DifferentialOperator(Derivative(d.expr, y), f(x, y)) and qapply(d * w) == Wavefunction(2 * x ** 3 + 6 * x * y ** 2 + 6 * x ** 2 * y + 2 * y ** 3, x, y) and d.expr == 1 / r * Derivative(r * Derivative(f(r, th), r), r) + 1 / r ** 2 * Derivative(f(r, th), th, 2) and d.function == f(r, th) and d.variables == (r, th) and diff(d, r) == DifferentialOperator(Derivative(d.expr, r), f(r, th)) and diff(d, th) == DifferentialOperator(Derivative(d.expr, th), f(r, th)) and qapply(d * w) == Wavefunction(3 * sin(th), r, (th, 0, pi))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_differential_operator : Any → {Any | qapply(d * ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  qapply(d * g) == Wavefunction(2 * x, x)        ║
+# ║   ensures:  d.expr == Derivative(f(x), x)                  ║
+# ║   ensures:  d.function == f(x)                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_differential_operator : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d888e56789a26837  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bd4c60afc72fa63e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_operator.test_differential_operator","kind":"function","src_hash":"dea23d51842591c0","in":{"base":"Any"},"out":{"base":"Any","pred":"qapply(d * g) == Wavefunction(2 * x, x) and d.expr == Derivative(f(x), x) and d.function == f(x) and d.variables == (x,) and diff(d, x) == DifferentialOperator(Derivative(f(x), x, 2), f(x)) and qapply(d * g) == Wavefunction(6 * x, x) and d.expr == Derivative(f(x), x, 2) and d.function == f(x) and d.variables == (x,) and diff(d, x) == DifferentialOperator(Derivative(f(x), x, 3), f(x)) and d.expr == 1 / x * Derivative(f(x), x) and d.function == f(x) and d.variables == (x,) and qapply(d * g) == Wavefunction(3 * x, x) and d.expr == Derivative(f(x, y), x, 2) + Derivative(f(x, y), y, 2) and d.function == f(x, y) and d.variables == (x, y) and diff(d, x) == DifferentialOperator(Derivative(d.expr, x), f(x, y)) and diff(d, y) == DifferentialOperator(Derivative(d.expr, y), f(x, y)) and d.function == f(r, th) and d.variables == (r, th) and diff(d, r) == DifferentialOperator(Derivative(d.expr, r), f(r, th)) and diff(d, th) == DifferentialOperator(Derivative(d.expr, th), f(r, th)) and qapply(d * w) == Wavefunction(3 * sin(th), r, (th, 0, pi))"},"spec":{"lhs":"test_differential_operator()","rhs":"test_differential_operator produces the expected output","over":{"base":"Any"},"name":"test_differential_operator_correct"},"guarantee":"test_differential_operator produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_operator.test_differential_operator_correct","statement":"Path(test_differential_operator(x), test_differential_operator produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d888e56789a26837"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_operator.test_differential_operator","kind":"function","src_hash":"dea23d51842591c0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: qapply(d * g) == Wavefunction(2 * x, x) and d.expr == Derivative(f(x), x) and d.function == f(x) and d.variables == (x,) and diff(d, x) == DifferentialOperator(Derivative(f(x), x, 2), f(x)) and qapply(d * g) == Wavefunction(6 * x, x) and d.expr == Derivative(f(x), x, 2) and diff(d, x) == DifferentialOperator(Derivative(f(x), x, 3), f(x)) and d.expr == 1 / x * Derivative(f(x), x) and diff(d, x) == DifferentialOperator(Derivative(1 / x * Derivative(f(x), x), x), f(x)) and qapply(d * g) == Wavefunction(3 * x, x) and d.expr == Derivative(f(x, y), x, 2) + Derivative(f(x, y), y, 2) and d.function == f(x, y) and d.variables == (x, y) and diff(d, x) == DifferentialOperator(Derivative(d.expr, x), f(x, y)) and diff(d, y) == DifferentialOperator(Derivative(d.expr, y), f(x, y)) and qapply(d * w) == Wavefunction(2 * x ** 3 + 6 * x * y ** 2 + 6 * x ** 2 * y + 2 * y ** 3, x, y) and d.expr == 1 / r * Derivative(r * Derivative(f(r, th), r), r) + 1 / r ** 2 * Derivative(f(r, th), th, 2) and d.function == f(r, th) and d.variables == (r, th) and diff(d, r) == DifferentialOperator(Derivative(d.expr, r), f(r, th)) and diff(d, th) == DifferentialOperator(Derivative(d.expr, th), f(r, th)) and qapply(d * w) == Wavefunction(3 * sin(th), r, (th, 0, pi))"},"spec":{"lhs":"test_differential_operator()","rhs":"qapply(d * g) == Wavefunction(2 * x, x) and d.expr == Derivative(f(x), x) and d.function == f(x) and d.variables == (x,) and diff(d, x) == DifferentialOperator(Derivative(f(x), x, 2), f(x)) and qapply(d * g) == Wavefunction(6 * x, x) and d.expr == Derivative(f(x), x, 2) and diff(d, x) == DifferentialOperator(Derivative(f(x), x, 3), f(x)) and d.expr == 1 / x * Derivative(f(x), x) and diff(d, x) == DifferentialOperator(Derivative(1 / x * Derivative(f(x), x), x), f(x)) and qapply(d * g) == Wavefunction(3 * x, x) and d.expr == Derivative(f(x, y), x, 2) + Derivative(f(x, y), y, 2) and d.function == f(x, y) and d.variables == (x, y) and diff(d, x) == DifferentialOperator(Derivative(d.expr, x), f(x, y)) and diff(d, y) == DifferentialOperator(Derivative(d.expr, y), f(x, y)) and qapply(d * w) == Wavefunction(2 * x ** 3 + 6 * x * y ** 2 + 6 * x ** 2 * y + 2 * y ** 3, x, y) and d.expr == 1 / r * Derivative(r * Derivative(f(r, th), r), r) + 1 / r ** 2 * Derivative(f(r, th), th, 2) and d.function == f(r, th) and d.variables == (r, th) and diff(d, r) == DifferentialOperator(Derivative(d.expr, r), f(r, th)) and diff(d, th) == DifferentialOperator(Derivative(d.expr, th), f(r, th)) and qapply(d * w) == Wavefunction(3 * sin(th), r, (th, 0, pi))","over":{"base":"Any"},"name":"test_differential_operator_correct"},"guarantee":"qapply(d * g) == Wavefunction(2 * x, x); d.expr == Derivative(f(x), x); d.function == f(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_operator.test_differential_operator_correct","statement":"Path(test_differential_operator(x), qapply(d * g) == Wavefunction(2 * x, x); d.expr == Derivative(f(x), x); d.function == f(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bd4c60afc72fa63e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["qapply(d * g) == Wavefunction(2 * x, x)","d.expr == Derivative(f(x), x)","d.function == f(x)","d.variables == (x,)","diff(d, x) == DifferentialOperator(Derivative(f(x), x, 2), f(x))","qapply(d * g) == Wavefunction(6 * x, x)","d.expr == Derivative(f(x), x, 2)","diff(d, x) == DifferentialOperator(Derivative(f(x), x, 3), f(x))","d.expr == 1 / x * Derivative(f(x), x)","diff(d, x) == DifferentialOperator(Derivative(1 / x * Derivative(f(x), x), x), f(x))","qapply(d * g) == Wavefunction(3 * x, x)","d.expr == Derivative(f(x, y), x, 2) + Derivative(f(x, y), y, 2)","d.function == f(x, y)","d.variables == (x, y)","diff(d, x) == DifferentialOperator(Derivative(d.expr, x), f(x, y))","diff(d, y) == DifferentialOperator(Derivative(d.expr, y), f(x, y))","qapply(d * w) == Wavefunction(2 * x ** 3 + 6 * x * y ** 2 + 6 * x ** 2 * y + 2 * y ** 3, x, y)","d.expr == 1 / r * Derivative(r * Derivative(f(r, th), r), r) + 1 / r ** 2 * Derivative(f(r, th), th, 2)","d.function == f(r, th)","d.variables == (r, th)","diff(d, r) == DifferentialOperator(Derivative(d.expr, r), f(r, th))","diff(d, th) == DifferentialOperator(Derivative(d.expr, th), f(r, th))","qapply(d * w) == Wavefunction(3 * sin(th), r, (th, 0, pi))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"assumed","binding":true}}
 def test_differential_operator():
     x = Symbol('x')
     f = Function('f')
@@ -419,16 +504,24 @@ def test_differential_operator():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_eval_power(), test_eval_power produces the expected output) over Any ║
+# ║ Path(test_eval_power(), O ** (-1) == O.inv() and U ** (-1) == U.inv() and H ** (-1) == H.inv() and unchanged(Pow, H, x) and H ** x == Pow(H, x) and Pow(H, x) == Pow(H, x, evaluate=False) and unchanged(Pow, X, x) and X ** x == Pow(X, x) and Pow(X, x, evaluate=False) == Pow(X, x) and X ** n == 1 and X ** n == X and unchanged(Pow, X, n) and X ** n == Pow(X, n) and Pow(X, n, evaluate=False) == Pow(X, n) and X ** 4 == 1 and X ** 7 == X) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_eval_power : Any → {Any | O ** (-1) == O.inv() a...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  O ** (-1) == O.inv()                           ║
+# ║   ensures:  U ** (-1) == U.inv()                           ║
+# ║   ensures:  H ** (-1) == H.inv()                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_eval_power : Any → {Any | result satisfies: O **...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0b1935365cfd939c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a469c154cdf9a5de  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_operator.test_eval_power","kind":"function","src_hash":"299589d9a1bade27","in":{"base":"Any"},"out":{"base":"Any","pred":"O ** (-1) == O.inv() and U ** (-1) == U.inv() and H ** (-1) == H.inv() and unchanged(Pow, H, x) and H ** x == Pow(H, x) and Pow(H, x) == Pow(H, x, evaluate=False) and unchanged(Pow, X, x) and X ** x == Pow(X, x) and Pow(X, x, evaluate=False) == Pow(X, x) and X ** n == 1 and X ** n == X and unchanged(Pow, X, n) and X ** n == Pow(X, n) and Pow(X, n, evaluate=False) == Pow(X, n) and X ** 4 == 1 and X ** 7 == X"},"spec":{"lhs":"test_eval_power()","rhs":"test_eval_power produces the expected output","over":{"base":"Any"},"name":"test_eval_power_correct"},"guarantee":"test_eval_power produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_operator.test_eval_power_correct","statement":"Path(test_eval_power(x), test_eval_power produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0b1935365cfd939c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_operator.test_eval_power","kind":"function","src_hash":"299589d9a1bade27","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: O ** (-1) == O.inv() and U ** (-1) == U.inv() and H ** (-1) == H.inv() and unchanged(Pow, H, x) and H ** x == Pow(H, x) and Pow(H, x) == Pow(H, x, evaluate=False) and unchanged(Pow, X, x) and X ** x == Pow(X, x) and Pow(X, x, evaluate=False) == Pow(X, x) and X ** n == 1 and X ** n == X and unchanged(Pow, X, n) and X ** n == Pow(X, n) and Pow(X, n, evaluate=False) == Pow(X, n) and X ** 4 == 1 and X ** 7 == X"},"spec":{"lhs":"test_eval_power()","rhs":"O ** (-1) == O.inv() and U ** (-1) == U.inv() and H ** (-1) == H.inv() and unchanged(Pow, H, x) and H ** x == Pow(H, x) and Pow(H, x) == Pow(H, x, evaluate=False) and unchanged(Pow, X, x) and X ** x == Pow(X, x) and Pow(X, x, evaluate=False) == Pow(X, x) and X ** n == 1 and X ** n == X and unchanged(Pow, X, n) and X ** n == Pow(X, n) and Pow(X, n, evaluate=False) == Pow(X, n) and X ** 4 == 1 and X ** 7 == X","over":{"base":"Any"},"name":"test_eval_power_correct"},"guarantee":"O ** (-1) == O.inv(); U ** (-1) == U.inv(); H ** (-1) == H.inv()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_operator.test_eval_power_correct","statement":"Path(test_eval_power(x), O ** (-1) == O.inv(); U ** (-1) == U.inv(); H ** (-1) == H.inv())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a469c154cdf9a5de","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["O ** (-1) == O.inv()","U ** (-1) == U.inv()","H ** (-1) == H.inv()","unchanged(Pow, H, x)","H ** x == Pow(H, x)","Pow(H, x) == Pow(H, x, evaluate=False)","unchanged(Pow, X, x)","X ** x == Pow(X, x)","Pow(X, x, evaluate=False) == Pow(X, x)","X ** n == 1","X ** n == X","unchanged(Pow, X, n)","X ** n == Pow(X, n)","Pow(X, n, evaluate=False) == Pow(X, n)","X ** 4 == 1","X ** 7 == X"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_eval_power():
     from sympy.core import Pow
     from sympy.core.expr import unchanged

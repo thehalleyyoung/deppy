@@ -23,16 +23,24 @@ from sympy.matrices.expressions import (
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_connected_components(), test_connected_components produces the expected output) over Any ║
+# ║ Path(test_connected_components(), cc == [[0, 4, 7, 10], [1, 5, 8, 11], [2, 6, 9, 12], [3]] and P == PermutationMatrix(p) and B == BlockDiagMatrix(B0, B1, B2, B3)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_connected_components : Any → {Any | cc == [[0, 4...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  cc == [[0, 4, 7, 10], [1, 5, 8, 11], [2, ...   ║
+# ║   ensures:  P == PermutationMatrix(p)                      ║
+# ║   ensures:  B == BlockDiagMatrix(B0, B1, B2, B3)           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_connected_components : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ddaae4a04edf4506  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d043d25485a3ae7e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_graph.test_connected_components","kind":"function","src_hash":"519b706ade9c19e2","in":{"base":"Any"},"out":{"base":"Any","pred":"cc == [[0, 4, 7, 10], [1, 5, 8, 11], [2, 6, 9, 12], [3]] and P == PermutationMatrix(p) and B == BlockDiagMatrix(B0, B1, B2, B3)"},"spec":{"lhs":"test_connected_components()","rhs":"test_connected_components produces the expected output","over":{"base":"Any"},"name":"test_connected_components_correct"},"guarantee":"test_connected_components produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_graph.test_connected_components_correct","statement":"Path(test_connected_components(x), test_connected_components produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ddaae4a04edf4506"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_graph.test_connected_components","kind":"function","src_hash":"519b706ade9c19e2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: cc == [[0, 4, 7, 10], [1, 5, 8, 11], [2, 6, 9, 12], [3]] and P == PermutationMatrix(p) and B == BlockDiagMatrix(B0, B1, B2, B3)"},"spec":{"lhs":"test_connected_components()","rhs":"cc == [[0, 4, 7, 10], [1, 5, 8, 11], [2, 6, 9, 12], [3]] and P == PermutationMatrix(p) and B == BlockDiagMatrix(B0, B1, B2, B3)","over":{"base":"Any"},"name":"test_connected_components_correct"},"guarantee":"cc == [[0, 4, 7, 10], [1, 5, 8, 11], [2, 6, 9, 12], [3]]; P == PermutationMatrix(p); B == BlockDiagMatrix(B0, B1, B2, B3)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_graph.test_connected_components_correct","statement":"Path(test_connected_components(x), cc == [[0, 4, 7, 10], [1, 5, 8, 11], [2, 6, 9, 12], [3]]; P == PermutationMatrix(p); B == BlockDiagMatrix(B0, B1, B2, B3))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d043d25485a3ae7e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["cc == [[0, 4, 7, 10], [1, 5, 8, 11], [2, 6, 9, 12], [3]]","P == PermutationMatrix(p)","B == BlockDiagMatrix(B0, B1, B2, B3)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":true}}
 def test_connected_components():
     a, b, c, d, e, f, g, h, i, j, k, l, m = symbols('a:m')
 
@@ -77,16 +85,24 @@ def test_connected_components():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_strongly_connected_components(), test_strongly_connected_components produces the expected output) over Any ║
+# ║ Path(test_strongly_connected_components(), scc == [[1, 4], [0, 2], [3, 5]] and P == PermutationMatrix(p) and B == BlockMatrix([[Matrix([[44, 45], [54, 55]]), Matrix.zeros(2, 2), Matrix.zeros(2, 2)], [Matrix([[14, 15], [4, 5]]), Matrix([[11, 10], [1, 0]]), Matrix.zeros(2, 2)], [Matrix.zeros(2, 2), Matrix.zeros(2, 2), Matrix([[22, 23], [32, 33]])]]) and P.T * B * P == M and B == BlockMatrix([[Matrix([[22, 23], [32, 33]]), Matrix.zeros(2, 2), Matrix.zeros(2, 2)], [Matrix.zeros(2, 2), Matrix([[11, 10], [1, 0]]), Matrix([[14, 15], [4, 5]])], [Matrix.zeros(2, 2), Matrix.zeros(2, 2), Matrix([[44, 45], [54, 55]])]])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_strongly_connected_components : Any → {Any | scc...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  scc == [[1, 4], [0, 2], [3, 5]]                ║
+# ║   ensures:  P == PermutationMatrix(p)                      ║
+# ║   ensures:  B == BlockMatrix([[Matrix([[44, 45], [54,...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_strongly_connected_components : Any → {Any | res...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ee206af37211f237  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3fa7bcbed874c046  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_graph.test_strongly_connected_components","kind":"function","src_hash":"3e2adf53b6473b06","in":{"base":"Any"},"out":{"base":"Any","pred":"scc == [[1, 4], [0, 2], [3, 5]] and P == PermutationMatrix(p) and P.T * B * P == M and P == PermutationMatrix(p) and P.T * B * P == M"},"spec":{"lhs":"test_strongly_connected_components()","rhs":"test_strongly_connected_components produces the expected output","over":{"base":"Any"},"name":"test_strongly_connected_components_correct"},"guarantee":"test_strongly_connected_components produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_graph.test_strongly_connected_components_correct","statement":"Path(test_strongly_connected_components(x), test_strongly_connected_components produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ee206af37211f237"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_graph.test_strongly_connected_components","kind":"function","src_hash":"3e2adf53b6473b06","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: scc == [[1, 4], [0, 2], [3, 5]] and P == PermutationMatrix(p) and B == BlockMatrix([[Matrix([[44, 45], [54, 55]]), Matrix.zeros(2, 2), Matrix.zeros(2, 2)], [Matrix([[14, 15], [4, 5]]), Matrix([[11, 10], [1, 0]]), Matrix.zeros(2, 2)], [Matrix.zeros(2, 2), Matrix.zeros(2, 2), Matrix([[22, 23], [32, 33]])]]) and P.T * B * P == M and B == BlockMatrix([[Matrix([[22, 23], [32, 33]]), Matrix.zeros(2, 2), Matrix.zeros(2, 2)], [Matrix.zeros(2, 2), Matrix([[11, 10], [1, 0]]), Matrix([[14, 15], [4, 5]])], [Matrix.zeros(2, 2), Matrix.zeros(2, 2), Matrix([[44, 45], [54, 55]])]])"},"spec":{"lhs":"test_strongly_connected_components()","rhs":"scc == [[1, 4], [0, 2], [3, 5]] and P == PermutationMatrix(p) and B == BlockMatrix([[Matrix([[44, 45], [54, 55]]), Matrix.zeros(2, 2), Matrix.zeros(2, 2)], [Matrix([[14, 15], [4, 5]]), Matrix([[11, 10], [1, 0]]), Matrix.zeros(2, 2)], [Matrix.zeros(2, 2), Matrix.zeros(2, 2), Matrix([[22, 23], [32, 33]])]]) and P.T * B * P == M and B == BlockMatrix([[Matrix([[22, 23], [32, 33]]), Matrix.zeros(2, 2), Matrix.zeros(2, 2)], [Matrix.zeros(2, 2), Matrix([[11, 10], [1, 0]]), Matrix([[14, 15], [4, 5]])], [Matrix.zeros(2, 2), Matrix.zeros(2, 2), Matrix([[44, 45], [54, 55]])]])","over":{"base":"Any"},"name":"test_strongly_connected_components_correct"},"guarantee":"scc == [[1, 4], [0, 2], [3, 5]]; P == PermutationMatrix(p); B == BlockMatrix([[Matrix([[44, 45], [54, 55]]), Matrix.zeros(2, 2), Matrix.zeros(2, 2)], [Matrix([[14, 15], [4, 5]]), Matrix([[11, 10], [1, 0]]), Matrix.zeros(2, 2)], [Matrix.zeros(2, 2), Matrix.zeros(2, 2), Matrix([[22, 23], [32, 33]])]])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_graph.test_strongly_connected_components_correct","statement":"Path(test_strongly_connected_components(x), scc == [[1, 4], [0, 2], [3, 5]]; P == PermutationMatrix(p); B == BlockMatrix([[Matrix([[44, 45], [54, 55]]), Matrix.zeros(2, 2), Matrix.zeros(2, 2)], [Matrix([[14, 15], [4, 5]]), Matrix([[11, 10], [1, 0]]), Matrix.zeros(2, 2)], [Matrix.zeros(2, 2), Matrix.zeros(2, 2), Matrix([[22, 23], [32, 33]])]]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3fa7bcbed874c046","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["scc == [[1, 4], [0, 2], [3, 5]]","P == PermutationMatrix(p)","B == BlockMatrix([[Matrix([[44, 45], [54, 55]]), Matrix.zeros(2, 2), Matrix.zeros(2, 2)], [Matrix([[14, 15], [4, 5]]), Matrix([[11, 10], [1, 0]]), Matrix.zeros(2, 2)], [Matrix.zeros(2, 2), Matrix.zeros(2, 2), Matrix([[22, 23], [32, 33]])]])","P.T * B * P == M","B == BlockMatrix([[Matrix([[22, 23], [32, 33]]), Matrix.zeros(2, 2), Matrix.zeros(2, 2)], [Matrix.zeros(2, 2), Matrix([[11, 10], [1, 0]]), Matrix([[14, 15], [4, 5]])], [Matrix.zeros(2, 2), Matrix.zeros(2, 2), Matrix([[44, 45], [54, 55]])]])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_strongly_connected_components():
     M = Matrix([
         [11, 14, 10, 0, 15, 0],

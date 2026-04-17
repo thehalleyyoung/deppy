@@ -51,16 +51,22 @@ from sympy.testing.pytest import raises
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_systematic_basic(), test_systematic_basic produces the expected output) over Any ║
+# ║ Path(test_systematic_basic(), <unspecified:test_systematic_basic>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_systematic_basic : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4ca09e624359938f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_numpy.test_systematic_basic","kind":"function","src_hash":"0b723a5e100cf411","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_systematic_basic()","rhs":"test_systematic_basic produces the expected output","over":{"base":"Any"},"name":"test_systematic_basic_correct"},"guarantee":"test_systematic_basic produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_numpy.test_systematic_basic_correct","statement":"Path(test_systematic_basic(x), test_systematic_basic produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4ca09e624359938f"}
+# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_numpy.test_systematic_basic","kind":"function","src_hash":"0b723a5e100cf411","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_systematic_basic()","rhs":"<unspecified:test_systematic_basic>","over":{"base":"Any"},"name":"test_systematic_basic_correct"},"guarantee":"test_systematic_basic produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_numpy.test_systematic_basic_correct","statement":"Path(test_systematic_basic(x), test_systematic_basic produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4ca09e624359938f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_systematic_basic():
     def s(sympy_object, numpy_array):
         _ = [sympy_object + numpy_array,
@@ -99,16 +105,24 @@ def test_systematic_basic():
 # check that the results of the operations are correct
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_basics(), test_basics produces the expected output) over Any ║
+# ║ Path(test_basics(), array(1) == array(one) and array([one]) == array([one]) and array([x]) == array([x]) and array(x) == array(Symbol('x')) and array(one + x) == array(1 + x) and (X == array([one, zero, zero])).all() and (X == array([one, 0, 0])).all()) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_basics : Any → {Any | array(1) == array(one) and...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  array(1) == array(one)                         ║
+# ║   ensures:  array([one]) == array([one])                   ║
+# ║   ensures:  array([x]) == array([x])                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_basics : Any → {Any | result satisfies: array(1)...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6fa405fd67e58b1e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0bc336e34402c89e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_numpy.test_basics","kind":"function","src_hash":"ee4212a5bfa62171","in":{"base":"Any"},"out":{"base":"Any","pred":"array(1) == array(one) and array([one]) == array([one]) and array([x]) == array([x]) and array(x) == array(Symbol('x')) and array(one + x) == array(1 + x) and (X == array([one, zero, zero])).all() and (X == array([one, 0, 0])).all()"},"spec":{"lhs":"test_basics()","rhs":"test_basics produces the expected output","over":{"base":"Any"},"name":"test_basics_correct"},"guarantee":"test_basics produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_numpy.test_basics_correct","statement":"Path(test_basics(x), test_basics produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6fa405fd67e58b1e"}
+# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_numpy.test_basics","kind":"function","src_hash":"ee4212a5bfa62171","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: array(1) == array(one) and array([one]) == array([one]) and array([x]) == array([x]) and array(x) == array(Symbol('x')) and array(one + x) == array(1 + x) and (X == array([one, zero, zero])).all() and (X == array([one, 0, 0])).all()"},"spec":{"lhs":"test_basics()","rhs":"array(1) == array(one) and array([one]) == array([one]) and array([x]) == array([x]) and array(x) == array(Symbol('x')) and array(one + x) == array(1 + x) and (X == array([one, zero, zero])).all() and (X == array([one, 0, 0])).all()","over":{"base":"Any"},"name":"test_basics_correct"},"guarantee":"array(1) == array(one); array([one]) == array([one]); array([x]) == array([x])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_numpy.test_basics_correct","statement":"Path(test_basics(x), array(1) == array(one); array([one]) == array([one]); array([x]) == array([x]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0bc336e34402c89e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["array(1) == array(one)","array([one]) == array([one])","array([x]) == array([x])","array(x) == array(Symbol('x'))","array(one + x) == array(1 + x)","(X == array([one, zero, zero])).all()","(X == array([one, 0, 0])).all()"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_basics():
     one = Rational(1)
     zero = Rational(0)
@@ -124,16 +138,24 @@ def test_basics():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_arrays(), test_arrays produces the expected output) over Any ║
+# ║ Path(test_arrays(), Y == array([1 + 2 * Symbol('a')]) and Y == array([2 + 2 * Symbol('a')]) and Y == array([0])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_arrays : Any → {Any | Y == array([1 + 2 * Symbol...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Y == array([1 + 2 * Symbol('a')])              ║
+# ║   ensures:  Y == array([2 + 2 * Symbol('a')])              ║
+# ║   ensures:  Y == array([0])                                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_arrays : Any → {Any | result satisfies: Y == arr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 92a7191245652be8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d57866388c9d7289  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_numpy.test_arrays","kind":"function","src_hash":"d6d3f7f84e4c61b1","in":{"base":"Any"},"out":{"base":"Any","pred":"Y == array([1 + 2 * Symbol('a')]) and Y == array([2 + 2 * Symbol('a')]) and Y == array([0])"},"spec":{"lhs":"test_arrays()","rhs":"test_arrays produces the expected output","over":{"base":"Any"},"name":"test_arrays_correct"},"guarantee":"test_arrays produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_numpy.test_arrays_correct","statement":"Path(test_arrays(x), test_arrays produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"92a7191245652be8"}
+# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_numpy.test_arrays","kind":"function","src_hash":"d6d3f7f84e4c61b1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Y == array([1 + 2 * Symbol('a')]) and Y == array([2 + 2 * Symbol('a')]) and Y == array([0])"},"spec":{"lhs":"test_arrays()","rhs":"Y == array([1 + 2 * Symbol('a')]) and Y == array([2 + 2 * Symbol('a')]) and Y == array([0])","over":{"base":"Any"},"name":"test_arrays_correct"},"guarantee":"Y == array([1 + 2 * Symbol('a')]); Y == array([2 + 2 * Symbol('a')]); Y == array([0])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_numpy.test_arrays_correct","statement":"Path(test_arrays(x), Y == array([1 + 2 * Symbol('a')]); Y == array([2 + 2 * Symbol('a')]); Y == array([0]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d57866388c9d7289","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Y == array([1 + 2 * Symbol('a')])","Y == array([2 + 2 * Symbol('a')])","Y == array([0])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_arrays():
     one = Rational(1)
     zero = Rational(0)
@@ -149,7 +171,12 @@ def test_arrays():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_conversion1(), test_conversion1 produces the expected output) over {Any | isinstance(a, ndarray)} ║
+# ║ Path(test_conversion1(), isinstance(a, ndarray) and a[0] == x ** 2 and a[1] == x and len(a) == 2) over {Any | isinstance(a, ndarray)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(a, ndarray)                         ║
+# ║   ensures:  a[0] == x ** 2                                 ║
+# ║   ensures:  a[1] == x                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_conversion1 : {Any | isinstance(a, ndarray)} → {...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -161,9 +188,12 @@ def test_arrays():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.2ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 46a0c239...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_numpy.test_conversion1","kind":"function","src_hash":"ddabe941cc6ee696","in":{"base":"Any","pred":"isinstance(a, ndarray)"},"out":{"base":"Any","pred":"isinstance(a, ndarray) and a[0] == x ** 2 and a[1] == x and len(a) == 2"},"spec":{"lhs":"test_conversion1()","rhs":"test_conversion1 produces the expected output","over":{"base":"Any","pred":"isinstance(a, ndarray)"},"name":"test_conversion1_correct"},"guarantee":"test_conversion1 produces the expected output","fibers":[{"name":"ndarray","pred":"isinstance(a, ndarray)","path":{"lhs":"test_conversion1(x)","rhs":"test_conversion1 produces the expected output","over":{"base":"ndarray","pred":"isinstance(a, ndarray)"},"name":"test_conversion1_ndarray_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_numpy.test_conversion1_ndarray_correct","statement":"test_conversion1 satisfies spec on ndarray inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"46a0c23961f2f4d8"}
+# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_numpy.test_conversion1","kind":"function","src_hash":"ddabe941cc6ee696","in":{"base":"Any","pred":"isinstance(a, ndarray)"},"out":{"base":"Any","pred":"result satisfies: isinstance(a, ndarray) and a[0] == x ** 2 and a[1] == x and len(a) == 2"},"spec":{"lhs":"test_conversion1()","rhs":"isinstance(a, ndarray) and a[0] == x ** 2 and a[1] == x and len(a) == 2","over":{"base":"Any","pred":"isinstance(a, ndarray)"},"name":"test_conversion1_correct"},"guarantee":"isinstance(a, ndarray); a[0] == x ** 2; a[1] == x","fibers":[{"name":"ndarray","pred":"isinstance(a, ndarray)","path":{"lhs":"test_conversion1(x)","rhs":"isinstance(a, ndarray); a[0] == x ** 2; a[1] == x","over":{"base":"ndarray","pred":"isinstance(a, ndarray)"},"name":"test_conversion1_ndarray_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_numpy.test_conversion1_ndarray_correct","statement":"test_conversion1 satisfies spec on ndarray inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"46a0c23961f2f4d8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(a, ndarray)","a[0] == x ** 2","a[1] == x","len(a) == 2"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.2,"verdict_class":"failed","binding":true}}
 def test_conversion1():
     a = list2numpy([x**2, x])
     #looks like an array?
@@ -175,16 +205,24 @@ def test_conversion1():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_conversion2(), test_conversion2 produces the expected output) over Any ║
+# ║ Path(test_conversion2(), (a == b).all() and Y == array([1 + 2 * Symbol('a')]) and Y == array([2 + 2 * Symbol('a')]) and Y == array([0])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_conversion2 : Any → {Any | (a == b).all() and Y ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (a == b).all()                                 ║
+# ║   ensures:  Y == array([1 + 2 * Symbol('a')])              ║
+# ║   ensures:  Y == array([2 + 2 * Symbol('a')])              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_conversion2 : Any → {Any | result satisfies: (a ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 77a2e6c0e611106b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 856fac34a6b9a6f9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_numpy.test_conversion2","kind":"function","src_hash":"8c568a93eb0c2dfc","in":{"base":"Any"},"out":{"base":"Any","pred":"(a == b).all() and Y == array([1 + 2 * Symbol('a')]) and Y == array([2 + 2 * Symbol('a')]) and Y == array([0])"},"spec":{"lhs":"test_conversion2()","rhs":"test_conversion2 produces the expected output","over":{"base":"Any"},"name":"test_conversion2_correct"},"guarantee":"test_conversion2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_numpy.test_conversion2_correct","statement":"Path(test_conversion2(x), test_conversion2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"77a2e6c0e611106b"}
+# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_numpy.test_conversion2","kind":"function","src_hash":"8c568a93eb0c2dfc","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (a == b).all() and Y == array([1 + 2 * Symbol('a')]) and Y == array([2 + 2 * Symbol('a')]) and Y == array([0])"},"spec":{"lhs":"test_conversion2()","rhs":"(a == b).all() and Y == array([1 + 2 * Symbol('a')]) and Y == array([2 + 2 * Symbol('a')]) and Y == array([0])","over":{"base":"Any"},"name":"test_conversion2_correct"},"guarantee":"(a == b).all(); Y == array([1 + 2 * Symbol('a')]); Y == array([2 + 2 * Symbol('a')])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_numpy.test_conversion2_correct","statement":"Path(test_conversion2(x), (a == b).all(); Y == array([1 + 2 * Symbol('a')]); Y == array([2 + 2 * Symbol('a')]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"856fac34a6b9a6f9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(a == b).all()","Y == array([1 + 2 * Symbol('a')])","Y == array([2 + 2 * Symbol('a')])","Y == array([0])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_conversion2():
     a = 2*list2numpy([x**2, x])
     b = list2numpy([2*x**2, 2*x])
@@ -204,31 +242,44 @@ def test_conversion2():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_list2numpy(), test_list2numpy produces the expected output) over Any ║
+# ║ Path(test_list2numpy(), (array([x ** 2, x]) == list2numpy([x ** 2, x])).all()) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_list2numpy : Any → {Any | (array([x ** 2, x]) ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (array([x ** 2, x]) == list2numpy([x ** 2...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_list2numpy : Any → {Any | result satisfies: (arr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0fff1c7df6b14ea7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 30491b61caf8e92b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_numpy.test_list2numpy","kind":"function","src_hash":"b58fe4935d443d05","in":{"base":"Any"},"out":{"base":"Any","pred":"(array([x ** 2, x]) == list2numpy([x ** 2, x])).all()"},"spec":{"lhs":"test_list2numpy()","rhs":"test_list2numpy produces the expected output","over":{"base":"Any"},"name":"test_list2numpy_correct"},"guarantee":"test_list2numpy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_numpy.test_list2numpy_correct","statement":"Path(test_list2numpy(x), test_list2numpy produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0fff1c7df6b14ea7"}
+# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_numpy.test_list2numpy","kind":"function","src_hash":"b58fe4935d443d05","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (array([x ** 2, x]) == list2numpy([x ** 2, x])).all()"},"spec":{"lhs":"test_list2numpy()","rhs":"(array([x ** 2, x]) == list2numpy([x ** 2, x])).all()","over":{"base":"Any"},"name":"test_list2numpy_correct"},"guarantee":"(array([x ** 2, x]) == list2numpy([x ** 2, x])).all()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_numpy.test_list2numpy_correct","statement":"Path(test_list2numpy(x), (array([x ** 2, x]) == list2numpy([x ** 2, x])).all())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"30491b61caf8e92b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(array([x ** 2, x]) == list2numpy([x ** 2, x])).all()"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_list2numpy():
     assert (array([x**2, x]) == list2numpy([x**2, x])).all()
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Matrix1(), test_Matrix1 produces the expected output) over Any ║
+# ║ Path(test_Matrix1(), (array(m.subs(x, 2)) == array([[2, 4], [5, 1]])).all() and (array(m.subs(x, 2)) == array([[sin(2), 4], [5, 1]])).all()) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Matrix1 : Any → {Any | (array(m.subs(x, 2)) == a...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (array(m.subs(x, 2)) == array([[2, 4], [5...   ║
+# ║   ensures:  (array(m.subs(x, 2)) == array([[sin(2), 4...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Matrix1 : Any → {Any | result satisfies: (array(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | df9064b5e511497e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 16473a6b3e16984d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_numpy.test_Matrix1","kind":"function","src_hash":"09f41988a781958b","in":{"base":"Any"},"out":{"base":"Any","pred":"(array(m.subs(x, 2)) == array([[2, 4], [5, 1]])).all() and (array(m.subs(x, 2)) == array([[sin(2), 4], [5, 1]])).all()"},"spec":{"lhs":"test_Matrix1()","rhs":"test_Matrix1 produces the expected output","over":{"base":"Any"},"name":"test_Matrix1_correct"},"guarantee":"test_Matrix1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_numpy.test_Matrix1_correct","statement":"Path(test_Matrix1(x), test_Matrix1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"df9064b5e511497e"}
+# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_numpy.test_Matrix1","kind":"function","src_hash":"09f41988a781958b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (array(m.subs(x, 2)) == array([[2, 4], [5, 1]])).all() and (array(m.subs(x, 2)) == array([[sin(2), 4], [5, 1]])).all()"},"spec":{"lhs":"test_Matrix1()","rhs":"(array(m.subs(x, 2)) == array([[2, 4], [5, 1]])).all() and (array(m.subs(x, 2)) == array([[sin(2), 4], [5, 1]])).all()","over":{"base":"Any"},"name":"test_Matrix1_correct"},"guarantee":"(array(m.subs(x, 2)) == array([[2, 4], [5, 1]])).all(); (array(m.subs(x, 2)) == array([[sin(2), 4], [5, 1]])).all()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_numpy.test_Matrix1_correct","statement":"Path(test_Matrix1(x), (array(m.subs(x, 2)) == array([[2, 4], [5, 1]])).all(); (array(m.subs(x, 2)) == array([[sin(2), 4], [5, 1]])).all())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"16473a6b3e16984d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(array(m.subs(x, 2)) == array([[2, 4], [5, 1]])).all()","(array(m.subs(x, 2)) == array([[sin(2), 4], [5, 1]])).all()"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Matrix1():
     m = Matrix([[x, x**2], [5, 2/x]])
     assert (array(m.subs(x, 2)) == array([[2, 4], [5, 1]])).all()
@@ -237,16 +288,22 @@ def test_Matrix1():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Matrix2(), test_Matrix2 produces the expected output) over Any ║
+# ║ Path(test_Matrix2(), <unspecified:test_Matrix2>) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_Matrix2 : Any → {Any | (matrix(m.subs(x, 2)) == ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fda933a795949e6d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_numpy.test_Matrix2","kind":"function","src_hash":"3d5e2953550a362a","in":{"base":"Any"},"out":{"base":"Any","pred":"(matrix(m.subs(x, 2)) == matrix([[2, 4], [5, 1]])).all() and (matrix(m.subs(x, 2)) == matrix([[sin(2), 4], [5, 1]])).all()"},"spec":{"lhs":"test_Matrix2()","rhs":"test_Matrix2 produces the expected output","over":{"base":"Any"},"name":"test_Matrix2_correct"},"guarantee":"test_Matrix2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_numpy.test_Matrix2_correct","statement":"Path(test_Matrix2(x), test_Matrix2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fda933a795949e6d"}
+# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_numpy.test_Matrix2","kind":"function","src_hash":"3d5e2953550a362a","in":{"base":"Any"},"out":{"base":"Any","pred":"(matrix(m.subs(x, 2)) == matrix([[2, 4], [5, 1]])).all() and (matrix(m.subs(x, 2)) == matrix([[sin(2), 4], [5, 1]])).all()"},"spec":{"lhs":"test_Matrix2()","rhs":"<unspecified:test_Matrix2>","over":{"base":"Any"},"name":"test_Matrix2_correct"},"guarantee":"test_Matrix2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_numpy.test_Matrix2_correct","statement":"Path(test_Matrix2(x), test_Matrix2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fda933a795949e6d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_Matrix2():
     m = Matrix([[x, x**2], [5, 2/x]])
     with ignore_warnings(PendingDeprecationWarning):
@@ -257,16 +314,24 @@ def test_Matrix2():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Matrix3(), test_Matrix3 produces the expected output) over Any ║
+# ║ Path(test_Matrix3(), Matrix(a) == Matrix([[2, 4], [5, 1]]) and Matrix(a) != Matrix([[2, 4], [5, 2]]) and Matrix(a) == Matrix([[sin(2), 4], [5, 1]]) and Matrix(a) != Matrix([[sin(0), 4], [5, 1]])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Matrix3 : Any → {Any | Matrix(a) == Matrix([[2, ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Matrix(a) == Matrix([[2, 4], [5, 1]])          ║
+# ║   ensures:  Matrix(a) != Matrix([[2, 4], [5, 2]])          ║
+# ║   ensures:  Matrix(a) == Matrix([[sin(2), 4], [5, 1]])     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Matrix3 : Any → {Any | result satisfies: Matrix(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 846784b01e89891d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 551b6838203b419c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_numpy.test_Matrix3","kind":"function","src_hash":"99605c3fa09da41d","in":{"base":"Any"},"out":{"base":"Any","pred":"Matrix(a) == Matrix([[2, 4], [5, 1]]) and Matrix(a) != Matrix([[2, 4], [5, 2]]) and Matrix(a) == Matrix([[sin(2), 4], [5, 1]]) and Matrix(a) != Matrix([[sin(0), 4], [5, 1]])"},"spec":{"lhs":"test_Matrix3()","rhs":"test_Matrix3 produces the expected output","over":{"base":"Any"},"name":"test_Matrix3_correct"},"guarantee":"test_Matrix3 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_numpy.test_Matrix3_correct","statement":"Path(test_Matrix3(x), test_Matrix3 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"846784b01e89891d"}
+# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_numpy.test_Matrix3","kind":"function","src_hash":"99605c3fa09da41d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Matrix(a) == Matrix([[2, 4], [5, 1]]) and Matrix(a) != Matrix([[2, 4], [5, 2]]) and Matrix(a) == Matrix([[sin(2), 4], [5, 1]]) and Matrix(a) != Matrix([[sin(0), 4], [5, 1]])"},"spec":{"lhs":"test_Matrix3()","rhs":"Matrix(a) == Matrix([[2, 4], [5, 1]]) and Matrix(a) != Matrix([[2, 4], [5, 2]]) and Matrix(a) == Matrix([[sin(2), 4], [5, 1]]) and Matrix(a) != Matrix([[sin(0), 4], [5, 1]])","over":{"base":"Any"},"name":"test_Matrix3_correct"},"guarantee":"Matrix(a) == Matrix([[2, 4], [5, 1]]); Matrix(a) != Matrix([[2, 4], [5, 2]]); Matrix(a) == Matrix([[sin(2), 4], [5, 1]])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_numpy.test_Matrix3_correct","statement":"Path(test_Matrix3(x), Matrix(a) == Matrix([[2, 4], [5, 1]]); Matrix(a) != Matrix([[2, 4], [5, 2]]); Matrix(a) == Matrix([[sin(2), 4], [5, 1]]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"551b6838203b419c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Matrix(a) == Matrix([[2, 4], [5, 1]])","Matrix(a) != Matrix([[2, 4], [5, 2]])","Matrix(a) == Matrix([[sin(2), 4], [5, 1]])","Matrix(a) != Matrix([[sin(0), 4], [5, 1]])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_Matrix3():
     a = array([[2, 4], [5, 1]])
     assert Matrix(a) == Matrix([[2, 4], [5, 1]])
@@ -277,16 +342,24 @@ def test_Matrix3():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Matrix4(), test_Matrix4 produces the expected output) over Any ║
+# ║ Path(test_Matrix4(), Matrix(a) == Matrix([[2, 4], [5, 1]]) and Matrix(a) != Matrix([[2, 4], [5, 2]]) and Matrix(a) == Matrix([[sin(2), 4], [5, 1]]) and Matrix(a) != Matrix([[sin(0), 4], [5, 1]])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Matrix4 : Any → {Any | Matrix(a) == Matrix([[2, ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Matrix(a) == Matrix([[2, 4], [5, 1]])          ║
+# ║   ensures:  Matrix(a) != Matrix([[2, 4], [5, 2]])          ║
+# ║   ensures:  Matrix(a) == Matrix([[sin(2), 4], [5, 1]])     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Matrix4 : Any → {Any | result satisfies: Matrix(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fcc1f078ab27ddeb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b82a12b4dd03dbb2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_numpy.test_Matrix4","kind":"function","src_hash":"5f049d73368babb8","in":{"base":"Any"},"out":{"base":"Any","pred":"Matrix(a) == Matrix([[2, 4], [5, 1]]) and Matrix(a) != Matrix([[2, 4], [5, 2]]) and Matrix(a) == Matrix([[sin(2), 4], [5, 1]]) and Matrix(a) != Matrix([[sin(0), 4], [5, 1]])"},"spec":{"lhs":"test_Matrix4()","rhs":"test_Matrix4 produces the expected output","over":{"base":"Any"},"name":"test_Matrix4_correct"},"guarantee":"test_Matrix4 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_numpy.test_Matrix4_correct","statement":"Path(test_Matrix4(x), test_Matrix4 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fcc1f078ab27ddeb"}
+# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_numpy.test_Matrix4","kind":"function","src_hash":"5f049d73368babb8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Matrix(a) == Matrix([[2, 4], [5, 1]]) and Matrix(a) != Matrix([[2, 4], [5, 2]]) and Matrix(a) == Matrix([[sin(2), 4], [5, 1]]) and Matrix(a) != Matrix([[sin(0), 4], [5, 1]])"},"spec":{"lhs":"test_Matrix4()","rhs":"Matrix(a) == Matrix([[2, 4], [5, 1]]) and Matrix(a) != Matrix([[2, 4], [5, 2]]) and Matrix(a) == Matrix([[sin(2), 4], [5, 1]]) and Matrix(a) != Matrix([[sin(0), 4], [5, 1]])","over":{"base":"Any"},"name":"test_Matrix4_correct"},"guarantee":"Matrix(a) == Matrix([[2, 4], [5, 1]]); Matrix(a) != Matrix([[2, 4], [5, 2]]); Matrix(a) == Matrix([[sin(2), 4], [5, 1]])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_numpy.test_Matrix4_correct","statement":"Path(test_Matrix4(x), Matrix(a) == Matrix([[2, 4], [5, 1]]); Matrix(a) != Matrix([[2, 4], [5, 2]]); Matrix(a) == Matrix([[sin(2), 4], [5, 1]]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b82a12b4dd03dbb2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Matrix(a) == Matrix([[2, 4], [5, 1]])","Matrix(a) != Matrix([[2, 4], [5, 2]])","Matrix(a) == Matrix([[sin(2), 4], [5, 1]])","Matrix(a) != Matrix([[sin(0), 4], [5, 1]])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_Matrix4():
     with ignore_warnings(PendingDeprecationWarning):
         a = matrix([[2, 4], [5, 1]])
@@ -299,16 +372,24 @@ def test_Matrix4():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Matrix_sum(), test_Matrix_sum produces the expected output) over Any ║
+# ║ Path(test_Matrix_sum(), M + m == Matrix([[3, 5, 7], [2 * x, y + 5, x + 6], [2 * y + x, y - 50, z * x + z ** 2]]) and m + M == Matrix([[3, 5, 7], [2 * x, y + 5, x + 6], [2 * y + x, y - 50, z * x + z ** 2]]) and M + m == M.add(m)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Matrix_sum : Any → {Any | M + m == M.add(m)}          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  M + m == Matrix([[3, 5, 7], [2 * x, y + 5...   ║
+# ║   ensures:  m + M == Matrix([[3, 5, 7], [2 * x, y + 5...   ║
+# ║   ensures:  M + m == M.add(m)                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Matrix_sum : Any → {Any | result satisfies: M + ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 34edeaae56353f56  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a50dfa967f30721c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_numpy.test_Matrix_sum","kind":"function","src_hash":"f942cf736283c8ce","in":{"base":"Any"},"out":{"base":"Any","pred":"M + m == M.add(m)"},"spec":{"lhs":"test_Matrix_sum()","rhs":"test_Matrix_sum produces the expected output","over":{"base":"Any"},"name":"test_Matrix_sum_correct"},"guarantee":"test_Matrix_sum produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_numpy.test_Matrix_sum_correct","statement":"Path(test_Matrix_sum(x), test_Matrix_sum produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"34edeaae56353f56"}
+# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_numpy.test_Matrix_sum","kind":"function","src_hash":"f942cf736283c8ce","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: M + m == Matrix([[3, 5, 7], [2 * x, y + 5, x + 6], [2 * y + x, y - 50, z * x + z ** 2]]) and m + M == Matrix([[3, 5, 7], [2 * x, y + 5, x + 6], [2 * y + x, y - 50, z * x + z ** 2]]) and M + m == M.add(m)"},"spec":{"lhs":"test_Matrix_sum()","rhs":"M + m == Matrix([[3, 5, 7], [2 * x, y + 5, x + 6], [2 * y + x, y - 50, z * x + z ** 2]]) and m + M == Matrix([[3, 5, 7], [2 * x, y + 5, x + 6], [2 * y + x, y - 50, z * x + z ** 2]]) and M + m == M.add(m)","over":{"base":"Any"},"name":"test_Matrix_sum_correct"},"guarantee":"M + m == Matrix([[3, 5, 7], [2 * x, y + 5, x + 6], [2 * y + x, y - 50, z * x + z ** 2]]); m + M == Matrix([[3, 5, 7], [2 * x, y + 5, x + 6], [2 * y + x, y - 50, z * x + z ** 2]]); M + m == M.add(m)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_numpy.test_Matrix_sum_correct","statement":"Path(test_Matrix_sum(x), M + m == Matrix([[3, 5, 7], [2 * x, y + 5, x + 6], [2 * y + x, y - 50, z * x + z ** 2]]); m + M == Matrix([[3, 5, 7], [2 * x, y + 5, x + 6], [2 * y + x, y - 50, z * x + z ** 2]]); M + m == M.add(m))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a50dfa967f30721c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["M + m == Matrix([[3, 5, 7], [2 * x, y + 5, x + 6], [2 * y + x, y - 50, z * x + z ** 2]])","m + M == Matrix([[3, 5, 7], [2 * x, y + 5, x + 6], [2 * y + x, y - 50, z * x + z ** 2]])","M + m == M.add(m)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_Matrix_sum():
     M = Matrix([[1, 2, 3], [x, y, x], [2*y, -50, z*x]])
     with ignore_warnings(PendingDeprecationWarning):
@@ -319,16 +400,24 @@ def test_Matrix_sum():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Matrix_mul(), test_Matrix_mul produces the expected output) over Any ║
+# ║ Path(test_Matrix_mul(), M * m == Matrix([[2 + 5 * x, 16 + 3 * z ** 2], [2 * x + x * y + x ** 2, 4 * x + 6 * y + x * z ** 2]]) and m * M == Matrix([[2 + 4 * x, 4 + 4 * y, 6 + 4 * x], [7 * x, 2 * x + 6 * y, 9 * x], [x + x * z ** 2, 2 * x + y * z ** 2, 3 * x + x * z ** 2]]) and a[0] * M == 2 * M and M * a[0] == 2 * M) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Matrix_mul : Any → {Any | a[0] * M == 2 * M and ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  M * m == Matrix([[2 + 5 * x, 16 + 3 * z *...   ║
+# ║   ensures:  m * M == Matrix([[2 + 4 * x, 4 + 4 * y, 6...   ║
+# ║   ensures:  a[0] * M == 2 * M                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Matrix_mul : Any → {Any | result satisfies: M * ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ea55306e806f8ee5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4ed554df7cdd19bf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_numpy.test_Matrix_mul","kind":"function","src_hash":"6f5217cdecd4b461","in":{"base":"Any"},"out":{"base":"Any","pred":"a[0] * M == 2 * M and M * a[0] == 2 * M"},"spec":{"lhs":"test_Matrix_mul()","rhs":"test_Matrix_mul produces the expected output","over":{"base":"Any"},"name":"test_Matrix_mul_correct"},"guarantee":"test_Matrix_mul produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_numpy.test_Matrix_mul_correct","statement":"Path(test_Matrix_mul(x), test_Matrix_mul produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ea55306e806f8ee5"}
+# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_numpy.test_Matrix_mul","kind":"function","src_hash":"6f5217cdecd4b461","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: M * m == Matrix([[2 + 5 * x, 16 + 3 * z ** 2], [2 * x + x * y + x ** 2, 4 * x + 6 * y + x * z ** 2]]) and m * M == Matrix([[2 + 4 * x, 4 + 4 * y, 6 + 4 * x], [7 * x, 2 * x + 6 * y, 9 * x], [x + x * z ** 2, 2 * x + y * z ** 2, 3 * x + x * z ** 2]]) and a[0] * M == 2 * M and M * a[0] == 2 * M"},"spec":{"lhs":"test_Matrix_mul()","rhs":"M * m == Matrix([[2 + 5 * x, 16 + 3 * z ** 2], [2 * x + x * y + x ** 2, 4 * x + 6 * y + x * z ** 2]]) and m * M == Matrix([[2 + 4 * x, 4 + 4 * y, 6 + 4 * x], [7 * x, 2 * x + 6 * y, 9 * x], [x + x * z ** 2, 2 * x + y * z ** 2, 3 * x + x * z ** 2]]) and a[0] * M == 2 * M and M * a[0] == 2 * M","over":{"base":"Any"},"name":"test_Matrix_mul_correct"},"guarantee":"M * m == Matrix([[2 + 5 * x, 16 + 3 * z ** 2], [2 * x + x * y + x ** 2, 4 * x + 6 * y + x * z ** 2]]); m * M == Matrix([[2 + 4 * x, 4 + 4 * y, 6 + 4 * x], [7 * x, 2 * x + 6 * y, 9 * x], [x + x * z ** 2, 2 * x + y * z ** 2, 3 * x + x * z ** 2]]); a[0] * M == 2 * M","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_numpy.test_Matrix_mul_correct","statement":"Path(test_Matrix_mul(x), M * m == Matrix([[2 + 5 * x, 16 + 3 * z ** 2], [2 * x + x * y + x ** 2, 4 * x + 6 * y + x * z ** 2]]); m * M == Matrix([[2 + 4 * x, 4 + 4 * y, 6 + 4 * x], [7 * x, 2 * x + 6 * y, 9 * x], [x + x * z ** 2, 2 * x + y * z ** 2, 3 * x + x * z ** 2]]); a[0] * M == 2 * M)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4ed554df7cdd19bf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["M * m == Matrix([[2 + 5 * x, 16 + 3 * z ** 2], [2 * x + x * y + x ** 2, 4 * x + 6 * y + x * z ** 2]])","m * M == Matrix([[2 + 4 * x, 4 + 4 * y, 6 + 4 * x], [7 * x, 2 * x + 6 * y, 9 * x], [x + x * z ** 2, 2 * x + y * z ** 2, 3 * x + x * z ** 2]])","a[0] * M == 2 * M","M * a[0] == 2 * M"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_Matrix_mul():
     M = Matrix([[1, 2, 3], [x, y, x]])
     with ignore_warnings(PendingDeprecationWarning):
@@ -349,16 +438,23 @@ def test_Matrix_mul():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Matrix_array(), test_Matrix_array produces the expected output) over Any ║
+# ║ Path(test_Matrix_array(), array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Matrix_array : Any → {Any | Matrix(matarr) == Ma...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Matrix(matarr) == Matrix([[1, 2, 3], [4, ...   ║
+# ║   returns:  array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Matrix_array : Any → {Any | result satisfies: re...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   numpy.__module__                                         ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟡 LIBRARY | library_axiom | Compiled: ✓ | 8b7118ad6a89...  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟡 LIBRARY | library_axiom | Compiled: ✓ | 9339b1c8eeb3...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_numpy.test_Matrix_array","kind":"function","src_hash":"cb6b56d2b55a7e7e","in":{"base":"Any"},"out":{"base":"Any","pred":"Matrix(matarr) == Matrix([[1, 2, 3], [4, 5, 6], [7, 8, 9]])"},"spec":{"lhs":"test_Matrix_array()","rhs":"test_Matrix_array produces the expected output","over":{"base":"Any"},"name":"test_Matrix_array_correct"},"guarantee":"test_Matrix_array produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_numpy.test_Matrix_array_correct","statement":"Path(test_Matrix_array(x), test_Matrix_array produces the expected output)"},"assumes":[],"trust":["numpy.__module__"],"compiled":true,"vhash":"8b7118ad6a8902ae"}
+# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_numpy.test_Matrix_array","kind":"function","src_hash":"cb6b56d2b55a7e7e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (array([[1, 2, 3], [4, 5, 6], [7, 8, 9]]))"},"spec":{"lhs":"test_Matrix_array()","rhs":"array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])","over":{"base":"Any"},"name":"test_Matrix_array_correct"},"guarantee":"returns array([[1, 2, 3], [4, 5, 6], [7, 8, 9]]); Matrix(matarr) == Matrix([[1, 2, 3], [4, 5, 6], [7, 8, 9]])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_numpy.test_Matrix_array_correct","statement":"Path(test_Matrix_array(x), returns array([[1, 2, 3], [4, 5, 6], [7, 8, 9]]); Matrix(matarr) == Matrix([[1, 2, 3], [4, 5, 6], [7, 8, 9]]))"},"assumes":[],"trust":["numpy.__module__"],"compiled":true,"vhash":"9339b1c8eeb34aa7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Matrix(matarr) == Matrix([[1, 2, 3], [4, 5, 6], [7, 8, 9]])"],"returns_expr":"array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])","pure":false,"effects":{"effect_type":"reads_state","raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Matrix_array():
     class matarray:
         def __array__(self, dtype=object, copy=None):
@@ -371,7 +467,12 @@ def test_Matrix_array():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_matrix2numpy(), test_matrix2numpy produces the expected output) over {Any | isinstance(a, ndarray)} ║
+# ║ Path(test_matrix2numpy(), isinstance(a, ndarray) and a.shape == (2, 2) and a[0, 0] == 1 and a[0, 1] == x ** 2 and a[1, 0] == 3 * sin(x) and a[1, 1] == 0) over {Any | isinstance(a, ndarray)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(a, ndarray)                         ║
+# ║   ensures:  a.shape == (2, 2)                              ║
+# ║   ensures:  a[0, 0] == 1                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_matrix2numpy : {Any | isinstance(a, ndarray)} → ...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -383,9 +484,12 @@ def test_Matrix_array():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.3ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | d8dabaa4...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_numpy.test_matrix2numpy","kind":"function","src_hash":"0b84a43452023c2b","in":{"base":"Any","pred":"isinstance(a, ndarray)"},"out":{"base":"Any","pred":"isinstance(a, ndarray) and a.shape == (2, 2) and a[0, 0] == 1 and a[0, 1] == x ** 2 and a[1, 0] == 3 * sin(x) and a[1, 1] == 0"},"spec":{"lhs":"test_matrix2numpy()","rhs":"test_matrix2numpy produces the expected output","over":{"base":"Any","pred":"isinstance(a, ndarray)"},"name":"test_matrix2numpy_correct"},"guarantee":"test_matrix2numpy produces the expected output","fibers":[{"name":"ndarray","pred":"isinstance(a, ndarray)","path":{"lhs":"test_matrix2numpy(x)","rhs":"test_matrix2numpy produces the expected output","over":{"base":"ndarray","pred":"isinstance(a, ndarray)"},"name":"test_matrix2numpy_ndarray_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_numpy.test_matrix2numpy_ndarray_correct","statement":"test_matrix2numpy satisfies spec on ndarray inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"d8dabaa4d6098349"}
+# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_numpy.test_matrix2numpy","kind":"function","src_hash":"0b84a43452023c2b","in":{"base":"Any","pred":"isinstance(a, ndarray)"},"out":{"base":"Any","pred":"result satisfies: isinstance(a, ndarray) and a.shape == (2, 2) and a[0, 0] == 1 and a[0, 1] == x ** 2 and a[1, 0] == 3 * sin(x) and a[1, 1] == 0"},"spec":{"lhs":"test_matrix2numpy()","rhs":"isinstance(a, ndarray) and a.shape == (2, 2) and a[0, 0] == 1 and a[0, 1] == x ** 2 and a[1, 0] == 3 * sin(x) and a[1, 1] == 0","over":{"base":"Any","pred":"isinstance(a, ndarray)"},"name":"test_matrix2numpy_correct"},"guarantee":"isinstance(a, ndarray); a.shape == (2, 2); a[0, 0] == 1","fibers":[{"name":"ndarray","pred":"isinstance(a, ndarray)","path":{"lhs":"test_matrix2numpy(x)","rhs":"isinstance(a, ndarray); a.shape == (2, 2); a[0, 0] == 1","over":{"base":"ndarray","pred":"isinstance(a, ndarray)"},"name":"test_matrix2numpy_ndarray_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_numpy.test_matrix2numpy_ndarray_correct","statement":"test_matrix2numpy satisfies spec on ndarray inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"d8dabaa4d6098349","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(a, ndarray)","a.shape == (2, 2)","a[0, 0] == 1","a[0, 1] == x ** 2","a[1, 0] == 3 * sin(x)","a[1, 1] == 0"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.3,"verdict_class":"failed","binding":true}}
 def test_matrix2numpy():
     a = matrix2numpy(Matrix([[1, x**2], [3*sin(x), 0]]))
     assert isinstance(a, ndarray)
@@ -397,16 +501,24 @@ def test_matrix2numpy():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_matrix2numpy_conversion(), test_matrix2numpy_conversion produces the expected output) over Any ║
+# ║ Path(test_matrix2numpy_conversion(), (matrix2numpy(a) == b).all() and matrix2numpy(a).dtype == numpy.dtype('object') and c.dtype == numpy.dtype('int8') and d.dtype == numpy.dtype('float64')) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_matrix2numpy_conversion : Any → {Any | (matrix2n...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (matrix2numpy(a) == b).all()                   ║
+# ║   ensures:  matrix2numpy(a).dtype == numpy.dtype('obj...   ║
+# ║   ensures:  c.dtype == numpy.dtype('int8')                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_matrix2numpy_conversion : Any → {Any | result sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | df49302365944cf5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 74349b94dc732808  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_numpy.test_matrix2numpy_conversion","kind":"function","src_hash":"457f7ff3c31f5952","in":{"base":"Any"},"out":{"base":"Any","pred":"(matrix2numpy(a) == b).all() and matrix2numpy(a).dtype == numpy.dtype('object') and c.dtype == numpy.dtype('int8') and d.dtype == numpy.dtype('float64')"},"spec":{"lhs":"test_matrix2numpy_conversion()","rhs":"test_matrix2numpy_conversion produces the expected output","over":{"base":"Any"},"name":"test_matrix2numpy_conversion_correct"},"guarantee":"test_matrix2numpy_conversion produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_numpy.test_matrix2numpy_conversion_correct","statement":"Path(test_matrix2numpy_conversion(x), test_matrix2numpy_conversion produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"df49302365944cf5"}
+# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_numpy.test_matrix2numpy_conversion","kind":"function","src_hash":"457f7ff3c31f5952","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (matrix2numpy(a) == b).all() and matrix2numpy(a).dtype == numpy.dtype('object') and c.dtype == numpy.dtype('int8') and d.dtype == numpy.dtype('float64')"},"spec":{"lhs":"test_matrix2numpy_conversion()","rhs":"(matrix2numpy(a) == b).all() and matrix2numpy(a).dtype == numpy.dtype('object') and c.dtype == numpy.dtype('int8') and d.dtype == numpy.dtype('float64')","over":{"base":"Any"},"name":"test_matrix2numpy_conversion_correct"},"guarantee":"(matrix2numpy(a) == b).all(); matrix2numpy(a).dtype == numpy.dtype('object'); c.dtype == numpy.dtype('int8')","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_numpy.test_matrix2numpy_conversion_correct","statement":"Path(test_matrix2numpy_conversion(x), (matrix2numpy(a) == b).all(); matrix2numpy(a).dtype == numpy.dtype('object'); c.dtype == numpy.dtype('int8'))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"74349b94dc732808","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(matrix2numpy(a) == b).all()","matrix2numpy(a).dtype == numpy.dtype('object')","c.dtype == numpy.dtype('int8')","d.dtype == numpy.dtype('float64')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_matrix2numpy_conversion():
     a = Matrix([[1, 2, sin(x)], [x**2, x, Rational(1, 2)]])
     b = array([[1, 2, sin(x)], [x**2, x, Rational(1, 2)]])
@@ -420,16 +532,24 @@ def test_matrix2numpy_conversion():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_3728(), test_issue_3728 produces the expected output) over Any ║
+# ║ Path(test_issue_3728(), (Rational(1, 2) * array([2 * x, 0]) == array([x, 0])).all() and (Rational(1, 2) + array([2 * x, 0]) == array([2 * x + Rational(1, 2), Rational(1, 2)])).all() and (Float('0.5') * array([2 * x, 0]) == array([Float('1.0') * x, 0])).all() and (Float('0.5') + array([2 * x, 0]) == array([2 * x + Float('0.5'), Float('0.5')])).all()) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_3728 : Any → {Any | (Rational(1, 2) * arra...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (Rational(1, 2) * array([2 * x, 0]) == ar...   ║
+# ║   ensures:  (Rational(1, 2) + array([2 * x, 0]) == ar...   ║
+# ║   ensures:  (Float('0.5') * array([2 * x, 0]) == arra...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_3728 : Any → {Any | result satisfies: (Rat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aee9a139e2a3837a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 95ed75ad17cba49e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_numpy.test_issue_3728","kind":"function","src_hash":"f3fd318bf2a12cc8","in":{"base":"Any"},"out":{"base":"Any","pred":"(Rational(1, 2) * array([2 * x, 0]) == array([x, 0])).all() and (Float('0.5') * array([2 * x, 0]) == array([Float('1.0') * x, 0])).all()"},"spec":{"lhs":"test_issue_3728()","rhs":"test_issue_3728 produces the expected output","over":{"base":"Any"},"name":"test_issue_3728_correct"},"guarantee":"test_issue_3728 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_numpy.test_issue_3728_correct","statement":"Path(test_issue_3728(x), test_issue_3728 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aee9a139e2a3837a"}
+# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_numpy.test_issue_3728","kind":"function","src_hash":"f3fd318bf2a12cc8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (Rational(1, 2) * array([2 * x, 0]) == array([x, 0])).all() and (Rational(1, 2) + array([2 * x, 0]) == array([2 * x + Rational(1, 2), Rational(1, 2)])).all() and (Float('0.5') * array([2 * x, 0]) == array([Float('1.0') * x, 0])).all() and (Float('0.5') + array([2 * x, 0]) == array([2 * x + Float('0.5'), Float('0.5')])).all()"},"spec":{"lhs":"test_issue_3728()","rhs":"(Rational(1, 2) * array([2 * x, 0]) == array([x, 0])).all() and (Rational(1, 2) + array([2 * x, 0]) == array([2 * x + Rational(1, 2), Rational(1, 2)])).all() and (Float('0.5') * array([2 * x, 0]) == array([Float('1.0') * x, 0])).all() and (Float('0.5') + array([2 * x, 0]) == array([2 * x + Float('0.5'), Float('0.5')])).all()","over":{"base":"Any"},"name":"test_issue_3728_correct"},"guarantee":"(Rational(1, 2) * array([2 * x, 0]) == array([x, 0])).all(); (Rational(1, 2) + array([2 * x, 0]) == array([2 * x + Rational(1, 2), Rational(1, 2)])).all(); (Float('0.5') * array([2 * x, 0]) == array([Float('1.0') * x, 0])).all()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_numpy.test_issue_3728_correct","statement":"Path(test_issue_3728(x), (Rational(1, 2) * array([2 * x, 0]) == array([x, 0])).all(); (Rational(1, 2) + array([2 * x, 0]) == array([2 * x + Rational(1, 2), Rational(1, 2)])).all(); (Float('0.5') * array([2 * x, 0]) == array([Float('1.0') * x, 0])).all())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"95ed75ad17cba49e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(Rational(1, 2) * array([2 * x, 0]) == array([x, 0])).all()","(Rational(1, 2) + array([2 * x, 0]) == array([2 * x + Rational(1, 2), Rational(1, 2)])).all()","(Float('0.5') * array([2 * x, 0]) == array([Float('1.0') * x, 0])).all()","(Float('0.5') + array([2 * x, 0]) == array([2 * x + Float('0.5'), Float('0.5')])).all()"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_issue_3728():
     assert (Rational(1, 2)*array([2*x, 0]) == array([x, 0])).all()
     assert (Rational(1, 2) + array(
@@ -441,16 +561,22 @@ def test_issue_3728():
 
 @conserve_mpmath_dps
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_lambdify(), test_lambdify produces the expected output) over Any ║
+# ║ Path(test_lambdify(), -prec < f(0.2) - sin02 < prec) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_lambdify : Any → {Any | -prec < f(0.2) - sin02 <...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  -prec < f(0.2) - sin02 < prec                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_lambdify : Any → {Any | result satisfies: -prec ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cf4d1047af9e0268  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 71eee19d1ce92c59  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_numpy.test_lambdify","kind":"function","src_hash":"27713436a564a2bb","in":{"base":"Any"},"out":{"base":"Any","pred":"-prec < f(0.2) - sin02 < prec"},"spec":{"lhs":"test_lambdify()","rhs":"test_lambdify produces the expected output","over":{"base":"Any"},"name":"test_lambdify_correct"},"guarantee":"test_lambdify produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_numpy.test_lambdify_correct","statement":"Path(test_lambdify(x), test_lambdify produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cf4d1047af9e0268"}
+# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_numpy.test_lambdify","kind":"function","src_hash":"27713436a564a2bb","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: -prec < f(0.2) - sin02 < prec"},"spec":{"lhs":"test_lambdify()","rhs":"-prec < f(0.2) - sin02 < prec","over":{"base":"Any"},"name":"test_lambdify_correct"},"guarantee":"-prec < f(0.2) - sin02 < prec","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_numpy.test_lambdify_correct","statement":"Path(test_lambdify(x), -prec < f(0.2) - sin02 < prec)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"71eee19d1ce92c59","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["-prec < f(0.2) - sin02 < prec"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_lambdify():
     mpmath.mp.dps = 16
     sin02 = mpmath.mpf("0.198669330795061215459412627")
@@ -469,32 +595,44 @@ def test_lambdify():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_lambdify_matrix(), test_lambdify_matrix produces the expected output) over Any ║
+# ║ Path(test_lambdify_matrix(), (f(1) == array([[1, 2], [1, 2]])).all()) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_lambdify_matrix : Any → {Any | (f(1) == array([[...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (f(1) == array([[1, 2], [1, 2]])).all()        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_lambdify_matrix : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 50336edecc839df9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 949004e91709cab9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_numpy.test_lambdify_matrix","kind":"function","src_hash":"676091e9bf4eacd2","in":{"base":"Any"},"out":{"base":"Any","pred":"(f(1) == array([[1, 2], [1, 2]])).all()"},"spec":{"lhs":"test_lambdify_matrix()","rhs":"test_lambdify_matrix produces the expected output","over":{"base":"Any"},"name":"test_lambdify_matrix_correct"},"guarantee":"test_lambdify_matrix produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_numpy.test_lambdify_matrix_correct","statement":"Path(test_lambdify_matrix(x), test_lambdify_matrix produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"50336edecc839df9"}
+# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_numpy.test_lambdify_matrix","kind":"function","src_hash":"676091e9bf4eacd2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (f(1) == array([[1, 2], [1, 2]])).all()"},"spec":{"lhs":"test_lambdify_matrix()","rhs":"(f(1) == array([[1, 2], [1, 2]])).all()","over":{"base":"Any"},"name":"test_lambdify_matrix_correct"},"guarantee":"(f(1) == array([[1, 2], [1, 2]])).all()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_numpy.test_lambdify_matrix_correct","statement":"Path(test_lambdify_matrix(x), (f(1) == array([[1, 2], [1, 2]])).all())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"949004e91709cab9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(f(1) == array([[1, 2], [1, 2]])).all()"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_lambdify_matrix():
     f = lambdify(x, Matrix([[x, 2*x], [1, 2]]), [{'ImmutableMatrix': numpy.array}, "numpy"])
     assert (f(1) == array([[1, 2], [1, 2]])).all()
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_lambdify_matrix_multi_input(), test_lambdify_matrix_multi_input produces the expected output) over Any ║
+# ║ Path(test_lambdify_matrix_multi_input(), numpy.allclose(actual, expected)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_lambdify_matrix_multi_input : Any → {Any | numpy...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  numpy.allclose(actual, expected)               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_lambdify_matrix_multi_input : Any → {Any | resul...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7d6eb39c8afad41b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 95b4fce50d383f59  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_numpy.test_lambdify_matrix_multi_input","kind":"function","src_hash":"970b0facbfa50441","in":{"base":"Any"},"out":{"base":"Any","pred":"numpy.allclose(actual, expected)"},"spec":{"lhs":"test_lambdify_matrix_multi_input()","rhs":"test_lambdify_matrix_multi_input produces the expected output","over":{"base":"Any"},"name":"test_lambdify_matrix_multi_input_correct"},"guarantee":"test_lambdify_matrix_multi_input produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_numpy.test_lambdify_matrix_multi_input_correct","statement":"Path(test_lambdify_matrix_multi_input(x), test_lambdify_matrix_multi_input produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7d6eb39c8afad41b"}
+# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_numpy.test_lambdify_matrix_multi_input","kind":"function","src_hash":"970b0facbfa50441","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: numpy.allclose(actual, expected)"},"spec":{"lhs":"test_lambdify_matrix_multi_input()","rhs":"numpy.allclose(actual, expected)","over":{"base":"Any"},"name":"test_lambdify_matrix_multi_input_correct"},"guarantee":"numpy.allclose(actual, expected)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_numpy.test_lambdify_matrix_multi_input_correct","statement":"Path(test_lambdify_matrix_multi_input(x), numpy.allclose(actual, expected))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"95b4fce50d383f59","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["numpy.allclose(actual, expected)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_lambdify_matrix_multi_input():
     M = sympy.Matrix([[x**2, x*y, x*z],
                       [y*x, y**2, y*z],
@@ -510,16 +648,22 @@ def test_lambdify_matrix_multi_input():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_lambdify_matrix_vec_input(), test_lambdify_matrix_vec_input produces the expected output) over Any ║
+# ║ Path(test_lambdify_matrix_vec_input(), numpy.allclose(actual, expected)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_lambdify_matrix_vec_input : Any → {Any | numpy.a...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  numpy.allclose(actual, expected)               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_lambdify_matrix_vec_input : Any → {Any | result ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 797c308b1da52c82  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b232e6b590bd3203  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_numpy.test_lambdify_matrix_vec_input","kind":"function","src_hash":"f6d794e9b08b597c","in":{"base":"Any"},"out":{"base":"Any","pred":"numpy.allclose(actual, expected)"},"spec":{"lhs":"test_lambdify_matrix_vec_input()","rhs":"test_lambdify_matrix_vec_input produces the expected output","over":{"base":"Any"},"name":"test_lambdify_matrix_vec_input_correct"},"guarantee":"test_lambdify_matrix_vec_input produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_numpy.test_lambdify_matrix_vec_input_correct","statement":"Path(test_lambdify_matrix_vec_input(x), test_lambdify_matrix_vec_input produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"797c308b1da52c82"}
+# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_numpy.test_lambdify_matrix_vec_input","kind":"function","src_hash":"f6d794e9b08b597c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: numpy.allclose(actual, expected)"},"spec":{"lhs":"test_lambdify_matrix_vec_input()","rhs":"numpy.allclose(actual, expected)","over":{"base":"Any"},"name":"test_lambdify_matrix_vec_input_correct"},"guarantee":"numpy.allclose(actual, expected)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_numpy.test_lambdify_matrix_vec_input_correct","statement":"Path(test_lambdify_matrix_vec_input(x), numpy.allclose(actual, expected))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b232e6b590bd3203","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["numpy.allclose(actual, expected)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_lambdify_matrix_vec_input():
     X = sympy.DeferredVector('X')
     M = Matrix([
@@ -537,16 +681,22 @@ def test_lambdify_matrix_vec_input():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_lambdify_transl(), test_lambdify_transl produces the expected output) over Any ║
+# ║ Path(test_lambdify_transl(), <unspecified:test_lambdify_transl>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_lambdify_transl : Any → {Any | sym in sympy.__di...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 45be7598e7a7ee61  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_numpy.test_lambdify_transl","kind":"function","src_hash":"3a5cb5b4aa1cbe31","in":{"base":"Any"},"out":{"base":"Any","pred":"sym in sympy.__dict__ and mat in numpy.__dict__"},"spec":{"lhs":"test_lambdify_transl()","rhs":"test_lambdify_transl produces the expected output","over":{"base":"Any"},"name":"test_lambdify_transl_correct"},"guarantee":"test_lambdify_transl produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_numpy.test_lambdify_transl_correct","statement":"Path(test_lambdify_transl(x), test_lambdify_transl produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"45be7598e7a7ee61"}
+# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_numpy.test_lambdify_transl","kind":"function","src_hash":"3a5cb5b4aa1cbe31","in":{"base":"Any"},"out":{"base":"Any","pred":"sym in sympy.__dict__ and mat in numpy.__dict__"},"spec":{"lhs":"test_lambdify_transl()","rhs":"<unspecified:test_lambdify_transl>","over":{"base":"Any"},"name":"test_lambdify_transl_correct"},"guarantee":"test_lambdify_transl produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_numpy.test_lambdify_transl_correct","statement":"Path(test_lambdify_transl(x), test_lambdify_transl produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"45be7598e7a7ee61","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__dict__"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_lambdify_transl():
     from sympy.utilities.lambdify import NUMPY_TRANSLATIONS
     for sym, mat in NUMPY_TRANSLATIONS.items():
@@ -555,16 +705,24 @@ def test_lambdify_transl():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_symarray(), test creation of numpy arrays of sympy symbols) over Any ║
+# ║ Path(test_symarray(), s1[0] == s2[0] and not a[0] == b[0] and a2d.shape == (2, 3) and a2d[0, 0] == a00 and a2d[1, 2] == a12 and a3d.shape == (2, 3, 2) and a3d[0, 0, 0] == a000 and a3d[1, 2, 0] == a120 and a3d[1, 2, 1] == a121) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_symarray : Any → {Any | s1[0] == s2[0] and not a...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  s1[0] == s2[0]                                 ║
+# ║   ensures:  not a[0] == b[0]                               ║
+# ║   ensures:  a2d.shape == (2, 3)                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_symarray : Any → {Any | result satisfies: s1[0] ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   numpy.__module__                                         ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟡 LIBRARY | library_axiom | Compiled: ✓ | ec07fd3cf2ab...  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟡 LIBRARY | library_axiom | Compiled: ✓ | 455f0650332c...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_numpy.test_symarray","kind":"function","src_hash":"8a46c2c17985700d","in":{"base":"Any"},"out":{"base":"Any","pred":"s1[0] == s2[0] and not a[0] == b[0] and a2d.shape == (2, 3) and a2d[0, 0] == a00 and a2d[1, 2] == a12 and a3d.shape == (2, 3, 2) and a3d[0, 0, 0] == a000 and a3d[1, 2, 0] == a120 and a3d[1, 2, 1] == a121"},"spec":{"lhs":"test_symarray()","rhs":"test creation of numpy arrays of sympy symbols","over":{"base":"Any"},"name":"test_symarray_correct"},"guarantee":"test creation of numpy arrays of sympy symbols","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_numpy.test_symarray_correct","statement":"Path(test_symarray(x), test creation of numpy arrays of sympy symbols)"},"assumes":[],"trust":["numpy.__module__"],"compiled":true,"vhash":"ec07fd3cf2ab1e33"}
+# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_numpy.test_symarray","kind":"function","src_hash":"8a46c2c17985700d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: s1[0] == s2[0] and not a[0] == b[0] and a2d.shape == (2, 3) and a2d[0, 0] == a00 and a2d[1, 2] == a12 and a3d.shape == (2, 3, 2) and a3d[0, 0, 0] == a000 and a3d[1, 2, 0] == a120 and a3d[1, 2, 1] == a121"},"spec":{"lhs":"test_symarray()","rhs":"s1[0] == s2[0] and not a[0] == b[0] and a2d.shape == (2, 3) and a2d[0, 0] == a00 and a2d[1, 2] == a12 and a3d.shape == (2, 3, 2) and a3d[0, 0, 0] == a000 and a3d[1, 2, 0] == a120 and a3d[1, 2, 1] == a121","over":{"base":"Any"},"name":"test_symarray_correct"},"guarantee":"s1[0] == s2[0]; not a[0] == b[0]; a2d.shape == (2, 3)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_numpy.test_symarray_correct","statement":"Path(test_symarray(x), s1[0] == s2[0]; not a[0] == b[0]; a2d.shape == (2, 3))"},"assumes":[],"trust":["numpy.__module__"],"compiled":true,"vhash":"455f0650332c3f69","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["s1[0] == s2[0]","not a[0] == b[0]","a2d.shape == (2, 3)","a2d[0, 0] == a00","a2d[1, 2] == a12","a3d.shape == (2, 3, 2)","a3d[0, 0, 0] == a000","a3d[1, 2, 0] == a120","a3d[1, 2, 1] == a121"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_symarray():
     """Test creation of numpy arrays of SymPy symbols."""
 
@@ -600,16 +758,22 @@ def test_symarray():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_vectorize(), test_vectorize produces the expected output) over Any ║
+# ║ Path(test_vectorize(), (numpy.vectorize(sin)([1, 2, 3]) == numpy.array([sin(1), sin(2), sin(3)])).all()) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_vectorize : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (numpy.vectorize(sin)([1, 2, 3]) == numpy...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_vectorize : Any → {Any | result satisfies: (nump...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 00ec314d0f954d29  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c8851c93153ecbb2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_numpy.test_vectorize","kind":"function","src_hash":"faf2497cbd3752bd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_vectorize()","rhs":"test_vectorize produces the expected output","over":{"base":"Any"},"name":"test_vectorize_correct"},"guarantee":"test_vectorize produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_numpy.test_vectorize_correct","statement":"Path(test_vectorize(x), test_vectorize produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"00ec314d0f954d29"}
+# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_numpy.test_vectorize","kind":"function","src_hash":"faf2497cbd3752bd","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (numpy.vectorize(sin)([1, 2, 3]) == numpy.array([sin(1), sin(2), sin(3)])).all()"},"spec":{"lhs":"test_vectorize()","rhs":"(numpy.vectorize(sin)([1, 2, 3]) == numpy.array([sin(1), sin(2), sin(3)])).all()","over":{"base":"Any"},"name":"test_vectorize_correct"},"guarantee":"(numpy.vectorize(sin)([1, 2, 3]) == numpy.array([sin(1), sin(2), sin(3)])).all()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_numpy.test_vectorize_correct","statement":"Path(test_vectorize(x), (numpy.vectorize(sin)([1, 2, 3]) == numpy.array([sin(1), sin(2), sin(3)])).all())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c8851c93153ecbb2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(numpy.vectorize(sin)([1, 2, 3]) == numpy.array([sin(1), sin(2), sin(3)])).all()"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_vectorize():
     assert (numpy.vectorize(
         sin)([1, 2, 3]) == numpy.array([sin(1), sin(2), sin(3)])).all()

@@ -43,7 +43,13 @@ from sympy.simplify.simplify import nsimplify
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(polytope_integrate(pol), integrates polynomials over 2/3-polytopes) over {Any | isinstance(poly, Polygon) and isinstance(expr, list)} ║
+# ║ Path(polytope_integrate(poly, expr, clockwise), len(f_expr) == old_len_f_expr + 1) over {Any | isinstance(poly, Polygon) and isinstance(expr, list) and not (expr is None) and hasattr(poly, 'sides') and hasattr(poly, 'is_zero') and hasattr(poly, 'vertices')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (expr is None)                             ║
+# ║   requires: hasattr(poly, 'sides')                         ║
+# ║   requires: hasattr(poly, 'is_zero')                       ║
+# ║   ensures:  len(f_expr) == old_len_f_expr + 1              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ polytope_integrate : {Any | isinstance(poly, Polygon)...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -56,9 +62,12 @@ from sympy.simplify.simplify import nsimplify
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?2 ✗2 VCs | 4.8ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 6f5623be...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.intpoly.polytope_integrate","kind":"function","src_hash":"b179951bb6d2a420","in":{"base":"Any","pred":"isinstance(poly, Polygon) and isinstance(expr, list)"},"out":{"base":"Any"},"spec":{"lhs":"polytope_integrate(pol)","rhs":"integrates polynomials over 2/3-polytopes","over":{"base":"Any","pred":"isinstance(poly, Polygon) and isinstance(expr, list)"},"name":"polytope_integrate_correct"},"guarantee":"integrates polynomials over 2/3-polytopes","fibers":[{"name":"Polygon","pred":"isinstance(poly, Polygon)","path":{"lhs":"polytope_integrate(x)","rhs":"integrates polynomials over 2/3-polytopes","over":{"base":"Polygon","pred":"isinstance(poly, Polygon)"},"name":"polytope_integrate_Polygon_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.intpoly.polytope_integrate_Polygon_correct","statement":"polytope_integrate satisfies spec on Polygon inputs"},"trust":"LIBRARY"},{"name":"list","pred":"isinstance(expr, list)","path":{"lhs":"polytope_integrate(x)","rhs":"integrates polynomials over 2/3-polytopes","over":{"base":"list","pred":"isinstance(expr, list)"},"name":"polytope_integrate_list_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.intpoly.polytope_integrate_list_correct","statement":"polytope_integrate satisfies spec on list inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"6f5623be650c761c"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.intpoly.polytope_integrate","kind":"function","src_hash":"b179951bb6d2a420","in":{"base":"Any","pred":"isinstance(poly, Polygon) and isinstance(expr, list) and not (expr is None) and hasattr(poly, 'sides') and hasattr(poly, 'is_zero') and hasattr(poly, 'vertices')"},"out":{"base":"Any","pred":"result satisfies: len(f_expr) == old_len_f_expr + 1"},"spec":{"lhs":"polytope_integrate(poly, expr, clockwise)","rhs":"len(f_expr) == old_len_f_expr + 1","over":{"base":"Any","pred":"isinstance(poly, Polygon) and isinstance(expr, list) and not (expr is None) and hasattr(poly, 'sides') and hasattr(poly, 'is_zero') and hasattr(poly, 'vertices')"},"name":"polytope_integrate_correct"},"guarantee":"len(f_expr) == old_len_f_expr + 1","fibers":[{"name":"Polygon","pred":"isinstance(poly, Polygon)","path":{"lhs":"polytope_integrate(x)","rhs":"len(f_expr) == old_len_f_expr + 1","over":{"base":"Polygon","pred":"isinstance(poly, Polygon)"},"name":"polytope_integrate_Polygon_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.intpoly.polytope_integrate_Polygon_correct","statement":"polytope_integrate satisfies spec on Polygon inputs"},"trust":"LIBRARY"},{"name":"list","pred":"isinstance(expr, list)","path":{"lhs":"polytope_integrate(x)","rhs":"len(f_expr) == old_len_f_expr + 1","over":{"base":"list","pred":"isinstance(expr, list)"},"name":"polytope_integrate_list_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.intpoly.polytope_integrate_list_correct","statement":"polytope_integrate satisfies spec on list inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"6f5623be650c761c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (expr is None)","hasattr(poly, 'sides')","hasattr(poly, 'is_zero')","hasattr(poly, 'vertices')"],"ensures":["len(f_expr) == old_len_f_expr + 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["poly.is_zero","poly.sides","poly.vertices"],"calls_mutating":["_.popitem","f_expr.append"],"raises":["NotImplementedError","TypeError"]},"state_contract":{"modifies":["_.*","f_expr.*"],"old_bindings":{"old_len_f_expr":"len(f_expr)"},"post_ensures":["len(f_expr) == old_len_f_expr + 1"],"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"],"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":1,"n_assumed":2,"n_failed":2,"trust_level":"LIBRARY_ASSUMED","compile_ms":4.8,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['poly', 'expr'], spec=['poly', 'expr', 'clockwise', 'max_degree']","Poor branch-fiber coverage: 0% (branches={'isinstance(poly, Polygon)', 'len(hp_params[0][0]) == 3', 'len(poly[0]) == 2', 'expr is None', 'len(poly[0][0]) == 2', 'len(_) == 1 and (not _.popitem()[0])', 'max_degree is None', 'Poly(e).total_degree() <= max_degree', 'not isinstance(expr, list) and expr is not None'}, fibers={'Polygon', 'list'})"]}}
 def polytope_integrate(poly, expr=None, *, clockwise=False, max_degree=None):
     """Integrates polynomials over 2/3-Polytopes.
 
@@ -177,16 +186,28 @@ def polytope_integrate(poly, expr=None, *, clockwise=False, max_degree=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(strip(mon), strip produces the expected output) over Any ║
+# ║ Path(strip(monom), result == ((S.Zero, S.Zero) if monom.is_zero else (monom, S.One) if monom.is_number else (coeff, monom / coeff)) and result == (S.Zero, S.Zero) or result == (monom, S.One) or result == (coeff, monom / coeff)) over {Any | hasattr(monom, 'is_zero') and hasattr(monom, 'is_number')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ strip : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(monom, 'is_zero')                      ║
+# ║   requires: hasattr(monom, 'is_number')                    ║
+# ║   ensures:  result == ((S.Zero, S.Zero) if monom.is_z...   ║
+# ║   ensures:  result == (S.Zero, S.Zero) or result == (...   ║
+# ║   fiber[case_0]: monom.is_zero => (S.Zero, S.Zero)         ║
+# ║   fiber[case_1]: monom.is_number => (monom, S.One)         ║
+# ║   fiber[case_2]: not (monom.is_zero) and not (monom.i...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ strip : {Any | hasattr(monom, 'is_zero') and hasattr(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 43e87c96711f8aad  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 94ec946e7cc60ab6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.intpoly.strip","kind":"function","src_hash":"98f61b1b9f803a36","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"strip(mon)","rhs":"strip produces the expected output","over":{"base":"Any"},"name":"strip_correct"},"guarantee":"strip produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.intpoly.strip_correct","statement":"Path(strip(x), strip produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"43e87c96711f8aad"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.intpoly.strip","kind":"function","src_hash":"98f61b1b9f803a36","in":{"base":"Any","pred":"hasattr(monom, 'is_zero') and hasattr(monom, 'is_number')"},"out":{"base":"Any","pred":"result satisfies: result == ((S.Zero, S.Zero) if monom.is_zero else (monom, S.One) if monom.is_number else (coeff, monom / coeff)) and result == (S.Zero, S.Zero) or result == (monom, S.One) or result == (coeff, monom / coeff)"},"spec":{"lhs":"strip(monom)","rhs":"result == ((S.Zero, S.Zero) if monom.is_zero else (monom, S.One) if monom.is_number else (coeff, monom / coeff)) and result == (S.Zero, S.Zero) or result == (monom, S.One) or result == (coeff, monom / coeff)","over":{"base":"Any","pred":"hasattr(monom, 'is_zero') and hasattr(monom, 'is_number')"},"name":"strip_correct"},"guarantee":"result == ((S.Zero, S.Zero) if monom.is_zero else (monom, S.One) if monom.is_number else (coeff, monom / coeff)); result == (S.Zero, S.Zero) or result == (monom, S.One) or result == (coeff, monom / coeff); 3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.intpoly.strip_correct","statement":"Path(strip(x), result == ((S.Zero, S.Zero) if monom.is_zero else (monom, S.One) if monom.is_number else (coeff, monom / coeff)); result == (S.Zero, S.Zero) or result == (monom, S.One) or result == (coeff, monom / coeff); 3-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"94ec946e7cc60ab6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(monom, 'is_zero')","hasattr(monom, 'is_number')"],"ensures":["result == ((S.Zero, S.Zero) if monom.is_zero else (monom, S.One) if monom.is_number else (coeff, monom / coeff))","result == (S.Zero, S.Zero) or result == (monom, S.One) or result == (coeff, monom / coeff)"],"fibers":[{"name":"case_0","guard":"monom.is_zero","ensures":["result == (S.Zero, S.Zero)"],"decidability":"library","returns_expr":"(S.Zero, S.Zero)"},{"name":"case_1","guard":"monom.is_number","ensures":["result == (monom, S.One)"],"decidability":"library","returns_expr":"(monom, S.One)"},{"name":"case_2","guard":"not (monom.is_zero) and not (monom.is_number)","ensures":["result == (coeff, monom / coeff)"],"decidability":"library","returns_expr":"(coeff, monom / coeff)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["monom.is_number","monom.is_zero"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def strip(monom):
     if monom.is_zero:
         return S.Zero, S.Zero
@@ -197,16 +218,22 @@ def strip(monom):
         return coeff, monom / coeff
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_polynomial_integrate(pol), internal helper behaves correctly) over Any ║
+# ║ Path(_polynomial_integrate(polynomials, facets, hp_params), <unspecified:_polynomial_integrate>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _polynomial_integrate : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2aaee806816af280  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.intpoly._polynomial_integrate","kind":"function","src_hash":"4f4486433b7f5cd5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_polynomial_integrate(pol)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_polynomial_integrate_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.intpoly._polynomial_integrate_correct","statement":"Path(_polynomial_integrate(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2aaee806816af280"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.intpoly._polynomial_integrate","kind":"function","src_hash":"4f4486433b7f5cd5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_polynomial_integrate(polynomials, facets, hp_params)","rhs":"<unspecified:_polynomial_integrate>","over":{"base":"Any"},"name":"_polynomial_integrate_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.intpoly._polynomial_integrate_correct","statement":"Path(_polynomial_integrate(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2aaee806816af280","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _polynomial_integrate(polynomials, facets, hp_params):
     dims = (x, y)
     dim_length = len(dims)
@@ -229,16 +256,23 @@ def _polynomial_integrate(polynomials, facets, hp_params):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(main_integrate3d(exp), function to translate the problem of integrating uni/bi/tri-variate polynomials over a 3-polytope to integrating over its faces. this is done using generalized stokes' theorem and euler's theorem) over Any ║
+# ║ Path(main_integrate3d(expr, facets, vertices), <unspecified:main_integrate3d>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: max_degree => result                      ║
+# ║   fiber[case_1]: not (max_degree)                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ main_integrate3d : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ac656091d0b720ff  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f93ef56f30f6cee3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.intpoly.main_integrate3d","kind":"function","src_hash":"358199250ee18cb7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"main_integrate3d(exp)","rhs":"function to translate the problem of integrating uni/bi/tri-variate polynomials over a 3-polytope to integrating over its faces. this is done using generalized stokes' theorem and euler's theorem","over":{"base":"Any"},"name":"main_integrate3d_correct"},"guarantee":"function to translate the problem of integrating uni/bi/tri-variate polynomials over a 3-polytope to integrating over its faces. this is done using generalized stokes' theorem and euler's theorem","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.intpoly.main_integrate3d_correct","statement":"Path(main_integrate3d(x), function to translate the problem of integrating uni/bi/tri-variate polynomials over a 3-polytope to integrating over its faces. this is done using generalized stokes' theorem and euler's theorem)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ac656091d0b720ff"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.intpoly.main_integrate3d","kind":"function","src_hash":"358199250ee18cb7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"main_integrate3d(expr, facets, vertices)","rhs":"<unspecified:main_integrate3d>","over":{"base":"Any"},"name":"main_integrate3d_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.intpoly.main_integrate3d_correct","statement":"Path(main_integrate3d(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f93ef56f30f6cee3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"max_degree","ensures":["result == result"],"decidability":"library","returns_expr":"result"},{"name":"case_1","guard":"not (max_degree)","ensures":[],"decidability":"library"}],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def main_integrate3d(expr, facets, vertices, hp_params, max_degree=None):
     """Function to translate the problem of integrating uni/bi/tri-variate
     polynomials over a 3-Polytope to integrating over its faces.
@@ -327,9 +361,16 @@ def main_integrate3d(expr, facets, vertices, hp_params, max_degree=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(main_integrate(exp), function to translate the problem of integrating univariate/bivariate polynomials over a 2-polytope to integrating over its boundary facets. this is done using generalized stokes's theorem and euler's) over {Any | isinstance(expr, list)} ║
+# ║ Path(main_integrate(expr, facets, hp_params), result == (result if max_degree else _polynomial_integrate(polynomials, facets, hp_params) if not isinstance(expr, list) else {e: _polynomial_integrate(decompose(e), facets, hp_params) for e in expr}) and result == result or result == _polynomial_integrate(polynomials, facets, hp_params) or result == {e: _polynomial_integrate(decompose(e), facets, hp_params) for e in expr}) over {Any | isinstance(expr, list)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ main_integrate : {Any | isinstance(expr, list)} → Any      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (result if max_degree else _pol...   ║
+# ║   ensures:  result == result or result == _polynomial...   ║
+# ║   fiber[case_0]: max_degree => result                      ║
+# ║   fiber[list]: not isinstance(expr, list) => _polynom...   ║
+# ║   fiber[list]: not (max_degree) and not (not isinstan...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ main_integrate : {Any | isinstance(expr, list)} → {An...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   list: {isinstance(expr, list)} → library_axiom           ║
@@ -339,9 +380,12 @@ def main_integrate3d(expr, facets, vertices, hp_params, max_degree=None):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.3ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 6c4e0160...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.intpoly.main_integrate","kind":"function","src_hash":"ec42ee02771dadf8","in":{"base":"Any","pred":"isinstance(expr, list)"},"out":{"base":"Any"},"spec":{"lhs":"main_integrate(exp)","rhs":"function to translate the problem of integrating univariate/bivariate polynomials over a 2-polytope to integrating over its boundary facets. this is done using generalized stokes's theorem and euler's","over":{"base":"Any","pred":"isinstance(expr, list)"},"name":"main_integrate_correct"},"guarantee":"function to translate the problem of integrating univariate/bivariate polynomials over a 2-polytope to integrating over its boundary facets. this is done using generalized stokes's theorem and euler's","fibers":[{"name":"list","pred":"isinstance(expr, list)","path":{"lhs":"main_integrate(x)","rhs":"function to translate the problem of integrating univariate/bivariate polynomials over a 2-polytope to integrating over its boundary facets. this is done using generalized stokes's theorem and euler's","over":{"base":"list","pred":"isinstance(expr, list)"},"name":"main_integrate_list_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.intpoly.main_integrate_list_correct","statement":"main_integrate satisfies spec on list inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"6c4e01601b047ae7"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.intpoly.main_integrate","kind":"function","src_hash":"ec42ee02771dadf8","in":{"base":"Any","pred":"isinstance(expr, list)"},"out":{"base":"Any","pred":"result satisfies: result == (result if max_degree else _polynomial_integrate(polynomials, facets, hp_params) if not isinstance(expr, list) else {e: _polynomial_integrate(decompose(e), facets, hp_params) for e in expr}) and result == result or result == _polynomial_integrate(polynomials, facets, hp_params) or result == {e: _polynomial_integrate(decompose(e), facets, hp_params) for e in expr}"},"spec":{"lhs":"main_integrate(expr, facets, hp_params)","rhs":"result == (result if max_degree else _polynomial_integrate(polynomials, facets, hp_params) if not isinstance(expr, list) else {e: _polynomial_integrate(decompose(e), facets, hp_params) for e in expr}) and result == result or result == _polynomial_integrate(polynomials, facets, hp_params) or result == {e: _polynomial_integrate(decompose(e), facets, hp_params) for e in expr}","over":{"base":"Any","pred":"isinstance(expr, list)"},"name":"main_integrate_correct"},"guarantee":"result == (result if max_degree else _polynomial_integrate(polynomials, facets, hp_params) if not isinstance(expr, list) else {e: _polynomial_integrate(decompose(e), facets, hp_params) for e in expr}); result == result or result == _polynomial_integrate(polynomials, facets, hp_params) or result == {e: _polynomial_integrate(decompose(e), facets, hp_params) for e in expr}; 3-fiber decomposition","fibers":[{"name":"list","pred":"isinstance(expr, list)","path":{"lhs":"main_integrate(x)","rhs":"result == (result if max_degree else _polynomial_integrate(polynomials, facets, hp_params) if not isinstance(expr, list) else {e: _polynomial_integrate(decompose(e), facets, hp_params) for e in expr}); result == result or result == _polynomial_integrate(polynomials, facets, hp_params) or result == {e: _polynomial_integrate(decompose(e), facets, hp_params) for e in expr}; 3-fiber decomposition","over":{"base":"list","pred":"isinstance(expr, list)"},"name":"main_integrate_list_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.intpoly.main_integrate_list_correct","statement":"main_integrate satisfies spec on list inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"6c4e01601b047ae7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (result if max_degree else _polynomial_integrate(polynomials, facets, hp_params) if not isinstance(expr, list) else {e: _polynomial_integrate(decompose(e), facets, hp_params) for e in expr})","result == result or result == _polynomial_integrate(polynomials, facets, hp_params) or result == {e: _polynomial_integrate(decompose(e), facets, hp_params) for e in expr}"],"fibers":[{"name":"case_0","guard":"max_degree","ensures":["result == result"],"decidability":"library","returns_expr":"result"},{"name":"list","guard":"not isinstance(expr, list)","ensures":["result == _polynomial_integrate(polynomials, facets, hp_params)"],"decidability":"structural","returns_expr":"_polynomial_integrate(polynomials, facets, hp_params)"},{"name":"list","guard":"not (max_degree) and not (not isinstance(expr, list))","ensures":["result == {e: _polynomial_integrate(decompose(e), facets, hp_params) for e in expr}"],"decidability":"structural","returns_expr":"{e: _polynomial_integrate(decompose(e), facets, hp_params) for e in expr}"}],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.3,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'not isinstance(expr, list)'}, fibers={'list'})"]}}
 def main_integrate(expr, facets, hp_params, max_degree=None):
     """Function to translate the problem of integrating univariate/bivariate
     polynomials over a 2-Polytope to integrating over its boundary facets.
@@ -412,16 +456,22 @@ def main_integrate(expr, facets, hp_params, max_degree=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(polygon_integrate(fac), helper function to integrate the input uni/bi/trivariate polynomial over a certain face of the 3-polytope) over Any ║
+# ║ Path(polygon_integrate(facet, hp_param, index), # HINT: polygon_integrate may be idempotent: polygon_integrate(polygon_integrate(x)) == polygon_integrate(x)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ polygon_integrate : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  # HINT: polygon_integrate may be idempote...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ polygon_integrate : Any → {Any | result satisfies: # ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aa8c8c33d3d21a18  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 85e6916c538e283f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.intpoly.polygon_integrate","kind":"function","src_hash":"3cb7cda2d072dac6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"polygon_integrate(fac)","rhs":"helper function to integrate the input uni/bi/trivariate polynomial over a certain face of the 3-polytope","over":{"base":"Any"},"name":"polygon_integrate_correct"},"guarantee":"helper function to integrate the input uni/bi/trivariate polynomial over a certain face of the 3-polytope","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.intpoly.polygon_integrate_correct","statement":"Path(polygon_integrate(x), helper function to integrate the input uni/bi/trivariate polynomial over a certain face of the 3-polytope)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aa8c8c33d3d21a18"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.intpoly.polygon_integrate","kind":"function","src_hash":"3cb7cda2d072dac6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: # HINT: polygon_integrate may be idempotent: polygon_integrate(polygon_integrate(x)) == polygon_integrate(x)"},"spec":{"lhs":"polygon_integrate(facet, hp_param, index)","rhs":"# HINT: polygon_integrate may be idempotent: polygon_integrate(polygon_integrate(x)) == polygon_integrate(x)","over":{"base":"Any"},"name":"polygon_integrate_correct"},"guarantee":"# HINT: polygon_integrate may be idempotent: polygon_integrate(polygon_integrate(x)) == polygon_integrate(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.intpoly.polygon_integrate_correct","statement":"Path(polygon_integrate(x), # HINT: polygon_integrate may be idempotent: polygon_integrate(polygon_integrate(x)) == polygon_integrate(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"85e6916c538e283f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["# HINT: polygon_integrate may be idempotent: polygon_integrate(polygon_integrate(x)) == polygon_integrate(x)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.is_number","expr.is_zero"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def polygon_integrate(facet, hp_param, index, facets, vertices, expr, degree):
     """Helper function to integrate the input uni/bi/trivariate polynomial
     over a certain face of the 3-Polytope.
@@ -476,16 +526,22 @@ def polygon_integrate(facet, hp_param, index, facets, vertices, expr, degree):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(distance_to_side(poi), helper function to compute the signed distance between given 3d point and a line segment) over Any ║
+# ║ Path(distance_to_side(point, line_seg, A), <unspecified:distance_to_side>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ distance_to_side : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f9350618351eb453  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.intpoly.distance_to_side","kind":"function","src_hash":"241f294762cf3a7d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"distance_to_side(poi)","rhs":"helper function to compute the signed distance between given 3d point and a line segment","over":{"base":"Any"},"name":"distance_to_side_correct"},"guarantee":"helper function to compute the signed distance between given 3d point and a line segment","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.intpoly.distance_to_side_correct","statement":"Path(distance_to_side(x), helper function to compute the signed distance between given 3d point and a line segment)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f9350618351eb453"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.intpoly.distance_to_side","kind":"function","src_hash":"241f294762cf3a7d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"distance_to_side(point, line_seg, A)","rhs":"<unspecified:distance_to_side>","over":{"base":"Any"},"name":"distance_to_side_correct"},"guarantee":"helper function to compute the signed distance between given 3d point and a line segment","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.intpoly.distance_to_side_correct","statement":"Path(distance_to_side(x), helper function to compute the signed distance between given 3d point and a line segment)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f9350618351eb453","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def distance_to_side(point, line_seg, A):
     """Helper function to compute the signed distance between given 3D point
     and a line segment.
@@ -517,9 +573,14 @@ def distance_to_side(point, line_seg, A):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(lineseg_integrate(pol), helper function to compute the line integral of ``expr`` over ``line_seg``) over {Any | isinstance(expr, Expr)} ║
+# ║ Path(lineseg_integrate(polygon, index, line_seg), # HINT: lineseg_integrate may be idempotent: lineseg_integrate(lineseg_integrate(x)) == lineseg_integrate(x)) over {Any | isinstance(expr, Expr) and hasattr(expr, 'is_zero') and hasattr(expr, 'subs')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ lineseg_integrate : {Any | isinstance(expr, Expr)} → Any   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'is_zero')                       ║
+# ║   requires: hasattr(expr, 'subs')                          ║
+# ║   ensures:  # HINT: lineseg_integrate may be idempote...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ lineseg_integrate : {Any | isinstance(expr, Expr) and...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   Expr: {isinstance(expr, Expr)} → library_axiom           ║
@@ -529,9 +590,12 @@ def distance_to_side(point, line_seg, A):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.4ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | f3fa12d1...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.intpoly.lineseg_integrate","kind":"function","src_hash":"9402bb5daa158b1a","in":{"base":"Any","pred":"isinstance(expr, Expr)"},"out":{"base":"Any"},"spec":{"lhs":"lineseg_integrate(pol)","rhs":"helper function to compute the line integral of ``expr`` over ``line_seg``","over":{"base":"Any","pred":"isinstance(expr, Expr)"},"name":"lineseg_integrate_correct"},"guarantee":"helper function to compute the line integral of ``expr`` over ``line_seg``","fibers":[{"name":"Expr","pred":"isinstance(expr, Expr)","path":{"lhs":"lineseg_integrate(x)","rhs":"helper function to compute the line integral of ``expr`` over ``line_seg``","over":{"base":"Expr","pred":"isinstance(expr, Expr)"},"name":"lineseg_integrate_Expr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.intpoly.lineseg_integrate_Expr_correct","statement":"lineseg_integrate satisfies spec on Expr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"f3fa12d193eb65ac"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.intpoly.lineseg_integrate","kind":"function","src_hash":"9402bb5daa158b1a","in":{"base":"Any","pred":"isinstance(expr, Expr) and hasattr(expr, 'is_zero') and hasattr(expr, 'subs')"},"out":{"base":"Any","pred":"result satisfies: # HINT: lineseg_integrate may be idempotent: lineseg_integrate(lineseg_integrate(x)) == lineseg_integrate(x)"},"spec":{"lhs":"lineseg_integrate(polygon, index, line_seg)","rhs":"# HINT: lineseg_integrate may be idempotent: lineseg_integrate(lineseg_integrate(x)) == lineseg_integrate(x)","over":{"base":"Any","pred":"isinstance(expr, Expr) and hasattr(expr, 'is_zero') and hasattr(expr, 'subs')"},"name":"lineseg_integrate_correct"},"guarantee":"# HINT: lineseg_integrate may be idempotent: lineseg_integrate(lineseg_integrate(x)) == lineseg_integrate(x)","fibers":[{"name":"Expr","pred":"isinstance(expr, Expr)","path":{"lhs":"lineseg_integrate(x)","rhs":"# HINT: lineseg_integrate may be idempotent: lineseg_integrate(lineseg_integrate(x)) == lineseg_integrate(x)","over":{"base":"Expr","pred":"isinstance(expr, Expr)"},"name":"lineseg_integrate_Expr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.intpoly.lineseg_integrate_Expr_correct","statement":"lineseg_integrate satisfies spec on Expr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"f3fa12d193eb65ac","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'is_zero')","hasattr(expr, 'subs')"],"ensures":["# HINT: lineseg_integrate may be idempotent: lineseg_integrate(lineseg_integrate(x)) == lineseg_integrate(x)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.is_zero","expr.subs"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.4,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(expr, Expr)'}, fibers={'Expr'})"]}}
 def lineseg_integrate(polygon, index, line_seg, expr, degree):
     """Helper function to compute the line integral of ``expr`` over ``line_seg``.
 
@@ -578,16 +642,23 @@ def lineseg_integrate(polygon, index, line_seg, expr, degree):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(integration_reduction(fac), helper method for main_integrate) over Any ║
+# ║ Path(integration_reduction(facets, index, a), # HINT: integration_reduction may be idempotent: integration_reduction(integration_reduction(x)) == integration_reduction(x)) over {Any | hasattr(expr, 'is_zero')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ integration_reduction : Any → Any                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'is_zero')                       ║
+# ║   ensures:  # HINT: integration_reduction may be idem...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ integration_reduction : {Any | hasattr(expr, 'is_zero...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e387ed24cb73a4d0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 76456d22712b57a7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.intpoly.integration_reduction","kind":"function","src_hash":"d68b0b5c4c469caa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"integration_reduction(fac)","rhs":"helper method for main_integrate","over":{"base":"Any"},"name":"integration_reduction_correct"},"guarantee":"helper method for main_integrate","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.intpoly.integration_reduction_correct","statement":"Path(integration_reduction(x), helper method for main_integrate)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e387ed24cb73a4d0"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.intpoly.integration_reduction","kind":"function","src_hash":"d68b0b5c4c469caa","in":{"base":"Any","pred":"hasattr(expr, 'is_zero')"},"out":{"base":"Any","pred":"result satisfies: # HINT: integration_reduction may be idempotent: integration_reduction(integration_reduction(x)) == integration_reduction(x)"},"spec":{"lhs":"integration_reduction(facets, index, a)","rhs":"# HINT: integration_reduction may be idempotent: integration_reduction(integration_reduction(x)) == integration_reduction(x)","over":{"base":"Any","pred":"hasattr(expr, 'is_zero')"},"name":"integration_reduction_correct"},"guarantee":"# HINT: integration_reduction may be idempotent: integration_reduction(integration_reduction(x)) == integration_reduction(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.intpoly.integration_reduction_correct","statement":"Path(integration_reduction(x), # HINT: integration_reduction may be idempotent: integration_reduction(integration_reduction(x)) == integration_reduction(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"76456d22712b57a7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'is_zero')"],"ensures":["# HINT: integration_reduction may be idempotent: integration_reduction(integration_reduction(x)) == integration_reduction(x)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.is_zero"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def integration_reduction(facets, index, a, b, expr, dims, degree):
     """Helper method for main_integrate. Returns the value of the input
     expression evaluated over the polytope facet referenced by a given index.
@@ -644,9 +715,13 @@ def integration_reduction(facets, index, a, b, expr, dims, degree):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(left_integral2D(m, ), computes the left integral of eq 10 in chin et al. for the 2d case, the integral is just an evaluation of the polynomial at the intersection of two facets which is multiplied by the distance between t) over {Any | isinstance(expr, Expr)} ║
+# ║ Path(left_integral2D(m, index, facets), <unspecified:left_integral2D>) over {Any | isinstance(expr, Expr) and hasattr(expr, 'subs')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ left_integral2D : {Any | isinstance(expr, Expr)} → Any     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'subs')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ left_integral2D : {Any | isinstance(expr, Expr) and h...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   Expr: {isinstance(expr, Expr)} → library_axiom           ║
@@ -656,9 +731,12 @@ def integration_reduction(facets, index, a, b, expr, dims, degree):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.3ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 9fa66520...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.intpoly.left_integral2D","kind":"function","src_hash":"0a361a8338d36b57","in":{"base":"Any","pred":"isinstance(expr, Expr)"},"out":{"base":"Any"},"spec":{"lhs":"left_integral2D(m, )","rhs":"computes the left integral of eq 10 in chin et al. for the 2d case, the integral is just an evaluation of the polynomial at the intersection of two facets which is multiplied by the distance between t","over":{"base":"Any","pred":"isinstance(expr, Expr)"},"name":"left_integral2D_correct"},"guarantee":"computes the left integral of eq 10 in chin et al. for the 2d case, the integral is just an evaluation of the polynomial at the intersection of two facets which is multiplied by the distance between t","fibers":[{"name":"Expr","pred":"isinstance(expr, Expr)","path":{"lhs":"left_integral2D(x)","rhs":"computes the left integral of eq 10 in chin et al. for the 2d case, the integral is just an evaluation of the polynomial at the intersection of two facets which is multiplied by the distance between t","over":{"base":"Expr","pred":"isinstance(expr, Expr)"},"name":"left_integral2D_Expr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.intpoly.left_integral2D_Expr_correct","statement":"left_integral2D satisfies spec on Expr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"9fa665200dae1f94"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.intpoly.left_integral2D","kind":"function","src_hash":"0a361a8338d36b57","in":{"base":"Any","pred":"isinstance(expr, Expr) and hasattr(expr, 'subs')"},"out":{"base":"Any"},"spec":{"lhs":"left_integral2D(m, index, facets)","rhs":"<unspecified:left_integral2D>","over":{"base":"Any","pred":"isinstance(expr, Expr) and hasattr(expr, 'subs')"},"name":"left_integral2D_correct"},"guarantee":"computes the left integral of eq 10 in chin et al. for the 2d case, the integral is just an evaluation of the polynomial at the intersection of two facets which is multiplied by the distance between t","fibers":[{"name":"Expr","pred":"isinstance(expr, Expr)","path":{"lhs":"left_integral2D(x)","rhs":"computes the left integral of eq 10 in chin et al. for the 2d case, the integral is just an evaluation of the polynomial at the intersection of two facets which is multiplied by the distance between t","over":{"base":"Expr","pred":"isinstance(expr, Expr)"},"name":"left_integral2D_Expr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.intpoly.left_integral2D_Expr_correct","statement":"left_integral2D satisfies spec on Expr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"9fa665200dae1f94","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'subs')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.subs"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.3,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(expr, Expr)', 'len(gens) == 3'}, fibers={'Expr'})"]}}
 def left_integral2D(m, index, facets, x0, expr, gens):
     """Computes the left integral of Eq 10 in Chin et al.
     For the 2D case, the integral is just an evaluation of the polynomial
@@ -716,16 +794,23 @@ def left_integral2D(m, index, facets, x0, expr, gens):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(integration_reduction_dynamic(fac), the same integration_reduction function which uses a dynamic programming approach to compute terms by using the values of the integral of previously computed terms) over Any ║
+# ║ Path(integration_reduction_dynamic(facets, index, a), <unspecified:integration_reduction_dynamic>) over {Any | hasattr(expr, 'is_number')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ integration_reduction_dynamic : Any → Any                  ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'is_number')                     ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ integration_reduction_dynamic : {Any | hasattr(expr, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | def3727676430c7e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.intpoly.integration_reduction_dynamic","kind":"function","src_hash":"eb5c3a306e9e5d02","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"integration_reduction_dynamic(fac)","rhs":"the same integration_reduction function which uses a dynamic programming approach to compute terms by using the values of the integral of previously computed terms","over":{"base":"Any"},"name":"integration_reduction_dynamic_correct"},"guarantee":"the same integration_reduction function which uses a dynamic programming approach to compute terms by using the values of the integral of previously computed terms","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.intpoly.integration_reduction_dynamic_correct","statement":"Path(integration_reduction_dynamic(x), the same integration_reduction function which uses a dynamic programming approach to compute terms by using the values of the integral of previously computed terms)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"def3727676430c7e"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.intpoly.integration_reduction_dynamic","kind":"function","src_hash":"eb5c3a306e9e5d02","in":{"base":"Any","pred":"hasattr(expr, 'is_number')"},"out":{"base":"Any"},"spec":{"lhs":"integration_reduction_dynamic(facets, index, a)","rhs":"<unspecified:integration_reduction_dynamic>","over":{"base":"Any","pred":"hasattr(expr, 'is_number')"},"name":"integration_reduction_dynamic_correct"},"guarantee":"the same integration_reduction function which uses a dynamic programming approach to compute terms by using the values of the integral of previously computed terms","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.intpoly.integration_reduction_dynamic_correct","statement":"Path(integration_reduction_dynamic(x), the same integration_reduction function which uses a dynamic programming approach to compute terms by using the values of the integral of previously computed terms)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"def3727676430c7e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'is_number')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.is_number"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def integration_reduction_dynamic(facets, index, a, b, expr, degree, dims,
                                   x_index, y_index, max_index, x0,
                                   monomial_values, monom_index, vertices=None,
@@ -823,16 +908,22 @@ def integration_reduction_dynamic(facets, index, a, b, expr, degree, dims,
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(left_integral3D(fac), computes the left integral of eq 10 in chin et al) over Any ║
+# ║ Path(left_integral3D(facets, index, expr), <unspecified:left_integral3D>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ left_integral3D : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f6a862b1b8080cd8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.intpoly.left_integral3D","kind":"function","src_hash":"6a7ded6524757202","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"left_integral3D(fac)","rhs":"computes the left integral of eq 10 in chin et al","over":{"base":"Any"},"name":"left_integral3D_correct"},"guarantee":"computes the left integral of eq 10 in chin et al","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.intpoly.left_integral3D_correct","statement":"Path(left_integral3D(x), computes the left integral of eq 10 in chin et al)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f6a862b1b8080cd8"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.intpoly.left_integral3D","kind":"function","src_hash":"6a7ded6524757202","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"left_integral3D(facets, index, expr)","rhs":"<unspecified:left_integral3D>","over":{"base":"Any"},"name":"left_integral3D_correct"},"guarantee":"computes the left integral of eq 10 in chin et al","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.intpoly.left_integral3D_correct","statement":"Path(left_integral3D(x), computes the left integral of eq 10 in chin et al)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f6a862b1b8080cd8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def left_integral3D(facets, index, expr, vertices, hp_param, degree):
     """Computes the left integral of Eq 10 in Chin et al.
 
@@ -884,16 +975,22 @@ def left_integral3D(facets, index, expr, vertices, hp_param, degree):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gradient_terms(bin), returns a list of all the possible monomials between 0 and y**binomial_power for 2d case and z**binomial_power for 3d case) over Any ║
+# ║ Path(gradient_terms(binomial_power, no_of_gens), <unspecified:gradient_terms>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gradient_terms : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 67d289e9f5b372a3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.intpoly.gradient_terms","kind":"function","src_hash":"6feb824cb7cf1a17","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gradient_terms(bin)","rhs":"returns a list of all the possible monomials between 0 and y**binomial_power for 2d case and z**binomial_power for 3d case","over":{"base":"Any"},"name":"gradient_terms_correct"},"guarantee":"returns a list of all the possible monomials between 0 and y**binomial_power for 2d case and z**binomial_power for 3d case","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.intpoly.gradient_terms_correct","statement":"Path(gradient_terms(x), returns a list of all the possible monomials between 0 and y**binomial_power for 2d case and z**binomial_power for 3d case)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"67d289e9f5b372a3"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.intpoly.gradient_terms","kind":"function","src_hash":"6feb824cb7cf1a17","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gradient_terms(binomial_power, no_of_gens)","rhs":"<unspecified:gradient_terms>","over":{"base":"Any"},"name":"gradient_terms_correct"},"guarantee":"returns a list of all the possible monomials between 0 and y**binomial_power for 2d case and z**binomial_power for 3d case","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.intpoly.gradient_terms_correct","statement":"Path(gradient_terms(x), returns a list of all the possible monomials between 0 and y**binomial_power for 2d case and z**binomial_power for 3d case)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"67d289e9f5b372a3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def gradient_terms(binomial_power=0, no_of_gens=2):
     """Returns a list of all the possible monomials between
     0 and y**binomial_power for 2D case and z**binomial_power
@@ -941,7 +1038,11 @@ def gradient_terms(binomial_power=0, no_of_gens=2):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(hyperplane_parameters(pol), a helper function to return the hyperplane parameters of which the facets of the polytope are a part of) over {Any | isinstance(poly, Polygon)} ║
+# ║ Path(hyperplane_parameters(poly, vertices), <unspecified:hyperplane_parameters>) over {Any | isinstance(poly, Polygon) and hasattr(poly, 'vertices')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(poly, 'vertices')                      ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ hyperplane_parameters : {Any | isinstance(poly, Polyg...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -953,9 +1054,12 @@ def gradient_terms(binomial_power=0, no_of_gens=2):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.7ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 7a2dce68...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.intpoly.hyperplane_parameters","kind":"function","src_hash":"2ccfe67960b9bb38","in":{"base":"Any","pred":"isinstance(poly, Polygon)"},"out":{"base":"Any"},"spec":{"lhs":"hyperplane_parameters(pol)","rhs":"a helper function to return the hyperplane parameters of which the facets of the polytope are a part of","over":{"base":"Any","pred":"isinstance(poly, Polygon)"},"name":"hyperplane_parameters_correct"},"guarantee":"a helper function to return the hyperplane parameters of which the facets of the polytope are a part of","fibers":[{"name":"Polygon","pred":"isinstance(poly, Polygon)","path":{"lhs":"hyperplane_parameters(x)","rhs":"a helper function to return the hyperplane parameters of which the facets of the polytope are a part of","over":{"base":"Polygon","pred":"isinstance(poly, Polygon)"},"name":"hyperplane_parameters_Polygon_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.intpoly.hyperplane_parameters_Polygon_correct","statement":"hyperplane_parameters satisfies spec on Polygon inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"7a2dce6814352c92"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.intpoly.hyperplane_parameters","kind":"function","src_hash":"2ccfe67960b9bb38","in":{"base":"Any","pred":"isinstance(poly, Polygon) and hasattr(poly, 'vertices')"},"out":{"base":"Any"},"spec":{"lhs":"hyperplane_parameters(poly, vertices)","rhs":"<unspecified:hyperplane_parameters>","over":{"base":"Any","pred":"isinstance(poly, Polygon) and hasattr(poly, 'vertices')"},"name":"hyperplane_parameters_correct"},"guarantee":"a helper function to return the hyperplane parameters of which the facets of the polytope are a part of","fibers":[{"name":"Polygon","pred":"isinstance(poly, Polygon)","path":{"lhs":"hyperplane_parameters(x)","rhs":"a helper function to return the hyperplane parameters of which the facets of the polytope are a part of","over":{"base":"Polygon","pred":"isinstance(poly, Polygon)"},"name":"hyperplane_parameters_Polygon_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.intpoly.hyperplane_parameters_Polygon_correct","statement":"hyperplane_parameters satisfies spec on Polygon inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"7a2dce6814352c92","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(poly, 'vertices')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["poly.vertices"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.7,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(poly, Polygon)'}, fibers={'Polygon'})"]}}
 def hyperplane_parameters(poly, vertices=None):
     """A helper function to return the hyperplane parameters
     of which the facets of the polytope are a part of.
@@ -1016,16 +1120,22 @@ def hyperplane_parameters(poly, vertices=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(cross_product(v1,), returns the cross-product of vectors (v2 - v1) and (v3 - v1) that is : (v2 - v1) x (v3 - v1)) over Any ║
+# ║ Path(cross_product(v1, v2, v3), [v3[2] * v2[1] - v3[1] * v2[2], v3[0] * v2[2] - v3[2] * v2[0], v3[1] * v2[0] - v3[0] * v2[1]]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [v3[2] * v2[1] - v3[1] * v2[2], v3[0] * v...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ cross_product : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b19698df7d34bc63  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7a75d934a62ca63a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.intpoly.cross_product","kind":"function","src_hash":"3eeff552d5c0196d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"cross_product(v1,)","rhs":"returns the cross-product of vectors (v2 - v1) and (v3 - v1) that is : (v2 - v1) x (v3 - v1)","over":{"base":"Any"},"name":"cross_product_correct"},"guarantee":"returns the cross-product of vectors (v2 - v1) and (v3 - v1) that is : (v2 - v1) x (v3 - v1)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.intpoly.cross_product_correct","statement":"Path(cross_product(x), returns the cross-product of vectors (v2 - v1) and (v3 - v1) that is : (v2 - v1) x (v3 - v1))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b19698df7d34bc63"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.intpoly.cross_product","kind":"function","src_hash":"3eeff552d5c0196d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"cross_product(v1, v2, v3)","rhs":"[v3[2] * v2[1] - v3[1] * v2[2], v3[0] * v2[2] - v3[2] * v2[0], v3[1] * v2[0] - v3[0] * v2[1]]","over":{"base":"Any"},"name":"cross_product_correct"},"guarantee":"returns [v3[2] * v2[1] - v3[1] * v2[2], v3[0] * v2[2] - v3[2] * v2[0], v3[1] * v2[0] - v3[0] * v2[1]]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.intpoly.cross_product_correct","statement":"Path(cross_product(x), returns [v3[2] * v2[1] - v3[1] * v2[2], v3[0] * v2[2] - v3[2] * v2[0], v3[1] * v2[0] - v3[0] * v2[1]])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7a75d934a62ca63a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[v3[2] * v2[1] - v3[1] * v2[2], v3[0] * v2[2] - v3[2] * v2[0], v3[1] * v2[0] - v3[0] * v2[1]]","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def cross_product(v1, v2, v3):
     """Returns the cross-product of vectors (v2 - v1) and (v3 - v1)
     That is : (v2 - v1) X (v3 - v1)
@@ -1038,9 +1148,15 @@ def cross_product(v1, v2, v3):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(best_origin(a, ), helper method for polytope_integrate) over {Any | isinstance(expr, Expr)} ║
+# ║ Path(best_origin(a, b, lineseg), <unspecified:best_origin>) over {Any | isinstance(expr, Expr) and hasattr(lineseg, 'points') and hasattr(expr, 'is_Add') and hasattr(expr, 'args') and hasattr(expr, 'is_Mul') and hasattr(expr, 'is_Pow') and hasattr(expr, 'is_Symbol')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ best_origin : {Any | isinstance(expr, Expr)} → Any         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(lineseg, 'points')                     ║
+# ║   requires: hasattr(expr, 'is_Add')                        ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ best_origin : {Any | isinstance(expr, Expr) and hasat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   Expr: {isinstance(expr, Expr)} → library_axiom           ║
@@ -1050,9 +1166,12 @@ def cross_product(v1, v2, v3):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 2.5ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 63c325f7...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.intpoly.best_origin","kind":"function","src_hash":"06d542fc9bf4e9ac","in":{"base":"Any","pred":"isinstance(expr, Expr)"},"out":{"base":"Any"},"spec":{"lhs":"best_origin(a, )","rhs":"helper method for polytope_integrate","over":{"base":"Any","pred":"isinstance(expr, Expr)"},"name":"best_origin_correct"},"guarantee":"helper method for polytope_integrate","fibers":[{"name":"Expr","pred":"isinstance(expr, Expr)","path":{"lhs":"best_origin(x)","rhs":"helper method for polytope_integrate","over":{"base":"Expr","pred":"isinstance(expr, Expr)"},"name":"best_origin_Expr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.intpoly.best_origin_Expr_correct","statement":"best_origin satisfies spec on Expr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"63c325f718955d6f"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.intpoly.best_origin","kind":"function","src_hash":"06d542fc9bf4e9ac","in":{"base":"Any","pred":"isinstance(expr, Expr) and hasattr(lineseg, 'points') and hasattr(expr, 'is_Add') and hasattr(expr, 'args') and hasattr(expr, 'is_Mul') and hasattr(expr, 'is_Pow') and hasattr(expr, 'is_Symbol')"},"out":{"base":"Any"},"spec":{"lhs":"best_origin(a, b, lineseg)","rhs":"<unspecified:best_origin>","over":{"base":"Any","pred":"isinstance(expr, Expr) and hasattr(lineseg, 'points') and hasattr(expr, 'is_Add') and hasattr(expr, 'args') and hasattr(expr, 'is_Mul') and hasattr(expr, 'is_Pow') and hasattr(expr, 'is_Symbol')"},"name":"best_origin_correct"},"guarantee":"helper method for polytope_integrate","fibers":[{"name":"Expr","pred":"isinstance(expr, Expr)","path":{"lhs":"best_origin(x)","rhs":"helper method for polytope_integrate","over":{"base":"Expr","pred":"isinstance(expr, Expr)"},"name":"best_origin_Expr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.intpoly.best_origin_Expr_correct","statement":"best_origin satisfies spec on Expr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"63c325f718955d6f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(lineseg, 'points')","hasattr(expr, 'is_Add')","hasattr(expr, 'args')","hasattr(expr, 'is_Mul')","hasattr(expr, 'is_Pow')","hasattr(expr, 'is_Symbol')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","expr.is_Add","expr.is_Mul","expr.is_Pow","expr.is_Symbol","lineseg.points"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.5,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'term_type == 2 and term.args[0] in gens', 'len(gens) == 2', 'term_type == 0 and term in gens', 'a[0] == 0', 'p.y / q.y < S.Zero', 'p.x / q.x < S.Zero', 'a[1] == 0', 'power_gens[0][1] >= power_gens[1][1]', 'isinstance(expr, Expr)', 'len(gens) > 1', 'term_type == 0 and univariate in gens', 'term_type == 2 and univariate.args[0] in gens'}, fibers={'Expr'})"]}}
 def best_origin(a, b, lineseg, expr):
     """Helper method for polytope_integrate. Currently not used in the main
     algorithm.
@@ -1221,9 +1340,15 @@ def best_origin(a, b, lineseg, expr):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(decompose(exp), decomposes an input polynomial into homogeneous ones of smaller or equal degree) over {Any | isinstance(expr, Expr)} ║
+# ║ Path(decompose(expr, separate), <unspecified:decompose>) over {Any | isinstance(expr, Expr) and hasattr(expr, 'is_Symbol') and hasattr(expr, 'is_number') and hasattr(expr, 'is_Add') and hasattr(expr, 'is_Pow') and hasattr(expr, 'atoms') and hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ decompose : {Any | isinstance(expr, Expr)} → Any           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'is_Symbol')                     ║
+# ║   requires: hasattr(expr, 'is_number')                     ║
+# ║   requires: hasattr(expr, 'is_Add')                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ decompose : {Any | isinstance(expr, Expr) and hasattr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   Expr: {isinstance(expr, Expr)} → library_axiom           ║
@@ -1233,9 +1358,12 @@ def best_origin(a, b, lineseg, expr):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.4ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 67c7a8cc...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.intpoly.decompose","kind":"function","src_hash":"5111627735266ea9","in":{"base":"Any","pred":"isinstance(expr, Expr)"},"out":{"base":"Any"},"spec":{"lhs":"decompose(exp)","rhs":"decomposes an input polynomial into homogeneous ones of smaller or equal degree","over":{"base":"Any","pred":"isinstance(expr, Expr)"},"name":"decompose_correct"},"guarantee":"decomposes an input polynomial into homogeneous ones of smaller or equal degree","fibers":[{"name":"Expr","pred":"isinstance(expr, Expr)","path":{"lhs":"decompose(x)","rhs":"decomposes an input polynomial into homogeneous ones of smaller or equal degree","over":{"base":"Expr","pred":"isinstance(expr, Expr)"},"name":"decompose_Expr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.intpoly.decompose_Expr_correct","statement":"decompose satisfies spec on Expr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"67c7a8cc56b5306e"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.intpoly.decompose","kind":"function","src_hash":"5111627735266ea9","in":{"base":"Any","pred":"isinstance(expr, Expr) and hasattr(expr, 'is_Symbol') and hasattr(expr, 'is_number') and hasattr(expr, 'is_Add') and hasattr(expr, 'is_Pow') and hasattr(expr, 'atoms') and hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"decompose(expr, separate)","rhs":"<unspecified:decompose>","over":{"base":"Any","pred":"isinstance(expr, Expr) and hasattr(expr, 'is_Symbol') and hasattr(expr, 'is_number') and hasattr(expr, 'is_Add') and hasattr(expr, 'is_Pow') and hasattr(expr, 'atoms') and hasattr(expr, 'args')"},"name":"decompose_correct"},"guarantee":"decomposes an input polynomial into homogeneous ones of smaller or equal degree","fibers":[{"name":"Expr","pred":"isinstance(expr, Expr)","path":{"lhs":"decompose(x)","rhs":"decomposes an input polynomial into homogeneous ones of smaller or equal degree","over":{"base":"Expr","pred":"isinstance(expr, Expr)"},"name":"decompose_Expr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.intpoly.decompose_Expr_correct","statement":"decompose satisfies spec on Expr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"67c7a8cc56b5306e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'is_Symbol')","hasattr(expr, 'is_number')","hasattr(expr, 'is_Add')","hasattr(expr, 'is_Pow')","hasattr(expr, 'atoms')","hasattr(expr, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","expr.atoms","expr.is_Add","expr.is_Pow","expr.is_Symbol","expr.is_number"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.4,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(expr, Expr) and (not expr.is_number)', 'term_type == 0 and term.is_Symbol', 'term_type == 2'}, fibers={'Expr'})"]}}
 def decompose(expr, separate=False):
     """Decomposes an input polynomial into homogeneous ones of
     smaller or equal degree.
@@ -1305,9 +1433,13 @@ def decompose(expr, separate=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(point_sort(pol), returns the same polygon with points sorted in clockwise or anti-clockwise order) over {Any | isinstance(poly, Polygon)} ║
+# ║ Path(point_sort(poly, normal, clockwise), <unspecified:point_sort>) over {Any | isinstance(poly, Polygon) and hasattr(poly, 'vertices')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ point_sort : {Any | isinstance(poly, Polygon)} → Any       ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(poly, 'vertices')                      ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ point_sort : {Any | isinstance(poly, Polygon) and has...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   Polygon: {isinstance(poly, Polygon)} → library_axiom     ║
@@ -1317,9 +1449,12 @@ def decompose(expr, separate=False):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.9ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 9fcce60e...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.intpoly.point_sort","kind":"function","src_hash":"cba47f2729521055","in":{"base":"Any","pred":"isinstance(poly, Polygon)"},"out":{"base":"Any"},"spec":{"lhs":"point_sort(pol)","rhs":"returns the same polygon with points sorted in clockwise or anti-clockwise order","over":{"base":"Any","pred":"isinstance(poly, Polygon)"},"name":"point_sort_correct"},"guarantee":"returns the same polygon with points sorted in clockwise or anti-clockwise order","fibers":[{"name":"Polygon","pred":"isinstance(poly, Polygon)","path":{"lhs":"point_sort(x)","rhs":"returns the same polygon with points sorted in clockwise or anti-clockwise order","over":{"base":"Polygon","pred":"isinstance(poly, Polygon)"},"name":"point_sort_Polygon_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.intpoly.point_sort_Polygon_correct","statement":"point_sort satisfies spec on Polygon inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"9fcce60e4c8df5cf"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.intpoly.point_sort","kind":"function","src_hash":"cba47f2729521055","in":{"base":"Any","pred":"isinstance(poly, Polygon) and hasattr(poly, 'vertices')"},"out":{"base":"Any"},"spec":{"lhs":"point_sort(poly, normal, clockwise)","rhs":"<unspecified:point_sort>","over":{"base":"Any","pred":"isinstance(poly, Polygon) and hasattr(poly, 'vertices')"},"name":"point_sort_correct"},"guarantee":"returns the same polygon with points sorted in clockwise or anti-clockwise order","fibers":[{"name":"Polygon","pred":"isinstance(poly, Polygon)","path":{"lhs":"point_sort(x)","rhs":"returns the same polygon with points sorted in clockwise or anti-clockwise order","over":{"base":"Polygon","pred":"isinstance(poly, Polygon)"},"name":"point_sort_Polygon_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.intpoly.point_sort_Polygon_correct","statement":"point_sort satisfies spec on Polygon inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"9fcce60e4c8df5cf","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(poly, 'vertices')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["poly.vertices"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.9,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'dim == 2', 'a.y - center.y >= 0 or b.y - center.y >= 0', 'a.x - center.x < 0 and b.x - center.x >= 0', 'a.x - center.x == 0 and b.x - center.x == 0', 'a.x - center.x >= S.Zero and b.x - center.x < S.Zero', 'det < 0', 'dot_product < 0', 'n < 2', 'dot_product > 0', 'det > 0'}, fibers={'Polygon'})"]}}
 def point_sort(poly, normal=None, clockwise=True):
     """Returns the same polygon with points sorted in clockwise or
     anti-clockwise order.
@@ -1398,7 +1533,15 @@ def point_sort(poly, normal=None, clockwise=True):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(norm(poi), returns the euclidean norm of a point from origin) over {Any | isinstance(point, (list, tuple)) and isinstance(point, Point) and isinstance(point, Point2D)} ║
+# ║ Path(norm(point), <unspecified:norm>) over {Any | isinstance(point, (list, tuple)) and isinstance(point, Point) and isinstance(point, Point2D) and hasattr(point, 'z') and hasattr(point, 'x') and hasattr(point, 'y') and hasattr(point, 'values')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(point, 'z')                            ║
+# ║   requires: hasattr(point, 'x')                            ║
+# ║   requires: hasattr(point, 'y')                            ║
+# ║   fiber[case_0]: isinstance(point, (list, tuple)) => ...   ║
+# ║   fiber[Point]: isinstance(point, Point)                   ║
+# ║   fiber[dict]: isinstance(point, dict) => sum((i ** 2...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ norm : {Any | isinstance(point, (list, tuple)) and is...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -1413,9 +1556,12 @@ def point_sort(poly, normal=None, clockwise=True):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓7 ?4 ✗1 VCs | 3.7ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 8d602d69...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.intpoly.norm","kind":"function","src_hash":"abda41a7e591fb47","in":{"base":"Any","pred":"isinstance(point, (list, tuple)) and isinstance(point, Point) and isinstance(point, Point2D)"},"out":{"base":"Any"},"spec":{"lhs":"norm(poi)","rhs":"returns the euclidean norm of a point from origin","over":{"base":"Any","pred":"isinstance(point, (list, tuple)) and isinstance(point, Point) and isinstance(point, Point2D)"},"name":"norm_correct"},"guarantee":"returns the euclidean norm of a point from origin","fibers":[{"name":"(list","pred":"isinstance(point, (list, tuple))","path":{"lhs":"norm(x)","rhs":"returns the euclidean norm of a point from origin","over":{"base":"(list","pred":"isinstance(point, (list, tuple))"},"name":"norm_(list_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.intpoly.norm_(list_correct","statement":"norm satisfies spec on (list inputs"},"trust":"LIBRARY"},{"name":"Point","pred":"isinstance(point, Point)","path":{"lhs":"norm(x)","rhs":"returns the euclidean norm of a point from origin","over":{"base":"Point","pred":"isinstance(point, Point)"},"name":"norm_Point_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.intpoly.norm_Point_correct","statement":"norm satisfies spec on Point inputs"},"trust":"LIBRARY"},{"name":"Point2D","pred":"isinstance(point, Point2D)","path":{"lhs":"norm(x)","rhs":"returns the euclidean norm of a point from origin","over":{"base":"Point2D","pred":"isinstance(point, Point2D)"},"name":"norm_Point2D_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.intpoly.norm_Point2D_correct","statement":"norm satisfies spec on Point2D inputs"},"trust":"LIBRARY"},{"name":"dict","pred":"isinstance(point, dict)","path":{"lhs":"norm(x)","rhs":"returns the euclidean norm of a point from origin","over":{"base":"dict","pred":"isinstance(point, dict)"},"name":"norm_dict_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.intpoly.norm_dict_correct","statement":"norm satisfies spec on dict inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":4,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"8d602d6950723c74"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.intpoly.norm","kind":"function","src_hash":"abda41a7e591fb47","in":{"base":"Any","pred":"isinstance(point, (list, tuple)) and isinstance(point, Point) and isinstance(point, Point2D) and hasattr(point, 'z') and hasattr(point, 'x') and hasattr(point, 'y') and hasattr(point, 'values')"},"out":{"base":"Any"},"spec":{"lhs":"norm(point)","rhs":"<unspecified:norm>","over":{"base":"Any","pred":"isinstance(point, (list, tuple)) and isinstance(point, Point) and isinstance(point, Point2D) and hasattr(point, 'z') and hasattr(point, 'x') and hasattr(point, 'y') and hasattr(point, 'values')"},"name":"norm_correct"},"guarantee":"3-fiber decomposition","fibers":[{"name":"(list","pred":"isinstance(point, (list, tuple))","path":{"lhs":"norm(x)","rhs":"3-fiber decomposition","over":{"base":"(list","pred":"isinstance(point, (list, tuple))"},"name":"norm_(list_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.intpoly.norm_(list_correct","statement":"norm satisfies spec on (list inputs"},"trust":"LIBRARY"},{"name":"Point","pred":"isinstance(point, Point)","path":{"lhs":"norm(x)","rhs":"3-fiber decomposition","over":{"base":"Point","pred":"isinstance(point, Point)"},"name":"norm_Point_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.intpoly.norm_Point_correct","statement":"norm satisfies spec on Point inputs"},"trust":"LIBRARY"},{"name":"Point2D","pred":"isinstance(point, Point2D)","path":{"lhs":"norm(x)","rhs":"3-fiber decomposition","over":{"base":"Point2D","pred":"isinstance(point, Point2D)"},"name":"norm_Point2D_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.intpoly.norm_Point2D_correct","statement":"norm satisfies spec on Point2D inputs"},"trust":"LIBRARY"},{"name":"dict","pred":"isinstance(point, dict)","path":{"lhs":"norm(x)","rhs":"3-fiber decomposition","over":{"base":"dict","pred":"isinstance(point, dict)"},"name":"norm_dict_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.intpoly.norm_dict_correct","statement":"norm satisfies spec on dict inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":4,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"8d602d6950723c74","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(point, 'z')","hasattr(point, 'x')","hasattr(point, 'y')","hasattr(point, 'values')"],"fibers":[{"name":"case_0","guard":"isinstance(point, (list, tuple))","ensures":["result == sum((coord ** 2 for coord in point)) ** half"],"decidability":"structural","returns_expr":"sum((coord ** 2 for coord in point)) ** half"},{"name":"Point","guard":"isinstance(point, Point)","ensures":[],"decidability":"structural"},{"name":"dict","guard":"isinstance(point, dict)","ensures":["result == sum((i ** 2 for i in point.values())) ** half"],"decidability":"structural","returns_expr":"sum((i ** 2 for i in point.values())) ** half"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["point.values","point.x","point.y","point.z"]}},"c4_verdict":{"valid":false,"n_vcs":12,"n_verified":7,"n_assumed":4,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":3.7,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(point, Point2D)', 'isinstance(point, (list, tuple))', 'isinstance(point, dict)', 'isinstance(point, Point)'}, fibers={'dict', 'Point', '(list', 'Point2D'})"]}}
 def norm(point):
     """Returns the Euclidean norm of a point from origin.
 
@@ -1446,16 +1592,24 @@ def norm(point):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(intersection(geo), returns intersection between geometric objects) over Any ║
+# ║ Path(intersection(geom_1, geom_2, intersection_type), <unspecified:intersection>) over {Any | hasattr(geom_1, 'points') and hasattr(geom_2, 'points')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ intersection : Any → Any                                   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(geom_1, 'points')                      ║
+# ║   requires: hasattr(geom_2, 'points')                      ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ intersection : {Any | hasattr(geom_1, 'points') and h...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9d53644f13c0e44b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.intpoly.intersection","kind":"function","src_hash":"c7768782a811a072","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"intersection(geo)","rhs":"returns intersection between geometric objects","over":{"base":"Any"},"name":"intersection_correct"},"guarantee":"returns intersection between geometric objects","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.intpoly.intersection_correct","statement":"Path(intersection(x), returns intersection between geometric objects)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9d53644f13c0e44b"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.intpoly.intersection","kind":"function","src_hash":"c7768782a811a072","in":{"base":"Any","pred":"hasattr(geom_1, 'points') and hasattr(geom_2, 'points')"},"out":{"base":"Any"},"spec":{"lhs":"intersection(geom_1, geom_2, intersection_type)","rhs":"<unspecified:intersection>","over":{"base":"Any","pred":"hasattr(geom_1, 'points') and hasattr(geom_2, 'points')"},"name":"intersection_correct"},"guarantee":"returns intersection between geometric objects","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.intpoly.intersection_correct","statement":"Path(intersection(x), returns intersection between geometric objects)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9d53644f13c0e44b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(geom_1, 'points')","hasattr(geom_2, 'points')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["geom_1.points","geom_2.points"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def intersection(geom_1, geom_2, intersection_type):
     """Returns intersection between geometric objects.
 
@@ -1519,7 +1673,11 @@ def intersection(geom_1, geom_2, intersection_type):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_vertex(ent), if the input entity is a vertex return true) over {Any | isinstance(ent, tuple) and isinstance(ent, Point)} ║
+# ║ Path(is_vertex(ent), <unspecified:is_vertex>) over {Any | isinstance(ent, tuple) and isinstance(ent, Point)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[tuple]: isinstance(ent, tuple)                     ║
+# ║   fiber[Point]: isinstance(ent, Point) => True             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_vertex : {Any | isinstance(ent, tuple) and isinsta...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -1532,9 +1690,12 @@ def intersection(geom_1, geom_2, intersection_type):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?2 ✗1 VCs | 1.4ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 190c0f43...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.intpoly.is_vertex","kind":"function","src_hash":"32a03781f7d601b7","in":{"base":"Any","pred":"isinstance(ent, tuple) and isinstance(ent, Point)"},"out":{"base":"Any"},"spec":{"lhs":"is_vertex(ent)","rhs":"if the input entity is a vertex return true","over":{"base":"Any","pred":"isinstance(ent, tuple) and isinstance(ent, Point)"},"name":"is_vertex_correct"},"guarantee":"if the input entity is a vertex return true","fibers":[{"name":"tuple","pred":"isinstance(ent, tuple)","path":{"lhs":"is_vertex(x)","rhs":"if the input entity is a vertex return true","over":{"base":"tuple","pred":"isinstance(ent, tuple)"},"name":"is_vertex_tuple_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.intpoly.is_vertex_tuple_correct","statement":"is_vertex satisfies spec on tuple inputs"},"trust":"LIBRARY"},{"name":"Point","pred":"isinstance(ent, Point)","path":{"lhs":"is_vertex(x)","rhs":"if the input entity is a vertex return true","over":{"base":"Point","pred":"isinstance(ent, Point)"},"name":"is_vertex_Point_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.intpoly.is_vertex_Point_correct","statement":"is_vertex satisfies spec on Point inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"190c0f436d0c78db"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.intpoly.is_vertex","kind":"function","src_hash":"32a03781f7d601b7","in":{"base":"Any","pred":"isinstance(ent, tuple) and isinstance(ent, Point)"},"out":{"base":"Any"},"spec":{"lhs":"is_vertex(ent)","rhs":"<unspecified:is_vertex>","over":{"base":"Any","pred":"isinstance(ent, tuple) and isinstance(ent, Point)"},"name":"is_vertex_correct"},"guarantee":"2-fiber decomposition","fibers":[{"name":"tuple","pred":"isinstance(ent, tuple)","path":{"lhs":"is_vertex(x)","rhs":"2-fiber decomposition","over":{"base":"tuple","pred":"isinstance(ent, tuple)"},"name":"is_vertex_tuple_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.intpoly.is_vertex_tuple_correct","statement":"is_vertex satisfies spec on tuple inputs"},"trust":"LIBRARY"},{"name":"Point","pred":"isinstance(ent, Point)","path":{"lhs":"is_vertex(x)","rhs":"2-fiber decomposition","over":{"base":"Point","pred":"isinstance(ent, Point)"},"name":"is_vertex_Point_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.intpoly.is_vertex_Point_correct","statement":"is_vertex satisfies spec on Point inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"190c0f436d0c78db","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"tuple","guard":"isinstance(ent, tuple)","ensures":[],"decidability":"structural"},{"name":"Point","guard":"isinstance(ent, Point)","ensures":["result == True"],"decidability":"structural","returns_expr":"True"}],"pure":true},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":2,"n_assumed":2,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.4,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(ent, Point)', 'isinstance(ent, tuple)'}, fibers={'Point', 'tuple'})"]}}
 def is_vertex(ent):
     """If the input entity is a vertex return True.
 
@@ -1565,16 +1726,23 @@ def is_vertex(ent):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(plot_polytope(pol), plots the 2d polytope using the functions written in plotting module which in turn uses matplotlib backend) over Any ║
+# ║ Path(plot_polytope(poly), <unspecified:plot_polytope>) over {Any | hasattr(poly, 'vertices')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ plot_polytope : Any → Any                                  ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(poly, 'vertices')                      ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ plot_polytope : {Any | hasattr(poly, 'vertices')} → Any    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 582b7b67d136496f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.intpoly.plot_polytope","kind":"function","src_hash":"bf51a33372b56599","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"plot_polytope(pol)","rhs":"plots the 2d polytope using the functions written in plotting module which in turn uses matplotlib backend","over":{"base":"Any"},"name":"plot_polytope_correct"},"guarantee":"plots the 2d polytope using the functions written in plotting module which in turn uses matplotlib backend","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.intpoly.plot_polytope_correct","statement":"Path(plot_polytope(x), plots the 2d polytope using the functions written in plotting module which in turn uses matplotlib backend)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"582b7b67d136496f"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.intpoly.plot_polytope","kind":"function","src_hash":"bf51a33372b56599","in":{"base":"Any","pred":"hasattr(poly, 'vertices')"},"out":{"base":"Any"},"spec":{"lhs":"plot_polytope(poly)","rhs":"<unspecified:plot_polytope>","over":{"base":"Any","pred":"hasattr(poly, 'vertices')"},"name":"plot_polytope_correct"},"guarantee":"plots the 2d polytope using the functions written in plotting module which in turn uses matplotlib backend","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.intpoly.plot_polytope_correct","statement":"Path(plot_polytope(x), plots the 2d polytope using the functions written in plotting module which in turn uses matplotlib backend)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"582b7b67d136496f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(poly, 'vertices')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def plot_polytope(poly):
     """Plots the 2D polytope using the functions written in plotting
     module which in turn uses matplotlib backend.
@@ -1599,16 +1767,23 @@ def plot_polytope(poly):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(plot_polynomial(exp), plots the polynomial using the functions written in plotting module which in turn uses matplotlib backend) over Any ║
+# ║ Path(plot_polynomial(expr), <unspecified:plot_polynomial>) over {Any | hasattr(expr, 'free_symbols')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ plot_polynomial : Any → Any                                ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'free_symbols')                  ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ plot_polynomial : {Any | hasattr(expr, 'free_symbols'...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 28f9cf24724f376e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.intpoly.plot_polynomial","kind":"function","src_hash":"e0054deb3247753d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"plot_polynomial(exp)","rhs":"plots the polynomial using the functions written in plotting module which in turn uses matplotlib backend","over":{"base":"Any"},"name":"plot_polynomial_correct"},"guarantee":"plots the polynomial using the functions written in plotting module which in turn uses matplotlib backend","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.intpoly.plot_polynomial_correct","statement":"Path(plot_polynomial(x), plots the polynomial using the functions written in plotting module which in turn uses matplotlib backend)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"28f9cf24724f376e"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.intpoly.plot_polynomial","kind":"function","src_hash":"e0054deb3247753d","in":{"base":"Any","pred":"hasattr(expr, 'free_symbols')"},"out":{"base":"Any"},"spec":{"lhs":"plot_polynomial(expr)","rhs":"<unspecified:plot_polynomial>","over":{"base":"Any","pred":"hasattr(expr, 'free_symbols')"},"name":"plot_polynomial_correct"},"guarantee":"plots the polynomial using the functions written in plotting module which in turn uses matplotlib backend","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.intpoly.plot_polynomial_correct","statement":"Path(plot_polynomial(x), plots the polynomial using the functions written in plotting module which in turn uses matplotlib backend)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"28f9cf24724f376e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'free_symbols')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.free_symbols"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def plot_polynomial(expr):
     """Plots the polynomial using the functions written in
     plotting module which in turn uses matplotlib backend.

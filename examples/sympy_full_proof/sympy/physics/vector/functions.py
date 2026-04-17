@@ -35,9 +35,13 @@ __all__ = ['cross', 'dot', 'express', 'time_derivative', 'outer',
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(cross(vec), cross product convenience wrapper for vector.cross():) over {Any | isinstance(vec1, (Vector, Dyadic))} ║
+# ║ Path(cross(vec1, vec2), vec1 ^ vec2) over {Any | isinstance(vec1, (Vector, Dyadic)) and isinstance(vec1, (Vector, Dyadic))} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ cross : {Any | isinstance(vec1, (Vector, Dyadic))} → Any   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(vec1, (Vector, Dyadic))             ║
+# ║   returns:  vec1 ^ vec2                                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ cross : {Any | isinstance(vec1, (Vector, Dyadic)) and...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   (Vector: {isinstance(vec1, (Vector, Dyadic))} → lib...   ║
@@ -47,9 +51,12 @@ __all__ = ['cross', 'dot', 'express', 'time_derivative', 'outer',
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.5ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 0d7ca783...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.functions.cross","kind":"function","src_hash":"d6b5e8e1294b827c","in":{"base":"Any","pred":"isinstance(vec1, (Vector, Dyadic))"},"out":{"base":"Any"},"spec":{"lhs":"cross(vec)","rhs":"cross product convenience wrapper for vector.cross():","over":{"base":"Any","pred":"isinstance(vec1, (Vector, Dyadic))"},"name":"cross_correct"},"guarantee":"cross product convenience wrapper for vector.cross():","fibers":[{"name":"(Vector","pred":"isinstance(vec1, (Vector, Dyadic))","path":{"lhs":"cross(x)","rhs":"cross product convenience wrapper for vector.cross():","over":{"base":"(Vector","pred":"isinstance(vec1, (Vector, Dyadic))"},"name":"cross_(Vector_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.functions.cross_(Vector_correct","statement":"cross satisfies spec on (Vector inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"0d7ca783b54d004c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.functions.cross","kind":"function","src_hash":"d6b5e8e1294b827c","in":{"base":"Any","pred":"isinstance(vec1, (Vector, Dyadic)) and isinstance(vec1, (Vector, Dyadic))"},"out":{"base":"Any"},"spec":{"lhs":"cross(vec1, vec2)","rhs":"vec1 ^ vec2","over":{"base":"Any","pred":"isinstance(vec1, (Vector, Dyadic)) and isinstance(vec1, (Vector, Dyadic))"},"name":"cross_correct"},"guarantee":"returns vec1 ^ vec2","fibers":[{"name":"(Vector","pred":"isinstance(vec1, (Vector, Dyadic))","path":{"lhs":"cross(x)","rhs":"returns vec1 ^ vec2","over":{"base":"(Vector","pred":"isinstance(vec1, (Vector, Dyadic))"},"name":"cross_(Vector_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.functions.cross_(Vector_correct","statement":"cross satisfies spec on (Vector inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"0d7ca783b54d004c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(vec1, (Vector, Dyadic))"],"returns_expr":"vec1 ^ vec2","pure":false,"effects":{"effect_type":"reads_state","raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.5,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'not isinstance(vec1, (Vector, Dyadic))'}, fibers={'(Vector'})"]}}
 def cross(vec1, vec2):
     """Cross product convenience wrapper for Vector.cross(): \n"""
     if not isinstance(vec1, (Vector, Dyadic)):
@@ -61,9 +68,13 @@ cross.__doc__ += Vector.cross.__doc__  # type: ignore
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dot(vec), dot product convenience wrapper for vector.dot():) over {Any | isinstance(vec1, (Vector, Dyadic))} ║
+# ║ Path(dot(vec1, vec2), vec1 & vec2) over {Any | isinstance(vec1, (Vector, Dyadic)) and isinstance(vec1, (Vector, Dyadic))} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dot : {Any | isinstance(vec1, (Vector, Dyadic))} → Any     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(vec1, (Vector, Dyadic))             ║
+# ║   returns:  vec1 & vec2                                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dot : {Any | isinstance(vec1, (Vector, Dyadic)) and i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   (Vector: {isinstance(vec1, (Vector, Dyadic))} → lib...   ║
@@ -73,9 +84,12 @@ cross.__doc__ += Vector.cross.__doc__  # type: ignore
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.2ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 6ebfa91d...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.functions.dot","kind":"function","src_hash":"45b5a18a2e3a1429","in":{"base":"Any","pred":"isinstance(vec1, (Vector, Dyadic))"},"out":{"base":"Any"},"spec":{"lhs":"dot(vec)","rhs":"dot product convenience wrapper for vector.dot():","over":{"base":"Any","pred":"isinstance(vec1, (Vector, Dyadic))"},"name":"dot_correct"},"guarantee":"dot product convenience wrapper for vector.dot():","fibers":[{"name":"(Vector","pred":"isinstance(vec1, (Vector, Dyadic))","path":{"lhs":"dot(x)","rhs":"dot product convenience wrapper for vector.dot():","over":{"base":"(Vector","pred":"isinstance(vec1, (Vector, Dyadic))"},"name":"dot_(Vector_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.functions.dot_(Vector_correct","statement":"dot satisfies spec on (Vector inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"6ebfa91d1bb05764"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.functions.dot","kind":"function","src_hash":"45b5a18a2e3a1429","in":{"base":"Any","pred":"isinstance(vec1, (Vector, Dyadic)) and isinstance(vec1, (Vector, Dyadic))"},"out":{"base":"Any"},"spec":{"lhs":"dot(vec1, vec2)","rhs":"vec1 & vec2","over":{"base":"Any","pred":"isinstance(vec1, (Vector, Dyadic)) and isinstance(vec1, (Vector, Dyadic))"},"name":"dot_correct"},"guarantee":"returns vec1 & vec2","fibers":[{"name":"(Vector","pred":"isinstance(vec1, (Vector, Dyadic))","path":{"lhs":"dot(x)","rhs":"returns vec1 & vec2","over":{"base":"(Vector","pred":"isinstance(vec1, (Vector, Dyadic))"},"name":"dot_(Vector_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.functions.dot_(Vector_correct","statement":"dot satisfies spec on (Vector inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"6ebfa91d1bb05764","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(vec1, (Vector, Dyadic))"],"returns_expr":"vec1 & vec2","pure":false,"effects":{"effect_type":"reads_state","raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.2,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'not isinstance(vec1, (Vector, Dyadic))'}, fibers={'(Vector'})"]}}
 def dot(vec1, vec2):
     """Dot product convenience wrapper for Vector.dot(): \n"""
     if not isinstance(vec1, (Vector, Dyadic)):
@@ -87,7 +101,13 @@ dot.__doc__ += Vector.dot.__doc__  # type: ignore
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(express(exp), global function for 'express' functionality) over {Any | isinstance(expr, Vector) and isinstance(expr, Dyadic) and isinstance(x, CoordinateSym)} ║
+# ║ Path(express(expr, frame, frame2), # HINT: express may be idempotent: express(express(x)) == express(x)) over {Any | isinstance(expr, Vector) and isinstance(expr, Dyadic) and isinstance(x, CoordinateSym) and hasattr(expr, 'args') and hasattr(expr, 'free_symbols') and hasattr(expr, 'subs') and hasattr(frame, 'dcm')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   requires: hasattr(expr, 'free_symbols')                  ║
+# ║   requires: hasattr(expr, 'subs')                          ║
+# ║   ensures:  # HINT: express may be idempotent: expres...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ express : {Any | isinstance(expr, Vector) and isinsta...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -101,9 +121,12 @@ dot.__doc__ += Vector.dot.__doc__  # type: ignore
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?3 ✗3 VCs | 8.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 4de0bc0b...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.functions.express","kind":"function","src_hash":"ca75810176667a56","in":{"base":"Any","pred":"isinstance(expr, Vector) and isinstance(expr, Dyadic) and isinstance(x, CoordinateSym)"},"out":{"base":"Any"},"spec":{"lhs":"express(exp)","rhs":"global function for 'express' functionality","over":{"base":"Any","pred":"isinstance(expr, Vector) and isinstance(expr, Dyadic) and isinstance(x, CoordinateSym)"},"name":"express_correct"},"guarantee":"global function for 'express' functionality","fibers":[{"name":"Vector","pred":"isinstance(expr, Vector)","path":{"lhs":"express(x)","rhs":"global function for 'express' functionality","over":{"base":"Vector","pred":"isinstance(expr, Vector)"},"name":"express_Vector_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.functions.express_Vector_correct","statement":"express satisfies spec on Vector inputs"},"trust":"LIBRARY"},{"name":"Dyadic","pred":"isinstance(expr, Dyadic)","path":{"lhs":"express(x)","rhs":"global function for 'express' functionality","over":{"base":"Dyadic","pred":"isinstance(expr, Dyadic)"},"name":"express_Dyadic_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.functions.express_Dyadic_correct","statement":"express satisfies spec on Dyadic inputs"},"trust":"LIBRARY"},{"name":"CoordinateSym","pred":"isinstance(x, CoordinateSym)","path":{"lhs":"express(x)","rhs":"global function for 'express' functionality","over":{"base":"CoordinateSym","pred":"isinstance(x, CoordinateSym)"},"name":"express_CoordinateSym_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.functions.express_CoordinateSym_correct","statement":"express satisfies spec on CoordinateSym inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":3,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"4de0bc0b12b537b8"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.functions.express","kind":"function","src_hash":"ca75810176667a56","in":{"base":"Any","pred":"isinstance(expr, Vector) and isinstance(expr, Dyadic) and isinstance(x, CoordinateSym) and hasattr(expr, 'args') and hasattr(expr, 'free_symbols') and hasattr(expr, 'subs') and hasattr(frame, 'dcm')"},"out":{"base":"Any","pred":"result satisfies: # HINT: express may be idempotent: express(express(x)) == express(x)"},"spec":{"lhs":"express(expr, frame, frame2)","rhs":"# HINT: express may be idempotent: express(express(x)) == express(x)","over":{"base":"Any","pred":"isinstance(expr, Vector) and isinstance(expr, Dyadic) and isinstance(x, CoordinateSym) and hasattr(expr, 'args') and hasattr(expr, 'free_symbols') and hasattr(expr, 'subs') and hasattr(frame, 'dcm')"},"name":"express_correct"},"guarantee":"# HINT: express may be idempotent: express(express(x)) == express(x)","fibers":[{"name":"Vector","pred":"isinstance(expr, Vector)","path":{"lhs":"express(x)","rhs":"# HINT: express may be idempotent: express(express(x)) == express(x)","over":{"base":"Vector","pred":"isinstance(expr, Vector)"},"name":"express_Vector_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.functions.express_Vector_correct","statement":"express satisfies spec on Vector inputs"},"trust":"LIBRARY"},{"name":"Dyadic","pred":"isinstance(expr, Dyadic)","path":{"lhs":"express(x)","rhs":"# HINT: express may be idempotent: express(express(x)) == express(x)","over":{"base":"Dyadic","pred":"isinstance(expr, Dyadic)"},"name":"express_Dyadic_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.functions.express_Dyadic_correct","statement":"express satisfies spec on Dyadic inputs"},"trust":"LIBRARY"},{"name":"CoordinateSym","pred":"isinstance(x, CoordinateSym)","path":{"lhs":"express(x)","rhs":"# HINT: express may be idempotent: express(express(x)) == express(x)","over":{"base":"CoordinateSym","pred":"isinstance(x, CoordinateSym)"},"name":"express_CoordinateSym_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.functions.express_CoordinateSym_correct","statement":"express satisfies spec on CoordinateSym inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":3,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"4de0bc0b12b537b8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'args')","hasattr(expr, 'free_symbols')","hasattr(expr, 'subs')","hasattr(frame, 'dcm')"],"ensures":["# HINT: express may be idempotent: express(express(x)) == express(x)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":8,"n_verified":2,"n_assumed":3,"n_failed":3,"trust_level":"LIBRARY_ASSUMED","compile_ms":8.0,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'expr == 0', 'isinstance(x, CoordinateSym) and x.frame != frame', 'isinstance(expr, Vector)', 'frame2 is None', 'isinstance(expr, Dyadic)', 'v[1] != frame'}, fibers={'Dyadic', 'Vector', 'CoordinateSym'})"]}}
 def express(expr, frame, frame2=None, variables=False):
     """
     Global function for 'express' functionality.
@@ -208,7 +231,12 @@ def express(expr, frame, frame2=None, variables=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(time_derivative(exp), calculate the time derivative of a vector/scalar field function or dyadic expression in given frame) over {Any | isinstance(expr, Vector) and isinstance(expr, Dyadic)} ║
+# ║ Path(time_derivative(expr, frame, order), # HINT: time_derivative may be idempotent: time_derivative(time_derivative(x)) == time_derivative(x)) over {Any | isinstance(expr, Vector) and isinstance(expr, Dyadic) and not (order % 1 != 0 or order < 0) and hasattr(expr, 'args')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (order % 1 != 0 or order < 0)              ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   ensures:  # HINT: time_derivative may be idempotent...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ time_derivative : {Any | isinstance(expr, Vector) and...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -221,9 +249,12 @@ def express(expr, frame, frame2=None, variables=False):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?2 ✗1 VCs | 2.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 95792f83...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.functions.time_derivative","kind":"function","src_hash":"df6c46106a3ee061","in":{"base":"Any","pred":"isinstance(expr, Vector) and isinstance(expr, Dyadic)"},"out":{"base":"Any"},"spec":{"lhs":"time_derivative(exp)","rhs":"calculate the time derivative of a vector/scalar field function or dyadic expression in given frame","over":{"base":"Any","pred":"isinstance(expr, Vector) and isinstance(expr, Dyadic)"},"name":"time_derivative_correct"},"guarantee":"calculate the time derivative of a vector/scalar field function or dyadic expression in given frame","fibers":[{"name":"Vector","pred":"isinstance(expr, Vector)","path":{"lhs":"time_derivative(x)","rhs":"calculate the time derivative of a vector/scalar field function or dyadic expression in given frame","over":{"base":"Vector","pred":"isinstance(expr, Vector)"},"name":"time_derivative_Vector_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.functions.time_derivative_Vector_correct","statement":"time_derivative satisfies spec on Vector inputs"},"trust":"LIBRARY"},{"name":"Dyadic","pred":"isinstance(expr, Dyadic)","path":{"lhs":"time_derivative(x)","rhs":"calculate the time derivative of a vector/scalar field function or dyadic expression in given frame","over":{"base":"Dyadic","pred":"isinstance(expr, Dyadic)"},"name":"time_derivative_Dyadic_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.functions.time_derivative_Dyadic_correct","statement":"time_derivative satisfies spec on Dyadic inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"95792f83f7e20d71"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.functions.time_derivative","kind":"function","src_hash":"df6c46106a3ee061","in":{"base":"Any","pred":"isinstance(expr, Vector) and isinstance(expr, Dyadic) and not (order % 1 != 0 or order < 0) and hasattr(expr, 'args')"},"out":{"base":"Any","pred":"result satisfies: # HINT: time_derivative may be idempotent: time_derivative(time_derivative(x)) == time_derivative(x)"},"spec":{"lhs":"time_derivative(expr, frame, order)","rhs":"# HINT: time_derivative may be idempotent: time_derivative(time_derivative(x)) == time_derivative(x)","over":{"base":"Any","pred":"isinstance(expr, Vector) and isinstance(expr, Dyadic) and not (order % 1 != 0 or order < 0) and hasattr(expr, 'args')"},"name":"time_derivative_correct"},"guarantee":"# HINT: time_derivative may be idempotent: time_derivative(time_derivative(x)) == time_derivative(x)","fibers":[{"name":"Vector","pred":"isinstance(expr, Vector)","path":{"lhs":"time_derivative(x)","rhs":"# HINT: time_derivative may be idempotent: time_derivative(time_derivative(x)) == time_derivative(x)","over":{"base":"Vector","pred":"isinstance(expr, Vector)"},"name":"time_derivative_Vector_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.functions.time_derivative_Vector_correct","statement":"time_derivative satisfies spec on Vector inputs"},"trust":"LIBRARY"},{"name":"Dyadic","pred":"isinstance(expr, Dyadic)","path":{"lhs":"time_derivative(x)","rhs":"# HINT: time_derivative may be idempotent: time_derivative(time_derivative(x)) == time_derivative(x)","over":{"base":"Dyadic","pred":"isinstance(expr, Dyadic)"},"name":"time_derivative_Dyadic_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.functions.time_derivative_Dyadic_correct","statement":"time_derivative satisfies spec on Dyadic inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"95792f83f7e20d71","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (order % 1 != 0 or order < 0)","hasattr(expr, 'args')"],"ensures":["# HINT: time_derivative may be idempotent: time_derivative(time_derivative(x)) == time_derivative(x)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":2,"n_assumed":2,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.1,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(expr, Vector)', 'v[1] == frame', 'order == 0', 'order % 1 != 0 or order < 0', 'isinstance(expr, Dyadic)'}, fibers={'Dyadic', 'Vector'})"]}}
 def time_derivative(expr, frame, order=1):
     """
     Calculate the time derivative of a vector/scalar field function
@@ -305,9 +336,14 @@ def time_derivative(expr, frame, order=1):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(outer(vec), outer product convenience wrapper for vector.outer():) over {Any | isinstance(vec1, Vector)} ║
+# ║ Path(outer(vec1, vec2), vec1.outer(vec2)) over {Any | isinstance(vec1, Vector) and isinstance(vec1, Vector) and hasattr(vec1, 'outer')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ outer : {Any | isinstance(vec1, Vector)} → Any             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(vec1, Vector)                       ║
+# ║   requires: hasattr(vec1, 'outer')                         ║
+# ║   returns:  vec1.outer(vec2)                               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ outer : {Any | isinstance(vec1, Vector) and isinstanc...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   Vector: {isinstance(vec1, Vector)} → library_axiom       ║
@@ -317,9 +353,12 @@ def time_derivative(expr, frame, order=1):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 0.9ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | da33cd21...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.functions.outer","kind":"function","src_hash":"1fd78e677bd0066c","in":{"base":"Any","pred":"isinstance(vec1, Vector)"},"out":{"base":"Any"},"spec":{"lhs":"outer(vec)","rhs":"outer product convenience wrapper for vector.outer():","over":{"base":"Any","pred":"isinstance(vec1, Vector)"},"name":"outer_correct"},"guarantee":"outer product convenience wrapper for vector.outer():","fibers":[{"name":"Vector","pred":"isinstance(vec1, Vector)","path":{"lhs":"outer(x)","rhs":"outer product convenience wrapper for vector.outer():","over":{"base":"Vector","pred":"isinstance(vec1, Vector)"},"name":"outer_Vector_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.functions.outer_Vector_correct","statement":"outer satisfies spec on Vector inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"da33cd21d350563f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.functions.outer","kind":"function","src_hash":"1fd78e677bd0066c","in":{"base":"Any","pred":"isinstance(vec1, Vector) and isinstance(vec1, Vector) and hasattr(vec1, 'outer')"},"out":{"base":"Any"},"spec":{"lhs":"outer(vec1, vec2)","rhs":"vec1.outer(vec2)","over":{"base":"Any","pred":"isinstance(vec1, Vector) and isinstance(vec1, Vector) and hasattr(vec1, 'outer')"},"name":"outer_correct"},"guarantee":"returns vec1.outer(vec2)","fibers":[{"name":"Vector","pred":"isinstance(vec1, Vector)","path":{"lhs":"outer(x)","rhs":"returns vec1.outer(vec2)","over":{"base":"Vector","pred":"isinstance(vec1, Vector)"},"name":"outer_Vector_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.functions.outer_Vector_correct","statement":"outer satisfies spec on Vector inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"da33cd21d350563f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(vec1, Vector)","hasattr(vec1, 'outer')"],"returns_expr":"vec1.outer(vec2)","pure":false,"effects":{"effect_type":"reads_state","reads":["vec1.outer"],"raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.9,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'not isinstance(vec1, Vector)'}, fibers={'Vector'})"]}}
 def outer(vec1, vec2):
     """Outer product convenience wrapper for Vector.outer():\n"""
     if not isinstance(vec1, Vector):
@@ -331,7 +370,13 @@ outer.__doc__ += Vector.outer.__doc__  # type: ignore
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(kinematic_equations(spe), gives equations relating the qdot's to u's for a rotation type) over {Any | isinstance(speeds, (list, tuple))} ║
+# ║ Path(kinematic_equations(speeds, coords, rot_type), <unspecified:kinematic_equations>) over {Any | isinstance(speeds, (list, tuple)) and isinstance(speeds, (list, tuple)) and not (len(speeds) != 3) and hasattr(rot_type, 'lower')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(speeds, (list, tuple))              ║
+# ║   requires: not (len(speeds) != 3)                         ║
+# ║   requires: hasattr(rot_type, 'lower')                     ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ kinematic_equations : {Any | isinstance(speeds, (list...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -343,9 +388,12 @@ outer.__doc__ += Vector.outer.__doc__  # type: ignore
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 4.7ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | cf7c9c7a...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.functions.kinematic_equations","kind":"function","src_hash":"f7f01f99d0fb04b5","in":{"base":"Any","pred":"isinstance(speeds, (list, tuple))"},"out":{"base":"Any"},"spec":{"lhs":"kinematic_equations(spe)","rhs":"gives equations relating the qdot's to u's for a rotation type","over":{"base":"Any","pred":"isinstance(speeds, (list, tuple))"},"name":"kinematic_equations_correct"},"guarantee":"gives equations relating the qdot's to u's for a rotation type","fibers":[{"name":"(list","pred":"isinstance(speeds, (list, tuple))","path":{"lhs":"kinematic_equations(x)","rhs":"gives equations relating the qdot's to u's for a rotation type","over":{"base":"(list","pred":"isinstance(speeds, (list, tuple))"},"name":"kinematic_equations_(list_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.functions.kinematic_equations_(list_correct","statement":"kinematic_equations satisfies spec on (list inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"cf7c9c7a6c336901"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.functions.kinematic_equations","kind":"function","src_hash":"f7f01f99d0fb04b5","in":{"base":"Any","pred":"isinstance(speeds, (list, tuple)) and isinstance(speeds, (list, tuple)) and not (len(speeds) != 3) and hasattr(rot_type, 'lower')"},"out":{"base":"Any"},"spec":{"lhs":"kinematic_equations(speeds, coords, rot_type)","rhs":"<unspecified:kinematic_equations>","over":{"base":"Any","pred":"isinstance(speeds, (list, tuple)) and isinstance(speeds, (list, tuple)) and not (len(speeds) != 3) and hasattr(rot_type, 'lower')"},"name":"kinematic_equations_correct"},"guarantee":"gives equations relating the qdot's to u's for a rotation type","fibers":[{"name":"(list","pred":"isinstance(speeds, (list, tuple))","path":{"lhs":"kinematic_equations(x)","rhs":"gives equations relating the qdot's to u's for a rotation type","over":{"base":"(list","pred":"isinstance(speeds, (list, tuple))"},"name":"kinematic_equations_(list_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.functions.kinematic_equations_(list_correct","statement":"kinematic_equations satisfies spec on (list inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"cf7c9c7a6c336901","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(speeds, (list, tuple))","not (len(speeds) != 3)","hasattr(rot_type, 'lower')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["rot_type.lower"],"raises":["TypeError","ValueError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":4.7,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={\"rot_order == '131'\", \"rot_order == '121'\", \"rot_order == '213'\", 'len(coords) != 4', \"rot_order == '312'\", \"rot_order == '232'\", \"rot_order == '132'\", \"rot_order == '313'\", \"rot_order == '231'\", \"rot_order == '123'\", \"rot_order == '323'\", \"rot_order == '212'\", 'len(coords) != 3', \"rot_order == '321'\", 'not isinstance(speeds, (list, tuple))', \"rot_type == 'body'\", \"rot_type == 'quaternion'\", \"rot_order != ''\", \"rot_type == 'space'\", 'w1 == w2 == w3 == 0', 'not isinstance(coords, (list, tuple))', 'len(speeds) != 3'}, fibers={'(list'})"]}}
 def kinematic_equations(speeds, coords, rot_type, rot_order=''):
     """Gives equations relating the qdot's to u's for a rotation type.
 
@@ -499,16 +547,22 @@ def kinematic_equations(speeds, coords, rot_type, rot_order=''):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_motion_params(fra), returns the three motion parameters - (acceleration, velocity, and position) as vectorial functions of time in the given frame) over Any ║
+# ║ Path(get_motion_params(frame, **kwargs), <unspecified:get_motion_params>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ get_motion_params : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5a0c7107380e4257  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.functions.get_motion_params","kind":"function","src_hash":"ebc7a3c83b65450d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_motion_params(fra)","rhs":"returns the three motion parameters - (acceleration, velocity, and position) as vectorial functions of time in the given frame","over":{"base":"Any"},"name":"get_motion_params_correct"},"guarantee":"returns the three motion parameters - (acceleration, velocity, and position) as vectorial functions of time in the given frame","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.functions.get_motion_params_correct","statement":"Path(get_motion_params(x), returns the three motion parameters - (acceleration, velocity, and position) as vectorial functions of time in the given frame)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5a0c7107380e4257"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.functions.get_motion_params","kind":"function","src_hash":"ebc7a3c83b65450d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_motion_params(frame, **kwargs)","rhs":"<unspecified:get_motion_params>","over":{"base":"Any"},"name":"get_motion_params_correct"},"guarantee":"returns the three motion parameters - (acceleration, velocity, and position) as vectorial functions of time in the given frame","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.functions.get_motion_params_correct","statement":"Path(get_motion_params(x), returns the three motion parameters - (acceleration, velocity, and position) as vectorial functions of time in the given frame)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5a0c7107380e4257","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['frame'], spec=['frame', '**kwargs']"]}}
 def get_motion_params(frame, **kwargs):
     """
     Returns the three motion parameters - (acceleration, velocity, and
@@ -656,16 +710,24 @@ def get_motion_params(frame, **kwargs):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(partial_velocity(vel), returns a list of partial velocities with respect to the provided generalized speeds in the given reference frame for each of the supplied velocity vectors) over Any ║
+# ║ Path(partial_velocity(vel_vecs, gen_speeds, frame), len(vec_partials) == old_len_vec_partials + 1) over {Any | iterable(vel_vecs) and iterable(gen_speeds)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ partial_velocity : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: iterable(vel_vecs)                             ║
+# ║   requires: iterable(gen_speeds)                           ║
+# ║   ensures:  len(vec_partials) == old_len_vec_partials...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ partial_velocity : {Any | iterable(vel_vecs) and iter...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4c5e3a6ab51ba4cb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cb4fb269b4bb3cfc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.functions.partial_velocity","kind":"function","src_hash":"b6c2a5be171ed938","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"partial_velocity(vel)","rhs":"returns a list of partial velocities with respect to the provided generalized speeds in the given reference frame for each of the supplied velocity vectors","over":{"base":"Any"},"name":"partial_velocity_correct"},"guarantee":"returns a list of partial velocities with respect to the provided generalized speeds in the given reference frame for each of the supplied velocity vectors","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.functions.partial_velocity_correct","statement":"Path(partial_velocity(x), returns a list of partial velocities with respect to the provided generalized speeds in the given reference frame for each of the supplied velocity vectors)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4c5e3a6ab51ba4cb"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.functions.partial_velocity","kind":"function","src_hash":"b6c2a5be171ed938","in":{"base":"Any","pred":"iterable(vel_vecs) and iterable(gen_speeds)"},"out":{"base":"Any","pred":"result satisfies: len(vec_partials) == old_len_vec_partials + 1"},"spec":{"lhs":"partial_velocity(vel_vecs, gen_speeds, frame)","rhs":"len(vec_partials) == old_len_vec_partials + 1","over":{"base":"Any","pred":"iterable(vel_vecs) and iterable(gen_speeds)"},"name":"partial_velocity_correct"},"guarantee":"len(vec_partials) == old_len_vec_partials + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.functions.partial_velocity_correct","statement":"Path(partial_velocity(x), len(vec_partials) == old_len_vec_partials + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cb4fb269b4bb3cfc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["iterable(vel_vecs)","iterable(gen_speeds)"],"ensures":["len(vec_partials) == old_len_vec_partials + 1"],"pure":false,"effects":{"effect_type":"reads_state","calls_mutating":["vec_partials.append"],"raises":["TypeError"]},"state_contract":{"modifies":["vec_partials.*"],"old_bindings":{"old_len_vec_partials":"len(vec_partials)"},"post_ensures":["len(vec_partials) == old_len_vec_partials + 1"],"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def partial_velocity(vel_vecs, gen_speeds, frame):
     """Returns a list of partial velocities with respect to the provided
     generalized speeds in the given reference frame for each of the supplied
@@ -727,16 +789,25 @@ def partial_velocity(vel_vecs, gen_speeds, frame):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dynamicsymbols(nam), uses symbols and function for functions of time) over Any ║
+# ║ Path(dynamicsymbols(names, level, **assumptions), result == (esses if iterable(esses) else reduce(diff, [t] * level, esses(t))) and result == esses or result == reduce(diff, [t] * level, esses(t))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dynamicsymbols : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (esses if iterable(esses) else ...   ║
+# ║   ensures:  result == esses or result == reduce(diff,...   ║
+# ║   fiber[case_0]: iterable(esses) => esses                  ║
+# ║   fiber[case_1]: not (iterable(esses)) => reduce(diff...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dynamicsymbols : Any → {Any | result satisfies: resul...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9c949e23b7de5471  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d10b0f022be001f2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.functions.dynamicsymbols","kind":"function","src_hash":"6c89f3665154776d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dynamicsymbols(nam)","rhs":"uses symbols and function for functions of time","over":{"base":"Any"},"name":"dynamicsymbols_correct"},"guarantee":"uses symbols and function for functions of time","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.functions.dynamicsymbols_correct","statement":"Path(dynamicsymbols(x), uses symbols and function for functions of time)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9c949e23b7de5471"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.functions.dynamicsymbols","kind":"function","src_hash":"6c89f3665154776d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (esses if iterable(esses) else reduce(diff, [t] * level, esses(t))) and result == esses or result == reduce(diff, [t] * level, esses(t))"},"spec":{"lhs":"dynamicsymbols(names, level, **assumptions)","rhs":"result == (esses if iterable(esses) else reduce(diff, [t] * level, esses(t))) and result == esses or result == reduce(diff, [t] * level, esses(t))","over":{"base":"Any"},"name":"dynamicsymbols_correct"},"guarantee":"result == (esses if iterable(esses) else reduce(diff, [t] * level, esses(t))); result == esses or result == reduce(diff, [t] * level, esses(t)); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.functions.dynamicsymbols_correct","statement":"Path(dynamicsymbols(x), result == (esses if iterable(esses) else reduce(diff, [t] * level, esses(t))); result == esses or result == reduce(diff, [t] * level, esses(t)); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d10b0f022be001f2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (esses if iterable(esses) else reduce(diff, [t] * level, esses(t)))","result == esses or result == reduce(diff, [t] * level, esses(t))"],"fibers":[{"name":"case_0","guard":"iterable(esses)","ensures":["result == esses"],"decidability":"library","returns_expr":"esses"},{"name":"case_1","guard":"not (iterable(esses))","ensures":["result == reduce(diff, [t] * level, esses(t))"],"decidability":"library","returns_expr":"reduce(diff, [t] * level, esses(t))"}],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['names', 'level'], spec=['names', 'level', '**assumptions']"]}}
 def dynamicsymbols(names, level=0, **assumptions):
     """Uses symbols and Function for functions of time.
 

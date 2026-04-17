@@ -37,7 +37,15 @@ from sympy.utilities.iterables import iterable, sift
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(collect(exp), collect additive terms of an expression) over {Any | isinstance(expr, Derivative) and isinstance(rv, dict) and isinstance(expr, exp)} ║
+# ║ Path(collect(expr, syms, func), len(elems) == old_len_elems + 1 and len(margs) == old_len_margs + 1 and len(product) == old_len_product + 1) over {Any | isinstance(expr, Derivative) and isinstance(rv, dict) and isinstance(expr, exp) and hasattr(expr, 'is_Pow') and hasattr(expr, 'is_Add') and hasattr(expr, 'is_Mul') and hasattr(expr, 'getO') and hasattr(expr, 'subs') and hasattr(expr, 'variables') and hasattr(expr, 'base') and hasattr(expr, 'exp') and hasattr(expr, 'expr') and hasattr(expr, 'func') and hasattr(expr, 'removeO') and hasattr(expr, 'args')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'is_Pow')                        ║
+# ║   requires: hasattr(expr, 'is_Add')                        ║
+# ║   requires: hasattr(expr, 'is_Mul')                        ║
+# ║   ensures:  len(elems) == old_len_elems + 1                ║
+# ║   ensures:  len(margs) == old_len_margs + 1                ║
+# ║   ensures:  len(product) == old_len_product + 1            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ collect : {Any | isinstance(expr, Derivative) and isi...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -51,9 +59,12 @@ from sympy.utilities.iterables import iterable, sift
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?3 ✗3 VCs | 14.5ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 2a4bf9b5...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.radsimp.collect","kind":"function","src_hash":"72cc7140b8e0d19c","in":{"base":"Any","pred":"isinstance(expr, Derivative) and isinstance(rv, dict) and isinstance(expr, exp)"},"out":{"base":"Any"},"spec":{"lhs":"collect(exp)","rhs":"collect additive terms of an expression","over":{"base":"Any","pred":"isinstance(expr, Derivative) and isinstance(rv, dict) and isinstance(expr, exp)"},"name":"collect_correct"},"guarantee":"collect additive terms of an expression","fibers":[{"name":"Derivative","pred":"isinstance(expr, Derivative)","path":{"lhs":"collect(x)","rhs":"collect additive terms of an expression","over":{"base":"Derivative","pred":"isinstance(expr, Derivative)"},"name":"collect_Derivative_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.radsimp.collect_Derivative_correct","statement":"collect satisfies spec on Derivative inputs"},"trust":"LIBRARY"},{"name":"dict","pred":"isinstance(rv, dict)","path":{"lhs":"collect(x)","rhs":"collect additive terms of an expression","over":{"base":"dict","pred":"isinstance(rv, dict)"},"name":"collect_dict_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.radsimp.collect_dict_correct","statement":"collect satisfies spec on dict inputs"},"trust":"LIBRARY"},{"name":"exp","pred":"isinstance(expr, exp)","path":{"lhs":"collect(x)","rhs":"collect additive terms of an expression","over":{"base":"exp","pred":"isinstance(expr, exp)"},"name":"collect_exp_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.radsimp.collect_exp_correct","statement":"collect satisfies spec on exp inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":3,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"2a4bf9b53e0b71ad"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.radsimp.collect","kind":"function","src_hash":"72cc7140b8e0d19c","in":{"base":"Any","pred":"isinstance(expr, Derivative) and isinstance(rv, dict) and isinstance(expr, exp) and hasattr(expr, 'is_Pow') and hasattr(expr, 'is_Add') and hasattr(expr, 'is_Mul') and hasattr(expr, 'getO') and hasattr(expr, 'subs') and hasattr(expr, 'variables') and hasattr(expr, 'base') and hasattr(expr, 'exp') and hasattr(expr, 'expr') and hasattr(expr, 'func') and hasattr(expr, 'removeO') and hasattr(expr, 'args')"},"out":{"base":"Any","pred":"result satisfies: len(elems) == old_len_elems + 1 and len(margs) == old_len_margs + 1 and len(product) == old_len_product + 1"},"spec":{"lhs":"collect(expr, syms, func)","rhs":"len(elems) == old_len_elems + 1 and len(margs) == old_len_margs + 1 and len(product) == old_len_product + 1","over":{"base":"Any","pred":"isinstance(expr, Derivative) and isinstance(rv, dict) and isinstance(expr, exp) and hasattr(expr, 'is_Pow') and hasattr(expr, 'is_Add') and hasattr(expr, 'is_Mul') and hasattr(expr, 'getO') and hasattr(expr, 'subs') and hasattr(expr, 'variables') and hasattr(expr, 'base') and hasattr(expr, 'exp') and hasattr(expr, 'expr') and hasattr(expr, 'func') and hasattr(expr, 'removeO') and hasattr(expr, 'args')"},"name":"collect_correct"},"guarantee":"len(elems) == old_len_elems + 1; len(margs) == old_len_margs + 1; len(product) == old_len_product + 1","fibers":[{"name":"Derivative","pred":"isinstance(expr, Derivative)","path":{"lhs":"collect(x)","rhs":"len(elems) == old_len_elems + 1; len(margs) == old_len_margs + 1; len(product) == old_len_product + 1","over":{"base":"Derivative","pred":"isinstance(expr, Derivative)"},"name":"collect_Derivative_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.radsimp.collect_Derivative_correct","statement":"collect satisfies spec on Derivative inputs"},"trust":"LIBRARY"},{"name":"dict","pred":"isinstance(rv, dict)","path":{"lhs":"collect(x)","rhs":"len(elems) == old_len_elems + 1; len(margs) == old_len_margs + 1; len(product) == old_len_product + 1","over":{"base":"dict","pred":"isinstance(rv, dict)"},"name":"collect_dict_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.radsimp.collect_dict_correct","statement":"collect satisfies spec on dict inputs"},"trust":"LIBRARY"},{"name":"exp","pred":"isinstance(expr, exp)","path":{"lhs":"collect(x)","rhs":"len(elems) == old_len_elems + 1; len(margs) == old_len_margs + 1; len(product) == old_len_product + 1","over":{"base":"exp","pred":"isinstance(expr, exp)"},"name":"collect_exp_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.radsimp.collect_exp_correct","statement":"collect satisfies spec on exp inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":3,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"2a4bf9b53e0b71ad","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'is_Pow')","hasattr(expr, 'is_Add')","hasattr(expr, 'is_Mul')","hasattr(expr, 'getO')","hasattr(expr, 'subs')","hasattr(expr, 'variables')","hasattr(expr, 'base')","hasattr(expr, 'exp')","hasattr(expr, 'expr')","hasattr(expr, 'func')","hasattr(expr, 'removeO')","hasattr(expr, 'args')"],"ensures":["len(elems) == old_len_elems + 1","len(margs) == old_len_margs + 1","len(product) == old_len_product + 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","expr.base","expr.exp","expr.expr","expr.func","expr.getO","expr.is_Add","expr.is_Mul","expr.is_Pow","expr.removeO","expr.subs","expr.variables"],"calls_mutating":["_syms.add","elems.append","margs.append","product.append"],"raises":["AttributeError","NotImplementedError"]},"state_contract":{"modifies":["_syms.*","elems.*","margs.*","product.*"],"old_bindings":{"old_len_elems":"len(elems)","old_len_margs":"len(margs)","old_len_product":"len(product)"},"post_ensures":["len(elems) == old_len_elems + 1","len(margs) == old_len_margs + 1","len(product) == old_len_product + 1"],"exceptional_post":{"AttributeError":["isinstance(raised, AttributeError)"],"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":8,"n_verified":2,"n_assumed":3,"n_failed":3,"trust_level":"LIBRARY_ASSUMED","compile_ms":14.5,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'s == sym', 'len(terms) < len(pattern)', 'sym is None', 'e_rat != t_rat or e_ord != t_ord', 'any((s != s0 for s in expr.variables))', 'terms[j] is None', 'isinstance(expr, Derivative)', 'common_expo != expo', 'exact is None', 'common_expo is None', 'isinstance(symbol, Derivative) and small_first', 'not isinstance(rv, dict)', 'term.match(elem) is not None and (t_sym == e_sym or (t_sym is not None and e_sym is not None and (t_sym.match(e_sym) is not None)))', 'isinstance(expr, exp)', 'evaluate is None', 'elem.is_Number and e_rat == 1 and (e_sym is None)', 'expr.base == S.Exp1', 'isinstance(expr.base, Derivative)', 's0 == sym', 'elem[2] is None'}, fibers={'exp', 'dict', 'Derivative'})"]}}
 def collect(expr, syms, func=None, evaluate=None, exact=False, distribute_order_term=True):
     """
     Collect additive terms of an expression.
@@ -504,16 +515,26 @@ def collect(expr, syms, func=None, evaluate=None, exact=False, distribute_order_
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rcollect(exp), recursively collect sums in an expression) over Any ║
+# ║ Path(rcollect(expr, *vars), <unspecified:rcollect>) over {Any | hasattr(expr, 'is_Atom') and hasattr(expr, 'is_Add') and hasattr(expr, 'has') and hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ rcollect : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'is_Atom')                       ║
+# ║   requires: hasattr(expr, 'is_Add')                        ║
+# ║   requires: hasattr(expr, 'has')                           ║
+# ║   fiber[case_0]: expr.is_Atom or not expr.has(*vars) ...   ║
+# ║   fiber[case_1]: not (expr.is_Atom or not expr.has(*v...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ rcollect : {Any | hasattr(expr, 'is_Atom') and hasatt...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b627e8c512e8e088  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1c137ba35082b65e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.radsimp.rcollect","kind":"function","src_hash":"3b044de888c1fc40","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rcollect(exp)","rhs":"recursively collect sums in an expression","over":{"base":"Any"},"name":"rcollect_correct"},"guarantee":"recursively collect sums in an expression","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.radsimp.rcollect_correct","statement":"Path(rcollect(x), recursively collect sums in an expression)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b627e8c512e8e088"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.radsimp.rcollect","kind":"function","src_hash":"3b044de888c1fc40","in":{"base":"Any","pred":"hasattr(expr, 'is_Atom') and hasattr(expr, 'is_Add') and hasattr(expr, 'has') and hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"rcollect(expr, *vars)","rhs":"<unspecified:rcollect>","over":{"base":"Any","pred":"hasattr(expr, 'is_Atom') and hasattr(expr, 'is_Add') and hasattr(expr, 'has') and hasattr(expr, 'args')"},"name":"rcollect_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.radsimp.rcollect_correct","statement":"Path(rcollect(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1c137ba35082b65e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'is_Atom')","hasattr(expr, 'is_Add')","hasattr(expr, 'has')","hasattr(expr, 'args')"],"fibers":[{"name":"case_0","guard":"expr.is_Atom or not expr.has(*vars)","ensures":["result == expr"],"decidability":"library","returns_expr":"expr"},{"name":"case_1","guard":"not (expr.is_Atom or not expr.has(*vars))","ensures":[],"decidability":"library"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","expr.__class__","expr.args","expr.has","expr.is_Add","expr.is_Atom"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['expr'], spec=['expr', '*vars']"]}}
 def rcollect(expr, *vars):
     """
     Recursively collect sums in an expression.
@@ -546,16 +567,23 @@ def rcollect(expr, *vars):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(collect_sqrt(exp), return expr with terms having common square roots collected together. if ``evaluate`` is false a count indicating the number of sqrt-containing terms will be returned and, if non-zero, the terms of th) over Any ║
+# ║ Path(collect_sqrt(expr, evaluate), <unspecified:collect_sqrt>) over {Any | hasattr(expr, 'as_content_primitive')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ collect_sqrt : Any → Any                                   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'as_content_primitive')          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ collect_sqrt : {Any | hasattr(expr, 'as_content_primi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f3ddb0fdfbdfd22d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.radsimp.collect_sqrt","kind":"function","src_hash":"09d62ba6b7ebfb30","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"collect_sqrt(exp)","rhs":"return expr with terms having common square roots collected together. if ``evaluate`` is false a count indicating the number of sqrt-containing terms will be returned and, if non-zero, the terms of th","over":{"base":"Any"},"name":"collect_sqrt_correct"},"guarantee":"return expr with terms having common square roots collected together. if ``evaluate`` is false a count indicating the number of sqrt-containing terms will be returned and, if non-zero, the terms of th","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.radsimp.collect_sqrt_correct","statement":"Path(collect_sqrt(x), return expr with terms having common square roots collected together. if ``evaluate`` is false a count indicating the number of sqrt-containing terms will be returned and, if non-zero, the terms of th)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f3ddb0fdfbdfd22d"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.radsimp.collect_sqrt","kind":"function","src_hash":"09d62ba6b7ebfb30","in":{"base":"Any","pred":"hasattr(expr, 'as_content_primitive')"},"out":{"base":"Any"},"spec":{"lhs":"collect_sqrt(expr, evaluate)","rhs":"<unspecified:collect_sqrt>","over":{"base":"Any","pred":"hasattr(expr, 'as_content_primitive')"},"name":"collect_sqrt_correct"},"guarantee":"return expr with terms having common square roots collected together. if ``evaluate`` is false a count indicating the number of sqrt-containing terms will be returned and, if non-zero, the terms of th","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.radsimp.collect_sqrt_correct","statement":"Path(collect_sqrt(x), return expr with terms having common square roots collected together. if ``evaluate`` is false a count indicating the number of sqrt-containing terms will be returned and, if non-zero, the terms of th)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f3ddb0fdfbdfd22d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'as_content_primitive')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def collect_sqrt(expr, evaluate=None):
     """Return expr with terms having common square roots collected together.
     If ``evaluate`` is False a count indicating the number of sqrt-containing
@@ -636,7 +664,11 @@ def collect_sqrt(expr, evaluate=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(collect_abs(exp), return ``expr`` with arguments of multiple abs in a term collected under a single instance) over {Any | isinstance(i, Abs) and isinstance(x, Pow) and isinstance(x, Mul)} ║
+# ║ Path(collect_abs(expr), <unspecified:collect_abs>) over {Any | isinstance(i, Abs) and isinstance(x, Pow) and isinstance(x, Mul) and hasattr(expr, 'replace')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'replace')                       ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ collect_abs : {Any | isinstance(i, Abs) and isinstanc...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -650,9 +682,12 @@ def collect_sqrt(expr, evaluate=None):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?3 ✗3 VCs | 7.4ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 0eed4eb0...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.radsimp.collect_abs","kind":"function","src_hash":"8af213b374ed5e59","in":{"base":"Any","pred":"isinstance(i, Abs) and isinstance(x, Pow) and isinstance(x, Mul)"},"out":{"base":"Any"},"spec":{"lhs":"collect_abs(exp)","rhs":"return ``expr`` with arguments of multiple abs in a term collected under a single instance","over":{"base":"Any","pred":"isinstance(i, Abs) and isinstance(x, Pow) and isinstance(x, Mul)"},"name":"collect_abs_correct"},"guarantee":"return ``expr`` with arguments of multiple abs in a term collected under a single instance","fibers":[{"name":"Abs","pred":"isinstance(i, Abs)","path":{"lhs":"collect_abs(x)","rhs":"return ``expr`` with arguments of multiple abs in a term collected under a single instance","over":{"base":"Abs","pred":"isinstance(i, Abs)"},"name":"collect_abs_Abs_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.radsimp.collect_abs_Abs_correct","statement":"collect_abs satisfies spec on Abs inputs"},"trust":"LIBRARY"},{"name":"Pow","pred":"isinstance(x, Pow)","path":{"lhs":"collect_abs(x)","rhs":"return ``expr`` with arguments of multiple abs in a term collected under a single instance","over":{"base":"Pow","pred":"isinstance(x, Pow)"},"name":"collect_abs_Pow_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.radsimp.collect_abs_Pow_correct","statement":"collect_abs satisfies spec on Pow inputs"},"trust":"LIBRARY"},{"name":"Mul","pred":"isinstance(x, Mul)","path":{"lhs":"collect_abs(x)","rhs":"return ``expr`` with arguments of multiple abs in a term collected under a single instance","over":{"base":"Mul","pred":"isinstance(x, Mul)"},"name":"collect_abs_Mul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.radsimp.collect_abs_Mul_correct","statement":"collect_abs satisfies spec on Mul inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":3,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"0eed4eb0aea07a34"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.radsimp.collect_abs","kind":"function","src_hash":"8af213b374ed5e59","in":{"base":"Any","pred":"isinstance(i, Abs) and isinstance(x, Pow) and isinstance(x, Mul) and hasattr(expr, 'replace')"},"out":{"base":"Any"},"spec":{"lhs":"collect_abs(expr)","rhs":"<unspecified:collect_abs>","over":{"base":"Any","pred":"isinstance(i, Abs) and isinstance(x, Pow) and isinstance(x, Mul) and hasattr(expr, 'replace')"},"name":"collect_abs_correct"},"guarantee":"return ``expr`` with arguments of multiple abs in a term collected under a single instance","fibers":[{"name":"Abs","pred":"isinstance(i, Abs)","path":{"lhs":"collect_abs(x)","rhs":"return ``expr`` with arguments of multiple abs in a term collected under a single instance","over":{"base":"Abs","pred":"isinstance(i, Abs)"},"name":"collect_abs_Abs_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.radsimp.collect_abs_Abs_correct","statement":"collect_abs satisfies spec on Abs inputs"},"trust":"LIBRARY"},{"name":"Pow","pred":"isinstance(x, Pow)","path":{"lhs":"collect_abs(x)","rhs":"return ``expr`` with arguments of multiple abs in a term collected under a single instance","over":{"base":"Pow","pred":"isinstance(x, Pow)"},"name":"collect_abs_Pow_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.radsimp.collect_abs_Pow_correct","statement":"collect_abs satisfies spec on Pow inputs"},"trust":"LIBRARY"},{"name":"Mul","pred":"isinstance(x, Mul)","path":{"lhs":"collect_abs(x)","rhs":"return ``expr`` with arguments of multiple abs in a term collected under a single instance","over":{"base":"Mul","pred":"isinstance(x, Mul)"},"name":"collect_abs_Mul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.radsimp.collect_abs_Mul_correct","statement":"collect_abs satisfies spec on Mul inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":3,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"0eed4eb0aea07a34","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'replace')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":8,"n_verified":2,"n_assumed":3,"n_failed":3,"trust_level":"LIBRARY_ASSUMED","compile_ms":7.4,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'not isinstance(A, Abs)', 'isinstance(i, Pow) and isinstance(i.base, Abs) and i.exp.is_real', 'len(a) < 2 and (not any((i.exp.is_negative for i in a if isinstance(i, Pow))))', 'isinstance(i, Abs)'}, fibers={'Abs', 'Pow', 'Mul'})"]}}
 def collect_abs(expr):
     """Return ``expr`` with arguments of multiple Abs in a term collected
     under a single instance.
@@ -703,16 +738,24 @@ def collect_abs(expr):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(collect_const(exp), a non-greedy collection of terms with similar number coefficients in an add expr) over Any ║
+# ║ Path(collect_const(expr, *vars, Numbers), <unspecified:collect_const>) over {Any | hasattr(expr, 'is_Add') and hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ collect_const : Any → Any                                  ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'is_Add')                        ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ collect_const : {Any | hasattr(expr, 'is_Add') and ha...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7d5cddc5efff238d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.radsimp.collect_const","kind":"function","src_hash":"67cfb91a03d69702","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"collect_const(exp)","rhs":"a non-greedy collection of terms with similar number coefficients in an add expr","over":{"base":"Any"},"name":"collect_const_correct"},"guarantee":"a non-greedy collection of terms with similar number coefficients in an add expr","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.radsimp.collect_const_correct","statement":"Path(collect_const(x), a non-greedy collection of terms with similar number coefficients in an add expr)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7d5cddc5efff238d"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.radsimp.collect_const","kind":"function","src_hash":"67cfb91a03d69702","in":{"base":"Any","pred":"hasattr(expr, 'is_Add') and hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"collect_const(expr, *vars, Numbers)","rhs":"<unspecified:collect_const>","over":{"base":"Any","pred":"hasattr(expr, 'is_Add') and hasattr(expr, 'args')"},"name":"collect_const_correct"},"guarantee":"a non-greedy collection of terms with similar number coefficients in an add expr","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.radsimp.collect_const_correct","statement":"Path(collect_const(x), a non-greedy collection of terms with similar number coefficients in an add expr)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7d5cddc5efff238d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'is_Add')","hasattr(expr, 'args')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['expr'], spec=['expr', '*vars', 'Numbers']"]}}
 def collect_const(expr, *vars, Numbers=True):
     """A non-greedy collection of terms with similar number coefficients in
     an Add expr. If ``vars`` is given then only those constants will be
@@ -850,9 +893,16 @@ def collect_const(expr, *vars, Numbers=True):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(radsimp(exp), rationalize the denominator by removing square roots) over {Any | isinstance(expr, Expr)} ║
+# ║ Path(radsimp(expr, symbolic, max_terms), len(other) == old_len_other + 1 and len(p2) == old_len_p2 + 1) over {Any | isinstance(expr, Expr) and hasattr(expr, 'is_Atom') and hasattr(expr, 'as_coeff_Add') and hasattr(expr, 'normal') and hasattr(expr, 'func') and hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ radsimp : {Any | isinstance(expr, Expr)} → Any             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'is_Atom')                       ║
+# ║   requires: hasattr(expr, 'as_coeff_Add')                  ║
+# ║   requires: hasattr(expr, 'normal')                        ║
+# ║   ensures:  len(other) == old_len_other + 1                ║
+# ║   ensures:  len(p2) == old_len_p2 + 1                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ radsimp : {Any | isinstance(expr, Expr) and hasattr(e...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   Expr: {isinstance(expr, Expr)} → library_axiom           ║
@@ -862,9 +912,12 @@ def collect_const(expr, *vars, Numbers=True):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 55.5ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | f0692594...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.radsimp.radsimp","kind":"function","src_hash":"90e2bea18b0b1474","in":{"base":"Any","pred":"isinstance(expr, Expr)"},"out":{"base":"Any"},"spec":{"lhs":"radsimp(exp)","rhs":"rationalize the denominator by removing square roots","over":{"base":"Any","pred":"isinstance(expr, Expr)"},"name":"radsimp_correct"},"guarantee":"rationalize the denominator by removing square roots","fibers":[{"name":"Expr","pred":"isinstance(expr, Expr)","path":{"lhs":"radsimp(x)","rhs":"rationalize the denominator by removing square roots","over":{"base":"Expr","pred":"isinstance(expr, Expr)"},"name":"radsimp_Expr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.radsimp.radsimp_Expr_correct","statement":"radsimp satisfies spec on Expr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"f06925946957d6b0"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.radsimp.radsimp","kind":"function","src_hash":"90e2bea18b0b1474","in":{"base":"Any","pred":"isinstance(expr, Expr) and hasattr(expr, 'is_Atom') and hasattr(expr, 'as_coeff_Add') and hasattr(expr, 'normal') and hasattr(expr, 'func') and hasattr(expr, 'args')"},"out":{"base":"Any","pred":"result satisfies: len(other) == old_len_other + 1 and len(p2) == old_len_p2 + 1"},"spec":{"lhs":"radsimp(expr, symbolic, max_terms)","rhs":"len(other) == old_len_other + 1 and len(p2) == old_len_p2 + 1","over":{"base":"Any","pred":"isinstance(expr, Expr) and hasattr(expr, 'is_Atom') and hasattr(expr, 'as_coeff_Add') and hasattr(expr, 'normal') and hasattr(expr, 'func') and hasattr(expr, 'args')"},"name":"radsimp_correct"},"guarantee":"len(other) == old_len_other + 1; len(p2) == old_len_p2 + 1","fibers":[{"name":"Expr","pred":"isinstance(expr, Expr)","path":{"lhs":"radsimp(x)","rhs":"len(other) == old_len_other + 1; len(p2) == old_len_p2 + 1","over":{"base":"Expr","pred":"isinstance(expr, Expr)"},"name":"radsimp_Expr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.radsimp.radsimp_Expr_correct","statement":"radsimp satisfies spec on Expr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"f06925946957d6b0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'is_Atom')","hasattr(expr, 'as_coeff_Add')","hasattr(expr, 'normal')","hasattr(expr, 'func')","hasattr(expr, 'args')"],"ensures":["len(other) == old_len_other + 1","len(p2) == old_len_p2 + 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","expr.as_coeff_Add","expr.func","expr.is_Atom","expr.normal"],"calls_mutating":["other.append","p2.append"],"raises":["NotImplementedError"]},"state_contract":{"modifies":["other.*","p2.*"],"old_bindings":{"old_len_other":"len(other)","old_len_p2":"len(p2)"},"post_ensures":["len(other) == old_len_other + 1","len(p2) == old_len_p2 + 1"],"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":55.5,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'old != (n, d)', 'nrad < 1', 'd2 != d', 'nrad > max_terms', 'len(rterms) == 1', 'e.is_Rational and e.q == 2 or (symbolic and denom(e) == 2)', 'len(rterms) == 3', 'len(rterms) == 2', 'len(rterms) > 4', 'len(rterms) == 4', 'old == (n, d)', 'q != 1 and log(q, 2).is_Integer', 'not isinstance(expr, Expr)', 'd2.is_Number or d2.count_ops() <= d.count_ops()'}, fibers={'Expr'})"]}}
 def radsimp(expr, symbolic=True, max_terms=4):
     r"""
     Rationalize the denominator by removing square roots.
@@ -1128,16 +1181,23 @@ def radsimp(expr, symbolic=True, max_terms=4):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rad_rationalize(num), rationalize ``num/den`` by removing square roots in the denominator; num and den are sum of terms whose squares are positive rationals) over Any ║
+# ║ Path(rad_rationalize(num, den), # HINT: rad_rationalize may be idempotent: rad_rationalize(rad_rationalize(x)) == rad_rationalize(x)) over {Any | hasattr(den, 'is_Add')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ rad_rationalize : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(den, 'is_Add')                         ║
+# ║   ensures:  # HINT: rad_rationalize may be idempotent...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ rad_rationalize : {Any | hasattr(den, 'is_Add')} → {A...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c21774523126b693  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 070ce25c23f72a72  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.radsimp.rad_rationalize","kind":"function","src_hash":"aa065e810d8fc86f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rad_rationalize(num)","rhs":"rationalize ``num/den`` by removing square roots in the denominator; num and den are sum of terms whose squares are positive rationals","over":{"base":"Any"},"name":"rad_rationalize_correct"},"guarantee":"rationalize ``num/den`` by removing square roots in the denominator; num and den are sum of terms whose squares are positive rationals","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.radsimp.rad_rationalize_correct","statement":"Path(rad_rationalize(x), rationalize ``num/den`` by removing square roots in the denominator; num and den are sum of terms whose squares are positive rationals)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c21774523126b693"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.radsimp.rad_rationalize","kind":"function","src_hash":"aa065e810d8fc86f","in":{"base":"Any","pred":"hasattr(den, 'is_Add')"},"out":{"base":"Any","pred":"result satisfies: # HINT: rad_rationalize may be idempotent: rad_rationalize(rad_rationalize(x)) == rad_rationalize(x)"},"spec":{"lhs":"rad_rationalize(num, den)","rhs":"# HINT: rad_rationalize may be idempotent: rad_rationalize(rad_rationalize(x)) == rad_rationalize(x)","over":{"base":"Any","pred":"hasattr(den, 'is_Add')"},"name":"rad_rationalize_correct"},"guarantee":"# HINT: rad_rationalize may be idempotent: rad_rationalize(rad_rationalize(x)) == rad_rationalize(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.radsimp.rad_rationalize_correct","statement":"Path(rad_rationalize(x), # HINT: rad_rationalize may be idempotent: rad_rationalize(rad_rationalize(x)) == rad_rationalize(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"070ce25c23f72a72","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(den, 'is_Add')"],"ensures":["# HINT: rad_rationalize may be idempotent: rad_rationalize(rad_rationalize(x)) == rad_rationalize(x)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["den.is_Add"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def rad_rationalize(num, den):
     """
     Rationalize ``num/den`` by removing square roots in the denominator;
@@ -1161,7 +1221,10 @@ def rad_rationalize(num, den):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(fraction(exp), returns a pair with expression's numerator and denominator. if the given expression is not a fraction then this function will return the tuple (expr, 1)) over {Any | isinstance(term, exp)} ║
+# ║ Path(fraction(expr, exact), (Mul(*numer, evaluate=not exact), Mul(*denom, evaluate=not exact))) over {Any | isinstance(term, exp)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (Mul(*numer, evaluate=not exact), Mul(*de...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ fraction : {Any | isinstance(term, exp)} → Any             ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -1173,9 +1236,12 @@ def rad_rationalize(num, den):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.8ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 7e4102b8...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.radsimp.fraction","kind":"function","src_hash":"a0035bb879fcceae","in":{"base":"Any","pred":"isinstance(term, exp)"},"out":{"base":"Any"},"spec":{"lhs":"fraction(exp)","rhs":"returns a pair with expression's numerator and denominator. if the given expression is not a fraction then this function will return the tuple (expr, 1)","over":{"base":"Any","pred":"isinstance(term, exp)"},"name":"fraction_correct"},"guarantee":"returns a pair with expression's numerator and denominator. if the given expression is not a fraction then this function will return the tuple (expr, 1)","fibers":[{"name":"exp","pred":"isinstance(term, exp)","path":{"lhs":"fraction(x)","rhs":"returns a pair with expression's numerator and denominator. if the given expression is not a fraction then this function will return the tuple (expr, 1)","over":{"base":"exp","pred":"isinstance(term, exp)"},"name":"fraction_exp_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.radsimp.fraction_exp_correct","statement":"fraction satisfies spec on exp inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"7e4102b8eaedd063"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.radsimp.fraction","kind":"function","src_hash":"a0035bb879fcceae","in":{"base":"Any","pred":"isinstance(term, exp)"},"out":{"base":"Any"},"spec":{"lhs":"fraction(expr, exact)","rhs":"(Mul(*numer, evaluate=not exact), Mul(*denom, evaluate=not exact))","over":{"base":"Any","pred":"isinstance(term, exp)"},"name":"fraction_correct"},"guarantee":"returns (Mul(*numer, evaluate=not exact), Mul(*denom, evaluate=not exact))","fibers":[{"name":"exp","pred":"isinstance(term, exp)","path":{"lhs":"fraction(x)","rhs":"returns (Mul(*numer, evaluate=not exact), Mul(*denom, evaluate=not exact))","over":{"base":"exp","pred":"isinstance(term, exp)"},"name":"fraction_exp_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.radsimp.fraction_exp_correct","statement":"fraction satisfies spec on exp inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"7e4102b8eaedd063","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(Mul(*numer, evaluate=not exact), Mul(*denom, evaluate=not exact))","pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.8,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'term.p != 1', 'n != 1', 'term.is_commutative and (term.is_Pow or isinstance(term, exp))'}, fibers={'exp'})"]}}
 def fraction(expr, exact=False):
     """Returns a pair with expression's numerator and denominator.
        If the given expression is not a fraction then this function
@@ -1268,61 +1334,86 @@ def fraction(expr, exact=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(numer(exp), numer produces the expected output) over Any ║
+# ║ Path(numer(expr, exact), fraction(expr, exact=exact)[0]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  fraction(expr, exact=exact)[0]                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ numer : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 12b7faa8815763d8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.radsimp.numer","kind":"function","src_hash":"fc39557bccc90ff1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"numer(exp)","rhs":"numer produces the expected output","over":{"base":"Any"},"name":"numer_correct"},"guarantee":"numer produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"12b7faa8815763d8"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.radsimp.numer","kind":"function","src_hash":"fc39557bccc90ff1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"numer(expr, exact)","rhs":"fraction(expr, exact=exact)[0]","over":{"base":"Any"},"name":"numer_correct"},"guarantee":"returns fraction(expr, exact=exact)[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"12b7faa8815763d8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"fraction(expr, exact=exact)[0]","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def numer(expr, exact=False):  # default matches fraction's default
     return fraction(expr, exact=exact)[0]
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(denom(exp), denom produces the expected output) over Any ║
+# ║ Path(denom(expr, exact), fraction(expr, exact=exact)[1]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  fraction(expr, exact=exact)[1]                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ denom : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 741d1f700082493d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.radsimp.denom","kind":"function","src_hash":"ca2faae10895025a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"denom(exp)","rhs":"denom produces the expected output","over":{"base":"Any"},"name":"denom_correct"},"guarantee":"denom produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"741d1f700082493d"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.radsimp.denom","kind":"function","src_hash":"ca2faae10895025a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"denom(expr, exact)","rhs":"fraction(expr, exact=exact)[1]","over":{"base":"Any"},"name":"denom_correct"},"guarantee":"returns fraction(expr, exact=exact)[1]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"741d1f700082493d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"fraction(expr, exact=exact)[1]","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def denom(expr, exact=False):  # default matches fraction's default
     return fraction(expr, exact=exact)[1]
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(fraction_expand(exp), fraction_expand produces the expected output) over Any ║
+# ║ Path(fraction_expand(expr, **hints), expr.expand(frac=True, **hints)) over {Any | hasattr(expr, 'expand')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ fraction_expand : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'expand')                        ║
+# ║   returns:  expr.expand(frac=True, **hints)                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ fraction_expand : {Any | hasattr(expr, 'expand')} → Any    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0da8eeb896ca6a67           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.radsimp.fraction_expand","kind":"function","src_hash":"8375732c3d15b5d3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fraction_expand(exp)","rhs":"fraction_expand produces the expected output","over":{"base":"Any"},"name":"fraction_expand_correct"},"guarantee":"fraction_expand produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0da8eeb896ca6a67"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.radsimp.fraction_expand","kind":"function","src_hash":"8375732c3d15b5d3","in":{"base":"Any","pred":"hasattr(expr, 'expand')"},"out":{"base":"Any"},"spec":{"lhs":"fraction_expand(expr, **hints)","rhs":"expr.expand(frac=True, **hints)","over":{"base":"Any","pred":"hasattr(expr, 'expand')"},"name":"fraction_expand_correct"},"guarantee":"returns expr.expand(frac=True, **hints)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0da8eeb896ca6a67","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'expand')"],"returns_expr":"expr.expand(frac=True, **hints)","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.expand"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['expr'], spec=['expr', '**hints']"]}}
 def fraction_expand(expr, **hints):
     return expr.expand(frac=True, **hints)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(numer_expand(exp), numer_expand produces the expected output) over Any ║
+# ║ Path(numer_expand(expr, **hints), a.expand(numer=True, **hints) / b) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  a.expand(numer=True, **hints) / b              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ numer_expand : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f950600adde02df9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 73fbd17bd3967a04  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.radsimp.numer_expand","kind":"function","src_hash":"ca3ad52dcb6c87ee","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"numer_expand(exp)","rhs":"numer_expand produces the expected output","over":{"base":"Any"},"name":"numer_expand_correct"},"guarantee":"numer_expand produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.radsimp.numer_expand_correct","statement":"Path(numer_expand(x), numer_expand produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f950600adde02df9"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.radsimp.numer_expand","kind":"function","src_hash":"ca3ad52dcb6c87ee","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"numer_expand(expr, **hints)","rhs":"a.expand(numer=True, **hints) / b","over":{"base":"Any"},"name":"numer_expand_correct"},"guarantee":"returns a.expand(numer=True, **hints) / b","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.radsimp.numer_expand_correct","statement":"Path(numer_expand(x), returns a.expand(numer=True, **hints) / b)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"73fbd17bd3967a04","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"a.expand(numer=True, **hints) / b","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['expr'], spec=['expr', '**hints']"]}}
 def numer_expand(expr, **hints):
     # default matches fraction's default
     a, b = fraction(expr, exact=hints.get('exact', False))
@@ -1330,16 +1421,22 @@ def numer_expand(expr, **hints):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(denom_expand(exp), denom_expand produces the expected output) over Any ║
+# ║ Path(denom_expand(expr, **hints), a / b.expand(denom=True, **hints)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  a / b.expand(denom=True, **hints)              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ denom_expand : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 70e064bad15c26b2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5d6df1c869706701  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.radsimp.denom_expand","kind":"function","src_hash":"3a9c68de803bb4f1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"denom_expand(exp)","rhs":"denom_expand produces the expected output","over":{"base":"Any"},"name":"denom_expand_correct"},"guarantee":"denom_expand produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.radsimp.denom_expand_correct","statement":"Path(denom_expand(x), denom_expand produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"70e064bad15c26b2"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.radsimp.denom_expand","kind":"function","src_hash":"3a9c68de803bb4f1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"denom_expand(expr, **hints)","rhs":"a / b.expand(denom=True, **hints)","over":{"base":"Any"},"name":"denom_expand_correct"},"guarantee":"returns a / b.expand(denom=True, **hints)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.radsimp.denom_expand_correct","statement":"Path(denom_expand(x), returns a / b.expand(denom=True, **hints))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5d6df1c869706701","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"a / b.expand(denom=True, **hints)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['expr'], spec=['expr', '**hints']"]}}
 def denom_expand(expr, **hints):
     # default matches fraction's default
     a, b = fraction(expr, exact=hints.get('exact', False))
@@ -1352,16 +1449,23 @@ expand_fraction = fraction_expand
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(split_surds(exp), split an expression with terms whose squares are positive rationals into a sum of terms whose surds squared have gcd equal to g and a sum of terms with surds squared prime with g) over Any ║
+# ║ Path(split_surds(expr), (g2, a, b)) over {Any | hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ split_surds : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   returns:  (g2, a, b)                                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ split_surds : {Any | hasattr(expr, 'args')} → Any          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0bc9ca8ba159a1c2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1a799bfe3ca98837  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.radsimp.split_surds","kind":"function","src_hash":"288c52b07c16874e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"split_surds(exp)","rhs":"split an expression with terms whose squares are positive rationals into a sum of terms whose surds squared have gcd equal to g and a sum of terms with surds squared prime with g","over":{"base":"Any"},"name":"split_surds_correct"},"guarantee":"split an expression with terms whose squares are positive rationals into a sum of terms whose surds squared have gcd equal to g and a sum of terms with surds squared prime with g","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.radsimp.split_surds_correct","statement":"Path(split_surds(x), split an expression with terms whose squares are positive rationals into a sum of terms whose surds squared have gcd equal to g and a sum of terms with surds squared prime with g)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0bc9ca8ba159a1c2"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.radsimp.split_surds","kind":"function","src_hash":"288c52b07c16874e","in":{"base":"Any","pred":"hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"split_surds(expr)","rhs":"(g2, a, b)","over":{"base":"Any","pred":"hasattr(expr, 'args')"},"name":"split_surds_correct"},"guarantee":"returns (g2, a, b)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.radsimp.split_surds_correct","statement":"Path(split_surds(x), returns (g2, a, b))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1a799bfe3ca98837","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'args')"],"returns_expr":"(g2, a, b)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def split_surds(expr):
     """
     Split an expression with terms whose squares are positive rationals
@@ -1404,16 +1508,22 @@ def split_surds(expr):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_split_gcd(*a), split the list of integers ``a`` into a list of integers, ``a1`` having ``g = gcd(a1)``, and a list ``a2`` whose elements are not divisible by ``g``) over Any ║
+# ║ Path(_split_gcd(*a), (g, b1, b2)) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (g, b1, b2)                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _split_gcd : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 56e3b867f626081f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0fa8e45b6ad9cecd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.radsimp._split_gcd","kind":"function","src_hash":"e891fdddd8428e92","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_split_gcd(*a)","rhs":"split the list of integers ``a`` into a list of integers, ``a1`` having ``g = gcd(a1)``, and a list ``a2`` whose elements are not divisible by ``g``","over":{"base":"Any"},"name":"_split_gcd_correct"},"guarantee":"split the list of integers ``a`` into a list of integers, ``a1`` having ``g = gcd(a1)``, and a list ``a2`` whose elements are not divisible by ``g``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.radsimp._split_gcd_correct","statement":"Path(_split_gcd(x), split the list of integers ``a`` into a list of integers, ``a1`` having ``g = gcd(a1)``, and a list ``a2`` whose elements are not divisible by ``g``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"56e3b867f626081f"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.radsimp._split_gcd","kind":"function","src_hash":"e891fdddd8428e92","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_split_gcd(*a)","rhs":"(g, b1, b2)","over":{"base":"Any"},"name":"_split_gcd_correct"},"guarantee":"returns (g, b1, b2)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.radsimp._split_gcd_correct","statement":"Path(_split_gcd(x), returns (g, b1, b2))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0fa8e45b6ad9cecd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(g, b1, b2)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=[], spec=['*a']"]}}
 def _split_gcd(*a):
     """
     Split the list of integers ``a`` into a list of integers, ``a1`` having

@@ -22,16 +22,22 @@ from sympy.polys.polytools import Poly
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(polys(non), id) over Any                              ║
+# ║ Path(polys(nonzero, domain), id) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  st.builds(Poly, coeff_st, st.just(x), dom...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ polys : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | edf140691033a281   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_hypothesis.polys","kind":"function","src_hash":"cd04147e58c45470","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"polys(non)","rhs":"polys produces the expected output","over":{"base":"Any"},"name":"polys_correct","kind":"composition"},"guarantee":"polys produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"builds","by":"library_axiom"},{"fn":"just","by":"library_axiom"},{"fn":"just","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"edf140691033a281"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_hypothesis.polys","kind":"function","src_hash":"cd04147e58c45470","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"polys(nonzero, domain)","rhs":"st.builds(Poly, coeff_st, st.just(x), domain=st.just(domain))","over":{"base":"Any"},"name":"polys_correct","kind":"composition"},"guarantee":"returns st.builds(Poly, coeff_st, st.just(x), domain=st.just(domain))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"builds","by":"library_axiom"},{"fn":"just","by":"library_axiom"},{"fn":"just","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"edf140691033a281","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"st.builds(Poly, coeff_st, st.just(x), domain=st.just(domain))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=[], spec=['nonzero', 'domain']"]}}
 def polys(*, nonzero=False, domain="ZZ"):
     # This is a simple strategy, but sufficient the tests below
     elems = {"ZZ": st.integers(), "QQ": st.fractions()}
@@ -43,16 +49,25 @@ def polys(*, nonzero=False, domain="ZZ"):
 
 @given(f=polys(), g=polys(), r=polys())
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_gcd_hypothesis(f, ), test_gcd_hypothesis produces the expected output) over Any ║
+# ║ Path(test_gcd_hypothesis(f, g, r), gcd_1 == gcd_2 and gcd_1 == gcd_3) over {Any | hasattr(f, 'gcd') and hasattr(g, 'gcd')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_gcd_hypothesis : Any → {Any | gcd_1 == gcd_2 and...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'gcd')                              ║
+# ║   requires: hasattr(g, 'gcd')                              ║
+# ║   ensures:  gcd_1 == gcd_2                                 ║
+# ║   ensures:  gcd_1 == gcd_3                                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_gcd_hypothesis : {Any | hasattr(f, 'gcd') and ha...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 55002ea94961c740  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f6b04c19008ae1dc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_hypothesis.test_gcd_hypothesis","kind":"function","src_hash":"eb3fef6d142708b1","in":{"base":"Any"},"out":{"base":"Any","pred":"gcd_1 == gcd_2 and gcd_1 == gcd_3"},"spec":{"lhs":"test_gcd_hypothesis(f, )","rhs":"test_gcd_hypothesis produces the expected output","over":{"base":"Any"},"name":"test_gcd_hypothesis_correct"},"guarantee":"test_gcd_hypothesis produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_hypothesis.test_gcd_hypothesis_correct","statement":"Path(test_gcd_hypothesis(x), test_gcd_hypothesis produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"55002ea94961c740"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_hypothesis.test_gcd_hypothesis","kind":"function","src_hash":"eb3fef6d142708b1","in":{"base":"Any","pred":"hasattr(f, 'gcd') and hasattr(g, 'gcd')"},"out":{"base":"Any","pred":"result satisfies: gcd_1 == gcd_2 and gcd_1 == gcd_3"},"spec":{"lhs":"test_gcd_hypothesis(f, g, r)","rhs":"gcd_1 == gcd_2 and gcd_1 == gcd_3","over":{"base":"Any","pred":"hasattr(f, 'gcd') and hasattr(g, 'gcd')"},"name":"test_gcd_hypothesis_correct"},"guarantee":"gcd_1 == gcd_2; gcd_1 == gcd_3","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_hypothesis.test_gcd_hypothesis_correct","statement":"Path(test_gcd_hypothesis(x), gcd_1 == gcd_2; gcd_1 == gcd_3)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f6b04c19008ae1dc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'gcd')","hasattr(g, 'gcd')"],"ensures":["gcd_1 == gcd_2","gcd_1 == gcd_3"],"pure":false,"effects":{"effect_type":"reads_state","reads":["f.gcd","g.gcd"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_gcd_hypothesis(f, g, r):
     gcd_1 = f.gcd(g)
     gcd_2 = g.gcd(f)
@@ -65,16 +80,24 @@ def test_gcd_hypothesis(f, g, r):
 
 @given(f_z=polys(), g_z=polys(nonzero=True))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_poly_hypothesis_integers(f_z), test_poly_hypothesis_integers produces the expected output) over Any ║
+# ║ Path(test_poly_hypothesis_integers(f_z, g_z), g_z.degree() >= remainder_z.degree() or remainder_z.degree() == 0) over {Any | hasattr(f_z, 'rem') and hasattr(g_z, 'degree')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_poly_hypothesis_integers : Any → {Any | g_z.degr...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f_z, 'rem')                            ║
+# ║   requires: hasattr(g_z, 'degree')                         ║
+# ║   ensures:  g_z.degree() >= remainder_z.degree() or r...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_poly_hypothesis_integers : {Any | hasattr(f_z, '...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 352e80f8a6b8c4cc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 20b6a1e3970dfbb5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_hypothesis.test_poly_hypothesis_integers","kind":"function","src_hash":"273ad08a37be0131","in":{"base":"Any"},"out":{"base":"Any","pred":"g_z.degree() >= remainder_z.degree() or remainder_z.degree() == 0"},"spec":{"lhs":"test_poly_hypothesis_integers(f_z)","rhs":"test_poly_hypothesis_integers produces the expected output","over":{"base":"Any"},"name":"test_poly_hypothesis_integers_correct"},"guarantee":"test_poly_hypothesis_integers produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_hypothesis.test_poly_hypothesis_integers_correct","statement":"Path(test_poly_hypothesis_integers(x), test_poly_hypothesis_integers produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"352e80f8a6b8c4cc"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_hypothesis.test_poly_hypothesis_integers","kind":"function","src_hash":"273ad08a37be0131","in":{"base":"Any","pred":"hasattr(f_z, 'rem') and hasattr(g_z, 'degree')"},"out":{"base":"Any","pred":"result satisfies: g_z.degree() >= remainder_z.degree() or remainder_z.degree() == 0"},"spec":{"lhs":"test_poly_hypothesis_integers(f_z, g_z)","rhs":"g_z.degree() >= remainder_z.degree() or remainder_z.degree() == 0","over":{"base":"Any","pred":"hasattr(f_z, 'rem') and hasattr(g_z, 'degree')"},"name":"test_poly_hypothesis_integers_correct"},"guarantee":"g_z.degree() >= remainder_z.degree() or remainder_z.degree() == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_hypothesis.test_poly_hypothesis_integers_correct","statement":"Path(test_poly_hypothesis_integers(x), g_z.degree() >= remainder_z.degree() or remainder_z.degree() == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"20b6a1e3970dfbb5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f_z, 'rem')","hasattr(g_z, 'degree')"],"ensures":["g_z.degree() >= remainder_z.degree() or remainder_z.degree() == 0"],"pure":false,"effects":{"effect_type":"reads_state","reads":["f_z.rem","g_z.degree"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_poly_hypothesis_integers(f_z, g_z):
     remainder_z = f_z.rem(g_z)
     assert g_z.degree() >= remainder_z.degree() or remainder_z.degree() == 0
@@ -82,16 +105,24 @@ def test_poly_hypothesis_integers(f_z, g_z):
 
 @given(f_q=polys(domain="QQ"), g_q=polys(nonzero=True, domain="QQ"))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_poly_hypothesis_rationals(f_q), test_poly_hypothesis_rationals produces the expected output) over Any ║
+# ║ Path(test_poly_hypothesis_rationals(f_q, g_q), g_q.degree() >= remainder_q.degree() or remainder_q.degree() == 0) over {Any | hasattr(f_q, 'rem') and hasattr(g_q, 'degree')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_poly_hypothesis_rationals : Any → {Any | g_q.deg...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f_q, 'rem')                            ║
+# ║   requires: hasattr(g_q, 'degree')                         ║
+# ║   ensures:  g_q.degree() >= remainder_q.degree() or r...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_poly_hypothesis_rationals : {Any | hasattr(f_q, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e9043959a7f95042  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ea0e496703ee2dcf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_hypothesis.test_poly_hypothesis_rationals","kind":"function","src_hash":"2c49fa111d2103e7","in":{"base":"Any"},"out":{"base":"Any","pred":"g_q.degree() >= remainder_q.degree() or remainder_q.degree() == 0"},"spec":{"lhs":"test_poly_hypothesis_rationals(f_q)","rhs":"test_poly_hypothesis_rationals produces the expected output","over":{"base":"Any"},"name":"test_poly_hypothesis_rationals_correct"},"guarantee":"test_poly_hypothesis_rationals produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_hypothesis.test_poly_hypothesis_rationals_correct","statement":"Path(test_poly_hypothesis_rationals(x), test_poly_hypothesis_rationals produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e9043959a7f95042"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_hypothesis.test_poly_hypothesis_rationals","kind":"function","src_hash":"2c49fa111d2103e7","in":{"base":"Any","pred":"hasattr(f_q, 'rem') and hasattr(g_q, 'degree')"},"out":{"base":"Any","pred":"result satisfies: g_q.degree() >= remainder_q.degree() or remainder_q.degree() == 0"},"spec":{"lhs":"test_poly_hypothesis_rationals(f_q, g_q)","rhs":"g_q.degree() >= remainder_q.degree() or remainder_q.degree() == 0","over":{"base":"Any","pred":"hasattr(f_q, 'rem') and hasattr(g_q, 'degree')"},"name":"test_poly_hypothesis_rationals_correct"},"guarantee":"g_q.degree() >= remainder_q.degree() or remainder_q.degree() == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_hypothesis.test_poly_hypothesis_rationals_correct","statement":"Path(test_poly_hypothesis_rationals(x), g_q.degree() >= remainder_q.degree() or remainder_q.degree() == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ea0e496703ee2dcf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f_q, 'rem')","hasattr(g_q, 'degree')"],"ensures":["g_q.degree() >= remainder_q.degree() or remainder_q.degree() == 0"],"pure":false,"effects":{"effect_type":"reads_state","reads":["f_q.rem","g_q.degree"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_poly_hypothesis_rationals(f_q, g_q):
     remainder_q = f_q.rem(g_q)
     assert g_q.degree() >= remainder_q.degree() or remainder_q.degree() == 0

@@ -24,16 +24,23 @@ from sympy import randprime
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_is_nilpotent_number(), test_is_nilpotent_number produces the expected output) over Any ║
+# ║ Path(test_is_nilpotent_number(), is_nilpotent_number(21) == False and is_nilpotent_number(randprime(1, 30) ** 12) == True) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_is_nilpotent_number : Any → {Any | is_nilpotent_...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  is_nilpotent_number(21) == False               ║
+# ║   ensures:  is_nilpotent_number(randprime(1, 30) ** 1...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_is_nilpotent_number : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c6d0ea76bfac80e1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a1b1712829d5cbc6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_group_numbers.test_is_nilpotent_number","kind":"function","src_hash":"f6c8a7ab5ef5589e","in":{"base":"Any"},"out":{"base":"Any","pred":"is_nilpotent_number(21) == False and is_nilpotent_number(randprime(1, 30) ** 12) == True and is_nilpotent_number(n) == (n in A056867)"},"spec":{"lhs":"test_is_nilpotent_number()","rhs":"test_is_nilpotent_number produces the expected output","over":{"base":"Any"},"name":"test_is_nilpotent_number_correct"},"guarantee":"test_is_nilpotent_number produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_group_numbers.test_is_nilpotent_number_correct","statement":"Path(test_is_nilpotent_number(x), test_is_nilpotent_number produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c6d0ea76bfac80e1"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_group_numbers.test_is_nilpotent_number","kind":"function","src_hash":"f6c8a7ab5ef5589e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: is_nilpotent_number(21) == False and is_nilpotent_number(randprime(1, 30) ** 12) == True"},"spec":{"lhs":"test_is_nilpotent_number()","rhs":"is_nilpotent_number(21) == False and is_nilpotent_number(randprime(1, 30) ** 12) == True","over":{"base":"Any"},"name":"test_is_nilpotent_number_correct"},"guarantee":"is_nilpotent_number(21) == False; is_nilpotent_number(randprime(1, 30) ** 12) == True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_group_numbers.test_is_nilpotent_number_correct","statement":"Path(test_is_nilpotent_number(x), is_nilpotent_number(21) == False; is_nilpotent_number(randprime(1, 30) ** 12) == True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a1b1712829d5cbc6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["is_nilpotent_number(21) == False","is_nilpotent_number(randprime(1, 30) ** 12) == True"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_is_nilpotent_number():
     assert is_nilpotent_number(21) == False
     assert is_nilpotent_number(randprime(1, 30)**12) == True
@@ -48,16 +55,24 @@ def test_is_nilpotent_number():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_is_abelian_number(), test_is_abelian_number produces the expected output) over Any ║
+# ║ Path(test_is_abelian_number(), is_abelian_number(4) == True and is_abelian_number(randprime(1, 2000) ** 2) == True and is_abelian_number(randprime(1000, 100000)) == True and is_abelian_number(60) == False and is_abelian_number(24) == False) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_is_abelian_number : Any → {Any | is_abelian_numb...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  is_abelian_number(4) == True                   ║
+# ║   ensures:  is_abelian_number(randprime(1, 2000) ** 2...   ║
+# ║   ensures:  is_abelian_number(randprime(1000, 100000)...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_is_abelian_number : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 38047c8a23dd013d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9dc94e497338e304  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_group_numbers.test_is_abelian_number","kind":"function","src_hash":"fe0aa61a169558aa","in":{"base":"Any"},"out":{"base":"Any","pred":"is_abelian_number(4) == True and is_abelian_number(randprime(1, 2000) ** 2) == True and is_abelian_number(randprime(1000, 100000)) == True and is_abelian_number(60) == False and is_abelian_number(24) == False and is_abelian_number(n) == (n in A051532)"},"spec":{"lhs":"test_is_abelian_number()","rhs":"test_is_abelian_number produces the expected output","over":{"base":"Any"},"name":"test_is_abelian_number_correct"},"guarantee":"test_is_abelian_number produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_group_numbers.test_is_abelian_number_correct","statement":"Path(test_is_abelian_number(x), test_is_abelian_number produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"38047c8a23dd013d"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_group_numbers.test_is_abelian_number","kind":"function","src_hash":"fe0aa61a169558aa","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: is_abelian_number(4) == True and is_abelian_number(randprime(1, 2000) ** 2) == True and is_abelian_number(randprime(1000, 100000)) == True and is_abelian_number(60) == False and is_abelian_number(24) == False"},"spec":{"lhs":"test_is_abelian_number()","rhs":"is_abelian_number(4) == True and is_abelian_number(randprime(1, 2000) ** 2) == True and is_abelian_number(randprime(1000, 100000)) == True and is_abelian_number(60) == False and is_abelian_number(24) == False","over":{"base":"Any"},"name":"test_is_abelian_number_correct"},"guarantee":"is_abelian_number(4) == True; is_abelian_number(randprime(1, 2000) ** 2) == True; is_abelian_number(randprime(1000, 100000)) == True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_group_numbers.test_is_abelian_number_correct","statement":"Path(test_is_abelian_number(x), is_abelian_number(4) == True; is_abelian_number(randprime(1, 2000) ** 2) == True; is_abelian_number(randprime(1000, 100000)) == True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9dc94e497338e304","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["is_abelian_number(4) == True","is_abelian_number(randprime(1, 2000) ** 2) == True","is_abelian_number(randprime(1000, 100000)) == True","is_abelian_number(60) == False","is_abelian_number(24) == False"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_is_abelian_number():
     assert is_abelian_number(4) == True
     assert is_abelian_number(randprime(1, 2000)**2) == True
@@ -81,16 +96,24 @@ A003277 = [1, 2, 3, 5, 7, 11, 13, 15, 17, 19, 23, 29,
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_is_cyclic_number(), test_is_cyclic_number produces the expected output) over Any ║
+# ║ Path(test_is_cyclic_number(), is_cyclic_number(15) == True and is_cyclic_number(randprime(1, 2000) ** 2) == False and is_cyclic_number(randprime(1000, 100000)) == True and is_cyclic_number(4) == False) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_is_cyclic_number : Any → {Any | is_cyclic_number...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  is_cyclic_number(15) == True                   ║
+# ║   ensures:  is_cyclic_number(randprime(1, 2000) ** 2)...   ║
+# ║   ensures:  is_cyclic_number(randprime(1000, 100000))...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_is_cyclic_number : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 62cbf24f693cbf31  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 404899a94b7c1e04  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_group_numbers.test_is_cyclic_number","kind":"function","src_hash":"2c5fc366712352cc","in":{"base":"Any"},"out":{"base":"Any","pred":"is_cyclic_number(15) == True and is_cyclic_number(randprime(1, 2000) ** 2) == False and is_cyclic_number(randprime(1000, 100000)) == True and is_cyclic_number(4) == False and is_cyclic_number(n) == (n in A003277)"},"spec":{"lhs":"test_is_cyclic_number()","rhs":"test_is_cyclic_number produces the expected output","over":{"base":"Any"},"name":"test_is_cyclic_number_correct"},"guarantee":"test_is_cyclic_number produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_group_numbers.test_is_cyclic_number_correct","statement":"Path(test_is_cyclic_number(x), test_is_cyclic_number produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"62cbf24f693cbf31"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_group_numbers.test_is_cyclic_number","kind":"function","src_hash":"2c5fc366712352cc","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: is_cyclic_number(15) == True and is_cyclic_number(randprime(1, 2000) ** 2) == False and is_cyclic_number(randprime(1000, 100000)) == True and is_cyclic_number(4) == False"},"spec":{"lhs":"test_is_cyclic_number()","rhs":"is_cyclic_number(15) == True and is_cyclic_number(randprime(1, 2000) ** 2) == False and is_cyclic_number(randprime(1000, 100000)) == True and is_cyclic_number(4) == False","over":{"base":"Any"},"name":"test_is_cyclic_number_correct"},"guarantee":"is_cyclic_number(15) == True; is_cyclic_number(randprime(1, 2000) ** 2) == False; is_cyclic_number(randprime(1000, 100000)) == True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_group_numbers.test_is_cyclic_number_correct","statement":"Path(test_is_cyclic_number(x), is_cyclic_number(15) == True; is_cyclic_number(randprime(1, 2000) ** 2) == False; is_cyclic_number(randprime(1000, 100000)) == True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"404899a94b7c1e04","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["is_cyclic_number(15) == True","is_cyclic_number(randprime(1, 2000) ** 2) == False","is_cyclic_number(randprime(1000, 100000)) == True","is_cyclic_number(4) == False"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_is_cyclic_number():
     assert is_cyclic_number(15) == True
     assert is_cyclic_number(randprime(1, 2000)**2) == False
@@ -103,16 +126,24 @@ def test_is_cyclic_number():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_holder_formula(), test_holder_formula produces the expected output) over Any ║
+# ║ Path(test_holder_formula(), _holder_formula({3, 5}) == 1 and _holder_formula({5, 11}) == 2 and _holder_formula({2, 3, 5, 7}) == 12) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_holder_formula : Any → {Any | _holder_formula({3...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  _holder_formula({3, 5}) == 1                   ║
+# ║   ensures:  _holder_formula({5, 11}) == 2                  ║
+# ║   ensures:  _holder_formula({2, 3, 5, 7}) == 12            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_holder_formula : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d5c1f9b41a9ad2ea  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 424064ea480b6e9c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_group_numbers.test_holder_formula","kind":"function","src_hash":"4cbcfe725ab3725c","in":{"base":"Any"},"out":{"base":"Any","pred":"_holder_formula({3, 5}) == 1 and _holder_formula({5, 11}) == 2 and _holder_formula({2, 3, 5, 7}) == 12 and _holder_formula(set(factorint(n).keys())) == 1"},"spec":{"lhs":"test_holder_formula()","rhs":"test_holder_formula produces the expected output","over":{"base":"Any"},"name":"test_holder_formula_correct"},"guarantee":"test_holder_formula produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_group_numbers.test_holder_formula_correct","statement":"Path(test_holder_formula(x), test_holder_formula produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d5c1f9b41a9ad2ea"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_group_numbers.test_holder_formula","kind":"function","src_hash":"4cbcfe725ab3725c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: _holder_formula({3, 5}) == 1 and _holder_formula({5, 11}) == 2 and _holder_formula({2, 3, 5, 7}) == 12"},"spec":{"lhs":"test_holder_formula()","rhs":"_holder_formula({3, 5}) == 1 and _holder_formula({5, 11}) == 2 and _holder_formula({2, 3, 5, 7}) == 12","over":{"base":"Any"},"name":"test_holder_formula_correct"},"guarantee":"_holder_formula({3, 5}) == 1; _holder_formula({5, 11}) == 2; _holder_formula({2, 3, 5, 7}) == 12","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_group_numbers.test_holder_formula_correct","statement":"Path(test_holder_formula(x), _holder_formula({3, 5}) == 1; _holder_formula({5, 11}) == 2; _holder_formula({2, 3, 5, 7}) == 12)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"424064ea480b6e9c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["_holder_formula({3, 5}) == 1","_holder_formula({5, 11}) == 2","_holder_formula({2, 3, 5, 7}) == 12"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_holder_formula():
     # semiprime
     assert _holder_formula({3, 5}) == 1
@@ -125,16 +156,22 @@ def test_holder_formula():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_groups_count(), test_groups_count produces the expected output) over Any ║
+# ║ Path(test_groups_count(), <unspecified:test_groups_count>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_groups_count : Any → {Any | groups_count(2 ** e)...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6a92e6aa90f42382  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_group_numbers.test_groups_count","kind":"function","src_hash":"62e02ab68c91c177","in":{"base":"Any"},"out":{"base":"Any","pred":"groups_count(2 ** e) == A000679[e] and groups_count(3 ** e) == A090091[e] and groups_count(5 ** e) == A090130[e] and groups_count(7 ** e) == A090140[e] and groups_count(prime(i + 1) ** 5) == A232105[i] and groups_count(prime(i + 1) ** 6) == A232106[i] and groups_count(prime(i + 1) ** 7) == A232107[i] and groups_count(n) == A000001[n]"},"spec":{"lhs":"test_groups_count()","rhs":"test_groups_count produces the expected output","over":{"base":"Any"},"name":"test_groups_count_correct"},"guarantee":"test_groups_count produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_group_numbers.test_groups_count_correct","statement":"Path(test_groups_count(x), test_groups_count produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6a92e6aa90f42382"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_group_numbers.test_groups_count","kind":"function","src_hash":"62e02ab68c91c177","in":{"base":"Any"},"out":{"base":"Any","pred":"groups_count(2 ** e) == A000679[e] and groups_count(3 ** e) == A090091[e] and groups_count(5 ** e) == A090130[e] and groups_count(7 ** e) == A090140[e] and groups_count(prime(i + 1) ** 5) == A232105[i] and groups_count(prime(i + 1) ** 6) == A232106[i] and groups_count(prime(i + 1) ** 7) == A232107[i] and groups_count(n) == A000001[n]"},"spec":{"lhs":"test_groups_count()","rhs":"<unspecified:test_groups_count>","over":{"base":"Any"},"name":"test_groups_count_correct"},"guarantee":"test_groups_count produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_group_numbers.test_groups_count_correct","statement":"Path(test_groups_count(x), test_groups_count produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6a92e6aa90f42382","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def test_groups_count():
     A000001 = [0, 1, 1, 1, 2, 1, 2, 1, 5, 2, 2, 1, 5, 1,
                2, 1, 14, 1, 5, 1, 5, 2, 2, 1, 15, 2, 2,

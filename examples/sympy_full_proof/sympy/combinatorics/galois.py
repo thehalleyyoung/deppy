@@ -53,16 +53,22 @@ from sympy.combinatorics.permutations import Permutation
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(S1TransitiveSubgroups(), correctly constructs a S1TransitiveSubgroups instance) over Any ║
+# ║ Path(S1TransitiveSubgroups(), isinstance(self, Enum)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ S1TransitiveSubgroups : Any → Any                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Enum)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ S1TransitiveSubgroups : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4aa43702dff54a0d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.galois.S1TransitiveSubgroups","kind":"class","src_hash":"032a0ef7d816e8a6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"S1TransitiveSubgroups()","rhs":"correctly constructs a S1TransitiveSubgroups instance","over":{"base":"Any"},"name":"S1TransitiveSubgroups_correct"},"guarantee":"correctly constructs a S1TransitiveSubgroups instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4aa43702dff54a0d"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.galois.S1TransitiveSubgroups","kind":"class","src_hash":"032a0ef7d816e8a6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Enum)"},"spec":{"lhs":"S1TransitiveSubgroups()","rhs":"isinstance(self, Enum)","over":{"base":"Any"},"name":"S1TransitiveSubgroups_correct"},"guarantee":"isinstance(self, Enum)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4aa43702dff54a0d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Enum)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Function S1TransitiveSubgroups not found in source"]}}
 class S1TransitiveSubgroups(Enum):
     """
     Names for the transitive subgroups of S1.
@@ -70,31 +76,43 @@ class S1TransitiveSubgroups(Enum):
     S1 = "S1"
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_perm_group(), get_perm_group produces the expected output) over Any ║
+# ║ Path(get_perm_group(), SymmetricGroup(1)) over Any         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  SymmetricGroup(1)                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ get_perm_group : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3ff9e1377f186d03           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.galois.S1TransitiveSubgroups.get_perm_group","kind":"method","src_hash":"4cbb1266882d46b7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_perm_group()","rhs":"get_perm_group produces the expected output","over":{"base":"Any"},"name":"get_perm_group_correct"},"guarantee":"get_perm_group produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3ff9e1377f186d03"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.galois.S1TransitiveSubgroups.get_perm_group","kind":"method","src_hash":"4cbb1266882d46b7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_perm_group()","rhs":"SymmetricGroup(1)","over":{"base":"Any"},"name":"get_perm_group_correct"},"guarantee":"returns SymmetricGroup(1)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3ff9e1377f186d03","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"SymmetricGroup(1)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def get_perm_group(self):
         return SymmetricGroup(1)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(S2TransitiveSubgroups(), correctly constructs a S2TransitiveSubgroups instance) over Any ║
+# ║ Path(S2TransitiveSubgroups(), isinstance(self, Enum)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ S2TransitiveSubgroups : Any → Any                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Enum)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ S2TransitiveSubgroups : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8860448751aeeda4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.galois.S2TransitiveSubgroups","kind":"class","src_hash":"ea52cc637903894e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"S2TransitiveSubgroups()","rhs":"correctly constructs a S2TransitiveSubgroups instance","over":{"base":"Any"},"name":"S2TransitiveSubgroups_correct"},"guarantee":"correctly constructs a S2TransitiveSubgroups instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8860448751aeeda4"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.galois.S2TransitiveSubgroups","kind":"class","src_hash":"ea52cc637903894e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Enum)"},"spec":{"lhs":"S2TransitiveSubgroups()","rhs":"isinstance(self, Enum)","over":{"base":"Any"},"name":"S2TransitiveSubgroups_correct"},"guarantee":"isinstance(self, Enum)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8860448751aeeda4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Enum)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Function S2TransitiveSubgroups not found in source"]}}
 class S2TransitiveSubgroups(Enum):
     """
     Names for the transitive subgroups of S2.
@@ -102,16 +120,22 @@ class S2TransitiveSubgroups(Enum):
     S2 = "S2"
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_perm_group(), get_perm_group produces the expected output) over Any ║
+# ║ Path(get_perm_group(), SymmetricGroup(2)) over Any         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  SymmetricGroup(2)                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ get_perm_group : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0a604db00ccd48bb           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.galois.S2TransitiveSubgroups.get_perm_group","kind":"method","src_hash":"3ce301dddeba9f73","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_perm_group()","rhs":"get_perm_group produces the expected output","over":{"base":"Any"},"name":"get_perm_group_correct"},"guarantee":"get_perm_group produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0a604db00ccd48bb"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.galois.S2TransitiveSubgroups.get_perm_group","kind":"method","src_hash":"3ce301dddeba9f73","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_perm_group()","rhs":"SymmetricGroup(2)","over":{"base":"Any"},"name":"get_perm_group_correct"},"guarantee":"returns SymmetricGroup(2)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0a604db00ccd48bb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"SymmetricGroup(2)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def get_perm_group(self):
         return SymmetricGroup(2)
 
@@ -119,14 +143,20 @@ class S2TransitiveSubgroups(Enum):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(S3TransitiveSubgroups(*args), correctly constructs a S3TransitiveSubgroups instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ S3TransitiveSubgroups : Any → Any                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Enum)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ S3TransitiveSubgroups : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f7a352c9a6710590  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.galois.S3TransitiveSubgroups","kind":"class","src_hash":"0b1daf2af101d47c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"S3TransitiveSubgroups(*args)","rhs":"correctly constructs a S3TransitiveSubgroups instance","over":{"base":"Any"},"name":"S3TransitiveSubgroups_class_invariant"},"guarantee":"correctly constructs a S3TransitiveSubgroups instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f7a352c9a6710590"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.galois.S3TransitiveSubgroups","kind":"class","src_hash":"0b1daf2af101d47c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Enum)"},"spec":{"lhs":"S3TransitiveSubgroups(*args)","rhs":"correctly constructs a S3TransitiveSubgroups instance","over":{"base":"Any"},"name":"S3TransitiveSubgroups_class_invariant"},"guarantee":"isinstance(self, Enum)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f7a352c9a6710590","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Enum)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function S3TransitiveSubgroups not found in source"]}}
 class S3TransitiveSubgroups(Enum):
     """
     Names for the transitive subgroups of S3.
@@ -135,16 +165,25 @@ class S3TransitiveSubgroups(Enum):
     S3 = "S3"
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_perm_group(), get_perm_group produces the expected output) over Any ║
+# ║ Path(get_perm_group(), result == (AlternatingGroup(3) if self == S3TransitiveSubgroups.A3 else SymmetricGroup(3)) and result == AlternatingGroup(3) or result == SymmetricGroup(3)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ get_perm_group : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (AlternatingGroup(3) if self ==...   ║
+# ║   ensures:  result == AlternatingGroup(3) or result =...   ║
+# ║   fiber[case_0]: self == S3TransitiveSubgroups.A3 => ...   ║
+# ║   fiber[case_1]: self == S3TransitiveSubgroups.S3 => ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ get_perm_group : Any → {Any | result satisfies: resul...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 104785bb95a80924  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 978287335ca87b1f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.galois.S3TransitiveSubgroups.get_perm_group","kind":"method","src_hash":"c8c92a1cc7771b18","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_perm_group()","rhs":"get_perm_group produces the expected output","over":{"base":"Any"},"name":"get_perm_group_correct"},"guarantee":"get_perm_group produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.galois.S3TransitiveSubgroups.get_perm_group_correct","statement":"Path(get_perm_group(x), get_perm_group produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"104785bb95a80924"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.galois.S3TransitiveSubgroups.get_perm_group","kind":"method","src_hash":"c8c92a1cc7771b18","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (AlternatingGroup(3) if self == S3TransitiveSubgroups.A3 else SymmetricGroup(3)) and result == AlternatingGroup(3) or result == SymmetricGroup(3)"},"spec":{"lhs":"get_perm_group()","rhs":"result == (AlternatingGroup(3) if self == S3TransitiveSubgroups.A3 else SymmetricGroup(3)) and result == AlternatingGroup(3) or result == SymmetricGroup(3)","over":{"base":"Any"},"name":"get_perm_group_correct"},"guarantee":"result == (AlternatingGroup(3) if self == S3TransitiveSubgroups.A3 else SymmetricGroup(3)); result == AlternatingGroup(3) or result == SymmetricGroup(3); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.galois.S3TransitiveSubgroups.get_perm_group_correct","statement":"Path(get_perm_group(x), result == (AlternatingGroup(3) if self == S3TransitiveSubgroups.A3 else SymmetricGroup(3)); result == AlternatingGroup(3) or result == SymmetricGroup(3); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"978287335ca87b1f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (AlternatingGroup(3) if self == S3TransitiveSubgroups.A3 else SymmetricGroup(3))","result == AlternatingGroup(3) or result == SymmetricGroup(3)"],"fibers":[{"name":"case_0","guard":"self == S3TransitiveSubgroups.A3","ensures":["result == AlternatingGroup(3)"],"decidability":"z3","returns_expr":"AlternatingGroup(3)"},{"name":"case_1","guard":"self == S3TransitiveSubgroups.S3","ensures":["result == SymmetricGroup(3)"],"decidability":"z3","returns_expr":"SymmetricGroup(3)"}],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def get_perm_group(self):
         if self == S3TransitiveSubgroups.A3:
             return AlternatingGroup(3)
@@ -155,14 +194,20 @@ class S3TransitiveSubgroups(Enum):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(S4TransitiveSubgroups(*args), correctly constructs a S4TransitiveSubgroups instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ S4TransitiveSubgroups : Any → Any                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Enum)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ S4TransitiveSubgroups : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 928f4e2492ed68bd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.galois.S4TransitiveSubgroups","kind":"class","src_hash":"3eef53635e80e2ed","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"S4TransitiveSubgroups(*args)","rhs":"correctly constructs a S4TransitiveSubgroups instance","over":{"base":"Any"},"name":"S4TransitiveSubgroups_class_invariant"},"guarantee":"correctly constructs a S4TransitiveSubgroups instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"928f4e2492ed68bd"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.galois.S4TransitiveSubgroups","kind":"class","src_hash":"3eef53635e80e2ed","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Enum)"},"spec":{"lhs":"S4TransitiveSubgroups(*args)","rhs":"correctly constructs a S4TransitiveSubgroups instance","over":{"base":"Any"},"name":"S4TransitiveSubgroups_class_invariant"},"guarantee":"isinstance(self, Enum)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"928f4e2492ed68bd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Enum)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function S4TransitiveSubgroups not found in source"]}}
 class S4TransitiveSubgroups(Enum):
     """
     Names for the transitive subgroups of S4.
@@ -174,16 +219,25 @@ class S4TransitiveSubgroups(Enum):
     S4 = "S4"
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_perm_group(), get_perm_group produces the expected output) over Any ║
+# ║ Path(get_perm_group(), result == (CyclicGroup(4) if self == S4TransitiveSubgroups.C4 else four_group() if self == S4TransitiveSubgroups.V else DihedralGroup(4) if self == S4TransitiveSubgroups.D4 else AlternatingGroup(4) if self == S4TransitiveSubgroups.A4 else SymmetricGroup(4))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ get_perm_group : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (CyclicGroup(4) if self == S4Tr...   ║
+# ║   fiber[case_0]: self == S4TransitiveSubgroups.C4 => ...   ║
+# ║   fiber[case_1]: self == S4TransitiveSubgroups.V => f...   ║
+# ║   fiber[case_2]: self == S4TransitiveSubgroups.D4 => ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ get_perm_group : Any → {Any | result satisfies: resul...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f6e1a173c4ddd9f0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6259f57de1bbc5fc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.galois.S4TransitiveSubgroups.get_perm_group","kind":"method","src_hash":"a9815a7fa874cd72","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_perm_group()","rhs":"get_perm_group produces the expected output","over":{"base":"Any"},"name":"get_perm_group_correct"},"guarantee":"get_perm_group produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.galois.S4TransitiveSubgroups.get_perm_group_correct","statement":"Path(get_perm_group(x), get_perm_group produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f6e1a173c4ddd9f0"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.galois.S4TransitiveSubgroups.get_perm_group","kind":"method","src_hash":"a9815a7fa874cd72","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (CyclicGroup(4) if self == S4TransitiveSubgroups.C4 else four_group() if self == S4TransitiveSubgroups.V else DihedralGroup(4) if self == S4TransitiveSubgroups.D4 else AlternatingGroup(4) if self == S4TransitiveSubgroups.A4 else SymmetricGroup(4))"},"spec":{"lhs":"get_perm_group()","rhs":"result == (CyclicGroup(4) if self == S4TransitiveSubgroups.C4 else four_group() if self == S4TransitiveSubgroups.V else DihedralGroup(4) if self == S4TransitiveSubgroups.D4 else AlternatingGroup(4) if self == S4TransitiveSubgroups.A4 else SymmetricGroup(4))","over":{"base":"Any"},"name":"get_perm_group_correct"},"guarantee":"result == (CyclicGroup(4) if self == S4TransitiveSubgroups.C4 else four_group() if self == S4TransitiveSubgroups.V else DihedralGroup(4) if self == S4TransitiveSubgroups.D4 else AlternatingGroup(4) if self == S4TransitiveSubgroups.A4 else SymmetricGroup(4)); 5-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.galois.S4TransitiveSubgroups.get_perm_group_correct","statement":"Path(get_perm_group(x), result == (CyclicGroup(4) if self == S4TransitiveSubgroups.C4 else four_group() if self == S4TransitiveSubgroups.V else DihedralGroup(4) if self == S4TransitiveSubgroups.D4 else AlternatingGroup(4) if self == S4TransitiveSubgroups.A4 else SymmetricGroup(4)); 5-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6259f57de1bbc5fc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (CyclicGroup(4) if self == S4TransitiveSubgroups.C4 else four_group() if self == S4TransitiveSubgroups.V else DihedralGroup(4) if self == S4TransitiveSubgroups.D4 else AlternatingGroup(4) if self == S4TransitiveSubgroups.A4 else SymmetricGroup(4))"],"fibers":[{"name":"case_0","guard":"self == S4TransitiveSubgroups.C4","ensures":["result == CyclicGroup(4)"],"decidability":"z3","returns_expr":"CyclicGroup(4)"},{"name":"case_1","guard":"self == S4TransitiveSubgroups.V","ensures":["result == four_group()"],"decidability":"z3","returns_expr":"four_group()"},{"name":"case_2","guard":"self == S4TransitiveSubgroups.D4","ensures":["result == DihedralGroup(4)"],"decidability":"z3","returns_expr":"DihedralGroup(4)"},{"name":"case_3","guard":"self == S4TransitiveSubgroups.A4","ensures":["result == AlternatingGroup(4)"],"decidability":"z3","returns_expr":"AlternatingGroup(4)"},{"name":"case_4","guard":"self == S4TransitiveSubgroups.S4","ensures":["result == SymmetricGroup(4)"],"decidability":"z3","returns_expr":"SymmetricGroup(4)"}],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def get_perm_group(self):
         if self == S4TransitiveSubgroups.C4:
             return CyclicGroup(4)
@@ -200,14 +254,20 @@ class S4TransitiveSubgroups(Enum):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(S5TransitiveSubgroups(*args), correctly constructs a S5TransitiveSubgroups instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ S5TransitiveSubgroups : Any → Any                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Enum)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ S5TransitiveSubgroups : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 92994c0d1f20c727  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.galois.S5TransitiveSubgroups","kind":"class","src_hash":"67949607861ae2fd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"S5TransitiveSubgroups(*args)","rhs":"correctly constructs a S5TransitiveSubgroups instance","over":{"base":"Any"},"name":"S5TransitiveSubgroups_class_invariant"},"guarantee":"correctly constructs a S5TransitiveSubgroups instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"92994c0d1f20c727"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.galois.S5TransitiveSubgroups","kind":"class","src_hash":"67949607861ae2fd","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Enum)"},"spec":{"lhs":"S5TransitiveSubgroups(*args)","rhs":"correctly constructs a S5TransitiveSubgroups instance","over":{"base":"Any"},"name":"S5TransitiveSubgroups_class_invariant"},"guarantee":"isinstance(self, Enum)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"92994c0d1f20c727","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Enum)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function S5TransitiveSubgroups not found in source"]}}
 class S5TransitiveSubgroups(Enum):
     """
     Names for the transitive subgroups of S5.
@@ -219,16 +279,25 @@ class S5TransitiveSubgroups(Enum):
     S5 = "S5"
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_perm_group(), get_perm_group produces the expected output) over Any ║
+# ║ Path(get_perm_group(), result == (CyclicGroup(5) if self == S5TransitiveSubgroups.C5 else DihedralGroup(5) if self == S5TransitiveSubgroups.D5 else M20() if self == S5TransitiveSubgroups.M20 else AlternatingGroup(5) if self == S5TransitiveSubgroups.A5 else SymmetricGroup(5))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ get_perm_group : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (CyclicGroup(5) if self == S5Tr...   ║
+# ║   fiber[case_0]: self == S5TransitiveSubgroups.C5 => ...   ║
+# ║   fiber[case_1]: self == S5TransitiveSubgroups.D5 => ...   ║
+# ║   fiber[case_2]: self == S5TransitiveSubgroups.M20 =>...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ get_perm_group : Any → {Any | result satisfies: resul...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 94b9700982495195  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b14737272f4bdc5e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.galois.S5TransitiveSubgroups.get_perm_group","kind":"method","src_hash":"a238e3794bc72e26","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_perm_group()","rhs":"get_perm_group produces the expected output","over":{"base":"Any"},"name":"get_perm_group_correct"},"guarantee":"get_perm_group produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.galois.S5TransitiveSubgroups.get_perm_group_correct","statement":"Path(get_perm_group(x), get_perm_group produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"94b9700982495195"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.galois.S5TransitiveSubgroups.get_perm_group","kind":"method","src_hash":"a238e3794bc72e26","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (CyclicGroup(5) if self == S5TransitiveSubgroups.C5 else DihedralGroup(5) if self == S5TransitiveSubgroups.D5 else M20() if self == S5TransitiveSubgroups.M20 else AlternatingGroup(5) if self == S5TransitiveSubgroups.A5 else SymmetricGroup(5))"},"spec":{"lhs":"get_perm_group()","rhs":"result == (CyclicGroup(5) if self == S5TransitiveSubgroups.C5 else DihedralGroup(5) if self == S5TransitiveSubgroups.D5 else M20() if self == S5TransitiveSubgroups.M20 else AlternatingGroup(5) if self == S5TransitiveSubgroups.A5 else SymmetricGroup(5))","over":{"base":"Any"},"name":"get_perm_group_correct"},"guarantee":"result == (CyclicGroup(5) if self == S5TransitiveSubgroups.C5 else DihedralGroup(5) if self == S5TransitiveSubgroups.D5 else M20() if self == S5TransitiveSubgroups.M20 else AlternatingGroup(5) if self == S5TransitiveSubgroups.A5 else SymmetricGroup(5)); 5-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.galois.S5TransitiveSubgroups.get_perm_group_correct","statement":"Path(get_perm_group(x), result == (CyclicGroup(5) if self == S5TransitiveSubgroups.C5 else DihedralGroup(5) if self == S5TransitiveSubgroups.D5 else M20() if self == S5TransitiveSubgroups.M20 else AlternatingGroup(5) if self == S5TransitiveSubgroups.A5 else SymmetricGroup(5)); 5-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b14737272f4bdc5e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (CyclicGroup(5) if self == S5TransitiveSubgroups.C5 else DihedralGroup(5) if self == S5TransitiveSubgroups.D5 else M20() if self == S5TransitiveSubgroups.M20 else AlternatingGroup(5) if self == S5TransitiveSubgroups.A5 else SymmetricGroup(5))"],"fibers":[{"name":"case_0","guard":"self == S5TransitiveSubgroups.C5","ensures":["result == CyclicGroup(5)"],"decidability":"z3","returns_expr":"CyclicGroup(5)"},{"name":"case_1","guard":"self == S5TransitiveSubgroups.D5","ensures":["result == DihedralGroup(5)"],"decidability":"z3","returns_expr":"DihedralGroup(5)"},{"name":"case_2","guard":"self == S5TransitiveSubgroups.M20","ensures":["result == M20()"],"decidability":"z3","returns_expr":"M20()"},{"name":"case_3","guard":"self == S5TransitiveSubgroups.A5","ensures":["result == AlternatingGroup(5)"],"decidability":"z3","returns_expr":"AlternatingGroup(5)"},{"name":"case_4","guard":"self == S5TransitiveSubgroups.S5","ensures":["result == SymmetricGroup(5)"],"decidability":"z3","returns_expr":"SymmetricGroup(5)"}],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def get_perm_group(self):
         if self == S5TransitiveSubgroups.C5:
             return CyclicGroup(5)
@@ -245,14 +314,20 @@ class S5TransitiveSubgroups(Enum):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(S6TransitiveSubgroups(*args), correctly constructs a S6TransitiveSubgroups instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ S6TransitiveSubgroups : Any → Any                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Enum)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ S6TransitiveSubgroups : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f7456a8bac4fb20a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.galois.S6TransitiveSubgroups","kind":"class","src_hash":"3c9a84d4e515a24e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"S6TransitiveSubgroups(*args)","rhs":"correctly constructs a S6TransitiveSubgroups instance","over":{"base":"Any"},"name":"S6TransitiveSubgroups_class_invariant"},"guarantee":"correctly constructs a S6TransitiveSubgroups instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f7456a8bac4fb20a"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.galois.S6TransitiveSubgroups","kind":"class","src_hash":"3c9a84d4e515a24e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Enum)"},"spec":{"lhs":"S6TransitiveSubgroups(*args)","rhs":"correctly constructs a S6TransitiveSubgroups instance","over":{"base":"Any"},"name":"S6TransitiveSubgroups_class_invariant"},"guarantee":"isinstance(self, Enum)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f7456a8bac4fb20a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Enum)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function S6TransitiveSubgroups not found in source"]}}
 class S6TransitiveSubgroups(Enum):
     """
     Names for the transitive subgroups of S6.
@@ -275,16 +350,24 @@ class S6TransitiveSubgroups(Enum):
     S6 = "S6"
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_perm_group(), get_perm_group produces the expected output) over Any ║
+# ║ Path(get_perm_group(), <unspecified:get_perm_group>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: self == S6TransitiveSubgroups.C6 => ...   ║
+# ║   fiber[case_1]: self == S6TransitiveSubgroups.S3 => ...   ║
+# ║   fiber[case_2]: self == S6TransitiveSubgroups.D6 => ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ get_perm_group : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 76413ef5f5e7a1c9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1212d194d1d69a8b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.galois.S6TransitiveSubgroups.get_perm_group","kind":"method","src_hash":"b0d58f8a70883859","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_perm_group()","rhs":"get_perm_group produces the expected output","over":{"base":"Any"},"name":"get_perm_group_correct"},"guarantee":"get_perm_group produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.galois.S6TransitiveSubgroups.get_perm_group_correct","statement":"Path(get_perm_group(x), get_perm_group produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"76413ef5f5e7a1c9"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.galois.S6TransitiveSubgroups.get_perm_group","kind":"method","src_hash":"b0d58f8a70883859","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_perm_group()","rhs":"<unspecified:get_perm_group>","over":{"base":"Any"},"name":"get_perm_group_correct"},"guarantee":"16-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.galois.S6TransitiveSubgroups.get_perm_group_correct","statement":"Path(get_perm_group(x), 16-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1212d194d1d69a8b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"self == S6TransitiveSubgroups.C6","ensures":["result == CyclicGroup(6)"],"decidability":"z3","returns_expr":"CyclicGroup(6)"},{"name":"case_1","guard":"self == S6TransitiveSubgroups.S3","ensures":["result == S3_in_S6()"],"decidability":"z3","returns_expr":"S3_in_S6()"},{"name":"case_2","guard":"self == S6TransitiveSubgroups.D6","ensures":["result == DihedralGroup(6)"],"decidability":"z3","returns_expr":"DihedralGroup(6)"},{"name":"case_3","guard":"self == S6TransitiveSubgroups.A4","ensures":["result == A4_in_S6()"],"decidability":"z3","returns_expr":"A4_in_S6()"},{"name":"case_4","guard":"self == S6TransitiveSubgroups.G18","ensures":["result == G18()"],"decidability":"z3","returns_expr":"G18()"},{"name":"case_5","guard":"self == S6TransitiveSubgroups.A4xC2","ensures":["result == A4xC2()"],"decidability":"z3","returns_expr":"A4xC2()"},{"name":"case_6","guard":"self == S6TransitiveSubgroups.S4m","ensures":["result == S4m()"],"decidability":"z3","returns_expr":"S4m()"},{"name":"case_7","guard":"self == S6TransitiveSubgroups.S4p","ensures":["result == S4p()"],"decidability":"z3","returns_expr":"S4p()"},{"name":"case_8","guard":"self == S6TransitiveSubgroups.G36m","ensures":["result == G36m()"],"decidability":"z3","returns_expr":"G36m()"},{"name":"case_9","guard":"self == S6TransitiveSubgroups.G36p","ensures":["result == G36p()"],"decidability":"z3","returns_expr":"G36p()"},{"name":"case_10","guard":"self == S6TransitiveSubgroups.S4xC2","ensures":["result == S4xC2()"],"decidability":"z3","returns_expr":"S4xC2()"},{"name":"case_11","guard":"self == S6TransitiveSubgroups.PSL2F5","ensures":["result == PSL2F5()"],"decidability":"z3","returns_expr":"PSL2F5()"},{"name":"case_12","guard":"self == S6TransitiveSubgroups.G72","ensures":["result == G72()"],"decidability":"z3","returns_expr":"G72()"},{"name":"case_13","guard":"self == S6TransitiveSubgroups.PGL2F5","ensures":["result == PGL2F5()"],"decidability":"z3","returns_expr":"PGL2F5()"},{"name":"case_14","guard":"self == S6TransitiveSubgroups.A6","ensures":["result == AlternatingGroup(6)"],"decidability":"z3","returns_expr":"AlternatingGroup(6)"},{"name":"case_15","guard":"self == S6TransitiveSubgroups.S6","ensures":["result == SymmetricGroup(6)"],"decidability":"z3","returns_expr":"SymmetricGroup(6)"}],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def get_perm_group(self):
         if self == S6TransitiveSubgroups.C6:
             return CyclicGroup(6)
@@ -321,16 +404,22 @@ class S6TransitiveSubgroups(Enum):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(four_group(), return a representation of the klein four-group as a transitive subgroup of s4) over Any ║
+# ║ Path(four_group(), PermutationGroup(Permutation(0, 1)(2, 3), Permutation(0, 2)(1, 3))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  PermutationGroup(Permutation(0, 1)(2, 3),...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ four_group : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6ce6796e1a8676c1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9bc569176d7d6601  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.galois.four_group","kind":"function","src_hash":"d66d9e3adf887ed7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"four_group()","rhs":"return a representation of the klein four-group as a transitive subgroup of s4","over":{"base":"Any"},"name":"four_group_correct"},"guarantee":"return a representation of the klein four-group as a transitive subgroup of s4","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.galois.four_group_correct","statement":"Path(four_group(x), return a representation of the klein four-group as a transitive subgroup of s4)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6ce6796e1a8676c1"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.galois.four_group","kind":"function","src_hash":"d66d9e3adf887ed7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"four_group()","rhs":"PermutationGroup(Permutation(0, 1)(2, 3), Permutation(0, 2)(1, 3))","over":{"base":"Any"},"name":"four_group_correct"},"guarantee":"returns PermutationGroup(Permutation(0, 1)(2, 3), Permutation(0, 2)(1, 3))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.galois.four_group_correct","statement":"Path(four_group(x), returns PermutationGroup(Permutation(0, 1)(2, 3), Permutation(0, 2)(1, 3)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9bc569176d7d6601","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"PermutationGroup(Permutation(0, 1)(2, 3), Permutation(0, 2)(1, 3))","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def four_group():
     """
     Return a representation of the Klein four-group as a transitive subgroup
@@ -343,16 +432,22 @@ def four_group():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(M20(), return a representation of the metacyclic group m20, a transitive subgroup of s5 that is one of the possible galois groups for polys of degree 5) over Any ║
+# ║ Path(M20(), <unspecified:M20>) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ M20 : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e57ea4ea1dc9bbdf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.galois.M20","kind":"function","src_hash":"6250d4ad0b9b5b87","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"M20()","rhs":"return a representation of the metacyclic group m20, a transitive subgroup of s5 that is one of the possible galois groups for polys of degree 5","over":{"base":"Any"},"name":"M20_correct"},"guarantee":"return a representation of the metacyclic group m20, a transitive subgroup of s5 that is one of the possible galois groups for polys of degree 5","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.galois.M20_correct","statement":"Path(M20(x), return a representation of the metacyclic group m20, a transitive subgroup of s5 that is one of the possible galois groups for polys of degree 5)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e57ea4ea1dc9bbdf"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.galois.M20","kind":"function","src_hash":"6250d4ad0b9b5b87","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"M20()","rhs":"<unspecified:M20>","over":{"base":"Any"},"name":"M20_correct"},"guarantee":"return a representation of the metacyclic group m20, a transitive subgroup of s5 that is one of the possible galois groups for polys of degree 5","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.galois.M20_correct","statement":"Path(M20(x), return a representation of the metacyclic group m20, a transitive subgroup of s5 that is one of the possible galois groups for polys of degree 5)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e57ea4ea1dc9bbdf","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def M20():
     """
     Return a representation of the metacyclic group M20, a transitive subgroup
@@ -376,16 +471,22 @@ def M20():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(S3_in_S6(), return a representation of s3 as a transitive subgroup of s6) over Any ║
+# ║ Path(S3_in_S6(), <unspecified:S3_in_S6>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ S3_in_S6 : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0093e82651a8d975  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.galois.S3_in_S6","kind":"function","src_hash":"75a9bfe42fdc9c95","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"S3_in_S6()","rhs":"return a representation of s3 as a transitive subgroup of s6","over":{"base":"Any"},"name":"S3_in_S6_correct"},"guarantee":"return a representation of s3 as a transitive subgroup of s6","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.galois.S3_in_S6_correct","statement":"Path(S3_in_S6(x), return a representation of s3 as a transitive subgroup of s6)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0093e82651a8d975"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.galois.S3_in_S6","kind":"function","src_hash":"75a9bfe42fdc9c95","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"S3_in_S6()","rhs":"<unspecified:S3_in_S6>","over":{"base":"Any"},"name":"S3_in_S6_correct"},"guarantee":"return a representation of s3 as a transitive subgroup of s6","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.galois.S3_in_S6_correct","statement":"Path(S3_in_S6(x), return a representation of s3 as a transitive subgroup of s6)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0093e82651a8d975","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def S3_in_S6():
     """
     Return a representation of S3 as a transitive subgroup of S6.
@@ -403,16 +504,22 @@ def S3_in_S6():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(A4_in_S6(), return a representation of a4 as a transitive subgroup of s6) over Any ║
+# ║ Path(A4_in_S6(), <unspecified:A4_in_S6>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ A4_in_S6 : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b957ae93ef0237ac  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.galois.A4_in_S6","kind":"function","src_hash":"1a4a1f264c233d27","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"A4_in_S6()","rhs":"return a representation of a4 as a transitive subgroup of s6","over":{"base":"Any"},"name":"A4_in_S6_correct"},"guarantee":"return a representation of a4 as a transitive subgroup of s6","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.galois.A4_in_S6_correct","statement":"Path(A4_in_S6(x), return a representation of a4 as a transitive subgroup of s6)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b957ae93ef0237ac"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.galois.A4_in_S6","kind":"function","src_hash":"1a4a1f264c233d27","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"A4_in_S6()","rhs":"<unspecified:A4_in_S6>","over":{"base":"Any"},"name":"A4_in_S6_correct"},"guarantee":"return a representation of a4 as a transitive subgroup of s6","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.galois.A4_in_S6_correct","statement":"Path(A4_in_S6(x), return a representation of a4 as a transitive subgroup of s6)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b957ae93ef0237ac","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def A4_in_S6():
     """
     Return a representation of A4 as a transitive subgroup of S6.
@@ -429,16 +536,22 @@ def A4_in_S6():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(S4m(), return a representation of the s4- transitive subgroup of s6) over Any ║
+# ║ Path(S4m(), <unspecified:S4m>) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ S4m : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4df72904f57d4358  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.galois.S4m","kind":"function","src_hash":"7da2d414bfc8d69f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"S4m()","rhs":"return a representation of the s4- transitive subgroup of s6","over":{"base":"Any"},"name":"S4m_correct"},"guarantee":"return a representation of the s4- transitive subgroup of s6","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.galois.S4m_correct","statement":"Path(S4m(x), return a representation of the s4- transitive subgroup of s6)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4df72904f57d4358"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.galois.S4m","kind":"function","src_hash":"7da2d414bfc8d69f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"S4m()","rhs":"<unspecified:S4m>","over":{"base":"Any"},"name":"S4m_correct"},"guarantee":"return a representation of the s4- transitive subgroup of s6","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.galois.S4m_correct","statement":"Path(S4m(x), return a representation of the s4- transitive subgroup of s6)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4df72904f57d4358","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def S4m():
     """
     Return a representation of the S4- transitive subgroup of S6.
@@ -455,16 +568,22 @@ def S4m():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(S4p(), return a representation of the s4+ transitive subgroup of s6) over Any ║
+# ║ Path(S4p(), <unspecified:S4p>) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ S4p : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3470c8a448044113  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.galois.S4p","kind":"function","src_hash":"9dc44df563c9f638","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"S4p()","rhs":"return a representation of the s4+ transitive subgroup of s6","over":{"base":"Any"},"name":"S4p_correct"},"guarantee":"return a representation of the s4+ transitive subgroup of s6","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.galois.S4p_correct","statement":"Path(S4p(x), return a representation of the s4+ transitive subgroup of s6)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3470c8a448044113"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.galois.S4p","kind":"function","src_hash":"9dc44df563c9f638","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"S4p()","rhs":"<unspecified:S4p>","over":{"base":"Any"},"name":"S4p_correct"},"guarantee":"return a representation of the s4+ transitive subgroup of s6","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.galois.S4p_correct","statement":"Path(S4p(x), return a representation of the s4+ transitive subgroup of s6)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3470c8a448044113","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def S4p():
     """
     Return a representation of the S4+ transitive subgroup of S6.
@@ -481,16 +600,22 @@ def S4p():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(A4xC2(), return a representation of the (a4 x c2) transitive subgroup of s6) over Any ║
+# ║ Path(A4xC2(), PermutationGroup(Permutation(0, 4, 5)(1, 3, 2), Permutation(0, 1, 2)(3, 5, 4), Permutation(5)(2, 4))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  PermutationGroup(Permutation(0, 4, 5)(1, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ A4xC2 : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 02422492aece1a85  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3f6e56e555c7fd32  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.galois.A4xC2","kind":"function","src_hash":"f03855c897cab0ae","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"A4xC2()","rhs":"return a representation of the (a4 x c2) transitive subgroup of s6","over":{"base":"Any"},"name":"A4xC2_correct"},"guarantee":"return a representation of the (a4 x c2) transitive subgroup of s6","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.galois.A4xC2_correct","statement":"Path(A4xC2(x), return a representation of the (a4 x c2) transitive subgroup of s6)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"02422492aece1a85"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.galois.A4xC2","kind":"function","src_hash":"f03855c897cab0ae","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"A4xC2()","rhs":"PermutationGroup(Permutation(0, 4, 5)(1, 3, 2), Permutation(0, 1, 2)(3, 5, 4), Permutation(5)(2, 4))","over":{"base":"Any"},"name":"A4xC2_correct"},"guarantee":"returns PermutationGroup(Permutation(0, 4, 5)(1, 3, 2), Permutation(0, 1, 2)(3, 5, 4), Permutation(5)(2, 4))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.galois.A4xC2_correct","statement":"Path(A4xC2(x), returns PermutationGroup(Permutation(0, 4, 5)(1, 3, 2), Permutation(0, 1, 2)(3, 5, 4), Permutation(5)(2, 4)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3f6e56e555c7fd32","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"PermutationGroup(Permutation(0, 4, 5)(1, 3, 2), Permutation(0, 1, 2)(3, 5, 4), Permutation(5)(2, 4))","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def A4xC2():
     """
     Return a representation of the (A4 x C2) transitive subgroup of S6.
@@ -507,16 +632,22 @@ def A4xC2():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(S4xC2(), return a representation of the (s4 x c2) transitive subgroup of s6) over Any ║
+# ║ Path(S4xC2(), PermutationGroup(Permutation(1, 4, 5, 3), Permutation(0, 4)(1, 5)(2, 3), Permutation(1, 4)(3, 5))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  PermutationGroup(Permutation(1, 4, 5, 3),...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ S4xC2 : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7ad05074e73240fb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f4bab910296ccc1d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.galois.S4xC2","kind":"function","src_hash":"606138989006ee40","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"S4xC2()","rhs":"return a representation of the (s4 x c2) transitive subgroup of s6","over":{"base":"Any"},"name":"S4xC2_correct"},"guarantee":"return a representation of the (s4 x c2) transitive subgroup of s6","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.galois.S4xC2_correct","statement":"Path(S4xC2(x), return a representation of the (s4 x c2) transitive subgroup of s6)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7ad05074e73240fb"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.galois.S4xC2","kind":"function","src_hash":"606138989006ee40","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"S4xC2()","rhs":"PermutationGroup(Permutation(1, 4, 5, 3), Permutation(0, 4)(1, 5)(2, 3), Permutation(1, 4)(3, 5))","over":{"base":"Any"},"name":"S4xC2_correct"},"guarantee":"returns PermutationGroup(Permutation(1, 4, 5, 3), Permutation(0, 4)(1, 5)(2, 3), Permutation(1, 4)(3, 5))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.galois.S4xC2_correct","statement":"Path(S4xC2(x), returns PermutationGroup(Permutation(1, 4, 5, 3), Permutation(0, 4)(1, 5)(2, 3), Permutation(1, 4)(3, 5)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f4bab910296ccc1d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"PermutationGroup(Permutation(1, 4, 5, 3), Permutation(0, 4)(1, 5)(2, 3), Permutation(1, 4)(3, 5))","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def S4xC2():
     """
     Return a representation of the (S4 x C2) transitive subgroup of S6.
@@ -533,16 +664,22 @@ def S4xC2():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(G18(), return a representation of the group g18, a transitive subgroup of s6 isomorphic to the semidirect product of c3^2 with c2) over Any ║
+# ║ Path(G18(), PermutationGroup(Permutation(5)(0, 1, 2), Permutation(3, 4, 5), Permutation(0, 4)(1, 5)(2, 3))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  PermutationGroup(Permutation(5)(0, 1, 2),...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ G18 : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 28f6f2e91d13157d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6118d8fac9224fb5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.galois.G18","kind":"function","src_hash":"cda61b8d51112694","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"G18()","rhs":"return a representation of the group g18, a transitive subgroup of s6 isomorphic to the semidirect product of c3^2 with c2","over":{"base":"Any"},"name":"G18_correct"},"guarantee":"return a representation of the group g18, a transitive subgroup of s6 isomorphic to the semidirect product of c3^2 with c2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.galois.G18_correct","statement":"Path(G18(x), return a representation of the group g18, a transitive subgroup of s6 isomorphic to the semidirect product of c3^2 with c2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"28f6f2e91d13157d"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.galois.G18","kind":"function","src_hash":"cda61b8d51112694","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"G18()","rhs":"PermutationGroup(Permutation(5)(0, 1, 2), Permutation(3, 4, 5), Permutation(0, 4)(1, 5)(2, 3))","over":{"base":"Any"},"name":"G18_correct"},"guarantee":"returns PermutationGroup(Permutation(5)(0, 1, 2), Permutation(3, 4, 5), Permutation(0, 4)(1, 5)(2, 3))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.galois.G18_correct","statement":"Path(G18(x), returns PermutationGroup(Permutation(5)(0, 1, 2), Permutation(3, 4, 5), Permutation(0, 4)(1, 5)(2, 3)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6118d8fac9224fb5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"PermutationGroup(Permutation(5)(0, 1, 2), Permutation(3, 4, 5), Permutation(0, 4)(1, 5)(2, 3))","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def G18():
     """
     Return a representation of the group G18, a transitive subgroup of S6
@@ -560,16 +697,22 @@ def G18():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(G36m(), return a representation of the group g36-, a transitive subgroup of s6 isomorphic to the semidirect product of c3^2 with c2^2) over Any ║
+# ║ Path(G36m(), PermutationGroup(Permutation(5)(0, 1, 2), Permutation(3, 4, 5), Permutation(1, 2)(3, 5), Permutation(0, 4)(1, 5)(2, 3))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  PermutationGroup(Permutation(5)(0, 1, 2),...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ G36m : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 621f4a8be69ae4ff  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 860705d419826e91  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.galois.G36m","kind":"function","src_hash":"83de8424fb6b5647","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"G36m()","rhs":"return a representation of the group g36-, a transitive subgroup of s6 isomorphic to the semidirect product of c3^2 with c2^2","over":{"base":"Any"},"name":"G36m_correct"},"guarantee":"return a representation of the group g36-, a transitive subgroup of s6 isomorphic to the semidirect product of c3^2 with c2^2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.galois.G36m_correct","statement":"Path(G36m(x), return a representation of the group g36-, a transitive subgroup of s6 isomorphic to the semidirect product of c3^2 with c2^2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"621f4a8be69ae4ff"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.galois.G36m","kind":"function","src_hash":"83de8424fb6b5647","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"G36m()","rhs":"PermutationGroup(Permutation(5)(0, 1, 2), Permutation(3, 4, 5), Permutation(1, 2)(3, 5), Permutation(0, 4)(1, 5)(2, 3))","over":{"base":"Any"},"name":"G36m_correct"},"guarantee":"returns PermutationGroup(Permutation(5)(0, 1, 2), Permutation(3, 4, 5), Permutation(1, 2)(3, 5), Permutation(0, 4)(1, 5)(2, 3))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.galois.G36m_correct","statement":"Path(G36m(x), returns PermutationGroup(Permutation(5)(0, 1, 2), Permutation(3, 4, 5), Permutation(1, 2)(3, 5), Permutation(0, 4)(1, 5)(2, 3)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"860705d419826e91","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"PermutationGroup(Permutation(5)(0, 1, 2), Permutation(3, 4, 5), Permutation(1, 2)(3, 5), Permutation(0, 4)(1, 5)(2, 3))","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def G36m():
     """
     Return a representation of the group G36-, a transitive subgroup of S6
@@ -587,16 +730,22 @@ def G36m():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(G36p(), return a representation of the group g36+, a transitive subgroup of s6 isomorphic to the semidirect product of c3^2 with c4) over Any ║
+# ║ Path(G36p(), PermutationGroup(Permutation(5)(0, 1, 2), Permutation(3, 4, 5), Permutation(0, 5, 2, 3)(1, 4))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  PermutationGroup(Permutation(5)(0, 1, 2),...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ G36p : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ddc4127c91e5e8b5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0689431455f174f0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.galois.G36p","kind":"function","src_hash":"3edffe6b4a0de844","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"G36p()","rhs":"return a representation of the group g36+, a transitive subgroup of s6 isomorphic to the semidirect product of c3^2 with c4","over":{"base":"Any"},"name":"G36p_correct"},"guarantee":"return a representation of the group g36+, a transitive subgroup of s6 isomorphic to the semidirect product of c3^2 with c4","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.galois.G36p_correct","statement":"Path(G36p(x), return a representation of the group g36+, a transitive subgroup of s6 isomorphic to the semidirect product of c3^2 with c4)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ddc4127c91e5e8b5"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.galois.G36p","kind":"function","src_hash":"3edffe6b4a0de844","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"G36p()","rhs":"PermutationGroup(Permutation(5)(0, 1, 2), Permutation(3, 4, 5), Permutation(0, 5, 2, 3)(1, 4))","over":{"base":"Any"},"name":"G36p_correct"},"guarantee":"returns PermutationGroup(Permutation(5)(0, 1, 2), Permutation(3, 4, 5), Permutation(0, 5, 2, 3)(1, 4))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.galois.G36p_correct","statement":"Path(G36p(x), returns PermutationGroup(Permutation(5)(0, 1, 2), Permutation(3, 4, 5), Permutation(0, 5, 2, 3)(1, 4)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0689431455f174f0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"PermutationGroup(Permutation(5)(0, 1, 2), Permutation(3, 4, 5), Permutation(0, 5, 2, 3)(1, 4))","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def G36p():
     """
     Return a representation of the group G36+, a transitive subgroup of S6
@@ -614,16 +763,22 @@ def G36p():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(G72(), return a representation of the group g72, a transitive subgroup of s6 isomorphic to the semidirect product of c3^2 with d4) over Any ║
+# ║ Path(G72(), PermutationGroup(Permutation(5)(0, 1, 2), Permutation(0, 4, 1, 3)(2, 5), Permutation(0, 3)(1, 4)(2, 5))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  PermutationGroup(Permutation(5)(0, 1, 2),...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ G72 : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6e120ac868d8a95c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c8c5d563b3b251ca  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.galois.G72","kind":"function","src_hash":"cd3dd506e4561723","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"G72()","rhs":"return a representation of the group g72, a transitive subgroup of s6 isomorphic to the semidirect product of c3^2 with d4","over":{"base":"Any"},"name":"G72_correct"},"guarantee":"return a representation of the group g72, a transitive subgroup of s6 isomorphic to the semidirect product of c3^2 with d4","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.galois.G72_correct","statement":"Path(G72(x), return a representation of the group g72, a transitive subgroup of s6 isomorphic to the semidirect product of c3^2 with d4)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6e120ac868d8a95c"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.galois.G72","kind":"function","src_hash":"cd3dd506e4561723","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"G72()","rhs":"PermutationGroup(Permutation(5)(0, 1, 2), Permutation(0, 4, 1, 3)(2, 5), Permutation(0, 3)(1, 4)(2, 5))","over":{"base":"Any"},"name":"G72_correct"},"guarantee":"returns PermutationGroup(Permutation(5)(0, 1, 2), Permutation(0, 4, 1, 3)(2, 5), Permutation(0, 3)(1, 4)(2, 5))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.galois.G72_correct","statement":"Path(G72(x), returns PermutationGroup(Permutation(5)(0, 1, 2), Permutation(0, 4, 1, 3)(2, 5), Permutation(0, 3)(1, 4)(2, 5)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c8c5d563b3b251ca","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"PermutationGroup(Permutation(5)(0, 1, 2), Permutation(0, 4, 1, 3)(2, 5), Permutation(0, 3)(1, 4)(2, 5))","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def G72():
     """
     Return a representation of the group G72, a transitive subgroup of S6
@@ -641,16 +796,22 @@ def G72():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(PSL2F5(), return a representation of the group $psl_2(\mathbb{f}_5)$, as a transitive subgroup of s6, isomorphic to $a_5$) over Any ║
+# ║ Path(PSL2F5(), <unspecified:PSL2F5>) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ PSL2F5 : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4711f162559eee28  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.galois.PSL2F5","kind":"function","src_hash":"d49b8d6b569e59f4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"PSL2F5()","rhs":"return a representation of the group $psl_2(\\mathbb{f}_5)$, as a transitive subgroup of s6, isomorphic to $a_5$","over":{"base":"Any"},"name":"PSL2F5_correct"},"guarantee":"return a representation of the group $psl_2(\\mathbb{f}_5)$, as a transitive subgroup of s6, isomorphic to $a_5$","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.galois.PSL2F5_correct","statement":"Path(PSL2F5(x), return a representation of the group $psl_2(\\mathbb{f}_5)$, as a transitive subgroup of s6, isomorphic to $a_5$)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4711f162559eee28"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.galois.PSL2F5","kind":"function","src_hash":"d49b8d6b569e59f4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"PSL2F5()","rhs":"<unspecified:PSL2F5>","over":{"base":"Any"},"name":"PSL2F5_correct"},"guarantee":"return a representation of the group $psl_2(\\mathbb{f}_5)$, as a transitive subgroup of s6, isomorphic to $a_5$","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.galois.PSL2F5_correct","statement":"Path(PSL2F5(x), return a representation of the group $psl_2(\\mathbb{f}_5)$, as a transitive subgroup of s6, isomorphic to $a_5$)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4711f162559eee28","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def PSL2F5():
     r"""
     Return a representation of the group $PSL_2(\mathbb{F}_5)$, as a transitive
@@ -669,16 +830,22 @@ def PSL2F5():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(PGL2F5(), return a representation of the group $pgl_2(\mathbb{f}_5)$, as a transitive subgroup of s6, isomorphic to $s_5$) over Any ║
+# ║ Path(PGL2F5(), <unspecified:PGL2F5>) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ PGL2F5 : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b9983c8d061d05fc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.galois.PGL2F5","kind":"function","src_hash":"5ac6b3d0945494f3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"PGL2F5()","rhs":"return a representation of the group $pgl_2(\\mathbb{f}_5)$, as a transitive subgroup of s6, isomorphic to $s_5$","over":{"base":"Any"},"name":"PGL2F5_correct"},"guarantee":"return a representation of the group $pgl_2(\\mathbb{f}_5)$, as a transitive subgroup of s6, isomorphic to $s_5$","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.galois.PGL2F5_correct","statement":"Path(PGL2F5(x), return a representation of the group $pgl_2(\\mathbb{f}_5)$, as a transitive subgroup of s6, isomorphic to $s_5$)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b9983c8d061d05fc"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.galois.PGL2F5","kind":"function","src_hash":"5ac6b3d0945494f3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"PGL2F5()","rhs":"<unspecified:PGL2F5>","over":{"base":"Any"},"name":"PGL2F5_correct"},"guarantee":"return a representation of the group $pgl_2(\\mathbb{f}_5)$, as a transitive subgroup of s6, isomorphic to $s_5$","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.galois.PGL2F5_correct","statement":"Path(PGL2F5(x), return a representation of the group $pgl_2(\\mathbb{f}_5)$, as a transitive subgroup of s6, isomorphic to $s_5$)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b9983c8d061d05fc","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def PGL2F5():
     r"""
     Return a representation of the group $PGL_2(\mathbb{F}_5)$, as a transitive
@@ -697,16 +864,22 @@ def PGL2F5():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(find_transitive_subgroups_of_S6(*ta), search for certain transitive subgroups of $s_6$) over Any ║
+# ║ Path(find_transitive_subgroups_of_S6(*targets, print_report), <unspecified:find_transitive_subgroups_of_S6>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ find_transitive_subgroups_of_S6 : Any → Any                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9eba9bc85f806971  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.galois.find_transitive_subgroups_of_S6","kind":"function","src_hash":"485a4611b9cfb77b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"find_transitive_subgroups_of_S6(*ta)","rhs":"search for certain transitive subgroups of $s_6$","over":{"base":"Any"},"name":"find_transitive_subgroups_of_S6_correct"},"guarantee":"search for certain transitive subgroups of $s_6$","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.galois.find_transitive_subgroups_of_S6_correct","statement":"Path(find_transitive_subgroups_of_S6(x), search for certain transitive subgroups of $s_6$)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9eba9bc85f806971"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.galois.find_transitive_subgroups_of_S6","kind":"function","src_hash":"485a4611b9cfb77b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"find_transitive_subgroups_of_S6(*targets, print_report)","rhs":"<unspecified:find_transitive_subgroups_of_S6>","over":{"base":"Any"},"name":"find_transitive_subgroups_of_S6_correct"},"guarantee":"search for certain transitive subgroups of $s_6$","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.galois.find_transitive_subgroups_of_S6_correct","statement":"Path(find_transitive_subgroups_of_S6(x), search for certain transitive subgroups of $s_6$)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9eba9bc85f806971","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"io","io_operations":["print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.2,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=[], spec=['*targets', 'print_report']"]}}
 def find_transitive_subgroups_of_S6(*targets, print_report=False):
     r"""
     Search for certain transitive subgroups of $S_6$.

@@ -32,16 +32,22 @@ from sympy.testing.pytest import raises
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_AlgIntPowers_01(), test_AlgIntPowers_01 produces the expected output) over Any ║
+# ║ Path(test_AlgIntPowers_01(), <unspecified:test_AlgIntPowers_01>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_AlgIntPowers_01 : Any → {Any | c[a] == 1 and all...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7ac2122d438fbb70  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.tests.test_utilities.test_AlgIntPowers_01","kind":"function","src_hash":"eafae5b759b3f697","in":{"base":"Any"},"out":{"base":"Any","pred":"c[a] == 1 and all((c[i] == 0 for i in range(4) if i != a)) and zeta_pow[e] == [-1] * 4"},"spec":{"lhs":"test_AlgIntPowers_01()","rhs":"test_AlgIntPowers_01 produces the expected output","over":{"base":"Any"},"name":"test_AlgIntPowers_01_correct"},"guarantee":"test_AlgIntPowers_01 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.tests.test_utilities.test_AlgIntPowers_01_correct","statement":"Path(test_AlgIntPowers_01(x), test_AlgIntPowers_01 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7ac2122d438fbb70"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.tests.test_utilities.test_AlgIntPowers_01","kind":"function","src_hash":"eafae5b759b3f697","in":{"base":"Any"},"out":{"base":"Any","pred":"c[a] == 1 and all((c[i] == 0 for i in range(4) if i != a)) and zeta_pow[e] == [-1] * 4"},"spec":{"lhs":"test_AlgIntPowers_01()","rhs":"<unspecified:test_AlgIntPowers_01>","over":{"base":"Any"},"name":"test_AlgIntPowers_01_correct"},"guarantee":"test_AlgIntPowers_01 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.tests.test_utilities.test_AlgIntPowers_01_correct","statement":"Path(test_AlgIntPowers_01(x), test_AlgIntPowers_01 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7ac2122d438fbb70","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_AlgIntPowers_01():
     T = Poly(cyclotomic_poly(5))
     zeta_pow = AlgIntPowers(T)
@@ -56,16 +62,22 @@ def test_AlgIntPowers_01():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_AlgIntPowers_02(), test_AlgIntPowers_02 produces the expected output) over Any ║
+# ║ Path(test_AlgIntPowers_02(), <unspecified:test_AlgIntPowers_02>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_AlgIntPowers_02 : Any → {Any | computed == expec...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4b14e14d44b39a68  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.tests.test_utilities.test_AlgIntPowers_02","kind":"function","src_hash":"38eecf81218922ec","in":{"base":"Any"},"out":{"base":"Any","pred":"computed == expected"},"spec":{"lhs":"test_AlgIntPowers_02()","rhs":"test_AlgIntPowers_02 produces the expected output","over":{"base":"Any"},"name":"test_AlgIntPowers_02_correct"},"guarantee":"test_AlgIntPowers_02 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.tests.test_utilities.test_AlgIntPowers_02_correct","statement":"Path(test_AlgIntPowers_02(x), test_AlgIntPowers_02 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4b14e14d44b39a68"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.tests.test_utilities.test_AlgIntPowers_02","kind":"function","src_hash":"38eecf81218922ec","in":{"base":"Any"},"out":{"base":"Any","pred":"computed == expected"},"spec":{"lhs":"test_AlgIntPowers_02()","rhs":"<unspecified:test_AlgIntPowers_02>","over":{"base":"Any"},"name":"test_AlgIntPowers_02_correct"},"guarantee":"test_AlgIntPowers_02 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.tests.test_utilities.test_AlgIntPowers_02_correct","statement":"Path(test_AlgIntPowers_02(x), test_AlgIntPowers_02 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4b14e14d44b39a68","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_AlgIntPowers_02():
     T = Poly(x**3 + 2*x**2 + 3*x + 4)
     m = 7
@@ -78,16 +90,22 @@ def test_AlgIntPowers_02():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_coeff_search(), test_coeff_search produces the expected output) over Any ║
+# ║ Path(test_coeff_search(), C == [[1, 1], [1, 0], [1, -1], [0, 1], [2, 2], [2, 1], [2, 0], [2, -1], [2, -2], [1, 2], [1, -2], [0, 2], [3, 3]]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_coeff_search : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  C == [[1, 1], [1, 0], [1, -1], [0, 1], [2...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_coeff_search : Any → {Any | result satisfies: C ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e3be61ba5333eced  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0d74b84d17f15690  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.tests.test_utilities.test_coeff_search","kind":"function","src_hash":"bc879788e2255f90","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_coeff_search()","rhs":"test_coeff_search produces the expected output","over":{"base":"Any"},"name":"test_coeff_search_correct"},"guarantee":"test_coeff_search produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.tests.test_utilities.test_coeff_search_correct","statement":"Path(test_coeff_search(x), test_coeff_search produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e3be61ba5333eced"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.tests.test_utilities.test_coeff_search","kind":"function","src_hash":"bc879788e2255f90","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: C == [[1, 1], [1, 0], [1, -1], [0, 1], [2, 2], [2, 1], [2, 0], [2, -1], [2, -2], [1, 2], [1, -2], [0, 2], [3, 3]]"},"spec":{"lhs":"test_coeff_search()","rhs":"C == [[1, 1], [1, 0], [1, -1], [0, 1], [2, 2], [2, 1], [2, 0], [2, -1], [2, -2], [1, 2], [1, -2], [0, 2], [3, 3]]","over":{"base":"Any"},"name":"test_coeff_search_correct"},"guarantee":"C == [[1, 1], [1, 0], [1, -1], [0, 1], [2, 2], [2, 1], [2, 0], [2, -1], [2, -2], [1, 2], [1, -2], [0, 2], [3, 3]]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.tests.test_utilities.test_coeff_search_correct","statement":"Path(test_coeff_search(x), C == [[1, 1], [1, 0], [1, -1], [0, 1], [2, 2], [2, 1], [2, 0], [2, -1], [2, -2], [1, 2], [1, -2], [0, 2], [3, 3]])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0d74b84d17f15690","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["C == [[1, 1], [1, 0], [1, -1], [0, 1], [2, 2], [2, 1], [2, 0], [2, -1], [2, -2], [1, 2], [1, -2], [0, 2], [3, 3]]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_coeff_search():
     C = []
     search = coeff_search(2, 1)
@@ -99,16 +117,22 @@ def test_coeff_search():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_extract_fundamental_discriminant(), test_extract_fundamental_discriminant produces the expected output) over Any ║
+# ║ Path(test_extract_fundamental_discriminant(), <unspecified:test_extract_fundamental_discriminant>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_extract_fundamental_discriminant : Any → {Any | ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ae5777bad3a5c5e3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.tests.test_utilities.test_extract_fundamental_discriminant","kind":"function","src_hash":"10977e3eb30b4981","in":{"base":"Any"},"out":{"base":"Any","pred":"D == D_expected and F == F_expected"},"spec":{"lhs":"test_extract_fundamental_discriminant()","rhs":"test_extract_fundamental_discriminant produces the expected output","over":{"base":"Any"},"name":"test_extract_fundamental_discriminant_correct"},"guarantee":"test_extract_fundamental_discriminant produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.tests.test_utilities.test_extract_fundamental_discriminant_correct","statement":"Path(test_extract_fundamental_discriminant(x), test_extract_fundamental_discriminant produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ae5777bad3a5c5e3"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.tests.test_utilities.test_extract_fundamental_discriminant","kind":"function","src_hash":"10977e3eb30b4981","in":{"base":"Any"},"out":{"base":"Any","pred":"D == D_expected and F == F_expected"},"spec":{"lhs":"test_extract_fundamental_discriminant()","rhs":"<unspecified:test_extract_fundamental_discriminant>","over":{"base":"Any"},"name":"test_extract_fundamental_discriminant_correct"},"guarantee":"test_extract_fundamental_discriminant produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.tests.test_utilities.test_extract_fundamental_discriminant_correct","statement":"Path(test_extract_fundamental_discriminant(x), test_extract_fundamental_discriminant produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ae5777bad3a5c5e3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_extract_fundamental_discriminant():
     # To extract, integer must be 0 or 1 mod 4.
     raises(ValueError, lambda: extract_fundamental_discriminant(2))
@@ -132,16 +156,24 @@ def test_extract_fundamental_discriminant():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_supplement_a_subspace_1(), test_supplement_a_subspace_1 produces the expected output) over Any ║
+# ║ Path(test_supplement_a_subspace_1(), B[:, :2] == M and B[:, 2] == DomainMatrix.eye(3, QQ).to_dense()[:, 0] and B[:, 2] == DomainMatrix.eye(3, FF(7)).to_dense()[:, 1]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_supplement_a_subspace_1 : Any → {Any | B[:, :2] ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  B[:, :2] == M                                  ║
+# ║   ensures:  B[:, 2] == DomainMatrix.eye(3, QQ).to_den...   ║
+# ║   ensures:  B[:, 2] == DomainMatrix.eye(3, FF(7)).to_...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_supplement_a_subspace_1 : Any → {Any | result sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9b56267890074fd8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ced89aec77953c18  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.tests.test_utilities.test_supplement_a_subspace_1","kind":"function","src_hash":"c360d0286370b6cd","in":{"base":"Any"},"out":{"base":"Any","pred":"B[:, :2] == M and B[:, 2] == DomainMatrix.eye(3, QQ).to_dense()[:, 0] and B[:, :2] == M and B[:, 2] == DomainMatrix.eye(3, FF(7)).to_dense()[:, 1]"},"spec":{"lhs":"test_supplement_a_subspace_1()","rhs":"test_supplement_a_subspace_1 produces the expected output","over":{"base":"Any"},"name":"test_supplement_a_subspace_1_correct"},"guarantee":"test_supplement_a_subspace_1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.tests.test_utilities.test_supplement_a_subspace_1_correct","statement":"Path(test_supplement_a_subspace_1(x), test_supplement_a_subspace_1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9b56267890074fd8"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.tests.test_utilities.test_supplement_a_subspace_1","kind":"function","src_hash":"c360d0286370b6cd","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: B[:, :2] == M and B[:, 2] == DomainMatrix.eye(3, QQ).to_dense()[:, 0] and B[:, 2] == DomainMatrix.eye(3, FF(7)).to_dense()[:, 1]"},"spec":{"lhs":"test_supplement_a_subspace_1()","rhs":"B[:, :2] == M and B[:, 2] == DomainMatrix.eye(3, QQ).to_dense()[:, 0] and B[:, 2] == DomainMatrix.eye(3, FF(7)).to_dense()[:, 1]","over":{"base":"Any"},"name":"test_supplement_a_subspace_1_correct"},"guarantee":"B[:, :2] == M; B[:, 2] == DomainMatrix.eye(3, QQ).to_dense()[:, 0]; B[:, 2] == DomainMatrix.eye(3, FF(7)).to_dense()[:, 1]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.tests.test_utilities.test_supplement_a_subspace_1_correct","statement":"Path(test_supplement_a_subspace_1(x), B[:, :2] == M; B[:, 2] == DomainMatrix.eye(3, QQ).to_dense()[:, 0]; B[:, 2] == DomainMatrix.eye(3, FF(7)).to_dense()[:, 1])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ced89aec77953c18","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["B[:, :2] == M","B[:, 2] == DomainMatrix.eye(3, QQ).to_dense()[:, 0]","B[:, 2] == DomainMatrix.eye(3, FF(7)).to_dense()[:, 1]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_supplement_a_subspace_1():
     M = DM([[1, 7, 0], [2, 3, 4]], QQ).transpose()
 
@@ -161,16 +193,22 @@ def test_supplement_a_subspace_1():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_supplement_a_subspace_2(), test_supplement_a_subspace_2 produces the expected output) over Any ║
+# ║ Path(test_supplement_a_subspace_2(), <unspecified:test_supplement_a_subspace_2>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_supplement_a_subspace_2 : Any → Any                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d4ff55243e1481a7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.tests.test_utilities.test_supplement_a_subspace_2","kind":"function","src_hash":"0ee975181369ec7a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_supplement_a_subspace_2()","rhs":"test_supplement_a_subspace_2 produces the expected output","over":{"base":"Any"},"name":"test_supplement_a_subspace_2_correct"},"guarantee":"test_supplement_a_subspace_2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.tests.test_utilities.test_supplement_a_subspace_2_correct","statement":"Path(test_supplement_a_subspace_2(x), test_supplement_a_subspace_2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d4ff55243e1481a7"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.tests.test_utilities.test_supplement_a_subspace_2","kind":"function","src_hash":"0ee975181369ec7a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_supplement_a_subspace_2()","rhs":"<unspecified:test_supplement_a_subspace_2>","over":{"base":"Any"},"name":"test_supplement_a_subspace_2_correct"},"guarantee":"test_supplement_a_subspace_2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.tests.test_utilities.test_supplement_a_subspace_2_correct","statement":"Path(test_supplement_a_subspace_2(x), test_supplement_a_subspace_2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d4ff55243e1481a7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_supplement_a_subspace_2():
     M = DM([[1, 0, 0], [2, 0, 0]], QQ).transpose()
     with raises(DMRankError):
@@ -178,16 +216,23 @@ def test_supplement_a_subspace_2():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_IntervalPrinter(), test_IntervalPrinter produces the expected output) over Any ║
+# ║ Path(test_IntervalPrinter(), ip.doprint(x ** Rational(1, 3)) == "x**(mpi('1/3'))" and ip.doprint(sqrt(x)) == "x**(mpi('1/2'))") over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_IntervalPrinter : Any → {Any | ip.doprint(x ** R...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  ip.doprint(x ** Rational(1, 3)) == "x**(m...   ║
+# ║   ensures:  ip.doprint(sqrt(x)) == "x**(mpi('1/2'))"       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_IntervalPrinter : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d3419ab7283e6e85  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cf67795e7aaae6fc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.tests.test_utilities.test_IntervalPrinter","kind":"function","src_hash":"3c55293966fca93f","in":{"base":"Any"},"out":{"base":"Any","pred":"ip.doprint(x ** Rational(1, 3)) == \"x**(mpi('1/3'))\" and ip.doprint(sqrt(x)) == \"x**(mpi('1/2'))\""},"spec":{"lhs":"test_IntervalPrinter()","rhs":"test_IntervalPrinter produces the expected output","over":{"base":"Any"},"name":"test_IntervalPrinter_correct"},"guarantee":"test_IntervalPrinter produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.tests.test_utilities.test_IntervalPrinter_correct","statement":"Path(test_IntervalPrinter(x), test_IntervalPrinter produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d3419ab7283e6e85"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.tests.test_utilities.test_IntervalPrinter","kind":"function","src_hash":"3c55293966fca93f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: ip.doprint(x ** Rational(1, 3)) == \"x**(mpi('1/3'))\" and ip.doprint(sqrt(x)) == \"x**(mpi('1/2'))\""},"spec":{"lhs":"test_IntervalPrinter()","rhs":"ip.doprint(x ** Rational(1, 3)) == \"x**(mpi('1/3'))\" and ip.doprint(sqrt(x)) == \"x**(mpi('1/2'))\"","over":{"base":"Any"},"name":"test_IntervalPrinter_correct"},"guarantee":"ip.doprint(x ** Rational(1, 3)) == \"x**(mpi('1/3'))\"; ip.doprint(sqrt(x)) == \"x**(mpi('1/2'))\"","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.tests.test_utilities.test_IntervalPrinter_correct","statement":"Path(test_IntervalPrinter(x), ip.doprint(x ** Rational(1, 3)) == \"x**(mpi('1/3'))\"; ip.doprint(sqrt(x)) == \"x**(mpi('1/2'))\")"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cf67795e7aaae6fc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["ip.doprint(x ** Rational(1, 3)) == \"x**(mpi('1/3'))\"","ip.doprint(sqrt(x)) == \"x**(mpi('1/2'))\""],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_IntervalPrinter():
     ip = IntervalPrinter()
     assert ip.doprint(x**Rational(1, 3)) == "x**(mpi('1/3'))"
@@ -195,16 +240,24 @@ def test_IntervalPrinter():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_isolate(), test_isolate produces the expected output) over Any ║
+# ║ Path(test_isolate(), isolate(1) == (1, 1) and isolate(S.Half) == (S.Half, S.Half) and isolate(sqrt(2)) == (1, 2) and isolate(-sqrt(2)) == (-2, -1) and isolate(sqrt(2), eps=Rational(1, 100)) == (Rational(24, 17), Rational(17, 12)) and isolate(-sqrt(2), eps=Rational(1, 100)) == (Rational(-17, 12), Rational(-24, 17))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_isolate : Any → {Any | isolate(1) == (1, 1) and ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isolate(1) == (1, 1)                           ║
+# ║   ensures:  isolate(S.Half) == (S.Half, S.Half)            ║
+# ║   ensures:  isolate(sqrt(2)) == (1, 2)                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_isolate : Any → {Any | result satisfies: isolate...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d0c806d8883dbc52  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 883351c92dbd05b7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.tests.test_utilities.test_isolate","kind":"function","src_hash":"d4c1e601829b2a25","in":{"base":"Any"},"out":{"base":"Any","pred":"isolate(1) == (1, 1) and isolate(S.Half) == (S.Half, S.Half) and isolate(sqrt(2)) == (1, 2) and isolate(-sqrt(2)) == (-2, -1) and isolate(sqrt(2), eps=Rational(1, 100)) == (Rational(24, 17), Rational(17, 12))"},"spec":{"lhs":"test_isolate()","rhs":"test_isolate produces the expected output","over":{"base":"Any"},"name":"test_isolate_correct"},"guarantee":"test_isolate produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.tests.test_utilities.test_isolate_correct","statement":"Path(test_isolate(x), test_isolate produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d0c806d8883dbc52"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.tests.test_utilities.test_isolate","kind":"function","src_hash":"d4c1e601829b2a25","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isolate(1) == (1, 1) and isolate(S.Half) == (S.Half, S.Half) and isolate(sqrt(2)) == (1, 2) and isolate(-sqrt(2)) == (-2, -1) and isolate(sqrt(2), eps=Rational(1, 100)) == (Rational(24, 17), Rational(17, 12)) and isolate(-sqrt(2), eps=Rational(1, 100)) == (Rational(-17, 12), Rational(-24, 17))"},"spec":{"lhs":"test_isolate()","rhs":"isolate(1) == (1, 1) and isolate(S.Half) == (S.Half, S.Half) and isolate(sqrt(2)) == (1, 2) and isolate(-sqrt(2)) == (-2, -1) and isolate(sqrt(2), eps=Rational(1, 100)) == (Rational(24, 17), Rational(17, 12)) and isolate(-sqrt(2), eps=Rational(1, 100)) == (Rational(-17, 12), Rational(-24, 17))","over":{"base":"Any"},"name":"test_isolate_correct"},"guarantee":"isolate(1) == (1, 1); isolate(S.Half) == (S.Half, S.Half); isolate(sqrt(2)) == (1, 2)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.tests.test_utilities.test_isolate_correct","statement":"Path(test_isolate(x), isolate(1) == (1, 1); isolate(S.Half) == (S.Half, S.Half); isolate(sqrt(2)) == (1, 2))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"883351c92dbd05b7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isolate(1) == (1, 1)","isolate(S.Half) == (S.Half, S.Half)","isolate(sqrt(2)) == (1, 2)","isolate(-sqrt(2)) == (-2, -1)","isolate(sqrt(2), eps=Rational(1, 100)) == (Rational(24, 17), Rational(17, 12))","isolate(-sqrt(2), eps=Rational(1, 100)) == (Rational(-17, 12), Rational(-24, 17))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_isolate():
     assert isolate(1) == (1, 1)
     assert isolate(S.Half) == (S.Half, S.Half)

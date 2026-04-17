@@ -23,16 +23,24 @@ from sympy.testing.pytest import raises, warns_deprecated_sympy
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_rigidbody_default(), test_rigidbody_default produces the expected output) over Any ║
+# ║ Path(test_rigidbody_default(), b.name == 'B' and b.mass == symbols('B_mass') and b.masscenter.name == 'B_masscenter' and b.inertia == (I, b.masscenter) and b.central_inertia == I and b.frame.name == 'B_frame' and b.__str__() == 'B' and b.__repr__() == "RigidBody('B', masscenter=B_masscenter, frame=B_frame, mass=B_mass, inertia=Inertia(dyadic=B_ixx*(B_frame.x|B_frame.x) + B_ixy*(B_frame.x|B_frame.y) + B_izx*(B_frame.x|B_frame.z) + B_ixy*(B_frame.y|B_frame.x) + B_iyy*(B_frame.y|B_frame.y) + B_iyz*(B_frame.y|B_frame.z) + B_izx*(B_frame.z|B_frame.x) + B_iyz*(B_frame.z|B_frame.y) + B_izz*(B_frame.z|B_frame.z), point=B_masscenter))") over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_rigidbody_default : Any → {Any | b.name == 'B' a...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  b.name == 'B'                                  ║
+# ║   ensures:  b.mass == symbols('B_mass')                    ║
+# ║   ensures:  b.masscenter.name == 'B_masscenter'            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_rigidbody_default : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9f3a56092d3b36ac  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 46e5d1e5ae184722  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_rigidbody.test_rigidbody_default","kind":"function","src_hash":"d975ab2616c010bb","in":{"base":"Any"},"out":{"base":"Any","pred":"b.name == 'B' and b.mass == symbols('B_mass') and b.masscenter.name == 'B_masscenter' and b.inertia == (I, b.masscenter) and b.central_inertia == I and b.frame.name == 'B_frame' and b.__str__() == 'B'"},"spec":{"lhs":"test_rigidbody_default()","rhs":"test_rigidbody_default produces the expected output","over":{"base":"Any"},"name":"test_rigidbody_default_correct"},"guarantee":"test_rigidbody_default produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_rigidbody.test_rigidbody_default_correct","statement":"Path(test_rigidbody_default(x), test_rigidbody_default produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9f3a56092d3b36ac"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_rigidbody.test_rigidbody_default","kind":"function","src_hash":"d975ab2616c010bb","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: b.name == 'B' and b.mass == symbols('B_mass') and b.masscenter.name == 'B_masscenter' and b.inertia == (I, b.masscenter) and b.central_inertia == I and b.frame.name == 'B_frame' and b.__str__() == 'B' and b.__repr__() == \"RigidBody('B', masscenter=B_masscenter, frame=B_frame, mass=B_mass, inertia=Inertia(dyadic=B_ixx*(B_frame.x|B_frame.x) + B_ixy*(B_frame.x|B_frame.y) + B_izx*(B_frame.x|B_frame.z) + B_ixy*(B_frame.y|B_frame.x) + B_iyy*(B_frame.y|B_frame.y) + B_iyz*(B_frame.y|B_frame.z) + B_izx*(B_frame.z|B_frame.x) + B_iyz*(B_frame.z|B_frame.y) + B_izz*(B_frame.z|B_frame.z), point=B_masscenter))\""},"spec":{"lhs":"test_rigidbody_default()","rhs":"b.name == 'B' and b.mass == symbols('B_mass') and b.masscenter.name == 'B_masscenter' and b.inertia == (I, b.masscenter) and b.central_inertia == I and b.frame.name == 'B_frame' and b.__str__() == 'B' and b.__repr__() == \"RigidBody('B', masscenter=B_masscenter, frame=B_frame, mass=B_mass, inertia=Inertia(dyadic=B_ixx*(B_frame.x|B_frame.x) + B_ixy*(B_frame.x|B_frame.y) + B_izx*(B_frame.x|B_frame.z) + B_ixy*(B_frame.y|B_frame.x) + B_iyy*(B_frame.y|B_frame.y) + B_iyz*(B_frame.y|B_frame.z) + B_izx*(B_frame.z|B_frame.x) + B_iyz*(B_frame.z|B_frame.y) + B_izz*(B_frame.z|B_frame.z), point=B_masscenter))\"","over":{"base":"Any"},"name":"test_rigidbody_default_correct"},"guarantee":"b.name == 'B'; b.mass == symbols('B_mass'); b.masscenter.name == 'B_masscenter'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_rigidbody.test_rigidbody_default_correct","statement":"Path(test_rigidbody_default(x), b.name == 'B'; b.mass == symbols('B_mass'); b.masscenter.name == 'B_masscenter')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"46e5d1e5ae184722","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["b.name == 'B'","b.mass == symbols('B_mass')","b.masscenter.name == 'B_masscenter'","b.inertia == (I, b.masscenter)","b.central_inertia == I","b.frame.name == 'B_frame'","b.__str__() == 'B'","b.__repr__() == \"RigidBody('B', masscenter=B_masscenter, frame=B_frame, mass=B_mass, inertia=Inertia(dyadic=B_ixx*(B_frame.x|B_frame.x) + B_ixy*(B_frame.x|B_frame.y) + B_izx*(B_frame.x|B_frame.z) + B_ixy*(B_frame.y|B_frame.x) + B_iyy*(B_frame.y|B_frame.y) + B_iyz*(B_frame.y|B_frame.z) + B_izx*(B_frame.z|B_frame.x) + B_iyz*(B_frame.z|B_frame.y) + B_izz*(B_frame.z|B_frame.z), point=B_masscenter))\""],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_rigidbody_default():
     # Test default
     b = RigidBody('B')
@@ -55,7 +63,12 @@ def test_rigidbody_default():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_rigidbody(), test_rigidbody produces the expected output) over {Any | isinstance(B.inertia, Inertia)} ║
+# ║ Path(test_rigidbody(), B.mass == m and B.frame == A and B.masscenter == P and B.inertia == (I, B.masscenter) and B.__str__() == 'B' and B.mass == m2 and B.frame == A2 and B.masscenter == P2 and B.inertia == (I2, B.masscenter) and isinstance(B.inertia, Inertia) and B.linear_momentum(N) == m2 * (v1 * N.x + v2 * N.y + v3 * N.z)) over {Any | isinstance(B.inertia, Inertia)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  B.mass == m                                    ║
+# ║   ensures:  B.frame == A                                   ║
+# ║   ensures:  B.masscenter == P                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_rigidbody : {Any | isinstance(B.inertia, Inertia...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -67,9 +80,12 @@ def test_rigidbody_default():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 0.8ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | ae002d1f...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_rigidbody.test_rigidbody","kind":"function","src_hash":"090ebfc84ee4e5ec","in":{"base":"Any","pred":"isinstance(B.inertia, Inertia)"},"out":{"base":"Any","pred":"B.mass == m and B.frame == A and B.masscenter == P and B.inertia == (I, B.masscenter) and B.__str__() == 'B' and B.mass == m2 and B.frame == A2 and B.masscenter == P2 and B.inertia == (I2, B.masscenter) and isinstance(B.inertia, Inertia) and B.linear_momentum(N) == m2 * (v1 * N.x + v2 * N.y + v3 * N.z)"},"spec":{"lhs":"test_rigidbody()","rhs":"test_rigidbody produces the expected output","over":{"base":"Any","pred":"isinstance(B.inertia, Inertia)"},"name":"test_rigidbody_correct"},"guarantee":"test_rigidbody produces the expected output","fibers":[{"name":"Inertia","pred":"isinstance(B.inertia, Inertia)","path":{"lhs":"test_rigidbody(x)","rhs":"test_rigidbody produces the expected output","over":{"base":"Inertia","pred":"isinstance(B.inertia, Inertia)"},"name":"test_rigidbody_Inertia_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_rigidbody.test_rigidbody_Inertia_correct","statement":"test_rigidbody satisfies spec on Inertia inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"ae002d1fcda406ef"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_rigidbody.test_rigidbody","kind":"function","src_hash":"090ebfc84ee4e5ec","in":{"base":"Any","pred":"isinstance(B.inertia, Inertia)"},"out":{"base":"Any","pred":"result satisfies: B.mass == m and B.frame == A and B.masscenter == P and B.inertia == (I, B.masscenter) and B.__str__() == 'B' and B.mass == m2 and B.frame == A2 and B.masscenter == P2 and B.inertia == (I2, B.masscenter) and isinstance(B.inertia, Inertia) and B.linear_momentum(N) == m2 * (v1 * N.x + v2 * N.y + v3 * N.z)"},"spec":{"lhs":"test_rigidbody()","rhs":"B.mass == m and B.frame == A and B.masscenter == P and B.inertia == (I, B.masscenter) and B.__str__() == 'B' and B.mass == m2 and B.frame == A2 and B.masscenter == P2 and B.inertia == (I2, B.masscenter) and isinstance(B.inertia, Inertia) and B.linear_momentum(N) == m2 * (v1 * N.x + v2 * N.y + v3 * N.z)","over":{"base":"Any","pred":"isinstance(B.inertia, Inertia)"},"name":"test_rigidbody_correct"},"guarantee":"B.mass == m; B.frame == A; B.masscenter == P","fibers":[{"name":"Inertia","pred":"isinstance(B.inertia, Inertia)","path":{"lhs":"test_rigidbody(x)","rhs":"B.mass == m; B.frame == A; B.masscenter == P","over":{"base":"Inertia","pred":"isinstance(B.inertia, Inertia)"},"name":"test_rigidbody_Inertia_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_rigidbody.test_rigidbody_Inertia_correct","statement":"test_rigidbody satisfies spec on Inertia inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"ae002d1fcda406ef","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["B.mass == m","B.frame == A","B.masscenter == P","B.inertia == (I, B.masscenter)","B.__str__() == 'B'","B.mass == m2","B.frame == A2","B.masscenter == P2","B.inertia == (I2, B.masscenter)","isinstance(B.inertia, Inertia)","B.linear_momentum(N) == m2 * (v1 * N.x + v2 * N.y + v3 * N.z)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"failed","binding":true}}
 def test_rigidbody():
     m, m2, v1, v2, v3, omega = symbols('m m2 v1 v2 v3 omega')
     A = ReferenceFrame('A')
@@ -106,16 +122,24 @@ def test_rigidbody():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_rigidbody2(), test_rigidbody2 produces the expected output) over Any ║
+# ║ Path(test_rigidbody2(), B.angular_momentum(P, N) == omega * b.x and B.angular_momentum(O, N) == omega * b.x - M * v * r * b.z and B.potential_energy == M * g * h and expand(2 * B.kinetic_energy(N)) == omega ** 2 + M * v ** 2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_rigidbody2 : Any → {Any | B.angular_momentum(P, ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  B.angular_momentum(P, N) == omega * b.x        ║
+# ║   ensures:  B.angular_momentum(O, N) == omega * b.x -...   ║
+# ║   ensures:  B.potential_energy == M * g * h                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_rigidbody2 : Any → {Any | result satisfies: B.an...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9d24dd7d6791ccb5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c53ff5e0e528a638  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_rigidbody.test_rigidbody2","kind":"function","src_hash":"31e5a1d87307940d","in":{"base":"Any"},"out":{"base":"Any","pred":"B.angular_momentum(P, N) == omega * b.x and B.angular_momentum(O, N) == omega * b.x - M * v * r * b.z and B.potential_energy == M * g * h and expand(2 * B.kinetic_energy(N)) == omega ** 2 + M * v ** 2"},"spec":{"lhs":"test_rigidbody2()","rhs":"test_rigidbody2 produces the expected output","over":{"base":"Any"},"name":"test_rigidbody2_correct"},"guarantee":"test_rigidbody2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_rigidbody.test_rigidbody2_correct","statement":"Path(test_rigidbody2(x), test_rigidbody2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9d24dd7d6791ccb5"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_rigidbody.test_rigidbody2","kind":"function","src_hash":"31e5a1d87307940d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: B.angular_momentum(P, N) == omega * b.x and B.angular_momentum(O, N) == omega * b.x - M * v * r * b.z and B.potential_energy == M * g * h and expand(2 * B.kinetic_energy(N)) == omega ** 2 + M * v ** 2"},"spec":{"lhs":"test_rigidbody2()","rhs":"B.angular_momentum(P, N) == omega * b.x and B.angular_momentum(O, N) == omega * b.x - M * v * r * b.z and B.potential_energy == M * g * h and expand(2 * B.kinetic_energy(N)) == omega ** 2 + M * v ** 2","over":{"base":"Any"},"name":"test_rigidbody2_correct"},"guarantee":"B.angular_momentum(P, N) == omega * b.x; B.angular_momentum(O, N) == omega * b.x - M * v * r * b.z; B.potential_energy == M * g * h","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_rigidbody.test_rigidbody2_correct","statement":"Path(test_rigidbody2(x), B.angular_momentum(P, N) == omega * b.x; B.angular_momentum(O, N) == omega * b.x - M * v * r * b.z; B.potential_energy == M * g * h)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c53ff5e0e528a638","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["B.angular_momentum(P, N) == omega * b.x","B.angular_momentum(O, N) == omega * b.x - M * v * r * b.z","B.potential_energy == M * g * h","expand(2 * B.kinetic_energy(N)) == omega ** 2 + M * v ** 2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_rigidbody2():
     M, v, r, omega, g, h = dynamicsymbols('M v r omega g h')
     N = ReferenceFrame('N')
@@ -137,16 +161,23 @@ def test_rigidbody2():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_rigidbody3(), test_rigidbody3 produces the expected output) over Any ║
+# ║ Path(test_rigidbody3(), rb1.central_inertia == rb2.central_inertia and rb1.angular_momentum(O, A) == rb2.angular_momentum(O, A)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_rigidbody3 : Any → {Any | rb1.central_inertia ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  rb1.central_inertia == rb2.central_inertia     ║
+# ║   ensures:  rb1.angular_momentum(O, A) == rb2.angular...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_rigidbody3 : Any → {Any | result satisfies: rb1....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2ebf779472a8b2dd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3fad8f420ef00de7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_rigidbody.test_rigidbody3","kind":"function","src_hash":"301108c9e8989a0d","in":{"base":"Any"},"out":{"base":"Any","pred":"rb1.central_inertia == rb2.central_inertia and rb1.angular_momentum(O, A) == rb2.angular_momentum(O, A)"},"spec":{"lhs":"test_rigidbody3()","rhs":"test_rigidbody3 produces the expected output","over":{"base":"Any"},"name":"test_rigidbody3_correct"},"guarantee":"test_rigidbody3 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_rigidbody.test_rigidbody3_correct","statement":"Path(test_rigidbody3(x), test_rigidbody3 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2ebf779472a8b2dd"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_rigidbody.test_rigidbody3","kind":"function","src_hash":"301108c9e8989a0d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: rb1.central_inertia == rb2.central_inertia and rb1.angular_momentum(O, A) == rb2.angular_momentum(O, A)"},"spec":{"lhs":"test_rigidbody3()","rhs":"rb1.central_inertia == rb2.central_inertia and rb1.angular_momentum(O, A) == rb2.angular_momentum(O, A)","over":{"base":"Any"},"name":"test_rigidbody3_correct"},"guarantee":"rb1.central_inertia == rb2.central_inertia; rb1.angular_momentum(O, A) == rb2.angular_momentum(O, A)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_rigidbody.test_rigidbody3_correct","statement":"Path(test_rigidbody3(x), rb1.central_inertia == rb2.central_inertia; rb1.angular_momentum(O, A) == rb2.angular_momentum(O, A))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3fad8f420ef00de7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["rb1.central_inertia == rb2.central_inertia","rb1.angular_momentum(O, A) == rb2.angular_momentum(O, A)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_rigidbody3():
     q1, q2, q3, q4 = dynamicsymbols('q1:5')
     p1, p2, p3 = symbols('p1:4')
@@ -170,16 +201,22 @@ def test_rigidbody3():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pendulum_angular_momentum(), consider a pendulum of length oa = 2a, of mass m as a rigid body of center of mass g (og = a) which turn around (o,z)) over Any ║
+# ║ Path(test_pendulum_angular_momentum(), 4 * m * a ** 2 / 3 * q.diff() * R.z - S.angular_momentum(O, R).express(R) == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_pendulum_angular_momentum : Any → {Any | 4 * m *...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  4 * m * a ** 2 / 3 * q.diff() * R.z - S.a...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_pendulum_angular_momentum : Any → {Any | result ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aaececdd2a43eb38  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cd8e7954767f5e24  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_rigidbody.test_pendulum_angular_momentum","kind":"function","src_hash":"ddc7bc87f48ec52c","in":{"base":"Any"},"out":{"base":"Any","pred":"4 * m * a ** 2 / 3 * q.diff() * R.z - S.angular_momentum(O, R).express(R) == 0"},"spec":{"lhs":"test_pendulum_angular_momentum()","rhs":"consider a pendulum of length oa = 2a, of mass m as a rigid body of center of mass g (og = a) which turn around (o,z)","over":{"base":"Any"},"name":"test_pendulum_angular_momentum_correct"},"guarantee":"consider a pendulum of length oa = 2a, of mass m as a rigid body of center of mass g (og = a) which turn around (o,z)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_rigidbody.test_pendulum_angular_momentum_correct","statement":"Path(test_pendulum_angular_momentum(x), consider a pendulum of length oa = 2a, of mass m as a rigid body of center of mass g (og = a) which turn around (o,z))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aaececdd2a43eb38"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_rigidbody.test_pendulum_angular_momentum","kind":"function","src_hash":"ddc7bc87f48ec52c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: 4 * m * a ** 2 / 3 * q.diff() * R.z - S.angular_momentum(O, R).express(R) == 0"},"spec":{"lhs":"test_pendulum_angular_momentum()","rhs":"4 * m * a ** 2 / 3 * q.diff() * R.z - S.angular_momentum(O, R).express(R) == 0","over":{"base":"Any"},"name":"test_pendulum_angular_momentum_correct"},"guarantee":"4 * m * a ** 2 / 3 * q.diff() * R.z - S.angular_momentum(O, R).express(R) == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_rigidbody.test_pendulum_angular_momentum_correct","statement":"Path(test_pendulum_angular_momentum(x), 4 * m * a ** 2 / 3 * q.diff() * R.z - S.angular_momentum(O, R).express(R) == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cd8e7954767f5e24","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["4 * m * a ** 2 / 3 * q.diff() * R.z - S.angular_momentum(O, R).express(R) == 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_pendulum_angular_momentum():
     """Consider a pendulum of length OA = 2a, of mass m as a rigid body of
     center of mass G (OG = a) which turn around (O,z). The angle between the
@@ -211,7 +248,12 @@ def test_pendulum_angular_momentum():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_rigidbody_inertia(), test_rigidbody_inertia produces the expected output) over {Any | isinstance(R.inertia, Inertia)} ║
+# ║ Path(test_rigidbody_inertia(), isinstance(R.inertia, Inertia) and R.inertia == (Io, p) and R.central_inertia == I_check and R.inertia == (Io, o) and R.central_inertia == Io) over {Any | isinstance(R.inertia, Inertia)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(R.inertia, Inertia)                 ║
+# ║   ensures:  R.inertia == (Io, p)                           ║
+# ║   ensures:  R.central_inertia == I_check                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_rigidbody_inertia : {Any | isinstance(R.inertia,...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -223,9 +265,12 @@ def test_pendulum_angular_momentum():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 0.6ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | f0a7953a...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_rigidbody.test_rigidbody_inertia","kind":"function","src_hash":"d9568d38d5b103c2","in":{"base":"Any","pred":"isinstance(R.inertia, Inertia)"},"out":{"base":"Any","pred":"isinstance(R.inertia, Inertia) and R.inertia == (Io, p) and R.central_inertia == I_check and R.inertia == (Io, o) and R.central_inertia == Io and R.inertia == (Io, p) and R.central_inertia == I_check and R.inertia == (Io, o)"},"spec":{"lhs":"test_rigidbody_inertia()","rhs":"test_rigidbody_inertia produces the expected output","over":{"base":"Any","pred":"isinstance(R.inertia, Inertia)"},"name":"test_rigidbody_inertia_correct"},"guarantee":"test_rigidbody_inertia produces the expected output","fibers":[{"name":"Inertia","pred":"isinstance(R.inertia, Inertia)","path":{"lhs":"test_rigidbody_inertia(x)","rhs":"test_rigidbody_inertia produces the expected output","over":{"base":"Inertia","pred":"isinstance(R.inertia, Inertia)"},"name":"test_rigidbody_inertia_Inertia_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_rigidbody.test_rigidbody_inertia_Inertia_correct","statement":"test_rigidbody_inertia satisfies spec on Inertia inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"f0a7953a942bbf6a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_rigidbody.test_rigidbody_inertia","kind":"function","src_hash":"d9568d38d5b103c2","in":{"base":"Any","pred":"isinstance(R.inertia, Inertia)"},"out":{"base":"Any","pred":"result satisfies: isinstance(R.inertia, Inertia) and R.inertia == (Io, p) and R.central_inertia == I_check and R.inertia == (Io, o) and R.central_inertia == Io"},"spec":{"lhs":"test_rigidbody_inertia()","rhs":"isinstance(R.inertia, Inertia) and R.inertia == (Io, p) and R.central_inertia == I_check and R.inertia == (Io, o) and R.central_inertia == Io","over":{"base":"Any","pred":"isinstance(R.inertia, Inertia)"},"name":"test_rigidbody_inertia_correct"},"guarantee":"isinstance(R.inertia, Inertia); R.inertia == (Io, p); R.central_inertia == I_check","fibers":[{"name":"Inertia","pred":"isinstance(R.inertia, Inertia)","path":{"lhs":"test_rigidbody_inertia(x)","rhs":"isinstance(R.inertia, Inertia); R.inertia == (Io, p); R.central_inertia == I_check","over":{"base":"Inertia","pred":"isinstance(R.inertia, Inertia)"},"name":"test_rigidbody_inertia_Inertia_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_rigidbody.test_rigidbody_inertia_Inertia_correct","statement":"test_rigidbody_inertia satisfies spec on Inertia inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"f0a7953a942bbf6a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(R.inertia, Inertia)","R.inertia == (Io, p)","R.central_inertia == I_check","R.inertia == (Io, o)","R.central_inertia == Io"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"failed","binding":true}}
 def test_rigidbody_inertia():
     N = ReferenceFrame('N')
     m, Ix, Iy, Iz, a, b = symbols('m, I_x, I_y, I_z, a, b')
@@ -250,16 +295,23 @@ def test_rigidbody_inertia():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_parallel_axis(), test_parallel_axis produces the expected output) over Any ║
+# ║ Path(test_parallel_axis(), Ip == Ip_expected and simplify((R.parallel_axis(p, A) - Ip_expected).to_matrix(A)) == zeros(3, 3)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_parallel_axis : Any → {Any | Ip == Ip_expected a...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Ip == Ip_expected                              ║
+# ║   ensures:  simplify((R.parallel_axis(p, A) - Ip_expe...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_parallel_axis : Any → {Any | result satisfies: I...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9428c6b24a9e393c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2e50af971577a1cf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_rigidbody.test_parallel_axis","kind":"function","src_hash":"67c787d87100f873","in":{"base":"Any"},"out":{"base":"Any","pred":"Ip == Ip_expected and simplify((R.parallel_axis(p, A) - Ip_expected).to_matrix(A)) == zeros(3, 3)"},"spec":{"lhs":"test_parallel_axis()","rhs":"test_parallel_axis produces the expected output","over":{"base":"Any"},"name":"test_parallel_axis_correct"},"guarantee":"test_parallel_axis produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_rigidbody.test_parallel_axis_correct","statement":"Path(test_parallel_axis(x), test_parallel_axis produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9428c6b24a9e393c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_rigidbody.test_parallel_axis","kind":"function","src_hash":"67c787d87100f873","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Ip == Ip_expected and simplify((R.parallel_axis(p, A) - Ip_expected).to_matrix(A)) == zeros(3, 3)"},"spec":{"lhs":"test_parallel_axis()","rhs":"Ip == Ip_expected and simplify((R.parallel_axis(p, A) - Ip_expected).to_matrix(A)) == zeros(3, 3)","over":{"base":"Any"},"name":"test_parallel_axis_correct"},"guarantee":"Ip == Ip_expected; simplify((R.parallel_axis(p, A) - Ip_expected).to_matrix(A)) == zeros(3, 3)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_rigidbody.test_parallel_axis_correct","statement":"Path(test_parallel_axis(x), Ip == Ip_expected; simplify((R.parallel_axis(p, A) - Ip_expected).to_matrix(A)) == zeros(3, 3))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2e50af971577a1cf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Ip == Ip_expected","simplify((R.parallel_axis(p, A) - Ip_expected).to_matrix(A)) == zeros(3, 3)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_parallel_axis():
     N = ReferenceFrame('N')
     m, Ix, Iy, Iz, a, b = symbols('m, I_x, I_y, I_z, a, b')
@@ -279,16 +331,22 @@ def test_parallel_axis():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_deprecated_set_potential_energy(), test_deprecated_set_potential_energy produces the expected output) over Any ║
+# ║ Path(test_deprecated_set_potential_energy(), <unspecified:test_deprecated_set_potential_energy>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_deprecated_set_potential_energy : Any → Any           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 736cbc534a015629  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_rigidbody.test_deprecated_set_potential_energy","kind":"function","src_hash":"9ec1387b4c52fa54","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_deprecated_set_potential_energy()","rhs":"test_deprecated_set_potential_energy produces the expected output","over":{"base":"Any"},"name":"test_deprecated_set_potential_energy_correct"},"guarantee":"test_deprecated_set_potential_energy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_rigidbody.test_deprecated_set_potential_energy_correct","statement":"Path(test_deprecated_set_potential_energy(x), test_deprecated_set_potential_energy produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"736cbc534a015629"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_rigidbody.test_deprecated_set_potential_energy","kind":"function","src_hash":"9ec1387b4c52fa54","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_deprecated_set_potential_energy()","rhs":"<unspecified:test_deprecated_set_potential_energy>","over":{"base":"Any"},"name":"test_deprecated_set_potential_energy_correct"},"guarantee":"test_deprecated_set_potential_energy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_rigidbody.test_deprecated_set_potential_energy_correct","statement":"Path(test_deprecated_set_potential_energy(x), test_deprecated_set_potential_energy produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"736cbc534a015629","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_deprecated_set_potential_energy():
     m, g, h = symbols('m g h')
     A = ReferenceFrame('A')

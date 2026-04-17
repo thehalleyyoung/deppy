@@ -27,45 +27,66 @@ from sympy.utilities import public
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Ring(*args), correctly constructs a Ring instance) over {Any | isinstance(e, Ideal)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Ring : {Any | isinstance(e, Ideal)} → Any                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Domain)                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Ring : {Any | isinstance(e, Ideal)} → {Any | result s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 74fa2f007c409a29  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.ring.Ring","kind":"class","src_hash":"3008c8d1c6b8a9a0","in":{"base":"Any","pred":"isinstance(e, Ideal)"},"out":{"base":"Any"},"spec":{"lhs":"Ring(*args)","rhs":"correctly constructs a Ring instance","over":{"base":"Any","pred":"isinstance(e, Ideal)"},"name":"Ring_class_invariant"},"guarantee":"correctly constructs a Ring instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"74fa2f007c409a29"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.ring.Ring","kind":"class","src_hash":"3008c8d1c6b8a9a0","in":{"base":"Any","pred":"isinstance(e, Ideal)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Domain)"},"spec":{"lhs":"Ring(*args)","rhs":"correctly constructs a Ring instance","over":{"base":"Any","pred":"isinstance(e, Ideal)"},"name":"Ring_class_invariant"},"guarantee":"isinstance(self, Domain)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"74fa2f007c409a29","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Domain)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":false,"binding_errors":["Function Ring not found in source"]}}
 class Ring(Domain):
     """Represents a ring domain. """
 
     is_Ring = True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_ring(), returns a ring associated with ``self``) over Any ║
+# ║ Path(get_ring(), self) over Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ get_ring : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == self                                 ║
+# ║   returns:  self                                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ get_ring : Any → {Any | result satisfies: result == (...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0198deb1dfbceb61           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.ring.Ring.get_ring","kind":"method","src_hash":"98b5c5983e6f5a36","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_ring()","rhs":"returns a ring associated with ``self``","over":{"base":"Any"},"name":"get_ring_correct"},"guarantee":"returns a ring associated with ``self``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0198deb1dfbceb61"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.ring.Ring.get_ring","kind":"method","src_hash":"98b5c5983e6f5a36","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (self)"},"spec":{"lhs":"get_ring()","rhs":"self","over":{"base":"Any"},"name":"get_ring_correct"},"guarantee":"returns self; result == self","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0198deb1dfbceb61","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == self"],"returns_expr":"self","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def get_ring(self):
         """Returns a ring associated with ``self``. """
         return self
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(exquo(a, ), exact quotient of ``a`` and ``b``, implies ``__floordiv__``) over Any ║
+# ║ Path(exquo(a, b), <unspecified:exquo>) over {Any | not (a % b)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ exquo : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (a % b)                                    ║
+# ║   fiber[case_0]: a % b                                     ║
+# ║   fiber[case_1]: not (a % b) => a // b                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ exquo : {Any | not (a % b)} → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a8e262009871036a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ba266b137ea178fb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.ring.Ring.exquo","kind":"method","src_hash":"e3db7cfaabcfdbb0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"exquo(a, )","rhs":"exact quotient of ``a`` and ``b``, implies ``__floordiv__``","over":{"base":"Any"},"name":"exquo_correct"},"guarantee":"exact quotient of ``a`` and ``b``, implies ``__floordiv__``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.ring.Ring.exquo_correct","statement":"Path(exquo(x), exact quotient of ``a`` and ``b``, implies ``__floordiv__``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a8e262009871036a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.ring.Ring.exquo","kind":"method","src_hash":"e3db7cfaabcfdbb0","in":{"base":"Any","pred":"not (a % b)"},"out":{"base":"Any"},"spec":{"lhs":"exquo(a, b)","rhs":"<unspecified:exquo>","over":{"base":"Any","pred":"not (a % b)"},"name":"exquo_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.ring.Ring.exquo_correct","statement":"Path(exquo(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ba266b137ea178fb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (a % b)"],"fibers":[{"name":"case_0","guard":"a % b","ensures":[],"decidability":"library"},{"name":"case_1","guard":"not (a % b)","ensures":["result == a // b"],"decidability":"library","returns_expr":"a // b"}],"pure":false,"effects":{"effect_type":"reads_state","raises":["ExactQuotientFailed"]},"state_contract":{"exceptional_post":{"ExactQuotientFailed":["isinstance(raised, ExactQuotientFailed)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def exquo(self, a, b):
         """Exact quotient of ``a`` and ``b``, implies ``__floordiv__``.  """
         if a % b:
@@ -74,61 +95,86 @@ class Ring(Domain):
             return a // b
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(quo(a, ), quotient of ``a`` and ``b``, implies ``__floordiv__``) over Any ║
+# ║ Path(quo(a, b), a // b) over Any                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  a // b                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ quo : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | af1a33d13926ae48           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.ring.Ring.quo","kind":"method","src_hash":"c25de373f3375cde","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"quo(a, )","rhs":"quotient of ``a`` and ``b``, implies ``__floordiv__``","over":{"base":"Any"},"name":"quo_correct"},"guarantee":"quotient of ``a`` and ``b``, implies ``__floordiv__``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"af1a33d13926ae48"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.ring.Ring.quo","kind":"method","src_hash":"c25de373f3375cde","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"quo(a, b)","rhs":"a // b","over":{"base":"Any"},"name":"quo_correct"},"guarantee":"returns a // b","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"af1a33d13926ae48","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"a // b","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def quo(self, a, b):
         """Quotient of ``a`` and ``b``, implies ``__floordiv__``. """
         return a // b
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rem(a, ), remainder of ``a`` and ``b``, implies ``__mod__``) over Any ║
+# ║ Path(rem(a, b), a % b) over Any                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  a % b                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ rem : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ad92c843488a1c1a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.ring.Ring.rem","kind":"method","src_hash":"cedf2974a46d2468","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rem(a, )","rhs":"remainder of ``a`` and ``b``, implies ``__mod__``","over":{"base":"Any"},"name":"rem_correct"},"guarantee":"remainder of ``a`` and ``b``, implies ``__mod__``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ad92c843488a1c1a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.ring.Ring.rem","kind":"method","src_hash":"cedf2974a46d2468","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rem(a, b)","rhs":"a % b","over":{"base":"Any"},"name":"rem_correct"},"guarantee":"returns a % b","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ad92c843488a1c1a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"a % b","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def rem(self, a, b):
         """Remainder of ``a`` and ``b``, implies ``__mod__``.  """
         return a % b
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(div(a, ), division of ``a`` and ``b``, implies ``__divmod__``) over Any ║
+# ║ Path(div(a, b), divmod(a, b)) over Any                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  divmod(a, b)                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ div : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7ccb369652891afc           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.ring.Ring.div","kind":"method","src_hash":"ba53d1413ae4e73c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"div(a, )","rhs":"division of ``a`` and ``b``, implies ``__divmod__``","over":{"base":"Any"},"name":"div_correct"},"guarantee":"division of ``a`` and ``b``, implies ``__divmod__``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7ccb369652891afc"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.ring.Ring.div","kind":"method","src_hash":"ba53d1413ae4e73c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"div(a, b)","rhs":"divmod(a, b)","over":{"base":"Any"},"name":"div_correct"},"guarantee":"returns divmod(a, b)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7ccb369652891afc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"divmod(a, b)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def div(self, a, b):
         """Division of ``a`` and ``b``, implies ``__divmod__``. """
         return divmod(a, b)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(invert(a, ), returns inversion of ``a mod b``) over Any ║
+# ║ Path(invert(a, b), <unspecified:invert>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: self.is_one(h) => s % b                   ║
+# ║   fiber[case_1]: not (self.is_one(h))                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ invert : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a6cc6929236e3a25  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 110f44b547ed34c2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.ring.Ring.invert","kind":"method","src_hash":"ced998e465962264","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"invert(a, )","rhs":"returns inversion of ``a mod b``","over":{"base":"Any"},"name":"invert_correct"},"guarantee":"returns inversion of ``a mod b``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.ring.Ring.invert_correct","statement":"Path(invert(x), returns inversion of ``a mod b``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a6cc6929236e3a25"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.ring.Ring.invert","kind":"method","src_hash":"ced998e465962264","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"invert(a, b)","rhs":"<unspecified:invert>","over":{"base":"Any"},"name":"invert_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.ring.Ring.invert_correct","statement":"Path(invert(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"110f44b547ed34c2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"self.is_one(h)","ensures":["result == s % b"],"decidability":"library","returns_expr":"s % b"},{"name":"case_1","guard":"not (self.is_one(h))","ensures":[],"decidability":"library"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.gcdex","self.is_one"],"raises":["NotInvertible"]},"state_contract":{"exceptional_post":{"NotInvertible":["isinstance(raised, NotInvertible)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def invert(self, a, b):
         """Returns inversion of ``a mod b``. """
         s, t, h = self.gcdex(a, b)
@@ -139,16 +185,23 @@ class Ring(Domain):
             raise NotInvertible("zero divisor")
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(revert(a), returns ``a**(-1)`` if possible) over Any  ║
+# ║ Path(revert(a), <unspecified:revert>) over Any             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: self.is_one(a) or self.is_one(-a) => a    ║
+# ║   fiber[case_1]: not (self.is_one(a) or self.is_one(-a))   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ revert : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 479b49dd950ca2df  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4857328dc6559a68  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.ring.Ring.revert","kind":"method","src_hash":"ac6a6383e2dea875","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"revert(a)","rhs":"returns ``a**(-1)`` if possible","over":{"base":"Any"},"name":"revert_correct"},"guarantee":"returns ``a**(-1)`` if possible","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.ring.Ring.revert_correct","statement":"Path(revert(x), returns ``a**(-1)`` if possible)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"479b49dd950ca2df"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.ring.Ring.revert","kind":"method","src_hash":"ac6a6383e2dea875","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"revert(a)","rhs":"<unspecified:revert>","over":{"base":"Any"},"name":"revert_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.ring.Ring.revert_correct","statement":"Path(revert(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4857328dc6559a68","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"self.is_one(a) or self.is_one(-a)","ensures":["result == a"],"decidability":"library","returns_expr":"a"},{"name":"case_1","guard":"not (self.is_one(a) or self.is_one(-a))","ensures":[],"decidability":"library"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.is_one"],"raises":["NotReversible"]},"state_contract":{"exceptional_post":{"NotReversible":["isinstance(raised, NotReversible)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def revert(self, a):
         """Returns ``a**(-1)`` if possible. """
         if self.is_one(a) or self.is_one(-a):
@@ -157,16 +210,22 @@ class Ring(Domain):
             raise NotReversible('only units are reversible in a ring')
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_unit(a), is_unit produces the expected output) over Any ║
+# ║ Path(is_unit(a), <unspecified:is_unit>) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_unit : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6cfe76d7c3a09379  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.ring.Ring.is_unit","kind":"method","src_hash":"0261311bfa4732c4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_unit(a)","rhs":"is_unit produces the expected output","over":{"base":"Any"},"name":"is_unit_correct"},"guarantee":"is_unit produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.ring.Ring.is_unit_correct","statement":"Path(is_unit(x), is_unit produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6cfe76d7c3a09379"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.ring.Ring.is_unit","kind":"method","src_hash":"0261311bfa4732c4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_unit(a)","rhs":"<unspecified:is_unit>","over":{"base":"Any"},"name":"is_unit_correct"},"guarantee":"is_unit produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.ring.Ring.is_unit_correct","statement":"Path(is_unit(x), is_unit produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6cfe76d7c3a09379","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.revert"],"catches":["NotReversible"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_unit(self, a):
         try:
             self.revert(a)
@@ -175,46 +234,65 @@ class Ring(Domain):
             return False
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(numer(a), returns numerator of ``a``) over Any        ║
+# ║ Path(numer(a), a) over Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ numer : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == a                                    ║
+# ║   returns:  a                                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ numer : Any → {Any | result satisfies: result == (a)}      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f2b036f868cc2930           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.ring.Ring.numer","kind":"method","src_hash":"8f2c757a6dbb4417","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"numer(a)","rhs":"returns numerator of ``a``","over":{"base":"Any"},"name":"numer_correct"},"guarantee":"returns numerator of ``a``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f2b036f868cc2930"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.ring.Ring.numer","kind":"method","src_hash":"8f2c757a6dbb4417","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (a)"},"spec":{"lhs":"numer(a)","rhs":"a","over":{"base":"Any"},"name":"numer_correct"},"guarantee":"returns a; result == a","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f2b036f868cc2930","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == a"],"returns_expr":"a","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def numer(self, a):
         """Returns numerator of ``a``. """
         return a
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(denom(a), returns denominator of `a`) over Any        ║
+# ║ Path(denom(a), self.one) over Any                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.one                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ denom : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | df831aa456ef7b86           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.ring.Ring.denom","kind":"method","src_hash":"50fc10cc29b99088","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"denom(a)","rhs":"returns denominator of `a`","over":{"base":"Any"},"name":"denom_correct"},"guarantee":"returns denominator of `a`","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"df831aa456ef7b86"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.ring.Ring.denom","kind":"method","src_hash":"50fc10cc29b99088","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"denom(a)","rhs":"self.one","over":{"base":"Any"},"name":"denom_correct"},"guarantee":"returns self.one","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"df831aa456ef7b86","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.one","pure":false,"effects":{"effect_type":"reads_state","reads":["self.one"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def denom(self, a):
         """Returns denominator of `a`. """
         return self.one
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(free_module(ran), generate a free module of rank ``rank`` over self) over Any ║
+# ║ Path(free_module(rank), <unspecified:free_module>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ free_module : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e495a428e2f36b32           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.ring.Ring.free_module","kind":"method","src_hash":"7fd542593184e410","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"free_module(ran)","rhs":"generate a free module of rank ``rank`` over self","over":{"base":"Any"},"name":"free_module_correct"},"guarantee":"generate a free module of rank ``rank`` over self","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e495a428e2f36b32"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.ring.Ring.free_module","kind":"method","src_hash":"7fd542593184e410","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"free_module(rank)","rhs":"<unspecified:free_module>","over":{"base":"Any"},"name":"free_module_correct"},"guarantee":"generate a free module of rank ``rank`` over self","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e495a428e2f36b32","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def free_module(self, rank):
         """
         Generate a free module of rank ``rank`` over self.
@@ -227,16 +305,22 @@ class Ring(Domain):
         raise NotImplementedError
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ideal(*ge), id) over Any                              ║
+# ║ Path(ideal(*gens), id) over Any                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  ModuleImplementedIdeal(self, self.free_mo...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ ideal : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | f3757e43e74d6c34   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.ring.Ring.ideal","kind":"method","src_hash":"5dd7a7183637dd53","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ideal(*ge)","rhs":"generate an ideal of ``self``","over":{"base":"Any"},"name":"ideal_correct","kind":"composition"},"guarantee":"generate an ideal of ``self``","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"ModuleImplementedIdeal","by":"library_axiom"},{"fn":"free_module","by":"library_axiom"},{"fn":"submodule","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f3757e43e74d6c34"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.ring.Ring.ideal","kind":"method","src_hash":"5dd7a7183637dd53","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ideal(*gens)","rhs":"ModuleImplementedIdeal(self, self.free_module(1).submodule(*[[x] for x in gens]))","over":{"base":"Any"},"name":"ideal_correct","kind":"composition"},"guarantee":"returns ModuleImplementedIdeal(self, self.free_module(1).submodule(*[[x] for x in gens]))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"ModuleImplementedIdeal","by":"library_axiom"},{"fn":"free_module","by":"library_axiom"},{"fn":"submodule","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f3757e43e74d6c34","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"ModuleImplementedIdeal(self, self.free_module(1).submodule(*[[x] for x in gens]))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.free_module"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def ideal(self, *gens):
         """
         Generate an ideal of ``self``.
@@ -251,16 +335,22 @@ class Ring(Domain):
             *[[x] for x in gens]))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(quotient_ring(e), form a quotient ring of ``self``) over Any ║
+# ║ Path(quotient_ring(e), QuotientRing(self, e)) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  QuotientRing(self, e)                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ quotient_ring : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 577ec1240f5a5d0c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4498a8b501cd7bb6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.ring.Ring.quotient_ring","kind":"method","src_hash":"610f5b928141e601","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"quotient_ring(e)","rhs":"form a quotient ring of ``self``","over":{"base":"Any"},"name":"quotient_ring_correct"},"guarantee":"form a quotient ring of ``self``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.ring.Ring.quotient_ring_correct","statement":"Path(quotient_ring(x), form a quotient ring of ``self``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"577ec1240f5a5d0c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.ring.Ring.quotient_ring","kind":"method","src_hash":"610f5b928141e601","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"quotient_ring(e)","rhs":"QuotientRing(self, e)","over":{"base":"Any"},"name":"quotient_ring_correct"},"guarantee":"returns QuotientRing(self, e)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.ring.Ring.quotient_ring_correct","statement":"Path(quotient_ring(x), returns QuotientRing(self, e))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4498a8b501cd7bb6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"QuotientRing(self, e)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.ideal"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def quotient_ring(self, e):
         """
         Form a quotient ring of ``self``.
@@ -286,15 +376,21 @@ class Ring(Domain):
         return QuotientRing(self, e)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__truediv__(e), internal helper behaves correctly) over Any ║
+# ║ Path(__truediv__(e), self.quotient_ring(e)) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.quotient_ring(e)                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __truediv__ : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5aaf06f8a2236d21           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.ring.Ring.__truediv__","kind":"method","src_hash":"e8f0683a7db41193","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__truediv__(e)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__truediv___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5aaf06f8a2236d21"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.ring.Ring.__truediv__","kind":"method","src_hash":"e8f0683a7db41193","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__truediv__(e)","rhs":"self.quotient_ring(e)","over":{"base":"Any"},"name":"__truediv___correct"},"guarantee":"returns self.quotient_ring(e)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5aaf06f8a2236d21","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.quotient_ring(e)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.quotient_ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __truediv__(self, e):
         return self.quotient_ring(e)

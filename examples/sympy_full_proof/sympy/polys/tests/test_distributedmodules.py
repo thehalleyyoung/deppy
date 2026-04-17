@@ -32,61 +32,87 @@ from sympy.abc import x, y, z
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_sdm_monomial_mul(), test_sdm_monomial_mul produces the expected output) over Any ║
+# ║ Path(test_sdm_monomial_mul(), sdm_monomial_mul((1, 1, 0), (1, 3)) == (1, 2, 3)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_sdm_monomial_mul : Any → {Any | sdm_monomial_mul...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  sdm_monomial_mul((1, 1, 0), (1, 3)) == (1...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_sdm_monomial_mul : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 88c6e353906f95ea  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 558bd0ba32e9fb18  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_distributedmodules.test_sdm_monomial_mul","kind":"function","src_hash":"a83de865c845d085","in":{"base":"Any"},"out":{"base":"Any","pred":"sdm_monomial_mul((1, 1, 0), (1, 3)) == (1, 2, 3)"},"spec":{"lhs":"test_sdm_monomial_mul()","rhs":"test_sdm_monomial_mul produces the expected output","over":{"base":"Any"},"name":"test_sdm_monomial_mul_correct"},"guarantee":"test_sdm_monomial_mul produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_distributedmodules.test_sdm_monomial_mul_correct","statement":"Path(test_sdm_monomial_mul(x), test_sdm_monomial_mul produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"88c6e353906f95ea"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_distributedmodules.test_sdm_monomial_mul","kind":"function","src_hash":"a83de865c845d085","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: sdm_monomial_mul((1, 1, 0), (1, 3)) == (1, 2, 3)"},"spec":{"lhs":"test_sdm_monomial_mul()","rhs":"sdm_monomial_mul((1, 1, 0), (1, 3)) == (1, 2, 3)","over":{"base":"Any"},"name":"test_sdm_monomial_mul_correct"},"guarantee":"sdm_monomial_mul((1, 1, 0), (1, 3)) == (1, 2, 3)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_distributedmodules.test_sdm_monomial_mul_correct","statement":"Path(test_sdm_monomial_mul(x), sdm_monomial_mul((1, 1, 0), (1, 3)) == (1, 2, 3))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"558bd0ba32e9fb18","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["sdm_monomial_mul((1, 1, 0), (1, 3)) == (1, 2, 3)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_sdm_monomial_mul():
     assert sdm_monomial_mul((1, 1, 0), (1, 3)) == (1, 2, 3)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_sdm_monomial_deg(), test_sdm_monomial_deg produces the expected output) over Any ║
+# ║ Path(test_sdm_monomial_deg(), sdm_monomial_deg((5, 2, 1)) == 3) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_sdm_monomial_deg : Any → {Any | sdm_monomial_deg...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  sdm_monomial_deg((5, 2, 1)) == 3               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_sdm_monomial_deg : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 78aabfbfa6a68b14  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 800c06f2e4337356  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_distributedmodules.test_sdm_monomial_deg","kind":"function","src_hash":"b38fa3faef3df7e0","in":{"base":"Any"},"out":{"base":"Any","pred":"sdm_monomial_deg((5, 2, 1)) == 3"},"spec":{"lhs":"test_sdm_monomial_deg()","rhs":"test_sdm_monomial_deg produces the expected output","over":{"base":"Any"},"name":"test_sdm_monomial_deg_correct"},"guarantee":"test_sdm_monomial_deg produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_distributedmodules.test_sdm_monomial_deg_correct","statement":"Path(test_sdm_monomial_deg(x), test_sdm_monomial_deg produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"78aabfbfa6a68b14"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_distributedmodules.test_sdm_monomial_deg","kind":"function","src_hash":"b38fa3faef3df7e0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: sdm_monomial_deg((5, 2, 1)) == 3"},"spec":{"lhs":"test_sdm_monomial_deg()","rhs":"sdm_monomial_deg((5, 2, 1)) == 3","over":{"base":"Any"},"name":"test_sdm_monomial_deg_correct"},"guarantee":"sdm_monomial_deg((5, 2, 1)) == 3","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_distributedmodules.test_sdm_monomial_deg_correct","statement":"Path(test_sdm_monomial_deg(x), sdm_monomial_deg((5, 2, 1)) == 3)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"800c06f2e4337356","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["sdm_monomial_deg((5, 2, 1)) == 3"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_sdm_monomial_deg():
     assert sdm_monomial_deg((5, 2, 1)) == 3
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_sdm_monomial_lcm(), test_sdm_monomial_lcm produces the expected output) over Any ║
+# ║ Path(test_sdm_monomial_lcm(), sdm_monomial_lcm((1, 2, 3), (1, 5, 0)) == (1, 5, 3)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_sdm_monomial_lcm : Any → {Any | sdm_monomial_lcm...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  sdm_monomial_lcm((1, 2, 3), (1, 5, 0)) ==...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_sdm_monomial_lcm : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a7459f8d5eaf087f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 738f99bf7bf4c47f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_distributedmodules.test_sdm_monomial_lcm","kind":"function","src_hash":"3a92c4b989f1eda8","in":{"base":"Any"},"out":{"base":"Any","pred":"sdm_monomial_lcm((1, 2, 3), (1, 5, 0)) == (1, 5, 3)"},"spec":{"lhs":"test_sdm_monomial_lcm()","rhs":"test_sdm_monomial_lcm produces the expected output","over":{"base":"Any"},"name":"test_sdm_monomial_lcm_correct"},"guarantee":"test_sdm_monomial_lcm produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_distributedmodules.test_sdm_monomial_lcm_correct","statement":"Path(test_sdm_monomial_lcm(x), test_sdm_monomial_lcm produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a7459f8d5eaf087f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_distributedmodules.test_sdm_monomial_lcm","kind":"function","src_hash":"3a92c4b989f1eda8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: sdm_monomial_lcm((1, 2, 3), (1, 5, 0)) == (1, 5, 3)"},"spec":{"lhs":"test_sdm_monomial_lcm()","rhs":"sdm_monomial_lcm((1, 2, 3), (1, 5, 0)) == (1, 5, 3)","over":{"base":"Any"},"name":"test_sdm_monomial_lcm_correct"},"guarantee":"sdm_monomial_lcm((1, 2, 3), (1, 5, 0)) == (1, 5, 3)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_distributedmodules.test_sdm_monomial_lcm_correct","statement":"Path(test_sdm_monomial_lcm(x), sdm_monomial_lcm((1, 2, 3), (1, 5, 0)) == (1, 5, 3))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"738f99bf7bf4c47f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["sdm_monomial_lcm((1, 2, 3), (1, 5, 0)) == (1, 5, 3)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_sdm_monomial_lcm():
     assert sdm_monomial_lcm((1, 2, 3), (1, 5, 0)) == (1, 5, 3)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_sdm_monomial_divides(), test_sdm_monomial_divides produces the expected output) over Any ║
+# ║ Path(test_sdm_monomial_divides(), sdm_monomial_divides((1, 0, 0), (1, 0, 0)) is True and sdm_monomial_divides((1, 0, 0), (1, 2, 1)) is True and sdm_monomial_divides((5, 1, 1), (5, 2, 1)) is True and sdm_monomial_divides((1, 0, 0), (2, 0, 0)) is False and sdm_monomial_divides((1, 1, 0), (1, 0, 0)) is False and sdm_monomial_divides((5, 1, 2), (5, 0, 1)) is False) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_sdm_monomial_divides : Any → {Any | sdm_monomial...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  sdm_monomial_divides((1, 0, 0), (1, 0, 0)...   ║
+# ║   ensures:  sdm_monomial_divides((1, 0, 0), (1, 2, 1)...   ║
+# ║   ensures:  sdm_monomial_divides((5, 1, 1), (5, 2, 1)...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_sdm_monomial_divides : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 70aeb3cb73134195  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c0c7381936ac5aa8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_distributedmodules.test_sdm_monomial_divides","kind":"function","src_hash":"ea73da96b92d58dd","in":{"base":"Any"},"out":{"base":"Any","pred":"sdm_monomial_divides((1, 0, 0), (1, 0, 0)) is True and sdm_monomial_divides((1, 0, 0), (1, 2, 1)) is True and sdm_monomial_divides((5, 1, 1), (5, 2, 1)) is True and sdm_monomial_divides((1, 0, 0), (2, 0, 0)) is False and sdm_monomial_divides((1, 1, 0), (1, 0, 0)) is False and sdm_monomial_divides((5, 1, 2), (5, 0, 1)) is False"},"spec":{"lhs":"test_sdm_monomial_divides()","rhs":"test_sdm_monomial_divides produces the expected output","over":{"base":"Any"},"name":"test_sdm_monomial_divides_correct"},"guarantee":"test_sdm_monomial_divides produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_distributedmodules.test_sdm_monomial_divides_correct","statement":"Path(test_sdm_monomial_divides(x), test_sdm_monomial_divides produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"70aeb3cb73134195"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_distributedmodules.test_sdm_monomial_divides","kind":"function","src_hash":"ea73da96b92d58dd","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: sdm_monomial_divides((1, 0, 0), (1, 0, 0)) is True and sdm_monomial_divides((1, 0, 0), (1, 2, 1)) is True and sdm_monomial_divides((5, 1, 1), (5, 2, 1)) is True and sdm_monomial_divides((1, 0, 0), (2, 0, 0)) is False and sdm_monomial_divides((1, 1, 0), (1, 0, 0)) is False and sdm_monomial_divides((5, 1, 2), (5, 0, 1)) is False"},"spec":{"lhs":"test_sdm_monomial_divides()","rhs":"sdm_monomial_divides((1, 0, 0), (1, 0, 0)) is True and sdm_monomial_divides((1, 0, 0), (1, 2, 1)) is True and sdm_monomial_divides((5, 1, 1), (5, 2, 1)) is True and sdm_monomial_divides((1, 0, 0), (2, 0, 0)) is False and sdm_monomial_divides((1, 1, 0), (1, 0, 0)) is False and sdm_monomial_divides((5, 1, 2), (5, 0, 1)) is False","over":{"base":"Any"},"name":"test_sdm_monomial_divides_correct"},"guarantee":"sdm_monomial_divides((1, 0, 0), (1, 0, 0)) is True; sdm_monomial_divides((1, 0, 0), (1, 2, 1)) is True; sdm_monomial_divides((5, 1, 1), (5, 2, 1)) is True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_distributedmodules.test_sdm_monomial_divides_correct","statement":"Path(test_sdm_monomial_divides(x), sdm_monomial_divides((1, 0, 0), (1, 0, 0)) is True; sdm_monomial_divides((1, 0, 0), (1, 2, 1)) is True; sdm_monomial_divides((5, 1, 1), (5, 2, 1)) is True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c0c7381936ac5aa8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["sdm_monomial_divides((1, 0, 0), (1, 0, 0)) is True","sdm_monomial_divides((1, 0, 0), (1, 2, 1)) is True","sdm_monomial_divides((5, 1, 1), (5, 2, 1)) is True","sdm_monomial_divides((1, 0, 0), (2, 0, 0)) is False","sdm_monomial_divides((1, 1, 0), (1, 0, 0)) is False","sdm_monomial_divides((5, 1, 2), (5, 0, 1)) is False"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_sdm_monomial_divides():
     assert sdm_monomial_divides((1, 0, 0), (1, 0, 0)) is True
     assert sdm_monomial_divides((1, 0, 0), (1, 2, 1)) is True
@@ -98,31 +124,43 @@ def test_sdm_monomial_divides():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_sdm_LC(), test_sdm_LC produces the expected output) over Any ║
+# ║ Path(test_sdm_LC(), sdm_LC([((1, 2, 3), QQ(5))], QQ) == QQ(5)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_sdm_LC : Any → {Any | sdm_LC([((1, 2, 3), QQ(5))...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  sdm_LC([((1, 2, 3), QQ(5))], QQ) == QQ(5)      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_sdm_LC : Any → {Any | result satisfies: sdm_LC([...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 36824db98f7fce11  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c546263fa9672b98  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_distributedmodules.test_sdm_LC","kind":"function","src_hash":"8b55c341b2196b5d","in":{"base":"Any"},"out":{"base":"Any","pred":"sdm_LC([((1, 2, 3), QQ(5))], QQ) == QQ(5)"},"spec":{"lhs":"test_sdm_LC()","rhs":"test_sdm_LC produces the expected output","over":{"base":"Any"},"name":"test_sdm_LC_correct"},"guarantee":"test_sdm_LC produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_distributedmodules.test_sdm_LC_correct","statement":"Path(test_sdm_LC(x), test_sdm_LC produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"36824db98f7fce11"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_distributedmodules.test_sdm_LC","kind":"function","src_hash":"8b55c341b2196b5d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: sdm_LC([((1, 2, 3), QQ(5))], QQ) == QQ(5)"},"spec":{"lhs":"test_sdm_LC()","rhs":"sdm_LC([((1, 2, 3), QQ(5))], QQ) == QQ(5)","over":{"base":"Any"},"name":"test_sdm_LC_correct"},"guarantee":"sdm_LC([((1, 2, 3), QQ(5))], QQ) == QQ(5)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_distributedmodules.test_sdm_LC_correct","statement":"Path(test_sdm_LC(x), sdm_LC([((1, 2, 3), QQ(5))], QQ) == QQ(5))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c546263fa9672b98","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["sdm_LC([((1, 2, 3), QQ(5))], QQ) == QQ(5)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_sdm_LC():
     assert sdm_LC([((1, 2, 3), QQ(5))], QQ) == QQ(5)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_sdm_from_dict(), test_sdm_from_dict produces the expected output) over Any ║
+# ║ Path(test_sdm_from_dict(), sdm_from_dict(dic, grlex) == [((1, 2, 1, 1), QQ(1)), ((1, 1, 2, 1), QQ(1)), ((1, 0, 2, 1), QQ(1)), ((1, 0, 0, 3), QQ(1)), ((1, 1, 1, 0), QQ(1))]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_sdm_from_dict : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  sdm_from_dict(dic, grlex) == [((1, 2, 1, ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_sdm_from_dict : Any → {Any | result satisfies: s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8832572fdaae195c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ef2bc67de08fa92a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_distributedmodules.test_sdm_from_dict","kind":"function","src_hash":"b198ec1fc1ea2302","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_sdm_from_dict()","rhs":"test_sdm_from_dict produces the expected output","over":{"base":"Any"},"name":"test_sdm_from_dict_correct"},"guarantee":"test_sdm_from_dict produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_distributedmodules.test_sdm_from_dict_correct","statement":"Path(test_sdm_from_dict(x), test_sdm_from_dict produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8832572fdaae195c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_distributedmodules.test_sdm_from_dict","kind":"function","src_hash":"b198ec1fc1ea2302","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: sdm_from_dict(dic, grlex) == [((1, 2, 1, 1), QQ(1)), ((1, 1, 2, 1), QQ(1)), ((1, 0, 2, 1), QQ(1)), ((1, 0, 0, 3), QQ(1)), ((1, 1, 1, 0), QQ(1))]"},"spec":{"lhs":"test_sdm_from_dict()","rhs":"sdm_from_dict(dic, grlex) == [((1, 2, 1, 1), QQ(1)), ((1, 1, 2, 1), QQ(1)), ((1, 0, 2, 1), QQ(1)), ((1, 0, 0, 3), QQ(1)), ((1, 1, 1, 0), QQ(1))]","over":{"base":"Any"},"name":"test_sdm_from_dict_correct"},"guarantee":"sdm_from_dict(dic, grlex) == [((1, 2, 1, 1), QQ(1)), ((1, 1, 2, 1), QQ(1)), ((1, 0, 2, 1), QQ(1)), ((1, 0, 0, 3), QQ(1)), ((1, 1, 1, 0), QQ(1))]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_distributedmodules.test_sdm_from_dict_correct","statement":"Path(test_sdm_from_dict(x), sdm_from_dict(dic, grlex) == [((1, 2, 1, 1), QQ(1)), ((1, 1, 2, 1), QQ(1)), ((1, 0, 2, 1), QQ(1)), ((1, 0, 0, 3), QQ(1)), ((1, 1, 1, 0), QQ(1))])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ef2bc67de08fa92a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["sdm_from_dict(dic, grlex) == [((1, 2, 1, 1), QQ(1)), ((1, 1, 2, 1), QQ(1)), ((1, 0, 2, 1), QQ(1)), ((1, 0, 0, 3), QQ(1)), ((1, 1, 1, 0), QQ(1))]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_sdm_from_dict():
     dic = {(1, 2, 1, 1): QQ(1), (1, 1, 2, 1): QQ(1), (1, 0, 2, 1): QQ(1),
            (1, 0, 0, 3): QQ(1), (1, 1, 1, 0): QQ(1)}
@@ -134,16 +172,24 @@ def test_sdm_from_dict():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_sdm_add(), test_sdm_add produces the expected output) over Any ║
+# ║ Path(test_sdm_add(), sdm_add([((1, 1, 1), QQ(1))], [((2, 0, 0), QQ(1))], lex, QQ) == [((2, 0, 0), QQ(1)), ((1, 1, 1), QQ(1))] and sdm_add([((1, 1, 1), QQ(1))], [((1, 1, 1), QQ(-1))], lex, QQ) == [] and sdm_add([((1, 0, 0), QQ(1))], [((1, 0, 0), QQ(2))], lex, QQ) == [((1, 0, 0), QQ(3))] and sdm_add([((1, 0, 1), QQ(1))], [((1, 1, 0), QQ(1))], lex, QQ) == [((1, 1, 0), QQ(1)), ((1, 0, 1), QQ(1))]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_sdm_add : Any → {Any | sdm_add([((1, 1, 1), QQ(1...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  sdm_add([((1, 1, 1), QQ(1))], [((2, 0, 0)...   ║
+# ║   ensures:  sdm_add([((1, 1, 1), QQ(1))], [((1, 1, 1)...   ║
+# ║   ensures:  sdm_add([((1, 0, 0), QQ(1))], [((1, 0, 0)...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_sdm_add : Any → {Any | result satisfies: sdm_add...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e92eeaf13218e6a2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a9d3c48928305bbd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_distributedmodules.test_sdm_add","kind":"function","src_hash":"6bcfdc56982680d9","in":{"base":"Any"},"out":{"base":"Any","pred":"sdm_add([((1, 1, 1), QQ(1))], [((1, 1, 1), QQ(-1))], lex, QQ) == []"},"spec":{"lhs":"test_sdm_add()","rhs":"test_sdm_add produces the expected output","over":{"base":"Any"},"name":"test_sdm_add_correct"},"guarantee":"test_sdm_add produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_distributedmodules.test_sdm_add_correct","statement":"Path(test_sdm_add(x), test_sdm_add produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e92eeaf13218e6a2"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_distributedmodules.test_sdm_add","kind":"function","src_hash":"6bcfdc56982680d9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: sdm_add([((1, 1, 1), QQ(1))], [((2, 0, 0), QQ(1))], lex, QQ) == [((2, 0, 0), QQ(1)), ((1, 1, 1), QQ(1))] and sdm_add([((1, 1, 1), QQ(1))], [((1, 1, 1), QQ(-1))], lex, QQ) == [] and sdm_add([((1, 0, 0), QQ(1))], [((1, 0, 0), QQ(2))], lex, QQ) == [((1, 0, 0), QQ(3))] and sdm_add([((1, 0, 1), QQ(1))], [((1, 1, 0), QQ(1))], lex, QQ) == [((1, 1, 0), QQ(1)), ((1, 0, 1), QQ(1))]"},"spec":{"lhs":"test_sdm_add()","rhs":"sdm_add([((1, 1, 1), QQ(1))], [((2, 0, 0), QQ(1))], lex, QQ) == [((2, 0, 0), QQ(1)), ((1, 1, 1), QQ(1))] and sdm_add([((1, 1, 1), QQ(1))], [((1, 1, 1), QQ(-1))], lex, QQ) == [] and sdm_add([((1, 0, 0), QQ(1))], [((1, 0, 0), QQ(2))], lex, QQ) == [((1, 0, 0), QQ(3))] and sdm_add([((1, 0, 1), QQ(1))], [((1, 1, 0), QQ(1))], lex, QQ) == [((1, 1, 0), QQ(1)), ((1, 0, 1), QQ(1))]","over":{"base":"Any"},"name":"test_sdm_add_correct"},"guarantee":"sdm_add([((1, 1, 1), QQ(1))], [((2, 0, 0), QQ(1))], lex, QQ) == [((2, 0, 0), QQ(1)), ((1, 1, 1), QQ(1))]; sdm_add([((1, 1, 1), QQ(1))], [((1, 1, 1), QQ(-1))], lex, QQ) == []; sdm_add([((1, 0, 0), QQ(1))], [((1, 0, 0), QQ(2))], lex, QQ) == [((1, 0, 0), QQ(3))]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_distributedmodules.test_sdm_add_correct","statement":"Path(test_sdm_add(x), sdm_add([((1, 1, 1), QQ(1))], [((2, 0, 0), QQ(1))], lex, QQ) == [((2, 0, 0), QQ(1)), ((1, 1, 1), QQ(1))]; sdm_add([((1, 1, 1), QQ(1))], [((1, 1, 1), QQ(-1))], lex, QQ) == []; sdm_add([((1, 0, 0), QQ(1))], [((1, 0, 0), QQ(2))], lex, QQ) == [((1, 0, 0), QQ(3))])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a9d3c48928305bbd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["sdm_add([((1, 1, 1), QQ(1))], [((2, 0, 0), QQ(1))], lex, QQ) == [((2, 0, 0), QQ(1)), ((1, 1, 1), QQ(1))]","sdm_add([((1, 1, 1), QQ(1))], [((1, 1, 1), QQ(-1))], lex, QQ) == []","sdm_add([((1, 0, 0), QQ(1))], [((1, 0, 0), QQ(2))], lex, QQ) == [((1, 0, 0), QQ(3))]","sdm_add([((1, 0, 1), QQ(1))], [((1, 1, 0), QQ(1))], lex, QQ) == [((1, 1, 0), QQ(1)), ((1, 0, 1), QQ(1))]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_sdm_add():
     assert sdm_add([((1, 1, 1), QQ(1))], [((2, 0, 0), QQ(1))], lex, QQ) == \
         [((2, 0, 0), QQ(1)), ((1, 1, 1), QQ(1))]
@@ -155,48 +201,68 @@ def test_sdm_add():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_sdm_LM(), test_sdm_LM produces the expected output) over Any ║
+# ║ Path(test_sdm_LM(), sdm_LM(sdm_from_dict(dic, lex)) == (4, 0, 1)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_sdm_LM : Any → {Any | sdm_LM(sdm_from_dict(dic, ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  sdm_LM(sdm_from_dict(dic, lex)) == (4, 0, 1)   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_sdm_LM : Any → {Any | result satisfies: sdm_LM(s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 33e533e431918664  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0e0b802b6b1998a4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_distributedmodules.test_sdm_LM","kind":"function","src_hash":"2fa2dd02c5102ec5","in":{"base":"Any"},"out":{"base":"Any","pred":"sdm_LM(sdm_from_dict(dic, lex)) == (4, 0, 1)"},"spec":{"lhs":"test_sdm_LM()","rhs":"test_sdm_LM produces the expected output","over":{"base":"Any"},"name":"test_sdm_LM_correct"},"guarantee":"test_sdm_LM produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_distributedmodules.test_sdm_LM_correct","statement":"Path(test_sdm_LM(x), test_sdm_LM produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"33e533e431918664"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_distributedmodules.test_sdm_LM","kind":"function","src_hash":"2fa2dd02c5102ec5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: sdm_LM(sdm_from_dict(dic, lex)) == (4, 0, 1)"},"spec":{"lhs":"test_sdm_LM()","rhs":"sdm_LM(sdm_from_dict(dic, lex)) == (4, 0, 1)","over":{"base":"Any"},"name":"test_sdm_LM_correct"},"guarantee":"sdm_LM(sdm_from_dict(dic, lex)) == (4, 0, 1)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_distributedmodules.test_sdm_LM_correct","statement":"Path(test_sdm_LM(x), sdm_LM(sdm_from_dict(dic, lex)) == (4, 0, 1))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0e0b802b6b1998a4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["sdm_LM(sdm_from_dict(dic, lex)) == (4, 0, 1)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_sdm_LM():
     dic = {(1, 2, 3): QQ(1), (4, 0, 0): QQ(1), (4, 0, 1): QQ(1)}
     assert sdm_LM(sdm_from_dict(dic, lex)) == (4, 0, 1)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_sdm_LT(), test_sdm_LT produces the expected output) over Any ║
+# ║ Path(test_sdm_LT(), sdm_LT(sdm_from_dict(dic, lex)) == ((4, 0, 1), QQ(3))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_sdm_LT : Any → {Any | sdm_LT(sdm_from_dict(dic, ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  sdm_LT(sdm_from_dict(dic, lex)) == ((4, 0...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_sdm_LT : Any → {Any | result satisfies: sdm_LT(s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8d0d4054ff7dc3c0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 338db46d5d43bb66  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_distributedmodules.test_sdm_LT","kind":"function","src_hash":"6515889ef48c65e7","in":{"base":"Any"},"out":{"base":"Any","pred":"sdm_LT(sdm_from_dict(dic, lex)) == ((4, 0, 1), QQ(3))"},"spec":{"lhs":"test_sdm_LT()","rhs":"test_sdm_LT produces the expected output","over":{"base":"Any"},"name":"test_sdm_LT_correct"},"guarantee":"test_sdm_LT produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_distributedmodules.test_sdm_LT_correct","statement":"Path(test_sdm_LT(x), test_sdm_LT produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8d0d4054ff7dc3c0"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_distributedmodules.test_sdm_LT","kind":"function","src_hash":"6515889ef48c65e7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: sdm_LT(sdm_from_dict(dic, lex)) == ((4, 0, 1), QQ(3))"},"spec":{"lhs":"test_sdm_LT()","rhs":"sdm_LT(sdm_from_dict(dic, lex)) == ((4, 0, 1), QQ(3))","over":{"base":"Any"},"name":"test_sdm_LT_correct"},"guarantee":"sdm_LT(sdm_from_dict(dic, lex)) == ((4, 0, 1), QQ(3))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_distributedmodules.test_sdm_LT_correct","statement":"Path(test_sdm_LT(x), sdm_LT(sdm_from_dict(dic, lex)) == ((4, 0, 1), QQ(3)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"338db46d5d43bb66","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["sdm_LT(sdm_from_dict(dic, lex)) == ((4, 0, 1), QQ(3))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_sdm_LT():
     dic = {(1, 2, 3): QQ(1), (4, 0, 0): QQ(2), (4, 0, 1): QQ(3)}
     assert sdm_LT(sdm_from_dict(dic, lex)) == ((4, 0, 1), QQ(3))
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_sdm_mul_term(), test_sdm_mul_term produces the expected output) over Any ║
+# ║ Path(test_sdm_mul_term(), sdm_mul_term([((1, 0, 0), QQ(1))], ((0, 0), QQ(0)), lex, QQ) == [] and sdm_mul_term([], ((1, 0), QQ(1)), lex, QQ) == [] and sdm_mul_term([((1, 0, 0), QQ(1))], ((1, 0), QQ(1)), lex, QQ) == [((1, 1, 0), QQ(1))] and sdm_mul_term(f, ((1, 1), QQ(2)), lex, QQ) == [((2, 1, 2), QQ(8)), ((1, 2, 1), QQ(6))]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_sdm_mul_term : Any → {Any | sdm_mul_term([((1, 0...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  sdm_mul_term([((1, 0, 0), QQ(1))], ((0, 0...   ║
+# ║   ensures:  sdm_mul_term([], ((1, 0), QQ(1)), lex, QQ...   ║
+# ║   ensures:  sdm_mul_term([((1, 0, 0), QQ(1))], ((1, 0...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_sdm_mul_term : Any → {Any | result satisfies: sd...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9a790d057b18b5c3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 17eaba36b39bb2c8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_distributedmodules.test_sdm_mul_term","kind":"function","src_hash":"d1cd2c21e2f94a69","in":{"base":"Any"},"out":{"base":"Any","pred":"sdm_mul_term([((1, 0, 0), QQ(1))], ((0, 0), QQ(0)), lex, QQ) == [] and sdm_mul_term([], ((1, 0), QQ(1)), lex, QQ) == []"},"spec":{"lhs":"test_sdm_mul_term()","rhs":"test_sdm_mul_term produces the expected output","over":{"base":"Any"},"name":"test_sdm_mul_term_correct"},"guarantee":"test_sdm_mul_term produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_distributedmodules.test_sdm_mul_term_correct","statement":"Path(test_sdm_mul_term(x), test_sdm_mul_term produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9a790d057b18b5c3"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_distributedmodules.test_sdm_mul_term","kind":"function","src_hash":"d1cd2c21e2f94a69","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: sdm_mul_term([((1, 0, 0), QQ(1))], ((0, 0), QQ(0)), lex, QQ) == [] and sdm_mul_term([], ((1, 0), QQ(1)), lex, QQ) == [] and sdm_mul_term([((1, 0, 0), QQ(1))], ((1, 0), QQ(1)), lex, QQ) == [((1, 1, 0), QQ(1))] and sdm_mul_term(f, ((1, 1), QQ(2)), lex, QQ) == [((2, 1, 2), QQ(8)), ((1, 2, 1), QQ(6))]"},"spec":{"lhs":"test_sdm_mul_term()","rhs":"sdm_mul_term([((1, 0, 0), QQ(1))], ((0, 0), QQ(0)), lex, QQ) == [] and sdm_mul_term([], ((1, 0), QQ(1)), lex, QQ) == [] and sdm_mul_term([((1, 0, 0), QQ(1))], ((1, 0), QQ(1)), lex, QQ) == [((1, 1, 0), QQ(1))] and sdm_mul_term(f, ((1, 1), QQ(2)), lex, QQ) == [((2, 1, 2), QQ(8)), ((1, 2, 1), QQ(6))]","over":{"base":"Any"},"name":"test_sdm_mul_term_correct"},"guarantee":"sdm_mul_term([((1, 0, 0), QQ(1))], ((0, 0), QQ(0)), lex, QQ) == []; sdm_mul_term([], ((1, 0), QQ(1)), lex, QQ) == []; sdm_mul_term([((1, 0, 0), QQ(1))], ((1, 0), QQ(1)), lex, QQ) == [((1, 1, 0), QQ(1))]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_distributedmodules.test_sdm_mul_term_correct","statement":"Path(test_sdm_mul_term(x), sdm_mul_term([((1, 0, 0), QQ(1))], ((0, 0), QQ(0)), lex, QQ) == []; sdm_mul_term([], ((1, 0), QQ(1)), lex, QQ) == []; sdm_mul_term([((1, 0, 0), QQ(1))], ((1, 0), QQ(1)), lex, QQ) == [((1, 1, 0), QQ(1))])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"17eaba36b39bb2c8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["sdm_mul_term([((1, 0, 0), QQ(1))], ((0, 0), QQ(0)), lex, QQ) == []","sdm_mul_term([], ((1, 0), QQ(1)), lex, QQ) == []","sdm_mul_term([((1, 0, 0), QQ(1))], ((1, 0), QQ(1)), lex, QQ) == [((1, 1, 0), QQ(1))]","sdm_mul_term(f, ((1, 1), QQ(2)), lex, QQ) == [((2, 1, 2), QQ(8)), ((1, 2, 1), QQ(6))]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_sdm_mul_term():
     assert sdm_mul_term([((1, 0, 0), QQ(1))], ((0, 0), QQ(0)), lex, QQ) == []
     assert sdm_mul_term([], ((1, 0), QQ(1)), lex, QQ) == []
@@ -208,46 +274,65 @@ def test_sdm_mul_term():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_sdm_zero(), test_sdm_zero produces the expected output) over Any ║
+# ║ Path(test_sdm_zero(), sdm_zero() == []) over Any           ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_sdm_zero : Any → {Any | sdm_zero() == []}             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  sdm_zero() == []                               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_sdm_zero : Any → {Any | result satisfies: sdm_ze...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c61fc352beab0b1f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 22ff061f19ceb18c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_distributedmodules.test_sdm_zero","kind":"function","src_hash":"540b3b8633e3bc65","in":{"base":"Any"},"out":{"base":"Any","pred":"sdm_zero() == []"},"spec":{"lhs":"test_sdm_zero()","rhs":"test_sdm_zero produces the expected output","over":{"base":"Any"},"name":"test_sdm_zero_correct"},"guarantee":"test_sdm_zero produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_distributedmodules.test_sdm_zero_correct","statement":"Path(test_sdm_zero(x), test_sdm_zero produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c61fc352beab0b1f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_distributedmodules.test_sdm_zero","kind":"function","src_hash":"540b3b8633e3bc65","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: sdm_zero() == []"},"spec":{"lhs":"test_sdm_zero()","rhs":"sdm_zero() == []","over":{"base":"Any"},"name":"test_sdm_zero_correct"},"guarantee":"sdm_zero() == []","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_distributedmodules.test_sdm_zero_correct","statement":"Path(test_sdm_zero(x), sdm_zero() == [])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"22ff061f19ceb18c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["sdm_zero() == []"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_sdm_zero():
     assert sdm_zero() == []
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_sdm_deg(), test_sdm_deg produces the expected output) over Any ║
+# ║ Path(test_sdm_deg(), sdm_deg([((1, 2, 3), 1), ((10, 0, 1), 1), ((2, 3, 4), 4)]) == 7) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_sdm_deg : Any → {Any | sdm_deg([((1, 2, 3), 1), ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  sdm_deg([((1, 2, 3), 1), ((10, 0, 1), 1),...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_sdm_deg : Any → {Any | result satisfies: sdm_deg...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 62eee1f45416dd4a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f4c9027dd63811e4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_distributedmodules.test_sdm_deg","kind":"function","src_hash":"ab54b47e9d21a18a","in":{"base":"Any"},"out":{"base":"Any","pred":"sdm_deg([((1, 2, 3), 1), ((10, 0, 1), 1), ((2, 3, 4), 4)]) == 7"},"spec":{"lhs":"test_sdm_deg()","rhs":"test_sdm_deg produces the expected output","over":{"base":"Any"},"name":"test_sdm_deg_correct"},"guarantee":"test_sdm_deg produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_distributedmodules.test_sdm_deg_correct","statement":"Path(test_sdm_deg(x), test_sdm_deg produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"62eee1f45416dd4a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_distributedmodules.test_sdm_deg","kind":"function","src_hash":"ab54b47e9d21a18a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: sdm_deg([((1, 2, 3), 1), ((10, 0, 1), 1), ((2, 3, 4), 4)]) == 7"},"spec":{"lhs":"test_sdm_deg()","rhs":"sdm_deg([((1, 2, 3), 1), ((10, 0, 1), 1), ((2, 3, 4), 4)]) == 7","over":{"base":"Any"},"name":"test_sdm_deg_correct"},"guarantee":"sdm_deg([((1, 2, 3), 1), ((10, 0, 1), 1), ((2, 3, 4), 4)]) == 7","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_distributedmodules.test_sdm_deg_correct","statement":"Path(test_sdm_deg(x), sdm_deg([((1, 2, 3), 1), ((10, 0, 1), 1), ((2, 3, 4), 4)]) == 7)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f4c9027dd63811e4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["sdm_deg([((1, 2, 3), 1), ((10, 0, 1), 1), ((2, 3, 4), 4)]) == 7"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_sdm_deg():
     assert sdm_deg([((1, 2, 3), 1), ((10, 0, 1), 1), ((2, 3, 4), 4)]) == 7
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_sdm_spoly(), test_sdm_spoly produces the expected output) over Any ║
+# ║ Path(test_sdm_spoly(), sdm_spoly(f, h, lex, QQ) == [] and sdm_spoly(f, g, lex, QQ) == [((1, 2, 1), QQ(1))]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_sdm_spoly : Any → {Any | sdm_spoly(f, h, lex, QQ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  sdm_spoly(f, h, lex, QQ) == []                 ║
+# ║   ensures:  sdm_spoly(f, g, lex, QQ) == [((1, 2, 1), ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_sdm_spoly : Any → {Any | result satisfies: sdm_s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1938cb8267189894  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | df11224f6c69be7b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_distributedmodules.test_sdm_spoly","kind":"function","src_hash":"40aa09343b859be6","in":{"base":"Any"},"out":{"base":"Any","pred":"sdm_spoly(f, h, lex, QQ) == [] and sdm_spoly(f, g, lex, QQ) == [((1, 2, 1), QQ(1))]"},"spec":{"lhs":"test_sdm_spoly()","rhs":"test_sdm_spoly produces the expected output","over":{"base":"Any"},"name":"test_sdm_spoly_correct"},"guarantee":"test_sdm_spoly produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_distributedmodules.test_sdm_spoly_correct","statement":"Path(test_sdm_spoly(x), test_sdm_spoly produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1938cb8267189894"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_distributedmodules.test_sdm_spoly","kind":"function","src_hash":"40aa09343b859be6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: sdm_spoly(f, h, lex, QQ) == [] and sdm_spoly(f, g, lex, QQ) == [((1, 2, 1), QQ(1))]"},"spec":{"lhs":"test_sdm_spoly()","rhs":"sdm_spoly(f, h, lex, QQ) == [] and sdm_spoly(f, g, lex, QQ) == [((1, 2, 1), QQ(1))]","over":{"base":"Any"},"name":"test_sdm_spoly_correct"},"guarantee":"sdm_spoly(f, h, lex, QQ) == []; sdm_spoly(f, g, lex, QQ) == [((1, 2, 1), QQ(1))]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_distributedmodules.test_sdm_spoly_correct","statement":"Path(test_sdm_spoly(x), sdm_spoly(f, h, lex, QQ) == []; sdm_spoly(f, g, lex, QQ) == [((1, 2, 1), QQ(1))])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"df11224f6c69be7b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["sdm_spoly(f, h, lex, QQ) == []","sdm_spoly(f, g, lex, QQ) == [((1, 2, 1), QQ(1))]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_sdm_spoly():
     f = [((2, 1, 1), QQ(1)), ((1, 0, 1), QQ(1))]
     g = [((2, 3, 0), QQ(1))]
@@ -257,32 +342,47 @@ def test_sdm_spoly():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_sdm_ecart(), test_sdm_ecart produces the expected output) over Any ║
+# ║ Path(test_sdm_ecart(), sdm_ecart([((1, 2, 3), 1), ((1, 0, 1), 1)]) == 0 and sdm_ecart([((2, 2, 1), 1), ((1, 5, 1), 1)]) == 3) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_sdm_ecart : Any → {Any | sdm_ecart([((1, 2, 3), ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  sdm_ecart([((1, 2, 3), 1), ((1, 0, 1), 1)...   ║
+# ║   ensures:  sdm_ecart([((2, 2, 1), 1), ((1, 5, 1), 1)...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_sdm_ecart : Any → {Any | result satisfies: sdm_e...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5c91ae2457178081  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1771f9b59828ab48  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_distributedmodules.test_sdm_ecart","kind":"function","src_hash":"e873fd5dc7691401","in":{"base":"Any"},"out":{"base":"Any","pred":"sdm_ecart([((1, 2, 3), 1), ((1, 0, 1), 1)]) == 0 and sdm_ecart([((2, 2, 1), 1), ((1, 5, 1), 1)]) == 3"},"spec":{"lhs":"test_sdm_ecart()","rhs":"test_sdm_ecart produces the expected output","over":{"base":"Any"},"name":"test_sdm_ecart_correct"},"guarantee":"test_sdm_ecart produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_distributedmodules.test_sdm_ecart_correct","statement":"Path(test_sdm_ecart(x), test_sdm_ecart produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5c91ae2457178081"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_distributedmodules.test_sdm_ecart","kind":"function","src_hash":"e873fd5dc7691401","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: sdm_ecart([((1, 2, 3), 1), ((1, 0, 1), 1)]) == 0 and sdm_ecart([((2, 2, 1), 1), ((1, 5, 1), 1)]) == 3"},"spec":{"lhs":"test_sdm_ecart()","rhs":"sdm_ecart([((1, 2, 3), 1), ((1, 0, 1), 1)]) == 0 and sdm_ecart([((2, 2, 1), 1), ((1, 5, 1), 1)]) == 3","over":{"base":"Any"},"name":"test_sdm_ecart_correct"},"guarantee":"sdm_ecart([((1, 2, 3), 1), ((1, 0, 1), 1)]) == 0; sdm_ecart([((2, 2, 1), 1), ((1, 5, 1), 1)]) == 3","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_distributedmodules.test_sdm_ecart_correct","statement":"Path(test_sdm_ecart(x), sdm_ecart([((1, 2, 3), 1), ((1, 0, 1), 1)]) == 0; sdm_ecart([((2, 2, 1), 1), ((1, 5, 1), 1)]) == 3)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1771f9b59828ab48","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["sdm_ecart([((1, 2, 3), 1), ((1, 0, 1), 1)]) == 0","sdm_ecart([((2, 2, 1), 1), ((1, 5, 1), 1)]) == 3"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_sdm_ecart():
     assert sdm_ecart([((1, 2, 3), 1), ((1, 0, 1), 1)]) == 0
     assert sdm_ecart([((2, 2, 1), 1), ((1, 5, 1), 1)]) == 3
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_sdm_nf_mora(), test_sdm_nf_mora produces the expected output) over Any ║
+# ║ Path(test_sdm_nf_mora(), sdm_nf_mora(f, [f1, f2], grlex, QQ, phantom=(id0, [id1, id2])) == ([((1, 0, 2, 1), QQ(1)), ((1, 0, 0, 3), QQ(1)), ((1, 1, 1, 0), QQ(1)), ((1, 1, 0, 1), QQ(1))], [((1, 1, 0, 1), QQ(-1)), ((0, 0, 0, 0), QQ(1))]) and sdm_nf_mora(f, [f2, f1], grlex, QQ, phantom=(id0, [id2, id1])) == ([((1, 0, 2, 1), QQ(1)), ((1, 0, 0, 3), QQ(1)), ((1, 1, 1, 0), QQ(1))], [((2, 1, 0, 1), QQ(-1)), ((2, 0, 1, 1), QQ(-1)), ((0, 0, 0, 0), QQ(1))]) and sdm_nf_mora(f, [f1, f2], lex, QQ) == sdm_nf_mora(f, [f2, f1], lex, QQ) == [((1, 0, 1, 1), QQ(1)), ((1, 0, 0, 1), QQ(-1)), ((0, 1, 1, 0), QQ(-1)), ((0, 1, 0, 1), QQ(1))]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_sdm_nf_mora : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  sdm_nf_mora(f, [f1, f2], grlex, QQ, phant...   ║
+# ║   ensures:  sdm_nf_mora(f, [f2, f1], grlex, QQ, phant...   ║
+# ║   ensures:  sdm_nf_mora(f, [f1, f2], lex, QQ) == sdm_...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_sdm_nf_mora : Any → {Any | result satisfies: sdm...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4246c61e9a3446c8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 81e001e51c91e4a3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_distributedmodules.test_sdm_nf_mora","kind":"function","src_hash":"8c11f7c28a75838c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_sdm_nf_mora()","rhs":"test_sdm_nf_mora produces the expected output","over":{"base":"Any"},"name":"test_sdm_nf_mora_correct"},"guarantee":"test_sdm_nf_mora produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_distributedmodules.test_sdm_nf_mora_correct","statement":"Path(test_sdm_nf_mora(x), test_sdm_nf_mora produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4246c61e9a3446c8"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_distributedmodules.test_sdm_nf_mora","kind":"function","src_hash":"8c11f7c28a75838c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: sdm_nf_mora(f, [f1, f2], grlex, QQ, phantom=(id0, [id1, id2])) == ([((1, 0, 2, 1), QQ(1)), ((1, 0, 0, 3), QQ(1)), ((1, 1, 1, 0), QQ(1)), ((1, 1, 0, 1), QQ(1))], [((1, 1, 0, 1), QQ(-1)), ((0, 0, 0, 0), QQ(1))]) and sdm_nf_mora(f, [f2, f1], grlex, QQ, phantom=(id0, [id2, id1])) == ([((1, 0, 2, 1), QQ(1)), ((1, 0, 0, 3), QQ(1)), ((1, 1, 1, 0), QQ(1))], [((2, 1, 0, 1), QQ(-1)), ((2, 0, 1, 1), QQ(-1)), ((0, 0, 0, 0), QQ(1))]) and sdm_nf_mora(f, [f1, f2], lex, QQ) == sdm_nf_mora(f, [f2, f1], lex, QQ) == [((1, 0, 1, 1), QQ(1)), ((1, 0, 0, 1), QQ(-1)), ((0, 1, 1, 0), QQ(-1)), ((0, 1, 0, 1), QQ(1))]"},"spec":{"lhs":"test_sdm_nf_mora()","rhs":"sdm_nf_mora(f, [f1, f2], grlex, QQ, phantom=(id0, [id1, id2])) == ([((1, 0, 2, 1), QQ(1)), ((1, 0, 0, 3), QQ(1)), ((1, 1, 1, 0), QQ(1)), ((1, 1, 0, 1), QQ(1))], [((1, 1, 0, 1), QQ(-1)), ((0, 0, 0, 0), QQ(1))]) and sdm_nf_mora(f, [f2, f1], grlex, QQ, phantom=(id0, [id2, id1])) == ([((1, 0, 2, 1), QQ(1)), ((1, 0, 0, 3), QQ(1)), ((1, 1, 1, 0), QQ(1))], [((2, 1, 0, 1), QQ(-1)), ((2, 0, 1, 1), QQ(-1)), ((0, 0, 0, 0), QQ(1))]) and sdm_nf_mora(f, [f1, f2], lex, QQ) == sdm_nf_mora(f, [f2, f1], lex, QQ) == [((1, 0, 1, 1), QQ(1)), ((1, 0, 0, 1), QQ(-1)), ((0, 1, 1, 0), QQ(-1)), ((0, 1, 0, 1), QQ(1))]","over":{"base":"Any"},"name":"test_sdm_nf_mora_correct"},"guarantee":"sdm_nf_mora(f, [f1, f2], grlex, QQ, phantom=(id0, [id1, id2])) == ([((1, 0, 2, 1), QQ(1)), ((1, 0, 0, 3), QQ(1)), ((1, 1, 1, 0), QQ(1)), ((1, 1, 0, 1), QQ(1))], [((1, 1, 0, 1), QQ(-1)), ((0, 0, 0, 0), QQ(1))]); sdm_nf_mora(f, [f2, f1], grlex, QQ, phantom=(id0, [id2, id1])) == ([((1, 0, 2, 1), QQ(1)), ((1, 0, 0, 3), QQ(1)), ((1, 1, 1, 0), QQ(1))], [((2, 1, 0, 1), QQ(-1)), ((2, 0, 1, 1), QQ(-1)), ((0, 0, 0, 0), QQ(1))]); sdm_nf_mora(f, [f1, f2], lex, QQ) == sdm_nf_mora(f, [f2, f1], lex, QQ) == [((1, 0, 1, 1), QQ(1)), ((1, 0, 0, 1), QQ(-1)), ((0, 1, 1, 0), QQ(-1)), ((0, 1, 0, 1), QQ(1))]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_distributedmodules.test_sdm_nf_mora_correct","statement":"Path(test_sdm_nf_mora(x), sdm_nf_mora(f, [f1, f2], grlex, QQ, phantom=(id0, [id1, id2])) == ([((1, 0, 2, 1), QQ(1)), ((1, 0, 0, 3), QQ(1)), ((1, 1, 1, 0), QQ(1)), ((1, 1, 0, 1), QQ(1))], [((1, 1, 0, 1), QQ(-1)), ((0, 0, 0, 0), QQ(1))]); sdm_nf_mora(f, [f2, f1], grlex, QQ, phantom=(id0, [id2, id1])) == ([((1, 0, 2, 1), QQ(1)), ((1, 0, 0, 3), QQ(1)), ((1, 1, 1, 0), QQ(1))], [((2, 1, 0, 1), QQ(-1)), ((2, 0, 1, 1), QQ(-1)), ((0, 0, 0, 0), QQ(1))]); sdm_nf_mora(f, [f1, f2], lex, QQ) == sdm_nf_mora(f, [f2, f1], lex, QQ) == [((1, 0, 1, 1), QQ(1)), ((1, 0, 0, 1), QQ(-1)), ((0, 1, 1, 0), QQ(-1)), ((0, 1, 0, 1), QQ(1))])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"81e001e51c91e4a3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["sdm_nf_mora(f, [f1, f2], grlex, QQ, phantom=(id0, [id1, id2])) == ([((1, 0, 2, 1), QQ(1)), ((1, 0, 0, 3), QQ(1)), ((1, 1, 1, 0), QQ(1)), ((1, 1, 0, 1), QQ(1))], [((1, 1, 0, 1), QQ(-1)), ((0, 0, 0, 0), QQ(1))])","sdm_nf_mora(f, [f2, f1], grlex, QQ, phantom=(id0, [id2, id1])) == ([((1, 0, 2, 1), QQ(1)), ((1, 0, 0, 3), QQ(1)), ((1, 1, 1, 0), QQ(1))], [((2, 1, 0, 1), QQ(-1)), ((2, 0, 1, 1), QQ(-1)), ((0, 0, 0, 0), QQ(1))])","sdm_nf_mora(f, [f1, f2], lex, QQ) == sdm_nf_mora(f, [f2, f1], lex, QQ) == [((1, 0, 1, 1), QQ(1)), ((1, 0, 0, 1), QQ(-1)), ((0, 1, 1, 0), QQ(-1)), ((0, 1, 0, 1), QQ(1))]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":true}}
 def test_sdm_nf_mora():
     f = sdm_from_dict({(1, 2, 1, 1): QQ(1), (1, 1, 2, 1): QQ(1),
                 (1, 0, 2, 1): QQ(1), (1, 0, 0, 3): QQ(1), (1, 1, 1, 0): QQ(1)},
@@ -311,16 +411,24 @@ def test_sdm_nf_mora():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_conversion(), test_conversion produces the expected output) over Any ║
+# ║ Path(test_conversion(), sdm_to_vector(g, [x, y, z], QQ) == f and sdm_from_vector(f, lex, QQ) == g and sdm_from_vector([x, 1], lex, QQ) == [((1, 0), QQ(1)), ((0, 1), QQ(1))] and sdm_to_vector([((1, 1, 0, 0), 1)], [x, y, z], QQ, n=3) == [0, x, 0] and sdm_from_vector([0, 0], lex, QQ, gens=[x, y]) == sdm_zero()) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_conversion : Any → {Any | sdm_to_vector(g, [x, y...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  sdm_to_vector(g, [x, y, z], QQ) == f           ║
+# ║   ensures:  sdm_from_vector(f, lex, QQ) == g               ║
+# ║   ensures:  sdm_from_vector([x, 1], lex, QQ) == [((1,...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_conversion : Any → {Any | result satisfies: sdm_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b2857d4dc9259f31  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4c80356a9955640b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_distributedmodules.test_conversion","kind":"function","src_hash":"ffa658831a552179","in":{"base":"Any"},"out":{"base":"Any","pred":"sdm_to_vector(g, [x, y, z], QQ) == f and sdm_from_vector(f, lex, QQ) == g and sdm_from_vector([x, 1], lex, QQ) == [((1, 0), QQ(1)), ((0, 1), QQ(1))] and sdm_to_vector([((1, 1, 0, 0), 1)], [x, y, z], QQ, n=3) == [0, x, 0] and sdm_from_vector([0, 0], lex, QQ, gens=[x, y]) == sdm_zero()"},"spec":{"lhs":"test_conversion()","rhs":"test_conversion produces the expected output","over":{"base":"Any"},"name":"test_conversion_correct"},"guarantee":"test_conversion produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_distributedmodules.test_conversion_correct","statement":"Path(test_conversion(x), test_conversion produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b2857d4dc9259f31"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_distributedmodules.test_conversion","kind":"function","src_hash":"ffa658831a552179","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: sdm_to_vector(g, [x, y, z], QQ) == f and sdm_from_vector(f, lex, QQ) == g and sdm_from_vector([x, 1], lex, QQ) == [((1, 0), QQ(1)), ((0, 1), QQ(1))] and sdm_to_vector([((1, 1, 0, 0), 1)], [x, y, z], QQ, n=3) == [0, x, 0] and sdm_from_vector([0, 0], lex, QQ, gens=[x, y]) == sdm_zero()"},"spec":{"lhs":"test_conversion()","rhs":"sdm_to_vector(g, [x, y, z], QQ) == f and sdm_from_vector(f, lex, QQ) == g and sdm_from_vector([x, 1], lex, QQ) == [((1, 0), QQ(1)), ((0, 1), QQ(1))] and sdm_to_vector([((1, 1, 0, 0), 1)], [x, y, z], QQ, n=3) == [0, x, 0] and sdm_from_vector([0, 0], lex, QQ, gens=[x, y]) == sdm_zero()","over":{"base":"Any"},"name":"test_conversion_correct"},"guarantee":"sdm_to_vector(g, [x, y, z], QQ) == f; sdm_from_vector(f, lex, QQ) == g; sdm_from_vector([x, 1], lex, QQ) == [((1, 0), QQ(1)), ((0, 1), QQ(1))]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_distributedmodules.test_conversion_correct","statement":"Path(test_conversion(x), sdm_to_vector(g, [x, y, z], QQ) == f; sdm_from_vector(f, lex, QQ) == g; sdm_from_vector([x, 1], lex, QQ) == [((1, 0), QQ(1)), ((0, 1), QQ(1))])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4c80356a9955640b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["sdm_to_vector(g, [x, y, z], QQ) == f","sdm_from_vector(f, lex, QQ) == g","sdm_from_vector([x, 1], lex, QQ) == [((1, 0), QQ(1)), ((0, 1), QQ(1))]","sdm_to_vector([((1, 1, 0, 0), 1)], [x, y, z], QQ, n=3) == [0, x, 0]","sdm_from_vector([0, 0], lex, QQ, gens=[x, y]) == sdm_zero()"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_conversion():
     f = [x**2 + y**2, 2*z]
     g = [((1, 0, 0, 1), QQ(2)), ((0, 2, 0, 0), QQ(1)), ((0, 0, 2, 0), QQ(1))]
@@ -335,14 +443,23 @@ def test_conversion():
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(test_nontrivial(), id) over Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_nontrivial : Any → {Any | contains([x, y], x) an...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  contains([x, y], x)                            ║
+# ║   ensures:  contains([x, y], x + y)                        ║
+# ║   ensures:  not contains([x, y], 1)                        ║
+# ║   returns:  sdm_nf_mora(sdm_from_vector([f], lex, QQ,...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_nontrivial : Any → {Any | result satisfies: resu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 1a39b41cae81d988   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_distributedmodules.test_nontrivial","kind":"function","src_hash":"f66c4b40204e8624","in":{"base":"Any"},"out":{"base":"Any","pred":"contains([x, y], x) and contains([x, y], x + y) and not contains([x, y], 1) and not contains([x, y], z) and contains([x ** 2 + y, x ** 2 + x], x - y) and not contains([x + y + z, x * y + x * z + y * z, x * y * z], x ** 2) and contains([x + y + z, x * y + x * z + y * z, x * y * z], x ** 3) and contains([x + y + z, x * y + x * z + y * z, x * y * z], x ** 4) and not contains([x + y + z, x * y + x * z + y * z, x * y * z], x * y ** 2) and contains([x + y + z, x * y + x * z + y * z, x * y * z], x * y * z) and contains([x, 1 + x + y, 5 - 7 * y], 1) and not contains([x * (1 + x + y), y * (1 + z)], x) and not contains([x * (1 + x + y), y * (1 + z)], x + y)"},"spec":{"lhs":"test_nontrivial()","rhs":"test_nontrivial produces the expected output","over":{"base":"Any"},"name":"test_nontrivial_correct","kind":"composition"},"guarantee":"test_nontrivial produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sdm_nf_mora","by":"library_axiom"},{"fn":"sdm_from_vector","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1a39b41cae81d988"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_distributedmodules.test_nontrivial","kind":"function","src_hash":"f66c4b40204e8624","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (sdm_nf_mora(sdm_from_vector([f], lex, QQ, gens=gens), G, lex, QQ) == sdm_zero())"},"spec":{"lhs":"test_nontrivial()","rhs":"sdm_nf_mora(sdm_from_vector([f], lex, QQ, gens=gens), G, lex, QQ) == sdm_zero()","over":{"base":"Any"},"name":"test_nontrivial_correct","kind":"composition"},"guarantee":"returns sdm_nf_mora(sdm_from_vector([f], lex, QQ, gens=gens), G, lex, QQ) == sdm_zero(); contains([x, y], x); contains([x, y], x + y); not contains([x, y], 1)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sdm_nf_mora","by":"library_axiom"},{"fn":"sdm_from_vector","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1a39b41cae81d988","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["contains([x, y], x)","contains([x, y], x + y)","not contains([x, y], 1)","not contains([x, y], z)","contains([x ** 2 + y, x ** 2 + x], x - y)","not contains([x + y + z, x * y + x * z + y * z, x * y * z], x ** 2)","contains([x + y + z, x * y + x * z + y * z, x * y * z], x ** 3)","contains([x + y + z, x * y + x * z + y * z, x * y * z], x ** 4)","not contains([x + y + z, x * y + x * z + y * z, x * y * z], x * y ** 2)","contains([x + y + z, x * y + x * z + y * z, x * y * z], x ** 4 + y ** 3 + 2 * z * y * x)","contains([x + y + z, x * y + x * z + y * z, x * y * z], x * y * z)","contains([x, 1 + x + y, 5 - 7 * y], 1)","contains([x ** 3 + y ** 3, y ** 3 + z ** 3, z ** 3 + x ** 3, x ** 2 * y + x ** 2 * z + y ** 2 * z], x ** 3)","not contains([x ** 3 + y ** 3, y ** 3 + z ** 3, z ** 3 + x ** 3, x ** 2 * y + x ** 2 * z + y ** 2 * z], x ** 2 + y ** 2)","not contains([x * (1 + x + y), y * (1 + z)], x)","not contains([x * (1 + x + y), y * (1 + z)], x + y)"],"returns_expr":"sdm_nf_mora(sdm_from_vector([f], lex, QQ, gens=gens), G, lex, QQ) == sdm_zero()","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":true}}
 def test_nontrivial():
     gens = [x, y, z]
 
@@ -379,14 +496,23 @@ def test_nontrivial():
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(test_local(), id) over Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_local : Any → {Any | contains([x, y], x) and con...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  contains([x, y], x)                            ║
+# ║   ensures:  contains([x, y], x + y)                        ║
+# ║   ensures:  not contains([x, y], 1)                        ║
+# ║   returns:  sdm_nf_mora(sdm_from_vector([f], lex, QQ,...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_local : Any → {Any | result satisfies: result ==...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | f772de837c71863d   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_distributedmodules.test_local","kind":"function","src_hash":"0876ebdedb2bde35","in":{"base":"Any"},"out":{"base":"Any","pred":"contains([x, y], x) and contains([x, y], x + y) and not contains([x, y], 1) and not contains([x, y], z) and contains([x ** 2 + y, x ** 2 + x], x - y) and not contains([x + y + z, x * y + x * z + y * z, x * y * z], x ** 2) and contains([x * (1 + x + y), y * (1 + z)], x) and contains([x * (1 + x + y), y * (1 + z)], x + y)"},"spec":{"lhs":"test_local()","rhs":"test_local produces the expected output","over":{"base":"Any"},"name":"test_local_correct","kind":"composition"},"guarantee":"test_local produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sdm_nf_mora","by":"library_axiom"},{"fn":"sdm_from_vector","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f772de837c71863d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_distributedmodules.test_local","kind":"function","src_hash":"0876ebdedb2bde35","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (sdm_nf_mora(sdm_from_vector([f], lex, QQ, gens=gens), G, lex, QQ) == sdm_zero())"},"spec":{"lhs":"test_local()","rhs":"sdm_nf_mora(sdm_from_vector([f], lex, QQ, gens=gens), G, lex, QQ) == sdm_zero()","over":{"base":"Any"},"name":"test_local_correct","kind":"composition"},"guarantee":"returns sdm_nf_mora(sdm_from_vector([f], lex, QQ, gens=gens), G, lex, QQ) == sdm_zero(); contains([x, y], x); contains([x, y], x + y); not contains([x, y], 1)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sdm_nf_mora","by":"library_axiom"},{"fn":"sdm_from_vector","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f772de837c71863d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["contains([x, y], x)","contains([x, y], x + y)","not contains([x, y], 1)","not contains([x, y], z)","contains([x ** 2 + y, x ** 2 + x], x - y)","not contains([x + y + z, x * y + x * z + y * z, x * y * z], x ** 2)","contains([x * (1 + x + y), y * (1 + z)], x)","contains([x * (1 + x + y), y * (1 + z)], x + y)"],"returns_expr":"sdm_nf_mora(sdm_from_vector([f], lex, QQ, gens=gens), G, lex, QQ) == sdm_zero()","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_local():
     igrlex = InverseOrder(grlex)
     gens = [x, y, z]
@@ -407,16 +533,23 @@ def test_local():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_uncovered_line(), test_uncovered_line produces the expected output) over Any ║
+# ║ Path(test_uncovered_line(), sdm_spoly(f1, f2, lex, QQ) == sdm_zero() and sdm_spoly(f3, f2, lex, QQ) == sdm_zero()) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_uncovered_line : Any → {Any | sdm_spoly(f1, f2, ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  sdm_spoly(f1, f2, lex, QQ) == sdm_zero()       ║
+# ║   ensures:  sdm_spoly(f3, f2, lex, QQ) == sdm_zero()       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_uncovered_line : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2cacc0ea25278d88  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dbef5b28dc9a8f06  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_distributedmodules.test_uncovered_line","kind":"function","src_hash":"9ed2caa8747b9069","in":{"base":"Any"},"out":{"base":"Any","pred":"sdm_spoly(f1, f2, lex, QQ) == sdm_zero() and sdm_spoly(f3, f2, lex, QQ) == sdm_zero()"},"spec":{"lhs":"test_uncovered_line()","rhs":"test_uncovered_line produces the expected output","over":{"base":"Any"},"name":"test_uncovered_line_correct"},"guarantee":"test_uncovered_line produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_distributedmodules.test_uncovered_line_correct","statement":"Path(test_uncovered_line(x), test_uncovered_line produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2cacc0ea25278d88"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_distributedmodules.test_uncovered_line","kind":"function","src_hash":"9ed2caa8747b9069","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: sdm_spoly(f1, f2, lex, QQ) == sdm_zero() and sdm_spoly(f3, f2, lex, QQ) == sdm_zero()"},"spec":{"lhs":"test_uncovered_line()","rhs":"sdm_spoly(f1, f2, lex, QQ) == sdm_zero() and sdm_spoly(f3, f2, lex, QQ) == sdm_zero()","over":{"base":"Any"},"name":"test_uncovered_line_correct"},"guarantee":"sdm_spoly(f1, f2, lex, QQ) == sdm_zero(); sdm_spoly(f3, f2, lex, QQ) == sdm_zero()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_distributedmodules.test_uncovered_line_correct","statement":"Path(test_uncovered_line(x), sdm_spoly(f1, f2, lex, QQ) == sdm_zero(); sdm_spoly(f3, f2, lex, QQ) == sdm_zero())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dbef5b28dc9a8f06","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["sdm_spoly(f1, f2, lex, QQ) == sdm_zero()","sdm_spoly(f3, f2, lex, QQ) == sdm_zero()"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_uncovered_line():
     gens = [x, y]
     f1 = sdm_zero()
@@ -428,16 +561,22 @@ def test_uncovered_line():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_chain_criterion(), test_chain_criterion produces the expected output) over Any ║
+# ║ Path(test_chain_criterion(), len(sdm_groebner([f1, f2], sdm_nf_mora, grlex, QQ)) == 2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_chain_criterion : Any → {Any | len(sdm_groebner(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(sdm_groebner([f1, f2], sdm_nf_mora, g...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_chain_criterion : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b70dd83a063ec959  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 563fe81e9e89d349  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_distributedmodules.test_chain_criterion","kind":"function","src_hash":"3c39a6ec117b3503","in":{"base":"Any"},"out":{"base":"Any","pred":"len(sdm_groebner([f1, f2], sdm_nf_mora, grlex, QQ)) == 2"},"spec":{"lhs":"test_chain_criterion()","rhs":"test_chain_criterion produces the expected output","over":{"base":"Any"},"name":"test_chain_criterion_correct"},"guarantee":"test_chain_criterion produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_distributedmodules.test_chain_criterion_correct","statement":"Path(test_chain_criterion(x), test_chain_criterion produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b70dd83a063ec959"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_distributedmodules.test_chain_criterion","kind":"function","src_hash":"3c39a6ec117b3503","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(sdm_groebner([f1, f2], sdm_nf_mora, grlex, QQ)) == 2"},"spec":{"lhs":"test_chain_criterion()","rhs":"len(sdm_groebner([f1, f2], sdm_nf_mora, grlex, QQ)) == 2","over":{"base":"Any"},"name":"test_chain_criterion_correct"},"guarantee":"len(sdm_groebner([f1, f2], sdm_nf_mora, grlex, QQ)) == 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_distributedmodules.test_chain_criterion_correct","statement":"Path(test_chain_criterion(x), len(sdm_groebner([f1, f2], sdm_nf_mora, grlex, QQ)) == 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"563fe81e9e89d349","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(sdm_groebner([f1, f2], sdm_nf_mora, grlex, QQ)) == 2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_chain_criterion():
     gens = [x]
     f1 = sdm_from_vector([1, x], grlex, QQ, gens=gens)

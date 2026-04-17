@@ -53,14 +53,20 @@ from sympy.multipledispatch.dispatcher import (Dispatcher,
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(KindMeta(*args), correctly constructs a KindMeta instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ KindMeta : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, type)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ KindMeta : Any → {Any | result satisfies: isinstance(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 229e171211aa224b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.kind.KindMeta","kind":"class","src_hash":"1f5b19b865644658","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"KindMeta(*args)","rhs":"correctly constructs a KindMeta instance","over":{"base":"Any"},"name":"KindMeta_class_invariant"},"guarantee":"correctly constructs a KindMeta instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"229e171211aa224b"}
+# @cctt_verify {"v":2,"sym":"sympy.core.kind.KindMeta","kind":"class","src_hash":"1f5b19b865644658","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, type)"},"spec":{"lhs":"KindMeta(*args)","rhs":"correctly constructs a KindMeta instance","over":{"base":"Any"},"name":"KindMeta_class_invariant"},"guarantee":"isinstance(self, type)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"229e171211aa224b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, type)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function KindMeta not found in source"]}}
 class KindMeta(type):
     """
     Metaclass for ``Kind``.
@@ -69,16 +75,22 @@ class KindMeta(type):
     in order to endow singleton-like behavior.
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, clsname, bases), super().__new__(cls, clsname, bases, dct)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  super().__new__(cls, clsname, bases, dct)      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 84d3f9a43d82ba77           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.kind.KindMeta.__new__","kind":"method","src_hash":"62cf41fd77043b4c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"84d3f9a43d82ba77"}
+# @cctt_verify {"v":2,"sym":"sympy.core.kind.KindMeta.__new__","kind":"method","src_hash":"62cf41fd77043b4c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, clsname, bases)","rhs":"super().__new__(cls, clsname, bases, dct)","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"returns super().__new__(cls, clsname, bases, dct)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"84d3f9a43d82ba77","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"super().__new__(cls, clsname, bases, dct)","pure":false,"effects":{"effect_type":"mutates_args","writes":["dct[*]"]},"state_contract":{"modifies":["dct[*]"],"old_bindings":{"old_dct_star":"dct[*]"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, clsname, bases, dct):
         dct['_inst'] = {}
         return super().__new__(cls, clsname, bases, dct)
@@ -87,14 +99,20 @@ class KindMeta(type):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Kind(*args), correctly constructs a Kind instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ Kind : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 215e89ecbbefd33a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.kind.Kind","kind":"class","src_hash":"a4dafa89ad31145c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Kind(*args)","rhs":"correctly constructs a Kind instance","over":{"base":"Any"},"name":"Kind_class_invariant"},"guarantee":"correctly constructs a Kind instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"215e89ecbbefd33a"}
+# @cctt_verify {"v":2,"sym":"sympy.core.kind.Kind","kind":"class","src_hash":"a4dafa89ad31145c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Kind(*args)","rhs":"correctly constructs a Kind instance","over":{"base":"Any"},"name":"Kind_class_invariant"},"guarantee":"correctly constructs a Kind instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"215e89ecbbefd33a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial"},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function Kind not found in source"]}}
 class Kind(object, metaclass=KindMeta):
     """
     Base class for kinds.
@@ -123,16 +141,22 @@ class Kind(object, metaclass=KindMeta):
 
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, *args), <unspecified:__new__>) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 41ac9e44be3585c2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.kind.Kind.__new__","kind":"method","src_hash":"763f9c7ac786a928","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"41ac9e44be3585c2"}
+# @cctt_verify {"v":2,"sym":"sympy.core.kind.Kind.__new__","kind":"method","src_hash":"763f9c7ac786a928","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, *args)","rhs":"<unspecified:__new__>","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"41ac9e44be3585c2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["cls._inst"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, *args):
         if args in cls._inst:
             inst = cls._inst[args]
@@ -145,14 +169,20 @@ class Kind(object, metaclass=KindMeta):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(_UndefinedKind(*args), correctly constructs a _UndefinedKind instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _UndefinedKind : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Kind)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _UndefinedKind : Any → {Any | result satisfies: isins...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b6a4f3e67324abf4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.kind._UndefinedKind","kind":"class","src_hash":"365983f19505183b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_UndefinedKind(*args)","rhs":"correctly constructs a _UndefinedKind instance","over":{"base":"Any"},"name":"_UndefinedKind_class_invariant"},"guarantee":"correctly constructs a _UndefinedKind instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b6a4f3e67324abf4"}
+# @cctt_verify {"v":2,"sym":"sympy.core.kind._UndefinedKind","kind":"class","src_hash":"365983f19505183b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Kind)"},"spec":{"lhs":"_UndefinedKind(*args)","rhs":"correctly constructs a _UndefinedKind instance","over":{"base":"Any"},"name":"_UndefinedKind_class_invariant"},"guarantee":"isinstance(self, Kind)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b6a4f3e67324abf4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Kind)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function _UndefinedKind not found in source"]}}
 class _UndefinedKind(Kind):
     """
     Default kind for all SymPy object. If the kind is not defined for
@@ -167,30 +197,42 @@ class _UndefinedKind(Kind):
     UndefinedKind
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls), super().__new__(cls)) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  super().__new__(cls)                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e4a82c8e666dd37a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.kind._UndefinedKind.__new__","kind":"method","src_hash":"4864490538496ff7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e4a82c8e666dd37a"}
+# @cctt_verify {"v":2,"sym":"sympy.core.kind._UndefinedKind.__new__","kind":"method","src_hash":"4864490538496ff7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"super().__new__(cls)","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"returns super().__new__(cls)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e4a82c8e666dd37a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"super().__new__(cls)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls):
         return super().__new__(cls)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__repr__(), returns a faithful string representation) over Any ║
+# ║ Path(__repr__(), 'UndefinedKind') over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  'UndefinedKind'                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __repr__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ba997a2808805138           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.kind._UndefinedKind.__repr__","kind":"method","src_hash":"733c3891f381d536","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"returns a faithful string representation","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns a faithful string representation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ba997a2808805138"}
+# @cctt_verify {"v":2,"sym":"sympy.core.kind._UndefinedKind.__repr__","kind":"method","src_hash":"733c3891f381d536","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"'UndefinedKind'","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns 'UndefinedKind'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ba997a2808805138","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'UndefinedKind'","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __repr__(self):
         return "UndefinedKind"
 
@@ -200,14 +242,20 @@ UndefinedKind = _UndefinedKind()
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(_NumberKind(*args), correctly constructs a _NumberKind instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _NumberKind : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Kind)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _NumberKind : Any → {Any | result satisfies: isinstan...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2d2ca3e3095b373e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.kind._NumberKind","kind":"class","src_hash":"2f1e312c5f4c12a8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_NumberKind(*args)","rhs":"correctly constructs a _NumberKind instance","over":{"base":"Any"},"name":"_NumberKind_class_invariant"},"guarantee":"correctly constructs a _NumberKind instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2d2ca3e3095b373e"}
+# @cctt_verify {"v":2,"sym":"sympy.core.kind._NumberKind","kind":"class","src_hash":"2f1e312c5f4c12a8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Kind)"},"spec":{"lhs":"_NumberKind(*args)","rhs":"correctly constructs a _NumberKind instance","over":{"base":"Any"},"name":"_NumberKind_class_invariant"},"guarantee":"isinstance(self, Kind)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2d2ca3e3095b373e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Kind)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function _NumberKind not found in source"]}}
 class _NumberKind(Kind):
     """
     Kind for all numeric object.
@@ -259,30 +307,42 @@ class _NumberKind(Kind):
 
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls), super().__new__(cls)) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  super().__new__(cls)                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a7138e86d89c43e4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.kind._NumberKind.__new__","kind":"method","src_hash":"4864490538496ff7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a7138e86d89c43e4"}
+# @cctt_verify {"v":2,"sym":"sympy.core.kind._NumberKind.__new__","kind":"method","src_hash":"4864490538496ff7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"super().__new__(cls)","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"returns super().__new__(cls)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a7138e86d89c43e4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"super().__new__(cls)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls):
         return super().__new__(cls)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__repr__(), returns a faithful string representation) over Any ║
+# ║ Path(__repr__(), 'NumberKind') over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  'NumberKind'                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __repr__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c4d337b69b05dd38           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.kind._NumberKind.__repr__","kind":"method","src_hash":"916b82243bc678ac","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"returns a faithful string representation","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns a faithful string representation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c4d337b69b05dd38"}
+# @cctt_verify {"v":2,"sym":"sympy.core.kind._NumberKind.__repr__","kind":"method","src_hash":"916b82243bc678ac","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"'NumberKind'","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns 'NumberKind'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c4d337b69b05dd38","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'NumberKind'","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __repr__(self):
         return "NumberKind"
 
@@ -292,14 +352,20 @@ NumberKind = _NumberKind()
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(_BooleanKind(*args), correctly constructs a _BooleanKind instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _BooleanKind : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Kind)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _BooleanKind : Any → {Any | result satisfies: isinsta...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a047ff9408b0d408  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.kind._BooleanKind","kind":"class","src_hash":"745638f1acdae269","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_BooleanKind(*args)","rhs":"correctly constructs a _BooleanKind instance","over":{"base":"Any"},"name":"_BooleanKind_class_invariant"},"guarantee":"correctly constructs a _BooleanKind instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a047ff9408b0d408"}
+# @cctt_verify {"v":2,"sym":"sympy.core.kind._BooleanKind","kind":"class","src_hash":"745638f1acdae269","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Kind)"},"spec":{"lhs":"_BooleanKind(*args)","rhs":"correctly constructs a _BooleanKind instance","over":{"base":"Any"},"name":"_BooleanKind_class_invariant"},"guarantee":"isinstance(self, Kind)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a047ff9408b0d408","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Kind)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function _BooleanKind not found in source"]}}
 class _BooleanKind(Kind):
     """
     Kind for boolean objects.
@@ -317,30 +383,42 @@ class _BooleanKind(Kind):
     BooleanKind
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls), super().__new__(cls)) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  super().__new__(cls)                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b92a6ff037771ce9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.kind._BooleanKind.__new__","kind":"method","src_hash":"4864490538496ff7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b92a6ff037771ce9"}
+# @cctt_verify {"v":2,"sym":"sympy.core.kind._BooleanKind.__new__","kind":"method","src_hash":"4864490538496ff7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"super().__new__(cls)","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"returns super().__new__(cls)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b92a6ff037771ce9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"super().__new__(cls)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls):
         return super().__new__(cls)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__repr__(), returns a faithful string representation) over Any ║
+# ║ Path(__repr__(), 'BooleanKind') over Any                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  'BooleanKind'                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __repr__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e4f96d4ae8b36ff9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.kind._BooleanKind.__repr__","kind":"method","src_hash":"b0bc951410b9913a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"returns a faithful string representation","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns a faithful string representation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e4f96d4ae8b36ff9"}
+# @cctt_verify {"v":2,"sym":"sympy.core.kind._BooleanKind.__repr__","kind":"method","src_hash":"b0bc951410b9913a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"'BooleanKind'","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns 'BooleanKind'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e4f96d4ae8b36ff9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'BooleanKind'","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __repr__(self):
         return "BooleanKind"
 
@@ -350,14 +428,19 @@ BooleanKind = _BooleanKind()
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a KindDispatcher instance) preserved by KindDispatcher(*args) over {Any | isinstance(func, RaiseNotImplementedError) and isinstance(result, Kind)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ KindDispatcher : {Any | isinstance(func, RaiseNotImpl...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.9ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f662772961c658a1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.kind.KindDispatcher","kind":"class","src_hash":"6617f95ec2e91886","in":{"base":"Any","pred":"isinstance(func, RaiseNotImplementedError) and isinstance(result, Kind)"},"out":{"base":"Any"},"spec":{"lhs":"KindDispatcher(*args)","rhs":"correctly constructs a KindDispatcher instance","over":{"base":"Any","pred":"isinstance(func, RaiseNotImplementedError) and isinstance(result, Kind)"},"name":"KindDispatcher_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a KindDispatcher instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'name') and hasattr(self, 'doc') and hasattr(self, 'commutative') and hasattr(self, '_dispatcher')","kind":"class","induction":"structural on name, doc, commutative, _dispatcher"}],"methods_preserving":["__init__","__repr__","register","__call__","dispatch_kinds","__doc__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f662772961c658a1"}
+# @cctt_verify {"v":2,"sym":"sympy.core.kind.KindDispatcher","kind":"class","src_hash":"6617f95ec2e91886","in":{"base":"Any","pred":"isinstance(func, RaiseNotImplementedError) and isinstance(result, Kind)"},"out":{"base":"Any"},"spec":{"lhs":"KindDispatcher(*args)","rhs":"correctly constructs a KindDispatcher instance","over":{"base":"Any","pred":"isinstance(func, RaiseNotImplementedError) and isinstance(result, Kind)"},"name":"KindDispatcher_class_invariant","kind":"invariant"},"guarantee":"preserves 4 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'name') and hasattr(self, 'doc') and hasattr(self, 'commutative') and hasattr(self, '_dispatcher')","kind":"class","induction":"structural on name, doc, commutative, _dispatcher"}],"methods_preserving":["__init__","__repr__","register","__call__","dispatch_kinds","__doc__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f662772961c658a1","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, 'name')","hasattr(self, 'doc')","hasattr(self, 'commutative')","hasattr(self, '_dispatcher')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.9,"verdict_class":"assumed","binding":false,"binding_errors":["Function KindDispatcher not found in source"]}}
 class KindDispatcher:
     """
     Dispatcher to select a kind from multiple kinds by binary dispatching.
@@ -426,16 +509,24 @@ class KindDispatcher:
 
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(nam), initializes the instance correctly) over Any ║
+# ║ Path(__init__(name, commutative, doc), self.name == name and self.doc == doc and self.commutative == commutative) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  self.name == name                              ║
+# ║   ensures:  self.doc == doc                                ║
+# ║   ensures:  self.commutative == commutative                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : Any → {Any | result satisfies: self.name =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7e4f1fe74854a2a7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.kind.KindDispatcher.__init__","kind":"method","src_hash":"b41f6299373ab384","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(nam)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7e4f1fe74854a2a7"}
+# @cctt_verify {"v":2,"sym":"sympy.core.kind.KindDispatcher.__init__","kind":"method","src_hash":"b41f6299373ab384","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: self.name == name and self.doc == doc and self.commutative == commutative"},"spec":{"lhs":"__init__(name, commutative, doc)","rhs":"self.name == name and self.doc == doc and self.commutative == commutative","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"self.name == name; self.doc == doc; self.commutative == commutative","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7e4f1fe74854a2a7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["self.name == name","self.doc == doc","self.commutative == commutative"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, name, commutative=False, doc=None):
         self.name = name
         self.doc = doc
@@ -443,30 +534,44 @@ class KindDispatcher:
         self._dispatcher = Dispatcher(name)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__repr__(), returns a faithful string representation) over Any ║
+# ║ Path(__repr__(), '<dispatched %s>' % self.name) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  '<dispatched %s>' % self.name                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __repr__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1f6eaf610bf85d6b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.kind.KindDispatcher.__repr__","kind":"method","src_hash":"282d952a83d2fb06","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"returns a faithful string representation","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns a faithful string representation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1f6eaf610bf85d6b"}
+# @cctt_verify {"v":2,"sym":"sympy.core.kind.KindDispatcher.__repr__","kind":"method","src_hash":"282d952a83d2fb06","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"'<dispatched %s>' % self.name","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns '<dispatched %s>' % self.name","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1f6eaf610bf85d6b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'<dispatched %s>' % self.name","pure":false,"effects":{"effect_type":"reads_state","reads":["self.name"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __repr__(self):
         return "<dispatched %s>" % self.name
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(register(*ty), register the binary dispatcher for two kind classes) over Any ║
+# ║ Path(register(*types, **kwargs), len(kwargs) == old_len_kwargs - 1) over {Any | len(types) == 2 and len(kwargs) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ register : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: len(types) == 2                                ║
+# ║   requires: len(kwargs) > 0                                ║
+# ║   ensures:  len(kwargs) == old_len_kwargs - 1              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ register : {Any | len(types) == 2 and len(kwargs) > 0...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | db1d53e0435e8ae9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b17d229ea9f389a1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.kind.KindDispatcher.register","kind":"method","src_hash":"4c46bc9c588fc3b1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"register(*ty)","rhs":"register the binary dispatcher for two kind classes","over":{"base":"Any"},"name":"register_correct"},"guarantee":"register the binary dispatcher for two kind classes","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.kind.KindDispatcher.register_correct","statement":"Path(register(x), register the binary dispatcher for two kind classes)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"db1d53e0435e8ae9"}
+# @cctt_verify {"v":2,"sym":"sympy.core.kind.KindDispatcher.register","kind":"method","src_hash":"4c46bc9c588fc3b1","in":{"base":"Any","pred":"len(types) == 2 and len(kwargs) > 0"},"out":{"base":"Any","pred":"result satisfies: len(kwargs) == old_len_kwargs - 1"},"spec":{"lhs":"register(*types, **kwargs)","rhs":"len(kwargs) == old_len_kwargs - 1","over":{"base":"Any","pred":"len(types) == 2 and len(kwargs) > 0"},"name":"register_correct"},"guarantee":"len(kwargs) == old_len_kwargs - 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.kind.KindDispatcher.register_correct","statement":"Path(register(x), len(kwargs) == old_len_kwargs - 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b17d229ea9f389a1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["len(types) == 2","len(kwargs) > 0"],"ensures":["len(kwargs) == old_len_kwargs - 1"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self._dispatcher","self.commutative"],"calls_mutating":["kwargs.pop","kwargs.update","self._dispatcher.add"],"raises":["RuntimeError"]},"state_contract":{"modifies":["kwargs.*","self.*"],"old_bindings":{"old_len_kwargs":"len(kwargs)"},"pre_requires":["len(kwargs) > 0"],"post_ensures":["len(kwargs) == old_len_kwargs - 1"],"exceptional_post":{"RuntimeError":["isinstance(raised, RuntimeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def register(self, *types, **kwargs):
         """
         Register the binary dispatcher for two kind classes.
@@ -495,16 +600,22 @@ class KindDispatcher:
         return _
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__call__(*ar), correctly applies the callable) over Any ║
+# ║ Path(__call__(*args, **kwargs), self.dispatch_kinds(kinds, **kwargs)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.dispatch_kinds(kinds, **kwargs)           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __call__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 585f601c97f65ba6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.kind.KindDispatcher.__call__","kind":"method","src_hash":"624ea9108768c5c5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__call__(*ar)","rhs":"correctly applies the callable","over":{"base":"Any"},"name":"__call___correct"},"guarantee":"correctly applies the callable","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"585f601c97f65ba6"}
+# @cctt_verify {"v":2,"sym":"sympy.core.kind.KindDispatcher.__call__","kind":"method","src_hash":"624ea9108768c5c5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__call__(*args, **kwargs)","rhs":"self.dispatch_kinds(kinds, **kwargs)","over":{"base":"Any"},"name":"__call___correct"},"guarantee":"returns self.dispatch_kinds(kinds, **kwargs)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"585f601c97f65ba6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.dispatch_kinds(kinds, **kwargs)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __call__(self, *args, **kwargs):
         if self.commutative:
             kinds = frozenset(args)
@@ -519,16 +630,22 @@ class KindDispatcher:
 
     @cacheit
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dispatch_kinds(kin), dispatch_kinds produces the expected output) over Any ║
+# ║ Path(dispatch_kinds(kinds, **kwargs), <unspecified:dispatch_kinds>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dispatch_kinds : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 19ae18421120e267  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.kind.KindDispatcher.dispatch_kinds","kind":"method","src_hash":"ed6a23342c8f0115","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dispatch_kinds(kin)","rhs":"dispatch_kinds produces the expected output","over":{"base":"Any"},"name":"dispatch_kinds_correct"},"guarantee":"dispatch_kinds produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.kind.KindDispatcher.dispatch_kinds_correct","statement":"Path(dispatch_kinds(x), dispatch_kinds produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"19ae18421120e267"}
+# @cctt_verify {"v":2,"sym":"sympy.core.kind.KindDispatcher.dispatch_kinds","kind":"method","src_hash":"ed6a23342c8f0115","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dispatch_kinds(kinds, **kwargs)","rhs":"<unspecified:dispatch_kinds>","over":{"base":"Any"},"name":"dispatch_kinds_correct"},"guarantee":"dispatch_kinds produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.kind.KindDispatcher.dispatch_kinds_correct","statement":"Path(dispatch_kinds(x), dispatch_kinds produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"19ae18421120e267","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._dispatcher","self.commutative"],"raises":["RuntimeError"]},"state_contract":{"exceptional_post":{"RuntimeError":["isinstance(raised, RuntimeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dispatch_kinds(self, kinds, **kwargs):
         # Quick exit for the case where all kinds are same
         if len(kinds) == 1:
@@ -568,16 +685,22 @@ class KindDispatcher:
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__doc__(), returns the __doc__ attribute) over Any    ║
+# ║ Path(__doc__(), '\n\n'.join(docs)) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  '\n\n'.join(docs)                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __doc__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3c3b032161afd29a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.kind.KindDispatcher.__doc__","kind":"property","src_hash":"2277792151cb475b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__doc__()","rhs":"returns the __doc__ attribute","over":{"base":"Any"},"name":"__doc___correct"},"guarantee":"returns the __doc__ attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3c3b032161afd29a"}
+# @cctt_verify {"v":2,"sym":"sympy.core.kind.KindDispatcher.__doc__","kind":"property","src_hash":"2277792151cb475b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__doc__()","rhs":"'\\n\\n'.join(docs)","over":{"base":"Any"},"name":"__doc___correct"},"guarantee":"returns '\\n\\n'.join(docs)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3c3b032161afd29a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'\\n\\n'.join(docs)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __doc__(self):
         docs = [
             "Kind dispatcher : %s" % self.name,

@@ -27,16 +27,22 @@ from sympy.testing.pytest import skip, raises
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_sample_numpy(), test_sample_numpy produces the expected output) over Any ║
+# ║ Path(test_sample_numpy(), <unspecified:test_sample_numpy>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_sample_numpy : Any → {Any | sam in X.pspace.doma...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | db1906a4175dd9fe  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.sampling.tests.test_sample_continuous_rv.test_sample_numpy","kind":"function","src_hash":"28b6337ded6c7dcd","in":{"base":"Any"},"out":{"base":"Any","pred":"sam in X.pspace.domain.set"},"spec":{"lhs":"test_sample_numpy()","rhs":"test_sample_numpy produces the expected output","over":{"base":"Any"},"name":"test_sample_numpy_correct"},"guarantee":"test_sample_numpy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.sampling.tests.test_sample_continuous_rv.test_sample_numpy_correct","statement":"Path(test_sample_numpy(x), test_sample_numpy produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"db1906a4175dd9fe"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.sampling.tests.test_sample_continuous_rv.test_sample_numpy","kind":"function","src_hash":"28b6337ded6c7dcd","in":{"base":"Any"},"out":{"base":"Any","pred":"sam in X.pspace.domain.set"},"spec":{"lhs":"test_sample_numpy()","rhs":"<unspecified:test_sample_numpy>","over":{"base":"Any"},"name":"test_sample_numpy_correct"},"guarantee":"test_sample_numpy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.sampling.tests.test_sample_continuous_rv.test_sample_numpy_correct","statement":"Path(test_sample_numpy(x), test_sample_numpy produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"db1906a4175dd9fe","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"nondeterministic","nondeterministic_sources":["sample"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_sample_numpy():
     distribs_numpy = [
         Beta("B", 1, 1),
@@ -70,16 +76,22 @@ def test_sample_numpy():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_sample_scipy(), test_sample_scipy produces the expected output) over Any ║
+# ║ Path(test_sample_scipy(), <unspecified:test_sample_scipy>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_sample_scipy : Any → {Any | sam in X.pspace.doma...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dfa179352c75c097  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.sampling.tests.test_sample_continuous_rv.test_sample_scipy","kind":"function","src_hash":"808a755dafa079e2","in":{"base":"Any"},"out":{"base":"Any","pred":"sam in X.pspace.domain.set and samps2[i][j] in X.pspace.domain.set"},"spec":{"lhs":"test_sample_scipy()","rhs":"test_sample_scipy produces the expected output","over":{"base":"Any"},"name":"test_sample_scipy_correct"},"guarantee":"test_sample_scipy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.sampling.tests.test_sample_continuous_rv.test_sample_scipy_correct","statement":"Path(test_sample_scipy(x), test_sample_scipy produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dfa179352c75c097"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.sampling.tests.test_sample_continuous_rv.test_sample_scipy","kind":"function","src_hash":"808a755dafa079e2","in":{"base":"Any"},"out":{"base":"Any","pred":"sam in X.pspace.domain.set and samps2[i][j] in X.pspace.domain.set"},"spec":{"lhs":"test_sample_scipy()","rhs":"<unspecified:test_sample_scipy>","over":{"base":"Any"},"name":"test_sample_scipy_correct"},"guarantee":"test_sample_scipy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.sampling.tests.test_sample_continuous_rv.test_sample_scipy_correct","statement":"Path(test_sample_scipy(x), test_sample_scipy produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dfa179352c75c097","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"nondeterministic","nondeterministic_sources":["sample"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_sample_scipy():
     distribs_scipy = [
         Beta("B", 1, 1),
@@ -113,16 +125,22 @@ def test_sample_scipy():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_sample_pymc(), test_sample_pymc produces the expected output) over Any ║
+# ║ Path(test_sample_pymc(), <unspecified:test_sample_pymc>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_sample_pymc : Any → {Any | sam in X.pspace.domai...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 21f90815dab0def4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.sampling.tests.test_sample_continuous_rv.test_sample_pymc","kind":"function","src_hash":"293ba64ecfe05d6e","in":{"base":"Any"},"out":{"base":"Any","pred":"sam in X.pspace.domain.set"},"spec":{"lhs":"test_sample_pymc()","rhs":"test_sample_pymc produces the expected output","over":{"base":"Any"},"name":"test_sample_pymc_correct"},"guarantee":"test_sample_pymc produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.sampling.tests.test_sample_continuous_rv.test_sample_pymc_correct","statement":"Path(test_sample_pymc(x), test_sample_pymc produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"21f90815dab0def4"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.sampling.tests.test_sample_continuous_rv.test_sample_pymc","kind":"function","src_hash":"293ba64ecfe05d6e","in":{"base":"Any"},"out":{"base":"Any","pred":"sam in X.pspace.domain.set"},"spec":{"lhs":"test_sample_pymc()","rhs":"<unspecified:test_sample_pymc>","over":{"base":"Any"},"name":"test_sample_pymc_correct"},"guarantee":"test_sample_pymc produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.sampling.tests.test_sample_continuous_rv.test_sample_pymc_correct","statement":"Path(test_sample_pymc(x), test_sample_pymc produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"21f90815dab0def4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"nondeterministic","nondeterministic_sources":["sample"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_sample_pymc():
     distribs_pymc = [
         Beta("B", 1, 1),
@@ -150,16 +168,22 @@ def test_sample_pymc():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_sampling_gamma_inverse(), test_sampling_gamma_inverse produces the expected output) over Any ║
+# ║ Path(test_sampling_gamma_inverse(), sample(X) in X.pspace.domain.set) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_sampling_gamma_inverse : Any → {Any | sample(X) ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  sample(X) in X.pspace.domain.set               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_sampling_gamma_inverse : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b7656901d3536abf  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9bcb34a426f7f249  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.sampling.tests.test_sample_continuous_rv.test_sampling_gamma_inverse","kind":"function","src_hash":"5ab8ea5ccff1f5ac","in":{"base":"Any"},"out":{"base":"Any","pred":"sample(X) in X.pspace.domain.set"},"spec":{"lhs":"test_sampling_gamma_inverse()","rhs":"test_sampling_gamma_inverse produces the expected output","over":{"base":"Any"},"name":"test_sampling_gamma_inverse_correct"},"guarantee":"test_sampling_gamma_inverse produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.sampling.tests.test_sample_continuous_rv.test_sampling_gamma_inverse_correct","statement":"Path(test_sampling_gamma_inverse(x), test_sampling_gamma_inverse produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b7656901d3536abf"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.sampling.tests.test_sample_continuous_rv.test_sampling_gamma_inverse","kind":"function","src_hash":"5ab8ea5ccff1f5ac","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: sample(X) in X.pspace.domain.set"},"spec":{"lhs":"test_sampling_gamma_inverse()","rhs":"sample(X) in X.pspace.domain.set","over":{"base":"Any"},"name":"test_sampling_gamma_inverse_correct"},"guarantee":"sample(X) in X.pspace.domain.set","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.sampling.tests.test_sample_continuous_rv.test_sampling_gamma_inverse_correct","statement":"Path(test_sampling_gamma_inverse(x), sample(X) in X.pspace.domain.set)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9bcb34a426f7f249","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["sample(X) in X.pspace.domain.set"],"pure":false,"effects":{"effect_type":"nondeterministic","nondeterministic_sources":["sample"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_sampling_gamma_inverse():
     scipy = import_module('scipy')
     if not scipy:
@@ -169,16 +193,22 @@ def test_sampling_gamma_inverse():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_lognormal_sampling(), test_lognormal_sampling produces the expected output) over Any ║
+# ║ Path(test_lognormal_sampling(), <unspecified:test_lognormal_sampling>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_lognormal_sampling : Any → {Any | sample(X) in X...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c6b55841c5badf34  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.sampling.tests.test_sample_continuous_rv.test_lognormal_sampling","kind":"function","src_hash":"08de1a22c4392feb","in":{"base":"Any"},"out":{"base":"Any","pred":"sample(X) in X.pspace.domain.set and samp in X.pspace.domain.set"},"spec":{"lhs":"test_lognormal_sampling()","rhs":"test_lognormal_sampling produces the expected output","over":{"base":"Any"},"name":"test_lognormal_sampling_correct"},"guarantee":"test_lognormal_sampling produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.sampling.tests.test_sample_continuous_rv.test_lognormal_sampling_correct","statement":"Path(test_lognormal_sampling(x), test_lognormal_sampling produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c6b55841c5badf34"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.sampling.tests.test_sample_continuous_rv.test_lognormal_sampling","kind":"function","src_hash":"08de1a22c4392feb","in":{"base":"Any"},"out":{"base":"Any","pred":"sample(X) in X.pspace.domain.set and samp in X.pspace.domain.set"},"spec":{"lhs":"test_lognormal_sampling()","rhs":"<unspecified:test_lognormal_sampling>","over":{"base":"Any"},"name":"test_lognormal_sampling_correct"},"guarantee":"test_lognormal_sampling produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.sampling.tests.test_sample_continuous_rv.test_lognormal_sampling_correct","statement":"Path(test_lognormal_sampling(x), test_lognormal_sampling produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c6b55841c5badf34","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"nondeterministic","nondeterministic_sources":["sample"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_lognormal_sampling():
     # Right now, only density function and sampling works
     scipy = import_module('scipy')
@@ -195,16 +225,22 @@ def test_lognormal_sampling():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_sampling_gaussian_inverse(), test_sampling_gaussian_inverse produces the expected output) over Any ║
+# ║ Path(test_sampling_gaussian_inverse(), sample(X, library='scipy') in X.pspace.domain.set) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_sampling_gaussian_inverse : Any → {Any | sample(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  sample(X, library='scipy') in X.pspace.do...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_sampling_gaussian_inverse : Any → {Any | result ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 47682f3e7839542a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8e84f9624bbb0353  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.sampling.tests.test_sample_continuous_rv.test_sampling_gaussian_inverse","kind":"function","src_hash":"396ddb4d6f29c32d","in":{"base":"Any"},"out":{"base":"Any","pred":"sample(X, library='scipy') in X.pspace.domain.set"},"spec":{"lhs":"test_sampling_gaussian_inverse()","rhs":"test_sampling_gaussian_inverse produces the expected output","over":{"base":"Any"},"name":"test_sampling_gaussian_inverse_correct"},"guarantee":"test_sampling_gaussian_inverse produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.sampling.tests.test_sample_continuous_rv.test_sampling_gaussian_inverse_correct","statement":"Path(test_sampling_gaussian_inverse(x), test_sampling_gaussian_inverse produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"47682f3e7839542a"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.sampling.tests.test_sample_continuous_rv.test_sampling_gaussian_inverse","kind":"function","src_hash":"396ddb4d6f29c32d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: sample(X, library='scipy') in X.pspace.domain.set"},"spec":{"lhs":"test_sampling_gaussian_inverse()","rhs":"sample(X, library='scipy') in X.pspace.domain.set","over":{"base":"Any"},"name":"test_sampling_gaussian_inverse_correct"},"guarantee":"sample(X, library='scipy') in X.pspace.domain.set","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.sampling.tests.test_sample_continuous_rv.test_sampling_gaussian_inverse_correct","statement":"Path(test_sampling_gaussian_inverse(x), sample(X, library='scipy') in X.pspace.domain.set)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8e84f9624bbb0353","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["sample(X, library='scipy') in X.pspace.domain.set"],"pure":false,"effects":{"effect_type":"nondeterministic","nondeterministic_sources":["sample"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_sampling_gaussian_inverse():
     scipy = import_module('scipy')
     if not scipy:
@@ -214,16 +250,22 @@ def test_sampling_gaussian_inverse():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_prefab_sampling(), test_prefab_sampling produces the expected output) over Any ║
+# ║ Path(test_prefab_sampling(), <unspecified:test_prefab_sampling>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_prefab_sampling : Any → {Any | sample(var) in va...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d4922ba3258dc480  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.sampling.tests.test_sample_continuous_rv.test_prefab_sampling","kind":"function","src_hash":"1dbd7c001f30d513","in":{"base":"Any"},"out":{"base":"Any","pred":"sample(var) in var.pspace.domain.set and samp in var.pspace.domain.set"},"spec":{"lhs":"test_prefab_sampling()","rhs":"test_prefab_sampling produces the expected output","over":{"base":"Any"},"name":"test_prefab_sampling_correct"},"guarantee":"test_prefab_sampling produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.sampling.tests.test_sample_continuous_rv.test_prefab_sampling_correct","statement":"Path(test_prefab_sampling(x), test_prefab_sampling produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d4922ba3258dc480"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.sampling.tests.test_sample_continuous_rv.test_prefab_sampling","kind":"function","src_hash":"1dbd7c001f30d513","in":{"base":"Any"},"out":{"base":"Any","pred":"sample(var) in var.pspace.domain.set and samp in var.pspace.domain.set"},"spec":{"lhs":"test_prefab_sampling()","rhs":"<unspecified:test_prefab_sampling>","over":{"base":"Any"},"name":"test_prefab_sampling_correct"},"guarantee":"test_prefab_sampling produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.sampling.tests.test_sample_continuous_rv.test_prefab_sampling_correct","statement":"Path(test_prefab_sampling(x), test_prefab_sampling produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d4922ba3258dc480","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"nondeterministic","nondeterministic_sources":["sample"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_prefab_sampling():
     scipy = import_module('scipy')
     if not scipy:
@@ -249,16 +291,24 @@ def test_prefab_sampling():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_sample_continuous(), test_sample_continuous produces the expected output) over Any ║
+# ║ Path(test_sample_continuous(), density(Z)(-1) == 0 and sample(Z) in Z.pspace.domain.set and sym == Z and val in Interval(0, oo)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_sample_continuous : Any → {Any | density(Z)(-1) ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  density(Z)(-1) == 0                            ║
+# ║   ensures:  sample(Z) in Z.pspace.domain.set               ║
+# ║   ensures:  sym == Z and val in Interval(0, oo)            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_sample_continuous : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c34315805669cabe  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 927e042af53d5350  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.sampling.tests.test_sample_continuous_rv.test_sample_continuous","kind":"function","src_hash":"f04f641150f74540","in":{"base":"Any"},"out":{"base":"Any","pred":"density(Z)(-1) == 0 and sample(Z) in Z.pspace.domain.set and sym == Z and val in Interval(0, oo) and all(s0 == s1) and all(s1 != s2)"},"spec":{"lhs":"test_sample_continuous()","rhs":"test_sample_continuous produces the expected output","over":{"base":"Any"},"name":"test_sample_continuous_correct"},"guarantee":"test_sample_continuous produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.sampling.tests.test_sample_continuous_rv.test_sample_continuous_correct","statement":"Path(test_sample_continuous(x), test_sample_continuous produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c34315805669cabe"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.sampling.tests.test_sample_continuous_rv.test_sample_continuous","kind":"function","src_hash":"f04f641150f74540","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: density(Z)(-1) == 0 and sample(Z) in Z.pspace.domain.set and sym == Z and val in Interval(0, oo)"},"spec":{"lhs":"test_sample_continuous()","rhs":"density(Z)(-1) == 0 and sample(Z) in Z.pspace.domain.set and sym == Z and val in Interval(0, oo)","over":{"base":"Any"},"name":"test_sample_continuous_correct"},"guarantee":"density(Z)(-1) == 0; sample(Z) in Z.pspace.domain.set; sym == Z and val in Interval(0, oo)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.sampling.tests.test_sample_continuous_rv.test_sample_continuous_correct","statement":"Path(test_sample_continuous(x), density(Z)(-1) == 0; sample(Z) in Z.pspace.domain.set; sym == Z and val in Interval(0, oo))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"927e042af53d5350","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["density(Z)(-1) == 0","sample(Z) in Z.pspace.domain.set","sym == Z and val in Interval(0, oo)"],"pure":false,"effects":{"effect_type":"nondeterministic","catches":["NotImplementedError"],"nondeterministic_sources":["Z.pspace.sample","sample"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_sample_continuous():
     z = Symbol('z')
     Z = ContinuousRV(z, exp(-z), set=Interval(0, oo))

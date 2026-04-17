@@ -25,16 +25,24 @@ from sympy.testing.pytest import raises
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_ImplicitRegion(), test_ImplicitRegion produces the expected output) over Any ║
+# ║ Path(test_ImplicitRegion(), ellipse.equation == x ** 2 / 4 + y ** 2 / 16 - 1 and ellipse.variables == (x, y) and ellipse.degree == 2 and r.equation == x ** 4 + y ** 2 - x * y - 6 and r.variables == (x, y, z) and r.degree == 4) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_ImplicitRegion : Any → {Any | ellipse.equation =...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  ellipse.equation == x ** 2 / 4 + y ** 2 /...   ║
+# ║   ensures:  ellipse.variables == (x, y)                    ║
+# ║   ensures:  ellipse.degree == 2                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_ImplicitRegion : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0ed9711c73da5163  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b58a3d38ea75fb08  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.tests.test_implicitregion.test_ImplicitRegion","kind":"function","src_hash":"b672dd32c372bada","in":{"base":"Any"},"out":{"base":"Any","pred":"ellipse.equation == x ** 2 / 4 + y ** 2 / 16 - 1 and ellipse.variables == (x, y) and ellipse.degree == 2 and r.equation == x ** 4 + y ** 2 - x * y - 6 and r.variables == (x, y, z) and r.degree == 4"},"spec":{"lhs":"test_ImplicitRegion()","rhs":"test_ImplicitRegion produces the expected output","over":{"base":"Any"},"name":"test_ImplicitRegion_correct"},"guarantee":"test_ImplicitRegion produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.tests.test_implicitregion.test_ImplicitRegion_correct","statement":"Path(test_ImplicitRegion(x), test_ImplicitRegion produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0ed9711c73da5163"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.tests.test_implicitregion.test_ImplicitRegion","kind":"function","src_hash":"b672dd32c372bada","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: ellipse.equation == x ** 2 / 4 + y ** 2 / 16 - 1 and ellipse.variables == (x, y) and ellipse.degree == 2 and r.equation == x ** 4 + y ** 2 - x * y - 6 and r.variables == (x, y, z) and r.degree == 4"},"spec":{"lhs":"test_ImplicitRegion()","rhs":"ellipse.equation == x ** 2 / 4 + y ** 2 / 16 - 1 and ellipse.variables == (x, y) and ellipse.degree == 2 and r.equation == x ** 4 + y ** 2 - x * y - 6 and r.variables == (x, y, z) and r.degree == 4","over":{"base":"Any"},"name":"test_ImplicitRegion_correct"},"guarantee":"ellipse.equation == x ** 2 / 4 + y ** 2 / 16 - 1; ellipse.variables == (x, y); ellipse.degree == 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.tests.test_implicitregion.test_ImplicitRegion_correct","statement":"Path(test_ImplicitRegion(x), ellipse.equation == x ** 2 / 4 + y ** 2 / 16 - 1; ellipse.variables == (x, y); ellipse.degree == 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b58a3d38ea75fb08","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["ellipse.equation == x ** 2 / 4 + y ** 2 / 16 - 1","ellipse.variables == (x, y)","ellipse.degree == 2","r.equation == x ** 4 + y ** 2 - x * y - 6","r.variables == (x, y, z)","r.degree == 4"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_ImplicitRegion():
     ellipse = ImplicitRegion((x, y), (x**2/4 + y**2/16 - 1))
     assert ellipse.equation == x**2/4 + y**2/16 - 1
@@ -47,16 +55,24 @@ def test_ImplicitRegion():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_regular_point(), test_regular_point produces the expected output) over Any ║
+# ║ Path(test_regular_point(), r1.regular_point() == (-4,) and c1.regular_point() == (0, -2) and c2.regular_point() == (S(5) / 2, -S(1) / 4) and c3.regular_point() == (5, 5) and r2.regular_point() == (S(4) / 7, S(9) / 7)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_regular_point : Any → {Any | r1.regular_point() ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  r1.regular_point() == (-4,)                    ║
+# ║   ensures:  c1.regular_point() == (0, -2)                  ║
+# ║   ensures:  c2.regular_point() == (S(5) / 2, -S(1) / 4)    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_regular_point : Any → {Any | result satisfies: r...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7ac3fbeffbfd9408  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 35f7347559f3fcf3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.tests.test_implicitregion.test_regular_point","kind":"function","src_hash":"c81d89d7e38227bb","in":{"base":"Any"},"out":{"base":"Any","pred":"r1.regular_point() == (-4,) and c1.regular_point() == (0, -2) and c2.regular_point() == (S(5) / 2, -S(1) / 4) and c3.regular_point() == (5, 5) and r2.regular_point() == (S(4) / 7, S(9) / 7)"},"spec":{"lhs":"test_regular_point()","rhs":"test_regular_point produces the expected output","over":{"base":"Any"},"name":"test_regular_point_correct"},"guarantee":"test_regular_point produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.tests.test_implicitregion.test_regular_point_correct","statement":"Path(test_regular_point(x), test_regular_point produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7ac3fbeffbfd9408"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.tests.test_implicitregion.test_regular_point","kind":"function","src_hash":"c81d89d7e38227bb","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: r1.regular_point() == (-4,) and c1.regular_point() == (0, -2) and c2.regular_point() == (S(5) / 2, -S(1) / 4) and c3.regular_point() == (5, 5) and r2.regular_point() == (S(4) / 7, S(9) / 7)"},"spec":{"lhs":"test_regular_point()","rhs":"r1.regular_point() == (-4,) and c1.regular_point() == (0, -2) and c2.regular_point() == (S(5) / 2, -S(1) / 4) and c3.regular_point() == (5, 5) and r2.regular_point() == (S(4) / 7, S(9) / 7)","over":{"base":"Any"},"name":"test_regular_point_correct"},"guarantee":"r1.regular_point() == (-4,); c1.regular_point() == (0, -2); c2.regular_point() == (S(5) / 2, -S(1) / 4)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.tests.test_implicitregion.test_regular_point_correct","statement":"Path(test_regular_point(x), r1.regular_point() == (-4,); c1.regular_point() == (0, -2); c2.regular_point() == (S(5) / 2, -S(1) / 4))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"35f7347559f3fcf3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["r1.regular_point() == (-4,)","c1.regular_point() == (0, -2)","c2.regular_point() == (S(5) / 2, -S(1) / 4)","c3.regular_point() == (5, 5)","r2.regular_point() == (S(4) / 7, S(9) / 7)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_regular_point():
     r1 = ImplicitRegion((x,), x**2 - 16)
     assert r1.regular_point() == (-4,)
@@ -73,16 +89,24 @@ def test_regular_point():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_singular_points_and_multiplicty(), test_singular_points_and_multiplicty produces the expected output) over Any ║
+# ║ Path(test_singular_points_and_multiplicty(), r1.singular_points() == EmptySet and r2.singular_points() == FiniteSet((0, 0, z), (x, 0, 0)) and r2.multiplicity((0, 0, 0)) == 3 and r2.multiplicity((0, 0, 6)) == 2 and r3.singular_points() == FiniteSet((0, 0, 0)) and r3.multiplicity((0, 0, 0)) == 2 and r4.singular_points() == EmptySet and r4.multiplicity(Point(1, 3)) == 0) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  r1.singular_points() == EmptySet               ║
+# ║   ensures:  r2.singular_points() == FiniteSet((0, 0, ...   ║
+# ║   ensures:  r2.multiplicity((0, 0, 0)) == 3                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_singular_points_and_multiplicty : Any → {Any | r...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 03a2177e43b4c1f1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c0f8323d643df20d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.tests.test_implicitregion.test_singular_points_and_multiplicty","kind":"function","src_hash":"c1729f554351e660","in":{"base":"Any"},"out":{"base":"Any","pred":"r1.singular_points() == EmptySet and r2.singular_points() == FiniteSet((0, 0, z), (x, 0, 0)) and r2.multiplicity((0, 0, 0)) == 3 and r2.multiplicity((0, 0, 6)) == 2 and r3.singular_points() == FiniteSet((0, 0, 0)) and r3.multiplicity((0, 0, 0)) == 2 and r4.singular_points() == EmptySet and r4.multiplicity(Point(1, 3)) == 0"},"spec":{"lhs":"test_singular_points_and_multiplicty()","rhs":"test_singular_points_and_multiplicty produces the expected output","over":{"base":"Any"},"name":"test_singular_points_and_multiplicty_correct"},"guarantee":"test_singular_points_and_multiplicty produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.tests.test_implicitregion.test_singular_points_and_multiplicty_correct","statement":"Path(test_singular_points_and_multiplicty(x), test_singular_points_and_multiplicty produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"03a2177e43b4c1f1"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.tests.test_implicitregion.test_singular_points_and_multiplicty","kind":"function","src_hash":"c1729f554351e660","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: r1.singular_points() == EmptySet and r2.singular_points() == FiniteSet((0, 0, z), (x, 0, 0)) and r2.multiplicity((0, 0, 0)) == 3 and r2.multiplicity((0, 0, 6)) == 2 and r3.singular_points() == FiniteSet((0, 0, 0)) and r3.multiplicity((0, 0, 0)) == 2 and r4.singular_points() == EmptySet and r4.multiplicity(Point(1, 3)) == 0"},"spec":{"lhs":"test_singular_points_and_multiplicty()","rhs":"r1.singular_points() == EmptySet and r2.singular_points() == FiniteSet((0, 0, z), (x, 0, 0)) and r2.multiplicity((0, 0, 0)) == 3 and r2.multiplicity((0, 0, 6)) == 2 and r3.singular_points() == FiniteSet((0, 0, 0)) and r3.multiplicity((0, 0, 0)) == 2 and r4.singular_points() == EmptySet and r4.multiplicity(Point(1, 3)) == 0","over":{"base":"Any"},"name":"test_singular_points_and_multiplicty_correct"},"guarantee":"r1.singular_points() == EmptySet; r2.singular_points() == FiniteSet((0, 0, z), (x, 0, 0)); r2.multiplicity((0, 0, 0)) == 3","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.tests.test_implicitregion.test_singular_points_and_multiplicty_correct","statement":"Path(test_singular_points_and_multiplicty(x), r1.singular_points() == EmptySet; r2.singular_points() == FiniteSet((0, 0, z), (x, 0, 0)); r2.multiplicity((0, 0, 0)) == 3)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c0f8323d643df20d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["r1.singular_points() == EmptySet","r2.singular_points() == FiniteSet((0, 0, z), (x, 0, 0))","r2.multiplicity((0, 0, 0)) == 3","r2.multiplicity((0, 0, 6)) == 2","r3.singular_points() == FiniteSet((0, 0, 0))","r3.multiplicity((0, 0, 0)) == 2","r4.singular_points() == EmptySet","r4.multiplicity(Point(1, 3)) == 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_singular_points_and_multiplicty():
     r1 = ImplicitRegion((x, y, z), Eq(x + y + z, 0))
     assert r1.singular_points() == EmptySet
@@ -99,16 +123,24 @@ def test_singular_points_and_multiplicty():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_rational_parametrization(), test_rational_parametrization produces the expected output) over Any ║
+# ║ Path(test_rational_parametrization(), p.rational_parametrization() == (x - 2,) and line.rational_parametrization() == (x, 3 * x + 2) and circle1.rational_parametrization(parameters=t) == (4 * t / (t ** 2 + 1) + 2, 4 * t ** 2 / (t ** 2 + 1) - 5) and circle2.rational_parametrization(parameters=t) == (t / (t ** 2 + 1) + S(1) / 2, t ** 2 / (t ** 2 + 1) - S(1) / 2) and circle3.rational_parametrization(parameters=(t,)) == (2 * t / (t ** 2 + 1) + 1, 2 * t ** 2 / (t ** 2 + 1) - 1) and parabola.rational_parametrization(t) == (-6 + 4 / t ** 2, 3 + 4 / t) and rect_hyperbola.rational_parametrization(t) == (-1 + (t + 1) / t, t) and cubic_curve.rational_parametrization(parameters=t) == (t ** 2 - 1, t * (t ** 2 - 1)) and cuspidal.rational_parametrization(t) == (t ** 2, t ** 3) and I.rational_parametrization(t) == (t ** 2 - 1, t * (t ** 2 - 1)) and sphere.rational_parametrization(parameters=(s, t)) == (2 / (s ** 2 + t ** 2 + 1), 2 * t / (s ** 2 + t ** 2 + 1), 2 * s / (s ** 2 + t ** 2 + 1)) and conic.rational_parametrization(t) == (S(17) / 2 + 4 / (3 * t ** 2 + 4 * t + 1), 4 * t / (3 * t ** 2 + 4 * t + 1) - S(11) / 2)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_rational_parametrization : Any → {Any | p.ration...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  p.rational_parametrization() == (x - 2,)       ║
+# ║   ensures:  line.rational_parametrization() == (x, 3 ...   ║
+# ║   ensures:  circle1.rational_parametrization(paramete...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_rational_parametrization : Any → {Any | result s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 09b9ccf99374f847  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.9ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | df92e031da981450  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.tests.test_implicitregion.test_rational_parametrization","kind":"function","src_hash":"92d5316e2cd0fd27","in":{"base":"Any"},"out":{"base":"Any","pred":"p.rational_parametrization() == (x - 2,) and line.rational_parametrization() == (x, 3 * x + 2) and parabola.rational_parametrization(t) == (-6 + 4 / t ** 2, 3 + 4 / t) and rect_hyperbola.rational_parametrization(t) == (-1 + (t + 1) / t, t) and cuspidal.rational_parametrization(t) == (t ** 2, t ** 3) and I.rational_parametrization(t) == (t ** 2 - 1, t * (t ** 2 - 1))"},"spec":{"lhs":"test_rational_parametrization()","rhs":"test_rational_parametrization produces the expected output","over":{"base":"Any"},"name":"test_rational_parametrization_correct"},"guarantee":"test_rational_parametrization produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.tests.test_implicitregion.test_rational_parametrization_correct","statement":"Path(test_rational_parametrization(x), test_rational_parametrization produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"09b9ccf99374f847"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.tests.test_implicitregion.test_rational_parametrization","kind":"function","src_hash":"92d5316e2cd0fd27","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: p.rational_parametrization() == (x - 2,) and line.rational_parametrization() == (x, 3 * x + 2) and circle1.rational_parametrization(parameters=t) == (4 * t / (t ** 2 + 1) + 2, 4 * t ** 2 / (t ** 2 + 1) - 5) and circle2.rational_parametrization(parameters=t) == (t / (t ** 2 + 1) + S(1) / 2, t ** 2 / (t ** 2 + 1) - S(1) / 2) and circle3.rational_parametrization(parameters=(t,)) == (2 * t / (t ** 2 + 1) + 1, 2 * t ** 2 / (t ** 2 + 1) - 1) and parabola.rational_parametrization(t) == (-6 + 4 / t ** 2, 3 + 4 / t) and rect_hyperbola.rational_parametrization(t) == (-1 + (t + 1) / t, t) and cubic_curve.rational_parametrization(parameters=t) == (t ** 2 - 1, t * (t ** 2 - 1)) and cuspidal.rational_parametrization(t) == (t ** 2, t ** 3) and I.rational_parametrization(t) == (t ** 2 - 1, t * (t ** 2 - 1)) and sphere.rational_parametrization(parameters=(s, t)) == (2 / (s ** 2 + t ** 2 + 1), 2 * t / (s ** 2 + t ** 2 + 1), 2 * s / (s ** 2 + t ** 2 + 1)) and conic.rational_parametrization(t) == (S(17) / 2 + 4 / (3 * t ** 2 + 4 * t + 1), 4 * t / (3 * t ** 2 + 4 * t + 1) - S(11) / 2)"},"spec":{"lhs":"test_rational_parametrization()","rhs":"p.rational_parametrization() == (x - 2,) and line.rational_parametrization() == (x, 3 * x + 2) and circle1.rational_parametrization(parameters=t) == (4 * t / (t ** 2 + 1) + 2, 4 * t ** 2 / (t ** 2 + 1) - 5) and circle2.rational_parametrization(parameters=t) == (t / (t ** 2 + 1) + S(1) / 2, t ** 2 / (t ** 2 + 1) - S(1) / 2) and circle3.rational_parametrization(parameters=(t,)) == (2 * t / (t ** 2 + 1) + 1, 2 * t ** 2 / (t ** 2 + 1) - 1) and parabola.rational_parametrization(t) == (-6 + 4 / t ** 2, 3 + 4 / t) and rect_hyperbola.rational_parametrization(t) == (-1 + (t + 1) / t, t) and cubic_curve.rational_parametrization(parameters=t) == (t ** 2 - 1, t * (t ** 2 - 1)) and cuspidal.rational_parametrization(t) == (t ** 2, t ** 3) and I.rational_parametrization(t) == (t ** 2 - 1, t * (t ** 2 - 1)) and sphere.rational_parametrization(parameters=(s, t)) == (2 / (s ** 2 + t ** 2 + 1), 2 * t / (s ** 2 + t ** 2 + 1), 2 * s / (s ** 2 + t ** 2 + 1)) and conic.rational_parametrization(t) == (S(17) / 2 + 4 / (3 * t ** 2 + 4 * t + 1), 4 * t / (3 * t ** 2 + 4 * t + 1) - S(11) / 2)","over":{"base":"Any"},"name":"test_rational_parametrization_correct"},"guarantee":"p.rational_parametrization() == (x - 2,); line.rational_parametrization() == (x, 3 * x + 2); circle1.rational_parametrization(parameters=t) == (4 * t / (t ** 2 + 1) + 2, 4 * t ** 2 / (t ** 2 + 1) - 5)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.tests.test_implicitregion.test_rational_parametrization_correct","statement":"Path(test_rational_parametrization(x), p.rational_parametrization() == (x - 2,); line.rational_parametrization() == (x, 3 * x + 2); circle1.rational_parametrization(parameters=t) == (4 * t / (t ** 2 + 1) + 2, 4 * t ** 2 / (t ** 2 + 1) - 5))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"df92e031da981450","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["p.rational_parametrization() == (x - 2,)","line.rational_parametrization() == (x, 3 * x + 2)","circle1.rational_parametrization(parameters=t) == (4 * t / (t ** 2 + 1) + 2, 4 * t ** 2 / (t ** 2 + 1) - 5)","circle2.rational_parametrization(parameters=t) == (t / (t ** 2 + 1) + S(1) / 2, t ** 2 / (t ** 2 + 1) - S(1) / 2)","circle3.rational_parametrization(parameters=(t,)) == (2 * t / (t ** 2 + 1) + 1, 2 * t ** 2 / (t ** 2 + 1) - 1)","parabola.rational_parametrization(t) == (-6 + 4 / t ** 2, 3 + 4 / t)","rect_hyperbola.rational_parametrization(t) == (-1 + (t + 1) / t, t)","cubic_curve.rational_parametrization(parameters=t) == (t ** 2 - 1, t * (t ** 2 - 1))","cuspidal.rational_parametrization(t) == (t ** 2, t ** 3)","I.rational_parametrization(t) == (t ** 2 - 1, t * (t ** 2 - 1))","sphere.rational_parametrization(parameters=(s, t)) == (2 / (s ** 2 + t ** 2 + 1), 2 * t / (s ** 2 + t ** 2 + 1), 2 * s / (s ** 2 + t ** 2 + 1))","conic.rational_parametrization(t) == (S(17) / 2 + 4 / (3 * t ** 2 + 4 * t + 1), 4 * t / (3 * t ** 2 + 4 * t + 1) - S(11) / 2)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.9,"verdict_class":"assumed","binding":true}}
 def test_rational_parametrization():
     p = ImplicitRegion((x,), x - 2)
     assert p.rational_parametrization() == (x - 2,)

@@ -31,14 +31,19 @@ if cin:
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a SymPyExpression instance) preserved by SymPyExpression(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ SymPyExpression : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5fc928055a7b0b8f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.sym_expr.SymPyExpression","kind":"class","src_hash":"78d4da79c8796ab7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"SymPyExpression(*args)","rhs":"correctly constructs a SymPyExpression instance","over":{"base":"Any"},"name":"SymPyExpression_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a SymPyExpression instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, '_expr') and hasattr(self, '_expr') and hasattr(self, '_expr')","kind":"class","induction":"structural on _expr, _expr, _expr"}],"methods_preserving":["__init__","convert_to_expr","convert_to_python","convert_to_c","convert_to_fortran","return_expr"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5fc928055a7b0b8f"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.sym_expr.SymPyExpression","kind":"class","src_hash":"78d4da79c8796ab7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"SymPyExpression(*args)","rhs":"correctly constructs a SymPyExpression instance","over":{"base":"Any"},"name":"SymPyExpression_class_invariant","kind":"invariant"},"guarantee":"preserves 1 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, '_expr') and hasattr(self, '_expr') and hasattr(self, '_expr')","kind":"class","induction":"structural on _expr, _expr, _expr"}],"methods_preserving":["__init__","convert_to_expr","convert_to_python","convert_to_c","convert_to_fortran","return_expr"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5fc928055a7b0b8f","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, '_expr')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":false,"binding_errors":["Function SymPyExpression not found in source"]}}
 class SymPyExpression:  # type: ignore
     """Class to store and handle SymPy expressions
 
@@ -120,16 +125,23 @@ class SymPyExpression:  # type: ignore
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(sou), initializes the instance correctly) over Any ║
+# ║ Path(__init__(source_code, mode), <unspecified:__init__>) over {Any | hasattr(mode, 'lower')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(mode, 'lower')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : {Any | hasattr(mode, 'lower')} → Any            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4934231bbd9f34c9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.sym_expr.SymPyExpression.__init__","kind":"method","src_hash":"84f058ed532ec7a9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(sou)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4934231bbd9f34c9"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.sym_expr.SymPyExpression.__init__","kind":"method","src_hash":"84f058ed532ec7a9","in":{"base":"Any","pred":"hasattr(mode, 'lower')"},"out":{"base":"Any"},"spec":{"lhs":"__init__(source_code, mode)","rhs":"<unspecified:__init__>","over":{"base":"Any","pred":"hasattr(mode, 'lower')"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4934231bbd9f34c9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(mode, 'lower')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["mode.lower"],"writes":["self._expr"],"raises":["ImportError","NotImplementedError","ValueError"]},"state_contract":{"modifies":["self._expr"],"old_bindings":{"old_self__expr":"self._expr"},"exceptional_post":{"ImportError":["isinstance(raised, ImportError)"],"NotImplementedError":["isinstance(raised, NotImplementedError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, source_code = None, mode = None):
         """Constructor for SymPyExpression class"""
         super().__init__()
@@ -157,16 +169,23 @@ class SymPyExpression:  # type: ignore
             raise ValueError('Please specify a mode for conversion')
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(convert_to_expr(src), converts the given source code to sympy expressions) over Any ║
+# ║ Path(convert_to_expr(src_code, mode), <unspecified:convert_to_expr>) over {Any | hasattr(mode, 'lower')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ convert_to_expr : Any → Any                                ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(mode, 'lower')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ convert_to_expr : {Any | hasattr(mode, 'lower')} → Any     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 71ab3c9107c422dd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.sym_expr.SymPyExpression.convert_to_expr","kind":"method","src_hash":"e3ee31d683e46071","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"convert_to_expr(src)","rhs":"converts the given source code to sympy expressions","over":{"base":"Any"},"name":"convert_to_expr_correct"},"guarantee":"converts the given source code to sympy expressions","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.sym_expr.SymPyExpression.convert_to_expr_correct","statement":"Path(convert_to_expr(x), converts the given source code to sympy expressions)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"71ab3c9107c422dd"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.sym_expr.SymPyExpression.convert_to_expr","kind":"method","src_hash":"e3ee31d683e46071","in":{"base":"Any","pred":"hasattr(mode, 'lower')"},"out":{"base":"Any"},"spec":{"lhs":"convert_to_expr(src_code, mode)","rhs":"<unspecified:convert_to_expr>","over":{"base":"Any","pred":"hasattr(mode, 'lower')"},"name":"convert_to_expr_correct"},"guarantee":"converts the given source code to sympy expressions","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.sym_expr.SymPyExpression.convert_to_expr_correct","statement":"Path(convert_to_expr(x), converts the given source code to sympy expressions)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"71ab3c9107c422dd","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(mode, 'lower')"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["mode.lower"],"writes":["self._expr"],"raises":["ImportError","NotImplementedError"]},"state_contract":{"modifies":["self._expr"],"old_bindings":{"old_self__expr":"self._expr"},"exceptional_post":{"ImportError":["isinstance(raised, ImportError)"],"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def convert_to_expr(self, src_code, mode):
         """Converts the given source code to SymPy Expressions
 
@@ -224,16 +243,23 @@ class SymPyExpression:  # type: ignore
             )
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(convert_to_python(), returns a list with python code for the sympy expressions) over Any ║
+# ║ Path(convert_to_python(), self._pycode) over Any           ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ convert_to_python : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(self) == old_len_self + 1                  ║
+# ║   returns:  self._pycode                                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ convert_to_python : Any → {Any | result satisfies: re...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ceed3a18088b0e85  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eb6e033cf40e2fbb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.sym_expr.SymPyExpression.convert_to_python","kind":"method","src_hash":"1f2f4dc85abdc823","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"convert_to_python()","rhs":"returns a list with python code for the sympy expressions","over":{"base":"Any"},"name":"convert_to_python_correct"},"guarantee":"returns a list with python code for the sympy expressions","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.sym_expr.SymPyExpression.convert_to_python_correct","statement":"Path(convert_to_python(x), returns a list with python code for the sympy expressions)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ceed3a18088b0e85"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.sym_expr.SymPyExpression.convert_to_python","kind":"method","src_hash":"1f2f4dc85abdc823","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (self._pycode)"},"spec":{"lhs":"convert_to_python()","rhs":"self._pycode","over":{"base":"Any"},"name":"convert_to_python_correct"},"guarantee":"returns self._pycode; len(self) == old_len_self + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.sym_expr.SymPyExpression.convert_to_python_correct","statement":"Path(convert_to_python(x), returns self._pycode; len(self) == old_len_self + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eb6e033cf40e2fbb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(self) == old_len_self + 1"],"returns_expr":"self._pycode","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._expr","self._pycode"],"writes":["self._pycode"],"calls_mutating":["self._pycode.append"]},"state_contract":{"modifies":["self.*","self._pycode"],"old_bindings":{"old_self__pycode":"self._pycode","old_len_self":"len(self)"},"post_ensures":["len(self) == old_len_self + 1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def convert_to_python(self):
         """Returns a list with Python code for the SymPy expressions
 
@@ -260,16 +286,23 @@ class SymPyExpression:  # type: ignore
         return self._pycode
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(convert_to_c(), returns a list with the c source code for the sympy expressions) over Any ║
+# ║ Path(convert_to_c(), self._ccode) over Any                 ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ convert_to_c : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(self) == old_len_self + 1                  ║
+# ║   returns:  self._ccode                                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ convert_to_c : Any → {Any | result satisfies: result ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3f46f001818eb139  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 66b3ba631a958891  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.sym_expr.SymPyExpression.convert_to_c","kind":"method","src_hash":"c09237c0ea30332a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"convert_to_c()","rhs":"returns a list with the c source code for the sympy expressions","over":{"base":"Any"},"name":"convert_to_c_correct"},"guarantee":"returns a list with the c source code for the sympy expressions","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.sym_expr.SymPyExpression.convert_to_c_correct","statement":"Path(convert_to_c(x), returns a list with the c source code for the sympy expressions)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3f46f001818eb139"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.sym_expr.SymPyExpression.convert_to_c","kind":"method","src_hash":"c09237c0ea30332a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (self._ccode)"},"spec":{"lhs":"convert_to_c()","rhs":"self._ccode","over":{"base":"Any"},"name":"convert_to_c_correct"},"guarantee":"returns self._ccode; len(self) == old_len_self + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.sym_expr.SymPyExpression.convert_to_c_correct","statement":"Path(convert_to_c(x), returns self._ccode; len(self) == old_len_self + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"66b3ba631a958891","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(self) == old_len_self + 1"],"returns_expr":"self._ccode","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._ccode","self._expr"],"writes":["self._ccode"],"calls_mutating":["self._ccode.append"]},"state_contract":{"modifies":["self.*","self._ccode"],"old_bindings":{"old_self__ccode":"self._ccode","old_len_self":"len(self)"},"post_ensures":["len(self) == old_len_self + 1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def convert_to_c(self):
         """Returns a list with the c source code for the SymPy expressions
 
@@ -298,16 +331,23 @@ class SymPyExpression:  # type: ignore
         return self._ccode
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(convert_to_fortran(), returns a list with the fortran source code for the sympy expressions) over Any ║
+# ║ Path(convert_to_fortran(), self._fcode) over Any           ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ convert_to_fortran : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(self) == old_len_self + 1                  ║
+# ║   returns:  self._fcode                                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ convert_to_fortran : Any → {Any | result satisfies: r...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5d73a33d755dcb7a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6ab099931b9e692c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.sym_expr.SymPyExpression.convert_to_fortran","kind":"method","src_hash":"982b7d3aa8e87e75","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"convert_to_fortran()","rhs":"returns a list with the fortran source code for the sympy expressions","over":{"base":"Any"},"name":"convert_to_fortran_correct"},"guarantee":"returns a list with the fortran source code for the sympy expressions","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.sym_expr.SymPyExpression.convert_to_fortran_correct","statement":"Path(convert_to_fortran(x), returns a list with the fortran source code for the sympy expressions)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5d73a33d755dcb7a"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.sym_expr.SymPyExpression.convert_to_fortran","kind":"method","src_hash":"982b7d3aa8e87e75","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (self._fcode)"},"spec":{"lhs":"convert_to_fortran()","rhs":"self._fcode","over":{"base":"Any"},"name":"convert_to_fortran_correct"},"guarantee":"returns self._fcode; len(self) == old_len_self + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.sym_expr.SymPyExpression.convert_to_fortran_correct","statement":"Path(convert_to_fortran(x), returns self._fcode; len(self) == old_len_self + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6ab099931b9e692c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(self) == old_len_self + 1"],"returns_expr":"self._fcode","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._expr","self._fcode"],"writes":["self._fcode"],"calls_mutating":["self._fcode.append"]},"state_contract":{"modifies":["self.*","self._fcode"],"old_bindings":{"old_self__fcode":"self._fcode","old_len_self":"len(self)"},"post_ensures":["len(self) == old_len_self + 1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def convert_to_fortran(self):
         """Returns a list with the fortran source code for the SymPy expressions
 
@@ -334,16 +374,22 @@ class SymPyExpression:  # type: ignore
         return self._fcode
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(return_expr(), returns the expression list) over Any  ║
+# ║ Path(return_expr(), self._expr) over Any                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._expr                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ return_expr : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3cebc229b35913be  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4adc10183d3d0e48  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.sym_expr.SymPyExpression.return_expr","kind":"method","src_hash":"9b945e6ae7fb5529","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"return_expr()","rhs":"returns the expression list","over":{"base":"Any"},"name":"return_expr_correct"},"guarantee":"returns the expression list","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.sym_expr.SymPyExpression.return_expr_correct","statement":"Path(return_expr(x), returns the expression list)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3cebc229b35913be"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.sym_expr.SymPyExpression.return_expr","kind":"method","src_hash":"9b945e6ae7fb5529","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"return_expr()","rhs":"self._expr","over":{"base":"Any"},"name":"return_expr_correct"},"guarantee":"returns self._expr","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.sym_expr.SymPyExpression.return_expr_correct","statement":"Path(return_expr(x), returns self._expr)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4adc10183d3d0e48","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._expr","pure":false,"effects":{"effect_type":"reads_state","reads":["self._expr"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def return_expr(self):
         """Returns the expression list
 

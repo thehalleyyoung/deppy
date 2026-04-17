@@ -32,16 +32,22 @@ x, y, z = symbols('x y z')
 # Don't declare these during import because they are slow
 @lru_cache()
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_examples(), internal helper behaves correctly) over Any ║
+# ║ Path(_get_examples(), (fo, fe, fp)) over Any               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (fo, fe, fp)                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_examples : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 190f947a1b71e2ea  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4ba98d56aa167051  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_fourier._get_examples","kind":"function","src_hash":"bfe5c726e85f7995","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_examples()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_examples_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_fourier._get_examples_correct","statement":"Path(_get_examples(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"190f947a1b71e2ea"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_fourier._get_examples","kind":"function","src_hash":"bfe5c726e85f7995","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_examples()","rhs":"(fo, fe, fp)","over":{"base":"Any"},"name":"_get_examples_correct"},"guarantee":"returns (fo, fe, fp)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_fourier._get_examples_correct","statement":"Path(_get_examples(x), returns (fo, fe, fp))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4ba98d56aa167051","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(fo, fe, fp)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _get_examples():
     fo = fourier_series(x, (x, -pi, pi))
     fe = fourier_series(x**2, (-pi, pi))
@@ -50,7 +56,12 @@ def _get_examples():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_FourierSeries(), test_FourierSeries produces the expected output) over {Any | isinstance(fo, FourierSeries)} ║
+# ║ Path(test_FourierSeries(), fourier_series(1, (-pi, pi)) == 1 and Piecewise((0, x < 0), (pi, True)).fourier_series((x, -pi, pi)).truncate() == fp.truncate() and isinstance(fo, FourierSeries) and fo.function == x and fo.x == x and fo.period == (-pi, pi) and fo.term(3) == 2 * sin(3 * x) / 3 and fe.term(3) == -4 * cos(3 * x) / 9 and fp.term(3) == 2 * sin(3 * x) / 3 and fo.as_leading_term(x) == 2 * sin(x) and fe.as_leading_term(x) == pi ** 2 / 3 and fp.as_leading_term(x) == pi / 2 and fo.truncate() == 2 * sin(x) - sin(2 * x) + 2 * sin(3 * x) / 3 and fe.truncate() == -4 * cos(x) + cos(2 * x) + pi ** 2 / 3 and fp.truncate() == 2 * sin(x) + 2 * sin(3 * x) / 3 + pi / 2 and fo.subs(x, x ** 2) == fo) over {Any | isinstance(fo, FourierSeries)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  fourier_series(1, (-pi, pi)) == 1              ║
+# ║   ensures:  Piecewise((0, x < 0), (pi, True)).fourier...   ║
+# ║   ensures:  isinstance(fo, FourierSeries)                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_FourierSeries : {Any | isinstance(fo, FourierSer...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -62,9 +73,12 @@ def _get_examples():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 2.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 54f58a86...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_fourier.test_FourierSeries","kind":"function","src_hash":"1fef9d7002c68f6f","in":{"base":"Any","pred":"isinstance(fo, FourierSeries)"},"out":{"base":"Any","pred":"fourier_series(1, (-pi, pi)) == 1 and isinstance(fo, FourierSeries) and fo.function == x and fo.x == x and fo.period == (-pi, pi) and fo.term(3) == 2 * sin(3 * x) / 3 and fe.term(3) == -4 * cos(3 * x) / 9 and fp.term(3) == 2 * sin(3 * x) / 3 and fo.as_leading_term(x) == 2 * sin(x) and fe.as_leading_term(x) == pi ** 2 / 3 and fp.as_leading_term(x) == pi / 2 and fo.truncate() == 2 * sin(x) - sin(2 * x) + 2 * sin(3 * x) / 3 and fe.truncate() == -4 * cos(x) + cos(2 * x) + pi ** 2 / 3 and fp.truncate() == 2 * sin(x) + 2 * sin(3 * x) / 3 + pi / 2 and fo.subs(x, x ** 2) == fo and s[i] == t and t == f[ind]"},"spec":{"lhs":"test_FourierSeries()","rhs":"test_FourierSeries produces the expected output","over":{"base":"Any","pred":"isinstance(fo, FourierSeries)"},"name":"test_FourierSeries_correct"},"guarantee":"test_FourierSeries produces the expected output","fibers":[{"name":"FourierSeries","pred":"isinstance(fo, FourierSeries)","path":{"lhs":"test_FourierSeries(x)","rhs":"test_FourierSeries produces the expected output","over":{"base":"FourierSeries","pred":"isinstance(fo, FourierSeries)"},"name":"test_FourierSeries_FourierSeries_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_fourier.test_FourierSeries_FourierSeries_correct","statement":"test_FourierSeries satisfies spec on FourierSeries inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"54f58a865afdb919"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_fourier.test_FourierSeries","kind":"function","src_hash":"1fef9d7002c68f6f","in":{"base":"Any","pred":"isinstance(fo, FourierSeries)"},"out":{"base":"Any","pred":"result satisfies: fourier_series(1, (-pi, pi)) == 1 and Piecewise((0, x < 0), (pi, True)).fourier_series((x, -pi, pi)).truncate() == fp.truncate() and isinstance(fo, FourierSeries) and fo.function == x and fo.x == x and fo.period == (-pi, pi) and fo.term(3) == 2 * sin(3 * x) / 3 and fe.term(3) == -4 * cos(3 * x) / 9 and fp.term(3) == 2 * sin(3 * x) / 3 and fo.as_leading_term(x) == 2 * sin(x) and fe.as_leading_term(x) == pi ** 2 / 3 and fp.as_leading_term(x) == pi / 2 and fo.truncate() == 2 * sin(x) - sin(2 * x) + 2 * sin(3 * x) / 3 and fe.truncate() == -4 * cos(x) + cos(2 * x) + pi ** 2 / 3 and fp.truncate() == 2 * sin(x) + 2 * sin(3 * x) / 3 + pi / 2 and fo.subs(x, x ** 2) == fo"},"spec":{"lhs":"test_FourierSeries()","rhs":"fourier_series(1, (-pi, pi)) == 1 and Piecewise((0, x < 0), (pi, True)).fourier_series((x, -pi, pi)).truncate() == fp.truncate() and isinstance(fo, FourierSeries) and fo.function == x and fo.x == x and fo.period == (-pi, pi) and fo.term(3) == 2 * sin(3 * x) / 3 and fe.term(3) == -4 * cos(3 * x) / 9 and fp.term(3) == 2 * sin(3 * x) / 3 and fo.as_leading_term(x) == 2 * sin(x) and fe.as_leading_term(x) == pi ** 2 / 3 and fp.as_leading_term(x) == pi / 2 and fo.truncate() == 2 * sin(x) - sin(2 * x) + 2 * sin(3 * x) / 3 and fe.truncate() == -4 * cos(x) + cos(2 * x) + pi ** 2 / 3 and fp.truncate() == 2 * sin(x) + 2 * sin(3 * x) / 3 + pi / 2 and fo.subs(x, x ** 2) == fo","over":{"base":"Any","pred":"isinstance(fo, FourierSeries)"},"name":"test_FourierSeries_correct"},"guarantee":"fourier_series(1, (-pi, pi)) == 1; Piecewise((0, x < 0), (pi, True)).fourier_series((x, -pi, pi)).truncate() == fp.truncate(); isinstance(fo, FourierSeries)","fibers":[{"name":"FourierSeries","pred":"isinstance(fo, FourierSeries)","path":{"lhs":"test_FourierSeries(x)","rhs":"fourier_series(1, (-pi, pi)) == 1; Piecewise((0, x < 0), (pi, True)).fourier_series((x, -pi, pi)).truncate() == fp.truncate(); isinstance(fo, FourierSeries)","over":{"base":"FourierSeries","pred":"isinstance(fo, FourierSeries)"},"name":"test_FourierSeries_FourierSeries_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_fourier.test_FourierSeries_FourierSeries_correct","statement":"test_FourierSeries satisfies spec on FourierSeries inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"54f58a865afdb919","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["fourier_series(1, (-pi, pi)) == 1","Piecewise((0, x < 0), (pi, True)).fourier_series((x, -pi, pi)).truncate() == fp.truncate()","isinstance(fo, FourierSeries)","fo.function == x","fo.x == x","fo.period == (-pi, pi)","fo.term(3) == 2 * sin(3 * x) / 3","fe.term(3) == -4 * cos(3 * x) / 9","fp.term(3) == 2 * sin(3 * x) / 3","fo.as_leading_term(x) == 2 * sin(x)","fe.as_leading_term(x) == pi ** 2 / 3","fp.as_leading_term(x) == pi / 2","fo.truncate() == 2 * sin(x) - sin(2 * x) + 2 * sin(3 * x) / 3","fe.truncate() == -4 * cos(x) + cos(2 * x) + pi ** 2 / 3","fp.truncate() == 2 * sin(x) + 2 * sin(3 * x) / 3 + pi / 2","fo.subs(x, x ** 2) == fo"],"pure":false,"effects":{"effect_type":"io","calls_mutating":["fe.truncate","fo.truncate","fp.truncate"],"io_operations":["?.truncate","fe.truncate","fo.truncate","fp.truncate"]},"state_contract":{"modifies":["fe.*","fo.*","fp.*"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.0,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'i == 3', 'ind == i'}, fibers={'FourierSeries'})"]}}
 def test_FourierSeries():
     fo, fe, fp = _get_examples()
 
@@ -113,16 +127,23 @@ def test_FourierSeries():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_FourierSeries_2(), test_FourierSeries_2 produces the expected output) over Any ║
+# ║ Path(test_FourierSeries_2(), f.term(3) == 2 * sin(3 * pi * x / 2) / (3 * pi) - 4 * cos(3 * pi * x / 2) / (9 * pi ** 2) and f.truncate() == 2 * sin(pi * x / 2) / pi - sin(pi * x) / pi - 4 * cos(pi * x / 2) / pi ** 2 + S.Half) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_FourierSeries_2 : Any → Any                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f.term(3) == 2 * sin(3 * pi * x / 2) / (3...   ║
+# ║   ensures:  f.truncate() == 2 * sin(pi * x / 2) / pi ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_FourierSeries_2 : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8f7a36c3a3461f29  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3c3087353fdd5436  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_fourier.test_FourierSeries_2","kind":"function","src_hash":"bde7d941624f1a01","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_FourierSeries_2()","rhs":"test_FourierSeries_2 produces the expected output","over":{"base":"Any"},"name":"test_FourierSeries_2_correct"},"guarantee":"test_FourierSeries_2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_fourier.test_FourierSeries_2_correct","statement":"Path(test_FourierSeries_2(x), test_FourierSeries_2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8f7a36c3a3461f29"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_fourier.test_FourierSeries_2","kind":"function","src_hash":"bde7d941624f1a01","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f.term(3) == 2 * sin(3 * pi * x / 2) / (3 * pi) - 4 * cos(3 * pi * x / 2) / (9 * pi ** 2) and f.truncate() == 2 * sin(pi * x / 2) / pi - sin(pi * x) / pi - 4 * cos(pi * x / 2) / pi ** 2 + S.Half"},"spec":{"lhs":"test_FourierSeries_2()","rhs":"f.term(3) == 2 * sin(3 * pi * x / 2) / (3 * pi) - 4 * cos(3 * pi * x / 2) / (9 * pi ** 2) and f.truncate() == 2 * sin(pi * x / 2) / pi - sin(pi * x) / pi - 4 * cos(pi * x / 2) / pi ** 2 + S.Half","over":{"base":"Any"},"name":"test_FourierSeries_2_correct"},"guarantee":"f.term(3) == 2 * sin(3 * pi * x / 2) / (3 * pi) - 4 * cos(3 * pi * x / 2) / (9 * pi ** 2); f.truncate() == 2 * sin(pi * x / 2) / pi - sin(pi * x) / pi - 4 * cos(pi * x / 2) / pi ** 2 + S.Half","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_fourier.test_FourierSeries_2_correct","statement":"Path(test_FourierSeries_2(x), f.term(3) == 2 * sin(3 * pi * x / 2) / (3 * pi) - 4 * cos(3 * pi * x / 2) / (9 * pi ** 2); f.truncate() == 2 * sin(pi * x / 2) / pi - sin(pi * x) / pi - 4 * cos(pi * x / 2) / pi ** 2 + S.Half)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3c3087353fdd5436","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f.term(3) == 2 * sin(3 * pi * x / 2) / (3 * pi) - 4 * cos(3 * pi * x / 2) / (9 * pi ** 2)","f.truncate() == 2 * sin(pi * x / 2) / pi - sin(pi * x) / pi - 4 * cos(pi * x / 2) / pi ** 2 + S.Half"],"pure":false,"effects":{"effect_type":"io","calls_mutating":["f.truncate"],"io_operations":["f.truncate"]},"state_contract":{"modifies":["f.*"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_FourierSeries_2():
     p = Piecewise((0, x < 0), (x, True))
     f = fourier_series(p, (x, -2, 2))
@@ -134,16 +155,23 @@ def test_FourierSeries_2():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_square_wave(), test if fourier_series approximates discontinuous function correctly) over Any ║
+# ║ Path(test_square_wave(), s.truncate(3) == 4 / pi * sin(x) + 4 / (3 * pi) * sin(3 * x) + 4 / (5 * pi) * sin(5 * x) and s.sigma_approximation(4) == 4 / pi * sin(x) * sinc(pi / 4) + 4 / (3 * pi) * sin(3 * x) * sinc(3 * pi / 4)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_square_wave : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  s.truncate(3) == 4 / pi * sin(x) + 4 / (3...   ║
+# ║   ensures:  s.sigma_approximation(4) == 4 / pi * sin(...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_square_wave : Any → {Any | result satisfies: s.t...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1bf2c8be482cb946  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ef3f354efe8a45fc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_fourier.test_square_wave","kind":"function","src_hash":"77754ef403299b12","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_square_wave()","rhs":"test if fourier_series approximates discontinuous function correctly","over":{"base":"Any"},"name":"test_square_wave_correct"},"guarantee":"test if fourier_series approximates discontinuous function correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_fourier.test_square_wave_correct","statement":"Path(test_square_wave(x), test if fourier_series approximates discontinuous function correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1bf2c8be482cb946"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_fourier.test_square_wave","kind":"function","src_hash":"77754ef403299b12","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: s.truncate(3) == 4 / pi * sin(x) + 4 / (3 * pi) * sin(3 * x) + 4 / (5 * pi) * sin(5 * x) and s.sigma_approximation(4) == 4 / pi * sin(x) * sinc(pi / 4) + 4 / (3 * pi) * sin(3 * x) * sinc(3 * pi / 4)"},"spec":{"lhs":"test_square_wave()","rhs":"s.truncate(3) == 4 / pi * sin(x) + 4 / (3 * pi) * sin(3 * x) + 4 / (5 * pi) * sin(5 * x) and s.sigma_approximation(4) == 4 / pi * sin(x) * sinc(pi / 4) + 4 / (3 * pi) * sin(3 * x) * sinc(3 * pi / 4)","over":{"base":"Any"},"name":"test_square_wave_correct"},"guarantee":"s.truncate(3) == 4 / pi * sin(x) + 4 / (3 * pi) * sin(3 * x) + 4 / (5 * pi) * sin(5 * x); s.sigma_approximation(4) == 4 / pi * sin(x) * sinc(pi / 4) + 4 / (3 * pi) * sin(3 * x) * sinc(3 * pi / 4)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_fourier.test_square_wave_correct","statement":"Path(test_square_wave(x), s.truncate(3) == 4 / pi * sin(x) + 4 / (3 * pi) * sin(3 * x) + 4 / (5 * pi) * sin(5 * x); s.sigma_approximation(4) == 4 / pi * sin(x) * sinc(pi / 4) + 4 / (3 * pi) * sin(3 * x) * sinc(3 * pi / 4))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ef3f354efe8a45fc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["s.truncate(3) == 4 / pi * sin(x) + 4 / (3 * pi) * sin(3 * x) + 4 / (5 * pi) * sin(5 * x)","s.sigma_approximation(4) == 4 / pi * sin(x) * sinc(pi / 4) + 4 / (3 * pi) * sin(3 * x) * sinc(3 * pi / 4)"],"pure":false,"effects":{"effect_type":"io","calls_mutating":["s.truncate"],"io_operations":["s.truncate"]},"state_contract":{"modifies":["s.*"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_square_wave():
     """Test if fourier_series approximates discontinuous function correctly."""
     square_wave = Piecewise((1, x < pi), (-1, True))
@@ -156,16 +184,23 @@ def test_square_wave():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_sawtooth_wave(), test_sawtooth_wave produces the expected output) over Any ║
+# ║ Path(test_sawtooth_wave(), s.truncate(4) == pi / 2 - sin(2 * x) - sin(4 * x) / 2 - sin(6 * x) / 3 and s.truncate(4) == S.Half - sin(2 * pi * x) / pi - sin(4 * pi * x) / (2 * pi) - sin(6 * pi * x) / (3 * pi)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_sawtooth_wave : Any → {Any | s.truncate(4) == pi...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  s.truncate(4) == pi / 2 - sin(2 * x) - si...   ║
+# ║   ensures:  s.truncate(4) == S.Half - sin(2 * pi * x)...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_sawtooth_wave : Any → {Any | result satisfies: s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7833a134b4049026  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1c60ead4d6b19b31  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_fourier.test_sawtooth_wave","kind":"function","src_hash":"b3f0e64905dfca5f","in":{"base":"Any"},"out":{"base":"Any","pred":"s.truncate(4) == pi / 2 - sin(2 * x) - sin(4 * x) / 2 - sin(6 * x) / 3"},"spec":{"lhs":"test_sawtooth_wave()","rhs":"test_sawtooth_wave produces the expected output","over":{"base":"Any"},"name":"test_sawtooth_wave_correct"},"guarantee":"test_sawtooth_wave produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_fourier.test_sawtooth_wave_correct","statement":"Path(test_sawtooth_wave(x), test_sawtooth_wave produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7833a134b4049026"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_fourier.test_sawtooth_wave","kind":"function","src_hash":"b3f0e64905dfca5f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: s.truncate(4) == pi / 2 - sin(2 * x) - sin(4 * x) / 2 - sin(6 * x) / 3 and s.truncate(4) == S.Half - sin(2 * pi * x) / pi - sin(4 * pi * x) / (2 * pi) - sin(6 * pi * x) / (3 * pi)"},"spec":{"lhs":"test_sawtooth_wave()","rhs":"s.truncate(4) == pi / 2 - sin(2 * x) - sin(4 * x) / 2 - sin(6 * x) / 3 and s.truncate(4) == S.Half - sin(2 * pi * x) / pi - sin(4 * pi * x) / (2 * pi) - sin(6 * pi * x) / (3 * pi)","over":{"base":"Any"},"name":"test_sawtooth_wave_correct"},"guarantee":"s.truncate(4) == pi / 2 - sin(2 * x) - sin(4 * x) / 2 - sin(6 * x) / 3; s.truncate(4) == S.Half - sin(2 * pi * x) / pi - sin(4 * pi * x) / (2 * pi) - sin(6 * pi * x) / (3 * pi)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_fourier.test_sawtooth_wave_correct","statement":"Path(test_sawtooth_wave(x), s.truncate(4) == pi / 2 - sin(2 * x) - sin(4 * x) / 2 - sin(6 * x) / 3; s.truncate(4) == S.Half - sin(2 * pi * x) / pi - sin(4 * pi * x) / (2 * pi) - sin(6 * pi * x) / (3 * pi))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1c60ead4d6b19b31","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["s.truncate(4) == pi / 2 - sin(2 * x) - sin(4 * x) / 2 - sin(6 * x) / 3","s.truncate(4) == S.Half - sin(2 * pi * x) / pi - sin(4 * pi * x) / (2 * pi) - sin(6 * pi * x) / (3 * pi)"],"pure":false,"effects":{"effect_type":"io","calls_mutating":["s.truncate"],"io_operations":["s.truncate"]},"state_contract":{"modifies":["s.*"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_sawtooth_wave():
     s = fourier_series(x, (x, 0, pi))
     assert s.truncate(4) == \
@@ -176,16 +211,24 @@ def test_sawtooth_wave():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_FourierSeries__operations(), test_FourierSeries__operations produces the expected output) over Any ║
+# ║ Path(test_FourierSeries__operations(), fes.truncate() == 4 * cos(x) - cos(2 * x) + 2 * pi ** 2 / 3 and fp.shift(-pi / 2).truncate() == 2 * sin(x) + 2 * sin(3 * x) / 3 + 2 * sin(5 * x) / 5 and fos.truncate() == 6 * sin(x) - 3 * sin(2 * x) + 2 * sin(3 * x) and fx.truncate() == -4 * cos(2 * x + 2) + cos(4 * x + 4) + pi ** 2 / 3 and fl.truncate() == -16 * cos(6 * x + 6) + 4 * cos(12 * x + 12) - 4 * pi + 4 * pi ** 2 / 3) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_FourierSeries__operations : Any → {Any | fes.tru...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  fes.truncate() == 4 * cos(x) - cos(2 * x)...   ║
+# ║   ensures:  fp.shift(-pi / 2).truncate() == 2 * sin(x...   ║
+# ║   ensures:  fos.truncate() == 6 * sin(x) - 3 * sin(2 ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_FourierSeries__operations : Any → {Any | result ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 476347d9c7559418  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b756ef9511880733  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_fourier.test_FourierSeries__operations","kind":"function","src_hash":"c25054504ae2b647","in":{"base":"Any"},"out":{"base":"Any","pred":"fes.truncate() == 4 * cos(x) - cos(2 * x) + 2 * pi ** 2 / 3 and fos.truncate() == 6 * sin(x) - 3 * sin(2 * x) + 2 * sin(3 * x) and fx.truncate() == -4 * cos(2 * x + 2) + cos(4 * x + 4) + pi ** 2 / 3"},"spec":{"lhs":"test_FourierSeries__operations()","rhs":"test_FourierSeries__operations produces the expected output","over":{"base":"Any"},"name":"test_FourierSeries__operations_correct"},"guarantee":"test_FourierSeries__operations produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_fourier.test_FourierSeries__operations_correct","statement":"Path(test_FourierSeries__operations(x), test_FourierSeries__operations produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"476347d9c7559418"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_fourier.test_FourierSeries__operations","kind":"function","src_hash":"c25054504ae2b647","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: fes.truncate() == 4 * cos(x) - cos(2 * x) + 2 * pi ** 2 / 3 and fp.shift(-pi / 2).truncate() == 2 * sin(x) + 2 * sin(3 * x) / 3 + 2 * sin(5 * x) / 5 and fos.truncate() == 6 * sin(x) - 3 * sin(2 * x) + 2 * sin(3 * x) and fx.truncate() == -4 * cos(2 * x + 2) + cos(4 * x + 4) + pi ** 2 / 3 and fl.truncate() == -16 * cos(6 * x + 6) + 4 * cos(12 * x + 12) - 4 * pi + 4 * pi ** 2 / 3"},"spec":{"lhs":"test_FourierSeries__operations()","rhs":"fes.truncate() == 4 * cos(x) - cos(2 * x) + 2 * pi ** 2 / 3 and fp.shift(-pi / 2).truncate() == 2 * sin(x) + 2 * sin(3 * x) / 3 + 2 * sin(5 * x) / 5 and fos.truncate() == 6 * sin(x) - 3 * sin(2 * x) + 2 * sin(3 * x) and fx.truncate() == -4 * cos(2 * x + 2) + cos(4 * x + 4) + pi ** 2 / 3 and fl.truncate() == -16 * cos(6 * x + 6) + 4 * cos(12 * x + 12) - 4 * pi + 4 * pi ** 2 / 3","over":{"base":"Any"},"name":"test_FourierSeries__operations_correct"},"guarantee":"fes.truncate() == 4 * cos(x) - cos(2 * x) + 2 * pi ** 2 / 3; fp.shift(-pi / 2).truncate() == 2 * sin(x) + 2 * sin(3 * x) / 3 + 2 * sin(5 * x) / 5; fos.truncate() == 6 * sin(x) - 3 * sin(2 * x) + 2 * sin(3 * x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_fourier.test_FourierSeries__operations_correct","statement":"Path(test_FourierSeries__operations(x), fes.truncate() == 4 * cos(x) - cos(2 * x) + 2 * pi ** 2 / 3; fp.shift(-pi / 2).truncate() == 2 * sin(x) + 2 * sin(3 * x) / 3 + 2 * sin(5 * x) / 5; fos.truncate() == 6 * sin(x) - 3 * sin(2 * x) + 2 * sin(3 * x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b756ef9511880733","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["fes.truncate() == 4 * cos(x) - cos(2 * x) + 2 * pi ** 2 / 3","fp.shift(-pi / 2).truncate() == 2 * sin(x) + 2 * sin(3 * x) / 3 + 2 * sin(5 * x) / 5","fos.truncate() == 6 * sin(x) - 3 * sin(2 * x) + 2 * sin(3 * x)","fx.truncate() == -4 * cos(2 * x + 2) + cos(4 * x + 4) + pi ** 2 / 3","fl.truncate() == -16 * cos(6 * x + 6) + 4 * cos(12 * x + 12) - 4 * pi + 4 * pi ** 2 / 3"],"pure":false,"effects":{"effect_type":"io","calls_mutating":["fes.truncate","fl.truncate","fos.truncate","fx.truncate"],"io_operations":["?.truncate","fes.truncate","fl.truncate","fos.truncate","fx.truncate"]},"state_contract":{"modifies":["fes.*","fl.*","fos.*","fx.*"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_FourierSeries__operations():
     fo, fe, fp = _get_examples()
 
@@ -212,16 +255,23 @@ def test_FourierSeries__operations():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_FourierSeries__neg(), test_FourierSeries__neg produces the expected output) over Any ║
+# ║ Path(test_FourierSeries__neg(), (-fo).truncate() == -2 * sin(x) + sin(2 * x) - 2 * sin(3 * x) / 3 and (-fe).truncate() == +4 * cos(x) - cos(2 * x) - pi ** 2 / 3) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_FourierSeries__neg : Any → {Any | (-fo).truncate...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (-fo).truncate() == -2 * sin(x) + sin(2 *...   ║
+# ║   ensures:  (-fe).truncate() == +4 * cos(x) - cos(2 *...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_FourierSeries__neg : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8d37e5b004f93b51  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5e514b68928a3eda  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_fourier.test_FourierSeries__neg","kind":"function","src_hash":"98d5da8fc8519d67","in":{"base":"Any"},"out":{"base":"Any","pred":"(-fo).truncate() == -2 * sin(x) + sin(2 * x) - 2 * sin(3 * x) / 3 and (-fe).truncate() == +4 * cos(x) - cos(2 * x) - pi ** 2 / 3"},"spec":{"lhs":"test_FourierSeries__neg()","rhs":"test_FourierSeries__neg produces the expected output","over":{"base":"Any"},"name":"test_FourierSeries__neg_correct"},"guarantee":"test_FourierSeries__neg produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_fourier.test_FourierSeries__neg_correct","statement":"Path(test_FourierSeries__neg(x), test_FourierSeries__neg produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8d37e5b004f93b51"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_fourier.test_FourierSeries__neg","kind":"function","src_hash":"98d5da8fc8519d67","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (-fo).truncate() == -2 * sin(x) + sin(2 * x) - 2 * sin(3 * x) / 3 and (-fe).truncate() == +4 * cos(x) - cos(2 * x) - pi ** 2 / 3"},"spec":{"lhs":"test_FourierSeries__neg()","rhs":"(-fo).truncate() == -2 * sin(x) + sin(2 * x) - 2 * sin(3 * x) / 3 and (-fe).truncate() == +4 * cos(x) - cos(2 * x) - pi ** 2 / 3","over":{"base":"Any"},"name":"test_FourierSeries__neg_correct"},"guarantee":"(-fo).truncate() == -2 * sin(x) + sin(2 * x) - 2 * sin(3 * x) / 3; (-fe).truncate() == +4 * cos(x) - cos(2 * x) - pi ** 2 / 3","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_fourier.test_FourierSeries__neg_correct","statement":"Path(test_FourierSeries__neg(x), (-fo).truncate() == -2 * sin(x) + sin(2 * x) - 2 * sin(3 * x) / 3; (-fe).truncate() == +4 * cos(x) - cos(2 * x) - pi ** 2 / 3)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5e514b68928a3eda","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(-fo).truncate() == -2 * sin(x) + sin(2 * x) - 2 * sin(3 * x) / 3","(-fe).truncate() == +4 * cos(x) - cos(2 * x) - pi ** 2 / 3"],"pure":false,"effects":{"effect_type":"io","io_operations":["?.truncate"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_FourierSeries__neg():
     fo, fe, fp = _get_examples()
 
@@ -230,7 +280,12 @@ def test_FourierSeries__neg():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_FourierSeries__add__sub(), test_FourierSeries__add__sub produces the expected output) over {Any | isinstance(fo + 1, Add)} ║
+# ║ Path(test_FourierSeries__add__sub(), fo + fo == fo.scale(2) and fo - fo == 0 and -fe - fe == fe.scale(-2) and (fo + fe).truncate() == 2 * sin(x) - sin(2 * x) - 4 * cos(x) + cos(2 * x) + pi ** 2 / 3 and (fo - fe).truncate() == 2 * sin(x) - sin(2 * x) + 4 * cos(x) - cos(2 * x) - pi ** 2 / 3 and isinstance(fo + 1, Add)) over {Any | isinstance(fo + 1, Add)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  fo + fo == fo.scale(2)                         ║
+# ║   ensures:  fo - fo == 0                                   ║
+# ║   ensures:  -fe - fe == fe.scale(-2)                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_FourierSeries__add__sub : {Any | isinstance(fo +...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -242,9 +297,12 @@ def test_FourierSeries__neg():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 2.2ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | ccf41753...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_fourier.test_FourierSeries__add__sub","kind":"function","src_hash":"50cb3c331c1e6c9f","in":{"base":"Any","pred":"isinstance(fo + 1, Add)"},"out":{"base":"Any","pred":"fo + fo == fo.scale(2) and fo - fo == 0 and -fe - fe == fe.scale(-2) and isinstance(fo + 1, Add)"},"spec":{"lhs":"test_FourierSeries__add__sub()","rhs":"test_FourierSeries__add__sub produces the expected output","over":{"base":"Any","pred":"isinstance(fo + 1, Add)"},"name":"test_FourierSeries__add__sub_correct"},"guarantee":"test_FourierSeries__add__sub produces the expected output","fibers":[{"name":"Add","pred":"isinstance(fo + 1, Add)","path":{"lhs":"test_FourierSeries__add__sub(x)","rhs":"test_FourierSeries__add__sub produces the expected output","over":{"base":"Add","pred":"isinstance(fo + 1, Add)"},"name":"test_FourierSeries__add__sub_Add_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_fourier.test_FourierSeries__add__sub_Add_correct","statement":"test_FourierSeries__add__sub satisfies spec on Add inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"ccf41753ae751ba0"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_fourier.test_FourierSeries__add__sub","kind":"function","src_hash":"50cb3c331c1e6c9f","in":{"base":"Any","pred":"isinstance(fo + 1, Add)"},"out":{"base":"Any","pred":"result satisfies: fo + fo == fo.scale(2) and fo - fo == 0 and -fe - fe == fe.scale(-2) and (fo + fe).truncate() == 2 * sin(x) - sin(2 * x) - 4 * cos(x) + cos(2 * x) + pi ** 2 / 3 and (fo - fe).truncate() == 2 * sin(x) - sin(2 * x) + 4 * cos(x) - cos(2 * x) - pi ** 2 / 3 and isinstance(fo + 1, Add)"},"spec":{"lhs":"test_FourierSeries__add__sub()","rhs":"fo + fo == fo.scale(2) and fo - fo == 0 and -fe - fe == fe.scale(-2) and (fo + fe).truncate() == 2 * sin(x) - sin(2 * x) - 4 * cos(x) + cos(2 * x) + pi ** 2 / 3 and (fo - fe).truncate() == 2 * sin(x) - sin(2 * x) + 4 * cos(x) - cos(2 * x) - pi ** 2 / 3 and isinstance(fo + 1, Add)","over":{"base":"Any","pred":"isinstance(fo + 1, Add)"},"name":"test_FourierSeries__add__sub_correct"},"guarantee":"fo + fo == fo.scale(2); fo - fo == 0; -fe - fe == fe.scale(-2)","fibers":[{"name":"Add","pred":"isinstance(fo + 1, Add)","path":{"lhs":"test_FourierSeries__add__sub(x)","rhs":"fo + fo == fo.scale(2); fo - fo == 0; -fe - fe == fe.scale(-2)","over":{"base":"Add","pred":"isinstance(fo + 1, Add)"},"name":"test_FourierSeries__add__sub_Add_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_fourier.test_FourierSeries__add__sub_Add_correct","statement":"test_FourierSeries__add__sub satisfies spec on Add inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"ccf41753ae751ba0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["fo + fo == fo.scale(2)","fo - fo == 0","-fe - fe == fe.scale(-2)","(fo + fe).truncate() == 2 * sin(x) - sin(2 * x) - 4 * cos(x) + cos(2 * x) + pi ** 2 / 3","(fo - fe).truncate() == 2 * sin(x) - sin(2 * x) + 4 * cos(x) - cos(2 * x) - pi ** 2 / 3","isinstance(fo + 1, Add)"],"pure":false,"effects":{"effect_type":"io","io_operations":["?.truncate"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.2,"verdict_class":"failed","binding":true}}
 def test_FourierSeries__add__sub():
     fo, fe, fp = _get_examples()
 
@@ -263,16 +321,24 @@ def test_FourierSeries__add__sub():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_FourierSeries_finite(), test_FourierSeries_finite produces the expected output) over Any ║
+# ║ Path(test_FourierSeries_finite(), fourier_series(sin(x)).truncate(1) == sin(x) and fourier_series(sin(x) * log(y) * exp(z), (x, pi, -pi)).truncate() == sin(x) * log(y) * exp(z) and fourier_series(sin(x) ** 6).truncate(oo) == -15 * cos(2 * x) / 32 + 3 * cos(4 * x) / 16 - cos(6 * x) / 32 + Rational(5, 16) and fourier_series(sin(x) ** 6).truncate() == -15 * cos(2 * x) / 32 + 3 * cos(4 * x) / 16 + Rational(5, 16) and fourier_series(sin(4 * x + 3) + cos(3 * x + 4)).truncate(oo) == -sin(4) * sin(3 * x) + sin(4 * x) * cos(3) + cos(4) * cos(3 * x) + sin(3) * cos(4 * x) and fourier_series(sin(x) + cos(x) * tan(x)).truncate(oo) == 2 * sin(x) and fourier_series(cos(pi * x), (x, -1, 1)).truncate(oo) == cos(pi * x) and fourier_series(cos(3 * pi * x + 4) - sin(4 * pi * x) * log(pi * y), (x, -1, 1)).truncate(oo) == -log(pi * y) * sin(4 * pi * x) - sin(4) * sin(3 * pi * x) + cos(4) * cos(3 * pi * x)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_FourierSeries_finite : Any → {Any | fourier_seri...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  fourier_series(sin(x)).truncate(1) == sin(x)   ║
+# ║   ensures:  fourier_series(sin(x) * log(y) * exp(z), ...   ║
+# ║   ensures:  fourier_series(sin(x) ** 6).truncate(oo) ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_FourierSeries_finite : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ca6322ecadd84380  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2459cb68a6ab92da  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_fourier.test_FourierSeries_finite","kind":"function","src_hash":"ef3fd8ba071fafa7","in":{"base":"Any"},"out":{"base":"Any","pred":"fourier_series(sin(x)).truncate(1) == sin(x) and fourier_series(sin(x) + cos(x) * tan(x)).truncate(oo) == 2 * sin(x) and fourier_series(cos(pi * x), (x, -1, 1)).truncate(oo) == cos(pi * x)"},"spec":{"lhs":"test_FourierSeries_finite()","rhs":"test_FourierSeries_finite produces the expected output","over":{"base":"Any"},"name":"test_FourierSeries_finite_correct"},"guarantee":"test_FourierSeries_finite produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_fourier.test_FourierSeries_finite_correct","statement":"Path(test_FourierSeries_finite(x), test_FourierSeries_finite produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ca6322ecadd84380"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_fourier.test_FourierSeries_finite","kind":"function","src_hash":"ef3fd8ba071fafa7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: fourier_series(sin(x)).truncate(1) == sin(x) and fourier_series(sin(x) * log(y) * exp(z), (x, pi, -pi)).truncate() == sin(x) * log(y) * exp(z) and fourier_series(sin(x) ** 6).truncate(oo) == -15 * cos(2 * x) / 32 + 3 * cos(4 * x) / 16 - cos(6 * x) / 32 + Rational(5, 16) and fourier_series(sin(x) ** 6).truncate() == -15 * cos(2 * x) / 32 + 3 * cos(4 * x) / 16 + Rational(5, 16) and fourier_series(sin(4 * x + 3) + cos(3 * x + 4)).truncate(oo) == -sin(4) * sin(3 * x) + sin(4 * x) * cos(3) + cos(4) * cos(3 * x) + sin(3) * cos(4 * x) and fourier_series(sin(x) + cos(x) * tan(x)).truncate(oo) == 2 * sin(x) and fourier_series(cos(pi * x), (x, -1, 1)).truncate(oo) == cos(pi * x) and fourier_series(cos(3 * pi * x + 4) - sin(4 * pi * x) * log(pi * y), (x, -1, 1)).truncate(oo) == -log(pi * y) * sin(4 * pi * x) - sin(4) * sin(3 * pi * x) + cos(4) * cos(3 * pi * x)"},"spec":{"lhs":"test_FourierSeries_finite()","rhs":"fourier_series(sin(x)).truncate(1) == sin(x) and fourier_series(sin(x) * log(y) * exp(z), (x, pi, -pi)).truncate() == sin(x) * log(y) * exp(z) and fourier_series(sin(x) ** 6).truncate(oo) == -15 * cos(2 * x) / 32 + 3 * cos(4 * x) / 16 - cos(6 * x) / 32 + Rational(5, 16) and fourier_series(sin(x) ** 6).truncate() == -15 * cos(2 * x) / 32 + 3 * cos(4 * x) / 16 + Rational(5, 16) and fourier_series(sin(4 * x + 3) + cos(3 * x + 4)).truncate(oo) == -sin(4) * sin(3 * x) + sin(4 * x) * cos(3) + cos(4) * cos(3 * x) + sin(3) * cos(4 * x) and fourier_series(sin(x) + cos(x) * tan(x)).truncate(oo) == 2 * sin(x) and fourier_series(cos(pi * x), (x, -1, 1)).truncate(oo) == cos(pi * x) and fourier_series(cos(3 * pi * x + 4) - sin(4 * pi * x) * log(pi * y), (x, -1, 1)).truncate(oo) == -log(pi * y) * sin(4 * pi * x) - sin(4) * sin(3 * pi * x) + cos(4) * cos(3 * pi * x)","over":{"base":"Any"},"name":"test_FourierSeries_finite_correct"},"guarantee":"fourier_series(sin(x)).truncate(1) == sin(x); fourier_series(sin(x) * log(y) * exp(z), (x, pi, -pi)).truncate() == sin(x) * log(y) * exp(z); fourier_series(sin(x) ** 6).truncate(oo) == -15 * cos(2 * x) / 32 + 3 * cos(4 * x) / 16 - cos(6 * x) / 32 + Rational(5, 16)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_fourier.test_FourierSeries_finite_correct","statement":"Path(test_FourierSeries_finite(x), fourier_series(sin(x)).truncate(1) == sin(x); fourier_series(sin(x) * log(y) * exp(z), (x, pi, -pi)).truncate() == sin(x) * log(y) * exp(z); fourier_series(sin(x) ** 6).truncate(oo) == -15 * cos(2 * x) / 32 + 3 * cos(4 * x) / 16 - cos(6 * x) / 32 + Rational(5, 16))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2459cb68a6ab92da","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["fourier_series(sin(x)).truncate(1) == sin(x)","fourier_series(sin(x) * log(y) * exp(z), (x, pi, -pi)).truncate() == sin(x) * log(y) * exp(z)","fourier_series(sin(x) ** 6).truncate(oo) == -15 * cos(2 * x) / 32 + 3 * cos(4 * x) / 16 - cos(6 * x) / 32 + Rational(5, 16)","fourier_series(sin(x) ** 6).truncate() == -15 * cos(2 * x) / 32 + 3 * cos(4 * x) / 16 + Rational(5, 16)","fourier_series(sin(4 * x + 3) + cos(3 * x + 4)).truncate(oo) == -sin(4) * sin(3 * x) + sin(4 * x) * cos(3) + cos(4) * cos(3 * x) + sin(3) * cos(4 * x)","fourier_series(sin(x) + cos(x) * tan(x)).truncate(oo) == 2 * sin(x)","fourier_series(cos(pi * x), (x, -1, 1)).truncate(oo) == cos(pi * x)","fourier_series(cos(3 * pi * x + 4) - sin(4 * pi * x) * log(pi * y), (x, -1, 1)).truncate(oo) == -log(pi * y) * sin(4 * pi * x) - sin(4) * sin(3 * pi * x) + cos(4) * cos(3 * pi * x)"],"pure":false,"effects":{"effect_type":"io","io_operations":["?.truncate"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_FourierSeries_finite():
 
     assert fourier_series(sin(x)).truncate(1) == sin(x)

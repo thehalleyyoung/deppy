@@ -23,16 +23,22 @@ _af_new = Permutation._af_new
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(AbelianGroup(*cy), returns the direct product of cyclic groups with the given orders) over Any ║
+# ║ Path(AbelianGroup(*cyclic_orders), <unspecified:AbelianGroup>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ AbelianGroup : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1280c4515c530b9b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.named_groups.AbelianGroup","kind":"function","src_hash":"34f97e2896e6dfd5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"AbelianGroup(*cy)","rhs":"returns the direct product of cyclic groups with the given orders","over":{"base":"Any"},"name":"AbelianGroup_correct"},"guarantee":"returns the direct product of cyclic groups with the given orders","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.named_groups.AbelianGroup_correct","statement":"Path(AbelianGroup(x), returns the direct product of cyclic groups with the given orders)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1280c4515c530b9b"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.named_groups.AbelianGroup","kind":"function","src_hash":"34f97e2896e6dfd5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"AbelianGroup(*cyclic_orders)","rhs":"<unspecified:AbelianGroup>","over":{"base":"Any"},"name":"AbelianGroup_correct"},"guarantee":"returns the direct product of cyclic groups with the given orders","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.named_groups.AbelianGroup_correct","statement":"Path(AbelianGroup(x), returns the direct product of cyclic groups with the given orders)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1280c4515c530b9b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=[], spec=['*cyclic_orders']"]}}
 def AbelianGroup(*cyclic_orders):
     """
     Returns the direct product of cyclic groups with the given orders.
@@ -84,14 +90,20 @@ def AbelianGroup(*cyclic_orders):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(AlternatingGroup(n), id) over Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ AlternatingGroup : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 600543196d94722c   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.named_groups.AlternatingGroup","kind":"function","src_hash":"c48908f7894da060","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"AlternatingGroup(n)","rhs":"generates the alternating group on ``n`` elements as a permutation group","over":{"base":"Any"},"name":"AlternatingGroup_correct","kind":"composition"},"guarantee":"generates the alternating group on ``n`` elements as a permutation group","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"PermutationGroup","by":"library_axiom"},{"fn":"Permutation","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"600543196d94722c"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.named_groups.AlternatingGroup","kind":"function","src_hash":"c48908f7894da060","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"AlternatingGroup(n)","rhs":"<unspecified:AlternatingGroup>","over":{"base":"Any"},"name":"AlternatingGroup_correct","kind":"composition"},"guarantee":"generates the alternating group on ``n`` elements as a permutation group","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"PermutationGroup","by":"library_axiom"},{"fn":"Permutation","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"600543196d94722c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def AlternatingGroup(n):
     """
     Generates the alternating group on ``n`` elements as a permutation group.
@@ -156,16 +168,25 @@ def AlternatingGroup(n):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(set_alternating_group_properties(G, ), set known properties of an alternating group) over Any ║
+# ║ Path(set_alternating_group_properties(G, n, degree), <unspecified:set_alternating_group_properties>) over {Any | hasattr(G, '_degree') and hasattr(G, '_is_transitive') and hasattr(G, '_is_dihedral') and hasattr(G, '_is_abelian') and hasattr(G, '_is_nilpotent') and hasattr(G, '_is_solvable')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ set_alternating_group_properties : Any → Any               ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(G, '_degree')                          ║
+# ║   requires: hasattr(G, '_is_transitive')                   ║
+# ║   requires: hasattr(G, '_is_dihedral')                     ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ set_alternating_group_properties : {Any | hasattr(G, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9dea2cb0f1ca3d69  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.named_groups.set_alternating_group_properties","kind":"function","src_hash":"1a3f027b1cf23287","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"set_alternating_group_properties(G, )","rhs":"set known properties of an alternating group","over":{"base":"Any"},"name":"set_alternating_group_properties_correct"},"guarantee":"set known properties of an alternating group","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.named_groups.set_alternating_group_properties_correct","statement":"Path(set_alternating_group_properties(x), set known properties of an alternating group)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9dea2cb0f1ca3d69"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.named_groups.set_alternating_group_properties","kind":"function","src_hash":"1a3f027b1cf23287","in":{"base":"Any","pred":"hasattr(G, '_degree') and hasattr(G, '_is_transitive') and hasattr(G, '_is_dihedral') and hasattr(G, '_is_abelian') and hasattr(G, '_is_nilpotent') and hasattr(G, '_is_solvable')"},"out":{"base":"Any"},"spec":{"lhs":"set_alternating_group_properties(G, n, degree)","rhs":"<unspecified:set_alternating_group_properties>","over":{"base":"Any","pred":"hasattr(G, '_degree') and hasattr(G, '_is_transitive') and hasattr(G, '_is_dihedral') and hasattr(G, '_is_abelian') and hasattr(G, '_is_nilpotent') and hasattr(G, '_is_solvable')"},"name":"set_alternating_group_properties_correct"},"guarantee":"set known properties of an alternating group","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.named_groups.set_alternating_group_properties_correct","statement":"Path(set_alternating_group_properties(x), set known properties of an alternating group)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9dea2cb0f1ca3d69","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(G, '_degree')","hasattr(G, '_is_transitive')","hasattr(G, '_is_dihedral')","hasattr(G, '_is_abelian')","hasattr(G, '_is_nilpotent')","hasattr(G, '_is_solvable')"],"pure":false,"effects":{"effect_type":"mutates_args","writes":["G._degree","G._is_abelian","G._is_dihedral","G._is_nilpotent","G._is_solvable","G._is_transitive"]},"state_contract":{"modifies":["G._degree","G._is_abelian","G._is_dihedral","G._is_nilpotent","G._is_solvable","G._is_transitive"],"old_bindings":{"old_G__degree":"G._degree","old_G__is_abelian":"G._is_abelian","old_G__is_dihedral":"G._is_dihedral","old_G__is_nilpotent":"G._is_nilpotent","old_G__is_solvable":"G._is_solvable","old_G__is_transitive":"G._is_transitive"}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def set_alternating_group_properties(G, n, degree):
     """Set known properties of an alternating group. """
     if n < 4:
@@ -184,16 +205,22 @@ def set_alternating_group_properties(G, n, degree):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(CyclicGroup(n), generates the cyclic group of order ``n`` as a permutation group) over Any ║
+# ║ Path(CyclicGroup(n), <unspecified:CyclicGroup>) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ CyclicGroup : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 61dd2c7921e9eb50  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.named_groups.CyclicGroup","kind":"function","src_hash":"cfc10d0dae8e217b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"CyclicGroup(n)","rhs":"generates the cyclic group of order ``n`` as a permutation group","over":{"base":"Any"},"name":"CyclicGroup_correct"},"guarantee":"generates the cyclic group of order ``n`` as a permutation group","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.named_groups.CyclicGroup_correct","statement":"Path(CyclicGroup(x), generates the cyclic group of order ``n`` as a permutation group)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"61dd2c7921e9eb50"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.named_groups.CyclicGroup","kind":"function","src_hash":"cfc10d0dae8e217b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"CyclicGroup(n)","rhs":"<unspecified:CyclicGroup>","over":{"base":"Any"},"name":"CyclicGroup_correct"},"guarantee":"generates the cyclic group of order ``n`` as a permutation group","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.named_groups.CyclicGroup_correct","statement":"Path(CyclicGroup(x), generates the cyclic group of order ``n`` as a permutation group)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"61dd2c7921e9eb50","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def CyclicGroup(n):
     """
     Generates the cyclic group of order ``n`` as a permutation group.
@@ -242,14 +269,20 @@ def CyclicGroup(n):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(DihedralGroup(n), id) over Any                        ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ DihedralGroup : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 5f351f0a98b237d9   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.named_groups.DihedralGroup","kind":"function","src_hash":"53968b50afc1e48e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"DihedralGroup(n)","rhs":"generates the dihedral group `d_n` as a permutation group","over":{"base":"Any"},"name":"DihedralGroup_correct","kind":"composition"},"guarantee":"generates the dihedral group `d_n` as a permutation group","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"PermutationGroup","by":"library_axiom"},{"fn":"Permutation","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5f351f0a98b237d9"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.named_groups.DihedralGroup","kind":"function","src_hash":"53968b50afc1e48e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"DihedralGroup(n)","rhs":"<unspecified:DihedralGroup>","over":{"base":"Any"},"name":"DihedralGroup_correct","kind":"composition"},"guarantee":"generates the dihedral group `d_n` as a permutation group","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"PermutationGroup","by":"library_axiom"},{"fn":"Permutation","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5f351f0a98b237d9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def DihedralGroup(n):
     r"""
     Generates the dihedral group `D_n` as a permutation group.
@@ -319,16 +352,22 @@ def DihedralGroup(n):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(SymmetricGroup(n), generates the symmetric group on ``n`` elements as a permutation group) over Any ║
+# ║ Path(SymmetricGroup(n), <unspecified:SymmetricGroup>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ SymmetricGroup : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e99187c12282a750  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.named_groups.SymmetricGroup","kind":"function","src_hash":"3cc88f630d1f6eba","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"SymmetricGroup(n)","rhs":"generates the symmetric group on ``n`` elements as a permutation group","over":{"base":"Any"},"name":"SymmetricGroup_correct"},"guarantee":"generates the symmetric group on ``n`` elements as a permutation group","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.named_groups.SymmetricGroup_correct","statement":"Path(SymmetricGroup(x), generates the symmetric group on ``n`` elements as a permutation group)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e99187c12282a750"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.named_groups.SymmetricGroup","kind":"function","src_hash":"3cc88f630d1f6eba","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"SymmetricGroup(n)","rhs":"<unspecified:SymmetricGroup>","over":{"base":"Any"},"name":"SymmetricGroup_correct"},"guarantee":"generates the symmetric group on ``n`` elements as a permutation group","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.named_groups.SymmetricGroup_correct","statement":"Path(SymmetricGroup(x), generates the symmetric group on ``n`` elements as a permutation group)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e99187c12282a750","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def SymmetricGroup(n):
     """
     Generates the symmetric group on ``n`` elements as a permutation group.
@@ -386,16 +425,25 @@ def SymmetricGroup(n):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(set_symmetric_group_properties(G, ), set known properties of a symmetric group) over Any ║
+# ║ Path(set_symmetric_group_properties(G, n, degree), <unspecified:set_symmetric_group_properties>) over {Any | hasattr(G, '_degree') and hasattr(G, '_is_transitive') and hasattr(G, '_is_dihedral') and hasattr(G, '_is_abelian') and hasattr(G, '_is_nilpotent') and hasattr(G, '_is_solvable')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ set_symmetric_group_properties : Any → Any                 ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(G, '_degree')                          ║
+# ║   requires: hasattr(G, '_is_transitive')                   ║
+# ║   requires: hasattr(G, '_is_dihedral')                     ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ set_symmetric_group_properties : {Any | hasattr(G, '_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5503d48599af1c6b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.named_groups.set_symmetric_group_properties","kind":"function","src_hash":"2f67d25ac9fec4cc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"set_symmetric_group_properties(G, )","rhs":"set known properties of a symmetric group","over":{"base":"Any"},"name":"set_symmetric_group_properties_correct"},"guarantee":"set known properties of a symmetric group","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.named_groups.set_symmetric_group_properties_correct","statement":"Path(set_symmetric_group_properties(x), set known properties of a symmetric group)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5503d48599af1c6b"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.named_groups.set_symmetric_group_properties","kind":"function","src_hash":"2f67d25ac9fec4cc","in":{"base":"Any","pred":"hasattr(G, '_degree') and hasattr(G, '_is_transitive') and hasattr(G, '_is_dihedral') and hasattr(G, '_is_abelian') and hasattr(G, '_is_nilpotent') and hasattr(G, '_is_solvable')"},"out":{"base":"Any"},"spec":{"lhs":"set_symmetric_group_properties(G, n, degree)","rhs":"<unspecified:set_symmetric_group_properties>","over":{"base":"Any","pred":"hasattr(G, '_degree') and hasattr(G, '_is_transitive') and hasattr(G, '_is_dihedral') and hasattr(G, '_is_abelian') and hasattr(G, '_is_nilpotent') and hasattr(G, '_is_solvable')"},"name":"set_symmetric_group_properties_correct"},"guarantee":"set known properties of a symmetric group","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.named_groups.set_symmetric_group_properties_correct","statement":"Path(set_symmetric_group_properties(x), set known properties of a symmetric group)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5503d48599af1c6b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(G, '_degree')","hasattr(G, '_is_transitive')","hasattr(G, '_is_dihedral')","hasattr(G, '_is_abelian')","hasattr(G, '_is_nilpotent')","hasattr(G, '_is_solvable')"],"pure":false,"effects":{"effect_type":"mutates_args","writes":["G._degree","G._is_abelian","G._is_dihedral","G._is_nilpotent","G._is_solvable","G._is_transitive"]},"state_contract":{"modifies":["G._degree","G._is_abelian","G._is_dihedral","G._is_nilpotent","G._is_solvable","G._is_transitive"],"old_bindings":{"old_G__degree":"G._degree","old_G__is_abelian":"G._is_abelian","old_G__is_dihedral":"G._is_dihedral","old_G__is_nilpotent":"G._is_nilpotent","old_G__is_solvable":"G._is_solvable","old_G__is_transitive":"G._is_transitive"}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def set_symmetric_group_properties(G, n, degree):
     """Set known properties of a symmetric group. """
     if n < 3:
@@ -414,16 +462,23 @@ def set_symmetric_group_properties(G, n, degree):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(RubikGroup(n), id) over Any                           ║
+# ║ Path(RubikGroup(n), id) over {Any | not (n <= 1)}          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ RubikGroup : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (n <= 1)                                   ║
+# ║   returns:  PermutationGroup(rubik(n))                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ RubikGroup : {Any | not (n <= 1)} → Any                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | a4cab3fe2746440b   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.named_groups.RubikGroup","kind":"function","src_hash":"f9ed3b43113015e3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"RubikGroup(n)","rhs":"return a group of rubik's cube generators","over":{"base":"Any"},"name":"RubikGroup_correct","kind":"composition"},"guarantee":"return a group of rubik's cube generators","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"PermutationGroup","by":"library_axiom"},{"fn":"rubik","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a4cab3fe2746440b"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.named_groups.RubikGroup","kind":"function","src_hash":"f9ed3b43113015e3","in":{"base":"Any","pred":"not (n <= 1)"},"out":{"base":"Any"},"spec":{"lhs":"RubikGroup(n)","rhs":"PermutationGroup(rubik(n))","over":{"base":"Any","pred":"not (n <= 1)"},"name":"RubikGroup_correct","kind":"composition"},"guarantee":"returns PermutationGroup(rubik(n))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"PermutationGroup","by":"library_axiom"},{"fn":"rubik","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a4cab3fe2746440b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (n <= 1)"],"returns_expr":"PermutationGroup(rubik(n))","pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def RubikGroup(n):
     """Return a group of Rubik's cube generators
 

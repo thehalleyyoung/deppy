@@ -20,54 +20,80 @@ from sympy.multipledispatch.conflict import (supercedes, ordering, ambiguities,
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(A(), correctly constructs a A instance) over Any      ║
+# ║ Path(A(), <unspecified:A>) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ A : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 993ea57013ddc4da           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.tests.test_conflict.A","kind":"class","src_hash":"bf3a70fd4aab9fc0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"A()","rhs":"correctly constructs a A instance","over":{"base":"Any"},"name":"A_correct"},"guarantee":"correctly constructs a A instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"993ea57013ddc4da"}
+# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.tests.test_conflict.A","kind":"class","src_hash":"bf3a70fd4aab9fc0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"A()","rhs":"<unspecified:A>","over":{"base":"Any"},"name":"A_correct"},"guarantee":"correctly constructs a A instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"993ea57013ddc4da","spec_source":"static","formal_spec":{"source":"static","strength":"trivial"},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Function A not found in source"]}}
 class A: pass
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(B(), correctly constructs a B instance) over Any      ║
+# ║ Path(B(), isinstance(self, A)) over Any                    ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ B : Any → Any                                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, A)                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ B : Any → {Any | result satisfies: isinstance(self, A)}    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4960a52ea5cc1d30           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.tests.test_conflict.B","kind":"class","src_hash":"bc5280b23f902645","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"B()","rhs":"correctly constructs a B instance","over":{"base":"Any"},"name":"B_correct"},"guarantee":"correctly constructs a B instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4960a52ea5cc1d30"}
+# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.tests.test_conflict.B","kind":"class","src_hash":"bc5280b23f902645","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, A)"},"spec":{"lhs":"B()","rhs":"isinstance(self, A)","over":{"base":"Any"},"name":"B_correct"},"guarantee":"isinstance(self, A)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4960a52ea5cc1d30","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, A)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function B not found in source"]}}
 class B(A): pass
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(C(), correctly constructs a C instance) over Any      ║
+# ║ Path(C(), <unspecified:C>) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ C : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | fa4dde57cc024868           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.tests.test_conflict.C","kind":"class","src_hash":"997b22ae9f94746e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"C()","rhs":"correctly constructs a C instance","over":{"base":"Any"},"name":"C_correct"},"guarantee":"correctly constructs a C instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fa4dde57cc024868"}
+# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.tests.test_conflict.C","kind":"class","src_hash":"997b22ae9f94746e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"C()","rhs":"<unspecified:C>","over":{"base":"Any"},"name":"C_correct"},"guarantee":"correctly constructs a C instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fa4dde57cc024868","spec_source":"static","formal_spec":{"source":"static","strength":"trivial"},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function C not found in source"]}}
 class C: pass
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_supercedes(), test_supercedes produces the expected output) over Any ║
+# ║ Path(test_supercedes(), supercedes([B], [A]) and supercedes([B, A], [A, A]) and not supercedes([B, A], [A, B]) and not supercedes([A], [B])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_supercedes : Any → {Any | supercedes([B], [A]) a...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  supercedes([B], [A])                           ║
+# ║   ensures:  supercedes([B, A], [A, A])                     ║
+# ║   ensures:  not supercedes([B, A], [A, B])                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_supercedes : Any → {Any | result satisfies: supe...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 01340e8ec92f0734  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 44d8fffc25a5af80  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.tests.test_conflict.test_supercedes","kind":"function","src_hash":"2e49ba9e34a597bb","in":{"base":"Any"},"out":{"base":"Any","pred":"supercedes([B], [A]) and supercedes([B, A], [A, A]) and not supercedes([B, A], [A, B]) and not supercedes([A], [B])"},"spec":{"lhs":"test_supercedes()","rhs":"test_supercedes produces the expected output","over":{"base":"Any"},"name":"test_supercedes_correct"},"guarantee":"test_supercedes produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.multipledispatch.tests.test_conflict.test_supercedes_correct","statement":"Path(test_supercedes(x), test_supercedes produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"01340e8ec92f0734"}
+# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.tests.test_conflict.test_supercedes","kind":"function","src_hash":"2e49ba9e34a597bb","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: supercedes([B], [A]) and supercedes([B, A], [A, A]) and not supercedes([B, A], [A, B]) and not supercedes([A], [B])"},"spec":{"lhs":"test_supercedes()","rhs":"supercedes([B], [A]) and supercedes([B, A], [A, A]) and not supercedes([B, A], [A, B]) and not supercedes([A], [B])","over":{"base":"Any"},"name":"test_supercedes_correct"},"guarantee":"supercedes([B], [A]); supercedes([B, A], [A, A]); not supercedes([B, A], [A, B])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.multipledispatch.tests.test_conflict.test_supercedes_correct","statement":"Path(test_supercedes(x), supercedes([B], [A]); supercedes([B, A], [A, A]); not supercedes([B, A], [A, B]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"44d8fffc25a5af80","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["supercedes([B], [A])","supercedes([B, A], [A, A])","not supercedes([B, A], [A, B])","not supercedes([A], [B])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_supercedes():
     assert supercedes([B], [A])
     assert supercedes([B, A], [A, A])
@@ -76,16 +102,24 @@ def test_supercedes():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_consistent(), test_consistent produces the expected output) over Any ║
+# ║ Path(test_consistent(), consistent([A], [A]) and consistent([B], [B]) and not consistent([A], [C]) and consistent([A, B], [A, B]) and consistent([B, A], [A, B]) and not consistent([B, A], [B]) and not consistent([B, A], [B, C])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_consistent : Any → {Any | consistent([A], [A]) a...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  consistent([A], [A])                           ║
+# ║   ensures:  consistent([B], [B])                           ║
+# ║   ensures:  not consistent([A], [C])                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_consistent : Any → {Any | result satisfies: cons...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 219aaf957badbe10  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2d306362b5c7824d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.tests.test_conflict.test_consistent","kind":"function","src_hash":"7810f007cf6b7141","in":{"base":"Any"},"out":{"base":"Any","pred":"consistent([A], [A]) and consistent([B], [B]) and not consistent([A], [C]) and consistent([A, B], [A, B]) and consistent([B, A], [A, B]) and not consistent([B, A], [B]) and not consistent([B, A], [B, C])"},"spec":{"lhs":"test_consistent()","rhs":"test_consistent produces the expected output","over":{"base":"Any"},"name":"test_consistent_correct"},"guarantee":"test_consistent produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.multipledispatch.tests.test_conflict.test_consistent_correct","statement":"Path(test_consistent(x), test_consistent produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"219aaf957badbe10"}
+# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.tests.test_conflict.test_consistent","kind":"function","src_hash":"7810f007cf6b7141","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: consistent([A], [A]) and consistent([B], [B]) and not consistent([A], [C]) and consistent([A, B], [A, B]) and consistent([B, A], [A, B]) and not consistent([B, A], [B]) and not consistent([B, A], [B, C])"},"spec":{"lhs":"test_consistent()","rhs":"consistent([A], [A]) and consistent([B], [B]) and not consistent([A], [C]) and consistent([A, B], [A, B]) and consistent([B, A], [A, B]) and not consistent([B, A], [B]) and not consistent([B, A], [B, C])","over":{"base":"Any"},"name":"test_consistent_correct"},"guarantee":"consistent([A], [A]); consistent([B], [B]); not consistent([A], [C])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.multipledispatch.tests.test_conflict.test_consistent_correct","statement":"Path(test_consistent(x), consistent([A], [A]); consistent([B], [B]); not consistent([A], [C]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2d306362b5c7824d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["consistent([A], [A])","consistent([B], [B])","not consistent([A], [C])","consistent([A, B], [A, B])","consistent([B, A], [A, B])","not consistent([B, A], [B])","not consistent([B, A], [B, C])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_consistent():
     assert consistent([A], [A])
     assert consistent([B], [B])
@@ -97,16 +131,24 @@ def test_consistent():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_super_signature(), test_super_signature produces the expected output) over Any ║
+# ║ Path(test_super_signature(), super_signature([[A]]) == [A] and super_signature([[A], [B]]) == [B] and super_signature([[A, B], [B, A]]) == [B, B] and super_signature([[A, A, B], [A, B, A], [B, A, A]]) == [B, B, B]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_super_signature : Any → {Any | super_signature([...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  super_signature([[A]]) == [A]                  ║
+# ║   ensures:  super_signature([[A], [B]]) == [B]             ║
+# ║   ensures:  super_signature([[A, B], [B, A]]) == [B, B]    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_super_signature : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bfb6cd793d9fe72c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c04c7d74a0d8ec4c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.tests.test_conflict.test_super_signature","kind":"function","src_hash":"b349b8000be39aa0","in":{"base":"Any"},"out":{"base":"Any","pred":"super_signature([[A]]) == [A] and super_signature([[A], [B]]) == [B] and super_signature([[A, B], [B, A]]) == [B, B] and super_signature([[A, A, B], [A, B, A], [B, A, A]]) == [B, B, B]"},"spec":{"lhs":"test_super_signature()","rhs":"test_super_signature produces the expected output","over":{"base":"Any"},"name":"test_super_signature_correct"},"guarantee":"test_super_signature produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.multipledispatch.tests.test_conflict.test_super_signature_correct","statement":"Path(test_super_signature(x), test_super_signature produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bfb6cd793d9fe72c"}
+# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.tests.test_conflict.test_super_signature","kind":"function","src_hash":"b349b8000be39aa0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: super_signature([[A]]) == [A] and super_signature([[A], [B]]) == [B] and super_signature([[A, B], [B, A]]) == [B, B] and super_signature([[A, A, B], [A, B, A], [B, A, A]]) == [B, B, B]"},"spec":{"lhs":"test_super_signature()","rhs":"super_signature([[A]]) == [A] and super_signature([[A], [B]]) == [B] and super_signature([[A, B], [B, A]]) == [B, B] and super_signature([[A, A, B], [A, B, A], [B, A, A]]) == [B, B, B]","over":{"base":"Any"},"name":"test_super_signature_correct"},"guarantee":"super_signature([[A]]) == [A]; super_signature([[A], [B]]) == [B]; super_signature([[A, B], [B, A]]) == [B, B]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.multipledispatch.tests.test_conflict.test_super_signature_correct","statement":"Path(test_super_signature(x), super_signature([[A]]) == [A]; super_signature([[A], [B]]) == [B]; super_signature([[A, B], [B, A]]) == [B, B])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c04c7d74a0d8ec4c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["super_signature([[A]]) == [A]","super_signature([[A], [B]]) == [B]","super_signature([[A, B], [B, A]]) == [B, B]","super_signature([[A, A, B], [A, B, A], [B, A, A]]) == [B, B, B]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_super_signature():
     assert super_signature([[A]]) == [A]
     assert super_signature([[A], [B]]) == [B]
@@ -115,16 +157,24 @@ def test_super_signature():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_ambiguous(), test_ambiguous produces the expected output) over Any ║
+# ║ Path(test_ambiguous(), not ambiguous([A], [A]) and not ambiguous([A], [B]) and not ambiguous([B], [B]) and not ambiguous([A, B], [B, B]) and ambiguous([A, B], [B, A])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_ambiguous : Any → {Any | not ambiguous([A], [A])...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  not ambiguous([A], [A])                        ║
+# ║   ensures:  not ambiguous([A], [B])                        ║
+# ║   ensures:  not ambiguous([B], [B])                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_ambiguous : Any → {Any | result satisfies: not a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 393b939d8d100ffa  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2a55f5d38b608f1c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.tests.test_conflict.test_ambiguous","kind":"function","src_hash":"beb3e6511b9dbf74","in":{"base":"Any"},"out":{"base":"Any","pred":"not ambiguous([A], [A]) and not ambiguous([A], [B]) and not ambiguous([B], [B]) and not ambiguous([A, B], [B, B]) and ambiguous([A, B], [B, A])"},"spec":{"lhs":"test_ambiguous()","rhs":"test_ambiguous produces the expected output","over":{"base":"Any"},"name":"test_ambiguous_correct"},"guarantee":"test_ambiguous produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.multipledispatch.tests.test_conflict.test_ambiguous_correct","statement":"Path(test_ambiguous(x), test_ambiguous produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"393b939d8d100ffa"}
+# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.tests.test_conflict.test_ambiguous","kind":"function","src_hash":"beb3e6511b9dbf74","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: not ambiguous([A], [A]) and not ambiguous([A], [B]) and not ambiguous([B], [B]) and not ambiguous([A, B], [B, B]) and ambiguous([A, B], [B, A])"},"spec":{"lhs":"test_ambiguous()","rhs":"not ambiguous([A], [A]) and not ambiguous([A], [B]) and not ambiguous([B], [B]) and not ambiguous([A, B], [B, B]) and ambiguous([A, B], [B, A])","over":{"base":"Any"},"name":"test_ambiguous_correct"},"guarantee":"not ambiguous([A], [A]); not ambiguous([A], [B]); not ambiguous([B], [B])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.multipledispatch.tests.test_conflict.test_ambiguous_correct","statement":"Path(test_ambiguous(x), not ambiguous([A], [A]); not ambiguous([A], [B]); not ambiguous([B], [B]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2a55f5d38b608f1c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["not ambiguous([A], [A])","not ambiguous([A], [B])","not ambiguous([B], [B])","not ambiguous([A, B], [B, B])","ambiguous([A, B], [B, A])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_ambiguous():
     assert not ambiguous([A], [A])
     assert not ambiguous([A], [B])
@@ -134,16 +184,22 @@ def test_ambiguous():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_ambiguities(), test_ambiguities produces the expected output) over Any ║
+# ║ Path(test_ambiguities(), set(map(frozenset, expected)) == set(map(frozenset, result))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_ambiguities : Any → {Any | set(map(frozenset, ex...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  set(map(frozenset, expected)) == set(map(...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_ambiguities : Any → {Any | result satisfies: set...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | baedcb8f70570a4e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e773d89fce962f48  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.tests.test_conflict.test_ambiguities","kind":"function","src_hash":"0beca71da08c7f97","in":{"base":"Any"},"out":{"base":"Any","pred":"set(map(frozenset, expected)) == set(map(frozenset, result)) and set(map(frozenset, expected)) == set(map(frozenset, result))"},"spec":{"lhs":"test_ambiguities()","rhs":"test_ambiguities produces the expected output","over":{"base":"Any"},"name":"test_ambiguities_correct"},"guarantee":"test_ambiguities produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.multipledispatch.tests.test_conflict.test_ambiguities_correct","statement":"Path(test_ambiguities(x), test_ambiguities produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"baedcb8f70570a4e"}
+# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.tests.test_conflict.test_ambiguities","kind":"function","src_hash":"0beca71da08c7f97","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: set(map(frozenset, expected)) == set(map(frozenset, result))"},"spec":{"lhs":"test_ambiguities()","rhs":"set(map(frozenset, expected)) == set(map(frozenset, result))","over":{"base":"Any"},"name":"test_ambiguities_correct"},"guarantee":"set(map(frozenset, expected)) == set(map(frozenset, result))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.multipledispatch.tests.test_conflict.test_ambiguities_correct","statement":"Path(test_ambiguities(x), set(map(frozenset, expected)) == set(map(frozenset, result)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e773d89fce962f48","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["set(map(frozenset, expected)) == set(map(frozenset, result))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_ambiguities():
     signatures = [[A], [B], [A, B], [B, A], [A, C]]
     expected = {((A, B), (B, A))}
@@ -157,16 +213,23 @@ def test_ambiguities():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_ordering(), test_ordering produces the expected output) over Any ║
+# ║ Path(test_ordering(), ord[0] == (B, B) or ord[0] == (A, C) and ord[-1] == (A, A) or ord[-1] == (A, C)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_ordering : Any → {Any | ord[0] == (B, B) or ord[...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  ord[0] == (B, B) or ord[0] == (A, C)           ║
+# ║   ensures:  ord[-1] == (A, A) or ord[-1] == (A, C)         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_ordering : Any → {Any | result satisfies: ord[0]...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 90988abe38b1eda0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 81e3bf994c7d40d3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.tests.test_conflict.test_ordering","kind":"function","src_hash":"078aa10fe8335f58","in":{"base":"Any"},"out":{"base":"Any","pred":"ord[0] == (B, B) or ord[0] == (A, C) and ord[-1] == (A, A) or ord[-1] == (A, C)"},"spec":{"lhs":"test_ordering()","rhs":"test_ordering produces the expected output","over":{"base":"Any"},"name":"test_ordering_correct"},"guarantee":"test_ordering produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.multipledispatch.tests.test_conflict.test_ordering_correct","statement":"Path(test_ordering(x), test_ordering produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"90988abe38b1eda0"}
+# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.tests.test_conflict.test_ordering","kind":"function","src_hash":"078aa10fe8335f58","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: ord[0] == (B, B) or ord[0] == (A, C) and ord[-1] == (A, A) or ord[-1] == (A, C)"},"spec":{"lhs":"test_ordering()","rhs":"ord[0] == (B, B) or ord[0] == (A, C) and ord[-1] == (A, A) or ord[-1] == (A, C)","over":{"base":"Any"},"name":"test_ordering_correct"},"guarantee":"ord[0] == (B, B) or ord[0] == (A, C); ord[-1] == (A, A) or ord[-1] == (A, C)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.multipledispatch.tests.test_conflict.test_ordering_correct","statement":"Path(test_ordering(x), ord[0] == (B, B) or ord[0] == (A, C); ord[-1] == (A, A) or ord[-1] == (A, C))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"81e3bf994c7d40d3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["ord[0] == (B, B) or ord[0] == (A, C)","ord[-1] == (A, A) or ord[-1] == (A, C)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_ordering():
     signatures = [[A, A], [A, B], [B, A], [B, B], [A, C]]
     ord = ordering(signatures)
@@ -175,15 +238,21 @@ def test_ordering():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_type_mro(), test_type_mro produces the expected output) over Any ║
+# ║ Path(test_type_mro(), super_signature([[object], [type]]) == [type]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_type_mro : Any → {Any | super_signature([[object...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  super_signature([[object], [type]]) == [t...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_type_mro : Any → {Any | result satisfies: super_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 38121cfd2e3756e3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d8a29240b63db05d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.tests.test_conflict.test_type_mro","kind":"function","src_hash":"ddd3d50166da3089","in":{"base":"Any"},"out":{"base":"Any","pred":"super_signature([[object], [type]]) == [type]"},"spec":{"lhs":"test_type_mro()","rhs":"test_type_mro produces the expected output","over":{"base":"Any"},"name":"test_type_mro_correct"},"guarantee":"test_type_mro produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.multipledispatch.tests.test_conflict.test_type_mro_correct","statement":"Path(test_type_mro(x), test_type_mro produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"38121cfd2e3756e3"}
+# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.tests.test_conflict.test_type_mro","kind":"function","src_hash":"ddd3d50166da3089","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: super_signature([[object], [type]]) == [type]"},"spec":{"lhs":"test_type_mro()","rhs":"super_signature([[object], [type]]) == [type]","over":{"base":"Any"},"name":"test_type_mro_correct"},"guarantee":"super_signature([[object], [type]]) == [type]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.multipledispatch.tests.test_conflict.test_type_mro_correct","statement":"Path(test_type_mro(x), super_signature([[object], [type]]) == [type])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d8a29240b63db05d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["super_signature([[object], [type]]) == [type]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_type_mro():
     assert super_signature([[object], [type]]) == [type]

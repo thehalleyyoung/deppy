@@ -28,109 +28,151 @@ from sympy.core.cache import cacheit
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(SeriesBase(*args), correctly constructs a SeriesBase instance) over {Any | isinstance(index, int) and isinstance(index, slice)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Expr)                         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ SeriesBase : {Any | isinstance(index, int) and isinst...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2025f28459f76f0b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.series_class.SeriesBase","kind":"class","src_hash":"e50d97edb6ca256c","in":{"base":"Any","pred":"isinstance(index, int) and isinstance(index, slice)"},"out":{"base":"Any"},"spec":{"lhs":"SeriesBase(*args)","rhs":"correctly constructs a SeriesBase instance","over":{"base":"Any","pred":"isinstance(index, int) and isinstance(index, slice)"},"name":"SeriesBase_class_invariant"},"guarantee":"correctly constructs a SeriesBase instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2025f28459f76f0b"}
+# @cctt_verify {"v":2,"sym":"sympy.series.series_class.SeriesBase","kind":"class","src_hash":"e50d97edb6ca256c","in":{"base":"Any","pred":"isinstance(index, int) and isinstance(index, slice)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Expr)"},"spec":{"lhs":"SeriesBase(*args)","rhs":"correctly constructs a SeriesBase instance","over":{"base":"Any","pred":"isinstance(index, int) and isinstance(index, slice)"},"name":"SeriesBase_class_invariant"},"guarantee":"isinstance(self, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2025f28459f76f0b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Expr)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":false,"binding_errors":["Function SeriesBase not found in source"]}}
 class SeriesBase(Expr):
     """Base Class for series"""
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(interval(), returns the interval attribute) over Any  ║
+# ║ Path(interval(), <unspecified:interval>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ interval : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6cff5f3259b6dc1a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.series_class.SeriesBase.interval","kind":"property","src_hash":"e6b089af43380c16","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"interval()","rhs":"returns the interval attribute","over":{"base":"Any"},"name":"interval_correct"},"guarantee":"returns the interval attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6cff5f3259b6dc1a"}
+# @cctt_verify {"v":2,"sym":"sympy.series.series_class.SeriesBase.interval","kind":"property","src_hash":"e6b089af43380c16","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"interval()","rhs":"<unspecified:interval>","over":{"base":"Any"},"name":"interval_correct"},"guarantee":"returns the interval attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6cff5f3259b6dc1a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def interval(self):
         """The interval on which the series is defined"""
         raise NotImplementedError("(%s).interval" % self)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(start(), returns the start attribute) over Any        ║
+# ║ Path(start(), <unspecified:start>) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ start : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f711873a4b18488c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.series_class.SeriesBase.start","kind":"property","src_hash":"ef57f526685470bb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"start()","rhs":"returns the start attribute","over":{"base":"Any"},"name":"start_correct"},"guarantee":"returns the start attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f711873a4b18488c"}
+# @cctt_verify {"v":2,"sym":"sympy.series.series_class.SeriesBase.start","kind":"property","src_hash":"ef57f526685470bb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"start()","rhs":"<unspecified:start>","over":{"base":"Any"},"name":"start_correct"},"guarantee":"returns the start attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f711873a4b18488c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def start(self):
         """The starting point of the series. This point is included"""
         raise NotImplementedError("(%s).start" % self)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(stop(), returns the stop attribute) over Any          ║
+# ║ Path(stop(), <unspecified:stop>) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ stop : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e44d548bf35e74bd           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.series_class.SeriesBase.stop","kind":"property","src_hash":"14f243cd48d15585","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"stop()","rhs":"returns the stop attribute","over":{"base":"Any"},"name":"stop_correct"},"guarantee":"returns the stop attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e44d548bf35e74bd"}
+# @cctt_verify {"v":2,"sym":"sympy.series.series_class.SeriesBase.stop","kind":"property","src_hash":"14f243cd48d15585","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"stop()","rhs":"<unspecified:stop>","over":{"base":"Any"},"name":"stop_correct"},"guarantee":"returns the stop attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e44d548bf35e74bd","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def stop(self):
         """The ending point of the series. This point is included"""
         raise NotImplementedError("(%s).stop" % self)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(length(), returns the length attribute) over Any      ║
+# ║ Path(length(), <unspecified:length>) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ length : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0e115fd266ab8c12           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.series_class.SeriesBase.length","kind":"property","src_hash":"24121b50e8ffb678","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"length()","rhs":"returns the length attribute","over":{"base":"Any"},"name":"length_correct"},"guarantee":"returns the length attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0e115fd266ab8c12"}
+# @cctt_verify {"v":2,"sym":"sympy.series.series_class.SeriesBase.length","kind":"property","src_hash":"24121b50e8ffb678","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"length()","rhs":"<unspecified:length>","over":{"base":"Any"},"name":"length_correct"},"guarantee":"returns the length attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0e115fd266ab8c12","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def length(self):
         """Length of the series expansion"""
         raise NotImplementedError("(%s).length" % self)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(variables(), returns the variables attribute) over Any ║
+# ║ Path(variables(), ()) over Any                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  ()                                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ variables : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1e05118eb7489a5a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.series_class.SeriesBase.variables","kind":"property","src_hash":"3d4b22ed6208c2b7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"variables()","rhs":"returns the variables attribute","over":{"base":"Any"},"name":"variables_correct"},"guarantee":"returns the variables attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1e05118eb7489a5a"}
+# @cctt_verify {"v":2,"sym":"sympy.series.series_class.SeriesBase.variables","kind":"property","src_hash":"3d4b22ed6208c2b7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"variables()","rhs":"()","over":{"base":"Any"},"name":"variables_correct"},"guarantee":"returns ()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1e05118eb7489a5a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"()","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def variables(self):
         """Returns a tuple of variables that are bounded"""
         return ()
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(free_symbols(), returns the free_symbols attribute) over Any ║
+# ║ Path(free_symbols(), {j for i in self.args for j in i.free_symbols}.difference(self.variables)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  {j for i in self.args for j in i.free_sym...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ free_symbols : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | bc6d18601697a9eb           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.series_class.SeriesBase.free_symbols","kind":"property","src_hash":"26942c54c4296a2e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"free_symbols()","rhs":"returns the free_symbols attribute","over":{"base":"Any"},"name":"free_symbols_correct"},"guarantee":"returns the free_symbols attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bc6d18601697a9eb"}
+# @cctt_verify {"v":2,"sym":"sympy.series.series_class.SeriesBase.free_symbols","kind":"property","src_hash":"26942c54c4296a2e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"free_symbols()","rhs":"{j for i in self.args for j in i.free_symbols}.difference(self.variables)","over":{"base":"Any"},"name":"free_symbols_correct"},"guarantee":"returns {j for i in self.args for j in i.free_symbols}.difference(self.variables)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bc6d18601697a9eb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"{j for i in self.args for j in i.free_symbols}.difference(self.variables)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.variables"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def free_symbols(self):
         """
         This method returns the symbols in the object, excluding those
@@ -141,16 +183,23 @@ class SeriesBase(Expr):
 
     @cacheit
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(term(pt), term at point pt of a series) over Any      ║
+# ║ Path(term(pt), self._eval_term(pt)) over {Any | not (pt < self.start or pt > self.stop)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ term : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (pt < self.start or pt > self.stop)        ║
+# ║   returns:  self._eval_term(pt)                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ term : {Any | not (pt < self.start or pt > self.stop)...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6be01aba9753f3e7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b78253e702fd7973  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.series_class.SeriesBase.term","kind":"method","src_hash":"fecadc8d3973ec2e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"term(pt)","rhs":"term at point pt of a series","over":{"base":"Any"},"name":"term_correct"},"guarantee":"term at point pt of a series","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.series_class.SeriesBase.term_correct","statement":"Path(term(x), term at point pt of a series)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6be01aba9753f3e7"}
+# @cctt_verify {"v":2,"sym":"sympy.series.series_class.SeriesBase.term","kind":"method","src_hash":"fecadc8d3973ec2e","in":{"base":"Any","pred":"not (pt < self.start or pt > self.stop)"},"out":{"base":"Any"},"spec":{"lhs":"term(pt)","rhs":"self._eval_term(pt)","over":{"base":"Any","pred":"not (pt < self.start or pt > self.stop)"},"name":"term_correct"},"guarantee":"returns self._eval_term(pt)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.series_class.SeriesBase.term_correct","statement":"Path(term(x), returns self._eval_term(pt))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b78253e702fd7973","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (pt < self.start or pt > self.stop)"],"returns_expr":"self._eval_term(pt)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._eval_term","self.interval","self.start","self.stop"],"raises":["IndexError"]},"state_contract":{"exceptional_post":{"IndexError":["isinstance(raised, IndexError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def term(self, pt):
         """Term at point pt of a series"""
         if pt < self.start or pt > self.stop:
@@ -158,16 +207,22 @@ class SeriesBase(Expr):
         return self._eval_term(pt)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_term(pt), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_term(pt), <unspecified:_eval_term>) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_term : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 75c385882d103867  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.series_class.SeriesBase._eval_term","kind":"method","src_hash":"65a93e102b0740ab","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_term(pt)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_term_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.series_class.SeriesBase._eval_term_correct","statement":"Path(_eval_term(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"75c385882d103867"}
+# @cctt_verify {"v":2,"sym":"sympy.series.series_class.SeriesBase._eval_term","kind":"method","src_hash":"65a93e102b0740ab","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_term(pt)","rhs":"<unspecified:_eval_term>","over":{"base":"Any"},"name":"_eval_term_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.series_class.SeriesBase._eval_term_correct","statement":"Path(_eval_term(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"75c385882d103867","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.func"],"raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_term(self, pt):
         raise NotImplementedError("The _eval_term method should be added to"
                                   "%s to return series term so it is available"
@@ -175,16 +230,22 @@ class SeriesBase(Expr):
                                   % self.func)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_ith_point(i), returns the i'th point of a series if start point is negative infinity, point is returned from the end. assumes the first point to be indexed zero) over Any ║
+# ║ Path(_ith_point(i), initial + i * step) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  initial + i * step                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _ith_point : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 597d79cd2a4b8796  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 77008a41311ede7d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.series_class.SeriesBase._ith_point","kind":"method","src_hash":"1a4d186cf5b5f14f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_ith_point(i)","rhs":"returns the i'th point of a series if start point is negative infinity, point is returned from the end. assumes the first point to be indexed zero","over":{"base":"Any"},"name":"_ith_point_correct"},"guarantee":"returns the i'th point of a series if start point is negative infinity, point is returned from the end. assumes the first point to be indexed zero","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.series_class.SeriesBase._ith_point_correct","statement":"Path(_ith_point(x), returns the i'th point of a series if start point is negative infinity, point is returned from the end. assumes the first point to be indexed zero)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"597d79cd2a4b8796"}
+# @cctt_verify {"v":2,"sym":"sympy.series.series_class.SeriesBase._ith_point","kind":"method","src_hash":"1a4d186cf5b5f14f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_ith_point(i)","rhs":"initial + i * step","over":{"base":"Any"},"name":"_ith_point_correct"},"guarantee":"returns initial + i * step","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.series_class.SeriesBase._ith_point_correct","statement":"Path(_ith_point(x), returns initial + i * step)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"77008a41311ede7d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"initial + i * step","pure":false,"effects":{"effect_type":"reads_state","reads":["self.start","self.stop"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _ith_point(self, i):
         """
         Returns the i'th point of a series
@@ -206,16 +267,22 @@ class SeriesBase(Expr):
         return initial + i*step
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__iter__(), yields all elements in order) over Any    ║
+# ║ Path(__iter__(), <unspecified:__iter__>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __iter__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4922cdd72bb84bb2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.series_class.SeriesBase.__iter__","kind":"method","src_hash":"4362c4eee2ac0731","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__iter__()","rhs":"yields all elements in order","over":{"base":"Any"},"name":"__iter___correct"},"guarantee":"yields all elements in order","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4922cdd72bb84bb2"}
+# @cctt_verify {"v":2,"sym":"sympy.series.series_class.SeriesBase.__iter__","kind":"method","src_hash":"4362c4eee2ac0731","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__iter__()","rhs":"<unspecified:__iter__>","over":{"base":"Any"},"name":"__iter___correct"},"guarantee":"yields all elements in order","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4922cdd72bb84bb2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._ith_point","self.length","self.term"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __iter__(self):
         i = 0
         while i < self.length:
@@ -224,16 +291,28 @@ class SeriesBase(Expr):
             i += 1
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__getitem__(ind), returns the element at the given index) over Any ║
+# ║ Path(__getitem__(index), result == (self.term(index) if isinstance(index, int) else [self.term(self._ith_point(i)) for i in range(start, stop, index.step or 1)]) and result == self.term(index) or result == [self.term(self._ith_point(i)) for i in range(start, stop, index.step or 1)]) over {Any | hasattr(index, 'start') and hasattr(index, 'stop') and hasattr(index, 'step')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __getitem__ : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(index, 'start')                        ║
+# ║   requires: hasattr(index, 'stop')                         ║
+# ║   requires: hasattr(index, 'step')                         ║
+# ║   ensures:  result == (self.term(index) if isinstance...   ║
+# ║   ensures:  result == self.term(index) or result == [...   ║
+# ║   fiber[int]: isinstance(index, int) => self.term(index)   ║
+# ║   fiber[slice]: isinstance(index, slice) => [self.ter...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __getitem__ : {Any | hasattr(index, 'start') and hasa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8053f2836a8ccb91           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.series_class.SeriesBase.__getitem__","kind":"method","src_hash":"a5b2bf463a63a2e3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getitem__(ind)","rhs":"returns the element at the given index","over":{"base":"Any"},"name":"__getitem___correct"},"guarantee":"returns the element at the given index","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8053f2836a8ccb91"}
+# @cctt_verify {"v":2,"sym":"sympy.series.series_class.SeriesBase.__getitem__","kind":"method","src_hash":"a5b2bf463a63a2e3","in":{"base":"Any","pred":"hasattr(index, 'start') and hasattr(index, 'stop') and hasattr(index, 'step')"},"out":{"base":"Any","pred":"result satisfies: result == (self.term(index) if isinstance(index, int) else [self.term(self._ith_point(i)) for i in range(start, stop, index.step or 1)]) and result == self.term(index) or result == [self.term(self._ith_point(i)) for i in range(start, stop, index.step or 1)]"},"spec":{"lhs":"__getitem__(index)","rhs":"result == (self.term(index) if isinstance(index, int) else [self.term(self._ith_point(i)) for i in range(start, stop, index.step or 1)]) and result == self.term(index) or result == [self.term(self._ith_point(i)) for i in range(start, stop, index.step or 1)]","over":{"base":"Any","pred":"hasattr(index, 'start') and hasattr(index, 'stop') and hasattr(index, 'step')"},"name":"__getitem___correct"},"guarantee":"result == (self.term(index) if isinstance(index, int) else [self.term(self._ith_point(i)) for i in range(start, stop, index.step or 1)]); result == self.term(index) or result == [self.term(self._ith_point(i)) for i in range(start, stop, index.step or 1)]; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8053f2836a8ccb91","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(index, 'start')","hasattr(index, 'stop')","hasattr(index, 'step')"],"ensures":["result == (self.term(index) if isinstance(index, int) else [self.term(self._ith_point(i)) for i in range(start, stop, index.step or 1)])","result == self.term(index) or result == [self.term(self._ith_point(i)) for i in range(start, stop, index.step or 1)]"],"fibers":[{"name":"int","guard":"isinstance(index, int)","ensures":["result == self.term(index)"],"decidability":"structural","returns_expr":"self.term(index)"},{"name":"slice","guard":"isinstance(index, slice)","ensures":["result == [self.term(self._ith_point(i)) for i in range(start, stop, index.step or 1)]"],"decidability":"structural","returns_expr":"[self.term(self._ith_point(i)) for i in range(start, stop, index.step or 1)]"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["index.start","index.step","index.stop","self._ith_point","self.length","self.term"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __getitem__(self, index):
         if isinstance(index, int):
             index = self._ith_point(index)

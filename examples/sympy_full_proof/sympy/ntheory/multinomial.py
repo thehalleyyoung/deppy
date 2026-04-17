@@ -19,16 +19,22 @@ from sympy.utilities.misc import as_int
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(binomial_coefficients(n), return a dictionary containing pairs :math:`{(k1,k2) : c_kn}` where :math:`c_kn` are binomial coefficients and :math:`n=k1+k2`) over Any ║
+# ║ Path(binomial_coefficients(n), <unspecified:binomial_coefficients>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ binomial_coefficients : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e7adb6032e741146  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.multinomial.binomial_coefficients","kind":"function","src_hash":"b07f64e341143c0b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: math:`{(k1,k2) : c_kn}` where"},"spec":{"lhs":"binomial_coefficients(n)","rhs":"return a dictionary containing pairs :math:`{(k1,k2) : c_kn}` where :math:`c_kn` are binomial coefficients and :math:`n=k1+k2`","over":{"base":"Any"},"name":"binomial_coefficients_correct"},"guarantee":"return a dictionary containing pairs :math:`{(k1,k2) : c_kn}` where :math:`c_kn` are binomial coefficients and :math:`n=k1+k2`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.multinomial.binomial_coefficients_correct","statement":"Path(binomial_coefficients(x), return a dictionary containing pairs :math:`{(k1,k2) : c_kn}` where :math:`c_kn` are binomial coefficients and :math:`n=k1+k2`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e7adb6032e741146"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.multinomial.binomial_coefficients","kind":"function","src_hash":"b07f64e341143c0b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: math:`{(k1,k2) : c_kn}` where"},"spec":{"lhs":"binomial_coefficients(n)","rhs":"<unspecified:binomial_coefficients>","over":{"base":"Any"},"name":"binomial_coefficients_correct"},"guarantee":"return a dictionary containing pairs :math:`{(k1,k2) : c_kn}` where :math:`c_kn` are binomial coefficients and :math:`n=k1+k2`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.multinomial.binomial_coefficients_correct","statement":"Path(binomial_coefficients(x), return a dictionary containing pairs :math:`{(k1,k2) : c_kn}` where :math:`c_kn` are binomial coefficients and :math:`n=k1+k2`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e7adb6032e741146","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def binomial_coefficients(n):
     """Return a dictionary containing pairs :math:`{(k1,k2) : C_kn}` where
     :math:`C_kn` are binomial coefficients and :math:`n=k1+k2`.
@@ -56,16 +62,22 @@ def binomial_coefficients(n):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(binomial_coefficients_list(n), return a list of binomial coefficients as rows of the pascal's triangle) over Any ║
+# ║ Path(binomial_coefficients_list(n), <unspecified:binomial_coefficients_list>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ binomial_coefficients_list : Any → Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ad9c825e954b7d5c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.multinomial.binomial_coefficients_list","kind":"function","src_hash":"8e8288449361640b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"binomial_coefficients_list(n)","rhs":"return a list of binomial coefficients as rows of the pascal's triangle","over":{"base":"Any"},"name":"binomial_coefficients_list_correct"},"guarantee":"return a list of binomial coefficients as rows of the pascal's triangle","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.multinomial.binomial_coefficients_list_correct","statement":"Path(binomial_coefficients_list(x), return a list of binomial coefficients as rows of the pascal's triangle)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ad9c825e954b7d5c"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.multinomial.binomial_coefficients_list","kind":"function","src_hash":"8e8288449361640b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"binomial_coefficients_list(n)","rhs":"<unspecified:binomial_coefficients_list>","over":{"base":"Any"},"name":"binomial_coefficients_list_correct"},"guarantee":"return a list of binomial coefficients as rows of the pascal's triangle","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.multinomial.binomial_coefficients_list_correct","statement":"Path(binomial_coefficients_list(x), return a list of binomial coefficients as rows of the pascal's triangle)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ad9c825e954b7d5c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def binomial_coefficients_list(n):
     """ Return a list of binomial coefficients as rows of the Pascal's
     triangle.
@@ -92,16 +104,22 @@ def binomial_coefficients_list(n):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(multinomial_coefficients(m, ), return a dictionary containing pairs ``{(k1,k2,..,km) : c_kn}`` where ``c_kn`` are multinomial coefficients such that ``n=k1+k2+..+km``) over Any ║
+# ║ Path(multinomial_coefficients(m, n), <unspecified:multinomial_coefficients>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ multinomial_coefficients : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cf0d4b3028885c6f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.multinomial.multinomial_coefficients","kind":"function","src_hash":"23bb18dd37043125","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: c_kn}``"},"spec":{"lhs":"multinomial_coefficients(m, )","rhs":"return a dictionary containing pairs ``{(k1,k2,..,km) : c_kn}`` where ``c_kn`` are multinomial coefficients such that ``n=k1+k2+..+km``","over":{"base":"Any"},"name":"multinomial_coefficients_correct"},"guarantee":"return a dictionary containing pairs ``{(k1,k2,..,km) : c_kn}`` where ``c_kn`` are multinomial coefficients such that ``n=k1+k2+..+km``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.multinomial.multinomial_coefficients_correct","statement":"Path(multinomial_coefficients(x), return a dictionary containing pairs ``{(k1,k2,..,km) : c_kn}`` where ``c_kn`` are multinomial coefficients such that ``n=k1+k2+..+km``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cf0d4b3028885c6f"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.multinomial.multinomial_coefficients","kind":"function","src_hash":"23bb18dd37043125","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: c_kn}``"},"spec":{"lhs":"multinomial_coefficients(m, n)","rhs":"<unspecified:multinomial_coefficients>","over":{"base":"Any"},"name":"multinomial_coefficients_correct"},"guarantee":"return a dictionary containing pairs ``{(k1,k2,..,km) : c_kn}`` where ``c_kn`` are multinomial coefficients such that ``n=k1+k2+..+km``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.multinomial.multinomial_coefficients_correct","statement":"Path(multinomial_coefficients(x), return a dictionary containing pairs ``{(k1,k2,..,km) : c_kn}`` where ``c_kn`` are multinomial coefficients such that ``n=k1+k2+..+km``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cf0d4b3028885c6f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def multinomial_coefficients(m, n):
     r"""Return a dictionary containing pairs ``{(k1,k2,..,km) : C_kn}``
     where ``C_kn`` are multinomial coefficients such that
@@ -177,16 +195,22 @@ def multinomial_coefficients(m, n):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(multinomial_coefficients_iterator(m, ), multinomial coefficient iterator) over Any ║
+# ║ Path(multinomial_coefficients_iterator(m, n, _tuple), <unspecified:multinomial_coefficients_iterator>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ multinomial_coefficients_iterator : Any → Any              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 26e2e0a9b7a1cf6e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.multinomial.multinomial_coefficients_iterator","kind":"function","src_hash":"e2ccf9a9d71c1f6b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"multinomial_coefficients_iterator(m, )","rhs":"multinomial coefficient iterator","over":{"base":"Any"},"name":"multinomial_coefficients_iterator_correct"},"guarantee":"multinomial coefficient iterator","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.multinomial.multinomial_coefficients_iterator_correct","statement":"Path(multinomial_coefficients_iterator(x), multinomial coefficient iterator)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"26e2e0a9b7a1cf6e"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.multinomial.multinomial_coefficients_iterator","kind":"function","src_hash":"e2ccf9a9d71c1f6b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"multinomial_coefficients_iterator(m, n, _tuple)","rhs":"<unspecified:multinomial_coefficients_iterator>","over":{"base":"Any"},"name":"multinomial_coefficients_iterator_correct"},"guarantee":"multinomial coefficient iterator","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.multinomial.multinomial_coefficients_iterator_correct","statement":"Path(multinomial_coefficients_iterator(x), multinomial coefficient iterator)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"26e2e0a9b7a1cf6e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def multinomial_coefficients_iterator(m, n, _tuple=tuple):
     """multinomial coefficient iterator
 

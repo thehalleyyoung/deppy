@@ -82,16 +82,22 @@ else:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(DM(row), convenient alias for domainmatrix.from_list) over Any ║
+# ║ Path(DM(rows, domain), DomainMatrix.from_list(rows, domain)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  DomainMatrix.from_list(rows, domain)           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ DM : Any → Any                                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 88077d519964c910           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DM","kind":"function","src_hash":"8c2dcaf246b99ff4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"DM(row)","rhs":"convenient alias for domainmatrix.from_list","over":{"base":"Any"},"name":"DM_correct"},"guarantee":"convenient alias for domainmatrix.from_list","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"88077d519964c910"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DM","kind":"function","src_hash":"8c2dcaf246b99ff4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"DM(rows, domain)","rhs":"DomainMatrix.from_list(rows, domain)","over":{"base":"Any"},"name":"DM_correct"},"guarantee":"returns DomainMatrix.from_list(rows, domain)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"88077d519964c910","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"DomainMatrix.from_list(rows, domain)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def DM(rows, domain):
     """Convenient alias for DomainMatrix.from_list
 
@@ -114,14 +120,20 @@ def DM(rows, domain):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a DomainMatrix instance) preserved by DomainMatrix(*args) over {Any | isinstance(rows, (DDM, SDM, DFM)) and isinstance(B, DomainMatrix) and isinstance(shape, int)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ DomainMatrix : {Any | isinstance(rows, (DDM, SDM, DFM...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 8.5ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6b80ae2a7425439d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix","kind":"class","src_hash":"529730e0e570a402","in":{"base":"Any","pred":"isinstance(rows, (DDM, SDM, DFM)) and isinstance(B, DomainMatrix) and isinstance(shape, int)"},"out":{"base":"Any","pred":"len(rows) == nrows and all((len(row) == ncols for row in rows)) and A.domain == B.domain"},"spec":{"lhs":"DomainMatrix(*args)","rhs":"correctly constructs a DomainMatrix instance","over":{"base":"Any","pred":"isinstance(rows, (DDM, SDM, DFM)) and isinstance(B, DomainMatrix) and isinstance(shape, int)"},"name":"DomainMatrix_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a DomainMatrix instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_zero_matrix","pred":"self.is_zero_matrix","kind":"class"},{"name":"is_upper","pred":"self.is_upper","kind":"class"},{"name":"is_lower","pred":"self.is_lower","kind":"class"},{"name":"is_diagonal","pred":"self.is_diagonal","kind":"class"},{"name":"is_square","pred":"self.is_square","kind":"class"}],"methods_preserving":["__reduce__","__getitem__","getitem_sympy","extract","__setitem__","choose_domain","copy","convert_to","to_sympy","to_field","to_sparse","to_dense","to_ddm","to_sdm","to_dfm","to_dfm_or_ddm","unify","to_Matrix","to_list","to_list_flat","to_flat_nz","from_flat_nz","to_dod","from_dod_like","to_dok","iter_values","iter_items","nnz","__repr__","transpose","flat","is_zero_matrix","is_upper","is_lower","is_diagonal","diagonal","is_square","rank","applyfunc","scc","clear_denoms","clear_denoms_rowwise","cancel_denom","cancel_denom_elementwise","content","primitive","rref","rref_den","columnspace","rowspace","nullspace","nullspace_from_rref","inv","det","adj_det","adjugate","inv_den","solve_den","solve_den_rref","solve_den_charpoly","adj_poly_det","eval_poly","eval_poly_mul","lu","qr","lu_solve","fflu","charpoly","charpoly_factor_list","charpoly_factor_blocks","charpoly_base","charpoly_berk"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6b80ae2a7425439d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix","kind":"class","src_hash":"529730e0e570a402","in":{"base":"Any","pred":"isinstance(rows, (DDM, SDM, DFM)) and isinstance(B, DomainMatrix) and isinstance(shape, int)"},"out":{"base":"Any","pred":"len(rows) == nrows and all((len(row) == ncols for row in rows)) and A.domain == B.domain"},"spec":{"lhs":"DomainMatrix(*args)","rhs":"correctly constructs a DomainMatrix instance","over":{"base":"Any","pred":"isinstance(rows, (DDM, SDM, DFM)) and isinstance(B, DomainMatrix) and isinstance(shape, int)"},"name":"DomainMatrix_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a DomainMatrix instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_zero_matrix","pred":"self.is_zero_matrix","kind":"class"},{"name":"is_upper","pred":"self.is_upper","kind":"class"},{"name":"is_lower","pred":"self.is_lower","kind":"class"},{"name":"is_diagonal","pred":"self.is_diagonal","kind":"class"},{"name":"is_square","pred":"self.is_square","kind":"class"}],"methods_preserving":["__reduce__","__getitem__","getitem_sympy","extract","__setitem__","choose_domain","copy","convert_to","to_sympy","to_field","to_sparse","to_dense","to_ddm","to_sdm","to_dfm","to_dfm_or_ddm","unify","to_Matrix","to_list","to_list_flat","to_flat_nz","from_flat_nz","to_dod","from_dod_like","to_dok","iter_values","iter_items","nnz","__repr__","transpose","flat","is_zero_matrix","is_upper","is_lower","is_diagonal","diagonal","is_square","rank","applyfunc","scc","clear_denoms","clear_denoms_rowwise","cancel_denom","cancel_denom_elementwise","content","primitive","rref","rref_den","columnspace","rowspace","nullspace","nullspace_from_rref","inv","det","adj_det","adjugate","inv_den","solve_den","solve_den_rref","solve_den_charpoly","adj_poly_det","eval_poly","eval_poly_mul","lu","qr","lu_solve","fflu","charpoly","charpoly_factor_list","charpoly_factor_blocks","charpoly_base","charpoly_berk"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6b80ae2a7425439d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial"},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":8.5,"verdict_class":"assumed","binding":false,"binding_errors":["Function DomainMatrix not found in source"]}}
 class DomainMatrix:
     r"""
     Associate Matrix with :py:class:`~.Domain`
@@ -175,16 +187,23 @@ class DomainMatrix:
     domain: Domain
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), creates a :py:class:`~.domainmatrix`) over Any ║
+# ║ Path(__new__(cls, rows, shape), cls.from_rep(rep)) over {Any | not (isinstance(rows, (DDM, SDM, DFM)))} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (isinstance(rows, (DDM, SDM, DFM)))        ║
+# ║   returns:  cls.from_rep(rep)                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | not (isinstance(rows, (DDM, SDM, DFM...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 717d21c1a4dbd7a7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.__new__","kind":"method","src_hash":"74014d5547733414","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"creates a :py:class:`~.domainmatrix`","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"creates a :py:class:`~.domainmatrix`","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"717d21c1a4dbd7a7"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.__new__","kind":"method","src_hash":"74014d5547733414","in":{"base":"Any","pred":"not (isinstance(rows, (DDM, SDM, DFM)))"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, rows, shape)","rhs":"cls.from_rep(rep)","over":{"base":"Any","pred":"not (isinstance(rows, (DDM, SDM, DFM)))"},"name":"__new___correct"},"guarantee":"returns cls.from_rep(rep)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"717d21c1a4dbd7a7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (isinstance(rows, (DDM, SDM, DFM)))"],"returns_expr":"cls.from_rep(rep)","pure":false,"effects":{"effect_type":"reads_state","reads":["cls.from_rep"],"raises":["TypeError","ValueError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, rows, shape, domain, *, fmt=None):
         """
         Creates a :py:class:`~.DomainMatrix`.
@@ -228,16 +247,22 @@ class DomainMatrix:
         return cls.from_rep(rep)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__reduce__(), internal helper behaves correctly) over Any ║
+# ║ Path(__reduce__(), (self.__class__, args)) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (self.__class__, args)                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __reduce__ : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | acd4d66138c8d2df           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.__reduce__","kind":"method","src_hash":"89b55efbba0fab99","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__reduce__()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__reduce___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"acd4d66138c8d2df"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.__reduce__","kind":"method","src_hash":"89b55efbba0fab99","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__reduce__()","rhs":"(self.__class__, args)","over":{"base":"Any"},"name":"__reduce___correct"},"guarantee":"returns (self.__class__, args)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"acd4d66138c8d2df","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(self.__class__, args)","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","self.__class__","self.rep","self.to_list"],"raises":["RuntimeError"]},"state_contract":{"exceptional_post":{"RuntimeError":["isinstance(raised, RuntimeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __reduce__(self):
         rep = self.rep
         if rep.fmt == 'dense':
@@ -250,16 +275,22 @@ class DomainMatrix:
         return (self.__class__, args)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__getitem__(key), returns the element at the given index) over Any ║
+# ║ Path(__getitem__(key), <unspecified:__getitem__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __getitem__ : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 86a7646c9f820b99           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.__getitem__","kind":"method","src_hash":"8bd7919f290c5c9e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getitem__(key)","rhs":"returns the element at the given index","over":{"base":"Any"},"name":"__getitem___correct"},"guarantee":"returns the element at the given index","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"86a7646c9f820b99"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.__getitem__","kind":"method","src_hash":"8bd7919f290c5c9e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getitem__(key)","rhs":"<unspecified:__getitem__>","over":{"base":"Any"},"name":"__getitem___correct"},"guarantee":"returns the element at the given index","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"86a7646c9f820b99","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_rep","self.rep","self.shape"],"raises":["IndexError"]},"state_contract":{"exceptional_post":{"IndexError":["isinstance(raised, IndexError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __getitem__(self, key):
         i, j = key
         m, n = self.shape
@@ -280,44 +311,63 @@ class DomainMatrix:
         return self.from_rep(self.rep.extract_slice(i, j))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(getitem_sympy(i, ), getitem_sympy produces the expected output) over Any ║
+# ║ Path(getitem_sympy(i, j), self.domain.to_sympy(self.rep.getitem(i, j))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.domain.to_sympy(self.rep.getitem(i, j))   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ getitem_sympy : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 156bddbb8c7a9a30           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.getitem_sympy","kind":"method","src_hash":"0962c370e3ba500b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"getitem_sympy(i, )","rhs":"getitem_sympy produces the expected output","over":{"base":"Any"},"name":"getitem_sympy_correct"},"guarantee":"getitem_sympy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"156bddbb8c7a9a30"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.getitem_sympy","kind":"method","src_hash":"0962c370e3ba500b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"getitem_sympy(i, j)","rhs":"self.domain.to_sympy(self.rep.getitem(i, j))","over":{"base":"Any"},"name":"getitem_sympy_correct"},"guarantee":"returns self.domain.to_sympy(self.rep.getitem(i, j))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"156bddbb8c7a9a30","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.domain.to_sympy(self.rep.getitem(i, j))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.rep"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def getitem_sympy(self, i, j):
         return self.domain.to_sympy(self.rep.getitem(i, j))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(extract(row), extract produces the expected output) over Any ║
+# ║ Path(extract(rowslist, colslist), self.from_rep(self.rep.extract(rowslist, colslist))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_rep(self.rep.extract(rowslist, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ extract : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | eeeba73365c4545f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.extract","kind":"method","src_hash":"59028588b8295776","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"extract(row)","rhs":"extract produces the expected output","over":{"base":"Any"},"name":"extract_correct"},"guarantee":"extract produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"eeeba73365c4545f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.extract","kind":"method","src_hash":"59028588b8295776","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"extract(rowslist, colslist)","rhs":"self.from_rep(self.rep.extract(rowslist, colslist))","over":{"base":"Any"},"name":"extract_correct"},"guarantee":"returns self.from_rep(self.rep.extract(rowslist, colslist))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"eeeba73365c4545f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_rep(self.rep.extract(rowslist, colslist))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.from_rep","self.rep"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def extract(self, rowslist, colslist):
         return self.from_rep(self.rep.extract(rowslist, colslist))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__setitem__(key), correctly sets the element at the given index) over Any ║
+# ║ Path(__setitem__(key, value), <unspecified:__setitem__>) over {Any | self.domain.of_type(value)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __setitem__ : Any → Any                                    ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: self.domain.of_type(value)                     ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __setitem__ : {Any | self.domain.of_type(value)} → Any     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a7f0877bf9ccd164           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.__setitem__","kind":"method","src_hash":"742af6885c7a15b0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__setitem__(key)","rhs":"correctly sets the element at the given index","over":{"base":"Any"},"name":"__setitem___correct"},"guarantee":"correctly sets the element at the given index","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a7f0877bf9ccd164"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.__setitem__","kind":"method","src_hash":"742af6885c7a15b0","in":{"base":"Any","pred":"self.domain.of_type(value)"},"out":{"base":"Any"},"spec":{"lhs":"__setitem__(key, value)","rhs":"<unspecified:__setitem__>","over":{"base":"Any","pred":"self.domain.of_type(value)"},"name":"__setitem___correct"},"guarantee":"correctly sets the element at the given index","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a7f0877bf9ccd164","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["self.domain.of_type(value)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.rep"],"raises":["NotImplementedError","TypeError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"],"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __setitem__(self, key, value):
         i, j = key
         if not self.domain.of_type(value):
@@ -329,16 +379,25 @@ class DomainMatrix:
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_rep(cls), create a new domainmatrix efficiently from ddm/sdm) over Any ║
+# ║ Path(from_rep(cls, rep), <unspecified:from_rep>) over {Any | isinstance(rep, (DDM, SDM)) or (DFM is not None and isinstance(rep, DFM)) and hasattr(rep, 'shape') and hasattr(rep, 'domain')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_rep : Any → Any                                       ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(rep, (DDM, SDM)) or (DFM is no...   ║
+# ║   requires: hasattr(rep, 'shape')                          ║
+# ║   requires: hasattr(rep, 'domain')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_rep : {Any | isinstance(rep, (DDM, SDM)) or (DFM...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | daef33f9957f39b4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.from_rep","kind":"classmethod","src_hash":"f4398442a87dad60","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_rep(cls)","rhs":"create a new domainmatrix efficiently from ddm/sdm","over":{"base":"Any"},"name":"from_rep_correct"},"guarantee":"create a new domainmatrix efficiently from ddm/sdm","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.domainmatrix.DomainMatrix.from_rep_correct","statement":"Path(from_rep(x), create a new domainmatrix efficiently from ddm/sdm)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"daef33f9957f39b4"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.from_rep","kind":"classmethod","src_hash":"f4398442a87dad60","in":{"base":"Any","pred":"isinstance(rep, (DDM, SDM)) or (DFM is not None and isinstance(rep, DFM)) and hasattr(rep, 'shape') and hasattr(rep, 'domain')"},"out":{"base":"Any"},"spec":{"lhs":"from_rep(cls, rep)","rhs":"<unspecified:from_rep>","over":{"base":"Any","pred":"isinstance(rep, (DDM, SDM)) or (DFM is not None and isinstance(rep, DFM)) and hasattr(rep, 'shape') and hasattr(rep, 'domain')"},"name":"from_rep_correct"},"guarantee":"create a new domainmatrix efficiently from ddm/sdm","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.domainmatrix.DomainMatrix.from_rep_correct","statement":"Path(from_rep(x), create a new domainmatrix efficiently from ddm/sdm)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"daef33f9957f39b4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(rep, (DDM, SDM)) or (DFM is not None and isinstance(rep, DFM))","hasattr(rep, 'shape')","hasattr(rep, 'domain')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["rep.domain","rep.shape"],"raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_rep(cls, rep):
         """Create a new DomainMatrix efficiently from DDM/SDM.
 
@@ -399,16 +458,22 @@ class DomainMatrix:
     @classmethod
     @doctest_depends_on(ground_types=['python', 'gmpy'])
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_list(cls), convert a list of lists into a domainmatrix) over Any ║
+# ║ Path(from_list(cls, rows, domain), DomainMatrix(domain_rows, (nrows, ncols), domain)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  DomainMatrix(domain_rows, (nrows, ncols),...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ from_list : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b832cf858f649d99  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e11d440f6fc14d8c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.from_list","kind":"classmethod","src_hash":"45e657835ae17565","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_list(cls)","rhs":"convert a list of lists into a domainmatrix","over":{"base":"Any"},"name":"from_list_correct"},"guarantee":"convert a list of lists into a domainmatrix","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.domainmatrix.DomainMatrix.from_list_correct","statement":"Path(from_list(x), convert a list of lists into a domainmatrix)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b832cf858f649d99"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.from_list","kind":"classmethod","src_hash":"45e657835ae17565","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_list(cls, rows, domain)","rhs":"DomainMatrix(domain_rows, (nrows, ncols), domain)","over":{"base":"Any"},"name":"from_list_correct"},"guarantee":"returns DomainMatrix(domain_rows, (nrows, ncols), domain)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.domainmatrix.DomainMatrix.from_list_correct","statement":"Path(from_list(x), returns DomainMatrix(domain_rows, (nrows, ncols), domain))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e11d440f6fc14d8c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"DomainMatrix(domain_rows, (nrows, ncols), domain)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_list(cls, rows, domain):
         r"""
         Convert a list of lists into a DomainMatrix
@@ -455,16 +520,24 @@ class DomainMatrix:
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_list_sympy(cls), convert a list of lists of expr into a domainmatrix using construct_domain) over Any ║
+# ║ Path(from_list_sympy(cls, nrows, ncols), DomainMatrix(domain_rows, (nrows, ncols), domain)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_list_sympy : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(rows) == nrows                             ║
+# ║   ensures:  all((len(row) == ncols for row in rows))       ║
+# ║   returns:  DomainMatrix(domain_rows, (nrows, ncols),...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_list_sympy : Any → {Any | result satisfies: resu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7e259f0a88cb01b7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6021707c00c9a91e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.from_list_sympy","kind":"classmethod","src_hash":"2778fe64dd1fd51b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_list_sympy(cls)","rhs":"convert a list of lists of expr into a domainmatrix using construct_domain","over":{"base":"Any"},"name":"from_list_sympy_correct"},"guarantee":"convert a list of lists of expr into a domainmatrix using construct_domain","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.domainmatrix.DomainMatrix.from_list_sympy_correct","statement":"Path(from_list_sympy(x), convert a list of lists of expr into a domainmatrix using construct_domain)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7e259f0a88cb01b7"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.from_list_sympy","kind":"classmethod","src_hash":"2778fe64dd1fd51b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (DomainMatrix(domain_rows, (nrows, ncols), domain))"},"spec":{"lhs":"from_list_sympy(cls, nrows, ncols)","rhs":"DomainMatrix(domain_rows, (nrows, ncols), domain)","over":{"base":"Any"},"name":"from_list_sympy_correct"},"guarantee":"returns DomainMatrix(domain_rows, (nrows, ncols), domain); len(rows) == nrows; all((len(row) == ncols for row in rows))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.domainmatrix.DomainMatrix.from_list_sympy_correct","statement":"Path(from_list_sympy(x), returns DomainMatrix(domain_rows, (nrows, ncols), domain); len(rows) == nrows; all((len(row) == ncols for row in rows)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6021707c00c9a91e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(rows) == nrows","all((len(row) == ncols for row in rows))"],"returns_expr":"DomainMatrix(domain_rows, (nrows, ncols), domain)","pure":false,"effects":{"effect_type":"reads_state","reads":["cls.get_domain"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_list_sympy(cls, nrows, ncols, rows, **kwargs):
         r"""
         Convert a list of lists of Expr into a DomainMatrix using construct_domain
@@ -509,16 +582,25 @@ class DomainMatrix:
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_dict_sympy(cls), parameters ==========) over Any ║
+# ║ Path(from_dict_sympy(cls, nrows, ncols), DomainMatrix(items_dict, (nrows, ncols), domain)) over {Any | all((0 <= r < nrows for r in elemsdict)) and all((0 <= c < ncols for row in elemsdict.values() for c in row)) and hasattr(elemsdict, 'items') and hasattr(elemsdict, 'values')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_dict_sympy : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: all((0 <= r < nrows for r in elemsdict))       ║
+# ║   requires: all((0 <= c < ncols for row in elemsdict....   ║
+# ║   requires: hasattr(elemsdict, 'items')                    ║
+# ║   returns:  DomainMatrix(items_dict, (nrows, ncols), ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_dict_sympy : {Any | all((0 <= r < nrows for r in...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3117fffd9e6433da  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6e0135f66a2ab2e0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.from_dict_sympy","kind":"classmethod","src_hash":"3ce058924f523ef8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_dict_sympy(cls)","rhs":"parameters ==========","over":{"base":"Any"},"name":"from_dict_sympy_correct"},"guarantee":"parameters ==========","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.domainmatrix.DomainMatrix.from_dict_sympy_correct","statement":"Path(from_dict_sympy(x), parameters ==========)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3117fffd9e6433da"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.from_dict_sympy","kind":"classmethod","src_hash":"3ce058924f523ef8","in":{"base":"Any","pred":"all((0 <= r < nrows for r in elemsdict)) and all((0 <= c < ncols for row in elemsdict.values() for c in row)) and hasattr(elemsdict, 'items') and hasattr(elemsdict, 'values')"},"out":{"base":"Any"},"spec":{"lhs":"from_dict_sympy(cls, nrows, ncols)","rhs":"DomainMatrix(items_dict, (nrows, ncols), domain)","over":{"base":"Any","pred":"all((0 <= r < nrows for r in elemsdict)) and all((0 <= c < ncols for row in elemsdict.values() for c in row)) and hasattr(elemsdict, 'items') and hasattr(elemsdict, 'values')"},"name":"from_dict_sympy_correct"},"guarantee":"returns DomainMatrix(items_dict, (nrows, ncols), domain)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.domainmatrix.DomainMatrix.from_dict_sympy_correct","statement":"Path(from_dict_sympy(x), returns DomainMatrix(items_dict, (nrows, ncols), domain))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6e0135f66a2ab2e0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["all((0 <= r < nrows for r in elemsdict))","all((0 <= c < ncols for row in elemsdict.values() for c in row))","hasattr(elemsdict, 'items')","hasattr(elemsdict, 'values')"],"returns_expr":"DomainMatrix(items_dict, (nrows, ncols), domain)","pure":false,"effects":{"effect_type":"reads_state","reads":["cls.get_domain","elemsdict.items","elemsdict.values"],"raises":["DMBadInputError"]},"state_contract":{"exceptional_post":{"DMBadInputError":["isinstance(raised, DMBadInputError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_dict_sympy(cls, nrows, ncols, elemsdict, **kwargs):
         """
 
@@ -570,16 +652,25 @@ class DomainMatrix:
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_Matrix(cls), id) over Any                        ║
+# ║ Path(from_Matrix(cls, M, fmt), id) over {Any | hasattr(M, 'shape') and hasattr(M, 'todod') and hasattr(M, 'tolist')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_Matrix : Any → Any                                    ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(M, 'shape')                            ║
+# ║   requires: hasattr(M, 'todod')                            ║
+# ║   requires: hasattr(M, 'tolist')                           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_Matrix : {Any | hasattr(M, 'shape') and hasattr(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 698a9d6cd7a9518f   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.from_Matrix","kind":"classmethod","src_hash":"65647de37bc971a6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_Matrix(cls)","rhs":"convert matrix to domainmatrix","over":{"base":"Any"},"name":"from_Matrix_correct","kind":"composition"},"guarantee":"convert matrix to domainmatrix","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_list_sympy","by":"library_axiom"},{"fn":"tolist","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"698a9d6cd7a9518f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.from_Matrix","kind":"classmethod","src_hash":"65647de37bc971a6","in":{"base":"Any","pred":"hasattr(M, 'shape') and hasattr(M, 'todod') and hasattr(M, 'tolist')"},"out":{"base":"Any"},"spec":{"lhs":"from_Matrix(cls, M, fmt)","rhs":"<unspecified:from_Matrix>","over":{"base":"Any","pred":"hasattr(M, 'shape') and hasattr(M, 'todod') and hasattr(M, 'tolist')"},"name":"from_Matrix_correct","kind":"composition"},"guarantee":"convert matrix to domainmatrix","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_list_sympy","by":"library_axiom"},{"fn":"tolist","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"698a9d6cd7a9518f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(M, 'shape')","hasattr(M, 'todod')","hasattr(M, 'tolist')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["M.shape","M.todod","M.tolist","cls.from_dict_sympy","cls.from_list_sympy"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_Matrix(cls, M, fmt='sparse',**kwargs):
         r"""
         Convert Matrix to DomainMatrix
@@ -626,31 +717,43 @@ class DomainMatrix:
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_domain(cls), get_domain produces the expected output) over Any ║
+# ║ Path(get_domain(cls, items_sympy, **kwargs), (K, items_K)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (K, items_K)                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ get_domain : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6a047a103b24dee6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5f1d74e975079596  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.get_domain","kind":"classmethod","src_hash":"5c3f68f4a0f96214","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_domain(cls)","rhs":"get_domain produces the expected output","over":{"base":"Any"},"name":"get_domain_correct"},"guarantee":"get_domain produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.domainmatrix.DomainMatrix.get_domain_correct","statement":"Path(get_domain(x), get_domain produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6a047a103b24dee6"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.get_domain","kind":"classmethod","src_hash":"5c3f68f4a0f96214","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_domain(cls, items_sympy, **kwargs)","rhs":"(K, items_K)","over":{"base":"Any"},"name":"get_domain_correct"},"guarantee":"returns (K, items_K)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.domainmatrix.DomainMatrix.get_domain_correct","statement":"Path(get_domain(x), returns (K, items_K))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5f1d74e975079596","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(K, items_K)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def get_domain(cls, items_sympy, **kwargs):
         K, items_K = construct_domain(items_sympy, **kwargs)
         return K, items_K
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(choose_domain(**o), convert to a domain found by :func:`~.construct_domain`) over Any ║
+# ║ Path(choose_domain(**opts), self.from_flat_nz(elements_dom, data, dom)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_flat_nz(elements_dom, data, dom)     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ choose_domain : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 42afaa04fb24f5ad  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c6e69bb1513f3ff4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.choose_domain","kind":"method","src_hash":"e36357bef17cdc0c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"choose_domain(**o)","rhs":"convert to a domain found by :func:`~.construct_domain`","over":{"base":"Any"},"name":"choose_domain_correct"},"guarantee":"convert to a domain found by :func:`~.construct_domain`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.domainmatrix.DomainMatrix.choose_domain_correct","statement":"Path(choose_domain(x), convert to a domain found by :func:`~.construct_domain`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"42afaa04fb24f5ad"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.choose_domain","kind":"method","src_hash":"e36357bef17cdc0c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"choose_domain(**opts)","rhs":"self.from_flat_nz(elements_dom, data, dom)","over":{"base":"Any"},"name":"choose_domain_correct"},"guarantee":"returns self.from_flat_nz(elements_dom, data, dom)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.domainmatrix.DomainMatrix.choose_domain_correct","statement":"Path(choose_domain(x), returns self.from_flat_nz(elements_dom, data, dom))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c6e69bb1513f3ff4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_flat_nz(elements_dom, data, dom)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.from_flat_nz","self.to_sympy"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def choose_domain(self, **opts):
         """Convert to a domain found by :func:`~.construct_domain`.
 
@@ -683,30 +786,42 @@ class DomainMatrix:
         return self.from_flat_nz(elements_dom, data, dom)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(copy(), copy produces the expected output) over Any   ║
+# ║ Path(copy(), self.from_rep(self.rep.copy())) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_rep(self.rep.copy())                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ copy : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 109d4ef43caa30d8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.copy","kind":"method","src_hash":"92e77b96fb83090f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"copy()","rhs":"copy produces the expected output","over":{"base":"Any"},"name":"copy_correct"},"guarantee":"copy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"109d4ef43caa30d8"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.copy","kind":"method","src_hash":"92e77b96fb83090f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"copy()","rhs":"self.from_rep(self.rep.copy())","over":{"base":"Any"},"name":"copy_correct"},"guarantee":"returns self.from_rep(self.rep.copy())","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"109d4ef43caa30d8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_rep(self.rep.copy())","pure":false,"effects":{"effect_type":"reads_state","reads":["self.from_rep","self.rep"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def copy(self):
         return self.from_rep(self.rep.copy())
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(convert_to(K), change the domain of domainmatrix to desired domain or field) over Any ║
+# ║ Path(convert_to(K), <unspecified:convert_to>) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ convert_to : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7489f5fafb54de03  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.convert_to","kind":"method","src_hash":"335859118b49093a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"convert_to(K)","rhs":"change the domain of domainmatrix to desired domain or field","over":{"base":"Any"},"name":"convert_to_correct"},"guarantee":"change the domain of domainmatrix to desired domain or field","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.domainmatrix.DomainMatrix.convert_to_correct","statement":"Path(convert_to(x), change the domain of domainmatrix to desired domain or field)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7489f5fafb54de03"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.convert_to","kind":"method","src_hash":"335859118b49093a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"convert_to(K)","rhs":"<unspecified:convert_to>","over":{"base":"Any"},"name":"convert_to_correct"},"guarantee":"change the domain of domainmatrix to desired domain or field","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.domainmatrix.DomainMatrix.convert_to_correct","statement":"Path(convert_to(x), change the domain of domainmatrix to desired domain or field)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7489f5fafb54de03","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.copy","self.domain","self.from_rep","self.rep"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def convert_to(self, K):
         r"""
         Change the domain of DomainMatrix to desired domain or field
@@ -754,30 +869,42 @@ class DomainMatrix:
         return self.from_rep(rep_K)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(to_sympy(), to_sympy produces the expected output) over Any ║
+# ║ Path(to_sympy(), self.convert_to(EXRAW)) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.convert_to(EXRAW)                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ to_sympy : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | daa150a8d8c45aee           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.to_sympy","kind":"method","src_hash":"1ffbab88834d01fa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_sympy()","rhs":"to_sympy produces the expected output","over":{"base":"Any"},"name":"to_sympy_correct"},"guarantee":"to_sympy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"daa150a8d8c45aee"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.to_sympy","kind":"method","src_hash":"1ffbab88834d01fa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_sympy()","rhs":"self.convert_to(EXRAW)","over":{"base":"Any"},"name":"to_sympy_correct"},"guarantee":"returns self.convert_to(EXRAW)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"daa150a8d8c45aee","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.convert_to(EXRAW)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.convert_to"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def to_sympy(self):
         return self.convert_to(EXRAW)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(to_field(), returns a domainmatrix with the appropriate field) over Any ║
+# ║ Path(to_field(), self.convert_to(K)) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.convert_to(K)                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ to_field : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b39453b045f0dc80  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c665c35c30ca2524  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.to_field","kind":"method","src_hash":"141d9ea4424a8110","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_field()","rhs":"returns a domainmatrix with the appropriate field","over":{"base":"Any"},"name":"to_field_correct"},"guarantee":"returns a domainmatrix with the appropriate field","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.domainmatrix.DomainMatrix.to_field_correct","statement":"Path(to_field(x), returns a domainmatrix with the appropriate field)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b39453b045f0dc80"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.to_field","kind":"method","src_hash":"141d9ea4424a8110","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_field()","rhs":"self.convert_to(K)","over":{"base":"Any"},"name":"to_field_correct"},"guarantee":"returns self.convert_to(K)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.domainmatrix.DomainMatrix.to_field_correct","statement":"Path(to_field(x), returns self.convert_to(K))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c665c35c30ca2524","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.convert_to(K)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.convert_to","self.domain"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def to_field(self):
         r"""
         Returns a DomainMatrix with the appropriate field
@@ -805,16 +932,22 @@ class DomainMatrix:
         return self.convert_to(K)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(to_sparse(), return a sparse domainmatrix representation of *self*) over Any ║
+# ║ Path(to_sparse(), <unspecified:to_sparse>) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ to_sparse : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 832eafb78b6ce8a5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.to_sparse","kind":"method","src_hash":"6aa0d1a634e49c9d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_sparse()","rhs":"return a sparse domainmatrix representation of *self*","over":{"base":"Any"},"name":"to_sparse_correct"},"guarantee":"return a sparse domainmatrix representation of *self*","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.domainmatrix.DomainMatrix.to_sparse_correct","statement":"Path(to_sparse(x), return a sparse domainmatrix representation of *self*)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"832eafb78b6ce8a5"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.to_sparse","kind":"method","src_hash":"6aa0d1a634e49c9d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_sparse()","rhs":"<unspecified:to_sparse>","over":{"base":"Any"},"name":"to_sparse_correct"},"guarantee":"return a sparse domainmatrix representation of *self*","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.domainmatrix.DomainMatrix.to_sparse_correct","statement":"Path(to_sparse(x), return a sparse domainmatrix representation of *self*)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"832eafb78b6ce8a5","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.from_rep","self.rep"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def to_sparse(self):
         """
         Return a sparse DomainMatrix representation of *self*.
@@ -837,16 +970,22 @@ class DomainMatrix:
         return self.from_rep(self.rep.to_sdm())
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(to_dense(), return a dense domainmatrix representation of *self*) over Any ║
+# ║ Path(to_dense(), <unspecified:to_dense>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ to_dense : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 04097b1b26fbdc04  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.to_dense","kind":"method","src_hash":"fb3548e8577a0acf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_dense()","rhs":"return a dense domainmatrix representation of *self*","over":{"base":"Any"},"name":"to_dense_correct"},"guarantee":"return a dense domainmatrix representation of *self*","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.domainmatrix.DomainMatrix.to_dense_correct","statement":"Path(to_dense(x), return a dense domainmatrix representation of *self*)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"04097b1b26fbdc04"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.to_dense","kind":"method","src_hash":"fb3548e8577a0acf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_dense()","rhs":"<unspecified:to_dense>","over":{"base":"Any"},"name":"to_dense_correct"},"guarantee":"return a dense domainmatrix representation of *self*","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.domainmatrix.DomainMatrix.to_dense_correct","statement":"Path(to_dense(x), return a dense domainmatrix representation of *self*)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"04097b1b26fbdc04","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.from_rep","self.rep"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def to_dense(self):
         """
         Return a dense DomainMatrix representation of *self*.
@@ -872,16 +1011,22 @@ class DomainMatrix:
         return self.from_rep(rep.to_dfm_or_ddm())
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(to_ddm(), return a :class:`~.ddm` representation of *self*) over Any ║
+# ║ Path(to_ddm(), self.rep.to_ddm()) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.rep.to_ddm()                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ to_ddm : Any → {Any | result satisfies: class:`~.ddm`...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8d16140301f96ac5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.to_ddm","kind":"method","src_hash":"54d68502dc1381e8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: class:`~.ddm` representation of *self*."},"spec":{"lhs":"to_ddm()","rhs":"return a :class:`~.ddm` representation of *self*","over":{"base":"Any"},"name":"to_ddm_correct"},"guarantee":"return a :class:`~.ddm` representation of *self*","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8d16140301f96ac5"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.to_ddm","kind":"method","src_hash":"54d68502dc1381e8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: class:`~.ddm` representation of *self*."},"spec":{"lhs":"to_ddm()","rhs":"self.rep.to_ddm()","over":{"base":"Any"},"name":"to_ddm_correct"},"guarantee":"returns self.rep.to_ddm()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8d16140301f96ac5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.rep.to_ddm()","pure":false,"effects":{"effect_type":"reads_state","reads":["self.rep"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def to_ddm(self):
         """
         Return a :class:`~.DDM` representation of *self*.
@@ -908,16 +1053,22 @@ class DomainMatrix:
         return self.rep.to_ddm()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(to_sdm(), return a :class:`~.sdm` representation of *self*) over Any ║
+# ║ Path(to_sdm(), self.rep.to_sdm()) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.rep.to_sdm()                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ to_sdm : Any → {Any | result satisfies: class:`~.sdm`...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 98df82dcd0144a3e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.to_sdm","kind":"method","src_hash":"19c3d4831bb301fa","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: class:`~.sdm` representation of *self*."},"spec":{"lhs":"to_sdm()","rhs":"return a :class:`~.sdm` representation of *self*","over":{"base":"Any"},"name":"to_sdm_correct"},"guarantee":"return a :class:`~.sdm` representation of *self*","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"98df82dcd0144a3e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.to_sdm","kind":"method","src_hash":"19c3d4831bb301fa","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: class:`~.sdm` representation of *self*."},"spec":{"lhs":"to_sdm()","rhs":"self.rep.to_sdm()","over":{"base":"Any"},"name":"to_sdm_correct"},"guarantee":"returns self.rep.to_sdm()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"98df82dcd0144a3e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.rep.to_sdm()","pure":false,"effects":{"effect_type":"reads_state","reads":["self.rep"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def to_sdm(self):
         """
         Return a :class:`~.SDM` representation of *self*.
@@ -945,16 +1096,22 @@ class DomainMatrix:
 
     @doctest_depends_on(ground_types=['flint'])
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(to_dfm(), return a :class:`~.dfm` representation of *self*) over Any ║
+# ║ Path(to_dfm(), self.rep.to_dfm()) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.rep.to_dfm()                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ to_dfm : Any → {Any | result satisfies: class:`~.dfm`...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | eee4b1a97c893334           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.to_dfm","kind":"method","src_hash":"ea6c157efc9b8559","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: class:`~.dfm` representation of *self*."},"spec":{"lhs":"to_dfm()","rhs":"return a :class:`~.dfm` representation of *self*","over":{"base":"Any"},"name":"to_dfm_correct"},"guarantee":"return a :class:`~.dfm` representation of *self*","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"eee4b1a97c893334"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.to_dfm","kind":"method","src_hash":"ea6c157efc9b8559","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: class:`~.dfm` representation of *self*."},"spec":{"lhs":"to_dfm()","rhs":"self.rep.to_dfm()","over":{"base":"Any"},"name":"to_dfm_correct"},"guarantee":"returns self.rep.to_dfm()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"eee4b1a97c893334","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.rep.to_dfm()","pure":false,"effects":{"effect_type":"reads_state","reads":["self.rep"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def to_dfm(self):
         """
         Return a :class:`~.DFM` representation of *self*.
@@ -982,16 +1139,22 @@ class DomainMatrix:
 
     @doctest_depends_on(ground_types=['flint'])
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(to_dfm_or_ddm(), return a :class:`~.dfm` or :class:`~.ddm` representation of *self*) over Any ║
+# ║ Path(to_dfm_or_ddm(), self.rep.to_dfm_or_ddm()) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.rep.to_dfm_or_ddm()                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ to_dfm_or_ddm : Any → {Any | result satisfies: class:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 786ebe397da1e51c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.to_dfm_or_ddm","kind":"method","src_hash":"1c093458c962841e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: class:`~.dfm` or :class:`~.ddm` representation of *self*."},"spec":{"lhs":"to_dfm_or_ddm()","rhs":"return a :class:`~.dfm` or :class:`~.ddm` representation of *self*","over":{"base":"Any"},"name":"to_dfm_or_ddm_correct"},"guarantee":"return a :class:`~.dfm` or :class:`~.ddm` representation of *self*","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"786ebe397da1e51c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.to_dfm_or_ddm","kind":"method","src_hash":"1c093458c962841e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: class:`~.dfm` or :class:`~.ddm` representation of *self*."},"spec":{"lhs":"to_dfm_or_ddm()","rhs":"self.rep.to_dfm_or_ddm()","over":{"base":"Any"},"name":"to_dfm_or_ddm_correct"},"guarantee":"returns self.rep.to_dfm_or_ddm()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"786ebe397da1e51c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.rep.to_dfm_or_ddm()","pure":false,"effects":{"effect_type":"reads_state","reads":["self.rep"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def to_dfm_or_ddm(self):
         """
         Return a :class:`~.DFM` or :class:`~.DDM` representation of *self*.
@@ -1029,16 +1192,22 @@ class DomainMatrix:
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_unify_domain(cls), convert matrices to a common domain) over Any ║
+# ║ Path(_unify_domain(cls, *matrices), <unspecified:_unify_domain>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _unify_domain : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 969d9806fdd54371  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix._unify_domain","kind":"classmethod","src_hash":"14601a0da2c7e8fd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_unify_domain(cls)","rhs":"convert matrices to a common domain","over":{"base":"Any"},"name":"_unify_domain_correct"},"guarantee":"convert matrices to a common domain","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.domainmatrix.DomainMatrix._unify_domain_correct","statement":"Path(_unify_domain(x), convert matrices to a common domain)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"969d9806fdd54371"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix._unify_domain","kind":"classmethod","src_hash":"14601a0da2c7e8fd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_unify_domain(cls, *matrices)","rhs":"<unspecified:_unify_domain>","over":{"base":"Any"},"name":"_unify_domain_correct"},"guarantee":"convert matrices to a common domain","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.domainmatrix.DomainMatrix._unify_domain_correct","statement":"Path(_unify_domain(x), convert matrices to a common domain)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"969d9806fdd54371","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _unify_domain(cls, *matrices):
         """Convert matrices to a common domain"""
         domains = {matrix.domain for matrix in matrices}
@@ -1049,16 +1218,22 @@ class DomainMatrix:
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_unify_fmt(cls), convert matrices to the same format) over Any ║
+# ║ Path(_unify_fmt(cls, *matrices, fmt), <unspecified:_unify_fmt>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _unify_fmt : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 93ba4e5af0cac2ee  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix._unify_fmt","kind":"classmethod","src_hash":"8f3b882aa3e01859","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_unify_fmt(cls)","rhs":"convert matrices to the same format","over":{"base":"Any"},"name":"_unify_fmt_correct"},"guarantee":"convert matrices to the same format","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.domainmatrix.DomainMatrix._unify_fmt_correct","statement":"Path(_unify_fmt(x), convert matrices to the same format)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"93ba4e5af0cac2ee"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix._unify_fmt","kind":"classmethod","src_hash":"8f3b882aa3e01859","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_unify_fmt(cls, *matrices, fmt)","rhs":"<unspecified:_unify_fmt>","over":{"base":"Any"},"name":"_unify_fmt_correct"},"guarantee":"convert matrices to the same format","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.domainmatrix.DomainMatrix._unify_fmt_correct","statement":"Path(_unify_fmt(x), convert matrices to the same format)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"93ba4e5af0cac2ee","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _unify_fmt(cls, *matrices, fmt=None):
         """Convert matrices to the same format.
 
@@ -1077,16 +1252,22 @@ class DomainMatrix:
             raise ValueError("fmt should be 'sparse' or 'dense'")
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(unify(*ot), unifies the domains and the format of self and other matrices) over Any ║
+# ║ Path(unify(*others, fmt), <unspecified:unify>) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ unify : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6eb936c285463048  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.unify","kind":"method","src_hash":"568c589197a82077","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"unify(*ot)","rhs":"unifies the domains and the format of self and other matrices","over":{"base":"Any"},"name":"unify_correct"},"guarantee":"unifies the domains and the format of self and other matrices","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.domainmatrix.DomainMatrix.unify_correct","statement":"Path(unify(x), unifies the domains and the format of self and other matrices)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6eb936c285463048"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.unify","kind":"method","src_hash":"568c589197a82077","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"unify(*others, fmt)","rhs":"<unspecified:unify>","over":{"base":"Any"},"name":"unify_correct"},"guarantee":"unifies the domains and the format of self and other matrices","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.domainmatrix.DomainMatrix.unify_correct","statement":"Path(unify(x), unifies the domains and the format of self and other matrices)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6eb936c285463048","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def unify(self, *others, fmt=None):
         """
         Unifies the domains and the format of self and other
@@ -1147,16 +1328,22 @@ class DomainMatrix:
         return matrices
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(to_Matrix(), convert domainmatrix to matrix) over Any ║
+# ║ Path(to_Matrix(), MutableDenseMatrix._fromrep(rep)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  MutableDenseMatrix._fromrep(rep)               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ to_Matrix : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9a82ebcd7e5a93aa  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4241f1eac9dc94aa  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.to_Matrix","kind":"method","src_hash":"e216d06a1f7c4293","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_Matrix()","rhs":"convert domainmatrix to matrix","over":{"base":"Any"},"name":"to_Matrix_correct"},"guarantee":"convert domainmatrix to matrix","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.domainmatrix.DomainMatrix.to_Matrix_correct","statement":"Path(to_Matrix(x), convert domainmatrix to matrix)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9a82ebcd7e5a93aa"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.to_Matrix","kind":"method","src_hash":"e216d06a1f7c4293","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_Matrix()","rhs":"MutableDenseMatrix._fromrep(rep)","over":{"base":"Any"},"name":"to_Matrix_correct"},"guarantee":"returns MutableDenseMatrix._fromrep(rep)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.domainmatrix.DomainMatrix.to_Matrix_correct","statement":"Path(to_Matrix(x), returns MutableDenseMatrix._fromrep(rep))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4241f1eac9dc94aa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"MutableDenseMatrix._fromrep(rep)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.convert_to","self.copy","self.domain","self.rep","self.to_sparse"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def to_Matrix(self):
         r"""
         Convert DomainMatrix to Matrix
@@ -1202,16 +1389,22 @@ class DomainMatrix:
         return MutableDenseMatrix._fromrep(rep)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(to_list(), convert :class:`domainmatrix` to list of lists) over Any ║
+# ║ Path(to_list(), self.rep.to_list()) over Any               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.rep.to_list()                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ to_list : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 211452adbe3a30b6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.to_list","kind":"method","src_hash":"904e1896cc311824","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_list()","rhs":"convert :class:`domainmatrix` to list of lists","over":{"base":"Any"},"name":"to_list_correct"},"guarantee":"convert :class:`domainmatrix` to list of lists","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"211452adbe3a30b6"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.to_list","kind":"method","src_hash":"904e1896cc311824","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_list()","rhs":"self.rep.to_list()","over":{"base":"Any"},"name":"to_list_correct"},"guarantee":"returns self.rep.to_list()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"211452adbe3a30b6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.rep.to_list()","pure":false,"effects":{"effect_type":"reads_state","reads":["self.rep"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def to_list(self):
         """
         Convert :class:`DomainMatrix` to list of lists.
@@ -1227,16 +1420,22 @@ class DomainMatrix:
         return self.rep.to_list()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(to_list_flat(), convert :class:`domainmatrix` to flat list) over Any ║
+# ║ Path(to_list_flat(), self.rep.to_list_flat()) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.rep.to_list_flat()                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ to_list_flat : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 350513528c2b182f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.to_list_flat","kind":"method","src_hash":"a4358bcd10218d5a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_list_flat()","rhs":"convert :class:`domainmatrix` to flat list","over":{"base":"Any"},"name":"to_list_flat_correct"},"guarantee":"convert :class:`domainmatrix` to flat list","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"350513528c2b182f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.to_list_flat","kind":"method","src_hash":"a4358bcd10218d5a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_list_flat()","rhs":"self.rep.to_list_flat()","over":{"base":"Any"},"name":"to_list_flat_correct"},"guarantee":"returns self.rep.to_list_flat()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"350513528c2b182f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.rep.to_list_flat()","pure":false,"effects":{"effect_type":"reads_state","reads":["self.rep"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def to_list_flat(self):
         """
         Convert :class:`DomainMatrix` to flat list.
@@ -1262,16 +1461,22 @@ class DomainMatrix:
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_list_flat(cls), id) over Any                     ║
+# ║ Path(from_list_flat(cls, elements, shape), id) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  cls.from_rep(ddm.to_dfm_or_ddm())              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ from_list_flat : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | fe2c67a0af9b9f0f   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.from_list_flat","kind":"classmethod","src_hash":"c19592403ed49ae6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_list_flat(cls)","rhs":"create :class:`domainmatrix` from flat list","over":{"base":"Any"},"name":"from_list_flat_correct","kind":"composition"},"guarantee":"create :class:`domainmatrix` from flat list","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_rep","by":"library_axiom"},{"fn":"to_dfm_or_ddm","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fe2c67a0af9b9f0f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.from_list_flat","kind":"classmethod","src_hash":"c19592403ed49ae6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_list_flat(cls, elements, shape)","rhs":"cls.from_rep(ddm.to_dfm_or_ddm())","over":{"base":"Any"},"name":"from_list_flat_correct","kind":"composition"},"guarantee":"returns cls.from_rep(ddm.to_dfm_or_ddm())","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_rep","by":"library_axiom"},{"fn":"to_dfm_or_ddm","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fe2c67a0af9b9f0f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"cls.from_rep(ddm.to_dfm_or_ddm())","pure":false,"effects":{"effect_type":"reads_state","reads":["cls.from_rep"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_list_flat(cls, elements, shape, domain):
         """
         Create :class:`DomainMatrix` from flat list.
@@ -1297,16 +1502,22 @@ class DomainMatrix:
         return cls.from_rep(ddm.to_dfm_or_ddm())
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(to_flat_nz(), convert :class:`domainmatrix` to list of nonzero elements and data) over Any ║
+# ║ Path(to_flat_nz(), self.rep.to_flat_nz()) over Any         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.rep.to_flat_nz()                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ to_flat_nz : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 05156d9b81e7de0c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.to_flat_nz","kind":"method","src_hash":"fe005567227095bf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_flat_nz()","rhs":"convert :class:`domainmatrix` to list of nonzero elements and data","over":{"base":"Any"},"name":"to_flat_nz_correct"},"guarantee":"convert :class:`domainmatrix` to list of nonzero elements and data","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"05156d9b81e7de0c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.to_flat_nz","kind":"method","src_hash":"fe005567227095bf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_flat_nz()","rhs":"self.rep.to_flat_nz()","over":{"base":"Any"},"name":"to_flat_nz_correct"},"guarantee":"returns self.rep.to_flat_nz()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"05156d9b81e7de0c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.rep.to_flat_nz()","pure":false,"effects":{"effect_type":"reads_state","reads":["self.rep"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def to_flat_nz(self):
         """
         Convert :class:`DomainMatrix` to list of nonzero elements and data.
@@ -1357,16 +1568,22 @@ class DomainMatrix:
         return self.rep.to_flat_nz()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_flat_nz(ele), reconstruct :class:`domainmatrix` after calling :meth:`to_flat_nz`) over Any ║
+# ║ Path(from_flat_nz(elements, data, domain), self.from_rep(rep)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_rep(rep)                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ from_flat_nz : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bdfeab1517d632d6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7d3be26bed3d8257  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.from_flat_nz","kind":"method","src_hash":"d2a75ee0ce0620c3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_flat_nz(ele)","rhs":"reconstruct :class:`domainmatrix` after calling :meth:`to_flat_nz`","over":{"base":"Any"},"name":"from_flat_nz_correct"},"guarantee":"reconstruct :class:`domainmatrix` after calling :meth:`to_flat_nz`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.domainmatrix.DomainMatrix.from_flat_nz_correct","statement":"Path(from_flat_nz(x), reconstruct :class:`domainmatrix` after calling :meth:`to_flat_nz`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bdfeab1517d632d6"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.from_flat_nz","kind":"method","src_hash":"d2a75ee0ce0620c3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_flat_nz(elements, data, domain)","rhs":"self.from_rep(rep)","over":{"base":"Any"},"name":"from_flat_nz_correct"},"guarantee":"returns self.from_rep(rep)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.domainmatrix.DomainMatrix.from_flat_nz_correct","statement":"Path(from_flat_nz(x), returns self.from_rep(rep))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7d3be26bed3d8257","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_rep(rep)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.from_rep","self.rep"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_flat_nz(self, elements, data, domain):
         """
         Reconstruct :class:`DomainMatrix` after calling :meth:`to_flat_nz`.
@@ -1382,16 +1599,22 @@ class DomainMatrix:
         return self.from_rep(rep)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(to_dod(), convert :class:`domainmatrix` to dictionary of dictionaries (dod) format) over Any ║
+# ║ Path(to_dod(), self.rep.to_dod()) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.rep.to_dod()                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ to_dod : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 43f1b08e06a42ca5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.to_dod","kind":"method","src_hash":"dcb5dbdcd7ce90a5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_dod()","rhs":"convert :class:`domainmatrix` to dictionary of dictionaries (dod) format","over":{"base":"Any"},"name":"to_dod_correct"},"guarantee":"convert :class:`domainmatrix` to dictionary of dictionaries (dod) format","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"43f1b08e06a42ca5"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.to_dod","kind":"method","src_hash":"dcb5dbdcd7ce90a5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_dod()","rhs":"self.rep.to_dod()","over":{"base":"Any"},"name":"to_dod_correct"},"guarantee":"returns self.rep.to_dod()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"43f1b08e06a42ca5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.rep.to_dod()","pure":false,"effects":{"effect_type":"reads_state","reads":["self.rep"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def to_dod(self):
         """
         Convert :class:`DomainMatrix` to dictionary of dictionaries (dod) format.
@@ -1429,16 +1652,22 @@ class DomainMatrix:
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_dod(cls), create sparse :class:`domainmatrix` from dict of dict (dod) format) over Any ║
+# ║ Path(from_dod(cls, dod, shape), cls.from_rep(SDM.from_dod(dod, shape, domain))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  cls.from_rep(SDM.from_dod(dod, shape, dom...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ from_dod : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b8d206fb3775bac2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.from_dod","kind":"classmethod","src_hash":"8ecaca705e57b9a6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_dod(cls)","rhs":"create sparse :class:`domainmatrix` from dict of dict (dod) format","over":{"base":"Any"},"name":"from_dod_correct"},"guarantee":"create sparse :class:`domainmatrix` from dict of dict (dod) format","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b8d206fb3775bac2"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.from_dod","kind":"classmethod","src_hash":"8ecaca705e57b9a6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_dod(cls, dod, shape)","rhs":"cls.from_rep(SDM.from_dod(dod, shape, domain))","over":{"base":"Any"},"name":"from_dod_correct"},"guarantee":"returns cls.from_rep(SDM.from_dod(dod, shape, domain))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b8d206fb3775bac2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"cls.from_rep(SDM.from_dod(dod, shape, domain))","pure":false,"effects":{"effect_type":"reads_state","reads":["cls.from_rep"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_dod(cls, dod, shape, domain):
         """
         Create sparse :class:`DomainMatrix` from dict of dict (dod) format.
@@ -1454,16 +1683,22 @@ class DomainMatrix:
         return cls.from_rep(SDM.from_dod(dod, shape, domain))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_dod_like(dod), id) over Any                      ║
+# ║ Path(from_dod_like(dod, domain), id) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_rep(self.rep.from_dod(dod, self...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ from_dod_like : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 4cc2f4cda0a29a32   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.from_dod_like","kind":"method","src_hash":"754da9230a1d194a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_dod_like(dod)","rhs":"create :class:`domainmatrix` like ``self`` from dict of dict (dod) format","over":{"base":"Any"},"name":"from_dod_like_correct","kind":"composition"},"guarantee":"create :class:`domainmatrix` like ``self`` from dict of dict (dod) format","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_rep","by":"library_axiom"},{"fn":"from_dod","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4cc2f4cda0a29a32"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.from_dod_like","kind":"method","src_hash":"754da9230a1d194a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_dod_like(dod, domain)","rhs":"self.from_rep(self.rep.from_dod(dod, self.shape, domain))","over":{"base":"Any"},"name":"from_dod_like_correct","kind":"composition"},"guarantee":"returns self.from_rep(self.rep.from_dod(dod, self.shape, domain))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_rep","by":"library_axiom"},{"fn":"from_dod","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4cc2f4cda0a29a32","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_rep(self.rep.from_dod(dod, self.shape, domain))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_rep","self.rep","self.shape"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_dod_like(self, dod, domain=None):
         """
         Create :class:`DomainMatrix` like ``self`` from dict of dict (dod) format.
@@ -1481,16 +1716,22 @@ class DomainMatrix:
         return self.from_rep(self.rep.from_dod(dod, self.shape, domain))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(to_dok(), convert :class:`domainmatrix` to dictionary of keys (dok) format) over Any ║
+# ║ Path(to_dok(), self.rep.to_dok()) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.rep.to_dok()                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ to_dok : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c14735854b1e5e2d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.to_dok","kind":"method","src_hash":"e500735148f0b194","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_dok()","rhs":"convert :class:`domainmatrix` to dictionary of keys (dok) format","over":{"base":"Any"},"name":"to_dok_correct"},"guarantee":"convert :class:`domainmatrix` to dictionary of keys (dok) format","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c14735854b1e5e2d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.to_dok","kind":"method","src_hash":"e500735148f0b194","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_dok()","rhs":"self.rep.to_dok()","over":{"base":"Any"},"name":"to_dok_correct"},"guarantee":"returns self.rep.to_dok()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c14735854b1e5e2d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.rep.to_dok()","pure":false,"effects":{"effect_type":"reads_state","reads":["self.rep"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def to_dok(self):
         """
         Convert :class:`DomainMatrix` to dictionary of keys (dok) format.
@@ -1524,16 +1765,22 @@ class DomainMatrix:
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_dok(cls), create :class:`domainmatrix` from dictionary of keys (dok) format) over Any ║
+# ║ Path(from_dok(cls, dok, shape), cls.from_rep(SDM.from_dok(dok, shape, domain))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  cls.from_rep(SDM.from_dok(dok, shape, dom...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ from_dok : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7e0e90a7c5e4ec59           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.from_dok","kind":"classmethod","src_hash":"a02fedb2275a05eb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_dok(cls)","rhs":"create :class:`domainmatrix` from dictionary of keys (dok) format","over":{"base":"Any"},"name":"from_dok_correct"},"guarantee":"create :class:`domainmatrix` from dictionary of keys (dok) format","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7e0e90a7c5e4ec59"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.from_dok","kind":"classmethod","src_hash":"a02fedb2275a05eb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_dok(cls, dok, shape)","rhs":"cls.from_rep(SDM.from_dok(dok, shape, domain))","over":{"base":"Any"},"name":"from_dok_correct"},"guarantee":"returns cls.from_rep(SDM.from_dok(dok, shape, domain))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7e0e90a7c5e4ec59","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"cls.from_rep(SDM.from_dok(dok, shape, domain))","pure":false,"effects":{"effect_type":"reads_state","reads":["cls.from_rep"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_dok(cls, dok, shape, domain):
         """
         Create :class:`DomainMatrix` from dictionary of keys (dok) format.
@@ -1548,16 +1795,22 @@ class DomainMatrix:
         return cls.from_rep(SDM.from_dok(dok, shape, domain))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(iter_values(), iterate over nonzero elements of the matrix) over Any ║
+# ║ Path(iter_values(), self.rep.iter_values()) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.rep.iter_values()                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ iter_values : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 025b42e702268e56           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.iter_values","kind":"method","src_hash":"186afc299aece1a8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"iter_values()","rhs":"iterate over nonzero elements of the matrix","over":{"base":"Any"},"name":"iter_values_correct"},"guarantee":"iterate over nonzero elements of the matrix","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"025b42e702268e56"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.iter_values","kind":"method","src_hash":"186afc299aece1a8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"iter_values()","rhs":"self.rep.iter_values()","over":{"base":"Any"},"name":"iter_values_correct"},"guarantee":"returns self.rep.iter_values()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"025b42e702268e56","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.rep.iter_values()","pure":false,"effects":{"effect_type":"reads_state","reads":["self.rep"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def iter_values(self):
         """
         Iterate over nonzero elements of the matrix.
@@ -1581,16 +1834,22 @@ class DomainMatrix:
         return self.rep.iter_values()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(iter_items(), iterate over indices and values of nonzero elements of the matrix) over Any ║
+# ║ Path(iter_items(), self.rep.iter_items()) over Any         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.rep.iter_items()                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ iter_items : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b38562c43093032d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.iter_items","kind":"method","src_hash":"b3ebd46c3aa22cd0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"iter_items()","rhs":"iterate over indices and values of nonzero elements of the matrix","over":{"base":"Any"},"name":"iter_items_correct"},"guarantee":"iterate over indices and values of nonzero elements of the matrix","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b38562c43093032d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.iter_items","kind":"method","src_hash":"b3ebd46c3aa22cd0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"iter_items()","rhs":"self.rep.iter_items()","over":{"base":"Any"},"name":"iter_items_correct"},"guarantee":"returns self.rep.iter_items()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b38562c43093032d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.rep.iter_items()","pure":false,"effects":{"effect_type":"reads_state","reads":["self.rep"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def iter_items(self):
         """
         Iterate over indices and values of nonzero elements of the matrix.
@@ -1614,16 +1873,22 @@ class DomainMatrix:
         return self.rep.iter_items()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(nnz(), number of nonzero elements in the matrix) over Any ║
+# ║ Path(nnz(), self.rep.nnz()) over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.rep.nnz()                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ nnz : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d843dbeb14840a27           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.nnz","kind":"method","src_hash":"51943818cdedf327","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"nnz()","rhs":"number of nonzero elements in the matrix","over":{"base":"Any"},"name":"nnz_correct"},"guarantee":"number of nonzero elements in the matrix","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d843dbeb14840a27"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.nnz","kind":"method","src_hash":"51943818cdedf327","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"nnz()","rhs":"self.rep.nnz()","over":{"base":"Any"},"name":"nnz_correct"},"guarantee":"returns self.rep.nnz()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d843dbeb14840a27","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.rep.nnz()","pure":false,"effects":{"effect_type":"reads_state","reads":["self.rep"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def nnz(self):
         """
         Number of nonzero elements in the matrix.
@@ -1640,30 +1905,42 @@ class DomainMatrix:
         return self.rep.nnz()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__repr__(), returns a faithful string representation) over Any ║
+# ║ Path(__repr__(), 'DomainMatrix(%s, %r, %r)' % (str(self.rep), self.shape, self.domain)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  'DomainMatrix(%s, %r, %r)' % (str(self.re...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __repr__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4f98c9755e5efde1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.__repr__","kind":"method","src_hash":"b9250d9ad5576764","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"returns a faithful string representation","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns a faithful string representation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4f98c9755e5efde1"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.__repr__","kind":"method","src_hash":"b9250d9ad5576764","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"'DomainMatrix(%s, %r, %r)' % (str(self.rep), self.shape, self.domain)","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns 'DomainMatrix(%s, %r, %r)' % (str(self.rep), self.shape, self.domain)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4f98c9755e5efde1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'DomainMatrix(%s, %r, %r)' % (str(self.rep), self.shape, self.domain)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.rep","self.shape"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __repr__(self):
         return 'DomainMatrix(%s, %r, %r)' % (str(self.rep), self.shape, self.domain)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(transpose(), matrix transpose of ``self``) over Any   ║
+# ║ Path(transpose(), self.from_rep(self.rep.transpose())) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_rep(self.rep.transpose())            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ transpose : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | aa729dcaa627eb04           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.transpose","kind":"method","src_hash":"23ca6653722bf065","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"transpose()","rhs":"matrix transpose of ``self``","over":{"base":"Any"},"name":"transpose_correct"},"guarantee":"matrix transpose of ``self``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"aa729dcaa627eb04"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.transpose","kind":"method","src_hash":"23ca6653722bf065","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"transpose()","rhs":"self.from_rep(self.rep.transpose())","over":{"base":"Any"},"name":"transpose_correct"},"guarantee":"returns self.from_rep(self.rep.transpose())","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"aa729dcaa627eb04","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_rep(self.rep.transpose())","pure":false,"effects":{"effect_type":"reads_state","reads":["self.from_rep","self.rep"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def transpose(self):
         """Matrix transpose of ``self``"""
         return self.from_rep(self.rep.transpose())
@@ -1671,45 +1948,63 @@ class DomainMatrix:
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(flat(), id) over Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [self[i, j].element for i in range(rows) ...   ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ flat : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | fbe4d110f4595d0b   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.flat","kind":"method","src_hash":"93b79200ba73879b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"flat()","rhs":"flat produces the expected output","over":{"base":"Any"},"name":"flat_correct","kind":"composition"},"guarantee":"flat produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"range","by":"library_axiom"},{"fn":"range","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fbe4d110f4595d0b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.flat","kind":"method","src_hash":"93b79200ba73879b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"flat()","rhs":"[self[i, j].element for i in range(rows) for j in range(cols)]","over":{"base":"Any"},"name":"flat_correct","kind":"composition"},"guarantee":"returns [self[i, j].element for i in range(rows) for j in range(cols)]","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"range","by":"library_axiom"},{"fn":"range","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fbe4d110f4595d0b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[self[i, j].element for i in range(rows) for j in range(cols)]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.shape"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def flat(self):
         rows, cols = self.shape
         return [self[i,j].element for i in range(rows) for j in range(cols)]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_zero_matrix(), returns the is_zero_matrix attribute) over Any ║
+# ║ Path(is_zero_matrix(), self.rep.is_zero_matrix()) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.rep.is_zero_matrix()                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_zero_matrix : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 12a5f8d30f263804           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.is_zero_matrix","kind":"property","src_hash":"355bd30d7f0f52b1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_zero_matrix()","rhs":"returns the is_zero_matrix attribute","over":{"base":"Any"},"name":"is_zero_matrix_correct"},"guarantee":"returns the is_zero_matrix attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"12a5f8d30f263804"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.is_zero_matrix","kind":"property","src_hash":"355bd30d7f0f52b1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_zero_matrix()","rhs":"self.rep.is_zero_matrix()","over":{"base":"Any"},"name":"is_zero_matrix_correct"},"guarantee":"returns self.rep.is_zero_matrix()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"12a5f8d30f263804","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.rep.is_zero_matrix()","pure":false,"effects":{"effect_type":"reads_state","reads":["self.rep"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_zero_matrix(self):
         return self.rep.is_zero_matrix()
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_upper(), returns the is_upper attribute) over Any  ║
+# ║ Path(is_upper(), self.rep.is_upper()) over Any             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.rep.is_upper()                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_upper : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 297b24ed717fa86a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.is_upper","kind":"property","src_hash":"746501802bdb7f55","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_upper()","rhs":"returns the is_upper attribute","over":{"base":"Any"},"name":"is_upper_correct"},"guarantee":"returns the is_upper attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"297b24ed717fa86a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.is_upper","kind":"property","src_hash":"746501802bdb7f55","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_upper()","rhs":"self.rep.is_upper()","over":{"base":"Any"},"name":"is_upper_correct"},"guarantee":"returns self.rep.is_upper()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"297b24ed717fa86a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.rep.is_upper()","pure":false,"effects":{"effect_type":"reads_state","reads":["self.rep"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_upper(self):
         """
         Says whether this matrix is upper-triangular. True can be returned
@@ -1719,16 +2014,22 @@ class DomainMatrix:
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_lower(), returns the is_lower attribute) over Any  ║
+# ║ Path(is_lower(), self.rep.is_lower()) over Any             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.rep.is_lower()                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_lower : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8d67dc3ed011809e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.is_lower","kind":"property","src_hash":"91a4af3fdbb5a733","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_lower()","rhs":"returns the is_lower attribute","over":{"base":"Any"},"name":"is_lower_correct"},"guarantee":"returns the is_lower attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8d67dc3ed011809e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.is_lower","kind":"property","src_hash":"91a4af3fdbb5a733","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_lower()","rhs":"self.rep.is_lower()","over":{"base":"Any"},"name":"is_lower_correct"},"guarantee":"returns self.rep.is_lower()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8d67dc3ed011809e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.rep.is_lower()","pure":false,"effects":{"effect_type":"reads_state","reads":["self.rep"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_lower(self):
         """
         Says whether this matrix is lower-triangular. True can be returned
@@ -1738,16 +2039,22 @@ class DomainMatrix:
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_diagonal(), returns the is_diagonal attribute) over Any ║
+# ║ Path(is_diagonal(), self.rep.is_diagonal()) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.rep.is_diagonal()                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_diagonal : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 32d9d6caf652e867           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.is_diagonal","kind":"property","src_hash":"bd644b69d78c22d6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_diagonal()","rhs":"returns the is_diagonal attribute","over":{"base":"Any"},"name":"is_diagonal_correct"},"guarantee":"returns the is_diagonal attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"32d9d6caf652e867"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.is_diagonal","kind":"property","src_hash":"bd644b69d78c22d6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_diagonal()","rhs":"self.rep.is_diagonal()","over":{"base":"Any"},"name":"is_diagonal_correct"},"guarantee":"returns self.rep.is_diagonal()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"32d9d6caf652e867","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.rep.is_diagonal()","pure":false,"effects":{"effect_type":"reads_state","reads":["self.rep"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_diagonal(self):
         """
         True if the matrix is diagonal.
@@ -1775,16 +2082,22 @@ class DomainMatrix:
         return self.rep.is_diagonal()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(diagonal(), get the diagonal entries of the matrix as a list) over Any ║
+# ║ Path(diagonal(), self.rep.diagonal()) over Any             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.rep.diagonal()                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ diagonal : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ae668c23cc33e849           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.diagonal","kind":"method","src_hash":"55c9459eb33fcc97","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"diagonal()","rhs":"get the diagonal entries of the matrix as a list","over":{"base":"Any"},"name":"diagonal_correct"},"guarantee":"get the diagonal entries of the matrix as a list","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ae668c23cc33e849"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.diagonal","kind":"method","src_hash":"55c9459eb33fcc97","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"diagonal()","rhs":"self.rep.diagonal()","over":{"base":"Any"},"name":"diagonal_correct"},"guarantee":"returns self.rep.diagonal()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ae668c23cc33e849","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.rep.diagonal()","pure":false,"effects":{"effect_type":"reads_state","reads":["self.rep"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def diagonal(self):
         """
         Get the diagonal entries of the matrix as a list.
@@ -1808,16 +2121,22 @@ class DomainMatrix:
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_square(), returns the is_square attribute) over Any ║
+# ║ Path(is_square(), self.shape[0] == self.shape[1]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.shape[0] == self.shape[1]                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_square : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a30b11187d17beb0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.is_square","kind":"property","src_hash":"79196790df7a3726","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_square()","rhs":"returns the is_square attribute","over":{"base":"Any"},"name":"is_square_correct"},"guarantee":"returns the is_square attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a30b11187d17beb0"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.is_square","kind":"property","src_hash":"79196790df7a3726","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_square()","rhs":"self.shape[0] == self.shape[1]","over":{"base":"Any"},"name":"is_square_correct"},"guarantee":"returns self.shape[0] == self.shape[1]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a30b11187d17beb0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.shape[0] == self.shape[1]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.shape"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_square(self):
         """
         True if the matrix is square.
@@ -1825,31 +2144,45 @@ class DomainMatrix:
         return self.shape[0] == self.shape[1]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rank(), rank produces the expected output) over Any   ║
+# ║ Path(rank(), len(pivots)) over Any                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  len(pivots)                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ rank : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f1ec48aad6ce55e1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | be2c1f9555c92181  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.rank","kind":"method","src_hash":"eefb3a1b2604d971","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rank()","rhs":"rank produces the expected output","over":{"base":"Any"},"name":"rank_correct"},"guarantee":"rank produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.domainmatrix.DomainMatrix.rank_correct","statement":"Path(rank(x), rank produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f1ec48aad6ce55e1"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.rank","kind":"method","src_hash":"eefb3a1b2604d971","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rank()","rhs":"len(pivots)","over":{"base":"Any"},"name":"rank_correct"},"guarantee":"returns len(pivots)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.domainmatrix.DomainMatrix.rank_correct","statement":"Path(rank(x), returns len(pivots))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"be2c1f9555c92181","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"len(pivots)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.rref"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def rank(self):
         rref, pivots = self.rref()
         return len(pivots)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(hstack(A, ), id) over Any                             ║
+# ║ Path(hstack(A, *B), id) over {Any | hasattr(A, 'unify') and hasattr(A, 'rep')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ hstack : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(A, 'unify')                            ║
+# ║   requires: hasattr(A, 'rep')                              ║
+# ║   returns:  DomainMatrix.from_rep(A.rep.hstack(*(Bk.r...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ hstack : {Any | hasattr(A, 'unify') and hasattr(A, 'r...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | ca9349fdceb6c6eb   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.hstack","kind":"method","src_hash":"1b280c429af4b392","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"hstack(A, )","rhs":"horizontally stack the given matrices","over":{"base":"Any"},"name":"hstack_correct","kind":"composition"},"guarantee":"horizontally stack the given matrices","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_rep","by":"library_axiom"},{"fn":"hstack","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ca9349fdceb6c6eb"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.hstack","kind":"method","src_hash":"1b280c429af4b392","in":{"base":"Any","pred":"hasattr(A, 'unify') and hasattr(A, 'rep')"},"out":{"base":"Any"},"spec":{"lhs":"hstack(A, *B)","rhs":"DomainMatrix.from_rep(A.rep.hstack(*(Bk.rep for Bk in B)))","over":{"base":"Any","pred":"hasattr(A, 'unify') and hasattr(A, 'rep')"},"name":"hstack_correct","kind":"composition"},"guarantee":"returns DomainMatrix.from_rep(A.rep.hstack(*(Bk.rep for Bk in B)))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_rep","by":"library_axiom"},{"fn":"hstack","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ca9349fdceb6c6eb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(A, 'unify')","hasattr(A, 'rep')"],"returns_expr":"DomainMatrix.from_rep(A.rep.hstack(*(Bk.rep for Bk in B)))","pure":false,"effects":{"effect_type":"reads_state","reads":["A.rep","A.unify"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def hstack(A, *B):
         r"""Horizontally stack the given matrices.
 
@@ -1889,16 +2222,24 @@ class DomainMatrix:
         return DomainMatrix.from_rep(A.rep.hstack(*(Bk.rep for Bk in B)))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(vstack(A, ), id) over Any                             ║
+# ║ Path(vstack(A, *B), id) over {Any | hasattr(A, 'unify') and hasattr(A, 'rep')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ vstack : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(A, 'unify')                            ║
+# ║   requires: hasattr(A, 'rep')                              ║
+# ║   returns:  DomainMatrix.from_rep(A.rep.vstack(*(Bk.r...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ vstack : {Any | hasattr(A, 'unify') and hasattr(A, 'r...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 20238b2662e3081d   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.vstack","kind":"method","src_hash":"8c41b03cfe6e6982","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"vstack(A, )","rhs":"vertically stack the given matrices","over":{"base":"Any"},"name":"vstack_correct","kind":"composition"},"guarantee":"vertically stack the given matrices","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_rep","by":"library_axiom"},{"fn":"vstack","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"20238b2662e3081d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.vstack","kind":"method","src_hash":"8c41b03cfe6e6982","in":{"base":"Any","pred":"hasattr(A, 'unify') and hasattr(A, 'rep')"},"out":{"base":"Any"},"spec":{"lhs":"vstack(A, *B)","rhs":"DomainMatrix.from_rep(A.rep.vstack(*(Bk.rep for Bk in B)))","over":{"base":"Any","pred":"hasattr(A, 'unify') and hasattr(A, 'rep')"},"name":"vstack_correct","kind":"composition"},"guarantee":"returns DomainMatrix.from_rep(A.rep.vstack(*(Bk.rep for Bk in B)))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_rep","by":"library_axiom"},{"fn":"vstack","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"20238b2662e3081d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(A, 'unify')","hasattr(A, 'rep')"],"returns_expr":"DomainMatrix.from_rep(A.rep.vstack(*(Bk.rep for Bk in B)))","pure":false,"effects":{"effect_type":"reads_state","reads":["A.rep","A.unify"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def vstack(A, *B):
         r"""Vertically stack the given matrices.
 
@@ -1938,32 +2279,46 @@ class DomainMatrix:
         return DomainMatrix.from_rep(A.rep.vstack(*(Bk.rep for Bk in B)))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(applyfunc(fun), id) over Any                          ║
+# ║ Path(applyfunc(func, domain), id) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_rep(self.rep.applyfunc(func, do...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ applyfunc : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 834ba4120871ce83   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.applyfunc","kind":"method","src_hash":"6fbfd15f3c274ed0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"applyfunc(fun)","rhs":"applyfunc produces the expected output","over":{"base":"Any"},"name":"applyfunc_correct","kind":"composition"},"guarantee":"applyfunc produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_rep","by":"library_axiom"},{"fn":"applyfunc","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"834ba4120871ce83"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.applyfunc","kind":"method","src_hash":"6fbfd15f3c274ed0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"applyfunc(func, domain)","rhs":"self.from_rep(self.rep.applyfunc(func, domain))","over":{"base":"Any"},"name":"applyfunc_correct","kind":"composition"},"guarantee":"returns self.from_rep(self.rep.applyfunc(func, domain))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_rep","by":"library_axiom"},{"fn":"applyfunc","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"834ba4120871ce83","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_rep(self.rep.applyfunc(func, domain))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_rep","self.rep"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def applyfunc(self, func, domain=None):
         if domain is None:
             domain = self.domain
         return self.from_rep(self.rep.applyfunc(func, domain))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__add__(A, ), returns the sum/concatenation) over Any ║
+# ║ Path(__add__(A, B), <unspecified:__add__>) over {Any | hasattr(A, 'unify') and hasattr(A, 'add')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __add__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(A, 'unify')                            ║
+# ║   requires: hasattr(A, 'add')                              ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __add__ : {Any | hasattr(A, 'unify') and hasattr(A, '...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 29c4eb21d3578b69           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.__add__","kind":"method","src_hash":"f0fb917d2e42f01b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__add__(A, )","rhs":"returns the sum/concatenation","over":{"base":"Any"},"name":"__add___correct"},"guarantee":"returns the sum/concatenation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"29c4eb21d3578b69"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.__add__","kind":"method","src_hash":"f0fb917d2e42f01b","in":{"base":"Any","pred":"hasattr(A, 'unify') and hasattr(A, 'add')"},"out":{"base":"Any"},"spec":{"lhs":"__add__(A, B)","rhs":"<unspecified:__add__>","over":{"base":"Any","pred":"hasattr(A, 'unify') and hasattr(A, 'add')"},"name":"__add___correct"},"guarantee":"returns the sum/concatenation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"29c4eb21d3578b69","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(A, 'unify')","hasattr(A, 'add')"],"pure":false,"effects":{"effect_type":"mutates_args","reads":["A.add","A.unify"],"calls_mutating":["A.add"]},"state_contract":{"modifies":["A.*"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __add__(A, B):
         if not isinstance(B, DomainMatrix):
             return NotImplemented
@@ -1971,16 +2326,24 @@ class DomainMatrix:
         return A.add(B)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__sub__(A, ), internal helper behaves correctly) over Any ║
+# ║ Path(__sub__(A, B), <unspecified:__sub__>) over {Any | hasattr(A, 'unify') and hasattr(A, 'sub')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __sub__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(A, 'unify')                            ║
+# ║   requires: hasattr(A, 'sub')                              ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __sub__ : {Any | hasattr(A, 'unify') and hasattr(A, '...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a41609fcf57c9e97           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.__sub__","kind":"method","src_hash":"3b62f9705d54f999","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__sub__(A, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__sub___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a41609fcf57c9e97"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.__sub__","kind":"method","src_hash":"3b62f9705d54f999","in":{"base":"Any","pred":"hasattr(A, 'unify') and hasattr(A, 'sub')"},"out":{"base":"Any"},"spec":{"lhs":"__sub__(A, B)","rhs":"<unspecified:__sub__>","over":{"base":"Any","pred":"hasattr(A, 'unify') and hasattr(A, 'sub')"},"name":"__sub___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a41609fcf57c9e97","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(A, 'unify')","hasattr(A, 'sub')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["A.sub","A.unify"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __sub__(A, B):
         if not isinstance(B, DomainMatrix):
             return NotImplemented
@@ -1988,30 +2351,50 @@ class DomainMatrix:
         return A.sub(B)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__neg__(A), returns the additive inverse) over Any    ║
+# ║ Path(__neg__(A), A.neg()) over {Any | hasattr(A, 'neg')}   ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __neg__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(A, 'neg')                              ║
+# ║   returns:  A.neg()                                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __neg__ : {Any | hasattr(A, 'neg')} → Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 675d9a1759475f43           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.__neg__","kind":"method","src_hash":"a5ae84b4b3734aaf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__neg__(A)","rhs":"returns the additive inverse","over":{"base":"Any"},"name":"__neg___correct"},"guarantee":"returns the additive inverse","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"675d9a1759475f43"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.__neg__","kind":"method","src_hash":"a5ae84b4b3734aaf","in":{"base":"Any","pred":"hasattr(A, 'neg')"},"out":{"base":"Any"},"spec":{"lhs":"__neg__(A)","rhs":"A.neg()","over":{"base":"Any","pred":"hasattr(A, 'neg')"},"name":"__neg___correct"},"guarantee":"returns A.neg()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"675d9a1759475f43","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(A, 'neg')"],"returns_expr":"A.neg()","pure":false,"effects":{"effect_type":"reads_state","reads":["A.neg"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __neg__(A):
         return A.neg()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__mul__(A, ), returns the product) over Any           ║
+# ║ Path(__mul__(A, B), result == (A.matmul(B) if isinstance(B, DomainMatrix) else A.scalarmul(B) if B in A.domain else A.scalarmul(B.element) if isinstance(B, DomainScalar) else NotImplemented) and result == A.matmul(B) or result == A.scalarmul(B) or result == A.scalarmul(B.element) or result == NotImplemented) over {Any | hasattr(A, 'unify') and hasattr(A, 'matmul') and hasattr(A, 'domain') and hasattr(A, 'scalarmul') and hasattr(B, 'element')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __mul__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(A, 'unify')                            ║
+# ║   requires: hasattr(A, 'matmul')                           ║
+# ║   requires: hasattr(A, 'domain')                           ║
+# ║   ensures:  result == (A.matmul(B) if isinstance(B, D...   ║
+# ║   ensures:  result == A.matmul(B) or result == A.scal...   ║
+# ║   fiber[DomainMatrix]: isinstance(B, DomainMatrix) =>...   ║
+# ║   fiber[case_1]: B in A.domain => A.scalarmul(B)           ║
+# ║   fiber[DomainScalar]: isinstance(B, DomainScalar) =>...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __mul__ : {Any | hasattr(A, 'unify') and hasattr(A, '...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 507dd06f1fe0b238           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.__mul__","kind":"method","src_hash":"70807e7cefd7d416","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__mul__(A, )","rhs":"returns the product","over":{"base":"Any"},"name":"__mul___correct"},"guarantee":"returns the product","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"507dd06f1fe0b238"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.__mul__","kind":"method","src_hash":"70807e7cefd7d416","in":{"base":"Any","pred":"hasattr(A, 'unify') and hasattr(A, 'matmul') and hasattr(A, 'domain') and hasattr(A, 'scalarmul') and hasattr(B, 'element')"},"out":{"base":"Any","pred":"result satisfies: result == (A.matmul(B) if isinstance(B, DomainMatrix) else A.scalarmul(B) if B in A.domain else A.scalarmul(B.element) if isinstance(B, DomainScalar) else NotImplemented) and result == A.matmul(B) or result == A.scalarmul(B) or result == A.scalarmul(B.element) or result == NotImplemented"},"spec":{"lhs":"__mul__(A, B)","rhs":"result == (A.matmul(B) if isinstance(B, DomainMatrix) else A.scalarmul(B) if B in A.domain else A.scalarmul(B.element) if isinstance(B, DomainScalar) else NotImplemented) and result == A.matmul(B) or result == A.scalarmul(B) or result == A.scalarmul(B.element) or result == NotImplemented","over":{"base":"Any","pred":"hasattr(A, 'unify') and hasattr(A, 'matmul') and hasattr(A, 'domain') and hasattr(A, 'scalarmul') and hasattr(B, 'element')"},"name":"__mul___correct"},"guarantee":"result == (A.matmul(B) if isinstance(B, DomainMatrix) else A.scalarmul(B) if B in A.domain else A.scalarmul(B.element) if isinstance(B, DomainScalar) else NotImplemented); result == A.matmul(B) or result == A.scalarmul(B) or result == A.scalarmul(B.element) or result == NotImplemented; 4-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"507dd06f1fe0b238","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(A, 'unify')","hasattr(A, 'matmul')","hasattr(A, 'domain')","hasattr(A, 'scalarmul')","hasattr(B, 'element')"],"ensures":["result == (A.matmul(B) if isinstance(B, DomainMatrix) else A.scalarmul(B) if B in A.domain else A.scalarmul(B.element) if isinstance(B, DomainScalar) else NotImplemented)","result == A.matmul(B) or result == A.scalarmul(B) or result == A.scalarmul(B.element) or result == NotImplemented"],"fibers":[{"name":"DomainMatrix","guard":"isinstance(B, DomainMatrix)","ensures":["result == A.matmul(B)"],"decidability":"structural","returns_expr":"A.matmul(B)"},{"name":"case_1","guard":"B in A.domain","ensures":["result == A.scalarmul(B)"],"decidability":"library","returns_expr":"A.scalarmul(B)"},{"name":"DomainScalar","guard":"isinstance(B, DomainScalar)","ensures":["result == A.scalarmul(B.element)"],"decidability":"structural","returns_expr":"A.scalarmul(B.element)"},{"name":"DomainMatrix","guard":"not (isinstance(B, DomainMatrix)) and not (B in A.domain) and not (isinstance(B, DomainScalar))","ensures":["result == NotImplemented"],"decidability":"structural","returns_expr":"NotImplemented"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["A.domain","A.matmul","A.scalarmul","A.unify","B.element"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __mul__(A, B):
         """A * B"""
         if isinstance(B, DomainMatrix):
@@ -2026,16 +2409,29 @@ class DomainMatrix:
             return NotImplemented
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__rmul__(A, ), internal helper behaves correctly) over Any ║
+# ║ Path(__rmul__(A, B), result == (A.rscalarmul(B) if B in A.domain else A.rscalarmul(B.element) if isinstance(B, DomainScalar) else NotImplemented) and result == A.rscalarmul(B) or result == A.rscalarmul(B.element) or result == NotImplemented) over {Any | hasattr(A, 'domain') and hasattr(A, 'rscalarmul') and hasattr(A, 'unify') and hasattr(B, 'element')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __rmul__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(A, 'domain')                           ║
+# ║   requires: hasattr(A, 'rscalarmul')                       ║
+# ║   requires: hasattr(A, 'unify')                            ║
+# ║   ensures:  result == (A.rscalarmul(B) if B in A.doma...   ║
+# ║   ensures:  result == A.rscalarmul(B) or result == A....   ║
+# ║   fiber[case_0]: B in A.domain => A.rscalarmul(B)          ║
+# ║   fiber[DomainScalar]: isinstance(B, DomainScalar) =>...   ║
+# ║   fiber[DomainScalar]: not (B in A.domain) and not (i...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __rmul__ : {Any | hasattr(A, 'domain') and hasattr(A,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 146764a20e056b7e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.__rmul__","kind":"method","src_hash":"ce3200772e403f21","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rmul__(A, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__rmul___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"146764a20e056b7e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.__rmul__","kind":"method","src_hash":"ce3200772e403f21","in":{"base":"Any","pred":"hasattr(A, 'domain') and hasattr(A, 'rscalarmul') and hasattr(A, 'unify') and hasattr(B, 'element')"},"out":{"base":"Any","pred":"result satisfies: result == (A.rscalarmul(B) if B in A.domain else A.rscalarmul(B.element) if isinstance(B, DomainScalar) else NotImplemented) and result == A.rscalarmul(B) or result == A.rscalarmul(B.element) or result == NotImplemented"},"spec":{"lhs":"__rmul__(A, B)","rhs":"result == (A.rscalarmul(B) if B in A.domain else A.rscalarmul(B.element) if isinstance(B, DomainScalar) else NotImplemented) and result == A.rscalarmul(B) or result == A.rscalarmul(B.element) or result == NotImplemented","over":{"base":"Any","pred":"hasattr(A, 'domain') and hasattr(A, 'rscalarmul') and hasattr(A, 'unify') and hasattr(B, 'element')"},"name":"__rmul___correct"},"guarantee":"result == (A.rscalarmul(B) if B in A.domain else A.rscalarmul(B.element) if isinstance(B, DomainScalar) else NotImplemented); result == A.rscalarmul(B) or result == A.rscalarmul(B.element) or result == NotImplemented; 3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"146764a20e056b7e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(A, 'domain')","hasattr(A, 'rscalarmul')","hasattr(A, 'unify')","hasattr(B, 'element')"],"ensures":["result == (A.rscalarmul(B) if B in A.domain else A.rscalarmul(B.element) if isinstance(B, DomainScalar) else NotImplemented)","result == A.rscalarmul(B) or result == A.rscalarmul(B.element) or result == NotImplemented"],"fibers":[{"name":"case_0","guard":"B in A.domain","ensures":["result == A.rscalarmul(B)"],"decidability":"library","returns_expr":"A.rscalarmul(B)"},{"name":"DomainScalar","guard":"isinstance(B, DomainScalar)","ensures":["result == A.rscalarmul(B.element)"],"decidability":"structural","returns_expr":"A.rscalarmul(B.element)"},{"name":"DomainScalar","guard":"not (B in A.domain) and not (isinstance(B, DomainScalar))","ensures":["result == NotImplemented"],"decidability":"structural","returns_expr":"NotImplemented"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["A.domain","A.rscalarmul","A.unify","B.element"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __rmul__(A, B):
         if B in A.domain:
             return A.rscalarmul(B)
@@ -2046,16 +2442,23 @@ class DomainMatrix:
             return NotImplemented
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__pow__(A, ), a ** n) over Any                        ║
+# ║ Path(__pow__(A, n), <unspecified:__pow__>) over {Any | hasattr(A, 'pow')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __pow__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(A, 'pow')                              ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __pow__ : {Any | hasattr(A, 'pow')} → Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 79000d44a8703da8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.__pow__","kind":"method","src_hash":"5399be649a2c2db5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__pow__(A, )","rhs":"a ** n","over":{"base":"Any"},"name":"__pow___correct"},"guarantee":"a ** n","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"79000d44a8703da8"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.__pow__","kind":"method","src_hash":"5399be649a2c2db5","in":{"base":"Any","pred":"hasattr(A, 'pow')"},"out":{"base":"Any"},"spec":{"lhs":"__pow__(A, n)","rhs":"<unspecified:__pow__>","over":{"base":"Any","pred":"hasattr(A, 'pow')"},"name":"__pow___correct"},"guarantee":"a ** n","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"79000d44a8703da8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(A, 'pow')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["A.pow"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __pow__(A, n):
         """A ** n"""
         if not isinstance(n, int):
@@ -2063,16 +2466,25 @@ class DomainMatrix:
         return A.pow(n)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_check(a, ), internal helper behaves correctly) over Any ║
+# ║ Path(_check(a, op, b), <unspecified:_check>) over {Any | hasattr(a, 'domain') and hasattr(b, 'domain') and hasattr(a, 'rep') and hasattr(b, 'rep') and hasattr(a, 'shape') and hasattr(b, 'shape')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _check : Any → Any                                         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(a, 'domain')                           ║
+# ║   requires: hasattr(b, 'domain')                           ║
+# ║   requires: hasattr(a, 'rep')                              ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _check : {Any | hasattr(a, 'domain') and hasattr(b, '...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9529818fe3b18d28  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix._check","kind":"method","src_hash":"dd50855c43a03f75","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_check(a, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_check_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.domainmatrix.DomainMatrix._check_correct","statement":"Path(_check(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9529818fe3b18d28"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix._check","kind":"method","src_hash":"dd50855c43a03f75","in":{"base":"Any","pred":"hasattr(a, 'domain') and hasattr(b, 'domain') and hasattr(a, 'rep') and hasattr(b, 'rep') and hasattr(a, 'shape') and hasattr(b, 'shape')"},"out":{"base":"Any"},"spec":{"lhs":"_check(a, op, b)","rhs":"<unspecified:_check>","over":{"base":"Any","pred":"hasattr(a, 'domain') and hasattr(b, 'domain') and hasattr(a, 'rep') and hasattr(b, 'rep') and hasattr(a, 'shape') and hasattr(b, 'shape')"},"name":"_check_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.domainmatrix.DomainMatrix._check_correct","statement":"Path(_check(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9529818fe3b18d28","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(a, 'domain')","hasattr(b, 'domain')","hasattr(a, 'rep')","hasattr(b, 'rep')","hasattr(a, 'shape')","hasattr(b, 'shape')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["a.domain","a.rep","a.shape","b.domain","b.rep","b.shape"],"raises":["DMDomainError","DMFormatError","DMShapeError"]},"state_contract":{"exceptional_post":{"DMDomainError":["isinstance(raised, DMDomainError)"],"DMFormatError":["isinstance(raised, DMFormatError)"],"DMShapeError":["isinstance(raised, DMShapeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _check(a, op, b, ashape, bshape):
         if a.domain != b.domain:
             msg = "Domain mismatch: %s %s %s" % (a.domain, op, b.domain)
@@ -2088,16 +2500,25 @@ class DomainMatrix:
             raise DMFormatError(msg)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(add(A, ), id) over Any                                ║
+# ║ Path(add(A, B), id) over {Any | hasattr(A, '_check') and hasattr(A, 'shape') and hasattr(B, 'shape') and hasattr(A, 'from_rep') and hasattr(B, 'rep') and hasattr(A, 'rep')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ add : Any → Any                                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(A, '_check')                           ║
+# ║   requires: hasattr(A, 'shape')                            ║
+# ║   requires: hasattr(B, 'shape')                            ║
+# ║   returns:  A.from_rep(A.rep.add(B.rep))                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ add : {Any | hasattr(A, '_check') and hasattr(A, 'sha...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 8ee87ff1b3bc3d30   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.add","kind":"method","src_hash":"a98f3f52b5e724aa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"add(A, )","rhs":"adds two domainmatrix matrices of the same domain","over":{"base":"Any"},"name":"add_correct","kind":"composition"},"guarantee":"adds two domainmatrix matrices of the same domain","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_rep","by":"library_axiom"},{"fn":"add","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8ee87ff1b3bc3d30"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.add","kind":"method","src_hash":"a98f3f52b5e724aa","in":{"base":"Any","pred":"hasattr(A, '_check') and hasattr(A, 'shape') and hasattr(B, 'shape') and hasattr(A, 'from_rep') and hasattr(B, 'rep') and hasattr(A, 'rep')"},"out":{"base":"Any"},"spec":{"lhs":"add(A, B)","rhs":"A.from_rep(A.rep.add(B.rep))","over":{"base":"Any","pred":"hasattr(A, '_check') and hasattr(A, 'shape') and hasattr(B, 'shape') and hasattr(A, 'from_rep') and hasattr(B, 'rep') and hasattr(A, 'rep')"},"name":"add_correct","kind":"composition"},"guarantee":"returns A.from_rep(A.rep.add(B.rep))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_rep","by":"library_axiom"},{"fn":"add","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8ee87ff1b3bc3d30","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(A, '_check')","hasattr(A, 'shape')","hasattr(B, 'shape')","hasattr(A, 'from_rep')","hasattr(B, 'rep')","hasattr(A, 'rep')"],"returns_expr":"A.from_rep(A.rep.add(B.rep))","pure":false,"effects":{"effect_type":"mutates_args","reads":["A._check","A.from_rep","A.rep","A.shape","B.rep","B.shape"],"calls_mutating":["A.rep.add"]},"state_contract":{"modifies":["A.*"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def add(A, B):
         r"""
         Adds two DomainMatrix matrices of the same Domain
@@ -2149,16 +2570,25 @@ class DomainMatrix:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sub(A, ), id) over Any                                ║
+# ║ Path(sub(A, B), id) over {Any | hasattr(A, '_check') and hasattr(A, 'shape') and hasattr(B, 'shape') and hasattr(A, 'from_rep') and hasattr(B, 'rep') and hasattr(A, 'rep')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ sub : Any → Any                                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(A, '_check')                           ║
+# ║   requires: hasattr(A, 'shape')                            ║
+# ║   requires: hasattr(B, 'shape')                            ║
+# ║   returns:  A.from_rep(A.rep.sub(B.rep))                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ sub : {Any | hasattr(A, '_check') and hasattr(A, 'sha...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 45830d59da8dccdc   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.sub","kind":"method","src_hash":"41db819360c261bf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sub(A, )","rhs":"subtracts two domainmatrix matrices of the same domain","over":{"base":"Any"},"name":"sub_correct","kind":"composition"},"guarantee":"subtracts two domainmatrix matrices of the same domain","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_rep","by":"library_axiom"},{"fn":"sub","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"45830d59da8dccdc"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.sub","kind":"method","src_hash":"41db819360c261bf","in":{"base":"Any","pred":"hasattr(A, '_check') and hasattr(A, 'shape') and hasattr(B, 'shape') and hasattr(A, 'from_rep') and hasattr(B, 'rep') and hasattr(A, 'rep')"},"out":{"base":"Any"},"spec":{"lhs":"sub(A, B)","rhs":"A.from_rep(A.rep.sub(B.rep))","over":{"base":"Any","pred":"hasattr(A, '_check') and hasattr(A, 'shape') and hasattr(B, 'shape') and hasattr(A, 'from_rep') and hasattr(B, 'rep') and hasattr(A, 'rep')"},"name":"sub_correct","kind":"composition"},"guarantee":"returns A.from_rep(A.rep.sub(B.rep))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_rep","by":"library_axiom"},{"fn":"sub","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"45830d59da8dccdc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(A, '_check')","hasattr(A, 'shape')","hasattr(B, 'shape')","hasattr(A, 'from_rep')","hasattr(B, 'rep')","hasattr(A, 'rep')"],"returns_expr":"A.from_rep(A.rep.sub(B.rep))","pure":false,"effects":{"effect_type":"reads_state","reads":["A._check","A.from_rep","A.rep","A.shape","B.rep","B.shape"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def sub(A, B):
         r"""
         Subtracts two DomainMatrix matrices of the same Domain
@@ -2209,16 +2639,24 @@ class DomainMatrix:
         return A.from_rep(A.rep.sub(B.rep))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(neg(A), returns the negative of domainmatrix) over Any ║
+# ║ Path(neg(A), A.from_rep(A.rep.neg())) over {Any | hasattr(A, 'from_rep') and hasattr(A, 'rep')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ neg : Any → Any                                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(A, 'from_rep')                         ║
+# ║   requires: hasattr(A, 'rep')                              ║
+# ║   returns:  A.from_rep(A.rep.neg())                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ neg : {Any | hasattr(A, 'from_rep') and hasattr(A, 'r...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6ccabdc4bff966fb           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.neg","kind":"method","src_hash":"63c66c23ef987df9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"neg(A)","rhs":"returns the negative of domainmatrix","over":{"base":"Any"},"name":"neg_correct"},"guarantee":"returns the negative of domainmatrix","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6ccabdc4bff966fb"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.neg","kind":"method","src_hash":"63c66c23ef987df9","in":{"base":"Any","pred":"hasattr(A, 'from_rep') and hasattr(A, 'rep')"},"out":{"base":"Any"},"spec":{"lhs":"neg(A)","rhs":"A.from_rep(A.rep.neg())","over":{"base":"Any","pred":"hasattr(A, 'from_rep') and hasattr(A, 'rep')"},"name":"neg_correct"},"guarantee":"returns A.from_rep(A.rep.neg())","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6ccabdc4bff966fb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(A, 'from_rep')","hasattr(A, 'rep')"],"returns_expr":"A.from_rep(A.rep.neg())","pure":false,"effects":{"effect_type":"reads_state","reads":["A.from_rep","A.rep"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def neg(A):
         r"""
         Returns the negative of DomainMatrix
@@ -2250,16 +2688,24 @@ class DomainMatrix:
         return A.from_rep(A.rep.neg())
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(mul(A, ), performs term by term multiplication for the second domainmatrix w.r.t first domainmatrix) over Any ║
+# ║ Path(mul(A, b), A.from_rep(A.rep.mul(b))) over {Any | hasattr(A, 'from_rep') and hasattr(A, 'rep')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ mul : Any → Any                                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(A, 'from_rep')                         ║
+# ║   requires: hasattr(A, 'rep')                              ║
+# ║   returns:  A.from_rep(A.rep.mul(b))                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ mul : {Any | hasattr(A, 'from_rep') and hasattr(A, 'r...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9ffa342b5f37d194           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.mul","kind":"method","src_hash":"b73a74bd37345078","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"mul(A, )","rhs":"performs term by term multiplication for the second domainmatrix w.r.t first domainmatrix","over":{"base":"Any"},"name":"mul_correct"},"guarantee":"performs term by term multiplication for the second domainmatrix w.r.t first domainmatrix","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9ffa342b5f37d194"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.mul","kind":"method","src_hash":"b73a74bd37345078","in":{"base":"Any","pred":"hasattr(A, 'from_rep') and hasattr(A, 'rep')"},"out":{"base":"Any"},"spec":{"lhs":"mul(A, b)","rhs":"A.from_rep(A.rep.mul(b))","over":{"base":"Any","pred":"hasattr(A, 'from_rep') and hasattr(A, 'rep')"},"name":"mul_correct"},"guarantee":"returns A.from_rep(A.rep.mul(b))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9ffa342b5f37d194","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(A, 'from_rep')","hasattr(A, 'rep')"],"returns_expr":"A.from_rep(A.rep.mul(b))","pure":false,"effects":{"effect_type":"reads_state","reads":["A.from_rep","A.rep"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def mul(A, b):
         r"""
         Performs term by term multiplication for the second DomainMatrix
@@ -2300,30 +2746,47 @@ class DomainMatrix:
         return A.from_rep(A.rep.mul(b))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rmul(A, ), rmul produces the expected output) over Any ║
+# ║ Path(rmul(A, b), A.from_rep(A.rep.rmul(b))) over {Any | hasattr(A, 'from_rep') and hasattr(A, 'rep')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ rmul : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(A, 'from_rep')                         ║
+# ║   requires: hasattr(A, 'rep')                              ║
+# ║   returns:  A.from_rep(A.rep.rmul(b))                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ rmul : {Any | hasattr(A, 'from_rep') and hasattr(A, '...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1bf86c85631155bd           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.rmul","kind":"method","src_hash":"c68d9dd903e049fd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rmul(A, )","rhs":"rmul produces the expected output","over":{"base":"Any"},"name":"rmul_correct"},"guarantee":"rmul produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1bf86c85631155bd"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.rmul","kind":"method","src_hash":"c68d9dd903e049fd","in":{"base":"Any","pred":"hasattr(A, 'from_rep') and hasattr(A, 'rep')"},"out":{"base":"Any"},"spec":{"lhs":"rmul(A, b)","rhs":"A.from_rep(A.rep.rmul(b))","over":{"base":"Any","pred":"hasattr(A, 'from_rep') and hasattr(A, 'rep')"},"name":"rmul_correct"},"guarantee":"returns A.from_rep(A.rep.rmul(b))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1bf86c85631155bd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(A, 'from_rep')","hasattr(A, 'rep')"],"returns_expr":"A.from_rep(A.rep.rmul(b))","pure":false,"effects":{"effect_type":"reads_state","reads":["A.from_rep","A.rep"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def rmul(A, b):
         return A.from_rep(A.rep.rmul(b))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(matmul(A, ), id) over Any                             ║
+# ║ Path(matmul(A, B), id) over {Any | hasattr(A, '_check') and hasattr(A, 'from_rep') and hasattr(A, 'shape') and hasattr(B, 'shape') and hasattr(B, 'rep') and hasattr(A, 'rep')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ matmul : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(A, '_check')                           ║
+# ║   requires: hasattr(A, 'from_rep')                         ║
+# ║   requires: hasattr(A, 'shape')                            ║
+# ║   returns:  A.from_rep(A.rep.matmul(B.rep))                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ matmul : {Any | hasattr(A, '_check') and hasattr(A, '...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 319f26da788dd37a   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.matmul","kind":"method","src_hash":"4fdcbd8476f5ef92","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"matmul(A, )","rhs":"performs matrix multiplication of two domainmatrix matrices","over":{"base":"Any"},"name":"matmul_correct","kind":"composition"},"guarantee":"performs matrix multiplication of two domainmatrix matrices","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_rep","by":"library_axiom"},{"fn":"matmul","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"319f26da788dd37a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.matmul","kind":"method","src_hash":"4fdcbd8476f5ef92","in":{"base":"Any","pred":"hasattr(A, '_check') and hasattr(A, 'from_rep') and hasattr(A, 'shape') and hasattr(B, 'shape') and hasattr(B, 'rep') and hasattr(A, 'rep')"},"out":{"base":"Any"},"spec":{"lhs":"matmul(A, B)","rhs":"A.from_rep(A.rep.matmul(B.rep))","over":{"base":"Any","pred":"hasattr(A, '_check') and hasattr(A, 'from_rep') and hasattr(A, 'shape') and hasattr(B, 'shape') and hasattr(B, 'rep') and hasattr(A, 'rep')"},"name":"matmul_correct","kind":"composition"},"guarantee":"returns A.from_rep(A.rep.matmul(B.rep))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_rep","by":"library_axiom"},{"fn":"matmul","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"319f26da788dd37a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(A, '_check')","hasattr(A, 'from_rep')","hasattr(A, 'shape')","hasattr(B, 'shape')","hasattr(B, 'rep')","hasattr(A, 'rep')"],"returns_expr":"A.from_rep(A.rep.matmul(B.rep))","pure":false,"effects":{"effect_type":"reads_state","reads":["A._check","A.from_rep","A.rep","A.shape","B.rep","B.shape"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def matmul(A, B):
         r"""
         Performs matrix multiplication of two DomainMatrix matrices
@@ -2366,16 +2829,29 @@ class DomainMatrix:
         return A.from_rep(A.rep.matmul(B.rep))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_scalarmul(A, ), internal helper behaves correctly) over Any ║
+# ║ Path(_scalarmul(A, lamda, reverse), result == (DomainMatrix.zeros(A.shape, A.domain) if lamda == A.domain.zero else A.copy() if lamda == A.domain.one else A.rmul(lamda) if reverse else A.mul(lamda)) and result == DomainMatrix.zeros(A.shape, A.domain) or result == A.copy() or result == A.rmul(lamda) or result == A.mul(lamda)) over {Any | hasattr(A, 'domain') and hasattr(A, 'shape') and hasattr(A, 'copy') and hasattr(A, 'rmul') and hasattr(A, 'mul')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _scalarmul : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(A, 'domain')                           ║
+# ║   requires: hasattr(A, 'shape')                            ║
+# ║   requires: hasattr(A, 'copy')                             ║
+# ║   ensures:  result == (DomainMatrix.zeros(A.shape, A....   ║
+# ║   ensures:  result == DomainMatrix.zeros(A.shape, A.d...   ║
+# ║   fiber[case_0]: lamda == A.domain.zero => DomainMatr...   ║
+# ║   fiber[case_1]: lamda == A.domain.one => A.copy()         ║
+# ║   fiber[case_2]: reverse => A.rmul(lamda)                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _scalarmul : {Any | hasattr(A, 'domain') and hasattr(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3fb813465f597f11  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7d11516881367cd0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix._scalarmul","kind":"method","src_hash":"2777e04b60621122","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_scalarmul(A, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_scalarmul_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.domainmatrix.DomainMatrix._scalarmul_correct","statement":"Path(_scalarmul(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3fb813465f597f11"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix._scalarmul","kind":"method","src_hash":"2777e04b60621122","in":{"base":"Any","pred":"hasattr(A, 'domain') and hasattr(A, 'shape') and hasattr(A, 'copy') and hasattr(A, 'rmul') and hasattr(A, 'mul')"},"out":{"base":"Any","pred":"result satisfies: result == (DomainMatrix.zeros(A.shape, A.domain) if lamda == A.domain.zero else A.copy() if lamda == A.domain.one else A.rmul(lamda) if reverse else A.mul(lamda)) and result == DomainMatrix.zeros(A.shape, A.domain) or result == A.copy() or result == A.rmul(lamda) or result == A.mul(lamda)"},"spec":{"lhs":"_scalarmul(A, lamda, reverse)","rhs":"result == (DomainMatrix.zeros(A.shape, A.domain) if lamda == A.domain.zero else A.copy() if lamda == A.domain.one else A.rmul(lamda) if reverse else A.mul(lamda)) and result == DomainMatrix.zeros(A.shape, A.domain) or result == A.copy() or result == A.rmul(lamda) or result == A.mul(lamda)","over":{"base":"Any","pred":"hasattr(A, 'domain') and hasattr(A, 'shape') and hasattr(A, 'copy') and hasattr(A, 'rmul') and hasattr(A, 'mul')"},"name":"_scalarmul_correct"},"guarantee":"result == (DomainMatrix.zeros(A.shape, A.domain) if lamda == A.domain.zero else A.copy() if lamda == A.domain.one else A.rmul(lamda) if reverse else A.mul(lamda)); result == DomainMatrix.zeros(A.shape, A.domain) or result == A.copy() or result == A.rmul(lamda) or result == A.mul(lamda); 4-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.domainmatrix.DomainMatrix._scalarmul_correct","statement":"Path(_scalarmul(x), result == (DomainMatrix.zeros(A.shape, A.domain) if lamda == A.domain.zero else A.copy() if lamda == A.domain.one else A.rmul(lamda) if reverse else A.mul(lamda)); result == DomainMatrix.zeros(A.shape, A.domain) or result == A.copy() or result == A.rmul(lamda) or result == A.mul(lamda); 4-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7d11516881367cd0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(A, 'domain')","hasattr(A, 'shape')","hasattr(A, 'copy')","hasattr(A, 'rmul')","hasattr(A, 'mul')"],"ensures":["result == (DomainMatrix.zeros(A.shape, A.domain) if lamda == A.domain.zero else A.copy() if lamda == A.domain.one else A.rmul(lamda) if reverse else A.mul(lamda))","result == DomainMatrix.zeros(A.shape, A.domain) or result == A.copy() or result == A.rmul(lamda) or result == A.mul(lamda)"],"fibers":[{"name":"case_0","guard":"lamda == A.domain.zero","ensures":["result == DomainMatrix.zeros(A.shape, A.domain)"],"decidability":"z3","returns_expr":"DomainMatrix.zeros(A.shape, A.domain)"},{"name":"case_1","guard":"lamda == A.domain.one","ensures":["result == A.copy()"],"decidability":"z3","returns_expr":"A.copy()"},{"name":"case_2","guard":"reverse","ensures":["result == A.rmul(lamda)"],"decidability":"library","returns_expr":"A.rmul(lamda)"},{"name":"case_3","guard":"not (lamda == A.domain.zero) and not (lamda == A.domain.one) and not (reverse)","ensures":["result == A.mul(lamda)"],"decidability":"z3","returns_expr":"A.mul(lamda)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["A.copy","A.domain","A.mul","A.rmul","A.shape"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _scalarmul(A, lamda, reverse):
         if lamda == A.domain.zero:
             return DomainMatrix.zeros(A.shape, A.domain)
@@ -2387,59 +2863,91 @@ class DomainMatrix:
             return A.mul(lamda)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(scalarmul(A, ), scalarmul produces the expected output) over Any ║
+# ║ Path(scalarmul(A, lamda), A._scalarmul(lamda, reverse=False)) over {Any | hasattr(A, '_scalarmul')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ scalarmul : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(A, '_scalarmul')                       ║
+# ║   returns:  A._scalarmul(lamda, reverse=False)             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ scalarmul : {Any | hasattr(A, '_scalarmul')} → Any         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ae66c0aff36e2d65           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.scalarmul","kind":"method","src_hash":"74d980f86937d3fa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"scalarmul(A, )","rhs":"scalarmul produces the expected output","over":{"base":"Any"},"name":"scalarmul_correct"},"guarantee":"scalarmul produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ae66c0aff36e2d65"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.scalarmul","kind":"method","src_hash":"74d980f86937d3fa","in":{"base":"Any","pred":"hasattr(A, '_scalarmul')"},"out":{"base":"Any"},"spec":{"lhs":"scalarmul(A, lamda)","rhs":"A._scalarmul(lamda, reverse=False)","over":{"base":"Any","pred":"hasattr(A, '_scalarmul')"},"name":"scalarmul_correct"},"guarantee":"returns A._scalarmul(lamda, reverse=False)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ae66c0aff36e2d65","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(A, '_scalarmul')"],"returns_expr":"A._scalarmul(lamda, reverse=False)","pure":false,"effects":{"effect_type":"reads_state","reads":["A._scalarmul"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def scalarmul(A, lamda):
         return A._scalarmul(lamda, reverse=False)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rscalarmul(A, ), rscalarmul produces the expected output) over Any ║
+# ║ Path(rscalarmul(A, lamda), A._scalarmul(lamda, reverse=True)) over {Any | hasattr(A, '_scalarmul')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ rscalarmul : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(A, '_scalarmul')                       ║
+# ║   returns:  A._scalarmul(lamda, reverse=True)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ rscalarmul : {Any | hasattr(A, '_scalarmul')} → Any        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6fca76b5dd670bbb           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.rscalarmul","kind":"method","src_hash":"f5316c4c7477e60d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rscalarmul(A, )","rhs":"rscalarmul produces the expected output","over":{"base":"Any"},"name":"rscalarmul_correct"},"guarantee":"rscalarmul produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6fca76b5dd670bbb"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.rscalarmul","kind":"method","src_hash":"f5316c4c7477e60d","in":{"base":"Any","pred":"hasattr(A, '_scalarmul')"},"out":{"base":"Any"},"spec":{"lhs":"rscalarmul(A, lamda)","rhs":"A._scalarmul(lamda, reverse=True)","over":{"base":"Any","pred":"hasattr(A, '_scalarmul')"},"name":"rscalarmul_correct"},"guarantee":"returns A._scalarmul(lamda, reverse=True)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6fca76b5dd670bbb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(A, '_scalarmul')"],"returns_expr":"A._scalarmul(lamda, reverse=True)","pure":false,"effects":{"effect_type":"reads_state","reads":["A._scalarmul"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def rscalarmul(A, lamda):
         return A._scalarmul(lamda, reverse=True)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(mul_elementwise(A, ), id) over Any                    ║
+# ║ Path(mul_elementwise(A, B), id) over {Any | A.domain == B.domain and hasattr(A, 'domain') and hasattr(B, 'domain') and hasattr(A, 'from_rep') and hasattr(B, 'rep') and hasattr(A, 'rep')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ mul_elementwise : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: A.domain == B.domain                           ║
+# ║   requires: hasattr(A, 'domain')                           ║
+# ║   requires: hasattr(B, 'domain')                           ║
+# ║   returns:  A.from_rep(A.rep.mul_elementwise(B.rep))       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ mul_elementwise : {Any | A.domain == B.domain and has...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 3212f931eae89d8d   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.mul_elementwise","kind":"method","src_hash":"4f5edcca899d6db6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"mul_elementwise(A, )","rhs":"mul_elementwise produces the expected output","over":{"base":"Any"},"name":"mul_elementwise_correct","kind":"composition"},"guarantee":"mul_elementwise produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_rep","by":"library_axiom"},{"fn":"mul_elementwise","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3212f931eae89d8d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.mul_elementwise","kind":"method","src_hash":"4f5edcca899d6db6","in":{"base":"Any","pred":"A.domain == B.domain and hasattr(A, 'domain') and hasattr(B, 'domain') and hasattr(A, 'from_rep') and hasattr(B, 'rep') and hasattr(A, 'rep')"},"out":{"base":"Any"},"spec":{"lhs":"mul_elementwise(A, B)","rhs":"A.from_rep(A.rep.mul_elementwise(B.rep))","over":{"base":"Any","pred":"A.domain == B.domain and hasattr(A, 'domain') and hasattr(B, 'domain') and hasattr(A, 'from_rep') and hasattr(B, 'rep') and hasattr(A, 'rep')"},"name":"mul_elementwise_correct","kind":"composition"},"guarantee":"returns A.from_rep(A.rep.mul_elementwise(B.rep))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_rep","by":"library_axiom"},{"fn":"mul_elementwise","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3212f931eae89d8d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["A.domain == B.domain","hasattr(A, 'domain')","hasattr(B, 'domain')","hasattr(A, 'from_rep')","hasattr(B, 'rep')","hasattr(A, 'rep')"],"returns_expr":"A.from_rep(A.rep.mul_elementwise(B.rep))","pure":false,"effects":{"effect_type":"reads_state","reads":["A.domain","A.from_rep","A.rep","B.domain","B.rep"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def mul_elementwise(A, B):
         assert A.domain == B.domain
         return A.from_rep(A.rep.mul_elementwise(B.rep))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__truediv__(A, ), method for scalar division) over Any ║
+# ║ Path(__truediv__(A, lamda), <unspecified:__truediv__>) over {Any | not (lamda.element == lamda.domain.zero) and hasattr(lamda, 'element') and hasattr(A, 'mul') and hasattr(A, 'domain') and hasattr(lamda, 'domain') and hasattr(A, 'to_field')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __truediv__ : Any → Any                                    ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (lamda.element == lamda.domain.zero)       ║
+# ║   requires: hasattr(lamda, 'element')                      ║
+# ║   requires: hasattr(A, 'mul')                              ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __truediv__ : {Any | not (lamda.element == lamda.doma...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4ca4f213f6b25e78           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.__truediv__","kind":"method","src_hash":"678ec2265a84edc9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__truediv__(A, )","rhs":"method for scalar division","over":{"base":"Any"},"name":"__truediv___correct"},"guarantee":"method for scalar division","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4ca4f213f6b25e78"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.__truediv__","kind":"method","src_hash":"678ec2265a84edc9","in":{"base":"Any","pred":"not (lamda.element == lamda.domain.zero) and hasattr(lamda, 'element') and hasattr(A, 'mul') and hasattr(A, 'domain') and hasattr(lamda, 'domain') and hasattr(A, 'to_field')"},"out":{"base":"Any"},"spec":{"lhs":"__truediv__(A, lamda)","rhs":"<unspecified:__truediv__>","over":{"base":"Any","pred":"not (lamda.element == lamda.domain.zero) and hasattr(lamda, 'element') and hasattr(A, 'mul') and hasattr(A, 'domain') and hasattr(lamda, 'domain') and hasattr(A, 'to_field')"},"name":"__truediv___correct"},"guarantee":"method for scalar division","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4ca4f213f6b25e78","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (lamda.element == lamda.domain.zero)","hasattr(lamda, 'element')","hasattr(A, 'mul')","hasattr(A, 'domain')","hasattr(lamda, 'domain')","hasattr(A, 'to_field')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["A.domain","A.mul","A.to_field","lamda.domain","lamda.element"],"raises":["ZeroDivisionError"]},"state_contract":{"exceptional_post":{"ZeroDivisionError":["isinstance(raised, ZeroDivisionError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __truediv__(A, lamda):
         """ Method for Scalar Division"""
         if isinstance(lamda, int) or ZZ.of_type(lamda):
@@ -2460,16 +2968,25 @@ class DomainMatrix:
         return A.mul(1 / lamda.element)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(pow(A, ), computes a**n) over Any                     ║
+# ║ Path(pow(A, n), <unspecified:pow>) over {Any | not (nrows != ncols) and not (n < 0) and hasattr(A, 'shape') and hasattr(A, 'eye') and hasattr(A, 'domain')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ pow : Any → Any                                            ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (nrows != ncols)                           ║
+# ║   requires: not (n < 0)                                    ║
+# ║   requires: hasattr(A, 'shape')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ pow : {Any | not (nrows != ncols) and not (n < 0) and...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3c0072de778a95fb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.pow","kind":"method","src_hash":"0cf5e29253de1d7f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pow(A, )","rhs":"computes a**n","over":{"base":"Any"},"name":"pow_correct"},"guarantee":"computes a**n","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.domainmatrix.DomainMatrix.pow_correct","statement":"Path(pow(x), computes a**n)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3c0072de778a95fb"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.pow","kind":"method","src_hash":"0cf5e29253de1d7f","in":{"base":"Any","pred":"not (nrows != ncols) and not (n < 0) and hasattr(A, 'shape') and hasattr(A, 'eye') and hasattr(A, 'domain')"},"out":{"base":"Any"},"spec":{"lhs":"pow(A, n)","rhs":"<unspecified:pow>","over":{"base":"Any","pred":"not (nrows != ncols) and not (n < 0) and hasattr(A, 'shape') and hasattr(A, 'eye') and hasattr(A, 'domain')"},"name":"pow_correct"},"guarantee":"computes a**n","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.domainmatrix.DomainMatrix.pow_correct","statement":"Path(pow(x), computes a**n)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3c0072de778a95fb","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (nrows != ncols)","not (n < 0)","hasattr(A, 'shape')","hasattr(A, 'eye')","hasattr(A, 'domain')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["A.domain","A.eye","A.shape"],"raises":["DMNonSquareMatrixError","NotImplementedError"]},"state_contract":{"exceptional_post":{"DMNonSquareMatrixError":["isinstance(raised, DMNonSquareMatrixError)"],"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def pow(A, n):
         r"""
         Computes A**n
@@ -2527,16 +3044,23 @@ class DomainMatrix:
             return sqrtAn * sqrtAn
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(scc(), compute the strongly connected components of a domainmatrix) over Any ║
+# ║ Path(scc(), self.rep.scc()) over {Any | self.is_square}    ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ scc : Any → Any                                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: self.is_square                                 ║
+# ║   returns:  self.rep.scc()                                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ scc : {Any | self.is_square} → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dcfddbb78d1ecaf9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a465984bd430e81d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.scc","kind":"method","src_hash":"f50771a676d42d1d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"scc()","rhs":"compute the strongly connected components of a domainmatrix","over":{"base":"Any"},"name":"scc_correct"},"guarantee":"compute the strongly connected components of a domainmatrix","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.domainmatrix.DomainMatrix.scc_correct","statement":"Path(scc(x), compute the strongly connected components of a domainmatrix)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dcfddbb78d1ecaf9"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.scc","kind":"method","src_hash":"f50771a676d42d1d","in":{"base":"Any","pred":"self.is_square"},"out":{"base":"Any"},"spec":{"lhs":"scc()","rhs":"self.rep.scc()","over":{"base":"Any","pred":"self.is_square"},"name":"scc_correct"},"guarantee":"returns self.rep.scc()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.domainmatrix.DomainMatrix.scc_correct","statement":"Path(scc(x), returns self.rep.scc())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a465984bd430e81d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["self.is_square"],"returns_expr":"self.rep.scc()","pure":false,"effects":{"effect_type":"reads_state","reads":["self.is_square","self.rep"],"raises":["DMNonSquareMatrixError"]},"state_contract":{"exceptional_post":{"DMNonSquareMatrixError":["isinstance(raised, DMNonSquareMatrixError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def scc(self):
         """Compute the strongly connected components of a DomainMatrix
 
@@ -2614,16 +3138,22 @@ class DomainMatrix:
         return self.rep.scc()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(clear_denoms(con), clear denominators, but keep the domain unchanged) over Any ║
+# ║ Path(clear_denoms(convert), (den, num)) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (den, num)                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ clear_denoms : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 96bcfa4008feccec  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7a7309034f2a441b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.clear_denoms","kind":"method","src_hash":"fca4e1742dee752c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"clear_denoms(con)","rhs":"clear denominators, but keep the domain unchanged","over":{"base":"Any"},"name":"clear_denoms_correct"},"guarantee":"clear denominators, but keep the domain unchanged","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.domainmatrix.DomainMatrix.clear_denoms_correct","statement":"Path(clear_denoms(x), clear denominators, but keep the domain unchanged)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"96bcfa4008feccec"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.clear_denoms","kind":"method","src_hash":"fca4e1742dee752c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"clear_denoms(convert)","rhs":"(den, num)","over":{"base":"Any"},"name":"clear_denoms_correct"},"guarantee":"returns (den, num)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.domainmatrix.DomainMatrix.clear_denoms_correct","statement":"Path(clear_denoms(x), returns (den, num))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7a7309034f2a441b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(den, num)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_flat_nz","self.to_flat_nz"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def clear_denoms(self, convert=False):
         """
         Clear denominators, but keep the domain unchanged.
@@ -2683,16 +3213,22 @@ class DomainMatrix:
         return den, num
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(clear_denoms_rowwise(con), clear denominators from each row of the matrix) over Any ║
+# ║ Path(clear_denoms_rowwise(convert), (den, num)) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (den, num)                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ clear_denoms_rowwise : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b622916f3a69ad25  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 09a0cdb69e50e216  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.clear_denoms_rowwise","kind":"method","src_hash":"cfae62774aaa0a5b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"clear_denoms_rowwise(con)","rhs":"clear denominators from each row of the matrix","over":{"base":"Any"},"name":"clear_denoms_rowwise_correct"},"guarantee":"clear denominators from each row of the matrix","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.domainmatrix.DomainMatrix.clear_denoms_rowwise_correct","statement":"Path(clear_denoms_rowwise(x), clear denominators from each row of the matrix)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b622916f3a69ad25"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.clear_denoms_rowwise","kind":"method","src_hash":"cfae62774aaa0a5b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"clear_denoms_rowwise(convert)","rhs":"(den, num)","over":{"base":"Any"},"name":"clear_denoms_rowwise_correct"},"guarantee":"returns (den, num)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.domainmatrix.DomainMatrix.clear_denoms_rowwise_correct","statement":"Path(clear_denoms_rowwise(x), returns (den, num))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"09a0cdb69e50e216","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(den, num)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.diag","self.domain","self.from_dod_like","self.shape","self.to_dod"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def clear_denoms_rowwise(self, convert=False):
         """
         Clear denominators from each row of the matrix.
@@ -2765,16 +3301,24 @@ class DomainMatrix:
         return den, num
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(cancel_denom(den), cancel factors between a matrix and a denominator) over Any ║
+# ║ Path(cancel_denom(denom), <unspecified:cancel_denom>) over {Any | not (K.is_zero(denom))} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ cancel_denom : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (K.is_zero(denom))                         ║
+# ║   fiber[case_0]: K.is_zero(denom)                          ║
+# ║   fiber[case_1]: K.is_one(denom) => (M.copy(), denom)      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ cancel_denom : {Any | not (K.is_zero(denom))} → Any        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eb28f60439d5d2e4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9895026344374b8a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.cancel_denom","kind":"method","src_hash":"c77712f7391e1514","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"cancel_denom(den)","rhs":"cancel factors between a matrix and a denominator","over":{"base":"Any"},"name":"cancel_denom_correct"},"guarantee":"cancel factors between a matrix and a denominator","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.domainmatrix.DomainMatrix.cancel_denom_correct","statement":"Path(cancel_denom(x), cancel factors between a matrix and a denominator)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eb28f60439d5d2e4"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.cancel_denom","kind":"method","src_hash":"c77712f7391e1514","in":{"base":"Any","pred":"not (K.is_zero(denom))"},"out":{"base":"Any"},"spec":{"lhs":"cancel_denom(denom)","rhs":"<unspecified:cancel_denom>","over":{"base":"Any","pred":"not (K.is_zero(denom))"},"name":"cancel_denom_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.domainmatrix.DomainMatrix.cancel_denom_correct","statement":"Path(cancel_denom(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9895026344374b8a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (K.is_zero(denom))"],"fibers":[{"name":"case_0","guard":"K.is_zero(denom)","ensures":[],"decidability":"library"},{"name":"case_1","guard":"K.is_one(denom)","ensures":["result == (M.copy(), denom)"],"decidability":"library","returns_expr":"(M.copy(), denom)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain"],"raises":["ZeroDivisionError"]},"state_contract":{"exceptional_post":{"ZeroDivisionError":["isinstance(raised, ZeroDivisionError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def cancel_denom(self, denom):
         """
         Cancel factors between a matrix and a denominator.
@@ -2891,16 +3435,24 @@ class DomainMatrix:
         return M_cancelled, denom
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(cancel_denom_elementwise(den), cancel factors between the elements of a matrix and a denominator) over Any ║
+# ║ Path(cancel_denom_elementwise(denom), <unspecified:cancel_denom_elementwise>) over {Any | not (K.is_zero(denom))} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ cancel_denom_elementwise : Any → Any                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (K.is_zero(denom))                         ║
+# ║   fiber[case_0]: K.is_zero(denom)                          ║
+# ║   fiber[case_1]: K.is_one(denom) => (M_numers, M_denoms)   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ cancel_denom_elementwise : {Any | not (K.is_zero(deno...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3e9399ec54a937ec  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fbbf15f9522d8013  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.cancel_denom_elementwise","kind":"method","src_hash":"5f5afa44a5e5801e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"cancel_denom_elementwise(den)","rhs":"cancel factors between the elements of a matrix and a denominator","over":{"base":"Any"},"name":"cancel_denom_elementwise_correct"},"guarantee":"cancel factors between the elements of a matrix and a denominator","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.domainmatrix.DomainMatrix.cancel_denom_elementwise_correct","statement":"Path(cancel_denom_elementwise(x), cancel factors between the elements of a matrix and a denominator)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3e9399ec54a937ec"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.cancel_denom_elementwise","kind":"method","src_hash":"5f5afa44a5e5801e","in":{"base":"Any","pred":"not (K.is_zero(denom))"},"out":{"base":"Any"},"spec":{"lhs":"cancel_denom_elementwise(denom)","rhs":"<unspecified:cancel_denom_elementwise>","over":{"base":"Any","pred":"not (K.is_zero(denom))"},"name":"cancel_denom_elementwise_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.domainmatrix.DomainMatrix.cancel_denom_elementwise_correct","statement":"Path(cancel_denom_elementwise(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fbbf15f9522d8013","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (K.is_zero(denom))"],"fibers":[{"name":"case_0","guard":"K.is_zero(denom)","ensures":[],"decidability":"library"},{"name":"case_1","guard":"K.is_one(denom)","ensures":["result == (M_numers, M_denoms)"],"decidability":"library","returns_expr":"(M_numers, M_denoms)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain"],"raises":["ZeroDivisionError"]},"state_contract":{"exceptional_post":{"ZeroDivisionError":["isinstance(raised, ZeroDivisionError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def cancel_denom_elementwise(self, denom):
         """
         Cancel factors between the elements of a matrix and a denominator.
@@ -2964,16 +3516,22 @@ class DomainMatrix:
         return (M_numers, M_denoms)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(content(), return the gcd of the elements of the matrix) over Any ║
+# ║ Path(content(), dup_content(elements, K)) over Any         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  dup_content(elements, K)                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ content : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 83814a1c47ba93ae  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7bd556b80f1e9728  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.content","kind":"method","src_hash":"4397bbd7cd628a26","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"content()","rhs":"return the gcd of the elements of the matrix","over":{"base":"Any"},"name":"content_correct"},"guarantee":"return the gcd of the elements of the matrix","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.domainmatrix.DomainMatrix.content_correct","statement":"Path(content(x), return the gcd of the elements of the matrix)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"83814a1c47ba93ae"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.content","kind":"method","src_hash":"4397bbd7cd628a26","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"content()","rhs":"dup_content(elements, K)","over":{"base":"Any"},"name":"content_correct"},"guarantee":"returns dup_content(elements, K)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.domainmatrix.DomainMatrix.content_correct","statement":"Path(content(x), returns dup_content(elements, K))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7bd556b80f1e9728","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"dup_content(elements, K)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.to_flat_nz"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def content(self):
         """
         Return the gcd of the elements of the matrix.
@@ -3000,16 +3558,22 @@ class DomainMatrix:
         return dup_content(elements, K)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(primitive(), factor out gcd of the elements of a matrix) over Any ║
+# ║ Path(primitive(), (content, M_primitive)) over Any         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (content, M_primitive)                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ primitive : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9926c142389a6512  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e9243b87bc9c848b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.primitive","kind":"method","src_hash":"c4f31b927a809174","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"primitive()","rhs":"factor out gcd of the elements of a matrix","over":{"base":"Any"},"name":"primitive_correct"},"guarantee":"factor out gcd of the elements of a matrix","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.domainmatrix.DomainMatrix.primitive_correct","statement":"Path(primitive(x), factor out gcd of the elements of a matrix)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9926c142389a6512"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.primitive","kind":"method","src_hash":"c4f31b927a809174","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"primitive()","rhs":"(content, M_primitive)","over":{"base":"Any"},"name":"primitive_correct"},"guarantee":"returns (content, M_primitive)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.domainmatrix.DomainMatrix.primitive_correct","statement":"Path(primitive(x), returns (content, M_primitive))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e9243b87bc9c848b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(content, M_primitive)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_flat_nz","self.to_flat_nz"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def primitive(self):
         """
         Factor out gcd of the elements of a matrix.
@@ -3045,16 +3609,22 @@ class DomainMatrix:
         return content, M_primitive
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rref(met), returns reduced-row echelon form (rref) and list of pivots) over Any ║
+# ║ Path(rref(method), _dm_rref(self, method=method)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _dm_rref(self, method=method)                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ rref : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 15246ffada838a02           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.rref","kind":"method","src_hash":"949a08481f19fc43","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rref(met)","rhs":"returns reduced-row echelon form (rref) and list of pivots","over":{"base":"Any"},"name":"rref_correct"},"guarantee":"returns reduced-row echelon form (rref) and list of pivots","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"15246ffada838a02"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.rref","kind":"method","src_hash":"949a08481f19fc43","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rref(method)","rhs":"_dm_rref(self, method=method)","over":{"base":"Any"},"name":"rref_correct"},"guarantee":"returns _dm_rref(self, method=method)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"15246ffada838a02","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_dm_rref(self, method=method)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def rref(self, *, method='auto'):
         r"""
         Returns reduced-row echelon form (RREF) and list of pivots.
@@ -3147,16 +3717,22 @@ class DomainMatrix:
         return _dm_rref(self, method=method)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rref_den(met), returns reduced-row echelon form with denominator and list of pivots) over Any ║
+# ║ Path(rref_den(method, keep_domain), _dm_rref_den(self, method=method, keep_domain=keep_domain)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _dm_rref_den(self, method=method, keep_do...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ rref_den : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 085774efde58673e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.rref_den","kind":"method","src_hash":"46e319044428fe6f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rref_den(met)","rhs":"returns reduced-row echelon form with denominator and list of pivots","over":{"base":"Any"},"name":"rref_den_correct"},"guarantee":"returns reduced-row echelon form with denominator and list of pivots","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"085774efde58673e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.rref_den","kind":"method","src_hash":"46e319044428fe6f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rref_den(method, keep_domain)","rhs":"_dm_rref_den(self, method=method, keep_domain=keep_domain)","over":{"base":"Any"},"name":"rref_den_correct"},"guarantee":"returns _dm_rref_den(self, method=method, keep_domain=keep_domain)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"085774efde58673e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_dm_rref_den(self, method=method, keep_domain=keep_domain)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def rref_den(self, *, method='auto', keep_domain=True):
         r"""
         Returns reduced-row echelon form with denominator and list of pivots.
@@ -3264,16 +3840,23 @@ class DomainMatrix:
         return _dm_rref_den(self, method=method, keep_domain=keep_domain)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(columnspace(), id) over Any                           ║
+# ║ Path(columnspace(), id) over {Any | self.domain.is_Field}  ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ columnspace : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: self.domain.is_Field                           ║
+# ║   returns:  self.extract(range(rows), pivots)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ columnspace : {Any | self.domain.is_Field} → Any           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | fa7709f94d8d2aaa   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.columnspace","kind":"method","src_hash":"511c9733c7d26c62","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"columnspace()","rhs":"returns the columnspace for the domainmatrix","over":{"base":"Any"},"name":"columnspace_correct","kind":"composition"},"guarantee":"returns the columnspace for the domainmatrix","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"extract","by":"library_axiom"},{"fn":"range","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fa7709f94d8d2aaa"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.columnspace","kind":"method","src_hash":"511c9733c7d26c62","in":{"base":"Any","pred":"self.domain.is_Field"},"out":{"base":"Any"},"spec":{"lhs":"columnspace()","rhs":"self.extract(range(rows), pivots)","over":{"base":"Any","pred":"self.domain.is_Field"},"name":"columnspace_correct","kind":"composition"},"guarantee":"returns self.extract(range(rows), pivots)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"extract","by":"library_axiom"},{"fn":"range","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fa7709f94d8d2aaa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["self.domain.is_Field"],"returns_expr":"self.extract(range(rows), pivots)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.extract","self.rref","self.shape"],"raises":["DMNotAField"]},"state_contract":{"exceptional_post":{"DMNotAField":["isinstance(raised, DMNotAField)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def columnspace(self):
         r"""
         Returns the columnspace for the DomainMatrix
@@ -3303,16 +3886,23 @@ class DomainMatrix:
         return self.extract(range(rows), pivots)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rowspace(), id) over Any                              ║
+# ║ Path(rowspace(), id) over {Any | self.domain.is_Field}     ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ rowspace : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: self.domain.is_Field                           ║
+# ║   returns:  self.extract(range(len(pivots)), range(co...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ rowspace : {Any | self.domain.is_Field} → Any              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 994dd5a62ff139e6   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.rowspace","kind":"method","src_hash":"2f220104e915a3bc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rowspace()","rhs":"returns the rowspace for the domainmatrix","over":{"base":"Any"},"name":"rowspace_correct","kind":"composition"},"guarantee":"returns the rowspace for the domainmatrix","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"extract","by":"library_axiom"},{"fn":"range","by":"library_axiom"},{"fn":"len","by":"library_axiom"},{"fn":"range","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"994dd5a62ff139e6"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.rowspace","kind":"method","src_hash":"2f220104e915a3bc","in":{"base":"Any","pred":"self.domain.is_Field"},"out":{"base":"Any"},"spec":{"lhs":"rowspace()","rhs":"self.extract(range(len(pivots)), range(cols))","over":{"base":"Any","pred":"self.domain.is_Field"},"name":"rowspace_correct","kind":"composition"},"guarantee":"returns self.extract(range(len(pivots)), range(cols))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"extract","by":"library_axiom"},{"fn":"range","by":"library_axiom"},{"fn":"len","by":"library_axiom"},{"fn":"range","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"994dd5a62ff139e6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["self.domain.is_Field"],"returns_expr":"self.extract(range(len(pivots)), range(cols))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.extract","self.rref","self.shape"],"raises":["DMNotAField"]},"state_contract":{"exceptional_post":{"DMNotAField":["isinstance(raised, DMNotAField)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def rowspace(self):
         r"""
         Returns the rowspace for the DomainMatrix
@@ -3342,16 +3932,23 @@ class DomainMatrix:
         return self.extract(range(len(pivots)), range(cols))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(nullspace(div), returns the nullspace for the domainmatrix) over Any ║
+# ║ Path(nullspace(divide_last), <unspecified:nullspace>) over {Any | not (divide_last and (not K.is_Field))} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ nullspace : Any → Any                                      ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (divide_last and (not K.is_Field))         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ nullspace : {Any | not (divide_last and (not K.is_Fie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 62cac684820b8f39  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.nullspace","kind":"method","src_hash":"ee00c24454e8b8d3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"nullspace(div)","rhs":"returns the nullspace for the domainmatrix","over":{"base":"Any"},"name":"nullspace_correct"},"guarantee":"returns the nullspace for the domainmatrix","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.domainmatrix.DomainMatrix.nullspace_correct","statement":"Path(nullspace(x), returns the nullspace for the domainmatrix)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"62cac684820b8f39"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.nullspace","kind":"method","src_hash":"ee00c24454e8b8d3","in":{"base":"Any","pred":"not (divide_last and (not K.is_Field))"},"out":{"base":"Any"},"spec":{"lhs":"nullspace(divide_last)","rhs":"<unspecified:nullspace>","over":{"base":"Any","pred":"not (divide_last and (not K.is_Field))"},"name":"nullspace_correct"},"guarantee":"returns the nullspace for the domainmatrix","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.domainmatrix.DomainMatrix.nullspace_correct","statement":"Path(nullspace(x), returns the nullspace for the domainmatrix)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"62cac684820b8f39","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (divide_last and (not K.is_Field))"],"pure":false,"effects":{"effect_type":"reads_state","raises":["DMNotAField"]},"state_contract":{"exceptional_post":{"DMNotAField":["isinstance(raised, DMNotAField)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def nullspace(self, divide_last=False):
         r"""
         Returns the nullspace for the DomainMatrix
@@ -3467,16 +4064,22 @@ class DomainMatrix:
         return A_null
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(nullspace_from_rref(piv), compute nullspace from rref and pivots) over Any ║
+# ║ Path(nullspace_from_rref(pivots), self.from_rep(null_rep)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_rep(null_rep)                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ nullspace_from_rref : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 494312a53f2a3038  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6212280effb82128  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.nullspace_from_rref","kind":"method","src_hash":"262aa96a8739c8fb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"nullspace_from_rref(piv)","rhs":"compute nullspace from rref and pivots","over":{"base":"Any"},"name":"nullspace_from_rref_correct"},"guarantee":"compute nullspace from rref and pivots","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.domainmatrix.DomainMatrix.nullspace_from_rref_correct","statement":"Path(nullspace_from_rref(x), compute nullspace from rref and pivots)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"494312a53f2a3038"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.nullspace_from_rref","kind":"method","src_hash":"262aa96a8739c8fb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"nullspace_from_rref(pivots)","rhs":"self.from_rep(null_rep)","over":{"base":"Any"},"name":"nullspace_from_rref_correct"},"guarantee":"returns self.from_rep(null_rep)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.domainmatrix.DomainMatrix.nullspace_from_rref_correct","statement":"Path(nullspace_from_rref(x), returns self.from_rep(null_rep))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6212280effb82128","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_rep(null_rep)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.from_rep","self.rep"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def nullspace_from_rref(self, pivots=None):
         """
         Compute nullspace from rref and pivots.
@@ -3500,16 +4103,24 @@ class DomainMatrix:
         return self.from_rep(null_rep)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(inv(), finds the inverse of the domainmatrix if exists) over Any ║
+# ║ Path(inv(), self.from_rep(inv)) over {Any | self.domain.is_Field and not (m != n)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ inv : Any → Any                                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: self.domain.is_Field                           ║
+# ║   requires: not (m != n)                                   ║
+# ║   returns:  self.from_rep(inv)                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ inv : {Any | self.domain.is_Field and not (m != n)} →...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f45b56ce0106149f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d481bec28c212b58  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.inv","kind":"method","src_hash":"ee27d1a9c1448af4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"inv()","rhs":"finds the inverse of the domainmatrix if exists","over":{"base":"Any"},"name":"inv_correct"},"guarantee":"finds the inverse of the domainmatrix if exists","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.domainmatrix.DomainMatrix.inv_correct","statement":"Path(inv(x), finds the inverse of the domainmatrix if exists)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f45b56ce0106149f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.inv","kind":"method","src_hash":"ee27d1a9c1448af4","in":{"base":"Any","pred":"self.domain.is_Field and not (m != n)"},"out":{"base":"Any"},"spec":{"lhs":"inv()","rhs":"self.from_rep(inv)","over":{"base":"Any","pred":"self.domain.is_Field and not (m != n)"},"name":"inv_correct"},"guarantee":"returns self.from_rep(inv)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.domainmatrix.DomainMatrix.inv_correct","statement":"Path(inv(x), returns self.from_rep(inv))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d481bec28c212b58","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["self.domain.is_Field","not (m != n)"],"returns_expr":"self.from_rep(inv)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_rep","self.rep","self.shape"],"raises":["DMNonSquareMatrixError","DMNotAField"]},"state_contract":{"exceptional_post":{"DMNonSquareMatrixError":["isinstance(raised, DMNonSquareMatrixError)"],"DMNotAField":["isinstance(raised, DMNotAField)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def inv(self):
         r"""
         Finds the inverse of the DomainMatrix if exists
@@ -3556,16 +4167,23 @@ class DomainMatrix:
         return self.from_rep(inv)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(det(), returns the determinant of a square :class:`domainmatrix`) over Any ║
+# ║ Path(det(), self.rep.det()) over {Any | not (m != n)}      ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ det : Any → {Any | result satisfies: class:`domainmat...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (m != n)                                   ║
+# ║   returns:  self.rep.det()                                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ det : {Any | not (m != n)} → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9c6fde8af82ac4a5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 04e5c71c5f4d2d46  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.det","kind":"method","src_hash":"7f4f1933d8cdff98","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: class:`domainmatrix`."},"spec":{"lhs":"det()","rhs":"returns the determinant of a square :class:`domainmatrix`","over":{"base":"Any"},"name":"det_correct"},"guarantee":"returns the determinant of a square :class:`domainmatrix`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.domainmatrix.DomainMatrix.det_correct","statement":"Path(det(x), returns the determinant of a square :class:`domainmatrix`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9c6fde8af82ac4a5"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.det","kind":"method","src_hash":"7f4f1933d8cdff98","in":{"base":"Any","pred":"not (m != n)"},"out":{"base":"Any","pred":"result satisfies: class:`domainmatrix`."},"spec":{"lhs":"det()","rhs":"self.rep.det()","over":{"base":"Any","pred":"not (m != n)"},"name":"det_correct"},"guarantee":"returns self.rep.det()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.domainmatrix.DomainMatrix.det_correct","statement":"Path(det(x), returns self.rep.det())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"04e5c71c5f4d2d46","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (m != n)"],"returns_expr":"self.rep.det()","pure":false,"effects":{"effect_type":"reads_state","reads":["self.rep","self.shape"],"raises":["DMNonSquareMatrixError"]},"state_contract":{"exceptional_post":{"DMNonSquareMatrixError":["isinstance(raised, DMNonSquareMatrixError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def det(self):
         r"""
         Returns the determinant of a square :class:`DomainMatrix`.
@@ -3601,16 +4219,22 @@ class DomainMatrix:
         return self.rep.det()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(adj_det(), adjugate and determinant of a square :class:`domainmatrix`) over Any ║
+# ║ Path(adj_det(), (adjA, detA)) over Any                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (adjA, detA)                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ adj_det : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d1bc63af8a4822f0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c37976c19f3bca7c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.adj_det","kind":"method","src_hash":"28d7062452baf182","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"adj_det()","rhs":"adjugate and determinant of a square :class:`domainmatrix`","over":{"base":"Any"},"name":"adj_det_correct"},"guarantee":"adjugate and determinant of a square :class:`domainmatrix`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.domainmatrix.DomainMatrix.adj_det_correct","statement":"Path(adj_det(x), adjugate and determinant of a square :class:`domainmatrix`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d1bc63af8a4822f0"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.adj_det","kind":"method","src_hash":"28d7062452baf182","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"adj_det()","rhs":"(adjA, detA)","over":{"base":"Any"},"name":"adj_det_correct"},"guarantee":"returns (adjA, detA)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.domainmatrix.DomainMatrix.adj_det_correct","statement":"Path(adj_det(x), returns (adjA, detA))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c37976c19f3bca7c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(adjA, detA)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.eye","self.rep","self.shape","self.solve_den_charpoly"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def adj_det(self):
         """
         Adjugate and determinant of a square :class:`DomainMatrix`.
@@ -3655,16 +4279,22 @@ class DomainMatrix:
         return adjA, detA
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(adjugate(), adjugate of a square :class:`domainmatrix`) over Any ║
+# ║ Path(adjugate(), <unspecified:adjugate>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ adjugate : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6924fb488f4f6ae4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.adjugate","kind":"method","src_hash":"2a9a1c43ce294a0d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"adjugate()","rhs":"adjugate of a square :class:`domainmatrix`","over":{"base":"Any"},"name":"adjugate_correct"},"guarantee":"adjugate of a square :class:`domainmatrix`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.domainmatrix.DomainMatrix.adjugate_correct","statement":"Path(adjugate(x), adjugate of a square :class:`domainmatrix`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6924fb488f4f6ae4"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.adjugate","kind":"method","src_hash":"2a9a1c43ce294a0d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"adjugate()","rhs":"<unspecified:adjugate>","over":{"base":"Any"},"name":"adjugate_correct"},"guarantee":"adjugate of a square :class:`domainmatrix`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.domainmatrix.DomainMatrix.adjugate_correct","statement":"Path(adjugate(x), adjugate of a square :class:`domainmatrix`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6924fb488f4f6ae4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.adj_det"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def adjugate(self):
         """
         Adjugate of a square :class:`DomainMatrix`.
@@ -3701,16 +4331,22 @@ class DomainMatrix:
         return adjA
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(inv_den(met), return the inverse as a :class:`domainmatrix` with denominator) over Any ║
+# ║ Path(inv_den(method), self.solve_den(I, method=method)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.solve_den(I, method=method)               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ inv_den : Any → {Any | result satisfies: class:`domai...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 42aa441f143d3b94  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 58f5f77d3ac7ec26  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.inv_den","kind":"method","src_hash":"092fda779d408745","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: class:`domainmatrix` with denominator."},"spec":{"lhs":"inv_den(met)","rhs":"return the inverse as a :class:`domainmatrix` with denominator","over":{"base":"Any"},"name":"inv_den_correct"},"guarantee":"return the inverse as a :class:`domainmatrix` with denominator","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.domainmatrix.DomainMatrix.inv_den_correct","statement":"Path(inv_den(x), return the inverse as a :class:`domainmatrix` with denominator)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"42aa441f143d3b94"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.inv_den","kind":"method","src_hash":"092fda779d408745","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: class:`domainmatrix` with denominator."},"spec":{"lhs":"inv_den(method)","rhs":"self.solve_den(I, method=method)","over":{"base":"Any"},"name":"inv_den_correct"},"guarantee":"returns self.solve_den(I, method=method)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.domainmatrix.DomainMatrix.inv_den_correct","statement":"Path(inv_den(x), returns self.solve_den(I, method=method))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"58f5f77d3ac7ec26","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.solve_den(I, method=method)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.eye","self.shape","self.solve_den"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def inv_den(self, method=None):
         """
         Return the inverse as a :class:`DomainMatrix` with denominator.
@@ -3772,16 +4408,24 @@ class DomainMatrix:
         return self.solve_den(I, method=method)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(solve_den(b, ), solve matrix equation $ax = b$ without fractions in the ground domain) over Any ║
+# ║ Path(solve_den(b, method), (xnum, xden)) over {Any | not (m != bm) and hasattr(b, 'shape')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ solve_den : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (m != bm)                                  ║
+# ║   requires: hasattr(b, 'shape')                            ║
+# ║   returns:  (xnum, xden)                                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ solve_den : {Any | not (m != bm) and hasattr(b, 'shap...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2545722ef006b40d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b5448841674a2998  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.solve_den","kind":"method","src_hash":"1748db7b315b9f24","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"solve_den(b, )","rhs":"solve matrix equation $ax = b$ without fractions in the ground domain","over":{"base":"Any"},"name":"solve_den_correct"},"guarantee":"solve matrix equation $ax = b$ without fractions in the ground domain","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.domainmatrix.DomainMatrix.solve_den_correct","statement":"Path(solve_den(x), solve matrix equation $ax = b$ without fractions in the ground domain)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2545722ef006b40d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.solve_den","kind":"method","src_hash":"1748db7b315b9f24","in":{"base":"Any","pred":"not (m != bm) and hasattr(b, 'shape')"},"out":{"base":"Any"},"spec":{"lhs":"solve_den(b, method)","rhs":"(xnum, xden)","over":{"base":"Any","pred":"not (m != bm) and hasattr(b, 'shape')"},"name":"solve_den_correct"},"guarantee":"returns (xnum, xden)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.domainmatrix.DomainMatrix.solve_den_correct","statement":"Path(solve_den(x), returns (xnum, xden))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b5448841674a2998","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (m != bm)","hasattr(b, 'shape')"],"returns_expr":"(xnum, xden)","pure":false,"effects":{"effect_type":"reads_state","reads":["b.shape","self.shape","self.solve_den_charpoly","self.solve_den_rref"],"raises":["DMBadInputError","DMNonSquareMatrixError","DMShapeError"]},"state_contract":{"exceptional_post":{"DMBadInputError":["isinstance(raised, DMBadInputError)"],"DMNonSquareMatrixError":["isinstance(raised, DMNonSquareMatrixError)"],"DMShapeError":["isinstance(raised, DMShapeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def solve_den(self, b, method=None):
         """
         Solve matrix equation $Ax = b$ without fractions in the ground domain.
@@ -3927,16 +4571,25 @@ class DomainMatrix:
         return xnum, xden
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(solve_den_rref(b), solve matrix equation $ax = b$ using fraction-free rref) over Any ║
+# ║ Path(solve_den_rref(b), (xnum, xden)) over {Any | not (m != bm) and not (m < n) and hasattr(b, 'shape')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ solve_den_rref : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (m != bm)                                  ║
+# ║   requires: not (m < n)                                    ║
+# ║   requires: hasattr(b, 'shape')                            ║
+# ║   returns:  (xnum, xden)                                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ solve_den_rref : {Any | not (m != bm) and not (m < n)...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6adb04ae8745b2ba  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8f23fa3a20f13923  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.solve_den_rref","kind":"method","src_hash":"0e38ec4aa472af9d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"solve_den_rref(b)","rhs":"solve matrix equation $ax = b$ using fraction-free rref","over":{"base":"Any"},"name":"solve_den_rref_correct"},"guarantee":"solve matrix equation $ax = b$ using fraction-free rref","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.domainmatrix.DomainMatrix.solve_den_rref_correct","statement":"Path(solve_den_rref(x), solve matrix equation $ax = b$ using fraction-free rref)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6adb04ae8745b2ba"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.solve_den_rref","kind":"method","src_hash":"0e38ec4aa472af9d","in":{"base":"Any","pred":"not (m != bm) and not (m < n) and hasattr(b, 'shape')"},"out":{"base":"Any"},"spec":{"lhs":"solve_den_rref(b)","rhs":"(xnum, xden)","over":{"base":"Any","pred":"not (m != bm) and not (m < n) and hasattr(b, 'shape')"},"name":"solve_den_rref_correct"},"guarantee":"returns (xnum, xden)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.domainmatrix.DomainMatrix.solve_den_rref_correct","statement":"Path(solve_den_rref(x), returns (xnum, xden))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8f23fa3a20f13923","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (m != bm)","not (m < n)","hasattr(b, 'shape')"],"returns_expr":"(xnum, xden)","pure":false,"effects":{"effect_type":"reads_state","reads":["b.shape"],"raises":["DMNonInvertibleMatrixError","DMShapeError"]},"state_contract":{"exceptional_post":{"DMNonInvertibleMatrixError":["isinstance(raised, DMNonInvertibleMatrixError)"],"DMShapeError":["isinstance(raised, DMShapeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def solve_den_rref(self, b):
         """
         Solve matrix equation $Ax = b$ using fraction-free RREF
@@ -3991,16 +4644,25 @@ class DomainMatrix:
         return xnum, xden
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(solve_den_charpoly(b, ), solve matrix equation $ax = b$ using the characteristic polynomial) over Any ║
+# ║ Path(solve_den_charpoly(b, cp, check), (adjA_b, detA)) over {Any | not (m != n) and not (mb != m) and hasattr(b, 'shape')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ solve_den_charpoly : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (m != n)                                   ║
+# ║   requires: not (mb != m)                                  ║
+# ║   requires: hasattr(b, 'shape')                            ║
+# ║   returns:  (adjA_b, detA)                                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ solve_den_charpoly : {Any | not (m != n) and not (mb ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7fe503e206a703e8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 67dc12a1c8626035  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.solve_den_charpoly","kind":"method","src_hash":"ecf154445fe4f451","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"solve_den_charpoly(b, )","rhs":"solve matrix equation $ax = b$ using the characteristic polynomial","over":{"base":"Any"},"name":"solve_den_charpoly_correct"},"guarantee":"solve matrix equation $ax = b$ using the characteristic polynomial","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.domainmatrix.DomainMatrix.solve_den_charpoly_correct","statement":"Path(solve_den_charpoly(x), solve matrix equation $ax = b$ using the characteristic polynomial)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7fe503e206a703e8"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.solve_den_charpoly","kind":"method","src_hash":"ecf154445fe4f451","in":{"base":"Any","pred":"not (m != n) and not (mb != m) and hasattr(b, 'shape')"},"out":{"base":"Any"},"spec":{"lhs":"solve_den_charpoly(b, cp, check)","rhs":"(adjA_b, detA)","over":{"base":"Any","pred":"not (m != n) and not (mb != m) and hasattr(b, 'shape')"},"name":"solve_den_charpoly_correct"},"guarantee":"returns (adjA_b, detA)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.domainmatrix.DomainMatrix.solve_den_charpoly_correct","statement":"Path(solve_den_charpoly(x), returns (adjA_b, detA))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"67dc12a1c8626035","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (m != n)","not (mb != m)","hasattr(b, 'shape')"],"returns_expr":"(adjA_b, detA)","pure":false,"effects":{"effect_type":"reads_state","reads":["b.shape","self.adj_poly_det","self.eval_poly_mul","self.shape","self.unify"],"raises":["DMNonInvertibleMatrixError","DMNonSquareMatrixError","DMShapeError"]},"state_contract":{"exceptional_post":{"DMNonInvertibleMatrixError":["isinstance(raised, DMNonInvertibleMatrixError)"],"DMNonSquareMatrixError":["isinstance(raised, DMNonSquareMatrixError)"],"DMShapeError":["isinstance(raised, DMShapeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def solve_den_charpoly(self, b, cp=None, check=True):
         """
         Solve matrix equation $Ax = b$ using the characteristic polynomial.
@@ -4088,16 +4750,23 @@ class DomainMatrix:
         return (adjA_b, detA)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(adj_poly_det(cp), return the polynomial $p$ such that $p(a) = adj(a)$ and also the determinant of $a$) over Any ║
+# ║ Path(adj_poly_det(cp), (f, detA)) over {Any | not (m != n)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ adj_poly_det : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (m != n)                                   ║
+# ║   returns:  (f, detA)                                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ adj_poly_det : {Any | not (m != n)} → Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5189b3117eefebde  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2aa7f268ffb48223  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.adj_poly_det","kind":"method","src_hash":"0f5a166e1eb06d53","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"adj_poly_det(cp)","rhs":"return the polynomial $p$ such that $p(a) = adj(a)$ and also the determinant of $a$","over":{"base":"Any"},"name":"adj_poly_det_correct"},"guarantee":"return the polynomial $p$ such that $p(a) = adj(a)$ and also the determinant of $a$","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.domainmatrix.DomainMatrix.adj_poly_det_correct","statement":"Path(adj_poly_det(x), return the polynomial $p$ such that $p(a) = adj(a)$ and also the determinant of $a$)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5189b3117eefebde"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.adj_poly_det","kind":"method","src_hash":"0f5a166e1eb06d53","in":{"base":"Any","pred":"not (m != n)"},"out":{"base":"Any"},"spec":{"lhs":"adj_poly_det(cp)","rhs":"(f, detA)","over":{"base":"Any","pred":"not (m != n)"},"name":"adj_poly_det_correct"},"guarantee":"returns (f, detA)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.domainmatrix.DomainMatrix.adj_poly_det_correct","statement":"Path(adj_poly_det(x), returns (f, detA))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2aa7f268ffb48223","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (m != n)"],"returns_expr":"(f, detA)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.shape"],"raises":["DMNonSquareMatrixError"]},"state_contract":{"exceptional_post":{"DMNonSquareMatrixError":["isinstance(raised, DMNonSquareMatrixError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def adj_poly_det(self, cp=None):
         """
         Return the polynomial $p$ such that $p(A) = adj(A)$ and also the
@@ -4170,16 +4839,23 @@ class DomainMatrix:
         return f, detA
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval_poly(p), evaluate polynomial function of a matrix $p(a)$) over Any ║
+# ║ Path(eval_poly(p), <unspecified:eval_poly>) over {Any | not (m != n)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval_poly : Any → Any                                      ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (m != n)                                   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval_poly : {Any | not (m != n)} → Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d2e885046594a5f8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.eval_poly","kind":"method","src_hash":"e4582b0b069bb97e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval_poly(p)","rhs":"evaluate polynomial function of a matrix $p(a)$","over":{"base":"Any"},"name":"eval_poly_correct"},"guarantee":"evaluate polynomial function of a matrix $p(a)$","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.domainmatrix.DomainMatrix.eval_poly_correct","statement":"Path(eval_poly(x), evaluate polynomial function of a matrix $p(a)$)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d2e885046594a5f8"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.eval_poly","kind":"method","src_hash":"e4582b0b069bb97e","in":{"base":"Any","pred":"not (m != n)"},"out":{"base":"Any"},"spec":{"lhs":"eval_poly(p)","rhs":"<unspecified:eval_poly>","over":{"base":"Any","pred":"not (m != n)"},"name":"eval_poly_correct"},"guarantee":"evaluate polynomial function of a matrix $p(a)$","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.domainmatrix.DomainMatrix.eval_poly_correct","statement":"Path(eval_poly(x), evaluate polynomial function of a matrix $p(a)$)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d2e885046594a5f8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (m != n)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.eye","self.shape","self.zeros"],"raises":["DMNonSquareMatrixError"]},"state_contract":{"exceptional_post":{"DMNonSquareMatrixError":["isinstance(raised, DMNonSquareMatrixError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval_poly(self, p):
         """
         Evaluate polynomial function of a matrix $p(A)$.
@@ -4223,16 +4899,25 @@ class DomainMatrix:
         return p_A
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval_poly_mul(p, ), evaluate polynomial matrix product $p(a) \times b$) over Any ║
+# ║ Path(eval_poly_mul(p, B), <unspecified:eval_poly_mul>) over {Any | not (m != n) and not (mb != n) and hasattr(B, 'shape') and hasattr(B, 'domain') and hasattr(B, 'zeros') and hasattr(B, 'rep')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval_poly_mul : Any → Any                                  ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (m != n)                                   ║
+# ║   requires: not (mb != n)                                  ║
+# ║   requires: hasattr(B, 'shape')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval_poly_mul : {Any | not (m != n) and not (mb != n)...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a45d4c4c81314a75  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.eval_poly_mul","kind":"method","src_hash":"7510fe6f3256db28","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval_poly_mul(p, )","rhs":"evaluate polynomial matrix product $p(a) \\times b$","over":{"base":"Any"},"name":"eval_poly_mul_correct"},"guarantee":"evaluate polynomial matrix product $p(a) \\times b$","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.domainmatrix.DomainMatrix.eval_poly_mul_correct","statement":"Path(eval_poly_mul(x), evaluate polynomial matrix product $p(a) \\times b$)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a45d4c4c81314a75"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.eval_poly_mul","kind":"method","src_hash":"7510fe6f3256db28","in":{"base":"Any","pred":"not (m != n) and not (mb != n) and hasattr(B, 'shape') and hasattr(B, 'domain') and hasattr(B, 'zeros') and hasattr(B, 'rep')"},"out":{"base":"Any"},"spec":{"lhs":"eval_poly_mul(p, B)","rhs":"<unspecified:eval_poly_mul>","over":{"base":"Any","pred":"not (m != n) and not (mb != n) and hasattr(B, 'shape') and hasattr(B, 'domain') and hasattr(B, 'zeros') and hasattr(B, 'rep')"},"name":"eval_poly_mul_correct"},"guarantee":"evaluate polynomial matrix product $p(a) \\times b$","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.domainmatrix.DomainMatrix.eval_poly_mul_correct","statement":"Path(eval_poly_mul(x), evaluate polynomial matrix product $p(a) \\times b$)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a45d4c4c81314a75","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (m != n)","not (mb != n)","hasattr(B, 'shape')","hasattr(B, 'domain')","hasattr(B, 'zeros')","hasattr(B, 'rep')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["B.domain","B.rep","B.shape","B.zeros"],"raises":["DMDomainError","DMNonSquareMatrixError","DMShapeError"]},"state_contract":{"exceptional_post":{"DMDomainError":["isinstance(raised, DMDomainError)"],"DMNonSquareMatrixError":["isinstance(raised, DMNonSquareMatrixError)"],"DMShapeError":["isinstance(raised, DMShapeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval_poly_mul(self, p, B):
         r"""
         Evaluate polynomial matrix product $p(A) \times B$.
@@ -4307,16 +4992,23 @@ class DomainMatrix:
         return p_A_B
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(lu(), id) over Any                                    ║
+# ║ Path(lu(), id) over {Any | self.domain.is_Field}           ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ lu : Any → Any                                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: self.domain.is_Field                           ║
+# ║   returns:  (self.from_rep(L), self.from_rep(U), swaps)    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ lu : {Any | self.domain.is_Field} → Any                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 1d39bcc3662b62f0   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.lu","kind":"method","src_hash":"7bd88b758e5a215a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"lu()","rhs":"returns lower and upper decomposition of the domainmatrix","over":{"base":"Any"},"name":"lu_correct","kind":"composition"},"guarantee":"returns lower and upper decomposition of the domainmatrix","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_rep","by":"library_axiom"},{"fn":"from_rep","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1d39bcc3662b62f0"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.lu","kind":"method","src_hash":"7bd88b758e5a215a","in":{"base":"Any","pred":"self.domain.is_Field"},"out":{"base":"Any"},"spec":{"lhs":"lu()","rhs":"(self.from_rep(L), self.from_rep(U), swaps)","over":{"base":"Any","pred":"self.domain.is_Field"},"name":"lu_correct","kind":"composition"},"guarantee":"returns (self.from_rep(L), self.from_rep(U), swaps)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_rep","by":"library_axiom"},{"fn":"from_rep","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1d39bcc3662b62f0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["self.domain.is_Field"],"returns_expr":"(self.from_rep(L), self.from_rep(U), swaps)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_rep","self.rep"],"raises":["DMNotAField"]},"state_contract":{"exceptional_post":{"DMNotAField":["isinstance(raised, DMNotAField)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def lu(self):
         r"""
         Returns Lower and Upper decomposition of the DomainMatrix
@@ -4363,16 +5055,22 @@ class DomainMatrix:
         return self.from_rep(L), self.from_rep(U), swaps
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(qr(), qr decomposition of the domainmatrix) over Any  ║
+# ║ Path(qr(), (Q, R)) over Any                                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (Q, R)                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ qr : Any → Any                                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1c17bc3ec3987b94  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 041a13ecd1e02183  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.qr","kind":"method","src_hash":"c76d1357a9c663cb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"qr()","rhs":"qr decomposition of the domainmatrix","over":{"base":"Any"},"name":"qr_correct"},"guarantee":"qr decomposition of the domainmatrix","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.domainmatrix.DomainMatrix.qr_correct","statement":"Path(qr(x), qr decomposition of the domainmatrix)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1c17bc3ec3987b94"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.qr","kind":"method","src_hash":"c76d1357a9c663cb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"qr()","rhs":"(Q, R)","over":{"base":"Any"},"name":"qr_correct"},"guarantee":"returns (Q, R)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.domainmatrix.DomainMatrix.qr_correct","statement":"Path(qr(x), returns (Q, R))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"041a13ecd1e02183","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(Q, R)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.from_rep","self.rep"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def qr(self):
         r"""
         QR decomposition of the DomainMatrix.
@@ -4436,16 +5134,25 @@ class DomainMatrix:
         return Q, R
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(lu_solve(rhs), solver for domainmatrix x in the a*x = b) over Any ║
+# ║ Path(lu_solve(rhs), self.from_rep(sol)) over {Any | not (self.shape[0] != rhs.shape[0]) and self.domain.is_Field and hasattr(rhs, 'rep') and hasattr(rhs, 'shape')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ lu_solve : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (self.shape[0] != rhs.shape[0])            ║
+# ║   requires: self.domain.is_Field                           ║
+# ║   requires: hasattr(rhs, 'rep')                            ║
+# ║   returns:  self.from_rep(sol)                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ lu_solve : {Any | not (self.shape[0] != rhs.shape[0])...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e323f670d2dce365  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d5d28d4cf755912a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.lu_solve","kind":"method","src_hash":"1b8d0ea952052340","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"lu_solve(rhs)","rhs":"solver for domainmatrix x in the a*x = b","over":{"base":"Any"},"name":"lu_solve_correct"},"guarantee":"solver for domainmatrix x in the a*x = b","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.domainmatrix.DomainMatrix.lu_solve_correct","statement":"Path(lu_solve(x), solver for domainmatrix x in the a*x = b)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e323f670d2dce365"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.lu_solve","kind":"method","src_hash":"1b8d0ea952052340","in":{"base":"Any","pred":"not (self.shape[0] != rhs.shape[0]) and self.domain.is_Field and hasattr(rhs, 'rep') and hasattr(rhs, 'shape')"},"out":{"base":"Any"},"spec":{"lhs":"lu_solve(rhs)","rhs":"self.from_rep(sol)","over":{"base":"Any","pred":"not (self.shape[0] != rhs.shape[0]) and self.domain.is_Field and hasattr(rhs, 'rep') and hasattr(rhs, 'shape')"},"name":"lu_solve_correct"},"guarantee":"returns self.from_rep(sol)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.domainmatrix.DomainMatrix.lu_solve_correct","statement":"Path(lu_solve(x), returns self.from_rep(sol))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d5d28d4cf755912a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (self.shape[0] != rhs.shape[0])","self.domain.is_Field","hasattr(rhs, 'rep')","hasattr(rhs, 'shape')"],"returns_expr":"self.from_rep(sol)","pure":false,"effects":{"effect_type":"reads_state","reads":["rhs.rep","rhs.shape","self.domain","self.from_rep","self.rep","self.shape"],"raises":["DMNotAField","DMShapeError"]},"state_contract":{"exceptional_post":{"DMNotAField":["isinstance(raised, DMNotAField)"],"DMShapeError":["isinstance(raised, DMShapeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def lu_solve(self, rhs):
         r"""
         Solver for DomainMatrix x in the A*x = B
@@ -4501,14 +5208,20 @@ class DomainMatrix:
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(fflu(), id) over Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (from_rep(P), from_rep(L), from_rep(D), f...   ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ fflu : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | c027eb2c650eec0d   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.fflu","kind":"method","src_hash":"ed7a4d6139660ce0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fflu()","rhs":"fraction-free lu decomposition of domainmatrix","over":{"base":"Any"},"name":"fflu_correct","kind":"composition"},"guarantee":"fraction-free lu decomposition of domainmatrix","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_rep","by":"library_axiom"},{"fn":"from_rep","by":"library_axiom"},{"fn":"from_rep","by":"library_axiom"},{"fn":"from_rep","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c027eb2c650eec0d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.fflu","kind":"method","src_hash":"ed7a4d6139660ce0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fflu()","rhs":"(from_rep(P), from_rep(L), from_rep(D), from_rep(U))","over":{"base":"Any"},"name":"fflu_correct","kind":"composition"},"guarantee":"returns (from_rep(P), from_rep(L), from_rep(D), from_rep(U))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_rep","by":"library_axiom"},{"fn":"from_rep","by":"library_axiom"},{"fn":"from_rep","by":"library_axiom"},{"fn":"from_rep","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c027eb2c650eec0d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(from_rep(P), from_rep(L), from_rep(D), from_rep(U))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.from_rep","self.rep"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def fflu(self):
         """
         Fraction-free LU decomposition of DomainMatrix.
@@ -4581,16 +5294,25 @@ class DomainMatrix:
         return from_rep(P), from_rep(L), from_rep(D), from_rep(U)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_solve(A, ), internal helper behaves correctly) over Any ║
+# ║ Path(_solve(A, b), (particular, nullspace)) over {Any | not (A.shape[0] != b.shape[0]) and not (A.domain != b.domain or not A.domain.is_Field) and hasattr(A, 'hstack') and hasattr(A, 'shape') and hasattr(b, 'shape') and hasattr(A, 'domain') and hasattr(b, 'domain')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _solve : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (A.shape[0] != b.shape[0])                 ║
+# ║   requires: not (A.domain != b.domain or not A.domain...   ║
+# ║   requires: hasattr(A, 'hstack')                           ║
+# ║   returns:  (particular, nullspace)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _solve : {Any | not (A.shape[0] != b.shape[0]) and no...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f57409815de334cb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 438819a01f25ab93  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix._solve","kind":"method","src_hash":"accdc7a8b29a7c2b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_solve(A, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_solve_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.domainmatrix.DomainMatrix._solve_correct","statement":"Path(_solve(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f57409815de334cb"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix._solve","kind":"method","src_hash":"accdc7a8b29a7c2b","in":{"base":"Any","pred":"not (A.shape[0] != b.shape[0]) and not (A.domain != b.domain or not A.domain.is_Field) and hasattr(A, 'hstack') and hasattr(A, 'shape') and hasattr(b, 'shape') and hasattr(A, 'domain') and hasattr(b, 'domain')"},"out":{"base":"Any"},"spec":{"lhs":"_solve(A, b)","rhs":"(particular, nullspace)","over":{"base":"Any","pred":"not (A.shape[0] != b.shape[0]) and not (A.domain != b.domain or not A.domain.is_Field) and hasattr(A, 'hstack') and hasattr(A, 'shape') and hasattr(b, 'shape') and hasattr(A, 'domain') and hasattr(b, 'domain')"},"name":"_solve_correct"},"guarantee":"returns (particular, nullspace)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.domainmatrix.DomainMatrix._solve_correct","statement":"Path(_solve(x), returns (particular, nullspace))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"438819a01f25ab93","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (A.shape[0] != b.shape[0])","not (A.domain != b.domain or not A.domain.is_Field)","hasattr(A, 'hstack')","hasattr(A, 'shape')","hasattr(b, 'shape')","hasattr(A, 'domain')","hasattr(b, 'domain')"],"returns_expr":"(particular, nullspace)","pure":false,"effects":{"effect_type":"reads_state","reads":["A.domain","A.hstack","A.shape","b.domain","b.shape"],"raises":["DMNotAField","DMShapeError"]},"state_contract":{"exceptional_post":{"DMNotAField":["isinstance(raised, DMNotAField)"],"DMShapeError":["isinstance(raised, DMShapeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _solve(A, b):
         # XXX: Not sure about this method or its signature. It is just created
         # because it is needed by the holonomic module.
@@ -4606,16 +5328,22 @@ class DomainMatrix:
         return particular, nullspace
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(charpoly(), characteristic polynomial of a square matrix) over Any ║
+# ║ Path(charpoly(), <unspecified:charpoly>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ charpoly : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f0e25321b43adc51  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.charpoly","kind":"method","src_hash":"e2d69de065073c3a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"charpoly()","rhs":"characteristic polynomial of a square matrix","over":{"base":"Any"},"name":"charpoly_correct"},"guarantee":"characteristic polynomial of a square matrix","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.domainmatrix.DomainMatrix.charpoly_correct","statement":"Path(charpoly(x), characteristic polynomial of a square matrix)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f0e25321b43adc51"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.charpoly","kind":"method","src_hash":"e2d69de065073c3a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"charpoly()","rhs":"<unspecified:charpoly>","over":{"base":"Any"},"name":"charpoly_correct"},"guarantee":"characteristic polynomial of a square matrix","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.domainmatrix.DomainMatrix.charpoly_correct","statement":"Path(charpoly(x), characteristic polynomial of a square matrix)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f0e25321b43adc51","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def charpoly(self):
         r"""
         Characteristic polynomial of a square matrix.
@@ -4668,16 +5396,22 @@ class DomainMatrix:
         return cp
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(charpoly_factor_list(), full factorization of the characteristic polynomial) over Any ║
+# ║ Path(charpoly_factor_list(), _collect_factors(factors_irreducible)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _collect_factors(factors_irreducible)          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ charpoly_factor_list : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 91737935125edc29  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | abd3219583b087f7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.charpoly_factor_list","kind":"method","src_hash":"18890b7943f63b26","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"charpoly_factor_list()","rhs":"full factorization of the characteristic polynomial","over":{"base":"Any"},"name":"charpoly_factor_list_correct"},"guarantee":"full factorization of the characteristic polynomial","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.domainmatrix.DomainMatrix.charpoly_factor_list_correct","statement":"Path(charpoly_factor_list(x), full factorization of the characteristic polynomial)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"91737935125edc29"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.charpoly_factor_list","kind":"method","src_hash":"18890b7943f63b26","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"charpoly_factor_list()","rhs":"_collect_factors(factors_irreducible)","over":{"base":"Any"},"name":"charpoly_factor_list_correct"},"guarantee":"returns _collect_factors(factors_irreducible)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.domainmatrix.DomainMatrix.charpoly_factor_list_correct","statement":"Path(charpoly_factor_list(x), returns _collect_factors(factors_irreducible))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"abd3219583b087f7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_collect_factors(factors_irreducible)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def charpoly_factor_list(self):
         """
         Full factorization of the characteristic polynomial.
@@ -4743,16 +5477,24 @@ class DomainMatrix:
         return _collect_factors(factors_irreducible)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(charpoly_factor_blocks(), partial factorisation of the characteristic polynomial) over Any ║
+# ║ Path(charpoly_factor_blocks(), _collect_factors(block_factors)) over {Any | M.is_square} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ charpoly_factor_blocks : Any → Any                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: M.is_square                                    ║
+# ║   ensures:  len(block_factors) == old_len_block_facto...   ║
+# ║   returns:  _collect_factors(block_factors)                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ charpoly_factor_blocks : {Any | M.is_square} → {Any |...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5d906f429b8f67c7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dfb672026c517248  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.charpoly_factor_blocks","kind":"method","src_hash":"cc3e4fb0f3acd77a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"charpoly_factor_blocks()","rhs":"partial factorisation of the characteristic polynomial","over":{"base":"Any"},"name":"charpoly_factor_blocks_correct"},"guarantee":"partial factorisation of the characteristic polynomial","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.domainmatrix.DomainMatrix.charpoly_factor_blocks_correct","statement":"Path(charpoly_factor_blocks(x), partial factorisation of the characteristic polynomial)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5d906f429b8f67c7"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.charpoly_factor_blocks","kind":"method","src_hash":"cc3e4fb0f3acd77a","in":{"base":"Any","pred":"M.is_square"},"out":{"base":"Any","pred":"result satisfies: result == (_collect_factors(block_factors))"},"spec":{"lhs":"charpoly_factor_blocks()","rhs":"_collect_factors(block_factors)","over":{"base":"Any","pred":"M.is_square"},"name":"charpoly_factor_blocks_correct"},"guarantee":"returns _collect_factors(block_factors); len(block_factors) == old_len_block_factors + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.domainmatrix.DomainMatrix.charpoly_factor_blocks_correct","statement":"Path(charpoly_factor_blocks(x), returns _collect_factors(block_factors); len(block_factors) == old_len_block_factors + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dfb672026c517248","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["M.is_square"],"ensures":["len(block_factors) == old_len_block_factors + 1"],"returns_expr":"_collect_factors(block_factors)","pure":false,"effects":{"effect_type":"reads_state","calls_mutating":["block_factors.append"],"raises":["DMNonSquareMatrixError"]},"state_contract":{"modifies":["block_factors.*"],"old_bindings":{"old_len_block_factors":"len(block_factors)"},"post_ensures":["len(block_factors) == old_len_block_factors + 1"],"exceptional_post":{"DMNonSquareMatrixError":["isinstance(raised, DMNonSquareMatrixError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def charpoly_factor_blocks(self):
         """
         Partial factorisation of the characteristic polynomial.
@@ -4830,16 +5572,22 @@ class DomainMatrix:
         return _collect_factors(block_factors)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(charpoly_base(), base case for :meth:`charpoly_factor_blocks` after block decomposition) over Any ║
+# ║ Path(charpoly_base(), <unspecified:charpoly_base>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ charpoly_base : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d70fea6d81c76791  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.charpoly_base","kind":"method","src_hash":"27a0e386769b2e97","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"charpoly_base()","rhs":"base case for :meth:`charpoly_factor_blocks` after block decomposition","over":{"base":"Any"},"name":"charpoly_base_correct"},"guarantee":"base case for :meth:`charpoly_factor_blocks` after block decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.domainmatrix.DomainMatrix.charpoly_base_correct","statement":"Path(charpoly_base(x), base case for :meth:`charpoly_factor_blocks` after block decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d70fea6d81c76791"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.charpoly_base","kind":"method","src_hash":"27a0e386769b2e97","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"charpoly_base()","rhs":"<unspecified:charpoly_base>","over":{"base":"Any"},"name":"charpoly_base_correct"},"guarantee":"base case for :meth:`charpoly_factor_blocks` after block decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.domainmatrix.DomainMatrix.charpoly_base_correct","statement":"Path(charpoly_base(x), base case for :meth:`charpoly_factor_blocks` after block decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d70fea6d81c76791","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.nnz","self.shape"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def charpoly_base(self):
         """
         Base case for :meth:`charpoly_factor_blocks` after block decomposition.
@@ -4905,16 +5653,22 @@ class DomainMatrix:
         return cp
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(charpoly_berk(), compute the characteristic polynomial using the berkowitz algorithm) over Any ║
+# ║ Path(charpoly_berk(), self.rep.charpoly()) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.rep.charpoly()                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ charpoly_berk : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 37c1ee9afcde2d13           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.charpoly_berk","kind":"method","src_hash":"05b048e62e3aa742","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"charpoly_berk()","rhs":"compute the characteristic polynomial using the berkowitz algorithm","over":{"base":"Any"},"name":"charpoly_berk_correct"},"guarantee":"compute the characteristic polynomial using the berkowitz algorithm","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"37c1ee9afcde2d13"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.charpoly_berk","kind":"method","src_hash":"05b048e62e3aa742","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"charpoly_berk()","rhs":"self.rep.charpoly()","over":{"base":"Any"},"name":"charpoly_berk_correct"},"guarantee":"returns self.rep.charpoly()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"37c1ee9afcde2d13","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.rep.charpoly()","pure":false,"effects":{"effect_type":"reads_state","reads":["self.rep"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def charpoly_berk(self):
         """Compute the characteristic polynomial using the Berkowitz algorithm.
 
@@ -4956,16 +5710,22 @@ class DomainMatrix:
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eye(cls), id) over Any                                ║
+# ║ Path(eye(cls, shape, domain), id) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  cls.from_rep(SDM.eye(shape, domain))           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ eye : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 6eed5afdcc759fb6   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.eye","kind":"classmethod","src_hash":"bbd1d82613bbf0a1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eye(cls)","rhs":"return identity matrix of size n or shape (m, n)","over":{"base":"Any"},"name":"eye_correct","kind":"composition"},"guarantee":"return identity matrix of size n or shape (m, n)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_rep","by":"library_axiom"},{"fn":"eye","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6eed5afdcc759fb6"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.eye","kind":"classmethod","src_hash":"bbd1d82613bbf0a1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eye(cls, shape, domain)","rhs":"cls.from_rep(SDM.eye(shape, domain))","over":{"base":"Any"},"name":"eye_correct","kind":"composition"},"guarantee":"returns cls.from_rep(SDM.eye(shape, domain))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_rep","by":"library_axiom"},{"fn":"eye","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6eed5afdcc759fb6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"cls.from_rep(SDM.eye(shape, domain))","pure":false,"effects":{"effect_type":"reads_state","reads":["cls.from_rep"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eye(cls, shape, domain):
         r"""
         Return identity matrix of size n or shape (m, n).
@@ -4985,16 +5745,22 @@ class DomainMatrix:
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(diag(cls), id) over Any                               ║
+# ║ Path(diag(cls, diagonal, domain), id) over Any             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  cls.from_rep(SDM.diag(diagonal, domain, s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ diag : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 2884e8ad6cdf6d0b   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.diag","kind":"classmethod","src_hash":"ea8ceb8a371e2b5a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"diag(cls)","rhs":"return diagonal matrix with entries from ``diagonal``","over":{"base":"Any"},"name":"diag_correct","kind":"composition"},"guarantee":"return diagonal matrix with entries from ``diagonal``","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_rep","by":"library_axiom"},{"fn":"diag","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2884e8ad6cdf6d0b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.diag","kind":"classmethod","src_hash":"ea8ceb8a371e2b5a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"diag(cls, diagonal, domain)","rhs":"cls.from_rep(SDM.diag(diagonal, domain, shape))","over":{"base":"Any"},"name":"diag_correct","kind":"composition"},"guarantee":"returns cls.from_rep(SDM.diag(diagonal, domain, shape))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_rep","by":"library_axiom"},{"fn":"diag","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2884e8ad6cdf6d0b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"cls.from_rep(SDM.diag(diagonal, domain, shape))","pure":false,"effects":{"effect_type":"reads_state","reads":["cls.from_rep"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def diag(cls, diagonal, domain, shape=None):
         r"""
         Return diagonal matrix with entries from ``diagonal``.
@@ -5015,16 +5781,22 @@ class DomainMatrix:
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(zeros(cls), returns a zero domainmatrix of size shape, belonging to the specified domain) over Any ║
+# ║ Path(zeros(cls, shape, domain), cls.from_rep(SDM.zeros(shape, domain))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  cls.from_rep(SDM.zeros(shape, domain))         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ zeros : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | fcd1286fcc35e986           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.zeros","kind":"classmethod","src_hash":"8119076e4635fa46","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"zeros(cls)","rhs":"returns a zero domainmatrix of size shape, belonging to the specified domain","over":{"base":"Any"},"name":"zeros_correct"},"guarantee":"returns a zero domainmatrix of size shape, belonging to the specified domain","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fcd1286fcc35e986"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.zeros","kind":"classmethod","src_hash":"8119076e4635fa46","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"zeros(cls, shape, domain)","rhs":"cls.from_rep(SDM.zeros(shape, domain))","over":{"base":"Any"},"name":"zeros_correct"},"guarantee":"returns cls.from_rep(SDM.zeros(shape, domain))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fcd1286fcc35e986","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"cls.from_rep(SDM.zeros(shape, domain))","pure":false,"effects":{"effect_type":"reads_state","reads":["cls.from_rep"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def zeros(cls, shape, domain, *, fmt='sparse'):
         """Returns a zero DomainMatrix of size shape, belonging to the specified domain
 
@@ -5041,16 +5813,22 @@ class DomainMatrix:
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ones(cls), returns a domainmatrix of 1s, of size shape, belonging to the specified domain) over Any ║
+# ║ Path(ones(cls, shape, domain), cls.from_rep(DDM.ones(shape, domain).to_dfm_or_ddm())) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  cls.from_rep(DDM.ones(shape, domain).to_d...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ ones : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a01506d809b575ca           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.ones","kind":"classmethod","src_hash":"048158d6d1a6784e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ones(cls)","rhs":"returns a domainmatrix of 1s, of size shape, belonging to the specified domain","over":{"base":"Any"},"name":"ones_correct"},"guarantee":"returns a domainmatrix of 1s, of size shape, belonging to the specified domain","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a01506d809b575ca"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.ones","kind":"classmethod","src_hash":"048158d6d1a6784e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ones(cls, shape, domain)","rhs":"cls.from_rep(DDM.ones(shape, domain).to_dfm_or_ddm())","over":{"base":"Any"},"name":"ones_correct"},"guarantee":"returns cls.from_rep(DDM.ones(shape, domain).to_dfm_or_ddm())","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a01506d809b575ca","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"cls.from_rep(DDM.ones(shape, domain).to_dfm_or_ddm())","pure":false,"effects":{"effect_type":"reads_state","reads":["cls.from_rep"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def ones(cls, shape, domain):
         """Returns a DomainMatrix of 1s, of size shape, belonging to the specified domain
 
@@ -5066,16 +5844,25 @@ class DomainMatrix:
         return cls.from_rep(DDM.ones(shape, domain).to_dfm_or_ddm())
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__eq__(A, ), correctly determines equality) over Any  ║
+# ║ Path(__eq__(A, B), <unspecified:__eq__>) over {Any | hasattr(A, 'domain') and hasattr(B, 'domain') and hasattr(A, 'rep') and hasattr(B, 'rep')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __eq__ : Any → Any                                         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(A, 'domain')                           ║
+# ║   requires: hasattr(B, 'domain')                           ║
+# ║   requires: hasattr(A, 'rep')                              ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __eq__ : {Any | hasattr(A, 'domain') and hasattr(B, '...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ed8f6dcf0437debe           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.__eq__","kind":"method","src_hash":"cefd21dc7ebfd290","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(A, )","rhs":"correctly determines equality","over":{"base":"Any"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ed8f6dcf0437debe"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.__eq__","kind":"method","src_hash":"cefd21dc7ebfd290","in":{"base":"Any","pred":"hasattr(A, 'domain') and hasattr(B, 'domain') and hasattr(A, 'rep') and hasattr(B, 'rep')"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(A, B)","rhs":"<unspecified:__eq__>","over":{"base":"Any","pred":"hasattr(A, 'domain') and hasattr(B, 'domain') and hasattr(A, 'rep') and hasattr(B, 'rep')"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ed8f6dcf0437debe","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(A, 'domain')","hasattr(B, 'domain')","hasattr(A, 'rep')","hasattr(B, 'rep')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["A.domain","A.rep","B.domain","B.rep"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __eq__(A, B):
         r"""
         Checks for two DomainMatrix matrices to be equal or not
@@ -5120,16 +5907,25 @@ class DomainMatrix:
         return A.domain == B.domain and A.rep == B.rep
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(unify_eq(A, ), unify_eq produces the expected output) over Any ║
+# ║ Path(unify_eq(A, B), <unspecified:unify_eq>) over {Any | hasattr(A, 'shape') and hasattr(B, 'shape') and hasattr(A, 'domain') and hasattr(B, 'domain') and hasattr(A, 'unify')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ unify_eq : Any → Any                                       ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(A, 'shape')                            ║
+# ║   requires: hasattr(B, 'shape')                            ║
+# ║   requires: hasattr(A, 'domain')                           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ unify_eq : {Any | hasattr(A, 'shape') and hasattr(B, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 503b2299712dfefa  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.unify_eq","kind":"method","src_hash":"3d8a9798564ed109","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"unify_eq(A, )","rhs":"unify_eq produces the expected output","over":{"base":"Any"},"name":"unify_eq_correct"},"guarantee":"unify_eq produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.domainmatrix.DomainMatrix.unify_eq_correct","statement":"Path(unify_eq(x), unify_eq produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"503b2299712dfefa"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.unify_eq","kind":"method","src_hash":"3d8a9798564ed109","in":{"base":"Any","pred":"hasattr(A, 'shape') and hasattr(B, 'shape') and hasattr(A, 'domain') and hasattr(B, 'domain') and hasattr(A, 'unify')"},"out":{"base":"Any"},"spec":{"lhs":"unify_eq(A, B)","rhs":"<unspecified:unify_eq>","over":{"base":"Any","pred":"hasattr(A, 'shape') and hasattr(B, 'shape') and hasattr(A, 'domain') and hasattr(B, 'domain') and hasattr(A, 'unify')"},"name":"unify_eq_correct"},"guarantee":"unify_eq produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.domainmatrix.DomainMatrix.unify_eq_correct","statement":"Path(unify_eq(x), unify_eq produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"503b2299712dfefa","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(A, 'shape')","hasattr(B, 'shape')","hasattr(A, 'domain')","hasattr(B, 'domain')","hasattr(A, 'unify')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["A.domain","A.shape","A.unify","B.domain","B.shape"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def unify_eq(A, B):
         if A.shape != B.shape:
             return False
@@ -5138,16 +5934,23 @@ class DomainMatrix:
         return A == B
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(lll(A, ), performs the lenstra–lenstra–lovász (lll) basis reduction algorithm. see [1]_ and [2]_) over Any ║
+# ║ Path(lll(A, delta), DomainMatrix.from_rep(A.rep.lll(delta=delta))) over {Any | hasattr(A, 'rep')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ lll : Any → Any                                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(A, 'rep')                              ║
+# ║   returns:  DomainMatrix.from_rep(A.rep.lll(delta=del...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ lll : {Any | hasattr(A, 'rep')} → Any                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2c9b7f433a6661d8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.lll","kind":"method","src_hash":"4edb23d27eaa9274","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"lll(A, )","rhs":"performs the lenstra\u2013lenstra\u2013lov\u00e1sz (lll) basis reduction algorithm. see [1]_ and [2]_","over":{"base":"Any"},"name":"lll_correct"},"guarantee":"performs the lenstra\u2013lenstra\u2013lov\u00e1sz (lll) basis reduction algorithm. see [1]_ and [2]_","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2c9b7f433a6661d8"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.lll","kind":"method","src_hash":"4edb23d27eaa9274","in":{"base":"Any","pred":"hasattr(A, 'rep')"},"out":{"base":"Any"},"spec":{"lhs":"lll(A, delta)","rhs":"DomainMatrix.from_rep(A.rep.lll(delta=delta))","over":{"base":"Any","pred":"hasattr(A, 'rep')"},"name":"lll_correct"},"guarantee":"returns DomainMatrix.from_rep(A.rep.lll(delta=delta))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2c9b7f433a6661d8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(A, 'rep')"],"returns_expr":"DomainMatrix.from_rep(A.rep.lll(delta=delta))","pure":false,"effects":{"effect_type":"reads_state","reads":["A.rep"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def lll(A, delta=QQ(3, 4)):
         """
         Performs the Lenstra–Lenstra–Lovász (LLL) basis reduction algorithm.
@@ -5212,16 +6015,23 @@ class DomainMatrix:
         return DomainMatrix.from_rep(A.rep.lll(delta=delta))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(lll_transform(A, ), performs the lenstra–lenstra–lovász (lll) basis reduction algorithm and returns the reduced basis and transformation matrix) over Any ║
+# ║ Path(lll_transform(A, delta), (DomainMatrix.from_rep(reduced), DomainMatrix.from_rep(transform))) over {Any | hasattr(A, 'rep')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ lll_transform : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(A, 'rep')                              ║
+# ║   returns:  (DomainMatrix.from_rep(reduced), DomainMa...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ lll_transform : {Any | hasattr(A, 'rep')} → Any            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a89e3459900a9d78  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dbb80dd49397f21b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.lll_transform","kind":"method","src_hash":"cb304e7377b4f21b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"lll_transform(A, )","rhs":"performs the lenstra\u2013lenstra\u2013lov\u00e1sz (lll) basis reduction algorithm and returns the reduced basis and transformation matrix","over":{"base":"Any"},"name":"lll_transform_correct"},"guarantee":"performs the lenstra\u2013lenstra\u2013lov\u00e1sz (lll) basis reduction algorithm and returns the reduced basis and transformation matrix","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.domainmatrix.DomainMatrix.lll_transform_correct","statement":"Path(lll_transform(x), performs the lenstra\u2013lenstra\u2013lov\u00e1sz (lll) basis reduction algorithm and returns the reduced basis and transformation matrix)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a89e3459900a9d78"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix.DomainMatrix.lll_transform","kind":"method","src_hash":"cb304e7377b4f21b","in":{"base":"Any","pred":"hasattr(A, 'rep')"},"out":{"base":"Any"},"spec":{"lhs":"lll_transform(A, delta)","rhs":"(DomainMatrix.from_rep(reduced), DomainMatrix.from_rep(transform))","over":{"base":"Any","pred":"hasattr(A, 'rep')"},"name":"lll_transform_correct"},"guarantee":"returns (DomainMatrix.from_rep(reduced), DomainMatrix.from_rep(transform))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.domainmatrix.DomainMatrix.lll_transform_correct","statement":"Path(lll_transform(x), returns (DomainMatrix.from_rep(reduced), DomainMatrix.from_rep(transform)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dbb80dd49397f21b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(A, 'rep')"],"returns_expr":"(DomainMatrix.from_rep(reduced), DomainMatrix.from_rep(transform))","pure":false,"effects":{"effect_type":"reads_state","reads":["A.rep"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def lll_transform(A, delta=QQ(3, 4)):
         """
         Performs the Lenstra–Lenstra–Lovász (LLL) basis reduction algorithm
@@ -5260,16 +6070,22 @@ class DomainMatrix:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_collect_factors(fac), collect repeating factors and sort) over Any ║
+# ║ Path(_collect_factors(factors_list), _sort_factors(factors_list)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _sort_factors(factors_list)                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _collect_factors : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 405286f3edac2cff  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e2fceb5754a6eecf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix._collect_factors","kind":"function","src_hash":"c33092b9c5383699","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_collect_factors(fac)","rhs":"collect repeating factors and sort","over":{"base":"Any"},"name":"_collect_factors_correct"},"guarantee":"collect repeating factors and sort","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.domainmatrix._collect_factors_correct","statement":"Path(_collect_factors(x), collect repeating factors and sort)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"405286f3edac2cff"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainmatrix._collect_factors","kind":"function","src_hash":"c33092b9c5383699","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_collect_factors(factors_list)","rhs":"_sort_factors(factors_list)","over":{"base":"Any"},"name":"_collect_factors_correct"},"guarantee":"returns _sort_factors(factors_list)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.domainmatrix._collect_factors_correct","statement":"Path(_collect_factors(x), returns _sort_factors(factors_list))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e2fceb5754a6eecf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_sort_factors(factors_list)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _collect_factors(factors_list):
     """
     Collect repeating factors and sort.

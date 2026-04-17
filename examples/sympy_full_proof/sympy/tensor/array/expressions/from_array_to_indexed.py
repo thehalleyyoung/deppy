@@ -27,16 +27,22 @@ from sympy.tensor.array.expressions.utils import _apply_permutation_to_list
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(convert_array_to_indexed(exp), convert_array_to_indexed produces the expected output) over Any ║
+# ║ Path(convert_array_to_indexed(expr, indices), _ConvertArrayToIndexed().do_convert(expr, indices)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _ConvertArrayToIndexed().do_convert(expr,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ convert_array_to_indexed : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3cab645c99d1f340           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.from_array_to_indexed.convert_array_to_indexed","kind":"function","src_hash":"260a6c5d228ce1c7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"convert_array_to_indexed(exp)","rhs":"convert_array_to_indexed produces the expected output","over":{"base":"Any"},"name":"convert_array_to_indexed_correct"},"guarantee":"convert_array_to_indexed produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3cab645c99d1f340"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.from_array_to_indexed.convert_array_to_indexed","kind":"function","src_hash":"260a6c5d228ce1c7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"convert_array_to_indexed(expr, indices)","rhs":"_ConvertArrayToIndexed().do_convert(expr, indices)","over":{"base":"Any"},"name":"convert_array_to_indexed_correct"},"guarantee":"returns _ConvertArrayToIndexed().do_convert(expr, indices)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3cab645c99d1f340","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_ConvertArrayToIndexed().do_convert(expr, indices)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def convert_array_to_indexed(expr, indices):
     return _ConvertArrayToIndexed().do_convert(expr, indices)
 
@@ -44,41 +50,62 @@ def convert_array_to_indexed(expr, indices):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a _ConvertArrayToIndexed instance) preserved by _ConvertArrayToIndexed(*args) over {Any | isinstance(expr, ArrayTensorProduct) and isinstance(expr, ArrayContraction) and isinstance(expr, ArrayDiagonal)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ _ConvertArrayToIndexed : {Any | isinstance(expr, Arra...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.9ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e5127aeb52114d70  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.from_array_to_indexed._ConvertArrayToIndexed","kind":"class","src_hash":"a49876aec0e851bc","in":{"base":"Any","pred":"isinstance(expr, ArrayTensorProduct) and isinstance(expr, ArrayContraction) and isinstance(expr, ArrayDiagonal)"},"out":{"base":"Any"},"spec":{"lhs":"_ConvertArrayToIndexed(*args)","rhs":"correctly constructs a _ConvertArrayToIndexed instance","over":{"base":"Any","pred":"isinstance(expr, ArrayTensorProduct) and isinstance(expr, ArrayContraction) and isinstance(expr, ArrayDiagonal)"},"name":"_ConvertArrayToIndexed_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a _ConvertArrayToIndexed instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'count_dummies')","kind":"class","induction":"structural on count_dummies"}],"methods_preserving":["__init__","do_convert"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e5127aeb52114d70"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.from_array_to_indexed._ConvertArrayToIndexed","kind":"class","src_hash":"a49876aec0e851bc","in":{"base":"Any","pred":"isinstance(expr, ArrayTensorProduct) and isinstance(expr, ArrayContraction) and isinstance(expr, ArrayDiagonal)"},"out":{"base":"Any"},"spec":{"lhs":"_ConvertArrayToIndexed(*args)","rhs":"correctly constructs a _ConvertArrayToIndexed instance","over":{"base":"Any","pred":"isinstance(expr, ArrayTensorProduct) and isinstance(expr, ArrayContraction) and isinstance(expr, ArrayDiagonal)"},"name":"_ConvertArrayToIndexed_class_invariant","kind":"invariant"},"guarantee":"preserves 1 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'count_dummies')","kind":"class","induction":"structural on count_dummies"}],"methods_preserving":["__init__","do_convert"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e5127aeb52114d70","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, 'count_dummies')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.9,"verdict_class":"assumed","binding":false,"binding_errors":["Function _ConvertArrayToIndexed not found in source"]}}
 class _ConvertArrayToIndexed:
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(), initializes the instance correctly) over Any ║
+# ║ Path(__init__(), <unspecified:__init__>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __init__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9b6492c7ba48c034           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.from_array_to_indexed._ConvertArrayToIndexed.__init__","kind":"method","src_hash":"ca5ef84273834f6a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__()","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9b6492c7ba48c034"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.from_array_to_indexed._ConvertArrayToIndexed.__init__","kind":"method","src_hash":"ca5ef84273834f6a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__()","rhs":"<unspecified:__init__>","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9b6492c7ba48c034","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self):
         self.count_dummies = 0
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(do_convert(exp), id) over Any                         ║
+# ║ Path(do_convert(expr, indices), id) over {Any | hasattr(expr, 'contraction_indices') and hasattr(expr, 'shape') and hasattr(expr, 'expr') and hasattr(expr, '_push_indices_down') and hasattr(expr, 'diagonal_indices') and hasattr(expr, 'permutation') and hasattr(expr, '__getitem__') and hasattr(expr, 'function') and hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ do_convert : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'contraction_indices')           ║
+# ║   requires: hasattr(expr, 'shape')                         ║
+# ║   requires: hasattr(expr, 'expr')                          ║
+# ║   ensures:  len(dest_indices) == old_len_dest_indices      ║
+# ║   ensures:  len(limits) == old_len_limits + 1              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ do_convert : {Any | hasattr(expr, 'contraction_indice...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 272bdb9994318f86   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.from_array_to_indexed._ConvertArrayToIndexed.do_convert","kind":"method","src_hash":"2a774c4b61106966","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"do_convert(exp)","rhs":"do_convert produces the expected output","over":{"base":"Any"},"name":"do_convert_correct","kind":"composition"},"guarantee":"do_convert produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"fromiter","by":"library_axiom"},{"fn":"do_convert","by":"library_axiom"},{"fn":"zip","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"272bdb9994318f86"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.from_array_to_indexed._ConvertArrayToIndexed.do_convert","kind":"method","src_hash":"2a774c4b61106966","in":{"base":"Any","pred":"hasattr(expr, 'contraction_indices') and hasattr(expr, 'shape') and hasattr(expr, 'expr') and hasattr(expr, '_push_indices_down') and hasattr(expr, 'diagonal_indices') and hasattr(expr, 'permutation') and hasattr(expr, '__getitem__') and hasattr(expr, 'function') and hasattr(expr, 'args')"},"out":{"base":"Any","pred":"result satisfies: len(dest_indices) == old_len_dest_indices and len(limits) == old_len_limits + 1"},"spec":{"lhs":"do_convert(expr, indices)","rhs":"len(dest_indices) == old_len_dest_indices and len(limits) == old_len_limits + 1","over":{"base":"Any","pred":"hasattr(expr, 'contraction_indices') and hasattr(expr, 'shape') and hasattr(expr, 'expr') and hasattr(expr, '_push_indices_down') and hasattr(expr, 'diagonal_indices') and hasattr(expr, 'permutation') and hasattr(expr, '__getitem__') and hasattr(expr, 'function') and hasattr(expr, 'args')"},"name":"do_convert_correct","kind":"composition"},"guarantee":"len(dest_indices) == old_len_dest_indices; len(limits) == old_len_limits + 1","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"fromiter","by":"library_axiom"},{"fn":"do_convert","by":"library_axiom"},{"fn":"zip","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"272bdb9994318f86","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'contraction_indices')","hasattr(expr, 'shape')","hasattr(expr, 'expr')","hasattr(expr, '_push_indices_down')","hasattr(expr, 'diagonal_indices')","hasattr(expr, 'permutation')","hasattr(expr, '__getitem__')","hasattr(expr, 'function')","hasattr(expr, 'args')"],"ensures":["len(dest_indices) == old_len_dest_indices","len(limits) == old_len_limits + 1"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["expr.__getitem__","expr._push_indices_down","expr.args","expr.contraction_indices","expr.diagonal_indices","expr.expr","expr.function","expr.permutation","expr.shape","self.count_dummies","self.do_convert"],"writes":["self.count_dummies"],"calls_mutating":["dest_indices.reverse","limits.append"]},"state_contract":{"modifies":["dest_indices.*","limits.*","self.count_dummies"],"old_bindings":{"old_self_count_dummies":"self.count_dummies","old_len_dest_indices":"len(dest_indices)","old_len_limits":"len(limits)"},"post_ensures":["len(dest_indices) == old_len_dest_indices","len(limits) == old_len_limits + 1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def do_convert(self, expr, indices):
         if isinstance(expr, ArrayTensorProduct):
             cumul = list(accumulate([0] + [get_rank(arg) for arg in expr.args]))

@@ -38,7 +38,12 @@ from sympy.abc import x, y
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Tuple(), test_Tuple produces the expected output) over {Any | isinstance(st[:], Tuple) and isinstance(arg, Basic)} ║
+# ║ Path(test_Tuple(), set(sympify(t)) == set(st) and len(t) == len(st) and set(sympify(t[:2])) == set(st[:2]) and isinstance(st[:], Tuple) and st == Tuple(1, 2, 3, 4) and st.func(*st.args) == st and st2.atoms() == set(t2) and st == st2.subs({p: 1, q: 2, r: 3, s: 4}) and all((isinstance(arg, Basic) for arg in st.args)) and Tuple(p, 1).subs(p, 0) == Tuple(0, 1) and Tuple(p, Tuple(p, 1)).subs(p, 0) == Tuple(0, Tuple(0, 1)) and Tuple(t2) == Tuple(Tuple(*t2)) and Tuple.fromiter(t2) == Tuple(*t2) and Tuple.fromiter((x for x in range(4))) == Tuple(0, 1, 2, 3) and st2.fromiter(st2.args) == st2) over {Any | isinstance(st[:], Tuple) and isinstance(arg, Basic)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  set(sympify(t)) == set(st)                     ║
+# ║   ensures:  len(t) == len(st)                              ║
+# ║   ensures:  set(sympify(t[:2])) == set(st[:2])             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_Tuple : {Any | isinstance(st[:], Tuple) and isin...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -51,9 +56,12 @@ from sympy.abc import x, y
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?2 ✗2 VCs | 1.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 87cce7b0...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_containers.test_Tuple","kind":"function","src_hash":"1d5115596ddbf341","in":{"base":"Any","pred":"isinstance(st[:], Tuple) and isinstance(arg, Basic)"},"out":{"base":"Any","pred":"set(sympify(t)) == set(st) and len(t) == len(st) and set(sympify(t[:2])) == set(st[:2]) and isinstance(st[:], Tuple) and st == Tuple(1, 2, 3, 4) and st.func(*st.args) == st and st2.atoms() == set(t2) and st == st2.subs({p: 1, q: 2, r: 3, s: 4}) and all((isinstance(arg, Basic) for arg in st.args)) and Tuple(p, 1).subs(p, 0) == Tuple(0, 1) and Tuple(p, Tuple(p, 1)).subs(p, 0) == Tuple(0, Tuple(0, 1)) and Tuple(t2) == Tuple(Tuple(*t2)) and Tuple.fromiter(t2) == Tuple(*t2) and Tuple.fromiter((x for x in range(4))) == Tuple(0, 1, 2, 3) and st2.fromiter(st2.args) == st2"},"spec":{"lhs":"test_Tuple()","rhs":"test_Tuple produces the expected output","over":{"base":"Any","pred":"isinstance(st[:], Tuple) and isinstance(arg, Basic)"},"name":"test_Tuple_correct"},"guarantee":"test_Tuple produces the expected output","fibers":[{"name":"Tuple","pred":"isinstance(st[:], Tuple)","path":{"lhs":"test_Tuple(x)","rhs":"test_Tuple produces the expected output","over":{"base":"Tuple","pred":"isinstance(st[:], Tuple)"},"name":"test_Tuple_Tuple_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_containers.test_Tuple_Tuple_correct","statement":"test_Tuple satisfies spec on Tuple inputs"},"trust":"LIBRARY"},{"name":"Basic","pred":"isinstance(arg, Basic)","path":{"lhs":"test_Tuple(x)","rhs":"test_Tuple produces the expected output","over":{"base":"Basic","pred":"isinstance(arg, Basic)"},"name":"test_Tuple_Basic_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_containers.test_Tuple_Basic_correct","statement":"test_Tuple satisfies spec on Basic inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"87cce7b0440eda77"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_containers.test_Tuple","kind":"function","src_hash":"1d5115596ddbf341","in":{"base":"Any","pred":"isinstance(st[:], Tuple) and isinstance(arg, Basic)"},"out":{"base":"Any","pred":"result satisfies: set(sympify(t)) == set(st) and len(t) == len(st) and set(sympify(t[:2])) == set(st[:2]) and isinstance(st[:], Tuple) and st == Tuple(1, 2, 3, 4) and st.func(*st.args) == st and st2.atoms() == set(t2) and st == st2.subs({p: 1, q: 2, r: 3, s: 4}) and all((isinstance(arg, Basic) for arg in st.args)) and Tuple(p, 1).subs(p, 0) == Tuple(0, 1) and Tuple(p, Tuple(p, 1)).subs(p, 0) == Tuple(0, Tuple(0, 1)) and Tuple(t2) == Tuple(Tuple(*t2)) and Tuple.fromiter(t2) == Tuple(*t2) and Tuple.fromiter((x for x in range(4))) == Tuple(0, 1, 2, 3) and st2.fromiter(st2.args) == st2"},"spec":{"lhs":"test_Tuple()","rhs":"set(sympify(t)) == set(st) and len(t) == len(st) and set(sympify(t[:2])) == set(st[:2]) and isinstance(st[:], Tuple) and st == Tuple(1, 2, 3, 4) and st.func(*st.args) == st and st2.atoms() == set(t2) and st == st2.subs({p: 1, q: 2, r: 3, s: 4}) and all((isinstance(arg, Basic) for arg in st.args)) and Tuple(p, 1).subs(p, 0) == Tuple(0, 1) and Tuple(p, Tuple(p, 1)).subs(p, 0) == Tuple(0, Tuple(0, 1)) and Tuple(t2) == Tuple(Tuple(*t2)) and Tuple.fromiter(t2) == Tuple(*t2) and Tuple.fromiter((x for x in range(4))) == Tuple(0, 1, 2, 3) and st2.fromiter(st2.args) == st2","over":{"base":"Any","pred":"isinstance(st[:], Tuple) and isinstance(arg, Basic)"},"name":"test_Tuple_correct"},"guarantee":"set(sympify(t)) == set(st); len(t) == len(st); set(sympify(t[:2])) == set(st[:2])","fibers":[{"name":"Tuple","pred":"isinstance(st[:], Tuple)","path":{"lhs":"test_Tuple(x)","rhs":"set(sympify(t)) == set(st); len(t) == len(st); set(sympify(t[:2])) == set(st[:2])","over":{"base":"Tuple","pred":"isinstance(st[:], Tuple)"},"name":"test_Tuple_Tuple_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_containers.test_Tuple_Tuple_correct","statement":"test_Tuple satisfies spec on Tuple inputs"},"trust":"LIBRARY"},{"name":"Basic","pred":"isinstance(arg, Basic)","path":{"lhs":"test_Tuple(x)","rhs":"set(sympify(t)) == set(st); len(t) == len(st); set(sympify(t[:2])) == set(st[:2])","over":{"base":"Basic","pred":"isinstance(arg, Basic)"},"name":"test_Tuple_Basic_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_containers.test_Tuple_Basic_correct","statement":"test_Tuple satisfies spec on Basic inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"87cce7b0440eda77","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["set(sympify(t)) == set(st)","len(t) == len(st)","set(sympify(t[:2])) == set(st[:2])","isinstance(st[:], Tuple)","st == Tuple(1, 2, 3, 4)","st.func(*st.args) == st","st2.atoms() == set(t2)","st == st2.subs({p: 1, q: 2, r: 3, s: 4})","all((isinstance(arg, Basic) for arg in st.args))","Tuple(p, 1).subs(p, 0) == Tuple(0, 1)","Tuple(p, Tuple(p, 1)).subs(p, 0) == Tuple(0, Tuple(0, 1))","Tuple(t2) == Tuple(Tuple(*t2))","Tuple.fromiter(t2) == Tuple(*t2)","Tuple.fromiter((x for x in range(4))) == Tuple(0, 1, 2, 3)","st2.fromiter(st2.args) == st2"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":1,"n_assumed":2,"n_failed":2,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"failed","binding":true}}
 def test_Tuple():
     t = (1, 2, 3, 4)
     st = Tuple(*t)
@@ -80,16 +88,23 @@ def test_Tuple():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Tuple_contains(), test_Tuple_contains produces the expected output) over Any ║
+# ║ Path(test_Tuple_contains(), t1 in Tuple(1, 2, 3, t1, Tuple(t2)) and t2 not in Tuple(1, 2, 3, t1, Tuple(t2))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Tuple_contains : Any → {Any | t1 in Tuple(1, 2, ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  t1 in Tuple(1, 2, 3, t1, Tuple(t2))            ║
+# ║   ensures:  t2 not in Tuple(1, 2, 3, t1, Tuple(t2))        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Tuple_contains : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e4d660de36b24e81  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3510306f8cd649d3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_containers.test_Tuple_contains","kind":"function","src_hash":"c23d3315075c7bce","in":{"base":"Any"},"out":{"base":"Any","pred":"t1 in Tuple(1, 2, 3, t1, Tuple(t2)) and t2 not in Tuple(1, 2, 3, t1, Tuple(t2))"},"spec":{"lhs":"test_Tuple_contains()","rhs":"test_Tuple_contains produces the expected output","over":{"base":"Any"},"name":"test_Tuple_contains_correct"},"guarantee":"test_Tuple_contains produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_containers.test_Tuple_contains_correct","statement":"Path(test_Tuple_contains(x), test_Tuple_contains produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e4d660de36b24e81"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_containers.test_Tuple_contains","kind":"function","src_hash":"c23d3315075c7bce","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: t1 in Tuple(1, 2, 3, t1, Tuple(t2)) and t2 not in Tuple(1, 2, 3, t1, Tuple(t2))"},"spec":{"lhs":"test_Tuple_contains()","rhs":"t1 in Tuple(1, 2, 3, t1, Tuple(t2)) and t2 not in Tuple(1, 2, 3, t1, Tuple(t2))","over":{"base":"Any"},"name":"test_Tuple_contains_correct"},"guarantee":"t1 in Tuple(1, 2, 3, t1, Tuple(t2)); t2 not in Tuple(1, 2, 3, t1, Tuple(t2))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_containers.test_Tuple_contains_correct","statement":"Path(test_Tuple_contains(x), t1 in Tuple(1, 2, 3, t1, Tuple(t2)); t2 not in Tuple(1, 2, 3, t1, Tuple(t2)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3510306f8cd649d3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["t1 in Tuple(1, 2, 3, t1, Tuple(t2))","t2 not in Tuple(1, 2, 3, t1, Tuple(t2))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Tuple_contains():
     t1, t2 = Tuple(1), Tuple(2)
     assert t1 in Tuple(1, 2, 3, t1, Tuple(t2))
@@ -97,16 +112,25 @@ def test_Tuple_contains():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Tuple_concatenation(), test_Tuple_concatenation produces the expected output) over Any ║
+# ║ Path(test_Tuple_concatenation(), Tuple.__radd__(self, other + other)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Tuple_concatenation : Any → {Any | Tuple(1, 2) +...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Tuple(1, 2) + Tuple(3, 4) == Tuple(1, 2, ...   ║
+# ║   ensures:  (1, 2) + Tuple(3, 4) == Tuple(1, 2, 3, 4)      ║
+# ║   ensures:  Tuple(1, 2) + (3, 4) == Tuple(1, 2, 3, 4)      ║
+# ║   returns:  Tuple.__radd__(self, other + other)            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Tuple_concatenation : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 604d3fa036d7ec65  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1520414e550d3ebc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_containers.test_Tuple_concatenation","kind":"function","src_hash":"6f66d92d3d2f3e84","in":{"base":"Any"},"out":{"base":"Any","pred":"Tuple(1, 2) + Tuple(3, 4) == Tuple(1, 2, 3, 4) and (1, 2) + Tuple(3, 4) == Tuple(1, 2, 3, 4) and Tuple(1, 2) + (3, 4) == Tuple(1, 2, 3, 4) and Tuple(1, 2) + Tuple2(3, 4) == Tuple(1, 2, 1, 2, 3, 4) and Tuple2(1, 2) + Tuple(3, 4) == Tuple(1, 2, 3, 4)"},"spec":{"lhs":"test_Tuple_concatenation()","rhs":"test_Tuple_concatenation produces the expected output","over":{"base":"Any"},"name":"test_Tuple_concatenation_correct"},"guarantee":"test_Tuple_concatenation produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_containers.test_Tuple_concatenation_correct","statement":"Path(test_Tuple_concatenation(x), test_Tuple_concatenation produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"604d3fa036d7ec65"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_containers.test_Tuple_concatenation","kind":"function","src_hash":"6f66d92d3d2f3e84","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (Tuple.__radd__(self, other + other))"},"spec":{"lhs":"test_Tuple_concatenation()","rhs":"Tuple.__radd__(self, other + other)","over":{"base":"Any"},"name":"test_Tuple_concatenation_correct"},"guarantee":"returns Tuple.__radd__(self, other + other); Tuple(1, 2) + Tuple(3, 4) == Tuple(1, 2, 3, 4); (1, 2) + Tuple(3, 4) == Tuple(1, 2, 3, 4); Tuple(1, 2) + (3, 4) == Tuple(1, 2, 3, 4)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_containers.test_Tuple_concatenation_correct","statement":"Path(test_Tuple_concatenation(x), returns Tuple.__radd__(self, other + other); Tuple(1, 2) + Tuple(3, 4) == Tuple(1, 2, 3, 4); (1, 2) + Tuple(3, 4) == Tuple(1, 2, 3, 4); Tuple(1, 2) + (3, 4) == Tuple(1, 2, 3, 4))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1520414e550d3ebc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Tuple(1, 2) + Tuple(3, 4) == Tuple(1, 2, 3, 4)","(1, 2) + Tuple(3, 4) == Tuple(1, 2, 3, 4)","Tuple(1, 2) + (3, 4) == Tuple(1, 2, 3, 4)","Tuple(1, 2) + Tuple2(3, 4) == Tuple(1, 2, 1, 2, 3, 4)","Tuple2(1, 2) + Tuple(3, 4) == Tuple(1, 2, 3, 4)"],"returns_expr":"Tuple.__radd__(self, other + other)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_Tuple_concatenation():
     assert Tuple(1, 2) + Tuple(3, 4) == Tuple(1, 2, 3, 4)
     assert (1, 2) + Tuple(3, 4) == Tuple(1, 2, 3, 4)
@@ -123,7 +147,12 @@ def test_Tuple_concatenation():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Tuple_equality(), test_Tuple_equality produces the expected output) over {Any | isinstance(Tuple(1, 2), tuple)} ║
+# ║ Path(test_Tuple_equality(), not isinstance(Tuple(1, 2), tuple) and (Tuple(1, 2) == (1, 2)) is True and (Tuple(1, 2) != (1, 2)) is False and (Tuple(1, 2) == (1, 3)) is False and (Tuple(1, 2) != (1, 3)) is True and (Tuple(1, 2) == Tuple(1, 2)) is True and (Tuple(1, 2) != Tuple(1, 2)) is False and (Tuple(1, 2) == Tuple(1, 3)) is False and (Tuple(1, 2) != Tuple(1, 3)) is True) over {Any | isinstance(Tuple(1, 2), tuple)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  not isinstance(Tuple(1, 2), tuple)             ║
+# ║   ensures:  (Tuple(1, 2) == (1, 2)) is True                ║
+# ║   ensures:  (Tuple(1, 2) != (1, 2)) is False               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_Tuple_equality : {Any | isinstance(Tuple(1, 2), ...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -135,9 +164,12 @@ def test_Tuple_concatenation():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.5ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | e7faaa3f...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_containers.test_Tuple_equality","kind":"function","src_hash":"1f5dd3d5050a9859","in":{"base":"Any","pred":"isinstance(Tuple(1, 2), tuple)"},"out":{"base":"Any","pred":"not isinstance(Tuple(1, 2), tuple) and (Tuple(1, 2) == (1, 2)) is True and (Tuple(1, 2) != (1, 2)) is False and (Tuple(1, 2) == (1, 3)) is False and (Tuple(1, 2) != (1, 3)) is True and (Tuple(1, 2) == Tuple(1, 2)) is True and (Tuple(1, 2) != Tuple(1, 2)) is False and (Tuple(1, 2) == Tuple(1, 3)) is False and (Tuple(1, 2) != Tuple(1, 3)) is True"},"spec":{"lhs":"test_Tuple_equality()","rhs":"test_Tuple_equality produces the expected output","over":{"base":"Any","pred":"isinstance(Tuple(1, 2), tuple)"},"name":"test_Tuple_equality_correct"},"guarantee":"test_Tuple_equality produces the expected output","fibers":[{"name":"2","pred":"isinstance(Tuple(1, 2), tuple)","path":{"lhs":"test_Tuple_equality(x)","rhs":"test_Tuple_equality produces the expected output","over":{"base":"2","pred":"isinstance(Tuple(1, 2), tuple)"},"name":"test_Tuple_equality_2_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_containers.test_Tuple_equality_2_correct","statement":"test_Tuple_equality satisfies spec on 2 inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"e7faaa3f9ea37586"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_containers.test_Tuple_equality","kind":"function","src_hash":"1f5dd3d5050a9859","in":{"base":"Any","pred":"isinstance(Tuple(1, 2), tuple)"},"out":{"base":"Any","pred":"result satisfies: not isinstance(Tuple(1, 2), tuple) and (Tuple(1, 2) == (1, 2)) is True and (Tuple(1, 2) != (1, 2)) is False and (Tuple(1, 2) == (1, 3)) is False and (Tuple(1, 2) != (1, 3)) is True and (Tuple(1, 2) == Tuple(1, 2)) is True and (Tuple(1, 2) != Tuple(1, 2)) is False and (Tuple(1, 2) == Tuple(1, 3)) is False and (Tuple(1, 2) != Tuple(1, 3)) is True"},"spec":{"lhs":"test_Tuple_equality()","rhs":"not isinstance(Tuple(1, 2), tuple) and (Tuple(1, 2) == (1, 2)) is True and (Tuple(1, 2) != (1, 2)) is False and (Tuple(1, 2) == (1, 3)) is False and (Tuple(1, 2) != (1, 3)) is True and (Tuple(1, 2) == Tuple(1, 2)) is True and (Tuple(1, 2) != Tuple(1, 2)) is False and (Tuple(1, 2) == Tuple(1, 3)) is False and (Tuple(1, 2) != Tuple(1, 3)) is True","over":{"base":"Any","pred":"isinstance(Tuple(1, 2), tuple)"},"name":"test_Tuple_equality_correct"},"guarantee":"not isinstance(Tuple(1, 2), tuple); (Tuple(1, 2) == (1, 2)) is True; (Tuple(1, 2) != (1, 2)) is False","fibers":[{"name":"2","pred":"isinstance(Tuple(1, 2), tuple)","path":{"lhs":"test_Tuple_equality(x)","rhs":"not isinstance(Tuple(1, 2), tuple); (Tuple(1, 2) == (1, 2)) is True; (Tuple(1, 2) != (1, 2)) is False","over":{"base":"2","pred":"isinstance(Tuple(1, 2), tuple)"},"name":"test_Tuple_equality_2_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_containers.test_Tuple_equality_2_correct","statement":"test_Tuple_equality satisfies spec on 2 inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"e7faaa3f9ea37586","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["not isinstance(Tuple(1, 2), tuple)","(Tuple(1, 2) == (1, 2)) is True","(Tuple(1, 2) != (1, 2)) is False","(Tuple(1, 2) == (1, 3)) is False","(Tuple(1, 2) != (1, 3)) is True","(Tuple(1, 2) == Tuple(1, 2)) is True","(Tuple(1, 2) != Tuple(1, 2)) is False","(Tuple(1, 2) == Tuple(1, 3)) is False","(Tuple(1, 2) != Tuple(1, 3)) is True"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.5,"verdict_class":"failed","binding":true}}
 def test_Tuple_equality():
     assert not isinstance(Tuple(1, 2), tuple)
     assert (Tuple(1, 2) == (1, 2)) is True
@@ -151,16 +183,24 @@ def test_Tuple_equality():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Tuple_Eq(), test_Tuple_Eq produces the expected output) over Any ║
+# ║ Path(test_Tuple_Eq(), Eq(Tuple(), Tuple()) is S.true and Eq(Tuple(1), 1) is S.false and Eq(Tuple(1, 2), Tuple(1)) is S.false and Eq(Tuple(1), Tuple(1)) is S.true and Eq(Tuple(1, 2), Tuple(1, 3)) is S.false and Eq(Tuple(1, 2), Tuple(1, 2)) is S.true and unchanged(Eq, Tuple(1, x), Tuple(1, 2)) and Eq(Tuple(1, x), Tuple(1, 2)).subs(x, 2) is S.true and unchanged(Eq, Tuple(1, 2), x) and unchanged(Eq, Tuple(1), f(x)) and Eq(Tuple(1), f(x)).subs(x, 1).subs(f, Lambda(y, (y,))) is S.true) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Tuple_Eq : Any → {Any | Eq(Tuple(), Tuple()) is ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Eq(Tuple(), Tuple()) is S.true                 ║
+# ║   ensures:  Eq(Tuple(1), 1) is S.false                     ║
+# ║   ensures:  Eq(Tuple(1, 2), Tuple(1)) is S.false           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Tuple_Eq : Any → {Any | result satisfies: Eq(Tup...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bc1040dc2ec69cc0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 52ddddb076b46f77  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_containers.test_Tuple_Eq","kind":"function","src_hash":"51f17f4a6b31f3aa","in":{"base":"Any"},"out":{"base":"Any","pred":"Eq(Tuple(), Tuple()) is S.true and Eq(Tuple(1), 1) is S.false and Eq(Tuple(1, 2), Tuple(1)) is S.false and Eq(Tuple(1), Tuple(1)) is S.true and Eq(Tuple(1, 2), Tuple(1, 3)) is S.false and Eq(Tuple(1, 2), Tuple(1, 2)) is S.true and unchanged(Eq, Tuple(1, x), Tuple(1, 2)) and Eq(Tuple(1, x), Tuple(1, 2)).subs(x, 2) is S.true and unchanged(Eq, Tuple(1, 2), x) and unchanged(Eq, Tuple(1), f(x)) and Eq(Tuple(1), f(x)).subs(x, 1).subs(f, Lambda(y, (y,))) is S.true"},"spec":{"lhs":"test_Tuple_Eq()","rhs":"test_Tuple_Eq produces the expected output","over":{"base":"Any"},"name":"test_Tuple_Eq_correct"},"guarantee":"test_Tuple_Eq produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_containers.test_Tuple_Eq_correct","statement":"Path(test_Tuple_Eq(x), test_Tuple_Eq produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bc1040dc2ec69cc0"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_containers.test_Tuple_Eq","kind":"function","src_hash":"51f17f4a6b31f3aa","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Eq(Tuple(), Tuple()) is S.true and Eq(Tuple(1), 1) is S.false and Eq(Tuple(1, 2), Tuple(1)) is S.false and Eq(Tuple(1), Tuple(1)) is S.true and Eq(Tuple(1, 2), Tuple(1, 3)) is S.false and Eq(Tuple(1, 2), Tuple(1, 2)) is S.true and unchanged(Eq, Tuple(1, x), Tuple(1, 2)) and Eq(Tuple(1, x), Tuple(1, 2)).subs(x, 2) is S.true and unchanged(Eq, Tuple(1, 2), x) and unchanged(Eq, Tuple(1), f(x)) and Eq(Tuple(1), f(x)).subs(x, 1).subs(f, Lambda(y, (y,))) is S.true"},"spec":{"lhs":"test_Tuple_Eq()","rhs":"Eq(Tuple(), Tuple()) is S.true and Eq(Tuple(1), 1) is S.false and Eq(Tuple(1, 2), Tuple(1)) is S.false and Eq(Tuple(1), Tuple(1)) is S.true and Eq(Tuple(1, 2), Tuple(1, 3)) is S.false and Eq(Tuple(1, 2), Tuple(1, 2)) is S.true and unchanged(Eq, Tuple(1, x), Tuple(1, 2)) and Eq(Tuple(1, x), Tuple(1, 2)).subs(x, 2) is S.true and unchanged(Eq, Tuple(1, 2), x) and unchanged(Eq, Tuple(1), f(x)) and Eq(Tuple(1), f(x)).subs(x, 1).subs(f, Lambda(y, (y,))) is S.true","over":{"base":"Any"},"name":"test_Tuple_Eq_correct"},"guarantee":"Eq(Tuple(), Tuple()) is S.true; Eq(Tuple(1), 1) is S.false; Eq(Tuple(1, 2), Tuple(1)) is S.false","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_containers.test_Tuple_Eq_correct","statement":"Path(test_Tuple_Eq(x), Eq(Tuple(), Tuple()) is S.true; Eq(Tuple(1), 1) is S.false; Eq(Tuple(1, 2), Tuple(1)) is S.false)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"52ddddb076b46f77","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Eq(Tuple(), Tuple()) is S.true","Eq(Tuple(1), 1) is S.false","Eq(Tuple(1, 2), Tuple(1)) is S.false","Eq(Tuple(1), Tuple(1)) is S.true","Eq(Tuple(1, 2), Tuple(1, 3)) is S.false","Eq(Tuple(1, 2), Tuple(1, 2)) is S.true","unchanged(Eq, Tuple(1, x), Tuple(1, 2))","Eq(Tuple(1, x), Tuple(1, 2)).subs(x, 2) is S.true","unchanged(Eq, Tuple(1, 2), x)","unchanged(Eq, Tuple(1), f(x))","Eq(Tuple(1), f(x)).subs(x, 1).subs(f, Lambda(y, (y,))) is S.true"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_Tuple_Eq():
     assert Eq(Tuple(), Tuple()) is S.true
     assert Eq(Tuple(1), 1) is S.false
@@ -177,16 +217,24 @@ def test_Tuple_Eq():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Tuple_comparision(), test_Tuple_comparision produces the expected output) over Any ║
+# ║ Path(test_Tuple_comparision(), (Tuple(1, 3) >= Tuple(-10, 30)) is S.true and (Tuple(1, 3) <= Tuple(-10, 30)) is S.false and (Tuple(1, 3) >= Tuple(1, 3)) is S.true and (Tuple(1, 3) <= Tuple(1, 3)) is S.true) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Tuple_comparision : Any → {Any | (Tuple(1, 3) >=...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (Tuple(1, 3) >= Tuple(-10, 30)) is S.true      ║
+# ║   ensures:  (Tuple(1, 3) <= Tuple(-10, 30)) is S.false     ║
+# ║   ensures:  (Tuple(1, 3) >= Tuple(1, 3)) is S.true         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Tuple_comparision : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c2a285c2e8efe3c3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ee86758d7bd601a2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_containers.test_Tuple_comparision","kind":"function","src_hash":"bd56bb7187c11735","in":{"base":"Any"},"out":{"base":"Any","pred":"(Tuple(1, 3) >= Tuple(-10, 30)) is S.true and (Tuple(1, 3) <= Tuple(-10, 30)) is S.false and (Tuple(1, 3) >= Tuple(1, 3)) is S.true and (Tuple(1, 3) <= Tuple(1, 3)) is S.true"},"spec":{"lhs":"test_Tuple_comparision()","rhs":"test_Tuple_comparision produces the expected output","over":{"base":"Any"},"name":"test_Tuple_comparision_correct"},"guarantee":"test_Tuple_comparision produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_containers.test_Tuple_comparision_correct","statement":"Path(test_Tuple_comparision(x), test_Tuple_comparision produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c2a285c2e8efe3c3"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_containers.test_Tuple_comparision","kind":"function","src_hash":"bd56bb7187c11735","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (Tuple(1, 3) >= Tuple(-10, 30)) is S.true and (Tuple(1, 3) <= Tuple(-10, 30)) is S.false and (Tuple(1, 3) >= Tuple(1, 3)) is S.true and (Tuple(1, 3) <= Tuple(1, 3)) is S.true"},"spec":{"lhs":"test_Tuple_comparision()","rhs":"(Tuple(1, 3) >= Tuple(-10, 30)) is S.true and (Tuple(1, 3) <= Tuple(-10, 30)) is S.false and (Tuple(1, 3) >= Tuple(1, 3)) is S.true and (Tuple(1, 3) <= Tuple(1, 3)) is S.true","over":{"base":"Any"},"name":"test_Tuple_comparision_correct"},"guarantee":"(Tuple(1, 3) >= Tuple(-10, 30)) is S.true; (Tuple(1, 3) <= Tuple(-10, 30)) is S.false; (Tuple(1, 3) >= Tuple(1, 3)) is S.true","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_containers.test_Tuple_comparision_correct","statement":"Path(test_Tuple_comparision(x), (Tuple(1, 3) >= Tuple(-10, 30)) is S.true; (Tuple(1, 3) <= Tuple(-10, 30)) is S.false; (Tuple(1, 3) >= Tuple(1, 3)) is S.true)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ee86758d7bd601a2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(Tuple(1, 3) >= Tuple(-10, 30)) is S.true","(Tuple(1, 3) <= Tuple(-10, 30)) is S.false","(Tuple(1, 3) >= Tuple(1, 3)) is S.true","(Tuple(1, 3) <= Tuple(1, 3)) is S.true"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Tuple_comparision():
     assert (Tuple(1, 3) >= Tuple(-10, 30)) is S.true
     assert (Tuple(1, 3) <= Tuple(-10, 30)) is S.false
@@ -195,16 +243,24 @@ def test_Tuple_comparision():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Tuple_tuple_count(), test_Tuple_tuple_count produces the expected output) over Any ║
+# ║ Path(test_Tuple_tuple_count(), Tuple(0, 1, 2, 3).tuple_count(4) == 0 and Tuple(0, 4, 1, 2, 3).tuple_count(4) == 1 and Tuple(0, 4, 1, 4, 2, 3).tuple_count(4) == 2 and Tuple(0, 4, 1, 4, 2, 4, 3).tuple_count(4) == 3) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Tuple_tuple_count : Any → {Any | Tuple(0, 1, 2, ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Tuple(0, 1, 2, 3).tuple_count(4) == 0          ║
+# ║   ensures:  Tuple(0, 4, 1, 2, 3).tuple_count(4) == 1       ║
+# ║   ensures:  Tuple(0, 4, 1, 4, 2, 3).tuple_count(4) == 2    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Tuple_tuple_count : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2191a469e1bfda91  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 915e11d6ea545455  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_containers.test_Tuple_tuple_count","kind":"function","src_hash":"94a079112addddc2","in":{"base":"Any"},"out":{"base":"Any","pred":"Tuple(0, 1, 2, 3).tuple_count(4) == 0 and Tuple(0, 4, 1, 2, 3).tuple_count(4) == 1 and Tuple(0, 4, 1, 4, 2, 3).tuple_count(4) == 2 and Tuple(0, 4, 1, 4, 2, 4, 3).tuple_count(4) == 3"},"spec":{"lhs":"test_Tuple_tuple_count()","rhs":"test_Tuple_tuple_count produces the expected output","over":{"base":"Any"},"name":"test_Tuple_tuple_count_correct"},"guarantee":"test_Tuple_tuple_count produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_containers.test_Tuple_tuple_count_correct","statement":"Path(test_Tuple_tuple_count(x), test_Tuple_tuple_count produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2191a469e1bfda91"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_containers.test_Tuple_tuple_count","kind":"function","src_hash":"94a079112addddc2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Tuple(0, 1, 2, 3).tuple_count(4) == 0 and Tuple(0, 4, 1, 2, 3).tuple_count(4) == 1 and Tuple(0, 4, 1, 4, 2, 3).tuple_count(4) == 2 and Tuple(0, 4, 1, 4, 2, 4, 3).tuple_count(4) == 3"},"spec":{"lhs":"test_Tuple_tuple_count()","rhs":"Tuple(0, 1, 2, 3).tuple_count(4) == 0 and Tuple(0, 4, 1, 2, 3).tuple_count(4) == 1 and Tuple(0, 4, 1, 4, 2, 3).tuple_count(4) == 2 and Tuple(0, 4, 1, 4, 2, 4, 3).tuple_count(4) == 3","over":{"base":"Any"},"name":"test_Tuple_tuple_count_correct"},"guarantee":"Tuple(0, 1, 2, 3).tuple_count(4) == 0; Tuple(0, 4, 1, 2, 3).tuple_count(4) == 1; Tuple(0, 4, 1, 4, 2, 3).tuple_count(4) == 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_containers.test_Tuple_tuple_count_correct","statement":"Path(test_Tuple_tuple_count(x), Tuple(0, 1, 2, 3).tuple_count(4) == 0; Tuple(0, 4, 1, 2, 3).tuple_count(4) == 1; Tuple(0, 4, 1, 4, 2, 3).tuple_count(4) == 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"915e11d6ea545455","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Tuple(0, 1, 2, 3).tuple_count(4) == 0","Tuple(0, 4, 1, 2, 3).tuple_count(4) == 1","Tuple(0, 4, 1, 4, 2, 3).tuple_count(4) == 2","Tuple(0, 4, 1, 4, 2, 4, 3).tuple_count(4) == 3"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Tuple_tuple_count():
     assert Tuple(0, 1, 2, 3).tuple_count(4) == 0
     assert Tuple(0, 4, 1, 2, 3).tuple_count(4) == 1
@@ -213,16 +269,24 @@ def test_Tuple_tuple_count():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Tuple_index(), test_Tuple_index produces the expected output) over Any ║
+# ║ Path(test_Tuple_index(), Tuple(4, 0, 1, 2, 3).index(4) == 0 and Tuple(0, 4, 1, 2, 3).index(4) == 1 and Tuple(0, 1, 4, 2, 3).index(4) == 2 and Tuple(0, 1, 2, 4, 3).index(4) == 3 and Tuple(0, 1, 2, 3, 4).index(4) == 4) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Tuple_index : Any → {Any | Tuple(4, 0, 1, 2, 3)....   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Tuple(4, 0, 1, 2, 3).index(4) == 0             ║
+# ║   ensures:  Tuple(0, 4, 1, 2, 3).index(4) == 1             ║
+# ║   ensures:  Tuple(0, 1, 4, 2, 3).index(4) == 2             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Tuple_index : Any → {Any | result satisfies: Tup...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 906027f2a89bc2fb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cabef90013b26196  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_containers.test_Tuple_index","kind":"function","src_hash":"1f4a99ea5025fde7","in":{"base":"Any"},"out":{"base":"Any","pred":"Tuple(4, 0, 1, 2, 3).index(4) == 0 and Tuple(0, 4, 1, 2, 3).index(4) == 1 and Tuple(0, 1, 4, 2, 3).index(4) == 2 and Tuple(0, 1, 2, 4, 3).index(4) == 3 and Tuple(0, 1, 2, 3, 4).index(4) == 4"},"spec":{"lhs":"test_Tuple_index()","rhs":"test_Tuple_index produces the expected output","over":{"base":"Any"},"name":"test_Tuple_index_correct"},"guarantee":"test_Tuple_index produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_containers.test_Tuple_index_correct","statement":"Path(test_Tuple_index(x), test_Tuple_index produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"906027f2a89bc2fb"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_containers.test_Tuple_index","kind":"function","src_hash":"1f4a99ea5025fde7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Tuple(4, 0, 1, 2, 3).index(4) == 0 and Tuple(0, 4, 1, 2, 3).index(4) == 1 and Tuple(0, 1, 4, 2, 3).index(4) == 2 and Tuple(0, 1, 2, 4, 3).index(4) == 3 and Tuple(0, 1, 2, 3, 4).index(4) == 4"},"spec":{"lhs":"test_Tuple_index()","rhs":"Tuple(4, 0, 1, 2, 3).index(4) == 0 and Tuple(0, 4, 1, 2, 3).index(4) == 1 and Tuple(0, 1, 4, 2, 3).index(4) == 2 and Tuple(0, 1, 2, 4, 3).index(4) == 3 and Tuple(0, 1, 2, 3, 4).index(4) == 4","over":{"base":"Any"},"name":"test_Tuple_index_correct"},"guarantee":"Tuple(4, 0, 1, 2, 3).index(4) == 0; Tuple(0, 4, 1, 2, 3).index(4) == 1; Tuple(0, 1, 4, 2, 3).index(4) == 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_containers.test_Tuple_index_correct","statement":"Path(test_Tuple_index(x), Tuple(4, 0, 1, 2, 3).index(4) == 0; Tuple(0, 4, 1, 2, 3).index(4) == 1; Tuple(0, 1, 4, 2, 3).index(4) == 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cabef90013b26196","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Tuple(4, 0, 1, 2, 3).index(4) == 0","Tuple(0, 4, 1, 2, 3).index(4) == 1","Tuple(0, 1, 4, 2, 3).index(4) == 2","Tuple(0, 1, 2, 4, 3).index(4) == 3","Tuple(0, 1, 2, 3, 4).index(4) == 4"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_Tuple_index():
     assert Tuple(4, 0, 1, 2, 3).index(4) == 0
     assert Tuple(0, 4, 1, 2, 3).index(4) == 1
@@ -236,16 +300,24 @@ def test_Tuple_index():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Tuple_mul(), test_Tuple_mul produces the expected output) over Any ║
+# ║ Path(test_Tuple_mul(), Tuple(1, 2, 3) * 2 == Tuple(1, 2, 3, 1, 2, 3) and 2 * Tuple(1, 2, 3) == Tuple(1, 2, 3, 1, 2, 3) and Tuple(1, 2, 3) * Integer(2) == Tuple(1, 2, 3, 1, 2, 3) and Integer(2) * Tuple(1, 2, 3) == Tuple(1, 2, 3, 1, 2, 3)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Tuple_mul : Any → {Any | Tuple(1, 2, 3) * 2 == T...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Tuple(1, 2, 3) * 2 == Tuple(1, 2, 3, 1, 2...   ║
+# ║   ensures:  2 * Tuple(1, 2, 3) == Tuple(1, 2, 3, 1, 2...   ║
+# ║   ensures:  Tuple(1, 2, 3) * Integer(2) == Tuple(1, 2...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Tuple_mul : Any → {Any | result satisfies: Tuple...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0743dba629fc3665  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 99e3a34896a0fefc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_containers.test_Tuple_mul","kind":"function","src_hash":"e4753670102eb028","in":{"base":"Any"},"out":{"base":"Any","pred":"Tuple(1, 2, 3) * 2 == Tuple(1, 2, 3, 1, 2, 3) and 2 * Tuple(1, 2, 3) == Tuple(1, 2, 3, 1, 2, 3) and Tuple(1, 2, 3) * Integer(2) == Tuple(1, 2, 3, 1, 2, 3) and Integer(2) * Tuple(1, 2, 3) == Tuple(1, 2, 3, 1, 2, 3)"},"spec":{"lhs":"test_Tuple_mul()","rhs":"test_Tuple_mul produces the expected output","over":{"base":"Any"},"name":"test_Tuple_mul_correct"},"guarantee":"test_Tuple_mul produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_containers.test_Tuple_mul_correct","statement":"Path(test_Tuple_mul(x), test_Tuple_mul produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0743dba629fc3665"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_containers.test_Tuple_mul","kind":"function","src_hash":"e4753670102eb028","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Tuple(1, 2, 3) * 2 == Tuple(1, 2, 3, 1, 2, 3) and 2 * Tuple(1, 2, 3) == Tuple(1, 2, 3, 1, 2, 3) and Tuple(1, 2, 3) * Integer(2) == Tuple(1, 2, 3, 1, 2, 3) and Integer(2) * Tuple(1, 2, 3) == Tuple(1, 2, 3, 1, 2, 3)"},"spec":{"lhs":"test_Tuple_mul()","rhs":"Tuple(1, 2, 3) * 2 == Tuple(1, 2, 3, 1, 2, 3) and 2 * Tuple(1, 2, 3) == Tuple(1, 2, 3, 1, 2, 3) and Tuple(1, 2, 3) * Integer(2) == Tuple(1, 2, 3, 1, 2, 3) and Integer(2) * Tuple(1, 2, 3) == Tuple(1, 2, 3, 1, 2, 3)","over":{"base":"Any"},"name":"test_Tuple_mul_correct"},"guarantee":"Tuple(1, 2, 3) * 2 == Tuple(1, 2, 3, 1, 2, 3); 2 * Tuple(1, 2, 3) == Tuple(1, 2, 3, 1, 2, 3); Tuple(1, 2, 3) * Integer(2) == Tuple(1, 2, 3, 1, 2, 3)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_containers.test_Tuple_mul_correct","statement":"Path(test_Tuple_mul(x), Tuple(1, 2, 3) * 2 == Tuple(1, 2, 3, 1, 2, 3); 2 * Tuple(1, 2, 3) == Tuple(1, 2, 3, 1, 2, 3); Tuple(1, 2, 3) * Integer(2) == Tuple(1, 2, 3, 1, 2, 3))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"99e3a34896a0fefc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Tuple(1, 2, 3) * 2 == Tuple(1, 2, 3, 1, 2, 3)","2 * Tuple(1, 2, 3) == Tuple(1, 2, 3, 1, 2, 3)","Tuple(1, 2, 3) * Integer(2) == Tuple(1, 2, 3, 1, 2, 3)","Integer(2) * Tuple(1, 2, 3) == Tuple(1, 2, 3, 1, 2, 3)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_Tuple_mul():
     assert Tuple(1, 2, 3)*2 == Tuple(1, 2, 3, 1, 2, 3)
     assert 2*Tuple(1, 2, 3) == Tuple(1, 2, 3, 1, 2, 3)
@@ -257,16 +329,24 @@ def test_Tuple_mul():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_tuple_wrapper(), test_tuple_wrapper produces the expected output) over Any ║
+# ║ Path(test_tuple_wrapper(), wrap_tuples_and_return(p, 1) == (p, 1) and wrap_tuples_and_return((p, 1)) == (Tuple(p, 1),) and wrap_tuples_and_return(1, (p, 2), 3) == (1, Tuple(p, 2), 3)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_tuple_wrapper : Any → {Any | wrap_tuples_and_ret...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  wrap_tuples_and_return(p, 1) == (p, 1)         ║
+# ║   ensures:  wrap_tuples_and_return((p, 1)) == (Tuple(...   ║
+# ║   ensures:  wrap_tuples_and_return(1, (p, 2), 3) == (...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_tuple_wrapper : Any → {Any | result satisfies: w...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9595137ac8e4506a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6e7f4fcadc17363b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_containers.test_tuple_wrapper","kind":"function","src_hash":"d0d7ea66d8d16493","in":{"base":"Any"},"out":{"base":"Any","pred":"wrap_tuples_and_return(p, 1) == (p, 1) and wrap_tuples_and_return((p, 1)) == (Tuple(p, 1),) and wrap_tuples_and_return(1, (p, 2), 3) == (1, Tuple(p, 2), 3)"},"spec":{"lhs":"test_tuple_wrapper()","rhs":"test_tuple_wrapper produces the expected output","over":{"base":"Any"},"name":"test_tuple_wrapper_correct"},"guarantee":"test_tuple_wrapper produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_containers.test_tuple_wrapper_correct","statement":"Path(test_tuple_wrapper(x), test_tuple_wrapper produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9595137ac8e4506a"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_containers.test_tuple_wrapper","kind":"function","src_hash":"d0d7ea66d8d16493","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: wrap_tuples_and_return(p, 1) == (p, 1) and wrap_tuples_and_return((p, 1)) == (Tuple(p, 1),) and wrap_tuples_and_return(1, (p, 2), 3) == (1, Tuple(p, 2), 3)"},"spec":{"lhs":"test_tuple_wrapper()","rhs":"wrap_tuples_and_return(p, 1) == (p, 1) and wrap_tuples_and_return((p, 1)) == (Tuple(p, 1),) and wrap_tuples_and_return(1, (p, 2), 3) == (1, Tuple(p, 2), 3)","over":{"base":"Any"},"name":"test_tuple_wrapper_correct"},"guarantee":"wrap_tuples_and_return(p, 1) == (p, 1); wrap_tuples_and_return((p, 1)) == (Tuple(p, 1),); wrap_tuples_and_return(1, (p, 2), 3) == (1, Tuple(p, 2), 3)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_containers.test_tuple_wrapper_correct","statement":"Path(test_tuple_wrapper(x), wrap_tuples_and_return(p, 1) == (p, 1); wrap_tuples_and_return((p, 1)) == (Tuple(p, 1),); wrap_tuples_and_return(1, (p, 2), 3) == (1, Tuple(p, 2), 3))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6e7f4fcadc17363b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["wrap_tuples_and_return(p, 1) == (p, 1)","wrap_tuples_and_return((p, 1)) == (Tuple(p, 1),)","wrap_tuples_and_return(1, (p, 2), 3) == (1, Tuple(p, 2), 3)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_tuple_wrapper():
 
     @tuple_wrapper
@@ -280,16 +360,24 @@ def test_tuple_wrapper():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_iterable_is_sequence(), test_iterable_is_sequence produces the expected output) over Any ║
+# ║ Path(test_iterable_is_sequence(), all((is_sequence(i) for i in ordered)) and all((not is_sequence(i) for i in unordered)) and all((iterable(i) for i in ordered + unordered)) and all((not iterable(i) for i in not_sympy_iterable)) and all((iterable(i, exclude=None) for i in not_sympy_iterable))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_iterable_is_sequence : Any → {Any | all((is_sequ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  all((is_sequence(i) for i in ordered))         ║
+# ║   ensures:  all((not is_sequence(i) for i in unordered))   ║
+# ║   ensures:  all((iterable(i) for i in ordered + unord...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_iterable_is_sequence : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eca6bca22c8dd5f6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7c2a46ba7bf4dacd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_containers.test_iterable_is_sequence","kind":"function","src_hash":"52b63ff2a10ca27d","in":{"base":"Any"},"out":{"base":"Any","pred":"all((is_sequence(i) for i in ordered)) and all((not is_sequence(i) for i in unordered)) and all((iterable(i) for i in ordered + unordered)) and all((not iterable(i) for i in not_sympy_iterable)) and all((iterable(i, exclude=None) for i in not_sympy_iterable))"},"spec":{"lhs":"test_iterable_is_sequence()","rhs":"test_iterable_is_sequence produces the expected output","over":{"base":"Any"},"name":"test_iterable_is_sequence_correct"},"guarantee":"test_iterable_is_sequence produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_containers.test_iterable_is_sequence_correct","statement":"Path(test_iterable_is_sequence(x), test_iterable_is_sequence produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eca6bca22c8dd5f6"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_containers.test_iterable_is_sequence","kind":"function","src_hash":"52b63ff2a10ca27d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: all((is_sequence(i) for i in ordered)) and all((not is_sequence(i) for i in unordered)) and all((iterable(i) for i in ordered + unordered)) and all((not iterable(i) for i in not_sympy_iterable)) and all((iterable(i, exclude=None) for i in not_sympy_iterable))"},"spec":{"lhs":"test_iterable_is_sequence()","rhs":"all((is_sequence(i) for i in ordered)) and all((not is_sequence(i) for i in unordered)) and all((iterable(i) for i in ordered + unordered)) and all((not iterable(i) for i in not_sympy_iterable)) and all((iterable(i, exclude=None) for i in not_sympy_iterable))","over":{"base":"Any"},"name":"test_iterable_is_sequence_correct"},"guarantee":"all((is_sequence(i) for i in ordered)); all((not is_sequence(i) for i in unordered)); all((iterable(i) for i in ordered + unordered))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_containers.test_iterable_is_sequence_correct","statement":"Path(test_iterable_is_sequence(x), all((is_sequence(i) for i in ordered)); all((not is_sequence(i) for i in unordered)); all((iterable(i) for i in ordered + unordered)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7c2a46ba7bf4dacd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["all((is_sequence(i) for i in ordered))","all((not is_sequence(i) for i in unordered))","all((iterable(i) for i in ordered + unordered))","all((not iterable(i) for i in not_sympy_iterable))","all((iterable(i, exclude=None) for i in not_sympy_iterable))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_iterable_is_sequence():
     ordered = [[], (), Tuple(), Matrix([[]])]
     unordered = [set()]
@@ -302,16 +390,24 @@ def test_iterable_is_sequence():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_TupleKind(), test_TupleKind produces the expected output) over Any ║
+# ║ Path(test_TupleKind(), Tuple(1, Matrix([1, 2])).kind is kind and Tuple(1, 2).kind is TupleKind(NumberKind, NumberKind) and Tuple(1, 2).kind.element_kind == (NumberKind, NumberKind)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_TupleKind : Any → {Any | Tuple(1, Matrix([1, 2])...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Tuple(1, Matrix([1, 2])).kind is kind          ║
+# ║   ensures:  Tuple(1, 2).kind is TupleKind(NumberKind,...   ║
+# ║   ensures:  Tuple(1, 2).kind.element_kind == (NumberK...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_TupleKind : Any → {Any | result satisfies: Tuple...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 116aa405afe9cb07  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 07987e171034e812  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_containers.test_TupleKind","kind":"function","src_hash":"cad57b9d84f43dcd","in":{"base":"Any"},"out":{"base":"Any","pred":"Tuple(1, Matrix([1, 2])).kind is kind and Tuple(1, 2).kind is TupleKind(NumberKind, NumberKind) and Tuple(1, 2).kind.element_kind == (NumberKind, NumberKind)"},"spec":{"lhs":"test_TupleKind()","rhs":"test_TupleKind produces the expected output","over":{"base":"Any"},"name":"test_TupleKind_correct"},"guarantee":"test_TupleKind produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_containers.test_TupleKind_correct","statement":"Path(test_TupleKind(x), test_TupleKind produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"116aa405afe9cb07"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_containers.test_TupleKind","kind":"function","src_hash":"cad57b9d84f43dcd","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Tuple(1, Matrix([1, 2])).kind is kind and Tuple(1, 2).kind is TupleKind(NumberKind, NumberKind) and Tuple(1, 2).kind.element_kind == (NumberKind, NumberKind)"},"spec":{"lhs":"test_TupleKind()","rhs":"Tuple(1, Matrix([1, 2])).kind is kind and Tuple(1, 2).kind is TupleKind(NumberKind, NumberKind) and Tuple(1, 2).kind.element_kind == (NumberKind, NumberKind)","over":{"base":"Any"},"name":"test_TupleKind_correct"},"guarantee":"Tuple(1, Matrix([1, 2])).kind is kind; Tuple(1, 2).kind is TupleKind(NumberKind, NumberKind); Tuple(1, 2).kind.element_kind == (NumberKind, NumberKind)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_containers.test_TupleKind_correct","statement":"Path(test_TupleKind(x), Tuple(1, Matrix([1, 2])).kind is kind; Tuple(1, 2).kind is TupleKind(NumberKind, NumberKind); Tuple(1, 2).kind.element_kind == (NumberKind, NumberKind))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"07987e171034e812","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Tuple(1, Matrix([1, 2])).kind is kind","Tuple(1, 2).kind is TupleKind(NumberKind, NumberKind)","Tuple(1, 2).kind.element_kind == (NumberKind, NumberKind)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_TupleKind():
     kind = TupleKind(NumberKind, MatrixKind(NumberKind))
     assert Tuple(1, Matrix([1, 2])).kind is kind
@@ -320,16 +416,24 @@ def test_TupleKind():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Dict(), test_Dict produces the expected output) over Any ║
+# ║ Path(test_Dict(), d[x] == 1 and d[y] == 2 and len(d) == 3 and set(d.keys()) == {x, y, z} and set(d.values()) == {S.One, S(2), S(3)} and d.get(5, 'default') == 'default' and d.get('5', 'default') == 'default' and x in d and z in d and (5 not in d) and ('5' not in d) and d.has(x) and d.has(1) and Dict({x: 1, y: 2, z: 3}) == Dict((x, 1), (y, 2), (z, 3)) and set(d.items()) == {Tuple(x, S.One), Tuple(y, S(2)), Tuple(z, S(3))} and set(d) == {x, y, z} and str(d) == '{x: 1, y: 2, z: 3}' and d.__repr__() == '{x: 1, y: 2, z: 3}' and d == Dict(d) and d[x] == 0 and d[y] == 0 and d[z] == 0 and Dict(d) and set(d.values()) == {S.Zero, S.Zero, S.Zero}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Dict : Any → {Any | d[x] == 1 and d[y] == 2 and ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  d[x] == 1                                      ║
+# ║   ensures:  d[y] == 2                                      ║
+# ║   ensures:  len(d) == 3                                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Dict : Any → {Any | result satisfies: d[x] == 1 ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 95541f6f259f0616  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fadd878c384cd6d2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_containers.test_Dict","kind":"function","src_hash":"db1ad0675615c30d","in":{"base":"Any"},"out":{"base":"Any","pred":"d[x] == 1 and d[y] == 2 and len(d) == 3 and set(d.keys()) == {x, y, z} and set(d.values()) == {S.One, S(2), S(3)} and d.get(5, 'default') == 'default' and d.get('5', 'default') == 'default' and x in d and z in d and (5 not in d) and ('5' not in d) and d.has(x) and d.has(1) and Dict({x: 1, y: 2, z: 3}) == Dict((x, 1), (y, 2), (z, 3)) and set(d.items()) == {Tuple(x, S.One), Tuple(y, S(2)), Tuple(z, S(3))} and set(d) == {x, y, z} and str(d) == '{x: 1, y: 2, z: 3}' and d.__repr__() == '{x: 1, y: 2, z: 3}' and d == Dict(d) and d[x] == 0 and d[y] == 0 and d[z] == 0 and Dict(d) and len(d) == 3 and set(d.keys()) == {x, y, z} and set(d.values()) == {S.Zero, S.Zero, S.Zero}"},"spec":{"lhs":"test_Dict()","rhs":"test_Dict produces the expected output","over":{"base":"Any"},"name":"test_Dict_correct"},"guarantee":"test_Dict produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_containers.test_Dict_correct","statement":"Path(test_Dict(x), test_Dict produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"95541f6f259f0616"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_containers.test_Dict","kind":"function","src_hash":"db1ad0675615c30d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: d[x] == 1 and d[y] == 2 and len(d) == 3 and set(d.keys()) == {x, y, z} and set(d.values()) == {S.One, S(2), S(3)} and d.get(5, 'default') == 'default' and d.get('5', 'default') == 'default' and x in d and z in d and (5 not in d) and ('5' not in d) and d.has(x) and d.has(1) and Dict({x: 1, y: 2, z: 3}) == Dict((x, 1), (y, 2), (z, 3)) and set(d.items()) == {Tuple(x, S.One), Tuple(y, S(2)), Tuple(z, S(3))} and set(d) == {x, y, z} and str(d) == '{x: 1, y: 2, z: 3}' and d.__repr__() == '{x: 1, y: 2, z: 3}' and d == Dict(d) and d[x] == 0 and d[y] == 0 and d[z] == 0 and Dict(d) and set(d.values()) == {S.Zero, S.Zero, S.Zero}"},"spec":{"lhs":"test_Dict()","rhs":"d[x] == 1 and d[y] == 2 and len(d) == 3 and set(d.keys()) == {x, y, z} and set(d.values()) == {S.One, S(2), S(3)} and d.get(5, 'default') == 'default' and d.get('5', 'default') == 'default' and x in d and z in d and (5 not in d) and ('5' not in d) and d.has(x) and d.has(1) and Dict({x: 1, y: 2, z: 3}) == Dict((x, 1), (y, 2), (z, 3)) and set(d.items()) == {Tuple(x, S.One), Tuple(y, S(2)), Tuple(z, S(3))} and set(d) == {x, y, z} and str(d) == '{x: 1, y: 2, z: 3}' and d.__repr__() == '{x: 1, y: 2, z: 3}' and d == Dict(d) and d[x] == 0 and d[y] == 0 and d[z] == 0 and Dict(d) and set(d.values()) == {S.Zero, S.Zero, S.Zero}","over":{"base":"Any"},"name":"test_Dict_correct"},"guarantee":"d[x] == 1; d[y] == 2; len(d) == 3","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_containers.test_Dict_correct","statement":"Path(test_Dict(x), d[x] == 1; d[y] == 2; len(d) == 3)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fadd878c384cd6d2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["d[x] == 1","d[y] == 2","len(d) == 3","set(d.keys()) == {x, y, z}","set(d.values()) == {S.One, S(2), S(3)}","d.get(5, 'default') == 'default'","d.get('5', 'default') == 'default'","x in d and z in d and (5 not in d) and ('5' not in d)","d.has(x) and d.has(1)","Dict({x: 1, y: 2, z: 3}) == Dict((x, 1), (y, 2), (z, 3))","set(d.items()) == {Tuple(x, S.One), Tuple(y, S(2)), Tuple(z, S(3))}","set(d) == {x, y, z}","str(d) == '{x: 1, y: 2, z: 3}'","d.__repr__() == '{x: 1, y: 2, z: 3}'","d == Dict(d)","d[x] == 0","d[y] == 0","d[z] == 0","Dict(d)","set(d.values()) == {S.Zero, S.Zero, S.Zero}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_Dict():
     x, y, z = symbols('x y z')
     d = Dict({x: 1, y: 2, z: 3})
@@ -378,16 +482,22 @@ def test_Dict():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_5788(), test_issue_5788 produces the expected output) over Any ║
+# ║ Path(test_issue_5788(), <unspecified:test_issue_5788>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_issue_5788 : Any → {Any | sorted(pair) == sorted...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 39c6f406ace39a04  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_containers.test_issue_5788","kind":"function","src_hash":"11576c7b9adf71e5","in":{"base":"Any"},"out":{"base":"Any","pred":"sorted(pair) == sorted(pair) and set(o(*args)) and o(*args) == o(*reversed(args))"},"spec":{"lhs":"test_issue_5788()","rhs":"test_issue_5788 produces the expected output","over":{"base":"Any"},"name":"test_issue_5788_correct"},"guarantee":"test_issue_5788 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_containers.test_issue_5788_correct","statement":"Path(test_issue_5788(x), test_issue_5788 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"39c6f406ace39a04"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_containers.test_issue_5788","kind":"function","src_hash":"11576c7b9adf71e5","in":{"base":"Any"},"out":{"base":"Any","pred":"sorted(pair) == sorted(pair) and set(o(*args)) and o(*args) == o(*reversed(args))"},"spec":{"lhs":"test_issue_5788()","rhs":"<unspecified:test_issue_5788>","over":{"base":"Any"},"name":"test_issue_5788_correct"},"guarantee":"test_issue_5788 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_containers.test_issue_5788_correct","statement":"Path(test_issue_5788(x), test_issue_5788 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"39c6f406ace39a04","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_5788():
     args = [(1, 2), (2, 1)]
     for o in [Dict, Tuple, FiniteSet]:

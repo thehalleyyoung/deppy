@@ -30,16 +30,22 @@ __doctest_requires__ = {('apply_xsl', 'c2p'): ['lxml']}
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(add_mathml_headers(s), add_mathml_headers produces the expected output) over Any ║
+# ║ Path(add_mathml_headers(s), <unspecified:add_mathml_headers>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ add_mathml_headers : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | fa0e0e37e95fdba8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.mathml.add_mathml_headers","kind":"function","src_hash":"227590641bc04ba2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"add_mathml_headers(s)","rhs":"add_mathml_headers produces the expected output","over":{"base":"Any"},"name":"add_mathml_headers_correct"},"guarantee":"add_mathml_headers produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fa0e0e37e95fdba8"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.mathml.add_mathml_headers","kind":"function","src_hash":"227590641bc04ba2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"add_mathml_headers(s)","rhs":"<unspecified:add_mathml_headers>","over":{"base":"Any"},"name":"add_mathml_headers_correct"},"guarantee":"add_mathml_headers produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fa0e0e37e95fdba8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def add_mathml_headers(s):
     return """<math xmlns:mml="http://www.w3.org/1998/Math/MathML"
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -48,16 +54,25 @@ def add_mathml_headers(s):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_read_binary(pkg), id) over Any                       ║
+# ║ Path(_read_binary(pkgname, filename), id) over Any         ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _read_binary : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (files(pkgname).joinpath(filena...   ║
+# ║   ensures:  result == files(pkgname).joinpath(filenam...   ║
+# ║   fiber[case_0]: sys.version_info >= (3, 10) => files...   ║
+# ║   fiber[case_1]: not (sys.version_info >= (3, 10)) =>...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _read_binary : Any → {Any | result satisfies: result ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 0655c809abc00029   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.mathml._read_binary","kind":"function","src_hash":"89b3e0383ab2d9a3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_read_binary(pkg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_read_binary_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"files","by":"library_axiom"},{"fn":"joinpath","by":"library_axiom"},{"fn":"read_bytes","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0655c809abc00029"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.mathml._read_binary","kind":"function","src_hash":"89b3e0383ab2d9a3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (files(pkgname).joinpath(filename).read_bytes() if sys.version_info >= (3, 10) else read_binary(pkgname, filename)) and result == files(pkgname).joinpath(filename).read_bytes() or result == read_binary(pkgname, filename)"},"spec":{"lhs":"_read_binary(pkgname, filename)","rhs":"result == (files(pkgname).joinpath(filename).read_bytes() if sys.version_info >= (3, 10) else read_binary(pkgname, filename)) and result == files(pkgname).joinpath(filename).read_bytes() or result == read_binary(pkgname, filename)","over":{"base":"Any"},"name":"_read_binary_correct","kind":"composition"},"guarantee":"result == (files(pkgname).joinpath(filename).read_bytes() if sys.version_info >= (3, 10) else read_binary(pkgname, filename)); result == files(pkgname).joinpath(filename).read_bytes() or result == read_binary(pkgname, filename); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"files","by":"library_axiom"},{"fn":"joinpath","by":"library_axiom"},{"fn":"read_bytes","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0655c809abc00029","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (files(pkgname).joinpath(filename).read_bytes() if sys.version_info >= (3, 10) else read_binary(pkgname, filename))","result == files(pkgname).joinpath(filename).read_bytes() or result == read_binary(pkgname, filename)"],"fibers":[{"name":"case_0","guard":"sys.version_info >= (3, 10)","ensures":["result == files(pkgname).joinpath(filename).read_bytes()"],"decidability":"z3","returns_expr":"files(pkgname).joinpath(filename).read_bytes()"},{"name":"case_1","guard":"not (sys.version_info >= (3, 10))","ensures":["result == read_binary(pkgname, filename)"],"decidability":"z3","returns_expr":"read_binary(pkgname, filename)"}],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _read_binary(pkgname, filename):
     import sys
 
@@ -72,16 +87,22 @@ def _read_binary(pkgname, filename):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_read_xsl(xsl), internal helper behaves correctly) over Any ║
+# ║ Path(_read_xsl(xsl), <unspecified:_read_xsl>) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _read_xsl : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4af107abd0024320  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.mathml._read_xsl","kind":"function","src_hash":"9e9a966d0096ff77","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_read_xsl(xsl)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_read_xsl_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.mathml._read_xsl_correct","statement":"Path(_read_xsl(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4af107abd0024320"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.mathml._read_xsl","kind":"function","src_hash":"9e9a966d0096ff77","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_read_xsl(xsl)","rhs":"<unspecified:_read_xsl>","over":{"base":"Any"},"name":"_read_xsl_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.mathml._read_xsl_correct","statement":"Path(_read_xsl(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4af107abd0024320","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _read_xsl(xsl):
     # Previously these values were allowed:
     if xsl == 'mathml/data/simple_mmlctop.xsl':
@@ -101,16 +122,22 @@ def _read_xsl(xsl):
 
 @doctest_depends_on(modules=('lxml',))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(apply_xsl(mml), apply a xsl to a mathml string) over Any ║
+# ║ Path(apply_xsl(mml, xsl), <unspecified:apply_xsl>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ apply_xsl : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lxml.__module__                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟡 LIBRARY | library_axiom | Compiled: ✓ | f517888a9d61...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.mathml.apply_xsl","kind":"function","src_hash":"b91dd7b5ed8d3085","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"apply_xsl(mml)","rhs":"apply a xsl to a mathml string","over":{"base":"Any"},"name":"apply_xsl_correct"},"guarantee":"apply a xsl to a mathml string","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.mathml.apply_xsl_correct","statement":"Path(apply_xsl(x), apply a xsl to a mathml string)"},"assumes":[],"trust":["lxml.__module__"],"compiled":true,"vhash":"f517888a9d6183ad"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.mathml.apply_xsl","kind":"function","src_hash":"b91dd7b5ed8d3085","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"apply_xsl(mml, xsl)","rhs":"<unspecified:apply_xsl>","over":{"base":"Any"},"name":"apply_xsl_correct"},"guarantee":"apply a xsl to a mathml string","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.mathml.apply_xsl_correct","statement":"Path(apply_xsl(x), apply a xsl to a mathml string)"},"assumes":[],"trust":["lxml.__module__"],"compiled":true,"vhash":"f517888a9d6183ad","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def apply_xsl(mml, xsl):
     """Apply a xsl to a MathML string.
 
@@ -160,16 +187,23 @@ def apply_xsl(mml, xsl):
 
 @doctest_depends_on(modules=('lxml',))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(c2p(mml), transforms a document in mathml content (like the one that sympy produces) in one document in mathml presentation, more suitable for printing, and more widely accepted) over Any ║
+# ║ Path(c2p(mml, simple), <unspecified:c2p>) over {Any | hasattr(mml, 'startswith')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ c2p : Any → Any                                            ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(mml, 'startswith')                     ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ c2p : {Any | hasattr(mml, 'startswith')} → Any             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 290e1427d3f42f92  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.mathml.c2p","kind":"function","src_hash":"18ca614d11fe02a2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"c2p(mml)","rhs":"transforms a document in mathml content (like the one that sympy produces) in one document in mathml presentation, more suitable for printing, and more widely accepted","over":{"base":"Any"},"name":"c2p_correct"},"guarantee":"transforms a document in mathml content (like the one that sympy produces) in one document in mathml presentation, more suitable for printing, and more widely accepted","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.mathml.c2p_correct","statement":"Path(c2p(x), transforms a document in mathml content (like the one that sympy produces) in one document in mathml presentation, more suitable for printing, and more widely accepted)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"290e1427d3f42f92"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.mathml.c2p","kind":"function","src_hash":"18ca614d11fe02a2","in":{"base":"Any","pred":"hasattr(mml, 'startswith')"},"out":{"base":"Any"},"spec":{"lhs":"c2p(mml, simple)","rhs":"<unspecified:c2p>","over":{"base":"Any","pred":"hasattr(mml, 'startswith')"},"name":"c2p_correct"},"guarantee":"transforms a document in mathml content (like the one that sympy produces) in one document in mathml presentation, more suitable for printing, and more widely accepted","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.mathml.c2p_correct","statement":"Path(c2p(x), transforms a document in mathml content (like the one that sympy produces) in one document in mathml presentation, more suitable for printing, and more widely accepted)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"290e1427d3f42f92","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(mml, 'startswith')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["mml.startswith"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def c2p(mml, simple=False):
     """Transforms a document in MathML content (like the one that sympy produces)
     in one document in MathML presentation, more suitable for printing, and more

@@ -24,9 +24,17 @@ from sympy import Symbol
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_is_tensor_eq(arg), internal helper behaves correctly) over {Any | isinstance(arg1, TensExpr)} ║
+# ║ Path(_is_tensor_eq(arg1, arg2), result == (arg1.equals(arg2) if isinstance(arg1, TensExpr) else arg2.equals(arg1)) and result == arg1.equals(arg2) or result == arg2.equals(arg1)) over {Any | isinstance(arg1, TensExpr) and hasattr(arg1, 'equals') and hasattr(arg2, 'equals')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _is_tensor_eq : {Any | isinstance(arg1, TensExpr)} → Any   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(arg1, 'equals')                        ║
+# ║   requires: hasattr(arg2, 'equals')                        ║
+# ║   ensures:  result == (arg1.equals(arg2) if isinstanc...   ║
+# ║   ensures:  result == arg1.equals(arg2) or result == ...   ║
+# ║   fiber[TensExpr]: isinstance(arg1, TensExpr) => arg1...   ║
+# ║   fiber[TensExpr]: isinstance(arg2, TensExpr) => arg2...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _is_tensor_eq : {Any | isinstance(arg1, TensExpr) and...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   TensExpr: {isinstance(arg1, TensExpr)} → library_axiom   ║
@@ -36,9 +44,12 @@ from sympy import Symbol
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.3ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | f7786187...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.hep.tests.test_gamma_matrices._is_tensor_eq","kind":"function","src_hash":"bdff82c4dbc85992","in":{"base":"Any","pred":"isinstance(arg1, TensExpr)"},"out":{"base":"Any"},"spec":{"lhs":"_is_tensor_eq(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any","pred":"isinstance(arg1, TensExpr)"},"name":"_is_tensor_eq_correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"TensExpr","pred":"isinstance(arg1, TensExpr)","path":{"lhs":"_is_tensor_eq(x)","rhs":"internal helper behaves correctly","over":{"base":"TensExpr","pred":"isinstance(arg1, TensExpr)"},"name":"_is_tensor_eq_TensExpr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.hep.tests.test_gamma_matrices._is_tensor_eq_TensExpr_correct","statement":"_is_tensor_eq satisfies spec on TensExpr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"f77861877e07dae0"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.hep.tests.test_gamma_matrices._is_tensor_eq","kind":"function","src_hash":"bdff82c4dbc85992","in":{"base":"Any","pred":"isinstance(arg1, TensExpr) and hasattr(arg1, 'equals') and hasattr(arg2, 'equals')"},"out":{"base":"Any","pred":"result satisfies: result == (arg1.equals(arg2) if isinstance(arg1, TensExpr) else arg2.equals(arg1)) and result == arg1.equals(arg2) or result == arg2.equals(arg1)"},"spec":{"lhs":"_is_tensor_eq(arg1, arg2)","rhs":"result == (arg1.equals(arg2) if isinstance(arg1, TensExpr) else arg2.equals(arg1)) and result == arg1.equals(arg2) or result == arg2.equals(arg1)","over":{"base":"Any","pred":"isinstance(arg1, TensExpr) and hasattr(arg1, 'equals') and hasattr(arg2, 'equals')"},"name":"_is_tensor_eq_correct"},"guarantee":"result == (arg1.equals(arg2) if isinstance(arg1, TensExpr) else arg2.equals(arg1)); result == arg1.equals(arg2) or result == arg2.equals(arg1); 2-fiber decomposition","fibers":[{"name":"TensExpr","pred":"isinstance(arg1, TensExpr)","path":{"lhs":"_is_tensor_eq(x)","rhs":"result == (arg1.equals(arg2) if isinstance(arg1, TensExpr) else arg2.equals(arg1)); result == arg1.equals(arg2) or result == arg2.equals(arg1); 2-fiber decomposition","over":{"base":"TensExpr","pred":"isinstance(arg1, TensExpr)"},"name":"_is_tensor_eq_TensExpr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.hep.tests.test_gamma_matrices._is_tensor_eq_TensExpr_correct","statement":"_is_tensor_eq satisfies spec on TensExpr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"f77861877e07dae0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(arg1, 'equals')","hasattr(arg2, 'equals')"],"ensures":["result == (arg1.equals(arg2) if isinstance(arg1, TensExpr) else arg2.equals(arg1))","result == arg1.equals(arg2) or result == arg2.equals(arg1)"],"fibers":[{"name":"TensExpr","guard":"isinstance(arg1, TensExpr)","ensures":["result == arg1.equals(arg2)"],"decidability":"structural","returns_expr":"arg1.equals(arg2)"},{"name":"TensExpr","guard":"isinstance(arg2, TensExpr)","ensures":["result == arg2.equals(arg1)"],"decidability":"structural","returns_expr":"arg2.equals(arg1)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["arg1.equals","arg2.equals"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.3,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(arg1, TensExpr)', 'isinstance(arg2, TensExpr)'}, fibers={'TensExpr'})"]}}
 def _is_tensor_eq(arg1, arg2):
     arg1 = canon_bp(arg1)
     arg2 = canon_bp(arg2)
@@ -49,16 +60,24 @@ def _is_tensor_eq(arg1, arg2):
     return arg1 == arg2
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(execute_gamma_simplify_tests_for_function(tfu), perform tests to check if sfunc is able to simplify gamma matrix expressions) over Any ║
+# ║ Path(execute_gamma_simplify_tests_for_function(tfunc, D), _is_tensor_eq(tfunc(t), ts) and _is_tensor_eq(tfunc(t), -2 * G(sigma) * G(rho) * G(nu) + (4 - D) * G(nu) * G(rho) * G(sigma)) and _is_tensor_eq(tfunc(t), (2 - D) * G(nu)) and _is_tensor_eq(tfunc(t), 2 * G(nu) * G(rho) + 2 * G(rho) * G(nu) - (4 - D) * G(nu) * G(rho)) and _is_tensor_eq(st, D * (-2 * D + 4) * G(m2)) and _is_tensor_eq(st, (-D + 2) ** 2 * G(m1)) and _is_tensor_eq(st, (D - 4) * G(m0) * G(m2) * G(m3) + 4 * G(m0) * g(m2, m3)) and _is_tensor_eq(st, (D - 4) ** 2 * G(m2) * G(m3) + (8 * D - 16) * g(m2, m3)) and _is_tensor_eq(st, ((-D + 2) * (D - 4) + 4) * G(m1)) and _is_tensor_eq(st, (-4 * D + (-D + 2) ** 2 * (D - 4) + 8) * G(m1)) and _is_tensor_eq(st, (-2 * D + 8) * G(m1) * G(m2) * G(m3) - 4 * G(m3) * G(m2) * G(m1)) and _is_tensor_eq(st, (-D + 2) * (-D + 4) * G(m5) * G(m1) * G(m2) * G(m3) + (2 * D - 4) * G(m5) * G(m3) * G(m2) * G(m1)) and _is_tensor_eq(st, (D - 4) * G(m1) * G(m2) * G(m3) * G(m4) + 2 * G(m3) * G(m2) * G(m1) * G(m4)) and _is_tensor_eq(st, t)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  _is_tensor_eq(tfunc(t), ts)                    ║
+# ║   ensures:  _is_tensor_eq(tfunc(t), -2 * G(sigma) * G...   ║
+# ║   ensures:  _is_tensor_eq(tfunc(t), (2 - D) * G(nu))       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ execute_gamma_simplify_tests_for_function : Any → {An...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 15286675ab9fc314  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 3.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2c3867385f4a25ae  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.hep.tests.test_gamma_matrices.execute_gamma_simplify_tests_for_function","kind":"function","src_hash":"026f4c3a46651413","in":{"base":"Any"},"out":{"base":"Any","pred":"_is_tensor_eq(tfunc(t), ts) and _is_tensor_eq(tfunc(t), ts) and _is_tensor_eq(tfunc(t), ts) and _is_tensor_eq(tfunc(t), ts) and _is_tensor_eq(tfunc(t), ts) and _is_tensor_eq(tfunc(t), ts) and _is_tensor_eq(tfunc(t), ts) and _is_tensor_eq(tfunc(t), ts) and _is_tensor_eq(tfunc(t), ts) and _is_tensor_eq(tfunc(t), ts) and _is_tensor_eq(tfunc(t), ts) and _is_tensor_eq(tfunc(t), ts) and _is_tensor_eq(tfunc(t), (2 - D) * G(nu)) and _is_tensor_eq(st, D * (-2 * D + 4) * G(m2)) and _is_tensor_eq(st, (-D + 2) ** 2 * G(m1)) and _is_tensor_eq(st, (D - 4) * G(m0) * G(m2) * G(m3) + 4 * G(m0) * g(m2, m3)) and _is_tensor_eq(st, (D - 4) ** 2 * G(m2) * G(m3) + (8 * D - 16) * g(m2, m3)) and _is_tensor_eq(st, ((-D + 2) * (D - 4) + 4) * G(m1)) and _is_tensor_eq(st, (-4 * D + (-D + 2) ** 2 * (D - 4) + 8) * G(m1)) and _is_tensor_eq(st, t) and _is_tensor_eq(st, t) and _is_tensor_eq(st, t) and _is_tensor_eq(st, result1) or _is_tensor_eq(st, result2) and _is_tensor_eq(st, result1)"},"spec":{"lhs":"execute_gamma_simplify_tests_for_function(tfu)","rhs":"perform tests to check if sfunc is able to simplify gamma matrix expressions","over":{"base":"Any"},"name":"execute_gamma_simplify_tests_for_function_correct"},"guarantee":"perform tests to check if sfunc is able to simplify gamma matrix expressions","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.hep.tests.test_gamma_matrices.execute_gamma_simplify_tests_for_function_correct","statement":"Path(execute_gamma_simplify_tests_for_function(x), perform tests to check if sfunc is able to simplify gamma matrix expressions)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"15286675ab9fc314"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.hep.tests.test_gamma_matrices.execute_gamma_simplify_tests_for_function","kind":"function","src_hash":"026f4c3a46651413","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: _is_tensor_eq(tfunc(t), ts) and _is_tensor_eq(tfunc(t), -2 * G(sigma) * G(rho) * G(nu) + (4 - D) * G(nu) * G(rho) * G(sigma)) and _is_tensor_eq(tfunc(t), (2 - D) * G(nu)) and _is_tensor_eq(tfunc(t), 2 * G(nu) * G(rho) + 2 * G(rho) * G(nu) - (4 - D) * G(nu) * G(rho)) and _is_tensor_eq(st, D * (-2 * D + 4) * G(m2)) and _is_tensor_eq(st, (-D + 2) ** 2 * G(m1)) and _is_tensor_eq(st, (D - 4) * G(m0) * G(m2) * G(m3) + 4 * G(m0) * g(m2, m3)) and _is_tensor_eq(st, (D - 4) ** 2 * G(m2) * G(m3) + (8 * D - 16) * g(m2, m3)) and _is_tensor_eq(st, ((-D + 2) * (D - 4) + 4) * G(m1)) and _is_tensor_eq(st, (-4 * D + (-D + 2) ** 2 * (D - 4) + 8) * G(m1)) and _is_tensor_eq(st, (-2 * D + 8) * G(m1) * G(m2) * G(m3) - 4 * G(m3) * G(m2) * G(m1)) and _is_tensor_eq(st, (-D + 2) * (-D + 4) * G(m5) * G(m1) * G(m2) * G(m3) + (2 * D - 4) * G(m5) * G(m3) * G(m2) * G(m1)) and _is_tensor_eq(st, (D - 4) * G(m1) * G(m2) * G(m3) * G(m4) + 2 * G(m3) * G(m2) * G(m1) * G(m4)) and _is_tensor_eq(st, t)"},"spec":{"lhs":"execute_gamma_simplify_tests_for_function(tfunc, D)","rhs":"_is_tensor_eq(tfunc(t), ts) and _is_tensor_eq(tfunc(t), -2 * G(sigma) * G(rho) * G(nu) + (4 - D) * G(nu) * G(rho) * G(sigma)) and _is_tensor_eq(tfunc(t), (2 - D) * G(nu)) and _is_tensor_eq(tfunc(t), 2 * G(nu) * G(rho) + 2 * G(rho) * G(nu) - (4 - D) * G(nu) * G(rho)) and _is_tensor_eq(st, D * (-2 * D + 4) * G(m2)) and _is_tensor_eq(st, (-D + 2) ** 2 * G(m1)) and _is_tensor_eq(st, (D - 4) * G(m0) * G(m2) * G(m3) + 4 * G(m0) * g(m2, m3)) and _is_tensor_eq(st, (D - 4) ** 2 * G(m2) * G(m3) + (8 * D - 16) * g(m2, m3)) and _is_tensor_eq(st, ((-D + 2) * (D - 4) + 4) * G(m1)) and _is_tensor_eq(st, (-4 * D + (-D + 2) ** 2 * (D - 4) + 8) * G(m1)) and _is_tensor_eq(st, (-2 * D + 8) * G(m1) * G(m2) * G(m3) - 4 * G(m3) * G(m2) * G(m1)) and _is_tensor_eq(st, (-D + 2) * (-D + 4) * G(m5) * G(m1) * G(m2) * G(m3) + (2 * D - 4) * G(m5) * G(m3) * G(m2) * G(m1)) and _is_tensor_eq(st, (D - 4) * G(m1) * G(m2) * G(m3) * G(m4) + 2 * G(m3) * G(m2) * G(m1) * G(m4)) and _is_tensor_eq(st, t)","over":{"base":"Any"},"name":"execute_gamma_simplify_tests_for_function_correct"},"guarantee":"_is_tensor_eq(tfunc(t), ts); _is_tensor_eq(tfunc(t), -2 * G(sigma) * G(rho) * G(nu) + (4 - D) * G(nu) * G(rho) * G(sigma)); _is_tensor_eq(tfunc(t), (2 - D) * G(nu))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.hep.tests.test_gamma_matrices.execute_gamma_simplify_tests_for_function_correct","statement":"Path(execute_gamma_simplify_tests_for_function(x), _is_tensor_eq(tfunc(t), ts); _is_tensor_eq(tfunc(t), -2 * G(sigma) * G(rho) * G(nu) + (4 - D) * G(nu) * G(rho) * G(sigma)); _is_tensor_eq(tfunc(t), (2 - D) * G(nu)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2c3867385f4a25ae","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["_is_tensor_eq(tfunc(t), ts)","_is_tensor_eq(tfunc(t), -2 * G(sigma) * G(rho) * G(nu) + (4 - D) * G(nu) * G(rho) * G(sigma))","_is_tensor_eq(tfunc(t), (2 - D) * G(nu))","_is_tensor_eq(tfunc(t), 2 * G(nu) * G(rho) + 2 * G(rho) * G(nu) - (4 - D) * G(nu) * G(rho))","_is_tensor_eq(st, D * (-2 * D + 4) * G(m2))","_is_tensor_eq(st, (-D + 2) ** 2 * G(m1))","_is_tensor_eq(st, (D - 4) * G(m0) * G(m2) * G(m3) + 4 * G(m0) * g(m2, m3))","_is_tensor_eq(st, (D - 4) ** 2 * G(m2) * G(m3) + (8 * D - 16) * g(m2, m3))","_is_tensor_eq(st, ((-D + 2) * (D - 4) + 4) * G(m1))","_is_tensor_eq(st, (-4 * D + (-D + 2) ** 2 * (D - 4) + 8) * G(m1))","_is_tensor_eq(st, (-2 * D + 8) * G(m1) * G(m2) * G(m3) - 4 * G(m3) * G(m2) * G(m1))","_is_tensor_eq(st, (-D + 2) * (-D + 4) * G(m5) * G(m1) * G(m2) * G(m3) + (2 * D - 4) * G(m5) * G(m3) * G(m2) * G(m1))","_is_tensor_eq(st, (D - 4) * G(m1) * G(m2) * G(m3) * G(m4) + 2 * G(m3) * G(m2) * G(m1) * G(m4))","_is_tensor_eq(st, t)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":3.3,"verdict_class":"assumed","binding":true}}
 def execute_gamma_simplify_tests_for_function(tfunc, D):
     """
     Perform tests to check if sfunc is able to simplify gamma matrix expressions.
@@ -229,16 +248,22 @@ def execute_gamma_simplify_tests_for_function(tfunc, D):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_kahane_algorithm(), test_kahane_algorithm produces the expected output) over Any ║
+# ║ Path(test_kahane_algorithm(), _simplify_single_line(e)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _simplify_single_line(e)                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_kahane_algorithm : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a6b4aa8c9c07c0ec  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c4fca2d62e6d6918  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.hep.tests.test_gamma_matrices.test_kahane_algorithm","kind":"function","src_hash":"d6de30b2bb48ab35","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_kahane_algorithm()","rhs":"test_kahane_algorithm produces the expected output","over":{"base":"Any"},"name":"test_kahane_algorithm_correct"},"guarantee":"test_kahane_algorithm produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.hep.tests.test_gamma_matrices.test_kahane_algorithm_correct","statement":"Path(test_kahane_algorithm(x), test_kahane_algorithm produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a6b4aa8c9c07c0ec"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.hep.tests.test_gamma_matrices.test_kahane_algorithm","kind":"function","src_hash":"d6de30b2bb48ab35","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_kahane_algorithm()","rhs":"_simplify_single_line(e)","over":{"base":"Any"},"name":"test_kahane_algorithm_correct"},"guarantee":"returns _simplify_single_line(e)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.hep.tests.test_gamma_matrices.test_kahane_algorithm_correct","statement":"Path(test_kahane_algorithm(x), returns _simplify_single_line(e))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c4fca2d62e6d6918","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_simplify_single_line(e)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_kahane_algorithm():
     # Wrap this function to convert to and from TIDS:
 
@@ -249,16 +274,24 @@ def test_kahane_algorithm():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_kahane_simplify1(), test_kahane_simplify1 produces the expected output) over Any ║
+# ║ Path(test_kahane_simplify1(), r.equals(t) and r.equals(-2 * G(i1)) and r.equals(4 * eye(4)) and r.equals((2 * D - D ** 2) * eye(4)) and r.equals(16 * eye(4)) and r.equals(D ** 2 * eye(4)) and r.equals((4 * D - 4 * D ** 2 + D ** 3) * eye(4)) and r.equals((-16 * D + 24 * D ** 2 - 8 * D ** 3 + D ** 4) * eye(4)) and r.equals((8 * D - 12 * D ** 2 + 6 * D ** 3 - D ** 4) * eye(4)) and r.equals(-2 * G(sigma) * G(rho) * G(nu)) and r.equals(4 * G(rho) * G(sigma))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_kahane_simplify1 : Any → {Any | r.equals(t) and ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  r.equals(t)                                    ║
+# ║   ensures:  r.equals(-2 * G(i1))                           ║
+# ║   ensures:  r.equals(4 * eye(4))                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_kahane_simplify1 : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eb3da1245def3dfd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 386ddb93a7ad42b6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.hep.tests.test_gamma_matrices.test_kahane_simplify1","kind":"function","src_hash":"af79351005996ed7","in":{"base":"Any"},"out":{"base":"Any","pred":"r.equals(t) and r.equals(-2 * G(i1)) and r.equals(-2 * G(i1)) and r.equals(t) and r.equals(t) and r.equals(4 * eye(4)) and r.equals(4 * eye(4)) and r.equals(4 * eye(4)) and r.equals(-2 * G(i1)) and r.equals((2 * D - D ** 2) * eye(4)) and r.equals((2 * D - D ** 2) * eye(4)) and r.equals(16 * eye(4)) and r.equals(D ** 2 * eye(4)) and r.equals(D ** 2 * eye(4)) and r.equals(D ** 2 * eye(4)) and r.equals((4 * D - 4 * D ** 2 + D ** 3) * eye(4)) and r.equals((-16 * D + 24 * D ** 2 - 8 * D ** 3 + D ** 4) * eye(4)) and r.equals((8 * D - 12 * D ** 2 + 6 * D ** 3 - D ** 4) * eye(4)) and r.equals(-2 * G(sigma) * G(rho) * G(nu)) and r.equals(4 * G(rho) * G(sigma)) and r.equals(4 * G(rho) * G(sigma))"},"spec":{"lhs":"test_kahane_simplify1()","rhs":"test_kahane_simplify1 produces the expected output","over":{"base":"Any"},"name":"test_kahane_simplify1_correct"},"guarantee":"test_kahane_simplify1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.hep.tests.test_gamma_matrices.test_kahane_simplify1_correct","statement":"Path(test_kahane_simplify1(x), test_kahane_simplify1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eb3da1245def3dfd"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.hep.tests.test_gamma_matrices.test_kahane_simplify1","kind":"function","src_hash":"af79351005996ed7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: r.equals(t) and r.equals(-2 * G(i1)) and r.equals(4 * eye(4)) and r.equals((2 * D - D ** 2) * eye(4)) and r.equals(16 * eye(4)) and r.equals(D ** 2 * eye(4)) and r.equals((4 * D - 4 * D ** 2 + D ** 3) * eye(4)) and r.equals((-16 * D + 24 * D ** 2 - 8 * D ** 3 + D ** 4) * eye(4)) and r.equals((8 * D - 12 * D ** 2 + 6 * D ** 3 - D ** 4) * eye(4)) and r.equals(-2 * G(sigma) * G(rho) * G(nu)) and r.equals(4 * G(rho) * G(sigma))"},"spec":{"lhs":"test_kahane_simplify1()","rhs":"r.equals(t) and r.equals(-2 * G(i1)) and r.equals(4 * eye(4)) and r.equals((2 * D - D ** 2) * eye(4)) and r.equals(16 * eye(4)) and r.equals(D ** 2 * eye(4)) and r.equals((4 * D - 4 * D ** 2 + D ** 3) * eye(4)) and r.equals((-16 * D + 24 * D ** 2 - 8 * D ** 3 + D ** 4) * eye(4)) and r.equals((8 * D - 12 * D ** 2 + 6 * D ** 3 - D ** 4) * eye(4)) and r.equals(-2 * G(sigma) * G(rho) * G(nu)) and r.equals(4 * G(rho) * G(sigma))","over":{"base":"Any"},"name":"test_kahane_simplify1_correct"},"guarantee":"r.equals(t); r.equals(-2 * G(i1)); r.equals(4 * eye(4))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.hep.tests.test_gamma_matrices.test_kahane_simplify1_correct","statement":"Path(test_kahane_simplify1(x), r.equals(t); r.equals(-2 * G(i1)); r.equals(4 * eye(4)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"386ddb93a7ad42b6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["r.equals(t)","r.equals(-2 * G(i1))","r.equals(4 * eye(4))","r.equals((2 * D - D ** 2) * eye(4))","r.equals(16 * eye(4))","r.equals(D ** 2 * eye(4))","r.equals((4 * D - 4 * D ** 2 + D ** 3) * eye(4))","r.equals((-16 * D + 24 * D ** 2 - 8 * D ** 3 + D ** 4) * eye(4))","r.equals((8 * D - 12 * D ** 2 + 6 * D ** 3 - D ** 4) * eye(4))","r.equals(-2 * G(sigma) * G(rho) * G(nu))","r.equals(4 * G(rho) * G(sigma))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.3,"verdict_class":"assumed","binding":true}}
 def test_kahane_simplify1():
     i0,i1,i2,i3,i4,i5,i6,i7,i8,i9,i10,i11,i12,i13,i14,i15 = tensor_indices('i0:16', LorentzIndex)
     mu, nu, rho, sigma = tensor_indices("mu, nu, rho, sigma", LorentzIndex)
@@ -332,16 +365,23 @@ def test_kahane_simplify1():
     assert r.equals(4*G(rho)*G(sigma))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_gamma_matrix_class(), test_gamma_matrix_class produces the expected output) over Any ║
+# ║ Path(test_gamma_matrix_class(), _is_tensor_eq(ts, Matrix([[4, 0, 0, 0], [0, 4, 0, 0], [0, 0, 4, 0], [0, 0, 0, 4]]) * A(k)) and _is_tensor_eq(ts, A(k) * G(i) * G(j))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_gamma_matrix_class : Any → {Any | _is_tensor_eq(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  _is_tensor_eq(ts, Matrix([[4, 0, 0, 0], [...   ║
+# ║   ensures:  _is_tensor_eq(ts, A(k) * G(i) * G(j))          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_gamma_matrix_class : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cda9fa6632c767aa  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 81e5277b9bbb0241  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.hep.tests.test_gamma_matrices.test_gamma_matrix_class","kind":"function","src_hash":"cc3afbc500076411","in":{"base":"Any"},"out":{"base":"Any","pred":"_is_tensor_eq(ts, A(k) * G(i) * G(j))"},"spec":{"lhs":"test_gamma_matrix_class()","rhs":"test_gamma_matrix_class produces the expected output","over":{"base":"Any"},"name":"test_gamma_matrix_class_correct"},"guarantee":"test_gamma_matrix_class produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.hep.tests.test_gamma_matrices.test_gamma_matrix_class_correct","statement":"Path(test_gamma_matrix_class(x), test_gamma_matrix_class produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cda9fa6632c767aa"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.hep.tests.test_gamma_matrices.test_gamma_matrix_class","kind":"function","src_hash":"cc3afbc500076411","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: _is_tensor_eq(ts, Matrix([[4, 0, 0, 0], [0, 4, 0, 0], [0, 0, 4, 0], [0, 0, 0, 4]]) * A(k)) and _is_tensor_eq(ts, A(k) * G(i) * G(j))"},"spec":{"lhs":"test_gamma_matrix_class()","rhs":"_is_tensor_eq(ts, Matrix([[4, 0, 0, 0], [0, 4, 0, 0], [0, 0, 4, 0], [0, 0, 0, 4]]) * A(k)) and _is_tensor_eq(ts, A(k) * G(i) * G(j))","over":{"base":"Any"},"name":"test_gamma_matrix_class_correct"},"guarantee":"_is_tensor_eq(ts, Matrix([[4, 0, 0, 0], [0, 4, 0, 0], [0, 0, 4, 0], [0, 0, 0, 4]]) * A(k)); _is_tensor_eq(ts, A(k) * G(i) * G(j))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.hep.tests.test_gamma_matrices.test_gamma_matrix_class_correct","statement":"Path(test_gamma_matrix_class(x), _is_tensor_eq(ts, Matrix([[4, 0, 0, 0], [0, 4, 0, 0], [0, 0, 4, 0], [0, 0, 0, 4]]) * A(k)); _is_tensor_eq(ts, A(k) * G(i) * G(j)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"81e5277b9bbb0241","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["_is_tensor_eq(ts, Matrix([[4, 0, 0, 0], [0, 4, 0, 0], [0, 0, 4, 0], [0, 0, 0, 4]]) * A(k))","_is_tensor_eq(ts, A(k) * G(i) * G(j))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_gamma_matrix_class():
     i, j, k = tensor_indices('i,j,k', LorentzIndex)
 
@@ -364,16 +404,24 @@ def test_gamma_matrix_class():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_gamma_matrix_trace(), test_gamma_matrix_trace produces the expected output) over Any ║
+# ║ Path(test_gamma_matrix_trace(), t1.equals(0) and _is_tensor_eq(t1, 4 * g(m0, m1)) and _is_tensor_eq(t1, t2) and _is_tensor_eq(t2, D * gamma_trace(G(m1) * G(m2) * G(m3) * G(m4))) and t1.equals(4 * D) and t1.equals(8 * D - 4 * D ** 2) and t1.equals((-4 * D + 8) * g(m1, m3)) and t1.equals(-4 * D ** 6 + 120 * D ** 5 - 1040 * D ** 4 + 3360 * D ** 3 - 4480 * D ** 2 + 2048 * D) and t1.equals(tresu) and _is_tensor_eq(t1, c1 * g(n1, n4) * g(n2, n3) + c2 * g(n1, n2) * g(n3, n4) + -c1 * g(n1, n3) * g(n2, n4)) and _is_tensor_eq(r, 8 * pq * pq - 4 * p2 * q2) and _is_tensor_eq(r, -12 * p2 * pq * q2 + 16 * pq * pq * pq) and _is_tensor_eq(r, -32 * pq * pq * p2 * q2 + 32 * pq * pq * pq * pq + 4 * p2 * p2 * q2 * q2) and _is_tensor_eq(gamma_trace(t), t) and r.equals(4 * p2 * p2 * p2 * p2)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_gamma_matrix_trace : Any → {Any | t1.equals(0) a...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  t1.equals(0)                                   ║
+# ║   ensures:  _is_tensor_eq(t1, 4 * g(m0, m1))               ║
+# ║   ensures:  _is_tensor_eq(t1, t2)                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_gamma_matrix_trace : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a27cf192921d15c2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.8ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6ba048afd5965529  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.hep.tests.test_gamma_matrices.test_gamma_matrix_trace","kind":"function","src_hash":"fb18660385a22591","in":{"base":"Any"},"out":{"base":"Any","pred":"t1.equals(0) and t1.equals(0) and t1.equals(0) and t1.equals(0) and _is_tensor_eq(t1, 4 * g(m0, m1)) and _is_tensor_eq(t1, t2) and _is_tensor_eq(t2, D * gamma_trace(G(m1) * G(m2) * G(m3) * G(m4))) and t1.equals(4 * D) and t1.equals(8 * D - 4 * D ** 2) and _is_tensor_eq(t1, t2) and _is_tensor_eq(t1, t2) and t1.equals((-4 * D + 8) * g(m1, m3)) and t1.equals(tresu) and _is_tensor_eq(r, 8 * pq * pq - 4 * p2 * q2) and _is_tensor_eq(r, -12 * p2 * pq * q2 + 16 * pq * pq * pq) and _is_tensor_eq(gamma_trace(t), t) and r.equals(4 * p2 * p2 * p2 * p2)"},"spec":{"lhs":"test_gamma_matrix_trace()","rhs":"test_gamma_matrix_trace produces the expected output","over":{"base":"Any"},"name":"test_gamma_matrix_trace_correct"},"guarantee":"test_gamma_matrix_trace produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.hep.tests.test_gamma_matrices.test_gamma_matrix_trace_correct","statement":"Path(test_gamma_matrix_trace(x), test_gamma_matrix_trace produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a27cf192921d15c2"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.hep.tests.test_gamma_matrices.test_gamma_matrix_trace","kind":"function","src_hash":"fb18660385a22591","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: t1.equals(0) and _is_tensor_eq(t1, 4 * g(m0, m1)) and _is_tensor_eq(t1, t2) and _is_tensor_eq(t2, D * gamma_trace(G(m1) * G(m2) * G(m3) * G(m4))) and t1.equals(4 * D) and t1.equals(8 * D - 4 * D ** 2) and t1.equals((-4 * D + 8) * g(m1, m3)) and t1.equals(-4 * D ** 6 + 120 * D ** 5 - 1040 * D ** 4 + 3360 * D ** 3 - 4480 * D ** 2 + 2048 * D) and t1.equals(tresu) and _is_tensor_eq(t1, c1 * g(n1, n4) * g(n2, n3) + c2 * g(n1, n2) * g(n3, n4) + -c1 * g(n1, n3) * g(n2, n4)) and _is_tensor_eq(r, 8 * pq * pq - 4 * p2 * q2) and _is_tensor_eq(r, -12 * p2 * pq * q2 + 16 * pq * pq * pq) and _is_tensor_eq(r, -32 * pq * pq * p2 * q2 + 32 * pq * pq * pq * pq + 4 * p2 * p2 * q2 * q2) and _is_tensor_eq(gamma_trace(t), t) and r.equals(4 * p2 * p2 * p2 * p2)"},"spec":{"lhs":"test_gamma_matrix_trace()","rhs":"t1.equals(0) and _is_tensor_eq(t1, 4 * g(m0, m1)) and _is_tensor_eq(t1, t2) and _is_tensor_eq(t2, D * gamma_trace(G(m1) * G(m2) * G(m3) * G(m4))) and t1.equals(4 * D) and t1.equals(8 * D - 4 * D ** 2) and t1.equals((-4 * D + 8) * g(m1, m3)) and t1.equals(-4 * D ** 6 + 120 * D ** 5 - 1040 * D ** 4 + 3360 * D ** 3 - 4480 * D ** 2 + 2048 * D) and t1.equals(tresu) and _is_tensor_eq(t1, c1 * g(n1, n4) * g(n2, n3) + c2 * g(n1, n2) * g(n3, n4) + -c1 * g(n1, n3) * g(n2, n4)) and _is_tensor_eq(r, 8 * pq * pq - 4 * p2 * q2) and _is_tensor_eq(r, -12 * p2 * pq * q2 + 16 * pq * pq * pq) and _is_tensor_eq(r, -32 * pq * pq * p2 * q2 + 32 * pq * pq * pq * pq + 4 * p2 * p2 * q2 * q2) and _is_tensor_eq(gamma_trace(t), t) and r.equals(4 * p2 * p2 * p2 * p2)","over":{"base":"Any"},"name":"test_gamma_matrix_trace_correct"},"guarantee":"t1.equals(0); _is_tensor_eq(t1, 4 * g(m0, m1)); _is_tensor_eq(t1, t2)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.hep.tests.test_gamma_matrices.test_gamma_matrix_trace_correct","statement":"Path(test_gamma_matrix_trace(x), t1.equals(0); _is_tensor_eq(t1, 4 * g(m0, m1)); _is_tensor_eq(t1, t2))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6ba048afd5965529","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["t1.equals(0)","_is_tensor_eq(t1, 4 * g(m0, m1))","_is_tensor_eq(t1, t2)","_is_tensor_eq(t2, D * gamma_trace(G(m1) * G(m2) * G(m3) * G(m4)))","t1.equals(4 * D)","t1.equals(8 * D - 4 * D ** 2)","t1.equals((-4 * D + 8) * g(m1, m3))","t1.equals(-4 * D ** 6 + 120 * D ** 5 - 1040 * D ** 4 + 3360 * D ** 3 - 4480 * D ** 2 + 2048 * D)","t1.equals(tresu)","_is_tensor_eq(t1, c1 * g(n1, n4) * g(n2, n3) + c2 * g(n1, n2) * g(n3, n4) + -c1 * g(n1, n3) * g(n2, n4))","_is_tensor_eq(r, 8 * pq * pq - 4 * p2 * q2)","_is_tensor_eq(r, -12 * p2 * pq * q2 + 16 * pq * pq * pq)","_is_tensor_eq(r, -32 * pq * pq * p2 * q2 + 32 * pq * pq * pq * pq + 4 * p2 * p2 * q2 * q2)","_is_tensor_eq(gamma_trace(t), t)","r.equals(4 * p2 * p2 * p2 * p2)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.8,"verdict_class":"assumed","binding":true}}
 def test_gamma_matrix_trace():
     g = LorentzIndex.metric
 
@@ -493,16 +541,24 @@ def test_gamma_matrix_trace():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_bug_13636(), test issue 13636 regarding handling traces of sums of products of gammamatrix mixed with other factors) over Any ║
+# ║ Path(test_bug_13636(), ta == 4 * (-4 * ki(i0) * ki(-i0) * pf(i1) * pi(-i1) + 8 * ki(i0) * ki(i1) * pf(-i0) * pi(-i1)) and tb == -8 * x * ki(i0) * pf(-i0) * pi(i1) * pi(-i1) and t_a_plus_b == ta + tb) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_bug_13636 : Any → {Any | tb == -8 * x * ki(i0) *...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  ta == 4 * (-4 * ki(i0) * ki(-i0) * pf(i1)...   ║
+# ║   ensures:  tb == -8 * x * ki(i0) * pf(-i0) * pi(i1) ...   ║
+# ║   ensures:  t_a_plus_b == ta + tb                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_bug_13636 : Any → {Any | result satisfies: ta ==...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1e1e7e82711af311  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f9384f2c61e78230  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.hep.tests.test_gamma_matrices.test_bug_13636","kind":"function","src_hash":"e998962419c46c35","in":{"base":"Any"},"out":{"base":"Any","pred":"tb == -8 * x * ki(i0) * pf(-i0) * pi(i1) * pi(-i1) and t_a_plus_b == ta + tb"},"spec":{"lhs":"test_bug_13636()","rhs":"test issue 13636 regarding handling traces of sums of products of gammamatrix mixed with other factors","over":{"base":"Any"},"name":"test_bug_13636_correct"},"guarantee":"test issue 13636 regarding handling traces of sums of products of gammamatrix mixed with other factors","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.hep.tests.test_gamma_matrices.test_bug_13636_correct","statement":"Path(test_bug_13636(x), test issue 13636 regarding handling traces of sums of products of gammamatrix mixed with other factors)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1e1e7e82711af311"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.hep.tests.test_gamma_matrices.test_bug_13636","kind":"function","src_hash":"e998962419c46c35","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: ta == 4 * (-4 * ki(i0) * ki(-i0) * pf(i1) * pi(-i1) + 8 * ki(i0) * ki(i1) * pf(-i0) * pi(-i1)) and tb == -8 * x * ki(i0) * pf(-i0) * pi(i1) * pi(-i1) and t_a_plus_b == ta + tb"},"spec":{"lhs":"test_bug_13636()","rhs":"ta == 4 * (-4 * ki(i0) * ki(-i0) * pf(i1) * pi(-i1) + 8 * ki(i0) * ki(i1) * pf(-i0) * pi(-i1)) and tb == -8 * x * ki(i0) * pf(-i0) * pi(i1) * pi(-i1) and t_a_plus_b == ta + tb","over":{"base":"Any"},"name":"test_bug_13636_correct"},"guarantee":"ta == 4 * (-4 * ki(i0) * ki(-i0) * pf(i1) * pi(-i1) + 8 * ki(i0) * ki(i1) * pf(-i0) * pi(-i1)); tb == -8 * x * ki(i0) * pf(-i0) * pi(i1) * pi(-i1); t_a_plus_b == ta + tb","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.hep.tests.test_gamma_matrices.test_bug_13636_correct","statement":"Path(test_bug_13636(x), ta == 4 * (-4 * ki(i0) * ki(-i0) * pf(i1) * pi(-i1) + 8 * ki(i0) * ki(i1) * pf(-i0) * pi(-i1)); tb == -8 * x * ki(i0) * pf(-i0) * pi(i1) * pi(-i1); t_a_plus_b == ta + tb)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f9384f2c61e78230","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["ta == 4 * (-4 * ki(i0) * ki(-i0) * pf(i1) * pi(-i1) + 8 * ki(i0) * ki(i1) * pf(-i0) * pi(-i1))","tb == -8 * x * ki(i0) * pf(-i0) * pi(i1) * pi(-i1)","t_a_plus_b == ta + tb"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_bug_13636():
     """Test issue 13636 regarding handling traces of sums of products
     of GammaMatrix mixed with other factors."""

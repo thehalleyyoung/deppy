@@ -24,14 +24,20 @@ from .sets import set_add, set_sub, set_mul, set_div, set_pow, set_function
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(SetExpr(*args), correctly constructs a SetExpr instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ SetExpr : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Expr)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ SetExpr : Any → {Any | result satisfies: isinstance(s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 17ac2bb15331ed58  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.setexpr.SetExpr","kind":"class","src_hash":"a62351627709c321","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"SetExpr(*args)","rhs":"correctly constructs a SetExpr instance","over":{"base":"Any"},"name":"SetExpr_class_invariant"},"guarantee":"correctly constructs a SetExpr instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"17ac2bb15331ed58"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.setexpr.SetExpr","kind":"class","src_hash":"a62351627709c321","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Expr)"},"spec":{"lhs":"SetExpr(*args)","rhs":"correctly constructs a SetExpr instance","over":{"base":"Any"},"name":"SetExpr_class_invariant"},"guarantee":"isinstance(self, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"17ac2bb15331ed58","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Expr)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":false,"binding_errors":["Function SetExpr not found in source"]}}
 class SetExpr(Expr):
     """An expression that can take on values of a set.
 
@@ -51,206 +57,285 @@ class SetExpr(Expr):
     _op_priority = 11.0
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, setarg), Expr.__new__(cls, setarg)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Expr.__new__(cls, setarg)                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | df9da59d1205da02           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.setexpr.SetExpr.__new__","kind":"method","src_hash":"1acec9058a39a225","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"df9da59d1205da02"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.setexpr.SetExpr.__new__","kind":"method","src_hash":"1acec9058a39a225","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, setarg)","rhs":"Expr.__new__(cls, setarg)","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"returns Expr.__new__(cls, setarg)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"df9da59d1205da02","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Expr.__new__(cls, setarg)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, setarg):
         return Expr.__new__(cls, setarg)
 
     set = property(lambda self: self.args[0])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_latex(pri), internal helper behaves correctly) over Any ║
+# ║ Path(_latex(printer), 'SetExpr\\left({}\\right)'.format(printer._print(self.set))) over {Any | hasattr(printer, '_print')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _latex : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(printer, '_print')                     ║
+# ║   returns:  'SetExpr\\left({}\\right)'.format(printer...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _latex : {Any | hasattr(printer, '_print')} → Any          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4b0d7ee65ae9da16           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.setexpr.SetExpr._latex","kind":"method","src_hash":"5a8b5a500101a70d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_latex(pri)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_latex_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4b0d7ee65ae9da16"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.setexpr.SetExpr._latex","kind":"method","src_hash":"5a8b5a500101a70d","in":{"base":"Any","pred":"hasattr(printer, '_print')"},"out":{"base":"Any"},"spec":{"lhs":"_latex(printer)","rhs":"'SetExpr\\\\left({}\\\\right)'.format(printer._print(self.set))","over":{"base":"Any","pred":"hasattr(printer, '_print')"},"name":"_latex_correct"},"guarantee":"returns 'SetExpr\\\\left({}\\\\right)'.format(printer._print(self.set))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4b0d7ee65ae9da16","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(printer, '_print')"],"returns_expr":"'SetExpr\\\\left({}\\\\right)'.format(printer._print(self.set))","pure":false,"effects":{"effect_type":"reads_state","reads":["printer._print","self.set"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _latex(self, printer):
         return r"SetExpr\left({}\right)".format(printer._print(self.set))
 
     @_sympifyit('other', NotImplemented)
     @call_highest_priority('__radd__')
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__add__(oth), returns the sum/concatenation) over Any ║
+# ║ Path(__add__(other), _setexpr_apply_operation(set_add, self, other)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _setexpr_apply_operation(set_add, self, o...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __add__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6afd3e5538fd4289           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.setexpr.SetExpr.__add__","kind":"method","src_hash":"badb2a6d4618a8ba","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__add__(oth)","rhs":"returns the sum/concatenation","over":{"base":"Any"},"name":"__add___correct"},"guarantee":"returns the sum/concatenation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6afd3e5538fd4289"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.setexpr.SetExpr.__add__","kind":"method","src_hash":"badb2a6d4618a8ba","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__add__(other)","rhs":"_setexpr_apply_operation(set_add, self, other)","over":{"base":"Any"},"name":"__add___correct"},"guarantee":"returns _setexpr_apply_operation(set_add, self, other)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6afd3e5538fd4289","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_setexpr_apply_operation(set_add, self, other)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __add__(self, other):
         return _setexpr_apply_operation(set_add, self, other)
 
     @_sympifyit('other', NotImplemented)
     @call_highest_priority('__add__')
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__radd__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__radd__(other), _setexpr_apply_operation(set_add, other, self)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _setexpr_apply_operation(set_add, other, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __radd__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a3f7d0e73fa3f63e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.setexpr.SetExpr.__radd__","kind":"method","src_hash":"5136f91024e85b2e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__radd__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__radd___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a3f7d0e73fa3f63e"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.setexpr.SetExpr.__radd__","kind":"method","src_hash":"5136f91024e85b2e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__radd__(other)","rhs":"_setexpr_apply_operation(set_add, other, self)","over":{"base":"Any"},"name":"__radd___correct"},"guarantee":"returns _setexpr_apply_operation(set_add, other, self)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a3f7d0e73fa3f63e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_setexpr_apply_operation(set_add, other, self)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __radd__(self, other):
         return _setexpr_apply_operation(set_add, other, self)
 
     @_sympifyit('other', NotImplemented)
     @call_highest_priority('__rmul__')
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__mul__(oth), returns the product) over Any           ║
+# ║ Path(__mul__(other), _setexpr_apply_operation(set_mul, self, other)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _setexpr_apply_operation(set_mul, self, o...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __mul__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4d789bd0364813eb           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.setexpr.SetExpr.__mul__","kind":"method","src_hash":"5d251477d8237ed7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__mul__(oth)","rhs":"returns the product","over":{"base":"Any"},"name":"__mul___correct"},"guarantee":"returns the product","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4d789bd0364813eb"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.setexpr.SetExpr.__mul__","kind":"method","src_hash":"5d251477d8237ed7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__mul__(other)","rhs":"_setexpr_apply_operation(set_mul, self, other)","over":{"base":"Any"},"name":"__mul___correct"},"guarantee":"returns _setexpr_apply_operation(set_mul, self, other)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4d789bd0364813eb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_setexpr_apply_operation(set_mul, self, other)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __mul__(self, other):
         return _setexpr_apply_operation(set_mul, self, other)
 
     @_sympifyit('other', NotImplemented)
     @call_highest_priority('__mul__')
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__rmul__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__rmul__(other), _setexpr_apply_operation(set_mul, other, self)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _setexpr_apply_operation(set_mul, other, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __rmul__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8b391730d75a9f1e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.setexpr.SetExpr.__rmul__","kind":"method","src_hash":"5d41f052cd702774","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rmul__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__rmul___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8b391730d75a9f1e"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.setexpr.SetExpr.__rmul__","kind":"method","src_hash":"5d41f052cd702774","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rmul__(other)","rhs":"_setexpr_apply_operation(set_mul, other, self)","over":{"base":"Any"},"name":"__rmul___correct"},"guarantee":"returns _setexpr_apply_operation(set_mul, other, self)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8b391730d75a9f1e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_setexpr_apply_operation(set_mul, other, self)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __rmul__(self, other):
         return _setexpr_apply_operation(set_mul, other, self)
 
     @_sympifyit('other', NotImplemented)
     @call_highest_priority('__rsub__')
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__sub__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__sub__(other), _setexpr_apply_operation(set_sub, self, other)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _setexpr_apply_operation(set_sub, self, o...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __sub__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 21a8c7aace9ab8e9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.setexpr.SetExpr.__sub__","kind":"method","src_hash":"198bc3ff4489c36b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__sub__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__sub___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"21a8c7aace9ab8e9"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.setexpr.SetExpr.__sub__","kind":"method","src_hash":"198bc3ff4489c36b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__sub__(other)","rhs":"_setexpr_apply_operation(set_sub, self, other)","over":{"base":"Any"},"name":"__sub___correct"},"guarantee":"returns _setexpr_apply_operation(set_sub, self, other)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"21a8c7aace9ab8e9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_setexpr_apply_operation(set_sub, self, other)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __sub__(self, other):
         return _setexpr_apply_operation(set_sub, self, other)
 
     @_sympifyit('other', NotImplemented)
     @call_highest_priority('__sub__')
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__rsub__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__rsub__(other), _setexpr_apply_operation(set_sub, other, self)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _setexpr_apply_operation(set_sub, other, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __rsub__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f51715a6824b323e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.setexpr.SetExpr.__rsub__","kind":"method","src_hash":"d27ed85e1c3dbb25","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rsub__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__rsub___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f51715a6824b323e"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.setexpr.SetExpr.__rsub__","kind":"method","src_hash":"d27ed85e1c3dbb25","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rsub__(other)","rhs":"_setexpr_apply_operation(set_sub, other, self)","over":{"base":"Any"},"name":"__rsub___correct"},"guarantee":"returns _setexpr_apply_operation(set_sub, other, self)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f51715a6824b323e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_setexpr_apply_operation(set_sub, other, self)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __rsub__(self, other):
         return _setexpr_apply_operation(set_sub, other, self)
 
     @_sympifyit('other', NotImplemented)
     @call_highest_priority('__rpow__')
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__pow__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__pow__(other), _setexpr_apply_operation(set_pow, self, other)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _setexpr_apply_operation(set_pow, self, o...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __pow__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8f35be1aa37a42c7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.setexpr.SetExpr.__pow__","kind":"method","src_hash":"258cbd96a062277b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__pow__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__pow___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8f35be1aa37a42c7"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.setexpr.SetExpr.__pow__","kind":"method","src_hash":"258cbd96a062277b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__pow__(other)","rhs":"_setexpr_apply_operation(set_pow, self, other)","over":{"base":"Any"},"name":"__pow___correct"},"guarantee":"returns _setexpr_apply_operation(set_pow, self, other)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8f35be1aa37a42c7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_setexpr_apply_operation(set_pow, self, other)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __pow__(self, other):
         return _setexpr_apply_operation(set_pow, self, other)
 
     @_sympifyit('other', NotImplemented)
     @call_highest_priority('__pow__')
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__rpow__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__rpow__(other), _setexpr_apply_operation(set_pow, other, self)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _setexpr_apply_operation(set_pow, other, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __rpow__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b5a4fd7fd6fbdc90           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.setexpr.SetExpr.__rpow__","kind":"method","src_hash":"37bb8e9e1919282b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rpow__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__rpow___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b5a4fd7fd6fbdc90"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.setexpr.SetExpr.__rpow__","kind":"method","src_hash":"37bb8e9e1919282b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rpow__(other)","rhs":"_setexpr_apply_operation(set_pow, other, self)","over":{"base":"Any"},"name":"__rpow___correct"},"guarantee":"returns _setexpr_apply_operation(set_pow, other, self)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b5a4fd7fd6fbdc90","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_setexpr_apply_operation(set_pow, other, self)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __rpow__(self, other):
         return _setexpr_apply_operation(set_pow, other, self)
 
     @_sympifyit('other', NotImplemented)
     @call_highest_priority('__rtruediv__')
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__truediv__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__truediv__(other), _setexpr_apply_operation(set_div, self, other)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _setexpr_apply_operation(set_div, self, o...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __truediv__ : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1fbed037f033e8a7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.setexpr.SetExpr.__truediv__","kind":"method","src_hash":"f0fe2fc0df6710e3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__truediv__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__truediv___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1fbed037f033e8a7"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.setexpr.SetExpr.__truediv__","kind":"method","src_hash":"f0fe2fc0df6710e3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__truediv__(other)","rhs":"_setexpr_apply_operation(set_div, self, other)","over":{"base":"Any"},"name":"__truediv___correct"},"guarantee":"returns _setexpr_apply_operation(set_div, self, other)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1fbed037f033e8a7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_setexpr_apply_operation(set_div, self, other)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __truediv__(self, other):
         return _setexpr_apply_operation(set_div, self, other)
 
     @_sympifyit('other', NotImplemented)
     @call_highest_priority('__truediv__')
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__rtruediv__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__rtruediv__(other), _setexpr_apply_operation(set_div, other, self)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _setexpr_apply_operation(set_div, other, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __rtruediv__ : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8057acec8f34c18d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.setexpr.SetExpr.__rtruediv__","kind":"method","src_hash":"07104d30dabb45f3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rtruediv__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__rtruediv___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8057acec8f34c18d"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.setexpr.SetExpr.__rtruediv__","kind":"method","src_hash":"07104d30dabb45f3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rtruediv__(other)","rhs":"_setexpr_apply_operation(set_div, other, self)","over":{"base":"Any"},"name":"__rtruediv___correct"},"guarantee":"returns _setexpr_apply_operation(set_div, other, self)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8057acec8f34c18d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_setexpr_apply_operation(set_div, other, self)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __rtruediv__(self, other):
         return _setexpr_apply_operation(set_div, other, self)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_func(fun), id) over Any                         ║
+# ║ Path(_eval_func(func), id) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_func : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 309ac1884d49a1cb   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.setexpr.SetExpr._eval_func","kind":"method","src_hash":"3fb485a8ed42115e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_func(fun)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_func_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"SetExpr","by":"library_axiom"},{"fn":"ImageSet","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"309ac1884d49a1cb"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.setexpr.SetExpr._eval_func","kind":"method","src_hash":"3fb485a8ed42115e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_func(func)","rhs":"<unspecified:_eval_func>","over":{"base":"Any"},"name":"_eval_func_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"SetExpr","by":"library_axiom"},{"fn":"ImageSet","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"309ac1884d49a1cb","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.set"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_func(self, func):
         # TODO: this could be implemented straight into `imageset`:
         res = set_function(func, self.set)
@@ -260,7 +345,12 @@ class SetExpr(Expr):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_setexpr_apply_operation(op,), internal helper behaves correctly) over {Any | isinstance(x, SetExpr)} ║
+# ║ Path(_setexpr_apply_operation(op, x, y), SetExpr(out)) over {Any | isinstance(x, SetExpr) and hasattr(x, 'set') and hasattr(y, 'set')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(x, 'set')                              ║
+# ║   requires: hasattr(y, 'set')                              ║
+# ║   returns:  SetExpr(out)                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _setexpr_apply_operation : {Any | isinstance(x, SetEx...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -272,9 +362,12 @@ class SetExpr(Expr):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.2ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 8e990c16...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.setexpr._setexpr_apply_operation","kind":"function","src_hash":"b20e52e53a717f18","in":{"base":"Any","pred":"isinstance(x, SetExpr)"},"out":{"base":"Any"},"spec":{"lhs":"_setexpr_apply_operation(op,)","rhs":"internal helper behaves correctly","over":{"base":"Any","pred":"isinstance(x, SetExpr)"},"name":"_setexpr_apply_operation_correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"SetExpr","pred":"isinstance(x, SetExpr)","path":{"lhs":"_setexpr_apply_operation(x)","rhs":"internal helper behaves correctly","over":{"base":"SetExpr","pred":"isinstance(x, SetExpr)"},"name":"_setexpr_apply_operation_SetExpr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.setexpr._setexpr_apply_operation_SetExpr_correct","statement":"_setexpr_apply_operation satisfies spec on SetExpr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"8e990c16252e4dba"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.setexpr._setexpr_apply_operation","kind":"function","src_hash":"b20e52e53a717f18","in":{"base":"Any","pred":"isinstance(x, SetExpr) and hasattr(x, 'set') and hasattr(y, 'set')"},"out":{"base":"Any"},"spec":{"lhs":"_setexpr_apply_operation(op, x, y)","rhs":"SetExpr(out)","over":{"base":"Any","pred":"isinstance(x, SetExpr) and hasattr(x, 'set') and hasattr(y, 'set')"},"name":"_setexpr_apply_operation_correct"},"guarantee":"returns SetExpr(out)","fibers":[{"name":"SetExpr","pred":"isinstance(x, SetExpr)","path":{"lhs":"_setexpr_apply_operation(x)","rhs":"returns SetExpr(out)","over":{"base":"SetExpr","pred":"isinstance(x, SetExpr)"},"name":"_setexpr_apply_operation_SetExpr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.setexpr._setexpr_apply_operation_SetExpr_correct","statement":"_setexpr_apply_operation satisfies spec on SetExpr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"8e990c16252e4dba","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(x, 'set')","hasattr(y, 'set')"],"returns_expr":"SetExpr(out)","pure":false,"effects":{"effect_type":"reads_state","reads":["x.set","y.set"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.2,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(y, SetExpr)', 'isinstance(x, SetExpr)'}, fibers={'SetExpr'})"]}}
 def _setexpr_apply_operation(op, x, y):
     if isinstance(x, SetExpr):
         x = x.set

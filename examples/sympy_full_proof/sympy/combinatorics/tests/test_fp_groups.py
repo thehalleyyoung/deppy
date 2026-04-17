@@ -41,16 +41,22 @@ http://staff.itee.uq.edu.au/havas/1973cdhw.pdf
 """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_low_index_subgroups(), test_low_index_subgroups produces the expected output) over Any ║
+# ║ Path(test_low_index_subgroups(), <unspecified:test_low_index_subgroups>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_low_index_subgroups : Any → {Any | L[i].table ==...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 2.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 131573363bebbad8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_fp_groups.test_low_index_subgroups","kind":"function","src_hash":"5123ee787e27ec64","in":{"base":"Any"},"out":{"base":"Any","pred":"L[i].table == t1[i] and L[i].table == t2[i] and L[i].table == t3[i]"},"spec":{"lhs":"test_low_index_subgroups()","rhs":"test_low_index_subgroups produces the expected output","over":{"base":"Any"},"name":"test_low_index_subgroups_correct"},"guarantee":"test_low_index_subgroups produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_fp_groups.test_low_index_subgroups_correct","statement":"Path(test_low_index_subgroups(x), test_low_index_subgroups produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"131573363bebbad8"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_fp_groups.test_low_index_subgroups","kind":"function","src_hash":"5123ee787e27ec64","in":{"base":"Any"},"out":{"base":"Any","pred":"L[i].table == t1[i] and L[i].table == t2[i] and L[i].table == t3[i]"},"spec":{"lhs":"test_low_index_subgroups()","rhs":"<unspecified:test_low_index_subgroups>","over":{"base":"Any"},"name":"test_low_index_subgroups_correct"},"guarantee":"test_low_index_subgroups produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_fp_groups.test_low_index_subgroups_correct","statement":"Path(test_low_index_subgroups(x), test_low_index_subgroups produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"131573363bebbad8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.4,"verdict_class":"assumed","binding":true}}
 def test_low_index_subgroups():
     F, x, y = free_group("x, y")
 
@@ -140,16 +146,24 @@ def test_low_index_subgroups():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_subgroup_presentations(), test_subgroup_presentations produces the expected output) over Any ║
+# ║ Path(test_subgroup_presentations(), str(p1) == '((y_1, y_2), (y_1**2, y_2**3, y_2*y_1*y_2*y_1*y_2*y_1))' and (H.generators, H.relators) == p1 and str(p2) == '((x_0, y_0), (x_0**3, y_0**3, x_0*y_0*x_0*y_0*x_0*y_0))' and str(p3) == '((x_0,), (x_0**4,))' and str(p4) == '((x_0,), (x_0**6,))' and str(gens) == '(b_1, c_3)' and len(rels) == 18) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_subgroup_presentations : Any → {Any | str(p1) ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(p1) == '((y_1, y_2), (y_1**2, y_2**3,...   ║
+# ║   ensures:  (H.generators, H.relators) == p1               ║
+# ║   ensures:  str(p2) == '((x_0, y_0), (x_0**3, y_0**3,...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_subgroup_presentations : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a3a240dc7a8ece4a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ee03e6ea32660794  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_fp_groups.test_subgroup_presentations","kind":"function","src_hash":"282a950c2dd23d0e","in":{"base":"Any"},"out":{"base":"Any","pred":"str(p1) == '((y_1, y_2), (y_1**2, y_2**3, y_2*y_1*y_2*y_1*y_2*y_1))' and (H.generators, H.relators) == p1 and str(p2) == '((x_0, y_0), (x_0**3, y_0**3, x_0*y_0*x_0*y_0*x_0*y_0))' and str(p3) == '((x_0,), (x_0**4,))' and str(p4) == '((x_0,), (x_0**6,))' and str(gens) == '(b_1, c_3)' and len(rels) == 18"},"spec":{"lhs":"test_subgroup_presentations()","rhs":"test_subgroup_presentations produces the expected output","over":{"base":"Any"},"name":"test_subgroup_presentations_correct"},"guarantee":"test_subgroup_presentations produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_fp_groups.test_subgroup_presentations_correct","statement":"Path(test_subgroup_presentations(x), test_subgroup_presentations produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a3a240dc7a8ece4a"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_fp_groups.test_subgroup_presentations","kind":"function","src_hash":"282a950c2dd23d0e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(p1) == '((y_1, y_2), (y_1**2, y_2**3, y_2*y_1*y_2*y_1*y_2*y_1))' and (H.generators, H.relators) == p1 and str(p2) == '((x_0, y_0), (x_0**3, y_0**3, x_0*y_0*x_0*y_0*x_0*y_0))' and str(p3) == '((x_0,), (x_0**4,))' and str(p4) == '((x_0,), (x_0**6,))' and str(gens) == '(b_1, c_3)' and len(rels) == 18"},"spec":{"lhs":"test_subgroup_presentations()","rhs":"str(p1) == '((y_1, y_2), (y_1**2, y_2**3, y_2*y_1*y_2*y_1*y_2*y_1))' and (H.generators, H.relators) == p1 and str(p2) == '((x_0, y_0), (x_0**3, y_0**3, x_0*y_0*x_0*y_0*x_0*y_0))' and str(p3) == '((x_0,), (x_0**4,))' and str(p4) == '((x_0,), (x_0**6,))' and str(gens) == '(b_1, c_3)' and len(rels) == 18","over":{"base":"Any"},"name":"test_subgroup_presentations_correct"},"guarantee":"str(p1) == '((y_1, y_2), (y_1**2, y_2**3, y_2*y_1*y_2*y_1*y_2*y_1))'; (H.generators, H.relators) == p1; str(p2) == '((x_0, y_0), (x_0**3, y_0**3, x_0*y_0*x_0*y_0*x_0*y_0))'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_fp_groups.test_subgroup_presentations_correct","statement":"Path(test_subgroup_presentations(x), str(p1) == '((y_1, y_2), (y_1**2, y_2**3, y_2*y_1*y_2*y_1*y_2*y_1))'; (H.generators, H.relators) == p1; str(p2) == '((x_0, y_0), (x_0**3, y_0**3, x_0*y_0*x_0*y_0*x_0*y_0))')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ee03e6ea32660794","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(p1) == '((y_1, y_2), (y_1**2, y_2**3, y_2*y_1*y_2*y_1*y_2*y_1))'","(H.generators, H.relators) == p1","str(p2) == '((x_0, y_0), (x_0**3, y_0**3, x_0*y_0*x_0*y_0*x_0*y_0))'","str(p3) == '((x_0,), (x_0**4,))'","str(p4) == '((x_0,), (x_0**6,))'","str(gens) == '(b_1, c_3)'","len(rels) == 18"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_subgroup_presentations():
     F, x, y = free_group("x, y")
     f = FpGroup(F, [x**3, y**5, (x*y)**2])
@@ -189,16 +203,24 @@ def test_subgroup_presentations():
 
 @slow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_order(), test_order produces the expected output) over Any ║
+# ║ Path(test_order(), f.order() == 8 and f.order() is S.Infinity and f.order() == 2000 and f.order() == 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_order : Any → {Any | f.order() == 8 and f.order(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f.order() == 8                                 ║
+# ║   ensures:  f.order() is S.Infinity                        ║
+# ║   ensures:  f.order() == 2000                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_order : Any → {Any | result satisfies: f.order()...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1952faab3c0ee4fc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d11f3e1427140307  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_fp_groups.test_order","kind":"function","src_hash":"3721f7a2c3c8d81c","in":{"base":"Any"},"out":{"base":"Any","pred":"f.order() == 8 and f.order() is S.Infinity and f.order() == 2000 and f.order() is S.Infinity and f.order() == 1"},"spec":{"lhs":"test_order()","rhs":"test_order produces the expected output","over":{"base":"Any"},"name":"test_order_correct"},"guarantee":"test_order produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_fp_groups.test_order_correct","statement":"Path(test_order(x), test_order produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1952faab3c0ee4fc"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_fp_groups.test_order","kind":"function","src_hash":"3721f7a2c3c8d81c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f.order() == 8 and f.order() is S.Infinity and f.order() == 2000 and f.order() == 1"},"spec":{"lhs":"test_order()","rhs":"f.order() == 8 and f.order() is S.Infinity and f.order() == 2000 and f.order() == 1","over":{"base":"Any"},"name":"test_order_correct"},"guarantee":"f.order() == 8; f.order() is S.Infinity; f.order() == 2000","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_fp_groups.test_order_correct","statement":"Path(test_order(x), f.order() == 8; f.order() is S.Infinity; f.order() == 2000)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d11f3e1427140307","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f.order() == 8","f.order() is S.Infinity","f.order() == 2000","f.order() == 1"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_order():
     F, x, y = free_group("x, y")
     f = FpGroup(F, [x**4, y**2, x*y*x**-1*y])
@@ -219,16 +241,24 @@ def test_order():
     assert f.order() == 1
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_fp_subgroup(), test_fp_subgroup produces the expected output) over Any ║
+# ║ Path(test_fp_subgroup(), (x * y) ** (-3) in S and T(K.generators) == [y * x ** (-1)] and x ** (-1) * y ** 4 * x in S and x ** (-1) * y ** 4 * x ** 2 not in S and T(K.generators[0] ** 3) == y ** 3) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_fp_subgroup : Any → {Any | (x * y) ** (-3) in S ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (x * y) ** (-3) in S                           ║
+# ║   ensures:  T(K.generators) == [y * x ** (-1)]             ║
+# ║   ensures:  x ** (-1) * y ** 4 * x in S                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_fp_subgroup : Any → {Any | result satisfies: (x ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5f3a466939e750f2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ccfc2f19b71ffbfd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_fp_groups.test_fp_subgroup","kind":"function","src_hash":"f9b3023c67e359af","in":{"base":"Any"},"out":{"base":"Any","pred":"(x * y) ** (-3) in S and T(K.generators) == [y * x ** (-1)] and x ** (-1) * y ** 4 * x in S and x ** (-1) * y ** 4 * x ** 2 not in S and T(K.generators[0] ** 3) == y ** 3 and all((elem in S for elem in _gens)) and T.is_injective() and T.image().order() == S.order()"},"spec":{"lhs":"test_fp_subgroup()","rhs":"test_fp_subgroup produces the expected output","over":{"base":"Any"},"name":"test_fp_subgroup_correct"},"guarantee":"test_fp_subgroup produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_fp_groups.test_fp_subgroup_correct","statement":"Path(test_fp_subgroup(x), test_fp_subgroup produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5f3a466939e750f2"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_fp_groups.test_fp_subgroup","kind":"function","src_hash":"f9b3023c67e359af","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (x * y) ** (-3) in S and T(K.generators) == [y * x ** (-1)] and x ** (-1) * y ** 4 * x in S and x ** (-1) * y ** 4 * x ** 2 not in S and T(K.generators[0] ** 3) == y ** 3"},"spec":{"lhs":"test_fp_subgroup()","rhs":"(x * y) ** (-3) in S and T(K.generators) == [y * x ** (-1)] and x ** (-1) * y ** 4 * x in S and x ** (-1) * y ** 4 * x ** 2 not in S and T(K.generators[0] ** 3) == y ** 3","over":{"base":"Any"},"name":"test_fp_subgroup_correct"},"guarantee":"(x * y) ** (-3) in S; T(K.generators) == [y * x ** (-1)]; x ** (-1) * y ** 4 * x in S","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_fp_groups.test_fp_subgroup_correct","statement":"Path(test_fp_subgroup(x), (x * y) ** (-3) in S; T(K.generators) == [y * x ** (-1)]; x ** (-1) * y ** 4 * x in S)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ccfc2f19b71ffbfd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(x * y) ** (-3) in S","T(K.generators) == [y * x ** (-1)]","x ** (-1) * y ** 4 * x in S","x ** (-1) * y ** 4 * x ** 2 not in S","T(K.generators[0] ** 3) == y ** 3"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_fp_subgroup():
     def _test_subgroup(K, T, S):
         _gens = T(K.generators)
@@ -257,16 +287,24 @@ def test_fp_subgroup():
     _test_subgroup(K, T, S)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_permutation_methods(), test_permutation_methods produces the expected output) over Any ║
+# ║ Path(test_permutation_methods(), T.is_isomorphism() and G.center() == [y ** 4] and x in S and y ** (-1) * x * y in S and G.is_abelian and G.is_solvable and not G.is_solvable and len(G.derived_series()) == 3 and S.order() == 4) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_permutation_methods : Any → {Any | T.is_isomorph...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  T.is_isomorphism()                             ║
+# ║   ensures:  G.center() == [y ** 4]                         ║
+# ║   ensures:  x in S                                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_permutation_methods : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 314ccbbb8fb0e9cc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 65dfbd9921041b77  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_fp_groups.test_permutation_methods","kind":"function","src_hash":"b3708d2960ecc854","in":{"base":"Any"},"out":{"base":"Any","pred":"T.is_isomorphism() and G.center() == [y ** 4] and x in S and y ** (-1) * x * y in S and G.is_abelian and G.is_solvable and not G.is_solvable and len(G.derived_series()) == 3 and S.order() == 4"},"spec":{"lhs":"test_permutation_methods()","rhs":"test_permutation_methods produces the expected output","over":{"base":"Any"},"name":"test_permutation_methods_correct"},"guarantee":"test_permutation_methods produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_fp_groups.test_permutation_methods_correct","statement":"Path(test_permutation_methods(x), test_permutation_methods produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"314ccbbb8fb0e9cc"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_fp_groups.test_permutation_methods","kind":"function","src_hash":"b3708d2960ecc854","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: T.is_isomorphism() and G.center() == [y ** 4] and x in S and y ** (-1) * x * y in S and G.is_abelian and G.is_solvable and not G.is_solvable and len(G.derived_series()) == 3 and S.order() == 4"},"spec":{"lhs":"test_permutation_methods()","rhs":"T.is_isomorphism() and G.center() == [y ** 4] and x in S and y ** (-1) * x * y in S and G.is_abelian and G.is_solvable and not G.is_solvable and len(G.derived_series()) == 3 and S.order() == 4","over":{"base":"Any"},"name":"test_permutation_methods_correct"},"guarantee":"T.is_isomorphism(); G.center() == [y ** 4]; x in S","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_fp_groups.test_permutation_methods_correct","statement":"Path(test_permutation_methods(x), T.is_isomorphism(); G.center() == [y ** 4]; x in S)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"65dfbd9921041b77","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["T.is_isomorphism()","G.center() == [y ** 4]","x in S","y ** (-1) * x * y in S","G.is_abelian","G.is_solvable","not G.is_solvable","len(G.derived_series()) == 3","S.order() == 4"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_permutation_methods():
     F, x, y = free_group("x, y")
     # DihedralGroup(8)
@@ -298,16 +336,24 @@ def test_permutation_methods():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_simplify_presentation(), test_simplify_presentation produces the expected output) over Any ║
+# ║ Path(test_simplify_presentation(), not G.generators and not G.relators and x in G.relators) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_simplify_presentation : Any → {Any | not G.gener...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  not G.generators                               ║
+# ║   ensures:  not G.relators                                 ║
+# ║   ensures:  x in G.relators                                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_simplify_presentation : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4c9cdb0c54f25aa2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7ef1bfc4297457cf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_fp_groups.test_simplify_presentation","kind":"function","src_hash":"e20497759daf3391","in":{"base":"Any"},"out":{"base":"Any","pred":"not G.generators and not G.relators and x in G.relators"},"spec":{"lhs":"test_simplify_presentation()","rhs":"test_simplify_presentation produces the expected output","over":{"base":"Any"},"name":"test_simplify_presentation_correct"},"guarantee":"test_simplify_presentation produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_fp_groups.test_simplify_presentation_correct","statement":"Path(test_simplify_presentation(x), test_simplify_presentation produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4c9cdb0c54f25aa2"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_fp_groups.test_simplify_presentation","kind":"function","src_hash":"e20497759daf3391","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: not G.generators and not G.relators and x in G.relators"},"spec":{"lhs":"test_simplify_presentation()","rhs":"not G.generators and not G.relators and x in G.relators","over":{"base":"Any"},"name":"test_simplify_presentation_correct"},"guarantee":"not G.generators; not G.relators; x in G.relators","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_fp_groups.test_simplify_presentation_correct","statement":"Path(test_simplify_presentation(x), not G.generators; not G.relators; x in G.relators)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7ef1bfc4297457cf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["not G.generators","not G.relators","x in G.relators"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_simplify_presentation():
     # ref #16083
     G = simplify_presentation(FpGroup(FreeGroup([]), []))
@@ -321,16 +367,23 @@ def test_simplify_presentation():
     assert x in G.relators
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_cyclic(), test_cyclic produces the expected output) over Any ║
+# ║ Path(test_cyclic(), f.is_cyclic and not f.is_cyclic) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_cyclic : Any → {Any | f.is_cyclic and f.is_cycli...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f.is_cyclic                                    ║
+# ║   ensures:  not f.is_cyclic                                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_cyclic : Any → {Any | result satisfies: f.is_cyc...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e967911506a12584  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 806ba0171ad963ac  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_fp_groups.test_cyclic","kind":"function","src_hash":"e251345906ed2a37","in":{"base":"Any"},"out":{"base":"Any","pred":"f.is_cyclic and f.is_cyclic and not f.is_cyclic"},"spec":{"lhs":"test_cyclic()","rhs":"test_cyclic produces the expected output","over":{"base":"Any"},"name":"test_cyclic_correct"},"guarantee":"test_cyclic produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_fp_groups.test_cyclic_correct","statement":"Path(test_cyclic(x), test_cyclic produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e967911506a12584"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_fp_groups.test_cyclic","kind":"function","src_hash":"e251345906ed2a37","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f.is_cyclic and not f.is_cyclic"},"spec":{"lhs":"test_cyclic()","rhs":"f.is_cyclic and not f.is_cyclic","over":{"base":"Any"},"name":"test_cyclic_correct"},"guarantee":"f.is_cyclic; not f.is_cyclic","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_fp_groups.test_cyclic_correct","statement":"Path(test_cyclic(x), f.is_cyclic; not f.is_cyclic)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"806ba0171ad963ac","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f.is_cyclic","not f.is_cyclic"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_cyclic():
     F, x, y = free_group("x, y")
     f = FpGroup(F, [x*y, x**-1*y**-1*x*y*x])
@@ -342,16 +395,24 @@ def test_cyclic():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_abelian_invariants(), test_abelian_invariants produces the expected output) over Any ║
+# ║ Path(test_abelian_invariants(), f.abelian_invariants() == [] and f.abelian_invariants() == [2] and f.abelian_invariants() == [2, 4]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_abelian_invariants : Any → {Any | f.abelian_inva...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f.abelian_invariants() == []                   ║
+# ║   ensures:  f.abelian_invariants() == [2]                  ║
+# ║   ensures:  f.abelian_invariants() == [2, 4]               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_abelian_invariants : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 104e1591a99446a4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6ac32118c14043b8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_fp_groups.test_abelian_invariants","kind":"function","src_hash":"70412cd51e395715","in":{"base":"Any"},"out":{"base":"Any","pred":"f.abelian_invariants() == [] and f.abelian_invariants() == [2] and f.abelian_invariants() == [2, 4]"},"spec":{"lhs":"test_abelian_invariants()","rhs":"test_abelian_invariants produces the expected output","over":{"base":"Any"},"name":"test_abelian_invariants_correct"},"guarantee":"test_abelian_invariants produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_fp_groups.test_abelian_invariants_correct","statement":"Path(test_abelian_invariants(x), test_abelian_invariants produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"104e1591a99446a4"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_fp_groups.test_abelian_invariants","kind":"function","src_hash":"70412cd51e395715","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f.abelian_invariants() == [] and f.abelian_invariants() == [2] and f.abelian_invariants() == [2, 4]"},"spec":{"lhs":"test_abelian_invariants()","rhs":"f.abelian_invariants() == [] and f.abelian_invariants() == [2] and f.abelian_invariants() == [2, 4]","over":{"base":"Any"},"name":"test_abelian_invariants_correct"},"guarantee":"f.abelian_invariants() == []; f.abelian_invariants() == [2]; f.abelian_invariants() == [2, 4]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_fp_groups.test_abelian_invariants_correct","statement":"Path(test_abelian_invariants(x), f.abelian_invariants() == []; f.abelian_invariants() == [2]; f.abelian_invariants() == [2, 4])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6ac32118c14043b8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f.abelian_invariants() == []","f.abelian_invariants() == [2]","f.abelian_invariants() == [2, 4]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_abelian_invariants():
     F, x, y = free_group("x, y")
     f = FpGroup(F, [x*y, x**-1*y**-1*x*y*x])

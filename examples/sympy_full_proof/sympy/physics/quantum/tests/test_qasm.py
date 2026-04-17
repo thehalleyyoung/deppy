@@ -22,16 +22,22 @@ from sympy.physics.quantum.gate import CNOT, SWAP, CPHASE, CGate, CGateS
 from sympy.physics.quantum.circuitplot import Mz
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_qasm_readqasm(), test_qasm_readqasm produces the expected output) over Any ║
+# ║ Path(test_qasm_readqasm(), q.get_circuit() == CNOT(1, 0) * H(1)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_qasm_readqasm : Any → {Any | q.get_circuit() == ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  q.get_circuit() == CNOT(1, 0) * H(1)           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_qasm_readqasm : Any → {Any | result satisfies: q...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b2b7590c125dfd4d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c3317709fbc75aa3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_qasm.test_qasm_readqasm","kind":"function","src_hash":"cfea2b0d36f99810","in":{"base":"Any"},"out":{"base":"Any","pred":"q.get_circuit() == CNOT(1, 0) * H(1)"},"spec":{"lhs":"test_qasm_readqasm()","rhs":"test_qasm_readqasm produces the expected output","over":{"base":"Any"},"name":"test_qasm_readqasm_correct"},"guarantee":"test_qasm_readqasm produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_qasm.test_qasm_readqasm_correct","statement":"Path(test_qasm_readqasm(x), test_qasm_readqasm produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b2b7590c125dfd4d"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_qasm.test_qasm_readqasm","kind":"function","src_hash":"cfea2b0d36f99810","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: q.get_circuit() == CNOT(1, 0) * H(1)"},"spec":{"lhs":"test_qasm_readqasm()","rhs":"q.get_circuit() == CNOT(1, 0) * H(1)","over":{"base":"Any"},"name":"test_qasm_readqasm_correct"},"guarantee":"q.get_circuit() == CNOT(1, 0) * H(1)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_qasm.test_qasm_readqasm_correct","statement":"Path(test_qasm_readqasm(x), q.get_circuit() == CNOT(1, 0) * H(1))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c3317709fbc75aa3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["q.get_circuit() == CNOT(1, 0) * H(1)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_qasm_readqasm():
     qasm_lines = """\
     qubit q_0
@@ -43,31 +49,43 @@ def test_qasm_readqasm():
     assert q.get_circuit() == CNOT(1,0)*H(1)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_qasm_ex1(), test_qasm_ex1 produces the expected output) over Any ║
+# ║ Path(test_qasm_ex1(), q.get_circuit() == CNOT(1, 0) * H(1)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_qasm_ex1 : Any → {Any | q.get_circuit() == CNOT(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  q.get_circuit() == CNOT(1, 0) * H(1)           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_qasm_ex1 : Any → {Any | result satisfies: q.get_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0cfc4ae8de9bceb3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ce0a0e7a3df9016f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_qasm.test_qasm_ex1","kind":"function","src_hash":"7a8fb42a70ec458d","in":{"base":"Any"},"out":{"base":"Any","pred":"q.get_circuit() == CNOT(1, 0) * H(1)"},"spec":{"lhs":"test_qasm_ex1()","rhs":"test_qasm_ex1 produces the expected output","over":{"base":"Any"},"name":"test_qasm_ex1_correct"},"guarantee":"test_qasm_ex1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_qasm.test_qasm_ex1_correct","statement":"Path(test_qasm_ex1(x), test_qasm_ex1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0cfc4ae8de9bceb3"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_qasm.test_qasm_ex1","kind":"function","src_hash":"7a8fb42a70ec458d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: q.get_circuit() == CNOT(1, 0) * H(1)"},"spec":{"lhs":"test_qasm_ex1()","rhs":"q.get_circuit() == CNOT(1, 0) * H(1)","over":{"base":"Any"},"name":"test_qasm_ex1_correct"},"guarantee":"q.get_circuit() == CNOT(1, 0) * H(1)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_qasm.test_qasm_ex1_correct","statement":"Path(test_qasm_ex1(x), q.get_circuit() == CNOT(1, 0) * H(1))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ce0a0e7a3df9016f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["q.get_circuit() == CNOT(1, 0) * H(1)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_qasm_ex1():
     q = Qasm('qubit q0', 'qubit q1', 'h q0', 'cnot q0,q1')
     assert q.get_circuit() == CNOT(1,0)*H(1)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_qasm_ex1_methodcalls(), test_qasm_ex1_methodcalls produces the expected output) over Any ║
+# ║ Path(test_qasm_ex1_methodcalls(), q.get_circuit() == CNOT(1, 0) * H(1)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_qasm_ex1_methodcalls : Any → {Any | q.get_circui...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  q.get_circuit() == CNOT(1, 0) * H(1)           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_qasm_ex1_methodcalls : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | df9c0b39cc7181e5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7dc8b482160b9777  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_qasm.test_qasm_ex1_methodcalls","kind":"function","src_hash":"6872f221cac84942","in":{"base":"Any"},"out":{"base":"Any","pred":"q.get_circuit() == CNOT(1, 0) * H(1)"},"spec":{"lhs":"test_qasm_ex1_methodcalls()","rhs":"test_qasm_ex1_methodcalls produces the expected output","over":{"base":"Any"},"name":"test_qasm_ex1_methodcalls_correct"},"guarantee":"test_qasm_ex1_methodcalls produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_qasm.test_qasm_ex1_methodcalls_correct","statement":"Path(test_qasm_ex1_methodcalls(x), test_qasm_ex1_methodcalls produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"df9c0b39cc7181e5"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_qasm.test_qasm_ex1_methodcalls","kind":"function","src_hash":"6872f221cac84942","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: q.get_circuit() == CNOT(1, 0) * H(1)"},"spec":{"lhs":"test_qasm_ex1_methodcalls()","rhs":"q.get_circuit() == CNOT(1, 0) * H(1)","over":{"base":"Any"},"name":"test_qasm_ex1_methodcalls_correct"},"guarantee":"q.get_circuit() == CNOT(1, 0) * H(1)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_qasm.test_qasm_ex1_methodcalls_correct","statement":"Path(test_qasm_ex1_methodcalls(x), q.get_circuit() == CNOT(1, 0) * H(1))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7dc8b482160b9777","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["q.get_circuit() == CNOT(1, 0) * H(1)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_qasm_ex1_methodcalls():
     q = Qasm()
     q.qubit('q_0')
@@ -77,32 +95,44 @@ def test_qasm_ex1_methodcalls():
     assert q.get_circuit() == CNOT(1,0)*H(1)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_qasm_swap(), test_qasm_swap produces the expected output) over Any ║
+# ║ Path(test_qasm_swap(), q.get_circuit() == CNOT(1, 0) * CNOT(0, 1) * CNOT(1, 0)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_qasm_swap : Any → {Any | q.get_circuit() == CNOT...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  q.get_circuit() == CNOT(1, 0) * CNOT(0, 1...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_qasm_swap : Any → {Any | result satisfies: q.get...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 75ac801121bc0e5d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 17b3c90f8155b05d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_qasm.test_qasm_swap","kind":"function","src_hash":"6b87042903ecb15e","in":{"base":"Any"},"out":{"base":"Any","pred":"q.get_circuit() == CNOT(1, 0) * CNOT(0, 1) * CNOT(1, 0)"},"spec":{"lhs":"test_qasm_swap()","rhs":"test_qasm_swap produces the expected output","over":{"base":"Any"},"name":"test_qasm_swap_correct"},"guarantee":"test_qasm_swap produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_qasm.test_qasm_swap_correct","statement":"Path(test_qasm_swap(x), test_qasm_swap produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"75ac801121bc0e5d"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_qasm.test_qasm_swap","kind":"function","src_hash":"6b87042903ecb15e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: q.get_circuit() == CNOT(1, 0) * CNOT(0, 1) * CNOT(1, 0)"},"spec":{"lhs":"test_qasm_swap()","rhs":"q.get_circuit() == CNOT(1, 0) * CNOT(0, 1) * CNOT(1, 0)","over":{"base":"Any"},"name":"test_qasm_swap_correct"},"guarantee":"q.get_circuit() == CNOT(1, 0) * CNOT(0, 1) * CNOT(1, 0)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_qasm.test_qasm_swap_correct","statement":"Path(test_qasm_swap(x), q.get_circuit() == CNOT(1, 0) * CNOT(0, 1) * CNOT(1, 0))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"17b3c90f8155b05d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["q.get_circuit() == CNOT(1, 0) * CNOT(0, 1) * CNOT(1, 0)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_qasm_swap():
     q = Qasm('qubit q0', 'qubit q1', 'cnot q0,q1', 'cnot q1,q0', 'cnot q0,q1')
     assert q.get_circuit() == CNOT(1,0)*CNOT(0,1)*CNOT(1,0)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_qasm_ex2(), test_qasm_ex2 produces the expected output) over Any ║
+# ║ Path(test_qasm_ex2(), q.get_circuit() == CGate(2, Z(0)) * CGate(1, X(0)) * Mz(2) * Mz(1) * H(2) * CNOT(2, 1) * CNOT(1, 0) * H(1)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_qasm_ex2 : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  q.get_circuit() == CGate(2, Z(0)) * CGate...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_qasm_ex2 : Any → {Any | result satisfies: q.get_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7b013989fe6baa27  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4380935da170dc87  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_qasm.test_qasm_ex2","kind":"function","src_hash":"bda9281c48805988","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_qasm_ex2()","rhs":"test_qasm_ex2 produces the expected output","over":{"base":"Any"},"name":"test_qasm_ex2_correct"},"guarantee":"test_qasm_ex2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_qasm.test_qasm_ex2_correct","statement":"Path(test_qasm_ex2(x), test_qasm_ex2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7b013989fe6baa27"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_qasm.test_qasm_ex2","kind":"function","src_hash":"bda9281c48805988","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: q.get_circuit() == CGate(2, Z(0)) * CGate(1, X(0)) * Mz(2) * Mz(1) * H(2) * CNOT(2, 1) * CNOT(1, 0) * H(1)"},"spec":{"lhs":"test_qasm_ex2()","rhs":"q.get_circuit() == CGate(2, Z(0)) * CGate(1, X(0)) * Mz(2) * Mz(1) * H(2) * CNOT(2, 1) * CNOT(1, 0) * H(1)","over":{"base":"Any"},"name":"test_qasm_ex2_correct"},"guarantee":"q.get_circuit() == CGate(2, Z(0)) * CGate(1, X(0)) * Mz(2) * Mz(1) * H(2) * CNOT(2, 1) * CNOT(1, 0) * H(1)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_qasm.test_qasm_ex2_correct","statement":"Path(test_qasm_ex2(x), q.get_circuit() == CGate(2, Z(0)) * CGate(1, X(0)) * Mz(2) * Mz(1) * H(2) * CNOT(2, 1) * CNOT(1, 0) * H(1))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4380935da170dc87","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["q.get_circuit() == CGate(2, Z(0)) * CGate(1, X(0)) * Mz(2) * Mz(1) * H(2) * CNOT(2, 1) * CNOT(1, 0) * H(1)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_qasm_ex2():
     q = Qasm('qubit q_0', 'qubit q_1', 'qubit q_2', 'h  q_1',
              'cnot q_1,q_2', 'cnot q_0,q_1', 'h q_0',
@@ -111,168 +141,242 @@ def test_qasm_ex2():
     assert q.get_circuit() == CGate(2,Z(0))*CGate(1,X(0))*Mz(2)*Mz(1)*H(2)*CNOT(2,1)*CNOT(1,0)*H(1)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_qasm_1q(), test_qasm_1q produces the expected output) over Any ║
+# ║ Path(test_qasm_1q(), <unspecified:test_qasm_1q>) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_qasm_1q : Any → {Any | q.get_circuit() == gate(0)}    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7d946483345aecfb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_qasm.test_qasm_1q","kind":"function","src_hash":"9584440c6fb7f132","in":{"base":"Any"},"out":{"base":"Any","pred":"q.get_circuit() == gate(0)"},"spec":{"lhs":"test_qasm_1q()","rhs":"test_qasm_1q produces the expected output","over":{"base":"Any"},"name":"test_qasm_1q_correct"},"guarantee":"test_qasm_1q produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_qasm.test_qasm_1q_correct","statement":"Path(test_qasm_1q(x), test_qasm_1q produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7d946483345aecfb"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_qasm.test_qasm_1q","kind":"function","src_hash":"9584440c6fb7f132","in":{"base":"Any"},"out":{"base":"Any","pred":"q.get_circuit() == gate(0)"},"spec":{"lhs":"test_qasm_1q()","rhs":"<unspecified:test_qasm_1q>","over":{"base":"Any"},"name":"test_qasm_1q_correct"},"guarantee":"test_qasm_1q produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_qasm.test_qasm_1q_correct","statement":"Path(test_qasm_1q(x), test_qasm_1q produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7d946483345aecfb","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_qasm_1q():
     for symbol, gate in [('x', X), ('z', Z), ('h', H), ('s', S), ('t', T), ('measure', Mz)]:
         q = Qasm('qubit q_0', '%s q_0' % symbol)
         assert q.get_circuit() == gate(0)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_qasm_2q(), test_qasm_2q produces the expected output) over Any ║
+# ║ Path(test_qasm_2q(), <unspecified:test_qasm_2q>) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_qasm_2q : Any → {Any | q.get_circuit() == gate(1...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f38301212e229695  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_qasm.test_qasm_2q","kind":"function","src_hash":"8a8a3af49859530d","in":{"base":"Any"},"out":{"base":"Any","pred":"q.get_circuit() == gate(1, 0)"},"spec":{"lhs":"test_qasm_2q()","rhs":"test_qasm_2q produces the expected output","over":{"base":"Any"},"name":"test_qasm_2q_correct"},"guarantee":"test_qasm_2q produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_qasm.test_qasm_2q_correct","statement":"Path(test_qasm_2q(x), test_qasm_2q produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f38301212e229695"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_qasm.test_qasm_2q","kind":"function","src_hash":"8a8a3af49859530d","in":{"base":"Any"},"out":{"base":"Any","pred":"q.get_circuit() == gate(1, 0)"},"spec":{"lhs":"test_qasm_2q()","rhs":"<unspecified:test_qasm_2q>","over":{"base":"Any"},"name":"test_qasm_2q_correct"},"guarantee":"test_qasm_2q produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_qasm.test_qasm_2q_correct","statement":"Path(test_qasm_2q(x), test_qasm_2q produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f38301212e229695","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_qasm_2q():
     for symbol, gate in [('cnot', CNOT), ('swap', SWAP), ('cphase', CPHASE)]:
         q = Qasm('qubit q_0', 'qubit q_1', '%s q_0,q_1' % symbol)
         assert q.get_circuit() == gate(1,0)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_qasm_3q(), test_qasm_3q produces the expected output) over Any ║
+# ║ Path(test_qasm_3q(), q.get_circuit() == CGateS((0, 1), X(2))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_qasm_3q : Any → {Any | q.get_circuit() == CGateS...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  q.get_circuit() == CGateS((0, 1), X(2))        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_qasm_3q : Any → {Any | result satisfies: q.get_c...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6ab583066ffde29d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0dcbd02239232545  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_qasm.test_qasm_3q","kind":"function","src_hash":"51cfa0fee0760a96","in":{"base":"Any"},"out":{"base":"Any","pred":"q.get_circuit() == CGateS((0, 1), X(2))"},"spec":{"lhs":"test_qasm_3q()","rhs":"test_qasm_3q produces the expected output","over":{"base":"Any"},"name":"test_qasm_3q_correct"},"guarantee":"test_qasm_3q produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_qasm.test_qasm_3q_correct","statement":"Path(test_qasm_3q(x), test_qasm_3q produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6ab583066ffde29d"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_qasm.test_qasm_3q","kind":"function","src_hash":"51cfa0fee0760a96","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: q.get_circuit() == CGateS((0, 1), X(2))"},"spec":{"lhs":"test_qasm_3q()","rhs":"q.get_circuit() == CGateS((0, 1), X(2))","over":{"base":"Any"},"name":"test_qasm_3q_correct"},"guarantee":"q.get_circuit() == CGateS((0, 1), X(2))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_qasm.test_qasm_3q_correct","statement":"Path(test_qasm_3q(x), q.get_circuit() == CGateS((0, 1), X(2)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0dcbd02239232545","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["q.get_circuit() == CGateS((0, 1), X(2))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_qasm_3q():
     q = Qasm('qubit q0', 'qubit q1', 'qubit q2', 'toffoli q2,q1,q0')
     assert q.get_circuit() == CGateS((0,1),X(2))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_qasm_flip_index(), test_qasm_flip_index produces the expected output) over Any ║
+# ║ Path(test_qasm_flip_index(), flip_index(0, 2) == 1 and flip_index(1, 2) == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_qasm_flip_index : Any → {Any | flip_index(0, 2) ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  flip_index(0, 2) == 1                          ║
+# ║   ensures:  flip_index(1, 2) == 0                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_qasm_flip_index : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b9f4e98aa3ae08b3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5ac3cd6fd8f842e1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_qasm.test_qasm_flip_index","kind":"function","src_hash":"aa3f84ff231c7a5b","in":{"base":"Any"},"out":{"base":"Any","pred":"flip_index(0, 2) == 1 and flip_index(1, 2) == 0"},"spec":{"lhs":"test_qasm_flip_index()","rhs":"test_qasm_flip_index produces the expected output","over":{"base":"Any"},"name":"test_qasm_flip_index_correct"},"guarantee":"test_qasm_flip_index produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_qasm.test_qasm_flip_index_correct","statement":"Path(test_qasm_flip_index(x), test_qasm_flip_index produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b9f4e98aa3ae08b3"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_qasm.test_qasm_flip_index","kind":"function","src_hash":"aa3f84ff231c7a5b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: flip_index(0, 2) == 1 and flip_index(1, 2) == 0"},"spec":{"lhs":"test_qasm_flip_index()","rhs":"flip_index(0, 2) == 1 and flip_index(1, 2) == 0","over":{"base":"Any"},"name":"test_qasm_flip_index_correct"},"guarantee":"flip_index(0, 2) == 1; flip_index(1, 2) == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_qasm.test_qasm_flip_index_correct","statement":"Path(test_qasm_flip_index(x), flip_index(0, 2) == 1; flip_index(1, 2) == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5ac3cd6fd8f842e1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["flip_index(0, 2) == 1","flip_index(1, 2) == 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_qasm_flip_index():
     assert flip_index(0, 2) == 1
     assert flip_index(1, 2) == 0
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_qasm_trim(), test_qasm_trim produces the expected output) over Any ║
+# ║ Path(test_qasm_trim(), trim('nothing happens here') == 'nothing happens here' and trim('Something #happens here') == 'Something ') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_qasm_trim : Any → {Any | trim('nothing happens h...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  trim('nothing happens here') == 'nothing ...   ║
+# ║   ensures:  trim('Something #happens here') == 'Somet...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_qasm_trim : Any → {Any | result satisfies: trim(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9ffe61caecc03c3f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3a5faf345979ba1a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_qasm.test_qasm_trim","kind":"function","src_hash":"c515118752948b9f","in":{"base":"Any"},"out":{"base":"Any","pred":"trim('nothing happens here') == 'nothing happens here' and trim('Something #happens here') == 'Something '"},"spec":{"lhs":"test_qasm_trim()","rhs":"test_qasm_trim produces the expected output","over":{"base":"Any"},"name":"test_qasm_trim_correct"},"guarantee":"test_qasm_trim produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_qasm.test_qasm_trim_correct","statement":"Path(test_qasm_trim(x), test_qasm_trim produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9ffe61caecc03c3f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_qasm.test_qasm_trim","kind":"function","src_hash":"c515118752948b9f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: trim('nothing happens here') == 'nothing happens here' and trim('Something #happens here') == 'Something '"},"spec":{"lhs":"test_qasm_trim()","rhs":"trim('nothing happens here') == 'nothing happens here' and trim('Something #happens here') == 'Something '","over":{"base":"Any"},"name":"test_qasm_trim_correct"},"guarantee":"trim('nothing happens here') == 'nothing happens here'; trim('Something #happens here') == 'Something '","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_qasm.test_qasm_trim_correct","statement":"Path(test_qasm_trim(x), trim('nothing happens here') == 'nothing happens here'; trim('Something #happens here') == 'Something ')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3a5faf345979ba1a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["trim('nothing happens here') == 'nothing happens here'","trim('Something #happens here') == 'Something '"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_qasm_trim():
     assert trim('nothing happens here') == 'nothing happens here'
     assert trim("Something #happens here") == "Something "
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_qasm_get_index(), test_qasm_get_index produces the expected output) over Any ║
+# ║ Path(test_qasm_get_index(), get_index('q0', ['q0', 'q1']) == 1 and get_index('q1', ['q0', 'q1']) == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_qasm_get_index : Any → {Any | get_index('q0', ['...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  get_index('q0', ['q0', 'q1']) == 1             ║
+# ║   ensures:  get_index('q1', ['q0', 'q1']) == 0             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_qasm_get_index : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c10a2bab7e9da578  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dca831932aa80358  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_qasm.test_qasm_get_index","kind":"function","src_hash":"d0d2c72cf422773b","in":{"base":"Any"},"out":{"base":"Any","pred":"get_index('q0', ['q0', 'q1']) == 1 and get_index('q1', ['q0', 'q1']) == 0"},"spec":{"lhs":"test_qasm_get_index()","rhs":"test_qasm_get_index produces the expected output","over":{"base":"Any"},"name":"test_qasm_get_index_correct"},"guarantee":"test_qasm_get_index produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_qasm.test_qasm_get_index_correct","statement":"Path(test_qasm_get_index(x), test_qasm_get_index produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c10a2bab7e9da578"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_qasm.test_qasm_get_index","kind":"function","src_hash":"d0d2c72cf422773b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: get_index('q0', ['q0', 'q1']) == 1 and get_index('q1', ['q0', 'q1']) == 0"},"spec":{"lhs":"test_qasm_get_index()","rhs":"get_index('q0', ['q0', 'q1']) == 1 and get_index('q1', ['q0', 'q1']) == 0","over":{"base":"Any"},"name":"test_qasm_get_index_correct"},"guarantee":"get_index('q0', ['q0', 'q1']) == 1; get_index('q1', ['q0', 'q1']) == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_qasm.test_qasm_get_index_correct","statement":"Path(test_qasm_get_index(x), get_index('q0', ['q0', 'q1']) == 1; get_index('q1', ['q0', 'q1']) == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dca831932aa80358","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["get_index('q0', ['q0', 'q1']) == 1","get_index('q1', ['q0', 'q1']) == 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_qasm_get_index():
     assert get_index('q0', ['q0', 'q1']) == 1
     assert get_index('q1', ['q0', 'q1']) == 0
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_qasm_nonblank(), test_qasm_nonblank produces the expected output) over Any ║
+# ║ Path(test_qasm_nonblank(), list(nonblank('abcd')) == list('abcd') and list(nonblank('abc ')) == list('abc')) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_qasm_nonblank : Any → {Any | list(nonblank('abcd...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  list(nonblank('abcd')) == list('abcd')         ║
+# ║   ensures:  list(nonblank('abc ')) == list('abc')          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_qasm_nonblank : Any → {Any | result satisfies: l...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b4e9b1e6e41a3911  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 40ca586b926484d7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_qasm.test_qasm_nonblank","kind":"function","src_hash":"cdfa38cb777eaf76","in":{"base":"Any"},"out":{"base":"Any","pred":"list(nonblank('abcd')) == list('abcd') and list(nonblank('abc ')) == list('abc')"},"spec":{"lhs":"test_qasm_nonblank()","rhs":"test_qasm_nonblank produces the expected output","over":{"base":"Any"},"name":"test_qasm_nonblank_correct"},"guarantee":"test_qasm_nonblank produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_qasm.test_qasm_nonblank_correct","statement":"Path(test_qasm_nonblank(x), test_qasm_nonblank produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b4e9b1e6e41a3911"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_qasm.test_qasm_nonblank","kind":"function","src_hash":"cdfa38cb777eaf76","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: list(nonblank('abcd')) == list('abcd') and list(nonblank('abc ')) == list('abc')"},"spec":{"lhs":"test_qasm_nonblank()","rhs":"list(nonblank('abcd')) == list('abcd') and list(nonblank('abc ')) == list('abc')","over":{"base":"Any"},"name":"test_qasm_nonblank_correct"},"guarantee":"list(nonblank('abcd')) == list('abcd'); list(nonblank('abc ')) == list('abc')","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_qasm.test_qasm_nonblank_correct","statement":"Path(test_qasm_nonblank(x), list(nonblank('abcd')) == list('abcd'); list(nonblank('abc ')) == list('abc'))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"40ca586b926484d7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["list(nonblank('abcd')) == list('abcd')","list(nonblank('abc ')) == list('abc')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_qasm_nonblank():
     assert list(nonblank('abcd')) == list('abcd')
     assert list(nonblank('abc ')) == list('abc')
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_qasm_fullsplit(), test_qasm_fullsplit produces the expected output) over Any ║
+# ║ Path(test_qasm_fullsplit(), fullsplit('g q0,q1,q2,  q3') == ('g', ['q0', 'q1', 'q2', 'q3'])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_qasm_fullsplit : Any → {Any | fullsplit('g q0,q1...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  fullsplit('g q0,q1,q2,  q3') == ('g', ['q...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_qasm_fullsplit : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6d6561229bcdbdf3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4be298f5fa8bcb5a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_qasm.test_qasm_fullsplit","kind":"function","src_hash":"2cacdfd92bc2e155","in":{"base":"Any"},"out":{"base":"Any","pred":"fullsplit('g q0,q1,q2,  q3') == ('g', ['q0', 'q1', 'q2', 'q3'])"},"spec":{"lhs":"test_qasm_fullsplit()","rhs":"test_qasm_fullsplit produces the expected output","over":{"base":"Any"},"name":"test_qasm_fullsplit_correct"},"guarantee":"test_qasm_fullsplit produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_qasm.test_qasm_fullsplit_correct","statement":"Path(test_qasm_fullsplit(x), test_qasm_fullsplit produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6d6561229bcdbdf3"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_qasm.test_qasm_fullsplit","kind":"function","src_hash":"2cacdfd92bc2e155","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: fullsplit('g q0,q1,q2,  q3') == ('g', ['q0', 'q1', 'q2', 'q3'])"},"spec":{"lhs":"test_qasm_fullsplit()","rhs":"fullsplit('g q0,q1,q2,  q3') == ('g', ['q0', 'q1', 'q2', 'q3'])","over":{"base":"Any"},"name":"test_qasm_fullsplit_correct"},"guarantee":"fullsplit('g q0,q1,q2,  q3') == ('g', ['q0', 'q1', 'q2', 'q3'])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_qasm.test_qasm_fullsplit_correct","statement":"Path(test_qasm_fullsplit(x), fullsplit('g q0,q1,q2,  q3') == ('g', ['q0', 'q1', 'q2', 'q3']))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4be298f5fa8bcb5a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["fullsplit('g q0,q1,q2,  q3') == ('g', ['q0', 'q1', 'q2', 'q3'])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_qasm_fullsplit():
     assert fullsplit('g q0,q1,q2,  q3') == ('g', ['q0', 'q1', 'q2', 'q3'])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_qasm_fixcommand(), test_qasm_fixcommand produces the expected output) over Any ║
+# ║ Path(test_qasm_fixcommand(), fixcommand('foo') == 'foo' and fixcommand('def') == 'qdef') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_qasm_fixcommand : Any → {Any | fixcommand('foo')...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  fixcommand('foo') == 'foo'                     ║
+# ║   ensures:  fixcommand('def') == 'qdef'                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_qasm_fixcommand : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1a34d908f830f345  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3851b6a02bf01856  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_qasm.test_qasm_fixcommand","kind":"function","src_hash":"7e6c466453e4e7ed","in":{"base":"Any"},"out":{"base":"Any","pred":"fixcommand('foo') == 'foo' and fixcommand('def') == 'qdef'"},"spec":{"lhs":"test_qasm_fixcommand()","rhs":"test_qasm_fixcommand produces the expected output","over":{"base":"Any"},"name":"test_qasm_fixcommand_correct"},"guarantee":"test_qasm_fixcommand produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_qasm.test_qasm_fixcommand_correct","statement":"Path(test_qasm_fixcommand(x), test_qasm_fixcommand produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1a34d908f830f345"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_qasm.test_qasm_fixcommand","kind":"function","src_hash":"7e6c466453e4e7ed","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: fixcommand('foo') == 'foo' and fixcommand('def') == 'qdef'"},"spec":{"lhs":"test_qasm_fixcommand()","rhs":"fixcommand('foo') == 'foo' and fixcommand('def') == 'qdef'","over":{"base":"Any"},"name":"test_qasm_fixcommand_correct"},"guarantee":"fixcommand('foo') == 'foo'; fixcommand('def') == 'qdef'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_qasm.test_qasm_fixcommand_correct","statement":"Path(test_qasm_fixcommand(x), fixcommand('foo') == 'foo'; fixcommand('def') == 'qdef')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3851b6a02bf01856","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["fixcommand('foo') == 'foo'","fixcommand('def') == 'qdef'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_qasm_fixcommand():
     assert fixcommand('foo') == 'foo'
     assert fixcommand('def') == 'qdef'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_qasm_stripquotes(), test_qasm_stripquotes produces the expected output) over Any ║
+# ║ Path(test_qasm_stripquotes(), stripquotes("'S'") == 'S' and stripquotes('"S"') == 'S' and stripquotes('S') == 'S') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_qasm_stripquotes : Any → {Any | stripquotes("'S'...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  stripquotes("'S'") == 'S'                      ║
+# ║   ensures:  stripquotes('"S"') == 'S'                      ║
+# ║   ensures:  stripquotes('S') == 'S'                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_qasm_stripquotes : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9ea703abc831617e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6521073c2e832aaf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_qasm.test_qasm_stripquotes","kind":"function","src_hash":"27a275faef88d1e1","in":{"base":"Any"},"out":{"base":"Any","pred":"stripquotes(\"'S'\") == 'S' and stripquotes('\"S\"') == 'S' and stripquotes('S') == 'S'"},"spec":{"lhs":"test_qasm_stripquotes()","rhs":"test_qasm_stripquotes produces the expected output","over":{"base":"Any"},"name":"test_qasm_stripquotes_correct"},"guarantee":"test_qasm_stripquotes produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_qasm.test_qasm_stripquotes_correct","statement":"Path(test_qasm_stripquotes(x), test_qasm_stripquotes produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9ea703abc831617e"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_qasm.test_qasm_stripquotes","kind":"function","src_hash":"27a275faef88d1e1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: stripquotes(\"'S'\") == 'S' and stripquotes('\"S\"') == 'S' and stripquotes('S') == 'S'"},"spec":{"lhs":"test_qasm_stripquotes()","rhs":"stripquotes(\"'S'\") == 'S' and stripquotes('\"S\"') == 'S' and stripquotes('S') == 'S'","over":{"base":"Any"},"name":"test_qasm_stripquotes_correct"},"guarantee":"stripquotes(\"'S'\") == 'S'; stripquotes('\"S\"') == 'S'; stripquotes('S') == 'S'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_qasm.test_qasm_stripquotes_correct","statement":"Path(test_qasm_stripquotes(x), stripquotes(\"'S'\") == 'S'; stripquotes('\"S\"') == 'S'; stripquotes('S') == 'S')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6521073c2e832aaf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["stripquotes(\"'S'\") == 'S'","stripquotes('\"S\"') == 'S'","stripquotes('S') == 'S'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_qasm_stripquotes():
     assert stripquotes("'S'") == 'S'
     assert stripquotes('"S"') == 'S'
     assert stripquotes('S') == 'S'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_qasm_qdef(), test_qasm_qdef produces the expected output) over Any ║
+# ║ Path(test_qasm_qdef(), str(q.get_circuit()) == 'Q(0)' and str(q.get_circuit()) == 'C((1),Q(0))') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_qasm_qdef : Any → {Any | str(q.get_circuit()) ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(q.get_circuit()) == 'Q(0)'                 ║
+# ║   ensures:  str(q.get_circuit()) == 'C((1),Q(0))'          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_qasm_qdef : Any → {Any | result satisfies: str(q...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f0ee8eadfe09484b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a345783b7dc696ea  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_qasm.test_qasm_qdef","kind":"function","src_hash":"385d4f5c2410fba1","in":{"base":"Any"},"out":{"base":"Any","pred":"str(q.get_circuit()) == 'Q(0)' and str(q.get_circuit()) == 'C((1),Q(0))'"},"spec":{"lhs":"test_qasm_qdef()","rhs":"test_qasm_qdef produces the expected output","over":{"base":"Any"},"name":"test_qasm_qdef_correct"},"guarantee":"test_qasm_qdef produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_qasm.test_qasm_qdef_correct","statement":"Path(test_qasm_qdef(x), test_qasm_qdef produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f0ee8eadfe09484b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_qasm.test_qasm_qdef","kind":"function","src_hash":"385d4f5c2410fba1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(q.get_circuit()) == 'Q(0)' and str(q.get_circuit()) == 'C((1),Q(0))'"},"spec":{"lhs":"test_qasm_qdef()","rhs":"str(q.get_circuit()) == 'Q(0)' and str(q.get_circuit()) == 'C((1),Q(0))'","over":{"base":"Any"},"name":"test_qasm_qdef_correct"},"guarantee":"str(q.get_circuit()) == 'Q(0)'; str(q.get_circuit()) == 'C((1),Q(0))'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_qasm.test_qasm_qdef_correct","statement":"Path(test_qasm_qdef(x), str(q.get_circuit()) == 'Q(0)'; str(q.get_circuit()) == 'C((1),Q(0))')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a345783b7dc696ea","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(q.get_circuit()) == 'Q(0)'","str(q.get_circuit()) == 'C((1),Q(0))'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_qasm_qdef():
     # weaker test condition (str) since we don't have access to the actual class
     q = Qasm("def Q,0,Q",'qubit q0','Q q0')

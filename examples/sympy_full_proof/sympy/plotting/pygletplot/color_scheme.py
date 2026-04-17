@@ -25,29 +25,40 @@ from sympy.utilities.iterables import sift
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a ColorGradient instance) preserved by ColorGradient(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ ColorGradient : Any → {Any | len(self.colors) == len(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | be974b37e024adec  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.color_scheme.ColorGradient","kind":"class","src_hash":"bdbee4f015f78430","in":{"base":"Any"},"out":{"base":"Any","pred":"len(self.colors) == len(self.intervals)"},"spec":{"lhs":"ColorGradient(*args)","rhs":"correctly constructs a ColorGradient instance","over":{"base":"Any"},"name":"ColorGradient_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a ColorGradient instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'colors') and hasattr(self, 'intervals') and hasattr(self, 'colors') and hasattr(self, 'intervals')","kind":"class","induction":"structural on colors, intervals, colors, intervals"}],"methods_preserving":["__init__","copy","_find_interval","_interpolate_axis","__call__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"be974b37e024adec"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.color_scheme.ColorGradient","kind":"class","src_hash":"bdbee4f015f78430","in":{"base":"Any"},"out":{"base":"Any","pred":"len(self.colors) == len(self.intervals)"},"spec":{"lhs":"ColorGradient(*args)","rhs":"correctly constructs a ColorGradient instance","over":{"base":"Any"},"name":"ColorGradient_class_invariant","kind":"invariant"},"guarantee":"preserves 2 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'colors') and hasattr(self, 'intervals') and hasattr(self, 'colors') and hasattr(self, 'intervals')","kind":"class","induction":"structural on colors, intervals, colors, intervals"}],"methods_preserving":["__init__","copy","_find_interval","_interpolate_axis","__call__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"be974b37e024adec","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, 'colors')","hasattr(self, 'intervals')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function ColorGradient not found in source"]}}
 class ColorGradient:
     colors = [0.4, 0.4, 0.4], [0.9, 0.9, 0.9]
     intervals = 0.0, 1.0
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(*ar), initializes the instance correctly) over Any ║
+# ║ Path(__init__(*args), len(self.colors) == len(self.intervals)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(self.colors) == len(self.intervals)        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : Any → {Any | result satisfies: len(self.co...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0d5a766aa16b3f37           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.color_scheme.ColorGradient.__init__","kind":"method","src_hash":"33c0adf2ef364c10","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(*ar)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0d5a766aa16b3f37"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.color_scheme.ColorGradient.__init__","kind":"method","src_hash":"33c0adf2ef364c10","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(self.colors) == len(self.intervals)"},"spec":{"lhs":"__init__(*args)","rhs":"len(self.colors) == len(self.intervals)","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"len(self.colors) == len(self.intervals)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0d5a766aa16b3f37","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(self.colors) == len(self.intervals)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.colors","self.intervals"],"writes":["self.colors","self.intervals"],"raises":["ValueError"]},"state_contract":{"modifies":["self.colors","self.intervals"],"old_bindings":{"old_self_colors":"self.colors","old_self_intervals":"self.intervals"},"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, *args):
         if len(args) == 2:
             self.colors = list(args)
@@ -60,16 +71,22 @@ class ColorGradient:
         assert len(self.colors) == len(self.intervals)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(copy(), copy produces the expected output) over Any   ║
+# ║ Path(copy(), <unspecified:copy>) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ copy : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ff8f8046ec5874e0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.color_scheme.ColorGradient.copy","kind":"method","src_hash":"0b40152e209d42db","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"copy()","rhs":"copy produces the expected output","over":{"base":"Any"},"name":"copy_correct"},"guarantee":"copy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.color_scheme.ColorGradient.copy_correct","statement":"Path(copy(x), copy produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ff8f8046ec5874e0"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.color_scheme.ColorGradient.copy","kind":"method","src_hash":"0b40152e209d42db","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"copy()","rhs":"<unspecified:copy>","over":{"base":"Any"},"name":"copy_correct"},"guarantee":"copy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.color_scheme.ColorGradient.copy_correct","statement":"Path(copy(x), copy produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ff8f8046ec5874e0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.colors","self.intervals"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def copy(self):
         c = ColorGradient()
         c.colors = [e[::] for e in self.colors]
@@ -77,16 +94,22 @@ class ColorGradient:
         return c
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_find_interval(v), internal helper behaves correctly) over Any ║
+# ║ Path(_find_interval(v), <unspecified:_find_interval>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _find_interval : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 78e7d739b113b384  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.color_scheme.ColorGradient._find_interval","kind":"method","src_hash":"da614759b1f1d0fe","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_find_interval(v)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_find_interval_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.color_scheme.ColorGradient._find_interval_correct","statement":"Path(_find_interval(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"78e7d739b113b384"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.color_scheme.ColorGradient._find_interval","kind":"method","src_hash":"da614759b1f1d0fe","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_find_interval(v)","rhs":"<unspecified:_find_interval>","over":{"base":"Any"},"name":"_find_interval_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.color_scheme.ColorGradient._find_interval_correct","statement":"Path(_find_interval(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"78e7d739b113b384","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.intervals"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _find_interval(self, v):
         m = len(self.intervals)
         i = 0
@@ -95,32 +118,44 @@ class ColorGradient:
         return i
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_interpolate_axis(axi), internal helper behaves correctly) over Any ║
+# ║ Path(_interpolate_axis(axis, v), interpolate(self.colors[i - 1][axis], self.colors[i][axis], v)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  interpolate(self.colors[i - 1][axis], sel...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _interpolate_axis : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1f2407451adc85bb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 35b86aaa08a80975  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.color_scheme.ColorGradient._interpolate_axis","kind":"method","src_hash":"37d3ec1ca5900c5c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_interpolate_axis(axi)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_interpolate_axis_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.color_scheme.ColorGradient._interpolate_axis_correct","statement":"Path(_interpolate_axis(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1f2407451adc85bb"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.color_scheme.ColorGradient._interpolate_axis","kind":"method","src_hash":"37d3ec1ca5900c5c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_interpolate_axis(axis, v)","rhs":"interpolate(self.colors[i - 1][axis], self.colors[i][axis], v)","over":{"base":"Any"},"name":"_interpolate_axis_correct"},"guarantee":"returns interpolate(self.colors[i - 1][axis], self.colors[i][axis], v)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.color_scheme.ColorGradient._interpolate_axis_correct","statement":"Path(_interpolate_axis(x), returns interpolate(self.colors[i - 1][axis], self.colors[i][axis], v))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"35b86aaa08a80975","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"interpolate(self.colors[i - 1][axis], self.colors[i][axis], v)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._find_interval","self.colors","self.intervals"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _interpolate_axis(self, axis, v):
         i = self._find_interval(v)
         v = rinterpolate(self.intervals[i - 1], self.intervals[i], v)
         return interpolate(self.colors[i - 1][axis], self.colors[i][axis], v)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__call__(r, ), correctly applies the callable) over Any ║
+# ║ Path(__call__(r, g, b), (c(0, r), c(1, g), c(2, b))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (c(0, r), c(1, g), c(2, b))                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __call__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | dde5935da9a005e1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.color_scheme.ColorGradient.__call__","kind":"method","src_hash":"94c9a5611d139998","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__call__(r, )","rhs":"correctly applies the callable","over":{"base":"Any"},"name":"__call___correct"},"guarantee":"correctly applies the callable","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"dde5935da9a005e1"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.color_scheme.ColorGradient.__call__","kind":"method","src_hash":"94c9a5611d139998","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__call__(r, g, b)","rhs":"(c(0, r), c(1, g), c(2, b))","over":{"base":"Any"},"name":"__call___correct"},"guarantee":"returns (c(0, r), c(1, g), c(2, b))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"dde5935da9a005e1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(c(0, r), c(1, g), c(2, b))","pure":false,"effects":{"effect_type":"reads_state","reads":["self._interpolate_axis"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __call__(self, r, g, b):
         c = self._interpolate_axis
         return c(0, r), c(1, g), c(2, b)
@@ -131,27 +166,39 @@ default_color_schemes = {}  # defined at the bottom of this file
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a ColorScheme instance) preserved by ColorScheme(*args) over {Any | isinstance(self.gradient, ColorGradient) and isinstance(args, (tuple, list)) and isinstance(args[0], Basic)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ ColorScheme : {Any | isinstance(self.gradient, ColorG...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 2.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 23d803ce17093793  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.color_scheme.ColorScheme","kind":"class","src_hash":"de17ad959d9e5738","in":{"base":"Any","pred":"isinstance(self.gradient, ColorGradient) and isinstance(args, (tuple, list)) and isinstance(args[0], Basic)"},"out":{"base":"Any"},"spec":{"lhs":"ColorScheme(*args)","rhs":"correctly constructs a ColorScheme instance","over":{"base":"Any","pred":"isinstance(self.gradient, ColorGradient) and isinstance(args, (tuple, list)) and isinstance(args[0], Basic)"},"name":"ColorScheme_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a ColorScheme instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'args') and hasattr(self, 'gradient') and hasattr(self, 'f') and hasattr(self, 'gradient') and hasattr(self, 'f') and hasattr(self, 'gradient')","kind":"class","induction":"structural on args, gradient, f, gradient"}],"methods_preserving":["__init__","_interpret_args","_pop_symbol_list","_fill_in_vars","_sort_args","_test_color_function","__call__","apply_to_curve","apply_to_surface","str_base","__repr__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"23d803ce17093793"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.color_scheme.ColorScheme","kind":"class","src_hash":"de17ad959d9e5738","in":{"base":"Any","pred":"isinstance(self.gradient, ColorGradient) and isinstance(args, (tuple, list)) and isinstance(args[0], Basic)"},"out":{"base":"Any"},"spec":{"lhs":"ColorScheme(*args)","rhs":"correctly constructs a ColorScheme instance","over":{"base":"Any","pred":"isinstance(self.gradient, ColorGradient) and isinstance(args, (tuple, list)) and isinstance(args[0], Basic)"},"name":"ColorScheme_class_invariant","kind":"invariant"},"guarantee":"preserves 2 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'args') and hasattr(self, 'gradient') and hasattr(self, 'f') and hasattr(self, 'gradient') and hasattr(self, 'f') and hasattr(self, 'gradient')","kind":"class","induction":"structural on args, gradient, f, gradient"}],"methods_preserving":["__init__","_interpret_args","_pop_symbol_list","_fill_in_vars","_sort_args","_test_color_function","__call__","apply_to_curve","apply_to_surface","str_base","__repr__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"23d803ce17093793","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, 'args')","hasattr(self, 'f')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.0,"verdict_class":"assumed","binding":false,"binding_errors":["Function ColorScheme not found in source"]}}
 class ColorScheme:
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(*ar), initializes the instance correctly) over Any ║
+# ║ Path(__init__(*args, **kwargs), <unspecified:__init__>) over {Any | isinstance(self.gradient, ColorGradient)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(self.gradient, ColorGradient)       ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : {Any | isinstance(self.gradient, ColorGrad...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e3a4a9a32616cf40           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.color_scheme.ColorScheme.__init__","kind":"method","src_hash":"8e22c934feec9213","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(*ar)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e3a4a9a32616cf40"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.color_scheme.ColorScheme.__init__","kind":"method","src_hash":"8e22c934feec9213","in":{"base":"Any","pred":"isinstance(self.gradient, ColorGradient)"},"out":{"base":"Any"},"spec":{"lhs":"__init__(*args, **kwargs)","rhs":"<unspecified:__init__>","over":{"base":"Any","pred":"isinstance(self.gradient, ColorGradient)"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e3a4a9a32616cf40","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(self.gradient, ColorGradient)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._interpret_args","self._test_color_function","self.gradient"],"writes":["self.args","self.f"],"raises":["ValueError"]},"state_contract":{"modifies":["self.args","self.f"],"old_bindings":{"old_self_args":"self.args","old_self_f":"self.f"},"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, *args, **kwargs):
         self.args = args
         self.f, self.gradient = None, ColorGradient()
@@ -172,16 +219,22 @@ class ColorScheme:
                              "(Not a ColorGradient instance.)")
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_interpret_args(arg), internal helper behaves correctly) over Any ║
+# ║ Path(_interpret_args(args), (f, gradient)) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (f, gradient)                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _interpret_args : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 292f8bff83f9dcce  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fa1c1a451389b872  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.color_scheme.ColorScheme._interpret_args","kind":"method","src_hash":"c1fcecbcc41e4052","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_interpret_args(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_interpret_args_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.color_scheme.ColorScheme._interpret_args_correct","statement":"Path(_interpret_args(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"292f8bff83f9dcce"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.color_scheme.ColorScheme._interpret_args","kind":"method","src_hash":"c1fcecbcc41e4052","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_interpret_args(args)","rhs":"(f, gradient)","over":{"base":"Any"},"name":"_interpret_args_correct"},"guarantee":"returns (f, gradient)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.color_scheme.ColorScheme._interpret_args_correct","statement":"Path(_interpret_args(x), returns (f, gradient))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fa1c1a451389b872","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(f, gradient)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._fill_in_vars","self._pop_symbol_list","self._sort_args","self.gradient"],"raises":["ValueError","f_error"],"catches":["Exception","TypeError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"],"f_error":["isinstance(raised, f_error)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _interpret_args(self, args):
         f, gradient = None, self.gradient
         atoms, lists = self._sort_args(args)
@@ -257,16 +310,26 @@ class ColorScheme:
         return f, gradient
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_pop_symbol_list(lis), internal helper behaves correctly) over Any ║
+# ║ Path(_pop_symbol_list(lists), len(symbol_lists) == old_len_symbol_lists + 1) over {Any | hasattr(lists, 'remove')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _pop_symbol_list : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(lists, 'remove')                       ║
+# ║   ensures:  len(symbol_lists) == old_len_symbol_lists...   ║
+# ║   fiber[case_0]: len(symbol_lists) == 1 => symbol_lis...   ║
+# ║   fiber[zero_or_none]: len(symbol_lists) == 0 => []        ║
+# ║   fiber[zero_or_none]: not (len(symbol_lists) == 1) a...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _pop_symbol_list : {Any | hasattr(lists, 'remove')} →...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d1b07394aafad843  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7e2504d04891c83f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.color_scheme.ColorScheme._pop_symbol_list","kind":"method","src_hash":"127d3c8c5a854653","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_pop_symbol_list(lis)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_pop_symbol_list_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.color_scheme.ColorScheme._pop_symbol_list_correct","statement":"Path(_pop_symbol_list(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d1b07394aafad843"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.color_scheme.ColorScheme._pop_symbol_list","kind":"method","src_hash":"127d3c8c5a854653","in":{"base":"Any","pred":"hasattr(lists, 'remove')"},"out":{"base":"Any","pred":"result satisfies: len(symbol_lists) == old_len_symbol_lists + 1"},"spec":{"lhs":"_pop_symbol_list(lists)","rhs":"len(symbol_lists) == old_len_symbol_lists + 1","over":{"base":"Any","pred":"hasattr(lists, 'remove')"},"name":"_pop_symbol_list_correct"},"guarantee":"len(symbol_lists) == old_len_symbol_lists + 1; 3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.color_scheme.ColorScheme._pop_symbol_list_correct","statement":"Path(_pop_symbol_list(x), len(symbol_lists) == old_len_symbol_lists + 1; 3-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7e2504d04891c83f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(lists, 'remove')"],"ensures":["len(symbol_lists) == old_len_symbol_lists + 1"],"fibers":[{"name":"case_0","guard":"len(symbol_lists) == 1","ensures":["result == symbol_lists[0]"],"decidability":"z3","returns_expr":"symbol_lists[0]"},{"name":"zero_or_none","guard":"len(symbol_lists) == 0","ensures":["result == []"],"decidability":"z3","returns_expr":"[]"},{"name":"zero_or_none","guard":"not (len(symbol_lists) == 1) and not (len(symbol_lists) == 0)","ensures":[],"decidability":"z3"}],"pure":false,"effects":{"effect_type":"mutates_args","reads":["lists.remove"],"calls_mutating":["lists.remove","symbol_lists.append"],"raises":["ValueError"]},"state_contract":{"modifies":["lists.*","symbol_lists.*"],"old_bindings":{"old_len_symbol_lists":"len(symbol_lists)"},"post_ensures":["len(symbol_lists) == old_len_symbol_lists + 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _pop_symbol_list(self, lists):
         symbol_lists = []
         for l in lists:
@@ -287,16 +350,23 @@ class ColorScheme:
                              "can be given for a color scheme.")
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_fill_in_vars(arg), internal helper behaves correctly) over Any ║
+# ║ Path(_fill_in_vars(args), <unspecified:_fill_in_vars>) over {Any | isinstance(args, (tuple, list))} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _fill_in_vars : Any → Any                                  ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(args, (tuple, list))                ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _fill_in_vars : {Any | isinstance(args, (tuple, list)...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 58cf256796649aa7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.color_scheme.ColorScheme._fill_in_vars","kind":"method","src_hash":"375be02862b0d2ee","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_fill_in_vars(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_fill_in_vars_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.color_scheme.ColorScheme._fill_in_vars_correct","statement":"Path(_fill_in_vars(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"58cf256796649aa7"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.color_scheme.ColorScheme._fill_in_vars","kind":"method","src_hash":"375be02862b0d2ee","in":{"base":"Any","pred":"isinstance(args, (tuple, list))"},"out":{"base":"Any"},"spec":{"lhs":"_fill_in_vars(args)","rhs":"<unspecified:_fill_in_vars>","over":{"base":"Any","pred":"isinstance(args, (tuple, list))"},"name":"_fill_in_vars_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.color_scheme.ColorScheme._fill_in_vars_correct","statement":"Path(_fill_in_vars(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"58cf256796649aa7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(args, (tuple, list))"],"pure":false,"effects":{"effect_type":"reads_state","raises":["v_error"]},"state_contract":{"exceptional_post":{"v_error":["isinstance(raised, v_error)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _fill_in_vars(self, args):
         defaults = symbols('x,y,z,u,v')
         v_error = ValueError("Could not find what to plot.")
@@ -341,32 +411,45 @@ class ColorScheme:
         return vars
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_sort_args(arg), internal helper behaves correctly) over Any ║
+# ║ Path(_sort_args(args), (atoms, lists)) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (atoms, lists)                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _sort_args : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bf0cb8941dca4e9b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1a83f53588d5832a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.color_scheme.ColorScheme._sort_args","kind":"method","src_hash":"b62c031f1058d084","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sort_args(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_sort_args_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.color_scheme.ColorScheme._sort_args_correct","statement":"Path(_sort_args(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bf0cb8941dca4e9b"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.color_scheme.ColorScheme._sort_args","kind":"method","src_hash":"b62c031f1058d084","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sort_args(args)","rhs":"(atoms, lists)","over":{"base":"Any"},"name":"_sort_args_correct"},"guarantee":"returns (atoms, lists)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.color_scheme.ColorScheme._sort_args_correct","statement":"Path(_sort_args(x), returns (atoms, lists))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1a83f53588d5832a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(atoms, lists)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _sort_args(self, args):
         lists, atoms = sift(args,
             lambda a: isinstance(a, (tuple, list)), binary=True)
         return atoms, lists
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_test_color_function(), internal helper behaves correctly) over Any ║
+# ║ Path(_test_color_function(), <unspecified:_test_color_function>) over {Any | callable(self.f)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _test_color_function : Any → Any                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: callable(self.f)                               ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _test_color_function : {Any | callable(self.f)} → Any      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 590ec5ffdd3d88f2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.color_scheme.ColorScheme._test_color_function","kind":"method","src_hash":"70c4abffb733f426","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_test_color_function()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_test_color_function_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.color_scheme.ColorScheme._test_color_function_correct","statement":"Path(_test_color_function(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"590ec5ffdd3d88f2"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.color_scheme.ColorScheme._test_color_function","kind":"method","src_hash":"70c4abffb733f426","in":{"base":"Any","pred":"callable(self.f)"},"out":{"base":"Any"},"spec":{"lhs":"_test_color_function()","rhs":"<unspecified:_test_color_function>","over":{"base":"Any","pred":"callable(self.f)"},"name":"_test_color_function_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.color_scheme.ColorScheme._test_color_function_correct","statement":"Path(_test_color_function(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"590ec5ffdd3d88f2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["callable(self.f)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.f"],"raises":["ValueError"],"catches":["AssertionError","Exception","TypeError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _test_color_function(self):
         if not callable(self.f):
             raise ValueError("Color function is not callable.")
@@ -383,16 +466,22 @@ class ColorScheme:
             pass  # color function probably not valid at 0,0,0,0,0
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__call__(x, ), correctly applies the callable) over Any ║
+# ║ Path(__call__(x, y, z), <unspecified:__call__>) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __call__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d575fa31b90d37e9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.color_scheme.ColorScheme.__call__","kind":"method","src_hash":"da89ef9e8c931d05","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__call__(x, )","rhs":"correctly applies the callable","over":{"base":"Any"},"name":"__call___correct"},"guarantee":"correctly applies the callable","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d575fa31b90d37e9"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.color_scheme.ColorScheme.__call__","kind":"method","src_hash":"da89ef9e8c931d05","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__call__(x, y, z)","rhs":"<unspecified:__call__>","over":{"base":"Any"},"name":"__call___correct"},"guarantee":"correctly applies the callable","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d575fa31b90d37e9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.f"],"catches":["Exception"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __call__(self, x, y, z, u, v):
         try:
             return self.f(x, y, z, u, v)
@@ -400,16 +489,22 @@ class ColorScheme:
             return None
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(apply_to_curve(ver), apply this color scheme to a set of vertices over a single independent variable u) over Any ║
+# ║ Path(apply_to_curve(verts, u_set, set_len), <unspecified:apply_to_curve>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ apply_to_curve : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2177c56752960e07  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.color_scheme.ColorScheme.apply_to_curve","kind":"method","src_hash":"5be59f520662eb7f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"apply_to_curve(ver)","rhs":"apply this color scheme to a set of vertices over a single independent variable u","over":{"base":"Any"},"name":"apply_to_curve_correct"},"guarantee":"apply this color scheme to a set of vertices over a single independent variable u","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.color_scheme.ColorScheme.apply_to_curve_correct","statement":"Path(apply_to_curve(x), apply this color scheme to a set of vertices over a single independent variable u)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2177c56752960e07"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.color_scheme.ColorScheme.apply_to_curve","kind":"method","src_hash":"5be59f520662eb7f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"apply_to_curve(verts, u_set, set_len)","rhs":"<unspecified:apply_to_curve>","over":{"base":"Any"},"name":"apply_to_curve_correct"},"guarantee":"apply this color scheme to a set of vertices over a single independent variable u","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.color_scheme.ColorScheme.apply_to_curve_correct","statement":"Path(apply_to_curve(x), apply this color scheme to a set of vertices over a single independent variable u)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2177c56752960e07","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def apply_to_curve(self, verts, u_set, set_len=None, inc_pos=None):
         """
         Apply this color scheme to a
@@ -449,16 +544,22 @@ class ColorScheme:
         return cverts
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(apply_to_surface(ver), apply this color scheme to a set of vertices over two independent variables u and v) over Any ║
+# ║ Path(apply_to_surface(verts, u_set, v_set), <unspecified:apply_to_surface>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ apply_to_surface : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c80c10a739be48bd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.color_scheme.ColorScheme.apply_to_surface","kind":"method","src_hash":"31e445b32480bb3e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"apply_to_surface(ver)","rhs":"apply this color scheme to a set of vertices over two independent variables u and v","over":{"base":"Any"},"name":"apply_to_surface_correct"},"guarantee":"apply this color scheme to a set of vertices over two independent variables u and v","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.color_scheme.ColorScheme.apply_to_surface_correct","statement":"Path(apply_to_surface(x), apply this color scheme to a set of vertices over two independent variables u and v)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c80c10a739be48bd"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.color_scheme.ColorScheme.apply_to_surface","kind":"method","src_hash":"31e445b32480bb3e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"apply_to_surface(verts, u_set, v_set)","rhs":"<unspecified:apply_to_surface>","over":{"base":"Any"},"name":"apply_to_surface_correct"},"guarantee":"apply this color scheme to a set of vertices over two independent variables u and v","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.color_scheme.ColorScheme.apply_to_surface_correct","statement":"Path(apply_to_surface(x), apply this color scheme to a set of vertices over two independent variables u and v)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c80c10a739be48bd","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def apply_to_surface(self, verts, u_set, v_set, set_len=None, inc_pos=None):
         """
         Apply this color scheme to a
@@ -502,30 +603,42 @@ class ColorScheme:
         return cverts
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(str_base(), str_base produces the expected output) over Any ║
+# ║ Path(str_base(), ', '.join((str(a) for a in self.args))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  ', '.join((str(a) for a in self.args))         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ str_base : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 59186ec52c6cd4e7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.color_scheme.ColorScheme.str_base","kind":"method","src_hash":"08e133aa18c451c0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"str_base()","rhs":"str_base produces the expected output","over":{"base":"Any"},"name":"str_base_correct"},"guarantee":"str_base produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"59186ec52c6cd4e7"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.color_scheme.ColorScheme.str_base","kind":"method","src_hash":"08e133aa18c451c0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"str_base()","rhs":"', '.join((str(a) for a in self.args))","over":{"base":"Any"},"name":"str_base_correct"},"guarantee":"returns ', '.join((str(a) for a in self.args))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"59186ec52c6cd4e7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"', '.join((str(a) for a in self.args))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def str_base(self):
         return ", ".join(str(a) for a in self.args)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__repr__(), returns a faithful string representation) over Any ║
+# ║ Path(__repr__(), '%s' % self.str_base()) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  '%s' % self.str_base()                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __repr__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1d8647da2f3262af           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.color_scheme.ColorScheme.__repr__","kind":"method","src_hash":"90eb832eb9e353cc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"returns a faithful string representation","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns a faithful string representation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1d8647da2f3262af"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.color_scheme.ColorScheme.__repr__","kind":"method","src_hash":"90eb832eb9e353cc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"'%s' % self.str_base()","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns '%s' % self.str_base()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1d8647da2f3262af","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'%s' % self.str_base()","pure":false,"effects":{"effect_type":"reads_state","reads":["self.str_base"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __repr__(self):
         return "%s" % (self.str_base())
 

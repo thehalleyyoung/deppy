@@ -46,16 +46,22 @@ from sympy.utilities.magic import pollute
 
 @public
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(field(sym), construct new rational function field returning (field, x1, ..., xn)) over Any ║
+# ║ Path(field(symbols, domain, order), (_field,) + _field.gens) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (_field,) + _field.gens                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ field : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8d2ee0f6b9ca2544  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1f66ad8ceff85462  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.fields.field","kind":"function","src_hash":"131563c38016f2e9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"field(sym)","rhs":"construct new rational function field returning (field, x1, ..., xn)","over":{"base":"Any"},"name":"field_correct"},"guarantee":"construct new rational function field returning (field, x1, ..., xn)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.fields.field_correct","statement":"Path(field(x), construct new rational function field returning (field, x1, ..., xn))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8d2ee0f6b9ca2544"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.fields.field","kind":"function","src_hash":"131563c38016f2e9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"field(symbols, domain, order)","rhs":"(_field,) + _field.gens","over":{"base":"Any"},"name":"field_correct"},"guarantee":"returns (_field,) + _field.gens","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.fields.field_correct","statement":"Path(field(x), returns (_field,) + _field.gens)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1f66ad8ceff85462","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(_field,) + _field.gens","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def field(symbols, domain, order=lex):
     """Construct new rational function field returning (field, x1, ..., xn). """
     _field = FracField(symbols, domain, order)
@@ -63,16 +69,22 @@ def field(symbols, domain, order=lex):
 
 @public
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(xfield(sym), construct new rational function field returning (field, (x1, ..., xn))) over Any ║
+# ║ Path(xfield(symbols, domain, order), (_field, _field.gens)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (_field, _field.gens)                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ xfield : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7099cb4666c42e4f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cabfe3896feff9fd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.fields.xfield","kind":"function","src_hash":"f7e2d1ea793ce73b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"xfield(sym)","rhs":"construct new rational function field returning (field, (x1, ..., xn))","over":{"base":"Any"},"name":"xfield_correct"},"guarantee":"construct new rational function field returning (field, (x1, ..., xn))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.fields.xfield_correct","statement":"Path(xfield(x), construct new rational function field returning (field, (x1, ..., xn)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7099cb4666c42e4f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.fields.xfield","kind":"function","src_hash":"f7e2d1ea793ce73b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"xfield(symbols, domain, order)","rhs":"(_field, _field.gens)","over":{"base":"Any"},"name":"xfield_correct"},"guarantee":"returns (_field, _field.gens)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.fields.xfield_correct","statement":"Path(xfield(x), returns (_field, _field.gens))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cabfe3896feff9fd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(_field, _field.gens)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def xfield(symbols, domain, order=lex):
     """Construct new rational function field returning (field, (x1, ..., xn)). """
     _field = FracField(symbols, domain, order)
@@ -80,16 +92,22 @@ def xfield(symbols, domain, order=lex):
 
 @public
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(vfield(sym), construct new rational function field and inject generators into global namespace) over Any ║
+# ║ Path(vfield(symbols, domain, order), <unspecified:vfield>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ vfield : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3d8bd298aea38756  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.fields.vfield","kind":"function","src_hash":"7f2c08712daaaad2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"vfield(sym)","rhs":"construct new rational function field and inject generators into global namespace","over":{"base":"Any"},"name":"vfield_correct"},"guarantee":"construct new rational function field and inject generators into global namespace","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.fields.vfield_correct","statement":"Path(vfield(x), construct new rational function field and inject generators into global namespace)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3d8bd298aea38756"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.fields.vfield","kind":"function","src_hash":"7f2c08712daaaad2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"vfield(symbols, domain, order)","rhs":"<unspecified:vfield>","over":{"base":"Any"},"name":"vfield_correct"},"guarantee":"construct new rational function field and inject generators into global namespace","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.fields.vfield_correct","statement":"Path(vfield(x), construct new rational function field and inject generators into global namespace)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3d8bd298aea38756","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def vfield(symbols, domain, order=lex):
     """Construct new rational function field and inject generators into global namespace. """
     _field = FracField(symbols, domain, order)
@@ -98,16 +116,22 @@ def vfield(symbols, domain, order=lex):
 
 @public
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sfield(exp), construct a field deriving generators and domain from options and input expressions) over Any ║
+# ║ Path(sfield(exprs, *symbols, **options), <unspecified:sfield>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ sfield : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 315dd9b956a386a8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.fields.sfield","kind":"function","src_hash":"306643a68cc07903","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sfield(exp)","rhs":"construct a field deriving generators and domain from options and input expressions","over":{"base":"Any"},"name":"sfield_correct"},"guarantee":"construct a field deriving generators and domain from options and input expressions","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.fields.sfield_correct","statement":"Path(sfield(x), construct a field deriving generators and domain from options and input expressions)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"315dd9b956a386a8"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.fields.sfield","kind":"function","src_hash":"306643a68cc07903","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sfield(exprs, *symbols, **options)","rhs":"<unspecified:sfield>","over":{"base":"Any"},"name":"sfield_correct"},"guarantee":"construct a field deriving generators and domain from options and input expressions","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.fields.sfield_correct","statement":"Path(sfield(x), construct a field deriving generators and domain from options and input expressions)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"315dd9b956a386a8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['exprs'], spec=['exprs', '*symbols', '**options']"]}}
 def sfield(exprs, *symbols, **options):
     """Construct a field deriving generators and domain
     from options and input expressions.
@@ -164,14 +188,20 @@ def sfield(exprs, *symbols, **options):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(FracField(*args), correctly constructs a FracField instance) over {Any | isinstance(element, FracElement) and isinstance(symbol, Symbol) and isinstance(other, FracField)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DefaultPrinting)              ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ FracField : {Any | isinstance(element, FracElement) a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.6ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5eb6d41135670de9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.fields.FracField","kind":"class","src_hash":"3159972d7c14f93f","in":{"base":"Any","pred":"isinstance(element, FracElement) and isinstance(symbol, Symbol) and isinstance(other, FracField)"},"out":{"base":"Any"},"spec":{"lhs":"FracField(*args)","rhs":"correctly constructs a FracField instance","over":{"base":"Any","pred":"isinstance(element, FracElement) and isinstance(symbol, Symbol) and isinstance(other, FracField)"},"name":"FracField_class_invariant"},"guarantee":"correctly constructs a FracField instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5eb6d41135670de9"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.fields.FracField","kind":"class","src_hash":"3159972d7c14f93f","in":{"base":"Any","pred":"isinstance(element, FracElement) and isinstance(symbol, Symbol) and isinstance(other, FracField)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DefaultPrinting)"},"spec":{"lhs":"FracField(*args)","rhs":"correctly constructs a FracField instance","over":{"base":"Any","pred":"isinstance(element, FracElement) and isinstance(symbol, Symbol) and isinstance(other, FracField)"},"name":"FracField_class_invariant"},"guarantee":"isinstance(self, DefaultPrinting)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5eb6d41135670de9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DefaultPrinting)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.6,"verdict_class":"assumed","binding":false,"binding_errors":["Function FracField not found in source"]}}
 class FracField(DefaultPrinting):
     """Multivariate distributed rational function field. """
 
@@ -183,16 +213,22 @@ class FracField(DefaultPrinting):
     order: MonomialOrder
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, symbols, domain), <unspecified:__new__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d17c3a87c4d70282           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.fields.FracField.__new__","kind":"method","src_hash":"e7724fd9407c1ce0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d17c3a87c4d70282"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.fields.FracField.__new__","kind":"method","src_hash":"e7724fd9407c1ce0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, symbols, domain)","rhs":"<unspecified:__new__>","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d17c3a87c4d70282","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["cls.__name__"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, symbols, domain, order=lex):
         ring = PolyRing(symbols, domain, order)
         symbols = ring.symbols
@@ -228,59 +264,85 @@ class FracField(DefaultPrinting):
         return obj
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_gens(), return a list of polynomial generators) over Any ║
+# ║ Path(_gens(), tuple([self.dtype(gen) for gen in self.ring.gens])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  tuple([self.dtype(gen) for gen in self.ri...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _gens : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | efe4f03f04ebf512           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.fields.FracField._gens","kind":"method","src_hash":"7f2571ba7c512a29","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_gens()","rhs":"return a list of polynomial generators","over":{"base":"Any"},"name":"_gens_correct"},"guarantee":"return a list of polynomial generators","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"efe4f03f04ebf512"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.fields.FracField._gens","kind":"method","src_hash":"7f2571ba7c512a29","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_gens()","rhs":"tuple([self.dtype(gen) for gen in self.ring.gens])","over":{"base":"Any"},"name":"_gens_correct"},"guarantee":"returns tuple([self.dtype(gen) for gen in self.ring.gens])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"efe4f03f04ebf512","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"tuple([self.dtype(gen) for gen in self.ring.gens])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.dtype","self.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _gens(self):
         """Return a list of polynomial generators. """
         return tuple([ self.dtype(gen) for gen in self.ring.gens ])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__getnewargs__(), internal helper behaves correctly) over Any ║
+# ║ Path(__getnewargs__(), (self.symbols, self.domain, self.order)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (self.symbols, self.domain, self.order)        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __getnewargs__ : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 998be8f38e08efd9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.fields.FracField.__getnewargs__","kind":"method","src_hash":"adea29ad578682ff","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getnewargs__()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__getnewargs___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"998be8f38e08efd9"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.fields.FracField.__getnewargs__","kind":"method","src_hash":"adea29ad578682ff","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getnewargs__()","rhs":"(self.symbols, self.domain, self.order)","over":{"base":"Any"},"name":"__getnewargs___correct"},"guarantee":"returns (self.symbols, self.domain, self.order)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"998be8f38e08efd9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(self.symbols, self.domain, self.order)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.order","self.symbols"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __getnewargs__(self):
         return (self.symbols, self.domain, self.order)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__hash__(), returns a consistent hash value) over Any ║
+# ║ Path(__hash__(), self._hash) over Any                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._hash                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __hash__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | eba02a6e0b302489           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.fields.FracField.__hash__","kind":"method","src_hash":"96f49e4531c3bb98","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__hash__()","rhs":"returns a consistent hash value","over":{"base":"Any"},"name":"__hash___correct"},"guarantee":"returns a consistent hash value","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"eba02a6e0b302489"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.fields.FracField.__hash__","kind":"method","src_hash":"96f49e4531c3bb98","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__hash__()","rhs":"self._hash","over":{"base":"Any"},"name":"__hash___correct"},"guarantee":"returns self._hash","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"eba02a6e0b302489","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._hash","pure":false,"effects":{"effect_type":"reads_state","reads":["self._hash"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __hash__(self):
         return self._hash
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(index(gen), id) over Any                              ║
+# ║ Path(index(gen), id) over {Any | hasattr(gen, 'to_poly')}  ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ index : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(gen, 'to_poly')                        ║
+# ║   fiber[case_0]: self.is_element(gen) => self.ring.in...   ║
+# ║   fiber[case_1]: not (self.is_element(gen))                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ index : {Any | hasattr(gen, 'to_poly')} → Any              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 6b9ef64e95bcaea0   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.fields.FracField.index","kind":"method","src_hash":"576f2e2575e684d3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"index(gen)","rhs":"index produces the expected output","over":{"base":"Any"},"name":"index_correct","kind":"composition"},"guarantee":"index produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"index","by":"library_axiom"},{"fn":"to_poly","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6b9ef64e95bcaea0"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.fields.FracField.index","kind":"method","src_hash":"576f2e2575e684d3","in":{"base":"Any","pred":"hasattr(gen, 'to_poly')"},"out":{"base":"Any"},"spec":{"lhs":"index(gen)","rhs":"<unspecified:index>","over":{"base":"Any","pred":"hasattr(gen, 'to_poly')"},"name":"index_correct","kind":"composition"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"index","by":"library_axiom"},{"fn":"to_poly","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6b9ef64e95bcaea0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(gen, 'to_poly')"],"fibers":[{"name":"case_0","guard":"self.is_element(gen)","ensures":["result == self.ring.index(gen.to_poly())"],"decidability":"library","returns_expr":"self.ring.index(gen.to_poly())"},{"name":"case_1","guard":"not (self.is_element(gen))","ensures":[],"decidability":"library"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["gen.to_poly","self.dtype","self.is_element","self.ring"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def index(self, gen):
         if self.is_element(gen):
             return self.ring.index(gen.to_poly())
@@ -288,105 +350,152 @@ class FracField(DefaultPrinting):
             raise ValueError("expected a %s, got %s instead" % (self.dtype,gen))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__eq__(oth), correctly determines equality) over Any  ║
+# ║ Path(__eq__(other), isinstance(other, FracField) and (self.symbols, self.ngens, self.domain, self.order) == (other.symbols, other.ngens, other.domain, other.order)) over {Any | hasattr(other, 'symbols') and hasattr(other, 'ngens') and hasattr(other, 'domain') and hasattr(other, 'order')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __eq__ : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, 'symbols')                      ║
+# ║   requires: hasattr(other, 'ngens')                        ║
+# ║   requires: hasattr(other, 'domain')                       ║
+# ║   returns:  isinstance(other, FracField) and (self.sy...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __eq__ : {Any | hasattr(other, 'symbols') and hasattr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0e1c26c60e7b4a88           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.fields.FracField.__eq__","kind":"method","src_hash":"c020e8fa4c186b06","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(oth)","rhs":"correctly determines equality","over":{"base":"Any"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0e1c26c60e7b4a88"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.fields.FracField.__eq__","kind":"method","src_hash":"c020e8fa4c186b06","in":{"base":"Any","pred":"hasattr(other, 'symbols') and hasattr(other, 'ngens') and hasattr(other, 'domain') and hasattr(other, 'order')"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(other)","rhs":"isinstance(other, FracField) and (self.symbols, self.ngens, self.domain, self.order) == (other.symbols, other.ngens, other.domain, other.order)","over":{"base":"Any","pred":"hasattr(other, 'symbols') and hasattr(other, 'ngens') and hasattr(other, 'domain') and hasattr(other, 'order')"},"name":"__eq___correct"},"guarantee":"returns isinstance(other, FracField) and (self.symbols, self.ngens, self.domain, self.order) == (other.symbols, other.ngens, other.domain, other.order)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0e1c26c60e7b4a88","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, 'symbols')","hasattr(other, 'ngens')","hasattr(other, 'domain')","hasattr(other, 'order')"],"returns_expr":"isinstance(other, FracField) and (self.symbols, self.ngens, self.domain, self.order) == (other.symbols, other.ngens, other.domain, other.order)","pure":false,"effects":{"effect_type":"reads_state","reads":["other.domain","other.ngens","other.order","other.symbols","self.domain","self.ngens","self.order","self.symbols"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __eq__(self, other):
         return isinstance(other, FracField) and \
             (self.symbols, self.ngens, self.domain, self.order) == \
             (other.symbols, other.ngens, other.domain, other.order)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__ne__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__ne__(other), not self == other) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  not self == other                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __ne__ : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 037a0cb7d01df678           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.fields.FracField.__ne__","kind":"method","src_hash":"3c9a6691f5a0eb67","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__ne__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__ne___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"037a0cb7d01df678"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.fields.FracField.__ne__","kind":"method","src_hash":"3c9a6691f5a0eb67","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__ne__(other)","rhs":"not self == other","over":{"base":"Any"},"name":"__ne___correct"},"guarantee":"returns not self == other","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"037a0cb7d01df678","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"not self == other","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __ne__(self, other):
         return not self == other
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_element(ele), true if ``element`` is an element of this field) over Any ║
+# ║ Path(is_element(element), isinstance(element, FracElement) and element.field == self) over {Any | hasattr(element, 'field')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ is_element : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(element, 'field')                      ║
+# ║   returns:  isinstance(element, FracElement) and elem...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ is_element : {Any | hasattr(element, 'field')} → Any       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ac9ffc836ecb1b21           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.fields.FracField.is_element","kind":"method","src_hash":"a3dced682825409c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_element(ele)","rhs":"true if ``element`` is an element of this field","over":{"base":"Any"},"name":"is_element_correct"},"guarantee":"true if ``element`` is an element of this field","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ac9ffc836ecb1b21"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.fields.FracField.is_element","kind":"method","src_hash":"a3dced682825409c","in":{"base":"Any","pred":"hasattr(element, 'field')"},"out":{"base":"Any"},"spec":{"lhs":"is_element(element)","rhs":"isinstance(element, FracElement) and element.field == self","over":{"base":"Any","pred":"hasattr(element, 'field')"},"name":"is_element_correct"},"guarantee":"returns isinstance(element, FracElement) and element.field == self","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ac9ffc836ecb1b21","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(element, 'field')"],"returns_expr":"isinstance(element, FracElement) and element.field == self","pure":false,"effects":{"effect_type":"reads_state","reads":["element.field"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_element(self, element):
         """True if ``element`` is an element of this field. False otherwise. """
         return isinstance(element, FracElement) and element.field == self
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(raw_new(num), raw_new produces the expected output) over Any ║
+# ║ Path(raw_new(numer, denom), self.dtype(numer, denom)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.dtype(numer, denom)                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ raw_new : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ba55b55cc687d2b7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.fields.FracField.raw_new","kind":"method","src_hash":"f28a8255a7d3b6db","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"raw_new(num)","rhs":"raw_new produces the expected output","over":{"base":"Any"},"name":"raw_new_correct"},"guarantee":"raw_new produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ba55b55cc687d2b7"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.fields.FracField.raw_new","kind":"method","src_hash":"f28a8255a7d3b6db","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"raw_new(numer, denom)","rhs":"self.dtype(numer, denom)","over":{"base":"Any"},"name":"raw_new_correct"},"guarantee":"returns self.dtype(numer, denom)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ba55b55cc687d2b7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.dtype(numer, denom)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.dtype"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def raw_new(self, numer, denom=None):
         return self.dtype(numer, denom)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(new(num), new produces the expected output) over Any  ║
+# ║ Path(new(numer, denom), self.raw_new(numer, denom)) over {Any | hasattr(numer, 'cancel')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ new : Any → Any                                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(numer, 'cancel')                       ║
+# ║   returns:  self.raw_new(numer, denom)                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ new : {Any | hasattr(numer, 'cancel')} → Any               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5ba5af262fbee109  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ee03cb662ebdbd9a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.fields.FracField.new","kind":"method","src_hash":"5c75133ff4e39aea","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"new(num)","rhs":"new produces the expected output","over":{"base":"Any"},"name":"new_correct"},"guarantee":"new produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.fields.FracField.new_correct","statement":"Path(new(x), new produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5ba5af262fbee109"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.fields.FracField.new","kind":"method","src_hash":"5c75133ff4e39aea","in":{"base":"Any","pred":"hasattr(numer, 'cancel')"},"out":{"base":"Any"},"spec":{"lhs":"new(numer, denom)","rhs":"self.raw_new(numer, denom)","over":{"base":"Any","pred":"hasattr(numer, 'cancel')"},"name":"new_correct"},"guarantee":"returns self.raw_new(numer, denom)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.fields.FracField.new_correct","statement":"Path(new(x), returns self.raw_new(numer, denom))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ee03cb662ebdbd9a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(numer, 'cancel')"],"returns_expr":"self.raw_new(numer, denom)","pure":false,"effects":{"effect_type":"reads_state","reads":["numer.cancel","self.raw_new","self.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def new(self, numer, denom=None):
         if denom is None: denom = self.ring.one
         numer, denom = numer.cancel(denom)
         return self.raw_new(numer, denom)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(domain_new(ele), domain_new produces the expected output) over Any ║
+# ║ Path(domain_new(element), self.domain.convert(element)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.domain.convert(element)                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ domain_new : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 13adcca9ed58511f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.fields.FracField.domain_new","kind":"method","src_hash":"0f4c0c24b05c290c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"domain_new(ele)","rhs":"domain_new produces the expected output","over":{"base":"Any"},"name":"domain_new_correct"},"guarantee":"domain_new produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"13adcca9ed58511f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.fields.FracField.domain_new","kind":"method","src_hash":"0f4c0c24b05c290c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"domain_new(element)","rhs":"self.domain.convert(element)","over":{"base":"Any"},"name":"domain_new_correct"},"guarantee":"returns self.domain.convert(element)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"13adcca9ed58511f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.domain.convert(element)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def domain_new(self, element):
         return self.domain.convert(element)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ground_new(ele), id) over Any                         ║
+# ║ Path(ground_new(element), id) over Any                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ ground_new : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | ac16fdb906ed66b9   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.fields.FracField.ground_new","kind":"method","src_hash":"4e68d354c58796a1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ground_new(ele)","rhs":"ground_new produces the expected output","over":{"base":"Any"},"name":"ground_new_correct","kind":"composition"},"guarantee":"ground_new produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"new","by":"library_axiom"},{"fn":"ground_new","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ac16fdb906ed66b9"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.fields.FracField.ground_new","kind":"method","src_hash":"4e68d354c58796a1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ground_new(element)","rhs":"<unspecified:ground_new>","over":{"base":"Any"},"name":"ground_new_correct","kind":"composition"},"guarantee":"ground_new produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"new","by":"library_axiom"},{"fn":"ground_new","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ac16fdb906ed66b9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.new","self.raw_new","self.ring"],"catches":["CoercionFailed"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def ground_new(self, element):
         try:
             return self.new(self.ring.ground_new(element))
@@ -404,16 +513,26 @@ class FracField(DefaultPrinting):
                 raise
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(field_new(ele), field_new produces the expected output) over Any ║
+# ║ Path(field_new(element), <unspecified:field_new>) over {Any | hasattr(element, 'field') and hasattr(element, 'clear_denoms')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ field_new : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(element, 'field')                      ║
+# ║   requires: hasattr(element, 'clear_denoms')               ║
+# ║   fiber[FracElement]: isinstance(element, FracElement)     ║
+# ║   fiber[PolyElement]: isinstance(element, PolyElement...   ║
+# ║   fiber[tuple]: isinstance(element, tuple) and len(el...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ field_new : {Any | hasattr(element, 'field') and hasa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0aed0c972078195b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a31f48c37806312c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.fields.FracField.field_new","kind":"method","src_hash":"2d0ea9e0fe8d9a0e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"field_new(ele)","rhs":"field_new produces the expected output","over":{"base":"Any"},"name":"field_new_correct"},"guarantee":"field_new produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.fields.FracField.field_new_correct","statement":"Path(field_new(x), field_new produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0aed0c972078195b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.fields.FracField.field_new","kind":"method","src_hash":"2d0ea9e0fe8d9a0e","in":{"base":"Any","pred":"hasattr(element, 'field') and hasattr(element, 'clear_denoms')"},"out":{"base":"Any"},"spec":{"lhs":"field_new(element)","rhs":"<unspecified:field_new>","over":{"base":"Any","pred":"hasattr(element, 'field') and hasattr(element, 'clear_denoms')"},"name":"field_new_correct"},"guarantee":"6-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.fields.FracField.field_new_correct","statement":"Path(field_new(x), 6-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a31f48c37806312c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(element, 'field')","hasattr(element, 'clear_denoms')"],"fibers":[{"name":"FracElement","guard":"isinstance(element, FracElement)","ensures":[],"decidability":"structural"},{"name":"PolyElement","guard":"isinstance(element, PolyElement)","ensures":["result == self.raw_new(numer, denom)"],"decidability":"structural","returns_expr":"self.raw_new(numer, denom)"},{"name":"tuple","guard":"isinstance(element, tuple) and len(element) == 2","ensures":["result == self.new(numer, denom)"],"decidability":"structural","returns_expr":"self.new(numer, denom)"},{"name":"str","guard":"isinstance(element, str)","ensures":[],"decidability":"structural"},{"name":"Expr","guard":"isinstance(element, Expr)","ensures":["result == self.from_expr(element)"],"decidability":"structural","returns_expr":"self.from_expr(element)"},{"name":"FracElement","guard":"not (isinstance(element, FracElement)) and not (isinstance(element, PolyElement)) and not (isinstance(element, tuple) and len(element) == 2) and not (isinstance(element, str)) and not (isinstance(element, Expr))","ensures":["result == self.ground_new(element)"],"decidability":"structural","returns_expr":"self.ground_new(element)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["element.clear_denoms","element.field","self.domain","self.from_expr","self.ground_new","self.new","self.raw_new","self.ring"],"raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def field_new(self, element):
         if isinstance(element, FracElement):
             if self == element.field:
@@ -454,16 +573,25 @@ class FracField(DefaultPrinting):
     __call__ = field_new
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_rebuild_expr(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_rebuild_expr(expr, mapping), <unspecified:_rebuild_expr>) over {Any | hasattr(mapping, 'get') and hasattr(expr, 'is_Add') and hasattr(expr, 'is_Mul') and hasattr(mapping, 'keys') and hasattr(expr, 'is_Pow') and hasattr(expr, 'args') and hasattr(expr, 'as_base_exp')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _rebuild_expr : Any → Any                                  ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(mapping, 'get')                        ║
+# ║   requires: hasattr(expr, 'is_Add')                        ║
+# ║   requires: hasattr(expr, 'is_Mul')                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _rebuild_expr : {Any | hasattr(mapping, 'get') and ha...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 83f3e76794a014a0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.fields.FracField._rebuild_expr","kind":"method","src_hash":"9356b4a99ec291eb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_rebuild_expr(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_rebuild_expr_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.fields.FracField._rebuild_expr_correct","statement":"Path(_rebuild_expr(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"83f3e76794a014a0"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.fields.FracField._rebuild_expr","kind":"method","src_hash":"9356b4a99ec291eb","in":{"base":"Any","pred":"hasattr(mapping, 'get') and hasattr(expr, 'is_Add') and hasattr(expr, 'is_Mul') and hasattr(mapping, 'keys') and hasattr(expr, 'is_Pow') and hasattr(expr, 'args') and hasattr(expr, 'as_base_exp')"},"out":{"base":"Any"},"spec":{"lhs":"_rebuild_expr(expr, mapping)","rhs":"<unspecified:_rebuild_expr>","over":{"base":"Any","pred":"hasattr(mapping, 'get') and hasattr(expr, 'is_Add') and hasattr(expr, 'is_Mul') and hasattr(mapping, 'keys') and hasattr(expr, 'is_Pow') and hasattr(expr, 'args') and hasattr(expr, 'as_base_exp')"},"name":"_rebuild_expr_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.fields.FracField._rebuild_expr_correct","statement":"Path(_rebuild_expr(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"83f3e76794a014a0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(mapping, 'get')","hasattr(expr, 'is_Add')","hasattr(expr, 'is_Mul')","hasattr(mapping, 'keys')","hasattr(expr, 'is_Pow')","hasattr(expr, 'args')","hasattr(expr, 'as_base_exp')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","expr.as_base_exp","expr.is_Add","expr.is_Mul","expr.is_Pow","mapping.get","mapping.keys","self.domain"],"catches":["CoercionFailed"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _rebuild_expr(self, expr, mapping):
         domain = self.domain
         powers = tuple((gen, gen.as_base_exp()) for gen in mapping.keys()
@@ -500,16 +628,22 @@ class FracField(DefaultPrinting):
         return _rebuild(expr)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_expr(exp), from_expr produces the expected output) over Any ║
+# ║ Path(from_expr(expr), self.field_new(frac)) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.field_new(frac)                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ from_expr : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9ab2c1022bb022d4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5c6ad8592ee20775  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.fields.FracField.from_expr","kind":"method","src_hash":"1d1bcd2c591c543f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_expr(exp)","rhs":"from_expr produces the expected output","over":{"base":"Any"},"name":"from_expr_correct"},"guarantee":"from_expr produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.fields.FracField.from_expr_correct","statement":"Path(from_expr(x), from_expr produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9ab2c1022bb022d4"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.fields.FracField.from_expr","kind":"method","src_hash":"1d1bcd2c591c543f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_expr(expr)","rhs":"self.field_new(frac)","over":{"base":"Any"},"name":"from_expr_correct"},"guarantee":"returns self.field_new(frac)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.fields.FracField.from_expr_correct","statement":"Path(from_expr(x), returns self.field_new(frac))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5c6ad8592ee20775","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.field_new(frac)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._rebuild_expr","self.field_new","self.gens","self.symbols"],"raises":["ValueError"],"catches":["CoercionFailed"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_expr(self, expr):
         mapping = dict(list(zip(self.symbols, self.gens)))
 
@@ -521,58 +655,87 @@ class FracField(DefaultPrinting):
             return self.field_new(frac)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(to_domain(), to_domain produces the expected output) over Any ║
+# ║ Path(to_domain(), FractionField(self)) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  FractionField(self)                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ to_domain : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b351625c08c8a6f4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.fields.FracField.to_domain","kind":"method","src_hash":"13c1813f2b73e8c1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_domain()","rhs":"to_domain produces the expected output","over":{"base":"Any"},"name":"to_domain_correct"},"guarantee":"to_domain produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b351625c08c8a6f4"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.fields.FracField.to_domain","kind":"method","src_hash":"13c1813f2b73e8c1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_domain()","rhs":"FractionField(self)","over":{"base":"Any"},"name":"to_domain_correct"},"guarantee":"returns FractionField(self)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b351625c08c8a6f4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"FractionField(self)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def to_domain(self):
         return FractionField(self)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(to_ring(), to_ring produces the expected output) over Any ║
+# ║ Path(to_ring(), PolyRing(self.symbols, self.domain, self.order)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  PolyRing(self.symbols, self.domain, self....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ to_ring : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | cccee110a80a2ca9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.fields.FracField.to_ring","kind":"method","src_hash":"eb1af16e504150f9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_ring()","rhs":"to_ring produces the expected output","over":{"base":"Any"},"name":"to_ring_correct"},"guarantee":"to_ring produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cccee110a80a2ca9"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.fields.FracField.to_ring","kind":"method","src_hash":"eb1af16e504150f9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_ring()","rhs":"PolyRing(self.symbols, self.domain, self.order)","over":{"base":"Any"},"name":"to_ring_correct"},"guarantee":"returns PolyRing(self.symbols, self.domain, self.order)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cccee110a80a2ca9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"PolyRing(self.symbols, self.domain, self.order)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.order","self.symbols"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def to_ring(self):
         return PolyRing(self.symbols, self.domain, self.order)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a FracElement instance) preserved by FracElement(*args) over {Any | isinstance(g, FracElement) and isinstance(x, list) and isinstance(g, PolyElement)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DomainElement)                ║
+# ║   ensures:  isinstance(self, DefaultPrinting)              ║
+# ║   ensures:  isinstance(self, CantSympify)                  ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ FracElement : {Any | isinstance(g, FracElement) and i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 2.9ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6b49f7f3a50a0499  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.fields.FracElement","kind":"class","src_hash":"b5b76b91ef65e016","in":{"base":"Any","pred":"isinstance(g, FracElement) and isinstance(x, list) and isinstance(g, PolyElement)"},"out":{"base":"Any"},"spec":{"lhs":"FracElement(*args)","rhs":"correctly constructs a FracElement instance","over":{"base":"Any","pred":"isinstance(g, FracElement) and isinstance(x, list) and isinstance(g, PolyElement)"},"name":"FracElement_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a FracElement instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'field') and hasattr(self, 'numer') and hasattr(self, 'denom')","kind":"class","induction":"structural on field, numer, denom"}],"methods_preserving":["__init__","parent","__getnewargs__","__hash__","copy","set_field","as_expr","sort_key","_extract_ground"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6b49f7f3a50a0499"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.fields.FracElement","kind":"class","src_hash":"b5b76b91ef65e016","in":{"base":"Any","pred":"isinstance(g, FracElement) and isinstance(x, list) and isinstance(g, PolyElement)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DomainElement) and isinstance(self, DefaultPrinting) and isinstance(self, CantSympify)"},"spec":{"lhs":"FracElement(*args)","rhs":"correctly constructs a FracElement instance","over":{"base":"Any","pred":"isinstance(g, FracElement) and isinstance(x, list) and isinstance(g, PolyElement)"},"name":"FracElement_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, DomainElement); isinstance(self, DefaultPrinting); isinstance(self, CantSympify); preserves 3 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'field') and hasattr(self, 'numer') and hasattr(self, 'denom')","kind":"class","induction":"structural on field, numer, denom"}],"methods_preserving":["__init__","parent","__getnewargs__","__hash__","copy","set_field","as_expr","sort_key","_extract_ground"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6b49f7f3a50a0499","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DomainElement)","isinstance(self, DefaultPrinting)","isinstance(self, CantSympify)"],"invariants":["hasattr(self, 'field')","hasattr(self, 'numer')","hasattr(self, 'denom')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.9,"verdict_class":"assumed","binding":false,"binding_errors":["Function FracElement not found in source"]}}
 class FracElement(DomainElement, DefaultPrinting, CantSympify):
     """Element of multivariate distributed rational function field. """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(fie), initializes the instance correctly) over Any ║
+# ║ Path(__init__(field, numer, denom), self.field == field and self.numer == numer and self.denom == denom) over {Any | hasattr(field, 'ring')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(field, 'ring')                         ║
+# ║   ensures:  self.field == field                            ║
+# ║   ensures:  self.numer == numer                            ║
+# ║   ensures:  self.denom == denom                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : {Any | hasattr(field, 'ring')} → {Any | re...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6c8487c0568cc483           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.fields.FracElement.__init__","kind":"method","src_hash":"2f5bb21b26240761","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(fie)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6c8487c0568cc483"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.fields.FracElement.__init__","kind":"method","src_hash":"2f5bb21b26240761","in":{"base":"Any","pred":"hasattr(field, 'ring')"},"out":{"base":"Any","pred":"result satisfies: self.field == field and self.numer == numer and self.denom == denom"},"spec":{"lhs":"__init__(field, numer, denom)","rhs":"self.field == field and self.numer == numer and self.denom == denom","over":{"base":"Any","pred":"hasattr(field, 'ring')"},"name":"__init___correct"},"guarantee":"self.field == field; self.numer == numer; self.denom == denom","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6c8487c0568cc483","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(field, 'ring')"],"ensures":["self.field == field","self.numer == numer","self.denom == denom"],"pure":false,"effects":{"effect_type":"reads_state","reads":["field.ring"],"writes":["self.denom","self.field","self.numer"],"raises":["ZeroDivisionError"]},"state_contract":{"modifies":["self.denom","self.field","self.numer"],"old_bindings":{"old_self_denom":"self.denom","old_self_field":"self.field","old_self_numer":"self.numer"},"exceptional_post":{"ZeroDivisionError":["isinstance(raised, ZeroDivisionError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, field, numer, denom=None):
         if denom is None:
             denom = field.ring.one
@@ -584,90 +747,132 @@ class FracElement(DomainElement, DefaultPrinting, CantSympify):
         self.denom = denom
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(raw_new(f, ), raw_new produces the expected output) over Any ║
+# ║ Path(raw_new(f, numer, denom), f.__class__(f.field, numer, denom)) over {Any | hasattr(f, 'field')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ raw_new : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'field')                            ║
+# ║   returns:  f.__class__(f.field, numer, denom)             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ raw_new : {Any | hasattr(f, 'field')} → Any                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 44c3db13ba67a12b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.fields.FracElement.raw_new","kind":"method","src_hash":"cbd33f98ce6cfeab","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"raw_new(f, )","rhs":"raw_new produces the expected output","over":{"base":"Any"},"name":"raw_new_correct"},"guarantee":"raw_new produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"44c3db13ba67a12b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.fields.FracElement.raw_new","kind":"method","src_hash":"cbd33f98ce6cfeab","in":{"base":"Any","pred":"hasattr(f, 'field')"},"out":{"base":"Any"},"spec":{"lhs":"raw_new(f, numer, denom)","rhs":"f.__class__(f.field, numer, denom)","over":{"base":"Any","pred":"hasattr(f, 'field')"},"name":"raw_new_correct"},"guarantee":"returns f.__class__(f.field, numer, denom)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"44c3db13ba67a12b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'field')"],"returns_expr":"f.__class__(f.field, numer, denom)","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","f.__class__","f.field"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def raw_new(f, numer, denom=None):
         return f.__class__(f.field, numer, denom)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(new(f, ), new produces the expected output) over Any  ║
+# ║ Path(new(f, numer, denom), f.raw_new(*numer.cancel(denom))) over {Any | hasattr(f, 'raw_new') and hasattr(numer, 'cancel')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ new : Any → Any                                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'raw_new')                          ║
+# ║   requires: hasattr(numer, 'cancel')                       ║
+# ║   returns:  f.raw_new(*numer.cancel(denom))                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ new : {Any | hasattr(f, 'raw_new') and hasattr(numer,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 06e017c7e2f8d756           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.fields.FracElement.new","kind":"method","src_hash":"2f9418f26e71a586","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"new(f, )","rhs":"new produces the expected output","over":{"base":"Any"},"name":"new_correct"},"guarantee":"new produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"06e017c7e2f8d756"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.fields.FracElement.new","kind":"method","src_hash":"2f9418f26e71a586","in":{"base":"Any","pred":"hasattr(f, 'raw_new') and hasattr(numer, 'cancel')"},"out":{"base":"Any"},"spec":{"lhs":"new(f, numer, denom)","rhs":"f.raw_new(*numer.cancel(denom))","over":{"base":"Any","pred":"hasattr(f, 'raw_new') and hasattr(numer, 'cancel')"},"name":"new_correct"},"guarantee":"returns f.raw_new(*numer.cancel(denom))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"06e017c7e2f8d756","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'raw_new')","hasattr(numer, 'cancel')"],"returns_expr":"f.raw_new(*numer.cancel(denom))","pure":false,"effects":{"effect_type":"reads_state","reads":["f.raw_new","numer.cancel"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def new(f, numer, denom):
         return f.raw_new(*numer.cancel(denom))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(to_poly(f), to_poly produces the expected output) over Any ║
+# ║ Path(to_poly(f), f.numer) over {Any | not (f.denom != 1) and hasattr(f, 'numer') and hasattr(f, 'denom')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ to_poly : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (f.denom != 1)                             ║
+# ║   requires: hasattr(f, 'numer')                            ║
+# ║   requires: hasattr(f, 'denom')                            ║
+# ║   returns:  f.numer                                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ to_poly : {Any | not (f.denom != 1) and hasattr(f, 'n...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 135bcf914d9cae9b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0925c39b2177e6df  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.fields.FracElement.to_poly","kind":"method","src_hash":"92f6fb340a448dcc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_poly(f)","rhs":"to_poly produces the expected output","over":{"base":"Any"},"name":"to_poly_correct"},"guarantee":"to_poly produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.fields.FracElement.to_poly_correct","statement":"Path(to_poly(x), to_poly produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"135bcf914d9cae9b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.fields.FracElement.to_poly","kind":"method","src_hash":"92f6fb340a448dcc","in":{"base":"Any","pred":"not (f.denom != 1) and hasattr(f, 'numer') and hasattr(f, 'denom')"},"out":{"base":"Any"},"spec":{"lhs":"to_poly(f)","rhs":"f.numer","over":{"base":"Any","pred":"not (f.denom != 1) and hasattr(f, 'numer') and hasattr(f, 'denom')"},"name":"to_poly_correct"},"guarantee":"returns f.numer","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.fields.FracElement.to_poly_correct","statement":"Path(to_poly(x), returns f.numer)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0925c39b2177e6df","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (f.denom != 1)","hasattr(f, 'numer')","hasattr(f, 'denom')"],"returns_expr":"f.numer","pure":false,"effects":{"effect_type":"reads_state","reads":["f.denom","f.numer"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def to_poly(f):
         if f.denom != 1:
             raise ValueError("f.denom should be 1")
         return f.numer
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(parent(), parent produces the expected output) over Any ║
+# ║ Path(parent(), self.field.to_domain()) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.field.to_domain()                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ parent : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6c6fc99ba50ed3a6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.fields.FracElement.parent","kind":"method","src_hash":"1e5cb42e3e440625","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"parent()","rhs":"parent produces the expected output","over":{"base":"Any"},"name":"parent_correct"},"guarantee":"parent produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6c6fc99ba50ed3a6"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.fields.FracElement.parent","kind":"method","src_hash":"1e5cb42e3e440625","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"parent()","rhs":"self.field.to_domain()","over":{"base":"Any"},"name":"parent_correct"},"guarantee":"returns self.field.to_domain()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6c6fc99ba50ed3a6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.field.to_domain()","pure":false,"effects":{"effect_type":"reads_state","reads":["self.field"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def parent(self):
         return self.field.to_domain()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__getnewargs__(), internal helper behaves correctly) over Any ║
+# ║ Path(__getnewargs__(), (self.field, self.numer, self.denom)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (self.field, self.numer, self.denom)           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __getnewargs__ : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0956e66cc0979601           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.fields.FracElement.__getnewargs__","kind":"method","src_hash":"b311aa0ce7de4c36","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getnewargs__()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__getnewargs___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0956e66cc0979601"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.fields.FracElement.__getnewargs__","kind":"method","src_hash":"b311aa0ce7de4c36","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getnewargs__()","rhs":"(self.field, self.numer, self.denom)","over":{"base":"Any"},"name":"__getnewargs___correct"},"guarantee":"returns (self.field, self.numer, self.denom)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0956e66cc0979601","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(self.field, self.numer, self.denom)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.denom","self.field","self.numer"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __getnewargs__(self):
         return (self.field, self.numer, self.denom)
 
     _hash = None
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__hash__(), returns a consistent hash value) over Any ║
+# ║ Path(__hash__(), <unspecified:__hash__>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __hash__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e341dd8f8745d23b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.fields.FracElement.__hash__","kind":"method","src_hash":"43a50fe424363835","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__hash__()","rhs":"returns a consistent hash value","over":{"base":"Any"},"name":"__hash___correct"},"guarantee":"returns a consistent hash value","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e341dd8f8745d23b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.fields.FracElement.__hash__","kind":"method","src_hash":"43a50fe424363835","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__hash__()","rhs":"<unspecified:__hash__>","over":{"base":"Any"},"name":"__hash___correct"},"guarantee":"returns a consistent hash value","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e341dd8f8745d23b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._hash","self.denom","self.field","self.numer"],"writes":["self._hash"]},"state_contract":{"modifies":["self._hash"],"old_bindings":{"old_self__hash":"self._hash"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __hash__(self):
         _hash = self._hash
         if _hash is None:
@@ -675,30 +880,47 @@ class FracElement(DomainElement, DefaultPrinting, CantSympify):
         return _hash
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(copy(), copy produces the expected output) over Any   ║
+# ║ Path(copy(), self.raw_new(self.numer.copy(), self.denom.copy())) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.raw_new(self.numer.copy(), self.deno...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ copy : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c252fe40d9e4115f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.fields.FracElement.copy","kind":"method","src_hash":"ea496edec0bbbbd5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"copy()","rhs":"copy produces the expected output","over":{"base":"Any"},"name":"copy_correct"},"guarantee":"copy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c252fe40d9e4115f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.fields.FracElement.copy","kind":"method","src_hash":"ea496edec0bbbbd5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"copy()","rhs":"self.raw_new(self.numer.copy(), self.denom.copy())","over":{"base":"Any"},"name":"copy_correct"},"guarantee":"returns self.raw_new(self.numer.copy(), self.denom.copy())","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c252fe40d9e4115f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.raw_new(self.numer.copy(), self.denom.copy())","pure":false,"effects":{"effect_type":"reads_state","reads":["self.denom","self.numer","self.raw_new"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def copy(self):
         return self.raw_new(self.numer.copy(), self.denom.copy())
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(set_field(new), set_field produces the expected output) over Any ║
+# ║ Path(set_field(new_field), result == (self if self.field == new_field else new_field.new(numer, denom)) and result == self or result == new_field.new(numer, denom)) over {Any | hasattr(new_field, 'ring') and hasattr(new_field, 'new')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ set_field : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(new_field, 'ring')                     ║
+# ║   requires: hasattr(new_field, 'new')                      ║
+# ║   ensures:  result == (self if self.field == new_fiel...   ║
+# ║   ensures:  result == self or result == new_field.new...   ║
+# ║   fiber[case_0]: self.field == new_field => self           ║
+# ║   fiber[case_1]: not (self.field == new_field) => new...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ set_field : {Any | hasattr(new_field, 'ring') and has...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c8041cd8509ec39b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cbec1a149ed5fce0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.fields.FracElement.set_field","kind":"method","src_hash":"6241cacc6a9da5a5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"set_field(new)","rhs":"set_field produces the expected output","over":{"base":"Any"},"name":"set_field_correct"},"guarantee":"set_field produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.fields.FracElement.set_field_correct","statement":"Path(set_field(x), set_field produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c8041cd8509ec39b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.fields.FracElement.set_field","kind":"method","src_hash":"6241cacc6a9da5a5","in":{"base":"Any","pred":"hasattr(new_field, 'ring') and hasattr(new_field, 'new')"},"out":{"base":"Any","pred":"result satisfies: result == (self if self.field == new_field else new_field.new(numer, denom)) and result == self or result == new_field.new(numer, denom)"},"spec":{"lhs":"set_field(new_field)","rhs":"result == (self if self.field == new_field else new_field.new(numer, denom)) and result == self or result == new_field.new(numer, denom)","over":{"base":"Any","pred":"hasattr(new_field, 'ring') and hasattr(new_field, 'new')"},"name":"set_field_correct"},"guarantee":"result == (self if self.field == new_field else new_field.new(numer, denom)); result == self or result == new_field.new(numer, denom); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.fields.FracElement.set_field_correct","statement":"Path(set_field(x), result == (self if self.field == new_field else new_field.new(numer, denom)); result == self or result == new_field.new(numer, denom); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cbec1a149ed5fce0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(new_field, 'ring')","hasattr(new_field, 'new')"],"ensures":["result == (self if self.field == new_field else new_field.new(numer, denom))","result == self or result == new_field.new(numer, denom)"],"fibers":[{"name":"case_0","guard":"self.field == new_field","ensures":["result == self"],"decidability":"z3","returns_expr":"self"},{"name":"case_1","guard":"not (self.field == new_field)","ensures":["result == new_field.new(numer, denom)"],"decidability":"z3","returns_expr":"new_field.new(numer, denom)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["new_field.new","new_field.ring","self.denom","self.field","self.numer"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def set_field(self, new_field):
         if self.field == new_field:
             return self
@@ -709,30 +931,48 @@ class FracElement(DomainElement, DefaultPrinting, CantSympify):
             return new_field.new(numer, denom)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(as_expr(*sy), as_expr produces the expected output) over Any ║
+# ║ Path(as_expr(*symbols), self.numer.as_expr(*symbols) / self.denom.as_expr(*symbols)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.numer.as_expr(*symbols) / self.denom...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ as_expr : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b20de98a47185fd3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.fields.FracElement.as_expr","kind":"method","src_hash":"69c0133da35f04ee","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_expr(*sy)","rhs":"as_expr produces the expected output","over":{"base":"Any"},"name":"as_expr_correct"},"guarantee":"as_expr produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b20de98a47185fd3"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.fields.FracElement.as_expr","kind":"method","src_hash":"69c0133da35f04ee","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_expr(*symbols)","rhs":"self.numer.as_expr(*symbols) / self.denom.as_expr(*symbols)","over":{"base":"Any"},"name":"as_expr_correct"},"guarantee":"returns self.numer.as_expr(*symbols) / self.denom.as_expr(*symbols)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b20de98a47185fd3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.numer.as_expr(*symbols) / self.denom.as_expr(*symbols)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.denom","self.numer"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def as_expr(self, *symbols):
         return self.numer.as_expr(*symbols)/self.denom.as_expr(*symbols)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__eq__(f, ), correctly determines equality) over Any  ║
+# ║ Path(__eq__(f, g), result == (f.numer == g.numer and f.denom == g.denom if isinstance(g, FracElement) and f.field == g.field else f.numer == g and f.denom == f.field.ring.one) and result == f.numer == g.numer and f.denom == g.denom or result == f.numer == g and f.denom == f.field.ring.one) over {Any | hasattr(f, 'field') and hasattr(g, 'field') and hasattr(f, 'numer') and hasattr(g, 'numer') and hasattr(f, 'denom') and hasattr(g, 'denom')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __eq__ : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'field')                            ║
+# ║   requires: hasattr(g, 'field')                            ║
+# ║   requires: hasattr(f, 'numer')                            ║
+# ║   ensures:  result == (f.numer == g.numer and f.denom...   ║
+# ║   ensures:  result == f.numer == g.numer and f.denom ...   ║
+# ║   fiber[FracElement]: isinstance(g, FracElement) and ...   ║
+# ║   fiber[FracElement]: not (isinstance(g, FracElement)...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __eq__ : {Any | hasattr(f, 'field') and hasattr(g, 'f...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0c547e5861595d6d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.fields.FracElement.__eq__","kind":"method","src_hash":"5875f4ba3f152f6d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(f, )","rhs":"correctly determines equality","over":{"base":"Any"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0c547e5861595d6d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.fields.FracElement.__eq__","kind":"method","src_hash":"5875f4ba3f152f6d","in":{"base":"Any","pred":"hasattr(f, 'field') and hasattr(g, 'field') and hasattr(f, 'numer') and hasattr(g, 'numer') and hasattr(f, 'denom') and hasattr(g, 'denom')"},"out":{"base":"Any","pred":"result satisfies: result == (f.numer == g.numer and f.denom == g.denom if isinstance(g, FracElement) and f.field == g.field else f.numer == g and f.denom == f.field.ring.one) and result == f.numer == g.numer and f.denom == g.denom or result == f.numer == g and f.denom == f.field.ring.one"},"spec":{"lhs":"__eq__(f, g)","rhs":"result == (f.numer == g.numer and f.denom == g.denom if isinstance(g, FracElement) and f.field == g.field else f.numer == g and f.denom == f.field.ring.one) and result == f.numer == g.numer and f.denom == g.denom or result == f.numer == g and f.denom == f.field.ring.one","over":{"base":"Any","pred":"hasattr(f, 'field') and hasattr(g, 'field') and hasattr(f, 'numer') and hasattr(g, 'numer') and hasattr(f, 'denom') and hasattr(g, 'denom')"},"name":"__eq___correct"},"guarantee":"result == (f.numer == g.numer and f.denom == g.denom if isinstance(g, FracElement) and f.field == g.field else f.numer == g and f.denom == f.field.ring.one); result == f.numer == g.numer and f.denom == g.denom or result == f.numer == g and f.denom == f.field.ring.one; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0c547e5861595d6d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'field')","hasattr(g, 'field')","hasattr(f, 'numer')","hasattr(g, 'numer')","hasattr(f, 'denom')","hasattr(g, 'denom')"],"ensures":["result == (f.numer == g.numer and f.denom == g.denom if isinstance(g, FracElement) and f.field == g.field else f.numer == g and f.denom == f.field.ring.one)","result == f.numer == g.numer and f.denom == g.denom or result == f.numer == g and f.denom == f.field.ring.one"],"fibers":[{"name":"FracElement","guard":"isinstance(g, FracElement) and f.field == g.field","ensures":["result == f.numer == g.numer and f.denom == g.denom"],"decidability":"structural","returns_expr":"f.numer == g.numer and f.denom == g.denom"},{"name":"FracElement","guard":"not (isinstance(g, FracElement) and f.field == g.field)","ensures":["result == f.numer == g and f.denom == f.field.ring.one"],"decidability":"structural","returns_expr":"f.numer == g and f.denom == f.field.ring.one"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["f.denom","f.field","f.numer","g.denom","g.field","g.numer"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __eq__(f, g):
         if isinstance(g, FracElement) and f.field == g.field:
             return f.numer == g.numer and f.denom == g.denom
@@ -740,58 +980,89 @@ class FracElement(DomainElement, DefaultPrinting, CantSympify):
             return f.numer == g and f.denom == f.field.ring.one
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__ne__(f, ), internal helper behaves correctly) over Any ║
+# ║ Path(__ne__(f, g), not f == g) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  not f == g                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __ne__ : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 317a365761bcc18c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.fields.FracElement.__ne__","kind":"method","src_hash":"b92f7252e6b7d822","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__ne__(f, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__ne___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"317a365761bcc18c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.fields.FracElement.__ne__","kind":"method","src_hash":"b92f7252e6b7d822","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__ne__(f, g)","rhs":"not f == g","over":{"base":"Any"},"name":"__ne___correct"},"guarantee":"returns not f == g","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"317a365761bcc18c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"not f == g","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __ne__(f, g):
         return not f == g
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__bool__(f), correctly converts to boolean) over Any  ║
+# ║ Path(__bool__(f), bool(f.numer)) over {Any | hasattr(f, 'numer')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __bool__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'numer')                            ║
+# ║   returns:  bool(f.numer)                                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __bool__ : {Any | hasattr(f, 'numer')} → Any               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ba16e305a34bb5c5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.fields.FracElement.__bool__","kind":"method","src_hash":"4b3d457ce21e799c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__bool__(f)","rhs":"correctly converts to boolean","over":{"base":"Any"},"name":"__bool___correct"},"guarantee":"correctly converts to boolean","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ba16e305a34bb5c5"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.fields.FracElement.__bool__","kind":"method","src_hash":"4b3d457ce21e799c","in":{"base":"Any","pred":"hasattr(f, 'numer')"},"out":{"base":"Any"},"spec":{"lhs":"__bool__(f)","rhs":"bool(f.numer)","over":{"base":"Any","pred":"hasattr(f, 'numer')"},"name":"__bool___correct"},"guarantee":"returns bool(f.numer)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ba16e305a34bb5c5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'numer')"],"returns_expr":"bool(f.numer)","pure":false,"effects":{"effect_type":"reads_state","reads":["f.numer"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __bool__(f):
         return bool(f.numer)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sort_key(), sort_key produces the expected output) over Any ║
+# ║ Path(sort_key(), (self.denom.sort_key(), self.numer.sort_key())) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (self.denom.sort_key(), self.numer.sort_k...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ sort_key : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a14dde46e2588476           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.fields.FracElement.sort_key","kind":"method","src_hash":"d4553b0a3dfc068a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sort_key()","rhs":"sort_key produces the expected output","over":{"base":"Any"},"name":"sort_key_correct"},"guarantee":"sort_key produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a14dde46e2588476"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.fields.FracElement.sort_key","kind":"method","src_hash":"d4553b0a3dfc068a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sort_key()","rhs":"(self.denom.sort_key(), self.numer.sort_key())","over":{"base":"Any"},"name":"sort_key_correct"},"guarantee":"returns (self.denom.sort_key(), self.numer.sort_key())","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a14dde46e2588476","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(self.denom.sort_key(), self.numer.sort_key())","pure":false,"effects":{"effect_type":"reads_state","reads":["self.denom","self.numer"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def sort_key(self):
         return (self.denom.sort_key(), self.numer.sort_key())
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_cmp(f1,), id) over Any                               ║
+# ║ Path(_cmp(f1, f2, op), id) over {Any | hasattr(f1, 'field') and hasattr(f1, 'sort_key') and hasattr(f2, 'sort_key')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _cmp : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f1, 'field')                           ║
+# ║   requires: hasattr(f1, 'sort_key')                        ║
+# ║   requires: hasattr(f2, 'sort_key')                        ║
+# ║   ensures:  result == (op(f1.sort_key(), f2.sort_key(...   ║
+# ║   ensures:  result == op(f1.sort_key(), f2.sort_key()...   ║
+# ║   fiber[case_0]: f1.field.is_element(f2) => op(f1.sor...   ║
+# ║   fiber[case_1]: not (f1.field.is_element(f2)) => Not...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _cmp : {Any | hasattr(f1, 'field') and hasattr(f1, 's...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | fbc7e260379718fe   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.fields.FracElement._cmp","kind":"method","src_hash":"41da9eacec271c8e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_cmp(f1,)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_cmp_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"op","by":"library_axiom"},{"fn":"sort_key","by":"library_axiom"},{"fn":"sort_key","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fbc7e260379718fe"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.fields.FracElement._cmp","kind":"method","src_hash":"41da9eacec271c8e","in":{"base":"Any","pred":"hasattr(f1, 'field') and hasattr(f1, 'sort_key') and hasattr(f2, 'sort_key')"},"out":{"base":"Any","pred":"result satisfies: result == (op(f1.sort_key(), f2.sort_key()) if f1.field.is_element(f2) else NotImplemented) and result == op(f1.sort_key(), f2.sort_key()) or result == NotImplemented"},"spec":{"lhs":"_cmp(f1, f2, op)","rhs":"result == (op(f1.sort_key(), f2.sort_key()) if f1.field.is_element(f2) else NotImplemented) and result == op(f1.sort_key(), f2.sort_key()) or result == NotImplemented","over":{"base":"Any","pred":"hasattr(f1, 'field') and hasattr(f1, 'sort_key') and hasattr(f2, 'sort_key')"},"name":"_cmp_correct","kind":"composition"},"guarantee":"result == (op(f1.sort_key(), f2.sort_key()) if f1.field.is_element(f2) else NotImplemented); result == op(f1.sort_key(), f2.sort_key()) or result == NotImplemented; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"op","by":"library_axiom"},{"fn":"sort_key","by":"library_axiom"},{"fn":"sort_key","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fbc7e260379718fe","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f1, 'field')","hasattr(f1, 'sort_key')","hasattr(f2, 'sort_key')"],"ensures":["result == (op(f1.sort_key(), f2.sort_key()) if f1.field.is_element(f2) else NotImplemented)","result == op(f1.sort_key(), f2.sort_key()) or result == NotImplemented"],"fibers":[{"name":"case_0","guard":"f1.field.is_element(f2)","ensures":["result == op(f1.sort_key(), f2.sort_key())"],"decidability":"library","returns_expr":"op(f1.sort_key(), f2.sort_key())"},{"name":"case_1","guard":"not (f1.field.is_element(f2))","ensures":["result == NotImplemented"],"decidability":"library","returns_expr":"NotImplemented"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["f1.field","f1.sort_key","f2.sort_key"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _cmp(f1, f2, op):
         if f1.field.is_element(f2):
             return op(f1.sort_key(), f2.sort_key())
@@ -799,99 +1070,151 @@ class FracElement(DomainElement, DefaultPrinting, CantSympify):
             return NotImplemented
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__lt__(f1,), internal helper behaves correctly) over Any ║
+# ║ Path(__lt__(f1, f2), f1._cmp(f2, lt)) over {Any | hasattr(f1, '_cmp')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __lt__ : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f1, '_cmp')                            ║
+# ║   returns:  f1._cmp(f2, lt)                                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __lt__ : {Any | hasattr(f1, '_cmp')} → Any                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1cf94caf46162294           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.fields.FracElement.__lt__","kind":"method","src_hash":"723d0a85479b4158","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__lt__(f1,)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__lt___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1cf94caf46162294"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.fields.FracElement.__lt__","kind":"method","src_hash":"723d0a85479b4158","in":{"base":"Any","pred":"hasattr(f1, '_cmp')"},"out":{"base":"Any"},"spec":{"lhs":"__lt__(f1, f2)","rhs":"f1._cmp(f2, lt)","over":{"base":"Any","pred":"hasattr(f1, '_cmp')"},"name":"__lt___correct"},"guarantee":"returns f1._cmp(f2, lt)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1cf94caf46162294","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f1, '_cmp')"],"returns_expr":"f1._cmp(f2, lt)","pure":false,"effects":{"effect_type":"reads_state","reads":["f1._cmp"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __lt__(f1, f2):
         return f1._cmp(f2, lt)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__le__(f1,), internal helper behaves correctly) over Any ║
+# ║ Path(__le__(f1, f2), f1._cmp(f2, le)) over {Any | hasattr(f1, '_cmp')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __le__ : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f1, '_cmp')                            ║
+# ║   returns:  f1._cmp(f2, le)                                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __le__ : {Any | hasattr(f1, '_cmp')} → Any                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6e824de6560b695d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.fields.FracElement.__le__","kind":"method","src_hash":"a4102912c2249725","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__le__(f1,)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__le___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6e824de6560b695d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.fields.FracElement.__le__","kind":"method","src_hash":"a4102912c2249725","in":{"base":"Any","pred":"hasattr(f1, '_cmp')"},"out":{"base":"Any"},"spec":{"lhs":"__le__(f1, f2)","rhs":"f1._cmp(f2, le)","over":{"base":"Any","pred":"hasattr(f1, '_cmp')"},"name":"__le___correct"},"guarantee":"returns f1._cmp(f2, le)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6e824de6560b695d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f1, '_cmp')"],"returns_expr":"f1._cmp(f2, le)","pure":false,"effects":{"effect_type":"reads_state","reads":["f1._cmp"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __le__(f1, f2):
         return f1._cmp(f2, le)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__gt__(f1,), internal helper behaves correctly) over Any ║
+# ║ Path(__gt__(f1, f2), f1._cmp(f2, gt)) over {Any | hasattr(f1, '_cmp')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __gt__ : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f1, '_cmp')                            ║
+# ║   returns:  f1._cmp(f2, gt)                                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __gt__ : {Any | hasattr(f1, '_cmp')} → Any                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ec2fca44aea50b27           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.fields.FracElement.__gt__","kind":"method","src_hash":"b1e7755147bf979f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__gt__(f1,)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__gt___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ec2fca44aea50b27"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.fields.FracElement.__gt__","kind":"method","src_hash":"b1e7755147bf979f","in":{"base":"Any","pred":"hasattr(f1, '_cmp')"},"out":{"base":"Any"},"spec":{"lhs":"__gt__(f1, f2)","rhs":"f1._cmp(f2, gt)","over":{"base":"Any","pred":"hasattr(f1, '_cmp')"},"name":"__gt___correct"},"guarantee":"returns f1._cmp(f2, gt)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ec2fca44aea50b27","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f1, '_cmp')"],"returns_expr":"f1._cmp(f2, gt)","pure":false,"effects":{"effect_type":"reads_state","reads":["f1._cmp"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __gt__(f1, f2):
         return f1._cmp(f2, gt)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__ge__(f1,), internal helper behaves correctly) over Any ║
+# ║ Path(__ge__(f1, f2), f1._cmp(f2, ge)) over {Any | hasattr(f1, '_cmp')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __ge__ : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f1, '_cmp')                            ║
+# ║   returns:  f1._cmp(f2, ge)                                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __ge__ : {Any | hasattr(f1, '_cmp')} → Any                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c8914d57576cbc38           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.fields.FracElement.__ge__","kind":"method","src_hash":"ed9d12189fe4996c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__ge__(f1,)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__ge___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c8914d57576cbc38"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.fields.FracElement.__ge__","kind":"method","src_hash":"ed9d12189fe4996c","in":{"base":"Any","pred":"hasattr(f1, '_cmp')"},"out":{"base":"Any"},"spec":{"lhs":"__ge__(f1, f2)","rhs":"f1._cmp(f2, ge)","over":{"base":"Any","pred":"hasattr(f1, '_cmp')"},"name":"__ge___correct"},"guarantee":"returns f1._cmp(f2, ge)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c8914d57576cbc38","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f1, '_cmp')"],"returns_expr":"f1._cmp(f2, ge)","pure":false,"effects":{"effect_type":"reads_state","reads":["f1._cmp"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __ge__(f1, f2):
         return f1._cmp(f2, ge)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__pos__(f), negate all coefficients in ``f``) over Any ║
+# ║ Path(__pos__(f), f.raw_new(f.numer, f.denom)) over {Any | hasattr(f, 'raw_new') and hasattr(f, 'numer') and hasattr(f, 'denom')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __pos__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'raw_new')                          ║
+# ║   requires: hasattr(f, 'numer')                            ║
+# ║   requires: hasattr(f, 'denom')                            ║
+# ║   returns:  f.raw_new(f.numer, f.denom)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __pos__ : {Any | hasattr(f, 'raw_new') and hasattr(f,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d3b6085061f5cee7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.fields.FracElement.__pos__","kind":"method","src_hash":"1da2cf42291da31f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__pos__(f)","rhs":"negate all coefficients in ``f``","over":{"base":"Any"},"name":"__pos___correct"},"guarantee":"negate all coefficients in ``f``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d3b6085061f5cee7"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.fields.FracElement.__pos__","kind":"method","src_hash":"1da2cf42291da31f","in":{"base":"Any","pred":"hasattr(f, 'raw_new') and hasattr(f, 'numer') and hasattr(f, 'denom')"},"out":{"base":"Any"},"spec":{"lhs":"__pos__(f)","rhs":"f.raw_new(f.numer, f.denom)","over":{"base":"Any","pred":"hasattr(f, 'raw_new') and hasattr(f, 'numer') and hasattr(f, 'denom')"},"name":"__pos___correct"},"guarantee":"returns f.raw_new(f.numer, f.denom)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d3b6085061f5cee7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'raw_new')","hasattr(f, 'numer')","hasattr(f, 'denom')"],"returns_expr":"f.raw_new(f.numer, f.denom)","pure":false,"effects":{"effect_type":"reads_state","reads":["f.denom","f.numer","f.raw_new"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __pos__(f):
         """Negate all coefficients in ``f``. """
         return f.raw_new(f.numer, f.denom)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__neg__(f), returns the additive inverse) over Any    ║
+# ║ Path(__neg__(f), f.raw_new(-f.numer, f.denom)) over {Any | hasattr(f, 'raw_new') and hasattr(f, 'denom') and hasattr(f, 'numer')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __neg__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'raw_new')                          ║
+# ║   requires: hasattr(f, 'denom')                            ║
+# ║   requires: hasattr(f, 'numer')                            ║
+# ║   returns:  f.raw_new(-f.numer, f.denom)                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __neg__ : {Any | hasattr(f, 'raw_new') and hasattr(f,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c8fbcc8b2d8b53c8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.fields.FracElement.__neg__","kind":"method","src_hash":"78dec612a4fac9ad","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__neg__(f)","rhs":"returns the additive inverse","over":{"base":"Any"},"name":"__neg___correct"},"guarantee":"returns the additive inverse","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c8fbcc8b2d8b53c8"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.fields.FracElement.__neg__","kind":"method","src_hash":"78dec612a4fac9ad","in":{"base":"Any","pred":"hasattr(f, 'raw_new') and hasattr(f, 'denom') and hasattr(f, 'numer')"},"out":{"base":"Any"},"spec":{"lhs":"__neg__(f)","rhs":"f.raw_new(-f.numer, f.denom)","over":{"base":"Any","pred":"hasattr(f, 'raw_new') and hasattr(f, 'denom') and hasattr(f, 'numer')"},"name":"__neg___correct"},"guarantee":"returns f.raw_new(-f.numer, f.denom)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c8fbcc8b2d8b53c8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'raw_new')","hasattr(f, 'denom')","hasattr(f, 'numer')"],"returns_expr":"f.raw_new(-f.numer, f.denom)","pure":false,"effects":{"effect_type":"reads_state","reads":["f.denom","f.numer","f.raw_new"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __neg__(f):
         """Negate all coefficients in ``f``. """
         return f.raw_new(-f.numer, f.denom)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_extract_ground(ele), id) over Any                    ║
+# ║ Path(_extract_ground(element), id) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _extract_ground : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | a642303a8474c608   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.fields.FracElement._extract_ground","kind":"method","src_hash":"304f712bdec61f69","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_extract_ground(ele)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_extract_ground_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"numer","by":"library_axiom"},{"fn":"denom","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a642303a8474c608"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.fields.FracElement._extract_ground","kind":"method","src_hash":"304f712bdec61f69","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_extract_ground(element)","rhs":"<unspecified:_extract_ground>","over":{"base":"Any"},"name":"_extract_ground_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"numer","by":"library_axiom"},{"fn":"denom","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a642303a8474c608","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.field"],"catches":["CoercionFailed"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _extract_ground(self, element):
         domain = self.field.domain
 
@@ -913,16 +1236,27 @@ class FracElement(DomainElement, DefaultPrinting, CantSympify):
             return 1, element, None
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__add__(f, ), returns the sum/concatenation) over Any ║
+# ║ Path(__add__(f, g), <unspecified:__add__>) over {Any | hasattr(f, 'field') and hasattr(f, '__radd__') and hasattr(f, 'denom') and hasattr(g, 'denom') and hasattr(f, 'new') and hasattr(f, 'numer') and hasattr(g, 'numer') and hasattr(g, 'field') and hasattr(g, '__radd__') and hasattr(g, 'ring')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __add__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'field')                            ║
+# ║   requires: hasattr(f, '__radd__')                         ║
+# ║   requires: hasattr(f, 'denom')                            ║
+# ║   fiber[case_0]: not g => f                                ║
+# ║   fiber[case_1]: not f => g                                ║
+# ║   fiber[case_2]: field.is_element(g)                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __add__ : {Any | hasattr(f, 'field') and hasattr(f, '...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 97c3a324d69afe9e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.fields.FracElement.__add__","kind":"method","src_hash":"35b1d5f2535f3532","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__add__(f, )","rhs":"returns the sum/concatenation","over":{"base":"Any"},"name":"__add___correct"},"guarantee":"returns the sum/concatenation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"97c3a324d69afe9e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.fields.FracElement.__add__","kind":"method","src_hash":"35b1d5f2535f3532","in":{"base":"Any","pred":"hasattr(f, 'field') and hasattr(f, '__radd__') and hasattr(f, 'denom') and hasattr(g, 'denom') and hasattr(f, 'new') and hasattr(f, 'numer') and hasattr(g, 'numer') and hasattr(g, 'field') and hasattr(g, '__radd__') and hasattr(g, 'ring')"},"out":{"base":"Any"},"spec":{"lhs":"__add__(f, g)","rhs":"<unspecified:__add__>","over":{"base":"Any","pred":"hasattr(f, 'field') and hasattr(f, '__radd__') and hasattr(f, 'denom') and hasattr(g, 'denom') and hasattr(f, 'new') and hasattr(f, 'numer') and hasattr(g, 'numer') and hasattr(g, 'field') and hasattr(g, '__radd__') and hasattr(g, 'ring')"},"name":"__add___correct"},"guarantee":"6-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"97c3a324d69afe9e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'field')","hasattr(f, '__radd__')","hasattr(f, 'denom')","hasattr(g, 'denom')","hasattr(f, 'new')","hasattr(f, 'numer')","hasattr(g, 'numer')","hasattr(g, 'field')","hasattr(g, '__radd__')","hasattr(g, 'ring')"],"fibers":[{"name":"case_0","guard":"not g","ensures":["result == f"],"decidability":"library","returns_expr":"f"},{"name":"case_1","guard":"not f","ensures":["result == g"],"decidability":"library","returns_expr":"g"},{"name":"case_2","guard":"field.is_element(g)","ensures":[],"decidability":"library"},{"name":"case_3","guard":"field.ring.is_element(g)","ensures":["result == f.new(f.numer + f.denom * g, f.denom)"],"decidability":"library","returns_expr":"f.new(f.numer + f.denom * g, f.denom)"},{"name":"FracElement","guard":"isinstance(g, FracElement)","ensures":[],"decidability":"structural"},{"name":"PolyElement","guard":"isinstance(g, PolyElement)","ensures":[],"decidability":"structural"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["f.__radd__","f.denom","f.field","f.new","f.numer","g.__radd__","g.denom","g.field","g.numer","g.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __add__(f, g):
         """Add rational functions ``f`` and ``g``. """
         field = f.field
@@ -955,16 +1289,25 @@ class FracElement(DomainElement, DefaultPrinting, CantSympify):
         return f.__radd__(g)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__radd__(f, ), internal helper behaves correctly) over Any ║
+# ║ Path(__radd__(f, c), <unspecified:__radd__>) over {Any | hasattr(f, '_extract_ground') and hasattr(f, 'new') and hasattr(f, 'denom') and hasattr(f, 'field') and hasattr(f, 'numer')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __radd__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(f, '_extract_ground')                  ║
+# ║   requires: hasattr(f, 'new')                              ║
+# ║   requires: hasattr(f, 'denom')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __radd__ : {Any | hasattr(f, '_extract_ground') and h...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9f2abb0b76c90d58           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.fields.FracElement.__radd__","kind":"method","src_hash":"9942b5856611accc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__radd__(f, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__radd___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9f2abb0b76c90d58"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.fields.FracElement.__radd__","kind":"method","src_hash":"9942b5856611accc","in":{"base":"Any","pred":"hasattr(f, '_extract_ground') and hasattr(f, 'new') and hasattr(f, 'denom') and hasattr(f, 'field') and hasattr(f, 'numer')"},"out":{"base":"Any"},"spec":{"lhs":"__radd__(f, c)","rhs":"<unspecified:__radd__>","over":{"base":"Any","pred":"hasattr(f, '_extract_ground') and hasattr(f, 'new') and hasattr(f, 'denom') and hasattr(f, 'field') and hasattr(f, 'numer')"},"name":"__radd___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9f2abb0b76c90d58","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(f, '_extract_ground')","hasattr(f, 'new')","hasattr(f, 'denom')","hasattr(f, 'field')","hasattr(f, 'numer')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["f._extract_ground","f.denom","f.field","f.new","f.numer"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __radd__(f, c):
         if f.field.ring.is_element(c):
             return f.new(f.numer + f.denom*c, f.denom)
@@ -979,16 +1322,27 @@ class FracElement(DomainElement, DefaultPrinting, CantSympify):
             return f.new(f.numer*g_denom + f.denom*g_numer, f.denom*g_denom)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__sub__(f, ), subtract rational functions ``f`` and ``g``) over Any ║
+# ║ Path(__sub__(f, g), <unspecified:__sub__>) over {Any | hasattr(f, 'field') and hasattr(f, '_extract_ground') and hasattr(f, 'new') and hasattr(f, 'denom') and hasattr(f, 'numer') and hasattr(g, 'denom') and hasattr(g, 'numer') and hasattr(g, 'field') and hasattr(g, '__rsub__') and hasattr(g, 'ring')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __sub__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'field')                            ║
+# ║   requires: hasattr(f, '_extract_ground')                  ║
+# ║   requires: hasattr(f, 'new')                              ║
+# ║   fiber[case_0]: not g => f                                ║
+# ║   fiber[case_1]: not f => -g                               ║
+# ║   fiber[case_2]: field.is_element(g)                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __sub__ : {Any | hasattr(f, 'field') and hasattr(f, '...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c586561eb2118bf8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.fields.FracElement.__sub__","kind":"method","src_hash":"24639127cd7ff9b2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__sub__(f, )","rhs":"subtract rational functions ``f`` and ``g``","over":{"base":"Any"},"name":"__sub___correct"},"guarantee":"subtract rational functions ``f`` and ``g``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c586561eb2118bf8"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.fields.FracElement.__sub__","kind":"method","src_hash":"24639127cd7ff9b2","in":{"base":"Any","pred":"hasattr(f, 'field') and hasattr(f, '_extract_ground') and hasattr(f, 'new') and hasattr(f, 'denom') and hasattr(f, 'numer') and hasattr(g, 'denom') and hasattr(g, 'numer') and hasattr(g, 'field') and hasattr(g, '__rsub__') and hasattr(g, 'ring')"},"out":{"base":"Any"},"spec":{"lhs":"__sub__(f, g)","rhs":"<unspecified:__sub__>","over":{"base":"Any","pred":"hasattr(f, 'field') and hasattr(f, '_extract_ground') and hasattr(f, 'new') and hasattr(f, 'denom') and hasattr(f, 'numer') and hasattr(g, 'denom') and hasattr(g, 'numer') and hasattr(g, 'field') and hasattr(g, '__rsub__') and hasattr(g, 'ring')"},"name":"__sub___correct"},"guarantee":"6-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c586561eb2118bf8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'field')","hasattr(f, '_extract_ground')","hasattr(f, 'new')","hasattr(f, 'denom')","hasattr(f, 'numer')","hasattr(g, 'denom')","hasattr(g, 'numer')","hasattr(g, 'field')","hasattr(g, '__rsub__')","hasattr(g, 'ring')"],"fibers":[{"name":"case_0","guard":"not g","ensures":["result == f"],"decidability":"library","returns_expr":"f"},{"name":"case_1","guard":"not f","ensures":["result == -g"],"decidability":"library","returns_expr":"-g"},{"name":"case_2","guard":"field.is_element(g)","ensures":[],"decidability":"library"},{"name":"case_3","guard":"field.ring.is_element(g)","ensures":["result == f.new(f.numer - f.denom * g, f.denom)"],"decidability":"library","returns_expr":"f.new(f.numer - f.denom * g, f.denom)"},{"name":"FracElement","guard":"isinstance(g, FracElement)","ensures":[],"decidability":"structural"},{"name":"PolyElement","guard":"isinstance(g, PolyElement)","ensures":[],"decidability":"structural"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["f._extract_ground","f.denom","f.field","f.new","f.numer","g.__rsub__","g.denom","g.field","g.numer","g.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __sub__(f, g):
         """Subtract rational functions ``f`` and ``g``. """
         field = f.field
@@ -1028,16 +1382,25 @@ class FracElement(DomainElement, DefaultPrinting, CantSympify):
             return f.new(f.numer*g_denom - f.denom*g_numer, f.denom*g_denom)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__rsub__(f, ), internal helper behaves correctly) over Any ║
+# ║ Path(__rsub__(f, c), <unspecified:__rsub__>) over {Any | hasattr(f, '_extract_ground') and hasattr(f, 'new') and hasattr(f, 'denom') and hasattr(f, 'field') and hasattr(f, 'numer')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __rsub__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(f, '_extract_ground')                  ║
+# ║   requires: hasattr(f, 'new')                              ║
+# ║   requires: hasattr(f, 'denom')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __rsub__ : {Any | hasattr(f, '_extract_ground') and h...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e836b4323e71c774           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.fields.FracElement.__rsub__","kind":"method","src_hash":"990d561432b0080f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rsub__(f, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__rsub___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e836b4323e71c774"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.fields.FracElement.__rsub__","kind":"method","src_hash":"990d561432b0080f","in":{"base":"Any","pred":"hasattr(f, '_extract_ground') and hasattr(f, 'new') and hasattr(f, 'denom') and hasattr(f, 'field') and hasattr(f, 'numer')"},"out":{"base":"Any"},"spec":{"lhs":"__rsub__(f, c)","rhs":"<unspecified:__rsub__>","over":{"base":"Any","pred":"hasattr(f, '_extract_ground') and hasattr(f, 'new') and hasattr(f, 'denom') and hasattr(f, 'field') and hasattr(f, 'numer')"},"name":"__rsub___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e836b4323e71c774","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(f, '_extract_ground')","hasattr(f, 'new')","hasattr(f, 'denom')","hasattr(f, 'field')","hasattr(f, 'numer')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["f._extract_ground","f.denom","f.field","f.new","f.numer"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __rsub__(f, c):
         if f.field.ring.is_element(c):
             return f.new(-f.numer + f.denom*c, f.denom)
@@ -1052,16 +1415,27 @@ class FracElement(DomainElement, DefaultPrinting, CantSympify):
             return f.new(-f.numer*g_denom + f.denom*g_numer, f.denom*g_denom)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__mul__(f, ), returns the product) over Any           ║
+# ║ Path(__mul__(f, g), <unspecified:__mul__>) over {Any | hasattr(f, 'field') and hasattr(f, '__rmul__') and hasattr(f, 'new') and hasattr(f, 'numer') and hasattr(g, 'numer') and hasattr(f, 'denom') and hasattr(g, 'denom') and hasattr(g, 'field') and hasattr(g, '__rmul__') and hasattr(g, 'ring')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __mul__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'field')                            ║
+# ║   requires: hasattr(f, '__rmul__')                         ║
+# ║   requires: hasattr(f, 'new')                              ║
+# ║   fiber[case_0]: not f or not g => field.zero              ║
+# ║   fiber[case_1]: field.is_element(g) => f.new(f.numer...   ║
+# ║   fiber[case_2]: field.ring.is_element(g) => f.new(f....   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __mul__ : {Any | hasattr(f, 'field') and hasattr(f, '...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9eaf4c398c190cff           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.fields.FracElement.__mul__","kind":"method","src_hash":"be38d726c0554a79","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__mul__(f, )","rhs":"returns the product","over":{"base":"Any"},"name":"__mul___correct"},"guarantee":"returns the product","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9eaf4c398c190cff"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.fields.FracElement.__mul__","kind":"method","src_hash":"be38d726c0554a79","in":{"base":"Any","pred":"hasattr(f, 'field') and hasattr(f, '__rmul__') and hasattr(f, 'new') and hasattr(f, 'numer') and hasattr(g, 'numer') and hasattr(f, 'denom') and hasattr(g, 'denom') and hasattr(g, 'field') and hasattr(g, '__rmul__') and hasattr(g, 'ring')"},"out":{"base":"Any"},"spec":{"lhs":"__mul__(f, g)","rhs":"<unspecified:__mul__>","over":{"base":"Any","pred":"hasattr(f, 'field') and hasattr(f, '__rmul__') and hasattr(f, 'new') and hasattr(f, 'numer') and hasattr(g, 'numer') and hasattr(f, 'denom') and hasattr(g, 'denom') and hasattr(g, 'field') and hasattr(g, '__rmul__') and hasattr(g, 'ring')"},"name":"__mul___correct"},"guarantee":"5-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9eaf4c398c190cff","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'field')","hasattr(f, '__rmul__')","hasattr(f, 'new')","hasattr(f, 'numer')","hasattr(g, 'numer')","hasattr(f, 'denom')","hasattr(g, 'denom')","hasattr(g, 'field')","hasattr(g, '__rmul__')","hasattr(g, 'ring')"],"fibers":[{"name":"case_0","guard":"not f or not g","ensures":["result == field.zero"],"decidability":"library","returns_expr":"field.zero"},{"name":"case_1","guard":"field.is_element(g)","ensures":["result == f.new(f.numer * g.numer, f.denom * g.denom)"],"decidability":"library","returns_expr":"f.new(f.numer * g.numer, f.denom * g.denom)"},{"name":"case_2","guard":"field.ring.is_element(g)","ensures":["result == f.new(f.numer * g, f.denom)"],"decidability":"library","returns_expr":"f.new(f.numer * g, f.denom)"},{"name":"FracElement","guard":"isinstance(g, FracElement)","ensures":[],"decidability":"structural"},{"name":"PolyElement","guard":"isinstance(g, PolyElement)","ensures":[],"decidability":"structural"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["f.__rmul__","f.denom","f.field","f.new","f.numer","g.__rmul__","g.denom","g.field","g.numer","g.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __mul__(f, g):
         """Multiply rational functions ``f`` and ``g``. """
         field = f.field
@@ -1089,16 +1463,25 @@ class FracElement(DomainElement, DefaultPrinting, CantSympify):
         return f.__rmul__(g)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__rmul__(f, ), internal helper behaves correctly) over Any ║
+# ║ Path(__rmul__(f, c), <unspecified:__rmul__>) over {Any | hasattr(f, '_extract_ground') and hasattr(f, 'new') and hasattr(f, 'denom') and hasattr(f, 'field') and hasattr(f, 'numer')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __rmul__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(f, '_extract_ground')                  ║
+# ║   requires: hasattr(f, 'new')                              ║
+# ║   requires: hasattr(f, 'denom')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __rmul__ : {Any | hasattr(f, '_extract_ground') and h...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f5701da018f00a5b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.fields.FracElement.__rmul__","kind":"method","src_hash":"65f1bc8993e01ece","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rmul__(f, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__rmul___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f5701da018f00a5b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.fields.FracElement.__rmul__","kind":"method","src_hash":"65f1bc8993e01ece","in":{"base":"Any","pred":"hasattr(f, '_extract_ground') and hasattr(f, 'new') and hasattr(f, 'denom') and hasattr(f, 'field') and hasattr(f, 'numer')"},"out":{"base":"Any"},"spec":{"lhs":"__rmul__(f, c)","rhs":"<unspecified:__rmul__>","over":{"base":"Any","pred":"hasattr(f, '_extract_ground') and hasattr(f, 'new') and hasattr(f, 'denom') and hasattr(f, 'field') and hasattr(f, 'numer')"},"name":"__rmul___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f5701da018f00a5b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(f, '_extract_ground')","hasattr(f, 'new')","hasattr(f, 'denom')","hasattr(f, 'field')","hasattr(f, 'numer')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["f._extract_ground","f.denom","f.field","f.new","f.numer"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __rmul__(f, c):
         if f.field.ring.is_element(c):
             return f.new(f.numer*c, f.denom)
@@ -1113,16 +1496,27 @@ class FracElement(DomainElement, DefaultPrinting, CantSympify):
             return f.new(f.numer*g_numer, f.denom*g_denom)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__truediv__(f, ), computes quotient of fractions ``f`` and ``g``) over Any ║
+# ║ Path(__truediv__(f, g), <unspecified:__truediv__>) over {Any | g and hasattr(f, 'field') and hasattr(f, '_extract_ground') and hasattr(f, 'new') and hasattr(f, 'numer') and hasattr(f, 'denom') and hasattr(g, 'denom') and hasattr(g, 'numer') and hasattr(g, 'field') and hasattr(g, '__rtruediv__') and hasattr(g, 'ring')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __truediv__ : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: g                                              ║
+# ║   requires: hasattr(f, 'field')                            ║
+# ║   requires: hasattr(f, '_extract_ground')                  ║
+# ║   fiber[case_0]: not g                                     ║
+# ║   fiber[case_1]: field.is_element(g) => f.new(f.numer...   ║
+# ║   fiber[case_2]: field.ring.is_element(g) => f.new(f....   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __truediv__ : {Any | g and hasattr(f, 'field') and ha...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a6ae87524add1ef8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.fields.FracElement.__truediv__","kind":"method","src_hash":"16249d252f8afd6c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__truediv__(f, )","rhs":"computes quotient of fractions ``f`` and ``g``","over":{"base":"Any"},"name":"__truediv___correct"},"guarantee":"computes quotient of fractions ``f`` and ``g``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a6ae87524add1ef8"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.fields.FracElement.__truediv__","kind":"method","src_hash":"16249d252f8afd6c","in":{"base":"Any","pred":"g and hasattr(f, 'field') and hasattr(f, '_extract_ground') and hasattr(f, 'new') and hasattr(f, 'numer') and hasattr(f, 'denom') and hasattr(g, 'denom') and hasattr(g, 'numer') and hasattr(g, 'field') and hasattr(g, '__rtruediv__') and hasattr(g, 'ring')"},"out":{"base":"Any"},"spec":{"lhs":"__truediv__(f, g)","rhs":"<unspecified:__truediv__>","over":{"base":"Any","pred":"g and hasattr(f, 'field') and hasattr(f, '_extract_ground') and hasattr(f, 'new') and hasattr(f, 'numer') and hasattr(f, 'denom') and hasattr(g, 'denom') and hasattr(g, 'numer') and hasattr(g, 'field') and hasattr(g, '__rtruediv__') and hasattr(g, 'ring')"},"name":"__truediv___correct"},"guarantee":"5-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a6ae87524add1ef8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["g","hasattr(f, 'field')","hasattr(f, '_extract_ground')","hasattr(f, 'new')","hasattr(f, 'numer')","hasattr(f, 'denom')","hasattr(g, 'denom')","hasattr(g, 'numer')","hasattr(g, 'field')","hasattr(g, '__rtruediv__')","hasattr(g, 'ring')"],"fibers":[{"name":"case_0","guard":"not g","ensures":[],"decidability":"library"},{"name":"case_1","guard":"field.is_element(g)","ensures":["result == f.new(f.numer * g.denom, f.denom * g.numer)"],"decidability":"library","returns_expr":"f.new(f.numer * g.denom, f.denom * g.numer)"},{"name":"case_2","guard":"field.ring.is_element(g)","ensures":["result == f.new(f.numer, f.denom * g)"],"decidability":"library","returns_expr":"f.new(f.numer, f.denom * g)"},{"name":"FracElement","guard":"isinstance(g, FracElement)","ensures":[],"decidability":"structural"},{"name":"PolyElement","guard":"isinstance(g, PolyElement)","ensures":[],"decidability":"structural"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["f._extract_ground","f.denom","f.field","f.new","f.numer","g.__rtruediv__","g.denom","g.field","g.numer","g.ring"],"raises":["ZeroDivisionError"]},"state_contract":{"exceptional_post":{"ZeroDivisionError":["isinstance(raised, ZeroDivisionError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __truediv__(f, g):
         """Computes quotient of fractions ``f`` and ``g``. """
         field = f.field
@@ -1157,16 +1551,26 @@ class FracElement(DomainElement, DefaultPrinting, CantSympify):
             return f.new(f.numer*g_denom, f.denom*g_numer)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__rtruediv__(f, ), internal helper behaves correctly) over Any ║
+# ║ Path(__rtruediv__(f, c), <unspecified:__rtruediv__>) over {Any | f and hasattr(f, '_extract_ground') and hasattr(f, 'new') and hasattr(f, 'numer') and hasattr(f, 'denom') and hasattr(f, 'field')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __rtruediv__ : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: f                                              ║
+# ║   requires: hasattr(f, '_extract_ground')                  ║
+# ║   requires: hasattr(f, 'new')                              ║
+# ║   fiber[case_0]: not f                                     ║
+# ║   fiber[case_1]: f.field.ring.is_element(c) => f.new(...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __rtruediv__ : {Any | f and hasattr(f, '_extract_grou...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a50fd658d4cf5e83           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.fields.FracElement.__rtruediv__","kind":"method","src_hash":"b03e7595d65bd8c5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rtruediv__(f, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__rtruediv___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a50fd658d4cf5e83"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.fields.FracElement.__rtruediv__","kind":"method","src_hash":"b03e7595d65bd8c5","in":{"base":"Any","pred":"f and hasattr(f, '_extract_ground') and hasattr(f, 'new') and hasattr(f, 'numer') and hasattr(f, 'denom') and hasattr(f, 'field')"},"out":{"base":"Any"},"spec":{"lhs":"__rtruediv__(f, c)","rhs":"<unspecified:__rtruediv__>","over":{"base":"Any","pred":"f and hasattr(f, '_extract_ground') and hasattr(f, 'new') and hasattr(f, 'numer') and hasattr(f, 'denom') and hasattr(f, 'field')"},"name":"__rtruediv___correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a50fd658d4cf5e83","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["f","hasattr(f, '_extract_ground')","hasattr(f, 'new')","hasattr(f, 'numer')","hasattr(f, 'denom')","hasattr(f, 'field')"],"fibers":[{"name":"case_0","guard":"not f","ensures":[],"decidability":"library"},{"name":"case_1","guard":"f.field.ring.is_element(c)","ensures":["result == f.new(f.denom * c, f.numer)"],"decidability":"library","returns_expr":"f.new(f.denom * c, f.numer)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["f._extract_ground","f.denom","f.field","f.new","f.numer"],"raises":["ZeroDivisionError"]},"state_contract":{"exceptional_post":{"ZeroDivisionError":["isinstance(raised, ZeroDivisionError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __rtruediv__(f, c):
         if not f:
             raise ZeroDivisionError
@@ -1183,16 +1587,27 @@ class FracElement(DomainElement, DefaultPrinting, CantSympify):
             return f.new(f.denom*g_numer, f.numer*g_denom)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__pow__(f, ), raise ``f`` to a non-negative power ``n``) over Any ║
+# ║ Path(__pow__(f, n), <unspecified:__pow__>) over {Any | hasattr(f, 'raw_new') and hasattr(f, 'numer') and hasattr(f, 'denom')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __pow__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'raw_new')                          ║
+# ║   requires: hasattr(f, 'numer')                            ║
+# ║   requires: hasattr(f, 'denom')                            ║
+# ║   fiber[case_0]: n >= 0 => f.raw_new(f.numer ** n, f....   ║
+# ║   fiber[case_1]: not f                                     ║
+# ║   fiber[case_2]: not (n >= 0) and not (not f) => f.ra...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __pow__ : {Any | hasattr(f, 'raw_new') and hasattr(f,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 36c90d724e9c75e9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.fields.FracElement.__pow__","kind":"method","src_hash":"bc4abc614a1bfb55","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__pow__(f, )","rhs":"raise ``f`` to a non-negative power ``n``","over":{"base":"Any"},"name":"__pow___correct"},"guarantee":"raise ``f`` to a non-negative power ``n``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"36c90d724e9c75e9"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.fields.FracElement.__pow__","kind":"method","src_hash":"bc4abc614a1bfb55","in":{"base":"Any","pred":"hasattr(f, 'raw_new') and hasattr(f, 'numer') and hasattr(f, 'denom')"},"out":{"base":"Any"},"spec":{"lhs":"__pow__(f, n)","rhs":"<unspecified:__pow__>","over":{"base":"Any","pred":"hasattr(f, 'raw_new') and hasattr(f, 'numer') and hasattr(f, 'denom')"},"name":"__pow___correct"},"guarantee":"3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"36c90d724e9c75e9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'raw_new')","hasattr(f, 'numer')","hasattr(f, 'denom')"],"fibers":[{"name":"case_0","guard":"n >= 0","ensures":["result == f.raw_new(f.numer ** n, f.denom ** n)"],"decidability":"z3","returns_expr":"f.raw_new(f.numer ** n, f.denom ** n)"},{"name":"case_1","guard":"not f","ensures":[],"decidability":"library"},{"name":"case_2","guard":"not (n >= 0) and not (not f)","ensures":["result == f.raw_new(f.denom ** (-n), f.numer ** (-n))"],"decidability":"z3","returns_expr":"f.raw_new(f.denom ** (-n), f.numer ** (-n))"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["f.denom","f.numer","f.raw_new"],"raises":["ZeroDivisionError"]},"state_contract":{"exceptional_post":{"ZeroDivisionError":["isinstance(raised, ZeroDivisionError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __pow__(f, n):
         """Raise ``f`` to a non-negative power ``n``. """
         if n >= 0:
@@ -1203,16 +1618,25 @@ class FracElement(DomainElement, DefaultPrinting, CantSympify):
             return f.raw_new(f.denom**-n, f.numer**-n)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(diff(f, ), id) over Any                               ║
+# ║ Path(diff(f, x), id) over {Any | hasattr(x, 'to_poly') and hasattr(f, 'new') and hasattr(f, 'denom') and hasattr(f, 'numer')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ diff : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(x, 'to_poly')                          ║
+# ║   requires: hasattr(f, 'new')                              ║
+# ║   requires: hasattr(f, 'denom')                            ║
+# ║   returns:  f.new(f.numer.diff(x) * f.denom - f.numer...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ diff : {Any | hasattr(x, 'to_poly') and hasattr(f, 'n...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | e78bf5bcadbadabe   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.fields.FracElement.diff","kind":"method","src_hash":"d372a1644aec82a7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"diff(f, )","rhs":"computes partial derivative in ``x``","over":{"base":"Any"},"name":"diff_correct","kind":"composition"},"guarantee":"computes partial derivative in ``x``","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"new","by":"library_axiom"},{"fn":"diff","by":"library_axiom"},{"fn":"diff","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e78bf5bcadbadabe"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.fields.FracElement.diff","kind":"method","src_hash":"d372a1644aec82a7","in":{"base":"Any","pred":"hasattr(x, 'to_poly') and hasattr(f, 'new') and hasattr(f, 'denom') and hasattr(f, 'numer')"},"out":{"base":"Any"},"spec":{"lhs":"diff(f, x)","rhs":"f.new(f.numer.diff(x) * f.denom - f.numer * f.denom.diff(x), f.denom ** 2)","over":{"base":"Any","pred":"hasattr(x, 'to_poly') and hasattr(f, 'new') and hasattr(f, 'denom') and hasattr(f, 'numer')"},"name":"diff_correct","kind":"composition"},"guarantee":"returns f.new(f.numer.diff(x) * f.denom - f.numer * f.denom.diff(x), f.denom ** 2)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"new","by":"library_axiom"},{"fn":"diff","by":"library_axiom"},{"fn":"diff","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e78bf5bcadbadabe","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(x, 'to_poly')","hasattr(f, 'new')","hasattr(f, 'denom')","hasattr(f, 'numer')"],"returns_expr":"f.new(f.numer.diff(x) * f.denom - f.numer * f.denom.diff(x), f.denom ** 2)","pure":false,"effects":{"effect_type":"reads_state","reads":["f.denom","f.new","f.numer","x.to_poly"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def diff(f, x):
         """Computes partial derivative in ``x``.
 
@@ -1231,16 +1655,25 @@ class FracElement(DomainElement, DefaultPrinting, CantSympify):
         return f.new(f.numer.diff(x)*f.denom - f.numer*f.denom.diff(x), f.denom**2)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__call__(f, ), correctly applies the callable) over Any ║
+# ║ Path(__call__(f, *values), <unspecified:__call__>) over {Any | hasattr(f, 'field') and hasattr(f, 'evaluate')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __call__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'field')                            ║
+# ║   requires: hasattr(f, 'evaluate')                         ║
+# ║   fiber[case_0]: 0 < len(values) <= f.field.ngens => ...   ║
+# ║   fiber[case_1]: not (0 < len(values) <= f.field.ngens)    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __call__ : {Any | hasattr(f, 'field') and hasattr(f, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e295fe3a41b62e51           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.fields.FracElement.__call__","kind":"method","src_hash":"7ed707c13b66e8ea","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__call__(f, )","rhs":"correctly applies the callable","over":{"base":"Any"},"name":"__call___correct"},"guarantee":"correctly applies the callable","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e295fe3a41b62e51"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.fields.FracElement.__call__","kind":"method","src_hash":"7ed707c13b66e8ea","in":{"base":"Any","pred":"hasattr(f, 'field') and hasattr(f, 'evaluate')"},"out":{"base":"Any"},"spec":{"lhs":"__call__(f, *values)","rhs":"<unspecified:__call__>","over":{"base":"Any","pred":"hasattr(f, 'field') and hasattr(f, 'evaluate')"},"name":"__call___correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e295fe3a41b62e51","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'field')","hasattr(f, 'evaluate')"],"fibers":[{"name":"case_0","guard":"0 < len(values) <= f.field.ngens","ensures":["result == f.evaluate(list(zip(f.field.gens, values)))"],"decidability":"z3","returns_expr":"f.evaluate(list(zip(f.field.gens, values)))"},{"name":"case_1","guard":"not (0 < len(values) <= f.field.ngens)","ensures":[],"decidability":"z3"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["f.evaluate","f.field"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __call__(f, *values):
         if 0 < len(values) <= f.field.ngens:
             return f.evaluate(list(zip(f.field.gens, values)))
@@ -1248,16 +1681,25 @@ class FracElement(DomainElement, DefaultPrinting, CantSympify):
             raise ValueError("expected at least 1 and at most %s values, got %s" % (f.field.ngens, len(values)))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(evaluate(f, ), evaluate produces the expected output) over Any ║
+# ║ Path(evaluate(f, x, a), field.new(numer, denom)) over {Any | hasattr(x, 'to_poly') and hasattr(f, 'numer') and hasattr(f, 'denom')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ evaluate : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(x, 'to_poly')                          ║
+# ║   requires: hasattr(f, 'numer')                            ║
+# ║   requires: hasattr(f, 'denom')                            ║
+# ║   returns:  field.new(numer, denom)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ evaluate : {Any | hasattr(x, 'to_poly') and hasattr(f...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 07f8db6cecf1beb0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0be47e91b13e5580  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.fields.FracElement.evaluate","kind":"method","src_hash":"845301802a099d11","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"evaluate(f, )","rhs":"evaluate produces the expected output","over":{"base":"Any"},"name":"evaluate_correct"},"guarantee":"evaluate produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.fields.FracElement.evaluate_correct","statement":"Path(evaluate(x), evaluate produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"07f8db6cecf1beb0"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.fields.FracElement.evaluate","kind":"method","src_hash":"845301802a099d11","in":{"base":"Any","pred":"hasattr(x, 'to_poly') and hasattr(f, 'numer') and hasattr(f, 'denom')"},"out":{"base":"Any"},"spec":{"lhs":"evaluate(f, x, a)","rhs":"field.new(numer, denom)","over":{"base":"Any","pred":"hasattr(x, 'to_poly') and hasattr(f, 'numer') and hasattr(f, 'denom')"},"name":"evaluate_correct"},"guarantee":"returns field.new(numer, denom)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.fields.FracElement.evaluate_correct","statement":"Path(evaluate(x), returns field.new(numer, denom))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0be47e91b13e5580","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(x, 'to_poly')","hasattr(f, 'numer')","hasattr(f, 'denom')"],"returns_expr":"field.new(numer, denom)","pure":false,"effects":{"effect_type":"reads_state","reads":["f.denom","f.numer","x.to_poly"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def evaluate(f, x, a=None):
         if isinstance(x, list) and a is None:
             x = [ (X.to_poly(), a) for X, a in x ]
@@ -1270,16 +1712,25 @@ class FracElement(DomainElement, DefaultPrinting, CantSympify):
         return field.new(numer, denom)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(subs(f, ), subs produces the expected output) over Any ║
+# ║ Path(subs(f, x, a), f.new(numer, denom)) over {Any | hasattr(f, 'new') and hasattr(x, 'to_poly') and hasattr(f, 'numer') and hasattr(f, 'denom')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ subs : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'new')                              ║
+# ║   requires: hasattr(x, 'to_poly')                          ║
+# ║   requires: hasattr(f, 'numer')                            ║
+# ║   returns:  f.new(numer, denom)                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ subs : {Any | hasattr(f, 'new') and hasattr(x, 'to_po...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9240d9e1801dbd3f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ee69723b2eaa5f8c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.fields.FracElement.subs","kind":"method","src_hash":"0f2ddb9c41ef85bf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"subs(f, )","rhs":"subs produces the expected output","over":{"base":"Any"},"name":"subs_correct"},"guarantee":"subs produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.fields.FracElement.subs_correct","statement":"Path(subs(x), subs produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9240d9e1801dbd3f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.fields.FracElement.subs","kind":"method","src_hash":"0f2ddb9c41ef85bf","in":{"base":"Any","pred":"hasattr(f, 'new') and hasattr(x, 'to_poly') and hasattr(f, 'numer') and hasattr(f, 'denom')"},"out":{"base":"Any"},"spec":{"lhs":"subs(f, x, a)","rhs":"f.new(numer, denom)","over":{"base":"Any","pred":"hasattr(f, 'new') and hasattr(x, 'to_poly') and hasattr(f, 'numer') and hasattr(f, 'denom')"},"name":"subs_correct"},"guarantee":"returns f.new(numer, denom)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.fields.FracElement.subs_correct","statement":"Path(subs(x), returns f.new(numer, denom))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ee69723b2eaa5f8c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'new')","hasattr(x, 'to_poly')","hasattr(f, 'numer')","hasattr(f, 'denom')"],"returns_expr":"f.new(numer, denom)","pure":false,"effects":{"effect_type":"reads_state","reads":["f.denom","f.new","f.numer","x.to_poly"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def subs(f, x, a=None):
         if isinstance(x, list) and a is None:
             x = [ (X.to_poly(), a) for X, a in x ]
@@ -1291,15 +1742,21 @@ class FracElement(DomainElement, DefaultPrinting, CantSympify):
         return f.new(numer, denom)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(compose(f, ), compose produces the expected output) over Any ║
+# ║ Path(compose(f, x, a), <unspecified:compose>) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ compose : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f4570cb853bed2dc           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.fields.FracElement.compose","kind":"method","src_hash":"d0196e6d6900e4fc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"compose(f, )","rhs":"compose produces the expected output","over":{"base":"Any"},"name":"compose_correct"},"guarantee":"compose produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f4570cb853bed2dc"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.fields.FracElement.compose","kind":"method","src_hash":"d0196e6d6900e4fc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"compose(f, x, a)","rhs":"<unspecified:compose>","over":{"base":"Any"},"name":"compose_correct"},"guarantee":"compose produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f4570cb853bed2dc","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def compose(f, x, a=None):
         raise NotImplementedError

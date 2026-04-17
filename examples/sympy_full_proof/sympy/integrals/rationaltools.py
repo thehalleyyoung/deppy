@@ -31,7 +31,12 @@ from sympy.polys import Poly, resultant, ZZ
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ratint(f, ), performs indefinite integration of rational functions) over {Any | isinstance(f, tuple) and isinstance(symbol, Symbol)} ║
+# ║ Path(ratint(f, x, **flags), <unspecified:ratint>) over {Any | isinstance(f, tuple) and isinstance(symbol, Symbol) and hasattr(f, 'as_numer_denom') and hasattr(f, 'atoms')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(f, 'as_numer_denom')                   ║
+# ║   requires: hasattr(f, 'atoms')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ ratint : {Any | isinstance(f, tuple) and isinstance(s...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -44,9 +49,12 @@ from sympy.polys import Poly, resultant, ZZ
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?2 ✗2 VCs | 4.7ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | c77b7b67...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.rationaltools.ratint","kind":"function","src_hash":"fc5f1873e002b683","in":{"base":"Any","pred":"isinstance(f, tuple) and isinstance(symbol, Symbol)"},"out":{"base":"Any","pred":"result satisfies: math:`g` such that :math:`f = g'`."},"spec":{"lhs":"ratint(f, )","rhs":"performs indefinite integration of rational functions","over":{"base":"Any","pred":"isinstance(f, tuple) and isinstance(symbol, Symbol)"},"name":"ratint_correct"},"guarantee":"performs indefinite integration of rational functions","fibers":[{"name":"tuple","pred":"isinstance(f, tuple)","path":{"lhs":"ratint(x)","rhs":"performs indefinite integration of rational functions","over":{"base":"tuple","pred":"isinstance(f, tuple)"},"name":"ratint_tuple_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.rationaltools.ratint_tuple_correct","statement":"ratint satisfies spec on tuple inputs"},"trust":"LIBRARY"},{"name":"Symbol","pred":"isinstance(symbol, Symbol)","path":{"lhs":"ratint(x)","rhs":"performs indefinite integration of rational functions","over":{"base":"Symbol","pred":"isinstance(symbol, Symbol)"},"name":"ratint_Symbol_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.rationaltools.ratint_Symbol_correct","statement":"ratint satisfies spec on Symbol inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"c77b7b67db8eaa8b"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.rationaltools.ratint","kind":"function","src_hash":"fc5f1873e002b683","in":{"base":"Any","pred":"isinstance(f, tuple) and isinstance(symbol, Symbol) and hasattr(f, 'as_numer_denom') and hasattr(f, 'atoms')"},"out":{"base":"Any","pred":"result satisfies: math:`g` such that :math:`f = g'`."},"spec":{"lhs":"ratint(f, x, **flags)","rhs":"<unspecified:ratint>","over":{"base":"Any","pred":"isinstance(f, tuple) and isinstance(symbol, Symbol) and hasattr(f, 'as_numer_denom') and hasattr(f, 'atoms')"},"name":"ratint_correct"},"guarantee":"performs indefinite integration of rational functions","fibers":[{"name":"tuple","pred":"isinstance(f, tuple)","path":{"lhs":"ratint(x)","rhs":"performs indefinite integration of rational functions","over":{"base":"tuple","pred":"isinstance(f, tuple)"},"name":"ratint_tuple_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.rationaltools.ratint_tuple_correct","statement":"ratint satisfies spec on tuple inputs"},"trust":"LIBRARY"},{"name":"Symbol","pred":"isinstance(symbol, Symbol)","path":{"lhs":"ratint(x)","rhs":"performs indefinite integration of rational functions","over":{"base":"Symbol","pred":"isinstance(symbol, Symbol)"},"name":"ratint_Symbol_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.rationaltools.ratint_Symbol_correct","statement":"ratint satisfies spec on Symbol inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"c77b7b67db8eaa8b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(f, 'as_numer_denom')","hasattr(f, 'atoms')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["f.as_numer_denom","f.atoms"]}},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":1,"n_assumed":2,"n_failed":2,"trust_level":"LIBRARY_ASSUMED","compile_ms":4.7,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['f', 'x'], spec=['f', 'x', '**flags']","Poor branch-fiber coverage: 0% (branches={'not isinstance(symbol, Symbol)', 'real is None', 'isinstance(f, tuple)'}, fibers={'Symbol', 'tuple'})"]}}
 def ratint(f, x, **flags):
     """
     Performs indefinite integration of rational functions.
@@ -157,16 +165,24 @@ def ratint(f, x, **flags):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ratint_ratpart(f, ), horowitz-ostrogradsky algorithm) over Any ║
+# ║ Path(ratint_ratpart(f, g, x), (rat_part, log_part)) over {Any | hasattr(g, 'cofactors') and hasattr(g, 'diff')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ ratint_ratpart : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(g, 'cofactors')                        ║
+# ║   requires: hasattr(g, 'diff')                             ║
+# ║   returns:  (rat_part, log_part)                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ ratint_ratpart : {Any | hasattr(g, 'cofactors') and h...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6380e67d30ac5599  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9cadba2e022c8812  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.rationaltools.ratint_ratpart","kind":"function","src_hash":"8672a865dad0c4b0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ratint_ratpart(f, )","rhs":"horowitz-ostrogradsky algorithm","over":{"base":"Any"},"name":"ratint_ratpart_correct"},"guarantee":"horowitz-ostrogradsky algorithm","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.rationaltools.ratint_ratpart_correct","statement":"Path(ratint_ratpart(x), horowitz-ostrogradsky algorithm)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6380e67d30ac5599"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.rationaltools.ratint_ratpart","kind":"function","src_hash":"8672a865dad0c4b0","in":{"base":"Any","pred":"hasattr(g, 'cofactors') and hasattr(g, 'diff')"},"out":{"base":"Any"},"spec":{"lhs":"ratint_ratpart(f, g, x)","rhs":"(rat_part, log_part)","over":{"base":"Any","pred":"hasattr(g, 'cofactors') and hasattr(g, 'diff')"},"name":"ratint_ratpart_correct"},"guarantee":"returns (rat_part, log_part)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.rationaltools.ratint_ratpart_correct","statement":"Path(ratint_ratpart(x), returns (rat_part, log_part))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9cadba2e022c8812","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(g, 'cofactors')","hasattr(g, 'diff')"],"returns_expr":"(rat_part, log_part)","pure":false,"effects":{"effect_type":"reads_state","reads":["g.cofactors","g.diff"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def ratint_ratpart(f, g, x):
     """
     Horowitz-Ostrogradsky algorithm.
@@ -231,16 +247,24 @@ def ratint_ratpart(f, g, x):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ratint_logpart(f, ), lazard-rioboo-trager algorithm) over Any ║
+# ║ Path(ratint_logpart(f, g, x), res) over {Any | hasattr(g, 'degree') and hasattr(g, 'diff')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ ratint_logpart : Any → {Any | res}                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(g, 'degree')                           ║
+# ║   requires: hasattr(g, 'diff')                             ║
+# ║   ensures:  res                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ ratint_logpart : {Any | hasattr(g, 'degree') and hasa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bf0d3c9fd9cb2bd2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f50026dd99e7de4d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.rationaltools.ratint_logpart","kind":"function","src_hash":"00d9b00af0fa25cc","in":{"base":"Any"},"out":{"base":"Any","pred":"res"},"spec":{"lhs":"ratint_logpart(f, )","rhs":"lazard-rioboo-trager algorithm","over":{"base":"Any"},"name":"ratint_logpart_correct"},"guarantee":"lazard-rioboo-trager algorithm","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.rationaltools.ratint_logpart_correct","statement":"Path(ratint_logpart(x), lazard-rioboo-trager algorithm)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bf0d3c9fd9cb2bd2"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.rationaltools.ratint_logpart","kind":"function","src_hash":"00d9b00af0fa25cc","in":{"base":"Any","pred":"hasattr(g, 'degree') and hasattr(g, 'diff')"},"out":{"base":"Any","pred":"result satisfies: res"},"spec":{"lhs":"ratint_logpart(f, g, x)","rhs":"res","over":{"base":"Any","pred":"hasattr(g, 'degree') and hasattr(g, 'diff')"},"name":"ratint_logpart_correct"},"guarantee":"res","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.rationaltools.ratint_logpart_correct","statement":"Path(ratint_logpart(x), res)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f50026dd99e7de4d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(g, 'degree')","hasattr(g, 'diff')"],"ensures":["res"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def ratint_logpart(f, g, x, t=None):
     r"""
     Lazard-Rioboo-Trager algorithm.
@@ -333,16 +357,25 @@ def ratint_logpart(f, g, x, t=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(log_to_atan(f, ), id) over Any                        ║
+# ║ Path(log_to_atan(f, g), id) over {Any | hasattr(f, 'to_field') and hasattr(g, 'to_field') and hasattr(f, 'div') and hasattr(f, 'degree') and hasattr(g, 'degree') and hasattr(g, 'gcdex')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ log_to_atan : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'to_field')                         ║
+# ║   requires: hasattr(g, 'to_field')                         ║
+# ║   requires: hasattr(f, 'div')                              ║
+# ║   ensures:  # HINT: log_to_atan may be idempotent: lo...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ log_to_atan : {Any | hasattr(f, 'to_field') and hasat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 4af69e34cd1c0862   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.rationaltools.log_to_atan","kind":"function","src_hash":"ff1f4283bcc656e6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"log_to_atan(f, )","rhs":"convert complex logarithms to real arctangents","over":{"base":"Any"},"name":"log_to_atan_correct","kind":"composition"},"guarantee":"convert complex logarithms to real arctangents","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"atan","by":"library_axiom"},{"fn":"as_expr","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4af69e34cd1c0862"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.rationaltools.log_to_atan","kind":"function","src_hash":"ff1f4283bcc656e6","in":{"base":"Any","pred":"hasattr(f, 'to_field') and hasattr(g, 'to_field') and hasattr(f, 'div') and hasattr(f, 'degree') and hasattr(g, 'degree') and hasattr(g, 'gcdex')"},"out":{"base":"Any","pred":"result satisfies: # HINT: log_to_atan may be idempotent: log_to_atan(log_to_atan(x)) == log_to_atan(x)"},"spec":{"lhs":"log_to_atan(f, g)","rhs":"# HINT: log_to_atan may be idempotent: log_to_atan(log_to_atan(x)) == log_to_atan(x)","over":{"base":"Any","pred":"hasattr(f, 'to_field') and hasattr(g, 'to_field') and hasattr(f, 'div') and hasattr(f, 'degree') and hasattr(g, 'degree') and hasattr(g, 'gcdex')"},"name":"log_to_atan_correct","kind":"composition"},"guarantee":"# HINT: log_to_atan may be idempotent: log_to_atan(log_to_atan(x)) == log_to_atan(x)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"atan","by":"library_axiom"},{"fn":"as_expr","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4af69e34cd1c0862","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'to_field')","hasattr(g, 'to_field')","hasattr(f, 'div')","hasattr(f, 'degree')","hasattr(g, 'degree')","hasattr(g, 'gcdex')"],"ensures":["# HINT: log_to_atan may be idempotent: log_to_atan(log_to_atan(x)) == log_to_atan(x)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["f.degree","f.div","f.to_field","g.degree","g.gcdex","g.to_field"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def log_to_atan(f, g):
     """
     Convert complex logarithms to real arctangents.
@@ -393,16 +426,23 @@ def log_to_atan(f, g):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_real_roots(f, ), get real roots of f if possible) over Any ║
+# ║ Path(_get_real_roots(f, x), <unspecified:_get_real_roots>) over {Any | hasattr(f, 'count_roots')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _get_real_roots : Any → Any                                ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(f, 'count_roots')                      ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _get_real_roots : {Any | hasattr(f, 'count_roots')} →...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 54ec81845f0a750a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.rationaltools._get_real_roots","kind":"function","src_hash":"7c95740be1d36c2d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_real_roots(f, )","rhs":"get real roots of f if possible","over":{"base":"Any"},"name":"_get_real_roots_correct"},"guarantee":"get real roots of f if possible","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.rationaltools._get_real_roots_correct","statement":"Path(_get_real_roots(x), get real roots of f if possible)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"54ec81845f0a750a"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.rationaltools._get_real_roots","kind":"function","src_hash":"7c95740be1d36c2d","in":{"base":"Any","pred":"hasattr(f, 'count_roots')"},"out":{"base":"Any"},"spec":{"lhs":"_get_real_roots(f, x)","rhs":"<unspecified:_get_real_roots>","over":{"base":"Any","pred":"hasattr(f, 'count_roots')"},"name":"_get_real_roots_correct"},"guarantee":"get real roots of f if possible","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.rationaltools._get_real_roots_correct","statement":"Path(_get_real_roots(x), get real roots of f if possible)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"54ec81845f0a750a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(f, 'count_roots')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["f.count_roots"],"catches":["DomainError"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _get_real_roots(f, x):
     """get real roots of f if possible"""
     rs = roots(f, filter='R')
@@ -419,16 +459,24 @@ def _get_real_roots(f, x):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(log_to_real(h, ), convert complex logarithms to real functions) over Any ║
+# ║ Path(log_to_real(h, q, x), <unspecified:log_to_real>) over {Any | hasattr(h, 'as_expr') and hasattr(q, 'as_expr')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ log_to_real : Any → Any                                    ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(h, 'as_expr')                          ║
+# ║   requires: hasattr(q, 'as_expr')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ log_to_real : {Any | hasattr(h, 'as_expr') and hasatt...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 35ded3c87461e8f9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.rationaltools.log_to_real","kind":"function","src_hash":"fd926bb4d308ed69","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"log_to_real(h, )","rhs":"convert complex logarithms to real functions","over":{"base":"Any"},"name":"log_to_real_correct"},"guarantee":"convert complex logarithms to real functions","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.rationaltools.log_to_real_correct","statement":"Path(log_to_real(x), convert complex logarithms to real functions)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"35ded3c87461e8f9"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.rationaltools.log_to_real","kind":"function","src_hash":"fd926bb4d308ed69","in":{"base":"Any","pred":"hasattr(h, 'as_expr') and hasattr(q, 'as_expr')"},"out":{"base":"Any"},"spec":{"lhs":"log_to_real(h, q, x)","rhs":"<unspecified:log_to_real>","over":{"base":"Any","pred":"hasattr(h, 'as_expr') and hasattr(q, 'as_expr')"},"name":"log_to_real_correct"},"guarantee":"convert complex logarithms to real functions","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.rationaltools.log_to_real_correct","statement":"Path(log_to_real(x), convert complex logarithms to real functions)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"35ded3c87461e8f9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(h, 'as_expr')","hasattr(q, 'as_expr')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def log_to_real(h, q, x, t):
     r"""
     Convert complex logarithms to real functions.

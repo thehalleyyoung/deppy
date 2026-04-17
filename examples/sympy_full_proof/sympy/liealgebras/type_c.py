@@ -21,27 +21,40 @@ from sympy.core.backend import eye
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(TypeC(*args), correctly constructs a TypeC instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ TypeC : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Standard_Cartan)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ TypeC : Any → {Any | result satisfies: isinstance(sel...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 87b893a80bcf9512  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.liealgebras.type_c.TypeC","kind":"class","src_hash":"a98edd01e6c2b546","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"TypeC(*args)","rhs":"correctly constructs a TypeC instance","over":{"base":"Any"},"name":"TypeC_class_invariant"},"guarantee":"correctly constructs a TypeC instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"87b893a80bcf9512"}
+# @cctt_verify {"v":2,"sym":"sympy.liealgebras.type_c.TypeC","kind":"class","src_hash":"a98edd01e6c2b546","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Standard_Cartan)"},"spec":{"lhs":"TypeC(*args)","rhs":"correctly constructs a TypeC instance","over":{"base":"Any"},"name":"TypeC_class_invariant"},"guarantee":"isinstance(self, Standard_Cartan)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"87b893a80bcf9512","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Standard_Cartan)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":false,"binding_errors":["Function TypeC not found in source"]}}
 class TypeC(Standard_Cartan):
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, n), Standard_Cartan.__new__(cls, 'C', n)) over {Any | not (n < 3)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (n < 3)                                    ║
+# ║   returns:  Standard_Cartan.__new__(cls, 'C', n)           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | not (n < 3)} → Any                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 11c0da75d6717d06           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.liealgebras.type_c.TypeC.__new__","kind":"method","src_hash":"0c52d7d1ca1d3887","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"11c0da75d6717d06"}
+# @cctt_verify {"v":2,"sym":"sympy.liealgebras.type_c.TypeC.__new__","kind":"method","src_hash":"0c52d7d1ca1d3887","in":{"base":"Any","pred":"not (n < 3)"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, n)","rhs":"Standard_Cartan.__new__(cls, 'C', n)","over":{"base":"Any","pred":"not (n < 3)"},"name":"__new___correct"},"guarantee":"returns Standard_Cartan.__new__(cls, 'C', n)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"11c0da75d6717d06","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (n < 3)"],"returns_expr":"Standard_Cartan.__new__(cls, 'C', n)","pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, n):
         if n < 3:
             raise ValueError("n cannot be less than 3")
@@ -49,16 +62,22 @@ class TypeC(Standard_Cartan):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dimension(), dimension of the vector space v underlying the lie algebra) over Any ║
+# ║ Path(dimension(), <unspecified:dimension>) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dimension : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 03cbe4203993d4b1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.liealgebras.type_c.TypeC.dimension","kind":"method","src_hash":"4ef19f30c2643daa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dimension()","rhs":"dimension of the vector space v underlying the lie algebra","over":{"base":"Any"},"name":"dimension_correct"},"guarantee":"dimension of the vector space v underlying the lie algebra","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.liealgebras.type_c.TypeC.dimension_correct","statement":"Path(dimension(x), dimension of the vector space v underlying the lie algebra)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"03cbe4203993d4b1"}
+# @cctt_verify {"v":2,"sym":"sympy.liealgebras.type_c.TypeC.dimension","kind":"method","src_hash":"4ef19f30c2643daa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dimension()","rhs":"<unspecified:dimension>","over":{"base":"Any"},"name":"dimension_correct"},"guarantee":"dimension of the vector space v underlying the lie algebra","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.liealgebras.type_c.TypeC.dimension_correct","statement":"Path(dimension(x), dimension of the vector space v underlying the lie algebra)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"03cbe4203993d4b1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.n"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dimension(self):
         """Dimension of the vector space V underlying the Lie algebra
 
@@ -74,16 +93,22 @@ class TypeC(Standard_Cartan):
         return n
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(basic_root(i, ), generate roots with 1 in ith position and a -1 in jth position) over Any ║
+# ║ Path(basic_root(i, j), <unspecified:basic_root>) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ basic_root : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b3f7125a61f56aa3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.liealgebras.type_c.TypeC.basic_root","kind":"method","src_hash":"7fbe1b2256250aa0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"basic_root(i, )","rhs":"generate roots with 1 in ith position and a -1 in jth position","over":{"base":"Any"},"name":"basic_root_correct"},"guarantee":"generate roots with 1 in ith position and a -1 in jth position","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.liealgebras.type_c.TypeC.basic_root_correct","statement":"Path(basic_root(x), generate roots with 1 in ith position and a -1 in jth position)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b3f7125a61f56aa3"}
+# @cctt_verify {"v":2,"sym":"sympy.liealgebras.type_c.TypeC.basic_root","kind":"method","src_hash":"7fbe1b2256250aa0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"basic_root(i, j)","rhs":"<unspecified:basic_root>","over":{"base":"Any"},"name":"basic_root_correct"},"guarantee":"generate roots with 1 in ith position and a -1 in jth position","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.liealgebras.type_c.TypeC.basic_root_correct","statement":"Path(basic_root(x), generate roots with 1 in ith position and a -1 in jth position)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b3f7125a61f56aa3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.n"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def basic_root(self, i, j):
         """Generate roots with 1 in ith position and a -1 in jth position
         """
@@ -94,16 +119,25 @@ class TypeC(Standard_Cartan):
         return root
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(simple_root(i), the ith simple root for the c series) over Any ║
+# ║ Path(simple_root(i), result == (self.basic_root(i - 1, i) if i < n else root) and result == self.basic_root(i - 1, i) or result == root) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ simple_root : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (self.basic_root(i - 1, i) if i...   ║
+# ║   ensures:  result == self.basic_root(i - 1, i) or re...   ║
+# ║   fiber[case_0]: i < n => self.basic_root(i - 1, i)        ║
+# ║   fiber[case_1]: not (i < n) => root                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ simple_root : Any → {Any | result satisfies: result =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 491b16a5d4b4ae75  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9fe0ffe744e80fa1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.liealgebras.type_c.TypeC.simple_root","kind":"method","src_hash":"09674922fd322a67","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"simple_root(i)","rhs":"the ith simple root for the c series","over":{"base":"Any"},"name":"simple_root_correct"},"guarantee":"the ith simple root for the c series","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.liealgebras.type_c.TypeC.simple_root_correct","statement":"Path(simple_root(x), the ith simple root for the c series)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"491b16a5d4b4ae75"}
+# @cctt_verify {"v":2,"sym":"sympy.liealgebras.type_c.TypeC.simple_root","kind":"method","src_hash":"09674922fd322a67","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (self.basic_root(i - 1, i) if i < n else root) and result == self.basic_root(i - 1, i) or result == root"},"spec":{"lhs":"simple_root(i)","rhs":"result == (self.basic_root(i - 1, i) if i < n else root) and result == self.basic_root(i - 1, i) or result == root","over":{"base":"Any"},"name":"simple_root_correct"},"guarantee":"result == (self.basic_root(i - 1, i) if i < n else root); result == self.basic_root(i - 1, i) or result == root; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.liealgebras.type_c.TypeC.simple_root_correct","statement":"Path(simple_root(x), result == (self.basic_root(i - 1, i) if i < n else root); result == self.basic_root(i - 1, i) or result == root; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9fe0ffe744e80fa1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (self.basic_root(i - 1, i) if i < n else root)","result == self.basic_root(i - 1, i) or result == root"],"fibers":[{"name":"case_0","guard":"i < n","ensures":["result == self.basic_root(i - 1, i)"],"decidability":"z3","returns_expr":"self.basic_root(i - 1, i)"},{"name":"case_1","guard":"not (i < n)","ensures":["result == root"],"decidability":"z3","returns_expr":"root"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.basic_root","self.n"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def simple_root(self, i):
         """The ith simple root for the C series
 
@@ -142,16 +176,22 @@ class TypeC(Standard_Cartan):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(positive_roots(), generates all the positive roots of a_n) over Any ║
+# ║ Path(positive_roots(), <unspecified:positive_roots>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ positive_roots : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5eef18df4f888239  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.liealgebras.type_c.TypeC.positive_roots","kind":"method","src_hash":"09faab7b796fbb9a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"positive_roots()","rhs":"generates all the positive roots of a_n","over":{"base":"Any"},"name":"positive_roots_correct"},"guarantee":"generates all the positive roots of a_n","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.liealgebras.type_c.TypeC.positive_roots_correct","statement":"Path(positive_roots(x), generates all the positive roots of a_n)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5eef18df4f888239"}
+# @cctt_verify {"v":2,"sym":"sympy.liealgebras.type_c.TypeC.positive_roots","kind":"method","src_hash":"09faab7b796fbb9a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"positive_roots()","rhs":"<unspecified:positive_roots>","over":{"base":"Any"},"name":"positive_roots_correct"},"guarantee":"generates all the positive roots of a_n","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.liealgebras.type_c.TypeC.positive_roots_correct","statement":"Path(positive_roots(x), generates all the positive roots of a_n)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5eef18df4f888239","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.basic_root","self.n"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def positive_roots(self):
         """Generates all the positive roots of A_n
 
@@ -190,16 +230,22 @@ class TypeC(Standard_Cartan):
         return posroots
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(roots(), returns the total number of roots for c_n") over Any ║
+# ║ Path(roots(), 2 * n ** 2) over Any                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  2 * n ** 2                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ roots : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1f070c44ec4efe07  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8f2c8fdb09b85003  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.liealgebras.type_c.TypeC.roots","kind":"method","src_hash":"a58ce4f344289e46","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"roots()","rhs":"returns the total number of roots for c_n\"","over":{"base":"Any"},"name":"roots_correct"},"guarantee":"returns the total number of roots for c_n\"","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.liealgebras.type_c.TypeC.roots_correct","statement":"Path(roots(x), returns the total number of roots for c_n\")"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1f070c44ec4efe07"}
+# @cctt_verify {"v":2,"sym":"sympy.liealgebras.type_c.TypeC.roots","kind":"method","src_hash":"a58ce4f344289e46","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"roots()","rhs":"2 * n ** 2","over":{"base":"Any"},"name":"roots_correct"},"guarantee":"returns 2 * n ** 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.liealgebras.type_c.TypeC.roots_correct","statement":"Path(roots(x), returns 2 * n ** 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8f2c8fdb09b85003","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"2 * n ** 2","pure":false,"effects":{"effect_type":"reads_state","reads":["self.n"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def roots(self):
         """
         Returns the total number of roots for C_n"
@@ -209,16 +255,22 @@ class TypeC(Standard_Cartan):
         return 2*(n**2)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(cartan_matrix(), the cartan matrix for c_n) over Any  ║
+# ║ Path(cartan_matrix(), <unspecified:cartan_matrix>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ cartan_matrix : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5481e63559bd1cb1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.liealgebras.type_c.TypeC.cartan_matrix","kind":"method","src_hash":"dc4e41bf4f48c079","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"cartan_matrix()","rhs":"the cartan matrix for c_n","over":{"base":"Any"},"name":"cartan_matrix_correct"},"guarantee":"the cartan matrix for c_n","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.liealgebras.type_c.TypeC.cartan_matrix_correct","statement":"Path(cartan_matrix(x), the cartan matrix for c_n)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5481e63559bd1cb1"}
+# @cctt_verify {"v":2,"sym":"sympy.liealgebras.type_c.TypeC.cartan_matrix","kind":"method","src_hash":"dc4e41bf4f48c079","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"cartan_matrix()","rhs":"<unspecified:cartan_matrix>","over":{"base":"Any"},"name":"cartan_matrix_correct"},"guarantee":"the cartan matrix for c_n","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.liealgebras.type_c.TypeC.cartan_matrix_correct","statement":"Path(cartan_matrix(x), the cartan matrix for c_n)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5481e63559bd1cb1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.n"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def cartan_matrix(self):
         """The Cartan matrix for C_n
 
@@ -252,16 +304,22 @@ class TypeC(Standard_Cartan):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(basis(), returns the number of independent generators of c_n) over Any ║
+# ║ Path(basis(), n * (2 * n + 1)) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  n * (2 * n + 1)                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ basis : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 739c401d37c84988  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b5aacf7d3e0c2c6e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.liealgebras.type_c.TypeC.basis","kind":"method","src_hash":"9d0c5d83cd336ef2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"basis()","rhs":"returns the number of independent generators of c_n","over":{"base":"Any"},"name":"basis_correct"},"guarantee":"returns the number of independent generators of c_n","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.liealgebras.type_c.TypeC.basis_correct","statement":"Path(basis(x), returns the number of independent generators of c_n)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"739c401d37c84988"}
+# @cctt_verify {"v":2,"sym":"sympy.liealgebras.type_c.TypeC.basis","kind":"method","src_hash":"9d0c5d83cd336ef2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"basis()","rhs":"n * (2 * n + 1)","over":{"base":"Any"},"name":"basis_correct"},"guarantee":"returns n * (2 * n + 1)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.liealgebras.type_c.TypeC.basis_correct","statement":"Path(basis(x), returns n * (2 * n + 1))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b5aacf7d3e0c2c6e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"n * (2 * n + 1)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.n"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def basis(self):
         """
         Returns the number of independent generators of C_n
@@ -273,14 +331,20 @@ class TypeC(Standard_Cartan):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(lie_algebra(), id) over Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  'sp(' + str(2 * n) + ')'                       ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ lie_algebra : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 38607190895cc6a4   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.liealgebras.type_c.TypeC.lie_algebra","kind":"method","src_hash":"c507d7e9ab0da09e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"lie_algebra()","rhs":"returns the lie algebra associated with c_n\"","over":{"base":"Any"},"name":"lie_algebra_correct","kind":"composition"},"guarantee":"returns the lie algebra associated with c_n\"","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sp","by":"library_axiom"},{"fn":"str","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"38607190895cc6a4"}
+# @cctt_verify {"v":2,"sym":"sympy.liealgebras.type_c.TypeC.lie_algebra","kind":"method","src_hash":"c507d7e9ab0da09e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"lie_algebra()","rhs":"'sp(' + str(2 * n) + ')'","over":{"base":"Any"},"name":"lie_algebra_correct","kind":"composition"},"guarantee":"returns 'sp(' + str(2 * n) + ')'","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sp","by":"library_axiom"},{"fn":"str","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"38607190895cc6a4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'sp(' + str(2 * n) + ')'","pure":false,"effects":{"effect_type":"reads_state","reads":["self.n"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def lie_algebra(self):
         """
         Returns the Lie algebra associated with C_n"
@@ -290,16 +354,22 @@ class TypeC(Standard_Cartan):
         return "sp(" + str(2*n) + ")"
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dynkin_diagram(), dynkin_diagram produces the expected output) over Any ║
+# ║ Path(dynkin_diagram(), <unspecified:dynkin_diagram>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dynkin_diagram : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 096ed865466bd9cb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.liealgebras.type_c.TypeC.dynkin_diagram","kind":"method","src_hash":"279987ef57ad7402","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dynkin_diagram()","rhs":"dynkin_diagram produces the expected output","over":{"base":"Any"},"name":"dynkin_diagram_correct"},"guarantee":"dynkin_diagram produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.liealgebras.type_c.TypeC.dynkin_diagram_correct","statement":"Path(dynkin_diagram(x), dynkin_diagram produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"096ed865466bd9cb"}
+# @cctt_verify {"v":2,"sym":"sympy.liealgebras.type_c.TypeC.dynkin_diagram","kind":"method","src_hash":"279987ef57ad7402","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dynkin_diagram()","rhs":"<unspecified:dynkin_diagram>","over":{"base":"Any"},"name":"dynkin_diagram_correct"},"guarantee":"dynkin_diagram produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.liealgebras.type_c.TypeC.dynkin_diagram_correct","statement":"Path(dynkin_diagram(x), dynkin_diagram produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"096ed865466bd9cb","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.n"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dynkin_diagram(self):
         n = self.n
         diag = "---".join("0" for i in range(1, n)) + "=<=0\n"

@@ -38,16 +38,24 @@ w, x, y, z = symbols('w:z')
 phi = symbols('phi')
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_quaternion_construction(), test_quaternion_construction produces the expected output) over Any ║
+# ║ Path(test_quaternion_construction(), q + q == Quaternion(2 * w, 2 * x, 2 * y, 2 * z) and q2 == Quaternion(S.Half, S.Half, S.Half, S.Half) and q3 == Quaternion(sqrt(2) * sqrt(cos(phi) + 1) / 2, 0, 0, sqrt(2 - 2 * cos(phi)) * sign(sin(phi)) / 2)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_quaternion_construction : Any → {Any | q + q == ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  q + q == Quaternion(2 * w, 2 * x, 2 * y, ...   ║
+# ║   ensures:  q2 == Quaternion(S.Half, S.Half, S.Half, ...   ║
+# ║   ensures:  q3 == Quaternion(sqrt(2) * sqrt(cos(phi) ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_quaternion_construction : Any → {Any | result sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c3037c9792b8fba0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 096c362ae125b43e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.algebras.tests.test_quaternion.test_quaternion_construction","kind":"function","src_hash":"bbda6498cc393659","in":{"base":"Any"},"out":{"base":"Any","pred":"q + q == Quaternion(2 * w, 2 * x, 2 * y, 2 * z) and q2 == Quaternion(S.Half, S.Half, S.Half, S.Half)"},"spec":{"lhs":"test_quaternion_construction()","rhs":"test_quaternion_construction produces the expected output","over":{"base":"Any"},"name":"test_quaternion_construction_correct"},"guarantee":"test_quaternion_construction produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.algebras.tests.test_quaternion.test_quaternion_construction_correct","statement":"Path(test_quaternion_construction(x), test_quaternion_construction produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c3037c9792b8fba0"}
+# @cctt_verify {"v":2,"sym":"sympy.algebras.tests.test_quaternion.test_quaternion_construction","kind":"function","src_hash":"bbda6498cc393659","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: q + q == Quaternion(2 * w, 2 * x, 2 * y, 2 * z) and q2 == Quaternion(S.Half, S.Half, S.Half, S.Half) and q3 == Quaternion(sqrt(2) * sqrt(cos(phi) + 1) / 2, 0, 0, sqrt(2 - 2 * cos(phi)) * sign(sin(phi)) / 2)"},"spec":{"lhs":"test_quaternion_construction()","rhs":"q + q == Quaternion(2 * w, 2 * x, 2 * y, 2 * z) and q2 == Quaternion(S.Half, S.Half, S.Half, S.Half) and q3 == Quaternion(sqrt(2) * sqrt(cos(phi) + 1) / 2, 0, 0, sqrt(2 - 2 * cos(phi)) * sign(sin(phi)) / 2)","over":{"base":"Any"},"name":"test_quaternion_construction_correct"},"guarantee":"q + q == Quaternion(2 * w, 2 * x, 2 * y, 2 * z); q2 == Quaternion(S.Half, S.Half, S.Half, S.Half); q3 == Quaternion(sqrt(2) * sqrt(cos(phi) + 1) / 2, 0, 0, sqrt(2 - 2 * cos(phi)) * sign(sin(phi)) / 2)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.algebras.tests.test_quaternion.test_quaternion_construction_correct","statement":"Path(test_quaternion_construction(x), q + q == Quaternion(2 * w, 2 * x, 2 * y, 2 * z); q2 == Quaternion(S.Half, S.Half, S.Half, S.Half); q3 == Quaternion(sqrt(2) * sqrt(cos(phi) + 1) / 2, 0, 0, sqrt(2 - 2 * cos(phi)) * sign(sin(phi)) / 2))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"096c362ae125b43e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["q + q == Quaternion(2 * w, 2 * x, 2 * y, 2 * z)","q2 == Quaternion(S.Half, S.Half, S.Half, S.Half)","q3 == Quaternion(sqrt(2) * sqrt(cos(phi) + 1) / 2, 0, 0, sqrt(2 - 2 * cos(phi)) * sign(sin(phi)) / 2)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_quaternion_construction():
     q = Quaternion(w, x, y, z)
     assert q + q == Quaternion(2*w, 2*x, 2*y, 2*z)
@@ -67,16 +75,23 @@ def test_quaternion_construction():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_quaternion_construction_norm(), test_quaternion_construction_norm produces the expected output) over Any ║
+# ║ Path(test_quaternion_construction_norm(), expand((q1 * q2).norm() ** 2 - q1.norm() ** 2 * q2.norm() ** 2) == 0 and (q1 * q3).norm() == q1.norm()) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_quaternion_construction_norm : Any → {Any | expa...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  expand((q1 * q2).norm() ** 2 - q1.norm() ...   ║
+# ║   ensures:  (q1 * q3).norm() == q1.norm()                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_quaternion_construction_norm : Any → {Any | resu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 92b82dd28a18229a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1ba2ac5e6259a7d3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.algebras.tests.test_quaternion.test_quaternion_construction_norm","kind":"function","src_hash":"ce7bbc578cc55d6d","in":{"base":"Any"},"out":{"base":"Any","pred":"expand((q1 * q2).norm() ** 2 - q1.norm() ** 2 * q2.norm() ** 2) == 0 and (q1 * q3).norm() == q1.norm()"},"spec":{"lhs":"test_quaternion_construction_norm()","rhs":"test_quaternion_construction_norm produces the expected output","over":{"base":"Any"},"name":"test_quaternion_construction_norm_correct"},"guarantee":"test_quaternion_construction_norm produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.algebras.tests.test_quaternion.test_quaternion_construction_norm_correct","statement":"Path(test_quaternion_construction_norm(x), test_quaternion_construction_norm produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"92b82dd28a18229a"}
+# @cctt_verify {"v":2,"sym":"sympy.algebras.tests.test_quaternion.test_quaternion_construction_norm","kind":"function","src_hash":"ce7bbc578cc55d6d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: expand((q1 * q2).norm() ** 2 - q1.norm() ** 2 * q2.norm() ** 2) == 0 and (q1 * q3).norm() == q1.norm()"},"spec":{"lhs":"test_quaternion_construction_norm()","rhs":"expand((q1 * q2).norm() ** 2 - q1.norm() ** 2 * q2.norm() ** 2) == 0 and (q1 * q3).norm() == q1.norm()","over":{"base":"Any"},"name":"test_quaternion_construction_norm_correct"},"guarantee":"expand((q1 * q2).norm() ** 2 - q1.norm() ** 2 * q2.norm() ** 2) == 0; (q1 * q3).norm() == q1.norm()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.algebras.tests.test_quaternion.test_quaternion_construction_norm_correct","statement":"Path(test_quaternion_construction_norm(x), expand((q1 * q2).norm() ** 2 - q1.norm() ** 2 * q2.norm() ** 2) == 0; (q1 * q3).norm() == q1.norm())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1ba2ac5e6259a7d3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["expand((q1 * q2).norm() ** 2 - q1.norm() ** 2 * q2.norm() ** 2) == 0","(q1 * q3).norm() == q1.norm()"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_quaternion_construction_norm():
     q1 = Quaternion(*symbols('a:d'))
 
@@ -88,16 +103,22 @@ def test_quaternion_construction_norm():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_25254(), test_issue_25254 produces the expected output) over Any ║
+# ║ Path(test_issue_25254(), (test - p).norm() < 1e-10) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_25254 : Any → {Any | (test - p).norm() < 1...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (test - p).norm() < 1e-10                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_25254 : Any → {Any | result satisfies: (te...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0fb479c81f5ce09b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e31cf5c5c6b392c8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.algebras.tests.test_quaternion.test_issue_25254","kind":"function","src_hash":"69bfa5a4d15508fd","in":{"base":"Any"},"out":{"base":"Any","pred":"(test - p).norm() < 1e-10"},"spec":{"lhs":"test_issue_25254()","rhs":"test_issue_25254 produces the expected output","over":{"base":"Any"},"name":"test_issue_25254_correct"},"guarantee":"test_issue_25254 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.algebras.tests.test_quaternion.test_issue_25254_correct","statement":"Path(test_issue_25254(x), test_issue_25254 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0fb479c81f5ce09b"}
+# @cctt_verify {"v":2,"sym":"sympy.algebras.tests.test_quaternion.test_issue_25254","kind":"function","src_hash":"69bfa5a4d15508fd","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (test - p).norm() < 1e-10"},"spec":{"lhs":"test_issue_25254()","rhs":"(test - p).norm() < 1e-10","over":{"base":"Any"},"name":"test_issue_25254_correct"},"guarantee":"(test - p).norm() < 1e-10","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.algebras.tests.test_quaternion.test_issue_25254_correct","statement":"Path(test_issue_25254(x), (test - p).norm() < 1e-10)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e31cf5c5c6b392c8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(test - p).norm() < 1e-10"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_25254():
     # calculating the inverse cached the norm which caused problems
     # when multiplying
@@ -109,16 +130,23 @@ def test_issue_25254():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_to_and_from_Matrix(), test_to_and_from_Matrix produces the expected output) over Any ║
+# ║ Path(test_to_and_from_Matrix(), (q - q_full).is_zero_quaternion() and (q.vector_part() - q_vect).is_zero_quaternion()) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_to_and_from_Matrix : Any → {Any | (q - q_full).i...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (q - q_full).is_zero_quaternion()              ║
+# ║   ensures:  (q.vector_part() - q_vect).is_zero_quater...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_to_and_from_Matrix : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a455930880f7d234  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0d73979c7996531d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.algebras.tests.test_quaternion.test_to_and_from_Matrix","kind":"function","src_hash":"ee2016dbf8b97d44","in":{"base":"Any"},"out":{"base":"Any","pred":"(q - q_full).is_zero_quaternion() and (q.vector_part() - q_vect).is_zero_quaternion()"},"spec":{"lhs":"test_to_and_from_Matrix()","rhs":"test_to_and_from_Matrix produces the expected output","over":{"base":"Any"},"name":"test_to_and_from_Matrix_correct"},"guarantee":"test_to_and_from_Matrix produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.algebras.tests.test_quaternion.test_to_and_from_Matrix_correct","statement":"Path(test_to_and_from_Matrix(x), test_to_and_from_Matrix produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a455930880f7d234"}
+# @cctt_verify {"v":2,"sym":"sympy.algebras.tests.test_quaternion.test_to_and_from_Matrix","kind":"function","src_hash":"ee2016dbf8b97d44","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (q - q_full).is_zero_quaternion() and (q.vector_part() - q_vect).is_zero_quaternion()"},"spec":{"lhs":"test_to_and_from_Matrix()","rhs":"(q - q_full).is_zero_quaternion() and (q.vector_part() - q_vect).is_zero_quaternion()","over":{"base":"Any"},"name":"test_to_and_from_Matrix_correct"},"guarantee":"(q - q_full).is_zero_quaternion(); (q.vector_part() - q_vect).is_zero_quaternion()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.algebras.tests.test_quaternion.test_to_and_from_Matrix_correct","statement":"Path(test_to_and_from_Matrix(x), (q - q_full).is_zero_quaternion(); (q.vector_part() - q_vect).is_zero_quaternion())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0d73979c7996531d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(q - q_full).is_zero_quaternion()","(q.vector_part() - q_vect).is_zero_quaternion()"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_to_and_from_Matrix():
     q = Quaternion(w, x, y, z)
     q_full = Quaternion.from_Matrix(q.to_Matrix())
@@ -128,16 +156,24 @@ def test_to_and_from_Matrix():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_product_matrices(), test_product_matrices produces the expected output) over Any ║
+# ║ Path(test_product_matrices(), (q1 * q2).to_Matrix() == q1.product_matrix_left * q2.to_Matrix() and (q1 * q2).to_Matrix() == q2.product_matrix_right * q1.to_Matrix() and R1 == R2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_product_matrices : Any → {Any | (q1 * q2).to_Mat...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (q1 * q2).to_Matrix() == q1.product_matri...   ║
+# ║   ensures:  (q1 * q2).to_Matrix() == q2.product_matri...   ║
+# ║   ensures:  R1 == R2                                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_product_matrices : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d9900dfb0151d4a4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 23847da11c26a681  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.algebras.tests.test_quaternion.test_product_matrices","kind":"function","src_hash":"32593bd61ab8d73f","in":{"base":"Any"},"out":{"base":"Any","pred":"(q1 * q2).to_Matrix() == q1.product_matrix_left * q2.to_Matrix() and (q1 * q2).to_Matrix() == q2.product_matrix_right * q1.to_Matrix() and R1 == R2"},"spec":{"lhs":"test_product_matrices()","rhs":"test_product_matrices produces the expected output","over":{"base":"Any"},"name":"test_product_matrices_correct"},"guarantee":"test_product_matrices produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.algebras.tests.test_quaternion.test_product_matrices_correct","statement":"Path(test_product_matrices(x), test_product_matrices produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d9900dfb0151d4a4"}
+# @cctt_verify {"v":2,"sym":"sympy.algebras.tests.test_quaternion.test_product_matrices","kind":"function","src_hash":"32593bd61ab8d73f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (q1 * q2).to_Matrix() == q1.product_matrix_left * q2.to_Matrix() and (q1 * q2).to_Matrix() == q2.product_matrix_right * q1.to_Matrix() and R1 == R2"},"spec":{"lhs":"test_product_matrices()","rhs":"(q1 * q2).to_Matrix() == q1.product_matrix_left * q2.to_Matrix() and (q1 * q2).to_Matrix() == q2.product_matrix_right * q1.to_Matrix() and R1 == R2","over":{"base":"Any"},"name":"test_product_matrices_correct"},"guarantee":"(q1 * q2).to_Matrix() == q1.product_matrix_left * q2.to_Matrix(); (q1 * q2).to_Matrix() == q2.product_matrix_right * q1.to_Matrix(); R1 == R2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.algebras.tests.test_quaternion.test_product_matrices_correct","statement":"Path(test_product_matrices(x), (q1 * q2).to_Matrix() == q1.product_matrix_left * q2.to_Matrix(); (q1 * q2).to_Matrix() == q2.product_matrix_right * q1.to_Matrix(); R1 == R2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"23847da11c26a681","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(q1 * q2).to_Matrix() == q1.product_matrix_left * q2.to_Matrix()","(q1 * q2).to_Matrix() == q2.product_matrix_right * q1.to_Matrix()","R1 == R2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_product_matrices():
     q1 = Quaternion(w, x, y, z)
     q2 = Quaternion(*(symbols("a:d")))
@@ -150,16 +186,22 @@ def test_product_matrices():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_quaternion_axis_angle(), test_quaternion_axis_angle produces the expected output) over Any ║
+# ║ Path(test_quaternion_axis_angle(), <unspecified:test_quaternion_axis_angle>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_quaternion_axis_angle : Any → {Any | Quaternion....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 42e75265daa72452  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.algebras.tests.test_quaternion.test_quaternion_axis_angle","kind":"function","src_hash":"3b1111fc3cc0c22e","in":{"base":"Any"},"out":{"base":"Any","pred":"Quaternion.from_axis_angle(axis, angle) == Quaternion(*expected)"},"spec":{"lhs":"test_quaternion_axis_angle()","rhs":"test_quaternion_axis_angle produces the expected output","over":{"base":"Any"},"name":"test_quaternion_axis_angle_correct"},"guarantee":"test_quaternion_axis_angle produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.algebras.tests.test_quaternion.test_quaternion_axis_angle_correct","statement":"Path(test_quaternion_axis_angle(x), test_quaternion_axis_angle produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"42e75265daa72452"}
+# @cctt_verify {"v":2,"sym":"sympy.algebras.tests.test_quaternion.test_quaternion_axis_angle","kind":"function","src_hash":"3b1111fc3cc0c22e","in":{"base":"Any"},"out":{"base":"Any","pred":"Quaternion.from_axis_angle(axis, angle) == Quaternion(*expected)"},"spec":{"lhs":"test_quaternion_axis_angle()","rhs":"<unspecified:test_quaternion_axis_angle>","over":{"base":"Any"},"name":"test_quaternion_axis_angle_correct"},"guarantee":"test_quaternion_axis_angle produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.algebras.tests.test_quaternion.test_quaternion_axis_angle_correct","statement":"Path(test_quaternion_axis_angle(x), test_quaternion_axis_angle produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"42e75265daa72452","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_quaternion_axis_angle():
 
     test_data = [ # axis, angle, expected_quaternion
@@ -179,16 +221,24 @@ def test_quaternion_axis_angle():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_quaternion_axis_angle_simplification(), test_quaternion_axis_angle_simplification produces the expected output) over Any ║
+# ║ Path(test_quaternion_axis_angle_simplification(), result.a == cos(asin(4) / 2) and result.b == sqrt(14) * sin(asin(4) / 2) / 14 and result.c == sqrt(14) * sin(asin(4) / 2) / 7 and result.d == 3 * sqrt(14) * sin(asin(4) / 2) / 14) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result.a == cos(asin(4) / 2)                   ║
+# ║   ensures:  result.b == sqrt(14) * sin(asin(4) / 2) / 14   ║
+# ║   ensures:  result.c == sqrt(14) * sin(asin(4) / 2) / 7    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_quaternion_axis_angle_simplification : Any → {An...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9d34ff37b328a290  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d1316aec1f0f4678  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.algebras.tests.test_quaternion.test_quaternion_axis_angle_simplification","kind":"function","src_hash":"ad9e7637284e1b19","in":{"base":"Any"},"out":{"base":"Any","pred":"result.a == cos(asin(4) / 2) and result.b == sqrt(14) * sin(asin(4) / 2) / 14 and result.c == sqrt(14) * sin(asin(4) / 2) / 7 and result.d == 3 * sqrt(14) * sin(asin(4) / 2) / 14"},"spec":{"lhs":"test_quaternion_axis_angle_simplification()","rhs":"test_quaternion_axis_angle_simplification produces the expected output","over":{"base":"Any"},"name":"test_quaternion_axis_angle_simplification_correct"},"guarantee":"test_quaternion_axis_angle_simplification produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.algebras.tests.test_quaternion.test_quaternion_axis_angle_simplification_correct","statement":"Path(test_quaternion_axis_angle_simplification(x), test_quaternion_axis_angle_simplification produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9d34ff37b328a290"}
+# @cctt_verify {"v":2,"sym":"sympy.algebras.tests.test_quaternion.test_quaternion_axis_angle_simplification","kind":"function","src_hash":"ad9e7637284e1b19","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result.a == cos(asin(4) / 2) and result.b == sqrt(14) * sin(asin(4) / 2) / 14 and result.c == sqrt(14) * sin(asin(4) / 2) / 7 and result.d == 3 * sqrt(14) * sin(asin(4) / 2) / 14"},"spec":{"lhs":"test_quaternion_axis_angle_simplification()","rhs":"result.a == cos(asin(4) / 2) and result.b == sqrt(14) * sin(asin(4) / 2) / 14 and result.c == sqrt(14) * sin(asin(4) / 2) / 7 and result.d == 3 * sqrt(14) * sin(asin(4) / 2) / 14","over":{"base":"Any"},"name":"test_quaternion_axis_angle_simplification_correct"},"guarantee":"result.a == cos(asin(4) / 2); result.b == sqrt(14) * sin(asin(4) / 2) / 14; result.c == sqrt(14) * sin(asin(4) / 2) / 7","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.algebras.tests.test_quaternion.test_quaternion_axis_angle_simplification_correct","statement":"Path(test_quaternion_axis_angle_simplification(x), result.a == cos(asin(4) / 2); result.b == sqrt(14) * sin(asin(4) / 2) / 14; result.c == sqrt(14) * sin(asin(4) / 2) / 7)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d1316aec1f0f4678","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result.a == cos(asin(4) / 2)","result.b == sqrt(14) * sin(asin(4) / 2) / 14","result.c == sqrt(14) * sin(asin(4) / 2) / 7","result.d == 3 * sqrt(14) * sin(asin(4) / 2) / 14"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_quaternion_axis_angle_simplification():
     result = Quaternion.from_axis_angle((1, 2, 3), asin(4))
     assert result.a == cos(asin(4)/2)
@@ -197,16 +247,24 @@ def test_quaternion_axis_angle_simplification():
     assert result.d == 3*sqrt(14)*sin(asin(4)/2)/14
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_quaternion_complex_real_addition(), test_quaternion_complex_real_addition produces the expected output) over Any ║
+# ║ Path(test_quaternion_complex_real_addition(), a + q == Quaternion(w + re(a), x + im(a), y, z) and 1 + q == Quaternion(1 + w, x, y, z) and I + q == Quaternion(w, 1 + x, y, z) and b + q == Quaternion(w + b, x, y, z) and -q == Quaternion(-w, -x, -y, -z) and q1 + (2 + 3 * I) == Quaternion(5 + 7 * I, 2 + 5 * I, 0, 7 + 8 * I) and q2 + (2 + 3 * I) == Quaternion(3, 7, 7, 8) and q1 * (2 + 3 * I) == Quaternion((2 + 3 * I) * (3 + 4 * I), (2 + 3 * I) * (2 + 5 * I), 0, (2 + 3 * I) * (7 + 8 * I)) and q2 * (2 + 3 * I) == Quaternion(-10, 11, 38, -5) and q1 + q0 == q1 and q1 - q0 == q1 and q1 - q1 == q0) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  a + q == Quaternion(w + re(a), x + im(a),...   ║
+# ║   ensures:  1 + q == Quaternion(1 + w, x, y, z)            ║
+# ║   ensures:  I + q == Quaternion(w, 1 + x, y, z)            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_quaternion_complex_real_addition : Any → {Any | ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a30edf56d8fa7957  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0823d7dc9f129d58  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.algebras.tests.test_quaternion.test_quaternion_complex_real_addition","kind":"function","src_hash":"a7e1080dda83a2d5","in":{"base":"Any"},"out":{"base":"Any","pred":"a + q == Quaternion(w + re(a), x + im(a), y, z) and 1 + q == Quaternion(1 + w, x, y, z) and I + q == Quaternion(w, 1 + x, y, z) and b + q == Quaternion(w + b, x, y, z) and -q == Quaternion(-w, -x, -y, -z) and q1 + (2 + 3 * I) == Quaternion(5 + 7 * I, 2 + 5 * I, 0, 7 + 8 * I) and q2 + (2 + 3 * I) == Quaternion(3, 7, 7, 8) and q2 * (2 + 3 * I) == Quaternion(-10, 11, 38, -5) and q1 + q0 == q1 and q1 - q0 == q1 and q1 - q1 == q0"},"spec":{"lhs":"test_quaternion_complex_real_addition()","rhs":"test_quaternion_complex_real_addition produces the expected output","over":{"base":"Any"},"name":"test_quaternion_complex_real_addition_correct"},"guarantee":"test_quaternion_complex_real_addition produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.algebras.tests.test_quaternion.test_quaternion_complex_real_addition_correct","statement":"Path(test_quaternion_complex_real_addition(x), test_quaternion_complex_real_addition produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a30edf56d8fa7957"}
+# @cctt_verify {"v":2,"sym":"sympy.algebras.tests.test_quaternion.test_quaternion_complex_real_addition","kind":"function","src_hash":"a7e1080dda83a2d5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: a + q == Quaternion(w + re(a), x + im(a), y, z) and 1 + q == Quaternion(1 + w, x, y, z) and I + q == Quaternion(w, 1 + x, y, z) and b + q == Quaternion(w + b, x, y, z) and -q == Quaternion(-w, -x, -y, -z) and q1 + (2 + 3 * I) == Quaternion(5 + 7 * I, 2 + 5 * I, 0, 7 + 8 * I) and q2 + (2 + 3 * I) == Quaternion(3, 7, 7, 8) and q1 * (2 + 3 * I) == Quaternion((2 + 3 * I) * (3 + 4 * I), (2 + 3 * I) * (2 + 5 * I), 0, (2 + 3 * I) * (7 + 8 * I)) and q2 * (2 + 3 * I) == Quaternion(-10, 11, 38, -5) and q1 + q0 == q1 and q1 - q0 == q1 and q1 - q1 == q0"},"spec":{"lhs":"test_quaternion_complex_real_addition()","rhs":"a + q == Quaternion(w + re(a), x + im(a), y, z) and 1 + q == Quaternion(1 + w, x, y, z) and I + q == Quaternion(w, 1 + x, y, z) and b + q == Quaternion(w + b, x, y, z) and -q == Quaternion(-w, -x, -y, -z) and q1 + (2 + 3 * I) == Quaternion(5 + 7 * I, 2 + 5 * I, 0, 7 + 8 * I) and q2 + (2 + 3 * I) == Quaternion(3, 7, 7, 8) and q1 * (2 + 3 * I) == Quaternion((2 + 3 * I) * (3 + 4 * I), (2 + 3 * I) * (2 + 5 * I), 0, (2 + 3 * I) * (7 + 8 * I)) and q2 * (2 + 3 * I) == Quaternion(-10, 11, 38, -5) and q1 + q0 == q1 and q1 - q0 == q1 and q1 - q1 == q0","over":{"base":"Any"},"name":"test_quaternion_complex_real_addition_correct"},"guarantee":"a + q == Quaternion(w + re(a), x + im(a), y, z); 1 + q == Quaternion(1 + w, x, y, z); I + q == Quaternion(w, 1 + x, y, z)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.algebras.tests.test_quaternion.test_quaternion_complex_real_addition_correct","statement":"Path(test_quaternion_complex_real_addition(x), a + q == Quaternion(w + re(a), x + im(a), y, z); 1 + q == Quaternion(1 + w, x, y, z); I + q == Quaternion(w, 1 + x, y, z))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0823d7dc9f129d58","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["a + q == Quaternion(w + re(a), x + im(a), y, z)","1 + q == Quaternion(1 + w, x, y, z)","I + q == Quaternion(w, 1 + x, y, z)","b + q == Quaternion(w + b, x, y, z)","-q == Quaternion(-w, -x, -y, -z)","q1 + (2 + 3 * I) == Quaternion(5 + 7 * I, 2 + 5 * I, 0, 7 + 8 * I)","q2 + (2 + 3 * I) == Quaternion(3, 7, 7, 8)","q1 * (2 + 3 * I) == Quaternion((2 + 3 * I) * (3 + 4 * I), (2 + 3 * I) * (2 + 5 * I), 0, (2 + 3 * I) * (7 + 8 * I))","q2 * (2 + 3 * I) == Quaternion(-10, 11, 38, -5)","q1 + q0 == q1","q1 - q0 == q1","q1 - q1 == q0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_quaternion_complex_real_addition():
     a = symbols("a", complex=True)
     b = symbols("b", real=True)
@@ -241,32 +299,45 @@ def test_quaternion_complex_real_addition():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_quaternion_subs(), test_quaternion_subs produces the expected output) over Any ║
+# ║ Path(test_quaternion_subs(), q.subs(phi, 0) == Quaternion(1, 0, 0, 0)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_quaternion_subs : Any → {Any | q.subs(phi, 0) ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  q.subs(phi, 0) == Quaternion(1, 0, 0, 0)       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_quaternion_subs : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 81c6ca5635f254ba  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2f5be393d45a8654  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.algebras.tests.test_quaternion.test_quaternion_subs","kind":"function","src_hash":"b907dabb56844bcf","in":{"base":"Any"},"out":{"base":"Any","pred":"q.subs(phi, 0) == Quaternion(1, 0, 0, 0)"},"spec":{"lhs":"test_quaternion_subs()","rhs":"test_quaternion_subs produces the expected output","over":{"base":"Any"},"name":"test_quaternion_subs_correct"},"guarantee":"test_quaternion_subs produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.algebras.tests.test_quaternion.test_quaternion_subs_correct","statement":"Path(test_quaternion_subs(x), test_quaternion_subs produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"81c6ca5635f254ba"}
+# @cctt_verify {"v":2,"sym":"sympy.algebras.tests.test_quaternion.test_quaternion_subs","kind":"function","src_hash":"b907dabb56844bcf","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: q.subs(phi, 0) == Quaternion(1, 0, 0, 0)"},"spec":{"lhs":"test_quaternion_subs()","rhs":"q.subs(phi, 0) == Quaternion(1, 0, 0, 0)","over":{"base":"Any"},"name":"test_quaternion_subs_correct"},"guarantee":"q.subs(phi, 0) == Quaternion(1, 0, 0, 0)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.algebras.tests.test_quaternion.test_quaternion_subs_correct","statement":"Path(test_quaternion_subs(x), q.subs(phi, 0) == Quaternion(1, 0, 0, 0))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2f5be393d45a8654","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["q.subs(phi, 0) == Quaternion(1, 0, 0, 0)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_quaternion_subs():
     q = Quaternion.from_axis_angle((0, 0, 1), phi)
     assert q.subs(phi, 0) == Quaternion(1, 0, 0, 0)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_quaternion_evalf(), test_quaternion_evalf produces the expected output) over Any ║
+# ║ Path(test_quaternion_evalf(), Quaternion(sqrt(2), 0, 0, sqrt(3)).evalf() == Quaternion(sqrt(2).evalf(), 0, 0, sqrt(3).evalf()) and Quaternion(1 / sqrt(2), 0, 0, 1 / sqrt(2)).evalf() == Quaternion((1 / sqrt(2)).evalf(), 0, 0, (1 / sqrt(2)).evalf())) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_quaternion_evalf : Any → Any                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Quaternion(sqrt(2), 0, 0, sqrt(3)).evalf(...   ║
+# ║   ensures:  Quaternion(1 / sqrt(2), 0, 0, 1 / sqrt(2)...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_quaternion_evalf : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cca449987eb95d18  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2dc40dfedbbef63e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.algebras.tests.test_quaternion.test_quaternion_evalf","kind":"function","src_hash":"52158a600634b712","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_quaternion_evalf()","rhs":"test_quaternion_evalf produces the expected output","over":{"base":"Any"},"name":"test_quaternion_evalf_correct"},"guarantee":"test_quaternion_evalf produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.algebras.tests.test_quaternion.test_quaternion_evalf_correct","statement":"Path(test_quaternion_evalf(x), test_quaternion_evalf produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cca449987eb95d18"}
+# @cctt_verify {"v":2,"sym":"sympy.algebras.tests.test_quaternion.test_quaternion_evalf","kind":"function","src_hash":"52158a600634b712","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Quaternion(sqrt(2), 0, 0, sqrt(3)).evalf() == Quaternion(sqrt(2).evalf(), 0, 0, sqrt(3).evalf()) and Quaternion(1 / sqrt(2), 0, 0, 1 / sqrt(2)).evalf() == Quaternion((1 / sqrt(2)).evalf(), 0, 0, (1 / sqrt(2)).evalf())"},"spec":{"lhs":"test_quaternion_evalf()","rhs":"Quaternion(sqrt(2), 0, 0, sqrt(3)).evalf() == Quaternion(sqrt(2).evalf(), 0, 0, sqrt(3).evalf()) and Quaternion(1 / sqrt(2), 0, 0, 1 / sqrt(2)).evalf() == Quaternion((1 / sqrt(2)).evalf(), 0, 0, (1 / sqrt(2)).evalf())","over":{"base":"Any"},"name":"test_quaternion_evalf_correct"},"guarantee":"Quaternion(sqrt(2), 0, 0, sqrt(3)).evalf() == Quaternion(sqrt(2).evalf(), 0, 0, sqrt(3).evalf()); Quaternion(1 / sqrt(2), 0, 0, 1 / sqrt(2)).evalf() == Quaternion((1 / sqrt(2)).evalf(), 0, 0, (1 / sqrt(2)).evalf())","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.algebras.tests.test_quaternion.test_quaternion_evalf_correct","statement":"Path(test_quaternion_evalf(x), Quaternion(sqrt(2), 0, 0, sqrt(3)).evalf() == Quaternion(sqrt(2).evalf(), 0, 0, sqrt(3).evalf()); Quaternion(1 / sqrt(2), 0, 0, 1 / sqrt(2)).evalf() == Quaternion((1 / sqrt(2)).evalf(), 0, 0, (1 / sqrt(2)).evalf()))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2dc40dfedbbef63e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Quaternion(sqrt(2), 0, 0, sqrt(3)).evalf() == Quaternion(sqrt(2).evalf(), 0, 0, sqrt(3).evalf())","Quaternion(1 / sqrt(2), 0, 0, 1 / sqrt(2)).evalf() == Quaternion((1 / sqrt(2)).evalf(), 0, 0, (1 / sqrt(2)).evalf())"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_quaternion_evalf():
     assert (Quaternion(sqrt(2), 0, 0, sqrt(3)).evalf() ==
             Quaternion(sqrt(2).evalf(), 0, 0, sqrt(3).evalf()))
@@ -275,16 +346,24 @@ def test_quaternion_evalf():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_quaternion_functions(), test_quaternion_functions produces the expected output) over Any ║
+# ║ Path(test_quaternion_functions(), conjugate(q) == Quaternion(w, -x, -y, -z) and q.norm() == sqrt(w ** 2 + x ** 2 + y ** 2 + z ** 2) and q.normalize() == Quaternion(w, x, y, z) / sqrt(w ** 2 + x ** 2 + y ** 2 + z ** 2) and q.inverse() == Quaternion(w, -x, -y, -z) / (w ** 2 + x ** 2 + y ** 2 + z ** 2) and q.inverse() == q.pow(-1) and q.pow(2) == Quaternion(w ** 2 - x ** 2 - y ** 2 - z ** 2, 2 * w * x, 2 * w * y, 2 * w * z) and q ** 2 == Quaternion(w ** 2 - x ** 2 - y ** 2 - z ** 2, 2 * w * x, 2 * w * y, 2 * w * z) and q1.pow(-2) == Quaternion(Rational(-7, 225), Rational(-1, 225), Rational(-1, 150), Rational(-2, 225)) and q1 ** (-2) == Quaternion(Rational(-7, 225), Rational(-1, 225), Rational(-1, 150), Rational(-2, 225)) and q1.pow(-0.5) == NotImplemented and q1.exp() == Quaternion(E * cos(sqrt(29)), 2 * sqrt(29) * E * sin(sqrt(29)) / 29, 3 * sqrt(29) * E * sin(sqrt(29)) / 29, 4 * sqrt(29) * E * sin(sqrt(29)) / 29) and q1.log() == Quaternion(log(sqrt(30)), 2 * sqrt(29) * acos(sqrt(30) / 30) / 29, 3 * sqrt(29) * acos(sqrt(30) / 30) / 29, 4 * sqrt(29) * acos(sqrt(30) / 30) / 29) and q1.pow_cos_sin(2) == Quaternion(30 * cos(2 * acos(sqrt(30) / 30)), 60 * sqrt(29) * sin(2 * acos(sqrt(30) / 30)) / 29, 90 * sqrt(29) * sin(2 * acos(sqrt(30) / 30)) / 29, 120 * sqrt(29) * sin(2 * acos(sqrt(30) / 30)) / 29) and diff(Quaternion(x, x, x, x), x) == Quaternion(1, 1, 1, 1) and integrate(Quaternion(x, x, x, x), x) == Quaternion(x ** 2 / 2, x ** 2 / 2, x ** 2 / 2, x ** 2 / 2) and Quaternion(1, x, x ** 2, x ** 3).integrate(x) == Quaternion(x, x ** 2 / 2, x ** 3 / 3, x ** 4 / 4) and Quaternion(sin(x), cos(x), sin(2 * x), cos(2 * x)).integrate(x) == Quaternion(-cos(x), sin(x), -cos(2 * x) / 2, sin(2 * x) / 2) and Quaternion(x ** 2, y ** 2, z ** 2, x * y * z).integrate(x, y) == Quaternion(x ** 3 * y / 3, x * y ** 3 / 3, x * y * z ** 2, x ** 2 * y ** 2 * z / 4) and Quaternion.rotate_point((1, 1, 1), q1) == (S.One / 5, 1, S(7) / 5) and Quaternion(22, 23, 55, 8).scalar_part() == 22 and Quaternion(w, x, y, z).scalar_part() == w and Quaternion(22, 23, 55, 8).vector_part() == Quaternion(0, 23, 55, 8) and Quaternion(w, x, y, z).vector_part() == Quaternion(0, x, y, z) and q1.axis() == Quaternion(0, 2 * sqrt(29) / 29, 3 * sqrt(29) / 29, 4 * sqrt(29) / 29) and q1.axis().pow(2) == Quaternion(-1, 0, 0, 0) and q0.axis().scalar_part() == 0 and q.axis() == Quaternion(0, x / sqrt(x ** 2 + y ** 2 + z ** 2), y / sqrt(x ** 2 + y ** 2 + z ** 2), z / sqrt(x ** 2 + y ** 2 + z ** 2)) and q0.is_pure() is True and q1.is_pure() is False and Quaternion(0, 0, 0, 3).is_pure() is True and Quaternion(0, 2, 10, 3).is_pure() is True and Quaternion(w, 2, 10, 3).is_pure() is None and q1.angle() == 2 * atan(sqrt(29)) and q.angle() == 2 * atan2(sqrt(x ** 2 + y ** 2 + z ** 2), w) and Quaternion.arc_coplanar(q1, Quaternion(2, 4, 6, 8)) is True and Quaternion.arc_coplanar(q1, Quaternion(1, -2, -3, -4)) is True and Quaternion.arc_coplanar(q1, Quaternion(1, 8, 12, 16)) is True and Quaternion.arc_coplanar(q1, Quaternion(1, 2, 3, 4)) is True and Quaternion.arc_coplanar(q1, Quaternion(w, 4, 6, 8)) is True and Quaternion.arc_coplanar(q1, Quaternion(2, 7, 4, 1)) is False and Quaternion.arc_coplanar(q1, Quaternion(w, x, y, z)) is None and Quaternion.vector_coplanar(Quaternion(0, 8, 12, 16), Quaternion(0, 4, 6, 8), Quaternion(0, 2, 3, 4)) is True and Quaternion.vector_coplanar(Quaternion(0, 0, 0, 0), Quaternion(0, 4, 6, 8), Quaternion(0, 2, 3, 4)) is True and Quaternion.vector_coplanar(Quaternion(0, 8, 2, 6), Quaternion(0, 1, 6, 6), Quaternion(0, 0, 3, 4)) is False and Quaternion.vector_coplanar(Quaternion(0, 1, 3, 4), Quaternion(0, 4, w, 6), Quaternion(0, 6, 8, 1)) is None and Quaternion(0, 1, 2, 3).parallel(Quaternion(0, 2, 4, 6)) is True and Quaternion(0, 1, 2, 3).parallel(Quaternion(0, 2, 2, 6)) is False and Quaternion(0, 1, 2, 3).parallel(Quaternion(w, x, y, 6)) is None and Quaternion(0, 1, 2, 3).orthogonal(Quaternion(0, -2, 1, 0)) is True and Quaternion(0, 2, 4, 7).orthogonal(Quaternion(0, 2, 2, 6)) is False and Quaternion(0, 2, 4, 7).orthogonal(Quaternion(w, x, y, 6)) is None and q1.index_vector() == Quaternion(0, 2 * sqrt(870) / 29, 3 * sqrt(870) / 29, 4 * sqrt(870) / 29) and Quaternion(0, 3, 9, 4).index_vector() == Quaternion(0, 3, 9, 4) and Quaternion(4, 3, 9, 4).mensor() == log(sqrt(122)) and Quaternion(3, 3, 0, 2).mensor() == log(sqrt(22)) and q0.is_zero_quaternion() is True and q1.is_zero_quaternion() is False and Quaternion(w, 0, 0, 0).is_zero_quaternion() is None) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_quaternion_functions : Any → {Any | conjugate(q)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  conjugate(q) == Quaternion(w, -x, -y, -z)      ║
+# ║   ensures:  q.norm() == sqrt(w ** 2 + x ** 2 + y ** 2...   ║
+# ║   ensures:  q.normalize() == Quaternion(w, x, y, z) /...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_quaternion_functions : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f95025cd4614abc8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 2.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c2e1576ce4f47ac8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.algebras.tests.test_quaternion.test_quaternion_functions","kind":"function","src_hash":"cb848fe5d8685703","in":{"base":"Any"},"out":{"base":"Any","pred":"conjugate(q) == Quaternion(w, -x, -y, -z) and q.norm() == sqrt(w ** 2 + x ** 2 + y ** 2 + z ** 2) and q.inverse() == Quaternion(w, -x, -y, -z) / (w ** 2 + x ** 2 + y ** 2 + z ** 2) and q.inverse() == q.pow(-1) and q1.pow(-0.5) == NotImplemented and diff(Quaternion(x, x, x, x), x) == Quaternion(1, 1, 1, 1) and Quaternion.rotate_point((1, 1, 1), q1) == (S.One / 5, 1, S(7) / 5) and Quaternion(22, 23, 55, 8).scalar_part() == 22 and Quaternion(w, x, y, z).scalar_part() == w and Quaternion(22, 23, 55, 8).vector_part() == Quaternion(0, 23, 55, 8) and Quaternion(w, x, y, z).vector_part() == Quaternion(0, x, y, z) and q1.axis().pow(2) == Quaternion(-1, 0, 0, 0) and q0.axis().scalar_part() == 0 and q0.is_pure() is True and q1.is_pure() is False and Quaternion(0, 0, 0, 3).is_pure() is True and Quaternion(0, 2, 10, 3).is_pure() is True and Quaternion(w, 2, 10, 3).is_pure() is None and q1.angle() == 2 * atan(sqrt(29)) and q.angle() == 2 * atan2(sqrt(x ** 2 + y ** 2 + z ** 2), w) and Quaternion.arc_coplanar(q1, Quaternion(2, 4, 6, 8)) is True and Quaternion.arc_coplanar(q1, Quaternion(1, -2, -3, -4)) is True and Quaternion.arc_coplanar(q1, Quaternion(1, 8, 12, 16)) is True and Quaternion.arc_coplanar(q1, Quaternion(1, 2, 3, 4)) is True and Quaternion.arc_coplanar(q1, Quaternion(w, 4, 6, 8)) is True and Quaternion.arc_coplanar(q1, Quaternion(2, 7, 4, 1)) is False and Quaternion.arc_coplanar(q1, Quaternion(w, x, y, z)) is None and Quaternion(0, 1, 2, 3).parallel(Quaternion(0, 2, 4, 6)) is True and Quaternion(0, 1, 2, 3).parallel(Quaternion(0, 2, 2, 6)) is False and Quaternion(0, 1, 2, 3).parallel(Quaternion(w, x, y, 6)) is None and Quaternion(0, 1, 2, 3).orthogonal(Quaternion(0, -2, 1, 0)) is True and Quaternion(0, 2, 4, 7).orthogonal(Quaternion(0, 2, 2, 6)) is False and Quaternion(0, 2, 4, 7).orthogonal(Quaternion(w, x, y, 6)) is None and Quaternion(0, 3, 9, 4).index_vector() == Quaternion(0, 3, 9, 4) and Quaternion(4, 3, 9, 4).mensor() == log(sqrt(122)) and Quaternion(3, 3, 0, 2).mensor() == log(sqrt(22)) and q0.is_zero_quaternion() is True and q1.is_zero_quaternion() is False and Quaternion(w, 0, 0, 0).is_zero_quaternion() is None"},"spec":{"lhs":"test_quaternion_functions()","rhs":"test_quaternion_functions produces the expected output","over":{"base":"Any"},"name":"test_quaternion_functions_correct"},"guarantee":"test_quaternion_functions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.algebras.tests.test_quaternion.test_quaternion_functions_correct","statement":"Path(test_quaternion_functions(x), test_quaternion_functions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f95025cd4614abc8"}
+# @cctt_verify {"v":2,"sym":"sympy.algebras.tests.test_quaternion.test_quaternion_functions","kind":"function","src_hash":"cb848fe5d8685703","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: conjugate(q) == Quaternion(w, -x, -y, -z) and q.norm() == sqrt(w ** 2 + x ** 2 + y ** 2 + z ** 2) and q.normalize() == Quaternion(w, x, y, z) / sqrt(w ** 2 + x ** 2 + y ** 2 + z ** 2) and q.inverse() == Quaternion(w, -x, -y, -z) / (w ** 2 + x ** 2 + y ** 2 + z ** 2) and q.inverse() == q.pow(-1) and q.pow(2) == Quaternion(w ** 2 - x ** 2 - y ** 2 - z ** 2, 2 * w * x, 2 * w * y, 2 * w * z) and q ** 2 == Quaternion(w ** 2 - x ** 2 - y ** 2 - z ** 2, 2 * w * x, 2 * w * y, 2 * w * z) and q1.pow(-2) == Quaternion(Rational(-7, 225), Rational(-1, 225), Rational(-1, 150), Rational(-2, 225)) and q1 ** (-2) == Quaternion(Rational(-7, 225), Rational(-1, 225), Rational(-1, 150), Rational(-2, 225)) and q1.pow(-0.5) == NotImplemented and q1.exp() == Quaternion(E * cos(sqrt(29)), 2 * sqrt(29) * E * sin(sqrt(29)) / 29, 3 * sqrt(29) * E * sin(sqrt(29)) / 29, 4 * sqrt(29) * E * sin(sqrt(29)) / 29) and q1.log() == Quaternion(log(sqrt(30)), 2 * sqrt(29) * acos(sqrt(30) / 30) / 29, 3 * sqrt(29) * acos(sqrt(30) / 30) / 29, 4 * sqrt(29) * acos(sqrt(30) / 30) / 29) and q1.pow_cos_sin(2) == Quaternion(30 * cos(2 * acos(sqrt(30) / 30)), 60 * sqrt(29) * sin(2 * acos(sqrt(30) / 30)) / 29, 90 * sqrt(29) * sin(2 * acos(sqrt(30) / 30)) / 29, 120 * sqrt(29) * sin(2 * acos(sqrt(30) / 30)) / 29) and diff(Quaternion(x, x, x, x), x) == Quaternion(1, 1, 1, 1) and integrate(Quaternion(x, x, x, x), x) == Quaternion(x ** 2 / 2, x ** 2 / 2, x ** 2 / 2, x ** 2 / 2) and Quaternion(1, x, x ** 2, x ** 3).integrate(x) == Quaternion(x, x ** 2 / 2, x ** 3 / 3, x ** 4 / 4) and Quaternion(sin(x), cos(x), sin(2 * x), cos(2 * x)).integrate(x) == Quaternion(-cos(x), sin(x), -cos(2 * x) / 2, sin(2 * x) / 2) and Quaternion(x ** 2, y ** 2, z ** 2, x * y * z).integrate(x, y) == Quaternion(x ** 3 * y / 3, x * y ** 3 / 3, x * y * z ** 2, x ** 2 * y ** 2 * z / 4) and Quaternion.rotate_point((1, 1, 1), q1) == (S.One / 5, 1, S(7) / 5) and Quaternion(22, 23, 55, 8).scalar_part() == 22 and Quaternion(w, x, y, z).scalar_part() == w and Quaternion(22, 23, 55, 8).vector_part() == Quaternion(0, 23, 55, 8) and Quaternion(w, x, y, z).vector_part() == Quaternion(0, x, y, z) and q1.axis() == Quaternion(0, 2 * sqrt(29) / 29, 3 * sqrt(29) / 29, 4 * sqrt(29) / 29) and q1.axis().pow(2) == Quaternion(-1, 0, 0, 0) and q0.axis().scalar_part() == 0 and q.axis() == Quaternion(0, x / sqrt(x ** 2 + y ** 2 + z ** 2), y / sqrt(x ** 2 + y ** 2 + z ** 2), z / sqrt(x ** 2 + y ** 2 + z ** 2)) and q0.is_pure() is True and q1.is_pure() is False and Quaternion(0, 0, 0, 3).is_pure() is True and Quaternion(0, 2, 10, 3).is_pure() is True and Quaternion(w, 2, 10, 3).is_pure() is None and q1.angle() == 2 * atan(sqrt(29)) and q.angle() == 2 * atan2(sqrt(x ** 2 + y ** 2 + z ** 2), w) and Quaternion.arc_coplanar(q1, Quaternion(2, 4, 6, 8)) is True and Quaternion.arc_coplanar(q1, Quaternion(1, -2, -3, -4)) is True and Quaternion.arc_coplanar(q1, Quaternion(1, 8, 12, 16)) is True and Quaternion.arc_coplanar(q1, Quaternion(1, 2, 3, 4)) is True and Quaternion.arc_coplanar(q1, Quaternion(w, 4, 6, 8)) is True and Quaternion.arc_coplanar(q1, Quaternion(2, 7, 4, 1)) is False and Quaternion.arc_coplanar(q1, Quaternion(w, x, y, z)) is None and Quaternion.vector_coplanar(Quaternion(0, 8, 12, 16), Quaternion(0, 4, 6, 8), Quaternion(0, 2, 3, 4)) is True and Quaternion.vector_coplanar(Quaternion(0, 0, 0, 0), Quaternion(0, 4, 6, 8), Quaternion(0, 2, 3, 4)) is True and Quaternion.vector_coplanar(Quaternion(0, 8, 2, 6), Quaternion(0, 1, 6, 6), Quaternion(0, 0, 3, 4)) is False and Quaternion.vector_coplanar(Quaternion(0, 1, 3, 4), Quaternion(0, 4, w, 6), Quaternion(0, 6, 8, 1)) is None and Quaternion(0, 1, 2, 3).parallel(Quaternion(0, 2, 4, 6)) is True and Quaternion(0, 1, 2, 3).parallel(Quaternion(0, 2, 2, 6)) is False and Quaternion(0, 1, 2, 3).parallel(Quaternion(w, x, y, 6)) is None and Quaternion(0, 1, 2, 3).orthogonal(Quaternion(0, -2, 1, 0)) is True and Quaternion(0, 2, 4, 7).orthogonal(Quaternion(0, 2, 2, 6)) is False and Quaternion(0, 2, 4, 7).orthogonal(Quaternion(w, x, y, 6)) is None and q1.index_vector() == Quaternion(0, 2 * sqrt(870) / 29, 3 * sqrt(870) / 29, 4 * sqrt(870) / 29) and Quaternion(0, 3, 9, 4).index_vector() == Quaternion(0, 3, 9, 4) and Quaternion(4, 3, 9, 4).mensor() == log(sqrt(122)) and Quaternion(3, 3, 0, 2).mensor() == log(sqrt(22)) and q0.is_zero_quaternion() is True and q1.is_zero_quaternion() is False and Quaternion(w, 0, 0, 0).is_zero_quaternion() is None"},"spec":{"lhs":"test_quaternion_functions()","rhs":"conjugate(q) == Quaternion(w, -x, -y, -z) and q.norm() == sqrt(w ** 2 + x ** 2 + y ** 2 + z ** 2) and q.normalize() == Quaternion(w, x, y, z) / sqrt(w ** 2 + x ** 2 + y ** 2 + z ** 2) and q.inverse() == Quaternion(w, -x, -y, -z) / (w ** 2 + x ** 2 + y ** 2 + z ** 2) and q.inverse() == q.pow(-1) and q.pow(2) == Quaternion(w ** 2 - x ** 2 - y ** 2 - z ** 2, 2 * w * x, 2 * w * y, 2 * w * z) and q ** 2 == Quaternion(w ** 2 - x ** 2 - y ** 2 - z ** 2, 2 * w * x, 2 * w * y, 2 * w * z) and q1.pow(-2) == Quaternion(Rational(-7, 225), Rational(-1, 225), Rational(-1, 150), Rational(-2, 225)) and q1 ** (-2) == Quaternion(Rational(-7, 225), Rational(-1, 225), Rational(-1, 150), Rational(-2, 225)) and q1.pow(-0.5) == NotImplemented and q1.exp() == Quaternion(E * cos(sqrt(29)), 2 * sqrt(29) * E * sin(sqrt(29)) / 29, 3 * sqrt(29) * E * sin(sqrt(29)) / 29, 4 * sqrt(29) * E * sin(sqrt(29)) / 29) and q1.log() == Quaternion(log(sqrt(30)), 2 * sqrt(29) * acos(sqrt(30) / 30) / 29, 3 * sqrt(29) * acos(sqrt(30) / 30) / 29, 4 * sqrt(29) * acos(sqrt(30) / 30) / 29) and q1.pow_cos_sin(2) == Quaternion(30 * cos(2 * acos(sqrt(30) / 30)), 60 * sqrt(29) * sin(2 * acos(sqrt(30) / 30)) / 29, 90 * sqrt(29) * sin(2 * acos(sqrt(30) / 30)) / 29, 120 * sqrt(29) * sin(2 * acos(sqrt(30) / 30)) / 29) and diff(Quaternion(x, x, x, x), x) == Quaternion(1, 1, 1, 1) and integrate(Quaternion(x, x, x, x), x) == Quaternion(x ** 2 / 2, x ** 2 / 2, x ** 2 / 2, x ** 2 / 2) and Quaternion(1, x, x ** 2, x ** 3).integrate(x) == Quaternion(x, x ** 2 / 2, x ** 3 / 3, x ** 4 / 4) and Quaternion(sin(x), cos(x), sin(2 * x), cos(2 * x)).integrate(x) == Quaternion(-cos(x), sin(x), -cos(2 * x) / 2, sin(2 * x) / 2) and Quaternion(x ** 2, y ** 2, z ** 2, x * y * z).integrate(x, y) == Quaternion(x ** 3 * y / 3, x * y ** 3 / 3, x * y * z ** 2, x ** 2 * y ** 2 * z / 4) and Quaternion.rotate_point((1, 1, 1), q1) == (S.One / 5, 1, S(7) / 5) and Quaternion(22, 23, 55, 8).scalar_part() == 22 and Quaternion(w, x, y, z).scalar_part() == w and Quaternion(22, 23, 55, 8).vector_part() == Quaternion(0, 23, 55, 8) and Quaternion(w, x, y, z).vector_part() == Quaternion(0, x, y, z) and q1.axis() == Quaternion(0, 2 * sqrt(29) / 29, 3 * sqrt(29) / 29, 4 * sqrt(29) / 29) and q1.axis().pow(2) == Quaternion(-1, 0, 0, 0) and q0.axis().scalar_part() == 0 and q.axis() == Quaternion(0, x / sqrt(x ** 2 + y ** 2 + z ** 2), y / sqrt(x ** 2 + y ** 2 + z ** 2), z / sqrt(x ** 2 + y ** 2 + z ** 2)) and q0.is_pure() is True and q1.is_pure() is False and Quaternion(0, 0, 0, 3).is_pure() is True and Quaternion(0, 2, 10, 3).is_pure() is True and Quaternion(w, 2, 10, 3).is_pure() is None and q1.angle() == 2 * atan(sqrt(29)) and q.angle() == 2 * atan2(sqrt(x ** 2 + y ** 2 + z ** 2), w) and Quaternion.arc_coplanar(q1, Quaternion(2, 4, 6, 8)) is True and Quaternion.arc_coplanar(q1, Quaternion(1, -2, -3, -4)) is True and Quaternion.arc_coplanar(q1, Quaternion(1, 8, 12, 16)) is True and Quaternion.arc_coplanar(q1, Quaternion(1, 2, 3, 4)) is True and Quaternion.arc_coplanar(q1, Quaternion(w, 4, 6, 8)) is True and Quaternion.arc_coplanar(q1, Quaternion(2, 7, 4, 1)) is False and Quaternion.arc_coplanar(q1, Quaternion(w, x, y, z)) is None and Quaternion.vector_coplanar(Quaternion(0, 8, 12, 16), Quaternion(0, 4, 6, 8), Quaternion(0, 2, 3, 4)) is True and Quaternion.vector_coplanar(Quaternion(0, 0, 0, 0), Quaternion(0, 4, 6, 8), Quaternion(0, 2, 3, 4)) is True and Quaternion.vector_coplanar(Quaternion(0, 8, 2, 6), Quaternion(0, 1, 6, 6), Quaternion(0, 0, 3, 4)) is False and Quaternion.vector_coplanar(Quaternion(0, 1, 3, 4), Quaternion(0, 4, w, 6), Quaternion(0, 6, 8, 1)) is None and Quaternion(0, 1, 2, 3).parallel(Quaternion(0, 2, 4, 6)) is True and Quaternion(0, 1, 2, 3).parallel(Quaternion(0, 2, 2, 6)) is False and Quaternion(0, 1, 2, 3).parallel(Quaternion(w, x, y, 6)) is None and Quaternion(0, 1, 2, 3).orthogonal(Quaternion(0, -2, 1, 0)) is True and Quaternion(0, 2, 4, 7).orthogonal(Quaternion(0, 2, 2, 6)) is False and Quaternion(0, 2, 4, 7).orthogonal(Quaternion(w, x, y, 6)) is None and q1.index_vector() == Quaternion(0, 2 * sqrt(870) / 29, 3 * sqrt(870) / 29, 4 * sqrt(870) / 29) and Quaternion(0, 3, 9, 4).index_vector() == Quaternion(0, 3, 9, 4) and Quaternion(4, 3, 9, 4).mensor() == log(sqrt(122)) and Quaternion(3, 3, 0, 2).mensor() == log(sqrt(22)) and q0.is_zero_quaternion() is True and q1.is_zero_quaternion() is False and Quaternion(w, 0, 0, 0).is_zero_quaternion() is None","over":{"base":"Any"},"name":"test_quaternion_functions_correct"},"guarantee":"conjugate(q) == Quaternion(w, -x, -y, -z); q.norm() == sqrt(w ** 2 + x ** 2 + y ** 2 + z ** 2); q.normalize() == Quaternion(w, x, y, z) / sqrt(w ** 2 + x ** 2 + y ** 2 + z ** 2)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.algebras.tests.test_quaternion.test_quaternion_functions_correct","statement":"Path(test_quaternion_functions(x), conjugate(q) == Quaternion(w, -x, -y, -z); q.norm() == sqrt(w ** 2 + x ** 2 + y ** 2 + z ** 2); q.normalize() == Quaternion(w, x, y, z) / sqrt(w ** 2 + x ** 2 + y ** 2 + z ** 2))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c2e1576ce4f47ac8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["conjugate(q) == Quaternion(w, -x, -y, -z)","q.norm() == sqrt(w ** 2 + x ** 2 + y ** 2 + z ** 2)","q.normalize() == Quaternion(w, x, y, z) / sqrt(w ** 2 + x ** 2 + y ** 2 + z ** 2)","q.inverse() == Quaternion(w, -x, -y, -z) / (w ** 2 + x ** 2 + y ** 2 + z ** 2)","q.inverse() == q.pow(-1)","q.pow(2) == Quaternion(w ** 2 - x ** 2 - y ** 2 - z ** 2, 2 * w * x, 2 * w * y, 2 * w * z)","q ** 2 == Quaternion(w ** 2 - x ** 2 - y ** 2 - z ** 2, 2 * w * x, 2 * w * y, 2 * w * z)","q1.pow(-2) == Quaternion(Rational(-7, 225), Rational(-1, 225), Rational(-1, 150), Rational(-2, 225))","q1 ** (-2) == Quaternion(Rational(-7, 225), Rational(-1, 225), Rational(-1, 150), Rational(-2, 225))","q1.pow(-0.5) == NotImplemented","q1.exp() == Quaternion(E * cos(sqrt(29)), 2 * sqrt(29) * E * sin(sqrt(29)) / 29, 3 * sqrt(29) * E * sin(sqrt(29)) / 29, 4 * sqrt(29) * E * sin(sqrt(29)) / 29)","q1.log() == Quaternion(log(sqrt(30)), 2 * sqrt(29) * acos(sqrt(30) / 30) / 29, 3 * sqrt(29) * acos(sqrt(30) / 30) / 29, 4 * sqrt(29) * acos(sqrt(30) / 30) / 29)","q1.pow_cos_sin(2) == Quaternion(30 * cos(2 * acos(sqrt(30) / 30)), 60 * sqrt(29) * sin(2 * acos(sqrt(30) / 30)) / 29, 90 * sqrt(29) * sin(2 * acos(sqrt(30) / 30)) / 29, 120 * sqrt(29) * sin(2 * acos(sqrt(30) / 30)) / 29)","diff(Quaternion(x, x, x, x), x) == Quaternion(1, 1, 1, 1)","integrate(Quaternion(x, x, x, x), x) == Quaternion(x ** 2 / 2, x ** 2 / 2, x ** 2 / 2, x ** 2 / 2)","Quaternion(1, x, x ** 2, x ** 3).integrate(x) == Quaternion(x, x ** 2 / 2, x ** 3 / 3, x ** 4 / 4)","Quaternion(sin(x), cos(x), sin(2 * x), cos(2 * x)).integrate(x) == Quaternion(-cos(x), sin(x), -cos(2 * x) / 2, sin(2 * x) / 2)","Quaternion(x ** 2, y ** 2, z ** 2, x * y * z).integrate(x, y) == Quaternion(x ** 3 * y / 3, x * y ** 3 / 3, x * y * z ** 2, x ** 2 * y ** 2 * z / 4)","Quaternion.rotate_point((1, 1, 1), q1) == (S.One / 5, 1, S(7) / 5)","Quaternion(22, 23, 55, 8).scalar_part() == 22","Quaternion(w, x, y, z).scalar_part() == w","Quaternion(22, 23, 55, 8).vector_part() == Quaternion(0, 23, 55, 8)","Quaternion(w, x, y, z).vector_part() == Quaternion(0, x, y, z)","q1.axis() == Quaternion(0, 2 * sqrt(29) / 29, 3 * sqrt(29) / 29, 4 * sqrt(29) / 29)","q1.axis().pow(2) == Quaternion(-1, 0, 0, 0)","q0.axis().scalar_part() == 0","q.axis() == Quaternion(0, x / sqrt(x ** 2 + y ** 2 + z ** 2), y / sqrt(x ** 2 + y ** 2 + z ** 2), z / sqrt(x ** 2 + y ** 2 + z ** 2))","q0.is_pure() is True","q1.is_pure() is False","Quaternion(0, 0, 0, 3).is_pure() is True","Quaternion(0, 2, 10, 3).is_pure() is True","Quaternion(w, 2, 10, 3).is_pure() is None","q1.angle() == 2 * atan(sqrt(29))","q.angle() == 2 * atan2(sqrt(x ** 2 + y ** 2 + z ** 2), w)","Quaternion.arc_coplanar(q1, Quaternion(2, 4, 6, 8)) is True","Quaternion.arc_coplanar(q1, Quaternion(1, -2, -3, -4)) is True","Quaternion.arc_coplanar(q1, Quaternion(1, 8, 12, 16)) is True","Quaternion.arc_coplanar(q1, Quaternion(1, 2, 3, 4)) is True","Quaternion.arc_coplanar(q1, Quaternion(w, 4, 6, 8)) is True","Quaternion.arc_coplanar(q1, Quaternion(2, 7, 4, 1)) is False","Quaternion.arc_coplanar(q1, Quaternion(w, x, y, z)) is None","Quaternion.vector_coplanar(Quaternion(0, 8, 12, 16), Quaternion(0, 4, 6, 8), Quaternion(0, 2, 3, 4)) is True","Quaternion.vector_coplanar(Quaternion(0, 0, 0, 0), Quaternion(0, 4, 6, 8), Quaternion(0, 2, 3, 4)) is True","Quaternion.vector_coplanar(Quaternion(0, 8, 2, 6), Quaternion(0, 1, 6, 6), Quaternion(0, 0, 3, 4)) is False","Quaternion.vector_coplanar(Quaternion(0, 1, 3, 4), Quaternion(0, 4, w, 6), Quaternion(0, 6, 8, 1)) is None","Quaternion(0, 1, 2, 3).parallel(Quaternion(0, 2, 4, 6)) is True","Quaternion(0, 1, 2, 3).parallel(Quaternion(0, 2, 2, 6)) is False","Quaternion(0, 1, 2, 3).parallel(Quaternion(w, x, y, 6)) is None","Quaternion(0, 1, 2, 3).orthogonal(Quaternion(0, -2, 1, 0)) is True","Quaternion(0, 2, 4, 7).orthogonal(Quaternion(0, 2, 2, 6)) is False","Quaternion(0, 2, 4, 7).orthogonal(Quaternion(w, x, y, 6)) is None","q1.index_vector() == Quaternion(0, 2 * sqrt(870) / 29, 3 * sqrt(870) / 29, 4 * sqrt(870) / 29)","Quaternion(0, 3, 9, 4).index_vector() == Quaternion(0, 3, 9, 4)","Quaternion(4, 3, 9, 4).mensor() == log(sqrt(122))","Quaternion(3, 3, 0, 2).mensor() == log(sqrt(22))","q0.is_zero_quaternion() is True","q1.is_zero_quaternion() is False","Quaternion(w, 0, 0, 0).is_zero_quaternion() is None"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.3,"verdict_class":"assumed","binding":true}}
 def test_quaternion_functions():
     q = Quaternion(w, x, y, z)
     q1 = Quaternion(1, 2, 3, 4)
@@ -413,16 +492,24 @@ def test_quaternion_functions():
     assert Quaternion(w, 0, 0, 0).is_zero_quaternion() is None
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_quaternion_conversions(), test_quaternion_conversions produces the expected output) over Any ║
+# ║ Path(test_quaternion_conversions(), q1.to_axis_angle() == ((2 * sqrt(29) / 29, 3 * sqrt(29) / 29, 4 * sqrt(29) / 29), 2 * acos(sqrt(30) / 30)) and q1.to_rotation_matrix() == Matrix([[Rational(-2, 3), Rational(2, 15), Rational(11, 15)], [Rational(2, 3), Rational(-1, 3), Rational(2, 3)], [Rational(1, 3), Rational(14, 15), Rational(2, 15)]]) and q1.to_rotation_matrix((1, 1, 1)) == Matrix([[Rational(-2, 3), Rational(2, 15), Rational(11, 15), Rational(4, 5)], [Rational(2, 3), Rational(-1, 3), Rational(2, 3), S.Zero], [Rational(1, 3), Rational(14, 15), Rational(2, 15), Rational(-2, 5)], [S.Zero, S.Zero, S.Zero, S.One]]) and trigsimp(q2.to_rotation_matrix()) == Matrix([[cos(theta), -sin(theta), 0], [sin(theta), cos(theta), 0], [0, 0, 1]]) and q2.to_axis_angle() == ((0, 0, sin(theta / 2) / Abs(sin(theta / 2))), 2 * acos(cos(theta / 2))) and trigsimp(q2.to_rotation_matrix((1, 1, 1))) == Matrix([[cos(theta), -sin(theta), 0, sin(theta) - cos(theta) + 1], [sin(theta), cos(theta), 0, -sin(theta) - cos(theta) + 1], [0, 0, 1, 0], [0, 0, 0, 1]])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_quaternion_conversions : Any → Any                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  q1.to_axis_angle() == ((2 * sqrt(29) / 29...   ║
+# ║   ensures:  q1.to_rotation_matrix() == Matrix([[Ratio...   ║
+# ║   ensures:  q1.to_rotation_matrix((1, 1, 1)) == Matri...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_quaternion_conversions : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4ac0a175de8dbe55  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 03c3325f78a86bfe  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.algebras.tests.test_quaternion.test_quaternion_conversions","kind":"function","src_hash":"473088517b86bd66","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_quaternion_conversions()","rhs":"test_quaternion_conversions produces the expected output","over":{"base":"Any"},"name":"test_quaternion_conversions_correct"},"guarantee":"test_quaternion_conversions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.algebras.tests.test_quaternion.test_quaternion_conversions_correct","statement":"Path(test_quaternion_conversions(x), test_quaternion_conversions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4ac0a175de8dbe55"}
+# @cctt_verify {"v":2,"sym":"sympy.algebras.tests.test_quaternion.test_quaternion_conversions","kind":"function","src_hash":"473088517b86bd66","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: q1.to_axis_angle() == ((2 * sqrt(29) / 29, 3 * sqrt(29) / 29, 4 * sqrt(29) / 29), 2 * acos(sqrt(30) / 30)) and q1.to_rotation_matrix() == Matrix([[Rational(-2, 3), Rational(2, 15), Rational(11, 15)], [Rational(2, 3), Rational(-1, 3), Rational(2, 3)], [Rational(1, 3), Rational(14, 15), Rational(2, 15)]]) and q1.to_rotation_matrix((1, 1, 1)) == Matrix([[Rational(-2, 3), Rational(2, 15), Rational(11, 15), Rational(4, 5)], [Rational(2, 3), Rational(-1, 3), Rational(2, 3), S.Zero], [Rational(1, 3), Rational(14, 15), Rational(2, 15), Rational(-2, 5)], [S.Zero, S.Zero, S.Zero, S.One]]) and trigsimp(q2.to_rotation_matrix()) == Matrix([[cos(theta), -sin(theta), 0], [sin(theta), cos(theta), 0], [0, 0, 1]]) and q2.to_axis_angle() == ((0, 0, sin(theta / 2) / Abs(sin(theta / 2))), 2 * acos(cos(theta / 2))) and trigsimp(q2.to_rotation_matrix((1, 1, 1))) == Matrix([[cos(theta), -sin(theta), 0, sin(theta) - cos(theta) + 1], [sin(theta), cos(theta), 0, -sin(theta) - cos(theta) + 1], [0, 0, 1, 0], [0, 0, 0, 1]])"},"spec":{"lhs":"test_quaternion_conversions()","rhs":"q1.to_axis_angle() == ((2 * sqrt(29) / 29, 3 * sqrt(29) / 29, 4 * sqrt(29) / 29), 2 * acos(sqrt(30) / 30)) and q1.to_rotation_matrix() == Matrix([[Rational(-2, 3), Rational(2, 15), Rational(11, 15)], [Rational(2, 3), Rational(-1, 3), Rational(2, 3)], [Rational(1, 3), Rational(14, 15), Rational(2, 15)]]) and q1.to_rotation_matrix((1, 1, 1)) == Matrix([[Rational(-2, 3), Rational(2, 15), Rational(11, 15), Rational(4, 5)], [Rational(2, 3), Rational(-1, 3), Rational(2, 3), S.Zero], [Rational(1, 3), Rational(14, 15), Rational(2, 15), Rational(-2, 5)], [S.Zero, S.Zero, S.Zero, S.One]]) and trigsimp(q2.to_rotation_matrix()) == Matrix([[cos(theta), -sin(theta), 0], [sin(theta), cos(theta), 0], [0, 0, 1]]) and q2.to_axis_angle() == ((0, 0, sin(theta / 2) / Abs(sin(theta / 2))), 2 * acos(cos(theta / 2))) and trigsimp(q2.to_rotation_matrix((1, 1, 1))) == Matrix([[cos(theta), -sin(theta), 0, sin(theta) - cos(theta) + 1], [sin(theta), cos(theta), 0, -sin(theta) - cos(theta) + 1], [0, 0, 1, 0], [0, 0, 0, 1]])","over":{"base":"Any"},"name":"test_quaternion_conversions_correct"},"guarantee":"q1.to_axis_angle() == ((2 * sqrt(29) / 29, 3 * sqrt(29) / 29, 4 * sqrt(29) / 29), 2 * acos(sqrt(30) / 30)); q1.to_rotation_matrix() == Matrix([[Rational(-2, 3), Rational(2, 15), Rational(11, 15)], [Rational(2, 3), Rational(-1, 3), Rational(2, 3)], [Rational(1, 3), Rational(14, 15), Rational(2, 15)]]); q1.to_rotation_matrix((1, 1, 1)) == Matrix([[Rational(-2, 3), Rational(2, 15), Rational(11, 15), Rational(4, 5)], [Rational(2, 3), Rational(-1, 3), Rational(2, 3), S.Zero], [Rational(1, 3), Rational(14, 15), Rational(2, 15), Rational(-2, 5)], [S.Zero, S.Zero, S.Zero, S.One]])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.algebras.tests.test_quaternion.test_quaternion_conversions_correct","statement":"Path(test_quaternion_conversions(x), q1.to_axis_angle() == ((2 * sqrt(29) / 29, 3 * sqrt(29) / 29, 4 * sqrt(29) / 29), 2 * acos(sqrt(30) / 30)); q1.to_rotation_matrix() == Matrix([[Rational(-2, 3), Rational(2, 15), Rational(11, 15)], [Rational(2, 3), Rational(-1, 3), Rational(2, 3)], [Rational(1, 3), Rational(14, 15), Rational(2, 15)]]); q1.to_rotation_matrix((1, 1, 1)) == Matrix([[Rational(-2, 3), Rational(2, 15), Rational(11, 15), Rational(4, 5)], [Rational(2, 3), Rational(-1, 3), Rational(2, 3), S.Zero], [Rational(1, 3), Rational(14, 15), Rational(2, 15), Rational(-2, 5)], [S.Zero, S.Zero, S.Zero, S.One]]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"03c3325f78a86bfe","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["q1.to_axis_angle() == ((2 * sqrt(29) / 29, 3 * sqrt(29) / 29, 4 * sqrt(29) / 29), 2 * acos(sqrt(30) / 30))","q1.to_rotation_matrix() == Matrix([[Rational(-2, 3), Rational(2, 15), Rational(11, 15)], [Rational(2, 3), Rational(-1, 3), Rational(2, 3)], [Rational(1, 3), Rational(14, 15), Rational(2, 15)]])","q1.to_rotation_matrix((1, 1, 1)) == Matrix([[Rational(-2, 3), Rational(2, 15), Rational(11, 15), Rational(4, 5)], [Rational(2, 3), Rational(-1, 3), Rational(2, 3), S.Zero], [Rational(1, 3), Rational(14, 15), Rational(2, 15), Rational(-2, 5)], [S.Zero, S.Zero, S.Zero, S.One]])","trigsimp(q2.to_rotation_matrix()) == Matrix([[cos(theta), -sin(theta), 0], [sin(theta), cos(theta), 0], [0, 0, 1]])","q2.to_axis_angle() == ((0, 0, sin(theta / 2) / Abs(sin(theta / 2))), 2 * acos(cos(theta / 2)))","trigsimp(q2.to_rotation_matrix((1, 1, 1))) == Matrix([[cos(theta), -sin(theta), 0, sin(theta) - cos(theta) + 1], [sin(theta), cos(theta), 0, -sin(theta) - cos(theta) + 1], [0, 0, 1, 0], [0, 0, 0, 1]])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def test_quaternion_conversions():
     q1 = Quaternion(1, 2, 3, 4)
 
@@ -462,16 +549,22 @@ def test_quaternion_conversions():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_rotation_matrix_homogeneous(), test_rotation_matrix_homogeneous produces the expected output) over Any ║
+# ║ Path(test_rotation_matrix_homogeneous(), R1 == R2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_rotation_matrix_homogeneous : Any → {Any | R1 ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  R1 == R2                                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_rotation_matrix_homogeneous : Any → {Any | resul...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 59a16b1cd6d93619  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 98ccefd2628ed873  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.algebras.tests.test_quaternion.test_rotation_matrix_homogeneous","kind":"function","src_hash":"2c0a4cc56d8c2808","in":{"base":"Any"},"out":{"base":"Any","pred":"R1 == R2"},"spec":{"lhs":"test_rotation_matrix_homogeneous()","rhs":"test_rotation_matrix_homogeneous produces the expected output","over":{"base":"Any"},"name":"test_rotation_matrix_homogeneous_correct"},"guarantee":"test_rotation_matrix_homogeneous produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.algebras.tests.test_quaternion.test_rotation_matrix_homogeneous_correct","statement":"Path(test_rotation_matrix_homogeneous(x), test_rotation_matrix_homogeneous produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"59a16b1cd6d93619"}
+# @cctt_verify {"v":2,"sym":"sympy.algebras.tests.test_quaternion.test_rotation_matrix_homogeneous","kind":"function","src_hash":"2c0a4cc56d8c2808","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: R1 == R2"},"spec":{"lhs":"test_rotation_matrix_homogeneous()","rhs":"R1 == R2","over":{"base":"Any"},"name":"test_rotation_matrix_homogeneous_correct"},"guarantee":"R1 == R2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.algebras.tests.test_quaternion.test_rotation_matrix_homogeneous_correct","statement":"Path(test_rotation_matrix_homogeneous(x), R1 == R2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"98ccefd2628ed873","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["R1 == R2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_rotation_matrix_homogeneous():
     q = Quaternion(w, x, y, z)
     R1 = q.to_rotation_matrix(homogeneous=True) * q.norm()**2
@@ -480,16 +573,22 @@ def test_rotation_matrix_homogeneous():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_quaternion_rotation_iss1593(), there was a sign mistake in the definition, of the rotation matrix) over Any ║
+# ║ Path(test_quaternion_rotation_iss1593(), trigsimp(q.to_rotation_matrix()) == Matrix([[1, 0, 0], [0, cos(phi), -sin(phi)], [0, sin(phi), cos(phi)]])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_quaternion_rotation_iss1593 : Any → Any               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  trigsimp(q.to_rotation_matrix()) == Matri...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_quaternion_rotation_iss1593 : Any → {Any | resul...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6ca5138c2b219abf  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3f06fdce66b22916  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.algebras.tests.test_quaternion.test_quaternion_rotation_iss1593","kind":"function","src_hash":"96838ab6f5c7b48b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_quaternion_rotation_iss1593()","rhs":"there was a sign mistake in the definition, of the rotation matrix","over":{"base":"Any"},"name":"test_quaternion_rotation_iss1593_correct"},"guarantee":"there was a sign mistake in the definition, of the rotation matrix","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.algebras.tests.test_quaternion.test_quaternion_rotation_iss1593_correct","statement":"Path(test_quaternion_rotation_iss1593(x), there was a sign mistake in the definition, of the rotation matrix)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6ca5138c2b219abf"}
+# @cctt_verify {"v":2,"sym":"sympy.algebras.tests.test_quaternion.test_quaternion_rotation_iss1593","kind":"function","src_hash":"96838ab6f5c7b48b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: trigsimp(q.to_rotation_matrix()) == Matrix([[1, 0, 0], [0, cos(phi), -sin(phi)], [0, sin(phi), cos(phi)]])"},"spec":{"lhs":"test_quaternion_rotation_iss1593()","rhs":"trigsimp(q.to_rotation_matrix()) == Matrix([[1, 0, 0], [0, cos(phi), -sin(phi)], [0, sin(phi), cos(phi)]])","over":{"base":"Any"},"name":"test_quaternion_rotation_iss1593_correct"},"guarantee":"trigsimp(q.to_rotation_matrix()) == Matrix([[1, 0, 0], [0, cos(phi), -sin(phi)], [0, sin(phi), cos(phi)]])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.algebras.tests.test_quaternion.test_quaternion_rotation_iss1593_correct","statement":"Path(test_quaternion_rotation_iss1593(x), trigsimp(q.to_rotation_matrix()) == Matrix([[1, 0, 0], [0, cos(phi), -sin(phi)], [0, sin(phi), cos(phi)]]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3f06fdce66b22916","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["trigsimp(q.to_rotation_matrix()) == Matrix([[1, 0, 0], [0, cos(phi), -sin(phi)], [0, sin(phi), cos(phi)]])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_quaternion_rotation_iss1593():
     """
     There was a sign mistake in the definition,
@@ -507,16 +606,24 @@ def test_quaternion_rotation_iss1593():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_quaternion_multiplication(), test_quaternion_multiplication produces the expected output) over Any ║
+# ║ Path(test_quaternion_multiplication(), Quaternion._generic_mul(S(4), S.One) == 4 and Quaternion._generic_mul(S(4), q1) == Quaternion(12 + 16 * I, 8 + 20 * I, 0, 28 + 32 * I) and q2.mul(2) == Quaternion(2, 4, 6, 10) and q2.mul(q3) == Quaternion(-5 * y - 4, 3 * y - 2, 9 - 2 * y, y + 4) and q2.mul(q3) == q2 * q3 and z * q == z_quat * q and q * z == q * z_quat) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_quaternion_multiplication : Any → {Any | Quatern...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Quaternion._generic_mul(S(4), S.One) == 4      ║
+# ║   ensures:  Quaternion._generic_mul(S(4), q1) == Quat...   ║
+# ║   ensures:  q2.mul(2) == Quaternion(2, 4, 6, 10)           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_quaternion_multiplication : Any → {Any | result ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 012021c0241a02d2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1db5394901f0af6d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.algebras.tests.test_quaternion.test_quaternion_multiplication","kind":"function","src_hash":"db5f9fa910910e64","in":{"base":"Any"},"out":{"base":"Any","pred":"Quaternion._generic_mul(S(4), S.One) == 4 and q2.mul(2) == Quaternion(2, 4, 6, 10) and q2.mul(q3) == Quaternion(-5 * y - 4, 3 * y - 2, 9 - 2 * y, y + 4) and q2.mul(q3) == q2 * q3 and z * q == z_quat * q and q * z == q * z_quat"},"spec":{"lhs":"test_quaternion_multiplication()","rhs":"test_quaternion_multiplication produces the expected output","over":{"base":"Any"},"name":"test_quaternion_multiplication_correct"},"guarantee":"test_quaternion_multiplication produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.algebras.tests.test_quaternion.test_quaternion_multiplication_correct","statement":"Path(test_quaternion_multiplication(x), test_quaternion_multiplication produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"012021c0241a02d2"}
+# @cctt_verify {"v":2,"sym":"sympy.algebras.tests.test_quaternion.test_quaternion_multiplication","kind":"function","src_hash":"db5f9fa910910e64","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Quaternion._generic_mul(S(4), S.One) == 4 and Quaternion._generic_mul(S(4), q1) == Quaternion(12 + 16 * I, 8 + 20 * I, 0, 28 + 32 * I) and q2.mul(2) == Quaternion(2, 4, 6, 10) and q2.mul(q3) == Quaternion(-5 * y - 4, 3 * y - 2, 9 - 2 * y, y + 4) and q2.mul(q3) == q2 * q3 and z * q == z_quat * q and q * z == q * z_quat"},"spec":{"lhs":"test_quaternion_multiplication()","rhs":"Quaternion._generic_mul(S(4), S.One) == 4 and Quaternion._generic_mul(S(4), q1) == Quaternion(12 + 16 * I, 8 + 20 * I, 0, 28 + 32 * I) and q2.mul(2) == Quaternion(2, 4, 6, 10) and q2.mul(q3) == Quaternion(-5 * y - 4, 3 * y - 2, 9 - 2 * y, y + 4) and q2.mul(q3) == q2 * q3 and z * q == z_quat * q and q * z == q * z_quat","over":{"base":"Any"},"name":"test_quaternion_multiplication_correct"},"guarantee":"Quaternion._generic_mul(S(4), S.One) == 4; Quaternion._generic_mul(S(4), q1) == Quaternion(12 + 16 * I, 8 + 20 * I, 0, 28 + 32 * I); q2.mul(2) == Quaternion(2, 4, 6, 10)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.algebras.tests.test_quaternion.test_quaternion_multiplication_correct","statement":"Path(test_quaternion_multiplication(x), Quaternion._generic_mul(S(4), S.One) == 4; Quaternion._generic_mul(S(4), q1) == Quaternion(12 + 16 * I, 8 + 20 * I, 0, 28 + 32 * I); q2.mul(2) == Quaternion(2, 4, 6, 10))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1db5394901f0af6d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Quaternion._generic_mul(S(4), S.One) == 4","Quaternion._generic_mul(S(4), q1) == Quaternion(12 + 16 * I, 8 + 20 * I, 0, 28 + 32 * I)","q2.mul(2) == Quaternion(2, 4, 6, 10)","q2.mul(q3) == Quaternion(-5 * y - 4, 3 * y - 2, 9 - 2 * y, y + 4)","q2.mul(q3) == q2 * q3","z * q == z_quat * q","q * z == q * z_quat"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_quaternion_multiplication():
     q1 = Quaternion(3 + 4*I, 2 + 5*I, 0, 7 + 8*I, real_field = False)
     q2 = Quaternion(1, 2, 3, 5)
@@ -538,16 +645,23 @@ def test_quaternion_multiplication():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_16318(), test_issue_16318 produces the expected output) over Any ║
+# ║ Path(test_issue_16318(), Quaternion.rotate_point((1, 1, 1), (axis, angle)) == (S.One / 5, 1, S(7) / 5) and (axis, angle) == q.to_axis_angle()) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_16318 : Any → {Any | Quaternion.rotate_poi...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Quaternion.rotate_point((1, 1, 1), (axis,...   ║
+# ║   ensures:  (axis, angle) == q.to_axis_angle()             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_16318 : Any → {Any | result satisfies: Qua...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a9250fec4370e0bf  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3228a764e8cba6a2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.algebras.tests.test_quaternion.test_issue_16318","kind":"function","src_hash":"34239226f9f00087","in":{"base":"Any"},"out":{"base":"Any","pred":"Quaternion.rotate_point((1, 1, 1), (axis, angle)) == (S.One / 5, 1, S(7) / 5) and (axis, angle) == q.to_axis_angle()"},"spec":{"lhs":"test_issue_16318()","rhs":"test_issue_16318 produces the expected output","over":{"base":"Any"},"name":"test_issue_16318_correct"},"guarantee":"test_issue_16318 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.algebras.tests.test_quaternion.test_issue_16318_correct","statement":"Path(test_issue_16318(x), test_issue_16318 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a9250fec4370e0bf"}
+# @cctt_verify {"v":2,"sym":"sympy.algebras.tests.test_quaternion.test_issue_16318","kind":"function","src_hash":"34239226f9f00087","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Quaternion.rotate_point((1, 1, 1), (axis, angle)) == (S.One / 5, 1, S(7) / 5) and (axis, angle) == q.to_axis_angle()"},"spec":{"lhs":"test_issue_16318()","rhs":"Quaternion.rotate_point((1, 1, 1), (axis, angle)) == (S.One / 5, 1, S(7) / 5) and (axis, angle) == q.to_axis_angle()","over":{"base":"Any"},"name":"test_issue_16318_correct"},"guarantee":"Quaternion.rotate_point((1, 1, 1), (axis, angle)) == (S.One / 5, 1, S(7) / 5); (axis, angle) == q.to_axis_angle()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.algebras.tests.test_quaternion.test_issue_16318_correct","statement":"Path(test_issue_16318(x), Quaternion.rotate_point((1, 1, 1), (axis, angle)) == (S.One / 5, 1, S(7) / 5); (axis, angle) == q.to_axis_angle())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3228a764e8cba6a2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Quaternion.rotate_point((1, 1, 1), (axis, angle)) == (S.One / 5, 1, S(7) / 5)","(axis, angle) == q.to_axis_angle()"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_issue_16318():
     #for rtruediv
     q0 = Quaternion(0, 0, 0, 0)
@@ -565,16 +679,22 @@ def test_issue_16318():
 
 @slow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_to_euler(), test_to_euler produces the expected output) over Any ║
+# ║ Path(test_to_euler(), <unspecified:test_to_euler>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_to_euler : Any → {Any | q_back == q_normalized}       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cd2eb44cb0411226  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.algebras.tests.test_quaternion.test_to_euler","kind":"function","src_hash":"014939ad7e815489","in":{"base":"Any"},"out":{"base":"Any","pred":"q_back == q_normalized"},"spec":{"lhs":"test_to_euler()","rhs":"test_to_euler produces the expected output","over":{"base":"Any"},"name":"test_to_euler_correct"},"guarantee":"test_to_euler produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.algebras.tests.test_quaternion.test_to_euler_correct","statement":"Path(test_to_euler(x), test_to_euler produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cd2eb44cb0411226"}
+# @cctt_verify {"v":2,"sym":"sympy.algebras.tests.test_quaternion.test_to_euler","kind":"function","src_hash":"014939ad7e815489","in":{"base":"Any"},"out":{"base":"Any","pred":"q_back == q_normalized"},"spec":{"lhs":"test_to_euler()","rhs":"<unspecified:test_to_euler>","over":{"base":"Any"},"name":"test_to_euler_correct"},"guarantee":"test_to_euler produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.algebras.tests.test_quaternion.test_to_euler_correct","statement":"Path(test_to_euler(x), test_to_euler produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cd2eb44cb0411226","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_to_euler():
     q = Quaternion(w, x, y, z)
     q_normalized = q.normalize()
@@ -589,16 +709,22 @@ def test_to_euler():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_to_euler_iss24504(), there was a mistake in the degenerate case testing see issue 24504 for reference) over Any ║
+# ║ Path(test_to_euler_iss24504(), trigsimp(q.to_euler('zyz'), inverse=True) == (phi, 0, 0)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_to_euler_iss24504 : Any → {Any | trigsimp(q.to_e...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  trigsimp(q.to_euler('zyz'), inverse=True)...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_to_euler_iss24504 : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6c07f7ea285ea998  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a4b216349f591b9c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.algebras.tests.test_quaternion.test_to_euler_iss24504","kind":"function","src_hash":"53f2c7fb01f2cc45","in":{"base":"Any"},"out":{"base":"Any","pred":"trigsimp(q.to_euler('zyz'), inverse=True) == (phi, 0, 0)"},"spec":{"lhs":"test_to_euler_iss24504()","rhs":"there was a mistake in the degenerate case testing see issue 24504 for reference","over":{"base":"Any"},"name":"test_to_euler_iss24504_correct"},"guarantee":"there was a mistake in the degenerate case testing see issue 24504 for reference","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.algebras.tests.test_quaternion.test_to_euler_iss24504_correct","statement":"Path(test_to_euler_iss24504(x), there was a mistake in the degenerate case testing see issue 24504 for reference)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6c07f7ea285ea998"}
+# @cctt_verify {"v":2,"sym":"sympy.algebras.tests.test_quaternion.test_to_euler_iss24504","kind":"function","src_hash":"53f2c7fb01f2cc45","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: trigsimp(q.to_euler('zyz'), inverse=True) == (phi, 0, 0)"},"spec":{"lhs":"test_to_euler_iss24504()","rhs":"trigsimp(q.to_euler('zyz'), inverse=True) == (phi, 0, 0)","over":{"base":"Any"},"name":"test_to_euler_iss24504_correct"},"guarantee":"trigsimp(q.to_euler('zyz'), inverse=True) == (phi, 0, 0)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.algebras.tests.test_quaternion.test_to_euler_iss24504_correct","statement":"Path(test_to_euler_iss24504(x), trigsimp(q.to_euler('zyz'), inverse=True) == (phi, 0, 0))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a4b216349f591b9c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["trigsimp(q.to_euler('zyz'), inverse=True) == (phi, 0, 0)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_to_euler_iss24504():
     """
     There was a mistake in the degenerate case testing
@@ -609,16 +735,22 @@ def test_to_euler_iss24504():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_to_euler_numerical_singilarities(), test_to_euler_numerical_singilarities produces the expected output) over Any ║
+# ║ Path(test_to_euler_numerical_singilarities(), <unspecified:test_to_euler_numerical_singilarities>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_to_euler_numerical_singilarities : Any → {Any | ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3b2fee031820861f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.algebras.tests.test_quaternion.test_to_euler_numerical_singilarities","kind":"function","src_hash":"c131e6d1f1b8e9a0","in":{"base":"Any"},"out":{"base":"Any","pred":"q.to_euler(seq) == angles"},"spec":{"lhs":"test_to_euler_numerical_singilarities()","rhs":"test_to_euler_numerical_singilarities produces the expected output","over":{"base":"Any"},"name":"test_to_euler_numerical_singilarities_correct"},"guarantee":"test_to_euler_numerical_singilarities produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.algebras.tests.test_quaternion.test_to_euler_numerical_singilarities_correct","statement":"Path(test_to_euler_numerical_singilarities(x), test_to_euler_numerical_singilarities produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3b2fee031820861f"}
+# @cctt_verify {"v":2,"sym":"sympy.algebras.tests.test_quaternion.test_to_euler_numerical_singilarities","kind":"function","src_hash":"c131e6d1f1b8e9a0","in":{"base":"Any"},"out":{"base":"Any","pred":"q.to_euler(seq) == angles"},"spec":{"lhs":"test_to_euler_numerical_singilarities()","rhs":"<unspecified:test_to_euler_numerical_singilarities>","over":{"base":"Any"},"name":"test_to_euler_numerical_singilarities_correct"},"guarantee":"test_to_euler_numerical_singilarities produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.algebras.tests.test_quaternion.test_to_euler_numerical_singilarities_correct","statement":"Path(test_to_euler_numerical_singilarities(x), test_to_euler_numerical_singilarities produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3b2fee031820861f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_to_euler_numerical_singilarities():
 
     def test_one_case(angles, seq):
@@ -640,16 +772,22 @@ def test_to_euler_numerical_singilarities():
 
 @slow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_to_euler_options(), test_to_euler_options produces the expected output) over Any ║
+# ║ Path(test_to_euler_options(), <unspecified:test_to_euler_options>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_to_euler_options : Any → {Any | angle_error < 1e...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8a5ddb0cdbb3aca5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.algebras.tests.test_quaternion.test_to_euler_options","kind":"function","src_hash":"e254072d5ea42c04","in":{"base":"Any"},"out":{"base":"Any","pred":"angle_error < 1e-06"},"spec":{"lhs":"test_to_euler_options()","rhs":"test_to_euler_options produces the expected output","over":{"base":"Any"},"name":"test_to_euler_options_correct"},"guarantee":"test_to_euler_options produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.algebras.tests.test_quaternion.test_to_euler_options_correct","statement":"Path(test_to_euler_options(x), test_to_euler_options produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8a5ddb0cdbb3aca5"}
+# @cctt_verify {"v":2,"sym":"sympy.algebras.tests.test_quaternion.test_to_euler_options","kind":"function","src_hash":"e254072d5ea42c04","in":{"base":"Any"},"out":{"base":"Any","pred":"angle_error < 1e-06"},"spec":{"lhs":"test_to_euler_options()","rhs":"<unspecified:test_to_euler_options>","over":{"base":"Any"},"name":"test_to_euler_options_correct"},"guarantee":"test_to_euler_options produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.algebras.tests.test_quaternion.test_to_euler_options_correct","statement":"Path(test_to_euler_options(x), test_to_euler_options produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8a5ddb0cdbb3aca5","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_to_euler_options():
     def test_one_case(q):
         angles1 = Matrix(q.to_euler(seq, True, True))

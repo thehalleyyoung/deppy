@@ -57,31 +57,45 @@ from sympy.abc import n, x, y
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(NS(e, ), NS produces the expected output) over Any    ║
+# ║ Path(NS(e, n, **options), sstr(sympify(e).evalf(n, **options), full_prec=True)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  sstr(sympify(e).evalf(n, **options), full...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ NS : Any → Any                                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8ee9320766f7db0a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.NS","kind":"function","src_hash":"cf3ab3db3798664a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"NS(e, )","rhs":"NS produces the expected output","over":{"base":"Any"},"name":"NS_correct"},"guarantee":"NS produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8ee9320766f7db0a"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.NS","kind":"function","src_hash":"cf3ab3db3798664a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"NS(e, n, **options)","rhs":"sstr(sympify(e).evalf(n, **options), full_prec=True)","over":{"base":"Any"},"name":"NS_correct"},"guarantee":"returns sstr(sympify(e).evalf(n, **options), full_prec=True)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8ee9320766f7db0a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"sstr(sympify(e).evalf(n, **options), full_prec=True)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['e', 'n'], spec=['e', 'n', '**options']"]}}
 def NS(e, n=15, **options):
     return sstr(sympify(e).evalf(n, **options), full_prec=True)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_evalf_helpers(), test_evalf_helpers produces the expected output) over Any ║
+# ║ Path(test_evalf_helpers(), complex_accuracy((from_float(2.0), None, 35, None)) == 35 and complex_accuracy((from_float(2.0), from_float(10.0), 35, 100)) == 37 and complex_accuracy((from_float(2.0), from_float(1000.0), 35, 100)) == 43 and complex_accuracy((from_float(2.0), from_float(10.0), 100, 35)) == 35 and complex_accuracy((from_float(2.0), from_float(1000.0), 100, 35)) == 35 and complex_accuracy(finf) == math.inf and complex_accuracy(zoo) == math.inf) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_evalf_helpers : Any → {Any | complex_accuracy((f...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  complex_accuracy((from_float(2.0), None, ...   ║
+# ║   ensures:  complex_accuracy((from_float(2.0), from_f...   ║
+# ║   ensures:  complex_accuracy((from_float(2.0), from_f...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_evalf_helpers : Any → {Any | result satisfies: c...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   mpmath.__module__                                        ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟡 LIBRARY | library_axiom | Compiled: ✓ | 74a72d76dec0...  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟡 LIBRARY | library_axiom | Compiled: ✓ | 092112c6e958...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_evalf_helpers","kind":"function","src_hash":"406265e01a1fef30","in":{"base":"Any"},"out":{"base":"Any","pred":"complex_accuracy((from_float(2.0), None, 35, None)) == 35 and complex_accuracy((from_float(2.0), from_float(10.0), 35, 100)) == 37 and complex_accuracy((from_float(2.0), from_float(1000.0), 35, 100)) == 43 and complex_accuracy((from_float(2.0), from_float(10.0), 100, 35)) == 35 and complex_accuracy((from_float(2.0), from_float(1000.0), 100, 35)) == 35 and complex_accuracy(finf) == math.inf and complex_accuracy(zoo) == math.inf"},"spec":{"lhs":"test_evalf_helpers()","rhs":"test_evalf_helpers produces the expected output","over":{"base":"Any"},"name":"test_evalf_helpers_correct"},"guarantee":"test_evalf_helpers produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_evalf_helpers_correct","statement":"Path(test_evalf_helpers(x), test_evalf_helpers produces the expected output)"},"assumes":[],"trust":["mpmath.__module__"],"compiled":true,"vhash":"74a72d76dec0b195"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_evalf_helpers","kind":"function","src_hash":"406265e01a1fef30","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: complex_accuracy((from_float(2.0), None, 35, None)) == 35 and complex_accuracy((from_float(2.0), from_float(10.0), 35, 100)) == 37 and complex_accuracy((from_float(2.0), from_float(1000.0), 35, 100)) == 43 and complex_accuracy((from_float(2.0), from_float(10.0), 100, 35)) == 35 and complex_accuracy((from_float(2.0), from_float(1000.0), 100, 35)) == 35 and complex_accuracy(finf) == math.inf and complex_accuracy(zoo) == math.inf"},"spec":{"lhs":"test_evalf_helpers()","rhs":"complex_accuracy((from_float(2.0), None, 35, None)) == 35 and complex_accuracy((from_float(2.0), from_float(10.0), 35, 100)) == 37 and complex_accuracy((from_float(2.0), from_float(1000.0), 35, 100)) == 43 and complex_accuracy((from_float(2.0), from_float(10.0), 100, 35)) == 35 and complex_accuracy((from_float(2.0), from_float(1000.0), 100, 35)) == 35 and complex_accuracy(finf) == math.inf and complex_accuracy(zoo) == math.inf","over":{"base":"Any"},"name":"test_evalf_helpers_correct"},"guarantee":"complex_accuracy((from_float(2.0), None, 35, None)) == 35; complex_accuracy((from_float(2.0), from_float(10.0), 35, 100)) == 37; complex_accuracy((from_float(2.0), from_float(1000.0), 35, 100)) == 43","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_evalf_helpers_correct","statement":"Path(test_evalf_helpers(x), complex_accuracy((from_float(2.0), None, 35, None)) == 35; complex_accuracy((from_float(2.0), from_float(10.0), 35, 100)) == 37; complex_accuracy((from_float(2.0), from_float(1000.0), 35, 100)) == 43)"},"assumes":[],"trust":["mpmath.__module__"],"compiled":true,"vhash":"092112c6e958d32b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["complex_accuracy((from_float(2.0), None, 35, None)) == 35","complex_accuracy((from_float(2.0), from_float(10.0), 35, 100)) == 37","complex_accuracy((from_float(2.0), from_float(1000.0), 35, 100)) == 43","complex_accuracy((from_float(2.0), from_float(10.0), 100, 35)) == 35","complex_accuracy((from_float(2.0), from_float(1000.0), 100, 35)) == 35","complex_accuracy(finf) == math.inf","complex_accuracy(zoo) == math.inf"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_evalf_helpers():
     from mpmath.libmp import finf
     assert complex_accuracy((from_float(2.0), None, 35, None)) == 35
@@ -97,16 +111,24 @@ def test_evalf_helpers():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_evalf_basic(), test_evalf_basic produces the expected output) over Any ║
+# ║ Path(test_evalf_basic(), NS('pi', 15) == '3.14159265358979' and NS('2/3', 10) == '0.6666666667' and NS('355/113-pi', 6) == '2.66764e-7' and NS('16*atan(1/5)-4*atan(1/239)', 15) == '3.14159265358979') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_evalf_basic : Any → {Any | NS('pi', 15) == '3.14...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  NS('pi', 15) == '3.14159265358979'             ║
+# ║   ensures:  NS('2/3', 10) == '0.6666666667'                ║
+# ║   ensures:  NS('355/113-pi', 6) == '2.66764e-7'            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_evalf_basic : Any → {Any | result satisfies: NS(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aac43f853ce13461  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 82347b7c101e3ac3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_evalf_basic","kind":"function","src_hash":"6e9e8a3507f374b6","in":{"base":"Any"},"out":{"base":"Any","pred":"NS('pi', 15) == '3.14159265358979' and NS('2/3', 10) == '0.6666666667' and NS('355/113-pi', 6) == '2.66764e-7' and NS('16*atan(1/5)-4*atan(1/239)', 15) == '3.14159265358979'"},"spec":{"lhs":"test_evalf_basic()","rhs":"test_evalf_basic produces the expected output","over":{"base":"Any"},"name":"test_evalf_basic_correct"},"guarantee":"test_evalf_basic produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_evalf_basic_correct","statement":"Path(test_evalf_basic(x), test_evalf_basic produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aac43f853ce13461"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_evalf_basic","kind":"function","src_hash":"6e9e8a3507f374b6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: NS('pi', 15) == '3.14159265358979' and NS('2/3', 10) == '0.6666666667' and NS('355/113-pi', 6) == '2.66764e-7' and NS('16*atan(1/5)-4*atan(1/239)', 15) == '3.14159265358979'"},"spec":{"lhs":"test_evalf_basic()","rhs":"NS('pi', 15) == '3.14159265358979' and NS('2/3', 10) == '0.6666666667' and NS('355/113-pi', 6) == '2.66764e-7' and NS('16*atan(1/5)-4*atan(1/239)', 15) == '3.14159265358979'","over":{"base":"Any"},"name":"test_evalf_basic_correct"},"guarantee":"NS('pi', 15) == '3.14159265358979'; NS('2/3', 10) == '0.6666666667'; NS('355/113-pi', 6) == '2.66764e-7'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_evalf_basic_correct","statement":"Path(test_evalf_basic(x), NS('pi', 15) == '3.14159265358979'; NS('2/3', 10) == '0.6666666667'; NS('355/113-pi', 6) == '2.66764e-7')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"82347b7c101e3ac3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["NS('pi', 15) == '3.14159265358979'","NS('2/3', 10) == '0.6666666667'","NS('355/113-pi', 6) == '2.66764e-7'","NS('16*atan(1/5)-4*atan(1/239)', 15) == '3.14159265358979'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_evalf_basic():
     assert NS('pi', 15) == '3.14159265358979'
     assert NS('2/3', 10) == '0.6666666667'
@@ -115,32 +137,46 @@ def test_evalf_basic():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_cancellation(), test_cancellation produces the expected output) over Any ║
+# ║ Path(test_cancellation(), NS(Add(pi, Rational(1, 10 ** 1000), -pi, evaluate=False), 15, maxn=1200) == '1.00000000000000e-1000') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_cancellation : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  NS(Add(pi, Rational(1, 10 ** 1000), -pi, ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_cancellation : Any → {Any | result satisfies: NS...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 78e5e91670e60281  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b811d09c9d4fb030  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_cancellation","kind":"function","src_hash":"4b9ebf478e06f15c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_cancellation()","rhs":"test_cancellation produces the expected output","over":{"base":"Any"},"name":"test_cancellation_correct"},"guarantee":"test_cancellation produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_cancellation_correct","statement":"Path(test_cancellation(x), test_cancellation produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"78e5e91670e60281"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_cancellation","kind":"function","src_hash":"4b9ebf478e06f15c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: NS(Add(pi, Rational(1, 10 ** 1000), -pi, evaluate=False), 15, maxn=1200) == '1.00000000000000e-1000'"},"spec":{"lhs":"test_cancellation()","rhs":"NS(Add(pi, Rational(1, 10 ** 1000), -pi, evaluate=False), 15, maxn=1200) == '1.00000000000000e-1000'","over":{"base":"Any"},"name":"test_cancellation_correct"},"guarantee":"NS(Add(pi, Rational(1, 10 ** 1000), -pi, evaluate=False), 15, maxn=1200) == '1.00000000000000e-1000'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_cancellation_correct","statement":"Path(test_cancellation(x), NS(Add(pi, Rational(1, 10 ** 1000), -pi, evaluate=False), 15, maxn=1200) == '1.00000000000000e-1000')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b811d09c9d4fb030","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["NS(Add(pi, Rational(1, 10 ** 1000), -pi, evaluate=False), 15, maxn=1200) == '1.00000000000000e-1000'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_cancellation():
     assert NS(Add(pi, Rational(1, 10**1000), -pi, evaluate=False), 15,
               maxn=1200) == '1.00000000000000e-1000'
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_evalf_powers(), test_evalf_powers produces the expected output) over Any ║
+# ║ Path(test_evalf_powers(), NS('pi**(10**20)', 10) == '1.339148777e+49714987269413385435' and NS(pi ** 10 ** 100, 10) == '4.946362032e+4971498726941338543512682882908988736516783243804424461340534999249471120895526746555473864642912223' and NS('2**(1/10**50)', 15) == '1.00000000000000' and NS('2**(1/10**50)-1', 15) == '6.93147180559945e-51') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_evalf_powers : Any → {Any | NS('pi**(10**20)', 1...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  NS('pi**(10**20)', 10) == '1.339148777e+4...   ║
+# ║   ensures:  NS(pi ** 10 ** 100, 10) == '4.946362032e+...   ║
+# ║   ensures:  NS('2**(1/10**50)', 15) == '1.00000000000...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_evalf_powers : Any → {Any | result satisfies: NS...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c5466a8286865166  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ab9b940426518c8a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_evalf_powers","kind":"function","src_hash":"95b5a16218711882","in":{"base":"Any"},"out":{"base":"Any","pred":"NS('pi**(10**20)', 10) == '1.339148777e+49714987269413385435' and NS('2**(1/10**50)', 15) == '1.00000000000000' and NS('2**(1/10**50)-1', 15) == '6.93147180559945e-51'"},"spec":{"lhs":"test_evalf_powers()","rhs":"test_evalf_powers produces the expected output","over":{"base":"Any"},"name":"test_evalf_powers_correct"},"guarantee":"test_evalf_powers produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_evalf_powers_correct","statement":"Path(test_evalf_powers(x), test_evalf_powers produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c5466a8286865166"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_evalf_powers","kind":"function","src_hash":"95b5a16218711882","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: NS('pi**(10**20)', 10) == '1.339148777e+49714987269413385435' and NS(pi ** 10 ** 100, 10) == '4.946362032e+4971498726941338543512682882908988736516783243804424461340534999249471120895526746555473864642912223' and NS('2**(1/10**50)', 15) == '1.00000000000000' and NS('2**(1/10**50)-1', 15) == '6.93147180559945e-51'"},"spec":{"lhs":"test_evalf_powers()","rhs":"NS('pi**(10**20)', 10) == '1.339148777e+49714987269413385435' and NS(pi ** 10 ** 100, 10) == '4.946362032e+4971498726941338543512682882908988736516783243804424461340534999249471120895526746555473864642912223' and NS('2**(1/10**50)', 15) == '1.00000000000000' and NS('2**(1/10**50)-1', 15) == '6.93147180559945e-51'","over":{"base":"Any"},"name":"test_evalf_powers_correct"},"guarantee":"NS('pi**(10**20)', 10) == '1.339148777e+49714987269413385435'; NS(pi ** 10 ** 100, 10) == '4.946362032e+4971498726941338543512682882908988736516783243804424461340534999249471120895526746555473864642912223'; NS('2**(1/10**50)', 15) == '1.00000000000000'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_evalf_powers_correct","statement":"Path(test_evalf_powers(x), NS('pi**(10**20)', 10) == '1.339148777e+49714987269413385435'; NS(pi ** 10 ** 100, 10) == '4.946362032e+4971498726941338543512682882908988736516783243804424461340534999249471120895526746555473864642912223'; NS('2**(1/10**50)', 15) == '1.00000000000000')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ab9b940426518c8a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["NS('pi**(10**20)', 10) == '1.339148777e+49714987269413385435'","NS(pi ** 10 ** 100, 10) == '4.946362032e+4971498726941338543512682882908988736516783243804424461340534999249471120895526746555473864642912223'","NS('2**(1/10**50)', 15) == '1.00000000000000'","NS('2**(1/10**50)-1', 15) == '6.93147180559945e-51'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_evalf_powers():
     assert NS('pi**(10**20)', 10) == '1.339148777e+49714987269413385435'
     assert NS(pi**(10**100), 10) == ('4.946362032e+4971498726941338543512682882'
@@ -153,32 +189,46 @@ def test_evalf_powers():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_evalf_rump(), test_evalf_rump produces the expected output) over Any ║
+# ║ Path(test_evalf_rump(), NS(a, 15, subs={x: 77617, y: 33096}) == '-0.827396059946821') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_evalf_rump : Any → {Any | NS(a, 15, subs={x: 776...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  NS(a, 15, subs={x: 77617, y: 33096}) == '...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_evalf_rump : Any → {Any | result satisfies: NS(a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2a5fb928849feddc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f7399a422e6cc49a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_evalf_rump","kind":"function","src_hash":"e022e0a7716f29d9","in":{"base":"Any"},"out":{"base":"Any","pred":"NS(a, 15, subs={x: 77617, y: 33096}) == '-0.827396059946821'"},"spec":{"lhs":"test_evalf_rump()","rhs":"test_evalf_rump produces the expected output","over":{"base":"Any"},"name":"test_evalf_rump_correct"},"guarantee":"test_evalf_rump produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_evalf_rump_correct","statement":"Path(test_evalf_rump(x), test_evalf_rump produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2a5fb928849feddc"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_evalf_rump","kind":"function","src_hash":"e022e0a7716f29d9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: NS(a, 15, subs={x: 77617, y: 33096}) == '-0.827396059946821'"},"spec":{"lhs":"test_evalf_rump()","rhs":"NS(a, 15, subs={x: 77617, y: 33096}) == '-0.827396059946821'","over":{"base":"Any"},"name":"test_evalf_rump_correct"},"guarantee":"NS(a, 15, subs={x: 77617, y: 33096}) == '-0.827396059946821'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_evalf_rump_correct","statement":"Path(test_evalf_rump(x), NS(a, 15, subs={x: 77617, y: 33096}) == '-0.827396059946821')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f7399a422e6cc49a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["NS(a, 15, subs={x: 77617, y: 33096}) == '-0.827396059946821'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_evalf_rump():
     a = 1335*y**6/4 + x**2*(11*x**2*y**2 - y**6 - 121*y**4 - 2) + 11*y**8/2 + x/(2*y)
     assert NS(a, 15, subs={x: 77617, y: 33096}) == '-0.827396059946821'
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_evalf_complex(), test_evalf_complex produces the expected output) over Any ║
+# ║ Path(test_evalf_complex(), NS('2*sqrt(pi)*I', 10) == '3.544907702*I' and NS('3+3*I', 15) == '3.00000000000000 + 3.00000000000000*I' and NS('E+pi*I', 15) == '2.71828182845905 + 3.14159265358979*I' and NS('pi * (3+4*I)', 15) == '9.42477796076938 + 12.5663706143592*I' and NS('I*(2+I)', 15) == '-1.00000000000000 + 2.00000000000000*I') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_evalf_complex : Any → {Any | NS('2*sqrt(pi)*I', ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  NS('2*sqrt(pi)*I', 10) == '3.544907702*I'      ║
+# ║   ensures:  NS('3+3*I', 15) == '3.00000000000000 + 3....   ║
+# ║   ensures:  NS('E+pi*I', 15) == '2.71828182845905 + 3...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_evalf_complex : Any → {Any | result satisfies: N...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c404b21524344217  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a1c3ca2b83d48eec  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_evalf_complex","kind":"function","src_hash":"ff0f56005498c847","in":{"base":"Any"},"out":{"base":"Any","pred":"NS('2*sqrt(pi)*I', 10) == '3.544907702*I' and NS('3+3*I', 15) == '3.00000000000000 + 3.00000000000000*I' and NS('E+pi*I', 15) == '2.71828182845905 + 3.14159265358979*I' and NS('pi * (3+4*I)', 15) == '9.42477796076938 + 12.5663706143592*I' and NS('I*(2+I)', 15) == '-1.00000000000000 + 2.00000000000000*I'"},"spec":{"lhs":"test_evalf_complex()","rhs":"test_evalf_complex produces the expected output","over":{"base":"Any"},"name":"test_evalf_complex_correct"},"guarantee":"test_evalf_complex produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_evalf_complex_correct","statement":"Path(test_evalf_complex(x), test_evalf_complex produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c404b21524344217"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_evalf_complex","kind":"function","src_hash":"ff0f56005498c847","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: NS('2*sqrt(pi)*I', 10) == '3.544907702*I' and NS('3+3*I', 15) == '3.00000000000000 + 3.00000000000000*I' and NS('E+pi*I', 15) == '2.71828182845905 + 3.14159265358979*I' and NS('pi * (3+4*I)', 15) == '9.42477796076938 + 12.5663706143592*I' and NS('I*(2+I)', 15) == '-1.00000000000000 + 2.00000000000000*I'"},"spec":{"lhs":"test_evalf_complex()","rhs":"NS('2*sqrt(pi)*I', 10) == '3.544907702*I' and NS('3+3*I', 15) == '3.00000000000000 + 3.00000000000000*I' and NS('E+pi*I', 15) == '2.71828182845905 + 3.14159265358979*I' and NS('pi * (3+4*I)', 15) == '9.42477796076938 + 12.5663706143592*I' and NS('I*(2+I)', 15) == '-1.00000000000000 + 2.00000000000000*I'","over":{"base":"Any"},"name":"test_evalf_complex_correct"},"guarantee":"NS('2*sqrt(pi)*I', 10) == '3.544907702*I'; NS('3+3*I', 15) == '3.00000000000000 + 3.00000000000000*I'; NS('E+pi*I', 15) == '2.71828182845905 + 3.14159265358979*I'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_evalf_complex_correct","statement":"Path(test_evalf_complex(x), NS('2*sqrt(pi)*I', 10) == '3.544907702*I'; NS('3+3*I', 15) == '3.00000000000000 + 3.00000000000000*I'; NS('E+pi*I', 15) == '2.71828182845905 + 3.14159265358979*I')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a1c3ca2b83d48eec","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["NS('2*sqrt(pi)*I', 10) == '3.544907702*I'","NS('3+3*I', 15) == '3.00000000000000 + 3.00000000000000*I'","NS('E+pi*I', 15) == '2.71828182845905 + 3.14159265358979*I'","NS('pi * (3+4*I)', 15) == '9.42477796076938 + 12.5663706143592*I'","NS('I*(2+I)', 15) == '-1.00000000000000 + 2.00000000000000*I'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_evalf_complex():
     assert NS('2*sqrt(pi)*I', 10) == '3.544907702*I'
     assert NS('3+3*I', 15) == '3.00000000000000 + 3.00000000000000*I'
@@ -189,32 +239,46 @@ def test_evalf_complex():
 
 @XFAIL
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_evalf_complex_bug(), test_evalf_complex_bug produces the expected output) over Any ║
+# ║ Path(test_evalf_complex_bug(), NS('(pi+E*I)*(E+pi*I)', 15) in ('0.e-15 + 17.25866050002*I', '0.e-17 + 17.25866050002*I', '-0.e-17 + 17.25866050002*I')) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_evalf_complex_bug : Any → Any                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  NS('(pi+E*I)*(E+pi*I)', 15) in ('0.e-15 +...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_evalf_complex_bug : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d66fed6ec3dda26c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 70e41cdae8f8d7d9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_evalf_complex_bug","kind":"function","src_hash":"ba4239e3e95e4877","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_evalf_complex_bug()","rhs":"test_evalf_complex_bug produces the expected output","over":{"base":"Any"},"name":"test_evalf_complex_bug_correct"},"guarantee":"test_evalf_complex_bug produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_evalf_complex_bug_correct","statement":"Path(test_evalf_complex_bug(x), test_evalf_complex_bug produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d66fed6ec3dda26c"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_evalf_complex_bug","kind":"function","src_hash":"ba4239e3e95e4877","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: NS('(pi+E*I)*(E+pi*I)', 15) in ('0.e-15 + 17.25866050002*I', '0.e-17 + 17.25866050002*I', '-0.e-17 + 17.25866050002*I')"},"spec":{"lhs":"test_evalf_complex_bug()","rhs":"NS('(pi+E*I)*(E+pi*I)', 15) in ('0.e-15 + 17.25866050002*I', '0.e-17 + 17.25866050002*I', '-0.e-17 + 17.25866050002*I')","over":{"base":"Any"},"name":"test_evalf_complex_bug_correct"},"guarantee":"NS('(pi+E*I)*(E+pi*I)', 15) in ('0.e-15 + 17.25866050002*I', '0.e-17 + 17.25866050002*I', '-0.e-17 + 17.25866050002*I')","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_evalf_complex_bug_correct","statement":"Path(test_evalf_complex_bug(x), NS('(pi+E*I)*(E+pi*I)', 15) in ('0.e-15 + 17.25866050002*I', '0.e-17 + 17.25866050002*I', '-0.e-17 + 17.25866050002*I'))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"70e41cdae8f8d7d9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["NS('(pi+E*I)*(E+pi*I)', 15) in ('0.e-15 + 17.25866050002*I', '0.e-17 + 17.25866050002*I', '-0.e-17 + 17.25866050002*I')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_evalf_complex_bug():
     assert NS('(pi+E*I)*(E+pi*I)', 15) in ('0.e-15 + 17.25866050002*I',
               '0.e-17 + 17.25866050002*I', '-0.e-17 + 17.25866050002*I')
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_evalf_complex_powers(), test_evalf_complex_powers produces the expected output) over Any ║
+# ║ Path(test_evalf_complex_powers(), NS('(E+pi*I)**100000000000000000') == '-3.58896782867793e+61850354284995199 + 4.58581754997159e+61850354284995199*I' and NS('(pi + pi*I)**2', chop=True) == '19.7392088021787*I' and NS('(pi + 1/10**8 + pi*I)**2') == '6.2831853e-8 + 19.7392088650106*I' and NS('(pi + 1/10**12 + pi*I)**2') == '6.283e-12 + 19.7392088021850*I' and NS('(pi + pi*I)**4', chop=True) == '-389.636364136010' and NS('(pi + 1/10**8 + pi*I)**4') == '-389.636366616512 + 2.4805021e-6*I' and NS('(pi + 1/10**12 + pi*I)**4') == '-389.636364136258 + 2.481e-10*I' and NS('(10000*pi + 10000*pi*I)**4', chop=True) == '-3.89636364136010e+18') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_evalf_complex_powers : Any → {Any | NS('(pi + pi...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  NS('(E+pi*I)**100000000000000000') == '-3...   ║
+# ║   ensures:  NS('(pi + pi*I)**2', chop=True) == '19.73...   ║
+# ║   ensures:  NS('(pi + 1/10**8 + pi*I)**2') == '6.2831...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_evalf_complex_powers : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 539fe8e1813de678  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dcb7fd8b4caa3cd3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_evalf_complex_powers","kind":"function","src_hash":"23b3e90b6d342ea7","in":{"base":"Any"},"out":{"base":"Any","pred":"NS('(pi + pi*I)**2', chop=True) == '19.7392088021787*I' and NS('(pi + 1/10**8 + pi*I)**2') == '6.2831853e-8 + 19.7392088650106*I' and NS('(pi + 1/10**12 + pi*I)**2') == '6.283e-12 + 19.7392088021850*I' and NS('(pi + pi*I)**4', chop=True) == '-389.636364136010' and NS('(pi + 1/10**8 + pi*I)**4') == '-389.636366616512 + 2.4805021e-6*I' and NS('(pi + 1/10**12 + pi*I)**4') == '-389.636364136258 + 2.481e-10*I' and NS('(10000*pi + 10000*pi*I)**4', chop=True) == '-3.89636364136010e+18'"},"spec":{"lhs":"test_evalf_complex_powers()","rhs":"test_evalf_complex_powers produces the expected output","over":{"base":"Any"},"name":"test_evalf_complex_powers_correct"},"guarantee":"test_evalf_complex_powers produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_evalf_complex_powers_correct","statement":"Path(test_evalf_complex_powers(x), test_evalf_complex_powers produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"539fe8e1813de678"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_evalf_complex_powers","kind":"function","src_hash":"23b3e90b6d342ea7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: NS('(E+pi*I)**100000000000000000') == '-3.58896782867793e+61850354284995199 + 4.58581754997159e+61850354284995199*I' and NS('(pi + pi*I)**2', chop=True) == '19.7392088021787*I' and NS('(pi + 1/10**8 + pi*I)**2') == '6.2831853e-8 + 19.7392088650106*I' and NS('(pi + 1/10**12 + pi*I)**2') == '6.283e-12 + 19.7392088021850*I' and NS('(pi + pi*I)**4', chop=True) == '-389.636364136010' and NS('(pi + 1/10**8 + pi*I)**4') == '-389.636366616512 + 2.4805021e-6*I' and NS('(pi + 1/10**12 + pi*I)**4') == '-389.636364136258 + 2.481e-10*I' and NS('(10000*pi + 10000*pi*I)**4', chop=True) == '-3.89636364136010e+18'"},"spec":{"lhs":"test_evalf_complex_powers()","rhs":"NS('(E+pi*I)**100000000000000000') == '-3.58896782867793e+61850354284995199 + 4.58581754997159e+61850354284995199*I' and NS('(pi + pi*I)**2', chop=True) == '19.7392088021787*I' and NS('(pi + 1/10**8 + pi*I)**2') == '6.2831853e-8 + 19.7392088650106*I' and NS('(pi + 1/10**12 + pi*I)**2') == '6.283e-12 + 19.7392088021850*I' and NS('(pi + pi*I)**4', chop=True) == '-389.636364136010' and NS('(pi + 1/10**8 + pi*I)**4') == '-389.636366616512 + 2.4805021e-6*I' and NS('(pi + 1/10**12 + pi*I)**4') == '-389.636364136258 + 2.481e-10*I' and NS('(10000*pi + 10000*pi*I)**4', chop=True) == '-3.89636364136010e+18'","over":{"base":"Any"},"name":"test_evalf_complex_powers_correct"},"guarantee":"NS('(E+pi*I)**100000000000000000') == '-3.58896782867793e+61850354284995199 + 4.58581754997159e+61850354284995199*I'; NS('(pi + pi*I)**2', chop=True) == '19.7392088021787*I'; NS('(pi + 1/10**8 + pi*I)**2') == '6.2831853e-8 + 19.7392088650106*I'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_evalf_complex_powers_correct","statement":"Path(test_evalf_complex_powers(x), NS('(E+pi*I)**100000000000000000') == '-3.58896782867793e+61850354284995199 + 4.58581754997159e+61850354284995199*I'; NS('(pi + pi*I)**2', chop=True) == '19.7392088021787*I'; NS('(pi + 1/10**8 + pi*I)**2') == '6.2831853e-8 + 19.7392088650106*I')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dcb7fd8b4caa3cd3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["NS('(E+pi*I)**100000000000000000') == '-3.58896782867793e+61850354284995199 + 4.58581754997159e+61850354284995199*I'","NS('(pi + pi*I)**2', chop=True) == '19.7392088021787*I'","NS('(pi + 1/10**8 + pi*I)**2') == '6.2831853e-8 + 19.7392088650106*I'","NS('(pi + 1/10**12 + pi*I)**2') == '6.283e-12 + 19.7392088021850*I'","NS('(pi + pi*I)**4', chop=True) == '-389.636364136010'","NS('(pi + 1/10**8 + pi*I)**4') == '-389.636366616512 + 2.4805021e-6*I'","NS('(pi + 1/10**12 + pi*I)**4') == '-389.636364136258 + 2.481e-10*I'","NS('(10000*pi + 10000*pi*I)**4', chop=True) == '-3.89636364136010e+18'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_evalf_complex_powers():
     assert NS('(E+pi*I)**100000000000000000') == \
         '-3.58896782867793e+61850354284995199 + 4.58581754997159e+61850354284995199*I'
@@ -234,31 +298,45 @@ def test_evalf_complex_powers():
 
 @XFAIL
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_evalf_complex_powers_bug(), test_evalf_complex_powers_bug produces the expected output) over Any ║
+# ║ Path(test_evalf_complex_powers_bug(), NS('(pi + pi*I)**4') == '-389.63636413601 + 0.e-14*I') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_evalf_complex_powers_bug : Any → {Any | NS('(pi ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  NS('(pi + pi*I)**4') == '-389.63636413601...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_evalf_complex_powers_bug : Any → {Any | result s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 263080c72bc4dd75  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 37b1f598e6f285cb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_evalf_complex_powers_bug","kind":"function","src_hash":"17f4d48300a159e9","in":{"base":"Any"},"out":{"base":"Any","pred":"NS('(pi + pi*I)**4') == '-389.63636413601 + 0.e-14*I'"},"spec":{"lhs":"test_evalf_complex_powers_bug()","rhs":"test_evalf_complex_powers_bug produces the expected output","over":{"base":"Any"},"name":"test_evalf_complex_powers_bug_correct"},"guarantee":"test_evalf_complex_powers_bug produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_evalf_complex_powers_bug_correct","statement":"Path(test_evalf_complex_powers_bug(x), test_evalf_complex_powers_bug produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"263080c72bc4dd75"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_evalf_complex_powers_bug","kind":"function","src_hash":"17f4d48300a159e9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: NS('(pi + pi*I)**4') == '-389.63636413601 + 0.e-14*I'"},"spec":{"lhs":"test_evalf_complex_powers_bug()","rhs":"NS('(pi + pi*I)**4') == '-389.63636413601 + 0.e-14*I'","over":{"base":"Any"},"name":"test_evalf_complex_powers_bug_correct"},"guarantee":"NS('(pi + pi*I)**4') == '-389.63636413601 + 0.e-14*I'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_evalf_complex_powers_bug_correct","statement":"Path(test_evalf_complex_powers_bug(x), NS('(pi + pi*I)**4') == '-389.63636413601 + 0.e-14*I')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"37b1f598e6f285cb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["NS('(pi + pi*I)**4') == '-389.63636413601 + 0.e-14*I'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_evalf_complex_powers_bug():
     assert NS('(pi + pi*I)**4') == '-389.63636413601 + 0.e-14*I'
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_evalf_exponentiation(), test_evalf_exponentiation produces the expected output) over Any ║
+# ║ Path(test_evalf_exponentiation(), NS(sqrt(-pi)) == '1.77245385090552*I' and NS(Pow(pi * I, Rational(1, 2), evaluate=False)) == '1.25331413731550 + 1.25331413731550*I' and NS(pi ** I) == '0.413292116101594 + 0.910598499212615*I' and NS(pi ** (E + I / 3)) == '20.8438653991931 + 8.36343473930031*I' and NS((pi + I / 3) ** (E + I / 3)) == '17.2442906093590 + 13.6839376767037*I' and NS(exp(pi)) == '23.1406926327793' and NS(exp(pi + E * I)) == '-21.0981542849657 + 9.50576358282422*I' and NS(pi ** pi) == '36.4621596072079' and NS((-pi) ** pi) == '-32.9138577418939 - 15.6897116534332*I' and NS((-pi) ** (-pi)) == '-0.0247567717232697 + 0.0118013091280262*I') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_evalf_exponentiation : Any → {Any | NS(sqrt(-pi)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  NS(sqrt(-pi)) == '1.77245385090552*I'          ║
+# ║   ensures:  NS(Pow(pi * I, Rational(1, 2), evaluate=F...   ║
+# ║   ensures:  NS(pi ** I) == '0.413292116101594 + 0.910...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_evalf_exponentiation : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a14373d367dd0afe  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 09eeadf78b5b3274  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_evalf_exponentiation","kind":"function","src_hash":"6a563885ab58b21c","in":{"base":"Any"},"out":{"base":"Any","pred":"NS(sqrt(-pi)) == '1.77245385090552*I' and NS(pi ** I) == '0.413292116101594 + 0.910598499212615*I' and NS(pi ** (E + I / 3)) == '20.8438653991931 + 8.36343473930031*I' and NS((pi + I / 3) ** (E + I / 3)) == '17.2442906093590 + 13.6839376767037*I' and NS(exp(pi)) == '23.1406926327793' and NS(exp(pi + E * I)) == '-21.0981542849657 + 9.50576358282422*I' and NS(pi ** pi) == '36.4621596072079' and NS((-pi) ** pi) == '-32.9138577418939 - 15.6897116534332*I' and NS((-pi) ** (-pi)) == '-0.0247567717232697 + 0.0118013091280262*I'"},"spec":{"lhs":"test_evalf_exponentiation()","rhs":"test_evalf_exponentiation produces the expected output","over":{"base":"Any"},"name":"test_evalf_exponentiation_correct"},"guarantee":"test_evalf_exponentiation produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_evalf_exponentiation_correct","statement":"Path(test_evalf_exponentiation(x), test_evalf_exponentiation produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a14373d367dd0afe"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_evalf_exponentiation","kind":"function","src_hash":"6a563885ab58b21c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: NS(sqrt(-pi)) == '1.77245385090552*I' and NS(Pow(pi * I, Rational(1, 2), evaluate=False)) == '1.25331413731550 + 1.25331413731550*I' and NS(pi ** I) == '0.413292116101594 + 0.910598499212615*I' and NS(pi ** (E + I / 3)) == '20.8438653991931 + 8.36343473930031*I' and NS((pi + I / 3) ** (E + I / 3)) == '17.2442906093590 + 13.6839376767037*I' and NS(exp(pi)) == '23.1406926327793' and NS(exp(pi + E * I)) == '-21.0981542849657 + 9.50576358282422*I' and NS(pi ** pi) == '36.4621596072079' and NS((-pi) ** pi) == '-32.9138577418939 - 15.6897116534332*I' and NS((-pi) ** (-pi)) == '-0.0247567717232697 + 0.0118013091280262*I'"},"spec":{"lhs":"test_evalf_exponentiation()","rhs":"NS(sqrt(-pi)) == '1.77245385090552*I' and NS(Pow(pi * I, Rational(1, 2), evaluate=False)) == '1.25331413731550 + 1.25331413731550*I' and NS(pi ** I) == '0.413292116101594 + 0.910598499212615*I' and NS(pi ** (E + I / 3)) == '20.8438653991931 + 8.36343473930031*I' and NS((pi + I / 3) ** (E + I / 3)) == '17.2442906093590 + 13.6839376767037*I' and NS(exp(pi)) == '23.1406926327793' and NS(exp(pi + E * I)) == '-21.0981542849657 + 9.50576358282422*I' and NS(pi ** pi) == '36.4621596072079' and NS((-pi) ** pi) == '-32.9138577418939 - 15.6897116534332*I' and NS((-pi) ** (-pi)) == '-0.0247567717232697 + 0.0118013091280262*I'","over":{"base":"Any"},"name":"test_evalf_exponentiation_correct"},"guarantee":"NS(sqrt(-pi)) == '1.77245385090552*I'; NS(Pow(pi * I, Rational(1, 2), evaluate=False)) == '1.25331413731550 + 1.25331413731550*I'; NS(pi ** I) == '0.413292116101594 + 0.910598499212615*I'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_evalf_exponentiation_correct","statement":"Path(test_evalf_exponentiation(x), NS(sqrt(-pi)) == '1.77245385090552*I'; NS(Pow(pi * I, Rational(1, 2), evaluate=False)) == '1.25331413731550 + 1.25331413731550*I'; NS(pi ** I) == '0.413292116101594 + 0.910598499212615*I')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"09eeadf78b5b3274","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["NS(sqrt(-pi)) == '1.77245385090552*I'","NS(Pow(pi * I, Rational(1, 2), evaluate=False)) == '1.25331413731550 + 1.25331413731550*I'","NS(pi ** I) == '0.413292116101594 + 0.910598499212615*I'","NS(pi ** (E + I / 3)) == '20.8438653991931 + 8.36343473930031*I'","NS((pi + I / 3) ** (E + I / 3)) == '17.2442906093590 + 13.6839376767037*I'","NS(exp(pi)) == '23.1406926327793'","NS(exp(pi + E * I)) == '-21.0981542849657 + 9.50576358282422*I'","NS(pi ** pi) == '36.4621596072079'","NS((-pi) ** pi) == '-32.9138577418939 - 15.6897116534332*I'","NS((-pi) ** (-pi)) == '-0.0247567717232697 + 0.0118013091280262*I'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_evalf_exponentiation():
     assert NS(sqrt(-pi)) == '1.77245385090552*I'
     assert NS(Pow(pi*I, Rational(
@@ -276,16 +354,24 @@ def test_evalf_exponentiation():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_evalf_complex_cancellation(), test_evalf_complex_cancellation produces the expected output) over Any ║
+# ║ Path(test_evalf_complex_cancellation(), NS((A + B * I) * (C + D * I), 6) == '6.44710e-6 + 0.892529*I' and NS((A + B * I) * (C + D * I), 10) == '6.447100000e-6 + 0.8925286452*I' and NS((A + B * I) * (C + D * I) - F * I, 5) in ('6.4471e-6 + 0.e-14*I', '6.4471e-6 - 0.e-14*I')) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_evalf_complex_cancellation : Any → {Any | NS((A ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  NS((A + B * I) * (C + D * I), 6) == '6.44...   ║
+# ║   ensures:  NS((A + B * I) * (C + D * I), 10) == '6.4...   ║
+# ║   ensures:  NS((A + B * I) * (C + D * I) - F * I, 5) ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_evalf_complex_cancellation : Any → {Any | result...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6e1551bd476f302d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8230077024dd1b93  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_evalf_complex_cancellation","kind":"function","src_hash":"9521ba91f2cfce4c","in":{"base":"Any"},"out":{"base":"Any","pred":"NS((A + B * I) * (C + D * I), 6) == '6.44710e-6 + 0.892529*I' and NS((A + B * I) * (C + D * I), 10) == '6.447100000e-6 + 0.8925286452*I'"},"spec":{"lhs":"test_evalf_complex_cancellation()","rhs":"test_evalf_complex_cancellation produces the expected output","over":{"base":"Any"},"name":"test_evalf_complex_cancellation_correct"},"guarantee":"test_evalf_complex_cancellation produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_evalf_complex_cancellation_correct","statement":"Path(test_evalf_complex_cancellation(x), test_evalf_complex_cancellation produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6e1551bd476f302d"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_evalf_complex_cancellation","kind":"function","src_hash":"9521ba91f2cfce4c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: NS((A + B * I) * (C + D * I), 6) == '6.44710e-6 + 0.892529*I' and NS((A + B * I) * (C + D * I), 10) == '6.447100000e-6 + 0.8925286452*I' and NS((A + B * I) * (C + D * I) - F * I, 5) in ('6.4471e-6 + 0.e-14*I', '6.4471e-6 - 0.e-14*I')"},"spec":{"lhs":"test_evalf_complex_cancellation()","rhs":"NS((A + B * I) * (C + D * I), 6) == '6.44710e-6 + 0.892529*I' and NS((A + B * I) * (C + D * I), 10) == '6.447100000e-6 + 0.8925286452*I' and NS((A + B * I) * (C + D * I) - F * I, 5) in ('6.4471e-6 + 0.e-14*I', '6.4471e-6 - 0.e-14*I')","over":{"base":"Any"},"name":"test_evalf_complex_cancellation_correct"},"guarantee":"NS((A + B * I) * (C + D * I), 6) == '6.44710e-6 + 0.892529*I'; NS((A + B * I) * (C + D * I), 10) == '6.447100000e-6 + 0.8925286452*I'; NS((A + B * I) * (C + D * I) - F * I, 5) in ('6.4471e-6 + 0.e-14*I', '6.4471e-6 - 0.e-14*I')","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_evalf_complex_cancellation_correct","statement":"Path(test_evalf_complex_cancellation(x), NS((A + B * I) * (C + D * I), 6) == '6.44710e-6 + 0.892529*I'; NS((A + B * I) * (C + D * I), 10) == '6.447100000e-6 + 0.8925286452*I'; NS((A + B * I) * (C + D * I) - F * I, 5) in ('6.4471e-6 + 0.e-14*I', '6.4471e-6 - 0.e-14*I'))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8230077024dd1b93","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["NS((A + B * I) * (C + D * I), 6) == '6.44710e-6 + 0.892529*I'","NS((A + B * I) * (C + D * I), 10) == '6.447100000e-6 + 0.8925286452*I'","NS((A + B * I) * (C + D * I) - F * I, 5) in ('6.4471e-6 + 0.e-14*I', '6.4471e-6 - 0.e-14*I')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_evalf_complex_cancellation():
     A = Rational('63287/100000')
     B = Rational('52498/100000')
@@ -306,16 +392,24 @@ def test_evalf_complex_cancellation():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_evalf_logs(), test_evalf_logs produces the expected output) over Any ║
+# ║ Path(test_evalf_logs(), NS('log(3+pi*I)', 15) == '1.46877619736226 + 0.808448792630022*I' and NS('log(pi*I)', 15) == '1.14472988584940 + 1.57079632679490*I' and NS('log(-1 + 0.00001)', 2) == '-1.0e-5 + 3.1*I' and NS('log(100, 10, evaluate=False)', 15) == '2.00000000000000' and NS('-2*I*log(-(-1)**(S(1)/9))', 15) == '-5.58505360638185') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_evalf_logs : Any → {Any | NS('log(3+pi*I)', 15) ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  NS('log(3+pi*I)', 15) == '1.4687761973622...   ║
+# ║   ensures:  NS('log(pi*I)', 15) == '1.14472988584940 ...   ║
+# ║   ensures:  NS('log(-1 + 0.00001)', 2) == '-1.0e-5 + ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_evalf_logs : Any → {Any | result satisfies: NS('...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 443bfda27f5574a3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b30db0702af33a06  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_evalf_logs","kind":"function","src_hash":"e5cdaf83456692a1","in":{"base":"Any"},"out":{"base":"Any","pred":"NS('log(3+pi*I)', 15) == '1.46877619736226 + 0.808448792630022*I' and NS('log(pi*I)', 15) == '1.14472988584940 + 1.57079632679490*I' and NS('log(-1 + 0.00001)', 2) == '-1.0e-5 + 3.1*I' and NS('log(100, 10, evaluate=False)', 15) == '2.00000000000000' and NS('-2*I*log(-(-1)**(S(1)/9))', 15) == '-5.58505360638185'"},"spec":{"lhs":"test_evalf_logs()","rhs":"test_evalf_logs produces the expected output","over":{"base":"Any"},"name":"test_evalf_logs_correct"},"guarantee":"test_evalf_logs produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_evalf_logs_correct","statement":"Path(test_evalf_logs(x), test_evalf_logs produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"443bfda27f5574a3"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_evalf_logs","kind":"function","src_hash":"e5cdaf83456692a1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: NS('log(3+pi*I)', 15) == '1.46877619736226 + 0.808448792630022*I' and NS('log(pi*I)', 15) == '1.14472988584940 + 1.57079632679490*I' and NS('log(-1 + 0.00001)', 2) == '-1.0e-5 + 3.1*I' and NS('log(100, 10, evaluate=False)', 15) == '2.00000000000000' and NS('-2*I*log(-(-1)**(S(1)/9))', 15) == '-5.58505360638185'"},"spec":{"lhs":"test_evalf_logs()","rhs":"NS('log(3+pi*I)', 15) == '1.46877619736226 + 0.808448792630022*I' and NS('log(pi*I)', 15) == '1.14472988584940 + 1.57079632679490*I' and NS('log(-1 + 0.00001)', 2) == '-1.0e-5 + 3.1*I' and NS('log(100, 10, evaluate=False)', 15) == '2.00000000000000' and NS('-2*I*log(-(-1)**(S(1)/9))', 15) == '-5.58505360638185'","over":{"base":"Any"},"name":"test_evalf_logs_correct"},"guarantee":"NS('log(3+pi*I)', 15) == '1.46877619736226 + 0.808448792630022*I'; NS('log(pi*I)', 15) == '1.14472988584940 + 1.57079632679490*I'; NS('log(-1 + 0.00001)', 2) == '-1.0e-5 + 3.1*I'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_evalf_logs_correct","statement":"Path(test_evalf_logs(x), NS('log(3+pi*I)', 15) == '1.46877619736226 + 0.808448792630022*I'; NS('log(pi*I)', 15) == '1.14472988584940 + 1.57079632679490*I'; NS('log(-1 + 0.00001)', 2) == '-1.0e-5 + 3.1*I')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b30db0702af33a06","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["NS('log(3+pi*I)', 15) == '1.46877619736226 + 0.808448792630022*I'","NS('log(pi*I)', 15) == '1.14472988584940 + 1.57079632679490*I'","NS('log(-1 + 0.00001)', 2) == '-1.0e-5 + 3.1*I'","NS('log(100, 10, evaluate=False)', 15) == '2.00000000000000'","NS('-2*I*log(-(-1)**(S(1)/9))', 15) == '-5.58505360638185'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_evalf_logs():
     assert NS("log(3+pi*I)", 15) == '1.46877619736226 + 0.808448792630022*I'
     assert NS("log(pi*I)", 15) == '1.14472988584940 + 1.57079632679490*I'
@@ -325,16 +419,24 @@ def test_evalf_logs():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_evalf_trig(), test_evalf_trig produces the expected output) over Any ║
+# ║ Path(test_evalf_trig(), NS('sin(1)', 15) == '0.841470984807897' and NS('cos(1)', 15) == '0.540302305868140' and NS('tan(1)', 15) == '1.55740772465490' and NS('sin(10**-6)', 15) == '9.99999999999833e-7' and NS('cos(10**-6)', 15) == '0.999999999999500' and NS('tan(10**-6)', 15) == '1.00000000000033e-6' and NS('sin(E*10**100)', 15) == '0.409160531722613' and NS('tan(I)', 15) == '0.761594155955765*I' and NS('tan(1000*I)', 15) == '1.00000000000000*I' and NS(sin(exp(pi * sqrt(163)) * pi), 15) == '-2.35596641936785e-12' and NS(sin(pi * 10 ** 100 + Rational(7, 10 ** 5), evaluate=False), 15, maxn=120) == '6.99999999428333e-5' and NS(sin(Rational(7, 10 ** 5), evaluate=False), 15) == '6.99999999428333e-5') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_evalf_trig : Any → {Any | NS('sin(1)', 15) == '0...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  NS('sin(1)', 15) == '0.841470984807897'        ║
+# ║   ensures:  NS('cos(1)', 15) == '0.540302305868140'        ║
+# ║   ensures:  NS('tan(1)', 15) == '1.55740772465490'         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_evalf_trig : Any → {Any | result satisfies: NS('...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 18a6a64b979a1574  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 56224959f480ad5a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_evalf_trig","kind":"function","src_hash":"77b4897e34360fcf","in":{"base":"Any"},"out":{"base":"Any","pred":"NS('sin(1)', 15) == '0.841470984807897' and NS('cos(1)', 15) == '0.540302305868140' and NS('tan(1)', 15) == '1.55740772465490' and NS('sin(10**-6)', 15) == '9.99999999999833e-7' and NS('cos(10**-6)', 15) == '0.999999999999500' and NS('tan(10**-6)', 15) == '1.00000000000033e-6' and NS('sin(E*10**100)', 15) == '0.409160531722613' and NS('tan(I)', 15) == '0.761594155955765*I' and NS('tan(1000*I)', 15) == '1.00000000000000*I' and NS(sin(exp(pi * sqrt(163)) * pi), 15) == '-2.35596641936785e-12' and NS(sin(Rational(7, 10 ** 5), evaluate=False), 15) == '6.99999999428333e-5'"},"spec":{"lhs":"test_evalf_trig()","rhs":"test_evalf_trig produces the expected output","over":{"base":"Any"},"name":"test_evalf_trig_correct"},"guarantee":"test_evalf_trig produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_evalf_trig_correct","statement":"Path(test_evalf_trig(x), test_evalf_trig produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"18a6a64b979a1574"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_evalf_trig","kind":"function","src_hash":"77b4897e34360fcf","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: NS('sin(1)', 15) == '0.841470984807897' and NS('cos(1)', 15) == '0.540302305868140' and NS('tan(1)', 15) == '1.55740772465490' and NS('sin(10**-6)', 15) == '9.99999999999833e-7' and NS('cos(10**-6)', 15) == '0.999999999999500' and NS('tan(10**-6)', 15) == '1.00000000000033e-6' and NS('sin(E*10**100)', 15) == '0.409160531722613' and NS('tan(I)', 15) == '0.761594155955765*I' and NS('tan(1000*I)', 15) == '1.00000000000000*I' and NS(sin(exp(pi * sqrt(163)) * pi), 15) == '-2.35596641936785e-12' and NS(sin(pi * 10 ** 100 + Rational(7, 10 ** 5), evaluate=False), 15, maxn=120) == '6.99999999428333e-5' and NS(sin(Rational(7, 10 ** 5), evaluate=False), 15) == '6.99999999428333e-5'"},"spec":{"lhs":"test_evalf_trig()","rhs":"NS('sin(1)', 15) == '0.841470984807897' and NS('cos(1)', 15) == '0.540302305868140' and NS('tan(1)', 15) == '1.55740772465490' and NS('sin(10**-6)', 15) == '9.99999999999833e-7' and NS('cos(10**-6)', 15) == '0.999999999999500' and NS('tan(10**-6)', 15) == '1.00000000000033e-6' and NS('sin(E*10**100)', 15) == '0.409160531722613' and NS('tan(I)', 15) == '0.761594155955765*I' and NS('tan(1000*I)', 15) == '1.00000000000000*I' and NS(sin(exp(pi * sqrt(163)) * pi), 15) == '-2.35596641936785e-12' and NS(sin(pi * 10 ** 100 + Rational(7, 10 ** 5), evaluate=False), 15, maxn=120) == '6.99999999428333e-5' and NS(sin(Rational(7, 10 ** 5), evaluate=False), 15) == '6.99999999428333e-5'","over":{"base":"Any"},"name":"test_evalf_trig_correct"},"guarantee":"NS('sin(1)', 15) == '0.841470984807897'; NS('cos(1)', 15) == '0.540302305868140'; NS('tan(1)', 15) == '1.55740772465490'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_evalf_trig_correct","statement":"Path(test_evalf_trig(x), NS('sin(1)', 15) == '0.841470984807897'; NS('cos(1)', 15) == '0.540302305868140'; NS('tan(1)', 15) == '1.55740772465490')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"56224959f480ad5a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["NS('sin(1)', 15) == '0.841470984807897'","NS('cos(1)', 15) == '0.540302305868140'","NS('tan(1)', 15) == '1.55740772465490'","NS('sin(10**-6)', 15) == '9.99999999999833e-7'","NS('cos(10**-6)', 15) == '0.999999999999500'","NS('tan(10**-6)', 15) == '1.00000000000033e-6'","NS('sin(E*10**100)', 15) == '0.409160531722613'","NS('tan(I)', 15) == '0.761594155955765*I'","NS('tan(1000*I)', 15) == '1.00000000000000*I'","NS(sin(exp(pi * sqrt(163)) * pi), 15) == '-2.35596641936785e-12'","NS(sin(pi * 10 ** 100 + Rational(7, 10 ** 5), evaluate=False), 15, maxn=120) == '6.99999999428333e-5'","NS(sin(Rational(7, 10 ** 5), evaluate=False), 15) == '6.99999999428333e-5'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_evalf_trig():
     assert NS('sin(1)', 15) == '0.841470984807897'
     assert NS('cos(1)', 15) == '0.540302305868140'
@@ -356,16 +458,24 @@ def test_evalf_trig():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_evalf_near_integers(), test_evalf_near_integers produces the expected output) over Any ║
+# ║ Path(test_evalf_near_integers(), NS(f(5000) - fibonacci(5000), 10, maxn=1500) == '5.156009964e-1046' and NS('sin(2017*2**(1/5))', 15) == '-1.00000000000000' and NS('sin(2017*2**(1/5))', 20) == '-0.99999999999999997857' and NS('1+sin(2017*2**(1/5))', 15) == '2.14322287389390e-17' and NS('45 - 613*E/37 + 35/991', 15) == '6.03764498766326e-11') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_evalf_near_integers : Any → {Any | NS(f(5000) - ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  NS(f(5000) - fibonacci(5000), 10, maxn=15...   ║
+# ║   ensures:  NS('sin(2017*2**(1/5))', 15) == '-1.00000...   ║
+# ║   ensures:  NS('sin(2017*2**(1/5))', 20) == '-0.99999...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_evalf_near_integers : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | de27b35ca59fa221  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 990fed6c5afc2a41  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_evalf_near_integers","kind":"function","src_hash":"936ea47e9c0a1f67","in":{"base":"Any"},"out":{"base":"Any","pred":"NS(f(5000) - fibonacci(5000), 10, maxn=1500) == '5.156009964e-1046' and NS('sin(2017*2**(1/5))', 15) == '-1.00000000000000' and NS('sin(2017*2**(1/5))', 20) == '-0.99999999999999997857' and NS('1+sin(2017*2**(1/5))', 15) == '2.14322287389390e-17' and NS('45 - 613*E/37 + 35/991', 15) == '6.03764498766326e-11'"},"spec":{"lhs":"test_evalf_near_integers()","rhs":"test_evalf_near_integers produces the expected output","over":{"base":"Any"},"name":"test_evalf_near_integers_correct"},"guarantee":"test_evalf_near_integers produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_evalf_near_integers_correct","statement":"Path(test_evalf_near_integers(x), test_evalf_near_integers produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"de27b35ca59fa221"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_evalf_near_integers","kind":"function","src_hash":"936ea47e9c0a1f67","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: NS(f(5000) - fibonacci(5000), 10, maxn=1500) == '5.156009964e-1046' and NS('sin(2017*2**(1/5))', 15) == '-1.00000000000000' and NS('sin(2017*2**(1/5))', 20) == '-0.99999999999999997857' and NS('1+sin(2017*2**(1/5))', 15) == '2.14322287389390e-17' and NS('45 - 613*E/37 + 35/991', 15) == '6.03764498766326e-11'"},"spec":{"lhs":"test_evalf_near_integers()","rhs":"NS(f(5000) - fibonacci(5000), 10, maxn=1500) == '5.156009964e-1046' and NS('sin(2017*2**(1/5))', 15) == '-1.00000000000000' and NS('sin(2017*2**(1/5))', 20) == '-0.99999999999999997857' and NS('1+sin(2017*2**(1/5))', 15) == '2.14322287389390e-17' and NS('45 - 613*E/37 + 35/991', 15) == '6.03764498766326e-11'","over":{"base":"Any"},"name":"test_evalf_near_integers_correct"},"guarantee":"NS(f(5000) - fibonacci(5000), 10, maxn=1500) == '5.156009964e-1046'; NS('sin(2017*2**(1/5))', 15) == '-1.00000000000000'; NS('sin(2017*2**(1/5))', 20) == '-0.99999999999999997857'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_evalf_near_integers_correct","statement":"Path(test_evalf_near_integers(x), NS(f(5000) - fibonacci(5000), 10, maxn=1500) == '5.156009964e-1046'; NS('sin(2017*2**(1/5))', 15) == '-1.00000000000000'; NS('sin(2017*2**(1/5))', 20) == '-0.99999999999999997857')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"990fed6c5afc2a41","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["NS(f(5000) - fibonacci(5000), 10, maxn=1500) == '5.156009964e-1046'","NS('sin(2017*2**(1/5))', 15) == '-1.00000000000000'","NS('sin(2017*2**(1/5))', 20) == '-0.99999999999999997857'","NS('1+sin(2017*2**(1/5))', 15) == '2.14322287389390e-17'","NS('45 - 613*E/37 + 35/991', 15) == '6.03764498766326e-11'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_evalf_near_integers():
     # Binet's formula
     f = lambda n: ((1 + sqrt(5))**n)/(2**n * sqrt(5))
@@ -379,16 +489,23 @@ def test_evalf_near_integers():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_evalf_ramanujan(), test_evalf_ramanujan produces the expected output) over Any ║
+# ║ Path(test_evalf_ramanujan(), NS(exp(pi * sqrt(163)) - 640320 ** 3 - 744, 10) == '-7.499274028e-13' and NS(1 - A - B + C, 10) == '1.613679005e-59') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_evalf_ramanujan : Any → {Any | NS(exp(pi * sqrt(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  NS(exp(pi * sqrt(163)) - 640320 ** 3 - 74...   ║
+# ║   ensures:  NS(1 - A - B + C, 10) == '1.613679005e-59'     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_evalf_ramanujan : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8db3a0bec4927f54  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 33e72cfa3eab377b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_evalf_ramanujan","kind":"function","src_hash":"e12601b88bc38cfc","in":{"base":"Any"},"out":{"base":"Any","pred":"NS(exp(pi * sqrt(163)) - 640320 ** 3 - 744, 10) == '-7.499274028e-13' and NS(1 - A - B + C, 10) == '1.613679005e-59'"},"spec":{"lhs":"test_evalf_ramanujan()","rhs":"test_evalf_ramanujan produces the expected output","over":{"base":"Any"},"name":"test_evalf_ramanujan_correct"},"guarantee":"test_evalf_ramanujan produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_evalf_ramanujan_correct","statement":"Path(test_evalf_ramanujan(x), test_evalf_ramanujan produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8db3a0bec4927f54"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_evalf_ramanujan","kind":"function","src_hash":"e12601b88bc38cfc","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: NS(exp(pi * sqrt(163)) - 640320 ** 3 - 744, 10) == '-7.499274028e-13' and NS(1 - A - B + C, 10) == '1.613679005e-59'"},"spec":{"lhs":"test_evalf_ramanujan()","rhs":"NS(exp(pi * sqrt(163)) - 640320 ** 3 - 744, 10) == '-7.499274028e-13' and NS(1 - A - B + C, 10) == '1.613679005e-59'","over":{"base":"Any"},"name":"test_evalf_ramanujan_correct"},"guarantee":"NS(exp(pi * sqrt(163)) - 640320 ** 3 - 744, 10) == '-7.499274028e-13'; NS(1 - A - B + C, 10) == '1.613679005e-59'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_evalf_ramanujan_correct","statement":"Path(test_evalf_ramanujan(x), NS(exp(pi * sqrt(163)) - 640320 ** 3 - 744, 10) == '-7.499274028e-13'; NS(1 - A - B + C, 10) == '1.613679005e-59')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"33e72cfa3eab377b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["NS(exp(pi * sqrt(163)) - 640320 ** 3 - 744, 10) == '-7.499274028e-13'","NS(1 - A - B + C, 10) == '1.613679005e-59'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_evalf_ramanujan():
     assert NS(exp(pi*sqrt(163)) - 640320**3 - 744, 10) == '-7.499274028e-13'
     # A related identity
@@ -401,16 +518,24 @@ def test_evalf_ramanujan():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_evalf_bugs(), test_evalf_bugs produces the expected output) over Any ║
+# ║ Path(test_evalf_bugs(), NS(sin(1) + exp(-10 ** 10), 10) == NS(sin(1), 10) and NS(exp(10 ** 10) + sin(1), 10) == NS(exp(10 ** 10), 10) and NS('expand_log(log(1+1/10**50))', 20) == '1.0000000000000000000e-50' and NS('log(10**100,10)', 10) == '100.0000000' and NS('log(2)', 10) == '0.6931471806' and NS('(sin(x)-x)/x**3', 15, subs={x: '1/10**50'}) == '-0.166666666666667' and NS(sin(1) + Rational(1, 10 ** 100) * I, 15) == '0.841470984807897 + 1.00000000000000e-100*I' and x.evalf() == x and NS((1 + I) ** 2 * I, 6) == '-2.00000' and NS((x * (1 + y * (1 + n))).subs(d).evalf(), 6) == '0.346011 + 0.433884*I' and NS(((-I - sqrt(2) * I) ** 2).evalf()) == '-5.82842712474619' and NS((1 + I) ** 2 * I, 15) == '-2.00000000000000' and NS(pi.evalf(69) - pi) == '-4.43863937855894e-71' and NS(20 - 5008329267844 * n ** 25 - 477638700 * n ** 37 - 19 * n, subs={n: 0.01}) == '19.8100000000000' and NS(((x - 1) * (1 - x) ** 1000).n()) == '(1.00000000000000 - x)**1000*(x - 1.00000000000000)' and NS((-x).n()) == '-x' and NS((-2 * x).n()) == '-2.00000000000000*x' and NS((-2 * x * y).n()) == '-2.00000000000000*x*y' and cos(x).n(subs={x: 1 + I}) == cos(x).subs(x, 1 + I).n() and (0 * E ** oo).n() is S.NaN and (0 / E ** oo).n() is S.Zero and (0 + E ** oo).n() is S.Infinity and (0 - E ** oo).n() is S.NegativeInfinity and (5 * E ** oo).n() is S.Infinity and (5 / E ** oo).n() is S.Zero and (5 + E ** oo).n() is S.Infinity and (5 - E ** oo).n() is S.NegativeInfinity and as_mpmath(0.0, 10, {'chop': True}) == 0 and (oo * I).n() == S.Infinity * I and (oo + oo * I).n() == S.Infinity + S.Infinity * I and NS(2 * x ** 2.5, 5) == '2.0000*x**2.5000' and NS(Mul(Max(0, y), x, evaluate=False).evalf()) == 'x*Max(0, y)' and NS(log(S(3273390607896141870013189696827599152216642046043064789483291368096133796404674554883270092325904157150886684127560071009217256545885393053328527589376) / 36360291795869936842385267079543319118023385026001623040346035832580600191583895484198508262979388783308179702534403855752855931517013066142992430916562025780021771247847643450125342836565813209972590371590152578728008385990139795377610001).evalf(15, chop=True)) == '-oo') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_evalf_bugs : Any → {Any | NS(sin(1) + exp(-10 **...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  NS(sin(1) + exp(-10 ** 10), 10) == NS(sin...   ║
+# ║   ensures:  NS(exp(10 ** 10) + sin(1), 10) == NS(exp(...   ║
+# ║   ensures:  NS('expand_log(log(1+1/10**50))', 20) == ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_evalf_bugs : Any → {Any | result satisfies: NS(s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 49a00e51845a8c4c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.8ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3a5b5269b196fc7d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_evalf_bugs","kind":"function","src_hash":"30d5bd5d00656f16","in":{"base":"Any"},"out":{"base":"Any","pred":"NS(sin(1) + exp(-10 ** 10), 10) == NS(sin(1), 10) and NS(exp(10 ** 10) + sin(1), 10) == NS(exp(10 ** 10), 10) and NS('expand_log(log(1+1/10**50))', 20) == '1.0000000000000000000e-50' and NS('log(10**100,10)', 10) == '100.0000000' and NS('log(2)', 10) == '0.6931471806' and NS('(sin(x)-x)/x**3', 15, subs={x: '1/10**50'}) == '-0.166666666666667' and x.evalf() == x and NS((1 + I) ** 2 * I, 6) == '-2.00000' and NS((x * (1 + y * (1 + n))).subs(d).evalf(), 6) == '0.346011 + 0.433884*I' and NS(((-I - sqrt(2) * I) ** 2).evalf()) == '-5.82842712474619' and NS((1 + I) ** 2 * I, 15) == '-2.00000000000000' and NS(pi.evalf(69) - pi) == '-4.43863937855894e-71' and NS((-x).n()) == '-x' and NS((-2 * x).n()) == '-2.00000000000000*x' and NS((-2 * x * y).n()) == '-2.00000000000000*x*y' and cos(x).n(subs={x: 1 + I}) == cos(x).subs(x, 1 + I).n() and (0 * E ** oo).n() is S.NaN and (0 / E ** oo).n() is S.Zero and (0 + E ** oo).n() is S.Infinity and (0 - E ** oo).n() is S.NegativeInfinity and (5 * E ** oo).n() is S.Infinity and (5 / E ** oo).n() is S.Zero and (5 + E ** oo).n() is S.Infinity and (5 - E ** oo).n() is S.NegativeInfinity and as_mpmath(0.0, 10, {'chop': True}) == 0 and (oo * I).n() == S.Infinity * I and (oo + oo * I).n() == S.Infinity + S.Infinity * I and NS(2 * x ** 2.5, 5) == '2.0000*x**2.5000' and NS(Mul(Max(0, y), x, evaluate=False).evalf()) == 'x*Max(0, y)'"},"spec":{"lhs":"test_evalf_bugs()","rhs":"test_evalf_bugs produces the expected output","over":{"base":"Any"},"name":"test_evalf_bugs_correct"},"guarantee":"test_evalf_bugs produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_evalf_bugs_correct","statement":"Path(test_evalf_bugs(x), test_evalf_bugs produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"49a00e51845a8c4c"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_evalf_bugs","kind":"function","src_hash":"30d5bd5d00656f16","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: NS(sin(1) + exp(-10 ** 10), 10) == NS(sin(1), 10) and NS(exp(10 ** 10) + sin(1), 10) == NS(exp(10 ** 10), 10) and NS('expand_log(log(1+1/10**50))', 20) == '1.0000000000000000000e-50' and NS('log(10**100,10)', 10) == '100.0000000' and NS('log(2)', 10) == '0.6931471806' and NS('(sin(x)-x)/x**3', 15, subs={x: '1/10**50'}) == '-0.166666666666667' and NS(sin(1) + Rational(1, 10 ** 100) * I, 15) == '0.841470984807897 + 1.00000000000000e-100*I' and x.evalf() == x and NS((1 + I) ** 2 * I, 6) == '-2.00000' and NS((x * (1 + y * (1 + n))).subs(d).evalf(), 6) == '0.346011 + 0.433884*I' and NS(((-I - sqrt(2) * I) ** 2).evalf()) == '-5.82842712474619' and NS((1 + I) ** 2 * I, 15) == '-2.00000000000000' and NS(pi.evalf(69) - pi) == '-4.43863937855894e-71' and NS(20 - 5008329267844 * n ** 25 - 477638700 * n ** 37 - 19 * n, subs={n: 0.01}) == '19.8100000000000' and NS(((x - 1) * (1 - x) ** 1000).n()) == '(1.00000000000000 - x)**1000*(x - 1.00000000000000)' and NS((-x).n()) == '-x' and NS((-2 * x).n()) == '-2.00000000000000*x' and NS((-2 * x * y).n()) == '-2.00000000000000*x*y' and cos(x).n(subs={x: 1 + I}) == cos(x).subs(x, 1 + I).n() and (0 * E ** oo).n() is S.NaN and (0 / E ** oo).n() is S.Zero and (0 + E ** oo).n() is S.Infinity and (0 - E ** oo).n() is S.NegativeInfinity and (5 * E ** oo).n() is S.Infinity and (5 / E ** oo).n() is S.Zero and (5 + E ** oo).n() is S.Infinity and (5 - E ** oo).n() is S.NegativeInfinity and as_mpmath(0.0, 10, {'chop': True}) == 0 and (oo * I).n() == S.Infinity * I and (oo + oo * I).n() == S.Infinity + S.Infinity * I and NS(2 * x ** 2.5, 5) == '2.0000*x**2.5000' and NS(Mul(Max(0, y), x, evaluate=False).evalf()) == 'x*Max(0, y)' and NS(log(S(3273390607896141870013189696827599152216642046043064789483291368096133796404674554883270092325904157150886684127560071009217256545885393053328527589376) / 36360291795869936842385267079543319118023385026001623040346035832580600191583895484198508262979388783308179702534403855752855931517013066142992430916562025780021771247847643450125342836565813209972590371590152578728008385990139795377610001).evalf(15, chop=True)) == '-oo'"},"spec":{"lhs":"test_evalf_bugs()","rhs":"NS(sin(1) + exp(-10 ** 10), 10) == NS(sin(1), 10) and NS(exp(10 ** 10) + sin(1), 10) == NS(exp(10 ** 10), 10) and NS('expand_log(log(1+1/10**50))', 20) == '1.0000000000000000000e-50' and NS('log(10**100,10)', 10) == '100.0000000' and NS('log(2)', 10) == '0.6931471806' and NS('(sin(x)-x)/x**3', 15, subs={x: '1/10**50'}) == '-0.166666666666667' and NS(sin(1) + Rational(1, 10 ** 100) * I, 15) == '0.841470984807897 + 1.00000000000000e-100*I' and x.evalf() == x and NS((1 + I) ** 2 * I, 6) == '-2.00000' and NS((x * (1 + y * (1 + n))).subs(d).evalf(), 6) == '0.346011 + 0.433884*I' and NS(((-I - sqrt(2) * I) ** 2).evalf()) == '-5.82842712474619' and NS((1 + I) ** 2 * I, 15) == '-2.00000000000000' and NS(pi.evalf(69) - pi) == '-4.43863937855894e-71' and NS(20 - 5008329267844 * n ** 25 - 477638700 * n ** 37 - 19 * n, subs={n: 0.01}) == '19.8100000000000' and NS(((x - 1) * (1 - x) ** 1000).n()) == '(1.00000000000000 - x)**1000*(x - 1.00000000000000)' and NS((-x).n()) == '-x' and NS((-2 * x).n()) == '-2.00000000000000*x' and NS((-2 * x * y).n()) == '-2.00000000000000*x*y' and cos(x).n(subs={x: 1 + I}) == cos(x).subs(x, 1 + I).n() and (0 * E ** oo).n() is S.NaN and (0 / E ** oo).n() is S.Zero and (0 + E ** oo).n() is S.Infinity and (0 - E ** oo).n() is S.NegativeInfinity and (5 * E ** oo).n() is S.Infinity and (5 / E ** oo).n() is S.Zero and (5 + E ** oo).n() is S.Infinity and (5 - E ** oo).n() is S.NegativeInfinity and as_mpmath(0.0, 10, {'chop': True}) == 0 and (oo * I).n() == S.Infinity * I and (oo + oo * I).n() == S.Infinity + S.Infinity * I and NS(2 * x ** 2.5, 5) == '2.0000*x**2.5000' and NS(Mul(Max(0, y), x, evaluate=False).evalf()) == 'x*Max(0, y)' and NS(log(S(3273390607896141870013189696827599152216642046043064789483291368096133796404674554883270092325904157150886684127560071009217256545885393053328527589376) / 36360291795869936842385267079543319118023385026001623040346035832580600191583895484198508262979388783308179702534403855752855931517013066142992430916562025780021771247847643450125342836565813209972590371590152578728008385990139795377610001).evalf(15, chop=True)) == '-oo'","over":{"base":"Any"},"name":"test_evalf_bugs_correct"},"guarantee":"NS(sin(1) + exp(-10 ** 10), 10) == NS(sin(1), 10); NS(exp(10 ** 10) + sin(1), 10) == NS(exp(10 ** 10), 10); NS('expand_log(log(1+1/10**50))', 20) == '1.0000000000000000000e-50'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_evalf_bugs_correct","statement":"Path(test_evalf_bugs(x), NS(sin(1) + exp(-10 ** 10), 10) == NS(sin(1), 10); NS(exp(10 ** 10) + sin(1), 10) == NS(exp(10 ** 10), 10); NS('expand_log(log(1+1/10**50))', 20) == '1.0000000000000000000e-50')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3a5b5269b196fc7d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["NS(sin(1) + exp(-10 ** 10), 10) == NS(sin(1), 10)","NS(exp(10 ** 10) + sin(1), 10) == NS(exp(10 ** 10), 10)","NS('expand_log(log(1+1/10**50))', 20) == '1.0000000000000000000e-50'","NS('log(10**100,10)', 10) == '100.0000000'","NS('log(2)', 10) == '0.6931471806'","NS('(sin(x)-x)/x**3', 15, subs={x: '1/10**50'}) == '-0.166666666666667'","NS(sin(1) + Rational(1, 10 ** 100) * I, 15) == '0.841470984807897 + 1.00000000000000e-100*I'","x.evalf() == x","NS((1 + I) ** 2 * I, 6) == '-2.00000'","NS((x * (1 + y * (1 + n))).subs(d).evalf(), 6) == '0.346011 + 0.433884*I'","NS(((-I - sqrt(2) * I) ** 2).evalf()) == '-5.82842712474619'","NS((1 + I) ** 2 * I, 15) == '-2.00000000000000'","NS(pi.evalf(69) - pi) == '-4.43863937855894e-71'","NS(20 - 5008329267844 * n ** 25 - 477638700 * n ** 37 - 19 * n, subs={n: 0.01}) == '19.8100000000000'","NS(((x - 1) * (1 - x) ** 1000).n()) == '(1.00000000000000 - x)**1000*(x - 1.00000000000000)'","NS((-x).n()) == '-x'","NS((-2 * x).n()) == '-2.00000000000000*x'","NS((-2 * x * y).n()) == '-2.00000000000000*x*y'","cos(x).n(subs={x: 1 + I}) == cos(x).subs(x, 1 + I).n()","(0 * E ** oo).n() is S.NaN","(0 / E ** oo).n() is S.Zero","(0 + E ** oo).n() is S.Infinity","(0 - E ** oo).n() is S.NegativeInfinity","(5 * E ** oo).n() is S.Infinity","(5 / E ** oo).n() is S.Zero","(5 + E ** oo).n() is S.Infinity","(5 - E ** oo).n() is S.NegativeInfinity","as_mpmath(0.0, 10, {'chop': True}) == 0","(oo * I).n() == S.Infinity * I","(oo + oo * I).n() == S.Infinity + S.Infinity * I","NS(2 * x ** 2.5, 5) == '2.0000*x**2.5000'","NS(Mul(Max(0, y), x, evaluate=False).evalf()) == 'x*Max(0, y)'","NS(log(S(3273390607896141870013189696827599152216642046043064789483291368096133796404674554883270092325904157150886684127560071009217256545885393053328527589376) / 36360291795869936842385267079543319118023385026001623040346035832580600191583895484198508262979388783308179702534403855752855931517013066142992430916562025780021771247847643450125342836565813209972590371590152578728008385990139795377610001).evalf(15, chop=True)) == '-oo'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"assumed","binding":true}}
 def test_evalf_bugs():
     assert NS(sin(1) + exp(-10**10), 10) == NS(sin(1), 10)
     assert NS(exp(10**10) + sin(1), 10) == NS(exp(10**10), 10)
@@ -478,16 +603,24 @@ def test_evalf_bugs():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_evalf_integer_parts(), test_evalf_integer_parts produces the expected output) over Any ║
+# ║ Path(test_evalf_integer_parts(), a.evalf() == 3.0 and b.evalf() == 3.0 and ceiling(10 * (sin(1) ** 2 + cos(1) ** 2)) == 10 and int(floor(factorial(50) / E, evaluate=False).evalf(70)) == int(11188719610782480504630258070757734324011354208865721592720336800) and int(ceiling(factorial(50) / E, evaluate=False).evalf(70)) == int(11188719610782480504630258070757734324011354208865721592720336801) and int(floor(GoldenRatio ** 999 / sqrt(5) + S.Half).evalf(1000)) == fibonacci(999) and int(floor(GoldenRatio ** 1000 / sqrt(5) + S.Half).evalf(1000)) == fibonacci(1000) and ceiling(x).evalf(subs={x: 3}) == 3.0 and ceiling(x).evalf(subs={x: 3 * I}) == 3.0 * I and ceiling(x).evalf(subs={x: 2 + 3 * I}) == 2.0 + 3.0 * I and ceiling(x).evalf(subs={x: 3.0}) == 3.0 and ceiling(x).evalf(subs={x: 3.0 * I}) == 3.0 * I and ceiling(x).evalf(subs={x: 2.0 + 3 * I}) == 2.0 + 3.0 * I and float((floor(1.5, evaluate=False) + 1 / 9).evalf()) == 1 + 1 / 9 and float((floor(0.5, evaluate=False) + 20).evalf()) == 20 and floor(n / (pi / 2)) == r and floor(80782 * sqrt(2)) == 114242 and 260515 - floor(260515 / pi + 1 / 2) * pi == atan(tan(260515)) and floor(x).evalf(subs={x: sqrt(2)}) == 1.0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_evalf_integer_parts : Any → {Any | a.evalf() == ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  a.evalf() == 3.0                               ║
+# ║   ensures:  b.evalf() == 3.0                               ║
+# ║   ensures:  ceiling(10 * (sin(1) ** 2 + cos(1) ** 2))...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_evalf_integer_parts : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f12db838a18ae376  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5d0f74bba85600eb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_evalf_integer_parts","kind":"function","src_hash":"db1f5bb01532d116","in":{"base":"Any"},"out":{"base":"Any","pred":"a.evalf() == 3.0 and b.evalf() == 3.0 and ceiling(10 * (sin(1) ** 2 + cos(1) ** 2)) == 10 and int(floor(GoldenRatio ** 999 / sqrt(5) + S.Half).evalf(1000)) == fibonacci(999) and ceiling(x).evalf(subs={x: 3}) == 3.0 and ceiling(x).evalf(subs={x: 3 * I}) == 3.0 * I and ceiling(x).evalf(subs={x: 2 + 3 * I}) == 2.0 + 3.0 * I and ceiling(x).evalf(subs={x: 3.0}) == 3.0 and ceiling(x).evalf(subs={x: 3.0 * I}) == 3.0 * I and ceiling(x).evalf(subs={x: 2.0 + 3 * I}) == 2.0 + 3.0 * I and float((floor(1.5, evaluate=False) + 1 / 9).evalf()) == 1 + 1 / 9 and float((floor(0.5, evaluate=False) + 20).evalf()) == 20 and floor(n / (pi / 2)) == r and floor(80782 * sqrt(2)) == 114242 and 260515 - floor(260515 / pi + 1 / 2) * pi == atan(tan(260515)) and floor(x).evalf(subs={x: sqrt(2)}) == 1.0"},"spec":{"lhs":"test_evalf_integer_parts()","rhs":"test_evalf_integer_parts produces the expected output","over":{"base":"Any"},"name":"test_evalf_integer_parts_correct"},"guarantee":"test_evalf_integer_parts produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_evalf_integer_parts_correct","statement":"Path(test_evalf_integer_parts(x), test_evalf_integer_parts produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f12db838a18ae376"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_evalf_integer_parts","kind":"function","src_hash":"db1f5bb01532d116","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: a.evalf() == 3.0 and b.evalf() == 3.0 and ceiling(10 * (sin(1) ** 2 + cos(1) ** 2)) == 10 and int(floor(factorial(50) / E, evaluate=False).evalf(70)) == int(11188719610782480504630258070757734324011354208865721592720336800) and int(ceiling(factorial(50) / E, evaluate=False).evalf(70)) == int(11188719610782480504630258070757734324011354208865721592720336801) and int(floor(GoldenRatio ** 999 / sqrt(5) + S.Half).evalf(1000)) == fibonacci(999) and int(floor(GoldenRatio ** 1000 / sqrt(5) + S.Half).evalf(1000)) == fibonacci(1000) and ceiling(x).evalf(subs={x: 3}) == 3.0 and ceiling(x).evalf(subs={x: 3 * I}) == 3.0 * I and ceiling(x).evalf(subs={x: 2 + 3 * I}) == 2.0 + 3.0 * I and ceiling(x).evalf(subs={x: 3.0}) == 3.0 and ceiling(x).evalf(subs={x: 3.0 * I}) == 3.0 * I and ceiling(x).evalf(subs={x: 2.0 + 3 * I}) == 2.0 + 3.0 * I and float((floor(1.5, evaluate=False) + 1 / 9).evalf()) == 1 + 1 / 9 and float((floor(0.5, evaluate=False) + 20).evalf()) == 20 and floor(n / (pi / 2)) == r and floor(80782 * sqrt(2)) == 114242 and 260515 - floor(260515 / pi + 1 / 2) * pi == atan(tan(260515)) and floor(x).evalf(subs={x: sqrt(2)}) == 1.0"},"spec":{"lhs":"test_evalf_integer_parts()","rhs":"a.evalf() == 3.0 and b.evalf() == 3.0 and ceiling(10 * (sin(1) ** 2 + cos(1) ** 2)) == 10 and int(floor(factorial(50) / E, evaluate=False).evalf(70)) == int(11188719610782480504630258070757734324011354208865721592720336800) and int(ceiling(factorial(50) / E, evaluate=False).evalf(70)) == int(11188719610782480504630258070757734324011354208865721592720336801) and int(floor(GoldenRatio ** 999 / sqrt(5) + S.Half).evalf(1000)) == fibonacci(999) and int(floor(GoldenRatio ** 1000 / sqrt(5) + S.Half).evalf(1000)) == fibonacci(1000) and ceiling(x).evalf(subs={x: 3}) == 3.0 and ceiling(x).evalf(subs={x: 3 * I}) == 3.0 * I and ceiling(x).evalf(subs={x: 2 + 3 * I}) == 2.0 + 3.0 * I and ceiling(x).evalf(subs={x: 3.0}) == 3.0 and ceiling(x).evalf(subs={x: 3.0 * I}) == 3.0 * I and ceiling(x).evalf(subs={x: 2.0 + 3 * I}) == 2.0 + 3.0 * I and float((floor(1.5, evaluate=False) + 1 / 9).evalf()) == 1 + 1 / 9 and float((floor(0.5, evaluate=False) + 20).evalf()) == 20 and floor(n / (pi / 2)) == r and floor(80782 * sqrt(2)) == 114242 and 260515 - floor(260515 / pi + 1 / 2) * pi == atan(tan(260515)) and floor(x).evalf(subs={x: sqrt(2)}) == 1.0","over":{"base":"Any"},"name":"test_evalf_integer_parts_correct"},"guarantee":"a.evalf() == 3.0; b.evalf() == 3.0; ceiling(10 * (sin(1) ** 2 + cos(1) ** 2)) == 10","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_evalf_integer_parts_correct","statement":"Path(test_evalf_integer_parts(x), a.evalf() == 3.0; b.evalf() == 3.0; ceiling(10 * (sin(1) ** 2 + cos(1) ** 2)) == 10)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5d0f74bba85600eb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["a.evalf() == 3.0","b.evalf() == 3.0","ceiling(10 * (sin(1) ** 2 + cos(1) ** 2)) == 10","int(floor(factorial(50) / E, evaluate=False).evalf(70)) == int(11188719610782480504630258070757734324011354208865721592720336800)","int(ceiling(factorial(50) / E, evaluate=False).evalf(70)) == int(11188719610782480504630258070757734324011354208865721592720336801)","int(floor(GoldenRatio ** 999 / sqrt(5) + S.Half).evalf(1000)) == fibonacci(999)","int(floor(GoldenRatio ** 1000 / sqrt(5) + S.Half).evalf(1000)) == fibonacci(1000)","ceiling(x).evalf(subs={x: 3}) == 3.0","ceiling(x).evalf(subs={x: 3 * I}) == 3.0 * I","ceiling(x).evalf(subs={x: 2 + 3 * I}) == 2.0 + 3.0 * I","ceiling(x).evalf(subs={x: 3.0}) == 3.0","ceiling(x).evalf(subs={x: 3.0 * I}) == 3.0 * I","ceiling(x).evalf(subs={x: 2.0 + 3 * I}) == 2.0 + 3.0 * I","float((floor(1.5, evaluate=False) + 1 / 9).evalf()) == 1 + 1 / 9","float((floor(0.5, evaluate=False) + 20).evalf()) == 20","floor(n / (pi / 2)) == r","floor(80782 * sqrt(2)) == 114242","260515 - floor(260515 / pi + 1 / 2) * pi == atan(tan(260515))","floor(x).evalf(subs={x: sqrt(2)}) == 1.0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_evalf_integer_parts():
     a = floor(log(8)/log(2) - exp(-1000), evaluate=False)
     b = floor(log(8)/log(2), evaluate=False)
@@ -529,16 +662,24 @@ def test_evalf_integer_parts():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_evalf_trig_zero_detection(), test_evalf_trig_zero_detection produces the expected output) over Any ║
+# ║ Path(test_evalf_trig_zero_detection(), abs(t) < 1e-100 and t._prec < 2 and a.evalf(chop=True) == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_evalf_trig_zero_detection : Any → {Any | abs(t) ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  abs(t) < 1e-100                                ║
+# ║   ensures:  t._prec < 2                                    ║
+# ║   ensures:  a.evalf(chop=True) == 0                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_evalf_trig_zero_detection : Any → {Any | result ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0b2d7314b4b27880  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c833d4cc200a3b39  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_evalf_trig_zero_detection","kind":"function","src_hash":"a4a7e71cdabc65e9","in":{"base":"Any"},"out":{"base":"Any","pred":"abs(t) < 1e-100 and t._prec < 2 and a.evalf(chop=True) == 0"},"spec":{"lhs":"test_evalf_trig_zero_detection()","rhs":"test_evalf_trig_zero_detection produces the expected output","over":{"base":"Any"},"name":"test_evalf_trig_zero_detection_correct"},"guarantee":"test_evalf_trig_zero_detection produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_evalf_trig_zero_detection_correct","statement":"Path(test_evalf_trig_zero_detection(x), test_evalf_trig_zero_detection produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0b2d7314b4b27880"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_evalf_trig_zero_detection","kind":"function","src_hash":"a4a7e71cdabc65e9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: abs(t) < 1e-100 and t._prec < 2 and a.evalf(chop=True) == 0"},"spec":{"lhs":"test_evalf_trig_zero_detection()","rhs":"abs(t) < 1e-100 and t._prec < 2 and a.evalf(chop=True) == 0","over":{"base":"Any"},"name":"test_evalf_trig_zero_detection_correct"},"guarantee":"abs(t) < 1e-100; t._prec < 2; a.evalf(chop=True) == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_evalf_trig_zero_detection_correct","statement":"Path(test_evalf_trig_zero_detection(x), abs(t) < 1e-100; t._prec < 2; a.evalf(chop=True) == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c833d4cc200a3b39","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["abs(t) < 1e-100","t._prec < 2","a.evalf(chop=True) == 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_evalf_trig_zero_detection():
     a = sin(160*pi, evaluate=False)
     t = a.evalf(maxn=100)
@@ -549,16 +690,24 @@ def test_evalf_trig_zero_detection():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_evalf_sum(), test_evalf_sum produces the expected output) over Any ║
+# ║ Path(test_evalf_sum(), Sum(n, (n, 1, 2)).evalf() == 3.0 and Sum(n, (n, 1, 2)).doit().evalf() == 3.0 and Sum(1 / n, (n, 1, 2)).evalf() == 1.5 and Sum(E / factorial(n), (n, 0, oo)).evalf() == (E * E).evalf() and Sum(2 ** n * n / factorial(n), (n, 0, oo)).evalf() == (2 * E * E).evalf() and s.n() == s.doit().n()) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_evalf_sum : Any → {Any | Sum(n, (n, 1, 2)).evalf...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Sum(n, (n, 1, 2)).evalf() == 3.0               ║
+# ║   ensures:  Sum(n, (n, 1, 2)).doit().evalf() == 3.0        ║
+# ║   ensures:  Sum(1 / n, (n, 1, 2)).evalf() == 1.5           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_evalf_sum : Any → {Any | result satisfies: Sum(n...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3151b8a848ccffeb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a7b0a4a0f26664f0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_evalf_sum","kind":"function","src_hash":"668d368f04cda341","in":{"base":"Any"},"out":{"base":"Any","pred":"Sum(n, (n, 1, 2)).evalf() == 3.0 and Sum(n, (n, 1, 2)).doit().evalf() == 3.0 and Sum(1 / n, (n, 1, 2)).evalf() == 1.5 and Sum(E / factorial(n), (n, 0, oo)).evalf() == (E * E).evalf() and Sum(2 ** n * n / factorial(n), (n, 0, oo)).evalf() == (2 * E * E).evalf() and s.n() == s.doit().n()"},"spec":{"lhs":"test_evalf_sum()","rhs":"test_evalf_sum produces the expected output","over":{"base":"Any"},"name":"test_evalf_sum_correct"},"guarantee":"test_evalf_sum produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_evalf_sum_correct","statement":"Path(test_evalf_sum(x), test_evalf_sum produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3151b8a848ccffeb"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_evalf_sum","kind":"function","src_hash":"668d368f04cda341","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Sum(n, (n, 1, 2)).evalf() == 3.0 and Sum(n, (n, 1, 2)).doit().evalf() == 3.0 and Sum(1 / n, (n, 1, 2)).evalf() == 1.5 and Sum(E / factorial(n), (n, 0, oo)).evalf() == (E * E).evalf() and Sum(2 ** n * n / factorial(n), (n, 0, oo)).evalf() == (2 * E * E).evalf() and s.n() == s.doit().n()"},"spec":{"lhs":"test_evalf_sum()","rhs":"Sum(n, (n, 1, 2)).evalf() == 3.0 and Sum(n, (n, 1, 2)).doit().evalf() == 3.0 and Sum(1 / n, (n, 1, 2)).evalf() == 1.5 and Sum(E / factorial(n), (n, 0, oo)).evalf() == (E * E).evalf() and Sum(2 ** n * n / factorial(n), (n, 0, oo)).evalf() == (2 * E * E).evalf() and s.n() == s.doit().n()","over":{"base":"Any"},"name":"test_evalf_sum_correct"},"guarantee":"Sum(n, (n, 1, 2)).evalf() == 3.0; Sum(n, (n, 1, 2)).doit().evalf() == 3.0; Sum(1 / n, (n, 1, 2)).evalf() == 1.5","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_evalf_sum_correct","statement":"Path(test_evalf_sum(x), Sum(n, (n, 1, 2)).evalf() == 3.0; Sum(n, (n, 1, 2)).doit().evalf() == 3.0; Sum(1 / n, (n, 1, 2)).evalf() == 1.5)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a7b0a4a0f26664f0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Sum(n, (n, 1, 2)).evalf() == 3.0","Sum(n, (n, 1, 2)).doit().evalf() == 3.0","Sum(1 / n, (n, 1, 2)).evalf() == 1.5","Sum(E / factorial(n), (n, 0, oo)).evalf() == (E * E).evalf()","Sum(2 ** n * n / factorial(n), (n, 0, oo)).evalf() == (2 * E * E).evalf()","s.n() == s.doit().n()"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_evalf_sum():
     assert Sum(n,(n,1,2)).evalf() == 3.
     assert Sum(n,(n,1,2)).doit().evalf() == 3.
@@ -575,16 +724,22 @@ def test_evalf_sum():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_evalf_divergent_series(), test_evalf_divergent_series produces the expected output) over Any ║
+# ║ Path(test_evalf_divergent_series(), <unspecified:test_evalf_divergent_series>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_evalf_divergent_series : Any → Any                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 14153e78fc8aa32e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_evalf_divergent_series","kind":"function","src_hash":"d09797772568e4c7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_evalf_divergent_series()","rhs":"test_evalf_divergent_series produces the expected output","over":{"base":"Any"},"name":"test_evalf_divergent_series_correct"},"guarantee":"test_evalf_divergent_series produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_evalf_divergent_series_correct","statement":"Path(test_evalf_divergent_series(x), test_evalf_divergent_series produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"14153e78fc8aa32e"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_evalf_divergent_series","kind":"function","src_hash":"d09797772568e4c7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_evalf_divergent_series()","rhs":"<unspecified:test_evalf_divergent_series>","over":{"base":"Any"},"name":"test_evalf_divergent_series_correct"},"guarantee":"test_evalf_divergent_series produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_evalf_divergent_series_correct","statement":"Path(test_evalf_divergent_series(x), test_evalf_divergent_series produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"14153e78fc8aa32e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_evalf_divergent_series():
     raises(ValueError, lambda: Sum(1/n, (n, 1, oo)).evalf())
     raises(ValueError, lambda: Sum(n/(n**2 + 1), (n, 1, oo)).evalf())
@@ -598,16 +753,24 @@ def test_evalf_divergent_series():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_evalf_product(), test_evalf_product produces the expected output) over Any ║
+# ║ Path(test_evalf_product(), Product(n, (n, 1, 10)).evalf() == 3628800.0 and comp(Product(1 - S.Half ** 2 / n ** 2, (n, 1, oo)).n(5), 0.63662) and Product(n, (n, -1, 3)).evalf() == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_evalf_product : Any → {Any | Product(n, (n, 1, 1...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Product(n, (n, 1, 10)).evalf() == 3628800.0    ║
+# ║   ensures:  comp(Product(1 - S.Half ** 2 / n ** 2, (n...   ║
+# ║   ensures:  Product(n, (n, -1, 3)).evalf() == 0            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_evalf_product : Any → {Any | result satisfies: P...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5680567f77d1d839  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 146de6afa82d7acb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_evalf_product","kind":"function","src_hash":"00c8e2159b7ea770","in":{"base":"Any"},"out":{"base":"Any","pred":"Product(n, (n, 1, 10)).evalf() == 3628800.0 and comp(Product(1 - S.Half ** 2 / n ** 2, (n, 1, oo)).n(5), 0.63662) and Product(n, (n, -1, 3)).evalf() == 0"},"spec":{"lhs":"test_evalf_product()","rhs":"test_evalf_product produces the expected output","over":{"base":"Any"},"name":"test_evalf_product_correct"},"guarantee":"test_evalf_product produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_evalf_product_correct","statement":"Path(test_evalf_product(x), test_evalf_product produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5680567f77d1d839"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_evalf_product","kind":"function","src_hash":"00c8e2159b7ea770","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Product(n, (n, 1, 10)).evalf() == 3628800.0 and comp(Product(1 - S.Half ** 2 / n ** 2, (n, 1, oo)).n(5), 0.63662) and Product(n, (n, -1, 3)).evalf() == 0"},"spec":{"lhs":"test_evalf_product()","rhs":"Product(n, (n, 1, 10)).evalf() == 3628800.0 and comp(Product(1 - S.Half ** 2 / n ** 2, (n, 1, oo)).n(5), 0.63662) and Product(n, (n, -1, 3)).evalf() == 0","over":{"base":"Any"},"name":"test_evalf_product_correct"},"guarantee":"Product(n, (n, 1, 10)).evalf() == 3628800.0; comp(Product(1 - S.Half ** 2 / n ** 2, (n, 1, oo)).n(5), 0.63662); Product(n, (n, -1, 3)).evalf() == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_evalf_product_correct","statement":"Path(test_evalf_product(x), Product(n, (n, 1, 10)).evalf() == 3628800.0; comp(Product(1 - S.Half ** 2 / n ** 2, (n, 1, oo)).n(5), 0.63662); Product(n, (n, -1, 3)).evalf() == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"146de6afa82d7acb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Product(n, (n, 1, 10)).evalf() == 3628800.0","comp(Product(1 - S.Half ** 2 / n ** 2, (n, 1, oo)).n(5), 0.63662)","Product(n, (n, -1, 3)).evalf() == 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_evalf_product():
     assert Product(n, (n, 1, 10)).evalf() == 3628800.
     assert comp(Product(1 - S.Half**2/n**2, (n, 1, oo)).n(5), 0.63662)
@@ -615,16 +778,24 @@ def test_evalf_product():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_evalf_py_methods(), test_evalf_py_methods produces the expected output) over Any ║
+# ║ Path(test_evalf_py_methods(), abs(float(pi + 1) - 4.141592653589793) < 1e-10 and abs(complex(pi + 1) - 4.141592653589793) < 1e-10 and abs(complex(pi + E * I) - (3.141592653589793 + 2.718281828459045j)) < 1e-10) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_evalf_py_methods : Any → {Any | abs(float(pi + 1...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  abs(float(pi + 1) - 4.141592653589793) < ...   ║
+# ║   ensures:  abs(complex(pi + 1) - 4.141592653589793) ...   ║
+# ║   ensures:  abs(complex(pi + E * I) - (3.141592653589...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_evalf_py_methods : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e88fd555a7a153ed  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a0ea960572e92c36  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_evalf_py_methods","kind":"function","src_hash":"3225ae3684462bd0","in":{"base":"Any"},"out":{"base":"Any","pred":"abs(float(pi + 1) - 4.141592653589793) < 1e-10 and abs(complex(pi + 1) - 4.141592653589793) < 1e-10 and abs(complex(pi + E * I) - (3.141592653589793 + 2.718281828459045j)) < 1e-10"},"spec":{"lhs":"test_evalf_py_methods()","rhs":"test_evalf_py_methods produces the expected output","over":{"base":"Any"},"name":"test_evalf_py_methods_correct"},"guarantee":"test_evalf_py_methods produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_evalf_py_methods_correct","statement":"Path(test_evalf_py_methods(x), test_evalf_py_methods produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e88fd555a7a153ed"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_evalf_py_methods","kind":"function","src_hash":"3225ae3684462bd0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: abs(float(pi + 1) - 4.141592653589793) < 1e-10 and abs(complex(pi + 1) - 4.141592653589793) < 1e-10 and abs(complex(pi + E * I) - (3.141592653589793 + 2.718281828459045j)) < 1e-10"},"spec":{"lhs":"test_evalf_py_methods()","rhs":"abs(float(pi + 1) - 4.141592653589793) < 1e-10 and abs(complex(pi + 1) - 4.141592653589793) < 1e-10 and abs(complex(pi + E * I) - (3.141592653589793 + 2.718281828459045j)) < 1e-10","over":{"base":"Any"},"name":"test_evalf_py_methods_correct"},"guarantee":"abs(float(pi + 1) - 4.141592653589793) < 1e-10; abs(complex(pi + 1) - 4.141592653589793) < 1e-10; abs(complex(pi + E * I) - (3.141592653589793 + 2.718281828459045j)) < 1e-10","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_evalf_py_methods_correct","statement":"Path(test_evalf_py_methods(x), abs(float(pi + 1) - 4.141592653589793) < 1e-10; abs(complex(pi + 1) - 4.141592653589793) < 1e-10; abs(complex(pi + E * I) - (3.141592653589793 + 2.718281828459045j)) < 1e-10)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a0ea960572e92c36","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["abs(float(pi + 1) - 4.141592653589793) < 1e-10","abs(complex(pi + 1) - 4.141592653589793) < 1e-10","abs(complex(pi + E * I) - (3.141592653589793 + 2.718281828459045j)) < 1e-10"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_evalf_py_methods():
     assert abs(float(pi + 1) - 4.1415926535897932) < 1e-10
     assert abs(complex(pi + 1) - 4.1415926535897932) < 1e-10
@@ -634,16 +805,24 @@ def test_evalf_py_methods():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_evalf_power_subs_bugs(), test_evalf_power_subs_bugs produces the expected output) over Any ║
+# ║ Path(test_evalf_power_subs_bugs(), (x ** 2).evalf(subs={x: 0}) == 0 and sqrt(x).evalf(subs={x: 0}) == 0 and (x ** Rational(2, 3)).evalf(subs={x: 0}) == 0 and (x ** x).evalf(subs={x: 0}) == 1.0 and (3 ** x).evalf(subs={x: 0}) == 1.0 and exp(x).evalf(subs={x: 0}) == 1.0 and ((2 + I) ** x).evalf(subs={x: 0}) == 1.0 and (0 ** x).evalf(subs={x: 0}) == 1.0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_evalf_power_subs_bugs : Any → {Any | (x ** 2).ev...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (x ** 2).evalf(subs={x: 0}) == 0               ║
+# ║   ensures:  sqrt(x).evalf(subs={x: 0}) == 0                ║
+# ║   ensures:  (x ** Rational(2, 3)).evalf(subs={x: 0}) ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_evalf_power_subs_bugs : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c712d60560aa46f3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3b740231adfa7114  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_evalf_power_subs_bugs","kind":"function","src_hash":"fedb2478a24f50d5","in":{"base":"Any"},"out":{"base":"Any","pred":"(x ** 2).evalf(subs={x: 0}) == 0 and sqrt(x).evalf(subs={x: 0}) == 0 and (x ** Rational(2, 3)).evalf(subs={x: 0}) == 0 and (x ** x).evalf(subs={x: 0}) == 1.0 and (3 ** x).evalf(subs={x: 0}) == 1.0 and exp(x).evalf(subs={x: 0}) == 1.0 and ((2 + I) ** x).evalf(subs={x: 0}) == 1.0 and (0 ** x).evalf(subs={x: 0}) == 1.0"},"spec":{"lhs":"test_evalf_power_subs_bugs()","rhs":"test_evalf_power_subs_bugs produces the expected output","over":{"base":"Any"},"name":"test_evalf_power_subs_bugs_correct"},"guarantee":"test_evalf_power_subs_bugs produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_evalf_power_subs_bugs_correct","statement":"Path(test_evalf_power_subs_bugs(x), test_evalf_power_subs_bugs produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c712d60560aa46f3"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_evalf_power_subs_bugs","kind":"function","src_hash":"fedb2478a24f50d5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (x ** 2).evalf(subs={x: 0}) == 0 and sqrt(x).evalf(subs={x: 0}) == 0 and (x ** Rational(2, 3)).evalf(subs={x: 0}) == 0 and (x ** x).evalf(subs={x: 0}) == 1.0 and (3 ** x).evalf(subs={x: 0}) == 1.0 and exp(x).evalf(subs={x: 0}) == 1.0 and ((2 + I) ** x).evalf(subs={x: 0}) == 1.0 and (0 ** x).evalf(subs={x: 0}) == 1.0"},"spec":{"lhs":"test_evalf_power_subs_bugs()","rhs":"(x ** 2).evalf(subs={x: 0}) == 0 and sqrt(x).evalf(subs={x: 0}) == 0 and (x ** Rational(2, 3)).evalf(subs={x: 0}) == 0 and (x ** x).evalf(subs={x: 0}) == 1.0 and (3 ** x).evalf(subs={x: 0}) == 1.0 and exp(x).evalf(subs={x: 0}) == 1.0 and ((2 + I) ** x).evalf(subs={x: 0}) == 1.0 and (0 ** x).evalf(subs={x: 0}) == 1.0","over":{"base":"Any"},"name":"test_evalf_power_subs_bugs_correct"},"guarantee":"(x ** 2).evalf(subs={x: 0}) == 0; sqrt(x).evalf(subs={x: 0}) == 0; (x ** Rational(2, 3)).evalf(subs={x: 0}) == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_evalf_power_subs_bugs_correct","statement":"Path(test_evalf_power_subs_bugs(x), (x ** 2).evalf(subs={x: 0}) == 0; sqrt(x).evalf(subs={x: 0}) == 0; (x ** Rational(2, 3)).evalf(subs={x: 0}) == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3b740231adfa7114","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(x ** 2).evalf(subs={x: 0}) == 0","sqrt(x).evalf(subs={x: 0}) == 0","(x ** Rational(2, 3)).evalf(subs={x: 0}) == 0","(x ** x).evalf(subs={x: 0}) == 1.0","(3 ** x).evalf(subs={x: 0}) == 1.0","exp(x).evalf(subs={x: 0}) == 1.0","((2 + I) ** x).evalf(subs={x: 0}) == 1.0","(0 ** x).evalf(subs={x: 0}) == 1.0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_evalf_power_subs_bugs():
     assert (x**2).evalf(subs={x: 0}) == 0
     assert sqrt(x).evalf(subs={x: 0}) == 0
@@ -656,31 +835,45 @@ def test_evalf_power_subs_bugs():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_evalf_arguments(), test_evalf_arguments produces the expected output) over Any ║
+# ║ Path(test_evalf_arguments(), <unspecified:test_evalf_arguments>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_evalf_arguments : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ec47e94d9dc80ff9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_evalf_arguments","kind":"function","src_hash":"4a443134f1fd9b98","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_evalf_arguments()","rhs":"test_evalf_arguments produces the expected output","over":{"base":"Any"},"name":"test_evalf_arguments_correct"},"guarantee":"test_evalf_arguments produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_evalf_arguments_correct","statement":"Path(test_evalf_arguments(x), test_evalf_arguments produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ec47e94d9dc80ff9"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_evalf_arguments","kind":"function","src_hash":"4a443134f1fd9b98","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_evalf_arguments()","rhs":"<unspecified:test_evalf_arguments>","over":{"base":"Any"},"name":"test_evalf_arguments_correct"},"guarantee":"test_evalf_arguments produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_evalf_arguments_correct","statement":"Path(test_evalf_arguments(x), test_evalf_arguments produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ec47e94d9dc80ff9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_evalf_arguments():
     raises(TypeError, lambda: pi.evalf(method="garbage"))
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_implemented_function_evalf(), test_implemented_function_evalf produces the expected output) over Any ║
+# ║ Path(test_implemented_function_evalf(), str(f(x)) == 'f(x)' and str(f(2)) == 'f(2)' and f(2).evalf() == 3.0 and f(x).evalf() == f(x) and f(2).evalf() != sin(2)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_implemented_function_evalf : Any → {Any | str(f(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(f(x)) == 'f(x)'                            ║
+# ║   ensures:  str(f(2)) == 'f(2)'                            ║
+# ║   ensures:  f(2).evalf() == 3.0                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_implemented_function_evalf : Any → {Any | result...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5552cd41587fe4d0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0de717067245535f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_implemented_function_evalf","kind":"function","src_hash":"f972f39246331b0a","in":{"base":"Any"},"out":{"base":"Any","pred":"str(f(x)) == 'f(x)' and str(f(2)) == 'f(2)' and f(2).evalf() == 3.0 and f(x).evalf() == f(x) and f(2).evalf() != sin(2)"},"spec":{"lhs":"test_implemented_function_evalf()","rhs":"test_implemented_function_evalf produces the expected output","over":{"base":"Any"},"name":"test_implemented_function_evalf_correct"},"guarantee":"test_implemented_function_evalf produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_implemented_function_evalf_correct","statement":"Path(test_implemented_function_evalf(x), test_implemented_function_evalf produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5552cd41587fe4d0"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_implemented_function_evalf","kind":"function","src_hash":"f972f39246331b0a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(f(x)) == 'f(x)' and str(f(2)) == 'f(2)' and f(2).evalf() == 3.0 and f(x).evalf() == f(x) and f(2).evalf() != sin(2)"},"spec":{"lhs":"test_implemented_function_evalf()","rhs":"str(f(x)) == 'f(x)' and str(f(2)) == 'f(2)' and f(2).evalf() == 3.0 and f(x).evalf() == f(x) and f(2).evalf() != sin(2)","over":{"base":"Any"},"name":"test_implemented_function_evalf_correct"},"guarantee":"str(f(x)) == 'f(x)'; str(f(2)) == 'f(2)'; f(2).evalf() == 3.0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_implemented_function_evalf_correct","statement":"Path(test_implemented_function_evalf(x), str(f(x)) == 'f(x)'; str(f(2)) == 'f(2)'; f(2).evalf() == 3.0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0de717067245535f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(f(x)) == 'f(x)'","str(f(2)) == 'f(2)'","f(2).evalf() == 3.0","f(x).evalf() == f(x)","f(2).evalf() != sin(2)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_implemented_function_evalf():
     from sympy.utilities.lambdify import implemented_function
     f = Function('f')
@@ -695,16 +888,22 @@ def test_implemented_function_evalf():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_evaluate_false(), test_evaluate_false produces the expected output) over Any ║
+# ║ Path(test_evaluate_false(), Pow(y, 2, evaluate=True) - Pow(y, 2, evaluate=True) == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_evaluate_false : Any → {Any | Pow(y, 2, evaluate...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Pow(y, 2, evaluate=True) - Pow(y, 2, eval...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_evaluate_false : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 31c124bc75bc5023  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f19cad5d4ef431ff  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_evaluate_false","kind":"function","src_hash":"bb30e136e8650a38","in":{"base":"Any"},"out":{"base":"Any","pred":"Pow(y, 2, evaluate=True) - Pow(y, 2, evaluate=True) == 0 and Add(3, 2, evaluate=no).is_Add and Mul(3, 2, evaluate=no).is_Mul and Pow(3, 2, evaluate=no).is_Pow"},"spec":{"lhs":"test_evaluate_false()","rhs":"test_evaluate_false produces the expected output","over":{"base":"Any"},"name":"test_evaluate_false_correct"},"guarantee":"test_evaluate_false produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_evaluate_false_correct","statement":"Path(test_evaluate_false(x), test_evaluate_false produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"31c124bc75bc5023"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_evaluate_false","kind":"function","src_hash":"bb30e136e8650a38","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Pow(y, 2, evaluate=True) - Pow(y, 2, evaluate=True) == 0"},"spec":{"lhs":"test_evaluate_false()","rhs":"Pow(y, 2, evaluate=True) - Pow(y, 2, evaluate=True) == 0","over":{"base":"Any"},"name":"test_evaluate_false_correct"},"guarantee":"Pow(y, 2, evaluate=True) - Pow(y, 2, evaluate=True) == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_evaluate_false_correct","statement":"Path(test_evaluate_false(x), Pow(y, 2, evaluate=True) - Pow(y, 2, evaluate=True) == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f19cad5d4ef431ff","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Pow(y, 2, evaluate=True) - Pow(y, 2, evaluate=True) == 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_evaluate_false():
     for no in [0, False]:
         assert Add(3, 2, evaluate=no).is_Add
@@ -714,16 +913,24 @@ def test_evaluate_false():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_evalf_relational(), test_evalf_relational produces the expected output) over Any ║
+# ║ Path(test_evalf_relational(), Eq(x / 5, y / 10).evalf() == Eq(0.2 * x, 0.1 * y) and unchanged(Eq, (3 - I) ** 2 / 2 + I, 0) and Eq((3 - I) ** 2 / 2 + I, 0).n() is S.false and nfloat(Eq((3 - I) ** 2 + I, 0)) == S.false) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_evalf_relational : Any → {Any | Eq(x / 5, y / 10...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Eq(x / 5, y / 10).evalf() == Eq(0.2 * x, ...   ║
+# ║   ensures:  unchanged(Eq, (3 - I) ** 2 / 2 + I, 0)         ║
+# ║   ensures:  Eq((3 - I) ** 2 / 2 + I, 0).n() is S.false     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_evalf_relational : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0c13881f92dba271  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ad5dc5aa7911bdd6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_evalf_relational","kind":"function","src_hash":"bce53fe06c2af410","in":{"base":"Any"},"out":{"base":"Any","pred":"Eq(x / 5, y / 10).evalf() == Eq(0.2 * x, 0.1 * y) and unchanged(Eq, (3 - I) ** 2 / 2 + I, 0) and Eq((3 - I) ** 2 / 2 + I, 0).n() is S.false and nfloat(Eq((3 - I) ** 2 + I, 0)) == S.false"},"spec":{"lhs":"test_evalf_relational()","rhs":"test_evalf_relational produces the expected output","over":{"base":"Any"},"name":"test_evalf_relational_correct"},"guarantee":"test_evalf_relational produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_evalf_relational_correct","statement":"Path(test_evalf_relational(x), test_evalf_relational produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0c13881f92dba271"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_evalf_relational","kind":"function","src_hash":"bce53fe06c2af410","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Eq(x / 5, y / 10).evalf() == Eq(0.2 * x, 0.1 * y) and unchanged(Eq, (3 - I) ** 2 / 2 + I, 0) and Eq((3 - I) ** 2 / 2 + I, 0).n() is S.false and nfloat(Eq((3 - I) ** 2 + I, 0)) == S.false"},"spec":{"lhs":"test_evalf_relational()","rhs":"Eq(x / 5, y / 10).evalf() == Eq(0.2 * x, 0.1 * y) and unchanged(Eq, (3 - I) ** 2 / 2 + I, 0) and Eq((3 - I) ** 2 / 2 + I, 0).n() is S.false and nfloat(Eq((3 - I) ** 2 + I, 0)) == S.false","over":{"base":"Any"},"name":"test_evalf_relational_correct"},"guarantee":"Eq(x / 5, y / 10).evalf() == Eq(0.2 * x, 0.1 * y); unchanged(Eq, (3 - I) ** 2 / 2 + I, 0); Eq((3 - I) ** 2 / 2 + I, 0).n() is S.false","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_evalf_relational_correct","statement":"Path(test_evalf_relational(x), Eq(x / 5, y / 10).evalf() == Eq(0.2 * x, 0.1 * y); unchanged(Eq, (3 - I) ** 2 / 2 + I, 0); Eq((3 - I) ** 2 / 2 + I, 0).n() is S.false)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ad5dc5aa7911bdd6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Eq(x / 5, y / 10).evalf() == Eq(0.2 * x, 0.1 * y)","unchanged(Eq, (3 - I) ** 2 / 2 + I, 0)","Eq((3 - I) ** 2 / 2 + I, 0).n() is S.false","nfloat(Eq((3 - I) ** 2 + I, 0)) == S.false"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_evalf_relational():
     assert Eq(x/5, y/10).evalf() == Eq(0.2*x, 0.1*y)
     # if this first assertion fails it should be replaced with
@@ -734,31 +941,43 @@ def test_evalf_relational():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_5486(), test_issue_5486 produces the expected output) over Any ║
+# ║ Path(test_issue_5486(), not cos(sqrt(0.5 + I)).n().is_Function) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_5486 : Any → {Any | not cos(sqrt(0.5 + I))...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  not cos(sqrt(0.5 + I)).n().is_Function         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_5486 : Any → {Any | result satisfies: not ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a8a704271817e410  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f1414c39266f6a90  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_issue_5486","kind":"function","src_hash":"7e5e8cfb9ba05b47","in":{"base":"Any"},"out":{"base":"Any","pred":"not cos(sqrt(0.5 + I)).n().is_Function"},"spec":{"lhs":"test_issue_5486()","rhs":"test_issue_5486 produces the expected output","over":{"base":"Any"},"name":"test_issue_5486_correct"},"guarantee":"test_issue_5486 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_issue_5486_correct","statement":"Path(test_issue_5486(x), test_issue_5486 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a8a704271817e410"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_issue_5486","kind":"function","src_hash":"7e5e8cfb9ba05b47","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: not cos(sqrt(0.5 + I)).n().is_Function"},"spec":{"lhs":"test_issue_5486()","rhs":"not cos(sqrt(0.5 + I)).n().is_Function","over":{"base":"Any"},"name":"test_issue_5486_correct"},"guarantee":"not cos(sqrt(0.5 + I)).n().is_Function","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_issue_5486_correct","statement":"Path(test_issue_5486(x), not cos(sqrt(0.5 + I)).n().is_Function)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f1414c39266f6a90","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["not cos(sqrt(0.5 + I)).n().is_Function"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_issue_5486():
     assert not cos(sqrt(0.5 + I)).n().is_Function
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_5486_bug(), test_issue_5486_bug produces the expected output) over Any ║
+# ║ Path(test_issue_5486_bug(), abs(Expr._from_mpmath(I._to_mpmath(15), 15) - I) < 1e-15) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_5486_bug : Any → {Any | abs(Expr._from_mpm...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  abs(Expr._from_mpmath(I._to_mpmath(15), 1...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_5486_bug : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 45ff1f408fc39d92  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8eb56fbdb83054ea  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_issue_5486_bug","kind":"function","src_hash":"ca08da37c7f29bda","in":{"base":"Any"},"out":{"base":"Any","pred":"abs(Expr._from_mpmath(I._to_mpmath(15), 15) - I) < 1e-15"},"spec":{"lhs":"test_issue_5486_bug()","rhs":"test_issue_5486_bug produces the expected output","over":{"base":"Any"},"name":"test_issue_5486_bug_correct"},"guarantee":"test_issue_5486_bug produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_issue_5486_bug_correct","statement":"Path(test_issue_5486_bug(x), test_issue_5486_bug produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"45ff1f408fc39d92"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_issue_5486_bug","kind":"function","src_hash":"ca08da37c7f29bda","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: abs(Expr._from_mpmath(I._to_mpmath(15), 15) - I) < 1e-15"},"spec":{"lhs":"test_issue_5486_bug()","rhs":"abs(Expr._from_mpmath(I._to_mpmath(15), 15) - I) < 1e-15","over":{"base":"Any"},"name":"test_issue_5486_bug_correct"},"guarantee":"abs(Expr._from_mpmath(I._to_mpmath(15), 15) - I) < 1e-15","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_issue_5486_bug_correct","statement":"Path(test_issue_5486_bug(x), abs(Expr._from_mpmath(I._to_mpmath(15), 15) - I) < 1e-15)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8eb56fbdb83054ea","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["abs(Expr._from_mpmath(I._to_mpmath(15), 15) - I) < 1e-15"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_issue_5486_bug():
     from sympy.core.expr import Expr
     from sympy.core.numbers import I
@@ -766,16 +985,23 @@ def test_issue_5486_bug():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_bugs(), test_bugs produces the expected output) over Any ║
+# ║ Path(test_bugs(), abs(re((1 + I) ** 2)) < 1e-15 and abs(polar_lift(0)).n() == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_bugs : Any → {Any | abs(re((1 + I) ** 2)) < 1e-1...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  abs(re((1 + I) ** 2)) < 1e-15                  ║
+# ║   ensures:  abs(polar_lift(0)).n() == 0                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_bugs : Any → {Any | result satisfies: abs(re((1 ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7d67782628ef69f2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 93254fdf6ef616e9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_bugs","kind":"function","src_hash":"845921066f2b774e","in":{"base":"Any"},"out":{"base":"Any","pred":"abs(re((1 + I) ** 2)) < 1e-15 and abs(polar_lift(0)).n() == 0"},"spec":{"lhs":"test_bugs()","rhs":"test_bugs produces the expected output","over":{"base":"Any"},"name":"test_bugs_correct"},"guarantee":"test_bugs produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_bugs_correct","statement":"Path(test_bugs(x), test_bugs produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7d67782628ef69f2"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_bugs","kind":"function","src_hash":"845921066f2b774e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: abs(re((1 + I) ** 2)) < 1e-15 and abs(polar_lift(0)).n() == 0"},"spec":{"lhs":"test_bugs()","rhs":"abs(re((1 + I) ** 2)) < 1e-15 and abs(polar_lift(0)).n() == 0","over":{"base":"Any"},"name":"test_bugs_correct"},"guarantee":"abs(re((1 + I) ** 2)) < 1e-15; abs(polar_lift(0)).n() == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_bugs_correct","statement":"Path(test_bugs(x), abs(re((1 + I) ** 2)) < 1e-15; abs(polar_lift(0)).n() == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"93254fdf6ef616e9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["abs(re((1 + I) ** 2)) < 1e-15","abs(polar_lift(0)).n() == 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_bugs():
     from sympy.functions.elementary.complexes import (polar_lift, re)
 
@@ -786,16 +1012,23 @@ def test_bugs():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_subs(), test_subs produces the expected output) over Any ║
+# ║ Path(test_subs(), NS('besseli(-x, y) - besseli(x, y)', subs={x: 3.5, y: 20.0}) == '-4.92535585957223e-10' and NS('Piecewise((x, x>0)) + Piecewise((1-x, x>0))', subs={x: 0.1}) == '1.00000000000000') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_subs : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  NS('besseli(-x, y) - besseli(x, y)', subs...   ║
+# ║   ensures:  NS('Piecewise((x, x>0)) + Piecewise((1-x,...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_subs : Any → {Any | result satisfies: NS('bessel...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 097570ffc885a01d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1b642a690ecf52da  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_subs","kind":"function","src_hash":"236570b8ea0b4402","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_subs()","rhs":"test_subs produces the expected output","over":{"base":"Any"},"name":"test_subs_correct"},"guarantee":"test_subs produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_subs_correct","statement":"Path(test_subs(x), test_subs produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"097570ffc885a01d"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_subs","kind":"function","src_hash":"236570b8ea0b4402","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: NS('besseli(-x, y) - besseli(x, y)', subs={x: 3.5, y: 20.0}) == '-4.92535585957223e-10' and NS('Piecewise((x, x>0)) + Piecewise((1-x, x>0))', subs={x: 0.1}) == '1.00000000000000'"},"spec":{"lhs":"test_subs()","rhs":"NS('besseli(-x, y) - besseli(x, y)', subs={x: 3.5, y: 20.0}) == '-4.92535585957223e-10' and NS('Piecewise((x, x>0)) + Piecewise((1-x, x>0))', subs={x: 0.1}) == '1.00000000000000'","over":{"base":"Any"},"name":"test_subs_correct"},"guarantee":"NS('besseli(-x, y) - besseli(x, y)', subs={x: 3.5, y: 20.0}) == '-4.92535585957223e-10'; NS('Piecewise((x, x>0)) + Piecewise((1-x, x>0))', subs={x: 0.1}) == '1.00000000000000'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_subs_correct","statement":"Path(test_subs(x), NS('besseli(-x, y) - besseli(x, y)', subs={x: 3.5, y: 20.0}) == '-4.92535585957223e-10'; NS('Piecewise((x, x>0)) + Piecewise((1-x, x>0))', subs={x: 0.1}) == '1.00000000000000')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1b642a690ecf52da","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["NS('besseli(-x, y) - besseli(x, y)', subs={x: 3.5, y: 20.0}) == '-4.92535585957223e-10'","NS('Piecewise((x, x>0)) + Piecewise((1-x, x>0))', subs={x: 0.1}) == '1.00000000000000'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_subs():
     assert NS('besseli(-x, y) - besseli(x, y)', subs={x: 3.5, y: 20.0}) == \
         '-4.92535585957223e-10'
@@ -805,16 +1038,24 @@ def test_subs():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_4956_5204(), test_issue_4956_5204 produces the expected output) over Any ║
+# ║ Path(test_issue_4956_5204(), NS(v, 1) == '0.e-118 - 0.e-118*I' and NS(v, 5) == '0.077284 + 1.1104*I' and NS(v, 1) == '0.08 + 1.*I') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_4956_5204 : Any → {Any | NS(v, 1) == '0.e-...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  NS(v, 1) == '0.e-118 - 0.e-118*I'              ║
+# ║   ensures:  NS(v, 5) == '0.077284 + 1.1104*I'              ║
+# ║   ensures:  NS(v, 1) == '0.08 + 1.*I'                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_4956_5204 : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 08b968382aa51faf  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9da3b0c3829920fb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_issue_4956_5204","kind":"function","src_hash":"1d6ac920427be002","in":{"base":"Any"},"out":{"base":"Any","pred":"NS(v, 1) == '0.e-118 - 0.e-118*I' and NS(v, 5) == '0.077284 + 1.1104*I' and NS(v, 1) == '0.08 + 1.*I'"},"spec":{"lhs":"test_issue_4956_5204()","rhs":"test_issue_4956_5204 produces the expected output","over":{"base":"Any"},"name":"test_issue_4956_5204_correct"},"guarantee":"test_issue_4956_5204 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_issue_4956_5204_correct","statement":"Path(test_issue_4956_5204(x), test_issue_4956_5204 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"08b968382aa51faf"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_issue_4956_5204","kind":"function","src_hash":"1d6ac920427be002","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: NS(v, 1) == '0.e-118 - 0.e-118*I' and NS(v, 5) == '0.077284 + 1.1104*I' and NS(v, 1) == '0.08 + 1.*I'"},"spec":{"lhs":"test_issue_4956_5204()","rhs":"NS(v, 1) == '0.e-118 - 0.e-118*I' and NS(v, 5) == '0.077284 + 1.1104*I' and NS(v, 1) == '0.08 + 1.*I'","over":{"base":"Any"},"name":"test_issue_4956_5204_correct"},"guarantee":"NS(v, 1) == '0.e-118 - 0.e-118*I'; NS(v, 5) == '0.077284 + 1.1104*I'; NS(v, 1) == '0.08 + 1.*I'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_issue_4956_5204_correct","statement":"Path(test_issue_4956_5204(x), NS(v, 1) == '0.e-118 - 0.e-118*I'; NS(v, 5) == '0.077284 + 1.1104*I'; NS(v, 1) == '0.08 + 1.*I')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9da3b0c3829920fb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["NS(v, 1) == '0.e-118 - 0.e-118*I'","NS(v, 5) == '0.077284 + 1.1104*I'","NS(v, 1) == '0.08 + 1.*I'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_4956_5204():
     # issue 4956
     v = S('''(-27*12**(1/3)*sqrt(31)*I +
@@ -840,16 +1081,23 @@ def test_issue_4956_5204():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_old_docstring(), test_old_docstring produces the expected output) over Any ║
+# ║ Path(test_old_docstring(), NS(a) == '17.2586605000200' and a.n() == 17.25866050002001) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_old_docstring : Any → {Any | NS(a) == '17.258660...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  NS(a) == '17.2586605000200'                    ║
+# ║   ensures:  a.n() == 17.25866050002001                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_old_docstring : Any → {Any | result satisfies: N...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6ed1ae626d6d1943  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 23429d2165ab407b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_old_docstring","kind":"function","src_hash":"5f17d478c2033809","in":{"base":"Any"},"out":{"base":"Any","pred":"NS(a) == '17.2586605000200' and a.n() == 17.25866050002001"},"spec":{"lhs":"test_old_docstring()","rhs":"test_old_docstring produces the expected output","over":{"base":"Any"},"name":"test_old_docstring_correct"},"guarantee":"test_old_docstring produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_old_docstring_correct","statement":"Path(test_old_docstring(x), test_old_docstring produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6ed1ae626d6d1943"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_old_docstring","kind":"function","src_hash":"5f17d478c2033809","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: NS(a) == '17.2586605000200' and a.n() == 17.25866050002001"},"spec":{"lhs":"test_old_docstring()","rhs":"NS(a) == '17.2586605000200' and a.n() == 17.25866050002001","over":{"base":"Any"},"name":"test_old_docstring_correct"},"guarantee":"NS(a) == '17.2586605000200'; a.n() == 17.25866050002001","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_old_docstring_correct","statement":"Path(test_old_docstring(x), NS(a) == '17.2586605000200'; a.n() == 17.25866050002001)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"23429d2165ab407b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["NS(a) == '17.2586605000200'","a.n() == 17.25866050002001"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_old_docstring():
     a = (E + pi*I)*(E - pi*I)
     assert NS(a) == '17.2586605000200'
@@ -857,32 +1105,45 @@ def test_old_docstring():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_4806(), test_issue_4806 produces the expected output) over Any ║
+# ║ Path(test_issue_4806(), integrate(atan(x) ** 2, (x, -1, 1)).evalf().round(1) == Float(0.5, 1) and atan(0, evaluate=False).n() == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_4806 : Any → {Any | integrate(atan(x) ** 2...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  integrate(atan(x) ** 2, (x, -1, 1)).evalf...   ║
+# ║   ensures:  atan(0, evaluate=False).n() == 0               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_4806 : Any → {Any | result satisfies: inte...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1e6ba79d13e4da40  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3b3578989d572363  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_issue_4806","kind":"function","src_hash":"a9eaca7f6fe5a64f","in":{"base":"Any"},"out":{"base":"Any","pred":"integrate(atan(x) ** 2, (x, -1, 1)).evalf().round(1) == Float(0.5, 1) and atan(0, evaluate=False).n() == 0"},"spec":{"lhs":"test_issue_4806()","rhs":"test_issue_4806 produces the expected output","over":{"base":"Any"},"name":"test_issue_4806_correct"},"guarantee":"test_issue_4806 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_issue_4806_correct","statement":"Path(test_issue_4806(x), test_issue_4806 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1e6ba79d13e4da40"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_issue_4806","kind":"function","src_hash":"a9eaca7f6fe5a64f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: integrate(atan(x) ** 2, (x, -1, 1)).evalf().round(1) == Float(0.5, 1) and atan(0, evaluate=False).n() == 0"},"spec":{"lhs":"test_issue_4806()","rhs":"integrate(atan(x) ** 2, (x, -1, 1)).evalf().round(1) == Float(0.5, 1) and atan(0, evaluate=False).n() == 0","over":{"base":"Any"},"name":"test_issue_4806_correct"},"guarantee":"integrate(atan(x) ** 2, (x, -1, 1)).evalf().round(1) == Float(0.5, 1); atan(0, evaluate=False).n() == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_issue_4806_correct","statement":"Path(test_issue_4806(x), integrate(atan(x) ** 2, (x, -1, 1)).evalf().round(1) == Float(0.5, 1); atan(0, evaluate=False).n() == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3b3578989d572363","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["integrate(atan(x) ** 2, (x, -1, 1)).evalf().round(1) == Float(0.5, 1)","atan(0, evaluate=False).n() == 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_4806():
     assert integrate(atan(x)**2, (x, -1, 1)).evalf().round(1) == Float(0.5, 1)
     assert atan(0, evaluate=False).n() == 0
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_evalf_mul(), test_evalf_mul produces the expected output) over Any ║
+# ║ Path(test_evalf_mul(), NS(product(1 + sqrt(n) * I, (n, 1, 500)), 1) == '5.e+567 + 2.e+568*I') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_evalf_mul : Any → {Any | NS(product(1 + sqrt(n) ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  NS(product(1 + sqrt(n) * I, (n, 1, 500)),...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_evalf_mul : Any → {Any | result satisfies: NS(pr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c8a9da83d25e407a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ab7b4fc92ed27334  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_evalf_mul","kind":"function","src_hash":"15467fe408c97656","in":{"base":"Any"},"out":{"base":"Any","pred":"NS(product(1 + sqrt(n) * I, (n, 1, 500)), 1) == '5.e+567 + 2.e+568*I'"},"spec":{"lhs":"test_evalf_mul()","rhs":"test_evalf_mul produces the expected output","over":{"base":"Any"},"name":"test_evalf_mul_correct"},"guarantee":"test_evalf_mul produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_evalf_mul_correct","statement":"Path(test_evalf_mul(x), test_evalf_mul produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c8a9da83d25e407a"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_evalf_mul","kind":"function","src_hash":"15467fe408c97656","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: NS(product(1 + sqrt(n) * I, (n, 1, 500)), 1) == '5.e+567 + 2.e+568*I'"},"spec":{"lhs":"test_evalf_mul()","rhs":"NS(product(1 + sqrt(n) * I, (n, 1, 500)), 1) == '5.e+567 + 2.e+568*I'","over":{"base":"Any"},"name":"test_evalf_mul_correct"},"guarantee":"NS(product(1 + sqrt(n) * I, (n, 1, 500)), 1) == '5.e+567 + 2.e+568*I'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_evalf_mul_correct","statement":"Path(test_evalf_mul(x), NS(product(1 + sqrt(n) * I, (n, 1, 500)), 1) == '5.e+567 + 2.e+568*I')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ab7b4fc92ed27334","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["NS(product(1 + sqrt(n) * I, (n, 1, 500)), 1) == '5.e+567 + 2.e+568*I'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_evalf_mul():
     # SymPy should not try to expand this; it should be handled term-wise
     # in evalf through mpmath
@@ -890,16 +1151,24 @@ def test_evalf_mul():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_scaled_zero(), test_scaled_zero produces the expected output) over Any ║
+# ║ Path(test_scaled_zero(), scaled_zero(100) == (a, b) and scaled_zero(a) == (0, 1, 100, 1) and scaled_zero(100, -1) == (a, b) and scaled_zero(a) == (1, 1, 100, 1)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_scaled_zero : Any → {Any | scaled_zero(100) == (...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  scaled_zero(100) == (a, b)                     ║
+# ║   ensures:  scaled_zero(a) == (0, 1, 100, 1)               ║
+# ║   ensures:  scaled_zero(100, -1) == (a, b)                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_scaled_zero : Any → {Any | result satisfies: sca...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 036bbced30ebddbe  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a01d7a4f3b975b55  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_scaled_zero","kind":"function","src_hash":"b7b47fbfb77f13cd","in":{"base":"Any"},"out":{"base":"Any","pred":"scaled_zero(100) == (a, b) and scaled_zero(a) == (0, 1, 100, 1) and scaled_zero(100, -1) == (a, b) and scaled_zero(a) == (1, 1, 100, 1)"},"spec":{"lhs":"test_scaled_zero()","rhs":"test_scaled_zero produces the expected output","over":{"base":"Any"},"name":"test_scaled_zero_correct"},"guarantee":"test_scaled_zero produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_scaled_zero_correct","statement":"Path(test_scaled_zero(x), test_scaled_zero produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"036bbced30ebddbe"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_scaled_zero","kind":"function","src_hash":"b7b47fbfb77f13cd","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: scaled_zero(100) == (a, b) and scaled_zero(a) == (0, 1, 100, 1) and scaled_zero(100, -1) == (a, b) and scaled_zero(a) == (1, 1, 100, 1)"},"spec":{"lhs":"test_scaled_zero()","rhs":"scaled_zero(100) == (a, b) and scaled_zero(a) == (0, 1, 100, 1) and scaled_zero(100, -1) == (a, b) and scaled_zero(a) == (1, 1, 100, 1)","over":{"base":"Any"},"name":"test_scaled_zero_correct"},"guarantee":"scaled_zero(100) == (a, b); scaled_zero(a) == (0, 1, 100, 1); scaled_zero(100, -1) == (a, b)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_scaled_zero_correct","statement":"Path(test_scaled_zero(x), scaled_zero(100) == (a, b); scaled_zero(a) == (0, 1, 100, 1); scaled_zero(100, -1) == (a, b))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a01d7a4f3b975b55","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["scaled_zero(100) == (a, b)","scaled_zero(a) == (0, 1, 100, 1)","scaled_zero(100, -1) == (a, b)","scaled_zero(a) == (1, 1, 100, 1)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_scaled_zero():
     a, b = (([0], 1, 100, 1), -1)
     assert scaled_zero(100) == (a, b)
@@ -914,64 +1183,91 @@ def test_scaled_zero():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_chop_value(), test_chop_value produces the expected output) over Any ║
+# ║ Path(test_chop_value(), <unspecified:test_chop_value>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_chop_value : Any → {Any | (Pow(10, i) * 2).n(cho...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 024985e0e7a51b35  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_chop_value","kind":"function","src_hash":"5de5b502020ec666","in":{"base":"Any"},"out":{"base":"Any","pred":"(Pow(10, i) * 2).n(chop=10 ** i) and (not Pow(10, i).n(chop=10 ** i))"},"spec":{"lhs":"test_chop_value()","rhs":"test_chop_value produces the expected output","over":{"base":"Any"},"name":"test_chop_value_correct"},"guarantee":"test_chop_value produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_chop_value_correct","statement":"Path(test_chop_value(x), test_chop_value produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"024985e0e7a51b35"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_chop_value","kind":"function","src_hash":"5de5b502020ec666","in":{"base":"Any"},"out":{"base":"Any","pred":"(Pow(10, i) * 2).n(chop=10 ** i) and (not Pow(10, i).n(chop=10 ** i))"},"spec":{"lhs":"test_chop_value()","rhs":"<unspecified:test_chop_value>","over":{"base":"Any"},"name":"test_chop_value_correct"},"guarantee":"test_chop_value produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_chop_value_correct","statement":"Path(test_chop_value(x), test_chop_value produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"024985e0e7a51b35","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_chop_value():
     for i in range(-27, 28):
         assert (Pow(10, i)*2).n(chop=10**i) and not (Pow(10, i)).n(chop=10**i)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_infinities(), test_infinities produces the expected output) over Any ║
+# ║ Path(test_infinities(), oo.evalf(chop=True) == inf and (-oo).evalf(chop=True) == ninf) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_infinities : Any → {Any | oo.evalf(chop=True) ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  oo.evalf(chop=True) == inf                     ║
+# ║   ensures:  (-oo).evalf(chop=True) == ninf                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_infinities : Any → {Any | result satisfies: oo.e...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4beacf14df6e5d9c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1db0304998e6e768  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_infinities","kind":"function","src_hash":"99bd07866c7aea09","in":{"base":"Any"},"out":{"base":"Any","pred":"oo.evalf(chop=True) == inf and (-oo).evalf(chop=True) == ninf"},"spec":{"lhs":"test_infinities()","rhs":"test_infinities produces the expected output","over":{"base":"Any"},"name":"test_infinities_correct"},"guarantee":"test_infinities produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_infinities_correct","statement":"Path(test_infinities(x), test_infinities produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4beacf14df6e5d9c"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_infinities","kind":"function","src_hash":"99bd07866c7aea09","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: oo.evalf(chop=True) == inf and (-oo).evalf(chop=True) == ninf"},"spec":{"lhs":"test_infinities()","rhs":"oo.evalf(chop=True) == inf and (-oo).evalf(chop=True) == ninf","over":{"base":"Any"},"name":"test_infinities_correct"},"guarantee":"oo.evalf(chop=True) == inf; (-oo).evalf(chop=True) == ninf","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_infinities_correct","statement":"Path(test_infinities(x), oo.evalf(chop=True) == inf; (-oo).evalf(chop=True) == ninf)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1db0304998e6e768","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["oo.evalf(chop=True) == inf","(-oo).evalf(chop=True) == ninf"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_infinities():
     assert oo.evalf(chop=True) == inf
     assert (-oo).evalf(chop=True) == ninf
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_to_mpmath(), test_to_mpmath produces the expected output) over Any ║
+# ║ Path(test_to_mpmath(), sqrt(3)._to_mpmath(20)._mpf_ == (0, int(908093), -19, 20) and S(3.2)._to_mpmath(20)._mpf_ == (0, int(838861), -18, 20)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_to_mpmath : Any → {Any | sqrt(3)._to_mpmath(20)....   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  sqrt(3)._to_mpmath(20)._mpf_ == (0, int(9...   ║
+# ║   ensures:  S(3.2)._to_mpmath(20)._mpf_ == (0, int(83...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_to_mpmath : Any → {Any | result satisfies: sqrt(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 97f08b6c50afb427  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ef0d8e4e19558017  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_to_mpmath","kind":"function","src_hash":"1bab48ffc36787e3","in":{"base":"Any"},"out":{"base":"Any","pred":"sqrt(3)._to_mpmath(20)._mpf_ == (0, int(908093), -19, 20) and S(3.2)._to_mpmath(20)._mpf_ == (0, int(838861), -18, 20)"},"spec":{"lhs":"test_to_mpmath()","rhs":"test_to_mpmath produces the expected output","over":{"base":"Any"},"name":"test_to_mpmath_correct"},"guarantee":"test_to_mpmath produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_to_mpmath_correct","statement":"Path(test_to_mpmath(x), test_to_mpmath produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"97f08b6c50afb427"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_to_mpmath","kind":"function","src_hash":"1bab48ffc36787e3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: sqrt(3)._to_mpmath(20)._mpf_ == (0, int(908093), -19, 20) and S(3.2)._to_mpmath(20)._mpf_ == (0, int(838861), -18, 20)"},"spec":{"lhs":"test_to_mpmath()","rhs":"sqrt(3)._to_mpmath(20)._mpf_ == (0, int(908093), -19, 20) and S(3.2)._to_mpmath(20)._mpf_ == (0, int(838861), -18, 20)","over":{"base":"Any"},"name":"test_to_mpmath_correct"},"guarantee":"sqrt(3)._to_mpmath(20)._mpf_ == (0, int(908093), -19, 20); S(3.2)._to_mpmath(20)._mpf_ == (0, int(838861), -18, 20)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_to_mpmath_correct","statement":"Path(test_to_mpmath(x), sqrt(3)._to_mpmath(20)._mpf_ == (0, int(908093), -19, 20); S(3.2)._to_mpmath(20)._mpf_ == (0, int(838861), -18, 20))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ef0d8e4e19558017","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["sqrt(3)._to_mpmath(20)._mpf_ == (0, int(908093), -19, 20)","S(3.2)._to_mpmath(20)._mpf_ == (0, int(838861), -18, 20)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_to_mpmath():
     assert sqrt(3)._to_mpmath(20)._mpf_ == (0, int(908093), -19, 20)
     assert S(3.2)._to_mpmath(20)._mpf_ == (0, int(838861), -18, 20)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_6632_evalf(), test_issue_6632_evalf produces the expected output) over Any ║
+# ║ Path(test_issue_6632_evalf(), add.n() == 9.999999998e-11 and (add * add).n() == 9.999999996e-21) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_6632_evalf : Any → {Any | add.n() == 9.999...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  add.n() == 9.999999998e-11                     ║
+# ║   ensures:  (add * add).n() == 9.999999996e-21             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_6632_evalf : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b3be144f7add7346  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 16bf8ca4f0f746ae  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_issue_6632_evalf","kind":"function","src_hash":"1bacd0389d2d9682","in":{"base":"Any"},"out":{"base":"Any","pred":"add.n() == 9.999999998e-11 and (add * add).n() == 9.999999996e-21"},"spec":{"lhs":"test_issue_6632_evalf()","rhs":"test_issue_6632_evalf produces the expected output","over":{"base":"Any"},"name":"test_issue_6632_evalf_correct"},"guarantee":"test_issue_6632_evalf produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_issue_6632_evalf_correct","statement":"Path(test_issue_6632_evalf(x), test_issue_6632_evalf produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b3be144f7add7346"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_issue_6632_evalf","kind":"function","src_hash":"1bacd0389d2d9682","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: add.n() == 9.999999998e-11 and (add * add).n() == 9.999999996e-21"},"spec":{"lhs":"test_issue_6632_evalf()","rhs":"add.n() == 9.999999998e-11 and (add * add).n() == 9.999999996e-21","over":{"base":"Any"},"name":"test_issue_6632_evalf_correct"},"guarantee":"add.n() == 9.999999998e-11; (add * add).n() == 9.999999996e-21","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_issue_6632_evalf_correct","statement":"Path(test_issue_6632_evalf(x), add.n() == 9.999999998e-11; (add * add).n() == 9.999999996e-21)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"16bf8ca4f0f746ae","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["add.n() == 9.999999998e-11","(add * add).n() == 9.999999996e-21"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_6632_evalf():
     add = (-100000*sqrt(2500000001) + 5000000001)
     assert add.n() == 9.999999998e-11
@@ -979,32 +1275,44 @@ def test_issue_6632_evalf():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_4945(), test_issue_4945 produces the expected output) over Any ║
+# ║ Path(test_issue_4945(), (H / 0).evalf(subs={H: 1}) == zoo) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_4945 : Any → {Any | (H / 0).evalf(subs={H:...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (H / 0).evalf(subs={H: 1}) == zoo              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_4945 : Any → {Any | result satisfies: (H /...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a56666028ec0ec30  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fc059d9fb881f1db  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_issue_4945","kind":"function","src_hash":"b94f4a080d55e6f5","in":{"base":"Any"},"out":{"base":"Any","pred":"(H / 0).evalf(subs={H: 1}) == zoo"},"spec":{"lhs":"test_issue_4945()","rhs":"test_issue_4945 produces the expected output","over":{"base":"Any"},"name":"test_issue_4945_correct"},"guarantee":"test_issue_4945 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_issue_4945_correct","statement":"Path(test_issue_4945(x), test_issue_4945 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a56666028ec0ec30"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_issue_4945","kind":"function","src_hash":"b94f4a080d55e6f5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (H / 0).evalf(subs={H: 1}) == zoo"},"spec":{"lhs":"test_issue_4945()","rhs":"(H / 0).evalf(subs={H: 1}) == zoo","over":{"base":"Any"},"name":"test_issue_4945_correct"},"guarantee":"(H / 0).evalf(subs={H: 1}) == zoo","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_issue_4945_correct","statement":"Path(test_issue_4945(x), (H / 0).evalf(subs={H: 1}) == zoo)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fc059d9fb881f1db","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(H / 0).evalf(subs={H: 1}) == zoo"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_issue_4945():
     from sympy.abc import H
     assert (H/0).evalf(subs={H:1}) == zoo
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_evalf_integral(), test_evalf_integral produces the expected output) over Any ║
+# ║ Path(test_evalf_integral(), Integral(sin(x), (x, -pi, pi + eps)).n(2)._prec == 10) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_evalf_integral : Any → {Any | Integral(sin(x), (...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Integral(sin(x), (x, -pi, pi + eps)).n(2)...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_evalf_integral : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c1de79d3c618ecf9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3b264ba3bf029d2a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_evalf_integral","kind":"function","src_hash":"98b70a6224b8dfac","in":{"base":"Any"},"out":{"base":"Any","pred":"Integral(sin(x), (x, -pi, pi + eps)).n(2)._prec == 10"},"spec":{"lhs":"test_evalf_integral()","rhs":"test_evalf_integral produces the expected output","over":{"base":"Any"},"name":"test_evalf_integral_correct"},"guarantee":"test_evalf_integral produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_evalf_integral_correct","statement":"Path(test_evalf_integral(x), test_evalf_integral produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c1de79d3c618ecf9"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_evalf_integral","kind":"function","src_hash":"98b70a6224b8dfac","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Integral(sin(x), (x, -pi, pi + eps)).n(2)._prec == 10"},"spec":{"lhs":"test_evalf_integral()","rhs":"Integral(sin(x), (x, -pi, pi + eps)).n(2)._prec == 10","over":{"base":"Any"},"name":"test_evalf_integral_correct"},"guarantee":"Integral(sin(x), (x, -pi, pi + eps)).n(2)._prec == 10","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_evalf_integral_correct","statement":"Path(test_evalf_integral(x), Integral(sin(x), (x, -pi, pi + eps)).n(2)._prec == 10)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3b264ba3bf029d2a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Integral(sin(x), (x, -pi, pi + eps)).n(2)._prec == 10"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_evalf_integral():
     # test that workprec has to increase in order to get a result other than 0
     eps = Rational(1, 1000000)
@@ -1012,16 +1320,23 @@ def test_evalf_integral():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_8821_highprec_from_str(), test_issue_8821_highprec_from_str produces the expected output) over Any ║
+# ║ Path(test_issue_8821_highprec_from_str(), Abs(sin(p)) < 1e-15 and Abs(sin(p)) < 1e-64) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_8821_highprec_from_str : Any → {Any | Abs(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Abs(sin(p)) < 1e-15                            ║
+# ║   ensures:  Abs(sin(p)) < 1e-64                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_8821_highprec_from_str : Any → {Any | resu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ba4430e38cc3455c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6ab6c7b83f884461  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_issue_8821_highprec_from_str","kind":"function","src_hash":"afd7a3dde7825a55","in":{"base":"Any"},"out":{"base":"Any","pred":"Abs(sin(p)) < 1e-15 and Abs(sin(p)) < 1e-64"},"spec":{"lhs":"test_issue_8821_highprec_from_str()","rhs":"test_issue_8821_highprec_from_str produces the expected output","over":{"base":"Any"},"name":"test_issue_8821_highprec_from_str_correct"},"guarantee":"test_issue_8821_highprec_from_str produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_issue_8821_highprec_from_str_correct","statement":"Path(test_issue_8821_highprec_from_str(x), test_issue_8821_highprec_from_str produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ba4430e38cc3455c"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_issue_8821_highprec_from_str","kind":"function","src_hash":"afd7a3dde7825a55","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Abs(sin(p)) < 1e-15 and Abs(sin(p)) < 1e-64"},"spec":{"lhs":"test_issue_8821_highprec_from_str()","rhs":"Abs(sin(p)) < 1e-15 and Abs(sin(p)) < 1e-64","over":{"base":"Any"},"name":"test_issue_8821_highprec_from_str_correct"},"guarantee":"Abs(sin(p)) < 1e-15; Abs(sin(p)) < 1e-64","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_issue_8821_highprec_from_str_correct","statement":"Path(test_issue_8821_highprec_from_str(x), Abs(sin(p)) < 1e-15; Abs(sin(p)) < 1e-64)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6ab6c7b83f884461","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Abs(sin(p)) < 1e-15","Abs(sin(p)) < 1e-64"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_8821_highprec_from_str():
     s = str(pi.evalf(128))
     p = N(s)
@@ -1031,16 +1346,24 @@ def test_issue_8821_highprec_from_str():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_8853(), test_issue_8853 produces the expected output) over Any ║
+# ║ Path(test_issue_8853(), floor(-p - S.Half).is_even == False and floor(-p + S.Half).is_even == True and ceiling(p - S.Half).is_even == True and ceiling(p + S.Half).is_even == False and get_integer_part(S.Half, -1, {}, True) == (0, 0) and get_integer_part(S.Half, 1, {}, True) == (1, 0) and get_integer_part(Rational(-1, 2), -1, {}, True) == (-1, 0) and get_integer_part(Rational(-1, 2), 1, {}, True) == (0, 0)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_8853 : Any → {Any | floor(-p - S.Half).is_...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  floor(-p - S.Half).is_even == False            ║
+# ║   ensures:  floor(-p + S.Half).is_even == True             ║
+# ║   ensures:  ceiling(p - S.Half).is_even == True            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_8853 : Any → {Any | result satisfies: floo...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fa9d5a027d4626a5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fab19e59dbce6b5f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_issue_8853","kind":"function","src_hash":"de4573a5bc2c2e22","in":{"base":"Any"},"out":{"base":"Any","pred":"floor(-p - S.Half).is_even == False and floor(-p + S.Half).is_even == True and ceiling(p - S.Half).is_even == True and ceiling(p + S.Half).is_even == False and get_integer_part(S.Half, -1, {}, True) == (0, 0) and get_integer_part(S.Half, 1, {}, True) == (1, 0) and get_integer_part(Rational(-1, 2), -1, {}, True) == (-1, 0) and get_integer_part(Rational(-1, 2), 1, {}, True) == (0, 0)"},"spec":{"lhs":"test_issue_8853()","rhs":"test_issue_8853 produces the expected output","over":{"base":"Any"},"name":"test_issue_8853_correct"},"guarantee":"test_issue_8853 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_issue_8853_correct","statement":"Path(test_issue_8853(x), test_issue_8853 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fa9d5a027d4626a5"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_issue_8853","kind":"function","src_hash":"de4573a5bc2c2e22","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: floor(-p - S.Half).is_even == False and floor(-p + S.Half).is_even == True and ceiling(p - S.Half).is_even == True and ceiling(p + S.Half).is_even == False and get_integer_part(S.Half, -1, {}, True) == (0, 0) and get_integer_part(S.Half, 1, {}, True) == (1, 0) and get_integer_part(Rational(-1, 2), -1, {}, True) == (-1, 0) and get_integer_part(Rational(-1, 2), 1, {}, True) == (0, 0)"},"spec":{"lhs":"test_issue_8853()","rhs":"floor(-p - S.Half).is_even == False and floor(-p + S.Half).is_even == True and ceiling(p - S.Half).is_even == True and ceiling(p + S.Half).is_even == False and get_integer_part(S.Half, -1, {}, True) == (0, 0) and get_integer_part(S.Half, 1, {}, True) == (1, 0) and get_integer_part(Rational(-1, 2), -1, {}, True) == (-1, 0) and get_integer_part(Rational(-1, 2), 1, {}, True) == (0, 0)","over":{"base":"Any"},"name":"test_issue_8853_correct"},"guarantee":"floor(-p - S.Half).is_even == False; floor(-p + S.Half).is_even == True; ceiling(p - S.Half).is_even == True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_issue_8853_correct","statement":"Path(test_issue_8853(x), floor(-p - S.Half).is_even == False; floor(-p + S.Half).is_even == True; ceiling(p - S.Half).is_even == True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fab19e59dbce6b5f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["floor(-p - S.Half).is_even == False","floor(-p + S.Half).is_even == True","ceiling(p - S.Half).is_even == True","ceiling(p + S.Half).is_even == False","get_integer_part(S.Half, -1, {}, True) == (0, 0)","get_integer_part(S.Half, 1, {}, True) == (1, 0)","get_integer_part(Rational(-1, 2), -1, {}, True) == (-1, 0)","get_integer_part(Rational(-1, 2), 1, {}, True) == (0, 0)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_issue_8853():
     p = Symbol('x', even=True, positive=True)
     assert floor(-p - S.Half).is_even == False
@@ -1055,16 +1378,24 @@ def test_issue_8853():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_17681(), test_issue_17681 produces the expected output) over Any ║
+# ║ Path(test_issue_17681(), self.args[0].evalf(*args, **kwargs)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_17681 : Any → {Any | floor(identity_func(S...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  floor(identity_func(S(0))) == 0                ║
+# ║   ensures:  get_integer_part(S(0), 1, {}, True) == (0...   ║
+# ║   returns:  self.args[0].evalf(*args, **kwargs)            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_17681 : Any → {Any | result satisfies: res...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 41f54f0ed6c575e5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 269efb5199c452ed  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_issue_17681","kind":"function","src_hash":"35d21b050a65cc92","in":{"base":"Any"},"out":{"base":"Any","pred":"floor(identity_func(S(0))) == 0 and get_integer_part(S(0), 1, {}, True) == (0, 0)"},"spec":{"lhs":"test_issue_17681()","rhs":"test_issue_17681 produces the expected output","over":{"base":"Any"},"name":"test_issue_17681_correct"},"guarantee":"test_issue_17681 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_issue_17681_correct","statement":"Path(test_issue_17681(x), test_issue_17681 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"41f54f0ed6c575e5"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_issue_17681","kind":"function","src_hash":"35d21b050a65cc92","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (self.args[0].evalf(*args, **kwargs))"},"spec":{"lhs":"test_issue_17681()","rhs":"self.args[0].evalf(*args, **kwargs)","over":{"base":"Any"},"name":"test_issue_17681_correct"},"guarantee":"returns self.args[0].evalf(*args, **kwargs); floor(identity_func(S(0))) == 0; get_integer_part(S(0), 1, {}, True) == (0, 0)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_issue_17681_correct","statement":"Path(test_issue_17681(x), returns self.args[0].evalf(*args, **kwargs); floor(identity_func(S(0))) == 0; get_integer_part(S(0), 1, {}, True) == (0, 0))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"269efb5199c452ed","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["floor(identity_func(S(0))) == 0","get_integer_part(S(0), 1, {}, True) == (0, 0)"],"returns_expr":"self.args[0].evalf(*args, **kwargs)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_17681():
     class identity_func(Function):
 
@@ -1076,16 +1407,22 @@ def test_issue_17681():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_9326(), test_issue_9326 produces the expected output) over Any ║
+# ║ Path(test_issue_9326(), e.evalf(subs={d1: 1, d2: 2}) == 3.0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_9326 : Any → {Any | e.evalf(subs={d1: 1, d...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  e.evalf(subs={d1: 1, d2: 2}) == 3.0            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_9326 : Any → {Any | result satisfies: e.ev...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1aed311ae9a89765  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8a9529ed1988885a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_issue_9326","kind":"function","src_hash":"ae0ba27d758184e6","in":{"base":"Any"},"out":{"base":"Any","pred":"e.evalf(subs={d1: 1, d2: 2}) == 3.0"},"spec":{"lhs":"test_issue_9326()","rhs":"test_issue_9326 produces the expected output","over":{"base":"Any"},"name":"test_issue_9326_correct"},"guarantee":"test_issue_9326 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_issue_9326_correct","statement":"Path(test_issue_9326(x), test_issue_9326 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1aed311ae9a89765"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_issue_9326","kind":"function","src_hash":"ae0ba27d758184e6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: e.evalf(subs={d1: 1, d2: 2}) == 3.0"},"spec":{"lhs":"test_issue_9326()","rhs":"e.evalf(subs={d1: 1, d2: 2}) == 3.0","over":{"base":"Any"},"name":"test_issue_9326_correct"},"guarantee":"e.evalf(subs={d1: 1, d2: 2}) == 3.0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_issue_9326_correct","statement":"Path(test_issue_9326(x), e.evalf(subs={d1: 1, d2: 2}) == 3.0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8a9529ed1988885a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["e.evalf(subs={d1: 1, d2: 2}) == 3.0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_9326():
     from sympy.core.symbol import Dummy
     d1 = Dummy('d')
@@ -1095,31 +1432,43 @@ def test_issue_9326():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_10323(), test_issue_10323 produces the expected output) over Any ║
+# ║ Path(test_issue_10323(), ceiling(sqrt(2 ** 30 + 1)) == 2 ** 15 + 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_10323 : Any → {Any | ceiling(sqrt(2 ** 30 ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  ceiling(sqrt(2 ** 30 + 1)) == 2 ** 15 + 1      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_10323 : Any → {Any | result satisfies: cei...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 564b5fa06985a1cc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f57f36f98288b075  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_issue_10323","kind":"function","src_hash":"0ed99e05a91fd9cd","in":{"base":"Any"},"out":{"base":"Any","pred":"ceiling(sqrt(2 ** 30 + 1)) == 2 ** 15 + 1"},"spec":{"lhs":"test_issue_10323()","rhs":"test_issue_10323 produces the expected output","over":{"base":"Any"},"name":"test_issue_10323_correct"},"guarantee":"test_issue_10323 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_issue_10323_correct","statement":"Path(test_issue_10323(x), test_issue_10323 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"564b5fa06985a1cc"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_issue_10323","kind":"function","src_hash":"0ed99e05a91fd9cd","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: ceiling(sqrt(2 ** 30 + 1)) == 2 ** 15 + 1"},"spec":{"lhs":"test_issue_10323()","rhs":"ceiling(sqrt(2 ** 30 + 1)) == 2 ** 15 + 1","over":{"base":"Any"},"name":"test_issue_10323_correct"},"guarantee":"ceiling(sqrt(2 ** 30 + 1)) == 2 ** 15 + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_issue_10323_correct","statement":"Path(test_issue_10323(x), ceiling(sqrt(2 ** 30 + 1)) == 2 ** 15 + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f57f36f98288b075","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["ceiling(sqrt(2 ** 30 + 1)) == 2 ** 15 + 1"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_issue_10323():
     assert ceiling(sqrt(2**30 + 1)) == 2**15 + 1
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_AssocOp_Function(), test_AssocOp_Function produces the expected output) over Any ║
+# ║ Path(test_AssocOp_Function(), <unspecified:test_AssocOp_Function>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_AssocOp_Function : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | aee3ec4076cee53b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_AssocOp_Function","kind":"function","src_hash":"4d33c8af9a9e9dae","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_AssocOp_Function()","rhs":"test_AssocOp_Function produces the expected output","over":{"base":"Any"},"name":"test_AssocOp_Function_correct"},"guarantee":"test_AssocOp_Function produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"aee3ec4076cee53b"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_AssocOp_Function","kind":"function","src_hash":"4d33c8af9a9e9dae","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_AssocOp_Function()","rhs":"<unspecified:test_AssocOp_Function>","over":{"base":"Any"},"name":"test_AssocOp_Function_correct"},"guarantee":"test_AssocOp_Function produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"aee3ec4076cee53b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def test_AssocOp_Function():
     # the first arg of Min is not comparable in the imaginary part
     raises(ValueError, lambda: S('''
@@ -1139,16 +1488,23 @@ def test_AssocOp_Function():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_10395(), test_issue_10395 produces the expected output) over Any ║
+# ║ Path(test_issue_10395(), nfloat(eq) == eq and Max(y, 4).n() == Max(4.0, y)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_10395 : Any → {Any | nfloat(eq) == eq and ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  nfloat(eq) == eq                               ║
+# ║   ensures:  Max(y, 4).n() == Max(4.0, y)                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_10395 : Any → {Any | result satisfies: nfl...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fead2cbcf72398cf  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c3c1ce84bae78b69  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_issue_10395","kind":"function","src_hash":"955735a19afc0618","in":{"base":"Any"},"out":{"base":"Any","pred":"nfloat(eq) == eq and nfloat(eq) == eq and Max(y, 4).n() == Max(4.0, y)"},"spec":{"lhs":"test_issue_10395()","rhs":"test_issue_10395 produces the expected output","over":{"base":"Any"},"name":"test_issue_10395_correct"},"guarantee":"test_issue_10395 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_issue_10395_correct","statement":"Path(test_issue_10395(x), test_issue_10395 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fead2cbcf72398cf"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_issue_10395","kind":"function","src_hash":"955735a19afc0618","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: nfloat(eq) == eq and Max(y, 4).n() == Max(4.0, y)"},"spec":{"lhs":"test_issue_10395()","rhs":"nfloat(eq) == eq and Max(y, 4).n() == Max(4.0, y)","over":{"base":"Any"},"name":"test_issue_10395_correct"},"guarantee":"nfloat(eq) == eq; Max(y, 4).n() == Max(4.0, y)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_issue_10395_correct","statement":"Path(test_issue_10395(x), nfloat(eq) == eq; Max(y, 4).n() == Max(4.0, y))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c3c1ce84bae78b69","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["nfloat(eq) == eq","Max(y, 4).n() == Max(4.0, y)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_10395():
     eq = x*Max(0, y)
     assert nfloat(eq) == eq
@@ -1158,16 +1514,24 @@ def test_issue_10395():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_13098(), test_issue_13098 produces the expected output) over Any ║
+# ║ Path(test_issue_13098(), floor(log(S('9.' + '9' * 20), 10)) == 0 and ceiling(log(S('9.' + '9' * 20), 10)) == 1 and floor(log(20 - S('9.' + '9' * 20), 10)) == 1 and ceiling(log(20 - S('9.' + '9' * 20), 10)) == 2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_13098 : Any → {Any | floor(log(S('9.' + '9...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  floor(log(S('9.' + '9' * 20), 10)) == 0        ║
+# ║   ensures:  ceiling(log(S('9.' + '9' * 20), 10)) == 1      ║
+# ║   ensures:  floor(log(20 - S('9.' + '9' * 20), 10)) == 1   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_13098 : Any → {Any | result satisfies: flo...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b6162b6218d5c873  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f9778844f45f1d24  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_issue_13098","kind":"function","src_hash":"f15f56508a64bafb","in":{"base":"Any"},"out":{"base":"Any","pred":"floor(log(S('9.' + '9' * 20), 10)) == 0 and ceiling(log(S('9.' + '9' * 20), 10)) == 1 and floor(log(20 - S('9.' + '9' * 20), 10)) == 1 and ceiling(log(20 - S('9.' + '9' * 20), 10)) == 2"},"spec":{"lhs":"test_issue_13098()","rhs":"test_issue_13098 produces the expected output","over":{"base":"Any"},"name":"test_issue_13098_correct"},"guarantee":"test_issue_13098 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_issue_13098_correct","statement":"Path(test_issue_13098(x), test_issue_13098 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b6162b6218d5c873"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_issue_13098","kind":"function","src_hash":"f15f56508a64bafb","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: floor(log(S('9.' + '9' * 20), 10)) == 0 and ceiling(log(S('9.' + '9' * 20), 10)) == 1 and floor(log(20 - S('9.' + '9' * 20), 10)) == 1 and ceiling(log(20 - S('9.' + '9' * 20), 10)) == 2"},"spec":{"lhs":"test_issue_13098()","rhs":"floor(log(S('9.' + '9' * 20), 10)) == 0 and ceiling(log(S('9.' + '9' * 20), 10)) == 1 and floor(log(20 - S('9.' + '9' * 20), 10)) == 1 and ceiling(log(20 - S('9.' + '9' * 20), 10)) == 2","over":{"base":"Any"},"name":"test_issue_13098_correct"},"guarantee":"floor(log(S('9.' + '9' * 20), 10)) == 0; ceiling(log(S('9.' + '9' * 20), 10)) == 1; floor(log(20 - S('9.' + '9' * 20), 10)) == 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_issue_13098_correct","statement":"Path(test_issue_13098(x), floor(log(S('9.' + '9' * 20), 10)) == 0; ceiling(log(S('9.' + '9' * 20), 10)) == 1; floor(log(20 - S('9.' + '9' * 20), 10)) == 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f9778844f45f1d24","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["floor(log(S('9.' + '9' * 20), 10)) == 0","ceiling(log(S('9.' + '9' * 20), 10)) == 1","floor(log(20 - S('9.' + '9' * 20), 10)) == 1","ceiling(log(20 - S('9.' + '9' * 20), 10)) == 2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_13098():
     assert floor(log(S('9.'+'9'*20), 10)) == 0
     assert ceiling(log(S('9.'+'9'*20), 10)) == 1
@@ -1176,16 +1540,23 @@ def test_issue_13098():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_14601(), test_issue_14601 produces the expected output) over Any ║
+# ║ Path(test_issue_14601(), float(e2) == 0.0 and float((x + x * (x ** 2 + x)).evalf(subs={x: 0.0})) == 0.0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_14601 : Any → {Any | float(e2) == 0.0 and ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  float(e2) == 0.0                               ║
+# ║   ensures:  float((x + x * (x ** 2 + x)).evalf(subs={...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_14601 : Any → {Any | result satisfies: flo...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2defbce23106ff5b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 12911d70843a255e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_issue_14601","kind":"function","src_hash":"1403ae9eaba0cdd5","in":{"base":"Any"},"out":{"base":"Any","pred":"float(e2) == 0.0 and float((x + x * (x ** 2 + x)).evalf(subs={x: 0.0})) == 0.0"},"spec":{"lhs":"test_issue_14601()","rhs":"test_issue_14601 produces the expected output","over":{"base":"Any"},"name":"test_issue_14601_correct"},"guarantee":"test_issue_14601 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_issue_14601_correct","statement":"Path(test_issue_14601(x), test_issue_14601 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2defbce23106ff5b"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_issue_14601","kind":"function","src_hash":"1403ae9eaba0cdd5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: float(e2) == 0.0 and float((x + x * (x ** 2 + x)).evalf(subs={x: 0.0})) == 0.0"},"spec":{"lhs":"test_issue_14601()","rhs":"float(e2) == 0.0 and float((x + x * (x ** 2 + x)).evalf(subs={x: 0.0})) == 0.0","over":{"base":"Any"},"name":"test_issue_14601_correct"},"guarantee":"float(e2) == 0.0; float((x + x * (x ** 2 + x)).evalf(subs={x: 0.0})) == 0.0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_issue_14601_correct","statement":"Path(test_issue_14601(x), float(e2) == 0.0; float((x + x * (x ** 2 + x)).evalf(subs={x: 0.0})) == 0.0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"12911d70843a255e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["float(e2) == 0.0","float((x + x * (x ** 2 + x)).evalf(subs={x: 0.0})) == 0.0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_14601():
     e = 5*x*y/2 - y*(35*(x**3)/2 - 15*x/2)
     subst = {x:0.0, y:0.0}
@@ -1195,16 +1566,24 @@ def test_issue_14601():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_11151(), test_issue_11151 produces the expected output) over Any ║
+# ║ Path(test_issue_11151(), e != z and evalf(e, 15, {}) == evalf(z, 15, {}) == (None, None, 15, None) and (e / 2).n() == 0 and simplify(factor(expr2) - expr2) == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_11151 : Any → {Any | e != z and evalf(e, 1...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  e != z                                         ║
+# ║   ensures:  evalf(e, 15, {}) == evalf(z, 15, {}) == (...   ║
+# ║   ensures:  (e / 2).n() == 0                               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_11151 : Any → {Any | result satisfies: e !...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 05a64ac092869dc3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 34c9b34bb5a7a824  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_issue_11151","kind":"function","src_hash":"eb0ee795abc91065","in":{"base":"Any"},"out":{"base":"Any","pred":"e != z and evalf(e, 15, {}) == evalf(z, 15, {}) == (None, None, 15, None) and (e / 2).n() == 0 and simplify(factor(expr2) - expr2) == 0"},"spec":{"lhs":"test_issue_11151()","rhs":"test_issue_11151 produces the expected output","over":{"base":"Any"},"name":"test_issue_11151_correct"},"guarantee":"test_issue_11151 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_issue_11151_correct","statement":"Path(test_issue_11151(x), test_issue_11151 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"05a64ac092869dc3"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_issue_11151","kind":"function","src_hash":"eb0ee795abc91065","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: e != z and evalf(e, 15, {}) == evalf(z, 15, {}) == (None, None, 15, None) and (e / 2).n() == 0 and simplify(factor(expr2) - expr2) == 0"},"spec":{"lhs":"test_issue_11151()","rhs":"e != z and evalf(e, 15, {}) == evalf(z, 15, {}) == (None, None, 15, None) and (e / 2).n() == 0 and simplify(factor(expr2) - expr2) == 0","over":{"base":"Any"},"name":"test_issue_11151_correct"},"guarantee":"e != z; evalf(e, 15, {}) == evalf(z, 15, {}) == (None, None, 15, None); (e / 2).n() == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_issue_11151_correct","statement":"Path(test_issue_11151(x), e != z; evalf(e, 15, {}) == evalf(z, 15, {}) == (None, None, 15, None); (e / 2).n() == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"34c9b34bb5a7a824","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["e != z","evalf(e, 15, {}) == evalf(z, 15, {}) == (None, None, 15, None)","(e / 2).n() == 0","simplify(factor(expr2) - expr2) == 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_11151():
     z = S.Zero
     e = Sum(z, (x, 1, 2))
@@ -1222,16 +1601,24 @@ def test_issue_11151():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_13425(), test_issue_13425 produces the expected output) over Any ║
+# ║ Path(test_issue_13425(), N('2**.5', 30) == N('sqrt(2)', 30) and N('x - x', 30) == 0 and abs((N('pi*.1', 22) * 10 - pi).n()) < 1e-22) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_13425 : Any → {Any | N('2**.5', 30) == N('...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  N('2**.5', 30) == N('sqrt(2)', 30)             ║
+# ║   ensures:  N('x - x', 30) == 0                            ║
+# ║   ensures:  abs((N('pi*.1', 22) * 10 - pi).n()) < 1e-22    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_13425 : Any → {Any | result satisfies: N('...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c85902eba478006f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4cc37fdf9834a36f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_issue_13425","kind":"function","src_hash":"072b4436cfc91b21","in":{"base":"Any"},"out":{"base":"Any","pred":"N('2**.5', 30) == N('sqrt(2)', 30) and N('x - x', 30) == 0 and abs((N('pi*.1', 22) * 10 - pi).n()) < 1e-22"},"spec":{"lhs":"test_issue_13425()","rhs":"test_issue_13425 produces the expected output","over":{"base":"Any"},"name":"test_issue_13425_correct"},"guarantee":"test_issue_13425 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_issue_13425_correct","statement":"Path(test_issue_13425(x), test_issue_13425 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c85902eba478006f"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_issue_13425","kind":"function","src_hash":"072b4436cfc91b21","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: N('2**.5', 30) == N('sqrt(2)', 30) and N('x - x', 30) == 0 and abs((N('pi*.1', 22) * 10 - pi).n()) < 1e-22"},"spec":{"lhs":"test_issue_13425()","rhs":"N('2**.5', 30) == N('sqrt(2)', 30) and N('x - x', 30) == 0 and abs((N('pi*.1', 22) * 10 - pi).n()) < 1e-22","over":{"base":"Any"},"name":"test_issue_13425_correct"},"guarantee":"N('2**.5', 30) == N('sqrt(2)', 30); N('x - x', 30) == 0; abs((N('pi*.1', 22) * 10 - pi).n()) < 1e-22","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_issue_13425_correct","statement":"Path(test_issue_13425(x), N('2**.5', 30) == N('sqrt(2)', 30); N('x - x', 30) == 0; abs((N('pi*.1', 22) * 10 - pi).n()) < 1e-22)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4cc37fdf9834a36f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["N('2**.5', 30) == N('sqrt(2)', 30)","N('x - x', 30) == 0","abs((N('pi*.1', 22) * 10 - pi).n()) < 1e-22"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_13425():
     assert N('2**.5', 30) == N('sqrt(2)', 30)
     assert N('x - x', 30) == 0
@@ -1239,31 +1626,45 @@ def test_issue_13425():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_17421(), test_issue_17421 produces the expected output) over Any ║
+# ║ Path(test_issue_17421(), N(acos(-I + acosh(cosh(cosh(1) + I)))) == 1.0 * I) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_17421 : Any → {Any | N(acos(-I + acosh(cos...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  N(acos(-I + acosh(cosh(cosh(1) + I)))) ==...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_17421 : Any → {Any | result satisfies: N(a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b9d11ba452081380  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a24cd290c2309b68  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_issue_17421","kind":"function","src_hash":"328dc29179a51579","in":{"base":"Any"},"out":{"base":"Any","pred":"N(acos(-I + acosh(cosh(cosh(1) + I)))) == 1.0 * I"},"spec":{"lhs":"test_issue_17421()","rhs":"test_issue_17421 produces the expected output","over":{"base":"Any"},"name":"test_issue_17421_correct"},"guarantee":"test_issue_17421 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_issue_17421_correct","statement":"Path(test_issue_17421(x), test_issue_17421 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b9d11ba452081380"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_issue_17421","kind":"function","src_hash":"328dc29179a51579","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: N(acos(-I + acosh(cosh(cosh(1) + I)))) == 1.0 * I"},"spec":{"lhs":"test_issue_17421()","rhs":"N(acos(-I + acosh(cosh(cosh(1) + I)))) == 1.0 * I","over":{"base":"Any"},"name":"test_issue_17421_correct"},"guarantee":"N(acos(-I + acosh(cosh(cosh(1) + I)))) == 1.0 * I","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_issue_17421_correct","statement":"Path(test_issue_17421(x), N(acos(-I + acosh(cosh(cosh(1) + I)))) == 1.0 * I)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a24cd290c2309b68","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["N(acos(-I + acosh(cosh(cosh(1) + I)))) == 1.0 * I"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_issue_17421():
     assert N(acos(-I + acosh(cosh(cosh(1) + I)))) == 1.0*I
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_20291(), test_issue_20291 produces the expected output) over Any ║
+# ║ Path(test_issue_20291(), A.evalf(subs={a: 1, b: 2}) == FiniteSet(1.0, 2.0) and B.evalf(subs={a: 1, b: 2}) == FiniteSet(-1.0, 1.0) and sol.evalf(subs={b: 1}) == EmptySet) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_20291 : Any → {Any | A.evalf(subs={a: 1, b...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A.evalf(subs={a: 1, b: 2}) == FiniteSet(1...   ║
+# ║   ensures:  B.evalf(subs={a: 1, b: 2}) == FiniteSet(-...   ║
+# ║   ensures:  sol.evalf(subs={b: 1}) == EmptySet             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_20291 : Any → {Any | result satisfies: A.e...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4a5fd453c33ecdd1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 695117cffe398953  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_issue_20291","kind":"function","src_hash":"6dc290c92b430ac6","in":{"base":"Any"},"out":{"base":"Any","pred":"A.evalf(subs={a: 1, b: 2}) == FiniteSet(1.0, 2.0) and B.evalf(subs={a: 1, b: 2}) == FiniteSet(-1.0, 1.0) and sol.evalf(subs={b: 1}) == EmptySet"},"spec":{"lhs":"test_issue_20291()","rhs":"test_issue_20291 produces the expected output","over":{"base":"Any"},"name":"test_issue_20291_correct"},"guarantee":"test_issue_20291 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_issue_20291_correct","statement":"Path(test_issue_20291(x), test_issue_20291 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4a5fd453c33ecdd1"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_issue_20291","kind":"function","src_hash":"6dc290c92b430ac6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A.evalf(subs={a: 1, b: 2}) == FiniteSet(1.0, 2.0) and B.evalf(subs={a: 1, b: 2}) == FiniteSet(-1.0, 1.0) and sol.evalf(subs={b: 1}) == EmptySet"},"spec":{"lhs":"test_issue_20291()","rhs":"A.evalf(subs={a: 1, b: 2}) == FiniteSet(1.0, 2.0) and B.evalf(subs={a: 1, b: 2}) == FiniteSet(-1.0, 1.0) and sol.evalf(subs={b: 1}) == EmptySet","over":{"base":"Any"},"name":"test_issue_20291_correct"},"guarantee":"A.evalf(subs={a: 1, b: 2}) == FiniteSet(1.0, 2.0); B.evalf(subs={a: 1, b: 2}) == FiniteSet(-1.0, 1.0); sol.evalf(subs={b: 1}) == EmptySet","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_issue_20291_correct","statement":"Path(test_issue_20291(x), A.evalf(subs={a: 1, b: 2}) == FiniteSet(1.0, 2.0); B.evalf(subs={a: 1, b: 2}) == FiniteSet(-1.0, 1.0); sol.evalf(subs={b: 1}) == EmptySet)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"695117cffe398953","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A.evalf(subs={a: 1, b: 2}) == FiniteSet(1.0, 2.0)","B.evalf(subs={a: 1, b: 2}) == FiniteSet(-1.0, 1.0)","sol.evalf(subs={b: 1}) == EmptySet"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_issue_20291():
     from sympy.sets import EmptySet, Reals
     from sympy.sets.sets import (Complement, FiniteSet, Intersection)
@@ -1279,16 +1680,24 @@ def test_issue_20291():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_evalf_with_zoo(), test_evalf_with_zoo produces the expected output) over Any ║
+# ║ Path(test_evalf_with_zoo(), (1 / x).evalf(subs={x: 0}) == zoo and (-1 / x).evalf(subs={x: 0}) == zoo and (0 ** x).evalf(subs={x: -1}) == zoo and (0 ** x).evalf(subs={x: -1 + I}) == nan and Mul(2, Pow(0, -1, evaluate=False), evaluate=False).evalf() == zoo and Mul(x, 1 / x, evaluate=False).evalf(subs={x: 0}) == Mul(x, 1 / x, evaluate=False).subs(x, 0) == nan and Mul(1 / x, 1 / x, evaluate=False).evalf(subs={x: 0}) == zoo and Mul(1 / x, Abs(1 / x), evaluate=False).evalf(subs={x: 0}) == zoo and Abs(zoo, evaluate=False).evalf() == oo and re(zoo, evaluate=False).evalf() == nan and im(zoo, evaluate=False).evalf() == nan and Add(zoo, zoo, evaluate=False).evalf() == nan and Add(oo, zoo, evaluate=False).evalf() == nan and Pow(zoo, -1, evaluate=False).evalf() == 0 and Pow(zoo, Rational(-1, 3), evaluate=False).evalf() == 0 and Pow(zoo, Rational(1, 3), evaluate=False).evalf() == zoo and Pow(zoo, S.Half, evaluate=False).evalf() == zoo and Pow(zoo, 2, evaluate=False).evalf() == zoo and Pow(0, zoo, evaluate=False).evalf() == nan and log(zoo, evaluate=False).evalf() == zoo and zoo.evalf(chop=True) == zoo and x.evalf(subs={x: zoo}) == zoo) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_evalf_with_zoo : Any → {Any | (1 / x).evalf(subs...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (1 / x).evalf(subs={x: 0}) == zoo              ║
+# ║   ensures:  (-1 / x).evalf(subs={x: 0}) == zoo             ║
+# ║   ensures:  (0 ** x).evalf(subs={x: -1}) == zoo            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_evalf_with_zoo : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8c57a17560191152  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3552a929e6c220c1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_evalf_with_zoo","kind":"function","src_hash":"d3a722fbd7ec4d9d","in":{"base":"Any"},"out":{"base":"Any","pred":"(1 / x).evalf(subs={x: 0}) == zoo and (-1 / x).evalf(subs={x: 0}) == zoo and (0 ** x).evalf(subs={x: -1}) == zoo and (0 ** x).evalf(subs={x: -1 + I}) == nan and Mul(2, Pow(0, -1, evaluate=False), evaluate=False).evalf() == zoo and Mul(1 / x, 1 / x, evaluate=False).evalf(subs={x: 0}) == zoo and Mul(1 / x, Abs(1 / x), evaluate=False).evalf(subs={x: 0}) == zoo and Abs(zoo, evaluate=False).evalf() == oo and re(zoo, evaluate=False).evalf() == nan and im(zoo, evaluate=False).evalf() == nan and Add(zoo, zoo, evaluate=False).evalf() == nan and Add(oo, zoo, evaluate=False).evalf() == nan and Pow(zoo, -1, evaluate=False).evalf() == 0 and Pow(zoo, Rational(-1, 3), evaluate=False).evalf() == 0 and Pow(zoo, Rational(1, 3), evaluate=False).evalf() == zoo and Pow(zoo, S.Half, evaluate=False).evalf() == zoo and Pow(zoo, 2, evaluate=False).evalf() == zoo and Pow(0, zoo, evaluate=False).evalf() == nan and log(zoo, evaluate=False).evalf() == zoo and zoo.evalf(chop=True) == zoo and x.evalf(subs={x: zoo}) == zoo"},"spec":{"lhs":"test_evalf_with_zoo()","rhs":"test_evalf_with_zoo produces the expected output","over":{"base":"Any"},"name":"test_evalf_with_zoo_correct"},"guarantee":"test_evalf_with_zoo produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_evalf_with_zoo_correct","statement":"Path(test_evalf_with_zoo(x), test_evalf_with_zoo produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8c57a17560191152"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_evalf_with_zoo","kind":"function","src_hash":"d3a722fbd7ec4d9d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (1 / x).evalf(subs={x: 0}) == zoo and (-1 / x).evalf(subs={x: 0}) == zoo and (0 ** x).evalf(subs={x: -1}) == zoo and (0 ** x).evalf(subs={x: -1 + I}) == nan and Mul(2, Pow(0, -1, evaluate=False), evaluate=False).evalf() == zoo and Mul(x, 1 / x, evaluate=False).evalf(subs={x: 0}) == Mul(x, 1 / x, evaluate=False).subs(x, 0) == nan and Mul(1 / x, 1 / x, evaluate=False).evalf(subs={x: 0}) == zoo and Mul(1 / x, Abs(1 / x), evaluate=False).evalf(subs={x: 0}) == zoo and Abs(zoo, evaluate=False).evalf() == oo and re(zoo, evaluate=False).evalf() == nan and im(zoo, evaluate=False).evalf() == nan and Add(zoo, zoo, evaluate=False).evalf() == nan and Add(oo, zoo, evaluate=False).evalf() == nan and Pow(zoo, -1, evaluate=False).evalf() == 0 and Pow(zoo, Rational(-1, 3), evaluate=False).evalf() == 0 and Pow(zoo, Rational(1, 3), evaluate=False).evalf() == zoo and Pow(zoo, S.Half, evaluate=False).evalf() == zoo and Pow(zoo, 2, evaluate=False).evalf() == zoo and Pow(0, zoo, evaluate=False).evalf() == nan and log(zoo, evaluate=False).evalf() == zoo and zoo.evalf(chop=True) == zoo and x.evalf(subs={x: zoo}) == zoo"},"spec":{"lhs":"test_evalf_with_zoo()","rhs":"(1 / x).evalf(subs={x: 0}) == zoo and (-1 / x).evalf(subs={x: 0}) == zoo and (0 ** x).evalf(subs={x: -1}) == zoo and (0 ** x).evalf(subs={x: -1 + I}) == nan and Mul(2, Pow(0, -1, evaluate=False), evaluate=False).evalf() == zoo and Mul(x, 1 / x, evaluate=False).evalf(subs={x: 0}) == Mul(x, 1 / x, evaluate=False).subs(x, 0) == nan and Mul(1 / x, 1 / x, evaluate=False).evalf(subs={x: 0}) == zoo and Mul(1 / x, Abs(1 / x), evaluate=False).evalf(subs={x: 0}) == zoo and Abs(zoo, evaluate=False).evalf() == oo and re(zoo, evaluate=False).evalf() == nan and im(zoo, evaluate=False).evalf() == nan and Add(zoo, zoo, evaluate=False).evalf() == nan and Add(oo, zoo, evaluate=False).evalf() == nan and Pow(zoo, -1, evaluate=False).evalf() == 0 and Pow(zoo, Rational(-1, 3), evaluate=False).evalf() == 0 and Pow(zoo, Rational(1, 3), evaluate=False).evalf() == zoo and Pow(zoo, S.Half, evaluate=False).evalf() == zoo and Pow(zoo, 2, evaluate=False).evalf() == zoo and Pow(0, zoo, evaluate=False).evalf() == nan and log(zoo, evaluate=False).evalf() == zoo and zoo.evalf(chop=True) == zoo and x.evalf(subs={x: zoo}) == zoo","over":{"base":"Any"},"name":"test_evalf_with_zoo_correct"},"guarantee":"(1 / x).evalf(subs={x: 0}) == zoo; (-1 / x).evalf(subs={x: 0}) == zoo; (0 ** x).evalf(subs={x: -1}) == zoo","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_evalf_with_zoo_correct","statement":"Path(test_evalf_with_zoo(x), (1 / x).evalf(subs={x: 0}) == zoo; (-1 / x).evalf(subs={x: 0}) == zoo; (0 ** x).evalf(subs={x: -1}) == zoo)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3552a929e6c220c1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(1 / x).evalf(subs={x: 0}) == zoo","(-1 / x).evalf(subs={x: 0}) == zoo","(0 ** x).evalf(subs={x: -1}) == zoo","(0 ** x).evalf(subs={x: -1 + I}) == nan","Mul(2, Pow(0, -1, evaluate=False), evaluate=False).evalf() == zoo","Mul(x, 1 / x, evaluate=False).evalf(subs={x: 0}) == Mul(x, 1 / x, evaluate=False).subs(x, 0) == nan","Mul(1 / x, 1 / x, evaluate=False).evalf(subs={x: 0}) == zoo","Mul(1 / x, Abs(1 / x), evaluate=False).evalf(subs={x: 0}) == zoo","Abs(zoo, evaluate=False).evalf() == oo","re(zoo, evaluate=False).evalf() == nan","im(zoo, evaluate=False).evalf() == nan","Add(zoo, zoo, evaluate=False).evalf() == nan","Add(oo, zoo, evaluate=False).evalf() == nan","Pow(zoo, -1, evaluate=False).evalf() == 0","Pow(zoo, Rational(-1, 3), evaluate=False).evalf() == 0","Pow(zoo, Rational(1, 3), evaluate=False).evalf() == zoo","Pow(zoo, S.Half, evaluate=False).evalf() == zoo","Pow(zoo, 2, evaluate=False).evalf() == zoo","Pow(0, zoo, evaluate=False).evalf() == nan","log(zoo, evaluate=False).evalf() == zoo","zoo.evalf(chop=True) == zoo","x.evalf(subs={x: zoo}) == zoo"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_evalf_with_zoo():
     assert (1/x).evalf(subs={x: 0}) == zoo  # issue 8242
     assert (-1/x).evalf(subs={x: 0}) == zoo  # PR 16150
@@ -1315,16 +1724,22 @@ def test_evalf_with_zoo():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_evalf_with_bounded_error(), test_evalf_with_bounded_error produces the expected output) over Any ║
+# ║ Path(test_evalf_with_bounded_error(), <unspecified:test_evalf_with_bounded_error>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_evalf_with_bounded_error : Any → {Any | abs(w - ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 07474a25f9a45e95  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_evalf_with_bounded_error","kind":"function","src_hash":"0bada881713acf07","in":{"base":"Any"},"out":{"base":"Any","pred":"abs(w - z) < eps"},"spec":{"lhs":"test_evalf_with_bounded_error()","rhs":"test_evalf_with_bounded_error produces the expected output","over":{"base":"Any"},"name":"test_evalf_with_bounded_error_correct"},"guarantee":"test_evalf_with_bounded_error produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_evalf_with_bounded_error_correct","statement":"Path(test_evalf_with_bounded_error(x), test_evalf_with_bounded_error produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"07474a25f9a45e95"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_evalf_with_bounded_error","kind":"function","src_hash":"0bada881713acf07","in":{"base":"Any"},"out":{"base":"Any","pred":"abs(w - z) < eps"},"spec":{"lhs":"test_evalf_with_bounded_error()","rhs":"<unspecified:test_evalf_with_bounded_error>","over":{"base":"Any"},"name":"test_evalf_with_bounded_error_correct"},"guarantee":"test_evalf_with_bounded_error produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_evalf_with_bounded_error_correct","statement":"Path(test_evalf_with_bounded_error(x), test_evalf_with_bounded_error produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"07474a25f9a45e95","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_evalf_with_bounded_error():
     cases = [
         # zero
@@ -1361,16 +1776,22 @@ def test_evalf_with_bounded_error():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_22849(), test_issue_22849 produces the expected output) over Any ║
+# ║ Path(test_issue_22849(), evalf(a, 1, {}) == evalf(x, 1, {})) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_22849 : Any → {Any | evalf(a, 1, {}) == ev...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  evalf(a, 1, {}) == evalf(x, 1, {})             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_22849 : Any → {Any | result satisfies: eva...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b6e0106d59608197  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2676d0e960b752a3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_issue_22849","kind":"function","src_hash":"c37eea52939fab8e","in":{"base":"Any"},"out":{"base":"Any","pred":"evalf(a, 1, {}) == evalf(x, 1, {})"},"spec":{"lhs":"test_issue_22849()","rhs":"test_issue_22849 produces the expected output","over":{"base":"Any"},"name":"test_issue_22849_correct"},"guarantee":"test_issue_22849 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_issue_22849_correct","statement":"Path(test_issue_22849(x), test_issue_22849 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b6e0106d59608197"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_issue_22849","kind":"function","src_hash":"c37eea52939fab8e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: evalf(a, 1, {}) == evalf(x, 1, {})"},"spec":{"lhs":"test_issue_22849()","rhs":"evalf(a, 1, {}) == evalf(x, 1, {})","over":{"base":"Any"},"name":"test_issue_22849_correct"},"guarantee":"evalf(a, 1, {}) == evalf(x, 1, {})","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_issue_22849_correct","statement":"Path(test_issue_22849(x), evalf(a, 1, {}) == evalf(x, 1, {}))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2676d0e960b752a3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["evalf(a, 1, {}) == evalf(x, 1, {})"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_22849():
     a = -8 + 3 * sqrt(3)
     x = AlgebraicNumber(a)
@@ -1378,7 +1799,12 @@ def test_issue_22849():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_evalf_real_alg_num(), test_evalf_real_alg_num produces the expected output) over {Any | isinstance(z, Float)} ║
+# ║ Path(test_evalf_real_alg_num(), isinstance(z, Float) and not hasattr(z, '_mpc_') and hasattr(z, '_mpf_')) over {Any | isinstance(z, Float)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(z, Float)                           ║
+# ║   ensures:  not hasattr(z, '_mpc_')                        ║
+# ║   ensures:  hasattr(z, '_mpf_')                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_evalf_real_alg_num : {Any | isinstance(z, Float)...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -1390,9 +1816,12 @@ def test_issue_22849():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.2ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 0dfb3430...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_evalf_real_alg_num","kind":"function","src_hash":"4f684fc345f4ebad","in":{"base":"Any","pred":"isinstance(z, Float)"},"out":{"base":"Any","pred":"isinstance(z, Float) and not hasattr(z, '_mpc_') and hasattr(z, '_mpf_')"},"spec":{"lhs":"test_evalf_real_alg_num()","rhs":"test_evalf_real_alg_num produces the expected output","over":{"base":"Any","pred":"isinstance(z, Float)"},"name":"test_evalf_real_alg_num_correct"},"guarantee":"test_evalf_real_alg_num produces the expected output","fibers":[{"name":"Float","pred":"isinstance(z, Float)","path":{"lhs":"test_evalf_real_alg_num(x)","rhs":"test_evalf_real_alg_num produces the expected output","over":{"base":"Float","pred":"isinstance(z, Float)"},"name":"test_evalf_real_alg_num_Float_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_evalf_real_alg_num_Float_correct","statement":"test_evalf_real_alg_num satisfies spec on Float inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"0dfb34306f8136b0"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_evalf_real_alg_num","kind":"function","src_hash":"4f684fc345f4ebad","in":{"base":"Any","pred":"isinstance(z, Float)"},"out":{"base":"Any","pred":"result satisfies: isinstance(z, Float) and not hasattr(z, '_mpc_') and hasattr(z, '_mpf_')"},"spec":{"lhs":"test_evalf_real_alg_num()","rhs":"isinstance(z, Float) and not hasattr(z, '_mpc_') and hasattr(z, '_mpf_')","over":{"base":"Any","pred":"isinstance(z, Float)"},"name":"test_evalf_real_alg_num_correct"},"guarantee":"isinstance(z, Float); not hasattr(z, '_mpc_'); hasattr(z, '_mpf_')","fibers":[{"name":"Float","pred":"isinstance(z, Float)","path":{"lhs":"test_evalf_real_alg_num(x)","rhs":"isinstance(z, Float); not hasattr(z, '_mpc_'); hasattr(z, '_mpf_')","over":{"base":"Float","pred":"isinstance(z, Float)"},"name":"test_evalf_real_alg_num_Float_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_evalf_real_alg_num_Float_correct","statement":"test_evalf_real_alg_num satisfies spec on Float inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"0dfb34306f8136b0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(z, Float)","not hasattr(z, '_mpc_')","hasattr(z, '_mpf_')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.2,"verdict_class":"failed","binding":true}}
 def test_evalf_real_alg_num():
     # This test demonstrates why the entry for `AlgebraicNumber` in
     # `sympy.core.evalf._create_evalf_table()` has to use `x.to_root()`,
@@ -1408,16 +1837,24 @@ def test_evalf_real_alg_num():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_20733(), test_issue_20733 produces the expected output) over Any ║
+# ║ Path(test_issue_20733(), str(expr.evalf(1, subs={x: 1})) == '-4.e-5' and str(expr.evalf(2, subs={x: 1})) == '-4.1e-5' and str(expr.evalf(11, subs={x: 1})) == '-4.1335978836e-5' and str(expr.evalf(20, subs={x: 1})) == '-0.000041335978835978835979' and srepr(expr.evalf(2, subs={x: 1})) == "Float('4.0271e+2561', precision=10)" and srepr(expr.evalf(10, subs={x: 1})) == "Float('4.02790050126e+2561', precision=37)" and srepr(expr.evalf(53, subs={x: 1})) == "Float('4.0279005012722099453824067459760158730668154575647110393e+2561', precision=179)") over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_20733 : Any → {Any | str(expr.evalf(1, sub...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(expr.evalf(1, subs={x: 1})) == '-4.e-5'    ║
+# ║   ensures:  str(expr.evalf(2, subs={x: 1})) == '-4.1e-5'   ║
+# ║   ensures:  str(expr.evalf(11, subs={x: 1})) == '-4.1...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_20733 : Any → {Any | result satisfies: str...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c619358547f98c1f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c4fde7e663730a01  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_issue_20733","kind":"function","src_hash":"2e23c9c82c1f0db9","in":{"base":"Any"},"out":{"base":"Any","pred":"str(expr.evalf(1, subs={x: 1})) == '-4.e-5' and str(expr.evalf(2, subs={x: 1})) == '-4.1e-5' and str(expr.evalf(11, subs={x: 1})) == '-4.1335978836e-5' and str(expr.evalf(20, subs={x: 1})) == '-0.000041335978835978835979' and srepr(expr.evalf(2, subs={x: 1})) == \"Float('4.0271e+2561', precision=10)\""},"spec":{"lhs":"test_issue_20733()","rhs":"test_issue_20733 produces the expected output","over":{"base":"Any"},"name":"test_issue_20733_correct"},"guarantee":"test_issue_20733 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_issue_20733_correct","statement":"Path(test_issue_20733(x), test_issue_20733 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c619358547f98c1f"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_evalf.test_issue_20733","kind":"function","src_hash":"2e23c9c82c1f0db9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(expr.evalf(1, subs={x: 1})) == '-4.e-5' and str(expr.evalf(2, subs={x: 1})) == '-4.1e-5' and str(expr.evalf(11, subs={x: 1})) == '-4.1335978836e-5' and str(expr.evalf(20, subs={x: 1})) == '-0.000041335978835978835979' and srepr(expr.evalf(2, subs={x: 1})) == \"Float('4.0271e+2561', precision=10)\" and srepr(expr.evalf(10, subs={x: 1})) == \"Float('4.02790050126e+2561', precision=37)\" and srepr(expr.evalf(53, subs={x: 1})) == \"Float('4.0279005012722099453824067459760158730668154575647110393e+2561', precision=179)\""},"spec":{"lhs":"test_issue_20733()","rhs":"str(expr.evalf(1, subs={x: 1})) == '-4.e-5' and str(expr.evalf(2, subs={x: 1})) == '-4.1e-5' and str(expr.evalf(11, subs={x: 1})) == '-4.1335978836e-5' and str(expr.evalf(20, subs={x: 1})) == '-0.000041335978835978835979' and srepr(expr.evalf(2, subs={x: 1})) == \"Float('4.0271e+2561', precision=10)\" and srepr(expr.evalf(10, subs={x: 1})) == \"Float('4.02790050126e+2561', precision=37)\" and srepr(expr.evalf(53, subs={x: 1})) == \"Float('4.0279005012722099453824067459760158730668154575647110393e+2561', precision=179)\"","over":{"base":"Any"},"name":"test_issue_20733_correct"},"guarantee":"str(expr.evalf(1, subs={x: 1})) == '-4.e-5'; str(expr.evalf(2, subs={x: 1})) == '-4.1e-5'; str(expr.evalf(11, subs={x: 1})) == '-4.1335978836e-5'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_evalf.test_issue_20733_correct","statement":"Path(test_issue_20733(x), str(expr.evalf(1, subs={x: 1})) == '-4.e-5'; str(expr.evalf(2, subs={x: 1})) == '-4.1e-5'; str(expr.evalf(11, subs={x: 1})) == '-4.1335978836e-5')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c4fde7e663730a01","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(expr.evalf(1, subs={x: 1})) == '-4.e-5'","str(expr.evalf(2, subs={x: 1})) == '-4.1e-5'","str(expr.evalf(11, subs={x: 1})) == '-4.1335978836e-5'","str(expr.evalf(20, subs={x: 1})) == '-0.000041335978835978835979'","srepr(expr.evalf(2, subs={x: 1})) == \"Float('4.0271e+2561', precision=10)\"","srepr(expr.evalf(10, subs={x: 1})) == \"Float('4.02790050126e+2561', precision=37)\"","srepr(expr.evalf(53, subs={x: 1})) == \"Float('4.0279005012722099453824067459760158730668154575647110393e+2561', precision=179)\""],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_issue_20733():
     expr = 1/((x - 9)*(x - 8)*(x - 7)*(x - 4)**2*(x - 3)**3*(x - 2))
     assert str(expr.evalf(1, subs={x:1})) == '-4.e-5'

@@ -44,46 +44,64 @@ x = symbols('x')
 # SHOULD NOT BE USED DIRECTLY IN TESTS
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rand_rational(max), rand_rational produces the expected output) over Any ║
+# ║ Path(rand_rational(maxint), Rational(randint(-maxint, maxint), randint(1, maxint))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Rational(randint(-maxint, maxint), randin...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ rand_rational : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 955a639edd028f8a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_riccati.rand_rational","kind":"function","src_hash":"3afc4143477911aa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rand_rational(max)","rhs":"rand_rational produces the expected output","over":{"base":"Any"},"name":"rand_rational_correct"},"guarantee":"rand_rational produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"955a639edd028f8a"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_riccati.rand_rational","kind":"function","src_hash":"3afc4143477911aa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rand_rational(maxint)","rhs":"Rational(randint(-maxint, maxint), randint(1, maxint))","over":{"base":"Any"},"name":"rand_rational_correct"},"guarantee":"returns Rational(randint(-maxint, maxint), randint(1, maxint))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"955a639edd028f8a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Rational(randint(-maxint, maxint), randint(1, maxint))","pure":false,"effects":{"effect_type":"nondeterministic","nondeterministic_sources":["randint"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def rand_rational(maxint):
     return Rational(randint(-maxint, maxint), randint(1, maxint))
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rand_poly(x, ), rand_poly produces the expected output) over Any ║
+# ║ Path(rand_poly(x, degree, maxint), Poly([rand_rational(maxint) for _ in range(degree + 1)], x)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Poly([rand_rational(maxint) for _ in rang...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ rand_poly : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0c19d9906dcedc22           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_riccati.rand_poly","kind":"function","src_hash":"50effa4ac80e521f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rand_poly(x, )","rhs":"rand_poly produces the expected output","over":{"base":"Any"},"name":"rand_poly_correct"},"guarantee":"rand_poly produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0c19d9906dcedc22"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_riccati.rand_poly","kind":"function","src_hash":"50effa4ac80e521f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rand_poly(x, degree, maxint)","rhs":"Poly([rand_rational(maxint) for _ in range(degree + 1)], x)","over":{"base":"Any"},"name":"rand_poly_correct"},"guarantee":"returns Poly([rand_rational(maxint) for _ in range(degree + 1)], x)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0c19d9906dcedc22","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Poly([rand_rational(maxint) for _ in range(degree + 1)], x)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def rand_poly(x, degree, maxint):
     return Poly([rand_rational(maxint) for _ in range(degree+1)], x)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rand_rational_function(x, ), rand_rational_function produces the expected output) over Any ║
+# ║ Path(rand_rational_function(x, degree, maxint), num / den) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  num / den                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ rand_rational_function : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7d8d578a20c95ec5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 46d4019176fdbc1e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_riccati.rand_rational_function","kind":"function","src_hash":"e61296e1ef2d8a7d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rand_rational_function(x, )","rhs":"rand_rational_function produces the expected output","over":{"base":"Any"},"name":"rand_rational_function_correct"},"guarantee":"rand_rational_function produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_riccati.rand_rational_function_correct","statement":"Path(rand_rational_function(x), rand_rational_function produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7d8d578a20c95ec5"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_riccati.rand_rational_function","kind":"function","src_hash":"e61296e1ef2d8a7d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rand_rational_function(x, degree, maxint)","rhs":"num / den","over":{"base":"Any"},"name":"rand_rational_function_correct"},"guarantee":"returns num / den","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_riccati.rand_rational_function_correct","statement":"Path(rand_rational_function(x), returns num / den)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"46d4019176fdbc1e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"num / den","pure":false,"effects":{"effect_type":"nondeterministic","nondeterministic_sources":["randint"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def rand_rational_function(x, degree, maxint):
     degnum = randint(1, degree)
     degden = randint(1, degree)
@@ -95,16 +113,24 @@ def rand_rational_function(x, degree, maxint):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(find_riccati_ode(rat), find_riccati_ode produces the expected output) over Any ║
+# ║ Path(find_riccati_ode(ratfunc, x, yf), (eq, q0, q1, q2)) over {Any | hasattr(yf, 'diff')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ find_riccati_ode : Any → {Any | checkodesol(eq, sol) ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(yf, 'diff')                            ║
+# ║   ensures:  checkodesol(eq, sol) == (True, 0)              ║
+# ║   returns:  (eq, q0, q1, q2)                               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ find_riccati_ode : {Any | hasattr(yf, 'diff')} → {Any...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3c50727cada0f36f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 835f988de8700faf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_riccati.find_riccati_ode","kind":"function","src_hash":"6be4c6d5151385ed","in":{"base":"Any"},"out":{"base":"Any","pred":"checkodesol(eq, sol) == (True, 0)"},"spec":{"lhs":"find_riccati_ode(rat)","rhs":"find_riccati_ode produces the expected output","over":{"base":"Any"},"name":"find_riccati_ode_correct"},"guarantee":"find_riccati_ode produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_riccati.find_riccati_ode_correct","statement":"Path(find_riccati_ode(x), find_riccati_ode produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3c50727cada0f36f"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_riccati.find_riccati_ode","kind":"function","src_hash":"6be4c6d5151385ed","in":{"base":"Any","pred":"hasattr(yf, 'diff')"},"out":{"base":"Any","pred":"result satisfies: result == ((eq, q0, q1, q2))"},"spec":{"lhs":"find_riccati_ode(ratfunc, x, yf)","rhs":"(eq, q0, q1, q2)","over":{"base":"Any","pred":"hasattr(yf, 'diff')"},"name":"find_riccati_ode_correct"},"guarantee":"returns (eq, q0, q1, q2); checkodesol(eq, sol) == (True, 0)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_riccati.find_riccati_ode_correct","statement":"Path(find_riccati_ode(x), returns (eq, q0, q1, q2); checkodesol(eq, sol) == (True, 0))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"835f988de8700faf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(yf, 'diff')"],"ensures":["checkodesol(eq, sol) == (True, 0)"],"returns_expr":"(eq, q0, q1, q2)","pure":false,"effects":{"effect_type":"reads_state","reads":["yf.diff"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def find_riccati_ode(ratfunc, x, yf):
     y = ratfunc
     yp = y.diff(x)
@@ -122,16 +148,22 @@ def find_riccati_ode(ratfunc, x, yf):
 # Testing functions start
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_riccati_transformation(), this function tests the transformation of the solution of a riccati ode to the solution of its corresponding normal riccati ode) over Any ║
+# ║ Path(test_riccati_transformation(), <unspecified:test_riccati_transformation>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_riccati_transformation : Any → {Any | y == ricca...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.9ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 879451fd91325e43  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_riccati.test_riccati_transformation","kind":"function","src_hash":"4396337f25484bdf","in":{"base":"Any"},"out":{"base":"Any","pred":"y == riccati_normal(w, x, b1, b2) and w == riccati_inverse_normal(y, x, b1, b2).cancel() and y == riccati_normal(w, x, b1, b2) and w == riccati_inverse_normal(y, x, b1, b2, bp).cancel()"},"spec":{"lhs":"test_riccati_transformation()","rhs":"this function tests the transformation of the solution of a riccati ode to the solution of its corresponding normal riccati ode","over":{"base":"Any"},"name":"test_riccati_transformation_correct"},"guarantee":"this function tests the transformation of the solution of a riccati ode to the solution of its corresponding normal riccati ode","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_riccati.test_riccati_transformation_correct","statement":"Path(test_riccati_transformation(x), this function tests the transformation of the solution of a riccati ode to the solution of its corresponding normal riccati ode)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"879451fd91325e43"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_riccati.test_riccati_transformation","kind":"function","src_hash":"4396337f25484bdf","in":{"base":"Any"},"out":{"base":"Any","pred":"y == riccati_normal(w, x, b1, b2) and w == riccati_inverse_normal(y, x, b1, b2).cancel() and y == riccati_normal(w, x, b1, b2) and w == riccati_inverse_normal(y, x, b1, b2, bp).cancel()"},"spec":{"lhs":"test_riccati_transformation()","rhs":"<unspecified:test_riccati_transformation>","over":{"base":"Any"},"name":"test_riccati_transformation_correct"},"guarantee":"this function tests the transformation of the solution of a riccati ode to the solution of its corresponding normal riccati ode","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_riccati.test_riccati_transformation_correct","statement":"Path(test_riccati_transformation(x), this function tests the transformation of the solution of a riccati ode to the solution of its corresponding normal riccati ode)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"879451fd91325e43","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.9,"verdict_class":"assumed","binding":true}}
 def test_riccati_transformation():
     """
     This function tests the transformation of the
@@ -199,16 +231,22 @@ def test_riccati_transformation():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_riccati_reduced(), this function tests the transformation of a riccati ode to its normal riccati ode) over Any ║
+# ║ Path(test_riccati_reduced(), <unspecified:test_riccati_reduced>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_riccati_reduced : Any → {Any | normal_eq == ricc...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a2bf30f9e7c278a1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_riccati.test_riccati_reduced","kind":"function","src_hash":"e8392db5a0116a36","in":{"base":"Any"},"out":{"base":"Any","pred":"normal_eq == riccati_reduced(eq, f, x)"},"spec":{"lhs":"test_riccati_reduced()","rhs":"this function tests the transformation of a riccati ode to its normal riccati ode","over":{"base":"Any"},"name":"test_riccati_reduced_correct"},"guarantee":"this function tests the transformation of a riccati ode to its normal riccati ode","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_riccati.test_riccati_reduced_correct","statement":"Path(test_riccati_reduced(x), this function tests the transformation of a riccati ode to its normal riccati ode)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a2bf30f9e7c278a1"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_riccati.test_riccati_reduced","kind":"function","src_hash":"e8392db5a0116a36","in":{"base":"Any"},"out":{"base":"Any","pred":"normal_eq == riccati_reduced(eq, f, x)"},"spec":{"lhs":"test_riccati_reduced()","rhs":"<unspecified:test_riccati_reduced>","over":{"base":"Any"},"name":"test_riccati_reduced_correct"},"guarantee":"this function tests the transformation of a riccati ode to its normal riccati ode","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_riccati.test_riccati_reduced_correct","statement":"Path(test_riccati_reduced(x), this function tests the transformation of a riccati ode to its normal riccati ode)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a2bf30f9e7c278a1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":true}}
 def test_riccati_reduced():
     """
     This function tests the transformation of a
@@ -264,16 +302,22 @@ def test_riccati_reduced():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_match_riccati(), this function tests if an ode is riccati or not) over Any ║
+# ║ Path(test_match_riccati(), <unspecified:test_match_riccati>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_match_riccati : Any → {Any | match == res and [b...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 79f03d8785435630  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_riccati.test_match_riccati","kind":"function","src_hash":"14b55d39e419781f","in":{"base":"Any"},"out":{"base":"Any","pred":"match == res and [b0, b1, b2] == funcs"},"spec":{"lhs":"test_match_riccati()","rhs":"this function tests if an ode is riccati or not","over":{"base":"Any"},"name":"test_match_riccati_correct"},"guarantee":"this function tests if an ode is riccati or not","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_riccati.test_match_riccati_correct","statement":"Path(test_match_riccati(x), this function tests if an ode is riccati or not)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"79f03d8785435630"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_riccati.test_match_riccati","kind":"function","src_hash":"14b55d39e419781f","in":{"base":"Any"},"out":{"base":"Any","pred":"match == res and [b0, b1, b2] == funcs"},"spec":{"lhs":"test_match_riccati()","rhs":"<unspecified:test_match_riccati>","over":{"base":"Any"},"name":"test_match_riccati_correct"},"guarantee":"this function tests if an ode is riccati or not","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_riccati.test_match_riccati_correct","statement":"Path(test_match_riccati(x), this function tests if an ode is riccati or not)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"79f03d8785435630","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.4,"verdict_class":"assumed","binding":true}}
 def test_match_riccati():
     """
     This function tests if an ODE is Riccati or not.
@@ -374,16 +418,22 @@ def test_match_riccati():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_val_at_inf(), this function tests the valuation of rational function at oo) over Any ║
+# ║ Path(test_val_at_inf(), <unspecified:test_val_at_inf>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_val_at_inf : Any → {Any | val_at_inf(num, den, x...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 28c77f68fa32433d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_riccati.test_val_at_inf","kind":"function","src_hash":"8549592ac66f06f9","in":{"base":"Any"},"out":{"base":"Any","pred":"val_at_inf(num, den, x) == val"},"spec":{"lhs":"test_val_at_inf()","rhs":"this function tests the valuation of rational function at oo","over":{"base":"Any"},"name":"test_val_at_inf_correct"},"guarantee":"this function tests the valuation of rational function at oo","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_riccati.test_val_at_inf_correct","statement":"Path(test_val_at_inf(x), this function tests the valuation of rational function at oo)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"28c77f68fa32433d"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_riccati.test_val_at_inf","kind":"function","src_hash":"8549592ac66f06f9","in":{"base":"Any"},"out":{"base":"Any","pred":"val_at_inf(num, den, x) == val"},"spec":{"lhs":"test_val_at_inf()","rhs":"<unspecified:test_val_at_inf>","over":{"base":"Any"},"name":"test_val_at_inf_correct"},"guarantee":"this function tests the valuation of rational function at oo","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_riccati.test_val_at_inf_correct","statement":"Path(test_val_at_inf(x), this function tests the valuation of rational function at oo)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"28c77f68fa32433d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_val_at_inf():
     """
     This function tests the valuation of rational
@@ -429,16 +479,24 @@ def test_val_at_inf():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_necessary_conds(), this function tests the necessary conditions for a riccati ode to have a rational particular solution) over Any ║
+# ║ Path(test_necessary_conds(), check_necessary_conds(-3, [1, 2, 4]) == False and check_necessary_conds(1, [1, 2, 4]) == False and check_necessary_conds(2, [3, 1, 6]) == False and check_necessary_conds(-10, [1, 2, 8, 12]) == True) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_necessary_conds : Any → {Any | check_necessary_c...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  check_necessary_conds(-3, [1, 2, 4]) == F...   ║
+# ║   ensures:  check_necessary_conds(1, [1, 2, 4]) == False   ║
+# ║   ensures:  check_necessary_conds(2, [3, 1, 6]) == False   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_necessary_conds : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2942eacb3087b64f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6942b7f81e9927e6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_riccati.test_necessary_conds","kind":"function","src_hash":"3032326e26f32a53","in":{"base":"Any"},"out":{"base":"Any","pred":"check_necessary_conds(-3, [1, 2, 4]) == False and check_necessary_conds(1, [1, 2, 4]) == False and check_necessary_conds(2, [3, 1, 6]) == False and check_necessary_conds(-10, [1, 2, 8, 12]) == True"},"spec":{"lhs":"test_necessary_conds()","rhs":"this function tests the necessary conditions for a riccati ode to have a rational particular solution","over":{"base":"Any"},"name":"test_necessary_conds_correct"},"guarantee":"this function tests the necessary conditions for a riccati ode to have a rational particular solution","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_riccati.test_necessary_conds_correct","statement":"Path(test_necessary_conds(x), this function tests the necessary conditions for a riccati ode to have a rational particular solution)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2942eacb3087b64f"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_riccati.test_necessary_conds","kind":"function","src_hash":"3032326e26f32a53","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: check_necessary_conds(-3, [1, 2, 4]) == False and check_necessary_conds(1, [1, 2, 4]) == False and check_necessary_conds(2, [3, 1, 6]) == False and check_necessary_conds(-10, [1, 2, 8, 12]) == True"},"spec":{"lhs":"test_necessary_conds()","rhs":"check_necessary_conds(-3, [1, 2, 4]) == False and check_necessary_conds(1, [1, 2, 4]) == False and check_necessary_conds(2, [3, 1, 6]) == False and check_necessary_conds(-10, [1, 2, 8, 12]) == True","over":{"base":"Any"},"name":"test_necessary_conds_correct"},"guarantee":"check_necessary_conds(-3, [1, 2, 4]) == False; check_necessary_conds(1, [1, 2, 4]) == False; check_necessary_conds(2, [3, 1, 6]) == False","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_riccati.test_necessary_conds_correct","statement":"Path(test_necessary_conds(x), check_necessary_conds(-3, [1, 2, 4]) == False; check_necessary_conds(1, [1, 2, 4]) == False; check_necessary_conds(2, [3, 1, 6]) == False)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6942b7f81e9927e6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["check_necessary_conds(-3, [1, 2, 4]) == False","check_necessary_conds(1, [1, 2, 4]) == False","check_necessary_conds(2, [3, 1, 6]) == False","check_necessary_conds(-10, [1, 2, 8, 12]) == True"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_necessary_conds():
     """
     This function tests the necessary conditions for
@@ -455,16 +513,22 @@ def test_necessary_conds():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_inverse_transform_poly(), this function tests the substitution x -> 1/x in rational functions represented using poly) over Any ║
+# ║ Path(test_inverse_transform_poly(), <unspecified:test_inverse_transform_poly>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_inverse_transform_poly : Any → {Any | f.subs(x, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8c40b4ee74eabde6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_riccati.test_inverse_transform_poly","kind":"function","src_hash":"d43419f70eb94e1c","in":{"base":"Any"},"out":{"base":"Any","pred":"f.subs(x, 1 / x).cancel() == num / den"},"spec":{"lhs":"test_inverse_transform_poly()","rhs":"this function tests the substitution x -> 1/x in rational functions represented using poly","over":{"base":"Any"},"name":"test_inverse_transform_poly_correct"},"guarantee":"this function tests the substitution x -> 1/x in rational functions represented using poly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_riccati.test_inverse_transform_poly_correct","statement":"Path(test_inverse_transform_poly(x), this function tests the substitution x -> 1/x in rational functions represented using poly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8c40b4ee74eabde6"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_riccati.test_inverse_transform_poly","kind":"function","src_hash":"d43419f70eb94e1c","in":{"base":"Any"},"out":{"base":"Any","pred":"f.subs(x, 1 / x).cancel() == num / den"},"spec":{"lhs":"test_inverse_transform_poly()","rhs":"<unspecified:test_inverse_transform_poly>","over":{"base":"Any"},"name":"test_inverse_transform_poly_correct"},"guarantee":"this function tests the substitution x -> 1/x in rational functions represented using poly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_riccati.test_inverse_transform_poly_correct","statement":"Path(test_inverse_transform_poly(x), this function tests the substitution x -> 1/x in rational functions represented using poly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8c40b4ee74eabde6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_inverse_transform_poly():
     """
     This function tests the substitution x -> 1/x
@@ -489,16 +553,22 @@ def test_inverse_transform_poly():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_limit_at_inf(), this function tests the limit at oo of a rational function) over Any ║
+# ║ Path(test_limit_at_inf(), <unspecified:test_limit_at_inf>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_limit_at_inf : Any → {Any | limit_at_inf(num, de...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4b4a808514efa23c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_riccati.test_limit_at_inf","kind":"function","src_hash":"080f2ddf1256436f","in":{"base":"Any"},"out":{"base":"Any","pred":"limit_at_inf(num, den, x) == lim"},"spec":{"lhs":"test_limit_at_inf()","rhs":"this function tests the limit at oo of a rational function","over":{"base":"Any"},"name":"test_limit_at_inf_correct"},"guarantee":"this function tests the limit at oo of a rational function","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_riccati.test_limit_at_inf_correct","statement":"Path(test_limit_at_inf(x), this function tests the limit at oo of a rational function)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4b4a808514efa23c"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_riccati.test_limit_at_inf","kind":"function","src_hash":"080f2ddf1256436f","in":{"base":"Any"},"out":{"base":"Any","pred":"limit_at_inf(num, den, x) == lim"},"spec":{"lhs":"test_limit_at_inf()","rhs":"<unspecified:test_limit_at_inf>","over":{"base":"Any"},"name":"test_limit_at_inf_correct"},"guarantee":"this function tests the limit at oo of a rational function","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_riccati.test_limit_at_inf_correct","statement":"Path(test_limit_at_inf(x), this function tests the limit at oo of a rational function)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4b4a808514efa23c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_limit_at_inf():
     """
     This function tests the limit at oo of a
@@ -546,16 +616,22 @@ def test_limit_at_inf():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_construct_c_case_1(), this function tests the case 1 in the step to calculate coefficients of c-vectors) over Any ║
+# ║ Path(test_construct_c_case_1(), <unspecified:test_construct_c_case_1>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_construct_c_case_1 : Any → {Any | construct_c_ca...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6aa9e376f2c79fd8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_riccati.test_construct_c_case_1","kind":"function","src_hash":"5088b5b05766b607","in":{"base":"Any"},"out":{"base":"Any","pred":"construct_c_case_1(num, den, x, pole) == c"},"spec":{"lhs":"test_construct_c_case_1()","rhs":"this function tests the case 1 in the step to calculate coefficients of c-vectors","over":{"base":"Any"},"name":"test_construct_c_case_1_correct"},"guarantee":"this function tests the case 1 in the step to calculate coefficients of c-vectors","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_riccati.test_construct_c_case_1_correct","statement":"Path(test_construct_c_case_1(x), this function tests the case 1 in the step to calculate coefficients of c-vectors)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6aa9e376f2c79fd8"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_riccati.test_construct_c_case_1","kind":"function","src_hash":"5088b5b05766b607","in":{"base":"Any"},"out":{"base":"Any","pred":"construct_c_case_1(num, den, x, pole) == c"},"spec":{"lhs":"test_construct_c_case_1()","rhs":"<unspecified:test_construct_c_case_1>","over":{"base":"Any"},"name":"test_construct_c_case_1_correct"},"guarantee":"this function tests the case 1 in the step to calculate coefficients of c-vectors","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_riccati.test_construct_c_case_1_correct","statement":"Path(test_construct_c_case_1(x), this function tests the case 1 in the step to calculate coefficients of c-vectors)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6aa9e376f2c79fd8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_construct_c_case_1():
     """
     This function tests the Case 1 in the step
@@ -595,16 +671,22 @@ def test_construct_c_case_1():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_construct_c_case_2(), this function tests the case 2 in the step to calculate coefficients of c-vectors) over Any ║
+# ║ Path(test_construct_c_case_2(), <unspecified:test_construct_c_case_2>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_construct_c_case_2 : Any → {Any | construct_c_ca...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.8ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a0b6f08e8e7d6929  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_riccati.test_construct_c_case_2","kind":"function","src_hash":"ebd2b6eed0ee839c","in":{"base":"Any"},"out":{"base":"Any","pred":"construct_c_case_2(num, den, x, pole, mul) == c"},"spec":{"lhs":"test_construct_c_case_2()","rhs":"this function tests the case 2 in the step to calculate coefficients of c-vectors","over":{"base":"Any"},"name":"test_construct_c_case_2_correct"},"guarantee":"this function tests the case 2 in the step to calculate coefficients of c-vectors","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_riccati.test_construct_c_case_2_correct","statement":"Path(test_construct_c_case_2(x), this function tests the case 2 in the step to calculate coefficients of c-vectors)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a0b6f08e8e7d6929"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_riccati.test_construct_c_case_2","kind":"function","src_hash":"ebd2b6eed0ee839c","in":{"base":"Any"},"out":{"base":"Any","pred":"construct_c_case_2(num, den, x, pole, mul) == c"},"spec":{"lhs":"test_construct_c_case_2()","rhs":"<unspecified:test_construct_c_case_2>","over":{"base":"Any"},"name":"test_construct_c_case_2_correct"},"guarantee":"this function tests the case 2 in the step to calculate coefficients of c-vectors","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_riccati.test_construct_c_case_2_correct","statement":"Path(test_construct_c_case_2(x), this function tests the case 2 in the step to calculate coefficients of c-vectors)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a0b6f08e8e7d6929","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"assumed","binding":true}}
 def test_construct_c_case_2():
     """
     This function tests the Case 2 in the step
@@ -668,16 +750,22 @@ def test_construct_c_case_2():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_construct_c_case_3(), this function tests the case 3 in the step to calculate coefficients of c-vectors) over Any ║
+# ║ Path(test_construct_c_case_3(), construct_c_case_3() == [[1]]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_construct_c_case_3 : Any → {Any | construct_c_ca...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  construct_c_case_3() == [[1]]                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_construct_c_case_3 : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | df8e90010339f304  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 07d45d7271649c0d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_riccati.test_construct_c_case_3","kind":"function","src_hash":"0cee523abd1956fe","in":{"base":"Any"},"out":{"base":"Any","pred":"construct_c_case_3() == [[1]]"},"spec":{"lhs":"test_construct_c_case_3()","rhs":"this function tests the case 3 in the step to calculate coefficients of c-vectors","over":{"base":"Any"},"name":"test_construct_c_case_3_correct"},"guarantee":"this function tests the case 3 in the step to calculate coefficients of c-vectors","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_riccati.test_construct_c_case_3_correct","statement":"Path(test_construct_c_case_3(x), this function tests the case 3 in the step to calculate coefficients of c-vectors)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"df8e90010339f304"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_riccati.test_construct_c_case_3","kind":"function","src_hash":"0cee523abd1956fe","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: construct_c_case_3() == [[1]]"},"spec":{"lhs":"test_construct_c_case_3()","rhs":"construct_c_case_3() == [[1]]","over":{"base":"Any"},"name":"test_construct_c_case_3_correct"},"guarantee":"construct_c_case_3() == [[1]]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_riccati.test_construct_c_case_3_correct","statement":"Path(test_construct_c_case_3(x), construct_c_case_3() == [[1]])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"07d45d7271649c0d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["construct_c_case_3() == [[1]]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_construct_c_case_3():
     """
     This function tests the Case 3 in the step
@@ -687,16 +775,22 @@ def test_construct_c_case_3():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_construct_d_case_4(), this function tests the case 4 in the step to calculate coefficients of the d-vector) over Any ║
+# ║ Path(test_construct_d_case_4(), <unspecified:test_construct_d_case_4>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_construct_d_case_4 : Any → {Any | construct_d_ca...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dd78601227793d85  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_riccati.test_construct_d_case_4","kind":"function","src_hash":"29f4ef4994b8827d","in":{"base":"Any"},"out":{"base":"Any","pred":"construct_d_case_4(ser, mul // 2) == d"},"spec":{"lhs":"test_construct_d_case_4()","rhs":"this function tests the case 4 in the step to calculate coefficients of the d-vector","over":{"base":"Any"},"name":"test_construct_d_case_4_correct"},"guarantee":"this function tests the case 4 in the step to calculate coefficients of the d-vector","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_riccati.test_construct_d_case_4_correct","statement":"Path(test_construct_d_case_4(x), this function tests the case 4 in the step to calculate coefficients of the d-vector)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dd78601227793d85"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_riccati.test_construct_d_case_4","kind":"function","src_hash":"29f4ef4994b8827d","in":{"base":"Any"},"out":{"base":"Any","pred":"construct_d_case_4(ser, mul // 2) == d"},"spec":{"lhs":"test_construct_d_case_4()","rhs":"<unspecified:test_construct_d_case_4>","over":{"base":"Any"},"name":"test_construct_d_case_4_correct"},"guarantee":"this function tests the case 4 in the step to calculate coefficients of the d-vector","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_riccati.test_construct_d_case_4_correct","statement":"Path(test_construct_d_case_4(x), this function tests the case 4 in the step to calculate coefficients of the d-vector)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dd78601227793d85","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.1,"verdict_class":"assumed","binding":true}}
 def test_construct_d_case_4():
     """
     This function tests the Case 4 in the step
@@ -761,16 +855,22 @@ def test_construct_d_case_4():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_construct_d_case_5(), this function tests the case 5 in the step to calculate coefficients of the d-vector) over Any ║
+# ║ Path(test_construct_d_case_5(), <unspecified:test_construct_d_case_5>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_construct_d_case_5 : Any → {Any | construct_d_ca...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 789e3c34b9853fcd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_riccati.test_construct_d_case_5","kind":"function","src_hash":"edbfe6d07d62fb78","in":{"base":"Any"},"out":{"base":"Any","pred":"construct_d_case_5(ser) == d"},"spec":{"lhs":"test_construct_d_case_5()","rhs":"this function tests the case 5 in the step to calculate coefficients of the d-vector","over":{"base":"Any"},"name":"test_construct_d_case_5_correct"},"guarantee":"this function tests the case 5 in the step to calculate coefficients of the d-vector","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_riccati.test_construct_d_case_5_correct","statement":"Path(test_construct_d_case_5(x), this function tests the case 5 in the step to calculate coefficients of the d-vector)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"789e3c34b9853fcd"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_riccati.test_construct_d_case_5","kind":"function","src_hash":"edbfe6d07d62fb78","in":{"base":"Any"},"out":{"base":"Any","pred":"construct_d_case_5(ser) == d"},"spec":{"lhs":"test_construct_d_case_5()","rhs":"<unspecified:test_construct_d_case_5>","over":{"base":"Any"},"name":"test_construct_d_case_5_correct"},"guarantee":"this function tests the case 5 in the step to calculate coefficients of the d-vector","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_riccati.test_construct_d_case_5_correct","statement":"Path(test_construct_d_case_5(x), this function tests the case 5 in the step to calculate coefficients of the d-vector)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"789e3c34b9853fcd","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_construct_d_case_5():
     """
     This function tests the Case 5 in the step
@@ -805,16 +905,22 @@ def test_construct_d_case_5():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_construct_d_case_6(), this function tests the case 6 in the step to calculate coefficients of the d-vector) over Any ║
+# ║ Path(test_construct_d_case_6(), <unspecified:test_construct_d_case_6>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_construct_d_case_6 : Any → {Any | construct_d_ca...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2c951b74c6ed480f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_riccati.test_construct_d_case_6","kind":"function","src_hash":"f34d23f95f5805df","in":{"base":"Any"},"out":{"base":"Any","pred":"construct_d_case_6(num, den, x) == d"},"spec":{"lhs":"test_construct_d_case_6()","rhs":"this function tests the case 6 in the step to calculate coefficients of the d-vector","over":{"base":"Any"},"name":"test_construct_d_case_6_correct"},"guarantee":"this function tests the case 6 in the step to calculate coefficients of the d-vector","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_riccati.test_construct_d_case_6_correct","statement":"Path(test_construct_d_case_6(x), this function tests the case 6 in the step to calculate coefficients of the d-vector)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2c951b74c6ed480f"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_riccati.test_construct_d_case_6","kind":"function","src_hash":"f34d23f95f5805df","in":{"base":"Any"},"out":{"base":"Any","pred":"construct_d_case_6(num, den, x) == d"},"spec":{"lhs":"test_construct_d_case_6()","rhs":"<unspecified:test_construct_d_case_6>","over":{"base":"Any"},"name":"test_construct_d_case_6_correct"},"guarantee":"this function tests the case 6 in the step to calculate coefficients of the d-vector","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_riccati.test_construct_d_case_6_correct","statement":"Path(test_construct_d_case_6(x), this function tests the case 6 in the step to calculate coefficients of the d-vector)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2c951b74c6ed480f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_construct_d_case_6():
     """
     This function tests the Case 6 in the step
@@ -848,16 +954,22 @@ def test_construct_d_case_6():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_rational_laurent_series(), this function tests the computation of coefficients of laurent series of a rational function) over Any ║
+# ║ Path(test_rational_laurent_series(), <unspecified:test_rational_laurent_series>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_rational_laurent_series : Any → {Any | ser == ra...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.8ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2d3a1301c480aada  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_riccati.test_rational_laurent_series","kind":"function","src_hash":"166298e139601c53","in":{"base":"Any"},"out":{"base":"Any","pred":"ser == rational_laurent_series(num, den, x, x0, mul, n)"},"spec":{"lhs":"test_rational_laurent_series()","rhs":"this function tests the computation of coefficients of laurent series of a rational function","over":{"base":"Any"},"name":"test_rational_laurent_series_correct"},"guarantee":"this function tests the computation of coefficients of laurent series of a rational function","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_riccati.test_rational_laurent_series_correct","statement":"Path(test_rational_laurent_series(x), this function tests the computation of coefficients of laurent series of a rational function)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2d3a1301c480aada"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_riccati.test_rational_laurent_series","kind":"function","src_hash":"166298e139601c53","in":{"base":"Any"},"out":{"base":"Any","pred":"ser == rational_laurent_series(num, den, x, x0, mul, n)"},"spec":{"lhs":"test_rational_laurent_series()","rhs":"<unspecified:test_rational_laurent_series>","over":{"base":"Any"},"name":"test_rational_laurent_series_correct"},"guarantee":"this function tests the computation of coefficients of laurent series of a rational function","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_riccati.test_rational_laurent_series_correct","statement":"Path(test_rational_laurent_series(x), this function tests the computation of coefficients of laurent series of a rational function)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2d3a1301c480aada","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"assumed","binding":true}}
 def test_rational_laurent_series():
     """
     This function tests the computation of coefficients
@@ -926,9 +1038,15 @@ def test_rational_laurent_series():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(check_dummy_sol(eq,), helper function to check if actual solution matches expected solution if actual solution contains dummy symbols) over {Any | isinstance(eq, Eq)} ║
+# ║ Path(check_dummy_sol(eq, solse, dummy_sym), all((x[0] for x in checkodesol(eq, sols))) and all((s1.dummy_eq(s2, dummy_sym) for s1, s2 in zip(sols, solse)))) over {Any | isinstance(eq, Eq) and hasattr(eq, 'lhs') and hasattr(eq, 'rhs')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ check_dummy_sol : {Any | isinstance(eq, Eq)} → {Any |...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(eq, 'lhs')                             ║
+# ║   requires: hasattr(eq, 'rhs')                             ║
+# ║   ensures:  all((x[0] for x in checkodesol(eq, sols)))     ║
+# ║   ensures:  all((s1.dummy_eq(s2, dummy_sym) for s1, s...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ check_dummy_sol : {Any | isinstance(eq, Eq) and hasat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   Eq: {isinstance(eq, Eq)} → library_axiom                 ║
@@ -938,9 +1056,12 @@ def test_rational_laurent_series():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.5ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 19b13e1e...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_riccati.check_dummy_sol","kind":"function","src_hash":"61c6c18da6e7819b","in":{"base":"Any","pred":"isinstance(eq, Eq)"},"out":{"base":"Any","pred":"all((x[0] for x in checkodesol(eq, sols))) and all((s1.dummy_eq(s2, dummy_sym) for s1, s2 in zip(sols, solse)))"},"spec":{"lhs":"check_dummy_sol(eq,)","rhs":"helper function to check if actual solution matches expected solution if actual solution contains dummy symbols","over":{"base":"Any","pred":"isinstance(eq, Eq)"},"name":"check_dummy_sol_correct"},"guarantee":"helper function to check if actual solution matches expected solution if actual solution contains dummy symbols","fibers":[{"name":"Eq","pred":"isinstance(eq, Eq)","path":{"lhs":"check_dummy_sol(x)","rhs":"helper function to check if actual solution matches expected solution if actual solution contains dummy symbols","over":{"base":"Eq","pred":"isinstance(eq, Eq)"},"name":"check_dummy_sol_Eq_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_riccati.check_dummy_sol_Eq_correct","statement":"check_dummy_sol satisfies spec on Eq inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"19b13e1ee2cbb2f4"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_riccati.check_dummy_sol","kind":"function","src_hash":"61c6c18da6e7819b","in":{"base":"Any","pred":"isinstance(eq, Eq) and hasattr(eq, 'lhs') and hasattr(eq, 'rhs')"},"out":{"base":"Any","pred":"result satisfies: all((x[0] for x in checkodesol(eq, sols))) and all((s1.dummy_eq(s2, dummy_sym) for s1, s2 in zip(sols, solse)))"},"spec":{"lhs":"check_dummy_sol(eq, solse, dummy_sym)","rhs":"all((x[0] for x in checkodesol(eq, sols))) and all((s1.dummy_eq(s2, dummy_sym) for s1, s2 in zip(sols, solse)))","over":{"base":"Any","pred":"isinstance(eq, Eq) and hasattr(eq, 'lhs') and hasattr(eq, 'rhs')"},"name":"check_dummy_sol_correct"},"guarantee":"all((x[0] for x in checkodesol(eq, sols))); all((s1.dummy_eq(s2, dummy_sym) for s1, s2 in zip(sols, solse)))","fibers":[{"name":"Eq","pred":"isinstance(eq, Eq)","path":{"lhs":"check_dummy_sol(x)","rhs":"all((x[0] for x in checkodesol(eq, sols))); all((s1.dummy_eq(s2, dummy_sym) for s1, s2 in zip(sols, solse)))","over":{"base":"Eq","pred":"isinstance(eq, Eq)"},"name":"check_dummy_sol_Eq_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_riccati.check_dummy_sol_Eq_correct","statement":"check_dummy_sol satisfies spec on Eq inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"19b13e1ee2cbb2f4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(eq, 'lhs')","hasattr(eq, 'rhs')"],"ensures":["all((x[0] for x in checkodesol(eq, sols)))","all((s1.dummy_eq(s2, dummy_sym) for s1, s2 in zip(sols, solse)))"],"pure":false,"effects":{"effect_type":"reads_state","reads":["eq.lhs","eq.rhs"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.5,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(eq, Eq)'}, fibers={'Eq'})"]}}
 def check_dummy_sol(eq, solse, dummy_sym):
     """
     Helper function to check if actual solution
@@ -960,16 +1081,22 @@ def check_dummy_sol(eq, solse, dummy_sym):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_solve_riccati(), this function tests the computation of rational particular solutions for a riccati ode) over Any ║
+# ║ Path(test_solve_riccati(), <unspecified:test_solve_riccati>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_solve_riccati : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 2.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8cc8d6226097cc24  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_riccati.test_solve_riccati","kind":"function","src_hash":"23688cc57f31d842","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_solve_riccati()","rhs":"this function tests the computation of rational particular solutions for a riccati ode","over":{"base":"Any"},"name":"test_solve_riccati_correct"},"guarantee":"this function tests the computation of rational particular solutions for a riccati ode","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_riccati.test_solve_riccati_correct","statement":"Path(test_solve_riccati(x), this function tests the computation of rational particular solutions for a riccati ode)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8cc8d6226097cc24"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_riccati.test_solve_riccati","kind":"function","src_hash":"23688cc57f31d842","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_solve_riccati()","rhs":"<unspecified:test_solve_riccati>","over":{"base":"Any"},"name":"test_solve_riccati_correct"},"guarantee":"this function tests the computation of rational particular solutions for a riccati ode","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_riccati.test_solve_riccati_correct","statement":"Path(test_solve_riccati(x), this function tests the computation of rational particular solutions for a riccati ode)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8cc8d6226097cc24","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.1,"verdict_class":"assumed","binding":true}}
 def test_solve_riccati():
     """
     This function tests the computation of rational
@@ -1097,16 +1224,22 @@ def test_solve_riccati():
 
 @slow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_solve_riccati_slow(), this function tests the computation of rational particular solutions for a riccati ode) over Any ║
+# ║ Path(test_solve_riccati_slow(), <unspecified:test_solve_riccati_slow>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_solve_riccati_slow : Any → Any                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 89017ca51fecb0f6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_riccati.test_solve_riccati_slow","kind":"function","src_hash":"a2c61e755a414c49","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_solve_riccati_slow()","rhs":"this function tests the computation of rational particular solutions for a riccati ode","over":{"base":"Any"},"name":"test_solve_riccati_slow_correct"},"guarantee":"this function tests the computation of rational particular solutions for a riccati ode","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_riccati.test_solve_riccati_slow_correct","statement":"Path(test_solve_riccati_slow(x), this function tests the computation of rational particular solutions for a riccati ode)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"89017ca51fecb0f6"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_riccati.test_solve_riccati_slow","kind":"function","src_hash":"a2c61e755a414c49","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_solve_riccati_slow()","rhs":"<unspecified:test_solve_riccati_slow>","over":{"base":"Any"},"name":"test_solve_riccati_slow_correct"},"guarantee":"this function tests the computation of rational particular solutions for a riccati ode","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_riccati.test_solve_riccati_slow_correct","statement":"Path(test_solve_riccati_slow(x), this function tests the computation of rational particular solutions for a riccati ode)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"89017ca51fecb0f6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_solve_riccati_slow():
     """
     This function tests the computation of rational

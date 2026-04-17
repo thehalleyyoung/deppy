@@ -36,16 +36,24 @@ b21 = Basic(b2, b1)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_preorder_traversal(), test_preorder_traversal produces the expected output) over Any ║
+# ║ Path(test_preorder_traversal(), list(preorder_traversal(expr)) == [expr, b21, b2, b1, b1, b3, b2, b1] and list(preorder_traversal(('abc', ('d', 'ef')))) == [('abc', ('d', 'ef')), 'abc', ('d', 'ef'), 'd', 'ef'] and result == [expr, b21, b2, b1, b3, b2] and list(preorder_traversal([expr], keys=default_sort_key)) == [[w * (x + y) + z], w * (x + y) + z, z, w * (x + y), w, x + y, x, y] and list(preorder_traversal((x + y) * z, keys=True)) == [z * (x + y), z, x + y, x, y]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_preorder_traversal : Any → {Any | list(preorder_...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  list(preorder_traversal(expr)) == [expr, ...   ║
+# ║   ensures:  list(preorder_traversal(('abc', ('d', 'ef...   ║
+# ║   ensures:  result == [expr, b21, b2, b1, b3, b2]          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_preorder_traversal : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 50121ac7e38d6881  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fb28d02167cb0b2e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_traversal.test_preorder_traversal","kind":"function","src_hash":"f2eddd5ddba014f7","in":{"base":"Any"},"out":{"base":"Any","pred":"list(preorder_traversal(expr)) == [expr, b21, b2, b1, b1, b3, b2, b1] and result == [expr, b21, b2, b1, b3, b2]"},"spec":{"lhs":"test_preorder_traversal()","rhs":"test_preorder_traversal produces the expected output","over":{"base":"Any"},"name":"test_preorder_traversal_correct"},"guarantee":"test_preorder_traversal produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_traversal.test_preorder_traversal_correct","statement":"Path(test_preorder_traversal(x), test_preorder_traversal produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"50121ac7e38d6881"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_traversal.test_preorder_traversal","kind":"function","src_hash":"f2eddd5ddba014f7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: list(preorder_traversal(expr)) == [expr, b21, b2, b1, b1, b3, b2, b1] and list(preorder_traversal(('abc', ('d', 'ef')))) == [('abc', ('d', 'ef')), 'abc', ('d', 'ef'), 'd', 'ef'] and result == [expr, b21, b2, b1, b3, b2] and list(preorder_traversal([expr], keys=default_sort_key)) == [[w * (x + y) + z], w * (x + y) + z, z, w * (x + y), w, x + y, x, y] and list(preorder_traversal((x + y) * z, keys=True)) == [z * (x + y), z, x + y, x, y]"},"spec":{"lhs":"test_preorder_traversal()","rhs":"list(preorder_traversal(expr)) == [expr, b21, b2, b1, b1, b3, b2, b1] and list(preorder_traversal(('abc', ('d', 'ef')))) == [('abc', ('d', 'ef')), 'abc', ('d', 'ef'), 'd', 'ef'] and result == [expr, b21, b2, b1, b3, b2] and list(preorder_traversal([expr], keys=default_sort_key)) == [[w * (x + y) + z], w * (x + y) + z, z, w * (x + y), w, x + y, x, y] and list(preorder_traversal((x + y) * z, keys=True)) == [z * (x + y), z, x + y, x, y]","over":{"base":"Any"},"name":"test_preorder_traversal_correct"},"guarantee":"list(preorder_traversal(expr)) == [expr, b21, b2, b1, b1, b3, b2, b1]; list(preorder_traversal(('abc', ('d', 'ef')))) == [('abc', ('d', 'ef')), 'abc', ('d', 'ef'), 'd', 'ef']; result == [expr, b21, b2, b1, b3, b2]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_traversal.test_preorder_traversal_correct","statement":"Path(test_preorder_traversal(x), list(preorder_traversal(expr)) == [expr, b21, b2, b1, b1, b3, b2, b1]; list(preorder_traversal(('abc', ('d', 'ef')))) == [('abc', ('d', 'ef')), 'abc', ('d', 'ef'), 'd', 'ef']; result == [expr, b21, b2, b1, b3, b2])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fb28d02167cb0b2e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["list(preorder_traversal(expr)) == [expr, b21, b2, b1, b1, b3, b2, b1]","list(preorder_traversal(('abc', ('d', 'ef')))) == [('abc', ('d', 'ef')), 'abc', ('d', 'ef'), 'd', 'ef']","result == [expr, b21, b2, b1, b3, b2]","list(preorder_traversal([expr], keys=default_sort_key)) == [[w * (x + y) + z], w * (x + y) + z, z, w * (x + y), w, x + y, x, y]","list(preorder_traversal((x + y) * z, keys=True)) == [z * (x + y), z, x + y, x, y]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_preorder_traversal():
     expr = Basic(b21, b3)
     assert list(
@@ -70,16 +78,24 @@ def test_preorder_traversal():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_use(), test_use produces the expected output) over Any ║
+# ║ Path(test_use(), use(0, expand) == 0 and use(f, expand, level=0) == x ** 3 + 2 * x ** 2 * y + x * y ** 2 + +1 and use(f, expand, level=1) == x ** 3 + 2 * x ** 2 * y + x * y ** 2 + +1 and use(f, expand, level=2) == 1 + x * (2 * x * y + x ** 2 + y ** 2) and use(f, expand, level=3) == (x + y) ** 2 * x + 1 and use(f, factor, level=0, kwargs=kwargs) == x ** 2 * (x ** 2 + 2) and use(f, factor, level=1, kwargs=kwargs) == (x + I) ** 2 * (x - I) ** 2 - 1 and use(f, factor, level=2, kwargs=kwargs) == (x + I) ** 2 * (x - I) ** 2 - 1 and use(f, factor, level=3, kwargs=kwargs) == (x ** 2 + 1) ** 2 - 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_use : Any → {Any | use(0, expand) == 0 and use(f...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  use(0, expand) == 0                            ║
+# ║   ensures:  use(f, expand, level=0) == x ** 3 + 2 * x...   ║
+# ║   ensures:  use(f, expand, level=1) == x ** 3 + 2 * x...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_use : Any → {Any | result satisfies: use(0, expa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3d332856d1781a23  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a4769d744377ac8a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_traversal.test_use","kind":"function","src_hash":"0fcedc35a388ff19","in":{"base":"Any"},"out":{"base":"Any","pred":"use(0, expand) == 0 and use(f, expand, level=0) == x ** 3 + 2 * x ** 2 * y + x * y ** 2 + +1 and use(f, expand, level=1) == x ** 3 + 2 * x ** 2 * y + x * y ** 2 + +1 and use(f, expand, level=2) == 1 + x * (2 * x * y + x ** 2 + y ** 2) and use(f, expand, level=3) == (x + y) ** 2 * x + 1 and use(f, factor, level=0, kwargs=kwargs) == x ** 2 * (x ** 2 + 2) and use(f, factor, level=1, kwargs=kwargs) == (x + I) ** 2 * (x - I) ** 2 - 1 and use(f, factor, level=2, kwargs=kwargs) == (x + I) ** 2 * (x - I) ** 2 - 1 and use(f, factor, level=3, kwargs=kwargs) == (x ** 2 + 1) ** 2 - 1"},"spec":{"lhs":"test_use()","rhs":"test_use produces the expected output","over":{"base":"Any"},"name":"test_use_correct"},"guarantee":"test_use produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_traversal.test_use_correct","statement":"Path(test_use(x), test_use produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3d332856d1781a23"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_traversal.test_use","kind":"function","src_hash":"0fcedc35a388ff19","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: use(0, expand) == 0 and use(f, expand, level=0) == x ** 3 + 2 * x ** 2 * y + x * y ** 2 + +1 and use(f, expand, level=1) == x ** 3 + 2 * x ** 2 * y + x * y ** 2 + +1 and use(f, expand, level=2) == 1 + x * (2 * x * y + x ** 2 + y ** 2) and use(f, expand, level=3) == (x + y) ** 2 * x + 1 and use(f, factor, level=0, kwargs=kwargs) == x ** 2 * (x ** 2 + 2) and use(f, factor, level=1, kwargs=kwargs) == (x + I) ** 2 * (x - I) ** 2 - 1 and use(f, factor, level=2, kwargs=kwargs) == (x + I) ** 2 * (x - I) ** 2 - 1 and use(f, factor, level=3, kwargs=kwargs) == (x ** 2 + 1) ** 2 - 1"},"spec":{"lhs":"test_use()","rhs":"use(0, expand) == 0 and use(f, expand, level=0) == x ** 3 + 2 * x ** 2 * y + x * y ** 2 + +1 and use(f, expand, level=1) == x ** 3 + 2 * x ** 2 * y + x * y ** 2 + +1 and use(f, expand, level=2) == 1 + x * (2 * x * y + x ** 2 + y ** 2) and use(f, expand, level=3) == (x + y) ** 2 * x + 1 and use(f, factor, level=0, kwargs=kwargs) == x ** 2 * (x ** 2 + 2) and use(f, factor, level=1, kwargs=kwargs) == (x + I) ** 2 * (x - I) ** 2 - 1 and use(f, factor, level=2, kwargs=kwargs) == (x + I) ** 2 * (x - I) ** 2 - 1 and use(f, factor, level=3, kwargs=kwargs) == (x ** 2 + 1) ** 2 - 1","over":{"base":"Any"},"name":"test_use_correct"},"guarantee":"use(0, expand) == 0; use(f, expand, level=0) == x ** 3 + 2 * x ** 2 * y + x * y ** 2 + +1; use(f, expand, level=1) == x ** 3 + 2 * x ** 2 * y + x * y ** 2 + +1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_traversal.test_use_correct","statement":"Path(test_use(x), use(0, expand) == 0; use(f, expand, level=0) == x ** 3 + 2 * x ** 2 * y + x * y ** 2 + +1; use(f, expand, level=1) == x ** 3 + 2 * x ** 2 * y + x * y ** 2 + +1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a4769d744377ac8a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["use(0, expand) == 0","use(f, expand, level=0) == x ** 3 + 2 * x ** 2 * y + x * y ** 2 + +1","use(f, expand, level=1) == x ** 3 + 2 * x ** 2 * y + x * y ** 2 + +1","use(f, expand, level=2) == 1 + x * (2 * x * y + x ** 2 + y ** 2)","use(f, expand, level=3) == (x + y) ** 2 * x + 1","use(f, factor, level=0, kwargs=kwargs) == x ** 2 * (x ** 2 + 2)","use(f, factor, level=1, kwargs=kwargs) == (x + I) ** 2 * (x - I) ** 2 - 1","use(f, factor, level=2, kwargs=kwargs) == (x + I) ** 2 * (x - I) ** 2 - 1","use(f, factor, level=3, kwargs=kwargs) == (x ** 2 + 1) ** 2 - 1"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_use():
     x, y = symbols('x y')
 
@@ -102,16 +118,24 @@ def test_use():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_postorder_traversal(), test_postorder_traversal produces the expected output) over Any ║
+# ║ Path(test_postorder_traversal(), list(postorder_traversal(expr, keys=default_sort_key)) == expected and list(postorder_traversal(expr, keys=True)) == expected and list(postorder_traversal([expr], keys=default_sort_key)) == expected + [[expr]] and list(postorder_traversal(Integral(x ** 2, (x, 0, 1)), keys=default_sort_key)) == [2, x, x ** 2, 0, 1, x, Tuple(x, 0, 1), Integral(x ** 2, Tuple(x, 0, 1))] and list(postorder_traversal(('abc', ('d', 'ef')))) == ['abc', 'd', 'ef', ('d', 'ef'), ('abc', ('d', 'ef'))]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_postorder_traversal : Any → {Any | list(postorde...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  list(postorder_traversal(expr, keys=defau...   ║
+# ║   ensures:  list(postorder_traversal(expr, keys=True)...   ║
+# ║   ensures:  list(postorder_traversal([expr], keys=def...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_postorder_traversal : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b151cd42e4511bac  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bf341a0b1008d5dc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_traversal.test_postorder_traversal","kind":"function","src_hash":"331edb7201bd43cb","in":{"base":"Any"},"out":{"base":"Any","pred":"list(postorder_traversal(expr, keys=default_sort_key)) == expected and list(postorder_traversal(expr, keys=True)) == expected and list(postorder_traversal(expr, keys=default_sort_key)) == expected and list(postorder_traversal([expr], keys=default_sort_key)) == expected + [[expr]]"},"spec":{"lhs":"test_postorder_traversal()","rhs":"test_postorder_traversal produces the expected output","over":{"base":"Any"},"name":"test_postorder_traversal_correct"},"guarantee":"test_postorder_traversal produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_traversal.test_postorder_traversal_correct","statement":"Path(test_postorder_traversal(x), test_postorder_traversal produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b151cd42e4511bac"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_traversal.test_postorder_traversal","kind":"function","src_hash":"331edb7201bd43cb","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: list(postorder_traversal(expr, keys=default_sort_key)) == expected and list(postorder_traversal(expr, keys=True)) == expected and list(postorder_traversal([expr], keys=default_sort_key)) == expected + [[expr]] and list(postorder_traversal(Integral(x ** 2, (x, 0, 1)), keys=default_sort_key)) == [2, x, x ** 2, 0, 1, x, Tuple(x, 0, 1), Integral(x ** 2, Tuple(x, 0, 1))] and list(postorder_traversal(('abc', ('d', 'ef')))) == ['abc', 'd', 'ef', ('d', 'ef'), ('abc', ('d', 'ef'))]"},"spec":{"lhs":"test_postorder_traversal()","rhs":"list(postorder_traversal(expr, keys=default_sort_key)) == expected and list(postorder_traversal(expr, keys=True)) == expected and list(postorder_traversal([expr], keys=default_sort_key)) == expected + [[expr]] and list(postorder_traversal(Integral(x ** 2, (x, 0, 1)), keys=default_sort_key)) == [2, x, x ** 2, 0, 1, x, Tuple(x, 0, 1), Integral(x ** 2, Tuple(x, 0, 1))] and list(postorder_traversal(('abc', ('d', 'ef')))) == ['abc', 'd', 'ef', ('d', 'ef'), ('abc', ('d', 'ef'))]","over":{"base":"Any"},"name":"test_postorder_traversal_correct"},"guarantee":"list(postorder_traversal(expr, keys=default_sort_key)) == expected; list(postorder_traversal(expr, keys=True)) == expected; list(postorder_traversal([expr], keys=default_sort_key)) == expected + [[expr]]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_traversal.test_postorder_traversal_correct","statement":"Path(test_postorder_traversal(x), list(postorder_traversal(expr, keys=default_sort_key)) == expected; list(postorder_traversal(expr, keys=True)) == expected; list(postorder_traversal([expr], keys=default_sort_key)) == expected + [[expr]])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bf341a0b1008d5dc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["list(postorder_traversal(expr, keys=default_sort_key)) == expected","list(postorder_traversal(expr, keys=True)) == expected","list(postorder_traversal([expr], keys=default_sort_key)) == expected + [[expr]]","list(postorder_traversal(Integral(x ** 2, (x, 0, 1)), keys=default_sort_key)) == [2, x, x ** 2, 0, 1, x, Tuple(x, 0, 1), Integral(x ** 2, Tuple(x, 0, 1))]","list(postorder_traversal(('abc', ('d', 'ef')))) == ['abc', 'd', 'ef', ('d', 'ef'), ('abc', ('d', 'ef'))]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_postorder_traversal():
     x, y, z, w = symbols('x y z w')
     expr = z + w*(x + y)
@@ -139,16 +163,23 @@ def test_postorder_traversal():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_iterargs(), test_iterargs produces the expected output) over Any ║
+# ║ Path(test_iterargs(), list(iterfreeargs(Integral(f(x), (f(x), 1)))) == [Integral(f(x), (f(x), 1)), 1] and list(iterargs(Integral(f(x), (f(x), 1)))) == [Integral(f(x), (f(x), 1)), f(x), (f(x), 1), x, f(x), 1, x]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_iterargs : Any → {Any | list(iterfreeargs(Integr...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  list(iterfreeargs(Integral(f(x), (f(x), 1...   ║
+# ║   ensures:  list(iterargs(Integral(f(x), (f(x), 1))))...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_iterargs : Any → {Any | result satisfies: list(i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f20e4a1f7087222b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6575de133ee4e663  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_traversal.test_iterargs","kind":"function","src_hash":"17e524ba56c29d98","in":{"base":"Any"},"out":{"base":"Any","pred":"list(iterfreeargs(Integral(f(x), (f(x), 1)))) == [Integral(f(x), (f(x), 1)), 1]"},"spec":{"lhs":"test_iterargs()","rhs":"test_iterargs produces the expected output","over":{"base":"Any"},"name":"test_iterargs_correct"},"guarantee":"test_iterargs produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_traversal.test_iterargs_correct","statement":"Path(test_iterargs(x), test_iterargs produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f20e4a1f7087222b"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_traversal.test_iterargs","kind":"function","src_hash":"17e524ba56c29d98","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: list(iterfreeargs(Integral(f(x), (f(x), 1)))) == [Integral(f(x), (f(x), 1)), 1] and list(iterargs(Integral(f(x), (f(x), 1)))) == [Integral(f(x), (f(x), 1)), f(x), (f(x), 1), x, f(x), 1, x]"},"spec":{"lhs":"test_iterargs()","rhs":"list(iterfreeargs(Integral(f(x), (f(x), 1)))) == [Integral(f(x), (f(x), 1)), 1] and list(iterargs(Integral(f(x), (f(x), 1)))) == [Integral(f(x), (f(x), 1)), f(x), (f(x), 1), x, f(x), 1, x]","over":{"base":"Any"},"name":"test_iterargs_correct"},"guarantee":"list(iterfreeargs(Integral(f(x), (f(x), 1)))) == [Integral(f(x), (f(x), 1)), 1]; list(iterargs(Integral(f(x), (f(x), 1)))) == [Integral(f(x), (f(x), 1)), f(x), (f(x), 1), x, f(x), 1, x]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_traversal.test_iterargs_correct","statement":"Path(test_iterargs(x), list(iterfreeargs(Integral(f(x), (f(x), 1)))) == [Integral(f(x), (f(x), 1)), 1]; list(iterargs(Integral(f(x), (f(x), 1)))) == [Integral(f(x), (f(x), 1)), f(x), (f(x), 1), x, f(x), 1, x])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6575de133ee4e663","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["list(iterfreeargs(Integral(f(x), (f(x), 1)))) == [Integral(f(x), (f(x), 1)), 1]","list(iterargs(Integral(f(x), (f(x), 1)))) == [Integral(f(x), (f(x), 1)), f(x), (f(x), 1), x, f(x), 1, x]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_iterargs():
     f = Function('f')
     x = symbols('x')
@@ -158,16 +189,22 @@ def test_iterargs():
         Integral(f(x), (f(x), 1)), f(x), (f(x), 1), x, f(x), 1, x]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_deprecated_imports(), test_deprecated_imports produces the expected output) over Any ║
+# ║ Path(test_deprecated_imports(), <unspecified:test_deprecated_imports>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_deprecated_imports : Any → Any                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c96365669337c7f8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_traversal.test_deprecated_imports","kind":"function","src_hash":"82da10e34a78714d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_deprecated_imports()","rhs":"test_deprecated_imports produces the expected output","over":{"base":"Any"},"name":"test_deprecated_imports_correct"},"guarantee":"test_deprecated_imports produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_traversal.test_deprecated_imports_correct","statement":"Path(test_deprecated_imports(x), test_deprecated_imports produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c96365669337c7f8"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_traversal.test_deprecated_imports","kind":"function","src_hash":"82da10e34a78714d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_deprecated_imports()","rhs":"<unspecified:test_deprecated_imports>","over":{"base":"Any"},"name":"test_deprecated_imports_correct"},"guarantee":"test_deprecated_imports produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_traversal.test_deprecated_imports_correct","statement":"Path(test_deprecated_imports(x), test_deprecated_imports produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c96365669337c7f8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_deprecated_imports():
     x = symbols('x')
 

@@ -18,7 +18,12 @@
 from sympy.assumptions.cnf import EncodedCNF
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(minisat22_satisfiable(exp), minisat22_satisfiable produces the expected output) over {Any | isinstance(expr, EncodedCNF)} ║
+# ║ Path(minisat22_satisfiable(expr, all_models, minimal), <unspecified:minisat22_satisfiable>) over {Any | isinstance(expr, EncodedCNF) and hasattr(expr, 'data') and hasattr(expr, 'symbols')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'data')                          ║
+# ║   requires: hasattr(expr, 'symbols')                       ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ minisat22_satisfiable : {Any | isinstance(expr, Encod...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -30,9 +35,12 @@ from sympy.assumptions.cnf import EncodedCNF
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.9ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | a552c197...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.minisat22_wrapper.minisat22_satisfiable","kind":"function","src_hash":"21499db4f1013154","in":{"base":"Any","pred":"isinstance(expr, EncodedCNF)"},"out":{"base":"Any"},"spec":{"lhs":"minisat22_satisfiable(exp)","rhs":"minisat22_satisfiable produces the expected output","over":{"base":"Any","pred":"isinstance(expr, EncodedCNF)"},"name":"minisat22_satisfiable_correct"},"guarantee":"minisat22_satisfiable produces the expected output","fibers":[{"name":"EncodedCNF","pred":"isinstance(expr, EncodedCNF)","path":{"lhs":"minisat22_satisfiable(x)","rhs":"minisat22_satisfiable produces the expected output","over":{"base":"EncodedCNF","pred":"isinstance(expr, EncodedCNF)"},"name":"minisat22_satisfiable_EncodedCNF_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.algorithms.minisat22_wrapper.minisat22_satisfiable_EncodedCNF_correct","statement":"minisat22_satisfiable satisfies spec on EncodedCNF inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"a552c1976e19477d"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.minisat22_wrapper.minisat22_satisfiable","kind":"function","src_hash":"21499db4f1013154","in":{"base":"Any","pred":"isinstance(expr, EncodedCNF) and hasattr(expr, 'data') and hasattr(expr, 'symbols')"},"out":{"base":"Any"},"spec":{"lhs":"minisat22_satisfiable(expr, all_models, minimal)","rhs":"<unspecified:minisat22_satisfiable>","over":{"base":"Any","pred":"isinstance(expr, EncodedCNF) and hasattr(expr, 'data') and hasattr(expr, 'symbols')"},"name":"minisat22_satisfiable_correct"},"guarantee":"minisat22_satisfiable produces the expected output","fibers":[{"name":"EncodedCNF","pred":"isinstance(expr, EncodedCNF)","path":{"lhs":"minisat22_satisfiable(x)","rhs":"minisat22_satisfiable produces the expected output","over":{"base":"EncodedCNF","pred":"isinstance(expr, EncodedCNF)"},"name":"minisat22_satisfiable_EncodedCNF_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.algorithms.minisat22_wrapper.minisat22_satisfiable_EncodedCNF_correct","statement":"minisat22_satisfiable satisfies spec on EncodedCNF inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"a552c1976e19477d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'data')","hasattr(expr, 'symbols')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.data","expr.symbols"],"raises":["StopIteration"]},"state_contract":{"exceptional_post":{"StopIteration":["isinstance(raised, StopIteration)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.9,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'not isinstance(expr, EncodedCNF)'}, fibers={'EncodedCNF'})"]}}
 def minisat22_satisfiable(expr, all_models=False, minimal=False):
 
     if not isinstance(expr, EncodedCNF):

@@ -22,30 +22,42 @@ from sympy.utilities import public
 
 @public
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(BasePolynomialError(), correctly constructs a BasePolynomialError instance) over Any ║
+# ║ Path(BasePolynomialError(), isinstance(self, Exception)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ BasePolynomialError : Any → Any                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Exception)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ BasePolynomialError : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2b7bceb361fc754a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyerrors.BasePolynomialError","kind":"class","src_hash":"821cd5d69d238b2d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"BasePolynomialError()","rhs":"correctly constructs a BasePolynomialError instance","over":{"base":"Any"},"name":"BasePolynomialError_correct"},"guarantee":"correctly constructs a BasePolynomialError instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2b7bceb361fc754a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyerrors.BasePolynomialError","kind":"class","src_hash":"821cd5d69d238b2d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Exception)"},"spec":{"lhs":"BasePolynomialError()","rhs":"isinstance(self, Exception)","over":{"base":"Any"},"name":"BasePolynomialError_correct"},"guarantee":"isinstance(self, Exception)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2b7bceb361fc754a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Exception)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Function BasePolynomialError not found in source"]}}
 class BasePolynomialError(Exception):
     """Base class for polynomial related exceptions. """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(new(*ar), new produces the expected output) over Any  ║
+# ║ Path(new(*args), <unspecified:new>) over Any               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ new : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b88b2b2cf807e557           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyerrors.BasePolynomialError.new","kind":"method","src_hash":"826838430bea1ad0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"new(*ar)","rhs":"new produces the expected output","over":{"base":"Any"},"name":"new_correct"},"guarantee":"new produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b88b2b2cf807e557"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyerrors.BasePolynomialError.new","kind":"method","src_hash":"826838430bea1ad0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"new(*args)","rhs":"<unspecified:new>","over":{"base":"Any"},"name":"new_correct"},"guarantee":"new produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b88b2b2cf807e557","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def new(self, *args):
         raise NotImplementedError("abstract base class")
 
@@ -53,41 +65,62 @@ class BasePolynomialError(Exception):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a ExactQuotientFailed instance) preserved by ExactQuotientFailed(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ ExactQuotientFailed : Any → Any                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, BasePolynomialError)          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ ExactQuotientFailed : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ac4e05189c69f404  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyerrors.ExactQuotientFailed","kind":"class","src_hash":"fce317dff9ff19c0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ExactQuotientFailed(*args)","rhs":"correctly constructs a ExactQuotientFailed instance","over":{"base":"Any"},"name":"ExactQuotientFailed_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a ExactQuotientFailed instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'dom')","kind":"class","induction":"structural on dom"}],"methods_preserving":["__init__","__str__","new"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ac4e05189c69f404"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyerrors.ExactQuotientFailed","kind":"class","src_hash":"fce317dff9ff19c0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, BasePolynomialError)"},"spec":{"lhs":"ExactQuotientFailed(*args)","rhs":"correctly constructs a ExactQuotientFailed instance","over":{"base":"Any"},"name":"ExactQuotientFailed_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, BasePolynomialError)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'dom')","kind":"class","induction":"structural on dom"}],"methods_preserving":["__init__","__str__","new"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ac4e05189c69f404","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, BasePolynomialError)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function ExactQuotientFailed not found in source"]}}
 class ExactQuotientFailed(BasePolynomialError):
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(f, ), initializes the instance correctly) over Any ║
+# ║ Path(__init__(f, g, dom), <unspecified:__init__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __init__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b4c479540b524ddd           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyerrors.ExactQuotientFailed.__init__","kind":"method","src_hash":"7873ad336b7e262b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(f, )","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b4c479540b524ddd"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyerrors.ExactQuotientFailed.__init__","kind":"method","src_hash":"7873ad336b7e262b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(f, g, dom)","rhs":"<unspecified:__init__>","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b4c479540b524ddd","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, f, g, dom=None):
         self.f, self.g, self.dom = f, g, dom
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__str__(), returns a human-readable string) over Any  ║
+# ║ Path(__str__(), result == ('%s does not divide %s' % (sstr(self.g), sstr(self.f)) if self.dom is None else '%s does not divide %s in %s' % (sstr(self.g), sstr(self.f), sstr(self.dom))) and result == '%s does not divide %s' % (sstr(self.g), sstr(self.f)) or result == '%s does not divide %s in %s' % (sstr(self.g), sstr(self.f), sstr(self.dom))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __str__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == ('%s does not divide %s' % (sst...   ║
+# ║   ensures:  result == '%s does not divide %s' % (sstr...   ║
+# ║   fiber[zero_or_none]: self.dom is None => '%s does n...   ║
+# ║   fiber[zero_or_none]: not (self.dom is None) => '%s ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __str__ : Any → {Any | result satisfies: result == ('...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 39380ca130978686           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyerrors.ExactQuotientFailed.__str__","kind":"method","src_hash":"185088b0d43a88b7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"returns a human-readable string","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"39380ca130978686"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyerrors.ExactQuotientFailed.__str__","kind":"method","src_hash":"185088b0d43a88b7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == ('%s does not divide %s' % (sstr(self.g), sstr(self.f)) if self.dom is None else '%s does not divide %s in %s' % (sstr(self.g), sstr(self.f), sstr(self.dom))) and result == '%s does not divide %s' % (sstr(self.g), sstr(self.f)) or result == '%s does not divide %s in %s' % (sstr(self.g), sstr(self.f), sstr(self.dom))"},"spec":{"lhs":"__str__()","rhs":"result == ('%s does not divide %s' % (sstr(self.g), sstr(self.f)) if self.dom is None else '%s does not divide %s in %s' % (sstr(self.g), sstr(self.f), sstr(self.dom))) and result == '%s does not divide %s' % (sstr(self.g), sstr(self.f)) or result == '%s does not divide %s in %s' % (sstr(self.g), sstr(self.f), sstr(self.dom))","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"result == ('%s does not divide %s' % (sstr(self.g), sstr(self.f)) if self.dom is None else '%s does not divide %s in %s' % (sstr(self.g), sstr(self.f), sstr(self.dom))); result == '%s does not divide %s' % (sstr(self.g), sstr(self.f)) or result == '%s does not divide %s in %s' % (sstr(self.g), sstr(self.f), sstr(self.dom)); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"39380ca130978686","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == ('%s does not divide %s' % (sstr(self.g), sstr(self.f)) if self.dom is None else '%s does not divide %s in %s' % (sstr(self.g), sstr(self.f), sstr(self.dom)))","result == '%s does not divide %s' % (sstr(self.g), sstr(self.f)) or result == '%s does not divide %s in %s' % (sstr(self.g), sstr(self.f), sstr(self.dom))"],"fibers":[{"name":"zero_or_none","guard":"self.dom is None","ensures":["result == '%s does not divide %s' % (sstr(self.g), sstr(self.f))"],"decidability":"structural","returns_expr":"'%s does not divide %s' % (sstr(self.g), sstr(self.f))"},{"name":"zero_or_none","guard":"not (self.dom is None)","ensures":["result == '%s does not divide %s in %s' % (sstr(self.g), sstr(self.f), sstr(self.dom))"],"decidability":"structural","returns_expr":"'%s does not divide %s in %s' % (sstr(self.g), sstr(self.f), sstr(self.dom))"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.dom","self.f","self.g"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __str__(self):  # pragma: no cover
         from sympy.printing.str import sstr
 
@@ -97,16 +130,22 @@ class ExactQuotientFailed(BasePolynomialError):
             return "%s does not divide %s in %s" % (sstr(self.g), sstr(self.f), sstr(self.dom))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(new(f, ), new produces the expected output) over Any  ║
+# ║ Path(new(f, g), self.__class__(f, g, self.dom)) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.__class__(f, g, self.dom)                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ new : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | be86a32f51772c23           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyerrors.ExactQuotientFailed.new","kind":"method","src_hash":"2352b04f19bc9644","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"new(f, )","rhs":"new produces the expected output","over":{"base":"Any"},"name":"new_correct"},"guarantee":"new produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"be86a32f51772c23"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyerrors.ExactQuotientFailed.new","kind":"method","src_hash":"2352b04f19bc9644","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"new(f, g)","rhs":"self.__class__(f, g, self.dom)","over":{"base":"Any"},"name":"new_correct"},"guarantee":"returns self.__class__(f, g, self.dom)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"be86a32f51772c23","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.__class__(f, g, self.dom)","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","self.__class__","self.dom"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def new(self, f, g):
         return self.__class__(f, g, self.dom)
 
@@ -114,43 +153,63 @@ class ExactQuotientFailed(BasePolynomialError):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a PolynomialDivisionFailed instance) preserved by PolynomialDivisionFailed(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ PolynomialDivisionFailed : Any → Any                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, BasePolynomialError)          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ PolynomialDivisionFailed : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ecc4b795e9ababf1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyerrors.PolynomialDivisionFailed","kind":"class","src_hash":"7569e54bcabfbe4e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"PolynomialDivisionFailed(*args)","rhs":"correctly constructs a PolynomialDivisionFailed instance","over":{"base":"Any"},"name":"PolynomialDivisionFailed_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a PolynomialDivisionFailed instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'f') and hasattr(self, 'g') and hasattr(self, 'domain')","kind":"class","induction":"structural on f, g, domain"}],"methods_preserving":["__init__","__str__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ecc4b795e9ababf1"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyerrors.PolynomialDivisionFailed","kind":"class","src_hash":"7569e54bcabfbe4e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, BasePolynomialError)"},"spec":{"lhs":"PolynomialDivisionFailed(*args)","rhs":"correctly constructs a PolynomialDivisionFailed instance","over":{"base":"Any"},"name":"PolynomialDivisionFailed_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, BasePolynomialError); preserves 3 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'f') and hasattr(self, 'g') and hasattr(self, 'domain')","kind":"class","induction":"structural on f, g, domain"}],"methods_preserving":["__init__","__str__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ecc4b795e9ababf1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, BasePolynomialError)"],"invariants":["hasattr(self, 'f')","hasattr(self, 'g')","hasattr(self, 'domain')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function PolynomialDivisionFailed not found in source"]}}
 class PolynomialDivisionFailed(BasePolynomialError):
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(f, ), initializes the instance correctly) over Any ║
+# ║ Path(__init__(f, g, domain), self.f == f and self.g == g and self.domain == domain) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  self.f == f                                    ║
+# ║   ensures:  self.g == g                                    ║
+# ║   ensures:  self.domain == domain                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : Any → {Any | result satisfies: self.f == f...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3394459ed39c1f01           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyerrors.PolynomialDivisionFailed.__init__","kind":"method","src_hash":"7e3eeb3abfdb086b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(f, )","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3394459ed39c1f01"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyerrors.PolynomialDivisionFailed.__init__","kind":"method","src_hash":"7e3eeb3abfdb086b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: self.f == f and self.g == g and self.domain == domain"},"spec":{"lhs":"__init__(f, g, domain)","rhs":"self.f == f and self.g == g and self.domain == domain","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"self.f == f; self.g == g; self.domain == domain","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3394459ed39c1f01","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["self.f == f","self.g == g","self.domain == domain"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, f, g, domain):
         self.f = f
         self.g = g
         self.domain = domain
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__str__(), returns a human-readable string) over Any  ║
+# ║ Path(__str__(), <unspecified:__str__>) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __str__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 51dfc71a8a1b8ae1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyerrors.PolynomialDivisionFailed.__str__","kind":"method","src_hash":"c40aa55f4feb9903","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"returns a human-readable string","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"51dfc71a8a1b8ae1"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyerrors.PolynomialDivisionFailed.__str__","kind":"method","src_hash":"c40aa55f4feb9903","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"<unspecified:__str__>","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"51dfc71a8a1b8ae1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.f","self.g"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __str__(self):
         if self.domain.is_EX:
             msg = "You may want to use a different simplification algorithm. Note " \
@@ -174,266 +233,375 @@ class PolynomialDivisionFailed(BasePolynomialError):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a OperationNotSupported instance) preserved by OperationNotSupported(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ OperationNotSupported : Any → Any                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, BasePolynomialError)          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ OperationNotSupported : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6cd9cdee819aa35a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyerrors.OperationNotSupported","kind":"class","src_hash":"078f3914284f77e2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"OperationNotSupported(*args)","rhs":"correctly constructs a OperationNotSupported instance","over":{"base":"Any"},"name":"OperationNotSupported_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a OperationNotSupported instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'poly') and hasattr(self, 'func')","kind":"class","induction":"structural on poly, func"}],"methods_preserving":["__init__","__str__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6cd9cdee819aa35a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyerrors.OperationNotSupported","kind":"class","src_hash":"078f3914284f77e2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, BasePolynomialError)"},"spec":{"lhs":"OperationNotSupported(*args)","rhs":"correctly constructs a OperationNotSupported instance","over":{"base":"Any"},"name":"OperationNotSupported_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, BasePolynomialError); preserves 2 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'poly') and hasattr(self, 'func')","kind":"class","induction":"structural on poly, func"}],"methods_preserving":["__init__","__str__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6cd9cdee819aa35a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, BasePolynomialError)"],"invariants":["hasattr(self, 'poly')","hasattr(self, 'func')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function OperationNotSupported not found in source"]}}
 class OperationNotSupported(BasePolynomialError):
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(pol), initializes the instance correctly) over Any ║
+# ║ Path(__init__(poly, func), self.poly == poly and self.func == func) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  self.poly == poly                              ║
+# ║   ensures:  self.func == func                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : Any → {Any | result satisfies: self.poly =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 055bc70e9d9acf10           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyerrors.OperationNotSupported.__init__","kind":"method","src_hash":"1392ed57af97a192","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(pol)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"055bc70e9d9acf10"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyerrors.OperationNotSupported.__init__","kind":"method","src_hash":"1392ed57af97a192","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: self.poly == poly and self.func == func"},"spec":{"lhs":"__init__(poly, func)","rhs":"self.poly == poly and self.func == func","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"self.poly == poly; self.func == func","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"055bc70e9d9acf10","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["self.poly == poly","self.func == func"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, poly, func):
         self.poly = poly
         self.func = func
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__str__(), returns a human-readable string) over Any  ║
+# ║ Path(__str__(), '`%s` operation not supported by %s representation' % (self.func, self.poly.rep.__class__.__name__)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  '`%s` operation not supported by %s repre...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __str__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 665a891ae4d36cc6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyerrors.OperationNotSupported.__str__","kind":"method","src_hash":"e658384b64e8c051","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"returns a human-readable string","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"665a891ae4d36cc6"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyerrors.OperationNotSupported.__str__","kind":"method","src_hash":"e658384b64e8c051","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"'`%s` operation not supported by %s representation' % (self.func, self.poly.rep.__class__.__name__)","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns '`%s` operation not supported by %s representation' % (self.func, self.poly.rep.__class__.__name__)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"665a891ae4d36cc6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'`%s` operation not supported by %s representation' % (self.func, self.poly.rep.__class__.__name__)","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","self.func","self.poly"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __str__(self):  # pragma: no cover
         return "`%s` operation not supported by %s representation" % (self.func, self.poly.rep.__class__.__name__)
 
 @public
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(HeuristicGCDFailed(), correctly constructs a HeuristicGCDFailed instance) over Any ║
+# ║ Path(HeuristicGCDFailed(), isinstance(self, BasePolynomialError)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ HeuristicGCDFailed : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, BasePolynomialError)          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ HeuristicGCDFailed : Any → {Any | result satisfies: i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 381d9bf68f275a90           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyerrors.HeuristicGCDFailed","kind":"class","src_hash":"6f41de6f9ab3fc1f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"HeuristicGCDFailed()","rhs":"correctly constructs a HeuristicGCDFailed instance","over":{"base":"Any"},"name":"HeuristicGCDFailed_correct"},"guarantee":"correctly constructs a HeuristicGCDFailed instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"381d9bf68f275a90"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyerrors.HeuristicGCDFailed","kind":"class","src_hash":"6f41de6f9ab3fc1f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, BasePolynomialError)"},"spec":{"lhs":"HeuristicGCDFailed()","rhs":"isinstance(self, BasePolynomialError)","over":{"base":"Any"},"name":"HeuristicGCDFailed_correct"},"guarantee":"isinstance(self, BasePolynomialError)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"381d9bf68f275a90","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, BasePolynomialError)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function HeuristicGCDFailed not found in source"]}}
 class HeuristicGCDFailed(BasePolynomialError):
     pass
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ModularGCDFailed(), correctly constructs a ModularGCDFailed instance) over Any ║
+# ║ Path(ModularGCDFailed(), isinstance(self, BasePolynomialError)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ ModularGCDFailed : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, BasePolynomialError)          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ ModularGCDFailed : Any → {Any | result satisfies: isi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | cc32e03ef62e02b3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyerrors.ModularGCDFailed","kind":"class","src_hash":"d474ab0e2adc9b3c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ModularGCDFailed()","rhs":"correctly constructs a ModularGCDFailed instance","over":{"base":"Any"},"name":"ModularGCDFailed_correct"},"guarantee":"correctly constructs a ModularGCDFailed instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cc32e03ef62e02b3"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyerrors.ModularGCDFailed","kind":"class","src_hash":"d474ab0e2adc9b3c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, BasePolynomialError)"},"spec":{"lhs":"ModularGCDFailed()","rhs":"isinstance(self, BasePolynomialError)","over":{"base":"Any"},"name":"ModularGCDFailed_correct"},"guarantee":"isinstance(self, BasePolynomialError)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cc32e03ef62e02b3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, BasePolynomialError)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function ModularGCDFailed not found in source"]}}
 class ModularGCDFailed(BasePolynomialError):
     pass
 
 @public
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(HomomorphismFailed(), correctly constructs a HomomorphismFailed instance) over Any ║
+# ║ Path(HomomorphismFailed(), isinstance(self, BasePolynomialError)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ HomomorphismFailed : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, BasePolynomialError)          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ HomomorphismFailed : Any → {Any | result satisfies: i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | aaf901fec9b398d8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyerrors.HomomorphismFailed","kind":"class","src_hash":"b4e416f49c3d69de","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"HomomorphismFailed()","rhs":"correctly constructs a HomomorphismFailed instance","over":{"base":"Any"},"name":"HomomorphismFailed_correct"},"guarantee":"correctly constructs a HomomorphismFailed instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"aaf901fec9b398d8"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyerrors.HomomorphismFailed","kind":"class","src_hash":"b4e416f49c3d69de","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, BasePolynomialError)"},"spec":{"lhs":"HomomorphismFailed()","rhs":"isinstance(self, BasePolynomialError)","over":{"base":"Any"},"name":"HomomorphismFailed_correct"},"guarantee":"isinstance(self, BasePolynomialError)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"aaf901fec9b398d8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, BasePolynomialError)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function HomomorphismFailed not found in source"]}}
 class HomomorphismFailed(BasePolynomialError):
     pass
 
 @public
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(IsomorphismFailed(), correctly constructs a IsomorphismFailed instance) over Any ║
+# ║ Path(IsomorphismFailed(), isinstance(self, BasePolynomialError)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ IsomorphismFailed : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, BasePolynomialError)          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ IsomorphismFailed : Any → {Any | result satisfies: is...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 93baa1074a35d5f7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyerrors.IsomorphismFailed","kind":"class","src_hash":"f763697f483ee57c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"IsomorphismFailed()","rhs":"correctly constructs a IsomorphismFailed instance","over":{"base":"Any"},"name":"IsomorphismFailed_correct"},"guarantee":"correctly constructs a IsomorphismFailed instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"93baa1074a35d5f7"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyerrors.IsomorphismFailed","kind":"class","src_hash":"f763697f483ee57c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, BasePolynomialError)"},"spec":{"lhs":"IsomorphismFailed()","rhs":"isinstance(self, BasePolynomialError)","over":{"base":"Any"},"name":"IsomorphismFailed_correct"},"guarantee":"isinstance(self, BasePolynomialError)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"93baa1074a35d5f7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, BasePolynomialError)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function IsomorphismFailed not found in source"]}}
 class IsomorphismFailed(BasePolynomialError):
     pass
 
 @public
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ExtraneousFactors(), correctly constructs a ExtraneousFactors instance) over Any ║
+# ║ Path(ExtraneousFactors(), isinstance(self, BasePolynomialError)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ ExtraneousFactors : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, BasePolynomialError)          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ ExtraneousFactors : Any → {Any | result satisfies: is...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b77faf4d324ff0a3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyerrors.ExtraneousFactors","kind":"class","src_hash":"da0cf9239e8612b0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ExtraneousFactors()","rhs":"correctly constructs a ExtraneousFactors instance","over":{"base":"Any"},"name":"ExtraneousFactors_correct"},"guarantee":"correctly constructs a ExtraneousFactors instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b77faf4d324ff0a3"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyerrors.ExtraneousFactors","kind":"class","src_hash":"da0cf9239e8612b0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, BasePolynomialError)"},"spec":{"lhs":"ExtraneousFactors()","rhs":"isinstance(self, BasePolynomialError)","over":{"base":"Any"},"name":"ExtraneousFactors_correct"},"guarantee":"isinstance(self, BasePolynomialError)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b77faf4d324ff0a3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, BasePolynomialError)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function ExtraneousFactors not found in source"]}}
 class ExtraneousFactors(BasePolynomialError):
     pass
 
 @public
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(EvaluationFailed(), correctly constructs a EvaluationFailed instance) over Any ║
+# ║ Path(EvaluationFailed(), isinstance(self, BasePolynomialError)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ EvaluationFailed : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, BasePolynomialError)          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ EvaluationFailed : Any → {Any | result satisfies: isi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 13a8b2db9beb9e96           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyerrors.EvaluationFailed","kind":"class","src_hash":"d396e5586e0273e0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"EvaluationFailed()","rhs":"correctly constructs a EvaluationFailed instance","over":{"base":"Any"},"name":"EvaluationFailed_correct"},"guarantee":"correctly constructs a EvaluationFailed instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"13a8b2db9beb9e96"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyerrors.EvaluationFailed","kind":"class","src_hash":"d396e5586e0273e0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, BasePolynomialError)"},"spec":{"lhs":"EvaluationFailed()","rhs":"isinstance(self, BasePolynomialError)","over":{"base":"Any"},"name":"EvaluationFailed_correct"},"guarantee":"isinstance(self, BasePolynomialError)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"13a8b2db9beb9e96","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, BasePolynomialError)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function EvaluationFailed not found in source"]}}
 class EvaluationFailed(BasePolynomialError):
     pass
 
 @public
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(RefinementFailed(), correctly constructs a RefinementFailed instance) over Any ║
+# ║ Path(RefinementFailed(), isinstance(self, BasePolynomialError)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ RefinementFailed : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, BasePolynomialError)          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ RefinementFailed : Any → {Any | result satisfies: isi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3936b96cf6259082           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyerrors.RefinementFailed","kind":"class","src_hash":"af2864871e6636d0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"RefinementFailed()","rhs":"correctly constructs a RefinementFailed instance","over":{"base":"Any"},"name":"RefinementFailed_correct"},"guarantee":"correctly constructs a RefinementFailed instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3936b96cf6259082"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyerrors.RefinementFailed","kind":"class","src_hash":"af2864871e6636d0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, BasePolynomialError)"},"spec":{"lhs":"RefinementFailed()","rhs":"isinstance(self, BasePolynomialError)","over":{"base":"Any"},"name":"RefinementFailed_correct"},"guarantee":"isinstance(self, BasePolynomialError)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3936b96cf6259082","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, BasePolynomialError)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function RefinementFailed not found in source"]}}
 class RefinementFailed(BasePolynomialError):
     pass
 
 @public
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(CoercionFailed(), correctly constructs a CoercionFailed instance) over Any ║
+# ║ Path(CoercionFailed(), isinstance(self, BasePolynomialError)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ CoercionFailed : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, BasePolynomialError)          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ CoercionFailed : Any → {Any | result satisfies: isins...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6c6491dbdeb1cdd8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyerrors.CoercionFailed","kind":"class","src_hash":"80e35f60555c3eaf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"CoercionFailed()","rhs":"correctly constructs a CoercionFailed instance","over":{"base":"Any"},"name":"CoercionFailed_correct"},"guarantee":"correctly constructs a CoercionFailed instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6c6491dbdeb1cdd8"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyerrors.CoercionFailed","kind":"class","src_hash":"80e35f60555c3eaf","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, BasePolynomialError)"},"spec":{"lhs":"CoercionFailed()","rhs":"isinstance(self, BasePolynomialError)","over":{"base":"Any"},"name":"CoercionFailed_correct"},"guarantee":"isinstance(self, BasePolynomialError)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6c6491dbdeb1cdd8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, BasePolynomialError)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function CoercionFailed not found in source"]}}
 class CoercionFailed(BasePolynomialError):
     pass
 
 @public
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(NotInvertible(), correctly constructs a NotInvertible instance) over Any ║
+# ║ Path(NotInvertible(), isinstance(self, BasePolynomialError)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ NotInvertible : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, BasePolynomialError)          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ NotInvertible : Any → {Any | result satisfies: isinst...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a4383b9f6c9d86a0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyerrors.NotInvertible","kind":"class","src_hash":"fb6c05b36bb1b3d5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"NotInvertible()","rhs":"correctly constructs a NotInvertible instance","over":{"base":"Any"},"name":"NotInvertible_correct"},"guarantee":"correctly constructs a NotInvertible instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a4383b9f6c9d86a0"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyerrors.NotInvertible","kind":"class","src_hash":"fb6c05b36bb1b3d5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, BasePolynomialError)"},"spec":{"lhs":"NotInvertible()","rhs":"isinstance(self, BasePolynomialError)","over":{"base":"Any"},"name":"NotInvertible_correct"},"guarantee":"isinstance(self, BasePolynomialError)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a4383b9f6c9d86a0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, BasePolynomialError)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function NotInvertible not found in source"]}}
 class NotInvertible(BasePolynomialError):
     pass
 
 @public
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(NotReversible(), correctly constructs a NotReversible instance) over Any ║
+# ║ Path(NotReversible(), isinstance(self, BasePolynomialError)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ NotReversible : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, BasePolynomialError)          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ NotReversible : Any → {Any | result satisfies: isinst...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a9dac4aa5526a459           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyerrors.NotReversible","kind":"class","src_hash":"bec040a9615a7574","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"NotReversible()","rhs":"correctly constructs a NotReversible instance","over":{"base":"Any"},"name":"NotReversible_correct"},"guarantee":"correctly constructs a NotReversible instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a9dac4aa5526a459"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyerrors.NotReversible","kind":"class","src_hash":"bec040a9615a7574","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, BasePolynomialError)"},"spec":{"lhs":"NotReversible()","rhs":"isinstance(self, BasePolynomialError)","over":{"base":"Any"},"name":"NotReversible_correct"},"guarantee":"isinstance(self, BasePolynomialError)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a9dac4aa5526a459","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, BasePolynomialError)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function NotReversible not found in source"]}}
 class NotReversible(BasePolynomialError):
     pass
 
 @public
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(NotAlgebraic(), correctly constructs a NotAlgebraic instance) over Any ║
+# ║ Path(NotAlgebraic(), isinstance(self, BasePolynomialError)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ NotAlgebraic : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, BasePolynomialError)          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ NotAlgebraic : Any → {Any | result satisfies: isinsta...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 37d2aaf3da62ce50           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyerrors.NotAlgebraic","kind":"class","src_hash":"7d428e4a19885e70","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"NotAlgebraic()","rhs":"correctly constructs a NotAlgebraic instance","over":{"base":"Any"},"name":"NotAlgebraic_correct"},"guarantee":"correctly constructs a NotAlgebraic instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"37d2aaf3da62ce50"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyerrors.NotAlgebraic","kind":"class","src_hash":"7d428e4a19885e70","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, BasePolynomialError)"},"spec":{"lhs":"NotAlgebraic()","rhs":"isinstance(self, BasePolynomialError)","over":{"base":"Any"},"name":"NotAlgebraic_correct"},"guarantee":"isinstance(self, BasePolynomialError)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"37d2aaf3da62ce50","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, BasePolynomialError)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function NotAlgebraic not found in source"]}}
 class NotAlgebraic(BasePolynomialError):
     pass
 
 @public
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(DomainError(), correctly constructs a DomainError instance) over Any ║
+# ║ Path(DomainError(), isinstance(self, BasePolynomialError)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ DomainError : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, BasePolynomialError)          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ DomainError : Any → {Any | result satisfies: isinstan...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 399f650de5ec635d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyerrors.DomainError","kind":"class","src_hash":"e9d3f3bdc047eb7e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"DomainError()","rhs":"correctly constructs a DomainError instance","over":{"base":"Any"},"name":"DomainError_correct"},"guarantee":"correctly constructs a DomainError instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"399f650de5ec635d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyerrors.DomainError","kind":"class","src_hash":"e9d3f3bdc047eb7e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, BasePolynomialError)"},"spec":{"lhs":"DomainError()","rhs":"isinstance(self, BasePolynomialError)","over":{"base":"Any"},"name":"DomainError_correct"},"guarantee":"isinstance(self, BasePolynomialError)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"399f650de5ec635d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, BasePolynomialError)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function DomainError not found in source"]}}
 class DomainError(BasePolynomialError):
     pass
 
 @public
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(PolynomialError(), correctly constructs a PolynomialError instance) over Any ║
+# ║ Path(PolynomialError(), isinstance(self, BasePolynomialError)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ PolynomialError : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, BasePolynomialError)          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ PolynomialError : Any → {Any | result satisfies: isin...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 193a25952cae8315           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyerrors.PolynomialError","kind":"class","src_hash":"80ec9a5923ee9008","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"PolynomialError()","rhs":"correctly constructs a PolynomialError instance","over":{"base":"Any"},"name":"PolynomialError_correct"},"guarantee":"correctly constructs a PolynomialError instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"193a25952cae8315"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyerrors.PolynomialError","kind":"class","src_hash":"80ec9a5923ee9008","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, BasePolynomialError)"},"spec":{"lhs":"PolynomialError()","rhs":"isinstance(self, BasePolynomialError)","over":{"base":"Any"},"name":"PolynomialError_correct"},"guarantee":"isinstance(self, BasePolynomialError)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"193a25952cae8315","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, BasePolynomialError)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function PolynomialError not found in source"]}}
 class PolynomialError(BasePolynomialError):
     pass
 
 @public
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(UnificationFailed(), correctly constructs a UnificationFailed instance) over Any ║
+# ║ Path(UnificationFailed(), isinstance(self, BasePolynomialError)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ UnificationFailed : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, BasePolynomialError)          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ UnificationFailed : Any → {Any | result satisfies: is...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 067a288da9ab555e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyerrors.UnificationFailed","kind":"class","src_hash":"2b79fcd2b889f961","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"UnificationFailed()","rhs":"correctly constructs a UnificationFailed instance","over":{"base":"Any"},"name":"UnificationFailed_correct"},"guarantee":"correctly constructs a UnificationFailed instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"067a288da9ab555e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyerrors.UnificationFailed","kind":"class","src_hash":"2b79fcd2b889f961","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, BasePolynomialError)"},"spec":{"lhs":"UnificationFailed()","rhs":"isinstance(self, BasePolynomialError)","over":{"base":"Any"},"name":"UnificationFailed_correct"},"guarantee":"isinstance(self, BasePolynomialError)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"067a288da9ab555e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, BasePolynomialError)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function UnificationFailed not found in source"]}}
 class UnificationFailed(BasePolynomialError):
     pass
 
 @public
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(UnsolvableFactorError(), correctly constructs a UnsolvableFactorError instance) over Any ║
+# ║ Path(UnsolvableFactorError(), isinstance(self, BasePolynomialError)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ UnsolvableFactorError : Any → Any                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, BasePolynomialError)          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ UnsolvableFactorError : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 38102e21c955f67f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyerrors.UnsolvableFactorError","kind":"class","src_hash":"996e2da68fafadaf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"UnsolvableFactorError()","rhs":"correctly constructs a UnsolvableFactorError instance","over":{"base":"Any"},"name":"UnsolvableFactorError_correct"},"guarantee":"correctly constructs a UnsolvableFactorError instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"38102e21c955f67f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyerrors.UnsolvableFactorError","kind":"class","src_hash":"996e2da68fafadaf","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, BasePolynomialError)"},"spec":{"lhs":"UnsolvableFactorError()","rhs":"isinstance(self, BasePolynomialError)","over":{"base":"Any"},"name":"UnsolvableFactorError_correct"},"guarantee":"isinstance(self, BasePolynomialError)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"38102e21c955f67f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, BasePolynomialError)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function UnsolvableFactorError not found in source"]}}
 class UnsolvableFactorError(BasePolynomialError):
     """Raised if ``roots`` is called with strict=True and a polynomial
      having a factor whose solutions are not expressible in radicals
@@ -441,31 +609,43 @@ class UnsolvableFactorError(BasePolynomialError):
 
 @public
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(GeneratorsError(), correctly constructs a GeneratorsError instance) over Any ║
+# ║ Path(GeneratorsError(), isinstance(self, BasePolynomialError)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ GeneratorsError : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, BasePolynomialError)          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ GeneratorsError : Any → {Any | result satisfies: isin...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 76f1f04939cd2048           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyerrors.GeneratorsError","kind":"class","src_hash":"b2245f247d051fa1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"GeneratorsError()","rhs":"correctly constructs a GeneratorsError instance","over":{"base":"Any"},"name":"GeneratorsError_correct"},"guarantee":"correctly constructs a GeneratorsError instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"76f1f04939cd2048"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyerrors.GeneratorsError","kind":"class","src_hash":"b2245f247d051fa1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, BasePolynomialError)"},"spec":{"lhs":"GeneratorsError()","rhs":"isinstance(self, BasePolynomialError)","over":{"base":"Any"},"name":"GeneratorsError_correct"},"guarantee":"isinstance(self, BasePolynomialError)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"76f1f04939cd2048","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, BasePolynomialError)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function GeneratorsError not found in source"]}}
 class GeneratorsError(BasePolynomialError):
     pass
 
 @public
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(GeneratorsNeeded(), correctly constructs a GeneratorsNeeded instance) over Any ║
+# ║ Path(GeneratorsNeeded(), isinstance(self, GeneratorsError)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ GeneratorsNeeded : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, GeneratorsError)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ GeneratorsNeeded : Any → {Any | result satisfies: isi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 28ff50962a9e2ab4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyerrors.GeneratorsNeeded","kind":"class","src_hash":"9b861bafb9f3bda3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"GeneratorsNeeded()","rhs":"correctly constructs a GeneratorsNeeded instance","over":{"base":"Any"},"name":"GeneratorsNeeded_correct"},"guarantee":"correctly constructs a GeneratorsNeeded instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"28ff50962a9e2ab4"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyerrors.GeneratorsNeeded","kind":"class","src_hash":"9b861bafb9f3bda3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, GeneratorsError)"},"spec":{"lhs":"GeneratorsNeeded()","rhs":"isinstance(self, GeneratorsError)","over":{"base":"Any"},"name":"GeneratorsNeeded_correct"},"guarantee":"isinstance(self, GeneratorsError)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"28ff50962a9e2ab4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, GeneratorsError)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function GeneratorsNeeded not found in source"]}}
 class GeneratorsNeeded(GeneratorsError):
     pass
 
@@ -473,73 +653,105 @@ class GeneratorsNeeded(GeneratorsError):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a ComputationFailed instance) preserved by ComputationFailed(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ ComputationFailed : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, BasePolynomialError)          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ ComputationFailed : Any → {Any | result satisfies: is...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cf633d869357b981  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyerrors.ComputationFailed","kind":"class","src_hash":"5169a5226221791a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ComputationFailed(*args)","rhs":"correctly constructs a ComputationFailed instance","over":{"base":"Any"},"name":"ComputationFailed_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a ComputationFailed instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'func') and hasattr(self, 'nargs') and hasattr(self, 'exc')","kind":"class","induction":"structural on func, nargs, exc"}],"methods_preserving":["__init__","__str__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cf633d869357b981"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyerrors.ComputationFailed","kind":"class","src_hash":"5169a5226221791a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, BasePolynomialError)"},"spec":{"lhs":"ComputationFailed(*args)","rhs":"correctly constructs a ComputationFailed instance","over":{"base":"Any"},"name":"ComputationFailed_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, BasePolynomialError); preserves 3 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'func') and hasattr(self, 'nargs') and hasattr(self, 'exc')","kind":"class","induction":"structural on func, nargs, exc"}],"methods_preserving":["__init__","__str__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cf633d869357b981","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, BasePolynomialError)"],"invariants":["hasattr(self, 'func')","hasattr(self, 'nargs')","hasattr(self, 'exc')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function ComputationFailed not found in source"]}}
 class ComputationFailed(BasePolynomialError):
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(fun), initializes the instance correctly) over Any ║
+# ║ Path(__init__(func, nargs, exc), self.func == func and self.nargs == nargs and self.exc == exc) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  self.func == func                              ║
+# ║   ensures:  self.nargs == nargs                            ║
+# ║   ensures:  self.exc == exc                                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : Any → {Any | result satisfies: self.func =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a51f7a9cf78af9e0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyerrors.ComputationFailed.__init__","kind":"method","src_hash":"e4444fc080969e21","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(fun)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a51f7a9cf78af9e0"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyerrors.ComputationFailed.__init__","kind":"method","src_hash":"e4444fc080969e21","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: self.func == func and self.nargs == nargs and self.exc == exc"},"spec":{"lhs":"__init__(func, nargs, exc)","rhs":"self.func == func and self.nargs == nargs and self.exc == exc","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"self.func == func; self.nargs == nargs; self.exc == exc","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a51f7a9cf78af9e0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["self.func == func","self.nargs == nargs","self.exc == exc"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, func, nargs, exc):
         self.func = func
         self.nargs = nargs
         self.exc = exc
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__str__(), returns a human-readable string) over Any  ║
+# ║ Path(__str__(), '%s(%s) failed without generators' % (self.func, ', '.join(map(str, self.exc.exprs[:self.nargs])))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  '%s(%s) failed without generators' % (sel...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __str__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 27c79a9927ed87c0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyerrors.ComputationFailed.__str__","kind":"method","src_hash":"cd7c824b20406947","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"returns a human-readable string","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"27c79a9927ed87c0"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyerrors.ComputationFailed.__str__","kind":"method","src_hash":"cd7c824b20406947","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"'%s(%s) failed without generators' % (self.func, ', '.join(map(str, self.exc.exprs[:self.nargs])))","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns '%s(%s) failed without generators' % (self.func, ', '.join(map(str, self.exc.exprs[:self.nargs])))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"27c79a9927ed87c0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'%s(%s) failed without generators' % (self.func, ', '.join(map(str, self.exc.exprs[:self.nargs])))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.exc","self.func","self.nargs"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __str__(self):
         return "%s(%s) failed without generators" % (self.func, ', '.join(map(str, self.exc.exprs[:self.nargs])))
 
 @public
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(UnivariatePolynomialError(), correctly constructs a UnivariatePolynomialError instance) over Any ║
+# ║ Path(UnivariatePolynomialError(), isinstance(self, PolynomialError)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ UnivariatePolynomialError : Any → Any                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, PolynomialError)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ UnivariatePolynomialError : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b68f8c4b03f5796e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyerrors.UnivariatePolynomialError","kind":"class","src_hash":"d83f8e24034ec94a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"UnivariatePolynomialError()","rhs":"correctly constructs a UnivariatePolynomialError instance","over":{"base":"Any"},"name":"UnivariatePolynomialError_correct"},"guarantee":"correctly constructs a UnivariatePolynomialError instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b68f8c4b03f5796e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyerrors.UnivariatePolynomialError","kind":"class","src_hash":"d83f8e24034ec94a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, PolynomialError)"},"spec":{"lhs":"UnivariatePolynomialError()","rhs":"isinstance(self, PolynomialError)","over":{"base":"Any"},"name":"UnivariatePolynomialError_correct"},"guarantee":"isinstance(self, PolynomialError)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b68f8c4b03f5796e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, PolynomialError)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function UnivariatePolynomialError not found in source"]}}
 class UnivariatePolynomialError(PolynomialError):
     pass
 
 @public
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(MultivariatePolynomialError(), correctly constructs a MultivariatePolynomialError instance) over Any ║
+# ║ Path(MultivariatePolynomialError(), isinstance(self, PolynomialError)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ MultivariatePolynomialError : Any → Any                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, PolynomialError)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ MultivariatePolynomialError : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f6d101ed65150db5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyerrors.MultivariatePolynomialError","kind":"class","src_hash":"474b4d82903b3e13","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"MultivariatePolynomialError()","rhs":"correctly constructs a MultivariatePolynomialError instance","over":{"base":"Any"},"name":"MultivariatePolynomialError_correct"},"guarantee":"correctly constructs a MultivariatePolynomialError instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f6d101ed65150db5"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyerrors.MultivariatePolynomialError","kind":"class","src_hash":"474b4d82903b3e13","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, PolynomialError)"},"spec":{"lhs":"MultivariatePolynomialError()","rhs":"isinstance(self, PolynomialError)","over":{"base":"Any"},"name":"MultivariatePolynomialError_correct"},"guarantee":"isinstance(self, PolynomialError)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f6d101ed65150db5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, PolynomialError)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function MultivariatePolynomialError not found in source"]}}
 class MultivariatePolynomialError(PolynomialError):
     pass
 
@@ -547,27 +759,41 @@ class MultivariatePolynomialError(PolynomialError):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a PolificationFailed instance) preserved by PolificationFailed(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ PolificationFailed : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, PolynomialError)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ PolificationFailed : Any → {Any | result satisfies: i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 58eae17070bcf7fe  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyerrors.PolificationFailed","kind":"class","src_hash":"7116b341cd0f6246","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"PolificationFailed(*args)","rhs":"correctly constructs a PolificationFailed instance","over":{"base":"Any"},"name":"PolificationFailed_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a PolificationFailed instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'orig') and hasattr(self, 'expr') and hasattr(self, 'origs') and hasattr(self, 'exprs') and hasattr(self, 'origs') and hasattr(self, 'exprs') and hasattr(self, 'opt') and hasattr(self, 'seq')","kind":"class","induction":"structural on orig, expr, origs, exprs"}],"methods_preserving":["__init__","__str__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"58eae17070bcf7fe"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyerrors.PolificationFailed","kind":"class","src_hash":"7116b341cd0f6246","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, PolynomialError)"},"spec":{"lhs":"PolificationFailed(*args)","rhs":"correctly constructs a PolificationFailed instance","over":{"base":"Any"},"name":"PolificationFailed_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, PolynomialError); preserves 6 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'orig') and hasattr(self, 'expr') and hasattr(self, 'origs') and hasattr(self, 'exprs') and hasattr(self, 'origs') and hasattr(self, 'exprs') and hasattr(self, 'opt') and hasattr(self, 'seq')","kind":"class","induction":"structural on orig, expr, origs, exprs"}],"methods_preserving":["__init__","__str__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"58eae17070bcf7fe","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, PolynomialError)"],"invariants":["hasattr(self, 'opt')","hasattr(self, 'seq')","hasattr(self, 'orig')","hasattr(self, 'expr')","hasattr(self, 'origs')","hasattr(self, 'exprs')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function PolificationFailed not found in source"]}}
 class PolificationFailed(PolynomialError):
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(opt), initializes the instance correctly) over Any ║
+# ║ Path(__init__(opt, origs, exprs), self.opt == opt and self.seq == seq and self.orig == origs and self.expr == exprs and self.origs == origs and self.exprs == exprs) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  self.opt == opt                                ║
+# ║   ensures:  self.seq == seq                                ║
+# ║   ensures:  self.orig == origs                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : Any → {Any | result satisfies: self.opt ==...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c96a183170cca780           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyerrors.PolificationFailed.__init__","kind":"method","src_hash":"2ec89f00228402c1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(opt)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c96a183170cca780"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyerrors.PolificationFailed.__init__","kind":"method","src_hash":"2ec89f00228402c1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: self.opt == opt and self.seq == seq and self.orig == origs and self.expr == exprs and self.origs == origs and self.exprs == exprs"},"spec":{"lhs":"__init__(opt, origs, exprs)","rhs":"self.opt == opt and self.seq == seq and self.orig == origs and self.expr == exprs and self.origs == origs and self.exprs == exprs","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"self.opt == opt; self.seq == seq; self.orig == origs","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c96a183170cca780","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["self.opt == opt","self.seq == seq","self.orig == origs","self.expr == exprs","self.origs == origs","self.exprs == exprs"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, opt, origs, exprs, seq=False):
         if not seq:
             self.orig = origs
@@ -582,16 +808,25 @@ class PolificationFailed(PolynomialError):
         self.seq = seq
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__str__(), returns a human-readable string) over Any  ║
+# ║ Path(__str__(), result == ('Cannot construct a polynomial from %s' % str(self.orig) if not self.seq else 'Cannot construct polynomials from %s' % ', '.join(map(str, self.origs))) and result == 'Cannot construct a polynomial from %s' % str(self.orig) or result == 'Cannot construct polynomials from %s' % ', '.join(map(str, self.origs))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __str__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == ('Cannot construct a polynomial...   ║
+# ║   ensures:  result == 'Cannot construct a polynomial ...   ║
+# ║   fiber[case_0]: not self.seq => 'Cannot construct a ...   ║
+# ║   fiber[case_1]: not (not self.seq) => 'Cannot constr...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __str__ : Any → {Any | result satisfies: result == ('...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1307a460b1b6d9f6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyerrors.PolificationFailed.__str__","kind":"method","src_hash":"5bb7b1f3575d34b3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"returns a human-readable string","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1307a460b1b6d9f6"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyerrors.PolificationFailed.__str__","kind":"method","src_hash":"5bb7b1f3575d34b3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == ('Cannot construct a polynomial from %s' % str(self.orig) if not self.seq else 'Cannot construct polynomials from %s' % ', '.join(map(str, self.origs))) and result == 'Cannot construct a polynomial from %s' % str(self.orig) or result == 'Cannot construct polynomials from %s' % ', '.join(map(str, self.origs))"},"spec":{"lhs":"__str__()","rhs":"result == ('Cannot construct a polynomial from %s' % str(self.orig) if not self.seq else 'Cannot construct polynomials from %s' % ', '.join(map(str, self.origs))) and result == 'Cannot construct a polynomial from %s' % str(self.orig) or result == 'Cannot construct polynomials from %s' % ', '.join(map(str, self.origs))","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"result == ('Cannot construct a polynomial from %s' % str(self.orig) if not self.seq else 'Cannot construct polynomials from %s' % ', '.join(map(str, self.origs))); result == 'Cannot construct a polynomial from %s' % str(self.orig) or result == 'Cannot construct polynomials from %s' % ', '.join(map(str, self.origs)); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1307a460b1b6d9f6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == ('Cannot construct a polynomial from %s' % str(self.orig) if not self.seq else 'Cannot construct polynomials from %s' % ', '.join(map(str, self.origs)))","result == 'Cannot construct a polynomial from %s' % str(self.orig) or result == 'Cannot construct polynomials from %s' % ', '.join(map(str, self.origs))"],"fibers":[{"name":"case_0","guard":"not self.seq","ensures":["result == 'Cannot construct a polynomial from %s' % str(self.orig)"],"decidability":"library","returns_expr":"'Cannot construct a polynomial from %s' % str(self.orig)"},{"name":"case_1","guard":"not (not self.seq)","ensures":["result == 'Cannot construct polynomials from %s' % ', '.join(map(str, self.origs))"],"decidability":"library","returns_expr":"'Cannot construct polynomials from %s' % ', '.join(map(str, self.origs))"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.orig","self.origs","self.seq"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __str__(self):  # pragma: no cover
         if not self.seq:
             return "Cannot construct a polynomial from %s" % str(self.orig)
@@ -600,30 +835,42 @@ class PolificationFailed(PolynomialError):
 
 @public
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(OptionError(), correctly constructs a OptionError instance) over Any ║
+# ║ Path(OptionError(), isinstance(self, BasePolynomialError)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ OptionError : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, BasePolynomialError)          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ OptionError : Any → {Any | result satisfies: isinstan...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 19dc8da3772179b8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyerrors.OptionError","kind":"class","src_hash":"15c306b4af450d6d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"OptionError()","rhs":"correctly constructs a OptionError instance","over":{"base":"Any"},"name":"OptionError_correct"},"guarantee":"correctly constructs a OptionError instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"19dc8da3772179b8"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyerrors.OptionError","kind":"class","src_hash":"15c306b4af450d6d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, BasePolynomialError)"},"spec":{"lhs":"OptionError()","rhs":"isinstance(self, BasePolynomialError)","over":{"base":"Any"},"name":"OptionError_correct"},"guarantee":"isinstance(self, BasePolynomialError)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"19dc8da3772179b8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, BasePolynomialError)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function OptionError not found in source"]}}
 class OptionError(BasePolynomialError):
     pass
 
 @public
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(FlagError(), correctly constructs a FlagError instance) over Any ║
+# ║ Path(FlagError(), isinstance(self, OptionError)) over Any  ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ FlagError : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, OptionError)                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ FlagError : Any → {Any | result satisfies: isinstance...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 09ab1dda1883f1d2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyerrors.FlagError","kind":"class","src_hash":"43225e7c42627c91","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"FlagError()","rhs":"correctly constructs a FlagError instance","over":{"base":"Any"},"name":"FlagError_correct"},"guarantee":"correctly constructs a FlagError instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"09ab1dda1883f1d2"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyerrors.FlagError","kind":"class","src_hash":"43225e7c42627c91","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, OptionError)"},"spec":{"lhs":"FlagError()","rhs":"isinstance(self, OptionError)","over":{"base":"Any"},"name":"FlagError_correct"},"guarantee":"isinstance(self, OptionError)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"09ab1dda1883f1d2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, OptionError)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function FlagError not found in source"]}}
 class FlagError(OptionError):
     pass

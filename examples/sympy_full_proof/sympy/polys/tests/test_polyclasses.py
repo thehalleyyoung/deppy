@@ -28,16 +28,24 @@ from sympy.testing.pytest import raises, warns_deprecated_sympy
 f_0, f_1, f_2, f_3, f_4, f_5, f_6 = [ f.to_dense() for f in f_polys() ]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DMP___init__(), test_DMP___init__ produces the expected output) over Any ║
+# ║ Path(test_DMP___init__(), f._rep == [[1, 2], [3]] and f.dom == ZZ and f.lev == 1 and f._rep == [[1, 0], [2]]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DMP___init__ : Any → {Any | f._rep == [[1, 2], [...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f._rep == [[1, 2], [3]]                        ║
+# ║   ensures:  f.dom == ZZ                                    ║
+# ║   ensures:  f.lev == 1                                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DMP___init__ : Any → {Any | result satisfies: f....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 59f5433eb25cfebb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 88b550c959336eea  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyclasses.test_DMP___init__","kind":"function","src_hash":"d64a6e0986db332e","in":{"base":"Any"},"out":{"base":"Any","pred":"f._rep == [[1, 2], [3]] and f.dom == ZZ and f.lev == 1 and f._rep == [[1, 2], [3]] and f.dom == ZZ and f.lev == 1 and f._rep == [[1, 0], [2]] and f.dom == ZZ and f.lev == 1"},"spec":{"lhs":"test_DMP___init__()","rhs":"test_DMP___init__ produces the expected output","over":{"base":"Any"},"name":"test_DMP___init___correct"},"guarantee":"test_DMP___init__ produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyclasses.test_DMP___init___correct","statement":"Path(test_DMP___init__(x), test_DMP___init__ produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"59f5433eb25cfebb"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyclasses.test_DMP___init__","kind":"function","src_hash":"d64a6e0986db332e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f._rep == [[1, 2], [3]] and f.dom == ZZ and f.lev == 1 and f._rep == [[1, 0], [2]]"},"spec":{"lhs":"test_DMP___init__()","rhs":"f._rep == [[1, 2], [3]] and f.dom == ZZ and f.lev == 1 and f._rep == [[1, 0], [2]]","over":{"base":"Any"},"name":"test_DMP___init___correct"},"guarantee":"f._rep == [[1, 2], [3]]; f.dom == ZZ; f.lev == 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyclasses.test_DMP___init___correct","statement":"Path(test_DMP___init__(x), f._rep == [[1, 2], [3]]; f.dom == ZZ; f.lev == 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"88b550c959336eea","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f._rep == [[1, 2], [3]]","f.dom == ZZ","f.lev == 1","f._rep == [[1, 0], [2]]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_DMP___init__():
     f = DMP([[ZZ(0)], [], [ZZ(0), ZZ(1), ZZ(2)], [ZZ(3)]], ZZ)
 
@@ -59,16 +67,22 @@ def test_DMP___init__():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DMP_rep_deprecation(), test_DMP_rep_deprecation produces the expected output) over Any ║
+# ║ Path(test_DMP_rep_deprecation(), <unspecified:test_DMP_rep_deprecation>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_DMP_rep_deprecation : Any → {Any | f.rep == [1, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 22dcdcd30096ff28  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyclasses.test_DMP_rep_deprecation","kind":"function","src_hash":"8c37781411ef607b","in":{"base":"Any"},"out":{"base":"Any","pred":"f.rep == [1, 2, 3]"},"spec":{"lhs":"test_DMP_rep_deprecation()","rhs":"test_DMP_rep_deprecation produces the expected output","over":{"base":"Any"},"name":"test_DMP_rep_deprecation_correct"},"guarantee":"test_DMP_rep_deprecation produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyclasses.test_DMP_rep_deprecation_correct","statement":"Path(test_DMP_rep_deprecation(x), test_DMP_rep_deprecation produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"22dcdcd30096ff28"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyclasses.test_DMP_rep_deprecation","kind":"function","src_hash":"8c37781411ef607b","in":{"base":"Any"},"out":{"base":"Any","pred":"f.rep == [1, 2, 3]"},"spec":{"lhs":"test_DMP_rep_deprecation()","rhs":"<unspecified:test_DMP_rep_deprecation>","over":{"base":"Any"},"name":"test_DMP_rep_deprecation_correct"},"guarantee":"test_DMP_rep_deprecation produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyclasses.test_DMP_rep_deprecation_correct","statement":"Path(test_DMP_rep_deprecation(x), test_DMP_rep_deprecation produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"22dcdcd30096ff28","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_DMP_rep_deprecation():
     f = DMP([1, 2, 3], ZZ)
 
@@ -77,16 +91,24 @@ def test_DMP_rep_deprecation():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DMP___eq__(), test_DMP___eq__ produces the expected output) over Any ║
+# ║ Path(test_DMP___eq__(), DMP([[ZZ(1), ZZ(2)], [ZZ(3)]], ZZ) == DMP([[ZZ(1), ZZ(2)], [ZZ(3)]], ZZ) and DMP([[ZZ(1), ZZ(2)], [ZZ(3)]], ZZ) == DMP([[QQ(1), QQ(2)], [QQ(3)]], QQ) and DMP([[QQ(1), QQ(2)], [QQ(3)]], QQ) == DMP([[ZZ(1), ZZ(2)], [ZZ(3)]], ZZ) and DMP([[[ZZ(1)]]], ZZ) != DMP([[ZZ(1)]], ZZ) and DMP([[ZZ(1)]], ZZ) != DMP([[[ZZ(1)]]], ZZ)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DMP___eq__ : Any → {Any | DMP([[ZZ(1), ZZ(2)], [...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  DMP([[ZZ(1), ZZ(2)], [ZZ(3)]], ZZ) == DMP...   ║
+# ║   ensures:  DMP([[ZZ(1), ZZ(2)], [ZZ(3)]], ZZ) == DMP...   ║
+# ║   ensures:  DMP([[QQ(1), QQ(2)], [QQ(3)]], QQ) == DMP...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DMP___eq__ : Any → {Any | result satisfies: DMP(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d23fc3d6d0a6a7af  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0aabd45a1c5fbc32  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyclasses.test_DMP___eq__","kind":"function","src_hash":"587ed00dbbefbbc4","in":{"base":"Any"},"out":{"base":"Any","pred":"DMP([[ZZ(1), ZZ(2)], [ZZ(3)]], ZZ) == DMP([[ZZ(1), ZZ(2)], [ZZ(3)]], ZZ) and DMP([[ZZ(1), ZZ(2)], [ZZ(3)]], ZZ) == DMP([[QQ(1), QQ(2)], [QQ(3)]], QQ) and DMP([[QQ(1), QQ(2)], [QQ(3)]], QQ) == DMP([[ZZ(1), ZZ(2)], [ZZ(3)]], ZZ) and DMP([[[ZZ(1)]]], ZZ) != DMP([[ZZ(1)]], ZZ) and DMP([[ZZ(1)]], ZZ) != DMP([[[ZZ(1)]]], ZZ)"},"spec":{"lhs":"test_DMP___eq__()","rhs":"test_DMP___eq__ produces the expected output","over":{"base":"Any"},"name":"test_DMP___eq___correct"},"guarantee":"test_DMP___eq__ produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyclasses.test_DMP___eq___correct","statement":"Path(test_DMP___eq__(x), test_DMP___eq__ produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d23fc3d6d0a6a7af"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyclasses.test_DMP___eq__","kind":"function","src_hash":"587ed00dbbefbbc4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: DMP([[ZZ(1), ZZ(2)], [ZZ(3)]], ZZ) == DMP([[ZZ(1), ZZ(2)], [ZZ(3)]], ZZ) and DMP([[ZZ(1), ZZ(2)], [ZZ(3)]], ZZ) == DMP([[QQ(1), QQ(2)], [QQ(3)]], QQ) and DMP([[QQ(1), QQ(2)], [QQ(3)]], QQ) == DMP([[ZZ(1), ZZ(2)], [ZZ(3)]], ZZ) and DMP([[[ZZ(1)]]], ZZ) != DMP([[ZZ(1)]], ZZ) and DMP([[ZZ(1)]], ZZ) != DMP([[[ZZ(1)]]], ZZ)"},"spec":{"lhs":"test_DMP___eq__()","rhs":"DMP([[ZZ(1), ZZ(2)], [ZZ(3)]], ZZ) == DMP([[ZZ(1), ZZ(2)], [ZZ(3)]], ZZ) and DMP([[ZZ(1), ZZ(2)], [ZZ(3)]], ZZ) == DMP([[QQ(1), QQ(2)], [QQ(3)]], QQ) and DMP([[QQ(1), QQ(2)], [QQ(3)]], QQ) == DMP([[ZZ(1), ZZ(2)], [ZZ(3)]], ZZ) and DMP([[[ZZ(1)]]], ZZ) != DMP([[ZZ(1)]], ZZ) and DMP([[ZZ(1)]], ZZ) != DMP([[[ZZ(1)]]], ZZ)","over":{"base":"Any"},"name":"test_DMP___eq___correct"},"guarantee":"DMP([[ZZ(1), ZZ(2)], [ZZ(3)]], ZZ) == DMP([[ZZ(1), ZZ(2)], [ZZ(3)]], ZZ); DMP([[ZZ(1), ZZ(2)], [ZZ(3)]], ZZ) == DMP([[QQ(1), QQ(2)], [QQ(3)]], QQ); DMP([[QQ(1), QQ(2)], [QQ(3)]], QQ) == DMP([[ZZ(1), ZZ(2)], [ZZ(3)]], ZZ)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyclasses.test_DMP___eq___correct","statement":"Path(test_DMP___eq__(x), DMP([[ZZ(1), ZZ(2)], [ZZ(3)]], ZZ) == DMP([[ZZ(1), ZZ(2)], [ZZ(3)]], ZZ); DMP([[ZZ(1), ZZ(2)], [ZZ(3)]], ZZ) == DMP([[QQ(1), QQ(2)], [QQ(3)]], QQ); DMP([[QQ(1), QQ(2)], [QQ(3)]], QQ) == DMP([[ZZ(1), ZZ(2)], [ZZ(3)]], ZZ))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0aabd45a1c5fbc32","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["DMP([[ZZ(1), ZZ(2)], [ZZ(3)]], ZZ) == DMP([[ZZ(1), ZZ(2)], [ZZ(3)]], ZZ)","DMP([[ZZ(1), ZZ(2)], [ZZ(3)]], ZZ) == DMP([[QQ(1), QQ(2)], [QQ(3)]], QQ)","DMP([[QQ(1), QQ(2)], [QQ(3)]], QQ) == DMP([[ZZ(1), ZZ(2)], [ZZ(3)]], ZZ)","DMP([[[ZZ(1)]]], ZZ) != DMP([[ZZ(1)]], ZZ)","DMP([[ZZ(1)]], ZZ) != DMP([[[ZZ(1)]]], ZZ)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_DMP___eq__():
     assert DMP([[ZZ(1), ZZ(2)], [ZZ(3)]], ZZ) == \
         DMP([[ZZ(1), ZZ(2)], [ZZ(3)]], ZZ)
@@ -101,32 +123,46 @@ def test_DMP___eq__():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DMP___bool__(), test_DMP___bool__ produces the expected output) over Any ║
+# ║ Path(test_DMP___bool__(), bool(DMP([[]], ZZ)) is False and bool(DMP([[ZZ(1)]], ZZ)) is True) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DMP___bool__ : Any → {Any | bool(DMP([[]], ZZ)) ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  bool(DMP([[]], ZZ)) is False                   ║
+# ║   ensures:  bool(DMP([[ZZ(1)]], ZZ)) is True               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DMP___bool__ : Any → {Any | result satisfies: bo...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 83e1546fceb98135  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 965b32aba0e12fb2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyclasses.test_DMP___bool__","kind":"function","src_hash":"c7bcc1cb695074aa","in":{"base":"Any"},"out":{"base":"Any","pred":"bool(DMP([[]], ZZ)) is False and bool(DMP([[ZZ(1)]], ZZ)) is True"},"spec":{"lhs":"test_DMP___bool__()","rhs":"test_DMP___bool__ produces the expected output","over":{"base":"Any"},"name":"test_DMP___bool___correct"},"guarantee":"test_DMP___bool__ produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyclasses.test_DMP___bool___correct","statement":"Path(test_DMP___bool__(x), test_DMP___bool__ produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"83e1546fceb98135"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyclasses.test_DMP___bool__","kind":"function","src_hash":"c7bcc1cb695074aa","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: bool(DMP([[]], ZZ)) is False and bool(DMP([[ZZ(1)]], ZZ)) is True"},"spec":{"lhs":"test_DMP___bool__()","rhs":"bool(DMP([[]], ZZ)) is False and bool(DMP([[ZZ(1)]], ZZ)) is True","over":{"base":"Any"},"name":"test_DMP___bool___correct"},"guarantee":"bool(DMP([[]], ZZ)) is False; bool(DMP([[ZZ(1)]], ZZ)) is True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyclasses.test_DMP___bool___correct","statement":"Path(test_DMP___bool__(x), bool(DMP([[]], ZZ)) is False; bool(DMP([[ZZ(1)]], ZZ)) is True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"965b32aba0e12fb2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["bool(DMP([[]], ZZ)) is False","bool(DMP([[ZZ(1)]], ZZ)) is True"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_DMP___bool__():
     assert bool(DMP([[]], ZZ)) is False
     assert bool(DMP([[ZZ(1)]], ZZ)) is True
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DMP_to_dict(), test_DMP_to_dict produces the expected output) over Any ║
+# ║ Path(test_DMP_to_dict(), f.to_dict() == {(4, 0): 3, (2, 0): 2, (0, 0): 8} and f.to_sympy_dict() == {(4, 0): ZZ.to_sympy(3), (2, 0): ZZ.to_sympy(2), (0, 0): ZZ.to_sympy(8)}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DMP_to_dict : Any → {Any | f.to_dict() == {(4, 0...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f.to_dict() == {(4, 0): 3, (2, 0): 2, (0,...   ║
+# ║   ensures:  f.to_sympy_dict() == {(4, 0): ZZ.to_sympy...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DMP_to_dict : Any → {Any | result satisfies: f.t...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0b2bf338957782de  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ea486d88f85b2328  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyclasses.test_DMP_to_dict","kind":"function","src_hash":"028c337f0b5796b8","in":{"base":"Any"},"out":{"base":"Any","pred":"f.to_dict() == {(4, 0): 3, (2, 0): 2, (0, 0): 8}"},"spec":{"lhs":"test_DMP_to_dict()","rhs":"test_DMP_to_dict produces the expected output","over":{"base":"Any"},"name":"test_DMP_to_dict_correct"},"guarantee":"test_DMP_to_dict produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyclasses.test_DMP_to_dict_correct","statement":"Path(test_DMP_to_dict(x), test_DMP_to_dict produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0b2bf338957782de"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyclasses.test_DMP_to_dict","kind":"function","src_hash":"028c337f0b5796b8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f.to_dict() == {(4, 0): 3, (2, 0): 2, (0, 0): 8} and f.to_sympy_dict() == {(4, 0): ZZ.to_sympy(3), (2, 0): ZZ.to_sympy(2), (0, 0): ZZ.to_sympy(8)}"},"spec":{"lhs":"test_DMP_to_dict()","rhs":"f.to_dict() == {(4, 0): 3, (2, 0): 2, (0, 0): 8} and f.to_sympy_dict() == {(4, 0): ZZ.to_sympy(3), (2, 0): ZZ.to_sympy(2), (0, 0): ZZ.to_sympy(8)}","over":{"base":"Any"},"name":"test_DMP_to_dict_correct"},"guarantee":"f.to_dict() == {(4, 0): 3, (2, 0): 2, (0, 0): 8}; f.to_sympy_dict() == {(4, 0): ZZ.to_sympy(3), (2, 0): ZZ.to_sympy(2), (0, 0): ZZ.to_sympy(8)}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyclasses.test_DMP_to_dict_correct","statement":"Path(test_DMP_to_dict(x), f.to_dict() == {(4, 0): 3, (2, 0): 2, (0, 0): 8}; f.to_sympy_dict() == {(4, 0): ZZ.to_sympy(3), (2, 0): ZZ.to_sympy(2), (0, 0): ZZ.to_sympy(8)})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ea486d88f85b2328","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f.to_dict() == {(4, 0): 3, (2, 0): 2, (0, 0): 8}","f.to_sympy_dict() == {(4, 0): ZZ.to_sympy(3), (2, 0): ZZ.to_sympy(2), (0, 0): ZZ.to_sympy(8)}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_DMP_to_dict():
     f = DMP([[ZZ(3)], [], [ZZ(2)], [], [ZZ(8)]], ZZ)
 
@@ -138,16 +174,24 @@ def test_DMP_to_dict():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DMP_properties(), test_DMP_properties produces the expected output) over Any ║
+# ║ Path(test_DMP_properties(), DMP([[]], ZZ).is_zero is True and DMP([[ZZ(1)]], ZZ).is_zero is False and DMP([[ZZ(1)]], ZZ).is_one is True and DMP([[ZZ(2)]], ZZ).is_one is False and DMP([[ZZ(1)]], ZZ).is_ground is True and DMP([[ZZ(1)], [ZZ(2)], [ZZ(1)]], ZZ).is_ground is False and DMP([[ZZ(1)], [ZZ(2), ZZ(0)], [ZZ(1), ZZ(0)]], ZZ).is_sqf is True and DMP([[ZZ(1)], [ZZ(2), ZZ(0)], [ZZ(1), ZZ(0), ZZ(0)]], ZZ).is_sqf is False and DMP([[ZZ(1), ZZ(2)], [ZZ(3)]], ZZ).is_monic is True and DMP([[ZZ(2), ZZ(2)], [ZZ(3)]], ZZ).is_monic is False and DMP([[ZZ(1), ZZ(2)], [ZZ(3)]], ZZ).is_primitive is True and DMP([[ZZ(2), ZZ(4)], [ZZ(6)]], ZZ).is_primitive is False) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DMP_properties : Any → {Any | DMP([[]], ZZ).is_z...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  DMP([[]], ZZ).is_zero is True                  ║
+# ║   ensures:  DMP([[ZZ(1)]], ZZ).is_zero is False            ║
+# ║   ensures:  DMP([[ZZ(1)]], ZZ).is_one is True              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DMP_properties : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 574a58d607ce8b0e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | de26011811ff1aeb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyclasses.test_DMP_properties","kind":"function","src_hash":"33b74a60ffc6b94c","in":{"base":"Any"},"out":{"base":"Any","pred":"DMP([[]], ZZ).is_zero is True and DMP([[ZZ(1)]], ZZ).is_zero is False and DMP([[ZZ(1)]], ZZ).is_one is True and DMP([[ZZ(2)]], ZZ).is_one is False and DMP([[ZZ(1)]], ZZ).is_ground is True and DMP([[ZZ(1)], [ZZ(2)], [ZZ(1)]], ZZ).is_ground is False and DMP([[ZZ(1)], [ZZ(2), ZZ(0)], [ZZ(1), ZZ(0)]], ZZ).is_sqf is True and DMP([[ZZ(1)], [ZZ(2), ZZ(0)], [ZZ(1), ZZ(0), ZZ(0)]], ZZ).is_sqf is False and DMP([[ZZ(1), ZZ(2)], [ZZ(3)]], ZZ).is_monic is True and DMP([[ZZ(2), ZZ(2)], [ZZ(3)]], ZZ).is_monic is False and DMP([[ZZ(1), ZZ(2)], [ZZ(3)]], ZZ).is_primitive is True and DMP([[ZZ(2), ZZ(4)], [ZZ(6)]], ZZ).is_primitive is False"},"spec":{"lhs":"test_DMP_properties()","rhs":"test_DMP_properties produces the expected output","over":{"base":"Any"},"name":"test_DMP_properties_correct"},"guarantee":"test_DMP_properties produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyclasses.test_DMP_properties_correct","statement":"Path(test_DMP_properties(x), test_DMP_properties produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"574a58d607ce8b0e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyclasses.test_DMP_properties","kind":"function","src_hash":"33b74a60ffc6b94c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: DMP([[]], ZZ).is_zero is True and DMP([[ZZ(1)]], ZZ).is_zero is False and DMP([[ZZ(1)]], ZZ).is_one is True and DMP([[ZZ(2)]], ZZ).is_one is False and DMP([[ZZ(1)]], ZZ).is_ground is True and DMP([[ZZ(1)], [ZZ(2)], [ZZ(1)]], ZZ).is_ground is False and DMP([[ZZ(1)], [ZZ(2), ZZ(0)], [ZZ(1), ZZ(0)]], ZZ).is_sqf is True and DMP([[ZZ(1)], [ZZ(2), ZZ(0)], [ZZ(1), ZZ(0), ZZ(0)]], ZZ).is_sqf is False and DMP([[ZZ(1), ZZ(2)], [ZZ(3)]], ZZ).is_monic is True and DMP([[ZZ(2), ZZ(2)], [ZZ(3)]], ZZ).is_monic is False and DMP([[ZZ(1), ZZ(2)], [ZZ(3)]], ZZ).is_primitive is True and DMP([[ZZ(2), ZZ(4)], [ZZ(6)]], ZZ).is_primitive is False"},"spec":{"lhs":"test_DMP_properties()","rhs":"DMP([[]], ZZ).is_zero is True and DMP([[ZZ(1)]], ZZ).is_zero is False and DMP([[ZZ(1)]], ZZ).is_one is True and DMP([[ZZ(2)]], ZZ).is_one is False and DMP([[ZZ(1)]], ZZ).is_ground is True and DMP([[ZZ(1)], [ZZ(2)], [ZZ(1)]], ZZ).is_ground is False and DMP([[ZZ(1)], [ZZ(2), ZZ(0)], [ZZ(1), ZZ(0)]], ZZ).is_sqf is True and DMP([[ZZ(1)], [ZZ(2), ZZ(0)], [ZZ(1), ZZ(0), ZZ(0)]], ZZ).is_sqf is False and DMP([[ZZ(1), ZZ(2)], [ZZ(3)]], ZZ).is_monic is True and DMP([[ZZ(2), ZZ(2)], [ZZ(3)]], ZZ).is_monic is False and DMP([[ZZ(1), ZZ(2)], [ZZ(3)]], ZZ).is_primitive is True and DMP([[ZZ(2), ZZ(4)], [ZZ(6)]], ZZ).is_primitive is False","over":{"base":"Any"},"name":"test_DMP_properties_correct"},"guarantee":"DMP([[]], ZZ).is_zero is True; DMP([[ZZ(1)]], ZZ).is_zero is False; DMP([[ZZ(1)]], ZZ).is_one is True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyclasses.test_DMP_properties_correct","statement":"Path(test_DMP_properties(x), DMP([[]], ZZ).is_zero is True; DMP([[ZZ(1)]], ZZ).is_zero is False; DMP([[ZZ(1)]], ZZ).is_one is True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"de26011811ff1aeb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["DMP([[]], ZZ).is_zero is True","DMP([[ZZ(1)]], ZZ).is_zero is False","DMP([[ZZ(1)]], ZZ).is_one is True","DMP([[ZZ(2)]], ZZ).is_one is False","DMP([[ZZ(1)]], ZZ).is_ground is True","DMP([[ZZ(1)], [ZZ(2)], [ZZ(1)]], ZZ).is_ground is False","DMP([[ZZ(1)], [ZZ(2), ZZ(0)], [ZZ(1), ZZ(0)]], ZZ).is_sqf is True","DMP([[ZZ(1)], [ZZ(2), ZZ(0)], [ZZ(1), ZZ(0), ZZ(0)]], ZZ).is_sqf is False","DMP([[ZZ(1), ZZ(2)], [ZZ(3)]], ZZ).is_monic is True","DMP([[ZZ(2), ZZ(2)], [ZZ(3)]], ZZ).is_monic is False","DMP([[ZZ(1), ZZ(2)], [ZZ(3)]], ZZ).is_primitive is True","DMP([[ZZ(2), ZZ(4)], [ZZ(6)]], ZZ).is_primitive is False"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_DMP_properties():
     assert DMP([[]], ZZ).is_zero is True
     assert DMP([[ZZ(1)]], ZZ).is_zero is False
@@ -169,16 +213,24 @@ def test_DMP_properties():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DMP_arithmetics(), test_DMP_arithmetics produces the expected output) over Any ║
+# ║ Path(test_DMP_arithmetics(), f.mul_ground(2) == DMP([[ZZ(4)], [ZZ(4), ZZ(0)]], ZZ) and f.quo_ground(2) == DMP([[ZZ(1)], [ZZ(1), ZZ(0)]], ZZ) and f.abs() == g and abs(f) == g and g.neg() == f and -g == f and f.add(g) == h and f + g == h and g + f == h and f + 5 == h and 5 + f == h and f.sub(g) == h and f - g == h and g - f == -h and f - 5 == h and 5 - f == -h and f.mul(g) == h and f * g == h and g * f == h and f * 5 == h and 5 * f == h and f.sqr() == h and f.pow(2) == h and f ** 2 == h and f.pdiv(g) == (q, r) and f.pquo(g) == q and f.prem(g) == r and f.div(g) == (q, r) and f.quo(g) == q and f.rem(g) == r and divmod(f, g) == (q, r) and f // g == q and f % g == r and f.pdiv(g) == (pq, pr) and f.pquo(g) == pq and f.prem(g) == pr and f.pexquo(g) == pq) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DMP_arithmetics : Any → {Any | f.mul_ground(2) =...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f.mul_ground(2) == DMP([[ZZ(4)], [ZZ(4), ...   ║
+# ║   ensures:  f.quo_ground(2) == DMP([[ZZ(1)], [ZZ(1), ...   ║
+# ║   ensures:  f.abs() == g                                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DMP_arithmetics : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a2334dec8b7bdf06  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0efbdf9245b90c7e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyclasses.test_DMP_arithmetics","kind":"function","src_hash":"4db9b9288e1cec3a","in":{"base":"Any"},"out":{"base":"Any","pred":"f.mul_ground(2) == DMP([[ZZ(4)], [ZZ(4), ZZ(0)]], ZZ) and f.quo_ground(2) == DMP([[ZZ(1)], [ZZ(1), ZZ(0)]], ZZ) and f.abs() == g and abs(f) == g and g.neg() == f and -g == f and f.add(g) == h and f + g == h and g + f == h and f + 5 == h and 5 + f == h and f.sub(g) == h and f - g == h and g - f == -h and f - 5 == h and 5 - f == -h and f.mul(g) == h and f * g == h and g * f == h and f * 5 == h and 5 * f == h and f.sqr() == h and f.pow(2) == h and f ** 2 == h and f.pdiv(g) == (q, r) and f.pquo(g) == q and f.prem(g) == r and f.div(g) == (q, r) and f.quo(g) == q and f.rem(g) == r and divmod(f, g) == (q, r) and f // g == q and f % g == r and f.div(g) == (q, r) and f.quo(g) == q and f.rem(g) == r and divmod(f, g) == (q, r) and f // g == q and f % g == r and f.pdiv(g) == (pq, pr) and f.pquo(g) == pq and f.prem(g) == pr and f.pexquo(g) == pq"},"spec":{"lhs":"test_DMP_arithmetics()","rhs":"test_DMP_arithmetics produces the expected output","over":{"base":"Any"},"name":"test_DMP_arithmetics_correct"},"guarantee":"test_DMP_arithmetics produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyclasses.test_DMP_arithmetics_correct","statement":"Path(test_DMP_arithmetics(x), test_DMP_arithmetics produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a2334dec8b7bdf06"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyclasses.test_DMP_arithmetics","kind":"function","src_hash":"4db9b9288e1cec3a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f.mul_ground(2) == DMP([[ZZ(4)], [ZZ(4), ZZ(0)]], ZZ) and f.quo_ground(2) == DMP([[ZZ(1)], [ZZ(1), ZZ(0)]], ZZ) and f.abs() == g and abs(f) == g and g.neg() == f and -g == f and f.add(g) == h and f + g == h and g + f == h and f + 5 == h and 5 + f == h and f.sub(g) == h and f - g == h and g - f == -h and f - 5 == h and 5 - f == -h and f.mul(g) == h and f * g == h and g * f == h and f * 5 == h and 5 * f == h and f.sqr() == h and f.pow(2) == h and f ** 2 == h and f.pdiv(g) == (q, r) and f.pquo(g) == q and f.prem(g) == r and f.div(g) == (q, r) and f.quo(g) == q and f.rem(g) == r and divmod(f, g) == (q, r) and f // g == q and f % g == r and f.pdiv(g) == (pq, pr) and f.pquo(g) == pq and f.prem(g) == pr and f.pexquo(g) == pq"},"spec":{"lhs":"test_DMP_arithmetics()","rhs":"f.mul_ground(2) == DMP([[ZZ(4)], [ZZ(4), ZZ(0)]], ZZ) and f.quo_ground(2) == DMP([[ZZ(1)], [ZZ(1), ZZ(0)]], ZZ) and f.abs() == g and abs(f) == g and g.neg() == f and -g == f and f.add(g) == h and f + g == h and g + f == h and f + 5 == h and 5 + f == h and f.sub(g) == h and f - g == h and g - f == -h and f - 5 == h and 5 - f == -h and f.mul(g) == h and f * g == h and g * f == h and f * 5 == h and 5 * f == h and f.sqr() == h and f.pow(2) == h and f ** 2 == h and f.pdiv(g) == (q, r) and f.pquo(g) == q and f.prem(g) == r and f.div(g) == (q, r) and f.quo(g) == q and f.rem(g) == r and divmod(f, g) == (q, r) and f // g == q and f % g == r and f.pdiv(g) == (pq, pr) and f.pquo(g) == pq and f.prem(g) == pr and f.pexquo(g) == pq","over":{"base":"Any"},"name":"test_DMP_arithmetics_correct"},"guarantee":"f.mul_ground(2) == DMP([[ZZ(4)], [ZZ(4), ZZ(0)]], ZZ); f.quo_ground(2) == DMP([[ZZ(1)], [ZZ(1), ZZ(0)]], ZZ); f.abs() == g","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyclasses.test_DMP_arithmetics_correct","statement":"Path(test_DMP_arithmetics(x), f.mul_ground(2) == DMP([[ZZ(4)], [ZZ(4), ZZ(0)]], ZZ); f.quo_ground(2) == DMP([[ZZ(1)], [ZZ(1), ZZ(0)]], ZZ); f.abs() == g)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0efbdf9245b90c7e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f.mul_ground(2) == DMP([[ZZ(4)], [ZZ(4), ZZ(0)]], ZZ)","f.quo_ground(2) == DMP([[ZZ(1)], [ZZ(1), ZZ(0)]], ZZ)","f.abs() == g","abs(f) == g","g.neg() == f","-g == f","f.add(g) == h","f + g == h","g + f == h","f + 5 == h","5 + f == h","f.sub(g) == h","f - g == h","g - f == -h","f - 5 == h","5 - f == -h","f.mul(g) == h","f * g == h","g * f == h","f * 5 == h","5 * f == h","f.sqr() == h","f.pow(2) == h","f ** 2 == h","f.pdiv(g) == (q, r)","f.pquo(g) == q","f.prem(g) == r","f.div(g) == (q, r)","f.quo(g) == q","f.rem(g) == r","divmod(f, g) == (q, r)","f // g == q","f % g == r","f.pdiv(g) == (pq, pr)","f.pquo(g) == pq","f.prem(g) == pr","f.pexquo(g) == pq"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.1,"verdict_class":"assumed","binding":true}}
 def test_DMP_arithmetics():
     f = DMP([[ZZ(2)], [ZZ(2), ZZ(0)]], ZZ)
 
@@ -282,16 +334,24 @@ def test_DMP_arithmetics():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DMP_functionality(), test_DMP_functionality produces the expected output) over Any ║
+# ║ Path(test_DMP_functionality(), f.degree() == 2 and f.degree_list() == (2, 2) and f.total_degree() == 2 and f.LC() == ZZ(1) and f.TC() == ZZ(0) and f.nth(1, 1) == ZZ(2) and f.max_norm() == 2 and f.l1_norm() == 4 and f.diff(m=1, j=0) == u and f.diff(m=1, j=1) == u and f.eval(a=1, j=0) == u and f.eval(a=1, j=1) == v and f.eval(1).eval(1) == ZZ(4) and f.cofactors(g) == (g, g, h) and f.gcd(g) == g and f.lcm(g) == f and u.monic() == v and (4 * f).content() == ZZ(4) and (4 * f).primitive() == (ZZ(4), f) and f.cancel(g) == f.cancel(g, include=True) == (DMP([QQ(7), QQ(21)], QQ), DMP([QQ(3), QQ(21)], QQ)) and f.cancel(g, include=False) == (QQ(7), QQ(3), DMP([QQ(1), QQ(3)], QQ), DMP([QQ(1), QQ(7)], QQ)) and f.trunc(3) == DMP([[ZZ(1)], [ZZ(-1)], [], [ZZ(1)], [ZZ(-1)], []], ZZ) and f.sqf_part() == -f and f.sqf_list() == (ZZ(-1), [(-f, 1)]) and f.subresultants(g) == [f, g, h] and f.resultant(g) == r and f.discriminant() == -11664 and f.half_gcdex(g) == (s, h) and f.gcdex(g) == (s, t, h) and f.invert(g) == s and g.compose(h) == f and f.decompose() == [g, h]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DMP_functionality : Any → {Any | f.degree() == 2...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f.degree() == 2                                ║
+# ║   ensures:  f.degree_list() == (2, 2)                      ║
+# ║   ensures:  f.total_degree() == 2                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DMP_functionality : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a381c1438af4b974  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fb99574805d0878b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyclasses.test_DMP_functionality","kind":"function","src_hash":"2e43aaef8f62c47c","in":{"base":"Any"},"out":{"base":"Any","pred":"f.degree() == 2 and f.degree_list() == (2, 2) and f.total_degree() == 2 and f.LC() == ZZ(1) and f.TC() == ZZ(0) and f.nth(1, 1) == ZZ(2) and f.max_norm() == 2 and f.l1_norm() == 4 and f.diff(m=1, j=0) == u and f.diff(m=1, j=1) == u and f.eval(a=1, j=0) == u and f.eval(a=1, j=1) == v and f.eval(1).eval(1) == ZZ(4) and f.cofactors(g) == (g, g, h) and f.gcd(g) == g and f.lcm(g) == f and u.monic() == v and (4 * f).content() == ZZ(4) and (4 * f).primitive() == (ZZ(4), f) and f.trunc(3) == DMP([[ZZ(1)], [ZZ(-1)], [], [ZZ(1)], [ZZ(-1)], []], ZZ) and f.sqf_part() == -f and f.sqf_list() == (ZZ(-1), [(-f, 1)]) and f.subresultants(g) == [f, g, h] and f.resultant(g) == r and f.discriminant() == -11664 and f.half_gcdex(g) == (s, h) and f.gcdex(g) == (s, t, h) and f.invert(g) == s and g.compose(h) == f and f.decompose() == [g, h]"},"spec":{"lhs":"test_DMP_functionality()","rhs":"test_DMP_functionality produces the expected output","over":{"base":"Any"},"name":"test_DMP_functionality_correct"},"guarantee":"test_DMP_functionality produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyclasses.test_DMP_functionality_correct","statement":"Path(test_DMP_functionality(x), test_DMP_functionality produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a381c1438af4b974"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyclasses.test_DMP_functionality","kind":"function","src_hash":"2e43aaef8f62c47c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f.degree() == 2 and f.degree_list() == (2, 2) and f.total_degree() == 2 and f.LC() == ZZ(1) and f.TC() == ZZ(0) and f.nth(1, 1) == ZZ(2) and f.max_norm() == 2 and f.l1_norm() == 4 and f.diff(m=1, j=0) == u and f.diff(m=1, j=1) == u and f.eval(a=1, j=0) == u and f.eval(a=1, j=1) == v and f.eval(1).eval(1) == ZZ(4) and f.cofactors(g) == (g, g, h) and f.gcd(g) == g and f.lcm(g) == f and u.monic() == v and (4 * f).content() == ZZ(4) and (4 * f).primitive() == (ZZ(4), f) and f.cancel(g) == f.cancel(g, include=True) == (DMP([QQ(7), QQ(21)], QQ), DMP([QQ(3), QQ(21)], QQ)) and f.cancel(g, include=False) == (QQ(7), QQ(3), DMP([QQ(1), QQ(3)], QQ), DMP([QQ(1), QQ(7)], QQ)) and f.trunc(3) == DMP([[ZZ(1)], [ZZ(-1)], [], [ZZ(1)], [ZZ(-1)], []], ZZ) and f.sqf_part() == -f and f.sqf_list() == (ZZ(-1), [(-f, 1)]) and f.subresultants(g) == [f, g, h] and f.resultant(g) == r and f.discriminant() == -11664 and f.half_gcdex(g) == (s, h) and f.gcdex(g) == (s, t, h) and f.invert(g) == s and g.compose(h) == f and f.decompose() == [g, h]"},"spec":{"lhs":"test_DMP_functionality()","rhs":"f.degree() == 2 and f.degree_list() == (2, 2) and f.total_degree() == 2 and f.LC() == ZZ(1) and f.TC() == ZZ(0) and f.nth(1, 1) == ZZ(2) and f.max_norm() == 2 and f.l1_norm() == 4 and f.diff(m=1, j=0) == u and f.diff(m=1, j=1) == u and f.eval(a=1, j=0) == u and f.eval(a=1, j=1) == v and f.eval(1).eval(1) == ZZ(4) and f.cofactors(g) == (g, g, h) and f.gcd(g) == g and f.lcm(g) == f and u.monic() == v and (4 * f).content() == ZZ(4) and (4 * f).primitive() == (ZZ(4), f) and f.cancel(g) == f.cancel(g, include=True) == (DMP([QQ(7), QQ(21)], QQ), DMP([QQ(3), QQ(21)], QQ)) and f.cancel(g, include=False) == (QQ(7), QQ(3), DMP([QQ(1), QQ(3)], QQ), DMP([QQ(1), QQ(7)], QQ)) and f.trunc(3) == DMP([[ZZ(1)], [ZZ(-1)], [], [ZZ(1)], [ZZ(-1)], []], ZZ) and f.sqf_part() == -f and f.sqf_list() == (ZZ(-1), [(-f, 1)]) and f.subresultants(g) == [f, g, h] and f.resultant(g) == r and f.discriminant() == -11664 and f.half_gcdex(g) == (s, h) and f.gcdex(g) == (s, t, h) and f.invert(g) == s and g.compose(h) == f and f.decompose() == [g, h]","over":{"base":"Any"},"name":"test_DMP_functionality_correct"},"guarantee":"f.degree() == 2; f.degree_list() == (2, 2); f.total_degree() == 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyclasses.test_DMP_functionality_correct","statement":"Path(test_DMP_functionality(x), f.degree() == 2; f.degree_list() == (2, 2); f.total_degree() == 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fb99574805d0878b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f.degree() == 2","f.degree_list() == (2, 2)","f.total_degree() == 2","f.LC() == ZZ(1)","f.TC() == ZZ(0)","f.nth(1, 1) == ZZ(2)","f.max_norm() == 2","f.l1_norm() == 4","f.diff(m=1, j=0) == u","f.diff(m=1, j=1) == u","f.eval(a=1, j=0) == u","f.eval(a=1, j=1) == v","f.eval(1).eval(1) == ZZ(4)","f.cofactors(g) == (g, g, h)","f.gcd(g) == g","f.lcm(g) == f","u.monic() == v","(4 * f).content() == ZZ(4)","(4 * f).primitive() == (ZZ(4), f)","f.cancel(g) == f.cancel(g, include=True) == (DMP([QQ(7), QQ(21)], QQ), DMP([QQ(3), QQ(21)], QQ))","f.cancel(g, include=False) == (QQ(7), QQ(3), DMP([QQ(1), QQ(3)], QQ), DMP([QQ(1), QQ(7)], QQ))","f.trunc(3) == DMP([[ZZ(1)], [ZZ(-1)], [], [ZZ(1)], [ZZ(-1)], []], ZZ)","f.sqf_part() == -f","f.sqf_list() == (ZZ(-1), [(-f, 1)])","f.subresultants(g) == [f, g, h]","f.resultant(g) == r","f.discriminant() == -11664","f.half_gcdex(g) == (s, h)","f.gcdex(g) == (s, t, h)","f.invert(g) == s","g.compose(h) == f","f.decompose() == [g, h]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.5,"verdict_class":"assumed","binding":true}}
 def test_DMP_functionality():
     f = DMP([[ZZ(1)], [ZZ(2), ZZ(0)], [ZZ(1), ZZ(0), ZZ(0)]], ZZ)
     g = DMP([[ZZ(1)], [ZZ(1), ZZ(0)]], ZZ)
@@ -406,16 +466,23 @@ def test_DMP_functionality():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DMP_exclude(), test_DMP_exclude produces the expected output) over Any ║
+# ║ Path(test_DMP_exclude(), DMP(f, ZZ).exclude() == (J, DMP([ZZ(1), ZZ(0)], ZZ)) and DMP([[ZZ(1)], [ZZ(1), ZZ(0)]], ZZ).exclude() == ([], DMP([[ZZ(1)], [ZZ(1), ZZ(0)]], ZZ))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DMP_exclude : Any → {Any | DMP(f, ZZ).exclude() ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  DMP(f, ZZ).exclude() == (J, DMP([ZZ(1), Z...   ║
+# ║   ensures:  DMP([[ZZ(1)], [ZZ(1), ZZ(0)]], ZZ).exclud...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DMP_exclude : Any → {Any | result satisfies: DMP...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f3b880498a0492ad  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f6a5db7ec9aee2d4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyclasses.test_DMP_exclude","kind":"function","src_hash":"fe467c40d0b4db5d","in":{"base":"Any"},"out":{"base":"Any","pred":"DMP(f, ZZ).exclude() == (J, DMP([ZZ(1), ZZ(0)], ZZ))"},"spec":{"lhs":"test_DMP_exclude()","rhs":"test_DMP_exclude produces the expected output","over":{"base":"Any"},"name":"test_DMP_exclude_correct"},"guarantee":"test_DMP_exclude produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyclasses.test_DMP_exclude_correct","statement":"Path(test_DMP_exclude(x), test_DMP_exclude produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f3b880498a0492ad"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyclasses.test_DMP_exclude","kind":"function","src_hash":"fe467c40d0b4db5d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: DMP(f, ZZ).exclude() == (J, DMP([ZZ(1), ZZ(0)], ZZ)) and DMP([[ZZ(1)], [ZZ(1), ZZ(0)]], ZZ).exclude() == ([], DMP([[ZZ(1)], [ZZ(1), ZZ(0)]], ZZ))"},"spec":{"lhs":"test_DMP_exclude()","rhs":"DMP(f, ZZ).exclude() == (J, DMP([ZZ(1), ZZ(0)], ZZ)) and DMP([[ZZ(1)], [ZZ(1), ZZ(0)]], ZZ).exclude() == ([], DMP([[ZZ(1)], [ZZ(1), ZZ(0)]], ZZ))","over":{"base":"Any"},"name":"test_DMP_exclude_correct"},"guarantee":"DMP(f, ZZ).exclude() == (J, DMP([ZZ(1), ZZ(0)], ZZ)); DMP([[ZZ(1)], [ZZ(1), ZZ(0)]], ZZ).exclude() == ([], DMP([[ZZ(1)], [ZZ(1), ZZ(0)]], ZZ))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyclasses.test_DMP_exclude_correct","statement":"Path(test_DMP_exclude(x), DMP(f, ZZ).exclude() == (J, DMP([ZZ(1), ZZ(0)], ZZ)); DMP([[ZZ(1)], [ZZ(1), ZZ(0)]], ZZ).exclude() == ([], DMP([[ZZ(1)], [ZZ(1), ZZ(0)]], ZZ)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f6a5db7ec9aee2d4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["DMP(f, ZZ).exclude() == (J, DMP([ZZ(1), ZZ(0)], ZZ))","DMP([[ZZ(1)], [ZZ(1), ZZ(0)]], ZZ).exclude() == ([], DMP([[ZZ(1)], [ZZ(1), ZZ(0)]], ZZ))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_DMP_exclude():
     f = [[[[[[[[[[[[[[[[[[[[[[[[[[ZZ(1)]], [[]]]]]]]]]]]]]]]]]]]]]]]]]]
     J = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17,
@@ -427,16 +494,24 @@ def test_DMP_exclude():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DMF__init__(), test_DMF__init__ produces the expected output) over Any ║
+# ║ Path(test_DMF__init__(), f.num == [[1, 2], [3]] and f.den == [[1, 2, 3]] and f.lev == 1 and f.dom == ZZ and f.num == [[-1], [-2]] and f.den == [[3], [-4]] and f.num == [[]] and f.den == [[1]] and f.num == [[17]] and f.num == [[1], [2]] and f.num == [[1, 0], [2]] and f.num == [[-QQ(1)], [-QQ(2)]] and f.den == [[QQ(3)], [-QQ(4)]] and f.dom == QQ and f.num == [[-QQ(7)], [-QQ(14)]] and f.den == [[QQ(15)], [-QQ(20)]]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DMF__init__ : Any → {Any | f.num == [[1, 2], [3]...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f.num == [[1, 2], [3]]                         ║
+# ║   ensures:  f.den == [[1, 2, 3]]                           ║
+# ║   ensures:  f.lev == 1                                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DMF__init__ : Any → {Any | result satisfies: f.n...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9c4c3477d7155a00  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 567ce4160cfb5862  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyclasses.test_DMF__init__","kind":"function","src_hash":"2a4b3d0a3f3cd227","in":{"base":"Any"},"out":{"base":"Any","pred":"f.num == [[1, 2], [3]] and f.den == [[1, 2, 3]] and f.lev == 1 and f.dom == ZZ and f.num == [[1, 2], [3]] and f.den == [[1, 2, 3]] and f.lev == 1 and f.dom == ZZ and f.num == [[-1], [-2]] and f.den == [[3], [-4]] and f.lev == 1 and f.dom == ZZ and f.num == [[-1], [-2]] and f.den == [[3], [-4]] and f.lev == 1 and f.dom == ZZ and f.num == [[-1], [-2]] and f.den == [[3], [-4]] and f.lev == 1 and f.dom == ZZ and f.num == [[]] and f.den == [[1]] and f.lev == 1 and f.dom == ZZ and f.num == [[17]] and f.den == [[1]] and f.lev == 1 and f.dom == ZZ and f.num == [[1], [2]] and f.den == [[1]] and f.lev == 1 and f.dom == ZZ and f.num == [[1, 2], [3]] and f.den == [[1]] and f.lev == 1 and f.dom == ZZ and f.num == [[1, 0], [2]] and f.den == [[1]] and f.lev == 1 and f.dom == ZZ and f.num == [[-QQ(1)], [-QQ(2)]] and f.den == [[QQ(3)], [-QQ(4)]] and f.lev == 1 and f.dom == QQ and f.num == [[-QQ(7)], [-QQ(14)]] and f.den == [[QQ(15)], [-QQ(20)]] and f.lev == 1 and f.dom == QQ"},"spec":{"lhs":"test_DMF__init__()","rhs":"test_DMF__init__ produces the expected output","over":{"base":"Any"},"name":"test_DMF__init___correct"},"guarantee":"test_DMF__init__ produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyclasses.test_DMF__init___correct","statement":"Path(test_DMF__init__(x), test_DMF__init__ produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9c4c3477d7155a00"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyclasses.test_DMF__init__","kind":"function","src_hash":"2a4b3d0a3f3cd227","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f.num == [[1, 2], [3]] and f.den == [[1, 2, 3]] and f.lev == 1 and f.dom == ZZ and f.num == [[-1], [-2]] and f.den == [[3], [-4]] and f.num == [[]] and f.den == [[1]] and f.num == [[17]] and f.num == [[1], [2]] and f.num == [[1, 0], [2]] and f.num == [[-QQ(1)], [-QQ(2)]] and f.den == [[QQ(3)], [-QQ(4)]] and f.dom == QQ and f.num == [[-QQ(7)], [-QQ(14)]] and f.den == [[QQ(15)], [-QQ(20)]]"},"spec":{"lhs":"test_DMF__init__()","rhs":"f.num == [[1, 2], [3]] and f.den == [[1, 2, 3]] and f.lev == 1 and f.dom == ZZ and f.num == [[-1], [-2]] and f.den == [[3], [-4]] and f.num == [[]] and f.den == [[1]] and f.num == [[17]] and f.num == [[1], [2]] and f.num == [[1, 0], [2]] and f.num == [[-QQ(1)], [-QQ(2)]] and f.den == [[QQ(3)], [-QQ(4)]] and f.dom == QQ and f.num == [[-QQ(7)], [-QQ(14)]] and f.den == [[QQ(15)], [-QQ(20)]]","over":{"base":"Any"},"name":"test_DMF__init___correct"},"guarantee":"f.num == [[1, 2], [3]]; f.den == [[1, 2, 3]]; f.lev == 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyclasses.test_DMF__init___correct","statement":"Path(test_DMF__init__(x), f.num == [[1, 2], [3]]; f.den == [[1, 2, 3]]; f.lev == 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"567ce4160cfb5862","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f.num == [[1, 2], [3]]","f.den == [[1, 2, 3]]","f.lev == 1","f.dom == ZZ","f.num == [[-1], [-2]]","f.den == [[3], [-4]]","f.num == [[]]","f.den == [[1]]","f.num == [[17]]","f.num == [[1], [2]]","f.num == [[1, 0], [2]]","f.num == [[-QQ(1)], [-QQ(2)]]","f.den == [[QQ(3)], [-QQ(4)]]","f.dom == QQ","f.num == [[-QQ(7)], [-QQ(14)]]","f.den == [[QQ(15)], [-QQ(20)]]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"assumed","binding":true}}
 def test_DMF__init__():
     f = DMF(([[0], [], [0, 1, 2], [3]], [[1, 2, 3]]), ZZ)
 
@@ -527,32 +602,47 @@ def test_DMF__init__():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DMF__bool__(), test_DMF__bool__ produces the expected output) over Any ║
+# ║ Path(test_DMF__bool__(), bool(DMF([[]], ZZ)) is False and bool(DMF([[1]], ZZ)) is True) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DMF__bool__ : Any → {Any | bool(DMF([[]], ZZ)) i...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  bool(DMF([[]], ZZ)) is False                   ║
+# ║   ensures:  bool(DMF([[1]], ZZ)) is True                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DMF__bool__ : Any → {Any | result satisfies: boo...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e06c7b7870c65031  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 61dc4a399f6d5fc9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyclasses.test_DMF__bool__","kind":"function","src_hash":"04936d84a9b8bf99","in":{"base":"Any"},"out":{"base":"Any","pred":"bool(DMF([[]], ZZ)) is False and bool(DMF([[1]], ZZ)) is True"},"spec":{"lhs":"test_DMF__bool__()","rhs":"test_DMF__bool__ produces the expected output","over":{"base":"Any"},"name":"test_DMF__bool___correct"},"guarantee":"test_DMF__bool__ produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyclasses.test_DMF__bool___correct","statement":"Path(test_DMF__bool__(x), test_DMF__bool__ produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e06c7b7870c65031"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyclasses.test_DMF__bool__","kind":"function","src_hash":"04936d84a9b8bf99","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: bool(DMF([[]], ZZ)) is False and bool(DMF([[1]], ZZ)) is True"},"spec":{"lhs":"test_DMF__bool__()","rhs":"bool(DMF([[]], ZZ)) is False and bool(DMF([[1]], ZZ)) is True","over":{"base":"Any"},"name":"test_DMF__bool___correct"},"guarantee":"bool(DMF([[]], ZZ)) is False; bool(DMF([[1]], ZZ)) is True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyclasses.test_DMF__bool___correct","statement":"Path(test_DMF__bool__(x), bool(DMF([[]], ZZ)) is False; bool(DMF([[1]], ZZ)) is True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"61dc4a399f6d5fc9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["bool(DMF([[]], ZZ)) is False","bool(DMF([[1]], ZZ)) is True"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_DMF__bool__():
     assert bool(DMF([[]], ZZ)) is False
     assert bool(DMF([[1]], ZZ)) is True
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DMF_properties(), test_DMF_properties produces the expected output) over Any ║
+# ║ Path(test_DMF_properties(), DMF([[]], ZZ).is_zero is True and DMF([[]], ZZ).is_one is False and DMF([[1]], ZZ).is_zero is False and DMF([[1]], ZZ).is_one is True and DMF(([[1]], [[2]]), ZZ).is_one is False) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DMF_properties : Any → {Any | DMF([[]], ZZ).is_z...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  DMF([[]], ZZ).is_zero is True                  ║
+# ║   ensures:  DMF([[]], ZZ).is_one is False                  ║
+# ║   ensures:  DMF([[1]], ZZ).is_zero is False                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DMF_properties : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1b3cdd59caee401f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2c7006e691af44a9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyclasses.test_DMF_properties","kind":"function","src_hash":"3b747b3deb096a31","in":{"base":"Any"},"out":{"base":"Any","pred":"DMF([[]], ZZ).is_zero is True and DMF([[]], ZZ).is_one is False and DMF([[1]], ZZ).is_zero is False and DMF([[1]], ZZ).is_one is True and DMF(([[1]], [[2]]), ZZ).is_one is False"},"spec":{"lhs":"test_DMF_properties()","rhs":"test_DMF_properties produces the expected output","over":{"base":"Any"},"name":"test_DMF_properties_correct"},"guarantee":"test_DMF_properties produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyclasses.test_DMF_properties_correct","statement":"Path(test_DMF_properties(x), test_DMF_properties produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1b3cdd59caee401f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyclasses.test_DMF_properties","kind":"function","src_hash":"3b747b3deb096a31","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: DMF([[]], ZZ).is_zero is True and DMF([[]], ZZ).is_one is False and DMF([[1]], ZZ).is_zero is False and DMF([[1]], ZZ).is_one is True and DMF(([[1]], [[2]]), ZZ).is_one is False"},"spec":{"lhs":"test_DMF_properties()","rhs":"DMF([[]], ZZ).is_zero is True and DMF([[]], ZZ).is_one is False and DMF([[1]], ZZ).is_zero is False and DMF([[1]], ZZ).is_one is True and DMF(([[1]], [[2]]), ZZ).is_one is False","over":{"base":"Any"},"name":"test_DMF_properties_correct"},"guarantee":"DMF([[]], ZZ).is_zero is True; DMF([[]], ZZ).is_one is False; DMF([[1]], ZZ).is_zero is False","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyclasses.test_DMF_properties_correct","statement":"Path(test_DMF_properties(x), DMF([[]], ZZ).is_zero is True; DMF([[]], ZZ).is_one is False; DMF([[1]], ZZ).is_zero is False)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2c7006e691af44a9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["DMF([[]], ZZ).is_zero is True","DMF([[]], ZZ).is_one is False","DMF([[1]], ZZ).is_zero is False","DMF([[1]], ZZ).is_one is True","DMF(([[1]], [[2]]), ZZ).is_one is False"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_DMF_properties():
     assert DMF([[]], ZZ).is_zero is True
     assert DMF([[]], ZZ).is_one is False
@@ -564,16 +654,24 @@ def test_DMF_properties():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DMF_arithmetics(), test_DMF_arithmetics produces the expected output) over Any ║
+# ║ Path(test_DMF_arithmetics(), f.neg() == -f == g and f.add(g) == f + g == h and g.add(f) == g + f == h and f.sub(g) == f - g == h and f.mul(g) == f * g == h and g.mul(f) == g * f == h and f.quo(g) == f / g == h and f.pow(3) == f ** 3 == h and g.pow(3) == g ** 3 == h and g.pow(-1) == g ** (-1) == h) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DMF_arithmetics : Any → {Any | f.neg() == -f == ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f.neg() == -f == g                             ║
+# ║   ensures:  f.add(g) == f + g == h                         ║
+# ║   ensures:  g.add(f) == g + f == h                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DMF_arithmetics : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 333c16840df8ebf4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a7fe087cd3f665eb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyclasses.test_DMF_arithmetics","kind":"function","src_hash":"d2fd2899cebb6575","in":{"base":"Any"},"out":{"base":"Any","pred":"f.neg() == -f == g and f.add(g) == f + g == h and g.add(f) == g + f == h and f.sub(g) == f - g == h and f.mul(g) == f * g == h and g.mul(f) == g * f == h and f.quo(g) == f / g == h and f.pow(3) == f ** 3 == h and g.pow(3) == g ** 3 == h and g.pow(-1) == g ** (-1) == h"},"spec":{"lhs":"test_DMF_arithmetics()","rhs":"test_DMF_arithmetics produces the expected output","over":{"base":"Any"},"name":"test_DMF_arithmetics_correct"},"guarantee":"test_DMF_arithmetics produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyclasses.test_DMF_arithmetics_correct","statement":"Path(test_DMF_arithmetics(x), test_DMF_arithmetics produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"333c16840df8ebf4"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyclasses.test_DMF_arithmetics","kind":"function","src_hash":"d2fd2899cebb6575","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f.neg() == -f == g and f.add(g) == f + g == h and g.add(f) == g + f == h and f.sub(g) == f - g == h and f.mul(g) == f * g == h and g.mul(f) == g * f == h and f.quo(g) == f / g == h and f.pow(3) == f ** 3 == h and g.pow(3) == g ** 3 == h and g.pow(-1) == g ** (-1) == h"},"spec":{"lhs":"test_DMF_arithmetics()","rhs":"f.neg() == -f == g and f.add(g) == f + g == h and g.add(f) == g + f == h and f.sub(g) == f - g == h and f.mul(g) == f * g == h and g.mul(f) == g * f == h and f.quo(g) == f / g == h and f.pow(3) == f ** 3 == h and g.pow(3) == g ** 3 == h and g.pow(-1) == g ** (-1) == h","over":{"base":"Any"},"name":"test_DMF_arithmetics_correct"},"guarantee":"f.neg() == -f == g; f.add(g) == f + g == h; g.add(f) == g + f == h","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyclasses.test_DMF_arithmetics_correct","statement":"Path(test_DMF_arithmetics(x), f.neg() == -f == g; f.add(g) == f + g == h; g.add(f) == g + f == h)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a7fe087cd3f665eb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f.neg() == -f == g","f.add(g) == f + g == h","g.add(f) == g + f == h","f.sub(g) == f - g == h","f.mul(g) == f * g == h","g.mul(f) == g * f == h","f.quo(g) == f / g == h","f.pow(3) == f ** 3 == h","g.pow(3) == g ** 3 == h","g.pow(-1) == g ** (-1) == h"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_DMF_arithmetics():
     f = DMF([[7], [-9]], ZZ)
     g = DMF([[-7], [9]], ZZ)
@@ -615,16 +713,24 @@ def test_DMF_arithmetics():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_ANP___init__(), test_ANP___init__ produces the expected output) over Any ║
+# ║ Path(test_ANP___init__(), f.to_list() == [QQ(1), QQ(1)] and f.mod_to_list() == [QQ(1), QQ(0), QQ(1)] and f.dom == QQ and f.to_list() == [QQ(1)] and all((QQ.of_type(a) for a in f.to_list()))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_ANP___init__ : Any → {Any | f.to_list() == [QQ(1...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f.to_list() == [QQ(1), QQ(1)]                  ║
+# ║   ensures:  f.mod_to_list() == [QQ(1), QQ(0), QQ(1)]       ║
+# ║   ensures:  f.dom == QQ                                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_ANP___init__ : Any → {Any | result satisfies: f....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b9a473b29a2aaa97  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 02db822cd24e1d40  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyclasses.test_ANP___init__","kind":"function","src_hash":"baae4ffc735cac04","in":{"base":"Any"},"out":{"base":"Any","pred":"f.to_list() == [QQ(1), QQ(1)] and f.mod_to_list() == [QQ(1), QQ(0), QQ(1)] and f.dom == QQ and f.to_list() == [QQ(1), QQ(1)] and f.mod_to_list() == [QQ(1), QQ(0), QQ(1)] and f.dom == QQ and f.to_list() == [QQ(1)] and f.mod_to_list() == [QQ(1), QQ(0), QQ(1)] and f.dom == QQ and all((QQ.of_type(a) for a in f.to_list()))"},"spec":{"lhs":"test_ANP___init__()","rhs":"test_ANP___init__ produces the expected output","over":{"base":"Any"},"name":"test_ANP___init___correct"},"guarantee":"test_ANP___init__ produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyclasses.test_ANP___init___correct","statement":"Path(test_ANP___init__(x), test_ANP___init__ produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b9a473b29a2aaa97"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyclasses.test_ANP___init__","kind":"function","src_hash":"baae4ffc735cac04","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f.to_list() == [QQ(1), QQ(1)] and f.mod_to_list() == [QQ(1), QQ(0), QQ(1)] and f.dom == QQ and f.to_list() == [QQ(1)] and all((QQ.of_type(a) for a in f.to_list()))"},"spec":{"lhs":"test_ANP___init__()","rhs":"f.to_list() == [QQ(1), QQ(1)] and f.mod_to_list() == [QQ(1), QQ(0), QQ(1)] and f.dom == QQ and f.to_list() == [QQ(1)] and all((QQ.of_type(a) for a in f.to_list()))","over":{"base":"Any"},"name":"test_ANP___init___correct"},"guarantee":"f.to_list() == [QQ(1), QQ(1)]; f.mod_to_list() == [QQ(1), QQ(0), QQ(1)]; f.dom == QQ","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyclasses.test_ANP___init___correct","statement":"Path(test_ANP___init__(x), f.to_list() == [QQ(1), QQ(1)]; f.mod_to_list() == [QQ(1), QQ(0), QQ(1)]; f.dom == QQ)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"02db822cd24e1d40","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f.to_list() == [QQ(1), QQ(1)]","f.mod_to_list() == [QQ(1), QQ(0), QQ(1)]","f.dom == QQ","f.to_list() == [QQ(1)]","all((QQ.of_type(a) for a in f.to_list()))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_ANP___init__():
     rep = [QQ(1), QQ(1)]
     mod = [QQ(1), QQ(0), QQ(1)]
@@ -658,16 +764,24 @@ def test_ANP___init__():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_ANP___eq__(), test_ANP___eq__ produces the expected output) over Any ║
+# ║ Path(test_ANP___eq__(), (a == a) is True and (a != a) is False and (a == b) is False and (a != b) is True) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_ANP___eq__ : Any → {Any | (a == a) is True and (...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (a == a) is True                               ║
+# ║   ensures:  (a != a) is False                              ║
+# ║   ensures:  (a == b) is False                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_ANP___eq__ : Any → {Any | result satisfies: (a =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 024e0dec05697733  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c1e3f767f3703a99  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyclasses.test_ANP___eq__","kind":"function","src_hash":"bb2cfa526083297d","in":{"base":"Any"},"out":{"base":"Any","pred":"(a == a) is True and (a != a) is False and (a == b) is False and (a != b) is True and (a == b) is False and (a != b) is True"},"spec":{"lhs":"test_ANP___eq__()","rhs":"test_ANP___eq__ produces the expected output","over":{"base":"Any"},"name":"test_ANP___eq___correct"},"guarantee":"test_ANP___eq__ produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyclasses.test_ANP___eq___correct","statement":"Path(test_ANP___eq__(x), test_ANP___eq__ produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"024e0dec05697733"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyclasses.test_ANP___eq__","kind":"function","src_hash":"bb2cfa526083297d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (a == a) is True and (a != a) is False and (a == b) is False and (a != b) is True"},"spec":{"lhs":"test_ANP___eq__()","rhs":"(a == a) is True and (a != a) is False and (a == b) is False and (a != b) is True","over":{"base":"Any"},"name":"test_ANP___eq___correct"},"guarantee":"(a == a) is True; (a != a) is False; (a == b) is False","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyclasses.test_ANP___eq___correct","statement":"Path(test_ANP___eq__(x), (a == a) is True; (a != a) is False; (a == b) is False)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c1e3f767f3703a99","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(a == a) is True","(a != a) is False","(a == b) is False","(a != b) is True"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_ANP___eq__():
     a = ANP([QQ(1), QQ(1)], [QQ(1), QQ(0), QQ(1)], QQ)
     b = ANP([QQ(1), QQ(1)], [QQ(1), QQ(0), QQ(2)], QQ)
@@ -685,32 +799,47 @@ def test_ANP___eq__():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_ANP___bool__(), test_ANP___bool__ produces the expected output) over Any ║
+# ║ Path(test_ANP___bool__(), bool(ANP([], [QQ(1), QQ(0), QQ(1)], QQ)) is False and bool(ANP([QQ(1)], [QQ(1), QQ(0), QQ(1)], QQ)) is True) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_ANP___bool__ : Any → {Any | bool(ANP([], [QQ(1),...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  bool(ANP([], [QQ(1), QQ(0), QQ(1)], QQ)) ...   ║
+# ║   ensures:  bool(ANP([QQ(1)], [QQ(1), QQ(0), QQ(1)], ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_ANP___bool__ : Any → {Any | result satisfies: bo...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2f90a5f90e70c1b0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b85890ad2b08e341  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyclasses.test_ANP___bool__","kind":"function","src_hash":"629b33da924a6820","in":{"base":"Any"},"out":{"base":"Any","pred":"bool(ANP([], [QQ(1), QQ(0), QQ(1)], QQ)) is False and bool(ANP([QQ(1)], [QQ(1), QQ(0), QQ(1)], QQ)) is True"},"spec":{"lhs":"test_ANP___bool__()","rhs":"test_ANP___bool__ produces the expected output","over":{"base":"Any"},"name":"test_ANP___bool___correct"},"guarantee":"test_ANP___bool__ produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyclasses.test_ANP___bool___correct","statement":"Path(test_ANP___bool__(x), test_ANP___bool__ produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2f90a5f90e70c1b0"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyclasses.test_ANP___bool__","kind":"function","src_hash":"629b33da924a6820","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: bool(ANP([], [QQ(1), QQ(0), QQ(1)], QQ)) is False and bool(ANP([QQ(1)], [QQ(1), QQ(0), QQ(1)], QQ)) is True"},"spec":{"lhs":"test_ANP___bool__()","rhs":"bool(ANP([], [QQ(1), QQ(0), QQ(1)], QQ)) is False and bool(ANP([QQ(1)], [QQ(1), QQ(0), QQ(1)], QQ)) is True","over":{"base":"Any"},"name":"test_ANP___bool___correct"},"guarantee":"bool(ANP([], [QQ(1), QQ(0), QQ(1)], QQ)) is False; bool(ANP([QQ(1)], [QQ(1), QQ(0), QQ(1)], QQ)) is True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyclasses.test_ANP___bool___correct","statement":"Path(test_ANP___bool__(x), bool(ANP([], [QQ(1), QQ(0), QQ(1)], QQ)) is False; bool(ANP([QQ(1)], [QQ(1), QQ(0), QQ(1)], QQ)) is True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b85890ad2b08e341","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["bool(ANP([], [QQ(1), QQ(0), QQ(1)], QQ)) is False","bool(ANP([QQ(1)], [QQ(1), QQ(0), QQ(1)], QQ)) is True"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_ANP___bool__():
     assert bool(ANP([], [QQ(1), QQ(0), QQ(1)], QQ)) is False
     assert bool(ANP([QQ(1)], [QQ(1), QQ(0), QQ(1)], QQ)) is True
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_ANP_properties(), test_ANP_properties produces the expected output) over Any ║
+# ║ Path(test_ANP_properties(), ANP([QQ(0)], mod, QQ).is_zero is True and ANP([QQ(1)], mod, QQ).is_zero is False and ANP([QQ(1)], mod, QQ).is_one is True and ANP([QQ(2)], mod, QQ).is_one is False) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_ANP_properties : Any → {Any | ANP([QQ(0)], mod, ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  ANP([QQ(0)], mod, QQ).is_zero is True          ║
+# ║   ensures:  ANP([QQ(1)], mod, QQ).is_zero is False         ║
+# ║   ensures:  ANP([QQ(1)], mod, QQ).is_one is True           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_ANP_properties : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5a8c0ef122480169  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d6a21df92759b082  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyclasses.test_ANP_properties","kind":"function","src_hash":"4ed610482f160bea","in":{"base":"Any"},"out":{"base":"Any","pred":"ANP([QQ(0)], mod, QQ).is_zero is True and ANP([QQ(1)], mod, QQ).is_zero is False and ANP([QQ(1)], mod, QQ).is_one is True and ANP([QQ(2)], mod, QQ).is_one is False"},"spec":{"lhs":"test_ANP_properties()","rhs":"test_ANP_properties produces the expected output","over":{"base":"Any"},"name":"test_ANP_properties_correct"},"guarantee":"test_ANP_properties produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyclasses.test_ANP_properties_correct","statement":"Path(test_ANP_properties(x), test_ANP_properties produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5a8c0ef122480169"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyclasses.test_ANP_properties","kind":"function","src_hash":"4ed610482f160bea","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: ANP([QQ(0)], mod, QQ).is_zero is True and ANP([QQ(1)], mod, QQ).is_zero is False and ANP([QQ(1)], mod, QQ).is_one is True and ANP([QQ(2)], mod, QQ).is_one is False"},"spec":{"lhs":"test_ANP_properties()","rhs":"ANP([QQ(0)], mod, QQ).is_zero is True and ANP([QQ(1)], mod, QQ).is_zero is False and ANP([QQ(1)], mod, QQ).is_one is True and ANP([QQ(2)], mod, QQ).is_one is False","over":{"base":"Any"},"name":"test_ANP_properties_correct"},"guarantee":"ANP([QQ(0)], mod, QQ).is_zero is True; ANP([QQ(1)], mod, QQ).is_zero is False; ANP([QQ(1)], mod, QQ).is_one is True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyclasses.test_ANP_properties_correct","statement":"Path(test_ANP_properties(x), ANP([QQ(0)], mod, QQ).is_zero is True; ANP([QQ(1)], mod, QQ).is_zero is False; ANP([QQ(1)], mod, QQ).is_one is True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d6a21df92759b082","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["ANP([QQ(0)], mod, QQ).is_zero is True","ANP([QQ(1)], mod, QQ).is_zero is False","ANP([QQ(1)], mod, QQ).is_one is True","ANP([QQ(2)], mod, QQ).is_one is False"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_ANP_properties():
     mod = [QQ(1), QQ(0), QQ(1)]
 
@@ -722,16 +851,24 @@ def test_ANP_properties():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_ANP_arithmetics(), test_ANP_arithmetics produces the expected output) over Any ║
+# ║ Path(test_ANP_arithmetics(), a.neg() == -a == c and a.add(b) == a + b == c and b.add(a) == b + a == c and a.sub(b) == a - b == c and b.sub(a) == b - a == c and a.mul(b) == a * b == c and b.mul(a) == b * a == c and a.pow(0) == a ** 0 == ANP(1, mod, QQ) and a.pow(1) == a ** 1 == a and a.pow(-1) == a ** (-1) == c and a.quo(a) == a.mul(a.pow(-1)) == a * a ** (-1) == ANP(1, mod, QQ) and r1 == r2 == c == a % b and q == a / b) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_ANP_arithmetics : Any → {Any | a.neg() == -a == ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  a.neg() == -a == c                             ║
+# ║   ensures:  a.add(b) == a + b == c                         ║
+# ║   ensures:  b.add(a) == b + a == c                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_ANP_arithmetics : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a768b0fd387abecc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 89c46b760da72298  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyclasses.test_ANP_arithmetics","kind":"function","src_hash":"0c93148d4d1da3aa","in":{"base":"Any"},"out":{"base":"Any","pred":"a.neg() == -a == c and a.add(b) == a + b == c and b.add(a) == b + a == c and a.sub(b) == a - b == c and b.sub(a) == b - a == c and a.mul(b) == a * b == c and b.mul(a) == b * a == c and a.pow(0) == a ** 0 == ANP(1, mod, QQ) and a.pow(1) == a ** 1 == a and a.pow(-1) == a ** (-1) == c and a.quo(a) == a.mul(a.pow(-1)) == a * a ** (-1) == ANP(1, mod, QQ) and r1 == r2 == c == a % b and q == a / b"},"spec":{"lhs":"test_ANP_arithmetics()","rhs":"test_ANP_arithmetics produces the expected output","over":{"base":"Any"},"name":"test_ANP_arithmetics_correct"},"guarantee":"test_ANP_arithmetics produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyclasses.test_ANP_arithmetics_correct","statement":"Path(test_ANP_arithmetics(x), test_ANP_arithmetics produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a768b0fd387abecc"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyclasses.test_ANP_arithmetics","kind":"function","src_hash":"0c93148d4d1da3aa","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: a.neg() == -a == c and a.add(b) == a + b == c and b.add(a) == b + a == c and a.sub(b) == a - b == c and b.sub(a) == b - a == c and a.mul(b) == a * b == c and b.mul(a) == b * a == c and a.pow(0) == a ** 0 == ANP(1, mod, QQ) and a.pow(1) == a ** 1 == a and a.pow(-1) == a ** (-1) == c and a.quo(a) == a.mul(a.pow(-1)) == a * a ** (-1) == ANP(1, mod, QQ) and r1 == r2 == c == a % b and q == a / b"},"spec":{"lhs":"test_ANP_arithmetics()","rhs":"a.neg() == -a == c and a.add(b) == a + b == c and b.add(a) == b + a == c and a.sub(b) == a - b == c and b.sub(a) == b - a == c and a.mul(b) == a * b == c and b.mul(a) == b * a == c and a.pow(0) == a ** 0 == ANP(1, mod, QQ) and a.pow(1) == a ** 1 == a and a.pow(-1) == a ** (-1) == c and a.quo(a) == a.mul(a.pow(-1)) == a * a ** (-1) == ANP(1, mod, QQ) and r1 == r2 == c == a % b and q == a / b","over":{"base":"Any"},"name":"test_ANP_arithmetics_correct"},"guarantee":"a.neg() == -a == c; a.add(b) == a + b == c; b.add(a) == b + a == c","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyclasses.test_ANP_arithmetics_correct","statement":"Path(test_ANP_arithmetics(x), a.neg() == -a == c; a.add(b) == a + b == c; b.add(a) == b + a == c)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"89c46b760da72298","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["a.neg() == -a == c","a.add(b) == a + b == c","b.add(a) == b + a == c","a.sub(b) == a - b == c","b.sub(a) == b - a == c","a.mul(b) == a * b == c","b.mul(a) == b * a == c","a.pow(0) == a ** 0 == ANP(1, mod, QQ)","a.pow(1) == a ** 1 == a","a.pow(-1) == a ** (-1) == c","a.quo(a) == a.mul(a.pow(-1)) == a * a ** (-1) == ANP(1, mod, QQ)","r1 == r2 == c == a % b","q == a / b"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def test_ANP_arithmetics():
     mod = [QQ(1), QQ(0), QQ(0), QQ(-2)]
 
@@ -786,16 +923,24 @@ def test_ANP_arithmetics():
     assert q == a/b # == c
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_ANP_unify(), test_ANP_unify produces the expected output) over Any ║
+# ║ Path(test_ANP_unify(), a.unify(b)[0] == QQ and b.unify(a)[0] == QQ and a.unify(a)[0] == QQ and b.unify(b)[0] == ZZ and a.unify_ANP(b)[-1] == QQ and b.unify_ANP(a)[-1] == QQ and a.unify_ANP(a)[-1] == QQ and b.unify_ANP(b)[-1] == ZZ) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_ANP_unify : Any → {Any | a.unify(b)[0] == QQ and...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  a.unify(b)[0] == QQ                            ║
+# ║   ensures:  b.unify(a)[0] == QQ                            ║
+# ║   ensures:  a.unify(a)[0] == QQ                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_ANP_unify : Any → {Any | result satisfies: a.uni...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 09873fdb65a1a8e2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | db8badc258f7afb8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyclasses.test_ANP_unify","kind":"function","src_hash":"a78485b61ae61f40","in":{"base":"Any"},"out":{"base":"Any","pred":"a.unify(b)[0] == QQ and b.unify(a)[0] == QQ and a.unify(a)[0] == QQ and b.unify(b)[0] == ZZ and a.unify_ANP(b)[-1] == QQ and b.unify_ANP(a)[-1] == QQ and a.unify_ANP(a)[-1] == QQ and b.unify_ANP(b)[-1] == ZZ"},"spec":{"lhs":"test_ANP_unify()","rhs":"test_ANP_unify produces the expected output","over":{"base":"Any"},"name":"test_ANP_unify_correct"},"guarantee":"test_ANP_unify produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyclasses.test_ANP_unify_correct","statement":"Path(test_ANP_unify(x), test_ANP_unify produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"09873fdb65a1a8e2"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyclasses.test_ANP_unify","kind":"function","src_hash":"a78485b61ae61f40","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: a.unify(b)[0] == QQ and b.unify(a)[0] == QQ and a.unify(a)[0] == QQ and b.unify(b)[0] == ZZ and a.unify_ANP(b)[-1] == QQ and b.unify_ANP(a)[-1] == QQ and a.unify_ANP(a)[-1] == QQ and b.unify_ANP(b)[-1] == ZZ"},"spec":{"lhs":"test_ANP_unify()","rhs":"a.unify(b)[0] == QQ and b.unify(a)[0] == QQ and a.unify(a)[0] == QQ and b.unify(b)[0] == ZZ and a.unify_ANP(b)[-1] == QQ and b.unify_ANP(a)[-1] == QQ and a.unify_ANP(a)[-1] == QQ and b.unify_ANP(b)[-1] == ZZ","over":{"base":"Any"},"name":"test_ANP_unify_correct"},"guarantee":"a.unify(b)[0] == QQ; b.unify(a)[0] == QQ; a.unify(a)[0] == QQ","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyclasses.test_ANP_unify_correct","statement":"Path(test_ANP_unify(x), a.unify(b)[0] == QQ; b.unify(a)[0] == QQ; a.unify(a)[0] == QQ)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"db8badc258f7afb8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["a.unify(b)[0] == QQ","b.unify(a)[0] == QQ","a.unify(a)[0] == QQ","b.unify(b)[0] == ZZ","a.unify_ANP(b)[-1] == QQ","b.unify_ANP(a)[-1] == QQ","a.unify_ANP(a)[-1] == QQ","b.unify_ANP(b)[-1] == ZZ"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_ANP_unify():
     mod_z = [ZZ(1), ZZ(0), ZZ(-2)]
     mod_q = [QQ(1), QQ(0), QQ(-2)]
@@ -815,16 +960,24 @@ def test_ANP_unify():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_zero_poly(), test_zero_poly produces the expected output) over Any ║
+# ║ Path(test_zero_poly(), cont_old == 0 and prim_old == zero_poly_old and prim_old.is_primitive is False) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_zero_poly : Any → {Any | cont_old == 0 and prim_...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  cont_old == 0                                  ║
+# ║   ensures:  prim_old == zero_poly_old                      ║
+# ║   ensures:  prim_old.is_primitive is False                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_zero_poly : Any → {Any | result satisfies: cont_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a3673319483b7a71  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 37f6506a953fad38  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyclasses.test_zero_poly","kind":"function","src_hash":"65a384da2198fe81","in":{"base":"Any"},"out":{"base":"Any","pred":"cont_old == 0 and prim_old == zero_poly_old and prim_old.is_primitive is False"},"spec":{"lhs":"test_zero_poly()","rhs":"test_zero_poly produces the expected output","over":{"base":"Any"},"name":"test_zero_poly_correct"},"guarantee":"test_zero_poly produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyclasses.test_zero_poly_correct","statement":"Path(test_zero_poly(x), test_zero_poly produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a3673319483b7a71"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polyclasses.test_zero_poly","kind":"function","src_hash":"65a384da2198fe81","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: cont_old == 0 and prim_old == zero_poly_old and prim_old.is_primitive is False"},"spec":{"lhs":"test_zero_poly()","rhs":"cont_old == 0 and prim_old == zero_poly_old and prim_old.is_primitive is False","over":{"base":"Any"},"name":"test_zero_poly_correct"},"guarantee":"cont_old == 0; prim_old == zero_poly_old; prim_old.is_primitive is False","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polyclasses.test_zero_poly_correct","statement":"Path(test_zero_poly(x), cont_old == 0; prim_old == zero_poly_old; prim_old.is_primitive is False)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"37f6506a953fad38","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["cont_old == 0","prim_old == zero_poly_old","prim_old.is_primitive is False"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_zero_poly():
     from sympy import Symbol
     x = Symbol('x')

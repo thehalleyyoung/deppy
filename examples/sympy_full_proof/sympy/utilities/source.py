@@ -21,9 +21,13 @@ This module adds several functions for interactive source code inspection.
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_class(loo), convert a string version of a class name to the object) over {Any | isinstance(lookup_view, str)} ║
+# ║ Path(get_class(lookup_view), lookup_view) over {Any | isinstance(lookup_view, str)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ get_class : {Any | isinstance(lookup_view, str)} → Any     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == lookup_view                          ║
+# ║   returns:  lookup_view                                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ get_class : {Any | isinstance(lookup_view, str)} → {A...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   str: {isinstance(lookup_view, str)} → library_axiom      ║
@@ -33,9 +37,12 @@ This module adds several functions for interactive source code inspection.
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.5ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | c804962e...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.source.get_class","kind":"function","src_hash":"f5c5ca5ab76161b8","in":{"base":"Any","pred":"isinstance(lookup_view, str)"},"out":{"base":"Any"},"spec":{"lhs":"get_class(loo)","rhs":"convert a string version of a class name to the object","over":{"base":"Any","pred":"isinstance(lookup_view, str)"},"name":"get_class_correct"},"guarantee":"convert a string version of a class name to the object","fibers":[{"name":"str","pred":"isinstance(lookup_view, str)","path":{"lhs":"get_class(x)","rhs":"convert a string version of a class name to the object","over":{"base":"str","pred":"isinstance(lookup_view, str)"},"name":"get_class_str_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.source.get_class_str_correct","statement":"get_class satisfies spec on str inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"c804962e0a4077c0"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.source.get_class","kind":"function","src_hash":"f5c5ca5ab76161b8","in":{"base":"Any","pred":"isinstance(lookup_view, str)"},"out":{"base":"Any","pred":"result satisfies: result == (lookup_view)"},"spec":{"lhs":"get_class(lookup_view)","rhs":"lookup_view","over":{"base":"Any","pred":"isinstance(lookup_view, str)"},"name":"get_class_correct"},"guarantee":"returns lookup_view; result == lookup_view","fibers":[{"name":"str","pred":"isinstance(lookup_view, str)","path":{"lhs":"get_class(x)","rhs":"returns lookup_view; result == lookup_view","over":{"base":"str","pred":"isinstance(lookup_view, str)"},"name":"get_class_str_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.source.get_class_str_correct","statement":"get_class satisfies spec on str inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"c804962e0a4077c0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == lookup_view"],"returns_expr":"lookup_view","pure":false,"effects":{"effect_type":"reads_state","raises":["AttributeError"]},"state_contract":{"exceptional_post":{"AttributeError":["isinstance(raised, AttributeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.5,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={\"func_name != ''\", 'isinstance(lookup_view, str)'}, fibers={'str'})"]}}
 def get_class(lookup_view):
     """
     Convert a string version of a class name to the object.
@@ -55,16 +62,23 @@ def get_class(lookup_view):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_mod_func(cal), splits the string path to a class into a string path to the module and the name of the class) over Any ║
+# ║ Path(get_mod_func(callback), <unspecified:get_mod_func>) over {Any | hasattr(callback, 'rfind')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ get_mod_func : Any → Any                                   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(callback, 'rfind')                     ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ get_mod_func : {Any | hasattr(callback, 'rfind')} → Any    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7cb557211e6b3d0b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.source.get_mod_func","kind":"function","src_hash":"6a316d426f7e170e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_mod_func(cal)","rhs":"splits the string path to a class into a string path to the module and the name of the class","over":{"base":"Any"},"name":"get_mod_func_correct"},"guarantee":"splits the string path to a class into a string path to the module and the name of the class","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.source.get_mod_func_correct","statement":"Path(get_mod_func(x), splits the string path to a class into a string path to the module and the name of the class)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7cb557211e6b3d0b"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.source.get_mod_func","kind":"function","src_hash":"6a316d426f7e170e","in":{"base":"Any","pred":"hasattr(callback, 'rfind')"},"out":{"base":"Any"},"spec":{"lhs":"get_mod_func(callback)","rhs":"<unspecified:get_mod_func>","over":{"base":"Any","pred":"hasattr(callback, 'rfind')"},"name":"get_mod_func_correct"},"guarantee":"splits the string path to a class into a string path to the module and the name of the class","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.source.get_mod_func_correct","statement":"Path(get_mod_func(x), splits the string path to a class into a string path to the module and the name of the class)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7cb557211e6b3d0b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(callback, 'rfind')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["callback.rfind"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def get_mod_func(callback):
     """
     splits the string path to a class into a string path to the module

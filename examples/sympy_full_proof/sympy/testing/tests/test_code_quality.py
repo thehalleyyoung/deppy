@@ -70,16 +70,23 @@ func_is_re = re.compile(r'\.\s*func\s+is')
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(tab_in_leading(s), returns true if there are tabs in the leading whitespace of a line, including the whitespace of docstring code samples) over Any ║
+# ║ Path(tab_in_leading(s), not check.expandtabs() == check) over {Any | hasattr(s, 'lstrip')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ tab_in_leading : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(s, 'lstrip')                           ║
+# ║   returns:  not check.expandtabs() == check                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ tab_in_leading : {Any | hasattr(s, 'lstrip')} → Any        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1c74705b3d245f51  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 93027c70a806ce1d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.tests.test_code_quality.tab_in_leading","kind":"function","src_hash":"99c7408d0b71ad4e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"tab_in_leading(s)","rhs":"returns true if there are tabs in the leading whitespace of a line, including the whitespace of docstring code samples","over":{"base":"Any"},"name":"tab_in_leading_correct"},"guarantee":"returns true if there are tabs in the leading whitespace of a line, including the whitespace of docstring code samples","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tests.test_code_quality.tab_in_leading_correct","statement":"Path(tab_in_leading(x), returns true if there are tabs in the leading whitespace of a line, including the whitespace of docstring code samples)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1c74705b3d245f51"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.tests.test_code_quality.tab_in_leading","kind":"function","src_hash":"99c7408d0b71ad4e","in":{"base":"Any","pred":"hasattr(s, 'lstrip')"},"out":{"base":"Any"},"spec":{"lhs":"tab_in_leading(s)","rhs":"not check.expandtabs() == check","over":{"base":"Any","pred":"hasattr(s, 'lstrip')"},"name":"tab_in_leading_correct"},"guarantee":"returns not check.expandtabs() == check","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tests.test_code_quality.tab_in_leading_correct","statement":"Path(tab_in_leading(x), returns not check.expandtabs() == check)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"93027c70a806ce1d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(s, 'lstrip')"],"returns_expr":"not check.expandtabs() == check","pure":false,"effects":{"effect_type":"reads_state","reads":["s.lstrip"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def tab_in_leading(s):
     """Returns True if there are tabs in the leading whitespace of a line,
     including the whitespace of docstring code samples."""
@@ -93,7 +100,10 @@ def tab_in_leading(s):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(find_self_assignments(s), returns a list of "bad" assignments: if there are instances of assigning to the first argument of the class method (except for staticmethod's)) over {Any | isinstance(n, ast.ClassDef) and isinstance(n, ast.FunctionDef) and isinstance(m, ast.Assign)} ║
+# ║ Path(find_self_assignments(s), <unspecified:find_self_assignments>) over {Any | isinstance(n, ast.ClassDef) and isinstance(n, ast.FunctionDef) and isinstance(m, ast.Assign)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ find_self_assignments : {Any | isinstance(n, ast.Clas...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -109,9 +119,12 @@ def tab_in_leading(s):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?5 ✗10 VCs | 26.2ms                        ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | a2e1630f...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.tests.test_code_quality.find_self_assignments","kind":"function","src_hash":"3b5ace1b34cfc435","in":{"base":"Any","pred":"isinstance(n, ast.ClassDef) and isinstance(n, ast.FunctionDef) and isinstance(m, ast.Assign)"},"out":{"base":"Any","pred":"result satisfies: if there are instances"},"spec":{"lhs":"find_self_assignments(s)","rhs":"returns a list of \"bad\" assignments: if there are instances of assigning to the first argument of the class method (except for staticmethod's)","over":{"base":"Any","pred":"isinstance(n, ast.ClassDef) and isinstance(n, ast.FunctionDef) and isinstance(m, ast.Assign)"},"name":"find_self_assignments_correct"},"guarantee":"returns a list of \"bad\" assignments: if there are instances of assigning to the first argument of the class method (except for staticmethod's)","fibers":[{"name":"ast_ClassDef","pred":"isinstance(n, ast.ClassDef)","path":{"lhs":"find_self_assignments(x)","rhs":"returns a list of \"bad\" assignments: if there are instances of assigning to the first argument of the class method (except for staticmethod's)","over":{"base":"ast.ClassDef","pred":"isinstance(n, ast.ClassDef)"},"name":"find_self_assignments_ast.ClassDef_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tests.test_code_quality.find_self_assignments_ast.ClassDef_correct","statement":"find_self_assignments satisfies spec on ast.ClassDef inputs"},"trust":"LIBRARY"},{"name":"ast_FunctionDef","pred":"isinstance(n, ast.FunctionDef)","path":{"lhs":"find_self_assignments(x)","rhs":"returns a list of \"bad\" assignments: if there are instances of assigning to the first argument of the class method (except for staticmethod's)","over":{"base":"ast.FunctionDef","pred":"isinstance(n, ast.FunctionDef)"},"name":"find_self_assignments_ast.FunctionDef_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tests.test_code_quality.find_self_assignments_ast.FunctionDef_correct","statement":"find_self_assignments satisfies spec on ast.FunctionDef inputs"},"trust":"LIBRARY"},{"name":"ast_Assign","pred":"isinstance(m, ast.Assign)","path":{"lhs":"find_self_assignments(x)","rhs":"returns a list of \"bad\" assignments: if there are instances of assigning to the first argument of the class method (except for staticmethod's)","over":{"base":"ast.Assign","pred":"isinstance(m, ast.Assign)"},"name":"find_self_assignments_ast.Assign_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tests.test_code_quality.find_self_assignments_ast.Assign_correct","statement":"find_self_assignments satisfies spec on ast.Assign inputs"},"trust":"LIBRARY"},{"name":"ast_Name","pred":"isinstance(d, ast.Name)","path":{"lhs":"find_self_assignments(x)","rhs":"returns a list of \"bad\" assignments: if there are instances of assigning to the first argument of the class method (except for staticmethod's)","over":{"base":"ast.Name","pred":"isinstance(d, ast.Name)"},"name":"find_self_assignments_ast.Name_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tests.test_code_quality.find_self_assignments_ast.Name_correct","statement":"find_self_assignments satisfies spec on ast.Name inputs"},"trust":"LIBRARY"},{"name":"ast_Tuple","pred":"isinstance(a, ast.Tuple)","path":{"lhs":"find_self_assignments(x)","rhs":"returns a list of \"bad\" assignments: if there are instances of assigning to the first argument of the class method (except for staticmethod's)","over":{"base":"ast.Tuple","pred":"isinstance(a, ast.Tuple)"},"name":"find_self_assignments_ast.Tuple_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tests.test_code_quality.find_self_assignments_ast.Tuple_correct","statement":"find_self_assignments satisfies spec on ast.Tuple inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":5,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"a2e1630f04043547"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.tests.test_code_quality.find_self_assignments","kind":"function","src_hash":"3b5ace1b34cfc435","in":{"base":"Any","pred":"isinstance(n, ast.ClassDef) and isinstance(n, ast.FunctionDef) and isinstance(m, ast.Assign)"},"out":{"base":"Any","pred":"result satisfies: if there are instances"},"spec":{"lhs":"find_self_assignments(s)","rhs":"<unspecified:find_self_assignments>","over":{"base":"Any","pred":"isinstance(n, ast.ClassDef) and isinstance(n, ast.FunctionDef) and isinstance(m, ast.Assign)"},"name":"find_self_assignments_correct"},"guarantee":"returns a list of \"bad\" assignments: if there are instances of assigning to the first argument of the class method (except for staticmethod's)","fibers":[{"name":"ast_ClassDef","pred":"isinstance(n, ast.ClassDef)","path":{"lhs":"find_self_assignments(x)","rhs":"returns a list of \"bad\" assignments: if there are instances of assigning to the first argument of the class method (except for staticmethod's)","over":{"base":"ast.ClassDef","pred":"isinstance(n, ast.ClassDef)"},"name":"find_self_assignments_ast.ClassDef_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tests.test_code_quality.find_self_assignments_ast.ClassDef_correct","statement":"find_self_assignments satisfies spec on ast.ClassDef inputs"},"trust":"LIBRARY"},{"name":"ast_FunctionDef","pred":"isinstance(n, ast.FunctionDef)","path":{"lhs":"find_self_assignments(x)","rhs":"returns a list of \"bad\" assignments: if there are instances of assigning to the first argument of the class method (except for staticmethod's)","over":{"base":"ast.FunctionDef","pred":"isinstance(n, ast.FunctionDef)"},"name":"find_self_assignments_ast.FunctionDef_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tests.test_code_quality.find_self_assignments_ast.FunctionDef_correct","statement":"find_self_assignments satisfies spec on ast.FunctionDef inputs"},"trust":"LIBRARY"},{"name":"ast_Assign","pred":"isinstance(m, ast.Assign)","path":{"lhs":"find_self_assignments(x)","rhs":"returns a list of \"bad\" assignments: if there are instances of assigning to the first argument of the class method (except for staticmethod's)","over":{"base":"ast.Assign","pred":"isinstance(m, ast.Assign)"},"name":"find_self_assignments_ast.Assign_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tests.test_code_quality.find_self_assignments_ast.Assign_correct","statement":"find_self_assignments satisfies spec on ast.Assign inputs"},"trust":"LIBRARY"},{"name":"ast_Name","pred":"isinstance(d, ast.Name)","path":{"lhs":"find_self_assignments(x)","rhs":"returns a list of \"bad\" assignments: if there are instances of assigning to the first argument of the class method (except for staticmethod's)","over":{"base":"ast.Name","pred":"isinstance(d, ast.Name)"},"name":"find_self_assignments_ast.Name_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tests.test_code_quality.find_self_assignments_ast.Name_correct","statement":"find_self_assignments satisfies spec on ast.Name inputs"},"trust":"LIBRARY"},{"name":"ast_Tuple","pred":"isinstance(a, ast.Tuple)","path":{"lhs":"find_self_assignments(x)","rhs":"returns a list of \"bad\" assignments: if there are instances of assigning to the first argument of the class method (except for staticmethod's)","over":{"base":"ast.Tuple","pred":"isinstance(a, ast.Tuple)"},"name":"find_self_assignments_ast.Tuple_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tests.test_code_quality.find_self_assignments_ast.Tuple_correct","statement":"find_self_assignments satisfies spec on ast.Tuple inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":5,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"a2e1630f04043547","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":17,"n_verified":2,"n_assumed":5,"n_failed":10,"trust_level":"LIBRARY_ASSUMED","compile_ms":26.2,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'not isinstance(n, ast.FunctionDef)', 'isinstance(a, ast.Tuple) and any((q.id == first_arg for q in a.elts if isinstance(q, ast.Name)))', \"any((d.id == 'staticmethod' for d in n.decorator_list if isinstance(d, ast.Name)))\", 'isinstance(a, ast.Name) and a.id == first_arg', \"n.name == '__new__'\", 'isinstance(m, ast.Assign)'}, fibers={'ast_Assign', 'ast_ClassDef', 'ast_Tuple', 'ast_Name', 'ast_FunctionDef'})"]}}
 def find_self_assignments(s):
     """Returns a list of "bad" assignments: if there are instances
     of assigning to the first argument of the class method (except
@@ -147,16 +160,22 @@ def find_self_assignments(s):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(check_directory_tree(bas), checks all files in the directory tree (with base_path as starting point) with the file_check function provided, skipping files that contain any of the strings in the set provided by exclusions) over Any ║
+# ║ Path(check_directory_tree(base_path, file_check, exclusions), <unspecified:check_directory_tree>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ check_directory_tree : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4cd85a7d5ec76bd5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.tests.test_code_quality.check_directory_tree","kind":"function","src_hash":"621d5e7ba28b7ce7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"check_directory_tree(bas)","rhs":"checks all files in the directory tree (with base_path as starting point) with the file_check function provided, skipping files that contain any of the strings in the set provided by exclusions","over":{"base":"Any"},"name":"check_directory_tree_correct"},"guarantee":"checks all files in the directory tree (with base_path as starting point) with the file_check function provided, skipping files that contain any of the strings in the set provided by exclusions","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tests.test_code_quality.check_directory_tree_correct","statement":"Path(check_directory_tree(x), checks all files in the directory tree (with base_path as starting point) with the file_check function provided, skipping files that contain any of the strings in the set provided by exclusions)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4cd85a7d5ec76bd5"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.tests.test_code_quality.check_directory_tree","kind":"function","src_hash":"621d5e7ba28b7ce7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"check_directory_tree(base_path, file_check, exclusions)","rhs":"<unspecified:check_directory_tree>","over":{"base":"Any"},"name":"check_directory_tree_correct"},"guarantee":"checks all files in the directory tree (with base_path as starting point) with the file_check function provided, skipping files that contain any of the strings in the set provided by exclusions","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tests.test_code_quality.check_directory_tree_correct","statement":"Path(check_directory_tree(x), checks all files in the directory tree (with base_path as starting point) with the file_check function provided, skipping files that contain any of the strings in the set provided by exclusions)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4cd85a7d5ec76bd5","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def check_directory_tree(base_path, file_check, exclusions=set(), pattern="*.py"):
     """
     Checks all files in the directory tree (with base_path as starting point)
@@ -170,16 +189,22 @@ def check_directory_tree(base_path, file_check, exclusions=set(), pattern="*.py"
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(check_files(fil), checks all files with the file_check function provided, skipping files that contain any of the strings in the set provided by exclusions) over Any ║
+# ║ Path(check_files(files, file_check, exclusions), <unspecified:check_files>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ check_files : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7656c17207dad90a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.tests.test_code_quality.check_files","kind":"function","src_hash":"61eec5ed0cdb1d7f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"check_files(fil)","rhs":"checks all files with the file_check function provided, skipping files that contain any of the strings in the set provided by exclusions","over":{"base":"Any"},"name":"check_files_correct"},"guarantee":"checks all files with the file_check function provided, skipping files that contain any of the strings in the set provided by exclusions","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tests.test_code_quality.check_files_correct","statement":"Path(check_files(x), checks all files with the file_check function provided, skipping files that contain any of the strings in the set provided by exclusions)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7656c17207dad90a"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.tests.test_code_quality.check_files","kind":"function","src_hash":"61eec5ed0cdb1d7f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"check_files(files, file_check, exclusions)","rhs":"<unspecified:check_files>","over":{"base":"Any"},"name":"check_files_correct"},"guarantee":"checks all files with the file_check function provided, skipping files that contain any of the strings in the set provided by exclusions","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tests.test_code_quality.check_files_correct","statement":"Path(check_files(x), checks all files with the file_check function provided, skipping files that contain any of the strings in the set provided by exclusions)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7656c17207dad90a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def check_files(files, file_check, exclusions=set(), pattern=None):
     """
     Checks all files with the file_check function provided, skipping files
@@ -199,14 +224,20 @@ def check_files(files, file_check, exclusions=set(), pattern=None):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(_Visit(*args), correctly constructs a _Visit instance) over {Any | isinstance(node.value, (ast.BinOp, ast.Compare))} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, ast.NodeVisitor)              ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ _Visit : {Any | isinstance(node.value, (ast.BinOp, as...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 813276d1714dae0f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.tests.test_code_quality._Visit","kind":"class","src_hash":"ff71645f52288fe4","in":{"base":"Any","pred":"isinstance(node.value, (ast.BinOp, ast.Compare))"},"out":{"base":"Any","pred":"None"},"spec":{"lhs":"_Visit(*args)","rhs":"correctly constructs a _Visit instance","over":{"base":"Any","pred":"isinstance(node.value, (ast.BinOp, ast.Compare))"},"name":"_Visit_class_invariant"},"guarantee":"correctly constructs a _Visit instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"813276d1714dae0f"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.tests.test_code_quality._Visit","kind":"class","src_hash":"ff71645f52288fe4","in":{"base":"Any","pred":"isinstance(node.value, (ast.BinOp, ast.Compare))"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, ast.NodeVisitor)"},"spec":{"lhs":"_Visit(*args)","rhs":"correctly constructs a _Visit instance","over":{"base":"Any","pred":"isinstance(node.value, (ast.BinOp, ast.Compare))"},"name":"_Visit_class_invariant"},"guarantee":"isinstance(self, ast.NodeVisitor)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"813276d1714dae0f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, ast.NodeVisitor)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function _Visit not found in source"]}}
 class _Visit(ast.NodeVisitor):
     """return the line number corresponding to the
     line on which a bare expression appears if it is a binary op
@@ -246,30 +277,44 @@ class _Visit(ast.NodeVisitor):
     11
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(visit_Expr(nod), visit_Expr produces the expected output) over Any ║
+# ║ Path(visit_Expr(node), <unspecified:visit_Expr>) over {Any | hasattr(node, 'value') and hasattr(node, 'lineno')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ visit_Expr : Any → Any                                     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(node, 'value')                         ║
+# ║   requires: hasattr(node, 'lineno')                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ visit_Expr : {Any | hasattr(node, 'value') and hasatt...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3992b675a637f0e1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.tests.test_code_quality._Visit.visit_Expr","kind":"method","src_hash":"589c50e7c5b9855e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"visit_Expr(nod)","rhs":"visit_Expr produces the expected output","over":{"base":"Any"},"name":"visit_Expr_correct"},"guarantee":"visit_Expr produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tests.test_code_quality._Visit.visit_Expr_correct","statement":"Path(visit_Expr(x), visit_Expr produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3992b675a637f0e1"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.tests.test_code_quality._Visit.visit_Expr","kind":"method","src_hash":"589c50e7c5b9855e","in":{"base":"Any","pred":"hasattr(node, 'value') and hasattr(node, 'lineno')"},"out":{"base":"Any"},"spec":{"lhs":"visit_Expr(node)","rhs":"<unspecified:visit_Expr>","over":{"base":"Any","pred":"hasattr(node, 'value') and hasattr(node, 'lineno')"},"name":"visit_Expr_correct"},"guarantee":"visit_Expr produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tests.test_code_quality._Visit.visit_Expr_correct","statement":"Path(visit_Expr(x), visit_Expr produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3992b675a637f0e1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(node, 'value')","hasattr(node, 'lineno')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["node.lineno","node.value"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def visit_Expr(self, node):
         if isinstance(node.value, (ast.BinOp, ast.Compare)):
             assert None, message_bare_expr % ('', node.lineno)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(visit_With(nod), visit_With produces the expected output) over Any ║
+# ║ Path(visit_With(node), <unspecified:visit_With>) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ visit_With : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0ed0c0c542a05cae           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.tests.test_code_quality._Visit.visit_With","kind":"method","src_hash":"0cfe508fc79a9828","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"visit_With(nod)","rhs":"visit_With produces the expected output","over":{"base":"Any"},"name":"visit_With_correct"},"guarantee":"visit_With produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0ed0c0c542a05cae"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.tests.test_code_quality._Visit.visit_With","kind":"method","src_hash":"0cfe508fc79a9828","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"visit_With(node)","rhs":"<unspecified:visit_With>","over":{"base":"Any"},"name":"visit_With_correct"},"guarantee":"visit_With produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0ed0c0c542a05cae","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def visit_With(self, node):
         pass
 
@@ -278,16 +323,22 @@ BareExpr = _Visit()
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(line_with_bare_expr(cod), return none or else 0-based line number of code on which a bare expression appeared) over Any ║
+# ║ Path(line_with_bare_expr(code), int(msg.rsplit(' ', 1)[1].rstrip('.'))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  int(msg.rsplit(' ', 1)[1].rstrip('.'))         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ line_with_bare_expr : Any → {Any | msg.args and msg.s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 07e502bcf6b1060a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a2204afb523a7bda  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.tests.test_code_quality.line_with_bare_expr","kind":"function","src_hash":"c4a5db925cdfc4da","in":{"base":"Any"},"out":{"base":"Any","pred":"msg.args and msg.startswith(message_bare_expr.split(':', 1)[0])"},"spec":{"lhs":"line_with_bare_expr(cod)","rhs":"return none or else 0-based line number of code on which a bare expression appeared","over":{"base":"Any"},"name":"line_with_bare_expr_correct"},"guarantee":"return none or else 0-based line number of code on which a bare expression appeared","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tests.test_code_quality.line_with_bare_expr_correct","statement":"Path(line_with_bare_expr(x), return none or else 0-based line number of code on which a bare expression appeared)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"07e502bcf6b1060a"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.tests.test_code_quality.line_with_bare_expr","kind":"function","src_hash":"c4a5db925cdfc4da","in":{"base":"Any"},"out":{"base":"Any","pred":"msg.args and msg.startswith(message_bare_expr.split(':', 1)[0])"},"spec":{"lhs":"line_with_bare_expr(code)","rhs":"int(msg.rsplit(' ', 1)[1].rstrip('.'))","over":{"base":"Any"},"name":"line_with_bare_expr_correct"},"guarantee":"returns int(msg.rsplit(' ', 1)[1].rstrip('.'))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tests.test_code_quality.line_with_bare_expr_correct","statement":"Path(line_with_bare_expr(x), returns int(msg.rsplit(' ', 1)[1].rstrip('.')))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a2204afb523a7bda","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"int(msg.rsplit(' ', 1)[1].rstrip('.'))","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def line_with_bare_expr(code):
     """return None or else 0-based line number of code on which
     a bare expression appeared.
@@ -303,16 +354,22 @@ def line_with_bare_expr(code):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_files(), this test tests all files in sympy and checks that: o no lines contains a trailing whitespace o no lines end with) over Any ║
+# ║ Path(test_files(), <unspecified:test_files>) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_files : Any → {Any | False and False and False a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.8ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7778d1349286b43c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.tests.test_code_quality.test_files","kind":"function","src_hash":"43cdc936f498dc36","in":{"base":"Any"},"out":{"base":"Any","pred":"False and False and False and False and False and False and False and False and False and False and False and False and False"},"spec":{"lhs":"test_files()","rhs":"this test tests all files in sympy and checks that: o no lines contains a trailing whitespace o no lines end with","over":{"base":"Any"},"name":"test_files_correct"},"guarantee":"this test tests all files in sympy and checks that: o no lines contains a trailing whitespace o no lines end with","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tests.test_code_quality.test_files_correct","statement":"Path(test_files(x), this test tests all files in sympy and checks that: o no lines contains a trailing whitespace o no lines end with)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7778d1349286b43c"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.tests.test_code_quality.test_files","kind":"function","src_hash":"43cdc936f498dc36","in":{"base":"Any"},"out":{"base":"Any","pred":"False and False and False and False and False and False and False and False and False and False and False and False and False"},"spec":{"lhs":"test_files()","rhs":"<unspecified:test_files>","over":{"base":"Any"},"name":"test_files_correct"},"guarantee":"this test tests all files in sympy and checks that: o no lines contains a trailing whitespace o no lines end with","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tests.test_code_quality.test_files_correct","statement":"Path(test_files(x), this test tests all files in sympy and checks that: o no lines contains a trailing whitespace o no lines end with)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7778d1349286b43c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"io","calls_mutating":["test_file.seek","test_set.add"],"io_operations":["open","test_file.seek"]},"state_contract":{"modifies":["test_file.*","test_set.*"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"assumed","binding":true}}
 def test_files():
     """
     This test tests all files in SymPy and checks that:
@@ -440,32 +497,44 @@ def test_files():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_with_space(c), internal helper behaves correctly) over Any ║
+# ║ Path(_with_space(c), random.randint(0, 10) * ' ' + c) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  random.randint(0, 10) * ' ' + c                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _with_space : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 673959095b649091           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.tests.test_code_quality._with_space","kind":"function","src_hash":"7d460a69e9b8eb31","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_with_space(c)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_with_space_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"673959095b649091"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.tests.test_code_quality._with_space","kind":"function","src_hash":"7d460a69e9b8eb31","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_with_space(c)","rhs":"random.randint(0, 10) * ' ' + c","over":{"base":"Any"},"name":"_with_space_correct"},"guarantee":"returns random.randint(0, 10) * ' ' + c","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"673959095b649091","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"random.randint(0, 10) * ' ' + c","pure":false,"effects":{"effect_type":"nondeterministic","nondeterministic_sources":["random.randint"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _with_space(c):
     # return c with a random amount of leading space
     return random.randint(0, 10)*' ' + c
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_raise_statement_regular_expression(), test_raise_statement_regular_expression produces the expected output) over Any ║
+# ║ Path(test_raise_statement_regular_expression(), <unspecified:test_raise_statement_regular_expression>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_raise_statement_regular_expression : Any → {Any ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f1638bd54d111fb2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.tests.test_code_quality.test_raise_statement_regular_expression","kind":"function","src_hash":"cce0f59e81390ef8","in":{"base":"Any"},"out":{"base":"Any","pred":"str_raise_re.search(_with_space(c)) is None and gen_raise_re.search(_with_space(c)) is None and old_raise_re.search(_with_space(c)) is None and str_raise_re.search(_with_space(c)) is not None and gen_raise_re.search(_with_space(c)) is not None and old_raise_re.search(_with_space(c)) is not None"},"spec":{"lhs":"test_raise_statement_regular_expression()","rhs":"test_raise_statement_regular_expression produces the expected output","over":{"base":"Any"},"name":"test_raise_statement_regular_expression_correct"},"guarantee":"test_raise_statement_regular_expression produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tests.test_code_quality.test_raise_statement_regular_expression_correct","statement":"Path(test_raise_statement_regular_expression(x), test_raise_statement_regular_expression produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f1638bd54d111fb2"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.tests.test_code_quality.test_raise_statement_regular_expression","kind":"function","src_hash":"cce0f59e81390ef8","in":{"base":"Any"},"out":{"base":"Any","pred":"str_raise_re.search(_with_space(c)) is None and gen_raise_re.search(_with_space(c)) is None and old_raise_re.search(_with_space(c)) is None and str_raise_re.search(_with_space(c)) is not None and gen_raise_re.search(_with_space(c)) is not None and old_raise_re.search(_with_space(c)) is not None"},"spec":{"lhs":"test_raise_statement_regular_expression()","rhs":"<unspecified:test_raise_statement_regular_expression>","over":{"base":"Any"},"name":"test_raise_statement_regular_expression_correct"},"guarantee":"test_raise_statement_regular_expression produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tests.test_code_quality.test_raise_statement_regular_expression_correct","statement":"Path(test_raise_statement_regular_expression(x), test_raise_statement_regular_expression produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f1638bd54d111fb2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_raise_statement_regular_expression():
     candidates_ok = [
         "some text # raise Exception, 'text'",
@@ -534,16 +603,22 @@ def test_raise_statement_regular_expression():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_implicit_imports_regular_expression(), test_implicit_imports_regular_expression produces the expected output) over Any ║
+# ║ Path(test_implicit_imports_regular_expression(), <unspecified:test_implicit_imports_regular_expression>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_implicit_imports_regular_expression : Any → {Any...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b49604cdb8926104  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.tests.test_code_quality.test_implicit_imports_regular_expression","kind":"function","src_hash":"cc9c61e131f21302","in":{"base":"Any"},"out":{"base":"Any","pred":"implicit_test_re.search(_with_space(c)) is None and implicit_test_re.search(_with_space(c)) is not None"},"spec":{"lhs":"test_implicit_imports_regular_expression()","rhs":"test_implicit_imports_regular_expression produces the expected output","over":{"base":"Any"},"name":"test_implicit_imports_regular_expression_correct"},"guarantee":"test_implicit_imports_regular_expression produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tests.test_code_quality.test_implicit_imports_regular_expression_correct","statement":"Path(test_implicit_imports_regular_expression(x), test_implicit_imports_regular_expression produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b49604cdb8926104"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.tests.test_code_quality.test_implicit_imports_regular_expression","kind":"function","src_hash":"cc9c61e131f21302","in":{"base":"Any"},"out":{"base":"Any","pred":"implicit_test_re.search(_with_space(c)) is None and implicit_test_re.search(_with_space(c)) is not None"},"spec":{"lhs":"test_implicit_imports_regular_expression()","rhs":"<unspecified:test_implicit_imports_regular_expression>","over":{"base":"Any"},"name":"test_implicit_imports_regular_expression_correct"},"guarantee":"test_implicit_imports_regular_expression produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tests.test_code_quality.test_implicit_imports_regular_expression_correct","statement":"Path(test_implicit_imports_regular_expression(x), test_implicit_imports_regular_expression produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b49604cdb8926104","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_implicit_imports_regular_expression():
     candidates_ok = [
         "from sympy import something",
@@ -576,16 +651,22 @@ def test_implicit_imports_regular_expression():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_test_suite_defs(), test_test_suite_defs produces the expected output) over Any ║
+# ║ Path(test_test_suite_defs(), <unspecified:test_test_suite_defs>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_test_suite_defs : Any → {Any | test_suite_def_re...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 891191284e59aeb9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.tests.test_code_quality.test_test_suite_defs","kind":"function","src_hash":"8170f2e47d1abd0c","in":{"base":"Any"},"out":{"base":"Any","pred":"test_suite_def_re.search(c) is None and test_suite_def_re.search(c) is not None"},"spec":{"lhs":"test_test_suite_defs()","rhs":"test_test_suite_defs produces the expected output","over":{"base":"Any"},"name":"test_test_suite_defs_correct"},"guarantee":"test_test_suite_defs produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tests.test_code_quality.test_test_suite_defs_correct","statement":"Path(test_test_suite_defs(x), test_test_suite_defs produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"891191284e59aeb9"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.tests.test_code_quality.test_test_suite_defs","kind":"function","src_hash":"8170f2e47d1abd0c","in":{"base":"Any"},"out":{"base":"Any","pred":"test_suite_def_re.search(c) is None and test_suite_def_re.search(c) is not None"},"spec":{"lhs":"test_test_suite_defs()","rhs":"<unspecified:test_test_suite_defs>","over":{"base":"Any"},"name":"test_test_suite_defs_correct"},"guarantee":"test_test_suite_defs produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tests.test_code_quality.test_test_suite_defs_correct","statement":"Path(test_test_suite_defs(x), test_test_suite_defs produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"891191284e59aeb9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_test_suite_defs():
     candidates_ok = [
         "    def foo():\n",
@@ -606,16 +687,22 @@ def test_test_suite_defs():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_test_duplicate_defs(), test_test_duplicate_defs produces the expected output) over Any ║
+# ║ Path(test_test_duplicate_defs(), <unspecified:test_test_duplicate_defs>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_test_duplicate_defs : Any → {Any | check(c) == o...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2dd67c0a79c77036  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.tests.test_code_quality.test_test_duplicate_defs","kind":"function","src_hash":"3226650cf1337029","in":{"base":"Any"},"out":{"base":"Any","pred":"check(c) == ok and check(c) != ok"},"spec":{"lhs":"test_test_duplicate_defs()","rhs":"test_test_duplicate_defs produces the expected output","over":{"base":"Any"},"name":"test_test_duplicate_defs_correct"},"guarantee":"test_test_duplicate_defs produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tests.test_code_quality.test_test_duplicate_defs_correct","statement":"Path(test_test_duplicate_defs(x), test_test_duplicate_defs produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2dd67c0a79c77036"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.tests.test_code_quality.test_test_duplicate_defs","kind":"function","src_hash":"3226650cf1337029","in":{"base":"Any"},"out":{"base":"Any","pred":"check(c) == ok and check(c) != ok"},"spec":{"lhs":"test_test_duplicate_defs()","rhs":"<unspecified:test_test_duplicate_defs>","over":{"base":"Any"},"name":"test_test_duplicate_defs_correct"},"guarantee":"test_test_duplicate_defs produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tests.test_code_quality.test_test_duplicate_defs_correct","statement":"Path(test_test_duplicate_defs(x), test_test_duplicate_defs produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2dd67c0a79c77036","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_test_duplicate_defs():
     candidates_ok = [
         "def foo():\ndef foo():\n",
@@ -644,16 +731,22 @@ def test_test_duplicate_defs():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_find_self_assignments(), test_find_self_assignments produces the expected output) over Any ║
+# ║ Path(test_find_self_assignments(), <unspecified:test_find_self_assignments>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_find_self_assignments : Any → {Any | find_self_a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a8e72deaad87ffa2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.tests.test_code_quality.test_find_self_assignments","kind":"function","src_hash":"ee3064e66120d68b","in":{"base":"Any"},"out":{"base":"Any","pred":"find_self_assignments(c) == [] and find_self_assignments(c) != []"},"spec":{"lhs":"test_find_self_assignments()","rhs":"test_find_self_assignments produces the expected output","over":{"base":"Any"},"name":"test_find_self_assignments_correct"},"guarantee":"test_find_self_assignments produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tests.test_code_quality.test_find_self_assignments_correct","statement":"Path(test_find_self_assignments(x), test_find_self_assignments produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a8e72deaad87ffa2"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.tests.test_code_quality.test_find_self_assignments","kind":"function","src_hash":"ee3064e66120d68b","in":{"base":"Any"},"out":{"base":"Any","pred":"find_self_assignments(c) == [] and find_self_assignments(c) != []"},"spec":{"lhs":"test_find_self_assignments()","rhs":"<unspecified:test_find_self_assignments>","over":{"base":"Any"},"name":"test_find_self_assignments_correct"},"guarantee":"test_find_self_assignments produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tests.test_code_quality.test_find_self_assignments_correct","statement":"Path(test_find_self_assignments(x), test_find_self_assignments produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a8e72deaad87ffa2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_find_self_assignments():
     candidates_ok = [
         "class A(object):\n    def foo(self, arg): arg = self\n",
@@ -677,16 +770,22 @@ def test_find_self_assignments():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_test_unicode_encoding(), test_test_unicode_encoding produces the expected output) over Any ║
+# ║ Path(test_test_unicode_encoding(), <unspecified:test_test_unicode_encoding>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_test_unicode_encoding : Any → Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e59596bcd8367fc7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.tests.test_code_quality.test_test_unicode_encoding","kind":"function","src_hash":"24d28e35f6ba3387","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_test_unicode_encoding()","rhs":"test_test_unicode_encoding produces the expected output","over":{"base":"Any"},"name":"test_test_unicode_encoding_correct"},"guarantee":"test_test_unicode_encoding produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tests.test_code_quality.test_test_unicode_encoding_correct","statement":"Path(test_test_unicode_encoding(x), test_test_unicode_encoding produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e59596bcd8367fc7"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.tests.test_code_quality.test_test_unicode_encoding","kind":"function","src_hash":"24d28e35f6ba3387","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_test_unicode_encoding()","rhs":"<unspecified:test_test_unicode_encoding>","over":{"base":"Any"},"name":"test_test_unicode_encoding_correct"},"guarantee":"test_test_unicode_encoding produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tests.test_code_quality.test_test_unicode_encoding_correct","statement":"Path(test_test_unicode_encoding(x), test_test_unicode_encoding produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e59596bcd8367fc7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_test_unicode_encoding():
     unicode_whitelist = ['foo']
     unicode_strict_whitelist = ['bar']

@@ -30,16 +30,22 @@ from sympy.series.order import Order
 from .gruntz import gruntz
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(limit(e, ), computes the limit of ``e(z)`` at the point ``z0``) over Any ║
+# ║ Path(limit(e, z, z0), Limit(e, z, z0, dir).doit(deep=False)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Limit(e, z, z0, dir).doit(deep=False)          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ limit : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 42ace130e6ce873b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.limits.limit","kind":"function","src_hash":"47e4b7ae4c027d63","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"limit(e, )","rhs":"computes the limit of ``e(z)`` at the point ``z0``","over":{"base":"Any"},"name":"limit_correct"},"guarantee":"computes the limit of ``e(z)`` at the point ``z0``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"42ace130e6ce873b"}
+# @cctt_verify {"v":2,"sym":"sympy.series.limits.limit","kind":"function","src_hash":"47e4b7ae4c027d63","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"limit(e, z, z0)","rhs":"Limit(e, z, z0, dir).doit(deep=False)","over":{"base":"Any"},"name":"limit_correct"},"guarantee":"returns Limit(e, z, z0, dir).doit(deep=False)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"42ace130e6ce873b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Limit(e, z, z0, dir).doit(deep=False)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":true}}
 def limit(e, z, z0, dir="+"):
     """Computes the limit of ``e(z)`` at the point ``z0``.
 
@@ -95,7 +101,13 @@ def limit(e, z, z0, dir="+"):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(heuristics(e, ), computes the limit of an expression term-wise. parameters are the same as for the ``limit`` function. works with the arguments of expression ``e`` one by one, computing the limit of each and then comb) over {Any | isinstance(rv, Limit) and isinstance(e, AppliedUndef) and isinstance(e, Add)} ║
+# ║ Path(heuristics(e, z, z0), # HINT: heuristics may be idempotent: heuristics(heuristics(x)) == heuristics(x)) over {Any | isinstance(rv, Limit) and isinstance(e, AppliedUndef) and isinstance(e, Add) and hasattr(e, 'is_Mul') and hasattr(e, 'is_Add') and hasattr(e, 'is_Pow') and hasattr(e, 'args') and hasattr(e, 'subs') and hasattr(e, 'is_Function') and hasattr(e, 'func')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(e, 'is_Mul')                           ║
+# ║   requires: hasattr(e, 'is_Add')                           ║
+# ║   requires: hasattr(e, 'is_Pow')                           ║
+# ║   ensures:  # HINT: heuristics may be idempotent: heu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ heuristics : {Any | isinstance(rv, Limit) and isinsta...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -111,9 +123,12 @@ def limit(e, z, z0, dir="+"):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?5 ✗10 VCs | 26.8ms                        ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 65a0184e...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.limits.heuristics","kind":"function","src_hash":"f6d3e8f71c1d9b41","in":{"base":"Any","pred":"isinstance(rv, Limit) and isinstance(e, AppliedUndef) and isinstance(e, Add)"},"out":{"base":"Any"},"spec":{"lhs":"heuristics(e, )","rhs":"computes the limit of an expression term-wise. parameters are the same as for the ``limit`` function. works with the arguments of expression ``e`` one by one, computing the limit of each and then comb","over":{"base":"Any","pred":"isinstance(rv, Limit) and isinstance(e, AppliedUndef) and isinstance(e, Add)"},"name":"heuristics_correct"},"guarantee":"computes the limit of an expression term-wise. parameters are the same as for the ``limit`` function. works with the arguments of expression ``e`` one by one, computing the limit of each and then comb","fibers":[{"name":"Limit","pred":"isinstance(rv, Limit)","path":{"lhs":"heuristics(x)","rhs":"computes the limit of an expression term-wise. parameters are the same as for the ``limit`` function. works with the arguments of expression ``e`` one by one, computing the limit of each and then comb","over":{"base":"Limit","pred":"isinstance(rv, Limit)"},"name":"heuristics_Limit_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.limits.heuristics_Limit_correct","statement":"heuristics satisfies spec on Limit inputs"},"trust":"LIBRARY"},{"name":"AppliedUndef","pred":"isinstance(e, AppliedUndef)","path":{"lhs":"heuristics(x)","rhs":"computes the limit of an expression term-wise. parameters are the same as for the ``limit`` function. works with the arguments of expression ``e`` one by one, computing the limit of each and then comb","over":{"base":"AppliedUndef","pred":"isinstance(e, AppliedUndef)"},"name":"heuristics_AppliedUndef_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.limits.heuristics_AppliedUndef_correct","statement":"heuristics satisfies spec on AppliedUndef inputs"},"trust":"LIBRARY"},{"name":"Add","pred":"isinstance(e, Add)","path":{"lhs":"heuristics(x)","rhs":"computes the limit of an expression term-wise. parameters are the same as for the ``limit`` function. works with the arguments of expression ``e`` one by one, computing the limit of each and then comb","over":{"base":"Add","pred":"isinstance(e, Add)"},"name":"heuristics_Add_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.limits.heuristics_Add_correct","statement":"heuristics satisfies spec on Add inputs"},"trust":"LIBRARY"},{"name":"Mul","pred":"isinstance(m, Mul)","path":{"lhs":"heuristics(x)","rhs":"computes the limit of an expression term-wise. parameters are the same as for the ``limit`` function. works with the arguments of expression ``e`` one by one, computing the limit of each and then comb","over":{"base":"Mul","pred":"isinstance(m, Mul)"},"name":"heuristics_Mul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.limits.heuristics_Mul_correct","statement":"heuristics satisfies spec on Mul inputs"},"trust":"LIBRARY"},{"name":"AccumBounds","pred":"isinstance(rval, AccumBounds)","path":{"lhs":"heuristics(x)","rhs":"computes the limit of an expression term-wise. parameters are the same as for the ``limit`` function. works with the arguments of expression ``e`` one by one, computing the limit of each and then comb","over":{"base":"AccumBounds","pred":"isinstance(rval, AccumBounds)"},"name":"heuristics_AccumBounds_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.limits.heuristics_AccumBounds_correct","statement":"heuristics satisfies spec on AccumBounds inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":5,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"65a0184e6df00bb6"}
+# @cctt_verify {"v":2,"sym":"sympy.series.limits.heuristics","kind":"function","src_hash":"f6d3e8f71c1d9b41","in":{"base":"Any","pred":"isinstance(rv, Limit) and isinstance(e, AppliedUndef) and isinstance(e, Add) and hasattr(e, 'is_Mul') and hasattr(e, 'is_Add') and hasattr(e, 'is_Pow') and hasattr(e, 'args') and hasattr(e, 'subs') and hasattr(e, 'is_Function') and hasattr(e, 'func')"},"out":{"base":"Any","pred":"result satisfies: # HINT: heuristics may be idempotent: heuristics(heuristics(x)) == heuristics(x)"},"spec":{"lhs":"heuristics(e, z, z0)","rhs":"# HINT: heuristics may be idempotent: heuristics(heuristics(x)) == heuristics(x)","over":{"base":"Any","pred":"isinstance(rv, Limit) and isinstance(e, AppliedUndef) and isinstance(e, Add) and hasattr(e, 'is_Mul') and hasattr(e, 'is_Add') and hasattr(e, 'is_Pow') and hasattr(e, 'args') and hasattr(e, 'subs') and hasattr(e, 'is_Function') and hasattr(e, 'func')"},"name":"heuristics_correct"},"guarantee":"# HINT: heuristics may be idempotent: heuristics(heuristics(x)) == heuristics(x)","fibers":[{"name":"Limit","pred":"isinstance(rv, Limit)","path":{"lhs":"heuristics(x)","rhs":"# HINT: heuristics may be idempotent: heuristics(heuristics(x)) == heuristics(x)","over":{"base":"Limit","pred":"isinstance(rv, Limit)"},"name":"heuristics_Limit_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.limits.heuristics_Limit_correct","statement":"heuristics satisfies spec on Limit inputs"},"trust":"LIBRARY"},{"name":"AppliedUndef","pred":"isinstance(e, AppliedUndef)","path":{"lhs":"heuristics(x)","rhs":"# HINT: heuristics may be idempotent: heuristics(heuristics(x)) == heuristics(x)","over":{"base":"AppliedUndef","pred":"isinstance(e, AppliedUndef)"},"name":"heuristics_AppliedUndef_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.limits.heuristics_AppliedUndef_correct","statement":"heuristics satisfies spec on AppliedUndef inputs"},"trust":"LIBRARY"},{"name":"Add","pred":"isinstance(e, Add)","path":{"lhs":"heuristics(x)","rhs":"# HINT: heuristics may be idempotent: heuristics(heuristics(x)) == heuristics(x)","over":{"base":"Add","pred":"isinstance(e, Add)"},"name":"heuristics_Add_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.limits.heuristics_Add_correct","statement":"heuristics satisfies spec on Add inputs"},"trust":"LIBRARY"},{"name":"Mul","pred":"isinstance(m, Mul)","path":{"lhs":"heuristics(x)","rhs":"# HINT: heuristics may be idempotent: heuristics(heuristics(x)) == heuristics(x)","over":{"base":"Mul","pred":"isinstance(m, Mul)"},"name":"heuristics_Mul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.limits.heuristics_Mul_correct","statement":"heuristics satisfies spec on Mul inputs"},"trust":"LIBRARY"},{"name":"AccumBounds","pred":"isinstance(rval, AccumBounds)","path":{"lhs":"heuristics(x)","rhs":"# HINT: heuristics may be idempotent: heuristics(heuristics(x)) == heuristics(x)","over":{"base":"AccumBounds","pred":"isinstance(rval, AccumBounds)"},"name":"heuristics_AccumBounds_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.limits.heuristics_AccumBounds_correct","statement":"heuristics satisfies spec on AccumBounds inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":5,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"65a0184e6df00bb6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(e, 'is_Mul')","hasattr(e, 'is_Add')","hasattr(e, 'is_Pow')","hasattr(e, 'args')","hasattr(e, 'subs')","hasattr(e, 'is_Function')","hasattr(e, 'func')"],"ensures":["# HINT: heuristics may be idempotent: heuristics(heuristics(x)) == heuristics(x)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":17,"n_verified":2,"n_assumed":5,"n_failed":10,"trust_level":"LIBRARY_ASSUMED","compile_ms":26.8,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'len(e2) > 0', 'isinstance(rval, AccumBounds)', 'not isinstance(m, Mul)', 'isinstance(rv, Limit)', 'l.has(S.Infinity) and l.is_finite is None', 'isinstance(e, Add)', 'rat_e is S.NaN or rat_e == e', 'isinstance(m, Mul)', 'isinstance(l, Limit)', 'e.is_Mul or e.is_Add or e.is_Pow or (e.is_Function and (not isinstance(e, AppliedUndef)))', 'rv is S.NaN and e.is_Mul and any((isinstance(rr, AccumBounds) for rr in r))'}, fibers={'AppliedUndef', 'AccumBounds', 'Mul', 'Add', 'Limit'})"]}}
 def heuristics(e, z, z0, dir):
     """Computes the limit of an expression term-wise.
     Parameters are the same as for the ``limit`` function.
@@ -180,14 +195,20 @@ def heuristics(e, z, z0, dir):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Limit(*args), correctly constructs a Limit instance) over {Any | isinstance(dir, str) and isinstance(expr, Abs) and isinstance(expr, arg)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Expr)                         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ Limit : {Any | isinstance(dir, str) and isinstance(ex...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 2.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 276a0c96e2bdf696  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.limits.Limit","kind":"class","src_hash":"b12c0beb87f1d1a6","in":{"base":"Any","pred":"isinstance(dir, str) and isinstance(expr, Abs) and isinstance(expr, arg)"},"out":{"base":"Any"},"spec":{"lhs":"Limit(*args)","rhs":"correctly constructs a Limit instance","over":{"base":"Any","pred":"isinstance(dir, str) and isinstance(expr, Abs) and isinstance(expr, arg)"},"name":"Limit_class_invariant"},"guarantee":"correctly constructs a Limit instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"276a0c96e2bdf696"}
+# @cctt_verify {"v":2,"sym":"sympy.series.limits.Limit","kind":"class","src_hash":"b12c0beb87f1d1a6","in":{"base":"Any","pred":"isinstance(dir, str) and isinstance(expr, Abs) and isinstance(expr, arg)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Expr)"},"spec":{"lhs":"Limit(*args)","rhs":"correctly constructs a Limit instance","over":{"base":"Any","pred":"isinstance(dir, str) and isinstance(expr, Abs) and isinstance(expr, arg)"},"name":"Limit_class_invariant"},"guarantee":"isinstance(self, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"276a0c96e2bdf696","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Expr)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.0,"verdict_class":"assumed","binding":false,"binding_errors":["Function Limit not found in source"]}}
 class Limit(Expr):
     """Represents an unevaluated limit.
 
@@ -204,16 +225,24 @@ class Limit(Expr):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, e, z), <unspecified:__new__>) over {Any | not (z0.has(z)) and hasattr(z0, 'has')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (z0.has(z))                                ║
+# ║   requires: hasattr(z0, 'has')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | not (z0.has(z)) and hasattr(z0, 'has...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a7c55e84489c8067           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.limits.Limit.__new__","kind":"method","src_hash":"ba98c41a6a77edf8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a7c55e84489c8067"}
+# @cctt_verify {"v":2,"sym":"sympy.series.limits.Limit.__new__","kind":"method","src_hash":"ba98c41a6a77edf8","in":{"base":"Any","pred":"not (z0.has(z)) and hasattr(z0, 'has')"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, e, z)","rhs":"<unspecified:__new__>","over":{"base":"Any","pred":"not (z0.has(z)) and hasattr(z0, 'has')"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a7c55e84489c8067","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (z0.has(z))","hasattr(z0, 'has')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["z0.has"],"raises":["NotImplementedError","TypeError","ValueError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"],"TypeError":["isinstance(raised, TypeError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, e, z, z0, dir="+"):
         e = sympify(e)
         z = sympify(z)
@@ -243,16 +272,22 @@ class Limit(Expr):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(free_symbols(), returns the free_symbols attribute) over Any ║
+# ║ Path(free_symbols(), <unspecified:free_symbols>) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ free_symbols : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ed7da705b3700f26           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.limits.Limit.free_symbols","kind":"property","src_hash":"7483422a300bfaf8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"free_symbols()","rhs":"returns the free_symbols attribute","over":{"base":"Any"},"name":"free_symbols_correct"},"guarantee":"returns the free_symbols attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ed7da705b3700f26"}
+# @cctt_verify {"v":2,"sym":"sympy.series.limits.Limit.free_symbols","kind":"property","src_hash":"7483422a300bfaf8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"free_symbols()","rhs":"<unspecified:free_symbols>","over":{"base":"Any"},"name":"free_symbols_correct"},"guarantee":"returns the free_symbols attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ed7da705b3700f26","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def free_symbols(self):
         e = self.args[0]
         isyms = e.free_symbols
@@ -262,16 +297,24 @@ class Limit(Expr):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(pow_heuristics(e), pow_heuristics produces the expected output) over Any ║
+# ║ Path(pow_heuristics(e), <unspecified:pow_heuristics>) over {Any | hasattr(e, 'base') and hasattr(e, 'exp')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ pow_heuristics : Any → Any                                 ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(e, 'base')                             ║
+# ║   requires: hasattr(e, 'exp')                              ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ pow_heuristics : {Any | hasattr(e, 'base') and hasatt...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 07ee9143c24c4b5b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.limits.Limit.pow_heuristics","kind":"method","src_hash":"8109cbeacf8e1162","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pow_heuristics(e)","rhs":"pow_heuristics produces the expected output","over":{"base":"Any"},"name":"pow_heuristics_correct"},"guarantee":"pow_heuristics produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.limits.Limit.pow_heuristics_correct","statement":"Path(pow_heuristics(x), pow_heuristics produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"07ee9143c24c4b5b"}
+# @cctt_verify {"v":2,"sym":"sympy.series.limits.Limit.pow_heuristics","kind":"method","src_hash":"8109cbeacf8e1162","in":{"base":"Any","pred":"hasattr(e, 'base') and hasattr(e, 'exp')"},"out":{"base":"Any"},"spec":{"lhs":"pow_heuristics(e)","rhs":"<unspecified:pow_heuristics>","over":{"base":"Any","pred":"hasattr(e, 'base') and hasattr(e, 'exp')"},"name":"pow_heuristics_correct"},"guarantee":"pow_heuristics produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.limits.Limit.pow_heuristics_correct","statement":"Path(pow_heuristics(x), pow_heuristics produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"07ee9143c24c4b5b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(e, 'base')","hasattr(e, 'exp')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["e.base","e.exp","self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def pow_heuristics(self, e):
         _, z, z0, _ = self.args
         b1, e1 = e.base, e.exp
@@ -291,16 +334,23 @@ class Limit(Expr):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(doit(**h), evaluates the limit) over Any              ║
+# ║ Path(doit(**hints), <unspecified:doit>) over {Any | not (z0 is S.ComplexInfinity)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ doit : Any → Any                                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (z0 is S.ComplexInfinity)                  ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ doit : {Any | not (z0 is S.ComplexInfinity)} → Any         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bf6697bb81e19079  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.limits.Limit.doit","kind":"method","src_hash":"b5a0ec043274e17b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"doit(**h)","rhs":"evaluates the limit","over":{"base":"Any"},"name":"doit_correct"},"guarantee":"evaluates the limit","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.limits.Limit.doit_correct","statement":"Path(doit(x), evaluates the limit)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bf6697bb81e19079"}
+# @cctt_verify {"v":2,"sym":"sympy.series.limits.Limit.doit","kind":"method","src_hash":"b5a0ec043274e17b","in":{"base":"Any","pred":"not (z0 is S.ComplexInfinity)"},"out":{"base":"Any"},"spec":{"lhs":"doit(**hints)","rhs":"<unspecified:doit>","over":{"base":"Any","pred":"not (z0 is S.ComplexInfinity)"},"name":"doit_correct"},"guarantee":"evaluates the limit","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.limits.Limit.doit_correct","statement":"Path(doit(x), evaluates the limit)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bf6697bb81e19079","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (z0 is S.ComplexInfinity)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.pow_heuristics"],"raises":["NotImplementedError","PoleError","ValueError"],"catches":["NotImplementedError","ValueError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"],"PoleError":["isinstance(raised, PoleError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def doit(self, **hints):
         """Evaluates the limit.
 

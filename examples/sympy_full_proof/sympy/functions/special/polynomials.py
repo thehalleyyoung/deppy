@@ -45,45 +45,64 @@ _x = Dummy('x')
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(OrthogonalPolynomial(*args), correctly constructs a OrthogonalPolynomial instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ OrthogonalPolynomial : Any → Any                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DefinedFunction)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ OrthogonalPolynomial : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 01d3d47ce9f36a88  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.OrthogonalPolynomial","kind":"class","src_hash":"86c87e3dc48fc4c9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"OrthogonalPolynomial(*args)","rhs":"correctly constructs a OrthogonalPolynomial instance","over":{"base":"Any"},"name":"OrthogonalPolynomial_class_invariant"},"guarantee":"correctly constructs a OrthogonalPolynomial instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"01d3d47ce9f36a88"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.OrthogonalPolynomial","kind":"class","src_hash":"86c87e3dc48fc4c9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DefinedFunction)"},"spec":{"lhs":"OrthogonalPolynomial(*args)","rhs":"correctly constructs a OrthogonalPolynomial instance","over":{"base":"Any"},"name":"OrthogonalPolynomial_class_invariant"},"guarantee":"isinstance(self, DefinedFunction)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"01d3d47ce9f36a88","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DefinedFunction)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function OrthogonalPolynomial not found in source"]}}
 class OrthogonalPolynomial(DefinedFunction):
     """Base class for orthogonal polynomials.
     """
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_at_order(cls), id) over Any                     ║
+# ║ Path(_eval_at_order(cls, n, x), id) over {Any | hasattr(n, 'is_integer')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_at_order : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(n, 'is_integer')                       ║
+# ║   returns:  cls._ortho_poly(int(n), _x).subs(_x, x)        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_at_order : {Any | hasattr(n, 'is_integer')} → Any    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | b70914a4ceda8df5   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.OrthogonalPolynomial._eval_at_order","kind":"classmethod","src_hash":"40976a8c858071c3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_at_order(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_at_order_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"_ortho_poly","by":"library_axiom"},{"fn":"int","by":"library_axiom"},{"fn":"subs","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b70914a4ceda8df5"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.OrthogonalPolynomial._eval_at_order","kind":"classmethod","src_hash":"40976a8c858071c3","in":{"base":"Any","pred":"hasattr(n, 'is_integer')"},"out":{"base":"Any"},"spec":{"lhs":"_eval_at_order(cls, n, x)","rhs":"cls._ortho_poly(int(n), _x).subs(_x, x)","over":{"base":"Any","pred":"hasattr(n, 'is_integer')"},"name":"_eval_at_order_correct","kind":"composition"},"guarantee":"returns cls._ortho_poly(int(n), _x).subs(_x, x)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"_ortho_poly","by":"library_axiom"},{"fn":"int","by":"library_axiom"},{"fn":"subs","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b70914a4ceda8df5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(n, 'is_integer')"],"returns_expr":"cls._ortho_poly(int(n), _x).subs(_x, x)","pure":false,"effects":{"effect_type":"reads_state","reads":["cls._ortho_poly","n.is_integer"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_at_order(cls, n, x):
         if n.is_integer and n >= 0:
             return cls._ortho_poly(int(n), _x).subs(_x, x)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_conjugate(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_conjugate(), self.func(self.args[0], self.args[1].conjugate())) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.func(self.args[0], self.args[1].conj...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_conjugate : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 18a24ae428c30d4d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.OrthogonalPolynomial._eval_conjugate","kind":"method","src_hash":"c15a6be9906cf2e4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_conjugate()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_conjugate_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"18a24ae428c30d4d"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.OrthogonalPolynomial._eval_conjugate","kind":"method","src_hash":"c15a6be9906cf2e4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_conjugate()","rhs":"self.func(self.args[0], self.args[1].conjugate())","over":{"base":"Any"},"name":"_eval_conjugate_correct"},"guarantee":"returns self.func(self.args[0], self.args[1].conjugate())","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"18a24ae428c30d4d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.func(self.args[0], self.args[1].conjugate())","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.func"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_conjugate(self):
         return self.func(self.args[0], self.args[1].conjugate())
 
@@ -95,14 +114,20 @@ class OrthogonalPolynomial(DefinedFunction):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(jacobi(*args), correctly constructs a jacobi instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ jacobi : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, OrthogonalPolynomial)         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ jacobi : Any → {Any | result satisfies: isinstance(se...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5dee795b3d2b7a27  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.jacobi","kind":"class","src_hash":"30f45bca92464ada","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"jacobi(*args)","rhs":"correctly constructs a jacobi instance","over":{"base":"Any"},"name":"jacobi_class_invariant"},"guarantee":"correctly constructs a jacobi instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5dee795b3d2b7a27"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.jacobi","kind":"class","src_hash":"30f45bca92464ada","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, OrthogonalPolynomial)"},"spec":{"lhs":"jacobi(*args)","rhs":"correctly constructs a jacobi instance","over":{"base":"Any"},"name":"jacobi_class_invariant"},"guarantee":"isinstance(self, OrthogonalPolynomial)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5dee795b3d2b7a27","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, OrthogonalPolynomial)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function jacobi not found in source"]}}
 class jacobi(OrthogonalPolynomial):
     r"""
     Jacobi polynomial $P_n^{\left(\alpha, \beta\right)}(x)$.
@@ -186,16 +211,26 @@ class jacobi(OrthogonalPolynomial):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), id) over Any                               ║
+# ║ Path(eval(cls, n, a), id) over {Any | hasattr(n, 'is_Number') and hasattr(x, 'is_zero') and hasattr(a, 'is_zero') and hasattr(x, 'could_extract_minus_sign') and hasattr(n, 'is_positive')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(n, 'is_Number')                        ║
+# ║   requires: hasattr(x, 'is_zero')                          ║
+# ║   requires: hasattr(a, 'is_zero')                          ║
+# ║   fiber[case_0]: a == b                                    ║
+# ║   fiber[case_1]: b == -a => gamma(n + a + 1) / gamma(...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : {Any | hasattr(n, 'is_Number') and hasattr(x, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | ee2f227b7dcd2f93   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.jacobi.eval","kind":"classmethod","src_hash":"f978deece0ed6a14","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct","kind":"composition"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"RisingFactorial","by":"library_axiom"},{"fn":"factorial","by":"library_axiom"},{"fn":"chebyshevt","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ee2f227b7dcd2f93"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.jacobi.eval","kind":"classmethod","src_hash":"f978deece0ed6a14","in":{"base":"Any","pred":"hasattr(n, 'is_Number') and hasattr(x, 'is_zero') and hasattr(a, 'is_zero') and hasattr(x, 'could_extract_minus_sign') and hasattr(n, 'is_positive')"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls, n, a)","rhs":"<unspecified:eval>","over":{"base":"Any","pred":"hasattr(n, 'is_Number') and hasattr(x, 'is_zero') and hasattr(a, 'is_zero') and hasattr(x, 'could_extract_minus_sign') and hasattr(n, 'is_positive')"},"name":"eval_correct","kind":"composition"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"RisingFactorial","by":"library_axiom"},{"fn":"factorial","by":"library_axiom"},{"fn":"chebyshevt","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ee2f227b7dcd2f93","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(n, 'is_Number')","hasattr(x, 'is_zero')","hasattr(a, 'is_zero')","hasattr(x, 'could_extract_minus_sign')","hasattr(n, 'is_positive')"],"fibers":[{"name":"case_0","guard":"a == b","ensures":[],"decidability":"z3"},{"name":"case_1","guard":"b == -a","ensures":["result == gamma(n + a + 1) / gamma(n + 1) * (1 + x) ** (a / 2) / (1 - x) ** (a / 2) * assoc_legendre(n, -a, x)"],"decidability":"z3","returns_expr":"gamma(n + a + 1) / gamma(n + 1) * (1 + x) ** (a / 2) / (1 - x) ** (a / 2) * assoc_legendre(n, -a, x)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["a.is_zero","n.is_Number","n.is_positive","x.could_extract_minus_sign","x.is_zero"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, n, a, b, x):
         # Simplify to other polynomials
         # P^{a, a}_n(x)
@@ -234,16 +269,25 @@ class jacobi(OrthogonalPolynomial):
             return jacobi_poly(n, a, b, x)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(fdiff(arg), id) over Any                              ║
+# ║ Path(fdiff(argindex), id) over {Any | not (argindex == 1)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ fdiff : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (argindex == 1)                            ║
+# ║   fiber[case_0]: argindex == 1                             ║
+# ║   fiber[case_1]: argindex == 2 => Sum(f1 * (jacobi(n,...   ║
+# ║   fiber[case_2]: argindex == 3 => Sum(f1 * (jacobi(n,...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ fdiff : {Any | not (argindex == 1)} → Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 12deedeb6be30202   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.jacobi.fdiff","kind":"method","src_hash":"89e60fdee23cc2d6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(arg)","rhs":"fdiff produces the expected output","over":{"base":"Any"},"name":"fdiff_correct","kind":"composition"},"guarantee":"fdiff produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Sum","by":"library_axiom"},{"fn":"jacobi","by":"library_axiom"},{"fn":"jacobi","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"12deedeb6be30202"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.jacobi.fdiff","kind":"method","src_hash":"89e60fdee23cc2d6","in":{"base":"Any","pred":"not (argindex == 1)"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(argindex)","rhs":"<unspecified:fdiff>","over":{"base":"Any","pred":"not (argindex == 1)"},"name":"fdiff_correct","kind":"composition"},"guarantee":"5-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Sum","by":"library_axiom"},{"fn":"jacobi","by":"library_axiom"},{"fn":"jacobi","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"12deedeb6be30202","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (argindex == 1)"],"fibers":[{"name":"case_0","guard":"argindex == 1","ensures":[],"decidability":"z3"},{"name":"case_1","guard":"argindex == 2","ensures":["result == Sum(f1 * (jacobi(n, a, b, x) + f2 * jacobi(k, a, b, x)), (k, 0, n - 1))"],"decidability":"z3","returns_expr":"Sum(f1 * (jacobi(n, a, b, x) + f2 * jacobi(k, a, b, x)), (k, 0, n - 1))"},{"name":"case_2","guard":"argindex == 3","ensures":["result == Sum(f1 * (jacobi(n, a, b, x) + f2 * jacobi(k, a, b, x)), (k, 0, n - 1))"],"decidability":"z3","returns_expr":"Sum(f1 * (jacobi(n, a, b, x) + f2 * jacobi(k, a, b, x)), (k, 0, n - 1))"},{"name":"case_3","guard":"argindex == 4","ensures":["result == S.Half * (a + b + n + 1) * jacobi(n - 1, a + 1, b + 1, x)"],"decidability":"z3","returns_expr":"S.Half * (a + b + n + 1) * jacobi(n - 1, a + 1, b + 1, x)"},{"name":"case_4","guard":"not (argindex == 1) and not (argindex == 2) and not (argindex == 3) and not (argindex == 4)","ensures":[],"decidability":"z3"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"],"raises":["ArgumentIndexError"]},"state_contract":{"exceptional_post":{"ArgumentIndexError":["isinstance(raised, ArgumentIndexError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def fdiff(self, argindex=4):
         from sympy.concrete.summations import Sum
         if argindex == 1:
@@ -273,16 +317,25 @@ class jacobi(OrthogonalPolynomial):
             raise ArgumentIndexError(self, argindex)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_Sum(n, ), id) over Any               ║
+# ║ Path(_eval_rewrite_as_Sum(n, a, b), id) over {Any | not (n.is_negative or n.is_integer is False) and hasattr(n, 'is_negative') and hasattr(n, 'is_integer')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_rewrite_as_Sum : Any → Any                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (n.is_negative or n.is_integer is False)   ║
+# ║   requires: hasattr(n, 'is_negative')                      ║
+# ║   requires: hasattr(n, 'is_integer')                       ║
+# ║   returns:  1 / factorial(n) * Sum(kern, (k, 0, n))        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_rewrite_as_Sum : {Any | not (n.is_negative or n...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 318f97de8eee1977   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.jacobi._eval_rewrite_as_Sum","kind":"method","src_hash":"9715db742922c07e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_Sum(n, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_Sum_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"factorial","by":"library_axiom"},{"fn":"Sum","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"318f97de8eee1977"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.jacobi._eval_rewrite_as_Sum","kind":"method","src_hash":"9715db742922c07e","in":{"base":"Any","pred":"not (n.is_negative or n.is_integer is False) and hasattr(n, 'is_negative') and hasattr(n, 'is_integer')"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_Sum(n, a, b)","rhs":"1 / factorial(n) * Sum(kern, (k, 0, n))","over":{"base":"Any","pred":"not (n.is_negative or n.is_integer is False) and hasattr(n, 'is_negative') and hasattr(n, 'is_integer')"},"name":"_eval_rewrite_as_Sum_correct","kind":"composition"},"guarantee":"returns 1 / factorial(n) * Sum(kern, (k, 0, n))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"factorial","by":"library_axiom"},{"fn":"Sum","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"318f97de8eee1977","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (n.is_negative or n.is_integer is False)","hasattr(n, 'is_negative')","hasattr(n, 'is_integer')"],"returns_expr":"1 / factorial(n) * Sum(kern, (k, 0, n))","pure":false,"effects":{"effect_type":"reads_state","reads":["n.is_integer","n.is_negative"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_Sum(self, n, a, b, x, **kwargs):
         from sympy.concrete.summations import Sum
         # Make sure n \in N
@@ -294,16 +347,22 @@ class jacobi(OrthogonalPolynomial):
         return 1 / factorial(n) * Sum(kern, (k, 0, n))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_polynomial(n, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_polynomial(n, a, b), self._eval_rewrite_as_Sum(n, a, b, x, **kwargs)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._eval_rewrite_as_Sum(n, a, b, x, **k...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_polynomial : Any → Any                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b1e134d52ea5cbe6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.jacobi._eval_rewrite_as_polynomial","kind":"method","src_hash":"645e597ac69702c9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_polynomial(n, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_polynomial_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b1e134d52ea5cbe6"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.jacobi._eval_rewrite_as_polynomial","kind":"method","src_hash":"645e597ac69702c9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_polynomial(n, a, b)","rhs":"self._eval_rewrite_as_Sum(n, a, b, x, **kwargs)","over":{"base":"Any"},"name":"_eval_rewrite_as_polynomial_correct"},"guarantee":"returns self._eval_rewrite_as_Sum(n, a, b, x, **kwargs)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b1e134d52ea5cbe6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._eval_rewrite_as_Sum(n, a, b, x, **kwargs)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._eval_rewrite_as_Sum"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_polynomial(self, n, a, b, x, **kwargs):
         # This function is just kept for backwards compatibility
         # but should not be used
@@ -312,30 +371,42 @@ class jacobi(OrthogonalPolynomial):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(_eval_conjugate(), id) over Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.func(n, a.conjugate(), b.conjugate()...   ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_conjugate : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 0f5afc53421e11a7   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.jacobi._eval_conjugate","kind":"method","src_hash":"0bda9b4b031113d9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_conjugate()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_conjugate_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"func","by":"library_axiom"},{"fn":"conjugate","by":"library_axiom"},{"fn":"conjugate","by":"library_axiom"},{"fn":"conjugate","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0f5afc53421e11a7"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.jacobi._eval_conjugate","kind":"method","src_hash":"0bda9b4b031113d9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_conjugate()","rhs":"self.func(n, a.conjugate(), b.conjugate(), x.conjugate())","over":{"base":"Any"},"name":"_eval_conjugate_correct","kind":"composition"},"guarantee":"returns self.func(n, a.conjugate(), b.conjugate(), x.conjugate())","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"func","by":"library_axiom"},{"fn":"conjugate","by":"library_axiom"},{"fn":"conjugate","by":"library_axiom"},{"fn":"conjugate","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0f5afc53421e11a7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.func(n, a.conjugate(), b.conjugate(), x.conjugate())","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.func"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_conjugate(self):
         n, a, b, x = self.args
         return self.func(n, a.conjugate(), b.conjugate(), x.conjugate())
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(jacobi_normalized(n, ), id) over Any                  ║
+# ║ Path(jacobi_normalized(n, a, b), id) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  jacobi(n, a, b, x) / sqrt(nfactor)             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ jacobi_normalized : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 5afdc586ddb04870   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.jacobi_normalized","kind":"function","src_hash":"f4c81f43661c6428","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"jacobi_normalized(n, )","rhs":"jacobi polynomial $p_n^{\\left(\\alpha, \\beta\\right)}(x)$","over":{"base":"Any"},"name":"jacobi_normalized_correct","kind":"composition"},"guarantee":"jacobi polynomial $p_n^{\\left(\\alpha, \\beta\\right)}(x)$","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"jacobi","by":"library_axiom"},{"fn":"sqrt","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5afdc586ddb04870"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.jacobi_normalized","kind":"function","src_hash":"f4c81f43661c6428","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"jacobi_normalized(n, a, b)","rhs":"jacobi(n, a, b, x) / sqrt(nfactor)","over":{"base":"Any"},"name":"jacobi_normalized_correct","kind":"composition"},"guarantee":"returns jacobi(n, a, b, x) / sqrt(nfactor)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"jacobi","by":"library_axiom"},{"fn":"sqrt","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5afdc586ddb04870","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"jacobi(n, a, b, x) / sqrt(nfactor)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def jacobi_normalized(n, a, b, x):
     r"""
     Jacobi polynomial $P_n^{\left(\alpha, \beta\right)}(x)$.
@@ -417,14 +488,20 @@ def jacobi_normalized(n, a, b, x):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(gegenbauer(*args), correctly constructs a gegenbauer instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ gegenbauer : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, OrthogonalPolynomial)         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ gegenbauer : Any → {Any | result satisfies: isinstanc...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.8ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dadedf8a62fc70f0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.gegenbauer","kind":"class","src_hash":"b569248319cbc5b0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gegenbauer(*args)","rhs":"correctly constructs a gegenbauer instance","over":{"base":"Any"},"name":"gegenbauer_class_invariant"},"guarantee":"correctly constructs a gegenbauer instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dadedf8a62fc70f0"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.gegenbauer","kind":"class","src_hash":"b569248319cbc5b0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, OrthogonalPolynomial)"},"spec":{"lhs":"gegenbauer(*args)","rhs":"correctly constructs a gegenbauer instance","over":{"base":"Any"},"name":"gegenbauer_class_invariant"},"guarantee":"isinstance(self, OrthogonalPolynomial)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dadedf8a62fc70f0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, OrthogonalPolynomial)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"assumed","binding":false,"binding_errors":["Function gegenbauer not found in source"]}}
 class gegenbauer(OrthogonalPolynomial):
     r"""
     Gegenbauer polynomial $C_n^{\left(\alpha\right)}(x)$.
@@ -496,16 +573,25 @@ class gegenbauer(OrthogonalPolynomial):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), eval produces the expected output) over Any ║
+# ║ Path(eval(cls, n, a), <unspecified:eval>) over {Any | hasattr(n, 'is_negative') and hasattr(n, 'is_Number') and hasattr(x, 'is_zero') and hasattr(x, 'could_extract_minus_sign') and hasattr(n, 'is_positive')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Any                                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(n, 'is_negative')                      ║
+# ║   requires: hasattr(n, 'is_Number')                        ║
+# ║   requires: hasattr(x, 'is_zero')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : {Any | hasattr(n, 'is_negative') and hasattr(n...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4b6604cf223c5818  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.gegenbauer.eval","kind":"classmethod","src_hash":"14a402451aab4d59","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.polynomials.gegenbauer.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4b6604cf223c5818"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.gegenbauer.eval","kind":"classmethod","src_hash":"14a402451aab4d59","in":{"base":"Any","pred":"hasattr(n, 'is_negative') and hasattr(n, 'is_Number') and hasattr(x, 'is_zero') and hasattr(x, 'could_extract_minus_sign') and hasattr(n, 'is_positive')"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls, n, a)","rhs":"<unspecified:eval>","over":{"base":"Any","pred":"hasattr(n, 'is_negative') and hasattr(n, 'is_Number') and hasattr(x, 'is_zero') and hasattr(x, 'could_extract_minus_sign') and hasattr(n, 'is_positive')"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.polynomials.gegenbauer.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4b6604cf223c5818","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(n, 'is_negative')","hasattr(n, 'is_Number')","hasattr(x, 'is_zero')","hasattr(x, 'could_extract_minus_sign')","hasattr(n, 'is_positive')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["n.is_Number","n.is_negative","n.is_positive","x.could_extract_minus_sign","x.is_zero"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, n, a, x):
         # For negative n the polynomials vanish
         # See https://functions.wolfram.com/Polynomials/GegenbauerC3/03/01/03/0012/
@@ -547,16 +633,25 @@ class gegenbauer(OrthogonalPolynomial):
             return gegenbauer_poly(n, a, x)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(fdiff(arg), fdiff produces the expected output) over Any ║
+# ║ Path(fdiff(argindex), <unspecified:fdiff>) over {Any | not (argindex == 1)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ fdiff : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (argindex == 1)                            ║
+# ║   fiber[case_0]: argindex == 1                             ║
+# ║   fiber[case_1]: argindex == 2 => Sum(kern, (k, 0, n ...   ║
+# ║   fiber[case_2]: argindex == 3 => 2 * a * gegenbauer(...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ fdiff : {Any | not (argindex == 1)} → Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b376a7b3be3da172  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a07d12b7e2fe2cf8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.gegenbauer.fdiff","kind":"method","src_hash":"68e19997c67fc4b5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(arg)","rhs":"fdiff produces the expected output","over":{"base":"Any"},"name":"fdiff_correct"},"guarantee":"fdiff produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.polynomials.gegenbauer.fdiff_correct","statement":"Path(fdiff(x), fdiff produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b376a7b3be3da172"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.gegenbauer.fdiff","kind":"method","src_hash":"68e19997c67fc4b5","in":{"base":"Any","pred":"not (argindex == 1)"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(argindex)","rhs":"<unspecified:fdiff>","over":{"base":"Any","pred":"not (argindex == 1)"},"name":"fdiff_correct"},"guarantee":"4-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.polynomials.gegenbauer.fdiff_correct","statement":"Path(fdiff(x), 4-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a07d12b7e2fe2cf8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (argindex == 1)"],"fibers":[{"name":"case_0","guard":"argindex == 1","ensures":[],"decidability":"z3"},{"name":"case_1","guard":"argindex == 2","ensures":["result == Sum(kern, (k, 0, n - 1))"],"decidability":"z3","returns_expr":"Sum(kern, (k, 0, n - 1))"},{"name":"case_2","guard":"argindex == 3","ensures":["result == 2 * a * gegenbauer(n - 1, a + 1, x)"],"decidability":"z3","returns_expr":"2 * a * gegenbauer(n - 1, a + 1, x)"},{"name":"case_3","guard":"not (argindex == 1) and not (argindex == 2) and not (argindex == 3)","ensures":[],"decidability":"z3"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"],"raises":["ArgumentIndexError"]},"state_contract":{"exceptional_post":{"ArgumentIndexError":["isinstance(raised, ArgumentIndexError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def fdiff(self, argindex=3):
         from sympy.concrete.summations import Sum
         if argindex == 1:
@@ -580,16 +675,22 @@ class gegenbauer(OrthogonalPolynomial):
             raise ArgumentIndexError(self, argindex)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_Sum(n, ), id) over Any               ║
+# ║ Path(_eval_rewrite_as_Sum(n, a, x), id) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Sum(kern, (k, 0, floor(n / 2)))                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_Sum : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | ab245c60ecd6ff5b   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.gegenbauer._eval_rewrite_as_Sum","kind":"method","src_hash":"9b477ed1b1bd6c8b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_Sum(n, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_Sum_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Sum","by":"library_axiom"},{"fn":"floor","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ab245c60ecd6ff5b"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.gegenbauer._eval_rewrite_as_Sum","kind":"method","src_hash":"9b477ed1b1bd6c8b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_Sum(n, a, x)","rhs":"Sum(kern, (k, 0, floor(n / 2)))","over":{"base":"Any"},"name":"_eval_rewrite_as_Sum_correct","kind":"composition"},"guarantee":"returns Sum(kern, (k, 0, floor(n / 2)))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Sum","by":"library_axiom"},{"fn":"floor","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ab245c60ecd6ff5b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Sum(kern, (k, 0, floor(n / 2)))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_Sum(self, n, a, x, **kwargs):
         from sympy.concrete.summations import Sum
         k = Dummy("k")
@@ -598,16 +699,22 @@ class gegenbauer(OrthogonalPolynomial):
         return Sum(kern, (k, 0, floor(n/2)))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_polynomial(n, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_polynomial(n, a, x), self._eval_rewrite_as_Sum(n, a, x, **kwargs)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._eval_rewrite_as_Sum(n, a, x, **kwargs)   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_polynomial : Any → Any                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6c65a196ffcb745f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.gegenbauer._eval_rewrite_as_polynomial","kind":"method","src_hash":"b15f126003c2a09f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_polynomial(n, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_polynomial_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6c65a196ffcb745f"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.gegenbauer._eval_rewrite_as_polynomial","kind":"method","src_hash":"b15f126003c2a09f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_polynomial(n, a, x)","rhs":"self._eval_rewrite_as_Sum(n, a, x, **kwargs)","over":{"base":"Any"},"name":"_eval_rewrite_as_polynomial_correct"},"guarantee":"returns self._eval_rewrite_as_Sum(n, a, x, **kwargs)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6c65a196ffcb745f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._eval_rewrite_as_Sum(n, a, x, **kwargs)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._eval_rewrite_as_Sum"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_polynomial(self, n, a, x, **kwargs):
         # This function is just kept for backwards compatibility
         # but should not be used
@@ -616,14 +723,20 @@ class gegenbauer(OrthogonalPolynomial):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(_eval_conjugate(), id) over Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.func(n, a.conjugate(), x.conjugate())     ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_conjugate : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 02403b77c1218eaa   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.gegenbauer._eval_conjugate","kind":"method","src_hash":"67fa30a10833b5f2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_conjugate()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_conjugate_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"func","by":"library_axiom"},{"fn":"conjugate","by":"library_axiom"},{"fn":"conjugate","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"02403b77c1218eaa"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.gegenbauer._eval_conjugate","kind":"method","src_hash":"67fa30a10833b5f2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_conjugate()","rhs":"self.func(n, a.conjugate(), x.conjugate())","over":{"base":"Any"},"name":"_eval_conjugate_correct","kind":"composition"},"guarantee":"returns self.func(n, a.conjugate(), x.conjugate())","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"func","by":"library_axiom"},{"fn":"conjugate","by":"library_axiom"},{"fn":"conjugate","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"02403b77c1218eaa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.func(n, a.conjugate(), x.conjugate())","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.func"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_conjugate(self):
         n, a, x = self.args
         return self.func(n, a.conjugate(), x.conjugate())
@@ -636,14 +749,20 @@ class gegenbauer(OrthogonalPolynomial):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(chebyshevt(*args), correctly constructs a chebyshevt instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ chebyshevt : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, OrthogonalPolynomial)         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ chebyshevt : Any → {Any | result satisfies: isinstanc...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2e66a1da2730caf3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.chebyshevt","kind":"class","src_hash":"6baf0d8165fdbd46","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"chebyshevt(*args)","rhs":"correctly constructs a chebyshevt instance","over":{"base":"Any"},"name":"chebyshevt_class_invariant"},"guarantee":"correctly constructs a chebyshevt instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2e66a1da2730caf3"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.chebyshevt","kind":"class","src_hash":"6baf0d8165fdbd46","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, OrthogonalPolynomial)"},"spec":{"lhs":"chebyshevt(*args)","rhs":"correctly constructs a chebyshevt instance","over":{"base":"Any"},"name":"chebyshevt_class_invariant"},"guarantee":"isinstance(self, OrthogonalPolynomial)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2e66a1da2730caf3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, OrthogonalPolynomial)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function chebyshevt not found in source"]}}
 class chebyshevt(OrthogonalPolynomial):
     r"""
     Chebyshev polynomial of the first kind, $T_n(x)$.
@@ -716,16 +835,27 @@ class chebyshevt(OrthogonalPolynomial):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), eval produces the expected output) over Any ║
+# ║ Path(eval(cls, n, x), <unspecified:eval>) over {Any | hasattr(n, 'is_Number') and hasattr(x, 'is_zero') and hasattr(n, 'is_negative') and hasattr(x, 'could_extract_minus_sign') and hasattr(n, 'could_extract_minus_sign')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(n, 'is_Number')                        ║
+# ║   requires: hasattr(x, 'is_zero')                          ║
+# ║   requires: hasattr(n, 'is_negative')                      ║
+# ║   fiber[case_0]: not n.is_Number                           ║
+# ║   fiber[case_1]: n.is_negative => cls._eval_at_order(...   ║
+# ║   fiber[case_2]: not (not n.is_Number) and not (n.is_...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : {Any | hasattr(n, 'is_Number') and hasattr(x, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fee8ad71c52c18db  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 130fa80c6376b44f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.chebyshevt.eval","kind":"classmethod","src_hash":"782bb4ba2d228e09","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.polynomials.chebyshevt.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fee8ad71c52c18db"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.chebyshevt.eval","kind":"classmethod","src_hash":"782bb4ba2d228e09","in":{"base":"Any","pred":"hasattr(n, 'is_Number') and hasattr(x, 'is_zero') and hasattr(n, 'is_negative') and hasattr(x, 'could_extract_minus_sign') and hasattr(n, 'could_extract_minus_sign')"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls, n, x)","rhs":"<unspecified:eval>","over":{"base":"Any","pred":"hasattr(n, 'is_Number') and hasattr(x, 'is_zero') and hasattr(n, 'is_negative') and hasattr(x, 'could_extract_minus_sign') and hasattr(n, 'could_extract_minus_sign')"},"name":"eval_correct"},"guarantee":"3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.polynomials.chebyshevt.eval_correct","statement":"Path(eval(x), 3-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"130fa80c6376b44f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(n, 'is_Number')","hasattr(x, 'is_zero')","hasattr(n, 'is_negative')","hasattr(x, 'could_extract_minus_sign')","hasattr(n, 'could_extract_minus_sign')"],"fibers":[{"name":"case_0","guard":"not n.is_Number","ensures":[],"decidability":"library"},{"name":"case_1","guard":"n.is_negative","ensures":["result == cls._eval_at_order(-n, x)"],"decidability":"library","returns_expr":"cls._eval_at_order(-n, x)"},{"name":"case_2","guard":"not (not n.is_Number) and not (n.is_negative)","ensures":["result == cls._eval_at_order(n, x)"],"decidability":"library","returns_expr":"cls._eval_at_order(n, x)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["cls._eval_at_order","n.could_extract_minus_sign","n.is_Number","n.is_negative","x.could_extract_minus_sign","x.is_zero"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, n, x):
         if not n.is_Number:
             # Symbolic result T_n(x)
@@ -751,16 +881,25 @@ class chebyshevt(OrthogonalPolynomial):
                 return cls._eval_at_order(n, x)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(fdiff(arg), fdiff produces the expected output) over Any ║
+# ║ Path(fdiff(argindex), <unspecified:fdiff>) over {Any | not (argindex == 1)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ fdiff : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (argindex == 1)                            ║
+# ║   fiber[case_0]: argindex == 1                             ║
+# ║   fiber[case_1]: argindex == 2 => n * chebyshevu(n - ...   ║
+# ║   fiber[case_2]: not (argindex == 1) and not (arginde...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ fdiff : {Any | not (argindex == 1)} → Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 468674aa3613a666  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7991e6198ec3cad5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.chebyshevt.fdiff","kind":"method","src_hash":"541e5cce69c64ff2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(arg)","rhs":"fdiff produces the expected output","over":{"base":"Any"},"name":"fdiff_correct"},"guarantee":"fdiff produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.polynomials.chebyshevt.fdiff_correct","statement":"Path(fdiff(x), fdiff produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"468674aa3613a666"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.chebyshevt.fdiff","kind":"method","src_hash":"541e5cce69c64ff2","in":{"base":"Any","pred":"not (argindex == 1)"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(argindex)","rhs":"<unspecified:fdiff>","over":{"base":"Any","pred":"not (argindex == 1)"},"name":"fdiff_correct"},"guarantee":"3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.polynomials.chebyshevt.fdiff_correct","statement":"Path(fdiff(x), 3-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7991e6198ec3cad5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (argindex == 1)"],"fibers":[{"name":"case_0","guard":"argindex == 1","ensures":[],"decidability":"z3"},{"name":"case_1","guard":"argindex == 2","ensures":["result == n * chebyshevu(n - 1, x)"],"decidability":"z3","returns_expr":"n * chebyshevu(n - 1, x)"},{"name":"case_2","guard":"not (argindex == 1) and not (argindex == 2)","ensures":[],"decidability":"z3"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"],"raises":["ArgumentIndexError"]},"state_contract":{"exceptional_post":{"ArgumentIndexError":["isinstance(raised, ArgumentIndexError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def fdiff(self, argindex=2):
         if argindex == 1:
             # Diff wrt n
@@ -773,16 +912,22 @@ class chebyshevt(OrthogonalPolynomial):
             raise ArgumentIndexError(self, argindex)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_Sum(n, ), id) over Any               ║
+# ║ Path(_eval_rewrite_as_Sum(n, x, **kwargs), id) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Sum(kern, (k, 0, floor(n / 2)))                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_Sum : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | fdacfeecf782650c   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.chebyshevt._eval_rewrite_as_Sum","kind":"method","src_hash":"c44ad025b3f67859","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_Sum(n, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_Sum_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Sum","by":"library_axiom"},{"fn":"floor","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fdacfeecf782650c"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.chebyshevt._eval_rewrite_as_Sum","kind":"method","src_hash":"c44ad025b3f67859","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_Sum(n, x, **kwargs)","rhs":"Sum(kern, (k, 0, floor(n / 2)))","over":{"base":"Any"},"name":"_eval_rewrite_as_Sum_correct","kind":"composition"},"guarantee":"returns Sum(kern, (k, 0, floor(n / 2)))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Sum","by":"library_axiom"},{"fn":"floor","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fdacfeecf782650c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Sum(kern, (k, 0, floor(n / 2)))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_Sum(self, n, x, **kwargs):
         from sympy.concrete.summations import Sum
         k = Dummy("k")
@@ -790,16 +935,22 @@ class chebyshevt(OrthogonalPolynomial):
         return Sum(kern, (k, 0, floor(n/2)))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_polynomial(n, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_polynomial(n, x, **kwargs), self._eval_rewrite_as_Sum(n, x, **kwargs)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._eval_rewrite_as_Sum(n, x, **kwargs)      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_polynomial : Any → Any                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 51eae026d7fdab27           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.chebyshevt._eval_rewrite_as_polynomial","kind":"method","src_hash":"4bbc17b6c6f06fea","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_polynomial(n, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_polynomial_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"51eae026d7fdab27"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.chebyshevt._eval_rewrite_as_polynomial","kind":"method","src_hash":"4bbc17b6c6f06fea","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_polynomial(n, x, **kwargs)","rhs":"self._eval_rewrite_as_Sum(n, x, **kwargs)","over":{"base":"Any"},"name":"_eval_rewrite_as_polynomial_correct"},"guarantee":"returns self._eval_rewrite_as_Sum(n, x, **kwargs)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"51eae026d7fdab27","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._eval_rewrite_as_Sum(n, x, **kwargs)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._eval_rewrite_as_Sum"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_polynomial(self, n, x, **kwargs):
         # This function is just kept for backwards compatibility
         # but should not be used
@@ -809,14 +960,20 @@ class chebyshevt(OrthogonalPolynomial):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(chebyshevu(*args), correctly constructs a chebyshevu instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ chebyshevu : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, OrthogonalPolynomial)         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ chebyshevu : Any → {Any | result satisfies: isinstanc...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8ce81ad216b0b714  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.chebyshevu","kind":"class","src_hash":"e6823574e5fc7fe2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"chebyshevu(*args)","rhs":"correctly constructs a chebyshevu instance","over":{"base":"Any"},"name":"chebyshevu_class_invariant"},"guarantee":"correctly constructs a chebyshevu instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8ce81ad216b0b714"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.chebyshevu","kind":"class","src_hash":"e6823574e5fc7fe2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, OrthogonalPolynomial)"},"spec":{"lhs":"chebyshevu(*args)","rhs":"correctly constructs a chebyshevu instance","over":{"base":"Any"},"name":"chebyshevu_class_invariant"},"guarantee":"isinstance(self, OrthogonalPolynomial)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8ce81ad216b0b714","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, OrthogonalPolynomial)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":false,"binding_errors":["Function chebyshevu not found in source"]}}
 class chebyshevu(OrthogonalPolynomial):
     r"""
     Chebyshev polynomial of the second kind, $U_n(x)$.
@@ -889,16 +1046,27 @@ class chebyshevu(OrthogonalPolynomial):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), eval produces the expected output) over Any ║
+# ║ Path(eval(cls, n, x), <unspecified:eval>) over {Any | hasattr(n, 'is_Number') and hasattr(x, 'is_zero') and hasattr(n, 'is_negative') and hasattr(x, 'could_extract_minus_sign') and hasattr(n, 'could_extract_minus_sign')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(n, 'is_Number')                        ║
+# ║   requires: hasattr(x, 'is_zero')                          ║
+# ║   requires: hasattr(n, 'is_negative')                      ║
+# ║   fiber[case_0]: not n.is_Number                           ║
+# ║   fiber[case_1]: n.is_negative                             ║
+# ║   fiber[case_2]: not (not n.is_Number) and not (n.is_...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : {Any | hasattr(n, 'is_Number') and hasattr(x, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 055b16983e7c4327  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7e90683aa5c7beed  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.chebyshevu.eval","kind":"classmethod","src_hash":"77102e49d52ce3e3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.polynomials.chebyshevu.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"055b16983e7c4327"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.chebyshevu.eval","kind":"classmethod","src_hash":"77102e49d52ce3e3","in":{"base":"Any","pred":"hasattr(n, 'is_Number') and hasattr(x, 'is_zero') and hasattr(n, 'is_negative') and hasattr(x, 'could_extract_minus_sign') and hasattr(n, 'could_extract_minus_sign')"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls, n, x)","rhs":"<unspecified:eval>","over":{"base":"Any","pred":"hasattr(n, 'is_Number') and hasattr(x, 'is_zero') and hasattr(n, 'is_negative') and hasattr(x, 'could_extract_minus_sign') and hasattr(n, 'could_extract_minus_sign')"},"name":"eval_correct"},"guarantee":"3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.polynomials.chebyshevu.eval_correct","statement":"Path(eval(x), 3-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7e90683aa5c7beed","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(n, 'is_Number')","hasattr(x, 'is_zero')","hasattr(n, 'is_negative')","hasattr(x, 'could_extract_minus_sign')","hasattr(n, 'could_extract_minus_sign')"],"fibers":[{"name":"case_0","guard":"not n.is_Number","ensures":[],"decidability":"library"},{"name":"case_1","guard":"n.is_negative","ensures":[],"decidability":"library"},{"name":"case_2","guard":"not (not n.is_Number) and not (n.is_negative)","ensures":["result == cls._eval_at_order(n, x)"],"decidability":"library","returns_expr":"cls._eval_at_order(n, x)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["cls._eval_at_order","n.could_extract_minus_sign","n.is_Number","n.is_negative","x.could_extract_minus_sign","x.is_zero"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, n, x):
         if not n.is_Number:
             # Symbolic result U_n(x)
@@ -931,16 +1099,25 @@ class chebyshevu(OrthogonalPolynomial):
                 return cls._eval_at_order(n, x)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(fdiff(arg), id) over Any                              ║
+# ║ Path(fdiff(argindex), id) over {Any | not (argindex == 1)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ fdiff : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (argindex == 1)                            ║
+# ║   fiber[case_0]: argindex == 1                             ║
+# ║   fiber[case_1]: argindex == 2 => ((n + 1) * chebyshe...   ║
+# ║   fiber[case_2]: not (argindex == 1) and not (arginde...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ fdiff : {Any | not (argindex == 1)} → Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | f71c92dd52d4d5cb   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.chebyshevu.fdiff","kind":"method","src_hash":"db93dcca01e61026","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(arg)","rhs":"fdiff produces the expected output","over":{"base":"Any"},"name":"fdiff_correct","kind":"composition"},"guarantee":"fdiff produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"chebyshevt","by":"library_axiom"},{"fn":"chebyshevu","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f71c92dd52d4d5cb"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.chebyshevu.fdiff","kind":"method","src_hash":"db93dcca01e61026","in":{"base":"Any","pred":"not (argindex == 1)"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(argindex)","rhs":"<unspecified:fdiff>","over":{"base":"Any","pred":"not (argindex == 1)"},"name":"fdiff_correct","kind":"composition"},"guarantee":"3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"chebyshevt","by":"library_axiom"},{"fn":"chebyshevu","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f71c92dd52d4d5cb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (argindex == 1)"],"fibers":[{"name":"case_0","guard":"argindex == 1","ensures":[],"decidability":"z3"},{"name":"case_1","guard":"argindex == 2","ensures":["result == ((n + 1) * chebyshevt(n + 1, x) - x * chebyshevu(n, x)) / (x ** 2 - 1)"],"decidability":"z3","returns_expr":"((n + 1) * chebyshevt(n + 1, x) - x * chebyshevu(n, x)) / (x ** 2 - 1)"},{"name":"case_2","guard":"not (argindex == 1) and not (argindex == 2)","ensures":[],"decidability":"z3"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"],"raises":["ArgumentIndexError"]},"state_contract":{"exceptional_post":{"ArgumentIndexError":["isinstance(raised, ArgumentIndexError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def fdiff(self, argindex=2):
         if argindex == 1:
             # Diff wrt n
@@ -953,16 +1130,22 @@ class chebyshevu(OrthogonalPolynomial):
             raise ArgumentIndexError(self, argindex)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_Sum(n, ), id) over Any               ║
+# ║ Path(_eval_rewrite_as_Sum(n, x, **kwargs), id) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Sum(kern, (k, 0, floor(n / 2)))                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_Sum : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | d9cfaad337ca1fc3   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.chebyshevu._eval_rewrite_as_Sum","kind":"method","src_hash":"6f569ddee021c2b0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_Sum(n, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_Sum_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Sum","by":"library_axiom"},{"fn":"floor","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d9cfaad337ca1fc3"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.chebyshevu._eval_rewrite_as_Sum","kind":"method","src_hash":"6f569ddee021c2b0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_Sum(n, x, **kwargs)","rhs":"Sum(kern, (k, 0, floor(n / 2)))","over":{"base":"Any"},"name":"_eval_rewrite_as_Sum_correct","kind":"composition"},"guarantee":"returns Sum(kern, (k, 0, floor(n / 2)))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Sum","by":"library_axiom"},{"fn":"floor","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d9cfaad337ca1fc3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Sum(kern, (k, 0, floor(n / 2)))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_Sum(self, n, x, **kwargs):
         from sympy.concrete.summations import Sum
         k = Dummy("k")
@@ -971,16 +1154,22 @@ class chebyshevu(OrthogonalPolynomial):
         return Sum(kern, (k, 0, floor(n/2)))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_polynomial(n, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_polynomial(n, x, **kwargs), self._eval_rewrite_as_Sum(n, x, **kwargs)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._eval_rewrite_as_Sum(n, x, **kwargs)      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_polynomial : Any → Any                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f85b782175de1883           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.chebyshevu._eval_rewrite_as_polynomial","kind":"method","src_hash":"4bbc17b6c6f06fea","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_polynomial(n, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_polynomial_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f85b782175de1883"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.chebyshevu._eval_rewrite_as_polynomial","kind":"method","src_hash":"4bbc17b6c6f06fea","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_polynomial(n, x, **kwargs)","rhs":"self._eval_rewrite_as_Sum(n, x, **kwargs)","over":{"base":"Any"},"name":"_eval_rewrite_as_polynomial_correct"},"guarantee":"returns self._eval_rewrite_as_Sum(n, x, **kwargs)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f85b782175de1883","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._eval_rewrite_as_Sum(n, x, **kwargs)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._eval_rewrite_as_Sum"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_polynomial(self, n, x, **kwargs):
         # This function is just kept for backwards compatibility
         # but should not be used
@@ -990,14 +1179,20 @@ class chebyshevu(OrthogonalPolynomial):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(chebyshevt_root(*args), correctly constructs a chebyshevt_root instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ chebyshevt_root : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DefinedFunction)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ chebyshevt_root : Any → {Any | result satisfies: isin...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | effcd021593544f6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.chebyshevt_root","kind":"class","src_hash":"e852c085adc6e170","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"chebyshevt_root(*args)","rhs":"correctly constructs a chebyshevt_root instance","over":{"base":"Any"},"name":"chebyshevt_root_class_invariant"},"guarantee":"correctly constructs a chebyshevt_root instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"effcd021593544f6"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.chebyshevt_root","kind":"class","src_hash":"e852c085adc6e170","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DefinedFunction)"},"spec":{"lhs":"chebyshevt_root(*args)","rhs":"correctly constructs a chebyshevt_root instance","over":{"base":"Any"},"name":"chebyshevt_root_class_invariant"},"guarantee":"isinstance(self, DefinedFunction)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"effcd021593544f6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DefinedFunction)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function chebyshevt_root not found in source"]}}
 class chebyshevt_root(DefinedFunction):
     r"""
     ``chebyshev_root(n, k)`` returns the $k$th root (indexed from zero) of
@@ -1033,16 +1228,23 @@ class chebyshevt_root(DefinedFunction):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), eval produces the expected output) over Any ║
+# ║ Path(eval(cls, n, k), cos(S.Pi * (2 * k + 1) / (2 * n))) over {Any | 0 <= k and k < n} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: 0 <= k and k < n                               ║
+# ║   returns:  cos(S.Pi * (2 * k + 1) / (2 * n))              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : {Any | 0 <= k and k < n} → Any                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2c251c78fae77ef4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eb3fdfe46becbfbf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.chebyshevt_root.eval","kind":"classmethod","src_hash":"2bede1a800b1b7cb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.polynomials.chebyshevt_root.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2c251c78fae77ef4"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.chebyshevt_root.eval","kind":"classmethod","src_hash":"2bede1a800b1b7cb","in":{"base":"Any","pred":"0 <= k and k < n"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls, n, k)","rhs":"cos(S.Pi * (2 * k + 1) / (2 * n))","over":{"base":"Any","pred":"0 <= k and k < n"},"name":"eval_correct"},"guarantee":"returns cos(S.Pi * (2 * k + 1) / (2 * n))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.polynomials.chebyshevt_root.eval_correct","statement":"Path(eval(x), returns cos(S.Pi * (2 * k + 1) / (2 * n)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eb3fdfe46becbfbf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["0 <= k and k < n"],"returns_expr":"cos(S.Pi * (2 * k + 1) / (2 * n))","pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, n, k):
         if not ((0 <= k) and (k < n)):
             raise ValueError("must have 0 <= k < n, "
@@ -1053,14 +1255,20 @@ class chebyshevt_root(DefinedFunction):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(chebyshevu_root(*args), correctly constructs a chebyshevu_root instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ chebyshevu_root : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DefinedFunction)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ chebyshevu_root : Any → {Any | result satisfies: isin...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 635a028439685675  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.chebyshevu_root","kind":"class","src_hash":"b2cc68dab7acf673","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"chebyshevu_root(*args)","rhs":"correctly constructs a chebyshevu_root instance","over":{"base":"Any"},"name":"chebyshevu_root_class_invariant"},"guarantee":"correctly constructs a chebyshevu_root instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"635a028439685675"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.chebyshevu_root","kind":"class","src_hash":"b2cc68dab7acf673","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DefinedFunction)"},"spec":{"lhs":"chebyshevu_root(*args)","rhs":"correctly constructs a chebyshevu_root instance","over":{"base":"Any"},"name":"chebyshevu_root_class_invariant"},"guarantee":"isinstance(self, DefinedFunction)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"635a028439685675","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DefinedFunction)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function chebyshevu_root not found in source"]}}
 class chebyshevu_root(DefinedFunction):
     r"""
     ``chebyshevu_root(n, k)`` returns the $k$th root (indexed from zero) of the
@@ -1096,16 +1304,23 @@ class chebyshevu_root(DefinedFunction):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), eval produces the expected output) over Any ║
+# ║ Path(eval(cls, n, k), cos(S.Pi * (k + 1) / (n + 1))) over {Any | 0 <= k and k < n} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: 0 <= k and k < n                               ║
+# ║   returns:  cos(S.Pi * (k + 1) / (n + 1))                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : {Any | 0 <= k and k < n} → Any                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c41caad5fd1aa9ac  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ae99865e26f350f0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.chebyshevu_root.eval","kind":"classmethod","src_hash":"940a89e4d9e80d09","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.polynomials.chebyshevu_root.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c41caad5fd1aa9ac"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.chebyshevu_root.eval","kind":"classmethod","src_hash":"940a89e4d9e80d09","in":{"base":"Any","pred":"0 <= k and k < n"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls, n, k)","rhs":"cos(S.Pi * (k + 1) / (n + 1))","over":{"base":"Any","pred":"0 <= k and k < n"},"name":"eval_correct"},"guarantee":"returns cos(S.Pi * (k + 1) / (n + 1))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.polynomials.chebyshevu_root.eval_correct","statement":"Path(eval(x), returns cos(S.Pi * (k + 1) / (n + 1)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ae99865e26f350f0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["0 <= k and k < n"],"returns_expr":"cos(S.Pi * (k + 1) / (n + 1))","pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, n, k):
         if not ((0 <= k) and (k < n)):
             raise ValueError("must have 0 <= k < n, "
@@ -1120,14 +1335,20 @@ class chebyshevu_root(DefinedFunction):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(legendre(*args), correctly constructs a legendre instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ legendre : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, OrthogonalPolynomial)         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ legendre : Any → {Any | result satisfies: isinstance(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d227cb6c4c1a1f36  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.legendre","kind":"class","src_hash":"674831448bc07cec","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"legendre(*args)","rhs":"correctly constructs a legendre instance","over":{"base":"Any"},"name":"legendre_class_invariant"},"guarantee":"correctly constructs a legendre instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d227cb6c4c1a1f36"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.legendre","kind":"class","src_hash":"674831448bc07cec","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, OrthogonalPolynomial)"},"spec":{"lhs":"legendre(*args)","rhs":"correctly constructs a legendre instance","over":{"base":"Any"},"name":"legendre_class_invariant"},"guarantee":"isinstance(self, OrthogonalPolynomial)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d227cb6c4c1a1f36","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, OrthogonalPolynomial)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function legendre not found in source"]}}
 class legendre(OrthogonalPolynomial):
     r"""
     ``legendre(n, x)`` gives the $n$th Legendre polynomial of $x$, $P_n(x)$
@@ -1186,16 +1407,26 @@ class legendre(OrthogonalPolynomial):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), eval produces the expected output) over Any ║
+# ║ Path(eval(cls, n, x), <unspecified:eval>) over {Any | hasattr(n, 'is_Number') and hasattr(x, 'is_zero') and hasattr(n, 'is_negative') and hasattr(x, 'could_extract_minus_sign') and hasattr(n, 'could_extract_minus_sign')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(n, 'is_Number')                        ║
+# ║   requires: hasattr(x, 'is_zero')                          ║
+# ║   requires: hasattr(n, 'is_negative')                      ║
+# ║   fiber[case_0]: not n.is_Number                           ║
+# ║   fiber[case_1]: not (not n.is_Number) => cls._eval_a...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : {Any | hasattr(n, 'is_Number') and hasattr(x, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6ed96360fbc40ef6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3daa9a46e259da16  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.legendre.eval","kind":"classmethod","src_hash":"1e78453bef8355ef","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.polynomials.legendre.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6ed96360fbc40ef6"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.legendre.eval","kind":"classmethod","src_hash":"1e78453bef8355ef","in":{"base":"Any","pred":"hasattr(n, 'is_Number') and hasattr(x, 'is_zero') and hasattr(n, 'is_negative') and hasattr(x, 'could_extract_minus_sign') and hasattr(n, 'could_extract_minus_sign')"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls, n, x)","rhs":"<unspecified:eval>","over":{"base":"Any","pred":"hasattr(n, 'is_Number') and hasattr(x, 'is_zero') and hasattr(n, 'is_negative') and hasattr(x, 'could_extract_minus_sign') and hasattr(n, 'could_extract_minus_sign')"},"name":"eval_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.polynomials.legendre.eval_correct","statement":"Path(eval(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3daa9a46e259da16","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(n, 'is_Number')","hasattr(x, 'is_zero')","hasattr(n, 'is_negative')","hasattr(x, 'could_extract_minus_sign')","hasattr(n, 'could_extract_minus_sign')"],"fibers":[{"name":"case_0","guard":"not n.is_Number","ensures":[],"decidability":"library"},{"name":"case_1","guard":"not (not n.is_Number)","ensures":["result == cls._eval_at_order(n, x)"],"decidability":"library","returns_expr":"cls._eval_at_order(n, x)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["cls._eval_at_order","n.could_extract_minus_sign","n.is_Number","n.is_negative","x.could_extract_minus_sign","x.is_zero"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, n, x):
         if not n.is_Number:
             # Symbolic result L_n(x)
@@ -1220,16 +1451,25 @@ class legendre(OrthogonalPolynomial):
             return cls._eval_at_order(n, x)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(fdiff(arg), id) over Any                              ║
+# ║ Path(fdiff(argindex), id) over {Any | not (argindex == 1)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ fdiff : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (argindex == 1)                            ║
+# ║   fiber[case_0]: argindex == 1                             ║
+# ║   fiber[case_1]: argindex == 2 => n / (x ** 2 - 1) * ...   ║
+# ║   fiber[case_2]: not (argindex == 1) and not (arginde...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ fdiff : {Any | not (argindex == 1)} → Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | bab93b7b0eb82e19   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.legendre.fdiff","kind":"method","src_hash":"b424e019ce53126f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(arg)","rhs":"fdiff produces the expected output","over":{"base":"Any"},"name":"fdiff_correct","kind":"composition"},"guarantee":"fdiff produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"legendre","by":"library_axiom"},{"fn":"legendre","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bab93b7b0eb82e19"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.legendre.fdiff","kind":"method","src_hash":"b424e019ce53126f","in":{"base":"Any","pred":"not (argindex == 1)"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(argindex)","rhs":"<unspecified:fdiff>","over":{"base":"Any","pred":"not (argindex == 1)"},"name":"fdiff_correct","kind":"composition"},"guarantee":"3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"legendre","by":"library_axiom"},{"fn":"legendre","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bab93b7b0eb82e19","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (argindex == 1)"],"fibers":[{"name":"case_0","guard":"argindex == 1","ensures":[],"decidability":"z3"},{"name":"case_1","guard":"argindex == 2","ensures":["result == n / (x ** 2 - 1) * (x * legendre(n, x) - legendre(n - 1, x))"],"decidability":"z3","returns_expr":"n / (x ** 2 - 1) * (x * legendre(n, x) - legendre(n - 1, x))"},{"name":"case_2","guard":"not (argindex == 1) and not (argindex == 2)","ensures":[],"decidability":"z3"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"],"raises":["ArgumentIndexError"]},"state_contract":{"exceptional_post":{"ArgumentIndexError":["isinstance(raised, ArgumentIndexError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def fdiff(self, argindex=2):
         if argindex == 1:
             # Diff wrt n
@@ -1255,16 +1495,22 @@ class legendre(OrthogonalPolynomial):
             raise ArgumentIndexError(self, argindex)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_Sum(n, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_Sum(n, x, **kwargs), Sum(kern, (k, 0, n))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Sum(kern, (k, 0, n))                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_Sum : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6434aac98c757e9f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 578d6dd42710811c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.legendre._eval_rewrite_as_Sum","kind":"method","src_hash":"9edd76e6500e9c16","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_Sum(n, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_Sum_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.polynomials.legendre._eval_rewrite_as_Sum_correct","statement":"Path(_eval_rewrite_as_Sum(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6434aac98c757e9f"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.legendre._eval_rewrite_as_Sum","kind":"method","src_hash":"9edd76e6500e9c16","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_Sum(n, x, **kwargs)","rhs":"Sum(kern, (k, 0, n))","over":{"base":"Any"},"name":"_eval_rewrite_as_Sum_correct"},"guarantee":"returns Sum(kern, (k, 0, n))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.polynomials.legendre._eval_rewrite_as_Sum_correct","statement":"Path(_eval_rewrite_as_Sum(x), returns Sum(kern, (k, 0, n)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"578d6dd42710811c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Sum(kern, (k, 0, n))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_Sum(self, n, x, **kwargs):
         from sympy.concrete.summations import Sum
         k = Dummy("k")
@@ -1272,16 +1518,22 @@ class legendre(OrthogonalPolynomial):
         return Sum(kern, (k, 0, n))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_polynomial(n, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_polynomial(n, x, **kwargs), self._eval_rewrite_as_Sum(n, x, **kwargs)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._eval_rewrite_as_Sum(n, x, **kwargs)      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_polynomial : Any → Any                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 36b26fb83b2ad0d3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.legendre._eval_rewrite_as_polynomial","kind":"method","src_hash":"4bbc17b6c6f06fea","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_polynomial(n, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_polynomial_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"36b26fb83b2ad0d3"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.legendre._eval_rewrite_as_polynomial","kind":"method","src_hash":"4bbc17b6c6f06fea","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_polynomial(n, x, **kwargs)","rhs":"self._eval_rewrite_as_Sum(n, x, **kwargs)","over":{"base":"Any"},"name":"_eval_rewrite_as_polynomial_correct"},"guarantee":"returns self._eval_rewrite_as_Sum(n, x, **kwargs)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"36b26fb83b2ad0d3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._eval_rewrite_as_Sum(n, x, **kwargs)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._eval_rewrite_as_Sum"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_polynomial(self, n, x, **kwargs):
         # This function is just kept for backwards compatibility
         # but should not be used
@@ -1291,14 +1543,20 @@ class legendre(OrthogonalPolynomial):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(assoc_legendre(*args), correctly constructs a assoc_legendre instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ assoc_legendre : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DefinedFunction)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ assoc_legendre : Any → {Any | result satisfies: isins...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 304c57a5af7aa386  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.assoc_legendre","kind":"class","src_hash":"0728899fefc74d65","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"assoc_legendre(*args)","rhs":"correctly constructs a assoc_legendre instance","over":{"base":"Any"},"name":"assoc_legendre_class_invariant"},"guarantee":"correctly constructs a assoc_legendre instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"304c57a5af7aa386"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.assoc_legendre","kind":"class","src_hash":"0728899fefc74d65","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DefinedFunction)"},"spec":{"lhs":"assoc_legendre(*args)","rhs":"correctly constructs a assoc_legendre instance","over":{"base":"Any"},"name":"assoc_legendre_class_invariant"},"guarantee":"isinstance(self, DefinedFunction)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"304c57a5af7aa386","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DefinedFunction)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":false,"binding_errors":["Function assoc_legendre not found in source"]}}
 class assoc_legendre(DefinedFunction):
     r"""
     ``assoc_legendre(n, m, x)`` gives $P_n^m(x)$, where $n$ and $m$ are
@@ -1360,32 +1618,47 @@ class assoc_legendre(DefinedFunction):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_at_order(cls), id) over Any                     ║
+# ║ Path(_eval_at_order(cls, n, m), id) over Any               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  S.NegativeOne ** m * (1 - _x ** 2) ** Rat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_at_order : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 0740cef3d99e857a   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.assoc_legendre._eval_at_order","kind":"classmethod","src_hash":"73171c6c05f7400f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_at_order(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_at_order_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Rational","by":"library_axiom"},{"fn":"as_expr","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0740cef3d99e857a"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.assoc_legendre._eval_at_order","kind":"classmethod","src_hash":"73171c6c05f7400f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_at_order(cls, n, m)","rhs":"S.NegativeOne ** m * (1 - _x ** 2) ** Rational(m, 2) * P.as_expr()","over":{"base":"Any"},"name":"_eval_at_order_correct","kind":"composition"},"guarantee":"returns S.NegativeOne ** m * (1 - _x ** 2) ** Rational(m, 2) * P.as_expr()","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Rational","by":"library_axiom"},{"fn":"as_expr","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0740cef3d99e857a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"S.NegativeOne ** m * (1 - _x ** 2) ** Rational(m, 2) * P.as_expr()","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_at_order(cls, n, m):
         P = legendre_poly(n, _x, polys=True).diff((_x, m))
         return S.NegativeOne**m * (1 - _x**2)**Rational(m, 2) * P.as_expr()
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), id) over Any                               ║
+# ║ Path(eval(cls, n, m), id) over {Any | hasattr(m, 'could_extract_minus_sign') and hasattr(n, 'is_Number') and hasattr(m, 'is_Number') and hasattr(n, 'is_integer') and hasattr(m, 'is_integer') and hasattr(n, 'is_negative')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Any                                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(m, 'could_extract_minus_sign')         ║
+# ║   requires: hasattr(n, 'is_Number')                        ║
+# ║   requires: hasattr(m, 'is_Number')                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : {Any | hasattr(m, 'could_extract_minus_sign') ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | f0f08c9b1588e9f2   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.assoc_legendre.eval","kind":"classmethod","src_hash":"37f7a1404bdd0e77","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct","kind":"composition"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"factorial","by":"library_axiom"},{"fn":"factorial","by":"library_axiom"},{"fn":"assoc_legendre","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f0f08c9b1588e9f2"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.assoc_legendre.eval","kind":"classmethod","src_hash":"37f7a1404bdd0e77","in":{"base":"Any","pred":"hasattr(m, 'could_extract_minus_sign') and hasattr(n, 'is_Number') and hasattr(m, 'is_Number') and hasattr(n, 'is_integer') and hasattr(m, 'is_integer') and hasattr(n, 'is_negative')"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls, n, m)","rhs":"<unspecified:eval>","over":{"base":"Any","pred":"hasattr(m, 'could_extract_minus_sign') and hasattr(n, 'is_Number') and hasattr(m, 'is_Number') and hasattr(n, 'is_integer') and hasattr(m, 'is_integer') and hasattr(n, 'is_negative')"},"name":"eval_correct","kind":"composition"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"factorial","by":"library_axiom"},{"fn":"factorial","by":"library_axiom"},{"fn":"assoc_legendre","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f0f08c9b1588e9f2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(m, 'could_extract_minus_sign')","hasattr(n, 'is_Number')","hasattr(m, 'is_Number')","hasattr(n, 'is_integer')","hasattr(m, 'is_integer')","hasattr(n, 'is_negative')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["cls._eval_at_order","m.could_extract_minus_sign","m.is_Number","m.is_integer","n.is_Number","n.is_integer","n.is_negative"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, n, m, x):
         if m.could_extract_minus_sign():
             # P^{-m}_n  --->  F * P^m_n
@@ -1403,16 +1676,25 @@ class assoc_legendre(DefinedFunction):
             return cls._eval_at_order(int(n), abs(int(m))).subs(_x, x)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(fdiff(arg), id) over Any                              ║
+# ║ Path(fdiff(argindex), id) over {Any | not (argindex == 1)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ fdiff : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (argindex == 1)                            ║
+# ║   fiber[case_0]: argindex == 1                             ║
+# ║   fiber[case_1]: argindex == 2                             ║
+# ║   fiber[case_2]: argindex == 3 => 1 / (x ** 2 - 1) * ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ fdiff : {Any | not (argindex == 1)} → Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | c71be71d9281e22f   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.assoc_legendre.fdiff","kind":"method","src_hash":"82a870e0394b9da2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(arg)","rhs":"fdiff produces the expected output","over":{"base":"Any"},"name":"fdiff_correct","kind":"composition"},"guarantee":"fdiff produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"assoc_legendre","by":"library_axiom"},{"fn":"assoc_legendre","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c71be71d9281e22f"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.assoc_legendre.fdiff","kind":"method","src_hash":"82a870e0394b9da2","in":{"base":"Any","pred":"not (argindex == 1)"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(argindex)","rhs":"<unspecified:fdiff>","over":{"base":"Any","pred":"not (argindex == 1)"},"name":"fdiff_correct","kind":"composition"},"guarantee":"4-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"assoc_legendre","by":"library_axiom"},{"fn":"assoc_legendre","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c71be71d9281e22f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (argindex == 1)"],"fibers":[{"name":"case_0","guard":"argindex == 1","ensures":[],"decidability":"z3"},{"name":"case_1","guard":"argindex == 2","ensures":[],"decidability":"z3"},{"name":"case_2","guard":"argindex == 3","ensures":["result == 1 / (x ** 2 - 1) * (x * n * assoc_legendre(n, m, x) - (m + n) * assoc_legendre(n - 1, m, x))"],"decidability":"z3","returns_expr":"1 / (x ** 2 - 1) * (x * n * assoc_legendre(n, m, x) - (m + n) * assoc_legendre(n - 1, m, x))"},{"name":"case_3","guard":"not (argindex == 1) and not (argindex == 2) and not (argindex == 3)","ensures":[],"decidability":"z3"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"],"raises":["ArgumentIndexError"]},"state_contract":{"exceptional_post":{"ArgumentIndexError":["isinstance(raised, ArgumentIndexError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def fdiff(self, argindex=3):
         if argindex == 1:
             # Diff wrt n
@@ -1429,16 +1711,22 @@ class assoc_legendre(DefinedFunction):
             raise ArgumentIndexError(self, argindex)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_Sum(n, ), id) over Any               ║
+# ║ Path(_eval_rewrite_as_Sum(n, m, x), id) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (1 - x ** 2) ** (m / 2) * Sum(kern, (k, 0...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_Sum : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 1f70ec853bae00a3   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.assoc_legendre._eval_rewrite_as_Sum","kind":"method","src_hash":"568645bdbd12b102","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_Sum(n, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_Sum_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Sum","by":"library_axiom"},{"fn":"floor","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1f70ec853bae00a3"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.assoc_legendre._eval_rewrite_as_Sum","kind":"method","src_hash":"568645bdbd12b102","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_Sum(n, m, x)","rhs":"(1 - x ** 2) ** (m / 2) * Sum(kern, (k, 0, floor((n - m) * S.Half)))","over":{"base":"Any"},"name":"_eval_rewrite_as_Sum_correct","kind":"composition"},"guarantee":"returns (1 - x ** 2) ** (m / 2) * Sum(kern, (k, 0, floor((n - m) * S.Half)))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Sum","by":"library_axiom"},{"fn":"floor","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1f70ec853bae00a3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(1 - x ** 2) ** (m / 2) * Sum(kern, (k, 0, floor((n - m) * S.Half)))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_Sum(self, n, m, x, **kwargs):
         from sympy.concrete.summations import Sum
         k = Dummy("k")
@@ -1447,16 +1735,22 @@ class assoc_legendre(DefinedFunction):
         return (1 - x**2)**(m/2) * Sum(kern, (k, 0, floor((n - m)*S.Half)))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_polynomial(n, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_polynomial(n, m, x), self._eval_rewrite_as_Sum(n, m, x, **kwargs)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._eval_rewrite_as_Sum(n, m, x, **kwargs)   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_polynomial : Any → Any                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 269ab2b1d943b0c9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.assoc_legendre._eval_rewrite_as_polynomial","kind":"method","src_hash":"b38d3c02d474cdef","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_polynomial(n, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_polynomial_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"269ab2b1d943b0c9"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.assoc_legendre._eval_rewrite_as_polynomial","kind":"method","src_hash":"b38d3c02d474cdef","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_polynomial(n, m, x)","rhs":"self._eval_rewrite_as_Sum(n, m, x, **kwargs)","over":{"base":"Any"},"name":"_eval_rewrite_as_polynomial_correct"},"guarantee":"returns self._eval_rewrite_as_Sum(n, m, x, **kwargs)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"269ab2b1d943b0c9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._eval_rewrite_as_Sum(n, m, x, **kwargs)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._eval_rewrite_as_Sum"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_polynomial(self, n, m, x, **kwargs):
         # This function is just kept for backwards compatibility
         # but should not be used
@@ -1465,14 +1759,20 @@ class assoc_legendre(DefinedFunction):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(_eval_conjugate(), id) over Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.func(n, m.conjugate(), x.conjugate())     ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_conjugate : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 32938d59dcfcc6f1   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.assoc_legendre._eval_conjugate","kind":"method","src_hash":"5f9f3409df2f7a73","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_conjugate()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_conjugate_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"func","by":"library_axiom"},{"fn":"conjugate","by":"library_axiom"},{"fn":"conjugate","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"32938d59dcfcc6f1"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.assoc_legendre._eval_conjugate","kind":"method","src_hash":"5f9f3409df2f7a73","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_conjugate()","rhs":"self.func(n, m.conjugate(), x.conjugate())","over":{"base":"Any"},"name":"_eval_conjugate_correct","kind":"composition"},"guarantee":"returns self.func(n, m.conjugate(), x.conjugate())","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"func","by":"library_axiom"},{"fn":"conjugate","by":"library_axiom"},{"fn":"conjugate","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"32938d59dcfcc6f1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.func(n, m.conjugate(), x.conjugate())","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.func"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_conjugate(self):
         n, m, x = self.args
         return self.func(n, m.conjugate(), x.conjugate())
@@ -1485,14 +1785,20 @@ class assoc_legendre(DefinedFunction):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(hermite(*args), correctly constructs a hermite instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ hermite : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, OrthogonalPolynomial)         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ hermite : Any → {Any | result satisfies: isinstance(s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 00526560ec68acf6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.hermite","kind":"class","src_hash":"785c21577fe4775e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"hermite(*args)","rhs":"correctly constructs a hermite instance","over":{"base":"Any"},"name":"hermite_class_invariant"},"guarantee":"correctly constructs a hermite instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"00526560ec68acf6"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.hermite","kind":"class","src_hash":"785c21577fe4775e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, OrthogonalPolynomial)"},"spec":{"lhs":"hermite(*args)","rhs":"correctly constructs a hermite instance","over":{"base":"Any"},"name":"hermite_class_invariant"},"guarantee":"isinstance(self, OrthogonalPolynomial)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"00526560ec68acf6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, OrthogonalPolynomial)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function hermite not found in source"]}}
 class hermite(OrthogonalPolynomial):
     r"""
     ``hermite(n, x)`` gives the $n$th Hermite polynomial in $x$, $H_n(x)$.
@@ -1551,16 +1857,27 @@ class hermite(OrthogonalPolynomial):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), eval produces the expected output) over Any ║
+# ║ Path(eval(cls, n, x), <unspecified:eval>) over {Any | hasattr(n, 'is_Number') and hasattr(x, 'is_zero') and hasattr(n, 'is_negative') and hasattr(x, 'could_extract_minus_sign')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(n, 'is_Number')                        ║
+# ║   requires: hasattr(x, 'is_zero')                          ║
+# ║   requires: hasattr(n, 'is_negative')                      ║
+# ║   fiber[case_0]: not n.is_Number                           ║
+# ║   fiber[case_1]: n.is_negative                             ║
+# ║   fiber[case_2]: not (not n.is_Number) and not (n.is_...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : {Any | hasattr(n, 'is_Number') and hasattr(x, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1421a26198a8d360  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 97c3f88f31248517  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.hermite.eval","kind":"classmethod","src_hash":"82760ccb6e828625","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.polynomials.hermite.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1421a26198a8d360"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.hermite.eval","kind":"classmethod","src_hash":"82760ccb6e828625","in":{"base":"Any","pred":"hasattr(n, 'is_Number') and hasattr(x, 'is_zero') and hasattr(n, 'is_negative') and hasattr(x, 'could_extract_minus_sign')"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls, n, x)","rhs":"<unspecified:eval>","over":{"base":"Any","pred":"hasattr(n, 'is_Number') and hasattr(x, 'is_zero') and hasattr(n, 'is_negative') and hasattr(x, 'could_extract_minus_sign')"},"name":"eval_correct"},"guarantee":"3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.polynomials.hermite.eval_correct","statement":"Path(eval(x), 3-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"97c3f88f31248517","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(n, 'is_Number')","hasattr(x, 'is_zero')","hasattr(n, 'is_negative')","hasattr(x, 'could_extract_minus_sign')"],"fibers":[{"name":"case_0","guard":"not n.is_Number","ensures":[],"decidability":"library"},{"name":"case_1","guard":"n.is_negative","ensures":[],"decidability":"library"},{"name":"case_2","guard":"not (not n.is_Number) and not (n.is_negative)","ensures":["result == cls._eval_at_order(n, x)"],"decidability":"library","returns_expr":"cls._eval_at_order(n, x)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["cls._eval_at_order","n.is_Number","n.is_negative","x.could_extract_minus_sign","x.is_zero"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, n, x):
         if not n.is_Number:
             # Symbolic result H_n(x)
@@ -1581,16 +1898,25 @@ class hermite(OrthogonalPolynomial):
                 return cls._eval_at_order(n, x)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(fdiff(arg), fdiff produces the expected output) over Any ║
+# ║ Path(fdiff(argindex), <unspecified:fdiff>) over {Any | not (argindex == 1)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ fdiff : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (argindex == 1)                            ║
+# ║   fiber[case_0]: argindex == 1                             ║
+# ║   fiber[case_1]: argindex == 2 => 2 * n * hermite(n -...   ║
+# ║   fiber[case_2]: not (argindex == 1) and not (arginde...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ fdiff : {Any | not (argindex == 1)} → Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b3f17f130bcb5add  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b231d910c37363eb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.hermite.fdiff","kind":"method","src_hash":"357655c32fb54a9b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(arg)","rhs":"fdiff produces the expected output","over":{"base":"Any"},"name":"fdiff_correct"},"guarantee":"fdiff produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.polynomials.hermite.fdiff_correct","statement":"Path(fdiff(x), fdiff produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b3f17f130bcb5add"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.hermite.fdiff","kind":"method","src_hash":"357655c32fb54a9b","in":{"base":"Any","pred":"not (argindex == 1)"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(argindex)","rhs":"<unspecified:fdiff>","over":{"base":"Any","pred":"not (argindex == 1)"},"name":"fdiff_correct"},"guarantee":"3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.polynomials.hermite.fdiff_correct","statement":"Path(fdiff(x), 3-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b231d910c37363eb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (argindex == 1)"],"fibers":[{"name":"case_0","guard":"argindex == 1","ensures":[],"decidability":"z3"},{"name":"case_1","guard":"argindex == 2","ensures":["result == 2 * n * hermite(n - 1, x)"],"decidability":"z3","returns_expr":"2 * n * hermite(n - 1, x)"},{"name":"case_2","guard":"not (argindex == 1) and not (argindex == 2)","ensures":[],"decidability":"z3"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"],"raises":["ArgumentIndexError"]},"state_contract":{"exceptional_post":{"ArgumentIndexError":["isinstance(raised, ArgumentIndexError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def fdiff(self, argindex=2):
         if argindex == 1:
             # Diff wrt n
@@ -1603,16 +1929,22 @@ class hermite(OrthogonalPolynomial):
             raise ArgumentIndexError(self, argindex)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_Sum(n, ), id) over Any               ║
+# ║ Path(_eval_rewrite_as_Sum(n, x, **kwargs), id) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  factorial(n) * Sum(kern, (k, 0, floor(n /...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_Sum : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 2c6c918b89f268c3   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.hermite._eval_rewrite_as_Sum","kind":"method","src_hash":"c16e92d9e6203618","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_Sum(n, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_Sum_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"factorial","by":"library_axiom"},{"fn":"Sum","by":"library_axiom"},{"fn":"floor","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2c6c918b89f268c3"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.hermite._eval_rewrite_as_Sum","kind":"method","src_hash":"c16e92d9e6203618","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_Sum(n, x, **kwargs)","rhs":"factorial(n) * Sum(kern, (k, 0, floor(n / 2)))","over":{"base":"Any"},"name":"_eval_rewrite_as_Sum_correct","kind":"composition"},"guarantee":"returns factorial(n) * Sum(kern, (k, 0, floor(n / 2)))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"factorial","by":"library_axiom"},{"fn":"Sum","by":"library_axiom"},{"fn":"floor","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2c6c918b89f268c3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"factorial(n) * Sum(kern, (k, 0, floor(n / 2)))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_Sum(self, n, x, **kwargs):
         from sympy.concrete.summations import Sum
         k = Dummy("k")
@@ -1620,32 +1952,44 @@ class hermite(OrthogonalPolynomial):
         return factorial(n)*Sum(kern, (k, 0, floor(n/2)))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_polynomial(n, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_polynomial(n, x, **kwargs), self._eval_rewrite_as_Sum(n, x, **kwargs)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._eval_rewrite_as_Sum(n, x, **kwargs)      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_polynomial : Any → Any                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6e5f5c26da807d93           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.hermite._eval_rewrite_as_polynomial","kind":"method","src_hash":"4bbc17b6c6f06fea","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_polynomial(n, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_polynomial_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6e5f5c26da807d93"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.hermite._eval_rewrite_as_polynomial","kind":"method","src_hash":"4bbc17b6c6f06fea","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_polynomial(n, x, **kwargs)","rhs":"self._eval_rewrite_as_Sum(n, x, **kwargs)","over":{"base":"Any"},"name":"_eval_rewrite_as_polynomial_correct"},"guarantee":"returns self._eval_rewrite_as_Sum(n, x, **kwargs)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6e5f5c26da807d93","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._eval_rewrite_as_Sum(n, x, **kwargs)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._eval_rewrite_as_Sum"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_polynomial(self, n, x, **kwargs):
         # This function is just kept for backwards compatibility
         # but should not be used
         return self._eval_rewrite_as_Sum(n, x, **kwargs)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_hermite_prob(n, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_hermite_prob(n, x, **kwargs), sqrt(2) ** n * hermite_prob(n, x * sqrt(2))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  sqrt(2) ** n * hermite_prob(n, x * sqrt(2))    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_hermite_prob : Any → Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 299a4a0a7ddc064a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.hermite._eval_rewrite_as_hermite_prob","kind":"method","src_hash":"88a1db7c534d64de","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_hermite_prob(n, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_hermite_prob_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"299a4a0a7ddc064a"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.hermite._eval_rewrite_as_hermite_prob","kind":"method","src_hash":"88a1db7c534d64de","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_hermite_prob(n, x, **kwargs)","rhs":"sqrt(2) ** n * hermite_prob(n, x * sqrt(2))","over":{"base":"Any"},"name":"_eval_rewrite_as_hermite_prob_correct"},"guarantee":"returns sqrt(2) ** n * hermite_prob(n, x * sqrt(2))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"299a4a0a7ddc064a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"sqrt(2) ** n * hermite_prob(n, x * sqrt(2))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_hermite_prob(self, n, x, **kwargs):
         return sqrt(2)**n * hermite_prob(n, x*sqrt(2))
 
@@ -1653,14 +1997,20 @@ class hermite(OrthogonalPolynomial):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(hermite_prob(*args), correctly constructs a hermite_prob instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ hermite_prob : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, OrthogonalPolynomial)         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ hermite_prob : Any → {Any | result satisfies: isinsta...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e78b882043606d93  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.hermite_prob","kind":"class","src_hash":"5100f50d7dec069f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"hermite_prob(*args)","rhs":"correctly constructs a hermite_prob instance","over":{"base":"Any"},"name":"hermite_prob_class_invariant"},"guarantee":"correctly constructs a hermite_prob instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e78b882043606d93"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.hermite_prob","kind":"class","src_hash":"5100f50d7dec069f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, OrthogonalPolynomial)"},"spec":{"lhs":"hermite_prob(*args)","rhs":"correctly constructs a hermite_prob instance","over":{"base":"Any"},"name":"hermite_prob_class_invariant"},"guarantee":"isinstance(self, OrthogonalPolynomial)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e78b882043606d93","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, OrthogonalPolynomial)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function hermite_prob not found in source"]}}
 class hermite_prob(OrthogonalPolynomial):
     r"""
     ``hermite_prob(n, x)`` gives the $n$th probabilist's Hermite polynomial
@@ -1723,16 +2073,27 @@ class hermite_prob(OrthogonalPolynomial):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), eval produces the expected output) over Any ║
+# ║ Path(eval(cls, n, x), <unspecified:eval>) over {Any | hasattr(n, 'is_Number') and hasattr(x, 'is_zero') and hasattr(n, 'is_negative') and hasattr(x, 'could_extract_minus_sign')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(n, 'is_Number')                        ║
+# ║   requires: hasattr(x, 'is_zero')                          ║
+# ║   requires: hasattr(n, 'is_negative')                      ║
+# ║   fiber[case_0]: not n.is_Number                           ║
+# ║   fiber[case_1]: n.is_negative                             ║
+# ║   fiber[case_2]: not (not n.is_Number) and not (n.is_...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : {Any | hasattr(n, 'is_Number') and hasattr(x, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c67a8d55ba17ad50  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4a504df4ffd2f290  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.hermite_prob.eval","kind":"classmethod","src_hash":"7241c2872ff97780","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.polynomials.hermite_prob.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c67a8d55ba17ad50"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.hermite_prob.eval","kind":"classmethod","src_hash":"7241c2872ff97780","in":{"base":"Any","pred":"hasattr(n, 'is_Number') and hasattr(x, 'is_zero') and hasattr(n, 'is_negative') and hasattr(x, 'could_extract_minus_sign')"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls, n, x)","rhs":"<unspecified:eval>","over":{"base":"Any","pred":"hasattr(n, 'is_Number') and hasattr(x, 'is_zero') and hasattr(n, 'is_negative') and hasattr(x, 'could_extract_minus_sign')"},"name":"eval_correct"},"guarantee":"3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.polynomials.hermite_prob.eval_correct","statement":"Path(eval(x), 3-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4a504df4ffd2f290","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(n, 'is_Number')","hasattr(x, 'is_zero')","hasattr(n, 'is_negative')","hasattr(x, 'could_extract_minus_sign')"],"fibers":[{"name":"case_0","guard":"not n.is_Number","ensures":[],"decidability":"library"},{"name":"case_1","guard":"n.is_negative","ensures":[],"decidability":"library"},{"name":"case_2","guard":"not (not n.is_Number) and not (n.is_negative)","ensures":["result == cls._eval_at_order(n, x)"],"decidability":"library","returns_expr":"cls._eval_at_order(n, x)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["cls._eval_at_order","n.is_Number","n.is_negative","x.could_extract_minus_sign","x.is_zero"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, n, x):
         if not n.is_Number:
             if x.could_extract_minus_sign():
@@ -1748,16 +2109,23 @@ class hermite_prob(OrthogonalPolynomial):
                 return cls._eval_at_order(n, x)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(fdiff(arg), fdiff produces the expected output) over Any ║
+# ║ Path(fdiff(argindex), <unspecified:fdiff>) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: argindex == 2 => n * hermite_prob(n ...   ║
+# ║   fiber[case_1]: not (argindex == 2)                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ fdiff : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 45907de80248127a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5615a940ddbfcd1e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.hermite_prob.fdiff","kind":"method","src_hash":"8dcdae75af27cac9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(arg)","rhs":"fdiff produces the expected output","over":{"base":"Any"},"name":"fdiff_correct"},"guarantee":"fdiff produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.polynomials.hermite_prob.fdiff_correct","statement":"Path(fdiff(x), fdiff produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"45907de80248127a"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.hermite_prob.fdiff","kind":"method","src_hash":"8dcdae75af27cac9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(argindex)","rhs":"<unspecified:fdiff>","over":{"base":"Any"},"name":"fdiff_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.polynomials.hermite_prob.fdiff_correct","statement":"Path(fdiff(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5615a940ddbfcd1e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"argindex == 2","ensures":["result == n * hermite_prob(n - 1, x)"],"decidability":"z3","returns_expr":"n * hermite_prob(n - 1, x)"},{"name":"case_1","guard":"not (argindex == 2)","ensures":[],"decidability":"z3"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"],"raises":["ArgumentIndexError"]},"state_contract":{"exceptional_post":{"ArgumentIndexError":["isinstance(raised, ArgumentIndexError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def fdiff(self, argindex=2):
         if argindex == 2:
             n, x = self.args
@@ -1766,16 +2134,22 @@ class hermite_prob(OrthogonalPolynomial):
             raise ArgumentIndexError(self, argindex)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_Sum(n, ), id) over Any               ║
+# ║ Path(_eval_rewrite_as_Sum(n, x, **kwargs), id) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  factorial(n) * Sum(kern, (k, 0, floor(n /...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_Sum : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | e648f570173c8a4f   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.hermite_prob._eval_rewrite_as_Sum","kind":"method","src_hash":"e5c1d31fb3380cca","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_Sum(n, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_Sum_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"factorial","by":"library_axiom"},{"fn":"Sum","by":"library_axiom"},{"fn":"floor","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e648f570173c8a4f"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.hermite_prob._eval_rewrite_as_Sum","kind":"method","src_hash":"e5c1d31fb3380cca","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_Sum(n, x, **kwargs)","rhs":"factorial(n) * Sum(kern, (k, 0, floor(n / 2)))","over":{"base":"Any"},"name":"_eval_rewrite_as_Sum_correct","kind":"composition"},"guarantee":"returns factorial(n) * Sum(kern, (k, 0, floor(n / 2)))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"factorial","by":"library_axiom"},{"fn":"Sum","by":"library_axiom"},{"fn":"floor","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e648f570173c8a4f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"factorial(n) * Sum(kern, (k, 0, floor(n / 2)))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_Sum(self, n, x, **kwargs):
         from sympy.concrete.summations import Sum
         k = Dummy("k")
@@ -1783,32 +2157,44 @@ class hermite_prob(OrthogonalPolynomial):
         return factorial(n)*Sum(kern, (k, 0, floor(n/2)))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_polynomial(n, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_polynomial(n, x, **kwargs), self._eval_rewrite_as_Sum(n, x, **kwargs)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._eval_rewrite_as_Sum(n, x, **kwargs)      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_polynomial : Any → Any                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4de5eb1c30ffe5e2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.hermite_prob._eval_rewrite_as_polynomial","kind":"method","src_hash":"4bbc17b6c6f06fea","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_polynomial(n, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_polynomial_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4de5eb1c30ffe5e2"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.hermite_prob._eval_rewrite_as_polynomial","kind":"method","src_hash":"4bbc17b6c6f06fea","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_polynomial(n, x, **kwargs)","rhs":"self._eval_rewrite_as_Sum(n, x, **kwargs)","over":{"base":"Any"},"name":"_eval_rewrite_as_polynomial_correct"},"guarantee":"returns self._eval_rewrite_as_Sum(n, x, **kwargs)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4de5eb1c30ffe5e2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._eval_rewrite_as_Sum(n, x, **kwargs)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._eval_rewrite_as_Sum"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_polynomial(self, n, x, **kwargs):
         # This function is just kept for backwards compatibility
         # but should not be used
         return self._eval_rewrite_as_Sum(n, x, **kwargs)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_hermite(n, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_hermite(n, x, **kwargs), sqrt(2) ** (-n) * hermite(n, x / sqrt(2))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  sqrt(2) ** (-n) * hermite(n, x / sqrt(2))      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_hermite : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 57891c75fee7e0d1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.hermite_prob._eval_rewrite_as_hermite","kind":"method","src_hash":"08594c527da99227","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_hermite(n, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_hermite_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"57891c75fee7e0d1"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.hermite_prob._eval_rewrite_as_hermite","kind":"method","src_hash":"08594c527da99227","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_hermite(n, x, **kwargs)","rhs":"sqrt(2) ** (-n) * hermite(n, x / sqrt(2))","over":{"base":"Any"},"name":"_eval_rewrite_as_hermite_correct"},"guarantee":"returns sqrt(2) ** (-n) * hermite(n, x / sqrt(2))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"57891c75fee7e0d1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"sqrt(2) ** (-n) * hermite(n, x / sqrt(2))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_hermite(self, n, x, **kwargs):
         return sqrt(2)**(-n) * hermite(n, x/sqrt(2))
 
@@ -1821,14 +2207,20 @@ class hermite_prob(OrthogonalPolynomial):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(laguerre(*args), correctly constructs a laguerre instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ laguerre : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, OrthogonalPolynomial)         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ laguerre : Any → {Any | result satisfies: isinstance(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 85534a0f2ffc0a97  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.laguerre","kind":"class","src_hash":"b4afa98ffb7a67bc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"laguerre(*args)","rhs":"correctly constructs a laguerre instance","over":{"base":"Any"},"name":"laguerre_class_invariant"},"guarantee":"correctly constructs a laguerre instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"85534a0f2ffc0a97"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.laguerre","kind":"class","src_hash":"b4afa98ffb7a67bc","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, OrthogonalPolynomial)"},"spec":{"lhs":"laguerre(*args)","rhs":"correctly constructs a laguerre instance","over":{"base":"Any"},"name":"laguerre_class_invariant"},"guarantee":"isinstance(self, OrthogonalPolynomial)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"85534a0f2ffc0a97","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, OrthogonalPolynomial)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":false,"binding_errors":["Function laguerre not found in source"]}}
 class laguerre(OrthogonalPolynomial):
     r"""
     Returns the $n$th Laguerre polynomial in $x$, $L_n(x)$.
@@ -1890,16 +2282,25 @@ class laguerre(OrthogonalPolynomial):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), id) over Any                               ║
+# ║ Path(eval(cls, n, x), id) over {Any | not (n.is_integer is False) and hasattr(n, 'is_integer') and hasattr(n, 'is_Number') and hasattr(x, 'is_zero') and hasattr(n, 'is_negative') and hasattr(n, 'could_extract_minus_sign')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Any                                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (n.is_integer is False)                    ║
+# ║   requires: hasattr(n, 'is_integer')                       ║
+# ║   requires: hasattr(n, 'is_Number')                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : {Any | not (n.is_integer is False) and hasattr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 3b8dd4398f1e29bc   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.laguerre.eval","kind":"classmethod","src_hash":"c412965c49f46435","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct","kind":"composition"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"exp","by":"library_axiom"},{"fn":"laguerre","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3b8dd4398f1e29bc"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.laguerre.eval","kind":"classmethod","src_hash":"c412965c49f46435","in":{"base":"Any","pred":"not (n.is_integer is False) and hasattr(n, 'is_integer') and hasattr(n, 'is_Number') and hasattr(x, 'is_zero') and hasattr(n, 'is_negative') and hasattr(n, 'could_extract_minus_sign')"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls, n, x)","rhs":"<unspecified:eval>","over":{"base":"Any","pred":"not (n.is_integer is False) and hasattr(n, 'is_integer') and hasattr(n, 'is_Number') and hasattr(x, 'is_zero') and hasattr(n, 'is_negative') and hasattr(n, 'could_extract_minus_sign')"},"name":"eval_correct","kind":"composition"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"exp","by":"library_axiom"},{"fn":"laguerre","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3b8dd4398f1e29bc","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (n.is_integer is False)","hasattr(n, 'is_integer')","hasattr(n, 'is_Number')","hasattr(x, 'is_zero')","hasattr(n, 'is_negative')","hasattr(n, 'could_extract_minus_sign')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["cls._eval_at_order","n.could_extract_minus_sign","n.is_Number","n.is_integer","n.is_negative","x.is_zero"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, n, x):
         if n.is_integer is False:
             raise ValueError("Error: n should be an integer.")
@@ -1923,16 +2324,25 @@ class laguerre(OrthogonalPolynomial):
                 return cls._eval_at_order(n, x)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(fdiff(arg), fdiff produces the expected output) over Any ║
+# ║ Path(fdiff(argindex), <unspecified:fdiff>) over {Any | not (argindex == 1)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ fdiff : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (argindex == 1)                            ║
+# ║   fiber[case_0]: argindex == 1                             ║
+# ║   fiber[case_1]: argindex == 2 => -assoc_laguerre(n -...   ║
+# ║   fiber[case_2]: not (argindex == 1) and not (arginde...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ fdiff : {Any | not (argindex == 1)} → Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8187883a7d522d53  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b6a19fc0ea381367  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.laguerre.fdiff","kind":"method","src_hash":"606ef5951bf1cdeb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(arg)","rhs":"fdiff produces the expected output","over":{"base":"Any"},"name":"fdiff_correct"},"guarantee":"fdiff produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.polynomials.laguerre.fdiff_correct","statement":"Path(fdiff(x), fdiff produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8187883a7d522d53"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.laguerre.fdiff","kind":"method","src_hash":"606ef5951bf1cdeb","in":{"base":"Any","pred":"not (argindex == 1)"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(argindex)","rhs":"<unspecified:fdiff>","over":{"base":"Any","pred":"not (argindex == 1)"},"name":"fdiff_correct"},"guarantee":"3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.polynomials.laguerre.fdiff_correct","statement":"Path(fdiff(x), 3-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b6a19fc0ea381367","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (argindex == 1)"],"fibers":[{"name":"case_0","guard":"argindex == 1","ensures":[],"decidability":"z3"},{"name":"case_1","guard":"argindex == 2","ensures":["result == -assoc_laguerre(n - 1, 1, x)"],"decidability":"z3","returns_expr":"-assoc_laguerre(n - 1, 1, x)"},{"name":"case_2","guard":"not (argindex == 1) and not (argindex == 2)","ensures":[],"decidability":"z3"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"],"raises":["ArgumentIndexError"]},"state_contract":{"exceptional_post":{"ArgumentIndexError":["isinstance(raised, ArgumentIndexError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def fdiff(self, argindex=2):
         if argindex == 1:
             # Diff wrt n
@@ -1945,16 +2355,25 @@ class laguerre(OrthogonalPolynomial):
             raise ArgumentIndexError(self, argindex)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_Sum(n, ), id) over Any               ║
+# ║ Path(_eval_rewrite_as_Sum(n, x, **kwargs), id) over {Any | not (n.is_integer is False) and hasattr(n, 'is_negative') and hasattr(n, 'is_integer')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_rewrite_as_Sum : Any → Any                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (n.is_integer is False)                    ║
+# ║   requires: hasattr(n, 'is_negative')                      ║
+# ║   requires: hasattr(n, 'is_integer')                       ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_rewrite_as_Sum : {Any | not (n.is_integer is Fa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | bc27e36422434c37   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.laguerre._eval_rewrite_as_Sum","kind":"method","src_hash":"4c5e57b373321ef1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_Sum(n, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_Sum_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"exp","by":"library_axiom"},{"fn":"_eval_rewrite_as_Sum","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bc27e36422434c37"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.laguerre._eval_rewrite_as_Sum","kind":"method","src_hash":"4c5e57b373321ef1","in":{"base":"Any","pred":"not (n.is_integer is False) and hasattr(n, 'is_negative') and hasattr(n, 'is_integer')"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_Sum(n, x, **kwargs)","rhs":"<unspecified:_eval_rewrite_as_Sum>","over":{"base":"Any","pred":"not (n.is_integer is False) and hasattr(n, 'is_negative') and hasattr(n, 'is_integer')"},"name":"_eval_rewrite_as_Sum_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"exp","by":"library_axiom"},{"fn":"_eval_rewrite_as_Sum","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bc27e36422434c37","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (n.is_integer is False)","hasattr(n, 'is_negative')","hasattr(n, 'is_integer')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["n.is_integer","n.is_negative","self._eval_rewrite_as_Sum"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_Sum(self, n, x, **kwargs):
         from sympy.concrete.summations import Sum
         # Make sure n \in N_0
@@ -1967,16 +2386,22 @@ class laguerre(OrthogonalPolynomial):
         return Sum(kern, (k, 0, n))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_polynomial(n, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_polynomial(n, x, **kwargs), self._eval_rewrite_as_Sum(n, x, **kwargs)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._eval_rewrite_as_Sum(n, x, **kwargs)      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_polynomial : Any → Any                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0ded5a98c5393a85           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.laguerre._eval_rewrite_as_polynomial","kind":"method","src_hash":"4bbc17b6c6f06fea","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_polynomial(n, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_polynomial_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0ded5a98c5393a85"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.laguerre._eval_rewrite_as_polynomial","kind":"method","src_hash":"4bbc17b6c6f06fea","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_polynomial(n, x, **kwargs)","rhs":"self._eval_rewrite_as_Sum(n, x, **kwargs)","over":{"base":"Any"},"name":"_eval_rewrite_as_polynomial_correct"},"guarantee":"returns self._eval_rewrite_as_Sum(n, x, **kwargs)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0ded5a98c5393a85","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._eval_rewrite_as_Sum(n, x, **kwargs)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._eval_rewrite_as_Sum"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_polynomial(self, n, x, **kwargs):
         # This function is just kept for backwards compatibility
         # but should not be used
@@ -1986,14 +2411,20 @@ class laguerre(OrthogonalPolynomial):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(assoc_laguerre(*args), correctly constructs a assoc_laguerre instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ assoc_laguerre : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, OrthogonalPolynomial)         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ assoc_laguerre : Any → {Any | result satisfies: isins...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 58d627328a184344  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.assoc_laguerre","kind":"class","src_hash":"8804695526672652","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"assoc_laguerre(*args)","rhs":"correctly constructs a assoc_laguerre instance","over":{"base":"Any"},"name":"assoc_laguerre_class_invariant"},"guarantee":"correctly constructs a assoc_laguerre instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"58d627328a184344"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.assoc_laguerre","kind":"class","src_hash":"8804695526672652","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, OrthogonalPolynomial)"},"spec":{"lhs":"assoc_laguerre(*args)","rhs":"correctly constructs a assoc_laguerre instance","over":{"base":"Any"},"name":"assoc_laguerre_class_invariant"},"guarantee":"isinstance(self, OrthogonalPolynomial)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"58d627328a184344","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, OrthogonalPolynomial)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":false,"binding_errors":["Function assoc_laguerre not found in source"]}}
 class assoc_laguerre(OrthogonalPolynomial):
     r"""
     Returns the $n$th generalized Laguerre polynomial in $x$, $L_n(x)$.
@@ -2067,16 +2498,25 @@ class assoc_laguerre(OrthogonalPolynomial):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), eval produces the expected output) over Any ║
+# ║ Path(eval(cls, n, alpha), <unspecified:eval>) over {Any | hasattr(alpha, 'is_zero') and hasattr(n, 'is_Number') and hasattr(x, 'is_zero') and hasattr(n, 'is_negative')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Any                                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(alpha, 'is_zero')                      ║
+# ║   requires: hasattr(n, 'is_Number')                        ║
+# ║   requires: hasattr(x, 'is_zero')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : {Any | hasattr(alpha, 'is_zero') and hasattr(n...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f843caf42e15fe2b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.assoc_laguerre.eval","kind":"classmethod","src_hash":"38e1867dff1b9d8a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.polynomials.assoc_laguerre.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f843caf42e15fe2b"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.assoc_laguerre.eval","kind":"classmethod","src_hash":"38e1867dff1b9d8a","in":{"base":"Any","pred":"hasattr(alpha, 'is_zero') and hasattr(n, 'is_Number') and hasattr(x, 'is_zero') and hasattr(n, 'is_negative')"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls, n, alpha)","rhs":"<unspecified:eval>","over":{"base":"Any","pred":"hasattr(alpha, 'is_zero') and hasattr(n, 'is_Number') and hasattr(x, 'is_zero') and hasattr(n, 'is_negative')"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.polynomials.assoc_laguerre.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f843caf42e15fe2b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(alpha, 'is_zero')","hasattr(n, 'is_Number')","hasattr(x, 'is_zero')","hasattr(n, 'is_negative')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["alpha.is_zero","n.is_Number","n.is_negative","x.is_zero"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, n, alpha, x):
         # L_{n}^{0}(x)  --->  L_{n}(x)
         if alpha.is_zero:
@@ -2099,16 +2539,25 @@ class assoc_laguerre(OrthogonalPolynomial):
                 return laguerre_poly(n, x, alpha)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(fdiff(arg), id) over Any                              ║
+# ║ Path(fdiff(argindex), id) over {Any | not (argindex == 1)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ fdiff : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (argindex == 1)                            ║
+# ║   fiber[case_0]: argindex == 1                             ║
+# ║   fiber[case_1]: argindex == 2 => Sum(assoc_laguerre(...   ║
+# ║   fiber[case_2]: argindex == 3 => -assoc_laguerre(n -...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ fdiff : {Any | not (argindex == 1)} → Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | b8e1c8a19937b877   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.assoc_laguerre.fdiff","kind":"method","src_hash":"2372f898ca21fe64","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(arg)","rhs":"fdiff produces the expected output","over":{"base":"Any"},"name":"fdiff_correct","kind":"composition"},"guarantee":"fdiff produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Sum","by":"library_axiom"},{"fn":"assoc_laguerre","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b8e1c8a19937b877"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.assoc_laguerre.fdiff","kind":"method","src_hash":"2372f898ca21fe64","in":{"base":"Any","pred":"not (argindex == 1)"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(argindex)","rhs":"<unspecified:fdiff>","over":{"base":"Any","pred":"not (argindex == 1)"},"name":"fdiff_correct","kind":"composition"},"guarantee":"4-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Sum","by":"library_axiom"},{"fn":"assoc_laguerre","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b8e1c8a19937b877","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (argindex == 1)"],"fibers":[{"name":"case_0","guard":"argindex == 1","ensures":[],"decidability":"z3"},{"name":"case_1","guard":"argindex == 2","ensures":["result == Sum(assoc_laguerre(k, alpha, x) / (n - alpha), (k, 0, n - 1))"],"decidability":"z3","returns_expr":"Sum(assoc_laguerre(k, alpha, x) / (n - alpha), (k, 0, n - 1))"},{"name":"case_2","guard":"argindex == 3","ensures":["result == -assoc_laguerre(n - 1, alpha + 1, x)"],"decidability":"z3","returns_expr":"-assoc_laguerre(n - 1, alpha + 1, x)"},{"name":"case_3","guard":"not (argindex == 1) and not (argindex == 2) and not (argindex == 3)","ensures":[],"decidability":"z3"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"],"raises":["ArgumentIndexError"]},"state_contract":{"exceptional_post":{"ArgumentIndexError":["isinstance(raised, ArgumentIndexError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def fdiff(self, argindex=3):
         from sympy.concrete.summations import Sum
         if argindex == 1:
@@ -2127,16 +2576,25 @@ class assoc_laguerre(OrthogonalPolynomial):
             raise ArgumentIndexError(self, argindex)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_Sum(n, ), id) over Any               ║
+# ║ Path(_eval_rewrite_as_Sum(n, alpha, x), id) over {Any | not (n.is_negative or n.is_integer is False) and hasattr(n, 'is_negative') and hasattr(n, 'is_integer')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_rewrite_as_Sum : Any → Any                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (n.is_negative or n.is_integer is False)   ║
+# ║   requires: hasattr(n, 'is_negative')                      ║
+# ║   requires: hasattr(n, 'is_integer')                       ║
+# ║   returns:  gamma(n + alpha + 1) / factorial(n) * Sum...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_rewrite_as_Sum : {Any | not (n.is_negative or n...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | d8559a0084c72fe6   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.assoc_laguerre._eval_rewrite_as_Sum","kind":"method","src_hash":"d68226ef968c6baa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_Sum(n, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_Sum_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"gamma","by":"library_axiom"},{"fn":"factorial","by":"library_axiom"},{"fn":"Sum","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d8559a0084c72fe6"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.assoc_laguerre._eval_rewrite_as_Sum","kind":"method","src_hash":"d68226ef968c6baa","in":{"base":"Any","pred":"not (n.is_negative or n.is_integer is False) and hasattr(n, 'is_negative') and hasattr(n, 'is_integer')"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_Sum(n, alpha, x)","rhs":"gamma(n + alpha + 1) / factorial(n) * Sum(kern, (k, 0, n))","over":{"base":"Any","pred":"not (n.is_negative or n.is_integer is False) and hasattr(n, 'is_negative') and hasattr(n, 'is_integer')"},"name":"_eval_rewrite_as_Sum_correct","kind":"composition"},"guarantee":"returns gamma(n + alpha + 1) / factorial(n) * Sum(kern, (k, 0, n))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"gamma","by":"library_axiom"},{"fn":"factorial","by":"library_axiom"},{"fn":"Sum","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d8559a0084c72fe6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (n.is_negative or n.is_integer is False)","hasattr(n, 'is_negative')","hasattr(n, 'is_integer')"],"returns_expr":"gamma(n + alpha + 1) / factorial(n) * Sum(kern, (k, 0, n))","pure":false,"effects":{"effect_type":"reads_state","reads":["n.is_integer","n.is_negative"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_Sum(self, n, alpha, x, **kwargs):
         from sympy.concrete.summations import Sum
         # Make sure n \in N_0
@@ -2148,16 +2606,22 @@ class assoc_laguerre(OrthogonalPolynomial):
         return gamma(n + alpha + 1) / factorial(n) * Sum(kern, (k, 0, n))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_polynomial(n, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_polynomial(n, alpha, x), self._eval_rewrite_as_Sum(n, alpha, x, **kwargs)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._eval_rewrite_as_Sum(n, alpha, x, **...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_polynomial : Any → Any                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b7f17519e5ee110e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.assoc_laguerre._eval_rewrite_as_polynomial","kind":"method","src_hash":"85b726b8046bafb2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_polynomial(n, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_polynomial_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b7f17519e5ee110e"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.assoc_laguerre._eval_rewrite_as_polynomial","kind":"method","src_hash":"85b726b8046bafb2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_polynomial(n, alpha, x)","rhs":"self._eval_rewrite_as_Sum(n, alpha, x, **kwargs)","over":{"base":"Any"},"name":"_eval_rewrite_as_polynomial_correct"},"guarantee":"returns self._eval_rewrite_as_Sum(n, alpha, x, **kwargs)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b7f17519e5ee110e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._eval_rewrite_as_Sum(n, alpha, x, **kwargs)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._eval_rewrite_as_Sum"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_polynomial(self, n, alpha, x, **kwargs):
         # This function is just kept for backwards compatibility
         # but should not be used
@@ -2166,14 +2630,20 @@ class assoc_laguerre(OrthogonalPolynomial):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(_eval_conjugate(), id) over Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.func(n, alpha.conjugate(), x.conjuga...   ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_conjugate : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 4a727a4457c04eb8   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.assoc_laguerre._eval_conjugate","kind":"method","src_hash":"966e82ffd7b3958f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_conjugate()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_conjugate_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"func","by":"library_axiom"},{"fn":"conjugate","by":"library_axiom"},{"fn":"conjugate","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4a727a4457c04eb8"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.polynomials.assoc_laguerre._eval_conjugate","kind":"method","src_hash":"966e82ffd7b3958f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_conjugate()","rhs":"self.func(n, alpha.conjugate(), x.conjugate())","over":{"base":"Any"},"name":"_eval_conjugate_correct","kind":"composition"},"guarantee":"returns self.func(n, alpha.conjugate(), x.conjugate())","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"func","by":"library_axiom"},{"fn":"conjugate","by":"library_axiom"},{"fn":"conjugate","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4a727a4457c04eb8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.func(n, alpha.conjugate(), x.conjugate())","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.func"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_conjugate(self):
         n, alpha, x = self.args
         return self.func(n, alpha.conjugate(), x.conjugate())

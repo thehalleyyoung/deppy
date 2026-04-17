@@ -34,14 +34,19 @@ numpy = import_module('numpy', import_kwargs={'fromlist':['arange']})
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a Arch instance) preserved by Arch(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ Arch : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 7.9ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b5e94d4606154dd7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.arch.Arch","kind":"class","src_hash":"0216a583768b9e1b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Arch(*args)","rhs":"correctly constructs a Arch instance","over":{"base":"Any"},"name":"Arch_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a Arch instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, '_shape_eqn') and hasattr(self, '_left_support') and hasattr(self, '_right_support') and hasattr(self, '_crown_x') and hasattr(self, '_crown_y') and hasattr(self, '_crown_x') and hasattr(self, '_crown_y') and hasattr(self, '_shape_eqn')","kind":"class","induction":"structural on _shape_eqn, _left_support, _right_support, _crown_x"}],"methods_preserving":["__init__","get_shape_eqn","get_loads","supports","left_support","right_support","reaction_force","apply_load","remove_load","change_support_position","change_crown_position","change_support_type","add_member","shear_force_at","bending_moment_at","axial_force_at","solve","draw","_draw_supports","_draw_rectangles","_draw_loads","_draw_filler"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b5e94d4606154dd7"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.arch.Arch","kind":"class","src_hash":"0216a583768b9e1b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Arch(*args)","rhs":"correctly constructs a Arch instance","over":{"base":"Any"},"name":"Arch_class_invariant","kind":"invariant"},"guarantee":"preserves 26 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, '_shape_eqn') and hasattr(self, '_left_support') and hasattr(self, '_right_support') and hasattr(self, '_crown_x') and hasattr(self, '_crown_y') and hasattr(self, '_crown_x') and hasattr(self, '_crown_y') and hasattr(self, '_shape_eqn')","kind":"class","induction":"structural on _shape_eqn, _left_support, _right_support, _crown_x"}],"methods_preserving":["__init__","get_shape_eqn","get_loads","supports","left_support","right_support","reaction_force","apply_load","remove_load","change_support_position","change_crown_position","change_support_type","add_member","shear_force_at","bending_moment_at","axial_force_at","solve","draw","_draw_supports","_draw_rectangles","_draw_loads","_draw_filler"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b5e94d4606154dd7","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, '_shape_eqn')","hasattr(self, '_left_support')","hasattr(self, '_right_support')","hasattr(self, '_crown_x')","hasattr(self, '_crown_y')","hasattr(self, '_conc_loads')","hasattr(self, '_distributed_loads')","hasattr(self, '_loads')","hasattr(self, '_loads_applied')","hasattr(self, '_supports')","hasattr(self, '_member')","hasattr(self, '_member_force')","hasattr(self, '_reaction_force')","hasattr(self, '_points_disc_x')","hasattr(self, '_points_disc_y')","hasattr(self, '_moment_x')","hasattr(self, '_moment_y')","hasattr(self, '_load_x')","hasattr(self, '_load_y')","hasattr(self, '_moment_x_func')","hasattr(self, '_moment_y_func')","hasattr(self, '_load_x_func')","hasattr(self, '_load_y_func')","hasattr(self, '_bending_moment')","hasattr(self, '_shear_force')","hasattr(self, '_axial_force')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":7.9,"verdict_class":"assumed","binding":false,"binding_errors":["Function Arch not found in source"]}}
 class Arch:
     """
     This class is used to solve problems related to a three hinged arch(determinate) structure.\n
@@ -64,16 +69,22 @@ class Arch:
     9/5 - (x - 6)**2/20
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(lef), initializes the instance correctly) over Any ║
+# ║ Path(__init__(left_support, right_support, **kwargs), <unspecified:__init__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __init__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a5e5575256f6d690           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.arch.Arch.__init__","kind":"method","src_hash":"3c6753d49b3a1379","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(lef)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a5e5575256f6d690"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.arch.Arch.__init__","kind":"method","src_hash":"3c6753d49b3a1379","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(left_support, right_support, **kwargs)","rhs":"<unspecified:__init__>","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a5e5575256f6d690","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self,left_support,right_support,**kwargs):
         self._shape_eqn = None
         self._left_support  = (sympify(left_support[0]),sympify(left_support[1]))
@@ -110,16 +121,22 @@ class Arch:
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_shape_eqn(), returns the get_shape_eqn attribute) over Any ║
+# ║ Path(get_shape_eqn(), <unspecified:get_shape_eqn>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ get_shape_eqn : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 450709ec6c1af850           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.arch.Arch.get_shape_eqn","kind":"property","src_hash":"974c39ae62ab1c15","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_shape_eqn()","rhs":"returns the get_shape_eqn attribute","over":{"base":"Any"},"name":"get_shape_eqn_correct"},"guarantee":"returns the get_shape_eqn attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"450709ec6c1af850"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.arch.Arch.get_shape_eqn","kind":"property","src_hash":"974c39ae62ab1c15","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_shape_eqn()","rhs":"<unspecified:get_shape_eqn>","over":{"base":"Any"},"name":"get_shape_eqn_correct"},"guarantee":"returns the get_shape_eqn attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"450709ec6c1af850","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._crown_x","self._crown_y","self._left_support","self._right_support","self._shape_eqn"],"writes":["self._crown_y"],"raises":["KeyError","ValueError"]},"state_contract":{"modifies":["self._crown_y"],"old_bindings":{"old_self__crown_y":"self._crown_y"},"exceptional_post":{"KeyError":["isinstance(raised, KeyError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def get_shape_eqn(self):
         "returns the equation of the shape of arch developed"
         if self._shape_eqn:
@@ -155,16 +172,22 @@ class Arch:
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_loads(), returns the get_loads attribute) over Any ║
+# ║ Path(get_loads(), self._loads) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._loads                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ get_loads : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7b6e4384590ae50e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.arch.Arch.get_loads","kind":"property","src_hash":"c253f9ce4424f34a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_loads()","rhs":"returns the get_loads attribute","over":{"base":"Any"},"name":"get_loads_correct"},"guarantee":"returns the get_loads attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7b6e4384590ae50e"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.arch.Arch.get_loads","kind":"property","src_hash":"c253f9ce4424f34a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_loads()","rhs":"self._loads","over":{"base":"Any"},"name":"get_loads_correct"},"guarantee":"returns self._loads","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7b6e4384590ae50e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._loads","pure":false,"effects":{"effect_type":"reads_state","reads":["self._loads"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def get_loads(self):
         """
         return the position of the applied load and angle (for concentrated loads)
@@ -173,16 +196,22 @@ class Arch:
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(supports(), returns the supports attribute) over Any  ║
+# ║ Path(supports(), self._supports) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._supports                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ supports : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6a4d93942df23b34           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.arch.Arch.supports","kind":"property","src_hash":"413d80521ee443f1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"supports()","rhs":"returns the supports attribute","over":{"base":"Any"},"name":"supports_correct"},"guarantee":"returns the supports attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6a4d93942df23b34"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.arch.Arch.supports","kind":"property","src_hash":"413d80521ee443f1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"supports()","rhs":"self._supports","over":{"base":"Any"},"name":"supports_correct"},"guarantee":"returns self._supports","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6a4d93942df23b34","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._supports","pure":false,"effects":{"effect_type":"reads_state","reads":["self._supports"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def supports(self):
         """
         Returns the type of support
@@ -191,16 +220,22 @@ class Arch:
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(left_support(), returns the left_support attribute) over Any ║
+# ║ Path(left_support(), self._left_support) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._left_support                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ left_support : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a6877c2381c9440f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.arch.Arch.left_support","kind":"property","src_hash":"bc9913d3dc1c4b92","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"left_support()","rhs":"returns the left_support attribute","over":{"base":"Any"},"name":"left_support_correct"},"guarantee":"returns the left_support attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a6877c2381c9440f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.arch.Arch.left_support","kind":"property","src_hash":"bc9913d3dc1c4b92","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"left_support()","rhs":"self._left_support","over":{"base":"Any"},"name":"left_support_correct"},"guarantee":"returns self._left_support","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a6877c2381c9440f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._left_support","pure":false,"effects":{"effect_type":"reads_state","reads":["self._left_support"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def left_support(self):
         """
         Returns the position of the left support.
@@ -209,16 +244,22 @@ class Arch:
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(right_support(), returns the right_support attribute) over Any ║
+# ║ Path(right_support(), self._right_support) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._right_support                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ right_support : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ed350e54d34f6ed0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.arch.Arch.right_support","kind":"property","src_hash":"ba433ef46b4b782c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"right_support()","rhs":"returns the right_support attribute","over":{"base":"Any"},"name":"right_support_correct"},"guarantee":"returns the right_support attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ed350e54d34f6ed0"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.arch.Arch.right_support","kind":"property","src_hash":"ba433ef46b4b782c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"right_support()","rhs":"self._right_support","over":{"base":"Any"},"name":"right_support_correct"},"guarantee":"returns self._right_support","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ed350e54d34f6ed0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._right_support","pure":false,"effects":{"effect_type":"reads_state","reads":["self._right_support"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def right_support(self):
         """
         Returns the position of the right support.
@@ -227,16 +268,22 @@ class Arch:
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(reaction_force(), returns the reaction_force attribute) over Any ║
+# ║ Path(reaction_force(), self._reaction_force) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._reaction_force                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ reaction_force : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6db09e9b40bcf104           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.arch.Arch.reaction_force","kind":"property","src_hash":"59ebd1e4e241068e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"reaction_force()","rhs":"returns the reaction_force attribute","over":{"base":"Any"},"name":"reaction_force_correct"},"guarantee":"returns the reaction_force attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6db09e9b40bcf104"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.arch.Arch.reaction_force","kind":"property","src_hash":"59ebd1e4e241068e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"reaction_force()","rhs":"self._reaction_force","over":{"base":"Any"},"name":"reaction_force_correct"},"guarantee":"returns self._reaction_force","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6db09e9b40bcf104","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._reaction_force","pure":false,"effects":{"effect_type":"reads_state","reads":["self._reaction_force"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def reaction_force(self):
         """
         return the reaction forces generated
@@ -244,16 +291,22 @@ class Arch:
         return self._reaction_force
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(apply_load(ord), this method adds load to the arch) over Any ║
+# ║ Path(apply_load(order, label, start), <unspecified:apply_load>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ apply_load : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f1b3f8afc44a8f8b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.arch.Arch.apply_load","kind":"method","src_hash":"5b7af4bc0c473de4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"apply_load(ord)","rhs":"this method adds load to the arch","over":{"base":"Any"},"name":"apply_load_correct"},"guarantee":"this method adds load to the arch","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.arch.Arch.apply_load_correct","statement":"Path(apply_load(x), this method adds load to the arch)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f1b3f8afc44a8f8b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.arch.Arch.apply_load","kind":"method","src_hash":"5b7af4bc0c473de4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"apply_load(order, label, start)","rhs":"<unspecified:apply_load>","over":{"base":"Any"},"name":"apply_load_correct"},"guarantee":"this method adds load to the arch","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.arch.Arch.apply_load_correct","statement":"Path(apply_load(x), this method adds load to the arch)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f1b3f8afc44a8f8b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._conc_loads","self._distributed_loads","self._load_x","self._load_y","self._loads_applied","self._moment_x","self._moment_y","self._points_disc_x","self._points_disc_y","self._shape_eqn"],"calls_mutating":["self._points_disc_x.add","self._points_disc_y.add"],"raises":["KeyError","TypeError","ValueError"]},"state_contract":{"modifies":["self.*"],"exceptional_post":{"KeyError":["isinstance(raised, KeyError)"],"TypeError":["isinstance(raised, TypeError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def apply_load(self,order,label,start,mag,end=None,angle=None):
         """
         This method adds load to the Arch.
@@ -362,16 +415,23 @@ class Arch:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(remove_load(lab), this methods removes the load applied to the arch) over Any ║
+# ║ Path(remove_load(label), len(self) == old_len_self - 1) over {Any | len(self) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ remove_load : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: len(self) > 0                                  ║
+# ║   ensures:  len(self) == old_len_self - 1                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ remove_load : {Any | len(self) > 0} → {Any | result s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a75b0954bee2c549  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d84962fdfb6aaae9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.arch.Arch.remove_load","kind":"method","src_hash":"b69fddcabfc22e4f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"remove_load(lab)","rhs":"this methods removes the load applied to the arch","over":{"base":"Any"},"name":"remove_load_correct"},"guarantee":"this methods removes the load applied to the arch","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.arch.Arch.remove_load_correct","statement":"Path(remove_load(x), this methods removes the load applied to the arch)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a75b0954bee2c549"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.arch.Arch.remove_load","kind":"method","src_hash":"b69fddcabfc22e4f","in":{"base":"Any","pred":"len(self) > 0"},"out":{"base":"Any","pred":"result satisfies: len(self) == old_len_self - 1"},"spec":{"lhs":"remove_load(label)","rhs":"len(self) == old_len_self - 1","over":{"base":"Any","pred":"len(self) > 0"},"name":"remove_load_correct"},"guarantee":"len(self) == old_len_self - 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.arch.Arch.remove_load_correct","statement":"Path(remove_load(x), len(self) == old_len_self - 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d84962fdfb6aaae9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["len(self) > 0"],"ensures":["len(self) == old_len_self - 1"],"pure":false,"effects":{"effect_type":"io","reads":["self._conc_loads","self._distributed_loads","self._load_x","self._load_y","self._loads_applied","self._moment_x","self._moment_y","self._points_disc_x","self._points_disc_y"],"calls_mutating":["self._conc_loads.pop","self._distributed_loads.pop","self._loads_applied.pop","self._points_disc_x.remove","self._points_disc_y.remove"],"raises":["ValueError"],"io_operations":["print"]},"state_contract":{"modifies":["self.*"],"old_bindings":{"old_len_self":"len(self)"},"pre_requires":["len(self) > 0","len(self) > 0","len(self) > 0"],"post_ensures":["len(self) == old_len_self - 1","len(self) == old_len_self - 1","len(self) == old_len_self - 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def remove_load(self,label):
         """
         This methods removes the load applied to the arch
@@ -424,16 +484,22 @@ class Arch:
             raise ValueError("label not found")
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(change_support_position(lef), change position of supports. if not provided , defaults to the old value. parameters ==========) over Any ║
+# ║ Path(change_support_position(left_support, right_support), <unspecified:change_support_position>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ change_support_position : Any → Any                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f0553728018e773e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.arch.Arch.change_support_position","kind":"method","src_hash":"255041c87d1cca2c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"change_support_position(lef)","rhs":"change position of supports. if not provided , defaults to the old value. parameters ==========","over":{"base":"Any"},"name":"change_support_position_correct"},"guarantee":"change position of supports. if not provided , defaults to the old value. parameters ==========","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.arch.Arch.change_support_position_correct","statement":"Path(change_support_position(x), change position of supports. if not provided , defaults to the old value. parameters ==========)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f0553728018e773e"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.arch.Arch.change_support_position","kind":"method","src_hash":"255041c87d1cca2c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"change_support_position(left_support, right_support)","rhs":"<unspecified:change_support_position>","over":{"base":"Any"},"name":"change_support_position_correct"},"guarantee":"change position of supports. if not provided , defaults to the old value. parameters ==========","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.arch.Arch.change_support_position_correct","statement":"Path(change_support_position(x), change position of supports. if not provided , defaults to the old value. parameters ==========)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f0553728018e773e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self.get_shape_eqn"],"writes":["self._left_support","self._right_support","self._shape_eqn"]},"state_contract":{"modifies":["self._left_support","self._right_support","self._shape_eqn"],"old_bindings":{"old_self__left_support":"self._left_support","old_self__right_support":"self._right_support","old_self__shape_eqn":"self._shape_eqn"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def change_support_position(self, left_support=None, right_support=None):
         """
         Change position of supports.
@@ -465,16 +531,22 @@ class Arch:
         self._shape_eqn = self.get_shape_eqn
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(change_crown_position(cro), change the position of the crown/hinge of the arch) over Any ║
+# ║ Path(change_crown_position(crown_x, crown_y), <unspecified:change_crown_position>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ change_crown_position : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b7628466d2f53295  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.arch.Arch.change_crown_position","kind":"method","src_hash":"56b8ab3ea9e56d7d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"change_crown_position(cro)","rhs":"change the position of the crown/hinge of the arch","over":{"base":"Any"},"name":"change_crown_position_correct"},"guarantee":"change the position of the crown/hinge of the arch","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.arch.Arch.change_crown_position_correct","statement":"Path(change_crown_position(x), change the position of the crown/hinge of the arch)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b7628466d2f53295"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.arch.Arch.change_crown_position","kind":"method","src_hash":"56b8ab3ea9e56d7d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"change_crown_position(crown_x, crown_y)","rhs":"<unspecified:change_crown_position>","over":{"base":"Any"},"name":"change_crown_position_correct"},"guarantee":"change the position of the crown/hinge of the arch","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.arch.Arch.change_crown_position_correct","statement":"Path(change_crown_position(x), change the position of the crown/hinge of the arch)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b7628466d2f53295","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self.get_shape_eqn"],"writes":["self._crown_x","self._crown_y","self._shape_eqn"]},"state_contract":{"modifies":["self._crown_x","self._crown_y","self._shape_eqn"],"old_bindings":{"old_self__crown_x":"self._crown_x","old_self__crown_y":"self._crown_y","old_self__shape_eqn":"self._shape_eqn"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def change_crown_position(self,crown_x=None,crown_y=None):
         """
         Change the position of the crown/hinge of the arch
@@ -496,16 +568,22 @@ class Arch:
         self._shape_eqn = self.get_shape_eqn
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(change_support_type(lef), add the type for support at each end. can use roller or hinge support at each end) over Any ║
+# ║ Path(change_support_type(left_support, right_support), <unspecified:change_support_type>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ change_support_type : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a8ca7aa86cd707d9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.arch.Arch.change_support_type","kind":"method","src_hash":"2e75fa17f212e11f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"change_support_type(lef)","rhs":"add the type for support at each end. can use roller or hinge support at each end","over":{"base":"Any"},"name":"change_support_type_correct"},"guarantee":"add the type for support at each end. can use roller or hinge support at each end","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.arch.Arch.change_support_type_correct","statement":"Path(change_support_type(x), add the type for support at each end. can use roller or hinge support at each end)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a8ca7aa86cd707d9"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.arch.Arch.change_support_type","kind":"method","src_hash":"2e75fa17f212e11f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"change_support_type(left_support, right_support)","rhs":"<unspecified:change_support_type>","over":{"base":"Any"},"name":"change_support_type_correct"},"guarantee":"add the type for support at each end. can use roller or hinge support at each end","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.arch.Arch.change_support_type_correct","statement":"Path(change_support_type(x), add the type for support at each end. can use roller or hinge support at each end)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a8ca7aa86cd707d9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._supports"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def change_support_type(self,left_support=None,right_support=None):
         """
         Add the type for support at each end.
@@ -545,16 +623,23 @@ class Arch:
             self._supports['right'] = right_support
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(add_member(y), this method adds a member/rod at a particular height y. a rod is used for stability of the structure in case of a roller support) over Any ║
+# ║ Path(add_member(y), <unspecified:add_member>) over {Any | not (y > self._crown_y or y < min(self._left_support[1], self._right_support[1]))} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ add_member : Any → Any                                     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (y > self._crown_y or y < min(self._l...   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ add_member : {Any | not (y > self._crown_y or y < min...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 435dfafed7a8e053  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.arch.Arch.add_member","kind":"method","src_hash":"eb55d4de6f7785af","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"add_member(y)","rhs":"this method adds a member/rod at a particular height y. a rod is used for stability of the structure in case of a roller support","over":{"base":"Any"},"name":"add_member_correct"},"guarantee":"this method adds a member/rod at a particular height y. a rod is used for stability of the structure in case of a roller support","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.arch.Arch.add_member_correct","statement":"Path(add_member(x), this method adds a member/rod at a particular height y. a rod is used for stability of the structure in case of a roller support)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"435dfafed7a8e053"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.arch.Arch.add_member","kind":"method","src_hash":"eb55d4de6f7785af","in":{"base":"Any","pred":"not (y > self._crown_y or y < min(self._left_support[1], self._right_support[1]))"},"out":{"base":"Any"},"spec":{"lhs":"add_member(y)","rhs":"<unspecified:add_member>","over":{"base":"Any","pred":"not (y > self._crown_y or y < min(self._left_support[1], self._right_support[1]))"},"name":"add_member_correct"},"guarantee":"this method adds a member/rod at a particular height y. a rod is used for stability of the structure in case of a roller support","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.arch.Arch.add_member_correct","statement":"Path(add_member(x), this method adds a member/rod at a particular height y. a rod is used for stability of the structure in case of a roller support)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"435dfafed7a8e053","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (y > self._crown_y or y < min(self._left_support[1], self._right_support[1]))"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self._crown_x","self._crown_y","self._left_support","self._right_support","self._shape_eqn"],"writes":["self._member"],"raises":["ValueError"]},"state_contract":{"modifies":["self._member"],"old_bindings":{"old_self__member":"self._member"},"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def add_member(self,y):
         """
         This method adds a member/rod at a particular height y.
@@ -570,16 +655,25 @@ class Arch:
         self._member = (x1,x2,y)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(shear_force_at(pos), return the shear at some x-coordinates if no x value provided, returns the formula) over Any ║
+# ║ Path(shear_force_at(pos, **kwargs), result == (self._shear_force if pos is None else self._shear_force.subs(x, pos)) and result == self._shear_force or result == self._shear_force.subs(x, pos)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ shear_force_at : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (self._shear_force if pos is No...   ║
+# ║   ensures:  result == self._shear_force or result == ...   ║
+# ║   fiber[zero_or_none]: pos is None => self._shear_force    ║
+# ║   fiber[zero_or_none]: not (pos is None) => self._she...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ shear_force_at : Any → {Any | result satisfies: resul...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cb9be8298dd2e794  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6af3fc6a2b87b2b9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.arch.Arch.shear_force_at","kind":"method","src_hash":"020e8098e99a3257","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"shear_force_at(pos)","rhs":"return the shear at some x-coordinates if no x value provided, returns the formula","over":{"base":"Any"},"name":"shear_force_at_correct"},"guarantee":"return the shear at some x-coordinates if no x value provided, returns the formula","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.arch.Arch.shear_force_at_correct","statement":"Path(shear_force_at(x), return the shear at some x-coordinates if no x value provided, returns the formula)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cb9be8298dd2e794"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.arch.Arch.shear_force_at","kind":"method","src_hash":"020e8098e99a3257","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (self._shear_force if pos is None else self._shear_force.subs(x, pos)) and result == self._shear_force or result == self._shear_force.subs(x, pos)"},"spec":{"lhs":"shear_force_at(pos, **kwargs)","rhs":"result == (self._shear_force if pos is None else self._shear_force.subs(x, pos)) and result == self._shear_force or result == self._shear_force.subs(x, pos)","over":{"base":"Any"},"name":"shear_force_at_correct"},"guarantee":"result == (self._shear_force if pos is None else self._shear_force.subs(x, pos)); result == self._shear_force or result == self._shear_force.subs(x, pos); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.arch.Arch.shear_force_at_correct","statement":"Path(shear_force_at(x), result == (self._shear_force if pos is None else self._shear_force.subs(x, pos)); result == self._shear_force or result == self._shear_force.subs(x, pos); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6af3fc6a2b87b2b9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (self._shear_force if pos is None else self._shear_force.subs(x, pos))","result == self._shear_force or result == self._shear_force.subs(x, pos)"],"fibers":[{"name":"zero_or_none","guard":"pos is None","ensures":["result == self._shear_force"],"decidability":"structural","returns_expr":"self._shear_force"},{"name":"zero_or_none","guard":"not (pos is None)","ensures":["result == self._shear_force.subs(x, pos)"],"decidability":"structural","returns_expr":"self._shear_force.subs(x, pos)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._shear_force"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def shear_force_at(self, pos = None, **kwargs):
         """
         return the shear at some x-coordinates
@@ -595,16 +689,25 @@ class Arch:
             return self._shear_force.subs(x,pos)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(bending_moment_at(pos), return the bending moment at some x-coordinates if no x value provided, returns the formula) over Any ║
+# ║ Path(bending_moment_at(pos, **kwargs), result == (self._bending_moment if pos is None else self._bending_moment.subs(x0, pos)) and result == self._bending_moment or result == self._bending_moment.subs(x0, pos)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ bending_moment_at : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (self._bending_moment if pos is...   ║
+# ║   ensures:  result == self._bending_moment or result ...   ║
+# ║   fiber[zero_or_none]: pos is None => self._bending_m...   ║
+# ║   fiber[zero_or_none]: not (pos is None) => self._ben...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ bending_moment_at : Any → {Any | result satisfies: re...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ee7b9a966388fb19  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 182215252b505ae4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.arch.Arch.bending_moment_at","kind":"method","src_hash":"db0c05dcaa2e86ca","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bending_moment_at(pos)","rhs":"return the bending moment at some x-coordinates if no x value provided, returns the formula","over":{"base":"Any"},"name":"bending_moment_at_correct"},"guarantee":"return the bending moment at some x-coordinates if no x value provided, returns the formula","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.arch.Arch.bending_moment_at_correct","statement":"Path(bending_moment_at(x), return the bending moment at some x-coordinates if no x value provided, returns the formula)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ee7b9a966388fb19"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.arch.Arch.bending_moment_at","kind":"method","src_hash":"db0c05dcaa2e86ca","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (self._bending_moment if pos is None else self._bending_moment.subs(x0, pos)) and result == self._bending_moment or result == self._bending_moment.subs(x0, pos)"},"spec":{"lhs":"bending_moment_at(pos, **kwargs)","rhs":"result == (self._bending_moment if pos is None else self._bending_moment.subs(x0, pos)) and result == self._bending_moment or result == self._bending_moment.subs(x0, pos)","over":{"base":"Any"},"name":"bending_moment_at_correct"},"guarantee":"result == (self._bending_moment if pos is None else self._bending_moment.subs(x0, pos)); result == self._bending_moment or result == self._bending_moment.subs(x0, pos); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.arch.Arch.bending_moment_at_correct","statement":"Path(bending_moment_at(x), result == (self._bending_moment if pos is None else self._bending_moment.subs(x0, pos)); result == self._bending_moment or result == self._bending_moment.subs(x0, pos); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"182215252b505ae4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (self._bending_moment if pos is None else self._bending_moment.subs(x0, pos))","result == self._bending_moment or result == self._bending_moment.subs(x0, pos)"],"fibers":[{"name":"zero_or_none","guard":"pos is None","ensures":["result == self._bending_moment"],"decidability":"structural","returns_expr":"self._bending_moment"},{"name":"zero_or_none","guard":"not (pos is None)","ensures":["result == self._bending_moment.subs(x0, pos)"],"decidability":"structural","returns_expr":"self._bending_moment.subs(x0, pos)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._bending_moment"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def bending_moment_at(self, pos = None, **kwargs):
         """
         return the bending moment at some x-coordinates
@@ -621,16 +724,25 @@ class Arch:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(axial_force_at(pos), return the axial/normal force generated at some x-coordinate if no x value provided, returns the formula) over Any ║
+# ║ Path(axial_force_at(pos, **kwargs), result == (self._axial_force if pos is None else self._axial_force.subs(x, pos)) and result == self._axial_force or result == self._axial_force.subs(x, pos)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ axial_force_at : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (self._axial_force if pos is No...   ║
+# ║   ensures:  result == self._axial_force or result == ...   ║
+# ║   fiber[zero_or_none]: pos is None => self._axial_force    ║
+# ║   fiber[zero_or_none]: not (pos is None) => self._axi...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ axial_force_at : Any → {Any | result satisfies: resul...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3b4dc1b1eb5a7fe4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2a64839fcc8df356  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.arch.Arch.axial_force_at","kind":"method","src_hash":"3511676928ab5184","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"axial_force_at(pos)","rhs":"return the axial/normal force generated at some x-coordinate if no x value provided, returns the formula","over":{"base":"Any"},"name":"axial_force_at_correct"},"guarantee":"return the axial/normal force generated at some x-coordinate if no x value provided, returns the formula","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.arch.Arch.axial_force_at_correct","statement":"Path(axial_force_at(x), return the axial/normal force generated at some x-coordinate if no x value provided, returns the formula)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3b4dc1b1eb5a7fe4"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.arch.Arch.axial_force_at","kind":"method","src_hash":"3511676928ab5184","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (self._axial_force if pos is None else self._axial_force.subs(x, pos)) and result == self._axial_force or result == self._axial_force.subs(x, pos)"},"spec":{"lhs":"axial_force_at(pos, **kwargs)","rhs":"result == (self._axial_force if pos is None else self._axial_force.subs(x, pos)) and result == self._axial_force or result == self._axial_force.subs(x, pos)","over":{"base":"Any"},"name":"axial_force_at_correct"},"guarantee":"result == (self._axial_force if pos is None else self._axial_force.subs(x, pos)); result == self._axial_force or result == self._axial_force.subs(x, pos); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.arch.Arch.axial_force_at_correct","statement":"Path(axial_force_at(x), result == (self._axial_force if pos is None else self._axial_force.subs(x, pos)); result == self._axial_force or result == self._axial_force.subs(x, pos); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2a64839fcc8df356","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (self._axial_force if pos is None else self._axial_force.subs(x, pos))","result == self._axial_force or result == self._axial_force.subs(x, pos)"],"fibers":[{"name":"zero_or_none","guard":"pos is None","ensures":["result == self._axial_force"],"decidability":"structural","returns_expr":"self._axial_force"},{"name":"zero_or_none","guard":"not (pos is None)","ensures":["result == self._axial_force.subs(x, pos)"],"decidability":"structural","returns_expr":"self._axial_force.subs(x, pos)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._axial_force"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def axial_force_at(self,pos = None, **kwargs):
         """
         return the axial/normal force generated at some x-coordinate
@@ -646,16 +758,22 @@ class Arch:
             return self._axial_force.subs(x,pos)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(solve(), this method solves for the reaction forces generated at the supports,) over Any ║
+# ║ Path(solve(), # HINT: solve may be idempotent: solve(solve(x)) == solve(x)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ solve : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  # HINT: solve may be idempotent: solve(so...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ solve : Any → {Any | result satisfies: # HINT: solve ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4c13388f6d4ae7c2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3c412f8f7a1837bd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.arch.Arch.solve","kind":"method","src_hash":"5dcaa7a81f5d59ce","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"solve()","rhs":"this method solves for the reaction forces generated at the supports,","over":{"base":"Any"},"name":"solve_correct"},"guarantee":"this method solves for the reaction forces generated at the supports,","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.arch.Arch.solve_correct","statement":"Path(solve(x), this method solves for the reaction forces generated at the supports,)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4c13388f6d4ae7c2"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.arch.Arch.solve","kind":"method","src_hash":"5dcaa7a81f5d59ce","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: # HINT: solve may be idempotent: solve(solve(x)) == solve(x)"},"spec":{"lhs":"solve()","rhs":"# HINT: solve may be idempotent: solve(solve(x)) == solve(x)","over":{"base":"Any"},"name":"solve_correct"},"guarantee":"# HINT: solve may be idempotent: solve(solve(x)) == solve(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.arch.Arch.solve_correct","statement":"Path(solve(x), # HINT: solve may be idempotent: solve(solve(x)) == solve(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3c412f8f7a1837bd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["# HINT: solve may be idempotent: solve(solve(x)) == solve(x)"],"pure":false,"effects":{"effect_type":"io","reads":["self._crown_x","self._crown_y","self._left_support","self._load_x","self._load_x_func","self._load_y","self._load_y_func","self._member","self._moment_x","self._moment_x_func","self._moment_y","self._moment_y_func","self._points_disc_x","self._points_disc_y","self._reaction_force","self._right_support","self._shape_eqn","self._supports"],"writes":["self._axial_force","self._bending_moment","self._load_x_func","self._load_y_func","self._moment_x_func","self._moment_y_func","self._shear_force"],"raises":["ValueError"],"io_operations":["print"]},"state_contract":{"modifies":["self._axial_force","self._bending_moment","self._load_x_func","self._load_y_func","self._moment_x_func","self._moment_y_func","self._shear_force"],"old_bindings":{"old_self__axial_force":"self._axial_force","old_self__bending_moment":"self._bending_moment","old_self__load_x_func":"self._load_x_func","old_self__load_y_func":"self._load_y_func","old_self__moment_x_func":"self._moment_x_func","old_self__moment_y_func":"self._moment_y_func","old_self__shear_force":"self._shear_force"},"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def solve(self):
         """
         This method solves for the reaction forces generated at the supports,\n
@@ -862,16 +980,22 @@ class Arch:
 
     @doctest_depends_on(modules=('numpy',))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(draw(), this method returns a plot object containing the diagram of the specified arch along with the supports and forces applied to the structure) over Any ║
+# ║ Path(draw(), <unspecified:draw>) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ draw : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1412f66628f071f3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.arch.Arch.draw","kind":"method","src_hash":"8defa57e6297be28","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"draw()","rhs":"this method returns a plot object containing the diagram of the specified arch along with the supports and forces applied to the structure","over":{"base":"Any"},"name":"draw_correct"},"guarantee":"this method returns a plot object containing the diagram of the specified arch along with the supports and forces applied to the structure","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.arch.Arch.draw_correct","statement":"Path(draw(x), this method returns a plot object containing the diagram of the specified arch along with the supports and forces applied to the structure)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1412f66628f071f3"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.arch.Arch.draw","kind":"method","src_hash":"8defa57e6297be28","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"draw()","rhs":"<unspecified:draw>","over":{"base":"Any"},"name":"draw_correct"},"guarantee":"this method returns a plot object containing the diagram of the specified arch along with the supports and forces applied to the structure","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.arch.Arch.draw_correct","statement":"Path(draw(x), this method returns a plot object containing the diagram of the specified arch along with the supports and forces applied to the structure)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1412f66628f071f3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def draw(self):
         """
         This method returns a plot object containing the diagram of the specified arch along with the supports
@@ -979,16 +1103,22 @@ class Arch:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_draw_supports(), internal helper behaves correctly) over Any ║
+# ║ Path(_draw_supports(), <unspecified:_draw_supports>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _draw_supports : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a3447f9dc9b23366  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.arch.Arch._draw_supports","kind":"method","src_hash":"b8ce9f831162e79c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_draw_supports()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_draw_supports_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.arch.Arch._draw_supports_correct","statement":"Path(_draw_supports(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a3447f9dc9b23366"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.arch.Arch._draw_supports","kind":"method","src_hash":"b8ce9f831162e79c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_draw_supports()","rhs":"<unspecified:_draw_supports>","over":{"base":"Any"},"name":"_draw_supports_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.arch.Arch._draw_supports_correct","statement":"Path(_draw_supports(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a3447f9dc9b23366","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _draw_supports(self):
         support_markers = []
 
@@ -1085,16 +1215,22 @@ class Arch:
         return support_markers
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_draw_rectangles(), internal helper behaves correctly) over Any ║
+# ║ Path(_draw_rectangles(), <unspecified:_draw_rectangles>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _draw_rectangles : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 088661ae1c11c585  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.arch.Arch._draw_rectangles","kind":"method","src_hash":"8362a69f2553c242","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_draw_rectangles()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_draw_rectangles_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.arch.Arch._draw_rectangles_correct","statement":"Path(_draw_rectangles(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"088661ae1c11c585"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.arch.Arch._draw_rectangles","kind":"method","src_hash":"8362a69f2553c242","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_draw_rectangles()","rhs":"<unspecified:_draw_rectangles>","over":{"base":"Any"},"name":"_draw_rectangles_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.arch.Arch._draw_rectangles_correct","statement":"Path(_draw_rectangles(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"088661ae1c11c585","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _draw_rectangles(self):
         member = []
 
@@ -1161,16 +1297,22 @@ class Arch:
         return member
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_draw_loads(), internal helper behaves correctly) over Any ║
+# ║ Path(_draw_loads(), <unspecified:_draw_loads>) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _draw_loads : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8c41a29c04bb7894  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.arch.Arch._draw_loads","kind":"method","src_hash":"c9406c94c86b81bd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_draw_loads()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_draw_loads_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.arch.Arch._draw_loads_correct","statement":"Path(_draw_loads(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8c41a29c04bb7894"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.arch.Arch._draw_loads","kind":"method","src_hash":"c9406c94c86b81bd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_draw_loads()","rhs":"<unspecified:_draw_loads>","over":{"base":"Any"},"name":"_draw_loads_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.arch.Arch._draw_loads_correct","statement":"Path(_draw_loads(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8c41a29c04bb7894","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _draw_loads(self):
         load_annotations = []
 
@@ -1257,16 +1399,22 @@ class Arch:
         return load_annotations
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_draw_filler(), internal helper behaves correctly) over Any ║
+# ║ Path(_draw_filler(), <unspecified:_draw_filler>) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _draw_filler : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 331ef8bf4c77759d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.arch.Arch._draw_filler","kind":"method","src_hash":"4ab00a5886a1b80b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_draw_filler()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_draw_filler_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.arch.Arch._draw_filler_correct","statement":"Path(_draw_filler(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"331ef8bf4c77759d"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.arch.Arch._draw_filler","kind":"method","src_hash":"4ab00a5886a1b80b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_draw_filler()","rhs":"<unspecified:_draw_filler>","over":{"base":"Any"},"name":"_draw_filler_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.arch.Arch._draw_filler_correct","statement":"Path(_draw_filler(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"331ef8bf4c77759d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _draw_filler(self):
         x = Symbol('x')
         filler = []

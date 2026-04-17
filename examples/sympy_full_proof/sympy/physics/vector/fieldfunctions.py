@@ -29,16 +29,25 @@ __all__ = ['curl', 'divergence', 'gradient', 'is_conservative',
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(curl(vec), returns the curl of a vector field computed wrt the coordinate symbols of the given frame) over Any ║
+# ║ Path(curl(vect, frame), <unspecified:curl>) over {Any | hasattr(vect, 'dot') and hasattr(frame, 'x') and hasattr(frame, 'y') and hasattr(frame, 'z')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ curl : Any → Any                                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(vect, 'dot')                           ║
+# ║   requires: hasattr(frame, 'x')                            ║
+# ║   requires: hasattr(frame, 'y')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ curl : {Any | hasattr(vect, 'dot') and hasattr(frame,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5b681fd954a48975  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.fieldfunctions.curl","kind":"function","src_hash":"88c505115f38dc5e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"curl(vec)","rhs":"returns the curl of a vector field computed wrt the coordinate symbols of the given frame","over":{"base":"Any"},"name":"curl_correct"},"guarantee":"returns the curl of a vector field computed wrt the coordinate symbols of the given frame","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.fieldfunctions.curl_correct","statement":"Path(curl(x), returns the curl of a vector field computed wrt the coordinate symbols of the given frame)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5b681fd954a48975"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.fieldfunctions.curl","kind":"function","src_hash":"88c505115f38dc5e","in":{"base":"Any","pred":"hasattr(vect, 'dot') and hasattr(frame, 'x') and hasattr(frame, 'y') and hasattr(frame, 'z')"},"out":{"base":"Any"},"spec":{"lhs":"curl(vect, frame)","rhs":"<unspecified:curl>","over":{"base":"Any","pred":"hasattr(vect, 'dot') and hasattr(frame, 'x') and hasattr(frame, 'y') and hasattr(frame, 'z')"},"name":"curl_correct"},"guarantee":"returns the curl of a vector field computed wrt the coordinate symbols of the given frame","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.fieldfunctions.curl_correct","statement":"Path(curl(x), returns the curl of a vector field computed wrt the coordinate symbols of the given frame)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5b681fd954a48975","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(vect, 'dot')","hasattr(frame, 'x')","hasattr(frame, 'y')","hasattr(frame, 'z')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["frame.x","frame.y","frame.z","vect.dot"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def curl(vect, frame):
     """
     Returns the curl of a vector field computed wrt the coordinate
@@ -84,16 +93,25 @@ def curl(vect, frame):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(divergence(vec), returns the divergence of a vector field computed wrt the coordinate symbols of the given frame) over Any ║
+# ║ Path(divergence(vect, frame), <unspecified:divergence>) over {Any | hasattr(vect, 'dot') and hasattr(frame, 'x') and hasattr(frame, 'y') and hasattr(frame, 'z')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ divergence : Any → Any                                     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(vect, 'dot')                           ║
+# ║   requires: hasattr(frame, 'x')                            ║
+# ║   requires: hasattr(frame, 'y')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ divergence : {Any | hasattr(vect, 'dot') and hasattr(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8f730dfd87485650  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.fieldfunctions.divergence","kind":"function","src_hash":"df1bffc9108a4252","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"divergence(vec)","rhs":"returns the divergence of a vector field computed wrt the coordinate symbols of the given frame","over":{"base":"Any"},"name":"divergence_correct"},"guarantee":"returns the divergence of a vector field computed wrt the coordinate symbols of the given frame","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.fieldfunctions.divergence_correct","statement":"Path(divergence(x), returns the divergence of a vector field computed wrt the coordinate symbols of the given frame)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8f730dfd87485650"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.fieldfunctions.divergence","kind":"function","src_hash":"df1bffc9108a4252","in":{"base":"Any","pred":"hasattr(vect, 'dot') and hasattr(frame, 'x') and hasattr(frame, 'y') and hasattr(frame, 'z')"},"out":{"base":"Any"},"spec":{"lhs":"divergence(vect, frame)","rhs":"<unspecified:divergence>","over":{"base":"Any","pred":"hasattr(vect, 'dot') and hasattr(frame, 'x') and hasattr(frame, 'y') and hasattr(frame, 'z')"},"name":"divergence_correct"},"guarantee":"returns the divergence of a vector field computed wrt the coordinate symbols of the given frame","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.fieldfunctions.divergence_correct","statement":"Path(divergence(x), returns the divergence of a vector field computed wrt the coordinate symbols of the given frame)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8f730dfd87485650","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(vect, 'dot')","hasattr(frame, 'x')","hasattr(frame, 'y')","hasattr(frame, 'z')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["frame.x","frame.y","frame.z","vect.dot"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def divergence(vect, frame):
     """
     Returns the divergence of a vector field computed wrt the coordinate
@@ -138,16 +156,22 @@ def divergence(vect, frame):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gradient(sca), returns the vector gradient of a scalar field computed wrt the coordinate symbols of the given frame) over Any ║
+# ║ Path(gradient(scalar, frame), <unspecified:gradient>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gradient : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 136bb52f61330c19  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.fieldfunctions.gradient","kind":"function","src_hash":"e1b10811b97cfe65","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gradient(sca)","rhs":"returns the vector gradient of a scalar field computed wrt the coordinate symbols of the given frame","over":{"base":"Any"},"name":"gradient_correct"},"guarantee":"returns the vector gradient of a scalar field computed wrt the coordinate symbols of the given frame","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.fieldfunctions.gradient_correct","statement":"Path(gradient(x), returns the vector gradient of a scalar field computed wrt the coordinate symbols of the given frame)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"136bb52f61330c19"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.fieldfunctions.gradient","kind":"function","src_hash":"e1b10811b97cfe65","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gradient(scalar, frame)","rhs":"<unspecified:gradient>","over":{"base":"Any"},"name":"gradient_correct"},"guarantee":"returns the vector gradient of a scalar field computed wrt the coordinate symbols of the given frame","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.fieldfunctions.gradient_correct","statement":"Path(gradient(x), returns the vector gradient of a scalar field computed wrt the coordinate symbols of the given frame)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"136bb52f61330c19","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def gradient(scalar, frame):
     """
     Returns the vector gradient of a scalar field computed wrt the
@@ -186,16 +210,23 @@ def gradient(scalar, frame):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_conservative(fie), checks if a field is conservative) over Any ║
+# ║ Path(is_conservative(field), <unspecified:is_conservative>) over {Any | hasattr(field, 'separate')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ is_conservative : Any → Any                                ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(field, 'separate')                     ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ is_conservative : {Any | hasattr(field, 'separate')} ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e038b6ac2fd56e9d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.fieldfunctions.is_conservative","kind":"function","src_hash":"a1222706051d7537","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_conservative(fie)","rhs":"checks if a field is conservative","over":{"base":"Any"},"name":"is_conservative_correct"},"guarantee":"checks if a field is conservative","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.fieldfunctions.is_conservative_correct","statement":"Path(is_conservative(x), checks if a field is conservative)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e038b6ac2fd56e9d"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.fieldfunctions.is_conservative","kind":"function","src_hash":"a1222706051d7537","in":{"base":"Any","pred":"hasattr(field, 'separate')"},"out":{"base":"Any"},"spec":{"lhs":"is_conservative(field)","rhs":"<unspecified:is_conservative>","over":{"base":"Any","pred":"hasattr(field, 'separate')"},"name":"is_conservative_correct"},"guarantee":"checks if a field is conservative","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.fieldfunctions.is_conservative_correct","statement":"Path(is_conservative(x), checks if a field is conservative)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e038b6ac2fd56e9d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(field, 'separate')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["field.separate"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def is_conservative(field):
     """
     Checks if a field is conservative.
@@ -228,16 +259,23 @@ def is_conservative(field):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_solenoidal(fie), checks if a field is solenoidal) over Any ║
+# ║ Path(is_solenoidal(field), <unspecified:is_solenoidal>) over {Any | hasattr(field, 'separate')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ is_solenoidal : Any → Any                                  ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(field, 'separate')                     ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ is_solenoidal : {Any | hasattr(field, 'separate')} → Any   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b88944b1831fb442  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.fieldfunctions.is_solenoidal","kind":"function","src_hash":"ab03b148816f2318","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_solenoidal(fie)","rhs":"checks if a field is solenoidal","over":{"base":"Any"},"name":"is_solenoidal_correct"},"guarantee":"checks if a field is solenoidal","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.fieldfunctions.is_solenoidal_correct","statement":"Path(is_solenoidal(x), checks if a field is solenoidal)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b88944b1831fb442"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.fieldfunctions.is_solenoidal","kind":"function","src_hash":"ab03b148816f2318","in":{"base":"Any","pred":"hasattr(field, 'separate')"},"out":{"base":"Any"},"spec":{"lhs":"is_solenoidal(field)","rhs":"<unspecified:is_solenoidal>","over":{"base":"Any","pred":"hasattr(field, 'separate')"},"name":"is_solenoidal_correct"},"guarantee":"checks if a field is solenoidal","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.fieldfunctions.is_solenoidal_correct","statement":"Path(is_solenoidal(x), checks if a field is solenoidal)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b88944b1831fb442","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(field, 'separate')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["field.separate"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def is_solenoidal(field):
     """
     Checks if a field is solenoidal.
@@ -270,16 +308,24 @@ def is_solenoidal(field):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(scalar_potential(fie), returns the scalar potential function of a field in a given frame (without the added integration constant)) over Any ║
+# ║ Path(scalar_potential(field, frame), <unspecified:scalar_potential>) over {Any | is_conservative(field) and hasattr(field, 'dot')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ scalar_potential : Any → Any                               ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: is_conservative(field)                         ║
+# ║   requires: hasattr(field, 'dot')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ scalar_potential : {Any | is_conservative(field) and ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3fafdf7b414fe025  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.fieldfunctions.scalar_potential","kind":"function","src_hash":"7a9ec211247041a7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"scalar_potential(fie)","rhs":"returns the scalar potential function of a field in a given frame (without the added integration constant)","over":{"base":"Any"},"name":"scalar_potential_correct"},"guarantee":"returns the scalar potential function of a field in a given frame (without the added integration constant)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.fieldfunctions.scalar_potential_correct","statement":"Path(scalar_potential(x), returns the scalar potential function of a field in a given frame (without the added integration constant))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3fafdf7b414fe025"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.fieldfunctions.scalar_potential","kind":"function","src_hash":"7a9ec211247041a7","in":{"base":"Any","pred":"is_conservative(field) and hasattr(field, 'dot')"},"out":{"base":"Any"},"spec":{"lhs":"scalar_potential(field, frame)","rhs":"<unspecified:scalar_potential>","over":{"base":"Any","pred":"is_conservative(field) and hasattr(field, 'dot')"},"name":"scalar_potential_correct"},"guarantee":"returns the scalar potential function of a field in a given frame (without the added integration constant)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.fieldfunctions.scalar_potential_correct","statement":"Path(scalar_potential(x), returns the scalar potential function of a field in a given frame (without the added integration constant))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3fafdf7b414fe025","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["is_conservative(field)","hasattr(field, 'dot')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["field.dot"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def scalar_potential(field, frame):
     """
     Returns the scalar potential function of a field in a given frame
@@ -331,7 +377,12 @@ def scalar_potential(field, frame):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(scalar_potential_difference(fie), returns the scalar potential difference between two points in a certain frame, wrt a given field) over {Any | isinstance(field, Vector)} ║
+# ║ Path(scalar_potential_difference(field, frame, point1), scalar_fn.subs(subs_dict2) - scalar_fn.subs(subs_dict1)) over {Any | isinstance(field, Vector) and hasattr(point1, 'pos_from') and hasattr(point2, 'pos_from')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(point1, 'pos_from')                    ║
+# ║   requires: hasattr(point2, 'pos_from')                    ║
+# ║   returns:  scalar_fn.subs(subs_dict2) - scalar_fn.su...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ scalar_potential_difference : {Any | isinstance(field...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -343,9 +394,12 @@ def scalar_potential(field, frame):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.4ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 34156200...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.fieldfunctions.scalar_potential_difference","kind":"function","src_hash":"3495e0b2ab87f942","in":{"base":"Any","pred":"isinstance(field, Vector)"},"out":{"base":"Any"},"spec":{"lhs":"scalar_potential_difference(fie)","rhs":"returns the scalar potential difference between two points in a certain frame, wrt a given field","over":{"base":"Any","pred":"isinstance(field, Vector)"},"name":"scalar_potential_difference_correct"},"guarantee":"returns the scalar potential difference between two points in a certain frame, wrt a given field","fibers":[{"name":"Vector","pred":"isinstance(field, Vector)","path":{"lhs":"scalar_potential_difference(x)","rhs":"returns the scalar potential difference between two points in a certain frame, wrt a given field","over":{"base":"Vector","pred":"isinstance(field, Vector)"},"name":"scalar_potential_difference_Vector_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.fieldfunctions.scalar_potential_difference_Vector_correct","statement":"scalar_potential_difference satisfies spec on Vector inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"341562001629feb3"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.fieldfunctions.scalar_potential_difference","kind":"function","src_hash":"3495e0b2ab87f942","in":{"base":"Any","pred":"isinstance(field, Vector) and hasattr(point1, 'pos_from') and hasattr(point2, 'pos_from')"},"out":{"base":"Any"},"spec":{"lhs":"scalar_potential_difference(field, frame, point1)","rhs":"scalar_fn.subs(subs_dict2) - scalar_fn.subs(subs_dict1)","over":{"base":"Any","pred":"isinstance(field, Vector) and hasattr(point1, 'pos_from') and hasattr(point2, 'pos_from')"},"name":"scalar_potential_difference_correct"},"guarantee":"returns scalar_fn.subs(subs_dict2) - scalar_fn.subs(subs_dict1)","fibers":[{"name":"Vector","pred":"isinstance(field, Vector)","path":{"lhs":"scalar_potential_difference(x)","rhs":"returns scalar_fn.subs(subs_dict2) - scalar_fn.subs(subs_dict1)","over":{"base":"Vector","pred":"isinstance(field, Vector)"},"name":"scalar_potential_difference_Vector_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.fieldfunctions.scalar_potential_difference_Vector_correct","statement":"scalar_potential_difference satisfies spec on Vector inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"341562001629feb3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(point1, 'pos_from')","hasattr(point2, 'pos_from')"],"returns_expr":"scalar_fn.subs(subs_dict2) - scalar_fn.subs(subs_dict1)","pure":false,"effects":{"effect_type":"reads_state","reads":["point1.pos_from","point2.pos_from"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.4,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(field, Vector)'}, fibers={'Vector'})"]}}
 def scalar_potential_difference(field, frame, point1, point2, origin):
     """
     Returns the scalar potential difference between two points in a

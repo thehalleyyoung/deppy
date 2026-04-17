@@ -32,16 +32,24 @@ from sympy.matrices.expressions.matexpr import MatrixSymbol
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Abs(), test_Abs produces the expected output) over Any ║
+# ║ Path(test_Abs(), refine(Abs(x), Q.positive(x)) == x and refine(1 + Abs(x), Q.positive(x)) == 1 + x and refine(Abs(x), Q.negative(x)) == -x and refine(1 + Abs(x), Q.negative(x)) == 1 - x and refine(Abs(x ** 2)) != x ** 2 and refine(Abs(x ** 2), Q.real(x)) == x ** 2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Abs : Any → {Any | refine(Abs(x), Q.positive(x))...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  refine(Abs(x), Q.positive(x)) == x             ║
+# ║   ensures:  refine(1 + Abs(x), Q.positive(x)) == 1 + x     ║
+# ║   ensures:  refine(Abs(x), Q.negative(x)) == -x            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Abs : Any → {Any | result satisfies: refine(Abs(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5de26948351cd2f9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 291a5990bdb1dd45  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.tests.test_refine.test_Abs","kind":"function","src_hash":"00f5cfa4ac9785c7","in":{"base":"Any"},"out":{"base":"Any","pred":"refine(Abs(x), Q.positive(x)) == x and refine(1 + Abs(x), Q.positive(x)) == 1 + x and refine(Abs(x), Q.negative(x)) == -x and refine(1 + Abs(x), Q.negative(x)) == 1 - x and refine(Abs(x ** 2)) != x ** 2 and refine(Abs(x ** 2), Q.real(x)) == x ** 2"},"spec":{"lhs":"test_Abs()","rhs":"test_Abs produces the expected output","over":{"base":"Any"},"name":"test_Abs_correct"},"guarantee":"test_Abs produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.tests.test_refine.test_Abs_correct","statement":"Path(test_Abs(x), test_Abs produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5de26948351cd2f9"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.tests.test_refine.test_Abs","kind":"function","src_hash":"00f5cfa4ac9785c7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: refine(Abs(x), Q.positive(x)) == x and refine(1 + Abs(x), Q.positive(x)) == 1 + x and refine(Abs(x), Q.negative(x)) == -x and refine(1 + Abs(x), Q.negative(x)) == 1 - x and refine(Abs(x ** 2)) != x ** 2 and refine(Abs(x ** 2), Q.real(x)) == x ** 2"},"spec":{"lhs":"test_Abs()","rhs":"refine(Abs(x), Q.positive(x)) == x and refine(1 + Abs(x), Q.positive(x)) == 1 + x and refine(Abs(x), Q.negative(x)) == -x and refine(1 + Abs(x), Q.negative(x)) == 1 - x and refine(Abs(x ** 2)) != x ** 2 and refine(Abs(x ** 2), Q.real(x)) == x ** 2","over":{"base":"Any"},"name":"test_Abs_correct"},"guarantee":"refine(Abs(x), Q.positive(x)) == x; refine(1 + Abs(x), Q.positive(x)) == 1 + x; refine(Abs(x), Q.negative(x)) == -x","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.tests.test_refine.test_Abs_correct","statement":"Path(test_Abs(x), refine(Abs(x), Q.positive(x)) == x; refine(1 + Abs(x), Q.positive(x)) == 1 + x; refine(Abs(x), Q.negative(x)) == -x)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"291a5990bdb1dd45","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["refine(Abs(x), Q.positive(x)) == x","refine(1 + Abs(x), Q.positive(x)) == 1 + x","refine(Abs(x), Q.negative(x)) == -x","refine(1 + Abs(x), Q.negative(x)) == 1 - x","refine(Abs(x ** 2)) != x ** 2","refine(Abs(x ** 2), Q.real(x)) == x ** 2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_Abs():
     assert refine(Abs(x), Q.positive(x)) == x
     assert refine(1 + Abs(x), Q.positive(x)) == 1 + x
@@ -53,16 +61,24 @@ def test_Abs():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pow1(), test_pow1 produces the expected output) over Any ║
+# ║ Path(test_pow1(), refine((-1) ** x, Q.even(x)) == 1 and refine((-1) ** x, Q.odd(x)) == -1 and refine((-2) ** x, Q.even(x)) == 2 ** x and refine(sqrt(x ** 2)) != Abs(x) and refine(sqrt(x ** 2), Q.complex(x)) != Abs(x) and refine(sqrt(x ** 2), Q.real(x)) == Abs(x) and refine(sqrt(x ** 2), Q.positive(x)) == x and refine((x ** 3) ** Rational(1, 3)) != x and refine((x ** 3) ** Rational(1, 3), Q.real(x)) != x and refine((x ** 3) ** Rational(1, 3), Q.positive(x)) == x and refine(sqrt(1 / x), Q.real(x)) != 1 / sqrt(x) and refine(sqrt(1 / x), Q.positive(x)) == 1 / sqrt(x) and refine((-1) ** (x + y), Q.even(x)) == (-1) ** y and refine((-1) ** (x + y + z), Q.odd(x) & Q.odd(z)) == (-1) ** y and refine((-1) ** (x + y + 1), Q.odd(x)) == (-1) ** y and refine((-1) ** (x + y + 2), Q.odd(x)) == (-1) ** (y + 1) and refine((-1) ** (x + 3)) == (-1) ** (x + 1) and refine((-1) ** ((-1) ** x / 2 - S.Half), Q.integer(x)) == (-1) ** x and refine((-1) ** ((-1) ** x / 2 + S.Half), Q.integer(x)) == (-1) ** (x + 1) and refine((-1) ** ((-1) ** x / 2 + 5 * S.Half), Q.integer(x)) == (-1) ** (x + 1)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_pow1 : Any → {Any | refine((-1) ** x, Q.even(x))...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  refine((-1) ** x, Q.even(x)) == 1              ║
+# ║   ensures:  refine((-1) ** x, Q.odd(x)) == -1              ║
+# ║   ensures:  refine((-2) ** x, Q.even(x)) == 2 ** x         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_pow1 : Any → {Any | result satisfies: refine((-1...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bd81d9a558672955  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 37ddbcd8e715d0c2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.tests.test_refine.test_pow1","kind":"function","src_hash":"89101679978d5ff6","in":{"base":"Any"},"out":{"base":"Any","pred":"refine((-1) ** x, Q.even(x)) == 1 and refine((-1) ** x, Q.odd(x)) == -1 and refine((-2) ** x, Q.even(x)) == 2 ** x and refine(sqrt(x ** 2)) != Abs(x) and refine(sqrt(x ** 2), Q.complex(x)) != Abs(x) and refine(sqrt(x ** 2), Q.real(x)) == Abs(x) and refine(sqrt(x ** 2), Q.positive(x)) == x and refine((x ** 3) ** Rational(1, 3)) != x and refine((x ** 3) ** Rational(1, 3), Q.real(x)) != x and refine((x ** 3) ** Rational(1, 3), Q.positive(x)) == x and refine(sqrt(1 / x), Q.real(x)) != 1 / sqrt(x) and refine(sqrt(1 / x), Q.positive(x)) == 1 / sqrt(x) and refine((-1) ** (x + y), Q.even(x)) == (-1) ** y and refine((-1) ** (x + y + z), Q.odd(x) & Q.odd(z)) == (-1) ** y and refine((-1) ** (x + y + 1), Q.odd(x)) == (-1) ** y and refine((-1) ** (x + y + 2), Q.odd(x)) == (-1) ** (y + 1) and refine((-1) ** (x + 3)) == (-1) ** (x + 1) and refine((-1) ** ((-1) ** x / 2 - S.Half), Q.integer(x)) == (-1) ** x and refine((-1) ** ((-1) ** x / 2 + S.Half), Q.integer(x)) == (-1) ** (x + 1) and refine((-1) ** ((-1) ** x / 2 + 5 * S.Half), Q.integer(x)) == (-1) ** (x + 1)"},"spec":{"lhs":"test_pow1()","rhs":"test_pow1 produces the expected output","over":{"base":"Any"},"name":"test_pow1_correct"},"guarantee":"test_pow1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.tests.test_refine.test_pow1_correct","statement":"Path(test_pow1(x), test_pow1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bd81d9a558672955"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.tests.test_refine.test_pow1","kind":"function","src_hash":"89101679978d5ff6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: refine((-1) ** x, Q.even(x)) == 1 and refine((-1) ** x, Q.odd(x)) == -1 and refine((-2) ** x, Q.even(x)) == 2 ** x and refine(sqrt(x ** 2)) != Abs(x) and refine(sqrt(x ** 2), Q.complex(x)) != Abs(x) and refine(sqrt(x ** 2), Q.real(x)) == Abs(x) and refine(sqrt(x ** 2), Q.positive(x)) == x and refine((x ** 3) ** Rational(1, 3)) != x and refine((x ** 3) ** Rational(1, 3), Q.real(x)) != x and refine((x ** 3) ** Rational(1, 3), Q.positive(x)) == x and refine(sqrt(1 / x), Q.real(x)) != 1 / sqrt(x) and refine(sqrt(1 / x), Q.positive(x)) == 1 / sqrt(x) and refine((-1) ** (x + y), Q.even(x)) == (-1) ** y and refine((-1) ** (x + y + z), Q.odd(x) & Q.odd(z)) == (-1) ** y and refine((-1) ** (x + y + 1), Q.odd(x)) == (-1) ** y and refine((-1) ** (x + y + 2), Q.odd(x)) == (-1) ** (y + 1) and refine((-1) ** (x + 3)) == (-1) ** (x + 1) and refine((-1) ** ((-1) ** x / 2 - S.Half), Q.integer(x)) == (-1) ** x and refine((-1) ** ((-1) ** x / 2 + S.Half), Q.integer(x)) == (-1) ** (x + 1) and refine((-1) ** ((-1) ** x / 2 + 5 * S.Half), Q.integer(x)) == (-1) ** (x + 1)"},"spec":{"lhs":"test_pow1()","rhs":"refine((-1) ** x, Q.even(x)) == 1 and refine((-1) ** x, Q.odd(x)) == -1 and refine((-2) ** x, Q.even(x)) == 2 ** x and refine(sqrt(x ** 2)) != Abs(x) and refine(sqrt(x ** 2), Q.complex(x)) != Abs(x) and refine(sqrt(x ** 2), Q.real(x)) == Abs(x) and refine(sqrt(x ** 2), Q.positive(x)) == x and refine((x ** 3) ** Rational(1, 3)) != x and refine((x ** 3) ** Rational(1, 3), Q.real(x)) != x and refine((x ** 3) ** Rational(1, 3), Q.positive(x)) == x and refine(sqrt(1 / x), Q.real(x)) != 1 / sqrt(x) and refine(sqrt(1 / x), Q.positive(x)) == 1 / sqrt(x) and refine((-1) ** (x + y), Q.even(x)) == (-1) ** y and refine((-1) ** (x + y + z), Q.odd(x) & Q.odd(z)) == (-1) ** y and refine((-1) ** (x + y + 1), Q.odd(x)) == (-1) ** y and refine((-1) ** (x + y + 2), Q.odd(x)) == (-1) ** (y + 1) and refine((-1) ** (x + 3)) == (-1) ** (x + 1) and refine((-1) ** ((-1) ** x / 2 - S.Half), Q.integer(x)) == (-1) ** x and refine((-1) ** ((-1) ** x / 2 + S.Half), Q.integer(x)) == (-1) ** (x + 1) and refine((-1) ** ((-1) ** x / 2 + 5 * S.Half), Q.integer(x)) == (-1) ** (x + 1)","over":{"base":"Any"},"name":"test_pow1_correct"},"guarantee":"refine((-1) ** x, Q.even(x)) == 1; refine((-1) ** x, Q.odd(x)) == -1; refine((-2) ** x, Q.even(x)) == 2 ** x","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.tests.test_refine.test_pow1_correct","statement":"Path(test_pow1(x), refine((-1) ** x, Q.even(x)) == 1; refine((-1) ** x, Q.odd(x)) == -1; refine((-2) ** x, Q.even(x)) == 2 ** x)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"37ddbcd8e715d0c2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["refine((-1) ** x, Q.even(x)) == 1","refine((-1) ** x, Q.odd(x)) == -1","refine((-2) ** x, Q.even(x)) == 2 ** x","refine(sqrt(x ** 2)) != Abs(x)","refine(sqrt(x ** 2), Q.complex(x)) != Abs(x)","refine(sqrt(x ** 2), Q.real(x)) == Abs(x)","refine(sqrt(x ** 2), Q.positive(x)) == x","refine((x ** 3) ** Rational(1, 3)) != x","refine((x ** 3) ** Rational(1, 3), Q.real(x)) != x","refine((x ** 3) ** Rational(1, 3), Q.positive(x)) == x","refine(sqrt(1 / x), Q.real(x)) != 1 / sqrt(x)","refine(sqrt(1 / x), Q.positive(x)) == 1 / sqrt(x)","refine((-1) ** (x + y), Q.even(x)) == (-1) ** y","refine((-1) ** (x + y + z), Q.odd(x) & Q.odd(z)) == (-1) ** y","refine((-1) ** (x + y + 1), Q.odd(x)) == (-1) ** y","refine((-1) ** (x + y + 2), Q.odd(x)) == (-1) ** (y + 1)","refine((-1) ** (x + 3)) == (-1) ** (x + 1)","refine((-1) ** ((-1) ** x / 2 - S.Half), Q.integer(x)) == (-1) ** x","refine((-1) ** ((-1) ** x / 2 + S.Half), Q.integer(x)) == (-1) ** (x + 1)","refine((-1) ** ((-1) ** x / 2 + 5 * S.Half), Q.integer(x)) == (-1) ** (x + 1)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def test_pow1():
     assert refine((-1)**x, Q.even(x)) == 1
     assert refine((-1)**x, Q.odd(x)) == -1
@@ -95,16 +111,24 @@ def test_pow1():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pow2(), test_pow2 produces the expected output) over Any ║
+# ║ Path(test_pow2(), refine((-1) ** ((-1) ** x / 2 - 7 * S.Half), Q.integer(x)) == (-1) ** (x + 1) and refine((-1) ** ((-1) ** x / 2 - 9 * S.Half), Q.integer(x)) == (-1) ** x and refine(Abs(x) ** 2, Q.real(x)) == x ** 2 and refine(Abs(x) ** 3, Q.real(x)) == Abs(x) ** 3 and refine(Abs(x) ** 2) == Abs(x) ** 2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_pow2 : Any → {Any | refine((-1) ** ((-1) ** x / ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  refine((-1) ** ((-1) ** x / 2 - 7 * S.Hal...   ║
+# ║   ensures:  refine((-1) ** ((-1) ** x / 2 - 9 * S.Hal...   ║
+# ║   ensures:  refine(Abs(x) ** 2, Q.real(x)) == x ** 2       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_pow2 : Any → {Any | result satisfies: refine((-1...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a2cf1926a6ebbef9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d171522c325eef6a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.tests.test_refine.test_pow2","kind":"function","src_hash":"fa6df0001473b36b","in":{"base":"Any"},"out":{"base":"Any","pred":"refine((-1) ** ((-1) ** x / 2 - 7 * S.Half), Q.integer(x)) == (-1) ** (x + 1) and refine((-1) ** ((-1) ** x / 2 - 9 * S.Half), Q.integer(x)) == (-1) ** x and refine(Abs(x) ** 2, Q.real(x)) == x ** 2 and refine(Abs(x) ** 3, Q.real(x)) == Abs(x) ** 3 and refine(Abs(x) ** 2) == Abs(x) ** 2"},"spec":{"lhs":"test_pow2()","rhs":"test_pow2 produces the expected output","over":{"base":"Any"},"name":"test_pow2_correct"},"guarantee":"test_pow2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.tests.test_refine.test_pow2_correct","statement":"Path(test_pow2(x), test_pow2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a2cf1926a6ebbef9"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.tests.test_refine.test_pow2","kind":"function","src_hash":"fa6df0001473b36b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: refine((-1) ** ((-1) ** x / 2 - 7 * S.Half), Q.integer(x)) == (-1) ** (x + 1) and refine((-1) ** ((-1) ** x / 2 - 9 * S.Half), Q.integer(x)) == (-1) ** x and refine(Abs(x) ** 2, Q.real(x)) == x ** 2 and refine(Abs(x) ** 3, Q.real(x)) == Abs(x) ** 3 and refine(Abs(x) ** 2) == Abs(x) ** 2"},"spec":{"lhs":"test_pow2()","rhs":"refine((-1) ** ((-1) ** x / 2 - 7 * S.Half), Q.integer(x)) == (-1) ** (x + 1) and refine((-1) ** ((-1) ** x / 2 - 9 * S.Half), Q.integer(x)) == (-1) ** x and refine(Abs(x) ** 2, Q.real(x)) == x ** 2 and refine(Abs(x) ** 3, Q.real(x)) == Abs(x) ** 3 and refine(Abs(x) ** 2) == Abs(x) ** 2","over":{"base":"Any"},"name":"test_pow2_correct"},"guarantee":"refine((-1) ** ((-1) ** x / 2 - 7 * S.Half), Q.integer(x)) == (-1) ** (x + 1); refine((-1) ** ((-1) ** x / 2 - 9 * S.Half), Q.integer(x)) == (-1) ** x; refine(Abs(x) ** 2, Q.real(x)) == x ** 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.tests.test_refine.test_pow2_correct","statement":"Path(test_pow2(x), refine((-1) ** ((-1) ** x / 2 - 7 * S.Half), Q.integer(x)) == (-1) ** (x + 1); refine((-1) ** ((-1) ** x / 2 - 9 * S.Half), Q.integer(x)) == (-1) ** x; refine(Abs(x) ** 2, Q.real(x)) == x ** 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d171522c325eef6a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["refine((-1) ** ((-1) ** x / 2 - 7 * S.Half), Q.integer(x)) == (-1) ** (x + 1)","refine((-1) ** ((-1) ** x / 2 - 9 * S.Half), Q.integer(x)) == (-1) ** x","refine(Abs(x) ** 2, Q.real(x)) == x ** 2","refine(Abs(x) ** 3, Q.real(x)) == Abs(x) ** 3","refine(Abs(x) ** 2) == Abs(x) ** 2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_pow2():
     assert refine((-1)**((-1)**x/2 - 7*S.Half), Q.integer(x)) == (-1)**(x + 1)
     assert refine((-1)**((-1)**x/2 - 9*S.Half), Q.integer(x)) == (-1)**x
@@ -116,16 +140,24 @@ def test_pow2():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_exp(), test_exp produces the expected output) over Any ║
+# ║ Path(test_exp(), refine(exp(pi * I * 2 * x)) == 1 and refine(exp(pi * I * 2 * (x + S.Half))) == -1 and refine(exp(pi * I * 2 * (x + Rational(1, 4)))) == I and refine(exp(pi * I * 2 * (x + Rational(3, 4)))) == -I) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_exp : Any → {Any | refine(exp(pi * I * 2 * x)) =...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  refine(exp(pi * I * 2 * x)) == 1               ║
+# ║   ensures:  refine(exp(pi * I * 2 * (x + S.Half))) == -1   ║
+# ║   ensures:  refine(exp(pi * I * 2 * (x + Rational(1, ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_exp : Any → {Any | result satisfies: refine(exp(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b7e59d708dd85020  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1a26ab73bfb5b98c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.tests.test_refine.test_exp","kind":"function","src_hash":"22abe2bee8193576","in":{"base":"Any"},"out":{"base":"Any","pred":"refine(exp(pi * I * 2 * x)) == 1 and refine(exp(pi * I * 2 * (x + S.Half))) == -1 and refine(exp(pi * I * 2 * (x + Rational(1, 4)))) == I and refine(exp(pi * I * 2 * (x + Rational(3, 4)))) == -I"},"spec":{"lhs":"test_exp()","rhs":"test_exp produces the expected output","over":{"base":"Any"},"name":"test_exp_correct"},"guarantee":"test_exp produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.tests.test_refine.test_exp_correct","statement":"Path(test_exp(x), test_exp produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b7e59d708dd85020"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.tests.test_refine.test_exp","kind":"function","src_hash":"22abe2bee8193576","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: refine(exp(pi * I * 2 * x)) == 1 and refine(exp(pi * I * 2 * (x + S.Half))) == -1 and refine(exp(pi * I * 2 * (x + Rational(1, 4)))) == I and refine(exp(pi * I * 2 * (x + Rational(3, 4)))) == -I"},"spec":{"lhs":"test_exp()","rhs":"refine(exp(pi * I * 2 * x)) == 1 and refine(exp(pi * I * 2 * (x + S.Half))) == -1 and refine(exp(pi * I * 2 * (x + Rational(1, 4)))) == I and refine(exp(pi * I * 2 * (x + Rational(3, 4)))) == -I","over":{"base":"Any"},"name":"test_exp_correct"},"guarantee":"refine(exp(pi * I * 2 * x)) == 1; refine(exp(pi * I * 2 * (x + S.Half))) == -1; refine(exp(pi * I * 2 * (x + Rational(1, 4)))) == I","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.tests.test_refine.test_exp_correct","statement":"Path(test_exp(x), refine(exp(pi * I * 2 * x)) == 1; refine(exp(pi * I * 2 * (x + S.Half))) == -1; refine(exp(pi * I * 2 * (x + Rational(1, 4)))) == I)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1a26ab73bfb5b98c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["refine(exp(pi * I * 2 * x)) == 1","refine(exp(pi * I * 2 * (x + S.Half))) == -1","refine(exp(pi * I * 2 * (x + Rational(1, 4)))) == I","refine(exp(pi * I * 2 * (x + Rational(3, 4)))) == -I"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_exp():
     x = Symbol('x', integer=True)
     assert refine(exp(pi*I*2*x)) == 1
@@ -135,16 +167,24 @@ def test_exp():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Piecewise(), test_Piecewise produces the expected output) over Any ║
+# ║ Path(test_Piecewise(), refine(Piecewise((1, x < 0), (3, True)), x < 0) == 1 and refine(Piecewise((1, x < 0), (3, True)), ~(x < 0)) == 3 and refine(Piecewise((1, x < 0), (3, True)), y < 0) == Piecewise((1, x < 0), (3, True)) and refine(Piecewise((1, x > 0), (3, True)), x > 0) == 1 and refine(Piecewise((1, x > 0), (3, True)), ~(x > 0)) == 3 and refine(Piecewise((1, x > 0), (3, True)), y > 0) == Piecewise((1, x > 0), (3, True)) and refine(Piecewise((1, x <= 0), (3, True)), x <= 0) == 1 and refine(Piecewise((1, x <= 0), (3, True)), ~(x <= 0)) == 3 and refine(Piecewise((1, x <= 0), (3, True)), y <= 0) == Piecewise((1, x <= 0), (3, True)) and refine(Piecewise((1, x >= 0), (3, True)), x >= 0) == 1 and refine(Piecewise((1, x >= 0), (3, True)), ~(x >= 0)) == 3 and refine(Piecewise((1, x >= 0), (3, True)), y >= 0) == Piecewise((1, x >= 0), (3, True)) and refine(Piecewise((1, Eq(x, 0)), (3, True)), Eq(x, 0)) == 1 and refine(Piecewise((1, Eq(x, 0)), (3, True)), Eq(0, x)) == 1 and refine(Piecewise((1, Eq(x, 0)), (3, True)), ~Eq(x, 0)) == 3 and refine(Piecewise((1, Eq(x, 0)), (3, True)), ~Eq(0, x)) == 3 and refine(Piecewise((1, Eq(x, 0)), (3, True)), Eq(y, 0)) == Piecewise((1, Eq(x, 0)), (3, True)) and refine(Piecewise((1, Ne(x, 0)), (3, True)), Ne(x, 0)) == 1 and refine(Piecewise((1, Ne(x, 0)), (3, True)), ~Ne(x, 0)) == 3 and refine(Piecewise((1, Ne(x, 0)), (3, True)), Ne(y, 0)) == Piecewise((1, Ne(x, 0)), (3, True))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Piecewise : Any → {Any | refine(Piecewise((1, x ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  refine(Piecewise((1, x < 0), (3, True)), ...   ║
+# ║   ensures:  refine(Piecewise((1, x < 0), (3, True)), ...   ║
+# ║   ensures:  refine(Piecewise((1, x < 0), (3, True)), ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Piecewise : Any → {Any | result satisfies: refin...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 03794a10bd95d019  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.8ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ce1efe0a335cd466  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.tests.test_refine.test_Piecewise","kind":"function","src_hash":"fe62a5c4c88fa667","in":{"base":"Any"},"out":{"base":"Any","pred":"refine(Piecewise((1, x < 0), (3, True)), x < 0) == 1 and refine(Piecewise((1, x < 0), (3, True)), ~(x < 0)) == 3 and refine(Piecewise((1, x > 0), (3, True)), x > 0) == 1 and refine(Piecewise((1, x > 0), (3, True)), ~(x > 0)) == 3 and refine(Piecewise((1, x <= 0), (3, True)), x <= 0) == 1 and refine(Piecewise((1, x <= 0), (3, True)), ~(x <= 0)) == 3 and refine(Piecewise((1, x >= 0), (3, True)), x >= 0) == 1 and refine(Piecewise((1, x >= 0), (3, True)), ~(x >= 0)) == 3 and refine(Piecewise((1, Eq(x, 0)), (3, True)), Eq(x, 0)) == 1 and refine(Piecewise((1, Eq(x, 0)), (3, True)), Eq(0, x)) == 1 and refine(Piecewise((1, Eq(x, 0)), (3, True)), ~Eq(x, 0)) == 3 and refine(Piecewise((1, Eq(x, 0)), (3, True)), ~Eq(0, x)) == 3 and refine(Piecewise((1, Ne(x, 0)), (3, True)), Ne(x, 0)) == 1 and refine(Piecewise((1, Ne(x, 0)), (3, True)), ~Ne(x, 0)) == 3"},"spec":{"lhs":"test_Piecewise()","rhs":"test_Piecewise produces the expected output","over":{"base":"Any"},"name":"test_Piecewise_correct"},"guarantee":"test_Piecewise produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.tests.test_refine.test_Piecewise_correct","statement":"Path(test_Piecewise(x), test_Piecewise produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"03794a10bd95d019"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.tests.test_refine.test_Piecewise","kind":"function","src_hash":"fe62a5c4c88fa667","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: refine(Piecewise((1, x < 0), (3, True)), x < 0) == 1 and refine(Piecewise((1, x < 0), (3, True)), ~(x < 0)) == 3 and refine(Piecewise((1, x < 0), (3, True)), y < 0) == Piecewise((1, x < 0), (3, True)) and refine(Piecewise((1, x > 0), (3, True)), x > 0) == 1 and refine(Piecewise((1, x > 0), (3, True)), ~(x > 0)) == 3 and refine(Piecewise((1, x > 0), (3, True)), y > 0) == Piecewise((1, x > 0), (3, True)) and refine(Piecewise((1, x <= 0), (3, True)), x <= 0) == 1 and refine(Piecewise((1, x <= 0), (3, True)), ~(x <= 0)) == 3 and refine(Piecewise((1, x <= 0), (3, True)), y <= 0) == Piecewise((1, x <= 0), (3, True)) and refine(Piecewise((1, x >= 0), (3, True)), x >= 0) == 1 and refine(Piecewise((1, x >= 0), (3, True)), ~(x >= 0)) == 3 and refine(Piecewise((1, x >= 0), (3, True)), y >= 0) == Piecewise((1, x >= 0), (3, True)) and refine(Piecewise((1, Eq(x, 0)), (3, True)), Eq(x, 0)) == 1 and refine(Piecewise((1, Eq(x, 0)), (3, True)), Eq(0, x)) == 1 and refine(Piecewise((1, Eq(x, 0)), (3, True)), ~Eq(x, 0)) == 3 and refine(Piecewise((1, Eq(x, 0)), (3, True)), ~Eq(0, x)) == 3 and refine(Piecewise((1, Eq(x, 0)), (3, True)), Eq(y, 0)) == Piecewise((1, Eq(x, 0)), (3, True)) and refine(Piecewise((1, Ne(x, 0)), (3, True)), Ne(x, 0)) == 1 and refine(Piecewise((1, Ne(x, 0)), (3, True)), ~Ne(x, 0)) == 3 and refine(Piecewise((1, Ne(x, 0)), (3, True)), Ne(y, 0)) == Piecewise((1, Ne(x, 0)), (3, True))"},"spec":{"lhs":"test_Piecewise()","rhs":"refine(Piecewise((1, x < 0), (3, True)), x < 0) == 1 and refine(Piecewise((1, x < 0), (3, True)), ~(x < 0)) == 3 and refine(Piecewise((1, x < 0), (3, True)), y < 0) == Piecewise((1, x < 0), (3, True)) and refine(Piecewise((1, x > 0), (3, True)), x > 0) == 1 and refine(Piecewise((1, x > 0), (3, True)), ~(x > 0)) == 3 and refine(Piecewise((1, x > 0), (3, True)), y > 0) == Piecewise((1, x > 0), (3, True)) and refine(Piecewise((1, x <= 0), (3, True)), x <= 0) == 1 and refine(Piecewise((1, x <= 0), (3, True)), ~(x <= 0)) == 3 and refine(Piecewise((1, x <= 0), (3, True)), y <= 0) == Piecewise((1, x <= 0), (3, True)) and refine(Piecewise((1, x >= 0), (3, True)), x >= 0) == 1 and refine(Piecewise((1, x >= 0), (3, True)), ~(x >= 0)) == 3 and refine(Piecewise((1, x >= 0), (3, True)), y >= 0) == Piecewise((1, x >= 0), (3, True)) and refine(Piecewise((1, Eq(x, 0)), (3, True)), Eq(x, 0)) == 1 and refine(Piecewise((1, Eq(x, 0)), (3, True)), Eq(0, x)) == 1 and refine(Piecewise((1, Eq(x, 0)), (3, True)), ~Eq(x, 0)) == 3 and refine(Piecewise((1, Eq(x, 0)), (3, True)), ~Eq(0, x)) == 3 and refine(Piecewise((1, Eq(x, 0)), (3, True)), Eq(y, 0)) == Piecewise((1, Eq(x, 0)), (3, True)) and refine(Piecewise((1, Ne(x, 0)), (3, True)), Ne(x, 0)) == 1 and refine(Piecewise((1, Ne(x, 0)), (3, True)), ~Ne(x, 0)) == 3 and refine(Piecewise((1, Ne(x, 0)), (3, True)), Ne(y, 0)) == Piecewise((1, Ne(x, 0)), (3, True))","over":{"base":"Any"},"name":"test_Piecewise_correct"},"guarantee":"refine(Piecewise((1, x < 0), (3, True)), x < 0) == 1; refine(Piecewise((1, x < 0), (3, True)), ~(x < 0)) == 3; refine(Piecewise((1, x < 0), (3, True)), y < 0) == Piecewise((1, x < 0), (3, True))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.tests.test_refine.test_Piecewise_correct","statement":"Path(test_Piecewise(x), refine(Piecewise((1, x < 0), (3, True)), x < 0) == 1; refine(Piecewise((1, x < 0), (3, True)), ~(x < 0)) == 3; refine(Piecewise((1, x < 0), (3, True)), y < 0) == Piecewise((1, x < 0), (3, True)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ce1efe0a335cd466","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["refine(Piecewise((1, x < 0), (3, True)), x < 0) == 1","refine(Piecewise((1, x < 0), (3, True)), ~(x < 0)) == 3","refine(Piecewise((1, x < 0), (3, True)), y < 0) == Piecewise((1, x < 0), (3, True))","refine(Piecewise((1, x > 0), (3, True)), x > 0) == 1","refine(Piecewise((1, x > 0), (3, True)), ~(x > 0)) == 3","refine(Piecewise((1, x > 0), (3, True)), y > 0) == Piecewise((1, x > 0), (3, True))","refine(Piecewise((1, x <= 0), (3, True)), x <= 0) == 1","refine(Piecewise((1, x <= 0), (3, True)), ~(x <= 0)) == 3","refine(Piecewise((1, x <= 0), (3, True)), y <= 0) == Piecewise((1, x <= 0), (3, True))","refine(Piecewise((1, x >= 0), (3, True)), x >= 0) == 1","refine(Piecewise((1, x >= 0), (3, True)), ~(x >= 0)) == 3","refine(Piecewise((1, x >= 0), (3, True)), y >= 0) == Piecewise((1, x >= 0), (3, True))","refine(Piecewise((1, Eq(x, 0)), (3, True)), Eq(x, 0)) == 1","refine(Piecewise((1, Eq(x, 0)), (3, True)), Eq(0, x)) == 1","refine(Piecewise((1, Eq(x, 0)), (3, True)), ~Eq(x, 0)) == 3","refine(Piecewise((1, Eq(x, 0)), (3, True)), ~Eq(0, x)) == 3","refine(Piecewise((1, Eq(x, 0)), (3, True)), Eq(y, 0)) == Piecewise((1, Eq(x, 0)), (3, True))","refine(Piecewise((1, Ne(x, 0)), (3, True)), Ne(x, 0)) == 1","refine(Piecewise((1, Ne(x, 0)), (3, True)), ~Ne(x, 0)) == 3","refine(Piecewise((1, Ne(x, 0)), (3, True)), Ne(y, 0)) == Piecewise((1, Ne(x, 0)), (3, True))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"assumed","binding":true}}
 def test_Piecewise():
     assert refine(Piecewise((1, x < 0), (3, True)), (x < 0)) == 1
     assert refine(Piecewise((1, x < 0), (3, True)), ~(x < 0)) == 3
@@ -181,16 +221,24 @@ def test_Piecewise():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_atan2(), test_atan2 produces the expected output) over Any ║
+# ║ Path(test_atan2(), refine(atan2(y, x), Q.real(y) & Q.positive(x)) == atan(y / x) and refine(atan2(y, x), Q.negative(y) & Q.positive(x)) == atan(y / x) and refine(atan2(y, x), Q.negative(y) & Q.negative(x)) == atan(y / x) - pi and refine(atan2(y, x), Q.positive(y) & Q.negative(x)) == atan(y / x) + pi and refine(atan2(y, x), Q.zero(y) & Q.negative(x)) == pi and refine(atan2(y, x), Q.positive(y) & Q.zero(x)) == pi / 2 and refine(atan2(y, x), Q.negative(y) & Q.zero(x)) == -pi / 2 and refine(atan2(y, x), Q.zero(y) & Q.zero(x)) is nan) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_atan2 : Any → {Any | refine(atan2(y, x), Q.real(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  refine(atan2(y, x), Q.real(y) & Q.positiv...   ║
+# ║   ensures:  refine(atan2(y, x), Q.negative(y) & Q.pos...   ║
+# ║   ensures:  refine(atan2(y, x), Q.negative(y) & Q.neg...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_atan2 : Any → {Any | result satisfies: refine(at...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3a953e2b5337301e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6f4db7adcc548311  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.tests.test_refine.test_atan2","kind":"function","src_hash":"8703362875eb1502","in":{"base":"Any"},"out":{"base":"Any","pred":"refine(atan2(y, x), Q.real(y) & Q.positive(x)) == atan(y / x) and refine(atan2(y, x), Q.negative(y) & Q.positive(x)) == atan(y / x) and refine(atan2(y, x), Q.negative(y) & Q.negative(x)) == atan(y / x) - pi and refine(atan2(y, x), Q.positive(y) & Q.negative(x)) == atan(y / x) + pi and refine(atan2(y, x), Q.zero(y) & Q.negative(x)) == pi and refine(atan2(y, x), Q.positive(y) & Q.zero(x)) == pi / 2 and refine(atan2(y, x), Q.negative(y) & Q.zero(x)) == -pi / 2 and refine(atan2(y, x), Q.zero(y) & Q.zero(x)) is nan"},"spec":{"lhs":"test_atan2()","rhs":"test_atan2 produces the expected output","over":{"base":"Any"},"name":"test_atan2_correct"},"guarantee":"test_atan2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.tests.test_refine.test_atan2_correct","statement":"Path(test_atan2(x), test_atan2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3a953e2b5337301e"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.tests.test_refine.test_atan2","kind":"function","src_hash":"8703362875eb1502","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: refine(atan2(y, x), Q.real(y) & Q.positive(x)) == atan(y / x) and refine(atan2(y, x), Q.negative(y) & Q.positive(x)) == atan(y / x) and refine(atan2(y, x), Q.negative(y) & Q.negative(x)) == atan(y / x) - pi and refine(atan2(y, x), Q.positive(y) & Q.negative(x)) == atan(y / x) + pi and refine(atan2(y, x), Q.zero(y) & Q.negative(x)) == pi and refine(atan2(y, x), Q.positive(y) & Q.zero(x)) == pi / 2 and refine(atan2(y, x), Q.negative(y) & Q.zero(x)) == -pi / 2 and refine(atan2(y, x), Q.zero(y) & Q.zero(x)) is nan"},"spec":{"lhs":"test_atan2()","rhs":"refine(atan2(y, x), Q.real(y) & Q.positive(x)) == atan(y / x) and refine(atan2(y, x), Q.negative(y) & Q.positive(x)) == atan(y / x) and refine(atan2(y, x), Q.negative(y) & Q.negative(x)) == atan(y / x) - pi and refine(atan2(y, x), Q.positive(y) & Q.negative(x)) == atan(y / x) + pi and refine(atan2(y, x), Q.zero(y) & Q.negative(x)) == pi and refine(atan2(y, x), Q.positive(y) & Q.zero(x)) == pi / 2 and refine(atan2(y, x), Q.negative(y) & Q.zero(x)) == -pi / 2 and refine(atan2(y, x), Q.zero(y) & Q.zero(x)) is nan","over":{"base":"Any"},"name":"test_atan2_correct"},"guarantee":"refine(atan2(y, x), Q.real(y) & Q.positive(x)) == atan(y / x); refine(atan2(y, x), Q.negative(y) & Q.positive(x)) == atan(y / x); refine(atan2(y, x), Q.negative(y) & Q.negative(x)) == atan(y / x) - pi","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.tests.test_refine.test_atan2_correct","statement":"Path(test_atan2(x), refine(atan2(y, x), Q.real(y) & Q.positive(x)) == atan(y / x); refine(atan2(y, x), Q.negative(y) & Q.positive(x)) == atan(y / x); refine(atan2(y, x), Q.negative(y) & Q.negative(x)) == atan(y / x) - pi)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6f4db7adcc548311","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["refine(atan2(y, x), Q.real(y) & Q.positive(x)) == atan(y / x)","refine(atan2(y, x), Q.negative(y) & Q.positive(x)) == atan(y / x)","refine(atan2(y, x), Q.negative(y) & Q.negative(x)) == atan(y / x) - pi","refine(atan2(y, x), Q.positive(y) & Q.negative(x)) == atan(y / x) + pi","refine(atan2(y, x), Q.zero(y) & Q.negative(x)) == pi","refine(atan2(y, x), Q.positive(y) & Q.zero(x)) == pi / 2","refine(atan2(y, x), Q.negative(y) & Q.zero(x)) == -pi / 2","refine(atan2(y, x), Q.zero(y) & Q.zero(x)) is nan"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_atan2():
     assert refine(atan2(y, x), Q.real(y) & Q.positive(x)) == atan(y/x)
     assert refine(atan2(y, x), Q.negative(y) & Q.positive(x)) == atan(y/x)
@@ -203,16 +251,24 @@ def test_atan2():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_re(), test_re produces the expected output) over Any ║
+# ║ Path(test_re(), refine(re(x), Q.real(x)) == x and refine(re(x), Q.imaginary(x)) is S.Zero and refine(re(x + y), Q.real(x) & Q.real(y)) == x + y and refine(re(x + y), Q.real(x) & Q.imaginary(y)) == x and refine(re(x * y), Q.real(x) & Q.real(y)) == x * y and refine(re(x * y), Q.real(x) & Q.imaginary(y)) == 0 and refine(re(x * y * z), Q.real(x) & Q.real(y) & Q.real(z)) == x * y * z) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_re : Any → {Any | refine(re(x), Q.real(x)) == x ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  refine(re(x), Q.real(x)) == x                  ║
+# ║   ensures:  refine(re(x), Q.imaginary(x)) is S.Zero        ║
+# ║   ensures:  refine(re(x + y), Q.real(x) & Q.real(y)) ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_re : Any → {Any | result satisfies: refine(re(x)...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cfdad06138e3edca  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 19243f2e376d3ea9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.tests.test_refine.test_re","kind":"function","src_hash":"413dd4994582e9ce","in":{"base":"Any"},"out":{"base":"Any","pred":"refine(re(x), Q.real(x)) == x and refine(re(x), Q.imaginary(x)) is S.Zero and refine(re(x + y), Q.real(x) & Q.real(y)) == x + y and refine(re(x + y), Q.real(x) & Q.imaginary(y)) == x and refine(re(x * y), Q.real(x) & Q.real(y)) == x * y and refine(re(x * y), Q.real(x) & Q.imaginary(y)) == 0 and refine(re(x * y * z), Q.real(x) & Q.real(y) & Q.real(z)) == x * y * z"},"spec":{"lhs":"test_re()","rhs":"test_re produces the expected output","over":{"base":"Any"},"name":"test_re_correct"},"guarantee":"test_re produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.tests.test_refine.test_re_correct","statement":"Path(test_re(x), test_re produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cfdad06138e3edca"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.tests.test_refine.test_re","kind":"function","src_hash":"413dd4994582e9ce","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: refine(re(x), Q.real(x)) == x and refine(re(x), Q.imaginary(x)) is S.Zero and refine(re(x + y), Q.real(x) & Q.real(y)) == x + y and refine(re(x + y), Q.real(x) & Q.imaginary(y)) == x and refine(re(x * y), Q.real(x) & Q.real(y)) == x * y and refine(re(x * y), Q.real(x) & Q.imaginary(y)) == 0 and refine(re(x * y * z), Q.real(x) & Q.real(y) & Q.real(z)) == x * y * z"},"spec":{"lhs":"test_re()","rhs":"refine(re(x), Q.real(x)) == x and refine(re(x), Q.imaginary(x)) is S.Zero and refine(re(x + y), Q.real(x) & Q.real(y)) == x + y and refine(re(x + y), Q.real(x) & Q.imaginary(y)) == x and refine(re(x * y), Q.real(x) & Q.real(y)) == x * y and refine(re(x * y), Q.real(x) & Q.imaginary(y)) == 0 and refine(re(x * y * z), Q.real(x) & Q.real(y) & Q.real(z)) == x * y * z","over":{"base":"Any"},"name":"test_re_correct"},"guarantee":"refine(re(x), Q.real(x)) == x; refine(re(x), Q.imaginary(x)) is S.Zero; refine(re(x + y), Q.real(x) & Q.real(y)) == x + y","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.tests.test_refine.test_re_correct","statement":"Path(test_re(x), refine(re(x), Q.real(x)) == x; refine(re(x), Q.imaginary(x)) is S.Zero; refine(re(x + y), Q.real(x) & Q.real(y)) == x + y)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"19243f2e376d3ea9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["refine(re(x), Q.real(x)) == x","refine(re(x), Q.imaginary(x)) is S.Zero","refine(re(x + y), Q.real(x) & Q.real(y)) == x + y","refine(re(x + y), Q.real(x) & Q.imaginary(y)) == x","refine(re(x * y), Q.real(x) & Q.real(y)) == x * y","refine(re(x * y), Q.real(x) & Q.imaginary(y)) == 0","refine(re(x * y * z), Q.real(x) & Q.real(y) & Q.real(z)) == x * y * z"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_re():
     assert refine(re(x), Q.real(x)) == x
     assert refine(re(x), Q.imaginary(x)) is S.Zero
@@ -224,16 +280,24 @@ def test_re():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_im(), test_im produces the expected output) over Any ║
+# ║ Path(test_im(), refine(im(x), Q.imaginary(x)) == -I * x and refine(im(x), Q.real(x)) is S.Zero and refine(im(x + y), Q.imaginary(x) & Q.imaginary(y)) == -I * x - I * y and refine(im(x + y), Q.real(x) & Q.imaginary(y)) == -I * y and refine(im(x * y), Q.imaginary(x) & Q.real(y)) == -I * x * y and refine(im(x * y), Q.imaginary(x) & Q.imaginary(y)) == 0 and refine(im(1 / x), Q.imaginary(x)) == -I / x and refine(im(x * y * z), Q.imaginary(x) & Q.imaginary(y) & Q.imaginary(z)) == -I * x * y * z) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_im : Any → {Any | refine(im(x), Q.imaginary(x)) ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  refine(im(x), Q.imaginary(x)) == -I * x        ║
+# ║   ensures:  refine(im(x), Q.real(x)) is S.Zero             ║
+# ║   ensures:  refine(im(x + y), Q.imaginary(x) & Q.imag...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_im : Any → {Any | result satisfies: refine(im(x)...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 53fd61c90267209e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a2c7c284eaefce6f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.tests.test_refine.test_im","kind":"function","src_hash":"d2776384342577da","in":{"base":"Any"},"out":{"base":"Any","pred":"refine(im(x), Q.imaginary(x)) == -I * x and refine(im(x), Q.real(x)) is S.Zero and refine(im(x + y), Q.imaginary(x) & Q.imaginary(y)) == -I * x - I * y and refine(im(x + y), Q.real(x) & Q.imaginary(y)) == -I * y and refine(im(x * y), Q.imaginary(x) & Q.real(y)) == -I * x * y and refine(im(x * y), Q.imaginary(x) & Q.imaginary(y)) == 0 and refine(im(1 / x), Q.imaginary(x)) == -I / x"},"spec":{"lhs":"test_im()","rhs":"test_im produces the expected output","over":{"base":"Any"},"name":"test_im_correct"},"guarantee":"test_im produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.tests.test_refine.test_im_correct","statement":"Path(test_im(x), test_im produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"53fd61c90267209e"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.tests.test_refine.test_im","kind":"function","src_hash":"d2776384342577da","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: refine(im(x), Q.imaginary(x)) == -I * x and refine(im(x), Q.real(x)) is S.Zero and refine(im(x + y), Q.imaginary(x) & Q.imaginary(y)) == -I * x - I * y and refine(im(x + y), Q.real(x) & Q.imaginary(y)) == -I * y and refine(im(x * y), Q.imaginary(x) & Q.real(y)) == -I * x * y and refine(im(x * y), Q.imaginary(x) & Q.imaginary(y)) == 0 and refine(im(1 / x), Q.imaginary(x)) == -I / x and refine(im(x * y * z), Q.imaginary(x) & Q.imaginary(y) & Q.imaginary(z)) == -I * x * y * z"},"spec":{"lhs":"test_im()","rhs":"refine(im(x), Q.imaginary(x)) == -I * x and refine(im(x), Q.real(x)) is S.Zero and refine(im(x + y), Q.imaginary(x) & Q.imaginary(y)) == -I * x - I * y and refine(im(x + y), Q.real(x) & Q.imaginary(y)) == -I * y and refine(im(x * y), Q.imaginary(x) & Q.real(y)) == -I * x * y and refine(im(x * y), Q.imaginary(x) & Q.imaginary(y)) == 0 and refine(im(1 / x), Q.imaginary(x)) == -I / x and refine(im(x * y * z), Q.imaginary(x) & Q.imaginary(y) & Q.imaginary(z)) == -I * x * y * z","over":{"base":"Any"},"name":"test_im_correct"},"guarantee":"refine(im(x), Q.imaginary(x)) == -I * x; refine(im(x), Q.real(x)) is S.Zero; refine(im(x + y), Q.imaginary(x) & Q.imaginary(y)) == -I * x - I * y","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.tests.test_refine.test_im_correct","statement":"Path(test_im(x), refine(im(x), Q.imaginary(x)) == -I * x; refine(im(x), Q.real(x)) is S.Zero; refine(im(x + y), Q.imaginary(x) & Q.imaginary(y)) == -I * x - I * y)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a2c7c284eaefce6f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["refine(im(x), Q.imaginary(x)) == -I * x","refine(im(x), Q.real(x)) is S.Zero","refine(im(x + y), Q.imaginary(x) & Q.imaginary(y)) == -I * x - I * y","refine(im(x + y), Q.real(x) & Q.imaginary(y)) == -I * y","refine(im(x * y), Q.imaginary(x) & Q.real(y)) == -I * x * y","refine(im(x * y), Q.imaginary(x) & Q.imaginary(y)) == 0","refine(im(1 / x), Q.imaginary(x)) == -I / x","refine(im(x * y * z), Q.imaginary(x) & Q.imaginary(y) & Q.imaginary(z)) == -I * x * y * z"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_im():
     assert refine(im(x), Q.imaginary(x)) == -I*x
     assert refine(im(x), Q.real(x)) is S.Zero
@@ -247,16 +311,24 @@ def test_im():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_complex(), test_complex produces the expected output) over Any ║
+# ║ Path(test_complex(), refine(re(1 / (x + I * y)), Q.real(x) & Q.real(y)) == x / (x ** 2 + y ** 2) and refine(im(1 / (x + I * y)), Q.real(x) & Q.real(y)) == -y / (x ** 2 + y ** 2) and refine(re((w + I * x) * (y + I * z)), Q.real(w) & Q.real(x) & Q.real(y) & Q.real(z)) == w * y - x * z and refine(im((w + I * x) * (y + I * z)), Q.real(w) & Q.real(x) & Q.real(y) & Q.real(z)) == w * z + x * y) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_complex : Any → {Any | refine(re(1 / (x + I * y)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  refine(re(1 / (x + I * y)), Q.real(x) & Q...   ║
+# ║   ensures:  refine(im(1 / (x + I * y)), Q.real(x) & Q...   ║
+# ║   ensures:  refine(re((w + I * x) * (y + I * z)), Q.r...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_complex : Any → {Any | result satisfies: refine(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 287d4b157e5d46be  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1ed3036881fbecbe  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.tests.test_refine.test_complex","kind":"function","src_hash":"73981f7c4e4da479","in":{"base":"Any"},"out":{"base":"Any","pred":"refine(re(1 / (x + I * y)), Q.real(x) & Q.real(y)) == x / (x ** 2 + y ** 2) and refine(im(1 / (x + I * y)), Q.real(x) & Q.real(y)) == -y / (x ** 2 + y ** 2)"},"spec":{"lhs":"test_complex()","rhs":"test_complex produces the expected output","over":{"base":"Any"},"name":"test_complex_correct"},"guarantee":"test_complex produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.tests.test_refine.test_complex_correct","statement":"Path(test_complex(x), test_complex produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"287d4b157e5d46be"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.tests.test_refine.test_complex","kind":"function","src_hash":"73981f7c4e4da479","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: refine(re(1 / (x + I * y)), Q.real(x) & Q.real(y)) == x / (x ** 2 + y ** 2) and refine(im(1 / (x + I * y)), Q.real(x) & Q.real(y)) == -y / (x ** 2 + y ** 2) and refine(re((w + I * x) * (y + I * z)), Q.real(w) & Q.real(x) & Q.real(y) & Q.real(z)) == w * y - x * z and refine(im((w + I * x) * (y + I * z)), Q.real(w) & Q.real(x) & Q.real(y) & Q.real(z)) == w * z + x * y"},"spec":{"lhs":"test_complex()","rhs":"refine(re(1 / (x + I * y)), Q.real(x) & Q.real(y)) == x / (x ** 2 + y ** 2) and refine(im(1 / (x + I * y)), Q.real(x) & Q.real(y)) == -y / (x ** 2 + y ** 2) and refine(re((w + I * x) * (y + I * z)), Q.real(w) & Q.real(x) & Q.real(y) & Q.real(z)) == w * y - x * z and refine(im((w + I * x) * (y + I * z)), Q.real(w) & Q.real(x) & Q.real(y) & Q.real(z)) == w * z + x * y","over":{"base":"Any"},"name":"test_complex_correct"},"guarantee":"refine(re(1 / (x + I * y)), Q.real(x) & Q.real(y)) == x / (x ** 2 + y ** 2); refine(im(1 / (x + I * y)), Q.real(x) & Q.real(y)) == -y / (x ** 2 + y ** 2); refine(re((w + I * x) * (y + I * z)), Q.real(w) & Q.real(x) & Q.real(y) & Q.real(z)) == w * y - x * z","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.tests.test_refine.test_complex_correct","statement":"Path(test_complex(x), refine(re(1 / (x + I * y)), Q.real(x) & Q.real(y)) == x / (x ** 2 + y ** 2); refine(im(1 / (x + I * y)), Q.real(x) & Q.real(y)) == -y / (x ** 2 + y ** 2); refine(re((w + I * x) * (y + I * z)), Q.real(w) & Q.real(x) & Q.real(y) & Q.real(z)) == w * y - x * z)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1ed3036881fbecbe","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["refine(re(1 / (x + I * y)), Q.real(x) & Q.real(y)) == x / (x ** 2 + y ** 2)","refine(im(1 / (x + I * y)), Q.real(x) & Q.real(y)) == -y / (x ** 2 + y ** 2)","refine(re((w + I * x) * (y + I * z)), Q.real(w) & Q.real(x) & Q.real(y) & Q.real(z)) == w * y - x * z","refine(im((w + I * x) * (y + I * z)), Q.real(w) & Q.real(x) & Q.real(y) & Q.real(z)) == w * z + x * y"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_complex():
     assert refine(re(1/(x + I*y)), Q.real(x) & Q.real(y)) == \
         x/(x**2 + y**2)
@@ -269,16 +341,24 @@ def test_complex():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_sign(), test_sign produces the expected output) over Any ║
+# ║ Path(test_sign(), refine(sign(x), Q.positive(x)) == 1 and refine(sign(x), Q.negative(x)) == -1 and refine(sign(x), Q.zero(x)) == 0 and refine(sign(x), True) == sign(x) and refine(sign(Abs(x)), Q.nonzero(x)) == 1 and refine(sign(x), Q.positive(im(x))) == S.ImaginaryUnit and refine(sign(x), Q.negative(im(x))) == -S.ImaginaryUnit) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_sign : Any → {Any | refine(sign(x), Q.positive(x...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  refine(sign(x), Q.positive(x)) == 1            ║
+# ║   ensures:  refine(sign(x), Q.negative(x)) == -1           ║
+# ║   ensures:  refine(sign(x), Q.zero(x)) == 0                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_sign : Any → {Any | result satisfies: refine(sig...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 18768f908289ab7d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4d4d39bfbbde3a2e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.tests.test_refine.test_sign","kind":"function","src_hash":"a52eaaf498b0f484","in":{"base":"Any"},"out":{"base":"Any","pred":"refine(sign(x), Q.positive(x)) == 1 and refine(sign(x), Q.negative(x)) == -1 and refine(sign(x), Q.zero(x)) == 0 and refine(sign(x), True) == sign(x) and refine(sign(Abs(x)), Q.nonzero(x)) == 1 and refine(sign(x), Q.positive(im(x))) == S.ImaginaryUnit and refine(sign(x), Q.negative(im(x))) == -S.ImaginaryUnit and refine(sign(x), True) == sign(x) and refine(sign(x), Q.zero(x)) == 0"},"spec":{"lhs":"test_sign()","rhs":"test_sign produces the expected output","over":{"base":"Any"},"name":"test_sign_correct"},"guarantee":"test_sign produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.tests.test_refine.test_sign_correct","statement":"Path(test_sign(x), test_sign produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"18768f908289ab7d"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.tests.test_refine.test_sign","kind":"function","src_hash":"a52eaaf498b0f484","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: refine(sign(x), Q.positive(x)) == 1 and refine(sign(x), Q.negative(x)) == -1 and refine(sign(x), Q.zero(x)) == 0 and refine(sign(x), True) == sign(x) and refine(sign(Abs(x)), Q.nonzero(x)) == 1 and refine(sign(x), Q.positive(im(x))) == S.ImaginaryUnit and refine(sign(x), Q.negative(im(x))) == -S.ImaginaryUnit"},"spec":{"lhs":"test_sign()","rhs":"refine(sign(x), Q.positive(x)) == 1 and refine(sign(x), Q.negative(x)) == -1 and refine(sign(x), Q.zero(x)) == 0 and refine(sign(x), True) == sign(x) and refine(sign(Abs(x)), Q.nonzero(x)) == 1 and refine(sign(x), Q.positive(im(x))) == S.ImaginaryUnit and refine(sign(x), Q.negative(im(x))) == -S.ImaginaryUnit","over":{"base":"Any"},"name":"test_sign_correct"},"guarantee":"refine(sign(x), Q.positive(x)) == 1; refine(sign(x), Q.negative(x)) == -1; refine(sign(x), Q.zero(x)) == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.tests.test_refine.test_sign_correct","statement":"Path(test_sign(x), refine(sign(x), Q.positive(x)) == 1; refine(sign(x), Q.negative(x)) == -1; refine(sign(x), Q.zero(x)) == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4d4d39bfbbde3a2e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["refine(sign(x), Q.positive(x)) == 1","refine(sign(x), Q.negative(x)) == -1","refine(sign(x), Q.zero(x)) == 0","refine(sign(x), True) == sign(x)","refine(sign(Abs(x)), Q.nonzero(x)) == 1","refine(sign(x), Q.positive(im(x))) == S.ImaginaryUnit","refine(sign(x), Q.negative(im(x))) == -S.ImaginaryUnit"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_sign():
     x = Symbol('x', real = True)
     assert refine(sign(x), Q.positive(x)) == 1
@@ -296,32 +376,45 @@ def test_sign():
     assert refine(sign(x), Q.zero(x)) == 0
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_arg(), test_arg produces the expected output) over Any ║
+# ║ Path(test_arg(), refine(arg(x), Q.positive(x)) == 0 and refine(arg(x), Q.negative(x)) == pi) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_arg : Any → {Any | refine(arg(x), Q.positive(x))...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  refine(arg(x), Q.positive(x)) == 0             ║
+# ║   ensures:  refine(arg(x), Q.negative(x)) == pi            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_arg : Any → {Any | result satisfies: refine(arg(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 682d9fe1984ef166  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dddc5a57e6ffee2c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.tests.test_refine.test_arg","kind":"function","src_hash":"37891542e4b353a8","in":{"base":"Any"},"out":{"base":"Any","pred":"refine(arg(x), Q.positive(x)) == 0 and refine(arg(x), Q.negative(x)) == pi"},"spec":{"lhs":"test_arg()","rhs":"test_arg produces the expected output","over":{"base":"Any"},"name":"test_arg_correct"},"guarantee":"test_arg produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.tests.test_refine.test_arg_correct","statement":"Path(test_arg(x), test_arg produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"682d9fe1984ef166"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.tests.test_refine.test_arg","kind":"function","src_hash":"37891542e4b353a8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: refine(arg(x), Q.positive(x)) == 0 and refine(arg(x), Q.negative(x)) == pi"},"spec":{"lhs":"test_arg()","rhs":"refine(arg(x), Q.positive(x)) == 0 and refine(arg(x), Q.negative(x)) == pi","over":{"base":"Any"},"name":"test_arg_correct"},"guarantee":"refine(arg(x), Q.positive(x)) == 0; refine(arg(x), Q.negative(x)) == pi","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.tests.test_refine.test_arg_correct","statement":"Path(test_arg(x), refine(arg(x), Q.positive(x)) == 0; refine(arg(x), Q.negative(x)) == pi)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dddc5a57e6ffee2c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["refine(arg(x), Q.positive(x)) == 0","refine(arg(x), Q.negative(x)) == pi"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_arg():
     x = Symbol('x', complex = True)
     assert refine(arg(x), Q.positive(x)) == 0
     assert refine(arg(x), Q.negative(x)) == pi
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_func_args(), test_func_args produces the expected output) over Any ║
+# ║ Path(test_func_args(), x.my_member == refine(x).my_member) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_func_args : Any → {Any | x.my_member == refine(x...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  x.my_member == refine(x).my_member             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_func_args : Any → {Any | result satisfies: x.my_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 82c6a4efed9e4f95  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a605a34d05efe4df  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.tests.test_refine.test_func_args","kind":"function","src_hash":"e69ccfe44e719f6b","in":{"base":"Any"},"out":{"base":"Any","pred":"x.my_member == refine(x).my_member"},"spec":{"lhs":"test_func_args()","rhs":"test_func_args produces the expected output","over":{"base":"Any"},"name":"test_func_args_correct"},"guarantee":"test_func_args produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.tests.test_refine.test_func_args_correct","statement":"Path(test_func_args(x), test_func_args produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"82c6a4efed9e4f95"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.tests.test_refine.test_func_args","kind":"function","src_hash":"e69ccfe44e719f6b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: x.my_member == refine(x).my_member"},"spec":{"lhs":"test_func_args()","rhs":"x.my_member == refine(x).my_member","over":{"base":"Any"},"name":"test_func_args_correct"},"guarantee":"x.my_member == refine(x).my_member","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.tests.test_refine.test_func_args_correct","statement":"Path(test_func_args(x), x.my_member == refine(x).my_member)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a605a34d05efe4df","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["x.my_member == refine(x).my_member"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_func_args():
     class MyClass(Expr):
         # A class with nontrivial .func
@@ -342,16 +435,24 @@ def test_func_args():
     assert x.my_member == refine(x).my_member
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_refine_9384(), test_issue_refine_9384 produces the expected output) over Any ║
+# ║ Path(test_issue_refine_9384(), refine(Piecewise((1, x < 0), (0, True)), Q.positive(x)) == 0 and refine(Piecewise((1, x < 0), (0, True)), Q.negative(x)) == 1 and refine(Piecewise((1, x > 0), (0, True)), Q.positive(x)) == 1 and refine(Piecewise((1, x > 0), (0, True)), Q.negative(x)) == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_refine_9384 : Any → {Any | refine(Piecewis...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  refine(Piecewise((1, x < 0), (0, True)), ...   ║
+# ║   ensures:  refine(Piecewise((1, x < 0), (0, True)), ...   ║
+# ║   ensures:  refine(Piecewise((1, x > 0), (0, True)), ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_refine_9384 : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7e6ec476ef45f25e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 292acc354cc32652  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.tests.test_refine.test_issue_refine_9384","kind":"function","src_hash":"d276e83a8fe27b46","in":{"base":"Any"},"out":{"base":"Any","pred":"refine(Piecewise((1, x < 0), (0, True)), Q.positive(x)) == 0 and refine(Piecewise((1, x < 0), (0, True)), Q.negative(x)) == 1 and refine(Piecewise((1, x > 0), (0, True)), Q.positive(x)) == 1 and refine(Piecewise((1, x > 0), (0, True)), Q.negative(x)) == 0"},"spec":{"lhs":"test_issue_refine_9384()","rhs":"test_issue_refine_9384 produces the expected output","over":{"base":"Any"},"name":"test_issue_refine_9384_correct"},"guarantee":"test_issue_refine_9384 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.tests.test_refine.test_issue_refine_9384_correct","statement":"Path(test_issue_refine_9384(x), test_issue_refine_9384 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7e6ec476ef45f25e"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.tests.test_refine.test_issue_refine_9384","kind":"function","src_hash":"d276e83a8fe27b46","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: refine(Piecewise((1, x < 0), (0, True)), Q.positive(x)) == 0 and refine(Piecewise((1, x < 0), (0, True)), Q.negative(x)) == 1 and refine(Piecewise((1, x > 0), (0, True)), Q.positive(x)) == 1 and refine(Piecewise((1, x > 0), (0, True)), Q.negative(x)) == 0"},"spec":{"lhs":"test_issue_refine_9384()","rhs":"refine(Piecewise((1, x < 0), (0, True)), Q.positive(x)) == 0 and refine(Piecewise((1, x < 0), (0, True)), Q.negative(x)) == 1 and refine(Piecewise((1, x > 0), (0, True)), Q.positive(x)) == 1 and refine(Piecewise((1, x > 0), (0, True)), Q.negative(x)) == 0","over":{"base":"Any"},"name":"test_issue_refine_9384_correct"},"guarantee":"refine(Piecewise((1, x < 0), (0, True)), Q.positive(x)) == 0; refine(Piecewise((1, x < 0), (0, True)), Q.negative(x)) == 1; refine(Piecewise((1, x > 0), (0, True)), Q.positive(x)) == 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.tests.test_refine.test_issue_refine_9384_correct","statement":"Path(test_issue_refine_9384(x), refine(Piecewise((1, x < 0), (0, True)), Q.positive(x)) == 0; refine(Piecewise((1, x < 0), (0, True)), Q.negative(x)) == 1; refine(Piecewise((1, x > 0), (0, True)), Q.positive(x)) == 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"292acc354cc32652","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["refine(Piecewise((1, x < 0), (0, True)), Q.positive(x)) == 0","refine(Piecewise((1, x < 0), (0, True)), Q.negative(x)) == 1","refine(Piecewise((1, x > 0), (0, True)), Q.positive(x)) == 1","refine(Piecewise((1, x > 0), (0, True)), Q.negative(x)) == 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_refine_9384():
     assert refine(Piecewise((1, x < 0), (0, True)), Q.positive(x)) == 0
     assert refine(Piecewise((1, x < 0), (0, True)), Q.negative(x)) == 1
@@ -360,16 +461,23 @@ def test_issue_refine_9384():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_eval_refine(), test_eval_refine produces the expected output) over Any ║
+# ║ Path(test_eval_refine(), True) over Any                    ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_eval_refine : Any → {Any | refine(mock_obj)}          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  refine(mock_obj)                               ║
+# ║   returns:  True                                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_eval_refine : Any → {Any | result satisfies: res...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 397cdd95a57ac51e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d866238c82276407  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.tests.test_refine.test_eval_refine","kind":"function","src_hash":"89f59c356983d2b0","in":{"base":"Any"},"out":{"base":"Any","pred":"refine(mock_obj)"},"spec":{"lhs":"test_eval_refine()","rhs":"test_eval_refine produces the expected output","over":{"base":"Any"},"name":"test_eval_refine_correct"},"guarantee":"test_eval_refine produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.tests.test_refine.test_eval_refine_correct","statement":"Path(test_eval_refine(x), test_eval_refine produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"397cdd95a57ac51e"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.tests.test_refine.test_eval_refine","kind":"function","src_hash":"89f59c356983d2b0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (True)"},"spec":{"lhs":"test_eval_refine()","rhs":"True","over":{"base":"Any"},"name":"test_eval_refine_correct"},"guarantee":"returns True; refine(mock_obj)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.tests.test_refine.test_eval_refine_correct","statement":"Path(test_eval_refine(x), returns True; refine(mock_obj))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d866238c82276407","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["refine(mock_obj)"],"returns_expr":"True","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_eval_refine():
     class MockExpr(Expr):
         def _eval_refine(self, assumptions):
@@ -379,16 +487,24 @@ def test_eval_refine():
     assert refine(mock_obj)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_refine_issue_12724(), test_refine_issue_12724 produces the expected output) over Any ║
+# ║ Path(test_refine_issue_12724(), expr1 == x * Abs(y) and expr2 == x * Abs(y * z) and expr3 == x * y1 ** 2 * Abs(z)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_refine_issue_12724 : Any → {Any | expr1 == x * A...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  expr1 == x * Abs(y)                            ║
+# ║   ensures:  expr2 == x * Abs(y * z)                        ║
+# ║   ensures:  expr3 == x * y1 ** 2 * Abs(z)                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_refine_issue_12724 : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c75984a98eeab8e5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6c9856569029f6f1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.tests.test_refine.test_refine_issue_12724","kind":"function","src_hash":"d514ff2249b9f234","in":{"base":"Any"},"out":{"base":"Any","pred":"expr1 == x * Abs(y) and expr2 == x * Abs(y * z) and expr3 == x * y1 ** 2 * Abs(z)"},"spec":{"lhs":"test_refine_issue_12724()","rhs":"test_refine_issue_12724 produces the expected output","over":{"base":"Any"},"name":"test_refine_issue_12724_correct"},"guarantee":"test_refine_issue_12724 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.tests.test_refine.test_refine_issue_12724_correct","statement":"Path(test_refine_issue_12724(x), test_refine_issue_12724 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c75984a98eeab8e5"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.tests.test_refine.test_refine_issue_12724","kind":"function","src_hash":"d514ff2249b9f234","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: expr1 == x * Abs(y) and expr2 == x * Abs(y * z) and expr3 == x * y1 ** 2 * Abs(z)"},"spec":{"lhs":"test_refine_issue_12724()","rhs":"expr1 == x * Abs(y) and expr2 == x * Abs(y * z) and expr3 == x * y1 ** 2 * Abs(z)","over":{"base":"Any"},"name":"test_refine_issue_12724_correct"},"guarantee":"expr1 == x * Abs(y); expr2 == x * Abs(y * z); expr3 == x * y1 ** 2 * Abs(z)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.tests.test_refine.test_refine_issue_12724_correct","statement":"Path(test_refine_issue_12724(x), expr1 == x * Abs(y); expr2 == x * Abs(y * z); expr3 == x * y1 ** 2 * Abs(z))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6c9856569029f6f1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["expr1 == x * Abs(y)","expr2 == x * Abs(y * z)","expr3 == x * y1 ** 2 * Abs(z)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_refine_issue_12724():
     expr1 = refine(Abs(x * y), Q.positive(x))
     expr2 = refine(Abs(x * y * z), Q.positive(x))
@@ -400,16 +516,24 @@ def test_refine_issue_12724():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_matrixelement(), test_matrixelement produces the expected output) over Any ║
+# ║ Path(test_matrixelement(), refine(x[0, 1], Q.symmetric(x)) == x[0, 1] and refine(x[1, 0], Q.symmetric(x)) == x[0, 1] and refine(x[i, j], Q.symmetric(x)) == x[j, i] and refine(x[j, i], Q.symmetric(x)) == x[j, i]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_matrixelement : Any → {Any | refine(x[0, 1], Q.s...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  refine(x[0, 1], Q.symmetric(x)) == x[0, 1]     ║
+# ║   ensures:  refine(x[1, 0], Q.symmetric(x)) == x[0, 1]     ║
+# ║   ensures:  refine(x[i, j], Q.symmetric(x)) == x[j, i]     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_matrixelement : Any → {Any | result satisfies: r...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5db4fd0a4c89d1ca  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fdd4ace9a50ae21f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.tests.test_refine.test_matrixelement","kind":"function","src_hash":"ec1ec1bfd74bdecc","in":{"base":"Any"},"out":{"base":"Any","pred":"refine(x[0, 1], Q.symmetric(x)) == x[0, 1] and refine(x[1, 0], Q.symmetric(x)) == x[0, 1] and refine(x[i, j], Q.symmetric(x)) == x[j, i] and refine(x[j, i], Q.symmetric(x)) == x[j, i]"},"spec":{"lhs":"test_matrixelement()","rhs":"test_matrixelement produces the expected output","over":{"base":"Any"},"name":"test_matrixelement_correct"},"guarantee":"test_matrixelement produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.tests.test_refine.test_matrixelement_correct","statement":"Path(test_matrixelement(x), test_matrixelement produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5db4fd0a4c89d1ca"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.tests.test_refine.test_matrixelement","kind":"function","src_hash":"ec1ec1bfd74bdecc","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: refine(x[0, 1], Q.symmetric(x)) == x[0, 1] and refine(x[1, 0], Q.symmetric(x)) == x[0, 1] and refine(x[i, j], Q.symmetric(x)) == x[j, i] and refine(x[j, i], Q.symmetric(x)) == x[j, i]"},"spec":{"lhs":"test_matrixelement()","rhs":"refine(x[0, 1], Q.symmetric(x)) == x[0, 1] and refine(x[1, 0], Q.symmetric(x)) == x[0, 1] and refine(x[i, j], Q.symmetric(x)) == x[j, i] and refine(x[j, i], Q.symmetric(x)) == x[j, i]","over":{"base":"Any"},"name":"test_matrixelement_correct"},"guarantee":"refine(x[0, 1], Q.symmetric(x)) == x[0, 1]; refine(x[1, 0], Q.symmetric(x)) == x[0, 1]; refine(x[i, j], Q.symmetric(x)) == x[j, i]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.tests.test_refine.test_matrixelement_correct","statement":"Path(test_matrixelement(x), refine(x[0, 1], Q.symmetric(x)) == x[0, 1]; refine(x[1, 0], Q.symmetric(x)) == x[0, 1]; refine(x[i, j], Q.symmetric(x)) == x[j, i])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fdd4ace9a50ae21f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["refine(x[0, 1], Q.symmetric(x)) == x[0, 1]","refine(x[1, 0], Q.symmetric(x)) == x[0, 1]","refine(x[i, j], Q.symmetric(x)) == x[j, i]","refine(x[j, i], Q.symmetric(x)) == x[j, i]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_matrixelement():
     x = MatrixSymbol('x', 3, 3)
     i = Symbol('i', positive = True)

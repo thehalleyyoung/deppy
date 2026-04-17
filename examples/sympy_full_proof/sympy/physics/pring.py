@@ -23,16 +23,22 @@ from sympy.physics.quantum.constants import hbar
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(wavefunction(n, ), id) over Any                       ║
+# ║ Path(wavefunction(n, x), id) over Any                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  exp(n * I * x) / sqrt(2 * pi)                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ wavefunction : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | d404221e99348859   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.pring.wavefunction","kind":"function","src_hash":"e755fe29383fb4bd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"wavefunction(n, )","rhs":"returns the wavefunction for particle on ring","over":{"base":"Any"},"name":"wavefunction_correct","kind":"composition"},"guarantee":"returns the wavefunction for particle on ring","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"exp","by":"library_axiom"},{"fn":"sqrt","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d404221e99348859"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.pring.wavefunction","kind":"function","src_hash":"e755fe29383fb4bd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"wavefunction(n, x)","rhs":"exp(n * I * x) / sqrt(2 * pi)","over":{"base":"Any"},"name":"wavefunction_correct","kind":"composition"},"guarantee":"returns exp(n * I * x) / sqrt(2 * pi)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"exp","by":"library_axiom"},{"fn":"sqrt","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d404221e99348859","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"exp(n * I * x) / sqrt(2 * pi)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def wavefunction(n, x):
     """
     Returns the wavefunction for particle on ring.
@@ -79,16 +85,24 @@ def wavefunction(n, x):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(energy(n, ), returns the energy of the state corresponding to quantum number ``n``) over Any ║
+# ║ Path(energy(n, m, r), <unspecified:energy>) over {Any | hasattr(n, 'is_integer')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ energy : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(n, 'is_integer')                       ║
+# ║   fiber[case_0]: n.is_integer => n ** 2 * hbar ** 2 /...   ║
+# ║   fiber[case_1]: not (n.is_integer)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ energy : {Any | hasattr(n, 'is_integer')} → Any            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e761cc698fbeb374  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 449cb2af10e9d1f9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.pring.energy","kind":"function","src_hash":"e4a3af254ff827ec","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"energy(n, )","rhs":"returns the energy of the state corresponding to quantum number ``n``","over":{"base":"Any"},"name":"energy_correct"},"guarantee":"returns the energy of the state corresponding to quantum number ``n``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.pring.energy_correct","statement":"Path(energy(x), returns the energy of the state corresponding to quantum number ``n``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e761cc698fbeb374"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.pring.energy","kind":"function","src_hash":"e4a3af254ff827ec","in":{"base":"Any","pred":"hasattr(n, 'is_integer')"},"out":{"base":"Any"},"spec":{"lhs":"energy(n, m, r)","rhs":"<unspecified:energy>","over":{"base":"Any","pred":"hasattr(n, 'is_integer')"},"name":"energy_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.pring.energy_correct","statement":"Path(energy(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"449cb2af10e9d1f9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(n, 'is_integer')"],"fibers":[{"name":"case_0","guard":"n.is_integer","ensures":["result == n ** 2 * hbar ** 2 / (2 * m * r ** 2)"],"decidability":"library","returns_expr":"n ** 2 * hbar ** 2 / (2 * m * r ** 2)"},{"name":"case_1","guard":"not (n.is_integer)","ensures":[],"decidability":"library"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["n.is_integer"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def energy(n, m, r):
     """
     Returns the energy of the state corresponding to quantum number ``n``.

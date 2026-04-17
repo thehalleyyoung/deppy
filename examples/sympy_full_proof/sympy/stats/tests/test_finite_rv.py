@@ -47,32 +47,47 @@ from sympy.testing.pytest import raises
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(BayesTest(A, ), BayesTest produces the expected output) over Any ║
+# ║ Path(BayesTest(A, B), P(A, B) == P(And(A, B)) / P(B) and P(A, B) == P(B, A) * P(A) / P(B)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ BayesTest : Any → {Any | P(A, B) == P(And(A, B)) / P(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  P(A, B) == P(And(A, B)) / P(B)                 ║
+# ║   ensures:  P(A, B) == P(B, A) * P(A) / P(B)               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ BayesTest : Any → {Any | result satisfies: P(A, B) ==...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e274f45a0ee9d489  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f8a3de63ccf35cae  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_finite_rv.BayesTest","kind":"function","src_hash":"98c04a230f3faa93","in":{"base":"Any"},"out":{"base":"Any","pred":"P(A, B) == P(And(A, B)) / P(B) and P(A, B) == P(B, A) * P(A) / P(B)"},"spec":{"lhs":"BayesTest(A, )","rhs":"BayesTest produces the expected output","over":{"base":"Any"},"name":"BayesTest_correct"},"guarantee":"BayesTest produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_finite_rv.BayesTest_correct","statement":"Path(BayesTest(x), BayesTest produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e274f45a0ee9d489"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_finite_rv.BayesTest","kind":"function","src_hash":"98c04a230f3faa93","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: P(A, B) == P(And(A, B)) / P(B) and P(A, B) == P(B, A) * P(A) / P(B)"},"spec":{"lhs":"BayesTest(A, B)","rhs":"P(A, B) == P(And(A, B)) / P(B) and P(A, B) == P(B, A) * P(A) / P(B)","over":{"base":"Any"},"name":"BayesTest_correct"},"guarantee":"P(A, B) == P(And(A, B)) / P(B); P(A, B) == P(B, A) * P(A) / P(B)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_finite_rv.BayesTest_correct","statement":"Path(BayesTest(x), P(A, B) == P(And(A, B)) / P(B); P(A, B) == P(B, A) * P(A) / P(B))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f8a3de63ccf35cae","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["P(A, B) == P(And(A, B)) / P(B)","P(A, B) == P(B, A) * P(A) / P(B)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def BayesTest(A, B):
     assert P(A, B) == P(And(A, B)) / P(B)
     assert P(A, B) == P(B, A) * P(A) / P(B)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_discreteuniform(), test_discreteuniform produces the expected output) over Any ║
+# ║ Path(test_discreteuniform(), E(X) == (a + b + c) / 3 and simplify(variance(X) - ((a ** 2 + b ** 2 + c ** 2) / 3 - (a / 3 + b / 3 + c / 3) ** 2)) == 0 and P(Eq(X, a)) == P(Eq(X, b)) == P(Eq(X, c)) == S('1/3') and E(Y) == S('-1/2') and variance(Y) == S('33/4') and median(Y) == FiniteSet(-1, 0) and dict(density(Die('D', 6)).items()) == dict(density(DiscreteUniform('U', range(1, 7))).items()) and characteristic_function(X)(t) == exp(I * a * t) / 3 + exp(I * b * t) / 3 + exp(I * c * t) / 3 and moment_generating_function(X)(t) == exp(a * t) / 3 + exp(b * t) / 3 + exp(c * t) / 3) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_discreteuniform : Any → {Any | E(X) == (a + b + ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  E(X) == (a + b + c) / 3                        ║
+# ║   ensures:  simplify(variance(X) - ((a ** 2 + b ** 2 ...   ║
+# ║   ensures:  P(Eq(X, a)) == P(Eq(X, b)) == P(Eq(X, c))...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_discreteuniform : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eb5cc97d99448fb5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7a0bdcce95bc42f3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_finite_rv.test_discreteuniform","kind":"function","src_hash":"faef307cc3e488cc","in":{"base":"Any"},"out":{"base":"Any","pred":"E(X) == (a + b + c) / 3 and P(Eq(X, a)) == P(Eq(X, b)) == P(Eq(X, c)) == S('1/3') and E(Y) == S('-1/2') and variance(Y) == S('33/4') and median(Y) == FiniteSet(-1, 0) and P(Eq(Y, x)) == S('1/10') and P(Y <= x) == S(x + 6) / 10 and P(Y >= x) == S(5 - x) / 10"},"spec":{"lhs":"test_discreteuniform()","rhs":"test_discreteuniform produces the expected output","over":{"base":"Any"},"name":"test_discreteuniform_correct"},"guarantee":"test_discreteuniform produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_finite_rv.test_discreteuniform_correct","statement":"Path(test_discreteuniform(x), test_discreteuniform produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eb5cc97d99448fb5"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_finite_rv.test_discreteuniform","kind":"function","src_hash":"faef307cc3e488cc","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: E(X) == (a + b + c) / 3 and simplify(variance(X) - ((a ** 2 + b ** 2 + c ** 2) / 3 - (a / 3 + b / 3 + c / 3) ** 2)) == 0 and P(Eq(X, a)) == P(Eq(X, b)) == P(Eq(X, c)) == S('1/3') and E(Y) == S('-1/2') and variance(Y) == S('33/4') and median(Y) == FiniteSet(-1, 0) and dict(density(Die('D', 6)).items()) == dict(density(DiscreteUniform('U', range(1, 7))).items()) and characteristic_function(X)(t) == exp(I * a * t) / 3 + exp(I * b * t) / 3 + exp(I * c * t) / 3 and moment_generating_function(X)(t) == exp(a * t) / 3 + exp(b * t) / 3 + exp(c * t) / 3"},"spec":{"lhs":"test_discreteuniform()","rhs":"E(X) == (a + b + c) / 3 and simplify(variance(X) - ((a ** 2 + b ** 2 + c ** 2) / 3 - (a / 3 + b / 3 + c / 3) ** 2)) == 0 and P(Eq(X, a)) == P(Eq(X, b)) == P(Eq(X, c)) == S('1/3') and E(Y) == S('-1/2') and variance(Y) == S('33/4') and median(Y) == FiniteSet(-1, 0) and dict(density(Die('D', 6)).items()) == dict(density(DiscreteUniform('U', range(1, 7))).items()) and characteristic_function(X)(t) == exp(I * a * t) / 3 + exp(I * b * t) / 3 + exp(I * c * t) / 3 and moment_generating_function(X)(t) == exp(a * t) / 3 + exp(b * t) / 3 + exp(c * t) / 3","over":{"base":"Any"},"name":"test_discreteuniform_correct"},"guarantee":"E(X) == (a + b + c) / 3; simplify(variance(X) - ((a ** 2 + b ** 2 + c ** 2) / 3 - (a / 3 + b / 3 + c / 3) ** 2)) == 0; P(Eq(X, a)) == P(Eq(X, b)) == P(Eq(X, c)) == S('1/3')","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_finite_rv.test_discreteuniform_correct","statement":"Path(test_discreteuniform(x), E(X) == (a + b + c) / 3; simplify(variance(X) - ((a ** 2 + b ** 2 + c ** 2) / 3 - (a / 3 + b / 3 + c / 3) ** 2)) == 0; P(Eq(X, a)) == P(Eq(X, b)) == P(Eq(X, c)) == S('1/3'))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7a0bdcce95bc42f3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["E(X) == (a + b + c) / 3","simplify(variance(X) - ((a ** 2 + b ** 2 + c ** 2) / 3 - (a / 3 + b / 3 + c / 3) ** 2)) == 0","P(Eq(X, a)) == P(Eq(X, b)) == P(Eq(X, c)) == S('1/3')","E(Y) == S('-1/2')","variance(Y) == S('33/4')","median(Y) == FiniteSet(-1, 0)","dict(density(Die('D', 6)).items()) == dict(density(DiscreteUniform('U', range(1, 7))).items())","characteristic_function(X)(t) == exp(I * a * t) / 3 + exp(I * b * t) / 3 + exp(I * c * t) / 3","moment_generating_function(X)(t) == exp(a * t) / 3 + exp(b * t) / 3 + exp(c * t) / 3"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_discreteuniform():
     # Symbolic
     a, b, c, t = symbols('a b c t')
@@ -104,16 +119,24 @@ def test_discreteuniform():
     raises(ValueError, lambda: DiscreteUniform('Z', [a, a, a, b, b, c]))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dice(), test_dice produces the expected output) over Any ║
+# ║ Path(test_dice(), E(X) == 3 + S.Half and variance(X) == Rational(35, 12) and E(X + Y) == 7 and E(X + X) == 7 and E(a * X + b) == a * E(X) + b and variance(X + Y) == variance(X) + variance(Y) == cmoment(X + Y, 2) and variance(X + X) == 4 * variance(X) == cmoment(X + X, 2) and cmoment(X, 0) == 1 and cmoment(4 * X, 3) == 64 * cmoment(X, 3) and covariance(X, Y) is S.Zero and covariance(X, X + Y) == variance(X) and density(Eq(cos(X * S.Pi), 1))[True] == S.Half and correlation(X, Y) == 0 and correlation(X, Y) == correlation(Y, X) and smoment(X + Y, 3) == skewness(X + Y) and smoment(X + Y, 4) == kurtosis(X + Y) and smoment(X, 0) == 1 and P(X > 3) == S.Half and P(2 * X > 6) == S.Half and P(X > Y) == Rational(5, 12) and P(Eq(X, Y)) == P(Eq(X, 1)) and E(X, X > 3) == 5 == moment(X, 1, 0, X > 3) and E(X, Y > 3) == E(X) == moment(X, 1, 0, Y > 3) and E(X + Y, Eq(X, Y)) == E(2 * X) and moment(X, 0) == 1 and moment(5 * X, 2) == 25 * moment(X, 2) and quantile(X)(p) == Piecewise((nan, (p > 1) | (p < 0)), (S.One, p <= Rational(1, 6)), (S(2), p <= Rational(1, 3)), (S(3), p <= S.Half), (S(4), p <= Rational(2, 3)), (S(5), p <= Rational(5, 6)), (S(6), p <= 1)) and P(X > 3, X > 3) is S.One and P(X > Y, Eq(Y, 6)) is S.Zero and P(Eq(X + Y, 12)) == Rational(1, 36) and P(Eq(X + Y, 12), Eq(X, 6)) == Rational(1, 6) and density(X + Y) == density(Y + Z) != density(X + X) and d[S(22)] == Rational(1, 108) and d[S(4100)] == Rational(1, 216) and (S(3130) not in d) and pspace(X).domain.as_boolean() == Or(*[Eq(X.symbol, i) for i in [1, 2, 3, 4, 5, 6]]) and where(X > 3).set == FiniteSet(4, 5, 6) and characteristic_function(X)(t) == exp(6 * I * t) / 6 + exp(5 * I * t) / 6 + exp(4 * I * t) / 6 + exp(3 * I * t) / 6 + exp(2 * I * t) / 6 + exp(I * t) / 6 and moment_generating_function(X)(t) == exp(6 * t) / 6 + exp(5 * t) / 6 + exp(4 * t) / 6 + exp(3 * t) / 6 + exp(2 * t) / 6 + exp(t) / 6 and median(X) == FiniteSet(3, 4) and median(D) == FiniteSet(4) and dens == Density(DieDistribution(n)) and set(dens.subs(n, 4).doit().keys()) == {1, 2, 3, 4} and set(dens.subs(n, 4).doit().values()) == {Rational(1, 4)} and E(D).dummy_eq(Sum(Piecewise((k / n, k <= n), (0, True)), (k, 1, n))) and variance(D).subs(n, 6).doit() == Rational(35, 12) and cumuf.dummy_eq(Sum(Piecewise((1 / n, (ki >= 1) & (ki <= n)), (0, True)), (ki, 1, k))) and cumuf.subs({n: 6, k: 2}).doit() == Rational(1, 3) and cf.dummy_eq(Sum(Piecewise((exp(ki * I * t) / n, (ki >= 1) & (ki <= n)), (0, True)), (ki, 1, n))) and cf.subs(n, 3).doit() == exp(3 * I * t) / 3 + exp(2 * I * t) / 3 + exp(I * t) / 3 and mgf.dummy_eq(Sum(Piecewise((exp(ki * t) / n, (ki >= 1) & (ki <= n)), (0, True)), (ki, 1, n))) and mgf.subs(n, 3).doit() == exp(3 * t) / 3 + exp(2 * t) / 3 + exp(t) / 3) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dice : Any → {Any | E(X) == 3 + S.Half and varia...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  E(X) == 3 + S.Half                             ║
+# ║   ensures:  variance(X) == Rational(35, 12)                ║
+# ║   ensures:  E(X + Y) == 7                                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dice : Any → {Any | result satisfies: E(X) == 3 ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 022506bf100a9eb7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.8ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7bbfe5ca2c8b370a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_finite_rv.test_dice","kind":"function","src_hash":"66c67a80c268dae1","in":{"base":"Any"},"out":{"base":"Any","pred":"E(X) == 3 + S.Half and variance(X) == Rational(35, 12) and E(X + Y) == 7 and E(X + X) == 7 and E(a * X + b) == a * E(X) + b and variance(X + Y) == variance(X) + variance(Y) == cmoment(X + Y, 2) and variance(X + X) == 4 * variance(X) == cmoment(X + X, 2) and cmoment(X, 0) == 1 and cmoment(4 * X, 3) == 64 * cmoment(X, 3) and covariance(X, Y) is S.Zero and covariance(X, X + Y) == variance(X) and density(Eq(cos(X * S.Pi), 1))[True] == S.Half and correlation(X, Y) == 0 and correlation(X, Y) == correlation(Y, X) and smoment(X + Y, 3) == skewness(X + Y) and smoment(X + Y, 4) == kurtosis(X + Y) and smoment(X, 0) == 1 and P(X > 3) == S.Half and P(2 * X > 6) == S.Half and P(X > Y) == Rational(5, 12) and P(Eq(X, Y)) == P(Eq(X, 1)) and E(X, X > 3) == 5 == moment(X, 1, 0, X > 3) and E(X, Y > 3) == E(X) == moment(X, 1, 0, Y > 3) and E(X + Y, Eq(X, Y)) == E(2 * X) and moment(X, 0) == 1 and moment(5 * X, 2) == 25 * moment(X, 2) and P(X > 3, X > 3) is S.One and P(X > Y, Eq(Y, 6)) is S.Zero and P(Eq(X + Y, 12)) == Rational(1, 36) and P(Eq(X + Y, 12), Eq(X, 6)) == Rational(1, 6) and density(X + Y) == density(Y + Z) != density(X + X) and where(X > 3).set == FiniteSet(4, 5, 6) and median(X) == FiniteSet(3, 4) and median(D) == FiniteSet(4) and dens == Density(DieDistribution(n)) and set(dens.subs(n, 4).doit().keys()) == {1, 2, 3, 4} and set(dens.subs(n, 4).doit().values()) == {Rational(1, 4)} and E(D).dummy_eq(Sum(Piecewise((k / n, k <= n), (0, True)), (k, 1, n))) and variance(D).subs(n, 6).doit() == Rational(35, 12) and cumuf.subs({n: 6, k: 2}).doit() == Rational(1, 3) and mgf.subs(n, 3).doit() == exp(3 * t) / 3 + exp(2 * t) / 3 + exp(t) / 3"},"spec":{"lhs":"test_dice()","rhs":"test_dice produces the expected output","over":{"base":"Any"},"name":"test_dice_correct"},"guarantee":"test_dice produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_finite_rv.test_dice_correct","statement":"Path(test_dice(x), test_dice produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"022506bf100a9eb7"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_finite_rv.test_dice","kind":"function","src_hash":"66c67a80c268dae1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: E(X) == 3 + S.Half and variance(X) == Rational(35, 12) and E(X + Y) == 7 and E(X + X) == 7 and E(a * X + b) == a * E(X) + b and variance(X + Y) == variance(X) + variance(Y) == cmoment(X + Y, 2) and variance(X + X) == 4 * variance(X) == cmoment(X + X, 2) and cmoment(X, 0) == 1 and cmoment(4 * X, 3) == 64 * cmoment(X, 3) and covariance(X, Y) is S.Zero and covariance(X, X + Y) == variance(X) and density(Eq(cos(X * S.Pi), 1))[True] == S.Half and correlation(X, Y) == 0 and correlation(X, Y) == correlation(Y, X) and smoment(X + Y, 3) == skewness(X + Y) and smoment(X + Y, 4) == kurtosis(X + Y) and smoment(X, 0) == 1 and P(X > 3) == S.Half and P(2 * X > 6) == S.Half and P(X > Y) == Rational(5, 12) and P(Eq(X, Y)) == P(Eq(X, 1)) and E(X, X > 3) == 5 == moment(X, 1, 0, X > 3) and E(X, Y > 3) == E(X) == moment(X, 1, 0, Y > 3) and E(X + Y, Eq(X, Y)) == E(2 * X) and moment(X, 0) == 1 and moment(5 * X, 2) == 25 * moment(X, 2) and quantile(X)(p) == Piecewise((nan, (p > 1) | (p < 0)), (S.One, p <= Rational(1, 6)), (S(2), p <= Rational(1, 3)), (S(3), p <= S.Half), (S(4), p <= Rational(2, 3)), (S(5), p <= Rational(5, 6)), (S(6), p <= 1)) and P(X > 3, X > 3) is S.One and P(X > Y, Eq(Y, 6)) is S.Zero and P(Eq(X + Y, 12)) == Rational(1, 36) and P(Eq(X + Y, 12), Eq(X, 6)) == Rational(1, 6) and density(X + Y) == density(Y + Z) != density(X + X) and d[S(22)] == Rational(1, 108) and d[S(4100)] == Rational(1, 216) and (S(3130) not in d) and pspace(X).domain.as_boolean() == Or(*[Eq(X.symbol, i) for i in [1, 2, 3, 4, 5, 6]]) and where(X > 3).set == FiniteSet(4, 5, 6) and characteristic_function(X)(t) == exp(6 * I * t) / 6 + exp(5 * I * t) / 6 + exp(4 * I * t) / 6 + exp(3 * I * t) / 6 + exp(2 * I * t) / 6 + exp(I * t) / 6 and moment_generating_function(X)(t) == exp(6 * t) / 6 + exp(5 * t) / 6 + exp(4 * t) / 6 + exp(3 * t) / 6 + exp(2 * t) / 6 + exp(t) / 6 and median(X) == FiniteSet(3, 4) and median(D) == FiniteSet(4) and dens == Density(DieDistribution(n)) and set(dens.subs(n, 4).doit().keys()) == {1, 2, 3, 4} and set(dens.subs(n, 4).doit().values()) == {Rational(1, 4)} and E(D).dummy_eq(Sum(Piecewise((k / n, k <= n), (0, True)), (k, 1, n))) and variance(D).subs(n, 6).doit() == Rational(35, 12) and cumuf.dummy_eq(Sum(Piecewise((1 / n, (ki >= 1) & (ki <= n)), (0, True)), (ki, 1, k))) and cumuf.subs({n: 6, k: 2}).doit() == Rational(1, 3) and cf.dummy_eq(Sum(Piecewise((exp(ki * I * t) / n, (ki >= 1) & (ki <= n)), (0, True)), (ki, 1, n))) and cf.subs(n, 3).doit() == exp(3 * I * t) / 3 + exp(2 * I * t) / 3 + exp(I * t) / 3 and mgf.dummy_eq(Sum(Piecewise((exp(ki * t) / n, (ki >= 1) & (ki <= n)), (0, True)), (ki, 1, n))) and mgf.subs(n, 3).doit() == exp(3 * t) / 3 + exp(2 * t) / 3 + exp(t) / 3"},"spec":{"lhs":"test_dice()","rhs":"E(X) == 3 + S.Half and variance(X) == Rational(35, 12) and E(X + Y) == 7 and E(X + X) == 7 and E(a * X + b) == a * E(X) + b and variance(X + Y) == variance(X) + variance(Y) == cmoment(X + Y, 2) and variance(X + X) == 4 * variance(X) == cmoment(X + X, 2) and cmoment(X, 0) == 1 and cmoment(4 * X, 3) == 64 * cmoment(X, 3) and covariance(X, Y) is S.Zero and covariance(X, X + Y) == variance(X) and density(Eq(cos(X * S.Pi), 1))[True] == S.Half and correlation(X, Y) == 0 and correlation(X, Y) == correlation(Y, X) and smoment(X + Y, 3) == skewness(X + Y) and smoment(X + Y, 4) == kurtosis(X + Y) and smoment(X, 0) == 1 and P(X > 3) == S.Half and P(2 * X > 6) == S.Half and P(X > Y) == Rational(5, 12) and P(Eq(X, Y)) == P(Eq(X, 1)) and E(X, X > 3) == 5 == moment(X, 1, 0, X > 3) and E(X, Y > 3) == E(X) == moment(X, 1, 0, Y > 3) and E(X + Y, Eq(X, Y)) == E(2 * X) and moment(X, 0) == 1 and moment(5 * X, 2) == 25 * moment(X, 2) and quantile(X)(p) == Piecewise((nan, (p > 1) | (p < 0)), (S.One, p <= Rational(1, 6)), (S(2), p <= Rational(1, 3)), (S(3), p <= S.Half), (S(4), p <= Rational(2, 3)), (S(5), p <= Rational(5, 6)), (S(6), p <= 1)) and P(X > 3, X > 3) is S.One and P(X > Y, Eq(Y, 6)) is S.Zero and P(Eq(X + Y, 12)) == Rational(1, 36) and P(Eq(X + Y, 12), Eq(X, 6)) == Rational(1, 6) and density(X + Y) == density(Y + Z) != density(X + X) and d[S(22)] == Rational(1, 108) and d[S(4100)] == Rational(1, 216) and (S(3130) not in d) and pspace(X).domain.as_boolean() == Or(*[Eq(X.symbol, i) for i in [1, 2, 3, 4, 5, 6]]) and where(X > 3).set == FiniteSet(4, 5, 6) and characteristic_function(X)(t) == exp(6 * I * t) / 6 + exp(5 * I * t) / 6 + exp(4 * I * t) / 6 + exp(3 * I * t) / 6 + exp(2 * I * t) / 6 + exp(I * t) / 6 and moment_generating_function(X)(t) == exp(6 * t) / 6 + exp(5 * t) / 6 + exp(4 * t) / 6 + exp(3 * t) / 6 + exp(2 * t) / 6 + exp(t) / 6 and median(X) == FiniteSet(3, 4) and median(D) == FiniteSet(4) and dens == Density(DieDistribution(n)) and set(dens.subs(n, 4).doit().keys()) == {1, 2, 3, 4} and set(dens.subs(n, 4).doit().values()) == {Rational(1, 4)} and E(D).dummy_eq(Sum(Piecewise((k / n, k <= n), (0, True)), (k, 1, n))) and variance(D).subs(n, 6).doit() == Rational(35, 12) and cumuf.dummy_eq(Sum(Piecewise((1 / n, (ki >= 1) & (ki <= n)), (0, True)), (ki, 1, k))) and cumuf.subs({n: 6, k: 2}).doit() == Rational(1, 3) and cf.dummy_eq(Sum(Piecewise((exp(ki * I * t) / n, (ki >= 1) & (ki <= n)), (0, True)), (ki, 1, n))) and cf.subs(n, 3).doit() == exp(3 * I * t) / 3 + exp(2 * I * t) / 3 + exp(I * t) / 3 and mgf.dummy_eq(Sum(Piecewise((exp(ki * t) / n, (ki >= 1) & (ki <= n)), (0, True)), (ki, 1, n))) and mgf.subs(n, 3).doit() == exp(3 * t) / 3 + exp(2 * t) / 3 + exp(t) / 3","over":{"base":"Any"},"name":"test_dice_correct"},"guarantee":"E(X) == 3 + S.Half; variance(X) == Rational(35, 12); E(X + Y) == 7","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_finite_rv.test_dice_correct","statement":"Path(test_dice(x), E(X) == 3 + S.Half; variance(X) == Rational(35, 12); E(X + Y) == 7)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7bbfe5ca2c8b370a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["E(X) == 3 + S.Half","variance(X) == Rational(35, 12)","E(X + Y) == 7","E(X + X) == 7","E(a * X + b) == a * E(X) + b","variance(X + Y) == variance(X) + variance(Y) == cmoment(X + Y, 2)","variance(X + X) == 4 * variance(X) == cmoment(X + X, 2)","cmoment(X, 0) == 1","cmoment(4 * X, 3) == 64 * cmoment(X, 3)","covariance(X, Y) is S.Zero","covariance(X, X + Y) == variance(X)","density(Eq(cos(X * S.Pi), 1))[True] == S.Half","correlation(X, Y) == 0","correlation(X, Y) == correlation(Y, X)","smoment(X + Y, 3) == skewness(X + Y)","smoment(X + Y, 4) == kurtosis(X + Y)","smoment(X, 0) == 1","P(X > 3) == S.Half","P(2 * X > 6) == S.Half","P(X > Y) == Rational(5, 12)","P(Eq(X, Y)) == P(Eq(X, 1))","E(X, X > 3) == 5 == moment(X, 1, 0, X > 3)","E(X, Y > 3) == E(X) == moment(X, 1, 0, Y > 3)","E(X + Y, Eq(X, Y)) == E(2 * X)","moment(X, 0) == 1","moment(5 * X, 2) == 25 * moment(X, 2)","quantile(X)(p) == Piecewise((nan, (p > 1) | (p < 0)), (S.One, p <= Rational(1, 6)), (S(2), p <= Rational(1, 3)), (S(3), p <= S.Half), (S(4), p <= Rational(2, 3)), (S(5), p <= Rational(5, 6)), (S(6), p <= 1))","P(X > 3, X > 3) is S.One","P(X > Y, Eq(Y, 6)) is S.Zero","P(Eq(X + Y, 12)) == Rational(1, 36)","P(Eq(X + Y, 12), Eq(X, 6)) == Rational(1, 6)","density(X + Y) == density(Y + Z) != density(X + X)","d[S(22)] == Rational(1, 108) and d[S(4100)] == Rational(1, 216) and (S(3130) not in d)","pspace(X).domain.as_boolean() == Or(*[Eq(X.symbol, i) for i in [1, 2, 3, 4, 5, 6]])","where(X > 3).set == FiniteSet(4, 5, 6)","characteristic_function(X)(t) == exp(6 * I * t) / 6 + exp(5 * I * t) / 6 + exp(4 * I * t) / 6 + exp(3 * I * t) / 6 + exp(2 * I * t) / 6 + exp(I * t) / 6","moment_generating_function(X)(t) == exp(6 * t) / 6 + exp(5 * t) / 6 + exp(4 * t) / 6 + exp(3 * t) / 6 + exp(2 * t) / 6 + exp(t) / 6","median(X) == FiniteSet(3, 4)","median(D) == FiniteSet(4)","dens == Density(DieDistribution(n))","set(dens.subs(n, 4).doit().keys()) == {1, 2, 3, 4}","set(dens.subs(n, 4).doit().values()) == {Rational(1, 4)}","E(D).dummy_eq(Sum(Piecewise((k / n, k <= n), (0, True)), (k, 1, n)))","variance(D).subs(n, 6).doit() == Rational(35, 12)","cumuf.dummy_eq(Sum(Piecewise((1 / n, (ki >= 1) & (ki <= n)), (0, True)), (ki, 1, k)))","cumuf.subs({n: 6, k: 2}).doit() == Rational(1, 3)","cf.dummy_eq(Sum(Piecewise((exp(ki * I * t) / n, (ki >= 1) & (ki <= n)), (0, True)), (ki, 1, n)))","cf.subs(n, 3).doit() == exp(3 * I * t) / 3 + exp(2 * I * t) / 3 + exp(I * t) / 3","mgf.dummy_eq(Sum(Piecewise((exp(ki * t) / n, (ki >= 1) & (ki <= n)), (0, True)), (ki, 1, n)))","mgf.subs(n, 3).doit() == exp(3 * t) / 3 + exp(2 * t) / 3 + exp(t) / 3"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.8,"verdict_class":"assumed","binding":true}}
 def test_dice():
     # TODO: Make iid method!
     X, Y, Z = Die('X', 6), Die('Y', 6), Die('Z', 6)
@@ -208,16 +231,23 @@ def test_dice():
     assert mgf.subs(n, 3).doit() == exp(3*t)/3 + exp(2*t)/3 + exp(t)/3
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_given(), test_given produces the expected output) over Any ║
+# ║ Path(test_given(), density(X, X > 5) == {S(6): S.One} and where(X > 2, X > 5).as_boolean() == Eq(X.symbol, 6)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_given : Any → {Any | density(X, X > 5) == {S(6):...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  density(X, X > 5) == {S(6): S.One}             ║
+# ║   ensures:  where(X > 2, X > 5).as_boolean() == Eq(X....   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_given : Any → {Any | result satisfies: density(X...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 50c50ab4c688ea35  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | de39f5b4e7d7277c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_finite_rv.test_given","kind":"function","src_hash":"93b3c2f8b991e56f","in":{"base":"Any"},"out":{"base":"Any","pred":"density(X, X > 5) == {S(6): S.One} and where(X > 2, X > 5).as_boolean() == Eq(X.symbol, 6)"},"spec":{"lhs":"test_given()","rhs":"test_given produces the expected output","over":{"base":"Any"},"name":"test_given_correct"},"guarantee":"test_given produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_finite_rv.test_given_correct","statement":"Path(test_given(x), test_given produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"50c50ab4c688ea35"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_finite_rv.test_given","kind":"function","src_hash":"93b3c2f8b991e56f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: density(X, X > 5) == {S(6): S.One} and where(X > 2, X > 5).as_boolean() == Eq(X.symbol, 6)"},"spec":{"lhs":"test_given()","rhs":"density(X, X > 5) == {S(6): S.One} and where(X > 2, X > 5).as_boolean() == Eq(X.symbol, 6)","over":{"base":"Any"},"name":"test_given_correct"},"guarantee":"density(X, X > 5) == {S(6): S.One}; where(X > 2, X > 5).as_boolean() == Eq(X.symbol, 6)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_finite_rv.test_given_correct","statement":"Path(test_given(x), density(X, X > 5) == {S(6): S.One}; where(X > 2, X > 5).as_boolean() == Eq(X.symbol, 6))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"de39f5b4e7d7277c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["density(X, X > 5) == {S(6): S.One}","where(X > 2, X > 5).as_boolean() == Eq(X.symbol, 6)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_given():
     X = Die('X', 6)
     assert density(X, X > 5) == {S(6): S.One}
@@ -225,16 +255,24 @@ def test_given():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_domains(), test_domains produces the expected output) over Any ║
+# ║ Path(test_domains(), d.condition == (x > y) and d.as_boolean() == Or(And(Eq(x, 5), Eq(y, 4)), And(Eq(x, 6), Eq(y, 5)), And(Eq(x, 6), Eq(y, 4))) and len(d.elements) == 3 and len(pspace(X + Y).domain.elements) == 36 and pspace(X + Y).domain.set == FiniteSet(1, 2, 3, 4, 5, 6) ** 2 and where(X > 3).set == FiniteSet(4, 5, 6) and X.pspace.domain.dict == FiniteSet(*[Dict({X.symbol: i}) for i in range(1, 7)]) and where(X > Y).dict == FiniteSet(*[Dict({X.symbol: i, Y.symbol: j}) for i in range(1, 7) for j in range(1, 7) if i > j])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_domains : Any → {Any | d.condition == (x > y) an...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  d.condition == (x > y)                         ║
+# ║   ensures:  d.as_boolean() == Or(And(Eq(x, 5), Eq(y, ...   ║
+# ║   ensures:  len(d.elements) == 3                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_domains : Any → {Any | result satisfies: d.condi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e2a0c2a8f7b321cf  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9055e9b068956790  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_finite_rv.test_domains","kind":"function","src_hash":"16c5ae6010e1aa18","in":{"base":"Any"},"out":{"base":"Any","pred":"d.condition == (x > y) and len(d.elements) == 3 and len(pspace(X + Y).domain.elements) == 36 and pspace(X + Y).domain.set == FiniteSet(1, 2, 3, 4, 5, 6) ** 2 and where(X > 3).set == FiniteSet(4, 5, 6) and X.pspace.domain.dict == FiniteSet(*[Dict({X.symbol: i}) for i in range(1, 7)])"},"spec":{"lhs":"test_domains()","rhs":"test_domains produces the expected output","over":{"base":"Any"},"name":"test_domains_correct"},"guarantee":"test_domains produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_finite_rv.test_domains_correct","statement":"Path(test_domains(x), test_domains produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e2a0c2a8f7b321cf"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_finite_rv.test_domains","kind":"function","src_hash":"16c5ae6010e1aa18","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: d.condition == (x > y) and d.as_boolean() == Or(And(Eq(x, 5), Eq(y, 4)), And(Eq(x, 6), Eq(y, 5)), And(Eq(x, 6), Eq(y, 4))) and len(d.elements) == 3 and len(pspace(X + Y).domain.elements) == 36 and pspace(X + Y).domain.set == FiniteSet(1, 2, 3, 4, 5, 6) ** 2 and where(X > 3).set == FiniteSet(4, 5, 6) and X.pspace.domain.dict == FiniteSet(*[Dict({X.symbol: i}) for i in range(1, 7)]) and where(X > Y).dict == FiniteSet(*[Dict({X.symbol: i, Y.symbol: j}) for i in range(1, 7) for j in range(1, 7) if i > j])"},"spec":{"lhs":"test_domains()","rhs":"d.condition == (x > y) and d.as_boolean() == Or(And(Eq(x, 5), Eq(y, 4)), And(Eq(x, 6), Eq(y, 5)), And(Eq(x, 6), Eq(y, 4))) and len(d.elements) == 3 and len(pspace(X + Y).domain.elements) == 36 and pspace(X + Y).domain.set == FiniteSet(1, 2, 3, 4, 5, 6) ** 2 and where(X > 3).set == FiniteSet(4, 5, 6) and X.pspace.domain.dict == FiniteSet(*[Dict({X.symbol: i}) for i in range(1, 7)]) and where(X > Y).dict == FiniteSet(*[Dict({X.symbol: i, Y.symbol: j}) for i in range(1, 7) for j in range(1, 7) if i > j])","over":{"base":"Any"},"name":"test_domains_correct"},"guarantee":"d.condition == (x > y); d.as_boolean() == Or(And(Eq(x, 5), Eq(y, 4)), And(Eq(x, 6), Eq(y, 5)), And(Eq(x, 6), Eq(y, 4))); len(d.elements) == 3","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_finite_rv.test_domains_correct","statement":"Path(test_domains(x), d.condition == (x > y); d.as_boolean() == Or(And(Eq(x, 5), Eq(y, 4)), And(Eq(x, 6), Eq(y, 5)), And(Eq(x, 6), Eq(y, 4))); len(d.elements) == 3)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9055e9b068956790","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["d.condition == (x > y)","d.as_boolean() == Or(And(Eq(x, 5), Eq(y, 4)), And(Eq(x, 6), Eq(y, 5)), And(Eq(x, 6), Eq(y, 4)))","len(d.elements) == 3","len(pspace(X + Y).domain.elements) == 36","pspace(X + Y).domain.set == FiniteSet(1, 2, 3, 4, 5, 6) ** 2","where(X > 3).set == FiniteSet(4, 5, 6)","X.pspace.domain.dict == FiniteSet(*[Dict({X.symbol: i}) for i in range(1, 7)])","where(X > Y).dict == FiniteSet(*[Dict({X.symbol: i, Y.symbol: j}) for i in range(1, 7) for j in range(1, 7) if i > j])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_domains():
     X, Y = Die('x', 6), Die('y', 6)
     x, y = X.symbol, Y.symbol
@@ -262,16 +300,24 @@ def test_domains():
             for i in range(1, 7) for j in range(1, 7) if i > j])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_bernoulli(), test_bernoulli produces the expected output) over Any ║
+# ║ Path(test_bernoulli(), E(X) == a * p + b * (-p + 1) and density(X)[a] == p and density(X)[b] == 1 - p and characteristic_function(X)(t) == p * exp(I * a * t) + (-p + 1) * exp(I * b * t) and moment_generating_function(X)(t) == p * exp(a * t) + (-p + 1) * exp(b * t) and E(X) == p and simplify(variance(X)) == p * (1 - p) and E(a * X + b) == a * E(X) + b and simplify(variance(a * X + b)) == simplify(a ** 2 * variance(X)) and quantile(X)(z) == Piecewise((nan, (z > 1) | (z < 0)), (0, z <= 1 - p), (1, z <= 1)) and median(Y) == FiniteSet(0, 1) and median(Z) == FiniteSet(1) and X.pspace.compute_expectation(1) == 1 and coskewness(Y + Z, X + Y, X + Z).simplify() == 0 and coskewness(Y + 2 * X + Z, X + 2 * Y + Z, X + 2 * Z + Y).simplify() == sqrt(1529) * Rational(12, 16819) and coskewness(Y + 2 * X + Z, X + 2 * Y + Z, X + 2 * Z + Y, X < 2).simplify() == -sqrt(357451121) * Rational(2812, 4646864573)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_bernoulli : Any → {Any | E(X) == a * p + b * (-p...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  E(X) == a * p + b * (-p + 1)                   ║
+# ║   ensures:  density(X)[a] == p                             ║
+# ║   ensures:  density(X)[b] == 1 - p                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_bernoulli : Any → {Any | result satisfies: E(X) ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cdfe341a69522e16  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7164c977770e31b4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_finite_rv.test_bernoulli","kind":"function","src_hash":"be26173b393a33fa","in":{"base":"Any"},"out":{"base":"Any","pred":"E(X) == a * p + b * (-p + 1) and density(X)[a] == p and density(X)[b] == 1 - p and characteristic_function(X)(t) == p * exp(I * a * t) + (-p + 1) * exp(I * b * t) and moment_generating_function(X)(t) == p * exp(a * t) + (-p + 1) * exp(b * t) and E(X) == p and simplify(variance(X)) == p * (1 - p) and E(a * X + b) == a * E(X) + b and simplify(variance(a * X + b)) == simplify(a ** 2 * variance(X)) and median(Y) == FiniteSet(0, 1) and median(Z) == FiniteSet(1) and X.pspace.compute_expectation(1) == 1 and coskewness(Y + Z, X + Y, X + Z).simplify() == 0"},"spec":{"lhs":"test_bernoulli()","rhs":"test_bernoulli produces the expected output","over":{"base":"Any"},"name":"test_bernoulli_correct"},"guarantee":"test_bernoulli produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_finite_rv.test_bernoulli_correct","statement":"Path(test_bernoulli(x), test_bernoulli produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cdfe341a69522e16"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_finite_rv.test_bernoulli","kind":"function","src_hash":"be26173b393a33fa","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: E(X) == a * p + b * (-p + 1) and density(X)[a] == p and density(X)[b] == 1 - p and characteristic_function(X)(t) == p * exp(I * a * t) + (-p + 1) * exp(I * b * t) and moment_generating_function(X)(t) == p * exp(a * t) + (-p + 1) * exp(b * t) and E(X) == p and simplify(variance(X)) == p * (1 - p) and E(a * X + b) == a * E(X) + b and simplify(variance(a * X + b)) == simplify(a ** 2 * variance(X)) and quantile(X)(z) == Piecewise((nan, (z > 1) | (z < 0)), (0, z <= 1 - p), (1, z <= 1)) and median(Y) == FiniteSet(0, 1) and median(Z) == FiniteSet(1) and X.pspace.compute_expectation(1) == 1 and coskewness(Y + Z, X + Y, X + Z).simplify() == 0 and coskewness(Y + 2 * X + Z, X + 2 * Y + Z, X + 2 * Z + Y).simplify() == sqrt(1529) * Rational(12, 16819) and coskewness(Y + 2 * X + Z, X + 2 * Y + Z, X + 2 * Z + Y, X < 2).simplify() == -sqrt(357451121) * Rational(2812, 4646864573)"},"spec":{"lhs":"test_bernoulli()","rhs":"E(X) == a * p + b * (-p + 1) and density(X)[a] == p and density(X)[b] == 1 - p and characteristic_function(X)(t) == p * exp(I * a * t) + (-p + 1) * exp(I * b * t) and moment_generating_function(X)(t) == p * exp(a * t) + (-p + 1) * exp(b * t) and E(X) == p and simplify(variance(X)) == p * (1 - p) and E(a * X + b) == a * E(X) + b and simplify(variance(a * X + b)) == simplify(a ** 2 * variance(X)) and quantile(X)(z) == Piecewise((nan, (z > 1) | (z < 0)), (0, z <= 1 - p), (1, z <= 1)) and median(Y) == FiniteSet(0, 1) and median(Z) == FiniteSet(1) and X.pspace.compute_expectation(1) == 1 and coskewness(Y + Z, X + Y, X + Z).simplify() == 0 and coskewness(Y + 2 * X + Z, X + 2 * Y + Z, X + 2 * Z + Y).simplify() == sqrt(1529) * Rational(12, 16819) and coskewness(Y + 2 * X + Z, X + 2 * Y + Z, X + 2 * Z + Y, X < 2).simplify() == -sqrt(357451121) * Rational(2812, 4646864573)","over":{"base":"Any"},"name":"test_bernoulli_correct"},"guarantee":"E(X) == a * p + b * (-p + 1); density(X)[a] == p; density(X)[b] == 1 - p","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_finite_rv.test_bernoulli_correct","statement":"Path(test_bernoulli(x), E(X) == a * p + b * (-p + 1); density(X)[a] == p; density(X)[b] == 1 - p)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7164c977770e31b4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["E(X) == a * p + b * (-p + 1)","density(X)[a] == p","density(X)[b] == 1 - p","characteristic_function(X)(t) == p * exp(I * a * t) + (-p + 1) * exp(I * b * t)","moment_generating_function(X)(t) == p * exp(a * t) + (-p + 1) * exp(b * t)","E(X) == p","simplify(variance(X)) == p * (1 - p)","E(a * X + b) == a * E(X) + b","simplify(variance(a * X + b)) == simplify(a ** 2 * variance(X))","quantile(X)(z) == Piecewise((nan, (z > 1) | (z < 0)), (0, z <= 1 - p), (1, z <= 1))","median(Y) == FiniteSet(0, 1)","median(Z) == FiniteSet(1)","X.pspace.compute_expectation(1) == 1","coskewness(Y + Z, X + Y, X + Z).simplify() == 0","coskewness(Y + 2 * X + Z, X + 2 * Y + Z, X + 2 * Z + Y).simplify() == sqrt(1529) * Rational(12, 16819)","coskewness(Y + 2 * X + Z, X + 2 * Y + Z, X + 2 * Z + Y, X < 2).simplify() == -sqrt(357451121) * Rational(2812, 4646864573)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def test_bernoulli():
     p, a, b, t = symbols('p a b t')
     X = Bernoulli('B', p, a, b)
@@ -311,16 +357,22 @@ def test_bernoulli():
                         == -sqrt(357451121)*Rational(2812, 4646864573)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_cdf(), test_cdf produces the expected output) over Any ║
+# ║ Path(test_cdf(), cdf(D) == sympify({1: o / 6, 2: o / 3, 3: o / 2, 4: 2 * o / 3, 5: 5 * o / 6, 6: o})) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_cdf : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  cdf(D) == sympify({1: o / 6, 2: o / 3, 3:...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_cdf : Any → {Any | result satisfies: cdf(D) == s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0eaffacd05f6ad89  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 032ae6520a81bbfd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_finite_rv.test_cdf","kind":"function","src_hash":"56ee5450a149c0ac","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_cdf()","rhs":"test_cdf produces the expected output","over":{"base":"Any"},"name":"test_cdf_correct"},"guarantee":"test_cdf produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_finite_rv.test_cdf_correct","statement":"Path(test_cdf(x), test_cdf produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0eaffacd05f6ad89"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_finite_rv.test_cdf","kind":"function","src_hash":"56ee5450a149c0ac","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: cdf(D) == sympify({1: o / 6, 2: o / 3, 3: o / 2, 4: 2 * o / 3, 5: 5 * o / 6, 6: o})"},"spec":{"lhs":"test_cdf()","rhs":"cdf(D) == sympify({1: o / 6, 2: o / 3, 3: o / 2, 4: 2 * o / 3, 5: 5 * o / 6, 6: o})","over":{"base":"Any"},"name":"test_cdf_correct"},"guarantee":"cdf(D) == sympify({1: o / 6, 2: o / 3, 3: o / 2, 4: 2 * o / 3, 5: 5 * o / 6, 6: o})","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_finite_rv.test_cdf_correct","statement":"Path(test_cdf(x), cdf(D) == sympify({1: o / 6, 2: o / 3, 3: o / 2, 4: 2 * o / 3, 5: 5 * o / 6, 6: o}))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"032ae6520a81bbfd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["cdf(D) == sympify({1: o / 6, 2: o / 3, 3: o / 2, 4: 2 * o / 3, 5: 5 * o / 6, 6: o})"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_cdf():
     D = Die('D', 6)
     o = S.One
@@ -330,16 +382,24 @@ def test_cdf():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_coins(), test_coins produces the expected output) over Any ║
+# ║ Path(test_coins(), P(Eq(C, D)) == S.Half and density(Tuple(C, D)) == {(H, H): Rational(1, 4), (H, T): Rational(1, 4), (T, H): Rational(1, 4), (T, T): Rational(1, 4)} and dict(density(C).items()) == {H: S.Half, T: S.Half} and P(Eq(F, H)) == Rational(1, 10) and d.as_boolean() == Or(Eq(C.symbol, H), Eq(C.symbol, T))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_coins : Any → {Any | P(Eq(C, D)) == S.Half and d...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  P(Eq(C, D)) == S.Half                          ║
+# ║   ensures:  density(Tuple(C, D)) == {(H, H): Rational...   ║
+# ║   ensures:  dict(density(C).items()) == {H: S.Half, T...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_coins : Any → {Any | result satisfies: P(Eq(C, D...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8c7475b0249d5a70  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f8be00b6d2143eb8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_finite_rv.test_coins","kind":"function","src_hash":"fcbbb062a00e53fc","in":{"base":"Any"},"out":{"base":"Any","pred":"P(Eq(C, D)) == S.Half and dict(density(C).items()) == {H: S.Half, T: S.Half} and P(Eq(F, H)) == Rational(1, 10) and d.as_boolean() == Or(Eq(C.symbol, H), Eq(C.symbol, T))"},"spec":{"lhs":"test_coins()","rhs":"test_coins produces the expected output","over":{"base":"Any"},"name":"test_coins_correct"},"guarantee":"test_coins produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_finite_rv.test_coins_correct","statement":"Path(test_coins(x), test_coins produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8c7475b0249d5a70"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_finite_rv.test_coins","kind":"function","src_hash":"fcbbb062a00e53fc","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: P(Eq(C, D)) == S.Half and density(Tuple(C, D)) == {(H, H): Rational(1, 4), (H, T): Rational(1, 4), (T, H): Rational(1, 4), (T, T): Rational(1, 4)} and dict(density(C).items()) == {H: S.Half, T: S.Half} and P(Eq(F, H)) == Rational(1, 10) and d.as_boolean() == Or(Eq(C.symbol, H), Eq(C.symbol, T))"},"spec":{"lhs":"test_coins()","rhs":"P(Eq(C, D)) == S.Half and density(Tuple(C, D)) == {(H, H): Rational(1, 4), (H, T): Rational(1, 4), (T, H): Rational(1, 4), (T, T): Rational(1, 4)} and dict(density(C).items()) == {H: S.Half, T: S.Half} and P(Eq(F, H)) == Rational(1, 10) and d.as_boolean() == Or(Eq(C.symbol, H), Eq(C.symbol, T))","over":{"base":"Any"},"name":"test_coins_correct"},"guarantee":"P(Eq(C, D)) == S.Half; density(Tuple(C, D)) == {(H, H): Rational(1, 4), (H, T): Rational(1, 4), (T, H): Rational(1, 4), (T, T): Rational(1, 4)}; dict(density(C).items()) == {H: S.Half, T: S.Half}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_finite_rv.test_coins_correct","statement":"Path(test_coins(x), P(Eq(C, D)) == S.Half; density(Tuple(C, D)) == {(H, H): Rational(1, 4), (H, T): Rational(1, 4), (T, H): Rational(1, 4), (T, T): Rational(1, 4)}; dict(density(C).items()) == {H: S.Half, T: S.Half})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f8be00b6d2143eb8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["P(Eq(C, D)) == S.Half","density(Tuple(C, D)) == {(H, H): Rational(1, 4), (H, T): Rational(1, 4), (T, H): Rational(1, 4), (T, T): Rational(1, 4)}","dict(density(C).items()) == {H: S.Half, T: S.Half}","P(Eq(F, H)) == Rational(1, 10)","d.as_boolean() == Or(Eq(C.symbol, H), Eq(C.symbol, T))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_coins():
     C, D = Coin('C'), Coin('D')
     H, T = symbols('H, T')
@@ -358,31 +418,43 @@ def test_coins():
     raises(ValueError, lambda: P(C > D))  # Can't intelligently compare H to T
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_binomial_verify_parameters(), test_binomial_verify_parameters produces the expected output) over Any ║
+# ║ Path(test_binomial_verify_parameters(), <unspecified:test_binomial_verify_parameters>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_binomial_verify_parameters : Any → Any                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d057cd90ed08de5c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_finite_rv.test_binomial_verify_parameters","kind":"function","src_hash":"4c83b180e196bfce","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_binomial_verify_parameters()","rhs":"test_binomial_verify_parameters produces the expected output","over":{"base":"Any"},"name":"test_binomial_verify_parameters_correct"},"guarantee":"test_binomial_verify_parameters produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_finite_rv.test_binomial_verify_parameters_correct","statement":"Path(test_binomial_verify_parameters(x), test_binomial_verify_parameters produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d057cd90ed08de5c"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_finite_rv.test_binomial_verify_parameters","kind":"function","src_hash":"4c83b180e196bfce","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_binomial_verify_parameters()","rhs":"<unspecified:test_binomial_verify_parameters>","over":{"base":"Any"},"name":"test_binomial_verify_parameters_correct"},"guarantee":"test_binomial_verify_parameters produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_finite_rv.test_binomial_verify_parameters_correct","statement":"Path(test_binomial_verify_parameters(x), test_binomial_verify_parameters produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d057cd90ed08de5c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_binomial_verify_parameters():
     raises(ValueError, lambda: Binomial('b', .2, .5))
     raises(ValueError, lambda: Binomial('b', 3, 1.5))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_binomial_numeric(), test_binomial_numeric produces the expected output) over Any ║
+# ║ Path(test_binomial_numeric(), <unspecified:test_binomial_numeric>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_binomial_numeric : Any → {Any | E(X) == n * p an...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ffac156de492577b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_finite_rv.test_binomial_numeric","kind":"function","src_hash":"5c4ebbb29db3c744","in":{"base":"Any"},"out":{"base":"Any","pred":"E(X) == n * p and variance(X) == n * p * (1 - p) and skewness(X) == (1 - 2 * p) / sqrt(n * p * (1 - p)) and kurtosis(X) == 3 + (1 - 6 * p * (1 - p)) / (n * p * (1 - p)) and P(Eq(X, k)) == binomial(n, k) * p ** k * (1 - p) ** (n - k)"},"spec":{"lhs":"test_binomial_numeric()","rhs":"test_binomial_numeric produces the expected output","over":{"base":"Any"},"name":"test_binomial_numeric_correct"},"guarantee":"test_binomial_numeric produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_finite_rv.test_binomial_numeric_correct","statement":"Path(test_binomial_numeric(x), test_binomial_numeric produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ffac156de492577b"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_finite_rv.test_binomial_numeric","kind":"function","src_hash":"5c4ebbb29db3c744","in":{"base":"Any"},"out":{"base":"Any","pred":"E(X) == n * p and variance(X) == n * p * (1 - p) and skewness(X) == (1 - 2 * p) / sqrt(n * p * (1 - p)) and kurtosis(X) == 3 + (1 - 6 * p * (1 - p)) / (n * p * (1 - p)) and P(Eq(X, k)) == binomial(n, k) * p ** k * (1 - p) ** (n - k)"},"spec":{"lhs":"test_binomial_numeric()","rhs":"<unspecified:test_binomial_numeric>","over":{"base":"Any"},"name":"test_binomial_numeric_correct"},"guarantee":"test_binomial_numeric produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_finite_rv.test_binomial_numeric_correct","statement":"Path(test_binomial_numeric(x), test_binomial_numeric produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ffac156de492577b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_binomial_numeric():
     nvals = range(5)
     pvals = [0, Rational(1, 4), S.Half, Rational(3, 4), 1]
@@ -399,16 +471,24 @@ def test_binomial_numeric():
                 assert P(Eq(X, k)) == binomial(n, k)*p**k*(1 - p)**(n - k)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_binomial_quantile(), test_binomial_quantile produces the expected output) over Any ║
+# ║ Path(test_binomial_quantile(), quantile(X)(0.95) == S(31) and median(X) == FiniteSet(25) and quantile(X)(p) == Piecewise((nan, p > S.One), (S.Zero, p <= Rational(1, 32)), (S.One, p <= Rational(3, 16)), (S(2), p <= S.Half), (S(3), p <= Rational(13, 16)), (S(4), p <= Rational(31, 32)), (S(5), p <= S.One)) and median(X) == FiniteSet(2, 3)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_binomial_quantile : Any → {Any | quantile(X)(0.9...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  quantile(X)(0.95) == S(31)                     ║
+# ║   ensures:  median(X) == FiniteSet(25)                     ║
+# ║   ensures:  quantile(X)(p) == Piecewise((nan, p > S.O...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_binomial_quantile : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f606e52ac618b74f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6427936a2419db0a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_finite_rv.test_binomial_quantile","kind":"function","src_hash":"d1e27790dce20e50","in":{"base":"Any"},"out":{"base":"Any","pred":"quantile(X)(0.95) == S(31) and median(X) == FiniteSet(25) and median(X) == FiniteSet(2, 3)"},"spec":{"lhs":"test_binomial_quantile()","rhs":"test_binomial_quantile produces the expected output","over":{"base":"Any"},"name":"test_binomial_quantile_correct"},"guarantee":"test_binomial_quantile produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_finite_rv.test_binomial_quantile_correct","statement":"Path(test_binomial_quantile(x), test_binomial_quantile produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f606e52ac618b74f"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_finite_rv.test_binomial_quantile","kind":"function","src_hash":"d1e27790dce20e50","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: quantile(X)(0.95) == S(31) and median(X) == FiniteSet(25) and quantile(X)(p) == Piecewise((nan, p > S.One), (S.Zero, p <= Rational(1, 32)), (S.One, p <= Rational(3, 16)), (S(2), p <= S.Half), (S(3), p <= Rational(13, 16)), (S(4), p <= Rational(31, 32)), (S(5), p <= S.One)) and median(X) == FiniteSet(2, 3)"},"spec":{"lhs":"test_binomial_quantile()","rhs":"quantile(X)(0.95) == S(31) and median(X) == FiniteSet(25) and quantile(X)(p) == Piecewise((nan, p > S.One), (S.Zero, p <= Rational(1, 32)), (S.One, p <= Rational(3, 16)), (S(2), p <= S.Half), (S(3), p <= Rational(13, 16)), (S(4), p <= Rational(31, 32)), (S(5), p <= S.One)) and median(X) == FiniteSet(2, 3)","over":{"base":"Any"},"name":"test_binomial_quantile_correct"},"guarantee":"quantile(X)(0.95) == S(31); median(X) == FiniteSet(25); quantile(X)(p) == Piecewise((nan, p > S.One), (S.Zero, p <= Rational(1, 32)), (S.One, p <= Rational(3, 16)), (S(2), p <= S.Half), (S(3), p <= Rational(13, 16)), (S(4), p <= Rational(31, 32)), (S(5), p <= S.One))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_finite_rv.test_binomial_quantile_correct","statement":"Path(test_binomial_quantile(x), quantile(X)(0.95) == S(31); median(X) == FiniteSet(25); quantile(X)(p) == Piecewise((nan, p > S.One), (S.Zero, p <= Rational(1, 32)), (S.One, p <= Rational(3, 16)), (S(2), p <= S.Half), (S(3), p <= Rational(13, 16)), (S(4), p <= Rational(31, 32)), (S(5), p <= S.One)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6427936a2419db0a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["quantile(X)(0.95) == S(31)","median(X) == FiniteSet(25)","quantile(X)(p) == Piecewise((nan, p > S.One), (S.Zero, p <= Rational(1, 32)), (S.One, p <= Rational(3, 16)), (S(2), p <= S.Half), (S(3), p <= Rational(13, 16)), (S(4), p <= Rational(31, 32)), (S(5), p <= S.One))","median(X) == FiniteSet(2, 3)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_binomial_quantile():
     X = Binomial('X', 50, S.Half)
     assert quantile(X)(0.95) == S(31)
@@ -423,16 +503,24 @@ def test_binomial_quantile():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_binomial_symbolic(), test_binomial_symbolic produces the expected output) over Any ║
+# ║ Path(test_binomial_symbolic(), simplify(E(X)) == n * p == simplify(moment(X, 1)) and simplify(variance(X)) == n * p * (1 - p) == simplify(cmoment(X, 2)) and cancel(skewness(X) - (1 - 2 * p) / sqrt(n * p * (1 - p))) == 0 and cancel(kurtosis(X) - (3 + (1 - 6 * p * (1 - p)) / (n * p * (1 - p)))) == 0 and characteristic_function(X)(t) == p ** 2 * exp(2 * I * t) + 2 * p * (-p + 1) * exp(I * t) + (-p + 1) ** 2 and moment_generating_function(X)(t) == p ** 2 * exp(2 * t) + 2 * p * (-p + 1) * exp(t) + (-p + 1) ** 2 and simplify(E(Y) - n * (H * p + T * (1 - p))) == 0 and density(B).dict == Density(BinomialDistribution(n, p, 1, 0)) and set(density(B).dict.subs(n, 4).doit().keys()) == {S.Zero, S.One, S(2), S(3), S(4)} and set(density(B).dict.subs(n, 4).doit().values()) == {(1 - p) ** 4, 4 * p * (1 - p) ** 3, 6 * p ** 2 * (1 - p) ** 2, 4 * p ** 3 * (1 - p), p ** 4} and E(B > 2).dummy_eq(Sum(Piecewise((k * p ** k * (1 - p) ** (-k + n) * binomial(n, k), (k >= 0) & (k <= n) & (k > 2)), (0, True)), (k, 0, n)))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_binomial_symbolic : Any → {Any | simplify(E(X)) ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  simplify(E(X)) == n * p == simplify(momen...   ║
+# ║   ensures:  simplify(variance(X)) == n * p * (1 - p) ...   ║
+# ║   ensures:  cancel(skewness(X) - (1 - 2 * p) / sqrt(n...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_binomial_symbolic : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e2fa311f051dfb41  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bb8219cb54f66c58  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_finite_rv.test_binomial_symbolic","kind":"function","src_hash":"ea483c63b12c11d2","in":{"base":"Any"},"out":{"base":"Any","pred":"simplify(E(X)) == n * p == simplify(moment(X, 1)) and simplify(variance(X)) == n * p * (1 - p) == simplify(cmoment(X, 2)) and cancel(skewness(X) - (1 - 2 * p) / sqrt(n * p * (1 - p))) == 0 and cancel(kurtosis(X) - (3 + (1 - 6 * p * (1 - p)) / (n * p * (1 - p)))) == 0 and simplify(E(Y) - n * (H * p + T * (1 - p))) == 0 and density(B).dict == Density(BinomialDistribution(n, p, 1, 0))"},"spec":{"lhs":"test_binomial_symbolic()","rhs":"test_binomial_symbolic produces the expected output","over":{"base":"Any"},"name":"test_binomial_symbolic_correct"},"guarantee":"test_binomial_symbolic produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_finite_rv.test_binomial_symbolic_correct","statement":"Path(test_binomial_symbolic(x), test_binomial_symbolic produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e2fa311f051dfb41"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_finite_rv.test_binomial_symbolic","kind":"function","src_hash":"ea483c63b12c11d2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: simplify(E(X)) == n * p == simplify(moment(X, 1)) and simplify(variance(X)) == n * p * (1 - p) == simplify(cmoment(X, 2)) and cancel(skewness(X) - (1 - 2 * p) / sqrt(n * p * (1 - p))) == 0 and cancel(kurtosis(X) - (3 + (1 - 6 * p * (1 - p)) / (n * p * (1 - p)))) == 0 and characteristic_function(X)(t) == p ** 2 * exp(2 * I * t) + 2 * p * (-p + 1) * exp(I * t) + (-p + 1) ** 2 and moment_generating_function(X)(t) == p ** 2 * exp(2 * t) + 2 * p * (-p + 1) * exp(t) + (-p + 1) ** 2 and simplify(E(Y) - n * (H * p + T * (1 - p))) == 0 and density(B).dict == Density(BinomialDistribution(n, p, 1, 0)) and set(density(B).dict.subs(n, 4).doit().keys()) == {S.Zero, S.One, S(2), S(3), S(4)} and set(density(B).dict.subs(n, 4).doit().values()) == {(1 - p) ** 4, 4 * p * (1 - p) ** 3, 6 * p ** 2 * (1 - p) ** 2, 4 * p ** 3 * (1 - p), p ** 4} and E(B > 2).dummy_eq(Sum(Piecewise((k * p ** k * (1 - p) ** (-k + n) * binomial(n, k), (k >= 0) & (k <= n) & (k > 2)), (0, True)), (k, 0, n)))"},"spec":{"lhs":"test_binomial_symbolic()","rhs":"simplify(E(X)) == n * p == simplify(moment(X, 1)) and simplify(variance(X)) == n * p * (1 - p) == simplify(cmoment(X, 2)) and cancel(skewness(X) - (1 - 2 * p) / sqrt(n * p * (1 - p))) == 0 and cancel(kurtosis(X) - (3 + (1 - 6 * p * (1 - p)) / (n * p * (1 - p)))) == 0 and characteristic_function(X)(t) == p ** 2 * exp(2 * I * t) + 2 * p * (-p + 1) * exp(I * t) + (-p + 1) ** 2 and moment_generating_function(X)(t) == p ** 2 * exp(2 * t) + 2 * p * (-p + 1) * exp(t) + (-p + 1) ** 2 and simplify(E(Y) - n * (H * p + T * (1 - p))) == 0 and density(B).dict == Density(BinomialDistribution(n, p, 1, 0)) and set(density(B).dict.subs(n, 4).doit().keys()) == {S.Zero, S.One, S(2), S(3), S(4)} and set(density(B).dict.subs(n, 4).doit().values()) == {(1 - p) ** 4, 4 * p * (1 - p) ** 3, 6 * p ** 2 * (1 - p) ** 2, 4 * p ** 3 * (1 - p), p ** 4} and E(B > 2).dummy_eq(Sum(Piecewise((k * p ** k * (1 - p) ** (-k + n) * binomial(n, k), (k >= 0) & (k <= n) & (k > 2)), (0, True)), (k, 0, n)))","over":{"base":"Any"},"name":"test_binomial_symbolic_correct"},"guarantee":"simplify(E(X)) == n * p == simplify(moment(X, 1)); simplify(variance(X)) == n * p * (1 - p) == simplify(cmoment(X, 2)); cancel(skewness(X) - (1 - 2 * p) / sqrt(n * p * (1 - p))) == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_finite_rv.test_binomial_symbolic_correct","statement":"Path(test_binomial_symbolic(x), simplify(E(X)) == n * p == simplify(moment(X, 1)); simplify(variance(X)) == n * p * (1 - p) == simplify(cmoment(X, 2)); cancel(skewness(X) - (1 - 2 * p) / sqrt(n * p * (1 - p))) == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bb8219cb54f66c58","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["simplify(E(X)) == n * p == simplify(moment(X, 1))","simplify(variance(X)) == n * p * (1 - p) == simplify(cmoment(X, 2))","cancel(skewness(X) - (1 - 2 * p) / sqrt(n * p * (1 - p))) == 0","cancel(kurtosis(X) - (3 + (1 - 6 * p * (1 - p)) / (n * p * (1 - p)))) == 0","characteristic_function(X)(t) == p ** 2 * exp(2 * I * t) + 2 * p * (-p + 1) * exp(I * t) + (-p + 1) ** 2","moment_generating_function(X)(t) == p ** 2 * exp(2 * t) + 2 * p * (-p + 1) * exp(t) + (-p + 1) ** 2","simplify(E(Y) - n * (H * p + T * (1 - p))) == 0","density(B).dict == Density(BinomialDistribution(n, p, 1, 0))","set(density(B).dict.subs(n, 4).doit().keys()) == {S.Zero, S.One, S(2), S(3), S(4)}","set(density(B).dict.subs(n, 4).doit().values()) == {(1 - p) ** 4, 4 * p * (1 - p) ** 3, 6 * p ** 2 * (1 - p) ** 2, 4 * p ** 3 * (1 - p), p ** 4}","E(B > 2).dummy_eq(Sum(Piecewise((k * p ** k * (1 - p) ** (-k + n) * binomial(n, k), (k >= 0) & (k <= n) & (k > 2)), (0, True)), (k, 0, n)))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":true}}
 def test_binomial_symbolic():
     n = 2
     p = symbols('p', positive=True)
@@ -466,16 +554,24 @@ def test_binomial_symbolic():
         & (k <= n) & (k > 2)), (0, True)), (k, 0, n)))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_beta_binomial(), test_beta_binomial produces the expected output) over Any ║
+# ║ Path(test_beta_binomial(), BetaBinomial('b', 2, 1, 1) and BetaBinomial('x', n, a, b) and E(X).expand() == moment(X, 1).expand() and variance(X).expand() == cmoment(X, 2).expand() and skewness(X) == smoment(X, 3) and characteristic_function(X)(t) == exp(2 * I * t) * beta(a + 2, b) / beta(a, b) + 2 * exp(I * t) * beta(a + 1, b + 1) / beta(a, b) + beta(a, b + 2) / beta(a, b) and moment_generating_function(X)(t) == exp(2 * t) * beta(a + 2, b) / beta(a, b) + 2 * exp(t) * beta(a + 1, b + 1) / beta(a, b) + beta(a, b + 2) / beta(a, b)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_beta_binomial : Any → {Any | BetaBinomial('b', 2...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  BetaBinomial('b', 2, 1, 1)                     ║
+# ║   ensures:  BetaBinomial('x', n, a, b)                     ║
+# ║   ensures:  E(X).expand() == moment(X, 1).expand()         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_beta_binomial : Any → {Any | result satisfies: B...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d8f6d62f7c564613  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cd3aadf4eab8a0f2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_finite_rv.test_beta_binomial","kind":"function","src_hash":"0aa25ae1081a7552","in":{"base":"Any"},"out":{"base":"Any","pred":"BetaBinomial('b', 2, 1, 1) and BetaBinomial('x', n, a, b) and E(X).expand() == moment(X, 1).expand() and variance(X).expand() == cmoment(X, 2).expand() and skewness(X) == smoment(X, 3) and E(X) == moment(X, 1) and variance(X) == cmoment(X, 2)"},"spec":{"lhs":"test_beta_binomial()","rhs":"test_beta_binomial produces the expected output","over":{"base":"Any"},"name":"test_beta_binomial_correct"},"guarantee":"test_beta_binomial produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_finite_rv.test_beta_binomial_correct","statement":"Path(test_beta_binomial(x), test_beta_binomial produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d8f6d62f7c564613"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_finite_rv.test_beta_binomial","kind":"function","src_hash":"0aa25ae1081a7552","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: BetaBinomial('b', 2, 1, 1) and BetaBinomial('x', n, a, b) and E(X).expand() == moment(X, 1).expand() and variance(X).expand() == cmoment(X, 2).expand() and skewness(X) == smoment(X, 3) and characteristic_function(X)(t) == exp(2 * I * t) * beta(a + 2, b) / beta(a, b) + 2 * exp(I * t) * beta(a + 1, b + 1) / beta(a, b) + beta(a, b + 2) / beta(a, b) and moment_generating_function(X)(t) == exp(2 * t) * beta(a + 2, b) / beta(a, b) + 2 * exp(t) * beta(a + 1, b + 1) / beta(a, b) + beta(a, b + 2) / beta(a, b)"},"spec":{"lhs":"test_beta_binomial()","rhs":"BetaBinomial('b', 2, 1, 1) and BetaBinomial('x', n, a, b) and E(X).expand() == moment(X, 1).expand() and variance(X).expand() == cmoment(X, 2).expand() and skewness(X) == smoment(X, 3) and characteristic_function(X)(t) == exp(2 * I * t) * beta(a + 2, b) / beta(a, b) + 2 * exp(I * t) * beta(a + 1, b + 1) / beta(a, b) + beta(a, b + 2) / beta(a, b) and moment_generating_function(X)(t) == exp(2 * t) * beta(a + 2, b) / beta(a, b) + 2 * exp(t) * beta(a + 1, b + 1) / beta(a, b) + beta(a, b + 2) / beta(a, b)","over":{"base":"Any"},"name":"test_beta_binomial_correct"},"guarantee":"BetaBinomial('b', 2, 1, 1); BetaBinomial('x', n, a, b); E(X).expand() == moment(X, 1).expand()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_finite_rv.test_beta_binomial_correct","statement":"Path(test_beta_binomial(x), BetaBinomial('b', 2, 1, 1); BetaBinomial('x', n, a, b); E(X).expand() == moment(X, 1).expand())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cd3aadf4eab8a0f2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["BetaBinomial('b', 2, 1, 1)","BetaBinomial('x', n, a, b)","E(X).expand() == moment(X, 1).expand()","variance(X).expand() == cmoment(X, 2).expand()","skewness(X) == smoment(X, 3)","characteristic_function(X)(t) == exp(2 * I * t) * beta(a + 2, b) / beta(a, b) + 2 * exp(I * t) * beta(a + 1, b + 1) / beta(a, b) + beta(a, b + 2) / beta(a, b)","moment_generating_function(X)(t) == exp(2 * t) * beta(a + 2, b) / beta(a, b) + 2 * exp(t) * beta(a + 1, b + 1) / beta(a, b) + beta(a, b + 2) / beta(a, b)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_beta_binomial():
     # verify parameters
     raises(ValueError, lambda: BetaBinomial('b', .2, 1, 2))
@@ -512,16 +608,22 @@ def test_beta_binomial():
          2*exp(t)*beta(a + 1, b + 1)/beta(a, b) + beta(a, b + 2)/beta(a, b)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_hypergeometric_numeric(), test_hypergeometric_numeric produces the expected output) over Any ║
+# ║ Path(test_hypergeometric_numeric(), <unspecified:test_hypergeometric_numeric>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_hypergeometric_numeric : Any → {Any | sum(densit...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1553df55b012fc16  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_finite_rv.test_hypergeometric_numeric","kind":"function","src_hash":"930d5b3ba0829408","in":{"base":"Any"},"out":{"base":"Any","pred":"sum(density(X).values()) == 1 and E(X) == n * m / N and variance(X) == n * (m / N) * (N - m) / N * (N - n) / (N - 1)"},"spec":{"lhs":"test_hypergeometric_numeric()","rhs":"test_hypergeometric_numeric produces the expected output","over":{"base":"Any"},"name":"test_hypergeometric_numeric_correct"},"guarantee":"test_hypergeometric_numeric produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_finite_rv.test_hypergeometric_numeric_correct","statement":"Path(test_hypergeometric_numeric(x), test_hypergeometric_numeric produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1553df55b012fc16"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_finite_rv.test_hypergeometric_numeric","kind":"function","src_hash":"930d5b3ba0829408","in":{"base":"Any"},"out":{"base":"Any","pred":"sum(density(X).values()) == 1 and E(X) == n * m / N and variance(X) == n * (m / N) * (N - m) / N * (N - n) / (N - 1)"},"spec":{"lhs":"test_hypergeometric_numeric()","rhs":"<unspecified:test_hypergeometric_numeric>","over":{"base":"Any"},"name":"test_hypergeometric_numeric_correct"},"guarantee":"test_hypergeometric_numeric produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_finite_rv.test_hypergeometric_numeric_correct","statement":"Path(test_hypergeometric_numeric(x), test_hypergeometric_numeric produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1553df55b012fc16","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_hypergeometric_numeric():
     for N in range(1, 5):
         for m in range(0, N + 1):
@@ -538,16 +640,24 @@ def test_hypergeometric_numeric():
                         / (sqrt(n*m*(N - m)*(N - n))*(N - 2)))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_hypergeometric_symbolic(), test_hypergeometric_symbolic produces the expected output) over Any ║
+# ║ Path(test_hypergeometric_symbolic(), dens == Density(HypergeometricDistribution(N, m, n)) and dens.subs(N, 5).doit() == Density(HypergeometricDistribution(5, m, n)) and set(dens.subs({N: 3, m: 2, n: 1}).doit().keys()) == {S.Zero, S.One} and set(dens.subs({N: 3, m: 2, n: 1}).doit().values()) == {Rational(1, 3), Rational(2, 3)} and expec.dummy_eq(Sum(Piecewise((k * binomial(m, k) * binomial(N - m, -k + n) / binomial(N, n), k > 2), (0, True)), (k, 0, n)))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_hypergeometric_symbolic : Any → {Any | dens == D...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dens == Density(HypergeometricDistributio...   ║
+# ║   ensures:  dens.subs(N, 5).doit() == Density(Hyperge...   ║
+# ║   ensures:  set(dens.subs({N: 3, m: 2, n: 1}).doit()....   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_hypergeometric_symbolic : Any → {Any | result sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a9cad0afb9b4858b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 14f04493f0582ea6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_finite_rv.test_hypergeometric_symbolic","kind":"function","src_hash":"05a49cd4b7e9c5b4","in":{"base":"Any"},"out":{"base":"Any","pred":"dens == Density(HypergeometricDistribution(N, m, n)) and dens.subs(N, 5).doit() == Density(HypergeometricDistribution(5, m, n)) and set(dens.subs({N: 3, m: 2, n: 1}).doit().keys()) == {S.Zero, S.One}"},"spec":{"lhs":"test_hypergeometric_symbolic()","rhs":"test_hypergeometric_symbolic produces the expected output","over":{"base":"Any"},"name":"test_hypergeometric_symbolic_correct"},"guarantee":"test_hypergeometric_symbolic produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_finite_rv.test_hypergeometric_symbolic_correct","statement":"Path(test_hypergeometric_symbolic(x), test_hypergeometric_symbolic produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a9cad0afb9b4858b"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_finite_rv.test_hypergeometric_symbolic","kind":"function","src_hash":"05a49cd4b7e9c5b4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dens == Density(HypergeometricDistribution(N, m, n)) and dens.subs(N, 5).doit() == Density(HypergeometricDistribution(5, m, n)) and set(dens.subs({N: 3, m: 2, n: 1}).doit().keys()) == {S.Zero, S.One} and set(dens.subs({N: 3, m: 2, n: 1}).doit().values()) == {Rational(1, 3), Rational(2, 3)} and expec.dummy_eq(Sum(Piecewise((k * binomial(m, k) * binomial(N - m, -k + n) / binomial(N, n), k > 2), (0, True)), (k, 0, n)))"},"spec":{"lhs":"test_hypergeometric_symbolic()","rhs":"dens == Density(HypergeometricDistribution(N, m, n)) and dens.subs(N, 5).doit() == Density(HypergeometricDistribution(5, m, n)) and set(dens.subs({N: 3, m: 2, n: 1}).doit().keys()) == {S.Zero, S.One} and set(dens.subs({N: 3, m: 2, n: 1}).doit().values()) == {Rational(1, 3), Rational(2, 3)} and expec.dummy_eq(Sum(Piecewise((k * binomial(m, k) * binomial(N - m, -k + n) / binomial(N, n), k > 2), (0, True)), (k, 0, n)))","over":{"base":"Any"},"name":"test_hypergeometric_symbolic_correct"},"guarantee":"dens == Density(HypergeometricDistribution(N, m, n)); dens.subs(N, 5).doit() == Density(HypergeometricDistribution(5, m, n)); set(dens.subs({N: 3, m: 2, n: 1}).doit().keys()) == {S.Zero, S.One}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_finite_rv.test_hypergeometric_symbolic_correct","statement":"Path(test_hypergeometric_symbolic(x), dens == Density(HypergeometricDistribution(N, m, n)); dens.subs(N, 5).doit() == Density(HypergeometricDistribution(5, m, n)); set(dens.subs({N: 3, m: 2, n: 1}).doit().keys()) == {S.Zero, S.One})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"14f04493f0582ea6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dens == Density(HypergeometricDistribution(N, m, n))","dens.subs(N, 5).doit() == Density(HypergeometricDistribution(5, m, n))","set(dens.subs({N: 3, m: 2, n: 1}).doit().keys()) == {S.Zero, S.One}","set(dens.subs({N: 3, m: 2, n: 1}).doit().values()) == {Rational(1, 3), Rational(2, 3)}","expec.dummy_eq(Sum(Piecewise((k * binomial(m, k) * binomial(N - m, -k + n) / binomial(N, n), k > 2), (0, True)), (k, 0, n)))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_hypergeometric_symbolic():
     N, m, n = symbols('N, m, n')
     H = Hypergeometric('H', N, m, n)
@@ -563,16 +673,24 @@ def test_hypergeometric_symbolic():
         /binomial(N, n), k > 2), (0, True)), (k, 0, n)))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_rademacher(), test_rademacher produces the expected output) over Any ║
+# ║ Path(test_rademacher(), E(X) == 0 and variance(X) == 1 and density(X)[-1] == S.Half and density(X)[1] == S.Half and characteristic_function(X)(t) == exp(I * t) / 2 + exp(-I * t) / 2 and moment_generating_function(X)(t) == exp(t) / 2 + exp(-t) / 2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_rademacher : Any → {Any | E(X) == 0 and variance...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  E(X) == 0                                      ║
+# ║   ensures:  variance(X) == 1                               ║
+# ║   ensures:  density(X)[-1] == S.Half                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_rademacher : Any → {Any | result satisfies: E(X)...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fc398f6e01244acf  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e43804aaa9311960  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_finite_rv.test_rademacher","kind":"function","src_hash":"c1e9c7f663c1ec7c","in":{"base":"Any"},"out":{"base":"Any","pred":"E(X) == 0 and variance(X) == 1 and density(X)[-1] == S.Half and density(X)[1] == S.Half and characteristic_function(X)(t) == exp(I * t) / 2 + exp(-I * t) / 2 and moment_generating_function(X)(t) == exp(t) / 2 + exp(-t) / 2"},"spec":{"lhs":"test_rademacher()","rhs":"test_rademacher produces the expected output","over":{"base":"Any"},"name":"test_rademacher_correct"},"guarantee":"test_rademacher produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_finite_rv.test_rademacher_correct","statement":"Path(test_rademacher(x), test_rademacher produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fc398f6e01244acf"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_finite_rv.test_rademacher","kind":"function","src_hash":"c1e9c7f663c1ec7c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: E(X) == 0 and variance(X) == 1 and density(X)[-1] == S.Half and density(X)[1] == S.Half and characteristic_function(X)(t) == exp(I * t) / 2 + exp(-I * t) / 2 and moment_generating_function(X)(t) == exp(t) / 2 + exp(-t) / 2"},"spec":{"lhs":"test_rademacher()","rhs":"E(X) == 0 and variance(X) == 1 and density(X)[-1] == S.Half and density(X)[1] == S.Half and characteristic_function(X)(t) == exp(I * t) / 2 + exp(-I * t) / 2 and moment_generating_function(X)(t) == exp(t) / 2 + exp(-t) / 2","over":{"base":"Any"},"name":"test_rademacher_correct"},"guarantee":"E(X) == 0; variance(X) == 1; density(X)[-1] == S.Half","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_finite_rv.test_rademacher_correct","statement":"Path(test_rademacher(x), E(X) == 0; variance(X) == 1; density(X)[-1] == S.Half)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e43804aaa9311960","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["E(X) == 0","variance(X) == 1","density(X)[-1] == S.Half","density(X)[1] == S.Half","characteristic_function(X)(t) == exp(I * t) / 2 + exp(-I * t) / 2","moment_generating_function(X)(t) == exp(t) / 2 + exp(-t) / 2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_rademacher():
     X = Rademacher('X')
     t = Symbol('t')
@@ -585,16 +703,24 @@ def test_rademacher():
     assert moment_generating_function(X)(t) == exp(t) / 2 + exp(-t) / 2
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_ideal_soliton(), test_ideal_soliton produces the expected output) over Any ║
+# ║ Path(test_ideal_soliton(), density(sol).low == S.One and density(sol).high == k and density(sol).dict == Density(density(sol)) and density(sol).pmf(x) == Piecewise((1 / k, Eq(x, 1)), (1 / (x * (x - 1)), k >= x), (0, True)) and exp(I * t) / 10 + Sum(exp(I * t * x) / (x * x - x), (x, 2, k)).subs(k, 10).doit() == characteristic_function(sol.subs(k, 10))(t) and exp(t) / 10 + Sum(exp(t * x) / (x * x - x), (x, 2, k)).subs(k, 10).doit() == moment_generating_function(sol.subs(k, 10))(t)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_ideal_soliton : Any → {Any | density(sol).low ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  density(sol).low == S.One                      ║
+# ║   ensures:  density(sol).high == k                         ║
+# ║   ensures:  density(sol).dict == Density(density(sol))     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_ideal_soliton : Any → {Any | result satisfies: d...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 70ee5025b52ec4de  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5308e17c9b64d853  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_finite_rv.test_ideal_soliton","kind":"function","src_hash":"07c5eff26d94178e","in":{"base":"Any"},"out":{"base":"Any","pred":"density(sol).low == S.One and density(sol).high == k and density(sol).dict == Density(density(sol)) and E(sol.subs(k, i)) == harmonic(i) == moment(sol.subs(k, i), 1) and skewness(sol.subs(k, i)) == smoment(sol.subs(k, i), 3) and kurtosis(sol.subs(k, i)) == smoment(sol.subs(k, i), 4)"},"spec":{"lhs":"test_ideal_soliton()","rhs":"test_ideal_soliton produces the expected output","over":{"base":"Any"},"name":"test_ideal_soliton_correct"},"guarantee":"test_ideal_soliton produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_finite_rv.test_ideal_soliton_correct","statement":"Path(test_ideal_soliton(x), test_ideal_soliton produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"70ee5025b52ec4de"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_finite_rv.test_ideal_soliton","kind":"function","src_hash":"07c5eff26d94178e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: density(sol).low == S.One and density(sol).high == k and density(sol).dict == Density(density(sol)) and density(sol).pmf(x) == Piecewise((1 / k, Eq(x, 1)), (1 / (x * (x - 1)), k >= x), (0, True)) and exp(I * t) / 10 + Sum(exp(I * t * x) / (x * x - x), (x, 2, k)).subs(k, 10).doit() == characteristic_function(sol.subs(k, 10))(t) and exp(t) / 10 + Sum(exp(t * x) / (x * x - x), (x, 2, k)).subs(k, 10).doit() == moment_generating_function(sol.subs(k, 10))(t)"},"spec":{"lhs":"test_ideal_soliton()","rhs":"density(sol).low == S.One and density(sol).high == k and density(sol).dict == Density(density(sol)) and density(sol).pmf(x) == Piecewise((1 / k, Eq(x, 1)), (1 / (x * (x - 1)), k >= x), (0, True)) and exp(I * t) / 10 + Sum(exp(I * t * x) / (x * x - x), (x, 2, k)).subs(k, 10).doit() == characteristic_function(sol.subs(k, 10))(t) and exp(t) / 10 + Sum(exp(t * x) / (x * x - x), (x, 2, k)).subs(k, 10).doit() == moment_generating_function(sol.subs(k, 10))(t)","over":{"base":"Any"},"name":"test_ideal_soliton_correct"},"guarantee":"density(sol).low == S.One; density(sol).high == k; density(sol).dict == Density(density(sol))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_finite_rv.test_ideal_soliton_correct","statement":"Path(test_ideal_soliton(x), density(sol).low == S.One; density(sol).high == k; density(sol).dict == Density(density(sol)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5308e17c9b64d853","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["density(sol).low == S.One","density(sol).high == k","density(sol).dict == Density(density(sol))","density(sol).pmf(x) == Piecewise((1 / k, Eq(x, 1)), (1 / (x * (x - 1)), k >= x), (0, True))","exp(I * t) / 10 + Sum(exp(I * t * x) / (x * x - x), (x, 2, k)).subs(k, 10).doit() == characteristic_function(sol.subs(k, 10))(t)","exp(t) / 10 + Sum(exp(t * x) / (x * x - x), (x, 2, k)).subs(k, 10).doit() == moment_generating_function(sol.subs(k, 10))(t)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def test_ideal_soliton():
     raises(ValueError, lambda : IdealSoliton('sol', -12))
     raises(ValueError, lambda : IdealSoliton('sol', 13.2))
@@ -622,16 +748,23 @@ def test_ideal_soliton():
     assert exp(t)/10 + Sum(exp(t*x)/(x*x - x), (x, 2, k)).subs(k, 10).doit() == moment_generating_function(sol.subs(k, 10))(t)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_robust_soliton(), test_robust_soliton produces the expected output) over Any ║
+# ║ Path(test_robust_soliton(), density(robSol).low == 1 and density(robSol).high == k) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_robust_soliton : Any → {Any | density(robSol).lo...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  density(robSol).low == 1                       ║
+# ║   ensures:  density(robSol).high == k                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_robust_soliton : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8fa379fe50663dfc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 07d729f3c37f1b47  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_finite_rv.test_robust_soliton","kind":"function","src_hash":"b1b5f1b5089e3073","in":{"base":"Any"},"out":{"base":"Any","pred":"density(robSol).low == 1 and density(robSol).high == k"},"spec":{"lhs":"test_robust_soliton()","rhs":"test_robust_soliton produces the expected output","over":{"base":"Any"},"name":"test_robust_soliton_correct"},"guarantee":"test_robust_soliton produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_finite_rv.test_robust_soliton_correct","statement":"Path(test_robust_soliton(x), test_robust_soliton produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8fa379fe50663dfc"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_finite_rv.test_robust_soliton","kind":"function","src_hash":"b1b5f1b5089e3073","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: density(robSol).low == 1 and density(robSol).high == k"},"spec":{"lhs":"test_robust_soliton()","rhs":"density(robSol).low == 1 and density(robSol).high == k","over":{"base":"Any"},"name":"test_robust_soliton_correct"},"guarantee":"density(robSol).low == 1; density(robSol).high == k","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_finite_rv.test_robust_soliton_correct","statement":"Path(test_robust_soliton(x), density(robSol).low == 1; density(robSol).high == k)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"07d729f3c37f1b47","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["density(robSol).low == 1","density(robSol).high == k"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_robust_soliton():
     raises(ValueError, lambda : RobustSoliton('robSol', -12, 0.1, 0.02))
     raises(ValueError, lambda : RobustSoliton('robSol', 13, 1.89, 0.1))
@@ -658,16 +791,24 @@ def test_robust_soliton():
                 assert kurtosis(robSol.subs({k: x, delta: y, c: z})) == smoment(robSol.subs({k: x, delta: y, c: z}), 4)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_FiniteRV(), test_FiniteRV produces the expected output) over Any ║
+# ║ Path(test_FiniteRV(), dict(density(F).items()) == {S.One: S.Half, S(2): Rational(1, 4), S(3): Rational(1, 4)} and P(F >= 2) == S.Half and quantile(F)(p) == Piecewise((nan, p > S.One), (S.One, p <= S.Half), (S(2), p <= Rational(3, 4)), (S(3), True)) and pspace(F).domain.as_boolean() == Or(*[Eq(F.symbol, i) for i in [1, 2, 3]]) and F.pspace.domain.set == FiniteSet(1, 2, 3) and E(X) == 5 and P(X <= 2) + P(X > 2) != 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_FiniteRV : Any → {Any | P(F >= 2) == S.Half and ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dict(density(F).items()) == {S.One: S.Hal...   ║
+# ║   ensures:  P(F >= 2) == S.Half                            ║
+# ║   ensures:  quantile(F)(p) == Piecewise((nan, p > S.O...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_FiniteRV : Any → {Any | result satisfies: dict(d...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 11aaa79d03c41a79  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1d3f10f6cc71bc9d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_finite_rv.test_FiniteRV","kind":"function","src_hash":"266f8ef4ebfa8600","in":{"base":"Any"},"out":{"base":"Any","pred":"P(F >= 2) == S.Half and pspace(F).domain.as_boolean() == Or(*[Eq(F.symbol, i) for i in [1, 2, 3]]) and F.pspace.domain.set == FiniteSet(1, 2, 3) and E(X) == 5 and P(X <= 2) + P(X > 2) != 1"},"spec":{"lhs":"test_FiniteRV()","rhs":"test_FiniteRV produces the expected output","over":{"base":"Any"},"name":"test_FiniteRV_correct"},"guarantee":"test_FiniteRV produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_finite_rv.test_FiniteRV_correct","statement":"Path(test_FiniteRV(x), test_FiniteRV produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"11aaa79d03c41a79"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_finite_rv.test_FiniteRV","kind":"function","src_hash":"266f8ef4ebfa8600","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dict(density(F).items()) == {S.One: S.Half, S(2): Rational(1, 4), S(3): Rational(1, 4)} and P(F >= 2) == S.Half and quantile(F)(p) == Piecewise((nan, p > S.One), (S.One, p <= S.Half), (S(2), p <= Rational(3, 4)), (S(3), True)) and pspace(F).domain.as_boolean() == Or(*[Eq(F.symbol, i) for i in [1, 2, 3]]) and F.pspace.domain.set == FiniteSet(1, 2, 3) and E(X) == 5 and P(X <= 2) + P(X > 2) != 1"},"spec":{"lhs":"test_FiniteRV()","rhs":"dict(density(F).items()) == {S.One: S.Half, S(2): Rational(1, 4), S(3): Rational(1, 4)} and P(F >= 2) == S.Half and quantile(F)(p) == Piecewise((nan, p > S.One), (S.One, p <= S.Half), (S(2), p <= Rational(3, 4)), (S(3), True)) and pspace(F).domain.as_boolean() == Or(*[Eq(F.symbol, i) for i in [1, 2, 3]]) and F.pspace.domain.set == FiniteSet(1, 2, 3) and E(X) == 5 and P(X <= 2) + P(X > 2) != 1","over":{"base":"Any"},"name":"test_FiniteRV_correct"},"guarantee":"dict(density(F).items()) == {S.One: S.Half, S(2): Rational(1, 4), S(3): Rational(1, 4)}; P(F >= 2) == S.Half; quantile(F)(p) == Piecewise((nan, p > S.One), (S.One, p <= S.Half), (S(2), p <= Rational(3, 4)), (S(3), True))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_finite_rv.test_FiniteRV_correct","statement":"Path(test_FiniteRV(x), dict(density(F).items()) == {S.One: S.Half, S(2): Rational(1, 4), S(3): Rational(1, 4)}; P(F >= 2) == S.Half; quantile(F)(p) == Piecewise((nan, p > S.One), (S.One, p <= S.Half), (S(2), p <= Rational(3, 4)), (S(3), True)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1d3f10f6cc71bc9d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dict(density(F).items()) == {S.One: S.Half, S(2): Rational(1, 4), S(3): Rational(1, 4)}","P(F >= 2) == S.Half","quantile(F)(p) == Piecewise((nan, p > S.One), (S.One, p <= S.Half), (S(2), p <= Rational(3, 4)), (S(3), True))","pspace(F).domain.as_boolean() == Or(*[Eq(F.symbol, i) for i in [1, 2, 3]])","F.pspace.domain.set == FiniteSet(1, 2, 3)","E(X) == 5","P(X <= 2) + P(X > 2) != 1"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_FiniteRV():
     F = FiniteRV('F', {1: S.Half, 2: Rational(1, 4), 3: Rational(1, 4)}, check=True)
     p = Symbol("p", positive=True)
@@ -693,16 +834,24 @@ def test_FiniteRV():
     assert P(X <= 2) + P(X > 2) != 1
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_density_call(), test_density_call produces the expected output) over Any ║
+# ║ Path(test_density_call(), d(0) == 1 - p and d(S.Zero) == 1 - p and d(5) == 0 and 0 in d and 5 not in d and d(S.Zero) == d[S.Zero]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_density_call : Any → {Any | d(0) == 1 - p and d(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  d(0) == 1 - p                                  ║
+# ║   ensures:  d(S.Zero) == 1 - p                             ║
+# ║   ensures:  d(5) == 0                                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_density_call : Any → {Any | result satisfies: d(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0e9f61278e135a5d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e008fbc21b228caa  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_finite_rv.test_density_call","kind":"function","src_hash":"fa344c42a46b0a26","in":{"base":"Any"},"out":{"base":"Any","pred":"d(0) == 1 - p and d(S.Zero) == 1 - p and d(5) == 0 and 0 in d and 5 not in d and d(S.Zero) == d[S.Zero]"},"spec":{"lhs":"test_density_call()","rhs":"test_density_call produces the expected output","over":{"base":"Any"},"name":"test_density_call_correct"},"guarantee":"test_density_call produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_finite_rv.test_density_call_correct","statement":"Path(test_density_call(x), test_density_call produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0e9f61278e135a5d"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_finite_rv.test_density_call","kind":"function","src_hash":"fa344c42a46b0a26","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: d(0) == 1 - p and d(S.Zero) == 1 - p and d(5) == 0 and 0 in d and 5 not in d and d(S.Zero) == d[S.Zero]"},"spec":{"lhs":"test_density_call()","rhs":"d(0) == 1 - p and d(S.Zero) == 1 - p and d(5) == 0 and 0 in d and 5 not in d and d(S.Zero) == d[S.Zero]","over":{"base":"Any"},"name":"test_density_call_correct"},"guarantee":"d(0) == 1 - p; d(S.Zero) == 1 - p; d(5) == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_finite_rv.test_density_call_correct","statement":"Path(test_density_call(x), d(0) == 1 - p; d(S.Zero) == 1 - p; d(5) == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e008fbc21b228caa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["d(0) == 1 - p","d(S.Zero) == 1 - p","d(5) == 0","0 in d","5 not in d","d(S.Zero) == d[S.Zero]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_density_call():
     from sympy.abc import p
     x = Bernoulli('x', p)
@@ -717,16 +866,24 @@ def test_density_call():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DieDistribution(), test_DieDistribution produces the expected output) over Any ║
+# ║ Path(test_DieDistribution(), X.pmf(S.Half) is S.Zero and X.pmf(x).subs({x: 1}).doit() == Rational(1, 6) and X.pmf(x).subs({x: 7}).doit() == 0 and X.pmf(x).subs({x: -1}).doit() == 0 and X.pmf(x).subs({x: Rational(1, 3)}).doit() == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DieDistribution : Any → {Any | X.pmf(S.Half) is ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  X.pmf(S.Half) is S.Zero                        ║
+# ║   ensures:  X.pmf(x).subs({x: 1}).doit() == Rational(...   ║
+# ║   ensures:  X.pmf(x).subs({x: 7}).doit() == 0              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DieDistribution : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 22c5b2ca328b60fd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7f36c245f2662935  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_finite_rv.test_DieDistribution","kind":"function","src_hash":"ff01f8d5fa21eed3","in":{"base":"Any"},"out":{"base":"Any","pred":"X.pmf(S.Half) is S.Zero and X.pmf(x).subs({x: 1}).doit() == Rational(1, 6) and X.pmf(x).subs({x: 7}).doit() == 0 and X.pmf(x).subs({x: -1}).doit() == 0 and X.pmf(x).subs({x: Rational(1, 3)}).doit() == 0"},"spec":{"lhs":"test_DieDistribution()","rhs":"test_DieDistribution produces the expected output","over":{"base":"Any"},"name":"test_DieDistribution_correct"},"guarantee":"test_DieDistribution produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_finite_rv.test_DieDistribution_correct","statement":"Path(test_DieDistribution(x), test_DieDistribution produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"22c5b2ca328b60fd"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_finite_rv.test_DieDistribution","kind":"function","src_hash":"ff01f8d5fa21eed3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: X.pmf(S.Half) is S.Zero and X.pmf(x).subs({x: 1}).doit() == Rational(1, 6) and X.pmf(x).subs({x: 7}).doit() == 0 and X.pmf(x).subs({x: -1}).doit() == 0 and X.pmf(x).subs({x: Rational(1, 3)}).doit() == 0"},"spec":{"lhs":"test_DieDistribution()","rhs":"X.pmf(S.Half) is S.Zero and X.pmf(x).subs({x: 1}).doit() == Rational(1, 6) and X.pmf(x).subs({x: 7}).doit() == 0 and X.pmf(x).subs({x: -1}).doit() == 0 and X.pmf(x).subs({x: Rational(1, 3)}).doit() == 0","over":{"base":"Any"},"name":"test_DieDistribution_correct"},"guarantee":"X.pmf(S.Half) is S.Zero; X.pmf(x).subs({x: 1}).doit() == Rational(1, 6); X.pmf(x).subs({x: 7}).doit() == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_finite_rv.test_DieDistribution_correct","statement":"Path(test_DieDistribution(x), X.pmf(S.Half) is S.Zero; X.pmf(x).subs({x: 1}).doit() == Rational(1, 6); X.pmf(x).subs({x: 7}).doit() == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7f36c245f2662935","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["X.pmf(S.Half) is S.Zero","X.pmf(x).subs({x: 1}).doit() == Rational(1, 6)","X.pmf(x).subs({x: 7}).doit() == 0","X.pmf(x).subs({x: -1}).doit() == 0","X.pmf(x).subs({x: Rational(1, 3)}).doit() == 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_DieDistribution():
     from sympy.abc import x
     X = DieDistribution(6)
@@ -739,32 +896,45 @@ def test_DieDistribution():
     raises(ValueError, lambda: X.pmf(x**2 - 1))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_FinitePSpace(), test_FinitePSpace produces the expected output) over Any ║
+# ║ Path(test_FinitePSpace(), space.density == DieDistribution(6)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_FinitePSpace : Any → {Any | space.density == Die...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  space.density == DieDistribution(6)            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_FinitePSpace : Any → {Any | result satisfies: sp...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a7859efff42157c8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 98b14fdf987cb893  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_finite_rv.test_FinitePSpace","kind":"function","src_hash":"727597c9d472a55f","in":{"base":"Any"},"out":{"base":"Any","pred":"space.density == DieDistribution(6)"},"spec":{"lhs":"test_FinitePSpace()","rhs":"test_FinitePSpace produces the expected output","over":{"base":"Any"},"name":"test_FinitePSpace_correct"},"guarantee":"test_FinitePSpace produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_finite_rv.test_FinitePSpace_correct","statement":"Path(test_FinitePSpace(x), test_FinitePSpace produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a7859efff42157c8"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_finite_rv.test_FinitePSpace","kind":"function","src_hash":"727597c9d472a55f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: space.density == DieDistribution(6)"},"spec":{"lhs":"test_FinitePSpace()","rhs":"space.density == DieDistribution(6)","over":{"base":"Any"},"name":"test_FinitePSpace_correct"},"guarantee":"space.density == DieDistribution(6)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_finite_rv.test_FinitePSpace_correct","statement":"Path(test_FinitePSpace(x), space.density == DieDistribution(6))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"98b14fdf987cb893","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["space.density == DieDistribution(6)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_FinitePSpace():
     X = Die('X', 6)
     space = pspace(X)
     assert space.density == DieDistribution(6)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_symbolic_conditions(), test_symbolic_conditions produces the expected output) over Any ║
+# ║ Path(test_symbolic_conditions(), Y == Piecewise((Rational(1, 4), Eq(b, 1)), (0, True)) + Piecewise((Rational(3, 4), Eq(b, 0)), (0, True)) and Z == Piecewise((Rational(1, 4), n < 1), (0, True)) + Piecewise((S.Half, n < 2), (0, True)) + Piecewise((Rational(3, 4), n < 3), (0, True)) + Piecewise((S.One, n < 4), (0, True))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_symbolic_conditions : Any → Any                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Y == Piecewise((Rational(1, 4), Eq(b, 1))...   ║
+# ║   ensures:  Z == Piecewise((Rational(1, 4), n < 1), (...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_symbolic_conditions : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 047d4bc0b41b5760  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ce53cd4403441f7b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_finite_rv.test_symbolic_conditions","kind":"function","src_hash":"b3311020f076ee14","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_symbolic_conditions()","rhs":"test_symbolic_conditions produces the expected output","over":{"base":"Any"},"name":"test_symbolic_conditions_correct"},"guarantee":"test_symbolic_conditions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_finite_rv.test_symbolic_conditions_correct","statement":"Path(test_symbolic_conditions(x), test_symbolic_conditions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"047d4bc0b41b5760"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_finite_rv.test_symbolic_conditions","kind":"function","src_hash":"b3311020f076ee14","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Y == Piecewise((Rational(1, 4), Eq(b, 1)), (0, True)) + Piecewise((Rational(3, 4), Eq(b, 0)), (0, True)) and Z == Piecewise((Rational(1, 4), n < 1), (0, True)) + Piecewise((S.Half, n < 2), (0, True)) + Piecewise((Rational(3, 4), n < 3), (0, True)) + Piecewise((S.One, n < 4), (0, True))"},"spec":{"lhs":"test_symbolic_conditions()","rhs":"Y == Piecewise((Rational(1, 4), Eq(b, 1)), (0, True)) + Piecewise((Rational(3, 4), Eq(b, 0)), (0, True)) and Z == Piecewise((Rational(1, 4), n < 1), (0, True)) + Piecewise((S.Half, n < 2), (0, True)) + Piecewise((Rational(3, 4), n < 3), (0, True)) + Piecewise((S.One, n < 4), (0, True))","over":{"base":"Any"},"name":"test_symbolic_conditions_correct"},"guarantee":"Y == Piecewise((Rational(1, 4), Eq(b, 1)), (0, True)) + Piecewise((Rational(3, 4), Eq(b, 0)), (0, True)); Z == Piecewise((Rational(1, 4), n < 1), (0, True)) + Piecewise((S.Half, n < 2), (0, True)) + Piecewise((Rational(3, 4), n < 3), (0, True)) + Piecewise((S.One, n < 4), (0, True))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_finite_rv.test_symbolic_conditions_correct","statement":"Path(test_symbolic_conditions(x), Y == Piecewise((Rational(1, 4), Eq(b, 1)), (0, True)) + Piecewise((Rational(3, 4), Eq(b, 0)), (0, True)); Z == Piecewise((Rational(1, 4), n < 1), (0, True)) + Piecewise((S.Half, n < 2), (0, True)) + Piecewise((Rational(3, 4), n < 3), (0, True)) + Piecewise((S.One, n < 4), (0, True)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ce53cd4403441f7b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Y == Piecewise((Rational(1, 4), Eq(b, 1)), (0, True)) + Piecewise((Rational(3, 4), Eq(b, 0)), (0, True))","Z == Piecewise((Rational(1, 4), n < 1), (0, True)) + Piecewise((S.Half, n < 2), (0, True)) + Piecewise((Rational(3, 4), n < 3), (0, True)) + Piecewise((S.One, n < 4), (0, True))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_symbolic_conditions():
     B = Bernoulli('B', Rational(1, 4))
     D = Die('D', 4)

@@ -29,14 +29,20 @@ from sympy.core.numbers import Integer
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(SchurNumber(*args), correctly constructs a SchurNumber instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ SchurNumber : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Function)                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ SchurNumber : Any → {Any | result satisfies: isinstan...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2dc43c568b3da9d2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.schur_number.SchurNumber","kind":"class","src_hash":"d50d8199e379ff9a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"SchurNumber(*args)","rhs":"correctly constructs a SchurNumber instance","over":{"base":"Any"},"name":"SchurNumber_class_invariant"},"guarantee":"correctly constructs a SchurNumber instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2dc43c568b3da9d2"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.schur_number.SchurNumber","kind":"class","src_hash":"d50d8199e379ff9a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Function)"},"spec":{"lhs":"SchurNumber(*args)","rhs":"correctly constructs a SchurNumber instance","over":{"base":"Any"},"name":"SchurNumber_class_invariant"},"guarantee":"isinstance(self, Function)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2dc43c568b3da9d2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Function)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function SchurNumber not found in source"]}}
 class SchurNumber(Function):
     r"""
     This function creates a SchurNumber object
@@ -66,16 +72,25 @@ class SchurNumber(Function):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), eval produces the expected output) over Any ║
+# ║ Path(eval(cls, k), <unspecified:eval>) over {Any | hasattr(k, 'is_Number') and hasattr(k, 'is_zero') and hasattr(k, 'is_negative') and hasattr(k, 'is_integer')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Any                                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(k, 'is_Number')                        ║
+# ║   requires: hasattr(k, 'is_zero')                          ║
+# ║   requires: hasattr(k, 'is_negative')                      ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : {Any | hasattr(k, 'is_Number') and hasattr(k, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3411d43485bd859e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.schur_number.SchurNumber.eval","kind":"classmethod","src_hash":"6e9870dfae980b16","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.schur_number.SchurNumber.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3411d43485bd859e"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.schur_number.SchurNumber.eval","kind":"classmethod","src_hash":"6e9870dfae980b16","in":{"base":"Any","pred":"hasattr(k, 'is_Number') and hasattr(k, 'is_zero') and hasattr(k, 'is_negative') and hasattr(k, 'is_integer')"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls, k)","rhs":"<unspecified:eval>","over":{"base":"Any","pred":"hasattr(k, 'is_Number') and hasattr(k, 'is_zero') and hasattr(k, 'is_negative') and hasattr(k, 'is_integer')"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.schur_number.SchurNumber.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3411d43485bd859e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(k, 'is_Number')","hasattr(k, 'is_zero')","hasattr(k, 'is_negative')","hasattr(k, 'is_integer')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["k.is_Number","k.is_integer","k.is_negative","k.is_zero"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, k):
         if k.is_Number:
             if k is S.Infinity:
@@ -89,16 +104,22 @@ class SchurNumber(Function):
                 return Integer(first_known_schur_numbers[k])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(lower_bound(), lower_bound produces the expected output) over Any ║
+# ║ Path(lower_bound(), <unspecified:lower_bound>) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ lower_bound : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 796f993e2554b5a6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.schur_number.SchurNumber.lower_bound","kind":"method","src_hash":"ca9a0211264fd661","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"lower_bound()","rhs":"lower_bound produces the expected output","over":{"base":"Any"},"name":"lower_bound_correct"},"guarantee":"lower_bound produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.schur_number.SchurNumber.lower_bound_correct","statement":"Path(lower_bound(x), lower_bound produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"796f993e2554b5a6"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.schur_number.SchurNumber.lower_bound","kind":"method","src_hash":"ca9a0211264fd661","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"lower_bound()","rhs":"<unspecified:lower_bound>","over":{"base":"Any"},"name":"lower_bound_correct"},"guarantee":"lower_bound produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.schur_number.SchurNumber.lower_bound_correct","statement":"Path(lower_bound(x), lower_bound produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"796f993e2554b5a6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.func"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def lower_bound(self):
         f_ = self.args[0]
         # Improved lower bounds known for S(6) and S(7)
@@ -113,16 +134,24 @@ class SchurNumber(Function):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_schur_subsets_number(n), internal helper behaves correctly) over Any ║
+# ║ Path(_schur_subsets_number(n), Integer(min_k)) over {Any | not (n is S.Infinity) and not (n <= 0)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _schur_subsets_number : Any → Any                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (n is S.Infinity)                          ║
+# ║   requires: not (n <= 0)                                   ║
+# ║   returns:  Integer(min_k)                                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _schur_subsets_number : {Any | not (n is S.Infinity) ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0e54eb45640637b0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3dfeabfbabacbe38  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.schur_number._schur_subsets_number","kind":"function","src_hash":"0413224f54f2391f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_schur_subsets_number(n)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_schur_subsets_number_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.schur_number._schur_subsets_number_correct","statement":"Path(_schur_subsets_number(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0e54eb45640637b0"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.schur_number._schur_subsets_number","kind":"function","src_hash":"0413224f54f2391f","in":{"base":"Any","pred":"not (n is S.Infinity) and not (n <= 0)"},"out":{"base":"Any"},"spec":{"lhs":"_schur_subsets_number(n)","rhs":"Integer(min_k)","over":{"base":"Any","pred":"not (n is S.Infinity) and not (n <= 0)"},"name":"_schur_subsets_number_correct"},"guarantee":"returns Integer(min_k)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.schur_number._schur_subsets_number_correct","statement":"Path(_schur_subsets_number(x), returns Integer(min_k))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3dfeabfbabacbe38","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (n is S.Infinity)","not (n <= 0)"],"returns_expr":"Integer(min_k)","pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _schur_subsets_number(n):
 
     if n is S.Infinity:
@@ -138,9 +167,14 @@ def _schur_subsets_number(n):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(schur_partition(n), this function returns the partition in the minimum number of sum-free subsets according to the lower bound given by the schur number) over {Any | isinstance(n, Basic)} ║
+# ║ Path(schur_partition(n), <unspecified:schur_partition>) over {Any | isinstance(n, Basic) and not (isinstance(n, Basic) and (not n.is_Number)) and hasattr(n, 'is_Number')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ schur_partition : {Any | isinstance(n, Basic)} → Any       ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (isinstance(n, Basic) and (not n.is_N...   ║
+# ║   requires: hasattr(n, 'is_Number')                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ schur_partition : {Any | isinstance(n, Basic) and not...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   Basic: {isinstance(n, Basic)} → library_axiom            ║
@@ -150,9 +184,12 @@ def _schur_subsets_number(n):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.5ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 89b81862...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.schur_number.schur_partition","kind":"function","src_hash":"f466022fcc89cc63","in":{"base":"Any","pred":"isinstance(n, Basic)"},"out":{"base":"Any"},"spec":{"lhs":"schur_partition(n)","rhs":"this function returns the partition in the minimum number of sum-free subsets according to the lower bound given by the schur number","over":{"base":"Any","pred":"isinstance(n, Basic)"},"name":"schur_partition_correct"},"guarantee":"this function returns the partition in the minimum number of sum-free subsets according to the lower bound given by the schur number","fibers":[{"name":"Basic","pred":"isinstance(n, Basic)","path":{"lhs":"schur_partition(x)","rhs":"this function returns the partition in the minimum number of sum-free subsets according to the lower bound given by the schur number","over":{"base":"Basic","pred":"isinstance(n, Basic)"},"name":"schur_partition_Basic_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.schur_number.schur_partition_Basic_correct","statement":"schur_partition satisfies spec on Basic inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"89b81862ac389e91"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.schur_number.schur_partition","kind":"function","src_hash":"f466022fcc89cc63","in":{"base":"Any","pred":"isinstance(n, Basic) and not (isinstance(n, Basic) and (not n.is_Number)) and hasattr(n, 'is_Number')"},"out":{"base":"Any"},"spec":{"lhs":"schur_partition(n)","rhs":"<unspecified:schur_partition>","over":{"base":"Any","pred":"isinstance(n, Basic) and not (isinstance(n, Basic) and (not n.is_Number)) and hasattr(n, 'is_Number')"},"name":"schur_partition_correct"},"guarantee":"this function returns the partition in the minimum number of sum-free subsets according to the lower bound given by the schur number","fibers":[{"name":"Basic","pred":"isinstance(n, Basic)","path":{"lhs":"schur_partition(x)","rhs":"this function returns the partition in the minimum number of sum-free subsets according to the lower bound given by the schur number","over":{"base":"Basic","pred":"isinstance(n, Basic)"},"name":"schur_partition_Basic_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.schur_number.schur_partition_Basic_correct","statement":"schur_partition satisfies spec on Basic inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"89b81862ac389e91","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (isinstance(n, Basic) and (not n.is_Number))","hasattr(n, 'is_Number')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["n.is_Number"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.5,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'n == 1', 'n == 2', 'isinstance(n, Basic) and (not n.is_Number)', 'n == 3'}, fibers={'Basic'})"]}}
 def schur_partition(n):
     """
 
@@ -222,16 +259,23 @@ def schur_partition(n):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_generate_next_list(cur), internal helper behaves correctly) over Any ║
+# ║ Path(_generate_next_list(current_list, n), current_list) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _generate_next_list : Any → Any                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == current_list                         ║
+# ║   returns:  current_list                                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _generate_next_list : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 19808fecf06850c7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d10e819add07e9d5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.schur_number._generate_next_list","kind":"function","src_hash":"4c2655426a25a810","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_generate_next_list(cur)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_generate_next_list_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.schur_number._generate_next_list_correct","statement":"Path(_generate_next_list(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"19808fecf06850c7"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.schur_number._generate_next_list","kind":"function","src_hash":"4c2655426a25a810","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (current_list)"},"spec":{"lhs":"_generate_next_list(current_list, n)","rhs":"current_list","over":{"base":"Any"},"name":"_generate_next_list_correct"},"guarantee":"returns current_list; result == current_list","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.schur_number._generate_next_list_correct","statement":"Path(_generate_next_list(x), returns current_list; result == current_list)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d10e819add07e9d5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == current_list"],"returns_expr":"current_list","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _generate_next_list(current_list, n):
     new_list = []
 

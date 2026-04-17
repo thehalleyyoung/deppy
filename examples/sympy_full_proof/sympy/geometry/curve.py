@@ -39,14 +39,20 @@ from mpmath.libmp.libmpf import prec_to_dps
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Curve(*args), correctly constructs a Curve instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Curve : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, GeometrySet)                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Curve : Any → {Any | result satisfies: isinstance(sel...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ef765427b14a095b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.curve.Curve","kind":"class","src_hash":"eef0053f82cf9c43","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Curve(*args)","rhs":"correctly constructs a Curve instance","over":{"base":"Any"},"name":"Curve_class_invariant"},"guarantee":"correctly constructs a Curve instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ef765427b14a095b"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.curve.Curve","kind":"class","src_hash":"eef0053f82cf9c43","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, GeometrySet)"},"spec":{"lhs":"Curve(*args)","rhs":"correctly constructs a Curve instance","over":{"base":"Any"},"name":"Curve_class_invariant"},"guarantee":"isinstance(self, GeometrySet)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ef765427b14a095b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, GeometrySet)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function Curve not found in source"]}}
 class Curve(GeometrySet):
     """A curve in space.
 
@@ -102,16 +108,24 @@ class Curve(GeometrySet):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, function, limits), GeometryEntity.__new__(cls, Tuple(*function), Tuple(*limits))) over {Any | not (not is_sequence(function) or len(function) != 2) and not (not is_sequence(limits) or len(limits) != 3)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (not is_sequence(function) or len(fun...   ║
+# ║   requires: not (not is_sequence(limits) or len(limit...   ║
+# ║   returns:  GeometryEntity.__new__(cls, Tuple(*functi...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | not (not is_sequence(function) or le...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 74b6b80547af676b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.curve.Curve.__new__","kind":"method","src_hash":"6d2d07fc26edfb7b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"74b6b80547af676b"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.curve.Curve.__new__","kind":"method","src_hash":"6d2d07fc26edfb7b","in":{"base":"Any","pred":"not (not is_sequence(function) or len(function) != 2) and not (not is_sequence(limits) or len(limits) != 3)"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, function, limits)","rhs":"GeometryEntity.__new__(cls, Tuple(*function), Tuple(*limits))","over":{"base":"Any","pred":"not (not is_sequence(function) or len(function) != 2) and not (not is_sequence(limits) or len(limits) != 3)"},"name":"__new___correct"},"guarantee":"returns GeometryEntity.__new__(cls, Tuple(*function), Tuple(*limits))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"74b6b80547af676b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (not is_sequence(function) or len(function) != 2)","not (not is_sequence(limits) or len(limits) != 3)"],"returns_expr":"GeometryEntity.__new__(cls, Tuple(*function), Tuple(*limits))","pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, function, limits):
         if not is_sequence(function) or len(function) != 2:
             raise ValueError("Function argument should be (x(t), y(t)) "
@@ -123,45 +137,63 @@ class Curve(GeometrySet):
         return GeometryEntity.__new__(cls, Tuple(*function), Tuple(*limits))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__call__(f), correctly applies the callable) over Any ║
+# ║ Path(__call__(f), self.subs(self.parameter, f)) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.subs(self.parameter, f)                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __call__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e51655de4c08e5b7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.curve.Curve.__call__","kind":"method","src_hash":"6f44b58c52dfed11","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__call__(f)","rhs":"correctly applies the callable","over":{"base":"Any"},"name":"__call___correct"},"guarantee":"correctly applies the callable","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e51655de4c08e5b7"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.curve.Curve.__call__","kind":"method","src_hash":"6f44b58c52dfed11","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__call__(f)","rhs":"self.subs(self.parameter, f)","over":{"base":"Any"},"name":"__call___correct"},"guarantee":"returns self.subs(self.parameter, f)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e51655de4c08e5b7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.subs(self.parameter, f)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.parameter","self.subs"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __call__(self, f):
         return self.subs(self.parameter, f)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_subs(old), id) over Any                         ║
+# ║ Path(_eval_subs(old, new), id) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Point(*[f.subs(old, new) for f in self.fu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_subs : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 5b91f8fd7b30cea5   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.curve.Curve._eval_subs","kind":"method","src_hash":"e5ab90fdf1087145","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_subs(old)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_subs_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Point","by":"library_axiom"},{"fn":"subs","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5b91f8fd7b30cea5"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.curve.Curve._eval_subs","kind":"method","src_hash":"e5ab90fdf1087145","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_subs(old, new)","rhs":"Point(*[f.subs(old, new) for f in self.functions])","over":{"base":"Any"},"name":"_eval_subs_correct","kind":"composition"},"guarantee":"returns Point(*[f.subs(old, new) for f in self.functions])","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Point","by":"library_axiom"},{"fn":"subs","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5b91f8fd7b30cea5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Point(*[f.subs(old, new) for f in self.functions])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.functions","self.parameter"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_subs(self, old, new):
         if old == self.parameter:
             return Point(*[f.subs(old, new) for f in self.functions])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_evalf(pre), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_evalf(prec, **options), self.func(f, (t, a, b))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.func(f, (t, a, b))                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_evalf : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eb2466a67983f666  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b249590ead358c41  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.curve.Curve._eval_evalf","kind":"method","src_hash":"9289ff564f5ad555","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_evalf(pre)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_evalf_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.curve.Curve._eval_evalf_correct","statement":"Path(_eval_evalf(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eb2466a67983f666"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.curve.Curve._eval_evalf","kind":"method","src_hash":"9289ff564f5ad555","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_evalf(prec, **options)","rhs":"self.func(f, (t, a, b))","over":{"base":"Any"},"name":"_eval_evalf_correct"},"guarantee":"returns self.func(f, (t, a, b))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.curve.Curve._eval_evalf_correct","statement":"Path(_eval_evalf(x), returns self.func(f, (t, a, b)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b249590ead358c41","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.func(f, (t, a, b))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.func"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_evalf(self, prec=15, **options):
         f, (t, a, b) = self.args
         dps = prec_to_dps(prec)
@@ -170,16 +202,23 @@ class Curve(GeometrySet):
         return self.func(f, (t, a, b))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(arbitrary_point(par), a parameterized point on the curve) over Any ║
+# ║ Path(arbitrary_point(parameter), <unspecified:arbitrary_point>) over {Any | not (tnew.name != t.name and tnew.name in (f.name for f in self.free_symbols))} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ arbitrary_point : Any → Any                                ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (tnew.name != t.name and tnew.name in...   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ arbitrary_point : {Any | not (tnew.name != t.name and...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bae2c5e1da15906a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.curve.Curve.arbitrary_point","kind":"method","src_hash":"61e48bca06c6fe53","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"arbitrary_point(par)","rhs":"a parameterized point on the curve","over":{"base":"Any"},"name":"arbitrary_point_correct"},"guarantee":"a parameterized point on the curve","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.curve.Curve.arbitrary_point_correct","statement":"Path(arbitrary_point(x), a parameterized point on the curve)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bae2c5e1da15906a"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.curve.Curve.arbitrary_point","kind":"method","src_hash":"61e48bca06c6fe53","in":{"base":"Any","pred":"not (tnew.name != t.name and tnew.name in (f.name for f in self.free_symbols))"},"out":{"base":"Any"},"spec":{"lhs":"arbitrary_point(parameter)","rhs":"<unspecified:arbitrary_point>","over":{"base":"Any","pred":"not (tnew.name != t.name and tnew.name in (f.name for f in self.free_symbols))"},"name":"arbitrary_point_correct"},"guarantee":"a parameterized point on the curve","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.curve.Curve.arbitrary_point_correct","statement":"Path(arbitrary_point(x), a parameterized point on the curve)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bae2c5e1da15906a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (tnew.name != t.name and tnew.name in (f.name for f in self.free_symbols))"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.free_symbols","self.functions","self.parameter"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def arbitrary_point(self, parameter='t'):
         """A parameterized point on the curve.
 
@@ -237,16 +276,22 @@ class Curve(GeometrySet):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(free_symbols(), returns the free_symbols attribute) over Any ║
+# ║ Path(free_symbols(), <unspecified:free_symbols>) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ free_symbols : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f457bc7804325072           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.curve.Curve.free_symbols","kind":"property","src_hash":"bdef8d3e81ce9ff4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"free_symbols()","rhs":"returns the free_symbols attribute","over":{"base":"Any"},"name":"free_symbols_correct"},"guarantee":"returns the free_symbols attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f457bc7804325072"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.curve.Curve.free_symbols","kind":"property","src_hash":"bdef8d3e81ce9ff4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"free_symbols()","rhs":"<unspecified:free_symbols>","over":{"base":"Any"},"name":"free_symbols_correct"},"guarantee":"returns the free_symbols attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f457bc7804325072","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.functions","self.limits","self.parameter"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def free_symbols(self):
         """Return a set of symbols other than the bound symbols used to
         parametrically define the Curve.
@@ -276,16 +321,22 @@ class Curve(GeometrySet):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ambient_dimension(), returns the ambient_dimension attribute) over Any ║
+# ║ Path(ambient_dimension(), len(self.args[0])) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  len(self.args[0])                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ ambient_dimension : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1960dbb3119c83cd           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.curve.Curve.ambient_dimension","kind":"property","src_hash":"21de53ac35a25393","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ambient_dimension()","rhs":"returns the ambient_dimension attribute","over":{"base":"Any"},"name":"ambient_dimension_correct"},"guarantee":"returns the ambient_dimension attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1960dbb3119c83cd"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.curve.Curve.ambient_dimension","kind":"property","src_hash":"21de53ac35a25393","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ambient_dimension()","rhs":"len(self.args[0])","over":{"base":"Any"},"name":"ambient_dimension_correct"},"guarantee":"returns len(self.args[0])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1960dbb3119c83cd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"len(self.args[0])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def ambient_dimension(self):
         """The dimension of the curve.
 
@@ -310,16 +361,22 @@ class Curve(GeometrySet):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(functions(), returns the functions attribute) over Any ║
+# ║ Path(functions(), self.args[0]) over Any                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ functions : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 868f4e0b8719b08f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.curve.Curve.functions","kind":"property","src_hash":"5ba9ddb0a029482b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"functions()","rhs":"returns the functions attribute","over":{"base":"Any"},"name":"functions_correct"},"guarantee":"returns the functions attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"868f4e0b8719b08f"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.curve.Curve.functions","kind":"property","src_hash":"5ba9ddb0a029482b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"functions()","rhs":"self.args[0]","over":{"base":"Any"},"name":"functions_correct"},"guarantee":"returns self.args[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"868f4e0b8719b08f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def functions(self):
         """The functions specifying the curve.
 
@@ -348,16 +405,22 @@ class Curve(GeometrySet):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(limits(), returns the limits attribute) over Any      ║
+# ║ Path(limits(), self.args[1]) over Any                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[1]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ limits : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c8c69e95bb3dd3d8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.curve.Curve.limits","kind":"property","src_hash":"b0b4d167666f9dd3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"limits()","rhs":"returns the limits attribute","over":{"base":"Any"},"name":"limits_correct"},"guarantee":"returns the limits attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c8c69e95bb3dd3d8"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.curve.Curve.limits","kind":"property","src_hash":"b0b4d167666f9dd3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"limits()","rhs":"self.args[1]","over":{"base":"Any"},"name":"limits_correct"},"guarantee":"returns self.args[1]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c8c69e95bb3dd3d8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[1]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def limits(self):
         """The limits for the curve.
 
@@ -386,16 +449,22 @@ class Curve(GeometrySet):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(parameter(), returns the parameter attribute) over Any ║
+# ║ Path(parameter(), self.args[1][0]) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[1][0]                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ parameter : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 12f6a34dd34771cc           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.curve.Curve.parameter","kind":"property","src_hash":"7c96ab50db36fa1c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"parameter()","rhs":"returns the parameter attribute","over":{"base":"Any"},"name":"parameter_correct"},"guarantee":"returns the parameter attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"12f6a34dd34771cc"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.curve.Curve.parameter","kind":"property","src_hash":"7c96ab50db36fa1c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"parameter()","rhs":"self.args[1][0]","over":{"base":"Any"},"name":"parameter_correct"},"guarantee":"returns self.args[1][0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"12f6a34dd34771cc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[1][0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def parameter(self):
         """The curve function variable.
 
@@ -424,16 +493,22 @@ class Curve(GeometrySet):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(length(), returns the length attribute) over Any      ║
+# ║ Path(length(), integrate(integrand, self.limits)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  integrate(integrand, self.limits)              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ length : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b46fcd93284ac1e8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.curve.Curve.length","kind":"property","src_hash":"f4a24e6e969fbab4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"length()","rhs":"returns the length attribute","over":{"base":"Any"},"name":"length_correct"},"guarantee":"returns the length attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b46fcd93284ac1e8"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.curve.Curve.length","kind":"property","src_hash":"f4a24e6e969fbab4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"length()","rhs":"integrate(integrand, self.limits)","over":{"base":"Any"},"name":"length_correct"},"guarantee":"returns integrate(integrand, self.limits)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b46fcd93284ac1e8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"integrate(integrand, self.limits)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.functions","self.limits"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def length(self):
         """The curve length.
 
@@ -450,16 +525,22 @@ class Curve(GeometrySet):
         return integrate(integrand, self.limits)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(plot_interval(par), the plot interval for the default geometric plot of the curve) over Any ║
+# ║ Path(plot_interval(parameter), [t] + list(self.limits[1:])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [t] + list(self.limits[1:])                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ plot_interval : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9960bc5a2536de95  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 667106f01775c004  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.curve.Curve.plot_interval","kind":"method","src_hash":"3d1217d1d81ea86a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"plot_interval(par)","rhs":"the plot interval for the default geometric plot of the curve","over":{"base":"Any"},"name":"plot_interval_correct"},"guarantee":"the plot interval for the default geometric plot of the curve","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.curve.Curve.plot_interval_correct","statement":"Path(plot_interval(x), the plot interval for the default geometric plot of the curve)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9960bc5a2536de95"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.curve.Curve.plot_interval","kind":"method","src_hash":"3d1217d1d81ea86a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"plot_interval(parameter)","rhs":"[t] + list(self.limits[1:])","over":{"base":"Any"},"name":"plot_interval_correct"},"guarantee":"returns [t] + list(self.limits[1:])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.curve.Curve.plot_interval_correct","statement":"Path(plot_interval(x), returns [t] + list(self.limits[1:]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"667106f01775c004","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[t] + list(self.limits[1:])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.limits","self.parameter"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def plot_interval(self, parameter='t'):
         """The plot interval for the default geometric plot of the curve.
 
@@ -497,16 +578,23 @@ class Curve(GeometrySet):
         return [t] + list(self.limits[1:])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rotate(ang), this function is used to rotate a curve along given point ``pt`` at given angle(in radian)) over Any ║
+# ║ Path(rotate(angle, pt), rv.translate(*pt.args)) over {Any | hasattr(pt, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ rotate : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(pt, 'args')                            ║
+# ║   returns:  rv.translate(*pt.args)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ rotate : {Any | hasattr(pt, 'args')} → Any                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9cfd2eb50b81d79f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c7c6ee126fbc6dbb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.curve.Curve.rotate","kind":"method","src_hash":"0bc301ca81a96c47","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rotate(ang)","rhs":"this function is used to rotate a curve along given point ``pt`` at given angle(in radian)","over":{"base":"Any"},"name":"rotate_correct"},"guarantee":"this function is used to rotate a curve along given point ``pt`` at given angle(in radian)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.curve.Curve.rotate_correct","statement":"Path(rotate(x), this function is used to rotate a curve along given point ``pt`` at given angle(in radian))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9cfd2eb50b81d79f"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.curve.Curve.rotate","kind":"method","src_hash":"0bc301ca81a96c47","in":{"base":"Any","pred":"hasattr(pt, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"rotate(angle, pt)","rhs":"rv.translate(*pt.args)","over":{"base":"Any","pred":"hasattr(pt, 'args')"},"name":"rotate_correct"},"guarantee":"returns rv.translate(*pt.args)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.curve.Curve.rotate_correct","statement":"Path(rotate(x), returns rv.translate(*pt.args))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c7c6ee126fbc6dbb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(pt, 'args')"],"returns_expr":"rv.translate(*pt.args)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def rotate(self, angle=0, pt=None):
         """This function is used to rotate a curve along given point ``pt`` at given angle(in radian).
 
@@ -550,16 +638,23 @@ class Curve(GeometrySet):
         return rv.translate(*pt.args)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(scale(x, ), id) over Any                              ║
+# ║ Path(scale(x, y, pt), id) over {Any | hasattr(pt, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ scale : Any → Any                                          ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(pt, 'args')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ scale : {Any | hasattr(pt, 'args')} → Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 15b3a85171bae89d   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.curve.Curve.scale","kind":"method","src_hash":"1b3ebab9d8ab418e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"scale(x, )","rhs":"override geometryentity.scale since curve is not made up of points","over":{"base":"Any"},"name":"scale_correct","kind":"composition"},"guarantee":"override geometryentity.scale since curve is not made up of points","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"translate","by":"library_axiom"},{"fn":"scale","by":"library_axiom"},{"fn":"translate","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"15b3a85171bae89d"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.curve.Curve.scale","kind":"method","src_hash":"1b3ebab9d8ab418e","in":{"base":"Any","pred":"hasattr(pt, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"scale(x, y, pt)","rhs":"<unspecified:scale>","over":{"base":"Any","pred":"hasattr(pt, 'args')"},"name":"scale_correct","kind":"composition"},"guarantee":"override geometryentity.scale since curve is not made up of points","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"translate","by":"library_axiom"},{"fn":"scale","by":"library_axiom"},{"fn":"translate","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"15b3a85171bae89d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(pt, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["pt.args","self.func","self.functions","self.limits","self.translate"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def scale(self, x=1, y=1, pt=None):
         """Override GeometryEntity.scale since Curve is not made up of Points.
 
@@ -585,16 +680,22 @@ class Curve(GeometrySet):
         return self.func((fx*x, fy*y), self.limits)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(translate(x, ), translate the curve by (x, y)) over Any ║
+# ║ Path(translate(x, y), self.func((fx + x, fy + y), self.limits)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.func((fx + x, fy + y), self.limits)       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ translate : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 58d9f549609ccf29  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d601956523476331  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.curve.Curve.translate","kind":"method","src_hash":"386de9e8f10e6be5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"translate(x, )","rhs":"translate the curve by (x, y)","over":{"base":"Any"},"name":"translate_correct"},"guarantee":"translate the curve by (x, y)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.curve.Curve.translate_correct","statement":"Path(translate(x), translate the curve by (x, y))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"58d9f549609ccf29"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.curve.Curve.translate","kind":"method","src_hash":"386de9e8f10e6be5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"translate(x, y)","rhs":"self.func((fx + x, fy + y), self.limits)","over":{"base":"Any"},"name":"translate_correct"},"guarantee":"returns self.func((fx + x, fy + y), self.limits)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.curve.Curve.translate_correct","statement":"Path(translate(x), returns self.func((fx + x, fy + y), self.limits))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d601956523476331","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.func((fx + x, fy + y), self.limits)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.func","self.functions","self.limits"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def translate(self, x=0, y=0):
         """Translate the Curve by (x, y).
 

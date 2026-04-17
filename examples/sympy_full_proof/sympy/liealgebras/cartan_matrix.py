@@ -18,16 +18,22 @@
 from .cartan_type import CartanType
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(CartanMatrix(ct), access the cartan matrix of a specific lie algebra) over Any ║
+# ║ Path(CartanMatrix(ct), CartanType(ct).cartan_matrix()) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  CartanType(ct).cartan_matrix()                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ CartanMatrix : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0c34a457162a37ba           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.liealgebras.cartan_matrix.CartanMatrix","kind":"function","src_hash":"87cd463d824e227e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"CartanMatrix(ct)","rhs":"access the cartan matrix of a specific lie algebra","over":{"base":"Any"},"name":"CartanMatrix_correct"},"guarantee":"access the cartan matrix of a specific lie algebra","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0c34a457162a37ba"}
+# @cctt_verify {"v":2,"sym":"sympy.liealgebras.cartan_matrix.CartanMatrix","kind":"function","src_hash":"87cd463d824e227e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"CartanMatrix(ct)","rhs":"CartanType(ct).cartan_matrix()","over":{"base":"Any"},"name":"CartanMatrix_correct"},"guarantee":"returns CartanType(ct).cartan_matrix()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0c34a457162a37ba","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"CartanType(ct).cartan_matrix()","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def CartanMatrix(ct):
     """Access the Cartan matrix of a specific Lie algebra
 

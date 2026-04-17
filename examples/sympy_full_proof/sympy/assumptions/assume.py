@@ -31,14 +31,20 @@ from sympy.utilities.source import get_class
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(AssumptionsContext(*args), correctly constructs a AssumptionsContext instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ AssumptionsContext : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, set)                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ AssumptionsContext : Any → {Any | result satisfies: i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3c822c582ea9bd1d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.assume.AssumptionsContext","kind":"class","src_hash":"40cade42831756b5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"AssumptionsContext(*args)","rhs":"correctly constructs a AssumptionsContext instance","over":{"base":"Any"},"name":"AssumptionsContext_class_invariant"},"guarantee":"correctly constructs a AssumptionsContext instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3c822c582ea9bd1d"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.assume.AssumptionsContext","kind":"class","src_hash":"40cade42831756b5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, set)"},"spec":{"lhs":"AssumptionsContext(*args)","rhs":"correctly constructs a AssumptionsContext instance","over":{"base":"Any"},"name":"AssumptionsContext_class_invariant"},"guarantee":"isinstance(self, set)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3c822c582ea9bd1d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, set)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function AssumptionsContext not found in source"]}}
 class AssumptionsContext(set):
     """
     Set containing default assumptions which are applied to the ``ask()``
@@ -93,32 +99,45 @@ class AssumptionsContext(set):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(add(*as), add assumptions) over Any                   ║
+# ║ Path(add(*assumptions), <unspecified:add>) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ add : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 22e2ded113f65cfe  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.assume.AssumptionsContext.add","kind":"method","src_hash":"dcf347834ff3fedc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"add(*as)","rhs":"add assumptions","over":{"base":"Any"},"name":"add_correct"},"guarantee":"add assumptions","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.assume.AssumptionsContext.add_correct","statement":"Path(add(x), add assumptions)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"22e2ded113f65cfe"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.assume.AssumptionsContext.add","kind":"method","src_hash":"dcf347834ff3fedc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"add(*assumptions)","rhs":"<unspecified:add>","over":{"base":"Any"},"name":"add_correct"},"guarantee":"add assumptions","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.assume.AssumptionsContext.add_correct","statement":"Path(add(x), add assumptions)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"22e2ded113f65cfe","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def add(self, *assumptions):
         """Add assumptions."""
         for a in assumptions:
             super().add(a)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_sympystr(pri), internal helper behaves correctly) over Any ║
+# ║ Path(_sympystr(printer), <unspecified:_sympystr>) over {Any | hasattr(printer, '_print_set')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _sympystr : Any → Any                                      ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(printer, '_print_set')                 ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _sympystr : {Any | hasattr(printer, '_print_set')} → Any   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bd5f274a9e6c3f35  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.assume.AssumptionsContext._sympystr","kind":"method","src_hash":"60b3ff4b2049648b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sympystr(pri)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_sympystr_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.assume.AssumptionsContext._sympystr_correct","statement":"Path(_sympystr(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bd5f274a9e6c3f35"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.assume.AssumptionsContext._sympystr","kind":"method","src_hash":"60b3ff4b2049648b","in":{"base":"Any","pred":"hasattr(printer, '_print_set')"},"out":{"base":"Any"},"spec":{"lhs":"_sympystr(printer)","rhs":"<unspecified:_sympystr>","over":{"base":"Any","pred":"hasattr(printer, '_print_set')"},"name":"_sympystr_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.assume.AssumptionsContext._sympystr_correct","statement":"Path(_sympystr(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bd5f274a9e6c3f35","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(printer, '_print_set')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","printer._print_set","self.__class__"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _sympystr(self, printer):
         if not self:
             return "%s()" % self.__class__.__name__
@@ -130,14 +149,20 @@ global_assumptions = AssumptionsContext()
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(AppliedPredicate(*args), correctly constructs a AppliedPredicate instance) over {Any | isinstance(predicate, Predicate)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Boolean)                      ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ AppliedPredicate : {Any | isinstance(predicate, Predi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a28640ad36b29fd1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.assume.AppliedPredicate","kind":"class","src_hash":"875511469ab076c8","in":{"base":"Any","pred":"isinstance(predicate, Predicate)"},"out":{"base":"Any"},"spec":{"lhs":"AppliedPredicate(*args)","rhs":"correctly constructs a AppliedPredicate instance","over":{"base":"Any","pred":"isinstance(predicate, Predicate)"},"name":"AppliedPredicate_class_invariant"},"guarantee":"correctly constructs a AppliedPredicate instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a28640ad36b29fd1"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.assume.AppliedPredicate","kind":"class","src_hash":"875511469ab076c8","in":{"base":"Any","pred":"isinstance(predicate, Predicate)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Boolean)"},"spec":{"lhs":"AppliedPredicate(*args)","rhs":"correctly constructs a AppliedPredicate instance","over":{"base":"Any","pred":"isinstance(predicate, Predicate)"},"name":"AppliedPredicate_class_invariant"},"guarantee":"isinstance(self, Boolean)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a28640ad36b29fd1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Boolean)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function AppliedPredicate not found in source"]}}
 class AppliedPredicate(Boolean):
     """
     The class of expressions resulting from applying ``Predicate`` to
@@ -170,16 +195,23 @@ class AppliedPredicate(Boolean):
     __slots__ = ()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, predicate, *args), super().__new__(cls, predicate, *args)) over {Any | isinstance(predicate, Predicate)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(predicate, Predicate)               ║
+# ║   returns:  super().__new__(cls, predicate, *args)         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | isinstance(predicate, Predicate)} → Any   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 78b8b9b8e1a9303e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.assume.AppliedPredicate.__new__","kind":"method","src_hash":"5ef268da9eb9b5ec","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"78b8b9b8e1a9303e"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.assume.AppliedPredicate.__new__","kind":"method","src_hash":"5ef268da9eb9b5ec","in":{"base":"Any","pred":"isinstance(predicate, Predicate)"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, predicate, *args)","rhs":"super().__new__(cls, predicate, *args)","over":{"base":"Any","pred":"isinstance(predicate, Predicate)"},"name":"__new___correct"},"guarantee":"returns super().__new__(cls, predicate, *args)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"78b8b9b8e1a9303e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(predicate, Predicate)"],"returns_expr":"super().__new__(cls, predicate, *args)","pure":false,"effects":{"effect_type":"reads_state","raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, predicate, *args):
         if not isinstance(predicate, Predicate):
             raise TypeError("%s is not a Predicate." % predicate)
@@ -188,16 +220,22 @@ class AppliedPredicate(Boolean):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(arg(), returns the arg attribute) over Any            ║
+# ║ Path(arg(), args[1]) over Any                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  args[1]                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ arg : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | aca2c5ee629813b6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.assume.AppliedPredicate.arg","kind":"property","src_hash":"9fb723003eb58f56","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"arg()","rhs":"returns the arg attribute","over":{"base":"Any"},"name":"arg_correct"},"guarantee":"returns the arg attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"aca2c5ee629813b6"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.assume.AppliedPredicate.arg","kind":"property","src_hash":"9fb723003eb58f56","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"arg()","rhs":"args[1]","over":{"base":"Any"},"name":"arg_correct"},"guarantee":"returns args[1]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"aca2c5ee629813b6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"args[1]","pure":false,"effects":{"effect_type":"reads_state","reads":["self._args"],"raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def arg(self):
         """
         Return the expression used by this assumption.
@@ -221,16 +259,22 @@ class AppliedPredicate(Boolean):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(function(), returns the function attribute) over Any  ║
+# ║ Path(function(), self._args[0]) over Any                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._args[0]                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ function : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b1343825f8454044           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.assume.AppliedPredicate.function","kind":"property","src_hash":"89ddd3840b52b06e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"function()","rhs":"returns the function attribute","over":{"base":"Any"},"name":"function_correct"},"guarantee":"returns the function attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b1343825f8454044"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.assume.AppliedPredicate.function","kind":"property","src_hash":"89ddd3840b52b06e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"function()","rhs":"self._args[0]","over":{"base":"Any"},"name":"function_correct"},"guarantee":"returns self._args[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b1343825f8454044","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._args[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self._args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def function(self):
         """
         Return the predicate.
@@ -240,16 +284,22 @@ class AppliedPredicate(Boolean):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(arguments(), returns the arguments attribute) over Any ║
+# ║ Path(arguments(), self._args[1:]) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._args[1:]                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ arguments : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1cc6d615f2786397           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.assume.AppliedPredicate.arguments","kind":"property","src_hash":"24ce920bab62cffe","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"arguments()","rhs":"returns the arguments attribute","over":{"base":"Any"},"name":"arguments_correct"},"guarantee":"returns the arguments attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1cc6d615f2786397"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.assume.AppliedPredicate.arguments","kind":"property","src_hash":"24ce920bab62cffe","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"arguments()","rhs":"self._args[1:]","over":{"base":"Any"},"name":"arguments_correct"},"guarantee":"returns self._args[1:]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1cc6d615f2786397","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._args[1:]","pure":false,"effects":{"effect_type":"reads_state","reads":["self._args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def arguments(self):
         """
         Return the arguments which are applied to the predicate.
@@ -258,31 +308,43 @@ class AppliedPredicate(Boolean):
         return self._args[1:]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_ask(ass), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_ask(assumptions), self.function.eval(self.arguments, assumptions)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.function.eval(self.arguments, assump...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_ask : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | be7e256d97e9d94c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.assume.AppliedPredicate._eval_ask","kind":"method","src_hash":"94f046d448a1ec54","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_ask(ass)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_ask_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"be7e256d97e9d94c"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.assume.AppliedPredicate._eval_ask","kind":"method","src_hash":"94f046d448a1ec54","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_ask(assumptions)","rhs":"self.function.eval(self.arguments, assumptions)","over":{"base":"Any"},"name":"_eval_ask_correct"},"guarantee":"returns self.function.eval(self.arguments, assumptions)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"be7e256d97e9d94c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.function.eval(self.arguments, assumptions)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.arguments","self.function"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_ask(self, assumptions):
         return self.function.eval(self.arguments, assumptions)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(binary_symbols(), returns the binary_symbols attribute) over Any ║
+# ║ Path(binary_symbols(), <unspecified:binary_symbols>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ binary_symbols : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | cf939f4ac5c7e5d8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.assume.AppliedPredicate.binary_symbols","kind":"property","src_hash":"1a83932eb3851d8d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"binary_symbols()","rhs":"returns the binary_symbols attribute","over":{"base":"Any"},"name":"binary_symbols_correct"},"guarantee":"returns the binary_symbols attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cf939f4ac5c7e5d8"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.assume.AppliedPredicate.binary_symbols","kind":"property","src_hash":"1a83932eb3851d8d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"binary_symbols()","rhs":"<unspecified:binary_symbols>","over":{"base":"Any"},"name":"binary_symbols_correct"},"guarantee":"returns the binary_symbols attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cf939f4ac5c7e5d8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.arguments","self.function"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def binary_symbols(self):
         from .ask import Q
         if self.function == Q.is_true:
@@ -301,26 +363,40 @@ class AppliedPredicate(Boolean):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(PredicateMeta(*args), correctly constructs a PredicateMeta instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ PredicateMeta : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, type)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ PredicateMeta : Any → {Any | result satisfies: isinst...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3e224a551b118eba  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.assume.PredicateMeta","kind":"class","src_hash":"cb15c0bfea07fe1a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"PredicateMeta(*args)","rhs":"correctly constructs a PredicateMeta instance","over":{"base":"Any"},"name":"PredicateMeta_class_invariant"},"guarantee":"correctly constructs a PredicateMeta instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3e224a551b118eba"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.assume.PredicateMeta","kind":"class","src_hash":"cb15c0bfea07fe1a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, type)"},"spec":{"lhs":"PredicateMeta(*args)","rhs":"correctly constructs a PredicateMeta instance","over":{"base":"Any"},"name":"PredicateMeta_class_invariant"},"guarantee":"isinstance(self, type)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3e224a551b118eba","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, type)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function PredicateMeta not found in source"]}}
 class PredicateMeta(type):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, clsname, bases), super().__new__(cls, clsname, bases, dct)) over {Any | hasattr(dct, 'get') and hasattr(clsname, 'capitalize')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(dct, 'get')                            ║
+# ║   requires: hasattr(clsname, 'capitalize')                 ║
+# ║   returns:  super().__new__(cls, clsname, bases, dct)      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | hasattr(dct, 'get') and hasattr(clsn...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 075b95210b54c028           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.assume.PredicateMeta.__new__","kind":"method","src_hash":"24bd6ce4ee37e03f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"075b95210b54c028"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.assume.PredicateMeta.__new__","kind":"method","src_hash":"24bd6ce4ee37e03f","in":{"base":"Any","pred":"hasattr(dct, 'get') and hasattr(clsname, 'capitalize')"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, clsname, bases)","rhs":"super().__new__(cls, clsname, bases, dct)","over":{"base":"Any","pred":"hasattr(dct, 'get') and hasattr(clsname, 'capitalize')"},"name":"__new___correct"},"guarantee":"returns super().__new__(cls, clsname, bases, dct)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"075b95210b54c028","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(dct, 'get')","hasattr(clsname, 'capitalize')"],"returns_expr":"super().__new__(cls, clsname, bases, dct)","pure":false,"effects":{"effect_type":"mutates_args","reads":["clsname.capitalize","dct.get"],"writes":["dct[*]"]},"state_contract":{"modifies":["dct[*]"],"old_bindings":{"old_dct_star":"dct[*]"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, clsname, bases, dct):
         # If handler is not defined, assign empty dispatcher.
         if "handler" not in dct:
@@ -334,16 +410,22 @@ class PredicateMeta(type):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__doc__(cls), returns the __doc__ attribute) over Any ║
+# ║ Path(__doc__(cls), <unspecified:__doc__>) over Any         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __doc__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 99851abbed89d4ae           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.assume.PredicateMeta.__doc__","kind":"property","src_hash":"b7061d70dd6eb32e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__doc__(cls)","rhs":"returns the __doc__ attribute","over":{"base":"Any"},"name":"__doc___correct"},"guarantee":"returns the __doc__ attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"99851abbed89d4ae"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.assume.PredicateMeta.__doc__","kind":"property","src_hash":"b7061d70dd6eb32e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__doc__(cls)","rhs":"<unspecified:__doc__>","over":{"base":"Any"},"name":"__doc___correct"},"guarantee":"returns the __doc__ attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"99851abbed89d4ae","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __doc__(cls):
         handler = cls.handler
         doc = cls._orig_doc
@@ -384,14 +466,20 @@ class PredicateMeta(type):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Predicate(*args), correctly constructs a Predicate instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Predicate : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Boolean)                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Predicate : Any → {Any | result satisfies: isinstance...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 77064b15a3b45421  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.assume.Predicate","kind":"class","src_hash":"da1568625ae52abf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Predicate(*args)","rhs":"correctly constructs a Predicate instance","over":{"base":"Any"},"name":"Predicate_class_invariant"},"guarantee":"correctly constructs a Predicate instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"77064b15a3b45421"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.assume.Predicate","kind":"class","src_hash":"da1568625ae52abf","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Boolean)"},"spec":{"lhs":"Predicate(*args)","rhs":"correctly constructs a Predicate instance","over":{"base":"Any"},"name":"Predicate_class_invariant"},"guarantee":"isinstance(self, Boolean)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"77064b15a3b45421","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Boolean)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function Predicate not found in source"]}}
 class Predicate(Boolean, metaclass=PredicateMeta):
     """
     Base class for mathematical predicates. It also serves as a
@@ -474,16 +562,22 @@ class Predicate(Boolean, metaclass=PredicateMeta):
     is_Atom = True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, *args, **kwargs), <unspecified:__new__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 464885c1e318859b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.assume.Predicate.__new__","kind":"method","src_hash":"d545f1bcc5eb0332","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"464885c1e318859b"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.assume.Predicate.__new__","kind":"method","src_hash":"d545f1bcc5eb0332","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, *args, **kwargs)","rhs":"<unspecified:__new__>","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"464885c1e318859b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, *args, **kwargs):
         if cls is Predicate:
             return UndefinedPredicate(*args, **kwargs)
@@ -492,32 +586,45 @@ class Predicate(Boolean, metaclass=PredicateMeta):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(name(), returns the name attribute) over Any          ║
+# ║ Path(name(), type(self).__name__) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  type(self).__name__                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ name : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ba004101e185f69c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.assume.Predicate.name","kind":"property","src_hash":"386957d874ad1026","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"name()","rhs":"returns the name attribute","over":{"base":"Any"},"name":"name_correct"},"guarantee":"returns the name attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ba004101e185f69c"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.assume.Predicate.name","kind":"property","src_hash":"386957d874ad1026","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"name()","rhs":"type(self).__name__","over":{"base":"Any"},"name":"name_correct"},"guarantee":"returns type(self).__name__","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ba004101e185f69c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"type(self).__name__","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def name(self):
         # May be overridden
         return type(self).__name__
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(register(cls), register the signature to the handler) over Any ║
+# ║ Path(register(cls, *types, **kwargs), cls.handler.register(*types, **kwargs)) over {Any | not (cls.handler is None)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ register : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (cls.handler is None)                      ║
+# ║   returns:  cls.handler.register(*types, **kwargs)         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ register : {Any | not (cls.handler is None)} → Any         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ba5db4ccb4245f0e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 960b72691dcca5f6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.assume.Predicate.register","kind":"classmethod","src_hash":"245fe8751f9ae110","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"register(cls)","rhs":"register the signature to the handler","over":{"base":"Any"},"name":"register_correct"},"guarantee":"register the signature to the handler","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.assume.Predicate.register_correct","statement":"Path(register(x), register the signature to the handler)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ba5db4ccb4245f0e"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.assume.Predicate.register","kind":"classmethod","src_hash":"245fe8751f9ae110","in":{"base":"Any","pred":"not (cls.handler is None)"},"out":{"base":"Any"},"spec":{"lhs":"register(cls, *types, **kwargs)","rhs":"cls.handler.register(*types, **kwargs)","over":{"base":"Any","pred":"not (cls.handler is None)"},"name":"register_correct"},"guarantee":"returns cls.handler.register(*types, **kwargs)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.assume.Predicate.register_correct","statement":"Path(register(x), returns cls.handler.register(*types, **kwargs))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"960b72691dcca5f6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (cls.handler is None)"],"returns_expr":"cls.handler.register(*types, **kwargs)","pure":false,"effects":{"effect_type":"reads_state","reads":["cls.handler"],"raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def register(cls, *types, **kwargs):
         """
         Register the signature to the handler.
@@ -528,16 +635,22 @@ class Predicate(Boolean, metaclass=PredicateMeta):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(register_many(cls), register multiple signatures to same handler) over Any ║
+# ║ Path(register_many(cls, *types, **kwargs), <unspecified:register_many>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ register_many : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4eba0f4c2430ce17  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.assume.Predicate.register_many","kind":"classmethod","src_hash":"bd1772fb97e16cf6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"register_many(cls)","rhs":"register multiple signatures to same handler","over":{"base":"Any"},"name":"register_many_correct"},"guarantee":"register multiple signatures to same handler","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.assume.Predicate.register_many_correct","statement":"Path(register_many(x), register multiple signatures to same handler)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4eba0f4c2430ce17"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.assume.Predicate.register_many","kind":"classmethod","src_hash":"bd1772fb97e16cf6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"register_many(cls, *types, **kwargs)","rhs":"<unspecified:register_many>","over":{"base":"Any"},"name":"register_many_correct"},"guarantee":"register multiple signatures to same handler","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.assume.Predicate.register_many_correct","statement":"Path(register_many(x), register multiple signatures to same handler)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4eba0f4c2430ce17","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["cls.register"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def register_many(cls, *types, **kwargs):
         """
         Register multiple signatures to same handler.
@@ -550,30 +663,42 @@ class Predicate(Boolean, metaclass=PredicateMeta):
         return _
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__call__(*ar), correctly applies the callable) over Any ║
+# ║ Path(__call__(*args), AppliedPredicate(self, *args)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  AppliedPredicate(self, *args)                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __call__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 11bd4ad004e0d439           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.assume.Predicate.__call__","kind":"method","src_hash":"16eb9b8581d465c4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__call__(*ar)","rhs":"correctly applies the callable","over":{"base":"Any"},"name":"__call___correct"},"guarantee":"correctly applies the callable","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"11bd4ad004e0d439"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.assume.Predicate.__call__","kind":"method","src_hash":"16eb9b8581d465c4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__call__(*args)","rhs":"AppliedPredicate(self, *args)","over":{"base":"Any"},"name":"__call___correct"},"guarantee":"returns AppliedPredicate(self, *args)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"11bd4ad004e0d439","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"AppliedPredicate(self, *args)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __call__(self, *args):
         return AppliedPredicate(self, *args)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(arg), evaluate ``self(*args)`` under the given assumptions) over Any ║
+# ║ Path(eval(args, assumptions), <unspecified:eval>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ eval : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aa74ddc935a6a63b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.assume.Predicate.eval","kind":"method","src_hash":"b3683cc515347ebe","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(arg)","rhs":"evaluate ``self(*args)`` under the given assumptions","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"evaluate ``self(*args)`` under the given assumptions","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.assume.Predicate.eval_correct","statement":"Path(eval(x), evaluate ``self(*args)`` under the given assumptions)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aa74ddc935a6a63b"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.assume.Predicate.eval","kind":"method","src_hash":"b3683cc515347ebe","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(args, assumptions)","rhs":"<unspecified:eval>","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"evaluate ``self(*args)`` under the given assumptions","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.assume.Predicate.eval_correct","statement":"Path(eval(x), evaluate ``self(*args)`` under the given assumptions)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aa74ddc935a6a63b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.handler"],"catches":["NotImplementedError"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(self, args, assumptions=True):
         """
         Evaluate ``self(*args)`` under the given assumptions.
@@ -588,16 +713,22 @@ class Predicate(Boolean, metaclass=PredicateMeta):
         return result
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_refine(ass), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_refine(assumptions), <unspecified:_eval_refine>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_refine : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d586bc2316873a85           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.assume.Predicate._eval_refine","kind":"method","src_hash":"a1a042c7fb78e874","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_refine(ass)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_refine_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d586bc2316873a85"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.assume.Predicate._eval_refine","kind":"method","src_hash":"a1a042c7fb78e874","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_refine(assumptions)","rhs":"<unspecified:_eval_refine>","over":{"base":"Any"},"name":"_eval_refine_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d586bc2316873a85","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_refine(self, assumptions):
         # When Predicate is no longer Boolean, delete this method
         return self
@@ -606,14 +737,20 @@ class Predicate(Boolean, metaclass=PredicateMeta):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(UndefinedPredicate(*args), correctly constructs a UndefinedPredicate instance) over {Any | isinstance(name, Str)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ UndefinedPredicate : {Any | isinstance(name, Str)} → Any   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Predicate)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ UndefinedPredicate : {Any | isinstance(name, Str)} → ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7c3b42dbaff9963e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.assume.UndefinedPredicate","kind":"class","src_hash":"80065db891dfe85d","in":{"base":"Any","pred":"isinstance(name, Str)"},"out":{"base":"Any"},"spec":{"lhs":"UndefinedPredicate(*args)","rhs":"correctly constructs a UndefinedPredicate instance","over":{"base":"Any","pred":"isinstance(name, Str)"},"name":"UndefinedPredicate_class_invariant"},"guarantee":"correctly constructs a UndefinedPredicate instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7c3b42dbaff9963e"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.assume.UndefinedPredicate","kind":"class","src_hash":"80065db891dfe85d","in":{"base":"Any","pred":"isinstance(name, Str)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Predicate)"},"spec":{"lhs":"UndefinedPredicate(*args)","rhs":"correctly constructs a UndefinedPredicate instance","over":{"base":"Any","pred":"isinstance(name, Str)"},"name":"UndefinedPredicate_class_invariant"},"guarantee":"isinstance(self, Predicate)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7c3b42dbaff9963e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Predicate)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function UndefinedPredicate not found in source"]}}
 class UndefinedPredicate(Predicate):
     """
     Predicate without handler.
@@ -640,16 +777,22 @@ class UndefinedPredicate(Predicate):
     handler = None
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, name, handlers), <unspecified:__new__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a37f9cb8c883185e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.assume.UndefinedPredicate.__new__","kind":"method","src_hash":"14aa3d50ddb52be3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a37f9cb8c883185e"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.assume.UndefinedPredicate.__new__","kind":"method","src_hash":"14aa3d50ddb52be3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, name, handlers)","rhs":"<unspecified:__new__>","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a37f9cb8c883185e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, name, handlers=None):
         # "handlers" parameter supports old design
         if not isinstance(name, Str):
@@ -660,72 +803,102 @@ class UndefinedPredicate(Predicate):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(name(), returns the name attribute) over Any          ║
+# ║ Path(name(), self.args[0]) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ name : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | afaac08cefbaab3d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.assume.UndefinedPredicate.name","kind":"property","src_hash":"77621fd9d22e97ea","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"name()","rhs":"returns the name attribute","over":{"base":"Any"},"name":"name_correct"},"guarantee":"returns the name attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"afaac08cefbaab3d"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.assume.UndefinedPredicate.name","kind":"property","src_hash":"77621fd9d22e97ea","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"name()","rhs":"self.args[0]","over":{"base":"Any"},"name":"name_correct"},"guarantee":"returns self.args[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"afaac08cefbaab3d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def name(self):
         return self.args[0]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_hashable_content(), internal helper behaves correctly) over Any ║
+# ║ Path(_hashable_content(), (self.name,)) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (self.name,)                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _hashable_content : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ef26945684424716           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.assume.UndefinedPredicate._hashable_content","kind":"method","src_hash":"4dbbd1330164de72","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_hashable_content()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_hashable_content_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ef26945684424716"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.assume.UndefinedPredicate._hashable_content","kind":"method","src_hash":"4dbbd1330164de72","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_hashable_content()","rhs":"(self.name,)","over":{"base":"Any"},"name":"_hashable_content_correct"},"guarantee":"returns (self.name,)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ef26945684424716","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(self.name,)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.name"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _hashable_content(self):
         return (self.name,)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__getnewargs__(), internal helper behaves correctly) over Any ║
+# ║ Path(__getnewargs__(), (self.name,)) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (self.name,)                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __getnewargs__ : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 723e38c9b3bf30d8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.assume.UndefinedPredicate.__getnewargs__","kind":"method","src_hash":"2ff8e3650abf9143","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getnewargs__()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__getnewargs___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"723e38c9b3bf30d8"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.assume.UndefinedPredicate.__getnewargs__","kind":"method","src_hash":"2ff8e3650abf9143","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getnewargs__()","rhs":"(self.name,)","over":{"base":"Any"},"name":"__getnewargs___correct"},"guarantee":"returns (self.name,)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"723e38c9b3bf30d8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(self.name,)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.name"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __getnewargs__(self):
         return (self.name,)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__call__(exp), correctly applies the callable) over Any ║
+# ║ Path(__call__(expr), AppliedPredicate(self, expr)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  AppliedPredicate(self, expr)                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __call__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6c527c51e1ad0681           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.assume.UndefinedPredicate.__call__","kind":"method","src_hash":"f3d7c09831f83706","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__call__(exp)","rhs":"correctly applies the callable","over":{"base":"Any"},"name":"__call___correct"},"guarantee":"correctly applies the callable","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6c527c51e1ad0681"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.assume.UndefinedPredicate.__call__","kind":"method","src_hash":"f3d7c09831f83706","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__call__(expr)","rhs":"AppliedPredicate(self, expr)","over":{"base":"Any"},"name":"__call___correct"},"guarantee":"returns AppliedPredicate(self, expr)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6c527c51e1ad0681","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"AppliedPredicate(self, expr)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __call__(self, expr):
         return AppliedPredicate(self, expr)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(add_handler(han), add_handler produces the expected output) over Any ║
+# ║ Path(add_handler(handler), len(self) == old_len_self + 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ add_handler : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(self) == old_len_self + 1                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ add_handler : Any → {Any | result satisfies: len(self...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3337c1def6bf5ae9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 86f7bf828a413bfe  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.assume.UndefinedPredicate.add_handler","kind":"method","src_hash":"93f0aaa3b39e16b3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"add_handler(han)","rhs":"add_handler produces the expected output","over":{"base":"Any"},"name":"add_handler_correct"},"guarantee":"add_handler produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.assume.UndefinedPredicate.add_handler_correct","statement":"Path(add_handler(x), add_handler produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3337c1def6bf5ae9"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.assume.UndefinedPredicate.add_handler","kind":"method","src_hash":"93f0aaa3b39e16b3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(self) == old_len_self + 1"},"spec":{"lhs":"add_handler(handler)","rhs":"len(self) == old_len_self + 1","over":{"base":"Any"},"name":"add_handler_correct"},"guarantee":"len(self) == old_len_self + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.assume.UndefinedPredicate.add_handler_correct","statement":"Path(add_handler(x), len(self) == old_len_self + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"86f7bf828a413bfe","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(self) == old_len_self + 1"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self.handlers"],"calls_mutating":["self.handlers.append"]},"state_contract":{"modifies":["self.*"],"old_bindings":{"old_len_self":"len(self)"},"post_ensures":["len(self) == old_len_self + 1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def add_handler(self, handler):
         sympy_deprecation_warning(
             """
@@ -738,16 +911,22 @@ class UndefinedPredicate(Predicate):
         self.handlers.append(handler)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(remove_handler(han), remove_handler produces the expected output) over Any ║
+# ║ Path(remove_handler(handler), <unspecified:remove_handler>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ remove_handler : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3b0acea6dfc0264f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.assume.UndefinedPredicate.remove_handler","kind":"method","src_hash":"be65eef36c8b1ede","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"remove_handler(han)","rhs":"remove_handler produces the expected output","over":{"base":"Any"},"name":"remove_handler_correct"},"guarantee":"remove_handler produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.assume.UndefinedPredicate.remove_handler_correct","statement":"Path(remove_handler(x), remove_handler produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3b0acea6dfc0264f"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.assume.UndefinedPredicate.remove_handler","kind":"method","src_hash":"be65eef36c8b1ede","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"remove_handler(handler)","rhs":"<unspecified:remove_handler>","over":{"base":"Any"},"name":"remove_handler_correct"},"guarantee":"remove_handler produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.assume.UndefinedPredicate.remove_handler_correct","statement":"Path(remove_handler(x), remove_handler produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3b0acea6dfc0264f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self.handlers"],"calls_mutating":["self.handlers.remove"]},"state_contract":{"modifies":["self.*"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def remove_handler(self, handler):
         sympy_deprecation_warning(
             """
@@ -760,16 +939,22 @@ class UndefinedPredicate(Predicate):
         self.handlers.remove(handler)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(arg), eval produces the expected output) over Any ║
+# ║ Path(eval(args, assumptions), <unspecified:eval>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ eval : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3d5f2b0e4349e268  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.assume.UndefinedPredicate.eval","kind":"method","src_hash":"d183375ad4e5e5ad","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(arg)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.assume.UndefinedPredicate.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3d5f2b0e4349e268"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.assume.UndefinedPredicate.eval","kind":"method","src_hash":"d183375ad4e5e5ad","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(args, assumptions)","rhs":"<unspecified:eval>","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.assume.UndefinedPredicate.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3d5f2b0e4349e268","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.handlers"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(self, args, assumptions=True):
         # Support for deprecated design
         # When old design is removed, this will always return None
@@ -809,16 +994,22 @@ class UndefinedPredicate(Predicate):
 
 @contextmanager
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(assuming(*as), context manager for assumptions) over Any ║
+# ║ Path(assuming(*assumptions), <unspecified:assuming>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ assuming : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a95847790105e66e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.assume.assuming","kind":"function","src_hash":"8deb579cf778a0b7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"assuming(*as)","rhs":"context manager for assumptions","over":{"base":"Any"},"name":"assuming_correct"},"guarantee":"context manager for assumptions","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.assume.assuming_correct","statement":"Path(assuming(x), context manager for assumptions)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a95847790105e66e"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.assume.assuming","kind":"function","src_hash":"8deb579cf778a0b7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"assuming(*assumptions)","rhs":"<unspecified:assuming>","over":{"base":"Any"},"name":"assuming_correct"},"guarantee":"context manager for assumptions","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.assume.assuming_correct","statement":"Path(assuming(x), context manager for assumptions)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a95847790105e66e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=[], spec=['*assumptions']"]}}
 def assuming(*assumptions):
     """
     Context manager for assumptions.

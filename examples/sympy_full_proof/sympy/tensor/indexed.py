@@ -135,16 +135,22 @@ from sympy.utilities.misc import filldedent
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(IndexException(), correctly constructs a IndexException instance) over Any ║
+# ║ Path(IndexException(), isinstance(self, Exception)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ IndexException : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Exception)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ IndexException : Any → {Any | result satisfies: isins...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5b6ec3a7735a552b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.indexed.IndexException","kind":"class","src_hash":"8946a80c6e26b204","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"IndexException()","rhs":"correctly constructs a IndexException instance","over":{"base":"Any"},"name":"IndexException_correct"},"guarantee":"correctly constructs a IndexException instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5b6ec3a7735a552b"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.indexed.IndexException","kind":"class","src_hash":"8946a80c6e26b204","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Exception)"},"spec":{"lhs":"IndexException()","rhs":"isinstance(self, Exception)","over":{"base":"Any"},"name":"IndexException_correct"},"guarantee":"isinstance(self, Exception)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5b6ec3a7735a552b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Exception)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Function IndexException not found in source"]}}
 class IndexException(Exception):
     pass
 
@@ -152,14 +158,20 @@ class IndexException(Exception):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Indexed(*args), correctly constructs a Indexed instance) over {Any | isinstance(base, (str, Symbol)) and isinstance(base, (NDimArray, Iterable, Tuple, MatrixBase)) and isinstance(wrt, Indexed)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Expr)                         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ Indexed : {Any | isinstance(base, (str, Symbol)) and ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ec2cb0a9cfd3d7ae  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.indexed.Indexed","kind":"class","src_hash":"bc1b366d103ccd17","in":{"base":"Any","pred":"isinstance(base, (str, Symbol)) and isinstance(base, (NDimArray, Iterable, Tuple, MatrixBase)) and isinstance(wrt, Indexed)"},"out":{"base":"Any"},"spec":{"lhs":"Indexed(*args)","rhs":"correctly constructs a Indexed instance","over":{"base":"Any","pred":"isinstance(base, (str, Symbol)) and isinstance(base, (NDimArray, Iterable, Tuple, MatrixBase)) and isinstance(wrt, Indexed)"},"name":"Indexed_class_invariant"},"guarantee":"correctly constructs a Indexed instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ec2cb0a9cfd3d7ae"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.indexed.Indexed","kind":"class","src_hash":"bc1b366d103ccd17","in":{"base":"Any","pred":"isinstance(base, (str, Symbol)) and isinstance(base, (NDimArray, Iterable, Tuple, MatrixBase)) and isinstance(wrt, Indexed)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Expr)"},"spec":{"lhs":"Indexed(*args)","rhs":"correctly constructs a Indexed instance","over":{"base":"Any","pred":"isinstance(base, (str, Symbol)) and isinstance(base, (NDimArray, Iterable, Tuple, MatrixBase)) and isinstance(wrt, Indexed)"},"name":"Indexed_class_invariant"},"guarantee":"isinstance(self, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ec2cb0a9cfd3d7ae","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Expr)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"assumed","binding":false,"binding_errors":["Function Indexed not found in source"]}}
 class Indexed(Expr):
     """Represents a mathematical object with indices.
 
@@ -183,16 +195,24 @@ class Indexed(Expr):
     is_Atom = True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, base, *args), <unspecified:__new__>) over {Any | args and hasattr(base, 'assumptions0')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: args                                           ║
+# ║   requires: hasattr(base, 'assumptions0')                  ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | args and hasattr(base, 'assumptions0...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 75eb9f66e2bbf2eb           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.indexed.Indexed.__new__","kind":"method","src_hash":"e74510ea6b14eb12","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"75eb9f66e2bbf2eb"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.indexed.Indexed.__new__","kind":"method","src_hash":"e74510ea6b14eb12","in":{"base":"Any","pred":"args and hasattr(base, 'assumptions0')"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, base, *args)","rhs":"<unspecified:__new__>","over":{"base":"Any","pred":"args and hasattr(base, 'assumptions0')"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"75eb9f66e2bbf2eb","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["args","hasattr(base, 'assumptions0')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["base.assumptions0"],"raises":["IndexException","TypeError"]},"state_contract":{"exceptional_post":{"IndexException":["isinstance(raised, IndexException)"],"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, base, *args, **kw_args):
         from sympy.tensor.array.ndim_array import NDimArray
         from sympy.matrices.matrixbase import MatrixBase
@@ -223,61 +243,91 @@ class Indexed(Expr):
         return obj
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_hashable_content(), internal helper behaves correctly) over Any ║
+# ║ Path(_hashable_content(), super()._hashable_content() + tuple(sorted(self.assumptions0.items()))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  super()._hashable_content() + tuple(sorte...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _hashable_content : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1f6be1ed8fe89aff           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.indexed.Indexed._hashable_content","kind":"method","src_hash":"0ba68019b1c20b1d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_hashable_content()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_hashable_content_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1f6be1ed8fe89aff"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.indexed.Indexed._hashable_content","kind":"method","src_hash":"0ba68019b1c20b1d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_hashable_content()","rhs":"super()._hashable_content() + tuple(sorted(self.assumptions0.items()))","over":{"base":"Any"},"name":"_hashable_content_correct"},"guarantee":"returns super()._hashable_content() + tuple(sorted(self.assumptions0.items()))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1f6be1ed8fe89aff","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"super()._hashable_content() + tuple(sorted(self.assumptions0.items()))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.assumptions0"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _hashable_content(self):
         return super()._hashable_content() + tuple(sorted(self.assumptions0.items()))
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(name(), returns the name attribute) over Any          ║
+# ║ Path(name(), str(self)) over Any                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  str(self)                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ name : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3f815d780f319fa0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.indexed.Indexed.name","kind":"property","src_hash":"62448aacf5634c52","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"name()","rhs":"returns the name attribute","over":{"base":"Any"},"name":"name_correct"},"guarantee":"returns the name attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3f815d780f319fa0"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.indexed.Indexed.name","kind":"property","src_hash":"62448aacf5634c52","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"name()","rhs":"str(self)","over":{"base":"Any"},"name":"name_correct"},"guarantee":"returns str(self)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3f815d780f319fa0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"str(self)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def name(self):
         return str(self)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_diff_wrt(), returns the _diff_wrt attribute) over Any ║
+# ║ Path(_diff_wrt(), True) over Any                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  True                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _diff_wrt : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3d07b8dceb19d393           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.indexed.Indexed._diff_wrt","kind":"property","src_hash":"e546a4c6255618c2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_diff_wrt()","rhs":"returns the _diff_wrt attribute","over":{"base":"Any"},"name":"_diff_wrt_correct"},"guarantee":"returns the _diff_wrt attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3d07b8dceb19d393"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.indexed.Indexed._diff_wrt","kind":"property","src_hash":"e546a4c6255618c2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_diff_wrt()","rhs":"True","over":{"base":"Any"},"name":"_diff_wrt_correct"},"guarantee":"returns True","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3d07b8dceb19d393","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"True","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _diff_wrt(self):
         """Allow derivatives with respect to an ``Indexed`` object."""
         return True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_derivative(wrt), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_derivative(wrt), result == (result if isinstance(wrt, Indexed) and wrt.base == self.base else Indexed(derive_by_array(self.base, wrt), *self.args[1:]) if isinstance(self.base, NDimArray) else S.Zero) and result == result or result == Indexed(derive_by_array(self.base, wrt), *self.args[1:]) or result == S.Zero) over {Any | hasattr(wrt, 'base') and hasattr(wrt, 'indices')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_derivative : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(wrt, 'base')                           ║
+# ║   requires: hasattr(wrt, 'indices')                        ║
+# ║   ensures:  result == (result if isinstance(wrt, Inde...   ║
+# ║   ensures:  result == result or result == Indexed(der...   ║
+# ║   fiber[Indexed]: isinstance(wrt, Indexed) and wrt.ba...   ║
+# ║   fiber[case_1]: isinstance(self.base, NDimArray) => ...   ║
+# ║   fiber[Indexed]: not (isinstance(wrt, Indexed) and w...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_derivative : {Any | hasattr(wrt, 'base') and ha...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4c61222902f5083e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ce2ecd3b286899c1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.indexed.Indexed._eval_derivative","kind":"method","src_hash":"40395a2da64e05b0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_derivative(wrt)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_derivative_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.indexed.Indexed._eval_derivative_correct","statement":"Path(_eval_derivative(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4c61222902f5083e"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.indexed.Indexed._eval_derivative","kind":"method","src_hash":"40395a2da64e05b0","in":{"base":"Any","pred":"hasattr(wrt, 'base') and hasattr(wrt, 'indices')"},"out":{"base":"Any","pred":"result satisfies: result == (result if isinstance(wrt, Indexed) and wrt.base == self.base else Indexed(derive_by_array(self.base, wrt), *self.args[1:]) if isinstance(self.base, NDimArray) else S.Zero) and result == result or result == Indexed(derive_by_array(self.base, wrt), *self.args[1:]) or result == S.Zero"},"spec":{"lhs":"_eval_derivative(wrt)","rhs":"result == (result if isinstance(wrt, Indexed) and wrt.base == self.base else Indexed(derive_by_array(self.base, wrt), *self.args[1:]) if isinstance(self.base, NDimArray) else S.Zero) and result == result or result == Indexed(derive_by_array(self.base, wrt), *self.args[1:]) or result == S.Zero","over":{"base":"Any","pred":"hasattr(wrt, 'base') and hasattr(wrt, 'indices')"},"name":"_eval_derivative_correct"},"guarantee":"result == (result if isinstance(wrt, Indexed) and wrt.base == self.base else Indexed(derive_by_array(self.base, wrt), *self.args[1:]) if isinstance(self.base, NDimArray) else S.Zero); result == result or result == Indexed(derive_by_array(self.base, wrt), *self.args[1:]) or result == S.Zero; 3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.indexed.Indexed._eval_derivative_correct","statement":"Path(_eval_derivative(x), result == (result if isinstance(wrt, Indexed) and wrt.base == self.base else Indexed(derive_by_array(self.base, wrt), *self.args[1:]) if isinstance(self.base, NDimArray) else S.Zero); result == result or result == Indexed(derive_by_array(self.base, wrt), *self.args[1:]) or result == S.Zero; 3-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ce2ecd3b286899c1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(wrt, 'base')","hasattr(wrt, 'indices')"],"ensures":["result == (result if isinstance(wrt, Indexed) and wrt.base == self.base else Indexed(derive_by_array(self.base, wrt), *self.args[1:]) if isinstance(self.base, NDimArray) else S.Zero)","result == result or result == Indexed(derive_by_array(self.base, wrt), *self.args[1:]) or result == S.Zero"],"fibers":[{"name":"Indexed","guard":"isinstance(wrt, Indexed) and wrt.base == self.base","ensures":["result == result"],"decidability":"structural","returns_expr":"result"},{"name":"case_1","guard":"isinstance(self.base, NDimArray)","ensures":["result == Indexed(derive_by_array(self.base, wrt), *self.args[1:])"],"decidability":"structural","returns_expr":"Indexed(derive_by_array(self.base, wrt), *self.args[1:])"},{"name":"Indexed","guard":"not (isinstance(wrt, Indexed) and wrt.base == self.base) and not (isinstance(self.base, NDimArray))","ensures":["result == S.Zero"],"decidability":"structural","returns_expr":"S.Zero"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.base","self.indices","wrt.base","wrt.indices"],"raises":["IndexException"]},"state_contract":{"exceptional_post":{"IndexException":["isinstance(raised, IndexException)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_derivative(self, wrt):
         from sympy.tensor.array.ndim_array import NDimArray
 
@@ -300,31 +350,43 @@ class Indexed(Expr):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(assumptions0(), returns the assumptions0 attribute) over Any ║
+# ║ Path(assumptions0(), {k: v for k, v in self._assumptions.items() if v is not None}) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  {k: v for k, v in self._assumptions.items...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ assumptions0 : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 72bff9dc13b5138c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.indexed.Indexed.assumptions0","kind":"property","src_hash":"f11f3e8aa70dff1b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"assumptions0()","rhs":"returns the assumptions0 attribute","over":{"base":"Any"},"name":"assumptions0_correct"},"guarantee":"returns the assumptions0 attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"72bff9dc13b5138c"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.indexed.Indexed.assumptions0","kind":"property","src_hash":"f11f3e8aa70dff1b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"assumptions0()","rhs":"{k: v for k, v in self._assumptions.items() if v is not None}","over":{"base":"Any"},"name":"assumptions0_correct"},"guarantee":"returns {k: v for k, v in self._assumptions.items() if v is not None}","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"72bff9dc13b5138c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"{k: v for k, v in self._assumptions.items() if v is not None}","pure":false,"effects":{"effect_type":"reads_state","reads":["self._assumptions"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def assumptions0(self):
         return {k: v for k, v in self._assumptions.items() if v is not None}
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(base(), returns the base attribute) over Any          ║
+# ║ Path(base(), self.args[0]) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ base : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ba77449fc50b5212           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.indexed.Indexed.base","kind":"property","src_hash":"25acbe31c3d0d0d1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"base()","rhs":"returns the base attribute","over":{"base":"Any"},"name":"base_correct"},"guarantee":"returns the base attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ba77449fc50b5212"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.indexed.Indexed.base","kind":"property","src_hash":"25acbe31c3d0d0d1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"base()","rhs":"self.args[0]","over":{"base":"Any"},"name":"base_correct"},"guarantee":"returns self.args[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ba77449fc50b5212","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def base(self):
         """Returns the ``IndexedBase`` of the ``Indexed`` object.
 
@@ -344,16 +406,22 @@ class Indexed(Expr):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(indices(), returns the indices attribute) over Any    ║
+# ║ Path(indices(), self.args[1:]) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[1:]                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ indices : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 735b2a14faa33218           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.indexed.Indexed.indices","kind":"property","src_hash":"679c348a1b1ba5ea","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"indices()","rhs":"returns the indices attribute","over":{"base":"Any"},"name":"indices_correct"},"guarantee":"returns the indices attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"735b2a14faa33218"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.indexed.Indexed.indices","kind":"property","src_hash":"679c348a1b1ba5ea","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"indices()","rhs":"self.args[1:]","over":{"base":"Any"},"name":"indices_correct"},"guarantee":"returns self.args[1:]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"735b2a14faa33218","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[1:]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def indices(self):
         """
         Returns the indices of the ``Indexed`` object.
@@ -371,16 +439,22 @@ class Indexed(Expr):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rank(), returns the rank attribute) over Any          ║
+# ║ Path(rank(), len(self.args) - 1) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  len(self.args) - 1                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ rank : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 898bb44522922397           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.indexed.Indexed.rank","kind":"property","src_hash":"9bad476b48af582f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rank()","rhs":"returns the rank attribute","over":{"base":"Any"},"name":"rank_correct"},"guarantee":"returns the rank attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"898bb44522922397"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.indexed.Indexed.rank","kind":"property","src_hash":"9bad476b48af582f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rank()","rhs":"len(self.args) - 1","over":{"base":"Any"},"name":"rank_correct"},"guarantee":"returns len(self.args) - 1","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"898bb44522922397","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"len(self.args) - 1","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def rank(self):
         """
         Returns the rank of the ``Indexed`` object.
@@ -403,16 +477,22 @@ class Indexed(Expr):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(shape(), returns the shape attribute) over Any        ║
+# ║ Path(shape(), len(sizes) == old_len_sizes + 1) over Any    ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ shape : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(sizes) == old_len_sizes + 1                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ shape : Any → {Any | result satisfies: len(sizes) == ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c49ed33c392607e8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.indexed.Indexed.shape","kind":"property","src_hash":"833348e9ffbb01f1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"shape()","rhs":"returns the shape attribute","over":{"base":"Any"},"name":"shape_correct"},"guarantee":"returns the shape attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c49ed33c392607e8"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.indexed.Indexed.shape","kind":"property","src_hash":"833348e9ffbb01f1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(sizes) == old_len_sizes + 1"},"spec":{"lhs":"shape()","rhs":"len(sizes) == old_len_sizes + 1","over":{"base":"Any"},"name":"shape_correct"},"guarantee":"len(sizes) == old_len_sizes + 1","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c49ed33c392607e8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(sizes) == old_len_sizes + 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.base","self.indices"],"calls_mutating":["sizes.append"],"raises":["IndexException"],"catches":["TypeError"]},"state_contract":{"modifies":["sizes.*"],"old_bindings":{"old_len_sizes":"len(sizes)"},"post_ensures":["len(sizes) == old_len_sizes + 1"],"exceptional_post":{"IndexException":["isinstance(raised, IndexException)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def shape(self):
         """Returns a list with dimensions of each index.
 
@@ -452,16 +532,22 @@ class Indexed(Expr):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ranges(), returns the ranges attribute) over Any      ║
+# ║ Path(ranges(), <unspecified:ranges>) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ ranges : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 86aab951d0236e41           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.indexed.Indexed.ranges","kind":"property","src_hash":"193d07346e9b3a0f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ranges()","rhs":"returns the ranges attribute","over":{"base":"Any"},"name":"ranges_correct"},"guarantee":"returns the ranges attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"86aab951d0236e41"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.indexed.Indexed.ranges","kind":"property","src_hash":"193d07346e9b3a0f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ranges()","rhs":"<unspecified:ranges>","over":{"base":"Any"},"name":"ranges_correct"},"guarantee":"returns the ranges attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"86aab951d0236e41","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def ranges(self):
         """Returns a list of tuples with lower and upper range of each index.
 
@@ -493,32 +579,48 @@ class Indexed(Expr):
         return ranges
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_sympystr(p), id) over Any                            ║
+# ║ Path(_sympystr(p), id) over {Any | hasattr(p, 'doprint')}  ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _sympystr : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(p, 'doprint')                          ║
+# ║   returns:  '%s[%s]' % (p.doprint(self.base), ', '.jo...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _sympystr : {Any | hasattr(p, 'doprint')} → Any            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 0165691f34fb457e   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.indexed.Indexed._sympystr","kind":"method","src_hash":"2b3602b975e72049","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sympystr(p)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_sympystr_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"doprint","by":"library_axiom"},{"fn":"join","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0165691f34fb457e"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.indexed.Indexed._sympystr","kind":"method","src_hash":"2b3602b975e72049","in":{"base":"Any","pred":"hasattr(p, 'doprint')"},"out":{"base":"Any"},"spec":{"lhs":"_sympystr(p)","rhs":"'%s[%s]' % (p.doprint(self.base), ', '.join(indices))","over":{"base":"Any","pred":"hasattr(p, 'doprint')"},"name":"_sympystr_correct","kind":"composition"},"guarantee":"returns '%s[%s]' % (p.doprint(self.base), ', '.join(indices))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"doprint","by":"library_axiom"},{"fn":"join","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0165691f34fb457e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(p, 'doprint')"],"returns_expr":"'%s[%s]' % (p.doprint(self.base), ', '.join(indices))","pure":false,"effects":{"effect_type":"reads_state","reads":["p.doprint","self.base","self.indices"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _sympystr(self, p):
         indices = list(map(p.doprint, self.indices))
         return "%s[%s]" % (p.doprint(self.base), ", ".join(indices))
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(free_symbols(), returns the free_symbols attribute) over Any ║
+# ║ Path(free_symbols(), result == ({self} | base_free_symbols | indices_free_symbols if base_free_symbols else indices_free_symbols) and result == {self} | base_free_symbols | indices_free_symbols or result == indices_free_symbols) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ free_symbols : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == ({self} | base_free_symbols | i...   ║
+# ║   ensures:  result == {self} | base_free_symbols | in...   ║
+# ║   fiber[case_0]: base_free_symbols => {self} | base_f...   ║
+# ║   fiber[case_1]: not (base_free_symbols) => indices_f...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ free_symbols : Any → {Any | result satisfies: result ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 293698d732dbdb76           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.indexed.Indexed.free_symbols","kind":"property","src_hash":"2491cb58bccb91b6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"free_symbols()","rhs":"returns the free_symbols attribute","over":{"base":"Any"},"name":"free_symbols_correct"},"guarantee":"returns the free_symbols attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"293698d732dbdb76"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.indexed.Indexed.free_symbols","kind":"property","src_hash":"2491cb58bccb91b6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == ({self} | base_free_symbols | indices_free_symbols if base_free_symbols else indices_free_symbols) and result == {self} | base_free_symbols | indices_free_symbols or result == indices_free_symbols"},"spec":{"lhs":"free_symbols()","rhs":"result == ({self} | base_free_symbols | indices_free_symbols if base_free_symbols else indices_free_symbols) and result == {self} | base_free_symbols | indices_free_symbols or result == indices_free_symbols","over":{"base":"Any"},"name":"free_symbols_correct"},"guarantee":"result == ({self} | base_free_symbols | indices_free_symbols if base_free_symbols else indices_free_symbols); result == {self} | base_free_symbols | indices_free_symbols or result == indices_free_symbols; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"293698d732dbdb76","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == ({self} | base_free_symbols | indices_free_symbols if base_free_symbols else indices_free_symbols)","result == {self} | base_free_symbols | indices_free_symbols or result == indices_free_symbols"],"fibers":[{"name":"case_0","guard":"base_free_symbols","ensures":["result == {self} | base_free_symbols | indices_free_symbols"],"decidability":"library","returns_expr":"{self} | base_free_symbols | indices_free_symbols"},{"name":"case_1","guard":"not (base_free_symbols)","ensures":["result == indices_free_symbols"],"decidability":"library","returns_expr":"indices_free_symbols"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.base","self.indices"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def free_symbols(self):
         base_free_symbols = self.base.free_symbols
         indices_free_symbols = {
@@ -530,16 +632,22 @@ class Indexed(Expr):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(expr_free_symbols(), returns the expr_free_symbols attribute) over Any ║
+# ║ Path(expr_free_symbols(), {self}) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  {self}                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ expr_free_symbols : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | df1f5d096c4eb4ba           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.indexed.Indexed.expr_free_symbols","kind":"property","src_hash":"bc362e12b884b28e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"expr_free_symbols()","rhs":"returns the expr_free_symbols attribute","over":{"base":"Any"},"name":"expr_free_symbols_correct"},"guarantee":"returns the expr_free_symbols attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"df1f5d096c4eb4ba"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.indexed.Indexed.expr_free_symbols","kind":"property","src_hash":"bc362e12b884b28e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"expr_free_symbols()","rhs":"{self}","over":{"base":"Any"},"name":"expr_free_symbols_correct"},"guarantee":"returns {self}","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"df1f5d096c4eb4ba","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"{self}","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def expr_free_symbols(self):
         from sympy.utilities.exceptions import sympy_deprecation_warning
         sympy_deprecation_warning("""
@@ -555,14 +663,21 @@ class Indexed(Expr):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(IndexedBase(*args), correctly constructs a IndexedBase instance) over {Any | isinstance(label, str) and isinstance(label, Symbol) and isinstance(label, (MatrixBase, NDimArray))} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Expr)                         ║
+# ║   ensures:  isinstance(self, NotIterable)                  ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ IndexedBase : {Any | isinstance(label, str) and isins...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 89ed8e95c262e5fd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.indexed.IndexedBase","kind":"class","src_hash":"c5b5a6543f16b688","in":{"base":"Any","pred":"isinstance(label, str) and isinstance(label, Symbol) and isinstance(label, (MatrixBase, NDimArray))"},"out":{"base":"Any"},"spec":{"lhs":"IndexedBase(*args)","rhs":"correctly constructs a IndexedBase instance","over":{"base":"Any","pred":"isinstance(label, str) and isinstance(label, Symbol) and isinstance(label, (MatrixBase, NDimArray))"},"name":"IndexedBase_class_invariant"},"guarantee":"correctly constructs a IndexedBase instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"89ed8e95c262e5fd"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.indexed.IndexedBase","kind":"class","src_hash":"c5b5a6543f16b688","in":{"base":"Any","pred":"isinstance(label, str) and isinstance(label, Symbol) and isinstance(label, (MatrixBase, NDimArray))"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Expr) and isinstance(self, NotIterable)"},"spec":{"lhs":"IndexedBase(*args)","rhs":"correctly constructs a IndexedBase instance","over":{"base":"Any","pred":"isinstance(label, str) and isinstance(label, Symbol) and isinstance(label, (MatrixBase, NDimArray))"},"name":"IndexedBase_class_invariant"},"guarantee":"isinstance(self, Expr); isinstance(self, NotIterable)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"89ed8e95c262e5fd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Expr)","isinstance(self, NotIterable)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":false,"binding_errors":["Function IndexedBase not found in source"]}}
 class IndexedBase(Expr, NotIterable):
     """Represent the base or stem of an indexed object
 
@@ -634,16 +749,25 @@ class IndexedBase(Expr, NotIterable):
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_set_assumptions(obj), set assumptions on obj, making sure to apply consistent values) over Any ║
+# ║ Path(_set_assumptions(obj, assumptions), <unspecified:_set_assumptions>) over {Any | hasattr(obj, '_assumptions') and hasattr(assumptions, 'copy') and hasattr(assumptions, 'get')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _set_assumptions : Any → Any                               ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(obj, '_assumptions')                   ║
+# ║   requires: hasattr(assumptions, 'copy')                   ║
+# ║   requires: hasattr(assumptions, 'get')                    ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _set_assumptions : {Any | hasattr(obj, '_assumptions'...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1ee1e168a624e1e8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.indexed.IndexedBase._set_assumptions","kind":"staticmethod","src_hash":"45d4aa30311996ea","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_set_assumptions(obj)","rhs":"set assumptions on obj, making sure to apply consistent values","over":{"base":"Any"},"name":"_set_assumptions_correct"},"guarantee":"set assumptions on obj, making sure to apply consistent values","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.indexed.IndexedBase._set_assumptions_correct","statement":"Path(_set_assumptions(x), set assumptions on obj, making sure to apply consistent values)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1ee1e168a624e1e8"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.indexed.IndexedBase._set_assumptions","kind":"staticmethod","src_hash":"45d4aa30311996ea","in":{"base":"Any","pred":"hasattr(obj, '_assumptions') and hasattr(assumptions, 'copy') and hasattr(assumptions, 'get')"},"out":{"base":"Any"},"spec":{"lhs":"_set_assumptions(obj, assumptions)","rhs":"<unspecified:_set_assumptions>","over":{"base":"Any","pred":"hasattr(obj, '_assumptions') and hasattr(assumptions, 'copy') and hasattr(assumptions, 'get')"},"name":"_set_assumptions_correct"},"guarantee":"set assumptions on obj, making sure to apply consistent values","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.indexed.IndexedBase._set_assumptions_correct","statement":"Path(_set_assumptions(x), set assumptions on obj, making sure to apply consistent values)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1ee1e168a624e1e8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(obj, '_assumptions')","hasattr(assumptions, 'copy')","hasattr(assumptions, 'get')"],"pure":false,"effects":{"effect_type":"mutates_args","reads":["assumptions.copy","assumptions.get","obj._assumptions"],"writes":["assumptions[*]","obj._assumptions"]},"state_contract":{"modifies":["assumptions[*]","obj._assumptions"],"old_bindings":{"old_assumptions_star":"assumptions[*]","old_obj__assumptions":"obj._assumptions"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _set_assumptions(obj, assumptions):
         """Set assumptions on obj, making sure to apply consistent values."""
         tmp_asm_copy = assumptions.copy()
@@ -653,16 +777,25 @@ class IndexedBase(Expr, NotIterable):
         obj._assumptions._generator = tmp_asm_copy  # Issue #8873
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, label, shape), <unspecified:__new__>) over {Any | hasattr(label, '_merge')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(label, '_merge')                       ║
+# ║   fiber[str]: isinstance(label, str)                       ║
+# ║   fiber[Symbol]: isinstance(label, Symbol)                 ║
+# ║   fiber[case_2]: isinstance(label, (MatrixBase, NDimA...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | hasattr(label, '_merge')} → Any           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 10dd3958e118c4a8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.indexed.IndexedBase.__new__","kind":"method","src_hash":"0b5ab9dc429e10fd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"10dd3958e118c4a8"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.indexed.IndexedBase.__new__","kind":"method","src_hash":"0b5ab9dc429e10fd","in":{"base":"Any","pred":"hasattr(label, '_merge')"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, label, shape)","rhs":"<unspecified:__new__>","over":{"base":"Any","pred":"hasattr(label, '_merge')"},"name":"__new___correct"},"guarantee":"5-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"10dd3958e118c4a8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(label, '_merge')"],"fibers":[{"name":"str","guard":"isinstance(label, str)","ensures":[],"decidability":"structural"},{"name":"Symbol","guard":"isinstance(label, Symbol)","ensures":[],"decidability":"structural"},{"name":"case_2","guard":"isinstance(label, (MatrixBase, NDimArray))","ensures":["result == label"],"decidability":"structural","returns_expr":"label"},{"name":"Iterable","guard":"isinstance(label, Iterable)","ensures":["result == _sympify(label)"],"decidability":"structural","returns_expr":"_sympify(label)"},{"name":"str","guard":"not (isinstance(label, str)) and not (isinstance(label, Symbol)) and not (isinstance(label, (MatrixBase, NDimArray))) and not (isinstance(label, Iterable))","ensures":[],"decidability":"structural"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["label._merge"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, label, shape=None, *, offset=S.Zero, strides=None, **kw_args):
         from sympy.matrices.matrixbase import MatrixBase
         from sympy.tensor.array.ndim_array import NDimArray
@@ -698,59 +831,86 @@ class IndexedBase(Expr, NotIterable):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(name(), returns the name attribute) over Any          ║
+# ║ Path(name(), self._name) over Any                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._name                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ name : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7f59aa8c03b377db           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.indexed.IndexedBase.name","kind":"property","src_hash":"ffdfa4a4b030c060","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"name()","rhs":"returns the name attribute","over":{"base":"Any"},"name":"name_correct"},"guarantee":"returns the name attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7f59aa8c03b377db"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.indexed.IndexedBase.name","kind":"property","src_hash":"ffdfa4a4b030c060","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"name()","rhs":"self._name","over":{"base":"Any"},"name":"name_correct"},"guarantee":"returns self._name","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7f59aa8c03b377db","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._name","pure":false,"effects":{"effect_type":"reads_state","reads":["self._name"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def name(self):
         return self._name
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_hashable_content(), internal helper behaves correctly) over Any ║
+# ║ Path(_hashable_content(), super()._hashable_content() + tuple(sorted(self.assumptions0.items()))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  super()._hashable_content() + tuple(sorte...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _hashable_content : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d560243cc7c7de66           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.indexed.IndexedBase._hashable_content","kind":"method","src_hash":"0ba68019b1c20b1d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_hashable_content()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_hashable_content_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d560243cc7c7de66"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.indexed.IndexedBase._hashable_content","kind":"method","src_hash":"0ba68019b1c20b1d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_hashable_content()","rhs":"super()._hashable_content() + tuple(sorted(self.assumptions0.items()))","over":{"base":"Any"},"name":"_hashable_content_correct"},"guarantee":"returns super()._hashable_content() + tuple(sorted(self.assumptions0.items()))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d560243cc7c7de66","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"super()._hashable_content() + tuple(sorted(self.assumptions0.items()))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.assumptions0"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _hashable_content(self):
         return super()._hashable_content() + tuple(sorted(self.assumptions0.items()))
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(assumptions0(), returns the assumptions0 attribute) over Any ║
+# ║ Path(assumptions0(), {k: v for k, v in self._assumptions.items() if v is not None}) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  {k: v for k, v in self._assumptions.items...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ assumptions0 : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5a2d0f694079fa03           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.indexed.IndexedBase.assumptions0","kind":"property","src_hash":"f11f3e8aa70dff1b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"assumptions0()","rhs":"returns the assumptions0 attribute","over":{"base":"Any"},"name":"assumptions0_correct"},"guarantee":"returns the assumptions0 attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5a2d0f694079fa03"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.indexed.IndexedBase.assumptions0","kind":"property","src_hash":"f11f3e8aa70dff1b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"assumptions0()","rhs":"{k: v for k, v in self._assumptions.items() if v is not None}","over":{"base":"Any"},"name":"assumptions0_correct"},"guarantee":"returns {k: v for k, v in self._assumptions.items() if v is not None}","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5a2d0f694079fa03","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"{k: v for k, v in self._assumptions.items() if v is not None}","pure":false,"effects":{"effect_type":"reads_state","reads":["self._assumptions"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def assumptions0(self):
         return {k: v for k, v in self._assumptions.items() if v is not None}
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__getitem__(ind), returns the element at the given index) over Any ║
+# ║ Path(__getitem__(indices, **kw_args), result == (Indexed(self, *indices, **kw_args) if is_sequence(indices) else Indexed(self, indices, **kw_args)) and result == Indexed(self, *indices, **kw_args) or result == Indexed(self, indices, **kw_args)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __getitem__ : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (Indexed(self, *indices, **kw_a...   ║
+# ║   ensures:  result == Indexed(self, *indices, **kw_ar...   ║
+# ║   fiber[case_0]: is_sequence(indices) => Indexed(self...   ║
+# ║   fiber[case_1]: not (is_sequence(indices)) => Indexe...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __getitem__ : Any → {Any | result satisfies: result =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 399d09dde9e3f910           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.indexed.IndexedBase.__getitem__","kind":"method","src_hash":"8d68992dfc84aad9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getitem__(ind)","rhs":"returns the element at the given index","over":{"base":"Any"},"name":"__getitem___correct"},"guarantee":"returns the element at the given index","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"399d09dde9e3f910"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.indexed.IndexedBase.__getitem__","kind":"method","src_hash":"8d68992dfc84aad9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (Indexed(self, *indices, **kw_args) if is_sequence(indices) else Indexed(self, indices, **kw_args)) and result == Indexed(self, *indices, **kw_args) or result == Indexed(self, indices, **kw_args)"},"spec":{"lhs":"__getitem__(indices, **kw_args)","rhs":"result == (Indexed(self, *indices, **kw_args) if is_sequence(indices) else Indexed(self, indices, **kw_args)) and result == Indexed(self, *indices, **kw_args) or result == Indexed(self, indices, **kw_args)","over":{"base":"Any"},"name":"__getitem___correct"},"guarantee":"result == (Indexed(self, *indices, **kw_args) if is_sequence(indices) else Indexed(self, indices, **kw_args)); result == Indexed(self, *indices, **kw_args) or result == Indexed(self, indices, **kw_args); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"399d09dde9e3f910","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (Indexed(self, *indices, **kw_args) if is_sequence(indices) else Indexed(self, indices, **kw_args))","result == Indexed(self, *indices, **kw_args) or result == Indexed(self, indices, **kw_args)"],"fibers":[{"name":"case_0","guard":"is_sequence(indices)","ensures":["result == Indexed(self, *indices, **kw_args)"],"decidability":"library","returns_expr":"Indexed(self, *indices, **kw_args)"},{"name":"case_1","guard":"not (is_sequence(indices))","ensures":["result == Indexed(self, indices, **kw_args)"],"decidability":"library","returns_expr":"Indexed(self, indices, **kw_args)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.shape"],"raises":["IndexException"]},"state_contract":{"exceptional_post":{"IndexException":["isinstance(raised, IndexException)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __getitem__(self, indices, **kw_args):
         if is_sequence(indices):
             # Special case needed because M[*my_tuple] is a syntax error.
@@ -764,16 +924,22 @@ class IndexedBase(Expr, NotIterable):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(shape(), returns the shape attribute) over Any        ║
+# ║ Path(shape(), self._shape) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._shape                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ shape : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 00e0d96f779b7b9b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.indexed.IndexedBase.shape","kind":"property","src_hash":"c9a5ef61da6fd486","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"shape()","rhs":"returns the shape attribute","over":{"base":"Any"},"name":"shape_correct"},"guarantee":"returns the shape attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"00e0d96f779b7b9b"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.indexed.IndexedBase.shape","kind":"property","src_hash":"c9a5ef61da6fd486","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"shape()","rhs":"self._shape","over":{"base":"Any"},"name":"shape_correct"},"guarantee":"returns self._shape","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"00e0d96f779b7b9b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._shape","pure":false,"effects":{"effect_type":"reads_state","reads":["self._shape"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def shape(self):
         """Returns the shape of the ``IndexedBase`` object.
 
@@ -802,16 +968,22 @@ class IndexedBase(Expr, NotIterable):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(strides(), returns the strides attribute) over Any    ║
+# ║ Path(strides(), self._strides) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._strides                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ strides : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8ddbcdc5e57d7c8c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.indexed.IndexedBase.strides","kind":"property","src_hash":"e442ca51f04ca384","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"strides()","rhs":"returns the strides attribute","over":{"base":"Any"},"name":"strides_correct"},"guarantee":"returns the strides attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8ddbcdc5e57d7c8c"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.indexed.IndexedBase.strides","kind":"property","src_hash":"e442ca51f04ca384","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"strides()","rhs":"self._strides","over":{"base":"Any"},"name":"strides_correct"},"guarantee":"returns self._strides","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8ddbcdc5e57d7c8c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._strides","pure":false,"effects":{"effect_type":"reads_state","reads":["self._strides"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def strides(self):
         """Returns the strided scheme for the ``IndexedBase`` object.
 
@@ -830,16 +1002,22 @@ class IndexedBase(Expr, NotIterable):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(offset(), returns the offset attribute) over Any      ║
+# ║ Path(offset(), self._offset) over Any                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._offset                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ offset : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a6b58b8bbfa3deed           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.indexed.IndexedBase.offset","kind":"property","src_hash":"a65a94d590bc8026","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"offset()","rhs":"returns the offset attribute","over":{"base":"Any"},"name":"offset_correct"},"guarantee":"returns the offset attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a6b58b8bbfa3deed"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.indexed.IndexedBase.offset","kind":"property","src_hash":"a65a94d590bc8026","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"offset()","rhs":"self._offset","over":{"base":"Any"},"name":"offset_correct"},"guarantee":"returns self._offset","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a6b58b8bbfa3deed","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._offset","pure":false,"effects":{"effect_type":"reads_state","reads":["self._offset"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def offset(self):
         """Returns the offset for the ``IndexedBase`` object.
 
@@ -863,16 +1041,22 @@ class IndexedBase(Expr, NotIterable):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(label(), returns the label attribute) over Any        ║
+# ║ Path(label(), self.args[0]) over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ label : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 52717c6c41508392           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.indexed.IndexedBase.label","kind":"property","src_hash":"09609860f2539e3c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"label()","rhs":"returns the label attribute","over":{"base":"Any"},"name":"label_correct"},"guarantee":"returns the label attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"52717c6c41508392"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.indexed.IndexedBase.label","kind":"property","src_hash":"09609860f2539e3c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"label()","rhs":"self.args[0]","over":{"base":"Any"},"name":"label_correct"},"guarantee":"returns self.args[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"52717c6c41508392","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def label(self):
         """Returns the label of the ``IndexedBase`` object.
 
@@ -888,16 +1072,23 @@ class IndexedBase(Expr, NotIterable):
         return self.args[0]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_sympystr(p), internal helper behaves correctly) over Any ║
+# ║ Path(_sympystr(p), p.doprint(self.label)) over {Any | hasattr(p, 'doprint')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _sympystr : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(p, 'doprint')                          ║
+# ║   returns:  p.doprint(self.label)                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _sympystr : {Any | hasattr(p, 'doprint')} → Any            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3ff5274f8e4cbc36           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.indexed.IndexedBase._sympystr","kind":"method","src_hash":"4a3207b581c7f89b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sympystr(p)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_sympystr_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3ff5274f8e4cbc36"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.indexed.IndexedBase._sympystr","kind":"method","src_hash":"4a3207b581c7f89b","in":{"base":"Any","pred":"hasattr(p, 'doprint')"},"out":{"base":"Any"},"spec":{"lhs":"_sympystr(p)","rhs":"p.doprint(self.label)","over":{"base":"Any","pred":"hasattr(p, 'doprint')"},"name":"_sympystr_correct"},"guarantee":"returns p.doprint(self.label)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3ff5274f8e4cbc36","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(p, 'doprint')"],"returns_expr":"p.doprint(self.label)","pure":false,"effects":{"effect_type":"reads_state","reads":["p.doprint","self.label"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _sympystr(self, p):
         return p.doprint(self.label)
 
@@ -905,14 +1096,20 @@ class IndexedBase(Expr, NotIterable):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Idx(*args), correctly constructs a Idx instance) over {Any | isinstance(label, str) and isinstance(range, Expr)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Expr)                         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ Idx : {Any | isinstance(label, str) and isinstance(ra...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e082db7e85031a50  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.indexed.Idx","kind":"class","src_hash":"01b5bde3371d1f6a","in":{"base":"Any","pred":"isinstance(label, str) and isinstance(range, Expr)"},"out":{"base":"Any"},"spec":{"lhs":"Idx(*args)","rhs":"correctly constructs a Idx instance","over":{"base":"Any","pred":"isinstance(label, str) and isinstance(range, Expr)"},"name":"Idx_class_invariant"},"guarantee":"correctly constructs a Idx instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e082db7e85031a50"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.indexed.Idx","kind":"class","src_hash":"01b5bde3371d1f6a","in":{"base":"Any","pred":"isinstance(label, str) and isinstance(range, Expr)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Expr)"},"spec":{"lhs":"Idx(*args)","rhs":"correctly constructs a Idx instance","over":{"base":"Any","pred":"isinstance(label, str) and isinstance(range, Expr)"},"name":"Idx_class_invariant"},"guarantee":"isinstance(self, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e082db7e85031a50","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Expr)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":false,"binding_errors":["Function Idx not found in source"]}}
 class Idx(Expr):
     """Represents an integer index as an ``Integer`` or integer expression.
 
@@ -978,16 +1175,25 @@ class Idx(Expr):
     _diff_wrt = True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, label, range), <unspecified:__new__>) over {Any | label.is_integer and hasattr(label, 'is_Number') and hasattr(label, 'is_integer') and hasattr(range, 'is_integer')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: label.is_integer                               ║
+# ║   requires: hasattr(label, 'is_Number')                    ║
+# ║   requires: hasattr(label, 'is_integer')                   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | label.is_integer and hasattr(label, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 67beb87f63d6f110           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.indexed.Idx.__new__","kind":"method","src_hash":"b05c9dd60d28fc3f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"67beb87f63d6f110"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.indexed.Idx.__new__","kind":"method","src_hash":"b05c9dd60d28fc3f","in":{"base":"Any","pred":"label.is_integer and hasattr(label, 'is_Number') and hasattr(label, 'is_integer') and hasattr(range, 'is_integer')"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, label, range)","rhs":"<unspecified:__new__>","over":{"base":"Any","pred":"label.is_integer and hasattr(label, 'is_Number') and hasattr(label, 'is_integer') and hasattr(range, 'is_integer')"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"67beb87f63d6f110","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["label.is_integer","hasattr(label, 'is_Number')","hasattr(label, 'is_integer')","hasattr(range, 'is_integer')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["label.is_Number","label.is_integer","range.is_integer"],"raises":["TypeError","ValueError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, label, range=None, **kw_args):
 
         if isinstance(label, str):
@@ -1029,16 +1235,22 @@ class Idx(Expr):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(label(), returns the label attribute) over Any        ║
+# ║ Path(label(), self.args[0]) over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ label : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 01f25a65697ed5aa           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.indexed.Idx.label","kind":"property","src_hash":"1f1daedcf1d14af2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"label()","rhs":"returns the label attribute","over":{"base":"Any"},"name":"label_correct"},"guarantee":"returns the label attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"01f25a65697ed5aa"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.indexed.Idx.label","kind":"property","src_hash":"1f1daedcf1d14af2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"label()","rhs":"self.args[0]","over":{"base":"Any"},"name":"label_correct"},"guarantee":"returns self.args[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"01f25a65697ed5aa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def label(self):
         """Returns the label (Integer or integer expression) of the Idx object.
 
@@ -1060,16 +1272,22 @@ class Idx(Expr):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(lower(), returns the lower attribute) over Any        ║
+# ║ Path(lower(), self.args[1][0]) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[1][0]                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ lower : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 859b225bbe180c64           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.indexed.Idx.lower","kind":"property","src_hash":"2db2da7b72c1607e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"lower()","rhs":"returns the lower attribute","over":{"base":"Any"},"name":"lower_correct"},"guarantee":"returns the lower attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"859b225bbe180c64"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.indexed.Idx.lower","kind":"property","src_hash":"2db2da7b72c1607e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"lower()","rhs":"self.args[1][0]","over":{"base":"Any"},"name":"lower_correct"},"guarantee":"returns self.args[1][0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"859b225bbe180c64","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[1][0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"],"catches":["IndexError"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def lower(self):
         """Returns the lower bound of the ``Idx``.
 
@@ -1092,16 +1310,22 @@ class Idx(Expr):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(upper(), returns the upper attribute) over Any        ║
+# ║ Path(upper(), self.args[1][1]) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[1][1]                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ upper : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | be0d501cb4dbdee5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.indexed.Idx.upper","kind":"property","src_hash":"5ccf17491161ce65","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"upper()","rhs":"returns the upper attribute","over":{"base":"Any"},"name":"upper_correct"},"guarantee":"returns the upper attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"be0d501cb4dbdee5"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.indexed.Idx.upper","kind":"property","src_hash":"5ccf17491161ce65","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"upper()","rhs":"self.args[1][1]","over":{"base":"Any"},"name":"upper_correct"},"guarantee":"returns self.args[1][1]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"be0d501cb4dbdee5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[1][1]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"],"catches":["IndexError"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def upper(self):
         """Returns the upper bound of the ``Idx``.
 
@@ -1123,62 +1347,90 @@ class Idx(Expr):
             return
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_sympystr(p), internal helper behaves correctly) over Any ║
+# ║ Path(_sympystr(p), p.doprint(self.label)) over {Any | hasattr(p, 'doprint')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _sympystr : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(p, 'doprint')                          ║
+# ║   returns:  p.doprint(self.label)                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _sympystr : {Any | hasattr(p, 'doprint')} → Any            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | fa1ddeab8bccdf21           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.indexed.Idx._sympystr","kind":"method","src_hash":"4a3207b581c7f89b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sympystr(p)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_sympystr_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fa1ddeab8bccdf21"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.indexed.Idx._sympystr","kind":"method","src_hash":"4a3207b581c7f89b","in":{"base":"Any","pred":"hasattr(p, 'doprint')"},"out":{"base":"Any"},"spec":{"lhs":"_sympystr(p)","rhs":"p.doprint(self.label)","over":{"base":"Any","pred":"hasattr(p, 'doprint')"},"name":"_sympystr_correct"},"guarantee":"returns p.doprint(self.label)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fa1ddeab8bccdf21","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(p, 'doprint')"],"returns_expr":"p.doprint(self.label)","pure":false,"effects":{"effect_type":"reads_state","reads":["p.doprint","self.label"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _sympystr(self, p):
         return p.doprint(self.label)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(name(), returns the name attribute) over Any          ║
+# ║ Path(name(), self.label.name if self.label.is_Symbol else str(self.label)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.label.name if self.label.is_Symbol e...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ name : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d9a09e4335e311ad           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.indexed.Idx.name","kind":"property","src_hash":"7b3c02fe347b46fb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"name()","rhs":"returns the name attribute","over":{"base":"Any"},"name":"name_correct"},"guarantee":"returns the name attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d9a09e4335e311ad"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.indexed.Idx.name","kind":"property","src_hash":"7b3c02fe347b46fb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"name()","rhs":"self.label.name if self.label.is_Symbol else str(self.label)","over":{"base":"Any"},"name":"name_correct"},"guarantee":"returns self.label.name if self.label.is_Symbol else str(self.label)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d9a09e4335e311ad","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.label.name if self.label.is_Symbol else str(self.label)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.label"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def name(self):
         return self.label.name if self.label.is_Symbol else str(self.label)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(free_symbols(), returns the free_symbols attribute) over Any ║
+# ║ Path(free_symbols(), {self}) over Any                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  {self}                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ free_symbols : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | fb3065814143b369           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.indexed.Idx.free_symbols","kind":"property","src_hash":"c9df35f53a9c7ab2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"free_symbols()","rhs":"returns the free_symbols attribute","over":{"base":"Any"},"name":"free_symbols_correct"},"guarantee":"returns the free_symbols attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fb3065814143b369"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.indexed.Idx.free_symbols","kind":"property","src_hash":"c9df35f53a9c7ab2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"free_symbols()","rhs":"{self}","over":{"base":"Any"},"name":"free_symbols_correct"},"guarantee":"returns {self}","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fb3065814143b369","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"{self}","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def free_symbols(self):
         return {self}
 
 
 @dispatch(Idx, Idx)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_ge(lhs), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_ge(lhs, rhs), <unspecified:_eval_is_ge>) over {Any | hasattr(rhs, 'upper') and hasattr(rhs, 'lower') and hasattr(lhs, 'lower') and hasattr(lhs, 'upper')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_is_ge : Any → Any                                    ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(rhs, 'upper')                          ║
+# ║   requires: hasattr(rhs, 'lower')                          ║
+# ║   requires: hasattr(lhs, 'lower')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_is_ge : {Any | hasattr(rhs, 'upper') and hasatt...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d74a8fab70e2afa4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.indexed._eval_is_ge","kind":"function","src_hash":"11c4a55e9f0b6b85","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_ge(lhs)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_ge_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.indexed._eval_is_ge_correct","statement":"Path(_eval_is_ge(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d74a8fab70e2afa4"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.indexed._eval_is_ge","kind":"function","src_hash":"11c4a55e9f0b6b85","in":{"base":"Any","pred":"hasattr(rhs, 'upper') and hasattr(rhs, 'lower') and hasattr(lhs, 'lower') and hasattr(lhs, 'upper')"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_ge(lhs, rhs)","rhs":"<unspecified:_eval_is_ge>","over":{"base":"Any","pred":"hasattr(rhs, 'upper') and hasattr(rhs, 'lower') and hasattr(lhs, 'lower') and hasattr(lhs, 'upper')"},"name":"_eval_is_ge_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.indexed._eval_is_ge_correct","statement":"Path(_eval_is_ge(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d74a8fab70e2afa4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(rhs, 'upper')","hasattr(rhs, 'lower')","hasattr(lhs, 'lower')","hasattr(lhs, 'upper')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["lhs.lower","lhs.upper","rhs.lower","rhs.upper"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _eval_is_ge(lhs, rhs): # noqa:F811
 
     other_upper = rhs if rhs.upper is None else rhs.upper
@@ -1193,16 +1445,24 @@ def _eval_is_ge(lhs, rhs): # noqa:F811
 
 @dispatch(Idx, Number)  # type:ignore
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_ge(lhs), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_ge(lhs, rhs), <unspecified:_eval_is_ge>) over {Any | hasattr(lhs, 'lower') and hasattr(lhs, 'upper')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_is_ge : Any → Any                                    ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(lhs, 'lower')                          ║
+# ║   requires: hasattr(lhs, 'upper')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_is_ge : {Any | hasattr(lhs, 'lower') and hasatt...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 32e6c733e0d05d5b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.indexed._eval_is_ge","kind":"function","src_hash":"cb6e7ab8ceb8e78b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_ge(lhs)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_ge_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.indexed._eval_is_ge_correct","statement":"Path(_eval_is_ge(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"32e6c733e0d05d5b"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.indexed._eval_is_ge","kind":"function","src_hash":"cb6e7ab8ceb8e78b","in":{"base":"Any","pred":"hasattr(lhs, 'lower') and hasattr(lhs, 'upper')"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_ge(lhs, rhs)","rhs":"<unspecified:_eval_is_ge>","over":{"base":"Any","pred":"hasattr(lhs, 'lower') and hasattr(lhs, 'upper')"},"name":"_eval_is_ge_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.indexed._eval_is_ge_correct","statement":"Path(_eval_is_ge(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"32e6c733e0d05d5b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(lhs, 'lower')","hasattr(lhs, 'upper')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["lhs.lower","lhs.upper"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _eval_is_ge(lhs, rhs): # noqa:F811
 
     other_upper = rhs
@@ -1217,16 +1477,24 @@ def _eval_is_ge(lhs, rhs): # noqa:F811
 
 @dispatch(Number, Idx)  # type:ignore
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_ge(lhs), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_ge(lhs, rhs), <unspecified:_eval_is_ge>) over {Any | hasattr(rhs, 'upper') and hasattr(rhs, 'lower')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_is_ge : Any → Any                                    ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(rhs, 'upper')                          ║
+# ║   requires: hasattr(rhs, 'lower')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_is_ge : {Any | hasattr(rhs, 'upper') and hasatt...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6fc03a222e5c4a04  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.indexed._eval_is_ge","kind":"function","src_hash":"4f90e8d4e5f3786f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_ge(lhs)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_ge_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.indexed._eval_is_ge_correct","statement":"Path(_eval_is_ge(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6fc03a222e5c4a04"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.indexed._eval_is_ge","kind":"function","src_hash":"4f90e8d4e5f3786f","in":{"base":"Any","pred":"hasattr(rhs, 'upper') and hasattr(rhs, 'lower')"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_ge(lhs, rhs)","rhs":"<unspecified:_eval_is_ge>","over":{"base":"Any","pred":"hasattr(rhs, 'upper') and hasattr(rhs, 'lower')"},"name":"_eval_is_ge_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.indexed._eval_is_ge_correct","statement":"Path(_eval_is_ge(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6fc03a222e5c4a04","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(rhs, 'upper')","hasattr(rhs, 'lower')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["rhs.lower","rhs.upper"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _eval_is_ge(lhs, rhs): # noqa:F811
 
     other_upper = lhs

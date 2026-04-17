@@ -45,46 +45,66 @@ import warnings
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(IntervalMathPrinter(*args), correctly constructs a IntervalMathPrinter instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ IntervalMathPrinter : Any → Any                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, PythonCodePrinter)            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ IntervalMathPrinter : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8002a0713fef2243  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.IntervalMathPrinter","kind":"class","src_hash":"be830b09e80a975a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"IntervalMathPrinter(*args)","rhs":"correctly constructs a IntervalMathPrinter instance","over":{"base":"Any"},"name":"IntervalMathPrinter_class_invariant"},"guarantee":"correctly constructs a IntervalMathPrinter instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8002a0713fef2243"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.IntervalMathPrinter","kind":"class","src_hash":"be830b09e80a975a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, PythonCodePrinter)"},"spec":{"lhs":"IntervalMathPrinter(*args)","rhs":"correctly constructs a IntervalMathPrinter instance","over":{"base":"Any"},"name":"IntervalMathPrinter_class_invariant"},"guarantee":"isinstance(self, PythonCodePrinter)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8002a0713fef2243","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, PythonCodePrinter)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function IntervalMathPrinter not found in source"]}}
 class IntervalMathPrinter(PythonCodePrinter):
     """A printer to be used inside `plot_implicit` when `adaptive=True`,
     in which case the interval arithmetic module is going to be used, which
     requires the following edits.
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_And(exp), id) over Any                         ║
+# ║ Path(_print_And(expr), id) over {Any | hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_And : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   returns:  ' & '.join((self.parenthesize(a, PREC) fo...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_And : {Any | hasattr(expr, 'args')} → Any           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | a2abd182136d94ea   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.IntervalMathPrinter._print_And","kind":"method","src_hash":"9d62dc2ba58cad88","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_And(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_And_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"join","by":"library_axiom"},{"fn":"parenthesize","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a2abd182136d94ea"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.IntervalMathPrinter._print_And","kind":"method","src_hash":"9d62dc2ba58cad88","in":{"base":"Any","pred":"hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_print_And(expr)","rhs":"' & '.join((self.parenthesize(a, PREC) for a in sorted(expr.args, key=default_sort_key)))","over":{"base":"Any","pred":"hasattr(expr, 'args')"},"name":"_print_And_correct","kind":"composition"},"guarantee":"returns ' & '.join((self.parenthesize(a, PREC) for a in sorted(expr.args, key=default_sort_key)))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"join","by":"library_axiom"},{"fn":"parenthesize","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a2abd182136d94ea","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'args')"],"returns_expr":"' & '.join((self.parenthesize(a, PREC) for a in sorted(expr.args, key=default_sort_key)))","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","self.parenthesize"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_And(self, expr):
         PREC = precedence(expr)
         return " & ".join(self.parenthesize(a, PREC)
                 for a in sorted(expr.args, key=default_sort_key))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Or(exp), id) over Any                          ║
+# ║ Path(_print_Or(expr), id) over {Any | hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Or : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   returns:  ' | '.join((self.parenthesize(a, PREC) fo...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Or : {Any | hasattr(expr, 'args')} → Any            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | c96b8537ebf53101   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.IntervalMathPrinter._print_Or","kind":"method","src_hash":"e3b5fe355409e934","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Or(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Or_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"join","by":"library_axiom"},{"fn":"parenthesize","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c96b8537ebf53101"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.IntervalMathPrinter._print_Or","kind":"method","src_hash":"e3b5fe355409e934","in":{"base":"Any","pred":"hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Or(expr)","rhs":"' | '.join((self.parenthesize(a, PREC) for a in sorted(expr.args, key=default_sort_key)))","over":{"base":"Any","pred":"hasattr(expr, 'args')"},"name":"_print_Or_correct","kind":"composition"},"guarantee":"returns ' | '.join((self.parenthesize(a, PREC) for a in sorted(expr.args, key=default_sort_key)))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"join","by":"library_axiom"},{"fn":"parenthesize","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c96b8537ebf53101","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'args')"],"returns_expr":"' | '.join((self.parenthesize(a, PREC) for a in sorted(expr.args, key=default_sort_key)))","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","self.parenthesize"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Or(self, expr):
         PREC = precedence(expr)
         return " | ".join(self.parenthesize(a, PREC)
@@ -92,16 +112,22 @@ class IntervalMathPrinter(PythonCodePrinter):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_uniform_eval(f1,), id) over Any                      ║
+# ║ Path(_uniform_eval(f1, f2, *args), id) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _uniform_eval : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 985c85c9d9185b98   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series._uniform_eval","kind":"function","src_hash":"4bc6d1a8c114a29d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_uniform_eval(f1,)","rhs":"note: this is an experimental function, as such it is prone to changes. please, do not use it in your code","over":{"base":"Any"},"name":"_uniform_eval_correct","kind":"composition"},"guarantee":"note: this is an experimental function, as such it is prone to changes. please, do not use it in your code","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"complex","by":"library_axiom"},{"fn":"func","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"985c85c9d9185b98"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series._uniform_eval","kind":"function","src_hash":"4bc6d1a8c114a29d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_uniform_eval(f1, f2, *args)","rhs":"<unspecified:_uniform_eval>","over":{"base":"Any"},"name":"_uniform_eval_correct","kind":"composition"},"guarantee":"note: this is an experimental function, as such it is prone to changes. please, do not use it in your code","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"complex","by":"library_axiom"},{"fn":"func","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"985c85c9d9185b98","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["RuntimeError"],"catches":["Exception"]},"state_contract":{"exceptional_post":{"RuntimeError":["isinstance(raised, RuntimeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['f1', 'f2'], spec=['f1', 'f2', '*args', 'modules', 'force_real_eval', 'has_sum']"]}}
 def _uniform_eval(f1, f2, *args, modules=None,
     force_real_eval=False, has_sum=False):
     """
@@ -150,7 +176,10 @@ def _uniform_eval(f1, f2, *args, modules=None,
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_adaptive_eval(f, ), evaluate f(x) with an adaptive algorithm) over {Any | isinstance(y, Expr)} ║
+# ║ Path(_adaptive_eval(f, x), <unspecified:_adaptive_eval>) over {Any | isinstance(y, Expr)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _adaptive_eval : {Any | isinstance(y, Expr)} → Any         ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -162,9 +191,12 @@ def _uniform_eval(f1, f2, *args, modules=None,
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.5ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | e01cce55...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series._adaptive_eval","kind":"function","src_hash":"84e64b9ad47462ee","in":{"base":"Any","pred":"isinstance(y, Expr)"},"out":{"base":"Any"},"spec":{"lhs":"_adaptive_eval(f, )","rhs":"evaluate f(x) with an adaptive algorithm","over":{"base":"Any","pred":"isinstance(y, Expr)"},"name":"_adaptive_eval_correct"},"guarantee":"evaluate f(x) with an adaptive algorithm","fibers":[{"name":"Expr","pred":"isinstance(y, Expr)","path":{"lhs":"_adaptive_eval(x)","rhs":"evaluate f(x) with an adaptive algorithm","over":{"base":"Expr","pred":"isinstance(y, Expr)"},"name":"_adaptive_eval_Expr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series._adaptive_eval_Expr_correct","statement":"_adaptive_eval satisfies spec on Expr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"e01cce558cf211fe"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series._adaptive_eval","kind":"function","src_hash":"84e64b9ad47462ee","in":{"base":"Any","pred":"isinstance(y, Expr)"},"out":{"base":"Any"},"spec":{"lhs":"_adaptive_eval(f, x)","rhs":"<unspecified:_adaptive_eval>","over":{"base":"Any","pred":"isinstance(y, Expr)"},"name":"_adaptive_eval_correct"},"guarantee":"evaluate f(x) with an adaptive algorithm","fibers":[{"name":"Expr","pred":"isinstance(y, Expr)","path":{"lhs":"_adaptive_eval(x)","rhs":"evaluate f(x) with an adaptive algorithm","over":{"base":"Expr","pred":"isinstance(y, Expr)"},"name":"_adaptive_eval_Expr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series._adaptive_eval_Expr_correct","statement":"_adaptive_eval satisfies spec on Expr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"e01cce558cf211fe","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.5,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(y, Expr) and (not y.is_Number)', 'y.imag > 1e-08'}, fibers={'Expr'})"]}}
 def _adaptive_eval(f, x):
     """Evaluate f(x) with an adaptive algorithm. Post-process the result.
     If a symbolic expression is evaluated with SymPy, it might returns
@@ -188,16 +220,22 @@ def _adaptive_eval(f, x):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_wrapper_for_expr(ret), internal helper behaves correctly) over Any ║
+# ║ Path(_get_wrapper_for_expr(ret), <unspecified:_get_wrapper_for_expr>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_wrapper_for_expr : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fc1494c44429a3e5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series._get_wrapper_for_expr","kind":"function","src_hash":"7d8ba8a077b7bf35","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_wrapper_for_expr(ret)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_wrapper_for_expr_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series._get_wrapper_for_expr_correct","statement":"Path(_get_wrapper_for_expr(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fc1494c44429a3e5"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series._get_wrapper_for_expr","kind":"function","src_hash":"7d8ba8a077b7bf35","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_wrapper_for_expr(ret)","rhs":"<unspecified:_get_wrapper_for_expr>","over":{"base":"Any"},"name":"_get_wrapper_for_expr_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series._get_wrapper_for_expr_correct","statement":"Path(_get_wrapper_for_expr(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fc1494c44429a3e5","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _get_wrapper_for_expr(ret):
     wrapper = "%s"
     if ret == "real":
@@ -214,14 +252,19 @@ def _get_wrapper_for_expr(ret):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a BaseSeries instance) preserved by BaseSeries(*args) over {Any | isinstance(self.color_func, Expr) and isinstance(v, str) and isinstance(kwargs, dict)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ BaseSeries : {Any | isinstance(self.color_func, Expr)...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 4.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 61051f724b44077c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.BaseSeries","kind":"class","src_hash":"7553e919bc11eb8f","in":{"base":"Any","pred":"isinstance(self.color_func, Expr) and isinstance(v, str) and isinstance(kwargs, dict)"},"out":{"base":"Any"},"spec":{"lhs":"BaseSeries(*args)","rhs":"correctly constructs a BaseSeries instance","over":{"base":"Any","pred":"isinstance(self.color_func, Expr) and isinstance(v, str) and isinstance(kwargs, dict)"},"name":"BaseSeries_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a BaseSeries instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_3D","pred":"self.is_3D","kind":"class"},{"name":"is_line","pred":"self.is_line","kind":"class"},{"name":"representation","pred":"hasattr(self, 'only_integers') and hasattr(self, 'modules') and hasattr(self, 'show_in_legend') and hasattr(self, 'colorbar') and hasattr(self, 'use_cm') and hasattr(self, 'is_polar') and hasattr(self, 'is_point') and hasattr(self, '_label')","kind":"class","induction":"structural on only_integers, modules, show_in_legend, colorbar"}],"methods_preserving":["__init__","_block_lambda_functions","_check_fs","_create_lambda_func","_update_range_value","_create_discretized_domain","_create_discretized_domain_helper","_evaluate","_aggregate_args","expr","expr","is_3D","is_line","_line_surface_color","line_color","line_color","n","n","params","params","_post_init","scales","scales","surface_color","surface_color","rendering_kw","rendering_kw","eval_color_func","get_data","_get_wrapped_label","get_label","label","label","ranges","ranges","_apply_transform","_str_helper"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"61051f724b44077c"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.BaseSeries","kind":"class","src_hash":"7553e919bc11eb8f","in":{"base":"Any","pred":"isinstance(self.color_func, Expr) and isinstance(v, str) and isinstance(kwargs, dict)"},"out":{"base":"Any"},"spec":{"lhs":"BaseSeries(*args)","rhs":"correctly constructs a BaseSeries instance","over":{"base":"Any","pred":"isinstance(self.color_func, Expr) and isinstance(v, str) and isinstance(kwargs, dict)"},"name":"BaseSeries_class_invariant","kind":"invariant"},"guarantee":"preserves 27 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_3D","pred":"self.is_3D","kind":"class"},{"name":"is_line","pred":"self.is_line","kind":"class"},{"name":"representation","pred":"hasattr(self, 'only_integers') and hasattr(self, 'modules') and hasattr(self, 'show_in_legend') and hasattr(self, 'colorbar') and hasattr(self, 'use_cm') and hasattr(self, 'is_polar') and hasattr(self, 'is_point') and hasattr(self, '_label')","kind":"class","induction":"structural on only_integers, modules, show_in_legend, colorbar"}],"methods_preserving":["__init__","_block_lambda_functions","_check_fs","_create_lambda_func","_update_range_value","_create_discretized_domain","_create_discretized_domain_helper","_evaluate","_aggregate_args","expr","expr","is_3D","is_line","_line_surface_color","line_color","line_color","n","n","params","params","_post_init","scales","scales","surface_color","surface_color","rendering_kw","rendering_kw","eval_color_func","get_data","_get_wrapped_label","get_label","label","label","ranges","ranges","_apply_transform","_str_helper"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"61051f724b44077c","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, 'only_integers')","hasattr(self, 'modules')","hasattr(self, 'show_in_legend')","hasattr(self, 'colorbar')","hasattr(self, 'use_cm')","hasattr(self, 'is_polar')","hasattr(self, 'is_point')","hasattr(self, '_label')","hasattr(self, '_latex_label')","hasattr(self, '_ranges')","hasattr(self, '_n')","hasattr(self, '_scales')","hasattr(self, '_params')","hasattr(self, 'rendering_kw')","hasattr(self, '_tx')","hasattr(self, '_ty')","hasattr(self, '_tz')","hasattr(self, '_tp')","hasattr(self, '_functions')","hasattr(self, '_signature')","hasattr(self, '_force_real_eval')","hasattr(self, '_discretized_domain')","hasattr(self, '_interactive_ranges')","hasattr(self, '_needs_to_be_int')","hasattr(self, 'color_func')","hasattr(self, '_eval_color_func_with_signature')","hasattr(self, 'is_interactive')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":4.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function BaseSeries not found in source"]}}
 class BaseSeries:
     """Base class for the data objects containing stuff to be plotted.
 
@@ -297,16 +340,22 @@ class BaseSeries:
     # subclass can set its number.
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(*ar), initializes the instance correctly) over Any ║
+# ║ Path(__init__(*args, **kwargs), <unspecified:__init__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __init__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8f8cf88b433ba754           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.BaseSeries.__init__","kind":"method","src_hash":"fa34f21002a8c33f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(*ar)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8f8cf88b433ba754"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.BaseSeries.__init__","kind":"method","src_hash":"fa34f21002a8c33f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(*args, **kwargs)","rhs":"<unspecified:__init__>","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8f8cf88b433ba754","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._N","self._params","self._tp","self._tx","self._ty","self._tz"],"writes":["self._discretized_domain","self._eval_color_func_with_signature","self._force_real_eval","self._functions","self._interactive_ranges","self._label","self._latex_label","self._n","self._needs_to_be_int","self._params","self._ranges","self._scales","self._signature","self._tp","self._tx","self._ty","self._tz","self.color_func","self.colorbar","self.is_interactive","self.is_point","self.is_polar","self.modules","self.only_integers","self.rendering_kw","self.show_in_legend","self.use_cm"],"raises":["TypeError"]},"state_contract":{"modifies":["self._discretized_domain","self._eval_color_func_with_signature","self._force_real_eval","self._functions","self._interactive_ranges","self._label","self._latex_label","self._n","self._needs_to_be_int","self._params","self._ranges","self._scales","self._signature","self._tp","self._tx","self._ty","self._tz","self.color_func","self.colorbar","self.is_interactive","self.is_point","self.is_polar","self.modules","self.only_integers","self.rendering_kw","self.show_in_legend","self.use_cm"],"old_bindings":{"old_self__discretized_domain":"self._discretized_domain","old_self__eval_color_func_with_signature":"self._eval_color_func_with_signature","old_self__force_real_eval":"self._force_real_eval","old_self__functions":"self._functions","old_self__interactive_ranges":"self._interactive_ranges","old_self__label":"self._label","old_self__latex_label":"self._latex_label","old_self__n":"self._n","old_self__needs_to_be_int":"self._needs_to_be_int","old_self__params":"self._params","old_self__ranges":"self._ranges","old_self__scales":"self._scales","old_self__signature":"self._signature","old_self__tp":"self._tp","old_self__tx":"self._tx","old_self__ty":"self._ty","old_self__tz":"self._tz","old_self_color_func":"self.color_func","old_self_colorbar":"self.colorbar","old_self_is_interactive":"self.is_interactive","old_self_is_point":"self.is_point","old_self_is_polar":"self.is_polar","old_self_modules":"self.modules","old_self_only_integers":"self.only_integers","old_self_rendering_kw":"self.rendering_kw","old_self_show_in_legend":"self.show_in_legend","old_self_use_cm":"self.use_cm"},"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, *args, **kwargs):
         kwargs = _set_discretization_points(kwargs.copy(), type(self))
         # discretize the domain using only integer numbers
@@ -402,16 +451,23 @@ class BaseSeries:
         self._eval_color_func_with_signature = False
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_block_lambda_functions(*ex), some data series can be used to plot numerical functions, others cannot) over Any ║
+# ║ Path(_block_lambda_functions(*exprs), <unspecified:_block_lambda_functions>) over {Any | not (any((callable(e) for e in exprs)))} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _block_lambda_functions : Any → Any                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (any((callable(e) for e in exprs)))        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _block_lambda_functions : {Any | not (any((callable(e...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d63f25e81ad5f9e4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.BaseSeries._block_lambda_functions","kind":"method","src_hash":"cc8d2afed91cfd67","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_block_lambda_functions(*ex)","rhs":"some data series can be used to plot numerical functions, others cannot","over":{"base":"Any"},"name":"_block_lambda_functions_correct"},"guarantee":"some data series can be used to plot numerical functions, others cannot","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.BaseSeries._block_lambda_functions_correct","statement":"Path(_block_lambda_functions(x), some data series can be used to plot numerical functions, others cannot)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d63f25e81ad5f9e4"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.BaseSeries._block_lambda_functions","kind":"method","src_hash":"cc8d2afed91cfd67","in":{"base":"Any","pred":"not (any((callable(e) for e in exprs)))"},"out":{"base":"Any"},"spec":{"lhs":"_block_lambda_functions(*exprs)","rhs":"<unspecified:_block_lambda_functions>","over":{"base":"Any","pred":"not (any((callable(e) for e in exprs)))"},"name":"_block_lambda_functions_correct"},"guarantee":"some data series can be used to plot numerical functions, others cannot","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.BaseSeries._block_lambda_functions_correct","statement":"Path(_block_lambda_functions(x), some data series can be used to plot numerical functions, others cannot)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d63f25e81ad5f9e4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (any((callable(e) for e in exprs)))"],"pure":false,"effects":{"effect_type":"reads_state","raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _block_lambda_functions(self, *exprs):
         """Some data series can be used to plot numerical functions, others
         cannot. Execute this method inside the `__init__` to prevent the
@@ -422,16 +478,22 @@ class BaseSeries:
                 "expression.")
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_check_fs(), checks if there are enough parameters and free symbols) over Any ║
+# ║ Path(_check_fs(), <unspecified:_check_fs>) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _check_fs : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 55c5605ec47c6482  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.BaseSeries._check_fs","kind":"method","src_hash":"30edb7ae1f21595b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_check_fs()","rhs":"checks if there are enough parameters and free symbols","over":{"base":"Any"},"name":"_check_fs_correct"},"guarantee":"checks if there are enough parameters and free symbols","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.BaseSeries._check_fs_correct","statement":"Path(_check_fs(x), checks if there are enough parameters and free symbols)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"55c5605ec47c6482"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.BaseSeries._check_fs","kind":"method","src_hash":"30edb7ae1f21595b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_check_fs()","rhs":"<unspecified:_check_fs>","over":{"base":"Any"},"name":"_check_fs_correct"},"guarantee":"checks if there are enough parameters and free symbols","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.BaseSeries._check_fs_correct","statement":"Path(_check_fs(x), checks if there are enough parameters and free symbols)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"55c5605ec47c6482","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self.expr","self.label","self.params","self.ranges"],"writes":["self._interactive_ranges"],"raises":["ValueError"]},"state_contract":{"modifies":["self._interactive_ranges"],"old_bindings":{"old_self__interactive_ranges":"self._interactive_ranges"},"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _check_fs(self):
         """ Checks if there are enough parameters and free symbols.
         """
@@ -480,16 +542,22 @@ class BaseSeries:
                     "Are the following parameters? %s" % remaining_fs)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_create_lambda_func(), create the lambda functions to be used by the uniform meshing strategy) over Any ║
+# ║ Path(_create_lambda_func(), len(self) == old_len_self + 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _create_lambda_func : Any → Any                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(self) == old_len_self + 1                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _create_lambda_func : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4a264344b6ed1df7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6e7b563c1e7f8367  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.BaseSeries._create_lambda_func","kind":"method","src_hash":"5c864a8289399846","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_create_lambda_func()","rhs":"create the lambda functions to be used by the uniform meshing strategy","over":{"base":"Any"},"name":"_create_lambda_func_correct"},"guarantee":"create the lambda functions to be used by the uniform meshing strategy","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.BaseSeries._create_lambda_func_correct","statement":"Path(_create_lambda_func(x), create the lambda functions to be used by the uniform meshing strategy)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4a264344b6ed1df7"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.BaseSeries._create_lambda_func","kind":"method","src_hash":"5c864a8289399846","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(self) == old_len_self + 1"},"spec":{"lhs":"_create_lambda_func()","rhs":"len(self) == old_len_self + 1","over":{"base":"Any"},"name":"_create_lambda_func_correct"},"guarantee":"len(self) == old_len_self + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.BaseSeries._create_lambda_func_correct","statement":"Path(_create_lambda_func(x), len(self) == old_len_self + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6e7b563c1e7f8367","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(self) == old_len_self + 1"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self._functions","self._signature","self.color_func","self.expr","self.modules","self.ranges"],"writes":["self._eval_color_func_with_signature","self._functions","self._signature","self.color_func"],"calls_mutating":["self._functions.append"]},"state_contract":{"modifies":["self.*","self._eval_color_func_with_signature","self._functions","self._signature","self.color_func"],"old_bindings":{"old_self__eval_color_func_with_signature":"self._eval_color_func_with_signature","old_self__functions":"self._functions","old_self__signature":"self._signature","old_self_color_func":"self.color_func","old_len_self":"len(self)"},"post_ensures":["len(self) == old_len_self + 1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _create_lambda_func(self):
         """Create the lambda functions to be used by the uniform meshing
         strategy.
@@ -537,16 +605,23 @@ class BaseSeries:
             self._eval_color_func_with_signature = True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_update_range_value(t), if the value of a plotting range is a symbolic expression, substitute the parameters in order to get a numerical value) over Any ║
+# ║ Path(_update_range_value(t), <unspecified:_update_range_value>) over {Any | hasattr(t, 'subs')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _update_range_value : Any → Any                            ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(t, 'subs')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _update_range_value : {Any | hasattr(t, 'subs')} → Any     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d407aca024d17ee3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.BaseSeries._update_range_value","kind":"method","src_hash":"372a7cb3c61d41e7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_update_range_value(t)","rhs":"if the value of a plotting range is a symbolic expression, substitute the parameters in order to get a numerical value","over":{"base":"Any"},"name":"_update_range_value_correct"},"guarantee":"if the value of a plotting range is a symbolic expression, substitute the parameters in order to get a numerical value","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.BaseSeries._update_range_value_correct","statement":"Path(_update_range_value(x), if the value of a plotting range is a symbolic expression, substitute the parameters in order to get a numerical value)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d407aca024d17ee3"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.BaseSeries._update_range_value","kind":"method","src_hash":"372a7cb3c61d41e7","in":{"base":"Any","pred":"hasattr(t, 'subs')"},"out":{"base":"Any"},"spec":{"lhs":"_update_range_value(t)","rhs":"<unspecified:_update_range_value>","over":{"base":"Any","pred":"hasattr(t, 'subs')"},"name":"_update_range_value_correct"},"guarantee":"if the value of a plotting range is a symbolic expression, substitute the parameters in order to get a numerical value","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.BaseSeries._update_range_value_correct","statement":"Path(_update_range_value(x), if the value of a plotting range is a symbolic expression, substitute the parameters in order to get a numerical value)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d407aca024d17ee3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(t, 'subs')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._interactive_ranges","self.params","t.subs"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _update_range_value(self, t):
         """If the value of a plotting range is a symbolic expression,
         substitute the parameters in order to get a numerical value.
@@ -556,16 +631,22 @@ class BaseSeries:
         return complex(t.subs(self.params))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_create_discretized_domain(), discretize the ranges for uniform meshing strategy) over Any ║
+# ║ Path(_create_discretized_domain(), <unspecified:_create_discretized_domain>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _create_discretized_domain : Any → Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ca4c3d52bf4c10e8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.BaseSeries._create_discretized_domain","kind":"method","src_hash":"9d9728d698753bc3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_create_discretized_domain()","rhs":"discretize the ranges for uniform meshing strategy","over":{"base":"Any"},"name":"_create_discretized_domain_correct"},"guarantee":"discretize the ranges for uniform meshing strategy","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.BaseSeries._create_discretized_domain_correct","statement":"Path(_create_discretized_domain(x), discretize the ranges for uniform meshing strategy)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ca4c3d52bf4c10e8"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.BaseSeries._create_discretized_domain","kind":"method","src_hash":"9d9728d698753bc3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_create_discretized_domain()","rhs":"<unspecified:_create_discretized_domain>","over":{"base":"Any"},"name":"_create_discretized_domain_correct"},"guarantee":"discretize the ranges for uniform meshing strategy","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.BaseSeries._create_discretized_domain_correct","statement":"Path(_create_discretized_domain(x), discretize the ranges for uniform meshing strategy)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ca4c3d52bf4c10e8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _create_discretized_domain(self):
         """Discretize the ranges for uniform meshing strategy.
         """
@@ -600,16 +681,22 @@ class BaseSeries:
         self._create_discretized_domain_helper(discr_symbols, discretizations)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_create_discretized_domain_helper(dis), create 2d or 3d discretized grids) over Any ║
+# ║ Path(_create_discretized_domain_helper(discr_symbols, discretizations), <unspecified:_create_discretized_domain_helper>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _create_discretized_domain_helper : Any → Any              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f9d59ab5fecd134a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.BaseSeries._create_discretized_domain_helper","kind":"method","src_hash":"750ac71d5617cfc7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_create_discretized_domain_helper(dis)","rhs":"create 2d or 3d discretized grids","over":{"base":"Any"},"name":"_create_discretized_domain_helper_correct"},"guarantee":"create 2d or 3d discretized grids","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.BaseSeries._create_discretized_domain_helper_correct","statement":"Path(_create_discretized_domain_helper(x), create 2d or 3d discretized grids)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f9d59ab5fecd134a"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.BaseSeries._create_discretized_domain_helper","kind":"method","src_hash":"750ac71d5617cfc7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_create_discretized_domain_helper(discr_symbols, discretizations)","rhs":"<unspecified:_create_discretized_domain_helper>","over":{"base":"Any"},"name":"_create_discretized_domain_helper_correct"},"guarantee":"create 2d or 3d discretized grids","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.BaseSeries._create_discretized_domain_helper_correct","statement":"Path(_create_discretized_domain_helper(x), create 2d or 3d discretized grids)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f9d59ab5fecd134a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self.is_3Dsurface","self.is_3Dvector","self.is_implicit"],"writes":["self._discretized_domain"]},"state_contract":{"modifies":["self._discretized_domain"],"old_bindings":{"old_self__discretized_domain":"self._discretized_domain"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _create_discretized_domain_helper(self, discr_symbols, discretizations):
         """Create 2D or 3D discretized grids.
 
@@ -634,16 +721,22 @@ class BaseSeries:
         self._discretized_domain = dict(zip(discr_symbols, meshes))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_evaluate(cas), evaluation of the symbolic expression (or expressions) with the uniform meshing strategy, based on current values of the parameters) over Any ║
+# ║ Path(_evaluate(cast_to_real), [*discr, *results]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [*discr, *results]                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _evaluate : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 51dea5d8c72fcb93  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eb99b4f221e4ef4b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.BaseSeries._evaluate","kind":"method","src_hash":"25fb8dde3d8d3294","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_evaluate(cas)","rhs":"evaluation of the symbolic expression (or expressions) with the uniform meshing strategy, based on current values of the parameters","over":{"base":"Any"},"name":"_evaluate_correct"},"guarantee":"evaluation of the symbolic expression (or expressions) with the uniform meshing strategy, based on current values of the parameters","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.BaseSeries._evaluate_correct","statement":"Path(_evaluate(x), evaluation of the symbolic expression (or expressions) with the uniform meshing strategy, based on current values of the parameters)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"51dea5d8c72fcb93"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.BaseSeries._evaluate","kind":"method","src_hash":"25fb8dde3d8d3294","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_evaluate(cast_to_real)","rhs":"[*discr, *results]","over":{"base":"Any"},"name":"_evaluate_correct"},"guarantee":"returns [*discr, *results]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.BaseSeries._evaluate_correct","statement":"Path(_evaluate(x), returns [*discr, *results])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eb99b4f221e4ef4b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[*discr, *results]","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _evaluate(self, cast_to_real=True):
         """Evaluation of the symbolic expression (or expressions) with the
         uniform meshing strategy, based on current values of the parameters.
@@ -677,16 +770,22 @@ class BaseSeries:
         return [*discr, *results]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_aggregate_args(), create a list of arguments to be passed to the lambda function, sorted according to self._signature) over Any ║
+# ║ Path(_aggregate_args(), <unspecified:_aggregate_args>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _aggregate_args : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 40e113776669a3df  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.BaseSeries._aggregate_args","kind":"method","src_hash":"c1dd03fc5343a649","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_aggregate_args()","rhs":"create a list of arguments to be passed to the lambda function, sorted according to self._signature","over":{"base":"Any"},"name":"_aggregate_args_correct"},"guarantee":"create a list of arguments to be passed to the lambda function, sorted according to self._signature","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.BaseSeries._aggregate_args_correct","statement":"Path(_aggregate_args(x), create a list of arguments to be passed to the lambda function, sorted according to self._signature)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"40e113776669a3df"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.BaseSeries._aggregate_args","kind":"method","src_hash":"c1dd03fc5343a649","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_aggregate_args()","rhs":"<unspecified:_aggregate_args>","over":{"base":"Any"},"name":"_aggregate_args_correct"},"guarantee":"create a list of arguments to be passed to the lambda function, sorted according to self._signature","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.BaseSeries._aggregate_args_correct","statement":"Path(_aggregate_args(x), create a list of arguments to be passed to the lambda function, sorted according to self._signature)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"40e113776669a3df","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _aggregate_args(self):
         """Create a list of arguments to be passed to the lambda function,
         sorted according to self._signature.
@@ -704,32 +803,45 @@ class BaseSeries:
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(expr(), returns the expr attribute) over Any          ║
+# ║ Path(expr(), self._expr) over Any                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._expr                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ expr : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 14d0c4ab4ecdebfe           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.BaseSeries.expr","kind":"property","src_hash":"7002c777b60ba325","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"expr()","rhs":"returns the expr attribute","over":{"base":"Any"},"name":"expr_correct"},"guarantee":"returns the expr attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"14d0c4ab4ecdebfe"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.BaseSeries.expr","kind":"property","src_hash":"7002c777b60ba325","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"expr()","rhs":"self._expr","over":{"base":"Any"},"name":"expr_correct"},"guarantee":"returns self._expr","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"14d0c4ab4ecdebfe","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._expr","pure":false,"effects":{"effect_type":"reads_state","reads":["self._expr"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def expr(self):
         """Return the expression (or expressions) of the series."""
         return self._expr
 
     @expr.setter
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(expr(e), set the expression (or expressions) of the series) over Any ║
+# ║ Path(expr(e), <unspecified:expr>) over {Any | hasattr(e, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ expr : Any → Any                                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(e, 'args')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ expr : {Any | hasattr(e, 'args')} → Any                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 82082094b060edba  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.BaseSeries.expr","kind":"method","src_hash":"5482ee5bdf538741","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"expr(e)","rhs":"set the expression (or expressions) of the series","over":{"base":"Any"},"name":"expr_correct"},"guarantee":"set the expression (or expressions) of the series","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.BaseSeries.expr_correct","statement":"Path(expr(x), set the expression (or expressions) of the series)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"82082094b060edba"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.BaseSeries.expr","kind":"method","src_hash":"5482ee5bdf538741","in":{"base":"Any","pred":"hasattr(e, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"expr(e)","rhs":"<unspecified:expr>","over":{"base":"Any","pred":"hasattr(e, 'args')"},"name":"expr_correct"},"guarantee":"set the expression (or expressions) of the series","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.BaseSeries.expr_correct","statement":"Path(expr(x), set the expression (or expressions) of the series)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"82082094b060edba","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(e, 'args')"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["e.args","self._create_lambda_func","self._expr","self._force_real_eval","self._functions","self.modules"],"writes":["self._expr","self._force_real_eval","self._needs_to_be_int"],"calls_mutating":["s.add"]},"state_contract":{"modifies":["s.*","self._expr","self._force_real_eval","self._needs_to_be_int"],"old_bindings":{"old_self__expr":"self._expr","old_self__force_real_eval":"self._force_real_eval","old_self__needs_to_be_int":"self._needs_to_be_int"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def expr(self, e):
         """Set the expression (or expressions) of the series."""
         is_iter = hasattr(e, "__iter__")
@@ -769,47 +881,65 @@ class BaseSeries:
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_3D(), returns the is_3D attribute) over Any        ║
+# ║ Path(is_3D(), any(flags3D)) over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  any(flags3D)                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_3D : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 709432facaeef762           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.BaseSeries.is_3D","kind":"property","src_hash":"f7d1bc3f0a7d5ff6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_3D()","rhs":"returns the is_3D attribute","over":{"base":"Any"},"name":"is_3D_correct"},"guarantee":"returns the is_3D attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"709432facaeef762"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.BaseSeries.is_3D","kind":"property","src_hash":"f7d1bc3f0a7d5ff6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_3D()","rhs":"any(flags3D)","over":{"base":"Any"},"name":"is_3D_correct"},"guarantee":"returns any(flags3D)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"709432facaeef762","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"any(flags3D)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.is_3Dline","self.is_3Dsurface","self.is_3Dvector"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_3D(self):
         flags3D = [self.is_3Dline, self.is_3Dsurface, self.is_3Dvector]
         return any(flags3D)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_line(), returns the is_line attribute) over Any    ║
+# ║ Path(is_line(), any(flagslines)) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  any(flagslines)                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_line : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 566fe2881273bf60           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.BaseSeries.is_line","kind":"property","src_hash":"554f2bc8d36b9747","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_line()","rhs":"returns the is_line attribute","over":{"base":"Any"},"name":"is_line_correct"},"guarantee":"returns the is_line attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"566fe2881273bf60"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.BaseSeries.is_line","kind":"property","src_hash":"554f2bc8d36b9747","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_line()","rhs":"any(flagslines)","over":{"base":"Any"},"name":"is_line_correct"},"guarantee":"returns any(flagslines)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"566fe2881273bf60","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"any(flagslines)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.is_2Dline","self.is_3Dline"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_line(self):
         flagslines = [self.is_2Dline, self.is_3Dline]
         return any(flagslines)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_line_surface_color(pro), this method enables back-compatibility with old sympy.plotting) over Any ║
+# ║ Path(_line_surface_color(prop, val), <unspecified:_line_surface_color>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _line_surface_color : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0e6c6a399536022e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.BaseSeries._line_surface_color","kind":"method","src_hash":"6d7b579683a329d6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_line_surface_color(pro)","rhs":"this method enables back-compatibility with old sympy.plotting","over":{"base":"Any"},"name":"_line_surface_color_correct"},"guarantee":"this method enables back-compatibility with old sympy.plotting","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.BaseSeries._line_surface_color_correct","statement":"Path(_line_surface_color(x), this method enables back-compatibility with old sympy.plotting)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0e6c6a399536022e"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.BaseSeries._line_surface_color","kind":"method","src_hash":"6d7b579683a329d6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_line_surface_color(prop, val)","rhs":"<unspecified:_line_surface_color>","over":{"base":"Any"},"name":"_line_surface_color_correct"},"guarantee":"this method enables back-compatibility with old sympy.plotting","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.BaseSeries._line_surface_color_correct","statement":"Path(_line_surface_color(x), this method enables back-compatibility with old sympy.plotting)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0e6c6a399536022e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","writes":["self.color_func"]},"state_contract":{"modifies":["self.color_func"],"old_bindings":{"old_self_color_func":"self.color_func"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _line_surface_color(self, prop, val):
         """This method enables back-compatibility with old sympy.plotting"""
         # NOTE: color_func is set inside the init method of the series.
@@ -824,46 +954,64 @@ class BaseSeries:
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(line_color(), returns the line_color attribute) over Any ║
+# ║ Path(line_color(), self._line_color) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._line_color                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ line_color : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f25a9f1e34d3dc24           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.BaseSeries.line_color","kind":"property","src_hash":"05ea790980034cdf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"line_color()","rhs":"returns the line_color attribute","over":{"base":"Any"},"name":"line_color_correct"},"guarantee":"returns the line_color attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f25a9f1e34d3dc24"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.BaseSeries.line_color","kind":"property","src_hash":"05ea790980034cdf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"line_color()","rhs":"self._line_color","over":{"base":"Any"},"name":"line_color_correct"},"guarantee":"returns self._line_color","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f25a9f1e34d3dc24","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._line_color","pure":false,"effects":{"effect_type":"reads_state","reads":["self._line_color"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def line_color(self):
         return self._line_color
 
     @line_color.setter
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(line_color(val), line_color produces the expected output) over Any ║
+# ║ Path(line_color(val), <unspecified:line_color>) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ line_color : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9f7465010652e915  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.BaseSeries.line_color","kind":"method","src_hash":"c54fad72a3f2edb7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"line_color(val)","rhs":"line_color produces the expected output","over":{"base":"Any"},"name":"line_color_correct"},"guarantee":"line_color produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.BaseSeries.line_color_correct","statement":"Path(line_color(x), line_color produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9f7465010652e915"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.BaseSeries.line_color","kind":"method","src_hash":"c54fad72a3f2edb7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"line_color(val)","rhs":"<unspecified:line_color>","over":{"base":"Any"},"name":"line_color_correct"},"guarantee":"line_color produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.BaseSeries.line_color_correct","statement":"Path(line_color(x), line_color produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9f7465010652e915","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._line_surface_color"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def line_color(self, val):
         self._line_surface_color("_line_color", val)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(n(), returns the n attribute) over Any                ║
+# ║ Path(n(), self._n) over Any                                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._n                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ n : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 83c3359dcea9bd99           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.BaseSeries.n","kind":"property","src_hash":"403cda8477d97943","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"n()","rhs":"returns the n attribute","over":{"base":"Any"},"name":"n_correct"},"guarantee":"returns the n attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"83c3359dcea9bd99"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.BaseSeries.n","kind":"property","src_hash":"403cda8477d97943","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"n()","rhs":"self._n","over":{"base":"Any"},"name":"n_correct"},"guarantee":"returns self._n","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"83c3359dcea9bd99","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._n","pure":false,"effects":{"effect_type":"reads_state","reads":["self._n"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def n(self):
         """Returns a list [n1, n2, n3] of numbers of discratization points.
         """
@@ -871,16 +1019,22 @@ class BaseSeries:
 
     @n.setter
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(n(v), set the numbers of discretization points) over Any ║
+# ║ Path(n(v), <unspecified:n>) over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ n : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 46962f08ce1c778c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.BaseSeries.n","kind":"method","src_hash":"b71c54f88f83e93e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"n(v)","rhs":"set the numbers of discretization points","over":{"base":"Any"},"name":"n_correct"},"guarantee":"set the numbers of discretization points","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.BaseSeries.n_correct","statement":"Path(n(x), set the numbers of discretization points)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"46962f08ce1c778c"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.BaseSeries.n","kind":"method","src_hash":"b71c54f88f83e93e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"n(v)","rhs":"<unspecified:n>","over":{"base":"Any"},"name":"n_correct"},"guarantee":"set the numbers of discretization points","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.BaseSeries.n_correct","statement":"Path(n(x), set the numbers of discretization points)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"46962f08ce1c778c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._create_discretized_domain","self._discretized_domain","self._n"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def n(self, v):
         """Set the numbers of discretization points. ``v`` must be an int or
         a list.
@@ -908,16 +1062,22 @@ class BaseSeries:
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(params(), returns the params attribute) over Any      ║
+# ║ Path(params(), self._params) over Any                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._params                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ params : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1d21051f7dd76043           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.BaseSeries.params","kind":"property","src_hash":"f39b1e6d9882bb21","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"params()","rhs":"returns the params attribute","over":{"base":"Any"},"name":"params_correct"},"guarantee":"returns the params attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1d21051f7dd76043"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.BaseSeries.params","kind":"property","src_hash":"f39b1e6d9882bb21","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"params()","rhs":"self._params","over":{"base":"Any"},"name":"params_correct"},"guarantee":"returns self._params","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1d21051f7dd76043","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._params","pure":false,"effects":{"effect_type":"reads_state","reads":["self._params"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def params(self):
         """Get or set the current parameters dictionary.
 
@@ -933,30 +1093,43 @@ class BaseSeries:
 
     @params.setter
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(params(p), params produces the expected output) over Any ║
+# ║ Path(params(p), <unspecified:params>) over Any             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ params : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 02ff8473bbb072a5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.BaseSeries.params","kind":"method","src_hash":"2e54aec81d49bb88","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"params(p)","rhs":"params produces the expected output","over":{"base":"Any"},"name":"params_correct"},"guarantee":"params produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.BaseSeries.params_correct","statement":"Path(params(x), params produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"02ff8473bbb072a5"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.BaseSeries.params","kind":"method","src_hash":"2e54aec81d49bb88","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"params(p)","rhs":"<unspecified:params>","over":{"base":"Any"},"name":"params_correct"},"guarantee":"params produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.BaseSeries.params_correct","statement":"Path(params(x), params produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"02ff8473bbb072a5","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","writes":["self._params"]},"state_contract":{"modifies":["self._params"],"old_bindings":{"old_self__params":"self._params"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def params(self, p):
         self._params = p
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_post_init(), internal helper behaves correctly) over Any ║
+# ║ Path(_post_init(), <unspecified:_post_init>) over {Any | not (any((callable(e) for e in exprs)) and self.params)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _post_init : Any → Any                                     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (any((callable(e) for e in exprs)) an...   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _post_init : {Any | not (any((callable(e) for e in ex...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ebd3e3ac0bfb04d1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.BaseSeries._post_init","kind":"method","src_hash":"e88add810938210f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_post_init()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_post_init_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.BaseSeries._post_init_correct","statement":"Path(_post_init(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ebd3e3ac0bfb04d1"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.BaseSeries._post_init","kind":"method","src_hash":"e88add810938210f","in":{"base":"Any","pred":"not (any((callable(e) for e in exprs)) and self.params)"},"out":{"base":"Any"},"spec":{"lhs":"_post_init()","rhs":"<unspecified:_post_init>","over":{"base":"Any","pred":"not (any((callable(e) for e in exprs)) and self.params)"},"name":"_post_init_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.BaseSeries._post_init_correct","statement":"Path(_post_init(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ebd3e3ac0bfb04d1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (any((callable(e) for e in exprs)) and self.params)"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self._check_fs","self._label","self.adaptive","self.expr","self.params"],"writes":["self.adaptive","self.label"],"raises":["TypeError"]},"state_contract":{"modifies":["self.adaptive","self.label"],"old_bindings":{"old_self_adaptive":"self.adaptive","old_self_label":"self.label"},"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _post_init(self):
         exprs = self.expr if hasattr(self.expr, "__iter__") else [self.expr]
         if any(callable(e) for e in exprs) and self.params:
@@ -982,31 +1155,43 @@ class BaseSeries:
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(scales(), returns the scales attribute) over Any      ║
+# ║ Path(scales(), self._scales) over Any                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._scales                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ scales : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a84075572c6341f8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.BaseSeries.scales","kind":"property","src_hash":"28171ca80699b809","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"scales()","rhs":"returns the scales attribute","over":{"base":"Any"},"name":"scales_correct"},"guarantee":"returns the scales attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a84075572c6341f8"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.BaseSeries.scales","kind":"property","src_hash":"28171ca80699b809","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"scales()","rhs":"self._scales","over":{"base":"Any"},"name":"scales_correct"},"guarantee":"returns self._scales","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a84075572c6341f8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._scales","pure":false,"effects":{"effect_type":"reads_state","reads":["self._scales"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def scales(self):
         return self._scales
 
     @scales.setter
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(scales(v), scales produces the expected output) over Any ║
+# ║ Path(scales(v), <unspecified:scales>) over Any             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ scales : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8c1062dacd7105fa  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.BaseSeries.scales","kind":"method","src_hash":"4a5a4e633eaff181","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"scales(v)","rhs":"scales produces the expected output","over":{"base":"Any"},"name":"scales_correct"},"guarantee":"scales produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.BaseSeries.scales_correct","statement":"Path(scales(x), scales produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8c1062dacd7105fa"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.BaseSeries.scales","kind":"method","src_hash":"4a5a4e633eaff181","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"scales(v)","rhs":"<unspecified:scales>","over":{"base":"Any"},"name":"scales_correct"},"guarantee":"scales produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.BaseSeries.scales_correct","statement":"Path(scales(x), scales produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8c1062dacd7105fa","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._scales"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def scales(self, v):
         if isinstance(v, str):
             self._scales[0] = v
@@ -1015,61 +1200,85 @@ class BaseSeries:
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(surface_color(), returns the surface_color attribute) over Any ║
+# ║ Path(surface_color(), self._surface_color) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._surface_color                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ surface_color : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3ede515f00de5b89           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.BaseSeries.surface_color","kind":"property","src_hash":"de1d9c9da1b53d5d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"surface_color()","rhs":"returns the surface_color attribute","over":{"base":"Any"},"name":"surface_color_correct"},"guarantee":"returns the surface_color attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3ede515f00de5b89"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.BaseSeries.surface_color","kind":"property","src_hash":"de1d9c9da1b53d5d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"surface_color()","rhs":"self._surface_color","over":{"base":"Any"},"name":"surface_color_correct"},"guarantee":"returns self._surface_color","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3ede515f00de5b89","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._surface_color","pure":false,"effects":{"effect_type":"reads_state","reads":["self._surface_color"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def surface_color(self):
         return self._surface_color
 
     @surface_color.setter
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(surface_color(val), surface_color produces the expected output) over Any ║
+# ║ Path(surface_color(val), <unspecified:surface_color>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ surface_color : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2a58da3f1c6e0d1c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.BaseSeries.surface_color","kind":"method","src_hash":"e4aadb0904531c47","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"surface_color(val)","rhs":"surface_color produces the expected output","over":{"base":"Any"},"name":"surface_color_correct"},"guarantee":"surface_color produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.BaseSeries.surface_color_correct","statement":"Path(surface_color(x), surface_color produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2a58da3f1c6e0d1c"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.BaseSeries.surface_color","kind":"method","src_hash":"e4aadb0904531c47","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"surface_color(val)","rhs":"<unspecified:surface_color>","over":{"base":"Any"},"name":"surface_color_correct"},"guarantee":"surface_color produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.BaseSeries.surface_color_correct","statement":"Path(surface_color(x), surface_color produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2a58da3f1c6e0d1c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._line_surface_color"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def surface_color(self, val):
         self._line_surface_color("_surface_color", val)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rendering_kw(), returns the rendering_kw attribute) over Any ║
+# ║ Path(rendering_kw(), self._rendering_kw) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._rendering_kw                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ rendering_kw : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6cce3ebde8ab7b7c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.BaseSeries.rendering_kw","kind":"property","src_hash":"b34a47b14a3b295d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rendering_kw()","rhs":"returns the rendering_kw attribute","over":{"base":"Any"},"name":"rendering_kw_correct"},"guarantee":"returns the rendering_kw attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6cce3ebde8ab7b7c"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.BaseSeries.rendering_kw","kind":"property","src_hash":"b34a47b14a3b295d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rendering_kw()","rhs":"self._rendering_kw","over":{"base":"Any"},"name":"rendering_kw_correct"},"guarantee":"returns self._rendering_kw","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6cce3ebde8ab7b7c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._rendering_kw","pure":false,"effects":{"effect_type":"reads_state","reads":["self._rendering_kw"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def rendering_kw(self):
         return self._rendering_kw
 
     @rendering_kw.setter
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rendering_kw(kwa), rendering_kw produces the expected output) over Any ║
+# ║ Path(rendering_kw(kwargs), <unspecified:rendering_kw>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ rendering_kw : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e2d9a18c0650b27d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.BaseSeries.rendering_kw","kind":"method","src_hash":"241c90d4113a6204","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rendering_kw(kwa)","rhs":"rendering_kw produces the expected output","over":{"base":"Any"},"name":"rendering_kw_correct"},"guarantee":"rendering_kw produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.BaseSeries.rendering_kw_correct","statement":"Path(rendering_kw(x), rendering_kw produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e2d9a18c0650b27d"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.BaseSeries.rendering_kw","kind":"method","src_hash":"241c90d4113a6204","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rendering_kw(kwargs)","rhs":"<unspecified:rendering_kw>","over":{"base":"Any"},"name":"rendering_kw_correct"},"guarantee":"rendering_kw produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.BaseSeries.rendering_kw_correct","statement":"Path(rendering_kw(x), rendering_kw produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e2d9a18c0650b27d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","writes":["self._rendering_kw"]},"state_contract":{"modifies":["self._rendering_kw"],"old_bindings":{"old_self__rendering_kw":"self._rendering_kw"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def rendering_kw(self, kwargs):
         if isinstance(kwargs, dict):
             self._rendering_kw = kwargs
@@ -1084,16 +1293,22 @@ class BaseSeries:
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_discretize(sta), discretize a 1d domain) over Any    ║
+# ║ Path(_discretize(start, end, N), <unspecified:_discretize>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _discretize : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f4cc0beb651d3da7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.BaseSeries._discretize","kind":"staticmethod","src_hash":"adf094c2b4872cbc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_discretize(sta)","rhs":"discretize a 1d domain","over":{"base":"Any"},"name":"_discretize_correct"},"guarantee":"discretize a 1d domain","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.BaseSeries._discretize_correct","statement":"Path(_discretize(x), discretize a 1d domain)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f4cc0beb651d3da7"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.BaseSeries._discretize","kind":"staticmethod","src_hash":"adf094c2b4872cbc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_discretize(start, end, N)","rhs":"<unspecified:_discretize>","over":{"base":"Any"},"name":"_discretize_correct"},"guarantee":"discretize a 1d domain","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.BaseSeries._discretize_correct","statement":"Path(_discretize(x), discretize a 1d domain)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f4cc0beb651d3da7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _discretize(start, end, N, scale="linear", only_integers=False):
         """Discretize a 1D domain.
 
@@ -1117,16 +1332,26 @@ class BaseSeries:
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_correct_shape(a, ), convert ``a`` to a np.ndarray of the same shape of ``b``) over Any ║
+# ║ Path(_correct_shape(a, b), a) over {Any | hasattr(a, 'shape') and hasattr(b, 'shape') and hasattr(a, 'reshape')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _correct_shape : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(a, 'shape')                            ║
+# ║   requires: hasattr(b, 'shape')                            ║
+# ║   requires: hasattr(a, 'reshape')                          ║
+# ║   ensures:  result == a                                    ║
+# ║   returns:  a                                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _correct_shape : {Any | hasattr(a, 'shape') and hasat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 329b68866aae2f32  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ca573bb0b105b713  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.BaseSeries._correct_shape","kind":"staticmethod","src_hash":"1b2458784e5912c5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_correct_shape(a, )","rhs":"convert ``a`` to a np.ndarray of the same shape of ``b``","over":{"base":"Any"},"name":"_correct_shape_correct"},"guarantee":"convert ``a`` to a np.ndarray of the same shape of ``b``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.BaseSeries._correct_shape_correct","statement":"Path(_correct_shape(x), convert ``a`` to a np.ndarray of the same shape of ``b``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"329b68866aae2f32"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.BaseSeries._correct_shape","kind":"staticmethod","src_hash":"1b2458784e5912c5","in":{"base":"Any","pred":"hasattr(a, 'shape') and hasattr(b, 'shape') and hasattr(a, 'reshape')"},"out":{"base":"Any","pred":"result satisfies: result == (a)"},"spec":{"lhs":"_correct_shape(a, b)","rhs":"a","over":{"base":"Any","pred":"hasattr(a, 'shape') and hasattr(b, 'shape') and hasattr(a, 'reshape')"},"name":"_correct_shape_correct"},"guarantee":"returns a; result == a","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.BaseSeries._correct_shape_correct","statement":"Path(_correct_shape(x), returns a; result == a)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ca573bb0b105b713","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(a, 'shape')","hasattr(b, 'shape')","hasattr(a, 'reshape')"],"ensures":["result == a"],"returns_expr":"a","pure":false,"effects":{"effect_type":"reads_state","reads":["a.reshape","a.shape","b.shape"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _correct_shape(a, b):
         """Convert ``a`` to a np.ndarray of the same shape of ``b``.
 
@@ -1162,16 +1387,22 @@ class BaseSeries:
         return a
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval_color_func(*ar), evaluate the color function) over Any ║
+# ║ Path(eval_color_func(*args), <unspecified:eval_color_func>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ eval_color_func : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | efe7686108b54752  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.BaseSeries.eval_color_func","kind":"method","src_hash":"ff43e4e6b8ee1edc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval_color_func(*ar)","rhs":"evaluate the color function","over":{"base":"Any"},"name":"eval_color_func_correct"},"guarantee":"evaluate the color function","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.BaseSeries.eval_color_func_correct","statement":"Path(eval_color_func(x), evaluate the color function)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"efe7686108b54752"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.BaseSeries.eval_color_func","kind":"method","src_hash":"ff43e4e6b8ee1edc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval_color_func(*args)","rhs":"<unspecified:eval_color_func>","over":{"base":"Any"},"name":"eval_color_func_correct"},"guarantee":"evaluate the color function","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.BaseSeries.eval_color_func_correct","statement":"Path(eval_color_func(x), evaluate the color function)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"efe7686108b54752","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._aggregate_args","self._correct_shape","self._eval_color_func_with_signature","self.color_func","self.is_2Dline","self.is_3Dline","self.is_3Dsurface","self.is_parametric"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval_color_func(self, *args):
         """Evaluate the color function.
 
@@ -1237,16 +1468,22 @@ class BaseSeries:
         return self._correct_shape(self.color_func(*args[:nargs]), args[0])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_data(), compute and returns the numerical data) over Any ║
+# ║ Path(get_data(), <unspecified:get_data>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ get_data : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1bb4eeb55616fa17           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.BaseSeries.get_data","kind":"method","src_hash":"381095a5e7b7de43","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_data()","rhs":"compute and returns the numerical data","over":{"base":"Any"},"name":"get_data_correct"},"guarantee":"compute and returns the numerical data","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1bb4eeb55616fa17"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.BaseSeries.get_data","kind":"method","src_hash":"381095a5e7b7de43","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_data()","rhs":"<unspecified:get_data>","over":{"base":"Any"},"name":"get_data_correct"},"guarantee":"compute and returns the numerical data","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1bb4eeb55616fa17","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def get_data(self):
         """Compute and returns the numerical data.
 
@@ -1257,16 +1494,22 @@ class BaseSeries:
         raise NotImplementedError
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_wrapped_label(lab), given a latex representation of an expression, wrap it inside some characters) over Any ║
+# ║ Path(_get_wrapped_label(label, wrapper), wrapper % label) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  wrapper % label                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_wrapped_label : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | bb03a571975b10c3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.BaseSeries._get_wrapped_label","kind":"method","src_hash":"3c36d2eaaeae5c7e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_wrapped_label(lab)","rhs":"given a latex representation of an expression, wrap it inside some characters","over":{"base":"Any"},"name":"_get_wrapped_label_correct"},"guarantee":"given a latex representation of an expression, wrap it inside some characters","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bb03a571975b10c3"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.BaseSeries._get_wrapped_label","kind":"method","src_hash":"3c36d2eaaeae5c7e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_wrapped_label(label, wrapper)","rhs":"wrapper % label","over":{"base":"Any"},"name":"_get_wrapped_label_correct"},"guarantee":"returns wrapper % label","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bb03a571975b10c3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"wrapper % label","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_wrapped_label(self, label, wrapper):
         """Given a latex representation of an expression, wrap it inside
         some characters. Matplotlib needs "$%s%$", K3D-Jupyter needs "%s".
@@ -1274,16 +1517,22 @@ class BaseSeries:
         return wrapper % label
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_label(use), return the label to be used to display the expression) over Any ║
+# ║ Path(get_label(use_latex, wrapper), <unspecified:get_label>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ get_label : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9a35d44f3f731eed  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.BaseSeries.get_label","kind":"method","src_hash":"376337428d58889b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_label(use)","rhs":"return the label to be used to display the expression","over":{"base":"Any"},"name":"get_label_correct"},"guarantee":"return the label to be used to display the expression","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.BaseSeries.get_label_correct","statement":"Path(get_label(x), return the label to be used to display the expression)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9a35d44f3f731eed"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.BaseSeries.get_label","kind":"method","src_hash":"376337428d58889b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_label(use_latex, wrapper)","rhs":"<unspecified:get_label>","over":{"base":"Any"},"name":"get_label_correct"},"guarantee":"return the label to be used to display the expression","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.BaseSeries.get_label_correct","statement":"Path(get_label(x), return the label to be used to display the expression)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9a35d44f3f731eed","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._get_wrapped_label","self._label","self._latex_label","self.expr"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def get_label(self, use_latex=False, wrapper="$%s$"):
         """Return the label to be used to display the expression.
 
@@ -1310,31 +1559,43 @@ class BaseSeries:
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(label(), returns the label attribute) over Any        ║
+# ║ Path(label(), self.get_label()) over Any                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.get_label()                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ label : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6da384551032d66d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.BaseSeries.label","kind":"property","src_hash":"f641d43eacfd8b86","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"label()","rhs":"returns the label attribute","over":{"base":"Any"},"name":"label_correct"},"guarantee":"returns the label attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6da384551032d66d"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.BaseSeries.label","kind":"property","src_hash":"f641d43eacfd8b86","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"label()","rhs":"self.get_label()","over":{"base":"Any"},"name":"label_correct"},"guarantee":"returns self.get_label()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6da384551032d66d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.get_label()","pure":false,"effects":{"effect_type":"reads_state","reads":["self.get_label"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def label(self):
         return self.get_label()
 
     @label.setter
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(label(val), set the labels associated to this series) over Any ║
+# ║ Path(label(val), <unspecified:label>) over Any             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ label : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d1bad6252f3adad6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.BaseSeries.label","kind":"method","src_hash":"56e5c3d4b222f75a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"label(val)","rhs":"set the labels associated to this series","over":{"base":"Any"},"name":"label_correct"},"guarantee":"set the labels associated to this series","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.BaseSeries.label_correct","statement":"Path(label(x), set the labels associated to this series)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d1bad6252f3adad6"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.BaseSeries.label","kind":"method","src_hash":"56e5c3d4b222f75a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"label(val)","rhs":"<unspecified:label>","over":{"base":"Any"},"name":"label_correct"},"guarantee":"set the labels associated to this series","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.BaseSeries.label_correct","statement":"Path(label(x), set the labels associated to this series)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d1bad6252f3adad6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","writes":["self._label","self._latex_label"]},"state_contract":{"modifies":["self._label","self._latex_label"],"old_bindings":{"old_self__label":"self._label","old_self__latex_label":"self._latex_label"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def label(self, val):
         """Set the labels associated to this series."""
         # NOTE: the init method of any series requires a label. If the user do
@@ -1346,31 +1607,43 @@ class BaseSeries:
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ranges(), returns the ranges attribute) over Any      ║
+# ║ Path(ranges(), self._ranges) over Any                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._ranges                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ ranges : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9a285c623763c071           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.BaseSeries.ranges","kind":"property","src_hash":"0d83573585fbff36","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ranges()","rhs":"returns the ranges attribute","over":{"base":"Any"},"name":"ranges_correct"},"guarantee":"returns the ranges attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9a285c623763c071"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.BaseSeries.ranges","kind":"property","src_hash":"0d83573585fbff36","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ranges()","rhs":"self._ranges","over":{"base":"Any"},"name":"ranges_correct"},"guarantee":"returns self._ranges","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9a285c623763c071","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._ranges","pure":false,"effects":{"effect_type":"reads_state","reads":["self._ranges"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def ranges(self):
         return self._ranges
 
     @ranges.setter
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ranges(val), ranges produces the expected output) over Any ║
+# ║ Path(ranges(val), len(new_vals) == old_len_new_vals + 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ ranges : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(new_vals) == old_len_new_vals + 1          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ ranges : Any → {Any | result satisfies: len(new_vals)...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 207eb21d1f1e5d9a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f5f5f8e8c5e7344c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.BaseSeries.ranges","kind":"method","src_hash":"a1aea409ebe8ca3d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ranges(val)","rhs":"ranges produces the expected output","over":{"base":"Any"},"name":"ranges_correct"},"guarantee":"ranges produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.BaseSeries.ranges_correct","statement":"Path(ranges(x), ranges produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"207eb21d1f1e5d9a"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.BaseSeries.ranges","kind":"method","src_hash":"a1aea409ebe8ca3d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(new_vals) == old_len_new_vals + 1"},"spec":{"lhs":"ranges(val)","rhs":"len(new_vals) == old_len_new_vals + 1","over":{"base":"Any"},"name":"ranges_correct"},"guarantee":"len(new_vals) == old_len_new_vals + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.BaseSeries.ranges_correct","statement":"Path(ranges(x), len(new_vals) == old_len_new_vals + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f5f5f8e8c5e7344c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(new_vals) == old_len_new_vals + 1"],"pure":false,"effects":{"effect_type":"mutates_self","writes":["self._ranges"],"calls_mutating":["new_vals.append"]},"state_contract":{"modifies":["new_vals.*","self._ranges"],"old_bindings":{"old_self__ranges":"self._ranges","old_len_new_vals":"len(new_vals)"},"post_ensures":["len(new_vals) == old_len_new_vals + 1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def ranges(self, val):
         new_vals = []
         for v in val:
@@ -1379,16 +1652,24 @@ class BaseSeries:
         self._ranges = new_vals
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_apply_transform(*ar), id) over Any                   ║
+# ║ Path(_apply_transform(*args), id) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: len(args) == 2 => (t(x, self._tx), t...   ║
+# ║   fiber[Parametric2DLineSeries]: len(args) == 3 and i...   ║
+# ║   fiber[case_2]: len(args) == 3 => (t(x, self._tx), t...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _apply_transform : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 899586e880dff73e   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.BaseSeries._apply_transform","kind":"method","src_hash":"307289c30a9efe8d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_apply_transform(*ar)","rhs":"apply transformations to the results of numerical evaluation","over":{"base":"Any"},"name":"_apply_transform_correct","kind":"composition"},"guarantee":"apply transformations to the results of numerical evaluation","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"t","by":"library_axiom"},{"fn":"t","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"899586e880dff73e"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.BaseSeries._apply_transform","kind":"method","src_hash":"307289c30a9efe8d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_apply_transform(*args)","rhs":"<unspecified:_apply_transform>","over":{"base":"Any"},"name":"_apply_transform_correct","kind":"composition"},"guarantee":"8-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"t","by":"library_axiom"},{"fn":"t","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"899586e880dff73e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"len(args) == 2","ensures":["result == (t(x, self._tx), t(y, self._ty))"],"decidability":"z3","returns_expr":"(t(x, self._tx), t(y, self._ty))"},{"name":"Parametric2DLineSeries","guard":"len(args) == 3 and isinstance(self, Parametric2DLineSeries)","ensures":["result == (t(x, self._tx), t(y, self._ty), t(u, self._tp))"],"decidability":"structural","returns_expr":"(t(x, self._tx), t(y, self._ty), t(u, self._tp))"},{"name":"case_2","guard":"len(args) == 3","ensures":["result == (t(x, self._tx), t(y, self._ty), t(z, self._tz))"],"decidability":"z3","returns_expr":"(t(x, self._tx), t(y, self._ty), t(z, self._tz))"},{"name":"Parametric3DLineSeries","guard":"len(args) == 4 and isinstance(self, Parametric3DLineSeries)","ensures":["result == (t(x, self._tx), t(y, self._ty), t(z, self._tz), t(u, self._tp))"],"decidability":"structural","returns_expr":"(t(x, self._tx), t(y, self._ty), t(z, self._tz), t(u, self._tp))"},{"name":"case_4","guard":"len(args) == 4","ensures":["result == (t(x, self._tx), t(y, self._ty), t(u, self._tx), t(v, self._ty))"],"decidability":"z3","returns_expr":"(t(x, self._tx), t(y, self._ty), t(u, self._tx), t(v, self._ty))"},{"name":"ParametricSurfaceSeries","guard":"len(args) == 5 and isinstance(self, ParametricSurfaceSeries)","ensures":["result == (t(x, self._tx), t(y, self._ty), t(z, self._tz), u, v)"],"decidability":"structural","returns_expr":"(t(x, self._tx), t(y, self._ty), t(z, self._tz), u, v)"},{"name":"case_6","guard":"len(args) == 6 and self.is_3Dvector","ensures":["result == (t(x, self._tx), t(y, self._ty), t(z, self._tz), t(u, self._tx), t(v, self._ty), t(w, self._tz))"],"decidability":"z3","returns_expr":"(t(x, self._tx), t(y, self._ty), t(z, self._tz), t(u, self._tx), t(v, self._ty), t(w, self._tz))"},{"name":"case_7","guard":"len(args) == 6","ensures":["result == (x, y, t(_abs, self._tz), _arg, img, colors)"],"decidability":"z3","returns_expr":"(x, y, t(_abs, self._tz), _arg, img, colors)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._tp","self._tx","self._ty","self._tz","self.is_3Dvector"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _apply_transform(self, *args):
         """Apply transformations to the results of numerical evaluation.
 
@@ -1438,16 +1719,22 @@ class BaseSeries:
         return args
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_str_helper(s), internal helper behaves correctly) over Any ║
+# ║ Path(_str_helper(s), pre + s + post) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  pre + s + post                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _str_helper : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5b03d357f097b8ac  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 95e63869dddbd1e0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.BaseSeries._str_helper","kind":"method","src_hash":"f41fd4eaea110935","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_str_helper(s)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_str_helper_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.BaseSeries._str_helper_correct","statement":"Path(_str_helper(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5b03d357f097b8ac"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.BaseSeries._str_helper","kind":"method","src_hash":"f41fd4eaea110935","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_str_helper(s)","rhs":"pre + s + post","over":{"base":"Any"},"name":"_str_helper_correct"},"guarantee":"returns pre + s + post","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.BaseSeries._str_helper_correct","statement":"Path(_str_helper(x), returns pre + s + post)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"95e63869dddbd1e0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"pre + s + post","pure":false,"effects":{"effect_type":"reads_state","reads":["self.is_interactive","self.params"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _str_helper(self, s):
         pre, post = "", ""
         if self.is_interactive:
@@ -1457,16 +1744,23 @@ class BaseSeries:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_detect_poles_numerical_helper(x, ), compute the steepness of each segment) over Any ║
+# ║ Path(_detect_poles_numerical_helper(x, y, eps), (x, yy)) over {Any | hasattr(y, 'copy')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _detect_poles_numerical_helper : Any → Any                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(y, 'copy')                             ║
+# ║   returns:  (x, yy)                                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _detect_poles_numerical_helper : {Any | hasattr(y, 'c...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2a8aa07208fb18b3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dfea979af112eb57  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series._detect_poles_numerical_helper","kind":"function","src_hash":"9de08567262d89a9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_detect_poles_numerical_helper(x, )","rhs":"compute the steepness of each segment","over":{"base":"Any"},"name":"_detect_poles_numerical_helper_correct"},"guarantee":"compute the steepness of each segment","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series._detect_poles_numerical_helper_correct","statement":"Path(_detect_poles_numerical_helper(x), compute the steepness of each segment)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2a8aa07208fb18b3"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series._detect_poles_numerical_helper","kind":"function","src_hash":"9de08567262d89a9","in":{"base":"Any","pred":"hasattr(y, 'copy')"},"out":{"base":"Any"},"spec":{"lhs":"_detect_poles_numerical_helper(x, y, eps)","rhs":"(x, yy)","over":{"base":"Any","pred":"hasattr(y, 'copy')"},"name":"_detect_poles_numerical_helper_correct"},"guarantee":"returns (x, yy)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series._detect_poles_numerical_helper_correct","statement":"Path(_detect_poles_numerical_helper(x), returns (x, yy))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dfea979af112eb57","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(y, 'copy')"],"returns_expr":"(x, yy)","pure":false,"effects":{"effect_type":"reads_state","reads":["y.copy"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _detect_poles_numerical_helper(x, y, eps=0.01, expr=None, symb=None, symbolic=False):
     """Compute the steepness of each segment. If it's greater than a
     threshold, set the right-point y-value non NaN and record the
@@ -1493,7 +1787,10 @@ def _detect_poles_numerical_helper(x, y, eps=0.01, expr=None, symb=None, symboli
     return x, yy
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_detect_poles_symbolic_helper(exp), attempts to compute symbolic discontinuities) over {Any | isinstance(res, Union) and isinstance(t, Interval)} ║
+# ║ Path(_detect_poles_symbolic_helper(expr, symb, start), len(poles) == old_len_poles + 1) over {Any | isinstance(res, Union) and isinstance(t, Interval)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(poles) == old_len_poles + 1                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _detect_poles_symbolic_helper : {Any | isinstance(res...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -1506,9 +1803,12 @@ def _detect_poles_numerical_helper(x, y, eps=0.01, expr=None, symb=None, symboli
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?2 ✗2 VCs | 4.4ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | b4f01f39...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series._detect_poles_symbolic_helper","kind":"function","src_hash":"529cf1d62f0677b0","in":{"base":"Any","pred":"isinstance(res, Union) and isinstance(t, Interval)"},"out":{"base":"Any"},"spec":{"lhs":"_detect_poles_symbolic_helper(exp)","rhs":"attempts to compute symbolic discontinuities","over":{"base":"Any","pred":"isinstance(res, Union) and isinstance(t, Interval)"},"name":"_detect_poles_symbolic_helper_correct"},"guarantee":"attempts to compute symbolic discontinuities","fibers":[{"name":"Union","pred":"isinstance(res, Union)","path":{"lhs":"_detect_poles_symbolic_helper(x)","rhs":"attempts to compute symbolic discontinuities","over":{"base":"Union","pred":"isinstance(res, Union)"},"name":"_detect_poles_symbolic_helper_Union_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series._detect_poles_symbolic_helper_Union_correct","statement":"_detect_poles_symbolic_helper satisfies spec on Union inputs"},"trust":"LIBRARY"},{"name":"Interval","pred":"isinstance(t, Interval)","path":{"lhs":"_detect_poles_symbolic_helper(x)","rhs":"attempts to compute symbolic discontinuities","over":{"base":"Interval","pred":"isinstance(t, Interval)"},"name":"_detect_poles_symbolic_helper_Interval_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series._detect_poles_symbolic_helper_Interval_correct","statement":"_detect_poles_symbolic_helper satisfies spec on Interval inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"b4f01f3933e73572"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series._detect_poles_symbolic_helper","kind":"function","src_hash":"529cf1d62f0677b0","in":{"base":"Any","pred":"isinstance(res, Union) and isinstance(t, Interval)"},"out":{"base":"Any","pred":"result satisfies: len(poles) == old_len_poles + 1"},"spec":{"lhs":"_detect_poles_symbolic_helper(expr, symb, start)","rhs":"len(poles) == old_len_poles + 1","over":{"base":"Any","pred":"isinstance(res, Union) and isinstance(t, Interval)"},"name":"_detect_poles_symbolic_helper_correct"},"guarantee":"len(poles) == old_len_poles + 1","fibers":[{"name":"Union","pred":"isinstance(res, Union)","path":{"lhs":"_detect_poles_symbolic_helper(x)","rhs":"len(poles) == old_len_poles + 1","over":{"base":"Union","pred":"isinstance(res, Union)"},"name":"_detect_poles_symbolic_helper_Union_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series._detect_poles_symbolic_helper_Union_correct","statement":"_detect_poles_symbolic_helper satisfies spec on Union inputs"},"trust":"LIBRARY"},{"name":"Interval","pred":"isinstance(t, Interval)","path":{"lhs":"_detect_poles_symbolic_helper(x)","rhs":"len(poles) == old_len_poles + 1","over":{"base":"Interval","pred":"isinstance(t, Interval)"},"name":"_detect_poles_symbolic_helper_Interval_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series._detect_poles_symbolic_helper_Interval_correct","statement":"_detect_poles_symbolic_helper satisfies spec on Interval inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"b4f01f3933e73572","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(poles) == old_len_poles + 1"],"pure":false,"effects":{"effect_type":"reads_state","calls_mutating":["poles.append"],"raises":["ValueError"]},"state_contract":{"modifies":["poles.*"],"old_bindings":{"old_len_poles":"len(poles)"},"post_ensures":["len(poles) == old_len_poles + 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":1,"n_assumed":2,"n_failed":2,"trust_level":"LIBRARY_ASSUMED","compile_ms":4.4,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'res == interval', 'isinstance(res, Union) and all((isinstance(t, Interval) for t in res.args))'}, fibers={'Union', 'Interval'})"]}}
 def _detect_poles_symbolic_helper(expr, symb, start, end):
     """Attempts to compute symbolic discontinuities.
 
@@ -1545,14 +1845,20 @@ def _detect_poles_symbolic_helper(expr, symb, start, end):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a Line2DBaseSeries instance) preserved by Line2DBaseSeries(*args) over {Any | isinstance(exclude, Set) and isinstance(self, LineOver1DRangeSeries)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, BaseSeries)                   ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ Line2DBaseSeries : {Any | isinstance(exclude, Set) an...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.9ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5cf65137e7c36df4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.Line2DBaseSeries","kind":"class","src_hash":"ef44adfcb8eeff36","in":{"base":"Any","pred":"isinstance(exclude, Set) and isinstance(self, LineOver1DRangeSeries)"},"out":{"base":"Any"},"spec":{"lhs":"Line2DBaseSeries(*args)","rhs":"correctly constructs a Line2DBaseSeries instance","over":{"base":"Any","pred":"isinstance(exclude, Set) and isinstance(self, LineOver1DRangeSeries)"},"name":"Line2DBaseSeries_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a Line2DBaseSeries instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'steps') and hasattr(self, 'is_point') and hasattr(self, 'is_filled') and hasattr(self, 'adaptive') and hasattr(self, 'depth') and hasattr(self, 'use_cm') and hasattr(self, 'color_func') and hasattr(self, 'line_color')","kind":"class","induction":"structural on steps, is_point, is_filled, adaptive"}],"methods_preserving":["__init__","get_data","get_segments","_insert_exclusions","var","start","end","xscale","xscale","get_color_array"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5cf65137e7c36df4"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.Line2DBaseSeries","kind":"class","src_hash":"ef44adfcb8eeff36","in":{"base":"Any","pred":"isinstance(exclude, Set) and isinstance(self, LineOver1DRangeSeries)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, BaseSeries)"},"spec":{"lhs":"Line2DBaseSeries(*args)","rhs":"correctly constructs a Line2DBaseSeries instance","over":{"base":"Any","pred":"isinstance(exclude, Set) and isinstance(self, LineOver1DRangeSeries)"},"name":"Line2DBaseSeries_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, BaseSeries); preserves 14 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'steps') and hasattr(self, 'is_point') and hasattr(self, 'is_filled') and hasattr(self, 'adaptive') and hasattr(self, 'depth') and hasattr(self, 'use_cm') and hasattr(self, 'color_func') and hasattr(self, 'line_color')","kind":"class","induction":"structural on steps, is_point, is_filled, adaptive"}],"methods_preserving":["__init__","get_data","get_segments","_insert_exclusions","var","start","end","xscale","xscale","get_color_array"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5cf65137e7c36df4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, BaseSeries)"],"invariants":["hasattr(self, 'steps')","hasattr(self, 'is_point')","hasattr(self, 'is_filled')","hasattr(self, 'adaptive')","hasattr(self, 'depth')","hasattr(self, 'use_cm')","hasattr(self, 'color_func')","hasattr(self, 'line_color')","hasattr(self, 'detect_poles')","hasattr(self, 'eps')","hasattr(self, 'is_polar')","hasattr(self, 'unwrap')","hasattr(self, 'poles_locations')","hasattr(self, 'exclude')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.9,"verdict_class":"assumed","binding":false,"binding_errors":["Function Line2DBaseSeries not found in source"]}}
 class Line2DBaseSeries(BaseSeries):
     """A base class for 2D lines.
 
@@ -1566,16 +1872,22 @@ class Line2DBaseSeries(BaseSeries):
     _N = 1000
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(**k), initializes the instance correctly) over Any ║
+# ║ Path(__init__(**kwargs), <unspecified:__init__>) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __init__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 99af5eba18c9299a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.Line2DBaseSeries.__init__","kind":"method","src_hash":"613d4ec657e36bc6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(**k)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"99af5eba18c9299a"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.Line2DBaseSeries.__init__","kind":"method","src_hash":"613d4ec657e36bc6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(**kwargs)","rhs":"<unspecified:__init__>","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"99af5eba18c9299a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.steps = kwargs.get("steps", False)
@@ -1602,16 +1914,22 @@ class Line2DBaseSeries(BaseSeries):
         self.exclude = sorted(exclude)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_data(), return coordinates for plotting the line) over Any ║
+# ║ Path(get_data(), <unspecified:get_data>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ get_data : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 719000499f4e344a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.Line2DBaseSeries.get_data","kind":"method","src_hash":"febc8c056fe101a4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_data()","rhs":"return coordinates for plotting the line","over":{"base":"Any"},"name":"get_data_correct"},"guarantee":"return coordinates for plotting the line","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.Line2DBaseSeries.get_data_correct","statement":"Path(get_data(x), return coordinates for plotting the line)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"719000499f4e344a"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.Line2DBaseSeries.get_data","kind":"method","src_hash":"febc8c056fe101a4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_data()","rhs":"<unspecified:get_data>","over":{"base":"Any"},"name":"get_data_correct"},"guarantee":"return coordinates for plotting the line","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.Line2DBaseSeries.get_data_correct","statement":"Path(get_data(x), return coordinates for plotting the line)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"719000499f4e344a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._apply_transform","self._get_data_helper","self._insert_exclusions","self._tx","self.detect_poles","self.eps","self.exclude","self.expr","self.is_2Dline","self.is_3Dline","self.is_parametric","self.params","self.ranges","self.steps","self.unwrap"],"writes":["self.poles_locations"]},"state_contract":{"modifies":["self.poles_locations"],"old_bindings":{"old_self_poles_locations":"self.poles_locations"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def get_data(self):
         """Return coordinates for plotting the line.
 
@@ -1695,16 +2013,22 @@ class Line2DBaseSeries(BaseSeries):
         return points
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_segments(), get_segments produces the expected output) over Any ║
+# ║ Path(get_segments(), np.ma.concatenate([points[:-1], points[1:]], axis=1)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  np.ma.concatenate([points[:-1], points[1:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ get_segments : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fb37de1542c8f5bc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b4696c2daa3e3168  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.Line2DBaseSeries.get_segments","kind":"method","src_hash":"27ddcd0b5517453e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_segments()","rhs":"get_segments produces the expected output","over":{"base":"Any"},"name":"get_segments_correct"},"guarantee":"get_segments produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.Line2DBaseSeries.get_segments_correct","statement":"Path(get_segments(x), get_segments produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fb37de1542c8f5bc"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.Line2DBaseSeries.get_segments","kind":"method","src_hash":"27ddcd0b5517453e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_segments()","rhs":"np.ma.concatenate([points[:-1], points[1:]], axis=1)","over":{"base":"Any"},"name":"get_segments_correct"},"guarantee":"returns np.ma.concatenate([points[:-1], points[1:]], axis=1)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.Line2DBaseSeries.get_segments_correct","statement":"Path(get_segments(x), returns np.ma.concatenate([points[:-1], points[1:]], axis=1))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b4696c2daa3e3168","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"np.ma.concatenate([points[:-1], points[1:]], axis=1)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._dim"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def get_segments(self):
         sympy_deprecation_warning(
             """
@@ -1722,16 +2046,23 @@ class Line2DBaseSeries(BaseSeries):
         return np.ma.concatenate([points[:-1], points[1:]], axis=1)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_insert_exclusions(poi), add nan to each of the exclusion point) over Any ║
+# ║ Path(_insert_exclusions(points), points) over Any          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _insert_exclusions : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == points                               ║
+# ║   returns:  points                                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _insert_exclusions : Any → {Any | result satisfies: r...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0d57b9221eea1a68  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c6b16ce74426eaa2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.Line2DBaseSeries._insert_exclusions","kind":"method","src_hash":"df826273323d9408","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_insert_exclusions(poi)","rhs":"add nan to each of the exclusion point","over":{"base":"Any"},"name":"_insert_exclusions_correct"},"guarantee":"add nan to each of the exclusion point","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.Line2DBaseSeries._insert_exclusions_correct","statement":"Path(_insert_exclusions(x), add nan to each of the exclusion point)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0d57b9221eea1a68"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.Line2DBaseSeries._insert_exclusions","kind":"method","src_hash":"df826273323d9408","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (points)"},"spec":{"lhs":"_insert_exclusions(points)","rhs":"points","over":{"base":"Any"},"name":"_insert_exclusions_correct"},"guarantee":"returns points; result == points","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.Line2DBaseSeries._insert_exclusions_correct","statement":"Path(_insert_exclusions(x), returns points; result == points)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c6b16ce74426eaa2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == points"],"returns_expr":"points","pure":false,"effects":{"effect_type":"mutates_args","reads":["self._functions","self.exclude"],"writes":["points[*]"]},"state_contract":{"modifies":["points[*]"],"old_bindings":{"old_points_star":"points[*]"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _insert_exclusions(self, points):
         """Add NaN to each of the exclusion point. Practically, this adds a
         NaN to the exclusion point, plus two other nearby points evaluated with
@@ -1788,31 +2119,43 @@ class Line2DBaseSeries(BaseSeries):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(var(), returns the var attribute) over Any            ║
+# ║ Path(var(), None if not self.ranges else self.ranges[0][0]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  None if not self.ranges else self.ranges[...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ var : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b05f5d1184738d96           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.Line2DBaseSeries.var","kind":"property","src_hash":"6eabc318d1f26fa0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"var()","rhs":"returns the var attribute","over":{"base":"Any"},"name":"var_correct"},"guarantee":"returns the var attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b05f5d1184738d96"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.Line2DBaseSeries.var","kind":"property","src_hash":"6eabc318d1f26fa0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"var()","rhs":"None if not self.ranges else self.ranges[0][0]","over":{"base":"Any"},"name":"var_correct"},"guarantee":"returns None if not self.ranges else self.ranges[0][0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b05f5d1184738d96","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"None if not self.ranges else self.ranges[0][0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.ranges"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def var(self):
         return None if not self.ranges else self.ranges[0][0]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(start(), returns the start attribute) over Any        ║
+# ║ Path(start(), <unspecified:start>) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ start : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1bd9ae06f365d1a7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.Line2DBaseSeries.start","kind":"property","src_hash":"e5bb240ffa27b338","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"start()","rhs":"returns the start attribute","over":{"base":"Any"},"name":"start_correct"},"guarantee":"returns the start attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1bd9ae06f365d1a7"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.Line2DBaseSeries.start","kind":"property","src_hash":"e5bb240ffa27b338","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"start()","rhs":"<unspecified:start>","over":{"base":"Any"},"name":"start_correct"},"guarantee":"returns the start attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1bd9ae06f365d1a7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._cast","self.ranges"],"catches":["TypeError"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def start(self):
         if not self.ranges:
             return None
@@ -1823,16 +2166,22 @@ class Line2DBaseSeries(BaseSeries):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(end(), returns the end attribute) over Any            ║
+# ║ Path(end(), <unspecified:end>) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ end : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8498891cdd30251a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.Line2DBaseSeries.end","kind":"property","src_hash":"9052b8947280670c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"end()","rhs":"returns the end attribute","over":{"base":"Any"},"name":"end_correct"},"guarantee":"returns the end attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8498891cdd30251a"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.Line2DBaseSeries.end","kind":"property","src_hash":"9052b8947280670c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"end()","rhs":"<unspecified:end>","over":{"base":"Any"},"name":"end_correct"},"guarantee":"returns the end attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8498891cdd30251a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._cast","self.ranges"],"catches":["TypeError"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def end(self):
         if not self.ranges:
             return None
@@ -1843,45 +2192,64 @@ class Line2DBaseSeries(BaseSeries):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(xscale(), returns the xscale attribute) over Any      ║
+# ║ Path(xscale(), self._scales[0]) over Any                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._scales[0]                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ xscale : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | bfc16807105ef979           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.Line2DBaseSeries.xscale","kind":"property","src_hash":"7a8b1d2d121f7825","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"xscale()","rhs":"returns the xscale attribute","over":{"base":"Any"},"name":"xscale_correct"},"guarantee":"returns the xscale attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bfc16807105ef979"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.Line2DBaseSeries.xscale","kind":"property","src_hash":"7a8b1d2d121f7825","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"xscale()","rhs":"self._scales[0]","over":{"base":"Any"},"name":"xscale_correct"},"guarantee":"returns self._scales[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bfc16807105ef979","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._scales[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self._scales"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def xscale(self):
         return self._scales[0]
 
     @xscale.setter
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(xscale(v), xscale produces the expected output) over Any ║
+# ║ Path(xscale(v), <unspecified:xscale>) over Any             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ xscale : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0a342e168abe1263  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.Line2DBaseSeries.xscale","kind":"method","src_hash":"7d9e3b812d7ae9f3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"xscale(v)","rhs":"xscale produces the expected output","over":{"base":"Any"},"name":"xscale_correct"},"guarantee":"xscale produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.Line2DBaseSeries.xscale_correct","statement":"Path(xscale(x), xscale produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0a342e168abe1263"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.Line2DBaseSeries.xscale","kind":"method","src_hash":"7d9e3b812d7ae9f3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"xscale(v)","rhs":"<unspecified:xscale>","over":{"base":"Any"},"name":"xscale_correct"},"guarantee":"xscale produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.Line2DBaseSeries.xscale_correct","statement":"Path(xscale(x), xscale produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0a342e168abe1263","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","writes":["self.scales"]},"state_contract":{"modifies":["self.scales"],"old_bindings":{"old_self_scales":"self.scales"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def xscale(self, v):
         self.scales = v
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(get_color_array(), id) over Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: hasattr(c, '__call__')                    ║
+# ║   fiber[case_1]: not (hasattr(c, '__call__')) => c * ...   ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ get_color_array : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 943044c927e1e35c   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.Line2DBaseSeries.get_color_array","kind":"method","src_hash":"c2319e20457adc80","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_color_array()","rhs":"get_color_array produces the expected output","over":{"base":"Any"},"name":"get_color_array_correct","kind":"composition"},"guarantee":"get_color_array produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"f","by":"library_axiom"},{"fn":"centers_of_segments","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"943044c927e1e35c"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.Line2DBaseSeries.get_color_array","kind":"method","src_hash":"c2319e20457adc80","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_color_array()","rhs":"<unspecified:get_color_array>","over":{"base":"Any"},"name":"get_color_array_correct","kind":"composition"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"f","by":"library_axiom"},{"fn":"centers_of_segments","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"943044c927e1e35c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"hasattr(c, '__call__')","ensures":[],"decidability":"structural"},{"name":"case_1","guard":"not (hasattr(c, '__call__'))","ensures":["result == c * np.ones(self.nb_of_points)"],"decidability":"structural","returns_expr":"c * np.ones(self.nb_of_points)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.get_parameter_points","self.get_points","self.is_parametric","self.line_color","self.nb_of_points"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def get_color_array(self):
         np = import_module('numpy')
         c = self.line_color
@@ -1906,28 +2274,41 @@ class Line2DBaseSeries(BaseSeries):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a List2DSeries instance) preserved by List2DSeries(*args) over {Any | isinstance(self.color_func, Expr) and isinstance(t, np.ndarray)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Line2DBaseSeries)             ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ List2DSeries : {Any | isinstance(self.color_func, Exp...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e4269820344d671f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.List2DSeries","kind":"class","src_hash":"9afe2445ad10b008","in":{"base":"Any","pred":"isinstance(self.color_func, Expr) and isinstance(t, np.ndarray)"},"out":{"base":"Any"},"spec":{"lhs":"List2DSeries(*args)","rhs":"correctly constructs a List2DSeries instance","over":{"base":"Any","pred":"isinstance(self.color_func, Expr) and isinstance(t, np.ndarray)"},"name":"List2DSeries_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a List2DSeries instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'list_x') and hasattr(self, 'list_y') and hasattr(self, 'list_x') and hasattr(self, 'list_y') and hasattr(self, '_expr') and hasattr(self, 'is_polar') and hasattr(self, 'label') and hasattr(self, 'rendering_kw')","kind":"class","induction":"structural on list_x, list_y, list_x, list_y"}],"methods_preserving":["__init__","__str__","_get_data_helper","_eval_color_func_and_return"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e4269820344d671f"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.List2DSeries","kind":"class","src_hash":"9afe2445ad10b008","in":{"base":"Any","pred":"isinstance(self.color_func, Expr) and isinstance(t, np.ndarray)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Line2DBaseSeries)"},"spec":{"lhs":"List2DSeries(*args)","rhs":"correctly constructs a List2DSeries instance","over":{"base":"Any","pred":"isinstance(self.color_func, Expr) and isinstance(t, np.ndarray)"},"name":"List2DSeries_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, Line2DBaseSeries); preserves 7 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'list_x') and hasattr(self, 'list_y') and hasattr(self, 'list_x') and hasattr(self, 'list_y') and hasattr(self, '_expr') and hasattr(self, 'is_polar') and hasattr(self, 'label') and hasattr(self, 'rendering_kw')","kind":"class","induction":"structural on list_x, list_y, list_x, list_y"}],"methods_preserving":["__init__","__str__","_get_data_helper","_eval_color_func_and_return"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e4269820344d671f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Line2DBaseSeries)"],"invariants":["hasattr(self, '_expr')","hasattr(self, 'is_polar')","hasattr(self, 'label')","hasattr(self, 'rendering_kw')","hasattr(self, 'list_x')","hasattr(self, 'list_y')","hasattr(self, 'is_parametric')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":false,"binding_errors":["Function List2DSeries not found in source"]}}
 class List2DSeries(Line2DBaseSeries):
     """Representation for a line consisting of list of points."""
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(lis), initializes the instance correctly) over Any ║
+# ║ Path(__init__(list_x, list_y, label), self.label == label) over {Any | not (len(list_x) != len(list_y))} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (len(list_x) != len(list_y))               ║
+# ║   ensures:  self.label == label                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : {Any | not (len(list_x) != len(list_y))} →...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 96a5ee068ae20cd0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.List2DSeries.__init__","kind":"method","src_hash":"c04b3734e6c12ca7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(lis)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"96a5ee068ae20cd0"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.List2DSeries.__init__","kind":"method","src_hash":"c04b3734e6c12ca7","in":{"base":"Any","pred":"not (len(list_x) != len(list_y))"},"out":{"base":"Any","pred":"result satisfies: self.label == label"},"spec":{"lhs":"__init__(list_x, list_y, label)","rhs":"self.label == label","over":{"base":"Any","pred":"not (len(list_x) != len(list_y))"},"name":"__init___correct"},"guarantee":"self.label == label","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"96a5ee068ae20cd0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (len(list_x) != len(list_y))"],"ensures":["self.label == label"],"pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","self.__class__","self._block_lambda_functions","self._check_fs","self.color_func","self.list_x","self.list_y","self.params","self.use_cm"],"writes":["self._expr","self.is_parametric","self.is_polar","self.label","self.list_x","self.list_y","self.rendering_kw"],"raises":["TypeError","ValueError"]},"state_contract":{"modifies":["self._expr","self.is_parametric","self.is_polar","self.label","self.list_x","self.list_y","self.rendering_kw"],"old_bindings":{"old_self__expr":"self._expr","old_self_is_parametric":"self.is_parametric","old_self_is_polar":"self.is_polar","old_self_label":"self.label","old_self_list_x":"self.list_x","old_self_list_y":"self.list_y","old_self_rendering_kw":"self.rendering_kw"},"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, list_x, list_y, label="", **kwargs):
         super().__init__(**kwargs)
         np = import_module('numpy')
@@ -1965,30 +2346,42 @@ class List2DSeries(Line2DBaseSeries):
                     "expression for `color_func`.")
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__str__(), returns a human-readable string) over Any  ║
+# ║ Path(__str__(), '2D list plot') over Any                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  '2D list plot'                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __str__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9e53ccf6b53760eb           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.List2DSeries.__str__","kind":"method","src_hash":"3e55d65c61c88aff","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"returns a human-readable string","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9e53ccf6b53760eb"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.List2DSeries.__str__","kind":"method","src_hash":"3e55d65c61c88aff","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"'2D list plot'","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns '2D list plot'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9e53ccf6b53760eb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'2D list plot'","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __str__(self):
         return "2D list plot"
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_data_helper(), returns coordinates that needs to be postprocessed) over Any ║
+# ║ Path(_get_data_helper(), <unspecified:_get_data_helper>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_data_helper : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7af6680df552210f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.List2DSeries._get_data_helper","kind":"method","src_hash":"8a091456f49bc6e2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_data_helper()","rhs":"returns coordinates that needs to be postprocessed","over":{"base":"Any"},"name":"_get_data_helper_correct"},"guarantee":"returns coordinates that needs to be postprocessed","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.List2DSeries._get_data_helper_correct","statement":"Path(_get_data_helper(x), returns coordinates that needs to be postprocessed)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7af6680df552210f"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.List2DSeries._get_data_helper","kind":"method","src_hash":"8a091456f49bc6e2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_data_helper()","rhs":"<unspecified:_get_data_helper>","over":{"base":"Any"},"name":"_get_data_helper_correct"},"guarantee":"returns coordinates that needs to be postprocessed","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.List2DSeries._get_data_helper_correct","statement":"Path(_get_data_helper(x), returns coordinates that needs to be postprocessed)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7af6680df552210f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._eval_color_func_and_return","self.is_interactive","self.list_x","self.list_y","self.params"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_data_helper(self):
         """Returns coordinates that needs to be postprocessed."""
         lx, ly = self.list_x, self.list_y
@@ -2002,16 +2395,22 @@ class List2DSeries(Line2DBaseSeries):
         return self._eval_color_func_and_return(lx, ly)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_color_func_and_return(*da), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_color_func_and_return(*data), <unspecified:_eval_color_func_and_return>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_color_func_and_return : Any → Any                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9364a30f03fc773b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.List2DSeries._eval_color_func_and_return","kind":"method","src_hash":"2c215b2ea23d41db","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_color_func_and_return(*da)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_color_func_and_return_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.List2DSeries._eval_color_func_and_return_correct","statement":"Path(_eval_color_func_and_return(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9364a30f03fc773b"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.List2DSeries._eval_color_func_and_return","kind":"method","src_hash":"2c215b2ea23d41db","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_color_func_and_return(*data)","rhs":"<unspecified:_eval_color_func_and_return>","over":{"base":"Any"},"name":"_eval_color_func_and_return_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.List2DSeries._eval_color_func_and_return_correct","statement":"Path(_eval_color_func_and_return(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9364a30f03fc773b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.color_func","self.eval_color_func","self.use_cm"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_color_func_and_return(self, *data):
         if self.use_cm and callable(self.color_func):
             return [*data, self.eval_color_func(*data)]
@@ -2021,28 +2420,40 @@ class List2DSeries(Line2DBaseSeries):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a LineOver1DRangeSeries instance) preserved by LineOver1DRangeSeries(*args) over {Any | isinstance(t, complex)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Line2DBaseSeries)             ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ LineOver1DRangeSeries : {Any | isinstance(t, complex)...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.6ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4fa753473646c33d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.LineOver1DRangeSeries","kind":"class","src_hash":"bd231c1fd757d660","in":{"base":"Any","pred":"isinstance(t, complex)"},"out":{"base":"Any"},"spec":{"lhs":"LineOver1DRangeSeries(*args)","rhs":"correctly constructs a LineOver1DRangeSeries instance","over":{"base":"Any","pred":"isinstance(t, complex)"},"name":"LineOver1DRangeSeries_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a LineOver1DRangeSeries instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'expr') and hasattr(self, '_label') and hasattr(self, '_latex_label') and hasattr(self, 'ranges') and hasattr(self, '_cast') and hasattr(self, '_return') and hasattr(self, 'adaptive')","kind":"class","induction":"structural on expr, _label, _latex_label, ranges"}],"methods_preserving":["__init__","nb_of_points","nb_of_points","__str__","get_points","_adaptive_sampling","_adaptive_sampling_helper","_uniform_sampling","_get_data_helper"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4fa753473646c33d"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.LineOver1DRangeSeries","kind":"class","src_hash":"bd231c1fd757d660","in":{"base":"Any","pred":"isinstance(t, complex)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Line2DBaseSeries)"},"spec":{"lhs":"LineOver1DRangeSeries(*args)","rhs":"correctly constructs a LineOver1DRangeSeries instance","over":{"base":"Any","pred":"isinstance(t, complex)"},"name":"LineOver1DRangeSeries_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, Line2DBaseSeries); preserves 7 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'expr') and hasattr(self, '_label') and hasattr(self, '_latex_label') and hasattr(self, 'ranges') and hasattr(self, '_cast') and hasattr(self, '_return') and hasattr(self, 'adaptive')","kind":"class","induction":"structural on expr, _label, _latex_label, ranges"}],"methods_preserving":["__init__","nb_of_points","nb_of_points","__str__","get_points","_adaptive_sampling","_adaptive_sampling_helper","_uniform_sampling","_get_data_helper"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4fa753473646c33d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Line2DBaseSeries)"],"invariants":["hasattr(self, 'expr')","hasattr(self, '_label')","hasattr(self, '_latex_label')","hasattr(self, 'ranges')","hasattr(self, '_cast')","hasattr(self, '_return')","hasattr(self, 'adaptive')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.6,"verdict_class":"assumed","binding":false,"binding_errors":["Function LineOver1DRangeSeries not found in source"]}}
 class LineOver1DRangeSeries(Line2DBaseSeries):
     """Representation for a line consisting of a SymPy expression over a range."""
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(exp), initializes the instance correctly) over Any ║
+# ║ Path(__init__(expr, var_start_end, label), <unspecified:__init__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __init__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3ed91206181fe756           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.LineOver1DRangeSeries.__init__","kind":"method","src_hash":"4c034bda5277667b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(exp)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3ed91206181fe756"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.LineOver1DRangeSeries.__init__","kind":"method","src_hash":"4c034bda5277667b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(expr, var_start_end, label)","rhs":"<unspecified:__init__>","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3ed91206181fe756","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","self.__class__","self._interactive_ranges","self._post_init","self._return","self.adaptive","self.expr","self.ranges"],"writes":["self._cast","self._label","self._latex_label","self._return","self.adaptive","self.expr","self.ranges"],"raises":["ValueError"]},"state_contract":{"modifies":["self._cast","self._label","self._latex_label","self._return","self.adaptive","self.expr","self.ranges"],"old_bindings":{"old_self__cast":"self._cast","old_self__label":"self._label","old_self__latex_label":"self._latex_label","old_self__return":"self._return","old_self_adaptive":"self.adaptive","old_self_expr":"self.expr","old_self_ranges":"self.ranges"},"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, expr, var_start_end, label="", **kwargs):
         super().__init__(**kwargs)
         self.expr = expr if callable(expr) else sympify(expr)
@@ -2072,45 +2483,63 @@ class LineOver1DRangeSeries(Line2DBaseSeries):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(nb_of_points(), returns the nb_of_points attribute) over Any ║
+# ║ Path(nb_of_points(), self.n[0]) over Any                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.n[0]                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ nb_of_points : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 87d9955189f4c464           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.LineOver1DRangeSeries.nb_of_points","kind":"property","src_hash":"c2e9d3fe31c222b0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"nb_of_points()","rhs":"returns the nb_of_points attribute","over":{"base":"Any"},"name":"nb_of_points_correct"},"guarantee":"returns the nb_of_points attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"87d9955189f4c464"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.LineOver1DRangeSeries.nb_of_points","kind":"property","src_hash":"c2e9d3fe31c222b0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"nb_of_points()","rhs":"self.n[0]","over":{"base":"Any"},"name":"nb_of_points_correct"},"guarantee":"returns self.n[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"87d9955189f4c464","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.n[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.n"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def nb_of_points(self):
         return self.n[0]
 
     @nb_of_points.setter
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(nb_of_points(v), nb_of_points produces the expected output) over Any ║
+# ║ Path(nb_of_points(v), <unspecified:nb_of_points>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ nb_of_points : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 70f87ffa1d69e47b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.LineOver1DRangeSeries.nb_of_points","kind":"method","src_hash":"f17e3245ed4117ca","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"nb_of_points(v)","rhs":"nb_of_points produces the expected output","over":{"base":"Any"},"name":"nb_of_points_correct"},"guarantee":"nb_of_points produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.LineOver1DRangeSeries.nb_of_points_correct","statement":"Path(nb_of_points(x), nb_of_points produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"70f87ffa1d69e47b"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.LineOver1DRangeSeries.nb_of_points","kind":"method","src_hash":"f17e3245ed4117ca","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"nb_of_points(v)","rhs":"<unspecified:nb_of_points>","over":{"base":"Any"},"name":"nb_of_points_correct"},"guarantee":"nb_of_points produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.LineOver1DRangeSeries.nb_of_points_correct","statement":"Path(nb_of_points(x), nb_of_points produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"70f87ffa1d69e47b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","writes":["self.n"]},"state_contract":{"modifies":["self.n"],"old_bindings":{"old_self_n":"self.n"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def nb_of_points(self, v):
         self.n = v
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__str__(), returns a human-readable string) over Any  ║
+# ║ Path(__str__(), <unspecified:__str__>) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __str__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c8ad47bec1612dae           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.LineOver1DRangeSeries.__str__","kind":"method","src_hash":"c7b7f96ee372e68c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"returns a human-readable string","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c8ad47bec1612dae"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.LineOver1DRangeSeries.__str__","kind":"method","src_hash":"c7b7f96ee372e68c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"<unspecified:__str__>","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c8ad47bec1612dae","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._return","self.end","self.expr","self.is_interactive","self.params","self.start","self.var"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __str__(self):
         def f(t):
             if isinstance(t, complex):
@@ -2130,16 +2559,22 @@ class LineOver1DRangeSeries(Line2DBaseSeries):
         ) + post
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_points(), return lists of coordinates for plotting) over Any ║
+# ║ Path(get_points(), self._get_data_helper()) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._get_data_helper()                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ get_points : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 160f70833984a3b6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.LineOver1DRangeSeries.get_points","kind":"method","src_hash":"df2050fa457b6a30","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_points()","rhs":"return lists of coordinates for plotting","over":{"base":"Any"},"name":"get_points_correct"},"guarantee":"return lists of coordinates for plotting","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"160f70833984a3b6"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.LineOver1DRangeSeries.get_points","kind":"method","src_hash":"df2050fa457b6a30","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_points()","rhs":"self._get_data_helper()","over":{"base":"Any"},"name":"get_points_correct"},"guarantee":"returns self._get_data_helper()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"160f70833984a3b6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._get_data_helper()","pure":false,"effects":{"effect_type":"reads_state","reads":["self._get_data_helper"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def get_points(self):
         """Return lists of coordinates for plotting. Depending on the
         ``adaptive`` option, this function will either use an adaptive algorithm
@@ -2159,16 +2594,22 @@ class LineOver1DRangeSeries(Line2DBaseSeries):
         return self._get_data_helper()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_adaptive_sampling(), internal helper behaves correctly) over Any ║
+# ║ Path(_adaptive_sampling(), (x, y)) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (x, y)                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _adaptive_sampling : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5ba43d955f00fb71  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5c6ac2344e8db1b8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.LineOver1DRangeSeries._adaptive_sampling","kind":"method","src_hash":"d6629f612267e587","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_adaptive_sampling()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_adaptive_sampling_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.LineOver1DRangeSeries._adaptive_sampling_correct","statement":"Path(_adaptive_sampling(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5ba43d955f00fb71"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.LineOver1DRangeSeries._adaptive_sampling","kind":"method","src_hash":"d6629f612267e587","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_adaptive_sampling()","rhs":"(x, y)","over":{"base":"Any"},"name":"_adaptive_sampling_correct"},"guarantee":"returns (x, y)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.LineOver1DRangeSeries._adaptive_sampling_correct","statement":"Path(_adaptive_sampling(x), returns (x, y))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5c6ac2344e8db1b8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(x, y)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._adaptive_sampling_helper","self.expr","self.modules","self.var"],"catches":["Exception"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _adaptive_sampling(self):
         try:
             if callable(self.expr):
@@ -2189,16 +2630,24 @@ class LineOver1DRangeSeries(Line2DBaseSeries):
         return x, y
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_adaptive_sampling_helper(f), the adaptive sampling is done by recursively checking if three points are almost collinear) over Any ║
+# ║ Path(_adaptive_sampling_helper(f), (x_coords, y_coords)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _adaptive_sampling_helper : Any → Any                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(x_coords) == old_len_x_coords + 1          ║
+# ║   ensures:  len(y_coords) == old_len_y_coords + 1          ║
+# ║   returns:  (x_coords, y_coords)                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _adaptive_sampling_helper : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6fe761f906cc73a0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5be127438f3879a7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.LineOver1DRangeSeries._adaptive_sampling_helper","kind":"method","src_hash":"5ed1a5e484ab0d8b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_adaptive_sampling_helper(f)","rhs":"the adaptive sampling is done by recursively checking if three points are almost collinear","over":{"base":"Any"},"name":"_adaptive_sampling_helper_correct"},"guarantee":"the adaptive sampling is done by recursively checking if three points are almost collinear","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.LineOver1DRangeSeries._adaptive_sampling_helper_correct","statement":"Path(_adaptive_sampling_helper(x), the adaptive sampling is done by recursively checking if three points are almost collinear)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6fe761f906cc73a0"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.LineOver1DRangeSeries._adaptive_sampling_helper","kind":"method","src_hash":"5ed1a5e484ab0d8b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == ((x_coords, y_coords))"},"spec":{"lhs":"_adaptive_sampling_helper(f)","rhs":"(x_coords, y_coords)","over":{"base":"Any"},"name":"_adaptive_sampling_helper_correct"},"guarantee":"returns (x_coords, y_coords); len(x_coords) == old_len_x_coords + 1; len(y_coords) == old_len_y_coords + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.LineOver1DRangeSeries._adaptive_sampling_helper_correct","statement":"Path(_adaptive_sampling_helper(x), returns (x_coords, y_coords); len(x_coords) == old_len_x_coords + 1; len(y_coords) == old_len_y_coords + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5be127438f3879a7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(x_coords) == old_len_x_coords + 1","len(y_coords) == old_len_y_coords + 1"],"returns_expr":"(x_coords, y_coords)","pure":false,"effects":{"effect_type":"nondeterministic","reads":["self.depth","self.end","self.start","self.xscale"],"calls_mutating":["x_coords.append","y_coords.append"],"nondeterministic_sources":["sample"]},"state_contract":{"modifies":["x_coords.*","y_coords.*"],"old_bindings":{"old_len_x_coords":"len(x_coords)","old_len_y_coords":"len(y_coords)"},"post_ensures":["len(x_coords) == old_len_x_coords + 1","len(y_coords) == old_len_y_coords + 1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _adaptive_sampling_helper(self, f):
         """The adaptive sampling is done by recursively checking if three
         points are almost collinear. If they are not collinear, then more
@@ -2276,16 +2725,22 @@ class LineOver1DRangeSeries(Line2DBaseSeries):
         return (x_coords, y_coords)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_uniform_sampling(), internal helper behaves correctly) over Any ║
+# ║ Path(_uniform_sampling(), (x, _re, _im)) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (x, _re, _im)                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _uniform_sampling : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 80b0195c89350ca1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b47998ae31e63afb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.LineOver1DRangeSeries._uniform_sampling","kind":"method","src_hash":"c0eeb021526d586d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_uniform_sampling()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_uniform_sampling_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.LineOver1DRangeSeries._uniform_sampling_correct","statement":"Path(_uniform_sampling(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"80b0195c89350ca1"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.LineOver1DRangeSeries._uniform_sampling","kind":"method","src_hash":"c0eeb021526d586d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_uniform_sampling()","rhs":"(x, _re, _im)","over":{"base":"Any"},"name":"_uniform_sampling_correct"},"guarantee":"returns (x, _re, _im)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.LineOver1DRangeSeries._uniform_sampling_correct","statement":"Path(_uniform_sampling(x), returns (x, _re, _im))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b47998ae31e63afb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(x, _re, _im)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._correct_shape","self._evaluate"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _uniform_sampling(self):
         np = import_module('numpy')
 
@@ -2296,16 +2751,22 @@ class LineOver1DRangeSeries(Line2DBaseSeries):
         return x, _re, _im
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_data_helper(), returns coordinates that needs to be postprocessed) over Any ║
+# ║ Path(_get_data_helper(), <unspecified:_get_data_helper>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_data_helper : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1e1c921ecd0bd49a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.LineOver1DRangeSeries._get_data_helper","kind":"method","src_hash":"1ca4ca0939d075ad","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_data_helper()","rhs":"returns coordinates that needs to be postprocessed","over":{"base":"Any"},"name":"_get_data_helper_correct"},"guarantee":"returns coordinates that needs to be postprocessed","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.LineOver1DRangeSeries._get_data_helper_correct","statement":"Path(_get_data_helper(x), returns coordinates that needs to be postprocessed)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1e1c921ecd0bd49a"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.LineOver1DRangeSeries._get_data_helper","kind":"method","src_hash":"1ca4ca0939d075ad","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_data_helper()","rhs":"<unspecified:_get_data_helper>","over":{"base":"Any"},"name":"_get_data_helper_correct"},"guarantee":"returns coordinates that needs to be postprocessed","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.LineOver1DRangeSeries._get_data_helper_correct","statement":"Path(_get_data_helper(x), returns coordinates that needs to be postprocessed)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1e1c921ecd0bd49a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._adaptive_sampling","self._return","self._uniform_sampling","self.adaptive","self.only_integers"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_data_helper(self):
         """Returns coordinates that needs to be postprocessed.
         """
@@ -2338,28 +2799,40 @@ class LineOver1DRangeSeries(Line2DBaseSeries):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(ParametricLineBaseSeries(*args), correctly constructs a ParametricLineBaseSeries instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ ParametricLineBaseSeries : Any → Any                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Line2DBaseSeries)             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ ParametricLineBaseSeries : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 106498684aefd498  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.ParametricLineBaseSeries","kind":"class","src_hash":"4151aea7a36282f4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ParametricLineBaseSeries(*args)","rhs":"correctly constructs a ParametricLineBaseSeries instance","over":{"base":"Any"},"name":"ParametricLineBaseSeries_class_invariant"},"guarantee":"correctly constructs a ParametricLineBaseSeries instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"106498684aefd498"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.ParametricLineBaseSeries","kind":"class","src_hash":"4151aea7a36282f4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Line2DBaseSeries)"},"spec":{"lhs":"ParametricLineBaseSeries(*args)","rhs":"correctly constructs a ParametricLineBaseSeries instance","over":{"base":"Any"},"name":"ParametricLineBaseSeries_class_invariant"},"guarantee":"isinstance(self, Line2DBaseSeries)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"106498684aefd498","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Line2DBaseSeries)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":false,"binding_errors":["Function ParametricLineBaseSeries not found in source"]}}
 class ParametricLineBaseSeries(Line2DBaseSeries):
     is_parametric = True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_set_parametric_line_label(lab), logic to set the correct label to be shown on the plot. if `use_cm=true` there will be a colorbar, so we show the parameter. if `use_cm=false`, there might be a legend, so we show the expressions) over Any ║
+# ║ Path(_set_parametric_line_label(label), <unspecified:_set_parametric_line_label>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _set_parametric_line_label : Any → Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0b993571d5b6e2c6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.ParametricLineBaseSeries._set_parametric_line_label","kind":"method","src_hash":"fc64a63b072d91a3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_set_parametric_line_label(lab)","rhs":"logic to set the correct label to be shown on the plot. if `use_cm=true` there will be a colorbar, so we show the parameter. if `use_cm=false`, there might be a legend, so we show the expressions","over":{"base":"Any"},"name":"_set_parametric_line_label_correct"},"guarantee":"logic to set the correct label to be shown on the plot. if `use_cm=true` there will be a colorbar, so we show the parameter. if `use_cm=false`, there might be a legend, so we show the expressions","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.ParametricLineBaseSeries._set_parametric_line_label_correct","statement":"Path(_set_parametric_line_label(x), logic to set the correct label to be shown on the plot. if `use_cm=true` there will be a colorbar, so we show the parameter. if `use_cm=false`, there might be a legend, so we show the expressions)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0b993571d5b6e2c6"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.ParametricLineBaseSeries._set_parametric_line_label","kind":"method","src_hash":"fc64a63b072d91a3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_set_parametric_line_label(label)","rhs":"<unspecified:_set_parametric_line_label>","over":{"base":"Any"},"name":"_set_parametric_line_label_correct"},"guarantee":"logic to set the correct label to be shown on the plot. if `use_cm=true` there will be a colorbar, so we show the parameter. if `use_cm=false`, there might be a legend, so we show the expressions","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.ParametricLineBaseSeries._set_parametric_line_label_correct","statement":"Path(_set_parametric_line_label(x), logic to set the correct label to be shown on the plot. if `use_cm=true` there will be a colorbar, so we show the parameter. if `use_cm=false`, there might be a legend, so we show the expressions)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0b993571d5b6e2c6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._label","self.expr","self.use_cm","self.var"],"writes":["self._label","self._latex_label"]},"state_contract":{"modifies":["self._label","self._latex_label"],"old_bindings":{"old_self__label":"self._label","old_self__latex_label":"self._latex_label"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _set_parametric_line_label(self, label):
         """Logic to set the correct label to be shown on the plot.
         If `use_cm=True` there will be a colorbar, so we show the parameter.
@@ -2383,16 +2856,22 @@ class ParametricLineBaseSeries(Line2DBaseSeries):
                 self._label = ""
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_label(use), id) over Any                          ║
+# ║ Path(get_label(use_latex, wrapper), id) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ get_label : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 80648a7b0903656b   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.ParametricLineBaseSeries.get_label","kind":"method","src_hash":"44f90cc3fe1f4738","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_label(use)","rhs":"get_label produces the expected output","over":{"base":"Any"},"name":"get_label_correct","kind":"composition"},"guarantee":"get_label produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"_get_wrapped_label","by":"library_axiom"},{"fn":"latex","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"80648a7b0903656b"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.ParametricLineBaseSeries.get_label","kind":"method","src_hash":"44f90cc3fe1f4738","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_label(use_latex, wrapper)","rhs":"<unspecified:get_label>","over":{"base":"Any"},"name":"get_label_correct","kind":"composition"},"guarantee":"get_label produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"_get_wrapped_label","by":"library_axiom"},{"fn":"latex","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"80648a7b0903656b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._get_wrapped_label","self._label","self._latex_label","self.expr","self.use_cm","self.var"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def get_label(self, use_latex=False, wrapper="$%s$"):
         # parametric lines returns the representation of the parameter to be
         # shown on the colorbar if `use_cm=True`, otherwise it returns the
@@ -2411,16 +2890,22 @@ class ParametricLineBaseSeries(Line2DBaseSeries):
         return self._label
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_data_helper(), returns coordinates that needs to be postprocessed. depending on the `adaptive` option, this function will either use an adaptive algorithm or it will uniformly sample the expression over the provided) over Any ║
+# ║ Path(_get_data_helper(), <unspecified:_get_data_helper>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_data_helper : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8227515467df747b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.ParametricLineBaseSeries._get_data_helper","kind":"method","src_hash":"db978cf753cf01cd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_data_helper()","rhs":"returns coordinates that needs to be postprocessed. depending on the `adaptive` option, this function will either use an adaptive algorithm or it will uniformly sample the expression over the provided","over":{"base":"Any"},"name":"_get_data_helper_correct"},"guarantee":"returns coordinates that needs to be postprocessed. depending on the `adaptive` option, this function will either use an adaptive algorithm or it will uniformly sample the expression over the provided","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.ParametricLineBaseSeries._get_data_helper_correct","statement":"Path(_get_data_helper(x), returns coordinates that needs to be postprocessed. depending on the `adaptive` option, this function will either use an adaptive algorithm or it will uniformly sample the expression over the provided)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8227515467df747b"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.ParametricLineBaseSeries._get_data_helper","kind":"method","src_hash":"db978cf753cf01cd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_data_helper()","rhs":"<unspecified:_get_data_helper>","over":{"base":"Any"},"name":"_get_data_helper_correct"},"guarantee":"returns coordinates that needs to be postprocessed. depending on the `adaptive` option, this function will either use an adaptive algorithm or it will uniformly sample the expression over the provided","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.ParametricLineBaseSeries._get_data_helper_correct","statement":"Path(_get_data_helper(x), returns coordinates that needs to be postprocessed. depending on the `adaptive` option, this function will either use an adaptive algorithm or it will uniformly sample the expression over the provided)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8227515467df747b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._adaptive_sampling","self._uniform_sampling","self.adaptive","self.color_func","self.eval_color_func","self.is_2Dline","self.is_polar"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_data_helper(self):
         """Returns coordinates that needs to be postprocessed.
         Depending on the `adaptive` option, this function will either use an
@@ -2449,16 +2934,22 @@ class ParametricLineBaseSeries(Line2DBaseSeries):
         return coords
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_uniform_sampling(), returns coordinates that needs to be postprocessed) over Any ║
+# ║ Path(_uniform_sampling(), [*results[1:], results[0]]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [*results[1:], results[0]]                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _uniform_sampling : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ad8d0a41b173745d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 109ebdd8ce4361f0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.ParametricLineBaseSeries._uniform_sampling","kind":"method","src_hash":"1bfc928f049bc250","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_uniform_sampling()","rhs":"returns coordinates that needs to be postprocessed","over":{"base":"Any"},"name":"_uniform_sampling_correct"},"guarantee":"returns coordinates that needs to be postprocessed","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.ParametricLineBaseSeries._uniform_sampling_correct","statement":"Path(_uniform_sampling(x), returns coordinates that needs to be postprocessed)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ad8d0a41b173745d"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.ParametricLineBaseSeries._uniform_sampling","kind":"method","src_hash":"1bfc928f049bc250","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_uniform_sampling()","rhs":"[*results[1:], results[0]]","over":{"base":"Any"},"name":"_uniform_sampling_correct"},"guarantee":"returns [*results[1:], results[0]]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.ParametricLineBaseSeries._uniform_sampling_correct","statement":"Path(_uniform_sampling(x), returns [*results[1:], results[0]])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"109ebdd8ce4361f0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[*results[1:], results[0]]","pure":false,"effects":{"effect_type":"reads_state","reads":["self._evaluate"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _uniform_sampling(self):
         """Returns coordinates that needs to be postprocessed."""
         np = import_module('numpy')
@@ -2472,30 +2963,42 @@ class ParametricLineBaseSeries(Line2DBaseSeries):
         return [*results[1:], results[0]]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_parameter_points(), get_parameter_points produces the expected output) over Any ║
+# ║ Path(get_parameter_points(), self.get_data()[-1]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.get_data()[-1]                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ get_parameter_points : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 59ba377700305e58           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.ParametricLineBaseSeries.get_parameter_points","kind":"method","src_hash":"67c39d377eef287a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_parameter_points()","rhs":"get_parameter_points produces the expected output","over":{"base":"Any"},"name":"get_parameter_points_correct"},"guarantee":"get_parameter_points produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"59ba377700305e58"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.ParametricLineBaseSeries.get_parameter_points","kind":"method","src_hash":"67c39d377eef287a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_parameter_points()","rhs":"self.get_data()[-1]","over":{"base":"Any"},"name":"get_parameter_points_correct"},"guarantee":"returns self.get_data()[-1]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"59ba377700305e58","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.get_data()[-1]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.get_data"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def get_parameter_points(self):
         return self.get_data()[-1]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_points(), return lists of coordinates for plotting) over Any ║
+# ║ Path(get_points(), self._get_data_helper()[:-1]) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._get_data_helper()[:-1]                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ get_points : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 974b36d75dd211f1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.ParametricLineBaseSeries.get_points","kind":"method","src_hash":"9a9eedd3b2f7495e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_points()","rhs":"return lists of coordinates for plotting","over":{"base":"Any"},"name":"get_points_correct"},"guarantee":"return lists of coordinates for plotting","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"974b36d75dd211f1"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.ParametricLineBaseSeries.get_points","kind":"method","src_hash":"9a9eedd3b2f7495e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_points()","rhs":"self._get_data_helper()[:-1]","over":{"base":"Any"},"name":"get_points_correct"},"guarantee":"returns self._get_data_helper()[:-1]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"974b36d75dd211f1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._get_data_helper()[:-1]","pure":false,"effects":{"effect_type":"reads_state","reads":["self._get_data_helper"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def get_points(self):
         """ Return lists of coordinates for plotting. Depending on the
         ``adaptive`` option, this function will either use an adaptive algorithm
@@ -2517,31 +3020,43 @@ class ParametricLineBaseSeries(Line2DBaseSeries):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(nb_of_points(), returns the nb_of_points attribute) over Any ║
+# ║ Path(nb_of_points(), self.n[0]) over Any                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.n[0]                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ nb_of_points : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 613351a86db35382           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.ParametricLineBaseSeries.nb_of_points","kind":"property","src_hash":"c2e9d3fe31c222b0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"nb_of_points()","rhs":"returns the nb_of_points attribute","over":{"base":"Any"},"name":"nb_of_points_correct"},"guarantee":"returns the nb_of_points attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"613351a86db35382"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.ParametricLineBaseSeries.nb_of_points","kind":"property","src_hash":"c2e9d3fe31c222b0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"nb_of_points()","rhs":"self.n[0]","over":{"base":"Any"},"name":"nb_of_points_correct"},"guarantee":"returns self.n[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"613351a86db35382","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.n[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.n"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def nb_of_points(self):
         return self.n[0]
 
     @nb_of_points.setter
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(nb_of_points(v), nb_of_points produces the expected output) over Any ║
+# ║ Path(nb_of_points(v), <unspecified:nb_of_points>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ nb_of_points : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4c73c4202a884e80  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.ParametricLineBaseSeries.nb_of_points","kind":"method","src_hash":"f17e3245ed4117ca","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"nb_of_points(v)","rhs":"nb_of_points produces the expected output","over":{"base":"Any"},"name":"nb_of_points_correct"},"guarantee":"nb_of_points produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.ParametricLineBaseSeries.nb_of_points_correct","statement":"Path(nb_of_points(x), nb_of_points produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4c73c4202a884e80"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.ParametricLineBaseSeries.nb_of_points","kind":"method","src_hash":"f17e3245ed4117ca","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"nb_of_points(v)","rhs":"<unspecified:nb_of_points>","over":{"base":"Any"},"name":"nb_of_points_correct"},"guarantee":"nb_of_points produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.ParametricLineBaseSeries.nb_of_points_correct","statement":"Path(nb_of_points(x), nb_of_points produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4c73c4202a884e80","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","writes":["self.n"]},"state_contract":{"modifies":["self.n"],"old_bindings":{"old_self_n":"self.n"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def nb_of_points(self, v):
         self.n = v
 
@@ -2549,14 +3064,20 @@ class ParametricLineBaseSeries(Line2DBaseSeries):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a Parametric2DLineSeries instance) preserved by Parametric2DLineSeries(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Parametric2DLineSeries : Any → Any                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, ParametricLineBaseSeries)     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Parametric2DLineSeries : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 207b87921b7d5670  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.Parametric2DLineSeries","kind":"class","src_hash":"4864004a4bd260f8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Parametric2DLineSeries(*args)","rhs":"correctly constructs a Parametric2DLineSeries instance","over":{"base":"Any"},"name":"Parametric2DLineSeries_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a Parametric2DLineSeries instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'expr_x') and hasattr(self, 'expr_y') and hasattr(self, 'expr') and hasattr(self, 'ranges') and hasattr(self, '_cast') and hasattr(self, 'use_cm')","kind":"class","induction":"structural on expr_x, expr_y, expr, ranges"}],"methods_preserving":["__init__","__str__","_adaptive_sampling","_adaptive_sampling_helper"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"207b87921b7d5670"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.Parametric2DLineSeries","kind":"class","src_hash":"4864004a4bd260f8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, ParametricLineBaseSeries)"},"spec":{"lhs":"Parametric2DLineSeries(*args)","rhs":"correctly constructs a Parametric2DLineSeries instance","over":{"base":"Any"},"name":"Parametric2DLineSeries_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, ParametricLineBaseSeries); preserves 6 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'expr_x') and hasattr(self, 'expr_y') and hasattr(self, 'expr') and hasattr(self, 'ranges') and hasattr(self, '_cast') and hasattr(self, 'use_cm')","kind":"class","induction":"structural on expr_x, expr_y, expr, ranges"}],"methods_preserving":["__init__","__str__","_adaptive_sampling","_adaptive_sampling_helper"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"207b87921b7d5670","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, ParametricLineBaseSeries)"],"invariants":["hasattr(self, 'expr_x')","hasattr(self, 'expr_y')","hasattr(self, 'expr')","hasattr(self, 'ranges')","hasattr(self, '_cast')","hasattr(self, 'use_cm')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function Parametric2DLineSeries not found in source"]}}
 class Parametric2DLineSeries(ParametricLineBaseSeries):
     """Representation for a line consisting of two parametric SymPy expressions
     over a range."""
@@ -2564,16 +3085,22 @@ class Parametric2DLineSeries(ParametricLineBaseSeries):
     is_2Dline = True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(exp), initializes the instance correctly) over Any ║
+# ║ Path(__init__(expr_x, expr_y, var_start_end), <unspecified:__init__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __init__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 058bf31d33e17ad8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.Parametric2DLineSeries.__init__","kind":"method","src_hash":"f3cf40c2f3aad7ef","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(exp)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"058bf31d33e17ad8"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.Parametric2DLineSeries.__init__","kind":"method","src_hash":"f3cf40c2f3aad7ef","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(expr_x, expr_y, var_start_end)","rhs":"<unspecified:__init__>","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"058bf31d33e17ad8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, expr_x, expr_y, var_start_end, label="", **kwargs):
         super().__init__(**kwargs)
         self.expr_x = expr_x if callable(expr_x) else sympify(expr_x)
@@ -2586,16 +3113,22 @@ class Parametric2DLineSeries(ParametricLineBaseSeries):
         self._post_init()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__str__(), returns a human-readable string) over Any  ║
+# ║ Path(__str__(), self._str_helper('parametric cartesian line: (%s, %s) for %s over %s' % (str(self.expr_x), str(self.expr_y), str(self.var), str((self.start, self.end))))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._str_helper('parametric cartesian li...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __str__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0c2daa9d7463e4a1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.Parametric2DLineSeries.__str__","kind":"method","src_hash":"a15e9cb79c7779d2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"returns a human-readable string","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0c2daa9d7463e4a1"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.Parametric2DLineSeries.__str__","kind":"method","src_hash":"a15e9cb79c7779d2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"self._str_helper('parametric cartesian line: (%s, %s) for %s over %s' % (str(self.expr_x), str(self.expr_y), str(self.var), str((self.start, self.end))))","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns self._str_helper('parametric cartesian line: (%s, %s) for %s over %s' % (str(self.expr_x), str(self.expr_y), str(self.var), str((self.start, self.end))))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0c2daa9d7463e4a1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._str_helper('parametric cartesian line: (%s, %s) for %s over %s' % (str(self.expr_x), str(self.expr_y), str(self.var), str((self.start, self.end))))","pure":false,"effects":{"effect_type":"reads_state","reads":["self._str_helper","self.end","self.expr_x","self.expr_y","self.start","self.var"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __str__(self):
         return self._str_helper(
             "parametric cartesian line: (%s, %s) for %s over %s" % (
@@ -2606,16 +3139,22 @@ class Parametric2DLineSeries(ParametricLineBaseSeries):
         ))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_adaptive_sampling(), internal helper behaves correctly) over Any ║
+# ║ Path(_adaptive_sampling(), (x, y, p)) over Any             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (x, y, p)                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _adaptive_sampling : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 33a7e3f5ee51219f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 53b28549077b1c5b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.Parametric2DLineSeries._adaptive_sampling","kind":"method","src_hash":"32a6d817a582480d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_adaptive_sampling()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_adaptive_sampling_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.Parametric2DLineSeries._adaptive_sampling_correct","statement":"Path(_adaptive_sampling(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"33a7e3f5ee51219f"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.Parametric2DLineSeries._adaptive_sampling","kind":"method","src_hash":"32a6d817a582480d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_adaptive_sampling()","rhs":"(x, y, p)","over":{"base":"Any"},"name":"_adaptive_sampling_correct"},"guarantee":"returns (x, y, p)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.Parametric2DLineSeries._adaptive_sampling_correct","statement":"Path(_adaptive_sampling(x), returns (x, y, p))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"53b28549077b1c5b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(x, y, p)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._adaptive_sampling_helper","self.expr_x","self.expr_y","self.modules","self.var"],"catches":["Exception"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _adaptive_sampling(self):
         try:
             if callable(self.expr_x) and callable(self.expr_y):
@@ -2639,16 +3178,25 @@ class Parametric2DLineSeries(ParametricLineBaseSeries):
         return x, y, p
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_adaptive_sampling_helper(f_x), the adaptive sampling is done by recursively checking if three points are almost collinear) over Any ║
+# ║ Path(_adaptive_sampling_helper(f_x, f_y), (x_coords, y_coords, param)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _adaptive_sampling_helper : Any → Any                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(param) == old_len_param + 1                ║
+# ║   ensures:  len(x_coords) == old_len_x_coords + 1          ║
+# ║   ensures:  len(y_coords) == old_len_y_coords + 1          ║
+# ║   returns:  (x_coords, y_coords, param)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _adaptive_sampling_helper : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e10cf7531c140808  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 716f19aed3d231bc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.Parametric2DLineSeries._adaptive_sampling_helper","kind":"method","src_hash":"ca34e4d0f9e7a56c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_adaptive_sampling_helper(f_x)","rhs":"the adaptive sampling is done by recursively checking if three points are almost collinear","over":{"base":"Any"},"name":"_adaptive_sampling_helper_correct"},"guarantee":"the adaptive sampling is done by recursively checking if three points are almost collinear","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.Parametric2DLineSeries._adaptive_sampling_helper_correct","statement":"Path(_adaptive_sampling_helper(x), the adaptive sampling is done by recursively checking if three points are almost collinear)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e10cf7531c140808"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.Parametric2DLineSeries._adaptive_sampling_helper","kind":"method","src_hash":"ca34e4d0f9e7a56c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == ((x_coords, y_coords, param))"},"spec":{"lhs":"_adaptive_sampling_helper(f_x, f_y)","rhs":"(x_coords, y_coords, param)","over":{"base":"Any"},"name":"_adaptive_sampling_helper_correct"},"guarantee":"returns (x_coords, y_coords, param); len(param) == old_len_param + 1; len(x_coords) == old_len_x_coords + 1; len(y_coords) == old_len_y_coords + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.Parametric2DLineSeries._adaptive_sampling_helper_correct","statement":"Path(_adaptive_sampling_helper(x), returns (x_coords, y_coords, param); len(param) == old_len_param + 1; len(x_coords) == old_len_x_coords + 1; len(y_coords) == old_len_y_coords + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"716f19aed3d231bc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(param) == old_len_param + 1","len(x_coords) == old_len_x_coords + 1","len(y_coords) == old_len_y_coords + 1"],"returns_expr":"(x_coords, y_coords, param)","pure":false,"effects":{"effect_type":"nondeterministic","reads":["self.depth","self.end","self.start"],"calls_mutating":["param.append","x_coords.append","y_coords.append"],"nondeterministic_sources":["sample"]},"state_contract":{"modifies":["param.*","x_coords.*","y_coords.*"],"old_bindings":{"old_len_param":"len(param)","old_len_x_coords":"len(x_coords)","old_len_y_coords":"len(y_coords)"},"post_ensures":["len(param) == old_len_param + 1","len(x_coords) == old_len_x_coords + 1","len(y_coords) == old_len_y_coords + 1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _adaptive_sampling_helper(self, f_x, f_y):
         """The adaptive sampling is done by recursively checking if three
         points are almost collinear. If they are not collinear, then more
@@ -2738,14 +3286,20 @@ class Parametric2DLineSeries(ParametricLineBaseSeries):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Line3DBaseSeries(*args), correctly constructs a Line3DBaseSeries instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Line3DBaseSeries : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Line2DBaseSeries)             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Line3DBaseSeries : Any → {Any | result satisfies: isi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4760cbcde2cf4bf3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.Line3DBaseSeries","kind":"class","src_hash":"d7cd4bc1219a1b76","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Line3DBaseSeries(*args)","rhs":"correctly constructs a Line3DBaseSeries instance","over":{"base":"Any"},"name":"Line3DBaseSeries_class_invariant"},"guarantee":"correctly constructs a Line3DBaseSeries instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4760cbcde2cf4bf3"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.Line3DBaseSeries","kind":"class","src_hash":"d7cd4bc1219a1b76","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Line2DBaseSeries)"},"spec":{"lhs":"Line3DBaseSeries(*args)","rhs":"correctly constructs a Line3DBaseSeries instance","over":{"base":"Any"},"name":"Line3DBaseSeries_class_invariant"},"guarantee":"isinstance(self, Line2DBaseSeries)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4760cbcde2cf4bf3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Line2DBaseSeries)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function Line3DBaseSeries not found in source"]}}
 class Line3DBaseSeries(Line2DBaseSeries):
     """A base class for 3D lines.
 
@@ -2756,16 +3310,22 @@ class Line3DBaseSeries(Line2DBaseSeries):
     _dim = 3
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(), initializes the instance correctly) over Any ║
+# ║ Path(__init__(), <unspecified:__init__>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __init__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 40642ee463892901           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.Line3DBaseSeries.__init__","kind":"method","src_hash":"c5c8133168339d2a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__()","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"40642ee463892901"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.Line3DBaseSeries.__init__","kind":"method","src_hash":"c5c8133168339d2a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__()","rhs":"<unspecified:__init__>","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"40642ee463892901","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self):
         super().__init__()
 
@@ -2773,14 +3333,20 @@ class Line3DBaseSeries(Line2DBaseSeries):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a Parametric3DLineSeries instance) preserved by Parametric3DLineSeries(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Parametric3DLineSeries : Any → Any                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, ParametricLineBaseSeries)     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Parametric3DLineSeries : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b06742c41a5d2cf5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.Parametric3DLineSeries","kind":"class","src_hash":"16432957f6adbc93","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Parametric3DLineSeries(*args)","rhs":"correctly constructs a Parametric3DLineSeries instance","over":{"base":"Any"},"name":"Parametric3DLineSeries_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a Parametric3DLineSeries instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'expr_x') and hasattr(self, 'expr_y') and hasattr(self, 'expr_z') and hasattr(self, 'expr') and hasattr(self, 'ranges') and hasattr(self, '_cast') and hasattr(self, 'adaptive') and hasattr(self, 'use_cm')","kind":"class","induction":"structural on expr_x, expr_y, expr_z, expr"}],"methods_preserving":["__init__","__str__","get_data"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b06742c41a5d2cf5"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.Parametric3DLineSeries","kind":"class","src_hash":"16432957f6adbc93","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, ParametricLineBaseSeries)"},"spec":{"lhs":"Parametric3DLineSeries(*args)","rhs":"correctly constructs a Parametric3DLineSeries instance","over":{"base":"Any"},"name":"Parametric3DLineSeries_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, ParametricLineBaseSeries); preserves 11 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'expr_x') and hasattr(self, 'expr_y') and hasattr(self, 'expr_z') and hasattr(self, 'expr') and hasattr(self, 'ranges') and hasattr(self, '_cast') and hasattr(self, 'adaptive') and hasattr(self, 'use_cm')","kind":"class","induction":"structural on expr_x, expr_y, expr_z, expr"}],"methods_preserving":["__init__","__str__","get_data"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b06742c41a5d2cf5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, ParametricLineBaseSeries)"],"invariants":["hasattr(self, 'expr_x')","hasattr(self, 'expr_y')","hasattr(self, 'expr_z')","hasattr(self, 'expr')","hasattr(self, 'ranges')","hasattr(self, '_cast')","hasattr(self, 'adaptive')","hasattr(self, 'use_cm')","hasattr(self, '_xlim')","hasattr(self, '_ylim')","hasattr(self, '_zlim')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function Parametric3DLineSeries not found in source"]}}
 class Parametric3DLineSeries(ParametricLineBaseSeries):
     """Representation for a 3D line consisting of three parametric SymPy
     expressions and a range."""
@@ -2789,16 +3355,22 @@ class Parametric3DLineSeries(ParametricLineBaseSeries):
     is_3Dline = True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(exp), initializes the instance correctly) over Any ║
+# ║ Path(__init__(expr_x, expr_y, expr_z), <unspecified:__init__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __init__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6dfbd1a7f275356c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.Parametric3DLineSeries.__init__","kind":"method","src_hash":"b279db65969bb6d5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(exp)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6dfbd1a7f275356c"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.Parametric3DLineSeries.__init__","kind":"method","src_hash":"b279db65969bb6d5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(expr_x, expr_y, expr_z)","rhs":"<unspecified:__init__>","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6dfbd1a7f275356c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, expr_x, expr_y, expr_z, var_start_end, label="", **kwargs):
         super().__init__(**kwargs)
         self.expr_x = expr_x if callable(expr_x) else sympify(expr_x)
@@ -2817,16 +3389,22 @@ class Parametric3DLineSeries(ParametricLineBaseSeries):
         self._zlim = None
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__str__(), returns a human-readable string) over Any  ║
+# ║ Path(__str__(), self._str_helper('3D parametric cartesian line: (%s, %s, %s) for %s over %s' % (str(self.expr_x), str(self.expr_y), str(self.expr_z), str(self.var), str((self.start, self.end))))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._str_helper('3D parametric cartesian...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __str__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 75071eeeb8af710b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.Parametric3DLineSeries.__str__","kind":"method","src_hash":"5d82c4b3166f4ab1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"returns a human-readable string","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"75071eeeb8af710b"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.Parametric3DLineSeries.__str__","kind":"method","src_hash":"5d82c4b3166f4ab1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"self._str_helper('3D parametric cartesian line: (%s, %s, %s) for %s over %s' % (str(self.expr_x), str(self.expr_y), str(self.expr_z), str(self.var), str((self.start, self.end))))","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns self._str_helper('3D parametric cartesian line: (%s, %s, %s) for %s over %s' % (str(self.expr_x), str(self.expr_y), str(self.expr_z), str(self.var), str((self.start, self.end))))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"75071eeeb8af710b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._str_helper('3D parametric cartesian line: (%s, %s, %s) for %s over %s' % (str(self.expr_x), str(self.expr_y), str(self.expr_z), str(self.var), str((self.start, self.end))))","pure":false,"effects":{"effect_type":"reads_state","reads":["self._str_helper","self.end","self.expr_x","self.expr_y","self.expr_z","self.start","self.var"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __str__(self):
         return self._str_helper(
             "3D parametric cartesian line: (%s, %s, %s) for %s over %s" % (
@@ -2838,16 +3416,22 @@ class Parametric3DLineSeries(ParametricLineBaseSeries):
         ))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_data(), get_data produces the expected output) over Any ║
+# ║ Path(get_data(), (x, y, z, p)) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (x, y, z, p)                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ get_data : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c678ba340907c228  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7fff6d371453c194  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.Parametric3DLineSeries.get_data","kind":"method","src_hash":"57c73c8925d5e82f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_data()","rhs":"get_data produces the expected output","over":{"base":"Any"},"name":"get_data_correct"},"guarantee":"get_data produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.Parametric3DLineSeries.get_data_correct","statement":"Path(get_data(x), get_data produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c678ba340907c228"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.Parametric3DLineSeries.get_data","kind":"method","src_hash":"57c73c8925d5e82f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_data()","rhs":"(x, y, z, p)","over":{"base":"Any"},"name":"get_data_correct"},"guarantee":"returns (x, y, z, p)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.Parametric3DLineSeries.get_data_correct","statement":"Path(get_data(x), returns (x, y, z, p))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7fff6d371453c194","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(x, y, z, p)","pure":false,"effects":{"effect_type":"mutates_self","writes":["self._xlim","self._ylim","self._zlim"]},"state_contract":{"modifies":["self._xlim","self._ylim","self._zlim"],"old_bindings":{"old_self__xlim":"self._xlim","old_self__ylim":"self._ylim","old_self__zlim":"self._zlim"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def get_data(self):
         # TODO: remove this
         np = import_module("numpy")
@@ -2862,30 +3446,42 @@ class Parametric3DLineSeries(ParametricLineBaseSeries):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a SurfaceBaseSeries instance) preserved by SurfaceBaseSeries(*args) over {Any | isinstance(c, Callable) and isinstance(self, SurfaceOver2DRangeSeries)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, BaseSeries)                   ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ SurfaceBaseSeries : {Any | isinstance(c, Callable) an...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9b0e85ad546cd37c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.SurfaceBaseSeries","kind":"class","src_hash":"83ff6c015646883a","in":{"base":"Any","pred":"isinstance(c, Callable) and isinstance(self, SurfaceOver2DRangeSeries)"},"out":{"base":"Any"},"spec":{"lhs":"SurfaceBaseSeries(*args)","rhs":"correctly constructs a SurfaceBaseSeries instance","over":{"base":"Any","pred":"isinstance(c, Callable) and isinstance(self, SurfaceOver2DRangeSeries)"},"name":"SurfaceBaseSeries_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a SurfaceBaseSeries instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'use_cm') and hasattr(self, 'is_polar') and hasattr(self, 'surface_color') and hasattr(self, 'color_func') and hasattr(self, 'color_func') and hasattr(self, 'surface_color')","kind":"class","induction":"structural on use_cm, is_polar, surface_color, color_func"}],"methods_preserving":["__init__","_set_surface_label","get_color_array"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9b0e85ad546cd37c"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.SurfaceBaseSeries","kind":"class","src_hash":"83ff6c015646883a","in":{"base":"Any","pred":"isinstance(c, Callable) and isinstance(self, SurfaceOver2DRangeSeries)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, BaseSeries)"},"spec":{"lhs":"SurfaceBaseSeries(*args)","rhs":"correctly constructs a SurfaceBaseSeries instance","over":{"base":"Any","pred":"isinstance(c, Callable) and isinstance(self, SurfaceOver2DRangeSeries)"},"name":"SurfaceBaseSeries_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, BaseSeries); preserves 4 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'use_cm') and hasattr(self, 'is_polar') and hasattr(self, 'surface_color') and hasattr(self, 'color_func') and hasattr(self, 'color_func') and hasattr(self, 'surface_color')","kind":"class","induction":"structural on use_cm, is_polar, surface_color, color_func"}],"methods_preserving":["__init__","_set_surface_label","get_color_array"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9b0e85ad546cd37c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, BaseSeries)"],"invariants":["hasattr(self, 'use_cm')","hasattr(self, 'is_polar')","hasattr(self, 'surface_color')","hasattr(self, 'color_func')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":false,"binding_errors":["Function SurfaceBaseSeries not found in source"]}}
 class SurfaceBaseSeries(BaseSeries):
     """A base class for 3D surfaces."""
 
     is_3Dsurface = True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(*ar), initializes the instance correctly) over Any ║
+# ║ Path(__init__(*args, **kwargs), <unspecified:__init__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __init__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | dde86def722f5bff           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.SurfaceBaseSeries.__init__","kind":"method","src_hash":"0ebb3c57f111e794","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(*ar)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"dde86def722f5bff"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.SurfaceBaseSeries.__init__","kind":"method","src_hash":"0ebb3c57f111e794","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(*args, **kwargs)","rhs":"<unspecified:__init__>","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"dde86def722f5bff","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, *args, **kwargs):
         super().__init__(**kwargs)
         self.use_cm = kwargs.get("use_cm", False)
@@ -2904,16 +3500,22 @@ class SurfaceBaseSeries(BaseSeries):
             self.surface_color = None
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_set_surface_label(lab), internal helper behaves correctly) over Any ║
+# ║ Path(_set_surface_label(label), <unspecified:_set_surface_label>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _set_surface_label : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2417ff6bbc5b7ff7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.SurfaceBaseSeries._set_surface_label","kind":"method","src_hash":"6971cf496b2354db","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_set_surface_label(lab)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_set_surface_label_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.SurfaceBaseSeries._set_surface_label_correct","statement":"Path(_set_surface_label(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2417ff6bbc5b7ff7"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.SurfaceBaseSeries._set_surface_label","kind":"method","src_hash":"6971cf496b2354db","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_set_surface_label(label)","rhs":"<unspecified:_set_surface_label>","over":{"base":"Any"},"name":"_set_surface_label_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.SurfaceBaseSeries._set_surface_label_correct","statement":"Path(_set_surface_label(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2417ff6bbc5b7ff7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._label","self.expr"],"writes":["self._label","self._latex_label"]},"state_contract":{"modifies":["self._label","self._latex_label"],"old_bindings":{"old_self__label":"self._label","old_self__latex_label":"self._latex_label"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _set_surface_label(self, label):
         exprs = self.expr
         self._label = str(exprs) if label is None else label
@@ -2928,16 +3530,24 @@ class SurfaceBaseSeries(BaseSeries):
                 self._latex_label = ""
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_color_array(), get_color_array produces the expected output) over Any ║
+# ║ Path(get_color_array(), <unspecified:get_color_array>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[Callable]: isinstance(c, Callable)                 ║
+# ║   fiber[SurfaceOver2DRangeSeries]: isinstance(self, S...   ║
+# ║   fiber[Callable]: not (isinstance(c, Callable)) and ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ get_color_array : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0181e16ab597eb45  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c3cb4e7e9af225ad  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.SurfaceBaseSeries.get_color_array","kind":"method","src_hash":"6b072d113ef254f4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_color_array()","rhs":"get_color_array produces the expected output","over":{"base":"Any"},"name":"get_color_array_correct"},"guarantee":"get_color_array produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.SurfaceBaseSeries.get_color_array_correct","statement":"Path(get_color_array(x), get_color_array produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0181e16ab597eb45"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.SurfaceBaseSeries.get_color_array","kind":"method","src_hash":"6b072d113ef254f4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_color_array()","rhs":"<unspecified:get_color_array>","over":{"base":"Any"},"name":"get_color_array_correct"},"guarantee":"3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.SurfaceBaseSeries.get_color_array_correct","statement":"Path(get_color_array(x), 3-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c3cb4e7e9af225ad","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"Callable","guard":"isinstance(c, Callable)","ensures":[],"decidability":"structural"},{"name":"SurfaceOver2DRangeSeries","guard":"isinstance(self, SurfaceOver2DRangeSeries)","ensures":["result == c * np.ones(min(self.nb_of_points_x, self.nb_of_points_y))"],"decidability":"structural","returns_expr":"c * np.ones(min(self.nb_of_points_x, self.nb_of_points_y))"},{"name":"Callable","guard":"not (isinstance(c, Callable)) and not (isinstance(self, SurfaceOver2DRangeSeries))","ensures":["result == c * np.ones(min(self.nb_of_points_u, self.nb_of_points_v))"],"decidability":"structural","returns_expr":"c * np.ones(min(self.nb_of_points_u, self.nb_of_points_v))"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.get_meshes","self.get_parameter_meshes","self.is_parametric","self.nb_of_points_u","self.nb_of_points_v","self.nb_of_points_x","self.nb_of_points_y","self.surface_color"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def get_color_array(self):
         np = import_module('numpy')
         c = self.surface_color
@@ -2967,29 +3577,41 @@ class SurfaceBaseSeries(BaseSeries):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a SurfaceOver2DRangeSeries instance) preserved by SurfaceOver2DRangeSeries(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ SurfaceOver2DRangeSeries : Any → Any                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, SurfaceBaseSeries)            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ SurfaceOver2DRangeSeries : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 79834a6b37a44f38  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.SurfaceOver2DRangeSeries","kind":"class","src_hash":"c479911e05f7ee91","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"SurfaceOver2DRangeSeries(*args)","rhs":"correctly constructs a SurfaceOver2DRangeSeries instance","over":{"base":"Any"},"name":"SurfaceOver2DRangeSeries_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a SurfaceOver2DRangeSeries instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'expr') and hasattr(self, 'ranges') and hasattr(self, '_xlim') and hasattr(self, '_ylim')","kind":"class","induction":"structural on expr, ranges, _xlim, _ylim"}],"methods_preserving":["__init__","var_x","var_y","start_x","end_x","start_y","end_y","nb_of_points_x","nb_of_points_x","nb_of_points_y","nb_of_points_y","__str__","get_meshes","get_data"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"79834a6b37a44f38"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.SurfaceOver2DRangeSeries","kind":"class","src_hash":"c479911e05f7ee91","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, SurfaceBaseSeries)"},"spec":{"lhs":"SurfaceOver2DRangeSeries(*args)","rhs":"correctly constructs a SurfaceOver2DRangeSeries instance","over":{"base":"Any"},"name":"SurfaceOver2DRangeSeries_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, SurfaceBaseSeries); preserves 4 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'expr') and hasattr(self, 'ranges') and hasattr(self, '_xlim') and hasattr(self, '_ylim')","kind":"class","induction":"structural on expr, ranges, _xlim, _ylim"}],"methods_preserving":["__init__","var_x","var_y","start_x","end_x","start_y","end_y","nb_of_points_x","nb_of_points_x","nb_of_points_y","nb_of_points_y","__str__","get_meshes","get_data"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"79834a6b37a44f38","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, SurfaceBaseSeries)"],"invariants":["hasattr(self, 'expr')","hasattr(self, 'ranges')","hasattr(self, '_xlim')","hasattr(self, '_ylim')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":false,"binding_errors":["Function SurfaceOver2DRangeSeries not found in source"]}}
 class SurfaceOver2DRangeSeries(SurfaceBaseSeries):
     """Representation for a 3D surface consisting of a SymPy expression and 2D
     range."""
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(exp), initializes the instance correctly) over Any ║
+# ║ Path(__init__(expr, var_start_end_x, var_start_end_y), <unspecified:__init__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __init__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7e0b550245db98bb           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.SurfaceOver2DRangeSeries.__init__","kind":"method","src_hash":"c2df8c23bd4b88ff","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(exp)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7e0b550245db98bb"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.SurfaceOver2DRangeSeries.__init__","kind":"method","src_hash":"c2df8c23bd4b88ff","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(expr, var_start_end_x, var_start_end_y)","rhs":"<unspecified:__init__>","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7e0b550245db98bb","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, expr, var_start_end_x, var_start_end_y, label="", **kwargs):
         super().__init__(**kwargs)
         self.expr = expr if callable(expr) else sympify(expr)
@@ -3002,46 +3624,64 @@ class SurfaceOver2DRangeSeries(SurfaceBaseSeries):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(var_x(), returns the var_x attribute) over Any        ║
+# ║ Path(var_x(), self.ranges[0][0]) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.ranges[0][0]                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ var_x : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 99f3fbfedf561071           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.SurfaceOver2DRangeSeries.var_x","kind":"property","src_hash":"249870cb6abd69ff","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"var_x()","rhs":"returns the var_x attribute","over":{"base":"Any"},"name":"var_x_correct"},"guarantee":"returns the var_x attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"99f3fbfedf561071"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.SurfaceOver2DRangeSeries.var_x","kind":"property","src_hash":"249870cb6abd69ff","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"var_x()","rhs":"self.ranges[0][0]","over":{"base":"Any"},"name":"var_x_correct"},"guarantee":"returns self.ranges[0][0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"99f3fbfedf561071","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.ranges[0][0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.ranges"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def var_x(self):
         return self.ranges[0][0]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(var_y(), returns the var_y attribute) over Any        ║
+# ║ Path(var_y(), self.ranges[1][0]) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.ranges[1][0]                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ var_y : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7177d77f0a1dd757           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.SurfaceOver2DRangeSeries.var_y","kind":"property","src_hash":"380e127043691227","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"var_y()","rhs":"returns the var_y attribute","over":{"base":"Any"},"name":"var_y_correct"},"guarantee":"returns the var_y attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7177d77f0a1dd757"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.SurfaceOver2DRangeSeries.var_y","kind":"property","src_hash":"380e127043691227","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"var_y()","rhs":"self.ranges[1][0]","over":{"base":"Any"},"name":"var_y_correct"},"guarantee":"returns self.ranges[1][0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7177d77f0a1dd757","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.ranges[1][0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.ranges"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def var_y(self):
         return self.ranges[1][0]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(start_x(), returns the start_x attribute) over Any    ║
+# ║ Path(start_x(), <unspecified:start_x>) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ start_x : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7edef2ed102ba3e7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.SurfaceOver2DRangeSeries.start_x","kind":"property","src_hash":"6e82ba61650134d0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"start_x()","rhs":"returns the start_x attribute","over":{"base":"Any"},"name":"start_x_correct"},"guarantee":"returns the start_x attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7edef2ed102ba3e7"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.SurfaceOver2DRangeSeries.start_x","kind":"property","src_hash":"6e82ba61650134d0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"start_x()","rhs":"<unspecified:start_x>","over":{"base":"Any"},"name":"start_x_correct"},"guarantee":"returns the start_x attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7edef2ed102ba3e7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.ranges"],"catches":["TypeError"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def start_x(self):
         try:
             return float(self.ranges[0][1])
@@ -3050,16 +3690,22 @@ class SurfaceOver2DRangeSeries(SurfaceBaseSeries):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(end_x(), returns the end_x attribute) over Any        ║
+# ║ Path(end_x(), <unspecified:end_x>) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ end_x : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6c390c286fe2e24d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.SurfaceOver2DRangeSeries.end_x","kind":"property","src_hash":"fa9b9ab2d86139da","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"end_x()","rhs":"returns the end_x attribute","over":{"base":"Any"},"name":"end_x_correct"},"guarantee":"returns the end_x attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6c390c286fe2e24d"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.SurfaceOver2DRangeSeries.end_x","kind":"property","src_hash":"fa9b9ab2d86139da","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"end_x()","rhs":"<unspecified:end_x>","over":{"base":"Any"},"name":"end_x_correct"},"guarantee":"returns the end_x attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6c390c286fe2e24d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.ranges"],"catches":["TypeError"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def end_x(self):
         try:
             return float(self.ranges[0][2])
@@ -3068,16 +3714,22 @@ class SurfaceOver2DRangeSeries(SurfaceBaseSeries):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(start_y(), returns the start_y attribute) over Any    ║
+# ║ Path(start_y(), <unspecified:start_y>) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ start_y : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b05a2a30c58c1ede           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.SurfaceOver2DRangeSeries.start_y","kind":"property","src_hash":"aaee0612b65cfbfe","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"start_y()","rhs":"returns the start_y attribute","over":{"base":"Any"},"name":"start_y_correct"},"guarantee":"returns the start_y attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b05a2a30c58c1ede"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.SurfaceOver2DRangeSeries.start_y","kind":"property","src_hash":"aaee0612b65cfbfe","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"start_y()","rhs":"<unspecified:start_y>","over":{"base":"Any"},"name":"start_y_correct"},"guarantee":"returns the start_y attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b05a2a30c58c1ede","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.ranges"],"catches":["TypeError"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def start_y(self):
         try:
             return float(self.ranges[1][1])
@@ -3086,16 +3738,22 @@ class SurfaceOver2DRangeSeries(SurfaceBaseSeries):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(end_y(), returns the end_y attribute) over Any        ║
+# ║ Path(end_y(), <unspecified:end_y>) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ end_y : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b04c01fb8b96cab4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.SurfaceOver2DRangeSeries.end_y","kind":"property","src_hash":"f461bf6026ccdb8d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"end_y()","rhs":"returns the end_y attribute","over":{"base":"Any"},"name":"end_y_correct"},"guarantee":"returns the end_y attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b04c01fb8b96cab4"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.SurfaceOver2DRangeSeries.end_y","kind":"property","src_hash":"f461bf6026ccdb8d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"end_y()","rhs":"<unspecified:end_y>","over":{"base":"Any"},"name":"end_y_correct"},"guarantee":"returns the end_y attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b04c01fb8b96cab4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.ranges"],"catches":["TypeError"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def end_y(self):
         try:
             return float(self.ranges[1][2])
@@ -3104,77 +3762,107 @@ class SurfaceOver2DRangeSeries(SurfaceBaseSeries):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(nb_of_points_x(), returns the nb_of_points_x attribute) over Any ║
+# ║ Path(nb_of_points_x(), self.n[0]) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.n[0]                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ nb_of_points_x : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c3d60e9719441f5f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.SurfaceOver2DRangeSeries.nb_of_points_x","kind":"property","src_hash":"e5605fada283421b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"nb_of_points_x()","rhs":"returns the nb_of_points_x attribute","over":{"base":"Any"},"name":"nb_of_points_x_correct"},"guarantee":"returns the nb_of_points_x attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c3d60e9719441f5f"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.SurfaceOver2DRangeSeries.nb_of_points_x","kind":"property","src_hash":"e5605fada283421b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"nb_of_points_x()","rhs":"self.n[0]","over":{"base":"Any"},"name":"nb_of_points_x_correct"},"guarantee":"returns self.n[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c3d60e9719441f5f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.n[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.n"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def nb_of_points_x(self):
         return self.n[0]
 
     @nb_of_points_x.setter
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(nb_of_points_x(v), nb_of_points_x produces the expected output) over Any ║
+# ║ Path(nb_of_points_x(v), <unspecified:nb_of_points_x>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ nb_of_points_x : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f3b49e85c2b830c1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.SurfaceOver2DRangeSeries.nb_of_points_x","kind":"method","src_hash":"1e8b09c5ab669348","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"nb_of_points_x(v)","rhs":"nb_of_points_x produces the expected output","over":{"base":"Any"},"name":"nb_of_points_x_correct"},"guarantee":"nb_of_points_x produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.SurfaceOver2DRangeSeries.nb_of_points_x_correct","statement":"Path(nb_of_points_x(x), nb_of_points_x produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f3b49e85c2b830c1"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.SurfaceOver2DRangeSeries.nb_of_points_x","kind":"method","src_hash":"1e8b09c5ab669348","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"nb_of_points_x(v)","rhs":"<unspecified:nb_of_points_x>","over":{"base":"Any"},"name":"nb_of_points_x_correct"},"guarantee":"nb_of_points_x produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.SurfaceOver2DRangeSeries.nb_of_points_x_correct","statement":"Path(nb_of_points_x(x), nb_of_points_x produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f3b49e85c2b830c1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self.n"],"writes":["self.n"]},"state_contract":{"modifies":["self.n"],"old_bindings":{"old_self_n":"self.n"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def nb_of_points_x(self, v):
         n = self.n
         self.n = [v, n[1:]]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(nb_of_points_y(), returns the nb_of_points_y attribute) over Any ║
+# ║ Path(nb_of_points_y(), self.n[1]) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.n[1]                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ nb_of_points_y : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 171a3d12f196e482           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.SurfaceOver2DRangeSeries.nb_of_points_y","kind":"property","src_hash":"a7e2d50957c77d66","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"nb_of_points_y()","rhs":"returns the nb_of_points_y attribute","over":{"base":"Any"},"name":"nb_of_points_y_correct"},"guarantee":"returns the nb_of_points_y attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"171a3d12f196e482"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.SurfaceOver2DRangeSeries.nb_of_points_y","kind":"property","src_hash":"a7e2d50957c77d66","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"nb_of_points_y()","rhs":"self.n[1]","over":{"base":"Any"},"name":"nb_of_points_y_correct"},"guarantee":"returns self.n[1]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"171a3d12f196e482","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.n[1]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.n"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def nb_of_points_y(self):
         return self.n[1]
 
     @nb_of_points_y.setter
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(nb_of_points_y(v), nb_of_points_y produces the expected output) over Any ║
+# ║ Path(nb_of_points_y(v), <unspecified:nb_of_points_y>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ nb_of_points_y : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f764cb3fc29e77ad  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.SurfaceOver2DRangeSeries.nb_of_points_y","kind":"method","src_hash":"5a47bac4b6a6276e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"nb_of_points_y(v)","rhs":"nb_of_points_y produces the expected output","over":{"base":"Any"},"name":"nb_of_points_y_correct"},"guarantee":"nb_of_points_y produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.SurfaceOver2DRangeSeries.nb_of_points_y_correct","statement":"Path(nb_of_points_y(x), nb_of_points_y produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f764cb3fc29e77ad"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.SurfaceOver2DRangeSeries.nb_of_points_y","kind":"method","src_hash":"5a47bac4b6a6276e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"nb_of_points_y(v)","rhs":"<unspecified:nb_of_points_y>","over":{"base":"Any"},"name":"nb_of_points_y_correct"},"guarantee":"nb_of_points_y produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.SurfaceOver2DRangeSeries.nb_of_points_y_correct","statement":"Path(nb_of_points_y(x), nb_of_points_y produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f764cb3fc29e77ad","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self.n"],"writes":["self.n"]},"state_contract":{"modifies":["self.n"],"old_bindings":{"old_self_n":"self.n"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def nb_of_points_y(self, v):
         n = self.n
         self.n = [n[0], v, n[2]]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__str__(), returns a human-readable string) over Any  ║
+# ║ Path(__str__(), self._str_helper(series_type + ': %s for %s over %s and %s over %s' % (str(self.expr), str(self.var_x), str((self.start_x, self.end_x)), str(self.var_y), str((self.start_y, self.end_y))))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._str_helper(series_type + ': %s for ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __str__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6b9991cc37a4842e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.SurfaceOver2DRangeSeries.__str__","kind":"method","src_hash":"386f29f7b953da3b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"returns a human-readable string","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6b9991cc37a4842e"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.SurfaceOver2DRangeSeries.__str__","kind":"method","src_hash":"386f29f7b953da3b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"self._str_helper(series_type + ': %s for %s over %s and %s over %s' % (str(self.expr), str(self.var_x), str((self.start_x, self.end_x)), str(self.var_y), str((self.start_y, self.end_y))))","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns self._str_helper(series_type + ': %s for %s over %s and %s over %s' % (str(self.expr), str(self.var_x), str((self.start_x, self.end_x)), str(self.var_y), str((self.start_y, self.end_y))))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6b9991cc37a4842e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._str_helper(series_type + ': %s for %s over %s and %s over %s' % (str(self.expr), str(self.var_x), str((self.start_x, self.end_x)), str(self.var_y), str((self.start_y, self.end_y))))","pure":false,"effects":{"effect_type":"reads_state","reads":["self._str_helper","self.end_x","self.end_y","self.expr","self.is_3Dsurface","self.start_x","self.start_y","self.var_x","self.var_y"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __str__(self):
         series_type = "cartesian surface" if self.is_3Dsurface else "contour"
         return self._str_helper(
@@ -3185,16 +3873,22 @@ class SurfaceOver2DRangeSeries(SurfaceBaseSeries):
         ))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_meshes(), return the x,y,z coordinates for plotting the surface. this function is available for back-compatibility purposes) over Any ║
+# ║ Path(get_meshes(), self.get_data()) over Any               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.get_data()                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ get_meshes : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 76d7a14b60a339e9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.SurfaceOver2DRangeSeries.get_meshes","kind":"method","src_hash":"19c37ed21b4ff15f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_meshes()","rhs":"return the x,y,z coordinates for plotting the surface. this function is available for back-compatibility purposes","over":{"base":"Any"},"name":"get_meshes_correct"},"guarantee":"return the x,y,z coordinates for plotting the surface. this function is available for back-compatibility purposes","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"76d7a14b60a339e9"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.SurfaceOver2DRangeSeries.get_meshes","kind":"method","src_hash":"19c37ed21b4ff15f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_meshes()","rhs":"self.get_data()","over":{"base":"Any"},"name":"get_meshes_correct"},"guarantee":"returns self.get_data()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"76d7a14b60a339e9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.get_data()","pure":false,"effects":{"effect_type":"reads_state","reads":["self.get_data"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def get_meshes(self):
         """Return the x,y,z coordinates for plotting the surface.
         This function is available for back-compatibility purposes. Consider
@@ -3203,16 +3897,22 @@ class SurfaceOver2DRangeSeries(SurfaceBaseSeries):
         return self.get_data()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_data(), return arrays of coordinates for plotting) over Any ║
+# ║ Path(get_data(), self._apply_transform(x, y, z)) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._apply_transform(x, y, z)                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ get_data : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4bad3a2e39fd0690  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7a69d1663c63e828  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.SurfaceOver2DRangeSeries.get_data","kind":"method","src_hash":"228c00c05bc00eb0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_data()","rhs":"return arrays of coordinates for plotting","over":{"base":"Any"},"name":"get_data_correct"},"guarantee":"return arrays of coordinates for plotting","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.SurfaceOver2DRangeSeries.get_data_correct","statement":"Path(get_data(x), return arrays of coordinates for plotting)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4bad3a2e39fd0690"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.SurfaceOver2DRangeSeries.get_data","kind":"method","src_hash":"228c00c05bc00eb0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_data()","rhs":"self._apply_transform(x, y, z)","over":{"base":"Any"},"name":"get_data_correct"},"guarantee":"returns self._apply_transform(x, y, z)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.SurfaceOver2DRangeSeries.get_data_correct","statement":"Path(get_data(x), returns self._apply_transform(x, y, z))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7a69d1663c63e828","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._apply_transform(x, y, z)","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._apply_transform","self._evaluate","self.is_3Dsurface","self.is_polar"],"writes":["self._zlim"]},"state_contract":{"modifies":["self._zlim"],"old_bindings":{"old_self__zlim":"self._zlim"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def get_data(self):
         """Return arrays of coordinates for plotting.
 
@@ -3249,14 +3949,20 @@ class SurfaceOver2DRangeSeries(SurfaceBaseSeries):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a ParametricSurfaceSeries instance) preserved by ParametricSurfaceSeries(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ ParametricSurfaceSeries : Any → Any                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, SurfaceBaseSeries)            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ ParametricSurfaceSeries : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.8ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4db2d84138492251  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.ParametricSurfaceSeries","kind":"class","src_hash":"f1ed248e050fba6f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ParametricSurfaceSeries(*args)","rhs":"correctly constructs a ParametricSurfaceSeries instance","over":{"base":"Any"},"name":"ParametricSurfaceSeries_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a ParametricSurfaceSeries instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'expr_x') and hasattr(self, 'expr_y') and hasattr(self, 'expr_z') and hasattr(self, 'expr') and hasattr(self, 'ranges') and hasattr(self, 'color_func')","kind":"class","induction":"structural on expr_x, expr_y, expr_z, expr"}],"methods_preserving":["__init__","var_u","var_v","start_u","end_u","start_v","end_v","nb_of_points_u","nb_of_points_u","nb_of_points_v","nb_of_points_v","__str__","get_parameter_meshes","get_meshes","get_data"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4db2d84138492251"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.ParametricSurfaceSeries","kind":"class","src_hash":"f1ed248e050fba6f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, SurfaceBaseSeries)"},"spec":{"lhs":"ParametricSurfaceSeries(*args)","rhs":"correctly constructs a ParametricSurfaceSeries instance","over":{"base":"Any"},"name":"ParametricSurfaceSeries_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, SurfaceBaseSeries); preserves 6 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'expr_x') and hasattr(self, 'expr_y') and hasattr(self, 'expr_z') and hasattr(self, 'expr') and hasattr(self, 'ranges') and hasattr(self, 'color_func')","kind":"class","induction":"structural on expr_x, expr_y, expr_z, expr"}],"methods_preserving":["__init__","var_u","var_v","start_u","end_u","start_v","end_v","nb_of_points_u","nb_of_points_u","nb_of_points_v","nb_of_points_v","__str__","get_parameter_meshes","get_meshes","get_data"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4db2d84138492251","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, SurfaceBaseSeries)"],"invariants":["hasattr(self, 'expr_x')","hasattr(self, 'expr_y')","hasattr(self, 'expr_z')","hasattr(self, 'expr')","hasattr(self, 'ranges')","hasattr(self, 'color_func')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"assumed","binding":false,"binding_errors":["Function ParametricSurfaceSeries not found in source"]}}
 class ParametricSurfaceSeries(SurfaceBaseSeries):
     """Representation for a 3D surface consisting of three parametric SymPy
     expressions and a range."""
@@ -3264,16 +3970,22 @@ class ParametricSurfaceSeries(SurfaceBaseSeries):
     is_parametric = True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(exp), initializes the instance correctly) over Any ║
+# ║ Path(__init__(expr_x, expr_y, expr_z), <unspecified:__init__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __init__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 900e2268baf93d94           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.ParametricSurfaceSeries.__init__","kind":"method","src_hash":"ced97f6d6757cb2e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(exp)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"900e2268baf93d94"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.ParametricSurfaceSeries.__init__","kind":"method","src_hash":"ced97f6d6757cb2e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(expr_x, expr_y, expr_z)","rhs":"<unspecified:__init__>","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"900e2268baf93d94","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, expr_x, expr_y, expr_z,
         var_start_end_u, var_start_end_v, label="", **kwargs):
         super().__init__(**kwargs)
@@ -3288,46 +4000,64 @@ class ParametricSurfaceSeries(SurfaceBaseSeries):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(var_u(), returns the var_u attribute) over Any        ║
+# ║ Path(var_u(), self.ranges[0][0]) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.ranges[0][0]                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ var_u : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ed95e7f5870dbe0a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.ParametricSurfaceSeries.var_u","kind":"property","src_hash":"8f908690e6c299d3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"var_u()","rhs":"returns the var_u attribute","over":{"base":"Any"},"name":"var_u_correct"},"guarantee":"returns the var_u attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ed95e7f5870dbe0a"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.ParametricSurfaceSeries.var_u","kind":"property","src_hash":"8f908690e6c299d3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"var_u()","rhs":"self.ranges[0][0]","over":{"base":"Any"},"name":"var_u_correct"},"guarantee":"returns self.ranges[0][0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ed95e7f5870dbe0a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.ranges[0][0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.ranges"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def var_u(self):
         return self.ranges[0][0]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(var_v(), returns the var_v attribute) over Any        ║
+# ║ Path(var_v(), self.ranges[1][0]) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.ranges[1][0]                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ var_v : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7051ba5280e5dba6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.ParametricSurfaceSeries.var_v","kind":"property","src_hash":"af3bb47ec6520c49","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"var_v()","rhs":"returns the var_v attribute","over":{"base":"Any"},"name":"var_v_correct"},"guarantee":"returns the var_v attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7051ba5280e5dba6"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.ParametricSurfaceSeries.var_v","kind":"property","src_hash":"af3bb47ec6520c49","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"var_v()","rhs":"self.ranges[1][0]","over":{"base":"Any"},"name":"var_v_correct"},"guarantee":"returns self.ranges[1][0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7051ba5280e5dba6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.ranges[1][0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.ranges"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def var_v(self):
         return self.ranges[1][0]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(start_u(), returns the start_u attribute) over Any    ║
+# ║ Path(start_u(), <unspecified:start_u>) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ start_u : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 382a1385e07cc210           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.ParametricSurfaceSeries.start_u","kind":"property","src_hash":"5c7d444daa7c1d2c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"start_u()","rhs":"returns the start_u attribute","over":{"base":"Any"},"name":"start_u_correct"},"guarantee":"returns the start_u attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"382a1385e07cc210"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.ParametricSurfaceSeries.start_u","kind":"property","src_hash":"5c7d444daa7c1d2c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"start_u()","rhs":"<unspecified:start_u>","over":{"base":"Any"},"name":"start_u_correct"},"guarantee":"returns the start_u attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"382a1385e07cc210","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.ranges"],"catches":["TypeError"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def start_u(self):
         try:
             return float(self.ranges[0][1])
@@ -3336,16 +4066,22 @@ class ParametricSurfaceSeries(SurfaceBaseSeries):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(end_u(), returns the end_u attribute) over Any        ║
+# ║ Path(end_u(), <unspecified:end_u>) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ end_u : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5185130c377564c5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.ParametricSurfaceSeries.end_u","kind":"property","src_hash":"761dc589b8b1be3f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"end_u()","rhs":"returns the end_u attribute","over":{"base":"Any"},"name":"end_u_correct"},"guarantee":"returns the end_u attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5185130c377564c5"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.ParametricSurfaceSeries.end_u","kind":"property","src_hash":"761dc589b8b1be3f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"end_u()","rhs":"<unspecified:end_u>","over":{"base":"Any"},"name":"end_u_correct"},"guarantee":"returns the end_u attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5185130c377564c5","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.ranges"],"catches":["TypeError"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def end_u(self):
         try:
             return float(self.ranges[0][2])
@@ -3354,16 +4090,22 @@ class ParametricSurfaceSeries(SurfaceBaseSeries):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(start_v(), returns the start_v attribute) over Any    ║
+# ║ Path(start_v(), <unspecified:start_v>) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ start_v : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3cb47a867a7d6039           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.ParametricSurfaceSeries.start_v","kind":"property","src_hash":"234c02cd0951fcfc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"start_v()","rhs":"returns the start_v attribute","over":{"base":"Any"},"name":"start_v_correct"},"guarantee":"returns the start_v attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3cb47a867a7d6039"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.ParametricSurfaceSeries.start_v","kind":"property","src_hash":"234c02cd0951fcfc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"start_v()","rhs":"<unspecified:start_v>","over":{"base":"Any"},"name":"start_v_correct"},"guarantee":"returns the start_v attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3cb47a867a7d6039","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.ranges"],"catches":["TypeError"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def start_v(self):
         try:
             return float(self.ranges[1][1])
@@ -3372,16 +4114,22 @@ class ParametricSurfaceSeries(SurfaceBaseSeries):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(end_v(), returns the end_v attribute) over Any        ║
+# ║ Path(end_v(), <unspecified:end_v>) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ end_v : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5fe29965e63b78b3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.ParametricSurfaceSeries.end_v","kind":"property","src_hash":"474f8a76db1105d0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"end_v()","rhs":"returns the end_v attribute","over":{"base":"Any"},"name":"end_v_correct"},"guarantee":"returns the end_v attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5fe29965e63b78b3"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.ParametricSurfaceSeries.end_v","kind":"property","src_hash":"474f8a76db1105d0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"end_v()","rhs":"<unspecified:end_v>","over":{"base":"Any"},"name":"end_v_correct"},"guarantee":"returns the end_v attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5fe29965e63b78b3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.ranges"],"catches":["TypeError"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def end_v(self):
         try:
             return float(self.ranges[1][2])
@@ -3390,77 +4138,107 @@ class ParametricSurfaceSeries(SurfaceBaseSeries):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(nb_of_points_u(), returns the nb_of_points_u attribute) over Any ║
+# ║ Path(nb_of_points_u(), self.n[0]) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.n[0]                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ nb_of_points_u : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 962f1e2075c133d3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.ParametricSurfaceSeries.nb_of_points_u","kind":"property","src_hash":"f279f452cb1b60d8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"nb_of_points_u()","rhs":"returns the nb_of_points_u attribute","over":{"base":"Any"},"name":"nb_of_points_u_correct"},"guarantee":"returns the nb_of_points_u attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"962f1e2075c133d3"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.ParametricSurfaceSeries.nb_of_points_u","kind":"property","src_hash":"f279f452cb1b60d8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"nb_of_points_u()","rhs":"self.n[0]","over":{"base":"Any"},"name":"nb_of_points_u_correct"},"guarantee":"returns self.n[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"962f1e2075c133d3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.n[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.n"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def nb_of_points_u(self):
         return self.n[0]
 
     @nb_of_points_u.setter
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(nb_of_points_u(v), nb_of_points_u produces the expected output) over Any ║
+# ║ Path(nb_of_points_u(v), <unspecified:nb_of_points_u>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ nb_of_points_u : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ced10d3e5cb71c78  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.ParametricSurfaceSeries.nb_of_points_u","kind":"method","src_hash":"2b784d5aa93c3673","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"nb_of_points_u(v)","rhs":"nb_of_points_u produces the expected output","over":{"base":"Any"},"name":"nb_of_points_u_correct"},"guarantee":"nb_of_points_u produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.ParametricSurfaceSeries.nb_of_points_u_correct","statement":"Path(nb_of_points_u(x), nb_of_points_u produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ced10d3e5cb71c78"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.ParametricSurfaceSeries.nb_of_points_u","kind":"method","src_hash":"2b784d5aa93c3673","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"nb_of_points_u(v)","rhs":"<unspecified:nb_of_points_u>","over":{"base":"Any"},"name":"nb_of_points_u_correct"},"guarantee":"nb_of_points_u produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.ParametricSurfaceSeries.nb_of_points_u_correct","statement":"Path(nb_of_points_u(x), nb_of_points_u produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ced10d3e5cb71c78","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self.n"],"writes":["self.n"]},"state_contract":{"modifies":["self.n"],"old_bindings":{"old_self_n":"self.n"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def nb_of_points_u(self, v):
         n = self.n
         self.n = [v, n[1:]]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(nb_of_points_v(), returns the nb_of_points_v attribute) over Any ║
+# ║ Path(nb_of_points_v(), self.n[1]) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.n[1]                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ nb_of_points_v : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c001a3edbc97098f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.ParametricSurfaceSeries.nb_of_points_v","kind":"property","src_hash":"c04bbc30ac20d025","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"nb_of_points_v()","rhs":"returns the nb_of_points_v attribute","over":{"base":"Any"},"name":"nb_of_points_v_correct"},"guarantee":"returns the nb_of_points_v attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c001a3edbc97098f"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.ParametricSurfaceSeries.nb_of_points_v","kind":"property","src_hash":"c04bbc30ac20d025","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"nb_of_points_v()","rhs":"self.n[1]","over":{"base":"Any"},"name":"nb_of_points_v_correct"},"guarantee":"returns self.n[1]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c001a3edbc97098f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.n[1]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.n"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def nb_of_points_v(self):
         return self.n[1]
 
     @nb_of_points_v.setter
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(nb_of_points_v(v), nb_of_points_v produces the expected output) over Any ║
+# ║ Path(nb_of_points_v(v), <unspecified:nb_of_points_v>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ nb_of_points_v : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1c85cee7d3cd777e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.ParametricSurfaceSeries.nb_of_points_v","kind":"method","src_hash":"998f42ad70e687f6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"nb_of_points_v(v)","rhs":"nb_of_points_v produces the expected output","over":{"base":"Any"},"name":"nb_of_points_v_correct"},"guarantee":"nb_of_points_v produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.ParametricSurfaceSeries.nb_of_points_v_correct","statement":"Path(nb_of_points_v(x), nb_of_points_v produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1c85cee7d3cd777e"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.ParametricSurfaceSeries.nb_of_points_v","kind":"method","src_hash":"998f42ad70e687f6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"nb_of_points_v(v)","rhs":"<unspecified:nb_of_points_v>","over":{"base":"Any"},"name":"nb_of_points_v_correct"},"guarantee":"nb_of_points_v produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.ParametricSurfaceSeries.nb_of_points_v_correct","statement":"Path(nb_of_points_v(x), nb_of_points_v produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1c85cee7d3cd777e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self.n"],"writes":["self.n"]},"state_contract":{"modifies":["self.n"],"old_bindings":{"old_self_n":"self.n"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def nb_of_points_v(self, v):
         n = self.n
         self.n = [n[0], v, n[2]]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__str__(), returns a human-readable string) over Any  ║
+# ║ Path(__str__(), <unspecified:__str__>) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __str__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2c1d5fd048230bbd           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.ParametricSurfaceSeries.__str__","kind":"method","src_hash":"d560a5c0e0fa26f8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"returns a human-readable string","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2c1d5fd048230bbd"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.ParametricSurfaceSeries.__str__","kind":"method","src_hash":"d560a5c0e0fa26f8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"<unspecified:__str__>","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2c1d5fd048230bbd","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._str_helper","self.end_u","self.end_v","self.expr_x","self.expr_y","self.expr_z","self.start_u","self.start_v","self.var_u","self.var_v"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __str__(self):
         return self._str_helper(
             "parametric cartesian surface: (%s, %s, %s) for"
@@ -3471,30 +4249,42 @@ class ParametricSurfaceSeries(SurfaceBaseSeries):
         ))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_parameter_meshes(), get_parameter_meshes produces the expected output) over Any ║
+# ║ Path(get_parameter_meshes(), self.get_data()[3:]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.get_data()[3:]                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ get_parameter_meshes : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7c555de8ca95f8f2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.ParametricSurfaceSeries.get_parameter_meshes","kind":"method","src_hash":"c6dc6e66e74ac5c7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_parameter_meshes()","rhs":"get_parameter_meshes produces the expected output","over":{"base":"Any"},"name":"get_parameter_meshes_correct"},"guarantee":"get_parameter_meshes produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7c555de8ca95f8f2"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.ParametricSurfaceSeries.get_parameter_meshes","kind":"method","src_hash":"c6dc6e66e74ac5c7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_parameter_meshes()","rhs":"self.get_data()[3:]","over":{"base":"Any"},"name":"get_parameter_meshes_correct"},"guarantee":"returns self.get_data()[3:]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7c555de8ca95f8f2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.get_data()[3:]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.get_data"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def get_parameter_meshes(self):
         return self.get_data()[3:]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_meshes(), return the x,y,z coordinates for plotting the surface. this function is available for back-compatibility purposes) over Any ║
+# ║ Path(get_meshes(), self.get_data()[:3]) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.get_data()[:3]                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ get_meshes : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c4e819114996a03e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.ParametricSurfaceSeries.get_meshes","kind":"method","src_hash":"3c1b06ef5900a4fd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_meshes()","rhs":"return the x,y,z coordinates for plotting the surface. this function is available for back-compatibility purposes","over":{"base":"Any"},"name":"get_meshes_correct"},"guarantee":"return the x,y,z coordinates for plotting the surface. this function is available for back-compatibility purposes","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c4e819114996a03e"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.ParametricSurfaceSeries.get_meshes","kind":"method","src_hash":"3c1b06ef5900a4fd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_meshes()","rhs":"self.get_data()[:3]","over":{"base":"Any"},"name":"get_meshes_correct"},"guarantee":"returns self.get_data()[:3]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c4e819114996a03e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.get_data()[:3]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.get_data"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def get_meshes(self):
         """Return the x,y,z coordinates for plotting the surface.
         This function is available for back-compatibility purposes. Consider
@@ -3503,16 +4293,22 @@ class ParametricSurfaceSeries(SurfaceBaseSeries):
         return self.get_data()[:3]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_data(), return arrays of coordinates for plotting) over Any ║
+# ║ Path(get_data(), self._apply_transform(*results[2:], *results[:2])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._apply_transform(*results[2:], *resu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ get_data : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ecf80e9a0e76e89f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 546c60cb4b1eb208  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.ParametricSurfaceSeries.get_data","kind":"method","src_hash":"f0c88bf0445c7b4d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_data()","rhs":"return arrays of coordinates for plotting","over":{"base":"Any"},"name":"get_data_correct"},"guarantee":"return arrays of coordinates for plotting","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.ParametricSurfaceSeries.get_data_correct","statement":"Path(get_data(x), return arrays of coordinates for plotting)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ecf80e9a0e76e89f"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.ParametricSurfaceSeries.get_data","kind":"method","src_hash":"f0c88bf0445c7b4d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_data()","rhs":"self._apply_transform(*results[2:], *results[:2])","over":{"base":"Any"},"name":"get_data_correct"},"guarantee":"returns self._apply_transform(*results[2:], *results[:2])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.ParametricSurfaceSeries.get_data_correct","statement":"Path(get_data(x), returns self._apply_transform(*results[2:], *results[:2]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"546c60cb4b1eb208","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._apply_transform(*results[2:], *results[:2])","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._apply_transform","self._evaluate"],"writes":["self._xlim","self._ylim","self._zlim"]},"state_contract":{"modifies":["self._xlim","self._ylim","self._zlim"],"old_bindings":{"old_self__xlim":"self._xlim","old_self__ylim":"self._ylim","old_self__zlim":"self._zlim"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def get_data(self):
         """Return arrays of coordinates for plotting.
 
@@ -3551,14 +4347,20 @@ class ParametricSurfaceSeries(SurfaceBaseSeries):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a ContourSeries instance) preserved by ContourSeries(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ ContourSeries : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, SurfaceOver2DRangeSeries)     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ ContourSeries : Any → {Any | result satisfies: isinst...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ef7f21ad2a2378bd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.ContourSeries","kind":"class","src_hash":"56d7dc330d948be3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ContourSeries(*args)","rhs":"correctly constructs a ContourSeries instance","over":{"base":"Any"},"name":"ContourSeries_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a ContourSeries instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'is_filled') and hasattr(self, 'show_clabels') and hasattr(self, 'rendering_kw')","kind":"class","induction":"structural on is_filled, show_clabels, rendering_kw"}],"methods_preserving":["__init__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ef7f21ad2a2378bd"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.ContourSeries","kind":"class","src_hash":"56d7dc330d948be3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, SurfaceOver2DRangeSeries)"},"spec":{"lhs":"ContourSeries(*args)","rhs":"correctly constructs a ContourSeries instance","over":{"base":"Any"},"name":"ContourSeries_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, SurfaceOver2DRangeSeries); preserves 3 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'is_filled') and hasattr(self, 'show_clabels') and hasattr(self, 'rendering_kw')","kind":"class","induction":"structural on is_filled, show_clabels, rendering_kw"}],"methods_preserving":["__init__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ef7f21ad2a2378bd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, SurfaceOver2DRangeSeries)"],"invariants":["hasattr(self, 'is_filled')","hasattr(self, 'show_clabels')","hasattr(self, 'rendering_kw')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function ContourSeries not found in source"]}}
 class ContourSeries(SurfaceOver2DRangeSeries):
     """Representation for a contour plot."""
 
@@ -3566,16 +4368,22 @@ class ContourSeries(SurfaceOver2DRangeSeries):
     is_contour = True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(*ar), initializes the instance correctly) over Any ║
+# ║ Path(__init__(*args, **kwargs), <unspecified:__init__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __init__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3e0391c5e54f62e4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.ContourSeries.__init__","kind":"method","src_hash":"731e9018d8151175","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(*ar)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3e0391c5e54f62e4"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.ContourSeries.__init__","kind":"method","src_hash":"731e9018d8151175","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(*args, **kwargs)","rhs":"<unspecified:__init__>","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3e0391c5e54f62e4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.is_filled = kwargs.get("is_filled", kwargs.get("fill", True))
@@ -3591,14 +4399,20 @@ class ContourSeries(SurfaceOver2DRangeSeries):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a GenericDataSeries instance) preserved by GenericDataSeries(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ GenericDataSeries : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, BaseSeries)                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ GenericDataSeries : Any → {Any | result satisfies: is...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 34b45fd963482180  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.GenericDataSeries","kind":"class","src_hash":"c51ee8b226dfd08b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"GenericDataSeries(*args)","rhs":"correctly constructs a GenericDataSeries instance","over":{"base":"Any"},"name":"GenericDataSeries_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a GenericDataSeries instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'type') and hasattr(self, 'args') and hasattr(self, 'rendering_kw')","kind":"class","induction":"structural on type, args, rendering_kw"}],"methods_preserving":["__init__","get_data"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"34b45fd963482180"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.GenericDataSeries","kind":"class","src_hash":"c51ee8b226dfd08b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, BaseSeries)"},"spec":{"lhs":"GenericDataSeries(*args)","rhs":"correctly constructs a GenericDataSeries instance","over":{"base":"Any"},"name":"GenericDataSeries_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, BaseSeries); preserves 3 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'type') and hasattr(self, 'args') and hasattr(self, 'rendering_kw')","kind":"class","induction":"structural on type, args, rendering_kw"}],"methods_preserving":["__init__","get_data"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"34b45fd963482180","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, BaseSeries)"],"invariants":["hasattr(self, 'type')","hasattr(self, 'args')","hasattr(self, 'rendering_kw')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function GenericDataSeries not found in source"]}}
 class GenericDataSeries(BaseSeries):
     """Represents generic numerical data.
 
@@ -3649,32 +4463,44 @@ class GenericDataSeries(BaseSeries):
     is_generic = True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(tp,), initializes the instance correctly) over Any ║
+# ║ Path(__init__(tp, *args, **kwargs), self.type == tp) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  self.type == tp                                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : Any → {Any | result satisfies: self.type =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ab417f664bc6b406           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.GenericDataSeries.__init__","kind":"method","src_hash":"f33c48b0168d5e89","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(tp,)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ab417f664bc6b406"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.GenericDataSeries.__init__","kind":"method","src_hash":"f33c48b0168d5e89","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: self.type == tp"},"spec":{"lhs":"__init__(tp, *args, **kwargs)","rhs":"self.type == tp","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"self.type == tp","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ab417f664bc6b406","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["self.type == tp"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, tp, *args, **kwargs):
         self.type = tp
         self.args = args
         self.rendering_kw = kwargs
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_data(), get_data produces the expected output) over Any ║
+# ║ Path(get_data(), self.args) over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ get_data : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e867673dab30a33d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.GenericDataSeries.get_data","kind":"method","src_hash":"cf18d428a5a776ae","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_data()","rhs":"get_data produces the expected output","over":{"base":"Any"},"name":"get_data_correct"},"guarantee":"get_data produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e867673dab30a33d"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.GenericDataSeries.get_data","kind":"method","src_hash":"cf18d428a5a776ae","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_data()","rhs":"self.args","over":{"base":"Any"},"name":"get_data_correct"},"guarantee":"returns self.args","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e867673dab30a33d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def get_data(self):
         return self.args
 
@@ -3682,14 +4508,20 @@ class GenericDataSeries(BaseSeries):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a ImplicitSeries instance) preserved by ImplicitSeries(*args) over {Any | isinstance(expr, BooleanFunction) and isinstance(expr, Equality) and isinstance(expr, (BooleanFunction, Ne))} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, BaseSeries)                   ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ ImplicitSeries : {Any | isinstance(expr, BooleanFunct...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 2.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d2ed40f05a26a649  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.ImplicitSeries","kind":"class","src_hash":"28e2c697f3e4b03c","in":{"base":"Any","pred":"isinstance(expr, BooleanFunction) and isinstance(expr, Equality) and isinstance(expr, (BooleanFunction, Ne))"},"out":{"base":"Any"},"spec":{"lhs":"ImplicitSeries(*args)","rhs":"correctly constructs a ImplicitSeries instance","over":{"base":"Any","pred":"isinstance(expr, BooleanFunction) and isinstance(expr, Equality) and isinstance(expr, (BooleanFunction, Ne))"},"name":"ImplicitSeries_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a ImplicitSeries instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'adaptive') and hasattr(self, 'expr') and hasattr(self, '_label') and hasattr(self, '_latex_label') and hasattr(self, 'ranges') and hasattr(self, 'end_x') and hasattr(self, 'end_y') and hasattr(self, '_color')","kind":"class","induction":"structural on adaptive, expr, _label, _latex_label"}],"methods_preserving":["__init__","expr","expr","line_color","line_color","_has_equality","__str__","get_data","_adaptive_eval","_get_raster_interval","_get_meshes_grid","get_label"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d2ed40f05a26a649"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.ImplicitSeries","kind":"class","src_hash":"28e2c697f3e4b03c","in":{"base":"Any","pred":"isinstance(expr, BooleanFunction) and isinstance(expr, Equality) and isinstance(expr, (BooleanFunction, Ne))"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, BaseSeries)"},"spec":{"lhs":"ImplicitSeries(*args)","rhs":"correctly constructs a ImplicitSeries instance","over":{"base":"Any","pred":"isinstance(expr, BooleanFunction) and isinstance(expr, Equality) and isinstance(expr, (BooleanFunction, Ne))"},"name":"ImplicitSeries_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, BaseSeries); preserves 7 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'adaptive') and hasattr(self, 'expr') and hasattr(self, '_label') and hasattr(self, '_latex_label') and hasattr(self, 'ranges') and hasattr(self, 'end_x') and hasattr(self, 'end_y') and hasattr(self, '_color')","kind":"class","induction":"structural on adaptive, expr, _label, _latex_label"}],"methods_preserving":["__init__","expr","expr","line_color","line_color","_has_equality","__str__","get_data","_adaptive_eval","_get_raster_interval","_get_meshes_grid","get_label"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d2ed40f05a26a649","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, BaseSeries)"],"invariants":["hasattr(self, 'adaptive')","hasattr(self, 'expr')","hasattr(self, '_label')","hasattr(self, '_latex_label')","hasattr(self, 'ranges')","hasattr(self, '_color')","hasattr(self, 'depth')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.0,"verdict_class":"assumed","binding":false,"binding_errors":["Function ImplicitSeries not found in source"]}}
 class ImplicitSeries(BaseSeries):
     """Representation for 2D Implicit plot."""
 
@@ -3698,16 +4530,22 @@ class ImplicitSeries(BaseSeries):
     _N = 100
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(exp), initializes the instance correctly) over Any ║
+# ║ Path(__init__(expr, var_start_end_x, var_start_end_y), self.expr == expr) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  self.expr == expr                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : Any → {Any | result satisfies: self.expr =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | dc2bb88e249b3fb5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.ImplicitSeries.__init__","kind":"method","src_hash":"8f414f673b40f89b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(exp)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"dc2bb88e249b3fb5"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.ImplicitSeries.__init__","kind":"method","src_hash":"8f414f673b40f89b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: self.expr == expr"},"spec":{"lhs":"__init__(expr, var_start_end_x, var_start_end_y)","rhs":"self.expr == expr","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"self.expr == expr","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"dc2bb88e249b3fb5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["self.expr == expr"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._post_init","self.adaptive","self.is_interactive","self.ranges"],"writes":["self._color","self._label","self._latex_label","self.adaptive","self.depth","self.expr","self.ranges"],"raises":["NotImplementedError"]},"state_contract":{"modifies":["self._color","self._label","self._latex_label","self.adaptive","self.depth","self.expr","self.ranges"],"old_bindings":{"old_self__color":"self._color","old_self__label":"self._label","old_self__latex_label":"self._latex_label","old_self_adaptive":"self.adaptive","old_self_depth":"self.depth","old_self_expr":"self.expr","old_self_ranges":"self.ranges"},"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, expr, var_start_end_x, var_start_end_y, label="", **kwargs):
         super().__init__(**kwargs)
         self.adaptive = kwargs.get("adaptive", False)
@@ -3734,16 +4572,22 @@ class ImplicitSeries(BaseSeries):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(expr(), returns the expr attribute) over Any          ║
+# ║ Path(expr(), <unspecified:expr>) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ expr : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | bd95cf6409a56504           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.ImplicitSeries.expr","kind":"property","src_hash":"2aacd058a51a638f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"expr()","rhs":"returns the expr attribute","over":{"base":"Any"},"name":"expr_correct"},"guarantee":"returns the expr attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bd95cf6409a56504"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.ImplicitSeries.expr","kind":"property","src_hash":"2aacd058a51a638f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"expr()","rhs":"<unspecified:expr>","over":{"base":"Any"},"name":"expr_correct"},"guarantee":"returns the expr attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bd95cf6409a56504","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._adaptive_expr","self._non_adaptive_expr","self.adaptive"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def expr(self):
         if self.adaptive:
             return self._adaptive_expr
@@ -3751,16 +4595,22 @@ class ImplicitSeries(BaseSeries):
 
     @expr.setter
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(expr(exp), expr produces the expected output) over Any ║
+# ║ Path(expr(expr), <unspecified:expr>) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ expr : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d0755a271ebe706d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.ImplicitSeries.expr","kind":"method","src_hash":"1f67f1beb56bf380","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"expr(exp)","rhs":"expr produces the expected output","over":{"base":"Any"},"name":"expr_correct"},"guarantee":"expr produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.ImplicitSeries.expr_correct","statement":"Path(expr(x), expr produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d0755a271ebe706d"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.ImplicitSeries.expr","kind":"method","src_hash":"1f67f1beb56bf380","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"expr(expr)","rhs":"<unspecified:expr>","over":{"base":"Any"},"name":"expr_correct"},"guarantee":"expr produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.ImplicitSeries.expr_correct","statement":"Path(expr(x), expr produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d0755a271ebe706d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._block_lambda_functions","self._has_equality","self._preprocess_meshgrid_expression","self.adaptive"],"writes":["self._adaptive_expr","self._is_equality","self._label","self._latex_label","self._non_adaptive_expr","self.adaptive","self.has_equality"]},"state_contract":{"modifies":["self._adaptive_expr","self._is_equality","self._label","self._latex_label","self._non_adaptive_expr","self.adaptive","self.has_equality"],"old_bindings":{"old_self__adaptive_expr":"self._adaptive_expr","old_self__is_equality":"self._is_equality","old_self__label":"self._label","old_self__latex_label":"self._latex_label","old_self__non_adaptive_expr":"self._non_adaptive_expr","old_self_adaptive":"self.adaptive","old_self_has_equality":"self.has_equality"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def expr(self, expr):
         self._block_lambda_functions(expr)
         # these are needed for adaptive evaluation
@@ -3792,47 +4642,65 @@ class ImplicitSeries(BaseSeries):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(line_color(), returns the line_color attribute) over Any ║
+# ║ Path(line_color(), self._color) over Any                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._color                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ line_color : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b76910c08b36fa2e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.ImplicitSeries.line_color","kind":"property","src_hash":"9cddaad8b205f920","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"line_color()","rhs":"returns the line_color attribute","over":{"base":"Any"},"name":"line_color_correct"},"guarantee":"returns the line_color attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b76910c08b36fa2e"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.ImplicitSeries.line_color","kind":"property","src_hash":"9cddaad8b205f920","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"line_color()","rhs":"self._color","over":{"base":"Any"},"name":"line_color_correct"},"guarantee":"returns self._color","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b76910c08b36fa2e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._color","pure":false,"effects":{"effect_type":"reads_state","reads":["self._color"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def line_color(self):
         return self._color
 
     @line_color.setter
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(line_color(v), line_color produces the expected output) over Any ║
+# ║ Path(line_color(v), <unspecified:line_color>) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ line_color : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | be8536e7ed364c0f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.ImplicitSeries.line_color","kind":"method","src_hash":"c9ec143ef3c681f6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"line_color(v)","rhs":"line_color produces the expected output","over":{"base":"Any"},"name":"line_color_correct"},"guarantee":"line_color produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.ImplicitSeries.line_color_correct","statement":"Path(line_color(x), line_color produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"be8536e7ed364c0f"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.ImplicitSeries.line_color","kind":"method","src_hash":"c9ec143ef3c681f6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"line_color(v)","rhs":"<unspecified:line_color>","over":{"base":"Any"},"name":"line_color_correct"},"guarantee":"line_color produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.ImplicitSeries.line_color_correct","statement":"Path(line_color(x), line_color produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"be8536e7ed364c0f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","writes":["self._color"]},"state_contract":{"modifies":["self._color"],"old_bindings":{"old_self__color":"self._color"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def line_color(self, v):
         self._color = v
 
     color = line_color
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_has_equality(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_has_equality(expr), (expr, has_equality)) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (expr, has_equality)                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _has_equality : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3e137aa26be362c0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0f78b29731cca34a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.ImplicitSeries._has_equality","kind":"method","src_hash":"7195440d5756faa5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_has_equality(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_has_equality_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.ImplicitSeries._has_equality_correct","statement":"Path(_has_equality(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3e137aa26be362c0"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.ImplicitSeries._has_equality","kind":"method","src_hash":"7195440d5756faa5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_has_equality(expr)","rhs":"(expr, has_equality)","over":{"base":"Any"},"name":"_has_equality_correct"},"guarantee":"returns (expr, has_equality)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.ImplicitSeries._has_equality_correct","statement":"Path(_has_equality(x), returns (expr, has_equality))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0f78b29731cca34a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(expr, has_equality)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _has_equality(self, expr):
         # Represents whether the expression contains an Equality, GreaterThan
         # or LessThan
@@ -3861,16 +4729,22 @@ class ImplicitSeries(BaseSeries):
         return expr, has_equality
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__str__(), returns a human-readable string) over Any  ║
+# ║ Path(__str__(), <unspecified:__str__>) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __str__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ebc6c73377b2c9f8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.ImplicitSeries.__str__","kind":"method","src_hash":"57e08228a50b33a8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"returns a human-readable string","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ebc6c73377b2c9f8"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.ImplicitSeries.__str__","kind":"method","src_hash":"57e08228a50b33a8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"<unspecified:__str__>","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ebc6c73377b2c9f8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._adaptive_expr","self._str_helper","self.end_x","self.end_y","self.start_x","self.start_y","self.var_x","self.var_y"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __str__(self):
         f = lambda t: float(t) if len(t.free_symbols) == 0 else t
 
@@ -3884,16 +4758,22 @@ class ImplicitSeries(BaseSeries):
         )
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_data(), returns numerical data) over Any          ║
+# ║ Path(get_data(), <unspecified:get_data>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ get_data : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c4e8804d08fd91e6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.ImplicitSeries.get_data","kind":"method","src_hash":"f1f0213c912e8a3f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_data()","rhs":"returns numerical data","over":{"base":"Any"},"name":"get_data_correct"},"guarantee":"returns numerical data","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.ImplicitSeries.get_data_correct","statement":"Path(get_data(x), returns numerical data)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c4e8804d08fd91e6"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.ImplicitSeries.get_data","kind":"method","src_hash":"f1f0213c912e8a3f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_data()","rhs":"<unspecified:get_data>","over":{"base":"Any"},"name":"get_data_correct"},"guarantee":"returns numerical data","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.ImplicitSeries.get_data_correct","statement":"Path(get_data(x), returns numerical data)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c4e8804d08fd91e6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._adaptive_eval","self._get_meshes_grid","self.adaptive"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def get_data(self):
         """Returns numerical data.
 
@@ -3926,16 +4806,22 @@ class ImplicitSeries(BaseSeries):
         return self._get_meshes_grid()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_adaptive_eval(), references ==========) over Any     ║
+# ║ Path(_adaptive_eval(), <unspecified:_adaptive_eval>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _adaptive_eval : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2027056c0c5928d7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.ImplicitSeries._adaptive_eval","kind":"method","src_hash":"7609d0ae8133557a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_adaptive_eval()","rhs":"references ==========","over":{"base":"Any"},"name":"_adaptive_eval_correct"},"guarantee":"references ==========","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.ImplicitSeries._adaptive_eval_correct","statement":"Path(_adaptive_eval(x), references ==========)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2027056c0c5928d7"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.ImplicitSeries._adaptive_eval","kind":"method","src_hash":"7609d0ae8133557a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_adaptive_eval()","rhs":"<unspecified:_adaptive_eval>","over":{"base":"Any"},"name":"_adaptive_eval_correct"},"guarantee":"references ==========","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.ImplicitSeries._adaptive_eval_correct","statement":"Path(_adaptive_eval(x), references ==========)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2027056c0c5928d7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._get_raster_interval","self.expr","self.var_x","self.var_y"],"writes":["self.adaptive"],"catches":["NameError","TypeError"]},"state_contract":{"modifies":["self.adaptive"],"old_bindings":{"old_self_adaptive":"self.adaptive"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _adaptive_eval(self):
         """
         References
@@ -3981,16 +4867,22 @@ class ImplicitSeries(BaseSeries):
         return data
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_raster_interval(fun), uses interval math to adaptively mesh and obtain the plot) over Any ║
+# ║ Path(_get_raster_interval(func), <unspecified:_get_raster_interval>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_raster_interval : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b2102ca33aa88bbf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.ImplicitSeries._get_raster_interval","kind":"method","src_hash":"94216a0cd9468889","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_raster_interval(fun)","rhs":"uses interval math to adaptively mesh and obtain the plot","over":{"base":"Any"},"name":"_get_raster_interval_correct"},"guarantee":"uses interval math to adaptively mesh and obtain the plot","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.ImplicitSeries._get_raster_interval_correct","statement":"Path(_get_raster_interval(x), uses interval math to adaptively mesh and obtain the plot)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b2102ca33aa88bbf"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.ImplicitSeries._get_raster_interval","kind":"method","src_hash":"94216a0cd9468889","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_raster_interval(func)","rhs":"<unspecified:_get_raster_interval>","over":{"base":"Any"},"name":"_get_raster_interval_correct"},"guarantee":"uses interval math to adaptively mesh and obtain the plot","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.ImplicitSeries._get_raster_interval_correct","statement":"Path(_get_raster_interval(x), uses interval math to adaptively mesh and obtain the plot)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b2102ca33aa88bbf","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_raster_interval(self, func):
         """Uses interval math to adaptively mesh and obtain the plot"""
         np = import_module('numpy')
@@ -4075,16 +4967,22 @@ class ImplicitSeries(BaseSeries):
         return plot_list, "fill"
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_meshes_grid(), generates the mesh for generating a contour) over Any ║
+# ║ Path(_get_meshes_grid(), <unspecified:_get_meshes_grid>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_meshes_grid : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 09377145ab2da756  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.ImplicitSeries._get_meshes_grid","kind":"method","src_hash":"dc5c3a43c1b6c6da","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_meshes_grid()","rhs":"generates the mesh for generating a contour","over":{"base":"Any"},"name":"_get_meshes_grid_correct"},"guarantee":"generates the mesh for generating a contour","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.ImplicitSeries._get_meshes_grid_correct","statement":"Path(_get_meshes_grid(x), generates the mesh for generating a contour)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"09377145ab2da756"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.ImplicitSeries._get_meshes_grid","kind":"method","src_hash":"dc5c3a43c1b6c6da","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_meshes_grid()","rhs":"<unspecified:_get_meshes_grid>","over":{"base":"Any"},"name":"_get_meshes_grid_correct"},"guarantee":"generates the mesh for generating a contour","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.ImplicitSeries._get_meshes_grid_correct","statement":"Path(_get_meshes_grid(x), generates the mesh for generating a contour)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"09377145ab2da756","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._evaluate","self._is_equality"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_meshes_grid(self):
         """Generates the mesh for generating a contour.
 
@@ -4102,16 +5000,25 @@ class ImplicitSeries(BaseSeries):
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_preprocess_meshgrid_expression(exp), if the expression is a relational, rewrite it as a single expression) over Any ║
+# ║ Path(_preprocess_meshgrid_expression(expr, adaptive), (expr, equality)) over {Any | hasattr(expr, 'lhs') and hasattr(expr, 'rhs') and hasattr(expr, 'gts') and hasattr(expr, 'lts')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _preprocess_meshgrid_expression : Any → Any                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'lhs')                           ║
+# ║   requires: hasattr(expr, 'rhs')                           ║
+# ║   requires: hasattr(expr, 'gts')                           ║
+# ║   returns:  (expr, equality)                               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _preprocess_meshgrid_expression : {Any | hasattr(expr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4dc003550bfd1032  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 63356473a5bc9619  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.ImplicitSeries._preprocess_meshgrid_expression","kind":"staticmethod","src_hash":"e6de2443760b4cf1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_preprocess_meshgrid_expression(exp)","rhs":"if the expression is a relational, rewrite it as a single expression","over":{"base":"Any"},"name":"_preprocess_meshgrid_expression_correct"},"guarantee":"if the expression is a relational, rewrite it as a single expression","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.ImplicitSeries._preprocess_meshgrid_expression_correct","statement":"Path(_preprocess_meshgrid_expression(x), if the expression is a relational, rewrite it as a single expression)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4dc003550bfd1032"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.ImplicitSeries._preprocess_meshgrid_expression","kind":"staticmethod","src_hash":"e6de2443760b4cf1","in":{"base":"Any","pred":"hasattr(expr, 'lhs') and hasattr(expr, 'rhs') and hasattr(expr, 'gts') and hasattr(expr, 'lts')"},"out":{"base":"Any"},"spec":{"lhs":"_preprocess_meshgrid_expression(expr, adaptive)","rhs":"(expr, equality)","over":{"base":"Any","pred":"hasattr(expr, 'lhs') and hasattr(expr, 'rhs') and hasattr(expr, 'gts') and hasattr(expr, 'lts')"},"name":"_preprocess_meshgrid_expression_correct"},"guarantee":"returns (expr, equality)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.ImplicitSeries._preprocess_meshgrid_expression_correct","statement":"Path(_preprocess_meshgrid_expression(x), returns (expr, equality))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"63356473a5bc9619","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'lhs')","hasattr(expr, 'rhs')","hasattr(expr, 'gts')","hasattr(expr, 'lts')"],"returns_expr":"(expr, equality)","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.gts","expr.lhs","expr.lts","expr.rhs"],"raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _preprocess_meshgrid_expression(expr, adaptive):
         """If the expression is a Relational, rewrite it as a single
         expression.
@@ -4139,16 +5046,22 @@ class ImplicitSeries(BaseSeries):
         return expr, equality
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_label(use), return the label to be used to display the expression) over Any ║
+# ║ Path(get_label(use_latex, wrapper), <unspecified:get_label>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ get_label : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 23b588d9e6916a24  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.ImplicitSeries.get_label","kind":"method","src_hash":"5bef834ba40ae83a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_label(use)","rhs":"return the label to be used to display the expression","over":{"base":"Any"},"name":"get_label_correct"},"guarantee":"return the label to be used to display the expression","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.ImplicitSeries.get_label_correct","statement":"Path(get_label(x), return the label to be used to display the expression)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"23b588d9e6916a24"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.ImplicitSeries.get_label","kind":"method","src_hash":"5bef834ba40ae83a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_label(use_latex, wrapper)","rhs":"<unspecified:get_label>","over":{"base":"Any"},"name":"get_label_correct"},"guarantee":"return the label to be used to display the expression","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.ImplicitSeries.get_label_correct","statement":"Path(get_label(x), return the label to be used to display the expression)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"23b588d9e6916a24","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._adaptive_expr","self._get_wrapped_label","self._label","self._latex_label"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def get_label(self, use_latex=False, wrapper="$%s$"):
         """Return the label to be used to display the expression.
 
@@ -4177,32 +5090,44 @@ class ImplicitSeries(BaseSeries):
 ##############################################################################
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(centers_of_segments(arr), id) over Any                ║
+# ║ Path(centers_of_segments(array), id) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  np.mean(np.vstack((array[:-1], array[1:])...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ centers_of_segments : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | e7f059eb8888980a   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.centers_of_segments","kind":"function","src_hash":"963f7391e66fc400","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"centers_of_segments(arr)","rhs":"centers_of_segments produces the expected output","over":{"base":"Any"},"name":"centers_of_segments_correct","kind":"composition"},"guarantee":"centers_of_segments produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"mean","by":"library_axiom"},{"fn":"vstack","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e7f059eb8888980a"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.centers_of_segments","kind":"function","src_hash":"963f7391e66fc400","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"centers_of_segments(array)","rhs":"np.mean(np.vstack((array[:-1], array[1:])), 0)","over":{"base":"Any"},"name":"centers_of_segments_correct","kind":"composition"},"guarantee":"returns np.mean(np.vstack((array[:-1], array[1:])), 0)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"mean","by":"library_axiom"},{"fn":"vstack","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e7f059eb8888980a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"np.mean(np.vstack((array[:-1], array[1:])), 0)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def centers_of_segments(array):
     np = import_module('numpy')
     return np.mean(np.vstack((array[:-1], array[1:])), 0)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(centers_of_faces(arr), id) over Any                   ║
+# ║ Path(centers_of_faces(array), id) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  np.mean(np.dstack((array[:-1, :-1], array...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ centers_of_faces : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 6cd274edbd4fd2af   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.centers_of_faces","kind":"function","src_hash":"1123aac22357635f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"centers_of_faces(arr)","rhs":"centers_of_faces produces the expected output","over":{"base":"Any"},"name":"centers_of_faces_correct","kind":"composition"},"guarantee":"centers_of_faces produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"mean","by":"library_axiom"},{"fn":"dstack","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6cd274edbd4fd2af"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.centers_of_faces","kind":"function","src_hash":"1123aac22357635f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"centers_of_faces(array)","rhs":"np.mean(np.dstack((array[:-1, :-1], array[1:, :-1], array[:-1, 1:], array[:-1, :-1])), 2)","over":{"base":"Any"},"name":"centers_of_faces_correct","kind":"composition"},"guarantee":"returns np.mean(np.dstack((array[:-1, :-1], array[1:, :-1], array[:-1, 1:], array[:-1, :-1])), 2)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"mean","by":"library_axiom"},{"fn":"dstack","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6cd274edbd4fd2af","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"np.mean(np.dstack((array[:-1, :-1], array[1:, :-1], array[:-1, 1:], array[:-1, :-1])), 2)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def centers_of_faces(array):
     np = import_module('numpy')
     return np.mean(np.dstack((array[:-1, :-1],
@@ -4213,16 +5138,22 @@ def centers_of_faces(array):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(flat(x, ), checks whether three points are almost collinear) over Any ║
+# ║ Path(flat(x, y, z), abs(cos_theta + 1) < eps) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  abs(cos_theta + 1) < eps                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ flat : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c1eeccdd9c96f41b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fae93f4c85d7232c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series.flat","kind":"function","src_hash":"63c5c355735833d8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"flat(x, )","rhs":"checks whether three points are almost collinear","over":{"base":"Any"},"name":"flat_correct"},"guarantee":"checks whether three points are almost collinear","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.flat_correct","statement":"Path(flat(x), checks whether three points are almost collinear)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c1eeccdd9c96f41b"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series.flat","kind":"function","src_hash":"63c5c355735833d8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"flat(x, y, z)","rhs":"abs(cos_theta + 1) < eps","over":{"base":"Any"},"name":"flat_correct"},"guarantee":"returns abs(cos_theta + 1) < eps","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series.flat_correct","statement":"Path(flat(x), returns abs(cos_theta + 1) < eps)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fae93f4c85d7232c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"abs(cos_theta + 1) < eps","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def flat(x, y, z, eps=1e-3):
     """Checks whether three points are almost collinear"""
     np = import_module('numpy')
@@ -4237,16 +5168,25 @@ def flat(x, y, z, eps=1e-3):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_set_discretization_points(kwa), allow the use of the keyword arguments ``n, n1, n2`` to specify the number of discretization points in one and two directions, while keeping back-compatibility with older keyword arguments like, ``nb_) over Any ║
+# ║ Path(_set_discretization_points(kwargs, pt), len(kwargs) == old_len_kwargs - 1) over {Any | hasattr(kwargs, 'keys') and hasattr(kwargs, 'pop') and len(kwargs) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _set_discretization_points : Any → Any                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(kwargs, 'keys')                        ║
+# ║   requires: hasattr(kwargs, 'pop')                         ║
+# ║   requires: len(kwargs) > 0                                ║
+# ║   ensures:  len(kwargs) == old_len_kwargs - 1              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _set_discretization_points : {Any | hasattr(kwargs, '...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | efa5dffe7e13bb87  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 68248dc97cb0d77f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.series._set_discretization_points","kind":"function","src_hash":"582ffdd4bdbcdb86","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_set_discretization_points(kwa)","rhs":"allow the use of the keyword arguments ``n, n1, n2`` to specify the number of discretization points in one and two directions, while keeping back-compatibility with older keyword arguments like, ``nb_","over":{"base":"Any"},"name":"_set_discretization_points_correct"},"guarantee":"allow the use of the keyword arguments ``n, n1, n2`` to specify the number of discretization points in one and two directions, while keeping back-compatibility with older keyword arguments like, ``nb_","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series._set_discretization_points_correct","statement":"Path(_set_discretization_points(x), allow the use of the keyword arguments ``n, n1, n2`` to specify the number of discretization points in one and two directions, while keeping back-compatibility with older keyword arguments like, ``nb_)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"efa5dffe7e13bb87"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.series._set_discretization_points","kind":"function","src_hash":"582ffdd4bdbcdb86","in":{"base":"Any","pred":"hasattr(kwargs, 'keys') and hasattr(kwargs, 'pop') and len(kwargs) > 0"},"out":{"base":"Any","pred":"result satisfies: len(kwargs) == old_len_kwargs - 1"},"spec":{"lhs":"_set_discretization_points(kwargs, pt)","rhs":"len(kwargs) == old_len_kwargs - 1","over":{"base":"Any","pred":"hasattr(kwargs, 'keys') and hasattr(kwargs, 'pop') and len(kwargs) > 0"},"name":"_set_discretization_points_correct"},"guarantee":"len(kwargs) == old_len_kwargs - 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.series._set_discretization_points_correct","statement":"Path(_set_discretization_points(x), len(kwargs) == old_len_kwargs - 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"68248dc97cb0d77f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(kwargs, 'keys')","hasattr(kwargs, 'pop')","len(kwargs) > 0"],"ensures":["len(kwargs) == old_len_kwargs - 1"],"pure":false,"effects":{"effect_type":"mutates_args","reads":["kwargs.keys","kwargs.pop"],"writes":["kwargs[*]"],"calls_mutating":["kwargs.pop"]},"state_contract":{"modifies":["kwargs.*","kwargs[*]"],"old_bindings":{"old_kwargs_star":"kwargs[*]","old_len_kwargs":"len(kwargs)"},"pre_requires":["len(kwargs) > 0"],"post_ensures":["len(kwargs) == old_len_kwargs - 1"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def _set_discretization_points(kwargs, pt):
     """Allow the use of the keyword arguments ``n, n1, n2`` to
     specify the number of discretization points in one and two

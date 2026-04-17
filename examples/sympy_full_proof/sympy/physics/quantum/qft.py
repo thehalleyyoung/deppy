@@ -61,30 +61,43 @@ __all__ = [
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(RkGate(*args), correctly constructs a RkGate instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ RkGate : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, OneQubitGate)                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ RkGate : Any → {Any | result satisfies: isinstance(se...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cce493a1c5f0ce26  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qft.RkGate","kind":"class","src_hash":"db0b3d287cd5f91d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"RkGate(*args)","rhs":"correctly constructs a RkGate instance","over":{"base":"Any"},"name":"RkGate_class_invariant"},"guarantee":"correctly constructs a RkGate instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cce493a1c5f0ce26"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qft.RkGate","kind":"class","src_hash":"db0b3d287cd5f91d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, OneQubitGate)"},"spec":{"lhs":"RkGate(*args)","rhs":"correctly constructs a RkGate instance","over":{"base":"Any"},"name":"RkGate_class_invariant"},"guarantee":"isinstance(self, OneQubitGate)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cce493a1c5f0ce26","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, OneQubitGate)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function RkGate not found in source"]}}
 class RkGate(OneQubitGate):
     """This is the R_k gate of the QTF."""
     gate_name = 'Rk'
     gate_name_latex = 'R'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, *args), <unspecified:__new__>) over {Any | not (len(args) != 2)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (len(args) != 2)                           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | not (len(args) != 2)} → Any               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 99bc4cadf3fa9095           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qft.RkGate.__new__","kind":"method","src_hash":"d96b3c27578d5589","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"99bc4cadf3fa9095"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qft.RkGate.__new__","kind":"method","src_hash":"d96b3c27578d5589","in":{"base":"Any","pred":"not (len(args) != 2)"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, *args)","rhs":"<unspecified:__new__>","over":{"base":"Any","pred":"not (len(args) != 2)"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"99bc4cadf3fa9095","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (len(args) != 2)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["cls._eval_args","cls._eval_hilbert_space"],"raises":["QuantumError"]},"state_contract":{"exceptional_post":{"QuantumError":["isinstance(raised, QuantumError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, *args):
         if len(args) != 2:
             raise QuantumError(
@@ -108,16 +121,22 @@ class RkGate(OneQubitGate):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_args(cls), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_args(cls, args), QExpr._eval_args(args)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  QExpr._eval_args(args)                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_args : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0febf6d05298c0be           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qft.RkGate._eval_args","kind":"classmethod","src_hash":"cac88a5e9e0c729b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_args(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_args_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0febf6d05298c0be"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qft.RkGate._eval_args","kind":"classmethod","src_hash":"cac88a5e9e0c729b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_args(cls, args)","rhs":"QExpr._eval_args(args)","over":{"base":"Any"},"name":"_eval_args_correct"},"guarantee":"returns QExpr._eval_args(args)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0febf6d05298c0be","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"QExpr._eval_args(args)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_args(cls, args):
         # Fall back to this, because Gate._eval_args assumes that args is
         # all targets and can't contain duplicates.
@@ -125,60 +144,84 @@ class RkGate(OneQubitGate):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(k(), returns the k attribute) over Any                ║
+# ║ Path(k(), self.label[1]) over Any                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.label[1]                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ k : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9c9a9bea894f63b5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qft.RkGate.k","kind":"property","src_hash":"17859e910660254f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"k()","rhs":"returns the k attribute","over":{"base":"Any"},"name":"k_correct"},"guarantee":"returns the k attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9c9a9bea894f63b5"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qft.RkGate.k","kind":"property","src_hash":"17859e910660254f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"k()","rhs":"self.label[1]","over":{"base":"Any"},"name":"k_correct"},"guarantee":"returns self.label[1]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9c9a9bea894f63b5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.label[1]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.label"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def k(self):
         return self.label[1]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(targets(), returns the targets attribute) over Any    ║
+# ║ Path(targets(), self.label[:1]) over Any                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.label[:1]                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ targets : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3bfee5d6772c2e60           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qft.RkGate.targets","kind":"property","src_hash":"6588f47a1bca187f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"targets()","rhs":"returns the targets attribute","over":{"base":"Any"},"name":"targets_correct"},"guarantee":"returns the targets attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3bfee5d6772c2e60"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qft.RkGate.targets","kind":"property","src_hash":"6588f47a1bca187f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"targets()","rhs":"self.label[:1]","over":{"base":"Any"},"name":"targets_correct"},"guarantee":"returns self.label[:1]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3bfee5d6772c2e60","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.label[:1]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.label"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def targets(self):
         return self.label[:1]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gate_name_plot(), returns the gate_name_plot attribute) over Any ║
+# ║ Path(gate_name_plot(), '$%s_%s$' % (self.gate_name_latex, str(self.k))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  '$%s_%s$' % (self.gate_name_latex, str(se...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gate_name_plot : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 46576ca1b7d768f9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qft.RkGate.gate_name_plot","kind":"property","src_hash":"ba30187e744259db","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gate_name_plot()","rhs":"returns the gate_name_plot attribute","over":{"base":"Any"},"name":"gate_name_plot_correct"},"guarantee":"returns the gate_name_plot attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"46576ca1b7d768f9"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qft.RkGate.gate_name_plot","kind":"property","src_hash":"ba30187e744259db","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gate_name_plot()","rhs":"'$%s_%s$' % (self.gate_name_latex, str(self.k))","over":{"base":"Any"},"name":"gate_name_plot_correct"},"guarantee":"returns '$%s_%s$' % (self.gate_name_latex, str(self.k))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"46576ca1b7d768f9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'$%s_%s$' % (self.gate_name_latex, str(self.k))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.gate_name_latex","self.k"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def gate_name_plot(self):
         return r'$%s_%s$' % (self.gate_name_latex, str(self.k))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_target_matrix(for), id) over Any                  ║
+# ║ Path(get_target_matrix(format), id) over Any               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Matrix([[1, 0], [0, exp(sign(self.k) * In...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ get_target_matrix : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 4e5c27f4fb5c74a4   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qft.RkGate.get_target_matrix","kind":"method","src_hash":"1a6d86b1f8f37e69","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_target_matrix(for)","rhs":"get_target_matrix produces the expected output","over":{"base":"Any"},"name":"get_target_matrix_correct","kind":"composition"},"guarantee":"get_target_matrix produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Matrix","by":"library_axiom"},{"fn":"exp","by":"library_axiom"},{"fn":"sign","by":"library_axiom"},{"fn":"Integer","by":"library_axiom"},{"fn":"Integer","by":"library_axiom"},{"fn":"abs","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4e5c27f4fb5c74a4"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qft.RkGate.get_target_matrix","kind":"method","src_hash":"1a6d86b1f8f37e69","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_target_matrix(format)","rhs":"Matrix([[1, 0], [0, exp(sign(self.k) * Integer(2) * pi * I / Integer(2) ** abs(self.k))]])","over":{"base":"Any"},"name":"get_target_matrix_correct","kind":"composition"},"guarantee":"returns Matrix([[1, 0], [0, exp(sign(self.k) * Integer(2) * pi * I / Integer(2) ** abs(self.k))]])","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Matrix","by":"library_axiom"},{"fn":"exp","by":"library_axiom"},{"fn":"sign","by":"library_axiom"},{"fn":"Integer","by":"library_axiom"},{"fn":"Integer","by":"library_axiom"},{"fn":"abs","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4e5c27f4fb5c74a4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Matrix([[1, 0], [0, exp(sign(self.k) * Integer(2) * pi * I / Integer(2) ** abs(self.k))]])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.k"],"raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def get_target_matrix(self, format='sympy'):
         if format == 'sympy':
             return Matrix([[1, 0], [0, exp(sign(self.k)*Integer(2)*pi*I/(Integer(2)**abs(self.k)))]])
@@ -192,29 +235,43 @@ Rk = RkGate
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Fourier(*args), correctly constructs a Fourier instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Fourier : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Gate)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Fourier : Any → {Any | result satisfies: isinstance(s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6287a364ad414335  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qft.Fourier","kind":"class","src_hash":"dac137b968c9f7c0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Fourier(*args)","rhs":"correctly constructs a Fourier instance","over":{"base":"Any"},"name":"Fourier_class_invariant"},"guarantee":"correctly constructs a Fourier instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6287a364ad414335"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qft.Fourier","kind":"class","src_hash":"dac137b968c9f7c0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Gate)"},"spec":{"lhs":"Fourier(*args)","rhs":"correctly constructs a Fourier instance","over":{"base":"Any"},"name":"Fourier_class_invariant"},"guarantee":"isinstance(self, Gate)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6287a364ad414335","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Gate)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function Fourier not found in source"]}}
 class Fourier(Gate):
     """Superclass of Quantum Fourier and Inverse Quantum Fourier Gates."""
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_args(arg), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_args(args), Gate._eval_args(args)) over {Any | not (len(args) != 2) and not (args[0] >= args[1])} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_args : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (len(args) != 2)                           ║
+# ║   requires: not (args[0] >= args[1])                       ║
+# ║   returns:  Gate._eval_args(args)                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_args : {Any | not (len(args) != 2) and not (arg...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 75937439938ee7c0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 37bd0e5b7904e098  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qft.Fourier._eval_args","kind":"classmethod","src_hash":"ca3b6d79079e2dd9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_args(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_args_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qft.Fourier._eval_args_correct","statement":"Path(_eval_args(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"75937439938ee7c0"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qft.Fourier._eval_args","kind":"classmethod","src_hash":"ca3b6d79079e2dd9","in":{"base":"Any","pred":"not (len(args) != 2) and not (args[0] >= args[1])"},"out":{"base":"Any"},"spec":{"lhs":"_eval_args(args)","rhs":"Gate._eval_args(args)","over":{"base":"Any","pred":"not (len(args) != 2) and not (args[0] >= args[1])"},"name":"_eval_args_correct"},"guarantee":"returns Gate._eval_args(args)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qft.Fourier._eval_args_correct","statement":"Path(_eval_args(x), returns Gate._eval_args(args))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"37bd0e5b7904e098","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (len(args) != 2)","not (args[0] >= args[1])"],"returns_expr":"Gate._eval_args(args)","pure":false,"effects":{"effect_type":"reads_state","raises":["QuantumError"]},"state_contract":{"exceptional_post":{"QuantumError":["isinstance(raised, QuantumError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_args(self, args):
         if len(args) != 2:
             raise QuantumError(
@@ -225,30 +282,44 @@ class Fourier(Gate):
         return Gate._eval_args(args)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_represent_default_basis(**o), internal helper behaves correctly) over Any ║
+# ║ Path(_represent_default_basis(**options), self._represent_ZGate(None, **options)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._represent_ZGate(None, **options)         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _represent_default_basis : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 14c114947d004cac           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qft.Fourier._represent_default_basis","kind":"method","src_hash":"346da3c542f7c3f6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_represent_default_basis(**o)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_represent_default_basis_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"14c114947d004cac"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qft.Fourier._represent_default_basis","kind":"method","src_hash":"346da3c542f7c3f6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_represent_default_basis(**options)","rhs":"self._represent_ZGate(None, **options)","over":{"base":"Any"},"name":"_represent_default_basis_correct"},"guarantee":"returns self._represent_ZGate(None, **options)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"14c114947d004cac","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._represent_ZGate(None, **options)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._represent_ZGate"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _represent_default_basis(self, **options):
         return self._represent_ZGate(None, **options)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_represent_ZGate(bas), represents the (i)qft in the z basis) over Any ║
+# ║ Path(_represent_ZGate(basis, **options), <unspecified:_represent_ZGate>) over {Any | not (nqubits == 0) and not (nqubits < self.min_qubits)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _represent_ZGate : Any → Any                               ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (nqubits == 0)                             ║
+# ║   requires: not (nqubits < self.min_qubits)                ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _represent_ZGate : {Any | not (nqubits == 0) and not ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 920ac57d9cf24da8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qft.Fourier._represent_ZGate","kind":"method","src_hash":"917aefabbf333bae","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_represent_ZGate(bas)","rhs":"represents the (i)qft in the z basis","over":{"base":"Any"},"name":"_represent_ZGate_correct"},"guarantee":"represents the (i)qft in the z basis","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qft.Fourier._represent_ZGate_correct","statement":"Path(_represent_ZGate(x), represents the (i)qft in the z basis)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"920ac57d9cf24da8"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qft.Fourier._represent_ZGate","kind":"method","src_hash":"917aefabbf333bae","in":{"base":"Any","pred":"not (nqubits == 0) and not (nqubits < self.min_qubits)"},"out":{"base":"Any"},"spec":{"lhs":"_represent_ZGate(basis, **options)","rhs":"<unspecified:_represent_ZGate>","over":{"base":"Any","pred":"not (nqubits == 0) and not (nqubits < self.min_qubits)"},"name":"_represent_ZGate_correct"},"guarantee":"represents the (i)qft in the z basis","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qft.Fourier._represent_ZGate_correct","statement":"Path(_represent_ZGate(x), represents the (i)qft in the z basis)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"920ac57d9cf24da8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (nqubits == 0)","not (nqubits < self.min_qubits)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.label","self.min_qubits","self.omega","self.size"],"raises":["QuantumError"]},"state_contract":{"exceptional_post":{"QuantumError":["isinstance(raised, QuantumError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _represent_ZGate(self, basis, **options):
         """
             Represents the (I)QFT In the Z Basis
@@ -280,62 +351,86 @@ class Fourier(Gate):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(targets(), returns the targets attribute) over Any    ║
+# ║ Path(targets(), range(self.label[0], self.label[1])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  range(self.label[0], self.label[1])            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ targets : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | fc02b1f37b19fa7b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qft.Fourier.targets","kind":"property","src_hash":"1767b52921a65322","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"targets()","rhs":"returns the targets attribute","over":{"base":"Any"},"name":"targets_correct"},"guarantee":"returns the targets attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fc02b1f37b19fa7b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qft.Fourier.targets","kind":"property","src_hash":"1767b52921a65322","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"targets()","rhs":"range(self.label[0], self.label[1])","over":{"base":"Any"},"name":"targets_correct"},"guarantee":"returns range(self.label[0], self.label[1])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fc02b1f37b19fa7b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"range(self.label[0], self.label[1])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.label"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def targets(self):
         return range(self.label[0], self.label[1])
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(min_qubits(), returns the min_qubits attribute) over Any ║
+# ║ Path(min_qubits(), self.label[1]) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.label[1]                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ min_qubits : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3589761726c22272           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qft.Fourier.min_qubits","kind":"property","src_hash":"4dccd7502ad911cd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"min_qubits()","rhs":"returns the min_qubits attribute","over":{"base":"Any"},"name":"min_qubits_correct"},"guarantee":"returns the min_qubits attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3589761726c22272"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qft.Fourier.min_qubits","kind":"property","src_hash":"4dccd7502ad911cd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"min_qubits()","rhs":"self.label[1]","over":{"base":"Any"},"name":"min_qubits_correct"},"guarantee":"returns self.label[1]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3589761726c22272","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.label[1]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.label"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def min_qubits(self):
         return self.label[1]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(size(), returns the size attribute) over Any          ║
+# ║ Path(size(), 2 ** (self.label[1] - self.label[0])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  2 ** (self.label[1] - self.label[0])           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ size : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e4e9eb5992f9c11a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qft.Fourier.size","kind":"property","src_hash":"04edece8e356ef54","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"size()","rhs":"returns the size attribute","over":{"base":"Any"},"name":"size_correct"},"guarantee":"returns the size attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e4e9eb5992f9c11a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qft.Fourier.size","kind":"property","src_hash":"04edece8e356ef54","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"size()","rhs":"2 ** (self.label[1] - self.label[0])","over":{"base":"Any"},"name":"size_correct"},"guarantee":"returns 2 ** (self.label[1] - self.label[0])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e4e9eb5992f9c11a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"2 ** (self.label[1] - self.label[0])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.label"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def size(self):
         """Size is the size of the QFT matrix"""
         return 2**(self.label[1] - self.label[0])
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(omega(), returns the omega attribute) over Any        ║
+# ║ Path(omega(), Symbol('omega')) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Symbol('omega')                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ omega : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 237bde972db415e4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qft.Fourier.omega","kind":"property","src_hash":"a26e913ccdb41940","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"omega()","rhs":"returns the omega attribute","over":{"base":"Any"},"name":"omega_correct"},"guarantee":"returns the omega attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"237bde972db415e4"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qft.Fourier.omega","kind":"property","src_hash":"a26e913ccdb41940","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"omega()","rhs":"Symbol('omega')","over":{"base":"Any"},"name":"omega_correct"},"guarantee":"returns Symbol('omega')","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"237bde972db415e4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Symbol('omega')","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def omega(self):
         return Symbol('omega')
 
@@ -343,14 +438,20 @@ class Fourier(Gate):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(QFT(*args), correctly constructs a QFT instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ QFT : Any → Any                                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Fourier)                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ QFT : Any → {Any | result satisfies: isinstance(self,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0ee3a8a0c98f3d52  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qft.QFT","kind":"class","src_hash":"e51b886de65fce2e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"QFT(*args)","rhs":"correctly constructs a QFT instance","over":{"base":"Any"},"name":"QFT_class_invariant"},"guarantee":"correctly constructs a QFT instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0ee3a8a0c98f3d52"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qft.QFT","kind":"class","src_hash":"e51b886de65fce2e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Fourier)"},"spec":{"lhs":"QFT(*args)","rhs":"correctly constructs a QFT instance","over":{"base":"Any"},"name":"QFT_class_invariant"},"guarantee":"isinstance(self, Fourier)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0ee3a8a0c98f3d52","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Fourier)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function QFT not found in source"]}}
 class QFT(Fourier):
     """The forward quantum Fourier transform."""
 
@@ -358,16 +459,22 @@ class QFT(Fourier):
     gate_name_latex = 'QFT'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(decompose(), decomposes qft into elementary gates) over Any ║
+# ║ Path(decompose(), <unspecified:decompose>) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ decompose : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 20b2a128268350e0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qft.QFT.decompose","kind":"method","src_hash":"1c4fb738a145d307","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"decompose()","rhs":"decomposes qft into elementary gates","over":{"base":"Any"},"name":"decompose_correct"},"guarantee":"decomposes qft into elementary gates","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qft.QFT.decompose_correct","statement":"Path(decompose(x), decomposes qft into elementary gates)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"20b2a128268350e0"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qft.QFT.decompose","kind":"method","src_hash":"1c4fb738a145d307","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"decompose()","rhs":"<unspecified:decompose>","over":{"base":"Any"},"name":"decompose_correct"},"guarantee":"decomposes qft into elementary gates","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qft.QFT.decompose_correct","statement":"Path(decompose(x), decomposes qft into elementary gates)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"20b2a128268350e0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.label"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def decompose(self):
         """Decomposes QFT into elementary gates."""
         start = self.label[0]
@@ -382,45 +489,63 @@ class QFT(Fourier):
         return circuit
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_apply_operator_Qubit(qub), internal helper behaves correctly) over Any ║
+# ║ Path(_apply_operator_Qubit(qubits, **options), qapply(self.decompose() * qubits)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  qapply(self.decompose() * qubits)              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _apply_operator_Qubit : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2e19c5982643d159           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qft.QFT._apply_operator_Qubit","kind":"method","src_hash":"a3647b5c348494aa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_apply_operator_Qubit(qub)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_apply_operator_Qubit_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2e19c5982643d159"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qft.QFT._apply_operator_Qubit","kind":"method","src_hash":"a3647b5c348494aa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_apply_operator_Qubit(qubits, **options)","rhs":"qapply(self.decompose() * qubits)","over":{"base":"Any"},"name":"_apply_operator_Qubit_correct"},"guarantee":"returns qapply(self.decompose() * qubits)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2e19c5982643d159","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"qapply(self.decompose() * qubits)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.decompose"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _apply_operator_Qubit(self, qubits, **options):
         return qapply(self.decompose()*qubits)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_inverse(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_inverse(), IQFT(*self.args)) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  IQFT(*self.args)                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_inverse : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3195955d91abc25d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qft.QFT._eval_inverse","kind":"method","src_hash":"068640209f12e391","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_inverse()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_inverse_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3195955d91abc25d"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qft.QFT._eval_inverse","kind":"method","src_hash":"068640209f12e391","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_inverse()","rhs":"IQFT(*self.args)","over":{"base":"Any"},"name":"_eval_inverse_correct"},"guarantee":"returns IQFT(*self.args)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3195955d91abc25d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"IQFT(*self.args)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_inverse(self):
         return IQFT(*self.args)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(omega(), returns the omega attribute) over Any        ║
+# ║ Path(omega(), exp(2 * pi * I / self.size)) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  exp(2 * pi * I / self.size)                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ omega : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 00590a0011e0b484           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qft.QFT.omega","kind":"property","src_hash":"b4346d6b32d51436","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"omega()","rhs":"returns the omega attribute","over":{"base":"Any"},"name":"omega_correct"},"guarantee":"returns the omega attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"00590a0011e0b484"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qft.QFT.omega","kind":"property","src_hash":"b4346d6b32d51436","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"omega()","rhs":"exp(2 * pi * I / self.size)","over":{"base":"Any"},"name":"omega_correct"},"guarantee":"returns exp(2 * pi * I / self.size)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"00590a0011e0b484","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"exp(2 * pi * I / self.size)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.size"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def omega(self):
         return exp(2*pi*I/self.size)
 
@@ -428,14 +553,20 @@ class QFT(Fourier):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(IQFT(*args), correctly constructs a IQFT instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ IQFT : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Fourier)                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ IQFT : Any → {Any | result satisfies: isinstance(self...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 15329572215151ae  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qft.IQFT","kind":"class","src_hash":"45603117339ddd6d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"IQFT(*args)","rhs":"correctly constructs a IQFT instance","over":{"base":"Any"},"name":"IQFT_class_invariant"},"guarantee":"correctly constructs a IQFT instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"15329572215151ae"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qft.IQFT","kind":"class","src_hash":"45603117339ddd6d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Fourier)"},"spec":{"lhs":"IQFT(*args)","rhs":"correctly constructs a IQFT instance","over":{"base":"Any"},"name":"IQFT_class_invariant"},"guarantee":"isinstance(self, Fourier)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"15329572215151ae","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Fourier)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function IQFT not found in source"]}}
 class IQFT(Fourier):
     """The inverse quantum Fourier transform."""
 
@@ -443,16 +574,22 @@ class IQFT(Fourier):
     gate_name_latex = '{QFT^{-1}}'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(decompose(), decomposes iqft into elementary gates) over Any ║
+# ║ Path(decompose(), <unspecified:decompose>) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ decompose : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 88e7d82634cbed48  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qft.IQFT.decompose","kind":"method","src_hash":"e66458caec353351","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"decompose()","rhs":"decomposes iqft into elementary gates","over":{"base":"Any"},"name":"decompose_correct"},"guarantee":"decomposes iqft into elementary gates","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qft.IQFT.decompose_correct","statement":"Path(decompose(x), decomposes iqft into elementary gates)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"88e7d82634cbed48"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qft.IQFT.decompose","kind":"method","src_hash":"e66458caec353351","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"decompose()","rhs":"<unspecified:decompose>","over":{"base":"Any"},"name":"decompose_correct"},"guarantee":"decomposes iqft into elementary gates","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qft.IQFT.decompose_correct","statement":"Path(decompose(x), decomposes iqft into elementary gates)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"88e7d82634cbed48","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def decompose(self):
         """Decomposes IQFT into elementary gates."""
         start = self.args[0]
@@ -467,30 +604,42 @@ class IQFT(Fourier):
         return circuit
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_inverse(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_inverse(), QFT(*self.args)) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  QFT(*self.args)                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_inverse : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | cde82bd468998720           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qft.IQFT._eval_inverse","kind":"method","src_hash":"a5320377a850a0dd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_inverse()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_inverse_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cde82bd468998720"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qft.IQFT._eval_inverse","kind":"method","src_hash":"a5320377a850a0dd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_inverse()","rhs":"QFT(*self.args)","over":{"base":"Any"},"name":"_eval_inverse_correct"},"guarantee":"returns QFT(*self.args)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cde82bd468998720","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"QFT(*self.args)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_inverse(self):
         return QFT(*self.args)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(omega(), returns the omega attribute) over Any        ║
+# ║ Path(omega(), exp(-2 * pi * I / self.size)) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  exp(-2 * pi * I / self.size)                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ omega : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 65aaefff92064207           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qft.IQFT.omega","kind":"property","src_hash":"1caf4e3da3d9d3c6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"omega()","rhs":"returns the omega attribute","over":{"base":"Any"},"name":"omega_correct"},"guarantee":"returns the omega attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"65aaefff92064207"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qft.IQFT.omega","kind":"property","src_hash":"1caf4e3da3d9d3c6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"omega()","rhs":"exp(-2 * pi * I / self.size)","over":{"base":"Any"},"name":"omega_correct"},"guarantee":"returns exp(-2 * pi * I / self.size)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"65aaefff92064207","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"exp(-2 * pi * I / self.size)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.size"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def omega(self):
         return exp(-2*pi*I/self.size)

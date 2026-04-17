@@ -53,16 +53,23 @@ if np:
     NUMPY_DEFAULT_EPSILON = deafult_float_info.eps
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_numpy_piecewise_regression(), numpyprinter needs to print piecewise()'s choicelist as a list to avoid breaking compatibility with numpy 1.8) over Any ║
+# ║ Path(test_numpy_piecewise_regression(), printer.doprint(p) == 'numpy.select([numpy.less(x, 0),True], [1,0], default=numpy.nan)' and printer.module_imports == {'numpy': {'select', 'less', 'nan'}}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_numpy_piecewise_regression : Any → {Any | printe...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  printer.doprint(p) == 'numpy.select([nump...   ║
+# ║   ensures:  printer.module_imports == {'numpy': {'sel...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_numpy_piecewise_regression : Any → {Any | result...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 537dd7e1c471d845  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5b33820990a2e98e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_numpy.test_numpy_piecewise_regression","kind":"function","src_hash":"3a3b9de3c8337aba","in":{"base":"Any"},"out":{"base":"Any","pred":"printer.module_imports == {'numpy': {'select', 'less', 'nan'}}"},"spec":{"lhs":"test_numpy_piecewise_regression()","rhs":"numpyprinter needs to print piecewise()'s choicelist as a list to avoid breaking compatibility with numpy 1.8","over":{"base":"Any"},"name":"test_numpy_piecewise_regression_correct"},"guarantee":"numpyprinter needs to print piecewise()'s choicelist as a list to avoid breaking compatibility with numpy 1.8","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_numpy.test_numpy_piecewise_regression_correct","statement":"Path(test_numpy_piecewise_regression(x), numpyprinter needs to print piecewise()'s choicelist as a list to avoid breaking compatibility with numpy 1.8)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"537dd7e1c471d845"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_numpy.test_numpy_piecewise_regression","kind":"function","src_hash":"3a3b9de3c8337aba","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: printer.doprint(p) == 'numpy.select([numpy.less(x, 0),True], [1,0], default=numpy.nan)' and printer.module_imports == {'numpy': {'select', 'less', 'nan'}}"},"spec":{"lhs":"test_numpy_piecewise_regression()","rhs":"printer.doprint(p) == 'numpy.select([numpy.less(x, 0),True], [1,0], default=numpy.nan)' and printer.module_imports == {'numpy': {'select', 'less', 'nan'}}","over":{"base":"Any"},"name":"test_numpy_piecewise_regression_correct"},"guarantee":"printer.doprint(p) == 'numpy.select([numpy.less(x, 0),True], [1,0], default=numpy.nan)'; printer.module_imports == {'numpy': {'select', 'less', 'nan'}}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_numpy.test_numpy_piecewise_regression_correct","statement":"Path(test_numpy_piecewise_regression(x), printer.doprint(p) == 'numpy.select([numpy.less(x, 0),True], [1,0], default=numpy.nan)'; printer.module_imports == {'numpy': {'select', 'less', 'nan'}})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5b33820990a2e98e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["printer.doprint(p) == 'numpy.select([numpy.less(x, 0),True], [1,0], default=numpy.nan)'","printer.module_imports == {'numpy': {'select', 'less', 'nan'}}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_numpy_piecewise_regression():
     """
     NumPyPrinter needs to print Piecewise()'s choicelist as a list to avoid
@@ -76,16 +83,23 @@ def test_numpy_piecewise_regression():
     assert printer.module_imports == {'numpy': {'select', 'less', 'nan'}}
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_numpy_logaddexp(), test_numpy_logaddexp produces the expected output) over Any ║
+# ║ Path(test_numpy_logaddexp(), NumPyPrinter().doprint(lae) == 'numpy.logaddexp(a, b)' and NumPyPrinter().doprint(lae2) == 'numpy.logaddexp2(a, b)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_numpy_logaddexp : Any → {Any | NumPyPrinter().do...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  NumPyPrinter().doprint(lae) == 'numpy.log...   ║
+# ║   ensures:  NumPyPrinter().doprint(lae2) == 'numpy.lo...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_numpy_logaddexp : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 55eb38828ab08608  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7640f35beb84466d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_numpy.test_numpy_logaddexp","kind":"function","src_hash":"4ae196ca542df0f9","in":{"base":"Any"},"out":{"base":"Any","pred":"NumPyPrinter().doprint(lae) == 'numpy.logaddexp(a, b)' and NumPyPrinter().doprint(lae2) == 'numpy.logaddexp2(a, b)'"},"spec":{"lhs":"test_numpy_logaddexp()","rhs":"test_numpy_logaddexp produces the expected output","over":{"base":"Any"},"name":"test_numpy_logaddexp_correct"},"guarantee":"test_numpy_logaddexp produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_numpy.test_numpy_logaddexp_correct","statement":"Path(test_numpy_logaddexp(x), test_numpy_logaddexp produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"55eb38828ab08608"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_numpy.test_numpy_logaddexp","kind":"function","src_hash":"4ae196ca542df0f9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: NumPyPrinter().doprint(lae) == 'numpy.logaddexp(a, b)' and NumPyPrinter().doprint(lae2) == 'numpy.logaddexp2(a, b)'"},"spec":{"lhs":"test_numpy_logaddexp()","rhs":"NumPyPrinter().doprint(lae) == 'numpy.logaddexp(a, b)' and NumPyPrinter().doprint(lae2) == 'numpy.logaddexp2(a, b)'","over":{"base":"Any"},"name":"test_numpy_logaddexp_correct"},"guarantee":"NumPyPrinter().doprint(lae) == 'numpy.logaddexp(a, b)'; NumPyPrinter().doprint(lae2) == 'numpy.logaddexp2(a, b)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_numpy.test_numpy_logaddexp_correct","statement":"Path(test_numpy_logaddexp(x), NumPyPrinter().doprint(lae) == 'numpy.logaddexp(a, b)'; NumPyPrinter().doprint(lae2) == 'numpy.logaddexp2(a, b)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7640f35beb84466d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["NumPyPrinter().doprint(lae) == 'numpy.logaddexp(a, b)'","NumPyPrinter().doprint(lae2) == 'numpy.logaddexp2(a, b)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_numpy_logaddexp():
     lae = logaddexp(a, b)
     assert NumPyPrinter().doprint(lae) == 'numpy.logaddexp(a, b)'
@@ -94,16 +108,23 @@ def test_numpy_logaddexp():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_sum(), test_sum produces the expected output) over Any ║
+# ║ Path(test_sum(), np.allclose(f(a_, b_, x_), sum((x_ ** i_ for i_ in range(a_, b_ + 1)))) and np.allclose(f(a_, b_, x_), sum((i_ * x_ for i_ in range(a_, b_ + 1))))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_sum : Any → {Any | np.allclose(f(a_, b_, x_), su...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  np.allclose(f(a_, b_, x_), sum((x_ ** i_ ...   ║
+# ║   ensures:  np.allclose(f(a_, b_, x_), sum((i_ * x_ f...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_sum : Any → {Any | result satisfies: np.allclose...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1178795df2409d1d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c01619734e4ba545  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_numpy.test_sum","kind":"function","src_hash":"61b0fec1db728a03","in":{"base":"Any"},"out":{"base":"Any","pred":"np.allclose(f(a_, b_, x_), sum((x_ ** i_ for i_ in range(a_, b_ + 1)))) and np.allclose(f(a_, b_, x_), sum((i_ * x_ for i_ in range(a_, b_ + 1))))"},"spec":{"lhs":"test_sum()","rhs":"test_sum produces the expected output","over":{"base":"Any"},"name":"test_sum_correct"},"guarantee":"test_sum produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_numpy.test_sum_correct","statement":"Path(test_sum(x), test_sum produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1178795df2409d1d"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_numpy.test_sum","kind":"function","src_hash":"61b0fec1db728a03","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: np.allclose(f(a_, b_, x_), sum((x_ ** i_ for i_ in range(a_, b_ + 1)))) and np.allclose(f(a_, b_, x_), sum((i_ * x_ for i_ in range(a_, b_ + 1))))"},"spec":{"lhs":"test_sum()","rhs":"np.allclose(f(a_, b_, x_), sum((x_ ** i_ for i_ in range(a_, b_ + 1)))) and np.allclose(f(a_, b_, x_), sum((i_ * x_ for i_ in range(a_, b_ + 1))))","over":{"base":"Any"},"name":"test_sum_correct"},"guarantee":"np.allclose(f(a_, b_, x_), sum((x_ ** i_ for i_ in range(a_, b_ + 1)))); np.allclose(f(a_, b_, x_), sum((i_ * x_ for i_ in range(a_, b_ + 1))))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_numpy.test_sum_correct","statement":"Path(test_sum(x), np.allclose(f(a_, b_, x_), sum((x_ ** i_ for i_ in range(a_, b_ + 1)))); np.allclose(f(a_, b_, x_), sum((i_ * x_ for i_ in range(a_, b_ + 1)))))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c01619734e4ba545","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["np.allclose(f(a_, b_, x_), sum((x_ ** i_ for i_ in range(a_, b_ + 1))))","np.allclose(f(a_, b_, x_), sum((i_ * x_ for i_ in range(a_, b_ + 1))))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_sum():
     if not np:
         skip("NumPy not installed")
@@ -124,16 +145,22 @@ def test_sum():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_multiple_sums(), test_multiple_sums produces the expected output) over Any ║
+# ║ Path(test_multiple_sums(), np.allclose(f(a_, b_, c_, d_, x_), sum(((x_ + j_) * i_ for i_ in range(a_, b_ + 1) for j_ in range(c_, d_ + 1))))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_multiple_sums : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  np.allclose(f(a_, b_, c_, d_, x_), sum(((...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_multiple_sums : Any → {Any | result satisfies: n...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f93d6884f3b34191  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0cd3bb7d2c6664e1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_numpy.test_multiple_sums","kind":"function","src_hash":"24c5bf0337de6bab","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_multiple_sums()","rhs":"test_multiple_sums produces the expected output","over":{"base":"Any"},"name":"test_multiple_sums_correct"},"guarantee":"test_multiple_sums produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_numpy.test_multiple_sums_correct","statement":"Path(test_multiple_sums(x), test_multiple_sums produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f93d6884f3b34191"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_numpy.test_multiple_sums","kind":"function","src_hash":"24c5bf0337de6bab","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: np.allclose(f(a_, b_, c_, d_, x_), sum(((x_ + j_) * i_ for i_ in range(a_, b_ + 1) for j_ in range(c_, d_ + 1))))"},"spec":{"lhs":"test_multiple_sums()","rhs":"np.allclose(f(a_, b_, c_, d_, x_), sum(((x_ + j_) * i_ for i_ in range(a_, b_ + 1) for j_ in range(c_, d_ + 1))))","over":{"base":"Any"},"name":"test_multiple_sums_correct"},"guarantee":"np.allclose(f(a_, b_, c_, d_, x_), sum(((x_ + j_) * i_ for i_ in range(a_, b_ + 1) for j_ in range(c_, d_ + 1))))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_numpy.test_multiple_sums_correct","statement":"Path(test_multiple_sums(x), np.allclose(f(a_, b_, c_, d_, x_), sum(((x_ + j_) * i_ for i_ in range(a_, b_ + 1) for j_ in range(c_, d_ + 1)))))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0cd3bb7d2c6664e1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["np.allclose(f(a_, b_, c_, d_, x_), sum(((x_ + j_) * i_ for i_ in range(a_, b_ + 1) for j_ in range(c_, d_ + 1))))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_multiple_sums():
     if not np:
         skip("NumPy not installed")
@@ -149,16 +176,22 @@ def test_multiple_sums():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_codegen_einsum(), test_codegen_einsum produces the expected output) over Any ║
+# ║ Path(test_codegen_einsum(), (f(ma, mb) == np.matmul(ma, mb)).all()) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_codegen_einsum : Any → {Any | (f(ma, mb) == np.m...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (f(ma, mb) == np.matmul(ma, mb)).all()         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_codegen_einsum : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0d966c3f4e74f7a1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a20d32eaaf01ad6d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_numpy.test_codegen_einsum","kind":"function","src_hash":"e4fdb4064b99b90b","in":{"base":"Any"},"out":{"base":"Any","pred":"(f(ma, mb) == np.matmul(ma, mb)).all()"},"spec":{"lhs":"test_codegen_einsum()","rhs":"test_codegen_einsum produces the expected output","over":{"base":"Any"},"name":"test_codegen_einsum_correct"},"guarantee":"test_codegen_einsum produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_numpy.test_codegen_einsum_correct","statement":"Path(test_codegen_einsum(x), test_codegen_einsum produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0d966c3f4e74f7a1"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_numpy.test_codegen_einsum","kind":"function","src_hash":"e4fdb4064b99b90b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (f(ma, mb) == np.matmul(ma, mb)).all()"},"spec":{"lhs":"test_codegen_einsum()","rhs":"(f(ma, mb) == np.matmul(ma, mb)).all()","over":{"base":"Any"},"name":"test_codegen_einsum_correct"},"guarantee":"(f(ma, mb) == np.matmul(ma, mb)).all()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_numpy.test_codegen_einsum_correct","statement":"Path(test_codegen_einsum(x), (f(ma, mb) == np.matmul(ma, mb)).all())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a20d32eaaf01ad6d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(f(ma, mb) == np.matmul(ma, mb)).all()"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_codegen_einsum():
     if not np:
         skip("NumPy not installed")
@@ -175,16 +208,24 @@ def test_codegen_einsum():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_codegen_extra(), test_codegen_extra produces the expected output) over Any ║
+# ║ Path(test_codegen_extra(), (f(ma, mb) == np.einsum(ma, [0, 1], mb, [2, 3])).all() and (f(ma, mb) == ma + mb).all() and (f(ma, mb, mc) == ma + mb + mc).all() and (f(ma, mb, mc, md) == ma + mb + mc + md).all() and (f(ma) == ma.T).all() and (f(ma, mb) == np.transpose(np.einsum(ma, [0, 1], mb, [2, 3]), (1, 2, 3, 0))).all() and (f(ma, mb) == np.diagonal(np.einsum(ma, [0, 1], mb, [2, 3]), axis1=1, axis2=2)).all()) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_codegen_extra : Any → {Any | (f(ma, mb) == np.ei...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (f(ma, mb) == np.einsum(ma, [0, 1], mb, [...   ║
+# ║   ensures:  (f(ma, mb) == ma + mb).all()                   ║
+# ║   ensures:  (f(ma, mb, mc) == ma + mb + mc).all()          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_codegen_extra : Any → {Any | result satisfies: (...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3b8e4fcaa9504232  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a944c0cbd21c025b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_numpy.test_codegen_extra","kind":"function","src_hash":"dc69d33fb6c389e6","in":{"base":"Any"},"out":{"base":"Any","pred":"(f(ma, mb) == np.einsum(ma, [0, 1], mb, [2, 3])).all() and (f(ma, mb) == ma + mb).all() and (f(ma, mb, mc) == ma + mb + mc).all() and (f(ma, mb, mc, md) == ma + mb + mc + md).all() and (f(ma) == ma.T).all()"},"spec":{"lhs":"test_codegen_extra()","rhs":"test_codegen_extra produces the expected output","over":{"base":"Any"},"name":"test_codegen_extra_correct"},"guarantee":"test_codegen_extra produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_numpy.test_codegen_extra_correct","statement":"Path(test_codegen_extra(x), test_codegen_extra produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3b8e4fcaa9504232"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_numpy.test_codegen_extra","kind":"function","src_hash":"dc69d33fb6c389e6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (f(ma, mb) == np.einsum(ma, [0, 1], mb, [2, 3])).all() and (f(ma, mb) == ma + mb).all() and (f(ma, mb, mc) == ma + mb + mc).all() and (f(ma, mb, mc, md) == ma + mb + mc + md).all() and (f(ma) == ma.T).all() and (f(ma, mb) == np.transpose(np.einsum(ma, [0, 1], mb, [2, 3]), (1, 2, 3, 0))).all() and (f(ma, mb) == np.diagonal(np.einsum(ma, [0, 1], mb, [2, 3]), axis1=1, axis2=2)).all()"},"spec":{"lhs":"test_codegen_extra()","rhs":"(f(ma, mb) == np.einsum(ma, [0, 1], mb, [2, 3])).all() and (f(ma, mb) == ma + mb).all() and (f(ma, mb, mc) == ma + mb + mc).all() and (f(ma, mb, mc, md) == ma + mb + mc + md).all() and (f(ma) == ma.T).all() and (f(ma, mb) == np.transpose(np.einsum(ma, [0, 1], mb, [2, 3]), (1, 2, 3, 0))).all() and (f(ma, mb) == np.diagonal(np.einsum(ma, [0, 1], mb, [2, 3]), axis1=1, axis2=2)).all()","over":{"base":"Any"},"name":"test_codegen_extra_correct"},"guarantee":"(f(ma, mb) == np.einsum(ma, [0, 1], mb, [2, 3])).all(); (f(ma, mb) == ma + mb).all(); (f(ma, mb, mc) == ma + mb + mc).all()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_numpy.test_codegen_extra_correct","statement":"Path(test_codegen_extra(x), (f(ma, mb) == np.einsum(ma, [0, 1], mb, [2, 3])).all(); (f(ma, mb) == ma + mb).all(); (f(ma, mb, mc) == ma + mb + mc).all())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a944c0cbd21c025b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(f(ma, mb) == np.einsum(ma, [0, 1], mb, [2, 3])).all()","(f(ma, mb) == ma + mb).all()","(f(ma, mb, mc) == ma + mb + mc).all()","(f(ma, mb, mc, md) == ma + mb + mc + md).all()","(f(ma) == ma.T).all()","(f(ma, mb) == np.transpose(np.einsum(ma, [0, 1], mb, [2, 3]), (1, 2, 3, 0))).all()","(f(ma, mb) == np.diagonal(np.einsum(ma, [0, 1], mb, [2, 3]), axis1=1, axis2=2)).all()"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def test_codegen_extra():
     if not np:
         skip("NumPy not installed")
@@ -228,16 +269,24 @@ def test_codegen_extra():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_relational(), test_relational produces the expected output) over Any ║
+# ║ Path(test_relational(), np.array_equal(f(x_), [False, True, False]) and np.array_equal(f(x_), [True, False, True]) and np.array_equal(f(x_), [True, False, False]) and np.array_equal(f(x_), [True, True, False]) and np.array_equal(f(x_), [False, False, True]) and np.array_equal(f(x_), [False, True, True])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_relational : Any → {Any | np.array_equal(f(x_), ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  np.array_equal(f(x_), [False, True, False])    ║
+# ║   ensures:  np.array_equal(f(x_), [True, False, True])     ║
+# ║   ensures:  np.array_equal(f(x_), [True, False, False])    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_relational : Any → {Any | result satisfies: np.a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 26b1ca39a670eec3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b2eabf440059c979  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_numpy.test_relational","kind":"function","src_hash":"203e153e21a396c7","in":{"base":"Any"},"out":{"base":"Any","pred":"np.array_equal(f(x_), [False, True, False]) and np.array_equal(f(x_), [True, False, True]) and np.array_equal(f(x_), [True, False, False]) and np.array_equal(f(x_), [True, True, False]) and np.array_equal(f(x_), [False, False, True]) and np.array_equal(f(x_), [False, True, True])"},"spec":{"lhs":"test_relational()","rhs":"test_relational produces the expected output","over":{"base":"Any"},"name":"test_relational_correct"},"guarantee":"test_relational produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_numpy.test_relational_correct","statement":"Path(test_relational(x), test_relational produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"26b1ca39a670eec3"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_numpy.test_relational","kind":"function","src_hash":"203e153e21a396c7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: np.array_equal(f(x_), [False, True, False]) and np.array_equal(f(x_), [True, False, True]) and np.array_equal(f(x_), [True, False, False]) and np.array_equal(f(x_), [True, True, False]) and np.array_equal(f(x_), [False, False, True]) and np.array_equal(f(x_), [False, True, True])"},"spec":{"lhs":"test_relational()","rhs":"np.array_equal(f(x_), [False, True, False]) and np.array_equal(f(x_), [True, False, True]) and np.array_equal(f(x_), [True, False, False]) and np.array_equal(f(x_), [True, True, False]) and np.array_equal(f(x_), [False, False, True]) and np.array_equal(f(x_), [False, True, True])","over":{"base":"Any"},"name":"test_relational_correct"},"guarantee":"np.array_equal(f(x_), [False, True, False]); np.array_equal(f(x_), [True, False, True]); np.array_equal(f(x_), [True, False, False])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_numpy.test_relational_correct","statement":"Path(test_relational(x), np.array_equal(f(x_), [False, True, False]); np.array_equal(f(x_), [True, False, True]); np.array_equal(f(x_), [True, False, False]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b2eabf440059c979","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["np.array_equal(f(x_), [False, True, False])","np.array_equal(f(x_), [True, False, True])","np.array_equal(f(x_), [True, False, False])","np.array_equal(f(x_), [True, True, False])","np.array_equal(f(x_), [False, False, True])","np.array_equal(f(x_), [False, True, True])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_relational():
     if not np:
         skip("NumPy not installed")
@@ -280,16 +329,23 @@ def test_relational():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_mod(), test_mod produces the expected output) over Any ║
+# ║ Path(test_mod(), np.array_equal(f(a_, b_), [0, 1, 0, 1]) and np.array_equal(f(a_, b_), [0, 0, 0, 0])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_mod : Any → {Any | np.array_equal(f(a_, b_), [0,...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  np.array_equal(f(a_, b_), [0, 1, 0, 1])        ║
+# ║   ensures:  np.array_equal(f(a_, b_), [0, 0, 0, 0])        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_mod : Any → {Any | result satisfies: np.array_eq...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1e1d61927157a406  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 350bc7d0d17c7a3a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_numpy.test_mod","kind":"function","src_hash":"eddc8dc545e0606a","in":{"base":"Any"},"out":{"base":"Any","pred":"np.array_equal(f(a_, b_), [0, 1, 0, 1]) and np.array_equal(f(a_, b_), [0, 1, 0, 1]) and np.array_equal(f(a_, b_), [0, 0, 0, 0])"},"spec":{"lhs":"test_mod()","rhs":"test_mod produces the expected output","over":{"base":"Any"},"name":"test_mod_correct"},"guarantee":"test_mod produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_numpy.test_mod_correct","statement":"Path(test_mod(x), test_mod produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1e1d61927157a406"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_numpy.test_mod","kind":"function","src_hash":"eddc8dc545e0606a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: np.array_equal(f(a_, b_), [0, 1, 0, 1]) and np.array_equal(f(a_, b_), [0, 0, 0, 0])"},"spec":{"lhs":"test_mod()","rhs":"np.array_equal(f(a_, b_), [0, 1, 0, 1]) and np.array_equal(f(a_, b_), [0, 0, 0, 0])","over":{"base":"Any"},"name":"test_mod_correct"},"guarantee":"np.array_equal(f(a_, b_), [0, 1, 0, 1]); np.array_equal(f(a_, b_), [0, 0, 0, 0])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_numpy.test_mod_correct","statement":"Path(test_mod(x), np.array_equal(f(a_, b_), [0, 1, 0, 1]); np.array_equal(f(a_, b_), [0, 0, 0, 0]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"350bc7d0d17c7a3a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["np.array_equal(f(a_, b_), [0, 1, 0, 1])","np.array_equal(f(a_, b_), [0, 0, 0, 0])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_mod():
     if not np:
         skip("NumPy not installed")
@@ -311,16 +367,22 @@ def test_mod():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pow(), test_pow produces the expected output) over Any ║
+# ║ Path(test_pow(), f() == 0.5) over Any                      ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_pow : Any → {Any | f() == 0.5}                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f() == 0.5                                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_pow : Any → {Any | result satisfies: f() == 0.5}      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7487fbe1af3f3d42  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | acd4786ffd9802de  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_numpy.test_pow","kind":"function","src_hash":"a650b35e82525846","in":{"base":"Any"},"out":{"base":"Any","pred":"f() == 0.5"},"spec":{"lhs":"test_pow()","rhs":"test_pow produces the expected output","over":{"base":"Any"},"name":"test_pow_correct"},"guarantee":"test_pow produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_numpy.test_pow_correct","statement":"Path(test_pow(x), test_pow produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7487fbe1af3f3d42"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_numpy.test_pow","kind":"function","src_hash":"a650b35e82525846","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f() == 0.5"},"spec":{"lhs":"test_pow()","rhs":"f() == 0.5","over":{"base":"Any"},"name":"test_pow_correct"},"guarantee":"f() == 0.5","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_numpy.test_pow_correct","statement":"Path(test_pow(x), f() == 0.5)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"acd4786ffd9802de","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f() == 0.5"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_pow():
     if not np:
         skip('NumPy not installed')
@@ -331,16 +393,22 @@ def test_pow():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_expm1(), test_expm1 produces the expected output) over Any ║
+# ║ Path(test_expm1(), abs(f(1e-10) - 1e-10 - 5e-21) <= 1e-10 * NUMPY_DEFAULT_EPSILON) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_expm1 : Any → {Any | abs(f(1e-10) - 1e-10 - 5e-2...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  abs(f(1e-10) - 1e-10 - 5e-21) <= 1e-10 * ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_expm1 : Any → {Any | result satisfies: abs(f(1e-...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1869c00dd27d2b53  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | af6b06ee898dfffe  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_numpy.test_expm1","kind":"function","src_hash":"2cdb9e9b3da745de","in":{"base":"Any"},"out":{"base":"Any","pred":"abs(f(1e-10) - 1e-10 - 5e-21) <= 1e-10 * NUMPY_DEFAULT_EPSILON"},"spec":{"lhs":"test_expm1()","rhs":"test_expm1 produces the expected output","over":{"base":"Any"},"name":"test_expm1_correct"},"guarantee":"test_expm1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_numpy.test_expm1_correct","statement":"Path(test_expm1(x), test_expm1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1869c00dd27d2b53"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_numpy.test_expm1","kind":"function","src_hash":"2cdb9e9b3da745de","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: abs(f(1e-10) - 1e-10 - 5e-21) <= 1e-10 * NUMPY_DEFAULT_EPSILON"},"spec":{"lhs":"test_expm1()","rhs":"abs(f(1e-10) - 1e-10 - 5e-21) <= 1e-10 * NUMPY_DEFAULT_EPSILON","over":{"base":"Any"},"name":"test_expm1_correct"},"guarantee":"abs(f(1e-10) - 1e-10 - 5e-21) <= 1e-10 * NUMPY_DEFAULT_EPSILON","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_numpy.test_expm1_correct","statement":"Path(test_expm1(x), abs(f(1e-10) - 1e-10 - 5e-21) <= 1e-10 * NUMPY_DEFAULT_EPSILON)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"af6b06ee898dfffe","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["abs(f(1e-10) - 1e-10 - 5e-21) <= 1e-10 * NUMPY_DEFAULT_EPSILON"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_expm1():
     if not np:
         skip("NumPy not installed")
@@ -350,16 +418,22 @@ def test_expm1():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_log1p(), test_log1p produces the expected output) over Any ║
+# ║ Path(test_log1p(), abs(f(1e-99) - 1e-99) <= 1e-99 * NUMPY_DEFAULT_EPSILON) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_log1p : Any → {Any | abs(f(1e-99) - 1e-99) <= 1e...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  abs(f(1e-99) - 1e-99) <= 1e-99 * NUMPY_DE...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_log1p : Any → {Any | result satisfies: abs(f(1e-...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6d5ede4fb732b908  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 48d66921f5a27cbd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_numpy.test_log1p","kind":"function","src_hash":"23777d22a5ab69a3","in":{"base":"Any"},"out":{"base":"Any","pred":"abs(f(1e-99) - 1e-99) <= 1e-99 * NUMPY_DEFAULT_EPSILON"},"spec":{"lhs":"test_log1p()","rhs":"test_log1p produces the expected output","over":{"base":"Any"},"name":"test_log1p_correct"},"guarantee":"test_log1p produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_numpy.test_log1p_correct","statement":"Path(test_log1p(x), test_log1p produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6d5ede4fb732b908"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_numpy.test_log1p","kind":"function","src_hash":"23777d22a5ab69a3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: abs(f(1e-99) - 1e-99) <= 1e-99 * NUMPY_DEFAULT_EPSILON"},"spec":{"lhs":"test_log1p()","rhs":"abs(f(1e-99) - 1e-99) <= 1e-99 * NUMPY_DEFAULT_EPSILON","over":{"base":"Any"},"name":"test_log1p_correct"},"guarantee":"abs(f(1e-99) - 1e-99) <= 1e-99 * NUMPY_DEFAULT_EPSILON","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_numpy.test_log1p_correct","statement":"Path(test_log1p(x), abs(f(1e-99) - 1e-99) <= 1e-99 * NUMPY_DEFAULT_EPSILON)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"48d66921f5a27cbd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["abs(f(1e-99) - 1e-99) <= 1e-99 * NUMPY_DEFAULT_EPSILON"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_log1p():
     if not np:
         skip("NumPy not installed")
@@ -368,32 +442,44 @@ def test_log1p():
     assert abs(f(1e-99) - 1e-99) <= 1e-99 * NUMPY_DEFAULT_EPSILON
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_hypot(), test_hypot produces the expected output) over Any ║
+# ║ Path(test_hypot(), abs(lambdify((a, b), hypot(a, b), 'numpy')(3, 4) - 5) <= NUMPY_DEFAULT_EPSILON) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_hypot : Any → {Any | abs(lambdify((a, b), hypot(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  abs(lambdify((a, b), hypot(a, b), 'numpy'...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_hypot : Any → {Any | result satisfies: abs(lambd...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 738ecbab87c6a58a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8d708dd764bb12fa  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_numpy.test_hypot","kind":"function","src_hash":"1e5afce737c5f652","in":{"base":"Any"},"out":{"base":"Any","pred":"abs(lambdify((a, b), hypot(a, b), 'numpy')(3, 4) - 5) <= NUMPY_DEFAULT_EPSILON"},"spec":{"lhs":"test_hypot()","rhs":"test_hypot produces the expected output","over":{"base":"Any"},"name":"test_hypot_correct"},"guarantee":"test_hypot produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_numpy.test_hypot_correct","statement":"Path(test_hypot(x), test_hypot produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"738ecbab87c6a58a"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_numpy.test_hypot","kind":"function","src_hash":"1e5afce737c5f652","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: abs(lambdify((a, b), hypot(a, b), 'numpy')(3, 4) - 5) <= NUMPY_DEFAULT_EPSILON"},"spec":{"lhs":"test_hypot()","rhs":"abs(lambdify((a, b), hypot(a, b), 'numpy')(3, 4) - 5) <= NUMPY_DEFAULT_EPSILON","over":{"base":"Any"},"name":"test_hypot_correct"},"guarantee":"abs(lambdify((a, b), hypot(a, b), 'numpy')(3, 4) - 5) <= NUMPY_DEFAULT_EPSILON","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_numpy.test_hypot_correct","statement":"Path(test_hypot(x), abs(lambdify((a, b), hypot(a, b), 'numpy')(3, 4) - 5) <= NUMPY_DEFAULT_EPSILON)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8d708dd764bb12fa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["abs(lambdify((a, b), hypot(a, b), 'numpy')(3, 4) - 5) <= NUMPY_DEFAULT_EPSILON"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_hypot():
     if not np:
         skip("NumPy not installed")
     assert abs(lambdify((a, b), hypot(a, b), 'numpy')(3, 4) - 5) <= NUMPY_DEFAULT_EPSILON
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_log10(), test_log10 produces the expected output) over Any ║
+# ║ Path(test_log10(), abs(lambdify((a,), log10(a), 'numpy')(100) - 2) <= NUMPY_DEFAULT_EPSILON) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_log10 : Any → {Any | abs(lambdify((a,), log10(a)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  abs(lambdify((a,), log10(a), 'numpy')(100...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_log10 : Any → {Any | result satisfies: abs(lambd...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0d2ab24eabf282c6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 811ce6a89e805289  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_numpy.test_log10","kind":"function","src_hash":"aabbc9e165f60b46","in":{"base":"Any"},"out":{"base":"Any","pred":"abs(lambdify((a,), log10(a), 'numpy')(100) - 2) <= NUMPY_DEFAULT_EPSILON"},"spec":{"lhs":"test_log10()","rhs":"test_log10 produces the expected output","over":{"base":"Any"},"name":"test_log10_correct"},"guarantee":"test_log10 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_numpy.test_log10_correct","statement":"Path(test_log10(x), test_log10 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0d2ab24eabf282c6"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_numpy.test_log10","kind":"function","src_hash":"aabbc9e165f60b46","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: abs(lambdify((a,), log10(a), 'numpy')(100) - 2) <= NUMPY_DEFAULT_EPSILON"},"spec":{"lhs":"test_log10()","rhs":"abs(lambdify((a,), log10(a), 'numpy')(100) - 2) <= NUMPY_DEFAULT_EPSILON","over":{"base":"Any"},"name":"test_log10_correct"},"guarantee":"abs(lambdify((a,), log10(a), 'numpy')(100) - 2) <= NUMPY_DEFAULT_EPSILON","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_numpy.test_log10_correct","statement":"Path(test_log10(x), abs(lambdify((a,), log10(a), 'numpy')(100) - 2) <= NUMPY_DEFAULT_EPSILON)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"811ce6a89e805289","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["abs(lambdify((a,), log10(a), 'numpy')(100) - 2) <= NUMPY_DEFAULT_EPSILON"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_log10():
     if not np:
         skip("NumPy not installed")
@@ -401,16 +487,22 @@ def test_log10():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_exp2(), test_exp2 produces the expected output) over Any ║
+# ║ Path(test_exp2(), abs(lambdify((a,), exp2(a), 'numpy')(5) - 32) <= NUMPY_DEFAULT_EPSILON) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_exp2 : Any → {Any | abs(lambdify((a,), exp2(a), ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  abs(lambdify((a,), exp2(a), 'numpy')(5) -...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_exp2 : Any → {Any | result satisfies: abs(lambdi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 469b8b2062d0d235  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d256614900bf87df  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_numpy.test_exp2","kind":"function","src_hash":"a977639430a1f95a","in":{"base":"Any"},"out":{"base":"Any","pred":"abs(lambdify((a,), exp2(a), 'numpy')(5) - 32) <= NUMPY_DEFAULT_EPSILON"},"spec":{"lhs":"test_exp2()","rhs":"test_exp2 produces the expected output","over":{"base":"Any"},"name":"test_exp2_correct"},"guarantee":"test_exp2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_numpy.test_exp2_correct","statement":"Path(test_exp2(x), test_exp2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"469b8b2062d0d235"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_numpy.test_exp2","kind":"function","src_hash":"a977639430a1f95a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: abs(lambdify((a,), exp2(a), 'numpy')(5) - 32) <= NUMPY_DEFAULT_EPSILON"},"spec":{"lhs":"test_exp2()","rhs":"abs(lambdify((a,), exp2(a), 'numpy')(5) - 32) <= NUMPY_DEFAULT_EPSILON","over":{"base":"Any"},"name":"test_exp2_correct"},"guarantee":"abs(lambdify((a,), exp2(a), 'numpy')(5) - 32) <= NUMPY_DEFAULT_EPSILON","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_numpy.test_exp2_correct","statement":"Path(test_exp2(x), abs(lambdify((a,), exp2(a), 'numpy')(5) - 32) <= NUMPY_DEFAULT_EPSILON)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d256614900bf87df","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["abs(lambdify((a,), exp2(a), 'numpy')(5) - 32) <= NUMPY_DEFAULT_EPSILON"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_exp2():
     if not np:
         skip("NumPy not installed")
@@ -418,16 +510,22 @@ def test_exp2():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_log2(), test_log2 produces the expected output) over Any ║
+# ║ Path(test_log2(), abs(lambdify((a,), log2(a), 'numpy')(256) - 8) <= NUMPY_DEFAULT_EPSILON) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_log2 : Any → {Any | abs(lambdify((a,), log2(a), ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  abs(lambdify((a,), log2(a), 'numpy')(256)...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_log2 : Any → {Any | result satisfies: abs(lambdi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ffc7d6cfdb8bbe1e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 14bcb33621032470  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_numpy.test_log2","kind":"function","src_hash":"b82b54137bae3571","in":{"base":"Any"},"out":{"base":"Any","pred":"abs(lambdify((a,), log2(a), 'numpy')(256) - 8) <= NUMPY_DEFAULT_EPSILON"},"spec":{"lhs":"test_log2()","rhs":"test_log2 produces the expected output","over":{"base":"Any"},"name":"test_log2_correct"},"guarantee":"test_log2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_numpy.test_log2_correct","statement":"Path(test_log2(x), test_log2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ffc7d6cfdb8bbe1e"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_numpy.test_log2","kind":"function","src_hash":"b82b54137bae3571","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: abs(lambdify((a,), log2(a), 'numpy')(256) - 8) <= NUMPY_DEFAULT_EPSILON"},"spec":{"lhs":"test_log2()","rhs":"abs(lambdify((a,), log2(a), 'numpy')(256) - 8) <= NUMPY_DEFAULT_EPSILON","over":{"base":"Any"},"name":"test_log2_correct"},"guarantee":"abs(lambdify((a,), log2(a), 'numpy')(256) - 8) <= NUMPY_DEFAULT_EPSILON","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_numpy.test_log2_correct","statement":"Path(test_log2(x), abs(lambdify((a,), log2(a), 'numpy')(256) - 8) <= NUMPY_DEFAULT_EPSILON)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"14bcb33621032470","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["abs(lambdify((a,), log2(a), 'numpy')(256) - 8) <= NUMPY_DEFAULT_EPSILON"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_log2():
     if not np:
         skip("NumPy not installed")
@@ -435,16 +533,22 @@ def test_log2():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Sqrt(), test_Sqrt produces the expected output) over Any ║
+# ║ Path(test_Sqrt(), abs(lambdify((a,), Sqrt(a), 'numpy')(4) - 2) <= NUMPY_DEFAULT_EPSILON) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Sqrt : Any → {Any | abs(lambdify((a,), Sqrt(a), ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  abs(lambdify((a,), Sqrt(a), 'numpy')(4) -...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Sqrt : Any → {Any | result satisfies: abs(lambdi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 66f11f2c59246195  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 608e3536795210f5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_numpy.test_Sqrt","kind":"function","src_hash":"5c801574a379c6e6","in":{"base":"Any"},"out":{"base":"Any","pred":"abs(lambdify((a,), Sqrt(a), 'numpy')(4) - 2) <= NUMPY_DEFAULT_EPSILON"},"spec":{"lhs":"test_Sqrt()","rhs":"test_Sqrt produces the expected output","over":{"base":"Any"},"name":"test_Sqrt_correct"},"guarantee":"test_Sqrt produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_numpy.test_Sqrt_correct","statement":"Path(test_Sqrt(x), test_Sqrt produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"66f11f2c59246195"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_numpy.test_Sqrt","kind":"function","src_hash":"5c801574a379c6e6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: abs(lambdify((a,), Sqrt(a), 'numpy')(4) - 2) <= NUMPY_DEFAULT_EPSILON"},"spec":{"lhs":"test_Sqrt()","rhs":"abs(lambdify((a,), Sqrt(a), 'numpy')(4) - 2) <= NUMPY_DEFAULT_EPSILON","over":{"base":"Any"},"name":"test_Sqrt_correct"},"guarantee":"abs(lambdify((a,), Sqrt(a), 'numpy')(4) - 2) <= NUMPY_DEFAULT_EPSILON","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_numpy.test_Sqrt_correct","statement":"Path(test_Sqrt(x), abs(lambdify((a,), Sqrt(a), 'numpy')(4) - 2) <= NUMPY_DEFAULT_EPSILON)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"608e3536795210f5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["abs(lambdify((a,), Sqrt(a), 'numpy')(4) - 2) <= NUMPY_DEFAULT_EPSILON"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Sqrt():
     if not np:
         skip("NumPy not installed")
@@ -452,16 +556,22 @@ def test_Sqrt():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_sqrt(), test_sqrt produces the expected output) over Any ║
+# ║ Path(test_sqrt(), abs(lambdify((a,), sqrt(a), 'numpy')(4) - 2) <= NUMPY_DEFAULT_EPSILON) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_sqrt : Any → {Any | abs(lambdify((a,), sqrt(a), ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  abs(lambdify((a,), sqrt(a), 'numpy')(4) -...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_sqrt : Any → {Any | result satisfies: abs(lambdi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e7b4828e2ff9e4d1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3c21f35d21242ebf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_numpy.test_sqrt","kind":"function","src_hash":"42c92cae75258b8f","in":{"base":"Any"},"out":{"base":"Any","pred":"abs(lambdify((a,), sqrt(a), 'numpy')(4) - 2) <= NUMPY_DEFAULT_EPSILON"},"spec":{"lhs":"test_sqrt()","rhs":"test_sqrt produces the expected output","over":{"base":"Any"},"name":"test_sqrt_correct"},"guarantee":"test_sqrt produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_numpy.test_sqrt_correct","statement":"Path(test_sqrt(x), test_sqrt produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e7b4828e2ff9e4d1"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_numpy.test_sqrt","kind":"function","src_hash":"42c92cae75258b8f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: abs(lambdify((a,), sqrt(a), 'numpy')(4) - 2) <= NUMPY_DEFAULT_EPSILON"},"spec":{"lhs":"test_sqrt()","rhs":"abs(lambdify((a,), sqrt(a), 'numpy')(4) - 2) <= NUMPY_DEFAULT_EPSILON","over":{"base":"Any"},"name":"test_sqrt_correct"},"guarantee":"abs(lambdify((a,), sqrt(a), 'numpy')(4) - 2) <= NUMPY_DEFAULT_EPSILON","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_numpy.test_sqrt_correct","statement":"Path(test_sqrt(x), abs(lambdify((a,), sqrt(a), 'numpy')(4) - 2) <= NUMPY_DEFAULT_EPSILON)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3c21f35d21242ebf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["abs(lambdify((a,), sqrt(a), 'numpy')(4) - 2) <= NUMPY_DEFAULT_EPSILON"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_sqrt():
     if not np:
         skip("NumPy not installed")
@@ -469,16 +579,23 @@ def test_sqrt():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_matsolve(), test_matsolve produces the expected output) over Any ║
+# ║ Path(test_matsolve(), np.linalg.matrix_rank(m0) == 3 and np.allclose(f_matsolve(m0, x0), f(m0, x0))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_matsolve : Any → {Any | np.linalg.matrix_rank(m0...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  np.linalg.matrix_rank(m0) == 3                 ║
+# ║   ensures:  np.allclose(f_matsolve(m0, x0), f(m0, x0))     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_matsolve : Any → {Any | result satisfies: np.lin...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0ceba7561a1f67a1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 084fdafbecad22d2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_numpy.test_matsolve","kind":"function","src_hash":"9b23dd351c321eb6","in":{"base":"Any"},"out":{"base":"Any","pred":"np.linalg.matrix_rank(m0) == 3 and np.allclose(f_matsolve(m0, x0), f(m0, x0))"},"spec":{"lhs":"test_matsolve()","rhs":"test_matsolve produces the expected output","over":{"base":"Any"},"name":"test_matsolve_correct"},"guarantee":"test_matsolve produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_numpy.test_matsolve_correct","statement":"Path(test_matsolve(x), test_matsolve produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0ceba7561a1f67a1"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_numpy.test_matsolve","kind":"function","src_hash":"9b23dd351c321eb6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: np.linalg.matrix_rank(m0) == 3 and np.allclose(f_matsolve(m0, x0), f(m0, x0))"},"spec":{"lhs":"test_matsolve()","rhs":"np.linalg.matrix_rank(m0) == 3 and np.allclose(f_matsolve(m0, x0), f(m0, x0))","over":{"base":"Any"},"name":"test_matsolve_correct"},"guarantee":"np.linalg.matrix_rank(m0) == 3; np.allclose(f_matsolve(m0, x0), f(m0, x0))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_numpy.test_matsolve_correct","statement":"Path(test_matsolve(x), np.linalg.matrix_rank(m0) == 3; np.allclose(f_matsolve(m0, x0), f(m0, x0)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"084fdafbecad22d2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["np.linalg.matrix_rank(m0) == 3","np.allclose(f_matsolve(m0, x0), f(m0, x0))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_matsolve():
     if not np:
         skip("NumPy not installed")
@@ -501,16 +618,23 @@ def test_matsolve():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_16857(), test_16857 produces the expected output) over Any ║
+# ║ Path(test_16857(), A.shape == (20, 6) and printer.doprint(A) == 'numpy.block([[a_1, a_2], [a_3, a_4]])') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_16857 : Any → {Any | A.shape == (20, 6) and prin...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A.shape == (20, 6)                             ║
+# ║   ensures:  printer.doprint(A) == 'numpy.block([[a_1,...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_16857 : Any → {Any | result satisfies: A.shape =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bad709c600e5755e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 300c76eda7fa7c1d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_numpy.test_16857","kind":"function","src_hash":"66558fa018139f04","in":{"base":"Any"},"out":{"base":"Any","pred":"A.shape == (20, 6) and printer.doprint(A) == 'numpy.block([[a_1, a_2], [a_3, a_4]])'"},"spec":{"lhs":"test_16857()","rhs":"test_16857 produces the expected output","over":{"base":"Any"},"name":"test_16857_correct"},"guarantee":"test_16857 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_numpy.test_16857_correct","statement":"Path(test_16857(x), test_16857 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bad709c600e5755e"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_numpy.test_16857","kind":"function","src_hash":"66558fa018139f04","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A.shape == (20, 6) and printer.doprint(A) == 'numpy.block([[a_1, a_2], [a_3, a_4]])'"},"spec":{"lhs":"test_16857()","rhs":"A.shape == (20, 6) and printer.doprint(A) == 'numpy.block([[a_1, a_2], [a_3, a_4]])'","over":{"base":"Any"},"name":"test_16857_correct"},"guarantee":"A.shape == (20, 6); printer.doprint(A) == 'numpy.block([[a_1, a_2], [a_3, a_4]])'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_numpy.test_16857_correct","statement":"Path(test_16857(x), A.shape == (20, 6); printer.doprint(A) == 'numpy.block([[a_1, a_2], [a_3, a_4]])')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"300c76eda7fa7c1d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A.shape == (20, 6)","printer.doprint(A) == 'numpy.block([[a_1, a_2], [a_3, a_4]])'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_16857():
     if not np:
         skip("NumPy not installed")
@@ -527,16 +651,22 @@ def test_16857():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_17006(), test_issue_17006 produces the expected output) over Any ║
+# ║ Path(test_issue_17006(), (f(ma) == mr).all()) over Any     ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_17006 : Any → {Any | (f(ma) == mr).all()}       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (f(ma) == mr).all()                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_17006 : Any → {Any | result satisfies: (f(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 726fc50029da3047  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 533be0c988e7b1e4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_numpy.test_issue_17006","kind":"function","src_hash":"38b2ac5309997843","in":{"base":"Any"},"out":{"base":"Any","pred":"(f(ma) == mr).all()"},"spec":{"lhs":"test_issue_17006()","rhs":"test_issue_17006 produces the expected output","over":{"base":"Any"},"name":"test_issue_17006_correct"},"guarantee":"test_issue_17006 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_numpy.test_issue_17006_correct","statement":"Path(test_issue_17006(x), test_issue_17006 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"726fc50029da3047"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_numpy.test_issue_17006","kind":"function","src_hash":"38b2ac5309997843","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (f(ma) == mr).all()"},"spec":{"lhs":"test_issue_17006()","rhs":"(f(ma) == mr).all()","over":{"base":"Any"},"name":"test_issue_17006_correct"},"guarantee":"(f(ma) == mr).all()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_numpy.test_issue_17006_correct","statement":"Path(test_issue_17006(x), (f(ma) == mr).all())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"533be0c988e7b1e4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(f(ma) == mr).all()"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_issue_17006():
     if not np:
         skip("NumPy not installed")
@@ -555,16 +685,23 @@ def test_issue_17006():
     raises(NotImplementedError, lambda: lambdify(N, N + Identity(n)))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_jax_tuple_compatibility(), test_jax_tuple_compatibility produces the expected output) over Any ║
+# ║ Path(test_jax_tuple_compatibility(), np.allclose(func(*input_tuple1), func(*input_array1)) and np.allclose(func(*input_tuple2), func(*input_array2))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_jax_tuple_compatibility : Any → {Any | np.allclo...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  np.allclose(func(*input_tuple1), func(*in...   ║
+# ║   ensures:  np.allclose(func(*input_tuple2), func(*in...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_jax_tuple_compatibility : Any → {Any | result sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 82d5f94b396ac4d5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 467d4a24f54e2854  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_numpy.test_jax_tuple_compatibility","kind":"function","src_hash":"1426b2c2c897be86","in":{"base":"Any"},"out":{"base":"Any","pred":"np.allclose(func(*input_tuple1), func(*input_array1)) and np.allclose(func(*input_tuple2), func(*input_array2))"},"spec":{"lhs":"test_jax_tuple_compatibility()","rhs":"test_jax_tuple_compatibility produces the expected output","over":{"base":"Any"},"name":"test_jax_tuple_compatibility_correct"},"guarantee":"test_jax_tuple_compatibility produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_numpy.test_jax_tuple_compatibility_correct","statement":"Path(test_jax_tuple_compatibility(x), test_jax_tuple_compatibility produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"82d5f94b396ac4d5"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_numpy.test_jax_tuple_compatibility","kind":"function","src_hash":"1426b2c2c897be86","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: np.allclose(func(*input_tuple1), func(*input_array1)) and np.allclose(func(*input_tuple2), func(*input_array2))"},"spec":{"lhs":"test_jax_tuple_compatibility()","rhs":"np.allclose(func(*input_tuple1), func(*input_array1)) and np.allclose(func(*input_tuple2), func(*input_array2))","over":{"base":"Any"},"name":"test_jax_tuple_compatibility_correct"},"guarantee":"np.allclose(func(*input_tuple1), func(*input_array1)); np.allclose(func(*input_tuple2), func(*input_array2))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_numpy.test_jax_tuple_compatibility_correct","statement":"Path(test_jax_tuple_compatibility(x), np.allclose(func(*input_tuple1), func(*input_array1)); np.allclose(func(*input_tuple2), func(*input_array2)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"467d4a24f54e2854","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["np.allclose(func(*input_tuple1), func(*input_array1))","np.allclose(func(*input_tuple2), func(*input_array2))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_jax_tuple_compatibility():
     if not jax:
         skip("Jax not installed")
@@ -578,16 +715,24 @@ def test_jax_tuple_compatibility():
     assert np.allclose(func(*input_tuple2), func(*input_array2))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_numpy_array(), test_numpy_array produces the expected output) over Any ║
+# ║ Path(test_numpy_array(), p.doprint(Array([[1, 2], [3, 5]])) == 'numpy.array([[1, 2], [3, 5]])' and p.doprint(Array([1, 2])) == 'numpy.array([1, 2])' and p.doprint(Array([[[1, 2, 3]]])) == 'numpy.array([[[1, 2, 3]]])' and p.doprint(Array([], (0,))) == 'numpy.zeros((0,))' and p.doprint(Array([], (0, 0))) == 'numpy.zeros((0, 0))' and p.doprint(Array([], (0, 1))) == 'numpy.zeros((0, 1))' and p.doprint(Array([], (1, 0))) == 'numpy.zeros((1, 0))' and p.doprint(Array([1], ())) == 'numpy.array(1)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_numpy_array : Any → {Any | p.doprint(Array([[1, ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  p.doprint(Array([[1, 2], [3, 5]])) == 'nu...   ║
+# ║   ensures:  p.doprint(Array([1, 2])) == 'numpy.array(...   ║
+# ║   ensures:  p.doprint(Array([[[1, 2, 3]]])) == 'numpy...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_numpy_array : Any → {Any | result satisfies: p.d...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5c36e4c145583b88  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9f0ba926c096e3cf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_numpy.test_numpy_array","kind":"function","src_hash":"60b75daa31b889f1","in":{"base":"Any"},"out":{"base":"Any","pred":"p.doprint(Array([[1, 2], [3, 5]])) == 'numpy.array([[1, 2], [3, 5]])' and p.doprint(Array([1, 2])) == 'numpy.array([1, 2])' and p.doprint(Array([[[1, 2, 3]]])) == 'numpy.array([[[1, 2, 3]]])' and p.doprint(Array([], (0,))) == 'numpy.zeros((0,))' and p.doprint(Array([], (0, 0))) == 'numpy.zeros((0, 0))' and p.doprint(Array([], (0, 1))) == 'numpy.zeros((0, 1))' and p.doprint(Array([], (1, 0))) == 'numpy.zeros((1, 0))' and p.doprint(Array([1], ())) == 'numpy.array(1)'"},"spec":{"lhs":"test_numpy_array()","rhs":"test_numpy_array produces the expected output","over":{"base":"Any"},"name":"test_numpy_array_correct"},"guarantee":"test_numpy_array produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_numpy.test_numpy_array_correct","statement":"Path(test_numpy_array(x), test_numpy_array produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5c36e4c145583b88"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_numpy.test_numpy_array","kind":"function","src_hash":"60b75daa31b889f1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: p.doprint(Array([[1, 2], [3, 5]])) == 'numpy.array([[1, 2], [3, 5]])' and p.doprint(Array([1, 2])) == 'numpy.array([1, 2])' and p.doprint(Array([[[1, 2, 3]]])) == 'numpy.array([[[1, 2, 3]]])' and p.doprint(Array([], (0,))) == 'numpy.zeros((0,))' and p.doprint(Array([], (0, 0))) == 'numpy.zeros((0, 0))' and p.doprint(Array([], (0, 1))) == 'numpy.zeros((0, 1))' and p.doprint(Array([], (1, 0))) == 'numpy.zeros((1, 0))' and p.doprint(Array([1], ())) == 'numpy.array(1)'"},"spec":{"lhs":"test_numpy_array()","rhs":"p.doprint(Array([[1, 2], [3, 5]])) == 'numpy.array([[1, 2], [3, 5]])' and p.doprint(Array([1, 2])) == 'numpy.array([1, 2])' and p.doprint(Array([[[1, 2, 3]]])) == 'numpy.array([[[1, 2, 3]]])' and p.doprint(Array([], (0,))) == 'numpy.zeros((0,))' and p.doprint(Array([], (0, 0))) == 'numpy.zeros((0, 0))' and p.doprint(Array([], (0, 1))) == 'numpy.zeros((0, 1))' and p.doprint(Array([], (1, 0))) == 'numpy.zeros((1, 0))' and p.doprint(Array([1], ())) == 'numpy.array(1)'","over":{"base":"Any"},"name":"test_numpy_array_correct"},"guarantee":"p.doprint(Array([[1, 2], [3, 5]])) == 'numpy.array([[1, 2], [3, 5]])'; p.doprint(Array([1, 2])) == 'numpy.array([1, 2])'; p.doprint(Array([[[1, 2, 3]]])) == 'numpy.array([[[1, 2, 3]]])'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_numpy.test_numpy_array_correct","statement":"Path(test_numpy_array(x), p.doprint(Array([[1, 2], [3, 5]])) == 'numpy.array([[1, 2], [3, 5]])'; p.doprint(Array([1, 2])) == 'numpy.array([1, 2])'; p.doprint(Array([[[1, 2, 3]]])) == 'numpy.array([[[1, 2, 3]]])')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9f0ba926c096e3cf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["p.doprint(Array([[1, 2], [3, 5]])) == 'numpy.array([[1, 2], [3, 5]])'","p.doprint(Array([1, 2])) == 'numpy.array([1, 2])'","p.doprint(Array([[[1, 2, 3]]])) == 'numpy.array([[[1, 2, 3]]])'","p.doprint(Array([], (0,))) == 'numpy.zeros((0,))'","p.doprint(Array([], (0, 0))) == 'numpy.zeros((0, 0))'","p.doprint(Array([], (0, 1))) == 'numpy.zeros((0, 1))'","p.doprint(Array([], (1, 0))) == 'numpy.zeros((1, 0))'","p.doprint(Array([1], ())) == 'numpy.array(1)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_numpy_array():
     p = NumPyPrinter()
     assert p.doprint(Array([[1, 2], [3, 5]])) == 'numpy.array([[1, 2], [3, 5]])'
@@ -600,16 +745,24 @@ def test_numpy_array():
     assert p.doprint(Array([1], ())) == 'numpy.array(1)'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_numpy_matrix(), test_numpy_matrix produces the expected output) over Any ║
+# ║ Path(test_numpy_matrix(), p.doprint(Matrix([[1, 2], [3, 5]])) == 'numpy.array([[1, 2], [3, 5]])' and p.doprint(Matrix([1, 2])) == 'numpy.array([[1], [2]])' and p.doprint(Matrix(0, 0, [])) == 'numpy.zeros((0, 0))' and p.doprint(Matrix(0, 1, [])) == 'numpy.zeros((0, 1))' and p.doprint(Matrix(1, 0, [])) == 'numpy.zeros((1, 0))') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_numpy_matrix : Any → {Any | p.doprint(Matrix([[1...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  p.doprint(Matrix([[1, 2], [3, 5]])) == 'n...   ║
+# ║   ensures:  p.doprint(Matrix([1, 2])) == 'numpy.array...   ║
+# ║   ensures:  p.doprint(Matrix(0, 0, [])) == 'numpy.zer...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_numpy_matrix : Any → {Any | result satisfies: p....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d92446625a4abb46  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 96d80ccc42f7279b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_numpy.test_numpy_matrix","kind":"function","src_hash":"f516ae83bac85d6a","in":{"base":"Any"},"out":{"base":"Any","pred":"p.doprint(Matrix([[1, 2], [3, 5]])) == 'numpy.array([[1, 2], [3, 5]])' and p.doprint(Matrix([1, 2])) == 'numpy.array([[1], [2]])' and p.doprint(Matrix(0, 0, [])) == 'numpy.zeros((0, 0))' and p.doprint(Matrix(0, 1, [])) == 'numpy.zeros((0, 1))' and p.doprint(Matrix(1, 0, [])) == 'numpy.zeros((1, 0))'"},"spec":{"lhs":"test_numpy_matrix()","rhs":"test_numpy_matrix produces the expected output","over":{"base":"Any"},"name":"test_numpy_matrix_correct"},"guarantee":"test_numpy_matrix produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_numpy.test_numpy_matrix_correct","statement":"Path(test_numpy_matrix(x), test_numpy_matrix produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d92446625a4abb46"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_numpy.test_numpy_matrix","kind":"function","src_hash":"f516ae83bac85d6a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: p.doprint(Matrix([[1, 2], [3, 5]])) == 'numpy.array([[1, 2], [3, 5]])' and p.doprint(Matrix([1, 2])) == 'numpy.array([[1], [2]])' and p.doprint(Matrix(0, 0, [])) == 'numpy.zeros((0, 0))' and p.doprint(Matrix(0, 1, [])) == 'numpy.zeros((0, 1))' and p.doprint(Matrix(1, 0, [])) == 'numpy.zeros((1, 0))'"},"spec":{"lhs":"test_numpy_matrix()","rhs":"p.doprint(Matrix([[1, 2], [3, 5]])) == 'numpy.array([[1, 2], [3, 5]])' and p.doprint(Matrix([1, 2])) == 'numpy.array([[1], [2]])' and p.doprint(Matrix(0, 0, [])) == 'numpy.zeros((0, 0))' and p.doprint(Matrix(0, 1, [])) == 'numpy.zeros((0, 1))' and p.doprint(Matrix(1, 0, [])) == 'numpy.zeros((1, 0))'","over":{"base":"Any"},"name":"test_numpy_matrix_correct"},"guarantee":"p.doprint(Matrix([[1, 2], [3, 5]])) == 'numpy.array([[1, 2], [3, 5]])'; p.doprint(Matrix([1, 2])) == 'numpy.array([[1], [2]])'; p.doprint(Matrix(0, 0, [])) == 'numpy.zeros((0, 0))'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_numpy.test_numpy_matrix_correct","statement":"Path(test_numpy_matrix(x), p.doprint(Matrix([[1, 2], [3, 5]])) == 'numpy.array([[1, 2], [3, 5]])'; p.doprint(Matrix([1, 2])) == 'numpy.array([[1], [2]])'; p.doprint(Matrix(0, 0, [])) == 'numpy.zeros((0, 0))')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"96d80ccc42f7279b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["p.doprint(Matrix([[1, 2], [3, 5]])) == 'numpy.array([[1, 2], [3, 5]])'","p.doprint(Matrix([1, 2])) == 'numpy.array([[1], [2]])'","p.doprint(Matrix(0, 0, [])) == 'numpy.zeros((0, 0))'","p.doprint(Matrix(0, 1, [])) == 'numpy.zeros((0, 1))'","p.doprint(Matrix(1, 0, [])) == 'numpy.zeros((1, 0))'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_numpy_matrix():
     p = NumPyPrinter()
     assert p.doprint(Matrix([[1, 2], [3, 5]])) == 'numpy.array([[1, 2], [3, 5]])'
@@ -619,16 +772,24 @@ def test_numpy_matrix():
     assert p.doprint(Matrix(1, 0, [])) == 'numpy.zeros((1, 0))'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_numpy_known_funcs_consts(), test_numpy_known_funcs_consts produces the expected output) over Any ║
+# ║ Path(test_numpy_known_funcs_consts(), _numpy_known_constants['NaN'] == 'numpy.nan' and _numpy_known_constants['EulerGamma'] == 'numpy.euler_gamma' and _numpy_known_functions['acos'] == 'numpy.arccos' and _numpy_known_functions['log'] == 'numpy.log') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_numpy_known_funcs_consts : Any → {Any | _numpy_k...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  _numpy_known_constants['NaN'] == 'numpy.nan'   ║
+# ║   ensures:  _numpy_known_constants['EulerGamma'] == '...   ║
+# ║   ensures:  _numpy_known_functions['acos'] == 'numpy....   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_numpy_known_funcs_consts : Any → {Any | result s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f9a1b969fbdbfd04  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 012b2b17784384be  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_numpy.test_numpy_known_funcs_consts","kind":"function","src_hash":"7ee4825aed9d7c7c","in":{"base":"Any"},"out":{"base":"Any","pred":"_numpy_known_constants['NaN'] == 'numpy.nan' and _numpy_known_constants['EulerGamma'] == 'numpy.euler_gamma' and _numpy_known_functions['acos'] == 'numpy.arccos' and _numpy_known_functions['log'] == 'numpy.log'"},"spec":{"lhs":"test_numpy_known_funcs_consts()","rhs":"test_numpy_known_funcs_consts produces the expected output","over":{"base":"Any"},"name":"test_numpy_known_funcs_consts_correct"},"guarantee":"test_numpy_known_funcs_consts produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_numpy.test_numpy_known_funcs_consts_correct","statement":"Path(test_numpy_known_funcs_consts(x), test_numpy_known_funcs_consts produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f9a1b969fbdbfd04"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_numpy.test_numpy_known_funcs_consts","kind":"function","src_hash":"7ee4825aed9d7c7c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: _numpy_known_constants['NaN'] == 'numpy.nan' and _numpy_known_constants['EulerGamma'] == 'numpy.euler_gamma' and _numpy_known_functions['acos'] == 'numpy.arccos' and _numpy_known_functions['log'] == 'numpy.log'"},"spec":{"lhs":"test_numpy_known_funcs_consts()","rhs":"_numpy_known_constants['NaN'] == 'numpy.nan' and _numpy_known_constants['EulerGamma'] == 'numpy.euler_gamma' and _numpy_known_functions['acos'] == 'numpy.arccos' and _numpy_known_functions['log'] == 'numpy.log'","over":{"base":"Any"},"name":"test_numpy_known_funcs_consts_correct"},"guarantee":"_numpy_known_constants['NaN'] == 'numpy.nan'; _numpy_known_constants['EulerGamma'] == 'numpy.euler_gamma'; _numpy_known_functions['acos'] == 'numpy.arccos'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_numpy.test_numpy_known_funcs_consts_correct","statement":"Path(test_numpy_known_funcs_consts(x), _numpy_known_constants['NaN'] == 'numpy.nan'; _numpy_known_constants['EulerGamma'] == 'numpy.euler_gamma'; _numpy_known_functions['acos'] == 'numpy.arccos')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"012b2b17784384be","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["_numpy_known_constants['NaN'] == 'numpy.nan'","_numpy_known_constants['EulerGamma'] == 'numpy.euler_gamma'","_numpy_known_functions['acos'] == 'numpy.arccos'","_numpy_known_functions['log'] == 'numpy.log'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_numpy_known_funcs_consts():
     assert _numpy_known_constants['NaN'] == 'numpy.nan'
     assert _numpy_known_constants['EulerGamma'] == 'numpy.euler_gamma'
@@ -637,16 +798,24 @@ def test_numpy_known_funcs_consts():
     assert _numpy_known_functions['log'] == 'numpy.log'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_scipy_known_funcs_consts(), test_scipy_known_funcs_consts produces the expected output) over Any ║
+# ║ Path(test_scipy_known_funcs_consts(), _scipy_known_constants['GoldenRatio'] == 'scipy.constants.golden_ratio' and _scipy_known_constants['Pi'] == 'scipy.constants.pi' and _scipy_known_functions['erf'] == 'scipy.special.erf' and _scipy_known_functions['factorial'] == 'scipy.special.factorial') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_scipy_known_funcs_consts : Any → {Any | _scipy_k...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  _scipy_known_constants['GoldenRatio'] == ...   ║
+# ║   ensures:  _scipy_known_constants['Pi'] == 'scipy.co...   ║
+# ║   ensures:  _scipy_known_functions['erf'] == 'scipy.s...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_scipy_known_funcs_consts : Any → {Any | result s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2025574ea5f41e20  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7a92c39f804766f2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_numpy.test_scipy_known_funcs_consts","kind":"function","src_hash":"09b819240b35584d","in":{"base":"Any"},"out":{"base":"Any","pred":"_scipy_known_constants['GoldenRatio'] == 'scipy.constants.golden_ratio' and _scipy_known_constants['Pi'] == 'scipy.constants.pi' and _scipy_known_functions['erf'] == 'scipy.special.erf' and _scipy_known_functions['factorial'] == 'scipy.special.factorial'"},"spec":{"lhs":"test_scipy_known_funcs_consts()","rhs":"test_scipy_known_funcs_consts produces the expected output","over":{"base":"Any"},"name":"test_scipy_known_funcs_consts_correct"},"guarantee":"test_scipy_known_funcs_consts produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_numpy.test_scipy_known_funcs_consts_correct","statement":"Path(test_scipy_known_funcs_consts(x), test_scipy_known_funcs_consts produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2025574ea5f41e20"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_numpy.test_scipy_known_funcs_consts","kind":"function","src_hash":"09b819240b35584d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: _scipy_known_constants['GoldenRatio'] == 'scipy.constants.golden_ratio' and _scipy_known_constants['Pi'] == 'scipy.constants.pi' and _scipy_known_functions['erf'] == 'scipy.special.erf' and _scipy_known_functions['factorial'] == 'scipy.special.factorial'"},"spec":{"lhs":"test_scipy_known_funcs_consts()","rhs":"_scipy_known_constants['GoldenRatio'] == 'scipy.constants.golden_ratio' and _scipy_known_constants['Pi'] == 'scipy.constants.pi' and _scipy_known_functions['erf'] == 'scipy.special.erf' and _scipy_known_functions['factorial'] == 'scipy.special.factorial'","over":{"base":"Any"},"name":"test_scipy_known_funcs_consts_correct"},"guarantee":"_scipy_known_constants['GoldenRatio'] == 'scipy.constants.golden_ratio'; _scipy_known_constants['Pi'] == 'scipy.constants.pi'; _scipy_known_functions['erf'] == 'scipy.special.erf'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_numpy.test_scipy_known_funcs_consts_correct","statement":"Path(test_scipy_known_funcs_consts(x), _scipy_known_constants['GoldenRatio'] == 'scipy.constants.golden_ratio'; _scipy_known_constants['Pi'] == 'scipy.constants.pi'; _scipy_known_functions['erf'] == 'scipy.special.erf')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7a92c39f804766f2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["_scipy_known_constants['GoldenRatio'] == 'scipy.constants.golden_ratio'","_scipy_known_constants['Pi'] == 'scipy.constants.pi'","_scipy_known_functions['erf'] == 'scipy.special.erf'","_scipy_known_functions['factorial'] == 'scipy.special.factorial'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_scipy_known_funcs_consts():
     assert _scipy_known_constants['GoldenRatio'] == 'scipy.constants.golden_ratio'
     assert _scipy_known_constants['Pi'] == 'scipy.constants.pi'
@@ -655,32 +824,47 @@ def test_scipy_known_funcs_consts():
     assert _scipy_known_functions['factorial'] == 'scipy.special.factorial'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_numpy_print_methods(), test_numpy_print_methods produces the expected output) over Any ║
+# ║ Path(test_numpy_print_methods(), hasattr(prntr, '_print_acos') and hasattr(prntr, '_print_log')) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_numpy_print_methods : Any → {Any | hasattr(prntr...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  hasattr(prntr, '_print_acos')                  ║
+# ║   ensures:  hasattr(prntr, '_print_log')                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_numpy_print_methods : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 941e9d1ed28162c5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1451f127dfb56591  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_numpy.test_numpy_print_methods","kind":"function","src_hash":"d26e193fa29dafcf","in":{"base":"Any"},"out":{"base":"Any","pred":"hasattr(prntr, '_print_acos') and hasattr(prntr, '_print_log')"},"spec":{"lhs":"test_numpy_print_methods()","rhs":"test_numpy_print_methods produces the expected output","over":{"base":"Any"},"name":"test_numpy_print_methods_correct"},"guarantee":"test_numpy_print_methods produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_numpy.test_numpy_print_methods_correct","statement":"Path(test_numpy_print_methods(x), test_numpy_print_methods produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"941e9d1ed28162c5"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_numpy.test_numpy_print_methods","kind":"function","src_hash":"d26e193fa29dafcf","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: hasattr(prntr, '_print_acos') and hasattr(prntr, '_print_log')"},"spec":{"lhs":"test_numpy_print_methods()","rhs":"hasattr(prntr, '_print_acos') and hasattr(prntr, '_print_log')","over":{"base":"Any"},"name":"test_numpy_print_methods_correct"},"guarantee":"hasattr(prntr, '_print_acos'); hasattr(prntr, '_print_log')","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_numpy.test_numpy_print_methods_correct","statement":"Path(test_numpy_print_methods(x), hasattr(prntr, '_print_acos'); hasattr(prntr, '_print_log'))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1451f127dfb56591","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["hasattr(prntr, '_print_acos')","hasattr(prntr, '_print_log')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_numpy_print_methods():
     prntr = NumPyPrinter()
     assert hasattr(prntr, '_print_acos')
     assert hasattr(prntr, '_print_log')
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_scipy_print_methods(), test_scipy_print_methods produces the expected output) over Any ║
+# ║ Path(test_scipy_print_methods(), hasattr(prntr, '_print_acos') and hasattr(prntr, '_print_log') and hasattr(prntr, '_print_erf') and hasattr(prntr, '_print_factorial') and hasattr(prntr, '_print_chebyshevt') and prntr.doprint(polygamma(k, x)) == 'scipy.special.polygamma(k, x)' and prntr.doprint(Si(x)) == 'scipy.special.sici(x)[0]' and prntr.doprint(Ci(x)) == 'scipy.special.sici(x)[1]') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_scipy_print_methods : Any → {Any | hasattr(prntr...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  hasattr(prntr, '_print_acos')                  ║
+# ║   ensures:  hasattr(prntr, '_print_log')                   ║
+# ║   ensures:  hasattr(prntr, '_print_erf')                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_scipy_print_methods : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 00c1f4120cbdbe0e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5eccf5d7ff4b4396  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_numpy.test_scipy_print_methods","kind":"function","src_hash":"64888ae57e42e683","in":{"base":"Any"},"out":{"base":"Any","pred":"hasattr(prntr, '_print_acos') and hasattr(prntr, '_print_log') and hasattr(prntr, '_print_erf') and hasattr(prntr, '_print_factorial') and hasattr(prntr, '_print_chebyshevt') and prntr.doprint(polygamma(k, x)) == 'scipy.special.polygamma(k, x)' and prntr.doprint(Si(x)) == 'scipy.special.sici(x)[0]' and prntr.doprint(Ci(x)) == 'scipy.special.sici(x)[1]'"},"spec":{"lhs":"test_scipy_print_methods()","rhs":"test_scipy_print_methods produces the expected output","over":{"base":"Any"},"name":"test_scipy_print_methods_correct"},"guarantee":"test_scipy_print_methods produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_numpy.test_scipy_print_methods_correct","statement":"Path(test_scipy_print_methods(x), test_scipy_print_methods produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"00c1f4120cbdbe0e"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_numpy.test_scipy_print_methods","kind":"function","src_hash":"64888ae57e42e683","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: hasattr(prntr, '_print_acos') and hasattr(prntr, '_print_log') and hasattr(prntr, '_print_erf') and hasattr(prntr, '_print_factorial') and hasattr(prntr, '_print_chebyshevt') and prntr.doprint(polygamma(k, x)) == 'scipy.special.polygamma(k, x)' and prntr.doprint(Si(x)) == 'scipy.special.sici(x)[0]' and prntr.doprint(Ci(x)) == 'scipy.special.sici(x)[1]'"},"spec":{"lhs":"test_scipy_print_methods()","rhs":"hasattr(prntr, '_print_acos') and hasattr(prntr, '_print_log') and hasattr(prntr, '_print_erf') and hasattr(prntr, '_print_factorial') and hasattr(prntr, '_print_chebyshevt') and prntr.doprint(polygamma(k, x)) == 'scipy.special.polygamma(k, x)' and prntr.doprint(Si(x)) == 'scipy.special.sici(x)[0]' and prntr.doprint(Ci(x)) == 'scipy.special.sici(x)[1]'","over":{"base":"Any"},"name":"test_scipy_print_methods_correct"},"guarantee":"hasattr(prntr, '_print_acos'); hasattr(prntr, '_print_log'); hasattr(prntr, '_print_erf')","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_numpy.test_scipy_print_methods_correct","statement":"Path(test_scipy_print_methods(x), hasattr(prntr, '_print_acos'); hasattr(prntr, '_print_log'); hasattr(prntr, '_print_erf'))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5eccf5d7ff4b4396","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["hasattr(prntr, '_print_acos')","hasattr(prntr, '_print_log')","hasattr(prntr, '_print_erf')","hasattr(prntr, '_print_factorial')","hasattr(prntr, '_print_chebyshevt')","prntr.doprint(polygamma(k, x)) == 'scipy.special.polygamma(k, x)'","prntr.doprint(Si(x)) == 'scipy.special.sici(x)[0]'","prntr.doprint(Ci(x)) == 'scipy.special.sici(x)[1]'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_scipy_print_methods():
     prntr = SciPyPrinter()
     assert hasattr(prntr, '_print_acos')

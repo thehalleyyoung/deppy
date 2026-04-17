@@ -25,16 +25,22 @@ from sympy.core import S
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_model_matrix(arr), returns the current modelview matrix) over Any ║
+# ║ Path(get_model_matrix(array_type, glGetMethod), <unspecified:get_model_matrix>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ get_model_matrix : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 68db6b060272cacc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.util.get_model_matrix","kind":"function","src_hash":"8a409832a83fb6eb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_model_matrix(arr)","rhs":"returns the current modelview matrix","over":{"base":"Any"},"name":"get_model_matrix_correct"},"guarantee":"returns the current modelview matrix","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.util.get_model_matrix_correct","statement":"Path(get_model_matrix(x), returns the current modelview matrix)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"68db6b060272cacc"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.util.get_model_matrix","kind":"function","src_hash":"8a409832a83fb6eb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_model_matrix(array_type, glGetMethod)","rhs":"<unspecified:get_model_matrix>","over":{"base":"Any"},"name":"get_model_matrix_correct"},"guarantee":"returns the current modelview matrix","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.util.get_model_matrix_correct","statement":"Path(get_model_matrix(x), returns the current modelview matrix)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"68db6b060272cacc","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def get_model_matrix(array_type=c_float, glGetMethod=pgl.glGetFloatv):
     """
     Returns the current modelview matrix.
@@ -45,16 +51,22 @@ def get_model_matrix(array_type=c_float, glGetMethod=pgl.glGetFloatv):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_projection_matrix(arr), returns the current modelview matrix) over Any ║
+# ║ Path(get_projection_matrix(array_type, glGetMethod), <unspecified:get_projection_matrix>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ get_projection_matrix : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | adc2b14b68056639  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.util.get_projection_matrix","kind":"function","src_hash":"90cbf02f69c06fec","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_projection_matrix(arr)","rhs":"returns the current modelview matrix","over":{"base":"Any"},"name":"get_projection_matrix_correct"},"guarantee":"returns the current modelview matrix","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.util.get_projection_matrix_correct","statement":"Path(get_projection_matrix(x), returns the current modelview matrix)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"adc2b14b68056639"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.util.get_projection_matrix","kind":"function","src_hash":"90cbf02f69c06fec","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_projection_matrix(array_type, glGetMethod)","rhs":"<unspecified:get_projection_matrix>","over":{"base":"Any"},"name":"get_projection_matrix_correct"},"guarantee":"returns the current modelview matrix","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.util.get_projection_matrix_correct","statement":"Path(get_projection_matrix(x), returns the current modelview matrix)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"adc2b14b68056639","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def get_projection_matrix(array_type=c_float, glGetMethod=pgl.glGetFloatv):
     """
     Returns the current modelview matrix.
@@ -65,16 +77,22 @@ def get_projection_matrix(array_type=c_float, glGetMethod=pgl.glGetFloatv):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_viewport(), returns the current viewport) over Any ║
+# ║ Path(get_viewport(), <unspecified:get_viewport>) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ get_viewport : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4a6e104929ef6d92  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.util.get_viewport","kind":"function","src_hash":"79d74e0f68d86b07","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_viewport()","rhs":"returns the current viewport","over":{"base":"Any"},"name":"get_viewport_correct"},"guarantee":"returns the current viewport","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.util.get_viewport_correct","statement":"Path(get_viewport(x), returns the current viewport)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4a6e104929ef6d92"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.util.get_viewport","kind":"function","src_hash":"79d74e0f68d86b07","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_viewport()","rhs":"<unspecified:get_viewport>","over":{"base":"Any"},"name":"get_viewport_correct"},"guarantee":"returns the current viewport","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.util.get_viewport_correct","statement":"Path(get_viewport(x), returns the current viewport)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4a6e104929ef6d92","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def get_viewport():
     """
     Returns the current viewport.
@@ -85,16 +103,22 @@ def get_viewport():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_direction_vectors(), get_direction_vectors produces the expected output) over Any ║
+# ║ Path(get_direction_vectors(), ((m[0], m[4], m[8]), (m[1], m[5], m[9]), (m[2], m[6], m[10]))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  ((m[0], m[4], m[8]), (m[1], m[5], m[9]), ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ get_direction_vectors : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c8c54e915de4768b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4aebc7db38be6636  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.util.get_direction_vectors","kind":"function","src_hash":"8e1d501416949a2f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_direction_vectors()","rhs":"get_direction_vectors produces the expected output","over":{"base":"Any"},"name":"get_direction_vectors_correct"},"guarantee":"get_direction_vectors produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.util.get_direction_vectors_correct","statement":"Path(get_direction_vectors(x), get_direction_vectors produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c8c54e915de4768b"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.util.get_direction_vectors","kind":"function","src_hash":"8e1d501416949a2f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_direction_vectors()","rhs":"((m[0], m[4], m[8]), (m[1], m[5], m[9]), (m[2], m[6], m[10]))","over":{"base":"Any"},"name":"get_direction_vectors_correct"},"guarantee":"returns ((m[0], m[4], m[8]), (m[1], m[5], m[9]), (m[2], m[6], m[10]))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.util.get_direction_vectors_correct","statement":"Path(get_direction_vectors(x), returns ((m[0], m[4], m[8]), (m[1], m[5], m[9]), (m[2], m[6], m[10])))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4aebc7db38be6636","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"((m[0], m[4], m[8]), (m[1], m[5], m[9]), (m[2], m[6], m[10]))","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def get_direction_vectors():
     m = get_model_matrix()
     return ((m[0], m[4], m[8]),
@@ -103,16 +127,22 @@ def get_direction_vectors():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_view_direction_vectors(), get_view_direction_vectors produces the expected output) over Any ║
+# ║ Path(get_view_direction_vectors(), ((m[0], m[1], m[2]), (m[4], m[5], m[6]), (m[8], m[9], m[10]))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  ((m[0], m[1], m[2]), (m[4], m[5], m[6]), ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ get_view_direction_vectors : Any → Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 84078f5676be026f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e6e5f76f0474c244  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.util.get_view_direction_vectors","kind":"function","src_hash":"3152532cc794c374","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_view_direction_vectors()","rhs":"get_view_direction_vectors produces the expected output","over":{"base":"Any"},"name":"get_view_direction_vectors_correct"},"guarantee":"get_view_direction_vectors produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.util.get_view_direction_vectors_correct","statement":"Path(get_view_direction_vectors(x), get_view_direction_vectors produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"84078f5676be026f"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.util.get_view_direction_vectors","kind":"function","src_hash":"3152532cc794c374","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_view_direction_vectors()","rhs":"((m[0], m[1], m[2]), (m[4], m[5], m[6]), (m[8], m[9], m[10]))","over":{"base":"Any"},"name":"get_view_direction_vectors_correct"},"guarantee":"returns ((m[0], m[1], m[2]), (m[4], m[5], m[6]), (m[8], m[9], m[10]))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.util.get_view_direction_vectors_correct","statement":"Path(get_view_direction_vectors(x), returns ((m[0], m[1], m[2]), (m[4], m[5], m[6]), (m[8], m[9], m[10])))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e6e5f76f0474c244","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"((m[0], m[1], m[2]), (m[4], m[5], m[6]), (m[8], m[9], m[10]))","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def get_view_direction_vectors():
     m = get_model_matrix()
     return ((m[0], m[1], m[2]),
@@ -121,31 +151,43 @@ def get_view_direction_vectors():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_basis_vectors(), get_basis_vectors produces the expected output) over Any ║
+# ║ Path(get_basis_vectors(), ((1, 0, 0), (0, 1, 0), (0, 0, 1))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  ((1, 0, 0), (0, 1, 0), (0, 0, 1))              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ get_basis_vectors : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 93922b940535557a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.util.get_basis_vectors","kind":"function","src_hash":"34a7cde690a53cad","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_basis_vectors()","rhs":"get_basis_vectors produces the expected output","over":{"base":"Any"},"name":"get_basis_vectors_correct"},"guarantee":"get_basis_vectors produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"93922b940535557a"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.util.get_basis_vectors","kind":"function","src_hash":"34a7cde690a53cad","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_basis_vectors()","rhs":"((1, 0, 0), (0, 1, 0), (0, 0, 1))","over":{"base":"Any"},"name":"get_basis_vectors_correct"},"guarantee":"returns ((1, 0, 0), (0, 1, 0), (0, 0, 1))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"93922b940535557a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"((1, 0, 0), (0, 1, 0), (0, 0, 1))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def get_basis_vectors():
     return ((1, 0, 0), (0, 1, 0), (0, 0, 1))
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(screen_to_model(x, ), id) over Any                    ║
+# ║ Path(screen_to_model(x, y, z), id) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (float(mx.value), float(my.value), float(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ screen_to_model : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 3b928d591e5269cb   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.util.screen_to_model","kind":"function","src_hash":"61eadd04609bffc9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"screen_to_model(x, )","rhs":"screen_to_model produces the expected output","over":{"base":"Any"},"name":"screen_to_model_correct","kind":"composition"},"guarantee":"screen_to_model produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"float","by":"library_axiom"},{"fn":"float","by":"library_axiom"},{"fn":"float","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3b928d591e5269cb"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.util.screen_to_model","kind":"function","src_hash":"61eadd04609bffc9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"screen_to_model(x, y, z)","rhs":"(float(mx.value), float(my.value), float(mz.value))","over":{"base":"Any"},"name":"screen_to_model_correct","kind":"composition"},"guarantee":"returns (float(mx.value), float(my.value), float(mz.value))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"float","by":"library_axiom"},{"fn":"float","by":"library_axiom"},{"fn":"float","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3b928d591e5269cb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(float(mx.value), float(my.value), float(mz.value))","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def screen_to_model(x, y, z):
     m = get_model_matrix(c_double, pgl.glGetDoublev)
     p = get_projection_matrix(c_double, pgl.glGetDoublev)
@@ -156,16 +198,22 @@ def screen_to_model(x, y, z):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(model_to_screen(x, ), id) over Any                    ║
+# ║ Path(model_to_screen(x, y, z), id) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (float(mx.value), float(my.value), float(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ model_to_screen : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 57d45701ba733818   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.util.model_to_screen","kind":"function","src_hash":"c79c94269bc15148","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"model_to_screen(x, )","rhs":"model_to_screen produces the expected output","over":{"base":"Any"},"name":"model_to_screen_correct","kind":"composition"},"guarantee":"model_to_screen produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"float","by":"library_axiom"},{"fn":"float","by":"library_axiom"},{"fn":"float","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"57d45701ba733818"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.util.model_to_screen","kind":"function","src_hash":"c79c94269bc15148","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"model_to_screen(x, y, z)","rhs":"(float(mx.value), float(my.value), float(mz.value))","over":{"base":"Any"},"name":"model_to_screen_correct","kind":"composition"},"guarantee":"returns (float(mx.value), float(my.value), float(mz.value))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"float","by":"library_axiom"},{"fn":"float","by":"library_axiom"},{"fn":"float","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"57d45701ba733818","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(float(mx.value), float(my.value), float(mz.value))","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def model_to_screen(x, y, z):
     m = get_model_matrix(c_double, pgl.glGetDoublev)
     p = get_projection_matrix(c_double, pgl.glGetDoublev)
@@ -176,31 +224,43 @@ def model_to_screen(x, y, z):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(vec_subs(a, ), vec_subs produces the expected output) over Any ║
+# ║ Path(vec_subs(a, b), tuple((a[i] - b[i] for i in range(len(a))))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  tuple((a[i] - b[i] for i in range(len(a))))    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ vec_subs : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0c051fa87390de8d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.util.vec_subs","kind":"function","src_hash":"2039b407e26c9430","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"vec_subs(a, )","rhs":"vec_subs produces the expected output","over":{"base":"Any"},"name":"vec_subs_correct"},"guarantee":"vec_subs produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0c051fa87390de8d"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.util.vec_subs","kind":"function","src_hash":"2039b407e26c9430","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"vec_subs(a, b)","rhs":"tuple((a[i] - b[i] for i in range(len(a))))","over":{"base":"Any"},"name":"vec_subs_correct"},"guarantee":"returns tuple((a[i] - b[i] for i in range(len(a))))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0c051fa87390de8d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"tuple((a[i] - b[i] for i in range(len(a))))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":true}}
 def vec_subs(a, b):
     return tuple(a[i] - b[i] for i in range(len(a)))
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(billboard_matrix(), removes rotational components of current matrix so that primitives are always drawn facing the viewer) over Any ║
+# ║ Path(billboard_matrix(), <unspecified:billboard_matrix>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ billboard_matrix : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5bb041b47f86965b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.util.billboard_matrix","kind":"function","src_hash":"8d2c362042fd7bf4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"billboard_matrix()","rhs":"removes rotational components of current matrix so that primitives are always drawn facing the viewer","over":{"base":"Any"},"name":"billboard_matrix_correct"},"guarantee":"removes rotational components of current matrix so that primitives are always drawn facing the viewer","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.util.billboard_matrix_correct","statement":"Path(billboard_matrix(x), removes rotational components of current matrix so that primitives are always drawn facing the viewer)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5bb041b47f86965b"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.util.billboard_matrix","kind":"function","src_hash":"8d2c362042fd7bf4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"billboard_matrix()","rhs":"<unspecified:billboard_matrix>","over":{"base":"Any"},"name":"billboard_matrix_correct"},"guarantee":"removes rotational components of current matrix so that primitives are always drawn facing the viewer","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.util.billboard_matrix_correct","statement":"Path(billboard_matrix(x), removes rotational components of current matrix so that primitives are always drawn facing the viewer)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5bb041b47f86965b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def billboard_matrix():
     """
     Removes rotational components of
@@ -227,16 +287,22 @@ def billboard_matrix():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(create_bounds(), create_bounds produces the expected output) over Any ║
+# ║ Path(create_bounds(), [[S.Infinity, S.NegativeInfinity, 0], [S.Infinity, S.NegativeInfinity, 0], [S.Infinity, S.NegativeInfinity, 0]]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [[S.Infinity, S.NegativeInfinity, 0], [S....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ create_bounds : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e1d4f9732e25665f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d016c724159fffc0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.util.create_bounds","kind":"function","src_hash":"a17157db87b69520","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"create_bounds()","rhs":"create_bounds produces the expected output","over":{"base":"Any"},"name":"create_bounds_correct"},"guarantee":"create_bounds produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.util.create_bounds_correct","statement":"Path(create_bounds(x), create_bounds produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e1d4f9732e25665f"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.util.create_bounds","kind":"function","src_hash":"a17157db87b69520","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"create_bounds()","rhs":"[[S.Infinity, S.NegativeInfinity, 0], [S.Infinity, S.NegativeInfinity, 0], [S.Infinity, S.NegativeInfinity, 0]]","over":{"base":"Any"},"name":"create_bounds_correct"},"guarantee":"returns [[S.Infinity, S.NegativeInfinity, 0], [S.Infinity, S.NegativeInfinity, 0], [S.Infinity, S.NegativeInfinity, 0]]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.util.create_bounds_correct","statement":"Path(create_bounds(x), returns [[S.Infinity, S.NegativeInfinity, 0], [S.Infinity, S.NegativeInfinity, 0], [S.Infinity, S.NegativeInfinity, 0]])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d016c724159fffc0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[[S.Infinity, S.NegativeInfinity, 0], [S.Infinity, S.NegativeInfinity, 0], [S.Infinity, S.NegativeInfinity, 0]]","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def create_bounds():
     return [[S.Infinity, S.NegativeInfinity, 0],
             [S.Infinity, S.NegativeInfinity, 0],
@@ -244,16 +310,22 @@ def create_bounds():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(update_bounds(b, ), update_bounds produces the expected output) over Any ║
+# ║ Path(update_bounds(b, v), <unspecified:update_bounds>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ update_bounds : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 72af78ae4cc55e7b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.util.update_bounds","kind":"function","src_hash":"f7e8a96d5ed815c4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"update_bounds(b, )","rhs":"update_bounds produces the expected output","over":{"base":"Any"},"name":"update_bounds_correct"},"guarantee":"update_bounds produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.util.update_bounds_correct","statement":"Path(update_bounds(x), update_bounds produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"72af78ae4cc55e7b"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.util.update_bounds","kind":"function","src_hash":"f7e8a96d5ed815c4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"update_bounds(b, v)","rhs":"<unspecified:update_bounds>","over":{"base":"Any"},"name":"update_bounds_correct"},"guarantee":"update_bounds produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.util.update_bounds_correct","statement":"Path(update_bounds(x), update_bounds produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"72af78ae4cc55e7b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def update_bounds(b, v):
     if v is None:
         return
@@ -263,31 +335,43 @@ def update_bounds(b, v):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(interpolate(a_m), interpolate produces the expected output) over Any ║
+# ║ Path(interpolate(a_min, a_max, a_ratio), a_min + a_ratio * (a_max - a_min)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  a_min + a_ratio * (a_max - a_min)              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ interpolate : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 932e9553a0c2c63b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.util.interpolate","kind":"function","src_hash":"a3d93720d31688cd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"interpolate(a_m)","rhs":"interpolate produces the expected output","over":{"base":"Any"},"name":"interpolate_correct"},"guarantee":"interpolate produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"932e9553a0c2c63b"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.util.interpolate","kind":"function","src_hash":"a3d93720d31688cd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"interpolate(a_min, a_max, a_ratio)","rhs":"a_min + a_ratio * (a_max - a_min)","over":{"base":"Any"},"name":"interpolate_correct"},"guarantee":"returns a_min + a_ratio * (a_max - a_min)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"932e9553a0c2c63b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"a_min + a_ratio * (a_max - a_min)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def interpolate(a_min, a_max, a_ratio):
     return a_min + a_ratio * (a_max - a_min)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rinterpolate(a_m), rinterpolate produces the expected output) over Any ║
+# ║ Path(rinterpolate(a_min, a_max, a_value), (a_value - a_min) / float(a_range)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (a_value - a_min) / float(a_range)             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ rinterpolate : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e6af5dfe89746eb0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6c7ad63620b9bc50  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.util.rinterpolate","kind":"function","src_hash":"f130ca9168403cdc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rinterpolate(a_m)","rhs":"rinterpolate produces the expected output","over":{"base":"Any"},"name":"rinterpolate_correct"},"guarantee":"rinterpolate produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.util.rinterpolate_correct","statement":"Path(rinterpolate(x), rinterpolate produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e6af5dfe89746eb0"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.util.rinterpolate","kind":"function","src_hash":"f130ca9168403cdc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rinterpolate(a_min, a_max, a_value)","rhs":"(a_value - a_min) / float(a_range)","over":{"base":"Any"},"name":"rinterpolate_correct"},"guarantee":"returns (a_value - a_min) / float(a_range)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.util.rinterpolate_correct","statement":"Path(rinterpolate(x), returns (a_value - a_min) / float(a_range))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6c7ad63620b9bc50","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(a_value - a_min) / float(a_range)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def rinterpolate(a_min, a_max, a_value):
     a_range = a_max - a_min
     if a_max == a_min:
@@ -296,46 +380,64 @@ def rinterpolate(a_min, a_max, a_value):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(interpolate_color(col), interpolate_color produces the expected output) over Any ║
+# ║ Path(interpolate_color(color1, color2, ratio), tuple((interpolate(color1[i], color2[i], ratio) for i in range(3)))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  tuple((interpolate(color1[i], color2[i], ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ interpolate_color : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a2a351975b2e1775           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.util.interpolate_color","kind":"function","src_hash":"0745b141c23413ac","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"interpolate_color(col)","rhs":"interpolate_color produces the expected output","over":{"base":"Any"},"name":"interpolate_color_correct"},"guarantee":"interpolate_color produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a2a351975b2e1775"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.util.interpolate_color","kind":"function","src_hash":"0745b141c23413ac","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"interpolate_color(color1, color2, ratio)","rhs":"tuple((interpolate(color1[i], color2[i], ratio) for i in range(3)))","over":{"base":"Any"},"name":"interpolate_color_correct"},"guarantee":"returns tuple((interpolate(color1[i], color2[i], ratio) for i in range(3)))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a2a351975b2e1775","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"tuple((interpolate(color1[i], color2[i], ratio) for i in range(3)))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":true}}
 def interpolate_color(color1, color2, ratio):
     return tuple(interpolate(color1[i], color2[i], ratio) for i in range(3))
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(scale_value(v, ), scale_value produces the expected output) over Any ║
+# ║ Path(scale_value(v, v_min, v_len), (v - v_min) / v_len) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (v - v_min) / v_len                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ scale_value : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6301e38a68df02a4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.util.scale_value","kind":"function","src_hash":"35cf46f186e9484e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"scale_value(v, )","rhs":"scale_value produces the expected output","over":{"base":"Any"},"name":"scale_value_correct"},"guarantee":"scale_value produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6301e38a68df02a4"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.util.scale_value","kind":"function","src_hash":"35cf46f186e9484e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"scale_value(v, v_min, v_len)","rhs":"(v - v_min) / v_len","over":{"base":"Any"},"name":"scale_value_correct"},"guarantee":"returns (v - v_min) / v_len","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6301e38a68df02a4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(v - v_min) / v_len","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def scale_value(v, v_min, v_len):
     return (v - v_min) / v_len
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(scale_value_list(fli), scale_value_list produces the expected output) over Any ║
+# ║ Path(scale_value_list(flist), [scale_value(f, v_min, v_len) for f in flist]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [scale_value(f, v_min, v_len) for f in fl...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ scale_value_list : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c34a67ac9e7495f0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3518e4534217de15  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.util.scale_value_list","kind":"function","src_hash":"2f97ef8fe5d0a4c7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"scale_value_list(fli)","rhs":"scale_value_list produces the expected output","over":{"base":"Any"},"name":"scale_value_list_correct"},"guarantee":"scale_value_list produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.util.scale_value_list_correct","statement":"Path(scale_value_list(x), scale_value_list produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c34a67ac9e7495f0"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.util.scale_value_list","kind":"function","src_hash":"2f97ef8fe5d0a4c7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"scale_value_list(flist)","rhs":"[scale_value(f, v_min, v_len) for f in flist]","over":{"base":"Any"},"name":"scale_value_list_correct"},"guarantee":"returns [scale_value(f, v_min, v_len) for f in flist]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.util.scale_value_list_correct","statement":"Path(scale_value_list(x), returns [scale_value(f, v_min, v_len) for f in flist])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3518e4534217de15","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[scale_value(f, v_min, v_len) for f in flist]","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def scale_value_list(flist):
     v_min, v_max = min(flist), max(flist)
     v_len = v_max - v_min
@@ -343,16 +445,23 @@ def scale_value_list(flist):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(strided_range(r_m), strided_range produces the expected output) over Any ║
+# ║ Path(strided_range(r_min, r_max, stride), # HINT: strided_range may be idempotent: strided_range(strided_range(x)) == strided_range(x)) over {Any | not (r_min > r_max)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ strided_range : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (r_min > r_max)                            ║
+# ║   ensures:  # HINT: strided_range may be idempotent: ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ strided_range : {Any | not (r_min > r_max)} → {Any | ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8db789c5907a7292  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 03034343d2130360  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.util.strided_range","kind":"function","src_hash":"2baf546f50e682a3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"strided_range(r_m)","rhs":"strided_range produces the expected output","over":{"base":"Any"},"name":"strided_range_correct"},"guarantee":"strided_range produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.util.strided_range_correct","statement":"Path(strided_range(x), strided_range produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8db789c5907a7292"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.util.strided_range","kind":"function","src_hash":"2baf546f50e682a3","in":{"base":"Any","pred":"not (r_min > r_max)"},"out":{"base":"Any","pred":"result satisfies: # HINT: strided_range may be idempotent: strided_range(strided_range(x)) == strided_range(x)"},"spec":{"lhs":"strided_range(r_min, r_max, stride)","rhs":"# HINT: strided_range may be idempotent: strided_range(strided_range(x)) == strided_range(x)","over":{"base":"Any","pred":"not (r_min > r_max)"},"name":"strided_range_correct"},"guarantee":"# HINT: strided_range may be idempotent: strided_range(strided_range(x)) == strided_range(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.util.strided_range_correct","statement":"Path(strided_range(x), # HINT: strided_range may be idempotent: strided_range(strided_range(x)) == strided_range(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"03034343d2130360","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (r_min > r_max)"],"ensures":["# HINT: strided_range may be idempotent: strided_range(strided_range(x)) == strided_range(x)"],"pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def strided_range(r_min, r_max, stride, max_steps=50):
     o_min, o_max = r_min, r_max
     if abs(r_min - r_max) < 0.001:
@@ -376,9 +485,13 @@ def strided_range(r_min, r_max, stride, max_steps=50):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(parse_option_string(s), parse_option_string produces the expected output) over {Any | isinstance(s, str)} ║
+# ║ Path(parse_option_string(s), <unspecified:parse_option_string>) over {Any | isinstance(s, str) and hasattr(s, 'split')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ parse_option_string : {Any | isinstance(s, str)} → Any     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(s, 'split')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ parse_option_string : {Any | isinstance(s, str) and h...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   str: {isinstance(s, str)} → library_axiom                ║
@@ -388,9 +501,12 @@ def strided_range(r_min, r_max, stride, max_steps=50):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.5ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | f1df69e6...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.util.parse_option_string","kind":"function","src_hash":"08ae89cb1be51e15","in":{"base":"Any","pred":"isinstance(s, str)"},"out":{"base":"Any"},"spec":{"lhs":"parse_option_string(s)","rhs":"parse_option_string produces the expected output","over":{"base":"Any","pred":"isinstance(s, str)"},"name":"parse_option_string_correct"},"guarantee":"parse_option_string produces the expected output","fibers":[{"name":"str","pred":"isinstance(s, str)","path":{"lhs":"parse_option_string(x)","rhs":"parse_option_string produces the expected output","over":{"base":"str","pred":"isinstance(s, str)"},"name":"parse_option_string_str_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.util.parse_option_string_str_correct","statement":"parse_option_string satisfies spec on str inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"f1df69e68562b58f"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.util.parse_option_string","kind":"function","src_hash":"08ae89cb1be51e15","in":{"base":"Any","pred":"isinstance(s, str) and hasattr(s, 'split')"},"out":{"base":"Any"},"spec":{"lhs":"parse_option_string(s)","rhs":"<unspecified:parse_option_string>","over":{"base":"Any","pred":"isinstance(s, str) and hasattr(s, 'split')"},"name":"parse_option_string_correct"},"guarantee":"parse_option_string produces the expected output","fibers":[{"name":"str","pred":"isinstance(s, str)","path":{"lhs":"parse_option_string(x)","rhs":"parse_option_string produces the expected output","over":{"base":"str","pred":"isinstance(s, str)"},"name":"parse_option_string_str_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.util.parse_option_string_str_correct","statement":"parse_option_string satisfies spec on str inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"f1df69e68562b58f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(s, 'split')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["s.split"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.5,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'not isinstance(s, str)', 'len(pieces) == 1', 'len(pieces) == 2'}, fibers={'str'})"]}}
 def parse_option_string(s):
     if not isinstance(s, str):
         return None
@@ -408,45 +524,63 @@ def parse_option_string(s):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dot_product(v1,), dot_product produces the expected output) over Any ║
+# ║ Path(dot_product(v1, v2), sum((v1[i] * v2[i] for i in range(3)))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  sum((v1[i] * v2[i] for i in range(3)))         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dot_product : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7add57e49e1d37a9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.util.dot_product","kind":"function","src_hash":"d55e52f0dd7c23cc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dot_product(v1,)","rhs":"dot_product produces the expected output","over":{"base":"Any"},"name":"dot_product_correct"},"guarantee":"dot_product produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7add57e49e1d37a9"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.util.dot_product","kind":"function","src_hash":"d55e52f0dd7c23cc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dot_product(v1, v2)","rhs":"sum((v1[i] * v2[i] for i in range(3)))","over":{"base":"Any"},"name":"dot_product_correct"},"guarantee":"returns sum((v1[i] * v2[i] for i in range(3)))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7add57e49e1d37a9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"sum((v1[i] * v2[i] for i in range(3)))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def dot_product(v1, v2):
     return sum(v1[i]*v2[i] for i in range(3))
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(vec_sub(v1,), vec_sub produces the expected output) over Any ║
+# ║ Path(vec_sub(v1, v2), tuple((v1[i] - v2[i] for i in range(3)))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  tuple((v1[i] - v2[i] for i in range(3)))       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ vec_sub : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a23facff499afd67           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.util.vec_sub","kind":"function","src_hash":"e77c400fb48b11f1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"vec_sub(v1,)","rhs":"vec_sub produces the expected output","over":{"base":"Any"},"name":"vec_sub_correct"},"guarantee":"vec_sub produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a23facff499afd67"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.util.vec_sub","kind":"function","src_hash":"e77c400fb48b11f1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"vec_sub(v1, v2)","rhs":"tuple((v1[i] - v2[i] for i in range(3)))","over":{"base":"Any"},"name":"vec_sub_correct"},"guarantee":"returns tuple((v1[i] - v2[i] for i in range(3)))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a23facff499afd67","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"tuple((v1[i] - v2[i] for i in range(3)))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def vec_sub(v1, v2):
     return tuple(v1[i] - v2[i] for i in range(3))
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(vec_mag(v), vec_mag produces the expected output) over Any ║
+# ║ Path(vec_mag(v), sum((v[i] ** 2 for i in range(3))) ** 0.5) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  sum((v[i] ** 2 for i in range(3))) ** 0.5      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ vec_mag : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ec8296116a255ae1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.util.vec_mag","kind":"function","src_hash":"71c10ea143763dfb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"vec_mag(v)","rhs":"vec_mag produces the expected output","over":{"base":"Any"},"name":"vec_mag_correct"},"guarantee":"vec_mag produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ec8296116a255ae1"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.util.vec_mag","kind":"function","src_hash":"71c10ea143763dfb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"vec_mag(v)","rhs":"sum((v[i] ** 2 for i in range(3))) ** 0.5","over":{"base":"Any"},"name":"vec_mag_correct"},"guarantee":"returns sum((v[i] ** 2 for i in range(3))) ** 0.5","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ec8296116a255ae1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"sum((v[i] ** 2 for i in range(3))) ** 0.5","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def vec_mag(v):
     return sum(v[i]**2 for i in range(3))**(0.5)

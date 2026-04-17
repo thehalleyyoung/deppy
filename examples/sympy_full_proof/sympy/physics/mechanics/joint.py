@@ -35,14 +35,20 @@ __all__ = ['Joint', 'PinJoint', 'PrismaticJoint', 'CylindricalJoint',
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a Joint instance) preserved by Joint(*args) over {Any | isinstance(frame, BodyBase) and isinstance(joint_pos, Vector) and isinstance(name, str)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, ABC)                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ Joint : {Any | isinstance(frame, BodyBase) and isinst...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 2.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0aca5f807ca84532  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.Joint","kind":"class","src_hash":"99a7d6fccc971fca","in":{"base":"Any","pred":"isinstance(frame, BodyBase) and isinstance(joint_pos, Vector) and isinstance(name, str)"},"out":{"base":"Any"},"spec":{"lhs":"Joint(*args)","rhs":"correctly constructs a Joint instance","over":{"base":"Any","pred":"isinstance(frame, BodyBase) and isinstance(joint_pos, Vector) and isinstance(name, str)"},"name":"Joint_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a Joint instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, '_name') and hasattr(self, '_parent') and hasattr(self, '_child') and hasattr(self, '_parent_frame') and hasattr(self, '_parent_frame') and hasattr(self, '_parent_frame') and hasattr(self, '_child_frame') and hasattr(self, '_child_frame')","kind":"class","induction":"structural on _name, _parent, _child, _parent_frame"}],"methods_preserving":["__init__","__str__","__repr__","name","parent","child","coordinates","speeds","kdes","parent_axis","child_axis","parent_point","child_point","parent_interframe","child_interframe","_generate_coordinates","_generate_speeds","_orient_frames","_set_angular_velocity","_set_linear_velocity","_generate_kdes","_locate_joint_pos","_locate_joint_frame","_fill_coordinate_list"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0aca5f807ca84532"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.Joint","kind":"class","src_hash":"99a7d6fccc971fca","in":{"base":"Any","pred":"isinstance(frame, BodyBase) and isinstance(joint_pos, Vector) and isinstance(name, str)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, ABC)"},"spec":{"lhs":"Joint(*args)","rhs":"correctly constructs a Joint instance","over":{"base":"Any","pred":"isinstance(frame, BodyBase) and isinstance(joint_pos, Vector) and isinstance(name, str)"},"name":"Joint_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, ABC); preserves 14 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, '_name') and hasattr(self, '_parent') and hasattr(self, '_child') and hasattr(self, '_parent_frame') and hasattr(self, '_parent_frame') and hasattr(self, '_parent_frame') and hasattr(self, '_child_frame') and hasattr(self, '_child_frame')","kind":"class","induction":"structural on _name, _parent, _child, _parent_frame"}],"methods_preserving":["__init__","__str__","__repr__","name","parent","child","coordinates","speeds","kdes","parent_axis","child_axis","parent_point","child_point","parent_interframe","child_interframe","_generate_coordinates","_generate_speeds","_orient_frames","_set_angular_velocity","_set_linear_velocity","_generate_kdes","_locate_joint_pos","_locate_joint_frame","_fill_coordinate_list"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0aca5f807ca84532","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, ABC)"],"invariants":["hasattr(self, '_name')","hasattr(self, '_parent')","hasattr(self, '_child')","hasattr(self, '_parent_interframe')","hasattr(self, '_child_interframe')","hasattr(self, '_parent_axis')","hasattr(self, '_child_axis')","hasattr(self, '_parent_point')","hasattr(self, '_child_point')","hasattr(self, '_coordinates')","hasattr(self, '_speeds')","hasattr(self, '_kdes')","hasattr(self, '_parent_frame')","hasattr(self, '_child_frame')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function Joint not found in source"]}}
 class Joint(ABC):
     """Abstract base class for all specific joints.
 
@@ -161,16 +167,27 @@ class Joint(ABC):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(nam), initializes the instance correctly) over Any ║
+# ║ Path(__init__(name, parent, child), self._name == name and self._parent == parent and self._child == child) over {Any | isinstance(name, str) and isinstance(parent, BodyBase) and isinstance(child, BodyBase)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(name, str)                          ║
+# ║   requires: isinstance(parent, BodyBase)                   ║
+# ║   requires: isinstance(child, BodyBase)                    ║
+# ║   ensures:  self._name == name                             ║
+# ║   ensures:  self._parent == parent                         ║
+# ║   ensures:  self._child == child                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : {Any | isinstance(name, str) and isinstanc...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b0ebfe4987cc3e11           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.Joint.__init__","kind":"method","src_hash":"20c6b81256ccf0f8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(nam)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b0ebfe4987cc3e11"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.Joint.__init__","kind":"method","src_hash":"20c6b81256ccf0f8","in":{"base":"Any","pred":"isinstance(name, str) and isinstance(parent, BodyBase) and isinstance(child, BodyBase)"},"out":{"base":"Any","pred":"result satisfies: self._name == name and self._parent == parent and self._child == child"},"spec":{"lhs":"__init__(name, parent, child)","rhs":"self._name == name and self._parent == parent and self._child == child","over":{"base":"Any","pred":"isinstance(name, str) and isinstance(parent, BodyBase) and isinstance(child, BodyBase)"},"name":"__init___correct"},"guarantee":"self._name == name; self._parent == parent; self._child == child","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b0ebfe4987cc3e11","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(name, str)","isinstance(parent, BodyBase)","isinstance(child, BodyBase)"],"ensures":["self._name == name","self._parent == parent","self._child == child"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._axis","self._child","self._child_frame","self._generate_coordinates","self._generate_kdes","self._generate_speeds","self._locate_joint_frame","self._locate_joint_pos","self._orient_frames","self._parent","self._parent_frame","self._set_angular_velocity","self._set_linear_velocity","self.coordinates","self.name","self.speeds"],"writes":["self._child","self._child_axis","self._child_frame","self._child_interframe","self._child_point","self._coordinates","self._kdes","self._name","self._parent","self._parent_axis","self._parent_frame","self._parent_interframe","self._parent_point","self._speeds"],"raises":["TypeError"]},"state_contract":{"modifies":["self._child","self._child_axis","self._child_frame","self._child_interframe","self._child_point","self._coordinates","self._kdes","self._name","self._parent","self._parent_axis","self._parent_frame","self._parent_interframe","self._parent_point","self._speeds"],"old_bindings":{"old_self__child":"self._child","old_self__child_axis":"self._child_axis","old_self__child_frame":"self._child_frame","old_self__child_interframe":"self._child_interframe","old_self__child_point":"self._child_point","old_self__coordinates":"self._coordinates","old_self__kdes":"self._kdes","old_self__name":"self._name","old_self__parent":"self._parent","old_self__parent_axis":"self._parent_axis","old_self__parent_frame":"self._parent_frame","old_self__parent_interframe":"self._parent_interframe","old_self__parent_point":"self._parent_point","old_self__speeds":"self._speeds"},"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, name, parent, child, coordinates=None, speeds=None,
                  parent_point=None, child_point=None, parent_interframe=None,
                  child_interframe=None, parent_axis=None, child_axis=None,
@@ -257,141 +274,195 @@ class Joint(ABC):
         self._set_linear_velocity()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__str__(), returns a human-readable string) over Any  ║
+# ║ Path(__str__(), self.name) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.name                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __str__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 635a93d9ce42a47b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.Joint.__str__","kind":"method","src_hash":"647e5b0992b60e14","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"returns a human-readable string","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"635a93d9ce42a47b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.Joint.__str__","kind":"method","src_hash":"647e5b0992b60e14","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"self.name","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns self.name","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"635a93d9ce42a47b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.name","pure":false,"effects":{"effect_type":"reads_state","reads":["self.name"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __str__(self):
         return self.name
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__repr__(), returns a faithful string representation) over Any ║
+# ║ Path(__repr__(), self.__str__()) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.__str__()                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __repr__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1bd75bef70331a86           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.Joint.__repr__","kind":"method","src_hash":"2e934b77d2a31209","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"returns a faithful string representation","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns a faithful string representation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1bd75bef70331a86"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.Joint.__repr__","kind":"method","src_hash":"2e934b77d2a31209","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"self.__str__()","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns self.__str__()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1bd75bef70331a86","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.__str__()","pure":false,"effects":{"effect_type":"reads_state","reads":["self.__str__"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __repr__(self):
         return self.__str__()
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(name(), returns the name attribute) over Any          ║
+# ║ Path(name(), self._name) over Any                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._name                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ name : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4ec9bb732185ce23           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.Joint.name","kind":"property","src_hash":"3d0f02ca5ba56139","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"name()","rhs":"returns the name attribute","over":{"base":"Any"},"name":"name_correct"},"guarantee":"returns the name attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4ec9bb732185ce23"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.Joint.name","kind":"property","src_hash":"3d0f02ca5ba56139","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"name()","rhs":"self._name","over":{"base":"Any"},"name":"name_correct"},"guarantee":"returns self._name","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4ec9bb732185ce23","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._name","pure":false,"effects":{"effect_type":"reads_state","reads":["self._name"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def name(self):
         """Name of the joint."""
         return self._name
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(parent(), returns the parent attribute) over Any      ║
+# ║ Path(parent(), self._parent) over Any                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._parent                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ parent : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 039766e21a01cc96           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.Joint.parent","kind":"property","src_hash":"7b09ed738fd269b7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"parent()","rhs":"returns the parent attribute","over":{"base":"Any"},"name":"parent_correct"},"guarantee":"returns the parent attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"039766e21a01cc96"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.Joint.parent","kind":"property","src_hash":"7b09ed738fd269b7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"parent()","rhs":"self._parent","over":{"base":"Any"},"name":"parent_correct"},"guarantee":"returns self._parent","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"039766e21a01cc96","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._parent","pure":false,"effects":{"effect_type":"reads_state","reads":["self._parent"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def parent(self):
         """Parent body of Joint."""
         return self._parent
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(child(), returns the child attribute) over Any        ║
+# ║ Path(child(), self._child) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._child                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ child : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c8a22b7cfd5534ee           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.Joint.child","kind":"property","src_hash":"6b2eed0a471260dc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"child()","rhs":"returns the child attribute","over":{"base":"Any"},"name":"child_correct"},"guarantee":"returns the child attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c8a22b7cfd5534ee"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.Joint.child","kind":"property","src_hash":"6b2eed0a471260dc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"child()","rhs":"self._child","over":{"base":"Any"},"name":"child_correct"},"guarantee":"returns self._child","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c8a22b7cfd5534ee","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._child","pure":false,"effects":{"effect_type":"reads_state","reads":["self._child"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def child(self):
         """Child body of Joint."""
         return self._child
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(coordinates(), returns the coordinates attribute) over Any ║
+# ║ Path(coordinates(), self._coordinates) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._coordinates                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ coordinates : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e4dc055ffb1051a0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.Joint.coordinates","kind":"property","src_hash":"8dffce499a8a7100","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"coordinates()","rhs":"returns the coordinates attribute","over":{"base":"Any"},"name":"coordinates_correct"},"guarantee":"returns the coordinates attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e4dc055ffb1051a0"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.Joint.coordinates","kind":"property","src_hash":"8dffce499a8a7100","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"coordinates()","rhs":"self._coordinates","over":{"base":"Any"},"name":"coordinates_correct"},"guarantee":"returns self._coordinates","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e4dc055ffb1051a0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._coordinates","pure":false,"effects":{"effect_type":"reads_state","reads":["self._coordinates"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def coordinates(self):
         """Matrix of the joint's generalized coordinates."""
         return self._coordinates
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(speeds(), returns the speeds attribute) over Any      ║
+# ║ Path(speeds(), self._speeds) over Any                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._speeds                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ speeds : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7826cfe77caf160d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.Joint.speeds","kind":"property","src_hash":"5aafc74993ee356a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"speeds()","rhs":"returns the speeds attribute","over":{"base":"Any"},"name":"speeds_correct"},"guarantee":"returns the speeds attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7826cfe77caf160d"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.Joint.speeds","kind":"property","src_hash":"5aafc74993ee356a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"speeds()","rhs":"self._speeds","over":{"base":"Any"},"name":"speeds_correct"},"guarantee":"returns self._speeds","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7826cfe77caf160d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._speeds","pure":false,"effects":{"effect_type":"reads_state","reads":["self._speeds"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def speeds(self):
         """Matrix of the joint's generalized speeds."""
         return self._speeds
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(kdes(), returns the kdes attribute) over Any          ║
+# ║ Path(kdes(), self._kdes) over Any                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._kdes                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ kdes : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9df56d8beee7fa7a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.Joint.kdes","kind":"property","src_hash":"93e924f43ed7dae7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"kdes()","rhs":"returns the kdes attribute","over":{"base":"Any"},"name":"kdes_correct"},"guarantee":"returns the kdes attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9df56d8beee7fa7a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.Joint.kdes","kind":"property","src_hash":"93e924f43ed7dae7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"kdes()","rhs":"self._kdes","over":{"base":"Any"},"name":"kdes_correct"},"guarantee":"returns self._kdes","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9df56d8beee7fa7a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._kdes","pure":false,"effects":{"effect_type":"reads_state","reads":["self._kdes"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def kdes(self):
         """Kinematical differential equations of the joint."""
         return self._kdes
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(parent_axis(), returns the parent_axis attribute) over Any ║
+# ║ Path(parent_axis(), self._parent_axis) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._parent_axis                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ parent_axis : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0d6f33e32ada86c6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.Joint.parent_axis","kind":"property","src_hash":"d1000a6d56a5530d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"parent_axis()","rhs":"returns the parent_axis attribute","over":{"base":"Any"},"name":"parent_axis_correct"},"guarantee":"returns the parent_axis attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0d6f33e32ada86c6"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.Joint.parent_axis","kind":"property","src_hash":"d1000a6d56a5530d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"parent_axis()","rhs":"self._parent_axis","over":{"base":"Any"},"name":"parent_axis_correct"},"guarantee":"returns self._parent_axis","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0d6f33e32ada86c6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._parent_axis","pure":false,"effects":{"effect_type":"reads_state","reads":["self._parent_axis"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def parent_axis(self):
         """The axis of parent frame."""
         # Will be removed with `deprecated-mechanics-joint-axis`
@@ -399,16 +470,22 @@ class Joint(ABC):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(child_axis(), returns the child_axis attribute) over Any ║
+# ║ Path(child_axis(), self._child_axis) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._child_axis                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ child_axis : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1fc7a18e5f0b6961           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.Joint.child_axis","kind":"property","src_hash":"361a857011526f5b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"child_axis()","rhs":"returns the child_axis attribute","over":{"base":"Any"},"name":"child_axis_correct"},"guarantee":"returns the child_axis attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1fc7a18e5f0b6961"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.Joint.child_axis","kind":"property","src_hash":"361a857011526f5b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"child_axis()","rhs":"self._child_axis","over":{"base":"Any"},"name":"child_axis_correct"},"guarantee":"returns self._child_axis","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1fc7a18e5f0b6961","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._child_axis","pure":false,"effects":{"effect_type":"reads_state","reads":["self._child_axis"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def child_axis(self):
         """The axis of child frame."""
         # Will be removed with `deprecated-mechanics-joint-axis`
@@ -416,174 +493,243 @@ class Joint(ABC):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(parent_point(), returns the parent_point attribute) over Any ║
+# ║ Path(parent_point(), self._parent_point) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._parent_point                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ parent_point : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 69ba06ea49fff76c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.Joint.parent_point","kind":"property","src_hash":"f403b1b76d76004e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"parent_point()","rhs":"returns the parent_point attribute","over":{"base":"Any"},"name":"parent_point_correct"},"guarantee":"returns the parent_point attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"69ba06ea49fff76c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.Joint.parent_point","kind":"property","src_hash":"f403b1b76d76004e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"parent_point()","rhs":"self._parent_point","over":{"base":"Any"},"name":"parent_point_correct"},"guarantee":"returns self._parent_point","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"69ba06ea49fff76c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._parent_point","pure":false,"effects":{"effect_type":"reads_state","reads":["self._parent_point"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def parent_point(self):
         """Attachment point where the joint is fixed to the parent body."""
         return self._parent_point
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(child_point(), returns the child_point attribute) over Any ║
+# ║ Path(child_point(), self._child_point) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._child_point                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ child_point : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1a8d94c074d8c4f6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.Joint.child_point","kind":"property","src_hash":"92d6be174651fa2d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"child_point()","rhs":"returns the child_point attribute","over":{"base":"Any"},"name":"child_point_correct"},"guarantee":"returns the child_point attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1a8d94c074d8c4f6"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.Joint.child_point","kind":"property","src_hash":"92d6be174651fa2d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"child_point()","rhs":"self._child_point","over":{"base":"Any"},"name":"child_point_correct"},"guarantee":"returns self._child_point","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1a8d94c074d8c4f6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._child_point","pure":false,"effects":{"effect_type":"reads_state","reads":["self._child_point"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def child_point(self):
         """Attachment point where the joint is fixed to the child body."""
         return self._child_point
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(parent_interframe(), returns the parent_interframe attribute) over Any ║
+# ║ Path(parent_interframe(), self._parent_interframe) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._parent_interframe                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ parent_interframe : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ff313b509087912d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.Joint.parent_interframe","kind":"property","src_hash":"6272d6af6ce06e98","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"parent_interframe()","rhs":"returns the parent_interframe attribute","over":{"base":"Any"},"name":"parent_interframe_correct"},"guarantee":"returns the parent_interframe attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ff313b509087912d"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.Joint.parent_interframe","kind":"property","src_hash":"6272d6af6ce06e98","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"parent_interframe()","rhs":"self._parent_interframe","over":{"base":"Any"},"name":"parent_interframe_correct"},"guarantee":"returns self._parent_interframe","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ff313b509087912d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._parent_interframe","pure":false,"effects":{"effect_type":"reads_state","reads":["self._parent_interframe"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def parent_interframe(self):
         return self._parent_interframe
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(child_interframe(), returns the child_interframe attribute) over Any ║
+# ║ Path(child_interframe(), self._child_interframe) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._child_interframe                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ child_interframe : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e825dabe4b425673           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.Joint.child_interframe","kind":"property","src_hash":"4db98c5ce4cfe5e4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"child_interframe()","rhs":"returns the child_interframe attribute","over":{"base":"Any"},"name":"child_interframe_correct"},"guarantee":"returns the child_interframe attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e825dabe4b425673"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.Joint.child_interframe","kind":"property","src_hash":"4db98c5ce4cfe5e4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"child_interframe()","rhs":"self._child_interframe","over":{"base":"Any"},"name":"child_interframe_correct"},"guarantee":"returns self._child_interframe","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e825dabe4b425673","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._child_interframe","pure":false,"effects":{"effect_type":"reads_state","reads":["self._child_interframe"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def child_interframe(self):
         return self._child_interframe
 
     @abstractmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_generate_coordinates(coo), generate matrix of the joint's generalized coordinates) over Any ║
+# ║ Path(_generate_coordinates(coordinates), <unspecified:_generate_coordinates>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _generate_coordinates : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0b8c714ac7822d85           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.Joint._generate_coordinates","kind":"method","src_hash":"2041db292ae20b1c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_generate_coordinates(coo)","rhs":"generate matrix of the joint's generalized coordinates","over":{"base":"Any"},"name":"_generate_coordinates_correct"},"guarantee":"generate matrix of the joint's generalized coordinates","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0b8c714ac7822d85"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.Joint._generate_coordinates","kind":"method","src_hash":"2041db292ae20b1c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_generate_coordinates(coordinates)","rhs":"<unspecified:_generate_coordinates>","over":{"base":"Any"},"name":"_generate_coordinates_correct"},"guarantee":"generate matrix of the joint's generalized coordinates","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0b8c714ac7822d85","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _generate_coordinates(self, coordinates):
         """Generate Matrix of the joint's generalized coordinates."""
         pass
 
     @abstractmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_generate_speeds(spe), generate matrix of the joint's generalized speeds) over Any ║
+# ║ Path(_generate_speeds(speeds), <unspecified:_generate_speeds>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _generate_speeds : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7750c22487541ef9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.Joint._generate_speeds","kind":"method","src_hash":"01a70f03aa884939","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_generate_speeds(spe)","rhs":"generate matrix of the joint's generalized speeds","over":{"base":"Any"},"name":"_generate_speeds_correct"},"guarantee":"generate matrix of the joint's generalized speeds","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7750c22487541ef9"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.Joint._generate_speeds","kind":"method","src_hash":"01a70f03aa884939","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_generate_speeds(speeds)","rhs":"<unspecified:_generate_speeds>","over":{"base":"Any"},"name":"_generate_speeds_correct"},"guarantee":"generate matrix of the joint's generalized speeds","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7750c22487541ef9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _generate_speeds(self, speeds):
         """Generate Matrix of the joint's generalized speeds."""
         pass
 
     @abstractmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_orient_frames(), orient frames as per the joint) over Any ║
+# ║ Path(_orient_frames(), <unspecified:_orient_frames>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _orient_frames : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4c2531c81f7e95d2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.Joint._orient_frames","kind":"method","src_hash":"25305e16201e8ad1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_orient_frames()","rhs":"orient frames as per the joint","over":{"base":"Any"},"name":"_orient_frames_correct"},"guarantee":"orient frames as per the joint","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4c2531c81f7e95d2"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.Joint._orient_frames","kind":"method","src_hash":"25305e16201e8ad1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_orient_frames()","rhs":"<unspecified:_orient_frames>","over":{"base":"Any"},"name":"_orient_frames_correct"},"guarantee":"orient frames as per the joint","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4c2531c81f7e95d2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _orient_frames(self):
         """Orient frames as per the joint."""
         pass
 
     @abstractmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_set_angular_velocity(), set angular velocity of the joint related frames) over Any ║
+# ║ Path(_set_angular_velocity(), <unspecified:_set_angular_velocity>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _set_angular_velocity : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d9bbff531c4c976a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.Joint._set_angular_velocity","kind":"method","src_hash":"fab07806dab5c746","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_set_angular_velocity()","rhs":"set angular velocity of the joint related frames","over":{"base":"Any"},"name":"_set_angular_velocity_correct"},"guarantee":"set angular velocity of the joint related frames","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d9bbff531c4c976a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.Joint._set_angular_velocity","kind":"method","src_hash":"fab07806dab5c746","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_set_angular_velocity()","rhs":"<unspecified:_set_angular_velocity>","over":{"base":"Any"},"name":"_set_angular_velocity_correct"},"guarantee":"set angular velocity of the joint related frames","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d9bbff531c4c976a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _set_angular_velocity(self):
         """Set angular velocity of the joint related frames."""
         pass
 
     @abstractmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_set_linear_velocity(), set velocity of related points to the joint) over Any ║
+# ║ Path(_set_linear_velocity(), <unspecified:_set_linear_velocity>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _set_linear_velocity : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 30cbf97cd4b6e312           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.Joint._set_linear_velocity","kind":"method","src_hash":"5b7c4590bf1719f9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_set_linear_velocity()","rhs":"set velocity of related points to the joint","over":{"base":"Any"},"name":"_set_linear_velocity_correct"},"guarantee":"set velocity of related points to the joint","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"30cbf97cd4b6e312"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.Joint._set_linear_velocity","kind":"method","src_hash":"5b7c4590bf1719f9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_set_linear_velocity()","rhs":"<unspecified:_set_linear_velocity>","over":{"base":"Any"},"name":"_set_linear_velocity_correct"},"guarantee":"set velocity of related points to the joint","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"30cbf97cd4b6e312","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _set_linear_velocity(self):
         """Set velocity of related points to the joint."""
         pass
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_to_vector(mat), converts a matrix to a vector in the given frame) over Any ║
+# ║ Path(_to_vector(matrix, frame), Vector([(matrix, frame)])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Vector([(matrix, frame)])                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _to_vector : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8a21f7c0e95756e0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.Joint._to_vector","kind":"staticmethod","src_hash":"f8c7c49474540afb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_to_vector(mat)","rhs":"converts a matrix to a vector in the given frame","over":{"base":"Any"},"name":"_to_vector_correct"},"guarantee":"converts a matrix to a vector in the given frame","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8a21f7c0e95756e0"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.Joint._to_vector","kind":"staticmethod","src_hash":"f8c7c49474540afb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_to_vector(matrix, frame)","rhs":"Vector([(matrix, frame)])","over":{"base":"Any"},"name":"_to_vector_correct"},"guarantee":"returns Vector([(matrix, frame)])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8a21f7c0e95756e0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Vector([(matrix, frame)])","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _to_vector(matrix, frame):
         """Converts a matrix to a vector in the given frame."""
         return Vector([(matrix, frame)])
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_axis(ax,), check whether an axis is fixed in one of the frames) over Any ║
+# ║ Path(_axis(ax, *frames), <unspecified:_axis>) over {Any | isinstance(ax, Vector) and not (ref_frame is None) and hasattr(ax, 'to_matrix') and hasattr(ax, 'dt')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _axis : Any → Any                                          ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(ax, Vector)                         ║
+# ║   requires: not (ref_frame is None)                        ║
+# ║   requires: hasattr(ax, 'to_matrix')                       ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _axis : {Any | isinstance(ax, Vector) and not (ref_fr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e83f7c248d53eced  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.Joint._axis","kind":"staticmethod","src_hash":"c883300ea7f2bf3d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_axis(ax,)","rhs":"check whether an axis is fixed in one of the frames","over":{"base":"Any"},"name":"_axis_correct"},"guarantee":"check whether an axis is fixed in one of the frames","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.joint.Joint._axis_correct","statement":"Path(_axis(x), check whether an axis is fixed in one of the frames)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e83f7c248d53eced"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.Joint._axis","kind":"staticmethod","src_hash":"c883300ea7f2bf3d","in":{"base":"Any","pred":"isinstance(ax, Vector) and not (ref_frame is None) and hasattr(ax, 'to_matrix') and hasattr(ax, 'dt')"},"out":{"base":"Any"},"spec":{"lhs":"_axis(ax, *frames)","rhs":"<unspecified:_axis>","over":{"base":"Any","pred":"isinstance(ax, Vector) and not (ref_frame is None) and hasattr(ax, 'to_matrix') and hasattr(ax, 'dt')"},"name":"_axis_correct"},"guarantee":"check whether an axis is fixed in one of the frames","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.joint.Joint._axis_correct","statement":"Path(_axis(x), check whether an axis is fixed in one of the frames)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e83f7c248d53eced","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(ax, Vector)","not (ref_frame is None)","hasattr(ax, 'to_matrix')","hasattr(ax, 'dt')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["ax.dt","ax.to_matrix"],"raises":["TypeError","ValueError"],"catches":["ValueError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _axis(ax, *frames):
         """Check whether an axis is fixed in one of the frames."""
         if ax is None:
@@ -610,16 +756,28 @@ class Joint(ABC):
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_choose_rotation_axis(fra), internal helper behaves correctly) over Any ║
+# ║ Path(_choose_rotation_axis(frame, axis), result == (frame.z if x != 0 else frame.y) and result == frame.z or result == frame.y) over {Any | hasattr(axis, 'to_matrix') and hasattr(frame, 'z') and hasattr(frame, 'y') and hasattr(frame, 'x')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _choose_rotation_axis : Any → Any                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(axis, 'to_matrix')                     ║
+# ║   requires: hasattr(frame, 'z')                            ║
+# ║   requires: hasattr(frame, 'y')                            ║
+# ║   ensures:  result == (frame.z if x != 0 else frame.y)     ║
+# ║   ensures:  result == frame.z or result == frame.y         ║
+# ║   fiber[case_0]: x != 0 => frame.z                         ║
+# ║   fiber[case_1]: not (x != 0) => frame.y                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _choose_rotation_axis : {Any | hasattr(axis, 'to_matr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4b8e7efd38670708  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 36aea5803df90355  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.Joint._choose_rotation_axis","kind":"staticmethod","src_hash":"f846f290f92202b0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_choose_rotation_axis(fra)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_choose_rotation_axis_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.joint.Joint._choose_rotation_axis_correct","statement":"Path(_choose_rotation_axis(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4b8e7efd38670708"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.Joint._choose_rotation_axis","kind":"staticmethod","src_hash":"f846f290f92202b0","in":{"base":"Any","pred":"hasattr(axis, 'to_matrix') and hasattr(frame, 'z') and hasattr(frame, 'y') and hasattr(frame, 'x')"},"out":{"base":"Any","pred":"result satisfies: result == (frame.z if x != 0 else frame.y) and result == frame.z or result == frame.y"},"spec":{"lhs":"_choose_rotation_axis(frame, axis)","rhs":"result == (frame.z if x != 0 else frame.y) and result == frame.z or result == frame.y","over":{"base":"Any","pred":"hasattr(axis, 'to_matrix') and hasattr(frame, 'z') and hasattr(frame, 'y') and hasattr(frame, 'x')"},"name":"_choose_rotation_axis_correct"},"guarantee":"result == (frame.z if x != 0 else frame.y); result == frame.z or result == frame.y; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.joint.Joint._choose_rotation_axis_correct","statement":"Path(_choose_rotation_axis(x), result == (frame.z if x != 0 else frame.y); result == frame.z or result == frame.y; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"36aea5803df90355","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(axis, 'to_matrix')","hasattr(frame, 'z')","hasattr(frame, 'y')","hasattr(frame, 'x')"],"ensures":["result == (frame.z if x != 0 else frame.y)","result == frame.z or result == frame.y"],"fibers":[{"name":"case_0","guard":"x != 0","ensures":["result == frame.z"],"decidability":"z3","returns_expr":"frame.z"},{"name":"case_1","guard":"not (x != 0)","ensures":["result == frame.y"],"decidability":"z3","returns_expr":"frame.y"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["axis.to_matrix","frame.x","frame.y","frame.z"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _choose_rotation_axis(frame, axis):
         components = axis.to_matrix(frame)
         x, y, z = components[0], components[1], components[2]
@@ -638,16 +796,25 @@ class Joint(ABC):
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_create_aligned_interframe(fra), returns an intermediate frame, where the ``frame_axis`` defined in ``frame`` is aligned with ``axis``) over Any ║
+# ║ Path(_create_aligned_interframe(frame, align_axis, frame_axis), <unspecified:_create_aligned_interframe>) over {Any | hasattr(frame, 'frame') and hasattr(frame, 'x') and hasattr(frame_axis, 'angle_between') and hasattr(frame, 'name')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _create_aligned_interframe : Any → Any                     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(frame, 'frame')                        ║
+# ║   requires: hasattr(frame, 'x')                            ║
+# ║   requires: hasattr(frame_axis, 'angle_between')           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _create_aligned_interframe : {Any | hasattr(frame, 'f...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5da9f920f6a9a112  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.Joint._create_aligned_interframe","kind":"staticmethod","src_hash":"30b5b7c1807ba306","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_create_aligned_interframe(fra)","rhs":"returns an intermediate frame, where the ``frame_axis`` defined in ``frame`` is aligned with ``axis``","over":{"base":"Any"},"name":"_create_aligned_interframe_correct"},"guarantee":"returns an intermediate frame, where the ``frame_axis`` defined in ``frame`` is aligned with ``axis``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.joint.Joint._create_aligned_interframe_correct","statement":"Path(_create_aligned_interframe(x), returns an intermediate frame, where the ``frame_axis`` defined in ``frame`` is aligned with ``axis``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5da9f920f6a9a112"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.Joint._create_aligned_interframe","kind":"staticmethod","src_hash":"30b5b7c1807ba306","in":{"base":"Any","pred":"hasattr(frame, 'frame') and hasattr(frame, 'x') and hasattr(frame_axis, 'angle_between') and hasattr(frame, 'name')"},"out":{"base":"Any"},"spec":{"lhs":"_create_aligned_interframe(frame, align_axis, frame_axis)","rhs":"<unspecified:_create_aligned_interframe>","over":{"base":"Any","pred":"hasattr(frame, 'frame') and hasattr(frame, 'x') and hasattr(frame_axis, 'angle_between') and hasattr(frame, 'name')"},"name":"_create_aligned_interframe_correct"},"guarantee":"returns an intermediate frame, where the ``frame_axis`` defined in ``frame`` is aligned with ``axis``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.joint.Joint._create_aligned_interframe_correct","statement":"Path(_create_aligned_interframe(x), returns an intermediate frame, where the ``frame_axis`` defined in ``frame`` is aligned with ``axis``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5da9f920f6a9a112","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(frame, 'frame')","hasattr(frame, 'x')","hasattr(frame_axis, 'angle_between')","hasattr(frame, 'name')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["frame.frame","frame.name","frame.x","frame_axis.angle_between"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _create_aligned_interframe(frame, align_axis, frame_axis=None,
                                    frame_name=None):
         """
@@ -754,16 +921,22 @@ class Joint(ABC):
         return int_frame
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_generate_kdes(), generate kinematical differential equations) over Any ║
+# ║ Path(_generate_kdes(), Matrix(kdes)) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Matrix(kdes)                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _generate_kdes : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 722833780e9ca429  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 105852215a6d42ec  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.Joint._generate_kdes","kind":"method","src_hash":"444a48230fd3372c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_generate_kdes()","rhs":"generate kinematical differential equations","over":{"base":"Any"},"name":"_generate_kdes_correct"},"guarantee":"generate kinematical differential equations","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.joint.Joint._generate_kdes_correct","statement":"Path(_generate_kdes(x), generate kinematical differential equations)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"722833780e9ca429"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.Joint._generate_kdes","kind":"method","src_hash":"444a48230fd3372c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_generate_kdes()","rhs":"Matrix(kdes)","over":{"base":"Any"},"name":"_generate_kdes_correct"},"guarantee":"returns Matrix(kdes)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.joint.Joint._generate_kdes_correct","statement":"Path(_generate_kdes(x), returns Matrix(kdes))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"105852215a6d42ec","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Matrix(kdes)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _generate_kdes(self):
         """Generate kinematical differential equations."""
         kdes = []
@@ -773,16 +946,25 @@ class Joint(ABC):
         return Matrix(kdes)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_locate_joint_pos(bod), returns the attachment point of a body) over Any ║
+# ║ Path(_locate_joint_pos(body, joint_pos, body_frame), <unspecified:_locate_joint_pos>) over {Any | isinstance(joint_pos, (Point, Vector)) and joint_pos.pos_from(body.masscenter).dt(body_frame) == 0 and hasattr(body, 'frame') and hasattr(body, 'masscenter') and hasattr(body, 'name') and hasattr(joint_pos, 'pos_from')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _locate_joint_pos : Any → Any                              ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(joint_pos, (Point, Vector))         ║
+# ║   requires: joint_pos.pos_from(body.masscenter).dt(bo...   ║
+# ║   requires: hasattr(body, 'frame')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _locate_joint_pos : {Any | isinstance(joint_pos, (Poi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 04cd748bc08bc2c5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.Joint._locate_joint_pos","kind":"method","src_hash":"950f36a614acdc10","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_locate_joint_pos(bod)","rhs":"returns the attachment point of a body","over":{"base":"Any"},"name":"_locate_joint_pos_correct"},"guarantee":"returns the attachment point of a body","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.joint.Joint._locate_joint_pos_correct","statement":"Path(_locate_joint_pos(x), returns the attachment point of a body)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"04cd748bc08bc2c5"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.Joint._locate_joint_pos","kind":"method","src_hash":"950f36a614acdc10","in":{"base":"Any","pred":"isinstance(joint_pos, (Point, Vector)) and joint_pos.pos_from(body.masscenter).dt(body_frame) == 0 and hasattr(body, 'frame') and hasattr(body, 'masscenter') and hasattr(body, 'name') and hasattr(joint_pos, 'pos_from')"},"out":{"base":"Any"},"spec":{"lhs":"_locate_joint_pos(body, joint_pos, body_frame)","rhs":"<unspecified:_locate_joint_pos>","over":{"base":"Any","pred":"isinstance(joint_pos, (Point, Vector)) and joint_pos.pos_from(body.masscenter).dt(body_frame) == 0 and hasattr(body, 'frame') and hasattr(body, 'masscenter') and hasattr(body, 'name') and hasattr(joint_pos, 'pos_from')"},"name":"_locate_joint_pos_correct"},"guarantee":"returns the attachment point of a body","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.joint.Joint._locate_joint_pos_correct","statement":"Path(_locate_joint_pos(x), returns the attachment point of a body)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"04cd748bc08bc2c5","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(joint_pos, (Point, Vector))","joint_pos.pos_from(body.masscenter).dt(body_frame) == 0","hasattr(body, 'frame')","hasattr(body, 'masscenter')","hasattr(body, 'name')","hasattr(joint_pos, 'pos_from')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["body.frame","body.masscenter","body.name","joint_pos.pos_from","self.name"],"raises":["TypeError","ValueError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _locate_joint_pos(self, body, joint_pos, body_frame=None):
         """Returns the attachment point of a body."""
         if body_frame is None:
@@ -800,16 +982,25 @@ class Joint(ABC):
         return joint_pos
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_locate_joint_frame(bod), returns the attachment frame of a body) over Any ║
+# ║ Path(_locate_joint_frame(body, interframe, body_frame), <unspecified:_locate_joint_frame>) over {Any | interframe.ang_vel_in(body_frame) == 0 and hasattr(body, 'frame') and hasattr(body, 'masscenter') and hasattr(interframe, 'ang_vel_in') and hasattr(body, 'name')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _locate_joint_frame : Any → Any                            ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: interframe.ang_vel_in(body_frame) == 0         ║
+# ║   requires: hasattr(body, 'frame')                         ║
+# ║   requires: hasattr(body, 'masscenter')                    ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _locate_joint_frame : {Any | interframe.ang_vel_in(bo...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d7a73ffdb1516bd6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.Joint._locate_joint_frame","kind":"method","src_hash":"f79806602a4bc1b8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_locate_joint_frame(bod)","rhs":"returns the attachment frame of a body","over":{"base":"Any"},"name":"_locate_joint_frame_correct"},"guarantee":"returns the attachment frame of a body","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.joint.Joint._locate_joint_frame_correct","statement":"Path(_locate_joint_frame(x), returns the attachment frame of a body)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d7a73ffdb1516bd6"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.Joint._locate_joint_frame","kind":"method","src_hash":"f79806602a4bc1b8","in":{"base":"Any","pred":"interframe.ang_vel_in(body_frame) == 0 and hasattr(body, 'frame') and hasattr(body, 'masscenter') and hasattr(interframe, 'ang_vel_in') and hasattr(body, 'name')"},"out":{"base":"Any"},"spec":{"lhs":"_locate_joint_frame(body, interframe, body_frame)","rhs":"<unspecified:_locate_joint_frame>","over":{"base":"Any","pred":"interframe.ang_vel_in(body_frame) == 0 and hasattr(body, 'frame') and hasattr(body, 'masscenter') and hasattr(interframe, 'ang_vel_in') and hasattr(body, 'name')"},"name":"_locate_joint_frame_correct"},"guarantee":"returns the attachment frame of a body","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.joint.Joint._locate_joint_frame_correct","statement":"Path(_locate_joint_frame(x), returns the attachment frame of a body)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d7a73ffdb1516bd6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["interframe.ang_vel_in(body_frame) == 0","hasattr(body, 'frame')","hasattr(body, 'masscenter')","hasattr(interframe, 'ang_vel_in')","hasattr(body, 'name')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["body.frame","body.masscenter","body.name","interframe.ang_vel_in","self.name"],"raises":["TypeError","ValueError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _locate_joint_frame(self, body, interframe, body_frame=None):
         """Returns the attachment frame of a body."""
         if body_frame is None:
@@ -829,16 +1020,23 @@ class Joint(ABC):
         return interframe
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_fill_coordinate_list(coo), helper method for _generate_coordinates and _generate_speeds) over Any ║
+# ║ Path(_fill_coordinate_list(coordinates, n_coords, label), len(generated_coordinates) == old_len_generated_coordinates + 1) over {Any | len(coordinates) == 0 or len(coordinates) == n_coords} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _fill_coordinate_list : Any → Any                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: len(coordinates) == 0 or len(coordinates)...   ║
+# ║   ensures:  len(generated_coordinates) == old_len_gen...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _fill_coordinate_list : {Any | len(coordinates) == 0 ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | db004f3cc354eab7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e7fd365f739810d1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.Joint._fill_coordinate_list","kind":"method","src_hash":"e779004b49d5b092","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_fill_coordinate_list(coo)","rhs":"helper method for _generate_coordinates and _generate_speeds","over":{"base":"Any"},"name":"_fill_coordinate_list_correct"},"guarantee":"helper method for _generate_coordinates and _generate_speeds","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.joint.Joint._fill_coordinate_list_correct","statement":"Path(_fill_coordinate_list(x), helper method for _generate_coordinates and _generate_speeds)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"db004f3cc354eab7"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.Joint._fill_coordinate_list","kind":"method","src_hash":"e779004b49d5b092","in":{"base":"Any","pred":"len(coordinates) == 0 or len(coordinates) == n_coords"},"out":{"base":"Any","pred":"result satisfies: len(generated_coordinates) == old_len_generated_coordinates + 1"},"spec":{"lhs":"_fill_coordinate_list(coordinates, n_coords, label)","rhs":"len(generated_coordinates) == old_len_generated_coordinates + 1","over":{"base":"Any","pred":"len(coordinates) == 0 or len(coordinates) == n_coords"},"name":"_fill_coordinate_list_correct"},"guarantee":"len(generated_coordinates) == old_len_generated_coordinates + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.joint.Joint._fill_coordinate_list_correct","statement":"Path(_fill_coordinate_list(x), len(generated_coordinates) == old_len_generated_coordinates + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e7fd365f739810d1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["len(coordinates) == 0 or len(coordinates) == n_coords"],"ensures":["len(generated_coordinates) == old_len_generated_coordinates + 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.name"],"calls_mutating":["generated_coordinates.append"],"raises":["TypeError","ValueError"]},"state_contract":{"modifies":["generated_coordinates.*"],"old_bindings":{"old_len_generated_coordinates":"len(generated_coordinates)"},"post_ensures":["len(generated_coordinates) == old_len_generated_coordinates + 1"],"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _fill_coordinate_list(self, coordinates, n_coords, label='q', offset=0,
                               number_single=False):
         """Helper method for _generate_coordinates and _generate_speeds.
@@ -892,14 +1090,20 @@ class Joint(ABC):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a PinJoint instance) preserved by PinJoint(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ PinJoint : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Joint)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ PinJoint : Any → {Any | result satisfies: isinstance(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 74db6c86b0641a08  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.PinJoint","kind":"class","src_hash":"0ca6bc101b17b0a8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"PinJoint(*args)","rhs":"correctly constructs a PinJoint instance","over":{"base":"Any"},"name":"PinJoint_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a PinJoint instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, '_joint_axis')","kind":"class","induction":"structural on _joint_axis"}],"methods_preserving":["__init__","__str__","joint_axis","_generate_coordinates","_generate_speeds","_orient_frames","_set_angular_velocity","_set_linear_velocity"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"74db6c86b0641a08"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.PinJoint","kind":"class","src_hash":"0ca6bc101b17b0a8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Joint)"},"spec":{"lhs":"PinJoint(*args)","rhs":"correctly constructs a PinJoint instance","over":{"base":"Any"},"name":"PinJoint_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, Joint); preserves 1 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, '_joint_axis')","kind":"class","induction":"structural on _joint_axis"}],"methods_preserving":["__init__","__str__","joint_axis","_generate_coordinates","_generate_speeds","_orient_frames","_set_angular_velocity","_set_linear_velocity"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"74db6c86b0641a08","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Joint)"],"invariants":["hasattr(self, '_joint_axis')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function PinJoint not found in source"]}}
 class PinJoint(Joint):
     """Pin (Revolute) Joint.
 
@@ -1124,16 +1328,22 @@ class PinJoint(Joint):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(nam), initializes the instance correctly) over Any ║
+# ║ Path(__init__(name, parent, child), <unspecified:__init__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __init__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a561272e55e4e871           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.PinJoint.__init__","kind":"method","src_hash":"aacd8f15ecfbda26","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(nam)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a561272e55e4e871"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.PinJoint.__init__","kind":"method","src_hash":"aacd8f15ecfbda26","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(name, parent, child)","rhs":"<unspecified:__init__>","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a561272e55e4e871","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, name, parent, child, coordinates=None, speeds=None,
                  parent_point=None, child_point=None, parent_interframe=None,
                  child_interframe=None, parent_axis=None, child_axis=None,
@@ -1146,106 +1356,148 @@ class PinJoint(Joint):
                          child_joint_pos)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__str__(), returns a human-readable string) over Any  ║
+# ║ Path(__str__(), f'PinJoint: {self.name}  parent: {self.parent}  child: {self.child}') over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  f'PinJoint: {self.name}  parent: {self.pa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __str__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | eeb5552c9b523dfb           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.PinJoint.__str__","kind":"method","src_hash":"d18e1da9814fd9b2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"returns a human-readable string","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"eeb5552c9b523dfb"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.PinJoint.__str__","kind":"method","src_hash":"d18e1da9814fd9b2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"f'PinJoint: {self.name}  parent: {self.parent}  child: {self.child}'","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns f'PinJoint: {self.name}  parent: {self.parent}  child: {self.child}'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"eeb5552c9b523dfb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"f'PinJoint: {self.name}  parent: {self.parent}  child: {self.child}'","pure":false,"effects":{"effect_type":"reads_state","reads":["self.child","self.name","self.parent"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __str__(self):
         return (f'PinJoint: {self.name}  parent: {self.parent}  '
                 f'child: {self.child}')
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(joint_axis(), returns the joint_axis attribute) over Any ║
+# ║ Path(joint_axis(), self._joint_axis) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._joint_axis                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ joint_axis : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 33d17390d355a1e6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.PinJoint.joint_axis","kind":"property","src_hash":"6b870fb901c9bf7c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"joint_axis()","rhs":"returns the joint_axis attribute","over":{"base":"Any"},"name":"joint_axis_correct"},"guarantee":"returns the joint_axis attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"33d17390d355a1e6"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.PinJoint.joint_axis","kind":"property","src_hash":"6b870fb901c9bf7c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"joint_axis()","rhs":"self._joint_axis","over":{"base":"Any"},"name":"joint_axis_correct"},"guarantee":"returns self._joint_axis","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"33d17390d355a1e6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._joint_axis","pure":false,"effects":{"effect_type":"reads_state","reads":["self._joint_axis"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def joint_axis(self):
         """Axis about which the child rotates with respect to the parent."""
         return self._joint_axis
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_generate_coordinates(coo), internal helper behaves correctly) over Any ║
+# ║ Path(_generate_coordinates(coordinate), self._fill_coordinate_list(coordinate, 1, 'q')) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._fill_coordinate_list(coordinate, 1,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _generate_coordinates : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 915961441188acae           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.PinJoint._generate_coordinates","kind":"method","src_hash":"f5918db12390e356","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_generate_coordinates(coo)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_generate_coordinates_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"915961441188acae"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.PinJoint._generate_coordinates","kind":"method","src_hash":"f5918db12390e356","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_generate_coordinates(coordinate)","rhs":"self._fill_coordinate_list(coordinate, 1, 'q')","over":{"base":"Any"},"name":"_generate_coordinates_correct"},"guarantee":"returns self._fill_coordinate_list(coordinate, 1, 'q')","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"915961441188acae","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._fill_coordinate_list(coordinate, 1, 'q')","pure":false,"effects":{"effect_type":"reads_state","reads":["self._fill_coordinate_list"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _generate_coordinates(self, coordinate):
         return self._fill_coordinate_list(coordinate, 1, 'q')
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_generate_speeds(spe), internal helper behaves correctly) over Any ║
+# ║ Path(_generate_speeds(speed), self._fill_coordinate_list(speed, 1, 'u')) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._fill_coordinate_list(speed, 1, 'u')      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _generate_speeds : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 56d119f693ad656e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.PinJoint._generate_speeds","kind":"method","src_hash":"a0d8ace106670643","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_generate_speeds(spe)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_generate_speeds_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"56d119f693ad656e"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.PinJoint._generate_speeds","kind":"method","src_hash":"a0d8ace106670643","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_generate_speeds(speed)","rhs":"self._fill_coordinate_list(speed, 1, 'u')","over":{"base":"Any"},"name":"_generate_speeds_correct"},"guarantee":"returns self._fill_coordinate_list(speed, 1, 'u')","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"56d119f693ad656e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._fill_coordinate_list(speed, 1, 'u')","pure":false,"effects":{"effect_type":"reads_state","reads":["self._fill_coordinate_list"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _generate_speeds(self, speed):
         return self._fill_coordinate_list(speed, 1, 'u')
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_orient_frames(), internal helper behaves correctly) over Any ║
+# ║ Path(_orient_frames(), <unspecified:_orient_frames>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _orient_frames : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | abdbf82ddfb41712  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.PinJoint._orient_frames","kind":"method","src_hash":"c4d30fdfa4da5447","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_orient_frames()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_orient_frames_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.joint.PinJoint._orient_frames_correct","statement":"Path(_orient_frames(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"abdbf82ddfb41712"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.PinJoint._orient_frames","kind":"method","src_hash":"c4d30fdfa4da5447","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_orient_frames()","rhs":"<unspecified:_orient_frames>","over":{"base":"Any"},"name":"_orient_frames_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.joint.PinJoint._orient_frames_correct","statement":"Path(_orient_frames(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"abdbf82ddfb41712","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._axis","self.child_interframe","self.coordinates","self.joint_axis","self.parent_interframe"],"writes":["self._joint_axis"]},"state_contract":{"modifies":["self._joint_axis"],"old_bindings":{"old_self__joint_axis":"self._joint_axis"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _orient_frames(self):
         self._joint_axis = self._axis(self.joint_axis, self.parent_interframe)
         self.child_interframe.orient_axis(
             self.parent_interframe, self.joint_axis, self.coordinates[0])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_set_angular_velocity(), internal helper behaves correctly) over Any ║
+# ║ Path(_set_angular_velocity(), <unspecified:_set_angular_velocity>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _set_angular_velocity : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cec3cb96736efea5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.PinJoint._set_angular_velocity","kind":"method","src_hash":"2577e0c3267ea0ec","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_set_angular_velocity()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_set_angular_velocity_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.joint.PinJoint._set_angular_velocity_correct","statement":"Path(_set_angular_velocity(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cec3cb96736efea5"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.PinJoint._set_angular_velocity","kind":"method","src_hash":"2577e0c3267ea0ec","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_set_angular_velocity()","rhs":"<unspecified:_set_angular_velocity>","over":{"base":"Any"},"name":"_set_angular_velocity_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.joint.PinJoint._set_angular_velocity_correct","statement":"Path(_set_angular_velocity(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cec3cb96736efea5","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.child_interframe","self.joint_axis","self.parent_interframe","self.speeds"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _set_angular_velocity(self):
         self.child_interframe.set_ang_vel(self.parent_interframe, self.speeds[
             0] * self.joint_axis.normalize())
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_set_linear_velocity(), internal helper behaves correctly) over Any ║
+# ║ Path(_set_linear_velocity(), <unspecified:_set_linear_velocity>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _set_linear_velocity : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 12e5f5ed48606d87  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.PinJoint._set_linear_velocity","kind":"method","src_hash":"e5e25b4089aa3215","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_set_linear_velocity()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_set_linear_velocity_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.joint.PinJoint._set_linear_velocity_correct","statement":"Path(_set_linear_velocity(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"12e5f5ed48606d87"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.PinJoint._set_linear_velocity","kind":"method","src_hash":"e5e25b4089aa3215","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_set_linear_velocity()","rhs":"<unspecified:_set_linear_velocity>","over":{"base":"Any"},"name":"_set_linear_velocity_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.joint.PinJoint._set_linear_velocity_correct","statement":"Path(_set_linear_velocity(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"12e5f5ed48606d87","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._child_frame","self._parent_frame","self.child","self.child_point","self.parent_point"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _set_linear_velocity(self):
         self.child_point.set_pos(self.parent_point, 0)
         self.parent_point.set_vel(self._parent_frame, 0)
@@ -1257,14 +1509,20 @@ class PinJoint(Joint):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a PrismaticJoint instance) preserved by PrismaticJoint(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ PrismaticJoint : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Joint)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ PrismaticJoint : Any → {Any | result satisfies: isins...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 500e0fe244746035  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.PrismaticJoint","kind":"class","src_hash":"c09fb67df66455dc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"PrismaticJoint(*args)","rhs":"correctly constructs a PrismaticJoint instance","over":{"base":"Any"},"name":"PrismaticJoint_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a PrismaticJoint instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, '_joint_axis')","kind":"class","induction":"structural on _joint_axis"}],"methods_preserving":["__init__","__str__","joint_axis","_generate_coordinates","_generate_speeds","_orient_frames","_set_angular_velocity","_set_linear_velocity"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"500e0fe244746035"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.PrismaticJoint","kind":"class","src_hash":"c09fb67df66455dc","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Joint)"},"spec":{"lhs":"PrismaticJoint(*args)","rhs":"correctly constructs a PrismaticJoint instance","over":{"base":"Any"},"name":"PrismaticJoint_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, Joint); preserves 1 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, '_joint_axis')","kind":"class","induction":"structural on _joint_axis"}],"methods_preserving":["__init__","__str__","joint_axis","_generate_coordinates","_generate_speeds","_orient_frames","_set_angular_velocity","_set_linear_velocity"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"500e0fe244746035","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Joint)"],"invariants":["hasattr(self, '_joint_axis')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function PrismaticJoint not found in source"]}}
 class PrismaticJoint(Joint):
     """Prismatic (Sliding) Joint.
 
@@ -1486,16 +1744,22 @@ class PrismaticJoint(Joint):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(nam), initializes the instance correctly) over Any ║
+# ║ Path(__init__(name, parent, child), <unspecified:__init__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __init__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 00448e6bba638635           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.PrismaticJoint.__init__","kind":"method","src_hash":"aacd8f15ecfbda26","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(nam)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"00448e6bba638635"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.PrismaticJoint.__init__","kind":"method","src_hash":"aacd8f15ecfbda26","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(name, parent, child)","rhs":"<unspecified:__init__>","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"00448e6bba638635","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, name, parent, child, coordinates=None, speeds=None,
                  parent_point=None, child_point=None, parent_interframe=None,
                  child_interframe=None, parent_axis=None, child_axis=None,
@@ -1508,105 +1772,147 @@ class PrismaticJoint(Joint):
                          child_joint_pos)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__str__(), returns a human-readable string) over Any  ║
+# ║ Path(__str__(), f'PrismaticJoint: {self.name}  parent: {self.parent}  child: {self.child}') over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  f'PrismaticJoint: {self.name}  parent: {s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __str__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1bb950a6a8c1cd8b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.PrismaticJoint.__str__","kind":"method","src_hash":"e93dd10a5a4bc926","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"returns a human-readable string","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1bb950a6a8c1cd8b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.PrismaticJoint.__str__","kind":"method","src_hash":"e93dd10a5a4bc926","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"f'PrismaticJoint: {self.name}  parent: {self.parent}  child: {self.child}'","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns f'PrismaticJoint: {self.name}  parent: {self.parent}  child: {self.child}'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1bb950a6a8c1cd8b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"f'PrismaticJoint: {self.name}  parent: {self.parent}  child: {self.child}'","pure":false,"effects":{"effect_type":"reads_state","reads":["self.child","self.name","self.parent"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __str__(self):
         return (f'PrismaticJoint: {self.name}  parent: {self.parent}  '
                 f'child: {self.child}')
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(joint_axis(), returns the joint_axis attribute) over Any ║
+# ║ Path(joint_axis(), self._joint_axis) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._joint_axis                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ joint_axis : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 209e43d9e9841e64           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.PrismaticJoint.joint_axis","kind":"property","src_hash":"078d9252d185631a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"joint_axis()","rhs":"returns the joint_axis attribute","over":{"base":"Any"},"name":"joint_axis_correct"},"guarantee":"returns the joint_axis attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"209e43d9e9841e64"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.PrismaticJoint.joint_axis","kind":"property","src_hash":"078d9252d185631a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"joint_axis()","rhs":"self._joint_axis","over":{"base":"Any"},"name":"joint_axis_correct"},"guarantee":"returns self._joint_axis","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"209e43d9e9841e64","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._joint_axis","pure":false,"effects":{"effect_type":"reads_state","reads":["self._joint_axis"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def joint_axis(self):
         """Axis along which the child translates with respect to the parent."""
         return self._joint_axis
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_generate_coordinates(coo), internal helper behaves correctly) over Any ║
+# ║ Path(_generate_coordinates(coordinate), self._fill_coordinate_list(coordinate, 1, 'q')) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._fill_coordinate_list(coordinate, 1,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _generate_coordinates : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7665c1093e25bad3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.PrismaticJoint._generate_coordinates","kind":"method","src_hash":"f5918db12390e356","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_generate_coordinates(coo)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_generate_coordinates_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7665c1093e25bad3"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.PrismaticJoint._generate_coordinates","kind":"method","src_hash":"f5918db12390e356","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_generate_coordinates(coordinate)","rhs":"self._fill_coordinate_list(coordinate, 1, 'q')","over":{"base":"Any"},"name":"_generate_coordinates_correct"},"guarantee":"returns self._fill_coordinate_list(coordinate, 1, 'q')","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7665c1093e25bad3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._fill_coordinate_list(coordinate, 1, 'q')","pure":false,"effects":{"effect_type":"reads_state","reads":["self._fill_coordinate_list"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _generate_coordinates(self, coordinate):
         return self._fill_coordinate_list(coordinate, 1, 'q')
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_generate_speeds(spe), internal helper behaves correctly) over Any ║
+# ║ Path(_generate_speeds(speed), self._fill_coordinate_list(speed, 1, 'u')) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._fill_coordinate_list(speed, 1, 'u')      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _generate_speeds : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e49e289ea470394f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.PrismaticJoint._generate_speeds","kind":"method","src_hash":"a0d8ace106670643","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_generate_speeds(spe)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_generate_speeds_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e49e289ea470394f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.PrismaticJoint._generate_speeds","kind":"method","src_hash":"a0d8ace106670643","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_generate_speeds(speed)","rhs":"self._fill_coordinate_list(speed, 1, 'u')","over":{"base":"Any"},"name":"_generate_speeds_correct"},"guarantee":"returns self._fill_coordinate_list(speed, 1, 'u')","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e49e289ea470394f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._fill_coordinate_list(speed, 1, 'u')","pure":false,"effects":{"effect_type":"reads_state","reads":["self._fill_coordinate_list"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _generate_speeds(self, speed):
         return self._fill_coordinate_list(speed, 1, 'u')
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_orient_frames(), internal helper behaves correctly) over Any ║
+# ║ Path(_orient_frames(), <unspecified:_orient_frames>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _orient_frames : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 55a4b0b4d28c0287  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.PrismaticJoint._orient_frames","kind":"method","src_hash":"acdaceb104760cd8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_orient_frames()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_orient_frames_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.joint.PrismaticJoint._orient_frames_correct","statement":"Path(_orient_frames(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"55a4b0b4d28c0287"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.PrismaticJoint._orient_frames","kind":"method","src_hash":"acdaceb104760cd8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_orient_frames()","rhs":"<unspecified:_orient_frames>","over":{"base":"Any"},"name":"_orient_frames_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.joint.PrismaticJoint._orient_frames_correct","statement":"Path(_orient_frames(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"55a4b0b4d28c0287","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._axis","self.child_interframe","self.joint_axis","self.parent_interframe"],"writes":["self._joint_axis"]},"state_contract":{"modifies":["self._joint_axis"],"old_bindings":{"old_self__joint_axis":"self._joint_axis"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _orient_frames(self):
         self._joint_axis = self._axis(self.joint_axis, self.parent_interframe)
         self.child_interframe.orient_axis(
             self.parent_interframe, self.joint_axis, 0)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_set_angular_velocity(), internal helper behaves correctly) over Any ║
+# ║ Path(_set_angular_velocity(), <unspecified:_set_angular_velocity>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _set_angular_velocity : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ae157aad5c0936dd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.PrismaticJoint._set_angular_velocity","kind":"method","src_hash":"acdfad262900a5ed","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_set_angular_velocity()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_set_angular_velocity_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.joint.PrismaticJoint._set_angular_velocity_correct","statement":"Path(_set_angular_velocity(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ae157aad5c0936dd"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.PrismaticJoint._set_angular_velocity","kind":"method","src_hash":"acdfad262900a5ed","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_set_angular_velocity()","rhs":"<unspecified:_set_angular_velocity>","over":{"base":"Any"},"name":"_set_angular_velocity_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.joint.PrismaticJoint._set_angular_velocity_correct","statement":"Path(_set_angular_velocity(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ae157aad5c0936dd","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.child_interframe","self.parent_interframe"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _set_angular_velocity(self):
         self.child_interframe.set_ang_vel(self.parent_interframe, 0)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_set_linear_velocity(), internal helper behaves correctly) over Any ║
+# ║ Path(_set_linear_velocity(), <unspecified:_set_linear_velocity>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _set_linear_velocity : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 675f098d1d5f6686  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.PrismaticJoint._set_linear_velocity","kind":"method","src_hash":"625fca28ec6bc7a6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_set_linear_velocity()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_set_linear_velocity_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.joint.PrismaticJoint._set_linear_velocity_correct","statement":"Path(_set_linear_velocity(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"675f098d1d5f6686"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.PrismaticJoint._set_linear_velocity","kind":"method","src_hash":"625fca28ec6bc7a6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_set_linear_velocity()","rhs":"<unspecified:_set_linear_velocity>","over":{"base":"Any"},"name":"_set_linear_velocity_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.joint.PrismaticJoint._set_linear_velocity_correct","statement":"Path(_set_linear_velocity(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"675f098d1d5f6686","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._child_frame","self._parent_frame","self.child","self.child_point","self.coordinates","self.joint_axis","self.parent_point","self.speeds"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _set_linear_velocity(self):
         axis = self.joint_axis.normalize()
         self.child_point.set_pos(self.parent_point, self.coordinates[0] * axis)
@@ -1619,14 +1925,20 @@ class PrismaticJoint(Joint):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a CylindricalJoint instance) preserved by CylindricalJoint(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ CylindricalJoint : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Joint)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ CylindricalJoint : Any → {Any | result satisfies: isi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ed9668f1a5f7eb61  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.CylindricalJoint","kind":"class","src_hash":"5bf114682857cec6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"CylindricalJoint(*args)","rhs":"correctly constructs a CylindricalJoint instance","over":{"base":"Any"},"name":"CylindricalJoint_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a CylindricalJoint instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, '_joint_axis')","kind":"class","induction":"structural on _joint_axis"}],"methods_preserving":["__init__","__str__","joint_axis","rotation_coordinate","translation_coordinate","rotation_speed","translation_speed","_generate_coordinates","_generate_speeds","_orient_frames","_set_angular_velocity","_set_linear_velocity"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ed9668f1a5f7eb61"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.CylindricalJoint","kind":"class","src_hash":"5bf114682857cec6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Joint)"},"spec":{"lhs":"CylindricalJoint(*args)","rhs":"correctly constructs a CylindricalJoint instance","over":{"base":"Any"},"name":"CylindricalJoint_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, Joint); preserves 1 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, '_joint_axis')","kind":"class","induction":"structural on _joint_axis"}],"methods_preserving":["__init__","__str__","joint_axis","rotation_coordinate","translation_coordinate","rotation_speed","translation_speed","_generate_coordinates","_generate_speeds","_orient_frames","_set_angular_velocity","_set_linear_velocity"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ed9668f1a5f7eb61","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Joint)"],"invariants":["hasattr(self, '_joint_axis')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":false,"binding_errors":["Function CylindricalJoint not found in source"]}}
 class CylindricalJoint(Joint):
     """Cylindrical Joint.
 
@@ -1854,16 +2166,22 @@ class CylindricalJoint(Joint):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(nam), initializes the instance correctly) over Any ║
+# ║ Path(__init__(name, parent, child), <unspecified:__init__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __init__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 85a87a7f894536fb           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.CylindricalJoint.__init__","kind":"method","src_hash":"c4d847cf53698ddf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(nam)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"85a87a7f894536fb"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.CylindricalJoint.__init__","kind":"method","src_hash":"c4d847cf53698ddf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(name, parent, child)","rhs":"<unspecified:__init__>","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"85a87a7f894536fb","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, name, parent, child, rotation_coordinate=None,
                  translation_coordinate=None, rotation_speed=None,
                  translation_speed=None, parent_point=None, child_point=None,
@@ -1878,171 +2196,237 @@ class CylindricalJoint(Joint):
                          child_interframe=child_interframe)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__str__(), returns a human-readable string) over Any  ║
+# ║ Path(__str__(), f'CylindricalJoint: {self.name}  parent: {self.parent}  child: {self.child}') over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  f'CylindricalJoint: {self.name}  parent: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __str__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 28be0ea397cd05d9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.CylindricalJoint.__str__","kind":"method","src_hash":"59ea96abe933cca7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"returns a human-readable string","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"28be0ea397cd05d9"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.CylindricalJoint.__str__","kind":"method","src_hash":"59ea96abe933cca7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"f'CylindricalJoint: {self.name}  parent: {self.parent}  child: {self.child}'","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns f'CylindricalJoint: {self.name}  parent: {self.parent}  child: {self.child}'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"28be0ea397cd05d9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"f'CylindricalJoint: {self.name}  parent: {self.parent}  child: {self.child}'","pure":false,"effects":{"effect_type":"reads_state","reads":["self.child","self.name","self.parent"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __str__(self):
         return (f'CylindricalJoint: {self.name}  parent: {self.parent}  '
                 f'child: {self.child}')
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(joint_axis(), returns the joint_axis attribute) over Any ║
+# ║ Path(joint_axis(), self._joint_axis) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._joint_axis                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ joint_axis : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | bbd8fbc62262c6d9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.CylindricalJoint.joint_axis","kind":"property","src_hash":"51f465bbc45da93d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"joint_axis()","rhs":"returns the joint_axis attribute","over":{"base":"Any"},"name":"joint_axis_correct"},"guarantee":"returns the joint_axis attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bbd8fbc62262c6d9"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.CylindricalJoint.joint_axis","kind":"property","src_hash":"51f465bbc45da93d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"joint_axis()","rhs":"self._joint_axis","over":{"base":"Any"},"name":"joint_axis_correct"},"guarantee":"returns self._joint_axis","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bbd8fbc62262c6d9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._joint_axis","pure":false,"effects":{"effect_type":"reads_state","reads":["self._joint_axis"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def joint_axis(self):
         """Axis about and along which the rotation and translation occurs."""
         return self._joint_axis
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rotation_coordinate(), returns the rotation_coordinate attribute) over Any ║
+# ║ Path(rotation_coordinate(), self.coordinates[0]) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.coordinates[0]                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ rotation_coordinate : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e515ae7e0c1cbad3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.CylindricalJoint.rotation_coordinate","kind":"property","src_hash":"8bc570f0ba278827","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rotation_coordinate()","rhs":"returns the rotation_coordinate attribute","over":{"base":"Any"},"name":"rotation_coordinate_correct"},"guarantee":"returns the rotation_coordinate attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e515ae7e0c1cbad3"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.CylindricalJoint.rotation_coordinate","kind":"property","src_hash":"8bc570f0ba278827","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rotation_coordinate()","rhs":"self.coordinates[0]","over":{"base":"Any"},"name":"rotation_coordinate_correct"},"guarantee":"returns self.coordinates[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e515ae7e0c1cbad3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.coordinates[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.coordinates"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def rotation_coordinate(self):
         """Generalized coordinate corresponding to the rotation angle."""
         return self.coordinates[0]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(translation_coordinate(), returns the translation_coordinate attribute) over Any ║
+# ║ Path(translation_coordinate(), self.coordinates[1]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.coordinates[1]                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ translation_coordinate : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c4248939566a2f55           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.CylindricalJoint.translation_coordinate","kind":"property","src_hash":"9feadc810115466f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"translation_coordinate()","rhs":"returns the translation_coordinate attribute","over":{"base":"Any"},"name":"translation_coordinate_correct"},"guarantee":"returns the translation_coordinate attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c4248939566a2f55"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.CylindricalJoint.translation_coordinate","kind":"property","src_hash":"9feadc810115466f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"translation_coordinate()","rhs":"self.coordinates[1]","over":{"base":"Any"},"name":"translation_coordinate_correct"},"guarantee":"returns self.coordinates[1]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c4248939566a2f55","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.coordinates[1]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.coordinates"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def translation_coordinate(self):
         """Generalized coordinate corresponding to the translation distance."""
         return self.coordinates[1]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rotation_speed(), returns the rotation_speed attribute) over Any ║
+# ║ Path(rotation_speed(), self.speeds[0]) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.speeds[0]                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ rotation_speed : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 54d0bb6100e0ba48           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.CylindricalJoint.rotation_speed","kind":"property","src_hash":"fb57ef60ddb0aceb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rotation_speed()","rhs":"returns the rotation_speed attribute","over":{"base":"Any"},"name":"rotation_speed_correct"},"guarantee":"returns the rotation_speed attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"54d0bb6100e0ba48"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.CylindricalJoint.rotation_speed","kind":"property","src_hash":"fb57ef60ddb0aceb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rotation_speed()","rhs":"self.speeds[0]","over":{"base":"Any"},"name":"rotation_speed_correct"},"guarantee":"returns self.speeds[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"54d0bb6100e0ba48","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.speeds[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.speeds"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def rotation_speed(self):
         """Generalized speed corresponding to the angular velocity."""
         return self.speeds[0]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(translation_speed(), returns the translation_speed attribute) over Any ║
+# ║ Path(translation_speed(), self.speeds[1]) over Any         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.speeds[1]                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ translation_speed : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f67147c268c0edf4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.CylindricalJoint.translation_speed","kind":"property","src_hash":"12b4f619420a45b1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"translation_speed()","rhs":"returns the translation_speed attribute","over":{"base":"Any"},"name":"translation_speed_correct"},"guarantee":"returns the translation_speed attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f67147c268c0edf4"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.CylindricalJoint.translation_speed","kind":"property","src_hash":"12b4f619420a45b1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"translation_speed()","rhs":"self.speeds[1]","over":{"base":"Any"},"name":"translation_speed_correct"},"guarantee":"returns self.speeds[1]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f67147c268c0edf4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.speeds[1]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.speeds"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def translation_speed(self):
         """Generalized speed corresponding to the translation velocity."""
         return self.speeds[1]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_generate_coordinates(coo), internal helper behaves correctly) over Any ║
+# ║ Path(_generate_coordinates(coordinates), self._fill_coordinate_list(coordinates, 2, 'q')) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._fill_coordinate_list(coordinates, 2...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _generate_coordinates : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d5dd77104c2a7baf           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.CylindricalJoint._generate_coordinates","kind":"method","src_hash":"6b20574e9121b70c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_generate_coordinates(coo)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_generate_coordinates_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d5dd77104c2a7baf"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.CylindricalJoint._generate_coordinates","kind":"method","src_hash":"6b20574e9121b70c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_generate_coordinates(coordinates)","rhs":"self._fill_coordinate_list(coordinates, 2, 'q')","over":{"base":"Any"},"name":"_generate_coordinates_correct"},"guarantee":"returns self._fill_coordinate_list(coordinates, 2, 'q')","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d5dd77104c2a7baf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._fill_coordinate_list(coordinates, 2, 'q')","pure":false,"effects":{"effect_type":"reads_state","reads":["self._fill_coordinate_list"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _generate_coordinates(self, coordinates):
         return self._fill_coordinate_list(coordinates, 2, 'q')
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_generate_speeds(spe), internal helper behaves correctly) over Any ║
+# ║ Path(_generate_speeds(speeds), self._fill_coordinate_list(speeds, 2, 'u')) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._fill_coordinate_list(speeds, 2, 'u')     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _generate_speeds : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 703484bae41ab961           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.CylindricalJoint._generate_speeds","kind":"method","src_hash":"2c10ec441ab28ebb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_generate_speeds(spe)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_generate_speeds_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"703484bae41ab961"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.CylindricalJoint._generate_speeds","kind":"method","src_hash":"2c10ec441ab28ebb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_generate_speeds(speeds)","rhs":"self._fill_coordinate_list(speeds, 2, 'u')","over":{"base":"Any"},"name":"_generate_speeds_correct"},"guarantee":"returns self._fill_coordinate_list(speeds, 2, 'u')","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"703484bae41ab961","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._fill_coordinate_list(speeds, 2, 'u')","pure":false,"effects":{"effect_type":"reads_state","reads":["self._fill_coordinate_list"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _generate_speeds(self, speeds):
         return self._fill_coordinate_list(speeds, 2, 'u')
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_orient_frames(), internal helper behaves correctly) over Any ║
+# ║ Path(_orient_frames(), <unspecified:_orient_frames>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _orient_frames : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0d334d821ee9b6d0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.CylindricalJoint._orient_frames","kind":"method","src_hash":"24c24c1fccc8ae91","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_orient_frames()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_orient_frames_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.joint.CylindricalJoint._orient_frames_correct","statement":"Path(_orient_frames(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0d334d821ee9b6d0"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.CylindricalJoint._orient_frames","kind":"method","src_hash":"24c24c1fccc8ae91","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_orient_frames()","rhs":"<unspecified:_orient_frames>","over":{"base":"Any"},"name":"_orient_frames_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.joint.CylindricalJoint._orient_frames_correct","statement":"Path(_orient_frames(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0d334d821ee9b6d0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._axis","self.child_interframe","self.joint_axis","self.parent_interframe","self.rotation_coordinate"],"writes":["self._joint_axis"]},"state_contract":{"modifies":["self._joint_axis"],"old_bindings":{"old_self__joint_axis":"self._joint_axis"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _orient_frames(self):
         self._joint_axis = self._axis(self.joint_axis, self.parent_interframe)
         self.child_interframe.orient_axis(
             self.parent_interframe, self.joint_axis, self.rotation_coordinate)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_set_angular_velocity(), internal helper behaves correctly) over Any ║
+# ║ Path(_set_angular_velocity(), <unspecified:_set_angular_velocity>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _set_angular_velocity : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 32732f13c856f42d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.CylindricalJoint._set_angular_velocity","kind":"method","src_hash":"f666e00414f9f59f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_set_angular_velocity()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_set_angular_velocity_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.joint.CylindricalJoint._set_angular_velocity_correct","statement":"Path(_set_angular_velocity(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"32732f13c856f42d"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.CylindricalJoint._set_angular_velocity","kind":"method","src_hash":"f666e00414f9f59f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_set_angular_velocity()","rhs":"<unspecified:_set_angular_velocity>","over":{"base":"Any"},"name":"_set_angular_velocity_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.joint.CylindricalJoint._set_angular_velocity_correct","statement":"Path(_set_angular_velocity(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"32732f13c856f42d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.child_interframe","self.joint_axis","self.parent_interframe","self.rotation_speed"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _set_angular_velocity(self):
         self.child_interframe.set_ang_vel(
             self.parent_interframe,
             self.rotation_speed * self.joint_axis.normalize())
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_set_linear_velocity(), internal helper behaves correctly) over Any ║
+# ║ Path(_set_linear_velocity(), <unspecified:_set_linear_velocity>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _set_linear_velocity : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a938773a86f67d0d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.CylindricalJoint._set_linear_velocity","kind":"method","src_hash":"5a9a5841197c9e49","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_set_linear_velocity()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_set_linear_velocity_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.joint.CylindricalJoint._set_linear_velocity_correct","statement":"Path(_set_linear_velocity(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a938773a86f67d0d"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.CylindricalJoint._set_linear_velocity","kind":"method","src_hash":"5a9a5841197c9e49","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_set_linear_velocity()","rhs":"<unspecified:_set_linear_velocity>","over":{"base":"Any"},"name":"_set_linear_velocity_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.joint.CylindricalJoint._set_linear_velocity_correct","statement":"Path(_set_linear_velocity(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a938773a86f67d0d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._child_frame","self._parent_frame","self.child","self.child_interframe","self.child_point","self.joint_axis","self.parent_point","self.translation_coordinate","self.translation_speed"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _set_linear_velocity(self):
         self.child_point.set_pos(
             self.parent_point,
@@ -2059,14 +2443,20 @@ class CylindricalJoint(Joint):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(PlanarJoint(*args), correctly constructs a PlanarJoint instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ PlanarJoint : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Joint)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ PlanarJoint : Any → {Any | result satisfies: isinstan...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 43cf19563aeec47d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.PlanarJoint","kind":"class","src_hash":"9886f49d7ffd3b59","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"PlanarJoint(*args)","rhs":"correctly constructs a PlanarJoint instance","over":{"base":"Any"},"name":"PlanarJoint_class_invariant"},"guarantee":"correctly constructs a PlanarJoint instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"43cf19563aeec47d"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.PlanarJoint","kind":"class","src_hash":"9886f49d7ffd3b59","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Joint)"},"spec":{"lhs":"PlanarJoint(*args)","rhs":"correctly constructs a PlanarJoint instance","over":{"base":"Any"},"name":"PlanarJoint_class_invariant"},"guarantee":"isinstance(self, Joint)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"43cf19563aeec47d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Joint)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":false,"binding_errors":["Function PlanarJoint not found in source"]}}
 class PlanarJoint(Joint):
     """Planar Joint.
 
@@ -2343,16 +2733,22 @@ class PlanarJoint(Joint):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(nam), initializes the instance correctly) over Any ║
+# ║ Path(__init__(name, parent, child), <unspecified:__init__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __init__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7150e5ce2a6bb16d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.PlanarJoint.__init__","kind":"method","src_hash":"d99d9017c5e557cd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(nam)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7150e5ce2a6bb16d"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.PlanarJoint.__init__","kind":"method","src_hash":"d99d9017c5e557cd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(name, parent, child)","rhs":"<unspecified:__init__>","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7150e5ce2a6bb16d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, name, parent, child, rotation_coordinate=None,
                  planar_coordinates=None, rotation_speed=None,
                  planar_speeds=None, parent_point=None, child_point=None,
@@ -2367,127 +2763,175 @@ class PlanarJoint(Joint):
                          child_interframe=child_interframe)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__str__(), returns a human-readable string) over Any  ║
+# ║ Path(__str__(), f'PlanarJoint: {self.name}  parent: {self.parent}  child: {self.child}') over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  f'PlanarJoint: {self.name}  parent: {self...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __str__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2b39a365b91248c8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.PlanarJoint.__str__","kind":"method","src_hash":"3886f760b358d8c4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"returns a human-readable string","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2b39a365b91248c8"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.PlanarJoint.__str__","kind":"method","src_hash":"3886f760b358d8c4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"f'PlanarJoint: {self.name}  parent: {self.parent}  child: {self.child}'","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns f'PlanarJoint: {self.name}  parent: {self.parent}  child: {self.child}'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2b39a365b91248c8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"f'PlanarJoint: {self.name}  parent: {self.parent}  child: {self.child}'","pure":false,"effects":{"effect_type":"reads_state","reads":["self.child","self.name","self.parent"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __str__(self):
         return (f'PlanarJoint: {self.name}  parent: {self.parent}  '
                 f'child: {self.child}')
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rotation_coordinate(), returns the rotation_coordinate attribute) over Any ║
+# ║ Path(rotation_coordinate(), self.coordinates[0]) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.coordinates[0]                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ rotation_coordinate : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2392adcda0f562f1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.PlanarJoint.rotation_coordinate","kind":"property","src_hash":"8bc570f0ba278827","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rotation_coordinate()","rhs":"returns the rotation_coordinate attribute","over":{"base":"Any"},"name":"rotation_coordinate_correct"},"guarantee":"returns the rotation_coordinate attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2392adcda0f562f1"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.PlanarJoint.rotation_coordinate","kind":"property","src_hash":"8bc570f0ba278827","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rotation_coordinate()","rhs":"self.coordinates[0]","over":{"base":"Any"},"name":"rotation_coordinate_correct"},"guarantee":"returns self.coordinates[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2392adcda0f562f1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.coordinates[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.coordinates"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def rotation_coordinate(self):
         """Generalized coordinate corresponding to the rotation angle."""
         return self.coordinates[0]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(planar_coordinates(), returns the planar_coordinates attribute) over Any ║
+# ║ Path(planar_coordinates(), self.coordinates[1:, 0]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.coordinates[1:, 0]                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ planar_coordinates : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ed60f7b53d7fffa3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.PlanarJoint.planar_coordinates","kind":"property","src_hash":"cc60e4a6f4eeafed","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"planar_coordinates()","rhs":"returns the planar_coordinates attribute","over":{"base":"Any"},"name":"planar_coordinates_correct"},"guarantee":"returns the planar_coordinates attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ed60f7b53d7fffa3"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.PlanarJoint.planar_coordinates","kind":"property","src_hash":"cc60e4a6f4eeafed","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"planar_coordinates()","rhs":"self.coordinates[1:, 0]","over":{"base":"Any"},"name":"planar_coordinates_correct"},"guarantee":"returns self.coordinates[1:, 0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ed60f7b53d7fffa3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.coordinates[1:, 0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.coordinates"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def planar_coordinates(self):
         """Two generalized coordinates used for the planar translation."""
         return self.coordinates[1:, 0]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rotation_speed(), returns the rotation_speed attribute) over Any ║
+# ║ Path(rotation_speed(), self.speeds[0]) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.speeds[0]                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ rotation_speed : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c1dd23584fa0ab9b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.PlanarJoint.rotation_speed","kind":"property","src_hash":"fb57ef60ddb0aceb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rotation_speed()","rhs":"returns the rotation_speed attribute","over":{"base":"Any"},"name":"rotation_speed_correct"},"guarantee":"returns the rotation_speed attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c1dd23584fa0ab9b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.PlanarJoint.rotation_speed","kind":"property","src_hash":"fb57ef60ddb0aceb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rotation_speed()","rhs":"self.speeds[0]","over":{"base":"Any"},"name":"rotation_speed_correct"},"guarantee":"returns self.speeds[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c1dd23584fa0ab9b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.speeds[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.speeds"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def rotation_speed(self):
         """Generalized speed corresponding to the angular velocity."""
         return self.speeds[0]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(planar_speeds(), returns the planar_speeds attribute) over Any ║
+# ║ Path(planar_speeds(), self.speeds[1:, 0]) over Any         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.speeds[1:, 0]                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ planar_speeds : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b390a31d680fdeb7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.PlanarJoint.planar_speeds","kind":"property","src_hash":"6d42bae69e6e41c7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"planar_speeds()","rhs":"returns the planar_speeds attribute","over":{"base":"Any"},"name":"planar_speeds_correct"},"guarantee":"returns the planar_speeds attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b390a31d680fdeb7"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.PlanarJoint.planar_speeds","kind":"property","src_hash":"6d42bae69e6e41c7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"planar_speeds()","rhs":"self.speeds[1:, 0]","over":{"base":"Any"},"name":"planar_speeds_correct"},"guarantee":"returns self.speeds[1:, 0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b390a31d680fdeb7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.speeds[1:, 0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.speeds"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def planar_speeds(self):
         """Two generalized speeds used for the planar translation velocity."""
         return self.speeds[1:, 0]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rotation_axis(), returns the rotation_axis attribute) over Any ║
+# ║ Path(rotation_axis(), self.parent_interframe.x) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.parent_interframe.x                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ rotation_axis : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | aa1ed7a8cd59633f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.PlanarJoint.rotation_axis","kind":"property","src_hash":"98109f36dd7a950c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rotation_axis()","rhs":"returns the rotation_axis attribute","over":{"base":"Any"},"name":"rotation_axis_correct"},"guarantee":"returns the rotation_axis attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"aa1ed7a8cd59633f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.PlanarJoint.rotation_axis","kind":"property","src_hash":"98109f36dd7a950c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rotation_axis()","rhs":"self.parent_interframe.x","over":{"base":"Any"},"name":"rotation_axis_correct"},"guarantee":"returns self.parent_interframe.x","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"aa1ed7a8cd59633f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.parent_interframe.x","pure":false,"effects":{"effect_type":"reads_state","reads":["self.parent_interframe"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def rotation_axis(self):
         """The axis about which the rotation occurs."""
         return self.parent_interframe.x
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(planar_vectors(), returns the planar_vectors attribute) over Any ║
+# ║ Path(planar_vectors(), [self.parent_interframe.y, self.parent_interframe.z]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [self.parent_interframe.y, self.parent_in...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ planar_vectors : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8f5fff89c07d3b5e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.PlanarJoint.planar_vectors","kind":"property","src_hash":"0c3f14c90ddd64d2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"planar_vectors()","rhs":"returns the planar_vectors attribute","over":{"base":"Any"},"name":"planar_vectors_correct"},"guarantee":"returns the planar_vectors attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8f5fff89c07d3b5e"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.PlanarJoint.planar_vectors","kind":"property","src_hash":"0c3f14c90ddd64d2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"planar_vectors()","rhs":"[self.parent_interframe.y, self.parent_interframe.z]","over":{"base":"Any"},"name":"planar_vectors_correct"},"guarantee":"returns [self.parent_interframe.y, self.parent_interframe.z]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8f5fff89c07d3b5e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[self.parent_interframe.y, self.parent_interframe.z]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.parent_interframe"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def planar_vectors(self):
         """The vectors that describe the planar translation directions."""
         return [self.parent_interframe.y, self.parent_interframe.z]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_generate_coordinates(coo), internal helper behaves correctly) over Any ║
+# ║ Path(_generate_coordinates(coordinates), rotation_speed.col_join(planar_speeds)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  rotation_speed.col_join(planar_speeds)         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _generate_coordinates : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 294c56f65ca70211  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 73b858ee420cd50e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.PlanarJoint._generate_coordinates","kind":"method","src_hash":"1d5b043a5e3fd961","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_generate_coordinates(coo)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_generate_coordinates_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.joint.PlanarJoint._generate_coordinates_correct","statement":"Path(_generate_coordinates(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"294c56f65ca70211"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.PlanarJoint._generate_coordinates","kind":"method","src_hash":"1d5b043a5e3fd961","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_generate_coordinates(coordinates)","rhs":"rotation_speed.col_join(planar_speeds)","over":{"base":"Any"},"name":"_generate_coordinates_correct"},"guarantee":"returns rotation_speed.col_join(planar_speeds)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.joint.PlanarJoint._generate_coordinates_correct","statement":"Path(_generate_coordinates(x), returns rotation_speed.col_join(planar_speeds))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"73b858ee420cd50e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"rotation_speed.col_join(planar_speeds)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._fill_coordinate_list"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _generate_coordinates(self, coordinates):
         rotation_speed = self._fill_coordinate_list(coordinates[0], 1, 'q',
                                                     number_single=True)
@@ -2495,16 +2939,22 @@ class PlanarJoint(Joint):
         return rotation_speed.col_join(planar_speeds)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_generate_speeds(spe), internal helper behaves correctly) over Any ║
+# ║ Path(_generate_speeds(speeds), rotation_speed.col_join(planar_speeds)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  rotation_speed.col_join(planar_speeds)         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _generate_speeds : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cf9fb306c58a644c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 50ac9ca49f1bbcd3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.PlanarJoint._generate_speeds","kind":"method","src_hash":"6e5686a19110b4ab","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_generate_speeds(spe)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_generate_speeds_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.joint.PlanarJoint._generate_speeds_correct","statement":"Path(_generate_speeds(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cf9fb306c58a644c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.PlanarJoint._generate_speeds","kind":"method","src_hash":"6e5686a19110b4ab","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_generate_speeds(speeds)","rhs":"rotation_speed.col_join(planar_speeds)","over":{"base":"Any"},"name":"_generate_speeds_correct"},"guarantee":"returns rotation_speed.col_join(planar_speeds)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.joint.PlanarJoint._generate_speeds_correct","statement":"Path(_generate_speeds(x), returns rotation_speed.col_join(planar_speeds))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"50ac9ca49f1bbcd3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"rotation_speed.col_join(planar_speeds)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._fill_coordinate_list"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _generate_speeds(self, speeds):
         rotation_speed = self._fill_coordinate_list(speeds[0], 1, 'u',
                                                     number_single=True)
@@ -2512,48 +2962,66 @@ class PlanarJoint(Joint):
         return rotation_speed.col_join(planar_speeds)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_orient_frames(), internal helper behaves correctly) over Any ║
+# ║ Path(_orient_frames(), <unspecified:_orient_frames>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _orient_frames : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7bf9ebb8439f823c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.PlanarJoint._orient_frames","kind":"method","src_hash":"8d208673d7813c96","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_orient_frames()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_orient_frames_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.joint.PlanarJoint._orient_frames_correct","statement":"Path(_orient_frames(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7bf9ebb8439f823c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.PlanarJoint._orient_frames","kind":"method","src_hash":"8d208673d7813c96","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_orient_frames()","rhs":"<unspecified:_orient_frames>","over":{"base":"Any"},"name":"_orient_frames_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.joint.PlanarJoint._orient_frames_correct","statement":"Path(_orient_frames(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7bf9ebb8439f823c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.child_interframe","self.parent_interframe","self.rotation_axis","self.rotation_coordinate"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _orient_frames(self):
         self.child_interframe.orient_axis(
             self.parent_interframe, self.rotation_axis,
             self.rotation_coordinate)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_set_angular_velocity(), internal helper behaves correctly) over Any ║
+# ║ Path(_set_angular_velocity(), <unspecified:_set_angular_velocity>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _set_angular_velocity : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 231c60bf07eb6681  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.PlanarJoint._set_angular_velocity","kind":"method","src_hash":"8f2ebcf5669c3e99","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_set_angular_velocity()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_set_angular_velocity_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.joint.PlanarJoint._set_angular_velocity_correct","statement":"Path(_set_angular_velocity(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"231c60bf07eb6681"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.PlanarJoint._set_angular_velocity","kind":"method","src_hash":"8f2ebcf5669c3e99","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_set_angular_velocity()","rhs":"<unspecified:_set_angular_velocity>","over":{"base":"Any"},"name":"_set_angular_velocity_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.joint.PlanarJoint._set_angular_velocity_correct","statement":"Path(_set_angular_velocity(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"231c60bf07eb6681","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.child_interframe","self.parent_interframe","self.rotation_axis","self.rotation_speed"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _set_angular_velocity(self):
         self.child_interframe.set_ang_vel(
             self.parent_interframe,
             self.rotation_speed * self.rotation_axis)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_set_linear_velocity(), internal helper behaves correctly) over Any ║
+# ║ Path(_set_linear_velocity(), <unspecified:_set_linear_velocity>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _set_linear_velocity : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 369d99485a9d02a5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.PlanarJoint._set_linear_velocity","kind":"method","src_hash":"0f6da6b8885e6902","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_set_linear_velocity()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_set_linear_velocity_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.joint.PlanarJoint._set_linear_velocity_correct","statement":"Path(_set_linear_velocity(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"369d99485a9d02a5"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.PlanarJoint._set_linear_velocity","kind":"method","src_hash":"0f6da6b8885e6902","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_set_linear_velocity()","rhs":"<unspecified:_set_linear_velocity>","over":{"base":"Any"},"name":"_set_linear_velocity_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.joint.PlanarJoint._set_linear_velocity_correct","statement":"Path(_set_linear_velocity(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"369d99485a9d02a5","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._child_frame","self._parent_frame","self.child","self.child_interframe","self.child_point","self.parent_interframe","self.parent_point","self.planar_coordinates","self.planar_speeds","self.planar_vectors"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _set_linear_velocity(self):
         self.child_point.set_pos(
             self.parent_point,
@@ -2571,14 +3039,20 @@ class PlanarJoint(Joint):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a SphericalJoint instance) preserved by SphericalJoint(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ SphericalJoint : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Joint)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ SphericalJoint : Any → {Any | result satisfies: isins...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1a499c76f2a2c42b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.SphericalJoint","kind":"class","src_hash":"46c9d7461e20cf59","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"SphericalJoint(*args)","rhs":"correctly constructs a SphericalJoint instance","over":{"base":"Any"},"name":"SphericalJoint_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a SphericalJoint instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, '_rot_type') and hasattr(self, '_amounts') and hasattr(self, '_rot_order')","kind":"class","induction":"structural on _rot_type, _amounts, _rot_order"}],"methods_preserving":["__init__","__str__","_generate_coordinates","_generate_speeds","_orient_frames","_set_angular_velocity","_set_linear_velocity"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1a499c76f2a2c42b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.SphericalJoint","kind":"class","src_hash":"46c9d7461e20cf59","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Joint)"},"spec":{"lhs":"SphericalJoint(*args)","rhs":"correctly constructs a SphericalJoint instance","over":{"base":"Any"},"name":"SphericalJoint_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, Joint); preserves 3 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, '_rot_type') and hasattr(self, '_amounts') and hasattr(self, '_rot_order')","kind":"class","induction":"structural on _rot_type, _amounts, _rot_order"}],"methods_preserving":["__init__","__str__","_generate_coordinates","_generate_speeds","_orient_frames","_set_angular_velocity","_set_linear_velocity"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1a499c76f2a2c42b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Joint)"],"invariants":["hasattr(self, '_rot_type')","hasattr(self, '_amounts')","hasattr(self, '_rot_order')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":false,"binding_errors":["Function SphericalJoint not found in source"]}}
 class SphericalJoint(Joint):
     """Spherical (Ball-and-Socket) Joint.
 
@@ -2784,16 +3258,22 @@ class SphericalJoint(Joint):
 
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(nam), initializes the instance correctly) over Any ║
+# ║ Path(__init__(name, parent, child), <unspecified:__init__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __init__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1cfd001f2cbc2ea4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.SphericalJoint.__init__","kind":"method","src_hash":"b94e5fab2343a319","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(nam)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1cfd001f2cbc2ea4"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.SphericalJoint.__init__","kind":"method","src_hash":"b94e5fab2343a319","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(name, parent, child)","rhs":"<unspecified:__init__>","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1cfd001f2cbc2ea4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, name, parent, child, coordinates=None, speeds=None,
                  parent_point=None, child_point=None, parent_interframe=None,
                  child_interframe=None, rot_type='BODY', amounts=None,
@@ -2807,59 +3287,84 @@ class SphericalJoint(Joint):
                          child_interframe=child_interframe)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__str__(), returns a human-readable string) over Any  ║
+# ║ Path(__str__(), f'SphericalJoint: {self.name}  parent: {self.parent}  child: {self.child}') over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  f'SphericalJoint: {self.name}  parent: {s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __str__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e03ffab43fa9a922           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.SphericalJoint.__str__","kind":"method","src_hash":"d02401f8cc2177cd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"returns a human-readable string","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e03ffab43fa9a922"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.SphericalJoint.__str__","kind":"method","src_hash":"d02401f8cc2177cd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"f'SphericalJoint: {self.name}  parent: {self.parent}  child: {self.child}'","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns f'SphericalJoint: {self.name}  parent: {self.parent}  child: {self.child}'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e03ffab43fa9a922","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"f'SphericalJoint: {self.name}  parent: {self.parent}  child: {self.child}'","pure":false,"effects":{"effect_type":"reads_state","reads":["self.child","self.name","self.parent"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __str__(self):
         return (f'SphericalJoint: {self.name}  parent: {self.parent}  '
                 f'child: {self.child}')
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_generate_coordinates(coo), internal helper behaves correctly) over Any ║
+# ║ Path(_generate_coordinates(coordinates), self._fill_coordinate_list(coordinates, 3, 'q')) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._fill_coordinate_list(coordinates, 3...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _generate_coordinates : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2eed6079d1715b8d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.SphericalJoint._generate_coordinates","kind":"method","src_hash":"ff294cb561f6b660","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_generate_coordinates(coo)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_generate_coordinates_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2eed6079d1715b8d"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.SphericalJoint._generate_coordinates","kind":"method","src_hash":"ff294cb561f6b660","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_generate_coordinates(coordinates)","rhs":"self._fill_coordinate_list(coordinates, 3, 'q')","over":{"base":"Any"},"name":"_generate_coordinates_correct"},"guarantee":"returns self._fill_coordinate_list(coordinates, 3, 'q')","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2eed6079d1715b8d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._fill_coordinate_list(coordinates, 3, 'q')","pure":false,"effects":{"effect_type":"reads_state","reads":["self._fill_coordinate_list"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _generate_coordinates(self, coordinates):
         return self._fill_coordinate_list(coordinates, 3, 'q')
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_generate_speeds(spe), internal helper behaves correctly) over Any ║
+# ║ Path(_generate_speeds(speeds), self._fill_coordinate_list(speeds, len(self.coordinates), 'u')) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._fill_coordinate_list(speeds, len(se...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _generate_speeds : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d252ea69e29671f9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.SphericalJoint._generate_speeds","kind":"method","src_hash":"e366fd1f3562aae6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_generate_speeds(spe)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_generate_speeds_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d252ea69e29671f9"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.SphericalJoint._generate_speeds","kind":"method","src_hash":"e366fd1f3562aae6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_generate_speeds(speeds)","rhs":"self._fill_coordinate_list(speeds, len(self.coordinates), 'u')","over":{"base":"Any"},"name":"_generate_speeds_correct"},"guarantee":"returns self._fill_coordinate_list(speeds, len(self.coordinates), 'u')","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d252ea69e29671f9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._fill_coordinate_list(speeds, len(self.coordinates), 'u')","pure":false,"effects":{"effect_type":"reads_state","reads":["self._fill_coordinate_list","self.coordinates"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _generate_speeds(self, speeds):
         return self._fill_coordinate_list(speeds, len(self.coordinates), 'u')
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_orient_frames(), internal helper behaves correctly) over Any ║
+# ║ Path(_orient_frames(), <unspecified:_orient_frames>) over {Any | not (self._rot_type.upper() not in supported_rot_types)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _orient_frames : Any → Any                                 ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (self._rot_type.upper() not in suppor...   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _orient_frames : {Any | not (self._rot_type.upper() n...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4b321ce361b0bd90  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.SphericalJoint._orient_frames","kind":"method","src_hash":"e6fffa55700c6a20","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_orient_frames()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_orient_frames_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.joint.SphericalJoint._orient_frames_correct","statement":"Path(_orient_frames(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4b321ce361b0bd90"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.SphericalJoint._orient_frames","kind":"method","src_hash":"e6fffa55700c6a20","in":{"base":"Any","pred":"not (self._rot_type.upper() not in supported_rot_types)"},"out":{"base":"Any"},"spec":{"lhs":"_orient_frames()","rhs":"<unspecified:_orient_frames>","over":{"base":"Any","pred":"not (self._rot_type.upper() not in supported_rot_types)"},"name":"_orient_frames_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.joint.SphericalJoint._orient_frames_correct","statement":"Path(_orient_frames(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4b321ce361b0bd90","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (self._rot_type.upper() not in supported_rot_types)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._amounts","self._rot_order","self._rot_type","self.child_interframe","self.coordinates","self.parent_interframe"],"raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _orient_frames(self):
         supported_rot_types = ('BODY', 'SPACE')
         if self._rot_type.upper() not in supported_rot_types:
@@ -2871,16 +3376,22 @@ class SphericalJoint(Joint):
                                      amounts, self._rot_order)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_set_angular_velocity(), internal helper behaves correctly) over Any ║
+# ║ Path(_set_angular_velocity(), <unspecified:_set_angular_velocity>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _set_angular_velocity : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4202863e61a9cf1a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.SphericalJoint._set_angular_velocity","kind":"method","src_hash":"f75cf0afe1dd9b01","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_set_angular_velocity()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_set_angular_velocity_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.joint.SphericalJoint._set_angular_velocity_correct","statement":"Path(_set_angular_velocity(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4202863e61a9cf1a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.SphericalJoint._set_angular_velocity","kind":"method","src_hash":"f75cf0afe1dd9b01","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_set_angular_velocity()","rhs":"<unspecified:_set_angular_velocity>","over":{"base":"Any"},"name":"_set_angular_velocity_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.joint.SphericalJoint._set_angular_velocity_correct","statement":"Path(_set_angular_velocity(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4202863e61a9cf1a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.child_interframe","self.coordinates","self.parent_interframe","self.speeds"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _set_angular_velocity(self):
         t = dynamicsymbols._t
         vel = self.child_interframe.ang_vel_in(self.parent_interframe).xreplace(
@@ -2889,16 +3400,22 @@ class SphericalJoint(Joint):
         self.child_interframe.set_ang_vel(self.parent_interframe, vel)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_set_linear_velocity(), internal helper behaves correctly) over Any ║
+# ║ Path(_set_linear_velocity(), <unspecified:_set_linear_velocity>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _set_linear_velocity : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9cdff7f53ac97272  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.SphericalJoint._set_linear_velocity","kind":"method","src_hash":"4f422d23ed2d8814","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_set_linear_velocity()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_set_linear_velocity_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.joint.SphericalJoint._set_linear_velocity_correct","statement":"Path(_set_linear_velocity(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9cdff7f53ac97272"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.SphericalJoint._set_linear_velocity","kind":"method","src_hash":"4f422d23ed2d8814","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_set_linear_velocity()","rhs":"<unspecified:_set_linear_velocity>","over":{"base":"Any"},"name":"_set_linear_velocity_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.joint.SphericalJoint._set_linear_velocity_correct","statement":"Path(_set_linear_velocity(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9cdff7f53ac97272","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._child_frame","self._parent_frame","self.child","self.child_point","self.parent_point"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _set_linear_velocity(self):
         self.child_point.set_pos(self.parent_point, 0)
         self.parent_point.set_vel(self._parent_frame, 0)
@@ -2910,14 +3427,20 @@ class SphericalJoint(Joint):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a WeldJoint instance) preserved by WeldJoint(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ WeldJoint : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Joint)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ WeldJoint : Any → {Any | result satisfies: isinstance...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f3f04ed73045c242  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.WeldJoint","kind":"class","src_hash":"e6a6a70a77eab445","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"WeldJoint(*args)","rhs":"correctly constructs a WeldJoint instance","over":{"base":"Any"},"name":"WeldJoint_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a WeldJoint instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, '_kdes')","kind":"class","induction":"structural on _kdes"}],"methods_preserving":["__init__","__str__","_generate_coordinates","_generate_speeds","_orient_frames","_set_angular_velocity","_set_linear_velocity"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f3f04ed73045c242"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.WeldJoint","kind":"class","src_hash":"e6a6a70a77eab445","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Joint)"},"spec":{"lhs":"WeldJoint(*args)","rhs":"correctly constructs a WeldJoint instance","over":{"base":"Any"},"name":"WeldJoint_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, Joint); preserves 1 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, '_kdes')","kind":"class","induction":"structural on _kdes"}],"methods_preserving":["__init__","__str__","_generate_coordinates","_generate_speeds","_orient_frames","_set_angular_velocity","_set_linear_velocity"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f3f04ed73045c242","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Joint)"],"invariants":["hasattr(self, '_kdes')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function WeldJoint not found in source"]}}
 class WeldJoint(Joint):
     """Weld Joint.
 
@@ -3088,16 +3611,22 @@ class WeldJoint(Joint):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(nam), initializes the instance correctly) over Any ║
+# ║ Path(__init__(name, parent, child), <unspecified:__init__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __init__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 67d813ad04b436cd           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.WeldJoint.__init__","kind":"method","src_hash":"c5d2f7373857c6fd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(nam)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"67d813ad04b436cd"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.WeldJoint.__init__","kind":"method","src_hash":"c5d2f7373857c6fd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(name, parent, child)","rhs":"<unspecified:__init__>","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"67d813ad04b436cd","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, name, parent, child, parent_point=None, child_point=None,
                  parent_interframe=None, child_interframe=None):
         super().__init__(name, parent, child, [], [], parent_point,
@@ -3106,88 +3635,124 @@ class WeldJoint(Joint):
         self._kdes = Matrix(1, 0, []).T  # Removes stackability problems #10770
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__str__(), returns a human-readable string) over Any  ║
+# ║ Path(__str__(), f'WeldJoint: {self.name}  parent: {self.parent}  child: {self.child}') over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  f'WeldJoint: {self.name}  parent: {self.p...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __str__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 250f0d5e0f8450ef           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.WeldJoint.__str__","kind":"method","src_hash":"4dc5c48bbc2ee7be","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"returns a human-readable string","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"250f0d5e0f8450ef"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.WeldJoint.__str__","kind":"method","src_hash":"4dc5c48bbc2ee7be","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"f'WeldJoint: {self.name}  parent: {self.parent}  child: {self.child}'","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns f'WeldJoint: {self.name}  parent: {self.parent}  child: {self.child}'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"250f0d5e0f8450ef","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"f'WeldJoint: {self.name}  parent: {self.parent}  child: {self.child}'","pure":false,"effects":{"effect_type":"reads_state","reads":["self.child","self.name","self.parent"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __str__(self):
         return (f'WeldJoint: {self.name}  parent: {self.parent}  '
                 f'child: {self.child}')
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_generate_coordinates(coo), internal helper behaves correctly) over Any ║
+# ║ Path(_generate_coordinates(coordinate), Matrix()) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Matrix()                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _generate_coordinates : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a463f776cf2d3751           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.WeldJoint._generate_coordinates","kind":"method","src_hash":"cc5f7f89b2511710","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_generate_coordinates(coo)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_generate_coordinates_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a463f776cf2d3751"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.WeldJoint._generate_coordinates","kind":"method","src_hash":"cc5f7f89b2511710","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_generate_coordinates(coordinate)","rhs":"Matrix()","over":{"base":"Any"},"name":"_generate_coordinates_correct"},"guarantee":"returns Matrix()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a463f776cf2d3751","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Matrix()","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _generate_coordinates(self, coordinate):
         return Matrix()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_generate_speeds(spe), internal helper behaves correctly) over Any ║
+# ║ Path(_generate_speeds(speed), Matrix()) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Matrix()                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _generate_speeds : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7fe20c73eea193aa           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.WeldJoint._generate_speeds","kind":"method","src_hash":"b05a56d8046ea9a6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_generate_speeds(spe)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_generate_speeds_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7fe20c73eea193aa"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.WeldJoint._generate_speeds","kind":"method","src_hash":"b05a56d8046ea9a6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_generate_speeds(speed)","rhs":"Matrix()","over":{"base":"Any"},"name":"_generate_speeds_correct"},"guarantee":"returns Matrix()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7fe20c73eea193aa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Matrix()","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _generate_speeds(self, speed):
         return Matrix()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_orient_frames(), internal helper behaves correctly) over Any ║
+# ║ Path(_orient_frames(), <unspecified:_orient_frames>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _orient_frames : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e58b86be6f4834bc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.WeldJoint._orient_frames","kind":"method","src_hash":"43a0e4329a82f2c1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_orient_frames()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_orient_frames_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.joint.WeldJoint._orient_frames_correct","statement":"Path(_orient_frames(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e58b86be6f4834bc"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.WeldJoint._orient_frames","kind":"method","src_hash":"43a0e4329a82f2c1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_orient_frames()","rhs":"<unspecified:_orient_frames>","over":{"base":"Any"},"name":"_orient_frames_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.joint.WeldJoint._orient_frames_correct","statement":"Path(_orient_frames(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e58b86be6f4834bc","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.child_interframe","self.parent_interframe"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _orient_frames(self):
         self.child_interframe.orient_axis(self.parent_interframe,
                                           self.parent_interframe.x, 0)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_set_angular_velocity(), internal helper behaves correctly) over Any ║
+# ║ Path(_set_angular_velocity(), <unspecified:_set_angular_velocity>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _set_angular_velocity : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 313d4439c7c6b093  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.WeldJoint._set_angular_velocity","kind":"method","src_hash":"acdfad262900a5ed","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_set_angular_velocity()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_set_angular_velocity_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.joint.WeldJoint._set_angular_velocity_correct","statement":"Path(_set_angular_velocity(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"313d4439c7c6b093"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.WeldJoint._set_angular_velocity","kind":"method","src_hash":"acdfad262900a5ed","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_set_angular_velocity()","rhs":"<unspecified:_set_angular_velocity>","over":{"base":"Any"},"name":"_set_angular_velocity_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.joint.WeldJoint._set_angular_velocity_correct","statement":"Path(_set_angular_velocity(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"313d4439c7c6b093","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.child_interframe","self.parent_interframe"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _set_angular_velocity(self):
         self.child_interframe.set_ang_vel(self.parent_interframe, 0)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_set_linear_velocity(), internal helper behaves correctly) over Any ║
+# ║ Path(_set_linear_velocity(), <unspecified:_set_linear_velocity>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _set_linear_velocity : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cb462fd006c12111  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.WeldJoint._set_linear_velocity","kind":"method","src_hash":"d62e3f7eb282b96c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_set_linear_velocity()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_set_linear_velocity_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.joint.WeldJoint._set_linear_velocity_correct","statement":"Path(_set_linear_velocity(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cb462fd006c12111"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.joint.WeldJoint._set_linear_velocity","kind":"method","src_hash":"d62e3f7eb282b96c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_set_linear_velocity()","rhs":"<unspecified:_set_linear_velocity>","over":{"base":"Any"},"name":"_set_linear_velocity_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.joint.WeldJoint._set_linear_velocity_correct","statement":"Path(_set_linear_velocity(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cb462fd006c12111","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._child_frame","self._parent_frame","self.child","self.child_point","self.parent_point"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _set_linear_velocity(self):
         self.child_point.set_pos(self.parent_point, 0)
         self.parent_point.set_vel(self._parent_frame, 0)

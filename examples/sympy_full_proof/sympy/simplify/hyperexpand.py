@@ -100,16 +100,24 @@ from sympy.utilities.iterables import sift
 
 # function to define "buckets"
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_mod1(x), internal helper behaves correctly) over Any ║
+# ║ Path(_mod1(x), <unspecified:_mod1>) over {Any | hasattr(x, 'is_Number') and hasattr(x, 'as_coeff_Add')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _mod1 : Any → Any                                          ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(x, 'is_Number')                        ║
+# ║   requires: hasattr(x, 'as_coeff_Add')                     ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _mod1 : {Any | hasattr(x, 'is_Number') and hasattr(x,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f04e3f1f587b1657  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand._mod1","kind":"function","src_hash":"4946108ca930608a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_mod1(x)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_mod1_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.hyperexpand._mod1_correct","statement":"Path(_mod1(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f04e3f1f587b1657"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand._mod1","kind":"function","src_hash":"4946108ca930608a","in":{"base":"Any","pred":"hasattr(x, 'is_Number') and hasattr(x, 'as_coeff_Add')"},"out":{"base":"Any"},"spec":{"lhs":"_mod1(x)","rhs":"<unspecified:_mod1>","over":{"base":"Any","pred":"hasattr(x, 'is_Number') and hasattr(x, 'as_coeff_Add')"},"name":"_mod1_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.hyperexpand._mod1_correct","statement":"Path(_mod1(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f04e3f1f587b1657","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(x, 'is_Number')","hasattr(x, 'as_coeff_Add')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["x.as_coeff_Add","x.is_Number"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _mod1(x):
     # TODO see if this can work as Mod(x, 1); this will require
     # different handling of the "buckets" since these need to
@@ -126,16 +134,23 @@ def _mod1(x):
 
 # leave add formulae at the top for easy reference
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(add_formulae(for), id) over Any                       ║
+# ║ Path(add_formulae(formulae), id) over {Any | hasattr(formulae, 'append')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ add_formulae : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(formulae, 'append')                    ║
+# ║   ensures:  len(formulae) == old_len_formulae + 1          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ add_formulae : {Any | hasattr(formulae, 'append')} → ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 4.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 6e95f73c1d694fee   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.add_formulae","kind":"function","src_hash":"22868d4663c608f9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"add_formulae(for)","rhs":"create our knowledge base","over":{"base":"Any"},"name":"add_formulae_correct","kind":"composition"},"guarantee":"create our knowledge base","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"besseli","by":"library_axiom"},{"fn":"besselj","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6e95f73c1d694fee"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.add_formulae","kind":"function","src_hash":"22868d4663c608f9","in":{"base":"Any","pred":"hasattr(formulae, 'append')"},"out":{"base":"Any","pred":"result satisfies: len(formulae) == old_len_formulae + 1"},"spec":{"lhs":"add_formulae(formulae)","rhs":"len(formulae) == old_len_formulae + 1","over":{"base":"Any","pred":"hasattr(formulae, 'append')"},"name":"add_formulae_correct","kind":"composition"},"guarantee":"len(formulae) == old_len_formulae + 1","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"besseli","by":"library_axiom"},{"fn":"besselj","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6e95f73c1d694fee","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(formulae, 'append')"],"ensures":["len(formulae) == old_len_formulae + 1"],"pure":false,"effects":{"effect_type":"mutates_args","reads":["formulae.append"],"calls_mutating":["formulae.append"]},"state_contract":{"modifies":["formulae.*"],"old_bindings":{"old_len_formulae":"len(formulae)"},"post_ensures":["len(formulae) == old_len_formulae + 1"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":4.6,"verdict_class":"assumed","binding":true}}
 def add_formulae(formulae):
     """ Create our knowledge base. """
     a, b, c, z = symbols('a b c, z', cls=Dummy)
@@ -425,16 +440,23 @@ def add_formulae(formulae):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(add_meijerg_formulae(for), add_meijerg_formulae produces the expected output) over Any ║
+# ║ Path(add_meijerg_formulae(formulae), len(formulae) == old_len_formulae + 1) over {Any | hasattr(formulae, 'append')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ add_meijerg_formulae : Any → Any                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(formulae, 'append')                    ║
+# ║   ensures:  len(formulae) == old_len_formulae + 1          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ add_meijerg_formulae : {Any | hasattr(formulae, 'appe...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a7013fbcb87aaa3c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.9ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d9737004fa7d1d0f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.add_meijerg_formulae","kind":"function","src_hash":"e911f78d0c083971","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"add_meijerg_formulae(for)","rhs":"add_meijerg_formulae produces the expected output","over":{"base":"Any"},"name":"add_meijerg_formulae_correct"},"guarantee":"add_meijerg_formulae produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.hyperexpand.add_meijerg_formulae_correct","statement":"Path(add_meijerg_formulae(x), add_meijerg_formulae produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a7013fbcb87aaa3c"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.add_meijerg_formulae","kind":"function","src_hash":"e911f78d0c083971","in":{"base":"Any","pred":"hasattr(formulae, 'append')"},"out":{"base":"Any","pred":"result satisfies: len(formulae) == old_len_formulae + 1"},"spec":{"lhs":"add_meijerg_formulae(formulae)","rhs":"len(formulae) == old_len_formulae + 1","over":{"base":"Any","pred":"hasattr(formulae, 'append')"},"name":"add_meijerg_formulae_correct"},"guarantee":"len(formulae) == old_len_formulae + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.hyperexpand.add_meijerg_formulae_correct","statement":"Path(add_meijerg_formulae(x), len(formulae) == old_len_formulae + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d9737004fa7d1d0f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(formulae, 'append')"],"ensures":["len(formulae) == old_len_formulae + 1"],"pure":false,"effects":{"effect_type":"mutates_args","reads":["formulae.append"],"calls_mutating":["formulae.append"]},"state_contract":{"modifies":["formulae.*"],"old_bindings":{"old_len_formulae":"len(formulae)"},"post_ensures":["len(formulae) == old_len_formulae + 1"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.9,"verdict_class":"assumed","binding":true}}
 def add_meijerg_formulae(formulae):
     a, b, c, z = list(map(Dummy, 'abcz'))
     rho = Dummy('rho')
@@ -505,14 +527,20 @@ def add_meijerg_formulae(formulae):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(make_simp(z), id) over Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ make_simp : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | d292f8a1355db5c0   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.make_simp","kind":"function","src_hash":"127eaa153334b4c8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"make_simp(z)","rhs":"create a function that simplifies rational functions in ``z``","over":{"base":"Any"},"name":"make_simp_correct","kind":"composition"},"guarantee":"create a function that simplifies rational functions in ``z``","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"as_expr","by":"library_axiom"},{"fn":"as_expr","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d292f8a1355db5c0"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.make_simp","kind":"function","src_hash":"127eaa153334b4c8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"make_simp(z)","rhs":"<unspecified:make_simp>","over":{"base":"Any"},"name":"make_simp_correct","kind":"composition"},"guarantee":"create a function that simplifies rational functions in ``z``","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"as_expr","by":"library_axiom"},{"fn":"as_expr","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d292f8a1355db5c0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def make_simp(z):
     """ Create a function that simplifies rational functions in ``z``. """
 
@@ -528,16 +556,22 @@ def make_simp(z):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(debug(*ar), debug produces the expected output) over Any ║
+# ║ Path(debug(*args), <unspecified:debug>) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ debug : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2ad7a275ef0cb433  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.debug","kind":"function","src_hash":"2b944bdf504871aa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"debug(*ar)","rhs":"debug produces the expected output","over":{"base":"Any"},"name":"debug_correct"},"guarantee":"debug produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.hyperexpand.debug_correct","statement":"Path(debug(x), debug produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2ad7a275ef0cb433"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.debug","kind":"function","src_hash":"2b944bdf504871aa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"debug(*args)","rhs":"<unspecified:debug>","over":{"base":"Any"},"name":"debug_correct"},"guarantee":"debug produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.hyperexpand.debug_correct","statement":"Path(debug(x), debug produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2ad7a275ef0cb433","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"io","io_operations":["print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=[], spec=['*args']"]}}
 def debug(*args):
     if SYMPY_DEBUG:
         for a in args:
@@ -548,28 +582,40 @@ def debug(*args):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Hyper_Function(*args), correctly constructs a Hyper_Function instance) over {Any | isinstance(x[0], Mod)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Hyper_Function : {Any | isinstance(x[0], Mod)} → Any       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Expr)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Hyper_Function : {Any | isinstance(x[0], Mod)} → {Any...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.8ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d019a9853615fded  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.Hyper_Function","kind":"class","src_hash":"f177e9cf84569556","in":{"base":"Any","pred":"isinstance(x[0], Mod)"},"out":{"base":"Any"},"spec":{"lhs":"Hyper_Function(*args)","rhs":"correctly constructs a Hyper_Function instance","over":{"base":"Any","pred":"isinstance(x[0], Mod)"},"name":"Hyper_Function_class_invariant"},"guarantee":"correctly constructs a Hyper_Function instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d019a9853615fded"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.Hyper_Function","kind":"class","src_hash":"f177e9cf84569556","in":{"base":"Any","pred":"isinstance(x[0], Mod)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Expr)"},"spec":{"lhs":"Hyper_Function(*args)","rhs":"correctly constructs a Hyper_Function instance","over":{"base":"Any","pred":"isinstance(x[0], Mod)"},"name":"Hyper_Function_class_invariant"},"guarantee":"isinstance(self, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d019a9853615fded","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Expr)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"assumed","binding":false,"binding_errors":["Function Hyper_Function not found in source"]}}
 class Hyper_Function(Expr):
     """ A generalized hypergeometric function. """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, ap, bq), <unspecified:__new__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 086769c13c2d0eb2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.Hyper_Function.__new__","kind":"method","src_hash":"6a8574da059dfeb6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"086769c13c2d0eb2"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.Hyper_Function.__new__","kind":"method","src_hash":"6a8574da059dfeb6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, ap, bq)","rhs":"<unspecified:__new__>","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"086769c13c2d0eb2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, ap, bq):
         obj = super().__new__(cls)
         obj.ap = Tuple(*list(map(expand, ap)))
@@ -578,46 +624,64 @@ class Hyper_Function(Expr):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(args(), returns the args attribute) over Any          ║
+# ║ Path(args(), (self.ap, self.bq)) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (self.ap, self.bq)                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ args : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8ce39ef1f616cd25           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.Hyper_Function.args","kind":"property","src_hash":"58217ce769a53fdf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"args()","rhs":"returns the args attribute","over":{"base":"Any"},"name":"args_correct"},"guarantee":"returns the args attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8ce39ef1f616cd25"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.Hyper_Function.args","kind":"property","src_hash":"58217ce769a53fdf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"args()","rhs":"(self.ap, self.bq)","over":{"base":"Any"},"name":"args_correct"},"guarantee":"returns (self.ap, self.bq)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8ce39ef1f616cd25","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(self.ap, self.bq)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.ap","self.bq"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def args(self):
         return (self.ap, self.bq)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sizes(), returns the sizes attribute) over Any        ║
+# ║ Path(sizes(), (len(self.ap), len(self.bq))) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (len(self.ap), len(self.bq))                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ sizes : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9a81fcb0c710377d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.Hyper_Function.sizes","kind":"property","src_hash":"c68d6462a0351060","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sizes()","rhs":"returns the sizes attribute","over":{"base":"Any"},"name":"sizes_correct"},"guarantee":"returns the sizes attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9a81fcb0c710377d"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.Hyper_Function.sizes","kind":"property","src_hash":"c68d6462a0351060","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sizes()","rhs":"(len(self.ap), len(self.bq))","over":{"base":"Any"},"name":"sizes_correct"},"guarantee":"returns (len(self.ap), len(self.bq))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9a81fcb0c710377d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(len(self.ap), len(self.bq))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.ap","self.bq"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def sizes(self):
         return (len(self.ap), len(self.bq))
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gamma(), returns the gamma attribute) over Any        ║
+# ║ Path(gamma(), sum((bool(x.is_integer and x.is_negative) for x in self.ap))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  sum((bool(x.is_integer and x.is_negative)...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gamma : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | db2d1572e280037b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.Hyper_Function.gamma","kind":"property","src_hash":"d9842311cc41cc74","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gamma()","rhs":"returns the gamma attribute","over":{"base":"Any"},"name":"gamma_correct"},"guarantee":"returns the gamma attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"db2d1572e280037b"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.Hyper_Function.gamma","kind":"property","src_hash":"d9842311cc41cc74","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gamma()","rhs":"sum((bool(x.is_integer and x.is_negative) for x in self.ap))","over":{"base":"Any"},"name":"gamma_correct"},"guarantee":"returns sum((bool(x.is_integer and x.is_negative) for x in self.ap))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"db2d1572e280037b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"sum((bool(x.is_integer and x.is_negative) for x in self.ap))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.ap"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def gamma(self):
         """
         Number of upper parameters that are negative integers
@@ -629,43 +693,61 @@ class Hyper_Function(Expr):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(_hashable_content(), id) over Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  super()._hashable_content() + (self.ap, s...   ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ _hashable_content : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 7a57800efc6ae662   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.Hyper_Function._hashable_content","kind":"method","src_hash":"3ca4d922ab97ec9a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_hashable_content()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_hashable_content_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"super","by":"library_axiom"},{"fn":"_hashable_content","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7a57800efc6ae662"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.Hyper_Function._hashable_content","kind":"method","src_hash":"3ca4d922ab97ec9a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_hashable_content()","rhs":"super()._hashable_content() + (self.ap, self.bq)","over":{"base":"Any"},"name":"_hashable_content_correct","kind":"composition"},"guarantee":"returns super()._hashable_content() + (self.ap, self.bq)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"super","by":"library_axiom"},{"fn":"_hashable_content","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7a57800efc6ae662","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"super()._hashable_content() + (self.ap, self.bq)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.ap","self.bq"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _hashable_content(self):
         return super()._hashable_content() + (self.ap,
                 self.bq)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__call__(arg), correctly applies the callable) over Any ║
+# ║ Path(__call__(arg), hyper(self.ap, self.bq, arg)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  hyper(self.ap, self.bq, arg)                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __call__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c1571c07359b3994           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.Hyper_Function.__call__","kind":"method","src_hash":"ddc57d03eb88b8ad","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__call__(arg)","rhs":"correctly applies the callable","over":{"base":"Any"},"name":"__call___correct"},"guarantee":"correctly applies the callable","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c1571c07359b3994"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.Hyper_Function.__call__","kind":"method","src_hash":"ddc57d03eb88b8ad","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__call__(arg)","rhs":"hyper(self.ap, self.bq, arg)","over":{"base":"Any"},"name":"__call___correct"},"guarantee":"returns hyper(self.ap, self.bq, arg)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c1571c07359b3994","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"hyper(self.ap, self.bq, arg)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.ap","self.bq"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __call__(self, arg):
         return hyper(self.ap, self.bq, arg)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(build_invariants(), compute the invariant vector) over Any ║
+# ║ Path(build_invariants(), <unspecified:build_invariants>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ build_invariants : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bac444805da05c87  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.Hyper_Function.build_invariants","kind":"method","src_hash":"9f60402e50410acb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"build_invariants()","rhs":"compute the invariant vector","over":{"base":"Any"},"name":"build_invariants_correct"},"guarantee":"compute the invariant vector","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.hyperexpand.Hyper_Function.build_invariants_correct","statement":"Path(build_invariants(x), compute the invariant vector)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bac444805da05c87"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.Hyper_Function.build_invariants","kind":"method","src_hash":"9f60402e50410acb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"build_invariants()","rhs":"<unspecified:build_invariants>","over":{"base":"Any"},"name":"build_invariants_correct"},"guarantee":"compute the invariant vector","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.hyperexpand.Hyper_Function.build_invariants_correct","statement":"Path(build_invariants(x), compute the invariant vector)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bac444805da05c87","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def build_invariants(self):
         """
         Compute the invariant vector.
@@ -714,16 +796,25 @@ class Hyper_Function(Expr):
         return (self.gamma, tr(abuckets), tr(bbuckets))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(difficulty(fun), estimate how many steps it takes to reach ``func`` from self. return -1 if impossible) over Any ║
+# ║ Path(difficulty(func), <unspecified:difficulty>) over {Any | hasattr(func, 'gamma') and hasattr(func, 'ap') and hasattr(func, 'bq')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ difficulty : Any → Any                                     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(func, 'gamma')                         ║
+# ║   requires: hasattr(func, 'ap')                            ║
+# ║   requires: hasattr(func, 'bq')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ difficulty : {Any | hasattr(func, 'gamma') and hasatt...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 84bc908fd2b54daf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.Hyper_Function.difficulty","kind":"method","src_hash":"7c1d379d9932ef36","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"difficulty(fun)","rhs":"estimate how many steps it takes to reach ``func`` from self. return -1 if impossible","over":{"base":"Any"},"name":"difficulty_correct"},"guarantee":"estimate how many steps it takes to reach ``func`` from self. return -1 if impossible","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.hyperexpand.Hyper_Function.difficulty_correct","statement":"Path(difficulty(x), estimate how many steps it takes to reach ``func`` from self. return -1 if impossible)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"84bc908fd2b54daf"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.Hyper_Function.difficulty","kind":"method","src_hash":"7c1d379d9932ef36","in":{"base":"Any","pred":"hasattr(func, 'gamma') and hasattr(func, 'ap') and hasattr(func, 'bq')"},"out":{"base":"Any"},"spec":{"lhs":"difficulty(func)","rhs":"<unspecified:difficulty>","over":{"base":"Any","pred":"hasattr(func, 'gamma') and hasattr(func, 'ap') and hasattr(func, 'bq')"},"name":"difficulty_correct"},"guarantee":"estimate how many steps it takes to reach ``func`` from self. return -1 if impossible","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.hyperexpand.Hyper_Function.difficulty_correct","statement":"Path(difficulty(x), estimate how many steps it takes to reach ``func`` from self. return -1 if impossible)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"84bc908fd2b54daf","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(func, 'gamma')","hasattr(func, 'ap')","hasattr(func, 'bq')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def difficulty(self, func):
         """ Estimate how many steps it takes to reach ``func`` from self.
             Return -1 if impossible. """
@@ -748,16 +839,22 @@ class Hyper_Function(Expr):
         return diff
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_is_suitable_origin(), decide if ``self`` is a suitable origin) over Any ║
+# ║ Path(_is_suitable_origin(), <unspecified:_is_suitable_origin>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _is_suitable_origin : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d17a72b0382212c9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.Hyper_Function._is_suitable_origin","kind":"method","src_hash":"68b9c28777c3a177","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_is_suitable_origin()","rhs":"decide if ``self`` is a suitable origin","over":{"base":"Any"},"name":"_is_suitable_origin_correct"},"guarantee":"decide if ``self`` is a suitable origin","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.hyperexpand.Hyper_Function._is_suitable_origin_correct","statement":"Path(_is_suitable_origin(x), decide if ``self`` is a suitable origin)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d17a72b0382212c9"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.Hyper_Function._is_suitable_origin","kind":"method","src_hash":"68b9c28777c3a177","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_is_suitable_origin()","rhs":"<unspecified:_is_suitable_origin>","over":{"base":"Any"},"name":"_is_suitable_origin_correct"},"guarantee":"decide if ``self`` is a suitable origin","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.hyperexpand.Hyper_Function._is_suitable_origin_correct","statement":"Path(_is_suitable_origin(x), decide if ``self`` is a suitable origin)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d17a72b0382212c9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.ap","self.bq"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _is_suitable_origin(self):
         """
         Decide if ``self`` is a suitable origin.
@@ -790,28 +887,40 @@ class Hyper_Function(Expr):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(G_Function(*args), correctly constructs a G_Function instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ G_Function : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Expr)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ G_Function : Any → {Any | result satisfies: isinstanc...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 29f8e129ed9eb668  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.G_Function","kind":"class","src_hash":"22c63d658cef9d4c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"G_Function(*args)","rhs":"correctly constructs a G_Function instance","over":{"base":"Any"},"name":"G_Function_class_invariant"},"guarantee":"correctly constructs a G_Function instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"29f8e129ed9eb668"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.G_Function","kind":"class","src_hash":"22c63d658cef9d4c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Expr)"},"spec":{"lhs":"G_Function(*args)","rhs":"correctly constructs a G_Function instance","over":{"base":"Any"},"name":"G_Function_class_invariant"},"guarantee":"isinstance(self, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"29f8e129ed9eb668","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Expr)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":false,"binding_errors":["Function G_Function not found in source"]}}
 class G_Function(Expr):
     """ A Meijer G-function. """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, an, ap), <unspecified:__new__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 89e67b0a986b3cc4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.G_Function.__new__","kind":"method","src_hash":"0ee804a374975e32","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"89e67b0a986b3cc4"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.G_Function.__new__","kind":"method","src_hash":"0ee804a374975e32","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, an, ap)","rhs":"<unspecified:__new__>","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"89e67b0a986b3cc4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, an, ap, bm, bq):
         obj = super().__new__(cls)
         obj.an = Tuple(*list(map(expand, an)))
@@ -822,58 +931,82 @@ class G_Function(Expr):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(args(), returns the args attribute) over Any          ║
+# ║ Path(args(), (self.an, self.ap, self.bm, self.bq)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (self.an, self.ap, self.bm, self.bq)           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ args : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d9f233b742fd347e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.G_Function.args","kind":"property","src_hash":"3dbe296ecbae91c4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"args()","rhs":"returns the args attribute","over":{"base":"Any"},"name":"args_correct"},"guarantee":"returns the args attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d9f233b742fd347e"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.G_Function.args","kind":"property","src_hash":"3dbe296ecbae91c4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"args()","rhs":"(self.an, self.ap, self.bm, self.bq)","over":{"base":"Any"},"name":"args_correct"},"guarantee":"returns (self.an, self.ap, self.bm, self.bq)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d9f233b742fd347e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(self.an, self.ap, self.bm, self.bq)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.an","self.ap","self.bm","self.bq"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def args(self):
         return (self.an, self.ap, self.bm, self.bq)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_hashable_content(), internal helper behaves correctly) over Any ║
+# ║ Path(_hashable_content(), super()._hashable_content() + self.args) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  super()._hashable_content() + self.args        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _hashable_content : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | edd1b46d5d5bcf4a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.G_Function._hashable_content","kind":"method","src_hash":"fbbcfdb4def53182","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_hashable_content()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_hashable_content_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"edd1b46d5d5bcf4a"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.G_Function._hashable_content","kind":"method","src_hash":"fbbcfdb4def53182","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_hashable_content()","rhs":"super()._hashable_content() + self.args","over":{"base":"Any"},"name":"_hashable_content_correct"},"guarantee":"returns super()._hashable_content() + self.args","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"edd1b46d5d5bcf4a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"super()._hashable_content() + self.args","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _hashable_content(self):
         return super()._hashable_content() + self.args
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__call__(z), correctly applies the callable) over Any ║
+# ║ Path(__call__(z), meijerg(self.an, self.ap, self.bm, self.bq, z)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  meijerg(self.an, self.ap, self.bm, self.b...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __call__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3b4132fd6669bda0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.G_Function.__call__","kind":"method","src_hash":"79c10590a62ec272","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__call__(z)","rhs":"correctly applies the callable","over":{"base":"Any"},"name":"__call___correct"},"guarantee":"correctly applies the callable","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3b4132fd6669bda0"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.G_Function.__call__","kind":"method","src_hash":"79c10590a62ec272","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__call__(z)","rhs":"meijerg(self.an, self.ap, self.bm, self.bq, z)","over":{"base":"Any"},"name":"__call___correct"},"guarantee":"returns meijerg(self.an, self.ap, self.bm, self.bq, z)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3b4132fd6669bda0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"meijerg(self.an, self.ap, self.bm, self.bq, z)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.an","self.ap","self.bm","self.bq"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __call__(self, z):
         return meijerg(self.an, self.ap, self.bm, self.bq, z)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(compute_buckets(), id) over Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  tuple([dict(w) for w in dicts])                ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ compute_buckets : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | c52f0524ba1f4a99   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.G_Function.compute_buckets","kind":"method","src_hash":"e4d094e88261ff18","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"compute_buckets()","rhs":"compute buckets for the fours sets of parameters","over":{"base":"Any"},"name":"compute_buckets_correct","kind":"composition"},"guarantee":"compute buckets for the fours sets of parameters","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"tuple","by":"library_axiom"},{"fn":"dict","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c52f0524ba1f4a99"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.G_Function.compute_buckets","kind":"method","src_hash":"e4d094e88261ff18","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"compute_buckets()","rhs":"tuple([dict(w) for w in dicts])","over":{"base":"Any"},"name":"compute_buckets_correct","kind":"composition"},"guarantee":"returns tuple([dict(w) for w in dicts])","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"tuple","by":"library_axiom"},{"fn":"dict","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c52f0524ba1f4a99","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"tuple([dict(w) for w in dicts])","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def compute_buckets(self):
         """
         Compute buckets for the fours sets of parameters.
@@ -913,16 +1046,22 @@ class G_Function(Expr):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(signature(), returns the signature attribute) over Any ║
+# ║ Path(signature(), (len(self.an), len(self.ap), len(self.bm), len(self.bq))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (len(self.an), len(self.ap), len(self.bm)...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ signature : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 633f1d75c14517dd           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.G_Function.signature","kind":"property","src_hash":"91ca36182e38c7dd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"signature()","rhs":"returns the signature attribute","over":{"base":"Any"},"name":"signature_correct"},"guarantee":"returns the signature attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"633f1d75c14517dd"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.G_Function.signature","kind":"property","src_hash":"91ca36182e38c7dd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"signature()","rhs":"(len(self.an), len(self.ap), len(self.bm), len(self.bq))","over":{"base":"Any"},"name":"signature_correct"},"guarantee":"returns (len(self.an), len(self.ap), len(self.bm), len(self.bq))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"633f1d75c14517dd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(len(self.an), len(self.ap), len(self.bm), len(self.bq))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.an","self.ap","self.bm","self.bq"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def signature(self):
         return (len(self.an), len(self.ap), len(self.bm), len(self.bq))
 
@@ -933,14 +1072,19 @@ _x = Dummy('x')
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a Formula instance) preserved by Formula(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ Formula : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4fa1e78e8b61856a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.Formula","kind":"class","src_hash":"d7454ebca2b1fd2b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Formula(*args)","rhs":"correctly constructs a Formula instance","over":{"base":"Any"},"name":"Formula_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a Formula instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'z') and hasattr(self, 'symbols') and hasattr(self, 'B') and hasattr(self, 'C') and hasattr(self, 'M') and hasattr(self, 'func')","kind":"class","induction":"structural on z, symbols, B, C"}],"methods_preserving":["_compute_basis","__init__","closed_form","find_instantiations"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4fa1e78e8b61856a"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.Formula","kind":"class","src_hash":"d7454ebca2b1fd2b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Formula(*args)","rhs":"correctly constructs a Formula instance","over":{"base":"Any"},"name":"Formula_class_invariant","kind":"invariant"},"guarantee":"preserves 6 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'z') and hasattr(self, 'symbols') and hasattr(self, 'B') and hasattr(self, 'C') and hasattr(self, 'M') and hasattr(self, 'func')","kind":"class","induction":"structural on z, symbols, B, C"}],"methods_preserving":["_compute_basis","__init__","closed_form","find_instantiations"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4fa1e78e8b61856a","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, 'z')","hasattr(self, 'symbols')","hasattr(self, 'B')","hasattr(self, 'C')","hasattr(self, 'M')","hasattr(self, 'func')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function Formula not found in source"]}}
 class Formula:
     """
     This class represents hypergeometric formulae.
@@ -966,16 +1110,23 @@ class Formula:
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_compute_basis(clo), compute a set of functions b=(f1, ..., fn), a nxn matrix m and a 1xn matrix c such that: closed_form = c b z d/dz b = m b) over Any ║
+# ║ Path(_compute_basis(closed_form), len(b) == old_len_b + 1 and len(l) == old_len_l) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _compute_basis : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(b) == old_len_b + 1                        ║
+# ║   ensures:  len(l) == old_len_l                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _compute_basis : Any → {Any | result satisfies: len(b...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | abd6844dd01340cd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 81a4a7316a9d86ea  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.Formula._compute_basis","kind":"method","src_hash":"218c649769e9f81f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_compute_basis(clo)","rhs":"compute a set of functions b=(f1, ..., fn), a nxn matrix m and a 1xn matrix c such that: closed_form = c b z d/dz b = m b","over":{"base":"Any"},"name":"_compute_basis_correct"},"guarantee":"compute a set of functions b=(f1, ..., fn), a nxn matrix m and a 1xn matrix c such that: closed_form = c b z d/dz b = m b","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.hyperexpand.Formula._compute_basis_correct","statement":"Path(_compute_basis(x), compute a set of functions b=(f1, ..., fn), a nxn matrix m and a 1xn matrix c such that: closed_form = c b z d/dz b = m b)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"abd6844dd01340cd"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.Formula._compute_basis","kind":"method","src_hash":"218c649769e9f81f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(b) == old_len_b + 1 and len(l) == old_len_l"},"spec":{"lhs":"_compute_basis(closed_form)","rhs":"len(b) == old_len_b + 1 and len(l) == old_len_l","over":{"base":"Any"},"name":"_compute_basis_correct"},"guarantee":"len(b) == old_len_b + 1; len(l) == old_len_l","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.hyperexpand.Formula._compute_basis_correct","statement":"Path(_compute_basis(x), len(b) == old_len_b + 1; len(l) == old_len_l)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"81a4a7316a9d86ea","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(b) == old_len_b + 1","len(l) == old_len_l"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self.func","self.z"],"writes":["self.B","self.C","self.M"],"calls_mutating":["b.append","l.reverse"]},"state_contract":{"modifies":["b.*","l.*","self.B","self.C","self.M"],"old_bindings":{"old_self_B":"self.B","old_self_C":"self.C","old_self_M":"self.M","old_len_b":"len(b)","old_len_l":"len(l)"},"post_ensures":["len(b) == old_len_b + 1","len(l) == old_len_l"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _compute_basis(self, closed_form):
         """
         Compute a set of functions B=(f1, ..., fn), a nxn matrix M
@@ -1003,16 +1154,25 @@ class Formula:
         self.M = m.row_insert(n, -Matrix([l])/poly.all_coeffs()[0])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(fun), initializes the instance correctly) over Any ║
+# ║ Path(__init__(func, z, res), self.z == z and self.symbols == symbols and self.B == B and self.func == func) over {Any | hasattr(func, 'has')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(func, 'has')                           ║
+# ║   ensures:  self.z == z                                    ║
+# ║   ensures:  self.symbols == symbols                        ║
+# ║   ensures:  self.B == B                                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : {Any | hasattr(func, 'has')} → {Any | resu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8f306febbadc33de           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.Formula.__init__","kind":"method","src_hash":"cc4a8d093100a7a6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(fun)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8f306febbadc33de"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.Formula.__init__","kind":"method","src_hash":"cc4a8d093100a7a6","in":{"base":"Any","pred":"hasattr(func, 'has')"},"out":{"base":"Any","pred":"result satisfies: self.z == z and self.symbols == symbols and self.B == B and self.func == func"},"spec":{"lhs":"__init__(func, z, res)","rhs":"self.z == z and self.symbols == symbols and self.B == B and self.func == func","over":{"base":"Any","pred":"hasattr(func, 'has')"},"name":"__init___correct"},"guarantee":"self.z == z; self.symbols == symbols; self.B == B","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8f306febbadc33de","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(func, 'has')"],"ensures":["self.z == z","self.symbols == symbols","self.B == B","self.func == func"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, func, z, res, symbols, B=None, C=None, M=None):
         z = sympify(z)
         res = sympify(res)
@@ -1033,30 +1193,47 @@ class Formula:
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(closed_form(), returns the closed_form attribute) over Any ║
+# ║ Path(closed_form(), reduce(lambda s, m: s + m[0] * m[1], zip(self.C, self.B), S.Zero)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  reduce(lambda s, m: s + m[0] * m[1], zip(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ closed_form : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 663082bc75681d10           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.Formula.closed_form","kind":"property","src_hash":"7a35d2e5a3f7a747","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"closed_form()","rhs":"returns the closed_form attribute","over":{"base":"Any"},"name":"closed_form_correct"},"guarantee":"returns the closed_form attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"663082bc75681d10"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.Formula.closed_form","kind":"property","src_hash":"7a35d2e5a3f7a747","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"closed_form()","rhs":"reduce(lambda s, m: s + m[0] * m[1], zip(self.C, self.B), S.Zero)","over":{"base":"Any"},"name":"closed_form_correct"},"guarantee":"returns reduce(lambda s, m: s + m[0] * m[1], zip(self.C, self.B), S.Zero)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"663082bc75681d10","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"reduce(lambda s, m: s + m[0] * m[1], zip(self.C, self.B), S.Zero)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.B","self.C"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def closed_form(self):
         return reduce(lambda s,m: s+m[0]*m[1], zip(self.C, self.B), S.Zero)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(find_instantiations(fun), find substitutions of the free symbols that match ``func``) over Any ║
+# ║ Path(find_instantiations(func), len(symbol_values) == old_len_symbol_values + 1 and len(vals) == old_len_vals + 1 and len(values) == old_len_values + 1) over {Any | not (len(ap) != len(self.func.ap) or len(bq) != len(self.func.bq)) and hasattr(func, 'ap') and hasattr(func, 'bq')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ find_instantiations : Any → Any                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (len(ap) != len(self.func.ap) or len(...   ║
+# ║   requires: hasattr(func, 'ap')                            ║
+# ║   requires: hasattr(func, 'bq')                            ║
+# ║   ensures:  len(symbol_values) == old_len_symbol_valu...   ║
+# ║   ensures:  len(vals) == old_len_vals + 1                  ║
+# ║   ensures:  len(values) == old_len_values + 1              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ find_instantiations : {Any | not (len(ap) != len(self...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | be888224d78055be  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d83623cf4a49ff4a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.Formula.find_instantiations","kind":"method","src_hash":"7b750d357c96cac1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"find_instantiations(fun)","rhs":"find substitutions of the free symbols that match ``func``","over":{"base":"Any"},"name":"find_instantiations_correct"},"guarantee":"find substitutions of the free symbols that match ``func``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.hyperexpand.Formula.find_instantiations_correct","statement":"Path(find_instantiations(x), find substitutions of the free symbols that match ``func``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"be888224d78055be"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.Formula.find_instantiations","kind":"method","src_hash":"7b750d357c96cac1","in":{"base":"Any","pred":"not (len(ap) != len(self.func.ap) or len(bq) != len(self.func.bq)) and hasattr(func, 'ap') and hasattr(func, 'bq')"},"out":{"base":"Any","pred":"result satisfies: len(symbol_values) == old_len_symbol_values + 1 and len(vals) == old_len_vals + 1 and len(values) == old_len_values + 1"},"spec":{"lhs":"find_instantiations(func)","rhs":"len(symbol_values) == old_len_symbol_values + 1 and len(vals) == old_len_vals + 1 and len(values) == old_len_values + 1","over":{"base":"Any","pred":"not (len(ap) != len(self.func.ap) or len(bq) != len(self.func.bq)) and hasattr(func, 'ap') and hasattr(func, 'bq')"},"name":"find_instantiations_correct"},"guarantee":"len(symbol_values) == old_len_symbol_values + 1; len(vals) == old_len_vals + 1; len(values) == old_len_values + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.hyperexpand.Formula.find_instantiations_correct","statement":"Path(find_instantiations(x), len(symbol_values) == old_len_symbol_values + 1; len(vals) == old_len_vals + 1; len(values) == old_len_values + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d83623cf4a49ff4a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (len(ap) != len(self.func.ap) or len(bq) != len(self.func.bq))","hasattr(func, 'ap')","hasattr(func, 'bq')"],"ensures":["len(symbol_values) == old_len_symbol_values + 1","len(vals) == old_len_vals + 1","len(values) == old_len_values + 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["func.ap","func.bq","self.func","self.symbols"],"calls_mutating":["result.extend","symbol_values.append","vals.append","values.append"],"raises":["TypeError","ValueError"]},"state_contract":{"modifies":["result.*","symbol_values.*","vals.*","values.*"],"old_bindings":{"old_len_result":"len(result)","old_len_symbol_values":"len(symbol_values)","old_len_vals":"len(vals)","old_len_values":"len(values)"},"post_ensures":["len(symbol_values) == old_len_symbol_values + 1","len(vals) == old_len_vals + 1","len(values) == old_len_values + 1"],"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def find_instantiations(self, func):
         """
         Find substitutions of the free symbols that match ``func``.
@@ -1123,28 +1300,39 @@ class Formula:
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a FormulaCollection instance) preserved by FormulaCollection(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ FormulaCollection : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f993f62d4babd349  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.FormulaCollection","kind":"class","src_hash":"d0bab247e40358c9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"FormulaCollection(*args)","rhs":"correctly constructs a FormulaCollection instance","over":{"base":"Any"},"name":"FormulaCollection_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a FormulaCollection instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'symbolic_formulae') and hasattr(self, 'concrete_formulae') and hasattr(self, 'formulae')","kind":"class","induction":"structural on symbolic_formulae, concrete_formulae, formulae"}],"methods_preserving":["__init__","lookup_origin"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f993f62d4babd349"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.FormulaCollection","kind":"class","src_hash":"d0bab247e40358c9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"FormulaCollection(*args)","rhs":"correctly constructs a FormulaCollection instance","over":{"base":"Any"},"name":"FormulaCollection_class_invariant","kind":"invariant"},"guarantee":"preserves 3 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'symbolic_formulae') and hasattr(self, 'concrete_formulae') and hasattr(self, 'formulae')","kind":"class","induction":"structural on symbolic_formulae, concrete_formulae, formulae"}],"methods_preserving":["__init__","lookup_origin"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f993f62d4babd349","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, 'symbolic_formulae')","hasattr(self, 'concrete_formulae')","hasattr(self, 'formulae')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function FormulaCollection not found in source"]}}
 class FormulaCollection:
     """ A collection of formulae to use as origins. """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(), initializes the instance correctly) over Any ║
+# ║ Path(__init__(), <unspecified:__init__>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __init__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 991db4d9b4574c31           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.FormulaCollection.__init__","kind":"method","src_hash":"1a9268055e44cbbf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__()","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"991db4d9b4574c31"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.FormulaCollection.__init__","kind":"method","src_hash":"1a9268055e44cbbf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__()","rhs":"<unspecified:__init__>","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"991db4d9b4574c31","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self.concrete_formulae","self.formulae","self.symbolic_formulae"],"writes":["self.concrete_formulae","self.formulae","self.symbolic_formulae"],"calls_mutating":["self.concrete_formulae.setdefault","self.symbolic_formulae.setdefault"]},"state_contract":{"modifies":["self.*","self.concrete_formulae","self.formulae","self.symbolic_formulae"],"old_bindings":{"old_self_concrete_formulae":"self.concrete_formulae","old_self_formulae":"self.formulae","old_self_symbolic_formulae":"self.symbolic_formulae"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self):
         """ Doing this globally at module init time is a pain ... """
         self.symbolic_formulae = {}
@@ -1165,16 +1353,24 @@ class FormulaCollection:
                 self.concrete_formulae.setdefault(sizes, {})[inv] = f
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(lookup_origin(fun), given the suitable target ``func``, try to find an origin in our knowledge base) over Any ║
+# ║ Path(lookup_origin(func), <unspecified:lookup_origin>) over {Any | hasattr(func, 'sizes') and hasattr(func, 'build_invariants')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ lookup_origin : Any → Any                                  ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(func, 'sizes')                         ║
+# ║   requires: hasattr(func, 'build_invariants')              ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ lookup_origin : {Any | hasattr(func, 'sizes') and has...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ff1b6a2064d5c9ec  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.FormulaCollection.lookup_origin","kind":"method","src_hash":"73df55fd7712d328","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"lookup_origin(fun)","rhs":"given the suitable target ``func``, try to find an origin in our knowledge base","over":{"base":"Any"},"name":"lookup_origin_correct"},"guarantee":"given the suitable target ``func``, try to find an origin in our knowledge base","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.hyperexpand.FormulaCollection.lookup_origin_correct","statement":"Path(lookup_origin(x), given the suitable target ``func``, try to find an origin in our knowledge base)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ff1b6a2064d5c9ec"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.FormulaCollection.lookup_origin","kind":"method","src_hash":"73df55fd7712d328","in":{"base":"Any","pred":"hasattr(func, 'sizes') and hasattr(func, 'build_invariants')"},"out":{"base":"Any"},"spec":{"lhs":"lookup_origin(func)","rhs":"<unspecified:lookup_origin>","over":{"base":"Any","pred":"hasattr(func, 'sizes') and hasattr(func, 'build_invariants')"},"name":"lookup_origin_correct"},"guarantee":"given the suitable target ``func``, try to find an origin in our knowledge base","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.hyperexpand.FormulaCollection.lookup_origin_correct","statement":"Path(lookup_origin(x), given the suitable target ``func``, try to find an origin in our knowledge base)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ff1b6a2064d5c9ec","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(func, 'sizes')","hasattr(func, 'build_invariants')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def lookup_origin(self, func):
         """
         Given the suitable target ``func``, try to find an origin in our
@@ -1232,14 +1428,19 @@ class FormulaCollection:
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a MeijerFormula instance) preserved by MeijerFormula(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ MeijerFormula : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bce5069e696d88c9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.MeijerFormula","kind":"class","src_hash":"275a32d4531b3c44","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"MeijerFormula(*args)","rhs":"correctly constructs a MeijerFormula instance","over":{"base":"Any"},"name":"MeijerFormula_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a MeijerFormula instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'func') and hasattr(self, 'z') and hasattr(self, 'symbols') and hasattr(self, '_matcher') and hasattr(self, 'B') and hasattr(self, 'C') and hasattr(self, 'M')","kind":"class","induction":"structural on func, z, symbols, _matcher"}],"methods_preserving":["__init__","closed_form","try_instantiate"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bce5069e696d88c9"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.MeijerFormula","kind":"class","src_hash":"275a32d4531b3c44","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"MeijerFormula(*args)","rhs":"correctly constructs a MeijerFormula instance","over":{"base":"Any"},"name":"MeijerFormula_class_invariant","kind":"invariant"},"guarantee":"preserves 7 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'func') and hasattr(self, 'z') and hasattr(self, 'symbols') and hasattr(self, '_matcher') and hasattr(self, 'B') and hasattr(self, 'C') and hasattr(self, 'M')","kind":"class","induction":"structural on func, z, symbols, _matcher"}],"methods_preserving":["__init__","closed_form","try_instantiate"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bce5069e696d88c9","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, 'func')","hasattr(self, 'z')","hasattr(self, 'symbols')","hasattr(self, '_matcher')","hasattr(self, 'B')","hasattr(self, 'C')","hasattr(self, 'M')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function MeijerFormula not found in source"]}}
 class MeijerFormula:
     """
     This class represents a Meijer G-function formula.
@@ -1252,16 +1453,22 @@ class MeijerFormula:
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(an,), initializes the instance correctly) over Any ║
+# ║ Path(__init__(an, ap, bm), self.z == z) over Any           ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  self.z == z                                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : Any → {Any | result satisfies: self.z == z}     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 79096346adf2a2de           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.MeijerFormula.__init__","kind":"method","src_hash":"da87f891a5fa5aef","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(an,)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"79096346adf2a2de"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.MeijerFormula.__init__","kind":"method","src_hash":"da87f891a5fa5aef","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: self.z == z"},"spec":{"lhs":"__init__(an, ap, bm)","rhs":"self.z == z","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"self.z == z","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"79096346adf2a2de","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["self.z == z"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, an, ap, bm, bq, z, symbols, B, C, M, matcher):
         an, ap, bm, bq = [Tuple(*list(map(expand, w))) for w in [an, ap, bm, bq]]
         self.func = G_Function(an, ap, bm, bq)
@@ -1274,30 +1481,43 @@ class MeijerFormula:
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(closed_form(), returns the closed_form attribute) over Any ║
+# ║ Path(closed_form(), reduce(lambda s, m: s + m[0] * m[1], zip(self.C, self.B), S.Zero)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  reduce(lambda s, m: s + m[0] * m[1], zip(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ closed_form : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0b37952a12688012           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.MeijerFormula.closed_form","kind":"property","src_hash":"7a35d2e5a3f7a747","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"closed_form()","rhs":"returns the closed_form attribute","over":{"base":"Any"},"name":"closed_form_correct"},"guarantee":"returns the closed_form attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0b37952a12688012"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.MeijerFormula.closed_form","kind":"property","src_hash":"7a35d2e5a3f7a747","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"closed_form()","rhs":"reduce(lambda s, m: s + m[0] * m[1], zip(self.C, self.B), S.Zero)","over":{"base":"Any"},"name":"closed_form_correct"},"guarantee":"returns reduce(lambda s, m: s + m[0] * m[1], zip(self.C, self.B), S.Zero)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0b37952a12688012","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"reduce(lambda s, m: s + m[0] * m[1], zip(self.C, self.B), S.Zero)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.B","self.C"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def closed_form(self):
         return reduce(lambda s,m: s+m[0]*m[1], zip(self.C, self.B), S.Zero)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(try_instantiate(fun), try to instantiate the current formula to (almost) match func. this uses the _matcher passed on init) over Any ║
+# ║ Path(try_instantiate(func), <unspecified:try_instantiate>) over {Any | hasattr(func, 'signature')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ try_instantiate : Any → Any                                ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(func, 'signature')                     ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ try_instantiate : {Any | hasattr(func, 'signature')} ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ff58e2809ebd90d3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.MeijerFormula.try_instantiate","kind":"method","src_hash":"bf6777219d776576","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"try_instantiate(fun)","rhs":"try to instantiate the current formula to (almost) match func. this uses the _matcher passed on init","over":{"base":"Any"},"name":"try_instantiate_correct"},"guarantee":"try to instantiate the current formula to (almost) match func. this uses the _matcher passed on init","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.hyperexpand.MeijerFormula.try_instantiate_correct","statement":"Path(try_instantiate(x), try to instantiate the current formula to (almost) match func. this uses the _matcher passed on init)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ff58e2809ebd90d3"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.MeijerFormula.try_instantiate","kind":"method","src_hash":"bf6777219d776576","in":{"base":"Any","pred":"hasattr(func, 'signature')"},"out":{"base":"Any"},"spec":{"lhs":"try_instantiate(func)","rhs":"<unspecified:try_instantiate>","over":{"base":"Any","pred":"hasattr(func, 'signature')"},"name":"try_instantiate_correct"},"guarantee":"try to instantiate the current formula to (almost) match func. this uses the _matcher passed on init","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.hyperexpand.MeijerFormula.try_instantiate_correct","statement":"Path(try_instantiate(x), try to instantiate the current formula to (almost) match func. this uses the _matcher passed on init)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ff58e2809ebd90d3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(func, 'signature')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["func.signature","self.B","self.C","self.M","self._matcher","self.func","self.z"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def try_instantiate(self, func):
         """
         Try to instantiate the current formula to (almost) match func.
@@ -1317,30 +1537,41 @@ class MeijerFormula:
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a MeijerFormulaCollection instance) preserved by MeijerFormulaCollection(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ MeijerFormulaCollection : Any → Any                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f92b3d431f95ee56  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.MeijerFormulaCollection","kind":"class","src_hash":"85925ff74c5d688c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"MeijerFormulaCollection(*args)","rhs":"correctly constructs a MeijerFormulaCollection instance","over":{"base":"Any"},"name":"MeijerFormulaCollection_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a MeijerFormulaCollection instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'formulae') and hasattr(self, 'formulae')","kind":"class","induction":"structural on formulae, formulae"}],"methods_preserving":["__init__","lookup_origin"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f92b3d431f95ee56"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.MeijerFormulaCollection","kind":"class","src_hash":"85925ff74c5d688c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"MeijerFormulaCollection(*args)","rhs":"correctly constructs a MeijerFormulaCollection instance","over":{"base":"Any"},"name":"MeijerFormulaCollection_class_invariant","kind":"invariant"},"guarantee":"preserves 1 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'formulae') and hasattr(self, 'formulae')","kind":"class","induction":"structural on formulae, formulae"}],"methods_preserving":["__init__","lookup_origin"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f92b3d431f95ee56","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, 'formulae')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function MeijerFormulaCollection not found in source"]}}
 class MeijerFormulaCollection:
     """
     This class holds a collection of meijer g formulae.
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(), initializes the instance correctly) over Any ║
+# ║ Path(__init__(), <unspecified:__init__>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __init__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 678004121313b40c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.MeijerFormulaCollection.__init__","kind":"method","src_hash":"abf9de9125fae43a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__()","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"678004121313b40c"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.MeijerFormulaCollection.__init__","kind":"method","src_hash":"abf9de9125fae43a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__()","rhs":"<unspecified:__init__>","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"678004121313b40c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self):
         formulae = []
         add_meijerg_formulae(formulae)
@@ -1350,16 +1581,23 @@ class MeijerFormulaCollection:
         self.formulae = dict(self.formulae)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(lookup_origin(fun), try to find a formula that matches func) over Any ║
+# ║ Path(lookup_origin(func), <unspecified:lookup_origin>) over {Any | hasattr(func, 'signature')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ lookup_origin : Any → Any                                  ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(func, 'signature')                     ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ lookup_origin : {Any | hasattr(func, 'signature')} → Any   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1148fb2ee9da433a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.MeijerFormulaCollection.lookup_origin","kind":"method","src_hash":"5df6bd94dc645f29","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"lookup_origin(fun)","rhs":"try to find a formula that matches func","over":{"base":"Any"},"name":"lookup_origin_correct"},"guarantee":"try to find a formula that matches func","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.hyperexpand.MeijerFormulaCollection.lookup_origin_correct","statement":"Path(lookup_origin(x), try to find a formula that matches func)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1148fb2ee9da433a"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.MeijerFormulaCollection.lookup_origin","kind":"method","src_hash":"5df6bd94dc645f29","in":{"base":"Any","pred":"hasattr(func, 'signature')"},"out":{"base":"Any"},"spec":{"lhs":"lookup_origin(func)","rhs":"<unspecified:lookup_origin>","over":{"base":"Any","pred":"hasattr(func, 'signature')"},"name":"lookup_origin_correct"},"guarantee":"try to find a formula that matches func","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.hyperexpand.MeijerFormulaCollection.lookup_origin_correct","statement":"Path(lookup_origin(x), try to find a formula that matches func)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1148fb2ee9da433a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(func, 'signature')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["func.signature","self.formulae"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def lookup_origin(self, func):
         """ Try to find a formula that matches func. """
         if func.signature not in self.formulae:
@@ -1373,14 +1611,20 @@ class MeijerFormulaCollection:
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Operator(*args), correctly constructs a Operator instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ Operator : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f95d662224982304  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.Operator","kind":"class","src_hash":"94d0b8423bd3c171","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Operator(*args)","rhs":"correctly constructs a Operator instance","over":{"base":"Any"},"name":"Operator_class_invariant"},"guarantee":"correctly constructs a Operator instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f95d662224982304"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.Operator","kind":"class","src_hash":"94d0b8423bd3c171","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Operator(*args)","rhs":"correctly constructs a Operator instance","over":{"base":"Any"},"name":"Operator_class_invariant"},"guarantee":"correctly constructs a Operator instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f95d662224982304","spec_source":"static","formal_spec":{"source":"static","strength":"trivial"},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function Operator not found in source"]}}
 class Operator:
     """
     Base class for operators to be applied to our functions.
@@ -1409,16 +1653,22 @@ class Operator:
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(apply(obj), apply ``self`` to the object ``obj``, where the generator is ``op``) over Any ║
+# ║ Path(apply(obj, op), <unspecified:apply>) over Any         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ apply : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e51a3b7e96f813f1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.Operator.apply","kind":"method","src_hash":"b58bcb6fc3be4d8e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"apply(obj)","rhs":"apply ``self`` to the object ``obj``, where the generator is ``op``","over":{"base":"Any"},"name":"apply_correct"},"guarantee":"apply ``self`` to the object ``obj``, where the generator is ``op``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.hyperexpand.Operator.apply_correct","statement":"Path(apply(x), apply ``self`` to the object ``obj``, where the generator is ``op``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e51a3b7e96f813f1"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.Operator.apply","kind":"method","src_hash":"b58bcb6fc3be4d8e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"apply(obj, op)","rhs":"<unspecified:apply>","over":{"base":"Any"},"name":"apply_correct"},"guarantee":"apply ``self`` to the object ``obj``, where the generator is ``op``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.hyperexpand.Operator.apply_correct","statement":"Path(apply(x), apply ``self`` to the object ``obj``, where the generator is ``op``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e51a3b7e96f813f1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def apply(self, obj, op):
         """
         Apply ``self`` to the object ``obj``, where the generator is ``op``.
@@ -1448,28 +1698,40 @@ class Operator:
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a MultOperator instance) preserved by MultOperator(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ MultOperator : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Operator)                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ MultOperator : Any → {Any | result satisfies: isinsta...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 27f51a5715eeaf53  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.MultOperator","kind":"class","src_hash":"380cef7510715c43","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"MultOperator(*args)","rhs":"correctly constructs a MultOperator instance","over":{"base":"Any"},"name":"MultOperator_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a MultOperator instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, '_poly')","kind":"class","induction":"structural on _poly"}],"methods_preserving":["__init__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"27f51a5715eeaf53"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.MultOperator","kind":"class","src_hash":"380cef7510715c43","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Operator)"},"spec":{"lhs":"MultOperator(*args)","rhs":"correctly constructs a MultOperator instance","over":{"base":"Any"},"name":"MultOperator_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, Operator); preserves 1 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, '_poly')","kind":"class","induction":"structural on _poly"}],"methods_preserving":["__init__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"27f51a5715eeaf53","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Operator)"],"invariants":["hasattr(self, '_poly')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function MultOperator not found in source"]}}
 class MultOperator(Operator):
     """ Simply multiply by a "constant" """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(p), initializes the instance correctly) over Any ║
+# ║ Path(__init__(p), <unspecified:__init__>) over Any         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __init__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 49ea4d73d1b553eb           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.MultOperator.__init__","kind":"method","src_hash":"3bdf9772839db583","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(p)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"49ea4d73d1b553eb"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.MultOperator.__init__","kind":"method","src_hash":"3bdf9772839db583","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(p)","rhs":"<unspecified:__init__>","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"49ea4d73d1b553eb","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, p):
         self._poly = Poly(p, _x)
 
@@ -1477,28 +1739,41 @@ class MultOperator(Operator):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a ShiftA instance) preserved by ShiftA(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ ShiftA : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Operator)                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ ShiftA : Any → {Any | result satisfies: isinstance(se...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e653cacca60aa8dc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.ShiftA","kind":"class","src_hash":"b0a3221732d15e4a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ShiftA(*args)","rhs":"correctly constructs a ShiftA instance","over":{"base":"Any"},"name":"ShiftA_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a ShiftA instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, '_poly')","kind":"class","induction":"structural on _poly"}],"methods_preserving":["__init__","__str__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e653cacca60aa8dc"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.ShiftA","kind":"class","src_hash":"b0a3221732d15e4a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Operator)"},"spec":{"lhs":"ShiftA(*args)","rhs":"correctly constructs a ShiftA instance","over":{"base":"Any"},"name":"ShiftA_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, Operator); preserves 1 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, '_poly')","kind":"class","induction":"structural on _poly"}],"methods_preserving":["__init__","__str__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e653cacca60aa8dc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Operator)"],"invariants":["hasattr(self, '_poly')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function ShiftA not found in source"]}}
 class ShiftA(Operator):
     """ Increment an upper index. """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(ai), initializes the instance correctly) over Any ║
+# ║ Path(__init__(ai), <unspecified:__init__>) over {Any | not (ai == 0)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (ai == 0)                                  ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : {Any | not (ai == 0)} → Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4dd21b1d53931438           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.ShiftA.__init__","kind":"method","src_hash":"6affb5e6c76c3098","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(ai)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4dd21b1d53931438"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.ShiftA.__init__","kind":"method","src_hash":"6affb5e6c76c3098","in":{"base":"Any","pred":"not (ai == 0)"},"out":{"base":"Any"},"spec":{"lhs":"__init__(ai)","rhs":"<unspecified:__init__>","over":{"base":"Any","pred":"not (ai == 0)"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4dd21b1d53931438","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (ai == 0)"],"pure":false,"effects":{"effect_type":"reads_state","writes":["self._poly"],"raises":["ValueError"]},"state_contract":{"modifies":["self._poly"],"old_bindings":{"old_self__poly":"self._poly"},"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, ai):
         ai = sympify(ai)
         if ai == 0:
@@ -1506,16 +1781,22 @@ class ShiftA(Operator):
         self._poly = Poly(_x/ai + 1, _x)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__str__(), returns a human-readable string) over Any  ║
+# ║ Path(__str__(), '<Increment upper %s.>' % (1 / self._poly.all_coeffs()[0])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  '<Increment upper %s.>' % (1 / self._poly...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __str__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 69e8b52f3a68df2d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.ShiftA.__str__","kind":"method","src_hash":"c3fc663813e05b9e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"returns a human-readable string","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"69e8b52f3a68df2d"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.ShiftA.__str__","kind":"method","src_hash":"c3fc663813e05b9e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"'<Increment upper %s.>' % (1 / self._poly.all_coeffs()[0])","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns '<Increment upper %s.>' % (1 / self._poly.all_coeffs()[0])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"69e8b52f3a68df2d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'<Increment upper %s.>' % (1 / self._poly.all_coeffs()[0])","pure":false,"effects":{"effect_type":"reads_state","reads":["self._poly"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __str__(self):
         return '<Increment upper %s.>' % (1/self._poly.all_coeffs()[0])
 
@@ -1523,28 +1804,41 @@ class ShiftA(Operator):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a ShiftB instance) preserved by ShiftB(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ ShiftB : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Operator)                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ ShiftB : Any → {Any | result satisfies: isinstance(se...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4e287678ad9b2f7f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.ShiftB","kind":"class","src_hash":"660753caa7052e3c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ShiftB(*args)","rhs":"correctly constructs a ShiftB instance","over":{"base":"Any"},"name":"ShiftB_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a ShiftB instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, '_poly')","kind":"class","induction":"structural on _poly"}],"methods_preserving":["__init__","__str__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4e287678ad9b2f7f"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.ShiftB","kind":"class","src_hash":"660753caa7052e3c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Operator)"},"spec":{"lhs":"ShiftB(*args)","rhs":"correctly constructs a ShiftB instance","over":{"base":"Any"},"name":"ShiftB_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, Operator); preserves 1 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, '_poly')","kind":"class","induction":"structural on _poly"}],"methods_preserving":["__init__","__str__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4e287678ad9b2f7f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Operator)"],"invariants":["hasattr(self, '_poly')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function ShiftB not found in source"]}}
 class ShiftB(Operator):
     """ Decrement a lower index. """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(bi), initializes the instance correctly) over Any ║
+# ║ Path(__init__(bi), <unspecified:__init__>) over {Any | not (bi == 1)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (bi == 1)                                  ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : {Any | not (bi == 1)} → Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c8b6a9f770a96236           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.ShiftB.__init__","kind":"method","src_hash":"b40db3d74c0799c4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(bi)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c8b6a9f770a96236"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.ShiftB.__init__","kind":"method","src_hash":"b40db3d74c0799c4","in":{"base":"Any","pred":"not (bi == 1)"},"out":{"base":"Any"},"spec":{"lhs":"__init__(bi)","rhs":"<unspecified:__init__>","over":{"base":"Any","pred":"not (bi == 1)"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c8b6a9f770a96236","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (bi == 1)"],"pure":false,"effects":{"effect_type":"reads_state","writes":["self._poly"],"raises":["ValueError"]},"state_contract":{"modifies":["self._poly"],"old_bindings":{"old_self__poly":"self._poly"},"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, bi):
         bi = sympify(bi)
         if bi == 1:
@@ -1552,16 +1846,22 @@ class ShiftB(Operator):
         self._poly = Poly(_x/(bi - 1) + 1, _x)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__str__(), returns a human-readable string) over Any  ║
+# ║ Path(__str__(), '<Decrement lower %s.>' % (1 / self._poly.all_coeffs()[0] + 1)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  '<Decrement lower %s.>' % (1 / self._poly...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __str__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | eed64171fc5a53f4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.ShiftB.__str__","kind":"method","src_hash":"f18e7ec93d35d859","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"returns a human-readable string","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"eed64171fc5a53f4"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.ShiftB.__str__","kind":"method","src_hash":"f18e7ec93d35d859","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"'<Decrement lower %s.>' % (1 / self._poly.all_coeffs()[0] + 1)","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns '<Decrement lower %s.>' % (1 / self._poly.all_coeffs()[0] + 1)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"eed64171fc5a53f4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'<Decrement lower %s.>' % (1 / self._poly.all_coeffs()[0] + 1)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._poly"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __str__(self):
         return '<Decrement lower %s.>' % (1/self._poly.all_coeffs()[0] + 1)
 
@@ -1569,28 +1869,42 @@ class ShiftB(Operator):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a UnShiftA instance) preserved by UnShiftA(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ UnShiftA : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Operator)                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ UnShiftA : Any → {Any | result satisfies: isinstance(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ea839971e06da9ce  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.UnShiftA","kind":"class","src_hash":"b655fada94cfbf5e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"UnShiftA(*args)","rhs":"correctly constructs a UnShiftA instance","over":{"base":"Any"},"name":"UnShiftA_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a UnShiftA instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, '_ap') and hasattr(self, '_bq') and hasattr(self, '_i') and hasattr(self, '_poly')","kind":"class","induction":"structural on _ap, _bq, _i, _poly"}],"methods_preserving":["__init__","__str__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ea839971e06da9ce"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.UnShiftA","kind":"class","src_hash":"b655fada94cfbf5e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Operator)"},"spec":{"lhs":"UnShiftA(*args)","rhs":"correctly constructs a UnShiftA instance","over":{"base":"Any"},"name":"UnShiftA_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, Operator); preserves 4 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, '_ap') and hasattr(self, '_bq') and hasattr(self, '_i') and hasattr(self, '_poly')","kind":"class","induction":"structural on _ap, _bq, _i, _poly"}],"methods_preserving":["__init__","__str__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ea839971e06da9ce","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Operator)"],"invariants":["hasattr(self, '_ap')","hasattr(self, '_bq')","hasattr(self, '_i')","hasattr(self, '_poly')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function UnShiftA not found in source"]}}
 class UnShiftA(Operator):
     """ Decrement an upper index. """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(ap,), initializes the instance correctly) over Any ║
+# ║ Path(__init__(ap, bq, i), len(ap) == old_len_ap - 1) over {Any | hasattr(ap, 'pop') and len(ap) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(ap, 'pop')                             ║
+# ║   requires: len(ap) > 0                                    ║
+# ║   ensures:  len(ap) == old_len_ap - 1                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : {Any | hasattr(ap, 'pop') and len(ap) > 0}...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e2b7c8ce8cc1df1a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.UnShiftA.__init__","kind":"method","src_hash":"20c38b6e0145eeaa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(ap,)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e2b7c8ce8cc1df1a"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.UnShiftA.__init__","kind":"method","src_hash":"20c38b6e0145eeaa","in":{"base":"Any","pred":"hasattr(ap, 'pop') and len(ap) > 0"},"out":{"base":"Any","pred":"result satisfies: len(ap) == old_len_ap - 1"},"spec":{"lhs":"__init__(ap, bq, i)","rhs":"len(ap) == old_len_ap - 1","over":{"base":"Any","pred":"hasattr(ap, 'pop') and len(ap) > 0"},"name":"__init___correct"},"guarantee":"len(ap) == old_len_ap - 1","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e2b7c8ce8cc1df1a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(ap, 'pop')","len(ap) > 0"],"ensures":["len(ap) == old_len_ap - 1"],"pure":false,"effects":{"effect_type":"mutates_args","reads":["ap.pop"],"writes":["self._ap","self._bq","self._i","self._poly"],"calls_mutating":["ap.pop"],"raises":["ValueError"]},"state_contract":{"modifies":["ap.*","self._ap","self._bq","self._i","self._poly"],"old_bindings":{"old_self__ap":"self._ap","old_self__bq":"self._bq","old_self__i":"self._i","old_self__poly":"self._poly","old_len_ap":"len(ap)"},"pre_requires":["len(ap) > 0"],"post_ensures":["len(ap) == old_len_ap - 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, ap, bq, i, z):
         """ Note: i counts from zero! """
         ap, bq, i = list(map(sympify, [ap, bq, i]))
@@ -1625,16 +1939,22 @@ class UnShiftA(Operator):
         self._poly = Poly((n - m)/b0, _x)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__str__(), returns a human-readable string) over Any  ║
+# ║ Path(__str__(), '<Decrement upper index #%s of %s, %s.>' % (self._i, self._ap, self._bq)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  '<Decrement upper index #%s of %s, %s.>' ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __str__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ee1029217e6afe44           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.UnShiftA.__str__","kind":"method","src_hash":"cf2dc5aed28eb5fd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"returns a human-readable string","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ee1029217e6afe44"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.UnShiftA.__str__","kind":"method","src_hash":"cf2dc5aed28eb5fd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"'<Decrement upper index #%s of %s, %s.>' % (self._i, self._ap, self._bq)","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns '<Decrement upper index #%s of %s, %s.>' % (self._i, self._ap, self._bq)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ee1029217e6afe44","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'<Decrement upper index #%s of %s, %s.>' % (self._i, self._ap, self._bq)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._ap","self._bq","self._i"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __str__(self):
         return '<Decrement upper index #%s of %s, %s.>' % (self._i,
                                                         self._ap, self._bq)
@@ -1643,28 +1963,42 @@ class UnShiftA(Operator):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a UnShiftB instance) preserved by UnShiftB(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ UnShiftB : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Operator)                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ UnShiftB : Any → {Any | result satisfies: isinstance(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6722fb00394dc98f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.UnShiftB","kind":"class","src_hash":"63f594512970ca6a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"UnShiftB(*args)","rhs":"correctly constructs a UnShiftB instance","over":{"base":"Any"},"name":"UnShiftB_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a UnShiftB instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, '_ap') and hasattr(self, '_bq') and hasattr(self, '_i') and hasattr(self, '_poly')","kind":"class","induction":"structural on _ap, _bq, _i, _poly"}],"methods_preserving":["__init__","__str__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6722fb00394dc98f"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.UnShiftB","kind":"class","src_hash":"63f594512970ca6a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Operator)"},"spec":{"lhs":"UnShiftB(*args)","rhs":"correctly constructs a UnShiftB instance","over":{"base":"Any"},"name":"UnShiftB_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, Operator); preserves 4 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, '_ap') and hasattr(self, '_bq') and hasattr(self, '_i') and hasattr(self, '_poly')","kind":"class","induction":"structural on _ap, _bq, _i, _poly"}],"methods_preserving":["__init__","__str__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6722fb00394dc98f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Operator)"],"invariants":["hasattr(self, '_ap')","hasattr(self, '_bq')","hasattr(self, '_i')","hasattr(self, '_poly')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function UnShiftB not found in source"]}}
 class UnShiftB(Operator):
     """ Increment a lower index. """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(ap,), initializes the instance correctly) over Any ║
+# ║ Path(__init__(ap, bq, i), len(bq) == old_len_bq - 1) over {Any | hasattr(bq, 'pop') and len(bq) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(bq, 'pop')                             ║
+# ║   requires: len(bq) > 0                                    ║
+# ║   ensures:  len(bq) == old_len_bq - 1                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : {Any | hasattr(bq, 'pop') and len(bq) > 0}...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ef46bac4aabe45eb           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.UnShiftB.__init__","kind":"method","src_hash":"5f1e5c9dda7f5e04","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(ap,)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ef46bac4aabe45eb"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.UnShiftB.__init__","kind":"method","src_hash":"5f1e5c9dda7f5e04","in":{"base":"Any","pred":"hasattr(bq, 'pop') and len(bq) > 0"},"out":{"base":"Any","pred":"result satisfies: len(bq) == old_len_bq - 1"},"spec":{"lhs":"__init__(ap, bq, i)","rhs":"len(bq) == old_len_bq - 1","over":{"base":"Any","pred":"hasattr(bq, 'pop') and len(bq) > 0"},"name":"__init___correct"},"guarantee":"len(bq) == old_len_bq - 1","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ef46bac4aabe45eb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(bq, 'pop')","len(bq) > 0"],"ensures":["len(bq) == old_len_bq - 1"],"pure":false,"effects":{"effect_type":"mutates_args","reads":["bq.pop"],"writes":["self._ap","self._bq","self._i","self._poly"],"calls_mutating":["bq.pop"],"raises":["ValueError"]},"state_contract":{"modifies":["bq.*","self._ap","self._bq","self._i","self._poly"],"old_bindings":{"old_self__ap":"self._ap","old_self__bq":"self._bq","old_self__i":"self._i","old_self__poly":"self._poly","old_len_bq":"len(bq)"},"pre_requires":["len(bq) > 0"],"post_ensures":["len(bq) == old_len_bq - 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, ap, bq, i, z):
         """ Note: i counts from zero! """
         ap, bq, i = list(map(sympify, [ap, bq, i]))
@@ -1700,16 +2034,22 @@ class UnShiftB(Operator):
         self._poly = Poly((m - n)/b0, _x)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__str__(), returns a human-readable string) over Any  ║
+# ║ Path(__str__(), '<Increment lower index #%s of %s, %s.>' % (self._i, self._ap, self._bq)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  '<Increment lower index #%s of %s, %s.>' ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __str__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ac205f62acb47ba1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.UnShiftB.__str__","kind":"method","src_hash":"d8c2cda6adfcaa65","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"returns a human-readable string","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ac205f62acb47ba1"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.UnShiftB.__str__","kind":"method","src_hash":"d8c2cda6adfcaa65","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"'<Increment lower index #%s of %s, %s.>' % (self._i, self._ap, self._bq)","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns '<Increment lower index #%s of %s, %s.>' % (self._i, self._ap, self._bq)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ac205f62acb47ba1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'<Increment lower index #%s of %s, %s.>' % (self._i, self._ap, self._bq)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._ap","self._bq","self._i"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __str__(self):
         return '<Increment lower index #%s of %s, %s.>' % (self._i,
                                                         self._ap, self._bq)
@@ -1718,43 +2058,61 @@ class UnShiftB(Operator):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a MeijerShiftA instance) preserved by MeijerShiftA(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ MeijerShiftA : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Operator)                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ MeijerShiftA : Any → {Any | result satisfies: isinsta...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 681ba88907e27a30  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.MeijerShiftA","kind":"class","src_hash":"b35fed87cb2bbd00","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"MeijerShiftA(*args)","rhs":"correctly constructs a MeijerShiftA instance","over":{"base":"Any"},"name":"MeijerShiftA_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a MeijerShiftA instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, '_poly')","kind":"class","induction":"structural on _poly"}],"methods_preserving":["__init__","__str__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"681ba88907e27a30"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.MeijerShiftA","kind":"class","src_hash":"b35fed87cb2bbd00","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Operator)"},"spec":{"lhs":"MeijerShiftA(*args)","rhs":"correctly constructs a MeijerShiftA instance","over":{"base":"Any"},"name":"MeijerShiftA_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, Operator); preserves 1 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, '_poly')","kind":"class","induction":"structural on _poly"}],"methods_preserving":["__init__","__str__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"681ba88907e27a30","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Operator)"],"invariants":["hasattr(self, '_poly')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function MeijerShiftA not found in source"]}}
 class MeijerShiftA(Operator):
     """ Increment an upper b index. """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(bi), initializes the instance correctly) over Any ║
+# ║ Path(__init__(bi), <unspecified:__init__>) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __init__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 256cd1bb5775adfd           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.MeijerShiftA.__init__","kind":"method","src_hash":"21cc2de03b09cd5a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(bi)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"256cd1bb5775adfd"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.MeijerShiftA.__init__","kind":"method","src_hash":"21cc2de03b09cd5a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(bi)","rhs":"<unspecified:__init__>","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"256cd1bb5775adfd","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, bi):
         bi = sympify(bi)
         self._poly = Poly(bi - _x, _x)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__str__(), returns a human-readable string) over Any  ║
+# ║ Path(__str__(), '<Increment upper b=%s.>' % self._poly.all_coeffs()[1]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  '<Increment upper b=%s.>' % self._poly.al...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __str__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 97849d74e46090f0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.MeijerShiftA.__str__","kind":"method","src_hash":"4d81ff9c0f1f7f57","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"returns a human-readable string","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"97849d74e46090f0"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.MeijerShiftA.__str__","kind":"method","src_hash":"4d81ff9c0f1f7f57","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"'<Increment upper b=%s.>' % self._poly.all_coeffs()[1]","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns '<Increment upper b=%s.>' % self._poly.all_coeffs()[1]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"97849d74e46090f0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'<Increment upper b=%s.>' % self._poly.all_coeffs()[1]","pure":false,"effects":{"effect_type":"reads_state","reads":["self._poly"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __str__(self):
         return '<Increment upper b=%s.>' % (self._poly.all_coeffs()[1])
 
@@ -1762,43 +2120,61 @@ class MeijerShiftA(Operator):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a MeijerShiftB instance) preserved by MeijerShiftB(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ MeijerShiftB : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Operator)                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ MeijerShiftB : Any → {Any | result satisfies: isinsta...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 874abb349b527221  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.MeijerShiftB","kind":"class","src_hash":"fc2edfad526c08e0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"MeijerShiftB(*args)","rhs":"correctly constructs a MeijerShiftB instance","over":{"base":"Any"},"name":"MeijerShiftB_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a MeijerShiftB instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, '_poly')","kind":"class","induction":"structural on _poly"}],"methods_preserving":["__init__","__str__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"874abb349b527221"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.MeijerShiftB","kind":"class","src_hash":"fc2edfad526c08e0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Operator)"},"spec":{"lhs":"MeijerShiftB(*args)","rhs":"correctly constructs a MeijerShiftB instance","over":{"base":"Any"},"name":"MeijerShiftB_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, Operator); preserves 1 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, '_poly')","kind":"class","induction":"structural on _poly"}],"methods_preserving":["__init__","__str__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"874abb349b527221","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Operator)"],"invariants":["hasattr(self, '_poly')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function MeijerShiftB not found in source"]}}
 class MeijerShiftB(Operator):
     """ Decrement an upper a index. """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(bi), initializes the instance correctly) over Any ║
+# ║ Path(__init__(bi), <unspecified:__init__>) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __init__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 195404a328f06ad5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.MeijerShiftB.__init__","kind":"method","src_hash":"21e421872d70b7b6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(bi)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"195404a328f06ad5"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.MeijerShiftB.__init__","kind":"method","src_hash":"21e421872d70b7b6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(bi)","rhs":"<unspecified:__init__>","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"195404a328f06ad5","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, bi):
         bi = sympify(bi)
         self._poly = Poly(1 - bi + _x, _x)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__str__(), returns a human-readable string) over Any  ║
+# ║ Path(__str__(), '<Decrement upper a=%s.>' % (1 - self._poly.all_coeffs()[1])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  '<Decrement upper a=%s.>' % (1 - self._po...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __str__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9c13254c9c14c7e4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.MeijerShiftB.__str__","kind":"method","src_hash":"71a46894d5135eb3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"returns a human-readable string","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9c13254c9c14c7e4"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.MeijerShiftB.__str__","kind":"method","src_hash":"71a46894d5135eb3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"'<Decrement upper a=%s.>' % (1 - self._poly.all_coeffs()[1])","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns '<Decrement upper a=%s.>' % (1 - self._poly.all_coeffs()[1])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9c13254c9c14c7e4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'<Decrement upper a=%s.>' % (1 - self._poly.all_coeffs()[1])","pure":false,"effects":{"effect_type":"reads_state","reads":["self._poly"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __str__(self):
         return '<Decrement upper a=%s.>' % (1 - self._poly.all_coeffs()[1])
 
@@ -1806,43 +2182,61 @@ class MeijerShiftB(Operator):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a MeijerShiftC instance) preserved by MeijerShiftC(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ MeijerShiftC : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Operator)                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ MeijerShiftC : Any → {Any | result satisfies: isinsta...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b61cbf11d4c2bf49  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.MeijerShiftC","kind":"class","src_hash":"c4b9e0fbfcc1fdcc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"MeijerShiftC(*args)","rhs":"correctly constructs a MeijerShiftC instance","over":{"base":"Any"},"name":"MeijerShiftC_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a MeijerShiftC instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, '_poly')","kind":"class","induction":"structural on _poly"}],"methods_preserving":["__init__","__str__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b61cbf11d4c2bf49"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.MeijerShiftC","kind":"class","src_hash":"c4b9e0fbfcc1fdcc","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Operator)"},"spec":{"lhs":"MeijerShiftC(*args)","rhs":"correctly constructs a MeijerShiftC instance","over":{"base":"Any"},"name":"MeijerShiftC_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, Operator); preserves 1 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, '_poly')","kind":"class","induction":"structural on _poly"}],"methods_preserving":["__init__","__str__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b61cbf11d4c2bf49","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Operator)"],"invariants":["hasattr(self, '_poly')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function MeijerShiftC not found in source"]}}
 class MeijerShiftC(Operator):
     """ Increment a lower b index. """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(bi), initializes the instance correctly) over Any ║
+# ║ Path(__init__(bi), <unspecified:__init__>) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __init__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d842a00f66081d6b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.MeijerShiftC.__init__","kind":"method","src_hash":"a644be2f9d2388f1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(bi)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d842a00f66081d6b"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.MeijerShiftC.__init__","kind":"method","src_hash":"a644be2f9d2388f1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(bi)","rhs":"<unspecified:__init__>","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d842a00f66081d6b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, bi):
         bi = sympify(bi)
         self._poly = Poly(-bi + _x, _x)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__str__(), returns a human-readable string) over Any  ║
+# ║ Path(__str__(), '<Increment lower b=%s.>' % -self._poly.all_coeffs()[1]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  '<Increment lower b=%s.>' % -self._poly.a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __str__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 870532b5dbddec9f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.MeijerShiftC.__str__","kind":"method","src_hash":"c555d69629add078","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"returns a human-readable string","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"870532b5dbddec9f"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.MeijerShiftC.__str__","kind":"method","src_hash":"c555d69629add078","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"'<Increment lower b=%s.>' % -self._poly.all_coeffs()[1]","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns '<Increment lower b=%s.>' % -self._poly.all_coeffs()[1]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"870532b5dbddec9f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'<Increment lower b=%s.>' % -self._poly.all_coeffs()[1]","pure":false,"effects":{"effect_type":"reads_state","reads":["self._poly"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __str__(self):
         return '<Increment lower b=%s.>' % (-self._poly.all_coeffs()[1])
 
@@ -1850,43 +2244,61 @@ class MeijerShiftC(Operator):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a MeijerShiftD instance) preserved by MeijerShiftD(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ MeijerShiftD : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Operator)                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ MeijerShiftD : Any → {Any | result satisfies: isinsta...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 446fbe96cd690b31  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.MeijerShiftD","kind":"class","src_hash":"4e869839446a0e3a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"MeijerShiftD(*args)","rhs":"correctly constructs a MeijerShiftD instance","over":{"base":"Any"},"name":"MeijerShiftD_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a MeijerShiftD instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, '_poly')","kind":"class","induction":"structural on _poly"}],"methods_preserving":["__init__","__str__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"446fbe96cd690b31"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.MeijerShiftD","kind":"class","src_hash":"4e869839446a0e3a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Operator)"},"spec":{"lhs":"MeijerShiftD(*args)","rhs":"correctly constructs a MeijerShiftD instance","over":{"base":"Any"},"name":"MeijerShiftD_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, Operator); preserves 1 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, '_poly')","kind":"class","induction":"structural on _poly"}],"methods_preserving":["__init__","__str__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"446fbe96cd690b31","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Operator)"],"invariants":["hasattr(self, '_poly')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function MeijerShiftD not found in source"]}}
 class MeijerShiftD(Operator):
     """ Decrement a lower a index. """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(bi), initializes the instance correctly) over Any ║
+# ║ Path(__init__(bi), <unspecified:__init__>) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __init__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 46fff4b76754e24d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.MeijerShiftD.__init__","kind":"method","src_hash":"73e9329d1ed358c8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(bi)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"46fff4b76754e24d"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.MeijerShiftD.__init__","kind":"method","src_hash":"73e9329d1ed358c8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(bi)","rhs":"<unspecified:__init__>","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"46fff4b76754e24d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, bi):
         bi = sympify(bi)
         self._poly = Poly(bi - 1 - _x, _x)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__str__(), returns a human-readable string) over Any  ║
+# ║ Path(__str__(), '<Decrement lower a=%s.>' % (self._poly.all_coeffs()[1] + 1)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  '<Decrement lower a=%s.>' % (self._poly.a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __str__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8bcf41f03876ee66           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.MeijerShiftD.__str__","kind":"method","src_hash":"1503eaa4dc90fe19","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"returns a human-readable string","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8bcf41f03876ee66"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.MeijerShiftD.__str__","kind":"method","src_hash":"1503eaa4dc90fe19","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"'<Decrement lower a=%s.>' % (self._poly.all_coeffs()[1] + 1)","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns '<Decrement lower a=%s.>' % (self._poly.all_coeffs()[1] + 1)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8bcf41f03876ee66","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'<Decrement lower a=%s.>' % (self._poly.all_coeffs()[1] + 1)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._poly"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __str__(self):
         return '<Decrement lower a=%s.>' % (self._poly.all_coeffs()[1] + 1)
 
@@ -1894,28 +2306,42 @@ class MeijerShiftD(Operator):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a MeijerUnShiftA instance) preserved by MeijerUnShiftA(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ MeijerUnShiftA : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Operator)                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ MeijerUnShiftA : Any → {Any | result satisfies: isins...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 21ed139e9b2e1fa8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.MeijerUnShiftA","kind":"class","src_hash":"0b8031a186a21922","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"MeijerUnShiftA(*args)","rhs":"correctly constructs a MeijerUnShiftA instance","over":{"base":"Any"},"name":"MeijerUnShiftA_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a MeijerUnShiftA instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, '_an') and hasattr(self, '_ap') and hasattr(self, '_bm') and hasattr(self, '_bq') and hasattr(self, '_i') and hasattr(self, '_poly')","kind":"class","induction":"structural on _an, _ap, _bm, _bq"}],"methods_preserving":["__init__","__str__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"21ed139e9b2e1fa8"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.MeijerUnShiftA","kind":"class","src_hash":"0b8031a186a21922","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Operator)"},"spec":{"lhs":"MeijerUnShiftA(*args)","rhs":"correctly constructs a MeijerUnShiftA instance","over":{"base":"Any"},"name":"MeijerUnShiftA_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, Operator); preserves 6 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, '_an') and hasattr(self, '_ap') and hasattr(self, '_bm') and hasattr(self, '_bq') and hasattr(self, '_i') and hasattr(self, '_poly')","kind":"class","induction":"structural on _an, _ap, _bm, _bq"}],"methods_preserving":["__init__","__str__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"21ed139e9b2e1fa8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Operator)"],"invariants":["hasattr(self, '_an')","hasattr(self, '_ap')","hasattr(self, '_bm')","hasattr(self, '_bq')","hasattr(self, '_i')","hasattr(self, '_poly')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function MeijerUnShiftA not found in source"]}}
 class MeijerUnShiftA(Operator):
     """ Decrement an upper b index. """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(an,), initializes the instance correctly) over Any ║
+# ║ Path(__init__(an, ap, bm), len(bm) == old_len_bm - 1) over {Any | hasattr(bm, 'pop') and len(bm) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(bm, 'pop')                             ║
+# ║   requires: len(bm) > 0                                    ║
+# ║   ensures:  len(bm) == old_len_bm - 1                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : {Any | hasattr(bm, 'pop') and len(bm) > 0}...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4b09f2e17aebe04a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.MeijerUnShiftA.__init__","kind":"method","src_hash":"2c8051dd90f1cd40","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(an,)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4b09f2e17aebe04a"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.MeijerUnShiftA.__init__","kind":"method","src_hash":"2c8051dd90f1cd40","in":{"base":"Any","pred":"hasattr(bm, 'pop') and len(bm) > 0"},"out":{"base":"Any","pred":"result satisfies: len(bm) == old_len_bm - 1"},"spec":{"lhs":"__init__(an, ap, bm)","rhs":"len(bm) == old_len_bm - 1","over":{"base":"Any","pred":"hasattr(bm, 'pop') and len(bm) > 0"},"name":"__init___correct"},"guarantee":"len(bm) == old_len_bm - 1","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4b09f2e17aebe04a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(bm, 'pop')","len(bm) > 0"],"ensures":["len(bm) == old_len_bm - 1"],"pure":false,"effects":{"effect_type":"mutates_args","reads":["bm.pop"],"writes":["self._an","self._ap","self._bm","self._bq","self._i","self._poly"],"calls_mutating":["bm.pop"],"raises":["ValueError"]},"state_contract":{"modifies":["bm.*","self._an","self._ap","self._bm","self._bq","self._i","self._poly"],"old_bindings":{"old_self__an":"self._an","old_self__ap":"self._ap","old_self__bm":"self._bm","old_self__bq":"self._bq","old_self__i":"self._i","old_self__poly":"self._poly","old_len_bm":"len(bm)"},"pre_requires":["len(bm) > 0"],"post_ensures":["len(bm) == old_len_bm - 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, an, ap, bm, bq, i, z):
         """ Note: i counts from zero! """
         an, ap, bm, bq, i = list(map(sympify, [an, ap, bm, bq, i]))
@@ -1947,16 +2373,22 @@ class MeijerUnShiftA(Operator):
         self._poly = Poly((m - n)/b0, _x)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__str__(), returns a human-readable string) over Any  ║
+# ║ Path(__str__(), '<Decrement upper b index #%s of %s, %s, %s, %s.>' % (self._i, self._an, self._ap, self._bm, self._bq)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  '<Decrement upper b index #%s of %s, %s, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __str__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c4fa8f3806b0105f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.MeijerUnShiftA.__str__","kind":"method","src_hash":"830add4f03d8be2f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"returns a human-readable string","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c4fa8f3806b0105f"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.MeijerUnShiftA.__str__","kind":"method","src_hash":"830add4f03d8be2f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"'<Decrement upper b index #%s of %s, %s, %s, %s.>' % (self._i, self._an, self._ap, self._bm, self._bq)","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns '<Decrement upper b index #%s of %s, %s, %s, %s.>' % (self._i, self._an, self._ap, self._bm, self._bq)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c4fa8f3806b0105f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'<Decrement upper b index #%s of %s, %s, %s, %s.>' % (self._i, self._an, self._ap, self._bm, self._bq)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._an","self._ap","self._bm","self._bq","self._i"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __str__(self):
         return '<Decrement upper b index #%s of %s, %s, %s, %s.>' % (self._i,
                                       self._an, self._ap, self._bm, self._bq)
@@ -1965,28 +2397,42 @@ class MeijerUnShiftA(Operator):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a MeijerUnShiftB instance) preserved by MeijerUnShiftB(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ MeijerUnShiftB : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Operator)                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ MeijerUnShiftB : Any → {Any | result satisfies: isins...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 41eb5a089da85cd2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.MeijerUnShiftB","kind":"class","src_hash":"f7667268c590709d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"MeijerUnShiftB(*args)","rhs":"correctly constructs a MeijerUnShiftB instance","over":{"base":"Any"},"name":"MeijerUnShiftB_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a MeijerUnShiftB instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, '_an') and hasattr(self, '_ap') and hasattr(self, '_bm') and hasattr(self, '_bq') and hasattr(self, '_i') and hasattr(self, '_poly')","kind":"class","induction":"structural on _an, _ap, _bm, _bq"}],"methods_preserving":["__init__","__str__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"41eb5a089da85cd2"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.MeijerUnShiftB","kind":"class","src_hash":"f7667268c590709d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Operator)"},"spec":{"lhs":"MeijerUnShiftB(*args)","rhs":"correctly constructs a MeijerUnShiftB instance","over":{"base":"Any"},"name":"MeijerUnShiftB_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, Operator); preserves 6 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, '_an') and hasattr(self, '_ap') and hasattr(self, '_bm') and hasattr(self, '_bq') and hasattr(self, '_i') and hasattr(self, '_poly')","kind":"class","induction":"structural on _an, _ap, _bm, _bq"}],"methods_preserving":["__init__","__str__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"41eb5a089da85cd2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Operator)"],"invariants":["hasattr(self, '_an')","hasattr(self, '_ap')","hasattr(self, '_bm')","hasattr(self, '_bq')","hasattr(self, '_i')","hasattr(self, '_poly')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function MeijerUnShiftB not found in source"]}}
 class MeijerUnShiftB(Operator):
     """ Increment an upper a index. """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(an,), initializes the instance correctly) over Any ║
+# ║ Path(__init__(an, ap, bm), len(an) == old_len_an - 1) over {Any | hasattr(an, 'pop') and len(an) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(an, 'pop')                             ║
+# ║   requires: len(an) > 0                                    ║
+# ║   ensures:  len(an) == old_len_an - 1                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : {Any | hasattr(an, 'pop') and len(an) > 0}...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c26c58d93a9ae461           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.MeijerUnShiftB.__init__","kind":"method","src_hash":"7bc8646aae959ea9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(an,)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c26c58d93a9ae461"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.MeijerUnShiftB.__init__","kind":"method","src_hash":"7bc8646aae959ea9","in":{"base":"Any","pred":"hasattr(an, 'pop') and len(an) > 0"},"out":{"base":"Any","pred":"result satisfies: len(an) == old_len_an - 1"},"spec":{"lhs":"__init__(an, ap, bm)","rhs":"len(an) == old_len_an - 1","over":{"base":"Any","pred":"hasattr(an, 'pop') and len(an) > 0"},"name":"__init___correct"},"guarantee":"len(an) == old_len_an - 1","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c26c58d93a9ae461","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(an, 'pop')","len(an) > 0"],"ensures":["len(an) == old_len_an - 1"],"pure":false,"effects":{"effect_type":"mutates_args","reads":["an.pop"],"writes":["self._an","self._ap","self._bm","self._bq","self._i","self._poly"],"calls_mutating":["an.pop"],"raises":["ValueError"]},"state_contract":{"modifies":["an.*","self._an","self._ap","self._bm","self._bq","self._i","self._poly"],"old_bindings":{"old_self__an":"self._an","old_self__ap":"self._ap","old_self__bm":"self._bm","old_self__bq":"self._bq","old_self__i":"self._i","old_self__poly":"self._poly","old_len_an":"len(an)"},"pre_requires":["len(an) > 0"],"post_ensures":["len(an) == old_len_an - 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, an, ap, bm, bq, i, z):
         """ Note: i counts from zero! """
         an, ap, bm, bq, i = list(map(sympify, [an, ap, bm, bq, i]))
@@ -2027,16 +2473,22 @@ class MeijerUnShiftB(Operator):
         self._poly = Poly((m - n)/b0, _x)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__str__(), returns a human-readable string) over Any  ║
+# ║ Path(__str__(), '<Increment upper a index #%s of %s, %s, %s, %s.>' % (self._i, self._an, self._ap, self._bm, self._bq)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  '<Increment upper a index #%s of %s, %s, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __str__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4cd8c887681fe37a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.MeijerUnShiftB.__str__","kind":"method","src_hash":"89a5c743f85ef17a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"returns a human-readable string","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4cd8c887681fe37a"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.MeijerUnShiftB.__str__","kind":"method","src_hash":"89a5c743f85ef17a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"'<Increment upper a index #%s of %s, %s, %s, %s.>' % (self._i, self._an, self._ap, self._bm, self._bq)","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns '<Increment upper a index #%s of %s, %s, %s, %s.>' % (self._i, self._an, self._ap, self._bm, self._bq)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4cd8c887681fe37a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'<Increment upper a index #%s of %s, %s, %s, %s.>' % (self._i, self._an, self._ap, self._bm, self._bq)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._an","self._ap","self._bm","self._bq","self._i"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __str__(self):
         return '<Increment upper a index #%s of %s, %s, %s, %s.>' % (self._i,
                                       self._an, self._ap, self._bm, self._bq)
@@ -2045,14 +2497,20 @@ class MeijerUnShiftB(Operator):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a MeijerUnShiftC instance) preserved by MeijerUnShiftC(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ MeijerUnShiftC : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Operator)                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ MeijerUnShiftC : Any → {Any | result satisfies: isins...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1f02cd5b2d6a30dd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.MeijerUnShiftC","kind":"class","src_hash":"5b9fc606e1345c93","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"MeijerUnShiftC(*args)","rhs":"correctly constructs a MeijerUnShiftC instance","over":{"base":"Any"},"name":"MeijerUnShiftC_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a MeijerUnShiftC instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, '_an') and hasattr(self, '_ap') and hasattr(self, '_bm') and hasattr(self, '_bq') and hasattr(self, '_i') and hasattr(self, '_poly')","kind":"class","induction":"structural on _an, _ap, _bm, _bq"}],"methods_preserving":["__init__","__str__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1f02cd5b2d6a30dd"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.MeijerUnShiftC","kind":"class","src_hash":"5b9fc606e1345c93","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Operator)"},"spec":{"lhs":"MeijerUnShiftC(*args)","rhs":"correctly constructs a MeijerUnShiftC instance","over":{"base":"Any"},"name":"MeijerUnShiftC_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, Operator); preserves 6 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, '_an') and hasattr(self, '_ap') and hasattr(self, '_bm') and hasattr(self, '_bq') and hasattr(self, '_i') and hasattr(self, '_poly')","kind":"class","induction":"structural on _an, _ap, _bm, _bq"}],"methods_preserving":["__init__","__str__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1f02cd5b2d6a30dd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Operator)"],"invariants":["hasattr(self, '_an')","hasattr(self, '_ap')","hasattr(self, '_bm')","hasattr(self, '_bq')","hasattr(self, '_i')","hasattr(self, '_poly')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function MeijerUnShiftC not found in source"]}}
 class MeijerUnShiftC(Operator):
     """ Decrement a lower b index. """
     # XXX this is "essentially" the same as MeijerUnShiftA. This "essentially"
@@ -2062,16 +2520,24 @@ class MeijerUnShiftC(Operator):
     #     again.
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(an,), initializes the instance correctly) over Any ║
+# ║ Path(__init__(an, ap, bm), len(bq) == old_len_bq - 1) over {Any | hasattr(bq, 'pop') and len(bq) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(bq, 'pop')                             ║
+# ║   requires: len(bq) > 0                                    ║
+# ║   ensures:  len(bq) == old_len_bq - 1                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : {Any | hasattr(bq, 'pop') and len(bq) > 0}...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b4f56f2ca9b84778           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.MeijerUnShiftC.__init__","kind":"method","src_hash":"e5dab504194f6063","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(an,)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b4f56f2ca9b84778"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.MeijerUnShiftC.__init__","kind":"method","src_hash":"e5dab504194f6063","in":{"base":"Any","pred":"hasattr(bq, 'pop') and len(bq) > 0"},"out":{"base":"Any","pred":"result satisfies: len(bq) == old_len_bq - 1"},"spec":{"lhs":"__init__(an, ap, bm)","rhs":"len(bq) == old_len_bq - 1","over":{"base":"Any","pred":"hasattr(bq, 'pop') and len(bq) > 0"},"name":"__init___correct"},"guarantee":"len(bq) == old_len_bq - 1","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b4f56f2ca9b84778","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(bq, 'pop')","len(bq) > 0"],"ensures":["len(bq) == old_len_bq - 1"],"pure":false,"effects":{"effect_type":"mutates_args","reads":["bq.pop"],"writes":["self._an","self._ap","self._bm","self._bq","self._i","self._poly"],"calls_mutating":["bq.pop"],"raises":["ValueError"]},"state_contract":{"modifies":["bq.*","self._an","self._ap","self._bm","self._bq","self._i","self._poly"],"old_bindings":{"old_self__an":"self._an","old_self__ap":"self._ap","old_self__bm":"self._bm","old_self__bq":"self._bq","old_self__i":"self._i","old_self__poly":"self._poly","old_len_bq":"len(bq)"},"pre_requires":["len(bq) > 0"],"post_ensures":["len(bq) == old_len_bq - 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, an, ap, bm, bq, i, z):
         """ Note: i counts from zero! """
         an, ap, bm, bq, i = list(map(sympify, [an, ap, bm, bq, i]))
@@ -2111,16 +2577,22 @@ class MeijerUnShiftC(Operator):
         self._poly = Poly((m - n)/b0, _x)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__str__(), returns a human-readable string) over Any  ║
+# ║ Path(__str__(), '<Decrement lower b index #%s of %s, %s, %s, %s.>' % (self._i, self._an, self._ap, self._bm, self._bq)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  '<Decrement lower b index #%s of %s, %s, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __str__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1ef6d1136fb91795           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.MeijerUnShiftC.__str__","kind":"method","src_hash":"e3b996117b50c28b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"returns a human-readable string","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1ef6d1136fb91795"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.MeijerUnShiftC.__str__","kind":"method","src_hash":"e3b996117b50c28b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"'<Decrement lower b index #%s of %s, %s, %s, %s.>' % (self._i, self._an, self._ap, self._bm, self._bq)","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns '<Decrement lower b index #%s of %s, %s, %s, %s.>' % (self._i, self._an, self._ap, self._bm, self._bq)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1ef6d1136fb91795","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'<Decrement lower b index #%s of %s, %s, %s, %s.>' % (self._i, self._an, self._ap, self._bm, self._bq)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._an","self._ap","self._bm","self._bq","self._i"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __str__(self):
         return '<Decrement lower b index #%s of %s, %s, %s, %s.>' % (self._i,
                                       self._an, self._ap, self._bm, self._bq)
@@ -2129,30 +2601,44 @@ class MeijerUnShiftC(Operator):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a MeijerUnShiftD instance) preserved by MeijerUnShiftD(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ MeijerUnShiftD : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Operator)                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ MeijerUnShiftD : Any → {Any | result satisfies: isins...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 07b85b2b0328d343  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.MeijerUnShiftD","kind":"class","src_hash":"1e03f1404216b1b5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"MeijerUnShiftD(*args)","rhs":"correctly constructs a MeijerUnShiftD instance","over":{"base":"Any"},"name":"MeijerUnShiftD_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a MeijerUnShiftD instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, '_an') and hasattr(self, '_ap') and hasattr(self, '_bm') and hasattr(self, '_bq') and hasattr(self, '_i') and hasattr(self, '_poly')","kind":"class","induction":"structural on _an, _ap, _bm, _bq"}],"methods_preserving":["__init__","__str__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"07b85b2b0328d343"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.MeijerUnShiftD","kind":"class","src_hash":"1e03f1404216b1b5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Operator)"},"spec":{"lhs":"MeijerUnShiftD(*args)","rhs":"correctly constructs a MeijerUnShiftD instance","over":{"base":"Any"},"name":"MeijerUnShiftD_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, Operator); preserves 6 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, '_an') and hasattr(self, '_ap') and hasattr(self, '_bm') and hasattr(self, '_bq') and hasattr(self, '_i') and hasattr(self, '_poly')","kind":"class","induction":"structural on _an, _ap, _bm, _bq"}],"methods_preserving":["__init__","__str__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"07b85b2b0328d343","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Operator)"],"invariants":["hasattr(self, '_an')","hasattr(self, '_ap')","hasattr(self, '_bm')","hasattr(self, '_bq')","hasattr(self, '_i')","hasattr(self, '_poly')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function MeijerUnShiftD not found in source"]}}
 class MeijerUnShiftD(Operator):
     """ Increment a lower a index. """
     # XXX This is essentially the same as MeijerUnShiftA.
     #     See comment at MeijerUnShiftC.
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(an,), initializes the instance correctly) over Any ║
+# ║ Path(__init__(an, ap, bm), len(ap) == old_len_ap - 1) over {Any | hasattr(ap, 'pop') and len(ap) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(ap, 'pop')                             ║
+# ║   requires: len(ap) > 0                                    ║
+# ║   ensures:  len(ap) == old_len_ap - 1                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : {Any | hasattr(ap, 'pop') and len(ap) > 0}...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 17d92b49700ec8f2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.MeijerUnShiftD.__init__","kind":"method","src_hash":"36405593c0728fb7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(an,)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"17d92b49700ec8f2"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.MeijerUnShiftD.__init__","kind":"method","src_hash":"36405593c0728fb7","in":{"base":"Any","pred":"hasattr(ap, 'pop') and len(ap) > 0"},"out":{"base":"Any","pred":"result satisfies: len(ap) == old_len_ap - 1"},"spec":{"lhs":"__init__(an, ap, bm)","rhs":"len(ap) == old_len_ap - 1","over":{"base":"Any","pred":"hasattr(ap, 'pop') and len(ap) > 0"},"name":"__init___correct"},"guarantee":"len(ap) == old_len_ap - 1","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"17d92b49700ec8f2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(ap, 'pop')","len(ap) > 0"],"ensures":["len(ap) == old_len_ap - 1"],"pure":false,"effects":{"effect_type":"mutates_args","reads":["ap.pop"],"writes":["self._an","self._ap","self._bm","self._bq","self._i","self._poly"],"calls_mutating":["ap.pop"],"raises":["ValueError"]},"state_contract":{"modifies":["ap.*","self._an","self._ap","self._bm","self._bq","self._i","self._poly"],"old_bindings":{"old_self__an":"self._an","old_self__ap":"self._ap","old_self__bm":"self._bm","old_self__bq":"self._bq","old_self__i":"self._i","old_self__poly":"self._poly","old_len_ap":"len(ap)"},"pre_requires":["len(ap) > 0"],"post_ensures":["len(ap) == old_len_ap - 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, an, ap, bm, bq, i, z):
         """ Note: i counts from zero! """
         an, ap, bm, bq, i = list(map(sympify, [an, ap, bm, bq, i]))
@@ -2193,16 +2679,22 @@ class MeijerUnShiftD(Operator):
         self._poly = Poly((m - n)/b0, _x)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__str__(), returns a human-readable string) over Any  ║
+# ║ Path(__str__(), '<Increment lower a index #%s of %s, %s, %s, %s.>' % (self._i, self._an, self._ap, self._bm, self._bq)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  '<Increment lower a index #%s of %s, %s, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __str__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4060380f71302aac           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.MeijerUnShiftD.__str__","kind":"method","src_hash":"336b0bac8c159214","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"returns a human-readable string","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4060380f71302aac"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.MeijerUnShiftD.__str__","kind":"method","src_hash":"336b0bac8c159214","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"'<Increment lower a index #%s of %s, %s, %s, %s.>' % (self._i, self._an, self._ap, self._bm, self._bq)","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns '<Increment lower a index #%s of %s, %s, %s, %s.>' % (self._i, self._an, self._ap, self._bm, self._bq)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4060380f71302aac","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'<Increment lower a index #%s of %s, %s, %s, %s.>' % (self._i, self._an, self._ap, self._bm, self._bq)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._an","self._ap","self._bm","self._bq","self._i"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __str__(self):
         return '<Increment lower a index #%s of %s, %s, %s, %s.>' % (self._i,
                                       self._an, self._ap, self._bm, self._bq)
@@ -2211,28 +2703,42 @@ class MeijerUnShiftD(Operator):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(ReduceOrder(*args), correctly constructs a ReduceOrder instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ ReduceOrder : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Operator)                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ ReduceOrder : Any → {Any | result satisfies: isinstan...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 53b4eb0ca312ae7e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.ReduceOrder","kind":"class","src_hash":"d30a76ad8244d06d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ReduceOrder(*args)","rhs":"correctly constructs a ReduceOrder instance","over":{"base":"Any"},"name":"ReduceOrder_class_invariant"},"guarantee":"correctly constructs a ReduceOrder instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"53b4eb0ca312ae7e"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.ReduceOrder","kind":"class","src_hash":"d30a76ad8244d06d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Operator)"},"spec":{"lhs":"ReduceOrder(*args)","rhs":"correctly constructs a ReduceOrder instance","over":{"base":"Any"},"name":"ReduceOrder_class_invariant"},"guarantee":"isinstance(self, Operator)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"53b4eb0ca312ae7e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Operator)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":false,"binding_errors":["Function ReduceOrder not found in source"]}}
 class ReduceOrder(Operator):
     """ Reduce Order by cancelling an upper and a lower index. """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), for convenience if reduction is not possible, return none) over Any ║
+# ║ Path(__new__(cls, ai, bj), <unspecified:__new__>) over {Any | hasattr(bj, 'is_integer') and hasattr(bj, 'is_nonpositive')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(bj, 'is_integer')                      ║
+# ║   requires: hasattr(bj, 'is_nonpositive')                  ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | hasattr(bj, 'is_integer') and hasatt...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c70cc32b355ed43b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.ReduceOrder.__new__","kind":"method","src_hash":"b7102fde499d7185","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"for convenience if reduction is not possible, return none","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"for convenience if reduction is not possible, return none","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c70cc32b355ed43b"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.ReduceOrder.__new__","kind":"method","src_hash":"b7102fde499d7185","in":{"base":"Any","pred":"hasattr(bj, 'is_integer') and hasattr(bj, 'is_nonpositive')"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, ai, bj)","rhs":"<unspecified:__new__>","over":{"base":"Any","pred":"hasattr(bj, 'is_integer') and hasattr(bj, 'is_nonpositive')"},"name":"__new___correct"},"guarantee":"for convenience if reduction is not possible, return none","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c70cc32b355ed43b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(bj, 'is_integer')","hasattr(bj, 'is_nonpositive')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["bj.is_integer","bj.is_nonpositive"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, ai, bj):
         """ For convenience if reduction is not possible, return None. """
         ai = sympify(ai)
@@ -2257,16 +2763,22 @@ class ReduceOrder(Operator):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_meijer(cls), cancel b + sign*s and a + sign*s this is for meijer g functions) over Any ║
+# ║ Path(_meijer(cls, b, a), <unspecified:_meijer>) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _meijer : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ac10a43389f09842  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.ReduceOrder._meijer","kind":"classmethod","src_hash":"90cb0d92f6233ca3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_meijer(cls)","rhs":"cancel b + sign*s and a + sign*s this is for meijer g functions","over":{"base":"Any"},"name":"_meijer_correct"},"guarantee":"cancel b + sign*s and a + sign*s this is for meijer g functions","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.hyperexpand.ReduceOrder._meijer_correct","statement":"Path(_meijer(x), cancel b + sign*s and a + sign*s this is for meijer g functions)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ac10a43389f09842"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.ReduceOrder._meijer","kind":"classmethod","src_hash":"90cb0d92f6233ca3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_meijer(cls, b, a)","rhs":"<unspecified:_meijer>","over":{"base":"Any"},"name":"_meijer_correct"},"guarantee":"cancel b + sign*s and a + sign*s this is for meijer g functions","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.hyperexpand.ReduceOrder._meijer_correct","statement":"Path(_meijer(x), cancel b + sign*s and a + sign*s this is for meijer g functions)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ac10a43389f09842","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _meijer(cls, b, a, sign):
         """ Cancel b + sign*s and a + sign*s
             This is for meijer G functions. """
@@ -2294,61 +2806,91 @@ class ReduceOrder(Operator):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(meijer_minus(cls), meijer_minus produces the expected output) over Any ║
+# ║ Path(meijer_minus(cls, b, a), cls._meijer(b, a, -1)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  cls._meijer(b, a, -1)                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ meijer_minus : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8c601eed830d4b42           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.ReduceOrder.meijer_minus","kind":"classmethod","src_hash":"dbd6929997b4ee6b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"meijer_minus(cls)","rhs":"meijer_minus produces the expected output","over":{"base":"Any"},"name":"meijer_minus_correct"},"guarantee":"meijer_minus produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8c601eed830d4b42"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.ReduceOrder.meijer_minus","kind":"classmethod","src_hash":"dbd6929997b4ee6b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"meijer_minus(cls, b, a)","rhs":"cls._meijer(b, a, -1)","over":{"base":"Any"},"name":"meijer_minus_correct"},"guarantee":"returns cls._meijer(b, a, -1)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8c601eed830d4b42","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"cls._meijer(b, a, -1)","pure":false,"effects":{"effect_type":"reads_state","reads":["cls._meijer"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def meijer_minus(cls, b, a):
         return cls._meijer(b, a, -1)
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(meijer_plus(cls), meijer_plus produces the expected output) over Any ║
+# ║ Path(meijer_plus(cls, a, b), cls._meijer(1 - a, 1 - b, 1)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  cls._meijer(1 - a, 1 - b, 1)                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ meijer_plus : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7149ce06a839202b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.ReduceOrder.meijer_plus","kind":"classmethod","src_hash":"58a8767e13835939","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"meijer_plus(cls)","rhs":"meijer_plus produces the expected output","over":{"base":"Any"},"name":"meijer_plus_correct"},"guarantee":"meijer_plus produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7149ce06a839202b"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.ReduceOrder.meijer_plus","kind":"classmethod","src_hash":"58a8767e13835939","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"meijer_plus(cls, a, b)","rhs":"cls._meijer(1 - a, 1 - b, 1)","over":{"base":"Any"},"name":"meijer_plus_correct"},"guarantee":"returns cls._meijer(1 - a, 1 - b, 1)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7149ce06a839202b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"cls._meijer(1 - a, 1 - b, 1)","pure":false,"effects":{"effect_type":"reads_state","reads":["cls._meijer"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def meijer_plus(cls, a, b):
         return cls._meijer(1 - a, 1 - b, 1)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__str__(), returns a human-readable string) over Any  ║
+# ║ Path(__str__(), '<Reduce order by cancelling upper %s with lower %s.>' % (self._a, self._b)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  '<Reduce order by cancelling upper %s wit...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __str__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | dbf61a5840008ce9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.ReduceOrder.__str__","kind":"method","src_hash":"cf59c8d9b452cbcd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"returns a human-readable string","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"dbf61a5840008ce9"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.ReduceOrder.__str__","kind":"method","src_hash":"cf59c8d9b452cbcd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"'<Reduce order by cancelling upper %s with lower %s.>' % (self._a, self._b)","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns '<Reduce order by cancelling upper %s with lower %s.>' % (self._a, self._b)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"dbf61a5840008ce9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'<Reduce order by cancelling upper %s with lower %s.>' % (self._a, self._b)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._a","self._b"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __str__(self):
         return '<Reduce order by cancelling upper %s with lower %s.>' % \
             (self._a, self._b)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_reduce_order(ap,), order reduction algorithm used in hypergeometric and meijer g) over Any ║
+# ║ Path(_reduce_order(ap, bq, gen), (nap, bq, operators)) over {Any | hasattr(ap, 'sort') and hasattr(bq, 'sort') and hasattr(bq, 'pop') and len(bq) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _reduce_order : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(ap, 'sort')                            ║
+# ║   requires: hasattr(bq, 'sort')                            ║
+# ║   requires: hasattr(bq, 'pop')                             ║
+# ║   ensures:  len(ap) == old_len_ap                          ║
+# ║   ensures:  len(bq) == old_len_bq - 1                      ║
+# ║   ensures:  len(bq) == old_len_bq                          ║
+# ║   returns:  (nap, bq, operators)                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _reduce_order : {Any | hasattr(ap, 'sort') and hasatt...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bf7268a489991761  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 15adf814fe361bf0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand._reduce_order","kind":"function","src_hash":"415d64c8c7b8d4e0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_reduce_order(ap,)","rhs":"order reduction algorithm used in hypergeometric and meijer g","over":{"base":"Any"},"name":"_reduce_order_correct"},"guarantee":"order reduction algorithm used in hypergeometric and meijer g","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.hyperexpand._reduce_order_correct","statement":"Path(_reduce_order(x), order reduction algorithm used in hypergeometric and meijer g)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bf7268a489991761"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand._reduce_order","kind":"function","src_hash":"415d64c8c7b8d4e0","in":{"base":"Any","pred":"hasattr(ap, 'sort') and hasattr(bq, 'sort') and hasattr(bq, 'pop') and len(bq) > 0"},"out":{"base":"Any","pred":"result satisfies: result == ((nap, bq, operators))"},"spec":{"lhs":"_reduce_order(ap, bq, gen)","rhs":"(nap, bq, operators)","over":{"base":"Any","pred":"hasattr(ap, 'sort') and hasattr(bq, 'sort') and hasattr(bq, 'pop') and len(bq) > 0"},"name":"_reduce_order_correct"},"guarantee":"returns (nap, bq, operators); len(ap) == old_len_ap; len(bq) == old_len_bq - 1; len(bq) == old_len_bq","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.hyperexpand._reduce_order_correct","statement":"Path(_reduce_order(x), returns (nap, bq, operators); len(ap) == old_len_ap; len(bq) == old_len_bq - 1; len(bq) == old_len_bq)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"15adf814fe361bf0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(ap, 'sort')","hasattr(bq, 'sort')","hasattr(bq, 'pop')","len(bq) > 0"],"ensures":["len(ap) == old_len_ap","len(bq) == old_len_bq - 1","len(bq) == old_len_bq","len(nap) == old_len_nap + 1","len(operators) == old_len_operators + 1"],"returns_expr":"(nap, bq, operators)","pure":false,"effects":{"effect_type":"mutates_args","reads":["ap.sort","bq.pop","bq.sort"],"calls_mutating":["ap.sort","bq.pop","bq.sort","nap.append","operators.append"]},"state_contract":{"modifies":["ap.*","bq.*","nap.*","operators.*"],"old_bindings":{"old_len_ap":"len(ap)","old_len_bq":"len(bq)","old_len_nap":"len(nap)","old_len_operators":"len(operators)"},"pre_requires":["len(bq) > 0"],"post_ensures":["len(ap) == old_len_ap","len(bq) == old_len_bq - 1","len(bq) == old_len_bq","len(nap) == old_len_nap + 1","len(operators) == old_len_operators + 1"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _reduce_order(ap, bq, gen, key):
     """ Order reduction algorithm used in Hypergeometric and Meijer G """
     ap = list(ap)
@@ -2376,16 +2918,24 @@ def _reduce_order(ap, bq, gen, key):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(reduce_order(fun), id) over Any                       ║
+# ║ Path(reduce_order(func), id) over {Any | hasattr(func, 'ap') and hasattr(func, 'bq')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ reduce_order : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(func, 'ap')                            ║
+# ║   requires: hasattr(func, 'bq')                            ║
+# ║   returns:  (Hyper_Function(Tuple(*nap), Tuple(*nbq))...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ reduce_order : {Any | hasattr(func, 'ap') and hasattr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | caf337a0b2d56a3b   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.reduce_order","kind":"function","src_hash":"ccd2a2d8972d5506","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"reduce_order(fun)","rhs":"given the hypergeometric function ``func``, find a sequence of operators to reduces order as much as possible","over":{"base":"Any"},"name":"reduce_order_correct","kind":"composition"},"guarantee":"given the hypergeometric function ``func``, find a sequence of operators to reduces order as much as possible","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Hyper_Function","by":"library_axiom"},{"fn":"Tuple","by":"library_axiom"},{"fn":"Tuple","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"caf337a0b2d56a3b"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.reduce_order","kind":"function","src_hash":"ccd2a2d8972d5506","in":{"base":"Any","pred":"hasattr(func, 'ap') and hasattr(func, 'bq')"},"out":{"base":"Any"},"spec":{"lhs":"reduce_order(func)","rhs":"(Hyper_Function(Tuple(*nap), Tuple(*nbq)), operators)","over":{"base":"Any","pred":"hasattr(func, 'ap') and hasattr(func, 'bq')"},"name":"reduce_order_correct","kind":"composition"},"guarantee":"returns (Hyper_Function(Tuple(*nap), Tuple(*nbq)), operators)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Hyper_Function","by":"library_axiom"},{"fn":"Tuple","by":"library_axiom"},{"fn":"Tuple","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"caf337a0b2d56a3b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(func, 'ap')","hasattr(func, 'bq')"],"returns_expr":"(Hyper_Function(Tuple(*nap), Tuple(*nbq)), operators)","pure":false,"effects":{"effect_type":"reads_state","reads":["func.ap","func.bq"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def reduce_order(func):
     """
     Given the hypergeometric function ``func``, find a sequence of operators to
@@ -2415,16 +2965,25 @@ def reduce_order(func):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(reduce_order_meijer(fun), given the meijer g function parameters, ``func``, find a sequence of operators that reduces order as much as possible) over Any ║
+# ║ Path(reduce_order_meijer(func), (G_Function(nan, nap, nbm, nbq), ops1 + ops2)) over {Any | hasattr(func, 'an') and hasattr(func, 'bq') and hasattr(func, 'bm') and hasattr(func, 'ap')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ reduce_order_meijer : Any → Any                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(func, 'an')                            ║
+# ║   requires: hasattr(func, 'bq')                            ║
+# ║   requires: hasattr(func, 'bm')                            ║
+# ║   returns:  (G_Function(nan, nap, nbm, nbq), ops1 + o...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ reduce_order_meijer : {Any | hasattr(func, 'an') and ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4c8be93618dbe977  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f51817829af9fc34  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.reduce_order_meijer","kind":"function","src_hash":"f025a506eb7242f5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"reduce_order_meijer(fun)","rhs":"given the meijer g function parameters, ``func``, find a sequence of operators that reduces order as much as possible","over":{"base":"Any"},"name":"reduce_order_meijer_correct"},"guarantee":"given the meijer g function parameters, ``func``, find a sequence of operators that reduces order as much as possible","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.hyperexpand.reduce_order_meijer_correct","statement":"Path(reduce_order_meijer(x), given the meijer g function parameters, ``func``, find a sequence of operators that reduces order as much as possible)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4c8be93618dbe977"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.reduce_order_meijer","kind":"function","src_hash":"f025a506eb7242f5","in":{"base":"Any","pred":"hasattr(func, 'an') and hasattr(func, 'bq') and hasattr(func, 'bm') and hasattr(func, 'ap')"},"out":{"base":"Any"},"spec":{"lhs":"reduce_order_meijer(func)","rhs":"(G_Function(nan, nap, nbm, nbq), ops1 + ops2)","over":{"base":"Any","pred":"hasattr(func, 'an') and hasattr(func, 'bq') and hasattr(func, 'bm') and hasattr(func, 'ap')"},"name":"reduce_order_meijer_correct"},"guarantee":"returns (G_Function(nan, nap, nbm, nbq), ops1 + ops2)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.hyperexpand.reduce_order_meijer_correct","statement":"Path(reduce_order_meijer(x), returns (G_Function(nan, nap, nbm, nbq), ops1 + ops2))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f51817829af9fc34","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(func, 'an')","hasattr(func, 'bq')","hasattr(func, 'bm')","hasattr(func, 'ap')"],"returns_expr":"(G_Function(nan, nap, nbm, nbq), ops1 + ops2)","pure":false,"effects":{"effect_type":"reads_state","reads":["func.an","func.ap","func.bm","func.bq"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def reduce_order_meijer(func):
     """
     Given the Meijer G function parameters, ``func``, find a sequence of
@@ -2456,16 +3015,22 @@ def reduce_order_meijer(func):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(make_derivative_operator(M, ), create a derivative operator, to be passed to operator.apply) over Any ║
+# ║ Path(make_derivative_operator(M, z), <unspecified:make_derivative_operator>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ make_derivative_operator : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 33d9ad9b026bb42f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.make_derivative_operator","kind":"function","src_hash":"bd5fea8af86f0268","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"make_derivative_operator(M, )","rhs":"create a derivative operator, to be passed to operator.apply","over":{"base":"Any"},"name":"make_derivative_operator_correct"},"guarantee":"create a derivative operator, to be passed to operator.apply","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.hyperexpand.make_derivative_operator_correct","statement":"Path(make_derivative_operator(x), create a derivative operator, to be passed to operator.apply)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"33d9ad9b026bb42f"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.make_derivative_operator","kind":"function","src_hash":"bd5fea8af86f0268","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"make_derivative_operator(M, z)","rhs":"<unspecified:make_derivative_operator>","over":{"base":"Any"},"name":"make_derivative_operator_correct"},"guarantee":"create a derivative operator, to be passed to operator.apply","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.hyperexpand.make_derivative_operator_correct","statement":"Path(make_derivative_operator(x), create a derivative operator, to be passed to operator.apply)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"33d9ad9b026bb42f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def make_derivative_operator(M, z):
     """ Create a derivative operator, to be passed to Operator.apply. """
     def doit(C):
@@ -2476,16 +3041,22 @@ def make_derivative_operator(M, z):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(apply_operators(obj), apply the list of operators ``ops`` to object ``obj``, substituting ``op`` for the generator) over Any ║
+# ║ Path(apply_operators(obj, ops, op), <unspecified:apply_operators>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ apply_operators : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 22397b5bbf33c461  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.apply_operators","kind":"function","src_hash":"3f162f8008de64a8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"apply_operators(obj)","rhs":"apply the list of operators ``ops`` to object ``obj``, substituting ``op`` for the generator","over":{"base":"Any"},"name":"apply_operators_correct"},"guarantee":"apply the list of operators ``ops`` to object ``obj``, substituting ``op`` for the generator","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.hyperexpand.apply_operators_correct","statement":"Path(apply_operators(x), apply the list of operators ``ops`` to object ``obj``, substituting ``op`` for the generator)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"22397b5bbf33c461"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.apply_operators","kind":"function","src_hash":"3f162f8008de64a8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"apply_operators(obj, ops, op)","rhs":"<unspecified:apply_operators>","over":{"base":"Any"},"name":"apply_operators_correct"},"guarantee":"apply the list of operators ``ops`` to object ``obj``, substituting ``op`` for the generator","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.hyperexpand.apply_operators_correct","statement":"Path(apply_operators(x), apply the list of operators ``ops`` to object ``obj``, substituting ``op`` for the generator)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"22397b5bbf33c461","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def apply_operators(obj, ops, op):
     """
     Apply the list of operators ``ops`` to object ``obj``, substituting
@@ -2498,16 +3069,25 @@ def apply_operators(obj, ops, op):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(devise_plan(tar), devise a plan (consisting of shift and un-shift operators) to be applied to the hypergeometric function ``target`` to yield ``origin``. returns a list of operators) over Any ║
+# ║ Path(devise_plan(target, origin, z), len(ops) == old_len_ops) over {Any | not (len(list(abuckets.keys())) != len(list(nabuckets.keys())) or len(list(bbuckets.keys())) != len(list(nbbuckets.keys()))) and hasattr(target, 'ap') and hasattr(target, 'bq') and hasattr(origin, 'ap') and hasattr(origin, 'bq')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ devise_plan : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (len(list(abuckets.keys())) != len(li...   ║
+# ║   requires: hasattr(target, 'ap')                          ║
+# ║   requires: hasattr(target, 'bq')                          ║
+# ║   ensures:  len(ops) == old_len_ops                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ devise_plan : {Any | not (len(list(abuckets.keys())) ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c3c45bfd69b07dca  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5aed8e8ff8231dd5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.devise_plan","kind":"function","src_hash":"c4b9fcb31f0cf708","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"devise_plan(tar)","rhs":"devise a plan (consisting of shift and un-shift operators) to be applied to the hypergeometric function ``target`` to yield ``origin``. returns a list of operators","over":{"base":"Any"},"name":"devise_plan_correct"},"guarantee":"devise a plan (consisting of shift and un-shift operators) to be applied to the hypergeometric function ``target`` to yield ``origin``. returns a list of operators","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.hyperexpand.devise_plan_correct","statement":"Path(devise_plan(x), devise a plan (consisting of shift and un-shift operators) to be applied to the hypergeometric function ``target`` to yield ``origin``. returns a list of operators)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c3c45bfd69b07dca"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.devise_plan","kind":"function","src_hash":"c4b9fcb31f0cf708","in":{"base":"Any","pred":"not (len(list(abuckets.keys())) != len(list(nabuckets.keys())) or len(list(bbuckets.keys())) != len(list(nbbuckets.keys()))) and hasattr(target, 'ap') and hasattr(target, 'bq') and hasattr(origin, 'ap') and hasattr(origin, 'bq')"},"out":{"base":"Any","pred":"result satisfies: len(ops) == old_len_ops"},"spec":{"lhs":"devise_plan(target, origin, z)","rhs":"len(ops) == old_len_ops","over":{"base":"Any","pred":"not (len(list(abuckets.keys())) != len(list(nabuckets.keys())) or len(list(bbuckets.keys())) != len(list(nbbuckets.keys()))) and hasattr(target, 'ap') and hasattr(target, 'bq') and hasattr(origin, 'ap') and hasattr(origin, 'bq')"},"name":"devise_plan_correct"},"guarantee":"len(ops) == old_len_ops","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.hyperexpand.devise_plan_correct","statement":"Path(devise_plan(x), len(ops) == old_len_ops)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5aed8e8ff8231dd5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (len(list(abuckets.keys())) != len(list(nabuckets.keys())) or len(list(bbuckets.keys())) != len(list(nbbuckets.keys())))","hasattr(target, 'ap')","hasattr(target, 'bq')","hasattr(origin, 'ap')","hasattr(origin, 'bq')"],"ensures":["len(ops) == old_len_ops"],"pure":false,"effects":{"effect_type":"reads_state","reads":["origin.ap","origin.bq","target.ap","target.bq"],"calls_mutating":["l.extend","ops.reverse"],"raises":["ValueError"]},"state_contract":{"modifies":["l.*","ops.*"],"old_bindings":{"old_len_l":"len(l)","old_len_ops":"len(ops)"},"post_ensures":["len(ops) == old_len_ops"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.1,"verdict_class":"assumed","binding":true}}
 def devise_plan(target, origin, z):
     """
     Devise a plan (consisting of shift and un-shift operators) to be applied
@@ -2646,16 +3226,24 @@ def devise_plan(target, origin, z):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(try_shifted_sum(fun), try to recognise a hypergeometric sum that starts from k > 0) over Any ║
+# ║ Path(try_shifted_sum(func, z), <unspecified:try_shifted_sum>) over {Any | hasattr(func, 'ap') and hasattr(func, 'bq')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ try_shifted_sum : Any → Any                                ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(func, 'ap')                            ║
+# ║   requires: hasattr(func, 'bq')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ try_shifted_sum : {Any | hasattr(func, 'ap') and hasa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eef0724a54361395  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.try_shifted_sum","kind":"function","src_hash":"5d4a960b22966a5c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"try_shifted_sum(fun)","rhs":"try to recognise a hypergeometric sum that starts from k > 0","over":{"base":"Any"},"name":"try_shifted_sum_correct"},"guarantee":"try to recognise a hypergeometric sum that starts from k > 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.hyperexpand.try_shifted_sum_correct","statement":"Path(try_shifted_sum(x), try to recognise a hypergeometric sum that starts from k > 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eef0724a54361395"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.try_shifted_sum","kind":"function","src_hash":"5d4a960b22966a5c","in":{"base":"Any","pred":"hasattr(func, 'ap') and hasattr(func, 'bq')"},"out":{"base":"Any"},"spec":{"lhs":"try_shifted_sum(func, z)","rhs":"<unspecified:try_shifted_sum>","over":{"base":"Any","pred":"hasattr(func, 'ap') and hasattr(func, 'bq')"},"name":"try_shifted_sum_correct"},"guarantee":"try to recognise a hypergeometric sum that starts from k > 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.hyperexpand.try_shifted_sum_correct","statement":"Path(try_shifted_sum(x), try to recognise a hypergeometric sum that starts from k > 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eef0724a54361395","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(func, 'ap')","hasattr(func, 'bq')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def try_shifted_sum(func, z):
     """ Try to recognise a hypergeometric sum that starts from k > 0. """
     abuckets, bbuckets = sift(func.ap, _mod1), sift(func.bq, _mod1)
@@ -2702,16 +3290,24 @@ def try_shifted_sum(func, z):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(try_polynomial(fun), recognise polynomial cases) over Any ║
+# ║ Path(try_polynomial(func, z), <unspecified:try_polynomial>) over {Any | hasattr(func, 'ap') and hasattr(func, 'bq')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ try_polynomial : Any → Any                                 ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(func, 'ap')                            ║
+# ║   requires: hasattr(func, 'bq')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ try_polynomial : {Any | hasattr(func, 'ap') and hasat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 92132d542ac5b2c5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.try_polynomial","kind":"function","src_hash":"331d4ed200454c3b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"try_polynomial(fun)","rhs":"recognise polynomial cases","over":{"base":"Any"},"name":"try_polynomial_correct"},"guarantee":"recognise polynomial cases","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.hyperexpand.try_polynomial_correct","statement":"Path(try_polynomial(x), recognise polynomial cases)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"92132d542ac5b2c5"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.try_polynomial","kind":"function","src_hash":"331d4ed200454c3b","in":{"base":"Any","pred":"hasattr(func, 'ap') and hasattr(func, 'bq')"},"out":{"base":"Any"},"spec":{"lhs":"try_polynomial(func, z)","rhs":"<unspecified:try_polynomial>","over":{"base":"Any","pred":"hasattr(func, 'ap') and hasattr(func, 'bq')"},"name":"try_polynomial_correct"},"guarantee":"recognise polynomial cases","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.hyperexpand.try_polynomial_correct","statement":"Path(try_polynomial(x), recognise polynomial cases)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"92132d542ac5b2c5","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(func, 'ap')","hasattr(func, 'bq')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def try_polynomial(func, z):
     """ Recognise polynomial cases. Returns None if not such a case.
         Requires order to be fully reduced. """
@@ -2741,16 +3337,27 @@ def try_polynomial(func, z):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(try_lerchphi(fun), try to find an expression for hyper_function ``func`` in terms of lerch transcendents) over Any ║
+# ║ Path(try_lerchphi(func), len(bbuckets) == old_len_bbuckets - 1 and len(l) == old_len_l and len(monomials) == old_len_monomials) over {Any | hasattr(func, 'ap') and hasattr(func, 'bq') and len(bbuckets) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ try_lerchphi : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(func, 'ap')                            ║
+# ║   requires: hasattr(func, 'bq')                            ║
+# ║   requires: len(bbuckets) > 0                              ║
+# ║   ensures:  len(bbuckets) == old_len_bbuckets - 1          ║
+# ║   ensures:  len(l) == old_len_l                            ║
+# ║   ensures:  len(monomials) == old_len_monomials            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ try_lerchphi : {Any | hasattr(func, 'ap') and hasattr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e705a52645064590  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5398daedcaf508b0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.try_lerchphi","kind":"function","src_hash":"734134e6f282b2f1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"try_lerchphi(fun)","rhs":"try to find an expression for hyper_function ``func`` in terms of lerch transcendents","over":{"base":"Any"},"name":"try_lerchphi_correct"},"guarantee":"try to find an expression for hyper_function ``func`` in terms of lerch transcendents","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.hyperexpand.try_lerchphi_correct","statement":"Path(try_lerchphi(x), try to find an expression for hyper_function ``func`` in terms of lerch transcendents)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e705a52645064590"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.try_lerchphi","kind":"function","src_hash":"734134e6f282b2f1","in":{"base":"Any","pred":"hasattr(func, 'ap') and hasattr(func, 'bq') and len(bbuckets) > 0"},"out":{"base":"Any","pred":"result satisfies: len(bbuckets) == old_len_bbuckets - 1 and len(l) == old_len_l and len(monomials) == old_len_monomials"},"spec":{"lhs":"try_lerchphi(func)","rhs":"len(bbuckets) == old_len_bbuckets - 1 and len(l) == old_len_l and len(monomials) == old_len_monomials","over":{"base":"Any","pred":"hasattr(func, 'ap') and hasattr(func, 'bq') and len(bbuckets) > 0"},"name":"try_lerchphi_correct"},"guarantee":"len(bbuckets) == old_len_bbuckets - 1; len(l) == old_len_l; len(monomials) == old_len_monomials","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.hyperexpand.try_lerchphi_correct","statement":"Path(try_lerchphi(x), len(bbuckets) == old_len_bbuckets - 1; len(l) == old_len_l; len(monomials) == old_len_monomials)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5398daedcaf508b0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(func, 'ap')","hasattr(func, 'bq')","len(bbuckets) > 0"],"ensures":["len(bbuckets) == old_len_bbuckets - 1","len(l) == old_len_l","len(monomials) == old_len_monomials"],"pure":false,"effects":{"effect_type":"reads_state","reads":["func.ap","func.bq"],"calls_mutating":["bbuckets.pop","coeffs.setdefault","l.sort","monomials.sort","terms.setdefault"],"raises":["NotImplementedError","TypeError"]},"state_contract":{"modifies":["bbuckets.*","coeffs.*","l.*","monomials.*","terms.*"],"old_bindings":{"old_len_bbuckets":"len(bbuckets)","old_len_l":"len(l)","old_len_monomials":"len(monomials)"},"pre_requires":["len(bbuckets) > 0"],"post_ensures":["len(bbuckets) == old_len_bbuckets - 1","len(l) == old_len_l","len(monomials) == old_len_monomials"],"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"],"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.1,"verdict_class":"assumed","binding":true}}
 def try_lerchphi(func):
     """
     Try to find an expression for Hyper_Function ``func`` in terms of Lerch
@@ -2883,16 +3490,27 @@ def try_lerchphi(func):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(build_hypergeometric_formula(fun), create a formula object representing the hypergeometric function ``func``) over Any ║
+# ║ Path(build_hypergeometric_formula(func), result == (Formula(func, z, None, [], B, C, M) if func.ap else Formula(func, z, None, [], B, C, M)) and result == Formula(func, z, None, [], B, C, M)) over {Any | hasattr(func, 'ap') and hasattr(func, 'bq')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ build_hypergeometric_formula : Any → Any                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(func, 'ap')                            ║
+# ║   requires: hasattr(func, 'bq')                            ║
+# ║   ensures:  result == (Formula(func, z, None, [], B, ...   ║
+# ║   ensures:  result == Formula(func, z, None, [], B, C...   ║
+# ║   fiber[case_0]: func.ap => Formula(func, z, None, []...   ║
+# ║   fiber[case_1]: not (func.ap) => Formula(func, z, No...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ build_hypergeometric_formula : {Any | hasattr(func, '...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0e5ecae18f700a57  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2b204a49e6b66813  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.build_hypergeometric_formula","kind":"function","src_hash":"c2d5be6b387f2560","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"build_hypergeometric_formula(fun)","rhs":"create a formula object representing the hypergeometric function ``func``","over":{"base":"Any"},"name":"build_hypergeometric_formula_correct"},"guarantee":"create a formula object representing the hypergeometric function ``func``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.hyperexpand.build_hypergeometric_formula_correct","statement":"Path(build_hypergeometric_formula(x), create a formula object representing the hypergeometric function ``func``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0e5ecae18f700a57"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.build_hypergeometric_formula","kind":"function","src_hash":"c2d5be6b387f2560","in":{"base":"Any","pred":"hasattr(func, 'ap') and hasattr(func, 'bq')"},"out":{"base":"Any","pred":"result satisfies: result == (Formula(func, z, None, [], B, C, M) if func.ap else Formula(func, z, None, [], B, C, M)) and result == Formula(func, z, None, [], B, C, M)"},"spec":{"lhs":"build_hypergeometric_formula(func)","rhs":"result == (Formula(func, z, None, [], B, C, M) if func.ap else Formula(func, z, None, [], B, C, M)) and result == Formula(func, z, None, [], B, C, M)","over":{"base":"Any","pred":"hasattr(func, 'ap') and hasattr(func, 'bq')"},"name":"build_hypergeometric_formula_correct"},"guarantee":"result == (Formula(func, z, None, [], B, C, M) if func.ap else Formula(func, z, None, [], B, C, M)); result == Formula(func, z, None, [], B, C, M); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.hyperexpand.build_hypergeometric_formula_correct","statement":"Path(build_hypergeometric_formula(x), result == (Formula(func, z, None, [], B, C, M) if func.ap else Formula(func, z, None, [], B, C, M)); result == Formula(func, z, None, [], B, C, M); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2b204a49e6b66813","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(func, 'ap')","hasattr(func, 'bq')"],"ensures":["result == (Formula(func, z, None, [], B, C, M) if func.ap else Formula(func, z, None, [], B, C, M))","result == Formula(func, z, None, [], B, C, M)"],"fibers":[{"name":"case_0","guard":"func.ap","ensures":["result == Formula(func, z, None, [], B, C, M)"],"decidability":"library","returns_expr":"Formula(func, z, None, [], B, C, M)"},{"name":"case_1","guard":"not (func.ap)","ensures":["result == Formula(func, z, None, [], B, C, M)"],"decidability":"library","returns_expr":"Formula(func, z, None, [], B, C, M)"}],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def build_hypergeometric_formula(func):
     """
     Create a formula object representing the hypergeometric function ``func``.
@@ -2952,16 +3570,22 @@ def build_hypergeometric_formula(func):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(hyperexpand_special(ap,), try to find a closed-form expression for hyper(ap, bq, z), where ``z`` is supposed to be a "special" value, e.g) over Any ║
+# ║ Path(hyperexpand_special(ap, bq, z), <unspecified:hyperexpand_special>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ hyperexpand_special : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4517e3311cb8a6ca  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.hyperexpand_special","kind":"function","src_hash":"2a53005fc0a13cd6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"hyperexpand_special(ap,)","rhs":"try to find a closed-form expression for hyper(ap, bq, z), where ``z`` is supposed to be a \"special\" value, e.g","over":{"base":"Any"},"name":"hyperexpand_special_correct"},"guarantee":"try to find a closed-form expression for hyper(ap, bq, z), where ``z`` is supposed to be a \"special\" value, e.g","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.hyperexpand.hyperexpand_special_correct","statement":"Path(hyperexpand_special(x), try to find a closed-form expression for hyper(ap, bq, z), where ``z`` is supposed to be a \"special\" value, e.g)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4517e3311cb8a6ca"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.hyperexpand_special","kind":"function","src_hash":"2a53005fc0a13cd6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"hyperexpand_special(ap, bq, z)","rhs":"<unspecified:hyperexpand_special>","over":{"base":"Any"},"name":"hyperexpand_special_correct"},"guarantee":"try to find a closed-form expression for hyper(ap, bq, z), where ``z`` is supposed to be a \"special\" value, e.g","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.hyperexpand.hyperexpand_special_correct","statement":"Path(hyperexpand_special(x), try to find a closed-form expression for hyper(ap, bq, z), where ``z`` is supposed to be a \"special\" value, e.g)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4517e3311cb8a6ca","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def hyperexpand_special(ap, bq, z):
     """
     Try to find a closed-form expression for hyper(ap, bq, z), where ``z``
@@ -3003,16 +3627,25 @@ _collection = None
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_hyperexpand(fun), try to find an expression for the hypergeometric function ``func``) over Any ║
+# ║ Path(_hyperexpand(func, z, ops0), <unspecified:_hyperexpand>) over {Any | hasattr(z, 'is_zero') and hasattr(func, 'ap') and hasattr(func, 'bq')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _hyperexpand : Any → Any                                   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(z, 'is_zero')                          ║
+# ║   requires: hasattr(func, 'ap')                            ║
+# ║   requires: hasattr(func, 'bq')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _hyperexpand : {Any | hasattr(z, 'is_zero') and hasat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.8ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 37feafb94f8f5ec7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand._hyperexpand","kind":"function","src_hash":"64df7e7828cd2630","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_hyperexpand(fun)","rhs":"try to find an expression for the hypergeometric function ``func``","over":{"base":"Any"},"name":"_hyperexpand_correct"},"guarantee":"try to find an expression for the hypergeometric function ``func``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.hyperexpand._hyperexpand_correct","statement":"Path(_hyperexpand(x), try to find an expression for the hypergeometric function ``func``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"37feafb94f8f5ec7"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand._hyperexpand","kind":"function","src_hash":"64df7e7828cd2630","in":{"base":"Any","pred":"hasattr(z, 'is_zero') and hasattr(func, 'ap') and hasattr(func, 'bq')"},"out":{"base":"Any"},"spec":{"lhs":"_hyperexpand(func, z, ops0)","rhs":"<unspecified:_hyperexpand>","over":{"base":"Any","pred":"hasattr(z, 'is_zero') and hasattr(func, 'ap') and hasattr(func, 'bq')"},"name":"_hyperexpand_correct"},"guarantee":"try to find an expression for the hypergeometric function ``func``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.hyperexpand._hyperexpand_correct","statement":"Path(_hyperexpand(x), try to find an expression for the hypergeometric function ``func``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"37feafb94f8f5ec7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(z, 'is_zero')","hasattr(func, 'ap')","hasattr(func, 'bq')"],"pure":false,"effects":{"effect_type":"mutates_global","reads":["func.ap","func.bq","z.is_zero"],"globals_read":["_collection"],"globals_written":["_collection"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"assumed","binding":true}}
 def _hyperexpand(func, z, ops0=[], z0=Dummy('z0'), premult=1, prem=0,
                  rewrite='default'):
     """
@@ -3121,16 +3754,25 @@ def _hyperexpand(func, z, ops0=[], z0=Dummy('z0'), premult=1, prem=0,
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(devise_plan_meijer(fro), find operators to convert g-function ``fro`` into g-function ``to``) over Any ║
+# ║ Path(devise_plan_meijer(fro, to, z), len(ops) == old_len_ops) over {Any | hasattr(fro, 'an') and hasattr(fro, 'ap') and hasattr(fro, 'bm') and hasattr(fro, 'bq') and hasattr(to, 'an') and hasattr(to, 'ap') and hasattr(to, 'bm') and hasattr(to, 'bq')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ devise_plan_meijer : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(fro, 'an')                             ║
+# ║   requires: hasattr(fro, 'ap')                             ║
+# ║   requires: hasattr(fro, 'bm')                             ║
+# ║   ensures:  len(ops) == old_len_ops                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ devise_plan_meijer : {Any | hasattr(fro, 'an') and ha...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f84db22d16ba39c5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b3a4be3e82146931  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.devise_plan_meijer","kind":"function","src_hash":"1c78be479c4f92a9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"devise_plan_meijer(fro)","rhs":"find operators to convert g-function ``fro`` into g-function ``to``","over":{"base":"Any"},"name":"devise_plan_meijer_correct"},"guarantee":"find operators to convert g-function ``fro`` into g-function ``to``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.hyperexpand.devise_plan_meijer_correct","statement":"Path(devise_plan_meijer(x), find operators to convert g-function ``fro`` into g-function ``to``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f84db22d16ba39c5"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.devise_plan_meijer","kind":"function","src_hash":"1c78be479c4f92a9","in":{"base":"Any","pred":"hasattr(fro, 'an') and hasattr(fro, 'ap') and hasattr(fro, 'bm') and hasattr(fro, 'bq') and hasattr(to, 'an') and hasattr(to, 'ap') and hasattr(to, 'bm') and hasattr(to, 'bq')"},"out":{"base":"Any","pred":"result satisfies: len(ops) == old_len_ops"},"spec":{"lhs":"devise_plan_meijer(fro, to, z)","rhs":"len(ops) == old_len_ops","over":{"base":"Any","pred":"hasattr(fro, 'an') and hasattr(fro, 'ap') and hasattr(fro, 'bm') and hasattr(fro, 'bq') and hasattr(to, 'an') and hasattr(to, 'ap') and hasattr(to, 'bm') and hasattr(to, 'bq')"},"name":"devise_plan_meijer_correct"},"guarantee":"len(ops) == old_len_ops","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.hyperexpand.devise_plan_meijer_correct","statement":"Path(devise_plan_meijer(x), len(ops) == old_len_ops)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b3a4be3e82146931","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(fro, 'an')","hasattr(fro, 'ap')","hasattr(fro, 'bm')","hasattr(fro, 'bq')","hasattr(to, 'an')","hasattr(to, 'ap')","hasattr(to, 'bm')","hasattr(to, 'bq')"],"ensures":["len(ops) == old_len_ops"],"pure":false,"effects":{"effect_type":"reads_state","reads":["fro.an","fro.ap","fro.bm","fro.bq","to.an","to.ap","to.bm","to.bq"],"calls_mutating":["ops.reverse"],"raises":["NotImplementedError"]},"state_contract":{"modifies":["ops.*"],"old_bindings":{"old_len_ops":"len(ops)"},"post_ensures":["len(ops) == old_len_ops"],"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":true}}
 def devise_plan_meijer(fro, to, z):
     """
     Find operators to convert G-function ``fro`` into G-function ``to``.
@@ -3270,9 +3912,15 @@ _meijercollection = None
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_meijergexpand(fun), try to find an expression for the meijer g function specified by the g_function ``func``) over {Any | isinstance(cond2, bool)} ║
+# ║ Path(_meijergexpand(func, z0, allow_hyper), <unspecified:_meijergexpand>) over {Any | isinstance(cond2, bool) and hasattr(func, 'an') and hasattr(func, 'bm') and hasattr(func, 'ap') and hasattr(func, 'bq') and hasattr(func, 'compute_buckets')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _meijergexpand : {Any | isinstance(cond2, bool)} → Any     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(func, 'an')                            ║
+# ║   requires: hasattr(func, 'bm')                            ║
+# ║   requires: hasattr(func, 'ap')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _meijergexpand : {Any | isinstance(cond2, bool) and h...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   bool: {isinstance(cond2, bool)} → library_axiom          ║
@@ -3282,9 +3930,12 @@ _meijercollection = None
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 4.7ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | b1b1fe8c...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand._meijergexpand","kind":"function","src_hash":"2a26efd3b281ef0f","in":{"base":"Any","pred":"isinstance(cond2, bool)"},"out":{"base":"Any"},"spec":{"lhs":"_meijergexpand(fun)","rhs":"try to find an expression for the meijer g function specified by the g_function ``func``","over":{"base":"Any","pred":"isinstance(cond2, bool)"},"name":"_meijergexpand_correct"},"guarantee":"try to find an expression for the meijer g function specified by the g_function ``func``","fibers":[{"name":"bool","pred":"isinstance(cond2, bool)","path":{"lhs":"_meijergexpand(x)","rhs":"try to find an expression for the meijer g function specified by the g_function ``func``","over":{"base":"bool","pred":"isinstance(cond2, bool)"},"name":"_meijergexpand_bool_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.hyperexpand._meijergexpand_bool_correct","statement":"_meijergexpand satisfies spec on bool inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"b1b1fe8c1d6075f5"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand._meijergexpand","kind":"function","src_hash":"2a26efd3b281ef0f","in":{"base":"Any","pred":"isinstance(cond2, bool) and hasattr(func, 'an') and hasattr(func, 'bm') and hasattr(func, 'ap') and hasattr(func, 'bq') and hasattr(func, 'compute_buckets')"},"out":{"base":"Any"},"spec":{"lhs":"_meijergexpand(func, z0, allow_hyper)","rhs":"<unspecified:_meijergexpand>","over":{"base":"Any","pred":"isinstance(cond2, bool) and hasattr(func, 'an') and hasattr(func, 'bm') and hasattr(func, 'ap') and hasattr(func, 'bq') and hasattr(func, 'compute_buckets')"},"name":"_meijergexpand_correct"},"guarantee":"try to find an expression for the meijer g function specified by the g_function ``func``","fibers":[{"name":"bool","pred":"isinstance(cond2, bool)","path":{"lhs":"_meijergexpand(x)","rhs":"try to find an expression for the meijer g function specified by the g_function ``func``","over":{"base":"bool","pred":"isinstance(cond2, bool)"},"name":"_meijergexpand_bool_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.hyperexpand._meijergexpand_bool_correct","statement":"_meijergexpand satisfies spec on bool inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"b1b1fe8c1d6075f5","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(func, 'an')","hasattr(func, 'bm')","hasattr(func, 'ap')","hasattr(func, 'bq')","hasattr(func, 'compute_buckets')"],"pure":false,"effects":{"effect_type":"mutates_global","reads":["func.an","func.ap","func.bm","func.bq","func.compute_buckets"],"calls_mutating":["ao.remove","bo.remove"],"globals_read":["_meijercollection"],"globals_written":["_meijercollection"]},"state_contract":{"modifies":["ao.*","bo.*"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":4.7,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'not isinstance(cond2, bool)', 'not isinstance(cond1, bool)', 'len(pbm[m]) == 1', 'place == zoo', 'm.delta > 0 or (m.delta == 0 and len(m.ap) == len(m.bq) and ((re(m.nu) < -1) is not False) and (polar_lift(z0) == polar_lift(1)))', 'l + 1 < len(pbm[i])', 'len(an) + len(ap) == len(bm) + len(bq)', 'min(w1, w2) <= (0, 1, oo)', \"rewrite == 'default'\", 'w1 < w2', 'place == 0', 'len(pbm[i]) > 1', '_meijercollection is None', 'max(w1[0], w2[0]) <= 1 and max(w1[1], w2[1]) <= 1'}, fibers={'bool'})"]}}
 def _meijergexpand(func, z0, allow_hyper=False, rewrite='default',
                    place=None):
     """
@@ -3542,16 +4193,23 @@ def _meijergexpand(func, z0, allow_hyper=False, rewrite='default',
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(hyperexpand(f, ), expand hypergeometric functions) over Any ║
+# ║ Path(hyperexpand(f, allow_hyper, rewrite), <unspecified:hyperexpand>) over {Any | hasattr(f, 'replace')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ hyperexpand : Any → Any                                    ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(f, 'replace')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ hyperexpand : {Any | hasattr(f, 'replace')} → Any          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f07bc9fdba966b87  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.hyperexpand","kind":"function","src_hash":"ffafcb268e2bef04","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"hyperexpand(f, )","rhs":"expand hypergeometric functions","over":{"base":"Any"},"name":"hyperexpand_correct"},"guarantee":"expand hypergeometric functions","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.hyperexpand.hyperexpand_correct","statement":"Path(hyperexpand(x), expand hypergeometric functions)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f07bc9fdba966b87"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.hyperexpand.hyperexpand","kind":"function","src_hash":"ffafcb268e2bef04","in":{"base":"Any","pred":"hasattr(f, 'replace')"},"out":{"base":"Any"},"spec":{"lhs":"hyperexpand(f, allow_hyper, rewrite)","rhs":"<unspecified:hyperexpand>","over":{"base":"Any","pred":"hasattr(f, 'replace')"},"name":"hyperexpand_correct"},"guarantee":"expand hypergeometric functions","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.hyperexpand.hyperexpand_correct","statement":"Path(hyperexpand(x), expand hypergeometric functions)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f07bc9fdba966b87","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(f, 'replace')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["f.replace"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def hyperexpand(f, allow_hyper=False, rewrite='default', place=None):
     """
     Expand hypergeometric functions. If allow_hyper is True, allow partial

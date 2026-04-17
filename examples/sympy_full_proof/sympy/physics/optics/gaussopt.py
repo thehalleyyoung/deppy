@@ -76,14 +76,20 @@ from sympy.utilities.misc import filldedent
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(RayTransferMatrix(*args), correctly constructs a RayTransferMatrix instance) over {Any | isinstance(other, RayTransferMatrix) and isinstance(other, GeometricRay) and isinstance(args[0], Matrix)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, MutableDenseMatrix)           ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ RayTransferMatrix : {Any | isinstance(other, RayTrans...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 64e1fac3bffc6223  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.optics.gaussopt.RayTransferMatrix","kind":"class","src_hash":"1fff553a8af9dee7","in":{"base":"Any","pred":"isinstance(other, RayTransferMatrix) and isinstance(other, GeometricRay) and isinstance(args[0], Matrix)"},"out":{"base":"Any"},"spec":{"lhs":"RayTransferMatrix(*args)","rhs":"correctly constructs a RayTransferMatrix instance","over":{"base":"Any","pred":"isinstance(other, RayTransferMatrix) and isinstance(other, GeometricRay) and isinstance(args[0], Matrix)"},"name":"RayTransferMatrix_class_invariant"},"guarantee":"correctly constructs a RayTransferMatrix instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"64e1fac3bffc6223"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.optics.gaussopt.RayTransferMatrix","kind":"class","src_hash":"1fff553a8af9dee7","in":{"base":"Any","pred":"isinstance(other, RayTransferMatrix) and isinstance(other, GeometricRay) and isinstance(args[0], Matrix)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, MutableDenseMatrix)"},"spec":{"lhs":"RayTransferMatrix(*args)","rhs":"correctly constructs a RayTransferMatrix instance","over":{"base":"Any","pred":"isinstance(other, RayTransferMatrix) and isinstance(other, GeometricRay) and isinstance(args[0], Matrix)"},"name":"RayTransferMatrix_class_invariant"},"guarantee":"isinstance(self, MutableDenseMatrix)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"64e1fac3bffc6223","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, MutableDenseMatrix)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":false,"binding_errors":["Function RayTransferMatrix not found in source"]}}
 class RayTransferMatrix(MutableDenseMatrix):
     """
     Base class for a Ray Transfer Matrix.
@@ -141,16 +147,22 @@ class RayTransferMatrix(MutableDenseMatrix):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, *args), Matrix.__new__(cls, temp)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Matrix.__new__(cls, temp)                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ebd7de04f775d22f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.optics.gaussopt.RayTransferMatrix.__new__","kind":"method","src_hash":"9916403b3dc39834","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ebd7de04f775d22f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.optics.gaussopt.RayTransferMatrix.__new__","kind":"method","src_hash":"9916403b3dc39834","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, *args)","rhs":"Matrix.__new__(cls, temp)","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"returns Matrix.__new__(cls, temp)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ebd7de04f775d22f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Matrix.__new__(cls, temp)","pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, *args):
 
         if len(args) == 4:
@@ -166,16 +178,27 @@ class RayTransferMatrix(MutableDenseMatrix):
         return Matrix.__new__(cls, temp)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__mul__(oth), returns the product) over Any           ║
+# ║ Path(__mul__(other), result == RayTransferMatrix(Matrix(self) * Matrix(other)) or result == GeometricRay(Matrix(self) * Matrix(other)) or result == BeamParameter(other.wavelen, together(re(q)), z_r=together(im(q))) or result == Matrix.__mul__(self, other)) over {Any | hasattr(other, 'wavelen') and hasattr(other, 'q')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __mul__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, 'wavelen')                      ║
+# ║   requires: hasattr(other, 'q')                            ║
+# ║   ensures:  result == RayTransferMatrix(Matrix(self) ...   ║
+# ║   fiber[RayTransferMatrix]: isinstance(other, RayTran...   ║
+# ║   fiber[GeometricRay]: isinstance(other, GeometricRay...   ║
+# ║   fiber[BeamParameter]: isinstance(other, BeamParamet...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __mul__ : {Any | hasattr(other, 'wavelen') and hasatt...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3a2808bb4412f736           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.optics.gaussopt.RayTransferMatrix.__mul__","kind":"method","src_hash":"d110a9e367287e30","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__mul__(oth)","rhs":"returns the product","over":{"base":"Any"},"name":"__mul___correct"},"guarantee":"returns the product","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3a2808bb4412f736"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.optics.gaussopt.RayTransferMatrix.__mul__","kind":"method","src_hash":"d110a9e367287e30","in":{"base":"Any","pred":"hasattr(other, 'wavelen') and hasattr(other, 'q')"},"out":{"base":"Any","pred":"result satisfies: result == RayTransferMatrix(Matrix(self) * Matrix(other)) or result == GeometricRay(Matrix(self) * Matrix(other)) or result == BeamParameter(other.wavelen, together(re(q)), z_r=together(im(q))) or result == Matrix.__mul__(self, other)"},"spec":{"lhs":"__mul__(other)","rhs":"result == RayTransferMatrix(Matrix(self) * Matrix(other)) or result == GeometricRay(Matrix(self) * Matrix(other)) or result == BeamParameter(other.wavelen, together(re(q)), z_r=together(im(q))) or result == Matrix.__mul__(self, other)","over":{"base":"Any","pred":"hasattr(other, 'wavelen') and hasattr(other, 'q')"},"name":"__mul___correct"},"guarantee":"result == RayTransferMatrix(Matrix(self) * Matrix(other)) or result == GeometricRay(Matrix(self) * Matrix(other)) or result == BeamParameter(other.wavelen, together(re(q)), z_r=together(im(q))) or result == Matrix.__mul__(self, other); 4-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3a2808bb4412f736","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, 'wavelen')","hasattr(other, 'q')"],"ensures":["result == RayTransferMatrix(Matrix(self) * Matrix(other)) or result == GeometricRay(Matrix(self) * Matrix(other)) or result == BeamParameter(other.wavelen, together(re(q)), z_r=together(im(q))) or result == Matrix.__mul__(self, other)"],"fibers":[{"name":"RayTransferMatrix","guard":"isinstance(other, RayTransferMatrix)","ensures":["result == RayTransferMatrix(Matrix(self) * Matrix(other))"],"decidability":"structural","returns_expr":"RayTransferMatrix(Matrix(self) * Matrix(other))"},{"name":"GeometricRay","guard":"isinstance(other, GeometricRay)","ensures":["result == GeometricRay(Matrix(self) * Matrix(other))"],"decidability":"structural","returns_expr":"GeometricRay(Matrix(self) * Matrix(other))"},{"name":"BeamParameter","guard":"isinstance(other, BeamParameter)","ensures":["result == BeamParameter(other.wavelen, together(re(q)), z_r=together(im(q)))"],"decidability":"structural","returns_expr":"BeamParameter(other.wavelen, together(re(q)), z_r=together(im(q)))"},{"name":"RayTransferMatrix","guard":"not (isinstance(other, RayTransferMatrix)) and not (isinstance(other, GeometricRay)) and not (isinstance(other, BeamParameter))","ensures":["result == Matrix.__mul__(self, other)"],"decidability":"structural","returns_expr":"Matrix.__mul__(self, other)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.q","other.wavelen"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __mul__(self, other):
         if isinstance(other, RayTransferMatrix):
             return RayTransferMatrix(Matrix(self)*Matrix(other))
@@ -192,16 +215,22 @@ class RayTransferMatrix(MutableDenseMatrix):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(A(), returns the A attribute) over Any                ║
+# ║ Path(A(), self[0, 0]) over Any                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self[0, 0]                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ A : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1e5de8e8f48b5e21           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.optics.gaussopt.RayTransferMatrix.A","kind":"property","src_hash":"8049e2a803f22976","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"A()","rhs":"returns the A attribute","over":{"base":"Any"},"name":"A_correct"},"guarantee":"returns the A attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1e5de8e8f48b5e21"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.optics.gaussopt.RayTransferMatrix.A","kind":"property","src_hash":"8049e2a803f22976","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"A()","rhs":"self[0, 0]","over":{"base":"Any"},"name":"A_correct"},"guarantee":"returns self[0, 0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1e5de8e8f48b5e21","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self[0, 0]","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def A(self):
         """
         The A parameter of the Matrix.
@@ -218,16 +247,22 @@ class RayTransferMatrix(MutableDenseMatrix):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(B(), returns the B attribute) over Any                ║
+# ║ Path(B(), self[0, 1]) over Any                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self[0, 1]                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ B : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0f144037a6dc4cec           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.optics.gaussopt.RayTransferMatrix.B","kind":"property","src_hash":"38e80adf9c2ab5e9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"B()","rhs":"returns the B attribute","over":{"base":"Any"},"name":"B_correct"},"guarantee":"returns the B attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0f144037a6dc4cec"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.optics.gaussopt.RayTransferMatrix.B","kind":"property","src_hash":"38e80adf9c2ab5e9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"B()","rhs":"self[0, 1]","over":{"base":"Any"},"name":"B_correct"},"guarantee":"returns self[0, 1]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0f144037a6dc4cec","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self[0, 1]","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def B(self):
         """
         The B parameter of the Matrix.
@@ -244,16 +279,22 @@ class RayTransferMatrix(MutableDenseMatrix):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(C(), returns the C attribute) over Any                ║
+# ║ Path(C(), self[1, 0]) over Any                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self[1, 0]                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ C : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a74a8f89411d8088           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.optics.gaussopt.RayTransferMatrix.C","kind":"property","src_hash":"4a17e9061db19801","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"C()","rhs":"returns the C attribute","over":{"base":"Any"},"name":"C_correct"},"guarantee":"returns the C attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a74a8f89411d8088"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.optics.gaussopt.RayTransferMatrix.C","kind":"property","src_hash":"4a17e9061db19801","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"C()","rhs":"self[1, 0]","over":{"base":"Any"},"name":"C_correct"},"guarantee":"returns self[1, 0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a74a8f89411d8088","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self[1, 0]","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def C(self):
         """
         The C parameter of the Matrix.
@@ -270,16 +311,22 @@ class RayTransferMatrix(MutableDenseMatrix):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(D(), returns the D attribute) over Any                ║
+# ║ Path(D(), self[1, 1]) over Any                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self[1, 1]                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ D : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | cfa5a68f8ab14376           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.optics.gaussopt.RayTransferMatrix.D","kind":"property","src_hash":"9a303d12c7d41f33","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"D()","rhs":"returns the D attribute","over":{"base":"Any"},"name":"D_correct"},"guarantee":"returns the D attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cfa5a68f8ab14376"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.optics.gaussopt.RayTransferMatrix.D","kind":"property","src_hash":"9a303d12c7d41f33","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"D()","rhs":"self[1, 1]","over":{"base":"Any"},"name":"D_correct"},"guarantee":"returns self[1, 1]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cfa5a68f8ab14376","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self[1, 1]","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def D(self):
         """
         The D parameter of the Matrix.
@@ -296,16 +343,22 @@ class RayTransferMatrix(MutableDenseMatrix):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(FreeSpace(), correctly constructs a FreeSpace instance) over Any ║
+# ║ Path(FreeSpace(), isinstance(self, RayTransferMatrix)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ FreeSpace : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, RayTransferMatrix)            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ FreeSpace : Any → {Any | result satisfies: isinstance...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f28c8d3d12b3f928           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.optics.gaussopt.FreeSpace","kind":"class","src_hash":"2a56fc3a0266087f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"FreeSpace()","rhs":"correctly constructs a FreeSpace instance","over":{"base":"Any"},"name":"FreeSpace_correct"},"guarantee":"correctly constructs a FreeSpace instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f28c8d3d12b3f928"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.optics.gaussopt.FreeSpace","kind":"class","src_hash":"2a56fc3a0266087f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, RayTransferMatrix)"},"spec":{"lhs":"FreeSpace()","rhs":"isinstance(self, RayTransferMatrix)","over":{"base":"Any"},"name":"FreeSpace_correct"},"guarantee":"isinstance(self, RayTransferMatrix)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f28c8d3d12b3f928","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, RayTransferMatrix)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Function FreeSpace not found in source"]}}
 class FreeSpace(RayTransferMatrix):
     """
     Ray Transfer Matrix for free space.
@@ -332,16 +385,22 @@ class FreeSpace(RayTransferMatrix):
     [0, 1]])
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, d), RayTransferMatrix.__new__(cls, 1, d, 0, 1)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  RayTransferMatrix.__new__(cls, 1, d, 0, 1)     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b6d9459c1d53260a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.optics.gaussopt.FreeSpace.__new__","kind":"method","src_hash":"890ef32ee19b01d3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b6d9459c1d53260a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.optics.gaussopt.FreeSpace.__new__","kind":"method","src_hash":"890ef32ee19b01d3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, d)","rhs":"RayTransferMatrix.__new__(cls, 1, d, 0, 1)","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"returns RayTransferMatrix.__new__(cls, 1, d, 0, 1)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b6d9459c1d53260a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"RayTransferMatrix.__new__(cls, 1, d, 0, 1)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, d):
         return RayTransferMatrix.__new__(cls, 1, d, 0, 1)
 
@@ -349,14 +408,20 @@ class FreeSpace(RayTransferMatrix):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(FlatRefraction(*args), correctly constructs a FlatRefraction instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ FlatRefraction : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, RayTransferMatrix)            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ FlatRefraction : Any → {Any | result satisfies: isins...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7453a74c06935c38  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.optics.gaussopt.FlatRefraction","kind":"class","src_hash":"d7ca15cfed9e0e08","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"FlatRefraction(*args)","rhs":"correctly constructs a FlatRefraction instance","over":{"base":"Any"},"name":"FlatRefraction_class_invariant"},"guarantee":"correctly constructs a FlatRefraction instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7453a74c06935c38"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.optics.gaussopt.FlatRefraction","kind":"class","src_hash":"d7ca15cfed9e0e08","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, RayTransferMatrix)"},"spec":{"lhs":"FlatRefraction(*args)","rhs":"correctly constructs a FlatRefraction instance","over":{"base":"Any"},"name":"FlatRefraction_class_invariant"},"guarantee":"isinstance(self, RayTransferMatrix)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7453a74c06935c38","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, RayTransferMatrix)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function FlatRefraction not found in source"]}}
 class FlatRefraction(RayTransferMatrix):
     """
     Ray Transfer Matrix for refraction.
@@ -386,16 +451,22 @@ class FlatRefraction(RayTransferMatrix):
     [0, n1/n2]])
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, n1, n2), RayTransferMatrix.__new__(cls, 1, 0, 0, n1 / n2)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  RayTransferMatrix.__new__(cls, 1, 0, 0, n...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1912c39293f0c9e6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.optics.gaussopt.FlatRefraction.__new__","kind":"method","src_hash":"77b67451d6bbbee4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1912c39293f0c9e6"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.optics.gaussopt.FlatRefraction.__new__","kind":"method","src_hash":"77b67451d6bbbee4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, n1, n2)","rhs":"RayTransferMatrix.__new__(cls, 1, 0, 0, n1 / n2)","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"returns RayTransferMatrix.__new__(cls, 1, 0, 0, n1 / n2)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1912c39293f0c9e6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"RayTransferMatrix.__new__(cls, 1, 0, 0, n1 / n2)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, n1, n2):
         n1, n2 = map(sympify, (n1, n2))
         return RayTransferMatrix.__new__(cls, 1, 0, 0, n1/n2)
@@ -404,14 +475,20 @@ class FlatRefraction(RayTransferMatrix):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(CurvedRefraction(*args), correctly constructs a CurvedRefraction instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ CurvedRefraction : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, RayTransferMatrix)            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ CurvedRefraction : Any → {Any | result satisfies: isi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f971f3dbc770ed32  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.optics.gaussopt.CurvedRefraction","kind":"class","src_hash":"387d433368d8f921","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"CurvedRefraction(*args)","rhs":"correctly constructs a CurvedRefraction instance","over":{"base":"Any"},"name":"CurvedRefraction_class_invariant"},"guarantee":"correctly constructs a CurvedRefraction instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f971f3dbc770ed32"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.optics.gaussopt.CurvedRefraction","kind":"class","src_hash":"387d433368d8f921","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, RayTransferMatrix)"},"spec":{"lhs":"CurvedRefraction(*args)","rhs":"correctly constructs a CurvedRefraction instance","over":{"base":"Any"},"name":"CurvedRefraction_class_invariant"},"guarantee":"isinstance(self, RayTransferMatrix)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f971f3dbc770ed32","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, RayTransferMatrix)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function CurvedRefraction not found in source"]}}
 class CurvedRefraction(RayTransferMatrix):
     """
     Ray Transfer Matrix for refraction on curved interface.
@@ -443,32 +520,44 @@ class CurvedRefraction(RayTransferMatrix):
     [(n1 - n2)/(R*n2), n1/n2]])
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, R, n1), RayTransferMatrix.__new__(cls, 1, 0, (n1 - n2) / R / n2, n1 / n2)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  RayTransferMatrix.__new__(cls, 1, 0, (n1 ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | fb4ba712e0c896ed           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.optics.gaussopt.CurvedRefraction.__new__","kind":"method","src_hash":"db6f33a1cc7c9a5d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fb4ba712e0c896ed"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.optics.gaussopt.CurvedRefraction.__new__","kind":"method","src_hash":"db6f33a1cc7c9a5d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, R, n1)","rhs":"RayTransferMatrix.__new__(cls, 1, 0, (n1 - n2) / R / n2, n1 / n2)","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"returns RayTransferMatrix.__new__(cls, 1, 0, (n1 - n2) / R / n2, n1 / n2)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fb4ba712e0c896ed","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"RayTransferMatrix.__new__(cls, 1, 0, (n1 - n2) / R / n2, n1 / n2)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, R, n1, n2):
         R, n1, n2 = map(sympify, (R, n1, n2))
         return RayTransferMatrix.__new__(cls, 1, 0, (n1 - n2)/R/n2, n1/n2)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(FlatMirror(), correctly constructs a FlatMirror instance) over Any ║
+# ║ Path(FlatMirror(), isinstance(self, RayTransferMatrix)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ FlatMirror : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, RayTransferMatrix)            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ FlatMirror : Any → {Any | result satisfies: isinstanc...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1d21a23aa7e8bac7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.optics.gaussopt.FlatMirror","kind":"class","src_hash":"38701748e5cd2ba9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"FlatMirror()","rhs":"correctly constructs a FlatMirror instance","over":{"base":"Any"},"name":"FlatMirror_correct"},"guarantee":"correctly constructs a FlatMirror instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1d21a23aa7e8bac7"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.optics.gaussopt.FlatMirror","kind":"class","src_hash":"38701748e5cd2ba9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, RayTransferMatrix)"},"spec":{"lhs":"FlatMirror()","rhs":"isinstance(self, RayTransferMatrix)","over":{"base":"Any"},"name":"FlatMirror_correct"},"guarantee":"isinstance(self, RayTransferMatrix)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1d21a23aa7e8bac7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, RayTransferMatrix)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Function FlatMirror not found in source"]}}
 class FlatMirror(RayTransferMatrix):
     """
     Ray Transfer Matrix for reflection.
@@ -488,16 +577,22 @@ class FlatMirror(RayTransferMatrix):
     [0, 1]])
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls), RayTransferMatrix.__new__(cls, 1, 0, 0, 1)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  RayTransferMatrix.__new__(cls, 1, 0, 0, 1)     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e2e0192c9fa15456           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.optics.gaussopt.FlatMirror.__new__","kind":"method","src_hash":"3f0038450d228474","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e2e0192c9fa15456"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.optics.gaussopt.FlatMirror.__new__","kind":"method","src_hash":"3f0038450d228474","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"RayTransferMatrix.__new__(cls, 1, 0, 0, 1)","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"returns RayTransferMatrix.__new__(cls, 1, 0, 0, 1)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e2e0192c9fa15456","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"RayTransferMatrix.__new__(cls, 1, 0, 0, 1)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls):
         return RayTransferMatrix.__new__(cls, 1, 0, 0, 1)
 
@@ -505,14 +600,20 @@ class FlatMirror(RayTransferMatrix):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(CurvedMirror(*args), correctly constructs a CurvedMirror instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ CurvedMirror : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, RayTransferMatrix)            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ CurvedMirror : Any → {Any | result satisfies: isinsta...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2aec9e454a82913a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.optics.gaussopt.CurvedMirror","kind":"class","src_hash":"51cf89fd51b903a4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"CurvedMirror(*args)","rhs":"correctly constructs a CurvedMirror instance","over":{"base":"Any"},"name":"CurvedMirror_class_invariant"},"guarantee":"correctly constructs a CurvedMirror instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2aec9e454a82913a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.optics.gaussopt.CurvedMirror","kind":"class","src_hash":"51cf89fd51b903a4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, RayTransferMatrix)"},"spec":{"lhs":"CurvedMirror(*args)","rhs":"correctly constructs a CurvedMirror instance","over":{"base":"Any"},"name":"CurvedMirror_class_invariant"},"guarantee":"isinstance(self, RayTransferMatrix)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2aec9e454a82913a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, RayTransferMatrix)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function CurvedMirror not found in source"]}}
 class CurvedMirror(RayTransferMatrix):
     """
     Ray Transfer Matrix for reflection from curved surface.
@@ -539,16 +640,22 @@ class CurvedMirror(RayTransferMatrix):
     [-2/R, 1]])
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, R), RayTransferMatrix.__new__(cls, 1, 0, -2 / R, 1)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  RayTransferMatrix.__new__(cls, 1, 0, -2 /...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | dc9ab5fd0b3e5cbe           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.optics.gaussopt.CurvedMirror.__new__","kind":"method","src_hash":"cf37cdcc9854bf06","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"dc9ab5fd0b3e5cbe"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.optics.gaussopt.CurvedMirror.__new__","kind":"method","src_hash":"cf37cdcc9854bf06","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, R)","rhs":"RayTransferMatrix.__new__(cls, 1, 0, -2 / R, 1)","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"returns RayTransferMatrix.__new__(cls, 1, 0, -2 / R, 1)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"dc9ab5fd0b3e5cbe","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"RayTransferMatrix.__new__(cls, 1, 0, -2 / R, 1)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, R):
         R = sympify(R)
         return RayTransferMatrix.__new__(cls, 1, 0, -2/R, 1)
@@ -557,14 +664,20 @@ class CurvedMirror(RayTransferMatrix):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(ThinLens(*args), correctly constructs a ThinLens instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ ThinLens : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, RayTransferMatrix)            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ ThinLens : Any → {Any | result satisfies: isinstance(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f53c62c0f2d6ef59  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.optics.gaussopt.ThinLens","kind":"class","src_hash":"a5481f31e4c38ac6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ThinLens(*args)","rhs":"correctly constructs a ThinLens instance","over":{"base":"Any"},"name":"ThinLens_class_invariant"},"guarantee":"correctly constructs a ThinLens instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f53c62c0f2d6ef59"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.optics.gaussopt.ThinLens","kind":"class","src_hash":"a5481f31e4c38ac6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, RayTransferMatrix)"},"spec":{"lhs":"ThinLens(*args)","rhs":"correctly constructs a ThinLens instance","over":{"base":"Any"},"name":"ThinLens_class_invariant"},"guarantee":"isinstance(self, RayTransferMatrix)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f53c62c0f2d6ef59","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, RayTransferMatrix)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function ThinLens not found in source"]}}
 class ThinLens(RayTransferMatrix):
     """
     Ray Transfer Matrix for a thin lens.
@@ -592,16 +705,22 @@ class ThinLens(RayTransferMatrix):
     [-1/f, 1]])
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, f), RayTransferMatrix.__new__(cls, 1, 0, -1 / f, 1)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  RayTransferMatrix.__new__(cls, 1, 0, -1 /...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8969b28b1573999d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.optics.gaussopt.ThinLens.__new__","kind":"method","src_hash":"58b6fde62297152d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8969b28b1573999d"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.optics.gaussopt.ThinLens.__new__","kind":"method","src_hash":"58b6fde62297152d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, f)","rhs":"RayTransferMatrix.__new__(cls, 1, 0, -1 / f, 1)","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"returns RayTransferMatrix.__new__(cls, 1, 0, -1 / f, 1)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8969b28b1573999d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"RayTransferMatrix.__new__(cls, 1, 0, -1 / f, 1)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, f):
         f = sympify(f)
         return RayTransferMatrix.__new__(cls, 1, 0, -1/f, 1)
@@ -614,14 +733,20 @@ class ThinLens(RayTransferMatrix):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(GeometricRay(*args), correctly constructs a GeometricRay instance) over {Any | isinstance(args[0], Matrix)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ GeometricRay : {Any | isinstance(args[0], Matrix)} → Any   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, MutableDenseMatrix)           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ GeometricRay : {Any | isinstance(args[0], Matrix)} → ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f11679012a679274  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.optics.gaussopt.GeometricRay","kind":"class","src_hash":"ba25afaeee83d5e2","in":{"base":"Any","pred":"isinstance(args[0], Matrix)"},"out":{"base":"Any"},"spec":{"lhs":"GeometricRay(*args)","rhs":"correctly constructs a GeometricRay instance","over":{"base":"Any","pred":"isinstance(args[0], Matrix)"},"name":"GeometricRay_class_invariant"},"guarantee":"correctly constructs a GeometricRay instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f11679012a679274"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.optics.gaussopt.GeometricRay","kind":"class","src_hash":"ba25afaeee83d5e2","in":{"base":"Any","pred":"isinstance(args[0], Matrix)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, MutableDenseMatrix)"},"spec":{"lhs":"GeometricRay(*args)","rhs":"correctly constructs a GeometricRay instance","over":{"base":"Any","pred":"isinstance(args[0], Matrix)"},"name":"GeometricRay_class_invariant"},"guarantee":"isinstance(self, MutableDenseMatrix)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f11679012a679274","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, MutableDenseMatrix)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function GeometricRay not found in source"]}}
 class GeometricRay(MutableDenseMatrix):
     """
     Representation for a geometric ray in the Ray Transfer Matrix formalism.
@@ -663,16 +788,22 @@ class GeometricRay(MutableDenseMatrix):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, *args), Matrix.__new__(cls, temp)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Matrix.__new__(cls, temp)                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d35cd480e1874a39           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.optics.gaussopt.GeometricRay.__new__","kind":"method","src_hash":"b7a7418766fccd7e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d35cd480e1874a39"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.optics.gaussopt.GeometricRay.__new__","kind":"method","src_hash":"b7a7418766fccd7e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, *args)","rhs":"Matrix.__new__(cls, temp)","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"returns Matrix.__new__(cls, temp)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d35cd480e1874a39","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Matrix.__new__(cls, temp)","pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, *args):
         if len(args) == 1 and isinstance(args[0], Matrix) \
                 and args[0].shape == (2, 1):
@@ -687,16 +818,22 @@ class GeometricRay(MutableDenseMatrix):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(height(), returns the height attribute) over Any      ║
+# ║ Path(height(), self[0]) over Any                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self[0]                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ height : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9a42cced7a00bcd3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.optics.gaussopt.GeometricRay.height","kind":"property","src_hash":"2593d746107303d7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"height()","rhs":"returns the height attribute","over":{"base":"Any"},"name":"height_correct"},"guarantee":"returns the height attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9a42cced7a00bcd3"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.optics.gaussopt.GeometricRay.height","kind":"property","src_hash":"2593d746107303d7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"height()","rhs":"self[0]","over":{"base":"Any"},"name":"height_correct"},"guarantee":"returns self[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9a42cced7a00bcd3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self[0]","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def height(self):
         """
         The distance from the optical axis.
@@ -715,16 +852,22 @@ class GeometricRay(MutableDenseMatrix):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(angle(), returns the angle attribute) over Any        ║
+# ║ Path(angle(), self[1]) over Any                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self[1]                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ angle : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4d023394917f7f56           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.optics.gaussopt.GeometricRay.angle","kind":"property","src_hash":"e2bff1cb3fe24cf6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"angle()","rhs":"returns the angle attribute","over":{"base":"Any"},"name":"angle_correct"},"guarantee":"returns the angle attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4d023394917f7f56"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.optics.gaussopt.GeometricRay.angle","kind":"property","src_hash":"e2bff1cb3fe24cf6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"angle()","rhs":"self[1]","over":{"base":"Any"},"name":"angle_correct"},"guarantee":"returns self[1]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4d023394917f7f56","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self[1]","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def angle(self):
         """
         The angle with the optical axis.
@@ -749,14 +892,20 @@ class GeometricRay(MutableDenseMatrix):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(BeamParameter(*args), correctly constructs a BeamParameter instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ BeamParameter : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Expr)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ BeamParameter : Any → {Any | result satisfies: isinst...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2486e51b0febf267  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.optics.gaussopt.BeamParameter","kind":"class","src_hash":"94303cec493aec05","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"BeamParameter(*args)","rhs":"correctly constructs a BeamParameter instance","over":{"base":"Any"},"name":"BeamParameter_class_invariant"},"guarantee":"correctly constructs a BeamParameter instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2486e51b0febf267"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.optics.gaussopt.BeamParameter","kind":"class","src_hash":"94303cec493aec05","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Expr)"},"spec":{"lhs":"BeamParameter(*args)","rhs":"correctly constructs a BeamParameter instance","over":{"base":"Any"},"name":"BeamParameter_class_invariant"},"guarantee":"isinstance(self, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2486e51b0febf267","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Expr)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":false,"binding_errors":["Function BeamParameter not found in source"]}}
 class BeamParameter(Expr):
     """
     Representation for a gaussian ray in the Ray Transfer Matrix formalism.
@@ -809,16 +958,22 @@ class BeamParameter(Expr):
     # https://groups.google.com/d/topic/sympy/7XkU07NRBEs/discussion
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, wavelen, z), Expr.__new__(cls, wavelen, z, z_r, n)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Expr.__new__(cls, wavelen, z, z_r, n)          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ab9c559259c4e75c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.optics.gaussopt.BeamParameter.__new__","kind":"method","src_hash":"177070e204f981b6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ab9c559259c4e75c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.optics.gaussopt.BeamParameter.__new__","kind":"method","src_hash":"177070e204f981b6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, wavelen, z)","rhs":"Expr.__new__(cls, wavelen, z, z_r, n)","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"returns Expr.__new__(cls, wavelen, z, z_r, n)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ab9c559259c4e75c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Expr.__new__(cls, wavelen, z, z_r, n)","pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, wavelen, z, z_r=None, w=None, n=1):
         wavelen = sympify(wavelen)
         z = sympify(z)
@@ -835,76 +990,106 @@ class BeamParameter(Expr):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(wavelen(), returns the wavelen attribute) over Any    ║
+# ║ Path(wavelen(), self.args[0]) over Any                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ wavelen : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 13e5730f977f9421           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.optics.gaussopt.BeamParameter.wavelen","kind":"property","src_hash":"f95ff8cc91ee7544","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"wavelen()","rhs":"returns the wavelen attribute","over":{"base":"Any"},"name":"wavelen_correct"},"guarantee":"returns the wavelen attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"13e5730f977f9421"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.optics.gaussopt.BeamParameter.wavelen","kind":"property","src_hash":"f95ff8cc91ee7544","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"wavelen()","rhs":"self.args[0]","over":{"base":"Any"},"name":"wavelen_correct"},"guarantee":"returns self.args[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"13e5730f977f9421","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def wavelen(self):
         return self.args[0]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(z(), returns the z attribute) over Any                ║
+# ║ Path(z(), self.args[1]) over Any                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[1]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ z : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4a505b3832f11d7c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.optics.gaussopt.BeamParameter.z","kind":"property","src_hash":"72dd2c2deef5ee12","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"z()","rhs":"returns the z attribute","over":{"base":"Any"},"name":"z_correct"},"guarantee":"returns the z attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4a505b3832f11d7c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.optics.gaussopt.BeamParameter.z","kind":"property","src_hash":"72dd2c2deef5ee12","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"z()","rhs":"self.args[1]","over":{"base":"Any"},"name":"z_correct"},"guarantee":"returns self.args[1]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4a505b3832f11d7c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[1]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def z(self):
         return self.args[1]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(z_r(), returns the z_r attribute) over Any            ║
+# ║ Path(z_r(), self.args[2]) over Any                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[2]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ z_r : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | fc1e278c29827a33           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.optics.gaussopt.BeamParameter.z_r","kind":"property","src_hash":"8feb7b962d705127","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"z_r()","rhs":"returns the z_r attribute","over":{"base":"Any"},"name":"z_r_correct"},"guarantee":"returns the z_r attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fc1e278c29827a33"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.optics.gaussopt.BeamParameter.z_r","kind":"property","src_hash":"8feb7b962d705127","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"z_r()","rhs":"self.args[2]","over":{"base":"Any"},"name":"z_r_correct"},"guarantee":"returns self.args[2]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fc1e278c29827a33","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[2]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def z_r(self):
         return self.args[2]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(n(), returns the n attribute) over Any                ║
+# ║ Path(n(), self.args[3]) over Any                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[3]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ n : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1ba627a8d617e5ca           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.optics.gaussopt.BeamParameter.n","kind":"property","src_hash":"5c52ac6d10050509","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"n()","rhs":"returns the n attribute","over":{"base":"Any"},"name":"n_correct"},"guarantee":"returns the n attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1ba627a8d617e5ca"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.optics.gaussopt.BeamParameter.n","kind":"property","src_hash":"5c52ac6d10050509","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"n()","rhs":"self.args[3]","over":{"base":"Any"},"name":"n_correct"},"guarantee":"returns self.args[3]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1ba627a8d617e5ca","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[3]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def n(self):
         return self.args[3]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(q(), returns the q attribute) over Any                ║
+# ║ Path(q(), self.z + I * self.z_r) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.z + I * self.z_r                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ q : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 105d9819b0582d80           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.optics.gaussopt.BeamParameter.q","kind":"property","src_hash":"3436c501e7178f81","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"q()","rhs":"returns the q attribute","over":{"base":"Any"},"name":"q_correct"},"guarantee":"returns the q attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"105d9819b0582d80"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.optics.gaussopt.BeamParameter.q","kind":"property","src_hash":"3436c501e7178f81","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"q()","rhs":"self.z + I * self.z_r","over":{"base":"Any"},"name":"q_correct"},"guarantee":"returns self.z + I * self.z_r","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"105d9819b0582d80","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.z + I * self.z_r","pure":false,"effects":{"effect_type":"reads_state","reads":["self.z","self.z_r"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def q(self):
         """
         The complex parameter representing the beam.
@@ -921,16 +1106,22 @@ class BeamParameter(Expr):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(radius(), returns the radius attribute) over Any      ║
+# ║ Path(radius(), self.z * (1 + (self.z_r / self.z) ** 2)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.z * (1 + (self.z_r / self.z) ** 2)        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ radius : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4a103f0456dca020           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.optics.gaussopt.BeamParameter.radius","kind":"property","src_hash":"a8df7d20bdf92260","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"radius()","rhs":"returns the radius attribute","over":{"base":"Any"},"name":"radius_correct"},"guarantee":"returns the radius attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4a103f0456dca020"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.optics.gaussopt.BeamParameter.radius","kind":"property","src_hash":"a8df7d20bdf92260","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"radius()","rhs":"self.z * (1 + (self.z_r / self.z) ** 2)","over":{"base":"Any"},"name":"radius_correct"},"guarantee":"returns self.z * (1 + (self.z_r / self.z) ** 2)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4a103f0456dca020","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.z * (1 + (self.z_r / self.z) ** 2)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.z","self.z_r"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def radius(self):
         """
         The radius of curvature of the phase front.
@@ -947,16 +1138,22 @@ class BeamParameter(Expr):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(w(), returns the w attribute) over Any                ║
+# ║ Path(w(), self.w_0 * sqrt(1 + (self.z / self.z_r) ** 2)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.w_0 * sqrt(1 + (self.z / self.z_r) *...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ w : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | eaef707cce2568d7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.optics.gaussopt.BeamParameter.w","kind":"property","src_hash":"82078a3b65eb106c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"w()","rhs":"returns the w attribute","over":{"base":"Any"},"name":"w_correct"},"guarantee":"returns the w attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"eaef707cce2568d7"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.optics.gaussopt.BeamParameter.w","kind":"property","src_hash":"82078a3b65eb106c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"w()","rhs":"self.w_0 * sqrt(1 + (self.z / self.z_r) ** 2)","over":{"base":"Any"},"name":"w_correct"},"guarantee":"returns self.w_0 * sqrt(1 + (self.z / self.z_r) ** 2)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"eaef707cce2568d7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.w_0 * sqrt(1 + (self.z / self.z_r) ** 2)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.w_0","self.z","self.z_r"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def w(self):
         """
         The radius of the beam w(z), at any position z along the beam.
@@ -980,16 +1177,22 @@ class BeamParameter(Expr):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(w_0(), returns the w_0 attribute) over Any            ║
+# ║ Path(w_0(), sqrt(self.z_r / (pi * self.n) * self.wavelen)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  sqrt(self.z_r / (pi * self.n) * self.wave...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ w_0 : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 997c81495ed5b970           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.optics.gaussopt.BeamParameter.w_0","kind":"property","src_hash":"561f0c32e8ff1f9b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"w_0()","rhs":"returns the w_0 attribute","over":{"base":"Any"},"name":"w_0_correct"},"guarantee":"returns the w_0 attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"997c81495ed5b970"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.optics.gaussopt.BeamParameter.w_0","kind":"property","src_hash":"561f0c32e8ff1f9b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"w_0()","rhs":"sqrt(self.z_r / (pi * self.n) * self.wavelen)","over":{"base":"Any"},"name":"w_0_correct"},"guarantee":"returns sqrt(self.z_r / (pi * self.n) * self.wavelen)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"997c81495ed5b970","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"sqrt(self.z_r / (pi * self.n) * self.wavelen)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.n","self.wavelen","self.z_r"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def w_0(self):
         """
          The minimal radius of beam at `1/e^2` intensity (peak value).
@@ -1011,16 +1214,22 @@ class BeamParameter(Expr):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(divergence(), returns the divergence attribute) over Any ║
+# ║ Path(divergence(), self.wavelen / pi / self.w_0) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.wavelen / pi / self.w_0                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ divergence : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7379ec14eb4c2e97           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.optics.gaussopt.BeamParameter.divergence","kind":"property","src_hash":"e90d28cdf71e04f2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"divergence()","rhs":"returns the divergence attribute","over":{"base":"Any"},"name":"divergence_correct"},"guarantee":"returns the divergence attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7379ec14eb4c2e97"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.optics.gaussopt.BeamParameter.divergence","kind":"property","src_hash":"e90d28cdf71e04f2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"divergence()","rhs":"self.wavelen / pi / self.w_0","over":{"base":"Any"},"name":"divergence_correct"},"guarantee":"returns self.wavelen / pi / self.w_0","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7379ec14eb4c2e97","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.wavelen / pi / self.w_0","pure":false,"effects":{"effect_type":"reads_state","reads":["self.w_0","self.wavelen"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def divergence(self):
         """
         Half of the total angular spread.
@@ -1037,16 +1246,22 @@ class BeamParameter(Expr):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gouy(), returns the gouy attribute) over Any          ║
+# ║ Path(gouy(), atan2(self.z, self.z_r)) over Any             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  atan2(self.z, self.z_r)                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gouy : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 30a0884a1041c864           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.optics.gaussopt.BeamParameter.gouy","kind":"property","src_hash":"f980e0b47bb2237e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gouy()","rhs":"returns the gouy attribute","over":{"base":"Any"},"name":"gouy_correct"},"guarantee":"returns the gouy attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"30a0884a1041c864"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.optics.gaussopt.BeamParameter.gouy","kind":"property","src_hash":"f980e0b47bb2237e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gouy()","rhs":"atan2(self.z, self.z_r)","over":{"base":"Any"},"name":"gouy_correct"},"guarantee":"returns atan2(self.z, self.z_r)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"30a0884a1041c864","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"atan2(self.z, self.z_r)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.z","self.z_r"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def gouy(self):
         """
         The Gouy phase.
@@ -1063,16 +1278,22 @@ class BeamParameter(Expr):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(waist_approximation_limit(), returns the waist_approximation_limit attribute) over Any ║
+# ║ Path(waist_approximation_limit(), 2 * self.wavelen / pi) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  2 * self.wavelen / pi                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ waist_approximation_limit : Any → Any                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1c491cd26eef9204           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.optics.gaussopt.BeamParameter.waist_approximation_limit","kind":"property","src_hash":"280d78eed9393ca7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"waist_approximation_limit()","rhs":"returns the waist_approximation_limit attribute","over":{"base":"Any"},"name":"waist_approximation_limit_correct"},"guarantee":"returns the waist_approximation_limit attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1c491cd26eef9204"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.optics.gaussopt.BeamParameter.waist_approximation_limit","kind":"property","src_hash":"280d78eed9393ca7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"waist_approximation_limit()","rhs":"2 * self.wavelen / pi","over":{"base":"Any"},"name":"waist_approximation_limit_correct"},"guarantee":"returns 2 * self.wavelen / pi","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1c491cd26eef9204","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"2 * self.wavelen / pi","pure":false,"effects":{"effect_type":"reads_state","reads":["self.wavelen"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def waist_approximation_limit(self):
         """
         The minimal waist for which the gauss beam approximation is valid.
@@ -1099,16 +1320,22 @@ class BeamParameter(Expr):
 ###
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(waist2rayleigh(w, ), calculate the rayleigh range from the waist of a gaussian beam) over Any ║
+# ║ Path(waist2rayleigh(w, wavelen, n), w ** 2 * n * pi / wavelen) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  w ** 2 * n * pi / wavelen                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ waist2rayleigh : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a269d65bc0efa6e8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3d05b0e7019a6928  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.optics.gaussopt.waist2rayleigh","kind":"function","src_hash":"aefed559fb9e9d3f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"waist2rayleigh(w, )","rhs":"calculate the rayleigh range from the waist of a gaussian beam","over":{"base":"Any"},"name":"waist2rayleigh_correct"},"guarantee":"calculate the rayleigh range from the waist of a gaussian beam","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.optics.gaussopt.waist2rayleigh_correct","statement":"Path(waist2rayleigh(x), calculate the rayleigh range from the waist of a gaussian beam)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a269d65bc0efa6e8"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.optics.gaussopt.waist2rayleigh","kind":"function","src_hash":"aefed559fb9e9d3f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"waist2rayleigh(w, wavelen, n)","rhs":"w ** 2 * n * pi / wavelen","over":{"base":"Any"},"name":"waist2rayleigh_correct"},"guarantee":"returns w ** 2 * n * pi / wavelen","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.optics.gaussopt.waist2rayleigh_correct","statement":"Path(waist2rayleigh(x), returns w ** 2 * n * pi / wavelen)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3d05b0e7019a6928","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"w ** 2 * n * pi / wavelen","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def waist2rayleigh(w, wavelen, n=1):
     """
     Calculate the rayleigh range from the waist of a gaussian beam.
@@ -1132,16 +1359,22 @@ def waist2rayleigh(w, wavelen, n=1):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rayleigh2waist(z_r), calculate the waist from the rayleigh range of a gaussian beam) over Any ║
+# ║ Path(rayleigh2waist(z_r, wavelen), sqrt(z_r / pi * wavelen)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  sqrt(z_r / pi * wavelen)                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ rayleigh2waist : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | db699a0fa28bcee6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 587c2b1db80c21e2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.optics.gaussopt.rayleigh2waist","kind":"function","src_hash":"bb8aae5dd840acfe","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rayleigh2waist(z_r)","rhs":"calculate the waist from the rayleigh range of a gaussian beam","over":{"base":"Any"},"name":"rayleigh2waist_correct"},"guarantee":"calculate the waist from the rayleigh range of a gaussian beam","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.optics.gaussopt.rayleigh2waist_correct","statement":"Path(rayleigh2waist(x), calculate the waist from the rayleigh range of a gaussian beam)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"db699a0fa28bcee6"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.optics.gaussopt.rayleigh2waist","kind":"function","src_hash":"bb8aae5dd840acfe","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rayleigh2waist(z_r, wavelen)","rhs":"sqrt(z_r / pi * wavelen)","over":{"base":"Any"},"name":"rayleigh2waist_correct"},"guarantee":"returns sqrt(z_r / pi * wavelen)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.optics.gaussopt.rayleigh2waist_correct","statement":"Path(rayleigh2waist(x), returns sqrt(z_r / pi * wavelen))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"587c2b1db80c21e2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"sqrt(z_r / pi * wavelen)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def rayleigh2waist(z_r, wavelen):
     """Calculate the waist from the rayleigh range of a gaussian beam.
 
@@ -1164,16 +1397,27 @@ def rayleigh2waist(z_r, wavelen):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(geometric_conj_ab(a, ), conjugation relation for geometrical beams under paraxial conditions) over Any ║
+# ║ Path(geometric_conj_ab(a, b), result == (a if b.is_infinite else b if a.is_infinite or b.is_infinite else a * b / (a + b)) and result == a if b.is_infinite else b or result == a * b / (a + b)) over {Any | hasattr(a, 'is_infinite') and hasattr(b, 'is_infinite')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ geometric_conj_ab : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(a, 'is_infinite')                      ║
+# ║   requires: hasattr(b, 'is_infinite')                      ║
+# ║   ensures:  result == (a if b.is_infinite else b if a...   ║
+# ║   ensures:  result == a if b.is_infinite else b or re...   ║
+# ║   fiber[case_0]: a.is_infinite or b.is_infinite => a ...   ║
+# ║   fiber[case_1]: not (a.is_infinite or b.is_infinite)...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ geometric_conj_ab : {Any | hasattr(a, 'is_infinite') ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eda780ddea285404  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fe6d1e0b5c3df10a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.optics.gaussopt.geometric_conj_ab","kind":"function","src_hash":"7f792ac49852d6db","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"geometric_conj_ab(a, )","rhs":"conjugation relation for geometrical beams under paraxial conditions","over":{"base":"Any"},"name":"geometric_conj_ab_correct"},"guarantee":"conjugation relation for geometrical beams under paraxial conditions","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.optics.gaussopt.geometric_conj_ab_correct","statement":"Path(geometric_conj_ab(x), conjugation relation for geometrical beams under paraxial conditions)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eda780ddea285404"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.optics.gaussopt.geometric_conj_ab","kind":"function","src_hash":"7f792ac49852d6db","in":{"base":"Any","pred":"hasattr(a, 'is_infinite') and hasattr(b, 'is_infinite')"},"out":{"base":"Any","pred":"result satisfies: result == (a if b.is_infinite else b if a.is_infinite or b.is_infinite else a * b / (a + b)) and result == a if b.is_infinite else b or result == a * b / (a + b)"},"spec":{"lhs":"geometric_conj_ab(a, b)","rhs":"result == (a if b.is_infinite else b if a.is_infinite or b.is_infinite else a * b / (a + b)) and result == a if b.is_infinite else b or result == a * b / (a + b)","over":{"base":"Any","pred":"hasattr(a, 'is_infinite') and hasattr(b, 'is_infinite')"},"name":"geometric_conj_ab_correct"},"guarantee":"result == (a if b.is_infinite else b if a.is_infinite or b.is_infinite else a * b / (a + b)); result == a if b.is_infinite else b or result == a * b / (a + b); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.optics.gaussopt.geometric_conj_ab_correct","statement":"Path(geometric_conj_ab(x), result == (a if b.is_infinite else b if a.is_infinite or b.is_infinite else a * b / (a + b)); result == a if b.is_infinite else b or result == a * b / (a + b); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fe6d1e0b5c3df10a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(a, 'is_infinite')","hasattr(b, 'is_infinite')"],"ensures":["result == (a if b.is_infinite else b if a.is_infinite or b.is_infinite else a * b / (a + b))","result == a if b.is_infinite else b or result == a * b / (a + b)"],"fibers":[{"name":"case_0","guard":"a.is_infinite or b.is_infinite","ensures":["result == a if b.is_infinite else b"],"decidability":"library","returns_expr":"a if b.is_infinite else b"},{"name":"case_1","guard":"not (a.is_infinite or b.is_infinite)","ensures":["result == a * b / (a + b)"],"decidability":"library","returns_expr":"a * b / (a + b)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["a.is_infinite","b.is_infinite"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def geometric_conj_ab(a, b):
     """
     Conjugation relation for geometrical beams under paraxial conditions.
@@ -1206,16 +1450,22 @@ def geometric_conj_ab(a, b):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(geometric_conj_af(a, ), conjugation relation for geometrical beams under paraxial conditions) over Any ║
+# ║ Path(geometric_conj_af(a, f), -geometric_conj_ab(a, -f)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  -geometric_conj_ab(a, -f)                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ geometric_conj_af : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0dba9a0c0e847acd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | adc0561568cda3e9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.optics.gaussopt.geometric_conj_af","kind":"function","src_hash":"89ce32573844e468","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"geometric_conj_af(a, )","rhs":"conjugation relation for geometrical beams under paraxial conditions","over":{"base":"Any"},"name":"geometric_conj_af_correct"},"guarantee":"conjugation relation for geometrical beams under paraxial conditions","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.optics.gaussopt.geometric_conj_af_correct","statement":"Path(geometric_conj_af(x), conjugation relation for geometrical beams under paraxial conditions)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0dba9a0c0e847acd"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.optics.gaussopt.geometric_conj_af","kind":"function","src_hash":"89ce32573844e468","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"geometric_conj_af(a, f)","rhs":"-geometric_conj_ab(a, -f)","over":{"base":"Any"},"name":"geometric_conj_af_correct"},"guarantee":"returns -geometric_conj_ab(a, -f)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.optics.gaussopt.geometric_conj_af_correct","statement":"Path(geometric_conj_af(x), returns -geometric_conj_ab(a, -f))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"adc0561568cda3e9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"-geometric_conj_ab(a, -f)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def geometric_conj_af(a, f):
     """
     Conjugation relation for geometrical beams under paraxial conditions.
@@ -1250,16 +1500,22 @@ geometric_conj_bf = geometric_conj_af
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gaussian_conj(s_i), conjugation relation for gaussian beams) over Any ║
+# ║ Path(gaussian_conj(s_in, z_r_in, f), (s_out, z_r_out, m)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (s_out, z_r_out, m)                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gaussian_conj : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f798deb6e0bc68ff  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 286be18ce53fb088  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.optics.gaussopt.gaussian_conj","kind":"function","src_hash":"4df812943d98932e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gaussian_conj(s_i)","rhs":"conjugation relation for gaussian beams","over":{"base":"Any"},"name":"gaussian_conj_correct"},"guarantee":"conjugation relation for gaussian beams","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.optics.gaussopt.gaussian_conj_correct","statement":"Path(gaussian_conj(x), conjugation relation for gaussian beams)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f798deb6e0bc68ff"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.optics.gaussopt.gaussian_conj","kind":"function","src_hash":"4df812943d98932e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gaussian_conj(s_in, z_r_in, f)","rhs":"(s_out, z_r_out, m)","over":{"base":"Any"},"name":"gaussian_conj_correct"},"guarantee":"returns (s_out, z_r_out, m)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.optics.gaussopt.gaussian_conj_correct","statement":"Path(gaussian_conj(x), returns (s_out, z_r_out, m))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"286be18ce53fb088","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(s_out, z_r_out, m)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def gaussian_conj(s_in, z_r_in, f):
     """
     Conjugation relation for gaussian beams.
@@ -1309,16 +1565,23 @@ def gaussian_conj(s_in, z_r_in, f):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(conjugate_gauss_beams(wav), find the optical setup conjugating the object/image waists) over Any ║
+# ║ Path(conjugate_gauss_beams(wavelen, waist_in, waist_out), (s_in, s_out, f)) over {Any | not (len(kwargs) != 1)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ conjugate_gauss_beams : Any → Any                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (len(kwargs) != 1)                         ║
+# ║   returns:  (s_in, s_out, f)                               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ conjugate_gauss_beams : {Any | not (len(kwargs) != 1)...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6cc5e5de4e104bc9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 799fce5ce93ebc25  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.optics.gaussopt.conjugate_gauss_beams","kind":"function","src_hash":"0b0e9225b6fc312d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"conjugate_gauss_beams(wav)","rhs":"find the optical setup conjugating the object/image waists","over":{"base":"Any"},"name":"conjugate_gauss_beams_correct"},"guarantee":"find the optical setup conjugating the object/image waists","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.optics.gaussopt.conjugate_gauss_beams_correct","statement":"Path(conjugate_gauss_beams(x), find the optical setup conjugating the object/image waists)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6cc5e5de4e104bc9"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.optics.gaussopt.conjugate_gauss_beams","kind":"function","src_hash":"0b0e9225b6fc312d","in":{"base":"Any","pred":"not (len(kwargs) != 1)"},"out":{"base":"Any"},"spec":{"lhs":"conjugate_gauss_beams(wavelen, waist_in, waist_out)","rhs":"(s_in, s_out, f)","over":{"base":"Any","pred":"not (len(kwargs) != 1)"},"name":"conjugate_gauss_beams_correct"},"guarantee":"returns (s_in, s_out, f)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.optics.gaussopt.conjugate_gauss_beams_correct","statement":"Path(conjugate_gauss_beams(x), returns (s_in, s_out, f))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"799fce5ce93ebc25","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (len(kwargs) != 1)"],"returns_expr":"(s_in, s_out, f)","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError","ValueError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['wavelen', 'waist_in', 'waist_out'], spec=['wavelen', 'waist_in', 'waist_out', '**kwargs']"]}}
 def conjugate_gauss_beams(wavelen, waist_in, waist_out, **kwargs):
     """
     Find the optical setup conjugating the object/image waists.

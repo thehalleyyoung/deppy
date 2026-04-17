@@ -26,14 +26,20 @@ from sympy.functions.elementary.trigonometric import sin, cos
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(MathieuBase(*args), correctly constructs a MathieuBase instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ MathieuBase : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DefinedFunction)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ MathieuBase : Any → {Any | result satisfies: isinstan...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a02a61f43e251cfa  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.mathieu_functions.MathieuBase","kind":"class","src_hash":"8a47b2d028984ed8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"MathieuBase(*args)","rhs":"correctly constructs a MathieuBase instance","over":{"base":"Any"},"name":"MathieuBase_class_invariant"},"guarantee":"correctly constructs a MathieuBase instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a02a61f43e251cfa"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.mathieu_functions.MathieuBase","kind":"class","src_hash":"8a47b2d028984ed8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DefinedFunction)"},"spec":{"lhs":"MathieuBase(*args)","rhs":"correctly constructs a MathieuBase instance","over":{"base":"Any"},"name":"MathieuBase_class_invariant"},"guarantee":"isinstance(self, DefinedFunction)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a02a61f43e251cfa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DefinedFunction)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function MathieuBase not found in source"]}}
 class MathieuBase(DefinedFunction):
     """
     Abstract base class for Mathieu functions.
@@ -47,14 +53,20 @@ class MathieuBase(DefinedFunction):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(_eval_conjugate(), id) over Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.func(a.conjugate(), q.conjugate(), z...   ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_conjugate : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | f95ad63670c02b63   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.mathieu_functions.MathieuBase._eval_conjugate","kind":"method","src_hash":"e8ca1b98e0255498","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_conjugate()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_conjugate_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"func","by":"library_axiom"},{"fn":"conjugate","by":"library_axiom"},{"fn":"conjugate","by":"library_axiom"},{"fn":"conjugate","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f95ad63670c02b63"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.mathieu_functions.MathieuBase._eval_conjugate","kind":"method","src_hash":"e8ca1b98e0255498","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_conjugate()","rhs":"self.func(a.conjugate(), q.conjugate(), z.conjugate())","over":{"base":"Any"},"name":"_eval_conjugate_correct","kind":"composition"},"guarantee":"returns self.func(a.conjugate(), q.conjugate(), z.conjugate())","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"func","by":"library_axiom"},{"fn":"conjugate","by":"library_axiom"},{"fn":"conjugate","by":"library_axiom"},{"fn":"conjugate","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f95ad63670c02b63","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.func(a.conjugate(), q.conjugate(), z.conjugate())","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.func"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_conjugate(self):
         a, q, z = self.args
         return self.func(a.conjugate(), q.conjugate(), z.conjugate())
@@ -63,14 +75,20 @@ class MathieuBase(DefinedFunction):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(mathieus(*args), correctly constructs a mathieus instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ mathieus : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, MathieuBase)                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ mathieus : Any → {Any | result satisfies: isinstance(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 48f57d6e7d7a4003  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.mathieu_functions.mathieus","kind":"class","src_hash":"80255eabf1ba5e51","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"mathieus(*args)","rhs":"correctly constructs a mathieus instance","over":{"base":"Any"},"name":"mathieus_class_invariant"},"guarantee":"correctly constructs a mathieus instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"48f57d6e7d7a4003"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.mathieu_functions.mathieus","kind":"class","src_hash":"80255eabf1ba5e51","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, MathieuBase)"},"spec":{"lhs":"mathieus(*args)","rhs":"correctly constructs a mathieus instance","over":{"base":"Any"},"name":"mathieus_class_invariant"},"guarantee":"isinstance(self, MathieuBase)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"48f57d6e7d7a4003","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, MathieuBase)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function mathieus not found in source"]}}
 class mathieus(MathieuBase):
     r"""
     The Mathieu Sine function $S(a,q,z)$.
@@ -118,16 +136,23 @@ class mathieus(MathieuBase):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(fdiff(arg), fdiff produces the expected output) over Any ║
+# ║ Path(fdiff(argindex), <unspecified:fdiff>) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: argindex == 3 => mathieusprime(a, q, z)   ║
+# ║   fiber[case_1]: not (argindex == 3)                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ fdiff : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | de7bad1cac246b73  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6e1a380b870a5d8d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.mathieu_functions.mathieus.fdiff","kind":"method","src_hash":"ba51d17065c9cce3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(arg)","rhs":"fdiff produces the expected output","over":{"base":"Any"},"name":"fdiff_correct"},"guarantee":"fdiff produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.mathieu_functions.mathieus.fdiff_correct","statement":"Path(fdiff(x), fdiff produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"de7bad1cac246b73"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.mathieu_functions.mathieus.fdiff","kind":"method","src_hash":"ba51d17065c9cce3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(argindex)","rhs":"<unspecified:fdiff>","over":{"base":"Any"},"name":"fdiff_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.mathieu_functions.mathieus.fdiff_correct","statement":"Path(fdiff(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6e1a380b870a5d8d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"argindex == 3","ensures":["result == mathieusprime(a, q, z)"],"decidability":"z3","returns_expr":"mathieusprime(a, q, z)"},{"name":"case_1","guard":"not (argindex == 3)","ensures":[],"decidability":"z3"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"],"raises":["ArgumentIndexError"]},"state_contract":{"exceptional_post":{"ArgumentIndexError":["isinstance(raised, ArgumentIndexError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def fdiff(self, argindex=1):
         if argindex == 3:
             a, q, z = self.args
@@ -137,16 +162,25 @@ class mathieus(MathieuBase):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), id) over Any                               ║
+# ║ Path(eval(cls, a, q), id) over {Any | hasattr(q, 'is_Number') and hasattr(q, 'is_zero') and hasattr(z, 'could_extract_minus_sign')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Any                                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(q, 'is_Number')                        ║
+# ║   requires: hasattr(q, 'is_zero')                          ║
+# ║   requires: hasattr(z, 'could_extract_minus_sign')         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : {Any | hasattr(q, 'is_Number') and hasattr(q, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 6080a68e51bb3298   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.mathieu_functions.mathieus.eval","kind":"classmethod","src_hash":"c91f8af565b6a95c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct","kind":"composition"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sin","by":"library_axiom"},{"fn":"sqrt","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6080a68e51bb3298"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.mathieu_functions.mathieus.eval","kind":"classmethod","src_hash":"c91f8af565b6a95c","in":{"base":"Any","pred":"hasattr(q, 'is_Number') and hasattr(q, 'is_zero') and hasattr(z, 'could_extract_minus_sign')"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls, a, q)","rhs":"<unspecified:eval>","over":{"base":"Any","pred":"hasattr(q, 'is_Number') and hasattr(q, 'is_zero') and hasattr(z, 'could_extract_minus_sign')"},"name":"eval_correct","kind":"composition"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sin","by":"library_axiom"},{"fn":"sqrt","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6080a68e51bb3298","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(q, 'is_Number')","hasattr(q, 'is_zero')","hasattr(z, 'could_extract_minus_sign')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["q.is_Number","q.is_zero","z.could_extract_minus_sign"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, a, q, z):
         if q.is_Number and q.is_zero:
             return sin(sqrt(a)*z)
@@ -158,14 +192,20 @@ class mathieus(MathieuBase):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(mathieuc(*args), correctly constructs a mathieuc instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ mathieuc : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, MathieuBase)                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ mathieuc : Any → {Any | result satisfies: isinstance(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 68c3ff7cbfd3cca4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.mathieu_functions.mathieuc","kind":"class","src_hash":"ce67e49d1e8abcaf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"mathieuc(*args)","rhs":"correctly constructs a mathieuc instance","over":{"base":"Any"},"name":"mathieuc_class_invariant"},"guarantee":"correctly constructs a mathieuc instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"68c3ff7cbfd3cca4"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.mathieu_functions.mathieuc","kind":"class","src_hash":"ce67e49d1e8abcaf","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, MathieuBase)"},"spec":{"lhs":"mathieuc(*args)","rhs":"correctly constructs a mathieuc instance","over":{"base":"Any"},"name":"mathieuc_class_invariant"},"guarantee":"isinstance(self, MathieuBase)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"68c3ff7cbfd3cca4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, MathieuBase)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function mathieuc not found in source"]}}
 class mathieuc(MathieuBase):
     r"""
     The Mathieu Cosine function $C(a,q,z)$.
@@ -213,16 +253,23 @@ class mathieuc(MathieuBase):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(fdiff(arg), fdiff produces the expected output) over Any ║
+# ║ Path(fdiff(argindex), <unspecified:fdiff>) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: argindex == 3 => mathieucprime(a, q, z)   ║
+# ║   fiber[case_1]: not (argindex == 3)                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ fdiff : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 361ef4e508a1c4a2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4578d69fc9a2d5b9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.mathieu_functions.mathieuc.fdiff","kind":"method","src_hash":"1a522d336a2392fe","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(arg)","rhs":"fdiff produces the expected output","over":{"base":"Any"},"name":"fdiff_correct"},"guarantee":"fdiff produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.mathieu_functions.mathieuc.fdiff_correct","statement":"Path(fdiff(x), fdiff produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"361ef4e508a1c4a2"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.mathieu_functions.mathieuc.fdiff","kind":"method","src_hash":"1a522d336a2392fe","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(argindex)","rhs":"<unspecified:fdiff>","over":{"base":"Any"},"name":"fdiff_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.mathieu_functions.mathieuc.fdiff_correct","statement":"Path(fdiff(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4578d69fc9a2d5b9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"argindex == 3","ensures":["result == mathieucprime(a, q, z)"],"decidability":"z3","returns_expr":"mathieucprime(a, q, z)"},{"name":"case_1","guard":"not (argindex == 3)","ensures":[],"decidability":"z3"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"],"raises":["ArgumentIndexError"]},"state_contract":{"exceptional_post":{"ArgumentIndexError":["isinstance(raised, ArgumentIndexError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def fdiff(self, argindex=1):
         if argindex == 3:
             a, q, z = self.args
@@ -232,16 +279,25 @@ class mathieuc(MathieuBase):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), id) over Any                               ║
+# ║ Path(eval(cls, a, q), id) over {Any | hasattr(q, 'is_Number') and hasattr(q, 'is_zero') and hasattr(z, 'could_extract_minus_sign')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Any                                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(q, 'is_Number')                        ║
+# ║   requires: hasattr(q, 'is_zero')                          ║
+# ║   requires: hasattr(z, 'could_extract_minus_sign')         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : {Any | hasattr(q, 'is_Number') and hasattr(q, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | a67e8b8407df2ebb   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.mathieu_functions.mathieuc.eval","kind":"classmethod","src_hash":"754570090da2ca04","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct","kind":"composition"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"cos","by":"library_axiom"},{"fn":"sqrt","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a67e8b8407df2ebb"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.mathieu_functions.mathieuc.eval","kind":"classmethod","src_hash":"754570090da2ca04","in":{"base":"Any","pred":"hasattr(q, 'is_Number') and hasattr(q, 'is_zero') and hasattr(z, 'could_extract_minus_sign')"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls, a, q)","rhs":"<unspecified:eval>","over":{"base":"Any","pred":"hasattr(q, 'is_Number') and hasattr(q, 'is_zero') and hasattr(z, 'could_extract_minus_sign')"},"name":"eval_correct","kind":"composition"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"cos","by":"library_axiom"},{"fn":"sqrt","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a67e8b8407df2ebb","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(q, 'is_Number')","hasattr(q, 'is_zero')","hasattr(z, 'could_extract_minus_sign')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["q.is_Number","q.is_zero","z.could_extract_minus_sign"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, a, q, z):
         if q.is_Number and q.is_zero:
             return cos(sqrt(a)*z)
@@ -253,14 +309,20 @@ class mathieuc(MathieuBase):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(mathieusprime(*args), correctly constructs a mathieusprime instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ mathieusprime : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, MathieuBase)                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ mathieusprime : Any → {Any | result satisfies: isinst...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4dc9e4d8e9400c10  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.mathieu_functions.mathieusprime","kind":"class","src_hash":"9a628e1eda3ca16a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"mathieusprime(*args)","rhs":"correctly constructs a mathieusprime instance","over":{"base":"Any"},"name":"mathieusprime_class_invariant"},"guarantee":"correctly constructs a mathieusprime instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4dc9e4d8e9400c10"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.mathieu_functions.mathieusprime","kind":"class","src_hash":"9a628e1eda3ca16a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, MathieuBase)"},"spec":{"lhs":"mathieusprime(*args)","rhs":"correctly constructs a mathieusprime instance","over":{"base":"Any"},"name":"mathieusprime_class_invariant"},"guarantee":"isinstance(self, MathieuBase)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4dc9e4d8e9400c10","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, MathieuBase)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function mathieusprime not found in source"]}}
 class mathieusprime(MathieuBase):
     r"""
     The derivative $S^{\prime}(a,q,z)$ of the Mathieu Sine function.
@@ -308,16 +370,23 @@ class mathieusprime(MathieuBase):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(fdiff(arg), id) over Any                              ║
+# ║ Path(fdiff(argindex), id) over Any                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: argindex == 3 => (2 * q * cos(2 * z)...   ║
+# ║   fiber[case_1]: not (argindex == 3)                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ fdiff : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 835a5b6dc803aaf8   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.mathieu_functions.mathieusprime.fdiff","kind":"method","src_hash":"a05be5892f31a56f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(arg)","rhs":"fdiff produces the expected output","over":{"base":"Any"},"name":"fdiff_correct","kind":"composition"},"guarantee":"fdiff produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"cos","by":"library_axiom"},{"fn":"mathieus","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"835a5b6dc803aaf8"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.mathieu_functions.mathieusprime.fdiff","kind":"method","src_hash":"a05be5892f31a56f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(argindex)","rhs":"<unspecified:fdiff>","over":{"base":"Any"},"name":"fdiff_correct","kind":"composition"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"cos","by":"library_axiom"},{"fn":"mathieus","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"835a5b6dc803aaf8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"argindex == 3","ensures":["result == (2 * q * cos(2 * z) - a) * mathieus(a, q, z)"],"decidability":"z3","returns_expr":"(2 * q * cos(2 * z) - a) * mathieus(a, q, z)"},{"name":"case_1","guard":"not (argindex == 3)","ensures":[],"decidability":"z3"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"],"raises":["ArgumentIndexError"]},"state_contract":{"exceptional_post":{"ArgumentIndexError":["isinstance(raised, ArgumentIndexError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def fdiff(self, argindex=1):
         if argindex == 3:
             a, q, z = self.args
@@ -327,16 +396,25 @@ class mathieusprime(MathieuBase):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), id) over Any                               ║
+# ║ Path(eval(cls, a, q), id) over {Any | hasattr(q, 'is_Number') and hasattr(q, 'is_zero') and hasattr(z, 'could_extract_minus_sign')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Any                                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(q, 'is_Number')                        ║
+# ║   requires: hasattr(q, 'is_zero')                          ║
+# ║   requires: hasattr(z, 'could_extract_minus_sign')         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : {Any | hasattr(q, 'is_Number') and hasattr(q, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | f9d4bc8b71f23d0b   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.mathieu_functions.mathieusprime.eval","kind":"classmethod","src_hash":"3e97a5bfadfb64ad","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct","kind":"composition"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sqrt","by":"library_axiom"},{"fn":"cos","by":"library_axiom"},{"fn":"sqrt","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f9d4bc8b71f23d0b"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.mathieu_functions.mathieusprime.eval","kind":"classmethod","src_hash":"3e97a5bfadfb64ad","in":{"base":"Any","pred":"hasattr(q, 'is_Number') and hasattr(q, 'is_zero') and hasattr(z, 'could_extract_minus_sign')"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls, a, q)","rhs":"<unspecified:eval>","over":{"base":"Any","pred":"hasattr(q, 'is_Number') and hasattr(q, 'is_zero') and hasattr(z, 'could_extract_minus_sign')"},"name":"eval_correct","kind":"composition"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sqrt","by":"library_axiom"},{"fn":"cos","by":"library_axiom"},{"fn":"sqrt","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f9d4bc8b71f23d0b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(q, 'is_Number')","hasattr(q, 'is_zero')","hasattr(z, 'could_extract_minus_sign')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["q.is_Number","q.is_zero","z.could_extract_minus_sign"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, a, q, z):
         if q.is_Number and q.is_zero:
             return sqrt(a)*cos(sqrt(a)*z)
@@ -348,14 +426,20 @@ class mathieusprime(MathieuBase):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(mathieucprime(*args), correctly constructs a mathieucprime instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ mathieucprime : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, MathieuBase)                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ mathieucprime : Any → {Any | result satisfies: isinst...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b1dec353cfb080f7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.mathieu_functions.mathieucprime","kind":"class","src_hash":"cbf4ba870858c112","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"mathieucprime(*args)","rhs":"correctly constructs a mathieucprime instance","over":{"base":"Any"},"name":"mathieucprime_class_invariant"},"guarantee":"correctly constructs a mathieucprime instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b1dec353cfb080f7"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.mathieu_functions.mathieucprime","kind":"class","src_hash":"cbf4ba870858c112","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, MathieuBase)"},"spec":{"lhs":"mathieucprime(*args)","rhs":"correctly constructs a mathieucprime instance","over":{"base":"Any"},"name":"mathieucprime_class_invariant"},"guarantee":"isinstance(self, MathieuBase)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b1dec353cfb080f7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, MathieuBase)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function mathieucprime not found in source"]}}
 class mathieucprime(MathieuBase):
     r"""
     The derivative $C^{\prime}(a,q,z)$ of the Mathieu Cosine function.
@@ -403,16 +487,23 @@ class mathieucprime(MathieuBase):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(fdiff(arg), id) over Any                              ║
+# ║ Path(fdiff(argindex), id) over Any                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: argindex == 3 => (2 * q * cos(2 * z)...   ║
+# ║   fiber[case_1]: not (argindex == 3)                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ fdiff : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 3ae4a3abbfecfe9c   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.mathieu_functions.mathieucprime.fdiff","kind":"method","src_hash":"12ff7ac2422e2407","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(arg)","rhs":"fdiff produces the expected output","over":{"base":"Any"},"name":"fdiff_correct","kind":"composition"},"guarantee":"fdiff produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"cos","by":"library_axiom"},{"fn":"mathieuc","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3ae4a3abbfecfe9c"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.mathieu_functions.mathieucprime.fdiff","kind":"method","src_hash":"12ff7ac2422e2407","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(argindex)","rhs":"<unspecified:fdiff>","over":{"base":"Any"},"name":"fdiff_correct","kind":"composition"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"cos","by":"library_axiom"},{"fn":"mathieuc","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3ae4a3abbfecfe9c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"argindex == 3","ensures":["result == (2 * q * cos(2 * z) - a) * mathieuc(a, q, z)"],"decidability":"z3","returns_expr":"(2 * q * cos(2 * z) - a) * mathieuc(a, q, z)"},{"name":"case_1","guard":"not (argindex == 3)","ensures":[],"decidability":"z3"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"],"raises":["ArgumentIndexError"]},"state_contract":{"exceptional_post":{"ArgumentIndexError":["isinstance(raised, ArgumentIndexError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def fdiff(self, argindex=1):
         if argindex == 3:
             a, q, z = self.args
@@ -422,16 +513,25 @@ class mathieucprime(MathieuBase):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), id) over Any                               ║
+# ║ Path(eval(cls, a, q), id) over {Any | hasattr(q, 'is_Number') and hasattr(q, 'is_zero') and hasattr(z, 'could_extract_minus_sign')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Any                                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(q, 'is_Number')                        ║
+# ║   requires: hasattr(q, 'is_zero')                          ║
+# ║   requires: hasattr(z, 'could_extract_minus_sign')         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : {Any | hasattr(q, 'is_Number') and hasattr(q, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | a9a65dc9030dd717   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.mathieu_functions.mathieucprime.eval","kind":"classmethod","src_hash":"afa932ecba59cb44","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct","kind":"composition"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sqrt","by":"library_axiom"},{"fn":"sin","by":"library_axiom"},{"fn":"sqrt","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a9a65dc9030dd717"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.mathieu_functions.mathieucprime.eval","kind":"classmethod","src_hash":"afa932ecba59cb44","in":{"base":"Any","pred":"hasattr(q, 'is_Number') and hasattr(q, 'is_zero') and hasattr(z, 'could_extract_minus_sign')"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls, a, q)","rhs":"<unspecified:eval>","over":{"base":"Any","pred":"hasattr(q, 'is_Number') and hasattr(q, 'is_zero') and hasattr(z, 'could_extract_minus_sign')"},"name":"eval_correct","kind":"composition"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sqrt","by":"library_axiom"},{"fn":"sin","by":"library_axiom"},{"fn":"sqrt","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a9a65dc9030dd717","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(q, 'is_Number')","hasattr(q, 'is_zero')","hasattr(z, 'could_extract_minus_sign')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["q.is_Number","q.is_zero","z.could_extract_minus_sign"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, a, q, z):
         if q.is_Number and q.is_zero:
             return -sqrt(a)*sin(sqrt(a)*z)

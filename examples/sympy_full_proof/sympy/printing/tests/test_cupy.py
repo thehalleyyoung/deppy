@@ -29,16 +29,24 @@ from sympy.external import import_module
 cp = import_module('cupy')
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_cupy_print(), test_cupy_print produces the expected output) over Any ║
+# ║ Path(test_cupy_print(), prntr.doprint(logaddexp(a, b)) == 'cupy.logaddexp(a, b)' and prntr.doprint(sqrt(x)) == 'cupy.sqrt(x)' and prntr.doprint(log(x)) == 'cupy.log(x)' and prntr.doprint('acos(x)') == 'cupy.arccos(x)' and prntr.doprint('exp(x)') == 'cupy.exp(x)' and prntr.doprint('Abs(x)') == 'abs(x)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_cupy_print : Any → {Any | prntr.doprint(logaddex...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  prntr.doprint(logaddexp(a, b)) == 'cupy.l...   ║
+# ║   ensures:  prntr.doprint(sqrt(x)) == 'cupy.sqrt(x)'       ║
+# ║   ensures:  prntr.doprint(log(x)) == 'cupy.log(x)'         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_cupy_print : Any → {Any | result satisfies: prnt...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 92ab40f7f14613bb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d7ecfc205fa722d9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_cupy.test_cupy_print","kind":"function","src_hash":"7120713453e7fe0a","in":{"base":"Any"},"out":{"base":"Any","pred":"prntr.doprint(logaddexp(a, b)) == 'cupy.logaddexp(a, b)' and prntr.doprint(sqrt(x)) == 'cupy.sqrt(x)' and prntr.doprint(log(x)) == 'cupy.log(x)' and prntr.doprint('acos(x)') == 'cupy.arccos(x)' and prntr.doprint('exp(x)') == 'cupy.exp(x)' and prntr.doprint('Abs(x)') == 'abs(x)'"},"spec":{"lhs":"test_cupy_print()","rhs":"test_cupy_print produces the expected output","over":{"base":"Any"},"name":"test_cupy_print_correct"},"guarantee":"test_cupy_print produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_cupy.test_cupy_print_correct","statement":"Path(test_cupy_print(x), test_cupy_print produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"92ab40f7f14613bb"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_cupy.test_cupy_print","kind":"function","src_hash":"7120713453e7fe0a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: prntr.doprint(logaddexp(a, b)) == 'cupy.logaddexp(a, b)' and prntr.doprint(sqrt(x)) == 'cupy.sqrt(x)' and prntr.doprint(log(x)) == 'cupy.log(x)' and prntr.doprint('acos(x)') == 'cupy.arccos(x)' and prntr.doprint('exp(x)') == 'cupy.exp(x)' and prntr.doprint('Abs(x)') == 'abs(x)'"},"spec":{"lhs":"test_cupy_print()","rhs":"prntr.doprint(logaddexp(a, b)) == 'cupy.logaddexp(a, b)' and prntr.doprint(sqrt(x)) == 'cupy.sqrt(x)' and prntr.doprint(log(x)) == 'cupy.log(x)' and prntr.doprint('acos(x)') == 'cupy.arccos(x)' and prntr.doprint('exp(x)') == 'cupy.exp(x)' and prntr.doprint('Abs(x)') == 'abs(x)'","over":{"base":"Any"},"name":"test_cupy_print_correct"},"guarantee":"prntr.doprint(logaddexp(a, b)) == 'cupy.logaddexp(a, b)'; prntr.doprint(sqrt(x)) == 'cupy.sqrt(x)'; prntr.doprint(log(x)) == 'cupy.log(x)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_cupy.test_cupy_print_correct","statement":"Path(test_cupy_print(x), prntr.doprint(logaddexp(a, b)) == 'cupy.logaddexp(a, b)'; prntr.doprint(sqrt(x)) == 'cupy.sqrt(x)'; prntr.doprint(log(x)) == 'cupy.log(x)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d7ecfc205fa722d9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["prntr.doprint(logaddexp(a, b)) == 'cupy.logaddexp(a, b)'","prntr.doprint(sqrt(x)) == 'cupy.sqrt(x)'","prntr.doprint(log(x)) == 'cupy.log(x)'","prntr.doprint('acos(x)') == 'cupy.arccos(x)'","prntr.doprint('exp(x)') == 'cupy.exp(x)'","prntr.doprint('Abs(x)') == 'abs(x)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_cupy_print():
     prntr = CuPyPrinter()
     assert prntr.doprint(logaddexp(a, b)) == 'cupy.logaddexp(a, b)'
@@ -49,32 +57,45 @@ def test_cupy_print():
     assert prntr.doprint("Abs(x)") == 'abs(x)'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_not_cupy_print(), test_not_cupy_print produces the expected output) over Any ║
+# ║ Path(test_not_cupy_print(), <unspecified:test_not_cupy_print>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_not_cupy_print : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c324a47fd807bf5a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_cupy.test_not_cupy_print","kind":"function","src_hash":"44d74fca2350aae2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_not_cupy_print()","rhs":"test_not_cupy_print produces the expected output","over":{"base":"Any"},"name":"test_not_cupy_print_correct"},"guarantee":"test_not_cupy_print produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_cupy.test_not_cupy_print_correct","statement":"Path(test_not_cupy_print(x), test_not_cupy_print produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c324a47fd807bf5a"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_cupy.test_not_cupy_print","kind":"function","src_hash":"44d74fca2350aae2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_not_cupy_print()","rhs":"<unspecified:test_not_cupy_print>","over":{"base":"Any"},"name":"test_not_cupy_print_correct"},"guarantee":"test_not_cupy_print produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_cupy.test_not_cupy_print_correct","statement":"Path(test_not_cupy_print(x), test_not_cupy_print produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c324a47fd807bf5a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_not_cupy_print():
     prntr = CuPyPrinter()
     with raises(NotImplementedError):
         prntr.doprint("abcd(x)")
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_cupy_sum(), test_cupy_sum produces the expected output) over Any ║
+# ║ Path(test_cupy_sum(), cp.allclose(f(a_, b_, x_), sum((x_ ** i_ for i_ in range(a_, b_ + 1)))) and cp.allclose(f(a_, b_, x_), sum((i_ * x_ for i_ in range(a_, b_ + 1))))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_cupy_sum : Any → {Any | cp.allclose(f(a_, b_, x_...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  cp.allclose(f(a_, b_, x_), sum((x_ ** i_ ...   ║
+# ║   ensures:  cp.allclose(f(a_, b_, x_), sum((i_ * x_ f...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_cupy_sum : Any → {Any | result satisfies: cp.all...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 31d07d4bf430855b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 949b715f5adff2d9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_cupy.test_cupy_sum","kind":"function","src_hash":"bcfb7753321a4b8d","in":{"base":"Any"},"out":{"base":"Any","pred":"cp.allclose(f(a_, b_, x_), sum((x_ ** i_ for i_ in range(a_, b_ + 1)))) and cp.allclose(f(a_, b_, x_), sum((i_ * x_ for i_ in range(a_, b_ + 1))))"},"spec":{"lhs":"test_cupy_sum()","rhs":"test_cupy_sum produces the expected output","over":{"base":"Any"},"name":"test_cupy_sum_correct"},"guarantee":"test_cupy_sum produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_cupy.test_cupy_sum_correct","statement":"Path(test_cupy_sum(x), test_cupy_sum produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"31d07d4bf430855b"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_cupy.test_cupy_sum","kind":"function","src_hash":"bcfb7753321a4b8d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: cp.allclose(f(a_, b_, x_), sum((x_ ** i_ for i_ in range(a_, b_ + 1)))) and cp.allclose(f(a_, b_, x_), sum((i_ * x_ for i_ in range(a_, b_ + 1))))"},"spec":{"lhs":"test_cupy_sum()","rhs":"cp.allclose(f(a_, b_, x_), sum((x_ ** i_ for i_ in range(a_, b_ + 1)))) and cp.allclose(f(a_, b_, x_), sum((i_ * x_ for i_ in range(a_, b_ + 1))))","over":{"base":"Any"},"name":"test_cupy_sum_correct"},"guarantee":"cp.allclose(f(a_, b_, x_), sum((x_ ** i_ for i_ in range(a_, b_ + 1)))); cp.allclose(f(a_, b_, x_), sum((i_ * x_ for i_ in range(a_, b_ + 1))))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_cupy.test_cupy_sum_correct","statement":"Path(test_cupy_sum(x), cp.allclose(f(a_, b_, x_), sum((x_ ** i_ for i_ in range(a_, b_ + 1)))); cp.allclose(f(a_, b_, x_), sum((i_ * x_ for i_ in range(a_, b_ + 1)))))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"949b715f5adff2d9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["cp.allclose(f(a_, b_, x_), sum((x_ ** i_ for i_ in range(a_, b_ + 1))))","cp.allclose(f(a_, b_, x_), sum((i_ * x_ for i_ in range(a_, b_ + 1))))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_cupy_sum():
     if not cp:
         skip("CuPy not installed")
@@ -94,16 +115,24 @@ def test_cupy_sum():
     assert cp.allclose(f(a_, b_, x_), sum(i_ * x_ for i_ in range(a_, b_ + 1)))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_cupy_known_funcs_consts(), test_cupy_known_funcs_consts produces the expected output) over Any ║
+# ║ Path(test_cupy_known_funcs_consts(), _cupy_known_constants['NaN'] == 'cupy.nan' and _cupy_known_constants['EulerGamma'] == 'cupy.euler_gamma' and _cupy_known_functions['acos'] == 'cupy.arccos' and _cupy_known_functions['log'] == 'cupy.log') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_cupy_known_funcs_consts : Any → {Any | _cupy_kno...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  _cupy_known_constants['NaN'] == 'cupy.nan'     ║
+# ║   ensures:  _cupy_known_constants['EulerGamma'] == 'c...   ║
+# ║   ensures:  _cupy_known_functions['acos'] == 'cupy.ar...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_cupy_known_funcs_consts : Any → {Any | result sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7378d0ffe63e9e04  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f2b3f3c7c11fdcdd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_cupy.test_cupy_known_funcs_consts","kind":"function","src_hash":"54612d7c05cbaaf8","in":{"base":"Any"},"out":{"base":"Any","pred":"_cupy_known_constants['NaN'] == 'cupy.nan' and _cupy_known_constants['EulerGamma'] == 'cupy.euler_gamma' and _cupy_known_functions['acos'] == 'cupy.arccos' and _cupy_known_functions['log'] == 'cupy.log'"},"spec":{"lhs":"test_cupy_known_funcs_consts()","rhs":"test_cupy_known_funcs_consts produces the expected output","over":{"base":"Any"},"name":"test_cupy_known_funcs_consts_correct"},"guarantee":"test_cupy_known_funcs_consts produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_cupy.test_cupy_known_funcs_consts_correct","statement":"Path(test_cupy_known_funcs_consts(x), test_cupy_known_funcs_consts produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7378d0ffe63e9e04"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_cupy.test_cupy_known_funcs_consts","kind":"function","src_hash":"54612d7c05cbaaf8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: _cupy_known_constants['NaN'] == 'cupy.nan' and _cupy_known_constants['EulerGamma'] == 'cupy.euler_gamma' and _cupy_known_functions['acos'] == 'cupy.arccos' and _cupy_known_functions['log'] == 'cupy.log'"},"spec":{"lhs":"test_cupy_known_funcs_consts()","rhs":"_cupy_known_constants['NaN'] == 'cupy.nan' and _cupy_known_constants['EulerGamma'] == 'cupy.euler_gamma' and _cupy_known_functions['acos'] == 'cupy.arccos' and _cupy_known_functions['log'] == 'cupy.log'","over":{"base":"Any"},"name":"test_cupy_known_funcs_consts_correct"},"guarantee":"_cupy_known_constants['NaN'] == 'cupy.nan'; _cupy_known_constants['EulerGamma'] == 'cupy.euler_gamma'; _cupy_known_functions['acos'] == 'cupy.arccos'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_cupy.test_cupy_known_funcs_consts_correct","statement":"Path(test_cupy_known_funcs_consts(x), _cupy_known_constants['NaN'] == 'cupy.nan'; _cupy_known_constants['EulerGamma'] == 'cupy.euler_gamma'; _cupy_known_functions['acos'] == 'cupy.arccos')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f2b3f3c7c11fdcdd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["_cupy_known_constants['NaN'] == 'cupy.nan'","_cupy_known_constants['EulerGamma'] == 'cupy.euler_gamma'","_cupy_known_functions['acos'] == 'cupy.arccos'","_cupy_known_functions['log'] == 'cupy.log'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_cupy_known_funcs_consts():
     assert _cupy_known_constants['NaN'] == 'cupy.nan'
     assert _cupy_known_constants['EulerGamma'] == 'cupy.euler_gamma'
@@ -112,16 +141,23 @@ def test_cupy_known_funcs_consts():
     assert _cupy_known_functions['log'] == 'cupy.log'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_cupy_print_methods(), test_cupy_print_methods produces the expected output) over Any ║
+# ║ Path(test_cupy_print_methods(), hasattr(prntr, '_print_acos') and hasattr(prntr, '_print_log')) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_cupy_print_methods : Any → {Any | hasattr(prntr,...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  hasattr(prntr, '_print_acos')                  ║
+# ║   ensures:  hasattr(prntr, '_print_log')                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_cupy_print_methods : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1030fdfa0a5150fa  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 01cfceec4aca7559  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_cupy.test_cupy_print_methods","kind":"function","src_hash":"c8c12ababfd177a1","in":{"base":"Any"},"out":{"base":"Any","pred":"hasattr(prntr, '_print_acos') and hasattr(prntr, '_print_log')"},"spec":{"lhs":"test_cupy_print_methods()","rhs":"test_cupy_print_methods produces the expected output","over":{"base":"Any"},"name":"test_cupy_print_methods_correct"},"guarantee":"test_cupy_print_methods produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_cupy.test_cupy_print_methods_correct","statement":"Path(test_cupy_print_methods(x), test_cupy_print_methods produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1030fdfa0a5150fa"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_cupy.test_cupy_print_methods","kind":"function","src_hash":"c8c12ababfd177a1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: hasattr(prntr, '_print_acos') and hasattr(prntr, '_print_log')"},"spec":{"lhs":"test_cupy_print_methods()","rhs":"hasattr(prntr, '_print_acos') and hasattr(prntr, '_print_log')","over":{"base":"Any"},"name":"test_cupy_print_methods_correct"},"guarantee":"hasattr(prntr, '_print_acos'); hasattr(prntr, '_print_log')","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_cupy.test_cupy_print_methods_correct","statement":"Path(test_cupy_print_methods(x), hasattr(prntr, '_print_acos'); hasattr(prntr, '_print_log'))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"01cfceec4aca7559","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["hasattr(prntr, '_print_acos')","hasattr(prntr, '_print_log')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_cupy_print_methods():
     prntr = CuPyPrinter()
     assert hasattr(prntr, '_print_acos')

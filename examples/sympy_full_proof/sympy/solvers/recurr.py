@@ -84,16 +84,25 @@ from sympy.utilities.iterables import numbered_symbols
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rsolve_poly(coe), given linear recurrence operator `\operatorname{l}` of order `k` with polynomial coefficients and inhomogeneous equation `\operatorname{l} y = f`, where `f` is a polynomial, we seek for all polynomial) over Any ║
+# ║ Path(rsolve_poly(coeffs, f, n), <unspecified:rsolve_poly>) over {Any | hasattr(f, 'is_zero') and hasattr(f, 'is_polynomial') and hasattr(f, 'as_poly')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ rsolve_poly : Any → Any                                    ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(f, 'is_zero')                          ║
+# ║   requires: hasattr(f, 'is_polynomial')                    ║
+# ║   requires: hasattr(f, 'as_poly')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ rsolve_poly : {Any | hasattr(f, 'is_zero') and hasatt...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 2.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 72302415ec373dcf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.recurr.rsolve_poly","kind":"function","src_hash":"818e93424fa0e1fe","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rsolve_poly(coe)","rhs":"given linear recurrence operator `\\operatorname{l}` of order `k` with polynomial coefficients and inhomogeneous equation `\\operatorname{l} y = f`, where `f` is a polynomial, we seek for all polynomial","over":{"base":"Any"},"name":"rsolve_poly_correct"},"guarantee":"given linear recurrence operator `\\operatorname{l}` of order `k` with polynomial coefficients and inhomogeneous equation `\\operatorname{l} y = f`, where `f` is a polynomial, we seek for all polynomial","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.recurr.rsolve_poly_correct","statement":"Path(rsolve_poly(x), given linear recurrence operator `\\operatorname{l}` of order `k` with polynomial coefficients and inhomogeneous equation `\\operatorname{l} y = f`, where `f` is a polynomial, we seek for all polynomial)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"72302415ec373dcf"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.recurr.rsolve_poly","kind":"function","src_hash":"818e93424fa0e1fe","in":{"base":"Any","pred":"hasattr(f, 'is_zero') and hasattr(f, 'is_polynomial') and hasattr(f, 'as_poly')"},"out":{"base":"Any"},"spec":{"lhs":"rsolve_poly(coeffs, f, n)","rhs":"<unspecified:rsolve_poly>","over":{"base":"Any","pred":"hasattr(f, 'is_zero') and hasattr(f, 'is_polynomial') and hasattr(f, 'as_poly')"},"name":"rsolve_poly_correct"},"guarantee":"given linear recurrence operator `\\operatorname{l}` of order `k` with polynomial coefficients and inhomogeneous equation `\\operatorname{l} y = f`, where `f` is a polynomial, we seek for all polynomial","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.recurr.rsolve_poly_correct","statement":"Path(rsolve_poly(x), given linear recurrence operator `\\operatorname{l}` of order `k` with polynomial coefficients and inhomogeneous equation `\\operatorname{l} y = f`, where `f` is a polynomial, we seek for all polynomial)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"72302415ec373dcf","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(f, 'is_zero')","hasattr(f, 'is_polynomial')","hasattr(f, 'as_poly')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.3,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['coeffs', 'f', 'n', 'shift'], spec=['coeffs', 'f', 'n', 'shift', '**hints']"]}}
 def rsolve_poly(coeffs, f, n, shift=0, **hints):
     r"""
     Given linear recurrence operator `\operatorname{L}` of order
@@ -380,16 +389,23 @@ def rsolve_poly(coeffs, f, n, shift=0, **hints):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rsolve_ratio(coe), given linear recurrence operator `\operatorname{l}` of order `k` with polynomial coefficients and inhomogeneous equation `\operatorname{l} y = f`, where `f` is a polynomial, we seek for all rational s) over Any ║
+# ║ Path(rsolve_ratio(coeffs, f, n), <unspecified:rsolve_ratio>) over {Any | hasattr(f, 'is_polynomial')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ rsolve_ratio : Any → Any                                   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(f, 'is_polynomial')                    ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ rsolve_ratio : {Any | hasattr(f, 'is_polynomial')} → Any   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | efceffdfa9643fd6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.recurr.rsolve_ratio","kind":"function","src_hash":"4414db163387b64e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rsolve_ratio(coe)","rhs":"given linear recurrence operator `\\operatorname{l}` of order `k` with polynomial coefficients and inhomogeneous equation `\\operatorname{l} y = f`, where `f` is a polynomial, we seek for all rational s","over":{"base":"Any"},"name":"rsolve_ratio_correct"},"guarantee":"given linear recurrence operator `\\operatorname{l}` of order `k` with polynomial coefficients and inhomogeneous equation `\\operatorname{l} y = f`, where `f` is a polynomial, we seek for all rational s","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.recurr.rsolve_ratio_correct","statement":"Path(rsolve_ratio(x), given linear recurrence operator `\\operatorname{l}` of order `k` with polynomial coefficients and inhomogeneous equation `\\operatorname{l} y = f`, where `f` is a polynomial, we seek for all rational s)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"efceffdfa9643fd6"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.recurr.rsolve_ratio","kind":"function","src_hash":"4414db163387b64e","in":{"base":"Any","pred":"hasattr(f, 'is_polynomial')"},"out":{"base":"Any"},"spec":{"lhs":"rsolve_ratio(coeffs, f, n)","rhs":"<unspecified:rsolve_ratio>","over":{"base":"Any","pred":"hasattr(f, 'is_polynomial')"},"name":"rsolve_ratio_correct"},"guarantee":"given linear recurrence operator `\\operatorname{l}` of order `k` with polynomial coefficients and inhomogeneous equation `\\operatorname{l} y = f`, where `f` is a polynomial, we seek for all rational s","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.recurr.rsolve_ratio_correct","statement":"Path(rsolve_ratio(x), given linear recurrence operator `\\operatorname{l}` of order `k` with polynomial coefficients and inhomogeneous equation `\\operatorname{l} y = f`, where `f` is a polynomial, we seek for all rational s)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"efceffdfa9643fd6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(f, 'is_polynomial')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["f.is_polynomial"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['coeffs', 'f', 'n'], spec=['coeffs', 'f', 'n', '**hints']"]}}
 def rsolve_ratio(coeffs, f, n, **hints):
     r"""
     Given linear recurrence operator `\operatorname{L}` of order `k`
@@ -502,16 +518,25 @@ def rsolve_ratio(coeffs, f, n, **hints):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rsolve_hyper(coe), given linear recurrence operator `\operatorname{l}` of order `k` with polynomial coefficients and inhomogeneous equation `\operatorname{l} y = f` we seek for all hypergeometric solutions over field `k) over Any ║
+# ║ Path(rsolve_hyper(coeffs, f, n), <unspecified:rsolve_hyper>) over {Any | hasattr(f, 'is_zero') and hasattr(f, 'is_Add') and hasattr(f, 'is_hypergeometric') and hasattr(f, 'expand')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ rsolve_hyper : Any → Any                                   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(f, 'is_zero')                          ║
+# ║   requires: hasattr(f, 'is_Add')                           ║
+# ║   requires: hasattr(f, 'is_hypergeometric')                ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ rsolve_hyper : {Any | hasattr(f, 'is_zero') and hasat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fb351f171df10cb3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.recurr.rsolve_hyper","kind":"function","src_hash":"e3e4b91f14dbc948","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rsolve_hyper(coe)","rhs":"given linear recurrence operator `\\operatorname{l}` of order `k` with polynomial coefficients and inhomogeneous equation `\\operatorname{l} y = f` we seek for all hypergeometric solutions over field `k","over":{"base":"Any"},"name":"rsolve_hyper_correct"},"guarantee":"given linear recurrence operator `\\operatorname{l}` of order `k` with polynomial coefficients and inhomogeneous equation `\\operatorname{l} y = f` we seek for all hypergeometric solutions over field `k","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.recurr.rsolve_hyper_correct","statement":"Path(rsolve_hyper(x), given linear recurrence operator `\\operatorname{l}` of order `k` with polynomial coefficients and inhomogeneous equation `\\operatorname{l} y = f` we seek for all hypergeometric solutions over field `k)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fb351f171df10cb3"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.recurr.rsolve_hyper","kind":"function","src_hash":"e3e4b91f14dbc948","in":{"base":"Any","pred":"hasattr(f, 'is_zero') and hasattr(f, 'is_Add') and hasattr(f, 'is_hypergeometric') and hasattr(f, 'expand')"},"out":{"base":"Any"},"spec":{"lhs":"rsolve_hyper(coeffs, f, n)","rhs":"<unspecified:rsolve_hyper>","over":{"base":"Any","pred":"hasattr(f, 'is_zero') and hasattr(f, 'is_Add') and hasattr(f, 'is_hypergeometric') and hasattr(f, 'expand')"},"name":"rsolve_hyper_correct"},"guarantee":"given linear recurrence operator `\\operatorname{l}` of order `k` with polynomial coefficients and inhomogeneous equation `\\operatorname{l} y = f` we seek for all hypergeometric solutions over field `k","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.recurr.rsolve_hyper_correct","statement":"Path(rsolve_hyper(x), given linear recurrence operator `\\operatorname{l}` of order `k` with polynomial coefficients and inhomogeneous equation `\\operatorname{l} y = f` we seek for all hypergeometric solutions over field `k)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fb351f171df10cb3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(f, 'is_zero')","hasattr(f, 'is_Add')","hasattr(f, 'is_hypergeometric')","hasattr(f, 'expand')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.4,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['coeffs', 'f', 'n'], spec=['coeffs', 'f', 'n', '**hints']"]}}
 def rsolve_hyper(coeffs, f, n, **hints):
     r"""
     Given linear recurrence operator `\operatorname{L}` of order `k`
@@ -726,7 +751,14 @@ def rsolve_hyper(coeffs, f, n, **hints):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rsolve(f, ), solve univariate recurrence with rational coefficients) over {Any | isinstance(f, Equality) and isinstance(init, list)} ║
+# ║ Path(rsolve(f, y, init), len(equations) == old_len_equations + 1 and len(i_part) == old_len_i_part + 1) over {Any | isinstance(f, Equality) and isinstance(init, list) and hasattr(y, 'args') and hasattr(f, 'lhs') and hasattr(f, 'rhs') and hasattr(y, 'func') and hasattr(init, 'items') and hasattr(f, 'expand')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(y, 'args')                             ║
+# ║   requires: hasattr(f, 'lhs')                              ║
+# ║   requires: hasattr(f, 'rhs')                              ║
+# ║   ensures:  len(equations) == old_len_equations + 1        ║
+# ║   ensures:  len(i_part) == old_len_i_part + 1              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ rsolve : {Any | isinstance(f, Equality) and isinstanc...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -739,9 +771,12 @@ def rsolve_hyper(coeffs, f, n, **hints):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?2 ✗2 VCs | 5.6ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 6e56ee27...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.recurr.rsolve","kind":"function","src_hash":"94079f8a97d79863","in":{"base":"Any","pred":"isinstance(f, Equality) and isinstance(init, list)"},"out":{"base":"Any"},"spec":{"lhs":"rsolve(f, )","rhs":"solve univariate recurrence with rational coefficients","over":{"base":"Any","pred":"isinstance(f, Equality) and isinstance(init, list)"},"name":"rsolve_correct"},"guarantee":"solve univariate recurrence with rational coefficients","fibers":[{"name":"Equality","pred":"isinstance(f, Equality)","path":{"lhs":"rsolve(x)","rhs":"solve univariate recurrence with rational coefficients","over":{"base":"Equality","pred":"isinstance(f, Equality)"},"name":"rsolve_Equality_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.recurr.rsolve_Equality_correct","statement":"rsolve satisfies spec on Equality inputs"},"trust":"LIBRARY"},{"name":"list","pred":"isinstance(init, list)","path":{"lhs":"rsolve(x)","rhs":"solve univariate recurrence with rational coefficients","over":{"base":"list","pred":"isinstance(init, list)"},"name":"rsolve_list_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.recurr.rsolve_list_correct","statement":"rsolve satisfies spec on list inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"6e56ee27a4e6a4ff"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.recurr.rsolve","kind":"function","src_hash":"94079f8a97d79863","in":{"base":"Any","pred":"isinstance(f, Equality) and isinstance(init, list) and hasattr(y, 'args') and hasattr(f, 'lhs') and hasattr(f, 'rhs') and hasattr(y, 'func') and hasattr(init, 'items') and hasattr(f, 'expand')"},"out":{"base":"Any","pred":"result satisfies: len(equations) == old_len_equations + 1 and len(i_part) == old_len_i_part + 1"},"spec":{"lhs":"rsolve(f, y, init)","rhs":"len(equations) == old_len_equations + 1 and len(i_part) == old_len_i_part + 1","over":{"base":"Any","pred":"isinstance(f, Equality) and isinstance(init, list) and hasattr(y, 'args') and hasattr(f, 'lhs') and hasattr(f, 'rhs') and hasattr(y, 'func') and hasattr(init, 'items') and hasattr(f, 'expand')"},"name":"rsolve_correct"},"guarantee":"len(equations) == old_len_equations + 1; len(i_part) == old_len_i_part + 1","fibers":[{"name":"Equality","pred":"isinstance(f, Equality)","path":{"lhs":"rsolve(x)","rhs":"len(equations) == old_len_equations + 1; len(i_part) == old_len_i_part + 1","over":{"base":"Equality","pred":"isinstance(f, Equality)"},"name":"rsolve_Equality_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.recurr.rsolve_Equality_correct","statement":"rsolve satisfies spec on Equality inputs"},"trust":"LIBRARY"},{"name":"list","pred":"isinstance(init, list)","path":{"lhs":"rsolve(x)","rhs":"len(equations) == old_len_equations + 1; len(i_part) == old_len_i_part + 1","over":{"base":"list","pred":"isinstance(init, list)"},"name":"rsolve_list_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.recurr.rsolve_list_correct","statement":"rsolve satisfies spec on list inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"6e56ee27a4e6a4ff","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(y, 'args')","hasattr(f, 'lhs')","hasattr(f, 'rhs')","hasattr(y, 'func')","hasattr(init, 'items')","hasattr(f, 'expand')"],"ensures":["len(equations) == old_len_equations + 1","len(i_part) == old_len_i_part + 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["f.expand","f.lhs","f.rhs","init.items","y.args","y.func"],"calls_mutating":["equations.append","i_part.append"],"raises":["ValueError"],"catches":["TypeError"]},"state_contract":{"modifies":["equations.*","i_part.*"],"old_bindings":{"old_len_equations":"len(equations)","old_len_i_part":"len(i_part)"},"post_ensures":["len(equations) == old_len_equations + 1","len(i_part) == old_len_i_part + 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":1,"n_assumed":2,"n_failed":2,"trust_level":"LIBRARY_ASSUMED","compile_ms":5.6,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'K_min < 0', 'h.is_Function and h.func == y.func', 'result is None', 'isinstance(f, Equality)', 'isinstance(init, list)', 'k.is_Function and k.func == y.func'}, fibers={'Equality', 'list'})"]}}
 def rsolve(f, y, init=None):
     r"""
     Solve univariate recurrence with rational coefficients.

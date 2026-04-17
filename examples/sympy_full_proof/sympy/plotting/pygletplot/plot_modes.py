@@ -28,14 +28,20 @@ from math import cos as p_cos
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(float_vec3(f), id) over Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ float_vec3 : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 18cc8cb0c270bc1a   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_modes.float_vec3","kind":"function","src_hash":"3e95f71f3d4e6b22","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"float_vec3(f)","rhs":"float_vec3 produces the expected output","over":{"base":"Any"},"name":"float_vec3_correct","kind":"composition"},"guarantee":"float_vec3 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"float","by":"library_axiom"},{"fn":"float","by":"library_axiom"},{"fn":"float","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"18cc8cb0c270bc1a"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_modes.float_vec3","kind":"function","src_hash":"3e95f71f3d4e6b22","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"float_vec3(f)","rhs":"<unspecified:float_vec3>","over":{"base":"Any"},"name":"float_vec3_correct","kind":"composition"},"guarantee":"float_vec3 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"float","by":"library_axiom"},{"fn":"float","by":"library_axiom"},{"fn":"float","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"18cc8cb0c270bc1a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def float_vec3(f):
     def inner(*args):
         v = f(*args)
@@ -46,14 +52,20 @@ def float_vec3(f):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Cartesian2D(*args), correctly constructs a Cartesian2D instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Cartesian2D : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, PlotCurve)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Cartesian2D : Any → {Any | result satisfies: isinstan...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f36e038814778e4a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_modes.Cartesian2D","kind":"class","src_hash":"a49febc1e44d2254","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Cartesian2D(*args)","rhs":"correctly constructs a Cartesian2D instance","over":{"base":"Any"},"name":"Cartesian2D_class_invariant"},"guarantee":"correctly constructs a Cartesian2D instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f36e038814778e4a"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_modes.Cartesian2D","kind":"class","src_hash":"a49febc1e44d2254","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, PlotCurve)"},"spec":{"lhs":"Cartesian2D(*args)","rhs":"correctly constructs a Cartesian2D instance","over":{"base":"Any"},"name":"Cartesian2D_class_invariant"},"guarantee":"isinstance(self, PlotCurve)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f36e038814778e4a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, PlotCurve)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function Cartesian2D not found in source"]}}
 class Cartesian2D(PlotCurve):
     i_vars, d_vars = 'x', 'y'
     intervals = [[-5, 5, 100]]
@@ -61,16 +73,22 @@ class Cartesian2D(PlotCurve):
     is_default = True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_sympy_evaluator(), internal helper behaves correctly) over Any ║
+# ║ Path(_get_sympy_evaluator(), <unspecified:_get_sympy_evaluator>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_sympy_evaluator : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cd295b7a826bebed  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_modes.Cartesian2D._get_sympy_evaluator","kind":"method","src_hash":"0af8a95ef0bb60e8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_sympy_evaluator()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_sympy_evaluator_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_modes.Cartesian2D._get_sympy_evaluator_correct","statement":"Path(_get_sympy_evaluator(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cd295b7a826bebed"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_modes.Cartesian2D._get_sympy_evaluator","kind":"method","src_hash":"0af8a95ef0bb60e8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_sympy_evaluator()","rhs":"<unspecified:_get_sympy_evaluator>","over":{"base":"Any"},"name":"_get_sympy_evaluator_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_modes.Cartesian2D._get_sympy_evaluator_correct","statement":"Path(_get_sympy_evaluator(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cd295b7a826bebed","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.d_vars","self.t_interval"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_sympy_evaluator(self):
         fy = self.d_vars[0]
         x = self.t_interval.v
@@ -81,16 +99,22 @@ class Cartesian2D(PlotCurve):
         return e
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_lambda_evaluator(), internal helper behaves correctly) over Any ║
+# ║ Path(_get_lambda_evaluator(), lambdify([x], [x, fy, 0.0])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  lambdify([x], [x, fy, 0.0])                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_lambda_evaluator : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 170352d81077cbde  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4fabe6fbcd25f230  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_modes.Cartesian2D._get_lambda_evaluator","kind":"method","src_hash":"4d0b7020e40b44ad","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_lambda_evaluator()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_lambda_evaluator_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_modes.Cartesian2D._get_lambda_evaluator_correct","statement":"Path(_get_lambda_evaluator(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"170352d81077cbde"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_modes.Cartesian2D._get_lambda_evaluator","kind":"method","src_hash":"4d0b7020e40b44ad","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_lambda_evaluator()","rhs":"lambdify([x], [x, fy, 0.0])","over":{"base":"Any"},"name":"_get_lambda_evaluator_correct"},"guarantee":"returns lambdify([x], [x, fy, 0.0])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_modes.Cartesian2D._get_lambda_evaluator_correct","statement":"Path(_get_lambda_evaluator(x), returns lambdify([x], [x, fy, 0.0]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4fabe6fbcd25f230","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"lambdify([x], [x, fy, 0.0])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.d_vars","self.t_interval"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_lambda_evaluator(self):
         fy = self.d_vars[0]
         x = self.t_interval.v
@@ -100,14 +124,20 @@ class Cartesian2D(PlotCurve):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Cartesian3D(*args), correctly constructs a Cartesian3D instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Cartesian3D : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, PlotSurface)                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Cartesian3D : Any → {Any | result satisfies: isinstan...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f6273534d2c11ff3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_modes.Cartesian3D","kind":"class","src_hash":"15f36e7132e57b1c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Cartesian3D(*args)","rhs":"correctly constructs a Cartesian3D instance","over":{"base":"Any"},"name":"Cartesian3D_class_invariant"},"guarantee":"correctly constructs a Cartesian3D instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f6273534d2c11ff3"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_modes.Cartesian3D","kind":"class","src_hash":"15f36e7132e57b1c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, PlotSurface)"},"spec":{"lhs":"Cartesian3D(*args)","rhs":"correctly constructs a Cartesian3D instance","over":{"base":"Any"},"name":"Cartesian3D_class_invariant"},"guarantee":"isinstance(self, PlotSurface)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f6273534d2c11ff3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, PlotSurface)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function Cartesian3D not found in source"]}}
 class Cartesian3D(PlotSurface):
     i_vars, d_vars = 'xy', 'z'
     intervals = [[-1, 1, 40], [-1, 1, 40]]
@@ -117,14 +147,20 @@ class Cartesian3D(PlotSurface):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(_get_sympy_evaluator(), id) over Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ _get_sympy_evaluator : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 977b580f3d3a36f2   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_modes.Cartesian3D._get_sympy_evaluator","kind":"method","src_hash":"f948e638ff0a9b44","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_sympy_evaluator()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_sympy_evaluator_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"subs","by":"library_axiom"},{"fn":"subs","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"977b580f3d3a36f2"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_modes.Cartesian3D._get_sympy_evaluator","kind":"method","src_hash":"f948e638ff0a9b44","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_sympy_evaluator()","rhs":"<unspecified:_get_sympy_evaluator>","over":{"base":"Any"},"name":"_get_sympy_evaluator_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"subs","by":"library_axiom"},{"fn":"subs","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"977b580f3d3a36f2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.d_vars","self.u_interval","self.v_interval"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_sympy_evaluator(self):
         fz = self.d_vars[0]
         x = self.u_interval.v
@@ -136,16 +172,22 @@ class Cartesian3D(PlotSurface):
         return e
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_lambda_evaluator(), internal helper behaves correctly) over Any ║
+# ║ Path(_get_lambda_evaluator(), lambdify([x, y], [x, y, fz])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  lambdify([x, y], [x, y, fz])                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_lambda_evaluator : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 99149ddb2e06438b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4a292f98bbd06a64  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_modes.Cartesian3D._get_lambda_evaluator","kind":"method","src_hash":"effc6aab43080182","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_lambda_evaluator()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_lambda_evaluator_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_modes.Cartesian3D._get_lambda_evaluator_correct","statement":"Path(_get_lambda_evaluator(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"99149ddb2e06438b"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_modes.Cartesian3D._get_lambda_evaluator","kind":"method","src_hash":"effc6aab43080182","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_lambda_evaluator()","rhs":"lambdify([x, y], [x, y, fz])","over":{"base":"Any"},"name":"_get_lambda_evaluator_correct"},"guarantee":"returns lambdify([x, y], [x, y, fz])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_modes.Cartesian3D._get_lambda_evaluator_correct","statement":"Path(_get_lambda_evaluator(x), returns lambdify([x, y], [x, y, fz]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4a292f98bbd06a64","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"lambdify([x, y], [x, y, fz])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.d_vars","self.u_interval","self.v_interval"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_lambda_evaluator(self):
         fz = self.d_vars[0]
         x = self.u_interval.v
@@ -156,14 +198,20 @@ class Cartesian3D(PlotSurface):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(ParametricCurve2D(*args), correctly constructs a ParametricCurve2D instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ ParametricCurve2D : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, PlotCurve)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ ParametricCurve2D : Any → {Any | result satisfies: is...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b7973e0e74312bea  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_modes.ParametricCurve2D","kind":"class","src_hash":"c00ca7eaeb22904c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ParametricCurve2D(*args)","rhs":"correctly constructs a ParametricCurve2D instance","over":{"base":"Any"},"name":"ParametricCurve2D_class_invariant"},"guarantee":"correctly constructs a ParametricCurve2D instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b7973e0e74312bea"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_modes.ParametricCurve2D","kind":"class","src_hash":"c00ca7eaeb22904c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, PlotCurve)"},"spec":{"lhs":"ParametricCurve2D(*args)","rhs":"correctly constructs a ParametricCurve2D instance","over":{"base":"Any"},"name":"ParametricCurve2D_class_invariant"},"guarantee":"isinstance(self, PlotCurve)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b7973e0e74312bea","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, PlotCurve)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function ParametricCurve2D not found in source"]}}
 class ParametricCurve2D(PlotCurve):
     i_vars, d_vars = 't', 'xy'
     intervals = [[0, 2*pi, 100]]
@@ -173,14 +221,20 @@ class ParametricCurve2D(PlotCurve):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(_get_sympy_evaluator(), id) over Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ _get_sympy_evaluator : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | ede98dd541478700   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_modes.ParametricCurve2D._get_sympy_evaluator","kind":"method","src_hash":"29c4511fc83f881b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_sympy_evaluator()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_sympy_evaluator_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"subs","by":"library_axiom"},{"fn":"subs","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ede98dd541478700"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_modes.ParametricCurve2D._get_sympy_evaluator","kind":"method","src_hash":"29c4511fc83f881b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_sympy_evaluator()","rhs":"<unspecified:_get_sympy_evaluator>","over":{"base":"Any"},"name":"_get_sympy_evaluator_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"subs","by":"library_axiom"},{"fn":"subs","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ede98dd541478700","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.d_vars","self.t_interval"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_sympy_evaluator(self):
         fx, fy = self.d_vars
         t = self.t_interval.v
@@ -191,16 +245,22 @@ class ParametricCurve2D(PlotCurve):
         return e
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_lambda_evaluator(), internal helper behaves correctly) over Any ║
+# ║ Path(_get_lambda_evaluator(), lambdify([t], [fx, fy, 0.0])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  lambdify([t], [fx, fy, 0.0])                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_lambda_evaluator : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8a9c579283a067a5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d3d74cc036ab3f94  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_modes.ParametricCurve2D._get_lambda_evaluator","kind":"method","src_hash":"3b45958836a0f0a5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_lambda_evaluator()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_lambda_evaluator_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_modes.ParametricCurve2D._get_lambda_evaluator_correct","statement":"Path(_get_lambda_evaluator(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8a9c579283a067a5"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_modes.ParametricCurve2D._get_lambda_evaluator","kind":"method","src_hash":"3b45958836a0f0a5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_lambda_evaluator()","rhs":"lambdify([t], [fx, fy, 0.0])","over":{"base":"Any"},"name":"_get_lambda_evaluator_correct"},"guarantee":"returns lambdify([t], [fx, fy, 0.0])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_modes.ParametricCurve2D._get_lambda_evaluator_correct","statement":"Path(_get_lambda_evaluator(x), returns lambdify([t], [fx, fy, 0.0]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d3d74cc036ab3f94","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"lambdify([t], [fx, fy, 0.0])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.d_vars","self.t_interval"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_lambda_evaluator(self):
         fx, fy = self.d_vars
         t = self.t_interval.v
@@ -210,14 +270,20 @@ class ParametricCurve2D(PlotCurve):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(ParametricCurve3D(*args), correctly constructs a ParametricCurve3D instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ ParametricCurve3D : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, PlotCurve)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ ParametricCurve3D : Any → {Any | result satisfies: is...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 42af1475a62e9694  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_modes.ParametricCurve3D","kind":"class","src_hash":"4e9c10b193371ff7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ParametricCurve3D(*args)","rhs":"correctly constructs a ParametricCurve3D instance","over":{"base":"Any"},"name":"ParametricCurve3D_class_invariant"},"guarantee":"correctly constructs a ParametricCurve3D instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"42af1475a62e9694"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_modes.ParametricCurve3D","kind":"class","src_hash":"4e9c10b193371ff7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, PlotCurve)"},"spec":{"lhs":"ParametricCurve3D(*args)","rhs":"correctly constructs a ParametricCurve3D instance","over":{"base":"Any"},"name":"ParametricCurve3D_class_invariant"},"guarantee":"isinstance(self, PlotCurve)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"42af1475a62e9694","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, PlotCurve)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function ParametricCurve3D not found in source"]}}
 class ParametricCurve3D(PlotCurve):
     i_vars, d_vars = 't', 'xyz'
     intervals = [[0, 2*pi, 100]]
@@ -227,14 +293,20 @@ class ParametricCurve3D(PlotCurve):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(_get_sympy_evaluator(), id) over Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ _get_sympy_evaluator : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | db1f19d722571679   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_modes.ParametricCurve3D._get_sympy_evaluator","kind":"method","src_hash":"1b74a1426e690093","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_sympy_evaluator()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_sympy_evaluator_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"subs","by":"library_axiom"},{"fn":"subs","by":"library_axiom"},{"fn":"subs","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"db1f19d722571679"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_modes.ParametricCurve3D._get_sympy_evaluator","kind":"method","src_hash":"1b74a1426e690093","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_sympy_evaluator()","rhs":"<unspecified:_get_sympy_evaluator>","over":{"base":"Any"},"name":"_get_sympy_evaluator_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"subs","by":"library_axiom"},{"fn":"subs","by":"library_axiom"},{"fn":"subs","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"db1f19d722571679","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.d_vars","self.t_interval"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_sympy_evaluator(self):
         fx, fy, fz = self.d_vars
         t = self.t_interval.v
@@ -245,16 +317,22 @@ class ParametricCurve3D(PlotCurve):
         return e
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_lambda_evaluator(), internal helper behaves correctly) over Any ║
+# ║ Path(_get_lambda_evaluator(), lambdify([t], [fx, fy, fz])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  lambdify([t], [fx, fy, fz])                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_lambda_evaluator : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b7906aee33f42e61  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b76dd4d58ada01d3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_modes.ParametricCurve3D._get_lambda_evaluator","kind":"method","src_hash":"b68bf86d0dd1536c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_lambda_evaluator()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_lambda_evaluator_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_modes.ParametricCurve3D._get_lambda_evaluator_correct","statement":"Path(_get_lambda_evaluator(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b7906aee33f42e61"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_modes.ParametricCurve3D._get_lambda_evaluator","kind":"method","src_hash":"b68bf86d0dd1536c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_lambda_evaluator()","rhs":"lambdify([t], [fx, fy, fz])","over":{"base":"Any"},"name":"_get_lambda_evaluator_correct"},"guarantee":"returns lambdify([t], [fx, fy, fz])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_modes.ParametricCurve3D._get_lambda_evaluator_correct","statement":"Path(_get_lambda_evaluator(x), returns lambdify([t], [fx, fy, fz]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b76dd4d58ada01d3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"lambdify([t], [fx, fy, fz])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.d_vars","self.t_interval"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_lambda_evaluator(self):
         fx, fy, fz = self.d_vars
         t = self.t_interval.v
@@ -264,14 +342,20 @@ class ParametricCurve3D(PlotCurve):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(ParametricSurface(*args), correctly constructs a ParametricSurface instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ ParametricSurface : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, PlotSurface)                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ ParametricSurface : Any → {Any | result satisfies: is...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ff3c175e2d83b58f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_modes.ParametricSurface","kind":"class","src_hash":"24046016c5e44927","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ParametricSurface(*args)","rhs":"correctly constructs a ParametricSurface instance","over":{"base":"Any"},"name":"ParametricSurface_class_invariant"},"guarantee":"correctly constructs a ParametricSurface instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ff3c175e2d83b58f"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_modes.ParametricSurface","kind":"class","src_hash":"24046016c5e44927","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, PlotSurface)"},"spec":{"lhs":"ParametricSurface(*args)","rhs":"correctly constructs a ParametricSurface instance","over":{"base":"Any"},"name":"ParametricSurface_class_invariant"},"guarantee":"isinstance(self, PlotSurface)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ff3c175e2d83b58f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, PlotSurface)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function ParametricSurface not found in source"]}}
 class ParametricSurface(PlotSurface):
     i_vars, d_vars = 'uv', 'xyz'
     intervals = [[-1, 1, 40], [-1, 1, 40]]
@@ -281,14 +365,20 @@ class ParametricSurface(PlotSurface):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(_get_sympy_evaluator(), id) over Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ _get_sympy_evaluator : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 525cddb11a3e023c   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_modes.ParametricSurface._get_sympy_evaluator","kind":"method","src_hash":"27f33b943825329f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_sympy_evaluator()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_sympy_evaluator_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"subs","by":"library_axiom"},{"fn":"subs","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"525cddb11a3e023c"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_modes.ParametricSurface._get_sympy_evaluator","kind":"method","src_hash":"27f33b943825329f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_sympy_evaluator()","rhs":"<unspecified:_get_sympy_evaluator>","over":{"base":"Any"},"name":"_get_sympy_evaluator_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"subs","by":"library_axiom"},{"fn":"subs","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"525cddb11a3e023c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.d_vars","self.u_interval","self.v_interval"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_sympy_evaluator(self):
         fx, fy, fz = self.d_vars
         u = self.u_interval.v
@@ -302,16 +392,22 @@ class ParametricSurface(PlotSurface):
         return e
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_lambda_evaluator(), internal helper behaves correctly) over Any ║
+# ║ Path(_get_lambda_evaluator(), lambdify([u, v], [fx, fy, fz])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  lambdify([u, v], [fx, fy, fz])                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_lambda_evaluator : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1b27732e0c68c7fd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8b852a27dbe83b4c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_modes.ParametricSurface._get_lambda_evaluator","kind":"method","src_hash":"0aa9a89b5366e04e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_lambda_evaluator()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_lambda_evaluator_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_modes.ParametricSurface._get_lambda_evaluator_correct","statement":"Path(_get_lambda_evaluator(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1b27732e0c68c7fd"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_modes.ParametricSurface._get_lambda_evaluator","kind":"method","src_hash":"0aa9a89b5366e04e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_lambda_evaluator()","rhs":"lambdify([u, v], [fx, fy, fz])","over":{"base":"Any"},"name":"_get_lambda_evaluator_correct"},"guarantee":"returns lambdify([u, v], [fx, fy, fz])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_modes.ParametricSurface._get_lambda_evaluator_correct","statement":"Path(_get_lambda_evaluator(x), returns lambdify([u, v], [fx, fy, fz]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8b852a27dbe83b4c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"lambdify([u, v], [fx, fy, fz])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.d_vars","self.u_interval","self.v_interval"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_lambda_evaluator(self):
         fx, fy, fz = self.d_vars
         u = self.u_interval.v
@@ -322,14 +418,20 @@ class ParametricSurface(PlotSurface):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Polar(*args), correctly constructs a Polar instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Polar : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, PlotCurve)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Polar : Any → {Any | result satisfies: isinstance(sel...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 73f97f181547c9f8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_modes.Polar","kind":"class","src_hash":"781dfdbdcee7d279","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Polar(*args)","rhs":"correctly constructs a Polar instance","over":{"base":"Any"},"name":"Polar_class_invariant"},"guarantee":"correctly constructs a Polar instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"73f97f181547c9f8"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_modes.Polar","kind":"class","src_hash":"781dfdbdcee7d279","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, PlotCurve)"},"spec":{"lhs":"Polar(*args)","rhs":"correctly constructs a Polar instance","over":{"base":"Any"},"name":"Polar_class_invariant"},"guarantee":"isinstance(self, PlotCurve)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"73f97f181547c9f8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, PlotCurve)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function Polar not found in source"]}}
 class Polar(PlotCurve):
     i_vars, d_vars = 't', 'r'
     intervals = [[0, 2*pi, 100]]
@@ -339,14 +441,20 @@ class Polar(PlotCurve):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(_get_sympy_evaluator(), id) over Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ _get_sympy_evaluator : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 2b940241c4819a1d   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_modes.Polar._get_sympy_evaluator","kind":"method","src_hash":"ae25c4ce43060241","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_sympy_evaluator()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_sympy_evaluator_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"p_cos","by":"library_axiom"},{"fn":"p_sin","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2b940241c4819a1d"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_modes.Polar._get_sympy_evaluator","kind":"method","src_hash":"ae25c4ce43060241","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_sympy_evaluator()","rhs":"<unspecified:_get_sympy_evaluator>","over":{"base":"Any"},"name":"_get_sympy_evaluator_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"p_cos","by":"library_axiom"},{"fn":"p_sin","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2b940241c4819a1d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.d_vars","self.t_interval"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_sympy_evaluator(self):
         fr = self.d_vars[0]
         t = self.t_interval.v
@@ -357,16 +465,22 @@ class Polar(PlotCurve):
         return e
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_lambda_evaluator(), internal helper behaves correctly) over Any ║
+# ║ Path(_get_lambda_evaluator(), lambdify([t], [fx, fy, 0.0])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  lambdify([t], [fx, fy, 0.0])                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_lambda_evaluator : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c30deb359bbe0e6d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6bbb693478564e69  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_modes.Polar._get_lambda_evaluator","kind":"method","src_hash":"aa7f74b7c8cc2379","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_lambda_evaluator()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_lambda_evaluator_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_modes.Polar._get_lambda_evaluator_correct","statement":"Path(_get_lambda_evaluator(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c30deb359bbe0e6d"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_modes.Polar._get_lambda_evaluator","kind":"method","src_hash":"aa7f74b7c8cc2379","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_lambda_evaluator()","rhs":"lambdify([t], [fx, fy, 0.0])","over":{"base":"Any"},"name":"_get_lambda_evaluator_correct"},"guarantee":"returns lambdify([t], [fx, fy, 0.0])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_modes.Polar._get_lambda_evaluator_correct","statement":"Path(_get_lambda_evaluator(x), returns lambdify([t], [fx, fy, 0.0]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6bbb693478564e69","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"lambdify([t], [fx, fy, 0.0])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.d_vars","self.t_interval"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_lambda_evaluator(self):
         fr = self.d_vars[0]
         t = self.t_interval.v
@@ -377,14 +491,20 @@ class Polar(PlotCurve):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Cylindrical(*args), correctly constructs a Cylindrical instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Cylindrical : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, PlotSurface)                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Cylindrical : Any → {Any | result satisfies: isinstan...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ac611a2b0324a5d4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_modes.Cylindrical","kind":"class","src_hash":"f0c235b7f06bb11e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Cylindrical(*args)","rhs":"correctly constructs a Cylindrical instance","over":{"base":"Any"},"name":"Cylindrical_class_invariant"},"guarantee":"correctly constructs a Cylindrical instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ac611a2b0324a5d4"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_modes.Cylindrical","kind":"class","src_hash":"f0c235b7f06bb11e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, PlotSurface)"},"spec":{"lhs":"Cylindrical(*args)","rhs":"correctly constructs a Cylindrical instance","over":{"base":"Any"},"name":"Cylindrical_class_invariant"},"guarantee":"isinstance(self, PlotSurface)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ac611a2b0324a5d4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, PlotSurface)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function Cylindrical not found in source"]}}
 class Cylindrical(PlotSurface):
     i_vars, d_vars = 'th', 'r'
     intervals = [[0, 2*pi, 40], [-1, 1, 20]]
@@ -394,14 +514,20 @@ class Cylindrical(PlotSurface):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(_get_sympy_evaluator(), id) over Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ _get_sympy_evaluator : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | a2ab9367015e1688   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_modes.Cylindrical._get_sympy_evaluator","kind":"method","src_hash":"1e62bfc2ff3c8bcc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_sympy_evaluator()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_sympy_evaluator_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"p_cos","by":"library_axiom"},{"fn":"p_sin","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a2ab9367015e1688"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_modes.Cylindrical._get_sympy_evaluator","kind":"method","src_hash":"1e62bfc2ff3c8bcc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_sympy_evaluator()","rhs":"<unspecified:_get_sympy_evaluator>","over":{"base":"Any"},"name":"_get_sympy_evaluator_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"p_cos","by":"library_axiom"},{"fn":"p_sin","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a2ab9367015e1688","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.d_vars","self.u_interval","self.v_interval"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_sympy_evaluator(self):
         fr = self.d_vars[0]
         t = self.u_interval.v
@@ -413,16 +539,22 @@ class Cylindrical(PlotSurface):
         return e
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_lambda_evaluator(), internal helper behaves correctly) over Any ║
+# ║ Path(_get_lambda_evaluator(), lambdify([t, h], [fx, fy, h])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  lambdify([t, h], [fx, fy, h])                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_lambda_evaluator : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ea231f184349538d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2e465b5d3437b9be  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_modes.Cylindrical._get_lambda_evaluator","kind":"method","src_hash":"f61e89323e4a6dfe","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_lambda_evaluator()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_lambda_evaluator_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_modes.Cylindrical._get_lambda_evaluator_correct","statement":"Path(_get_lambda_evaluator(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ea231f184349538d"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_modes.Cylindrical._get_lambda_evaluator","kind":"method","src_hash":"f61e89323e4a6dfe","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_lambda_evaluator()","rhs":"lambdify([t, h], [fx, fy, h])","over":{"base":"Any"},"name":"_get_lambda_evaluator_correct"},"guarantee":"returns lambdify([t, h], [fx, fy, h])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_modes.Cylindrical._get_lambda_evaluator_correct","statement":"Path(_get_lambda_evaluator(x), returns lambdify([t, h], [fx, fy, h]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2e465b5d3437b9be","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"lambdify([t, h], [fx, fy, h])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.d_vars","self.u_interval","self.v_interval"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_lambda_evaluator(self):
         fr = self.d_vars[0]
         t = self.u_interval.v
@@ -434,14 +566,20 @@ class Cylindrical(PlotSurface):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Spherical(*args), correctly constructs a Spherical instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Spherical : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, PlotSurface)                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Spherical : Any → {Any | result satisfies: isinstance...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f37227b6433c3187  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_modes.Spherical","kind":"class","src_hash":"4086cee6830d7b19","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Spherical(*args)","rhs":"correctly constructs a Spherical instance","over":{"base":"Any"},"name":"Spherical_class_invariant"},"guarantee":"correctly constructs a Spherical instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f37227b6433c3187"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_modes.Spherical","kind":"class","src_hash":"4086cee6830d7b19","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, PlotSurface)"},"spec":{"lhs":"Spherical(*args)","rhs":"correctly constructs a Spherical instance","over":{"base":"Any"},"name":"Spherical_class_invariant"},"guarantee":"isinstance(self, PlotSurface)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f37227b6433c3187","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, PlotSurface)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function Spherical not found in source"]}}
 class Spherical(PlotSurface):
     i_vars, d_vars = 'tp', 'r'
     intervals = [[0, 2*pi, 40], [0, pi, 20]]
@@ -451,14 +589,20 @@ class Spherical(PlotSurface):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(_get_sympy_evaluator(), id) over Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ _get_sympy_evaluator : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | f9191c62ab3d3323   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_modes.Spherical._get_sympy_evaluator","kind":"method","src_hash":"d15f90e9545df967","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_sympy_evaluator()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_sympy_evaluator_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"p_cos","by":"library_axiom"},{"fn":"p_sin","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f9191c62ab3d3323"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_modes.Spherical._get_sympy_evaluator","kind":"method","src_hash":"d15f90e9545df967","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_sympy_evaluator()","rhs":"<unspecified:_get_sympy_evaluator>","over":{"base":"Any"},"name":"_get_sympy_evaluator_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"p_cos","by":"library_axiom"},{"fn":"p_sin","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f9191c62ab3d3323","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.d_vars","self.u_interval","self.v_interval"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_sympy_evaluator(self):
         fr = self.d_vars[0]
         t = self.u_interval.v
@@ -472,16 +616,22 @@ class Spherical(PlotSurface):
         return e
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_lambda_evaluator(), internal helper behaves correctly) over Any ║
+# ║ Path(_get_lambda_evaluator(), lambdify([t, p], [fx, fy, fz])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  lambdify([t, p], [fx, fy, fz])                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_lambda_evaluator : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ae40b041327b6339  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0fd1d691d60433e7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_modes.Spherical._get_lambda_evaluator","kind":"method","src_hash":"5722d249647255f7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_lambda_evaluator()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_lambda_evaluator_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_modes.Spherical._get_lambda_evaluator_correct","statement":"Path(_get_lambda_evaluator(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ae40b041327b6339"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_modes.Spherical._get_lambda_evaluator","kind":"method","src_hash":"5722d249647255f7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_lambda_evaluator()","rhs":"lambdify([t, p], [fx, fy, fz])","over":{"base":"Any"},"name":"_get_lambda_evaluator_correct"},"guarantee":"returns lambdify([t, p], [fx, fy, fz])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_modes.Spherical._get_lambda_evaluator_correct","statement":"Path(_get_lambda_evaluator(x), returns lambdify([t, p], [fx, fy, fz]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0fd1d691d60433e7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"lambdify([t, p], [fx, fy, fz])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.d_vars","self.u_interval","self.v_interval"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_lambda_evaluator(self):
         fr = self.d_vars[0]
         t = self.u_interval.v

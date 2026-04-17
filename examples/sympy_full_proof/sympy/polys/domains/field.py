@@ -26,14 +26,20 @@ from sympy.utilities import public
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Field(*args), correctly constructs a Field instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Field : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Ring)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Field : Any → {Any | result satisfies: isinstance(sel...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5d3e3f1f625247c4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.field.Field","kind":"class","src_hash":"eed2f3f70f893589","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Field(*args)","rhs":"correctly constructs a Field instance","over":{"base":"Any"},"name":"Field_class_invariant"},"guarantee":"correctly constructs a Field instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5d3e3f1f625247c4"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.field.Field","kind":"class","src_hash":"eed2f3f70f893589","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Ring)"},"spec":{"lhs":"Field(*args)","rhs":"correctly constructs a Field instance","over":{"base":"Any"},"name":"Field_class_invariant"},"guarantee":"isinstance(self, Ring)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5d3e3f1f625247c4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Ring)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":false,"binding_errors":["Function Field not found in source"]}}
 class Field(Ring):
     """Represents a field domain. """
 
@@ -41,106 +47,149 @@ class Field(Ring):
     is_PID = True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_ring(), returns a ring associated with ``self``) over Any ║
+# ║ Path(get_ring(), <unspecified:get_ring>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ get_ring : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4c66c3e2ec5396b6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.field.Field.get_ring","kind":"method","src_hash":"e749ecd3b2a4d68c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_ring()","rhs":"returns a ring associated with ``self``","over":{"base":"Any"},"name":"get_ring_correct"},"guarantee":"returns a ring associated with ``self``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.field.Field.get_ring_correct","statement":"Path(get_ring(x), returns a ring associated with ``self``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4c66c3e2ec5396b6"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.field.Field.get_ring","kind":"method","src_hash":"e749ecd3b2a4d68c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_ring()","rhs":"<unspecified:get_ring>","over":{"base":"Any"},"name":"get_ring_correct"},"guarantee":"returns a ring associated with ``self``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.field.Field.get_ring_correct","statement":"Path(get_ring(x), returns a ring associated with ``self``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4c66c3e2ec5396b6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["DomainError"]},"state_contract":{"exceptional_post":{"DomainError":["isinstance(raised, DomainError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def get_ring(self):
         """Returns a ring associated with ``self``. """
         raise DomainError('there is no ring associated with %s' % self)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_field(), returns a field associated with ``self``) over Any ║
+# ║ Path(get_field(), self) over Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ get_field : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == self                                 ║
+# ║   returns:  self                                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ get_field : Any → {Any | result satisfies: result == ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d27e1510d9826b42           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.field.Field.get_field","kind":"method","src_hash":"b66170dc58340807","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_field()","rhs":"returns a field associated with ``self``","over":{"base":"Any"},"name":"get_field_correct"},"guarantee":"returns a field associated with ``self``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d27e1510d9826b42"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.field.Field.get_field","kind":"method","src_hash":"b66170dc58340807","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (self)"},"spec":{"lhs":"get_field()","rhs":"self","over":{"base":"Any"},"name":"get_field_correct"},"guarantee":"returns self; result == self","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d27e1510d9826b42","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == self"],"returns_expr":"self","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def get_field(self):
         """Returns a field associated with ``self``. """
         return self
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(exquo(a, ), exact quotient of ``a`` and ``b``, implies ``__truediv__``) over Any ║
+# ║ Path(exquo(a, b), a / b) over Any                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  a / b                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ exquo : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b44419533b5733e6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.field.Field.exquo","kind":"method","src_hash":"96e679b0c62dc0ff","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"exquo(a, )","rhs":"exact quotient of ``a`` and ``b``, implies ``__truediv__``","over":{"base":"Any"},"name":"exquo_correct"},"guarantee":"exact quotient of ``a`` and ``b``, implies ``__truediv__``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b44419533b5733e6"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.field.Field.exquo","kind":"method","src_hash":"96e679b0c62dc0ff","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"exquo(a, b)","rhs":"a / b","over":{"base":"Any"},"name":"exquo_correct"},"guarantee":"returns a / b","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b44419533b5733e6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"a / b","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def exquo(self, a, b):
         """Exact quotient of ``a`` and ``b``, implies ``__truediv__``.  """
         return a / b
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(quo(a, ), quotient of ``a`` and ``b``, implies ``__truediv__``) over Any ║
+# ║ Path(quo(a, b), a / b) over Any                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  a / b                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ quo : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2104e692d01826d1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.field.Field.quo","kind":"method","src_hash":"a5a7eef7937db871","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"quo(a, )","rhs":"quotient of ``a`` and ``b``, implies ``__truediv__``","over":{"base":"Any"},"name":"quo_correct"},"guarantee":"quotient of ``a`` and ``b``, implies ``__truediv__``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2104e692d01826d1"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.field.Field.quo","kind":"method","src_hash":"a5a7eef7937db871","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"quo(a, b)","rhs":"a / b","over":{"base":"Any"},"name":"quo_correct"},"guarantee":"returns a / b","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2104e692d01826d1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"a / b","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def quo(self, a, b):
         """Quotient of ``a`` and ``b``, implies ``__truediv__``. """
         return a / b
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rem(a, ), remainder of ``a`` and ``b``, implies nothing) over Any ║
+# ║ Path(rem(a, b), self.zero) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.zero                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ rem : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f6d4d8fc7131ad85           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.field.Field.rem","kind":"method","src_hash":"2ef596440ae31eb6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rem(a, )","rhs":"remainder of ``a`` and ``b``, implies nothing","over":{"base":"Any"},"name":"rem_correct"},"guarantee":"remainder of ``a`` and ``b``, implies nothing","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f6d4d8fc7131ad85"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.field.Field.rem","kind":"method","src_hash":"2ef596440ae31eb6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rem(a, b)","rhs":"self.zero","over":{"base":"Any"},"name":"rem_correct"},"guarantee":"returns self.zero","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f6d4d8fc7131ad85","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.zero","pure":false,"effects":{"effect_type":"reads_state","reads":["self.zero"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def rem(self, a, b):
         """Remainder of ``a`` and ``b``, implies nothing.  """
         return self.zero
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(div(a, ), division of ``a`` and ``b``, implies ``__truediv__``) over Any ║
+# ║ Path(div(a, b), (a / b, self.zero)) over Any               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (a / b, self.zero)                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ div : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | bcf4453696b69782           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.field.Field.div","kind":"method","src_hash":"de5c0f940a49a330","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"div(a, )","rhs":"division of ``a`` and ``b``, implies ``__truediv__``","over":{"base":"Any"},"name":"div_correct"},"guarantee":"division of ``a`` and ``b``, implies ``__truediv__``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bcf4453696b69782"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.field.Field.div","kind":"method","src_hash":"de5c0f940a49a330","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"div(a, b)","rhs":"(a / b, self.zero)","over":{"base":"Any"},"name":"div_correct"},"guarantee":"returns (a / b, self.zero)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bcf4453696b69782","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(a / b, self.zero)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.zero"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def div(self, a, b):
         """Division of ``a`` and ``b``, implies ``__truediv__``. """
         return a / b, self.zero
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gcd(a, ), returns gcd of ``a`` and ``b``) over Any    ║
+# ║ Path(gcd(a, b), <unspecified:gcd>) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gcd : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 002224a9bab4c611  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.field.Field.gcd","kind":"method","src_hash":"42ee85439fd09a21","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gcd(a, )","rhs":"returns gcd of ``a`` and ``b``","over":{"base":"Any"},"name":"gcd_correct"},"guarantee":"returns gcd of ``a`` and ``b``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.field.Field.gcd_correct","statement":"Path(gcd(x), returns gcd of ``a`` and ``b``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"002224a9bab4c611"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.field.Field.gcd","kind":"method","src_hash":"42ee85439fd09a21","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gcd(a, b)","rhs":"<unspecified:gcd>","over":{"base":"Any"},"name":"gcd_correct"},"guarantee":"returns gcd of ``a`` and ``b``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.field.Field.gcd_correct","statement":"Path(gcd(x), returns gcd of ``a`` and ``b``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"002224a9bab4c611","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.convert","self.denom","self.get_ring","self.numer","self.one"],"catches":["DomainError"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def gcd(self, a, b):
         """
         Returns GCD of ``a`` and ``b``.
@@ -174,16 +223,23 @@ class Field(Ring):
         return self.convert(p, ring)/q
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gcdex(a, ), returns x, y, g such that a * x + b * y == g == gcd(a, b)) over Any ║
+# ║ Path(gcdex(a, b), <unspecified:gcdex>) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: a == self.zero                            ║
+# ║   fiber[case_1]: not (a == self.zero) => (d / a, self...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gcdex : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6abc33f853ce1551  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cfb51ddec001dfe1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.field.Field.gcdex","kind":"method","src_hash":"ad1d47e48dbcba4e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gcdex(a, )","rhs":"returns x, y, g such that a * x + b * y == g == gcd(a, b)","over":{"base":"Any"},"name":"gcdex_correct"},"guarantee":"returns x, y, g such that a * x + b * y == g == gcd(a, b)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.field.Field.gcdex_correct","statement":"Path(gcdex(x), returns x, y, g such that a * x + b * y == g == gcd(a, b))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6abc33f853ce1551"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.field.Field.gcdex","kind":"method","src_hash":"ad1d47e48dbcba4e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gcdex(a, b)","rhs":"<unspecified:gcdex>","over":{"base":"Any"},"name":"gcdex_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.field.Field.gcdex_correct","statement":"Path(gcdex(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cfb51ddec001dfe1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"a == self.zero","ensures":[],"decidability":"z3"},{"name":"case_1","guard":"not (a == self.zero)","ensures":["result == (d / a, self.zero, d)"],"decidability":"z3","returns_expr":"(d / a, self.zero, d)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.gcd","self.one","self.zero"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def gcdex(self, a, b):
         """
         Returns x, y, g such that a * x + b * y == g == gcd(a, b)
@@ -199,16 +255,22 @@ class Field(Ring):
             return d/a, self.zero, d
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(lcm(a, ), returns lcm of ``a`` and ``b``) over Any    ║
+# ║ Path(lcm(a, b), <unspecified:lcm>) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ lcm : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d6f719ce0b491cb8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.field.Field.lcm","kind":"method","src_hash":"5b6cd5da75c4676c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"lcm(a, )","rhs":"returns lcm of ``a`` and ``b``","over":{"base":"Any"},"name":"lcm_correct"},"guarantee":"returns lcm of ``a`` and ``b``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.field.Field.lcm_correct","statement":"Path(lcm(x), returns lcm of ``a`` and ``b``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d6f719ce0b491cb8"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.field.Field.lcm","kind":"method","src_hash":"5b6cd5da75c4676c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"lcm(a, b)","rhs":"<unspecified:lcm>","over":{"base":"Any"},"name":"lcm_correct"},"guarantee":"returns lcm of ``a`` and ``b``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.field.Field.lcm_correct","statement":"Path(lcm(x), returns lcm of ``a`` and ``b``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d6f719ce0b491cb8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.convert","self.denom","self.get_ring","self.numer"],"catches":["DomainError"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def lcm(self, a, b):
         """
         Returns LCM of ``a`` and ``b``.
@@ -234,16 +296,23 @@ class Field(Ring):
         return self.convert(p, ring)/q
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(revert(a), returns ``a**(-1)`` if possible) over Any  ║
+# ║ Path(revert(a), <unspecified:revert>) over Any             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: a => 1 / a                                ║
+# ║   fiber[case_1]: not (a)                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ revert : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 277625830a2b433c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 929a9204b19aebe2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.field.Field.revert","kind":"method","src_hash":"f05527890c4ad770","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"revert(a)","rhs":"returns ``a**(-1)`` if possible","over":{"base":"Any"},"name":"revert_correct"},"guarantee":"returns ``a**(-1)`` if possible","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.field.Field.revert_correct","statement":"Path(revert(x), returns ``a**(-1)`` if possible)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"277625830a2b433c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.field.Field.revert","kind":"method","src_hash":"f05527890c4ad770","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"revert(a)","rhs":"<unspecified:revert>","over":{"base":"Any"},"name":"revert_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.field.Field.revert_correct","statement":"Path(revert(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"929a9204b19aebe2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"a","ensures":["result == 1 / a"],"decidability":"library","returns_expr":"1 / a"},{"name":"case_1","guard":"not (a)","ensures":[],"decidability":"library"}],"pure":false,"effects":{"effect_type":"reads_state","raises":["NotReversible"]},"state_contract":{"exceptional_post":{"NotReversible":["isinstance(raised, NotReversible)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def revert(self, a):
         """Returns ``a**(-1)`` if possible. """
         if a:
@@ -252,16 +321,22 @@ class Field(Ring):
             raise NotReversible('zero is not reversible')
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_unit(a), return true if ``a`` is a invertible) over Any ║
+# ║ Path(is_unit(a), bool(a)) over Any                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  bool(a)                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_unit : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 67036d6a867926dc           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.field.Field.is_unit","kind":"method","src_hash":"e775648f927f68d6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_unit(a)","rhs":"return true if ``a`` is a invertible","over":{"base":"Any"},"name":"is_unit_correct"},"guarantee":"return true if ``a`` is a invertible","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"67036d6a867926dc"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.field.Field.is_unit","kind":"method","src_hash":"e775648f927f68d6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_unit(a)","rhs":"bool(a)","over":{"base":"Any"},"name":"is_unit_correct"},"guarantee":"returns bool(a)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"67036d6a867926dc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"bool(a)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_unit(self, a):
         """Return true if ``a`` is a invertible"""
         return bool(a)

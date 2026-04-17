@@ -51,46 +51,67 @@ disabled = lark is None
 
 # shorthand definitions that are only needed for the Lark LaTeX parser
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_Min(*ar), internal helper behaves correctly) over Any ║
+# ║ Path(_Min(*args), Min(*args, evaluate=False)) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Min(*args, evaluate=False)                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _Min : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 35079a211d86e4f7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_latex_lark._Min","kind":"function","src_hash":"d9a3224de8c6c0c3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_Min(*ar)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_Min_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"35079a211d86e4f7"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_latex_lark._Min","kind":"function","src_hash":"d9a3224de8c6c0c3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_Min(*args)","rhs":"Min(*args, evaluate=False)","over":{"base":"Any"},"name":"_Min_correct"},"guarantee":"returns Min(*args, evaluate=False)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"35079a211d86e4f7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Min(*args, evaluate=False)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=[], spec=['*args']"]}}
 def _Min(*args):
     return Min(*args, evaluate=False)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_Max(*ar), internal helper behaves correctly) over Any ║
+# ║ Path(_Max(*args), Max(*args, evaluate=False)) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Max(*args, evaluate=False)                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _Max : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5df88d626e250f7c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_latex_lark._Max","kind":"function","src_hash":"dc0dfcd9941dd91e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_Max(*ar)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_Max_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5df88d626e250f7c"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_latex_lark._Max","kind":"function","src_hash":"dc0dfcd9941dd91e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_Max(*args)","rhs":"Max(*args, evaluate=False)","over":{"base":"Any"},"name":"_Max_correct"},"guarantee":"returns Max(*args, evaluate=False)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5df88d626e250f7c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Max(*args, evaluate=False)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=[], spec=['*args']"]}}
 def _Max(*args):
     return Max(*args, evaluate=False)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_log(a, ), internal helper behaves correctly) over Any ║
+# ║ Path(_log(a, b), result == (log(a, evaluate=False) if b == E else log(a, b, evaluate=False)) and result == log(a, evaluate=False) or result == log(a, b, evaluate=False)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _log : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (log(a, evaluate=False) if b ==...   ║
+# ║   ensures:  result == log(a, evaluate=False) or resul...   ║
+# ║   fiber[case_0]: b == E => log(a, evaluate=False)          ║
+# ║   fiber[case_1]: not (b == E) => log(a, b, evaluate=F...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _log : Any → {Any | result satisfies: result == (log(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 053955cc04248e09  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2366c05bbba07093  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_latex_lark._log","kind":"function","src_hash":"324d8214cfa24dd3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_log(a, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_log_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_latex_lark._log_correct","statement":"Path(_log(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"053955cc04248e09"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_latex_lark._log","kind":"function","src_hash":"324d8214cfa24dd3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (log(a, evaluate=False) if b == E else log(a, b, evaluate=False)) and result == log(a, evaluate=False) or result == log(a, b, evaluate=False)"},"spec":{"lhs":"_log(a, b)","rhs":"result == (log(a, evaluate=False) if b == E else log(a, b, evaluate=False)) and result == log(a, evaluate=False) or result == log(a, b, evaluate=False)","over":{"base":"Any"},"name":"_log_correct"},"guarantee":"result == (log(a, evaluate=False) if b == E else log(a, b, evaluate=False)); result == log(a, evaluate=False) or result == log(a, b, evaluate=False); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_latex_lark._log_correct","statement":"Path(_log(x), result == (log(a, evaluate=False) if b == E else log(a, b, evaluate=False)); result == log(a, evaluate=False) or result == log(a, b, evaluate=False); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2366c05bbba07093","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (log(a, evaluate=False) if b == E else log(a, b, evaluate=False))","result == log(a, evaluate=False) or result == log(a, b, evaluate=False)"],"fibers":[{"name":"case_0","guard":"b == E","ensures":["result == log(a, evaluate=False)"],"decidability":"z3","returns_expr":"log(a, evaluate=False)"},{"name":"case_1","guard":"not (b == E)","ensures":["result == log(a, b, evaluate=False)"],"decidability":"z3","returns_expr":"log(a, b, evaluate=False)"}],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _log(a, b=E):
     if b == E:
         return log(a, evaluate=False)
@@ -99,31 +120,43 @@ def _log(a, b=E):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_MatAdd(a, ), internal helper behaves correctly) over Any ║
+# ║ Path(_MatAdd(a, b), MatAdd(a, b, evaluate=False)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  MatAdd(a, b, evaluate=False)                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _MatAdd : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4849f5f8d10675a8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_latex_lark._MatAdd","kind":"function","src_hash":"988a900121108b39","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_MatAdd(a, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_MatAdd_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4849f5f8d10675a8"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_latex_lark._MatAdd","kind":"function","src_hash":"988a900121108b39","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_MatAdd(a, b)","rhs":"MatAdd(a, b, evaluate=False)","over":{"base":"Any"},"name":"_MatAdd_correct"},"guarantee":"returns MatAdd(a, b, evaluate=False)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4849f5f8d10675a8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"MatAdd(a, b, evaluate=False)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _MatAdd(a, b):
     return MatAdd(a, b, evaluate=False)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_MatMul(a, ), internal helper behaves correctly) over Any ║
+# ║ Path(_MatMul(a, b), MatMul(a, b, evaluate=False)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  MatMul(a, b, evaluate=False)                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _MatMul : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | bcb0aee6361dafcf           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_latex_lark._MatMul","kind":"function","src_hash":"3f4ee36240781f78","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_MatMul(a, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_MatMul_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bcb0aee6361dafcf"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_latex_lark._MatMul","kind":"function","src_hash":"3f4ee36240781f78","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_MatMul(a, b)","rhs":"MatMul(a, b, evaluate=False)","over":{"base":"Any"},"name":"_MatMul_correct"},"guarantee":"returns MatMul(a, b, evaluate=False)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bcb0aee6361dafcf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"MatMul(a, b, evaluate=False)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _MatMul(a, b):
     return MatMul(a, b, evaluate=False)
 
@@ -761,16 +794,22 @@ EVALUATED_MATRIX_EXPRESSION_PAIRS = [
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_symbol_expressions(), test_symbol_expressions produces the expected output) over Any ║
+# ║ Path(test_symbol_expressions(), <unspecified:test_symbol_expressions>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_symbol_expressions : Any → {Any | parse_latex_la...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 78898a1a36bf78f1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_latex_lark.test_symbol_expressions","kind":"function","src_hash":"9a75c77009bce392","in":{"base":"Any"},"out":{"base":"Any","pred":"parse_latex_lark(latex_str) == sympy_expr"},"spec":{"lhs":"test_symbol_expressions()","rhs":"test_symbol_expressions produces the expected output","over":{"base":"Any"},"name":"test_symbol_expressions_correct"},"guarantee":"test_symbol_expressions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_latex_lark.test_symbol_expressions_correct","statement":"Path(test_symbol_expressions(x), test_symbol_expressions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"78898a1a36bf78f1"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_latex_lark.test_symbol_expressions","kind":"function","src_hash":"9a75c77009bce392","in":{"base":"Any"},"out":{"base":"Any","pred":"parse_latex_lark(latex_str) == sympy_expr"},"spec":{"lhs":"test_symbol_expressions()","rhs":"<unspecified:test_symbol_expressions>","over":{"base":"Any"},"name":"test_symbol_expressions_correct"},"guarantee":"test_symbol_expressions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_latex_lark.test_symbol_expressions_correct","statement":"Path(test_symbol_expressions(x), test_symbol_expressions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"78898a1a36bf78f1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_symbol_expressions():
     expected_failures = {6, 7}
     for i, (latex_str, sympy_expr) in enumerate(SYMBOL_EXPRESSION_PAIRS):
@@ -781,16 +820,22 @@ def test_symbol_expressions():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_simple_expressions(), test_simple_expressions produces the expected output) over Any ║
+# ║ Path(test_simple_expressions(), <unspecified:test_simple_expressions>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_simple_expressions : Any → {Any | parse_latex_la...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 43f8a654d602efb0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_latex_lark.test_simple_expressions","kind":"function","src_hash":"449dafe4a048da34","in":{"base":"Any"},"out":{"base":"Any","pred":"parse_latex_lark(latex_str) == sympy_expr and parse_latex_lark(latex_str) == sympy_expr"},"spec":{"lhs":"test_simple_expressions()","rhs":"test_simple_expressions produces the expected output","over":{"base":"Any"},"name":"test_simple_expressions_correct"},"guarantee":"test_simple_expressions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_latex_lark.test_simple_expressions_correct","statement":"Path(test_simple_expressions(x), test_simple_expressions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"43f8a654d602efb0"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_latex_lark.test_simple_expressions","kind":"function","src_hash":"449dafe4a048da34","in":{"base":"Any"},"out":{"base":"Any","pred":"parse_latex_lark(latex_str) == sympy_expr and parse_latex_lark(latex_str) == sympy_expr"},"spec":{"lhs":"test_simple_expressions()","rhs":"<unspecified:test_simple_expressions>","over":{"base":"Any"},"name":"test_simple_expressions_correct"},"guarantee":"test_simple_expressions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_latex_lark.test_simple_expressions_correct","statement":"Path(test_simple_expressions(x), test_simple_expressions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"43f8a654d602efb0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_simple_expressions():
     expected_failures = {20}
     for i, (latex_str, sympy_expr) in enumerate(UNEVALUATED_SIMPLE_EXPRESSION_PAIRS):
@@ -806,16 +851,22 @@ def test_simple_expressions():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_fraction_expressions(), test_fraction_expressions produces the expected output) over Any ║
+# ║ Path(test_fraction_expressions(), <unspecified:test_fraction_expressions>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_fraction_expressions : Any → {Any | parse_latex_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4bb59b105a882f3a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_latex_lark.test_fraction_expressions","kind":"function","src_hash":"d5fa3158c5bff885","in":{"base":"Any"},"out":{"base":"Any","pred":"parse_latex_lark(latex_str) == sympy_expr and parse_latex_lark(latex_str) == sympy_expr"},"spec":{"lhs":"test_fraction_expressions()","rhs":"test_fraction_expressions produces the expected output","over":{"base":"Any"},"name":"test_fraction_expressions_correct"},"guarantee":"test_fraction_expressions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_latex_lark.test_fraction_expressions_correct","statement":"Path(test_fraction_expressions(x), test_fraction_expressions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4bb59b105a882f3a"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_latex_lark.test_fraction_expressions","kind":"function","src_hash":"d5fa3158c5bff885","in":{"base":"Any"},"out":{"base":"Any","pred":"parse_latex_lark(latex_str) == sympy_expr and parse_latex_lark(latex_str) == sympy_expr"},"spec":{"lhs":"test_fraction_expressions()","rhs":"<unspecified:test_fraction_expressions>","over":{"base":"Any"},"name":"test_fraction_expressions_correct"},"guarantee":"test_fraction_expressions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_latex_lark.test_fraction_expressions_correct","statement":"Path(test_fraction_expressions(x), test_fraction_expressions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4bb59b105a882f3a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_fraction_expressions():
     for latex_str, sympy_expr in UNEVALUATED_FRACTION_EXPRESSION_PAIRS:
         with evaluate(False):
@@ -826,32 +877,44 @@ def test_fraction_expressions():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_relation_expressions(), test_relation_expressions produces the expected output) over Any ║
+# ║ Path(test_relation_expressions(), <unspecified:test_relation_expressions>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_relation_expressions : Any → {Any | parse_latex_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b5eb54d89cdf09cf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_latex_lark.test_relation_expressions","kind":"function","src_hash":"7669390989c2479d","in":{"base":"Any"},"out":{"base":"Any","pred":"parse_latex_lark(latex_str) == sympy_expr"},"spec":{"lhs":"test_relation_expressions()","rhs":"test_relation_expressions produces the expected output","over":{"base":"Any"},"name":"test_relation_expressions_correct"},"guarantee":"test_relation_expressions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_latex_lark.test_relation_expressions_correct","statement":"Path(test_relation_expressions(x), test_relation_expressions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b5eb54d89cdf09cf"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_latex_lark.test_relation_expressions","kind":"function","src_hash":"7669390989c2479d","in":{"base":"Any"},"out":{"base":"Any","pred":"parse_latex_lark(latex_str) == sympy_expr"},"spec":{"lhs":"test_relation_expressions()","rhs":"<unspecified:test_relation_expressions>","over":{"base":"Any"},"name":"test_relation_expressions_correct"},"guarantee":"test_relation_expressions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_latex_lark.test_relation_expressions_correct","statement":"Path(test_relation_expressions(x), test_relation_expressions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b5eb54d89cdf09cf","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_relation_expressions():
     for latex_str, sympy_expr in RELATION_EXPRESSION_PAIRS:
         with evaluate(False):
             assert parse_latex_lark(latex_str) == sympy_expr, latex_str
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_power_expressions(), test_power_expressions produces the expected output) over Any ║
+# ║ Path(test_power_expressions(), <unspecified:test_power_expressions>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_power_expressions : Any → {Any | parse_latex_lar...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 977df28af5419e1c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_latex_lark.test_power_expressions","kind":"function","src_hash":"6f8b7f7379a72aab","in":{"base":"Any"},"out":{"base":"Any","pred":"parse_latex_lark(latex_str) == sympy_expr and parse_latex_lark(latex_str) == sympy_expr"},"spec":{"lhs":"test_power_expressions()","rhs":"test_power_expressions produces the expected output","over":{"base":"Any"},"name":"test_power_expressions_correct"},"guarantee":"test_power_expressions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_latex_lark.test_power_expressions_correct","statement":"Path(test_power_expressions(x), test_power_expressions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"977df28af5419e1c"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_latex_lark.test_power_expressions","kind":"function","src_hash":"6f8b7f7379a72aab","in":{"base":"Any"},"out":{"base":"Any","pred":"parse_latex_lark(latex_str) == sympy_expr and parse_latex_lark(latex_str) == sympy_expr"},"spec":{"lhs":"test_power_expressions()","rhs":"<unspecified:test_power_expressions>","over":{"base":"Any"},"name":"test_power_expressions_correct"},"guarantee":"test_power_expressions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_latex_lark.test_power_expressions_correct","statement":"Path(test_power_expressions(x), test_power_expressions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"977df28af5419e1c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_power_expressions():
     expected_failures = {3}
     for i, (latex_str, sympy_expr) in enumerate(UNEVALUATED_POWER_EXPRESSION_PAIRS):
@@ -867,16 +930,22 @@ def test_power_expressions():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_integral_expressions(), test_integral_expressions produces the expected output) over Any ║
+# ║ Path(test_integral_expressions(), <unspecified:test_integral_expressions>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_integral_expressions : Any → {Any | parse_latex_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9425e1a9767451ca  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_latex_lark.test_integral_expressions","kind":"function","src_hash":"557512bf57a37c5d","in":{"base":"Any"},"out":{"base":"Any","pred":"parse_latex_lark(latex_str) == sympy_expr and parse_latex_lark(latex_str) == sympy_expr"},"spec":{"lhs":"test_integral_expressions()","rhs":"test_integral_expressions produces the expected output","over":{"base":"Any"},"name":"test_integral_expressions_correct"},"guarantee":"test_integral_expressions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_latex_lark.test_integral_expressions_correct","statement":"Path(test_integral_expressions(x), test_integral_expressions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9425e1a9767451ca"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_latex_lark.test_integral_expressions","kind":"function","src_hash":"557512bf57a37c5d","in":{"base":"Any"},"out":{"base":"Any","pred":"parse_latex_lark(latex_str) == sympy_expr and parse_latex_lark(latex_str) == sympy_expr"},"spec":{"lhs":"test_integral_expressions()","rhs":"<unspecified:test_integral_expressions>","over":{"base":"Any"},"name":"test_integral_expressions_correct"},"guarantee":"test_integral_expressions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_latex_lark.test_integral_expressions_correct","statement":"Path(test_integral_expressions(x), test_integral_expressions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9425e1a9767451ca","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_integral_expressions():
     expected_failures = {14}
     for i, (latex_str, sympy_expr) in enumerate(UNEVALUATED_INTEGRAL_EXPRESSION_PAIRS):
@@ -892,16 +961,22 @@ def test_integral_expressions():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_derivative_expressions(), test_derivative_expressions produces the expected output) over Any ║
+# ║ Path(test_derivative_expressions(), <unspecified:test_derivative_expressions>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_derivative_expressions : Any → {Any | parse_late...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 196f4b59e1c8baf4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_latex_lark.test_derivative_expressions","kind":"function","src_hash":"8f44586881446f0e","in":{"base":"Any"},"out":{"base":"Any","pred":"parse_latex_lark(latex_str) == sympy_expr and parse_latex_lark(latex_str) == sympy_expr"},"spec":{"lhs":"test_derivative_expressions()","rhs":"test_derivative_expressions produces the expected output","over":{"base":"Any"},"name":"test_derivative_expressions_correct"},"guarantee":"test_derivative_expressions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_latex_lark.test_derivative_expressions_correct","statement":"Path(test_derivative_expressions(x), test_derivative_expressions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"196f4b59e1c8baf4"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_latex_lark.test_derivative_expressions","kind":"function","src_hash":"8f44586881446f0e","in":{"base":"Any"},"out":{"base":"Any","pred":"parse_latex_lark(latex_str) == sympy_expr and parse_latex_lark(latex_str) == sympy_expr"},"spec":{"lhs":"test_derivative_expressions()","rhs":"<unspecified:test_derivative_expressions>","over":{"base":"Any"},"name":"test_derivative_expressions_correct"},"guarantee":"test_derivative_expressions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_latex_lark.test_derivative_expressions_correct","statement":"Path(test_derivative_expressions(x), test_derivative_expressions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"196f4b59e1c8baf4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_derivative_expressions():
     expected_failures = {3, 4}
     for i, (latex_str, sympy_expr) in enumerate(DERIVATIVE_EXPRESSION_PAIRS):
@@ -917,16 +992,22 @@ def test_derivative_expressions():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_trigonometric_expressions(), test_trigonometric_expressions produces the expected output) over Any ║
+# ║ Path(test_trigonometric_expressions(), <unspecified:test_trigonometric_expressions>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_trigonometric_expressions : Any → {Any | parse_l...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ae62fdb3501c89cf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_latex_lark.test_trigonometric_expressions","kind":"function","src_hash":"4437da774e5071e4","in":{"base":"Any"},"out":{"base":"Any","pred":"parse_latex_lark(latex_str) == sympy_expr"},"spec":{"lhs":"test_trigonometric_expressions()","rhs":"test_trigonometric_expressions produces the expected output","over":{"base":"Any"},"name":"test_trigonometric_expressions_correct"},"guarantee":"test_trigonometric_expressions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_latex_lark.test_trigonometric_expressions_correct","statement":"Path(test_trigonometric_expressions(x), test_trigonometric_expressions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ae62fdb3501c89cf"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_latex_lark.test_trigonometric_expressions","kind":"function","src_hash":"4437da774e5071e4","in":{"base":"Any"},"out":{"base":"Any","pred":"parse_latex_lark(latex_str) == sympy_expr"},"spec":{"lhs":"test_trigonometric_expressions()","rhs":"<unspecified:test_trigonometric_expressions>","over":{"base":"Any"},"name":"test_trigonometric_expressions_correct"},"guarantee":"test_trigonometric_expressions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_latex_lark.test_trigonometric_expressions_correct","statement":"Path(test_trigonometric_expressions(x), test_trigonometric_expressions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ae62fdb3501c89cf","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_trigonometric_expressions():
     expected_failures = {3}
     for i, (latex_str, sympy_expr) in enumerate(TRIGONOMETRIC_EXPRESSION_PAIRS):
@@ -937,16 +1018,22 @@ def test_trigonometric_expressions():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_limit_expressions(), test_limit_expressions produces the expected output) over Any ║
+# ║ Path(test_limit_expressions(), <unspecified:test_limit_expressions>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_limit_expressions : Any → {Any | parse_latex_lar...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 94f3e73939dd4472  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_latex_lark.test_limit_expressions","kind":"function","src_hash":"1dacb7c3a6415529","in":{"base":"Any"},"out":{"base":"Any","pred":"parse_latex_lark(latex_str) == sympy_expr"},"spec":{"lhs":"test_limit_expressions()","rhs":"test_limit_expressions produces the expected output","over":{"base":"Any"},"name":"test_limit_expressions_correct"},"guarantee":"test_limit_expressions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_latex_lark.test_limit_expressions_correct","statement":"Path(test_limit_expressions(x), test_limit_expressions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"94f3e73939dd4472"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_latex_lark.test_limit_expressions","kind":"function","src_hash":"1dacb7c3a6415529","in":{"base":"Any"},"out":{"base":"Any","pred":"parse_latex_lark(latex_str) == sympy_expr"},"spec":{"lhs":"test_limit_expressions()","rhs":"<unspecified:test_limit_expressions>","over":{"base":"Any"},"name":"test_limit_expressions_correct"},"guarantee":"test_limit_expressions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_latex_lark.test_limit_expressions_correct","statement":"Path(test_limit_expressions(x), test_limit_expressions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"94f3e73939dd4472","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_limit_expressions():
     for latex_str, sympy_expr in UNEVALUATED_LIMIT_EXPRESSION_PAIRS:
         with evaluate(False):
@@ -954,16 +1041,22 @@ def test_limit_expressions():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_square_root_expressions(), test_square_root_expressions produces the expected output) over Any ║
+# ║ Path(test_square_root_expressions(), <unspecified:test_square_root_expressions>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_square_root_expressions : Any → {Any | parse_lat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 01d72108465a3a5b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_latex_lark.test_square_root_expressions","kind":"function","src_hash":"0fe05c02a1b27e52","in":{"base":"Any"},"out":{"base":"Any","pred":"parse_latex_lark(latex_str) == sympy_expr and parse_latex_lark(latex_str) == sympy_expr"},"spec":{"lhs":"test_square_root_expressions()","rhs":"test_square_root_expressions produces the expected output","over":{"base":"Any"},"name":"test_square_root_expressions_correct"},"guarantee":"test_square_root_expressions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_latex_lark.test_square_root_expressions_correct","statement":"Path(test_square_root_expressions(x), test_square_root_expressions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"01d72108465a3a5b"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_latex_lark.test_square_root_expressions","kind":"function","src_hash":"0fe05c02a1b27e52","in":{"base":"Any"},"out":{"base":"Any","pred":"parse_latex_lark(latex_str) == sympy_expr and parse_latex_lark(latex_str) == sympy_expr"},"spec":{"lhs":"test_square_root_expressions()","rhs":"<unspecified:test_square_root_expressions>","over":{"base":"Any"},"name":"test_square_root_expressions_correct"},"guarantee":"test_square_root_expressions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_latex_lark.test_square_root_expressions_correct","statement":"Path(test_square_root_expressions(x), test_square_root_expressions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"01d72108465a3a5b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_square_root_expressions():
     for latex_str, sympy_expr in UNEVALUATED_SQRT_EXPRESSION_PAIRS:
         with evaluate(False):
@@ -974,16 +1067,22 @@ def test_square_root_expressions():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_factorial_expressions(), test_factorial_expressions produces the expected output) over Any ║
+# ║ Path(test_factorial_expressions(), <unspecified:test_factorial_expressions>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_factorial_expressions : Any → {Any | parse_latex...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e02a3d0a24e6787a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_latex_lark.test_factorial_expressions","kind":"function","src_hash":"575eb4ea81567e0b","in":{"base":"Any"},"out":{"base":"Any","pred":"parse_latex_lark(latex_str) == sympy_expr and parse_latex_lark(latex_str) == sympy_expr"},"spec":{"lhs":"test_factorial_expressions()","rhs":"test_factorial_expressions produces the expected output","over":{"base":"Any"},"name":"test_factorial_expressions_correct"},"guarantee":"test_factorial_expressions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_latex_lark.test_factorial_expressions_correct","statement":"Path(test_factorial_expressions(x), test_factorial_expressions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e02a3d0a24e6787a"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_latex_lark.test_factorial_expressions","kind":"function","src_hash":"575eb4ea81567e0b","in":{"base":"Any"},"out":{"base":"Any","pred":"parse_latex_lark(latex_str) == sympy_expr and parse_latex_lark(latex_str) == sympy_expr"},"spec":{"lhs":"test_factorial_expressions()","rhs":"<unspecified:test_factorial_expressions>","over":{"base":"Any"},"name":"test_factorial_expressions_correct"},"guarantee":"test_factorial_expressions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_latex_lark.test_factorial_expressions_correct","statement":"Path(test_factorial_expressions(x), test_factorial_expressions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e02a3d0a24e6787a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_factorial_expressions():
     for latex_str, sympy_expr in UNEVALUATED_FACTORIAL_EXPRESSION_PAIRS:
         with evaluate(False):
@@ -994,16 +1093,22 @@ def test_factorial_expressions():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_sum_expressions(), test_sum_expressions produces the expected output) over Any ║
+# ║ Path(test_sum_expressions(), <unspecified:test_sum_expressions>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_sum_expressions : Any → {Any | parse_latex_lark(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f1325aabd72faaca  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_latex_lark.test_sum_expressions","kind":"function","src_hash":"3e61c128ccf1d38d","in":{"base":"Any"},"out":{"base":"Any","pred":"parse_latex_lark(latex_str) == sympy_expr and parse_latex_lark(latex_str) == sympy_expr"},"spec":{"lhs":"test_sum_expressions()","rhs":"test_sum_expressions produces the expected output","over":{"base":"Any"},"name":"test_sum_expressions_correct"},"guarantee":"test_sum_expressions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_latex_lark.test_sum_expressions_correct","statement":"Path(test_sum_expressions(x), test_sum_expressions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f1325aabd72faaca"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_latex_lark.test_sum_expressions","kind":"function","src_hash":"3e61c128ccf1d38d","in":{"base":"Any"},"out":{"base":"Any","pred":"parse_latex_lark(latex_str) == sympy_expr and parse_latex_lark(latex_str) == sympy_expr"},"spec":{"lhs":"test_sum_expressions()","rhs":"<unspecified:test_sum_expressions>","over":{"base":"Any"},"name":"test_sum_expressions_correct"},"guarantee":"test_sum_expressions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_latex_lark.test_sum_expressions_correct","statement":"Path(test_sum_expressions(x), test_sum_expressions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f1325aabd72faaca","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_sum_expressions():
     for latex_str, sympy_expr in UNEVALUATED_SUM_EXPRESSION_PAIRS:
         with evaluate(False):
@@ -1014,16 +1119,22 @@ def test_sum_expressions():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_product_expressions(), test_product_expressions produces the expected output) over Any ║
+# ║ Path(test_product_expressions(), <unspecified:test_product_expressions>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_product_expressions : Any → {Any | parse_latex_l...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bf13715982447bcb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_latex_lark.test_product_expressions","kind":"function","src_hash":"f07ad6faebc958cd","in":{"base":"Any"},"out":{"base":"Any","pred":"parse_latex_lark(latex_str) == sympy_expr"},"spec":{"lhs":"test_product_expressions()","rhs":"test_product_expressions produces the expected output","over":{"base":"Any"},"name":"test_product_expressions_correct"},"guarantee":"test_product_expressions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_latex_lark.test_product_expressions_correct","statement":"Path(test_product_expressions(x), test_product_expressions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bf13715982447bcb"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_latex_lark.test_product_expressions","kind":"function","src_hash":"f07ad6faebc958cd","in":{"base":"Any"},"out":{"base":"Any","pred":"parse_latex_lark(latex_str) == sympy_expr"},"spec":{"lhs":"test_product_expressions()","rhs":"<unspecified:test_product_expressions>","over":{"base":"Any"},"name":"test_product_expressions_correct"},"guarantee":"test_product_expressions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_latex_lark.test_product_expressions_correct","statement":"Path(test_product_expressions(x), test_product_expressions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bf13715982447bcb","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_product_expressions():
     for latex_str, sympy_expr in UNEVALUATED_PRODUCT_EXPRESSION_PAIRS:
         with evaluate(False):
@@ -1031,16 +1142,22 @@ def test_product_expressions():
 
 @XFAIL
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_applied_function_expressions(), test_applied_function_expressions produces the expected output) over Any ║
+# ║ Path(test_applied_function_expressions(), <unspecified:test_applied_function_expressions>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_applied_function_expressions : Any → {Any | pars...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 10dd8dc151bf84ac  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_latex_lark.test_applied_function_expressions","kind":"function","src_hash":"82cfd51ce6d8d895","in":{"base":"Any"},"out":{"base":"Any","pred":"parse_latex_lark(latex_str) == sympy_expr"},"spec":{"lhs":"test_applied_function_expressions()","rhs":"test_applied_function_expressions produces the expected output","over":{"base":"Any"},"name":"test_applied_function_expressions_correct"},"guarantee":"test_applied_function_expressions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_latex_lark.test_applied_function_expressions_correct","statement":"Path(test_applied_function_expressions(x), test_applied_function_expressions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"10dd8dc151bf84ac"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_latex_lark.test_applied_function_expressions","kind":"function","src_hash":"82cfd51ce6d8d895","in":{"base":"Any"},"out":{"base":"Any","pred":"parse_latex_lark(latex_str) == sympy_expr"},"spec":{"lhs":"test_applied_function_expressions()","rhs":"<unspecified:test_applied_function_expressions>","over":{"base":"Any"},"name":"test_applied_function_expressions_correct"},"guarantee":"test_applied_function_expressions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_latex_lark.test_applied_function_expressions_correct","statement":"Path(test_applied_function_expressions(x), test_applied_function_expressions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"10dd8dc151bf84ac","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_applied_function_expressions():
     expected_failures = {0, 3, 4}  # 0 is ambiguous, and the others require not-yet-added features
     # not sure why 1, and 2 are failing
@@ -1052,16 +1169,22 @@ def test_applied_function_expressions():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_common_function_expressions(), test_common_function_expressions produces the expected output) over Any ║
+# ║ Path(test_common_function_expressions(), <unspecified:test_common_function_expressions>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_common_function_expressions : Any → {Any | parse...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 739eccb81dc8a004  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_latex_lark.test_common_function_expressions","kind":"function","src_hash":"d84bb6925a945ef8","in":{"base":"Any"},"out":{"base":"Any","pred":"parse_latex_lark(latex_str) == sympy_expr and parse_latex_lark(latex_str) == sympy_expr"},"spec":{"lhs":"test_common_function_expressions()","rhs":"test_common_function_expressions produces the expected output","over":{"base":"Any"},"name":"test_common_function_expressions_correct"},"guarantee":"test_common_function_expressions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_latex_lark.test_common_function_expressions_correct","statement":"Path(test_common_function_expressions(x), test_common_function_expressions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"739eccb81dc8a004"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_latex_lark.test_common_function_expressions","kind":"function","src_hash":"d84bb6925a945ef8","in":{"base":"Any"},"out":{"base":"Any","pred":"parse_latex_lark(latex_str) == sympy_expr and parse_latex_lark(latex_str) == sympy_expr"},"spec":{"lhs":"test_common_function_expressions()","rhs":"<unspecified:test_common_function_expressions>","over":{"base":"Any"},"name":"test_common_function_expressions_correct"},"guarantee":"test_common_function_expressions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_latex_lark.test_common_function_expressions_correct","statement":"Path(test_common_function_expressions(x), test_common_function_expressions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"739eccb81dc8a004","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_common_function_expressions():
     for latex_str, sympy_expr in UNEVALUATED_COMMON_FUNCTION_EXPRESSION_PAIRS:
         with evaluate(False):
@@ -1074,16 +1197,22 @@ def test_common_function_expressions():
 # unhandled bug causing these to fail
 @XFAIL
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_spacing(), test_spacing produces the expected output) over Any ║
+# ║ Path(test_spacing(), <unspecified:test_spacing>) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_spacing : Any → {Any | parse_latex_lark(latex_st...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5a78da415e4787f0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_latex_lark.test_spacing","kind":"function","src_hash":"7ff0c92e6ace35f4","in":{"base":"Any"},"out":{"base":"Any","pred":"parse_latex_lark(latex_str) == sympy_expr"},"spec":{"lhs":"test_spacing()","rhs":"test_spacing produces the expected output","over":{"base":"Any"},"name":"test_spacing_correct"},"guarantee":"test_spacing produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_latex_lark.test_spacing_correct","statement":"Path(test_spacing(x), test_spacing produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5a78da415e4787f0"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_latex_lark.test_spacing","kind":"function","src_hash":"7ff0c92e6ace35f4","in":{"base":"Any"},"out":{"base":"Any","pred":"parse_latex_lark(latex_str) == sympy_expr"},"spec":{"lhs":"test_spacing()","rhs":"<unspecified:test_spacing>","over":{"base":"Any"},"name":"test_spacing_correct"},"guarantee":"test_spacing produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_latex_lark.test_spacing_correct","statement":"Path(test_spacing(x), test_spacing produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5a78da415e4787f0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_spacing():
     for latex_str, sympy_expr in SPACING_RELATED_EXPRESSION_PAIRS:
         with evaluate(False):
@@ -1091,16 +1220,22 @@ def test_spacing():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_binomial_expressions(), test_binomial_expressions produces the expected output) over Any ║
+# ║ Path(test_binomial_expressions(), <unspecified:test_binomial_expressions>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_binomial_expressions : Any → {Any | parse_latex_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 551d3e8331774648  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_latex_lark.test_binomial_expressions","kind":"function","src_hash":"ea8a420cf47955a1","in":{"base":"Any"},"out":{"base":"Any","pred":"parse_latex_lark(latex_str) == sympy_expr and parse_latex_lark(latex_str) == sympy_expr"},"spec":{"lhs":"test_binomial_expressions()","rhs":"test_binomial_expressions produces the expected output","over":{"base":"Any"},"name":"test_binomial_expressions_correct"},"guarantee":"test_binomial_expressions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_latex_lark.test_binomial_expressions_correct","statement":"Path(test_binomial_expressions(x), test_binomial_expressions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"551d3e8331774648"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_latex_lark.test_binomial_expressions","kind":"function","src_hash":"ea8a420cf47955a1","in":{"base":"Any"},"out":{"base":"Any","pred":"parse_latex_lark(latex_str) == sympy_expr and parse_latex_lark(latex_str) == sympy_expr"},"spec":{"lhs":"test_binomial_expressions()","rhs":"<unspecified:test_binomial_expressions>","over":{"base":"Any"},"name":"test_binomial_expressions_correct"},"guarantee":"test_binomial_expressions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_latex_lark.test_binomial_expressions_correct","statement":"Path(test_binomial_expressions(x), test_binomial_expressions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"551d3e8331774648","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_binomial_expressions():
     for latex_str, sympy_expr in UNEVALUATED_BINOMIAL_EXPRESSION_PAIRS:
         with evaluate(False):
@@ -1111,16 +1246,22 @@ def test_binomial_expressions():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_miscellaneous_expressions(), test_miscellaneous_expressions produces the expected output) over Any ║
+# ║ Path(test_miscellaneous_expressions(), <unspecified:test_miscellaneous_expressions>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_miscellaneous_expressions : Any → {Any | parse_l...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a02d1911b93ab6ea  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_latex_lark.test_miscellaneous_expressions","kind":"function","src_hash":"42dfa4b42d637cfa","in":{"base":"Any"},"out":{"base":"Any","pred":"parse_latex_lark(latex_str) == sympy_expr"},"spec":{"lhs":"test_miscellaneous_expressions()","rhs":"test_miscellaneous_expressions produces the expected output","over":{"base":"Any"},"name":"test_miscellaneous_expressions_correct"},"guarantee":"test_miscellaneous_expressions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_latex_lark.test_miscellaneous_expressions_correct","statement":"Path(test_miscellaneous_expressions(x), test_miscellaneous_expressions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a02d1911b93ab6ea"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_latex_lark.test_miscellaneous_expressions","kind":"function","src_hash":"42dfa4b42d637cfa","in":{"base":"Any"},"out":{"base":"Any","pred":"parse_latex_lark(latex_str) == sympy_expr"},"spec":{"lhs":"test_miscellaneous_expressions()","rhs":"<unspecified:test_miscellaneous_expressions>","over":{"base":"Any"},"name":"test_miscellaneous_expressions_correct"},"guarantee":"test_miscellaneous_expressions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_latex_lark.test_miscellaneous_expressions_correct","statement":"Path(test_miscellaneous_expressions(x), test_miscellaneous_expressions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a02d1911b93ab6ea","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_miscellaneous_expressions():
     for latex_str, sympy_expr in MISCELLANEOUS_EXPRESSION_PAIRS:
         with evaluate(False):
@@ -1128,16 +1269,22 @@ def test_miscellaneous_expressions():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_literal_complex_number_expressions(), test_literal_complex_number_expressions produces the expected output) over Any ║
+# ║ Path(test_literal_complex_number_expressions(), <unspecified:test_literal_complex_number_expressions>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_literal_complex_number_expressions : Any → {Any ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d6f5a50ae7040ae4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_latex_lark.test_literal_complex_number_expressions","kind":"function","src_hash":"73e1f65c12e7fe1b","in":{"base":"Any"},"out":{"base":"Any","pred":"parse_latex_lark(latex_str) == sympy_expr"},"spec":{"lhs":"test_literal_complex_number_expressions()","rhs":"test_literal_complex_number_expressions produces the expected output","over":{"base":"Any"},"name":"test_literal_complex_number_expressions_correct"},"guarantee":"test_literal_complex_number_expressions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_latex_lark.test_literal_complex_number_expressions_correct","statement":"Path(test_literal_complex_number_expressions(x), test_literal_complex_number_expressions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d6f5a50ae7040ae4"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_latex_lark.test_literal_complex_number_expressions","kind":"function","src_hash":"73e1f65c12e7fe1b","in":{"base":"Any"},"out":{"base":"Any","pred":"parse_latex_lark(latex_str) == sympy_expr"},"spec":{"lhs":"test_literal_complex_number_expressions()","rhs":"<unspecified:test_literal_complex_number_expressions>","over":{"base":"Any"},"name":"test_literal_complex_number_expressions_correct"},"guarantee":"test_literal_complex_number_expressions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_latex_lark.test_literal_complex_number_expressions_correct","statement":"Path(test_literal_complex_number_expressions(x), test_literal_complex_number_expressions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d6f5a50ae7040ae4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_literal_complex_number_expressions():
     for latex_str, sympy_expr in UNEVALUATED_LITERAL_COMPLEX_NUMBER_EXPRESSION_PAIRS:
         with evaluate(False):
@@ -1145,16 +1292,22 @@ def test_literal_complex_number_expressions():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_matrix_expressions(), test_matrix_expressions produces the expected output) over Any ║
+# ║ Path(test_matrix_expressions(), <unspecified:test_matrix_expressions>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_matrix_expressions : Any → {Any | parse_latex_la...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5893818cc9f938ec  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_latex_lark.test_matrix_expressions","kind":"function","src_hash":"0cd08e4b40f3819b","in":{"base":"Any"},"out":{"base":"Any","pred":"parse_latex_lark(latex_str) == sympy_expr and parse_latex_lark(latex_str) == sympy_expr"},"spec":{"lhs":"test_matrix_expressions()","rhs":"test_matrix_expressions produces the expected output","over":{"base":"Any"},"name":"test_matrix_expressions_correct"},"guarantee":"test_matrix_expressions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_latex_lark.test_matrix_expressions_correct","statement":"Path(test_matrix_expressions(x), test_matrix_expressions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5893818cc9f938ec"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_latex_lark.test_matrix_expressions","kind":"function","src_hash":"0cd08e4b40f3819b","in":{"base":"Any"},"out":{"base":"Any","pred":"parse_latex_lark(latex_str) == sympy_expr and parse_latex_lark(latex_str) == sympy_expr"},"spec":{"lhs":"test_matrix_expressions()","rhs":"<unspecified:test_matrix_expressions>","over":{"base":"Any"},"name":"test_matrix_expressions_correct"},"guarantee":"test_matrix_expressions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_latex_lark.test_matrix_expressions_correct","statement":"Path(test_matrix_expressions(x), test_matrix_expressions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5893818cc9f938ec","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_matrix_expressions():
     for latex_str, sympy_expr in UNEVALUATED_MATRIX_EXPRESSION_PAIRS:
         with evaluate(False):

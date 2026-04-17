@@ -25,16 +25,22 @@ from math import sqrt as _sqrt, acos as _acos, pi
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(cross(a, ), cross produces the expected output) over Any ║
+# ║ Path(cross(a, b), (a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (a[1] * b[2] - a[2] * b[1], a[2] * b[0] -...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ cross : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fdb923b9ff3da438  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d95c88b62cf3ea4c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_rotation.cross","kind":"function","src_hash":"7cfd79fc55078767","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"cross(a, )","rhs":"cross produces the expected output","over":{"base":"Any"},"name":"cross_correct"},"guarantee":"cross produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_rotation.cross_correct","statement":"Path(cross(x), cross produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fdb923b9ff3da438"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_rotation.cross","kind":"function","src_hash":"7cfd79fc55078767","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"cross(a, b)","rhs":"(a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0])","over":{"base":"Any"},"name":"cross_correct"},"guarantee":"returns (a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_rotation.cross_correct","statement":"Path(cross(x), returns (a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d95c88b62cf3ea4c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0])","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def cross(a, b):
     return (a[1] * b[2] - a[2] * b[1],
             a[2] * b[0] - a[0] * b[2],
@@ -42,62 +48,89 @@ def cross(a, b):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dot(a, ), dot produces the expected output) over Any  ║
+# ║ Path(dot(a, b), a[0] * b[0] + a[1] * b[1] + a[2] * b[2]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  a[0] * b[0] + a[1] * b[1] + a[2] * b[2]        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dot : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0d98473f6527707d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_rotation.dot","kind":"function","src_hash":"de0cbd5a223d0b4a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dot(a, )","rhs":"dot produces the expected output","over":{"base":"Any"},"name":"dot_correct"},"guarantee":"dot produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0d98473f6527707d"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_rotation.dot","kind":"function","src_hash":"de0cbd5a223d0b4a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dot(a, b)","rhs":"a[0] * b[0] + a[1] * b[1] + a[2] * b[2]","over":{"base":"Any"},"name":"dot_correct"},"guarantee":"returns a[0] * b[0] + a[1] * b[1] + a[2] * b[2]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0d98473f6527707d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"a[0] * b[0] + a[1] * b[1] + a[2] * b[2]","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":true}}
 def dot(a, b):
     return a[0] * b[0] + a[1] * b[1] + a[2] * b[2]
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(mag(a), mag produces the expected output) over Any    ║
+# ║ Path(mag(a), _sqrt(a[0] ** 2 + a[1] ** 2 + a[2] ** 2)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _sqrt(a[0] ** 2 + a[1] ** 2 + a[2] ** 2)       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ mag : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | aa825d8012d61376           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_rotation.mag","kind":"function","src_hash":"be982fc2e1a10fa5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"mag(a)","rhs":"mag produces the expected output","over":{"base":"Any"},"name":"mag_correct"},"guarantee":"mag produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"aa825d8012d61376"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_rotation.mag","kind":"function","src_hash":"be982fc2e1a10fa5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"mag(a)","rhs":"_sqrt(a[0] ** 2 + a[1] ** 2 + a[2] ** 2)","over":{"base":"Any"},"name":"mag_correct"},"guarantee":"returns _sqrt(a[0] ** 2 + a[1] ** 2 + a[2] ** 2)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"aa825d8012d61376","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_sqrt(a[0] ** 2 + a[1] ** 2 + a[2] ** 2)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def mag(a):
     return _sqrt(a[0]**2 + a[1]**2 + a[2]**2)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(norm(a), norm produces the expected output) over Any  ║
+# ║ Path(norm(a), (a[0] / m, a[1] / m, a[2] / m)) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (a[0] / m, a[1] / m, a[2] / m)                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ norm : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 91829ecf327bae4a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 809dd4ff6b83890d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_rotation.norm","kind":"function","src_hash":"18bacc8308066197","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"norm(a)","rhs":"norm produces the expected output","over":{"base":"Any"},"name":"norm_correct"},"guarantee":"norm produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_rotation.norm_correct","statement":"Path(norm(x), norm produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"91829ecf327bae4a"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_rotation.norm","kind":"function","src_hash":"18bacc8308066197","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"norm(a)","rhs":"(a[0] / m, a[1] / m, a[2] / m)","over":{"base":"Any"},"name":"norm_correct"},"guarantee":"returns (a[0] / m, a[1] / m, a[2] / m)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_rotation.norm_correct","statement":"Path(norm(x), returns (a[0] / m, a[1] / m, a[2] / m))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"809dd4ff6b83890d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(a[0] / m, a[1] / m, a[2] / m)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def norm(a):
     m = mag(a)
     return (a[0] / m, a[1] / m, a[2] / m)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_sphere_mapping(x, ), get_sphere_mapping produces the expected output) over Any ║
+# ║ Path(get_sphere_mapping(x, y, width), result == ((sx, sy, sz) if sz > 0.0 else norm((sx, sy, sz))) and result == (sx, sy, sz) or result == norm((sx, sy, sz))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ get_sphere_mapping : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == ((sx, sy, sz) if sz > 0.0 else ...   ║
+# ║   ensures:  result == (sx, sy, sz) or result == norm(...   ║
+# ║   fiber[positive]: sz > 0.0 => (sx, sy, sz)                ║
+# ║   fiber[positive]: not (sz > 0.0) => norm((sx, sy, sz))    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ get_sphere_mapping : Any → {Any | result satisfies: r...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ffc274fff4412411  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2719482f25232a6b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_rotation.get_sphere_mapping","kind":"function","src_hash":"22f65ba6e009265c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_sphere_mapping(x, )","rhs":"get_sphere_mapping produces the expected output","over":{"base":"Any"},"name":"get_sphere_mapping_correct"},"guarantee":"get_sphere_mapping produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_rotation.get_sphere_mapping_correct","statement":"Path(get_sphere_mapping(x), get_sphere_mapping produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ffc274fff4412411"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_rotation.get_sphere_mapping","kind":"function","src_hash":"22f65ba6e009265c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == ((sx, sy, sz) if sz > 0.0 else norm((sx, sy, sz))) and result == (sx, sy, sz) or result == norm((sx, sy, sz))"},"spec":{"lhs":"get_sphere_mapping(x, y, width)","rhs":"result == ((sx, sy, sz) if sz > 0.0 else norm((sx, sy, sz))) and result == (sx, sy, sz) or result == norm((sx, sy, sz))","over":{"base":"Any"},"name":"get_sphere_mapping_correct"},"guarantee":"result == ((sx, sy, sz) if sz > 0.0 else norm((sx, sy, sz))); result == (sx, sy, sz) or result == norm((sx, sy, sz)); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_rotation.get_sphere_mapping_correct","statement":"Path(get_sphere_mapping(x), result == ((sx, sy, sz) if sz > 0.0 else norm((sx, sy, sz))); result == (sx, sy, sz) or result == norm((sx, sy, sz)); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2719482f25232a6b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == ((sx, sy, sz) if sz > 0.0 else norm((sx, sy, sz)))","result == (sx, sy, sz) or result == norm((sx, sy, sz))"],"fibers":[{"name":"positive","guard":"sz > 0.0","ensures":["result == (sx, sy, sz)"],"decidability":"z3","returns_expr":"(sx, sy, sz)"},{"name":"positive","guard":"not (sz > 0.0)","ensures":["result == norm((sx, sy, sz))"],"decidability":"z3","returns_expr":"norm((sx, sy, sz))"}],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def get_sphere_mapping(x, y, width, height):
     x = min([max([x, 0]), width])
     y = min([max([y, 0]), height])
@@ -119,16 +152,22 @@ rad2deg = 180.0 / pi
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_spherical_rotatation(p1,), get_spherical_rotatation produces the expected output) over Any ║
+# ║ Path(get_spherical_rotatation(p1, p2, width), <unspecified:get_spherical_rotatation>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ get_spherical_rotatation : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e5f8027515da623b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_rotation.get_spherical_rotatation","kind":"function","src_hash":"ebed0bbcb35ce91d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_spherical_rotatation(p1,)","rhs":"get_spherical_rotatation produces the expected output","over":{"base":"Any"},"name":"get_spherical_rotatation_correct"},"guarantee":"get_spherical_rotatation produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_rotation.get_spherical_rotatation_correct","statement":"Path(get_spherical_rotatation(x), get_spherical_rotatation produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e5f8027515da623b"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_rotation.get_spherical_rotatation","kind":"function","src_hash":"ebed0bbcb35ce91d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_spherical_rotatation(p1, p2, width)","rhs":"<unspecified:get_spherical_rotatation>","over":{"base":"Any"},"name":"get_spherical_rotatation_correct"},"guarantee":"get_spherical_rotatation produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_rotation.get_spherical_rotatation_correct","statement":"Path(get_spherical_rotatation(x), get_spherical_rotatation produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e5f8027515da623b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def get_spherical_rotatation(p1, p2, width, height, theta_multiplier):
     v1 = get_sphere_mapping(p1[0], p1[1], width, height)
     v2 = get_sphere_mapping(p2[0], p2[1], width, height)

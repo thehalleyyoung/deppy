@@ -42,7 +42,11 @@ from sympy.utilities.misc import filldedent
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(as_Boolean(e), like ``bool``, return the boolean value of an expression, e, which can be any instance of :py:class:`~.boolean` or ``bool``) over {Any | isinstance(e, Symbol) and isinstance(e, Boolean)} ║
+# ║ Path(as_Boolean(e), <unspecified:as_Boolean>) over {Any | isinstance(e, Symbol) and isinstance(e, Boolean) and hasattr(e, 'is_zero')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(e, 'is_zero')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ as_Boolean : {Any | isinstance(e, Symbol) and isinsta...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -55,9 +59,12 @@ from sympy.utilities.misc import filldedent
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?2 ✗1 VCs | 1.9ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 64d294cf...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.as_Boolean","kind":"function","src_hash":"2adf8b23ddb4f82e","in":{"base":"Any","pred":"isinstance(e, Symbol) and isinstance(e, Boolean)"},"out":{"base":"Any"},"spec":{"lhs":"as_Boolean(e)","rhs":"like ``bool``, return the boolean value of an expression, e, which can be any instance of :py:class:`~.boolean` or ``bool``","over":{"base":"Any","pred":"isinstance(e, Symbol) and isinstance(e, Boolean)"},"name":"as_Boolean_correct"},"guarantee":"like ``bool``, return the boolean value of an expression, e, which can be any instance of :py:class:`~.boolean` or ``bool``","fibers":[{"name":"Symbol","pred":"isinstance(e, Symbol)","path":{"lhs":"as_Boolean(x)","rhs":"like ``bool``, return the boolean value of an expression, e, which can be any instance of :py:class:`~.boolean` or ``bool``","over":{"base":"Symbol","pred":"isinstance(e, Symbol)"},"name":"as_Boolean_Symbol_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg.as_Boolean_Symbol_correct","statement":"as_Boolean satisfies spec on Symbol inputs"},"trust":"LIBRARY"},{"name":"Boolean","pred":"isinstance(e, Boolean)","path":{"lhs":"as_Boolean(x)","rhs":"like ``bool``, return the boolean value of an expression, e, which can be any instance of :py:class:`~.boolean` or ``bool``","over":{"base":"Boolean","pred":"isinstance(e, Boolean)"},"name":"as_Boolean_Boolean_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg.as_Boolean_Boolean_correct","statement":"as_Boolean satisfies spec on Boolean inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"64d294cf5652082a"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.as_Boolean","kind":"function","src_hash":"2adf8b23ddb4f82e","in":{"base":"Any","pred":"isinstance(e, Symbol) and isinstance(e, Boolean) and hasattr(e, 'is_zero')"},"out":{"base":"Any"},"spec":{"lhs":"as_Boolean(e)","rhs":"<unspecified:as_Boolean>","over":{"base":"Any","pred":"isinstance(e, Symbol) and isinstance(e, Boolean) and hasattr(e, 'is_zero')"},"name":"as_Boolean_correct"},"guarantee":"like ``bool``, return the boolean value of an expression, e, which can be any instance of :py:class:`~.boolean` or ``bool``","fibers":[{"name":"Symbol","pred":"isinstance(e, Symbol)","path":{"lhs":"as_Boolean(x)","rhs":"like ``bool``, return the boolean value of an expression, e, which can be any instance of :py:class:`~.boolean` or ``bool``","over":{"base":"Symbol","pred":"isinstance(e, Symbol)"},"name":"as_Boolean_Symbol_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg.as_Boolean_Symbol_correct","statement":"as_Boolean satisfies spec on Symbol inputs"},"trust":"LIBRARY"},{"name":"Boolean","pred":"isinstance(e, Boolean)","path":{"lhs":"as_Boolean(x)","rhs":"like ``bool``, return the boolean value of an expression, e, which can be any instance of :py:class:`~.boolean` or ``bool``","over":{"base":"Boolean","pred":"isinstance(e, Boolean)"},"name":"as_Boolean_Boolean_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg.as_Boolean_Boolean_correct","statement":"as_Boolean satisfies spec on Boolean inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"64d294cf5652082a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(e, 'is_zero')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["e.is_zero"],"raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":2,"n_assumed":2,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.9,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(e, Symbol)', 'e == False', 'z is None', 'e == True', 'isinstance(e, Boolean)'}, fibers={'Boolean', 'Symbol'})"]}}
 def as_Boolean(e):
     """Like ``bool``, return the Boolean value of an expression, e,
     which can be any instance of :py:class:`~.Boolean` or ``bool``.
@@ -103,14 +110,20 @@ def as_Boolean(e):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Boolean(*args), correctly constructs a Boolean instance) over {Any | isinstance(i, (Eq, Ne))} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Boolean : {Any | isinstance(i, (Eq, Ne))} → Any            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Basic)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Boolean : {Any | isinstance(i, (Eq, Ne))} → {Any | re...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | be1971cd300b23d9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.Boolean","kind":"class","src_hash":"0fac41a7517d8906","in":{"base":"Any","pred":"isinstance(i, (Eq, Ne))"},"out":{"base":"Any"},"spec":{"lhs":"Boolean(*args)","rhs":"correctly constructs a Boolean instance","over":{"base":"Any","pred":"isinstance(i, (Eq, Ne))"},"name":"Boolean_class_invariant"},"guarantee":"correctly constructs a Boolean instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"be1971cd300b23d9"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.Boolean","kind":"class","src_hash":"0fac41a7517d8906","in":{"base":"Any","pred":"isinstance(i, (Eq, Ne))"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Basic)"},"spec":{"lhs":"Boolean(*args)","rhs":"correctly constructs a Boolean instance","over":{"base":"Any","pred":"isinstance(i, (Eq, Ne))"},"name":"Boolean_class_invariant"},"guarantee":"isinstance(self, Basic)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"be1971cd300b23d9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Basic)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"assumed","binding":false,"binding_errors":["Function Boolean not found in source"]}}
 class Boolean(Basic):
     """A Boolean object is an object for which logic operations make sense."""
 
@@ -145,16 +158,22 @@ class Boolean(Basic):
 
     @sympify_return([('other', 'Boolean')], NotImplemented)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__and__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__and__(other), And(self, other)) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  And(self, other)                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __and__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d1db0c7d656b80da           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.Boolean.__and__","kind":"method","src_hash":"83a03ffcf205aa99","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__and__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__and___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d1db0c7d656b80da"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.Boolean.__and__","kind":"method","src_hash":"83a03ffcf205aa99","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__and__(other)","rhs":"And(self, other)","over":{"base":"Any"},"name":"__and___correct"},"guarantee":"returns And(self, other)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d1db0c7d656b80da","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"And(self, other)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __and__(self, other):
         return And(self, other)
 
@@ -162,63 +181,87 @@ class Boolean(Basic):
 
     @sympify_return([('other', 'Boolean')], NotImplemented)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__or__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__or__(other), Or(self, other)) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Or(self, other)                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __or__ : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e9e841e224137839           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.Boolean.__or__","kind":"method","src_hash":"60b9e96c51a9a1d3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__or__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__or___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e9e841e224137839"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.Boolean.__or__","kind":"method","src_hash":"60b9e96c51a9a1d3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__or__(other)","rhs":"Or(self, other)","over":{"base":"Any"},"name":"__or___correct"},"guarantee":"returns Or(self, other)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e9e841e224137839","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Or(self, other)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __or__(self, other):
         return Or(self, other)
 
     __ror__ = __or__
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__invert__(), overloading for ~) over Any             ║
+# ║ Path(__invert__(), Not(self)) over Any                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Not(self)                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __invert__ : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c0c5afccb6a0239d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.Boolean.__invert__","kind":"method","src_hash":"7ce42a784cdfd338","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__invert__()","rhs":"overloading for ~","over":{"base":"Any"},"name":"__invert___correct"},"guarantee":"overloading for ~","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c0c5afccb6a0239d"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.Boolean.__invert__","kind":"method","src_hash":"7ce42a784cdfd338","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__invert__()","rhs":"Not(self)","over":{"base":"Any"},"name":"__invert___correct"},"guarantee":"returns Not(self)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c0c5afccb6a0239d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Not(self)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __invert__(self):
         """Overloading for ~"""
         return Not(self)
 
     @sympify_return([('other', 'Boolean')], NotImplemented)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__rshift__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__rshift__(other), Implies(self, other)) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Implies(self, other)                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __rshift__ : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8c983a63dfbdb784           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.Boolean.__rshift__","kind":"method","src_hash":"da68b7fe5812aab1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rshift__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__rshift___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8c983a63dfbdb784"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.Boolean.__rshift__","kind":"method","src_hash":"da68b7fe5812aab1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rshift__(other)","rhs":"Implies(self, other)","over":{"base":"Any"},"name":"__rshift___correct"},"guarantee":"returns Implies(self, other)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8c983a63dfbdb784","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Implies(self, other)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __rshift__(self, other):
         return Implies(self, other)
 
     @sympify_return([('other', 'Boolean')], NotImplemented)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__lshift__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__lshift__(other), Implies(other, self)) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Implies(other, self)                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __lshift__ : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | fca066f42b27b024           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.Boolean.__lshift__","kind":"method","src_hash":"33b91373e5b0d196","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__lshift__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__lshift___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fca066f42b27b024"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.Boolean.__lshift__","kind":"method","src_hash":"33b91373e5b0d196","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__lshift__(other)","rhs":"Implies(other, self)","over":{"base":"Any"},"name":"__lshift___correct"},"guarantee":"returns Implies(other, self)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fca066f42b27b024","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Implies(other, self)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __lshift__(self, other):
         return Implies(other, self)
 
@@ -227,32 +270,47 @@ class Boolean(Basic):
 
     @sympify_return([('other', 'Boolean')], NotImplemented)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__xor__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__xor__(other), Xor(self, other)) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Xor(self, other)                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __xor__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 922787915b15df49           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.Boolean.__xor__","kind":"method","src_hash":"caa0117a8d26b0cd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__xor__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__xor___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"922787915b15df49"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.Boolean.__xor__","kind":"method","src_hash":"caa0117a8d26b0cd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__xor__(other)","rhs":"Xor(self, other)","over":{"base":"Any"},"name":"__xor___correct"},"guarantee":"returns Xor(self, other)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"922787915b15df49","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Xor(self, other)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __xor__(self, other):
         return Xor(self, other)
 
     __rxor__ = __xor__
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(equals(oth), id) over Any                             ║
+# ║ Path(equals(other), id) over {Any | not (self.has(Relational) or other.has(Relational)) and hasattr(other, 'has') and hasattr(other, 'atoms')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ equals : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (self.has(Relational) or other.has(Re...   ║
+# ║   requires: hasattr(other, 'has')                          ║
+# ║   requires: hasattr(other, 'atoms')                        ║
+# ║   returns:  self.atoms() == other.atoms() and (not sa...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ equals : {Any | not (self.has(Relational) or other.ha...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | b4e81920dbcb703c   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.Boolean.equals","kind":"method","src_hash":"b13478122849735e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"equals(oth)","rhs":"returns ``true`` if the given formulas have the same truth table. for two formulas to be equal they must have the same literals","over":{"base":"Any"},"name":"equals_correct","kind":"composition"},"guarantee":"returns ``true`` if the given formulas have the same truth table. for two formulas to be equal they must have the same literals","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"atoms","by":"library_axiom"},{"fn":"atoms","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b4e81920dbcb703c"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.Boolean.equals","kind":"method","src_hash":"b13478122849735e","in":{"base":"Any","pred":"not (self.has(Relational) or other.has(Relational)) and hasattr(other, 'has') and hasattr(other, 'atoms')"},"out":{"base":"Any"},"spec":{"lhs":"equals(other)","rhs":"self.atoms() == other.atoms() and (not satisfiable(Not(Equivalent(self, other))))","over":{"base":"Any","pred":"not (self.has(Relational) or other.has(Relational)) and hasattr(other, 'has') and hasattr(other, 'atoms')"},"name":"equals_correct","kind":"composition"},"guarantee":"returns self.atoms() == other.atoms() and (not satisfiable(Not(Equivalent(self, other))))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"atoms","by":"library_axiom"},{"fn":"atoms","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b4e81920dbcb703c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (self.has(Relational) or other.has(Relational))","hasattr(other, 'has')","hasattr(other, 'atoms')"],"returns_expr":"self.atoms() == other.atoms() and (not satisfiable(Not(Equivalent(self, other))))","pure":false,"effects":{"effect_type":"reads_state","reads":["other.atoms","other.has","self.atoms","self.has"],"raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def equals(self, other):
         """
         Returns ``True`` if the given formulas have the same truth table.
@@ -280,31 +338,46 @@ class Boolean(Basic):
             not satisfiable(Not(Equivalent(self, other)))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(to_nnf(sim), to_nnf produces the expected output) over Any ║
+# ║ Path(to_nnf(simplify), <unspecified:to_nnf>) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ to_nnf : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 593b360328a7b9e1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.Boolean.to_nnf","kind":"method","src_hash":"52c85c33c7b7a2cc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_nnf(sim)","rhs":"to_nnf produces the expected output","over":{"base":"Any"},"name":"to_nnf_correct"},"guarantee":"to_nnf produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"593b360328a7b9e1"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.Boolean.to_nnf","kind":"method","src_hash":"52c85c33c7b7a2cc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_nnf(simplify)","rhs":"<unspecified:to_nnf>","over":{"base":"Any"},"name":"to_nnf_correct"},"guarantee":"to_nnf produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"593b360328a7b9e1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def to_nnf(self, simplify=True):
         # override where necessary
         return self
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(as_set(), rewrites boolean expression in terms of real sets) over Any ║
+# ║ Path(as_set(), len(free) == old_len_free - 1) over {Any | len(free) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ as_set : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: len(free) > 0                                  ║
+# ║   ensures:  len(free) == old_len_free - 1                  ║
+# ║   fiber[case_0]: len(free) == 1 => self._eval_as_set()     ║
+# ║   fiber[case_1]: not (len(free) == 1)                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ as_set : {Any | len(free) > 0} → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a947ebc9f331ad89  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4f5bfa34d9c0b413  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.Boolean.as_set","kind":"method","src_hash":"ce4f0b38606935d3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_set()","rhs":"rewrites boolean expression in terms of real sets","over":{"base":"Any"},"name":"as_set_correct"},"guarantee":"rewrites boolean expression in terms of real sets","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg.Boolean.as_set_correct","statement":"Path(as_set(x), rewrites boolean expression in terms of real sets)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a947ebc9f331ad89"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.Boolean.as_set","kind":"method","src_hash":"ce4f0b38606935d3","in":{"base":"Any","pred":"len(free) > 0"},"out":{"base":"Any","pred":"result satisfies: len(free) == old_len_free - 1"},"spec":{"lhs":"as_set()","rhs":"len(free) == old_len_free - 1","over":{"base":"Any","pred":"len(free) > 0"},"name":"as_set_correct"},"guarantee":"len(free) == old_len_free - 1; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg.Boolean.as_set_correct","statement":"Path(as_set(x), len(free) == old_len_free - 1; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4f5bfa34d9c0b413","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["len(free) > 0"],"ensures":["len(free) == old_len_free - 1"],"fibers":[{"name":"case_0","guard":"len(free) == 1","ensures":["result == self._eval_as_set()"],"decidability":"z3","returns_expr":"self._eval_as_set()"},{"name":"case_1","guard":"not (len(free) == 1)","ensures":[],"decidability":"z3"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._eval_as_set","self.atoms","self.free_symbols","self.func","self.subs"],"calls_mutating":["free.pop"],"raises":["NotImplementedError"]},"state_contract":{"modifies":["free.*"],"old_bindings":{"old_len_free":"len(free)"},"pre_requires":["len(free) > 0"],"post_ensures":["len(free) == old_len_free - 1"],"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def as_set(self):
         """
         Rewrites Boolean expression in terms of real sets.
@@ -356,16 +429,22 @@ class Boolean(Basic):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(binary_symbols(), returns the binary_symbols attribute) over Any ║
+# ║ Path(binary_symbols(), set().union(*[i.binary_symbols for i in self.args if i.is_Boolean or i.is_Symbol or isinstance(i, (Eq, Ne))])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  set().union(*[i.binary_symbols for i in s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ binary_symbols : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8ac8636e92a07b1a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.Boolean.binary_symbols","kind":"property","src_hash":"88404c862ba97947","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"binary_symbols()","rhs":"returns the binary_symbols attribute","over":{"base":"Any"},"name":"binary_symbols_correct"},"guarantee":"returns the binary_symbols attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8ac8636e92a07b1a"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.Boolean.binary_symbols","kind":"property","src_hash":"88404c862ba97947","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"binary_symbols()","rhs":"set().union(*[i.binary_symbols for i in self.args if i.is_Boolean or i.is_Symbol or isinstance(i, (Eq, Ne))])","over":{"base":"Any"},"name":"binary_symbols_correct"},"guarantee":"returns set().union(*[i.binary_symbols for i in self.args if i.is_Boolean or i.is_Symbol or isinstance(i, (Eq, Ne))])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8ac8636e92a07b1a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"set().union(*[i.binary_symbols for i in self.args if i.is_Boolean or i.is_Symbol or isinstance(i, (Eq, Ne))])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def binary_symbols(self):
         from sympy.core.relational import Eq, Ne
         return set().union(*[i.binary_symbols for i in self.args
@@ -373,16 +452,25 @@ class Boolean(Basic):
                            or isinstance(i, (Eq, Ne))])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_refine(ass), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_refine(assumptions), result == (true if ret is True else false) and result == true or result == false) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_refine : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (true if ret is True else false)     ║
+# ║   ensures:  result == true or result == false              ║
+# ║   fiber[case_0]: ret is True => true                       ║
+# ║   fiber[case_1]: ret is False => false                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_refine : Any → {Any | result satisfies: result ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a6a8cca96b3e32dd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c605e14604ca8b53  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.Boolean._eval_refine","kind":"method","src_hash":"4850251d92863590","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_refine(ass)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_refine_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg.Boolean._eval_refine_correct","statement":"Path(_eval_refine(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a6a8cca96b3e32dd"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.Boolean._eval_refine","kind":"method","src_hash":"4850251d92863590","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (true if ret is True else false) and result == true or result == false"},"spec":{"lhs":"_eval_refine(assumptions)","rhs":"result == (true if ret is True else false) and result == true or result == false","over":{"base":"Any"},"name":"_eval_refine_correct"},"guarantee":"result == (true if ret is True else false); result == true or result == false; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg.Boolean._eval_refine_correct","statement":"Path(_eval_refine(x), result == (true if ret is True else false); result == true or result == false; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c605e14604ca8b53","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (true if ret is True else false)","result == true or result == false"],"fibers":[{"name":"case_0","guard":"ret is True","ensures":["result == true"],"decidability":"library","returns_expr":"true"},{"name":"case_1","guard":"ret is False","ensures":["result == false"],"decidability":"library","returns_expr":"false"}],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_refine(self, assumptions):
         from sympy.assumptions import ask
         ret = ask(self, assumptions)
@@ -396,14 +484,20 @@ class Boolean(Basic):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(BooleanAtom(*args), correctly constructs a BooleanAtom instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ BooleanAtom : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Boolean)                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ BooleanAtom : Any → {Any | result satisfies: isinstan...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d830c533d8aa4f94  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.BooleanAtom","kind":"class","src_hash":"58d2a65e05970bd5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"BooleanAtom(*args)","rhs":"correctly constructs a BooleanAtom instance","over":{"base":"Any"},"name":"BooleanAtom_class_invariant"},"guarantee":"correctly constructs a BooleanAtom instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d830c533d8aa4f94"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.BooleanAtom","kind":"class","src_hash":"58d2a65e05970bd5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Boolean)"},"spec":{"lhs":"BooleanAtom(*args)","rhs":"correctly constructs a BooleanAtom instance","over":{"base":"Any"},"name":"BooleanAtom_class_invariant"},"guarantee":"isinstance(self, Boolean)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d830c533d8aa4f94","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Boolean)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function BooleanAtom not found in source"]}}
 class BooleanAtom(Boolean):
     """
     Base class of :py:class:`~.BooleanTrue` and :py:class:`~.BooleanFalse`.
@@ -413,59 +507,84 @@ class BooleanAtom(Boolean):
     _op_priority = 11  # higher than Expr
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(simplify(*a,), simplify produces the expected output) over Any ║
+# ║ Path(simplify(*a, **kw), <unspecified:simplify>) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ simplify : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c0b3dde859b71f8e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.BooleanAtom.simplify","kind":"method","src_hash":"4c9811a1d04e4941","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"simplify(*a,)","rhs":"simplify produces the expected output","over":{"base":"Any"},"name":"simplify_correct"},"guarantee":"simplify produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c0b3dde859b71f8e"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.BooleanAtom.simplify","kind":"method","src_hash":"4c9811a1d04e4941","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"simplify(*a, **kw)","rhs":"<unspecified:simplify>","over":{"base":"Any"},"name":"simplify_correct"},"guarantee":"simplify produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c0b3dde859b71f8e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def simplify(self, *a, **kw):
         return self
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(expand(*a,), expand produces the expected output) over Any ║
+# ║ Path(expand(*a, **kw), <unspecified:expand>) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ expand : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 81f505f32e89c06c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.BooleanAtom.expand","kind":"method","src_hash":"8fe2fcc2a8ec6717","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"expand(*a,)","rhs":"expand produces the expected output","over":{"base":"Any"},"name":"expand_correct"},"guarantee":"expand produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"81f505f32e89c06c"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.BooleanAtom.expand","kind":"method","src_hash":"8fe2fcc2a8ec6717","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"expand(*a, **kw)","rhs":"<unspecified:expand>","over":{"base":"Any"},"name":"expand_correct"},"guarantee":"expand produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"81f505f32e89c06c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def expand(self, *a, **kw):
         return self
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(canonical(), returns the canonical attribute) over Any ║
+# ║ Path(canonical(), self) over Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ canonical : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == self                                 ║
+# ║   returns:  self                                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ canonical : Any → {Any | result satisfies: result == ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 367a22e352b47692           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.BooleanAtom.canonical","kind":"property","src_hash":"4f1eb761c98b2235","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"canonical()","rhs":"returns the canonical attribute","over":{"base":"Any"},"name":"canonical_correct"},"guarantee":"returns the canonical attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"367a22e352b47692"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.BooleanAtom.canonical","kind":"property","src_hash":"4f1eb761c98b2235","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (self)"},"spec":{"lhs":"canonical()","rhs":"self","over":{"base":"Any"},"name":"canonical_correct"},"guarantee":"returns self; result == self","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"367a22e352b47692","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == self"],"returns_expr":"self","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def canonical(self):
         return self
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_noop(oth), internal helper behaves correctly) over Any ║
+# ║ Path(_noop(other), <unspecified:_noop>) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _noop : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ae450ff54f986248  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.BooleanAtom._noop","kind":"method","src_hash":"4064cf37d8b30030","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_noop(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_noop_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg.BooleanAtom._noop_correct","statement":"Path(_noop(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ae450ff54f986248"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.BooleanAtom._noop","kind":"method","src_hash":"4064cf37d8b30030","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_noop(other)","rhs":"<unspecified:_noop>","over":{"base":"Any"},"name":"_noop_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg.BooleanAtom._noop_correct","statement":"Path(_noop(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ae450ff54f986248","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _noop(self, other=None):
         raise TypeError('BooleanAtom not allowed in this context.')
 
@@ -484,16 +603,22 @@ class BooleanAtom(Boolean):
     _eval_power = _noop
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__lt__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__lt__(other), <unspecified:__lt__>) over Any         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __lt__ : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4a4de88705222dfd           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.BooleanAtom.__lt__","kind":"method","src_hash":"a110a78483a33166","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__lt__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__lt___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4a4de88705222dfd"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.BooleanAtom.__lt__","kind":"method","src_hash":"a110a78483a33166","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__lt__(other)","rhs":"<unspecified:__lt__>","over":{"base":"Any"},"name":"__lt___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4a4de88705222dfd","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __lt__(self, other):
         raise TypeError(filldedent('''
             A Boolean argument can only be used in
@@ -507,16 +632,22 @@ class BooleanAtom(Boolean):
     # \\\
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_simplify(**k), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_simplify(**kwargs), <unspecified:_eval_simplify>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_simplify : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1aee33ec07feb44c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.BooleanAtom._eval_simplify","kind":"method","src_hash":"50a8d84d9831beda","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_simplify(**k)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_simplify_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1aee33ec07feb44c"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.BooleanAtom._eval_simplify","kind":"method","src_hash":"50a8d84d9831beda","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_simplify(**kwargs)","rhs":"<unspecified:_eval_simplify>","over":{"base":"Any"},"name":"_eval_simplify_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1aee33ec07feb44c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_simplify(self, **kwargs):
         return self
 
@@ -524,14 +655,20 @@ class BooleanAtom(Boolean):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(BooleanTrue(*args), correctly constructs a BooleanTrue instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ BooleanTrue : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, BooleanAtom)                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ BooleanTrue : Any → {Any | result satisfies: isinstan...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6d74002f5d1f0cd6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.BooleanTrue","kind":"class","src_hash":"1293416b61a89ccc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"BooleanTrue(*args)","rhs":"correctly constructs a BooleanTrue instance","over":{"base":"Any"},"name":"BooleanTrue_class_invariant"},"guarantee":"correctly constructs a BooleanTrue instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6d74002f5d1f0cd6"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.BooleanTrue","kind":"class","src_hash":"1293416b61a89ccc","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, BooleanAtom)"},"spec":{"lhs":"BooleanTrue(*args)","rhs":"correctly constructs a BooleanTrue instance","over":{"base":"Any"},"name":"BooleanTrue_class_invariant"},"guarantee":"isinstance(self, BooleanAtom)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6d74002f5d1f0cd6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, BooleanAtom)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function BooleanTrue not found in source"]}}
 class BooleanTrue(BooleanAtom, metaclass=Singleton):
     """
     SymPy version of ``True``, a singleton that can be accessed via ``S.true``.
@@ -617,44 +754,62 @@ class BooleanTrue(BooleanAtom, metaclass=Singleton):
 
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__bool__(), correctly converts to boolean) over Any   ║
+# ║ Path(__bool__(), True) over Any                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  True                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __bool__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 21feebd6c95319b4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.BooleanTrue.__bool__","kind":"method","src_hash":"64a850ed37c17b76","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__bool__()","rhs":"correctly converts to boolean","over":{"base":"Any"},"name":"__bool___correct"},"guarantee":"correctly converts to boolean","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"21feebd6c95319b4"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.BooleanTrue.__bool__","kind":"method","src_hash":"64a850ed37c17b76","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__bool__()","rhs":"True","over":{"base":"Any"},"name":"__bool___correct"},"guarantee":"returns True","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"21feebd6c95319b4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"True","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __bool__(self):
         return True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__hash__(), returns a consistent hash value) over Any ║
+# ║ Path(__hash__(), hash(True)) over Any                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  hash(True)                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __hash__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | cf99a84d0cc909f7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.BooleanTrue.__hash__","kind":"method","src_hash":"d6a4da7557f6e16d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__hash__()","rhs":"returns a consistent hash value","over":{"base":"Any"},"name":"__hash___correct"},"guarantee":"returns a consistent hash value","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cf99a84d0cc909f7"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.BooleanTrue.__hash__","kind":"method","src_hash":"d6a4da7557f6e16d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__hash__()","rhs":"hash(True)","over":{"base":"Any"},"name":"__hash___correct"},"guarantee":"returns hash(True)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cf99a84d0cc909f7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"hash(True)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __hash__(self):
         return hash(True)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__eq__(oth), correctly determines equality) over Any  ║
+# ║ Path(__eq__(other), <unspecified:__eq__>) over Any         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __eq__ : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 14a0e1d5df2f9f06           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.BooleanTrue.__eq__","kind":"method","src_hash":"3bef672f00dd42b7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(oth)","rhs":"correctly determines equality","over":{"base":"Any"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"14a0e1d5df2f9f06"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.BooleanTrue.__eq__","kind":"method","src_hash":"3bef672f00dd42b7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(other)","rhs":"<unspecified:__eq__>","over":{"base":"Any"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"14a0e1d5df2f9f06","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __eq__(self, other):
         if other is True:
             return True
@@ -664,30 +819,42 @@ class BooleanTrue(BooleanAtom, metaclass=Singleton):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(negated(), returns the negated attribute) over Any    ║
+# ║ Path(negated(), <unspecified:negated>) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ negated : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 473ab4bda60d23e2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.BooleanTrue.negated","kind":"property","src_hash":"782b545de631f762","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"negated()","rhs":"returns the negated attribute","over":{"base":"Any"},"name":"negated_correct"},"guarantee":"returns the negated attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"473ab4bda60d23e2"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.BooleanTrue.negated","kind":"property","src_hash":"782b545de631f762","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"negated()","rhs":"<unspecified:negated>","over":{"base":"Any"},"name":"negated_correct"},"guarantee":"returns the negated attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"473ab4bda60d23e2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def negated(self):
         return false
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(as_set(), rewrite logic operators and relationals in terms of real sets) over Any ║
+# ║ Path(as_set(), S.UniversalSet) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  S.UniversalSet                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ as_set : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | efa52652c65c359b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.BooleanTrue.as_set","kind":"method","src_hash":"5bf2d470df1b9cf1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_set()","rhs":"rewrite logic operators and relationals in terms of real sets","over":{"base":"Any"},"name":"as_set_correct"},"guarantee":"rewrite logic operators and relationals in terms of real sets","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"efa52652c65c359b"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.BooleanTrue.as_set","kind":"method","src_hash":"5bf2d470df1b9cf1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_set()","rhs":"S.UniversalSet","over":{"base":"Any"},"name":"as_set_correct"},"guarantee":"returns S.UniversalSet","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"efa52652c65c359b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"S.UniversalSet","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def as_set(self):
         """
         Rewrite logic operators and relationals in terms of real sets.
@@ -706,14 +873,20 @@ class BooleanTrue(BooleanAtom, metaclass=Singleton):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(BooleanFalse(*args), correctly constructs a BooleanFalse instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ BooleanFalse : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, BooleanAtom)                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ BooleanFalse : Any → {Any | result satisfies: isinsta...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ccdf8ae04257bc4b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.BooleanFalse","kind":"class","src_hash":"c5792e025bf95df4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"BooleanFalse(*args)","rhs":"correctly constructs a BooleanFalse instance","over":{"base":"Any"},"name":"BooleanFalse_class_invariant"},"guarantee":"correctly constructs a BooleanFalse instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ccdf8ae04257bc4b"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.BooleanFalse","kind":"class","src_hash":"c5792e025bf95df4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, BooleanAtom)"},"spec":{"lhs":"BooleanFalse(*args)","rhs":"correctly constructs a BooleanFalse instance","over":{"base":"Any"},"name":"BooleanFalse_class_invariant"},"guarantee":"isinstance(self, BooleanAtom)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ccdf8ae04257bc4b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, BooleanAtom)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function BooleanFalse not found in source"]}}
 class BooleanFalse(BooleanAtom, metaclass=Singleton):
     """
     SymPy version of ``False``, a singleton that can be accessed via ``S.false``.
@@ -758,44 +931,62 @@ class BooleanFalse(BooleanAtom, metaclass=Singleton):
 
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__bool__(), correctly converts to boolean) over Any   ║
+# ║ Path(__bool__(), False) over Any                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  False                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __bool__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 087c893fdfdba8f2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.BooleanFalse.__bool__","kind":"method","src_hash":"cf9332fee47ca82e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__bool__()","rhs":"correctly converts to boolean","over":{"base":"Any"},"name":"__bool___correct"},"guarantee":"correctly converts to boolean","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"087c893fdfdba8f2"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.BooleanFalse.__bool__","kind":"method","src_hash":"cf9332fee47ca82e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__bool__()","rhs":"False","over":{"base":"Any"},"name":"__bool___correct"},"guarantee":"returns False","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"087c893fdfdba8f2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"False","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __bool__(self):
         return False
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__hash__(), returns a consistent hash value) over Any ║
+# ║ Path(__hash__(), hash(False)) over Any                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  hash(False)                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __hash__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1658a1e6827a5176           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.BooleanFalse.__hash__","kind":"method","src_hash":"bf923a8cd9b70ea3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__hash__()","rhs":"returns a consistent hash value","over":{"base":"Any"},"name":"__hash___correct"},"guarantee":"returns a consistent hash value","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1658a1e6827a5176"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.BooleanFalse.__hash__","kind":"method","src_hash":"bf923a8cd9b70ea3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__hash__()","rhs":"hash(False)","over":{"base":"Any"},"name":"__hash___correct"},"guarantee":"returns hash(False)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1658a1e6827a5176","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"hash(False)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __hash__(self):
         return hash(False)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__eq__(oth), correctly determines equality) over Any  ║
+# ║ Path(__eq__(other), <unspecified:__eq__>) over Any         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __eq__ : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 91df7f2c7df700a8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.BooleanFalse.__eq__","kind":"method","src_hash":"6370ce2f4cc2ac76","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(oth)","rhs":"correctly determines equality","over":{"base":"Any"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"91df7f2c7df700a8"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.BooleanFalse.__eq__","kind":"method","src_hash":"6370ce2f4cc2ac76","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(other)","rhs":"<unspecified:__eq__>","over":{"base":"Any"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"91df7f2c7df700a8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __eq__(self, other):
         if other is True:
             return False
@@ -805,30 +996,42 @@ class BooleanFalse(BooleanAtom, metaclass=Singleton):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(negated(), returns the negated attribute) over Any    ║
+# ║ Path(negated(), <unspecified:negated>) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ negated : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 46b903606e026cd0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.BooleanFalse.negated","kind":"property","src_hash":"d8e23dcd1715d8cf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"negated()","rhs":"returns the negated attribute","over":{"base":"Any"},"name":"negated_correct"},"guarantee":"returns the negated attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"46b903606e026cd0"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.BooleanFalse.negated","kind":"property","src_hash":"d8e23dcd1715d8cf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"negated()","rhs":"<unspecified:negated>","over":{"base":"Any"},"name":"negated_correct"},"guarantee":"returns the negated attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"46b903606e026cd0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def negated(self):
         return true
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(as_set(), rewrite logic operators and relationals in terms of real sets) over Any ║
+# ║ Path(as_set(), S.EmptySet) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  S.EmptySet                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ as_set : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | bd6cba17acece9e1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.BooleanFalse.as_set","kind":"method","src_hash":"1935cee20838bc89","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_set()","rhs":"rewrite logic operators and relationals in terms of real sets","over":{"base":"Any"},"name":"as_set_correct"},"guarantee":"rewrite logic operators and relationals in terms of real sets","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bd6cba17acece9e1"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.BooleanFalse.as_set","kind":"method","src_hash":"1935cee20838bc89","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_set()","rhs":"S.EmptySet","over":{"base":"Any"},"name":"as_set_correct"},"guarantee":"returns S.EmptySet","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bd6cba17acece9e1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"S.EmptySet","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def as_set(self):
         """
         Rewrite logic operators and relationals in terms of real sets.
@@ -858,14 +1061,21 @@ _sympy_converter[bool] = lambda x: true if x else false
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(BooleanFunction(*args), correctly constructs a BooleanFunction instance) over {Any | isinstance(rv, BooleanFunction) and isinstance(arg, cls) and isinstance(arg, Not)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Application)                  ║
+# ║   ensures:  isinstance(self, Boolean)                      ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ BooleanFunction : {Any | isinstance(rv, BooleanFuncti...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aa65ced84ac7c86d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.BooleanFunction","kind":"class","src_hash":"9de9fa72c1ed5b1c","in":{"base":"Any","pred":"isinstance(rv, BooleanFunction) and isinstance(arg, cls) and isinstance(arg, Not)"},"out":{"base":"Any"},"spec":{"lhs":"BooleanFunction(*args)","rhs":"correctly constructs a BooleanFunction instance","over":{"base":"Any","pred":"isinstance(rv, BooleanFunction) and isinstance(arg, cls) and isinstance(arg, Not)"},"name":"BooleanFunction_class_invariant"},"guarantee":"correctly constructs a BooleanFunction instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aa65ced84ac7c86d"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.BooleanFunction","kind":"class","src_hash":"9de9fa72c1ed5b1c","in":{"base":"Any","pred":"isinstance(rv, BooleanFunction) and isinstance(arg, cls) and isinstance(arg, Not)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Application) and isinstance(self, Boolean)"},"spec":{"lhs":"BooleanFunction(*args)","rhs":"correctly constructs a BooleanFunction instance","over":{"base":"Any","pred":"isinstance(rv, BooleanFunction) and isinstance(arg, cls) and isinstance(arg, Not)"},"name":"BooleanFunction_class_invariant"},"guarantee":"isinstance(self, Application); isinstance(self, Boolean)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aa65ced84ac7c86d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Application)","isinstance(self, Boolean)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":false,"binding_errors":["Function BooleanFunction not found in source"]}}
 class BooleanFunction(Application, Boolean):
     """Boolean function is a function that lives in a boolean space
     It is used as base class for :py:class:`~.And`, :py:class:`~.Or`,
@@ -874,16 +1084,22 @@ class BooleanFunction(Application, Boolean):
     is_Boolean = True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_simplify(**k), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_simplify(**kwargs), <unspecified:_eval_simplify>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_simplify : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 58da9de88f9c97e9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.BooleanFunction._eval_simplify","kind":"method","src_hash":"876cfc4f7de7f747","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_simplify(**k)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_simplify_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg.BooleanFunction._eval_simplify_correct","statement":"Path(_eval_simplify(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"58da9de88f9c97e9"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.BooleanFunction._eval_simplify","kind":"method","src_hash":"876cfc4f7de7f747","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_simplify(**kwargs)","rhs":"<unspecified:_eval_simplify>","over":{"base":"Any"},"name":"_eval_simplify_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg.BooleanFunction._eval_simplify_correct","statement":"Path(_eval_simplify(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"58da9de88f9c97e9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_simplify(self, **kwargs):
         rv = simplify_univariate(self)
         if not isinstance(rv, BooleanFunction):
@@ -892,31 +1108,43 @@ class BooleanFunction(Application, Boolean):
         return simplify_logic(rv)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(simplify(**k), simplify produces the expected output) over Any ║
+# ║ Path(simplify(**kwargs), simplify(self, **kwargs)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  simplify(self, **kwargs)                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ simplify : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d2ade2099d9bdb9e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0078a47db067948e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.BooleanFunction.simplify","kind":"method","src_hash":"a0d9d518389ac7ea","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"simplify(**k)","rhs":"simplify produces the expected output","over":{"base":"Any"},"name":"simplify_correct"},"guarantee":"simplify produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg.BooleanFunction.simplify_correct","statement":"Path(simplify(x), simplify produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d2ade2099d9bdb9e"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.BooleanFunction.simplify","kind":"method","src_hash":"a0d9d518389ac7ea","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"simplify(**kwargs)","rhs":"simplify(self, **kwargs)","over":{"base":"Any"},"name":"simplify_correct"},"guarantee":"returns simplify(self, **kwargs)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg.BooleanFunction.simplify_correct","statement":"Path(simplify(x), returns simplify(self, **kwargs))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0078a47db067948e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"simplify(self, **kwargs)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def simplify(self, **kwargs):
         from sympy.simplify.simplify import simplify
         return simplify(self, **kwargs)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__lt__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__lt__(other), <unspecified:__lt__>) over Any         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __lt__ : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 66ad239d7ab34e29           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.BooleanFunction.__lt__","kind":"method","src_hash":"a110a78483a33166","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__lt__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__lt___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"66ad239d7ab34e29"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.BooleanFunction.__lt__","kind":"method","src_hash":"a110a78483a33166","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__lt__(other)","rhs":"<unspecified:__lt__>","over":{"base":"Any"},"name":"__lt___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"66ad239d7ab34e29","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __lt__(self, other):
         raise TypeError(filldedent('''
             A Boolean argument can only be used in
@@ -929,59 +1157,83 @@ class BooleanFunction(Application, Boolean):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(binary_check_and_simplify(*ar), binary_check_and_simplify produces the expected output) over Any ║
+# ║ Path(binary_check_and_simplify(*args), [as_Boolean(i) for i in args]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [as_Boolean(i) for i in args]                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ binary_check_and_simplify : Any → Any                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8bcd1f61cf503786           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.BooleanFunction.binary_check_and_simplify","kind":"classmethod","src_hash":"ccb9c221becd8474","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"binary_check_and_simplify(*ar)","rhs":"binary_check_and_simplify produces the expected output","over":{"base":"Any"},"name":"binary_check_and_simplify_correct"},"guarantee":"binary_check_and_simplify produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8bcd1f61cf503786"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.BooleanFunction.binary_check_and_simplify","kind":"classmethod","src_hash":"ccb9c221becd8474","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"binary_check_and_simplify(*args)","rhs":"[as_Boolean(i) for i in args]","over":{"base":"Any"},"name":"binary_check_and_simplify_correct"},"guarantee":"returns [as_Boolean(i) for i in args]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8bcd1f61cf503786","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[as_Boolean(i) for i in args]","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def binary_check_and_simplify(self, *args):
         return [as_Boolean(i) for i in args]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(to_nnf(sim), to_nnf produces the expected output) over Any ║
+# ║ Path(to_nnf(simplify), self._to_nnf(*self.args, simplify=simplify)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._to_nnf(*self.args, simplify=simplify)    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ to_nnf : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9e6cbb1bd7c47ddc           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.BooleanFunction.to_nnf","kind":"method","src_hash":"597a8da1ae1411b1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_nnf(sim)","rhs":"to_nnf produces the expected output","over":{"base":"Any"},"name":"to_nnf_correct"},"guarantee":"to_nnf produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9e6cbb1bd7c47ddc"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.BooleanFunction.to_nnf","kind":"method","src_hash":"597a8da1ae1411b1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_nnf(simplify)","rhs":"self._to_nnf(*self.args, simplify=simplify)","over":{"base":"Any"},"name":"to_nnf_correct"},"guarantee":"returns self._to_nnf(*self.args, simplify=simplify)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9e6cbb1bd7c47ddc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._to_nnf(*self.args, simplify=simplify)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._to_nnf","self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def to_nnf(self, simplify=True):
         return self._to_nnf(*self.args, simplify=simplify)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(to_anf(dee), to_anf produces the expected output) over Any ║
+# ║ Path(to_anf(deep), self._to_anf(*self.args, deep=deep)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._to_anf(*self.args, deep=deep)            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ to_anf : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | abf1fff18b960ca6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.BooleanFunction.to_anf","kind":"method","src_hash":"f6bf2d89184c2c76","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_anf(dee)","rhs":"to_anf produces the expected output","over":{"base":"Any"},"name":"to_anf_correct"},"guarantee":"to_anf produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"abf1fff18b960ca6"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.BooleanFunction.to_anf","kind":"method","src_hash":"f6bf2d89184c2c76","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_anf(deep)","rhs":"self._to_anf(*self.args, deep=deep)","over":{"base":"Any"},"name":"to_anf_correct"},"guarantee":"returns self._to_anf(*self.args, deep=deep)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"abf1fff18b960ca6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._to_anf(*self.args, deep=deep)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._to_anf","self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def to_anf(self, deep=True):
         return self._to_anf(*self.args, deep=deep)
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_to_nnf(cls), internal helper behaves correctly) over Any ║
+# ║ Path(_to_nnf(cls, *args, **kwargs), <unspecified:_to_nnf>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _to_nnf : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | de1f9debba985c45  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.BooleanFunction._to_nnf","kind":"classmethod","src_hash":"7735180b57c492a1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_to_nnf(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_to_nnf_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg.BooleanFunction._to_nnf_correct","statement":"Path(_to_nnf(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"de1f9debba985c45"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.BooleanFunction._to_nnf","kind":"classmethod","src_hash":"7735180b57c492a1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_to_nnf(cls, *args, **kwargs)","rhs":"<unspecified:_to_nnf>","over":{"base":"Any"},"name":"_to_nnf_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg.BooleanFunction._to_nnf_correct","statement":"Path(_to_nnf(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"de1f9debba985c45","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _to_nnf(cls, *args, **kwargs):
         simplify = kwargs.get('simplify', True)
         argset = set()
@@ -1003,16 +1255,22 @@ class BooleanFunction(Application, Boolean):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_to_anf(cls), internal helper behaves correctly) over Any ║
+# ║ Path(_to_anf(cls, *args, **kwargs), cls(*new_args, remove_true=False)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  cls(*new_args, remove_true=False)              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _to_anf : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8756e6cdb80eb13f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e9dc0a59f8e3f25e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.BooleanFunction._to_anf","kind":"classmethod","src_hash":"a2e7d8475bea8e29","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_to_anf(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_to_anf_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg.BooleanFunction._to_anf_correct","statement":"Path(_to_anf(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8756e6cdb80eb13f"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.BooleanFunction._to_anf","kind":"classmethod","src_hash":"a2e7d8475bea8e29","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_to_anf(cls, *args, **kwargs)","rhs":"cls(*new_args, remove_true=False)","over":{"base":"Any"},"name":"_to_anf_correct"},"guarantee":"returns cls(*new_args, remove_true=False)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg.BooleanFunction._to_anf_correct","statement":"Path(_to_anf(x), returns cls(*new_args, remove_true=False))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e9dc0a59f8e3f25e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"cls(*new_args, remove_true=False)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _to_anf(cls, *args, **kwargs):
         deep = kwargs.get('deep', True)
         new_args = []
@@ -1025,31 +1283,45 @@ class BooleanFunction(Application, Boolean):
 
     # the diff method below is copied from Expr class
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(diff(*sy), diff produces the expected output) over Any ║
+# ║ Path(diff(*symbols, **assumptions), Derivative(self, *symbols, **assumptions)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Derivative(self, *symbols, **assumptions)      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ diff : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 33965903e50f2639  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 06d50c90a813adf2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.BooleanFunction.diff","kind":"method","src_hash":"a241ae592d8b9710","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"diff(*sy)","rhs":"diff produces the expected output","over":{"base":"Any"},"name":"diff_correct"},"guarantee":"diff produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg.BooleanFunction.diff_correct","statement":"Path(diff(x), diff produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"33965903e50f2639"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.BooleanFunction.diff","kind":"method","src_hash":"a241ae592d8b9710","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"diff(*symbols, **assumptions)","rhs":"Derivative(self, *symbols, **assumptions)","over":{"base":"Any"},"name":"diff_correct"},"guarantee":"returns Derivative(self, *symbols, **assumptions)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg.BooleanFunction.diff_correct","statement":"Path(diff(x), returns Derivative(self, *symbols, **assumptions))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"06d50c90a813adf2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Derivative(self, *symbols, **assumptions)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def diff(self, *symbols, **assumptions):
         assumptions.setdefault("evaluate", True)
         return Derivative(self, *symbols, **assumptions)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_derivative(x), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_derivative(x), <unspecified:_eval_derivative>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: x in self.binary_symbols => Piecewis...   ║
+# ║   fiber[case_1]: x in self.free_symbols                    ║
+# ║   fiber[case_2]: not (x in self.binary_symbols) and n...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_derivative : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2d71bd2a9ce0e24a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9be999e3f5b76a84  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.BooleanFunction._eval_derivative","kind":"method","src_hash":"185347453d4ab632","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_derivative(x)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_derivative_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg.BooleanFunction._eval_derivative_correct","statement":"Path(_eval_derivative(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2d71bd2a9ce0e24a"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.BooleanFunction._eval_derivative","kind":"method","src_hash":"185347453d4ab632","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_derivative(x)","rhs":"<unspecified:_eval_derivative>","over":{"base":"Any"},"name":"_eval_derivative_correct"},"guarantee":"3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg.BooleanFunction._eval_derivative_correct","statement":"Path(_eval_derivative(x), 3-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9be999e3f5b76a84","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"x in self.binary_symbols","ensures":["result == Piecewise((0, Eq(self.subs(x, 0), self.subs(x, 1))), (1, True))"],"decidability":"library","returns_expr":"Piecewise((0, Eq(self.subs(x, 0), self.subs(x, 1))), (1, True))"},{"name":"case_1","guard":"x in self.free_symbols","ensures":[],"decidability":"library"},{"name":"case_2","guard":"not (x in self.binary_symbols) and not (x in self.free_symbols)","ensures":["result == S.Zero"],"decidability":"library","returns_expr":"S.Zero"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.binary_symbols","self.free_symbols","self.subs"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_derivative(self, x):
         if x in self.binary_symbols:
             from sympy.core.relational import Eq
@@ -1068,14 +1340,21 @@ class BooleanFunction(Application, Boolean):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(And(*args), correctly constructs a And instance) over {Any | isinstance(old, And) and isinstance(i, Relational) and isinstance(i, Equality)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, LatticeOp)                    ║
+# ║   ensures:  isinstance(self, BooleanFunction)              ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ And : {Any | isinstance(old, And) and isinstance(i, R...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7f6a2322975af85b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.And","kind":"class","src_hash":"c7a09816ddf33045","in":{"base":"Any","pred":"isinstance(old, And) and isinstance(i, Relational) and isinstance(i, Equality)"},"out":{"base":"Any"},"spec":{"lhs":"And(*args)","rhs":"correctly constructs a And instance","over":{"base":"Any","pred":"isinstance(old, And) and isinstance(i, Relational) and isinstance(i, Equality)"},"name":"And_class_invariant"},"guarantee":"correctly constructs a And instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7f6a2322975af85b"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.And","kind":"class","src_hash":"c7a09816ddf33045","in":{"base":"Any","pred":"isinstance(old, And) and isinstance(i, Relational) and isinstance(i, Equality)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, LatticeOp) and isinstance(self, BooleanFunction)"},"spec":{"lhs":"And(*args)","rhs":"correctly constructs a And instance","over":{"base":"Any","pred":"isinstance(old, And) and isinstance(i, Relational) and isinstance(i, Equality)"},"name":"And_class_invariant"},"guarantee":"isinstance(self, LatticeOp); isinstance(self, BooleanFunction)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7f6a2322975af85b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, LatticeOp)","isinstance(self, BooleanFunction)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function And not found in source"]}}
 class And(LatticeOp, BooleanFunction):
     """
     Logical AND function.
@@ -1119,16 +1398,22 @@ class And(LatticeOp, BooleanFunction):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_new_args_filter(cls), internal helper behaves correctly) over Any ║
+# ║ Path(_new_args_filter(cls, args), <unspecified:_new_args_filter>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _new_args_filter : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3cd7f4249f88d2b9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.And._new_args_filter","kind":"classmethod","src_hash":"1fe181097ab88b40","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_new_args_filter(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_new_args_filter_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg.And._new_args_filter_correct","statement":"Path(_new_args_filter(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3cd7f4249f88d2b9"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.And._new_args_filter","kind":"classmethod","src_hash":"1fe181097ab88b40","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_new_args_filter(cls, args)","rhs":"<unspecified:_new_args_filter>","over":{"base":"Any"},"name":"_new_args_filter_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg.And._new_args_filter_correct","statement":"Path(_new_args_filter(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3cd7f4249f88d2b9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _new_args_filter(cls, args):
         args = BooleanFunction.binary_check_and_simplify(*args)
         args = LatticeOp._new_args_filter(args, And)
@@ -1147,16 +1432,23 @@ class And(LatticeOp, BooleanFunction):
         return newargs
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_subs(old), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_subs(old, new), <unspecified:_eval_subs>) over {Any | hasattr(old, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_subs : Any → Any                                     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(old, 'args')                           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_subs : {Any | hasattr(old, 'args')} → Any            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e662c4ed4c141868  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.And._eval_subs","kind":"method","src_hash":"edafb00b927531bf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_subs(old)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_subs_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg.And._eval_subs_correct","statement":"Path(_eval_subs(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e662c4ed4c141868"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.And._eval_subs","kind":"method","src_hash":"edafb00b927531bf","in":{"base":"Any","pred":"hasattr(old, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_eval_subs(old, new)","rhs":"<unspecified:_eval_subs>","over":{"base":"Any","pred":"hasattr(old, 'args')"},"name":"_eval_subs_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg.And._eval_subs_correct","statement":"Path(_eval_subs(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e662c4ed4c141868","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(old, 'args')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_subs(self, old, new):
         args = []
         bad = None
@@ -1186,16 +1478,22 @@ class And(LatticeOp, BooleanFunction):
         return self.func(*args)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_simplify(**k), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_simplify(**kwargs), <unspecified:_eval_simplify>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_simplify : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1fa5da3308bcf47d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.And._eval_simplify","kind":"method","src_hash":"7ef5e568cc7b021c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_simplify(**k)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_simplify_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg.And._eval_simplify_correct","statement":"Path(_eval_simplify(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1fa5da3308bcf47d"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.And._eval_simplify","kind":"method","src_hash":"7ef5e568cc7b021c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_simplify(**kwargs)","rhs":"<unspecified:_eval_simplify>","over":{"base":"Any"},"name":"_eval_simplify_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg.And._eval_simplify_correct","statement":"Path(_eval_simplify(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1fa5da3308bcf47d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_simplify(self, **kwargs):
         from sympy.core.relational import Equality, Relational
         from sympy.solvers.solveset import linear_coeffs
@@ -1267,43 +1565,61 @@ class And(LatticeOp, BooleanFunction):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(_eval_as_set(), id) over Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Intersection(*[arg.as_set() for arg in se...   ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_as_set : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 2896bd1ad2b8f203   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.And._eval_as_set","kind":"method","src_hash":"284765a6d02e8202","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_as_set()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_as_set_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Intersection","by":"library_axiom"},{"fn":"as_set","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2896bd1ad2b8f203"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.And._eval_as_set","kind":"method","src_hash":"284765a6d02e8202","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_as_set()","rhs":"Intersection(*[arg.as_set() for arg in self.args])","over":{"base":"Any"},"name":"_eval_as_set_correct","kind":"composition"},"guarantee":"returns Intersection(*[arg.as_set() for arg in self.args])","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Intersection","by":"library_axiom"},{"fn":"as_set","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2896bd1ad2b8f203","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Intersection(*[arg.as_set() for arg in self.args])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_as_set(self):
         from sympy.sets.sets import Intersection
         return Intersection(*[arg.as_set() for arg in self.args])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_Nor(*ar), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_Nor(*args, **kwargs), Nor(*[Not(arg) for arg in self.args])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Nor(*[Not(arg) for arg in self.args])          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_Nor : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 13c7a8d3a5898f52           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.And._eval_rewrite_as_Nor","kind":"method","src_hash":"ed0e8154afd50d03","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_Nor(*ar)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_Nor_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"13c7a8d3a5898f52"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.And._eval_rewrite_as_Nor","kind":"method","src_hash":"ed0e8154afd50d03","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_Nor(*args, **kwargs)","rhs":"Nor(*[Not(arg) for arg in self.args])","over":{"base":"Any"},"name":"_eval_rewrite_as_Nor_correct"},"guarantee":"returns Nor(*[Not(arg) for arg in self.args])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"13c7a8d3a5898f52","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Nor(*[Not(arg) for arg in self.args])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_Nor(self, *args, **kwargs):
         return Nor(*[Not(arg) for arg in self.args])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(to_anf(dee), to_anf produces the expected output) over Any ║
+# ║ Path(to_anf(deep), <unspecified:to_anf>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ to_anf : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 366a2719c90de755  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.And.to_anf","kind":"method","src_hash":"a9d259fbaa5d4dd3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_anf(dee)","rhs":"to_anf produces the expected output","over":{"base":"Any"},"name":"to_anf_correct"},"guarantee":"to_anf produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg.And.to_anf_correct","statement":"Path(to_anf(x), to_anf produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"366a2719c90de755"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.And.to_anf","kind":"method","src_hash":"a9d259fbaa5d4dd3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_anf(deep)","rhs":"<unspecified:to_anf>","over":{"base":"Any"},"name":"to_anf_correct"},"guarantee":"to_anf produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg.And.to_anf_correct","statement":"Path(to_anf(x), to_anf produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"366a2719c90de755","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def to_anf(self, deep=True):
         if deep:
             result = And._to_anf(*self.args, deep=deep)
@@ -1314,14 +1630,21 @@ class And(LatticeOp, BooleanFunction):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Or(*args), correctly constructs a Or instance) over {Any | isinstance(old, Or)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Or : {Any | isinstance(old, Or)} → Any                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, LatticeOp)                    ║
+# ║   ensures:  isinstance(self, BooleanFunction)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Or : {Any | isinstance(old, Or)} → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3ecded7fb7a07f71  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.Or","kind":"class","src_hash":"8beb31b931b0154e","in":{"base":"Any","pred":"isinstance(old, Or)"},"out":{"base":"Any"},"spec":{"lhs":"Or(*args)","rhs":"correctly constructs a Or instance","over":{"base":"Any","pred":"isinstance(old, Or)"},"name":"Or_class_invariant"},"guarantee":"correctly constructs a Or instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3ecded7fb7a07f71"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.Or","kind":"class","src_hash":"8beb31b931b0154e","in":{"base":"Any","pred":"isinstance(old, Or)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, LatticeOp) and isinstance(self, BooleanFunction)"},"spec":{"lhs":"Or(*args)","rhs":"correctly constructs a Or instance","over":{"base":"Any","pred":"isinstance(old, Or)"},"name":"Or_class_invariant"},"guarantee":"isinstance(self, LatticeOp); isinstance(self, BooleanFunction)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3ecded7fb7a07f71","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, LatticeOp)","isinstance(self, BooleanFunction)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":false,"binding_errors":["Function Or not found in source"]}}
 class Or(LatticeOp, BooleanFunction):
     """
     Logical OR function
@@ -1363,16 +1686,22 @@ class Or(LatticeOp, BooleanFunction):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_new_args_filter(cls), internal helper behaves correctly) over Any ║
+# ║ Path(_new_args_filter(cls, args), <unspecified:_new_args_filter>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _new_args_filter : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 853e20884ed95f03  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.Or._new_args_filter","kind":"classmethod","src_hash":"ce7d26ba0749e0c9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_new_args_filter(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_new_args_filter_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg.Or._new_args_filter_correct","statement":"Path(_new_args_filter(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"853e20884ed95f03"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.Or._new_args_filter","kind":"classmethod","src_hash":"ce7d26ba0749e0c9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_new_args_filter(cls, args)","rhs":"<unspecified:_new_args_filter>","over":{"base":"Any"},"name":"_new_args_filter_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg.Or._new_args_filter_correct","statement":"Path(_new_args_filter(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"853e20884ed95f03","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _new_args_filter(cls, args):
         newargs = []
         rel = []
@@ -1390,16 +1719,23 @@ class Or(LatticeOp, BooleanFunction):
         return LatticeOp._new_args_filter(newargs, Or)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_subs(old), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_subs(old, new), <unspecified:_eval_subs>) over {Any | hasattr(old, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_subs : Any → Any                                     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(old, 'args')                           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_subs : {Any | hasattr(old, 'args')} → Any            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6cc704fe911038ea  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.Or._eval_subs","kind":"method","src_hash":"5bb8ecc54f53aa1b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_subs(old)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_subs_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg.Or._eval_subs_correct","statement":"Path(_eval_subs(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6cc704fe911038ea"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.Or._eval_subs","kind":"method","src_hash":"5bb8ecc54f53aa1b","in":{"base":"Any","pred":"hasattr(old, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_eval_subs(old, new)","rhs":"<unspecified:_eval_subs>","over":{"base":"Any","pred":"hasattr(old, 'args')"},"name":"_eval_subs_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg.Or._eval_subs_correct","statement":"Path(_eval_subs(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6cc704fe911038ea","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(old, 'args')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_subs(self, old, new):
         args = []
         bad = None
@@ -1431,43 +1767,61 @@ class Or(LatticeOp, BooleanFunction):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(_eval_as_set(), id) over Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Union(*[arg.as_set() for arg in self.args])    ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_as_set : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | c713d68de0e3fa8f   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.Or._eval_as_set","kind":"method","src_hash":"99226624e236bf60","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_as_set()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_as_set_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Union","by":"library_axiom"},{"fn":"as_set","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c713d68de0e3fa8f"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.Or._eval_as_set","kind":"method","src_hash":"99226624e236bf60","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_as_set()","rhs":"Union(*[arg.as_set() for arg in self.args])","over":{"base":"Any"},"name":"_eval_as_set_correct","kind":"composition"},"guarantee":"returns Union(*[arg.as_set() for arg in self.args])","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Union","by":"library_axiom"},{"fn":"as_set","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c713d68de0e3fa8f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Union(*[arg.as_set() for arg in self.args])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_as_set(self):
         from sympy.sets.sets import Union
         return Union(*[arg.as_set() for arg in self.args])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_Nand(*ar), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_Nand(*args, **kwargs), Nand(*[Not(arg) for arg in self.args])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Nand(*[Not(arg) for arg in self.args])         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_Nand : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4edabc90401b4ce0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.Or._eval_rewrite_as_Nand","kind":"method","src_hash":"e88e0c24dc90c3c0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_Nand(*ar)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_Nand_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4edabc90401b4ce0"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.Or._eval_rewrite_as_Nand","kind":"method","src_hash":"e88e0c24dc90c3c0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_Nand(*args, **kwargs)","rhs":"Nand(*[Not(arg) for arg in self.args])","over":{"base":"Any"},"name":"_eval_rewrite_as_Nand_correct"},"guarantee":"returns Nand(*[Not(arg) for arg in self.args])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4edabc90401b4ce0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Nand(*[Not(arg) for arg in self.args])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_Nand(self, *args, **kwargs):
         return Nand(*[Not(arg) for arg in self.args])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_simplify(**k), id) over Any                     ║
+# ║ Path(_eval_simplify(**kwargs), id) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_simplify : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | d84be915c62f3ebd   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.Or._eval_simplify","kind":"method","src_hash":"75cb76766ba7fcb7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_simplify(**k)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_simplify_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"xreplace","by":"library_axiom"},{"fn":"_eval_simplify","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d84be915c62f3ebd"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.Or._eval_simplify","kind":"method","src_hash":"75cb76766ba7fcb7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_simplify(**kwargs)","rhs":"<unspecified:_eval_simplify>","over":{"base":"Any"},"name":"_eval_simplify_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"xreplace","by":"library_axiom"},{"fn":"_eval_simplify","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d84be915c62f3ebd","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.atoms","self.func","self.xreplace"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_simplify(self, **kwargs):
         from sympy.core.relational import Le, Ge, Eq
         lege = self.atoms(Le, Ge)
@@ -1484,16 +1838,22 @@ class Or(LatticeOp, BooleanFunction):
                                                   kwargs['measure'], true)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(to_anf(dee), id) over Any                             ║
+# ║ Path(to_anf(deep), id) over Any                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Xor(*list(args), remove_true=False)            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ to_anf : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | e5fafbcfc91b4c36   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.Or.to_anf","kind":"method","src_hash":"1d751aa919791820","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_anf(dee)","rhs":"to_anf produces the expected output","over":{"base":"Any"},"name":"to_anf_correct","kind":"composition"},"guarantee":"to_anf produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Xor","by":"library_axiom"},{"fn":"list","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e5fafbcfc91b4c36"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.Or.to_anf","kind":"method","src_hash":"1d751aa919791820","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_anf(deep)","rhs":"Xor(*list(args), remove_true=False)","over":{"base":"Any"},"name":"to_anf_correct","kind":"composition"},"guarantee":"returns Xor(*list(args), remove_true=False)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Xor","by":"library_axiom"},{"fn":"list","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e5fafbcfc91b4c36","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Xor(*list(args), remove_true=False)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def to_anf(self, deep=True):
         args = range(1, len(self.args) + 1)
         args = (combinations(self.args, j) for j in args)
@@ -1506,14 +1866,20 @@ class Or(LatticeOp, BooleanFunction):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Not(*args), correctly constructs a Not instance) over {Any | isinstance(arg, Number)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Not : {Any | isinstance(arg, Number)} → Any                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, BooleanFunction)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Not : {Any | isinstance(arg, Number)} → {Any | result...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 68bd5c00bd06e372  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.Not","kind":"class","src_hash":"5483116cb0d62d46","in":{"base":"Any","pred":"isinstance(arg, Number)"},"out":{"base":"Any"},"spec":{"lhs":"Not(*args)","rhs":"correctly constructs a Not instance","over":{"base":"Any","pred":"isinstance(arg, Number)"},"name":"Not_class_invariant"},"guarantee":"correctly constructs a Not instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"68bd5c00bd06e372"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.Not","kind":"class","src_hash":"5483116cb0d62d46","in":{"base":"Any","pred":"isinstance(arg, Number)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, BooleanFunction)"},"spec":{"lhs":"Not(*args)","rhs":"correctly constructs a Not instance","over":{"base":"Any","pred":"isinstance(arg, Number)"},"name":"Not_class_invariant"},"guarantee":"isinstance(self, BooleanFunction)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"68bd5c00bd06e372","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, BooleanFunction)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":false,"binding_errors":["Function Not not found in source"]}}
 class Not(BooleanFunction):
     """
     Logical Not function (negation)
@@ -1568,16 +1934,25 @@ class Not(BooleanFunction):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), eval produces the expected output) over Any ║
+# ║ Path(eval(cls, arg), <unspecified:eval>) over {Any | hasattr(arg, 'is_Not') and hasattr(arg, 'is_Relational') and hasattr(arg, 'negated') and hasattr(arg, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Any                                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(arg, 'is_Not')                         ║
+# ║   requires: hasattr(arg, 'is_Relational')                  ║
+# ║   requires: hasattr(arg, 'negated')                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : {Any | hasattr(arg, 'is_Not') and hasattr(arg,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 37d861f9ba9be394  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.Not.eval","kind":"classmethod","src_hash":"ae20206d824ab80a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg.Not.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"37d861f9ba9be394"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.Not.eval","kind":"classmethod","src_hash":"ae20206d824ab80a","in":{"base":"Any","pred":"hasattr(arg, 'is_Not') and hasattr(arg, 'is_Relational') and hasattr(arg, 'negated') and hasattr(arg, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls, arg)","rhs":"<unspecified:eval>","over":{"base":"Any","pred":"hasattr(arg, 'is_Not') and hasattr(arg, 'is_Relational') and hasattr(arg, 'negated') and hasattr(arg, 'args')"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg.Not.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"37d861f9ba9be394","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(arg, 'is_Not')","hasattr(arg, 'is_Relational')","hasattr(arg, 'negated')","hasattr(arg, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["arg.args","arg.is_Not","arg.is_Relational","arg.negated"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, arg):
         if isinstance(arg, Number) or arg in (True, False):
             return false if arg else true
@@ -1588,16 +1963,22 @@ class Not(BooleanFunction):
             return arg.negated
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_as_set(), rewrite logic operators and relationals in terms of real sets) over Any ║
+# ║ Path(_eval_as_set(), self.args[0].as_set().complement(S.Reals)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0].as_set().complement(S.Reals)      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_as_set : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | bec29d4a134465b1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.Not._eval_as_set","kind":"method","src_hash":"58fc48be125fa8b7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_as_set()","rhs":"rewrite logic operators and relationals in terms of real sets","over":{"base":"Any"},"name":"_eval_as_set_correct"},"guarantee":"rewrite logic operators and relationals in terms of real sets","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bec29d4a134465b1"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.Not._eval_as_set","kind":"method","src_hash":"58fc48be125fa8b7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_as_set()","rhs":"self.args[0].as_set().complement(S.Reals)","over":{"base":"Any"},"name":"_eval_as_set_correct"},"guarantee":"returns self.args[0].as_set().complement(S.Reals)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bec29d4a134465b1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0].as_set().complement(S.Reals)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_as_set(self):
         """
         Rewrite logic operators and relationals in terms of real sets.
@@ -1613,16 +1994,22 @@ class Not(BooleanFunction):
         return self.args[0].as_set().complement(S.Reals)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(to_nnf(sim), to_nnf produces the expected output) over Any ║
+# ║ Path(to_nnf(simplify), len(result) == old_len_result + 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ to_nnf : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(result) == old_len_result + 1              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ to_nnf : Any → {Any | result satisfies: len(result) =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f2476aa011d4e52c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4895200701f959b9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.Not.to_nnf","kind":"method","src_hash":"a1c3eb42bbf8b75c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_nnf(sim)","rhs":"to_nnf produces the expected output","over":{"base":"Any"},"name":"to_nnf_correct"},"guarantee":"to_nnf produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg.Not.to_nnf_correct","statement":"Path(to_nnf(x), to_nnf produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f2476aa011d4e52c"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.Not.to_nnf","kind":"method","src_hash":"a1c3eb42bbf8b75c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(result) == old_len_result + 1"},"spec":{"lhs":"to_nnf(simplify)","rhs":"len(result) == old_len_result + 1","over":{"base":"Any"},"name":"to_nnf_correct"},"guarantee":"len(result) == old_len_result + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg.Not.to_nnf_correct","statement":"Path(to_nnf(x), len(result) == old_len_result + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4895200701f959b9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(result) == old_len_result + 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"],"calls_mutating":["result.append"],"raises":["ValueError"]},"state_contract":{"modifies":["result.*"],"old_bindings":{"old_len_result":"len(result)"},"post_ensures":["len(result) == old_len_result + 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def to_nnf(self, simplify=True):
         if is_literal(self):
             return self
@@ -1660,16 +2047,22 @@ class Not(BooleanFunction):
         raise ValueError("Illegal operator %s in expression" % func)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(to_anf(dee), to_anf produces the expected output) over Any ║
+# ║ Path(to_anf(deep), Xor._to_anf(true, self.args[0], deep=deep)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Xor._to_anf(true, self.args[0], deep=deep)     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ to_anf : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ca77e7d39b7d9af2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.Not.to_anf","kind":"method","src_hash":"11ae04be6ec98fd5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_anf(dee)","rhs":"to_anf produces the expected output","over":{"base":"Any"},"name":"to_anf_correct"},"guarantee":"to_anf produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ca77e7d39b7d9af2"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.Not.to_anf","kind":"method","src_hash":"11ae04be6ec98fd5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_anf(deep)","rhs":"Xor._to_anf(true, self.args[0], deep=deep)","over":{"base":"Any"},"name":"to_anf_correct"},"guarantee":"returns Xor._to_anf(true, self.args[0], deep=deep)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ca77e7d39b7d9af2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Xor._to_anf(true, self.args[0], deep=deep)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def to_anf(self, deep=True):
         return Xor._to_anf(true, self.args[0], deep=deep)
 
@@ -1677,14 +2070,20 @@ class Not(BooleanFunction):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Xor(*args), correctly constructs a Xor instance) over {Any | isinstance(old, Xor) and isinstance(arg, Number)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, BooleanFunction)              ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ Xor : {Any | isinstance(old, Xor) and isinstance(arg,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.8ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1c2287ac18ac599a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.Xor","kind":"class","src_hash":"adf75a1eb14fe6c0","in":{"base":"Any","pred":"isinstance(old, Xor) and isinstance(arg, Number)"},"out":{"base":"Any"},"spec":{"lhs":"Xor(*args)","rhs":"correctly constructs a Xor instance","over":{"base":"Any","pred":"isinstance(old, Xor) and isinstance(arg, Number)"},"name":"Xor_class_invariant"},"guarantee":"correctly constructs a Xor instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1c2287ac18ac599a"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.Xor","kind":"class","src_hash":"adf75a1eb14fe6c0","in":{"base":"Any","pred":"isinstance(old, Xor) and isinstance(arg, Number)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, BooleanFunction)"},"spec":{"lhs":"Xor(*args)","rhs":"correctly constructs a Xor instance","over":{"base":"Any","pred":"isinstance(old, Xor) and isinstance(arg, Number)"},"name":"Xor_class_invariant"},"guarantee":"isinstance(self, BooleanFunction)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1c2287ac18ac599a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, BooleanFunction)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"assumed","binding":false,"binding_errors":["Function Xor not found in source"]}}
 class Xor(BooleanFunction):
     """
     Logical XOR (exclusive OR) function.
@@ -1726,16 +2125,22 @@ class Xor(BooleanFunction):
 
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, *args, remove_true), <unspecified:__new__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | be394a3b0f182b82           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.Xor.__new__","kind":"method","src_hash":"7c123b068a96fba4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"be394a3b0f182b82"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.Xor.__new__","kind":"method","src_hash":"7c123b068a96fba4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, *args, remove_true)","rhs":"<unspecified:__new__>","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"be394a3b0f182b82","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, *args, remove_true=True, **kwargs):
         argset = set()
         obj = super().__new__(cls, *args, **kwargs)
@@ -1789,30 +2194,42 @@ class Xor(BooleanFunction):
     @property  # type: ignore
     @cacheit
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(args(), returns the args attribute) over Any          ║
+# ║ Path(args(), tuple(ordered(self._argset))) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  tuple(ordered(self._argset))                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ args : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 99b2a0ee8de6991f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.Xor.args","kind":"property","src_hash":"2260fb7c773e042e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"args()","rhs":"returns the args attribute","over":{"base":"Any"},"name":"args_correct"},"guarantee":"returns the args attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"99b2a0ee8de6991f"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.Xor.args","kind":"property","src_hash":"2260fb7c773e042e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"args()","rhs":"tuple(ordered(self._argset))","over":{"base":"Any"},"name":"args_correct"},"guarantee":"returns tuple(ordered(self._argset))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"99b2a0ee8de6991f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"tuple(ordered(self._argset))","pure":false,"effects":{"effect_type":"reads_state","reads":["self._argset"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def args(self):
         return tuple(ordered(self._argset))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(to_nnf(sim), to_nnf produces the expected output) over Any ║
+# ║ Path(to_nnf(simplify), And._to_nnf(*args, simplify=simplify)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  And._to_nnf(*args, simplify=simplify)          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ to_nnf : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c4dd797dbd1f1fd6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a47081659c6ce43a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.Xor.to_nnf","kind":"method","src_hash":"0bd1c4abda814ed2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_nnf(sim)","rhs":"to_nnf produces the expected output","over":{"base":"Any"},"name":"to_nnf_correct"},"guarantee":"to_nnf produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg.Xor.to_nnf_correct","statement":"Path(to_nnf(x), to_nnf produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c4dd797dbd1f1fd6"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.Xor.to_nnf","kind":"method","src_hash":"0bd1c4abda814ed2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_nnf(simplify)","rhs":"And._to_nnf(*args, simplify=simplify)","over":{"base":"Any"},"name":"to_nnf_correct"},"guarantee":"returns And._to_nnf(*args, simplify=simplify)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg.Xor.to_nnf_correct","statement":"Path(to_nnf(x), returns And._to_nnf(*args, simplify=simplify))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a47081659c6ce43a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"And._to_nnf(*args, simplify=simplify)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def to_nnf(self, simplify=True):
         args = []
         for i in range(0, len(self.args)+1, 2):
@@ -1822,48 +2239,66 @@ class Xor(BooleanFunction):
         return And._to_nnf(*args, simplify=simplify)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_Or(*ar), id) over Any                ║
+# ║ Path(_eval_rewrite_as_Or(*args, **kwargs), id) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Or(*[_convert_to_varsSOP(x, self.args) fo...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_Or : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 83d2ed42d3b47119   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.Xor._eval_rewrite_as_Or","kind":"method","src_hash":"e63aa2b1e8dd12bc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_Or(*ar)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_Or_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Or","by":"library_axiom"},{"fn":"_convert_to_varsSOP","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"83d2ed42d3b47119"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.Xor._eval_rewrite_as_Or","kind":"method","src_hash":"e63aa2b1e8dd12bc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_Or(*args, **kwargs)","rhs":"Or(*[_convert_to_varsSOP(x, self.args) for x in _get_odd_parity_terms(len(a))])","over":{"base":"Any"},"name":"_eval_rewrite_as_Or_correct","kind":"composition"},"guarantee":"returns Or(*[_convert_to_varsSOP(x, self.args) for x in _get_odd_parity_terms(len(a))])","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Or","by":"library_axiom"},{"fn":"_convert_to_varsSOP","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"83d2ed42d3b47119","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Or(*[_convert_to_varsSOP(x, self.args) for x in _get_odd_parity_terms(len(a))])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_Or(self, *args, **kwargs):
         a = self.args
         return Or(*[_convert_to_varsSOP(x, self.args)
                     for x in _get_odd_parity_terms(len(a))])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_And(*ar), id) over Any               ║
+# ║ Path(_eval_rewrite_as_And(*args, **kwargs), id) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  And(*[_convert_to_varsPOS(x, self.args) f...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_And : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 4ec1a02b8e18a335   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.Xor._eval_rewrite_as_And","kind":"method","src_hash":"37caa9fb37de0f45","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_And(*ar)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_And_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"And","by":"library_axiom"},{"fn":"_convert_to_varsPOS","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4ec1a02b8e18a335"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.Xor._eval_rewrite_as_And","kind":"method","src_hash":"37caa9fb37de0f45","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_And(*args, **kwargs)","rhs":"And(*[_convert_to_varsPOS(x, self.args) for x in _get_even_parity_terms(len(a))])","over":{"base":"Any"},"name":"_eval_rewrite_as_And_correct","kind":"composition"},"guarantee":"returns And(*[_convert_to_varsPOS(x, self.args) for x in _get_even_parity_terms(len(a))])","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"And","by":"library_axiom"},{"fn":"_convert_to_varsPOS","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4ec1a02b8e18a335","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"And(*[_convert_to_varsPOS(x, self.args) for x in _get_even_parity_terms(len(a))])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_And(self, *args, **kwargs):
         a = self.args
         return And(*[_convert_to_varsPOS(x, self.args)
                      for x in _get_even_parity_terms(len(a))])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_simplify(**k), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_simplify(**kwargs), <unspecified:_eval_simplify>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_simplify : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7079bd06f5645f87  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.Xor._eval_simplify","kind":"method","src_hash":"72ef5ca553bc7941","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_simplify(**k)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_simplify_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg.Xor._eval_simplify_correct","statement":"Path(_eval_simplify(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7079bd06f5645f87"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.Xor._eval_simplify","kind":"method","src_hash":"72ef5ca553bc7941","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_simplify(**kwargs)","rhs":"<unspecified:_eval_simplify>","over":{"base":"Any"},"name":"_eval_simplify_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg.Xor._eval_simplify_correct","statement":"Path(_eval_simplify(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7079bd06f5645f87","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.func"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_simplify(self, **kwargs):
         # as standard simplify uses simplify_logic which writes things as
         # And and Or, we only simplify the partial expressions before using
@@ -1877,16 +2312,23 @@ class Xor(BooleanFunction):
                                                   kwargs['measure'], None)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_subs(old), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_subs(old, new), self.func(*args)) over {Any | hasattr(old, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_subs : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(old, 'args')                           ║
+# ║   returns:  self.func(*args)                               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_subs : {Any | hasattr(old, 'args')} → Any            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 65ac45016b226434  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ae9ecfea10336d18  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.Xor._eval_subs","kind":"method","src_hash":"88e69529c1c2a4c2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_subs(old)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_subs_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg.Xor._eval_subs_correct","statement":"Path(_eval_subs(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"65ac45016b226434"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.Xor._eval_subs","kind":"method","src_hash":"88e69529c1c2a4c2","in":{"base":"Any","pred":"hasattr(old, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_eval_subs(old, new)","rhs":"self.func(*args)","over":{"base":"Any","pred":"hasattr(old, 'args')"},"name":"_eval_subs_correct"},"guarantee":"returns self.func(*args)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg.Xor._eval_subs_correct","statement":"Path(_eval_subs(x), returns self.func(*args))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ae9ecfea10336d18","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(old, 'args')"],"returns_expr":"self.func(*args)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_subs(self, old, new):
         # If old is Xor, replace the parts of the arguments with new if all
         # are there
@@ -1901,14 +2343,20 @@ class Xor(BooleanFunction):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Nand(*args), correctly constructs a Nand instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Nand : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, BooleanFunction)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Nand : Any → {Any | result satisfies: isinstance(self...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b732f11ef14dbe72  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.Nand","kind":"class","src_hash":"63f5281f72a1f815","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Nand(*args)","rhs":"correctly constructs a Nand instance","over":{"base":"Any"},"name":"Nand_class_invariant"},"guarantee":"correctly constructs a Nand instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b732f11ef14dbe72"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.Nand","kind":"class","src_hash":"63f5281f72a1f815","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, BooleanFunction)"},"spec":{"lhs":"Nand(*args)","rhs":"correctly constructs a Nand instance","over":{"base":"Any"},"name":"Nand_class_invariant"},"guarantee":"isinstance(self, BooleanFunction)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b732f11ef14dbe72","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, BooleanFunction)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function Nand not found in source"]}}
 class Nand(BooleanFunction):
     """
     Logical NAND function.
@@ -1935,16 +2383,22 @@ class Nand(BooleanFunction):
     """
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), eval produces the expected output) over Any ║
+# ║ Path(eval(cls, *args), Not(And(*args))) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Not(And(*args))                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ eval : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1d4d6d0bd089fce2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.Nand.eval","kind":"classmethod","src_hash":"3d6d12fc20c4f8dd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1d4d6d0bd089fce2"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.Nand.eval","kind":"classmethod","src_hash":"3d6d12fc20c4f8dd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls, *args)","rhs":"Not(And(*args))","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"returns Not(And(*args))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1d4d6d0bd089fce2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Not(And(*args))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, *args):
         return Not(And(*args))
 
@@ -1952,14 +2406,20 @@ class Nand(BooleanFunction):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Nor(*args), correctly constructs a Nor instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Nor : Any → Any                                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, BooleanFunction)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Nor : Any → {Any | result satisfies: isinstance(self,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d9af95c0ae442002  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.Nor","kind":"class","src_hash":"137a2c407c13b3f5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Nor(*args)","rhs":"correctly constructs a Nor instance","over":{"base":"Any"},"name":"Nor_class_invariant"},"guarantee":"correctly constructs a Nor instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d9af95c0ae442002"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.Nor","kind":"class","src_hash":"137a2c407c13b3f5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, BooleanFunction)"},"spec":{"lhs":"Nor(*args)","rhs":"correctly constructs a Nor instance","over":{"base":"Any"},"name":"Nor_class_invariant"},"guarantee":"isinstance(self, BooleanFunction)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d9af95c0ae442002","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, BooleanFunction)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function Nor not found in source"]}}
 class Nor(BooleanFunction):
     """
     Logical NOR function.
@@ -1991,16 +2451,22 @@ class Nor(BooleanFunction):
     """
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), eval produces the expected output) over Any ║
+# ║ Path(eval(cls, *args), Not(Or(*args))) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Not(Or(*args))                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ eval : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b0091e4a964882bd           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.Nor.eval","kind":"classmethod","src_hash":"eaf78400f86ec6e8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b0091e4a964882bd"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.Nor.eval","kind":"classmethod","src_hash":"eaf78400f86ec6e8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls, *args)","rhs":"Not(Or(*args))","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"returns Not(Or(*args))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b0091e4a964882bd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Not(Or(*args))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, *args):
         return Not(Or(*args))
 
@@ -2008,14 +2474,20 @@ class Nor(BooleanFunction):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Xnor(*args), correctly constructs a Xnor instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Xnor : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, BooleanFunction)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Xnor : Any → {Any | result satisfies: isinstance(self...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7a942674d0c62243  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.Xnor","kind":"class","src_hash":"c8c96075c02aee2f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Xnor(*args)","rhs":"correctly constructs a Xnor instance","over":{"base":"Any"},"name":"Xnor_class_invariant"},"guarantee":"correctly constructs a Xnor instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7a942674d0c62243"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.Xnor","kind":"class","src_hash":"c8c96075c02aee2f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, BooleanFunction)"},"spec":{"lhs":"Xnor(*args)","rhs":"correctly constructs a Xnor instance","over":{"base":"Any"},"name":"Xnor_class_invariant"},"guarantee":"isinstance(self, BooleanFunction)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7a942674d0c62243","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, BooleanFunction)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function Xnor not found in source"]}}
 class Xnor(BooleanFunction):
     """
     Logical XNOR function.
@@ -2044,16 +2516,22 @@ class Xnor(BooleanFunction):
     """
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), eval produces the expected output) over Any ║
+# ║ Path(eval(cls, *args), Not(Xor(*args))) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Not(Xor(*args))                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ eval : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 28a8b158999e7be6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.Xnor.eval","kind":"classmethod","src_hash":"3cfec4b51284e03d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"28a8b158999e7be6"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.Xnor.eval","kind":"classmethod","src_hash":"3cfec4b51284e03d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls, *args)","rhs":"Not(Xor(*args))","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"returns Not(Xor(*args))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"28a8b158999e7be6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Not(Xor(*args))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, *args):
         return Not(Xor(*args))
 
@@ -2061,14 +2539,20 @@ class Xnor(BooleanFunction):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Implies(*args), correctly constructs a Implies instance) over {Any | isinstance(x, Number)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Implies : {Any | isinstance(x, Number)} → Any              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, BooleanFunction)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Implies : {Any | isinstance(x, Number)} → {Any | resu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b2980e949ebb228a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.Implies","kind":"class","src_hash":"944f6a8f1e697a95","in":{"base":"Any","pred":"isinstance(x, Number)"},"out":{"base":"Any"},"spec":{"lhs":"Implies(*args)","rhs":"correctly constructs a Implies instance","over":{"base":"Any","pred":"isinstance(x, Number)"},"name":"Implies_class_invariant"},"guarantee":"correctly constructs a Implies instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b2980e949ebb228a"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.Implies","kind":"class","src_hash":"944f6a8f1e697a95","in":{"base":"Any","pred":"isinstance(x, Number)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, BooleanFunction)"},"spec":{"lhs":"Implies(*args)","rhs":"correctly constructs a Implies instance","over":{"base":"Any","pred":"isinstance(x, Number)"},"name":"Implies_class_invariant"},"guarantee":"isinstance(self, BooleanFunction)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b2980e949ebb228a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, BooleanFunction)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function Implies not found in source"]}}
 class Implies(BooleanFunction):
     r"""
     Logical implication.
@@ -2120,16 +2604,25 @@ class Implies(BooleanFunction):
     """
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), id) over Any                               ║
+# ║ Path(eval(cls, *args), id) over Any                        ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(newargs) == old_len_newargs + 1            ║
+# ║   fiber[case_0]: A in (True, False) or B in (True, Fa...   ║
+# ║   fiber[case_1]: A == B => true                            ║
+# ║   fiber[case_2]: A.is_Relational and B.is_Relational       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : Any → {Any | result satisfies: len(newargs) ==...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | e3d5bbef235cbbb8   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.Implies.eval","kind":"classmethod","src_hash":"99057b3ab0eee4ee","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct","kind":"composition"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Or","by":"library_axiom"},{"fn":"Not","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e3d5bbef235cbbb8"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.Implies.eval","kind":"classmethod","src_hash":"99057b3ab0eee4ee","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(newargs) == old_len_newargs + 1"},"spec":{"lhs":"eval(cls, *args)","rhs":"len(newargs) == old_len_newargs + 1","over":{"base":"Any"},"name":"eval_correct","kind":"composition"},"guarantee":"len(newargs) == old_len_newargs + 1; 4-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Or","by":"library_axiom"},{"fn":"Not","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e3d5bbef235cbbb8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(newargs) == old_len_newargs + 1"],"fibers":[{"name":"case_0","guard":"A in (True, False) or B in (True, False)","ensures":["result == Or(Not(A), B)"],"decidability":"library","returns_expr":"Or(Not(A), B)"},{"name":"case_1","guard":"A == B","ensures":["result == true"],"decidability":"z3","returns_expr":"true"},{"name":"case_2","guard":"A.is_Relational and B.is_Relational","ensures":[],"decidability":"library"},{"name":"case_3","guard":"not (A in (True, False) or B in (True, False)) and not (A == B) and not (A.is_Relational and B.is_Relational)","ensures":["result == Basic.__new__(cls, *args)"],"decidability":"z3","returns_expr":"Basic.__new__(cls, *args)"}],"pure":false,"effects":{"effect_type":"reads_state","calls_mutating":["newargs.append"],"raises":["ValueError"],"catches":["ValueError"]},"state_contract":{"modifies":["newargs.*"],"old_bindings":{"old_len_newargs":"len(newargs)"},"post_ensures":["len(newargs) == old_len_newargs + 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, *args):
         try:
             newargs = []
@@ -2156,31 +2649,43 @@ class Implies(BooleanFunction):
             return Basic.__new__(cls, *args)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(to_nnf(sim), id) over Any                             ║
+# ║ Path(to_nnf(simplify), id) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Or._to_nnf(Not(a), b, simplify=simplify)       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ to_nnf : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 7b0872338d5c9909   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.Implies.to_nnf","kind":"method","src_hash":"988eb2bb2917c8b1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_nnf(sim)","rhs":"to_nnf produces the expected output","over":{"base":"Any"},"name":"to_nnf_correct","kind":"composition"},"guarantee":"to_nnf produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"_to_nnf","by":"library_axiom"},{"fn":"Not","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7b0872338d5c9909"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.Implies.to_nnf","kind":"method","src_hash":"988eb2bb2917c8b1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_nnf(simplify)","rhs":"Or._to_nnf(Not(a), b, simplify=simplify)","over":{"base":"Any"},"name":"to_nnf_correct","kind":"composition"},"guarantee":"returns Or._to_nnf(Not(a), b, simplify=simplify)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"_to_nnf","by":"library_axiom"},{"fn":"Not","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7b0872338d5c9909","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Or._to_nnf(Not(a), b, simplify=simplify)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def to_nnf(self, simplify=True):
         a, b = self.args
         return Or._to_nnf(Not(a), b, simplify=simplify)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(to_anf(dee), id) over Any                             ║
+# ║ Path(to_anf(deep), id) over Any                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Xor._to_anf(true, a, And(a, b), deep=deep)     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ to_anf : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | d9f01eadd2eba16a   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.Implies.to_anf","kind":"method","src_hash":"9618e6b5a59d412d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_anf(dee)","rhs":"to_anf produces the expected output","over":{"base":"Any"},"name":"to_anf_correct","kind":"composition"},"guarantee":"to_anf produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"_to_anf","by":"library_axiom"},{"fn":"And","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d9f01eadd2eba16a"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.Implies.to_anf","kind":"method","src_hash":"9618e6b5a59d412d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_anf(deep)","rhs":"Xor._to_anf(true, a, And(a, b), deep=deep)","over":{"base":"Any"},"name":"to_anf_correct","kind":"composition"},"guarantee":"returns Xor._to_anf(true, a, And(a, b), deep=deep)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"_to_anf","by":"library_axiom"},{"fn":"And","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d9f01eadd2eba16a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Xor._to_anf(true, a, And(a, b), deep=deep)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def to_anf(self, deep=True):
         a, b = self.args
         return Xor._to_anf(true, a, And(a, b), deep=deep)
@@ -2189,14 +2694,20 @@ class Implies(BooleanFunction):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Equivalent(*args), correctly constructs a Equivalent instance) over {Any | isinstance(r, Relational) and isinstance(x, Number)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, BooleanFunction)              ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ Equivalent : {Any | isinstance(r, Relational) and isi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e05d293ee4f695f6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.Equivalent","kind":"class","src_hash":"e5f9083ba3a2d545","in":{"base":"Any","pred":"isinstance(r, Relational) and isinstance(x, Number)"},"out":{"base":"Any"},"spec":{"lhs":"Equivalent(*args)","rhs":"correctly constructs a Equivalent instance","over":{"base":"Any","pred":"isinstance(r, Relational) and isinstance(x, Number)"},"name":"Equivalent_class_invariant"},"guarantee":"correctly constructs a Equivalent instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e05d293ee4f695f6"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.Equivalent","kind":"class","src_hash":"e5f9083ba3a2d545","in":{"base":"Any","pred":"isinstance(r, Relational) and isinstance(x, Number)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, BooleanFunction)"},"spec":{"lhs":"Equivalent(*args)","rhs":"correctly constructs a Equivalent instance","over":{"base":"Any","pred":"isinstance(r, Relational) and isinstance(x, Number)"},"name":"Equivalent_class_invariant"},"guarantee":"isinstance(self, BooleanFunction)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e05d293ee4f695f6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, BooleanFunction)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":false,"binding_errors":["Function Equivalent not found in source"]}}
 class Equivalent(BooleanFunction):
     """
     Equivalence relation.
@@ -2222,16 +2733,22 @@ class Equivalent(BooleanFunction):
 
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, *args, **options), <unspecified:__new__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 62eb45e18c44b2e2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.Equivalent.__new__","kind":"method","src_hash":"d004a22059db7ce5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"62eb45e18c44b2e2"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.Equivalent.__new__","kind":"method","src_hash":"d004a22059db7ce5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, *args, **options)","rhs":"<unspecified:__new__>","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"62eb45e18c44b2e2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, *args, **options):
         from sympy.core.relational import Relational
         args = [_sympify(arg) for arg in args]
@@ -2276,30 +2793,42 @@ class Equivalent(BooleanFunction):
     @property  # type: ignore
     @cacheit
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(args(), returns the args attribute) over Any          ║
+# ║ Path(args(), tuple(ordered(self._argset))) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  tuple(ordered(self._argset))                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ args : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ea93913d3ecb5bf9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.Equivalent.args","kind":"property","src_hash":"2260fb7c773e042e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"args()","rhs":"returns the args attribute","over":{"base":"Any"},"name":"args_correct"},"guarantee":"returns the args attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ea93913d3ecb5bf9"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.Equivalent.args","kind":"property","src_hash":"2260fb7c773e042e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"args()","rhs":"tuple(ordered(self._argset))","over":{"base":"Any"},"name":"args_correct"},"guarantee":"returns tuple(ordered(self._argset))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ea93913d3ecb5bf9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"tuple(ordered(self._argset))","pure":false,"effects":{"effect_type":"reads_state","reads":["self._argset"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def args(self):
         return tuple(ordered(self._argset))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(to_nnf(sim), to_nnf produces the expected output) over Any ║
+# ║ Path(to_nnf(simplify), And._to_nnf(*args, simplify=simplify)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  And._to_nnf(*args, simplify=simplify)          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ to_nnf : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cfc9db686526bb4c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | addd5efc4149c04a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.Equivalent.to_nnf","kind":"method","src_hash":"11771b303df64d9d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_nnf(sim)","rhs":"to_nnf produces the expected output","over":{"base":"Any"},"name":"to_nnf_correct"},"guarantee":"to_nnf produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg.Equivalent.to_nnf_correct","statement":"Path(to_nnf(x), to_nnf produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cfc9db686526bb4c"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.Equivalent.to_nnf","kind":"method","src_hash":"11771b303df64d9d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_nnf(simplify)","rhs":"And._to_nnf(*args, simplify=simplify)","over":{"base":"Any"},"name":"to_nnf_correct"},"guarantee":"returns And._to_nnf(*args, simplify=simplify)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg.Equivalent.to_nnf_correct","statement":"Path(to_nnf(x), returns And._to_nnf(*args, simplify=simplify))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"addd5efc4149c04a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"And._to_nnf(*args, simplify=simplify)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def to_nnf(self, simplify=True):
         args = []
         for a, b in zip(self.args, self.args[1:]):
@@ -2308,16 +2837,22 @@ class Equivalent(BooleanFunction):
         return And._to_nnf(*args, simplify=simplify)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(to_anf(dee), to_anf produces the expected output) over Any ║
+# ║ Path(to_anf(deep), Xor._to_anf(a, b, deep=deep)) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Xor._to_anf(a, b, deep=deep)                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ to_anf : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 581102d9e014a200  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7a58617a936c949a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.Equivalent.to_anf","kind":"method","src_hash":"09c001a56c7c9fbb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_anf(dee)","rhs":"to_anf produces the expected output","over":{"base":"Any"},"name":"to_anf_correct"},"guarantee":"to_anf produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg.Equivalent.to_anf_correct","statement":"Path(to_anf(x), to_anf produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"581102d9e014a200"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.Equivalent.to_anf","kind":"method","src_hash":"09c001a56c7c9fbb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_anf(deep)","rhs":"Xor._to_anf(a, b, deep=deep)","over":{"base":"Any"},"name":"to_anf_correct"},"guarantee":"returns Xor._to_anf(a, b, deep=deep)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg.Equivalent.to_anf_correct","statement":"Path(to_anf(x), returns Xor._to_anf(a, b, deep=deep))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7a58617a936c949a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Xor._to_anf(a, b, deep=deep)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def to_anf(self, deep=True):
         a = And(*self.args)
         b = And(*[to_anf(Not(arg), deep=False) for arg in self.args])
@@ -2328,14 +2863,20 @@ class Equivalent(BooleanFunction):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(ITE(*args), correctly constructs a ITE instance) over {Any | isinstance(a, (Eq, Ne)) and isinstance(a, (Ne, Eq)) and isinstance(_a, Ne)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, BooleanFunction)              ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ ITE : {Any | isinstance(a, (Eq, Ne)) and isinstance(a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 208c46b19cb80939  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.ITE","kind":"class","src_hash":"be3154fc08b6a5a6","in":{"base":"Any","pred":"isinstance(a, (Eq, Ne)) and isinstance(a, (Ne, Eq)) and isinstance(_a, Ne)"},"out":{"base":"Any"},"spec":{"lhs":"ITE(*args)","rhs":"correctly constructs a ITE instance","over":{"base":"Any","pred":"isinstance(a, (Eq, Ne)) and isinstance(a, (Ne, Eq)) and isinstance(_a, Ne)"},"name":"ITE_class_invariant"},"guarantee":"correctly constructs a ITE instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"208c46b19cb80939"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.ITE","kind":"class","src_hash":"be3154fc08b6a5a6","in":{"base":"Any","pred":"isinstance(a, (Eq, Ne)) and isinstance(a, (Ne, Eq)) and isinstance(_a, Ne)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, BooleanFunction)"},"spec":{"lhs":"ITE(*args)","rhs":"correctly constructs a ITE instance","over":{"base":"Any","pred":"isinstance(a, (Eq, Ne)) and isinstance(a, (Ne, Eq)) and isinstance(_a, Ne)"},"name":"ITE_class_invariant"},"guarantee":"isinstance(self, BooleanFunction)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"208c46b19cb80939","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, BooleanFunction)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":false,"binding_errors":["Function ITE not found in source"]}}
 class ITE(BooleanFunction):
     """
     If-then-else clause.
@@ -2373,16 +2914,23 @@ class ITE(BooleanFunction):
 
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, *args, **kwargs), <unspecified:__new__>) over {Any | not (len(args) != 3)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (len(args) != 3)                           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | not (len(args) != 3)} → Any               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8e864eaeadbad531           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.ITE.__new__","kind":"method","src_hash":"7f966651b1d5e2be","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8e864eaeadbad531"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.ITE.__new__","kind":"method","src_hash":"7f966651b1d5e2be","in":{"base":"Any","pred":"not (len(args) != 3)"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, *args, **kwargs)","rhs":"<unspecified:__new__>","over":{"base":"Any","pred":"not (len(args) != 3)"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8e864eaeadbad531","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (len(args) != 3)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["cls.eval"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, *args, **kwargs):
         from sympy.core.relational import Eq, Ne
         if len(args) != 3:
@@ -2423,16 +2971,22 @@ class ITE(BooleanFunction):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), eval produces the expected output) over Any ║
+# ║ Path(eval(cls, *args), <unspecified:eval>) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ eval : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8efe395e072bc4c6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.ITE.eval","kind":"classmethod","src_hash":"c45e81c05bd08429","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg.ITE.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8efe395e072bc4c6"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.ITE.eval","kind":"classmethod","src_hash":"c45e81c05bd08429","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls, *args)","rhs":"<unspecified:eval>","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg.ITE.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8efe395e072bc4c6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, *args):
         from sympy.core.relational import Eq, Ne
         # do the args give a singular result?
@@ -2464,45 +3018,63 @@ class ITE(BooleanFunction):
             return cls(a, b, c, evaluate=False)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(to_nnf(sim), id) over Any                             ║
+# ║ Path(to_nnf(simplify), id) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  And._to_nnf(Or(Not(a), b), Or(a, c), simp...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ to_nnf : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | a12f78a029a72897   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.ITE.to_nnf","kind":"method","src_hash":"932cc6156eb92b1c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_nnf(sim)","rhs":"to_nnf produces the expected output","over":{"base":"Any"},"name":"to_nnf_correct","kind":"composition"},"guarantee":"to_nnf produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"_to_nnf","by":"library_axiom"},{"fn":"Or","by":"library_axiom"},{"fn":"Not","by":"library_axiom"},{"fn":"Or","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a12f78a029a72897"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.ITE.to_nnf","kind":"method","src_hash":"932cc6156eb92b1c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_nnf(simplify)","rhs":"And._to_nnf(Or(Not(a), b), Or(a, c), simplify=simplify)","over":{"base":"Any"},"name":"to_nnf_correct","kind":"composition"},"guarantee":"returns And._to_nnf(Or(Not(a), b), Or(a, c), simplify=simplify)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"_to_nnf","by":"library_axiom"},{"fn":"Or","by":"library_axiom"},{"fn":"Not","by":"library_axiom"},{"fn":"Or","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a12f78a029a72897","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"And._to_nnf(Or(Not(a), b), Or(a, c), simplify=simplify)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def to_nnf(self, simplify=True):
         a, b, c = self.args
         return And._to_nnf(Or(Not(a), b), Or(a, c), simplify=simplify)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_as_set(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_as_set(), self.to_nnf().as_set()) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.to_nnf().as_set()                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_as_set : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e937ae4961420ba8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.ITE._eval_as_set","kind":"method","src_hash":"1b6a5a7a6cb12fbf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_as_set()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_as_set_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e937ae4961420ba8"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.ITE._eval_as_set","kind":"method","src_hash":"1b6a5a7a6cb12fbf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_as_set()","rhs":"self.to_nnf().as_set()","over":{"base":"Any"},"name":"_eval_as_set_correct"},"guarantee":"returns self.to_nnf().as_set()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e937ae4961420ba8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.to_nnf().as_set()","pure":false,"effects":{"effect_type":"reads_state","reads":["self.to_nnf"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_as_set(self):
         return self.to_nnf().as_set()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_Piecewise(*ar), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_Piecewise(*args, **kwargs), Piecewise((args[1], args[0]), (args[2], True))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Piecewise((args[1], args[0]), (args[2], T...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_Piecewise : Any → Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 653b90fc55937c94  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1f66e0c94bff6f65  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.ITE._eval_rewrite_as_Piecewise","kind":"method","src_hash":"7fd489da6ca8f008","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_Piecewise(*ar)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_Piecewise_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg.ITE._eval_rewrite_as_Piecewise_correct","statement":"Path(_eval_rewrite_as_Piecewise(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"653b90fc55937c94"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.ITE._eval_rewrite_as_Piecewise","kind":"method","src_hash":"7fd489da6ca8f008","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_Piecewise(*args, **kwargs)","rhs":"Piecewise((args[1], args[0]), (args[2], True))","over":{"base":"Any"},"name":"_eval_rewrite_as_Piecewise_correct"},"guarantee":"returns Piecewise((args[1], args[0]), (args[2], True))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg.ITE._eval_rewrite_as_Piecewise_correct","statement":"Path(_eval_rewrite_as_Piecewise(x), returns Piecewise((args[1], args[0]), (args[2], True)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1f66e0c94bff6f65","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Piecewise((args[1], args[0]), (args[2], True))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_Piecewise(self, *args, **kwargs):
         from sympy.functions.elementary.piecewise import Piecewise
         return Piecewise((args[1], args[0]), (args[2], True))
@@ -2511,14 +3083,20 @@ class ITE(BooleanFunction):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Exclusive(*args), correctly constructs a Exclusive instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Exclusive : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, BooleanFunction)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Exclusive : Any → {Any | result satisfies: isinstance...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cce4a5a0cc6601ed  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.Exclusive","kind":"class","src_hash":"75da5ed9cb04d148","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Exclusive(*args)","rhs":"correctly constructs a Exclusive instance","over":{"base":"Any"},"name":"Exclusive_class_invariant"},"guarantee":"correctly constructs a Exclusive instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cce4a5a0cc6601ed"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.Exclusive","kind":"class","src_hash":"75da5ed9cb04d148","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, BooleanFunction)"},"spec":{"lhs":"Exclusive(*args)","rhs":"correctly constructs a Exclusive instance","over":{"base":"Any"},"name":"Exclusive_class_invariant"},"guarantee":"isinstance(self, BooleanFunction)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cce4a5a0cc6601ed","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, BooleanFunction)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function Exclusive not found in source"]}}
 class Exclusive(BooleanFunction):
     """
     True if only one or no argument is true.
@@ -2541,16 +3119,22 @@ class Exclusive(BooleanFunction):
     """
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), eval produces the expected output) over Any ║
+# ║ Path(eval(cls, *args), And(*and_args)) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  And(*and_args)                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ eval : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 512b76da13a112ba  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 55abe5984dcba5c2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.Exclusive.eval","kind":"classmethod","src_hash":"24dcd94fc54cfb07","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg.Exclusive.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"512b76da13a112ba"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.Exclusive.eval","kind":"classmethod","src_hash":"24dcd94fc54cfb07","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls, *args)","rhs":"And(*and_args)","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"returns And(*and_args)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg.Exclusive.eval_correct","statement":"Path(eval(x), returns And(*and_args))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"55abe5984dcba5c2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"And(*and_args)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, *args):
         and_args = []
         for a, b in combinations(args, 2):
@@ -2562,16 +3146,22 @@ class Exclusive(BooleanFunction):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(conjuncts(exp), return a list of the conjuncts in ``expr``) over Any ║
+# ║ Path(conjuncts(expr), And.make_args(expr)) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  And.make_args(expr)                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ conjuncts : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b22100c86262e4bd           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.conjuncts","kind":"function","src_hash":"8124d269f463d4b5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"conjuncts(exp)","rhs":"return a list of the conjuncts in ``expr``","over":{"base":"Any"},"name":"conjuncts_correct"},"guarantee":"return a list of the conjuncts in ``expr``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b22100c86262e4bd"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.conjuncts","kind":"function","src_hash":"8124d269f463d4b5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"conjuncts(expr)","rhs":"And.make_args(expr)","over":{"base":"Any"},"name":"conjuncts_correct"},"guarantee":"returns And.make_args(expr)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b22100c86262e4bd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"And.make_args(expr)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def conjuncts(expr):
     """Return a list of the conjuncts in ``expr``.
 
@@ -2590,16 +3180,22 @@ def conjuncts(expr):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(disjuncts(exp), return a list of the disjuncts in ``expr``) over Any ║
+# ║ Path(disjuncts(expr), Or.make_args(expr)) over Any         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Or.make_args(expr)                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ disjuncts : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 00a26e216faa026d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.disjuncts","kind":"function","src_hash":"627529627f92195f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"disjuncts(exp)","rhs":"return a list of the disjuncts in ``expr``","over":{"base":"Any"},"name":"disjuncts_correct"},"guarantee":"return a list of the disjuncts in ``expr``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"00a26e216faa026d"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.disjuncts","kind":"function","src_hash":"627529627f92195f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"disjuncts(expr)","rhs":"Or.make_args(expr)","over":{"base":"Any"},"name":"disjuncts_correct"},"guarantee":"returns Or.make_args(expr)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"00a26e216faa026d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Or.make_args(expr)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def disjuncts(expr):
     """Return a list of the disjuncts in ``expr``.
 
@@ -2618,16 +3214,22 @@ def disjuncts(expr):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(distribute_and_over_or(exp), given a sentence ``expr`` consisting of conjunctions and disjunctions of literals, return an equivalent sentence in cnf) over Any ║
+# ║ Path(distribute_and_over_or(expr), _distribute((expr, And, Or))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _distribute((expr, And, Or))                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ distribute_and_over_or : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | aa943a08e37fa49f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.distribute_and_over_or","kind":"function","src_hash":"9b9c7939c3632f4e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"distribute_and_over_or(exp)","rhs":"given a sentence ``expr`` consisting of conjunctions and disjunctions of literals, return an equivalent sentence in cnf","over":{"base":"Any"},"name":"distribute_and_over_or_correct"},"guarantee":"given a sentence ``expr`` consisting of conjunctions and disjunctions of literals, return an equivalent sentence in cnf","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"aa943a08e37fa49f"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.distribute_and_over_or","kind":"function","src_hash":"9b9c7939c3632f4e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"distribute_and_over_or(expr)","rhs":"_distribute((expr, And, Or))","over":{"base":"Any"},"name":"distribute_and_over_or_correct"},"guarantee":"returns _distribute((expr, And, Or))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"aa943a08e37fa49f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_distribute((expr, And, Or))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def distribute_and_over_or(expr):
     """
     Given a sentence ``expr`` consisting of conjunctions and disjunctions
@@ -2646,16 +3248,22 @@ def distribute_and_over_or(expr):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(distribute_or_over_and(exp), given a sentence ``expr`` consisting of conjunctions and disjunctions of literals, return an equivalent sentence in dnf) over Any ║
+# ║ Path(distribute_or_over_and(expr), _distribute((expr, Or, And))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _distribute((expr, Or, And))                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ distribute_or_over_and : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 78ecc43925a184fe           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.distribute_or_over_and","kind":"function","src_hash":"f81885bf6e2f89d7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"distribute_or_over_and(exp)","rhs":"given a sentence ``expr`` consisting of conjunctions and disjunctions of literals, return an equivalent sentence in dnf","over":{"base":"Any"},"name":"distribute_or_over_and_correct"},"guarantee":"given a sentence ``expr`` consisting of conjunctions and disjunctions of literals, return an equivalent sentence in dnf","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"78ecc43925a184fe"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.distribute_or_over_and","kind":"function","src_hash":"f81885bf6e2f89d7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"distribute_or_over_and(expr)","rhs":"_distribute((expr, Or, And))","over":{"base":"Any"},"name":"distribute_or_over_and_correct"},"guarantee":"returns _distribute((expr, Or, And))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"78ecc43925a184fe","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_distribute((expr, Or, And))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def distribute_or_over_and(expr):
     """
     Given a sentence ``expr`` consisting of conjunctions and disjunctions
@@ -2676,16 +3284,22 @@ def distribute_or_over_and(expr):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(distribute_xor_over_and(exp), given a sentence ``expr`` consisting of conjunction and exclusive disjunctions of literals, return an equivalent exclusive disjunction) over Any ║
+# ║ Path(distribute_xor_over_and(expr), _distribute((expr, Xor, And))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _distribute((expr, Xor, And))                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ distribute_xor_over_and : Any → Any                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 053f79d1889c82fc           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.distribute_xor_over_and","kind":"function","src_hash":"f8bad8f77b55ac2a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"distribute_xor_over_and(exp)","rhs":"given a sentence ``expr`` consisting of conjunction and exclusive disjunctions of literals, return an equivalent exclusive disjunction","over":{"base":"Any"},"name":"distribute_xor_over_and_correct"},"guarantee":"given a sentence ``expr`` consisting of conjunction and exclusive disjunctions of literals, return an equivalent exclusive disjunction","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"053f79d1889c82fc"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.distribute_xor_over_and","kind":"function","src_hash":"f8bad8f77b55ac2a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"distribute_xor_over_and(expr)","rhs":"_distribute((expr, Xor, And))","over":{"base":"Any"},"name":"distribute_xor_over_and_correct"},"guarantee":"returns _distribute((expr, Xor, And))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"053f79d1889c82fc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_distribute((expr, Xor, And))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def distribute_xor_over_and(expr):
     """
     Given a sentence ``expr`` consisting of conjunction and
@@ -2706,7 +3320,14 @@ def distribute_xor_over_and(expr):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_distribute(inf), distributes ``info[1]`` over ``info[2]`` with respect to ``info[0]``) over {Any | isinstance(info[0], info[2]) and isinstance(info[0], info[1])} ║
+# ║ Path(_distribute(info), result == (info[1](*list(map(_distribute, [(info[2](c, rest), info[1], info[2]) for c in conj.args])), remove_true=False) if isinstance(info[0], info[2]) else info[1](*list(map(_distribute, [(x, info[1], info[2]) for x in info[0].args])), remove_true=False) if isinstance(info[0], info[1]) else info[0]) and result == info[1](*list(map(_distribute, [(info[2](c, rest), info[1], info[2]) for c in conj.args])), remove_true=False) or result == info[1](*list(map(_distribute, [(x, info[1], info[2]) for x in info[0].args])), remove_true=False) or result == info[0]) over {Any | isinstance(info[0], info[2]) and isinstance(info[0], info[1])} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (info[1](*list(map(_distribute,...   ║
+# ║   ensures:  result == info[1](*list(map(_distribute, ...   ║
+# ║   fiber[case_0]: isinstance(info[0], info[2]) => info...   ║
+# ║   fiber[case_1]: isinstance(info[0], info[1]) => info...   ║
+# ║   fiber[case_2]: not (isinstance(info[0], info[2])) a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _distribute : {Any | isinstance(info[0], info[2]) and...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -2719,9 +3340,12 @@ def distribute_xor_over_and(expr):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?2 ✗2 VCs | 0.6ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 7c3cfe2f...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg._distribute","kind":"function","src_hash":"6f2c9cfe160fcdf0","in":{"base":"Any","pred":"isinstance(info[0], info[2]) and isinstance(info[0], info[1])"},"out":{"base":"Any"},"spec":{"lhs":"_distribute(inf)","rhs":"distributes ``info[1]`` over ``info[2]`` with respect to ``info[0]``","over":{"base":"Any","pred":"isinstance(info[0], info[2]) and isinstance(info[0], info[1])"},"name":"_distribute_correct"},"guarantee":"distributes ``info[1]`` over ``info[2]`` with respect to ``info[0]``","fibers":[{"name":"info[2]","pred":"isinstance(info[0], info[2])","path":{"lhs":"_distribute(x)","rhs":"distributes ``info[1]`` over ``info[2]`` with respect to ``info[0]``","over":{"base":"info[2]","pred":"isinstance(info[0], info[2])"},"name":"_distribute_info[2]_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg._distribute_info[2]_correct","statement":"_distribute satisfies spec on info[2] inputs"},"trust":"LIBRARY"},{"name":"info[1]","pred":"isinstance(info[0], info[1])","path":{"lhs":"_distribute(x)","rhs":"distributes ``info[1]`` over ``info[2]`` with respect to ``info[0]``","over":{"base":"info[1]","pred":"isinstance(info[0], info[1])"},"name":"_distribute_info[1]_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg._distribute_info[1]_correct","statement":"_distribute satisfies spec on info[1] inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"7c3cfe2f20db5967"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg._distribute","kind":"function","src_hash":"6f2c9cfe160fcdf0","in":{"base":"Any","pred":"isinstance(info[0], info[2]) and isinstance(info[0], info[1])"},"out":{"base":"Any","pred":"result satisfies: result == (info[1](*list(map(_distribute, [(info[2](c, rest), info[1], info[2]) for c in conj.args])), remove_true=False) if isinstance(info[0], info[2]) else info[1](*list(map(_distribute, [(x, info[1], info[2]) for x in info[0].args])), remove_true=False) if isinstance(info[0], info[1]) else info[0]) and result == info[1](*list(map(_distribute, [(info[2](c, rest), info[1], info[2]) for c in conj.args])), remove_true=False) or result == info[1](*list(map(_distribute, [(x, info[1], info[2]) for x in info[0].args])), remove_true=False) or result == info[0]"},"spec":{"lhs":"_distribute(info)","rhs":"result == (info[1](*list(map(_distribute, [(info[2](c, rest), info[1], info[2]) for c in conj.args])), remove_true=False) if isinstance(info[0], info[2]) else info[1](*list(map(_distribute, [(x, info[1], info[2]) for x in info[0].args])), remove_true=False) if isinstance(info[0], info[1]) else info[0]) and result == info[1](*list(map(_distribute, [(info[2](c, rest), info[1], info[2]) for c in conj.args])), remove_true=False) or result == info[1](*list(map(_distribute, [(x, info[1], info[2]) for x in info[0].args])), remove_true=False) or result == info[0]","over":{"base":"Any","pred":"isinstance(info[0], info[2]) and isinstance(info[0], info[1])"},"name":"_distribute_correct"},"guarantee":"result == (info[1](*list(map(_distribute, [(info[2](c, rest), info[1], info[2]) for c in conj.args])), remove_true=False) if isinstance(info[0], info[2]) else info[1](*list(map(_distribute, [(x, info[1], info[2]) for x in info[0].args])), remove_true=False) if isinstance(info[0], info[1]) else info[0]); result == info[1](*list(map(_distribute, [(info[2](c, rest), info[1], info[2]) for c in conj.args])), remove_true=False) or result == info[1](*list(map(_distribute, [(x, info[1], info[2]) for x in info[0].args])), remove_true=False) or result == info[0]; 3-fiber decomposition","fibers":[{"name":"info[2]","pred":"isinstance(info[0], info[2])","path":{"lhs":"_distribute(x)","rhs":"result == (info[1](*list(map(_distribute, [(info[2](c, rest), info[1], info[2]) for c in conj.args])), remove_true=False) if isinstance(info[0], info[2]) else info[1](*list(map(_distribute, [(x, info[1], info[2]) for x in info[0].args])), remove_true=False) if isinstance(info[0], info[1]) else info[0]); result == info[1](*list(map(_distribute, [(info[2](c, rest), info[1], info[2]) for c in conj.args])), remove_true=False) or result == info[1](*list(map(_distribute, [(x, info[1], info[2]) for x in info[0].args])), remove_true=False) or result == info[0]; 3-fiber decomposition","over":{"base":"info[2]","pred":"isinstance(info[0], info[2])"},"name":"_distribute_info[2]_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg._distribute_info[2]_correct","statement":"_distribute satisfies spec on info[2] inputs"},"trust":"LIBRARY"},{"name":"info[1]","pred":"isinstance(info[0], info[1])","path":{"lhs":"_distribute(x)","rhs":"result == (info[1](*list(map(_distribute, [(info[2](c, rest), info[1], info[2]) for c in conj.args])), remove_true=False) if isinstance(info[0], info[2]) else info[1](*list(map(_distribute, [(x, info[1], info[2]) for x in info[0].args])), remove_true=False) if isinstance(info[0], info[1]) else info[0]); result == info[1](*list(map(_distribute, [(info[2](c, rest), info[1], info[2]) for c in conj.args])), remove_true=False) or result == info[1](*list(map(_distribute, [(x, info[1], info[2]) for x in info[0].args])), remove_true=False) or result == info[0]; 3-fiber decomposition","over":{"base":"info[1]","pred":"isinstance(info[0], info[1])"},"name":"_distribute_info[1]_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg._distribute_info[1]_correct","statement":"_distribute satisfies spec on info[1] inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"7c3cfe2f20db5967","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (info[1](*list(map(_distribute, [(info[2](c, rest), info[1], info[2]) for c in conj.args])), remove_true=False) if isinstance(info[0], info[2]) else info[1](*list(map(_distribute, [(x, info[1], info[2]) for x in info[0].args])), remove_true=False) if isinstance(info[0], info[1]) else info[0])","result == info[1](*list(map(_distribute, [(info[2](c, rest), info[1], info[2]) for c in conj.args])), remove_true=False) or result == info[1](*list(map(_distribute, [(x, info[1], info[2]) for x in info[0].args])), remove_true=False) or result == info[0]"],"fibers":[{"name":"case_0","guard":"isinstance(info[0], info[2])","ensures":["result == info[1](*list(map(_distribute, [(info[2](c, rest), info[1], info[2]) for c in conj.args])), remove_true=False)"],"decidability":"structural","returns_expr":"info[1](*list(map(_distribute, [(info[2](c, rest), info[1], info[2]) for c in conj.args])), remove_true=False)"},{"name":"case_1","guard":"isinstance(info[0], info[1])","ensures":["result == info[1](*list(map(_distribute, [(x, info[1], info[2]) for x in info[0].args])), remove_true=False)"],"decidability":"structural","returns_expr":"info[1](*list(map(_distribute, [(x, info[1], info[2]) for x in info[0].args])), remove_true=False)"},{"name":"case_2","guard":"not (isinstance(info[0], info[2])) and not (isinstance(info[0], info[1]))","ensures":["result == info[0]"],"decidability":"structural","returns_expr":"info[0]"}],"pure":true},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":1,"n_assumed":2,"n_failed":2,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(info[0], info[1])', 'isinstance(arg, info[1])', 'isinstance(info[0], info[2])'}, fibers={'info[2]', 'info[1]'})"]}}
 def _distribute(info):
     """
     Distributes ``info[1]`` over ``info[2]`` with respect to ``info[0]``.
@@ -2747,16 +3371,23 @@ def _distribute(info):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(to_anf(exp), converts expr to algebraic normal form (anf)) over Any ║
+# ║ Path(to_anf(expr, deep), <unspecified:to_anf>) over {Any | hasattr(expr, 'to_anf')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ to_anf : Any → Any                                         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'to_anf')                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ to_anf : {Any | hasattr(expr, 'to_anf')} → Any             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c759ae513134da27  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.to_anf","kind":"function","src_hash":"308e803270b96436","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_anf(exp)","rhs":"converts expr to algebraic normal form (anf)","over":{"base":"Any"},"name":"to_anf_correct"},"guarantee":"converts expr to algebraic normal form (anf)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg.to_anf_correct","statement":"Path(to_anf(x), converts expr to algebraic normal form (anf))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c759ae513134da27"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.to_anf","kind":"function","src_hash":"308e803270b96436","in":{"base":"Any","pred":"hasattr(expr, 'to_anf')"},"out":{"base":"Any"},"spec":{"lhs":"to_anf(expr, deep)","rhs":"<unspecified:to_anf>","over":{"base":"Any","pred":"hasattr(expr, 'to_anf')"},"name":"to_anf_correct"},"guarantee":"converts expr to algebraic normal form (anf)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg.to_anf_correct","statement":"Path(to_anf(x), converts expr to algebraic normal form (anf))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c759ae513134da27","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'to_anf')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.to_anf"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def to_anf(expr, deep=True):
     r"""
     Converts expr to Algebraic Normal Form (ANF).
@@ -2802,16 +3433,23 @@ def to_anf(expr, deep=True):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(to_nnf(exp), converts ``expr`` to negation normal form (nnf)) over Any ║
+# ║ Path(to_nnf(expr, simplify), <unspecified:to_nnf>) over {Any | hasattr(expr, 'to_nnf')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ to_nnf : Any → Any                                         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'to_nnf')                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ to_nnf : {Any | hasattr(expr, 'to_nnf')} → Any             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f22427f25394e7c0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.to_nnf","kind":"function","src_hash":"0573bf7cac632151","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_nnf(exp)","rhs":"converts ``expr`` to negation normal form (nnf)","over":{"base":"Any"},"name":"to_nnf_correct"},"guarantee":"converts ``expr`` to negation normal form (nnf)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg.to_nnf_correct","statement":"Path(to_nnf(x), converts ``expr`` to negation normal form (nnf))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f22427f25394e7c0"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.to_nnf","kind":"function","src_hash":"0573bf7cac632151","in":{"base":"Any","pred":"hasattr(expr, 'to_nnf')"},"out":{"base":"Any"},"spec":{"lhs":"to_nnf(expr, simplify)","rhs":"<unspecified:to_nnf>","over":{"base":"Any","pred":"hasattr(expr, 'to_nnf')"},"name":"to_nnf_correct"},"guarantee":"converts ``expr`` to negation normal form (nnf)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg.to_nnf_correct","statement":"Path(to_nnf(x), converts ``expr`` to negation normal form (nnf))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f22427f25394e7c0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'to_nnf')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.to_nnf"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def to_nnf(expr, simplify=True):
     """
     Converts ``expr`` to Negation Normal Form (NNF).
@@ -2838,7 +3476,10 @@ def to_nnf(expr, simplify=True):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(to_cnf(exp), convert a propositional logical sentence ``expr`` to conjunctive normal form: ``((a | ~b | ...) & (b | c | ...) & ...)``. if ``simplify`` is ``true``, ``expr`` is evaluated to its simplest cnf form us) over {Any | isinstance(expr, BooleanFunction)} ║
+# ║ Path(to_cnf(expr, simplify, force), <unspecified:to_cnf>) over {Any | isinstance(expr, BooleanFunction)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ to_cnf : {Any | isinstance(expr, BooleanFunction)} → Any   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -2850,9 +3491,12 @@ def to_nnf(expr, simplify=True):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.3ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | c3d0bcf9...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.to_cnf","kind":"function","src_hash":"0d7b0304341f10c7","in":{"base":"Any","pred":"isinstance(expr, BooleanFunction)"},"out":{"base":"Any"},"spec":{"lhs":"to_cnf(exp)","rhs":"convert a propositional logical sentence ``expr`` to conjunctive normal form: ``((a | ~b | ...) & (b | c | ...) & ...)``. if ``simplify`` is ``true``, ``expr`` is evaluated to its simplest cnf form us","over":{"base":"Any","pred":"isinstance(expr, BooleanFunction)"},"name":"to_cnf_correct"},"guarantee":"convert a propositional logical sentence ``expr`` to conjunctive normal form: ``((a | ~b | ...) & (b | c | ...) & ...)``. if ``simplify`` is ``true``, ``expr`` is evaluated to its simplest cnf form us","fibers":[{"name":"BooleanFunction","pred":"isinstance(expr, BooleanFunction)","path":{"lhs":"to_cnf(x)","rhs":"convert a propositional logical sentence ``expr`` to conjunctive normal form: ``((a | ~b | ...) & (b | c | ...) & ...)``. if ``simplify`` is ``true``, ``expr`` is evaluated to its simplest cnf form us","over":{"base":"BooleanFunction","pred":"isinstance(expr, BooleanFunction)"},"name":"to_cnf_BooleanFunction_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg.to_cnf_BooleanFunction_correct","statement":"to_cnf satisfies spec on BooleanFunction inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"c3d0bcf93dabe027"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.to_cnf","kind":"function","src_hash":"0d7b0304341f10c7","in":{"base":"Any","pred":"isinstance(expr, BooleanFunction)"},"out":{"base":"Any"},"spec":{"lhs":"to_cnf(expr, simplify, force)","rhs":"<unspecified:to_cnf>","over":{"base":"Any","pred":"isinstance(expr, BooleanFunction)"},"name":"to_cnf_correct"},"guarantee":"convert a propositional logical sentence ``expr`` to conjunctive normal form: ``((a | ~b | ...) & (b | c | ...) & ...)``. if ``simplify`` is ``true``, ``expr`` is evaluated to its simplest cnf form us","fibers":[{"name":"BooleanFunction","pred":"isinstance(expr, BooleanFunction)","path":{"lhs":"to_cnf(x)","rhs":"convert a propositional logical sentence ``expr`` to conjunctive normal form: ``((a | ~b | ...) & (b | c | ...) & ...)``. if ``simplify`` is ``true``, ``expr`` is evaluated to its simplest cnf form us","over":{"base":"BooleanFunction","pred":"isinstance(expr, BooleanFunction)"},"name":"to_cnf_BooleanFunction_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg.to_cnf_BooleanFunction_correct","statement":"to_cnf satisfies spec on BooleanFunction inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"c3d0bcf93dabe027","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.3,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'not isinstance(expr, BooleanFunction)', 'not force and len(_find_predicates(expr)) > 8'}, fibers={'BooleanFunction'})"]}}
 def to_cnf(expr, simplify=False, force=False):
     """
     Convert a propositional logical sentence ``expr`` to conjunctive normal
@@ -2896,7 +3540,10 @@ def to_cnf(expr, simplify=False, force=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(to_dnf(exp), convert a propositional logical sentence ``expr`` to disjunctive normal form: ``((a & ~b & ...) | (b & c & ...) | ...)``. if ``simplify`` is ``true``, ``expr`` is evaluated to its simplest dnf form us) over {Any | isinstance(expr, BooleanFunction)} ║
+# ║ Path(to_dnf(expr, simplify, force), <unspecified:to_dnf>) over {Any | isinstance(expr, BooleanFunction)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ to_dnf : {Any | isinstance(expr, BooleanFunction)} → Any   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -2908,9 +3555,12 @@ def to_cnf(expr, simplify=False, force=False):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | face9bee...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.to_dnf","kind":"function","src_hash":"7c87d0dbe8bd53f3","in":{"base":"Any","pred":"isinstance(expr, BooleanFunction)"},"out":{"base":"Any"},"spec":{"lhs":"to_dnf(exp)","rhs":"convert a propositional logical sentence ``expr`` to disjunctive normal form: ``((a & ~b & ...) | (b & c & ...) | ...)``. if ``simplify`` is ``true``, ``expr`` is evaluated to its simplest dnf form us","over":{"base":"Any","pred":"isinstance(expr, BooleanFunction)"},"name":"to_dnf_correct"},"guarantee":"convert a propositional logical sentence ``expr`` to disjunctive normal form: ``((a & ~b & ...) | (b & c & ...) | ...)``. if ``simplify`` is ``true``, ``expr`` is evaluated to its simplest dnf form us","fibers":[{"name":"BooleanFunction","pred":"isinstance(expr, BooleanFunction)","path":{"lhs":"to_dnf(x)","rhs":"convert a propositional logical sentence ``expr`` to disjunctive normal form: ``((a & ~b & ...) | (b & c & ...) | ...)``. if ``simplify`` is ``true``, ``expr`` is evaluated to its simplest dnf form us","over":{"base":"BooleanFunction","pred":"isinstance(expr, BooleanFunction)"},"name":"to_dnf_BooleanFunction_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg.to_dnf_BooleanFunction_correct","statement":"to_dnf satisfies spec on BooleanFunction inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"face9bee32aa7466"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.to_dnf","kind":"function","src_hash":"7c87d0dbe8bd53f3","in":{"base":"Any","pred":"isinstance(expr, BooleanFunction)"},"out":{"base":"Any"},"spec":{"lhs":"to_dnf(expr, simplify, force)","rhs":"<unspecified:to_dnf>","over":{"base":"Any","pred":"isinstance(expr, BooleanFunction)"},"name":"to_dnf_correct"},"guarantee":"convert a propositional logical sentence ``expr`` to disjunctive normal form: ``((a & ~b & ...) | (b & c & ...) | ...)``. if ``simplify`` is ``true``, ``expr`` is evaluated to its simplest dnf form us","fibers":[{"name":"BooleanFunction","pred":"isinstance(expr, BooleanFunction)","path":{"lhs":"to_dnf(x)","rhs":"convert a propositional logical sentence ``expr`` to disjunctive normal form: ``((a & ~b & ...) | (b & c & ...) | ...)``. if ``simplify`` is ``true``, ``expr`` is evaluated to its simplest dnf form us","over":{"base":"BooleanFunction","pred":"isinstance(expr, BooleanFunction)"},"name":"to_dnf_BooleanFunction_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg.to_dnf_BooleanFunction_correct","statement":"to_dnf satisfies spec on BooleanFunction inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"face9bee32aa7466","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'not isinstance(expr, BooleanFunction)', 'not force and len(_find_predicates(expr)) > 8'}, fibers={'BooleanFunction'})"]}}
 def to_dnf(expr, simplify=False, force=False):
     """
     Convert a propositional logical sentence ``expr`` to disjunctive normal
@@ -2952,7 +3602,11 @@ def to_dnf(expr, simplify=False, force=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_anf(exp), checks if ``expr`` is in algebraic normal form (anf)) over {Any | isinstance(expr, And) and isinstance(expr, Xor) and isinstance(expr, Not)} ║
+# ║ Path(is_anf(expr), <unspecified:is_anf>) over {Any | isinstance(expr, And) and isinstance(expr, Xor) and isinstance(expr, Not) and hasattr(expr, 'args')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_anf : {Any | isinstance(expr, And) and isinstance(...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -2966,9 +3620,12 @@ def to_dnf(expr, simplify=False, force=False):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓4 ?3 ✗1 VCs | 2.8ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 909d2302...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.is_anf","kind":"function","src_hash":"f389c3952e521f07","in":{"base":"Any","pred":"isinstance(expr, And) and isinstance(expr, Xor) and isinstance(expr, Not)"},"out":{"base":"Any"},"spec":{"lhs":"is_anf(exp)","rhs":"checks if ``expr`` is in algebraic normal form (anf)","over":{"base":"Any","pred":"isinstance(expr, And) and isinstance(expr, Xor) and isinstance(expr, Not)"},"name":"is_anf_correct"},"guarantee":"checks if ``expr`` is in algebraic normal form (anf)","fibers":[{"name":"And","pred":"isinstance(expr, And)","path":{"lhs":"is_anf(x)","rhs":"checks if ``expr`` is in algebraic normal form (anf)","over":{"base":"And","pred":"isinstance(expr, And)"},"name":"is_anf_And_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg.is_anf_And_correct","statement":"is_anf satisfies spec on And inputs"},"trust":"LIBRARY"},{"name":"Xor","pred":"isinstance(expr, Xor)","path":{"lhs":"is_anf(x)","rhs":"checks if ``expr`` is in algebraic normal form (anf)","over":{"base":"Xor","pred":"isinstance(expr, Xor)"},"name":"is_anf_Xor_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg.is_anf_Xor_correct","statement":"is_anf satisfies spec on Xor inputs"},"trust":"LIBRARY"},{"name":"Not","pred":"isinstance(expr, Not)","path":{"lhs":"is_anf(x)","rhs":"checks if ``expr`` is in algebraic normal form (anf)","over":{"base":"Not","pred":"isinstance(expr, Not)"},"name":"is_anf_Not_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg.is_anf_Not_correct","statement":"is_anf satisfies spec on Not inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":3,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"909d2302bfab6c3f"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.is_anf","kind":"function","src_hash":"f389c3952e521f07","in":{"base":"Any","pred":"isinstance(expr, And) and isinstance(expr, Xor) and isinstance(expr, Not) and hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"is_anf(expr)","rhs":"<unspecified:is_anf>","over":{"base":"Any","pred":"isinstance(expr, And) and isinstance(expr, Xor) and isinstance(expr, Not) and hasattr(expr, 'args')"},"name":"is_anf_correct"},"guarantee":"checks if ``expr`` is in algebraic normal form (anf)","fibers":[{"name":"And","pred":"isinstance(expr, And)","path":{"lhs":"is_anf(x)","rhs":"checks if ``expr`` is in algebraic normal form (anf)","over":{"base":"And","pred":"isinstance(expr, And)"},"name":"is_anf_And_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg.is_anf_And_correct","statement":"is_anf satisfies spec on And inputs"},"trust":"LIBRARY"},{"name":"Xor","pred":"isinstance(expr, Xor)","path":{"lhs":"is_anf(x)","rhs":"checks if ``expr`` is in algebraic normal form (anf)","over":{"base":"Xor","pred":"isinstance(expr, Xor)"},"name":"is_anf_Xor_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg.is_anf_Xor_correct","statement":"is_anf satisfies spec on Xor inputs"},"trust":"LIBRARY"},{"name":"Not","pred":"isinstance(expr, Not)","path":{"lhs":"is_anf(x)","rhs":"checks if ``expr`` is in algebraic normal form (anf)","over":{"base":"Not","pred":"isinstance(expr, Not)"},"name":"is_anf_Not_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg.is_anf_Not_correct","statement":"is_anf satisfies spec on Not inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":3,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"909d2302bfab6c3f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args"]}},"c4_verdict":{"valid":false,"n_vcs":8,"n_verified":4,"n_assumed":3,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.8,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(expr, And)', 'isinstance(arg, Not)', 'isinstance(arg, And)', 'isinstance(expr, Xor)', 'is_literal(expr) and (not isinstance(expr, Not))'}, fibers={'And', 'Not', 'Xor'})"]}}
 def is_anf(expr):
     r"""
     Checks if ``expr``  is in Algebraic Normal Form (ANF).
@@ -3026,16 +3683,24 @@ def is_anf(expr):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_nnf(exp), checks if ``expr`` is in negation normal form (nnf)) over Any ║
+# ║ Path(is_nnf(expr, simplified), <unspecified:is_nnf>) over {Any | hasattr(expr, 'func') and hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ is_nnf : Any → Any                                         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'func')                          ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ is_nnf : {Any | hasattr(expr, 'func') and hasattr(exp...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 777c9cfda6580fae  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.is_nnf","kind":"function","src_hash":"0b944508ea879c69","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_nnf(exp)","rhs":"checks if ``expr`` is in negation normal form (nnf)","over":{"base":"Any"},"name":"is_nnf_correct"},"guarantee":"checks if ``expr`` is in negation normal form (nnf)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg.is_nnf_correct","statement":"Path(is_nnf(x), checks if ``expr`` is in negation normal form (nnf))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"777c9cfda6580fae"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.is_nnf","kind":"function","src_hash":"0b944508ea879c69","in":{"base":"Any","pred":"hasattr(expr, 'func') and hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"is_nnf(expr, simplified)","rhs":"<unspecified:is_nnf>","over":{"base":"Any","pred":"hasattr(expr, 'func') and hasattr(expr, 'args')"},"name":"is_nnf_correct"},"guarantee":"checks if ``expr`` is in negation normal form (nnf)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg.is_nnf_correct","statement":"Path(is_nnf(x), checks if ``expr`` is in negation normal form (nnf))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"777c9cfda6580fae","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'func')","hasattr(expr, 'args')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def is_nnf(expr, simplified=True):
     """
     Checks if ``expr`` is in Negation Normal Form (NNF).
@@ -3086,16 +3751,22 @@ def is_nnf(expr, simplified=True):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_cnf(exp), test whether or not an expression is in conjunctive normal form) over Any ║
+# ║ Path(is_cnf(expr), _is_form(expr, And, Or)) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _is_form(expr, And, Or)                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_cnf : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 749035676eea678e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.is_cnf","kind":"function","src_hash":"f56144f53f8b783f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_cnf(exp)","rhs":"test whether or not an expression is in conjunctive normal form","over":{"base":"Any"},"name":"is_cnf_correct"},"guarantee":"test whether or not an expression is in conjunctive normal form","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"749035676eea678e"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.is_cnf","kind":"function","src_hash":"f56144f53f8b783f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_cnf(expr)","rhs":"_is_form(expr, And, Or)","over":{"base":"Any"},"name":"is_cnf_correct"},"guarantee":"returns _is_form(expr, And, Or)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"749035676eea678e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_is_form(expr, And, Or)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def is_cnf(expr):
     """
     Test whether or not an expression is in conjunctive normal form.
@@ -3117,16 +3788,22 @@ def is_cnf(expr):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_dnf(exp), test whether or not an expression is in disjunctive normal form) over Any ║
+# ║ Path(is_dnf(expr), _is_form(expr, Or, And)) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _is_form(expr, Or, And)                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_dnf : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2f9d28bd83b20368           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.is_dnf","kind":"function","src_hash":"d8049a6dea19d0b5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_dnf(exp)","rhs":"test whether or not an expression is in disjunctive normal form","over":{"base":"Any"},"name":"is_dnf_correct"},"guarantee":"test whether or not an expression is in disjunctive normal form","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2f9d28bd83b20368"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.is_dnf","kind":"function","src_hash":"d8049a6dea19d0b5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_dnf(expr)","rhs":"_is_form(expr, Or, And)","over":{"base":"Any"},"name":"is_dnf_correct"},"guarantee":"returns _is_form(expr, Or, And)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2f9d28bd83b20368","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_is_form(expr, Or, And)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def is_dnf(expr):
     """
     Test whether or not an expression is in disjunctive normal form.
@@ -3150,7 +3827,12 @@ def is_dnf(expr):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_is_form(exp), test whether or not an expression is of the required form) over {Any | isinstance(expr, function1) and isinstance(lit, function2)} ║
+# ║ Path(_is_form(expr, function1, function2), <unspecified:_is_form>) over {Any | isinstance(expr, function1) and isinstance(lit, function2) and hasattr(function1, 'make_args') and hasattr(function2, 'make_args')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(function1, 'make_args')                ║
+# ║   requires: hasattr(function2, 'make_args')                ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _is_form : {Any | isinstance(expr, function1) and isi...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -3163,9 +3845,12 @@ def is_dnf(expr):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?2 ✗2 VCs | 3.6ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | d5ed589b...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg._is_form","kind":"function","src_hash":"6fb2e278a6f20ef3","in":{"base":"Any","pred":"isinstance(expr, function1) and isinstance(lit, function2)"},"out":{"base":"Any"},"spec":{"lhs":"_is_form(exp)","rhs":"test whether or not an expression is of the required form","over":{"base":"Any","pred":"isinstance(expr, function1) and isinstance(lit, function2)"},"name":"_is_form_correct"},"guarantee":"test whether or not an expression is of the required form","fibers":[{"name":"function1","pred":"isinstance(expr, function1)","path":{"lhs":"_is_form(x)","rhs":"test whether or not an expression is of the required form","over":{"base":"function1","pred":"isinstance(expr, function1)"},"name":"_is_form_function1_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg._is_form_function1_correct","statement":"_is_form satisfies spec on function1 inputs"},"trust":"LIBRARY"},{"name":"function2","pred":"isinstance(lit, function2)","path":{"lhs":"_is_form(x)","rhs":"test whether or not an expression is of the required form","over":{"base":"function2","pred":"isinstance(lit, function2)"},"name":"_is_form_function2_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg._is_form_function2_correct","statement":"_is_form satisfies spec on function2 inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"d5ed589b7e12447d"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg._is_form","kind":"function","src_hash":"6fb2e278a6f20ef3","in":{"base":"Any","pred":"isinstance(expr, function1) and isinstance(lit, function2) and hasattr(function1, 'make_args') and hasattr(function2, 'make_args')"},"out":{"base":"Any"},"spec":{"lhs":"_is_form(expr, function1, function2)","rhs":"<unspecified:_is_form>","over":{"base":"Any","pred":"isinstance(expr, function1) and isinstance(lit, function2) and hasattr(function1, 'make_args') and hasattr(function2, 'make_args')"},"name":"_is_form_correct"},"guarantee":"test whether or not an expression is of the required form","fibers":[{"name":"function1","pred":"isinstance(expr, function1)","path":{"lhs":"_is_form(x)","rhs":"test whether or not an expression is of the required form","over":{"base":"function1","pred":"isinstance(expr, function1)"},"name":"_is_form_function1_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg._is_form_function1_correct","statement":"_is_form satisfies spec on function1 inputs"},"trust":"LIBRARY"},{"name":"function2","pred":"isinstance(lit, function2)","path":{"lhs":"_is_form(x)","rhs":"test whether or not an expression is of the required form","over":{"base":"function2","pred":"isinstance(lit, function2)"},"name":"_is_form_function2_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg._is_form_function2_correct","statement":"_is_form satisfies spec on function2 inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"d5ed589b7e12447d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(function1, 'make_args')","hasattr(function2, 'make_args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["function1.make_args","function2.make_args"]}},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":1,"n_assumed":2,"n_failed":2,"trust_level":"LIBRARY_ASSUMED","compile_ms":3.6,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(lit, function2)'}, fibers={'function1', 'function2'})"]}}
 def _is_form(expr, function1, function2):
     """
     Test whether or not an expression is of the required form.
@@ -3187,16 +3872,22 @@ def _is_form(expr, function1, function2):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eliminate_implications(exp), change :py:class:`~.implies` and :py:class:`~.equivalent` into :py:class:`~.and`, :py:class:`~.or`, and :py:class:`~.not`. that is, return an expression that is equivalent to ``expr``, but has only ``) over Any ║
+# ║ Path(eliminate_implications(expr), to_nnf(expr, simplify=False)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  to_nnf(expr, simplify=False)                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ eliminate_implications : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | dc8b0e7d6ec9c6d7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.eliminate_implications","kind":"function","src_hash":"1c140bfeeed1f6ae","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eliminate_implications(exp)","rhs":"change :py:class:`~.implies` and :py:class:`~.equivalent` into :py:class:`~.and`, :py:class:`~.or`, and :py:class:`~.not`. that is, return an expression that is equivalent to ``expr``, but has only ``","over":{"base":"Any"},"name":"eliminate_implications_correct"},"guarantee":"change :py:class:`~.implies` and :py:class:`~.equivalent` into :py:class:`~.and`, :py:class:`~.or`, and :py:class:`~.not`. that is, return an expression that is equivalent to ``expr``, but has only ``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"dc8b0e7d6ec9c6d7"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.eliminate_implications","kind":"function","src_hash":"1c140bfeeed1f6ae","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eliminate_implications(expr)","rhs":"to_nnf(expr, simplify=False)","over":{"base":"Any"},"name":"eliminate_implications_correct"},"guarantee":"returns to_nnf(expr, simplify=False)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"dc8b0e7d6ec9c6d7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"to_nnf(expr, simplify=False)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def eliminate_implications(expr):
     """
     Change :py:class:`~.Implies` and :py:class:`~.Equivalent` into
@@ -3223,7 +3914,16 @@ def eliminate_implications(expr):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_literal(exp), returns true if expr is a literal, else false) over {Any | isinstance(expr, Not) and isinstance(expr, AppliedPredicate) and isinstance(expr, BooleanFunction)} ║
+# ║ Path(is_literal(expr), result == (is_literal(expr.args[0]) if isinstance(expr, Not) else True if expr in (True, False) or isinstance(expr, AppliedPredicate) or expr.is_Atom else True) and result == is_literal(expr.args[0]) or result == True) over {Any | isinstance(expr, Not) and isinstance(expr, AppliedPredicate) and isinstance(expr, BooleanFunction) and hasattr(expr, 'is_Atom') and hasattr(expr, 'args')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'is_Atom')                       ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   ensures:  result == (is_literal(expr.args[0]) if is...   ║
+# ║   ensures:  result == is_literal(expr.args[0]) or res...   ║
+# ║   fiber[Not]: isinstance(expr, Not) => is_literal(exp...   ║
+# ║   fiber[AppliedPredicate]: expr in (True, False) or i...   ║
+# ║   fiber[BooleanFunction]: not isinstance(expr, Boolea...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_literal : {Any | isinstance(expr, Not) and isinsta...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -3237,9 +3937,12 @@ def eliminate_implications(expr):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓4 ?3 ✗1 VCs | 2.4ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 00d09fba...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.is_literal","kind":"function","src_hash":"50b8ccd80ceff9a9","in":{"base":"Any","pred":"isinstance(expr, Not) and isinstance(expr, AppliedPredicate) and isinstance(expr, BooleanFunction)"},"out":{"base":"Any"},"spec":{"lhs":"is_literal(exp)","rhs":"returns true if expr is a literal, else false","over":{"base":"Any","pred":"isinstance(expr, Not) and isinstance(expr, AppliedPredicate) and isinstance(expr, BooleanFunction)"},"name":"is_literal_correct"},"guarantee":"returns true if expr is a literal, else false","fibers":[{"name":"Not","pred":"isinstance(expr, Not)","path":{"lhs":"is_literal(x)","rhs":"returns true if expr is a literal, else false","over":{"base":"Not","pred":"isinstance(expr, Not)"},"name":"is_literal_Not_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg.is_literal_Not_correct","statement":"is_literal satisfies spec on Not inputs"},"trust":"LIBRARY"},{"name":"AppliedPredicate","pred":"isinstance(expr, AppliedPredicate)","path":{"lhs":"is_literal(x)","rhs":"returns true if expr is a literal, else false","over":{"base":"AppliedPredicate","pred":"isinstance(expr, AppliedPredicate)"},"name":"is_literal_AppliedPredicate_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg.is_literal_AppliedPredicate_correct","statement":"is_literal satisfies spec on AppliedPredicate inputs"},"trust":"LIBRARY"},{"name":"BooleanFunction","pred":"isinstance(expr, BooleanFunction)","path":{"lhs":"is_literal(x)","rhs":"returns true if expr is a literal, else false","over":{"base":"BooleanFunction","pred":"isinstance(expr, BooleanFunction)"},"name":"is_literal_BooleanFunction_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg.is_literal_BooleanFunction_correct","statement":"is_literal satisfies spec on BooleanFunction inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":3,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"00d09fbab874a7a8"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.is_literal","kind":"function","src_hash":"50b8ccd80ceff9a9","in":{"base":"Any","pred":"isinstance(expr, Not) and isinstance(expr, AppliedPredicate) and isinstance(expr, BooleanFunction) and hasattr(expr, 'is_Atom') and hasattr(expr, 'args')"},"out":{"base":"Any","pred":"result satisfies: result == (is_literal(expr.args[0]) if isinstance(expr, Not) else True if expr in (True, False) or isinstance(expr, AppliedPredicate) or expr.is_Atom else True) and result == is_literal(expr.args[0]) or result == True"},"spec":{"lhs":"is_literal(expr)","rhs":"result == (is_literal(expr.args[0]) if isinstance(expr, Not) else True if expr in (True, False) or isinstance(expr, AppliedPredicate) or expr.is_Atom else True) and result == is_literal(expr.args[0]) or result == True","over":{"base":"Any","pred":"isinstance(expr, Not) and isinstance(expr, AppliedPredicate) and isinstance(expr, BooleanFunction) and hasattr(expr, 'is_Atom') and hasattr(expr, 'args')"},"name":"is_literal_correct"},"guarantee":"result == (is_literal(expr.args[0]) if isinstance(expr, Not) else True if expr in (True, False) or isinstance(expr, AppliedPredicate) or expr.is_Atom else True); result == is_literal(expr.args[0]) or result == True; 3-fiber decomposition","fibers":[{"name":"Not","pred":"isinstance(expr, Not)","path":{"lhs":"is_literal(x)","rhs":"result == (is_literal(expr.args[0]) if isinstance(expr, Not) else True if expr in (True, False) or isinstance(expr, AppliedPredicate) or expr.is_Atom else True); result == is_literal(expr.args[0]) or result == True; 3-fiber decomposition","over":{"base":"Not","pred":"isinstance(expr, Not)"},"name":"is_literal_Not_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg.is_literal_Not_correct","statement":"is_literal satisfies spec on Not inputs"},"trust":"LIBRARY"},{"name":"AppliedPredicate","pred":"isinstance(expr, AppliedPredicate)","path":{"lhs":"is_literal(x)","rhs":"result == (is_literal(expr.args[0]) if isinstance(expr, Not) else True if expr in (True, False) or isinstance(expr, AppliedPredicate) or expr.is_Atom else True); result == is_literal(expr.args[0]) or result == True; 3-fiber decomposition","over":{"base":"AppliedPredicate","pred":"isinstance(expr, AppliedPredicate)"},"name":"is_literal_AppliedPredicate_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg.is_literal_AppliedPredicate_correct","statement":"is_literal satisfies spec on AppliedPredicate inputs"},"trust":"LIBRARY"},{"name":"BooleanFunction","pred":"isinstance(expr, BooleanFunction)","path":{"lhs":"is_literal(x)","rhs":"result == (is_literal(expr.args[0]) if isinstance(expr, Not) else True if expr in (True, False) or isinstance(expr, AppliedPredicate) or expr.is_Atom else True); result == is_literal(expr.args[0]) or result == True; 3-fiber decomposition","over":{"base":"BooleanFunction","pred":"isinstance(expr, BooleanFunction)"},"name":"is_literal_BooleanFunction_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg.is_literal_BooleanFunction_correct","statement":"is_literal satisfies spec on BooleanFunction inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":3,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"00d09fbab874a7a8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'is_Atom')","hasattr(expr, 'args')"],"ensures":["result == (is_literal(expr.args[0]) if isinstance(expr, Not) else True if expr in (True, False) or isinstance(expr, AppliedPredicate) or expr.is_Atom else True)","result == is_literal(expr.args[0]) or result == True"],"fibers":[{"name":"Not","guard":"isinstance(expr, Not)","ensures":["result == is_literal(expr.args[0])"],"decidability":"structural","returns_expr":"is_literal(expr.args[0])"},{"name":"AppliedPredicate","guard":"expr in (True, False) or isinstance(expr, AppliedPredicate) or expr.is_Atom","ensures":["result == True"],"decidability":"structural","returns_expr":"True"},{"name":"BooleanFunction","guard":"not isinstance(expr, BooleanFunction) and all((isinstance(expr, AppliedPredicate) or a.is_Atom for a in expr.args))","ensures":["result == True"],"decidability":"structural","returns_expr":"True"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","expr.is_Atom"]}},"c4_verdict":{"valid":false,"n_vcs":8,"n_verified":4,"n_assumed":3,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.4,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'expr in (True, False) or isinstance(expr, AppliedPredicate) or expr.is_Atom', 'isinstance(expr, Not)', 'not isinstance(expr, BooleanFunction) and all((isinstance(expr, AppliedPredicate) or a.is_Atom for a in expr.args))'}, fibers={'AppliedPredicate', 'Not', 'BooleanFunction'})"]}}
 def is_literal(expr):
     """
     Returns True if expr is a literal, else False.
@@ -3275,7 +3978,10 @@ def is_literal(expr):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(to_int_repr(cla), takes clauses in cnf format and puts them into an integer representation) over {Any | isinstance(arg, Not)} ║
+# ║ Path(to_int_repr(clauses, symbols), <unspecified:to_int_repr>) over {Any | isinstance(arg, Not)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ to_int_repr : {Any | isinstance(arg, Not)} → Any           ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -3287,9 +3993,12 @@ def is_literal(expr):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 365e8a6d...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.to_int_repr","kind":"function","src_hash":"79364f8d0cdd14ef","in":{"base":"Any","pred":"isinstance(arg, Not)"},"out":{"base":"Any"},"spec":{"lhs":"to_int_repr(cla)","rhs":"takes clauses in cnf format and puts them into an integer representation","over":{"base":"Any","pred":"isinstance(arg, Not)"},"name":"to_int_repr_correct"},"guarantee":"takes clauses in cnf format and puts them into an integer representation","fibers":[{"name":"Not","pred":"isinstance(arg, Not)","path":{"lhs":"to_int_repr(x)","rhs":"takes clauses in cnf format and puts them into an integer representation","over":{"base":"Not","pred":"isinstance(arg, Not)"},"name":"to_int_repr_Not_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg.to_int_repr_Not_correct","statement":"to_int_repr satisfies spec on Not inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"365e8a6d377d11ae"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.to_int_repr","kind":"function","src_hash":"79364f8d0cdd14ef","in":{"base":"Any","pred":"isinstance(arg, Not)"},"out":{"base":"Any"},"spec":{"lhs":"to_int_repr(clauses, symbols)","rhs":"<unspecified:to_int_repr>","over":{"base":"Any","pred":"isinstance(arg, Not)"},"name":"to_int_repr_correct"},"guarantee":"takes clauses in cnf format and puts them into an integer representation","fibers":[{"name":"Not","pred":"isinstance(arg, Not)","path":{"lhs":"to_int_repr(x)","rhs":"takes clauses in cnf format and puts them into an integer representation","over":{"base":"Not","pred":"isinstance(arg, Not)"},"name":"to_int_repr_Not_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg.to_int_repr_Not_correct","statement":"to_int_repr satisfies spec on Not inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"365e8a6d377d11ae","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.1,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(arg, Not)'}, fibers={'Not'})"]}}
 def to_int_repr(clauses, symbols):
     """
     Takes clauses in CNF format and puts them into an integer representation.
@@ -3318,16 +4027,22 @@ def to_int_repr(clauses, symbols):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(term_to_integer(ter), return an integer corresponding to the base-2 digits given by *term*) over Any ║
+# ║ Path(term_to_integer(term), int(''.join(list(map(str, list(term)))), 2)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  int(''.join(list(map(str, list(term)))), 2)    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ term_to_integer : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 797af73bc5c41f50           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.term_to_integer","kind":"function","src_hash":"fa5d20b4c451ae8d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"term_to_integer(ter)","rhs":"return an integer corresponding to the base-2 digits given by *term*","over":{"base":"Any"},"name":"term_to_integer_correct"},"guarantee":"return an integer corresponding to the base-2 digits given by *term*","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"797af73bc5c41f50"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.term_to_integer","kind":"function","src_hash":"fa5d20b4c451ae8d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"term_to_integer(term)","rhs":"int(''.join(list(map(str, list(term)))), 2)","over":{"base":"Any"},"name":"term_to_integer_correct"},"guarantee":"returns int(''.join(list(map(str, list(term)))), 2)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"797af73bc5c41f50","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"int(''.join(list(map(str, list(term)))), 2)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":true}}
 def term_to_integer(term):
     """
     Return an integer corresponding to the base-2 digits given by *term*.
@@ -3355,7 +4070,11 @@ integer_to_term = ibin  # XXX could delete?
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(truth_table(exp), return a generator of all possible configurations of the input variables, and the result of the boolean expression for those values) over {Any | isinstance(expr, BooleanFunction)} ║
+# ║ Path(truth_table(expr, variables, input), <unspecified:truth_table>) over {Any | isinstance(expr, BooleanFunction) and hasattr(expr, 'xreplace')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'xreplace')                      ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ truth_table : {Any | isinstance(expr, BooleanFunction...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -3367,9 +4086,12 @@ integer_to_term = ibin  # XXX could delete?
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 7cfbacc6...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.truth_table","kind":"function","src_hash":"13c532abec94ad86","in":{"base":"Any","pred":"isinstance(expr, BooleanFunction)"},"out":{"base":"Any"},"spec":{"lhs":"truth_table(exp)","rhs":"return a generator of all possible configurations of the input variables, and the result of the boolean expression for those values","over":{"base":"Any","pred":"isinstance(expr, BooleanFunction)"},"name":"truth_table_correct"},"guarantee":"return a generator of all possible configurations of the input variables, and the result of the boolean expression for those values","fibers":[{"name":"BooleanFunction","pred":"isinstance(expr, BooleanFunction)","path":{"lhs":"truth_table(x)","rhs":"return a generator of all possible configurations of the input variables, and the result of the boolean expression for those values","over":{"base":"BooleanFunction","pred":"isinstance(expr, BooleanFunction)"},"name":"truth_table_BooleanFunction_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg.truth_table_BooleanFunction_correct","statement":"truth_table satisfies spec on BooleanFunction inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"7cfbacc60957eae2"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.truth_table","kind":"function","src_hash":"13c532abec94ad86","in":{"base":"Any","pred":"isinstance(expr, BooleanFunction) and hasattr(expr, 'xreplace')"},"out":{"base":"Any"},"spec":{"lhs":"truth_table(expr, variables, input)","rhs":"<unspecified:truth_table>","over":{"base":"Any","pred":"isinstance(expr, BooleanFunction) and hasattr(expr, 'xreplace')"},"name":"truth_table_correct"},"guarantee":"return a generator of all possible configurations of the input variables, and the result of the boolean expression for those values","fibers":[{"name":"BooleanFunction","pred":"isinstance(expr, BooleanFunction)","path":{"lhs":"truth_table(x)","rhs":"return a generator of all possible configurations of the input variables, and the result of the boolean expression for those values","over":{"base":"BooleanFunction","pred":"isinstance(expr, BooleanFunction)"},"name":"truth_table_BooleanFunction_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg.truth_table_BooleanFunction_correct","statement":"truth_table satisfies spec on BooleanFunction inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"7cfbacc60957eae2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'xreplace')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.xreplace"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'not isinstance(expr, BooleanFunction) and (not is_literal(expr))'}, fibers={'BooleanFunction'})"]}}
 def truth_table(expr, variables, input=True):
     """
     Return a generator of all possible configurations of the input variables,
@@ -3439,16 +4161,22 @@ def truth_table(expr, variables, input=True):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_check_pair(min), checks if a pair of minterms differs by only one bit) over Any ║
+# ║ Path(_check_pair(minterm1, minterm2), <unspecified:_check_pair>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _check_pair : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3eb614c6df26a65d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg._check_pair","kind":"function","src_hash":"1dc1d8d730915859","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_check_pair(min)","rhs":"checks if a pair of minterms differs by only one bit","over":{"base":"Any"},"name":"_check_pair_correct"},"guarantee":"checks if a pair of minterms differs by only one bit","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg._check_pair_correct","statement":"Path(_check_pair(x), checks if a pair of minterms differs by only one bit)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3eb614c6df26a65d"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg._check_pair","kind":"function","src_hash":"1dc1d8d730915859","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_check_pair(minterm1, minterm2)","rhs":"<unspecified:_check_pair>","over":{"base":"Any"},"name":"_check_pair_correct"},"guarantee":"checks if a pair of minterms differs by only one bit","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg._check_pair_correct","statement":"Path(_check_pair(x), checks if a pair of minterms differs by only one bit)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3eb614c6df26a65d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _check_pair(minterm1, minterm2):
     """
     Checks if a pair of minterms differs by only one bit. If yes, returns
@@ -3467,16 +4195,22 @@ def _check_pair(minterm1, minterm2):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_convert_to_varsSOP(min), converts a term in the expansion of a function from binary to its variable form (for sop)) over Any ║
+# ║ Path(_convert_to_varsSOP(minterm, variables), And(*temp)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  And(*temp)                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _convert_to_varsSOP : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 463c152b9ebb3820  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a7f3288f16b401d1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg._convert_to_varsSOP","kind":"function","src_hash":"e235d2d87a94164a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_convert_to_varsSOP(min)","rhs":"converts a term in the expansion of a function from binary to its variable form (for sop)","over":{"base":"Any"},"name":"_convert_to_varsSOP_correct"},"guarantee":"converts a term in the expansion of a function from binary to its variable form (for sop)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg._convert_to_varsSOP_correct","statement":"Path(_convert_to_varsSOP(x), converts a term in the expansion of a function from binary to its variable form (for sop))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"463c152b9ebb3820"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg._convert_to_varsSOP","kind":"function","src_hash":"e235d2d87a94164a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_convert_to_varsSOP(minterm, variables)","rhs":"And(*temp)","over":{"base":"Any"},"name":"_convert_to_varsSOP_correct"},"guarantee":"returns And(*temp)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg._convert_to_varsSOP_correct","statement":"Path(_convert_to_varsSOP(x), returns And(*temp))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a7f3288f16b401d1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"And(*temp)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _convert_to_varsSOP(minterm, variables):
     """
     Converts a term in the expansion of a function from binary to its
@@ -3488,16 +4222,22 @@ def _convert_to_varsSOP(minterm, variables):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_convert_to_varsPOS(max), converts a term in the expansion of a function from binary to its variable form (for pos)) over Any ║
+# ║ Path(_convert_to_varsPOS(maxterm, variables), Or(*temp)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Or(*temp)                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _convert_to_varsPOS : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 13b31d6a0108e476  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4d68f792e76922ac  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg._convert_to_varsPOS","kind":"function","src_hash":"fe5d1473f147bc89","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_convert_to_varsPOS(max)","rhs":"converts a term in the expansion of a function from binary to its variable form (for pos)","over":{"base":"Any"},"name":"_convert_to_varsPOS_correct"},"guarantee":"converts a term in the expansion of a function from binary to its variable form (for pos)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg._convert_to_varsPOS_correct","statement":"Path(_convert_to_varsPOS(x), converts a term in the expansion of a function from binary to its variable form (for pos))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"13b31d6a0108e476"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg._convert_to_varsPOS","kind":"function","src_hash":"fe5d1473f147bc89","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_convert_to_varsPOS(maxterm, variables)","rhs":"Or(*temp)","over":{"base":"Any"},"name":"_convert_to_varsPOS_correct"},"guarantee":"returns Or(*temp)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg._convert_to_varsPOS_correct","statement":"Path(_convert_to_varsPOS(x), returns Or(*temp))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4d68f792e76922ac","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Or(*temp)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _convert_to_varsPOS(maxterm, variables):
     """
     Converts a term in the expansion of a function from binary to its
@@ -3509,16 +4249,22 @@ def _convert_to_varsPOS(maxterm, variables):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_convert_to_varsANF(ter), converts a term in the expansion of a function from binary to its variable form (for anf)) over Any ║
+# ║ Path(_convert_to_varsANF(term, variables), <unspecified:_convert_to_varsANF>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _convert_to_varsANF : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6f4d3f6e0f722edd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg._convert_to_varsANF","kind":"function","src_hash":"4e0631ca412378b8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_convert_to_varsANF(ter)","rhs":"converts a term in the expansion of a function from binary to its variable form (for anf)","over":{"base":"Any"},"name":"_convert_to_varsANF_correct"},"guarantee":"converts a term in the expansion of a function from binary to its variable form (for anf)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg._convert_to_varsANF_correct","statement":"Path(_convert_to_varsANF(x), converts a term in the expansion of a function from binary to its variable form (for anf))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6f4d3f6e0f722edd"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg._convert_to_varsANF","kind":"function","src_hash":"4e0631ca412378b8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_convert_to_varsANF(term, variables)","rhs":"<unspecified:_convert_to_varsANF>","over":{"base":"Any"},"name":"_convert_to_varsANF_correct"},"guarantee":"converts a term in the expansion of a function from binary to its variable form (for anf)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg._convert_to_varsANF_correct","statement":"Path(_convert_to_varsANF(x), converts a term in the expansion of a function from binary to its variable form (for anf))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6f4d3f6e0f722edd","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _convert_to_varsANF(term, variables):
     """
     Converts a term in the expansion of a function from binary to its
@@ -3540,16 +4286,22 @@ def _convert_to_varsANF(term, variables):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_odd_parity_terms(n), returns a list of lists, with all possible combinations of n zeros and ones with an odd number of ones) over Any ║
+# ║ Path(_get_odd_parity_terms(n), [e for e in [ibin(i, n) for i in range(2 ** n)] if sum(e) % 2 == 1]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [e for e in [ibin(i, n) for i in range(2 ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_odd_parity_terms : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4999c53d49e14837           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg._get_odd_parity_terms","kind":"function","src_hash":"4fa72a4c68653442","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_odd_parity_terms(n)","rhs":"returns a list of lists, with all possible combinations of n zeros and ones with an odd number of ones","over":{"base":"Any"},"name":"_get_odd_parity_terms_correct"},"guarantee":"returns a list of lists, with all possible combinations of n zeros and ones with an odd number of ones","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4999c53d49e14837"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg._get_odd_parity_terms","kind":"function","src_hash":"4fa72a4c68653442","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_odd_parity_terms(n)","rhs":"[e for e in [ibin(i, n) for i in range(2 ** n)] if sum(e) % 2 == 1]","over":{"base":"Any"},"name":"_get_odd_parity_terms_correct"},"guarantee":"returns [e for e in [ibin(i, n) for i in range(2 ** n)] if sum(e) % 2 == 1]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4999c53d49e14837","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[e for e in [ibin(i, n) for i in range(2 ** n)] if sum(e) % 2 == 1]","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":true}}
 def _get_odd_parity_terms(n):
     """
     Returns a list of lists, with all possible combinations of n zeros and ones
@@ -3559,16 +4311,22 @@ def _get_odd_parity_terms(n):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_even_parity_terms(n), returns a list of lists, with all possible combinations of n zeros and ones with an even number of ones) over Any ║
+# ║ Path(_get_even_parity_terms(n), [e for e in [ibin(i, n) for i in range(2 ** n)] if sum(e) % 2 == 0]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [e for e in [ibin(i, n) for i in range(2 ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_even_parity_terms : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | bc75dcec8dde08de           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg._get_even_parity_terms","kind":"function","src_hash":"8399ad84d350c1d4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_even_parity_terms(n)","rhs":"returns a list of lists, with all possible combinations of n zeros and ones with an even number of ones","over":{"base":"Any"},"name":"_get_even_parity_terms_correct"},"guarantee":"returns a list of lists, with all possible combinations of n zeros and ones with an even number of ones","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bc75dcec8dde08de"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg._get_even_parity_terms","kind":"function","src_hash":"8399ad84d350c1d4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_even_parity_terms(n)","rhs":"[e for e in [ibin(i, n) for i in range(2 ** n)] if sum(e) % 2 == 0]","over":{"base":"Any"},"name":"_get_even_parity_terms_correct"},"guarantee":"returns [e for e in [ibin(i, n) for i in range(2 ** n)] if sum(e) % 2 == 0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bc75dcec8dde08de","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[e for e in [ibin(i, n) for i in range(2 ** n)] if sum(e) % 2 == 0]","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":true}}
 def _get_even_parity_terms(n):
     """
     Returns a list of lists, with all possible combinations of n zeros and ones
@@ -3578,16 +4336,22 @@ def _get_even_parity_terms(n):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_simplified_pairs(ter), reduces a set of minterms, if possible, to a simplified set of minterms with one less variable in the terms using qm method) over Any ║
+# ║ Path(_simplified_pairs(terms), # HINT: _simplified_pairs may be idempotent: _simplified_pairs(_simplified_pairs(x)) == _simplified_pairs(x)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _simplified_pairs : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  # HINT: _simplified_pairs may be idempote...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _simplified_pairs : Any → {Any | result satisfies: # ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d3454bc94d917caf  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dfbba567c721dd59  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg._simplified_pairs","kind":"function","src_hash":"6be285c4bd0e68ec","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_simplified_pairs(ter)","rhs":"reduces a set of minterms, if possible, to a simplified set of minterms with one less variable in the terms using qm method","over":{"base":"Any"},"name":"_simplified_pairs_correct"},"guarantee":"reduces a set of minterms, if possible, to a simplified set of minterms with one less variable in the terms using qm method","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg._simplified_pairs_correct","statement":"Path(_simplified_pairs(x), reduces a set of minterms, if possible, to a simplified set of minterms with one less variable in the terms using qm method)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d3454bc94d917caf"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg._simplified_pairs","kind":"function","src_hash":"6be285c4bd0e68ec","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: # HINT: _simplified_pairs may be idempotent: _simplified_pairs(_simplified_pairs(x)) == _simplified_pairs(x)"},"spec":{"lhs":"_simplified_pairs(terms)","rhs":"# HINT: _simplified_pairs may be idempotent: _simplified_pairs(_simplified_pairs(x)) == _simplified_pairs(x)","over":{"base":"Any"},"name":"_simplified_pairs_correct"},"guarantee":"# HINT: _simplified_pairs may be idempotent: _simplified_pairs(_simplified_pairs(x)) == _simplified_pairs(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg._simplified_pairs_correct","statement":"Path(_simplified_pairs(x), # HINT: _simplified_pairs may be idempotent: _simplified_pairs(_simplified_pairs(x)) == _simplified_pairs(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dfbba567c721dd59","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["# HINT: _simplified_pairs may be idempotent: _simplified_pairs(_simplified_pairs(x)) == _simplified_pairs(x)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def _simplified_pairs(terms):
     """
     Reduces a set of minterms, if possible, to a simplified set of minterms
@@ -3632,16 +4396,22 @@ def _simplified_pairs(terms):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_rem_redundancy(l1,), after the truth table has been sufficiently simplified, use the prime implicant table method to recognize and eliminate redundant pairs, and return the essential arguments) over Any ║
+# ║ Path(_rem_redundancy(l1, terms), <unspecified:_rem_redundancy>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _rem_redundancy : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | afc961c72e48c327  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg._rem_redundancy","kind":"function","src_hash":"7f75a7dc2ca781d6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_rem_redundancy(l1,)","rhs":"after the truth table has been sufficiently simplified, use the prime implicant table method to recognize and eliminate redundant pairs, and return the essential arguments","over":{"base":"Any"},"name":"_rem_redundancy_correct"},"guarantee":"after the truth table has been sufficiently simplified, use the prime implicant table method to recognize and eliminate redundant pairs, and return the essential arguments","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg._rem_redundancy_correct","statement":"Path(_rem_redundancy(x), after the truth table has been sufficiently simplified, use the prime implicant table method to recognize and eliminate redundant pairs, and return the essential arguments)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"afc961c72e48c327"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg._rem_redundancy","kind":"function","src_hash":"7f75a7dc2ca781d6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_rem_redundancy(l1, terms)","rhs":"<unspecified:_rem_redundancy>","over":{"base":"Any"},"name":"_rem_redundancy_correct"},"guarantee":"after the truth table has been sufficiently simplified, use the prime implicant table method to recognize and eliminate redundant pairs, and return the essential arguments","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg._rem_redundancy_correct","statement":"Path(_rem_redundancy(x), after the truth table has been sufficiently simplified, use the prime implicant table method to recognize and eliminate redundant pairs, and return the essential arguments)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"afc961c72e48c327","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":true}}
 def _rem_redundancy(l1, terms):
     """
     After the truth table has been sufficiently simplified, use the prime
@@ -3745,7 +4515,10 @@ def _rem_redundancy(l1, terms):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_input_to_binlist(inp), internal helper behaves correctly) over {Any | isinstance(val, int) and isinstance(val, dict) and isinstance(val, (list, tuple))} ║
+# ║ Path(_input_to_binlist(inputlist, variables), len(binlist) == old_len_binlist + 1) over {Any | isinstance(val, int) and isinstance(val, dict) and isinstance(val, (list, tuple))} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(binlist) == old_len_binlist + 1            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _input_to_binlist : {Any | isinstance(val, int) and i...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -3759,9 +4532,12 @@ def _rem_redundancy(l1, terms):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓4 ?3 ✗1 VCs | 2.8ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 6623ef98...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg._input_to_binlist","kind":"function","src_hash":"04b9486f0d3480f2","in":{"base":"Any","pred":"isinstance(val, int) and isinstance(val, dict) and isinstance(val, (list, tuple))"},"out":{"base":"Any"},"spec":{"lhs":"_input_to_binlist(inp)","rhs":"internal helper behaves correctly","over":{"base":"Any","pred":"isinstance(val, int) and isinstance(val, dict) and isinstance(val, (list, tuple))"},"name":"_input_to_binlist_correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"int","pred":"isinstance(val, int)","path":{"lhs":"_input_to_binlist(x)","rhs":"internal helper behaves correctly","over":{"base":"int","pred":"isinstance(val, int)"},"name":"_input_to_binlist_int_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg._input_to_binlist_int_correct","statement":"_input_to_binlist satisfies spec on int inputs"},"trust":"LIBRARY"},{"name":"dict","pred":"isinstance(val, dict)","path":{"lhs":"_input_to_binlist(x)","rhs":"internal helper behaves correctly","over":{"base":"dict","pred":"isinstance(val, dict)"},"name":"_input_to_binlist_dict_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg._input_to_binlist_dict_correct","statement":"_input_to_binlist satisfies spec on dict inputs"},"trust":"LIBRARY"},{"name":"(list","pred":"isinstance(val, (list, tuple))","path":{"lhs":"_input_to_binlist(x)","rhs":"internal helper behaves correctly","over":{"base":"(list","pred":"isinstance(val, (list, tuple))"},"name":"_input_to_binlist_(list_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg._input_to_binlist_(list_correct","statement":"_input_to_binlist satisfies spec on (list inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":3,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"6623ef987a32b17a"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg._input_to_binlist","kind":"function","src_hash":"04b9486f0d3480f2","in":{"base":"Any","pred":"isinstance(val, int) and isinstance(val, dict) and isinstance(val, (list, tuple))"},"out":{"base":"Any","pred":"result satisfies: len(binlist) == old_len_binlist + 1"},"spec":{"lhs":"_input_to_binlist(inputlist, variables)","rhs":"len(binlist) == old_len_binlist + 1","over":{"base":"Any","pred":"isinstance(val, int) and isinstance(val, dict) and isinstance(val, (list, tuple))"},"name":"_input_to_binlist_correct"},"guarantee":"len(binlist) == old_len_binlist + 1","fibers":[{"name":"int","pred":"isinstance(val, int)","path":{"lhs":"_input_to_binlist(x)","rhs":"len(binlist) == old_len_binlist + 1","over":{"base":"int","pred":"isinstance(val, int)"},"name":"_input_to_binlist_int_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg._input_to_binlist_int_correct","statement":"_input_to_binlist satisfies spec on int inputs"},"trust":"LIBRARY"},{"name":"dict","pred":"isinstance(val, dict)","path":{"lhs":"_input_to_binlist(x)","rhs":"len(binlist) == old_len_binlist + 1","over":{"base":"dict","pred":"isinstance(val, dict)"},"name":"_input_to_binlist_dict_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg._input_to_binlist_dict_correct","statement":"_input_to_binlist satisfies spec on dict inputs"},"trust":"LIBRARY"},{"name":"(list","pred":"isinstance(val, (list, tuple))","path":{"lhs":"_input_to_binlist(x)","rhs":"len(binlist) == old_len_binlist + 1","over":{"base":"(list","pred":"isinstance(val, (list, tuple))"},"name":"_input_to_binlist_(list_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg._input_to_binlist_(list_correct","statement":"_input_to_binlist satisfies spec on (list inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":3,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"6623ef987a32b17a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(binlist) == old_len_binlist + 1"],"pure":false,"effects":{"effect_type":"reads_state","calls_mutating":["binlist.append","d.update","nonspecvars.remove"],"raises":["TypeError","ValueError"]},"state_contract":{"modifies":["binlist.*","d.*","nonspecvars.*"],"old_bindings":{"old_len_binlist":"len(binlist)","old_len_d":"len(d)"},"post_ensures":["len(binlist) == old_len_binlist + 1"],"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":8,"n_verified":4,"n_assumed":3,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.8,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(val, (list, tuple))', 'len(val) != bits', 'isinstance(val, int)', 'isinstance(val, dict)'}, fibers={'dict', 'int', '(list'})"]}}
 def _input_to_binlist(inputlist, variables):
     binlist = []
     bits = len(variables)
@@ -3789,16 +4565,22 @@ def _input_to_binlist(inputlist, variables):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(SOPform(var), the sopform function uses simplified_pairs and a redundant group- eliminating algorithm to convert the list of all input combos that generate '1' (the minterms) into the smallest sum-of-products form) over Any ║
+# ║ Path(SOPform(variables, minterms, dontcares), <unspecified:SOPform>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ SOPform : Any → {Any | result satisfies: py:class:`~....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 607f34abd5b569d1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.SOPform","kind":"function","src_hash":"c8ef2cb9919a0e9b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: py:class:`~.or` function (i.e., the \"sum of products\" or"},"spec":{"lhs":"SOPform(var)","rhs":"the sopform function uses simplified_pairs and a redundant group- eliminating algorithm to convert the list of all input combos that generate '1' (the minterms) into the smallest sum-of-products form","over":{"base":"Any"},"name":"SOPform_correct"},"guarantee":"the sopform function uses simplified_pairs and a redundant group- eliminating algorithm to convert the list of all input combos that generate '1' (the minterms) into the smallest sum-of-products form","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg.SOPform_correct","statement":"Path(SOPform(x), the sopform function uses simplified_pairs and a redundant group- eliminating algorithm to convert the list of all input combos that generate '1' (the minterms) into the smallest sum-of-products form)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"607f34abd5b569d1"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.SOPform","kind":"function","src_hash":"c8ef2cb9919a0e9b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: py:class:`~.or` function (i.e., the \"sum of products\" or"},"spec":{"lhs":"SOPform(variables, minterms, dontcares)","rhs":"<unspecified:SOPform>","over":{"base":"Any"},"name":"SOPform_correct"},"guarantee":"the sopform function uses simplified_pairs and a redundant group- eliminating algorithm to convert the list of all input combos that generate '1' (the minterms) into the smallest sum-of-products form","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg.SOPform_correct","statement":"Path(SOPform(x), the sopform function uses simplified_pairs and a redundant group- eliminating algorithm to convert the list of all input combos that generate '1' (the minterms) into the smallest sum-of-products form)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"607f34abd5b569d1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def SOPform(variables, minterms, dontcares=None):
     """
     The SOPform function uses simplified_pairs and a redundant group-
@@ -3875,16 +4657,22 @@ def SOPform(variables, minterms, dontcares=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_sop_form(var), id) over Any                          ║
+# ║ Path(_sop_form(variables, minterms, dontcares), id) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Or(*[_convert_to_varsSOP(x, variables) fo...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _sop_form : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 4db3b8801544f8b6   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg._sop_form","kind":"function","src_hash":"8cf7ef6602a2710f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sop_form(var)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_sop_form_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Or","by":"library_axiom"},{"fn":"_convert_to_varsSOP","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4db3b8801544f8b6"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg._sop_form","kind":"function","src_hash":"8cf7ef6602a2710f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sop_form(variables, minterms, dontcares)","rhs":"Or(*[_convert_to_varsSOP(x, variables) for x in essential])","over":{"base":"Any"},"name":"_sop_form_correct","kind":"composition"},"guarantee":"returns Or(*[_convert_to_varsSOP(x, variables) for x in essential])","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Or","by":"library_axiom"},{"fn":"_convert_to_varsSOP","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4db3b8801544f8b6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Or(*[_convert_to_varsSOP(x, variables) for x in essential])","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _sop_form(variables, minterms, dontcares):
     new = _simplified_pairs(minterms + dontcares)
     essential = _rem_redundancy(new, minterms)
@@ -3892,16 +4680,22 @@ def _sop_form(variables, minterms, dontcares):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(POSform(var), the posform function uses simplified_pairs and a redundant-group eliminating algorithm to convert the list of all input combinations that generate '1' (the minterms) into the smallest product-of-sums ) over Any ║
+# ║ Path(POSform(variables, minterms, dontcares), len(maxterms) == old_len_maxterms + 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ POSform : Any → {Any | result satisfies: py:class:`~....   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(maxterms) == old_len_maxterms + 1          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ POSform : Any → {Any | result satisfies: len(maxterms...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d9fbf9a77281b048  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 52a1d50cab7e1bb6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.POSform","kind":"function","src_hash":"a2fe8a99c66fc3c8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: py:class:`~.and` function (i.e., the \"product of sums\""},"spec":{"lhs":"POSform(var)","rhs":"the posform function uses simplified_pairs and a redundant-group eliminating algorithm to convert the list of all input combinations that generate '1' (the minterms) into the smallest product-of-sums ","over":{"base":"Any"},"name":"POSform_correct"},"guarantee":"the posform function uses simplified_pairs and a redundant-group eliminating algorithm to convert the list of all input combinations that generate '1' (the minterms) into the smallest product-of-sums ","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg.POSform_correct","statement":"Path(POSform(x), the posform function uses simplified_pairs and a redundant-group eliminating algorithm to convert the list of all input combinations that generate '1' (the minterms) into the smallest product-of-sums )"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d9fbf9a77281b048"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.POSform","kind":"function","src_hash":"a2fe8a99c66fc3c8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(maxterms) == old_len_maxterms + 1"},"spec":{"lhs":"POSform(variables, minterms, dontcares)","rhs":"len(maxterms) == old_len_maxterms + 1","over":{"base":"Any"},"name":"POSform_correct"},"guarantee":"len(maxterms) == old_len_maxterms + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg.POSform_correct","statement":"Path(POSform(x), len(maxterms) == old_len_maxterms + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"52a1d50cab7e1bb6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(maxterms) == old_len_maxterms + 1"],"pure":false,"effects":{"effect_type":"reads_state","calls_mutating":["maxterms.append"],"raises":["ValueError"]},"state_contract":{"modifies":["maxterms.*"],"old_bindings":{"old_len_maxterms":"len(maxterms)"},"post_ensures":["len(maxterms) == old_len_maxterms + 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def POSform(variables, minterms, dontcares=None):
     """
     The POSform function uses simplified_pairs and a redundant-group
@@ -3984,16 +4778,24 @@ def POSform(variables, minterms, dontcares=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ANFform(var), id) over Any                            ║
+# ║ Path(ANFform(variables, truthvalues), id) over {Any | not (n_values != 2 ** n_vars)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ ANFform : Any → {Any | result satisfies: py:class:`~....   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (n_values != 2 ** n_vars)                  ║
+# ║   ensures:  len(terms) == old_len_terms + 1                ║
+# ║   returns:  Xor(*[_convert_to_varsANF(x, variables) f...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ ANFform : {Any | not (n_values != 2 ** n_vars)} → {An...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 21a4cb4957a82f6f   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.ANFform","kind":"function","src_hash":"0c640393a61f1d06","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: py:class:`~.and` function (i.e., the"},"spec":{"lhs":"ANFform(var)","rhs":"the anfform function converts the list of truth values to algebraic normal form (anf)","over":{"base":"Any"},"name":"ANFform_correct","kind":"composition"},"guarantee":"the anfform function converts the list of truth values to algebraic normal form (anf)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Xor","by":"library_axiom"},{"fn":"_convert_to_varsANF","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"21a4cb4957a82f6f"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.ANFform","kind":"function","src_hash":"0c640393a61f1d06","in":{"base":"Any","pred":"not (n_values != 2 ** n_vars)"},"out":{"base":"Any","pred":"result satisfies: result == (Xor(*[_convert_to_varsANF(x, variables) for x in terms], remove_true=False))"},"spec":{"lhs":"ANFform(variables, truthvalues)","rhs":"Xor(*[_convert_to_varsANF(x, variables) for x in terms], remove_true=False)","over":{"base":"Any","pred":"not (n_values != 2 ** n_vars)"},"name":"ANFform_correct","kind":"composition"},"guarantee":"returns Xor(*[_convert_to_varsANF(x, variables) for x in terms], remove_true=False); len(terms) == old_len_terms + 1","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Xor","by":"library_axiom"},{"fn":"_convert_to_varsANF","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"21a4cb4957a82f6f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (n_values != 2 ** n_vars)"],"ensures":["len(terms) == old_len_terms + 1"],"returns_expr":"Xor(*[_convert_to_varsANF(x, variables) for x in terms], remove_true=False)","pure":false,"effects":{"effect_type":"reads_state","calls_mutating":["terms.append"],"raises":["ValueError"]},"state_contract":{"modifies":["terms.*"],"old_bindings":{"old_len_terms":"len(terms)"},"post_ensures":["len(terms) == old_len_terms + 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def ANFform(variables, truthvalues):
     """
     The ANFform function converts the list of truth values to
@@ -4057,16 +4859,24 @@ def ANFform(variables, truthvalues):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(anf_coeffs(tru), convert a list of truth values of some boolean expression to the list of coefficients of the polynomial mod 2 (exclusive disjunction) representing the boolean expression in anf (i.e., the "zhegalkin p) over Any ║
+# ║ Path(anf_coeffs(truthvalues), coeffs[0]) over {Any | not (len(truthvalues) != 2 ** n)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ anf_coeffs : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (len(truthvalues) != 2 ** n)               ║
+# ║   ensures:  len(tmp) == old_len_tmp + 1                    ║
+# ║   returns:  coeffs[0]                                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ anf_coeffs : {Any | not (len(truthvalues) != 2 ** n)}...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f1d494e100dfad2d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 862baf994ef685c9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.anf_coeffs","kind":"function","src_hash":"fe6ecbf29be7f8c6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"anf_coeffs(tru)","rhs":"convert a list of truth values of some boolean expression to the list of coefficients of the polynomial mod 2 (exclusive disjunction) representing the boolean expression in anf (i.e., the \"zhegalkin p","over":{"base":"Any"},"name":"anf_coeffs_correct"},"guarantee":"convert a list of truth values of some boolean expression to the list of coefficients of the polynomial mod 2 (exclusive disjunction) representing the boolean expression in anf (i.e., the \"zhegalkin p","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg.anf_coeffs_correct","statement":"Path(anf_coeffs(x), convert a list of truth values of some boolean expression to the list of coefficients of the polynomial mod 2 (exclusive disjunction) representing the boolean expression in anf (i.e., the \"zhegalkin p)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f1d494e100dfad2d"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.anf_coeffs","kind":"function","src_hash":"fe6ecbf29be7f8c6","in":{"base":"Any","pred":"not (len(truthvalues) != 2 ** n)"},"out":{"base":"Any","pred":"result satisfies: result == (coeffs[0])"},"spec":{"lhs":"anf_coeffs(truthvalues)","rhs":"coeffs[0]","over":{"base":"Any","pred":"not (len(truthvalues) != 2 ** n)"},"name":"anf_coeffs_correct"},"guarantee":"returns coeffs[0]; len(tmp) == old_len_tmp + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg.anf_coeffs_correct","statement":"Path(anf_coeffs(x), returns coeffs[0]; len(tmp) == old_len_tmp + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"862baf994ef685c9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (len(truthvalues) != 2 ** n)"],"ensures":["len(tmp) == old_len_tmp + 1"],"returns_expr":"coeffs[0]","pure":false,"effects":{"effect_type":"reads_state","calls_mutating":["tmp.append"],"raises":["ValueError"]},"state_contract":{"modifies":["tmp.*"],"old_bindings":{"old_len_tmp":"len(tmp)"},"post_ensures":["len(tmp) == old_len_tmp + 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def anf_coeffs(truthvalues):
     """
     Convert a list of truth values of some boolean expression
@@ -4123,7 +4933,10 @@ def anf_coeffs(truthvalues):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(bool_minterm(k, ), return the k-th minterm) over {Any | isinstance(k, int)} ║
+# ║ Path(bool_minterm(k, variables), _convert_to_varsSOP(k, variables)) over {Any | isinstance(k, int)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _convert_to_varsSOP(k, variables)              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ bool_minterm : {Any | isinstance(k, int)} → Any            ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -4135,9 +4948,12 @@ def anf_coeffs(truthvalues):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 30633070...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.bool_minterm","kind":"function","src_hash":"1062c9e3f7122492","in":{"base":"Any","pred":"isinstance(k, int)"},"out":{"base":"Any"},"spec":{"lhs":"bool_minterm(k, )","rhs":"return the k-th minterm","over":{"base":"Any","pred":"isinstance(k, int)"},"name":"bool_minterm_correct"},"guarantee":"return the k-th minterm","fibers":[{"name":"int","pred":"isinstance(k, int)","path":{"lhs":"bool_minterm(x)","rhs":"return the k-th minterm","over":{"base":"int","pred":"isinstance(k, int)"},"name":"bool_minterm_int_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg.bool_minterm_int_correct","statement":"bool_minterm satisfies spec on int inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"3063307069a14c8c"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.bool_minterm","kind":"function","src_hash":"1062c9e3f7122492","in":{"base":"Any","pred":"isinstance(k, int)"},"out":{"base":"Any"},"spec":{"lhs":"bool_minterm(k, variables)","rhs":"_convert_to_varsSOP(k, variables)","over":{"base":"Any","pred":"isinstance(k, int)"},"name":"bool_minterm_correct"},"guarantee":"returns _convert_to_varsSOP(k, variables)","fibers":[{"name":"int","pred":"isinstance(k, int)","path":{"lhs":"bool_minterm(x)","rhs":"returns _convert_to_varsSOP(k, variables)","over":{"base":"int","pred":"isinstance(k, int)"},"name":"bool_minterm_int_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg.bool_minterm_int_correct","statement":"bool_minterm satisfies spec on int inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"3063307069a14c8c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_convert_to_varsSOP(k, variables)","pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.1,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(k, int)'}, fibers={'int'})"]}}
 def bool_minterm(k, variables):
     """
     Return the k-th minterm.
@@ -4175,7 +4991,10 @@ def bool_minterm(k, variables):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(bool_maxterm(k, ), return the k-th maxterm) over {Any | isinstance(k, int)} ║
+# ║ Path(bool_maxterm(k, variables), _convert_to_varsPOS(k, variables)) over {Any | isinstance(k, int)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _convert_to_varsPOS(k, variables)              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ bool_maxterm : {Any | isinstance(k, int)} → Any            ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -4187,9 +5006,12 @@ def bool_minterm(k, variables):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 941bee6c...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.bool_maxterm","kind":"function","src_hash":"6956cc724cb895f5","in":{"base":"Any","pred":"isinstance(k, int)"},"out":{"base":"Any"},"spec":{"lhs":"bool_maxterm(k, )","rhs":"return the k-th maxterm","over":{"base":"Any","pred":"isinstance(k, int)"},"name":"bool_maxterm_correct"},"guarantee":"return the k-th maxterm","fibers":[{"name":"int","pred":"isinstance(k, int)","path":{"lhs":"bool_maxterm(x)","rhs":"return the k-th maxterm","over":{"base":"int","pred":"isinstance(k, int)"},"name":"bool_maxterm_int_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg.bool_maxterm_int_correct","statement":"bool_maxterm satisfies spec on int inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"941bee6c5c3f0c67"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.bool_maxterm","kind":"function","src_hash":"6956cc724cb895f5","in":{"base":"Any","pred":"isinstance(k, int)"},"out":{"base":"Any"},"spec":{"lhs":"bool_maxterm(k, variables)","rhs":"_convert_to_varsPOS(k, variables)","over":{"base":"Any","pred":"isinstance(k, int)"},"name":"bool_maxterm_correct"},"guarantee":"returns _convert_to_varsPOS(k, variables)","fibers":[{"name":"int","pred":"isinstance(k, int)","path":{"lhs":"bool_maxterm(x)","rhs":"returns _convert_to_varsPOS(k, variables)","over":{"base":"int","pred":"isinstance(k, int)"},"name":"bool_maxterm_int_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg.bool_maxterm_int_correct","statement":"bool_maxterm satisfies spec on int inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"941bee6c5c3f0c67","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_convert_to_varsPOS(k, variables)","pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(k, int)'}, fibers={'int'})"]}}
 def bool_maxterm(k, variables):
     """
     Return the k-th maxterm.
@@ -4227,7 +5049,10 @@ def bool_maxterm(k, variables):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(bool_monomial(k, ), return the k-th monomial) over {Any | isinstance(k, int)} ║
+# ║ Path(bool_monomial(k, variables), _convert_to_varsANF(k, variables)) over {Any | isinstance(k, int)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _convert_to_varsANF(k, variables)              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ bool_monomial : {Any | isinstance(k, int)} → Any           ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -4239,9 +5064,12 @@ def bool_maxterm(k, variables):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 3423d396...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.bool_monomial","kind":"function","src_hash":"dac6d588eef6043e","in":{"base":"Any","pred":"isinstance(k, int)"},"out":{"base":"Any"},"spec":{"lhs":"bool_monomial(k, )","rhs":"return the k-th monomial","over":{"base":"Any","pred":"isinstance(k, int)"},"name":"bool_monomial_correct"},"guarantee":"return the k-th monomial","fibers":[{"name":"int","pred":"isinstance(k, int)","path":{"lhs":"bool_monomial(x)","rhs":"return the k-th monomial","over":{"base":"int","pred":"isinstance(k, int)"},"name":"bool_monomial_int_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg.bool_monomial_int_correct","statement":"bool_monomial satisfies spec on int inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"3423d396a7bdd3b3"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.bool_monomial","kind":"function","src_hash":"dac6d588eef6043e","in":{"base":"Any","pred":"isinstance(k, int)"},"out":{"base":"Any"},"spec":{"lhs":"bool_monomial(k, variables)","rhs":"_convert_to_varsANF(k, variables)","over":{"base":"Any","pred":"isinstance(k, int)"},"name":"bool_monomial_correct"},"guarantee":"returns _convert_to_varsANF(k, variables)","fibers":[{"name":"int","pred":"isinstance(k, int)","path":{"lhs":"bool_monomial(x)","rhs":"returns _convert_to_varsANF(k, variables)","over":{"base":"int","pred":"isinstance(k, int)"},"name":"bool_monomial_int_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg.bool_monomial_int_correct","statement":"bool_monomial satisfies spec on int inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"3423d396a7bdd3b3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_convert_to_varsANF(k, variables)","pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.1,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(k, int)'}, fibers={'int'})"]}}
 def bool_monomial(k, variables):
     """
     Return the k-th monomial.
@@ -4284,7 +5112,11 @@ def bool_monomial(k, variables):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_find_predicates(exp), helper to find logical predicates in booleanfunctions) over {Any | isinstance(expr, BooleanFunction)} ║
+# ║ Path(_find_predicates(expr), <unspecified:_find_predicates>) over {Any | isinstance(expr, BooleanFunction) and hasattr(expr, 'args')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _find_predicates : {Any | isinstance(expr, BooleanFun...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -4296,9 +5128,12 @@ def bool_monomial(k, variables):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.3ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | b188ba40...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg._find_predicates","kind":"function","src_hash":"8449d6ef45bbe2b1","in":{"base":"Any","pred":"isinstance(expr, BooleanFunction)"},"out":{"base":"Any"},"spec":{"lhs":"_find_predicates(exp)","rhs":"helper to find logical predicates in booleanfunctions","over":{"base":"Any","pred":"isinstance(expr, BooleanFunction)"},"name":"_find_predicates_correct"},"guarantee":"helper to find logical predicates in booleanfunctions","fibers":[{"name":"BooleanFunction","pred":"isinstance(expr, BooleanFunction)","path":{"lhs":"_find_predicates(x)","rhs":"helper to find logical predicates in booleanfunctions","over":{"base":"BooleanFunction","pred":"isinstance(expr, BooleanFunction)"},"name":"_find_predicates_BooleanFunction_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg._find_predicates_BooleanFunction_correct","statement":"_find_predicates satisfies spec on BooleanFunction inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"b188ba40345efac4"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg._find_predicates","kind":"function","src_hash":"8449d6ef45bbe2b1","in":{"base":"Any","pred":"isinstance(expr, BooleanFunction) and hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_find_predicates(expr)","rhs":"<unspecified:_find_predicates>","over":{"base":"Any","pred":"isinstance(expr, BooleanFunction) and hasattr(expr, 'args')"},"name":"_find_predicates_correct"},"guarantee":"helper to find logical predicates in booleanfunctions","fibers":[{"name":"BooleanFunction","pred":"isinstance(expr, BooleanFunction)","path":{"lhs":"_find_predicates(x)","rhs":"helper to find logical predicates in booleanfunctions","over":{"base":"BooleanFunction","pred":"isinstance(expr, BooleanFunction)"},"name":"_find_predicates_BooleanFunction_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg._find_predicates_BooleanFunction_correct","statement":"_find_predicates satisfies spec on BooleanFunction inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"b188ba40345efac4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.3,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'not isinstance(expr, BooleanFunction)'}, fibers={'BooleanFunction'})"]}}
 def _find_predicates(expr):
     """Helper to find logical predicates in BooleanFunctions.
 
@@ -4312,7 +5147,13 @@ def _find_predicates(expr):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(simplify_logic(exp), this function simplifies a boolean function to its simplified version in sop or pos form) over {Any | isinstance(expr, BooleanFunction)} ║
+# ║ Path(simplify_logic(expr, form, deep), len(variables) == old_len_variables - 1) over {Any | isinstance(expr, BooleanFunction) and not (form not in (None, 'cnf', 'dnf')) and hasattr(expr, 'atoms') and hasattr(expr, 'xreplace') and hasattr(dontcare, 'xreplace') and hasattr(dontcare, 'atoms') and hasattr(expr, 'args') and len(variables) > 0} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (form not in (None, 'cnf', 'dnf'))         ║
+# ║   requires: hasattr(expr, 'atoms')                         ║
+# ║   requires: hasattr(expr, 'xreplace')                      ║
+# ║   ensures:  len(variables) == old_len_variables - 1        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ simplify_logic : {Any | isinstance(expr, BooleanFunct...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -4324,9 +5165,12 @@ def _find_predicates(expr):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 2.2ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | d0d404ee...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.simplify_logic","kind":"function","src_hash":"218f1ea8704b5312","in":{"base":"Any","pred":"isinstance(expr, BooleanFunction)"},"out":{"base":"Any"},"spec":{"lhs":"simplify_logic(exp)","rhs":"this function simplifies a boolean function to its simplified version in sop or pos form","over":{"base":"Any","pred":"isinstance(expr, BooleanFunction)"},"name":"simplify_logic_correct"},"guarantee":"this function simplifies a boolean function to its simplified version in sop or pos form","fibers":[{"name":"BooleanFunction","pred":"isinstance(expr, BooleanFunction)","path":{"lhs":"simplify_logic(x)","rhs":"this function simplifies a boolean function to its simplified version in sop or pos form","over":{"base":"BooleanFunction","pred":"isinstance(expr, BooleanFunction)"},"name":"simplify_logic_BooleanFunction_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg.simplify_logic_BooleanFunction_correct","statement":"simplify_logic satisfies spec on BooleanFunction inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"d0d404ee10775361"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.simplify_logic","kind":"function","src_hash":"218f1ea8704b5312","in":{"base":"Any","pred":"isinstance(expr, BooleanFunction) and not (form not in (None, 'cnf', 'dnf')) and hasattr(expr, 'atoms') and hasattr(expr, 'xreplace') and hasattr(dontcare, 'xreplace') and hasattr(dontcare, 'atoms') and hasattr(expr, 'args') and len(variables) > 0"},"out":{"base":"Any","pred":"result satisfies: len(variables) == old_len_variables - 1"},"spec":{"lhs":"simplify_logic(expr, form, deep)","rhs":"len(variables) == old_len_variables - 1","over":{"base":"Any","pred":"isinstance(expr, BooleanFunction) and not (form not in (None, 'cnf', 'dnf')) and hasattr(expr, 'atoms') and hasattr(expr, 'xreplace') and hasattr(dontcare, 'xreplace') and hasattr(dontcare, 'atoms') and hasattr(expr, 'args') and len(variables) > 0"},"name":"simplify_logic_correct"},"guarantee":"len(variables) == old_len_variables - 1","fibers":[{"name":"BooleanFunction","pred":"isinstance(expr, BooleanFunction)","path":{"lhs":"simplify_logic(x)","rhs":"len(variables) == old_len_variables - 1","over":{"base":"BooleanFunction","pred":"isinstance(expr, BooleanFunction)"},"name":"simplify_logic_BooleanFunction_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg.simplify_logic_BooleanFunction_correct","statement":"simplify_logic satisfies spec on BooleanFunction inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"d0d404ee10775361","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (form not in (None, 'cnf', 'dnf'))","hasattr(expr, 'atoms')","hasattr(expr, 'xreplace')","hasattr(dontcare, 'xreplace')","hasattr(dontcare, 'atoms')","hasattr(expr, 'args')","len(variables) > 0"],"ensures":["len(variables) == old_len_variables - 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["dontcare.atoms","dontcare.xreplace","expr.args","expr.atoms","expr.xreplace"],"calls_mutating":["variables.pop","variables.remove","variables.update"],"raises":["ValueError"]},"state_contract":{"modifies":["variables.*"],"old_bindings":{"old_len_variables":"len(variables)"},"pre_requires":["len(variables) > 0"],"post_ensures":["len(variables) == old_len_variables - 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.2,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={\"form == 'dnf'\", 'not isinstance(expr, BooleanFunction)', \"form == 'dnf' or (form is None and big)\", 'not force and len(variables) > 8', \"form == 'cnf'\"}, fibers={'BooleanFunction'})"]}}
 def simplify_logic(expr, form=None, deep=True, force=False, dontcare=None):
     """
     This function simplifies a boolean function to its simplified version
@@ -4459,16 +5303,26 @@ def simplify_logic(expr, form=None, deep=True, force=False, dontcare=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_truthtable(var), return a list of all combinations leading to a true result for ``expr``) over Any ║
+# ║ Path(_get_truthtable(variables, expr, const), result == ([] if res == [[]] else res) and result == [] or result == res) over {Any | hasattr(variables, 'copy')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _get_truthtable : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(variables, 'copy')                     ║
+# ║   ensures:  result == ([] if res == [[]] else res)         ║
+# ║   ensures:  result == [] or result == res                  ║
+# ║   fiber[case_0]: res == [[]] => []                         ║
+# ║   fiber[case_1]: not (res == [[]]) => res                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _get_truthtable : {Any | hasattr(variables, 'copy')} ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b2fefad38bad2452  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 466c1010495db351  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg._get_truthtable","kind":"function","src_hash":"9de3b0ef29e4c27a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_truthtable(var)","rhs":"return a list of all combinations leading to a true result for ``expr``","over":{"base":"Any"},"name":"_get_truthtable_correct"},"guarantee":"return a list of all combinations leading to a true result for ``expr``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg._get_truthtable_correct","statement":"Path(_get_truthtable(x), return a list of all combinations leading to a true result for ``expr``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b2fefad38bad2452"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg._get_truthtable","kind":"function","src_hash":"9de3b0ef29e4c27a","in":{"base":"Any","pred":"hasattr(variables, 'copy')"},"out":{"base":"Any","pred":"result satisfies: result == ([] if res == [[]] else res) and result == [] or result == res"},"spec":{"lhs":"_get_truthtable(variables, expr, const)","rhs":"result == ([] if res == [[]] else res) and result == [] or result == res","over":{"base":"Any","pred":"hasattr(variables, 'copy')"},"name":"_get_truthtable_correct"},"guarantee":"result == ([] if res == [[]] else res); result == [] or result == res; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg._get_truthtable_correct","statement":"Path(_get_truthtable(x), result == ([] if res == [[]] else res); result == [] or result == res; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"466c1010495db351","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(variables, 'copy')"],"ensures":["result == ([] if res == [[]] else res)","result == [] or result == res"],"fibers":[{"name":"case_0","guard":"res == [[]]","ensures":["result == []"],"decidability":"z3","returns_expr":"[]"},{"name":"case_1","guard":"not (res == [[]])","ensures":["result == res"],"decidability":"z3","returns_expr":"res"}],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _get_truthtable(variables, expr, const):
     """ Return a list of all combinations leading to a True result for ``expr``.
     """
@@ -4488,9 +5342,14 @@ def _get_truthtable(variables, expr, const):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_finger(eq), assign a 5-item fingerprint to each symbol in the equation: [ # of times it appeared as a symbol; # of times it appeared as a not(symbol); # of times it appeared as a symbol in an and or or; # of time) over {Any | isinstance(ai, Not)} ║
+# ║ Path(_finger(eq), <unspecified:_finger>) over {Any | isinstance(ai, Not) and hasattr(eq, 'free_symbols') and hasattr(eq, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _finger : {Any | isinstance(ai, Not)} → Any                ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(eq, 'free_symbols')                    ║
+# ║   requires: hasattr(eq, 'args')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _finger : {Any | isinstance(ai, Not) and hasattr(eq, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   Not: {isinstance(ai, Not)} → library_axiom               ║
@@ -4500,9 +5359,12 @@ def _get_truthtable(variables, expr, const):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.6ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | c8c80eb2...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg._finger","kind":"function","src_hash":"d07c648ba0d23f7b","in":{"base":"Any","pred":"isinstance(ai, Not)"},"out":{"base":"Any"},"spec":{"lhs":"_finger(eq)","rhs":"assign a 5-item fingerprint to each symbol in the equation: [ # of times it appeared as a symbol; # of times it appeared as a not(symbol); # of times it appeared as a symbol in an and or or; # of time","over":{"base":"Any","pred":"isinstance(ai, Not)"},"name":"_finger_correct"},"guarantee":"assign a 5-item fingerprint to each symbol in the equation: [ # of times it appeared as a symbol; # of times it appeared as a not(symbol); # of times it appeared as a symbol in an and or or; # of time","fibers":[{"name":"Not","pred":"isinstance(ai, Not)","path":{"lhs":"_finger(x)","rhs":"assign a 5-item fingerprint to each symbol in the equation: [ # of times it appeared as a symbol; # of times it appeared as a not(symbol); # of times it appeared as a symbol in an and or or; # of time","over":{"base":"Not","pred":"isinstance(ai, Not)"},"name":"_finger_Not_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg._finger_Not_correct","statement":"_finger satisfies spec on Not inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"c8c80eb28ce489d4"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg._finger","kind":"function","src_hash":"d07c648ba0d23f7b","in":{"base":"Any","pred":"isinstance(ai, Not) and hasattr(eq, 'free_symbols') and hasattr(eq, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_finger(eq)","rhs":"<unspecified:_finger>","over":{"base":"Any","pred":"isinstance(ai, Not) and hasattr(eq, 'free_symbols') and hasattr(eq, 'args')"},"name":"_finger_correct"},"guarantee":"assign a 5-item fingerprint to each symbol in the equation: [ # of times it appeared as a symbol; # of times it appeared as a not(symbol); # of times it appeared as a symbol in an and or or; # of time","fibers":[{"name":"Not","pred":"isinstance(ai, Not)","path":{"lhs":"_finger(x)","rhs":"assign a 5-item fingerprint to each symbol in the equation: [ # of times it appeared as a symbol; # of times it appeared as a not(symbol); # of times it appeared as a symbol in an and or or; # of time","over":{"base":"Not","pred":"isinstance(ai, Not)"},"name":"_finger_Not_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg._finger_Not_correct","statement":"_finger satisfies spec on Not inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"c8c80eb28ce489d4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(eq, 'free_symbols')","hasattr(eq, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["eq.args","eq.free_symbols"],"raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.6,"verdict_class":"failed","binding":true}}
 def _finger(eq):
     """
     Assign a 5-item fingerprint to each symbol in the equation:
@@ -4575,16 +5437,22 @@ def _finger(eq):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(bool_map(boo), return the simplified version of *bool1*, and the mapping of variables that makes the two expressions *bool1* and *bool2* represent the same logical behaviour for some correspondence between the varia) over Any ║
+# ║ Path(bool_map(bool1, bool2), <unspecified:bool_map>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ bool_map : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8d7dd4d4f4760931  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.bool_map","kind":"function","src_hash":"ac18bff1ea87e1b9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bool_map(boo)","rhs":"return the simplified version of *bool1*, and the mapping of variables that makes the two expressions *bool1* and *bool2* represent the same logical behaviour for some correspondence between the varia","over":{"base":"Any"},"name":"bool_map_correct"},"guarantee":"return the simplified version of *bool1*, and the mapping of variables that makes the two expressions *bool1* and *bool2* represent the same logical behaviour for some correspondence between the varia","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg.bool_map_correct","statement":"Path(bool_map(x), return the simplified version of *bool1*, and the mapping of variables that makes the two expressions *bool1* and *bool2* represent the same logical behaviour for some correspondence between the varia)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8d7dd4d4f4760931"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.bool_map","kind":"function","src_hash":"ac18bff1ea87e1b9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bool_map(bool1, bool2)","rhs":"<unspecified:bool_map>","over":{"base":"Any"},"name":"bool_map_correct"},"guarantee":"return the simplified version of *bool1*, and the mapping of variables that makes the two expressions *bool1* and *bool2* represent the same logical behaviour for some correspondence between the varia","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg.bool_map_correct","statement":"Path(bool_map(x), return the simplified version of *bool1*, and the mapping of variables that makes the two expressions *bool1* and *bool2* represent the same logical behaviour for some correspondence between the varia)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8d7dd4d4f4760931","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def bool_map(bool1, bool2):
     """
     Return the simplified version of *bool1*, and the mapping of variables
@@ -4671,7 +5539,12 @@ def bool_map(bool1, bool2):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_apply_patternbased_simplification(rv,), replace patterns of relational) over {Any | isinstance(i, Relational)} ║
+# ║ Path(_apply_patternbased_simplification(rv, patterns, measure), <unspecified:_apply_patternbased_simplification>) over {Any | isinstance(i, Relational) and hasattr(rv, 'args') and hasattr(rv, 'func')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(rv, 'args')                            ║
+# ║   requires: hasattr(rv, 'func')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _apply_patternbased_simplification : {Any | isinstanc...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -4683,9 +5556,12 @@ def bool_map(bool1, bool2):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.6ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 711703ce...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg._apply_patternbased_simplification","kind":"function","src_hash":"c04ca790956bea79","in":{"base":"Any","pred":"isinstance(i, Relational)"},"out":{"base":"Any"},"spec":{"lhs":"_apply_patternbased_simplification(rv,)","rhs":"replace patterns of relational","over":{"base":"Any","pred":"isinstance(i, Relational)"},"name":"_apply_patternbased_simplification_correct"},"guarantee":"replace patterns of relational","fibers":[{"name":"Relational","pred":"isinstance(i, Relational)","path":{"lhs":"_apply_patternbased_simplification(x)","rhs":"replace patterns of relational","over":{"base":"Relational","pred":"isinstance(i, Relational)"},"name":"_apply_patternbased_simplification_Relational_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg._apply_patternbased_simplification_Relational_correct","statement":"_apply_patternbased_simplification satisfies spec on Relational inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"711703ce63d2096f"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg._apply_patternbased_simplification","kind":"function","src_hash":"c04ca790956bea79","in":{"base":"Any","pred":"isinstance(i, Relational) and hasattr(rv, 'args') and hasattr(rv, 'func')"},"out":{"base":"Any"},"spec":{"lhs":"_apply_patternbased_simplification(rv, patterns, measure)","rhs":"<unspecified:_apply_patternbased_simplification>","over":{"base":"Any","pred":"isinstance(i, Relational) and hasattr(rv, 'args') and hasattr(rv, 'func')"},"name":"_apply_patternbased_simplification_correct"},"guarantee":"replace patterns of relational","fibers":[{"name":"Relational","pred":"isinstance(i, Relational)","path":{"lhs":"_apply_patternbased_simplification(x)","rhs":"replace patterns of relational","over":{"base":"Relational","pred":"isinstance(i, Relational)"},"name":"_apply_patternbased_simplification_Relational_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg._apply_patternbased_simplification_Relational_correct","statement":"_apply_patternbased_simplification satisfies spec on Relational inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"711703ce63d2096f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(rv, 'args')","hasattr(rv, 'func')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["rv.args","rv.func"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.6,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'threeterm_patterns and len(Rel) >= 3', 'len(Rel) <= 1', 'replacementvalue is None and dominatingvalue is not None'}, fibers={'Relational'})"]}}
 def _apply_patternbased_simplification(rv, patterns, measure,
                                        dominatingvalue,
                                        replacementvalue=None,
@@ -4753,7 +5629,13 @@ def _apply_patternbased_simplification(rv, patterns, measure,
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_apply_patternbased_twoterm_simplification(Rel), apply pattern-based two-term simplification) over {Any | isinstance(r, (Ge, Gt)) and isinstance(r, _Inequality) and isinstance(np, ITE)} ║
+# ║ Path(_apply_patternbased_twoterm_simplification(Rel, patterns, func), len(Rel) == old_len_Rel + 1 and len(idx) == old_len_idx and len(res) == old_len_res + 1 and len(results) == old_len_results + 1) over {Any | isinstance(r, (Ge, Gt)) and isinstance(r, _Inequality) and isinstance(np, ITE) and hasattr(Rel, 'append')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(Rel, 'append')                         ║
+# ║   ensures:  len(Rel) == old_len_Rel + 1                    ║
+# ║   ensures:  len(idx) == old_len_idx                        ║
+# ║   ensures:  len(res) == old_len_res + 1                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _apply_patternbased_twoterm_simplification : {Any | i...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -4767,9 +5649,12 @@ def _apply_patternbased_simplification(rv, patterns, measure,
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?3 ✗3 VCs | 8.7ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 86d19658...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg._apply_patternbased_twoterm_simplification","kind":"function","src_hash":"ecada4f648a12def","in":{"base":"Any","pred":"isinstance(r, (Ge, Gt)) and isinstance(r, _Inequality) and isinstance(np, ITE)"},"out":{"base":"Any"},"spec":{"lhs":"_apply_patternbased_twoterm_simplification(Rel)","rhs":"apply pattern-based two-term simplification","over":{"base":"Any","pred":"isinstance(r, (Ge, Gt)) and isinstance(r, _Inequality) and isinstance(np, ITE)"},"name":"_apply_patternbased_twoterm_simplification_correct"},"guarantee":"apply pattern-based two-term simplification","fibers":[{"name":"(Ge","pred":"isinstance(r, (Ge, Gt))","path":{"lhs":"_apply_patternbased_twoterm_simplification(x)","rhs":"apply pattern-based two-term simplification","over":{"base":"(Ge","pred":"isinstance(r, (Ge, Gt))"},"name":"_apply_patternbased_twoterm_simplification_(Ge_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg._apply_patternbased_twoterm_simplification_(Ge_correct","statement":"_apply_patternbased_twoterm_simplification satisfies spec on (Ge inputs"},"trust":"LIBRARY"},{"name":"_Inequality","pred":"isinstance(r, _Inequality)","path":{"lhs":"_apply_patternbased_twoterm_simplification(x)","rhs":"apply pattern-based two-term simplification","over":{"base":"_Inequality","pred":"isinstance(r, _Inequality)"},"name":"_apply_patternbased_twoterm_simplification__Inequality_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg._apply_patternbased_twoterm_simplification__Inequality_correct","statement":"_apply_patternbased_twoterm_simplification satisfies spec on _Inequality inputs"},"trust":"LIBRARY"},{"name":"ITE","pred":"isinstance(np, ITE)","path":{"lhs":"_apply_patternbased_twoterm_simplification(x)","rhs":"apply pattern-based two-term simplification","over":{"base":"ITE","pred":"isinstance(np, ITE)"},"name":"_apply_patternbased_twoterm_simplification_ITE_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg._apply_patternbased_twoterm_simplification_ITE_correct","statement":"_apply_patternbased_twoterm_simplification satisfies spec on ITE inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":3,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"86d19658ed2e47f1"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg._apply_patternbased_twoterm_simplification","kind":"function","src_hash":"ecada4f648a12def","in":{"base":"Any","pred":"isinstance(r, (Ge, Gt)) and isinstance(r, _Inequality) and isinstance(np, ITE) and hasattr(Rel, 'append')"},"out":{"base":"Any","pred":"result satisfies: len(Rel) == old_len_Rel + 1 and len(idx) == old_len_idx and len(res) == old_len_res + 1 and len(results) == old_len_results + 1"},"spec":{"lhs":"_apply_patternbased_twoterm_simplification(Rel, patterns, func)","rhs":"len(Rel) == old_len_Rel + 1 and len(idx) == old_len_idx and len(res) == old_len_res + 1 and len(results) == old_len_results + 1","over":{"base":"Any","pred":"isinstance(r, (Ge, Gt)) and isinstance(r, _Inequality) and isinstance(np, ITE) and hasattr(Rel, 'append')"},"name":"_apply_patternbased_twoterm_simplification_correct"},"guarantee":"len(Rel) == old_len_Rel + 1; len(idx) == old_len_idx; len(res) == old_len_res + 1","fibers":[{"name":"(Ge","pred":"isinstance(r, (Ge, Gt))","path":{"lhs":"_apply_patternbased_twoterm_simplification(x)","rhs":"len(Rel) == old_len_Rel + 1; len(idx) == old_len_idx; len(res) == old_len_res + 1","over":{"base":"(Ge","pred":"isinstance(r, (Ge, Gt))"},"name":"_apply_patternbased_twoterm_simplification_(Ge_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg._apply_patternbased_twoterm_simplification_(Ge_correct","statement":"_apply_patternbased_twoterm_simplification satisfies spec on (Ge inputs"},"trust":"LIBRARY"},{"name":"_Inequality","pred":"isinstance(r, _Inequality)","path":{"lhs":"_apply_patternbased_twoterm_simplification(x)","rhs":"len(Rel) == old_len_Rel + 1; len(idx) == old_len_idx; len(res) == old_len_res + 1","over":{"base":"_Inequality","pred":"isinstance(r, _Inequality)"},"name":"_apply_patternbased_twoterm_simplification__Inequality_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg._apply_patternbased_twoterm_simplification__Inequality_correct","statement":"_apply_patternbased_twoterm_simplification satisfies spec on _Inequality inputs"},"trust":"LIBRARY"},{"name":"ITE","pred":"isinstance(np, ITE)","path":{"lhs":"_apply_patternbased_twoterm_simplification(x)","rhs":"len(Rel) == old_len_Rel + 1; len(idx) == old_len_idx; len(res) == old_len_res + 1","over":{"base":"ITE","pred":"isinstance(np, ITE)"},"name":"_apply_patternbased_twoterm_simplification_ITE_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg._apply_patternbased_twoterm_simplification_ITE_correct","statement":"_apply_patternbased_twoterm_simplification satisfies spec on ITE inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":3,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"86d19658ed2e47f1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(Rel, 'append')"],"ensures":["len(Rel) == old_len_Rel + 1","len(idx) == old_len_idx","len(res) == old_len_res + 1","len(results) == old_len_results + 1"],"pure":false,"effects":{"effect_type":"mutates_args","reads":["Rel.append"],"writes":["Rel[*]"],"calls_mutating":["Rel.append","idx.sort","res.append","results.append"]},"state_contract":{"modifies":["Rel.*","Rel[*]","idx.*","res.*","results.*"],"old_bindings":{"old_Rel_star":"Rel[*]","old_len_Rel":"len(Rel)","old_len_idx":"len(idx)","old_len_res":"len(res)","old_len_results":"len(results)"},"post_ensures":["len(Rel) == old_len_Rel + 1","len(idx) == old_len_idx","len(res) == old_len_res + 1","len(results) == old_len_results + 1"]}},"c4_verdict":{"valid":false,"n_vcs":8,"n_verified":2,"n_assumed":3,"n_failed":3,"trust_level":"LIBRARY_ASSUMED","compile_ms":8.7,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'not isinstance(np, ITE) and (not np.has(Min, Max))', 'np == dominatingvalue', 'dominatingvalue is None or newrel != Not(dominatingvalue)', 'costsaving > 0', 'newrel.func == func'}, fibers={'ITE', '(Ge', '_Inequality'})"]}}
 def _apply_patternbased_twoterm_simplification(Rel, patterns, func,
                                                dominatingvalue,
                                                replacementvalue,
@@ -4839,7 +5724,13 @@ def _apply_patternbased_twoterm_simplification(Rel, patterns, func,
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_apply_patternbased_threeterm_simplification(Rel), apply pattern-based three-term simplification) over {Any | isinstance(r, (Le, Lt)) and isinstance(r, _Inequality) and isinstance(np, ITE)} ║
+# ║ Path(_apply_patternbased_threeterm_simplification(Rel, patterns, func), len(Rel) == old_len_Rel + 1 and len(idx) == old_len_idx and len(res) == old_len_res + 1 and len(results) == old_len_results + 1) over {Any | isinstance(r, (Le, Lt)) and isinstance(r, _Inequality) and isinstance(np, ITE) and hasattr(Rel, 'append')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(Rel, 'append')                         ║
+# ║   ensures:  len(Rel) == old_len_Rel + 1                    ║
+# ║   ensures:  len(idx) == old_len_idx                        ║
+# ║   ensures:  len(res) == old_len_res + 1                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _apply_patternbased_threeterm_simplification : {Any |...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -4853,9 +5744,12 @@ def _apply_patternbased_twoterm_simplification(Rel, patterns, func,
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?3 ✗3 VCs | 7.8ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 4704f8a2...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg._apply_patternbased_threeterm_simplification","kind":"function","src_hash":"634e645350cadcc8","in":{"base":"Any","pred":"isinstance(r, (Le, Lt)) and isinstance(r, _Inequality) and isinstance(np, ITE)"},"out":{"base":"Any"},"spec":{"lhs":"_apply_patternbased_threeterm_simplification(Rel)","rhs":"apply pattern-based three-term simplification","over":{"base":"Any","pred":"isinstance(r, (Le, Lt)) and isinstance(r, _Inequality) and isinstance(np, ITE)"},"name":"_apply_patternbased_threeterm_simplification_correct"},"guarantee":"apply pattern-based three-term simplification","fibers":[{"name":"(Le","pred":"isinstance(r, (Le, Lt))","path":{"lhs":"_apply_patternbased_threeterm_simplification(x)","rhs":"apply pattern-based three-term simplification","over":{"base":"(Le","pred":"isinstance(r, (Le, Lt))"},"name":"_apply_patternbased_threeterm_simplification_(Le_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg._apply_patternbased_threeterm_simplification_(Le_correct","statement":"_apply_patternbased_threeterm_simplification satisfies spec on (Le inputs"},"trust":"LIBRARY"},{"name":"_Inequality","pred":"isinstance(r, _Inequality)","path":{"lhs":"_apply_patternbased_threeterm_simplification(x)","rhs":"apply pattern-based three-term simplification","over":{"base":"_Inequality","pred":"isinstance(r, _Inequality)"},"name":"_apply_patternbased_threeterm_simplification__Inequality_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg._apply_patternbased_threeterm_simplification__Inequality_correct","statement":"_apply_patternbased_threeterm_simplification satisfies spec on _Inequality inputs"},"trust":"LIBRARY"},{"name":"ITE","pred":"isinstance(np, ITE)","path":{"lhs":"_apply_patternbased_threeterm_simplification(x)","rhs":"apply pattern-based three-term simplification","over":{"base":"ITE","pred":"isinstance(np, ITE)"},"name":"_apply_patternbased_threeterm_simplification_ITE_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg._apply_patternbased_threeterm_simplification_ITE_correct","statement":"_apply_patternbased_threeterm_simplification satisfies spec on ITE inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":3,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"4704f8a27c816001"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg._apply_patternbased_threeterm_simplification","kind":"function","src_hash":"634e645350cadcc8","in":{"base":"Any","pred":"isinstance(r, (Le, Lt)) and isinstance(r, _Inequality) and isinstance(np, ITE) and hasattr(Rel, 'append')"},"out":{"base":"Any","pred":"result satisfies: len(Rel) == old_len_Rel + 1 and len(idx) == old_len_idx and len(res) == old_len_res + 1 and len(results) == old_len_results + 1"},"spec":{"lhs":"_apply_patternbased_threeterm_simplification(Rel, patterns, func)","rhs":"len(Rel) == old_len_Rel + 1 and len(idx) == old_len_idx and len(res) == old_len_res + 1 and len(results) == old_len_results + 1","over":{"base":"Any","pred":"isinstance(r, (Le, Lt)) and isinstance(r, _Inequality) and isinstance(np, ITE) and hasattr(Rel, 'append')"},"name":"_apply_patternbased_threeterm_simplification_correct"},"guarantee":"len(Rel) == old_len_Rel + 1; len(idx) == old_len_idx; len(res) == old_len_res + 1","fibers":[{"name":"(Le","pred":"isinstance(r, (Le, Lt))","path":{"lhs":"_apply_patternbased_threeterm_simplification(x)","rhs":"len(Rel) == old_len_Rel + 1; len(idx) == old_len_idx; len(res) == old_len_res + 1","over":{"base":"(Le","pred":"isinstance(r, (Le, Lt))"},"name":"_apply_patternbased_threeterm_simplification_(Le_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg._apply_patternbased_threeterm_simplification_(Le_correct","statement":"_apply_patternbased_threeterm_simplification satisfies spec on (Le inputs"},"trust":"LIBRARY"},{"name":"_Inequality","pred":"isinstance(r, _Inequality)","path":{"lhs":"_apply_patternbased_threeterm_simplification(x)","rhs":"len(Rel) == old_len_Rel + 1; len(idx) == old_len_idx; len(res) == old_len_res + 1","over":{"base":"_Inequality","pred":"isinstance(r, _Inequality)"},"name":"_apply_patternbased_threeterm_simplification__Inequality_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg._apply_patternbased_threeterm_simplification__Inequality_correct","statement":"_apply_patternbased_threeterm_simplification satisfies spec on _Inequality inputs"},"trust":"LIBRARY"},{"name":"ITE","pred":"isinstance(np, ITE)","path":{"lhs":"_apply_patternbased_threeterm_simplification(x)","rhs":"len(Rel) == old_len_Rel + 1; len(idx) == old_len_idx; len(res) == old_len_res + 1","over":{"base":"ITE","pred":"isinstance(np, ITE)"},"name":"_apply_patternbased_threeterm_simplification_ITE_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg._apply_patternbased_threeterm_simplification_ITE_correct","statement":"_apply_patternbased_threeterm_simplification satisfies spec on ITE inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":3,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"4704f8a27c816001","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(Rel, 'append')"],"ensures":["len(Rel) == old_len_Rel + 1","len(idx) == old_len_idx","len(res) == old_len_res + 1","len(results) == old_len_results + 1"],"pure":false,"effects":{"effect_type":"mutates_args","reads":["Rel.append"],"writes":["Rel[*]"],"calls_mutating":["Rel.append","idx.sort","res.append","results.append"]},"state_contract":{"modifies":["Rel.*","Rel[*]","idx.*","res.*","results.*"],"old_bindings":{"old_Rel_star":"Rel[*]","old_len_Rel":"len(Rel)","old_len_idx":"len(idx)","old_len_res":"len(res)","old_len_results":"len(results)"},"post_ensures":["len(Rel) == old_len_Rel + 1","len(idx) == old_len_idx","len(res) == old_len_res + 1","len(results) == old_len_results + 1"]}},"c4_verdict":{"valid":false,"n_vcs":8,"n_verified":2,"n_assumed":3,"n_failed":3,"trust_level":"LIBRARY_ASSUMED","compile_ms":7.8,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'not isinstance(np, ITE) and (not np.has(Min, Max))', 'np == dominatingvalue', 'dominatingvalue is None or newrel != Not(dominatingvalue)', 'costsaving > 0', 'newrel.func == func'}, fibers={'ITE', '(Le', '_Inequality'})"]}}
 def _apply_patternbased_threeterm_simplification(Rel, patterns, func,
                                                  dominatingvalue,
                                                  replacementvalue,
@@ -4926,16 +5820,22 @@ def _apply_patternbased_threeterm_simplification(Rel, patterns, func,
 
 @cacheit
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_simplify_patterns_and(), two-term patterns for and) over Any ║
+# ║ Path(_simplify_patterns_and(), <unspecified:_simplify_patterns_and>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _simplify_patterns_and : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.9ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9d11f7d6b2837365  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg._simplify_patterns_and","kind":"function","src_hash":"3d49c3291c2f0f16","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_simplify_patterns_and()","rhs":"two-term patterns for and","over":{"base":"Any"},"name":"_simplify_patterns_and_correct"},"guarantee":"two-term patterns for and","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg._simplify_patterns_and_correct","statement":"Path(_simplify_patterns_and(x), two-term patterns for and)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9d11f7d6b2837365"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg._simplify_patterns_and","kind":"function","src_hash":"3d49c3291c2f0f16","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_simplify_patterns_and()","rhs":"<unspecified:_simplify_patterns_and>","over":{"base":"Any"},"name":"_simplify_patterns_and_correct"},"guarantee":"two-term patterns for and","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg._simplify_patterns_and_correct","statement":"Path(_simplify_patterns_and(x), two-term patterns for and)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9d11f7d6b2837365","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.9,"verdict_class":"assumed","binding":true}}
 def _simplify_patterns_and():
     """ Two-term patterns for And."""
 
@@ -4987,16 +5887,22 @@ def _simplify_patterns_and():
 
 @cacheit
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_simplify_patterns_and3(), three-term patterns for and) over Any ║
+# ║ Path(_simplify_patterns_and3(), <unspecified:_simplify_patterns_and3>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _simplify_patterns_and3 : Any → Any                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5d711d54fa3a7bfc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg._simplify_patterns_and3","kind":"function","src_hash":"cdfa57b95a27c9c1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_simplify_patterns_and3()","rhs":"three-term patterns for and","over":{"base":"Any"},"name":"_simplify_patterns_and3_correct"},"guarantee":"three-term patterns for and","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg._simplify_patterns_and3_correct","statement":"Path(_simplify_patterns_and3(x), three-term patterns for and)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5d711d54fa3a7bfc"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg._simplify_patterns_and3","kind":"function","src_hash":"cdfa57b95a27c9c1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_simplify_patterns_and3()","rhs":"<unspecified:_simplify_patterns_and3>","over":{"base":"Any"},"name":"_simplify_patterns_and3_correct"},"guarantee":"three-term patterns for and","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg._simplify_patterns_and3_correct","statement":"Path(_simplify_patterns_and3(x), three-term patterns for and)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5d711d54fa3a7bfc","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":true}}
 def _simplify_patterns_and3():
     """ Three-term patterns for And."""
 
@@ -5041,16 +5947,22 @@ def _simplify_patterns_and3():
 
 @cacheit
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_simplify_patterns_or(), two-term patterns for or) over Any ║
+# ║ Path(_simplify_patterns_or(), <unspecified:_simplify_patterns_or>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _simplify_patterns_or : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.9ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cb0a5b5285919a0b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg._simplify_patterns_or","kind":"function","src_hash":"b821eba458a86710","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_simplify_patterns_or()","rhs":"two-term patterns for or","over":{"base":"Any"},"name":"_simplify_patterns_or_correct"},"guarantee":"two-term patterns for or","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg._simplify_patterns_or_correct","statement":"Path(_simplify_patterns_or(x), two-term patterns for or)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cb0a5b5285919a0b"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg._simplify_patterns_or","kind":"function","src_hash":"b821eba458a86710","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_simplify_patterns_or()","rhs":"<unspecified:_simplify_patterns_or>","over":{"base":"Any"},"name":"_simplify_patterns_or_correct"},"guarantee":"two-term patterns for or","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg._simplify_patterns_or_correct","statement":"Path(_simplify_patterns_or(x), two-term patterns for or)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cb0a5b5285919a0b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.9,"verdict_class":"assumed","binding":true}}
 def _simplify_patterns_or():
     """ Two-term patterns for Or."""
 
@@ -5105,16 +6017,22 @@ def _simplify_patterns_or():
 
 @cacheit
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_simplify_patterns_xor(), two-term patterns for xor) over Any ║
+# ║ Path(_simplify_patterns_xor(), <unspecified:_simplify_patterns_xor>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _simplify_patterns_xor : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 58f6e17ae07d6eba  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg._simplify_patterns_xor","kind":"function","src_hash":"4992e98717d361e0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_simplify_patterns_xor()","rhs":"two-term patterns for xor","over":{"base":"Any"},"name":"_simplify_patterns_xor_correct"},"guarantee":"two-term patterns for xor","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg._simplify_patterns_xor_correct","statement":"Path(_simplify_patterns_xor(x), two-term patterns for xor)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"58f6e17ae07d6eba"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg._simplify_patterns_xor","kind":"function","src_hash":"4992e98717d361e0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_simplify_patterns_xor()","rhs":"<unspecified:_simplify_patterns_xor>","over":{"base":"Any"},"name":"_simplify_patterns_xor_correct"},"guarantee":"two-term patterns for xor","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg._simplify_patterns_xor_correct","statement":"Path(_simplify_patterns_xor(x), two-term patterns for xor)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"58f6e17ae07d6eba","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def _simplify_patterns_xor():
     """ Two-term patterns for Xor."""
 
@@ -5161,7 +6079,11 @@ def _simplify_patterns_xor():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(simplify_univariate(exp), return a simplified version of univariate boolean expression, else ``expr``) over {Any | isinstance(expr, BooleanFunction)} ║
+# ║ Path(simplify_univariate(expr), <unspecified:simplify_univariate>) over {Any | isinstance(expr, BooleanFunction) and hasattr(expr, 'atoms')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'atoms')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ simplify_univariate : {Any | isinstance(expr, Boolean...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -5173,9 +6095,12 @@ def _simplify_patterns_xor():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.6ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | b76cb2f7...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.simplify_univariate","kind":"function","src_hash":"8d95766d32d00456","in":{"base":"Any","pred":"isinstance(expr, BooleanFunction)"},"out":{"base":"Any"},"spec":{"lhs":"simplify_univariate(exp)","rhs":"return a simplified version of univariate boolean expression, else ``expr``","over":{"base":"Any","pred":"isinstance(expr, BooleanFunction)"},"name":"simplify_univariate_correct"},"guarantee":"return a simplified version of univariate boolean expression, else ``expr``","fibers":[{"name":"BooleanFunction","pred":"isinstance(expr, BooleanFunction)","path":{"lhs":"simplify_univariate(x)","rhs":"return a simplified version of univariate boolean expression, else ``expr``","over":{"base":"BooleanFunction","pred":"isinstance(expr, BooleanFunction)"},"name":"simplify_univariate_BooleanFunction_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg.simplify_univariate_BooleanFunction_correct","statement":"simplify_univariate satisfies spec on BooleanFunction inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"b76cb2f7128a5bbc"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.simplify_univariate","kind":"function","src_hash":"8d95766d32d00456","in":{"base":"Any","pred":"isinstance(expr, BooleanFunction) and hasattr(expr, 'atoms')"},"out":{"base":"Any"},"spec":{"lhs":"simplify_univariate(expr)","rhs":"<unspecified:simplify_univariate>","over":{"base":"Any","pred":"isinstance(expr, BooleanFunction) and hasattr(expr, 'atoms')"},"name":"simplify_univariate_correct"},"guarantee":"return a simplified version of univariate boolean expression, else ``expr``","fibers":[{"name":"BooleanFunction","pred":"isinstance(expr, BooleanFunction)","path":{"lhs":"simplify_univariate(x)","rhs":"return a simplified version of univariate boolean expression, else ``expr``","over":{"base":"BooleanFunction","pred":"isinstance(expr, BooleanFunction)"},"name":"simplify_univariate_BooleanFunction_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg.simplify_univariate_BooleanFunction_correct","statement":"simplify_univariate satisfies spec on BooleanFunction inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"b76cb2f7128a5bbc","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'atoms')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.6,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'len(free) != 1', 'not isinstance(expr, BooleanFunction)', 'c.subs(x, b) == True'}, fibers={'BooleanFunction'})"]}}
 def simplify_univariate(expr):
     """return a simplified version of univariate boolean expression, else ``expr``"""
     from sympy.functions.elementary.piecewise import Piecewise
@@ -5231,7 +6156,12 @@ def simplify_univariate(expr):
 BooleanGates = (And, Or, Xor, Nand, Nor, Not, Xnor, ITE)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gateinputcount(exp), return the total number of inputs for the logic gates realizing the boolean expression) over {Any | isinstance(expr, BooleanGates) and isinstance(expr, Boolean)} ║
+# ║ Path(gateinputcount(expr), # HINT: gateinputcount may be idempotent: gateinputcount(gateinputcount(x)) == gateinputcount(x)) over {Any | isinstance(expr, BooleanGates) and isinstance(expr, Boolean) and isinstance(expr, Boolean) and hasattr(expr, 'args')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(expr, Boolean)                      ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   ensures:  # HINT: gateinputcount may be idempotent:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gateinputcount : {Any | isinstance(expr, BooleanGates...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -5244,9 +6174,12 @@ BooleanGates = (And, Or, Xor, Nand, Nor, Not, Xnor, ITE)
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?2 ✗1 VCs | 1.5ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 5fda95bb...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.gateinputcount","kind":"function","src_hash":"ce6c5ecf0f010b30","in":{"base":"Any","pred":"isinstance(expr, BooleanGates) and isinstance(expr, Boolean)"},"out":{"base":"Any"},"spec":{"lhs":"gateinputcount(exp)","rhs":"return the total number of inputs for the logic gates realizing the boolean expression","over":{"base":"Any","pred":"isinstance(expr, BooleanGates) and isinstance(expr, Boolean)"},"name":"gateinputcount_correct"},"guarantee":"return the total number of inputs for the logic gates realizing the boolean expression","fibers":[{"name":"BooleanGates","pred":"isinstance(expr, BooleanGates)","path":{"lhs":"gateinputcount(x)","rhs":"return the total number of inputs for the logic gates realizing the boolean expression","over":{"base":"BooleanGates","pred":"isinstance(expr, BooleanGates)"},"name":"gateinputcount_BooleanGates_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg.gateinputcount_BooleanGates_correct","statement":"gateinputcount satisfies spec on BooleanGates inputs"},"trust":"LIBRARY"},{"name":"Boolean","pred":"isinstance(expr, Boolean)","path":{"lhs":"gateinputcount(x)","rhs":"return the total number of inputs for the logic gates realizing the boolean expression","over":{"base":"Boolean","pred":"isinstance(expr, Boolean)"},"name":"gateinputcount_Boolean_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg.gateinputcount_Boolean_correct","statement":"gateinputcount satisfies spec on Boolean inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"5fda95bb5feae6c3"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.boolalg.gateinputcount","kind":"function","src_hash":"ce6c5ecf0f010b30","in":{"base":"Any","pred":"isinstance(expr, BooleanGates) and isinstance(expr, Boolean) and isinstance(expr, Boolean) and hasattr(expr, 'args')"},"out":{"base":"Any","pred":"result satisfies: # HINT: gateinputcount may be idempotent: gateinputcount(gateinputcount(x)) == gateinputcount(x)"},"spec":{"lhs":"gateinputcount(expr)","rhs":"# HINT: gateinputcount may be idempotent: gateinputcount(gateinputcount(x)) == gateinputcount(x)","over":{"base":"Any","pred":"isinstance(expr, BooleanGates) and isinstance(expr, Boolean) and isinstance(expr, Boolean) and hasattr(expr, 'args')"},"name":"gateinputcount_correct"},"guarantee":"# HINT: gateinputcount may be idempotent: gateinputcount(gateinputcount(x)) == gateinputcount(x)","fibers":[{"name":"BooleanGates","pred":"isinstance(expr, BooleanGates)","path":{"lhs":"gateinputcount(x)","rhs":"# HINT: gateinputcount may be idempotent: gateinputcount(gateinputcount(x)) == gateinputcount(x)","over":{"base":"BooleanGates","pred":"isinstance(expr, BooleanGates)"},"name":"gateinputcount_BooleanGates_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg.gateinputcount_BooleanGates_correct","statement":"gateinputcount satisfies spec on BooleanGates inputs"},"trust":"LIBRARY"},{"name":"Boolean","pred":"isinstance(expr, Boolean)","path":{"lhs":"gateinputcount(x)","rhs":"# HINT: gateinputcount may be idempotent: gateinputcount(gateinputcount(x)) == gateinputcount(x)","over":{"base":"Boolean","pred":"isinstance(expr, Boolean)"},"name":"gateinputcount_Boolean_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.boolalg.gateinputcount_Boolean_correct","statement":"gateinputcount satisfies spec on Boolean inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"5fda95bb5feae6c3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(expr, Boolean)","hasattr(expr, 'args')"],"ensures":["# HINT: gateinputcount may be idempotent: gateinputcount(gateinputcount(x)) == gateinputcount(x)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args"],"raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":2,"n_assumed":2,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.5,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'not isinstance(expr, Boolean)', 'isinstance(expr, BooleanGates)'}, fibers={'BooleanGates', 'Boolean'})"]}}
 def gateinputcount(expr):
     """
     Return the total number of inputs for the logic gates realizing the

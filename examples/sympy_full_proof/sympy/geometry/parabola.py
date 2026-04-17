@@ -37,14 +37,20 @@ from sympy.solvers.solvers import solve
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Parabola(*args), correctly constructs a Parabola instance) over {Any | isinstance(o, Parabola) and isinstance(o, Point2D) and isinstance(o, (Segment2D, Ray2D))} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, GeometrySet)                  ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ Parabola : {Any | isinstance(o, Parabola) and isinsta...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f9154fcddfb37fec  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.parabola.Parabola","kind":"class","src_hash":"d7703afa87fd70a3","in":{"base":"Any","pred":"isinstance(o, Parabola) and isinstance(o, Point2D) and isinstance(o, (Segment2D, Ray2D))"},"out":{"base":"Any"},"spec":{"lhs":"Parabola(*args)","rhs":"correctly constructs a Parabola instance","over":{"base":"Any","pred":"isinstance(o, Parabola) and isinstance(o, Point2D) and isinstance(o, (Segment2D, Ray2D))"},"name":"Parabola_class_invariant"},"guarantee":"correctly constructs a Parabola instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f9154fcddfb37fec"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.parabola.Parabola","kind":"class","src_hash":"d7703afa87fd70a3","in":{"base":"Any","pred":"isinstance(o, Parabola) and isinstance(o, Point2D) and isinstance(o, (Segment2D, Ray2D))"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, GeometrySet)"},"spec":{"lhs":"Parabola(*args)","rhs":"correctly constructs a Parabola instance","over":{"base":"Any","pred":"isinstance(o, Parabola) and isinstance(o, Point2D) and isinstance(o, (Segment2D, Ray2D))"},"name":"Parabola_class_invariant"},"guarantee":"isinstance(self, GeometrySet)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f9154fcddfb37fec","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, GeometrySet)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function Parabola not found in source"]}}
 class Parabola(GeometrySet):
     """A parabolic GeometryEntity.
 
@@ -91,16 +97,24 @@ class Parabola(GeometrySet):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, focus, directrix), GeometryEntity.__new__(cls, focus, directrix, **kwargs)) over {Any | not (directrix.contains(focus)) and hasattr(directrix, 'contains')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (directrix.contains(focus))                ║
+# ║   requires: hasattr(directrix, 'contains')                 ║
+# ║   returns:  GeometryEntity.__new__(cls, focus, direct...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | not (directrix.contains(focus)) and ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b31e1fbe83539fe9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.parabola.Parabola.__new__","kind":"method","src_hash":"3f71dad7c20f1a9f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b31e1fbe83539fe9"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.parabola.Parabola.__new__","kind":"method","src_hash":"3f71dad7c20f1a9f","in":{"base":"Any","pred":"not (directrix.contains(focus)) and hasattr(directrix, 'contains')"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, focus, directrix)","rhs":"GeometryEntity.__new__(cls, focus, directrix, **kwargs)","over":{"base":"Any","pred":"not (directrix.contains(focus)) and hasattr(directrix, 'contains')"},"name":"__new___correct"},"guarantee":"returns GeometryEntity.__new__(cls, focus, directrix, **kwargs)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b31e1fbe83539fe9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (directrix.contains(focus))","hasattr(directrix, 'contains')"],"returns_expr":"GeometryEntity.__new__(cls, focus, directrix, **kwargs)","pure":false,"effects":{"effect_type":"reads_state","reads":["directrix.contains"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, focus=None, directrix=None, **kwargs):
 
         if focus:
@@ -117,16 +131,22 @@ class Parabola(GeometrySet):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ambient_dimension(), returns the ambient_dimension attribute) over Any ║
+# ║ Path(ambient_dimension(), 2) over Any                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  2                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ ambient_dimension : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | bf0fbfb0d21f08de           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.parabola.Parabola.ambient_dimension","kind":"property","src_hash":"318e38f2280d229f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ambient_dimension()","rhs":"returns the ambient_dimension attribute","over":{"base":"Any"},"name":"ambient_dimension_correct"},"guarantee":"returns the ambient_dimension attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bf0fbfb0d21f08de"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.parabola.Parabola.ambient_dimension","kind":"property","src_hash":"318e38f2280d229f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ambient_dimension()","rhs":"2","over":{"base":"Any"},"name":"ambient_dimension_correct"},"guarantee":"returns 2","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bf0fbfb0d21f08de","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"2","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def ambient_dimension(self):
         """Returns the ambient dimension of parabola.
 
@@ -149,16 +169,22 @@ class Parabola(GeometrySet):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(axis_of_symmetry(), returns the axis_of_symmetry attribute) over Any ║
+# ║ Path(axis_of_symmetry(), self.directrix.perpendicular_line(self.focus)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.directrix.perpendicular_line(self.fo...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ axis_of_symmetry : Any → {Any | result satisfies: a l...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 97f57eff7d5723ab           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.parabola.Parabola.axis_of_symmetry","kind":"property","src_hash":"1b9dbed41e5d3dfd","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: a line"},"spec":{"lhs":"axis_of_symmetry()","rhs":"returns the axis_of_symmetry attribute","over":{"base":"Any"},"name":"axis_of_symmetry_correct"},"guarantee":"returns the axis_of_symmetry attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"97f57eff7d5723ab"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.parabola.Parabola.axis_of_symmetry","kind":"property","src_hash":"1b9dbed41e5d3dfd","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: a line"},"spec":{"lhs":"axis_of_symmetry()","rhs":"self.directrix.perpendicular_line(self.focus)","over":{"base":"Any"},"name":"axis_of_symmetry_correct"},"guarantee":"returns self.directrix.perpendicular_line(self.focus)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"97f57eff7d5723ab","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.directrix.perpendicular_line(self.focus)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.directrix","self.focus"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def axis_of_symmetry(self):
         """Return the axis of symmetry of the parabola: a line
         perpendicular to the directrix passing through the focus.
@@ -186,16 +212,22 @@ class Parabola(GeometrySet):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(directrix(), returns the directrix attribute) over Any ║
+# ║ Path(directrix(), self.args[1]) over Any                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[1]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ directrix : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7f3929368d5deab1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.parabola.Parabola.directrix","kind":"property","src_hash":"56a29e90a4c245cb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"directrix()","rhs":"returns the directrix attribute","over":{"base":"Any"},"name":"directrix_correct"},"guarantee":"returns the directrix attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7f3929368d5deab1"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.parabola.Parabola.directrix","kind":"property","src_hash":"56a29e90a4c245cb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"directrix()","rhs":"self.args[1]","over":{"base":"Any"},"name":"directrix_correct"},"guarantee":"returns self.args[1]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7f3929368d5deab1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[1]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def directrix(self):
         """The directrix of the parabola.
 
@@ -223,16 +255,22 @@ class Parabola(GeometrySet):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eccentricity(), returns the eccentricity attribute) over Any ║
+# ║ Path(eccentricity(), S.One) over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  S.One                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ eccentricity : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 23c9cb68128672d9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.parabola.Parabola.eccentricity","kind":"property","src_hash":"e4b08670e29a4b99","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eccentricity()","rhs":"returns the eccentricity attribute","over":{"base":"Any"},"name":"eccentricity_correct"},"guarantee":"returns the eccentricity attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"23c9cb68128672d9"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.parabola.Parabola.eccentricity","kind":"property","src_hash":"e4b08670e29a4b99","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eccentricity()","rhs":"S.One","over":{"base":"Any"},"name":"eccentricity_correct"},"guarantee":"returns S.One","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"23c9cb68128672d9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"S.One","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eccentricity(self):
         """The eccentricity of the parabola.
 
@@ -268,16 +306,22 @@ class Parabola(GeometrySet):
         return S.One
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(equation(x, ), the equation of the parabola) over Any ║
+# ║ Path(equation(x, y), t1 - t2) over Any                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  t1 - t2                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ equation : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4fd798a8862a5166  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6a0da88078dc5105  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.parabola.Parabola.equation","kind":"method","src_hash":"6c0e57d01d8c7454","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"equation(x, )","rhs":"the equation of the parabola","over":{"base":"Any"},"name":"equation_correct"},"guarantee":"the equation of the parabola","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.parabola.Parabola.equation_correct","statement":"Path(equation(x), the equation of the parabola)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4fd798a8862a5166"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.parabola.Parabola.equation","kind":"method","src_hash":"6c0e57d01d8c7454","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"equation(x, y)","rhs":"t1 - t2","over":{"base":"Any"},"name":"equation_correct"},"guarantee":"returns t1 - t2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.parabola.Parabola.equation_correct","statement":"Path(equation(x), returns t1 - t2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6a0da88078dc5105","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"t1 - t2","pure":false,"effects":{"effect_type":"reads_state","reads":["self.directrix","self.focus","self.p_parameter","self.vertex"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def equation(self, x='x', y='y'):
         """The equation of the parabola.
 
@@ -324,16 +368,22 @@ class Parabola(GeometrySet):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(focal_length(), returns the focal_length attribute) over Any ║
+# ║ Path(focal_length(), <unspecified:focal_length>) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ focal_length : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3dc2f59632cca25b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.parabola.Parabola.focal_length","kind":"property","src_hash":"a6606b0ac498329e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"focal_length()","rhs":"returns the focal_length attribute","over":{"base":"Any"},"name":"focal_length_correct"},"guarantee":"returns the focal_length attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3dc2f59632cca25b"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.parabola.Parabola.focal_length","kind":"property","src_hash":"a6606b0ac498329e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"focal_length()","rhs":"<unspecified:focal_length>","over":{"base":"Any"},"name":"focal_length_correct"},"guarantee":"returns the focal_length attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3dc2f59632cca25b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.directrix","self.focus"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def focal_length(self):
         """The focal length of the parabola.
 
@@ -370,16 +420,22 @@ class Parabola(GeometrySet):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(focus(), returns the focus attribute) over Any        ║
+# ║ Path(focus(), self.args[0]) over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ focus : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 64b38c320289d881           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.parabola.Parabola.focus","kind":"property","src_hash":"6599a6d2a63252b5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"focus()","rhs":"returns the focus attribute","over":{"base":"Any"},"name":"focus_correct"},"guarantee":"returns the focus attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"64b38c320289d881"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.parabola.Parabola.focus","kind":"property","src_hash":"6599a6d2a63252b5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"focus()","rhs":"self.args[0]","over":{"base":"Any"},"name":"focus_correct"},"guarantee":"returns self.args[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"64b38c320289d881","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def focus(self):
         """The focus of the parabola.
 
@@ -406,16 +462,27 @@ class Parabola(GeometrySet):
         return self.args[0]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(intersection(o), the intersection of the parabola and another geometrical entity `o`) over Any ║
+# ║ Path(intersection(o), <unspecified:intersection>) over {Any | hasattr(o, '_args') and hasattr(o, 'equation') and hasattr(o, 'points')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ intersection : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(o, '_args')                            ║
+# ║   requires: hasattr(o, 'equation')                         ║
+# ║   requires: hasattr(o, 'points')                           ║
+# ║   fiber[Parabola]: isinstance(o, Parabola)                 ║
+# ║   fiber[Point2D]: isinstance(o, Point2D)                   ║
+# ║   fiber[case_2]: isinstance(o, (Segment2D, Ray2D)) =>...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ intersection : {Any | hasattr(o, '_args') and hasattr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 33e5bc17cb4c2fec  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 13a880d8db476999  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.parabola.Parabola.intersection","kind":"method","src_hash":"a8b54df38dc648ce","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"intersection(o)","rhs":"the intersection of the parabola and another geometrical entity `o`","over":{"base":"Any"},"name":"intersection_correct"},"guarantee":"the intersection of the parabola and another geometrical entity `o`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.parabola.Parabola.intersection_correct","statement":"Path(intersection(x), the intersection of the parabola and another geometrical entity `o`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"33e5bc17cb4c2fec"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.parabola.Parabola.intersection","kind":"method","src_hash":"a8b54df38dc648ce","in":{"base":"Any","pred":"hasattr(o, '_args') and hasattr(o, 'equation') and hasattr(o, 'points')"},"out":{"base":"Any"},"spec":{"lhs":"intersection(o)","rhs":"<unspecified:intersection>","over":{"base":"Any","pred":"hasattr(o, '_args') and hasattr(o, 'equation') and hasattr(o, 'points')"},"name":"intersection_correct"},"guarantee":"6-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.parabola.Parabola.intersection_correct","statement":"Path(intersection(x), 6-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"13a880d8db476999","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(o, '_args')","hasattr(o, 'equation')","hasattr(o, 'points')"],"fibers":[{"name":"Parabola","guard":"isinstance(o, Parabola)","ensures":[],"decidability":"structural"},{"name":"Point2D","guard":"isinstance(o, Point2D)","ensures":[],"decidability":"structural"},{"name":"case_2","guard":"isinstance(o, (Segment2D, Ray2D))","ensures":["result == list(ordered([Point2D(i) for i in result if i in o]))"],"decidability":"structural","returns_expr":"list(ordered([Point2D(i) for i in result if i in o]))"},{"name":"case_3","guard":"isinstance(o, (Line2D, Ellipse))","ensures":["result == list(ordered([Point2D(i) for i in solve([parabola_eq, o.equation()], [x, y], set=True)[1]]))"],"decidability":"structural","returns_expr":"list(ordered([Point2D(i) for i in solve([parabola_eq, o.equation()], [x, y], set=True)[1]]))"},{"name":"LinearEntity3D","guard":"isinstance(o, LinearEntity3D)","ensures":[],"decidability":"structural"},{"name":"Parabola","guard":"not (isinstance(o, Parabola)) and not (isinstance(o, Point2D)) and not (isinstance(o, (Segment2D, Ray2D))) and not (isinstance(o, (Line2D, Ellipse))) and not (isinstance(o, LinearEntity3D))","ensures":[],"decidability":"structural"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["o._args","o.equation","o.points","self.equation"],"raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def intersection(self, o):
         """The intersection of the parabola and another geometrical entity `o`.
 
@@ -472,16 +539,22 @@ class Parabola(GeometrySet):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(p_parameter(), returns the p_parameter attribute) over Any ║
+# ║ Path(p_parameter(), p * self.focal_length) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  p * self.focal_length                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ p_parameter : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 81562776e7caee13           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.parabola.Parabola.p_parameter","kind":"property","src_hash":"9c1171e6141d40fc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"p_parameter()","rhs":"returns the p_parameter attribute","over":{"base":"Any"},"name":"p_parameter_correct"},"guarantee":"returns the p_parameter attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"81562776e7caee13"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.parabola.Parabola.p_parameter","kind":"property","src_hash":"9c1171e6141d40fc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"p_parameter()","rhs":"p * self.focal_length","over":{"base":"Any"},"name":"p_parameter_correct"},"guarantee":"returns p * self.focal_length","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"81562776e7caee13","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"p * self.focal_length","pure":false,"effects":{"effect_type":"reads_state","reads":["self.directrix","self.focal_length","self.focus"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def p_parameter(self):
         """P is a parameter of parabola.
 
@@ -528,16 +601,22 @@ class Parabola(GeometrySet):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(vertex(), returns the vertex attribute) over Any      ║
+# ║ Path(vertex(), <unspecified:vertex>) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ vertex : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4cbe33464f9b38d4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.parabola.Parabola.vertex","kind":"property","src_hash":"6e3eb20566739140","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"vertex()","rhs":"returns the vertex attribute","over":{"base":"Any"},"name":"vertex_correct"},"guarantee":"returns the vertex attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4cbe33464f9b38d4"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.parabola.Parabola.vertex","kind":"property","src_hash":"6e3eb20566739140","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"vertex()","rhs":"<unspecified:vertex>","over":{"base":"Any"},"name":"vertex_correct"},"guarantee":"returns the vertex attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4cbe33464f9b38d4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.axis_of_symmetry","self.directrix","self.focus","self.p_parameter"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def vertex(self):
         """The vertex of the parabola.
 

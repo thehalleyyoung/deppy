@@ -57,16 +57,23 @@ if 'dev' in __version__:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__sympy_debug(), internal helper behaves correctly) over Any ║
+# ║ Path(__sympy_debug(), <unspecified:__sympy_debug>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: debug_str in ('True', 'False') => ev...   ║
+# ║   fiber[case_1]: not (debug_str in ('True', 'False'))      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __sympy_debug : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1383e37ed1c3bed1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.__init__.__sympy_debug","kind":"function","src_hash":"b1ebaeca150a49da","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__sympy_debug()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__sympy_debug_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1383e37ed1c3bed1"}
+# @cctt_verify {"v":2,"sym":"sympy.__init__.__sympy_debug","kind":"function","src_hash":"b1ebaeca150a49da","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__sympy_debug()","rhs":"<unspecified:__sympy_debug>","over":{"base":"Any"},"name":"__sympy_debug_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1383e37ed1c3bed1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"debug_str in ('True', 'False')","ensures":["result == eval(debug_str)"],"decidability":"library","returns_expr":"eval(debug_str)"},{"name":"case_1","guard":"not (debug_str in ('True', 'False'))","ensures":[],"decidability":"library"}],"pure":false,"effects":{"effect_type":"reads_state","raises":["RuntimeError"]},"state_contract":{"exceptional_post":{"RuntimeError":["isinstance(raised, RuntimeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":true}}
 def __sympy_debug():
     # helper function so we don't import os globally
     import os

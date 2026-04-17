@@ -36,16 +36,22 @@ from mpmath.libmp.libintmath import ifac
 from sympy.multipledispatch import dispatch
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_af_rmul(a, ), return the product b*a; input and output are array forms) over Any ║
+# ║ Path(_af_rmul(a, b), [a[i] for i in b]) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [a[i] for i in b]                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _af_rmul : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a503c61ca795d494           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations._af_rmul","kind":"function","src_hash":"cb092efc3dd820a8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_af_rmul(a, )","rhs":"return the product b*a; input and output are array forms","over":{"base":"Any"},"name":"_af_rmul_correct"},"guarantee":"return the product b*a; input and output are array forms","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a503c61ca795d494"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations._af_rmul","kind":"function","src_hash":"cb092efc3dd820a8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_af_rmul(a, b)","rhs":"[a[i] for i in b]","over":{"base":"Any"},"name":"_af_rmul_correct"},"guarantee":"returns [a[i] for i in b]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a503c61ca795d494","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[a[i] for i in b]","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":true}}
 def _af_rmul(a, b):
     """
     Return the product b*a; input and output are array forms. The ith value
@@ -80,16 +86,22 @@ def _af_rmul(a, b):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_af_rmuln(*ab), given [a, b, c, ...] return the product of ...*c*b*a using array forms. the ith value is a[b[c[i]]]) over Any ║
+# ║ Path(_af_rmuln(*abc), # HINT: _af_rmuln may be idempotent: _af_rmuln(_af_rmuln(x)) == _af_rmuln(x)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _af_rmuln : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  # HINT: _af_rmuln may be idempotent: _af_...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _af_rmuln : Any → {Any | result satisfies: # HINT: _a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 00f5469c216aaf61  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a3e2261124f516af  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations._af_rmuln","kind":"function","src_hash":"811709681dca35f8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_af_rmuln(*ab)","rhs":"given [a, b, c, ...] return the product of ...*c*b*a using array forms. the ith value is a[b[c[i]]]","over":{"base":"Any"},"name":"_af_rmuln_correct"},"guarantee":"given [a, b, c, ...] return the product of ...*c*b*a using array forms. the ith value is a[b[c[i]]]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.permutations._af_rmuln_correct","statement":"Path(_af_rmuln(x), given [a, b, c, ...] return the product of ...*c*b*a using array forms. the ith value is a[b[c[i]]])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"00f5469c216aaf61"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations._af_rmuln","kind":"function","src_hash":"811709681dca35f8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: # HINT: _af_rmuln may be idempotent: _af_rmuln(_af_rmuln(x)) == _af_rmuln(x)"},"spec":{"lhs":"_af_rmuln(*abc)","rhs":"# HINT: _af_rmuln may be idempotent: _af_rmuln(_af_rmuln(x)) == _af_rmuln(x)","over":{"base":"Any"},"name":"_af_rmuln_correct"},"guarantee":"# HINT: _af_rmuln may be idempotent: _af_rmuln(_af_rmuln(x)) == _af_rmuln(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.permutations._af_rmuln_correct","statement":"Path(_af_rmuln(x), # HINT: _af_rmuln may be idempotent: _af_rmuln(_af_rmuln(x)) == _af_rmuln(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a3e2261124f516af","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["# HINT: _af_rmuln may be idempotent: _af_rmuln(_af_rmuln(x)) == _af_rmuln(x)"],"pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=[], spec=['*abc']"]}}
 def _af_rmuln(*abc):
     """
     Given [a, b, c, ...] return the product of ...*c*b*a using array forms.
@@ -152,16 +164,22 @@ def _af_rmuln(*abc):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_af_parity(pi), computes the parity of a permutation in array form) over Any ║
+# ║ Path(_af_parity(pi), (n - c) % 2) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (n - c) % 2                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _af_parity : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7c5cd857758336d6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e9e6203b6aa3ad73  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations._af_parity","kind":"function","src_hash":"6ffacdf031c85f95","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_af_parity(pi)","rhs":"computes the parity of a permutation in array form","over":{"base":"Any"},"name":"_af_parity_correct"},"guarantee":"computes the parity of a permutation in array form","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.permutations._af_parity_correct","statement":"Path(_af_parity(x), computes the parity of a permutation in array form)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7c5cd857758336d6"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations._af_parity","kind":"function","src_hash":"6ffacdf031c85f95","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_af_parity(pi)","rhs":"(n - c) % 2","over":{"base":"Any"},"name":"_af_parity_correct"},"guarantee":"returns (n - c) % 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.permutations._af_parity_correct","statement":"Path(_af_parity(x), returns (n - c) % 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e9e6203b6aa3ad73","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(n - c) % 2","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _af_parity(pi):
     """
     Computes the parity of a permutation in array form.
@@ -202,16 +220,22 @@ def _af_parity(pi):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_af_invert(a), finds the inverse, ~a, of a permutation, a, given in array form) over Any ║
+# ║ Path(_af_invert(a), <unspecified:_af_invert>) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _af_invert : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4f2565a2da576821  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations._af_invert","kind":"function","src_hash":"36bbf465113ca6e1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_af_invert(a)","rhs":"finds the inverse, ~a, of a permutation, a, given in array form","over":{"base":"Any"},"name":"_af_invert_correct"},"guarantee":"finds the inverse, ~a, of a permutation, a, given in array form","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.permutations._af_invert_correct","statement":"Path(_af_invert(x), finds the inverse, ~a, of a permutation, a, given in array form)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4f2565a2da576821"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations._af_invert","kind":"function","src_hash":"36bbf465113ca6e1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_af_invert(a)","rhs":"<unspecified:_af_invert>","over":{"base":"Any"},"name":"_af_invert_correct"},"guarantee":"finds the inverse, ~a, of a permutation, a, given in array form","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.permutations._af_invert_correct","statement":"Path(_af_invert(x), finds the inverse, ~a, of a permutation, a, given in array form)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4f2565a2da576821","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _af_invert(a):
     """
     Finds the inverse, ~A, of a permutation, A, given in array form.
@@ -238,16 +262,22 @@ def _af_invert(a):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_af_pow(a, ), id) over Any                            ║
+# ║ Path(_af_pow(a, n), id) over Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _af_pow : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  # HINT: _af_pow may be idempotent: _af_po...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _af_pow : Any → {Any | result satisfies: # HINT: _af_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 684910859b745ebd   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations._af_pow","kind":"function","src_hash":"d5006932506efe0a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_af_pow(a, )","rhs":"routine for finding powers of a permutation","over":{"base":"Any"},"name":"_af_pow_correct","kind":"composition"},"guarantee":"routine for finding powers of a permutation","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"list","by":"library_axiom"},{"fn":"range","by":"library_axiom"},{"fn":"len","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"684910859b745ebd"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations._af_pow","kind":"function","src_hash":"d5006932506efe0a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: # HINT: _af_pow may be idempotent: _af_pow(_af_pow(x)) == _af_pow(x)"},"spec":{"lhs":"_af_pow(a, n)","rhs":"# HINT: _af_pow may be idempotent: _af_pow(_af_pow(x)) == _af_pow(x)","over":{"base":"Any"},"name":"_af_pow_correct","kind":"composition"},"guarantee":"# HINT: _af_pow may be idempotent: _af_pow(_af_pow(x)) == _af_pow(x)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"list","by":"library_axiom"},{"fn":"range","by":"library_axiom"},{"fn":"len","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"684910859b745ebd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["# HINT: _af_pow may be idempotent: _af_pow(_af_pow(x)) == _af_pow(x)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def _af_pow(a, n):
     """
     Routine for finding powers of a permutation.
@@ -294,16 +324,22 @@ def _af_pow(a, n):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_af_commutes_with(a, ), checks if the two permutations with array forms given by ``a`` and ``b`` commute) over Any ║
+# ║ Path(_af_commutes_with(a, b), not any((a[b[i]] != b[a[i]] for i in range(len(a) - 1)))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  not any((a[b[i]] != b[a[i]] for i in rang...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _af_commutes_with : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 35b4022bf28c5c4c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations._af_commutes_with","kind":"function","src_hash":"3c9fea98b65182a7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_af_commutes_with(a, )","rhs":"checks if the two permutations with array forms given by ``a`` and ``b`` commute","over":{"base":"Any"},"name":"_af_commutes_with_correct"},"guarantee":"checks if the two permutations with array forms given by ``a`` and ``b`` commute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"35b4022bf28c5c4c"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations._af_commutes_with","kind":"function","src_hash":"3c9fea98b65182a7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_af_commutes_with(a, b)","rhs":"not any((a[b[i]] != b[a[i]] for i in range(len(a) - 1)))","over":{"base":"Any"},"name":"_af_commutes_with_correct"},"guarantee":"returns not any((a[b[i]] != b[a[i]] for i in range(len(a) - 1)))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"35b4022bf28c5c4c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"not any((a[b[i]] != b[a[i]] for i in range(len(a) - 1)))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":true}}
 def _af_commutes_with(a, b):
     """
     Checks if the two permutations with array forms
@@ -327,14 +363,20 @@ def _af_commutes_with(a, b):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Cycle(*args), correctly constructs a Cycle instance) over {Any | isinstance(args[0], Permutation) and isinstance(args[0], Cycle)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, dict)                         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ Cycle : {Any | isinstance(args[0], Permutation) and i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5ee49cc9c21f9847  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Cycle","kind":"class","src_hash":"c7e64c6918129b2f","in":{"base":"Any","pred":"isinstance(args[0], Permutation) and isinstance(args[0], Cycle)"},"out":{"base":"Any"},"spec":{"lhs":"Cycle(*args)","rhs":"correctly constructs a Cycle instance","over":{"base":"Any","pred":"isinstance(args[0], Permutation) and isinstance(args[0], Cycle)"},"name":"Cycle_class_invariant"},"guarantee":"correctly constructs a Cycle instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5ee49cc9c21f9847"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Cycle","kind":"class","src_hash":"c7e64c6918129b2f","in":{"base":"Any","pred":"isinstance(args[0], Permutation) and isinstance(args[0], Cycle)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, dict)"},"spec":{"lhs":"Cycle(*args)","rhs":"correctly constructs a Cycle instance","over":{"base":"Any","pred":"isinstance(args[0], Permutation) and isinstance(args[0], Cycle)"},"name":"Cycle_class_invariant"},"guarantee":"isinstance(self, dict)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5ee49cc9c21f9847","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, dict)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":false,"binding_errors":["Function Cycle not found in source"]}}
 class Cycle(dict):
     """
     Wrapper around dict which provides the functionality of a disjoint cycle.
@@ -412,45 +454,63 @@ class Cycle(dict):
     Permutation
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__missing__(arg), enter arg into dictionary and return arg) over Any ║
+# ║ Path(__missing__(arg), as_int(arg)) over Any               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  as_int(arg)                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __missing__ : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7b933c35781b24d7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Cycle.__missing__","kind":"method","src_hash":"eab146263d4ffeec","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__missing__(arg)","rhs":"enter arg into dictionary and return arg","over":{"base":"Any"},"name":"__missing___correct"},"guarantee":"enter arg into dictionary and return arg","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7b933c35781b24d7"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Cycle.__missing__","kind":"method","src_hash":"eab146263d4ffeec","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__missing__(arg)","rhs":"as_int(arg)","over":{"base":"Any"},"name":"__missing___correct"},"guarantee":"returns as_int(arg)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7b933c35781b24d7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"as_int(arg)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __missing__(self, arg):
         """Enter arg into dictionary and return arg."""
         return as_int(arg)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__iter__(), yields all elements in order) over Any    ║
+# ║ Path(__iter__(), <unspecified:__iter__>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __iter__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6854b733cf73004e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Cycle.__iter__","kind":"method","src_hash":"0d51cf3df6181020","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__iter__()","rhs":"yields all elements in order","over":{"base":"Any"},"name":"__iter___correct"},"guarantee":"yields all elements in order","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6854b733cf73004e"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Cycle.__iter__","kind":"method","src_hash":"0d51cf3df6181020","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__iter__()","rhs":"<unspecified:__iter__>","over":{"base":"Any"},"name":"__iter___correct"},"guarantee":"yields all elements in order","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6854b733cf73004e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.list"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __iter__(self):
         yield from self.list()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__call__(*ot), correctly applies the callable) over Any ║
+# ║ Path(__call__(*other), <unspecified:__call__>) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __call__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 91fca1c32387af84           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Cycle.__call__","kind":"method","src_hash":"f9539aec2125d601","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__call__(*ot)","rhs":"correctly applies the callable","over":{"base":"Any"},"name":"__call___correct"},"guarantee":"correctly applies the callable","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"91fca1c32387af84"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Cycle.__call__","kind":"method","src_hash":"f9539aec2125d601","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__call__(*other)","rhs":"<unspecified:__call__>","over":{"base":"Any"},"name":"__call___correct"},"guarantee":"correctly applies the callable","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"91fca1c32387af84","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.keys"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __call__(self, *other):
         """Return product of cycles processed from R to L.
 
@@ -479,16 +539,23 @@ class Cycle(dict):
         return rv
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(list(siz), return the cycles as an explicit list starting from 0 up to the greater of the largest value in the cycles and size) over Any ║
+# ║ Path(list(size), [self[i] for i in range(size)]) over {Any | not (not self and size is None)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ list : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (not self and size is None)                ║
+# ║   returns:  [self[i] for i in range(size)]                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ list : {Any | not (not self and size is None)} → Any       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 03d53797067aee87  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a5731394f20a65ef  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Cycle.list","kind":"method","src_hash":"94e6497b9beeea24","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"list(siz)","rhs":"return the cycles as an explicit list starting from 0 up to the greater of the largest value in the cycles and size","over":{"base":"Any"},"name":"list_correct"},"guarantee":"return the cycles as an explicit list starting from 0 up to the greater of the largest value in the cycles and size","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.permutations.Cycle.list_correct","statement":"Path(list(x), return the cycles as an explicit list starting from 0 up to the greater of the largest value in the cycles and size)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"03d53797067aee87"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Cycle.list","kind":"method","src_hash":"94e6497b9beeea24","in":{"base":"Any","pred":"not (not self and size is None)"},"out":{"base":"Any"},"spec":{"lhs":"list(size)","rhs":"[self[i] for i in range(size)]","over":{"base":"Any","pred":"not (not self and size is None)"},"name":"list_correct"},"guarantee":"returns [self[i] for i in range(size)]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.permutations.Cycle.list_correct","statement":"Path(list(x), returns [self[i] for i in range(size)])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a5731394f20a65ef","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (not self and size is None)"],"returns_expr":"[self[i] for i in range(size)]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.keys","self.size"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def list(self, size=None):
         """Return the cycles as an explicit list starting from 0 up
         to the greater of the largest value in the cycles and size.
@@ -523,16 +590,22 @@ class Cycle(dict):
         return [self[i] for i in range(size)]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__repr__(), returns a faithful string representation) over Any ║
+# ║ Path(__repr__(), <unspecified:__repr__>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __repr__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4d4cb0f50b406b7b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Cycle.__repr__","kind":"method","src_hash":"c54cb6b6ac27664a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"returns a faithful string representation","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns a faithful string representation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4d4cb0f50b406b7b"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Cycle.__repr__","kind":"method","src_hash":"c54cb6b6ac27664a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"<unspecified:__repr__>","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns a faithful string representation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4d4cb0f50b406b7b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.size"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __repr__(self):
         """We want it to print as a Cycle, not as a dict.
 
@@ -557,16 +630,22 @@ class Cycle(dict):
         return 'Cycle%s' % s
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__str__(), returns a human-readable string) over Any  ║
+# ║ Path(__str__(), <unspecified:__str__>) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __str__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 901c9a382ebd9455           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Cycle.__str__","kind":"method","src_hash":"1d69bbdd2bb35b3d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"returns a human-readable string","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"901c9a382ebd9455"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Cycle.__str__","kind":"method","src_hash":"1d69bbdd2bb35b3d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"<unspecified:__str__>","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"901c9a382ebd9455","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.size"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __str__(self):
         """We want it to be printed in a Cycle notation with no
         comma in-between.
@@ -591,16 +670,24 @@ class Cycle(dict):
         return s
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(*ar), initializes the instance correctly) over Any ║
+# ║ Path(__init__(*args), <unspecified:__init__>) over {Any | not (any((i < 0 for i in args))) and not (has_dups(args))} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (any((i < 0 for i in args)))               ║
+# ║   requires: not (has_dups(args))                           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : {Any | not (any((i < 0 for i in args))) an...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1b44059c2258da70           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Cycle.__init__","kind":"method","src_hash":"86b67a0881798a5a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(*ar)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1b44059c2258da70"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Cycle.__init__","kind":"method","src_hash":"86b67a0881798a5a","in":{"base":"Any","pred":"not (any((i < 0 for i in args))) and not (has_dups(args))"},"out":{"base":"Any"},"spec":{"lhs":"__init__(*args)","rhs":"<unspecified:__init__>","over":{"base":"Any","pred":"not (any((i < 0 for i in args))) and not (has_dups(args))"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1b44059c2258da70","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (any((i < 0 for i in args)))","not (has_dups(args))"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self.update"],"writes":["self[*]"],"calls_mutating":["self.update"],"raises":["ValueError"]},"state_contract":{"modifies":["self.*","self[*]"],"old_bindings":{"old_self_star":"self[*]"},"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, *args):
         """Load up a Cycle instance with the values for the cycle.
 
@@ -633,32 +720,44 @@ class Cycle(dict):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(size(), returns the size attribute) over Any          ║
+# ║ Path(size(), <unspecified:size>) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ size : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ad0fe46dc9e75aae           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Cycle.size","kind":"property","src_hash":"eafc825007da656f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"size()","rhs":"returns the size attribute","over":{"base":"Any"},"name":"size_correct"},"guarantee":"returns the size attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ad0fe46dc9e75aae"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Cycle.size","kind":"property","src_hash":"eafc825007da656f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"size()","rhs":"<unspecified:size>","over":{"base":"Any"},"name":"size_correct"},"guarantee":"returns the size attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ad0fe46dc9e75aae","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.keys"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def size(self):
         if not self:
             return 0
         return max(self.keys()) + 1
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(copy(), copy produces the expected output) over Any   ║
+# ║ Path(copy(), Cycle(self)) over Any                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Cycle(self)                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ copy : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7e70b818e4a8350c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Cycle.copy","kind":"method","src_hash":"026a902133804bba","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"copy()","rhs":"copy produces the expected output","over":{"base":"Any"},"name":"copy_correct"},"guarantee":"copy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7e70b818e4a8350c"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Cycle.copy","kind":"method","src_hash":"026a902133804bba","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"copy()","rhs":"Cycle(self)","over":{"base":"Any"},"name":"copy_correct"},"guarantee":"returns Cycle(self)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7e70b818e4a8350c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Cycle(self)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def copy(self):
         return Cycle(self)
 
@@ -666,14 +765,20 @@ class Cycle(dict):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a Permutation instance) preserved by Permutation(*args) over {Any | isinstance(other, PermutationGroup) and isinstance(n, Permutation) and isinstance(a, cls)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Atom)                         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ Permutation : {Any | isinstance(other, PermutationGro...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 6.7ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c36b6b64676304b6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation","kind":"class","src_hash":"5536b2c6a2c317f9","in":{"base":"Any","pred":"isinstance(other, PermutationGroup) and isinstance(n, Permutation) and isinstance(a, cls)"},"out":{"base":"Any","pred":"cycle == list(minlex(cycle))"},"spec":{"lhs":"Permutation(*args)","rhs":"correctly constructs a Permutation instance","over":{"base":"Any","pred":"isinstance(other, PermutationGroup) and isinstance(n, Permutation) and isinstance(a, cls)"},"name":"Permutation_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a Permutation instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_even","pred":"self.is_even","kind":"class"},{"name":"is_odd","pred":"self.is_odd","kind":"class"},{"name":"is_Singleton","pred":"self.is_Singleton","kind":"class"},{"name":"is_Empty","pred":"self.is_Empty","kind":"class"},{"name":"is_identity","pred":"self.is_identity","kind":"class"},{"name":"is_Identity","pred":"self.is_Identity","kind":"class"}],"methods_preserving":["copy","__getnewargs__","_hashable_content","array_form","list","cyclic_form","full_cyclic_form","size","support","__add__","__sub__","mul_inv","__rmul__","__mul__","commutes_with","__pow__","__rxor__","__xor__","transpositions","from_sequence","__invert__","__iter__","__repr__","__call__","atoms","apply","next_lex","unrank_nonlex","rank_nonlex","next_nonlex","rank","cardinality","parity","is_even","is_odd","is_Singleton","is_Empty","is_identity","is_Identity","ascents","descents","max","min","inversions","commutator","signature","order","length","cycle_structure","cycles","index","runs","inversion_vector","rank_trotterjohnson","next_trotterjohnson","get_precedence_matrix","get_precedence_distance","get_adjacency_matrix","get_adjacency_distance","get_positional_distance","resize"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c36b6b64676304b6"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation","kind":"class","src_hash":"5536b2c6a2c317f9","in":{"base":"Any","pred":"isinstance(other, PermutationGroup) and isinstance(n, Permutation) and isinstance(a, cls)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Atom)"},"spec":{"lhs":"Permutation(*args)","rhs":"correctly constructs a Permutation instance","over":{"base":"Any","pred":"isinstance(other, PermutationGroup) and isinstance(n, Permutation) and isinstance(a, cls)"},"name":"Permutation_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, Atom)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_even","pred":"self.is_even","kind":"class"},{"name":"is_odd","pred":"self.is_odd","kind":"class"},{"name":"is_Singleton","pred":"self.is_Singleton","kind":"class"},{"name":"is_Empty","pred":"self.is_Empty","kind":"class"},{"name":"is_identity","pred":"self.is_identity","kind":"class"},{"name":"is_Identity","pred":"self.is_Identity","kind":"class"}],"methods_preserving":["copy","__getnewargs__","_hashable_content","array_form","list","cyclic_form","full_cyclic_form","size","support","__add__","__sub__","mul_inv","__rmul__","__mul__","commutes_with","__pow__","__rxor__","__xor__","transpositions","from_sequence","__invert__","__iter__","__repr__","__call__","atoms","apply","next_lex","unrank_nonlex","rank_nonlex","next_nonlex","rank","cardinality","parity","is_even","is_odd","is_Singleton","is_Empty","is_identity","is_Identity","ascents","descents","max","min","inversions","commutator","signature","order","length","cycle_structure","cycles","index","runs","inversion_vector","rank_trotterjohnson","next_trotterjohnson","get_precedence_matrix","get_precedence_distance","get_adjacency_matrix","get_adjacency_distance","get_positional_distance","resize"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c36b6b64676304b6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Atom)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":6.7,"verdict_class":"assumed","binding":false,"binding_errors":["Function Permutation not found in source"]}}
 class Permutation(Atom):
     r"""
     A permutation, alternatively known as an 'arrangement number' or 'ordering'
@@ -1104,16 +1209,23 @@ class Permutation(Atom):
     _rank = None
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), constructor for the permutation object from a list or a list of lists in which all elements of the permutation may appear only once) over Any ║
+# ║ Path(__new__(cls, *args, size), <unspecified:__new__>) over {Any | ok} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: ok                                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | ok} → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6b8b8703ae0d6bda           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.__new__","kind":"method","src_hash":"989011ce14c420fd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"constructor for the permutation object from a list or a list of lists in which all elements of the permutation may appear only once","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"constructor for the permutation object from a list or a list of lists in which all elements of the permutation may appear only once","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6b8b8703ae0d6bda"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.__new__","kind":"method","src_hash":"989011ce14c420fd","in":{"base":"Any","pred":"ok"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, *args, size)","rhs":"<unspecified:__new__>","over":{"base":"Any","pred":"ok"},"name":"__new___correct"},"guarantee":"constructor for the permutation object from a list or a list of lists in which all elements of the permutation may appear only once","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6b8b8703ae0d6bda","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["ok"],"pure":false,"effects":{"effect_type":"reads_state","reads":["cls._af_new"],"calls_mutating":["aform.extend"],"raises":["ValueError"]},"state_contract":{"modifies":["aform.*"],"old_bindings":{"old_len_aform":"len(aform)"},"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, *args, size=None, **kwargs):
         """
         Constructor for the Permutation object from a list or a
@@ -1242,16 +1354,22 @@ class Permutation(Atom):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_af_new(cls), a method to produce a permutation object from a list; the list is bound to the _array_form attribute, so it must not be modified; this method is meant for internal use only; the list ``a`` is supposed) over Any ║
+# ║ Path(_af_new(cls, perm), <unspecified:_af_new>) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _af_new : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 592bfa74af6c4650  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation._af_new","kind":"classmethod","src_hash":"3d403c0a259007ec","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_af_new(cls)","rhs":"a method to produce a permutation object from a list; the list is bound to the _array_form attribute, so it must not be modified; this method is meant for internal use only; the list ``a`` is supposed","over":{"base":"Any"},"name":"_af_new_correct"},"guarantee":"a method to produce a permutation object from a list; the list is bound to the _array_form attribute, so it must not be modified; this method is meant for internal use only; the list ``a`` is supposed","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.permutations.Permutation._af_new_correct","statement":"Path(_af_new(x), a method to produce a permutation object from a list; the list is bound to the _array_form attribute, so it must not be modified; this method is meant for internal use only; the list ``a`` is supposed)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"592bfa74af6c4650"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation._af_new","kind":"classmethod","src_hash":"3d403c0a259007ec","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_af_new(cls, perm)","rhs":"<unspecified:_af_new>","over":{"base":"Any"},"name":"_af_new_correct"},"guarantee":"a method to produce a permutation object from a list; the list is bound to the _array_form attribute, so it must not be modified; this method is meant for internal use only; the list ``a`` is supposed","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.permutations.Permutation._af_new_correct","statement":"Path(_af_new(x), a method to produce a permutation object from a list; the list is bound to the _array_form attribute, so it must not be modified; this method is meant for internal use only; the list ``a`` is supposed)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"592bfa74af6c4650","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _af_new(cls, perm):
         """A method to produce a Permutation object from a list;
         the list is bound to the _array_form attribute, so it must
@@ -1278,44 +1396,62 @@ class Permutation(Atom):
         return p
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(copy(), copy produces the expected output) over Any   ║
+# ║ Path(copy(), self.__class__(self.array_form)) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.__class__(self.array_form)                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ copy : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ba25255527ce573a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.copy","kind":"method","src_hash":"8b73386184fc71b0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"copy()","rhs":"copy produces the expected output","over":{"base":"Any"},"name":"copy_correct"},"guarantee":"copy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ba25255527ce573a"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.copy","kind":"method","src_hash":"8b73386184fc71b0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"copy()","rhs":"self.__class__(self.array_form)","over":{"base":"Any"},"name":"copy_correct"},"guarantee":"returns self.__class__(self.array_form)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ba25255527ce573a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.__class__(self.array_form)","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","self.__class__","self.array_form"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def copy(self):
         return self.__class__(self.array_form)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__getnewargs__(), internal helper behaves correctly) over Any ║
+# ║ Path(__getnewargs__(), (self.array_form,)) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (self.array_form,)                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __getnewargs__ : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7c82903e021f1514           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.__getnewargs__","kind":"method","src_hash":"44dc672339425ac0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getnewargs__()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__getnewargs___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7c82903e021f1514"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.__getnewargs__","kind":"method","src_hash":"44dc672339425ac0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getnewargs__()","rhs":"(self.array_form,)","over":{"base":"Any"},"name":"__getnewargs___correct"},"guarantee":"returns (self.array_form,)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7c82903e021f1514","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(self.array_form,)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.array_form"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __getnewargs__(self):
         return (self.array_form,)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_hashable_content(), internal helper behaves correctly) over Any ║
+# ║ Path(_hashable_content(), tuple(self.array_form)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  tuple(self.array_form)                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _hashable_content : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 45b44eed98f99593           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation._hashable_content","kind":"method","src_hash":"13097f23ab3277f6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_hashable_content()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_hashable_content_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"45b44eed98f99593"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation._hashable_content","kind":"method","src_hash":"13097f23ab3277f6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_hashable_content()","rhs":"tuple(self.array_form)","over":{"base":"Any"},"name":"_hashable_content_correct"},"guarantee":"returns tuple(self.array_form)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"45b44eed98f99593","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"tuple(self.array_form)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.array_form"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _hashable_content(self):
         # the array_form (a list) is the Permutation arg, so we need to
         # return a tuple, instead
@@ -1323,16 +1459,22 @@ class Permutation(Atom):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(array_form(), returns the array_form attribute) over Any ║
+# ║ Path(array_form(), self._array_form[:]) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._array_form[:]                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ array_form : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 76e1343e1f9a5476           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.array_form","kind":"property","src_hash":"27cd2fdeae5e5810","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"array_form()","rhs":"returns the array_form attribute","over":{"base":"Any"},"name":"array_form_correct"},"guarantee":"returns the array_form attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"76e1343e1f9a5476"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.array_form","kind":"property","src_hash":"27cd2fdeae5e5810","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"array_form()","rhs":"self._array_form[:]","over":{"base":"Any"},"name":"array_form_correct"},"guarantee":"returns self._array_form[:]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"76e1343e1f9a5476","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._array_form[:]","pure":false,"effects":{"effect_type":"reads_state","reads":["self._array_form"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def array_form(self):
         """
         Return a copy of the attribute _array_form
@@ -1353,16 +1495,24 @@ class Permutation(Atom):
         return self._array_form[:]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(list(siz), return the permutation as an explicit list, possibly trimming unmoved elements if size is less than the maximum element in the permutation; if this is desired, setting ``size=-1`` will guarantee such ) over Any ║
+# ║ Path(list(size), len(rv) == old_len_rv - 1) over {Any | not (not self and size is None) and len(rv) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ list : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (not self and size is None)                ║
+# ║   requires: len(rv) > 0                                    ║
+# ║   ensures:  len(rv) == old_len_rv - 1                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ list : {Any | not (not self and size is None) and len...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7df354cbc46ae7b4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 673c672e25601aa3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.list","kind":"method","src_hash":"82f1778b23522dd5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"list(siz)","rhs":"return the permutation as an explicit list, possibly trimming unmoved elements if size is less than the maximum element in the permutation; if this is desired, setting ``size=-1`` will guarantee such ","over":{"base":"Any"},"name":"list_correct"},"guarantee":"return the permutation as an explicit list, possibly trimming unmoved elements if size is less than the maximum element in the permutation; if this is desired, setting ``size=-1`` will guarantee such ","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.permutations.Permutation.list_correct","statement":"Path(list(x), return the permutation as an explicit list, possibly trimming unmoved elements if size is less than the maximum element in the permutation; if this is desired, setting ``size=-1`` will guarantee such )"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7df354cbc46ae7b4"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.list","kind":"method","src_hash":"82f1778b23522dd5","in":{"base":"Any","pred":"not (not self and size is None) and len(rv) > 0"},"out":{"base":"Any","pred":"result satisfies: len(rv) == old_len_rv - 1"},"spec":{"lhs":"list(size)","rhs":"len(rv) == old_len_rv - 1","over":{"base":"Any","pred":"not (not self and size is None) and len(rv) > 0"},"name":"list_correct"},"guarantee":"len(rv) == old_len_rv - 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.permutations.Permutation.list_correct","statement":"Path(list(x), len(rv) == old_len_rv - 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"673c672e25601aa3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (not self and size is None)","len(rv) > 0"],"ensures":["len(rv) == old_len_rv - 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.array_form","self.size"],"calls_mutating":["rv.extend","rv.pop"],"raises":["ValueError"]},"state_contract":{"modifies":["rv.*"],"old_bindings":{"old_len_rv":"len(rv)"},"pre_requires":["len(rv) > 0"],"post_ensures":["len(rv) == old_len_rv - 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def list(self, size=None):
         """Return the permutation as an explicit list, possibly
         trimming unmoved elements if size is less than the maximum
@@ -1405,16 +1555,24 @@ class Permutation(Atom):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(cyclic_form(), returns the cyclic_form attribute) over Any ║
+# ║ Path(cyclic_form(), len(cycle) == old_len_cycle + 1 and len(cyclic_form) == old_len_cyclic_form + 1 and len(cyclic_form) == old_len_cyclic_form) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ cyclic_form : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(cycle) == old_len_cycle + 1                ║
+# ║   ensures:  len(cyclic_form) == old_len_cyclic_form + 1    ║
+# ║   ensures:  len(cyclic_form) == old_len_cyclic_form        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ cyclic_form : Any → {Any | result satisfies: len(cycl...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 56f9bd79ca74f657           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.cyclic_form","kind":"property","src_hash":"a9722f7737c8da6e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"cyclic_form()","rhs":"returns the cyclic_form attribute","over":{"base":"Any"},"name":"cyclic_form_correct"},"guarantee":"returns the cyclic_form attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"56f9bd79ca74f657"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.cyclic_form","kind":"property","src_hash":"a9722f7737c8da6e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(cycle) == old_len_cycle + 1 and len(cyclic_form) == old_len_cyclic_form + 1 and len(cyclic_form) == old_len_cyclic_form"},"spec":{"lhs":"cyclic_form()","rhs":"len(cycle) == old_len_cycle + 1 and len(cyclic_form) == old_len_cyclic_form + 1 and len(cyclic_form) == old_len_cyclic_form","over":{"base":"Any"},"name":"cyclic_form_correct"},"guarantee":"len(cycle) == old_len_cycle + 1; len(cyclic_form) == old_len_cyclic_form + 1; len(cyclic_form) == old_len_cyclic_form","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"56f9bd79ca74f657","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(cycle) == old_len_cycle + 1","len(cyclic_form) == old_len_cyclic_form + 1","len(cyclic_form) == old_len_cyclic_form"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self._cyclic_form","self.array_form"],"writes":["self._cyclic_form"],"calls_mutating":["cycle.append","cyclic_form.append","cyclic_form.sort"]},"state_contract":{"modifies":["cycle.*","cyclic_form.*","self._cyclic_form"],"old_bindings":{"old_self__cyclic_form":"self._cyclic_form","old_len_cycle":"len(cycle)","old_len_cyclic_form":"len(cyclic_form)"},"post_ensures":["len(cycle) == old_len_cycle + 1","len(cyclic_form) == old_len_cyclic_form + 1","len(cyclic_form) == old_len_cyclic_form"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def cyclic_form(self):
         """
         This is used to convert to the cyclic notation
@@ -1459,16 +1617,22 @@ class Permutation(Atom):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(full_cyclic_form(), returns the full_cyclic_form attribute) over Any ║
+# ║ Path(full_cyclic_form(), <unspecified:full_cyclic_form>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ full_cyclic_form : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4470658f731c66cb           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.full_cyclic_form","kind":"property","src_hash":"95306fe27fd49224","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"full_cyclic_form()","rhs":"returns the full_cyclic_form attribute","over":{"base":"Any"},"name":"full_cyclic_form_correct"},"guarantee":"returns the full_cyclic_form attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4470658f731c66cb"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.full_cyclic_form","kind":"property","src_hash":"95306fe27fd49224","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"full_cyclic_form()","rhs":"<unspecified:full_cyclic_form>","over":{"base":"Any"},"name":"full_cyclic_form_correct"},"guarantee":"returns the full_cyclic_form attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4470658f731c66cb","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def full_cyclic_form(self):
         """Return permutation in cyclic form including singletons.
 
@@ -1486,16 +1650,22 @@ class Permutation(Atom):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(size(), returns the size attribute) over Any          ║
+# ║ Path(size(), self._size) over Any                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._size                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ size : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 250cf7763c6112c8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.size","kind":"property","src_hash":"5feba441b8b7e8a7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"size()","rhs":"returns the size attribute","over":{"base":"Any"},"name":"size_correct"},"guarantee":"returns the size attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"250cf7763c6112c8"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.size","kind":"property","src_hash":"5feba441b8b7e8a7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"size()","rhs":"self._size","over":{"base":"Any"},"name":"size_correct"},"guarantee":"returns self._size","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"250cf7763c6112c8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._size","pure":false,"effects":{"effect_type":"reads_state","reads":["self._size"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def size(self):
         """
         Returns the number of elements in the permutation.
@@ -1515,16 +1685,22 @@ class Permutation(Atom):
         return self._size
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(support(), return the elements in permutation, p, for which p[i] != i) over Any ║
+# ║ Path(support(), [i for i, e in enumerate(a) if e != i]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [i for i, e in enumerate(a) if e != i]         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ support : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 80604682f476120c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 792a414a9703c03b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.support","kind":"method","src_hash":"2919bc6c468aaee2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"support()","rhs":"return the elements in permutation, p, for which p[i] != i","over":{"base":"Any"},"name":"support_correct"},"guarantee":"return the elements in permutation, p, for which p[i] != i","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.permutations.Permutation.support_correct","statement":"Path(support(x), return the elements in permutation, p, for which p[i] != i)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"80604682f476120c"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.support","kind":"method","src_hash":"2919bc6c468aaee2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"support()","rhs":"[i for i, e in enumerate(a) if e != i]","over":{"base":"Any"},"name":"support_correct"},"guarantee":"returns [i for i, e in enumerate(a) if e != i]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.permutations.Permutation.support_correct","statement":"Path(support(x), returns [i for i, e in enumerate(a) if e != i])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"792a414a9703c03b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[i for i, e in enumerate(a) if e != i]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.array_form"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def support(self):
         """Return the elements in permutation, P, for which P[i] != i.
 
@@ -1542,16 +1718,22 @@ class Permutation(Atom):
         return [i for i, e in enumerate(a) if e != i]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__add__(oth), returns the sum/concatenation) over Any ║
+# ║ Path(__add__(other), <unspecified:__add__>) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __add__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 655abbb48e10914c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.__add__","kind":"method","src_hash":"ed6fb8fa3871f83a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__add__(oth)","rhs":"returns the sum/concatenation","over":{"base":"Any"},"name":"__add___correct"},"guarantee":"returns the sum/concatenation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"655abbb48e10914c"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.__add__","kind":"method","src_hash":"ed6fb8fa3871f83a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__add__(other)","rhs":"<unspecified:__add__>","over":{"base":"Any"},"name":"__add___correct"},"guarantee":"returns the sum/concatenation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"655abbb48e10914c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.cardinality","self.rank","self.size","self.unrank_lex"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __add__(self, other):
         """Return permutation that is other higher in rank than self.
 
@@ -1579,16 +1761,22 @@ class Permutation(Atom):
         return rv
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__sub__(oth), return the permutation that is other lower in rank than self) over Any ║
+# ║ Path(__sub__(other), self.__add__(-other)) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.__add__(-other)                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __sub__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b0a34f12ecffef2c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.__sub__","kind":"method","src_hash":"8a2c15d55c0a5ab9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__sub__(oth)","rhs":"return the permutation that is other lower in rank than self","over":{"base":"Any"},"name":"__sub___correct"},"guarantee":"return the permutation that is other lower in rank than self","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b0a34f12ecffef2c"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.__sub__","kind":"method","src_hash":"8a2c15d55c0a5ab9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__sub__(other)","rhs":"self.__add__(-other)","over":{"base":"Any"},"name":"__sub___correct"},"guarantee":"returns self.__add__(-other)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b0a34f12ecffef2c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.__add__(-other)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.__add__"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __sub__(self, other):
         """Return the permutation that is other lower in rank than self.
 
@@ -1601,16 +1789,22 @@ class Permutation(Atom):
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rmul(*ar), return product of permutations [a, b, c, ...] as the permutation whose ith value is a(b(c(i)))) over Any ║
+# ║ Path(rmul(*args), <unspecified:rmul>) over Any             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ rmul : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 26f4a89af35cb9e5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.rmul","kind":"staticmethod","src_hash":"a68c639f182f37b1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rmul(*ar)","rhs":"return product of permutations [a, b, c, ...] as the permutation whose ith value is a(b(c(i)))","over":{"base":"Any"},"name":"rmul_correct"},"guarantee":"return product of permutations [a, b, c, ...] as the permutation whose ith value is a(b(c(i)))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.permutations.Permutation.rmul_correct","statement":"Path(rmul(x), return product of permutations [a, b, c, ...] as the permutation whose ith value is a(b(c(i))))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"26f4a89af35cb9e5"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.rmul","kind":"staticmethod","src_hash":"a68c639f182f37b1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rmul(*args)","rhs":"<unspecified:rmul>","over":{"base":"Any"},"name":"rmul_correct"},"guarantee":"return product of permutations [a, b, c, ...] as the permutation whose ith value is a(b(c(i)))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.permutations.Permutation.rmul_correct","statement":"Path(rmul(x), return product of permutations [a, b, c, ...] as the permutation whose ith value is a(b(c(i))))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"26f4a89af35cb9e5","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def rmul(*args):
         """
         Return product of Permutations [a, b, c, ...] as the Permutation whose
@@ -1657,16 +1851,22 @@ class Permutation(Atom):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rmul_with_af(cls), same as rmul, but the elements of args are permutation objects which have _array_form) over Any ║
+# ║ Path(rmul_with_af(cls, *args), <unspecified:rmul_with_af>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ rmul_with_af : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5192e0f77997c992  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.rmul_with_af","kind":"classmethod","src_hash":"f23ed5b9dd364e8f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rmul_with_af(cls)","rhs":"same as rmul, but the elements of args are permutation objects which have _array_form","over":{"base":"Any"},"name":"rmul_with_af_correct"},"guarantee":"same as rmul, but the elements of args are permutation objects which have _array_form","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.permutations.Permutation.rmul_with_af_correct","statement":"Path(rmul_with_af(x), same as rmul, but the elements of args are permutation objects which have _array_form)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5192e0f77997c992"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.rmul_with_af","kind":"classmethod","src_hash":"f23ed5b9dd364e8f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rmul_with_af(cls, *args)","rhs":"<unspecified:rmul_with_af>","over":{"base":"Any"},"name":"rmul_with_af_correct"},"guarantee":"same as rmul, but the elements of args are permutation objects which have _array_form","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.permutations.Permutation.rmul_with_af_correct","statement":"Path(rmul_with_af(x), same as rmul, but the elements of args are permutation objects which have _array_form)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5192e0f77997c992","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["cls._af_new"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def rmul_with_af(cls, *args):
         """
         same as rmul, but the elements of args are Permutation objects
@@ -1677,16 +1877,23 @@ class Permutation(Atom):
         return rv
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(mul_inv(oth), id) over Any                            ║
+# ║ Path(mul_inv(other), id) over {Any | hasattr(other, '_array_form')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ mul_inv : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, '_array_form')                  ║
+# ║   returns:  self._af_new(_af_rmul(a, b))                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ mul_inv : {Any | hasattr(other, '_array_form')} → Any      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 1da7a918c5d95471   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.mul_inv","kind":"method","src_hash":"eea70141ab52bd6c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"mul_inv(oth)","rhs":"other*~self, self and other have _array_form","over":{"base":"Any"},"name":"mul_inv_correct","kind":"composition"},"guarantee":"other*~self, self and other have _array_form","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"_af_new","by":"library_axiom"},{"fn":"_af_rmul","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1da7a918c5d95471"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.mul_inv","kind":"method","src_hash":"eea70141ab52bd6c","in":{"base":"Any","pred":"hasattr(other, '_array_form')"},"out":{"base":"Any"},"spec":{"lhs":"mul_inv(other)","rhs":"self._af_new(_af_rmul(a, b))","over":{"base":"Any","pred":"hasattr(other, '_array_form')"},"name":"mul_inv_correct","kind":"composition"},"guarantee":"returns self._af_new(_af_rmul(a, b))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"_af_new","by":"library_axiom"},{"fn":"_af_rmul","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1da7a918c5d95471","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, '_array_form')"],"returns_expr":"self._af_new(_af_rmul(a, b))","pure":false,"effects":{"effect_type":"reads_state","reads":["other._array_form","self._af_new","self._array_form"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def mul_inv(self, other):
         """
         other*~self, self and other have _array_form
@@ -1696,32 +1903,45 @@ class Permutation(Atom):
         return self._af_new(_af_rmul(a, b))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__rmul__(oth), this is needed to coerce other to permutation in rmul) over Any ║
+# ║ Path(__rmul__(other), cls(other) * self) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  cls(other) * self                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __rmul__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 380ebf645fef6f19           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.__rmul__","kind":"method","src_hash":"a6532750bd063be2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rmul__(oth)","rhs":"this is needed to coerce other to permutation in rmul","over":{"base":"Any"},"name":"__rmul___correct"},"guarantee":"this is needed to coerce other to permutation in rmul","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"380ebf645fef6f19"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.__rmul__","kind":"method","src_hash":"a6532750bd063be2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rmul__(other)","rhs":"cls(other) * self","over":{"base":"Any"},"name":"__rmul___correct"},"guarantee":"returns cls(other) * self","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"380ebf645fef6f19","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"cls(other) * self","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __rmul__(self, other):
         """This is needed to coerce other to Permutation in rmul."""
         cls = type(self)
         return cls(other)*self
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__mul__(oth), returns the product) over Any           ║
+# ║ Path(__mul__(other), <unspecified:__mul__>) over {Any | hasattr(other, 'array_form')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __mul__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, 'array_form')                   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __mul__ : {Any | hasattr(other, 'array_form')} → Any       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | bc42ddfb46aaaba5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.__mul__","kind":"method","src_hash":"eea09bc15cbcd7da","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__mul__(oth)","rhs":"returns the product","over":{"base":"Any"},"name":"__mul___correct"},"guarantee":"returns the product","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bc42ddfb46aaaba5"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.__mul__","kind":"method","src_hash":"eea09bc15cbcd7da","in":{"base":"Any","pred":"hasattr(other, 'array_form')"},"out":{"base":"Any"},"spec":{"lhs":"__mul__(other)","rhs":"<unspecified:__mul__>","over":{"base":"Any","pred":"hasattr(other, 'array_form')"},"name":"__mul___correct"},"guarantee":"returns the product","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bc42ddfb46aaaba5","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, 'array_form')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __mul__(self, other):
         """
         Return the product a*b as a Permutation; the ith value is b(a(i)).
@@ -1788,16 +2008,23 @@ class Permutation(Atom):
         return self._af_new(perm)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(commutes_with(oth), checks if the elements are commuting) over Any ║
+# ║ Path(commutes_with(other), _af_commutes_with(a, b)) over {Any | hasattr(other, 'array_form')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ commutes_with : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, 'array_form')                   ║
+# ║   returns:  _af_commutes_with(a, b)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ commutes_with : {Any | hasattr(other, 'array_form')} ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f1cd006d9ce3515b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b4047679b1ac4a2b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.commutes_with","kind":"method","src_hash":"aad687508801e14a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"commutes_with(oth)","rhs":"checks if the elements are commuting","over":{"base":"Any"},"name":"commutes_with_correct"},"guarantee":"checks if the elements are commuting","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.permutations.Permutation.commutes_with_correct","statement":"Path(commutes_with(x), checks if the elements are commuting)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f1cd006d9ce3515b"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.commutes_with","kind":"method","src_hash":"aad687508801e14a","in":{"base":"Any","pred":"hasattr(other, 'array_form')"},"out":{"base":"Any"},"spec":{"lhs":"commutes_with(other)","rhs":"_af_commutes_with(a, b)","over":{"base":"Any","pred":"hasattr(other, 'array_form')"},"name":"commutes_with_correct"},"guarantee":"returns _af_commutes_with(a, b)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.permutations.Permutation.commutes_with_correct","statement":"Path(commutes_with(x), returns _af_commutes_with(a, b))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b4047679b1ac4a2b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, 'array_form')"],"returns_expr":"_af_commutes_with(a, b)","pure":false,"effects":{"effect_type":"reads_state","reads":["other.array_form","self.array_form"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def commutes_with(self, other):
         """
         Checks if the elements are commuting.
@@ -1819,16 +2046,23 @@ class Permutation(Atom):
         return _af_commutes_with(a, b)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__pow__(n), routine for finding powers of a permutation) over Any ║
+# ║ Path(__pow__(n), self._af_new(_af_pow(self.array_form, n))) over {Any | not (isinstance(n, Permutation))} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __pow__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (isinstance(n, Permutation))               ║
+# ║   returns:  self._af_new(_af_pow(self.array_form, n))      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __pow__ : {Any | not (isinstance(n, Permutation))} → Any   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c57b75d1c829ed3e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.__pow__","kind":"method","src_hash":"742dfcff72e528d9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__pow__(n)","rhs":"routine for finding powers of a permutation","over":{"base":"Any"},"name":"__pow___correct"},"guarantee":"routine for finding powers of a permutation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c57b75d1c829ed3e"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.__pow__","kind":"method","src_hash":"742dfcff72e528d9","in":{"base":"Any","pred":"not (isinstance(n, Permutation))"},"out":{"base":"Any"},"spec":{"lhs":"__pow__(n)","rhs":"self._af_new(_af_pow(self.array_form, n))","over":{"base":"Any","pred":"not (isinstance(n, Permutation))"},"name":"__pow___correct"},"guarantee":"returns self._af_new(_af_pow(self.array_form, n))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c57b75d1c829ed3e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (isinstance(n, Permutation))"],"returns_expr":"self._af_new(_af_pow(self.array_form, n))","pure":false,"effects":{"effect_type":"reads_state","reads":["self._af_new","self.array_form"],"raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __pow__(self, n):
         """
         Routine for finding powers of a permutation.
@@ -1852,16 +2086,23 @@ class Permutation(Atom):
         return self._af_new(_af_pow(self.array_form, n))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__rxor__(i), return self(i) when ``i`` is an int) over Any ║
+# ║ Path(__rxor__(i), <unspecified:__rxor__>) over Any         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: int_valued(i) => self(i)                  ║
+# ║   fiber[case_1]: not (int_valued(i))                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __rxor__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | fdc91b648ce6f55b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.__rxor__","kind":"method","src_hash":"ae4ece4ef70431c6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rxor__(i)","rhs":"return self(i) when ``i`` is an int","over":{"base":"Any"},"name":"__rxor___correct"},"guarantee":"return self(i) when ``i`` is an int","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fdc91b648ce6f55b"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.__rxor__","kind":"method","src_hash":"ae4ece4ef70431c6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rxor__(i)","rhs":"<unspecified:__rxor__>","over":{"base":"Any"},"name":"__rxor___correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fdc91b648ce6f55b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"int_valued(i)","ensures":["result == self(i)"],"decidability":"library","returns_expr":"self(i)"},{"name":"case_1","guard":"not (int_valued(i))","ensures":[],"decidability":"library"}],"pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __rxor__(self, i):
         """Return self(i) when ``i`` is an int.
 
@@ -1880,16 +2121,25 @@ class Permutation(Atom):
                 "i^p = p(i) when i is an integer, not %s." % i)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__xor__(h), return the conjugate permutation ``~h*self*h` `) over Any ║
+# ║ Path(__xor__(h), self._af_new(a)) over {Any | not (self.size != h.size) and hasattr(h, '_array_form') and hasattr(h, 'size')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __xor__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (self.size != h.size)                      ║
+# ║   requires: hasattr(h, '_array_form')                      ║
+# ║   requires: hasattr(h, 'size')                             ║
+# ║   returns:  self._af_new(a)                                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __xor__ : {Any | not (self.size != h.size) and hasatt...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9a6d632cad10b39d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.__xor__","kind":"method","src_hash":"c9bf2f927ed089a6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__xor__(h)","rhs":"return the conjugate permutation ``~h*self*h` `","over":{"base":"Any"},"name":"__xor___correct"},"guarantee":"return the conjugate permutation ``~h*self*h` `","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9a6d632cad10b39d"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.__xor__","kind":"method","src_hash":"c9bf2f927ed089a6","in":{"base":"Any","pred":"not (self.size != h.size) and hasattr(h, '_array_form') and hasattr(h, 'size')"},"out":{"base":"Any"},"spec":{"lhs":"__xor__(h)","rhs":"self._af_new(a)","over":{"base":"Any","pred":"not (self.size != h.size) and hasattr(h, '_array_form') and hasattr(h, 'size')"},"name":"__xor___correct"},"guarantee":"returns self._af_new(a)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9a6d632cad10b39d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (self.size != h.size)","hasattr(h, '_array_form')","hasattr(h, 'size')"],"returns_expr":"self._af_new(a)","pure":false,"effects":{"effect_type":"reads_state","reads":["h._array_form","h.size","self._af_new","self._array_form","self.size"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __xor__(self, h):
         """Return the conjugate permutation ``~h*self*h` `.
 
@@ -1971,16 +2221,22 @@ class Permutation(Atom):
         return self._af_new(a)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(transpositions(), return the permutation decomposed into a list of transpositions) over Any ║
+# ║ Path(transpositions(), <unspecified:transpositions>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ transpositions : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c2359b94cd63e4ec  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.transpositions","kind":"method","src_hash":"cbf53f32af59891a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"transpositions()","rhs":"return the permutation decomposed into a list of transpositions","over":{"base":"Any"},"name":"transpositions_correct"},"guarantee":"return the permutation decomposed into a list of transpositions","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.permutations.Permutation.transpositions_correct","statement":"Path(transpositions(x), return the permutation decomposed into a list of transpositions)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c2359b94cd63e4ec"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.transpositions","kind":"method","src_hash":"cbf53f32af59891a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"transpositions()","rhs":"<unspecified:transpositions>","over":{"base":"Any"},"name":"transpositions_correct"},"guarantee":"return the permutation decomposed into a list of transpositions","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.permutations.Permutation.transpositions_correct","statement":"Path(transpositions(x), return the permutation decomposed into a list of transpositions)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c2359b94cd63e4ec","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def transpositions(self):
         """
         Return the permutation decomposed into a list of transpositions.
@@ -2023,16 +2279,22 @@ class Permutation(Atom):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_sequence(i, ), return the permutation needed to obtain ``i`` from the sorted elements of ``i``) over Any ║
+# ║ Path(from_sequence(i, key), ~Permutation([i[1] for i in ic])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  ~Permutation([i[1] for i in ic])               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ from_sequence : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e0a0173b2454c745  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1f49a7fc74544a79  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.from_sequence","kind":"classmethod","src_hash":"2231466d743293a3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_sequence(i, )","rhs":"return the permutation needed to obtain ``i`` from the sorted elements of ``i``","over":{"base":"Any"},"name":"from_sequence_correct"},"guarantee":"return the permutation needed to obtain ``i`` from the sorted elements of ``i``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.permutations.Permutation.from_sequence_correct","statement":"Path(from_sequence(x), return the permutation needed to obtain ``i`` from the sorted elements of ``i``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e0a0173b2454c745"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.from_sequence","kind":"classmethod","src_hash":"2231466d743293a3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_sequence(i, key)","rhs":"~Permutation([i[1] for i in ic])","over":{"base":"Any"},"name":"from_sequence_correct"},"guarantee":"returns ~Permutation([i[1] for i in ic])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.permutations.Permutation.from_sequence_correct","statement":"Path(from_sequence(x), returns ~Permutation([i[1] for i in ic]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1f49a7fc74544a79","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"~Permutation([i[1] for i in ic])","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_sequence(self, i, key=None):
         """Return the permutation needed to obtain ``i`` from the sorted
         elements of ``i``. If custom sorting is desired, a key can be given.
@@ -2057,16 +2319,22 @@ class Permutation(Atom):
         return ~Permutation([i[1] for i in ic])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__invert__(), return the inverse of the permutation) over Any ║
+# ║ Path(__invert__(), self._af_new(_af_invert(self._array_form))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._af_new(_af_invert(self._array_form))     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __invert__ : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b35e2c61d30f1ab6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.__invert__","kind":"method","src_hash":"67716e8932630104","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__invert__()","rhs":"return the inverse of the permutation","over":{"base":"Any"},"name":"__invert___correct"},"guarantee":"return the inverse of the permutation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b35e2c61d30f1ab6"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.__invert__","kind":"method","src_hash":"67716e8932630104","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__invert__()","rhs":"self._af_new(_af_invert(self._array_form))","over":{"base":"Any"},"name":"__invert___correct"},"guarantee":"returns self._af_new(_af_invert(self._array_form))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b35e2c61d30f1ab6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._af_new(_af_invert(self._array_form))","pure":false,"effects":{"effect_type":"reads_state","reads":["self._af_new","self._array_form"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __invert__(self):
         """
         Return the inverse of the permutation.
@@ -2090,16 +2358,22 @@ class Permutation(Atom):
         return self._af_new(_af_invert(self._array_form))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__iter__(), yields all elements in order) over Any    ║
+# ║ Path(__iter__(), <unspecified:__iter__>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __iter__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 091972e10dbf7538           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.__iter__","kind":"method","src_hash":"f6a7afe0646a4d09","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__iter__()","rhs":"yields all elements in order","over":{"base":"Any"},"name":"__iter___correct"},"guarantee":"yields all elements in order","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"091972e10dbf7538"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.__iter__","kind":"method","src_hash":"f6a7afe0646a4d09","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__iter__()","rhs":"<unspecified:__iter__>","over":{"base":"Any"},"name":"__iter___correct"},"guarantee":"yields all elements in order","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"091972e10dbf7538","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.array_form"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __iter__(self):
         """Yield elements from array form.
 
@@ -2113,30 +2387,42 @@ class Permutation(Atom):
         yield from self.array_form
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__repr__(), returns a faithful string representation) over Any ║
+# ║ Path(__repr__(), srepr(self)) over Any                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  srepr(self)                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __repr__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a270ae6b15c70243           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.__repr__","kind":"method","src_hash":"ee5f8deebfc7a48f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"returns a faithful string representation","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns a faithful string representation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a270ae6b15c70243"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.__repr__","kind":"method","src_hash":"ee5f8deebfc7a48f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"srepr(self)","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns srepr(self)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a270ae6b15c70243","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"srepr(self)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __repr__(self):
         return srepr(self)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__call__(*i), correctly applies the callable) over Any ║
+# ║ Path(__call__(*i), <unspecified:__call__>) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __call__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f9542ffe8004dbb2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.__call__","kind":"method","src_hash":"5810b40f7788cb7a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__call__(*i)","rhs":"correctly applies the callable","over":{"base":"Any"},"name":"__call___correct"},"guarantee":"correctly applies the callable","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f9542ffe8004dbb2"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.__call__","kind":"method","src_hash":"5810b40f7788cb7a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__call__(*i)","rhs":"<unspecified:__call__>","over":{"base":"Any"},"name":"__call___correct"},"guarantee":"correctly applies the callable","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f9542ffe8004dbb2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._array_form","self.size"],"raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __call__(self, *i):
         """
         Allows applying a permutation instance as a bijective function.
@@ -2179,16 +2465,22 @@ class Permutation(Atom):
         return self*Permutation(Cycle(*i), size=self.size)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(atoms(), returns all the elements of a permutation) over Any ║
+# ║ Path(atoms(), set(self.array_form)) over Any               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  set(self.array_form)                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ atoms : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9af3ca9d7070e68a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.atoms","kind":"method","src_hash":"07439485729734c9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"atoms()","rhs":"returns all the elements of a permutation","over":{"base":"Any"},"name":"atoms_correct"},"guarantee":"returns all the elements of a permutation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9af3ca9d7070e68a"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.atoms","kind":"method","src_hash":"07439485729734c9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"atoms()","rhs":"set(self.array_form)","over":{"base":"Any"},"name":"atoms_correct"},"guarantee":"returns set(self.array_form)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9af3ca9d7070e68a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"set(self.array_form)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.array_form"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def atoms(self):
         """
         Returns all the elements of a permutation
@@ -2205,16 +2497,25 @@ class Permutation(Atom):
         return set(self.array_form)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(apply(i), apply the permutation to an expression) over Any ║
+# ║ Path(apply(i), <unspecified:apply>) over {Any | not (i.is_integer is False) and not ((i < 0) == True or (i >= n) == True) and hasattr(i, 'is_Integer') and hasattr(i, 'is_integer')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ apply : Any → Any                                          ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (i.is_integer is False)                    ║
+# ║   requires: not ((i < 0) == True or (i >= n) == True)      ║
+# ║   requires: hasattr(i, 'is_Integer')                       ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ apply : {Any | not (i.is_integer is False) and not ((...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 13a363e42cff2849  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.apply","kind":"method","src_hash":"33305331d90289d6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"apply(i)","rhs":"apply the permutation to an expression","over":{"base":"Any"},"name":"apply_correct"},"guarantee":"apply the permutation to an expression","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.permutations.Permutation.apply_correct","statement":"Path(apply(x), apply the permutation to an expression)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"13a363e42cff2849"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.apply","kind":"method","src_hash":"33305331d90289d6","in":{"base":"Any","pred":"not (i.is_integer is False) and not ((i < 0) == True or (i >= n) == True) and hasattr(i, 'is_Integer') and hasattr(i, 'is_integer')"},"out":{"base":"Any"},"spec":{"lhs":"apply(i)","rhs":"<unspecified:apply>","over":{"base":"Any","pred":"not (i.is_integer is False) and not ((i < 0) == True or (i >= n) == True) and hasattr(i, 'is_Integer') and hasattr(i, 'is_integer')"},"name":"apply_correct"},"guarantee":"apply the permutation to an expression","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.permutations.Permutation.apply_correct","statement":"Path(apply(x), apply the permutation to an expression)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"13a363e42cff2849","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (i.is_integer is False)","not ((i < 0) == True or (i >= n) == True)","hasattr(i, 'is_Integer')","hasattr(i, 'is_integer')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["i.is_Integer","i.is_integer","self._array_form","self.size"],"raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def apply(self, i):
         r"""Apply the permutation to an expression.
 
@@ -2265,16 +2566,23 @@ class Permutation(Atom):
         return AppliedPermutation(self, i)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(next_lex(), returns the next permutation in lexicographical order. if self is the last permutation in lexicographical order it returns none. see [4] section 2.4) over Any ║
+# ║ Path(next_lex(), <unspecified:next_lex>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: i == -1 => None                           ║
+# ║   fiber[case_1]: not (i == -1)                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ next_lex : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a85feedc9ef9f31a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e31bf4ae0fe78f9d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.next_lex","kind":"method","src_hash":"846c8808d0e32f89","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"next_lex()","rhs":"returns the next permutation in lexicographical order. if self is the last permutation in lexicographical order it returns none. see [4] section 2.4","over":{"base":"Any"},"name":"next_lex_correct"},"guarantee":"returns the next permutation in lexicographical order. if self is the last permutation in lexicographical order it returns none. see [4] section 2.4","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.permutations.Permutation.next_lex_correct","statement":"Path(next_lex(x), returns the next permutation in lexicographical order. if self is the last permutation in lexicographical order it returns none. see [4] section 2.4)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a85feedc9ef9f31a"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.next_lex","kind":"method","src_hash":"846c8808d0e32f89","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"next_lex()","rhs":"<unspecified:next_lex>","over":{"base":"Any"},"name":"next_lex_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.permutations.Permutation.next_lex_correct","statement":"Path(next_lex(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e31bf4ae0fe78f9d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"i == -1","ensures":["result == None"],"decidability":"z3","returns_expr":"None"},{"name":"case_1","guard":"not (i == -1)","ensures":[],"decidability":"z3"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._af_new","self.array_form"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def next_lex(self):
         """
         Returns the next permutation in lexicographical order.
@@ -2320,16 +2628,22 @@ class Permutation(Atom):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(unrank_nonlex(n, ), this is a linear time unranking algorithm that does not respect lexicographic order [3]) over Any ║
+# ║ Path(unrank_nonlex(n, r), self._af_new(id_perm)) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._af_new(id_perm)                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ unrank_nonlex : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a2a753c17e4fa6a3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 41cc71be6c8c2384  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.unrank_nonlex","kind":"classmethod","src_hash":"21f38cdc217149a6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"unrank_nonlex(n, )","rhs":"this is a linear time unranking algorithm that does not respect lexicographic order [3]","over":{"base":"Any"},"name":"unrank_nonlex_correct"},"guarantee":"this is a linear time unranking algorithm that does not respect lexicographic order [3]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.permutations.Permutation.unrank_nonlex_correct","statement":"Path(unrank_nonlex(x), this is a linear time unranking algorithm that does not respect lexicographic order [3])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a2a753c17e4fa6a3"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.unrank_nonlex","kind":"classmethod","src_hash":"21f38cdc217149a6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"unrank_nonlex(n, r)","rhs":"self._af_new(id_perm)","over":{"base":"Any"},"name":"unrank_nonlex_correct"},"guarantee":"returns self._af_new(id_perm)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.permutations.Permutation.unrank_nonlex_correct","statement":"Path(unrank_nonlex(x), returns self._af_new(id_perm))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"41cc71be6c8c2384","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._af_new(id_perm)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._af_new"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def unrank_nonlex(self, n, r):
         """
         This is a linear time unranking algorithm that does not
@@ -2363,16 +2677,22 @@ class Permutation(Atom):
         return self._af_new(id_perm)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rank_nonlex(inv), this is a linear time ranking algorithm that does not enforce lexicographic order [3]) over Any ║
+# ║ Path(rank_nonlex(inv_perm), <unspecified:rank_nonlex>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ rank_nonlex : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2b7655e49d6c0c52  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.rank_nonlex","kind":"method","src_hash":"fb435c30e140c146","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rank_nonlex(inv)","rhs":"this is a linear time ranking algorithm that does not enforce lexicographic order [3]","over":{"base":"Any"},"name":"rank_nonlex_correct"},"guarantee":"this is a linear time ranking algorithm that does not enforce lexicographic order [3]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.permutations.Permutation.rank_nonlex_correct","statement":"Path(rank_nonlex(x), this is a linear time ranking algorithm that does not enforce lexicographic order [3])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2b7655e49d6c0c52"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.rank_nonlex","kind":"method","src_hash":"fb435c30e140c146","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rank_nonlex(inv_perm)","rhs":"<unspecified:rank_nonlex>","over":{"base":"Any"},"name":"rank_nonlex_correct"},"guarantee":"this is a linear time ranking algorithm that does not enforce lexicographic order [3]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.permutations.Permutation.rank_nonlex_correct","statement":"Path(rank_nonlex(x), this is a linear time ranking algorithm that does not enforce lexicographic order [3])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2b7655e49d6c0c52","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.array_form"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def rank_nonlex(self, inv_perm=None):
         """
         This is a linear time ranking algorithm that does not
@@ -2410,16 +2730,22 @@ class Permutation(Atom):
         return r
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(next_nonlex(), returns the next permutation in nonlex order [3]. if self is the last permutation in this order it returns none) over Any ║
+# ║ Path(next_nonlex(), <unspecified:next_nonlex>) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ next_nonlex : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 750217d951eb5d14  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.next_nonlex","kind":"method","src_hash":"89d671aff4fa11ee","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"next_nonlex()","rhs":"returns the next permutation in nonlex order [3]. if self is the last permutation in this order it returns none","over":{"base":"Any"},"name":"next_nonlex_correct"},"guarantee":"returns the next permutation in nonlex order [3]. if self is the last permutation in this order it returns none","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.permutations.Permutation.next_nonlex_correct","statement":"Path(next_nonlex(x), returns the next permutation in nonlex order [3]. if self is the last permutation in this order it returns none)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"750217d951eb5d14"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.next_nonlex","kind":"method","src_hash":"89d671aff4fa11ee","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"next_nonlex()","rhs":"<unspecified:next_nonlex>","over":{"base":"Any"},"name":"next_nonlex_correct"},"guarantee":"returns the next permutation in nonlex order [3]. if self is the last permutation in this order it returns none","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.permutations.Permutation.next_nonlex_correct","statement":"Path(next_nonlex(x), returns the next permutation in nonlex order [3]. if self is the last permutation in this order it returns none)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"750217d951eb5d14","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.rank_nonlex","self.size","self.unrank_nonlex"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def next_nonlex(self):
         """
         Returns the next permutation in nonlex order [3].
@@ -2449,16 +2775,22 @@ class Permutation(Atom):
         return self.unrank_nonlex(self.size, r + 1)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rank(), returns the lexicographic rank of the permutation) over Any ║
+# ║ Path(rank(), <unspecified:rank>) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ rank : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5521e9c3c18a4e82  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.rank","kind":"method","src_hash":"a59e30dbff11a2c4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rank()","rhs":"returns the lexicographic rank of the permutation","over":{"base":"Any"},"name":"rank_correct"},"guarantee":"returns the lexicographic rank of the permutation","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.permutations.Permutation.rank_correct","statement":"Path(rank(x), returns the lexicographic rank of the permutation)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5521e9c3c18a4e82"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.rank","kind":"method","src_hash":"a59e30dbff11a2c4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rank()","rhs":"<unspecified:rank>","over":{"base":"Any"},"name":"rank_correct"},"guarantee":"returns the lexicographic rank of the permutation","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.permutations.Permutation.rank_correct","statement":"Path(rank(x), returns the lexicographic rank of the permutation)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5521e9c3c18a4e82","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._rank","self.array_form","self.size"],"writes":["self._rank"]},"state_contract":{"modifies":["self._rank"],"old_bindings":{"old_self__rank":"self._rank"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def rank(self):
         """
         Returns the lexicographic rank of the permutation.
@@ -2498,16 +2830,22 @@ class Permutation(Atom):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(cardinality(), returns the cardinality attribute) over Any ║
+# ║ Path(cardinality(), int(ifac(self.size))) over Any         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  int(ifac(self.size))                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ cardinality : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 580f65c04aafe7db           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.cardinality","kind":"property","src_hash":"c0aa2c6b69a44607","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"cardinality()","rhs":"returns the cardinality attribute","over":{"base":"Any"},"name":"cardinality_correct"},"guarantee":"returns the cardinality attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"580f65c04aafe7db"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.cardinality","kind":"property","src_hash":"c0aa2c6b69a44607","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"cardinality()","rhs":"int(ifac(self.size))","over":{"base":"Any"},"name":"cardinality_correct"},"guarantee":"returns int(ifac(self.size))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"580f65c04aafe7db","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"int(ifac(self.size))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.size"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def cardinality(self):
         """
         Returns the number of all possible permutations.
@@ -2528,16 +2866,22 @@ class Permutation(Atom):
         return int(ifac(self.size))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(parity(), computes the parity of a permutation) over Any ║
+# ║ Path(parity(), <unspecified:parity>) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ parity : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | de251f82aec2ec27  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.parity","kind":"method","src_hash":"a11fedd9cc5f8c9e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"parity()","rhs":"computes the parity of a permutation","over":{"base":"Any"},"name":"parity_correct"},"guarantee":"computes the parity of a permutation","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.permutations.Permutation.parity_correct","statement":"Path(parity(x), computes the parity of a permutation)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"de251f82aec2ec27"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.parity","kind":"method","src_hash":"a11fedd9cc5f8c9e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"parity()","rhs":"<unspecified:parity>","over":{"base":"Any"},"name":"parity_correct"},"guarantee":"computes the parity of a permutation","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.permutations.Permutation.parity_correct","statement":"Path(parity(x), computes the parity of a permutation)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"de251f82aec2ec27","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._cyclic_form","self.array_form","self.cycles","self.size"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def parity(self):
         """
         Computes the parity of a permutation.
@@ -2572,16 +2916,22 @@ class Permutation(Atom):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_even(), returns the is_even attribute) over Any    ║
+# ║ Path(is_even(), not self.is_odd) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  not self.is_odd                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_even : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 77652ebb7d2feb1d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.is_even","kind":"property","src_hash":"02c1042a0dfe71e7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_even()","rhs":"returns the is_even attribute","over":{"base":"Any"},"name":"is_even_correct"},"guarantee":"returns the is_even attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"77652ebb7d2feb1d"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.is_even","kind":"property","src_hash":"02c1042a0dfe71e7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_even()","rhs":"not self.is_odd","over":{"base":"Any"},"name":"is_even_correct"},"guarantee":"returns not self.is_odd","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"77652ebb7d2feb1d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"not self.is_odd","pure":false,"effects":{"effect_type":"reads_state","reads":["self.is_odd"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_even(self):
         """
         Checks if a permutation is even.
@@ -2606,16 +2956,22 @@ class Permutation(Atom):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_odd(), returns the is_odd attribute) over Any      ║
+# ║ Path(is_odd(), bool(self.parity() % 2)) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  bool(self.parity() % 2)                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_odd : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 829b6628e244bcd4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.is_odd","kind":"property","src_hash":"cad5e4835614e914","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_odd()","rhs":"returns the is_odd attribute","over":{"base":"Any"},"name":"is_odd_correct"},"guarantee":"returns the is_odd attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"829b6628e244bcd4"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.is_odd","kind":"property","src_hash":"cad5e4835614e914","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_odd()","rhs":"bool(self.parity() % 2)","over":{"base":"Any"},"name":"is_odd_correct"},"guarantee":"returns bool(self.parity() % 2)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"829b6628e244bcd4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"bool(self.parity() % 2)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.parity"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_odd(self):
         """
         Checks if a permutation is odd.
@@ -2640,16 +2996,22 @@ class Permutation(Atom):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_Singleton(), returns the is_Singleton attribute) over Any ║
+# ║ Path(is_Singleton(), self.size == 1) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.size == 1                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_Singleton : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 873bc00c24abd3ca           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.is_Singleton","kind":"property","src_hash":"8ff88c9717bc228f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_Singleton()","rhs":"returns the is_Singleton attribute","over":{"base":"Any"},"name":"is_Singleton_correct"},"guarantee":"returns the is_Singleton attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"873bc00c24abd3ca"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.is_Singleton","kind":"property","src_hash":"8ff88c9717bc228f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_Singleton()","rhs":"self.size == 1","over":{"base":"Any"},"name":"is_Singleton_correct"},"guarantee":"returns self.size == 1","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"873bc00c24abd3ca","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.size == 1","pure":false,"effects":{"effect_type":"reads_state","reads":["self.size"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_Singleton(self):
         """
         Checks to see if the permutation contains only one number and is
@@ -2673,16 +3035,22 @@ class Permutation(Atom):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_Empty(), returns the is_Empty attribute) over Any  ║
+# ║ Path(is_Empty(), self.size == 0) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.size == 0                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_Empty : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 261fd2be9f61d337           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.is_Empty","kind":"property","src_hash":"9e1d09911609f9d4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_Empty()","rhs":"returns the is_Empty attribute","over":{"base":"Any"},"name":"is_Empty_correct"},"guarantee":"returns the is_Empty attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"261fd2be9f61d337"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.is_Empty","kind":"property","src_hash":"9e1d09911609f9d4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_Empty()","rhs":"self.size == 0","over":{"base":"Any"},"name":"is_Empty_correct"},"guarantee":"returns self.size == 0","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"261fd2be9f61d337","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.size == 0","pure":false,"effects":{"effect_type":"reads_state","reads":["self.size"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_Empty(self):
         """
         Checks to see if the permutation is a set with zero elements
@@ -2705,31 +3073,43 @@ class Permutation(Atom):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_identity(), returns the is_identity attribute) over Any ║
+# ║ Path(is_identity(), self.is_Identity) over Any             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.is_Identity                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_identity : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 25014f547eb8f774           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.is_identity","kind":"property","src_hash":"757ca417a961ed0e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_identity()","rhs":"returns the is_identity attribute","over":{"base":"Any"},"name":"is_identity_correct"},"guarantee":"returns the is_identity attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"25014f547eb8f774"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.is_identity","kind":"property","src_hash":"757ca417a961ed0e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_identity()","rhs":"self.is_Identity","over":{"base":"Any"},"name":"is_identity_correct"},"guarantee":"returns self.is_Identity","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"25014f547eb8f774","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.is_Identity","pure":false,"effects":{"effect_type":"reads_state","reads":["self.is_Identity"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_identity(self):
         return self.is_Identity
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_Identity(), returns the is_Identity attribute) over Any ║
+# ║ Path(is_Identity(), not af or all((i == af[i] for i in range(self.size)))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  not af or all((i == af[i] for i in range(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_Identity : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2e0190676fa8466d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.is_Identity","kind":"property","src_hash":"2a320702bb0cb9f0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_Identity()","rhs":"returns the is_Identity attribute","over":{"base":"Any"},"name":"is_Identity_correct"},"guarantee":"returns the is_Identity attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2e0190676fa8466d"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.is_Identity","kind":"property","src_hash":"2a320702bb0cb9f0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_Identity()","rhs":"not af or all((i == af[i] for i in range(self.size)))","over":{"base":"Any"},"name":"is_Identity_correct"},"guarantee":"returns not af or all((i == af[i] for i in range(self.size)))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2e0190676fa8466d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"not af or all((i == af[i] for i in range(self.size)))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.array_form","self.size"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_Identity(self):
         """
         Returns True if the Permutation is an identity permutation.
@@ -2760,16 +3140,22 @@ class Permutation(Atom):
         return not af or all(i == af[i] for i in range(self.size))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ascents(), returns the positions of ascents in a permutation, ie, the location where p[i] < p[i+1]) over Any ║
+# ║ Path(ascents(), <unspecified:ascents>) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ ascents : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 269c48e874314ad6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.ascents","kind":"method","src_hash":"a9040dba335b4e47","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ascents()","rhs":"returns the positions of ascents in a permutation, ie, the location where p[i] < p[i+1]","over":{"base":"Any"},"name":"ascents_correct"},"guarantee":"returns the positions of ascents in a permutation, ie, the location where p[i] < p[i+1]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.permutations.Permutation.ascents_correct","statement":"Path(ascents(x), returns the positions of ascents in a permutation, ie, the location where p[i] < p[i+1])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"269c48e874314ad6"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.ascents","kind":"method","src_hash":"a9040dba335b4e47","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ascents()","rhs":"<unspecified:ascents>","over":{"base":"Any"},"name":"ascents_correct"},"guarantee":"returns the positions of ascents in a permutation, ie, the location where p[i] < p[i+1]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.permutations.Permutation.ascents_correct","statement":"Path(ascents(x), returns the positions of ascents in a permutation, ie, the location where p[i] < p[i+1])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"269c48e874314ad6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.array_form"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def ascents(self):
         """
         Returns the positions of ascents in a permutation, ie, the location
@@ -2793,16 +3179,22 @@ class Permutation(Atom):
         return pos
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(descents(), returns the positions of descents in a permutation, ie, the location where p[i] > p[i+1]) over Any ║
+# ║ Path(descents(), <unspecified:descents>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ descents : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3bd4616d5d834f5f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.descents","kind":"method","src_hash":"0e1ec80b81da6472","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"descents()","rhs":"returns the positions of descents in a permutation, ie, the location where p[i] > p[i+1]","over":{"base":"Any"},"name":"descents_correct"},"guarantee":"returns the positions of descents in a permutation, ie, the location where p[i] > p[i+1]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.permutations.Permutation.descents_correct","statement":"Path(descents(x), returns the positions of descents in a permutation, ie, the location where p[i] > p[i+1])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3bd4616d5d834f5f"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.descents","kind":"method","src_hash":"0e1ec80b81da6472","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"descents()","rhs":"<unspecified:descents>","over":{"base":"Any"},"name":"descents_correct"},"guarantee":"returns the positions of descents in a permutation, ie, the location where p[i] > p[i+1]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.permutations.Permutation.descents_correct","statement":"Path(descents(x), returns the positions of descents in a permutation, ie, the location where p[i] > p[i+1])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3bd4616d5d834f5f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.array_form"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def descents(self):
         """
         Returns the positions of descents in a permutation, ie, the location
@@ -2826,16 +3218,23 @@ class Permutation(Atom):
         return pos
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(max(), the maximum element moved by the permutation) over Any ║
+# ║ Path(max(), isinstance(result, int) and # HINT: max may be idempotent: max(max(x)) == max(x)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ max : Any → int                                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, int)                        ║
+# ║   ensures:  # HINT: max may be idempotent: max(max(x)...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ max : Any → {int | result satisfies: isinstance(resul...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9fd1b2cb3557c9c4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 78c2db19e34737d0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.max","kind":"method","src_hash":"d14c334991d0248b","in":{"base":"Any"},"out":{"base":"int"},"spec":{"lhs":"max()","rhs":"the maximum element moved by the permutation","over":{"base":"Any"},"name":"max_correct"},"guarantee":"the maximum element moved by the permutation","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.permutations.Permutation.max_correct","statement":"Path(max(x), the maximum element moved by the permutation)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9fd1b2cb3557c9c4"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.max","kind":"method","src_hash":"d14c334991d0248b","in":{"base":"Any"},"out":{"base":"int","pred":"result satisfies: isinstance(result, int) and # HINT: max may be idempotent: max(max(x)) == max(x)"},"spec":{"lhs":"max()","rhs":"isinstance(result, int) and # HINT: max may be idempotent: max(max(x)) == max(x)","over":{"base":"Any"},"name":"max_correct"},"guarantee":"isinstance(result, int); # HINT: max may be idempotent: max(max(x)) == max(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.permutations.Permutation.max_correct","statement":"Path(max(x), isinstance(result, int); # HINT: max may be idempotent: max(max(x)) == max(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"78c2db19e34737d0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, int)","# HINT: max may be idempotent: max(max(x)) == max(x)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.array_form"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def max(self) -> int:
         """
         The maximum element moved by the permutation.
@@ -2859,16 +3258,23 @@ class Permutation(Atom):
         return max(_a for i, _a in enumerate(a) if _a != i)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(min(), the minimum element moved by the permutation) over Any ║
+# ║ Path(min(), isinstance(result, int) and # HINT: min may be idempotent: min(min(x)) == min(x)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ min : Any → int                                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, int)                        ║
+# ║   ensures:  # HINT: min may be idempotent: min(min(x)...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ min : Any → {int | result satisfies: isinstance(resul...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 44f82dfff5bbe10f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 727a28a7375ef993  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.min","kind":"method","src_hash":"b9d1c6c7990f31d6","in":{"base":"Any"},"out":{"base":"int"},"spec":{"lhs":"min()","rhs":"the minimum element moved by the permutation","over":{"base":"Any"},"name":"min_correct"},"guarantee":"the minimum element moved by the permutation","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.permutations.Permutation.min_correct","statement":"Path(min(x), the minimum element moved by the permutation)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"44f82dfff5bbe10f"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.min","kind":"method","src_hash":"b9d1c6c7990f31d6","in":{"base":"Any"},"out":{"base":"int","pred":"result satisfies: isinstance(result, int) and # HINT: min may be idempotent: min(min(x)) == min(x)"},"spec":{"lhs":"min()","rhs":"isinstance(result, int) and # HINT: min may be idempotent: min(min(x)) == min(x)","over":{"base":"Any"},"name":"min_correct"},"guarantee":"isinstance(result, int); # HINT: min may be idempotent: min(min(x)) == min(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.permutations.Permutation.min_correct","statement":"Path(min(x), isinstance(result, int); # HINT: min may be idempotent: min(min(x)) == min(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"727a28a7375ef993","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, int)","# HINT: min may be idempotent: min(min(x)) == min(x)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.array_form"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def min(self) -> int:
         """
         The minimum element moved by the permutation.
@@ -2892,16 +3298,22 @@ class Permutation(Atom):
         return min(_a for i, _a in enumerate(a) if _a != i)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(inversions(), computes the number of inversions of a permutation) over Any ║
+# ║ Path(inversions(), <unspecified:inversions>) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ inversions : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 55ec0392454512b7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.inversions","kind":"method","src_hash":"9e7e94c6a81bb2e2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"inversions()","rhs":"computes the number of inversions of a permutation","over":{"base":"Any"},"name":"inversions_correct"},"guarantee":"computes the number of inversions of a permutation","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.permutations.Permutation.inversions_correct","statement":"Path(inversions(x), computes the number of inversions of a permutation)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"55ec0392454512b7"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.inversions","kind":"method","src_hash":"9e7e94c6a81bb2e2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"inversions()","rhs":"<unspecified:inversions>","over":{"base":"Any"},"name":"inversions_correct"},"guarantee":"computes the number of inversions of a permutation","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.permutations.Permutation.inversions_correct","statement":"Path(inversions(x), computes the number of inversions of a permutation)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"55ec0392454512b7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.array_form"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def inversions(self):
         """
         Computes the number of inversions of a permutation.
@@ -2963,16 +3375,24 @@ class Permutation(Atom):
         return inversions
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(commutator(x), return the commutator of ``self`` and ``x``: ``~x*~self*x*self``) over Any ║
+# ║ Path(commutator(x), self._af_new([a[b[inva[i]]] for i in invb])) over {Any | not (len(b) != n) and hasattr(x, 'array_form')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ commutator : Any → {Any | result satisfies: ``~x*~sel...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (len(b) != n)                              ║
+# ║   requires: hasattr(x, 'array_form')                       ║
+# ║   returns:  self._af_new([a[b[inva[i]]] for i in invb])    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ commutator : {Any | not (len(b) != n) and hasattr(x, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3304bf4bb82c6dee  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5c7622dff576dc43  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.commutator","kind":"method","src_hash":"a1f591c7893db7cf","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: ``~x*~self*x*self``"},"spec":{"lhs":"commutator(x)","rhs":"return the commutator of ``self`` and ``x``: ``~x*~self*x*self``","over":{"base":"Any"},"name":"commutator_correct"},"guarantee":"return the commutator of ``self`` and ``x``: ``~x*~self*x*self``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.permutations.Permutation.commutator_correct","statement":"Path(commutator(x), return the commutator of ``self`` and ``x``: ``~x*~self*x*self``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3304bf4bb82c6dee"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.commutator","kind":"method","src_hash":"a1f591c7893db7cf","in":{"base":"Any","pred":"not (len(b) != n) and hasattr(x, 'array_form')"},"out":{"base":"Any","pred":"result satisfies: ``~x*~self*x*self``"},"spec":{"lhs":"commutator(x)","rhs":"self._af_new([a[b[inva[i]]] for i in invb])","over":{"base":"Any","pred":"not (len(b) != n) and hasattr(x, 'array_form')"},"name":"commutator_correct"},"guarantee":"returns self._af_new([a[b[inva[i]]] for i in invb])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.permutations.Permutation.commutator_correct","statement":"Path(commutator(x), returns self._af_new([a[b[inva[i]]] for i in invb]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5c7622dff576dc43","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (len(b) != n)","hasattr(x, 'array_form')"],"returns_expr":"self._af_new([a[b[inva[i]]] for i in invb])","pure":false,"effects":{"effect_type":"reads_state","reads":["self._af_new","self.array_form","x.array_form"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def commutator(self, x):
         """Return the commutator of ``self`` and ``x``: ``~x*~self*x*self``
 
@@ -3023,16 +3443,22 @@ class Permutation(Atom):
         return self._af_new([a[b[inva[i]]] for i in invb])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(signature(), gives the signature of the permutation needed to place the elements of the permutation in canonical order) over Any ║
+# ║ Path(signature(), <unspecified:signature>) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ signature : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 586ba163aa09a257  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.signature","kind":"method","src_hash":"9071620406cd20fc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"signature()","rhs":"gives the signature of the permutation needed to place the elements of the permutation in canonical order","over":{"base":"Any"},"name":"signature_correct"},"guarantee":"gives the signature of the permutation needed to place the elements of the permutation in canonical order","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.permutations.Permutation.signature_correct","statement":"Path(signature(x), gives the signature of the permutation needed to place the elements of the permutation in canonical order)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"586ba163aa09a257"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.signature","kind":"method","src_hash":"9071620406cd20fc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"signature()","rhs":"<unspecified:signature>","over":{"base":"Any"},"name":"signature_correct"},"guarantee":"gives the signature of the permutation needed to place the elements of the permutation in canonical order","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.permutations.Permutation.signature_correct","statement":"Path(signature(x), gives the signature of the permutation needed to place the elements of the permutation in canonical order)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"586ba163aa09a257","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.is_even"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def signature(self):
         """
         Gives the signature of the permutation needed to place the
@@ -3065,16 +3491,22 @@ class Permutation(Atom):
         return -1
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(order(), computes the order of a permutation) over Any ║
+# ║ Path(order(), reduce(lcm, [len(cycle) for cycle in self.cyclic_form], 1)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  reduce(lcm, [len(cycle) for cycle in self...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ order : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f1138aa75c48fb25           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.order","kind":"method","src_hash":"6c14bf6c50e750fd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"order()","rhs":"computes the order of a permutation","over":{"base":"Any"},"name":"order_correct"},"guarantee":"computes the order of a permutation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f1138aa75c48fb25"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.order","kind":"method","src_hash":"6c14bf6c50e750fd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"order()","rhs":"reduce(lcm, [len(cycle) for cycle in self.cyclic_form], 1)","over":{"base":"Any"},"name":"order_correct"},"guarantee":"returns reduce(lcm, [len(cycle) for cycle in self.cyclic_form], 1)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f1138aa75c48fb25","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"reduce(lcm, [len(cycle) for cycle in self.cyclic_form], 1)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.cyclic_form"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def order(self):
         """
         Computes the order of a permutation.
@@ -3103,16 +3535,22 @@ class Permutation(Atom):
         return reduce(lcm, [len(cycle) for cycle in self.cyclic_form], 1)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(length(), returns the number of integers moved by a permutation) over Any ║
+# ║ Path(length(), len(self.support())) over Any               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  len(self.support())                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ length : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 506960f5e5ba14e5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.length","kind":"method","src_hash":"0604079fb37fee7f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"length()","rhs":"returns the number of integers moved by a permutation","over":{"base":"Any"},"name":"length_correct"},"guarantee":"returns the number of integers moved by a permutation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"506960f5e5ba14e5"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.length","kind":"method","src_hash":"0604079fb37fee7f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"length()","rhs":"len(self.support())","over":{"base":"Any"},"name":"length_correct"},"guarantee":"returns len(self.support())","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"506960f5e5ba14e5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"len(self.support())","pure":false,"effects":{"effect_type":"reads_state","reads":["self.support"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def length(self):
         """
         Returns the number of integers moved by a permutation.
@@ -3136,16 +3574,22 @@ class Permutation(Atom):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(cycle_structure(), returns the cycle_structure attribute) over Any ║
+# ║ Path(cycle_structure(), dict(rv)) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  dict(rv)                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ cycle_structure : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 452da920573cd52d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.cycle_structure","kind":"property","src_hash":"c81d30500dbe190a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"cycle_structure()","rhs":"returns the cycle_structure attribute","over":{"base":"Any"},"name":"cycle_structure_correct"},"guarantee":"returns the cycle_structure attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"452da920573cd52d"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.cycle_structure","kind":"property","src_hash":"c81d30500dbe190a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"cycle_structure()","rhs":"dict(rv)","over":{"base":"Any"},"name":"cycle_structure_correct"},"guarantee":"returns dict(rv)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"452da920573cd52d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"dict(rv)","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._cycle_structure","self.cyclic_form","self.size"],"writes":["self._cycle_structure"]},"state_contract":{"modifies":["self._cycle_structure"],"old_bindings":{"old_self__cycle_structure":"self._cycle_structure"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def cycle_structure(self):
         """Return the cycle structure of the permutation as a dictionary
         indicating the multiplicity of each cycle length.
@@ -3174,16 +3618,22 @@ class Permutation(Atom):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(cycles(), returns the cycles attribute) over Any      ║
+# ║ Path(cycles(), len(self.full_cyclic_form)) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  len(self.full_cyclic_form)                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ cycles : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0d572f69775d1a77           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.cycles","kind":"property","src_hash":"907bea2b57165814","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"cycles()","rhs":"returns the cycles attribute","over":{"base":"Any"},"name":"cycles_correct"},"guarantee":"returns the cycles attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0d572f69775d1a77"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.cycles","kind":"property","src_hash":"907bea2b57165814","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"cycles()","rhs":"len(self.full_cyclic_form)","over":{"base":"Any"},"name":"cycles_correct"},"guarantee":"returns len(self.full_cyclic_form)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0d572f69775d1a77","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"len(self.full_cyclic_form)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.full_cyclic_form"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def cycles(self):
         """
         Returns the number of cycles contained in the permutation
@@ -3209,14 +3659,20 @@ class Permutation(Atom):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(index(), id) over Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  sum((j for j in range(len(a) - 1) if a[j]...   ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ index : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 2f200a1a405b2080   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.index","kind":"method","src_hash":"7430cfe2f87144f1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"index()","rhs":"returns the index of a permutation","over":{"base":"Any"},"name":"index_correct","kind":"composition"},"guarantee":"returns the index of a permutation","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sum","by":"library_axiom"},{"fn":"range","by":"library_axiom"},{"fn":"len","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2f200a1a405b2080"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.index","kind":"method","src_hash":"7430cfe2f87144f1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"index()","rhs":"sum((j for j in range(len(a) - 1) if a[j] > a[j + 1]))","over":{"base":"Any"},"name":"index_correct","kind":"composition"},"guarantee":"returns sum((j for j in range(len(a) - 1) if a[j] > a[j + 1]))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sum","by":"library_axiom"},{"fn":"range","by":"library_axiom"},{"fn":"len","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2f200a1a405b2080","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"sum((j for j in range(len(a) - 1) if a[j] > a[j + 1]))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.array_form"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def index(self):
         """
         Returns the index of a permutation.
@@ -3237,16 +3693,22 @@ class Permutation(Atom):
         return sum(j for j in range(len(a) - 1) if a[j] > a[j + 1])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(runs(), returns the runs of a permutation) over Any   ║
+# ║ Path(runs(), runs(self.array_form)) over Any               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  runs(self.array_form)                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ runs : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 75468af502910d85           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.runs","kind":"method","src_hash":"69634bfff073156c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"runs()","rhs":"returns the runs of a permutation","over":{"base":"Any"},"name":"runs_correct"},"guarantee":"returns the runs of a permutation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"75468af502910d85"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.runs","kind":"method","src_hash":"69634bfff073156c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"runs()","rhs":"runs(self.array_form)","over":{"base":"Any"},"name":"runs_correct"},"guarantee":"returns runs(self.array_form)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"75468af502910d85","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"runs(self.array_form)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.array_form"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def runs(self):
         """
         Returns the runs of a permutation.
@@ -3268,16 +3730,22 @@ class Permutation(Atom):
         return runs(self.array_form)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(inversion_vector(), return the inversion vector of the permutation) over Any ║
+# ║ Path(inversion_vector(), <unspecified:inversion_vector>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ inversion_vector : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7fadf30b83c93d7a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.inversion_vector","kind":"method","src_hash":"1465e183a25975bc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"inversion_vector()","rhs":"return the inversion vector of the permutation","over":{"base":"Any"},"name":"inversion_vector_correct"},"guarantee":"return the inversion vector of the permutation","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.permutations.Permutation.inversion_vector_correct","statement":"Path(inversion_vector(x), return the inversion vector of the permutation)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7fadf30b83c93d7a"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.inversion_vector","kind":"method","src_hash":"1465e183a25975bc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"inversion_vector()","rhs":"<unspecified:inversion_vector>","over":{"base":"Any"},"name":"inversion_vector_correct"},"guarantee":"return the inversion vector of the permutation","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.permutations.Permutation.inversion_vector_correct","statement":"Path(inversion_vector(x), return the inversion vector of the permutation)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7fadf30b83c93d7a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.array_form"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def inversion_vector(self):
         """Return the inversion vector of the permutation.
 
@@ -3331,16 +3799,22 @@ class Permutation(Atom):
         return inversion_vector
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rank_trotterjohnson(), returns the trotter johnson rank, which we get from the minimal change algorithm) over Any ║
+# ║ Path(rank_trotterjohnson(), <unspecified:rank_trotterjohnson>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ rank_trotterjohnson : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 54b757fd4d8b3dc1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.rank_trotterjohnson","kind":"method","src_hash":"128576e8e978369f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rank_trotterjohnson()","rhs":"returns the trotter johnson rank, which we get from the minimal change algorithm","over":{"base":"Any"},"name":"rank_trotterjohnson_correct"},"guarantee":"returns the trotter johnson rank, which we get from the minimal change algorithm","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.permutations.Permutation.rank_trotterjohnson_correct","statement":"Path(rank_trotterjohnson(x), returns the trotter johnson rank, which we get from the minimal change algorithm)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"54b757fd4d8b3dc1"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.rank_trotterjohnson","kind":"method","src_hash":"128576e8e978369f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rank_trotterjohnson()","rhs":"<unspecified:rank_trotterjohnson>","over":{"base":"Any"},"name":"rank_trotterjohnson_correct"},"guarantee":"returns the trotter johnson rank, which we get from the minimal change algorithm","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.permutations.Permutation.rank_trotterjohnson_correct","statement":"Path(rank_trotterjohnson(x), returns the trotter johnson rank, which we get from the minimal change algorithm)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"54b757fd4d8b3dc1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.array_form","self.is_Identity","self.size"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def rank_trotterjohnson(self):
         """
         Returns the Trotter Johnson rank, which we get from the minimal
@@ -3385,16 +3859,22 @@ class Permutation(Atom):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(unrank_trotterjohnson(cls), trotter johnson permutation unranking) over Any ║
+# ║ Path(unrank_trotterjohnson(cls, size, rank), cls._af_new(perm)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  cls._af_new(perm)                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ unrank_trotterjohnson : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8b3dbd269273d9e1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f395a46bd7b8c09c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.unrank_trotterjohnson","kind":"classmethod","src_hash":"b55bcf43e27816a5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"unrank_trotterjohnson(cls)","rhs":"trotter johnson permutation unranking","over":{"base":"Any"},"name":"unrank_trotterjohnson_correct"},"guarantee":"trotter johnson permutation unranking","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.permutations.Permutation.unrank_trotterjohnson_correct","statement":"Path(unrank_trotterjohnson(x), trotter johnson permutation unranking)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8b3dbd269273d9e1"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.unrank_trotterjohnson","kind":"classmethod","src_hash":"b55bcf43e27816a5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"unrank_trotterjohnson(cls, size, rank)","rhs":"cls._af_new(perm)","over":{"base":"Any"},"name":"unrank_trotterjohnson_correct"},"guarantee":"returns cls._af_new(perm)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.permutations.Permutation.unrank_trotterjohnson_correct","statement":"Path(unrank_trotterjohnson(x), returns cls._af_new(perm))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f395a46bd7b8c09c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"cls._af_new(perm)","pure":false,"effects":{"effect_type":"reads_state","reads":["cls._af_new"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def unrank_trotterjohnson(cls, size, rank):
         """
         Trotter Johnson permutation unranking. See [4] section 2.4.
@@ -3433,16 +3913,22 @@ class Permutation(Atom):
         return cls._af_new(perm)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(next_trotterjohnson(), returns the next permutation in trotter-johnson order. if self is the last permutation it returns none. see [4] section 2.4) over Any ║
+# ║ Path(next_trotterjohnson(), <unspecified:next_trotterjohnson>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ next_trotterjohnson : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 562607542709096b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.next_trotterjohnson","kind":"method","src_hash":"9ffd72c66331e720","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"next_trotterjohnson()","rhs":"returns the next permutation in trotter-johnson order. if self is the last permutation it returns none. see [4] section 2.4","over":{"base":"Any"},"name":"next_trotterjohnson_correct"},"guarantee":"returns the next permutation in trotter-johnson order. if self is the last permutation it returns none. see [4] section 2.4","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.permutations.Permutation.next_trotterjohnson_correct","statement":"Path(next_trotterjohnson(x), returns the next permutation in trotter-johnson order. if self is the last permutation it returns none. see [4] section 2.4)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"562607542709096b"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.next_trotterjohnson","kind":"method","src_hash":"9ffd72c66331e720","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"next_trotterjohnson()","rhs":"<unspecified:next_trotterjohnson>","over":{"base":"Any"},"name":"next_trotterjohnson_correct"},"guarantee":"returns the next permutation in trotter-johnson order. if self is the last permutation it returns none. see [4] section 2.4","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.permutations.Permutation.next_trotterjohnson_correct","statement":"Path(next_trotterjohnson(x), returns the next permutation in trotter-johnson order. if self is the last permutation it returns none. see [4] section 2.4)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"562607542709096b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._af_new","self.array_form"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def next_trotterjohnson(self):
         """
         Returns the next permutation in Trotter-Johnson order.
@@ -3499,16 +3985,22 @@ class Permutation(Atom):
         return self._af_new(pi)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_precedence_matrix(), gets the precedence matrix) over Any ║
+# ║ Path(get_precedence_matrix(), <unspecified:get_precedence_matrix>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ get_precedence_matrix : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cff66a083457036d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.get_precedence_matrix","kind":"method","src_hash":"1ca0a7f5f40682cc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_precedence_matrix()","rhs":"gets the precedence matrix","over":{"base":"Any"},"name":"get_precedence_matrix_correct"},"guarantee":"gets the precedence matrix","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.permutations.Permutation.get_precedence_matrix_correct","statement":"Path(get_precedence_matrix(x), gets the precedence matrix)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cff66a083457036d"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.get_precedence_matrix","kind":"method","src_hash":"1ca0a7f5f40682cc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_precedence_matrix()","rhs":"<unspecified:get_precedence_matrix>","over":{"base":"Any"},"name":"get_precedence_matrix_correct"},"guarantee":"gets the precedence matrix","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.permutations.Permutation.get_precedence_matrix_correct","statement":"Path(get_precedence_matrix(x), gets the precedence matrix)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cff66a083457036d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.array_form","self.size"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def get_precedence_matrix(self):
         """
         Gets the precedence matrix. This is used for computing the
@@ -3545,16 +4037,25 @@ class Permutation(Atom):
         return m
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_precedence_distance(oth), computes the precedence distance between two permutations) over Any ║
+# ║ Path(get_precedence_distance(other), <unspecified:get_precedence_distance>) over {Any | not (self.size != other.size) and hasattr(other, 'size') and hasattr(other, 'get_precedence_matrix')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ get_precedence_distance : Any → Any                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (self.size != other.size)                  ║
+# ║   requires: hasattr(other, 'size')                         ║
+# ║   requires: hasattr(other, 'get_precedence_matrix')        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ get_precedence_distance : {Any | not (self.size != ot...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | df4f7c913c55bb5a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.get_precedence_distance","kind":"method","src_hash":"1d543ec8aacc3f90","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_precedence_distance(oth)","rhs":"computes the precedence distance between two permutations","over":{"base":"Any"},"name":"get_precedence_distance_correct"},"guarantee":"computes the precedence distance between two permutations","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.permutations.Permutation.get_precedence_distance_correct","statement":"Path(get_precedence_distance(x), computes the precedence distance between two permutations)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"df4f7c913c55bb5a"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.get_precedence_distance","kind":"method","src_hash":"1d543ec8aacc3f90","in":{"base":"Any","pred":"not (self.size != other.size) and hasattr(other, 'size') and hasattr(other, 'get_precedence_matrix')"},"out":{"base":"Any"},"spec":{"lhs":"get_precedence_distance(other)","rhs":"<unspecified:get_precedence_distance>","over":{"base":"Any","pred":"not (self.size != other.size) and hasattr(other, 'size') and hasattr(other, 'get_precedence_matrix')"},"name":"get_precedence_distance_correct"},"guarantee":"computes the precedence distance between two permutations","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.permutations.Permutation.get_precedence_distance_correct","statement":"Path(get_precedence_distance(x), computes the precedence distance between two permutations)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"df4f7c913c55bb5a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (self.size != other.size)","hasattr(other, 'size')","hasattr(other, 'get_precedence_matrix')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.get_precedence_matrix","other.size","self.get_precedence_matrix","self.size"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def get_precedence_distance(self, other):
         """
         Computes the precedence distance between two permutations.
@@ -3597,16 +4098,22 @@ class Permutation(Atom):
         return d
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_adjacency_matrix(), computes the adjacency matrix of a permutation) over Any ║
+# ║ Path(get_adjacency_matrix(), <unspecified:get_adjacency_matrix>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ get_adjacency_matrix : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 32e68b90285db1eb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.get_adjacency_matrix","kind":"method","src_hash":"938ddcb00feeb68a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_adjacency_matrix()","rhs":"computes the adjacency matrix of a permutation","over":{"base":"Any"},"name":"get_adjacency_matrix_correct"},"guarantee":"computes the adjacency matrix of a permutation","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.permutations.Permutation.get_adjacency_matrix_correct","statement":"Path(get_adjacency_matrix(x), computes the adjacency matrix of a permutation)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"32e68b90285db1eb"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.get_adjacency_matrix","kind":"method","src_hash":"938ddcb00feeb68a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_adjacency_matrix()","rhs":"<unspecified:get_adjacency_matrix>","over":{"base":"Any"},"name":"get_adjacency_matrix_correct"},"guarantee":"computes the adjacency matrix of a permutation","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.permutations.Permutation.get_adjacency_matrix_correct","statement":"Path(get_adjacency_matrix(x), computes the adjacency matrix of a permutation)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"32e68b90285db1eb","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.array_form","self.size"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def get_adjacency_matrix(self):
         """
         Computes the adjacency matrix of a permutation.
@@ -3651,16 +4158,25 @@ class Permutation(Atom):
         return m
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_adjacency_distance(oth), computes the adjacency distance between two permutations) over Any ║
+# ║ Path(get_adjacency_distance(other), <unspecified:get_adjacency_distance>) over {Any | not (self.size != other.size) and hasattr(other, 'size') and hasattr(other, 'get_adjacency_matrix')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ get_adjacency_distance : Any → Any                         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (self.size != other.size)                  ║
+# ║   requires: hasattr(other, 'size')                         ║
+# ║   requires: hasattr(other, 'get_adjacency_matrix')         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ get_adjacency_distance : {Any | not (self.size != oth...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 344aeecc06b1c8c8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.get_adjacency_distance","kind":"method","src_hash":"668060fad0632e9a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_adjacency_distance(oth)","rhs":"computes the adjacency distance between two permutations","over":{"base":"Any"},"name":"get_adjacency_distance_correct"},"guarantee":"computes the adjacency distance between two permutations","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.permutations.Permutation.get_adjacency_distance_correct","statement":"Path(get_adjacency_distance(x), computes the adjacency distance between two permutations)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"344aeecc06b1c8c8"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.get_adjacency_distance","kind":"method","src_hash":"668060fad0632e9a","in":{"base":"Any","pred":"not (self.size != other.size) and hasattr(other, 'size') and hasattr(other, 'get_adjacency_matrix')"},"out":{"base":"Any"},"spec":{"lhs":"get_adjacency_distance(other)","rhs":"<unspecified:get_adjacency_distance>","over":{"base":"Any","pred":"not (self.size != other.size) and hasattr(other, 'size') and hasattr(other, 'get_adjacency_matrix')"},"name":"get_adjacency_distance_correct"},"guarantee":"computes the adjacency distance between two permutations","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.permutations.Permutation.get_adjacency_distance_correct","statement":"Path(get_adjacency_distance(x), computes the adjacency distance between two permutations)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"344aeecc06b1c8c8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (self.size != other.size)","hasattr(other, 'size')","hasattr(other, 'get_adjacency_matrix')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.get_adjacency_matrix","other.size","self.get_adjacency_matrix","self.size"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def get_adjacency_distance(self, other):
         """
         Computes the adjacency distance between two permutations.
@@ -3708,16 +4224,24 @@ class Permutation(Atom):
         return d
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_positional_distance(oth), id) over Any            ║
+# ║ Path(get_positional_distance(other), id) over {Any | not (len(a) != len(b)) and hasattr(other, 'array_form')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ get_positional_distance : Any → Any                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (len(a) != len(b))                         ║
+# ║   requires: hasattr(other, 'array_form')                   ║
+# ║   returns:  sum((abs(a[i] - b[i]) for i in range(len(...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ get_positional_distance : {Any | not (len(a) != len(b...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | fb80046eca7d061f   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.get_positional_distance","kind":"method","src_hash":"e6e7bb71ceb6336e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_positional_distance(oth)","rhs":"computes the positional distance between two permutations","over":{"base":"Any"},"name":"get_positional_distance_correct","kind":"composition"},"guarantee":"computes the positional distance between two permutations","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sum","by":"library_axiom"},{"fn":"abs","by":"library_axiom"},{"fn":"range","by":"library_axiom"},{"fn":"len","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fb80046eca7d061f"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.get_positional_distance","kind":"method","src_hash":"e6e7bb71ceb6336e","in":{"base":"Any","pred":"not (len(a) != len(b)) and hasattr(other, 'array_form')"},"out":{"base":"Any"},"spec":{"lhs":"get_positional_distance(other)","rhs":"sum((abs(a[i] - b[i]) for i in range(len(a))))","over":{"base":"Any","pred":"not (len(a) != len(b)) and hasattr(other, 'array_form')"},"name":"get_positional_distance_correct","kind":"composition"},"guarantee":"returns sum((abs(a[i] - b[i]) for i in range(len(a))))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sum","by":"library_axiom"},{"fn":"abs","by":"library_axiom"},{"fn":"range","by":"library_axiom"},{"fn":"len","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fb80046eca7d061f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (len(a) != len(b))","hasattr(other, 'array_form')"],"returns_expr":"sum((abs(a[i] - b[i]) for i in range(len(a))))","pure":false,"effects":{"effect_type":"reads_state","reads":["other.array_form","self.array_form"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def get_positional_distance(self, other):
         """
         Computes the positional distance between two permutations.
@@ -3747,16 +4271,22 @@ class Permutation(Atom):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(josephus(cls), return as a permutation the shuffling of range(n) using the josephus scheme in which every m-th item is selected until all have been chosen. the returned permutation has elements listed by the order i) over Any ║
+# ║ Path(josephus(cls, m, n), cls(perm)) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  cls(perm)                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ josephus : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fa3b20443840ae6b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f516b90e7f2d8a49  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.josephus","kind":"classmethod","src_hash":"1a0a3a7e61fb375c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"josephus(cls)","rhs":"return as a permutation the shuffling of range(n) using the josephus scheme in which every m-th item is selected until all have been chosen. the returned permutation has elements listed by the order i","over":{"base":"Any"},"name":"josephus_correct"},"guarantee":"return as a permutation the shuffling of range(n) using the josephus scheme in which every m-th item is selected until all have been chosen. the returned permutation has elements listed by the order i","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.permutations.Permutation.josephus_correct","statement":"Path(josephus(x), return as a permutation the shuffling of range(n) using the josephus scheme in which every m-th item is selected until all have been chosen. the returned permutation has elements listed by the order i)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fa3b20443840ae6b"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.josephus","kind":"classmethod","src_hash":"1a0a3a7e61fb375c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"josephus(cls, m, n)","rhs":"cls(perm)","over":{"base":"Any"},"name":"josephus_correct"},"guarantee":"returns cls(perm)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.permutations.Permutation.josephus_correct","statement":"Path(josephus(x), returns cls(perm))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f516b90e7f2d8a49","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"cls(perm)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def josephus(cls, m, n, s=1):
         """Return as a permutation the shuffling of range(n) using the Josephus
         scheme in which every m-th item is selected until all have been chosen.
@@ -3807,16 +4337,23 @@ class Permutation(Atom):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_inversion_vector(cls), calculates the permutation from the inversion vector) over Any ║
+# ║ Path(from_inversion_vector(cls, inversion), cls._af_new(perm)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_inversion_vector : Any → Any                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(perm) == old_len_perm + 1                  ║
+# ║   returns:  cls._af_new(perm)                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_inversion_vector : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9c09565eb60c7809  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ef6369d7ac48c84a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.from_inversion_vector","kind":"classmethod","src_hash":"d6ab8b7e5c628625","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_inversion_vector(cls)","rhs":"calculates the permutation from the inversion vector","over":{"base":"Any"},"name":"from_inversion_vector_correct"},"guarantee":"calculates the permutation from the inversion vector","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.permutations.Permutation.from_inversion_vector_correct","statement":"Path(from_inversion_vector(x), calculates the permutation from the inversion vector)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9c09565eb60c7809"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.from_inversion_vector","kind":"classmethod","src_hash":"d6ab8b7e5c628625","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (cls._af_new(perm))"},"spec":{"lhs":"from_inversion_vector(cls, inversion)","rhs":"cls._af_new(perm)","over":{"base":"Any"},"name":"from_inversion_vector_correct"},"guarantee":"returns cls._af_new(perm); len(perm) == old_len_perm + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.permutations.Permutation.from_inversion_vector_correct","statement":"Path(from_inversion_vector(x), returns cls._af_new(perm); len(perm) == old_len_perm + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ef6369d7ac48c84a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(perm) == old_len_perm + 1"],"returns_expr":"cls._af_new(perm)","pure":false,"effects":{"effect_type":"reads_state","reads":["cls._af_new"],"calls_mutating":["N.remove","perm.append","perm.extend"],"raises":["ValueError"],"catches":["IndexError"]},"state_contract":{"modifies":["N.*","perm.*"],"old_bindings":{"old_len_perm":"len(perm)"},"post_ensures":["len(perm) == old_len_perm + 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_inversion_vector(cls, inversion):
         """
         Calculates the permutation from the inversion vector.
@@ -3846,16 +4383,22 @@ class Permutation(Atom):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(random(cls), generates a random permutation of length ``n``) over Any ║
+# ║ Path(random(cls, n), cls._af_new(perm_array)) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  cls._af_new(perm_array)                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ random : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9eb39628a35d3d84  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 81299e853d7cc88d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.random","kind":"classmethod","src_hash":"05a3497e5a2c327f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"random(cls)","rhs":"generates a random permutation of length ``n``","over":{"base":"Any"},"name":"random_correct"},"guarantee":"generates a random permutation of length ``n``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.permutations.Permutation.random_correct","statement":"Path(random(x), generates a random permutation of length ``n``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9eb39628a35d3d84"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.random","kind":"classmethod","src_hash":"05a3497e5a2c327f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"random(cls, n)","rhs":"cls._af_new(perm_array)","over":{"base":"Any"},"name":"random_correct"},"guarantee":"returns cls._af_new(perm_array)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.permutations.Permutation.random_correct","statement":"Path(random(x), returns cls._af_new(perm_array))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"81299e853d7cc88d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"cls._af_new(perm_array)","pure":false,"effects":{"effect_type":"nondeterministic","reads":["cls._af_new"],"nondeterministic_sources":["random.shuffle"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def random(cls, n):
         """
         Generates a random permutation of length ``n``.
@@ -3876,16 +4419,22 @@ class Permutation(Atom):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(unrank_lex(cls), lexicographic permutation unranking) over Any ║
+# ║ Path(unrank_lex(cls, size, rank), cls._af_new(perm_array)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  cls._af_new(perm_array)                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ unrank_lex : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c978b37df807e22f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 81ba9ba42eed5bbb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.unrank_lex","kind":"classmethod","src_hash":"7c880f2ce0b15ec4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"unrank_lex(cls)","rhs":"lexicographic permutation unranking","over":{"base":"Any"},"name":"unrank_lex_correct"},"guarantee":"lexicographic permutation unranking","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.permutations.Permutation.unrank_lex_correct","statement":"Path(unrank_lex(x), lexicographic permutation unranking)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c978b37df807e22f"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.unrank_lex","kind":"classmethod","src_hash":"7c880f2ce0b15ec4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"unrank_lex(cls, size, rank)","rhs":"cls._af_new(perm_array)","over":{"base":"Any"},"name":"unrank_lex_correct"},"guarantee":"returns cls._af_new(perm_array)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.permutations.Permutation.unrank_lex_correct","statement":"Path(unrank_lex(x), returns cls._af_new(perm_array))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"81ba9ba42eed5bbb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"cls._af_new(perm_array)","pure":false,"effects":{"effect_type":"reads_state","reads":["cls._af_new"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def unrank_lex(cls, size, rank):
         """
         Lexicographic permutation unranking.
@@ -3921,16 +4470,26 @@ class Permutation(Atom):
         return cls._af_new(perm_array)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(resize(n), resize the permutation to the new size ``n``) over Any ║
+# ║ Path(resize(n), len(new_cyclic_form) == old_len_new_cyclic_form + 1 and result == (Permutation._af_new(aform) if n > l else Permutation(new_cyclic_form)) and result == Permutation._af_new(aform) or result == Permutation(new_cyclic_form)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ resize : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(new_cyclic_form) == old_len_new_cycli...   ║
+# ║   ensures:  result == (Permutation._af_new(aform) if ...   ║
+# ║   ensures:  result == Permutation._af_new(aform) or r...   ║
+# ║   fiber[case_0]: n > l => Permutation._af_new(aform)       ║
+# ║   fiber[case_1]: n < l => Permutation(new_cyclic_form)     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ resize : Any → {Any | result satisfies: len(new_cycli...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9bc2b7256e196916  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2451ddb9e83d8dec  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.resize","kind":"method","src_hash":"3fbdcfc1ab3b76f4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"resize(n)","rhs":"resize the permutation to the new size ``n``","over":{"base":"Any"},"name":"resize_correct"},"guarantee":"resize the permutation to the new size ``n``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.permutations.Permutation.resize_correct","statement":"Path(resize(x), resize the permutation to the new size ``n``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9bc2b7256e196916"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.Permutation.resize","kind":"method","src_hash":"3fbdcfc1ab3b76f4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(new_cyclic_form) == old_len_new_cyclic_form + 1 and result == (Permutation._af_new(aform) if n > l else Permutation(new_cyclic_form)) and result == Permutation._af_new(aform) or result == Permutation(new_cyclic_form)"},"spec":{"lhs":"resize(n)","rhs":"len(new_cyclic_form) == old_len_new_cyclic_form + 1 and result == (Permutation._af_new(aform) if n > l else Permutation(new_cyclic_form)) and result == Permutation._af_new(aform) or result == Permutation(new_cyclic_form)","over":{"base":"Any"},"name":"resize_correct"},"guarantee":"len(new_cyclic_form) == old_len_new_cyclic_form + 1; result == (Permutation._af_new(aform) if n > l else Permutation(new_cyclic_form)); result == Permutation._af_new(aform) or result == Permutation(new_cyclic_form); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.permutations.Permutation.resize_correct","statement":"Path(resize(x), len(new_cyclic_form) == old_len_new_cyclic_form + 1; result == (Permutation._af_new(aform) if n > l else Permutation(new_cyclic_form)); result == Permutation._af_new(aform) or result == Permutation(new_cyclic_form); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2451ddb9e83d8dec","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(new_cyclic_form) == old_len_new_cyclic_form + 1","result == (Permutation._af_new(aform) if n > l else Permutation(new_cyclic_form))","result == Permutation._af_new(aform) or result == Permutation(new_cyclic_form)"],"fibers":[{"name":"case_0","guard":"n > l","ensures":["result == Permutation._af_new(aform)"],"decidability":"z3","returns_expr":"Permutation._af_new(aform)"},{"name":"case_1","guard":"n < l","ensures":["result == Permutation(new_cyclic_form)"],"decidability":"z3","returns_expr":"Permutation(new_cyclic_form)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.array_form","self.full_cyclic_form"],"calls_mutating":["new_cyclic_form.append"],"raises":["ValueError"]},"state_contract":{"modifies":["new_cyclic_form.*"],"old_bindings":{"old_len_new_cyclic_form":"len(new_cyclic_form)"},"post_ensures":["len(new_cyclic_form) == old_len_new_cyclic_form + 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def resize(self, n):
         """Resize the permutation to the new size ``n``.
 
@@ -4003,16 +4562,22 @@ class Permutation(Atom):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_merge(arr), merges two sorted arrays and calculates the inversion count) over Any ║
+# ║ Path(_merge(arr, temp, left), <unspecified:_merge>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _merge : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bfdfabfd776a42b8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations._merge","kind":"function","src_hash":"a9b5cc3b9624bbe7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_merge(arr)","rhs":"merges two sorted arrays and calculates the inversion count","over":{"base":"Any"},"name":"_merge_correct"},"guarantee":"merges two sorted arrays and calculates the inversion count","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.permutations._merge_correct","statement":"Path(_merge(x), merges two sorted arrays and calculates the inversion count)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bfdfabfd776a42b8"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations._merge","kind":"function","src_hash":"a9b5cc3b9624bbe7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_merge(arr, temp, left)","rhs":"<unspecified:_merge>","over":{"base":"Any"},"name":"_merge_correct"},"guarantee":"merges two sorted arrays and calculates the inversion count","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.permutations._merge_correct","statement":"Path(_merge(x), merges two sorted arrays and calculates the inversion count)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bfdfabfd776a42b8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_args","writes":["arr[*]","temp[*]"]},"state_contract":{"modifies":["arr[*]","temp[*]"],"old_bindings":{"old_arr_star":"arr[*]","old_temp_star":"temp[*]"}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _merge(arr, temp, left, mid, right):
     """
     Merges two sorted arrays and calculates the inversion count.
@@ -4052,14 +4617,20 @@ _af_new = Perm._af_new
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(AppliedPermutation(*args), correctly constructs a AppliedPermutation instance) over {Any | isinstance(perm, Permutation)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Expr)                         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ AppliedPermutation : {Any | isinstance(perm, Permutat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a9794065cbd1455c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.AppliedPermutation","kind":"class","src_hash":"65f44d8ef3841908","in":{"base":"Any","pred":"isinstance(perm, Permutation)"},"out":{"base":"Any"},"spec":{"lhs":"AppliedPermutation(*args)","rhs":"correctly constructs a AppliedPermutation instance","over":{"base":"Any","pred":"isinstance(perm, Permutation)"},"name":"AppliedPermutation_class_invariant"},"guarantee":"correctly constructs a AppliedPermutation instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a9794065cbd1455c"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.AppliedPermutation","kind":"class","src_hash":"65f44d8ef3841908","in":{"base":"Any","pred":"isinstance(perm, Permutation)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Expr)"},"spec":{"lhs":"AppliedPermutation(*args)","rhs":"correctly constructs a AppliedPermutation instance","over":{"base":"Any","pred":"isinstance(perm, Permutation)"},"name":"AppliedPermutation_class_invariant"},"guarantee":"isinstance(self, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a9794065cbd1455c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Expr)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function AppliedPermutation not found in source"]}}
 class AppliedPermutation(Expr):
     """A permutation applied to a symbolic variable.
 
@@ -4085,16 +4656,25 @@ class AppliedPermutation(Expr):
     2
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, perm, x), <unspecified:__new__>) over {Any | isinstance(perm, Permutation) and hasattr(x, 'is_Integer') and hasattr(perm, 'apply')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(perm, Permutation)                  ║
+# ║   requires: hasattr(x, 'is_Integer')                       ║
+# ║   requires: hasattr(perm, 'apply')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | isinstance(perm, Permutation) and ha...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 31e58b28c1e3eb5a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.AppliedPermutation.__new__","kind":"method","src_hash":"c370cfb558325947","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"31e58b28c1e3eb5a"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations.AppliedPermutation.__new__","kind":"method","src_hash":"c370cfb558325947","in":{"base":"Any","pred":"isinstance(perm, Permutation) and hasattr(x, 'is_Integer') and hasattr(perm, 'apply')"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, perm, x)","rhs":"<unspecified:__new__>","over":{"base":"Any","pred":"isinstance(perm, Permutation) and hasattr(x, 'is_Integer') and hasattr(perm, 'apply')"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"31e58b28c1e3eb5a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(perm, Permutation)","hasattr(x, 'is_Integer')","hasattr(perm, 'apply')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["perm.apply","x.is_Integer"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, perm, x, evaluate=None):
         if evaluate is None:
             evaluate = global_parameters.evaluate
@@ -4116,16 +4696,25 @@ class AppliedPermutation(Expr):
 
 @dispatch(Permutation, Permutation)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_eq(lhs), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_eq(lhs, rhs), <unspecified:_eval_is_eq>) over {Any | hasattr(lhs, '_size') and hasattr(rhs, '_size') and hasattr(lhs, '_array_form') and hasattr(rhs, '_array_form')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_is_eq : Any → Any                                    ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(lhs, '_size')                          ║
+# ║   requires: hasattr(rhs, '_size')                          ║
+# ║   requires: hasattr(lhs, '_array_form')                    ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_is_eq : {Any | hasattr(lhs, '_size') and hasatt...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 17007baf2427235a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations._eval_is_eq","kind":"function","src_hash":"1084b3a80ea69900","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_eq(lhs)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_eq_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.permutations._eval_is_eq_correct","statement":"Path(_eval_is_eq(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"17007baf2427235a"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.permutations._eval_is_eq","kind":"function","src_hash":"1084b3a80ea69900","in":{"base":"Any","pred":"hasattr(lhs, '_size') and hasattr(rhs, '_size') and hasattr(lhs, '_array_form') and hasattr(rhs, '_array_form')"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_eq(lhs, rhs)","rhs":"<unspecified:_eval_is_eq>","over":{"base":"Any","pred":"hasattr(lhs, '_size') and hasattr(rhs, '_size') and hasattr(lhs, '_array_form') and hasattr(rhs, '_array_form')"},"name":"_eval_is_eq_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.permutations._eval_is_eq_correct","statement":"Path(_eval_is_eq(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"17007baf2427235a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(lhs, '_size')","hasattr(rhs, '_size')","hasattr(lhs, '_array_form')","hasattr(rhs, '_array_form')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["lhs._array_form","lhs._size","rhs._array_form","rhs._size"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def _eval_is_eq(lhs, rhs):
     if lhs._size != rhs._size:
         return None

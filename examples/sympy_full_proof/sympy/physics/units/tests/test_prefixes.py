@@ -28,7 +28,12 @@ x = Symbol('x')
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_prefix_operations(), test_prefix_operations produces the expected output) over {Any | isinstance(expr1, Mul)} ║
+# ║ Path(test_prefix_operations(), m * k is S.One and m * W == W / 1000 and k * k == M and 1 / m == k and k / m == M and dodeca * dodeca == 144 and 1 / dodeca == S.One / 12 and k / dodeca == S(1000) / 12 and dodeca / dodeca is S.One and dodeca * m == 12 * m and dodeca / m == 12 / m and isinstance(expr1, Mul) and expr1.args == (3, kilo) and isinstance(expr2, Mul) and expr2.args == (x, kilo) and isinstance(expr3, Mul) and expr3.args == (Rational(1, 3), kilo) and expr3.args == (S.One / 3, kilo) and isinstance(expr4, Mul) and expr4.args == (1 / x, kilo)) over {Any | isinstance(expr1, Mul)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  m * k is S.One                                 ║
+# ║   ensures:  m * W == W / 1000                              ║
+# ║   ensures:  k * k == M                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_prefix_operations : {Any | isinstance(expr1, Mul...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -40,9 +45,12 @@ x = Symbol('x')
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.6ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 5f22ee4b...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_prefixes.test_prefix_operations","kind":"function","src_hash":"df3e3a33f4cd9c50","in":{"base":"Any","pred":"isinstance(expr1, Mul)"},"out":{"base":"Any","pred":"m * k is S.One and m * W == W / 1000 and k * k == M and 1 / m == k and k / m == M and dodeca * dodeca == 144 and 1 / dodeca == S.One / 12 and k / dodeca == S(1000) / 12 and dodeca / dodeca is S.One and dodeca * m == 12 * m and dodeca / m == 12 / m and isinstance(expr1, Mul) and expr1.args == (3, kilo) and isinstance(expr2, Mul) and expr2.args == (x, kilo) and isinstance(expr3, Mul) and expr3.args == (Rational(1, 3), kilo) and expr3.args == (S.One / 3, kilo) and isinstance(expr4, Mul) and expr4.args == (1 / x, kilo)"},"spec":{"lhs":"test_prefix_operations()","rhs":"test_prefix_operations produces the expected output","over":{"base":"Any","pred":"isinstance(expr1, Mul)"},"name":"test_prefix_operations_correct"},"guarantee":"test_prefix_operations produces the expected output","fibers":[{"name":"Mul","pred":"isinstance(expr1, Mul)","path":{"lhs":"test_prefix_operations(x)","rhs":"test_prefix_operations produces the expected output","over":{"base":"Mul","pred":"isinstance(expr1, Mul)"},"name":"test_prefix_operations_Mul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_prefixes.test_prefix_operations_Mul_correct","statement":"test_prefix_operations satisfies spec on Mul inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"5f22ee4bb37234bf"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_prefixes.test_prefix_operations","kind":"function","src_hash":"df3e3a33f4cd9c50","in":{"base":"Any","pred":"isinstance(expr1, Mul)"},"out":{"base":"Any","pred":"result satisfies: m * k is S.One and m * W == W / 1000 and k * k == M and 1 / m == k and k / m == M and dodeca * dodeca == 144 and 1 / dodeca == S.One / 12 and k / dodeca == S(1000) / 12 and dodeca / dodeca is S.One and dodeca * m == 12 * m and dodeca / m == 12 / m and isinstance(expr1, Mul) and expr1.args == (3, kilo) and isinstance(expr2, Mul) and expr2.args == (x, kilo) and isinstance(expr3, Mul) and expr3.args == (Rational(1, 3), kilo) and expr3.args == (S.One / 3, kilo) and isinstance(expr4, Mul) and expr4.args == (1 / x, kilo)"},"spec":{"lhs":"test_prefix_operations()","rhs":"m * k is S.One and m * W == W / 1000 and k * k == M and 1 / m == k and k / m == M and dodeca * dodeca == 144 and 1 / dodeca == S.One / 12 and k / dodeca == S(1000) / 12 and dodeca / dodeca is S.One and dodeca * m == 12 * m and dodeca / m == 12 / m and isinstance(expr1, Mul) and expr1.args == (3, kilo) and isinstance(expr2, Mul) and expr2.args == (x, kilo) and isinstance(expr3, Mul) and expr3.args == (Rational(1, 3), kilo) and expr3.args == (S.One / 3, kilo) and isinstance(expr4, Mul) and expr4.args == (1 / x, kilo)","over":{"base":"Any","pred":"isinstance(expr1, Mul)"},"name":"test_prefix_operations_correct"},"guarantee":"m * k is S.One; m * W == W / 1000; k * k == M","fibers":[{"name":"Mul","pred":"isinstance(expr1, Mul)","path":{"lhs":"test_prefix_operations(x)","rhs":"m * k is S.One; m * W == W / 1000; k * k == M","over":{"base":"Mul","pred":"isinstance(expr1, Mul)"},"name":"test_prefix_operations_Mul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_prefixes.test_prefix_operations_Mul_correct","statement":"test_prefix_operations satisfies spec on Mul inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"5f22ee4bb37234bf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["m * k is S.One","m * W == W / 1000","k * k == M","1 / m == k","k / m == M","dodeca * dodeca == 144","1 / dodeca == S.One / 12","k / dodeca == S(1000) / 12","dodeca / dodeca is S.One","dodeca * m == 12 * m","dodeca / m == 12 / m","isinstance(expr1, Mul)","expr1.args == (3, kilo)","isinstance(expr2, Mul)","expr2.args == (x, kilo)","isinstance(expr3, Mul)","expr3.args == (Rational(1, 3), kilo)","expr3.args == (S.One / 3, kilo)","isinstance(expr4, Mul)","expr4.args == (1 / x, kilo)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.6,"verdict_class":"failed","binding":true}}
 def test_prefix_operations():
     m = PREFIXES['m']
     k = PREFIXES['k']
@@ -87,16 +95,23 @@ def test_prefix_operations():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_prefix_unit(), test_prefix_unit produces the expected output) over Any ║
+# ║ Path(test_prefix_unit(), set(prefs) == set(res) and {v.abbrev for v in prefs} == set(symbols('mm,cm,dm'))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_prefix_unit : Any → {Any | set(prefs) == set(res...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  set(prefs) == set(res)                         ║
+# ║   ensures:  {v.abbrev for v in prefs} == set(symbols(...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_prefix_unit : Any → {Any | result satisfies: set...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f5ae0bc6a687cbaa  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fa3ac300e97e7606  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_prefixes.test_prefix_unit","kind":"function","src_hash":"644c7fee6f1844ce","in":{"base":"Any"},"out":{"base":"Any","pred":"set(prefs) == set(res) and {v.abbrev for v in prefs} == set(symbols('mm,cm,dm'))"},"spec":{"lhs":"test_prefix_unit()","rhs":"test_prefix_unit produces the expected output","over":{"base":"Any"},"name":"test_prefix_unit_correct"},"guarantee":"test_prefix_unit produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_prefixes.test_prefix_unit_correct","statement":"Path(test_prefix_unit(x), test_prefix_unit produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f5ae0bc6a687cbaa"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_prefixes.test_prefix_unit","kind":"function","src_hash":"644c7fee6f1844ce","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: set(prefs) == set(res) and {v.abbrev for v in prefs} == set(symbols('mm,cm,dm'))"},"spec":{"lhs":"test_prefix_unit()","rhs":"set(prefs) == set(res) and {v.abbrev for v in prefs} == set(symbols('mm,cm,dm'))","over":{"base":"Any"},"name":"test_prefix_unit_correct"},"guarantee":"set(prefs) == set(res); {v.abbrev for v in prefs} == set(symbols('mm,cm,dm'))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_prefixes.test_prefix_unit_correct","statement":"Path(test_prefix_unit(x), set(prefs) == set(res); {v.abbrev for v in prefs} == set(symbols('mm,cm,dm')))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fa3ac300e97e7606","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["set(prefs) == set(res)","{v.abbrev for v in prefs} == set(symbols('mm,cm,dm'))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_prefix_unit():
     m = Quantity("fake_meter", abbrev="m")
     m.set_global_relative_scale_factor(1, meter)
@@ -121,32 +136,46 @@ def test_prefix_unit():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_bases(), test_bases produces the expected output) over Any ║
+# ║ Path(test_bases(), kilo.base == 10 and kibi.base == 2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_bases : Any → {Any | kilo.base == 10 and kibi.ba...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  kilo.base == 10                                ║
+# ║   ensures:  kibi.base == 2                                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_bases : Any → {Any | result satisfies: kilo.base...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 153bcc3710fb7bdf  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aa1e471d7169014d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_prefixes.test_bases","kind":"function","src_hash":"3929382c9e04a38d","in":{"base":"Any"},"out":{"base":"Any","pred":"kilo.base == 10 and kibi.base == 2"},"spec":{"lhs":"test_bases()","rhs":"test_bases produces the expected output","over":{"base":"Any"},"name":"test_bases_correct"},"guarantee":"test_bases produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_prefixes.test_bases_correct","statement":"Path(test_bases(x), test_bases produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"153bcc3710fb7bdf"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_prefixes.test_bases","kind":"function","src_hash":"3929382c9e04a38d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: kilo.base == 10 and kibi.base == 2"},"spec":{"lhs":"test_bases()","rhs":"kilo.base == 10 and kibi.base == 2","over":{"base":"Any"},"name":"test_bases_correct"},"guarantee":"kilo.base == 10; kibi.base == 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_prefixes.test_bases_correct","statement":"Path(test_bases(x), kilo.base == 10; kibi.base == 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aa1e471d7169014d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["kilo.base == 10","kibi.base == 2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_bases():
     assert kilo.base == 10
     assert kibi.base == 2
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_repr(), test_repr produces the expected output) over Any ║
+# ║ Path(test_repr(), eval(repr(kilo)) == kilo and eval(repr(kibi)) == kibi) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_repr : Any → {Any | eval(repr(kilo)) == kilo and...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  eval(repr(kilo)) == kilo                       ║
+# ║   ensures:  eval(repr(kibi)) == kibi                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_repr : Any → {Any | result satisfies: eval(repr(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5397e0d0fd201269  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | baf3ccb8cd6abf03  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_prefixes.test_repr","kind":"function","src_hash":"f3a2f4accb48c21a","in":{"base":"Any"},"out":{"base":"Any","pred":"eval(repr(kilo)) == kilo and eval(repr(kibi)) == kibi"},"spec":{"lhs":"test_repr()","rhs":"test_repr produces the expected output","over":{"base":"Any"},"name":"test_repr_correct"},"guarantee":"test_repr produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_prefixes.test_repr_correct","statement":"Path(test_repr(x), test_repr produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5397e0d0fd201269"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_prefixes.test_repr","kind":"function","src_hash":"f3a2f4accb48c21a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: eval(repr(kilo)) == kilo and eval(repr(kibi)) == kibi"},"spec":{"lhs":"test_repr()","rhs":"eval(repr(kilo)) == kilo and eval(repr(kibi)) == kibi","over":{"base":"Any"},"name":"test_repr_correct"},"guarantee":"eval(repr(kilo)) == kilo; eval(repr(kibi)) == kibi","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_prefixes.test_repr_correct","statement":"Path(test_repr(x), eval(repr(kilo)) == kilo; eval(repr(kibi)) == kibi)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"baf3ccb8cd6abf03","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["eval(repr(kilo)) == kilo","eval(repr(kibi)) == kibi"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_repr():
     assert eval(repr(kilo)) == kilo
     assert eval(repr(kibi)) == kibi

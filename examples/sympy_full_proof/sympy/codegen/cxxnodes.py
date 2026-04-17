@@ -22,16 +22,22 @@ AST nodes specific to C++.
 from sympy.codegen.ast import Attribute, String, Token, Type, none
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(using(), correctly constructs a using instance) over Any ║
+# ║ Path(using(), isinstance(self, Token)) over Any            ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ using : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Token)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ using : Any → {Any | result satisfies: isinstance(sel...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1ca22cc7b28691a0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.cxxnodes.using","kind":"class","src_hash":"46f205c2e25ed99c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"using()","rhs":"correctly constructs a using instance","over":{"base":"Any"},"name":"using_correct"},"guarantee":"correctly constructs a using instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1ca22cc7b28691a0"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.cxxnodes.using","kind":"class","src_hash":"46f205c2e25ed99c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Token)"},"spec":{"lhs":"using()","rhs":"isinstance(self, Token)","over":{"base":"Any"},"name":"using_correct"},"guarantee":"isinstance(self, Token)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1ca22cc7b28691a0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Token)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Function using not found in source"]}}
 class using(Token):
     """ Represents a 'using' statement in C++ """
     __slots__ = _fields = ('type', 'alias')

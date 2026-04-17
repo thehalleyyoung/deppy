@@ -30,14 +30,20 @@ from sympy.utilities import public
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(GMPYRationalField(*args), correctly constructs a GMPYRationalField instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ GMPYRationalField : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, RationalField)                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ GMPYRationalField : Any → {Any | result satisfies: is...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9e951a6b83197bbb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gmpyrationalfield.GMPYRationalField","kind":"class","src_hash":"78ee29e94eab42fe","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"GMPYRationalField(*args)","rhs":"correctly constructs a GMPYRationalField instance","over":{"base":"Any"},"name":"GMPYRationalField_class_invariant"},"guarantee":"correctly constructs a GMPYRationalField instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9e951a6b83197bbb"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gmpyrationalfield.GMPYRationalField","kind":"class","src_hash":"78ee29e94eab42fe","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, RationalField)"},"spec":{"lhs":"GMPYRationalField(*args)","rhs":"correctly constructs a GMPYRationalField instance","over":{"base":"Any"},"name":"GMPYRationalField_class_invariant"},"guarantee":"isinstance(self, RationalField)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9e951a6b83197bbb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, RationalField)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":false,"binding_errors":["Function GMPYRationalField not found in source"]}}
 class GMPYRationalField(RationalField):
     """Rational field based on GMPY's ``mpq`` type.
 
@@ -52,30 +58,42 @@ class GMPYRationalField(RationalField):
     alias = 'QQ_gmpy'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(), initializes the instance correctly) over Any ║
+# ║ Path(__init__(), <unspecified:__init__>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __init__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | cb2e4d86c5493f8b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gmpyrationalfield.GMPYRationalField.__init__","kind":"method","src_hash":"8da0b8b4d1415086","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__()","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cb2e4d86c5493f8b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gmpyrationalfield.GMPYRationalField.__init__","kind":"method","src_hash":"8da0b8b4d1415086","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__()","rhs":"<unspecified:__init__>","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cb2e4d86c5493f8b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self):
         pass
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_ring(), returns ring associated with ``self``) over Any ║
+# ║ Path(get_ring(), GMPYIntegerRing()) over Any               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  GMPYIntegerRing()                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ get_ring : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f1ee54ebc0b2e2e2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 23efd7c234c72b7f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gmpyrationalfield.GMPYRationalField.get_ring","kind":"method","src_hash":"995c3139f9037802","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_ring()","rhs":"returns ring associated with ``self``","over":{"base":"Any"},"name":"get_ring_correct"},"guarantee":"returns ring associated with ``self``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.gmpyrationalfield.GMPYRationalField.get_ring_correct","statement":"Path(get_ring(x), returns ring associated with ``self``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f1ee54ebc0b2e2e2"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gmpyrationalfield.GMPYRationalField.get_ring","kind":"method","src_hash":"995c3139f9037802","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_ring()","rhs":"GMPYIntegerRing()","over":{"base":"Any"},"name":"get_ring_correct"},"guarantee":"returns GMPYIntegerRing()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.gmpyrationalfield.GMPYRationalField.get_ring_correct","statement":"Path(get_ring(x), returns GMPYIntegerRing())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"23efd7c234c72b7f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"GMPYIntegerRing()","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def get_ring(self):
         """Returns ring associated with ``self``. """
         from sympy.polys.domains import GMPYIntegerRing
@@ -84,30 +102,47 @@ class GMPYRationalField(RationalField):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(to_sympy(a), id) over Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  SymPyRational(int(gmpy_numer(a)), int(gmp...   ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ to_sympy : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | ede7d914d176e8b9   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gmpyrationalfield.GMPYRationalField.to_sympy","kind":"method","src_hash":"7a9e32414416b32c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_sympy(a)","rhs":"convert ``a`` to a sympy object","over":{"base":"Any"},"name":"to_sympy_correct","kind":"composition"},"guarantee":"convert ``a`` to a sympy object","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"SymPyRational","by":"library_axiom"},{"fn":"int","by":"library_axiom"},{"fn":"gmpy_numer","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ede7d914d176e8b9"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gmpyrationalfield.GMPYRationalField.to_sympy","kind":"method","src_hash":"7a9e32414416b32c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_sympy(a)","rhs":"SymPyRational(int(gmpy_numer(a)), int(gmpy_denom(a)))","over":{"base":"Any"},"name":"to_sympy_correct","kind":"composition"},"guarantee":"returns SymPyRational(int(gmpy_numer(a)), int(gmpy_denom(a)))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"SymPyRational","by":"library_axiom"},{"fn":"int","by":"library_axiom"},{"fn":"gmpy_numer","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ede7d914d176e8b9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"SymPyRational(int(gmpy_numer(a)), int(gmpy_denom(a)))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def to_sympy(self, a):
         """Convert ``a`` to a SymPy object. """
         return SymPyRational(int(gmpy_numer(a)),
                              int(gmpy_denom(a)))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_sympy(a), convert sympy's integer to ``dtype``) over Any ║
+# ║ Path(from_sympy(a), <unspecified:from_sympy>) over {Any | hasattr(a, 'is_Rational') and hasattr(a, 'is_Float') and hasattr(a, 'p') and hasattr(a, 'q')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_sympy : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(a, 'is_Rational')                      ║
+# ║   requires: hasattr(a, 'is_Float')                         ║
+# ║   requires: hasattr(a, 'p')                                ║
+# ║   fiber[case_0]: a.is_Rational => GMPYRational(a.p, a.q)   ║
+# ║   fiber[case_1]: a.is_Float => GMPYRational(*map(int,...   ║
+# ║   fiber[case_2]: not (a.is_Rational) and not (a.is_Fl...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_sympy : {Any | hasattr(a, 'is_Rational') and has...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fe48d9f1fadf27a4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ad50159904600ee4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gmpyrationalfield.GMPYRationalField.from_sympy","kind":"method","src_hash":"9d1932b84de7ec0c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_sympy(a)","rhs":"convert sympy's integer to ``dtype``","over":{"base":"Any"},"name":"from_sympy_correct"},"guarantee":"convert sympy's integer to ``dtype``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.gmpyrationalfield.GMPYRationalField.from_sympy_correct","statement":"Path(from_sympy(x), convert sympy's integer to ``dtype``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fe48d9f1fadf27a4"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gmpyrationalfield.GMPYRationalField.from_sympy","kind":"method","src_hash":"9d1932b84de7ec0c","in":{"base":"Any","pred":"hasattr(a, 'is_Rational') and hasattr(a, 'is_Float') and hasattr(a, 'p') and hasattr(a, 'q')"},"out":{"base":"Any"},"spec":{"lhs":"from_sympy(a)","rhs":"<unspecified:from_sympy>","over":{"base":"Any","pred":"hasattr(a, 'is_Rational') and hasattr(a, 'is_Float') and hasattr(a, 'p') and hasattr(a, 'q')"},"name":"from_sympy_correct"},"guarantee":"3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.gmpyrationalfield.GMPYRationalField.from_sympy_correct","statement":"Path(from_sympy(x), 3-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ad50159904600ee4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(a, 'is_Rational')","hasattr(a, 'is_Float')","hasattr(a, 'p')","hasattr(a, 'q')"],"fibers":[{"name":"case_0","guard":"a.is_Rational","ensures":["result == GMPYRational(a.p, a.q)"],"decidability":"library","returns_expr":"GMPYRational(a.p, a.q)"},{"name":"case_1","guard":"a.is_Float","ensures":["result == GMPYRational(*map(int, RR.to_rational(a)))"],"decidability":"library","returns_expr":"GMPYRational(*map(int, RR.to_rational(a)))"},{"name":"case_2","guard":"not (a.is_Rational) and not (a.is_Float)","ensures":[],"decidability":"library"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["a.is_Float","a.is_Rational","a.p","a.q"],"raises":["CoercionFailed"]},"state_contract":{"exceptional_post":{"CoercionFailed":["isinstance(raised, CoercionFailed)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_sympy(self, a):
         """Convert SymPy's Integer to ``dtype``. """
         if a.is_Rational:
@@ -119,197 +154,283 @@ class GMPYRationalField(RationalField):
             raise CoercionFailed("expected ``Rational`` object, got %s" % a)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_ZZ_python(K1,), convert a python ``int`` object to ``dtype``) over Any ║
+# ║ Path(from_ZZ_python(K1, a, K0), GMPYRational(a)) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  GMPYRational(a)                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ from_ZZ_python : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4941512650d564f7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gmpyrationalfield.GMPYRationalField.from_ZZ_python","kind":"method","src_hash":"2e5dcbb8aac93430","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_ZZ_python(K1,)","rhs":"convert a python ``int`` object to ``dtype``","over":{"base":"Any"},"name":"from_ZZ_python_correct"},"guarantee":"convert a python ``int`` object to ``dtype``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4941512650d564f7"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gmpyrationalfield.GMPYRationalField.from_ZZ_python","kind":"method","src_hash":"2e5dcbb8aac93430","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_ZZ_python(K1, a, K0)","rhs":"GMPYRational(a)","over":{"base":"Any"},"name":"from_ZZ_python_correct"},"guarantee":"returns GMPYRational(a)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4941512650d564f7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"GMPYRational(a)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_ZZ_python(K1, a, K0):
         """Convert a Python ``int`` object to ``dtype``. """
         return GMPYRational(a)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_QQ_python(K1,), convert a python ``fraction`` object to ``dtype``) over Any ║
+# ║ Path(from_QQ_python(K1, a, K0), GMPYRational(a.numerator, a.denominator)) over {Any | hasattr(a, 'numerator') and hasattr(a, 'denominator')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_QQ_python : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(a, 'numerator')                        ║
+# ║   requires: hasattr(a, 'denominator')                      ║
+# ║   returns:  GMPYRational(a.numerator, a.denominator)       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_QQ_python : {Any | hasattr(a, 'numerator') and h...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2a737b5ccf0c6969           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gmpyrationalfield.GMPYRationalField.from_QQ_python","kind":"method","src_hash":"b390c2dba2ab7b95","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_QQ_python(K1,)","rhs":"convert a python ``fraction`` object to ``dtype``","over":{"base":"Any"},"name":"from_QQ_python_correct"},"guarantee":"convert a python ``fraction`` object to ``dtype``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2a737b5ccf0c6969"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gmpyrationalfield.GMPYRationalField.from_QQ_python","kind":"method","src_hash":"b390c2dba2ab7b95","in":{"base":"Any","pred":"hasattr(a, 'numerator') and hasattr(a, 'denominator')"},"out":{"base":"Any"},"spec":{"lhs":"from_QQ_python(K1, a, K0)","rhs":"GMPYRational(a.numerator, a.denominator)","over":{"base":"Any","pred":"hasattr(a, 'numerator') and hasattr(a, 'denominator')"},"name":"from_QQ_python_correct"},"guarantee":"returns GMPYRational(a.numerator, a.denominator)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2a737b5ccf0c6969","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(a, 'numerator')","hasattr(a, 'denominator')"],"returns_expr":"GMPYRational(a.numerator, a.denominator)","pure":false,"effects":{"effect_type":"reads_state","reads":["a.denominator","a.numerator"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_QQ_python(K1, a, K0):
         """Convert a Python ``Fraction`` object to ``dtype``. """
         return GMPYRational(a.numerator, a.denominator)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_ZZ_gmpy(K1,), convert a gmpy ``mpz`` object to ``dtype``) over Any ║
+# ║ Path(from_ZZ_gmpy(K1, a, K0), GMPYRational(a)) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  GMPYRational(a)                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ from_ZZ_gmpy : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4e011cd8437e2fda           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gmpyrationalfield.GMPYRationalField.from_ZZ_gmpy","kind":"method","src_hash":"135aa75666122646","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_ZZ_gmpy(K1,)","rhs":"convert a gmpy ``mpz`` object to ``dtype``","over":{"base":"Any"},"name":"from_ZZ_gmpy_correct"},"guarantee":"convert a gmpy ``mpz`` object to ``dtype``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4e011cd8437e2fda"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gmpyrationalfield.GMPYRationalField.from_ZZ_gmpy","kind":"method","src_hash":"135aa75666122646","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_ZZ_gmpy(K1, a, K0)","rhs":"GMPYRational(a)","over":{"base":"Any"},"name":"from_ZZ_gmpy_correct"},"guarantee":"returns GMPYRational(a)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4e011cd8437e2fda","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"GMPYRational(a)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_ZZ_gmpy(K1, a, K0):
         """Convert a GMPY ``mpz`` object to ``dtype``. """
         return GMPYRational(a)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_QQ_gmpy(K1,), convert a gmpy ``mpq`` object to ``dtype``) over Any ║
+# ║ Path(from_QQ_gmpy(K1, a, K0), a) over Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_QQ_gmpy : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == a                                    ║
+# ║   returns:  a                                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_QQ_gmpy : Any → {Any | result satisfies: result ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3a466ca36e4af44b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gmpyrationalfield.GMPYRationalField.from_QQ_gmpy","kind":"method","src_hash":"6f03e9c6dc1ba527","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_QQ_gmpy(K1,)","rhs":"convert a gmpy ``mpq`` object to ``dtype``","over":{"base":"Any"},"name":"from_QQ_gmpy_correct"},"guarantee":"convert a gmpy ``mpq`` object to ``dtype``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3a466ca36e4af44b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gmpyrationalfield.GMPYRationalField.from_QQ_gmpy","kind":"method","src_hash":"6f03e9c6dc1ba527","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (a)"},"spec":{"lhs":"from_QQ_gmpy(K1, a, K0)","rhs":"a","over":{"base":"Any"},"name":"from_QQ_gmpy_correct"},"guarantee":"returns a; result == a","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3a466ca36e4af44b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == a"],"returns_expr":"a","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_QQ_gmpy(K1, a, K0):
         """Convert a GMPY ``mpq`` object to ``dtype``. """
         return a
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_GaussianRationalField(K1,), convert a ``gaussianelement`` object to ``dtype``) over Any ║
+# ║ Path(from_GaussianRationalField(K1, a, K0), GMPYRational(a.x)) over {Any | hasattr(a, 'y') and hasattr(a, 'x')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_GaussianRationalField : Any → Any                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(a, 'y')                                ║
+# ║   requires: hasattr(a, 'x')                                ║
+# ║   returns:  GMPYRational(a.x)                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_GaussianRationalField : {Any | hasattr(a, 'y') a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8a18695528545be5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7108c3f84069784a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gmpyrationalfield.GMPYRationalField.from_GaussianRationalField","kind":"method","src_hash":"7e5a2354921969de","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_GaussianRationalField(K1,)","rhs":"convert a ``gaussianelement`` object to ``dtype``","over":{"base":"Any"},"name":"from_GaussianRationalField_correct"},"guarantee":"convert a ``gaussianelement`` object to ``dtype``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.gmpyrationalfield.GMPYRationalField.from_GaussianRationalField_correct","statement":"Path(from_GaussianRationalField(x), convert a ``gaussianelement`` object to ``dtype``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8a18695528545be5"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gmpyrationalfield.GMPYRationalField.from_GaussianRationalField","kind":"method","src_hash":"7e5a2354921969de","in":{"base":"Any","pred":"hasattr(a, 'y') and hasattr(a, 'x')"},"out":{"base":"Any"},"spec":{"lhs":"from_GaussianRationalField(K1, a, K0)","rhs":"GMPYRational(a.x)","over":{"base":"Any","pred":"hasattr(a, 'y') and hasattr(a, 'x')"},"name":"from_GaussianRationalField_correct"},"guarantee":"returns GMPYRational(a.x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.gmpyrationalfield.GMPYRationalField.from_GaussianRationalField_correct","statement":"Path(from_GaussianRationalField(x), returns GMPYRational(a.x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7108c3f84069784a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(a, 'y')","hasattr(a, 'x')"],"returns_expr":"GMPYRational(a.x)","pure":false,"effects":{"effect_type":"reads_state","reads":["a.x","a.y"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_GaussianRationalField(K1, a, K0):
         """Convert a ``GaussianElement`` object to ``dtype``. """
         if a.y == 0:
             return GMPYRational(a.x)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_RealField(K1,), convert a mpmath ``mpf`` object to ``dtype``) over Any ║
+# ║ Path(from_RealField(K1, a, K0), GMPYRational(*map(int, K0.to_rational(a)))) over {Any | hasattr(K0, 'to_rational')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_RealField : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(K0, 'to_rational')                     ║
+# ║   returns:  GMPYRational(*map(int, K0.to_rational(a)))     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_RealField : {Any | hasattr(K0, 'to_rational')} →...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 67c2a303261b944c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gmpyrationalfield.GMPYRationalField.from_RealField","kind":"method","src_hash":"73e46cb17a9956a6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_RealField(K1,)","rhs":"convert a mpmath ``mpf`` object to ``dtype``","over":{"base":"Any"},"name":"from_RealField_correct"},"guarantee":"convert a mpmath ``mpf`` object to ``dtype``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"67c2a303261b944c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gmpyrationalfield.GMPYRationalField.from_RealField","kind":"method","src_hash":"73e46cb17a9956a6","in":{"base":"Any","pred":"hasattr(K0, 'to_rational')"},"out":{"base":"Any"},"spec":{"lhs":"from_RealField(K1, a, K0)","rhs":"GMPYRational(*map(int, K0.to_rational(a)))","over":{"base":"Any","pred":"hasattr(K0, 'to_rational')"},"name":"from_RealField_correct"},"guarantee":"returns GMPYRational(*map(int, K0.to_rational(a)))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"67c2a303261b944c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(K0, 'to_rational')"],"returns_expr":"GMPYRational(*map(int, K0.to_rational(a)))","pure":false,"effects":{"effect_type":"reads_state","reads":["K0.to_rational"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_RealField(K1, a, K0):
         """Convert a mpmath ``mpf`` object to ``dtype``. """
         return GMPYRational(*map(int, K0.to_rational(a)))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(exquo(a, ), exact quotient of ``a`` and ``b``, implies ``__truediv__``) over Any ║
+# ║ Path(exquo(a, b), GMPYRational(a) / GMPYRational(b)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  GMPYRational(a) / GMPYRational(b)              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ exquo : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 285e0ae0ac28e254           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gmpyrationalfield.GMPYRationalField.exquo","kind":"method","src_hash":"2706644b4c4ce90b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"exquo(a, )","rhs":"exact quotient of ``a`` and ``b``, implies ``__truediv__``","over":{"base":"Any"},"name":"exquo_correct"},"guarantee":"exact quotient of ``a`` and ``b``, implies ``__truediv__``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"285e0ae0ac28e254"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gmpyrationalfield.GMPYRationalField.exquo","kind":"method","src_hash":"2706644b4c4ce90b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"exquo(a, b)","rhs":"GMPYRational(a) / GMPYRational(b)","over":{"base":"Any"},"name":"exquo_correct"},"guarantee":"returns GMPYRational(a) / GMPYRational(b)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"285e0ae0ac28e254","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"GMPYRational(a) / GMPYRational(b)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def exquo(self, a, b):
         """Exact quotient of ``a`` and ``b``, implies ``__truediv__``.  """
         return GMPYRational(a) / GMPYRational(b)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(quo(a, ), quotient of ``a`` and ``b``, implies ``__truediv__``) over Any ║
+# ║ Path(quo(a, b), GMPYRational(a) / GMPYRational(b)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  GMPYRational(a) / GMPYRational(b)              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ quo : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | cda72e2bf94387e9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gmpyrationalfield.GMPYRationalField.quo","kind":"method","src_hash":"fb97c4254596e9ef","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"quo(a, )","rhs":"quotient of ``a`` and ``b``, implies ``__truediv__``","over":{"base":"Any"},"name":"quo_correct"},"guarantee":"quotient of ``a`` and ``b``, implies ``__truediv__``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cda72e2bf94387e9"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gmpyrationalfield.GMPYRationalField.quo","kind":"method","src_hash":"fb97c4254596e9ef","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"quo(a, b)","rhs":"GMPYRational(a) / GMPYRational(b)","over":{"base":"Any"},"name":"quo_correct"},"guarantee":"returns GMPYRational(a) / GMPYRational(b)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cda72e2bf94387e9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"GMPYRational(a) / GMPYRational(b)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def quo(self, a, b):
         """Quotient of ``a`` and ``b``, implies ``__truediv__``. """
         return GMPYRational(a) / GMPYRational(b)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rem(a, ), remainder of ``a`` and ``b``, implies nothing) over Any ║
+# ║ Path(rem(a, b), self.zero) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.zero                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ rem : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5d5de92c3634b6a8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gmpyrationalfield.GMPYRationalField.rem","kind":"method","src_hash":"2ef596440ae31eb6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rem(a, )","rhs":"remainder of ``a`` and ``b``, implies nothing","over":{"base":"Any"},"name":"rem_correct"},"guarantee":"remainder of ``a`` and ``b``, implies nothing","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5d5de92c3634b6a8"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gmpyrationalfield.GMPYRationalField.rem","kind":"method","src_hash":"2ef596440ae31eb6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rem(a, b)","rhs":"self.zero","over":{"base":"Any"},"name":"rem_correct"},"guarantee":"returns self.zero","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5d5de92c3634b6a8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.zero","pure":false,"effects":{"effect_type":"reads_state","reads":["self.zero"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def rem(self, a, b):
         """Remainder of ``a`` and ``b``, implies nothing.  """
         return self.zero
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(div(a, ), division of ``a`` and ``b``, implies ``__truediv__``) over Any ║
+# ║ Path(div(a, b), (GMPYRational(a) / GMPYRational(b), self.zero)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (GMPYRational(a) / GMPYRational(b), self....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ div : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 644c54019e04b9e8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gmpyrationalfield.GMPYRationalField.div","kind":"method","src_hash":"64b1b71941bab3c1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"div(a, )","rhs":"division of ``a`` and ``b``, implies ``__truediv__``","over":{"base":"Any"},"name":"div_correct"},"guarantee":"division of ``a`` and ``b``, implies ``__truediv__``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"644c54019e04b9e8"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gmpyrationalfield.GMPYRationalField.div","kind":"method","src_hash":"64b1b71941bab3c1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"div(a, b)","rhs":"(GMPYRational(a) / GMPYRational(b), self.zero)","over":{"base":"Any"},"name":"div_correct"},"guarantee":"returns (GMPYRational(a) / GMPYRational(b), self.zero)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"644c54019e04b9e8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(GMPYRational(a) / GMPYRational(b), self.zero)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.zero"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def div(self, a, b):
         """Division of ``a`` and ``b``, implies ``__truediv__``. """
         return GMPYRational(a) / GMPYRational(b), self.zero
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(numer(a), returns numerator of ``a``) over Any        ║
+# ║ Path(numer(a), a.numerator) over {Any | hasattr(a, 'numerator')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ numer : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(a, 'numerator')                        ║
+# ║   returns:  a.numerator                                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ numer : {Any | hasattr(a, 'numerator')} → Any              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5991f0231ce2ac20           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gmpyrationalfield.GMPYRationalField.numer","kind":"method","src_hash":"32b932c53d7d3ee1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"numer(a)","rhs":"returns numerator of ``a``","over":{"base":"Any"},"name":"numer_correct"},"guarantee":"returns numerator of ``a``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5991f0231ce2ac20"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gmpyrationalfield.GMPYRationalField.numer","kind":"method","src_hash":"32b932c53d7d3ee1","in":{"base":"Any","pred":"hasattr(a, 'numerator')"},"out":{"base":"Any"},"spec":{"lhs":"numer(a)","rhs":"a.numerator","over":{"base":"Any","pred":"hasattr(a, 'numerator')"},"name":"numer_correct"},"guarantee":"returns a.numerator","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5991f0231ce2ac20","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(a, 'numerator')"],"returns_expr":"a.numerator","pure":false,"effects":{"effect_type":"reads_state","reads":["a.numerator"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def numer(self, a):
         """Returns numerator of ``a``. """
         return a.numerator
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(denom(a), returns denominator of ``a``) over Any      ║
+# ║ Path(denom(a), a.denominator) over {Any | hasattr(a, 'denominator')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ denom : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(a, 'denominator')                      ║
+# ║   returns:  a.denominator                                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ denom : {Any | hasattr(a, 'denominator')} → Any            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 06cb136cce755eac           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gmpyrationalfield.GMPYRationalField.denom","kind":"method","src_hash":"38064f1b0e19e1b7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"denom(a)","rhs":"returns denominator of ``a``","over":{"base":"Any"},"name":"denom_correct"},"guarantee":"returns denominator of ``a``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"06cb136cce755eac"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gmpyrationalfield.GMPYRationalField.denom","kind":"method","src_hash":"38064f1b0e19e1b7","in":{"base":"Any","pred":"hasattr(a, 'denominator')"},"out":{"base":"Any"},"spec":{"lhs":"denom(a)","rhs":"a.denominator","over":{"base":"Any","pred":"hasattr(a, 'denominator')"},"name":"denom_correct"},"guarantee":"returns a.denominator","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"06cb136cce755eac","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(a, 'denominator')"],"returns_expr":"a.denominator","pure":false,"effects":{"effect_type":"reads_state","reads":["a.denominator"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def denom(self, a):
         """Returns denominator of ``a``. """
         return a.denominator
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(factorial(a), returns factorial of ``a``) over Any    ║
+# ║ Path(factorial(a), GMPYRational(gmpy_factorial(int(a)))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  GMPYRational(gmpy_factorial(int(a)))           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ factorial : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4c0d33dbd3e8be83           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gmpyrationalfield.GMPYRationalField.factorial","kind":"method","src_hash":"ab3bdd232679af2b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"factorial(a)","rhs":"returns factorial of ``a``","over":{"base":"Any"},"name":"factorial_correct"},"guarantee":"returns factorial of ``a``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4c0d33dbd3e8be83"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gmpyrationalfield.GMPYRationalField.factorial","kind":"method","src_hash":"ab3bdd232679af2b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"factorial(a)","rhs":"GMPYRational(gmpy_factorial(int(a)))","over":{"base":"Any"},"name":"factorial_correct"},"guarantee":"returns GMPYRational(gmpy_factorial(int(a)))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4c0d33dbd3e8be83","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"GMPYRational(gmpy_factorial(int(a)))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def factorial(self, a):
         """Returns factorial of ``a``. """
         return GMPYRational(gmpy_factorial(int(a)))

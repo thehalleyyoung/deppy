@@ -57,16 +57,24 @@ from .holonomicerrors import (NotPowerSeriesError, NotHyperSeriesError,
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_find_nonzero_solution(r, ), internal helper behaves correctly) over Any ║
+# ║ Path(_find_nonzero_solution(r, homosys), <unspecified:_find_nonzero_solution>) over {Any | hasattr(r, '_solve') and hasattr(r, 'domain')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _find_nonzero_solution : Any → Any                         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(r, '_solve')                           ║
+# ║   requires: hasattr(r, 'domain')                           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _find_nonzero_solution : {Any | hasattr(r, '_solve') ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4f2982854534c806  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic._find_nonzero_solution","kind":"function","src_hash":"868ba5ba62bd3b00","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_find_nonzero_solution(r, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_find_nonzero_solution_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.holonomic._find_nonzero_solution_correct","statement":"Path(_find_nonzero_solution(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4f2982854534c806"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic._find_nonzero_solution","kind":"function","src_hash":"868ba5ba62bd3b00","in":{"base":"Any","pred":"hasattr(r, '_solve') and hasattr(r, 'domain')"},"out":{"base":"Any"},"spec":{"lhs":"_find_nonzero_solution(r, homosys)","rhs":"<unspecified:_find_nonzero_solution>","over":{"base":"Any","pred":"hasattr(r, '_solve') and hasattr(r, 'domain')"},"name":"_find_nonzero_solution_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.holonomic._find_nonzero_solution_correct","statement":"Path(_find_nonzero_solution(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4f2982854534c806","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(r, '_solve')","hasattr(r, 'domain')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["r._solve","r.domain"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _find_nonzero_solution(r, homosys):
     ones = lambda shape: DomainMatrix.ones(shape, r.domain)
     particular, nullspace = r._solve(homosys)
@@ -78,16 +86,22 @@ def _find_nonzero_solution(r, homosys):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(DifferentialOperators(bas), this function is used to create annihilators using ``dx``) over Any ║
+# ║ Path(DifferentialOperators(base, generator), (ring, ring.derivative_operator)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (ring, ring.derivative_operator)               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ DifferentialOperators : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e6c1c523e163a1c5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f537c3966d9eed8d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic.DifferentialOperators","kind":"function","src_hash":"7cf999f8addbc8ca","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"DifferentialOperators(bas)","rhs":"this function is used to create annihilators using ``dx``","over":{"base":"Any"},"name":"DifferentialOperators_correct"},"guarantee":"this function is used to create annihilators using ``dx``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.holonomic.DifferentialOperators_correct","statement":"Path(DifferentialOperators(x), this function is used to create annihilators using ``dx``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e6c1c523e163a1c5"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic.DifferentialOperators","kind":"function","src_hash":"7cf999f8addbc8ca","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"DifferentialOperators(base, generator)","rhs":"(ring, ring.derivative_operator)","over":{"base":"Any"},"name":"DifferentialOperators_correct"},"guarantee":"returns (ring, ring.derivative_operator)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.holonomic.DifferentialOperators_correct","statement":"Path(DifferentialOperators(x), returns (ring, ring.derivative_operator))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f537c3966d9eed8d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(ring, ring.derivative_operator)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def DifferentialOperators(base, generator):
     r"""
     This function is used to create annihilators using ``Dx``.
@@ -129,14 +143,19 @@ def DifferentialOperators(base, generator):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a DifferentialOperatorAlgebra instance) preserved by DifferentialOperatorAlgebra(*args) over {Any | isinstance(generator, str) and isinstance(generator, Symbol)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ DifferentialOperatorAlgebra : {Any | isinstance(gener...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fd0d4b0106367904  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic.DifferentialOperatorAlgebra","kind":"class","src_hash":"b48a4ed869caf0ee","in":{"base":"Any","pred":"isinstance(generator, str) and isinstance(generator, Symbol)"},"out":{"base":"Any"},"spec":{"lhs":"DifferentialOperatorAlgebra(*args)","rhs":"correctly constructs a DifferentialOperatorAlgebra instance","over":{"base":"Any","pred":"isinstance(generator, str) and isinstance(generator, Symbol)"},"name":"DifferentialOperatorAlgebra_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a DifferentialOperatorAlgebra instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'base') and hasattr(self, 'derivative_operator') and hasattr(self, 'gen_symbol') and hasattr(self, 'gen_symbol') and hasattr(self, 'gen_symbol')","kind":"class","induction":"structural on base, derivative_operator, gen_symbol, gen_symbol"}],"methods_preserving":["__init__","__str__","__eq__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fd0d4b0106367904"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic.DifferentialOperatorAlgebra","kind":"class","src_hash":"b48a4ed869caf0ee","in":{"base":"Any","pred":"isinstance(generator, str) and isinstance(generator, Symbol)"},"out":{"base":"Any"},"spec":{"lhs":"DifferentialOperatorAlgebra(*args)","rhs":"correctly constructs a DifferentialOperatorAlgebra instance","over":{"base":"Any","pred":"isinstance(generator, str) and isinstance(generator, Symbol)"},"name":"DifferentialOperatorAlgebra_class_invariant","kind":"invariant"},"guarantee":"preserves 3 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'base') and hasattr(self, 'derivative_operator') and hasattr(self, 'gen_symbol') and hasattr(self, 'gen_symbol') and hasattr(self, 'gen_symbol')","kind":"class","induction":"structural on base, derivative_operator, gen_symbol, gen_symbol"}],"methods_preserving":["__init__","__str__","__eq__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fd0d4b0106367904","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, 'base')","hasattr(self, 'derivative_operator')","hasattr(self, 'gen_symbol')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function DifferentialOperatorAlgebra not found in source"]}}
 class DifferentialOperatorAlgebra:
     r"""
     An Ore Algebra is a set of noncommutative polynomials in the
@@ -177,16 +196,25 @@ class DifferentialOperatorAlgebra:
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(bas), initializes the instance correctly) over Any ║
+# ║ Path(__init__(base, generator), self.base == base and self.gen_symbol == generator) over {Any | hasattr(base, 'zero') and hasattr(base, 'one')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(base, 'zero')                          ║
+# ║   requires: hasattr(base, 'one')                           ║
+# ║   ensures:  self.base == base                              ║
+# ║   ensures:  self.gen_symbol == generator                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : {Any | hasattr(base, 'zero') and hasattr(b...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | be0cc1e1d1726f96           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic.DifferentialOperatorAlgebra.__init__","kind":"method","src_hash":"e024503d4ebfbc7a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(bas)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"be0cc1e1d1726f96"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic.DifferentialOperatorAlgebra.__init__","kind":"method","src_hash":"e024503d4ebfbc7a","in":{"base":"Any","pred":"hasattr(base, 'zero') and hasattr(base, 'one')"},"out":{"base":"Any","pred":"result satisfies: self.base == base and self.gen_symbol == generator"},"spec":{"lhs":"__init__(base, generator)","rhs":"self.base == base and self.gen_symbol == generator","over":{"base":"Any","pred":"hasattr(base, 'zero') and hasattr(base, 'one')"},"name":"__init___correct"},"guarantee":"self.base == base; self.gen_symbol == generator","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"be0cc1e1d1726f96","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(base, 'zero')","hasattr(base, 'one')"],"ensures":["self.base == base","self.gen_symbol == generator"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, base, generator):
         # the base polynomial ring for the algebra
         self.base = base
@@ -203,16 +231,22 @@ class DifferentialOperatorAlgebra:
                 self.gen_symbol = generator
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__str__(), returns a human-readable string) over Any  ║
+# ║ Path(__str__(), <unspecified:__str__>) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __str__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8af0e1fa49e5f374           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic.DifferentialOperatorAlgebra.__str__","kind":"method","src_hash":"23ce2b8e350f44a0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"returns a human-readable string","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8af0e1fa49e5f374"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic.DifferentialOperatorAlgebra.__str__","kind":"method","src_hash":"23ce2b8e350f44a0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"<unspecified:__str__>","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8af0e1fa49e5f374","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.base","self.gen_symbol"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __str__(self):
         string = 'Univariate Differential Operator Algebra in intermediate '\
             + sstr(self.gen_symbol) + ' over the base ring ' + \
@@ -223,16 +257,24 @@ class DifferentialOperatorAlgebra:
     __repr__ = __str__
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__eq__(oth), correctly determines equality) over Any  ║
+# ║ Path(__eq__(other), self.base == other.base and self.gen_symbol == other.gen_symbol) over {Any | hasattr(other, 'base') and hasattr(other, 'gen_symbol')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __eq__ : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, 'base')                         ║
+# ║   requires: hasattr(other, 'gen_symbol')                   ║
+# ║   returns:  self.base == other.base and self.gen_symb...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __eq__ : {Any | hasattr(other, 'base') and hasattr(ot...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f2b6fe97cdd556ff           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic.DifferentialOperatorAlgebra.__eq__","kind":"method","src_hash":"22ae8ca90b172465","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(oth)","rhs":"correctly determines equality","over":{"base":"Any"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f2b6fe97cdd556ff"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic.DifferentialOperatorAlgebra.__eq__","kind":"method","src_hash":"22ae8ca90b172465","in":{"base":"Any","pred":"hasattr(other, 'base') and hasattr(other, 'gen_symbol')"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(other)","rhs":"self.base == other.base and self.gen_symbol == other.gen_symbol","over":{"base":"Any","pred":"hasattr(other, 'base') and hasattr(other, 'gen_symbol')"},"name":"__eq___correct"},"guarantee":"returns self.base == other.base and self.gen_symbol == other.gen_symbol","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f2b6fe97cdd556ff","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, 'base')","hasattr(other, 'gen_symbol')"],"returns_expr":"self.base == other.base and self.gen_symbol == other.gen_symbol","pure":false,"effects":{"effect_type":"reads_state","reads":["other.base","other.gen_symbol","self.base","self.gen_symbol"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __eq__(self, other):
         return self.base == other.base and \
                self.gen_symbol == other.gen_symbol
@@ -241,14 +283,19 @@ class DifferentialOperatorAlgebra:
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a DifferentialOperator instance) preserved by DifferentialOperator(*args) over {Any | isinstance(other, DifferentialOperator) and isinstance(base.gens[0], Symbol) and isinstance(other, self.parent.base.dtype)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ DifferentialOperator : {Any | isinstance(other, Diffe...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 893c2a43db61bad7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic.DifferentialOperator","kind":"class","src_hash":"5b615ec297f39e9e","in":{"base":"Any","pred":"isinstance(other, DifferentialOperator) and isinstance(base.gens[0], Symbol) and isinstance(other, self.parent.base.dtype)"},"out":{"base":"Any"},"spec":{"lhs":"DifferentialOperator(*args)","rhs":"correctly constructs a DifferentialOperator instance","over":{"base":"Any","pred":"isinstance(other, DifferentialOperator) and isinstance(base.gens[0], Symbol) and isinstance(other, self.parent.base.dtype)"},"name":"DifferentialOperator_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a DifferentialOperator instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'parent') and hasattr(self, 'x') and hasattr(self, 'listofpoly') and hasattr(self, 'order')","kind":"class","induction":"structural on parent, x, listofpoly, order"}],"methods_preserving":["__init__","__mul__","__rmul__","__add__","__sub__","__rsub__","__neg__","__truediv__","__pow__","__str__","__eq__","is_singular"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"893c2a43db61bad7"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic.DifferentialOperator","kind":"class","src_hash":"5b615ec297f39e9e","in":{"base":"Any","pred":"isinstance(other, DifferentialOperator) and isinstance(base.gens[0], Symbol) and isinstance(other, self.parent.base.dtype)"},"out":{"base":"Any"},"spec":{"lhs":"DifferentialOperator(*args)","rhs":"correctly constructs a DifferentialOperator instance","over":{"base":"Any","pred":"isinstance(other, DifferentialOperator) and isinstance(base.gens[0], Symbol) and isinstance(other, self.parent.base.dtype)"},"name":"DifferentialOperator_class_invariant","kind":"invariant"},"guarantee":"preserves 4 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'parent') and hasattr(self, 'x') and hasattr(self, 'listofpoly') and hasattr(self, 'order')","kind":"class","induction":"structural on parent, x, listofpoly, order"}],"methods_preserving":["__init__","__mul__","__rmul__","__add__","__sub__","__rsub__","__neg__","__truediv__","__pow__","__str__","__eq__","is_singular"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"893c2a43db61bad7","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, 'parent')","hasattr(self, 'x')","hasattr(self, 'listofpoly')","hasattr(self, 'order')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function DifferentialOperator not found in source"]}}
 class DifferentialOperator:
     """
     Differential Operators are elements of Weyl Algebra. The Operators
@@ -288,16 +335,23 @@ class DifferentialOperator:
     _op_priority = 20
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(lis), initializes the instance correctly) over Any ║
+# ║ Path(__init__(list_of_poly, parent), self.parent == parent and self.listofpoly == list_of_poly) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  self.parent == parent                          ║
+# ║   ensures:  self.listofpoly == list_of_poly                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : Any → {Any | result satisfies: self.parent...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | da994b322cfd655b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic.DifferentialOperator.__init__","kind":"method","src_hash":"8fe1caee911ad72f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(lis)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"da994b322cfd655b"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic.DifferentialOperator.__init__","kind":"method","src_hash":"8fe1caee911ad72f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: self.parent == parent and self.listofpoly == list_of_poly"},"spec":{"lhs":"__init__(list_of_poly, parent)","rhs":"self.parent == parent and self.listofpoly == list_of_poly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"self.parent == parent; self.listofpoly == list_of_poly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"da994b322cfd655b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["self.parent == parent","self.listofpoly == list_of_poly"],"pure":false,"effects":{"effect_type":"mutates_args","reads":["self.listofpoly","self.parent"],"writes":["list_of_poly[*]","self.listofpoly","self.order","self.parent","self.x"]},"state_contract":{"modifies":["list_of_poly[*]","self.listofpoly","self.order","self.parent","self.x"],"old_bindings":{"old_list_of_poly_star":"list_of_poly[*]","old_self_listofpoly":"self.listofpoly","old_self_order":"self.order","old_self_parent":"self.parent","old_self_x":"self.x"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, list_of_poly, parent):
         """
         Parameters
@@ -329,16 +383,23 @@ class DifferentialOperator:
         self.order = len(self.listofpoly) - 1
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__mul__(oth), returns the product) over Any           ║
+# ║ Path(__mul__(other), <unspecified:__mul__>) over {Any | hasattr(other, 'listofpoly')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __mul__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, 'listofpoly')                   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __mul__ : {Any | hasattr(other, 'listofpoly')} → Any       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 55c544fe0acb18cf           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic.DifferentialOperator.__mul__","kind":"method","src_hash":"69d6cfc3189a64b8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__mul__(oth)","rhs":"returns the product","over":{"base":"Any"},"name":"__mul___correct"},"guarantee":"returns the product","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"55c544fe0acb18cf"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic.DifferentialOperator.__mul__","kind":"method","src_hash":"69d6cfc3189a64b8","in":{"base":"Any","pred":"hasattr(other, 'listofpoly')"},"out":{"base":"Any"},"spec":{"lhs":"__mul__(other)","rhs":"<unspecified:__mul__>","over":{"base":"Any","pred":"hasattr(other, 'listofpoly')"},"name":"__mul___correct"},"guarantee":"returns the product","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"55c544fe0acb18cf","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, 'listofpoly')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __mul__(self, other):
         """
         Multiplies two DifferentialOperator and returns another
@@ -386,16 +447,22 @@ class DifferentialOperator:
         return DifferentialOperator(sol, self.parent)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__rmul__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__rmul__(other), DifferentialOperator(sol, self.parent)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  DifferentialOperator(sol, self.parent)         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __rmul__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | bdfe901eab5a0b43           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic.DifferentialOperator.__rmul__","kind":"method","src_hash":"960217d70bf81554","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rmul__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__rmul___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bdfe901eab5a0b43"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic.DifferentialOperator.__rmul__","kind":"method","src_hash":"960217d70bf81554","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rmul__(other)","rhs":"DifferentialOperator(sol, self.parent)","over":{"base":"Any"},"name":"__rmul___correct"},"guarantee":"returns DifferentialOperator(sol, self.parent)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bdfe901eab5a0b43","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"DifferentialOperator(sol, self.parent)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.listofpoly","self.parent"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __rmul__(self, other):
         if not isinstance(other, DifferentialOperator):
 
@@ -406,16 +473,23 @@ class DifferentialOperator:
             return DifferentialOperator(sol, self.parent)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__add__(oth), returns the sum/concatenation) over Any ║
+# ║ Path(__add__(other), <unspecified:__add__>) over {Any | hasattr(other, 'listofpoly')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __add__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, 'listofpoly')                   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __add__ : {Any | hasattr(other, 'listofpoly')} → Any       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | eeebb13fa3a6f4e5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic.DifferentialOperator.__add__","kind":"method","src_hash":"38a1b4da3f80148c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__add__(oth)","rhs":"returns the sum/concatenation","over":{"base":"Any"},"name":"__add___correct"},"guarantee":"returns the sum/concatenation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"eeebb13fa3a6f4e5"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic.DifferentialOperator.__add__","kind":"method","src_hash":"38a1b4da3f80148c","in":{"base":"Any","pred":"hasattr(other, 'listofpoly')"},"out":{"base":"Any"},"spec":{"lhs":"__add__(other)","rhs":"<unspecified:__add__>","over":{"base":"Any","pred":"hasattr(other, 'listofpoly')"},"name":"__add___correct"},"guarantee":"returns the sum/concatenation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"eeebb13fa3a6f4e5","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, 'listofpoly')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.listofpoly","self.listofpoly","self.parent"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __add__(self, other):
         if isinstance(other, DifferentialOperator):
 
@@ -433,72 +507,102 @@ class DifferentialOperator:
     __radd__ = __add__
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__sub__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__sub__(other), self + -1 * other) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self + -1 * other                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __sub__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | bb2e8dda4c161a06           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic.DifferentialOperator.__sub__","kind":"method","src_hash":"e836a1b1017352d2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__sub__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__sub___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bb2e8dda4c161a06"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic.DifferentialOperator.__sub__","kind":"method","src_hash":"e836a1b1017352d2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__sub__(other)","rhs":"self + -1 * other","over":{"base":"Any"},"name":"__sub___correct"},"guarantee":"returns self + -1 * other","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bb2e8dda4c161a06","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self + -1 * other","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __sub__(self, other):
         return self + (-1) * other
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__rsub__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__rsub__(other), -1 * self + other) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  -1 * self + other                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __rsub__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d9c27a499494b29b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic.DifferentialOperator.__rsub__","kind":"method","src_hash":"2796c119422e6c87","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rsub__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__rsub___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d9c27a499494b29b"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic.DifferentialOperator.__rsub__","kind":"method","src_hash":"2796c119422e6c87","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rsub__(other)","rhs":"-1 * self + other","over":{"base":"Any"},"name":"__rsub___correct"},"guarantee":"returns -1 * self + other","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d9c27a499494b29b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"-1 * self + other","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __rsub__(self, other):
         return (-1) * self + other
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__neg__(), returns the additive inverse) over Any     ║
+# ║ Path(__neg__(), -1 * self) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  -1 * self                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __neg__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 09abc9c2619df4e0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic.DifferentialOperator.__neg__","kind":"method","src_hash":"f3381c6d08302323","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__neg__()","rhs":"returns the additive inverse","over":{"base":"Any"},"name":"__neg___correct"},"guarantee":"returns the additive inverse","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"09abc9c2619df4e0"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic.DifferentialOperator.__neg__","kind":"method","src_hash":"f3381c6d08302323","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__neg__()","rhs":"-1 * self","over":{"base":"Any"},"name":"__neg___correct"},"guarantee":"returns -1 * self","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"09abc9c2619df4e0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"-1 * self","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __neg__(self):
         return -1 * self
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__truediv__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__truediv__(other), self * (S.One / other)) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self * (S.One / other)                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __truediv__ : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ac6688d8e6ba2be3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic.DifferentialOperator.__truediv__","kind":"method","src_hash":"01e4c837f5e27996","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__truediv__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__truediv___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ac6688d8e6ba2be3"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic.DifferentialOperator.__truediv__","kind":"method","src_hash":"01e4c837f5e27996","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__truediv__(other)","rhs":"self * (S.One / other)","over":{"base":"Any"},"name":"__truediv___correct"},"guarantee":"returns self * (S.One / other)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ac6688d8e6ba2be3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self * (S.One / other)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __truediv__(self, other):
         return self * (S.One / other)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__pow__(n), internal helper behaves correctly) over Any ║
+# ║ Path(__pow__(n), <unspecified:__pow__>) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __pow__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5ef59c51aeb62875           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic.DifferentialOperator.__pow__","kind":"method","src_hash":"fa9c426a790d3a3e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__pow__(n)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__pow___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5ef59c51aeb62875"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic.DifferentialOperator.__pow__","kind":"method","src_hash":"fa9c426a790d3a3e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__pow__(n)","rhs":"<unspecified:__pow__>","over":{"base":"Any"},"name":"__pow___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5ef59c51aeb62875","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.listofpoly","self.parent"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __pow__(self, n):
         if n == 1:
             return self
@@ -520,16 +624,22 @@ class DifferentialOperator:
         return result
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__str__(), returns a human-readable string) over Any  ║
+# ║ Path(__str__(), <unspecified:__str__>) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __str__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 718f1ea4466b07a0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic.DifferentialOperator.__str__","kind":"method","src_hash":"7829ade8f5c5393b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"returns a human-readable string","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"718f1ea4466b07a0"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic.DifferentialOperator.__str__","kind":"method","src_hash":"7829ade8f5c5393b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"<unspecified:__str__>","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"718f1ea4466b07a0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.listofpoly","self.parent"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __str__(self):
         listofpoly = self.listofpoly
         print_str = ''
@@ -558,16 +668,24 @@ class DifferentialOperator:
     __repr__ = __str__
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__eq__(oth), correctly determines equality) over Any  ║
+# ║ Path(__eq__(other), <unspecified:__eq__>) over {Any | hasattr(other, 'listofpoly') and hasattr(other, 'parent')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __eq__ : Any → Any                                         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, 'listofpoly')                   ║
+# ║   requires: hasattr(other, 'parent')                       ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __eq__ : {Any | hasattr(other, 'listofpoly') and hasa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d5f8a2404573c25a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic.DifferentialOperator.__eq__","kind":"method","src_hash":"b4b6dc3799b013a0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(oth)","rhs":"correctly determines equality","over":{"base":"Any"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d5f8a2404573c25a"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic.DifferentialOperator.__eq__","kind":"method","src_hash":"b4b6dc3799b013a0","in":{"base":"Any","pred":"hasattr(other, 'listofpoly') and hasattr(other, 'parent')"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(other)","rhs":"<unspecified:__eq__>","over":{"base":"Any","pred":"hasattr(other, 'listofpoly') and hasattr(other, 'parent')"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d5f8a2404573c25a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, 'listofpoly')","hasattr(other, 'parent')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.listofpoly","other.parent","self.listofpoly","self.parent"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __eq__(self, other):
         if isinstance(other, DifferentialOperator):
             return self.listofpoly == other.listofpoly and \
@@ -578,14 +696,20 @@ class DifferentialOperator:
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(is_singular(x0), id) over Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  x0 in roots(base.to_sympy(self.listofpoly...   ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ is_singular : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 036a3eb7ceeb7d3f   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic.DifferentialOperator.is_singular","kind":"method","src_hash":"27e6dddf5bad5960","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_singular(x0)","rhs":"checks if the differential equation is singular at x0","over":{"base":"Any"},"name":"is_singular_correct","kind":"composition"},"guarantee":"checks if the differential equation is singular at x0","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"roots","by":"library_axiom"},{"fn":"to_sympy","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"036a3eb7ceeb7d3f"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic.DifferentialOperator.is_singular","kind":"method","src_hash":"27e6dddf5bad5960","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_singular(x0)","rhs":"x0 in roots(base.to_sympy(self.listofpoly[-1]), self.x)","over":{"base":"Any"},"name":"is_singular_correct","kind":"composition"},"guarantee":"returns x0 in roots(base.to_sympy(self.listofpoly[-1]), self.x)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"roots","by":"library_axiom"},{"fn":"to_sympy","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"036a3eb7ceeb7d3f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"x0 in roots(base.to_sympy(self.listofpoly[-1]), self.x)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.listofpoly","self.parent","self.x"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_singular(self, x0):
         """
         Checks if the differential equation is singular at x0.
@@ -598,14 +722,19 @@ class DifferentialOperator:
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a HolonomicFunction instance) preserved by HolonomicFunction(*args) over {Any | isinstance(self.y0, dict) and isinstance(a.LC(), (PolyElement, FracElement)) and isinstance(self.y0, list)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ HolonomicFunction : {Any | isinstance(self.y0, dict) ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 11.0ms                        ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2b02d95b3f27f905  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic.HolonomicFunction","kind":"class","src_hash":"bcce2013ae6d6020","in":{"base":"Any","pred":"isinstance(self.y0, dict) and isinstance(a.LC(), (PolyElement, FracElement)) and isinstance(self.y0, list)"},"out":{"base":"Any"},"spec":{"lhs":"HolonomicFunction(*args)","rhs":"correctly constructs a HolonomicFunction instance","over":{"base":"Any","pred":"isinstance(self.y0, dict) and isinstance(a.LC(), (PolyElement, FracElement)) and isinstance(self.y0, list)"},"name":"HolonomicFunction_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a HolonomicFunction instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'y0') and hasattr(self, 'x0') and hasattr(self, 'annihilator') and hasattr(self, 'x')","kind":"class","induction":"structural on y0, x0, annihilator, x"}],"methods_preserving":["__init__","__str__","unify","is_singularics","_have_init_cond","_singularics_to_ord","__add__","integrate","diff","__eq__","__mul__","__sub__","__rsub__","__neg__","__truediv__","__pow__","degree","composition","to_sequence","_frobenius","series","_indicial","evalf","change_x","shift_x","to_hyper","to_expr","change_ics","to_meijerg"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2b02d95b3f27f905"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic.HolonomicFunction","kind":"class","src_hash":"bcce2013ae6d6020","in":{"base":"Any","pred":"isinstance(self.y0, dict) and isinstance(a.LC(), (PolyElement, FracElement)) and isinstance(self.y0, list)"},"out":{"base":"Any"},"spec":{"lhs":"HolonomicFunction(*args)","rhs":"correctly constructs a HolonomicFunction instance","over":{"base":"Any","pred":"isinstance(self.y0, dict) and isinstance(a.LC(), (PolyElement, FracElement)) and isinstance(self.y0, list)"},"name":"HolonomicFunction_class_invariant","kind":"invariant"},"guarantee":"preserves 4 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'y0') and hasattr(self, 'x0') and hasattr(self, 'annihilator') and hasattr(self, 'x')","kind":"class","induction":"structural on y0, x0, annihilator, x"}],"methods_preserving":["__init__","__str__","unify","is_singularics","_have_init_cond","_singularics_to_ord","__add__","integrate","diff","__eq__","__mul__","__sub__","__rsub__","__neg__","__truediv__","__pow__","degree","composition","to_sequence","_frobenius","series","_indicial","evalf","change_x","shift_x","to_hyper","to_expr","change_ics","to_meijerg"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2b02d95b3f27f905","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, 'y0')","hasattr(self, 'x0')","hasattr(self, 'annihilator')","hasattr(self, 'x')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":11.0,"verdict_class":"assumed","binding":false,"binding_errors":["Function HolonomicFunction not found in source"]}}
 class HolonomicFunction:
     r"""
     A Holonomic Function is a solution to a linear homogeneous ordinary
@@ -676,16 +805,24 @@ class HolonomicFunction:
     _op_priority = 20
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(ann), initializes the instance correctly) over Any ║
+# ║ Path(__init__(annihilator, x, x0), self.y0 == y0 and self.x0 == x0 and self.annihilator == annihilator and self.x == x) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  self.y0 == y0                                  ║
+# ║   ensures:  self.x0 == x0                                  ║
+# ║   ensures:  self.annihilator == annihilator                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : Any → {Any | result satisfies: self.y0 == ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4bfab609ac3c5171           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic.HolonomicFunction.__init__","kind":"method","src_hash":"af1cc8d575f5ed43","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(ann)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4bfab609ac3c5171"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic.HolonomicFunction.__init__","kind":"method","src_hash":"af1cc8d575f5ed43","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: self.y0 == y0 and self.x0 == x0 and self.annihilator == annihilator and self.x == x"},"spec":{"lhs":"__init__(annihilator, x, x0)","rhs":"self.y0 == y0 and self.x0 == x0 and self.annihilator == annihilator and self.x == x","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"self.y0 == y0; self.x0 == x0; self.annihilator == annihilator","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4bfab609ac3c5171","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["self.y0 == y0","self.x0 == x0","self.annihilator == annihilator","self.x == x"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, annihilator, x, x0=0, y0=None):
         """
 
@@ -716,16 +853,22 @@ class HolonomicFunction:
         self.x = x
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__str__(), returns a human-readable string) over Any  ║
+# ║ Path(__str__(), <unspecified:__str__>) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __str__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6f92a33a5b6b91d2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic.HolonomicFunction.__str__","kind":"method","src_hash":"705bd6d44d8a2c9c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"returns a human-readable string","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6f92a33a5b6b91d2"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic.HolonomicFunction.__str__","kind":"method","src_hash":"705bd6d44d8a2c9c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"<unspecified:__str__>","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6f92a33a5b6b91d2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._have_init_cond","self.annihilator","self.x","self.x0","self.y0"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __str__(self):
         if self._have_init_cond():
             str_sol = 'HolonomicFunction(%s, %s, %s, %s)' % (str(self.annihilator),\
@@ -739,16 +882,25 @@ class HolonomicFunction:
     __repr__ = __str__
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(unify(oth), unifies the base polynomial ring of a given two holonomic functions) over Any ║
+# ║ Path(unify(other), <unspecified:unify>) over {Any | hasattr(other, 'x') and hasattr(other, 'x0') and hasattr(other, 'y0') and hasattr(other, 'annihilator')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ unify : Any → Any                                          ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, 'x')                            ║
+# ║   requires: hasattr(other, 'x0')                           ║
+# ║   requires: hasattr(other, 'y0')                           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ unify : {Any | hasattr(other, 'x') and hasattr(other,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8f0257d54ff77849  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic.HolonomicFunction.unify","kind":"method","src_hash":"ef51e6eb888ccead","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"unify(oth)","rhs":"unifies the base polynomial ring of a given two holonomic functions","over":{"base":"Any"},"name":"unify_correct"},"guarantee":"unifies the base polynomial ring of a given two holonomic functions","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.holonomic.HolonomicFunction.unify_correct","statement":"Path(unify(x), unifies the base polynomial ring of a given two holonomic functions)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8f0257d54ff77849"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic.HolonomicFunction.unify","kind":"method","src_hash":"ef51e6eb888ccead","in":{"base":"Any","pred":"hasattr(other, 'x') and hasattr(other, 'x0') and hasattr(other, 'y0') and hasattr(other, 'annihilator')"},"out":{"base":"Any"},"spec":{"lhs":"unify(other)","rhs":"<unspecified:unify>","over":{"base":"Any","pred":"hasattr(other, 'x') and hasattr(other, 'x0') and hasattr(other, 'y0') and hasattr(other, 'annihilator')"},"name":"unify_correct"},"guarantee":"unifies the base polynomial ring of a given two holonomic functions","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.holonomic.HolonomicFunction.unify_correct","statement":"Path(unify(x), unifies the base polynomial ring of a given two holonomic functions)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8f0257d54ff77849","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, 'x')","hasattr(other, 'x0')","hasattr(other, 'y0')","hasattr(other, 'annihilator')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.annihilator","other.x","other.x0","other.y0","self.annihilator","self.x","self.x0","self.y0"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def unify(self, other):
         """
         Unifies the base polynomial ring of a given two Holonomic
@@ -780,16 +932,25 @@ class HolonomicFunction:
         return (sol1, sol2)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_singularics(), returns true if the function have singular initial condition in the dictionary format) over Any ║
+# ║ Path(is_singularics(), result == (True if isinstance(self.y0, dict) else False) and result == True or result == False) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ is_singularics : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (True if isinstance(self.y0, di...   ║
+# ║   ensures:  result == True or result == False              ║
+# ║   fiber[case_0]: isinstance(self.y0, dict) => True         ║
+# ║   fiber[case_1]: isinstance(self.y0, list) => False        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ is_singularics : Any → {Any | result satisfies: resul...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a5411d05fe919888  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9ded3b2eb428ed1f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic.HolonomicFunction.is_singularics","kind":"method","src_hash":"d62e48513507f201","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_singularics()","rhs":"returns true if the function have singular initial condition in the dictionary format","over":{"base":"Any"},"name":"is_singularics_correct"},"guarantee":"returns true if the function have singular initial condition in the dictionary format","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.holonomic.HolonomicFunction.is_singularics_correct","statement":"Path(is_singularics(x), returns true if the function have singular initial condition in the dictionary format)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a5411d05fe919888"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic.HolonomicFunction.is_singularics","kind":"method","src_hash":"d62e48513507f201","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (True if isinstance(self.y0, dict) else False) and result == True or result == False"},"spec":{"lhs":"is_singularics()","rhs":"result == (True if isinstance(self.y0, dict) else False) and result == True or result == False","over":{"base":"Any"},"name":"is_singularics_correct"},"guarantee":"result == (True if isinstance(self.y0, dict) else False); result == True or result == False; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.holonomic.HolonomicFunction.is_singularics_correct","statement":"Path(is_singularics(x), result == (True if isinstance(self.y0, dict) else False); result == True or result == False; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9ded3b2eb428ed1f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (True if isinstance(self.y0, dict) else False)","result == True or result == False"],"fibers":[{"name":"case_0","guard":"isinstance(self.y0, dict)","ensures":["result == True"],"decidability":"structural","returns_expr":"True"},{"name":"case_1","guard":"isinstance(self.y0, list)","ensures":["result == False"],"decidability":"structural","returns_expr":"False"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.y0"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_singularics(self):
         """
         Returns True if the function have singular initial condition
@@ -807,16 +968,22 @@ class HolonomicFunction:
             return False
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_have_init_cond(), checks if the function have initial condition) over Any ║
+# ║ Path(_have_init_cond(), bool(self.y0)) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  bool(self.y0)                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _have_init_cond : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7d2be3af52897aa9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic.HolonomicFunction._have_init_cond","kind":"method","src_hash":"a57372cad123ba25","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_have_init_cond()","rhs":"checks if the function have initial condition","over":{"base":"Any"},"name":"_have_init_cond_correct"},"guarantee":"checks if the function have initial condition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7d2be3af52897aa9"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic.HolonomicFunction._have_init_cond","kind":"method","src_hash":"a57372cad123ba25","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_have_init_cond()","rhs":"bool(self.y0)","over":{"base":"Any"},"name":"_have_init_cond_correct"},"guarantee":"returns bool(self.y0)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7d2be3af52897aa9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"bool(self.y0)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.y0"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _have_init_cond(self):
         """
         Checks if the function have initial condition.
@@ -824,16 +991,22 @@ class HolonomicFunction:
         return bool(self.y0)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_singularics_to_ord(), converts a singular initial condition to ordinary if possible) over Any ║
+# ║ Path(_singularics_to_ord(), HolonomicFunction(self.annihilator, self.x, self.x0, y0)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  HolonomicFunction(self.annihilator, self....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _singularics_to_ord : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5aee8c72d8138519  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5b602ad4166ed7c4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic.HolonomicFunction._singularics_to_ord","kind":"method","src_hash":"291dc02df784c0cf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_singularics_to_ord()","rhs":"converts a singular initial condition to ordinary if possible","over":{"base":"Any"},"name":"_singularics_to_ord_correct"},"guarantee":"converts a singular initial condition to ordinary if possible","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.holonomic.HolonomicFunction._singularics_to_ord_correct","statement":"Path(_singularics_to_ord(x), converts a singular initial condition to ordinary if possible)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5aee8c72d8138519"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic.HolonomicFunction._singularics_to_ord","kind":"method","src_hash":"291dc02df784c0cf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_singularics_to_ord()","rhs":"HolonomicFunction(self.annihilator, self.x, self.x0, y0)","over":{"base":"Any"},"name":"_singularics_to_ord_correct"},"guarantee":"returns HolonomicFunction(self.annihilator, self.x, self.x0, y0)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.holonomic.HolonomicFunction._singularics_to_ord_correct","statement":"Path(_singularics_to_ord(x), returns HolonomicFunction(self.annihilator, self.x, self.x0, y0))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5b602ad4166ed7c4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"HolonomicFunction(self.annihilator, self.x, self.x0, y0)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.annihilator","self.x","self.x0","self.y0"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _singularics_to_ord(self):
         """
         Converts a singular initial condition to ordinary if possible.
@@ -849,16 +1022,25 @@ class HolonomicFunction:
             return HolonomicFunction(self.annihilator, self.x, self.x0, y0)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__add__(oth), returns the sum/concatenation) over Any ║
+# ║ Path(__add__(other), <unspecified:__add__>) over {Any | hasattr(other, 'annihilator') and hasattr(other, 'x0') and hasattr(other, 'y0') and hasattr(other, '_have_init_cond') and hasattr(other, 'is_singularics') and hasattr(other, 'change_ics')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __add__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, 'annihilator')                  ║
+# ║   requires: hasattr(other, 'x0')                           ║
+# ║   requires: hasattr(other, 'y0')                           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __add__ : {Any | hasattr(other, 'annihilator') and ha...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 24432e9303987622           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic.HolonomicFunction.__add__","kind":"method","src_hash":"4e00ec0bf22ba737","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__add__(oth)","rhs":"returns the sum/concatenation","over":{"base":"Any"},"name":"__add___correct"},"guarantee":"returns the sum/concatenation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"24432e9303987622"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic.HolonomicFunction.__add__","kind":"method","src_hash":"4e00ec0bf22ba737","in":{"base":"Any","pred":"hasattr(other, 'annihilator') and hasattr(other, 'x0') and hasattr(other, 'y0') and hasattr(other, '_have_init_cond') and hasattr(other, 'is_singularics') and hasattr(other, 'change_ics')"},"out":{"base":"Any"},"spec":{"lhs":"__add__(other)","rhs":"<unspecified:__add__>","over":{"base":"Any","pred":"hasattr(other, 'annihilator') and hasattr(other, 'x0') and hasattr(other, 'y0') and hasattr(other, '_have_init_cond') and hasattr(other, 'is_singularics') and hasattr(other, 'change_ics')"},"name":"__add___correct"},"guarantee":"returns the sum/concatenation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"24432e9303987622","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, 'annihilator')","hasattr(other, 'x0')","hasattr(other, 'y0')","hasattr(other, '_have_init_cond')","hasattr(other, 'is_singularics')","hasattr(other, 'change_ics')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __add__(self, other):
         # if the ground domains are different
         if self.annihilator.parent.base != other.annihilator.parent.base:
@@ -1005,16 +1187,22 @@ class HolonomicFunction:
         return HolonomicFunction(sol, self.x, self.x0, y0)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(integrate(lim), integrates the given holonomic function) over Any ║
+# ║ Path(integrate(limits, initcond), len(c2) == old_len_c2 + 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ integrate : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(c2) == old_len_c2 + 1                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ integrate : Any → {Any | result satisfies: len(c2) ==...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8a42004f51e466f7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 86aa5e52a48e4f97  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic.HolonomicFunction.integrate","kind":"method","src_hash":"76563eb4689a4219","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"integrate(lim)","rhs":"integrates the given holonomic function","over":{"base":"Any"},"name":"integrate_correct"},"guarantee":"integrates the given holonomic function","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.holonomic.HolonomicFunction.integrate_correct","statement":"Path(integrate(x), integrates the given holonomic function)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8a42004f51e466f7"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic.HolonomicFunction.integrate","kind":"method","src_hash":"76563eb4689a4219","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(c2) == old_len_c2 + 1"},"spec":{"lhs":"integrate(limits, initcond)","rhs":"len(c2) == old_len_c2 + 1","over":{"base":"Any"},"name":"integrate_correct"},"guarantee":"len(c2) == old_len_c2 + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.holonomic.HolonomicFunction.integrate_correct","statement":"Path(integrate(x), len(c2) == old_len_c2 + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"86aa5e52a48e4f97","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(c2) == old_len_c2 + 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._have_init_cond","self._singularics_to_ord","self.annihilator","self.is_singularics","self.x","self.x0","self.y0"],"calls_mutating":["c2.append"],"raises":["NotImplementedError"]},"state_contract":{"modifies":["c2.*"],"old_bindings":{"old_len_c2":"len(c2)"},"post_ensures":["len(c2) == old_len_c2 + 1"],"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def integrate(self, limits, initcond=False):
         """
         Integrates the given holonomic function.
@@ -1143,16 +1331,22 @@ class HolonomicFunction:
         return HolonomicFunction(self.annihilator * D, self.x)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(diff(*ar), differentiation of the given holonomic function) over Any ║
+# ║ Path(diff(*args, **kwargs), <unspecified:diff>) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ diff : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b60ab71381a1a7bf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic.HolonomicFunction.diff","kind":"method","src_hash":"0a9e5eff6fa3a655","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"diff(*ar)","rhs":"differentiation of the given holonomic function","over":{"base":"Any"},"name":"diff_correct"},"guarantee":"differentiation of the given holonomic function","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.holonomic.HolonomicFunction.diff_correct","statement":"Path(diff(x), differentiation of the given holonomic function)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b60ab71381a1a7bf"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic.HolonomicFunction.diff","kind":"method","src_hash":"0a9e5eff6fa3a655","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"diff(*args, **kwargs)","rhs":"<unspecified:diff>","over":{"base":"Any"},"name":"diff_correct"},"guarantee":"differentiation of the given holonomic function","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.holonomic.HolonomicFunction.diff_correct","statement":"Path(diff(x), differentiation of the given holonomic function)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b60ab71381a1a7bf","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def diff(self, *args, **kwargs):
         r"""
         Differentiation of the given Holonomic function.
@@ -1231,16 +1425,25 @@ class HolonomicFunction:
         return HolonomicFunction(sol, self.x, self.x0, y0)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__eq__(oth), correctly determines equality) over Any  ║
+# ║ Path(__eq__(other), <unspecified:__eq__>) over {Any | hasattr(other, 'annihilator') and hasattr(other, 'x') and hasattr(other, '_have_init_cond') and hasattr(other, 'x0') and hasattr(other, 'y0')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __eq__ : Any → Any                                         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, 'annihilator')                  ║
+# ║   requires: hasattr(other, 'x')                            ║
+# ║   requires: hasattr(other, '_have_init_cond')              ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __eq__ : {Any | hasattr(other, 'annihilator') and has...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4d422c0b8ec77bab           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic.HolonomicFunction.__eq__","kind":"method","src_hash":"bf948b1e7dabc860","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(oth)","rhs":"correctly determines equality","over":{"base":"Any"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4d422c0b8ec77bab"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic.HolonomicFunction.__eq__","kind":"method","src_hash":"bf948b1e7dabc860","in":{"base":"Any","pred":"hasattr(other, 'annihilator') and hasattr(other, 'x') and hasattr(other, '_have_init_cond') and hasattr(other, 'x0') and hasattr(other, 'y0')"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(other)","rhs":"<unspecified:__eq__>","over":{"base":"Any","pred":"hasattr(other, 'annihilator') and hasattr(other, 'x') and hasattr(other, '_have_init_cond') and hasattr(other, 'x0') and hasattr(other, 'y0')"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4d422c0b8ec77bab","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, 'annihilator')","hasattr(other, 'x')","hasattr(other, '_have_init_cond')","hasattr(other, 'x0')","hasattr(other, 'y0')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other._have_init_cond","other.annihilator","other.x","other.x0","other.y0","self._have_init_cond","self.annihilator","self.x","self.x0","self.y0"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __eq__(self, other):
         if self.annihilator != other.annihilator or self.x != other.x:
             return False
@@ -1249,16 +1452,26 @@ class HolonomicFunction:
         return True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__mul__(oth), returns the product) over Any           ║
+# ║ Path(__mul__(other), len(lin_sys_elements) == old_len_lin_sys_elements + 1 and len(y0) == old_len_y0 + 1) over {Any | hasattr(other, 'annihilator') and hasattr(other, 'x0') and hasattr(other, 'y0') and hasattr(other, 'has') and hasattr(other, '_have_init_cond') and hasattr(other, 'is_singularics') and hasattr(other, 'change_ics')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __mul__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, 'annihilator')                  ║
+# ║   requires: hasattr(other, 'x0')                           ║
+# ║   requires: hasattr(other, 'y0')                           ║
+# ║   ensures:  len(lin_sys_elements) == old_len_lin_sys_...   ║
+# ║   ensures:  len(y0) == old_len_y0 + 1                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __mul__ : {Any | hasattr(other, 'annihilator') and ha...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | fd01f8c5257f8af3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic.HolonomicFunction.__mul__","kind":"method","src_hash":"d7cd82b34445f726","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__mul__(oth)","rhs":"returns the product","over":{"base":"Any"},"name":"__mul___correct"},"guarantee":"returns the product","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fd01f8c5257f8af3"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic.HolonomicFunction.__mul__","kind":"method","src_hash":"d7cd82b34445f726","in":{"base":"Any","pred":"hasattr(other, 'annihilator') and hasattr(other, 'x0') and hasattr(other, 'y0') and hasattr(other, 'has') and hasattr(other, '_have_init_cond') and hasattr(other, 'is_singularics') and hasattr(other, 'change_ics')"},"out":{"base":"Any","pred":"result satisfies: len(lin_sys_elements) == old_len_lin_sys_elements + 1 and len(y0) == old_len_y0 + 1"},"spec":{"lhs":"__mul__(other)","rhs":"len(lin_sys_elements) == old_len_lin_sys_elements + 1 and len(y0) == old_len_y0 + 1","over":{"base":"Any","pred":"hasattr(other, 'annihilator') and hasattr(other, 'x0') and hasattr(other, 'y0') and hasattr(other, 'has') and hasattr(other, '_have_init_cond') and hasattr(other, 'is_singularics') and hasattr(other, 'change_ics')"},"name":"__mul___correct"},"guarantee":"len(lin_sys_elements) == old_len_lin_sys_elements + 1; len(y0) == old_len_y0 + 1","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fd01f8c5257f8af3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, 'annihilator')","hasattr(other, 'x0')","hasattr(other, 'y0')","hasattr(other, 'has')","hasattr(other, '_have_init_cond')","hasattr(other, 'is_singularics')","hasattr(other, 'change_ics')"],"ensures":["len(lin_sys_elements) == old_len_lin_sys_elements + 1","len(y0) == old_len_y0 + 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other._have_init_cond","other.annihilator","other.change_ics","other.has","other.is_singularics","other.x0","other.y0","self._have_init_cond","self.annihilator","self.change_ics","self.is_singularics","self.unify","self.x","self.x0","self.y0"],"calls_mutating":["lin_sys_elements.append","y0.append"],"raises":["NotImplementedError"]},"state_contract":{"modifies":["lin_sys_elements.*","y0.*"],"old_bindings":{"old_len_lin_sys_elements":"len(lin_sys_elements)","old_len_y0":"len(y0)"},"post_ensures":["len(lin_sys_elements) == old_len_lin_sys_elements + 1","len(y0) == old_len_y0 + 1"],"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __mul__(self, other):
         ann_self = self.annihilator
 
@@ -1423,72 +1636,103 @@ class HolonomicFunction:
     __rmul__ = __mul__
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__sub__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__sub__(other), self + other * -1) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self + other * -1                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __sub__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 539376e0a797343b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic.HolonomicFunction.__sub__","kind":"method","src_hash":"ed9dacfc1e7eff57","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__sub__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__sub___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"539376e0a797343b"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic.HolonomicFunction.__sub__","kind":"method","src_hash":"ed9dacfc1e7eff57","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__sub__(other)","rhs":"self + other * -1","over":{"base":"Any"},"name":"__sub___correct"},"guarantee":"returns self + other * -1","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"539376e0a797343b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self + other * -1","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __sub__(self, other):
         return self + other * -1
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__rsub__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__rsub__(other), self * -1 + other) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self * -1 + other                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __rsub__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b1910824e1978b85           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic.HolonomicFunction.__rsub__","kind":"method","src_hash":"0b21f1bf4f1458be","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rsub__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__rsub___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b1910824e1978b85"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic.HolonomicFunction.__rsub__","kind":"method","src_hash":"0b21f1bf4f1458be","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rsub__(other)","rhs":"self * -1 + other","over":{"base":"Any"},"name":"__rsub___correct"},"guarantee":"returns self * -1 + other","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b1910824e1978b85","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self * -1 + other","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __rsub__(self, other):
         return self * -1 + other
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__neg__(), returns the additive inverse) over Any     ║
+# ║ Path(__neg__(), -1 * self) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  -1 * self                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __neg__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 786fc28ef76e383e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic.HolonomicFunction.__neg__","kind":"method","src_hash":"f3381c6d08302323","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__neg__()","rhs":"returns the additive inverse","over":{"base":"Any"},"name":"__neg___correct"},"guarantee":"returns the additive inverse","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"786fc28ef76e383e"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic.HolonomicFunction.__neg__","kind":"method","src_hash":"f3381c6d08302323","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__neg__()","rhs":"-1 * self","over":{"base":"Any"},"name":"__neg___correct"},"guarantee":"returns -1 * self","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"786fc28ef76e383e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"-1 * self","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __neg__(self):
         return -1 * self
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__truediv__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__truediv__(other), self * (S.One / other)) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self * (S.One / other)                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __truediv__ : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e18bf3264cb6a65b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic.HolonomicFunction.__truediv__","kind":"method","src_hash":"01e4c837f5e27996","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__truediv__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__truediv___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e18bf3264cb6a65b"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic.HolonomicFunction.__truediv__","kind":"method","src_hash":"01e4c837f5e27996","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__truediv__(other)","rhs":"self * (S.One / other)","over":{"base":"Any"},"name":"__truediv___correct"},"guarantee":"returns self * (S.One / other)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e18bf3264cb6a65b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self * (S.One / other)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __truediv__(self, other):
         return self * (S.One / other)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__pow__(n), internal helper behaves correctly) over Any ║
+# ║ Path(__pow__(n), <unspecified:__pow__>) over {Any | not (n < 0)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __pow__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (n < 0)                                    ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __pow__ : {Any | not (n < 0)} → Any                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 211324efa5c66507           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic.HolonomicFunction.__pow__","kind":"method","src_hash":"6f4f28e9962bc95d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__pow__(n)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__pow___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"211324efa5c66507"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic.HolonomicFunction.__pow__","kind":"method","src_hash":"6f4f28e9962bc95d","in":{"base":"Any","pred":"not (n < 0)"},"out":{"base":"Any"},"spec":{"lhs":"__pow__(n)","rhs":"<unspecified:__pow__>","over":{"base":"Any","pred":"not (n < 0)"},"name":"__pow___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"211324efa5c66507","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (n < 0)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.annihilator","self.x","self.x0","self.y0"],"raises":["NotHolonomicError"]},"state_contract":{"exceptional_post":{"NotHolonomicError":["isinstance(raised, NotHolonomicError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __pow__(self, n):
         if self.annihilator.order <= 1:
             ann = self.annihilator
@@ -1524,16 +1768,22 @@ class HolonomicFunction:
         return result
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(degree(), returns the highest power of `x` in the annihilator) over Any ║
+# ║ Path(degree(), max((i.degree() for i in self.annihilator.listofpoly))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  max((i.degree() for i in self.annihilator...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ degree : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 71479c9d4815ace9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic.HolonomicFunction.degree","kind":"method","src_hash":"b26e79c68c2721d5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"degree()","rhs":"returns the highest power of `x` in the annihilator","over":{"base":"Any"},"name":"degree_correct"},"guarantee":"returns the highest power of `x` in the annihilator","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"71479c9d4815ace9"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic.HolonomicFunction.degree","kind":"method","src_hash":"b26e79c68c2721d5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"degree()","rhs":"max((i.degree() for i in self.annihilator.listofpoly))","over":{"base":"Any"},"name":"degree_correct"},"guarantee":"returns max((i.degree() for i in self.annihilator.listofpoly))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"71479c9d4815ace9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"max((i.degree() for i in self.annihilator.listofpoly))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.annihilator"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def degree(self):
         """
         Returns the highest power of `x` in the annihilator.
@@ -1541,16 +1791,23 @@ class HolonomicFunction:
         return max(i.degree() for i in self.annihilator.listofpoly)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(composition(exp), returns function after composition of a holonomic function with an algebraic function) over Any ║
+# ║ Path(composition(expr, *args, **kwargs), <unspecified:composition>) over {Any | hasattr(expr, 'diff')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ composition : Any → Any                                    ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'diff')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ composition : {Any | hasattr(expr, 'diff')} → Any          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ecb73c47e196f631  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic.HolonomicFunction.composition","kind":"method","src_hash":"9a0e0791b70ca26a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"composition(exp)","rhs":"returns function after composition of a holonomic function with an algebraic function","over":{"base":"Any"},"name":"composition_correct"},"guarantee":"returns function after composition of a holonomic function with an algebraic function","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.holonomic.HolonomicFunction.composition_correct","statement":"Path(composition(x), returns function after composition of a holonomic function with an algebraic function)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ecb73c47e196f631"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic.HolonomicFunction.composition","kind":"method","src_hash":"9a0e0791b70ca26a","in":{"base":"Any","pred":"hasattr(expr, 'diff')"},"out":{"base":"Any"},"spec":{"lhs":"composition(expr, *args, **kwargs)","rhs":"<unspecified:composition>","over":{"base":"Any","pred":"hasattr(expr, 'diff')"},"name":"composition_correct"},"guarantee":"returns function after composition of a holonomic function with an algebraic function","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.holonomic.HolonomicFunction.composition_correct","statement":"Path(composition(x), returns function after composition of a holonomic function with an algebraic function)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ecb73c47e196f631","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'diff')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def composition(self, expr, *args, **kwargs):
         """
         Returns function after composition of a holonomic
@@ -1618,14 +1875,20 @@ class HolonomicFunction:
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(to_sequence(lb), id) over Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ to_sequence : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | c23ae79dd2b1944f   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic.HolonomicFunction.to_sequence","kind":"method","src_hash":"c184b4c1476ab304","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_sequence(lb)","rhs":"finds recurrence relation for the coefficients in the series expansion of the function about :math:`x_0`, where :math:`x_0` is the point at which the initial condition is stored","over":{"base":"Any"},"name":"to_sequence_correct","kind":"composition"},"guarantee":"finds recurrence relation for the coefficients in the series expansion of the function about :math:`x_0`, where :math:`x_0` is the point at which the initial condition is stored","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"shift_x","by":"library_axiom"},{"fn":"to_sequence","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c23ae79dd2b1944f"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic.HolonomicFunction.to_sequence","kind":"method","src_hash":"c184b4c1476ab304","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_sequence(lb)","rhs":"<unspecified:to_sequence>","over":{"base":"Any"},"name":"to_sequence_correct","kind":"composition"},"guarantee":"finds recurrence relation for the coefficients in the series expansion of the function about :math:`x_0`, where :math:`x_0` is the point at which the initial condition is stored","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"shift_x","by":"library_axiom"},{"fn":"to_sequence","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c23ae79dd2b1944f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def to_sequence(self, lb=True):
         r"""
         Finds recurrence relation for the coefficients in the series expansion
@@ -1816,16 +2079,22 @@ class HolonomicFunction:
         return [HolonomicSequence(sol, u0)]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_frobenius(lb), internal helper behaves correctly) over Any ║
+# ║ Path(_frobenius(lb), <unspecified:_frobenius>) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _frobenius : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b3de9f530cc25d72  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic.HolonomicFunction._frobenius","kind":"method","src_hash":"3e25e570b1db0f3d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_frobenius(lb)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_frobenius_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.holonomic.HolonomicFunction._frobenius_correct","statement":"Path(_frobenius(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b3de9f530cc25d72"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic.HolonomicFunction._frobenius","kind":"method","src_hash":"3e25e570b1db0f3d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_frobenius(lb)","rhs":"<unspecified:_frobenius>","over":{"base":"Any"},"name":"_frobenius_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.holonomic.HolonomicFunction._frobenius_correct","statement":"Path(_frobenius(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b3de9f530cc25d72","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _frobenius(self, lb=True):
         # compute the roots of indicial equation
         indicialroots = self._indicial()
@@ -2031,16 +2300,22 @@ class HolonomicFunction:
         return finalsol
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(series(n, ), finds the power series expansion of given holonomic function about :math:`x_0`) over Any ║
+# ║ Path(series(n, coefficient, order), <unspecified:series>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ series : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9e75952363147ca2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic.HolonomicFunction.series","kind":"method","src_hash":"a0bca0e17c79d48e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"series(n, )","rhs":"finds the power series expansion of given holonomic function about :math:`x_0`","over":{"base":"Any"},"name":"series_correct"},"guarantee":"finds the power series expansion of given holonomic function about :math:`x_0`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.holonomic.HolonomicFunction.series_correct","statement":"Path(series(x), finds the power series expansion of given holonomic function about :math:`x_0`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9e75952363147ca2"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic.HolonomicFunction.series","kind":"method","src_hash":"a0bca0e17c79d48e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"series(n, coefficient, order)","rhs":"<unspecified:series>","over":{"base":"Any"},"name":"series_correct"},"guarantee":"finds the power series expansion of given holonomic function about :math:`x_0`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.holonomic.HolonomicFunction.series_correct","statement":"Path(series(x), finds the power series expansion of given holonomic function about :math:`x_0`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9e75952363147ca2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def series(self, n=6, coefficient=False, order=True, _recur=None):
         r"""
         Finds the power series expansion of given holonomic function about :math:`x_0`.
@@ -2124,14 +2399,20 @@ class HolonomicFunction:
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(_indicial(), id) over Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ _indicial : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 38b6ca7ebbd864a8   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic.HolonomicFunction._indicial","kind":"method","src_hash":"53a953d5102426d7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_indicial()","rhs":"computes roots of the indicial equation","over":{"base":"Any"},"name":"_indicial_correct","kind":"composition"},"guarantee":"computes roots of the indicial equation","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"shift_x","by":"library_axiom"},{"fn":"_indicial","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"38b6ca7ebbd864a8"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic.HolonomicFunction._indicial","kind":"method","src_hash":"53a953d5102426d7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_indicial()","rhs":"<unspecified:_indicial>","over":{"base":"Any"},"name":"_indicial_correct","kind":"composition"},"guarantee":"computes roots of the indicial equation","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"shift_x","by":"library_axiom"},{"fn":"_indicial","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"38b6ca7ebbd864a8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.annihilator","self.shift_x","self.x","self.x0"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _indicial(self):
         """
         Computes roots of the Indicial equation.
@@ -2169,16 +2450,23 @@ class HolonomicFunction:
         return roots(R.to_sympy(s), x)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(evalf(poi), finds numerical value of a holonomic function using numerical methods. (rk4 by default)) over Any ║
+# ║ Path(evalf(points, method, h), len(points) == old_len_points + 1) over {Any | hasattr(points, 'append')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ evalf : Any → {Any | result satisfies: math:`x_1, x_2...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(points, 'append')                      ║
+# ║   ensures:  len(points) == old_len_points + 1              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ evalf : {Any | hasattr(points, 'append')} → {Any | re...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5146aa4b43af7579  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6469ddae7a325289  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic.HolonomicFunction.evalf","kind":"method","src_hash":"65995b1a9ebeaaad","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: math:`x_1, x_2, \\dots x_n` in a list."},"spec":{"lhs":"evalf(poi)","rhs":"finds numerical value of a holonomic function using numerical methods. (rk4 by default)","over":{"base":"Any"},"name":"evalf_correct"},"guarantee":"finds numerical value of a holonomic function using numerical methods. (rk4 by default)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.holonomic.HolonomicFunction.evalf_correct","statement":"Path(evalf(x), finds numerical value of a holonomic function using numerical methods. (rk4 by default))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5146aa4b43af7579"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic.HolonomicFunction.evalf","kind":"method","src_hash":"65995b1a9ebeaaad","in":{"base":"Any","pred":"hasattr(points, 'append')"},"out":{"base":"Any","pred":"result satisfies: len(points) == old_len_points + 1"},"spec":{"lhs":"evalf(points, method, h)","rhs":"len(points) == old_len_points + 1","over":{"base":"Any","pred":"hasattr(points, 'append')"},"name":"evalf_correct"},"guarantee":"len(points) == old_len_points + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.holonomic.HolonomicFunction.evalf_correct","statement":"Path(evalf(x), len(points) == old_len_points + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6469ddae7a325289","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(points, 'append')"],"ensures":["len(points) == old_len_points + 1"],"pure":false,"effects":{"effect_type":"mutates_args","reads":["points.append","self.annihilator","self.x","self.x0"],"calls_mutating":["points.append"],"raises":["NotImplementedError","SingularityError"]},"state_contract":{"modifies":["points.*"],"old_bindings":{"old_len_points":"len(points)"},"post_ensures":["len(points) == old_len_points + 1"],"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"],"SingularityError":["isinstance(raised, SingularityError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def evalf(self, points, method='RK4', h=0.05, derivatives=False):
         r"""
         Finds numerical value of a holonomic function using numerical methods.
@@ -2255,16 +2543,22 @@ class HolonomicFunction:
         return _evalf(self, points, method=method, derivatives=derivatives)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(change_x(z), changes only the variable of holonomic function, for internal purposes) over Any ║
+# ║ Path(change_x(z), HolonomicFunction(sol, z, self.x0, self.y0)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  HolonomicFunction(sol, z, self.x0, self.y0)    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ change_x : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 48d41ab2dabfdb02  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 248592d6edbb428d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic.HolonomicFunction.change_x","kind":"method","src_hash":"3a8404228c8d0375","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"change_x(z)","rhs":"changes only the variable of holonomic function, for internal purposes","over":{"base":"Any"},"name":"change_x_correct"},"guarantee":"changes only the variable of holonomic function, for internal purposes","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.holonomic.HolonomicFunction.change_x_correct","statement":"Path(change_x(x), changes only the variable of holonomic function, for internal purposes)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"48d41ab2dabfdb02"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic.HolonomicFunction.change_x","kind":"method","src_hash":"3a8404228c8d0375","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"change_x(z)","rhs":"HolonomicFunction(sol, z, self.x0, self.y0)","over":{"base":"Any"},"name":"change_x_correct"},"guarantee":"returns HolonomicFunction(sol, z, self.x0, self.y0)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.holonomic.HolonomicFunction.change_x_correct","statement":"Path(change_x(x), returns HolonomicFunction(sol, z, self.x0, self.y0))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"248592d6edbb428d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"HolonomicFunction(sol, z, self.x0, self.y0)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.annihilator","self.x0","self.y0"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def change_x(self, z):
         """
         Changes only the variable of Holonomic Function, for internal
@@ -2279,16 +2573,22 @@ class HolonomicFunction:
         return HolonomicFunction(sol, z, self.x0, self.y0)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(shift_x(a), substitute `x + a` for `x`) over Any      ║
+# ║ Path(shift_x(a), <unspecified:shift_x>) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ shift_x : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0067299c670eae9a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic.HolonomicFunction.shift_x","kind":"method","src_hash":"7fd61e630aa69a68","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"shift_x(a)","rhs":"substitute `x + a` for `x`","over":{"base":"Any"},"name":"shift_x_correct"},"guarantee":"substitute `x + a` for `x`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.holonomic.HolonomicFunction.shift_x_correct","statement":"Path(shift_x(x), substitute `x + a` for `x`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0067299c670eae9a"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic.HolonomicFunction.shift_x","kind":"method","src_hash":"7fd61e630aa69a68","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"shift_x(a)","rhs":"<unspecified:shift_x>","over":{"base":"Any"},"name":"shift_x_correct"},"guarantee":"substitute `x + a` for `x`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.holonomic.HolonomicFunction.shift_x_correct","statement":"Path(shift_x(x), substitute `x + a` for `x`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0067299c670eae9a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._have_init_cond","self.annihilator","self.x","self.x0","self.y0"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def shift_x(self, a):
         """
         Substitute `x + a` for `x`.
@@ -2306,16 +2606,23 @@ class HolonomicFunction:
         return HolonomicFunction(sol, x, x0, self.y0)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(to_hyper(as_), returns a hypergeometric function (or linear combination of them) representing the given holonomic function) over Any ║
+# ║ Path(to_hyper(as_list, _recur), len(ap) == old_len_ap + 1 and len(listofsol) == old_len_listofsol + 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ to_hyper : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(ap) == old_len_ap + 1                      ║
+# ║   ensures:  len(listofsol) == old_len_listofsol + 1        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ to_hyper : Any → {Any | result satisfies: len(ap) == ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ba60e393896821fb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2803a155ce2f5aeb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic.HolonomicFunction.to_hyper","kind":"method","src_hash":"386c34a2f17dab52","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_hyper(as_)","rhs":"returns a hypergeometric function (or linear combination of them) representing the given holonomic function","over":{"base":"Any"},"name":"to_hyper_correct"},"guarantee":"returns a hypergeometric function (or linear combination of them) representing the given holonomic function","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.holonomic.HolonomicFunction.to_hyper_correct","statement":"Path(to_hyper(x), returns a hypergeometric function (or linear combination of them) representing the given holonomic function)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ba60e393896821fb"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic.HolonomicFunction.to_hyper","kind":"method","src_hash":"386c34a2f17dab52","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(ap) == old_len_ap + 1 and len(listofsol) == old_len_listofsol + 1"},"spec":{"lhs":"to_hyper(as_list, _recur)","rhs":"len(ap) == old_len_ap + 1 and len(listofsol) == old_len_listofsol + 1","over":{"base":"Any"},"name":"to_hyper_correct"},"guarantee":"len(ap) == old_len_ap + 1; len(listofsol) == old_len_listofsol + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.holonomic.HolonomicFunction.to_hyper_correct","statement":"Path(to_hyper(x), len(ap) == old_len_ap + 1; len(listofsol) == old_len_listofsol + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2803a155ce2f5aeb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(ap) == old_len_ap + 1","len(listofsol) == old_len_listofsol + 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.to_hyper","self.to_sequence","self.x","self.x0"],"calls_mutating":["ap.append","ap.extend","bq.extend","bq.remove","listofsol.append"],"raises":["NotHyperSeriesError","NotImplementedError"]},"state_contract":{"modifies":["ap.*","bq.*","listofsol.*"],"old_bindings":{"old_len_ap":"len(ap)","old_len_bq":"len(bq)","old_len_listofsol":"len(listofsol)"},"post_ensures":["len(ap) == old_len_ap + 1","len(listofsol) == old_len_listofsol + 1"],"exceptional_post":{"NotHyperSeriesError":["isinstance(raised, NotHyperSeriesError)"],"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def to_hyper(self, as_list=False, _recur=None):
         r"""
         Returns a hypergeometric function (or linear combination of them)
@@ -2493,16 +2800,22 @@ class HolonomicFunction:
         return sol
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(to_expr(), converts a holonomic function back to elementary functions) over Any ║
+# ║ Path(to_expr(), hyperexpand(self.to_hyper()).simplify()) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  hyperexpand(self.to_hyper()).simplify()        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ to_expr : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7a7997b68b0ed820           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic.HolonomicFunction.to_expr","kind":"method","src_hash":"95ec1d38fdec0886","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_expr()","rhs":"converts a holonomic function back to elementary functions","over":{"base":"Any"},"name":"to_expr_correct"},"guarantee":"converts a holonomic function back to elementary functions","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7a7997b68b0ed820"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic.HolonomicFunction.to_expr","kind":"method","src_hash":"95ec1d38fdec0886","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_expr()","rhs":"hyperexpand(self.to_hyper()).simplify()","over":{"base":"Any"},"name":"to_expr_correct"},"guarantee":"returns hyperexpand(self.to_hyper()).simplify()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7a7997b68b0ed820","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"hyperexpand(self.to_hyper()).simplify()","pure":false,"effects":{"effect_type":"reads_state","reads":["self.to_hyper"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def to_expr(self):
         """
         Converts a Holonomic Function back to elementary functions.
@@ -2525,16 +2838,22 @@ class HolonomicFunction:
         return hyperexpand(self.to_hyper()).simplify()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(change_ics(b, ), changes the point `x0` to ``b`` for initial conditions) over Any ║
+# ║ Path(change_ics(b, lenics), <unspecified:change_ics>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ change_ics : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 814eb9d08ae08376  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic.HolonomicFunction.change_ics","kind":"method","src_hash":"18d102fd6634aec4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"change_ics(b, )","rhs":"changes the point `x0` to ``b`` for initial conditions","over":{"base":"Any"},"name":"change_ics_correct"},"guarantee":"changes the point `x0` to ``b`` for initial conditions","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.holonomic.HolonomicFunction.change_ics_correct","statement":"Path(change_ics(x), changes the point `x0` to ``b`` for initial conditions)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"814eb9d08ae08376"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic.HolonomicFunction.change_ics","kind":"method","src_hash":"18d102fd6634aec4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"change_ics(b, lenics)","rhs":"<unspecified:change_ics>","over":{"base":"Any"},"name":"change_ics_correct"},"guarantee":"changes the point `x0` to ``b`` for initial conditions","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.holonomic.HolonomicFunction.change_ics_correct","statement":"Path(change_ics(x), changes the point `x0` to ``b`` for initial conditions)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"814eb9d08ae08376","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.annihilator","self.evalf","self.to_expr","self.x","self.y0"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def change_ics(self, b, lenics=None):
         """
         Changes the point `x0` to ``b`` for initial conditions.
@@ -2571,16 +2890,22 @@ class HolonomicFunction:
         return HolonomicFunction(self.annihilator, self.x, b, y0)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(to_meijerg(), returns a linear combination of meijer g-functions) over Any ║
+# ║ Path(to_meijerg(), <unspecified:to_meijerg>) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ to_meijerg : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1daec1e8bbaa9303  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic.HolonomicFunction.to_meijerg","kind":"method","src_hash":"ce9efd74ba03285a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_meijerg()","rhs":"returns a linear combination of meijer g-functions","over":{"base":"Any"},"name":"to_meijerg_correct"},"guarantee":"returns a linear combination of meijer g-functions","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.holonomic.HolonomicFunction.to_meijerg_correct","statement":"Path(to_meijerg(x), returns a linear combination of meijer g-functions)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1daec1e8bbaa9303"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic.HolonomicFunction.to_meijerg","kind":"method","src_hash":"ce9efd74ba03285a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_meijerg()","rhs":"<unspecified:to_meijerg>","over":{"base":"Any"},"name":"to_meijerg_correct"},"guarantee":"returns a linear combination of meijer g-functions","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.holonomic.HolonomicFunction.to_meijerg_correct","statement":"Path(to_meijerg(x), returns a linear combination of meijer g-functions)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1daec1e8bbaa9303","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.to_hyper"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def to_meijerg(self):
         """
         Returns a linear combination of Meijer G-functions.
@@ -2617,9 +2942,15 @@ class HolonomicFunction:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_hyper(fun), converts a hypergeometric function to holonomic. ``func`` is the hypergeometric function and ``x0`` is the point at which initial conditions are required) over {Any | isinstance(simp, hyper)} ║
+# ║ Path(from_hyper(func, x0, evalf), <unspecified:from_hyper>) over {Any | isinstance(simp, hyper) and hasattr(func, 'ap') and hasattr(func, 'bq') and hasattr(func, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_hyper : {Any | isinstance(simp, hyper)} → Any         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(func, 'ap')                            ║
+# ║   requires: hasattr(func, 'bq')                            ║
+# ║   requires: hasattr(func, 'args')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_hyper : {Any | isinstance(simp, hyper) and hasat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   hyper: {isinstance(simp, hyper)} → library_axiom         ║
@@ -2629,9 +2960,12 @@ class HolonomicFunction:
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.7ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 02b3ef2f...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic.from_hyper","kind":"function","src_hash":"d4ff168797e857f9","in":{"base":"Any","pred":"isinstance(simp, hyper)"},"out":{"base":"Any"},"spec":{"lhs":"from_hyper(fun)","rhs":"converts a hypergeometric function to holonomic. ``func`` is the hypergeometric function and ``x0`` is the point at which initial conditions are required","over":{"base":"Any","pred":"isinstance(simp, hyper)"},"name":"from_hyper_correct"},"guarantee":"converts a hypergeometric function to holonomic. ``func`` is the hypergeometric function and ``x0`` is the point at which initial conditions are required","fibers":[{"name":"hyper","pred":"isinstance(simp, hyper)","path":{"lhs":"from_hyper(x)","rhs":"converts a hypergeometric function to holonomic. ``func`` is the hypergeometric function and ``x0`` is the point at which initial conditions are required","over":{"base":"hyper","pred":"isinstance(simp, hyper)"},"name":"from_hyper_hyper_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.holonomic.from_hyper_hyper_correct","statement":"from_hyper satisfies spec on hyper inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"02b3ef2f7d1b9c8f"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic.from_hyper","kind":"function","src_hash":"d4ff168797e857f9","in":{"base":"Any","pred":"isinstance(simp, hyper) and hasattr(func, 'ap') and hasattr(func, 'bq') and hasattr(func, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"from_hyper(func, x0, evalf)","rhs":"<unspecified:from_hyper>","over":{"base":"Any","pred":"isinstance(simp, hyper) and hasattr(func, 'ap') and hasattr(func, 'bq') and hasattr(func, 'args')"},"name":"from_hyper_correct"},"guarantee":"converts a hypergeometric function to holonomic. ``func`` is the hypergeometric function and ``x0`` is the point at which initial conditions are required","fibers":[{"name":"hyper","pred":"isinstance(simp, hyper)","path":{"lhs":"from_hyper(x)","rhs":"converts a hypergeometric function to holonomic. ``func`` is the hypergeometric function and ``x0`` is the point at which initial conditions are required","over":{"base":"hyper","pred":"isinstance(simp, hyper)"},"name":"from_hyper_hyper_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.holonomic.from_hyper_hyper_correct","statement":"from_hyper satisfies spec on hyper inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"02b3ef2f7d1b9c8f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(func, 'ap')","hasattr(func, 'bq')","hasattr(func, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["func.ap","func.args","func.bq"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.7,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'not isinstance(simp, hyper)', 'isinstance(simp, hyper)'}, fibers={'hyper'})"]}}
 def from_hyper(func, x0=0, evalf=False):
     r"""
     Converts a hypergeometric function to holonomic.
@@ -2696,9 +3030,15 @@ def from_hyper(func, x0=0, evalf=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_meijerg(fun), converts a meijer g-function to holonomic. ``func`` is the g-function and ``x0`` is the point at which initial conditions are required) over {Any | isinstance(simp, meijerg)} ║
+# ║ Path(from_meijerg(func, x0, evalf), <unspecified:from_meijerg>) over {Any | isinstance(simp, meijerg) and hasattr(func, 'ap') and hasattr(func, 'bq') and hasattr(func, 'an') and hasattr(func, 'bm') and hasattr(func, 'args') and hasattr(domain, 'old_poly_ring')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_meijerg : {Any | isinstance(simp, meijerg)} → Any     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(func, 'ap')                            ║
+# ║   requires: hasattr(func, 'bq')                            ║
+# ║   requires: hasattr(func, 'an')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_meijerg : {Any | isinstance(simp, meijerg) and h...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   meijerg: {isinstance(simp, meijerg)} → library_axiom     ║
@@ -2708,9 +3048,12 @@ def from_hyper(func, x0=0, evalf=False):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.5ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | bcd7c482...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic.from_meijerg","kind":"function","src_hash":"071b56cc173e1fea","in":{"base":"Any","pred":"isinstance(simp, meijerg)"},"out":{"base":"Any"},"spec":{"lhs":"from_meijerg(fun)","rhs":"converts a meijer g-function to holonomic. ``func`` is the g-function and ``x0`` is the point at which initial conditions are required","over":{"base":"Any","pred":"isinstance(simp, meijerg)"},"name":"from_meijerg_correct"},"guarantee":"converts a meijer g-function to holonomic. ``func`` is the g-function and ``x0`` is the point at which initial conditions are required","fibers":[{"name":"meijerg","pred":"isinstance(simp, meijerg)","path":{"lhs":"from_meijerg(x)","rhs":"converts a meijer g-function to holonomic. ``func`` is the g-function and ``x0`` is the point at which initial conditions are required","over":{"base":"meijerg","pred":"isinstance(simp, meijerg)"},"name":"from_meijerg_meijerg_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.holonomic.from_meijerg_meijerg_correct","statement":"from_meijerg satisfies spec on meijerg inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"bcd7c482f7ce865d"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic.from_meijerg","kind":"function","src_hash":"071b56cc173e1fea","in":{"base":"Any","pred":"isinstance(simp, meijerg) and hasattr(func, 'ap') and hasattr(func, 'bq') and hasattr(func, 'an') and hasattr(func, 'bm') and hasattr(func, 'args') and hasattr(domain, 'old_poly_ring')"},"out":{"base":"Any"},"spec":{"lhs":"from_meijerg(func, x0, evalf)","rhs":"<unspecified:from_meijerg>","over":{"base":"Any","pred":"isinstance(simp, meijerg) and hasattr(func, 'ap') and hasattr(func, 'bq') and hasattr(func, 'an') and hasattr(func, 'bm') and hasattr(func, 'args') and hasattr(domain, 'old_poly_ring')"},"name":"from_meijerg_correct"},"guarantee":"converts a meijer g-function to holonomic. ``func`` is the g-function and ``x0`` is the point at which initial conditions are required","fibers":[{"name":"meijerg","pred":"isinstance(simp, meijerg)","path":{"lhs":"from_meijerg(x)","rhs":"converts a meijer g-function to holonomic. ``func`` is the g-function and ``x0`` is the point at which initial conditions are required","over":{"base":"meijerg","pred":"isinstance(simp, meijerg)"},"name":"from_meijerg_meijerg_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.holonomic.from_meijerg_meijerg_correct","statement":"from_meijerg satisfies spec on meijerg inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"bcd7c482f7ce865d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(func, 'ap')","hasattr(func, 'bq')","hasattr(func, 'an')","hasattr(func, 'bm')","hasattr(func, 'args')","hasattr(domain, 'old_poly_ring')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["domain.old_poly_ring","func.an","func.ap","func.args","func.bm","func.bq"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.5,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(simp, meijerg)', 'not isinstance(simp, meijerg)'}, fibers={'meijerg'})"]}}
 def from_meijerg(func, x0=0, evalf=False, initcond=True, domain=QQ):
     """
     Converts a Meijer G-function to Holonomic.
@@ -2785,16 +3128,25 @@ from sympy.integrals.meijerint import _mytype
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(expr_to_holonomic(fun), converts a function or an expression to a holonomic function) over Any ║
+# ║ Path(expr_to_holonomic(func, x, x0), len(syms) == old_len_syms - 1) over {Any | hasattr(func, 'free_symbols') and hasattr(func, 'is_Function') and hasattr(func, 'args') and hasattr(func, 'func') and hasattr(func, 'has') and hasattr(func, 'subs') and len(syms) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ expr_to_holonomic : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(func, 'free_symbols')                  ║
+# ║   requires: hasattr(func, 'is_Function')                   ║
+# ║   requires: hasattr(func, 'args')                          ║
+# ║   ensures:  len(syms) == old_len_syms - 1                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ expr_to_holonomic : {Any | hasattr(func, 'free_symbol...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | baa97214a458cf86  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.9ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ff7b6c283057be62  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic.expr_to_holonomic","kind":"function","src_hash":"308a348dab477aa9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"expr_to_holonomic(fun)","rhs":"converts a function or an expression to a holonomic function","over":{"base":"Any"},"name":"expr_to_holonomic_correct"},"guarantee":"converts a function or an expression to a holonomic function","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.holonomic.expr_to_holonomic_correct","statement":"Path(expr_to_holonomic(x), converts a function or an expression to a holonomic function)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"baa97214a458cf86"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic.expr_to_holonomic","kind":"function","src_hash":"308a348dab477aa9","in":{"base":"Any","pred":"hasattr(func, 'free_symbols') and hasattr(func, 'is_Function') and hasattr(func, 'args') and hasattr(func, 'func') and hasattr(func, 'has') and hasattr(func, 'subs') and len(syms) > 0"},"out":{"base":"Any","pred":"result satisfies: len(syms) == old_len_syms - 1"},"spec":{"lhs":"expr_to_holonomic(func, x, x0)","rhs":"len(syms) == old_len_syms - 1","over":{"base":"Any","pred":"hasattr(func, 'free_symbols') and hasattr(func, 'is_Function') and hasattr(func, 'args') and hasattr(func, 'func') and hasattr(func, 'has') and hasattr(func, 'subs') and len(syms) > 0"},"name":"expr_to_holonomic_correct"},"guarantee":"len(syms) == old_len_syms - 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.holonomic.expr_to_holonomic_correct","statement":"Path(expr_to_holonomic(x), len(syms) == old_len_syms - 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ff7b6c283057be62","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(func, 'free_symbols')","hasattr(func, 'is_Function')","hasattr(func, 'args')","hasattr(func, 'func')","hasattr(func, 'has')","hasattr(func, 'subs')","len(syms) > 0"],"ensures":["len(syms) == old_len_syms - 1"],"pure":false,"effects":{"effect_type":"mutates_global","reads":["func.args","func.free_symbols","func.func","func.has","func.is_Function","func.subs"],"calls_mutating":["syms.pop","syms.remove"],"raises":["NotImplementedError","ValueError"],"globals_read":["_lookup_table","domain_for_table"],"globals_written":["_lookup_table","domain_for_table"]},"state_contract":{"modifies":["syms.*"],"old_bindings":{"old_len_syms":"len(syms)"},"pre_requires":["len(syms) > 0"],"post_ensures":["len(syms) == old_len_syms - 1"],"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.9,"verdict_class":"assumed","binding":true}}
 def expr_to_holonomic(func, x=None, x0=0, y0=None, lenics=None, domain=None, initcond=True):
     """
     Converts a function or an expression to a holonomic function.
@@ -2960,7 +3312,11 @@ def expr_to_holonomic(func, x=None, x0=0, y0=None, lenics=None, domain=None, ini
 ## Some helper functions ##
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_normalize(lis), normalize a given annihilator) over {Any | isinstance(j, base.dtype) and isinstance(j, K.dtype)} ║
+# ║ Path(_normalize(list_of, parent, negative), DifferentialOperator(list_of_coeff, parent)) over {Any | isinstance(j, base.dtype) and isinstance(j, K.dtype) and hasattr(parent, 'base')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(parent, 'base')                        ║
+# ║   returns:  DifferentialOperator(list_of_coeff, parent)    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _normalize : {Any | isinstance(j, base.dtype) and isi...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -2973,9 +3329,12 @@ def expr_to_holonomic(func, x=None, x0=0, y0=None, lenics=None, domain=None, ini
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?2 ✗1 VCs | 1.9ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | c629460b...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic._normalize","kind":"function","src_hash":"d1d6390a77e3be7d","in":{"base":"Any","pred":"isinstance(j, base.dtype) and isinstance(j, K.dtype)"},"out":{"base":"Any"},"spec":{"lhs":"_normalize(lis)","rhs":"normalize a given annihilator","over":{"base":"Any","pred":"isinstance(j, base.dtype) and isinstance(j, K.dtype)"},"name":"_normalize_correct"},"guarantee":"normalize a given annihilator","fibers":[{"name":"base_dtype","pred":"isinstance(j, base.dtype)","path":{"lhs":"_normalize(x)","rhs":"normalize a given annihilator","over":{"base":"base.dtype","pred":"isinstance(j, base.dtype)"},"name":"_normalize_base.dtype_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.holonomic._normalize_base.dtype_correct","statement":"_normalize satisfies spec on base.dtype inputs"},"trust":"LIBRARY"},{"name":"K_dtype","pred":"isinstance(j, K.dtype)","path":{"lhs":"_normalize(x)","rhs":"normalize a given annihilator","over":{"base":"K.dtype","pred":"isinstance(j, K.dtype)"},"name":"_normalize_K.dtype_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.holonomic._normalize_K.dtype_correct","statement":"_normalize satisfies spec on K.dtype inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"c629460b8a392896"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic._normalize","kind":"function","src_hash":"d1d6390a77e3be7d","in":{"base":"Any","pred":"isinstance(j, base.dtype) and isinstance(j, K.dtype) and hasattr(parent, 'base')"},"out":{"base":"Any"},"spec":{"lhs":"_normalize(list_of, parent, negative)","rhs":"DifferentialOperator(list_of_coeff, parent)","over":{"base":"Any","pred":"isinstance(j, base.dtype) and isinstance(j, K.dtype) and hasattr(parent, 'base')"},"name":"_normalize_correct"},"guarantee":"returns DifferentialOperator(list_of_coeff, parent)","fibers":[{"name":"base_dtype","pred":"isinstance(j, base.dtype)","path":{"lhs":"_normalize(x)","rhs":"returns DifferentialOperator(list_of_coeff, parent)","over":{"base":"base.dtype","pred":"isinstance(j, base.dtype)"},"name":"_normalize_base.dtype_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.holonomic._normalize_base.dtype_correct","statement":"_normalize satisfies spec on base.dtype inputs"},"trust":"LIBRARY"},{"name":"K_dtype","pred":"isinstance(j, K.dtype)","path":{"lhs":"_normalize(x)","rhs":"returns DifferentialOperator(list_of_coeff, parent)","over":{"base":"K.dtype","pred":"isinstance(j, K.dtype)"},"name":"_normalize_K.dtype_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.holonomic._normalize_K.dtype_correct","statement":"_normalize satisfies spec on K.dtype inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"c629460b8a392896","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(parent, 'base')"],"returns_expr":"DifferentialOperator(list_of_coeff, parent)","pure":true},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":2,"n_assumed":2,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.9,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(j, base.dtype)', 'not isinstance(j, K.dtype)'}, fibers={'base_dtype', 'K_dtype'})"]}}
 def _normalize(list_of, parent, negative=True):
     """
     Normalize a given annihilator
@@ -3034,16 +3393,22 @@ def _normalize(list_of, parent, negative=True):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_derivate_diff_eq(lis), let a differential equation a0(x)y(x) + a1(x)y'(x) + ) over Any ║
+# ║ Path(_derivate_diff_eq(listofpoly, K), <unspecified:_derivate_diff_eq>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _derivate_diff_eq : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a1f97997c01ecd2d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic._derivate_diff_eq","kind":"function","src_hash":"27e514633789f916","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_derivate_diff_eq(lis)","rhs":"let a differential equation a0(x)y(x) + a1(x)y'(x) + ","over":{"base":"Any"},"name":"_derivate_diff_eq_correct"},"guarantee":"let a differential equation a0(x)y(x) + a1(x)y'(x) + ","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.holonomic._derivate_diff_eq_correct","statement":"Path(_derivate_diff_eq(x), let a differential equation a0(x)y(x) + a1(x)y'(x) + )"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a1f97997c01ecd2d"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic._derivate_diff_eq","kind":"function","src_hash":"27e514633789f916","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_derivate_diff_eq(listofpoly, K)","rhs":"<unspecified:_derivate_diff_eq>","over":{"base":"Any"},"name":"_derivate_diff_eq_correct"},"guarantee":"let a differential equation a0(x)y(x) + a1(x)y'(x) + ","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.holonomic._derivate_diff_eq_correct","statement":"Path(_derivate_diff_eq(x), let a differential equation a0(x)y(x) + a1(x)y'(x) + )"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a1f97997c01ecd2d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _derivate_diff_eq(listofpoly, K):
     """
     Let a differential equation a0(x)y(x) + a1(x)y'(x) + ... = 0
@@ -3065,16 +3430,25 @@ def _derivate_diff_eq(listofpoly, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_hyper_to_meijerg(fun), converts a `hyper` to meijerg) over Any ║
+# ║ Path(_hyper_to_meijerg(func), <unspecified:_hyper_to_meijerg>) over {Any | hasattr(func, 'ap') and hasattr(func, 'bq') and hasattr(func, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _hyper_to_meijerg : Any → Any                              ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(func, 'ap')                            ║
+# ║   requires: hasattr(func, 'bq')                            ║
+# ║   requires: hasattr(func, 'args')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _hyper_to_meijerg : {Any | hasattr(func, 'ap') and ha...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e114ad7b1fa82009  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic._hyper_to_meijerg","kind":"function","src_hash":"573b5ee0edf58888","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_hyper_to_meijerg(fun)","rhs":"converts a `hyper` to meijerg","over":{"base":"Any"},"name":"_hyper_to_meijerg_correct"},"guarantee":"converts a `hyper` to meijerg","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.holonomic._hyper_to_meijerg_correct","statement":"Path(_hyper_to_meijerg(x), converts a `hyper` to meijerg)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e114ad7b1fa82009"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic._hyper_to_meijerg","kind":"function","src_hash":"573b5ee0edf58888","in":{"base":"Any","pred":"hasattr(func, 'ap') and hasattr(func, 'bq') and hasattr(func, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_hyper_to_meijerg(func)","rhs":"<unspecified:_hyper_to_meijerg>","over":{"base":"Any","pred":"hasattr(func, 'ap') and hasattr(func, 'bq') and hasattr(func, 'args')"},"name":"_hyper_to_meijerg_correct"},"guarantee":"converts a `hyper` to meijerg","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.holonomic._hyper_to_meijerg_correct","statement":"Path(_hyper_to_meijerg(x), converts a `hyper` to meijerg)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e114ad7b1fa82009","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(func, 'ap')","hasattr(func, 'bq')","hasattr(func, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["func.ap","func.args","func.bq"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _hyper_to_meijerg(func):
     """
     Converts a `hyper` to meijerg.
@@ -3105,16 +3479,22 @@ def _hyper_to_meijerg(func):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_add_lists(lis), takes polynomial sequences of two annihilators a and b and returns the list of polynomials of sum of a and b) over Any ║
+# ║ Path(_add_lists(list1, list2), <unspecified:_add_lists>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _add_lists : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3febbf912f7fd531  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic._add_lists","kind":"function","src_hash":"3cd4c058862f6fc7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_add_lists(lis)","rhs":"takes polynomial sequences of two annihilators a and b and returns the list of polynomials of sum of a and b","over":{"base":"Any"},"name":"_add_lists_correct"},"guarantee":"takes polynomial sequences of two annihilators a and b and returns the list of polynomials of sum of a and b","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.holonomic._add_lists_correct","statement":"Path(_add_lists(x), takes polynomial sequences of two annihilators a and b and returns the list of polynomials of sum of a and b)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3febbf912f7fd531"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic._add_lists","kind":"function","src_hash":"3cd4c058862f6fc7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_add_lists(list1, list2)","rhs":"<unspecified:_add_lists>","over":{"base":"Any"},"name":"_add_lists_correct"},"guarantee":"takes polynomial sequences of two annihilators a and b and returns the list of polynomials of sum of a and b","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.holonomic._add_lists_correct","statement":"Path(_add_lists(x), takes polynomial sequences of two annihilators a and b and returns the list of polynomials of sum of a and b)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3febbf912f7fd531","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _add_lists(list1, list2):
     """Takes polynomial sequences of two annihilators a and b and returns
     the list of polynomials of sum of a and b.
@@ -3127,7 +3507,13 @@ def _add_lists(list1, list2):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_extend_y0(Hol), tries to find more initial conditions by substituting the initial value point in the differential equation) over {Any | isinstance(j, annihilator.parent.base.dtype) and isinstance(r, (PolyElement, FracElement))} ║
+# ║ Path(_extend_y0(Holonomic, n), <unspecified:_extend_y0>) over {Any | isinstance(j, annihilator.parent.base.dtype) and isinstance(r, (PolyElement, FracElement)) and hasattr(Holonomic, 'annihilator') and hasattr(Holonomic, 'y0') and hasattr(Holonomic, 'x0') and hasattr(Holonomic, 'is_singularics')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(Holonomic, 'annihilator')              ║
+# ║   requires: hasattr(Holonomic, 'y0')                       ║
+# ║   requires: hasattr(Holonomic, 'x0')                       ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _extend_y0 : {Any | isinstance(j, annihilator.parent....   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -3140,9 +3526,12 @@ def _add_lists(list1, list2):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?2 ✗2 VCs | 4.2ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 84060bee...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic._extend_y0","kind":"function","src_hash":"65025673ab506659","in":{"base":"Any","pred":"isinstance(j, annihilator.parent.base.dtype) and isinstance(r, (PolyElement, FracElement))"},"out":{"base":"Any"},"spec":{"lhs":"_extend_y0(Hol)","rhs":"tries to find more initial conditions by substituting the initial value point in the differential equation","over":{"base":"Any","pred":"isinstance(j, annihilator.parent.base.dtype) and isinstance(r, (PolyElement, FracElement))"},"name":"_extend_y0_correct"},"guarantee":"tries to find more initial conditions by substituting the initial value point in the differential equation","fibers":[{"name":"annihilator_parent_base_dtype","pred":"isinstance(j, annihilator.parent.base.dtype)","path":{"lhs":"_extend_y0(x)","rhs":"tries to find more initial conditions by substituting the initial value point in the differential equation","over":{"base":"annihilator.parent.base.dtype","pred":"isinstance(j, annihilator.parent.base.dtype)"},"name":"_extend_y0_annihilator.parent.base.dtype_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.holonomic._extend_y0_annihilator.parent.base.dtype_correct","statement":"_extend_y0 satisfies spec on annihilator.parent.base.dtype inputs"},"trust":"LIBRARY"},{"name":"(PolyElement","pred":"isinstance(r, (PolyElement, FracElement))","path":{"lhs":"_extend_y0(x)","rhs":"tries to find more initial conditions by substituting the initial value point in the differential equation","over":{"base":"(PolyElement","pred":"isinstance(r, (PolyElement, FracElement))"},"name":"_extend_y0_(PolyElement_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.holonomic._extend_y0_(PolyElement_correct","statement":"_extend_y0 satisfies spec on (PolyElement inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"84060bee21f90092"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic._extend_y0","kind":"function","src_hash":"65025673ab506659","in":{"base":"Any","pred":"isinstance(j, annihilator.parent.base.dtype) and isinstance(r, (PolyElement, FracElement)) and hasattr(Holonomic, 'annihilator') and hasattr(Holonomic, 'y0') and hasattr(Holonomic, 'x0') and hasattr(Holonomic, 'is_singularics')"},"out":{"base":"Any"},"spec":{"lhs":"_extend_y0(Holonomic, n)","rhs":"<unspecified:_extend_y0>","over":{"base":"Any","pred":"isinstance(j, annihilator.parent.base.dtype) and isinstance(r, (PolyElement, FracElement)) and hasattr(Holonomic, 'annihilator') and hasattr(Holonomic, 'y0') and hasattr(Holonomic, 'x0') and hasattr(Holonomic, 'is_singularics')"},"name":"_extend_y0_correct"},"guarantee":"tries to find more initial conditions by substituting the initial value point in the differential equation","fibers":[{"name":"annihilator_parent_base_dtype","pred":"isinstance(j, annihilator.parent.base.dtype)","path":{"lhs":"_extend_y0(x)","rhs":"tries to find more initial conditions by substituting the initial value point in the differential equation","over":{"base":"annihilator.parent.base.dtype","pred":"isinstance(j, annihilator.parent.base.dtype)"},"name":"_extend_y0_annihilator.parent.base.dtype_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.holonomic._extend_y0_annihilator.parent.base.dtype_correct","statement":"_extend_y0 satisfies spec on annihilator.parent.base.dtype inputs"},"trust":"LIBRARY"},{"name":"(PolyElement","pred":"isinstance(r, (PolyElement, FracElement))","path":{"lhs":"_extend_y0(x)","rhs":"tries to find more initial conditions by substituting the initial value point in the differential equation","over":{"base":"(PolyElement","pred":"isinstance(r, (PolyElement, FracElement))"},"name":"_extend_y0_(PolyElement_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.holonomic._extend_y0_(PolyElement_correct","statement":"_extend_y0 satisfies spec on (PolyElement inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"84060bee21f90092","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(Holonomic, 'annihilator')","hasattr(Holonomic, 'y0')","hasattr(Holonomic, 'x0')","hasattr(Holonomic, 'is_singularics')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":1,"n_assumed":2,"n_failed":2,"trust_level":"LIBRARY_ASSUMED","compile_ms":4.2,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'Holonomic.annihilator.is_singular(Holonomic.x0) or Holonomic.is_singularics() == True', 'isinstance(r, (PolyElement, FracElement))', 'isinstance(j, annihilator.parent.base.dtype)', 'len(y0) < a or n <= len(y0)'}, fibers={'annihilator_parent_base_dtype', '(PolyElement'})"]}}
 def _extend_y0(Holonomic, n):
     """
     Tries to find more initial conditions by substituting the initial
@@ -3185,9 +3574,15 @@ def _extend_y0(Holonomic, n):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(DMFdiff(fra), DMFdiff produces the expected output) over {Any | isinstance(frac, DMF)} ║
+# ║ Path(DMFdiff(frac, K), <unspecified:DMFdiff>) over {Any | isinstance(frac, DMF) and hasattr(K, 'numer') and hasattr(K, 'denom') and hasattr(frac, 'diff')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ DMFdiff : {Any | isinstance(frac, DMF)} → Any              ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(K, 'numer')                            ║
+# ║   requires: hasattr(K, 'denom')                            ║
+# ║   requires: hasattr(frac, 'diff')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ DMFdiff : {Any | isinstance(frac, DMF) and hasattr(K,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   DMF: {isinstance(frac, DMF)} → library_axiom             ║
@@ -3197,9 +3592,12 @@ def _extend_y0(Holonomic, n):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 0.9ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 918b44d7...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic.DMFdiff","kind":"function","src_hash":"01734702d0ee4a56","in":{"base":"Any","pred":"isinstance(frac, DMF)"},"out":{"base":"Any"},"spec":{"lhs":"DMFdiff(fra)","rhs":"DMFdiff produces the expected output","over":{"base":"Any","pred":"isinstance(frac, DMF)"},"name":"DMFdiff_correct"},"guarantee":"DMFdiff produces the expected output","fibers":[{"name":"DMF","pred":"isinstance(frac, DMF)","path":{"lhs":"DMFdiff(x)","rhs":"DMFdiff produces the expected output","over":{"base":"DMF","pred":"isinstance(frac, DMF)"},"name":"DMFdiff_DMF_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.holonomic.DMFdiff_DMF_correct","statement":"DMFdiff satisfies spec on DMF inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"918b44d7b253e01e"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic.DMFdiff","kind":"function","src_hash":"01734702d0ee4a56","in":{"base":"Any","pred":"isinstance(frac, DMF) and hasattr(K, 'numer') and hasattr(K, 'denom') and hasattr(frac, 'diff')"},"out":{"base":"Any"},"spec":{"lhs":"DMFdiff(frac, K)","rhs":"<unspecified:DMFdiff>","over":{"base":"Any","pred":"isinstance(frac, DMF) and hasattr(K, 'numer') and hasattr(K, 'denom') and hasattr(frac, 'diff')"},"name":"DMFdiff_correct"},"guarantee":"DMFdiff produces the expected output","fibers":[{"name":"DMF","pred":"isinstance(frac, DMF)","path":{"lhs":"DMFdiff(x)","rhs":"DMFdiff produces the expected output","over":{"base":"DMF","pred":"isinstance(frac, DMF)"},"name":"DMFdiff_DMF_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.holonomic.DMFdiff_DMF_correct","statement":"DMFdiff satisfies spec on DMF inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"918b44d7b253e01e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(K, 'numer')","hasattr(K, 'denom')","hasattr(frac, 'diff')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["K.denom","K.numer","frac.diff"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.9,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'not isinstance(frac, DMF)'}, fibers={'DMF'})"]}}
 def DMFdiff(frac, K):
     # differentiate a DMF object represented as p/q
     if not isinstance(frac, DMF):
@@ -3213,7 +3611,12 @@ def DMFdiff(frac, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(DMFsubs(fra), DMFsubs produces the expected output) over {Any | isinstance(sol_p, (PolyElement, FracElement)) and isinstance(frac, DMF)} ║
+# ║ Path(DMFsubs(frac, x0, mpm), <unspecified:DMFsubs>) over {Any | isinstance(sol_p, (PolyElement, FracElement)) and isinstance(frac, DMF) and hasattr(frac, 'num') and hasattr(frac, 'den')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(frac, 'num')                           ║
+# ║   requires: hasattr(frac, 'den')                           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ DMFsubs : {Any | isinstance(sol_p, (PolyElement, Frac...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -3226,9 +3629,12 @@ def DMFdiff(frac, K):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?2 ✗2 VCs | 4.3ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 7934b2f4...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic.DMFsubs","kind":"function","src_hash":"2c32470e4ff7d223","in":{"base":"Any","pred":"isinstance(sol_p, (PolyElement, FracElement)) and isinstance(frac, DMF)"},"out":{"base":"Any"},"spec":{"lhs":"DMFsubs(fra)","rhs":"DMFsubs produces the expected output","over":{"base":"Any","pred":"isinstance(sol_p, (PolyElement, FracElement)) and isinstance(frac, DMF)"},"name":"DMFsubs_correct"},"guarantee":"DMFsubs produces the expected output","fibers":[{"name":"(PolyElement","pred":"isinstance(sol_p, (PolyElement, FracElement))","path":{"lhs":"DMFsubs(x)","rhs":"DMFsubs produces the expected output","over":{"base":"(PolyElement","pred":"isinstance(sol_p, (PolyElement, FracElement))"},"name":"DMFsubs_(PolyElement_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.holonomic.DMFsubs_(PolyElement_correct","statement":"DMFsubs satisfies spec on (PolyElement inputs"},"trust":"LIBRARY"},{"name":"DMF","pred":"isinstance(frac, DMF)","path":{"lhs":"DMFsubs(x)","rhs":"DMFsubs produces the expected output","over":{"base":"DMF","pred":"isinstance(frac, DMF)"},"name":"DMFsubs_DMF_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.holonomic.DMFsubs_DMF_correct","statement":"DMFsubs satisfies spec on DMF inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"7934b2f401326b7d"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic.DMFsubs","kind":"function","src_hash":"2c32470e4ff7d223","in":{"base":"Any","pred":"isinstance(sol_p, (PolyElement, FracElement)) and isinstance(frac, DMF) and hasattr(frac, 'num') and hasattr(frac, 'den')"},"out":{"base":"Any"},"spec":{"lhs":"DMFsubs(frac, x0, mpm)","rhs":"<unspecified:DMFsubs>","over":{"base":"Any","pred":"isinstance(sol_p, (PolyElement, FracElement)) and isinstance(frac, DMF) and hasattr(frac, 'num') and hasattr(frac, 'den')"},"name":"DMFsubs_correct"},"guarantee":"DMFsubs produces the expected output","fibers":[{"name":"(PolyElement","pred":"isinstance(sol_p, (PolyElement, FracElement))","path":{"lhs":"DMFsubs(x)","rhs":"DMFsubs produces the expected output","over":{"base":"(PolyElement","pred":"isinstance(sol_p, (PolyElement, FracElement))"},"name":"DMFsubs_(PolyElement_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.holonomic.DMFsubs_(PolyElement_correct","statement":"DMFsubs satisfies spec on (PolyElement inputs"},"trust":"LIBRARY"},{"name":"DMF","pred":"isinstance(frac, DMF)","path":{"lhs":"DMFsubs(x)","rhs":"DMFsubs produces the expected output","over":{"base":"DMF","pred":"isinstance(frac, DMF)"},"name":"DMFsubs_DMF_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.holonomic.DMFsubs_DMF_correct","statement":"DMFsubs satisfies spec on DMF inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"7934b2f401326b7d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(frac, 'num')","hasattr(frac, 'den')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["frac.den","frac.num"]}},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":1,"n_assumed":2,"n_failed":2,"trust_level":"LIBRARY_ASSUMED","compile_ms":4.3,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(sol_p, (PolyElement, FracElement))', 'isinstance(sol_q, (PolyElement, FracElement))', 'not isinstance(frac, DMF)'}, fibers={'(PolyElement', 'DMF'})"]}}
 def DMFsubs(frac, x0, mpm=False):
     # substitute the point x0 in DMF object of the form p/q
     if not isinstance(frac, DMF):
@@ -3261,7 +3667,13 @@ def DMFsubs(frac, x0, mpm=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_convert_poly_rat_alg(fun), converts polynomials, rationals and algebraic functions to holonomic) over {Any | isinstance(ratexp, Float) and isinstance(j, (PolyElement, FracElement))} ║
+# ║ Path(_convert_poly_rat_alg(func, x, x0), <unspecified:_convert_poly_rat_alg>) over {Any | isinstance(ratexp, Float) and isinstance(j, (PolyElement, FracElement)) and hasattr(func, 'is_polynomial') and hasattr(func, 'is_rational_function') and hasattr(func, 'as_base_exp') and hasattr(func, 'has') and hasattr(func, 'diff') and hasattr(func, 'as_numer_denom')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(func, 'is_polynomial')                 ║
+# ║   requires: hasattr(func, 'is_rational_function')          ║
+# ║   requires: hasattr(func, 'as_base_exp')                   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _convert_poly_rat_alg : {Any | isinstance(ratexp, Flo...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -3274,9 +3686,12 @@ def DMFsubs(frac, x0, mpm=False):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?2 ✗2 VCs | 7.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 4c2dfde1...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic._convert_poly_rat_alg","kind":"function","src_hash":"0165da5fb1dc9792","in":{"base":"Any","pred":"isinstance(ratexp, Float) and isinstance(j, (PolyElement, FracElement))"},"out":{"base":"Any"},"spec":{"lhs":"_convert_poly_rat_alg(fun)","rhs":"converts polynomials, rationals and algebraic functions to holonomic","over":{"base":"Any","pred":"isinstance(ratexp, Float) and isinstance(j, (PolyElement, FracElement))"},"name":"_convert_poly_rat_alg_correct"},"guarantee":"converts polynomials, rationals and algebraic functions to holonomic","fibers":[{"name":"Float","pred":"isinstance(ratexp, Float)","path":{"lhs":"_convert_poly_rat_alg(x)","rhs":"converts polynomials, rationals and algebraic functions to holonomic","over":{"base":"Float","pred":"isinstance(ratexp, Float)"},"name":"_convert_poly_rat_alg_Float_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.holonomic._convert_poly_rat_alg_Float_correct","statement":"_convert_poly_rat_alg satisfies spec on Float inputs"},"trust":"LIBRARY"},{"name":"(PolyElement","pred":"isinstance(j, (PolyElement, FracElement))","path":{"lhs":"_convert_poly_rat_alg(x)","rhs":"converts polynomials, rationals and algebraic functions to holonomic","over":{"base":"(PolyElement","pred":"isinstance(j, (PolyElement, FracElement))"},"name":"_convert_poly_rat_alg_(PolyElement_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.holonomic._convert_poly_rat_alg_(PolyElement_correct","statement":"_convert_poly_rat_alg satisfies spec on (PolyElement inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"4c2dfde121b06114"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic._convert_poly_rat_alg","kind":"function","src_hash":"0165da5fb1dc9792","in":{"base":"Any","pred":"isinstance(ratexp, Float) and isinstance(j, (PolyElement, FracElement)) and hasattr(func, 'is_polynomial') and hasattr(func, 'is_rational_function') and hasattr(func, 'as_base_exp') and hasattr(func, 'has') and hasattr(func, 'diff') and hasattr(func, 'as_numer_denom')"},"out":{"base":"Any"},"spec":{"lhs":"_convert_poly_rat_alg(func, x, x0)","rhs":"<unspecified:_convert_poly_rat_alg>","over":{"base":"Any","pred":"isinstance(ratexp, Float) and isinstance(j, (PolyElement, FracElement)) and hasattr(func, 'is_polynomial') and hasattr(func, 'is_rational_function') and hasattr(func, 'as_base_exp') and hasattr(func, 'has') and hasattr(func, 'diff') and hasattr(func, 'as_numer_denom')"},"name":"_convert_poly_rat_alg_correct"},"guarantee":"converts polynomials, rationals and algebraic functions to holonomic","fibers":[{"name":"Float","pred":"isinstance(ratexp, Float)","path":{"lhs":"_convert_poly_rat_alg(x)","rhs":"converts polynomials, rationals and algebraic functions to holonomic","over":{"base":"Float","pred":"isinstance(ratexp, Float)"},"name":"_convert_poly_rat_alg_Float_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.holonomic._convert_poly_rat_alg_Float_correct","statement":"_convert_poly_rat_alg satisfies spec on Float inputs"},"trust":"LIBRARY"},{"name":"(PolyElement","pred":"isinstance(j, (PolyElement, FracElement))","path":{"lhs":"_convert_poly_rat_alg(x)","rhs":"converts polynomials, rationals and algebraic functions to holonomic","over":{"base":"(PolyElement","pred":"isinstance(j, (PolyElement, FracElement))"},"name":"_convert_poly_rat_alg_(PolyElement_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.holonomic._convert_poly_rat_alg_(PolyElement_correct","statement":"_convert_poly_rat_alg satisfies spec on (PolyElement inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"4c2dfde121b06114","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(func, 'is_polynomial')","hasattr(func, 'is_rational_function')","hasattr(func, 'as_base_exp')","hasattr(func, 'has')","hasattr(func, 'diff')","hasattr(func, 'as_numer_denom')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["domain.old_poly_ring","func.as_base_exp","func.as_numer_denom","func.diff","func.has","func.is_polynomial","func.is_rational_function"]}},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":1,"n_assumed":2,"n_failed":2,"trust_level":"LIBRARY_ASSUMED","compile_ms":7.1,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(j, (PolyElement, FracElement))', 'isinstance(coeff, (PolyElement, FracElement))', 'len(r) == 1 and r[l[0]] == S.One', 'j == 0', 'y0 is None and x0 == 0 and is_singular and (lenics is None or lenics <= 1)', 'isinstance(ratexp, Float)', 'y0 is None and x0 == 0 and is_singular'}, fibers={'Float', '(PolyElement'})"]}}
 def _convert_poly_rat_alg(func, x, x0=0, y0=None, lenics=None, domain=QQ, initcond=True):
     """
     Converts polynomials, rationals and algebraic functions to holonomic.
@@ -3384,16 +3799,24 @@ def _convert_poly_rat_alg(func, x, x0=0, y0=None, lenics=None, domain=QQ, initco
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_convert_meijerint(fun), internal helper behaves correctly) over Any ║
+# ║ Path(_convert_meijerint(func, x, initcond), <unspecified:_convert_meijerint>) over {Any | hasattr(func, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _convert_meijerint : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(func, 'args')                          ║
+# ║   fiber[case_0]: args                                      ║
+# ║   fiber[case_1]: not (args) => None                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _convert_meijerint : {Any | hasattr(func, 'args')} → Any   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a6dc3f9b25e0fb23  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5e4d2c658dcc94ec  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic._convert_meijerint","kind":"function","src_hash":"5e6066dc2bda7ed9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_convert_meijerint(fun)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_convert_meijerint_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.holonomic._convert_meijerint_correct","statement":"Path(_convert_meijerint(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a6dc3f9b25e0fb23"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic._convert_meijerint","kind":"function","src_hash":"5e6066dc2bda7ed9","in":{"base":"Any","pred":"hasattr(func, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_convert_meijerint(func, x, initcond)","rhs":"<unspecified:_convert_meijerint>","over":{"base":"Any","pred":"hasattr(func, 'args')"},"name":"_convert_meijerint_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.holonomic._convert_meijerint_correct","statement":"Path(_convert_meijerint(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5e4d2c658dcc94ec","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(func, 'args')"],"fibers":[{"name":"case_0","guard":"args","ensures":[],"decidability":"library"},{"name":"case_1","guard":"not (args)","ensures":["result == None"],"decidability":"library","returns_expr":"None"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["func.args"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def _convert_meijerint(func, x, initcond=True, domain=QQ):
     args = meijerint._rewrite1(func, x)
 
@@ -3441,16 +3864,24 @@ def _convert_meijerint(func, x, initcond=True, domain=QQ):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_create_table(tab), creates the look-up table) over Any ║
+# ║ Path(_create_table(table, domain), <unspecified:_create_table>) over {Any | hasattr(domain, 'old_poly_ring') and hasattr(table, 'setdefault')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _create_table : Any → Any                                  ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(domain, 'old_poly_ring')               ║
+# ║   requires: hasattr(table, 'setdefault')                   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _create_table : {Any | hasattr(domain, 'old_poly_ring...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a070ec5aa040e9f6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic._create_table","kind":"function","src_hash":"cb34788887a66321","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_create_table(tab)","rhs":"creates the look-up table","over":{"base":"Any"},"name":"_create_table_correct"},"guarantee":"creates the look-up table","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.holonomic._create_table_correct","statement":"Path(_create_table(x), creates the look-up table)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a070ec5aa040e9f6"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic._create_table","kind":"function","src_hash":"cb34788887a66321","in":{"base":"Any","pred":"hasattr(domain, 'old_poly_ring') and hasattr(table, 'setdefault')"},"out":{"base":"Any"},"spec":{"lhs":"_create_table(table, domain)","rhs":"<unspecified:_create_table>","over":{"base":"Any","pred":"hasattr(domain, 'old_poly_ring') and hasattr(table, 'setdefault')"},"name":"_create_table_correct"},"guarantee":"creates the look-up table","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.holonomic._create_table_correct","statement":"Path(_create_table(x), creates the look-up table)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a070ec5aa040e9f6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(domain, 'old_poly_ring')","hasattr(table, 'setdefault')"],"pure":false,"effects":{"effect_type":"mutates_args","reads":["domain.old_poly_ring","table.setdefault"],"calls_mutating":["table.setdefault"]},"state_contract":{"modifies":["table.*"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def _create_table(table, domain=QQ):
     """
     Creates the look-up table. For a similar implementation
@@ -3489,9 +3920,14 @@ def _create_table(table, domain=QQ):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_find_conditions(fun), internal helper behaves correctly) over {Any | isinstance(val, NaN)} ║
+# ║ Path(_find_conditions(func, x, x0), <unspecified:_find_conditions>) over {Any | isinstance(val, NaN) and hasattr(func, 'subs') and hasattr(func, 'diff')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _find_conditions : {Any | isinstance(val, NaN)} → Any      ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(func, 'subs')                          ║
+# ║   requires: hasattr(func, 'diff')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _find_conditions : {Any | isinstance(val, NaN) and ha...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   NaN: {isinstance(val, NaN)} → library_axiom              ║
@@ -3501,9 +3937,12 @@ def _create_table(table, domain=QQ):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.5ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 746e6b76...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic._find_conditions","kind":"function","src_hash":"d6a409517099aef7","in":{"base":"Any","pred":"isinstance(val, NaN)"},"out":{"base":"Any"},"spec":{"lhs":"_find_conditions(fun)","rhs":"internal helper behaves correctly","over":{"base":"Any","pred":"isinstance(val, NaN)"},"name":"_find_conditions_correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"NaN","pred":"isinstance(val, NaN)","path":{"lhs":"_find_conditions(x)","rhs":"internal helper behaves correctly","over":{"base":"NaN","pred":"isinstance(val, NaN)"},"name":"_find_conditions_NaN_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.holonomic._find_conditions_NaN_correct","statement":"_find_conditions satisfies spec on NaN inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"746e6b7634bdaf83"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.holonomic._find_conditions","kind":"function","src_hash":"d6a409517099aef7","in":{"base":"Any","pred":"isinstance(val, NaN) and hasattr(func, 'subs') and hasattr(func, 'diff')"},"out":{"base":"Any"},"spec":{"lhs":"_find_conditions(func, x, x0)","rhs":"<unspecified:_find_conditions>","over":{"base":"Any","pred":"isinstance(val, NaN) and hasattr(func, 'subs') and hasattr(func, 'diff')"},"name":"_find_conditions_correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"NaN","pred":"isinstance(val, NaN)","path":{"lhs":"_find_conditions(x)","rhs":"internal helper behaves correctly","over":{"base":"NaN","pred":"isinstance(val, NaN)"},"name":"_find_conditions_NaN_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.holonomic._find_conditions_NaN_correct","statement":"_find_conditions satisfies spec on NaN inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"746e6b7634bdaf83","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(func, 'subs')","hasattr(func, 'diff')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.5,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'use_limit and isinstance(val, NaN)', 'val.is_finite is False or isinstance(val, NaN)'}, fibers={'NaN'})"]}}
 def _find_conditions(func, x, x0, order, evalf=False, use_limit=True):
     y0 = []
     for _ in range(order):

@@ -48,31 +48,43 @@ rate = Symbol('lambda', positive=True)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(normal(x, ), normal produces the expected output) over Any ║
+# ║ Path(normal(x, mu, sigma), 1 / sqrt(2 * pi * sigma ** 2) * exp(-(x - mu) ** 2 / 2 / sigma ** 2)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  1 / sqrt(2 * pi * sigma ** 2) * exp(-(x -...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ normal : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 037f63afd0997a8b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.benchmarks.bench_meijerint.normal","kind":"function","src_hash":"8f99079d551531ea","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"normal(x, )","rhs":"normal produces the expected output","over":{"base":"Any"},"name":"normal_correct"},"guarantee":"normal produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"037f63afd0997a8b"}
+# @cctt_verify {"v":2,"sym":"sympy.benchmarks.bench_meijerint.normal","kind":"function","src_hash":"8f99079d551531ea","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"normal(x, mu, sigma)","rhs":"1 / sqrt(2 * pi * sigma ** 2) * exp(-(x - mu) ** 2 / 2 / sigma ** 2)","over":{"base":"Any"},"name":"normal_correct"},"guarantee":"returns 1 / sqrt(2 * pi * sigma ** 2) * exp(-(x - mu) ** 2 / 2 / sigma ** 2)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"037f63afd0997a8b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"1 / sqrt(2 * pi * sigma ** 2) * exp(-(x - mu) ** 2 / 2 / sigma ** 2)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":true}}
 def normal(x, mu, sigma):
     return 1/sqrt(2*pi*sigma**2)*exp(-(x - mu)**2/2/sigma**2)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(exponential(x, ), exponential produces the expected output) over Any ║
+# ║ Path(exponential(x, rate), rate * exp(-rate * x)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  rate * exp(-rate * x)                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ exponential : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 08b1325300c1b27f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.benchmarks.bench_meijerint.exponential","kind":"function","src_hash":"629a40f88f140811","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"exponential(x, )","rhs":"exponential produces the expected output","over":{"base":"Any"},"name":"exponential_correct"},"guarantee":"exponential produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"08b1325300c1b27f"}
+# @cctt_verify {"v":2,"sym":"sympy.benchmarks.bench_meijerint.exponential","kind":"function","src_hash":"629a40f88f140811","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"exponential(x, rate)","rhs":"rate * exp(-rate * x)","over":{"base":"Any"},"name":"exponential_correct"},"guarantee":"returns rate * exp(-rate * x)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"08b1325300c1b27f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"rate * exp(-rate * x)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def exponential(x, rate):
     return rate*exp(-rate*x)
 alpha, beta = symbols('alpha beta', positive=True)
@@ -96,16 +108,22 @@ tpos = Symbol('t', positive=True)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(E(exp), E produces the expected output) over Any      ║
+# ║ Path(E(expr), <unspecified:E>) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ E : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e91bb6405916254b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.benchmarks.bench_meijerint.E","kind":"function","src_hash":"552df6ebcdb87046","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"E(exp)","rhs":"E produces the expected output","over":{"base":"Any"},"name":"E_correct"},"guarantee":"E produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.benchmarks.bench_meijerint.E_correct","statement":"Path(E(x), E produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e91bb6405916254b"}
+# @cctt_verify {"v":2,"sym":"sympy.benchmarks.bench_meijerint.E","kind":"function","src_hash":"552df6ebcdb87046","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"E(expr)","rhs":"<unspecified:E>","over":{"base":"Any"},"name":"E_correct"},"guarantee":"E produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.benchmarks.bench_meijerint.E_correct","statement":"Path(E(x), E produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e91bb6405916254b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def E(expr):
     integrate(expr*exponential(x, rate)*normal(y, mu1, sigma1),
                      (x, 0, oo), (y, -oo, oo), meijerg=True)

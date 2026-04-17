@@ -23,14 +23,20 @@ from sympy.core.mul import Mul
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(VectorKind(*args), correctly constructs a VectorKind instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ VectorKind : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Kind)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ VectorKind : Any → {Any | result satisfies: isinstanc...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 400b2dee65d27055  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.kind.VectorKind","kind":"class","src_hash":"73fa41e9786a7915","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"VectorKind(*args)","rhs":"correctly constructs a VectorKind instance","over":{"base":"Any"},"name":"VectorKind_class_invariant"},"guarantee":"correctly constructs a VectorKind instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"400b2dee65d27055"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.kind.VectorKind","kind":"class","src_hash":"73fa41e9786a7915","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Kind)"},"spec":{"lhs":"VectorKind(*args)","rhs":"correctly constructs a VectorKind instance","over":{"base":"Any"},"name":"VectorKind_class_invariant"},"guarantee":"isinstance(self, Kind)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"400b2dee65d27055","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Kind)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function VectorKind not found in source"]}}
 class VectorKind(Kind):
     """
     Kind for all vector objects in SymPy.
@@ -76,40 +82,56 @@ class VectorKind(Kind):
 
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, element_kind), <unspecified:__new__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0021560a15dfe57a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.kind.VectorKind.__new__","kind":"method","src_hash":"3fdd811326ffc1fd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0021560a15dfe57a"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.kind.VectorKind.__new__","kind":"method","src_hash":"3fdd811326ffc1fd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, element_kind)","rhs":"<unspecified:__new__>","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0021560a15dfe57a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, element_kind=NumberKind):
         obj = super().__new__(cls, element_kind)
         obj.element_kind = element_kind
         return obj
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__repr__(), returns a faithful string representation) over Any ║
+# ║ Path(__repr__(), 'VectorKind(%s)' % self.element_kind) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  'VectorKind(%s)' % self.element_kind           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __repr__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4fbb5de684945073           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.kind.VectorKind.__repr__","kind":"method","src_hash":"31cd0e746b06991a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"returns a faithful string representation","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns a faithful string representation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4fbb5de684945073"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.kind.VectorKind.__repr__","kind":"method","src_hash":"31cd0e746b06991a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"'VectorKind(%s)' % self.element_kind","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns 'VectorKind(%s)' % self.element_kind","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4fbb5de684945073","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'VectorKind(%s)' % self.element_kind","pure":false,"effects":{"effect_type":"reads_state","reads":["self.element_kind"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __repr__(self):
         return "VectorKind(%s)" % self.element_kind
 
 @Mul._kind_dispatcher.register(_NumberKind, VectorKind)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(num_vec_mul(k1,), the result of a multiplication between a number and a vector should be of vectorkind. the element kind is selected by recursive dispatching) over {Any | isinstance(k2, VectorKind)} ║
+# ║ Path(num_vec_mul(k1, k2), VectorKind(elemk)) over {Any | isinstance(k2, VectorKind) and hasattr(k2, 'element_kind')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ num_vec_mul : {Any | isinstance(k2, VectorKind)} → Any     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(k2, 'element_kind')                    ║
+# ║   returns:  VectorKind(elemk)                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ num_vec_mul : {Any | isinstance(k2, VectorKind) and h...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   VectorKind: {isinstance(k2, VectorKind)} → library_...   ║
@@ -119,9 +141,12 @@ class VectorKind(Kind):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.2ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | ce752c9d...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.kind.num_vec_mul","kind":"function","src_hash":"bf038a5972ed0b79","in":{"base":"Any","pred":"isinstance(k2, VectorKind)"},"out":{"base":"Any"},"spec":{"lhs":"num_vec_mul(k1,)","rhs":"the result of a multiplication between a number and a vector should be of vectorkind. the element kind is selected by recursive dispatching","over":{"base":"Any","pred":"isinstance(k2, VectorKind)"},"name":"num_vec_mul_correct"},"guarantee":"the result of a multiplication between a number and a vector should be of vectorkind. the element kind is selected by recursive dispatching","fibers":[{"name":"VectorKind","pred":"isinstance(k2, VectorKind)","path":{"lhs":"num_vec_mul(x)","rhs":"the result of a multiplication between a number and a vector should be of vectorkind. the element kind is selected by recursive dispatching","over":{"base":"VectorKind","pred":"isinstance(k2, VectorKind)"},"name":"num_vec_mul_VectorKind_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.kind.num_vec_mul_VectorKind_correct","statement":"num_vec_mul satisfies spec on VectorKind inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"ce752c9db139d198"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.kind.num_vec_mul","kind":"function","src_hash":"bf038a5972ed0b79","in":{"base":"Any","pred":"isinstance(k2, VectorKind) and hasattr(k2, 'element_kind')"},"out":{"base":"Any"},"spec":{"lhs":"num_vec_mul(k1, k2)","rhs":"VectorKind(elemk)","over":{"base":"Any","pred":"isinstance(k2, VectorKind) and hasattr(k2, 'element_kind')"},"name":"num_vec_mul_correct"},"guarantee":"returns VectorKind(elemk)","fibers":[{"name":"VectorKind","pred":"isinstance(k2, VectorKind)","path":{"lhs":"num_vec_mul(x)","rhs":"returns VectorKind(elemk)","over":{"base":"VectorKind","pred":"isinstance(k2, VectorKind)"},"name":"num_vec_mul_VectorKind_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.kind.num_vec_mul_VectorKind_correct","statement":"num_vec_mul satisfies spec on VectorKind inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"ce752c9db139d198","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(k2, 'element_kind')"],"returns_expr":"VectorKind(elemk)","pure":false,"effects":{"effect_type":"reads_state","reads":["k2.element_kind"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.2,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'not isinstance(k2, VectorKind)'}, fibers={'VectorKind'})"]}}
 def num_vec_mul(k1, k2):
     """
     The result of a multiplication between a number and a Vector should be of VectorKind.

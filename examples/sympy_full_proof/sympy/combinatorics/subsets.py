@@ -23,14 +23,20 @@ from sympy.combinatorics.graycode import GrayCode
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Subset(*args), correctly constructs a Subset instance) over {Any | isinstance(subset, Subset)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ Subset : {Any | isinstance(subset, Subset)} → Any          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.6ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 43c3d2641975d053  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.subsets.Subset","kind":"class","src_hash":"ca262b7d4d79988a","in":{"base":"Any","pred":"isinstance(subset, Subset)"},"out":{"base":"Any"},"spec":{"lhs":"Subset(*args)","rhs":"correctly constructs a Subset instance","over":{"base":"Any","pred":"isinstance(subset, Subset)"},"name":"Subset_class_invariant"},"guarantee":"correctly constructs a Subset instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"43c3d2641975d053"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.subsets.Subset","kind":"class","src_hash":"ca262b7d4d79988a","in":{"base":"Any","pred":"isinstance(subset, Subset)"},"out":{"base":"Any"},"spec":{"lhs":"Subset(*args)","rhs":"correctly constructs a Subset instance","over":{"base":"Any","pred":"isinstance(subset, Subset)"},"name":"Subset_class_invariant"},"guarantee":"correctly constructs a Subset instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"43c3d2641975d053","spec_source":"static","formal_spec":{"source":"static","strength":"trivial"},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.6,"verdict_class":"assumed","binding":false,"binding_errors":["Function Subset not found in source"]}}
 class Subset():
     """
     Represents a basic subset object.
@@ -62,16 +68,23 @@ class Subset():
     _superset = None
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), default constructor) over Any           ║
+# ║ Path(__new__(cls, subset, superset), <unspecified:__new__>) over {Any | not (len(subset) > len(superset))} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (len(subset) > len(superset))              ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | not (len(subset) > len(superset))} →...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 80cfc275d5ae31e5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.subsets.Subset.__new__","kind":"method","src_hash":"1c25ad3086014e5a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"default constructor","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"default constructor","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"80cfc275d5ae31e5"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.subsets.Subset.__new__","kind":"method","src_hash":"1c25ad3086014e5a","in":{"base":"Any","pred":"not (len(subset) > len(superset))"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, subset, superset)","rhs":"<unspecified:__new__>","over":{"base":"Any","pred":"not (len(subset) > len(superset))"},"name":"__new___correct"},"guarantee":"default constructor","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"80cfc275d5ae31e5","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (len(subset) > len(superset))"],"pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, subset, superset):
         """
         Default constructor.
@@ -103,16 +116,24 @@ class Subset():
         return obj
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__eq__(oth), correctly determines equality) over Any  ║
+# ║ Path(__eq__(other), <unspecified:__eq__>) over {Any | hasattr(other, 'subset') and hasattr(other, 'superset')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __eq__ : Any → Any                                         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, 'subset')                       ║
+# ║   requires: hasattr(other, 'superset')                     ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __eq__ : {Any | hasattr(other, 'subset') and hasattr(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a4d760997afa3a3e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.subsets.Subset.__eq__","kind":"method","src_hash":"562e68d7af376673","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(oth)","rhs":"correctly determines equality","over":{"base":"Any"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a4d760997afa3a3e"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.subsets.Subset.__eq__","kind":"method","src_hash":"562e68d7af376673","in":{"base":"Any","pred":"hasattr(other, 'subset') and hasattr(other, 'superset')"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(other)","rhs":"<unspecified:__eq__>","over":{"base":"Any","pred":"hasattr(other, 'subset') and hasattr(other, 'superset')"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a4d760997afa3a3e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, 'subset')","hasattr(other, 'superset')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.subset","other.superset","self.subset","self.superset"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __eq__(self, other):
         """Return a boolean indicating whether a == b on the basis of
         whether both objects are of the class Subset and if the values
@@ -123,16 +144,22 @@ class Subset():
         return self.subset == other.subset and self.superset == other.superset
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(iterate_binary(k), this is a helper function) over Any ║
+# ║ Path(iterate_binary(k), Subset.subset_from_bitlist(self.superset, bits)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Subset.subset_from_bitlist(self.superset,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ iterate_binary : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3ef9c8ae6beecf2d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f19895131e184fa9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.subsets.Subset.iterate_binary","kind":"method","src_hash":"87cefa0e41181b6c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"iterate_binary(k)","rhs":"this is a helper function","over":{"base":"Any"},"name":"iterate_binary_correct"},"guarantee":"this is a helper function","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.subsets.Subset.iterate_binary_correct","statement":"Path(iterate_binary(x), this is a helper function)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3ef9c8ae6beecf2d"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.subsets.Subset.iterate_binary","kind":"method","src_hash":"87cefa0e41181b6c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"iterate_binary(k)","rhs":"Subset.subset_from_bitlist(self.superset, bits)","over":{"base":"Any"},"name":"iterate_binary_correct"},"guarantee":"returns Subset.subset_from_bitlist(self.superset, bits)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.subsets.Subset.iterate_binary_correct","statement":"Path(iterate_binary(x), returns Subset.subset_from_bitlist(self.superset, bits))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f19895131e184fa9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Subset.subset_from_bitlist(self.superset, bits)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.subset","self.superset","self.superset_size"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def iterate_binary(self, k):
         """
         This is a helper function. It iterates over the
@@ -161,16 +188,22 @@ class Subset():
         return Subset.subset_from_bitlist(self.superset, bits)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(next_binary(), generates the next binary ordered subset) over Any ║
+# ║ Path(next_binary(), self.iterate_binary(1)) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.iterate_binary(1)                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ next_binary : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | bb1889632f633689           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.subsets.Subset.next_binary","kind":"method","src_hash":"5afbf6a2eacb1255","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"next_binary()","rhs":"generates the next binary ordered subset","over":{"base":"Any"},"name":"next_binary_correct"},"guarantee":"generates the next binary ordered subset","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bb1889632f633689"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.subsets.Subset.next_binary","kind":"method","src_hash":"5afbf6a2eacb1255","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"next_binary()","rhs":"self.iterate_binary(1)","over":{"base":"Any"},"name":"next_binary_correct"},"guarantee":"returns self.iterate_binary(1)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bb1889632f633689","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.iterate_binary(1)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.iterate_binary"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def next_binary(self):
         """
         Generates the next binary ordered subset.
@@ -194,16 +227,22 @@ class Subset():
         return self.iterate_binary(1)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(prev_binary(), generates the previous binary ordered subset) over Any ║
+# ║ Path(prev_binary(), self.iterate_binary(-1)) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.iterate_binary(-1)                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ prev_binary : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 99267485de02d4d7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.subsets.Subset.prev_binary","kind":"method","src_hash":"f16f15af7a338a02","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"prev_binary()","rhs":"generates the previous binary ordered subset","over":{"base":"Any"},"name":"prev_binary_correct"},"guarantee":"generates the previous binary ordered subset","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"99267485de02d4d7"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.subsets.Subset.prev_binary","kind":"method","src_hash":"f16f15af7a338a02","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"prev_binary()","rhs":"self.iterate_binary(-1)","over":{"base":"Any"},"name":"prev_binary_correct"},"guarantee":"returns self.iterate_binary(-1)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"99267485de02d4d7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.iterate_binary(-1)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.iterate_binary"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def prev_binary(self):
         """
         Generates the previous binary ordered subset.
@@ -227,16 +266,22 @@ class Subset():
         return self.iterate_binary(-1)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(next_lexicographic(), generates the next lexicographically ordered subset) over Any ║
+# ║ Path(next_lexicographic(), Subset(ret_set, super_set)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Subset(ret_set, super_set)                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ next_lexicographic : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d4fa44d65f595319  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fc1e82b2db9ca322  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.subsets.Subset.next_lexicographic","kind":"method","src_hash":"100103455c077e8f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"next_lexicographic()","rhs":"generates the next lexicographically ordered subset","over":{"base":"Any"},"name":"next_lexicographic_correct"},"guarantee":"generates the next lexicographically ordered subset","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.subsets.Subset.next_lexicographic_correct","statement":"Path(next_lexicographic(x), generates the next lexicographically ordered subset)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d4fa44d65f595319"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.subsets.Subset.next_lexicographic","kind":"method","src_hash":"100103455c077e8f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"next_lexicographic()","rhs":"Subset(ret_set, super_set)","over":{"base":"Any"},"name":"next_lexicographic_correct"},"guarantee":"returns Subset(ret_set, super_set)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.subsets.Subset.next_lexicographic_correct","statement":"Path(next_lexicographic(x), returns Subset(ret_set, super_set))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fc1e82b2db9ca322","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Subset(ret_set, super_set)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def next_lexicographic(self):
         """
         Generates the next lexicographically ordered subset.
@@ -283,16 +328,22 @@ class Subset():
         return Subset(ret_set, super_set)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(prev_lexicographic(), generates the previous lexicographically ordered subset) over Any ║
+# ║ Path(prev_lexicographic(), Subset(ret_set, super_set)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Subset(ret_set, super_set)                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ prev_lexicographic : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2fdf8788eb00e08c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 480ed32971beb1d3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.subsets.Subset.prev_lexicographic","kind":"method","src_hash":"7b0785fbe8945e9c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"prev_lexicographic()","rhs":"generates the previous lexicographically ordered subset","over":{"base":"Any"},"name":"prev_lexicographic_correct"},"guarantee":"generates the previous lexicographically ordered subset","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.subsets.Subset.prev_lexicographic_correct","statement":"Path(prev_lexicographic(x), generates the previous lexicographically ordered subset)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2fdf8788eb00e08c"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.subsets.Subset.prev_lexicographic","kind":"method","src_hash":"7b0785fbe8945e9c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"prev_lexicographic()","rhs":"Subset(ret_set, super_set)","over":{"base":"Any"},"name":"prev_lexicographic_correct"},"guarantee":"returns Subset(ret_set, super_set)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.subsets.Subset.prev_lexicographic_correct","statement":"Path(prev_lexicographic(x), returns Subset(ret_set, super_set))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"480ed32971beb1d3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Subset(ret_set, super_set)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def prev_lexicographic(self):
         """
         Generates the previous lexicographically ordered subset.
@@ -334,16 +385,22 @@ class Subset():
         return Subset(ret_set, super_set)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(iterate_graycode(k), helper function used for prev_gray and next_gray. it performs ``k`` step overs to get the respective gray codes) over Any ║
+# ║ Path(iterate_graycode(k), Subset.subset_from_bitlist(self.superset, unranked_code)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Subset.subset_from_bitlist(self.superset,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ iterate_graycode : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 91da5d79a256f56d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7349570323555205  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.subsets.Subset.iterate_graycode","kind":"method","src_hash":"738f4801e38ff6bf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"iterate_graycode(k)","rhs":"helper function used for prev_gray and next_gray. it performs ``k`` step overs to get the respective gray codes","over":{"base":"Any"},"name":"iterate_graycode_correct"},"guarantee":"helper function used for prev_gray and next_gray. it performs ``k`` step overs to get the respective gray codes","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.subsets.Subset.iterate_graycode_correct","statement":"Path(iterate_graycode(x), helper function used for prev_gray and next_gray. it performs ``k`` step overs to get the respective gray codes)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"91da5d79a256f56d"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.subsets.Subset.iterate_graycode","kind":"method","src_hash":"738f4801e38ff6bf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"iterate_graycode(k)","rhs":"Subset.subset_from_bitlist(self.superset, unranked_code)","over":{"base":"Any"},"name":"iterate_graycode_correct"},"guarantee":"returns Subset.subset_from_bitlist(self.superset, unranked_code)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.subsets.Subset.iterate_graycode_correct","statement":"Path(iterate_graycode(x), returns Subset.subset_from_bitlist(self.superset, unranked_code))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7349570323555205","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Subset.subset_from_bitlist(self.superset, unranked_code)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.cardinality","self.rank_gray","self.superset","self.superset_size"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def iterate_graycode(self, k):
         """
         Helper function used for prev_gray and next_gray.
@@ -370,16 +427,22 @@ class Subset():
                                           unranked_code)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(next_gray(), generates the next gray code ordered subset) over Any ║
+# ║ Path(next_gray(), self.iterate_graycode(1)) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.iterate_graycode(1)                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ next_gray : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | beeb9a06d37ecfd3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.subsets.Subset.next_gray","kind":"method","src_hash":"8e0733599be80ee7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"next_gray()","rhs":"generates the next gray code ordered subset","over":{"base":"Any"},"name":"next_gray_correct"},"guarantee":"generates the next gray code ordered subset","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"beeb9a06d37ecfd3"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.subsets.Subset.next_gray","kind":"method","src_hash":"8e0733599be80ee7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"next_gray()","rhs":"self.iterate_graycode(1)","over":{"base":"Any"},"name":"next_gray_correct"},"guarantee":"returns self.iterate_graycode(1)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"beeb9a06d37ecfd3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.iterate_graycode(1)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.iterate_graycode"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def next_gray(self):
         """
         Generates the next Gray code ordered subset.
@@ -400,16 +463,22 @@ class Subset():
         return self.iterate_graycode(1)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(prev_gray(), generates the previous gray code ordered subset) over Any ║
+# ║ Path(prev_gray(), self.iterate_graycode(-1)) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.iterate_graycode(-1)                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ prev_gray : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8f2da7d57221c7e7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.subsets.Subset.prev_gray","kind":"method","src_hash":"1ca62b86274f4c21","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"prev_gray()","rhs":"generates the previous gray code ordered subset","over":{"base":"Any"},"name":"prev_gray_correct"},"guarantee":"generates the previous gray code ordered subset","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8f2da7d57221c7e7"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.subsets.Subset.prev_gray","kind":"method","src_hash":"1ca62b86274f4c21","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"prev_gray()","rhs":"self.iterate_graycode(-1)","over":{"base":"Any"},"name":"prev_gray_correct"},"guarantee":"returns self.iterate_graycode(-1)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8f2da7d57221c7e7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.iterate_graycode(-1)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.iterate_graycode"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def prev_gray(self):
         """
         Generates the previous Gray code ordered subset.
@@ -431,16 +500,22 @@ class Subset():
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rank_binary(), returns the rank_binary attribute) over Any ║
+# ║ Path(rank_binary(), self._rank_binary) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._rank_binary                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ rank_binary : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b47cdaa4f6ded901           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.subsets.Subset.rank_binary","kind":"property","src_hash":"93e1895efcc25cf5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rank_binary()","rhs":"returns the rank_binary attribute","over":{"base":"Any"},"name":"rank_binary_correct"},"guarantee":"returns the rank_binary attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b47cdaa4f6ded901"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.subsets.Subset.rank_binary","kind":"property","src_hash":"93e1895efcc25cf5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rank_binary()","rhs":"self._rank_binary","over":{"base":"Any"},"name":"rank_binary_correct"},"guarantee":"returns self._rank_binary","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b47cdaa4f6ded901","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._rank_binary","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._rank_binary","self.subset","self.superset"],"writes":["self._rank_binary"]},"state_contract":{"modifies":["self._rank_binary"],"old_bindings":{"old_self__rank_binary":"self._rank_binary"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def rank_binary(self):
         """
         Computes the binary ordered rank.
@@ -469,16 +544,22 @@ class Subset():
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rank_lexicographic(), returns the rank_lexicographic attribute) over Any ║
+# ║ Path(rank_lexicographic(), <unspecified:rank_lexicographic>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ rank_lexicographic : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4c7a0dfbec6001e0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.subsets.Subset.rank_lexicographic","kind":"property","src_hash":"b19e9edff2a08310","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rank_lexicographic()","rhs":"returns the rank_lexicographic attribute","over":{"base":"Any"},"name":"rank_lexicographic_correct"},"guarantee":"returns the rank_lexicographic attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4c7a0dfbec6001e0"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.subsets.Subset.rank_lexicographic","kind":"property","src_hash":"b19e9edff2a08310","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rank_lexicographic()","rhs":"<unspecified:rank_lexicographic>","over":{"base":"Any"},"name":"rank_lexicographic_correct"},"guarantee":"returns the rank_lexicographic attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4c7a0dfbec6001e0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._rank_lex","self.subset","self.superset","self.superset_size"],"writes":["self._rank_lex"],"calls_mutating":["subset_index.remove"]},"state_contract":{"modifies":["self._rank_lex","subset_index.*"],"old_bindings":{"old_self__rank_lex":"self._rank_lex"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def rank_lexicographic(self):
         """
         Computes the lexicographic ranking of the subset.
@@ -508,16 +589,22 @@ class Subset():
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rank_gray(), returns the rank_gray attribute) over Any ║
+# ║ Path(rank_gray(), self._rank_graycode) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._rank_graycode                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ rank_gray : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | cc1642818c5f50c9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.subsets.Subset.rank_gray","kind":"property","src_hash":"6715d017f125fc8e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rank_gray()","rhs":"returns the rank_gray attribute","over":{"base":"Any"},"name":"rank_gray_correct"},"guarantee":"returns the rank_gray attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cc1642818c5f50c9"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.subsets.Subset.rank_gray","kind":"property","src_hash":"6715d017f125fc8e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rank_gray()","rhs":"self._rank_graycode","over":{"base":"Any"},"name":"rank_gray_correct"},"guarantee":"returns self._rank_graycode","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cc1642818c5f50c9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._rank_graycode","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._rank_graycode","self.subset","self.superset"],"writes":["self._rank_graycode"]},"state_contract":{"modifies":["self._rank_graycode"],"old_bindings":{"old_self__rank_graycode":"self._rank_graycode"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def rank_gray(self):
         """
         Computes the Gray code ranking of the subset.
@@ -545,16 +632,22 @@ class Subset():
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(subset(), returns the subset attribute) over Any      ║
+# ║ Path(subset(), self._subset) over Any                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._subset                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ subset : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 739ecda278548dfc           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.subsets.Subset.subset","kind":"property","src_hash":"7d84c9accde67f40","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"subset()","rhs":"returns the subset attribute","over":{"base":"Any"},"name":"subset_correct"},"guarantee":"returns the subset attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"739ecda278548dfc"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.subsets.Subset.subset","kind":"property","src_hash":"7d84c9accde67f40","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"subset()","rhs":"self._subset","over":{"base":"Any"},"name":"subset_correct"},"guarantee":"returns self._subset","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"739ecda278548dfc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._subset","pure":false,"effects":{"effect_type":"reads_state","reads":["self._subset"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def subset(self):
         """
         Gets the subset represented by the current instance.
@@ -576,16 +669,22 @@ class Subset():
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(size(), returns the size attribute) over Any          ║
+# ║ Path(size(), len(self.subset)) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  len(self.subset)                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ size : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3cc6db6ffedf728a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.subsets.Subset.size","kind":"property","src_hash":"e12e78da27ce3350","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"size()","rhs":"returns the size attribute","over":{"base":"Any"},"name":"size_correct"},"guarantee":"returns the size attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3cc6db6ffedf728a"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.subsets.Subset.size","kind":"property","src_hash":"e12e78da27ce3350","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"size()","rhs":"len(self.subset)","over":{"base":"Any"},"name":"size_correct"},"guarantee":"returns len(self.subset)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3cc6db6ffedf728a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"len(self.subset)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.subset"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def size(self):
         """
         Gets the size of the subset.
@@ -607,16 +706,22 @@ class Subset():
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(superset(), returns the superset attribute) over Any  ║
+# ║ Path(superset(), self._superset) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._superset                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ superset : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2ee802e4b42ab61e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.subsets.Subset.superset","kind":"property","src_hash":"6fa426c47f373f8c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"superset()","rhs":"returns the superset attribute","over":{"base":"Any"},"name":"superset_correct"},"guarantee":"returns the superset attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2ee802e4b42ab61e"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.subsets.Subset.superset","kind":"property","src_hash":"6fa426c47f373f8c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"superset()","rhs":"self._superset","over":{"base":"Any"},"name":"superset_correct"},"guarantee":"returns self._superset","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2ee802e4b42ab61e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._superset","pure":false,"effects":{"effect_type":"reads_state","reads":["self._superset"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def superset(self):
         """
         Gets the superset of the subset.
@@ -638,16 +743,22 @@ class Subset():
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(superset_size(), returns the superset_size attribute) over Any ║
+# ║ Path(superset_size(), len(self.superset)) over Any         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  len(self.superset)                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ superset_size : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4a59677711b20259           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.subsets.Subset.superset_size","kind":"property","src_hash":"1ba8c3035885d5ea","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"superset_size()","rhs":"returns the superset_size attribute","over":{"base":"Any"},"name":"superset_size_correct"},"guarantee":"returns the superset_size attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4a59677711b20259"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.subsets.Subset.superset_size","kind":"property","src_hash":"1ba8c3035885d5ea","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"superset_size()","rhs":"len(self.superset)","over":{"base":"Any"},"name":"superset_size_correct"},"guarantee":"returns len(self.superset)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4a59677711b20259","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"len(self.superset)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.superset"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def superset_size(self):
         """
         Returns the size of the superset.
@@ -669,16 +780,22 @@ class Subset():
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(cardinality(), returns the cardinality attribute) over Any ║
+# ║ Path(cardinality(), 2 ** self.superset_size) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  2 ** self.superset_size                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ cardinality : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4a6ba3da32b58744           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.subsets.Subset.cardinality","kind":"property","src_hash":"3779756ef410781b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"cardinality()","rhs":"returns the cardinality attribute","over":{"base":"Any"},"name":"cardinality_correct"},"guarantee":"returns the cardinality attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4a6ba3da32b58744"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.subsets.Subset.cardinality","kind":"property","src_hash":"3779756ef410781b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"cardinality()","rhs":"2 ** self.superset_size","over":{"base":"Any"},"name":"cardinality_correct"},"guarantee":"returns 2 ** self.superset_size","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4a6ba3da32b58744","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"2 ** self.superset_size","pure":false,"effects":{"effect_type":"reads_state","reads":["self.superset_size"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def cardinality(self):
         """
         Returns the number of all possible subsets.
@@ -700,16 +817,24 @@ class Subset():
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(subset_from_bitlist(sup), gets the subset defined by the bitlist) over Any ║
+# ║ Path(subset_from_bitlist(super_set, bitlist), Subset(ret_set, super_set)) over {Any | not (len(super_set) != len(bitlist))} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ subset_from_bitlist : Any → Any                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (len(super_set) != len(bitlist))           ║
+# ║   ensures:  len(ret_set) == old_len_ret_set + 1            ║
+# ║   returns:  Subset(ret_set, super_set)                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ subset_from_bitlist : {Any | not (len(super_set) != l...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | be0f42d447a90d86  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2d843bd0a7f50eb7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.subsets.Subset.subset_from_bitlist","kind":"classmethod","src_hash":"909f0d23b3fce617","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"subset_from_bitlist(sup)","rhs":"gets the subset defined by the bitlist","over":{"base":"Any"},"name":"subset_from_bitlist_correct"},"guarantee":"gets the subset defined by the bitlist","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.subsets.Subset.subset_from_bitlist_correct","statement":"Path(subset_from_bitlist(x), gets the subset defined by the bitlist)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"be0f42d447a90d86"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.subsets.Subset.subset_from_bitlist","kind":"classmethod","src_hash":"909f0d23b3fce617","in":{"base":"Any","pred":"not (len(super_set) != len(bitlist))"},"out":{"base":"Any","pred":"result satisfies: result == (Subset(ret_set, super_set))"},"spec":{"lhs":"subset_from_bitlist(super_set, bitlist)","rhs":"Subset(ret_set, super_set)","over":{"base":"Any","pred":"not (len(super_set) != len(bitlist))"},"name":"subset_from_bitlist_correct"},"guarantee":"returns Subset(ret_set, super_set); len(ret_set) == old_len_ret_set + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.subsets.Subset.subset_from_bitlist_correct","statement":"Path(subset_from_bitlist(x), returns Subset(ret_set, super_set); len(ret_set) == old_len_ret_set + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2d843bd0a7f50eb7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (len(super_set) != len(bitlist))"],"ensures":["len(ret_set) == old_len_ret_set + 1"],"returns_expr":"Subset(ret_set, super_set)","pure":false,"effects":{"effect_type":"reads_state","calls_mutating":["ret_set.append"],"raises":["ValueError"]},"state_contract":{"modifies":["ret_set.*"],"old_bindings":{"old_len_ret_set":"len(ret_set)"},"post_ensures":["len(ret_set) == old_len_ret_set + 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def subset_from_bitlist(self, super_set, bitlist):
         """
         Gets the subset defined by the bitlist.
@@ -736,16 +861,23 @@ class Subset():
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(bitlist_from_subset(sub), gets the bitlist corresponding to a subset) over Any ║
+# ║ Path(bitlist_from_subset(subset, superset), ''.join(bitlist)) over {Any | hasattr(subset, 'subset')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ bitlist_from_subset : Any → Any                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(subset, 'subset')                      ║
+# ║   returns:  ''.join(bitlist)                               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ bitlist_from_subset : {Any | hasattr(subset, 'subset'...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6fce3f874bfed282  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8af26b8b7051b75d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.subsets.Subset.bitlist_from_subset","kind":"classmethod","src_hash":"6a4b696274a1034d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bitlist_from_subset(sub)","rhs":"gets the bitlist corresponding to a subset","over":{"base":"Any"},"name":"bitlist_from_subset_correct"},"guarantee":"gets the bitlist corresponding to a subset","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.subsets.Subset.bitlist_from_subset_correct","statement":"Path(bitlist_from_subset(x), gets the bitlist corresponding to a subset)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6fce3f874bfed282"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.subsets.Subset.bitlist_from_subset","kind":"classmethod","src_hash":"6a4b696274a1034d","in":{"base":"Any","pred":"hasattr(subset, 'subset')"},"out":{"base":"Any"},"spec":{"lhs":"bitlist_from_subset(subset, superset)","rhs":"''.join(bitlist)","over":{"base":"Any","pred":"hasattr(subset, 'subset')"},"name":"bitlist_from_subset_correct"},"guarantee":"returns ''.join(bitlist)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.subsets.Subset.bitlist_from_subset_correct","statement":"Path(bitlist_from_subset(x), returns ''.join(bitlist))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8af26b8b7051b75d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(subset, 'subset')"],"returns_expr":"''.join(bitlist)","pure":false,"effects":{"effect_type":"reads_state","reads":["subset.subset"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def bitlist_from_subset(self, subset, superset):
         """
         Gets the bitlist corresponding to a subset.
@@ -771,16 +903,22 @@ class Subset():
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(unrank_binary(ran), gets the binary ordered subset of the specified rank) over Any ║
+# ║ Path(unrank_binary(rank, superset), Subset.subset_from_bitlist(superset, bits)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Subset.subset_from_bitlist(superset, bits)     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ unrank_binary : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 645809f7402c8797  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b6a2f3507ef28ac8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.subsets.Subset.unrank_binary","kind":"classmethod","src_hash":"21ba7367a44f1414","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"unrank_binary(ran)","rhs":"gets the binary ordered subset of the specified rank","over":{"base":"Any"},"name":"unrank_binary_correct"},"guarantee":"gets the binary ordered subset of the specified rank","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.subsets.Subset.unrank_binary_correct","statement":"Path(unrank_binary(x), gets the binary ordered subset of the specified rank)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"645809f7402c8797"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.subsets.Subset.unrank_binary","kind":"classmethod","src_hash":"21ba7367a44f1414","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"unrank_binary(rank, superset)","rhs":"Subset.subset_from_bitlist(superset, bits)","over":{"base":"Any"},"name":"unrank_binary_correct"},"guarantee":"returns Subset.subset_from_bitlist(superset, bits)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.subsets.Subset.unrank_binary_correct","statement":"Path(unrank_binary(x), returns Subset.subset_from_bitlist(superset, bits))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b6a2f3507ef28ac8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Subset.subset_from_bitlist(superset, bits)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def unrank_binary(self, rank, superset):
         """
         Gets the binary ordered subset of the specified rank.
@@ -802,16 +940,22 @@ class Subset():
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(unrank_gray(ran), gets the gray code ordered subset of the specified rank) over Any ║
+# ║ Path(unrank_gray(rank, superset), Subset.subset_from_bitlist(superset, graycode_bitlist)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Subset.subset_from_bitlist(superset, gray...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ unrank_gray : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5a11d5dce9f8c415  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 05afd26a29f6528e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.subsets.Subset.unrank_gray","kind":"classmethod","src_hash":"95abe774cc0e21c5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"unrank_gray(ran)","rhs":"gets the gray code ordered subset of the specified rank","over":{"base":"Any"},"name":"unrank_gray_correct"},"guarantee":"gets the gray code ordered subset of the specified rank","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.subsets.Subset.unrank_gray_correct","statement":"Path(unrank_gray(x), gets the gray code ordered subset of the specified rank)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5a11d5dce9f8c415"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.subsets.Subset.unrank_gray","kind":"classmethod","src_hash":"95abe774cc0e21c5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"unrank_gray(rank, superset)","rhs":"Subset.subset_from_bitlist(superset, graycode_bitlist)","over":{"base":"Any"},"name":"unrank_gray_correct"},"guarantee":"returns Subset.subset_from_bitlist(superset, graycode_bitlist)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.subsets.Subset.unrank_gray_correct","statement":"Path(unrank_gray(x), returns Subset.subset_from_bitlist(superset, graycode_bitlist))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"05afd26a29f6528e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Subset.subset_from_bitlist(superset, graycode_bitlist)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def unrank_gray(self, rank, superset):
         """
         Gets the Gray code ordered subset of the specified rank.
@@ -835,16 +979,22 @@ class Subset():
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(subset_indices(sub), return indices of subset in superset in a list; the list is empty if all elements of ``subset`` are not in ``superset``) over Any ║
+# ║ Path(subset_indices(subset, superset), <unspecified:subset_indices>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ subset_indices : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f4d34a927162aa00  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.subsets.Subset.subset_indices","kind":"classmethod","src_hash":"844992b7c5c808eb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"subset_indices(sub)","rhs":"return indices of subset in superset in a list; the list is empty if all elements of ``subset`` are not in ``superset``","over":{"base":"Any"},"name":"subset_indices_correct"},"guarantee":"return indices of subset in superset in a list; the list is empty if all elements of ``subset`` are not in ``superset``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.subsets.Subset.subset_indices_correct","statement":"Path(subset_indices(x), return indices of subset in superset in a list; the list is empty if all elements of ``subset`` are not in ``superset``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f4d34a927162aa00"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.subsets.Subset.subset_indices","kind":"classmethod","src_hash":"844992b7c5c808eb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"subset_indices(subset, superset)","rhs":"<unspecified:subset_indices>","over":{"base":"Any"},"name":"subset_indices_correct"},"guarantee":"return indices of subset in superset in a list; the list is empty if all elements of ``subset`` are not in ``superset``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.subsets.Subset.subset_indices_correct","statement":"Path(subset_indices(x), return indices of subset in superset in a list; the list is empty if all elements of ``subset`` are not in ``superset``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f4d34a927162aa00","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def subset_indices(self, subset, superset):
         """Return indices of subset in superset in a list; the list is empty
         if all elements of ``subset`` are not in ``superset``.
@@ -877,16 +1027,22 @@ class Subset():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ksubsets(sup), finds the subsets of size ``k`` in lexicographic order) over Any ║
+# ║ Path(ksubsets(superset, k), combinations(superset, k)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  combinations(superset, k)                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ ksubsets : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c3dcbf092b731927           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.subsets.ksubsets","kind":"function","src_hash":"3b21f59252087dc2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ksubsets(sup)","rhs":"finds the subsets of size ``k`` in lexicographic order","over":{"base":"Any"},"name":"ksubsets_correct"},"guarantee":"finds the subsets of size ``k`` in lexicographic order","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c3dcbf092b731927"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.subsets.ksubsets","kind":"function","src_hash":"3b21f59252087dc2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ksubsets(superset, k)","rhs":"combinations(superset, k)","over":{"base":"Any"},"name":"ksubsets_correct"},"guarantee":"returns combinations(superset, k)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c3dcbf092b731927","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"combinations(superset, k)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def ksubsets(superset, k):
     """
     Finds the subsets of size ``k`` in lexicographic order.

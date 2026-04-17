@@ -36,14 +36,20 @@ from sympy.utilities.misc import as_int
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(_as_int_ceiling(a), id) over Any                      ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  as_int(ceiling(a))                             ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ _as_int_ceiling : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | df1701af51d4e011   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.generate._as_int_ceiling","kind":"function","src_hash":"74bd4e9cedab121c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_as_int_ceiling(a)","rhs":"wrapping ceiling in as_int will raise an error if there was a problem determining whether the expression was exactly an integer or not","over":{"base":"Any"},"name":"_as_int_ceiling_correct","kind":"composition"},"guarantee":"wrapping ceiling in as_int will raise an error if there was a problem determining whether the expression was exactly an integer or not","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"as_int","by":"library_axiom"},{"fn":"ceiling","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"df1701af51d4e011"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.generate._as_int_ceiling","kind":"function","src_hash":"74bd4e9cedab121c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_as_int_ceiling(a)","rhs":"as_int(ceiling(a))","over":{"base":"Any"},"name":"_as_int_ceiling_correct","kind":"composition"},"guarantee":"returns as_int(ceiling(a))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"as_int","by":"library_axiom"},{"fn":"ceiling","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"df1701af51d4e011","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"as_int(ceiling(a))","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def _as_int_ceiling(a):
     """ Wrapping ceiling in as_int will raise an error if there was a problem
         determining whether the expression was exactly an integer or not."""
@@ -54,14 +60,19 @@ def _as_int_ceiling(a):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a Sieve instance) preserved by Sieve(*args) over {Any | isinstance(n, slice)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ Sieve : {Any | isinstance(n, slice)} → {Any | all((le...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.8ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 72b7823f86ceb158  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.generate.Sieve","kind":"class","src_hash":"fd564a96e2027b01","in":{"base":"Any","pred":"isinstance(n, slice)"},"out":{"base":"Any","pred":"all((len(i) == self._n for i in (self._list, self._tlist, self._mlist))) and n >= 2"},"spec":{"lhs":"Sieve(*args)","rhs":"correctly constructs a Sieve instance","over":{"base":"Any","pred":"isinstance(n, slice)"},"name":"Sieve_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a Sieve instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, '_n') and hasattr(self, '_list') and hasattr(self, '_tlist') and hasattr(self, '_mlist') and hasattr(self, 'sieve_interval')","kind":"class","induction":"structural on _n, _list, _tlist, _mlist"}],"methods_preserving":["__init__","__repr__","_reset","extend","_primerange","extend_to_no","primerange","totientrange","mobiusrange","search","__contains__","__iter__","__getitem__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"72b7823f86ceb158"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.generate.Sieve","kind":"class","src_hash":"fd564a96e2027b01","in":{"base":"Any","pred":"isinstance(n, slice)"},"out":{"base":"Any","pred":"all((len(i) == self._n for i in (self._list, self._tlist, self._mlist))) and n >= 2"},"spec":{"lhs":"Sieve(*args)","rhs":"correctly constructs a Sieve instance","over":{"base":"Any","pred":"isinstance(n, slice)"},"name":"Sieve_class_invariant","kind":"invariant"},"guarantee":"preserves 5 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, '_n') and hasattr(self, '_list') and hasattr(self, '_tlist') and hasattr(self, '_mlist') and hasattr(self, 'sieve_interval')","kind":"class","induction":"structural on _n, _list, _tlist, _mlist"}],"methods_preserving":["__init__","__repr__","_reset","extend","_primerange","extend_to_no","primerange","totientrange","mobiusrange","search","__contains__","__iter__","__getitem__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"72b7823f86ceb158","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, '_n')","hasattr(self, '_list')","hasattr(self, '_tlist')","hasattr(self, '_mlist')","hasattr(self, 'sieve_interval')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.8,"verdict_class":"assumed","binding":false,"binding_errors":["Function Sieve not found in source"]}}
 class Sieve:
     """A list of prime numbers, implemented as a dynamically
     growing sieve of Eratosthenes. When a lookup is requested involving
@@ -82,16 +93,23 @@ class Sieve:
 
     # data shared (and updated) by all Sieve instances
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(sie), initializes the instance correctly) over Any ║
+# ║ Path(__init__(sieve_interval), all((len(i) == self._n for i in (self._list, self._tlist, self._mlist)))) over {Any | not (sieve_interval <= 0)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (sieve_interval <= 0)                      ║
+# ║   ensures:  all((len(i) == self._n for i in (self._li...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : {Any | not (sieve_interval <= 0)} → {Any |...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c4b4147a4cdcef04           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.generate.Sieve.__init__","kind":"method","src_hash":"3ed4770a7f25b65a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(sie)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c4b4147a4cdcef04"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.generate.Sieve.__init__","kind":"method","src_hash":"3ed4770a7f25b65a","in":{"base":"Any","pred":"not (sieve_interval <= 0)"},"out":{"base":"Any","pred":"result satisfies: all((len(i) == self._n for i in (self._list, self._tlist, self._mlist)))"},"spec":{"lhs":"__init__(sieve_interval)","rhs":"all((len(i) == self._n for i in (self._list, self._tlist, self._mlist)))","over":{"base":"Any","pred":"not (sieve_interval <= 0)"},"name":"__init___correct"},"guarantee":"all((len(i) == self._n for i in (self._list, self._tlist, self._mlist)))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c4b4147a4cdcef04","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (sieve_interval <= 0)"],"ensures":["all((len(i) == self._n for i in (self._list, self._tlist, self._mlist)))"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._list","self._mlist","self._n","self._tlist"],"writes":["self._list","self._mlist","self._n","self._tlist","self.sieve_interval"],"raises":["ValueError"]},"state_contract":{"modifies":["self._list","self._mlist","self._n","self._tlist","self.sieve_interval"],"old_bindings":{"old_self__list":"self._list","old_self__mlist":"self._mlist","old_self__n":"self._n","old_self__tlist":"self._tlist","old_self_sieve_interval":"self.sieve_interval"},"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, sieve_interval=1_000_000):
         """ Initial parameters for the Sieve class.
 
@@ -117,16 +135,22 @@ class Sieve:
         assert all(len(i) == self._n for i in (self._list, self._tlist, self._mlist))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__repr__(), returns a faithful string representation) over Any ║
+# ║ Path(__repr__(), <unspecified:__repr__>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __repr__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0d4cd91e82fc5670           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.generate.Sieve.__repr__","kind":"method","src_hash":"ff13624837f63e5b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"returns a faithful string representation","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns a faithful string representation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0d4cd91e82fc5670"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.generate.Sieve.__repr__","kind":"method","src_hash":"ff13624837f63e5b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"<unspecified:__repr__>","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns a faithful string representation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0d4cd91e82fc5670","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._list","self._mlist","self._tlist"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __repr__(self):
         return ("<%s sieve (%i): %i, %i, %i, ... %i, %i\n"
              "%s sieve (%i): %i, %i, %i, ... %i, %i\n"
@@ -142,16 +166,22 @@ class Sieve:
                  self._mlist[2], self._mlist[-2], self._mlist[-1])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_reset(pri), reset all caches (default)) over Any     ║
+# ║ Path(_reset(prime, totient, mobius), <unspecified:_reset>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _reset : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d444c456aebb6f15  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.generate.Sieve._reset","kind":"method","src_hash":"0f6cb09f4452a545","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_reset(pri)","rhs":"reset all caches (default)","over":{"base":"Any"},"name":"_reset_correct"},"guarantee":"reset all caches (default)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.generate.Sieve._reset_correct","statement":"Path(_reset(x), reset all caches (default))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d444c456aebb6f15"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.generate.Sieve._reset","kind":"method","src_hash":"0f6cb09f4452a545","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_reset(prime, totient, mobius)","rhs":"<unspecified:_reset>","over":{"base":"Any"},"name":"_reset_correct"},"guarantee":"reset all caches (default)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.generate.Sieve._reset_correct","statement":"Path(_reset(x), reset all caches (default))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d444c456aebb6f15","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._list","self._mlist","self._n","self._tlist"],"writes":["self._list","self._mlist","self._tlist"]},"state_contract":{"modifies":["self._list","self._mlist","self._tlist"],"old_bindings":{"old_self__list":"self._list","old_self__mlist":"self._mlist","old_self__tlist":"self._tlist"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _reset(self, prime=None, totient=None, mobius=None):
         """Reset all caches (default). To reset one or more set the
             desired keyword to True."""
@@ -165,16 +195,22 @@ class Sieve:
             self._mlist = self._mlist[:self._n]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(extend(n), grow the sieve to cover all primes <= n) over Any ║
+# ║ Path(extend(n), <unspecified:extend>) over Any             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ extend : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b202296f29bf067a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.generate.Sieve.extend","kind":"method","src_hash":"98728b4bbc4ac36a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"extend(n)","rhs":"grow the sieve to cover all primes <= n","over":{"base":"Any"},"name":"extend_correct"},"guarantee":"grow the sieve to cover all primes <= n","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.generate.Sieve.extend_correct","statement":"Path(extend(x), grow the sieve to cover all primes <= n)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b202296f29bf067a"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.generate.Sieve.extend","kind":"method","src_hash":"98728b4bbc4ac36a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"extend(n)","rhs":"<unspecified:extend>","over":{"base":"Any"},"name":"extend_correct"},"guarantee":"grow the sieve to cover all primes <= n","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.generate.Sieve.extend_correct","statement":"Path(extend(x), grow the sieve to cover all primes <= n)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b202296f29bf067a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._list","self._primerange"],"writes":["self._list"]},"state_contract":{"modifies":["self._list"],"old_bindings":{"old_self__list":"self._list"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def extend(self, n):
         """Grow the sieve to cover all primes <= n.
 
@@ -201,16 +237,22 @@ class Sieve:
         self._list += _array('L', self._primerange(num, n + 1))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_primerange(a, ), generate all prime numbers in the range (a, b)) over Any ║
+# ║ Path(_primerange(a, b), <unspecified:_primerange>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _primerange : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2668c301a6e07004  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.generate.Sieve._primerange","kind":"method","src_hash":"a633151e9938439a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_primerange(a, )","rhs":"generate all prime numbers in the range (a, b)","over":{"base":"Any"},"name":"_primerange_correct"},"guarantee":"generate all prime numbers in the range (a, b)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.generate.Sieve._primerange_correct","statement":"Path(_primerange(x), generate all prime numbers in the range (a, b))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2668c301a6e07004"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.generate.Sieve._primerange","kind":"method","src_hash":"a633151e9938439a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_primerange(a, b)","rhs":"<unspecified:_primerange>","over":{"base":"Any"},"name":"_primerange_correct"},"guarantee":"generate all prime numbers in the range (a, b)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.generate.Sieve._primerange_correct","statement":"Path(_primerange(x), generate all prime numbers in the range (a, b))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2668c301a6e07004","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._list","self.sieve_interval"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _primerange(self, a, b):
         """ Generate all prime numbers in the range (a, b).
 
@@ -253,16 +295,22 @@ class Sieve:
             a += 2 * block_size
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(extend_to_no(i), extend to include the ith prime number) over Any ║
+# ║ Path(extend_to_no(i), <unspecified:extend_to_no>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ extend_to_no : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f707fa081462bfa6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.generate.Sieve.extend_to_no","kind":"method","src_hash":"25ebd94707d5ffe7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"extend_to_no(i)","rhs":"extend to include the ith prime number","over":{"base":"Any"},"name":"extend_to_no_correct"},"guarantee":"extend to include the ith prime number","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.generate.Sieve.extend_to_no_correct","statement":"Path(extend_to_no(x), extend to include the ith prime number)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f707fa081462bfa6"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.generate.Sieve.extend_to_no","kind":"method","src_hash":"25ebd94707d5ffe7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"extend_to_no(i)","rhs":"<unspecified:extend_to_no>","over":{"base":"Any"},"name":"extend_to_no_correct"},"guarantee":"extend to include the ith prime number","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.generate.Sieve.extend_to_no_correct","statement":"Path(extend_to_no(x), extend to include the ith prime number)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f707fa081462bfa6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._list","self.extend"],"calls_mutating":["self.extend"]},"state_contract":{"modifies":["self.*"],"old_bindings":{"old_len_self":"len(self)"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def extend_to_no(self, i):
         """Extend to include the ith prime number.
 
@@ -291,16 +339,22 @@ class Sieve:
             self.extend(int(self._list[-1] * 1.5))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(primerange(a, ), generate all prime numbers in the range [2, a) or [a, b)) over Any ║
+# ║ Path(primerange(a, b), <unspecified:primerange>) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ primerange : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c7994f887048cf7a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.generate.Sieve.primerange","kind":"method","src_hash":"e06ef93b57ce9d0e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"primerange(a, )","rhs":"generate all prime numbers in the range [2, a) or [a, b)","over":{"base":"Any"},"name":"primerange_correct"},"guarantee":"generate all prime numbers in the range [2, a) or [a, b)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.generate.Sieve.primerange_correct","statement":"Path(primerange(x), generate all prime numbers in the range [2, a) or [a, b))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c7994f887048cf7a"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.generate.Sieve.primerange","kind":"method","src_hash":"e06ef93b57ce9d0e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"primerange(a, b)","rhs":"<unspecified:primerange>","over":{"base":"Any"},"name":"primerange_correct"},"guarantee":"generate all prime numbers in the range [2, a) or [a, b)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.generate.Sieve.primerange_correct","statement":"Path(primerange(x), generate all prime numbers in the range [2, a) or [a, b))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c7994f887048cf7a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._list","self.extend"],"calls_mutating":["self.extend"]},"state_contract":{"modifies":["self.*"],"old_bindings":{"old_len_self":"len(self)"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def primerange(self, a, b=None):
         """Generate all prime numbers in the range [2, a) or [a, b).
 
@@ -338,16 +392,22 @@ class Sieve:
                               bisect_left(self._list, b)]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(totientrange(a, ), generate all totient numbers for the range [a, b)) over Any ║
+# ║ Path(totientrange(a, b), <unspecified:totientrange>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ totientrange : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5b5f2cc120238ca5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.generate.Sieve.totientrange","kind":"method","src_hash":"3451926c5ee96930","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"totientrange(a, )","rhs":"generate all totient numbers for the range [a, b)","over":{"base":"Any"},"name":"totientrange_correct"},"guarantee":"generate all totient numbers for the range [a, b)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.generate.Sieve.totientrange_correct","statement":"Path(totientrange(x), generate all totient numbers for the range [a, b))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5b5f2cc120238ca5"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.generate.Sieve.totientrange","kind":"method","src_hash":"3451926c5ee96930","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"totientrange(a, b)","rhs":"<unspecified:totientrange>","over":{"base":"Any"},"name":"totientrange_correct"},"guarantee":"generate all totient numbers for the range [a, b)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.generate.Sieve.totientrange_correct","statement":"Path(totientrange(x), generate all totient numbers for the range [a, b))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5b5f2cc120238ca5","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._tlist"],"writes":["self._tlist"]},"state_contract":{"modifies":["self._tlist"],"old_bindings":{"old_self__tlist":"self._tlist"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def totientrange(self, a, b):
         """Generate all totient numbers for the range [a, b).
 
@@ -386,16 +446,22 @@ class Sieve:
                     yield self._tlist[i]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(mobiusrange(a, ), generate all mobius numbers for the range [a, b)) over Any ║
+# ║ Path(mobiusrange(a, b), <unspecified:mobiusrange>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ mobiusrange : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 37d2e4543b32d93e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.generate.Sieve.mobiusrange","kind":"method","src_hash":"8f72f0b224a463f0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"mobiusrange(a, )","rhs":"generate all mobius numbers for the range [a, b)","over":{"base":"Any"},"name":"mobiusrange_correct"},"guarantee":"generate all mobius numbers for the range [a, b)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.generate.Sieve.mobiusrange_correct","statement":"Path(mobiusrange(x), generate all mobius numbers for the range [a, b))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"37d2e4543b32d93e"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.generate.Sieve.mobiusrange","kind":"method","src_hash":"8f72f0b224a463f0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"mobiusrange(a, b)","rhs":"<unspecified:mobiusrange>","over":{"base":"Any"},"name":"mobiusrange_correct"},"guarantee":"generate all mobius numbers for the range [a, b)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.generate.Sieve.mobiusrange_correct","statement":"Path(mobiusrange(x), generate all mobius numbers for the range [a, b))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"37d2e4543b32d93e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._mlist"],"writes":["self._mlist"]},"state_contract":{"modifies":["self._mlist"],"old_bindings":{"old_self__mlist":"self._mlist"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def mobiusrange(self, a, b):
         """Generate all mobius numbers for the range [a, b).
 
@@ -441,16 +507,23 @@ class Sieve:
                     yield mi
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(search(n), return the indices i, j of the primes that bound n) over Any ║
+# ║ Path(search(n), <unspecified:search>) over {Any | not (n < 2)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ search : Any → Any                                         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (n < 2)                                    ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ search : {Any | not (n < 2)} → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3f147a77c687a052  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.generate.Sieve.search","kind":"method","src_hash":"d5feb8247bb090b6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"search(n)","rhs":"return the indices i, j of the primes that bound n","over":{"base":"Any"},"name":"search_correct"},"guarantee":"return the indices i, j of the primes that bound n","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.generate.Sieve.search_correct","statement":"Path(search(x), return the indices i, j of the primes that bound n)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3f147a77c687a052"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.generate.Sieve.search","kind":"method","src_hash":"d5feb8247bb090b6","in":{"base":"Any","pred":"not (n < 2)"},"out":{"base":"Any"},"spec":{"lhs":"search(n)","rhs":"<unspecified:search>","over":{"base":"Any","pred":"not (n < 2)"},"name":"search_correct"},"guarantee":"return the indices i, j of the primes that bound n","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.generate.Sieve.search_correct","statement":"Path(search(x), return the indices i, j of the primes that bound n)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3f147a77c687a052","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (n < 2)"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self._list","self.extend"],"calls_mutating":["self.extend"],"raises":["ValueError"]},"state_contract":{"modifies":["self.*"],"old_bindings":{"old_len_self":"len(self)"},"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def search(self, n):
         """Return the indices i, j of the primes that bound n.
 
@@ -481,16 +554,22 @@ class Sieve:
             return b, b + 1
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__contains__(n), correctly tests membership) over Any ║
+# ║ Path(__contains__(n), <unspecified:__contains__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __contains__ : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 87ec15f6ca001334           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.generate.Sieve.__contains__","kind":"method","src_hash":"51544632e230e7f2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__contains__(n)","rhs":"correctly tests membership","over":{"base":"Any"},"name":"__contains___correct"},"guarantee":"correctly tests membership","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"87ec15f6ca001334"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.generate.Sieve.__contains__","kind":"method","src_hash":"51544632e230e7f2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__contains__(n)","rhs":"<unspecified:__contains__>","over":{"base":"Any"},"name":"__contains___correct"},"guarantee":"correctly tests membership","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"87ec15f6ca001334","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.search"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __contains__(self, n):
         try:
             n = as_int(n)
@@ -503,31 +582,49 @@ class Sieve:
         return a == b
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__iter__(), yields all elements in order) over Any    ║
+# ║ Path(__iter__(), <unspecified:__iter__>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __iter__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8135a186a350ab6b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.generate.Sieve.__iter__","kind":"method","src_hash":"92dcffdf45239d06","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__iter__()","rhs":"yields all elements in order","over":{"base":"Any"},"name":"__iter___correct"},"guarantee":"yields all elements in order","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8135a186a350ab6b"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.generate.Sieve.__iter__","kind":"method","src_hash":"92dcffdf45239d06","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__iter__()","rhs":"<unspecified:__iter__>","over":{"base":"Any"},"name":"__iter___correct"},"guarantee":"yields all elements in order","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8135a186a350ab6b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __iter__(self):
         for n in count(1):
             yield self[n]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__getitem__(n), returns the element at the given index) over Any ║
+# ║ Path(__getitem__(n), result == (self._list[start - 1:n.stop - 1:n.step] if isinstance(n, slice) else self._list[n - 1]) and result == self._list[start - 1:n.stop - 1:n.step] or result == self._list[n - 1]) over {Any | hasattr(n, 'stop') and hasattr(n, 'start') and hasattr(n, 'step')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __getitem__ : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(n, 'stop')                             ║
+# ║   requires: hasattr(n, 'start')                            ║
+# ║   requires: hasattr(n, 'step')                             ║
+# ║   ensures:  result == (self._list[start - 1:n.stop - ...   ║
+# ║   ensures:  result == self._list[start - 1:n.stop - 1...   ║
+# ║   fiber[slice]: isinstance(n, slice) => self._list[st...   ║
+# ║   fiber[slice]: not (isinstance(n, slice)) => self._l...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __getitem__ : {Any | hasattr(n, 'stop') and hasattr(n...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0482f81e188582d3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.generate.Sieve.__getitem__","kind":"method","src_hash":"72526e137cb2e26b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getitem__(n)","rhs":"returns the element at the given index","over":{"base":"Any"},"name":"__getitem___correct"},"guarantee":"returns the element at the given index","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0482f81e188582d3"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.generate.Sieve.__getitem__","kind":"method","src_hash":"72526e137cb2e26b","in":{"base":"Any","pred":"hasattr(n, 'stop') and hasattr(n, 'start') and hasattr(n, 'step')"},"out":{"base":"Any","pred":"result satisfies: result == (self._list[start - 1:n.stop - 1:n.step] if isinstance(n, slice) else self._list[n - 1]) and result == self._list[start - 1:n.stop - 1:n.step] or result == self._list[n - 1]"},"spec":{"lhs":"__getitem__(n)","rhs":"result == (self._list[start - 1:n.stop - 1:n.step] if isinstance(n, slice) else self._list[n - 1]) and result == self._list[start - 1:n.stop - 1:n.step] or result == self._list[n - 1]","over":{"base":"Any","pred":"hasattr(n, 'stop') and hasattr(n, 'start') and hasattr(n, 'step')"},"name":"__getitem___correct"},"guarantee":"result == (self._list[start - 1:n.stop - 1:n.step] if isinstance(n, slice) else self._list[n - 1]); result == self._list[start - 1:n.stop - 1:n.step] or result == self._list[n - 1]; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0482f81e188582d3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(n, 'stop')","hasattr(n, 'start')","hasattr(n, 'step')"],"ensures":["result == (self._list[start - 1:n.stop - 1:n.step] if isinstance(n, slice) else self._list[n - 1])","result == self._list[start - 1:n.stop - 1:n.step] or result == self._list[n - 1]"],"fibers":[{"name":"slice","guard":"isinstance(n, slice)","ensures":["result == self._list[start - 1:n.stop - 1:n.step]"],"decidability":"structural","returns_expr":"self._list[start - 1:n.stop - 1:n.step]"},{"name":"slice","guard":"not (isinstance(n, slice))","ensures":["result == self._list[n - 1]"],"decidability":"structural","returns_expr":"self._list[n - 1]"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["n.start","n.step","n.stop","self._list","self.extend_to_no"],"raises":["IndexError"]},"state_contract":{"exceptional_post":{"IndexError":["isinstance(raised, IndexError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __getitem__(self, n):
         """Return the nth prime number"""
         if isinstance(n, slice):
@@ -551,16 +648,23 @@ class Sieve:
 sieve = Sieve()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(prime(nth), return the nth prime number, where primes are indexed starting from 1: prime(1) = 2, prime(2) = 3, etc) over Any ║
+# ║ Path(prime(nth), <unspecified:prime>) over {Any | not (n < 1)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ prime : Any → Any                                          ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (n < 1)                                    ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ prime : {Any | not (n < 1)} → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | afc06ac5f7fb87db  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.generate.prime","kind":"function","src_hash":"d865df3956a8b3f9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"prime(nth)","rhs":"return the nth prime number, where primes are indexed starting from 1: prime(1) = 2, prime(2) = 3, etc","over":{"base":"Any"},"name":"prime_correct"},"guarantee":"return the nth prime number, where primes are indexed starting from 1: prime(1) = 2, prime(2) = 3, etc","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.generate.prime_correct","statement":"Path(prime(x), return the nth prime number, where primes are indexed starting from 1: prime(1) = 2, prime(2) = 3, etc)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"afc06ac5f7fb87db"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.generate.prime","kind":"function","src_hash":"d865df3956a8b3f9","in":{"base":"Any","pred":"not (n < 1)"},"out":{"base":"Any"},"spec":{"lhs":"prime(nth)","rhs":"<unspecified:prime>","over":{"base":"Any","pred":"not (n < 1)"},"name":"prime_correct"},"guarantee":"return the nth prime number, where primes are indexed starting from 1: prime(1) = 2, prime(2) = 3, etc","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.generate.prime_correct","statement":"Path(prime(x), return the nth prime number, where primes are indexed starting from 1: prime(1) = 2, prime(2) = 3, etc)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"afc06ac5f7fb87db","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (n < 1)"],"pure":false,"effects":{"effect_type":"reads_state","calls_mutating":["sieve.extend"],"raises":["ValueError"]},"state_contract":{"modifies":["sieve.*"],"old_bindings":{"old_len_sieve":"len(sieve)"},"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def prime(nth):
     r"""
     Return the nth prime number, where primes are indexed starting from 1:
@@ -639,16 +743,22 @@ The `sympy.ntheory.generate.primepi` has been moved to `sympy.functions.combinat
 deprecated_since_version="1.13",
 active_deprecations_target='deprecated-ntheory-symbolic-functions')
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(primepi(n), represents the prime counting function pi(n) = the number of prime numbers less than or equal to n) over Any ║
+# ║ Path(primepi(n), func_primepi(n)) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  func_primepi(n)                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ primepi : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e2957e508d62f6f1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ec67038974f78c33  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.generate.primepi","kind":"function","src_hash":"c73ba3142949d080","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"primepi(n)","rhs":"represents the prime counting function pi(n) = the number of prime numbers less than or equal to n","over":{"base":"Any"},"name":"primepi_correct"},"guarantee":"represents the prime counting function pi(n) = the number of prime numbers less than or equal to n","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.generate.primepi_correct","statement":"Path(primepi(x), represents the prime counting function pi(n) = the number of prime numbers less than or equal to n)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e2957e508d62f6f1"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.generate.primepi","kind":"function","src_hash":"c73ba3142949d080","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"primepi(n)","rhs":"func_primepi(n)","over":{"base":"Any"},"name":"primepi_correct"},"guarantee":"returns func_primepi(n)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.generate.primepi_correct","statement":"Path(primepi(x), returns func_primepi(n))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ec67038974f78c33","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"func_primepi(n)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def primepi(n):
     r""" Represents the prime counting function pi(n) = the number
         of prime numbers less than or equal to n.
@@ -738,16 +848,23 @@ def primepi(n):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_primepi(n), represents the prime counting function pi(n) = the number of prime numbers less than or equal to n) over int ║
+# ║ Path(_primepi(n), isinstance(result, int)) over {int | isinstance(n, int)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _primepi : int → int                                       ║
+# ║ C4 Spec [static] strength=partial                          ║
+# ║   requires: isinstance(n, int)                             ║
+# ║   ensures:  isinstance(result, int)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _primepi : {int | isinstance(n, int)} → {int | result...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 603dcf4610e307e2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2dad4e70181483a0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.generate._primepi","kind":"function","src_hash":"aee466b6c183fd42","in":{"base":"int"},"out":{"base":"int"},"spec":{"lhs":"_primepi(n)","rhs":"represents the prime counting function pi(n) = the number of prime numbers less than or equal to n","over":{"base":"int"},"name":"_primepi_correct"},"guarantee":"represents the prime counting function pi(n) = the number of prime numbers less than or equal to n","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.generate._primepi_correct","statement":"Path(_primepi(x), represents the prime counting function pi(n) = the number of prime numbers less than or equal to n)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"603dcf4610e307e2"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.generate._primepi","kind":"function","src_hash":"aee466b6c183fd42","in":{"base":"int","pred":"isinstance(n, int)"},"out":{"base":"int","pred":"result satisfies: isinstance(result, int)"},"spec":{"lhs":"_primepi(n)","rhs":"isinstance(result, int)","over":{"base":"int","pred":"isinstance(n, int)"},"name":"_primepi_correct"},"guarantee":"isinstance(result, int)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.generate._primepi_correct","statement":"Path(_primepi(x), isinstance(result, int))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2dad4e70181483a0","spec_source":"static","formal_spec":{"source":"static","strength":"partial","requires":["isinstance(n, int)"],"ensures":["isinstance(result, int)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def _primepi(n:int) -> int:
     r""" Represents the prime counting function pi(n) = the number
     of prime numbers less than or equal to n.
@@ -847,16 +964,23 @@ def _primepi(n:int) -> int:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(nextprime(n, ), return the ith prime greater than n) over Any ║
+# ║ Path(nextprime(n, ith), <unspecified:nextprime>) over {Any | not (i <= 0)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ nextprime : Any → Any                                      ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (i <= 0)                                   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ nextprime : {Any | not (i <= 0)} → Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 867506bfceb35c86  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.generate.nextprime","kind":"function","src_hash":"e521567cf972f056","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"nextprime(n, )","rhs":"return the ith prime greater than n","over":{"base":"Any"},"name":"nextprime_correct"},"guarantee":"return the ith prime greater than n","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.generate.nextprime_correct","statement":"Path(nextprime(x), return the ith prime greater than n)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"867506bfceb35c86"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.generate.nextprime","kind":"function","src_hash":"e521567cf972f056","in":{"base":"Any","pred":"not (i <= 0)"},"out":{"base":"Any"},"spec":{"lhs":"nextprime(n, ith)","rhs":"<unspecified:nextprime>","over":{"base":"Any","pred":"not (i <= 0)"},"name":"nextprime_correct"},"guarantee":"return the ith prime greater than n","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.generate.nextprime_correct","statement":"Path(nextprime(x), return the ith prime greater than n)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"867506bfceb35c86","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (i <= 0)"],"pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def nextprime(n, ith=1):
     """ Return the ith prime greater than n.
 
@@ -941,16 +1065,23 @@ def nextprime(n, ith=1):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(prevprime(n), return the largest prime smaller than n) over Any ║
+# ║ Path(prevprime(n), <unspecified:prevprime>) over {Any | not (n < 3)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ prevprime : Any → Any                                      ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (n < 3)                                    ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ prevprime : {Any | not (n < 3)} → Any                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bbf3ecf46a5d0df8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.generate.prevprime","kind":"function","src_hash":"831944c5514803dc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"prevprime(n)","rhs":"return the largest prime smaller than n","over":{"base":"Any"},"name":"prevprime_correct"},"guarantee":"return the largest prime smaller than n","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.generate.prevprime_correct","statement":"Path(prevprime(x), return the largest prime smaller than n)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bbf3ecf46a5d0df8"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.generate.prevprime","kind":"function","src_hash":"831944c5514803dc","in":{"base":"Any","pred":"not (n < 3)"},"out":{"base":"Any"},"spec":{"lhs":"prevprime(n)","rhs":"<unspecified:prevprime>","over":{"base":"Any","pred":"not (n < 3)"},"name":"prevprime_correct"},"guarantee":"return the largest prime smaller than n","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.generate.prevprime_correct","statement":"Path(prevprime(x), return the largest prime smaller than n)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bbf3ecf46a5d0df8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (n < 3)"],"pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def prevprime(n):
     """ Return the largest prime smaller than n.
 
@@ -999,16 +1130,22 @@ def prevprime(n):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(primerange(a, ), generate a list of all prime numbers in the range [2, a), or [a, b)) over Any ║
+# ║ Path(primerange(a, b), <unspecified:primerange>) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ primerange : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a73ce3c8bbcb6bcc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.generate.primerange","kind":"function","src_hash":"81fa96c167159d51","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"primerange(a, )","rhs":"generate a list of all prime numbers in the range [2, a), or [a, b)","over":{"base":"Any"},"name":"primerange_correct"},"guarantee":"generate a list of all prime numbers in the range [2, a), or [a, b)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.generate.primerange_correct","statement":"Path(primerange(x), generate a list of all prime numbers in the range [2, a), or [a, b))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a73ce3c8bbcb6bcc"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.generate.primerange","kind":"function","src_hash":"81fa96c167159d51","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"primerange(a, b)","rhs":"<unspecified:primerange>","over":{"base":"Any"},"name":"primerange_correct"},"guarantee":"generate a list of all prime numbers in the range [2, a), or [a, b)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.generate.primerange_correct","statement":"Path(primerange(x), generate a list of all prime numbers in the range [2, a), or [a, b))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a73ce3c8bbcb6bcc","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def primerange(a, b=None):
     """ Generate a list of all prime numbers in the range [2, a),
         or [a, b).
@@ -1115,16 +1252,22 @@ def primerange(a, b=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(randprime(a, ), return a random prime number in the range [a, b)) over Any ║
+# ║ Path(randprime(a, b), <unspecified:randprime>) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ randprime : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d92467d4e4c2e8c9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.generate.randprime","kind":"function","src_hash":"c8bbe002f26a8c18","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"randprime(a, )","rhs":"return a random prime number in the range [a, b)","over":{"base":"Any"},"name":"randprime_correct"},"guarantee":"return a random prime number in the range [a, b)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.generate.randprime_correct","statement":"Path(randprime(x), return a random prime number in the range [a, b))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d92467d4e4c2e8c9"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.generate.randprime","kind":"function","src_hash":"c8bbe002f26a8c18","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"randprime(a, b)","rhs":"<unspecified:randprime>","over":{"base":"Any"},"name":"randprime_correct"},"guarantee":"return a random prime number in the range [a, b)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.generate.randprime_correct","statement":"Path(randprime(x), return a random prime number in the range [a, b))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d92467d4e4c2e8c9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"nondeterministic","raises":["ValueError"],"nondeterministic_sources":["randint"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def randprime(a, b):
     """ Return a random prime number in the range [a, b).
 
@@ -1170,16 +1313,23 @@ def randprime(a, b):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(primorial(n, ), returns the product of the first n primes (default) or the primes less than or equal to n (when ``nth=false``)) over Any ║
+# ║ Path(primorial(n, nth), <unspecified:primorial>) over {Any | not (n < 1)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ primorial : Any → Any                                      ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (n < 1)                                    ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ primorial : {Any | not (n < 1)} → Any                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 27529d5efd63009a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.generate.primorial","kind":"function","src_hash":"4544ed7cc73d0e1c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"primorial(n, )","rhs":"returns the product of the first n primes (default) or the primes less than or equal to n (when ``nth=false``)","over":{"base":"Any"},"name":"primorial_correct"},"guarantee":"returns the product of the first n primes (default) or the primes less than or equal to n (when ``nth=false``)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.generate.primorial_correct","statement":"Path(primorial(x), returns the product of the first n primes (default) or the primes less than or equal to n (when ``nth=false``))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"27529d5efd63009a"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.generate.primorial","kind":"function","src_hash":"4544ed7cc73d0e1c","in":{"base":"Any","pred":"not (n < 1)"},"out":{"base":"Any"},"spec":{"lhs":"primorial(n, nth)","rhs":"<unspecified:primorial>","over":{"base":"Any","pred":"not (n < 1)"},"name":"primorial_correct"},"guarantee":"returns the product of the first n primes (default) or the primes less than or equal to n (when ``nth=false``)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.generate.primorial_correct","statement":"Path(primorial(x), returns the product of the first n primes (default) or the primes less than or equal to n (when ``nth=false``))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"27529d5efd63009a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (n < 1)"],"pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def primorial(n, nth=True):
     """
     Returns the product of the first n primes (default) or
@@ -1247,16 +1397,22 @@ def primorial(n, nth=True):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(cycle_length(f, ), for a given iterated sequence, return a generator that gives the length of the iterated cycle (lambda) and the length of terms before the cycle begins (mu); if ``values`` is true then the terms of the) over Any ║
+# ║ Path(cycle_length(f, x0, nmax), <unspecified:cycle_length>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ cycle_length : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3858dbeeab3a1d0c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.generate.cycle_length","kind":"function","src_hash":"5b501f1c38a017e6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"cycle_length(f, )","rhs":"for a given iterated sequence, return a generator that gives the length of the iterated cycle (lambda) and the length of terms before the cycle begins (mu); if ``values`` is true then the terms of the","over":{"base":"Any"},"name":"cycle_length_correct"},"guarantee":"for a given iterated sequence, return a generator that gives the length of the iterated cycle (lambda) and the length of terms before the cycle begins (mu); if ``values`` is true then the terms of the","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.generate.cycle_length_correct","statement":"Path(cycle_length(x), for a given iterated sequence, return a generator that gives the length of the iterated cycle (lambda) and the length of terms before the cycle begins (mu); if ``values`` is true then the terms of the)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3858dbeeab3a1d0c"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.generate.cycle_length","kind":"function","src_hash":"5b501f1c38a017e6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"cycle_length(f, x0, nmax)","rhs":"<unspecified:cycle_length>","over":{"base":"Any"},"name":"cycle_length_correct"},"guarantee":"for a given iterated sequence, return a generator that gives the length of the iterated cycle (lambda) and the length of terms before the cycle begins (mu); if ``values`` is true then the terms of the","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.generate.cycle_length_correct","statement":"Path(cycle_length(x), for a given iterated sequence, return a generator that gives the length of the iterated cycle (lambda) and the length of terms before the cycle begins (mu); if ``values`` is true then the terms of the)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3858dbeeab3a1d0c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def cycle_length(f, x0, nmax=None, values=False):
     """For a given iterated sequence, return a generator that gives
     the length of the iterated cycle (lambda) and the length of terms
@@ -1346,16 +1502,23 @@ def cycle_length(f, x0, nmax=None, values=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(composite(nth), return the nth composite number, with the composite numbers indexed as composite(1) = 4, composite(2) = 6, etc) over Any ║
+# ║ Path(composite(nth), <unspecified:composite>) over {Any | not (n < 1)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ composite : Any → Any                                      ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (n < 1)                                    ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ composite : {Any | not (n < 1)} → Any                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5a83807036082e0b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.generate.composite","kind":"function","src_hash":"c930a1a45483811b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"composite(nth)","rhs":"return the nth composite number, with the composite numbers indexed as composite(1) = 4, composite(2) = 6, etc","over":{"base":"Any"},"name":"composite_correct"},"guarantee":"return the nth composite number, with the composite numbers indexed as composite(1) = 4, composite(2) = 6, etc","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.generate.composite_correct","statement":"Path(composite(x), return the nth composite number, with the composite numbers indexed as composite(1) = 4, composite(2) = 6, etc)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5a83807036082e0b"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.generate.composite","kind":"function","src_hash":"c930a1a45483811b","in":{"base":"Any","pred":"not (n < 1)"},"out":{"base":"Any"},"spec":{"lhs":"composite(nth)","rhs":"<unspecified:composite>","over":{"base":"Any","pred":"not (n < 1)"},"name":"composite_correct"},"guarantee":"return the nth composite number, with the composite numbers indexed as composite(1) = 4, composite(2) = 6, etc","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.generate.composite_correct","statement":"Path(composite(x), return the nth composite number, with the composite numbers indexed as composite(1) = 4, composite(2) = 6, etc)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5a83807036082e0b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (n < 1)"],"pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def composite(nth):
     """ Return the nth composite number, with the composite numbers indexed as
         composite(1) = 4, composite(2) = 6, etc....
@@ -1422,16 +1585,22 @@ def composite(nth):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(compositepi(n), return the number of positive composite numbers less than or equal to n. the first positive composite is 4, i.e) over Any ║
+# ║ Path(compositepi(n), <unspecified:compositepi>) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ compositepi : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4aa95cb97a42a49d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.generate.compositepi","kind":"function","src_hash":"74e33e2f8e680d24","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"compositepi(n)","rhs":"return the number of positive composite numbers less than or equal to n. the first positive composite is 4, i.e","over":{"base":"Any"},"name":"compositepi_correct"},"guarantee":"return the number of positive composite numbers less than or equal to n. the first positive composite is 4, i.e","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.generate.compositepi_correct","statement":"Path(compositepi(x), return the number of positive composite numbers less than or equal to n. the first positive composite is 4, i.e)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4aa95cb97a42a49d"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.generate.compositepi","kind":"function","src_hash":"74e33e2f8e680d24","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"compositepi(n)","rhs":"<unspecified:compositepi>","over":{"base":"Any"},"name":"compositepi_correct"},"guarantee":"return the number of positive composite numbers less than or equal to n. the first positive composite is 4, i.e","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.generate.compositepi_correct","statement":"Path(compositepi(x), return the number of positive composite numbers less than or equal to n. the first positive composite is 4, i.e)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4aa95cb97a42a49d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def compositepi(n):
     """ Return the number of positive composite numbers less than or equal to n.
         The first positive composite is 4, i.e. compositepi(4) = 1.

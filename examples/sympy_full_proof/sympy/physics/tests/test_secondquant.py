@@ -43,16 +43,24 @@ from sympy.printing.latex import latex
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_PermutationOperator(), test_PermutationOperator produces the expected output) over Any ║
+# ║ Path(test_PermutationOperator(), P(p, q).get_permuted(f(p) * g(q)) == -f(q) * g(p) and P(p, q).get_permuted(f(p, q)) == -f(q, p) and P(p, q).get_permuted(f(p)) == f(p) and simplify_index_permutations(expr, perms) == P(p, q) * P(r, s) * f(p) * g(q) * h(r) * i(s) and latex(P(p, q)) == 'P(pq)' and latex(P(p1, p2) == 'P(p_{1}p_{2})')) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_PermutationOperator : Any → {Any | P(p, q).get_p...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  P(p, q).get_permuted(f(p) * g(q)) == -f(q...   ║
+# ║   ensures:  P(p, q).get_permuted(f(p, q)) == -f(q, p)      ║
+# ║   ensures:  P(p, q).get_permuted(f(p)) == f(p)             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_PermutationOperator : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 950e22e1a765aa4b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1b4f62ad7ac43c05  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_secondquant.test_PermutationOperator","kind":"function","src_hash":"f078142f2aa94f29","in":{"base":"Any"},"out":{"base":"Any","pred":"P(p, q).get_permuted(f(p) * g(q)) == -f(q) * g(p) and P(p, q).get_permuted(f(p, q)) == -f(q, p) and P(p, q).get_permuted(f(p)) == f(p) and latex(P(p, q)) == 'P(pq)' and latex(P(p1, p2) == 'P(p_{1}p_{2})')"},"spec":{"lhs":"test_PermutationOperator()","rhs":"test_PermutationOperator produces the expected output","over":{"base":"Any"},"name":"test_PermutationOperator_correct"},"guarantee":"test_PermutationOperator produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_secondquant.test_PermutationOperator_correct","statement":"Path(test_PermutationOperator(x), test_PermutationOperator produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"950e22e1a765aa4b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_secondquant.test_PermutationOperator","kind":"function","src_hash":"f078142f2aa94f29","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: P(p, q).get_permuted(f(p) * g(q)) == -f(q) * g(p) and P(p, q).get_permuted(f(p, q)) == -f(q, p) and P(p, q).get_permuted(f(p)) == f(p) and simplify_index_permutations(expr, perms) == P(p, q) * P(r, s) * f(p) * g(q) * h(r) * i(s) and latex(P(p, q)) == 'P(pq)' and latex(P(p1, p2) == 'P(p_{1}p_{2})')"},"spec":{"lhs":"test_PermutationOperator()","rhs":"P(p, q).get_permuted(f(p) * g(q)) == -f(q) * g(p) and P(p, q).get_permuted(f(p, q)) == -f(q, p) and P(p, q).get_permuted(f(p)) == f(p) and simplify_index_permutations(expr, perms) == P(p, q) * P(r, s) * f(p) * g(q) * h(r) * i(s) and latex(P(p, q)) == 'P(pq)' and latex(P(p1, p2) == 'P(p_{1}p_{2})')","over":{"base":"Any"},"name":"test_PermutationOperator_correct"},"guarantee":"P(p, q).get_permuted(f(p) * g(q)) == -f(q) * g(p); P(p, q).get_permuted(f(p, q)) == -f(q, p); P(p, q).get_permuted(f(p)) == f(p)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_secondquant.test_PermutationOperator_correct","statement":"Path(test_PermutationOperator(x), P(p, q).get_permuted(f(p) * g(q)) == -f(q) * g(p); P(p, q).get_permuted(f(p, q)) == -f(q, p); P(p, q).get_permuted(f(p)) == f(p))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1b4f62ad7ac43c05","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["P(p, q).get_permuted(f(p) * g(q)) == -f(q) * g(p)","P(p, q).get_permuted(f(p, q)) == -f(q, p)","P(p, q).get_permuted(f(p)) == f(p)","simplify_index_permutations(expr, perms) == P(p, q) * P(r, s) * f(p) * g(q) * h(r) * i(s)","latex(P(p, q)) == 'P(pq)'","latex(P(p1, p2) == 'P(p_{1}p_{2})')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_PermutationOperator():
     p, q, r, s = symbols('p,q,r,s')
     f, g, h, i = map(Function, 'fghi')
@@ -73,16 +81,24 @@ def test_PermutationOperator():
     assert latex(P(p1,p2) == 'P(p_{1}p_{2})')
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_index_permutations_with_dummies(), test_index_permutations_with_dummies produces the expected output) over Any ║
+# ║ Path(test_index_permutations_with_dummies(), simplify_index_permutations(expr, [P(a, b)]) == P(a, b) * f(a, b, p, q) and expected == substitute_dummies(result) and expr == result) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_index_permutations_with_dummies : Any → {Any | s...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  simplify_index_permutations(expr, [P(a, b...   ║
+# ║   ensures:  expected == substitute_dummies(result)         ║
+# ║   ensures:  expr == result                                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_index_permutations_with_dummies : Any → {Any | r...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c7ce2e9ac407cd84  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0b8ccd86999bd63b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_secondquant.test_index_permutations_with_dummies","kind":"function","src_hash":"46dcac7a4e170808","in":{"base":"Any"},"out":{"base":"Any","pred":"simplify_index_permutations(expr, [P(a, b)]) == P(a, b) * f(a, b, p, q) and expected == substitute_dummies(result) and expected == substitute_dummies(result) and expr == result"},"spec":{"lhs":"test_index_permutations_with_dummies()","rhs":"test_index_permutations_with_dummies produces the expected output","over":{"base":"Any"},"name":"test_index_permutations_with_dummies_correct"},"guarantee":"test_index_permutations_with_dummies produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_secondquant.test_index_permutations_with_dummies_correct","statement":"Path(test_index_permutations_with_dummies(x), test_index_permutations_with_dummies produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c7ce2e9ac407cd84"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_secondquant.test_index_permutations_with_dummies","kind":"function","src_hash":"46dcac7a4e170808","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: simplify_index_permutations(expr, [P(a, b)]) == P(a, b) * f(a, b, p, q) and expected == substitute_dummies(result) and expr == result"},"spec":{"lhs":"test_index_permutations_with_dummies()","rhs":"simplify_index_permutations(expr, [P(a, b)]) == P(a, b) * f(a, b, p, q) and expected == substitute_dummies(result) and expr == result","over":{"base":"Any"},"name":"test_index_permutations_with_dummies_correct"},"guarantee":"simplify_index_permutations(expr, [P(a, b)]) == P(a, b) * f(a, b, p, q); expected == substitute_dummies(result); expr == result","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_secondquant.test_index_permutations_with_dummies_correct","statement":"Path(test_index_permutations_with_dummies(x), simplify_index_permutations(expr, [P(a, b)]) == P(a, b) * f(a, b, p, q); expected == substitute_dummies(result); expr == result)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0b8ccd86999bd63b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["simplify_index_permutations(expr, [P(a, b)]) == P(a, b) * f(a, b, p, q)","expected == substitute_dummies(result)","expr == result"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_index_permutations_with_dummies():
     a, b, c, d = symbols('a b c d')
     p, q, r, s = symbols('p q r s', cls=Dummy)
@@ -112,16 +128,24 @@ def test_index_permutations_with_dummies():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dagger(), test_dagger produces the expected output) over Any ║
+# ║ Path(test_dagger(), Dagger(1) == 1 and Dagger(1.0) == 1.0 and Dagger(2 * I) == -2 * I and Dagger(S.Half * I / 3.0) == I * Rational(-1, 2) / 3.0 and Dagger(BKet([n])) == BBra([n]) and Dagger(B(0)) == Bd(0) and Dagger(Bd(0)) == B(0) and Dagger(B(n)) == Bd(n) and Dagger(Bd(n)) == B(n) and Dagger(B(0) + B(1)) == Bd(0) + Bd(1) and Dagger(n * m) == Dagger(n) * Dagger(m) and Dagger(B(n) * B(m)) == Bd(m) * Bd(n) and Dagger(B(n) ** 10) == Dagger(B(n)) ** 10 and Dagger('a') == Dagger(Symbol('a')) and Dagger(Dagger('a')) == Symbol('a') and Dagger(exp(2 * I)) == exp(-2 * I) and Dagger(i) == conjugate(i)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dagger : Any → {Any | Dagger(1) == 1 and Dagger(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Dagger(1) == 1                                 ║
+# ║   ensures:  Dagger(1.0) == 1.0                             ║
+# ║   ensures:  Dagger(2 * I) == -2 * I                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dagger : Any → {Any | result satisfies: Dagger(1...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2b582d8fdbb6b079  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9d0c4f4fd80680bc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_secondquant.test_dagger","kind":"function","src_hash":"c064ec827ce39383","in":{"base":"Any"},"out":{"base":"Any","pred":"Dagger(1) == 1 and Dagger(1.0) == 1.0 and Dagger(2 * I) == -2 * I and Dagger(S.Half * I / 3.0) == I * Rational(-1, 2) / 3.0 and Dagger(BKet([n])) == BBra([n]) and Dagger(B(0)) == Bd(0) and Dagger(Bd(0)) == B(0) and Dagger(B(n)) == Bd(n) and Dagger(Bd(n)) == B(n) and Dagger(B(0) + B(1)) == Bd(0) + Bd(1) and Dagger(n * m) == Dagger(n) * Dagger(m) and Dagger(B(n) * B(m)) == Bd(m) * Bd(n) and Dagger(B(n) ** 10) == Dagger(B(n)) ** 10 and Dagger('a') == Dagger(Symbol('a')) and Dagger(Dagger('a')) == Symbol('a') and Dagger(exp(2 * I)) == exp(-2 * I) and Dagger(i) == conjugate(i)"},"spec":{"lhs":"test_dagger()","rhs":"test_dagger produces the expected output","over":{"base":"Any"},"name":"test_dagger_correct"},"guarantee":"test_dagger produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_secondquant.test_dagger_correct","statement":"Path(test_dagger(x), test_dagger produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2b582d8fdbb6b079"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_secondquant.test_dagger","kind":"function","src_hash":"c064ec827ce39383","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Dagger(1) == 1 and Dagger(1.0) == 1.0 and Dagger(2 * I) == -2 * I and Dagger(S.Half * I / 3.0) == I * Rational(-1, 2) / 3.0 and Dagger(BKet([n])) == BBra([n]) and Dagger(B(0)) == Bd(0) and Dagger(Bd(0)) == B(0) and Dagger(B(n)) == Bd(n) and Dagger(Bd(n)) == B(n) and Dagger(B(0) + B(1)) == Bd(0) + Bd(1) and Dagger(n * m) == Dagger(n) * Dagger(m) and Dagger(B(n) * B(m)) == Bd(m) * Bd(n) and Dagger(B(n) ** 10) == Dagger(B(n)) ** 10 and Dagger('a') == Dagger(Symbol('a')) and Dagger(Dagger('a')) == Symbol('a') and Dagger(exp(2 * I)) == exp(-2 * I) and Dagger(i) == conjugate(i)"},"spec":{"lhs":"test_dagger()","rhs":"Dagger(1) == 1 and Dagger(1.0) == 1.0 and Dagger(2 * I) == -2 * I and Dagger(S.Half * I / 3.0) == I * Rational(-1, 2) / 3.0 and Dagger(BKet([n])) == BBra([n]) and Dagger(B(0)) == Bd(0) and Dagger(Bd(0)) == B(0) and Dagger(B(n)) == Bd(n) and Dagger(Bd(n)) == B(n) and Dagger(B(0) + B(1)) == Bd(0) + Bd(1) and Dagger(n * m) == Dagger(n) * Dagger(m) and Dagger(B(n) * B(m)) == Bd(m) * Bd(n) and Dagger(B(n) ** 10) == Dagger(B(n)) ** 10 and Dagger('a') == Dagger(Symbol('a')) and Dagger(Dagger('a')) == Symbol('a') and Dagger(exp(2 * I)) == exp(-2 * I) and Dagger(i) == conjugate(i)","over":{"base":"Any"},"name":"test_dagger_correct"},"guarantee":"Dagger(1) == 1; Dagger(1.0) == 1.0; Dagger(2 * I) == -2 * I","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_secondquant.test_dagger_correct","statement":"Path(test_dagger(x), Dagger(1) == 1; Dagger(1.0) == 1.0; Dagger(2 * I) == -2 * I)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9d0c4f4fd80680bc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Dagger(1) == 1","Dagger(1.0) == 1.0","Dagger(2 * I) == -2 * I","Dagger(S.Half * I / 3.0) == I * Rational(-1, 2) / 3.0","Dagger(BKet([n])) == BBra([n])","Dagger(B(0)) == Bd(0)","Dagger(Bd(0)) == B(0)","Dagger(B(n)) == Bd(n)","Dagger(Bd(n)) == B(n)","Dagger(B(0) + B(1)) == Bd(0) + Bd(1)","Dagger(n * m) == Dagger(n) * Dagger(m)","Dagger(B(n) * B(m)) == Bd(m) * Bd(n)","Dagger(B(n) ** 10) == Dagger(B(n)) ** 10","Dagger('a') == Dagger(Symbol('a'))","Dagger(Dagger('a')) == Symbol('a')","Dagger(exp(2 * I)) == exp(-2 * I)","Dagger(i) == conjugate(i)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_dagger():
     i, j, n, m = symbols('i,j,n,m')
     assert Dagger(1) == 1
@@ -144,16 +168,24 @@ def test_dagger():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_operator(), test_operator produces the expected output) over Any ║
+# ║ Path(test_operator(), o.state == i and o.is_symbolic and o.state == 1 and not o.is_symbolic) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_operator : Any → {Any | o.state == i and o.is_sy...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  o.state == i                                   ║
+# ║   ensures:  o.is_symbolic                                  ║
+# ║   ensures:  o.state == 1                                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_operator : Any → {Any | result satisfies: o.stat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 436f4c2f8ea29ebe  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | edc138b97444ce79  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_secondquant.test_operator","kind":"function","src_hash":"36910935ae1e69ed","in":{"base":"Any"},"out":{"base":"Any","pred":"o.state == i and o.is_symbolic and o.state == 1 and not o.is_symbolic"},"spec":{"lhs":"test_operator()","rhs":"test_operator produces the expected output","over":{"base":"Any"},"name":"test_operator_correct"},"guarantee":"test_operator produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_secondquant.test_operator_correct","statement":"Path(test_operator(x), test_operator produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"436f4c2f8ea29ebe"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_secondquant.test_operator","kind":"function","src_hash":"36910935ae1e69ed","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: o.state == i and o.is_symbolic and o.state == 1 and not o.is_symbolic"},"spec":{"lhs":"test_operator()","rhs":"o.state == i and o.is_symbolic and o.state == 1 and not o.is_symbolic","over":{"base":"Any"},"name":"test_operator_correct"},"guarantee":"o.state == i; o.is_symbolic; o.state == 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_secondquant.test_operator_correct","statement":"Path(test_operator(x), o.state == i; o.is_symbolic; o.state == 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"edc138b97444ce79","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["o.state == i","o.is_symbolic","o.state == 1","not o.is_symbolic"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_operator():
     i, j = symbols('i,j')
     o = BosonicOperator(i)
@@ -165,7 +197,12 @@ def test_operator():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_create(), test_create produces the expected output) over {Any | isinstance(o, CreateBoson)} ║
+# ║ Path(test_create(), latex(o) == '{b^\\dagger_{i}}' and latex(Bd(p1)) == '{b^\\dagger_{p_{1}}}' and isinstance(o, CreateBoson) and o.atoms(Symbol) == {j} and o.apply_operator(BKet([n])) == sqrt(n + 1) * BKet([n + 1]) and o.apply_operator(BKet([n])) == o * BKet([n])) over {Any | isinstance(o, CreateBoson)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  latex(o) == '{b^\\dagger_{i}}'                 ║
+# ║   ensures:  latex(Bd(p1)) == '{b^\\dagger_{p_{1}}}'        ║
+# ║   ensures:  isinstance(o, CreateBoson)                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_create : {Any | isinstance(o, CreateBoson)} → {A...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -177,9 +214,12 @@ def test_operator():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.5ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | bc80a4d6...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_secondquant.test_create","kind":"function","src_hash":"aa7ce04278b6c55a","in":{"base":"Any","pred":"isinstance(o, CreateBoson)"},"out":{"base":"Any","pred":"latex(o) == '{b^\\\\dagger_{i}}' and latex(Bd(p1)) == '{b^\\\\dagger_{p_{1}}}' and isinstance(o, CreateBoson) and o.atoms(Symbol) == {j} and o.apply_operator(BKet([n])) == sqrt(n + 1) * BKet([n + 1]) and o.apply_operator(BKet([n])) == o * BKet([n])"},"spec":{"lhs":"test_create()","rhs":"test_create produces the expected output","over":{"base":"Any","pred":"isinstance(o, CreateBoson)"},"name":"test_create_correct"},"guarantee":"test_create produces the expected output","fibers":[{"name":"CreateBoson","pred":"isinstance(o, CreateBoson)","path":{"lhs":"test_create(x)","rhs":"test_create produces the expected output","over":{"base":"CreateBoson","pred":"isinstance(o, CreateBoson)"},"name":"test_create_CreateBoson_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_secondquant.test_create_CreateBoson_correct","statement":"test_create satisfies spec on CreateBoson inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"bc80a4d61dc7e993"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_secondquant.test_create","kind":"function","src_hash":"aa7ce04278b6c55a","in":{"base":"Any","pred":"isinstance(o, CreateBoson)"},"out":{"base":"Any","pred":"result satisfies: latex(o) == '{b^\\\\dagger_{i}}' and latex(Bd(p1)) == '{b^\\\\dagger_{p_{1}}}' and isinstance(o, CreateBoson) and o.atoms(Symbol) == {j} and o.apply_operator(BKet([n])) == sqrt(n + 1) * BKet([n + 1]) and o.apply_operator(BKet([n])) == o * BKet([n])"},"spec":{"lhs":"test_create()","rhs":"latex(o) == '{b^\\\\dagger_{i}}' and latex(Bd(p1)) == '{b^\\\\dagger_{p_{1}}}' and isinstance(o, CreateBoson) and o.atoms(Symbol) == {j} and o.apply_operator(BKet([n])) == sqrt(n + 1) * BKet([n + 1]) and o.apply_operator(BKet([n])) == o * BKet([n])","over":{"base":"Any","pred":"isinstance(o, CreateBoson)"},"name":"test_create_correct"},"guarantee":"latex(o) == '{b^\\\\dagger_{i}}'; latex(Bd(p1)) == '{b^\\\\dagger_{p_{1}}}'; isinstance(o, CreateBoson)","fibers":[{"name":"CreateBoson","pred":"isinstance(o, CreateBoson)","path":{"lhs":"test_create(x)","rhs":"latex(o) == '{b^\\\\dagger_{i}}'; latex(Bd(p1)) == '{b^\\\\dagger_{p_{1}}}'; isinstance(o, CreateBoson)","over":{"base":"CreateBoson","pred":"isinstance(o, CreateBoson)"},"name":"test_create_CreateBoson_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_secondquant.test_create_CreateBoson_correct","statement":"test_create satisfies spec on CreateBoson inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"bc80a4d61dc7e993","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["latex(o) == '{b^\\\\dagger_{i}}'","latex(Bd(p1)) == '{b^\\\\dagger_{p_{1}}}'","isinstance(o, CreateBoson)","o.atoms(Symbol) == {j}","o.apply_operator(BKet([n])) == sqrt(n + 1) * BKet([n + 1])","o.apply_operator(BKet([n])) == o * BKet([n])"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.5,"verdict_class":"failed","binding":true}}
 def test_create():
     i, j, n, m, p1 = symbols('i,j,n,m,p1')
     o = Bd(i)
@@ -195,7 +235,12 @@ def test_create():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_annihilate(), test_annihilate produces the expected output) over {Any | isinstance(o, AnnihilateBoson)} ║
+# ║ Path(test_annihilate(), latex(o) == 'b_{i}' and latex(B(p1)) == 'b_{p_{1}}' and isinstance(o, AnnihilateBoson) and o.atoms(Symbol) == {j} and o.apply_operator(BKet([n])) == sqrt(n) * BKet([n - 1]) and o.apply_operator(BKet([n])) == o * BKet([n])) over {Any | isinstance(o, AnnihilateBoson)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  latex(o) == 'b_{i}'                            ║
+# ║   ensures:  latex(B(p1)) == 'b_{p_{1}}'                    ║
+# ║   ensures:  isinstance(o, AnnihilateBoson)                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_annihilate : {Any | isinstance(o, AnnihilateBoso...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -207,9 +252,12 @@ def test_create():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 48313280...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_secondquant.test_annihilate","kind":"function","src_hash":"dbf16738122a12f2","in":{"base":"Any","pred":"isinstance(o, AnnihilateBoson)"},"out":{"base":"Any","pred":"latex(o) == 'b_{i}' and latex(B(p1)) == 'b_{p_{1}}' and isinstance(o, AnnihilateBoson) and o.atoms(Symbol) == {j} and o.apply_operator(BKet([n])) == sqrt(n) * BKet([n - 1]) and o.apply_operator(BKet([n])) == o * BKet([n])"},"spec":{"lhs":"test_annihilate()","rhs":"test_annihilate produces the expected output","over":{"base":"Any","pred":"isinstance(o, AnnihilateBoson)"},"name":"test_annihilate_correct"},"guarantee":"test_annihilate produces the expected output","fibers":[{"name":"AnnihilateBoson","pred":"isinstance(o, AnnihilateBoson)","path":{"lhs":"test_annihilate(x)","rhs":"test_annihilate produces the expected output","over":{"base":"AnnihilateBoson","pred":"isinstance(o, AnnihilateBoson)"},"name":"test_annihilate_AnnihilateBoson_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_secondquant.test_annihilate_AnnihilateBoson_correct","statement":"test_annihilate satisfies spec on AnnihilateBoson inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"483132800c4eadac"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_secondquant.test_annihilate","kind":"function","src_hash":"dbf16738122a12f2","in":{"base":"Any","pred":"isinstance(o, AnnihilateBoson)"},"out":{"base":"Any","pred":"result satisfies: latex(o) == 'b_{i}' and latex(B(p1)) == 'b_{p_{1}}' and isinstance(o, AnnihilateBoson) and o.atoms(Symbol) == {j} and o.apply_operator(BKet([n])) == sqrt(n) * BKet([n - 1]) and o.apply_operator(BKet([n])) == o * BKet([n])"},"spec":{"lhs":"test_annihilate()","rhs":"latex(o) == 'b_{i}' and latex(B(p1)) == 'b_{p_{1}}' and isinstance(o, AnnihilateBoson) and o.atoms(Symbol) == {j} and o.apply_operator(BKet([n])) == sqrt(n) * BKet([n - 1]) and o.apply_operator(BKet([n])) == o * BKet([n])","over":{"base":"Any","pred":"isinstance(o, AnnihilateBoson)"},"name":"test_annihilate_correct"},"guarantee":"latex(o) == 'b_{i}'; latex(B(p1)) == 'b_{p_{1}}'; isinstance(o, AnnihilateBoson)","fibers":[{"name":"AnnihilateBoson","pred":"isinstance(o, AnnihilateBoson)","path":{"lhs":"test_annihilate(x)","rhs":"latex(o) == 'b_{i}'; latex(B(p1)) == 'b_{p_{1}}'; isinstance(o, AnnihilateBoson)","over":{"base":"AnnihilateBoson","pred":"isinstance(o, AnnihilateBoson)"},"name":"test_annihilate_AnnihilateBoson_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_secondquant.test_annihilate_AnnihilateBoson_correct","statement":"test_annihilate satisfies spec on AnnihilateBoson inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"483132800c4eadac","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["latex(o) == 'b_{i}'","latex(B(p1)) == 'b_{p_{1}}'","isinstance(o, AnnihilateBoson)","o.atoms(Symbol) == {j}","o.apply_operator(BKet([n])) == sqrt(n) * BKet([n - 1])","o.apply_operator(BKet([n])) == o * BKet([n])"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"failed","binding":true}}
 def test_annihilate():
     i, j, n, m, p1 = symbols('i,j,n,m,p1')
     o = B(i)
@@ -225,16 +273,24 @@ def test_annihilate():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_basic_state(), test_basic_state produces the expected output) over Any ║
+# ║ Path(test_basic_state(), len(s) == 5 and s.args[0] == tuple(range(5)) and s.up(0) == BosonState([1, 1, 2, 3, 4]) and s.down(4) == BosonState([0, 1, 2, 3, 3]) and s.down(0) == 0 and s.down(0) == BosonState([n - 1, m]) and s.up(0) == BosonState([n + 1, m])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_basic_state : Any → {Any | len(s) == 5 and s.arg...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(s) == 5                                    ║
+# ║   ensures:  s.args[0] == tuple(range(5))                   ║
+# ║   ensures:  s.up(0) == BosonState([1, 1, 2, 3, 4])         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_basic_state : Any → {Any | result satisfies: len...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9fbafd064b7ef211  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 135fe1f014b2e17b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_secondquant.test_basic_state","kind":"function","src_hash":"5793930d559ac621","in":{"base":"Any"},"out":{"base":"Any","pred":"len(s) == 5 and s.args[0] == tuple(range(5)) and s.up(0) == BosonState([1, 1, 2, 3, 4]) and s.down(4) == BosonState([0, 1, 2, 3, 3]) and s.down(0) == 0 and s.down(0) == BosonState([n - 1, m]) and s.up(0) == BosonState([n + 1, m]) and s.up(i).down(i) == s and s[i] == i"},"spec":{"lhs":"test_basic_state()","rhs":"test_basic_state produces the expected output","over":{"base":"Any"},"name":"test_basic_state_correct"},"guarantee":"test_basic_state produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_secondquant.test_basic_state_correct","statement":"Path(test_basic_state(x), test_basic_state produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9fbafd064b7ef211"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_secondquant.test_basic_state","kind":"function","src_hash":"5793930d559ac621","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(s) == 5 and s.args[0] == tuple(range(5)) and s.up(0) == BosonState([1, 1, 2, 3, 4]) and s.down(4) == BosonState([0, 1, 2, 3, 3]) and s.down(0) == 0 and s.down(0) == BosonState([n - 1, m]) and s.up(0) == BosonState([n + 1, m])"},"spec":{"lhs":"test_basic_state()","rhs":"len(s) == 5 and s.args[0] == tuple(range(5)) and s.up(0) == BosonState([1, 1, 2, 3, 4]) and s.down(4) == BosonState([0, 1, 2, 3, 3]) and s.down(0) == 0 and s.down(0) == BosonState([n - 1, m]) and s.up(0) == BosonState([n + 1, m])","over":{"base":"Any"},"name":"test_basic_state_correct"},"guarantee":"len(s) == 5; s.args[0] == tuple(range(5)); s.up(0) == BosonState([1, 1, 2, 3, 4])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_secondquant.test_basic_state_correct","statement":"Path(test_basic_state(x), len(s) == 5; s.args[0] == tuple(range(5)); s.up(0) == BosonState([1, 1, 2, 3, 4]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"135fe1f014b2e17b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(s) == 5","s.args[0] == tuple(range(5))","s.up(0) == BosonState([1, 1, 2, 3, 4])","s.down(4) == BosonState([0, 1, 2, 3, 3])","s.down(0) == 0","s.down(0) == BosonState([n - 1, m])","s.up(0) == BosonState([n + 1, m])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_basic_state():
     i, j, n, m = symbols('i,j,n,m')
     s = BosonState([0, 1, 2, 3, 4])
@@ -253,16 +309,23 @@ def test_basic_state():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_basic_apply(), test_basic_apply produces the expected output) over Any ║
+# ║ Path(test_basic_apply(), apply_operators(e) == sqrt(n) * BKet([n - 1]) and apply_operators(e) == sqrt(n + 1) * BKet([n + 1])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_basic_apply : Any → {Any | apply_operators(e) ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  apply_operators(e) == sqrt(n) * BKet([n -...   ║
+# ║   ensures:  apply_operators(e) == sqrt(n + 1) * BKet(...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_basic_apply : Any → {Any | result satisfies: app...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e83f0bb150840c5d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c82e5b83ff267b9c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_secondquant.test_basic_apply","kind":"function","src_hash":"a480e2944da584fa","in":{"base":"Any"},"out":{"base":"Any","pred":"apply_operators(e) == sqrt(n) * BKet([n - 1]) and apply_operators(e) == sqrt(n + 1) * BKet([n + 1])"},"spec":{"lhs":"test_basic_apply()","rhs":"test_basic_apply produces the expected output","over":{"base":"Any"},"name":"test_basic_apply_correct"},"guarantee":"test_basic_apply produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_secondquant.test_basic_apply_correct","statement":"Path(test_basic_apply(x), test_basic_apply produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e83f0bb150840c5d"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_secondquant.test_basic_apply","kind":"function","src_hash":"a480e2944da584fa","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: apply_operators(e) == sqrt(n) * BKet([n - 1]) and apply_operators(e) == sqrt(n + 1) * BKet([n + 1])"},"spec":{"lhs":"test_basic_apply()","rhs":"apply_operators(e) == sqrt(n) * BKet([n - 1]) and apply_operators(e) == sqrt(n + 1) * BKet([n + 1])","over":{"base":"Any"},"name":"test_basic_apply_correct"},"guarantee":"apply_operators(e) == sqrt(n) * BKet([n - 1]); apply_operators(e) == sqrt(n + 1) * BKet([n + 1])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_secondquant.test_basic_apply_correct","statement":"Path(test_basic_apply(x), apply_operators(e) == sqrt(n) * BKet([n - 1]); apply_operators(e) == sqrt(n + 1) * BKet([n + 1]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c82e5b83ff267b9c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["apply_operators(e) == sqrt(n) * BKet([n - 1])","apply_operators(e) == sqrt(n + 1) * BKet([n + 1])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_basic_apply():
     n = symbols("n")
     e = B(0)*BKet([n])
@@ -272,16 +335,22 @@ def test_basic_apply():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_complex_apply(), test_complex_apply produces the expected output) over Any ║
+# ║ Path(test_complex_apply(), expand(e) == expand(answer)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_complex_apply : Any → {Any | expand(e) == expand...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  expand(e) == expand(answer)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_complex_apply : Any → {Any | result satisfies: e...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5447585f49f4e988  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 072dbc848c7fcf28  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_secondquant.test_complex_apply","kind":"function","src_hash":"c098552da57a44df","in":{"base":"Any"},"out":{"base":"Any","pred":"expand(e) == expand(answer)"},"spec":{"lhs":"test_complex_apply()","rhs":"test_complex_apply produces the expected output","over":{"base":"Any"},"name":"test_complex_apply_correct"},"guarantee":"test_complex_apply produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_secondquant.test_complex_apply_correct","statement":"Path(test_complex_apply(x), test_complex_apply produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5447585f49f4e988"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_secondquant.test_complex_apply","kind":"function","src_hash":"c098552da57a44df","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: expand(e) == expand(answer)"},"spec":{"lhs":"test_complex_apply()","rhs":"expand(e) == expand(answer)","over":{"base":"Any"},"name":"test_complex_apply_correct"},"guarantee":"expand(e) == expand(answer)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_secondquant.test_complex_apply_correct","statement":"Path(test_complex_apply(x), expand(e) == expand(answer))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"072dbc848c7fcf28","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["expand(e) == expand(answer)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_complex_apply():
     n, m = symbols("n,m")
     o = Bd(0)*B(0)*Bd(1)*B(0)
@@ -291,16 +360,22 @@ def test_complex_apply():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_number_operator(), test_number_operator produces the expected output) over Any ║
+# ║ Path(test_number_operator(), e == n * BKet([n])) over Any  ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_number_operator : Any → {Any | e == n * BKet([n])}    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  e == n * BKet([n])                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_number_operator : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 99c6fdd9d6ac1f6f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aaa5f05d312b62d8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_secondquant.test_number_operator","kind":"function","src_hash":"7aa160a0317a11b8","in":{"base":"Any"},"out":{"base":"Any","pred":"e == n * BKet([n])"},"spec":{"lhs":"test_number_operator()","rhs":"test_number_operator produces the expected output","over":{"base":"Any"},"name":"test_number_operator_correct"},"guarantee":"test_number_operator produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_secondquant.test_number_operator_correct","statement":"Path(test_number_operator(x), test_number_operator produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"99c6fdd9d6ac1f6f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_secondquant.test_number_operator","kind":"function","src_hash":"7aa160a0317a11b8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: e == n * BKet([n])"},"spec":{"lhs":"test_number_operator()","rhs":"e == n * BKet([n])","over":{"base":"Any"},"name":"test_number_operator_correct"},"guarantee":"e == n * BKet([n])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_secondquant.test_number_operator_correct","statement":"Path(test_number_operator(x), e == n * BKet([n]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aaa5f05d312b62d8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["e == n * BKet([n])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_number_operator():
     n = symbols("n")
     o = Bd(0)*B(0)
@@ -309,16 +384,24 @@ def test_number_operator():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_inner_product(), test_inner_product produces the expected output) over Any ║
+# ║ Path(test_inner_product(), InnerProduct(s1, Dagger(s1)) == 1 and InnerProduct(s1, s2) == 0 and r == KroneckerDelta(i, k) * KroneckerDelta(j, l)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_inner_product : Any → {Any | InnerProduct(s1, Da...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  InnerProduct(s1, Dagger(s1)) == 1              ║
+# ║   ensures:  InnerProduct(s1, s2) == 0                      ║
+# ║   ensures:  r == KroneckerDelta(i, k) * KroneckerDelt...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_inner_product : Any → {Any | result satisfies: I...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2c302d85965328b4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a5ba0434b93ab050  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_secondquant.test_inner_product","kind":"function","src_hash":"9c7cf7da52d3cb30","in":{"base":"Any"},"out":{"base":"Any","pred":"InnerProduct(s1, Dagger(s1)) == 1 and InnerProduct(s1, s2) == 0 and r == KroneckerDelta(i, k) * KroneckerDelta(j, l)"},"spec":{"lhs":"test_inner_product()","rhs":"test_inner_product produces the expected output","over":{"base":"Any"},"name":"test_inner_product_correct"},"guarantee":"test_inner_product produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_secondquant.test_inner_product_correct","statement":"Path(test_inner_product(x), test_inner_product produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2c302d85965328b4"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_secondquant.test_inner_product","kind":"function","src_hash":"9c7cf7da52d3cb30","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: InnerProduct(s1, Dagger(s1)) == 1 and InnerProduct(s1, s2) == 0 and r == KroneckerDelta(i, k) * KroneckerDelta(j, l)"},"spec":{"lhs":"test_inner_product()","rhs":"InnerProduct(s1, Dagger(s1)) == 1 and InnerProduct(s1, s2) == 0 and r == KroneckerDelta(i, k) * KroneckerDelta(j, l)","over":{"base":"Any"},"name":"test_inner_product_correct"},"guarantee":"InnerProduct(s1, Dagger(s1)) == 1; InnerProduct(s1, s2) == 0; r == KroneckerDelta(i, k) * KroneckerDelta(j, l)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_secondquant.test_inner_product_correct","statement":"Path(test_inner_product(x), InnerProduct(s1, Dagger(s1)) == 1; InnerProduct(s1, s2) == 0; r == KroneckerDelta(i, k) * KroneckerDelta(j, l))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a5ba0434b93ab050","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["InnerProduct(s1, Dagger(s1)) == 1","InnerProduct(s1, s2) == 0","r == KroneckerDelta(i, k) * KroneckerDelta(j, l)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_inner_product():
     i, j, k, l = symbols('i,j,k,l')
     s1 = BBra([0])
@@ -332,16 +415,22 @@ def test_inner_product():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_symbolic_matrix_elements(), test_symbolic_matrix_elements produces the expected output) over Any ║
+# ║ Path(test_symbolic_matrix_elements(), e == sqrt(m) * KroneckerDelta(n, m - 1)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_symbolic_matrix_elements : Any → {Any | e == sqr...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  e == sqrt(m) * KroneckerDelta(n, m - 1)        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_symbolic_matrix_elements : Any → {Any | result s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d50e7fb0d8c24423  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 661c84db6bf1fa6b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_secondquant.test_symbolic_matrix_elements","kind":"function","src_hash":"191d31641b5264fc","in":{"base":"Any"},"out":{"base":"Any","pred":"e == sqrt(m) * KroneckerDelta(n, m - 1)"},"spec":{"lhs":"test_symbolic_matrix_elements()","rhs":"test_symbolic_matrix_elements produces the expected output","over":{"base":"Any"},"name":"test_symbolic_matrix_elements_correct"},"guarantee":"test_symbolic_matrix_elements produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_secondquant.test_symbolic_matrix_elements_correct","statement":"Path(test_symbolic_matrix_elements(x), test_symbolic_matrix_elements produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d50e7fb0d8c24423"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_secondquant.test_symbolic_matrix_elements","kind":"function","src_hash":"191d31641b5264fc","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: e == sqrt(m) * KroneckerDelta(n, m - 1)"},"spec":{"lhs":"test_symbolic_matrix_elements()","rhs":"e == sqrt(m) * KroneckerDelta(n, m - 1)","over":{"base":"Any"},"name":"test_symbolic_matrix_elements_correct"},"guarantee":"e == sqrt(m) * KroneckerDelta(n, m - 1)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_secondquant.test_symbolic_matrix_elements_correct","statement":"Path(test_symbolic_matrix_elements(x), e == sqrt(m) * KroneckerDelta(n, m - 1))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"661c84db6bf1fa6b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["e == sqrt(m) * KroneckerDelta(n, m - 1)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_symbolic_matrix_elements():
     n, m = symbols('n,m')
     s1 = BBra([n])
@@ -352,16 +441,22 @@ def test_symbolic_matrix_elements():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_matrix_elements(), test_matrix_elements produces the expected output) over Any ║
+# ║ Path(test_matrix_elements(), <unspecified:test_matrix_elements>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_matrix_elements : Any → {Any | m[i, i + 1] == sq...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a59000fa5be23126  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_secondquant.test_matrix_elements","kind":"function","src_hash":"9a49fe561be49ad7","in":{"base":"Any"},"out":{"base":"Any","pred":"m[i, i + 1] == sqrt(i + 1) and m[i + 1, i] == sqrt(i + 1)"},"spec":{"lhs":"test_matrix_elements()","rhs":"test_matrix_elements produces the expected output","over":{"base":"Any"},"name":"test_matrix_elements_correct"},"guarantee":"test_matrix_elements produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_secondquant.test_matrix_elements_correct","statement":"Path(test_matrix_elements(x), test_matrix_elements produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a59000fa5be23126"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_secondquant.test_matrix_elements","kind":"function","src_hash":"9a49fe561be49ad7","in":{"base":"Any"},"out":{"base":"Any","pred":"m[i, i + 1] == sqrt(i + 1) and m[i + 1, i] == sqrt(i + 1)"},"spec":{"lhs":"test_matrix_elements()","rhs":"<unspecified:test_matrix_elements>","over":{"base":"Any"},"name":"test_matrix_elements_correct"},"guarantee":"test_matrix_elements produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_secondquant.test_matrix_elements_correct","statement":"Path(test_matrix_elements(x), test_matrix_elements produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a59000fa5be23126","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_matrix_elements():
     b = VarBosonicBasis(5)
     o = B(0)
@@ -375,16 +470,24 @@ def test_matrix_elements():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_fixed_bosonic_basis(), test_fixed_bosonic_basis produces the expected output) over Any ║
+# ║ Path(test_fixed_bosonic_basis(), state == FockStateBosonKet((1, 1)) and b.index(state) == 1 and b.state(1) == b[1] and len(b) == 3 and str(b) == '[FockState((2, 0)), FockState((1, 1)), FockState((0, 2))]' and repr(b) == '[FockState((2, 0)), FockState((1, 1)), FockState((0, 2))]' and srepr(b) == '[FockState((2, 0)), FockState((1, 1)), FockState((0, 2))]') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_fixed_bosonic_basis : Any → {Any | state == Fock...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  state == FockStateBosonKet((1, 1))             ║
+# ║   ensures:  b.index(state) == 1                            ║
+# ║   ensures:  b.state(1) == b[1]                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_fixed_bosonic_basis : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a4501893220a247a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7d7f0f7dcf37973f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_secondquant.test_fixed_bosonic_basis","kind":"function","src_hash":"2081410aa74b1fec","in":{"base":"Any"},"out":{"base":"Any","pred":"state == FockStateBosonKet((1, 1)) and b.index(state) == 1 and b.state(1) == b[1] and len(b) == 3 and str(b) == '[FockState((2, 0)), FockState((1, 1)), FockState((0, 2))]' and repr(b) == '[FockState((2, 0)), FockState((1, 1)), FockState((0, 2))]' and srepr(b) == '[FockState((2, 0)), FockState((1, 1)), FockState((0, 2))]'"},"spec":{"lhs":"test_fixed_bosonic_basis()","rhs":"test_fixed_bosonic_basis produces the expected output","over":{"base":"Any"},"name":"test_fixed_bosonic_basis_correct"},"guarantee":"test_fixed_bosonic_basis produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_secondquant.test_fixed_bosonic_basis_correct","statement":"Path(test_fixed_bosonic_basis(x), test_fixed_bosonic_basis produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a4501893220a247a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_secondquant.test_fixed_bosonic_basis","kind":"function","src_hash":"2081410aa74b1fec","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: state == FockStateBosonKet((1, 1)) and b.index(state) == 1 and b.state(1) == b[1] and len(b) == 3 and str(b) == '[FockState((2, 0)), FockState((1, 1)), FockState((0, 2))]' and repr(b) == '[FockState((2, 0)), FockState((1, 1)), FockState((0, 2))]' and srepr(b) == '[FockState((2, 0)), FockState((1, 1)), FockState((0, 2))]'"},"spec":{"lhs":"test_fixed_bosonic_basis()","rhs":"state == FockStateBosonKet((1, 1)) and b.index(state) == 1 and b.state(1) == b[1] and len(b) == 3 and str(b) == '[FockState((2, 0)), FockState((1, 1)), FockState((0, 2))]' and repr(b) == '[FockState((2, 0)), FockState((1, 1)), FockState((0, 2))]' and srepr(b) == '[FockState((2, 0)), FockState((1, 1)), FockState((0, 2))]'","over":{"base":"Any"},"name":"test_fixed_bosonic_basis_correct"},"guarantee":"state == FockStateBosonKet((1, 1)); b.index(state) == 1; b.state(1) == b[1]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_secondquant.test_fixed_bosonic_basis_correct","statement":"Path(test_fixed_bosonic_basis(x), state == FockStateBosonKet((1, 1)); b.index(state) == 1; b.state(1) == b[1])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7d7f0f7dcf37973f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["state == FockStateBosonKet((1, 1))","b.index(state) == 1","b.state(1) == b[1]","len(b) == 3","str(b) == '[FockState((2, 0)), FockState((1, 1)), FockState((0, 2))]'","repr(b) == '[FockState((2, 0)), FockState((1, 1)), FockState((0, 2))]'","srepr(b) == '[FockState((2, 0)), FockState((1, 1)), FockState((0, 2))]'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_fixed_bosonic_basis():
     b = FixedBosonicBasis(2, 2)
     # assert b == [FockState((2, 0)), FockState((1, 1)), FockState((0, 2))]
@@ -400,16 +503,22 @@ def test_fixed_bosonic_basis():
 
 @slow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_sho(), test_sho produces the expected output) over Any ║
+# ║ Path(test_sho(), <unspecified:test_sho>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_sho : Any → {Any | diag[i] == m[i, i]}                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 619411735069fb68  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_secondquant.test_sho","kind":"function","src_hash":"0c7473b060b7f9b0","in":{"base":"Any"},"out":{"base":"Any","pred":"diag[i] == m[i, i]"},"spec":{"lhs":"test_sho()","rhs":"test_sho produces the expected output","over":{"base":"Any"},"name":"test_sho_correct"},"guarantee":"test_sho produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_secondquant.test_sho_correct","statement":"Path(test_sho(x), test_sho produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"619411735069fb68"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_secondquant.test_sho","kind":"function","src_hash":"0c7473b060b7f9b0","in":{"base":"Any"},"out":{"base":"Any","pred":"diag[i] == m[i, i]"},"spec":{"lhs":"test_sho()","rhs":"<unspecified:test_sho>","over":{"base":"Any"},"name":"test_sho_correct"},"guarantee":"test_sho produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_secondquant.test_sho_correct","statement":"Path(test_sho(x), test_sho produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"619411735069fb68","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_sho():
     n, m = symbols('n,m')
     h_n = Bd(n)*B(n)*(n + S.Half)
@@ -425,16 +534,24 @@ def test_sho():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_commutation(), test_commutation produces the expected output) over Any ║
+# ║ Path(test_commutation(), c == 1 and c == -1 and c == KroneckerDelta(n, 0) and c == 0 and e == BKet([n]) and e == 0 and c == +1 - 2 * NO(Fd(m) * F(m)) and c.expand() == -1 + 2 * NO(Fd(m) * F(m)) and C(C(X, Y), Z) != 0 and C(C(X, Z), Y) != 0 and C(Y, C(X, Z)) != 0 and C(Fd(a), F(i)) == -2 * NO(F(i) * Fd(a)) and C(Fd(j), NO(Fd(a) * F(i))).doit(wicks=True) == -D(j, i) * Fd(a) and C(Fd(a) * F(i), Fd(b) * F(j)).doit(wicks=True) == 0 and Commutator.eval(c1, c1) == 0 and latex(c) == '\\left[{a^\\dagger_{a}} a_{i},{a^\\dagger_{b}} a_{j}\\right]' and repr(c) == 'Commutator(CreateFermion(a)*AnnihilateFermion(i),CreateFermion(b)*AnnihilateFermion(j))' and str(c) == '[CreateFermion(a)*AnnihilateFermion(i),CreateFermion(b)*AnnihilateFermion(j)]') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_commutation : Any → {Any | c == 1 and c == -1 an...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  c == 1                                         ║
+# ║   ensures:  c == -1                                        ║
+# ║   ensures:  c == KroneckerDelta(n, 0)                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_commutation : Any → {Any | result satisfies: c =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7ca3c9788f044ad1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2eda7ea10fe9cd69  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_secondquant.test_commutation","kind":"function","src_hash":"7f633b091b10215f","in":{"base":"Any"},"out":{"base":"Any","pred":"c == 1 and c == -1 and c == KroneckerDelta(n, 0) and c == 0 and e == BKet([n]) and e == 0 and c == +1 - 2 * NO(Fd(m) * F(m)) and c.expand() == -1 + 2 * NO(Fd(m) * F(m)) and C(C(X, Y), Z) != 0 and C(C(X, Z), Y) != 0 and C(Y, C(X, Z)) != 0 and C(Fd(a), F(i)) == -2 * NO(F(i) * Fd(a)) and C(Fd(j), NO(Fd(a) * F(i))).doit(wicks=True) == -D(j, i) * Fd(a) and C(Fd(a) * F(i), Fd(b) * F(j)).doit(wicks=True) == 0 and Commutator.eval(c1, c1) == 0 and latex(c) == '\\\\left[{a^\\\\dagger_{a}} a_{i},{a^\\\\dagger_{b}} a_{j}\\\\right]'"},"spec":{"lhs":"test_commutation()","rhs":"test_commutation produces the expected output","over":{"base":"Any"},"name":"test_commutation_correct"},"guarantee":"test_commutation produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_secondquant.test_commutation_correct","statement":"Path(test_commutation(x), test_commutation produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7ca3c9788f044ad1"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_secondquant.test_commutation","kind":"function","src_hash":"7f633b091b10215f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: c == 1 and c == -1 and c == KroneckerDelta(n, 0) and c == 0 and e == BKet([n]) and e == 0 and c == +1 - 2 * NO(Fd(m) * F(m)) and c.expand() == -1 + 2 * NO(Fd(m) * F(m)) and C(C(X, Y), Z) != 0 and C(C(X, Z), Y) != 0 and C(Y, C(X, Z)) != 0 and C(Fd(a), F(i)) == -2 * NO(F(i) * Fd(a)) and C(Fd(j), NO(Fd(a) * F(i))).doit(wicks=True) == -D(j, i) * Fd(a) and C(Fd(a) * F(i), Fd(b) * F(j)).doit(wicks=True) == 0 and Commutator.eval(c1, c1) == 0 and latex(c) == '\\\\left[{a^\\\\dagger_{a}} a_{i},{a^\\\\dagger_{b}} a_{j}\\\\right]' and repr(c) == 'Commutator(CreateFermion(a)*AnnihilateFermion(i),CreateFermion(b)*AnnihilateFermion(j))' and str(c) == '[CreateFermion(a)*AnnihilateFermion(i),CreateFermion(b)*AnnihilateFermion(j)]'"},"spec":{"lhs":"test_commutation()","rhs":"c == 1 and c == -1 and c == KroneckerDelta(n, 0) and c == 0 and e == BKet([n]) and e == 0 and c == +1 - 2 * NO(Fd(m) * F(m)) and c.expand() == -1 + 2 * NO(Fd(m) * F(m)) and C(C(X, Y), Z) != 0 and C(C(X, Z), Y) != 0 and C(Y, C(X, Z)) != 0 and C(Fd(a), F(i)) == -2 * NO(F(i) * Fd(a)) and C(Fd(j), NO(Fd(a) * F(i))).doit(wicks=True) == -D(j, i) * Fd(a) and C(Fd(a) * F(i), Fd(b) * F(j)).doit(wicks=True) == 0 and Commutator.eval(c1, c1) == 0 and latex(c) == '\\\\left[{a^\\\\dagger_{a}} a_{i},{a^\\\\dagger_{b}} a_{j}\\\\right]' and repr(c) == 'Commutator(CreateFermion(a)*AnnihilateFermion(i),CreateFermion(b)*AnnihilateFermion(j))' and str(c) == '[CreateFermion(a)*AnnihilateFermion(i),CreateFermion(b)*AnnihilateFermion(j)]'","over":{"base":"Any"},"name":"test_commutation_correct"},"guarantee":"c == 1; c == -1; c == KroneckerDelta(n, 0)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_secondquant.test_commutation_correct","statement":"Path(test_commutation(x), c == 1; c == -1; c == KroneckerDelta(n, 0))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2eda7ea10fe9cd69","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["c == 1","c == -1","c == KroneckerDelta(n, 0)","c == 0","e == BKet([n])","e == 0","c == +1 - 2 * NO(Fd(m) * F(m))","c.expand() == -1 + 2 * NO(Fd(m) * F(m))","C(C(X, Y), Z) != 0","C(C(X, Z), Y) != 0","C(Y, C(X, Z)) != 0","C(Fd(a), F(i)) == -2 * NO(F(i) * Fd(a))","C(Fd(j), NO(Fd(a) * F(i))).doit(wicks=True) == -D(j, i) * Fd(a)","C(Fd(a) * F(i), Fd(b) * F(j)).doit(wicks=True) == 0","Commutator.eval(c1, c1) == 0","latex(c) == '\\\\left[{a^\\\\dagger_{a}} a_{i},{a^\\\\dagger_{b}} a_{j}\\\\right]'","repr(c) == 'Commutator(CreateFermion(a)*AnnihilateFermion(i),CreateFermion(b)*AnnihilateFermion(j))'","str(c) == '[CreateFermion(a)*AnnihilateFermion(i),CreateFermion(b)*AnnihilateFermion(j)]'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":true}}
 def test_commutation():
     n, m = symbols("n,m", above_fermi=True)
     c = Commutator(B(0), Bd(0))
@@ -481,7 +598,12 @@ def test_commutation():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_create_f(), test_create_f produces the expected output) over {Any | isinstance(o, CreateFermion)} ║
+# ║ Path(test_create_f(), isinstance(o, CreateFermion) and o.atoms(Symbol) == {j} and o.apply_operator(FKet([n])) == FKet([1, n]) and o.apply_operator(FKet([n])) == -FKet([n, 1]) and o.apply_operator(FKet([])) == FKet([n]) and vacuum == FKet([], fermi_level=4) and Fd(i).apply_operator(FKet([i, j, k], 4)) == FKet([j, k], 4) and Fd(a).apply_operator(FKet([i, b, k], 4)) == FKet([a, i, b, k], 4) and Dagger(B(p)).apply_operator(q) == q * CreateBoson(p) and repr(Fd(p)) == 'CreateFermion(p)' and srepr(Fd(p)) == "CreateFermion(Symbol('p'))" and latex(Fd(p)) == '{a^\\dagger_{p}}' and latex(Fd(p1)) == '{a^\\dagger_{p_{1}}}' and latex(FKet([a, i], 1)) == '\\left|\\left( a, \\  i\\right)\\right\\rangle' and latex(FKet([j, i, b, a], 2)) == '\\left|\\left( a, \\  b, \\  i, \\  j\\right)\\right\\rangle') over {Any | isinstance(o, CreateFermion)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(o, CreateFermion)                   ║
+# ║   ensures:  o.atoms(Symbol) == {j}                         ║
+# ║   ensures:  o.apply_operator(FKet([n])) == FKet([1, n])    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_create_f : {Any | isinstance(o, CreateFermion)} ...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -493,9 +615,12 @@ def test_commutation():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.6ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | c3c4d7fd...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_secondquant.test_create_f","kind":"function","src_hash":"f1ae6dbdcf7afd1d","in":{"base":"Any","pred":"isinstance(o, CreateFermion)"},"out":{"base":"Any","pred":"isinstance(o, CreateFermion) and o.atoms(Symbol) == {j} and o.apply_operator(FKet([n])) == FKet([1, n]) and o.apply_operator(FKet([n])) == -FKet([n, 1]) and o.apply_operator(FKet([])) == FKet([n]) and vacuum == FKet([], fermi_level=4) and Fd(i).apply_operator(FKet([i, j, k], 4)) == FKet([j, k], 4) and Fd(a).apply_operator(FKet([i, b, k], 4)) == FKet([a, i, b, k], 4) and Dagger(B(p)).apply_operator(q) == q * CreateBoson(p) and repr(Fd(p)) == 'CreateFermion(p)' and srepr(Fd(p)) == \"CreateFermion(Symbol('p'))\" and latex(Fd(p)) == '{a^\\\\dagger_{p}}' and latex(Fd(p1)) == '{a^\\\\dagger_{p_{1}}}' and latex(FKet([a, i], 1)) == '\\\\left|\\\\left( a, \\\\  i\\\\right)\\\\right\\\\rangle'"},"spec":{"lhs":"test_create_f()","rhs":"test_create_f produces the expected output","over":{"base":"Any","pred":"isinstance(o, CreateFermion)"},"name":"test_create_f_correct"},"guarantee":"test_create_f produces the expected output","fibers":[{"name":"CreateFermion","pred":"isinstance(o, CreateFermion)","path":{"lhs":"test_create_f(x)","rhs":"test_create_f produces the expected output","over":{"base":"CreateFermion","pred":"isinstance(o, CreateFermion)"},"name":"test_create_f_CreateFermion_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_secondquant.test_create_f_CreateFermion_correct","statement":"test_create_f satisfies spec on CreateFermion inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"c3c4d7fd4535caa0"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_secondquant.test_create_f","kind":"function","src_hash":"f1ae6dbdcf7afd1d","in":{"base":"Any","pred":"isinstance(o, CreateFermion)"},"out":{"base":"Any","pred":"result satisfies: isinstance(o, CreateFermion) and o.atoms(Symbol) == {j} and o.apply_operator(FKet([n])) == FKet([1, n]) and o.apply_operator(FKet([n])) == -FKet([n, 1]) and o.apply_operator(FKet([])) == FKet([n]) and vacuum == FKet([], fermi_level=4) and Fd(i).apply_operator(FKet([i, j, k], 4)) == FKet([j, k], 4) and Fd(a).apply_operator(FKet([i, b, k], 4)) == FKet([a, i, b, k], 4) and Dagger(B(p)).apply_operator(q) == q * CreateBoson(p) and repr(Fd(p)) == 'CreateFermion(p)' and srepr(Fd(p)) == \"CreateFermion(Symbol('p'))\" and latex(Fd(p)) == '{a^\\\\dagger_{p}}' and latex(Fd(p1)) == '{a^\\\\dagger_{p_{1}}}' and latex(FKet([a, i], 1)) == '\\\\left|\\\\left( a, \\\\  i\\\\right)\\\\right\\\\rangle' and latex(FKet([j, i, b, a], 2)) == '\\\\left|\\\\left( a, \\\\  b, \\\\  i, \\\\  j\\\\right)\\\\right\\\\rangle'"},"spec":{"lhs":"test_create_f()","rhs":"isinstance(o, CreateFermion) and o.atoms(Symbol) == {j} and o.apply_operator(FKet([n])) == FKet([1, n]) and o.apply_operator(FKet([n])) == -FKet([n, 1]) and o.apply_operator(FKet([])) == FKet([n]) and vacuum == FKet([], fermi_level=4) and Fd(i).apply_operator(FKet([i, j, k], 4)) == FKet([j, k], 4) and Fd(a).apply_operator(FKet([i, b, k], 4)) == FKet([a, i, b, k], 4) and Dagger(B(p)).apply_operator(q) == q * CreateBoson(p) and repr(Fd(p)) == 'CreateFermion(p)' and srepr(Fd(p)) == \"CreateFermion(Symbol('p'))\" and latex(Fd(p)) == '{a^\\\\dagger_{p}}' and latex(Fd(p1)) == '{a^\\\\dagger_{p_{1}}}' and latex(FKet([a, i], 1)) == '\\\\left|\\\\left( a, \\\\  i\\\\right)\\\\right\\\\rangle' and latex(FKet([j, i, b, a], 2)) == '\\\\left|\\\\left( a, \\\\  b, \\\\  i, \\\\  j\\\\right)\\\\right\\\\rangle'","over":{"base":"Any","pred":"isinstance(o, CreateFermion)"},"name":"test_create_f_correct"},"guarantee":"isinstance(o, CreateFermion); o.atoms(Symbol) == {j}; o.apply_operator(FKet([n])) == FKet([1, n])","fibers":[{"name":"CreateFermion","pred":"isinstance(o, CreateFermion)","path":{"lhs":"test_create_f(x)","rhs":"isinstance(o, CreateFermion); o.atoms(Symbol) == {j}; o.apply_operator(FKet([n])) == FKet([1, n])","over":{"base":"CreateFermion","pred":"isinstance(o, CreateFermion)"},"name":"test_create_f_CreateFermion_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_secondquant.test_create_f_CreateFermion_correct","statement":"test_create_f satisfies spec on CreateFermion inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"c3c4d7fd4535caa0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(o, CreateFermion)","o.atoms(Symbol) == {j}","o.apply_operator(FKet([n])) == FKet([1, n])","o.apply_operator(FKet([n])) == -FKet([n, 1])","o.apply_operator(FKet([])) == FKet([n])","vacuum == FKet([], fermi_level=4)","Fd(i).apply_operator(FKet([i, j, k], 4)) == FKet([j, k], 4)","Fd(a).apply_operator(FKet([i, b, k], 4)) == FKet([a, i, b, k], 4)","Dagger(B(p)).apply_operator(q) == q * CreateBoson(p)","repr(Fd(p)) == 'CreateFermion(p)'","srepr(Fd(p)) == \"CreateFermion(Symbol('p'))\"","latex(Fd(p)) == '{a^\\\\dagger_{p}}'","latex(Fd(p1)) == '{a^\\\\dagger_{p_{1}}}'","latex(FKet([a, i], 1)) == '\\\\left|\\\\left( a, \\\\  i\\\\right)\\\\right\\\\rangle'","latex(FKet([j, i, b, a], 2)) == '\\\\left|\\\\left( a, \\\\  b, \\\\  i, \\\\  j\\\\right)\\\\right\\\\rangle'"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.6,"verdict_class":"failed","binding":true}}
 def test_create_f():
     i, j, n, m = symbols('i,j,n,m')
     o = Fd(i)
@@ -529,7 +654,12 @@ def test_create_f():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_annihilate_f(), test_annihilate_f produces the expected output) over {Any | isinstance(o, AnnihilateFermion)} ║
+# ║ Path(test_annihilate_f(), isinstance(o, AnnihilateFermion) and o.atoms(Symbol) == {j} and o.apply_operator(FKet([1, n])) == FKet([n]) and o.apply_operator(FKet([n, 1])) == -FKet([n]) and o.apply_operator(FKet([n])) == FKet([]) and F(i).apply_operator(FKet([i, j, k], 4)) == 0 and F(a).apply_operator(FKet([i, b, k], 4)) == 0 and F(l).apply_operator(FKet([i, j, k], 3)) == 0 and F(l).apply_operator(FKet([i, j, k], 4)) == FKet([l, i, j, k], 4) and str(F(p)) == 'f(p)' and repr(F(p)) == 'AnnihilateFermion(p)' and srepr(F(p)) == "AnnihilateFermion(Symbol('p'))" and latex(F(p)) == 'a_{p}' and latex(F(p1)) == 'a_{p_{1}}') over {Any | isinstance(o, AnnihilateFermion)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(o, AnnihilateFermion)               ║
+# ║   ensures:  o.atoms(Symbol) == {j}                         ║
+# ║   ensures:  o.apply_operator(FKet([1, n])) == FKet([n])    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_annihilate_f : {Any | isinstance(o, AnnihilateFe...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -541,9 +671,12 @@ def test_create_f():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.6ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 377189bd...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_secondquant.test_annihilate_f","kind":"function","src_hash":"d23748d01b87016f","in":{"base":"Any","pred":"isinstance(o, AnnihilateFermion)"},"out":{"base":"Any","pred":"isinstance(o, AnnihilateFermion) and o.atoms(Symbol) == {j} and o.apply_operator(FKet([1, n])) == FKet([n]) and o.apply_operator(FKet([n, 1])) == -FKet([n]) and o.apply_operator(FKet([n])) == FKet([]) and F(i).apply_operator(FKet([i, j, k], 4)) == 0 and F(a).apply_operator(FKet([i, b, k], 4)) == 0 and F(l).apply_operator(FKet([i, j, k], 3)) == 0 and F(l).apply_operator(FKet([i, j, k], 4)) == FKet([l, i, j, k], 4) and str(F(p)) == 'f(p)' and repr(F(p)) == 'AnnihilateFermion(p)' and srepr(F(p)) == \"AnnihilateFermion(Symbol('p'))\" and latex(F(p)) == 'a_{p}' and latex(F(p1)) == 'a_{p_{1}}'"},"spec":{"lhs":"test_annihilate_f()","rhs":"test_annihilate_f produces the expected output","over":{"base":"Any","pred":"isinstance(o, AnnihilateFermion)"},"name":"test_annihilate_f_correct"},"guarantee":"test_annihilate_f produces the expected output","fibers":[{"name":"AnnihilateFermion","pred":"isinstance(o, AnnihilateFermion)","path":{"lhs":"test_annihilate_f(x)","rhs":"test_annihilate_f produces the expected output","over":{"base":"AnnihilateFermion","pred":"isinstance(o, AnnihilateFermion)"},"name":"test_annihilate_f_AnnihilateFermion_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_secondquant.test_annihilate_f_AnnihilateFermion_correct","statement":"test_annihilate_f satisfies spec on AnnihilateFermion inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"377189bd4e220c03"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_secondquant.test_annihilate_f","kind":"function","src_hash":"d23748d01b87016f","in":{"base":"Any","pred":"isinstance(o, AnnihilateFermion)"},"out":{"base":"Any","pred":"result satisfies: isinstance(o, AnnihilateFermion) and o.atoms(Symbol) == {j} and o.apply_operator(FKet([1, n])) == FKet([n]) and o.apply_operator(FKet([n, 1])) == -FKet([n]) and o.apply_operator(FKet([n])) == FKet([]) and F(i).apply_operator(FKet([i, j, k], 4)) == 0 and F(a).apply_operator(FKet([i, b, k], 4)) == 0 and F(l).apply_operator(FKet([i, j, k], 3)) == 0 and F(l).apply_operator(FKet([i, j, k], 4)) == FKet([l, i, j, k], 4) and str(F(p)) == 'f(p)' and repr(F(p)) == 'AnnihilateFermion(p)' and srepr(F(p)) == \"AnnihilateFermion(Symbol('p'))\" and latex(F(p)) == 'a_{p}' and latex(F(p1)) == 'a_{p_{1}}'"},"spec":{"lhs":"test_annihilate_f()","rhs":"isinstance(o, AnnihilateFermion) and o.atoms(Symbol) == {j} and o.apply_operator(FKet([1, n])) == FKet([n]) and o.apply_operator(FKet([n, 1])) == -FKet([n]) and o.apply_operator(FKet([n])) == FKet([]) and F(i).apply_operator(FKet([i, j, k], 4)) == 0 and F(a).apply_operator(FKet([i, b, k], 4)) == 0 and F(l).apply_operator(FKet([i, j, k], 3)) == 0 and F(l).apply_operator(FKet([i, j, k], 4)) == FKet([l, i, j, k], 4) and str(F(p)) == 'f(p)' and repr(F(p)) == 'AnnihilateFermion(p)' and srepr(F(p)) == \"AnnihilateFermion(Symbol('p'))\" and latex(F(p)) == 'a_{p}' and latex(F(p1)) == 'a_{p_{1}}'","over":{"base":"Any","pred":"isinstance(o, AnnihilateFermion)"},"name":"test_annihilate_f_correct"},"guarantee":"isinstance(o, AnnihilateFermion); o.atoms(Symbol) == {j}; o.apply_operator(FKet([1, n])) == FKet([n])","fibers":[{"name":"AnnihilateFermion","pred":"isinstance(o, AnnihilateFermion)","path":{"lhs":"test_annihilate_f(x)","rhs":"isinstance(o, AnnihilateFermion); o.atoms(Symbol) == {j}; o.apply_operator(FKet([1, n])) == FKet([n])","over":{"base":"AnnihilateFermion","pred":"isinstance(o, AnnihilateFermion)"},"name":"test_annihilate_f_AnnihilateFermion_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_secondquant.test_annihilate_f_AnnihilateFermion_correct","statement":"test_annihilate_f satisfies spec on AnnihilateFermion inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"377189bd4e220c03","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(o, AnnihilateFermion)","o.atoms(Symbol) == {j}","o.apply_operator(FKet([1, n])) == FKet([n])","o.apply_operator(FKet([n, 1])) == -FKet([n])","o.apply_operator(FKet([n])) == FKet([])","F(i).apply_operator(FKet([i, j, k], 4)) == 0","F(a).apply_operator(FKet([i, b, k], 4)) == 0","F(l).apply_operator(FKet([i, j, k], 3)) == 0","F(l).apply_operator(FKet([i, j, k], 4)) == FKet([l, i, j, k], 4)","str(F(p)) == 'f(p)'","repr(F(p)) == 'AnnihilateFermion(p)'","srepr(F(p)) == \"AnnihilateFermion(Symbol('p'))\"","latex(F(p)) == 'a_{p}'","latex(F(p1)) == 'a_{p_{1}}'"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.6,"verdict_class":"failed","binding":true}}
 def test_annihilate_f():
     i, j, n, m = symbols('i,j,n,m')
     o = F(i)
@@ -573,7 +706,12 @@ def test_annihilate_f():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_create_b(), test_create_b produces the expected output) over {Any | isinstance(o, CreateBoson)} ║
+# ║ Path(test_create_b(), isinstance(o, CreateBoson) and o.atoms(Symbol) == {j} and o.apply_operator(BKet([n])) == sqrt(n + 1) * BKet([n + 1]) and o.apply_operator(BKet([n])) == o * BKet([n])) over {Any | isinstance(o, CreateBoson)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(o, CreateBoson)                     ║
+# ║   ensures:  o.atoms(Symbol) == {j}                         ║
+# ║   ensures:  o.apply_operator(BKet([n])) == sqrt(n + 1...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_create_b : {Any | isinstance(o, CreateBoson)} → ...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -585,9 +723,12 @@ def test_annihilate_f():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | e6933e59...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_secondquant.test_create_b","kind":"function","src_hash":"4bf2cbbc750e7895","in":{"base":"Any","pred":"isinstance(o, CreateBoson)"},"out":{"base":"Any","pred":"isinstance(o, CreateBoson) and o.atoms(Symbol) == {j} and o.apply_operator(BKet([n])) == sqrt(n + 1) * BKet([n + 1]) and o.apply_operator(BKet([n])) == o * BKet([n])"},"spec":{"lhs":"test_create_b()","rhs":"test_create_b produces the expected output","over":{"base":"Any","pred":"isinstance(o, CreateBoson)"},"name":"test_create_b_correct"},"guarantee":"test_create_b produces the expected output","fibers":[{"name":"CreateBoson","pred":"isinstance(o, CreateBoson)","path":{"lhs":"test_create_b(x)","rhs":"test_create_b produces the expected output","over":{"base":"CreateBoson","pred":"isinstance(o, CreateBoson)"},"name":"test_create_b_CreateBoson_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_secondquant.test_create_b_CreateBoson_correct","statement":"test_create_b satisfies spec on CreateBoson inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"e6933e59553719ab"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_secondquant.test_create_b","kind":"function","src_hash":"4bf2cbbc750e7895","in":{"base":"Any","pred":"isinstance(o, CreateBoson)"},"out":{"base":"Any","pred":"result satisfies: isinstance(o, CreateBoson) and o.atoms(Symbol) == {j} and o.apply_operator(BKet([n])) == sqrt(n + 1) * BKet([n + 1]) and o.apply_operator(BKet([n])) == o * BKet([n])"},"spec":{"lhs":"test_create_b()","rhs":"isinstance(o, CreateBoson) and o.atoms(Symbol) == {j} and o.apply_operator(BKet([n])) == sqrt(n + 1) * BKet([n + 1]) and o.apply_operator(BKet([n])) == o * BKet([n])","over":{"base":"Any","pred":"isinstance(o, CreateBoson)"},"name":"test_create_b_correct"},"guarantee":"isinstance(o, CreateBoson); o.atoms(Symbol) == {j}; o.apply_operator(BKet([n])) == sqrt(n + 1) * BKet([n + 1])","fibers":[{"name":"CreateBoson","pred":"isinstance(o, CreateBoson)","path":{"lhs":"test_create_b(x)","rhs":"isinstance(o, CreateBoson); o.atoms(Symbol) == {j}; o.apply_operator(BKet([n])) == sqrt(n + 1) * BKet([n + 1])","over":{"base":"CreateBoson","pred":"isinstance(o, CreateBoson)"},"name":"test_create_b_CreateBoson_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_secondquant.test_create_b_CreateBoson_correct","statement":"test_create_b satisfies spec on CreateBoson inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"e6933e59553719ab","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(o, CreateBoson)","o.atoms(Symbol) == {j}","o.apply_operator(BKet([n])) == sqrt(n + 1) * BKet([n + 1])","o.apply_operator(BKet([n])) == o * BKet([n])"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.1,"verdict_class":"failed","binding":true}}
 def test_create_b():
     i, j, n, m = symbols('i,j,n,m')
     o = Bd(i)
@@ -601,7 +742,11 @@ def test_create_b():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_annihilate_b(), test_annihilate_b produces the expected output) over {Any | isinstance(o, AnnihilateBoson)} ║
+# ║ Path(test_annihilate_b(), isinstance(o, AnnihilateBoson) and o.atoms(Symbol) == {j}) over {Any | isinstance(o, AnnihilateBoson)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(o, AnnihilateBoson)                 ║
+# ║   ensures:  o.atoms(Symbol) == {j}                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_annihilate_b : {Any | isinstance(o, AnnihilateBo...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -613,9 +758,12 @@ def test_create_b():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.3ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 66daaee0...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_secondquant.test_annihilate_b","kind":"function","src_hash":"ff564df4e4df5163","in":{"base":"Any","pred":"isinstance(o, AnnihilateBoson)"},"out":{"base":"Any","pred":"isinstance(o, AnnihilateBoson) and o.atoms(Symbol) == {j}"},"spec":{"lhs":"test_annihilate_b()","rhs":"test_annihilate_b produces the expected output","over":{"base":"Any","pred":"isinstance(o, AnnihilateBoson)"},"name":"test_annihilate_b_correct"},"guarantee":"test_annihilate_b produces the expected output","fibers":[{"name":"AnnihilateBoson","pred":"isinstance(o, AnnihilateBoson)","path":{"lhs":"test_annihilate_b(x)","rhs":"test_annihilate_b produces the expected output","over":{"base":"AnnihilateBoson","pred":"isinstance(o, AnnihilateBoson)"},"name":"test_annihilate_b_AnnihilateBoson_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_secondquant.test_annihilate_b_AnnihilateBoson_correct","statement":"test_annihilate_b satisfies spec on AnnihilateBoson inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"66daaee085ab1d2f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_secondquant.test_annihilate_b","kind":"function","src_hash":"ff564df4e4df5163","in":{"base":"Any","pred":"isinstance(o, AnnihilateBoson)"},"out":{"base":"Any","pred":"result satisfies: isinstance(o, AnnihilateBoson) and o.atoms(Symbol) == {j}"},"spec":{"lhs":"test_annihilate_b()","rhs":"isinstance(o, AnnihilateBoson) and o.atoms(Symbol) == {j}","over":{"base":"Any","pred":"isinstance(o, AnnihilateBoson)"},"name":"test_annihilate_b_correct"},"guarantee":"isinstance(o, AnnihilateBoson); o.atoms(Symbol) == {j}","fibers":[{"name":"AnnihilateBoson","pred":"isinstance(o, AnnihilateBoson)","path":{"lhs":"test_annihilate_b(x)","rhs":"isinstance(o, AnnihilateBoson); o.atoms(Symbol) == {j}","over":{"base":"AnnihilateBoson","pred":"isinstance(o, AnnihilateBoson)"},"name":"test_annihilate_b_AnnihilateBoson_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_secondquant.test_annihilate_b_AnnihilateBoson_correct","statement":"test_annihilate_b satisfies spec on AnnihilateBoson inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"66daaee085ab1d2f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(o, AnnihilateBoson)","o.atoms(Symbol) == {j}"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.3,"verdict_class":"failed","binding":true}}
 def test_annihilate_b():
     i, j, n, m = symbols('i,j,n,m')
     o = B(i)
@@ -626,16 +774,24 @@ def test_annihilate_b():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_wicks(), test_wicks produces the expected output) over Any ║
+# ║ Path(test_wicks(), wicks(str) == NO(F(p) * Fd(q)) + KroneckerDelta(p, q) and wicks(str) == NO(Fd(p) * F(q)) and nstr == fasit and (p * q * nstr).expand() == wicks(p * q * str) and (nstr * p * q * 2).expand() == wicks(str * p * q * 2) and wicks(F(a) * NO(F(i) * F(j)) * Fd(b)) == NO(F(a) * F(i) * F(j) * Fd(b)) + KroneckerDelta(a, b) * NO(F(i) * F(j)) and wicks(F(a) * NO(F(i) * F(j) * F(k)) * Fd(b)) == NO(F(a) * F(i) * F(j) * F(k) * Fd(b)) - KroneckerDelta(a, b) * NO(F(i) * F(j) * F(k)) and expr == -KroneckerDelta(i, k) * NO(Fd(j) * F(l)) - KroneckerDelta(j, l) * NO(Fd(i) * F(k)) - KroneckerDelta(i, k) * KroneckerDelta(j, l) + KroneckerDelta(i, l) * NO(Fd(j) * F(k)) + NO(Fd(i) * Fd(j) * F(k) * F(l)) and expr == -KroneckerDelta(a, c) * NO(F(b) * Fd(d)) - KroneckerDelta(b, d) * NO(F(a) * Fd(c)) - KroneckerDelta(a, c) * KroneckerDelta(b, d) + KroneckerDelta(a, d) * NO(F(b) * Fd(c)) + NO(F(a) * F(b) * Fd(c) * Fd(d))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_wicks : Any → {Any | wicks(str) == NO(F(p) * Fd(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  wicks(str) == NO(F(p) * Fd(q)) + Kronecke...   ║
+# ║   ensures:  wicks(str) == NO(Fd(p) * F(q))                 ║
+# ║   ensures:  nstr == fasit                                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_wicks : Any → {Any | result satisfies: wicks(str...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d7ad44e0a1721359  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.9ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 08961820208f2e0a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_secondquant.test_wicks","kind":"function","src_hash":"cd84403eafbac879","in":{"base":"Any"},"out":{"base":"Any","pred":"wicks(str) == NO(F(p) * Fd(q)) + KroneckerDelta(p, q) and wicks(str) == NO(Fd(p) * F(q)) and nstr == fasit and (p * q * nstr).expand() == wicks(p * q * str) and (nstr * p * q * 2).expand() == wicks(str * p * q * 2)"},"spec":{"lhs":"test_wicks()","rhs":"test_wicks produces the expected output","over":{"base":"Any"},"name":"test_wicks_correct"},"guarantee":"test_wicks produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_secondquant.test_wicks_correct","statement":"Path(test_wicks(x), test_wicks produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d7ad44e0a1721359"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_secondquant.test_wicks","kind":"function","src_hash":"cd84403eafbac879","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: wicks(str) == NO(F(p) * Fd(q)) + KroneckerDelta(p, q) and wicks(str) == NO(Fd(p) * F(q)) and nstr == fasit and (p * q * nstr).expand() == wicks(p * q * str) and (nstr * p * q * 2).expand() == wicks(str * p * q * 2) and wicks(F(a) * NO(F(i) * F(j)) * Fd(b)) == NO(F(a) * F(i) * F(j) * Fd(b)) + KroneckerDelta(a, b) * NO(F(i) * F(j)) and wicks(F(a) * NO(F(i) * F(j) * F(k)) * Fd(b)) == NO(F(a) * F(i) * F(j) * F(k) * Fd(b)) - KroneckerDelta(a, b) * NO(F(i) * F(j) * F(k)) and expr == -KroneckerDelta(i, k) * NO(Fd(j) * F(l)) - KroneckerDelta(j, l) * NO(Fd(i) * F(k)) - KroneckerDelta(i, k) * KroneckerDelta(j, l) + KroneckerDelta(i, l) * NO(Fd(j) * F(k)) + NO(Fd(i) * Fd(j) * F(k) * F(l)) and expr == -KroneckerDelta(a, c) * NO(F(b) * Fd(d)) - KroneckerDelta(b, d) * NO(F(a) * Fd(c)) - KroneckerDelta(a, c) * KroneckerDelta(b, d) + KroneckerDelta(a, d) * NO(F(b) * Fd(c)) + NO(F(a) * F(b) * Fd(c) * Fd(d))"},"spec":{"lhs":"test_wicks()","rhs":"wicks(str) == NO(F(p) * Fd(q)) + KroneckerDelta(p, q) and wicks(str) == NO(Fd(p) * F(q)) and nstr == fasit and (p * q * nstr).expand() == wicks(p * q * str) and (nstr * p * q * 2).expand() == wicks(str * p * q * 2) and wicks(F(a) * NO(F(i) * F(j)) * Fd(b)) == NO(F(a) * F(i) * F(j) * Fd(b)) + KroneckerDelta(a, b) * NO(F(i) * F(j)) and wicks(F(a) * NO(F(i) * F(j) * F(k)) * Fd(b)) == NO(F(a) * F(i) * F(j) * F(k) * Fd(b)) - KroneckerDelta(a, b) * NO(F(i) * F(j) * F(k)) and expr == -KroneckerDelta(i, k) * NO(Fd(j) * F(l)) - KroneckerDelta(j, l) * NO(Fd(i) * F(k)) - KroneckerDelta(i, k) * KroneckerDelta(j, l) + KroneckerDelta(i, l) * NO(Fd(j) * F(k)) + NO(Fd(i) * Fd(j) * F(k) * F(l)) and expr == -KroneckerDelta(a, c) * NO(F(b) * Fd(d)) - KroneckerDelta(b, d) * NO(F(a) * Fd(c)) - KroneckerDelta(a, c) * KroneckerDelta(b, d) + KroneckerDelta(a, d) * NO(F(b) * Fd(c)) + NO(F(a) * F(b) * Fd(c) * Fd(d))","over":{"base":"Any"},"name":"test_wicks_correct"},"guarantee":"wicks(str) == NO(F(p) * Fd(q)) + KroneckerDelta(p, q); wicks(str) == NO(Fd(p) * F(q)); nstr == fasit","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_secondquant.test_wicks_correct","statement":"Path(test_wicks(x), wicks(str) == NO(F(p) * Fd(q)) + KroneckerDelta(p, q); wicks(str) == NO(Fd(p) * F(q)); nstr == fasit)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"08961820208f2e0a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["wicks(str) == NO(F(p) * Fd(q)) + KroneckerDelta(p, q)","wicks(str) == NO(Fd(p) * F(q))","nstr == fasit","(p * q * nstr).expand() == wicks(p * q * str)","(nstr * p * q * 2).expand() == wicks(str * p * q * 2)","wicks(F(a) * NO(F(i) * F(j)) * Fd(b)) == NO(F(a) * F(i) * F(j) * Fd(b)) + KroneckerDelta(a, b) * NO(F(i) * F(j))","wicks(F(a) * NO(F(i) * F(j) * F(k)) * Fd(b)) == NO(F(a) * F(i) * F(j) * F(k) * Fd(b)) - KroneckerDelta(a, b) * NO(F(i) * F(j) * F(k))","expr == -KroneckerDelta(i, k) * NO(Fd(j) * F(l)) - KroneckerDelta(j, l) * NO(Fd(i) * F(k)) - KroneckerDelta(i, k) * KroneckerDelta(j, l) + KroneckerDelta(i, l) * NO(Fd(j) * F(k)) + NO(Fd(i) * Fd(j) * F(k) * F(l))","expr == -KroneckerDelta(a, c) * NO(F(b) * Fd(d)) - KroneckerDelta(b, d) * NO(F(a) * Fd(c)) - KroneckerDelta(a, c) * KroneckerDelta(b, d) + KroneckerDelta(a, d) * NO(F(b) * Fd(c)) + NO(F(a) * F(b) * Fd(c) * Fd(d))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.9,"verdict_class":"assumed","binding":true}}
 def test_wicks():
     p, q, r, s = symbols('p,q,r,s', above_fermi=True)
 
@@ -688,16 +844,24 @@ def test_wicks():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_NO(), test_NO produces the expected output) over Any ║
+# ║ Path(test_NO(), NO(Fd(p) * F(q) + Fd(a) * F(b)) == NO(Fd(p) * F(q)) + NO(Fd(a) * F(b)) and NO(Fd(i) * NO(F(j) * Fd(a))) == NO(Fd(i) * F(j) * Fd(a)) and NO(1) == 1 and NO(i) == i and NO(Fd(a) * Fd(b) * (F(c) + F(d))) == NO(Fd(a) * Fd(b) * F(c)) + NO(Fd(a) * Fd(b) * F(d)) and NO(Fd(a) * F(b))._remove_brackets() == Fd(a) * F(b) and NO(F(j) * Fd(i))._remove_brackets() == F(j) * Fd(i) and NO(Fd(p) * F(q)).subs(Fd(p), Fd(a) + Fd(i)) == NO(Fd(a) * F(q)) + NO(Fd(i) * F(q)) and NO(Fd(p) * F(q)).subs(F(q), F(a) + F(i)) == NO(Fd(p) * F(a)) + NO(Fd(p) * F(i)) and wicks(expr) == NO(expr) and NO(Fd(a) * F(b)) == -NO(F(b) * Fd(a)) and l1 == [0, 1] and l2 == [3, 2] and no.has_q_creators == 1 and no.has_q_annihilators == -1 and str(no) == ':CreateFermion(a)*CreateFermion(i):' and repr(no) == 'NO(CreateFermion(a)*CreateFermion(i))' and latex(no) == '\\left\\{{a^\\dagger_{a}} {a^\\dagger_{i}}\\right\\}') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_NO : Any → {Any | NO(Fd(p) * F(q) + Fd(a) * F(b)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  NO(Fd(p) * F(q) + Fd(a) * F(b)) == NO(Fd(...   ║
+# ║   ensures:  NO(Fd(i) * NO(F(j) * Fd(a))) == NO(Fd(i) ...   ║
+# ║   ensures:  NO(1) == 1                                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_NO : Any → {Any | result satisfies: NO(Fd(p) * F...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fed8909fbaeb8360  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ae7d389a29c423d0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_secondquant.test_NO","kind":"function","src_hash":"fba73dd1cf741dd5","in":{"base":"Any"},"out":{"base":"Any","pred":"NO(Fd(p) * F(q) + Fd(a) * F(b)) == NO(Fd(p) * F(q)) + NO(Fd(a) * F(b)) and NO(Fd(i) * NO(F(j) * Fd(a))) == NO(Fd(i) * F(j) * Fd(a)) and NO(1) == 1 and NO(i) == i and NO(Fd(a) * F(b))._remove_brackets() == Fd(a) * F(b) and NO(F(j) * Fd(i))._remove_brackets() == F(j) * Fd(i) and NO(Fd(p) * F(q)).subs(F(q), F(a) + F(i)) == NO(Fd(p) * F(a)) + NO(Fd(p) * F(i)) and wicks(expr) == NO(expr) and NO(Fd(a) * F(b)) == -NO(F(b) * Fd(a)) and l1 == [0, 1] and l2 == [3, 2] and no.has_q_creators == 1 and no.has_q_annihilators == -1 and str(no) == ':CreateFermion(a)*CreateFermion(i):' and repr(no) == 'NO(CreateFermion(a)*CreateFermion(i))' and latex(no) == '\\\\left\\\\{{a^\\\\dagger_{a}} {a^\\\\dagger_{i}}\\\\right\\\\}'"},"spec":{"lhs":"test_NO()","rhs":"test_NO produces the expected output","over":{"base":"Any"},"name":"test_NO_correct"},"guarantee":"test_NO produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_secondquant.test_NO_correct","statement":"Path(test_NO(x), test_NO produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fed8909fbaeb8360"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_secondquant.test_NO","kind":"function","src_hash":"fba73dd1cf741dd5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: NO(Fd(p) * F(q) + Fd(a) * F(b)) == NO(Fd(p) * F(q)) + NO(Fd(a) * F(b)) and NO(Fd(i) * NO(F(j) * Fd(a))) == NO(Fd(i) * F(j) * Fd(a)) and NO(1) == 1 and NO(i) == i and NO(Fd(a) * Fd(b) * (F(c) + F(d))) == NO(Fd(a) * Fd(b) * F(c)) + NO(Fd(a) * Fd(b) * F(d)) and NO(Fd(a) * F(b))._remove_brackets() == Fd(a) * F(b) and NO(F(j) * Fd(i))._remove_brackets() == F(j) * Fd(i) and NO(Fd(p) * F(q)).subs(Fd(p), Fd(a) + Fd(i)) == NO(Fd(a) * F(q)) + NO(Fd(i) * F(q)) and NO(Fd(p) * F(q)).subs(F(q), F(a) + F(i)) == NO(Fd(p) * F(a)) + NO(Fd(p) * F(i)) and wicks(expr) == NO(expr) and NO(Fd(a) * F(b)) == -NO(F(b) * Fd(a)) and l1 == [0, 1] and l2 == [3, 2] and no.has_q_creators == 1 and no.has_q_annihilators == -1 and str(no) == ':CreateFermion(a)*CreateFermion(i):' and repr(no) == 'NO(CreateFermion(a)*CreateFermion(i))' and latex(no) == '\\\\left\\\\{{a^\\\\dagger_{a}} {a^\\\\dagger_{i}}\\\\right\\\\}'"},"spec":{"lhs":"test_NO()","rhs":"NO(Fd(p) * F(q) + Fd(a) * F(b)) == NO(Fd(p) * F(q)) + NO(Fd(a) * F(b)) and NO(Fd(i) * NO(F(j) * Fd(a))) == NO(Fd(i) * F(j) * Fd(a)) and NO(1) == 1 and NO(i) == i and NO(Fd(a) * Fd(b) * (F(c) + F(d))) == NO(Fd(a) * Fd(b) * F(c)) + NO(Fd(a) * Fd(b) * F(d)) and NO(Fd(a) * F(b))._remove_brackets() == Fd(a) * F(b) and NO(F(j) * Fd(i))._remove_brackets() == F(j) * Fd(i) and NO(Fd(p) * F(q)).subs(Fd(p), Fd(a) + Fd(i)) == NO(Fd(a) * F(q)) + NO(Fd(i) * F(q)) and NO(Fd(p) * F(q)).subs(F(q), F(a) + F(i)) == NO(Fd(p) * F(a)) + NO(Fd(p) * F(i)) and wicks(expr) == NO(expr) and NO(Fd(a) * F(b)) == -NO(F(b) * Fd(a)) and l1 == [0, 1] and l2 == [3, 2] and no.has_q_creators == 1 and no.has_q_annihilators == -1 and str(no) == ':CreateFermion(a)*CreateFermion(i):' and repr(no) == 'NO(CreateFermion(a)*CreateFermion(i))' and latex(no) == '\\\\left\\\\{{a^\\\\dagger_{a}} {a^\\\\dagger_{i}}\\\\right\\\\}'","over":{"base":"Any"},"name":"test_NO_correct"},"guarantee":"NO(Fd(p) * F(q) + Fd(a) * F(b)) == NO(Fd(p) * F(q)) + NO(Fd(a) * F(b)); NO(Fd(i) * NO(F(j) * Fd(a))) == NO(Fd(i) * F(j) * Fd(a)); NO(1) == 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_secondquant.test_NO_correct","statement":"Path(test_NO(x), NO(Fd(p) * F(q) + Fd(a) * F(b)) == NO(Fd(p) * F(q)) + NO(Fd(a) * F(b)); NO(Fd(i) * NO(F(j) * Fd(a))) == NO(Fd(i) * F(j) * Fd(a)); NO(1) == 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ae7d389a29c423d0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["NO(Fd(p) * F(q) + Fd(a) * F(b)) == NO(Fd(p) * F(q)) + NO(Fd(a) * F(b))","NO(Fd(i) * NO(F(j) * Fd(a))) == NO(Fd(i) * F(j) * Fd(a))","NO(1) == 1","NO(i) == i","NO(Fd(a) * Fd(b) * (F(c) + F(d))) == NO(Fd(a) * Fd(b) * F(c)) + NO(Fd(a) * Fd(b) * F(d))","NO(Fd(a) * F(b))._remove_brackets() == Fd(a) * F(b)","NO(F(j) * Fd(i))._remove_brackets() == F(j) * Fd(i)","NO(Fd(p) * F(q)).subs(Fd(p), Fd(a) + Fd(i)) == NO(Fd(a) * F(q)) + NO(Fd(i) * F(q))","NO(Fd(p) * F(q)).subs(F(q), F(a) + F(i)) == NO(Fd(p) * F(a)) + NO(Fd(p) * F(i))","wicks(expr) == NO(expr)","NO(Fd(a) * F(b)) == -NO(F(b) * Fd(a))","l1 == [0, 1]","l2 == [3, 2]","no.has_q_creators == 1","no.has_q_annihilators == -1","str(no) == ':CreateFermion(a)*CreateFermion(i):'","repr(no) == 'NO(CreateFermion(a)*CreateFermion(i))'","latex(no) == '\\\\left\\\\{{a^\\\\dagger_{a}} {a^\\\\dagger_{i}}\\\\right\\\\}'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":true}}
 def test_NO():
     i, j, k, l = symbols('i j k l', below_fermi=True)
     a, b, c, d = symbols('a b c d', above_fermi=True)
@@ -741,16 +905,24 @@ def test_NO():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_sorting(), test_sorting produces the expected output) over Any ║
+# ║ Path(test_sorting(), _sort_anticommuting_fermions([Fd(p), F(q)]) == ([Fd(p), F(q)], 0) and _sort_anticommuting_fermions([F(p), Fd(q)]) == ([Fd(q), F(p)], 1) and _sort_anticommuting_fermions([F(p), Fd(i)]) == ([F(p), Fd(i)], 0) and _sort_anticommuting_fermions([Fd(i), F(p)]) == ([F(p), Fd(i)], 1) and _sort_anticommuting_fermions([Fd(p), Fd(i)]) == ([Fd(p), Fd(i)], 0) and _sort_anticommuting_fermions([Fd(i), Fd(p)]) == ([Fd(p), Fd(i)], 1) and _sort_anticommuting_fermions([F(p), F(i)]) == ([F(i), F(p)], 1) and _sort_anticommuting_fermions([F(i), F(p)]) == ([F(i), F(p)], 0) and _sort_anticommuting_fermions([Fd(p), F(i)]) == ([F(i), Fd(p)], 1) and _sort_anticommuting_fermions([F(i), Fd(p)]) == ([F(i), Fd(p)], 0) and _sort_anticommuting_fermions([F(p), Fd(a)]) == ([Fd(a), F(p)], 1) and _sort_anticommuting_fermions([Fd(a), F(p)]) == ([Fd(a), F(p)], 0) and _sort_anticommuting_fermions([Fd(p), Fd(a)]) == ([Fd(a), Fd(p)], 1) and _sort_anticommuting_fermions([Fd(a), Fd(p)]) == ([Fd(a), Fd(p)], 0) and _sort_anticommuting_fermions([F(p), F(a)]) == ([F(p), F(a)], 0) and _sort_anticommuting_fermions([F(a), F(p)]) == ([F(p), F(a)], 1) and _sort_anticommuting_fermions([Fd(p), F(a)]) == ([Fd(p), F(a)], 0) and _sort_anticommuting_fermions([F(a), Fd(p)]) == ([Fd(p), F(a)], 1) and _sort_anticommuting_fermions([F(i), Fd(j)]) == ([F(i), Fd(j)], 0) and _sort_anticommuting_fermions([Fd(j), F(i)]) == ([F(i), Fd(j)], 1) and _sort_anticommuting_fermions([Fd(a), Fd(i)]) == ([Fd(a), Fd(i)], 0) and _sort_anticommuting_fermions([Fd(i), Fd(a)]) == ([Fd(a), Fd(i)], 1) and _sort_anticommuting_fermions([F(a), F(i)]) == ([F(i), F(a)], 1) and _sort_anticommuting_fermions([F(i), F(a)]) == ([F(i), F(a)], 0)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_sorting : Any → {Any | _sort_anticommuting_fermi...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  _sort_anticommuting_fermions([Fd(p), F(q)...   ║
+# ║   ensures:  _sort_anticommuting_fermions([F(p), Fd(q)...   ║
+# ║   ensures:  _sort_anticommuting_fermions([F(p), Fd(i)...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_sorting : Any → {Any | result satisfies: _sort_a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7b06bf563c367825  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.9ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 826185f8e404245c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_secondquant.test_sorting","kind":"function","src_hash":"fb7f62ec21600757","in":{"base":"Any"},"out":{"base":"Any","pred":"_sort_anticommuting_fermions([Fd(p), F(q)]) == ([Fd(p), F(q)], 0) and _sort_anticommuting_fermions([F(p), Fd(q)]) == ([Fd(q), F(p)], 1) and _sort_anticommuting_fermions([F(p), Fd(i)]) == ([F(p), Fd(i)], 0) and _sort_anticommuting_fermions([Fd(i), F(p)]) == ([F(p), Fd(i)], 1) and _sort_anticommuting_fermions([Fd(p), Fd(i)]) == ([Fd(p), Fd(i)], 0) and _sort_anticommuting_fermions([Fd(i), Fd(p)]) == ([Fd(p), Fd(i)], 1) and _sort_anticommuting_fermions([F(p), F(i)]) == ([F(i), F(p)], 1) and _sort_anticommuting_fermions([F(i), F(p)]) == ([F(i), F(p)], 0) and _sort_anticommuting_fermions([Fd(p), F(i)]) == ([F(i), Fd(p)], 1) and _sort_anticommuting_fermions([F(i), Fd(p)]) == ([F(i), Fd(p)], 0) and _sort_anticommuting_fermions([F(p), Fd(a)]) == ([Fd(a), F(p)], 1) and _sort_anticommuting_fermions([Fd(a), F(p)]) == ([Fd(a), F(p)], 0) and _sort_anticommuting_fermions([Fd(p), Fd(a)]) == ([Fd(a), Fd(p)], 1) and _sort_anticommuting_fermions([Fd(a), Fd(p)]) == ([Fd(a), Fd(p)], 0) and _sort_anticommuting_fermions([F(p), F(a)]) == ([F(p), F(a)], 0) and _sort_anticommuting_fermions([F(a), F(p)]) == ([F(p), F(a)], 1) and _sort_anticommuting_fermions([Fd(p), F(a)]) == ([Fd(p), F(a)], 0) and _sort_anticommuting_fermions([F(a), Fd(p)]) == ([Fd(p), F(a)], 1) and _sort_anticommuting_fermions([F(i), Fd(j)]) == ([F(i), Fd(j)], 0) and _sort_anticommuting_fermions([Fd(j), F(i)]) == ([F(i), Fd(j)], 1) and _sort_anticommuting_fermions([Fd(a), Fd(i)]) == ([Fd(a), Fd(i)], 0) and _sort_anticommuting_fermions([Fd(i), Fd(a)]) == ([Fd(a), Fd(i)], 1) and _sort_anticommuting_fermions([F(a), F(i)]) == ([F(i), F(a)], 1) and _sort_anticommuting_fermions([F(i), F(a)]) == ([F(i), F(a)], 0)"},"spec":{"lhs":"test_sorting()","rhs":"test_sorting produces the expected output","over":{"base":"Any"},"name":"test_sorting_correct"},"guarantee":"test_sorting produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_secondquant.test_sorting_correct","statement":"Path(test_sorting(x), test_sorting produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7b06bf563c367825"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_secondquant.test_sorting","kind":"function","src_hash":"fb7f62ec21600757","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: _sort_anticommuting_fermions([Fd(p), F(q)]) == ([Fd(p), F(q)], 0) and _sort_anticommuting_fermions([F(p), Fd(q)]) == ([Fd(q), F(p)], 1) and _sort_anticommuting_fermions([F(p), Fd(i)]) == ([F(p), Fd(i)], 0) and _sort_anticommuting_fermions([Fd(i), F(p)]) == ([F(p), Fd(i)], 1) and _sort_anticommuting_fermions([Fd(p), Fd(i)]) == ([Fd(p), Fd(i)], 0) and _sort_anticommuting_fermions([Fd(i), Fd(p)]) == ([Fd(p), Fd(i)], 1) and _sort_anticommuting_fermions([F(p), F(i)]) == ([F(i), F(p)], 1) and _sort_anticommuting_fermions([F(i), F(p)]) == ([F(i), F(p)], 0) and _sort_anticommuting_fermions([Fd(p), F(i)]) == ([F(i), Fd(p)], 1) and _sort_anticommuting_fermions([F(i), Fd(p)]) == ([F(i), Fd(p)], 0) and _sort_anticommuting_fermions([F(p), Fd(a)]) == ([Fd(a), F(p)], 1) and _sort_anticommuting_fermions([Fd(a), F(p)]) == ([Fd(a), F(p)], 0) and _sort_anticommuting_fermions([Fd(p), Fd(a)]) == ([Fd(a), Fd(p)], 1) and _sort_anticommuting_fermions([Fd(a), Fd(p)]) == ([Fd(a), Fd(p)], 0) and _sort_anticommuting_fermions([F(p), F(a)]) == ([F(p), F(a)], 0) and _sort_anticommuting_fermions([F(a), F(p)]) == ([F(p), F(a)], 1) and _sort_anticommuting_fermions([Fd(p), F(a)]) == ([Fd(p), F(a)], 0) and _sort_anticommuting_fermions([F(a), Fd(p)]) == ([Fd(p), F(a)], 1) and _sort_anticommuting_fermions([F(i), Fd(j)]) == ([F(i), Fd(j)], 0) and _sort_anticommuting_fermions([Fd(j), F(i)]) == ([F(i), Fd(j)], 1) and _sort_anticommuting_fermions([Fd(a), Fd(i)]) == ([Fd(a), Fd(i)], 0) and _sort_anticommuting_fermions([Fd(i), Fd(a)]) == ([Fd(a), Fd(i)], 1) and _sort_anticommuting_fermions([F(a), F(i)]) == ([F(i), F(a)], 1) and _sort_anticommuting_fermions([F(i), F(a)]) == ([F(i), F(a)], 0)"},"spec":{"lhs":"test_sorting()","rhs":"_sort_anticommuting_fermions([Fd(p), F(q)]) == ([Fd(p), F(q)], 0) and _sort_anticommuting_fermions([F(p), Fd(q)]) == ([Fd(q), F(p)], 1) and _sort_anticommuting_fermions([F(p), Fd(i)]) == ([F(p), Fd(i)], 0) and _sort_anticommuting_fermions([Fd(i), F(p)]) == ([F(p), Fd(i)], 1) and _sort_anticommuting_fermions([Fd(p), Fd(i)]) == ([Fd(p), Fd(i)], 0) and _sort_anticommuting_fermions([Fd(i), Fd(p)]) == ([Fd(p), Fd(i)], 1) and _sort_anticommuting_fermions([F(p), F(i)]) == ([F(i), F(p)], 1) and _sort_anticommuting_fermions([F(i), F(p)]) == ([F(i), F(p)], 0) and _sort_anticommuting_fermions([Fd(p), F(i)]) == ([F(i), Fd(p)], 1) and _sort_anticommuting_fermions([F(i), Fd(p)]) == ([F(i), Fd(p)], 0) and _sort_anticommuting_fermions([F(p), Fd(a)]) == ([Fd(a), F(p)], 1) and _sort_anticommuting_fermions([Fd(a), F(p)]) == ([Fd(a), F(p)], 0) and _sort_anticommuting_fermions([Fd(p), Fd(a)]) == ([Fd(a), Fd(p)], 1) and _sort_anticommuting_fermions([Fd(a), Fd(p)]) == ([Fd(a), Fd(p)], 0) and _sort_anticommuting_fermions([F(p), F(a)]) == ([F(p), F(a)], 0) and _sort_anticommuting_fermions([F(a), F(p)]) == ([F(p), F(a)], 1) and _sort_anticommuting_fermions([Fd(p), F(a)]) == ([Fd(p), F(a)], 0) and _sort_anticommuting_fermions([F(a), Fd(p)]) == ([Fd(p), F(a)], 1) and _sort_anticommuting_fermions([F(i), Fd(j)]) == ([F(i), Fd(j)], 0) and _sort_anticommuting_fermions([Fd(j), F(i)]) == ([F(i), Fd(j)], 1) and _sort_anticommuting_fermions([Fd(a), Fd(i)]) == ([Fd(a), Fd(i)], 0) and _sort_anticommuting_fermions([Fd(i), Fd(a)]) == ([Fd(a), Fd(i)], 1) and _sort_anticommuting_fermions([F(a), F(i)]) == ([F(i), F(a)], 1) and _sort_anticommuting_fermions([F(i), F(a)]) == ([F(i), F(a)], 0)","over":{"base":"Any"},"name":"test_sorting_correct"},"guarantee":"_sort_anticommuting_fermions([Fd(p), F(q)]) == ([Fd(p), F(q)], 0); _sort_anticommuting_fermions([F(p), Fd(q)]) == ([Fd(q), F(p)], 1); _sort_anticommuting_fermions([F(p), Fd(i)]) == ([F(p), Fd(i)], 0)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_secondquant.test_sorting_correct","statement":"Path(test_sorting(x), _sort_anticommuting_fermions([Fd(p), F(q)]) == ([Fd(p), F(q)], 0); _sort_anticommuting_fermions([F(p), Fd(q)]) == ([Fd(q), F(p)], 1); _sort_anticommuting_fermions([F(p), Fd(i)]) == ([F(p), Fd(i)], 0))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"826185f8e404245c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["_sort_anticommuting_fermions([Fd(p), F(q)]) == ([Fd(p), F(q)], 0)","_sort_anticommuting_fermions([F(p), Fd(q)]) == ([Fd(q), F(p)], 1)","_sort_anticommuting_fermions([F(p), Fd(i)]) == ([F(p), Fd(i)], 0)","_sort_anticommuting_fermions([Fd(i), F(p)]) == ([F(p), Fd(i)], 1)","_sort_anticommuting_fermions([Fd(p), Fd(i)]) == ([Fd(p), Fd(i)], 0)","_sort_anticommuting_fermions([Fd(i), Fd(p)]) == ([Fd(p), Fd(i)], 1)","_sort_anticommuting_fermions([F(p), F(i)]) == ([F(i), F(p)], 1)","_sort_anticommuting_fermions([F(i), F(p)]) == ([F(i), F(p)], 0)","_sort_anticommuting_fermions([Fd(p), F(i)]) == ([F(i), Fd(p)], 1)","_sort_anticommuting_fermions([F(i), Fd(p)]) == ([F(i), Fd(p)], 0)","_sort_anticommuting_fermions([F(p), Fd(a)]) == ([Fd(a), F(p)], 1)","_sort_anticommuting_fermions([Fd(a), F(p)]) == ([Fd(a), F(p)], 0)","_sort_anticommuting_fermions([Fd(p), Fd(a)]) == ([Fd(a), Fd(p)], 1)","_sort_anticommuting_fermions([Fd(a), Fd(p)]) == ([Fd(a), Fd(p)], 0)","_sort_anticommuting_fermions([F(p), F(a)]) == ([F(p), F(a)], 0)","_sort_anticommuting_fermions([F(a), F(p)]) == ([F(p), F(a)], 1)","_sort_anticommuting_fermions([Fd(p), F(a)]) == ([Fd(p), F(a)], 0)","_sort_anticommuting_fermions([F(a), Fd(p)]) == ([Fd(p), F(a)], 1)","_sort_anticommuting_fermions([F(i), Fd(j)]) == ([F(i), Fd(j)], 0)","_sort_anticommuting_fermions([Fd(j), F(i)]) == ([F(i), Fd(j)], 1)","_sort_anticommuting_fermions([Fd(a), Fd(i)]) == ([Fd(a), Fd(i)], 0)","_sort_anticommuting_fermions([Fd(i), Fd(a)]) == ([Fd(a), Fd(i)], 1)","_sort_anticommuting_fermions([F(a), F(i)]) == ([F(i), F(a)], 1)","_sort_anticommuting_fermions([F(i), F(a)]) == ([F(i), F(a)], 0)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.9,"verdict_class":"assumed","binding":true}}
 def test_sorting():
     i, j = symbols('i,j', below_fermi=True)
     a, b = symbols('a,b', above_fermi=True)
@@ -790,16 +962,24 @@ def test_sorting():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_contraction(), test_contraction produces the expected output) over Any ║
+# ║ Path(test_contraction(), contraction(Fd(i), F(j)) == KroneckerDelta(i, j) and contraction(F(a), Fd(b)) == KroneckerDelta(a, b) and contraction(F(a), Fd(i)) == 0 and contraction(Fd(a), F(i)) == 0 and contraction(F(i), Fd(a)) == 0 and contraction(Fd(i), F(a)) == 0 and contraction(Fd(i), F(p)) == KroneckerDelta(i, p) and restr.is_only_below_fermi and restr.is_only_above_fermi) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_contraction : Any → {Any | contraction(Fd(i), F(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  contraction(Fd(i), F(j)) == KroneckerDelt...   ║
+# ║   ensures:  contraction(F(a), Fd(b)) == KroneckerDelt...   ║
+# ║   ensures:  contraction(F(a), Fd(i)) == 0                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_contraction : Any → {Any | result satisfies: con...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 613f6e39fb37d0de  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cc36ae62a2c862eb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_secondquant.test_contraction","kind":"function","src_hash":"d9af67ee93747d99","in":{"base":"Any"},"out":{"base":"Any","pred":"contraction(Fd(i), F(j)) == KroneckerDelta(i, j) and contraction(F(a), Fd(b)) == KroneckerDelta(a, b) and contraction(F(a), Fd(i)) == 0 and contraction(Fd(a), F(i)) == 0 and contraction(F(i), Fd(a)) == 0 and contraction(Fd(i), F(a)) == 0 and contraction(Fd(i), F(p)) == KroneckerDelta(i, p) and restr.is_only_below_fermi and restr.is_only_above_fermi"},"spec":{"lhs":"test_contraction()","rhs":"test_contraction produces the expected output","over":{"base":"Any"},"name":"test_contraction_correct"},"guarantee":"test_contraction produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_secondquant.test_contraction_correct","statement":"Path(test_contraction(x), test_contraction produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"613f6e39fb37d0de"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_secondquant.test_contraction","kind":"function","src_hash":"d9af67ee93747d99","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: contraction(Fd(i), F(j)) == KroneckerDelta(i, j) and contraction(F(a), Fd(b)) == KroneckerDelta(a, b) and contraction(F(a), Fd(i)) == 0 and contraction(Fd(a), F(i)) == 0 and contraction(F(i), Fd(a)) == 0 and contraction(Fd(i), F(a)) == 0 and contraction(Fd(i), F(p)) == KroneckerDelta(i, p) and restr.is_only_below_fermi and restr.is_only_above_fermi"},"spec":{"lhs":"test_contraction()","rhs":"contraction(Fd(i), F(j)) == KroneckerDelta(i, j) and contraction(F(a), Fd(b)) == KroneckerDelta(a, b) and contraction(F(a), Fd(i)) == 0 and contraction(Fd(a), F(i)) == 0 and contraction(F(i), Fd(a)) == 0 and contraction(Fd(i), F(a)) == 0 and contraction(Fd(i), F(p)) == KroneckerDelta(i, p) and restr.is_only_below_fermi and restr.is_only_above_fermi","over":{"base":"Any"},"name":"test_contraction_correct"},"guarantee":"contraction(Fd(i), F(j)) == KroneckerDelta(i, j); contraction(F(a), Fd(b)) == KroneckerDelta(a, b); contraction(F(a), Fd(i)) == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_secondquant.test_contraction_correct","statement":"Path(test_contraction(x), contraction(Fd(i), F(j)) == KroneckerDelta(i, j); contraction(F(a), Fd(b)) == KroneckerDelta(a, b); contraction(F(a), Fd(i)) == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cc36ae62a2c862eb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["contraction(Fd(i), F(j)) == KroneckerDelta(i, j)","contraction(F(a), Fd(b)) == KroneckerDelta(a, b)","contraction(F(a), Fd(i)) == 0","contraction(Fd(a), F(i)) == 0","contraction(F(i), Fd(a)) == 0","contraction(Fd(i), F(a)) == 0","contraction(Fd(i), F(p)) == KroneckerDelta(i, p)","restr.is_only_below_fermi","restr.is_only_above_fermi"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_contraction():
     i, j, k, l = symbols('i,j,k,l', below_fermi=True)
     a, b, c, d = symbols('a,b,c,d', above_fermi=True)
@@ -819,16 +999,24 @@ def test_contraction():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_evaluate_deltas(), test_evaluate_deltas produces the expected output) over Any ║
+# ║ Path(test_evaluate_deltas(), evaluate_deltas(r) == KroneckerDelta(i, k) and evaluate_deltas(r) == KroneckerDelta(i, 0) * KroneckerDelta(j, k) and evaluate_deltas(r) == KroneckerDelta(1, k) and evaluate_deltas(r) == KroneckerDelta(2, k) and evaluate_deltas(r) == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_evaluate_deltas : Any → {Any | evaluate_deltas(r...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  evaluate_deltas(r) == KroneckerDelta(i, k)     ║
+# ║   ensures:  evaluate_deltas(r) == KroneckerDelta(i, 0...   ║
+# ║   ensures:  evaluate_deltas(r) == KroneckerDelta(1, k)     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_evaluate_deltas : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ad5c6d7556adb078  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bcb0f5f6329fc31e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_secondquant.test_evaluate_deltas","kind":"function","src_hash":"3180b99f232d6f25","in":{"base":"Any"},"out":{"base":"Any","pred":"evaluate_deltas(r) == KroneckerDelta(i, k) and evaluate_deltas(r) == KroneckerDelta(i, 0) * KroneckerDelta(j, k) and evaluate_deltas(r) == KroneckerDelta(1, k) and evaluate_deltas(r) == KroneckerDelta(2, k) and evaluate_deltas(r) == 0 and evaluate_deltas(r) == 0"},"spec":{"lhs":"test_evaluate_deltas()","rhs":"test_evaluate_deltas produces the expected output","over":{"base":"Any"},"name":"test_evaluate_deltas_correct"},"guarantee":"test_evaluate_deltas produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_secondquant.test_evaluate_deltas_correct","statement":"Path(test_evaluate_deltas(x), test_evaluate_deltas produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ad5c6d7556adb078"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_secondquant.test_evaluate_deltas","kind":"function","src_hash":"3180b99f232d6f25","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: evaluate_deltas(r) == KroneckerDelta(i, k) and evaluate_deltas(r) == KroneckerDelta(i, 0) * KroneckerDelta(j, k) and evaluate_deltas(r) == KroneckerDelta(1, k) and evaluate_deltas(r) == KroneckerDelta(2, k) and evaluate_deltas(r) == 0"},"spec":{"lhs":"test_evaluate_deltas()","rhs":"evaluate_deltas(r) == KroneckerDelta(i, k) and evaluate_deltas(r) == KroneckerDelta(i, 0) * KroneckerDelta(j, k) and evaluate_deltas(r) == KroneckerDelta(1, k) and evaluate_deltas(r) == KroneckerDelta(2, k) and evaluate_deltas(r) == 0","over":{"base":"Any"},"name":"test_evaluate_deltas_correct"},"guarantee":"evaluate_deltas(r) == KroneckerDelta(i, k); evaluate_deltas(r) == KroneckerDelta(i, 0) * KroneckerDelta(j, k); evaluate_deltas(r) == KroneckerDelta(1, k)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_secondquant.test_evaluate_deltas_correct","statement":"Path(test_evaluate_deltas(x), evaluate_deltas(r) == KroneckerDelta(i, k); evaluate_deltas(r) == KroneckerDelta(i, 0) * KroneckerDelta(j, k); evaluate_deltas(r) == KroneckerDelta(1, k))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bcb0f5f6329fc31e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["evaluate_deltas(r) == KroneckerDelta(i, k)","evaluate_deltas(r) == KroneckerDelta(i, 0) * KroneckerDelta(j, k)","evaluate_deltas(r) == KroneckerDelta(1, k)","evaluate_deltas(r) == KroneckerDelta(2, k)","evaluate_deltas(r) == 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_evaluate_deltas():
     i, j, k = symbols('i,j,k')
 
@@ -853,16 +1041,24 @@ def test_evaluate_deltas():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Tensors(), test_Tensors produces the expected output) over Any ║
+# ║ Path(test_Tensors(), AT('t', (a, b), (i, j)) == -AT('t', (b, a), (i, j)) and AT('t', (a, b), (i, j)) == AT('t', (b, a), (j, i)) and AT('t', (a, b), (i, j)) == -AT('t', (a, b), (j, i)) and AT('t', (a, a), (i, j)) == 0 and AT('t', (a, b), (i, i)) == 0 and AT('t', (a, b, c), (i, j)) == -AT('t', (b, a, c), (i, j)) and AT('t', (a, b, c), (i, j, k)) == AT('t', (b, a, c), (i, k, j)) and tabij.has(a) and tabij.has(b) and tabij.has(i) and tabij.has(j) and tabij.subs(b, c) == AT('t', (a, c), (i, j)) and (2 * tabij).subs(i, c) == 2 * AT('t', (a, b), (c, j)) and tabij.symbol == Symbol('t') and latex(tabij) == '{t^{ab}_{ij}}' and str(tabij) == 't((_a, _b),(_i, _j))' and AT('t', (a, a), (i, j)).subs(a, b) == AT('t', (b, b), (i, j)) and AT('t', (a, i), (a, j)).subs(a, b) == AT('t', (b, i), (b, j)) and latex(u_alpha1234) == '{u^{\\alpha_{1}\\alpha_{2}}_{\\alpha_{3}\\alpha_{4}}}' and str(u_alpha1234) == 'u((alpha1, alpha2),(alpha3, alpha4))') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Tensors : Any → {Any | AT('t', (a, b), (i, j)) =...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  AT('t', (a, b), (i, j)) == -AT('t', (b, a...   ║
+# ║   ensures:  AT('t', (a, b), (i, j)) == AT('t', (b, a)...   ║
+# ║   ensures:  AT('t', (a, b), (i, j)) == -AT('t', (a, b...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Tensors : Any → {Any | result satisfies: AT('t',...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 427257e2790146c3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b63c5a3bf6a64db8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_secondquant.test_Tensors","kind":"function","src_hash":"2c475c0e5fc79ce4","in":{"base":"Any"},"out":{"base":"Any","pred":"AT('t', (a, b), (i, j)) == -AT('t', (b, a), (i, j)) and AT('t', (a, b), (i, j)) == AT('t', (b, a), (j, i)) and AT('t', (a, b), (i, j)) == -AT('t', (a, b), (j, i)) and AT('t', (a, a), (i, j)) == 0 and AT('t', (a, b), (i, i)) == 0 and AT('t', (a, b, c), (i, j)) == -AT('t', (b, a, c), (i, j)) and AT('t', (a, b, c), (i, j, k)) == AT('t', (b, a, c), (i, k, j)) and tabij.has(a) and tabij.has(b) and tabij.has(i) and tabij.has(j) and tabij.subs(b, c) == AT('t', (a, c), (i, j)) and (2 * tabij).subs(i, c) == 2 * AT('t', (a, b), (c, j)) and tabij.symbol == Symbol('t') and latex(tabij) == '{t^{ab}_{ij}}' and str(tabij) == 't((_a, _b),(_i, _j))' and AT('t', (a, a), (i, j)).subs(a, b) == AT('t', (b, b), (i, j)) and AT('t', (a, i), (a, j)).subs(a, b) == AT('t', (b, i), (b, j)) and latex(u_alpha1234) == '{u^{\\\\alpha_{1}\\\\alpha_{2}}_{\\\\alpha_{3}\\\\alpha_{4}}}' and str(u_alpha1234) == 'u((alpha1, alpha2),(alpha3, alpha4))'"},"spec":{"lhs":"test_Tensors()","rhs":"test_Tensors produces the expected output","over":{"base":"Any"},"name":"test_Tensors_correct"},"guarantee":"test_Tensors produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_secondquant.test_Tensors_correct","statement":"Path(test_Tensors(x), test_Tensors produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"427257e2790146c3"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_secondquant.test_Tensors","kind":"function","src_hash":"2c475c0e5fc79ce4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: AT('t', (a, b), (i, j)) == -AT('t', (b, a), (i, j)) and AT('t', (a, b), (i, j)) == AT('t', (b, a), (j, i)) and AT('t', (a, b), (i, j)) == -AT('t', (a, b), (j, i)) and AT('t', (a, a), (i, j)) == 0 and AT('t', (a, b), (i, i)) == 0 and AT('t', (a, b, c), (i, j)) == -AT('t', (b, a, c), (i, j)) and AT('t', (a, b, c), (i, j, k)) == AT('t', (b, a, c), (i, k, j)) and tabij.has(a) and tabij.has(b) and tabij.has(i) and tabij.has(j) and tabij.subs(b, c) == AT('t', (a, c), (i, j)) and (2 * tabij).subs(i, c) == 2 * AT('t', (a, b), (c, j)) and tabij.symbol == Symbol('t') and latex(tabij) == '{t^{ab}_{ij}}' and str(tabij) == 't((_a, _b),(_i, _j))' and AT('t', (a, a), (i, j)).subs(a, b) == AT('t', (b, b), (i, j)) and AT('t', (a, i), (a, j)).subs(a, b) == AT('t', (b, i), (b, j)) and latex(u_alpha1234) == '{u^{\\\\alpha_{1}\\\\alpha_{2}}_{\\\\alpha_{3}\\\\alpha_{4}}}' and str(u_alpha1234) == 'u((alpha1, alpha2),(alpha3, alpha4))'"},"spec":{"lhs":"test_Tensors()","rhs":"AT('t', (a, b), (i, j)) == -AT('t', (b, a), (i, j)) and AT('t', (a, b), (i, j)) == AT('t', (b, a), (j, i)) and AT('t', (a, b), (i, j)) == -AT('t', (a, b), (j, i)) and AT('t', (a, a), (i, j)) == 0 and AT('t', (a, b), (i, i)) == 0 and AT('t', (a, b, c), (i, j)) == -AT('t', (b, a, c), (i, j)) and AT('t', (a, b, c), (i, j, k)) == AT('t', (b, a, c), (i, k, j)) and tabij.has(a) and tabij.has(b) and tabij.has(i) and tabij.has(j) and tabij.subs(b, c) == AT('t', (a, c), (i, j)) and (2 * tabij).subs(i, c) == 2 * AT('t', (a, b), (c, j)) and tabij.symbol == Symbol('t') and latex(tabij) == '{t^{ab}_{ij}}' and str(tabij) == 't((_a, _b),(_i, _j))' and AT('t', (a, a), (i, j)).subs(a, b) == AT('t', (b, b), (i, j)) and AT('t', (a, i), (a, j)).subs(a, b) == AT('t', (b, i), (b, j)) and latex(u_alpha1234) == '{u^{\\\\alpha_{1}\\\\alpha_{2}}_{\\\\alpha_{3}\\\\alpha_{4}}}' and str(u_alpha1234) == 'u((alpha1, alpha2),(alpha3, alpha4))'","over":{"base":"Any"},"name":"test_Tensors_correct"},"guarantee":"AT('t', (a, b), (i, j)) == -AT('t', (b, a), (i, j)); AT('t', (a, b), (i, j)) == AT('t', (b, a), (j, i)); AT('t', (a, b), (i, j)) == -AT('t', (a, b), (j, i))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_secondquant.test_Tensors_correct","statement":"Path(test_Tensors(x), AT('t', (a, b), (i, j)) == -AT('t', (b, a), (i, j)); AT('t', (a, b), (i, j)) == AT('t', (b, a), (j, i)); AT('t', (a, b), (i, j)) == -AT('t', (a, b), (j, i)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b63c5a3bf6a64db8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["AT('t', (a, b), (i, j)) == -AT('t', (b, a), (i, j))","AT('t', (a, b), (i, j)) == AT('t', (b, a), (j, i))","AT('t', (a, b), (i, j)) == -AT('t', (a, b), (j, i))","AT('t', (a, a), (i, j)) == 0","AT('t', (a, b), (i, i)) == 0","AT('t', (a, b, c), (i, j)) == -AT('t', (b, a, c), (i, j))","AT('t', (a, b, c), (i, j, k)) == AT('t', (b, a, c), (i, k, j))","tabij.has(a)","tabij.has(b)","tabij.has(i)","tabij.has(j)","tabij.subs(b, c) == AT('t', (a, c), (i, j))","(2 * tabij).subs(i, c) == 2 * AT('t', (a, b), (c, j))","tabij.symbol == Symbol('t')","latex(tabij) == '{t^{ab}_{ij}}'","str(tabij) == 't((_a, _b),(_i, _j))'","AT('t', (a, a), (i, j)).subs(a, b) == AT('t', (b, b), (i, j))","AT('t', (a, i), (a, j)).subs(a, b) == AT('t', (b, i), (b, j))","latex(u_alpha1234) == '{u^{\\\\alpha_{1}\\\\alpha_{2}}_{\\\\alpha_{3}\\\\alpha_{4}}}'","str(u_alpha1234) == 'u((alpha1, alpha2),(alpha3, alpha4))'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def test_Tensors():
     i, j, k, l = symbols('i j k l', below_fermi=True, cls=Dummy)
     a, b, c, d = symbols('a b c d', above_fermi=True, cls=Dummy)
@@ -899,16 +1095,23 @@ def test_Tensors():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_fully_contracted(), test_fully_contracted produces the expected output) over Any ║
+# ║ Path(test_fully_contracted(), Fai == AntiSymmetricTensor('f', (a,), (i,)) and Vabij == AntiSymmetricTensor('v', (a, b), (i, j))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_fully_contracted : Any → {Any | Fai == AntiSymme...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Fai == AntiSymmetricTensor('f', (a,), (i,))    ║
+# ║   ensures:  Vabij == AntiSymmetricTensor('v', (a, b),...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_fully_contracted : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4c5b2f4971b21b1e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 830e9611aab2d837  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_secondquant.test_fully_contracted","kind":"function","src_hash":"d8da785fa636f278","in":{"base":"Any"},"out":{"base":"Any","pred":"Fai == AntiSymmetricTensor('f', (a,), (i,)) and Vabij == AntiSymmetricTensor('v', (a, b), (i, j))"},"spec":{"lhs":"test_fully_contracted()","rhs":"test_fully_contracted produces the expected output","over":{"base":"Any"},"name":"test_fully_contracted_correct"},"guarantee":"test_fully_contracted produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_secondquant.test_fully_contracted_correct","statement":"Path(test_fully_contracted(x), test_fully_contracted produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4c5b2f4971b21b1e"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_secondquant.test_fully_contracted","kind":"function","src_hash":"d8da785fa636f278","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Fai == AntiSymmetricTensor('f', (a,), (i,)) and Vabij == AntiSymmetricTensor('v', (a, b), (i, j))"},"spec":{"lhs":"test_fully_contracted()","rhs":"Fai == AntiSymmetricTensor('f', (a,), (i,)) and Vabij == AntiSymmetricTensor('v', (a, b), (i, j))","over":{"base":"Any"},"name":"test_fully_contracted_correct"},"guarantee":"Fai == AntiSymmetricTensor('f', (a,), (i,)); Vabij == AntiSymmetricTensor('v', (a, b), (i, j))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_secondquant.test_fully_contracted_correct","statement":"Path(test_fully_contracted(x), Fai == AntiSymmetricTensor('f', (a,), (i,)); Vabij == AntiSymmetricTensor('v', (a, b), (i, j)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"830e9611aab2d837","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Fai == AntiSymmetricTensor('f', (a,), (i,))","Vabij == AntiSymmetricTensor('v', (a, b), (i, j))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_fully_contracted():
     i, j, k, l = symbols('i j k l', below_fermi=True)
     a, b, c, d = symbols('a b c d', above_fermi=True)
@@ -930,16 +1133,23 @@ def test_fully_contracted():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_substitute_dummies_without_dummies(), test_substitute_dummies_without_dummies produces the expected output) over Any ║
+# ║ Path(test_substitute_dummies_without_dummies(), substitute_dummies(att(i, j) + 2) == att(i, j) + 2 and substitute_dummies(att(i, j) + 1) == att(i, j) + 1) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  substitute_dummies(att(i, j) + 2) == att(...   ║
+# ║   ensures:  substitute_dummies(att(i, j) + 1) == att(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_substitute_dummies_without_dummies : Any → {Any ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c1c93a776da96ab0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5108d7bb7f6acc98  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_secondquant.test_substitute_dummies_without_dummies","kind":"function","src_hash":"2cfda4549022eac9","in":{"base":"Any"},"out":{"base":"Any","pred":"substitute_dummies(att(i, j) + 2) == att(i, j) + 2 and substitute_dummies(att(i, j) + 1) == att(i, j) + 1"},"spec":{"lhs":"test_substitute_dummies_without_dummies()","rhs":"test_substitute_dummies_without_dummies produces the expected output","over":{"base":"Any"},"name":"test_substitute_dummies_without_dummies_correct"},"guarantee":"test_substitute_dummies_without_dummies produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_secondquant.test_substitute_dummies_without_dummies_correct","statement":"Path(test_substitute_dummies_without_dummies(x), test_substitute_dummies_without_dummies produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c1c93a776da96ab0"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_secondquant.test_substitute_dummies_without_dummies","kind":"function","src_hash":"2cfda4549022eac9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: substitute_dummies(att(i, j) + 2) == att(i, j) + 2 and substitute_dummies(att(i, j) + 1) == att(i, j) + 1"},"spec":{"lhs":"test_substitute_dummies_without_dummies()","rhs":"substitute_dummies(att(i, j) + 2) == att(i, j) + 2 and substitute_dummies(att(i, j) + 1) == att(i, j) + 1","over":{"base":"Any"},"name":"test_substitute_dummies_without_dummies_correct"},"guarantee":"substitute_dummies(att(i, j) + 2) == att(i, j) + 2; substitute_dummies(att(i, j) + 1) == att(i, j) + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_secondquant.test_substitute_dummies_without_dummies_correct","statement":"Path(test_substitute_dummies_without_dummies(x), substitute_dummies(att(i, j) + 2) == att(i, j) + 2; substitute_dummies(att(i, j) + 1) == att(i, j) + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5108d7bb7f6acc98","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["substitute_dummies(att(i, j) + 2) == att(i, j) + 2","substitute_dummies(att(i, j) + 1) == att(i, j) + 1"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_substitute_dummies_without_dummies():
     i, j = symbols('i,j')
     assert substitute_dummies(att(i, j) + 2) == att(i, j) + 2
@@ -947,16 +1157,22 @@ def test_substitute_dummies_without_dummies():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_substitute_dummies_NO_operator(), test_substitute_dummies_NO_operator produces the expected output) over Any ║
+# ║ Path(test_substitute_dummies_NO_operator(), substitute_dummies(att(i, j) * NO(Fd(i) * F(j)) - att(j, i) * NO(Fd(j) * F(i))) == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_substitute_dummies_NO_operator : Any → Any            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  substitute_dummies(att(i, j) * NO(Fd(i) *...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_substitute_dummies_NO_operator : Any → {Any | re...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6b0f6041010debda  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e57193e1f38780d7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_secondquant.test_substitute_dummies_NO_operator","kind":"function","src_hash":"17bafb33f67d2c0e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_substitute_dummies_NO_operator()","rhs":"test_substitute_dummies_NO_operator produces the expected output","over":{"base":"Any"},"name":"test_substitute_dummies_NO_operator_correct"},"guarantee":"test_substitute_dummies_NO_operator produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_secondquant.test_substitute_dummies_NO_operator_correct","statement":"Path(test_substitute_dummies_NO_operator(x), test_substitute_dummies_NO_operator produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6b0f6041010debda"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_secondquant.test_substitute_dummies_NO_operator","kind":"function","src_hash":"17bafb33f67d2c0e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: substitute_dummies(att(i, j) * NO(Fd(i) * F(j)) - att(j, i) * NO(Fd(j) * F(i))) == 0"},"spec":{"lhs":"test_substitute_dummies_NO_operator()","rhs":"substitute_dummies(att(i, j) * NO(Fd(i) * F(j)) - att(j, i) * NO(Fd(j) * F(i))) == 0","over":{"base":"Any"},"name":"test_substitute_dummies_NO_operator_correct"},"guarantee":"substitute_dummies(att(i, j) * NO(Fd(i) * F(j)) - att(j, i) * NO(Fd(j) * F(i))) == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_secondquant.test_substitute_dummies_NO_operator_correct","statement":"Path(test_substitute_dummies_NO_operator(x), substitute_dummies(att(i, j) * NO(Fd(i) * F(j)) - att(j, i) * NO(Fd(j) * F(i))) == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e57193e1f38780d7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["substitute_dummies(att(i, j) * NO(Fd(i) * F(j)) - att(j, i) * NO(Fd(j) * F(i))) == 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_substitute_dummies_NO_operator():
     i, j = symbols('i j', cls=Dummy)
     assert substitute_dummies(att(i, j)*NO(Fd(i)*F(j))
@@ -964,16 +1180,22 @@ def test_substitute_dummies_NO_operator():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_substitute_dummies_SQ_operator(), test_substitute_dummies_SQ_operator produces the expected output) over Any ║
+# ║ Path(test_substitute_dummies_SQ_operator(), substitute_dummies(att(i, j) * Fd(i) * F(j) - att(j, i) * Fd(j) * F(i)) == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_substitute_dummies_SQ_operator : Any → {Any | su...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  substitute_dummies(att(i, j) * Fd(i) * F(...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_substitute_dummies_SQ_operator : Any → {Any | re...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | de1a0aacdd9fefdf  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 54d9ea2c0f2352a3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_secondquant.test_substitute_dummies_SQ_operator","kind":"function","src_hash":"6dec9820fc444791","in":{"base":"Any"},"out":{"base":"Any","pred":"substitute_dummies(att(i, j) * Fd(i) * F(j) - att(j, i) * Fd(j) * F(i)) == 0"},"spec":{"lhs":"test_substitute_dummies_SQ_operator()","rhs":"test_substitute_dummies_SQ_operator produces the expected output","over":{"base":"Any"},"name":"test_substitute_dummies_SQ_operator_correct"},"guarantee":"test_substitute_dummies_SQ_operator produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_secondquant.test_substitute_dummies_SQ_operator_correct","statement":"Path(test_substitute_dummies_SQ_operator(x), test_substitute_dummies_SQ_operator produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"de1a0aacdd9fefdf"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_secondquant.test_substitute_dummies_SQ_operator","kind":"function","src_hash":"6dec9820fc444791","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: substitute_dummies(att(i, j) * Fd(i) * F(j) - att(j, i) * Fd(j) * F(i)) == 0"},"spec":{"lhs":"test_substitute_dummies_SQ_operator()","rhs":"substitute_dummies(att(i, j) * Fd(i) * F(j) - att(j, i) * Fd(j) * F(i)) == 0","over":{"base":"Any"},"name":"test_substitute_dummies_SQ_operator_correct"},"guarantee":"substitute_dummies(att(i, j) * Fd(i) * F(j) - att(j, i) * Fd(j) * F(i)) == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_secondquant.test_substitute_dummies_SQ_operator_correct","statement":"Path(test_substitute_dummies_SQ_operator(x), substitute_dummies(att(i, j) * Fd(i) * F(j) - att(j, i) * Fd(j) * F(i)) == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"54d9ea2c0f2352a3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["substitute_dummies(att(i, j) * Fd(i) * F(j) - att(j, i) * Fd(j) * F(i)) == 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_substitute_dummies_SQ_operator():
     i, j = symbols('i j', cls=Dummy)
     assert substitute_dummies(att(i, j)*Fd(i)*F(j)
@@ -981,16 +1203,22 @@ def test_substitute_dummies_SQ_operator():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_substitute_dummies_new_indices(), test_substitute_dummies_new_indices produces the expected output) over Any ║
+# ║ Path(test_substitute_dummies_new_indices(), substitute_dummies(f(i, a, p) - f(j, b, q), new_indices=True) == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_substitute_dummies_new_indices : Any → {Any | su...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  substitute_dummies(f(i, a, p) - f(j, b, q...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_substitute_dummies_new_indices : Any → {Any | re...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0afa8bea0ea7e504  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f8dbcf90d8eef84b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_secondquant.test_substitute_dummies_new_indices","kind":"function","src_hash":"6f140ca914ae61b9","in":{"base":"Any"},"out":{"base":"Any","pred":"substitute_dummies(f(i, a, p) - f(j, b, q), new_indices=True) == 0"},"spec":{"lhs":"test_substitute_dummies_new_indices()","rhs":"test_substitute_dummies_new_indices produces the expected output","over":{"base":"Any"},"name":"test_substitute_dummies_new_indices_correct"},"guarantee":"test_substitute_dummies_new_indices produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_secondquant.test_substitute_dummies_new_indices_correct","statement":"Path(test_substitute_dummies_new_indices(x), test_substitute_dummies_new_indices produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0afa8bea0ea7e504"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_secondquant.test_substitute_dummies_new_indices","kind":"function","src_hash":"6f140ca914ae61b9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: substitute_dummies(f(i, a, p) - f(j, b, q), new_indices=True) == 0"},"spec":{"lhs":"test_substitute_dummies_new_indices()","rhs":"substitute_dummies(f(i, a, p) - f(j, b, q), new_indices=True) == 0","over":{"base":"Any"},"name":"test_substitute_dummies_new_indices_correct"},"guarantee":"substitute_dummies(f(i, a, p) - f(j, b, q), new_indices=True) == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_secondquant.test_substitute_dummies_new_indices_correct","statement":"Path(test_substitute_dummies_new_indices(x), substitute_dummies(f(i, a, p) - f(j, b, q), new_indices=True) == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f8dbcf90d8eef84b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["substitute_dummies(f(i, a, p) - f(j, b, q), new_indices=True) == 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_substitute_dummies_new_indices():
     i, j = symbols('i j', below_fermi=True, cls=Dummy)
     a, b = symbols('a b', above_fermi=True, cls=Dummy)
@@ -1000,16 +1228,22 @@ def test_substitute_dummies_new_indices():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_substitute_dummies_substitution_order(), test_substitute_dummies_substitution_order produces the expected output) over Any ║
+# ║ Path(test_substitute_dummies_substitution_order(), <unspecified:test_substitute_dummies_substitution_order>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_substitute_dummies_substitution_order : Any → {A...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 810926b2a9cc333b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_secondquant.test_substitute_dummies_substitution_order","kind":"function","src_hash":"56a9f3300c0ab99c","in":{"base":"Any"},"out":{"base":"Any","pred":"substitute_dummies(f(*permut) - f(i, j, k, l)) == 0"},"spec":{"lhs":"test_substitute_dummies_substitution_order()","rhs":"test_substitute_dummies_substitution_order produces the expected output","over":{"base":"Any"},"name":"test_substitute_dummies_substitution_order_correct"},"guarantee":"test_substitute_dummies_substitution_order produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_secondquant.test_substitute_dummies_substitution_order_correct","statement":"Path(test_substitute_dummies_substitution_order(x), test_substitute_dummies_substitution_order produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"810926b2a9cc333b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_secondquant.test_substitute_dummies_substitution_order","kind":"function","src_hash":"56a9f3300c0ab99c","in":{"base":"Any"},"out":{"base":"Any","pred":"substitute_dummies(f(*permut) - f(i, j, k, l)) == 0"},"spec":{"lhs":"test_substitute_dummies_substitution_order()","rhs":"<unspecified:test_substitute_dummies_substitution_order>","over":{"base":"Any"},"name":"test_substitute_dummies_substitution_order_correct"},"guarantee":"test_substitute_dummies_substitution_order produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_secondquant.test_substitute_dummies_substitution_order_correct","statement":"Path(test_substitute_dummies_substitution_order(x), test_substitute_dummies_substitution_order produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"810926b2a9cc333b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_substitute_dummies_substitution_order():
     i, j, k, l = symbols('i j k l', below_fermi=True, cls=Dummy)
     f = Function('f')
@@ -1019,16 +1253,22 @@ def test_substitute_dummies_substitution_order():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dummy_order_inner_outer_lines_VT1T1T1(), test_dummy_order_inner_outer_lines_VT1T1T1 produces the expected output) over Any ║
+# ║ Path(test_dummy_order_inner_outer_lines_VT1T1T1(), <unspecified:test_dummy_order_inner_outer_lines_VT1T1T1>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_dummy_order_inner_outer_lines_VT1T1T1 : Any → {A...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2ef29bff581bd60c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_secondquant.test_dummy_order_inner_outer_lines_VT1T1T1","kind":"function","src_hash":"eca06cd36734ebfc","in":{"base":"Any"},"out":{"base":"Any","pred":"dums(exprs[0]) != dums(permut) and substitute_dummies(exprs[0]) == substitute_dummies(permut)"},"spec":{"lhs":"test_dummy_order_inner_outer_lines_VT1T1T1()","rhs":"test_dummy_order_inner_outer_lines_VT1T1T1 produces the expected output","over":{"base":"Any"},"name":"test_dummy_order_inner_outer_lines_VT1T1T1_correct"},"guarantee":"test_dummy_order_inner_outer_lines_VT1T1T1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_secondquant.test_dummy_order_inner_outer_lines_VT1T1T1_correct","statement":"Path(test_dummy_order_inner_outer_lines_VT1T1T1(x), test_dummy_order_inner_outer_lines_VT1T1T1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2ef29bff581bd60c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_secondquant.test_dummy_order_inner_outer_lines_VT1T1T1","kind":"function","src_hash":"eca06cd36734ebfc","in":{"base":"Any"},"out":{"base":"Any","pred":"dums(exprs[0]) != dums(permut) and substitute_dummies(exprs[0]) == substitute_dummies(permut)"},"spec":{"lhs":"test_dummy_order_inner_outer_lines_VT1T1T1()","rhs":"<unspecified:test_dummy_order_inner_outer_lines_VT1T1T1>","over":{"base":"Any"},"name":"test_dummy_order_inner_outer_lines_VT1T1T1_correct"},"guarantee":"test_dummy_order_inner_outer_lines_VT1T1T1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_secondquant.test_dummy_order_inner_outer_lines_VT1T1T1_correct","statement":"Path(test_dummy_order_inner_outer_lines_VT1T1T1(x), test_dummy_order_inner_outer_lines_VT1T1T1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2ef29bff581bd60c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_dummy_order_inner_outer_lines_VT1T1T1():
     ii = symbols('i', below_fermi=True)
     aa = symbols('a', above_fermi=True)
@@ -1055,16 +1295,22 @@ def test_dummy_order_inner_outer_lines_VT1T1T1():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dummy_order_inner_outer_lines_VT1T1T1T1(), test_dummy_order_inner_outer_lines_VT1T1T1T1 produces the expected output) over Any ║
+# ║ Path(test_dummy_order_inner_outer_lines_VT1T1T1T1(), <unspecified:test_dummy_order_inner_outer_lines_VT1T1T1T1>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_dummy_order_inner_outer_lines_VT1T1T1T1 : Any → ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.8ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6236972213d77a2b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_secondquant.test_dummy_order_inner_outer_lines_VT1T1T1T1","kind":"function","src_hash":"de791f3bbaaaedcb","in":{"base":"Any"},"out":{"base":"Any","pred":"dums(exprs[0]) != dums(permut) and substitute_dummies(exprs[0]) != substitute_dummies(permut) and dums(exprs[0]) == dums(permut) and substitute_dummies(exprs[0]) != substitute_dummies(permut) and dums(exprs[0]) != dums(permut) and substitute_dummies(exprs[0]) == substitute_dummies(permut)"},"spec":{"lhs":"test_dummy_order_inner_outer_lines_VT1T1T1T1()","rhs":"test_dummy_order_inner_outer_lines_VT1T1T1T1 produces the expected output","over":{"base":"Any"},"name":"test_dummy_order_inner_outer_lines_VT1T1T1T1_correct"},"guarantee":"test_dummy_order_inner_outer_lines_VT1T1T1T1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_secondquant.test_dummy_order_inner_outer_lines_VT1T1T1T1_correct","statement":"Path(test_dummy_order_inner_outer_lines_VT1T1T1T1(x), test_dummy_order_inner_outer_lines_VT1T1T1T1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6236972213d77a2b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_secondquant.test_dummy_order_inner_outer_lines_VT1T1T1T1","kind":"function","src_hash":"de791f3bbaaaedcb","in":{"base":"Any"},"out":{"base":"Any","pred":"dums(exprs[0]) != dums(permut) and substitute_dummies(exprs[0]) != substitute_dummies(permut) and dums(exprs[0]) == dums(permut) and substitute_dummies(exprs[0]) != substitute_dummies(permut) and dums(exprs[0]) != dums(permut) and substitute_dummies(exprs[0]) == substitute_dummies(permut)"},"spec":{"lhs":"test_dummy_order_inner_outer_lines_VT1T1T1T1()","rhs":"<unspecified:test_dummy_order_inner_outer_lines_VT1T1T1T1>","over":{"base":"Any"},"name":"test_dummy_order_inner_outer_lines_VT1T1T1T1_correct"},"guarantee":"test_dummy_order_inner_outer_lines_VT1T1T1T1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_secondquant.test_dummy_order_inner_outer_lines_VT1T1T1T1_correct","statement":"Path(test_dummy_order_inner_outer_lines_VT1T1T1T1(x), test_dummy_order_inner_outer_lines_VT1T1T1T1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6236972213d77a2b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"assumed","binding":true}}
 def test_dummy_order_inner_outer_lines_VT1T1T1T1():
     ii, jj = symbols('i j', below_fermi=True)
     aa, bb = symbols('a b', above_fermi=True)
@@ -1119,16 +1365,24 @@ def test_dummy_order_inner_outer_lines_VT1T1T1T1():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_get_subNO(), test_get_subNO produces the expected output) over Any ║
+# ║ Path(test_get_subNO(), NO(F(p) * F(q) * F(r)).get_subNO(1) == NO(F(p) * F(r)) and NO(F(p) * F(q) * F(r)).get_subNO(0) == NO(F(q) * F(r)) and NO(F(p) * F(q) * F(r)).get_subNO(2) == NO(F(p) * F(q))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_get_subNO : Any → {Any | NO(F(p) * F(q) * F(r))....   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  NO(F(p) * F(q) * F(r)).get_subNO(1) == NO...   ║
+# ║   ensures:  NO(F(p) * F(q) * F(r)).get_subNO(0) == NO...   ║
+# ║   ensures:  NO(F(p) * F(q) * F(r)).get_subNO(2) == NO...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_get_subNO : Any → {Any | result satisfies: NO(F(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eaee267242ef0544  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4dbdf43e974a4728  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_secondquant.test_get_subNO","kind":"function","src_hash":"3aceabb896d33cda","in":{"base":"Any"},"out":{"base":"Any","pred":"NO(F(p) * F(q) * F(r)).get_subNO(1) == NO(F(p) * F(r)) and NO(F(p) * F(q) * F(r)).get_subNO(0) == NO(F(q) * F(r)) and NO(F(p) * F(q) * F(r)).get_subNO(2) == NO(F(p) * F(q))"},"spec":{"lhs":"test_get_subNO()","rhs":"test_get_subNO produces the expected output","over":{"base":"Any"},"name":"test_get_subNO_correct"},"guarantee":"test_get_subNO produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_secondquant.test_get_subNO_correct","statement":"Path(test_get_subNO(x), test_get_subNO produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eaee267242ef0544"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_secondquant.test_get_subNO","kind":"function","src_hash":"3aceabb896d33cda","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: NO(F(p) * F(q) * F(r)).get_subNO(1) == NO(F(p) * F(r)) and NO(F(p) * F(q) * F(r)).get_subNO(0) == NO(F(q) * F(r)) and NO(F(p) * F(q) * F(r)).get_subNO(2) == NO(F(p) * F(q))"},"spec":{"lhs":"test_get_subNO()","rhs":"NO(F(p) * F(q) * F(r)).get_subNO(1) == NO(F(p) * F(r)) and NO(F(p) * F(q) * F(r)).get_subNO(0) == NO(F(q) * F(r)) and NO(F(p) * F(q) * F(r)).get_subNO(2) == NO(F(p) * F(q))","over":{"base":"Any"},"name":"test_get_subNO_correct"},"guarantee":"NO(F(p) * F(q) * F(r)).get_subNO(1) == NO(F(p) * F(r)); NO(F(p) * F(q) * F(r)).get_subNO(0) == NO(F(q) * F(r)); NO(F(p) * F(q) * F(r)).get_subNO(2) == NO(F(p) * F(q))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_secondquant.test_get_subNO_correct","statement":"Path(test_get_subNO(x), NO(F(p) * F(q) * F(r)).get_subNO(1) == NO(F(p) * F(r)); NO(F(p) * F(q) * F(r)).get_subNO(0) == NO(F(q) * F(r)); NO(F(p) * F(q) * F(r)).get_subNO(2) == NO(F(p) * F(q)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4dbdf43e974a4728","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["NO(F(p) * F(q) * F(r)).get_subNO(1) == NO(F(p) * F(r))","NO(F(p) * F(q) * F(r)).get_subNO(0) == NO(F(q) * F(r))","NO(F(p) * F(q) * F(r)).get_subNO(2) == NO(F(p) * F(q))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_get_subNO():
     p, q, r = symbols('p,q,r')
     assert NO(F(p)*F(q)*F(r)).get_subNO(1) == NO(F(p)*F(r))
@@ -1137,16 +1391,22 @@ def test_get_subNO():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_equivalent_internal_lines_VT1T1(), test_equivalent_internal_lines_VT1T1 produces the expected output) over Any ║
+# ║ Path(test_equivalent_internal_lines_VT1T1(), <unspecified:test_equivalent_internal_lines_VT1T1>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_equivalent_internal_lines_VT1T1 : Any → {Any | d...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b5a19cd9a002f1e5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_secondquant.test_equivalent_internal_lines_VT1T1","kind":"function","src_hash":"a36d2d9053888806","in":{"base":"Any"},"out":{"base":"Any","pred":"dums(exprs[0]) != dums(permut) and substitute_dummies(exprs[0]) != substitute_dummies(permut) and dums(exprs[0]) != dums(permut) and substitute_dummies(exprs[0]) == substitute_dummies(permut) and dums(exprs[0]) == dums(permut) and substitute_dummies(exprs[0]) != substitute_dummies(permut) and dums(exprs[0]) != dums(permut) and substitute_dummies(exprs[0]) == substitute_dummies(permut)"},"spec":{"lhs":"test_equivalent_internal_lines_VT1T1()","rhs":"test_equivalent_internal_lines_VT1T1 produces the expected output","over":{"base":"Any"},"name":"test_equivalent_internal_lines_VT1T1_correct"},"guarantee":"test_equivalent_internal_lines_VT1T1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_secondquant.test_equivalent_internal_lines_VT1T1_correct","statement":"Path(test_equivalent_internal_lines_VT1T1(x), test_equivalent_internal_lines_VT1T1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b5a19cd9a002f1e5"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_secondquant.test_equivalent_internal_lines_VT1T1","kind":"function","src_hash":"a36d2d9053888806","in":{"base":"Any"},"out":{"base":"Any","pred":"dums(exprs[0]) != dums(permut) and substitute_dummies(exprs[0]) != substitute_dummies(permut) and dums(exprs[0]) != dums(permut) and substitute_dummies(exprs[0]) == substitute_dummies(permut) and dums(exprs[0]) == dums(permut) and substitute_dummies(exprs[0]) != substitute_dummies(permut) and dums(exprs[0]) != dums(permut) and substitute_dummies(exprs[0]) == substitute_dummies(permut)"},"spec":{"lhs":"test_equivalent_internal_lines_VT1T1()","rhs":"<unspecified:test_equivalent_internal_lines_VT1T1>","over":{"base":"Any"},"name":"test_equivalent_internal_lines_VT1T1_correct"},"guarantee":"test_equivalent_internal_lines_VT1T1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_secondquant.test_equivalent_internal_lines_VT1T1_correct","statement":"Path(test_equivalent_internal_lines_VT1T1(x), test_equivalent_internal_lines_VT1T1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b5a19cd9a002f1e5","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def test_equivalent_internal_lines_VT1T1():
     i, j, k, l = symbols('i j k l', below_fermi=True, cls=Dummy)
     a, b, c, d = symbols('a b c d', above_fermi=True, cls=Dummy)
@@ -1192,16 +1452,22 @@ def test_equivalent_internal_lines_VT1T1():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_equivalent_internal_lines_VT2conjT2(), test_equivalent_internal_lines_VT2conjT2 produces the expected output) over Any ║
+# ║ Path(test_equivalent_internal_lines_VT2conjT2(), <unspecified:test_equivalent_internal_lines_VT2conjT2>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_equivalent_internal_lines_VT2conjT2 : Any → {Any...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.8ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bc2cd9e2d90c21c6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_secondquant.test_equivalent_internal_lines_VT2conjT2","kind":"function","src_hash":"6f970a4ae30c2782","in":{"base":"Any"},"out":{"base":"Any","pred":"dums(base) != dums(expr) and substitute_dummies(expr) == substitute_dummies(base) and dums(base) != dums(expr) and substitute_dummies(expr) == substitute_dummies(base) and dums(base) != dums(expr) and substitute_dummies(expr) == substitute_dummies(base) and dums(base) != dums(expr) and substitute_dummies(expr) == substitute_dummies(base)"},"spec":{"lhs":"test_equivalent_internal_lines_VT2conjT2()","rhs":"test_equivalent_internal_lines_VT2conjT2 produces the expected output","over":{"base":"Any"},"name":"test_equivalent_internal_lines_VT2conjT2_correct"},"guarantee":"test_equivalent_internal_lines_VT2conjT2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_secondquant.test_equivalent_internal_lines_VT2conjT2_correct","statement":"Path(test_equivalent_internal_lines_VT2conjT2(x), test_equivalent_internal_lines_VT2conjT2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bc2cd9e2d90c21c6"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_secondquant.test_equivalent_internal_lines_VT2conjT2","kind":"function","src_hash":"6f970a4ae30c2782","in":{"base":"Any"},"out":{"base":"Any","pred":"dums(base) != dums(expr) and substitute_dummies(expr) == substitute_dummies(base) and dums(base) != dums(expr) and substitute_dummies(expr) == substitute_dummies(base) and dums(base) != dums(expr) and substitute_dummies(expr) == substitute_dummies(base) and dums(base) != dums(expr) and substitute_dummies(expr) == substitute_dummies(base)"},"spec":{"lhs":"test_equivalent_internal_lines_VT2conjT2()","rhs":"<unspecified:test_equivalent_internal_lines_VT2conjT2>","over":{"base":"Any"},"name":"test_equivalent_internal_lines_VT2conjT2_correct"},"guarantee":"test_equivalent_internal_lines_VT2conjT2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_secondquant.test_equivalent_internal_lines_VT2conjT2_correct","statement":"Path(test_equivalent_internal_lines_VT2conjT2(x), test_equivalent_internal_lines_VT2conjT2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bc2cd9e2d90c21c6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"assumed","binding":true}}
 def test_equivalent_internal_lines_VT2conjT2():
     # this diagram requires special handling in TCE
     i, j, k, l, m, n = symbols('i j k l m n', below_fermi=True, cls=Dummy)
@@ -1253,16 +1519,22 @@ def test_equivalent_internal_lines_VT2conjT2():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_equivalent_internal_lines_VT2conjT2_ambiguous_order(), test_equivalent_internal_lines_VT2conjT2_ambiguous_order produces the expected output) over Any ║
+# ║ Path(test_equivalent_internal_lines_VT2conjT2_ambiguous_order(), <unspecified:test_equivalent_internal_lines_VT2conjT2_ambiguous_order>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_equivalent_internal_lines_VT2conjT2_ambiguous_or...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 723e2d3a2c648f7d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_secondquant.test_equivalent_internal_lines_VT2conjT2_ambiguous_order","kind":"function","src_hash":"6e25d3e358666f4c","in":{"base":"Any"},"out":{"base":"Any","pred":"dums(base) != dums(expr) and substitute_dummies(expr) == substitute_dummies(base) and dums(base) != dums(expr) and substitute_dummies(expr) == substitute_dummies(base)"},"spec":{"lhs":"test_equivalent_internal_lines_VT2conjT2_ambiguous_order()","rhs":"test_equivalent_internal_lines_VT2conjT2_ambiguous_order produces the expected output","over":{"base":"Any"},"name":"test_equivalent_internal_lines_VT2conjT2_ambiguous_order_correct"},"guarantee":"test_equivalent_internal_lines_VT2conjT2_ambiguous_order produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_secondquant.test_equivalent_internal_lines_VT2conjT2_ambiguous_order_correct","statement":"Path(test_equivalent_internal_lines_VT2conjT2_ambiguous_order(x), test_equivalent_internal_lines_VT2conjT2_ambiguous_order produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"723e2d3a2c648f7d"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_secondquant.test_equivalent_internal_lines_VT2conjT2_ambiguous_order","kind":"function","src_hash":"6e25d3e358666f4c","in":{"base":"Any"},"out":{"base":"Any","pred":"dums(base) != dums(expr) and substitute_dummies(expr) == substitute_dummies(base) and dums(base) != dums(expr) and substitute_dummies(expr) == substitute_dummies(base)"},"spec":{"lhs":"test_equivalent_internal_lines_VT2conjT2_ambiguous_order()","rhs":"<unspecified:test_equivalent_internal_lines_VT2conjT2_ambiguous_order>","over":{"base":"Any"},"name":"test_equivalent_internal_lines_VT2conjT2_ambiguous_order_correct"},"guarantee":"test_equivalent_internal_lines_VT2conjT2_ambiguous_order produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_secondquant.test_equivalent_internal_lines_VT2conjT2_ambiguous_order_correct","statement":"Path(test_equivalent_internal_lines_VT2conjT2_ambiguous_order(x), test_equivalent_internal_lines_VT2conjT2_ambiguous_order produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"723e2d3a2c648f7d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_equivalent_internal_lines_VT2conjT2_ambiguous_order():
     # These diagrams invokes _determine_ambiguous() because the
     # dummies can not be ordered unambiguously by the key alone
@@ -1297,16 +1569,22 @@ def test_equivalent_internal_lines_VT2conjT2_ambiguous_order():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_equivalent_internal_lines_VT2(), test_equivalent_internal_lines_VT2 produces the expected output) over Any ║
+# ║ Path(test_equivalent_internal_lines_VT2(), <unspecified:test_equivalent_internal_lines_VT2>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_equivalent_internal_lines_VT2 : Any → {Any | dum...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a3c6fcc3e314a05b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_secondquant.test_equivalent_internal_lines_VT2","kind":"function","src_hash":"610ea3c5460e38f5","in":{"base":"Any"},"out":{"base":"Any","pred":"dums(exprs[0]) == dums(permut) and substitute_dummies(exprs[0]) != substitute_dummies(permut) and dums(exprs[0]) != dums(permut) and substitute_dummies(exprs[0]) != substitute_dummies(permut) and dums(exprs[0]) != dums(permut) and substitute_dummies(exprs[0]) == substitute_dummies(permut)"},"spec":{"lhs":"test_equivalent_internal_lines_VT2()","rhs":"test_equivalent_internal_lines_VT2 produces the expected output","over":{"base":"Any"},"name":"test_equivalent_internal_lines_VT2_correct"},"guarantee":"test_equivalent_internal_lines_VT2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_secondquant.test_equivalent_internal_lines_VT2_correct","statement":"Path(test_equivalent_internal_lines_VT2(x), test_equivalent_internal_lines_VT2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a3c6fcc3e314a05b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_secondquant.test_equivalent_internal_lines_VT2","kind":"function","src_hash":"610ea3c5460e38f5","in":{"base":"Any"},"out":{"base":"Any","pred":"dums(exprs[0]) == dums(permut) and substitute_dummies(exprs[0]) != substitute_dummies(permut) and dums(exprs[0]) != dums(permut) and substitute_dummies(exprs[0]) != substitute_dummies(permut) and dums(exprs[0]) != dums(permut) and substitute_dummies(exprs[0]) == substitute_dummies(permut)"},"spec":{"lhs":"test_equivalent_internal_lines_VT2()","rhs":"<unspecified:test_equivalent_internal_lines_VT2>","over":{"base":"Any"},"name":"test_equivalent_internal_lines_VT2_correct"},"guarantee":"test_equivalent_internal_lines_VT2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_secondquant.test_equivalent_internal_lines_VT2_correct","statement":"Path(test_equivalent_internal_lines_VT2(x), test_equivalent_internal_lines_VT2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a3c6fcc3e314a05b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_equivalent_internal_lines_VT2():
     i, j, k, l = symbols('i j k l', below_fermi=True, cls=Dummy)
     a, b, c, d = symbols('a b c d', above_fermi=True, cls=Dummy)
@@ -1357,16 +1635,22 @@ def test_equivalent_internal_lines_VT2():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_internal_external_VT2T2(), test_internal_external_VT2T2 produces the expected output) over Any ║
+# ║ Path(test_internal_external_VT2T2(), <unspecified:test_internal_external_VT2T2>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_internal_external_VT2T2 : Any → {Any | dums(expr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 90542ef6e433acfb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_secondquant.test_internal_external_VT2T2","kind":"function","src_hash":"c1cfe15fad15a7f4","in":{"base":"Any"},"out":{"base":"Any","pred":"dums(exprs[0]) != dums(permut) and substitute_dummies(exprs[0]) == substitute_dummies(permut) and dums(exprs[0]) != dums(permut) and substitute_dummies(exprs[0]) == substitute_dummies(permut) and dums(exprs[0]) != dums(permut) and substitute_dummies(exprs[0]) == substitute_dummies(permut)"},"spec":{"lhs":"test_internal_external_VT2T2()","rhs":"test_internal_external_VT2T2 produces the expected output","over":{"base":"Any"},"name":"test_internal_external_VT2T2_correct"},"guarantee":"test_internal_external_VT2T2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_secondquant.test_internal_external_VT2T2_correct","statement":"Path(test_internal_external_VT2T2(x), test_internal_external_VT2T2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"90542ef6e433acfb"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_secondquant.test_internal_external_VT2T2","kind":"function","src_hash":"c1cfe15fad15a7f4","in":{"base":"Any"},"out":{"base":"Any","pred":"dums(exprs[0]) != dums(permut) and substitute_dummies(exprs[0]) == substitute_dummies(permut) and dums(exprs[0]) != dums(permut) and substitute_dummies(exprs[0]) == substitute_dummies(permut) and dums(exprs[0]) != dums(permut) and substitute_dummies(exprs[0]) == substitute_dummies(permut)"},"spec":{"lhs":"test_internal_external_VT2T2()","rhs":"<unspecified:test_internal_external_VT2T2>","over":{"base":"Any"},"name":"test_internal_external_VT2T2_correct"},"guarantee":"test_internal_external_VT2T2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_secondquant.test_internal_external_VT2T2_correct","statement":"Path(test_internal_external_VT2T2(x), test_internal_external_VT2T2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"90542ef6e433acfb","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":true}}
 def test_internal_external_VT2T2():
     ii, jj = symbols('i j', below_fermi=True)
     aa, bb = symbols('a b', above_fermi=True)
@@ -1407,16 +1691,22 @@ def test_internal_external_VT2T2():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_internal_external_pqrs(), test_internal_external_pqrs produces the expected output) over Any ║
+# ║ Path(test_internal_external_pqrs(), <unspecified:test_internal_external_pqrs>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_internal_external_pqrs : Any → {Any | dums(exprs...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5219b0ddbc26e7b7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_secondquant.test_internal_external_pqrs","kind":"function","src_hash":"74f57e7e1f749d62","in":{"base":"Any"},"out":{"base":"Any","pred":"dums(exprs[0]) != dums(permut) and substitute_dummies(exprs[0]) == substitute_dummies(permut)"},"spec":{"lhs":"test_internal_external_pqrs()","rhs":"test_internal_external_pqrs produces the expected output","over":{"base":"Any"},"name":"test_internal_external_pqrs_correct"},"guarantee":"test_internal_external_pqrs produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_secondquant.test_internal_external_pqrs_correct","statement":"Path(test_internal_external_pqrs(x), test_internal_external_pqrs produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5219b0ddbc26e7b7"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_secondquant.test_internal_external_pqrs","kind":"function","src_hash":"74f57e7e1f749d62","in":{"base":"Any"},"out":{"base":"Any","pred":"dums(exprs[0]) != dums(permut) and substitute_dummies(exprs[0]) == substitute_dummies(permut)"},"spec":{"lhs":"test_internal_external_pqrs()","rhs":"<unspecified:test_internal_external_pqrs>","over":{"base":"Any"},"name":"test_internal_external_pqrs_correct"},"guarantee":"test_internal_external_pqrs produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_secondquant.test_internal_external_pqrs_correct","statement":"Path(test_internal_external_pqrs(x), test_internal_external_pqrs produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5219b0ddbc26e7b7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_internal_external_pqrs():
     ii, jj = symbols('i j')
     aa, bb = symbols('a b')
@@ -1439,16 +1729,24 @@ def test_internal_external_pqrs():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dummy_order_well_defined(), test_dummy_order_well_defined produces the expected output) over Any ║
+# ║ Path(test_dummy_order_well_defined(), dums(A(k, l) * B(l, k)) == [k, l] and dums(A(l, k) * B(l, k)) == [l, k] and dums(A(k, l) * B(k, l)) == [k, l] and dums(A(l, k) * B(k, l)) == [l, k] and dums(A(k, l) * B(l, m) * C(k, m)) == [l, k, m] and dums(A(k, l) * B(l, m) * C(m, k)) == [l, k, m] and dums(A(l, k) * B(l, m) * C(k, m)) == [l, k, m] and dums(A(l, k) * B(l, m) * C(m, k)) == [l, k, m] and dums(A(k, l) * B(m, l) * C(k, m)) == [l, k, m] and dums(A(k, l) * B(m, l) * C(m, k)) == [l, k, m] and dums(A(l, k) * B(m, l) * C(k, m)) == [l, k, m] and dums(A(l, k) * B(m, l) * C(m, k)) == [l, k, m] and dums(A(k, aa, l) * A(l, bb, m) * A(bb, k, m)) == [l, k, m] and dums(A(k, aa, l) * A(l, bb, m) * A(bb, m, k)) == [l, k, m] and dums(A(k, aa, l) * A(m, bb, l) * A(bb, k, m)) == [l, k, m] and dums(A(k, aa, l) * A(m, bb, l) * A(bb, m, k)) == [l, k, m] and dums(A(l, aa, k) * A(l, bb, m) * A(bb, k, m)) == [l, k, m] and dums(A(l, aa, k) * A(l, bb, m) * A(bb, m, k)) == [l, k, m] and dums(A(l, aa, k) * A(m, bb, l) * A(bb, k, m)) == [l, k, m] and dums(A(l, aa, k) * A(m, bb, l) * A(bb, m, k)) == [l, k, m] and dums(A(p, c, k) * B(p, c, k)) == [k, c, p] and dums(A(p, k, c) * B(p, c, k)) == [k, c, p] and dums(A(c, k, p) * B(p, c, k)) == [k, c, p] and dums(A(c, p, k) * B(p, c, k)) == [k, c, p] and dums(A(k, c, p) * B(p, c, k)) == [k, c, p] and dums(A(k, p, c) * B(p, c, k)) == [k, c, p] and dums(B(p, c, k) * A(p, c, k)) == [k, c, p] and dums(B(p, k, c) * A(p, c, k)) == [k, c, p] and dums(B(c, k, p) * A(p, c, k)) == [k, c, p] and dums(B(c, p, k) * A(p, c, k)) == [k, c, p] and dums(B(k, c, p) * A(p, c, k)) == [k, c, p] and dums(B(k, p, c) * A(p, c, k)) == [k, c, p]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dummy_order_well_defined : Any → {Any | dums(A(k...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dums(A(k, l) * B(l, k)) == [k, l]              ║
+# ║   ensures:  dums(A(l, k) * B(l, k)) == [l, k]              ║
+# ║   ensures:  dums(A(k, l) * B(k, l)) == [k, l]              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dummy_order_well_defined : Any → {Any | result s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 476e48e168d108c3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7dd3ef3220e34158  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_secondquant.test_dummy_order_well_defined","kind":"function","src_hash":"390a77b37905c030","in":{"base":"Any"},"out":{"base":"Any","pred":"dums(A(k, l) * B(l, k)) == [k, l] and dums(A(l, k) * B(l, k)) == [l, k] and dums(A(k, l) * B(k, l)) == [k, l] and dums(A(l, k) * B(k, l)) == [l, k] and dums(A(k, l) * B(l, m) * C(k, m)) == [l, k, m] and dums(A(k, l) * B(l, m) * C(m, k)) == [l, k, m] and dums(A(l, k) * B(l, m) * C(k, m)) == [l, k, m] and dums(A(l, k) * B(l, m) * C(m, k)) == [l, k, m] and dums(A(k, l) * B(m, l) * C(k, m)) == [l, k, m] and dums(A(k, l) * B(m, l) * C(m, k)) == [l, k, m] and dums(A(l, k) * B(m, l) * C(k, m)) == [l, k, m] and dums(A(l, k) * B(m, l) * C(m, k)) == [l, k, m] and dums(A(k, aa, l) * A(l, bb, m) * A(bb, k, m)) == [l, k, m] and dums(A(k, aa, l) * A(l, bb, m) * A(bb, m, k)) == [l, k, m] and dums(A(k, aa, l) * A(m, bb, l) * A(bb, k, m)) == [l, k, m] and dums(A(k, aa, l) * A(m, bb, l) * A(bb, m, k)) == [l, k, m] and dums(A(l, aa, k) * A(l, bb, m) * A(bb, k, m)) == [l, k, m] and dums(A(l, aa, k) * A(l, bb, m) * A(bb, m, k)) == [l, k, m] and dums(A(l, aa, k) * A(m, bb, l) * A(bb, k, m)) == [l, k, m] and dums(A(l, aa, k) * A(m, bb, l) * A(bb, m, k)) == [l, k, m] and dums(A(p, c, k) * B(p, c, k)) == [k, c, p] and dums(A(p, k, c) * B(p, c, k)) == [k, c, p] and dums(A(c, k, p) * B(p, c, k)) == [k, c, p] and dums(A(c, p, k) * B(p, c, k)) == [k, c, p] and dums(A(k, c, p) * B(p, c, k)) == [k, c, p] and dums(A(k, p, c) * B(p, c, k)) == [k, c, p] and dums(B(p, c, k) * A(p, c, k)) == [k, c, p] and dums(B(p, k, c) * A(p, c, k)) == [k, c, p] and dums(B(c, k, p) * A(p, c, k)) == [k, c, p] and dums(B(c, p, k) * A(p, c, k)) == [k, c, p] and dums(B(k, c, p) * A(p, c, k)) == [k, c, p] and dums(B(k, p, c) * A(p, c, k)) == [k, c, p]"},"spec":{"lhs":"test_dummy_order_well_defined()","rhs":"test_dummy_order_well_defined produces the expected output","over":{"base":"Any"},"name":"test_dummy_order_well_defined_correct"},"guarantee":"test_dummy_order_well_defined produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_secondquant.test_dummy_order_well_defined_correct","statement":"Path(test_dummy_order_well_defined(x), test_dummy_order_well_defined produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"476e48e168d108c3"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_secondquant.test_dummy_order_well_defined","kind":"function","src_hash":"390a77b37905c030","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dums(A(k, l) * B(l, k)) == [k, l] and dums(A(l, k) * B(l, k)) == [l, k] and dums(A(k, l) * B(k, l)) == [k, l] and dums(A(l, k) * B(k, l)) == [l, k] and dums(A(k, l) * B(l, m) * C(k, m)) == [l, k, m] and dums(A(k, l) * B(l, m) * C(m, k)) == [l, k, m] and dums(A(l, k) * B(l, m) * C(k, m)) == [l, k, m] and dums(A(l, k) * B(l, m) * C(m, k)) == [l, k, m] and dums(A(k, l) * B(m, l) * C(k, m)) == [l, k, m] and dums(A(k, l) * B(m, l) * C(m, k)) == [l, k, m] and dums(A(l, k) * B(m, l) * C(k, m)) == [l, k, m] and dums(A(l, k) * B(m, l) * C(m, k)) == [l, k, m] and dums(A(k, aa, l) * A(l, bb, m) * A(bb, k, m)) == [l, k, m] and dums(A(k, aa, l) * A(l, bb, m) * A(bb, m, k)) == [l, k, m] and dums(A(k, aa, l) * A(m, bb, l) * A(bb, k, m)) == [l, k, m] and dums(A(k, aa, l) * A(m, bb, l) * A(bb, m, k)) == [l, k, m] and dums(A(l, aa, k) * A(l, bb, m) * A(bb, k, m)) == [l, k, m] and dums(A(l, aa, k) * A(l, bb, m) * A(bb, m, k)) == [l, k, m] and dums(A(l, aa, k) * A(m, bb, l) * A(bb, k, m)) == [l, k, m] and dums(A(l, aa, k) * A(m, bb, l) * A(bb, m, k)) == [l, k, m] and dums(A(p, c, k) * B(p, c, k)) == [k, c, p] and dums(A(p, k, c) * B(p, c, k)) == [k, c, p] and dums(A(c, k, p) * B(p, c, k)) == [k, c, p] and dums(A(c, p, k) * B(p, c, k)) == [k, c, p] and dums(A(k, c, p) * B(p, c, k)) == [k, c, p] and dums(A(k, p, c) * B(p, c, k)) == [k, c, p] and dums(B(p, c, k) * A(p, c, k)) == [k, c, p] and dums(B(p, k, c) * A(p, c, k)) == [k, c, p] and dums(B(c, k, p) * A(p, c, k)) == [k, c, p] and dums(B(c, p, k) * A(p, c, k)) == [k, c, p] and dums(B(k, c, p) * A(p, c, k)) == [k, c, p] and dums(B(k, p, c) * A(p, c, k)) == [k, c, p]"},"spec":{"lhs":"test_dummy_order_well_defined()","rhs":"dums(A(k, l) * B(l, k)) == [k, l] and dums(A(l, k) * B(l, k)) == [l, k] and dums(A(k, l) * B(k, l)) == [k, l] and dums(A(l, k) * B(k, l)) == [l, k] and dums(A(k, l) * B(l, m) * C(k, m)) == [l, k, m] and dums(A(k, l) * B(l, m) * C(m, k)) == [l, k, m] and dums(A(l, k) * B(l, m) * C(k, m)) == [l, k, m] and dums(A(l, k) * B(l, m) * C(m, k)) == [l, k, m] and dums(A(k, l) * B(m, l) * C(k, m)) == [l, k, m] and dums(A(k, l) * B(m, l) * C(m, k)) == [l, k, m] and dums(A(l, k) * B(m, l) * C(k, m)) == [l, k, m] and dums(A(l, k) * B(m, l) * C(m, k)) == [l, k, m] and dums(A(k, aa, l) * A(l, bb, m) * A(bb, k, m)) == [l, k, m] and dums(A(k, aa, l) * A(l, bb, m) * A(bb, m, k)) == [l, k, m] and dums(A(k, aa, l) * A(m, bb, l) * A(bb, k, m)) == [l, k, m] and dums(A(k, aa, l) * A(m, bb, l) * A(bb, m, k)) == [l, k, m] and dums(A(l, aa, k) * A(l, bb, m) * A(bb, k, m)) == [l, k, m] and dums(A(l, aa, k) * A(l, bb, m) * A(bb, m, k)) == [l, k, m] and dums(A(l, aa, k) * A(m, bb, l) * A(bb, k, m)) == [l, k, m] and dums(A(l, aa, k) * A(m, bb, l) * A(bb, m, k)) == [l, k, m] and dums(A(p, c, k) * B(p, c, k)) == [k, c, p] and dums(A(p, k, c) * B(p, c, k)) == [k, c, p] and dums(A(c, k, p) * B(p, c, k)) == [k, c, p] and dums(A(c, p, k) * B(p, c, k)) == [k, c, p] and dums(A(k, c, p) * B(p, c, k)) == [k, c, p] and dums(A(k, p, c) * B(p, c, k)) == [k, c, p] and dums(B(p, c, k) * A(p, c, k)) == [k, c, p] and dums(B(p, k, c) * A(p, c, k)) == [k, c, p] and dums(B(c, k, p) * A(p, c, k)) == [k, c, p] and dums(B(c, p, k) * A(p, c, k)) == [k, c, p] and dums(B(k, c, p) * A(p, c, k)) == [k, c, p] and dums(B(k, p, c) * A(p, c, k)) == [k, c, p]","over":{"base":"Any"},"name":"test_dummy_order_well_defined_correct"},"guarantee":"dums(A(k, l) * B(l, k)) == [k, l]; dums(A(l, k) * B(l, k)) == [l, k]; dums(A(k, l) * B(k, l)) == [k, l]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_secondquant.test_dummy_order_well_defined_correct","statement":"Path(test_dummy_order_well_defined(x), dums(A(k, l) * B(l, k)) == [k, l]; dums(A(l, k) * B(l, k)) == [l, k]; dums(A(k, l) * B(k, l)) == [k, l])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7dd3ef3220e34158","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dums(A(k, l) * B(l, k)) == [k, l]","dums(A(l, k) * B(l, k)) == [l, k]","dums(A(k, l) * B(k, l)) == [k, l]","dums(A(l, k) * B(k, l)) == [l, k]","dums(A(k, l) * B(l, m) * C(k, m)) == [l, k, m]","dums(A(k, l) * B(l, m) * C(m, k)) == [l, k, m]","dums(A(l, k) * B(l, m) * C(k, m)) == [l, k, m]","dums(A(l, k) * B(l, m) * C(m, k)) == [l, k, m]","dums(A(k, l) * B(m, l) * C(k, m)) == [l, k, m]","dums(A(k, l) * B(m, l) * C(m, k)) == [l, k, m]","dums(A(l, k) * B(m, l) * C(k, m)) == [l, k, m]","dums(A(l, k) * B(m, l) * C(m, k)) == [l, k, m]","dums(A(k, aa, l) * A(l, bb, m) * A(bb, k, m)) == [l, k, m]","dums(A(k, aa, l) * A(l, bb, m) * A(bb, m, k)) == [l, k, m]","dums(A(k, aa, l) * A(m, bb, l) * A(bb, k, m)) == [l, k, m]","dums(A(k, aa, l) * A(m, bb, l) * A(bb, m, k)) == [l, k, m]","dums(A(l, aa, k) * A(l, bb, m) * A(bb, k, m)) == [l, k, m]","dums(A(l, aa, k) * A(l, bb, m) * A(bb, m, k)) == [l, k, m]","dums(A(l, aa, k) * A(m, bb, l) * A(bb, k, m)) == [l, k, m]","dums(A(l, aa, k) * A(m, bb, l) * A(bb, m, k)) == [l, k, m]","dums(A(p, c, k) * B(p, c, k)) == [k, c, p]","dums(A(p, k, c) * B(p, c, k)) == [k, c, p]","dums(A(c, k, p) * B(p, c, k)) == [k, c, p]","dums(A(c, p, k) * B(p, c, k)) == [k, c, p]","dums(A(k, c, p) * B(p, c, k)) == [k, c, p]","dums(A(k, p, c) * B(p, c, k)) == [k, c, p]","dums(B(p, c, k) * A(p, c, k)) == [k, c, p]","dums(B(p, k, c) * A(p, c, k)) == [k, c, p]","dums(B(c, k, p) * A(p, c, k)) == [k, c, p]","dums(B(c, p, k) * A(p, c, k)) == [k, c, p]","dums(B(k, c, p) * A(p, c, k)) == [k, c, p]","dums(B(k, p, c) * A(p, c, k)) == [k, c, p]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.3,"verdict_class":"assumed","binding":true}}
 def test_dummy_order_well_defined():
     aa, bb = symbols('a b', above_fermi=True)
     k, l, m = symbols('k l m', below_fermi=True, cls=Dummy)
@@ -1506,16 +1804,22 @@ def test_dummy_order_well_defined():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dummy_order_ambiguous(), test_dummy_order_ambiguous produces the expected output) over Any ║
+# ║ Path(test_dummy_order_ambiguous(), <unspecified:test_dummy_order_ambiguous>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_dummy_order_ambiguous : Any → {Any | substitute_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 06b42addfd0d7db2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_secondquant.test_dummy_order_ambiguous","kind":"function","src_hash":"27b6497421cb15c1","in":{"base":"Any"},"out":{"base":"Any","pred":"substitute_dummies(expr) == substitute_dummies(base) and substitute_dummies(expr) == substitute_dummies(base) and substitute_dummies(expr) == substitute_dummies(base)"},"spec":{"lhs":"test_dummy_order_ambiguous()","rhs":"test_dummy_order_ambiguous produces the expected output","over":{"base":"Any"},"name":"test_dummy_order_ambiguous_correct"},"guarantee":"test_dummy_order_ambiguous produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_secondquant.test_dummy_order_ambiguous_correct","statement":"Path(test_dummy_order_ambiguous(x), test_dummy_order_ambiguous produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"06b42addfd0d7db2"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_secondquant.test_dummy_order_ambiguous","kind":"function","src_hash":"27b6497421cb15c1","in":{"base":"Any"},"out":{"base":"Any","pred":"substitute_dummies(expr) == substitute_dummies(base) and substitute_dummies(expr) == substitute_dummies(base) and substitute_dummies(expr) == substitute_dummies(base)"},"spec":{"lhs":"test_dummy_order_ambiguous()","rhs":"<unspecified:test_dummy_order_ambiguous>","over":{"base":"Any"},"name":"test_dummy_order_ambiguous_correct"},"guarantee":"test_dummy_order_ambiguous produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_secondquant.test_dummy_order_ambiguous_correct","statement":"Path(test_dummy_order_ambiguous(x), test_dummy_order_ambiguous produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"06b42addfd0d7db2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":true}}
 def test_dummy_order_ambiguous():
     aa, bb = symbols('a b', above_fermi=True)
     i, j, k, l, m = symbols('i j k l m', below_fermi=True, cls=Dummy)
@@ -1560,31 +1864,46 @@ def test_dummy_order_ambiguous():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(atv(*ar), atv produces the expected output) over Any  ║
+# ║ Path(atv(*args), AntiSymmetricTensor('v', args[:2], args[2:])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  AntiSymmetricTensor('v', args[:2], args[2:])   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ atv : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 895ca22905e0954f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_secondquant.atv","kind":"function","src_hash":"358c7aa2f264edb0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"atv(*ar)","rhs":"atv produces the expected output","over":{"base":"Any"},"name":"atv_correct"},"guarantee":"atv produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"895ca22905e0954f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_secondquant.atv","kind":"function","src_hash":"358c7aa2f264edb0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"atv(*args)","rhs":"AntiSymmetricTensor('v', args[:2], args[2:])","over":{"base":"Any"},"name":"atv_correct"},"guarantee":"returns AntiSymmetricTensor('v', args[:2], args[2:])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"895ca22905e0954f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"AntiSymmetricTensor('v', args[:2], args[2:])","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=[], spec=['*args']"]}}
 def atv(*args):
     return AntiSymmetricTensor('v', args[:2], args[2:] )
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(att(*ar), att produces the expected output) over Any  ║
+# ║ Path(att(*args), result == (AntiSymmetricTensor('t', args[:2], args[2:]) if len(args) == 4 else AntiSymmetricTensor('t', (args[0],), (args[1],))) and result == AntiSymmetricTensor('t', args[:2], args[2:]) or result == AntiSymmetricTensor('t', (args[0],), (args[1],))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ att : Any → Any                                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (AntiSymmetricTensor('t', args[...   ║
+# ║   ensures:  result == AntiSymmetricTensor('t', args[:...   ║
+# ║   fiber[case_0]: len(args) == 4 => AntiSymmetricTenso...   ║
+# ║   fiber[case_1]: len(args) == 2 => AntiSymmetricTenso...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ att : Any → {Any | result satisfies: result == (AntiS...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8ab7e81033b62a72  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 88ab51c10f77ba4d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_secondquant.att","kind":"function","src_hash":"abdfa776a443765d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"att(*ar)","rhs":"att produces the expected output","over":{"base":"Any"},"name":"att_correct"},"guarantee":"att produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_secondquant.att_correct","statement":"Path(att(x), att produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8ab7e81033b62a72"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_secondquant.att","kind":"function","src_hash":"abdfa776a443765d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (AntiSymmetricTensor('t', args[:2], args[2:]) if len(args) == 4 else AntiSymmetricTensor('t', (args[0],), (args[1],))) and result == AntiSymmetricTensor('t', args[:2], args[2:]) or result == AntiSymmetricTensor('t', (args[0],), (args[1],))"},"spec":{"lhs":"att(*args)","rhs":"result == (AntiSymmetricTensor('t', args[:2], args[2:]) if len(args) == 4 else AntiSymmetricTensor('t', (args[0],), (args[1],))) and result == AntiSymmetricTensor('t', args[:2], args[2:]) or result == AntiSymmetricTensor('t', (args[0],), (args[1],))","over":{"base":"Any"},"name":"att_correct"},"guarantee":"result == (AntiSymmetricTensor('t', args[:2], args[2:]) if len(args) == 4 else AntiSymmetricTensor('t', (args[0],), (args[1],))); result == AntiSymmetricTensor('t', args[:2], args[2:]) or result == AntiSymmetricTensor('t', (args[0],), (args[1],)); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_secondquant.att_correct","statement":"Path(att(x), result == (AntiSymmetricTensor('t', args[:2], args[2:]) if len(args) == 4 else AntiSymmetricTensor('t', (args[0],), (args[1],))); result == AntiSymmetricTensor('t', args[:2], args[2:]) or result == AntiSymmetricTensor('t', (args[0],), (args[1],)); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"88ab51c10f77ba4d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (AntiSymmetricTensor('t', args[:2], args[2:]) if len(args) == 4 else AntiSymmetricTensor('t', (args[0],), (args[1],)))","result == AntiSymmetricTensor('t', args[:2], args[2:]) or result == AntiSymmetricTensor('t', (args[0],), (args[1],))"],"fibers":[{"name":"case_0","guard":"len(args) == 4","ensures":["result == AntiSymmetricTensor('t', args[:2], args[2:])"],"decidability":"z3","returns_expr":"AntiSymmetricTensor('t', args[:2], args[2:])"},{"name":"case_1","guard":"len(args) == 2","ensures":["result == AntiSymmetricTensor('t', (args[0],), (args[1],))"],"decidability":"z3","returns_expr":"AntiSymmetricTensor('t', (args[0],), (args[1],))"}],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=[], spec=['*args']"]}}
 def att(*args):
     if len(args) == 4:
         return AntiSymmetricTensor('t', args[:2], args[2:] )
@@ -1593,16 +1912,22 @@ def att(*args):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dummy_order_inner_outer_lines_VT1T1T1_AT(), test_dummy_order_inner_outer_lines_VT1T1T1_AT produces the expected output) over Any ║
+# ║ Path(test_dummy_order_inner_outer_lines_VT1T1T1_AT(), <unspecified:test_dummy_order_inner_outer_lines_VT1T1T1_AT>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_dummy_order_inner_outer_lines_VT1T1T1_AT : Any →...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bf4641d056fafd9b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_secondquant.test_dummy_order_inner_outer_lines_VT1T1T1_AT","kind":"function","src_hash":"b10d480733095e88","in":{"base":"Any"},"out":{"base":"Any","pred":"substitute_dummies(exprs[0]) == substitute_dummies(permut)"},"spec":{"lhs":"test_dummy_order_inner_outer_lines_VT1T1T1_AT()","rhs":"test_dummy_order_inner_outer_lines_VT1T1T1_AT produces the expected output","over":{"base":"Any"},"name":"test_dummy_order_inner_outer_lines_VT1T1T1_AT_correct"},"guarantee":"test_dummy_order_inner_outer_lines_VT1T1T1_AT produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_secondquant.test_dummy_order_inner_outer_lines_VT1T1T1_AT_correct","statement":"Path(test_dummy_order_inner_outer_lines_VT1T1T1_AT(x), test_dummy_order_inner_outer_lines_VT1T1T1_AT produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bf4641d056fafd9b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_secondquant.test_dummy_order_inner_outer_lines_VT1T1T1_AT","kind":"function","src_hash":"b10d480733095e88","in":{"base":"Any"},"out":{"base":"Any","pred":"substitute_dummies(exprs[0]) == substitute_dummies(permut)"},"spec":{"lhs":"test_dummy_order_inner_outer_lines_VT1T1T1_AT()","rhs":"<unspecified:test_dummy_order_inner_outer_lines_VT1T1T1_AT>","over":{"base":"Any"},"name":"test_dummy_order_inner_outer_lines_VT1T1T1_AT_correct"},"guarantee":"test_dummy_order_inner_outer_lines_VT1T1T1_AT produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_secondquant.test_dummy_order_inner_outer_lines_VT1T1T1_AT_correct","statement":"Path(test_dummy_order_inner_outer_lines_VT1T1T1_AT(x), test_dummy_order_inner_outer_lines_VT1T1T1_AT produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bf4641d056fafd9b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_dummy_order_inner_outer_lines_VT1T1T1_AT():
     ii = symbols('i', below_fermi=True)
     aa = symbols('a', above_fermi=True)
@@ -1624,16 +1949,22 @@ def test_dummy_order_inner_outer_lines_VT1T1T1_AT():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dummy_order_inner_outer_lines_VT1T1T1T1_AT(), test_dummy_order_inner_outer_lines_VT1T1T1T1_AT produces the expected output) over Any ║
+# ║ Path(test_dummy_order_inner_outer_lines_VT1T1T1T1_AT(), <unspecified:test_dummy_order_inner_outer_lines_VT1T1T1T1_AT>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_dummy_order_inner_outer_lines_VT1T1T1T1_AT : Any...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5d9a8aa8d2b6e5ee  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_secondquant.test_dummy_order_inner_outer_lines_VT1T1T1T1_AT","kind":"function","src_hash":"9fd0ef29f49febf0","in":{"base":"Any"},"out":{"base":"Any","pred":"substitute_dummies(exprs[0]) == -substitute_dummies(permut) and substitute_dummies(exprs[0]) == substitute_dummies(permut)"},"spec":{"lhs":"test_dummy_order_inner_outer_lines_VT1T1T1T1_AT()","rhs":"test_dummy_order_inner_outer_lines_VT1T1T1T1_AT produces the expected output","over":{"base":"Any"},"name":"test_dummy_order_inner_outer_lines_VT1T1T1T1_AT_correct"},"guarantee":"test_dummy_order_inner_outer_lines_VT1T1T1T1_AT produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_secondquant.test_dummy_order_inner_outer_lines_VT1T1T1T1_AT_correct","statement":"Path(test_dummy_order_inner_outer_lines_VT1T1T1T1_AT(x), test_dummy_order_inner_outer_lines_VT1T1T1T1_AT produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5d9a8aa8d2b6e5ee"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_secondquant.test_dummy_order_inner_outer_lines_VT1T1T1T1_AT","kind":"function","src_hash":"9fd0ef29f49febf0","in":{"base":"Any"},"out":{"base":"Any","pred":"substitute_dummies(exprs[0]) == -substitute_dummies(permut) and substitute_dummies(exprs[0]) == substitute_dummies(permut)"},"spec":{"lhs":"test_dummy_order_inner_outer_lines_VT1T1T1T1_AT()","rhs":"<unspecified:test_dummy_order_inner_outer_lines_VT1T1T1T1_AT>","over":{"base":"Any"},"name":"test_dummy_order_inner_outer_lines_VT1T1T1T1_AT_correct"},"guarantee":"test_dummy_order_inner_outer_lines_VT1T1T1T1_AT produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_secondquant.test_dummy_order_inner_outer_lines_VT1T1T1T1_AT_correct","statement":"Path(test_dummy_order_inner_outer_lines_VT1T1T1T1_AT(x), test_dummy_order_inner_outer_lines_VT1T1T1T1_AT produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5d9a8aa8d2b6e5ee","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_dummy_order_inner_outer_lines_VT1T1T1T1_AT():
     ii, jj = symbols('i j', below_fermi=True)
     aa, bb = symbols('a b', above_fermi=True)
@@ -1662,16 +1993,22 @@ def test_dummy_order_inner_outer_lines_VT1T1T1T1_AT():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_equivalent_internal_lines_VT1T1_AT(), test_equivalent_internal_lines_VT1T1_AT produces the expected output) over Any ║
+# ║ Path(test_equivalent_internal_lines_VT1T1_AT(), <unspecified:test_equivalent_internal_lines_VT1T1_AT>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_equivalent_internal_lines_VT1T1_AT : Any → {Any ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 822b55ef2c19e4d5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_secondquant.test_equivalent_internal_lines_VT1T1_AT","kind":"function","src_hash":"f69582702273a6ed","in":{"base":"Any"},"out":{"base":"Any","pred":"substitute_dummies(exprs[0]) != substitute_dummies(permut) and substitute_dummies(exprs[0]) == substitute_dummies(permut) and substitute_dummies(exprs[0]) != substitute_dummies(permut) and substitute_dummies(exprs[0]) == substitute_dummies(permut)"},"spec":{"lhs":"test_equivalent_internal_lines_VT1T1_AT()","rhs":"test_equivalent_internal_lines_VT1T1_AT produces the expected output","over":{"base":"Any"},"name":"test_equivalent_internal_lines_VT1T1_AT_correct"},"guarantee":"test_equivalent_internal_lines_VT1T1_AT produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_secondquant.test_equivalent_internal_lines_VT1T1_AT_correct","statement":"Path(test_equivalent_internal_lines_VT1T1_AT(x), test_equivalent_internal_lines_VT1T1_AT produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"822b55ef2c19e4d5"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_secondquant.test_equivalent_internal_lines_VT1T1_AT","kind":"function","src_hash":"f69582702273a6ed","in":{"base":"Any"},"out":{"base":"Any","pred":"substitute_dummies(exprs[0]) != substitute_dummies(permut) and substitute_dummies(exprs[0]) == substitute_dummies(permut) and substitute_dummies(exprs[0]) != substitute_dummies(permut) and substitute_dummies(exprs[0]) == substitute_dummies(permut)"},"spec":{"lhs":"test_equivalent_internal_lines_VT1T1_AT()","rhs":"<unspecified:test_equivalent_internal_lines_VT1T1_AT>","over":{"base":"Any"},"name":"test_equivalent_internal_lines_VT1T1_AT_correct"},"guarantee":"test_equivalent_internal_lines_VT1T1_AT produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_secondquant.test_equivalent_internal_lines_VT1T1_AT_correct","statement":"Path(test_equivalent_internal_lines_VT1T1_AT(x), test_equivalent_internal_lines_VT1T1_AT produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"822b55ef2c19e4d5","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_equivalent_internal_lines_VT1T1_AT():
     i, j, k, l = symbols('i j k l', below_fermi=True, cls=Dummy)
     a, b, c, d = symbols('a b c d', above_fermi=True, cls=Dummy)
@@ -1709,16 +2046,22 @@ def test_equivalent_internal_lines_VT1T1_AT():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_equivalent_internal_lines_VT2conjT2_AT(), test_equivalent_internal_lines_VT2conjT2_AT produces the expected output) over Any ║
+# ║ Path(test_equivalent_internal_lines_VT2conjT2_AT(), <unspecified:test_equivalent_internal_lines_VT2conjT2_AT>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_equivalent_internal_lines_VT2conjT2_AT : Any → {...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 384c6624e9a93df5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_secondquant.test_equivalent_internal_lines_VT2conjT2_AT","kind":"function","src_hash":"15046e379d974522","in":{"base":"Any"},"out":{"base":"Any","pred":"substitute_dummies(expr) == substitute_dummies(base) and substitute_dummies(expr) == substitute_dummies(base) and substitute_dummies(expr) == substitute_dummies(base) and substitute_dummies(expr) == substitute_dummies(base)"},"spec":{"lhs":"test_equivalent_internal_lines_VT2conjT2_AT()","rhs":"test_equivalent_internal_lines_VT2conjT2_AT produces the expected output","over":{"base":"Any"},"name":"test_equivalent_internal_lines_VT2conjT2_AT_correct"},"guarantee":"test_equivalent_internal_lines_VT2conjT2_AT produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_secondquant.test_equivalent_internal_lines_VT2conjT2_AT_correct","statement":"Path(test_equivalent_internal_lines_VT2conjT2_AT(x), test_equivalent_internal_lines_VT2conjT2_AT produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"384c6624e9a93df5"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_secondquant.test_equivalent_internal_lines_VT2conjT2_AT","kind":"function","src_hash":"15046e379d974522","in":{"base":"Any"},"out":{"base":"Any","pred":"substitute_dummies(expr) == substitute_dummies(base) and substitute_dummies(expr) == substitute_dummies(base) and substitute_dummies(expr) == substitute_dummies(base) and substitute_dummies(expr) == substitute_dummies(base)"},"spec":{"lhs":"test_equivalent_internal_lines_VT2conjT2_AT()","rhs":"<unspecified:test_equivalent_internal_lines_VT2conjT2_AT>","over":{"base":"Any"},"name":"test_equivalent_internal_lines_VT2conjT2_AT_correct"},"guarantee":"test_equivalent_internal_lines_VT2conjT2_AT produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_secondquant.test_equivalent_internal_lines_VT2conjT2_AT_correct","statement":"Path(test_equivalent_internal_lines_VT2conjT2_AT(x), test_equivalent_internal_lines_VT2conjT2_AT produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"384c6624e9a93df5","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":true}}
 def test_equivalent_internal_lines_VT2conjT2_AT():
     # this diagram requires special handling in TCE
     i, j, k, l, m, n = symbols('i j k l m n', below_fermi=True, cls=Dummy)
@@ -1762,16 +2105,22 @@ def test_equivalent_internal_lines_VT2conjT2_AT():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_equivalent_internal_lines_VT2conjT2_ambiguous_order_AT(), test_equivalent_internal_lines_VT2conjT2_ambiguous_order_AT produces the expected output) over Any ║
+# ║ Path(test_equivalent_internal_lines_VT2conjT2_ambiguous_order_AT(), <unspecified:test_equivalent_internal_lines_VT2conjT2_ambiguous_order_AT>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_equivalent_internal_lines_VT2conjT2_ambiguous_or...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2e0b16d71547b98e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_secondquant.test_equivalent_internal_lines_VT2conjT2_ambiguous_order_AT","kind":"function","src_hash":"1c36b5ebd72d757f","in":{"base":"Any"},"out":{"base":"Any","pred":"substitute_dummies(expr) == substitute_dummies(base) and substitute_dummies(expr) == substitute_dummies(base)"},"spec":{"lhs":"test_equivalent_internal_lines_VT2conjT2_ambiguous_order_AT()","rhs":"test_equivalent_internal_lines_VT2conjT2_ambiguous_order_AT produces the expected output","over":{"base":"Any"},"name":"test_equivalent_internal_lines_VT2conjT2_ambiguous_order_AT_correct"},"guarantee":"test_equivalent_internal_lines_VT2conjT2_ambiguous_order_AT produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_secondquant.test_equivalent_internal_lines_VT2conjT2_ambiguous_order_AT_correct","statement":"Path(test_equivalent_internal_lines_VT2conjT2_ambiguous_order_AT(x), test_equivalent_internal_lines_VT2conjT2_ambiguous_order_AT produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2e0b16d71547b98e"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_secondquant.test_equivalent_internal_lines_VT2conjT2_ambiguous_order_AT","kind":"function","src_hash":"1c36b5ebd72d757f","in":{"base":"Any"},"out":{"base":"Any","pred":"substitute_dummies(expr) == substitute_dummies(base) and substitute_dummies(expr) == substitute_dummies(base)"},"spec":{"lhs":"test_equivalent_internal_lines_VT2conjT2_ambiguous_order_AT()","rhs":"<unspecified:test_equivalent_internal_lines_VT2conjT2_ambiguous_order_AT>","over":{"base":"Any"},"name":"test_equivalent_internal_lines_VT2conjT2_ambiguous_order_AT_correct"},"guarantee":"test_equivalent_internal_lines_VT2conjT2_ambiguous_order_AT produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_secondquant.test_equivalent_internal_lines_VT2conjT2_ambiguous_order_AT_correct","statement":"Path(test_equivalent_internal_lines_VT2conjT2_ambiguous_order_AT(x), test_equivalent_internal_lines_VT2conjT2_ambiguous_order_AT produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2e0b16d71547b98e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_equivalent_internal_lines_VT2conjT2_ambiguous_order_AT():
     # These diagrams invokes _determine_ambiguous() because the
     # dummies can not be ordered unambiguously by the key alone
@@ -1800,16 +2149,22 @@ def test_equivalent_internal_lines_VT2conjT2_ambiguous_order_AT():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_equivalent_internal_lines_VT2_AT(), test_equivalent_internal_lines_VT2_AT produces the expected output) over Any ║
+# ║ Path(test_equivalent_internal_lines_VT2_AT(), <unspecified:test_equivalent_internal_lines_VT2_AT>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_equivalent_internal_lines_VT2_AT : Any → {Any | ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2c8f320d176c9937  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_secondquant.test_equivalent_internal_lines_VT2_AT","kind":"function","src_hash":"3222ec57715a3963","in":{"base":"Any"},"out":{"base":"Any","pred":"substitute_dummies(exprs[0]) != substitute_dummies(permut) and substitute_dummies(exprs[0]) != substitute_dummies(permut) and substitute_dummies(exprs[0]) == substitute_dummies(permut)"},"spec":{"lhs":"test_equivalent_internal_lines_VT2_AT()","rhs":"test_equivalent_internal_lines_VT2_AT produces the expected output","over":{"base":"Any"},"name":"test_equivalent_internal_lines_VT2_AT_correct"},"guarantee":"test_equivalent_internal_lines_VT2_AT produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_secondquant.test_equivalent_internal_lines_VT2_AT_correct","statement":"Path(test_equivalent_internal_lines_VT2_AT(x), test_equivalent_internal_lines_VT2_AT produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2c8f320d176c9937"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_secondquant.test_equivalent_internal_lines_VT2_AT","kind":"function","src_hash":"3222ec57715a3963","in":{"base":"Any"},"out":{"base":"Any","pred":"substitute_dummies(exprs[0]) != substitute_dummies(permut) and substitute_dummies(exprs[0]) != substitute_dummies(permut) and substitute_dummies(exprs[0]) == substitute_dummies(permut)"},"spec":{"lhs":"test_equivalent_internal_lines_VT2_AT()","rhs":"<unspecified:test_equivalent_internal_lines_VT2_AT>","over":{"base":"Any"},"name":"test_equivalent_internal_lines_VT2_AT_correct"},"guarantee":"test_equivalent_internal_lines_VT2_AT produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_secondquant.test_equivalent_internal_lines_VT2_AT_correct","statement":"Path(test_equivalent_internal_lines_VT2_AT(x), test_equivalent_internal_lines_VT2_AT produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2c8f320d176c9937","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_equivalent_internal_lines_VT2_AT():
     i, j, k, l = symbols('i j k l', below_fermi=True, cls=Dummy)
     a, b, c, d = symbols('a b c d', above_fermi=True, cls=Dummy)
@@ -1843,16 +2198,22 @@ def test_equivalent_internal_lines_VT2_AT():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_internal_external_VT2T2_AT(), test_internal_external_VT2T2_AT produces the expected output) over Any ║
+# ║ Path(test_internal_external_VT2T2_AT(), <unspecified:test_internal_external_VT2T2_AT>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_internal_external_VT2T2_AT : Any → {Any | substi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f0160b6cb481f092  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_secondquant.test_internal_external_VT2T2_AT","kind":"function","src_hash":"2dc7bd0e002bd0e6","in":{"base":"Any"},"out":{"base":"Any","pred":"substitute_dummies(exprs[0]) == substitute_dummies(permut) and substitute_dummies(exprs[0]) == substitute_dummies(permut) and substitute_dummies(exprs[0]) == substitute_dummies(permut)"},"spec":{"lhs":"test_internal_external_VT2T2_AT()","rhs":"test_internal_external_VT2T2_AT produces the expected output","over":{"base":"Any"},"name":"test_internal_external_VT2T2_AT_correct"},"guarantee":"test_internal_external_VT2T2_AT produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_secondquant.test_internal_external_VT2T2_AT_correct","statement":"Path(test_internal_external_VT2T2_AT(x), test_internal_external_VT2T2_AT produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f0160b6cb481f092"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_secondquant.test_internal_external_VT2T2_AT","kind":"function","src_hash":"2dc7bd0e002bd0e6","in":{"base":"Any"},"out":{"base":"Any","pred":"substitute_dummies(exprs[0]) == substitute_dummies(permut) and substitute_dummies(exprs[0]) == substitute_dummies(permut) and substitute_dummies(exprs[0]) == substitute_dummies(permut)"},"spec":{"lhs":"test_internal_external_VT2T2_AT()","rhs":"<unspecified:test_internal_external_VT2T2_AT>","over":{"base":"Any"},"name":"test_internal_external_VT2T2_AT_correct"},"guarantee":"test_internal_external_VT2T2_AT produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_secondquant.test_internal_external_VT2T2_AT_correct","statement":"Path(test_internal_external_VT2T2_AT(x), test_internal_external_VT2T2_AT produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f0160b6cb481f092","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def test_internal_external_VT2T2_AT():
     ii, jj = symbols('i j', below_fermi=True)
     aa, bb = symbols('a b', above_fermi=True)
@@ -1886,16 +2247,22 @@ def test_internal_external_VT2T2_AT():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_internal_external_pqrs_AT(), test_internal_external_pqrs_AT produces the expected output) over Any ║
+# ║ Path(test_internal_external_pqrs_AT(), <unspecified:test_internal_external_pqrs_AT>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_internal_external_pqrs_AT : Any → {Any | substit...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9ff23bc94141e2b1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_secondquant.test_internal_external_pqrs_AT","kind":"function","src_hash":"2c14b87a87e81003","in":{"base":"Any"},"out":{"base":"Any","pred":"substitute_dummies(exprs[0]) == substitute_dummies(permut)"},"spec":{"lhs":"test_internal_external_pqrs_AT()","rhs":"test_internal_external_pqrs_AT produces the expected output","over":{"base":"Any"},"name":"test_internal_external_pqrs_AT_correct"},"guarantee":"test_internal_external_pqrs_AT produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_secondquant.test_internal_external_pqrs_AT_correct","statement":"Path(test_internal_external_pqrs_AT(x), test_internal_external_pqrs_AT produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9ff23bc94141e2b1"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_secondquant.test_internal_external_pqrs_AT","kind":"function","src_hash":"2c14b87a87e81003","in":{"base":"Any"},"out":{"base":"Any","pred":"substitute_dummies(exprs[0]) == substitute_dummies(permut)"},"spec":{"lhs":"test_internal_external_pqrs_AT()","rhs":"<unspecified:test_internal_external_pqrs_AT>","over":{"base":"Any"},"name":"test_internal_external_pqrs_AT_correct"},"guarantee":"test_internal_external_pqrs_AT produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_secondquant.test_internal_external_pqrs_AT_correct","statement":"Path(test_internal_external_pqrs_AT(x), test_internal_external_pqrs_AT produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9ff23bc94141e2b1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_internal_external_pqrs_AT():
     ii, jj = symbols('i j')
     aa, bb = symbols('a b')
@@ -1913,16 +2280,22 @@ def test_internal_external_pqrs_AT():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_19661(), test_issue_19661 produces the expected output) over Any ║
+# ║ Path(test_issue_19661(), latex(Commutator(Bd(a) ** 2, B(a))) == '- \\left[b_{0},{b^\\dagger_{0}}^{2}\\right]') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_19661 : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  latex(Commutator(Bd(a) ** 2, B(a))) == '-...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_19661 : Any → {Any | result satisfies: lat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a879984b23f27080  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 69ef2c5877b216fc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_secondquant.test_issue_19661","kind":"function","src_hash":"09a2a84ee8c21bb6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_issue_19661()","rhs":"test_issue_19661 produces the expected output","over":{"base":"Any"},"name":"test_issue_19661_correct"},"guarantee":"test_issue_19661 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_secondquant.test_issue_19661_correct","statement":"Path(test_issue_19661(x), test_issue_19661 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a879984b23f27080"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_secondquant.test_issue_19661","kind":"function","src_hash":"09a2a84ee8c21bb6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: latex(Commutator(Bd(a) ** 2, B(a))) == '- \\\\left[b_{0},{b^\\\\dagger_{0}}^{2}\\\\right]'"},"spec":{"lhs":"test_issue_19661()","rhs":"latex(Commutator(Bd(a) ** 2, B(a))) == '- \\\\left[b_{0},{b^\\\\dagger_{0}}^{2}\\\\right]'","over":{"base":"Any"},"name":"test_issue_19661_correct"},"guarantee":"latex(Commutator(Bd(a) ** 2, B(a))) == '- \\\\left[b_{0},{b^\\\\dagger_{0}}^{2}\\\\right]'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_secondquant.test_issue_19661_correct","statement":"Path(test_issue_19661(x), latex(Commutator(Bd(a) ** 2, B(a))) == '- \\\\left[b_{0},{b^\\\\dagger_{0}}^{2}\\\\right]')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"69ef2c5877b216fc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["latex(Commutator(Bd(a) ** 2, B(a))) == '- \\\\left[b_{0},{b^\\\\dagger_{0}}^{2}\\\\right]'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_19661():
     a = Symbol('0')
     assert latex(Commutator(Bd(a)**2, B(a))
@@ -1930,16 +2303,22 @@ def test_issue_19661():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_canonical_ordering_AntiSymmetricTensor(), test_canonical_ordering_AntiSymmetricTensor produces the expected output) over Any ║
+# ║ Path(test_canonical_ordering_AntiSymmetricTensor(), AntiSymmetricTensor(v, (k, l), (d, c)) == -AntiSymmetricTensor(v, (l, k), (d, c))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_canonical_ordering_AntiSymmetricTensor : Any → Any    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  AntiSymmetricTensor(v, (k, l), (d, c)) ==...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_canonical_ordering_AntiSymmetricTensor : Any → {...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c806800f1842fa13  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 84b4b845ec32cfa0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_secondquant.test_canonical_ordering_AntiSymmetricTensor","kind":"function","src_hash":"e7268881fda39014","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_canonical_ordering_AntiSymmetricTensor()","rhs":"test_canonical_ordering_AntiSymmetricTensor produces the expected output","over":{"base":"Any"},"name":"test_canonical_ordering_AntiSymmetricTensor_correct"},"guarantee":"test_canonical_ordering_AntiSymmetricTensor produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_secondquant.test_canonical_ordering_AntiSymmetricTensor_correct","statement":"Path(test_canonical_ordering_AntiSymmetricTensor(x), test_canonical_ordering_AntiSymmetricTensor produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c806800f1842fa13"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_secondquant.test_canonical_ordering_AntiSymmetricTensor","kind":"function","src_hash":"e7268881fda39014","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: AntiSymmetricTensor(v, (k, l), (d, c)) == -AntiSymmetricTensor(v, (l, k), (d, c))"},"spec":{"lhs":"test_canonical_ordering_AntiSymmetricTensor()","rhs":"AntiSymmetricTensor(v, (k, l), (d, c)) == -AntiSymmetricTensor(v, (l, k), (d, c))","over":{"base":"Any"},"name":"test_canonical_ordering_AntiSymmetricTensor_correct"},"guarantee":"AntiSymmetricTensor(v, (k, l), (d, c)) == -AntiSymmetricTensor(v, (l, k), (d, c))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_secondquant.test_canonical_ordering_AntiSymmetricTensor_correct","statement":"Path(test_canonical_ordering_AntiSymmetricTensor(x), AntiSymmetricTensor(v, (k, l), (d, c)) == -AntiSymmetricTensor(v, (l, k), (d, c)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"84b4b845ec32cfa0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["AntiSymmetricTensor(v, (k, l), (d, c)) == -AntiSymmetricTensor(v, (l, k), (d, c))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_canonical_ordering_AntiSymmetricTensor():
     v = symbols("v")
 

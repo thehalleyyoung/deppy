@@ -30,16 +30,22 @@ x, y, z = symbols('x,y,z')
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_empty_jl_code(), test_empty_jl_code produces the expected output) over Any ║
+# ║ Path(test_empty_jl_code(), source == '') over Any          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_empty_jl_code : Any → {Any | source == ''}            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  source == ''                                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_empty_jl_code : Any → {Any | result satisfies: s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0626e37dd0e0bd46  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e8244be007df8364  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_julia.test_empty_jl_code","kind":"function","src_hash":"8f1473e65cf8b562","in":{"base":"Any"},"out":{"base":"Any","pred":"source == ''"},"spec":{"lhs":"test_empty_jl_code()","rhs":"test_empty_jl_code produces the expected output","over":{"base":"Any"},"name":"test_empty_jl_code_correct"},"guarantee":"test_empty_jl_code produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_julia.test_empty_jl_code_correct","statement":"Path(test_empty_jl_code(x), test_empty_jl_code produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0626e37dd0e0bd46"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_julia.test_empty_jl_code","kind":"function","src_hash":"8f1473e65cf8b562","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: source == ''"},"spec":{"lhs":"test_empty_jl_code()","rhs":"source == ''","over":{"base":"Any"},"name":"test_empty_jl_code_correct"},"guarantee":"source == ''","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_julia.test_empty_jl_code_correct","statement":"Path(test_empty_jl_code(x), source == '')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e8244be007df8364","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["source == ''"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_empty_jl_code():
     code_gen = JuliaCodeGen()
     output = StringIO()
@@ -49,16 +55,23 @@ def test_empty_jl_code():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_jl_simple_code(), test_jl_simple_code produces the expected output) over Any ║
+# ║ Path(test_jl_simple_code(), result[0] == 'test.jl' and source == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_jl_simple_code : Any → {Any | result[0] == 'test...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result[0] == 'test.jl'                         ║
+# ║   ensures:  source == expected                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_jl_simple_code : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7223ae5709ced49b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aa728eeb79f50792  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_julia.test_jl_simple_code","kind":"function","src_hash":"59a418ab75a8a99e","in":{"base":"Any"},"out":{"base":"Any","pred":"result[0] == 'test.jl' and source == expected"},"spec":{"lhs":"test_jl_simple_code()","rhs":"test_jl_simple_code produces the expected output","over":{"base":"Any"},"name":"test_jl_simple_code_correct"},"guarantee":"test_jl_simple_code produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_julia.test_jl_simple_code_correct","statement":"Path(test_jl_simple_code(x), test_jl_simple_code produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7223ae5709ced49b"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_julia.test_jl_simple_code","kind":"function","src_hash":"59a418ab75a8a99e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result[0] == 'test.jl' and source == expected"},"spec":{"lhs":"test_jl_simple_code()","rhs":"result[0] == 'test.jl' and source == expected","over":{"base":"Any"},"name":"test_jl_simple_code_correct"},"guarantee":"result[0] == 'test.jl'; source == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_julia.test_jl_simple_code_correct","statement":"Path(test_jl_simple_code(x), result[0] == 'test.jl'; source == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aa728eeb79f50792","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result[0] == 'test.jl'","source == expected"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_jl_simple_code():
     name_expr = ("test", (x + y)*z)
     result, = codegen(name_expr, "Julia", header=False, empty=False)
@@ -74,16 +87,23 @@ def test_jl_simple_code():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_jl_simple_code_with_header(), test_jl_simple_code_with_header produces the expected output) over Any ║
+# ║ Path(test_jl_simple_code_with_header(), result[0] == 'test.jl' and source == expected) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result[0] == 'test.jl'                         ║
+# ║   ensures:  source == expected                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_jl_simple_code_with_header : Any → {Any | result...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d6ea264e3956ce87  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8a16f107aa43868f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_julia.test_jl_simple_code_with_header","kind":"function","src_hash":"3066b05ccb94f037","in":{"base":"Any"},"out":{"base":"Any","pred":"result[0] == 'test.jl' and source == expected"},"spec":{"lhs":"test_jl_simple_code_with_header()","rhs":"test_jl_simple_code_with_header produces the expected output","over":{"base":"Any"},"name":"test_jl_simple_code_with_header_correct"},"guarantee":"test_jl_simple_code_with_header produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_julia.test_jl_simple_code_with_header_correct","statement":"Path(test_jl_simple_code_with_header(x), test_jl_simple_code_with_header produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d6ea264e3956ce87"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_julia.test_jl_simple_code_with_header","kind":"function","src_hash":"3066b05ccb94f037","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result[0] == 'test.jl' and source == expected"},"spec":{"lhs":"test_jl_simple_code_with_header()","rhs":"result[0] == 'test.jl' and source == expected","over":{"base":"Any"},"name":"test_jl_simple_code_with_header_correct"},"guarantee":"result[0] == 'test.jl'; source == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_julia.test_jl_simple_code_with_header_correct","statement":"Path(test_jl_simple_code_with_header(x), result[0] == 'test.jl'; source == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8a16f107aa43868f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result[0] == 'test.jl'","source == expected"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_jl_simple_code_with_header():
     name_expr = ("test", (x + y)*z)
     result, = codegen(name_expr, "Julia", header=True, empty=False)
@@ -104,16 +124,22 @@ def test_jl_simple_code_with_header():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_jl_simple_code_nameout(), test_jl_simple_code_nameout produces the expected output) over Any ║
+# ║ Path(test_jl_simple_code_nameout(), source == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_jl_simple_code_nameout : Any → {Any | source == ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  source == expected                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_jl_simple_code_nameout : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 20bf533612058703  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b4912d80a69c0135  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_julia.test_jl_simple_code_nameout","kind":"function","src_hash":"cb3360f63f4bc060","in":{"base":"Any"},"out":{"base":"Any","pred":"source == expected"},"spec":{"lhs":"test_jl_simple_code_nameout()","rhs":"test_jl_simple_code_nameout produces the expected output","over":{"base":"Any"},"name":"test_jl_simple_code_nameout_correct"},"guarantee":"test_jl_simple_code_nameout produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_julia.test_jl_simple_code_nameout_correct","statement":"Path(test_jl_simple_code_nameout(x), test_jl_simple_code_nameout produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"20bf533612058703"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_julia.test_jl_simple_code_nameout","kind":"function","src_hash":"cb3360f63f4bc060","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: source == expected"},"spec":{"lhs":"test_jl_simple_code_nameout()","rhs":"source == expected","over":{"base":"Any"},"name":"test_jl_simple_code_nameout_correct"},"guarantee":"source == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_julia.test_jl_simple_code_nameout_correct","statement":"Path(test_jl_simple_code_nameout(x), source == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b4912d80a69c0135","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["source == expected"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_jl_simple_code_nameout():
     expr = Equality(z, (x + y))
     name_expr = ("test", expr)
@@ -129,16 +155,22 @@ def test_jl_simple_code_nameout():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_jl_numbersymbol(), test_jl_numbersymbol produces the expected output) over Any ║
+# ║ Path(test_jl_numbersymbol(), source == expected) over Any  ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_jl_numbersymbol : Any → {Any | source == expected}    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  source == expected                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_jl_numbersymbol : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aac77d47846848b2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 097ca1540e0e7e5b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_julia.test_jl_numbersymbol","kind":"function","src_hash":"02cb5bdae5bf9e68","in":{"base":"Any"},"out":{"base":"Any","pred":"source == expected"},"spec":{"lhs":"test_jl_numbersymbol()","rhs":"test_jl_numbersymbol produces the expected output","over":{"base":"Any"},"name":"test_jl_numbersymbol_correct"},"guarantee":"test_jl_numbersymbol produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_julia.test_jl_numbersymbol_correct","statement":"Path(test_jl_numbersymbol(x), test_jl_numbersymbol produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aac77d47846848b2"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_julia.test_jl_numbersymbol","kind":"function","src_hash":"02cb5bdae5bf9e68","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: source == expected"},"spec":{"lhs":"test_jl_numbersymbol()","rhs":"source == expected","over":{"base":"Any"},"name":"test_jl_numbersymbol_correct"},"guarantee":"source == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_julia.test_jl_numbersymbol_correct","statement":"Path(test_jl_numbersymbol(x), source == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"097ca1540e0e7e5b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["source == expected"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_jl_numbersymbol():
     name_expr = ("test", pi**Catalan)
     result, = codegen(name_expr, "Julia", header=False, empty=False)
@@ -154,16 +186,22 @@ def test_jl_numbersymbol():
 
 @XFAIL
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_jl_numbersymbol_no_inline(), test_jl_numbersymbol_no_inline produces the expected output) over Any ║
+# ║ Path(test_jl_numbersymbol_no_inline(), source == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_jl_numbersymbol_no_inline : Any → {Any | source ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  source == expected                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_jl_numbersymbol_no_inline : Any → {Any | result ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 857b9a54995467a4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c4c05ac8d0aa1485  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_julia.test_jl_numbersymbol_no_inline","kind":"function","src_hash":"5daa432628112da1","in":{"base":"Any"},"out":{"base":"Any","pred":"source == expected"},"spec":{"lhs":"test_jl_numbersymbol_no_inline()","rhs":"test_jl_numbersymbol_no_inline produces the expected output","over":{"base":"Any"},"name":"test_jl_numbersymbol_no_inline_correct"},"guarantee":"test_jl_numbersymbol_no_inline produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_julia.test_jl_numbersymbol_no_inline_correct","statement":"Path(test_jl_numbersymbol_no_inline(x), test_jl_numbersymbol_no_inline produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"857b9a54995467a4"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_julia.test_jl_numbersymbol_no_inline","kind":"function","src_hash":"5daa432628112da1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: source == expected"},"spec":{"lhs":"test_jl_numbersymbol_no_inline()","rhs":"source == expected","over":{"base":"Any"},"name":"test_jl_numbersymbol_no_inline_correct"},"guarantee":"source == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_julia.test_jl_numbersymbol_no_inline_correct","statement":"Path(test_jl_numbersymbol_no_inline(x), source == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c4c05ac8d0aa1485","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["source == expected"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_jl_numbersymbol_no_inline():
     # FIXME: how to pass inline=False to the JuliaCodePrinter?
     name_expr = ("test", [pi**Catalan, EulerGamma])
@@ -183,16 +221,22 @@ def test_jl_numbersymbol_no_inline():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_jl_code_argument_order(), test_jl_code_argument_order produces the expected output) over Any ║
+# ║ Path(test_jl_code_argument_order(), source == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_jl_code_argument_order : Any → {Any | source == ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  source == expected                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_jl_code_argument_order : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1bc442c5557bec4b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ee62949e8c6d7f2a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_julia.test_jl_code_argument_order","kind":"function","src_hash":"5574427d9878d193","in":{"base":"Any"},"out":{"base":"Any","pred":"source == expected"},"spec":{"lhs":"test_jl_code_argument_order()","rhs":"test_jl_code_argument_order produces the expected output","over":{"base":"Any"},"name":"test_jl_code_argument_order_correct"},"guarantee":"test_jl_code_argument_order produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_julia.test_jl_code_argument_order_correct","statement":"Path(test_jl_code_argument_order(x), test_jl_code_argument_order produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1bc442c5557bec4b"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_julia.test_jl_code_argument_order","kind":"function","src_hash":"5574427d9878d193","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: source == expected"},"spec":{"lhs":"test_jl_code_argument_order()","rhs":"source == expected","over":{"base":"Any"},"name":"test_jl_code_argument_order_correct"},"guarantee":"source == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_julia.test_jl_code_argument_order_correct","statement":"Path(test_jl_code_argument_order(x), source == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ee62949e8c6d7f2a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["source == expected"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_jl_code_argument_order():
     expr = x + y
     routine = make_routine("test", expr, argument_sequence=[z, x, y], language="julia")
@@ -210,16 +254,22 @@ def test_jl_code_argument_order():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_multiple_results_m(), test_multiple_results_m produces the expected output) over Any ║
+# ║ Path(test_multiple_results_m(), source == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_multiple_results_m : Any → {Any | source == expe...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  source == expected                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_multiple_results_m : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aa9cc83ba8ec85ba  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8bcae1cbd6994f22  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_julia.test_multiple_results_m","kind":"function","src_hash":"dbe89597ca9344f1","in":{"base":"Any"},"out":{"base":"Any","pred":"source == expected"},"spec":{"lhs":"test_multiple_results_m()","rhs":"test_multiple_results_m produces the expected output","over":{"base":"Any"},"name":"test_multiple_results_m_correct"},"guarantee":"test_multiple_results_m produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_julia.test_multiple_results_m_correct","statement":"Path(test_multiple_results_m(x), test_multiple_results_m produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aa9cc83ba8ec85ba"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_julia.test_multiple_results_m","kind":"function","src_hash":"dbe89597ca9344f1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: source == expected"},"spec":{"lhs":"test_multiple_results_m()","rhs":"source == expected","over":{"base":"Any"},"name":"test_multiple_results_m_correct"},"guarantee":"source == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_julia.test_multiple_results_m_correct","statement":"Path(test_multiple_results_m(x), source == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8bcae1cbd6994f22","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["source == expected"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_multiple_results_m():
     # Here the output order is the input order
     expr1 = (x + y)*z
@@ -238,16 +288,22 @@ def test_multiple_results_m():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_results_named_unordered(), test_results_named_unordered produces the expected output) over Any ║
+# ║ Path(test_results_named_unordered(), source == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_results_named_unordered : Any → {Any | source ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  source == expected                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_results_named_unordered : Any → {Any | result sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7f6469611a22aa38  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fad6b0e1d979812d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_julia.test_results_named_unordered","kind":"function","src_hash":"cd3ab1acacbce92a","in":{"base":"Any"},"out":{"base":"Any","pred":"source == expected"},"spec":{"lhs":"test_results_named_unordered()","rhs":"test_results_named_unordered produces the expected output","over":{"base":"Any"},"name":"test_results_named_unordered_correct"},"guarantee":"test_results_named_unordered produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_julia.test_results_named_unordered_correct","statement":"Path(test_results_named_unordered(x), test_results_named_unordered produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7f6469611a22aa38"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_julia.test_results_named_unordered","kind":"function","src_hash":"cd3ab1acacbce92a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: source == expected"},"spec":{"lhs":"test_results_named_unordered()","rhs":"source == expected","over":{"base":"Any"},"name":"test_results_named_unordered_correct"},"guarantee":"source == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_julia.test_results_named_unordered_correct","statement":"Path(test_results_named_unordered(x), source == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fad6b0e1d979812d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["source == expected"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_results_named_unordered():
     # Here output order is based on name_expr
     A, B, C = symbols('A,B,C')
@@ -269,16 +325,23 @@ def test_results_named_unordered():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_results_named_ordered(), test_results_named_ordered produces the expected output) over Any ║
+# ║ Path(test_results_named_ordered(), result[0][0] == 'test.jl' and source == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_results_named_ordered : Any → {Any | result[0][0...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result[0][0] == 'test.jl'                      ║
+# ║   ensures:  source == expected                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_results_named_ordered : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 221c2c009c3c1f50  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 53d73dddecb0b8c8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_julia.test_results_named_ordered","kind":"function","src_hash":"ecf3cf4005a9b816","in":{"base":"Any"},"out":{"base":"Any","pred":"result[0][0] == 'test.jl' and source == expected"},"spec":{"lhs":"test_results_named_ordered()","rhs":"test_results_named_ordered produces the expected output","over":{"base":"Any"},"name":"test_results_named_ordered_correct"},"guarantee":"test_results_named_ordered produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_julia.test_results_named_ordered_correct","statement":"Path(test_results_named_ordered(x), test_results_named_ordered produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"221c2c009c3c1f50"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_julia.test_results_named_ordered","kind":"function","src_hash":"ecf3cf4005a9b816","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result[0][0] == 'test.jl' and source == expected"},"spec":{"lhs":"test_results_named_ordered()","rhs":"result[0][0] == 'test.jl' and source == expected","over":{"base":"Any"},"name":"test_results_named_ordered_correct"},"guarantee":"result[0][0] == 'test.jl'; source == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_julia.test_results_named_ordered_correct","statement":"Path(test_results_named_ordered(x), result[0][0] == 'test.jl'; source == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"53d73dddecb0b8c8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result[0][0] == 'test.jl'","source == expected"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_results_named_ordered():
     A, B, C = symbols('A,B,C')
     expr1 = Equality(C, (x + y)*z)
@@ -301,16 +364,23 @@ def test_results_named_ordered():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_complicated_jl_codegen(), test_complicated_jl_codegen produces the expected output) over Any ║
+# ║ Path(test_complicated_jl_codegen(), result[0][0] == 'testlong.jl' and source == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_complicated_jl_codegen : Any → {Any | result[0][...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result[0][0] == 'testlong.jl'                  ║
+# ║   ensures:  source == expected                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_complicated_jl_codegen : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8c1f88459ba6afef  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7663500ff40bcef0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_julia.test_complicated_jl_codegen","kind":"function","src_hash":"571263f2d2b24bfc","in":{"base":"Any"},"out":{"base":"Any","pred":"result[0][0] == 'testlong.jl' and source == expected"},"spec":{"lhs":"test_complicated_jl_codegen()","rhs":"test_complicated_jl_codegen produces the expected output","over":{"base":"Any"},"name":"test_complicated_jl_codegen_correct"},"guarantee":"test_complicated_jl_codegen produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_julia.test_complicated_jl_codegen_correct","statement":"Path(test_complicated_jl_codegen(x), test_complicated_jl_codegen produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8c1f88459ba6afef"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_julia.test_complicated_jl_codegen","kind":"function","src_hash":"571263f2d2b24bfc","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result[0][0] == 'testlong.jl' and source == expected"},"spec":{"lhs":"test_complicated_jl_codegen()","rhs":"result[0][0] == 'testlong.jl' and source == expected","over":{"base":"Any"},"name":"test_complicated_jl_codegen_correct"},"guarantee":"result[0][0] == 'testlong.jl'; source == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_julia.test_complicated_jl_codegen_correct","statement":"Path(test_complicated_jl_codegen(x), result[0][0] == 'testlong.jl'; source == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7663500ff40bcef0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result[0][0] == 'testlong.jl'","source == expected"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_complicated_jl_codegen():
     from sympy.functions.elementary.trigonometric import (cos, sin, tan)
     name_expr = ("testlong",
@@ -333,16 +403,23 @@ def test_complicated_jl_codegen():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_jl_output_arg_mixed_unordered(), test_jl_output_arg_mixed_unordered produces the expected output) over Any ║
+# ║ Path(test_jl_output_arg_mixed_unordered(), result[0] == 'foo.jl' and source == expected) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result[0] == 'foo.jl'                          ║
+# ║   ensures:  source == expected                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_jl_output_arg_mixed_unordered : Any → {Any | res...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c8f2c7cc0bc0f4cc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 32ac870916b477e0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_julia.test_jl_output_arg_mixed_unordered","kind":"function","src_hash":"8c57c50cc916abc3","in":{"base":"Any"},"out":{"base":"Any","pred":"result[0] == 'foo.jl' and source == expected"},"spec":{"lhs":"test_jl_output_arg_mixed_unordered()","rhs":"test_jl_output_arg_mixed_unordered produces the expected output","over":{"base":"Any"},"name":"test_jl_output_arg_mixed_unordered_correct"},"guarantee":"test_jl_output_arg_mixed_unordered produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_julia.test_jl_output_arg_mixed_unordered_correct","statement":"Path(test_jl_output_arg_mixed_unordered(x), test_jl_output_arg_mixed_unordered produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c8f2c7cc0bc0f4cc"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_julia.test_jl_output_arg_mixed_unordered","kind":"function","src_hash":"8c57c50cc916abc3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result[0] == 'foo.jl' and source == expected"},"spec":{"lhs":"test_jl_output_arg_mixed_unordered()","rhs":"result[0] == 'foo.jl' and source == expected","over":{"base":"Any"},"name":"test_jl_output_arg_mixed_unordered_correct"},"guarantee":"result[0] == 'foo.jl'; source == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_julia.test_jl_output_arg_mixed_unordered_correct","statement":"Path(test_jl_output_arg_mixed_unordered(x), result[0] == 'foo.jl'; source == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"32ac870916b477e0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result[0] == 'foo.jl'","source == expected"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_jl_output_arg_mixed_unordered():
     # named outputs are alphabetical, unnamed output appear in the given order
     from sympy.functions.elementary.trigonometric import (cos, sin)
@@ -364,16 +441,22 @@ def test_jl_output_arg_mixed_unordered():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_jl_piecewise_(), test_jl_piecewise_ produces the expected output) over Any ║
+# ║ Path(test_jl_piecewise_(), source == expected) over Any    ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_jl_piecewise_ : Any → {Any | source == expected}      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  source == expected                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_jl_piecewise_ : Any → {Any | result satisfies: s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2db7973d70430c79  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3b76595fc4be7645  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_julia.test_jl_piecewise_","kind":"function","src_hash":"2b9beee3748b7ed2","in":{"base":"Any"},"out":{"base":"Any","pred":"source == expected"},"spec":{"lhs":"test_jl_piecewise_()","rhs":"test_jl_piecewise_ produces the expected output","over":{"base":"Any"},"name":"test_jl_piecewise__correct"},"guarantee":"test_jl_piecewise_ produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_julia.test_jl_piecewise__correct","statement":"Path(test_jl_piecewise_(x), test_jl_piecewise_ produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2db7973d70430c79"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_julia.test_jl_piecewise_","kind":"function","src_hash":"2b9beee3748b7ed2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: source == expected"},"spec":{"lhs":"test_jl_piecewise_()","rhs":"source == expected","over":{"base":"Any"},"name":"test_jl_piecewise__correct"},"guarantee":"source == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_julia.test_jl_piecewise__correct","statement":"Path(test_jl_piecewise_(x), source == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3b76595fc4be7645","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["source == expected"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_jl_piecewise_():
     pw = Piecewise((0, x < -1), (x**2, x <= 1), (-x+2, x > 1), (1, True), evaluate=False)
     name_expr = ("pwtest", pw)
@@ -392,16 +475,22 @@ def test_jl_piecewise_():
 
 @XFAIL
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_jl_piecewise_no_inline(), test_jl_piecewise_no_inline produces the expected output) over Any ║
+# ║ Path(test_jl_piecewise_no_inline(), source == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_jl_piecewise_no_inline : Any → {Any | source == ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  source == expected                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_jl_piecewise_no_inline : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 24fc04a2e374e0fc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 962ded62353bf687  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_julia.test_jl_piecewise_no_inline","kind":"function","src_hash":"99f66a00a3cf7adb","in":{"base":"Any"},"out":{"base":"Any","pred":"source == expected"},"spec":{"lhs":"test_jl_piecewise_no_inline()","rhs":"test_jl_piecewise_no_inline produces the expected output","over":{"base":"Any"},"name":"test_jl_piecewise_no_inline_correct"},"guarantee":"test_jl_piecewise_no_inline produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_julia.test_jl_piecewise_no_inline_correct","statement":"Path(test_jl_piecewise_no_inline(x), test_jl_piecewise_no_inline produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"24fc04a2e374e0fc"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_julia.test_jl_piecewise_no_inline","kind":"function","src_hash":"99f66a00a3cf7adb","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: source == expected"},"spec":{"lhs":"test_jl_piecewise_no_inline()","rhs":"source == expected","over":{"base":"Any"},"name":"test_jl_piecewise_no_inline_correct"},"guarantee":"source == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_julia.test_jl_piecewise_no_inline_correct","statement":"Path(test_jl_piecewise_no_inline(x), source == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"962ded62353bf687","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["source == expected"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_jl_piecewise_no_inline():
     # FIXME: how to pass inline=False to the JuliaCodePrinter?
     pw = Piecewise((0, x < -1), (x**2, x <= 1), (-x+2, x > 1), (1, True))
@@ -427,16 +516,23 @@ def test_jl_piecewise_no_inline():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_jl_multifcns_per_file(), test_jl_multifcns_per_file produces the expected output) over Any ║
+# ║ Path(test_jl_multifcns_per_file(), result[0][0] == 'foo.jl' and source == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_jl_multifcns_per_file : Any → {Any | result[0][0...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result[0][0] == 'foo.jl'                       ║
+# ║   ensures:  source == expected                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_jl_multifcns_per_file : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 784d5cd457ea054b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2f67eca0597de179  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_julia.test_jl_multifcns_per_file","kind":"function","src_hash":"7faa1abf1914326d","in":{"base":"Any"},"out":{"base":"Any","pred":"result[0][0] == 'foo.jl' and source == expected"},"spec":{"lhs":"test_jl_multifcns_per_file()","rhs":"test_jl_multifcns_per_file produces the expected output","over":{"base":"Any"},"name":"test_jl_multifcns_per_file_correct"},"guarantee":"test_jl_multifcns_per_file produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_julia.test_jl_multifcns_per_file_correct","statement":"Path(test_jl_multifcns_per_file(x), test_jl_multifcns_per_file produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"784d5cd457ea054b"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_julia.test_jl_multifcns_per_file","kind":"function","src_hash":"7faa1abf1914326d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result[0][0] == 'foo.jl' and source == expected"},"spec":{"lhs":"test_jl_multifcns_per_file()","rhs":"result[0][0] == 'foo.jl' and source == expected","over":{"base":"Any"},"name":"test_jl_multifcns_per_file_correct"},"guarantee":"result[0][0] == 'foo.jl'; source == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_julia.test_jl_multifcns_per_file_correct","statement":"Path(test_jl_multifcns_per_file(x), result[0][0] == 'foo.jl'; source == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2f67eca0597de179","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result[0][0] == 'foo.jl'","source == expected"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_jl_multifcns_per_file():
     name_expr = [ ("foo", [2*x, 3*y]), ("bar", [y**2, 4*y]) ]
     result = codegen(name_expr, "Julia", header=False, empty=False)
@@ -458,16 +554,23 @@ def test_jl_multifcns_per_file():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_jl_multifcns_per_file_w_header(), test_jl_multifcns_per_file_w_header produces the expected output) over Any ║
+# ║ Path(test_jl_multifcns_per_file_w_header(), result[0][0] == 'foo.jl' and source == expected) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result[0][0] == 'foo.jl'                       ║
+# ║   ensures:  source == expected                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_jl_multifcns_per_file_w_header : Any → {Any | re...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 61515e6d3a1bb154  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bb10fce2c364f53d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_julia.test_jl_multifcns_per_file_w_header","kind":"function","src_hash":"8215d3cde7265422","in":{"base":"Any"},"out":{"base":"Any","pred":"result[0][0] == 'foo.jl' and source == expected"},"spec":{"lhs":"test_jl_multifcns_per_file_w_header()","rhs":"test_jl_multifcns_per_file_w_header produces the expected output","over":{"base":"Any"},"name":"test_jl_multifcns_per_file_w_header_correct"},"guarantee":"test_jl_multifcns_per_file_w_header produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_julia.test_jl_multifcns_per_file_w_header_correct","statement":"Path(test_jl_multifcns_per_file_w_header(x), test_jl_multifcns_per_file_w_header produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"61515e6d3a1bb154"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_julia.test_jl_multifcns_per_file_w_header","kind":"function","src_hash":"8215d3cde7265422","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result[0][0] == 'foo.jl' and source == expected"},"spec":{"lhs":"test_jl_multifcns_per_file_w_header()","rhs":"result[0][0] == 'foo.jl' and source == expected","over":{"base":"Any"},"name":"test_jl_multifcns_per_file_w_header_correct"},"guarantee":"result[0][0] == 'foo.jl'; source == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_julia.test_jl_multifcns_per_file_w_header_correct","statement":"Path(test_jl_multifcns_per_file_w_header(x), result[0][0] == 'foo.jl'; source == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bb10fce2c364f53d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result[0][0] == 'foo.jl'","source == expected"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_jl_multifcns_per_file_w_header():
     name_expr = [ ("foo", [2*x, 3*y]), ("bar", [y**2, 4*y]) ]
     result = codegen(name_expr, "Julia", header=True, empty=False)
@@ -494,16 +597,22 @@ def test_jl_multifcns_per_file_w_header():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_jl_filename_match_prefix(), test_jl_filename_match_prefix produces the expected output) over Any ║
+# ║ Path(test_jl_filename_match_prefix(), result[0] == 'baz.jl') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_jl_filename_match_prefix : Any → {Any | result[0...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result[0] == 'baz.jl'                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_jl_filename_match_prefix : Any → {Any | result s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 178d85fd9876994f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2905aac8cccb0940  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_julia.test_jl_filename_match_prefix","kind":"function","src_hash":"000f2e07e9f6ddf2","in":{"base":"Any"},"out":{"base":"Any","pred":"result[0] == 'baz.jl'"},"spec":{"lhs":"test_jl_filename_match_prefix()","rhs":"test_jl_filename_match_prefix produces the expected output","over":{"base":"Any"},"name":"test_jl_filename_match_prefix_correct"},"guarantee":"test_jl_filename_match_prefix produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_julia.test_jl_filename_match_prefix_correct","statement":"Path(test_jl_filename_match_prefix(x), test_jl_filename_match_prefix produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"178d85fd9876994f"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_julia.test_jl_filename_match_prefix","kind":"function","src_hash":"000f2e07e9f6ddf2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result[0] == 'baz.jl'"},"spec":{"lhs":"test_jl_filename_match_prefix()","rhs":"result[0] == 'baz.jl'","over":{"base":"Any"},"name":"test_jl_filename_match_prefix_correct"},"guarantee":"result[0] == 'baz.jl'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_julia.test_jl_filename_match_prefix_correct","statement":"Path(test_jl_filename_match_prefix(x), result[0] == 'baz.jl')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2905aac8cccb0940","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result[0] == 'baz.jl'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_jl_filename_match_prefix():
     name_expr = [ ("foo", [2*x, 3*y]), ("bar", [y**2, 4*y]) ]
     result, = codegen(name_expr, "Julia", prefix="baz", header=False,
@@ -512,16 +621,23 @@ def test_jl_filename_match_prefix():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_jl_matrix_named(), test_jl_matrix_named produces the expected output) over Any ║
+# ║ Path(test_jl_matrix_named(), result[0][0] == 'test.jl' and source == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_jl_matrix_named : Any → {Any | result[0][0] == '...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result[0][0] == 'test.jl'                      ║
+# ║   ensures:  source == expected                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_jl_matrix_named : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 73f564fc4c312baa  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2f8dc83aef79f8b2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_julia.test_jl_matrix_named","kind":"function","src_hash":"5cb33b9876dc24fe","in":{"base":"Any"},"out":{"base":"Any","pred":"result[0][0] == 'test.jl' and source == expected"},"spec":{"lhs":"test_jl_matrix_named()","rhs":"test_jl_matrix_named produces the expected output","over":{"base":"Any"},"name":"test_jl_matrix_named_correct"},"guarantee":"test_jl_matrix_named produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_julia.test_jl_matrix_named_correct","statement":"Path(test_jl_matrix_named(x), test_jl_matrix_named produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"73f564fc4c312baa"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_julia.test_jl_matrix_named","kind":"function","src_hash":"5cb33b9876dc24fe","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result[0][0] == 'test.jl' and source == expected"},"spec":{"lhs":"test_jl_matrix_named()","rhs":"result[0][0] == 'test.jl' and source == expected","over":{"base":"Any"},"name":"test_jl_matrix_named_correct"},"guarantee":"result[0][0] == 'test.jl'; source == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_julia.test_jl_matrix_named_correct","statement":"Path(test_jl_matrix_named(x), result[0][0] == 'test.jl'; source == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2f8dc83aef79f8b2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result[0][0] == 'test.jl'","source == expected"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_jl_matrix_named():
     e2 = Matrix([[x, 2*y, pi*z]])
     name_expr = ("test", Equality(MatrixSymbol('myout1', 1, 3), e2))
@@ -538,16 +654,22 @@ def test_jl_matrix_named():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_jl_matrix_named_matsym(), test_jl_matrix_named_matsym produces the expected output) over Any ║
+# ║ Path(test_jl_matrix_named_matsym(), source == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_jl_matrix_named_matsym : Any → {Any | source == ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  source == expected                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_jl_matrix_named_matsym : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 14d89ae272da9790  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eb6665a89896663d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_julia.test_jl_matrix_named_matsym","kind":"function","src_hash":"a2c8150385e5ad23","in":{"base":"Any"},"out":{"base":"Any","pred":"source == expected"},"spec":{"lhs":"test_jl_matrix_named_matsym()","rhs":"test_jl_matrix_named_matsym produces the expected output","over":{"base":"Any"},"name":"test_jl_matrix_named_matsym_correct"},"guarantee":"test_jl_matrix_named_matsym produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_julia.test_jl_matrix_named_matsym_correct","statement":"Path(test_jl_matrix_named_matsym(x), test_jl_matrix_named_matsym produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"14d89ae272da9790"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_julia.test_jl_matrix_named_matsym","kind":"function","src_hash":"a2c8150385e5ad23","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: source == expected"},"spec":{"lhs":"test_jl_matrix_named_matsym()","rhs":"source == expected","over":{"base":"Any"},"name":"test_jl_matrix_named_matsym_correct"},"guarantee":"source == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_julia.test_jl_matrix_named_matsym_correct","statement":"Path(test_jl_matrix_named_matsym(x), source == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eb6665a89896663d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["source == expected"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_jl_matrix_named_matsym():
     myout1 = MatrixSymbol('myout1', 1, 3)
     e2 = Matrix([[x, 2*y, pi*z]])
@@ -564,16 +686,22 @@ def test_jl_matrix_named_matsym():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_jl_matrix_output_autoname(), test_jl_matrix_output_autoname produces the expected output) over Any ║
+# ║ Path(test_jl_matrix_output_autoname(), source == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_jl_matrix_output_autoname : Any → {Any | source ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  source == expected                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_jl_matrix_output_autoname : Any → {Any | result ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 480db014d5098041  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 74859f5ea4230245  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_julia.test_jl_matrix_output_autoname","kind":"function","src_hash":"385a648b8ebd52cb","in":{"base":"Any"},"out":{"base":"Any","pred":"source == expected"},"spec":{"lhs":"test_jl_matrix_output_autoname()","rhs":"test_jl_matrix_output_autoname produces the expected output","over":{"base":"Any"},"name":"test_jl_matrix_output_autoname_correct"},"guarantee":"test_jl_matrix_output_autoname produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_julia.test_jl_matrix_output_autoname_correct","statement":"Path(test_jl_matrix_output_autoname(x), test_jl_matrix_output_autoname produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"480db014d5098041"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_julia.test_jl_matrix_output_autoname","kind":"function","src_hash":"385a648b8ebd52cb","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: source == expected"},"spec":{"lhs":"test_jl_matrix_output_autoname()","rhs":"source == expected","over":{"base":"Any"},"name":"test_jl_matrix_output_autoname_correct"},"guarantee":"source == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_julia.test_jl_matrix_output_autoname_correct","statement":"Path(test_jl_matrix_output_autoname(x), source == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"74859f5ea4230245","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["source == expected"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_jl_matrix_output_autoname():
     expr = Matrix([[x, x+y, 3]])
     name_expr = ("test", expr)
@@ -589,16 +717,22 @@ def test_jl_matrix_output_autoname():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_jl_matrix_output_autoname_2(), test_jl_matrix_output_autoname_2 produces the expected output) over Any ║
+# ║ Path(test_jl_matrix_output_autoname_2(), source == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_jl_matrix_output_autoname_2 : Any → {Any | sourc...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  source == expected                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_jl_matrix_output_autoname_2 : Any → {Any | resul...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b3fb68ea8757dada  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eb98db19052bc493  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_julia.test_jl_matrix_output_autoname_2","kind":"function","src_hash":"8ad52eceb64fb3a1","in":{"base":"Any"},"out":{"base":"Any","pred":"source == expected"},"spec":{"lhs":"test_jl_matrix_output_autoname_2()","rhs":"test_jl_matrix_output_autoname_2 produces the expected output","over":{"base":"Any"},"name":"test_jl_matrix_output_autoname_2_correct"},"guarantee":"test_jl_matrix_output_autoname_2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_julia.test_jl_matrix_output_autoname_2_correct","statement":"Path(test_jl_matrix_output_autoname_2(x), test_jl_matrix_output_autoname_2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b3fb68ea8757dada"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_julia.test_jl_matrix_output_autoname_2","kind":"function","src_hash":"8ad52eceb64fb3a1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: source == expected"},"spec":{"lhs":"test_jl_matrix_output_autoname_2()","rhs":"source == expected","over":{"base":"Any"},"name":"test_jl_matrix_output_autoname_2_correct"},"guarantee":"source == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_julia.test_jl_matrix_output_autoname_2_correct","statement":"Path(test_jl_matrix_output_autoname_2(x), source == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eb98db19052bc493","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["source == expected"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_jl_matrix_output_autoname_2():
     e1 = (x + y)
     e2 = Matrix([[2*x, 2*y, 2*z]])
@@ -621,16 +755,22 @@ def test_jl_matrix_output_autoname_2():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_jl_results_matrix_named_ordered(), test_jl_results_matrix_named_ordered produces the expected output) over Any ║
+# ║ Path(test_jl_results_matrix_named_ordered(), source == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_jl_results_matrix_named_ordered : Any → {Any | s...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  source == expected                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_jl_results_matrix_named_ordered : Any → {Any | r...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 524de1507a652ff2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 46fe260d3c43599b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_julia.test_jl_results_matrix_named_ordered","kind":"function","src_hash":"540bd98dab98b4a6","in":{"base":"Any"},"out":{"base":"Any","pred":"source == expected"},"spec":{"lhs":"test_jl_results_matrix_named_ordered()","rhs":"test_jl_results_matrix_named_ordered produces the expected output","over":{"base":"Any"},"name":"test_jl_results_matrix_named_ordered_correct"},"guarantee":"test_jl_results_matrix_named_ordered produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_julia.test_jl_results_matrix_named_ordered_correct","statement":"Path(test_jl_results_matrix_named_ordered(x), test_jl_results_matrix_named_ordered produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"524de1507a652ff2"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_julia.test_jl_results_matrix_named_ordered","kind":"function","src_hash":"540bd98dab98b4a6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: source == expected"},"spec":{"lhs":"test_jl_results_matrix_named_ordered()","rhs":"source == expected","over":{"base":"Any"},"name":"test_jl_results_matrix_named_ordered_correct"},"guarantee":"source == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_julia.test_jl_results_matrix_named_ordered_correct","statement":"Path(test_jl_results_matrix_named_ordered(x), source == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"46fe260d3c43599b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["source == expected"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_jl_results_matrix_named_ordered():
     B, C = symbols('B,C')
     A = MatrixSymbol('A', 1, 3)
@@ -653,16 +793,22 @@ def test_jl_results_matrix_named_ordered():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_jl_matrixsymbol_slice(), test_jl_matrixsymbol_slice produces the expected output) over Any ║
+# ║ Path(test_jl_matrixsymbol_slice(), source == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_jl_matrixsymbol_slice : Any → {Any | source == e...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  source == expected                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_jl_matrixsymbol_slice : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e240085d9e44ed6b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3e5b5eacb93531fa  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_julia.test_jl_matrixsymbol_slice","kind":"function","src_hash":"4b1191a7af457d7a","in":{"base":"Any"},"out":{"base":"Any","pred":"source == expected"},"spec":{"lhs":"test_jl_matrixsymbol_slice()","rhs":"test_jl_matrixsymbol_slice produces the expected output","over":{"base":"Any"},"name":"test_jl_matrixsymbol_slice_correct"},"guarantee":"test_jl_matrixsymbol_slice produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_julia.test_jl_matrixsymbol_slice_correct","statement":"Path(test_jl_matrixsymbol_slice(x), test_jl_matrixsymbol_slice produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e240085d9e44ed6b"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_julia.test_jl_matrixsymbol_slice","kind":"function","src_hash":"4b1191a7af457d7a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: source == expected"},"spec":{"lhs":"test_jl_matrixsymbol_slice()","rhs":"source == expected","over":{"base":"Any"},"name":"test_jl_matrixsymbol_slice_correct"},"guarantee":"source == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_julia.test_jl_matrixsymbol_slice_correct","statement":"Path(test_jl_matrixsymbol_slice(x), source == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3e5b5eacb93531fa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["source == expected"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_jl_matrixsymbol_slice():
     A = MatrixSymbol('A', 2, 3)
     B = MatrixSymbol('B', 1, 3)
@@ -685,16 +831,22 @@ def test_jl_matrixsymbol_slice():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_jl_matrixsymbol_slice2(), test_jl_matrixsymbol_slice2 produces the expected output) over Any ║
+# ║ Path(test_jl_matrixsymbol_slice2(), source == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_jl_matrixsymbol_slice2 : Any → {Any | source == ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  source == expected                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_jl_matrixsymbol_slice2 : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ac32c665aab39b69  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | be912f1d19033977  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_julia.test_jl_matrixsymbol_slice2","kind":"function","src_hash":"65cb745ba4adbac8","in":{"base":"Any"},"out":{"base":"Any","pred":"source == expected"},"spec":{"lhs":"test_jl_matrixsymbol_slice2()","rhs":"test_jl_matrixsymbol_slice2 produces the expected output","over":{"base":"Any"},"name":"test_jl_matrixsymbol_slice2_correct"},"guarantee":"test_jl_matrixsymbol_slice2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_julia.test_jl_matrixsymbol_slice2_correct","statement":"Path(test_jl_matrixsymbol_slice2(x), test_jl_matrixsymbol_slice2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ac32c665aab39b69"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_julia.test_jl_matrixsymbol_slice2","kind":"function","src_hash":"65cb745ba4adbac8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: source == expected"},"spec":{"lhs":"test_jl_matrixsymbol_slice2()","rhs":"source == expected","over":{"base":"Any"},"name":"test_jl_matrixsymbol_slice2_correct"},"guarantee":"source == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_julia.test_jl_matrixsymbol_slice2_correct","statement":"Path(test_jl_matrixsymbol_slice2(x), source == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"be912f1d19033977","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["source == expected"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_jl_matrixsymbol_slice2():
     A = MatrixSymbol('A', 3, 4)
     B = MatrixSymbol('B', 2, 2)
@@ -714,16 +866,22 @@ def test_jl_matrixsymbol_slice2():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_jl_matrixsymbol_slice3(), test_jl_matrixsymbol_slice3 produces the expected output) over Any ║
+# ║ Path(test_jl_matrixsymbol_slice3(), source == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_jl_matrixsymbol_slice3 : Any → {Any | source == ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  source == expected                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_jl_matrixsymbol_slice3 : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 993a82e2dbcd8c85  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7f6310ea173ea6a7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_julia.test_jl_matrixsymbol_slice3","kind":"function","src_hash":"66d8d24d11e89cd4","in":{"base":"Any"},"out":{"base":"Any","pred":"source == expected"},"spec":{"lhs":"test_jl_matrixsymbol_slice3()","rhs":"test_jl_matrixsymbol_slice3 produces the expected output","over":{"base":"Any"},"name":"test_jl_matrixsymbol_slice3_correct"},"guarantee":"test_jl_matrixsymbol_slice3 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_julia.test_jl_matrixsymbol_slice3_correct","statement":"Path(test_jl_matrixsymbol_slice3(x), test_jl_matrixsymbol_slice3 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"993a82e2dbcd8c85"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_julia.test_jl_matrixsymbol_slice3","kind":"function","src_hash":"66d8d24d11e89cd4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: source == expected"},"spec":{"lhs":"test_jl_matrixsymbol_slice3()","rhs":"source == expected","over":{"base":"Any"},"name":"test_jl_matrixsymbol_slice3_correct"},"guarantee":"source == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_julia.test_jl_matrixsymbol_slice3_correct","statement":"Path(test_jl_matrixsymbol_slice3(x), source == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7f6310ea173ea6a7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["source == expected"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_jl_matrixsymbol_slice3():
     A = MatrixSymbol('A', 8, 7)
     B = MatrixSymbol('B', 2, 2)
@@ -743,16 +901,22 @@ def test_jl_matrixsymbol_slice3():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_jl_matrixsymbol_slice_autoname(), test_jl_matrixsymbol_slice_autoname produces the expected output) over Any ║
+# ║ Path(test_jl_matrixsymbol_slice_autoname(), source == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_jl_matrixsymbol_slice_autoname : Any → {Any | so...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  source == expected                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_jl_matrixsymbol_slice_autoname : Any → {Any | re...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 918c9a17e27931b6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 30562ed36f13b114  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_julia.test_jl_matrixsymbol_slice_autoname","kind":"function","src_hash":"77e1012b14c482b4","in":{"base":"Any"},"out":{"base":"Any","pred":"source == expected"},"spec":{"lhs":"test_jl_matrixsymbol_slice_autoname()","rhs":"test_jl_matrixsymbol_slice_autoname produces the expected output","over":{"base":"Any"},"name":"test_jl_matrixsymbol_slice_autoname_correct"},"guarantee":"test_jl_matrixsymbol_slice_autoname produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_julia.test_jl_matrixsymbol_slice_autoname_correct","statement":"Path(test_jl_matrixsymbol_slice_autoname(x), test_jl_matrixsymbol_slice_autoname produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"918c9a17e27931b6"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_julia.test_jl_matrixsymbol_slice_autoname","kind":"function","src_hash":"77e1012b14c482b4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: source == expected"},"spec":{"lhs":"test_jl_matrixsymbol_slice_autoname()","rhs":"source == expected","over":{"base":"Any"},"name":"test_jl_matrixsymbol_slice_autoname_correct"},"guarantee":"source == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_julia.test_jl_matrixsymbol_slice_autoname_correct","statement":"Path(test_jl_matrixsymbol_slice_autoname(x), source == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"30562ed36f13b114","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["source == expected"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_jl_matrixsymbol_slice_autoname():
     A = MatrixSymbol('A', 2, 3)
     B = MatrixSymbol('B', 1, 3)
@@ -772,16 +936,22 @@ def test_jl_matrixsymbol_slice_autoname():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_jl_loops(), test_jl_loops produces the expected output) over Any ║
+# ║ Path(test_jl_loops(), source == expected % {'rhs': 'A[%s,%s] .* x[j]' % (i, j)} or source == expected % {'rhs': 'x[j] .* A[%s,%s]' % (i, j)}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_jl_loops : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  source == expected % {'rhs': 'A[%s,%s] .*...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_jl_loops : Any → {Any | result satisfies: source...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 09d724b5e05a2ad8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 37166134157a011f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_julia.test_jl_loops","kind":"function","src_hash":"4c6a0ee34f0c9ffe","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_jl_loops()","rhs":"test_jl_loops produces the expected output","over":{"base":"Any"},"name":"test_jl_loops_correct"},"guarantee":"test_jl_loops produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_julia.test_jl_loops_correct","statement":"Path(test_jl_loops(x), test_jl_loops produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"09d724b5e05a2ad8"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_julia.test_jl_loops","kind":"function","src_hash":"4c6a0ee34f0c9ffe","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: source == expected % {'rhs': 'A[%s,%s] .* x[j]' % (i, j)} or source == expected % {'rhs': 'x[j] .* A[%s,%s]' % (i, j)}"},"spec":{"lhs":"test_jl_loops()","rhs":"source == expected % {'rhs': 'A[%s,%s] .* x[j]' % (i, j)} or source == expected % {'rhs': 'x[j] .* A[%s,%s]' % (i, j)}","over":{"base":"Any"},"name":"test_jl_loops_correct"},"guarantee":"source == expected % {'rhs': 'A[%s,%s] .* x[j]' % (i, j)} or source == expected % {'rhs': 'x[j] .* A[%s,%s]' % (i, j)}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_julia.test_jl_loops_correct","statement":"Path(test_jl_loops(x), source == expected % {'rhs': 'A[%s,%s] .* x[j]' % (i, j)} or source == expected % {'rhs': 'x[j] .* A[%s,%s]' % (i, j)})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"37166134157a011f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["source == expected % {'rhs': 'A[%s,%s] .* x[j]' % (i, j)} or source == expected % {'rhs': 'x[j] .* A[%s,%s]' % (i, j)}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_jl_loops():
     # Note: an Julia programmer would probably vectorize this across one or
     # more dimensions.  Also, size(A) would be used rather than passing in m
@@ -816,16 +986,22 @@ def test_jl_loops():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_jl_tensor_loops_multiple_contractions(), test_jl_tensor_loops_multiple_contractions produces the expected output) over Any ║
+# ║ Path(test_jl_tensor_loops_multiple_contractions(), source == expected) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  source == expected                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_jl_tensor_loops_multiple_contractions : Any → {A...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5281d50070cd8adc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ad854fe66184b0ad  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_julia.test_jl_tensor_loops_multiple_contractions","kind":"function","src_hash":"c0c87abddafcbce6","in":{"base":"Any"},"out":{"base":"Any","pred":"source == expected"},"spec":{"lhs":"test_jl_tensor_loops_multiple_contractions()","rhs":"test_jl_tensor_loops_multiple_contractions produces the expected output","over":{"base":"Any"},"name":"test_jl_tensor_loops_multiple_contractions_correct"},"guarantee":"test_jl_tensor_loops_multiple_contractions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_julia.test_jl_tensor_loops_multiple_contractions_correct","statement":"Path(test_jl_tensor_loops_multiple_contractions(x), test_jl_tensor_loops_multiple_contractions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5281d50070cd8adc"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_julia.test_jl_tensor_loops_multiple_contractions","kind":"function","src_hash":"c0c87abddafcbce6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: source == expected"},"spec":{"lhs":"test_jl_tensor_loops_multiple_contractions()","rhs":"source == expected","over":{"base":"Any"},"name":"test_jl_tensor_loops_multiple_contractions_correct"},"guarantee":"source == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_julia.test_jl_tensor_loops_multiple_contractions_correct","statement":"Path(test_jl_tensor_loops_multiple_contractions(x), source == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ad854fe66184b0ad","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["source == expected"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_jl_tensor_loops_multiple_contractions():
     # see comments in previous test about vectorizing
     from sympy.tensor import IndexedBase, Idx
@@ -862,16 +1038,22 @@ def test_jl_tensor_loops_multiple_contractions():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_jl_InOutArgument(), test_jl_InOutArgument produces the expected output) over Any ║
+# ║ Path(test_jl_InOutArgument(), source == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_jl_InOutArgument : Any → {Any | source == expected}   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  source == expected                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_jl_InOutArgument : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 22664116d685b9c2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bb32e523965b26b0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_julia.test_jl_InOutArgument","kind":"function","src_hash":"9b7799066176271f","in":{"base":"Any"},"out":{"base":"Any","pred":"source == expected"},"spec":{"lhs":"test_jl_InOutArgument()","rhs":"test_jl_InOutArgument produces the expected output","over":{"base":"Any"},"name":"test_jl_InOutArgument_correct"},"guarantee":"test_jl_InOutArgument produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_julia.test_jl_InOutArgument_correct","statement":"Path(test_jl_InOutArgument(x), test_jl_InOutArgument produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"22664116d685b9c2"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_julia.test_jl_InOutArgument","kind":"function","src_hash":"9b7799066176271f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: source == expected"},"spec":{"lhs":"test_jl_InOutArgument()","rhs":"source == expected","over":{"base":"Any"},"name":"test_jl_InOutArgument_correct"},"guarantee":"source == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_julia.test_jl_InOutArgument_correct","statement":"Path(test_jl_InOutArgument(x), source == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bb32e523965b26b0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["source == expected"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_jl_InOutArgument():
     expr = Equality(x, x**2)
     name_expr = ("mysqr", expr)
@@ -887,16 +1069,22 @@ def test_jl_InOutArgument():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_jl_InOutArgument_order(), test_jl_InOutArgument_order produces the expected output) over Any ║
+# ║ Path(test_jl_InOutArgument_order(), source == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_jl_InOutArgument_order : Any → {Any | source == ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  source == expected                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_jl_InOutArgument_order : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d05956052401ae01  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1db246c9b83a24df  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_julia.test_jl_InOutArgument_order","kind":"function","src_hash":"2e737ea975a0c056","in":{"base":"Any"},"out":{"base":"Any","pred":"source == expected and source == expected"},"spec":{"lhs":"test_jl_InOutArgument_order()","rhs":"test_jl_InOutArgument_order produces the expected output","over":{"base":"Any"},"name":"test_jl_InOutArgument_order_correct"},"guarantee":"test_jl_InOutArgument_order produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_julia.test_jl_InOutArgument_order_correct","statement":"Path(test_jl_InOutArgument_order(x), test_jl_InOutArgument_order produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d05956052401ae01"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_julia.test_jl_InOutArgument_order","kind":"function","src_hash":"2e737ea975a0c056","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: source == expected"},"spec":{"lhs":"test_jl_InOutArgument_order()","rhs":"source == expected","over":{"base":"Any"},"name":"test_jl_InOutArgument_order_correct"},"guarantee":"source == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_julia.test_jl_InOutArgument_order_correct","statement":"Path(test_jl_InOutArgument_order(x), source == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1db246c9b83a24df","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["source == expected"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_jl_InOutArgument_order():
     # can specify the order as (x, y)
     expr = Equality(x, x**2 + y)
@@ -926,16 +1114,22 @@ def test_jl_InOutArgument_order():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_jl_not_supported(), test_jl_not_supported produces the expected output) over Any ║
+# ║ Path(test_jl_not_supported(), source == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_jl_not_supported : Any → {Any | source == expected}   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  source == expected                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_jl_not_supported : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1908fc3d11ddb56b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 69b9ae115756719b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_julia.test_jl_not_supported","kind":"function","src_hash":"11ffa2e1f21bddc1","in":{"base":"Any"},"out":{"base":"Any","pred":"source == expected"},"spec":{"lhs":"test_jl_not_supported()","rhs":"test_jl_not_supported produces the expected output","over":{"base":"Any"},"name":"test_jl_not_supported_correct"},"guarantee":"test_jl_not_supported produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_julia.test_jl_not_supported_correct","statement":"Path(test_jl_not_supported(x), test_jl_not_supported produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1908fc3d11ddb56b"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_julia.test_jl_not_supported","kind":"function","src_hash":"11ffa2e1f21bddc1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: source == expected"},"spec":{"lhs":"test_jl_not_supported()","rhs":"source == expected","over":{"base":"Any"},"name":"test_jl_not_supported_correct"},"guarantee":"source == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_julia.test_jl_not_supported_correct","statement":"Path(test_jl_not_supported(x), source == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"69b9ae115756719b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["source == expected"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_jl_not_supported():
     f = Function('f')
     name_expr = ("test", [f(x).diff(x), S.ComplexInfinity])
@@ -954,16 +1148,22 @@ def test_jl_not_supported():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_global_vars_octave(), test_global_vars_octave produces the expected output) over Any ║
+# ║ Path(test_global_vars_octave(), source == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_global_vars_octave : Any → {Any | source == expe...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  source == expected                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_global_vars_octave : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d3597a70b65af730  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3e42327bf75f73de  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_julia.test_global_vars_octave","kind":"function","src_hash":"aa0551e292a2052e","in":{"base":"Any"},"out":{"base":"Any","pred":"source == expected and source == expected"},"spec":{"lhs":"test_global_vars_octave()","rhs":"test_global_vars_octave produces the expected output","over":{"base":"Any"},"name":"test_global_vars_octave_correct"},"guarantee":"test_global_vars_octave produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_julia.test_global_vars_octave_correct","statement":"Path(test_global_vars_octave(x), test_global_vars_octave produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d3597a70b65af730"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_codegen_julia.test_global_vars_octave","kind":"function","src_hash":"aa0551e292a2052e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: source == expected"},"spec":{"lhs":"test_global_vars_octave()","rhs":"source == expected","over":{"base":"Any"},"name":"test_global_vars_octave_correct"},"guarantee":"source == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_codegen_julia.test_global_vars_octave_correct","statement":"Path(test_global_vars_octave(x), source == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3e42327bf75f73de","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["source == expected"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_global_vars_octave():
     x, y, z, t = symbols("x y z t")
     result = codegen(('f', x*y), "Julia", header=False, empty=False,

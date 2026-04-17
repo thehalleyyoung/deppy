@@ -28,14 +28,20 @@ __all__ = [
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Dagger(*args), correctly constructs a Dagger instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Dagger : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, adjoint)                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Dagger : Any → {Any | result satisfies: isinstance(se...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c049452244fffee2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.dagger.Dagger","kind":"class","src_hash":"8989c2cfc4b8eef8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Dagger(*args)","rhs":"correctly constructs a Dagger instance","over":{"base":"Any"},"name":"Dagger_class_invariant"},"guarantee":"correctly constructs a Dagger instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c049452244fffee2"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.dagger.Dagger","kind":"class","src_hash":"8989c2cfc4b8eef8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, adjoint)"},"spec":{"lhs":"Dagger(*args)","rhs":"correctly constructs a Dagger instance","over":{"base":"Any"},"name":"Dagger_class_invariant"},"guarantee":"isinstance(self, adjoint)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c049452244fffee2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, adjoint)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function Dagger not found in source"]}}
 class Dagger(adjoint):
     """General Hermitian conjugate operation.
 
@@ -109,31 +115,48 @@ class Dagger(adjoint):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(kind(), returns the kind attribute) over Any          ║
+# ║ Path(kind(), self.args[0].kind) over Any                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0].kind                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ kind : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8fd44277505b17b5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.dagger.Dagger.kind","kind":"property","src_hash":"c16a64a0ea216834","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"kind()","rhs":"returns the kind attribute","over":{"base":"Any"},"name":"kind_correct"},"guarantee":"returns the kind attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8fd44277505b17b5"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.dagger.Dagger.kind","kind":"property","src_hash":"c16a64a0ea216834","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"kind()","rhs":"self.args[0].kind","over":{"base":"Any"},"name":"kind_correct"},"guarantee":"returns self.args[0].kind","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8fd44277505b17b5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0].kind","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def kind(self):
         """Find the kind of a dagger of something (just the kind of the something)."""
         return self.args[0].kind
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, arg, evaluate), result == (arg.adjoint() if hasattr(arg, 'adjoint') and evaluate else arg.conjugate().transpose()) and result == arg.adjoint() or result == arg.conjugate().transpose()) over {Any | hasattr(arg, 'adjoint') and hasattr(arg, 'conjugate')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(arg, 'adjoint')                        ║
+# ║   requires: hasattr(arg, 'conjugate')                      ║
+# ║   ensures:  result == (arg.adjoint() if hasattr(arg, ...   ║
+# ║   ensures:  result == arg.adjoint() or result == arg....   ║
+# ║   fiber[case_0]: hasattr(arg, 'adjoint') and evaluate...   ║
+# ║   fiber[case_1]: hasattr(arg, 'conjugate') and hasatt...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | hasattr(arg, 'adjoint') and hasattr(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 49ded72acd9e2d2f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.dagger.Dagger.__new__","kind":"method","src_hash":"981699bf74c4304b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"49ded72acd9e2d2f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.dagger.Dagger.__new__","kind":"method","src_hash":"981699bf74c4304b","in":{"base":"Any","pred":"hasattr(arg, 'adjoint') and hasattr(arg, 'conjugate')"},"out":{"base":"Any","pred":"result satisfies: result == (arg.adjoint() if hasattr(arg, 'adjoint') and evaluate else arg.conjugate().transpose()) and result == arg.adjoint() or result == arg.conjugate().transpose()"},"spec":{"lhs":"__new__(cls, arg, evaluate)","rhs":"result == (arg.adjoint() if hasattr(arg, 'adjoint') and evaluate else arg.conjugate().transpose()) and result == arg.adjoint() or result == arg.conjugate().transpose()","over":{"base":"Any","pred":"hasattr(arg, 'adjoint') and hasattr(arg, 'conjugate')"},"name":"__new___correct"},"guarantee":"result == (arg.adjoint() if hasattr(arg, 'adjoint') and evaluate else arg.conjugate().transpose()); result == arg.adjoint() or result == arg.conjugate().transpose(); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"49ded72acd9e2d2f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(arg, 'adjoint')","hasattr(arg, 'conjugate')"],"ensures":["result == (arg.adjoint() if hasattr(arg, 'adjoint') and evaluate else arg.conjugate().transpose())","result == arg.adjoint() or result == arg.conjugate().transpose()"],"fibers":[{"name":"case_0","guard":"hasattr(arg, 'adjoint') and evaluate","ensures":["result == arg.adjoint()"],"decidability":"structural","returns_expr":"arg.adjoint()"},{"name":"case_1","guard":"hasattr(arg, 'conjugate') and hasattr(arg, 'transpose') and evaluate","ensures":["result == arg.conjugate().transpose()"],"decidability":"structural","returns_expr":"arg.conjugate().transpose()"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["arg.adjoint","arg.conjugate"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, arg, evaluate=True):
         if hasattr(arg, 'adjoint') and evaluate:
             return arg.adjoint()

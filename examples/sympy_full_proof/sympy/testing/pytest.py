@@ -229,16 +229,22 @@ else:
 
 @contextlib.contextmanager
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(warns(war), like raises but tests that warnings are emitted) over Any ║
+# ║ Path(warns(warningcls, match, test_stacklevel), len(targets) == old_len_targets + 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ warns : Any → {Any | issubclass(w.category, warningcls)}   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(targets) == old_len_targets + 1            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ warns : Any → {Any | result satisfies: len(targets) =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e41f09b8018bfe28  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3635234689edb1a6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testingtest.warns","kind":"function","src_hash":"6301b074f13330ae","in":{"base":"Any"},"out":{"base":"Any","pred":"issubclass(w.category, warningcls)"},"spec":{"lhs":"warns(war)","rhs":"like raises but tests that warnings are emitted","over":{"base":"Any"},"name":"warns_correct"},"guarantee":"like raises but tests that warnings are emitted","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testingtest.warns_correct","statement":"Path(warns(x), like raises but tests that warnings are emitted)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e41f09b8018bfe28"}
+# @cctt_verify {"v":2,"sym":"sympy.testingtest.warns","kind":"function","src_hash":"6301b074f13330ae","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(targets) == old_len_targets + 1"},"spec":{"lhs":"warns(warningcls, match, test_stacklevel)","rhs":"len(targets) == old_len_targets + 1","over":{"base":"Any"},"name":"warns_correct"},"guarantee":"len(targets) == old_len_targets + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testingtest.warns_correct","statement":"Path(warns(x), len(targets) == old_len_targets + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3635234689edb1a6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(targets) == old_len_targets + 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["warningcls.__name__"],"calls_mutating":["targets.append"],"raises":["Failed","RuntimeError"]},"state_contract":{"modifies":["targets.*"],"old_bindings":{"old_len_targets":"len(targets)"},"post_ensures":["len(targets) == old_len_targets + 1"],"exceptional_post":{"Failed":["isinstance(raised, Failed)"],"RuntimeError":["isinstance(raised, RuntimeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['warningcls'], spec=['warningcls', 'match', 'test_stacklevel']"]}}
 def warns(warningcls, *, match='', test_stacklevel=True):
     '''
     Like raises but tests that warnings are emitted.
@@ -331,16 +337,22 @@ calls the deprecated code (the current stacklevel is showing code from
                 raise Failed(f"The active deprecations target {target!r} does not appear to be a valid target in the active-deprecations.md file ({active_deprecations_file}).")
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_both_exp_pow(fun), decorator used to run the test twice: the first time `e^x` is represented as ``pow(e, x)``, the second time as ``exp(x)`` (exponential object is not a power)) over Any ║
+# ║ Path(_both_exp_pow(func), <unspecified:_both_exp_pow>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _both_exp_pow : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 752203e7d72cc29b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testingtest._both_exp_pow","kind":"function","src_hash":"3c03c23648650493","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_both_exp_pow(fun)","rhs":"decorator used to run the test twice: the first time `e^x` is represented as ``pow(e, x)``, the second time as ``exp(x)`` (exponential object is not a power)","over":{"base":"Any"},"name":"_both_exp_pow_correct"},"guarantee":"decorator used to run the test twice: the first time `e^x` is represented as ``pow(e, x)``, the second time as ``exp(x)`` (exponential object is not a power)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testingtest._both_exp_pow_correct","statement":"Path(_both_exp_pow(x), decorator used to run the test twice: the first time `e^x` is represented as ``pow(e, x)``, the second time as ``exp(x)`` (exponential object is not a power))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"752203e7d72cc29b"}
+# @cctt_verify {"v":2,"sym":"sympy.testingtest._both_exp_pow","kind":"function","src_hash":"3c03c23648650493","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_both_exp_pow(func)","rhs":"<unspecified:_both_exp_pow>","over":{"base":"Any"},"name":"_both_exp_pow_correct"},"guarantee":"decorator used to run the test twice: the first time `e^x` is represented as ``pow(e, x)``, the second time as ``exp(x)`` (exponential object is not a power)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testingtest._both_exp_pow_correct","statement":"Path(_both_exp_pow(x), decorator used to run the test twice: the first time `e^x` is represented as ``pow(e, x)``, the second time as ``exp(x)`` (exponential object is not a power))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"752203e7d72cc29b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _both_exp_pow(func):
     """
     Decorator used to run the test twice: the first time `e^x` is represented
@@ -364,16 +376,22 @@ def _both_exp_pow(func):
 
 @contextlib.contextmanager
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(warns_deprecated_sympy(), shorthand for ``warns(sympydeprecationwarning)``) over Any ║
+# ║ Path(warns_deprecated_sympy(), <unspecified:warns_deprecated_sympy>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ warns_deprecated_sympy : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7d2b734eef7577ce  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testingtest.warns_deprecated_sympy","kind":"function","src_hash":"7eb7e2ec19464da6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"warns_deprecated_sympy()","rhs":"shorthand for ``warns(sympydeprecationwarning)``","over":{"base":"Any"},"name":"warns_deprecated_sympy_correct"},"guarantee":"shorthand for ``warns(sympydeprecationwarning)``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testingtest.warns_deprecated_sympy_correct","statement":"Path(warns_deprecated_sympy(x), shorthand for ``warns(sympydeprecationwarning)``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7d2b734eef7577ce"}
+# @cctt_verify {"v":2,"sym":"sympy.testingtest.warns_deprecated_sympy","kind":"function","src_hash":"7eb7e2ec19464da6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"warns_deprecated_sympy()","rhs":"<unspecified:warns_deprecated_sympy>","over":{"base":"Any"},"name":"warns_deprecated_sympy_correct"},"guarantee":"shorthand for ``warns(sympydeprecationwarning)``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testingtest.warns_deprecated_sympy_correct","statement":"Path(warns_deprecated_sympy(x), shorthand for ``warns(sympydeprecationwarning)``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7d2b734eef7577ce","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def warns_deprecated_sympy():
     '''
     Shorthand for ``warns(SymPyDeprecationWarning)``
@@ -431,16 +449,22 @@ def warns_deprecated_sympy():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(skip_under_pyodide(mes), decorator to skip a test if running under pyodide/wasm) over Any ║
+# ║ Path(skip_under_pyodide(message), <unspecified:skip_under_pyodide>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ skip_under_pyodide : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 86ce154eb142d2d6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testingtest.skip_under_pyodide","kind":"function","src_hash":"a6d68aaaaf39fce1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"skip_under_pyodide(mes)","rhs":"decorator to skip a test if running under pyodide/wasm","over":{"base":"Any"},"name":"skip_under_pyodide_correct"},"guarantee":"decorator to skip a test if running under pyodide/wasm","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testingtest.skip_under_pyodide_correct","statement":"Path(skip_under_pyodide(x), decorator to skip a test if running under pyodide/wasm)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"86ce154eb142d2d6"}
+# @cctt_verify {"v":2,"sym":"sympy.testingtest.skip_under_pyodide","kind":"function","src_hash":"a6d68aaaaf39fce1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"skip_under_pyodide(message)","rhs":"<unspecified:skip_under_pyodide>","over":{"base":"Any"},"name":"skip_under_pyodide_correct"},"guarantee":"decorator to skip a test if running under pyodide/wasm","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testingtest.skip_under_pyodide_correct","statement":"Path(skip_under_pyodide(x), decorator to skip a test if running under pyodide/wasm)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"86ce154eb142d2d6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def skip_under_pyodide(message):
     """Decorator to skip a test if running under Pyodide/WASM."""
     def decorator(test_func):

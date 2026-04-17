@@ -30,16 +30,24 @@ from sympy.testing.pytest import raises
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_idiff(), test_idiff produces the expected output) over Any ║
+# ║ Path(test_idiff(), ans == idiff(circ, y, x, 3) and ans == idiff(circ, [y], x, 3) and idiff(circ, y, x, 3) == ans and ans.subs(y, solve(circ, y)[0]).equals(explicit) and True in [sol.diff(x, 3).equals(explicit) for sol in solve(circ, y)] and idiff(x + t + y, [y, t], x) == -Derivative(t, x) - 1 and idiff(f(x) * exp(f(x)) - x * exp(x), f(x), x) == (x + 1) * exp(x) * exp(-f(x)) / (f(x) + 1) and idiff(f(x) - y * exp(x), [f(x), y], x) == (y + Derivative(y, x)) * exp(x) and idiff(f(x) - y * exp(x), [y, f(x)], x) == -y + Derivative(f(x), x) * exp(-x) and idiff(f(x) - g(x), [f(x), g(x)], x) == Derivative(g(x), x) and idiff(fxy, y, x) == -20 * sin(x) * cos(x) + 2 * tan(x) ** 3 + 2 * tan(x) + sinh(x / 10) / 5 + 20 * cos(x) / x - 20 * sin(x) / x ** 2 + 20 / x ** 3) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_idiff : Any → {Any | ans == idiff(circ, y, x, 3)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  ans == idiff(circ, y, x, 3)                    ║
+# ║   ensures:  ans == idiff(circ, [y], x, 3)                  ║
+# ║   ensures:  idiff(circ, y, x, 3) == ans                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_idiff : Any → {Any | result satisfies: ans == id...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c42e586d46607175  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 32c157319b7234eb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.tests.test_util.test_idiff","kind":"function","src_hash":"e817cdb9e6f7549d","in":{"base":"Any"},"out":{"base":"Any","pred":"ans == idiff(circ, y, x, 3) and ans == idiff(circ, [y], x, 3) and idiff(circ, y, x, 3) == ans and ans.subs(y, solve(circ, y)[0]).equals(explicit) and True in [sol.diff(x, 3).equals(explicit) for sol in solve(circ, y)] and idiff(x + t + y, [y, t], x) == -Derivative(t, x) - 1 and idiff(f(x) - y * exp(x), [f(x), y], x) == (y + Derivative(y, x)) * exp(x) and idiff(f(x) - y * exp(x), [y, f(x)], x) == -y + Derivative(f(x), x) * exp(-x) and idiff(f(x) - g(x), [f(x), g(x)], x) == Derivative(g(x), x)"},"spec":{"lhs":"test_idiff()","rhs":"test_idiff produces the expected output","over":{"base":"Any"},"name":"test_idiff_correct"},"guarantee":"test_idiff produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.tests.test_util.test_idiff_correct","statement":"Path(test_idiff(x), test_idiff produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c42e586d46607175"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.tests.test_util.test_idiff","kind":"function","src_hash":"e817cdb9e6f7549d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: ans == idiff(circ, y, x, 3) and ans == idiff(circ, [y], x, 3) and idiff(circ, y, x, 3) == ans and ans.subs(y, solve(circ, y)[0]).equals(explicit) and True in [sol.diff(x, 3).equals(explicit) for sol in solve(circ, y)] and idiff(x + t + y, [y, t], x) == -Derivative(t, x) - 1 and idiff(f(x) * exp(f(x)) - x * exp(x), f(x), x) == (x + 1) * exp(x) * exp(-f(x)) / (f(x) + 1) and idiff(f(x) - y * exp(x), [f(x), y], x) == (y + Derivative(y, x)) * exp(x) and idiff(f(x) - y * exp(x), [y, f(x)], x) == -y + Derivative(f(x), x) * exp(-x) and idiff(f(x) - g(x), [f(x), g(x)], x) == Derivative(g(x), x) and idiff(fxy, y, x) == -20 * sin(x) * cos(x) + 2 * tan(x) ** 3 + 2 * tan(x) + sinh(x / 10) / 5 + 20 * cos(x) / x - 20 * sin(x) / x ** 2 + 20 / x ** 3"},"spec":{"lhs":"test_idiff()","rhs":"ans == idiff(circ, y, x, 3) and ans == idiff(circ, [y], x, 3) and idiff(circ, y, x, 3) == ans and ans.subs(y, solve(circ, y)[0]).equals(explicit) and True in [sol.diff(x, 3).equals(explicit) for sol in solve(circ, y)] and idiff(x + t + y, [y, t], x) == -Derivative(t, x) - 1 and idiff(f(x) * exp(f(x)) - x * exp(x), f(x), x) == (x + 1) * exp(x) * exp(-f(x)) / (f(x) + 1) and idiff(f(x) - y * exp(x), [f(x), y], x) == (y + Derivative(y, x)) * exp(x) and idiff(f(x) - y * exp(x), [y, f(x)], x) == -y + Derivative(f(x), x) * exp(-x) and idiff(f(x) - g(x), [f(x), g(x)], x) == Derivative(g(x), x) and idiff(fxy, y, x) == -20 * sin(x) * cos(x) + 2 * tan(x) ** 3 + 2 * tan(x) + sinh(x / 10) / 5 + 20 * cos(x) / x - 20 * sin(x) / x ** 2 + 20 / x ** 3","over":{"base":"Any"},"name":"test_idiff_correct"},"guarantee":"ans == idiff(circ, y, x, 3); ans == idiff(circ, [y], x, 3); idiff(circ, y, x, 3) == ans","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.tests.test_util.test_idiff_correct","statement":"Path(test_idiff(x), ans == idiff(circ, y, x, 3); ans == idiff(circ, [y], x, 3); idiff(circ, y, x, 3) == ans)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"32c157319b7234eb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["ans == idiff(circ, y, x, 3)","ans == idiff(circ, [y], x, 3)","idiff(circ, y, x, 3) == ans","ans.subs(y, solve(circ, y)[0]).equals(explicit)","True in [sol.diff(x, 3).equals(explicit) for sol in solve(circ, y)]","idiff(x + t + y, [y, t], x) == -Derivative(t, x) - 1","idiff(f(x) * exp(f(x)) - x * exp(x), f(x), x) == (x + 1) * exp(x) * exp(-f(x)) / (f(x) + 1)","idiff(f(x) - y * exp(x), [f(x), y], x) == (y + Derivative(y, x)) * exp(x)","idiff(f(x) - y * exp(x), [y, f(x)], x) == -y + Derivative(f(x), x) * exp(-x)","idiff(f(x) - g(x), [f(x), g(x)], x) == Derivative(g(x), x)","idiff(fxy, y, x) == -20 * sin(x) * cos(x) + 2 * tan(x) ** 3 + 2 * tan(x) + sinh(x / 10) / 5 + 20 * cos(x) / x - 20 * sin(x) / x ** 2 + 20 / x ** 3"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def test_idiff():
     x = Symbol('x', real=True)
     y = Symbol('y', real=True)
@@ -67,16 +75,24 @@ def test_idiff():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_intersection(), test_intersection produces the expected output) over Any ║
+# ║ Path(test_intersection(), intersection(Point(0, 0)) == [] and intersection(Segment((0, 0), (2, 0)), Segment((-1, 0), (1, 0)), Line((0, 0), (0, 1)), pairwise=True) == [Point(0, 0), Segment((0, 0), (1, 0))] and intersection(Line((0, 0), (0, 1)), Segment((0, 0), (2, 0)), Segment((-1, 0), (1, 0)), pairwise=True) == [Point(0, 0), Segment((0, 0), (1, 0))] and intersection(Line((0, 0), (0, 1)), Segment((0, 0), (2, 0)), Segment((-1, 0), (1, 0)), Line((0, 0), slope=1), pairwise=True) == [Point(0, 0), Segment((0, 0), (1, 0))] and c == pytest.approx(Point2D(0.000714285723396502, -1.99999996811224, evaluate=False).coordinates) and c2 == pytest.approx(Point2D(0.000714285723396502, -1.99999996811224, evaluate=False).coordinates) and c[0]._prec == 53 and c2[0]._prec == 20) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_intersection : Any → {Any | intersection(Point(0...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  intersection(Point(0, 0)) == []                ║
+# ║   ensures:  intersection(Segment((0, 0), (2, 0)), Seg...   ║
+# ║   ensures:  intersection(Line((0, 0), (0, 1)), Segmen...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_intersection : Any → {Any | result satisfies: in...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b282bee35dc2d972  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bd1aa6996fada28d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.tests.test_util.test_intersection","kind":"function","src_hash":"f1188e8cc06ec5d2","in":{"base":"Any"},"out":{"base":"Any","pred":"intersection(Point(0, 0)) == [] and c[0]._prec == 53 and c2[0]._prec == 20"},"spec":{"lhs":"test_intersection()","rhs":"test_intersection produces the expected output","over":{"base":"Any"},"name":"test_intersection_correct"},"guarantee":"test_intersection produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.tests.test_util.test_intersection_correct","statement":"Path(test_intersection(x), test_intersection produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b282bee35dc2d972"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.tests.test_util.test_intersection","kind":"function","src_hash":"f1188e8cc06ec5d2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: intersection(Point(0, 0)) == [] and intersection(Segment((0, 0), (2, 0)), Segment((-1, 0), (1, 0)), Line((0, 0), (0, 1)), pairwise=True) == [Point(0, 0), Segment((0, 0), (1, 0))] and intersection(Line((0, 0), (0, 1)), Segment((0, 0), (2, 0)), Segment((-1, 0), (1, 0)), pairwise=True) == [Point(0, 0), Segment((0, 0), (1, 0))] and intersection(Line((0, 0), (0, 1)), Segment((0, 0), (2, 0)), Segment((-1, 0), (1, 0)), Line((0, 0), slope=1), pairwise=True) == [Point(0, 0), Segment((0, 0), (1, 0))] and c == pytest.approx(Point2D(0.000714285723396502, -1.99999996811224, evaluate=False).coordinates) and c2 == pytest.approx(Point2D(0.000714285723396502, -1.99999996811224, evaluate=False).coordinates) and c[0]._prec == 53 and c2[0]._prec == 20"},"spec":{"lhs":"test_intersection()","rhs":"intersection(Point(0, 0)) == [] and intersection(Segment((0, 0), (2, 0)), Segment((-1, 0), (1, 0)), Line((0, 0), (0, 1)), pairwise=True) == [Point(0, 0), Segment((0, 0), (1, 0))] and intersection(Line((0, 0), (0, 1)), Segment((0, 0), (2, 0)), Segment((-1, 0), (1, 0)), pairwise=True) == [Point(0, 0), Segment((0, 0), (1, 0))] and intersection(Line((0, 0), (0, 1)), Segment((0, 0), (2, 0)), Segment((-1, 0), (1, 0)), Line((0, 0), slope=1), pairwise=True) == [Point(0, 0), Segment((0, 0), (1, 0))] and c == pytest.approx(Point2D(0.000714285723396502, -1.99999996811224, evaluate=False).coordinates) and c2 == pytest.approx(Point2D(0.000714285723396502, -1.99999996811224, evaluate=False).coordinates) and c[0]._prec == 53 and c2[0]._prec == 20","over":{"base":"Any"},"name":"test_intersection_correct"},"guarantee":"intersection(Point(0, 0)) == []; intersection(Segment((0, 0), (2, 0)), Segment((-1, 0), (1, 0)), Line((0, 0), (0, 1)), pairwise=True) == [Point(0, 0), Segment((0, 0), (1, 0))]; intersection(Line((0, 0), (0, 1)), Segment((0, 0), (2, 0)), Segment((-1, 0), (1, 0)), pairwise=True) == [Point(0, 0), Segment((0, 0), (1, 0))]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.tests.test_util.test_intersection_correct","statement":"Path(test_intersection(x), intersection(Point(0, 0)) == []; intersection(Segment((0, 0), (2, 0)), Segment((-1, 0), (1, 0)), Line((0, 0), (0, 1)), pairwise=True) == [Point(0, 0), Segment((0, 0), (1, 0))]; intersection(Line((0, 0), (0, 1)), Segment((0, 0), (2, 0)), Segment((-1, 0), (1, 0)), pairwise=True) == [Point(0, 0), Segment((0, 0), (1, 0))])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bd1aa6996fada28d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["intersection(Point(0, 0)) == []","intersection(Segment((0, 0), (2, 0)), Segment((-1, 0), (1, 0)), Line((0, 0), (0, 1)), pairwise=True) == [Point(0, 0), Segment((0, 0), (1, 0))]","intersection(Line((0, 0), (0, 1)), Segment((0, 0), (2, 0)), Segment((-1, 0), (1, 0)), pairwise=True) == [Point(0, 0), Segment((0, 0), (1, 0))]","intersection(Line((0, 0), (0, 1)), Segment((0, 0), (2, 0)), Segment((-1, 0), (1, 0)), Line((0, 0), slope=1), pairwise=True) == [Point(0, 0), Segment((0, 0), (1, 0))]","c == pytest.approx(Point2D(0.000714285723396502, -1.99999996811224, evaluate=False).coordinates)","c2 == pytest.approx(Point2D(0.000714285723396502, -1.99999996811224, evaluate=False).coordinates)","c[0]._prec == 53","c2[0]._prec == 20"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_intersection():
     assert intersection(Point(0, 0)) == []
     raises(TypeError, lambda: intersection(Point(0, 0), 3))
@@ -116,16 +132,22 @@ def test_intersection():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_convex_hull(), test_convex_hull produces the expected output) over Any ║
+# ║ Path(test_convex_hull(), convex_hull(*points, **{'polygon': False}) == ([Point2D(-5, -2), Point2D(1, -1), Point2D(3, -1), Point2D(15, -4)], [Point2D(-5, -2), Point2D(15, -4)])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_convex_hull : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  convex_hull(*points, **{'polygon': False}...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_convex_hull : Any → {Any | result satisfies: con...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f2102892c14bbd12  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a2c43283b6fdda97  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.tests.test_util.test_convex_hull","kind":"function","src_hash":"82e775b6fe94fb78","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_convex_hull()","rhs":"test_convex_hull produces the expected output","over":{"base":"Any"},"name":"test_convex_hull_correct"},"guarantee":"test_convex_hull produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.tests.test_util.test_convex_hull_correct","statement":"Path(test_convex_hull(x), test_convex_hull produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f2102892c14bbd12"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.tests.test_util.test_convex_hull","kind":"function","src_hash":"82e775b6fe94fb78","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: convex_hull(*points, **{'polygon': False}) == ([Point2D(-5, -2), Point2D(1, -1), Point2D(3, -1), Point2D(15, -4)], [Point2D(-5, -2), Point2D(15, -4)])"},"spec":{"lhs":"test_convex_hull()","rhs":"convex_hull(*points, **{'polygon': False}) == ([Point2D(-5, -2), Point2D(1, -1), Point2D(3, -1), Point2D(15, -4)], [Point2D(-5, -2), Point2D(15, -4)])","over":{"base":"Any"},"name":"test_convex_hull_correct"},"guarantee":"convex_hull(*points, **{'polygon': False}) == ([Point2D(-5, -2), Point2D(1, -1), Point2D(3, -1), Point2D(15, -4)], [Point2D(-5, -2), Point2D(15, -4)])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.tests.test_util.test_convex_hull_correct","statement":"Path(test_convex_hull(x), convex_hull(*points, **{'polygon': False}) == ([Point2D(-5, -2), Point2D(1, -1), Point2D(3, -1), Point2D(15, -4)], [Point2D(-5, -2), Point2D(15, -4)]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a2c43283b6fdda97","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["convex_hull(*points, **{'polygon': False}) == ([Point2D(-5, -2), Point2D(1, -1), Point2D(3, -1), Point2D(15, -4)], [Point2D(-5, -2), Point2D(15, -4)])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_convex_hull():
     raises(TypeError, lambda: convex_hull(Point(0, 0), 3))
     points = [(1, -1), (1, -2), (3, -1), (-5, -2), (15, -4)]
@@ -135,16 +157,24 @@ def test_convex_hull():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_centroid(), test_centroid produces the expected output) over Any ║
+# ║ Path(test_centroid(), centroid(p, q) == Point(20, 40) / 3 and centroid(p, q) == Point(1, -sqrt(2) + 2) and centroid(Point(0, 0), Point(2, 0)) == Point(2, 0) / 2 and centroid(Point(0, 0), Point(0, 0), Point(2, 0)) == Point(2, 0) / 3) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_centroid : Any → {Any | centroid(p, q) == Point(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  centroid(p, q) == Point(20, 40) / 3            ║
+# ║   ensures:  centroid(p, q) == Point(1, -sqrt(2) + 2)       ║
+# ║   ensures:  centroid(Point(0, 0), Point(2, 0)) == Poi...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_centroid : Any → {Any | result satisfies: centro...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6a2ecb3a6df766f4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7b093c832d8fbe31  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.tests.test_util.test_centroid","kind":"function","src_hash":"845b417e6cf56298","in":{"base":"Any"},"out":{"base":"Any","pred":"centroid(p, q) == Point(20, 40) / 3 and centroid(p, q) == Point(1, -sqrt(2) + 2) and centroid(Point(0, 0), Point(2, 0)) == Point(2, 0) / 2 and centroid(Point(0, 0), Point(0, 0), Point(2, 0)) == Point(2, 0) / 3"},"spec":{"lhs":"test_centroid()","rhs":"test_centroid produces the expected output","over":{"base":"Any"},"name":"test_centroid_correct"},"guarantee":"test_centroid produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.tests.test_util.test_centroid_correct","statement":"Path(test_centroid(x), test_centroid produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6a2ecb3a6df766f4"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.tests.test_util.test_centroid","kind":"function","src_hash":"845b417e6cf56298","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: centroid(p, q) == Point(20, 40) / 3 and centroid(p, q) == Point(1, -sqrt(2) + 2) and centroid(Point(0, 0), Point(2, 0)) == Point(2, 0) / 2 and centroid(Point(0, 0), Point(0, 0), Point(2, 0)) == Point(2, 0) / 3"},"spec":{"lhs":"test_centroid()","rhs":"centroid(p, q) == Point(20, 40) / 3 and centroid(p, q) == Point(1, -sqrt(2) + 2) and centroid(Point(0, 0), Point(2, 0)) == Point(2, 0) / 2 and centroid(Point(0, 0), Point(0, 0), Point(2, 0)) == Point(2, 0) / 3","over":{"base":"Any"},"name":"test_centroid_correct"},"guarantee":"centroid(p, q) == Point(20, 40) / 3; centroid(p, q) == Point(1, -sqrt(2) + 2); centroid(Point(0, 0), Point(2, 0)) == Point(2, 0) / 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.tests.test_util.test_centroid_correct","statement":"Path(test_centroid(x), centroid(p, q) == Point(20, 40) / 3; centroid(p, q) == Point(1, -sqrt(2) + 2); centroid(Point(0, 0), Point(2, 0)) == Point(2, 0) / 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7b093c832d8fbe31","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["centroid(p, q) == Point(20, 40) / 3","centroid(p, q) == Point(1, -sqrt(2) + 2)","centroid(Point(0, 0), Point(2, 0)) == Point(2, 0) / 2","centroid(Point(0, 0), Point(0, 0), Point(2, 0)) == Point(2, 0) / 3"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_centroid():
     p = Polygon((0, 0), (10, 0), (10, 10))
     q = p.translate(0, 20)
@@ -157,16 +187,24 @@ def test_centroid():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_farthest_points_closest_points(), test_farthest_points_closest_points produces the expected output) over Any ║
+# ║ Path(test_farthest_points_closest_points(), closest_points(b, c, a) == ans and farthest_points(b, c, a) == ans and farthest_points(*points) == {(Point2D(-5, 2), Point2D(15, 4))} and farthest_points(*points) == {(Point2D(-5, -2), Point2D(15, -4))} and farthest_points((1, 1), (0, 0)) == {(Point2D(0, 0), Point2D(1, 1))}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_farthest_points_closest_points : Any → {Any | cl...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  closest_points(b, c, a) == ans                 ║
+# ║   ensures:  farthest_points(b, c, a) == ans                ║
+# ║   ensures:  farthest_points(*points) == {(Point2D(-5,...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_farthest_points_closest_points : Any → {Any | re...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1185b252dbf417bd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.8ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e0cb2a7a32652855  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.tests.test_util.test_farthest_points_closest_points","kind":"function","src_hash":"42ca1d243eee0456","in":{"base":"Any"},"out":{"base":"Any","pred":"closest_points(b, c, a) == ans and farthest_points(b, c, a) == ans and farthest_points(*points) == {(Point2D(-5, 2), Point2D(15, 4))} and farthest_points(*points) == {(Point2D(-5, -2), Point2D(15, -4))} and farthest_points((1, 1), (0, 0)) == {(Point2D(0, 0), Point2D(1, 1))} and a.distance(b) == d and ans == _ordered_points(ans) and a.distance(b) == d and ans == _ordered_points(ans)"},"spec":{"lhs":"test_farthest_points_closest_points()","rhs":"test_farthest_points_closest_points produces the expected output","over":{"base":"Any"},"name":"test_farthest_points_closest_points_correct"},"guarantee":"test_farthest_points_closest_points produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.tests.test_util.test_farthest_points_closest_points_correct","statement":"Path(test_farthest_points_closest_points(x), test_farthest_points_closest_points produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1185b252dbf417bd"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.tests.test_util.test_farthest_points_closest_points","kind":"function","src_hash":"42ca1d243eee0456","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: closest_points(b, c, a) == ans and farthest_points(b, c, a) == ans and farthest_points(*points) == {(Point2D(-5, 2), Point2D(15, 4))} and farthest_points(*points) == {(Point2D(-5, -2), Point2D(15, -4))} and farthest_points((1, 1), (0, 0)) == {(Point2D(0, 0), Point2D(1, 1))}"},"spec":{"lhs":"test_farthest_points_closest_points()","rhs":"closest_points(b, c, a) == ans and farthest_points(b, c, a) == ans and farthest_points(*points) == {(Point2D(-5, 2), Point2D(15, 4))} and farthest_points(*points) == {(Point2D(-5, -2), Point2D(15, -4))} and farthest_points((1, 1), (0, 0)) == {(Point2D(0, 0), Point2D(1, 1))}","over":{"base":"Any"},"name":"test_farthest_points_closest_points_correct"},"guarantee":"closest_points(b, c, a) == ans; farthest_points(b, c, a) == ans; farthest_points(*points) == {(Point2D(-5, 2), Point2D(15, 4))}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.tests.test_util.test_farthest_points_closest_points_correct","statement":"Path(test_farthest_points_closest_points(x), closest_points(b, c, a) == ans; farthest_points(b, c, a) == ans; farthest_points(*points) == {(Point2D(-5, 2), Point2D(15, 4))})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e0cb2a7a32652855","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["closest_points(b, c, a) == ans","farthest_points(b, c, a) == ans","farthest_points(*points) == {(Point2D(-5, 2), Point2D(15, 4))}","farthest_points(*points) == {(Point2D(-5, -2), Point2D(15, -4))}","farthest_points((1, 1), (0, 0)) == {(Point2D(0, 0), Point2D(1, 1))}"],"pure":false,"effects":{"effect_type":"nondeterministic","calls_mutating":["points.add"],"nondeterministic_sources":["randint"]},"state_contract":{"modifies":["points.*"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"assumed","binding":true}}
 def test_farthest_points_closest_points():
     from sympy.core.random import randint
     from sympy.utilities.iterables import subsets
@@ -233,16 +271,23 @@ def test_farthest_points_closest_points():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_are_coplanar(), test_are_coplanar produces the expected output) over Any ║
+# ║ Path(test_are_coplanar(), are_coplanar(a, b, c) == False and are_coplanar(a, d) == False) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_are_coplanar : Any → {Any | are_coplanar(a, b, c...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  are_coplanar(a, b, c) == False                 ║
+# ║   ensures:  are_coplanar(a, d) == False                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_are_coplanar : Any → {Any | result satisfies: ar...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7fa55e84db386c77  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0c2cd274e9547eea  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.tests.test_util.test_are_coplanar","kind":"function","src_hash":"02d5cc7befb89f75","in":{"base":"Any"},"out":{"base":"Any","pred":"are_coplanar(a, b, c) == False and are_coplanar(a, d) == False"},"spec":{"lhs":"test_are_coplanar()","rhs":"test_are_coplanar produces the expected output","over":{"base":"Any"},"name":"test_are_coplanar_correct"},"guarantee":"test_are_coplanar produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.tests.test_util.test_are_coplanar_correct","statement":"Path(test_are_coplanar(x), test_are_coplanar produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7fa55e84db386c77"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.tests.test_util.test_are_coplanar","kind":"function","src_hash":"02d5cc7befb89f75","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: are_coplanar(a, b, c) == False and are_coplanar(a, d) == False"},"spec":{"lhs":"test_are_coplanar()","rhs":"are_coplanar(a, b, c) == False and are_coplanar(a, d) == False","over":{"base":"Any"},"name":"test_are_coplanar_correct"},"guarantee":"are_coplanar(a, b, c) == False; are_coplanar(a, d) == False","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.tests.test_util.test_are_coplanar_correct","statement":"Path(test_are_coplanar(x), are_coplanar(a, b, c) == False; are_coplanar(a, d) == False)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0c2cd274e9547eea","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["are_coplanar(a, b, c) == False","are_coplanar(a, d) == False"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_are_coplanar():
     a = Line3D(Point3D(5, 0, 0), Point3D(1, -1, 1))
     b = Line3D(Point3D(0, -2, 0), Point3D(3, 1, 1))

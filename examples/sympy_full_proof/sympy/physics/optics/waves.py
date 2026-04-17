@@ -44,14 +44,20 @@ c = speed_of_light.convert_to(meter/second)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(TWave(*args), correctly constructs a TWave instance) over {Any | isinstance(other, TWave) and isinstance(other, Number)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Expr)                         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ TWave : {Any | isinstance(other, TWave) and isinstanc...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8cae5b7d4ba1121c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.optics.waves.TWave","kind":"class","src_hash":"242f241671e8f7ed","in":{"base":"Any","pred":"isinstance(other, TWave) and isinstance(other, Number)"},"out":{"base":"Any"},"spec":{"lhs":"TWave(*args)","rhs":"correctly constructs a TWave instance","over":{"base":"Any","pred":"isinstance(other, TWave) and isinstance(other, Number)"},"name":"TWave_class_invariant"},"guarantee":"correctly constructs a TWave instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8cae5b7d4ba1121c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.optics.waves.TWave","kind":"class","src_hash":"242f241671e8f7ed","in":{"base":"Any","pred":"isinstance(other, TWave) and isinstance(other, Number)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Expr)"},"spec":{"lhs":"TWave(*args)","rhs":"correctly constructs a TWave instance","over":{"base":"Any","pred":"isinstance(other, TWave) and isinstance(other, Number)"},"name":"TWave_class_invariant"},"guarantee":"isinstance(self, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8cae5b7d4ba1121c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Expr)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function TWave not found in source"]}}
 class TWave(Expr):
 
     r"""
@@ -115,16 +121,23 @@ class TWave(Expr):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, amplitude, frequency), <unspecified:__new__>) over {Any | not (frequency is None and time_period is None)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (frequency is None and time_period is...   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | not (frequency is None and time_peri...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 78daaa543aa914d3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.optics.waves.TWave.__new__","kind":"method","src_hash":"c4dba99928ef32ab","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"78daaa543aa914d3"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.optics.waves.TWave.__new__","kind":"method","src_hash":"c4dba99928ef32ab","in":{"base":"Any","pred":"not (frequency is None and time_period is None)"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, amplitude, frequency)","rhs":"<unspecified:__new__>","over":{"base":"Any","pred":"not (frequency is None and time_period is None)"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"78daaa543aa914d3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (frequency is None and time_period is None)"],"pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(
             cls,
             amplitude,
@@ -156,16 +169,22 @@ class TWave(Expr):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(amplitude(), returns the amplitude attribute) over Any ║
+# ║ Path(amplitude(), self.args[0]) over Any                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ amplitude : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 61ad6edb30da188b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.optics.waves.TWave.amplitude","kind":"property","src_hash":"dff903140cff0483","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"amplitude()","rhs":"returns the amplitude attribute","over":{"base":"Any"},"name":"amplitude_correct"},"guarantee":"returns the amplitude attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"61ad6edb30da188b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.optics.waves.TWave.amplitude","kind":"property","src_hash":"dff903140cff0483","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"amplitude()","rhs":"self.args[0]","over":{"base":"Any"},"name":"amplitude_correct"},"guarantee":"returns self.args[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"61ad6edb30da188b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def amplitude(self):
         """
         Returns the amplitude of the wave.
@@ -184,16 +203,22 @@ class TWave(Expr):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(frequency(), returns the frequency attribute) over Any ║
+# ║ Path(frequency(), self.args[1]) over Any                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[1]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ frequency : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ce756a007a1a5acd           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.optics.waves.TWave.frequency","kind":"property","src_hash":"69a32febb16e3e06","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"frequency()","rhs":"returns the frequency attribute","over":{"base":"Any"},"name":"frequency_correct"},"guarantee":"returns the frequency attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ce756a007a1a5acd"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.optics.waves.TWave.frequency","kind":"property","src_hash":"69a32febb16e3e06","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"frequency()","rhs":"self.args[1]","over":{"base":"Any"},"name":"frequency_correct"},"guarantee":"returns self.args[1]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ce756a007a1a5acd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[1]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def frequency(self):
         """
         Returns the frequency of the wave,
@@ -213,16 +238,22 @@ class TWave(Expr):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(phase(), returns the phase attribute) over Any        ║
+# ║ Path(phase(), self.args[2]) over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[2]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ phase : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5a9fccc6725685c0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.optics.waves.TWave.phase","kind":"property","src_hash":"337795281b912fe3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"phase()","rhs":"returns the phase attribute","over":{"base":"Any"},"name":"phase_correct"},"guarantee":"returns the phase attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5a9fccc6725685c0"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.optics.waves.TWave.phase","kind":"property","src_hash":"337795281b912fe3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"phase()","rhs":"self.args[2]","over":{"base":"Any"},"name":"phase_correct"},"guarantee":"returns self.args[2]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5a9fccc6725685c0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[2]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def phase(self):
         """
         Returns the phase angle of the wave,
@@ -242,16 +273,22 @@ class TWave(Expr):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(time_period(), returns the time_period attribute) over Any ║
+# ║ Path(time_period(), self.args[3]) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[3]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ time_period : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9514d007b3c0e0ca           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.optics.waves.TWave.time_period","kind":"property","src_hash":"31c1d708082c91c0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"time_period()","rhs":"returns the time_period attribute","over":{"base":"Any"},"name":"time_period_correct"},"guarantee":"returns the time_period attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9514d007b3c0e0ca"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.optics.waves.TWave.time_period","kind":"property","src_hash":"31c1d708082c91c0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"time_period()","rhs":"self.args[3]","over":{"base":"Any"},"name":"time_period_correct"},"guarantee":"returns self.args[3]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9514d007b3c0e0ca","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[3]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def time_period(self):
         """
         Returns the temporal period of the wave,
@@ -271,16 +308,22 @@ class TWave(Expr):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(n(), returns the n attribute) over Any                ║
+# ║ Path(n(), self.args[4]) over Any                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[4]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ n : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 24e8ce15b325691a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.optics.waves.TWave.n","kind":"property","src_hash":"240179b963efaec9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"n()","rhs":"returns the n attribute","over":{"base":"Any"},"name":"n_correct"},"guarantee":"returns the n attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"24e8ce15b325691a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.optics.waves.TWave.n","kind":"property","src_hash":"240179b963efaec9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"n()","rhs":"self.args[4]","over":{"base":"Any"},"name":"n_correct"},"guarantee":"returns self.args[4]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"24e8ce15b325691a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[4]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def n(self):
         """
         Returns the refractive index of the medium
@@ -289,16 +332,22 @@ class TWave(Expr):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(wavelength(), returns the wavelength attribute) over Any ║
+# ║ Path(wavelength(), c / (self.frequency * self.n)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  c / (self.frequency * self.n)                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ wavelength : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 053b1ba0cb995b29           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.optics.waves.TWave.wavelength","kind":"property","src_hash":"74df9a7b3d48ec7c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"wavelength()","rhs":"returns the wavelength attribute","over":{"base":"Any"},"name":"wavelength_correct"},"guarantee":"returns the wavelength attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"053b1ba0cb995b29"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.optics.waves.TWave.wavelength","kind":"property","src_hash":"74df9a7b3d48ec7c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"wavelength()","rhs":"c / (self.frequency * self.n)","over":{"base":"Any"},"name":"wavelength_correct"},"guarantee":"returns c / (self.frequency * self.n)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"053b1ba0cb995b29","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"c / (self.frequency * self.n)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.frequency","self.n"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def wavelength(self):
         """
         Returns the wavelength (spatial period) of the wave,
@@ -320,16 +369,22 @@ class TWave(Expr):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(speed(), returns the speed attribute) over Any        ║
+# ║ Path(speed(), self.wavelength * self.frequency) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.wavelength * self.frequency               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ speed : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0d4511b901412fe8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.optics.waves.TWave.speed","kind":"property","src_hash":"80eb63ae6600c220","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"speed()","rhs":"returns the speed attribute","over":{"base":"Any"},"name":"speed_correct"},"guarantee":"returns the speed attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0d4511b901412fe8"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.optics.waves.TWave.speed","kind":"property","src_hash":"80eb63ae6600c220","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"speed()","rhs":"self.wavelength * self.frequency","over":{"base":"Any"},"name":"speed_correct"},"guarantee":"returns self.wavelength * self.frequency","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0d4511b901412fe8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.wavelength * self.frequency","pure":false,"effects":{"effect_type":"reads_state","reads":["self.frequency","self.wavelength"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def speed(self):
         """
         Returns the propagation speed of the wave,
@@ -350,16 +405,22 @@ class TWave(Expr):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(angular_velocity(), returns the angular_velocity attribute) over Any ║
+# ║ Path(angular_velocity(), 2 * pi * self.frequency) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  2 * pi * self.frequency                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ angular_velocity : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 790f6527e1ef3207           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.optics.waves.TWave.angular_velocity","kind":"property","src_hash":"3e138af7545bba21","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"angular_velocity()","rhs":"returns the angular_velocity attribute","over":{"base":"Any"},"name":"angular_velocity_correct"},"guarantee":"returns the angular_velocity attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"790f6527e1ef3207"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.optics.waves.TWave.angular_velocity","kind":"property","src_hash":"3e138af7545bba21","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"angular_velocity()","rhs":"2 * pi * self.frequency","over":{"base":"Any"},"name":"angular_velocity_correct"},"guarantee":"returns 2 * pi * self.frequency","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"790f6527e1ef3207","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"2 * pi * self.frequency","pure":false,"effects":{"effect_type":"reads_state","reads":["self.frequency"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def angular_velocity(self):
         """
         Returns the angular velocity of the wave,
@@ -379,16 +440,22 @@ class TWave(Expr):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(wavenumber(), returns the wavenumber attribute) over Any ║
+# ║ Path(wavenumber(), 2 * pi / self.wavelength) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  2 * pi / self.wavelength                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ wavenumber : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2ec9d97ecf888512           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.optics.waves.TWave.wavenumber","kind":"property","src_hash":"2a4992f7e87e32b1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"wavenumber()","rhs":"returns the wavenumber attribute","over":{"base":"Any"},"name":"wavenumber_correct"},"guarantee":"returns the wavenumber attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2ec9d97ecf888512"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.optics.waves.TWave.wavenumber","kind":"property","src_hash":"2a4992f7e87e32b1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"wavenumber()","rhs":"2 * pi / self.wavelength","over":{"base":"Any"},"name":"wavenumber_correct"},"guarantee":"returns 2 * pi / self.wavelength","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2ec9d97ecf888512","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"2 * pi / self.wavelength","pure":false,"effects":{"effect_type":"reads_state","reads":["self.wavelength"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def wavenumber(self):
         """
         Returns the wavenumber of the wave,
@@ -407,16 +474,22 @@ class TWave(Expr):
         return 2*pi/self.wavelength
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__str__(), returns a human-readable string) over Any  ║
+# ║ Path(__str__(), type(self).__name__ + sstr(self.args)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  type(self).__name__ + sstr(self.args)          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __str__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 17e746721c07d2df           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.optics.waves.TWave.__str__","kind":"method","src_hash":"dc560c1fb5d55488","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"returns a human-readable string","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"17e746721c07d2df"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.optics.waves.TWave.__str__","kind":"method","src_hash":"dc560c1fb5d55488","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"type(self).__name__ + sstr(self.args)","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns type(self).__name__ + sstr(self.args)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"17e746721c07d2df","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"type(self).__name__ + sstr(self.args)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __str__(self):
         """String representation of a TWave."""
         from sympy.printing import sstr
@@ -425,16 +498,25 @@ class TWave(Expr):
     __repr__ = __str__
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__add__(oth), returns the sum/concatenation) over Any ║
+# ║ Path(__add__(other), TWave(sqrt(self.amplitude ** 2 + other.amplitude ** 2 + 2 * self.amplitude * other.amplitude * cos(self.phase - other.phase)), self.frequency, atan2(self.amplitude * sin(self.phase) + other.amplitude * sin(other.phase), self.amplitude * cos(self.phase) + other.amplitude * cos(other.phase)))) over {Any | hasattr(other, 'frequency') and hasattr(other, 'wavelength') and hasattr(other, 'amplitude') and hasattr(other, 'phase')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __add__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, 'frequency')                    ║
+# ║   requires: hasattr(other, 'wavelength')                   ║
+# ║   requires: hasattr(other, 'amplitude')                    ║
+# ║   returns:  TWave(sqrt(self.amplitude ** 2 + other.am...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __add__ : {Any | hasattr(other, 'frequency') and hasa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | bebc3f35852114f5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.optics.waves.TWave.__add__","kind":"method","src_hash":"e247aad019d37b2e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__add__(oth)","rhs":"returns the sum/concatenation","over":{"base":"Any"},"name":"__add___correct"},"guarantee":"returns the sum/concatenation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bebc3f35852114f5"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.optics.waves.TWave.__add__","kind":"method","src_hash":"e247aad019d37b2e","in":{"base":"Any","pred":"hasattr(other, 'frequency') and hasattr(other, 'wavelength') and hasattr(other, 'amplitude') and hasattr(other, 'phase')"},"out":{"base":"Any"},"spec":{"lhs":"__add__(other)","rhs":"TWave(sqrt(self.amplitude ** 2 + other.amplitude ** 2 + 2 * self.amplitude * other.amplitude * cos(self.phase - other.phase)), self.frequency, atan2(self.amplitude * sin(self.phase) + other.amplitude * sin(other.phase), self.amplitude * cos(self.phase) + other.amplitude * cos(other.phase)))","over":{"base":"Any","pred":"hasattr(other, 'frequency') and hasattr(other, 'wavelength') and hasattr(other, 'amplitude') and hasattr(other, 'phase')"},"name":"__add___correct"},"guarantee":"returns TWave(sqrt(self.amplitude ** 2 + other.amplitude ** 2 + 2 * self.amplitude * other.amplitude * cos(self.phase - other.phase)), self.frequency, atan2(self.amplitude * sin(self.phase) + other.amplitude * sin(other.phase), self.amplitude * cos(self.phase) + other.amplitude * cos(other.phase)))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bebc3f35852114f5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, 'frequency')","hasattr(other, 'wavelength')","hasattr(other, 'amplitude')","hasattr(other, 'phase')"],"returns_expr":"TWave(sqrt(self.amplitude ** 2 + other.amplitude ** 2 + 2 * self.amplitude * other.amplitude * cos(self.phase - other.phase)), self.frequency, atan2(self.amplitude * sin(self.phase) + other.amplitude * sin(other.phase), self.amplitude * cos(self.phase) + other.amplitude * cos(other.phase)))","pure":false,"effects":{"effect_type":"reads_state","reads":["other.amplitude","other.frequency","other.phase","other.wavelength","self.amplitude","self.frequency","self.phase","self.wavelength"],"raises":["NotImplementedError","TypeError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"],"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __add__(self, other):
         """
         Addition of two waves will result in their superposition.
@@ -458,16 +540,23 @@ class TWave(Expr):
             raise TypeError(type(other).__name__ + " and TWave objects cannot be added.")
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__mul__(oth), returns the product) over Any           ║
+# ║ Path(__mul__(other), <unspecified:__mul__>) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[Number]: isinstance(other, Number) => TWave(s...   ║
+# ║   fiber[Number]: not (isinstance(other, Number))           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __mul__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b02a9e215534e36e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.optics.waves.TWave.__mul__","kind":"method","src_hash":"33284ff5ac5babc0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__mul__(oth)","rhs":"returns the product","over":{"base":"Any"},"name":"__mul___correct"},"guarantee":"returns the product","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b02a9e215534e36e"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.optics.waves.TWave.__mul__","kind":"method","src_hash":"33284ff5ac5babc0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__mul__(other)","rhs":"<unspecified:__mul__>","over":{"base":"Any"},"name":"__mul___correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b02a9e215534e36e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"Number","guard":"isinstance(other, Number)","ensures":["result == TWave(self.amplitude * other, *self.args[1:])"],"decidability":"structural","returns_expr":"TWave(self.amplitude * other, *self.args[1:])"},{"name":"Number","guard":"not (isinstance(other, Number))","ensures":[],"decidability":"structural"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.amplitude","self.args"],"raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __mul__(self, other):
         """
         Multiplying a wave by a scalar rescales the amplitude of the wave.
@@ -479,132 +568,186 @@ class TWave(Expr):
             raise TypeError(type(other).__name__ + " and TWave objects cannot be multiplied.")
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__sub__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__sub__(other), self.__add__(-1 * other)) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.__add__(-1 * other)                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __sub__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | fe4cd1b3f0a292fc           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.optics.waves.TWave.__sub__","kind":"method","src_hash":"51998161ac5c7512","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__sub__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__sub___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fe4cd1b3f0a292fc"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.optics.waves.TWave.__sub__","kind":"method","src_hash":"51998161ac5c7512","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__sub__(other)","rhs":"self.__add__(-1 * other)","over":{"base":"Any"},"name":"__sub___correct"},"guarantee":"returns self.__add__(-1 * other)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fe4cd1b3f0a292fc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.__add__(-1 * other)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.__add__"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __sub__(self, other):
         return self.__add__(-1*other)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__neg__(), returns the additive inverse) over Any     ║
+# ║ Path(__neg__(), self.__mul__(-1)) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.__mul__(-1)                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __neg__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | cdf54d16e934cdf7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.optics.waves.TWave.__neg__","kind":"method","src_hash":"d98c8c7c69a8e641","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__neg__()","rhs":"returns the additive inverse","over":{"base":"Any"},"name":"__neg___correct"},"guarantee":"returns the additive inverse","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cdf54d16e934cdf7"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.optics.waves.TWave.__neg__","kind":"method","src_hash":"d98c8c7c69a8e641","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__neg__()","rhs":"self.__mul__(-1)","over":{"base":"Any"},"name":"__neg___correct"},"guarantee":"returns self.__mul__(-1)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cdf54d16e934cdf7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.__mul__(-1)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.__mul__"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __neg__(self):
         return self.__mul__(-1)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__radd__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__radd__(other), self.__add__(other)) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.__add__(other)                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __radd__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8de1b3b49fa661d8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.optics.waves.TWave.__radd__","kind":"method","src_hash":"9d629b952f3bc53b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__radd__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__radd___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8de1b3b49fa661d8"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.optics.waves.TWave.__radd__","kind":"method","src_hash":"9d629b952f3bc53b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__radd__(other)","rhs":"self.__add__(other)","over":{"base":"Any"},"name":"__radd___correct"},"guarantee":"returns self.__add__(other)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8de1b3b49fa661d8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.__add__(other)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.__add__"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __radd__(self, other):
         return self.__add__(other)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__rmul__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__rmul__(other), self.__mul__(other)) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.__mul__(other)                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __rmul__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 76590b69f2e353cf           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.optics.waves.TWave.__rmul__","kind":"method","src_hash":"8bc02efa491d6224","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rmul__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__rmul___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"76590b69f2e353cf"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.optics.waves.TWave.__rmul__","kind":"method","src_hash":"8bc02efa491d6224","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rmul__(other)","rhs":"self.__mul__(other)","over":{"base":"Any"},"name":"__rmul___correct"},"guarantee":"returns self.__mul__(other)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"76590b69f2e353cf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.__mul__(other)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.__mul__"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __rmul__(self, other):
         return self.__mul__(other)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__rsub__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__rsub__(other), (-self).__radd__(other)) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (-self).__radd__(other)                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __rsub__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5b01d8026a90c198           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.optics.waves.TWave.__rsub__","kind":"method","src_hash":"fc6bd0a0975dadad","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rsub__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__rsub___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5b01d8026a90c198"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.optics.waves.TWave.__rsub__","kind":"method","src_hash":"fc6bd0a0975dadad","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rsub__(other)","rhs":"(-self).__radd__(other)","over":{"base":"Any"},"name":"__rsub___correct"},"guarantee":"returns (-self).__radd__(other)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5b01d8026a90c198","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(-self).__radd__(other)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __rsub__(self, other):
         return (-self).__radd__(other)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_sin(*ar), id) over Any               ║
+# ║ Path(_eval_rewrite_as_sin(*args, **kwargs), id) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.amplitude * sin(self.wavenumber * Sy...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_sin : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | b1055d5366745ac4   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.optics.waves.TWave._eval_rewrite_as_sin","kind":"method","src_hash":"656bc839a4637d76","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_sin(*ar)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_sin_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sin","by":"library_axiom"},{"fn":"Symbol","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b1055d5366745ac4"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.optics.waves.TWave._eval_rewrite_as_sin","kind":"method","src_hash":"656bc839a4637d76","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_sin(*args, **kwargs)","rhs":"self.amplitude * sin(self.wavenumber * Symbol('x') - self.angular_velocity * Symbol('t') + self.phase + pi / 2, evaluate=False)","over":{"base":"Any"},"name":"_eval_rewrite_as_sin_correct","kind":"composition"},"guarantee":"returns self.amplitude * sin(self.wavenumber * Symbol('x') - self.angular_velocity * Symbol('t') + self.phase + pi / 2, evaluate=False)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sin","by":"library_axiom"},{"fn":"Symbol","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b1055d5366745ac4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.amplitude * sin(self.wavenumber * Symbol('x') - self.angular_velocity * Symbol('t') + self.phase + pi / 2, evaluate=False)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.amplitude","self.angular_velocity","self.phase","self.wavenumber"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_sin(self, *args, **kwargs):
         return self.amplitude*sin(self.wavenumber*Symbol('x')
             - self.angular_velocity*Symbol('t') + self.phase + pi/2, evaluate=False)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_cos(*ar), id) over Any               ║
+# ║ Path(_eval_rewrite_as_cos(*args, **kwargs), id) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.amplitude * cos(self.wavenumber * Sy...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_cos : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 336185bac48ffbcd   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.optics.waves.TWave._eval_rewrite_as_cos","kind":"method","src_hash":"5dfa08db7ca45c39","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_cos(*ar)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_cos_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"cos","by":"library_axiom"},{"fn":"Symbol","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"336185bac48ffbcd"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.optics.waves.TWave._eval_rewrite_as_cos","kind":"method","src_hash":"5dfa08db7ca45c39","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_cos(*args, **kwargs)","rhs":"self.amplitude * cos(self.wavenumber * Symbol('x') - self.angular_velocity * Symbol('t') + self.phase)","over":{"base":"Any"},"name":"_eval_rewrite_as_cos_correct","kind":"composition"},"guarantee":"returns self.amplitude * cos(self.wavenumber * Symbol('x') - self.angular_velocity * Symbol('t') + self.phase)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"cos","by":"library_axiom"},{"fn":"Symbol","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"336185bac48ffbcd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.amplitude * cos(self.wavenumber * Symbol('x') - self.angular_velocity * Symbol('t') + self.phase)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.amplitude","self.angular_velocity","self.phase","self.wavenumber"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_cos(self, *args, **kwargs):
         return self.amplitude*cos(self.wavenumber*Symbol('x')
             - self.angular_velocity*Symbol('t') + self.phase)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_pde(*ar), id) over Any               ║
+# ║ Path(_eval_rewrite_as_pde(*args, **kwargs), id) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Derivative(E(x, t), x, 2) + mu * epsilon ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_pde : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | a113046c312b8cfd   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.optics.waves.TWave._eval_rewrite_as_pde","kind":"method","src_hash":"eabe709720f32c9c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_pde(*ar)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_pde_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Derivative","by":"library_axiom"},{"fn":"E","by":"library_axiom"},{"fn":"Derivative","by":"library_axiom"},{"fn":"E","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a113046c312b8cfd"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.optics.waves.TWave._eval_rewrite_as_pde","kind":"method","src_hash":"eabe709720f32c9c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_pde(*args, **kwargs)","rhs":"Derivative(E(x, t), x, 2) + mu * epsilon * Derivative(E(x, t), t, 2)","over":{"base":"Any"},"name":"_eval_rewrite_as_pde_correct","kind":"composition"},"guarantee":"returns Derivative(E(x, t), x, 2) + mu * epsilon * Derivative(E(x, t), t, 2)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Derivative","by":"library_axiom"},{"fn":"E","by":"library_axiom"},{"fn":"Derivative","by":"library_axiom"},{"fn":"E","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a113046c312b8cfd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Derivative(E(x, t), x, 2) + mu * epsilon * Derivative(E(x, t), t, 2)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_pde(self, *args, **kwargs):
         mu, epsilon, x, t = symbols('mu, epsilon, x, t')
         E = Function('E')
         return Derivative(E(x, t), x, 2) + mu*epsilon*Derivative(E(x, t), t, 2)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_exp(*ar), id) over Any               ║
+# ║ Path(_eval_rewrite_as_exp(*args, **kwargs), id) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.amplitude * exp(I * (self.wavenumber...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_exp : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 3367f227a81dcd1f   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.optics.waves.TWave._eval_rewrite_as_exp","kind":"method","src_hash":"b58dac8ff76fb1ec","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_exp(*ar)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_exp_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"exp","by":"library_axiom"},{"fn":"Symbol","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3367f227a81dcd1f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.optics.waves.TWave._eval_rewrite_as_exp","kind":"method","src_hash":"b58dac8ff76fb1ec","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_exp(*args, **kwargs)","rhs":"self.amplitude * exp(I * (self.wavenumber * Symbol('x') - self.angular_velocity * Symbol('t') + self.phase))","over":{"base":"Any"},"name":"_eval_rewrite_as_exp_correct","kind":"composition"},"guarantee":"returns self.amplitude * exp(I * (self.wavenumber * Symbol('x') - self.angular_velocity * Symbol('t') + self.phase))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"exp","by":"library_axiom"},{"fn":"Symbol","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3367f227a81dcd1f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.amplitude * exp(I * (self.wavenumber * Symbol('x') - self.angular_velocity * Symbol('t') + self.phase))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.amplitude","self.angular_velocity","self.phase","self.wavenumber"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_exp(self, *args, **kwargs):
         return self.amplitude*exp(I*(self.wavenumber*Symbol('x')
             - self.angular_velocity*Symbol('t') + self.phase))

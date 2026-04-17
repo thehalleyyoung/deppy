@@ -49,14 +49,21 @@ __all__ = [
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a ActivationBase instance) preserved by ActivationBase(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ ActivationBase : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, ABC)                          ║
+# ║   ensures:  isinstance(self, _NamedMixin)                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ ActivationBase : Any → {Any | result satisfies: isins...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2e88edbd517689b5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.ActivationBase","kind":"class","src_hash":"c0b7e872063991cd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ActivationBase(*args)","rhs":"correctly constructs a ActivationBase instance","over":{"base":"Any"},"name":"ActivationBase_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a ActivationBase instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'name') and hasattr(self, '_e') and hasattr(self, '_a')","kind":"class","induction":"structural on name, _e, _a"}],"methods_preserving":["__init__","excitation","e","activation","a","order","state_vars","x","input_vars","r","constants","p","M","F","rhs","__eq__","__repr__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2e88edbd517689b5"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.ActivationBase","kind":"class","src_hash":"c0b7e872063991cd","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, ABC) and isinstance(self, _NamedMixin)"},"spec":{"lhs":"ActivationBase(*args)","rhs":"correctly constructs a ActivationBase instance","over":{"base":"Any"},"name":"ActivationBase_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, ABC); isinstance(self, _NamedMixin); preserves 3 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'name') and hasattr(self, '_e') and hasattr(self, '_a')","kind":"class","induction":"structural on name, _e, _a"}],"methods_preserving":["__init__","excitation","e","activation","a","order","state_vars","x","input_vars","r","constants","p","M","F","rhs","__eq__","__repr__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2e88edbd517689b5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, ABC)","isinstance(self, _NamedMixin)"],"invariants":["hasattr(self, 'name')","hasattr(self, '_e')","hasattr(self, '_a')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function ActivationBase not found in source"]}}
 class ActivationBase(ABC, _NamedMixin):
     """Abstract base class for all activation dynamics classes to inherit from.
 
@@ -70,16 +77,22 @@ class ActivationBase(ABC, _NamedMixin):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(nam), initializes the instance correctly) over Any ║
+# ║ Path(__init__(name), <unspecified:__init__>) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __init__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 87c0f29b2e4ecb68           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.ActivationBase.__init__","kind":"method","src_hash":"6cbd0e61a7251688","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(nam)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"87c0f29b2e4ecb68"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.ActivationBase.__init__","kind":"method","src_hash":"6cbd0e61a7251688","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(name)","rhs":"<unspecified:__init__>","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"87c0f29b2e4ecb68","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, name):
         """Initializer for ``ActivationBase``."""
         self.name = str(name)
@@ -91,16 +104,22 @@ class ActivationBase(ABC, _NamedMixin):
     @classmethod
     @abstractmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(with_defaults(cls), alternate constructor that provides recommended defaults for constants) over Any ║
+# ║ Path(with_defaults(cls, name), <unspecified:with_defaults>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ with_defaults : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | cd830b912aa6862e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.ActivationBase.with_defaults","kind":"classmethod","src_hash":"be8c73e59fcf51bc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"with_defaults(cls)","rhs":"alternate constructor that provides recommended defaults for constants","over":{"base":"Any"},"name":"with_defaults_correct"},"guarantee":"alternate constructor that provides recommended defaults for constants","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cd830b912aa6862e"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.ActivationBase.with_defaults","kind":"classmethod","src_hash":"be8c73e59fcf51bc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"with_defaults(cls, name)","rhs":"<unspecified:with_defaults>","over":{"base":"Any"},"name":"with_defaults_correct"},"guarantee":"alternate constructor that provides recommended defaults for constants","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cd830b912aa6862e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def with_defaults(cls, name):
         """Alternate constructor that provides recommended defaults for
         constants."""
@@ -108,16 +127,22 @@ class ActivationBase(ABC, _NamedMixin):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(excitation(), returns the excitation attribute) over Any ║
+# ║ Path(excitation(), self._e) over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._e                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ excitation : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | da37ee893e821eb7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.ActivationBase.excitation","kind":"property","src_hash":"58ca29638ca6a696","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"excitation()","rhs":"returns the excitation attribute","over":{"base":"Any"},"name":"excitation_correct"},"guarantee":"returns the excitation attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"da37ee893e821eb7"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.ActivationBase.excitation","kind":"property","src_hash":"58ca29638ca6a696","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"excitation()","rhs":"self._e","over":{"base":"Any"},"name":"excitation_correct"},"guarantee":"returns self._e","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"da37ee893e821eb7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._e","pure":false,"effects":{"effect_type":"reads_state","reads":["self._e"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def excitation(self):
         """Dynamic symbol representing excitation.
 
@@ -131,16 +156,22 @@ class ActivationBase(ABC, _NamedMixin):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(e(), returns the e attribute) over Any                ║
+# ║ Path(e(), self._e) over Any                                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._e                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ e : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b1741f289fc320cd           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.ActivationBase.e","kind":"property","src_hash":"8a8fa90281cd60e2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"e()","rhs":"returns the e attribute","over":{"base":"Any"},"name":"e_correct"},"guarantee":"returns the e attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b1741f289fc320cd"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.ActivationBase.e","kind":"property","src_hash":"8a8fa90281cd60e2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"e()","rhs":"self._e","over":{"base":"Any"},"name":"e_correct"},"guarantee":"returns self._e","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b1741f289fc320cd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._e","pure":false,"effects":{"effect_type":"reads_state","reads":["self._e"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def e(self):
         """Dynamic symbol representing excitation.
 
@@ -154,16 +185,22 @@ class ActivationBase(ABC, _NamedMixin):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(activation(), returns the activation attribute) over Any ║
+# ║ Path(activation(), self._a) over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._a                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ activation : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a01191860f039ad6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.ActivationBase.activation","kind":"property","src_hash":"12baebd11c0f38a6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"activation()","rhs":"returns the activation attribute","over":{"base":"Any"},"name":"activation_correct"},"guarantee":"returns the activation attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a01191860f039ad6"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.ActivationBase.activation","kind":"property","src_hash":"12baebd11c0f38a6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"activation()","rhs":"self._a","over":{"base":"Any"},"name":"activation_correct"},"guarantee":"returns self._a","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a01191860f039ad6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._a","pure":false,"effects":{"effect_type":"reads_state","reads":["self._a"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def activation(self):
         """Dynamic symbol representing activation.
 
@@ -177,16 +214,22 @@ class ActivationBase(ABC, _NamedMixin):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(a(), returns the a attribute) over Any                ║
+# ║ Path(a(), self._a) over Any                                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._a                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ a : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 74a1ba5a4c9b8ab3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.ActivationBase.a","kind":"property","src_hash":"682a37fcad4808a4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"a()","rhs":"returns the a attribute","over":{"base":"Any"},"name":"a_correct"},"guarantee":"returns the a attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"74a1ba5a4c9b8ab3"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.ActivationBase.a","kind":"property","src_hash":"682a37fcad4808a4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"a()","rhs":"self._a","over":{"base":"Any"},"name":"a_correct"},"guarantee":"returns self._a","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"74a1ba5a4c9b8ab3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._a","pure":false,"effects":{"effect_type":"reads_state","reads":["self._a"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def a(self):
         """Dynamic symbol representing activation.
 
@@ -201,16 +244,22 @@ class ActivationBase(ABC, _NamedMixin):
     @property
     @abstractmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(order(), returns the order attribute) over Any        ║
+# ║ Path(order(), <unspecified:order>) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ order : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6a073fc2b1fd8b8e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.ActivationBase.order","kind":"property","src_hash":"b21bd0330b483246","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"order()","rhs":"returns the order attribute","over":{"base":"Any"},"name":"order_correct"},"guarantee":"returns the order attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6a073fc2b1fd8b8e"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.ActivationBase.order","kind":"property","src_hash":"b21bd0330b483246","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"order()","rhs":"<unspecified:order>","over":{"base":"Any"},"name":"order_correct"},"guarantee":"returns the order attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6a073fc2b1fd8b8e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def order(self):
         """Order of the (differential) equation governing activation."""
         pass
@@ -218,16 +267,22 @@ class ActivationBase(ABC, _NamedMixin):
     @property
     @abstractmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(state_vars(), returns the state_vars attribute) over Any ║
+# ║ Path(state_vars(), <unspecified:state_vars>) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ state_vars : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b8be2d76f220350d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.ActivationBase.state_vars","kind":"property","src_hash":"dcac95c1ab6e14af","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"state_vars()","rhs":"returns the state_vars attribute","over":{"base":"Any"},"name":"state_vars_correct"},"guarantee":"returns the state_vars attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b8be2d76f220350d"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.ActivationBase.state_vars","kind":"property","src_hash":"dcac95c1ab6e14af","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"state_vars()","rhs":"<unspecified:state_vars>","over":{"base":"Any"},"name":"state_vars_correct"},"guarantee":"returns the state_vars attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b8be2d76f220350d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def state_vars(self):
         """Ordered column matrix of functions of time that represent the state
         variables.
@@ -243,16 +298,22 @@ class ActivationBase(ABC, _NamedMixin):
     @property
     @abstractmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(x(), returns the x attribute) over Any                ║
+# ║ Path(x(), <unspecified:x>) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ x : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f6d5df1b480c8292           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.ActivationBase.x","kind":"property","src_hash":"da5ce0910c068f7c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"x()","rhs":"returns the x attribute","over":{"base":"Any"},"name":"x_correct"},"guarantee":"returns the x attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f6d5df1b480c8292"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.ActivationBase.x","kind":"property","src_hash":"da5ce0910c068f7c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"x()","rhs":"<unspecified:x>","over":{"base":"Any"},"name":"x_correct"},"guarantee":"returns the x attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f6d5df1b480c8292","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def x(self):
         """Ordered column matrix of functions of time that represent the state
         variables.
@@ -268,16 +329,22 @@ class ActivationBase(ABC, _NamedMixin):
     @property
     @abstractmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(input_vars(), returns the input_vars attribute) over Any ║
+# ║ Path(input_vars(), <unspecified:input_vars>) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ input_vars : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 328531ac6a81b700           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.ActivationBase.input_vars","kind":"property","src_hash":"af5dbb739f1e6ea7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"input_vars()","rhs":"returns the input_vars attribute","over":{"base":"Any"},"name":"input_vars_correct"},"guarantee":"returns the input_vars attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"328531ac6a81b700"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.ActivationBase.input_vars","kind":"property","src_hash":"af5dbb739f1e6ea7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"input_vars()","rhs":"<unspecified:input_vars>","over":{"base":"Any"},"name":"input_vars_correct"},"guarantee":"returns the input_vars attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"328531ac6a81b700","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def input_vars(self):
         """Ordered column matrix of functions of time that represent the input
         variables.
@@ -293,16 +360,22 @@ class ActivationBase(ABC, _NamedMixin):
     @property
     @abstractmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(r(), returns the r attribute) over Any                ║
+# ║ Path(r(), <unspecified:r>) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ r : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 18c4dd5705bc4196           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.ActivationBase.r","kind":"property","src_hash":"76c399c0eaaf6f30","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"r()","rhs":"returns the r attribute","over":{"base":"Any"},"name":"r_correct"},"guarantee":"returns the r attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"18c4dd5705bc4196"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.ActivationBase.r","kind":"property","src_hash":"76c399c0eaaf6f30","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"r()","rhs":"<unspecified:r>","over":{"base":"Any"},"name":"r_correct"},"guarantee":"returns the r attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"18c4dd5705bc4196","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def r(self):
         """Ordered column matrix of functions of time that represent the input
         variables.
@@ -318,16 +391,22 @@ class ActivationBase(ABC, _NamedMixin):
     @property
     @abstractmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(constants(), returns the constants attribute) over Any ║
+# ║ Path(constants(), <unspecified:constants>) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ constants : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 73c31db9c39437be           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.ActivationBase.constants","kind":"property","src_hash":"3e03966085f95a7b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"constants()","rhs":"returns the constants attribute","over":{"base":"Any"},"name":"constants_correct"},"guarantee":"returns the constants attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"73c31db9c39437be"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.ActivationBase.constants","kind":"property","src_hash":"3e03966085f95a7b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"constants()","rhs":"<unspecified:constants>","over":{"base":"Any"},"name":"constants_correct"},"guarantee":"returns the constants attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"73c31db9c39437be","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def constants(self):
         """Ordered column matrix of non-time varying symbols present in ``M``
         and ``F``.
@@ -350,16 +429,22 @@ class ActivationBase(ABC, _NamedMixin):
     @property
     @abstractmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(p(), returns the p attribute) over Any                ║
+# ║ Path(p(), <unspecified:p>) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ p : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | dcf3dcdbb6c1b339           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.ActivationBase.p","kind":"property","src_hash":"ec818e0dd536efe3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"p()","rhs":"returns the p attribute","over":{"base":"Any"},"name":"p_correct"},"guarantee":"returns the p attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"dcf3dcdbb6c1b339"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.ActivationBase.p","kind":"property","src_hash":"ec818e0dd536efe3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"p()","rhs":"<unspecified:p>","over":{"base":"Any"},"name":"p_correct"},"guarantee":"returns the p attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"dcf3dcdbb6c1b339","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def p(self):
         """Ordered column matrix of non-time varying symbols present in ``M``
         and ``F``.
@@ -382,16 +467,22 @@ class ActivationBase(ABC, _NamedMixin):
     @property
     @abstractmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(M(), returns the M attribute) over Any                ║
+# ║ Path(M(), <unspecified:M>) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ M : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a4a6028cad38bb2d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.ActivationBase.M","kind":"property","src_hash":"7144ec0b96379404","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"M()","rhs":"returns the M attribute","over":{"base":"Any"},"name":"M_correct"},"guarantee":"returns the M attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a4a6028cad38bb2d"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.ActivationBase.M","kind":"property","src_hash":"7144ec0b96379404","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"M()","rhs":"<unspecified:M>","over":{"base":"Any"},"name":"M_correct"},"guarantee":"returns the M attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a4a6028cad38bb2d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def M(self):
         """Ordered square matrix of coefficients on the LHS of ``M x' = F``.
 
@@ -409,16 +500,22 @@ class ActivationBase(ABC, _NamedMixin):
     @property
     @abstractmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(F(), returns the F attribute) over Any                ║
+# ║ Path(F(), <unspecified:F>) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ F : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | af3cc70f5df949c4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.ActivationBase.F","kind":"property","src_hash":"653e60fecbdac5e8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"F()","rhs":"returns the F attribute","over":{"base":"Any"},"name":"F_correct"},"guarantee":"returns the F attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"af3cc70f5df949c4"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.ActivationBase.F","kind":"property","src_hash":"653e60fecbdac5e8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"F()","rhs":"<unspecified:F>","over":{"base":"Any"},"name":"F_correct"},"guarantee":"returns the F attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"af3cc70f5df949c4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def F(self):
         """Ordered column matrix of equations on the RHS of ``M x' = F``.
 
@@ -435,16 +532,22 @@ class ActivationBase(ABC, _NamedMixin):
 
     @abstractmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rhs(), explanation ===========) over Any              ║
+# ║ Path(rhs(), <unspecified:rhs>) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ rhs : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9d08af88f020bd75           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.ActivationBase.rhs","kind":"method","src_hash":"41fa34334d9ab872","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rhs()","rhs":"explanation ===========","over":{"base":"Any"},"name":"rhs_correct"},"guarantee":"explanation ===========","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9d08af88f020bd75"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.ActivationBase.rhs","kind":"method","src_hash":"41fa34334d9ab872","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rhs()","rhs":"<unspecified:rhs>","over":{"base":"Any"},"name":"rhs_correct"},"guarantee":"explanation ===========","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9d08af88f020bd75","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def rhs(self):
         """
 
@@ -460,16 +563,23 @@ class ActivationBase(ABC, _NamedMixin):
         pass
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__eq__(oth), correctly determines equality) over Any  ║
+# ║ Path(__eq__(other), <unspecified:__eq__>) over {Any | hasattr(other, 'name')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __eq__ : Any → Any                                         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, 'name')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __eq__ : {Any | hasattr(other, 'name')} → Any              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3f1272e25efcb57b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.ActivationBase.__eq__","kind":"method","src_hash":"c104ce2f13ddc281","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(oth)","rhs":"correctly determines equality","over":{"base":"Any"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3f1272e25efcb57b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.ActivationBase.__eq__","kind":"method","src_hash":"c104ce2f13ddc281","in":{"base":"Any","pred":"hasattr(other, 'name')"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(other)","rhs":"<unspecified:__eq__>","over":{"base":"Any","pred":"hasattr(other, 'name')"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3f1272e25efcb57b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, 'name')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.name","self.name"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __eq__(self, other):
         """Equality check for activation dynamics."""
         if type(self) != type(other):
@@ -479,16 +589,22 @@ class ActivationBase(ABC, _NamedMixin):
         return True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__repr__(), returns a faithful string representation) over Any ║
+# ║ Path(__repr__(), f'{self.__class__.__name__}({self.name!r})') over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  f'{self.__class__.__name__}({self.name!r})'    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __repr__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 45a6c256eb982c72           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.ActivationBase.__repr__","kind":"method","src_hash":"f0c7c362869f5b21","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"returns a faithful string representation","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns a faithful string representation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"45a6c256eb982c72"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.ActivationBase.__repr__","kind":"method","src_hash":"f0c7c362869f5b21","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"f'{self.__class__.__name__}({self.name!r})'","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns f'{self.__class__.__name__}({self.name!r})'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"45a6c256eb982c72","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"f'{self.__class__.__name__}({self.name!r})'","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","self.__class__","self.name"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __repr__(self):
         """Default representation of activation dynamics."""
         return f'{self.__class__.__name__}({self.name!r})'
@@ -497,14 +613,20 @@ class ActivationBase(ABC, _NamedMixin):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a ZerothOrderActivation instance) preserved by ZerothOrderActivation(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ ZerothOrderActivation : Any → Any                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, ActivationBase)               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ ZerothOrderActivation : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 43c261d9bc61c72f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.ZerothOrderActivation","kind":"class","src_hash":"9f6d6bd4647ccc6a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ZerothOrderActivation(*args)","rhs":"correctly constructs a ZerothOrderActivation instance","over":{"base":"Any"},"name":"ZerothOrderActivation_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a ZerothOrderActivation instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, '_a')","kind":"class","induction":"structural on _a"}],"methods_preserving":["__init__","order","state_vars","x","input_vars","r","constants","p","M","F","rhs"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"43c261d9bc61c72f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.ZerothOrderActivation","kind":"class","src_hash":"9f6d6bd4647ccc6a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, ActivationBase)"},"spec":{"lhs":"ZerothOrderActivation(*args)","rhs":"correctly constructs a ZerothOrderActivation instance","over":{"base":"Any"},"name":"ZerothOrderActivation_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, ActivationBase); preserves 1 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, '_a')","kind":"class","induction":"structural on _a"}],"methods_preserving":["__init__","order","state_vars","x","input_vars","r","constants","p","M","F","rhs"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"43c261d9bc61c72f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, ActivationBase)"],"invariants":["hasattr(self, '_a')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function ZerothOrderActivation not found in source"]}}
 class ZerothOrderActivation(ActivationBase):
     """Simple zeroth-order activation dynamics mapping excitation to
     activation.
@@ -522,16 +644,22 @@ class ZerothOrderActivation(ActivationBase):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(nam), initializes the instance correctly) over Any ║
+# ║ Path(__init__(name), <unspecified:__init__>) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __init__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c3b02b9256a41cd4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.ZerothOrderActivation.__init__","kind":"method","src_hash":"f306c9e8d5d06167","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(nam)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c3b02b9256a41cd4"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.ZerothOrderActivation.__init__","kind":"method","src_hash":"f306c9e8d5d06167","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(name)","rhs":"<unspecified:__init__>","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c3b02b9256a41cd4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, name):
         """Initializer for ``ZerothOrderActivation``.
 
@@ -551,16 +679,22 @@ class ZerothOrderActivation(ActivationBase):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(with_defaults(cls), alternate constructor that provides recommended defaults for constants) over Any ║
+# ║ Path(with_defaults(cls, name), cls(name)) over Any         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  cls(name)                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ with_defaults : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8f60bad28f7c5feb           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.ZerothOrderActivation.with_defaults","kind":"classmethod","src_hash":"dd740b0f7e095fd2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"with_defaults(cls)","rhs":"alternate constructor that provides recommended defaults for constants","over":{"base":"Any"},"name":"with_defaults_correct"},"guarantee":"alternate constructor that provides recommended defaults for constants","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8f60bad28f7c5feb"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.ZerothOrderActivation.with_defaults","kind":"classmethod","src_hash":"dd740b0f7e095fd2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"with_defaults(cls, name)","rhs":"cls(name)","over":{"base":"Any"},"name":"with_defaults_correct"},"guarantee":"returns cls(name)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8f60bad28f7c5feb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"cls(name)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def with_defaults(cls, name):
         """Alternate constructor that provides recommended defaults for
         constants.
@@ -578,32 +712,44 @@ class ZerothOrderActivation(ActivationBase):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(order(), returns the order attribute) over Any        ║
+# ║ Path(order(), 0) over Any                                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  0                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ order : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6bb416b8a0cbab8c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.ZerothOrderActivation.order","kind":"property","src_hash":"bf2212ade4b4d47c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"order()","rhs":"returns the order attribute","over":{"base":"Any"},"name":"order_correct"},"guarantee":"returns the order attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6bb416b8a0cbab8c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.ZerothOrderActivation.order","kind":"property","src_hash":"bf2212ade4b4d47c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"order()","rhs":"0","over":{"base":"Any"},"name":"order_correct"},"guarantee":"returns 0","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6bb416b8a0cbab8c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"0","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def order(self):
         """Order of the (differential) equation governing activation."""
         return 0
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(state_vars(), returns the state_vars attribute) over Any ║
+# ║ Path(state_vars(), zeros(0, 1)) over Any                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  zeros(0, 1)                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ state_vars : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b0abb7b41e4edee9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.ZerothOrderActivation.state_vars","kind":"property","src_hash":"9c7251e2f4e1bfeb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"state_vars()","rhs":"returns the state_vars attribute","over":{"base":"Any"},"name":"state_vars_correct"},"guarantee":"returns the state_vars attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b0abb7b41e4edee9"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.ZerothOrderActivation.state_vars","kind":"property","src_hash":"9c7251e2f4e1bfeb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"state_vars()","rhs":"zeros(0, 1)","over":{"base":"Any"},"name":"state_vars_correct"},"guarantee":"returns zeros(0, 1)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b0abb7b41e4edee9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"zeros(0, 1)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def state_vars(self):
         """Ordered column matrix of functions of time that represent the state
         variables.
@@ -622,16 +768,22 @@ class ZerothOrderActivation(ActivationBase):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(x(), returns the x attribute) over Any                ║
+# ║ Path(x(), zeros(0, 1)) over Any                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  zeros(0, 1)                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ x : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4d311473cf961caf           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.ZerothOrderActivation.x","kind":"property","src_hash":"29430286f0006624","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"x()","rhs":"returns the x attribute","over":{"base":"Any"},"name":"x_correct"},"guarantee":"returns the x attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4d311473cf961caf"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.ZerothOrderActivation.x","kind":"property","src_hash":"29430286f0006624","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"x()","rhs":"zeros(0, 1)","over":{"base":"Any"},"name":"x_correct"},"guarantee":"returns zeros(0, 1)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4d311473cf961caf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"zeros(0, 1)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def x(self):
         """Ordered column matrix of functions of time that represent the state
         variables.
@@ -650,16 +802,22 @@ class ZerothOrderActivation(ActivationBase):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(input_vars(), returns the input_vars attribute) over Any ║
+# ║ Path(input_vars(), Matrix([self._e])) over Any             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Matrix([self._e])                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ input_vars : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 73c95ce676e2173b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.ZerothOrderActivation.input_vars","kind":"property","src_hash":"acfaadaef9f915f2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"input_vars()","rhs":"returns the input_vars attribute","over":{"base":"Any"},"name":"input_vars_correct"},"guarantee":"returns the input_vars attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"73c95ce676e2173b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.ZerothOrderActivation.input_vars","kind":"property","src_hash":"acfaadaef9f915f2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"input_vars()","rhs":"Matrix([self._e])","over":{"base":"Any"},"name":"input_vars_correct"},"guarantee":"returns Matrix([self._e])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"73c95ce676e2173b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Matrix([self._e])","pure":false,"effects":{"effect_type":"reads_state","reads":["self._e"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def input_vars(self):
         """Ordered column matrix of functions of time that represent the input
         variables.
@@ -678,16 +836,22 @@ class ZerothOrderActivation(ActivationBase):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(r(), returns the r attribute) over Any                ║
+# ║ Path(r(), Matrix([self._e])) over Any                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Matrix([self._e])                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ r : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8c558cec6647b991           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.ZerothOrderActivation.r","kind":"property","src_hash":"e4d2ff3ce22c636b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"r()","rhs":"returns the r attribute","over":{"base":"Any"},"name":"r_correct"},"guarantee":"returns the r attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8c558cec6647b991"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.ZerothOrderActivation.r","kind":"property","src_hash":"e4d2ff3ce22c636b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"r()","rhs":"Matrix([self._e])","over":{"base":"Any"},"name":"r_correct"},"guarantee":"returns Matrix([self._e])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8c558cec6647b991","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Matrix([self._e])","pure":false,"effects":{"effect_type":"reads_state","reads":["self._e"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def r(self):
         """Ordered column matrix of functions of time that represent the input
         variables.
@@ -706,16 +870,22 @@ class ZerothOrderActivation(ActivationBase):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(constants(), returns the constants attribute) over Any ║
+# ║ Path(constants(), zeros(0, 1)) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  zeros(0, 1)                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ constants : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b0d6be1d92b6f2a4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.ZerothOrderActivation.constants","kind":"property","src_hash":"8f21792848a99e05","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"constants()","rhs":"returns the constants attribute","over":{"base":"Any"},"name":"constants_correct"},"guarantee":"returns the constants attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b0d6be1d92b6f2a4"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.ZerothOrderActivation.constants","kind":"property","src_hash":"8f21792848a99e05","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"constants()","rhs":"zeros(0, 1)","over":{"base":"Any"},"name":"constants_correct"},"guarantee":"returns zeros(0, 1)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b0d6be1d92b6f2a4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"zeros(0, 1)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def constants(self):
         """Ordered column matrix of non-time varying symbols present in ``M``
         and ``F``.
@@ -741,16 +911,22 @@ class ZerothOrderActivation(ActivationBase):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(p(), returns the p attribute) over Any                ║
+# ║ Path(p(), zeros(0, 1)) over Any                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  zeros(0, 1)                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ p : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f27dc6fc8d893932           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.ZerothOrderActivation.p","kind":"property","src_hash":"d2e4f1216bcb3432","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"p()","rhs":"returns the p attribute","over":{"base":"Any"},"name":"p_correct"},"guarantee":"returns the p attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f27dc6fc8d893932"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.ZerothOrderActivation.p","kind":"property","src_hash":"d2e4f1216bcb3432","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"p()","rhs":"zeros(0, 1)","over":{"base":"Any"},"name":"p_correct"},"guarantee":"returns zeros(0, 1)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f27dc6fc8d893932","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"zeros(0, 1)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def p(self):
         """Ordered column matrix of non-time varying symbols present in ``M``
         and ``F``.
@@ -776,16 +952,22 @@ class ZerothOrderActivation(ActivationBase):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(M(), returns the M attribute) over Any                ║
+# ║ Path(M(), Matrix([])) over Any                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Matrix([])                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ M : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4312f12119dcac21           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.ZerothOrderActivation.M","kind":"property","src_hash":"10b73dbf879d0f32","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"M()","rhs":"returns the M attribute","over":{"base":"Any"},"name":"M_correct"},"guarantee":"returns the M attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4312f12119dcac21"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.ZerothOrderActivation.M","kind":"property","src_hash":"10b73dbf879d0f32","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"M()","rhs":"Matrix([])","over":{"base":"Any"},"name":"M_correct"},"guarantee":"returns Matrix([])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4312f12119dcac21","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Matrix([])","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def M(self):
         """Ordered square matrix of coefficients on the LHS of ``M x' = F``.
 
@@ -806,16 +988,22 @@ class ZerothOrderActivation(ActivationBase):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(F(), returns the F attribute) over Any                ║
+# ║ Path(F(), zeros(0, 1)) over Any                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  zeros(0, 1)                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ F : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b562e3f7b4c486c2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.ZerothOrderActivation.F","kind":"property","src_hash":"3f9651aaa714cd04","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"F()","rhs":"returns the F attribute","over":{"base":"Any"},"name":"F_correct"},"guarantee":"returns the F attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b562e3f7b4c486c2"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.ZerothOrderActivation.F","kind":"property","src_hash":"3f9651aaa714cd04","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"F()","rhs":"zeros(0, 1)","over":{"base":"Any"},"name":"F_correct"},"guarantee":"returns zeros(0, 1)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b562e3f7b4c486c2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"zeros(0, 1)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def F(self):
         """Ordered column matrix of equations on the RHS of ``M x' = F``.
 
@@ -835,16 +1023,22 @@ class ZerothOrderActivation(ActivationBase):
         return zeros(0, 1)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rhs(), ordered column matrix of equations for the solution of ``m x' = f``) over Any ║
+# ║ Path(rhs(), zeros(0, 1)) over Any                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  zeros(0, 1)                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ rhs : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d27f344e90b75aca           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.ZerothOrderActivation.rhs","kind":"method","src_hash":"0edc4d18fc7b5d2e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rhs()","rhs":"ordered column matrix of equations for the solution of ``m x' = f``","over":{"base":"Any"},"name":"rhs_correct"},"guarantee":"ordered column matrix of equations for the solution of ``m x' = f``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d27f344e90b75aca"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.ZerothOrderActivation.rhs","kind":"method","src_hash":"0edc4d18fc7b5d2e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rhs()","rhs":"zeros(0, 1)","over":{"base":"Any"},"name":"rhs_correct"},"guarantee":"returns zeros(0, 1)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d27f344e90b75aca","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"zeros(0, 1)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def rhs(self):
         """Ordered column matrix of equations for the solution of ``M x' = F``.
 
@@ -867,14 +1061,20 @@ class ZerothOrderActivation(ActivationBase):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a FirstOrderActivationDeGroote2016 instance) preserved by FirstOrderActivationDeGroote2016(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ FirstOrderActivationDeGroote2016 : Any → Any               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, ActivationBase)               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ FirstOrderActivationDeGroote2016 : Any → {Any | resul...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 172f87fb3ae77e00  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.FirstOrderActivationDeGroote2016","kind":"class","src_hash":"7204607fadea634a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"FirstOrderActivationDeGroote2016(*args)","rhs":"correctly constructs a FirstOrderActivationDeGroote2016 instance","over":{"base":"Any"},"name":"FirstOrderActivationDeGroote2016_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a FirstOrderActivationDeGroote2016 instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'activation_time_constant') and hasattr(self, 'deactivation_time_constant') and hasattr(self, 'smoothing_rate')","kind":"class","induction":"structural on activation_time_constant, deactivation_time_constant, smoothing_rate"}],"methods_preserving":["__init__","activation_time_constant","activation_time_constant","tau_a","deactivation_time_constant","deactivation_time_constant","tau_d","smoothing_rate","smoothing_rate","b","order","state_vars","x","input_vars","r","constants","p","M","F","rhs","_da_eqn","__eq__","__repr__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"172f87fb3ae77e00"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.FirstOrderActivationDeGroote2016","kind":"class","src_hash":"7204607fadea634a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, ActivationBase)"},"spec":{"lhs":"FirstOrderActivationDeGroote2016(*args)","rhs":"correctly constructs a FirstOrderActivationDeGroote2016 instance","over":{"base":"Any"},"name":"FirstOrderActivationDeGroote2016_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, ActivationBase); preserves 3 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'activation_time_constant') and hasattr(self, 'deactivation_time_constant') and hasattr(self, 'smoothing_rate')","kind":"class","induction":"structural on activation_time_constant, deactivation_time_constant, smoothing_rate"}],"methods_preserving":["__init__","activation_time_constant","activation_time_constant","tau_a","deactivation_time_constant","deactivation_time_constant","tau_d","smoothing_rate","smoothing_rate","b","order","state_vars","x","input_vars","r","constants","p","M","F","rhs","_da_eqn","__eq__","__repr__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"172f87fb3ae77e00","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, ActivationBase)"],"invariants":["hasattr(self, 'activation_time_constant')","hasattr(self, 'deactivation_time_constant')","hasattr(self, 'smoothing_rate')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function FirstOrderActivationDeGroote2016 not found in source"]}}
 class FirstOrderActivationDeGroote2016(ActivationBase):
     r"""First-order activation dynamics based on De Groote et al., 2016 [1]_.
 
@@ -914,16 +1114,24 @@ class FirstOrderActivationDeGroote2016(ActivationBase):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(nam), initializes the instance correctly) over Any ║
+# ║ Path(__init__(name, activation_time_constant, deactivation_time_constant), self.activation_time_constant == activation_time_constant and self.deactivation_time_constant == deactivation_time_constant and self.smoothing_rate == smoothing_rate) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  self.activation_time_constant == activati...   ║
+# ║   ensures:  self.deactivation_time_constant == deacti...   ║
+# ║   ensures:  self.smoothing_rate == smoothing_rate          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : Any → {Any | result satisfies: self.activa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6d625292c4db38ab           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.FirstOrderActivationDeGroote2016.__init__","kind":"method","src_hash":"a6fbc3d22f4eab63","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(nam)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6d625292c4db38ab"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.FirstOrderActivationDeGroote2016.__init__","kind":"method","src_hash":"a6fbc3d22f4eab63","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: self.activation_time_constant == activation_time_constant and self.deactivation_time_constant == deactivation_time_constant and self.smoothing_rate == smoothing_rate"},"spec":{"lhs":"__init__(name, activation_time_constant, deactivation_time_constant)","rhs":"self.activation_time_constant == activation_time_constant and self.deactivation_time_constant == deactivation_time_constant and self.smoothing_rate == smoothing_rate","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"self.activation_time_constant == activation_time_constant; self.deactivation_time_constant == deactivation_time_constant; self.smoothing_rate == smoothing_rate","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6d625292c4db38ab","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["self.activation_time_constant == activation_time_constant","self.deactivation_time_constant == deactivation_time_constant","self.smoothing_rate == smoothing_rate"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self,
         name,
         activation_time_constant=None,
@@ -958,16 +1166,22 @@ class FirstOrderActivationDeGroote2016(ActivationBase):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(with_defaults(cls), alternate constructor that will use the published constants) over Any ║
+# ║ Path(with_defaults(cls, name), cls(name, tau_a, tau_d, b)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  cls(name, tau_a, tau_d, b)                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ with_defaults : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | be9e65d8cdad1a7a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fce082aa1940a5da  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.FirstOrderActivationDeGroote2016.with_defaults","kind":"classmethod","src_hash":"5eee7ee3150eedcf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"with_defaults(cls)","rhs":"alternate constructor that will use the published constants","over":{"base":"Any"},"name":"with_defaults_correct"},"guarantee":"alternate constructor that will use the published constants","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.activation.FirstOrderActivationDeGroote2016.with_defaults_correct","statement":"Path(with_defaults(x), alternate constructor that will use the published constants)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"be9e65d8cdad1a7a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.FirstOrderActivationDeGroote2016.with_defaults","kind":"classmethod","src_hash":"5eee7ee3150eedcf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"with_defaults(cls, name)","rhs":"cls(name, tau_a, tau_d, b)","over":{"base":"Any"},"name":"with_defaults_correct"},"guarantee":"returns cls(name, tau_a, tau_d, b)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.activation.FirstOrderActivationDeGroote2016.with_defaults_correct","statement":"Path(with_defaults(x), returns cls(name, tau_a, tau_d, b))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fce082aa1940a5da","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"cls(name, tau_a, tau_d, b)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def with_defaults(cls, name):
         r"""Alternate constructor that will use the published constants.
 
@@ -991,16 +1205,22 @@ class FirstOrderActivationDeGroote2016(ActivationBase):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(activation_time_constant(), returns the activation_time_constant attribute) over Any ║
+# ║ Path(activation_time_constant(), self._tau_a) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._tau_a                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ activation_time_constant : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a0decc81d432d4fa           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.FirstOrderActivationDeGroote2016.activation_time_constant","kind":"property","src_hash":"0991937eda6c5fb7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"activation_time_constant()","rhs":"returns the activation_time_constant attribute","over":{"base":"Any"},"name":"activation_time_constant_correct"},"guarantee":"returns the activation_time_constant attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a0decc81d432d4fa"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.FirstOrderActivationDeGroote2016.activation_time_constant","kind":"property","src_hash":"0991937eda6c5fb7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"activation_time_constant()","rhs":"self._tau_a","over":{"base":"Any"},"name":"activation_time_constant_correct"},"guarantee":"returns self._tau_a","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a0decc81d432d4fa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._tau_a","pure":false,"effects":{"effect_type":"reads_state","reads":["self._tau_a"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def activation_time_constant(self):
         """Delay constant for activation.
 
@@ -1014,16 +1234,22 @@ class FirstOrderActivationDeGroote2016(ActivationBase):
 
     @activation_time_constant.setter
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(activation_time_constant(tau), activation_time_constant produces the expected output) over Any ║
+# ║ Path(activation_time_constant(tau_a), <unspecified:activation_time_constant>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ activation_time_constant : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 69ae3b6d3cb239c5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.FirstOrderActivationDeGroote2016.activation_time_constant","kind":"method","src_hash":"a86d70b046ba987a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"activation_time_constant(tau)","rhs":"activation_time_constant produces the expected output","over":{"base":"Any"},"name":"activation_time_constant_correct"},"guarantee":"activation_time_constant produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.activation.FirstOrderActivationDeGroote2016.activation_time_constant_correct","statement":"Path(activation_time_constant(x), activation_time_constant produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"69ae3b6d3cb239c5"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.FirstOrderActivationDeGroote2016.activation_time_constant","kind":"method","src_hash":"a86d70b046ba987a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"activation_time_constant(tau_a)","rhs":"<unspecified:activation_time_constant>","over":{"base":"Any"},"name":"activation_time_constant_correct"},"guarantee":"activation_time_constant produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.activation.FirstOrderActivationDeGroote2016.activation_time_constant_correct","statement":"Path(activation_time_constant(x), activation_time_constant produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"69ae3b6d3cb239c5","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._tau_a","self.name"],"writes":["self._tau_a"],"raises":["AttributeError"]},"state_contract":{"modifies":["self._tau_a"],"old_bindings":{"old_self__tau_a":"self._tau_a"},"exceptional_post":{"AttributeError":["isinstance(raised, AttributeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def activation_time_constant(self, tau_a):
         if hasattr(self, '_tau_a'):
             msg = (
@@ -1036,16 +1262,22 @@ class FirstOrderActivationDeGroote2016(ActivationBase):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(tau_a(), returns the tau_a attribute) over Any        ║
+# ║ Path(tau_a(), self._tau_a) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._tau_a                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ tau_a : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b797725e20149246           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.FirstOrderActivationDeGroote2016.tau_a","kind":"property","src_hash":"7bbcffba451dd529","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"tau_a()","rhs":"returns the tau_a attribute","over":{"base":"Any"},"name":"tau_a_correct"},"guarantee":"returns the tau_a attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b797725e20149246"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.FirstOrderActivationDeGroote2016.tau_a","kind":"property","src_hash":"7bbcffba451dd529","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"tau_a()","rhs":"self._tau_a","over":{"base":"Any"},"name":"tau_a_correct"},"guarantee":"returns self._tau_a","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b797725e20149246","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._tau_a","pure":false,"effects":{"effect_type":"reads_state","reads":["self._tau_a"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def tau_a(self):
         """Delay constant for activation.
 
@@ -1060,16 +1292,22 @@ class FirstOrderActivationDeGroote2016(ActivationBase):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(deactivation_time_constant(), returns the deactivation_time_constant attribute) over Any ║
+# ║ Path(deactivation_time_constant(), self._tau_d) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._tau_d                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ deactivation_time_constant : Any → Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2495b70458a71df9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.FirstOrderActivationDeGroote2016.deactivation_time_constant","kind":"property","src_hash":"998c2e828e49221f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"deactivation_time_constant()","rhs":"returns the deactivation_time_constant attribute","over":{"base":"Any"},"name":"deactivation_time_constant_correct"},"guarantee":"returns the deactivation_time_constant attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2495b70458a71df9"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.FirstOrderActivationDeGroote2016.deactivation_time_constant","kind":"property","src_hash":"998c2e828e49221f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"deactivation_time_constant()","rhs":"self._tau_d","over":{"base":"Any"},"name":"deactivation_time_constant_correct"},"guarantee":"returns self._tau_d","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2495b70458a71df9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._tau_d","pure":false,"effects":{"effect_type":"reads_state","reads":["self._tau_d"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def deactivation_time_constant(self):
         """Delay constant for deactivation.
 
@@ -1083,16 +1321,22 @@ class FirstOrderActivationDeGroote2016(ActivationBase):
 
     @deactivation_time_constant.setter
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(deactivation_time_constant(tau), deactivation_time_constant produces the expected output) over Any ║
+# ║ Path(deactivation_time_constant(tau_d), <unspecified:deactivation_time_constant>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ deactivation_time_constant : Any → Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2ebf8afa29297613  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.FirstOrderActivationDeGroote2016.deactivation_time_constant","kind":"method","src_hash":"ed12057952a7c5de","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"deactivation_time_constant(tau)","rhs":"deactivation_time_constant produces the expected output","over":{"base":"Any"},"name":"deactivation_time_constant_correct"},"guarantee":"deactivation_time_constant produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.activation.FirstOrderActivationDeGroote2016.deactivation_time_constant_correct","statement":"Path(deactivation_time_constant(x), deactivation_time_constant produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2ebf8afa29297613"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.FirstOrderActivationDeGroote2016.deactivation_time_constant","kind":"method","src_hash":"ed12057952a7c5de","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"deactivation_time_constant(tau_d)","rhs":"<unspecified:deactivation_time_constant>","over":{"base":"Any"},"name":"deactivation_time_constant_correct"},"guarantee":"deactivation_time_constant produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.activation.FirstOrderActivationDeGroote2016.deactivation_time_constant_correct","statement":"Path(deactivation_time_constant(x), deactivation_time_constant produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2ebf8afa29297613","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._tau_d","self.name"],"writes":["self._tau_d"],"raises":["AttributeError"]},"state_contract":{"modifies":["self._tau_d"],"old_bindings":{"old_self__tau_d":"self._tau_d"},"exceptional_post":{"AttributeError":["isinstance(raised, AttributeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def deactivation_time_constant(self, tau_d):
         if hasattr(self, '_tau_d'):
             msg = (
@@ -1105,16 +1349,22 @@ class FirstOrderActivationDeGroote2016(ActivationBase):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(tau_d(), returns the tau_d attribute) over Any        ║
+# ║ Path(tau_d(), self._tau_d) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._tau_d                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ tau_d : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0b79cc5f089bbae2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.FirstOrderActivationDeGroote2016.tau_d","kind":"property","src_hash":"1bc4092143354eb7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"tau_d()","rhs":"returns the tau_d attribute","over":{"base":"Any"},"name":"tau_d_correct"},"guarantee":"returns the tau_d attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0b79cc5f089bbae2"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.FirstOrderActivationDeGroote2016.tau_d","kind":"property","src_hash":"1bc4092143354eb7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"tau_d()","rhs":"self._tau_d","over":{"base":"Any"},"name":"tau_d_correct"},"guarantee":"returns self._tau_d","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0b79cc5f089bbae2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._tau_d","pure":false,"effects":{"effect_type":"reads_state","reads":["self._tau_d"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def tau_d(self):
         """Delay constant for deactivation.
 
@@ -1129,16 +1379,22 @@ class FirstOrderActivationDeGroote2016(ActivationBase):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(smoothing_rate(), returns the smoothing_rate attribute) over Any ║
+# ║ Path(smoothing_rate(), self._b) over Any                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._b                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ smoothing_rate : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ab9b050d34887b45           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.FirstOrderActivationDeGroote2016.smoothing_rate","kind":"property","src_hash":"0ba1d93266c7418e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"smoothing_rate()","rhs":"returns the smoothing_rate attribute","over":{"base":"Any"},"name":"smoothing_rate_correct"},"guarantee":"returns the smoothing_rate attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ab9b050d34887b45"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.FirstOrderActivationDeGroote2016.smoothing_rate","kind":"property","src_hash":"0ba1d93266c7418e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"smoothing_rate()","rhs":"self._b","over":{"base":"Any"},"name":"smoothing_rate_correct"},"guarantee":"returns self._b","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ab9b050d34887b45","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._b","pure":false,"effects":{"effect_type":"reads_state","reads":["self._b"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def smoothing_rate(self):
         """Smoothing constant for the hyperbolic tangent term.
 
@@ -1152,16 +1408,22 @@ class FirstOrderActivationDeGroote2016(ActivationBase):
 
     @smoothing_rate.setter
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(smoothing_rate(b), smoothing_rate produces the expected output) over Any ║
+# ║ Path(smoothing_rate(b), <unspecified:smoothing_rate>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ smoothing_rate : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 85eb3386dc050e65  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.FirstOrderActivationDeGroote2016.smoothing_rate","kind":"method","src_hash":"ec840b42a120f715","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"smoothing_rate(b)","rhs":"smoothing_rate produces the expected output","over":{"base":"Any"},"name":"smoothing_rate_correct"},"guarantee":"smoothing_rate produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.activation.FirstOrderActivationDeGroote2016.smoothing_rate_correct","statement":"Path(smoothing_rate(x), smoothing_rate produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"85eb3386dc050e65"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.FirstOrderActivationDeGroote2016.smoothing_rate","kind":"method","src_hash":"ec840b42a120f715","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"smoothing_rate(b)","rhs":"<unspecified:smoothing_rate>","over":{"base":"Any"},"name":"smoothing_rate_correct"},"guarantee":"smoothing_rate produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.activation.FirstOrderActivationDeGroote2016.smoothing_rate_correct","statement":"Path(smoothing_rate(x), smoothing_rate produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"85eb3386dc050e65","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._b","self.name"],"writes":["self._b"],"raises":["AttributeError"]},"state_contract":{"modifies":["self._b"],"old_bindings":{"old_self__b":"self._b"},"exceptional_post":{"AttributeError":["isinstance(raised, AttributeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def smoothing_rate(self, b):
         if hasattr(self, '_b'):
             msg = (
@@ -1173,16 +1435,22 @@ class FirstOrderActivationDeGroote2016(ActivationBase):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(b(), returns the b attribute) over Any                ║
+# ║ Path(b(), self._b) over Any                                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._b                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ b : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9ed90261c83eaba7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.FirstOrderActivationDeGroote2016.b","kind":"property","src_hash":"decfc9cea7d706a3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"b()","rhs":"returns the b attribute","over":{"base":"Any"},"name":"b_correct"},"guarantee":"returns the b attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9ed90261c83eaba7"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.FirstOrderActivationDeGroote2016.b","kind":"property","src_hash":"decfc9cea7d706a3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"b()","rhs":"self._b","over":{"base":"Any"},"name":"b_correct"},"guarantee":"returns self._b","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9ed90261c83eaba7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._b","pure":false,"effects":{"effect_type":"reads_state","reads":["self._b"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def b(self):
         """Smoothing constant for the hyperbolic tangent term.
 
@@ -1197,32 +1465,44 @@ class FirstOrderActivationDeGroote2016(ActivationBase):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(order(), returns the order attribute) over Any        ║
+# ║ Path(order(), 1) over Any                                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  1                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ order : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a114a8e6ce364c88           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.FirstOrderActivationDeGroote2016.order","kind":"property","src_hash":"5f2cee1d8e5fc27e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"order()","rhs":"returns the order attribute","over":{"base":"Any"},"name":"order_correct"},"guarantee":"returns the order attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a114a8e6ce364c88"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.FirstOrderActivationDeGroote2016.order","kind":"property","src_hash":"5f2cee1d8e5fc27e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"order()","rhs":"1","over":{"base":"Any"},"name":"order_correct"},"guarantee":"returns 1","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a114a8e6ce364c88","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"1","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def order(self):
         """Order of the (differential) equation governing activation."""
         return 1
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(state_vars(), returns the state_vars attribute) over Any ║
+# ║ Path(state_vars(), Matrix([self._a])) over Any             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Matrix([self._a])                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ state_vars : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 56fba11ee3232e70           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.FirstOrderActivationDeGroote2016.state_vars","kind":"property","src_hash":"9c083d8ab182cfed","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"state_vars()","rhs":"returns the state_vars attribute","over":{"base":"Any"},"name":"state_vars_correct"},"guarantee":"returns the state_vars attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"56fba11ee3232e70"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.FirstOrderActivationDeGroote2016.state_vars","kind":"property","src_hash":"9c083d8ab182cfed","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"state_vars()","rhs":"Matrix([self._a])","over":{"base":"Any"},"name":"state_vars_correct"},"guarantee":"returns Matrix([self._a])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"56fba11ee3232e70","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Matrix([self._a])","pure":false,"effects":{"effect_type":"reads_state","reads":["self._a"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def state_vars(self):
         """Ordered column matrix of functions of time that represent the state
         variables.
@@ -1237,16 +1517,22 @@ class FirstOrderActivationDeGroote2016(ActivationBase):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(x(), returns the x attribute) over Any                ║
+# ║ Path(x(), Matrix([self._a])) over Any                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Matrix([self._a])                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ x : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ae41c0ba3a36e19c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.FirstOrderActivationDeGroote2016.x","kind":"property","src_hash":"7a7e62802624827e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"x()","rhs":"returns the x attribute","over":{"base":"Any"},"name":"x_correct"},"guarantee":"returns the x attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ae41c0ba3a36e19c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.FirstOrderActivationDeGroote2016.x","kind":"property","src_hash":"7a7e62802624827e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"x()","rhs":"Matrix([self._a])","over":{"base":"Any"},"name":"x_correct"},"guarantee":"returns Matrix([self._a])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ae41c0ba3a36e19c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Matrix([self._a])","pure":false,"effects":{"effect_type":"reads_state","reads":["self._a"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def x(self):
         """Ordered column matrix of functions of time that represent the state
         variables.
@@ -1261,16 +1547,22 @@ class FirstOrderActivationDeGroote2016(ActivationBase):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(input_vars(), returns the input_vars attribute) over Any ║
+# ║ Path(input_vars(), Matrix([self._e])) over Any             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Matrix([self._e])                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ input_vars : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6f799d1a4392761f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.FirstOrderActivationDeGroote2016.input_vars","kind":"property","src_hash":"22a10dc126c71c6d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"input_vars()","rhs":"returns the input_vars attribute","over":{"base":"Any"},"name":"input_vars_correct"},"guarantee":"returns the input_vars attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6f799d1a4392761f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.FirstOrderActivationDeGroote2016.input_vars","kind":"property","src_hash":"22a10dc126c71c6d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"input_vars()","rhs":"Matrix([self._e])","over":{"base":"Any"},"name":"input_vars_correct"},"guarantee":"returns Matrix([self._e])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6f799d1a4392761f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Matrix([self._e])","pure":false,"effects":{"effect_type":"reads_state","reads":["self._e"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def input_vars(self):
         """Ordered column matrix of functions of time that represent the input
         variables.
@@ -1285,16 +1577,22 @@ class FirstOrderActivationDeGroote2016(ActivationBase):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(r(), returns the r attribute) over Any                ║
+# ║ Path(r(), Matrix([self._e])) over Any                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Matrix([self._e])                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ r : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b8be06c61c6f5682           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.FirstOrderActivationDeGroote2016.r","kind":"property","src_hash":"323be026473e8d47","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"r()","rhs":"returns the r attribute","over":{"base":"Any"},"name":"r_correct"},"guarantee":"returns the r attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b8be06c61c6f5682"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.FirstOrderActivationDeGroote2016.r","kind":"property","src_hash":"323be026473e8d47","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"r()","rhs":"Matrix([self._e])","over":{"base":"Any"},"name":"r_correct"},"guarantee":"returns Matrix([self._e])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b8be06c61c6f5682","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Matrix([self._e])","pure":false,"effects":{"effect_type":"reads_state","reads":["self._e"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def r(self):
         """Ordered column matrix of functions of time that represent the input
         variables.
@@ -1309,16 +1607,22 @@ class FirstOrderActivationDeGroote2016(ActivationBase):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(constants(), returns the constants attribute) over Any ║
+# ║ Path(constants(), Matrix(symbolic_constants) if symbolic_constants else zeros(0, 1)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Matrix(symbolic_constants) if symbolic_co...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ constants : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 911e3d4a693016a5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.FirstOrderActivationDeGroote2016.constants","kind":"property","src_hash":"883d6d4db9495b74","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"constants()","rhs":"returns the constants attribute","over":{"base":"Any"},"name":"constants_correct"},"guarantee":"returns the constants attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"911e3d4a693016a5"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.FirstOrderActivationDeGroote2016.constants","kind":"property","src_hash":"883d6d4db9495b74","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"constants()","rhs":"Matrix(symbolic_constants) if symbolic_constants else zeros(0, 1)","over":{"base":"Any"},"name":"constants_correct"},"guarantee":"returns Matrix(symbolic_constants) if symbolic_constants else zeros(0, 1)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"911e3d4a693016a5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Matrix(symbolic_constants) if symbolic_constants else zeros(0, 1)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._b","self._tau_a","self._tau_d"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def constants(self):
         """Ordered column matrix of non-time varying symbols present in ``M``
         and ``F``.
@@ -1342,16 +1646,22 @@ class FirstOrderActivationDeGroote2016(ActivationBase):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(p(), returns the p attribute) over Any                ║
+# ║ Path(p(), Matrix(symbolic_constants) if symbolic_constants else zeros(0, 1)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Matrix(symbolic_constants) if symbolic_co...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ p : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6f146435ec9c2d95           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.FirstOrderActivationDeGroote2016.p","kind":"property","src_hash":"0418f7821516ec8a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"p()","rhs":"returns the p attribute","over":{"base":"Any"},"name":"p_correct"},"guarantee":"returns the p attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6f146435ec9c2d95"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.FirstOrderActivationDeGroote2016.p","kind":"property","src_hash":"0418f7821516ec8a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"p()","rhs":"Matrix(symbolic_constants) if symbolic_constants else zeros(0, 1)","over":{"base":"Any"},"name":"p_correct"},"guarantee":"returns Matrix(symbolic_constants) if symbolic_constants else zeros(0, 1)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6f146435ec9c2d95","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Matrix(symbolic_constants) if symbolic_constants else zeros(0, 1)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._b","self._tau_a","self._tau_d"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def p(self):
         """Ordered column matrix of non-time varying symbols present in ``M``
         and ``F``.
@@ -1375,16 +1685,22 @@ class FirstOrderActivationDeGroote2016(ActivationBase):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(M(), returns the M attribute) over Any                ║
+# ║ Path(M(), Matrix([Integer(1)])) over Any                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Matrix([Integer(1)])                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ M : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | daf50b403d0226c3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.FirstOrderActivationDeGroote2016.M","kind":"property","src_hash":"e15de9bf1818ea6e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"M()","rhs":"returns the M attribute","over":{"base":"Any"},"name":"M_correct"},"guarantee":"returns the M attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"daf50b403d0226c3"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.FirstOrderActivationDeGroote2016.M","kind":"property","src_hash":"e15de9bf1818ea6e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"M()","rhs":"Matrix([Integer(1)])","over":{"base":"Any"},"name":"M_correct"},"guarantee":"returns Matrix([Integer(1)])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"daf50b403d0226c3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Matrix([Integer(1)])","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def M(self):
         """Ordered square matrix of coefficients on the LHS of ``M x' = F``.
 
@@ -1401,16 +1717,22 @@ class FirstOrderActivationDeGroote2016(ActivationBase):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(F(), returns the F attribute) over Any                ║
+# ║ Path(F(), Matrix([self._da_eqn])) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Matrix([self._da_eqn])                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ F : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b30d7bd0d968574a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.FirstOrderActivationDeGroote2016.F","kind":"property","src_hash":"03ed66b4ae045030","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"F()","rhs":"returns the F attribute","over":{"base":"Any"},"name":"F_correct"},"guarantee":"returns the F attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b30d7bd0d968574a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.FirstOrderActivationDeGroote2016.F","kind":"property","src_hash":"03ed66b4ae045030","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"F()","rhs":"Matrix([self._da_eqn])","over":{"base":"Any"},"name":"F_correct"},"guarantee":"returns Matrix([self._da_eqn])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b30d7bd0d968574a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Matrix([self._da_eqn])","pure":false,"effects":{"effect_type":"reads_state","reads":["self._da_eqn"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def F(self):
         """Ordered column matrix of equations on the RHS of ``M x' = F``.
 
@@ -1426,16 +1748,22 @@ class FirstOrderActivationDeGroote2016(ActivationBase):
         return Matrix([self._da_eqn])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rhs(), ordered column matrix of equations for the solution of ``m x' = f``) over Any ║
+# ║ Path(rhs(), Matrix([self._da_eqn])) over Any               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Matrix([self._da_eqn])                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ rhs : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 08696e7945123205           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.FirstOrderActivationDeGroote2016.rhs","kind":"method","src_hash":"c5719fc4b31b7db4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rhs()","rhs":"ordered column matrix of equations for the solution of ``m x' = f``","over":{"base":"Any"},"name":"rhs_correct"},"guarantee":"ordered column matrix of equations for the solution of ``m x' = f``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"08696e7945123205"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.FirstOrderActivationDeGroote2016.rhs","kind":"method","src_hash":"c5719fc4b31b7db4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rhs()","rhs":"Matrix([self._da_eqn])","over":{"base":"Any"},"name":"rhs_correct"},"guarantee":"returns Matrix([self._da_eqn])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"08696e7945123205","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Matrix([self._da_eqn])","pure":false,"effects":{"effect_type":"reads_state","reads":["self._da_eqn"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def rhs(self):
         """Ordered column matrix of equations for the solution of ``M x' = F``.
 
@@ -1452,16 +1780,22 @@ class FirstOrderActivationDeGroote2016(ActivationBase):
 
     @cached_property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_da_eqn(), internal helper behaves correctly) over Any ║
+# ║ Path(_da_eqn(), <unspecified:_da_eqn>) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _da_eqn : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 496e0264519e9f6d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.FirstOrderActivationDeGroote2016._da_eqn","kind":"method","src_hash":"71569ac736baa666","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_da_eqn()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_da_eqn_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.activation.FirstOrderActivationDeGroote2016._da_eqn_correct","statement":"Path(_da_eqn(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"496e0264519e9f6d"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.FirstOrderActivationDeGroote2016._da_eqn","kind":"method","src_hash":"71569ac736baa666","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_da_eqn()","rhs":"<unspecified:_da_eqn>","over":{"base":"Any"},"name":"_da_eqn_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.activation.FirstOrderActivationDeGroote2016._da_eqn_correct","statement":"Path(_da_eqn(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"496e0264519e9f6d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._a","self._b","self._e","self._tau_a","self._tau_d"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _da_eqn(self):
         HALF = Rational(1, 2)
         a0 = HALF * tanh(self._b * (self._e - self._a))
@@ -1472,16 +1806,25 @@ class FirstOrderActivationDeGroote2016(ActivationBase):
         return activation_dynamics_equation
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__eq__(oth), correctly determines equality) over Any  ║
+# ║ Path(__eq__(other), <unspecified:__eq__>) over {Any | hasattr(other, 'name') and hasattr(other, 'tau_a') and hasattr(other, 'tau_d') and hasattr(other, 'b')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __eq__ : Any → Any                                         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, 'name')                         ║
+# ║   requires: hasattr(other, 'tau_a')                        ║
+# ║   requires: hasattr(other, 'tau_d')                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __eq__ : {Any | hasattr(other, 'name') and hasattr(ot...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | add3e09116fc556d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.FirstOrderActivationDeGroote2016.__eq__","kind":"method","src_hash":"f2ba702f636a76df","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(oth)","rhs":"correctly determines equality","over":{"base":"Any"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"add3e09116fc556d"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.FirstOrderActivationDeGroote2016.__eq__","kind":"method","src_hash":"f2ba702f636a76df","in":{"base":"Any","pred":"hasattr(other, 'name') and hasattr(other, 'tau_a') and hasattr(other, 'tau_d') and hasattr(other, 'b')"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(other)","rhs":"<unspecified:__eq__>","over":{"base":"Any","pred":"hasattr(other, 'name') and hasattr(other, 'tau_a') and hasattr(other, 'tau_d') and hasattr(other, 'b')"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"add3e09116fc556d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, 'name')","hasattr(other, 'tau_a')","hasattr(other, 'tau_d')","hasattr(other, 'b')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.b","other.name","other.tau_a","other.tau_d","self.b","self.name","self.tau_a","self.tau_d"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __eq__(self, other):
         """Equality check for ``FirstOrderActivationDeGroote2016``."""
         if type(self) != type(other):
@@ -1493,16 +1836,22 @@ class FirstOrderActivationDeGroote2016(ActivationBase):
         return False
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__repr__(), returns a faithful string representation) over Any ║
+# ║ Path(__repr__(), f'{self.__class__.__name__}({self.name!r}, activation_time_constant={self.tau_a!r}, deactivation_time_constant={self.tau_d!r}, smoothing_rate={self.b!r})') over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  f'{self.__class__.__name__}({self.name!r}...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __repr__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9d2d31c5bcccf527           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.FirstOrderActivationDeGroote2016.__repr__","kind":"method","src_hash":"e27ed1c2ba159984","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"returns a faithful string representation","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns a faithful string representation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9d2d31c5bcccf527"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.activation.FirstOrderActivationDeGroote2016.__repr__","kind":"method","src_hash":"e27ed1c2ba159984","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"f'{self.__class__.__name__}({self.name!r}, activation_time_constant={self.tau_a!r}, deactivation_time_constant={self.tau_d!r}, smoothing_rate={self.b!r})'","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns f'{self.__class__.__name__}({self.name!r}, activation_time_constant={self.tau_a!r}, deactivation_time_constant={self.tau_d!r}, smoothing_rate={self.b!r})'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9d2d31c5bcccf527","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"f'{self.__class__.__name__}({self.name!r}, activation_time_constant={self.tau_a!r}, deactivation_time_constant={self.tau_d!r}, smoothing_rate={self.b!r})'","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","self.__class__","self.b","self.name","self.tau_a","self.tau_d"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __repr__(self):
         """Representation of ``FirstOrderActivationDeGroote2016``."""
         return (

@@ -43,16 +43,22 @@ _current_config = {}
 
 @contextmanager
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(using(**k), using produces the expected output) over Any ║
+# ║ Path(using(**kwargs), <unspecified:using>) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ using : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 90fd1f4621ad1545  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyconfig.using","kind":"function","src_hash":"1dae52da32e6ec67","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"using(**k)","rhs":"using produces the expected output","over":{"base":"Any"},"name":"using_correct"},"guarantee":"using produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyconfig.using_correct","statement":"Path(using(x), using produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"90fd1f4621ad1545"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyconfig.using","kind":"function","src_hash":"1dae52da32e6ec67","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"using(**kwargs)","rhs":"<unspecified:using>","over":{"base":"Any"},"name":"using_correct"},"guarantee":"using produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyconfig.using_correct","statement":"Path(using(x), using produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"90fd1f4621ad1545","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=[], spec=['**kwargs']"]}}
 def using(**kwargs):
     for k, v in kwargs.items():
         setup(k, v)
@@ -63,16 +69,23 @@ def using(**kwargs):
         setup(k)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(setup(key), assign a value to (or reset) a configuration item) over Any ║
+# ║ Path(setup(key, value), <unspecified:setup>) over {Any | hasattr(key, 'upper')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ setup : Any → Any                                          ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(key, 'upper')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ setup : {Any | hasattr(key, 'upper')} → Any                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b9895f8f28f078da  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyconfig.setup","kind":"function","src_hash":"c423b40f33b423e1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"setup(key)","rhs":"assign a value to (or reset) a configuration item","over":{"base":"Any"},"name":"setup_correct"},"guarantee":"assign a value to (or reset) a configuration item","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyconfig.setup_correct","statement":"Path(setup(x), assign a value to (or reset) a configuration item)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b9895f8f28f078da"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyconfig.setup","kind":"function","src_hash":"c423b40f33b423e1","in":{"base":"Any","pred":"hasattr(key, 'upper')"},"out":{"base":"Any"},"spec":{"lhs":"setup(key, value)","rhs":"<unspecified:setup>","over":{"base":"Any","pred":"hasattr(key, 'upper')"},"name":"setup_correct"},"guarantee":"assign a value to (or reset) a configuration item","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyconfig.setup_correct","statement":"Path(setup(x), assign a value to (or reset) a configuration item)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b9895f8f28f078da","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(key, 'upper')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["key.upper"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def setup(key, value=None):
     """Assign a value to (or reset) a configuration item. """
     key = key.upper()
@@ -84,32 +97,45 @@ def setup(key, value=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(query(key), ask for a value of the given configuration item) over Any ║
+# ║ Path(query(key), _current_config.get(key.upper(), None)) over {Any | hasattr(key, 'upper')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ query : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(key, 'upper')                          ║
+# ║   returns:  _current_config.get(key.upper(), None)         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ query : {Any | hasattr(key, 'upper')} → Any                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | dd580a62b2285614           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyconfig.query","kind":"function","src_hash":"707a80025b9796c7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"query(key)","rhs":"ask for a value of the given configuration item","over":{"base":"Any"},"name":"query_correct"},"guarantee":"ask for a value of the given configuration item","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"dd580a62b2285614"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyconfig.query","kind":"function","src_hash":"707a80025b9796c7","in":{"base":"Any","pred":"hasattr(key, 'upper')"},"out":{"base":"Any"},"spec":{"lhs":"query(key)","rhs":"_current_config.get(key.upper(), None)","over":{"base":"Any","pred":"hasattr(key, 'upper')"},"name":"query_correct"},"guarantee":"returns _current_config.get(key.upper(), None)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"dd580a62b2285614","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(key, 'upper')"],"returns_expr":"_current_config.get(key.upper(), None)","pure":false,"effects":{"effect_type":"reads_state","reads":["key.upper"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def query(key):
     """Ask for a value of the given configuration item. """
     return _current_config.get(key.upper(), None)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(configure(), initialized configuration of polys module) over Any ║
+# ║ Path(configure(), <unspecified:configure>) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ configure : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 29ecefe29773fc80  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyconfig.configure","kind":"function","src_hash":"a7ff496ddd8a3063","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"configure()","rhs":"initialized configuration of polys module","over":{"base":"Any"},"name":"configure_correct"},"guarantee":"initialized configuration of polys module","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyconfig.configure_correct","statement":"Path(configure(x), initialized configuration of polys module)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"29ecefe29773fc80"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyconfig.configure","kind":"function","src_hash":"a7ff496ddd8a3063","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"configure()","rhs":"<unspecified:configure>","over":{"base":"Any"},"name":"configure_correct"},"guarantee":"initialized configuration of polys module","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyconfig.configure_correct","statement":"Path(configure(x), initialized configuration of polys module)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"29ecefe29773fc80","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def configure():
     """Initialized configuration of polys module. """
     from os import getenv

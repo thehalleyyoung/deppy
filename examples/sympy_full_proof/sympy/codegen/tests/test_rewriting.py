@@ -47,16 +47,24 @@ scipy = import_module('scipy')
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_log2_opt(), test_log2_opt produces the expected output) over Any ║
+# ║ Path(test_log2_opt(), opt1 == 7 * log2(3 * x + 5) and opt1.rewrite(log) == expr1 and opt2 == 3 * log2(5 * x + 7) / 13 and opt2.rewrite(log) == expr2 and opt3 == log2(x) and opt3.rewrite(log) == expr3 and opt4 == log2(x) + log(2) * log2(x + 1) and opt4.rewrite(log) == expr4 and opt5 == expr5 and str(opt6) == 'log2(x + 3)' and opt6.rewrite(log) == expr6) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_log2_opt : Any → {Any | opt1 == 7 * log2(3 * x +...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  opt1 == 7 * log2(3 * x + 5)                    ║
+# ║   ensures:  opt1.rewrite(log) == expr1                     ║
+# ║   ensures:  opt2 == 3 * log2(5 * x + 7) / 13               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_log2_opt : Any → {Any | result satisfies: opt1 =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9782665e7a6d72a6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7fd06fcdf5fcf19c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_rewriting.test_log2_opt","kind":"function","src_hash":"24f05438270a3c8d","in":{"base":"Any"},"out":{"base":"Any","pred":"opt1 == 7 * log2(3 * x + 5) and opt1.rewrite(log) == expr1 and opt2 == 3 * log2(5 * x + 7) / 13 and opt2.rewrite(log) == expr2 and opt3 == log2(x) and opt3.rewrite(log) == expr3 and opt4 == log2(x) + log(2) * log2(x + 1) and opt4.rewrite(log) == expr4 and opt5 == expr5 and str(opt6) == 'log2(x + 3)' and opt6.rewrite(log) == expr6"},"spec":{"lhs":"test_log2_opt()","rhs":"test_log2_opt produces the expected output","over":{"base":"Any"},"name":"test_log2_opt_correct"},"guarantee":"test_log2_opt produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_rewriting.test_log2_opt_correct","statement":"Path(test_log2_opt(x), test_log2_opt produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9782665e7a6d72a6"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_rewriting.test_log2_opt","kind":"function","src_hash":"24f05438270a3c8d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: opt1 == 7 * log2(3 * x + 5) and opt1.rewrite(log) == expr1 and opt2 == 3 * log2(5 * x + 7) / 13 and opt2.rewrite(log) == expr2 and opt3 == log2(x) and opt3.rewrite(log) == expr3 and opt4 == log2(x) + log(2) * log2(x + 1) and opt4.rewrite(log) == expr4 and opt5 == expr5 and str(opt6) == 'log2(x + 3)' and opt6.rewrite(log) == expr6"},"spec":{"lhs":"test_log2_opt()","rhs":"opt1 == 7 * log2(3 * x + 5) and opt1.rewrite(log) == expr1 and opt2 == 3 * log2(5 * x + 7) / 13 and opt2.rewrite(log) == expr2 and opt3 == log2(x) and opt3.rewrite(log) == expr3 and opt4 == log2(x) + log(2) * log2(x + 1) and opt4.rewrite(log) == expr4 and opt5 == expr5 and str(opt6) == 'log2(x + 3)' and opt6.rewrite(log) == expr6","over":{"base":"Any"},"name":"test_log2_opt_correct"},"guarantee":"opt1 == 7 * log2(3 * x + 5); opt1.rewrite(log) == expr1; opt2 == 3 * log2(5 * x + 7) / 13","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_rewriting.test_log2_opt_correct","statement":"Path(test_log2_opt(x), opt1 == 7 * log2(3 * x + 5); opt1.rewrite(log) == expr1; opt2 == 3 * log2(5 * x + 7) / 13)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7fd06fcdf5fcf19c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["opt1 == 7 * log2(3 * x + 5)","opt1.rewrite(log) == expr1","opt2 == 3 * log2(5 * x + 7) / 13","opt2.rewrite(log) == expr2","opt3 == log2(x)","opt3.rewrite(log) == expr3","opt4 == log2(x) + log(2) * log2(x + 1)","opt4.rewrite(log) == expr4","opt5 == expr5","str(opt6) == 'log2(x + 3)'","opt6.rewrite(log) == expr6"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_log2_opt():
     x = Symbol('x')
     expr1 = 7*log(3*x + 5)/(log(2))
@@ -90,16 +98,24 @@ def test_log2_opt():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_exp2_opt(), test_exp2_opt produces the expected output) over Any ║
+# ║ Path(test_exp2_opt(), opt1 == 1 + exp2(x) and opt1.rewrite(Pow) == expr1 and expr2 == optimize(expr2, [exp2_opt])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_exp2_opt : Any → {Any | opt1 == 1 + exp2(x) and ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  opt1 == 1 + exp2(x)                            ║
+# ║   ensures:  opt1.rewrite(Pow) == expr1                     ║
+# ║   ensures:  expr2 == optimize(expr2, [exp2_opt])           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_exp2_opt : Any → {Any | result satisfies: opt1 =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0ed984269043c04e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b388e89112bd06ae  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_rewriting.test_exp2_opt","kind":"function","src_hash":"943c0f27a85e7aa3","in":{"base":"Any"},"out":{"base":"Any","pred":"opt1 == 1 + exp2(x) and opt1.rewrite(Pow) == expr1 and expr2 == optimize(expr2, [exp2_opt])"},"spec":{"lhs":"test_exp2_opt()","rhs":"test_exp2_opt produces the expected output","over":{"base":"Any"},"name":"test_exp2_opt_correct"},"guarantee":"test_exp2_opt produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_rewriting.test_exp2_opt_correct","statement":"Path(test_exp2_opt(x), test_exp2_opt produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0ed984269043c04e"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_rewriting.test_exp2_opt","kind":"function","src_hash":"943c0f27a85e7aa3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: opt1 == 1 + exp2(x) and opt1.rewrite(Pow) == expr1 and expr2 == optimize(expr2, [exp2_opt])"},"spec":{"lhs":"test_exp2_opt()","rhs":"opt1 == 1 + exp2(x) and opt1.rewrite(Pow) == expr1 and expr2 == optimize(expr2, [exp2_opt])","over":{"base":"Any"},"name":"test_exp2_opt_correct"},"guarantee":"opt1 == 1 + exp2(x); opt1.rewrite(Pow) == expr1; expr2 == optimize(expr2, [exp2_opt])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_rewriting.test_exp2_opt_correct","statement":"Path(test_exp2_opt(x), opt1 == 1 + exp2(x); opt1.rewrite(Pow) == expr1; expr2 == optimize(expr2, [exp2_opt]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b388e89112bd06ae","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["opt1 == 1 + exp2(x)","opt1.rewrite(Pow) == expr1","expr2 == optimize(expr2, [exp2_opt])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_exp2_opt():
     x = Symbol('x')
     expr1 = 1 + 2**x
@@ -114,14 +130,23 @@ def test_exp2_opt():
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(test_expm1_opt(), id) over Any                        ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_expm1_opt : Any → {Any | expm1(x) - opt1 == 0 an...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  expm1(x) - opt1 == 0                           ║
+# ║   ensures:  opt1.rewrite(exp) == expr1                     ║
+# ║   ensures:  3 * expm1(x) == opt2                           ║
+# ║   returns:  e.subs(x, 3).evalf()                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_expm1_opt : Any → {Any | result satisfies: resul...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | dfb64ca0fcaf7c04   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_rewriting.test_expm1_opt","kind":"function","src_hash":"dbc05d007ac0a607","in":{"base":"Any"},"out":{"base":"Any","pred":"expm1(x) - opt1 == 0 and opt1.rewrite(exp) == expr1 and 3 * expm1(x) == opt2 and opt2.rewrite(exp) == expr2 and 3 * expm1(x) - 2 == opt3 and opt3.rewrite(exp) == expr3 and expr3 == optimize(expr3, [expm1_opt_non_opportunistic]) and opt1 == optimize(expr1, [expm1_opt_non_opportunistic]) and opt2 == optimize(expr2, [expm1_opt_non_opportunistic]) and 3 * expm1(x) + log(x) == opt4 and opt4.rewrite(exp) == expr4 and 3 * expm1(2 * x) == opt5 and opt5.rewrite(exp) == expr5 and opt6.count_ops() <= expr6.count_ops() and abs(ev(expr6) - ev(opt6)) < 1e-15 and -2 * expm1(x) / expm1(y) == opt7 and (opt7.rewrite(exp) - expr7).factor() == 0 and (tgt8a - tgt8b).rewrite(exp).factor() == 0 and opt8 in (tgt8a, tgt8b) and (opt8.rewrite(exp) - expr8).factor() == 0 and opt9 in (tgt9a, tgt9b) and (opt9.rewrite(exp) - expr9.rewrite(exp)).factor().is_zero"},"spec":{"lhs":"test_expm1_opt()","rhs":"test_expm1_opt produces the expected output","over":{"base":"Any"},"name":"test_expm1_opt_correct","kind":"composition"},"guarantee":"test_expm1_opt produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"subs","by":"library_axiom"},{"fn":"evalf","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dfb64ca0fcaf7c04"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_rewriting.test_expm1_opt","kind":"function","src_hash":"dbc05d007ac0a607","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (e.subs(x, 3).evalf())"},"spec":{"lhs":"test_expm1_opt()","rhs":"e.subs(x, 3).evalf()","over":{"base":"Any"},"name":"test_expm1_opt_correct","kind":"composition"},"guarantee":"returns e.subs(x, 3).evalf(); expm1(x) - opt1 == 0; opt1.rewrite(exp) == expr1; 3 * expm1(x) == opt2","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"subs","by":"library_axiom"},{"fn":"evalf","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dfb64ca0fcaf7c04","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["expm1(x) - opt1 == 0","opt1.rewrite(exp) == expr1","3 * expm1(x) == opt2","opt2.rewrite(exp) == expr2","3 * expm1(x) - 2 == opt3","opt3.rewrite(exp) == expr3","expr3 == optimize(expr3, [expm1_opt_non_opportunistic])","opt1 == optimize(expr1, [expm1_opt_non_opportunistic])","opt2 == optimize(expr2, [expm1_opt_non_opportunistic])","3 * expm1(x) + log(x) == opt4","opt4.rewrite(exp) == expr4","3 * expm1(2 * x) == opt5","opt5.rewrite(exp) == expr5","opt6.count_ops() <= expr6.count_ops()","abs(ev(expr6) - ev(opt6)) < 1e-15","-2 * expm1(x) / expm1(y) == opt7","(opt7.rewrite(exp) - expr7).factor() == 0","(tgt8a - tgt8b).rewrite(exp).factor() == 0","opt8 in (tgt8a, tgt8b)","(opt8.rewrite(exp) - expr8).factor() == 0","opt9 in (tgt9a, tgt9b)","(opt9.rewrite(exp) - expr9.rewrite(exp)).factor().is_zero"],"returns_expr":"e.subs(x, 3).evalf()","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":true}}
 def test_expm1_opt():
     x = Symbol('x')
 
@@ -189,16 +214,22 @@ def test_expm1_opt():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_expm1_two_exp_terms(), test_expm1_two_exp_terms produces the expected output) over Any ║
+# ║ Path(test_expm1_two_exp_terms(), opt1 == expm1(x) + expm1(y)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_expm1_two_exp_terms : Any → {Any | opt1 == expm1...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  opt1 == expm1(x) + expm1(y)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_expm1_two_exp_terms : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 06e3dc8775b7f183  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f885ec049d857f16  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_rewriting.test_expm1_two_exp_terms","kind":"function","src_hash":"ab693451570f21ce","in":{"base":"Any"},"out":{"base":"Any","pred":"opt1 == expm1(x) + expm1(y)"},"spec":{"lhs":"test_expm1_two_exp_terms()","rhs":"test_expm1_two_exp_terms produces the expected output","over":{"base":"Any"},"name":"test_expm1_two_exp_terms_correct"},"guarantee":"test_expm1_two_exp_terms produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_rewriting.test_expm1_two_exp_terms_correct","statement":"Path(test_expm1_two_exp_terms(x), test_expm1_two_exp_terms produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"06e3dc8775b7f183"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_rewriting.test_expm1_two_exp_terms","kind":"function","src_hash":"ab693451570f21ce","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: opt1 == expm1(x) + expm1(y)"},"spec":{"lhs":"test_expm1_two_exp_terms()","rhs":"opt1 == expm1(x) + expm1(y)","over":{"base":"Any"},"name":"test_expm1_two_exp_terms_correct"},"guarantee":"opt1 == expm1(x) + expm1(y)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_rewriting.test_expm1_two_exp_terms_correct","statement":"Path(test_expm1_two_exp_terms(x), opt1 == expm1(x) + expm1(y))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f885ec049d857f16","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["opt1 == expm1(x) + expm1(y)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_expm1_two_exp_terms():
     x, y = map(Symbol, 'x y'.split())
     expr1 = exp(x) + exp(y) - 2
@@ -207,16 +238,24 @@ def test_expm1_two_exp_terms():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_cosm1_opt(), test_cosm1_opt produces the expected output) over Any ║
+# ║ Path(test_cosm1_opt(), cosm1(x) - opt1 == 0 and opt1.rewrite(cos) == expr1 and 3 * cosm1(x) == opt2 and opt2.rewrite(cos) == expr2 and 3 * cosm1(x) - 2 == opt3 and opt3.rewrite(cos) == expr3 and expr3 == optimize(expr3, [cosm1_opt_non_opportunistic]) and opt1 == optimize(expr1, [cosm1_opt_non_opportunistic]) and opt2 == optimize(expr2, [cosm1_opt_non_opportunistic]) and 3 * cosm1(x) + log(x) == opt4 and opt4.rewrite(cos) == expr4 and 3 * cosm1(2 * x) == opt5 and opt5.rewrite(cos) == expr5 and -2 * cosm1(x) == opt6 and opt6.rewrite(cos) == expr6) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_cosm1_opt : Any → {Any | cosm1(x) - opt1 == 0 an...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  cosm1(x) - opt1 == 0                           ║
+# ║   ensures:  opt1.rewrite(cos) == expr1                     ║
+# ║   ensures:  3 * cosm1(x) == opt2                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_cosm1_opt : Any → {Any | result satisfies: cosm1...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 98999123d2a067f1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7bd7081684585f8a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_rewriting.test_cosm1_opt","kind":"function","src_hash":"0e71839e0683b8be","in":{"base":"Any"},"out":{"base":"Any","pred":"cosm1(x) - opt1 == 0 and opt1.rewrite(cos) == expr1 and 3 * cosm1(x) == opt2 and opt2.rewrite(cos) == expr2 and 3 * cosm1(x) - 2 == opt3 and opt3.rewrite(cos) == expr3 and expr3 == optimize(expr3, [cosm1_opt_non_opportunistic]) and opt1 == optimize(expr1, [cosm1_opt_non_opportunistic]) and opt2 == optimize(expr2, [cosm1_opt_non_opportunistic]) and 3 * cosm1(x) + log(x) == opt4 and opt4.rewrite(cos) == expr4 and 3 * cosm1(2 * x) == opt5 and opt5.rewrite(cos) == expr5 and -2 * cosm1(x) == opt6 and opt6.rewrite(cos) == expr6"},"spec":{"lhs":"test_cosm1_opt()","rhs":"test_cosm1_opt produces the expected output","over":{"base":"Any"},"name":"test_cosm1_opt_correct"},"guarantee":"test_cosm1_opt produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_rewriting.test_cosm1_opt_correct","statement":"Path(test_cosm1_opt(x), test_cosm1_opt produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"98999123d2a067f1"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_rewriting.test_cosm1_opt","kind":"function","src_hash":"0e71839e0683b8be","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: cosm1(x) - opt1 == 0 and opt1.rewrite(cos) == expr1 and 3 * cosm1(x) == opt2 and opt2.rewrite(cos) == expr2 and 3 * cosm1(x) - 2 == opt3 and opt3.rewrite(cos) == expr3 and expr3 == optimize(expr3, [cosm1_opt_non_opportunistic]) and opt1 == optimize(expr1, [cosm1_opt_non_opportunistic]) and opt2 == optimize(expr2, [cosm1_opt_non_opportunistic]) and 3 * cosm1(x) + log(x) == opt4 and opt4.rewrite(cos) == expr4 and 3 * cosm1(2 * x) == opt5 and opt5.rewrite(cos) == expr5 and -2 * cosm1(x) == opt6 and opt6.rewrite(cos) == expr6"},"spec":{"lhs":"test_cosm1_opt()","rhs":"cosm1(x) - opt1 == 0 and opt1.rewrite(cos) == expr1 and 3 * cosm1(x) == opt2 and opt2.rewrite(cos) == expr2 and 3 * cosm1(x) - 2 == opt3 and opt3.rewrite(cos) == expr3 and expr3 == optimize(expr3, [cosm1_opt_non_opportunistic]) and opt1 == optimize(expr1, [cosm1_opt_non_opportunistic]) and opt2 == optimize(expr2, [cosm1_opt_non_opportunistic]) and 3 * cosm1(x) + log(x) == opt4 and opt4.rewrite(cos) == expr4 and 3 * cosm1(2 * x) == opt5 and opt5.rewrite(cos) == expr5 and -2 * cosm1(x) == opt6 and opt6.rewrite(cos) == expr6","over":{"base":"Any"},"name":"test_cosm1_opt_correct"},"guarantee":"cosm1(x) - opt1 == 0; opt1.rewrite(cos) == expr1; 3 * cosm1(x) == opt2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_rewriting.test_cosm1_opt_correct","statement":"Path(test_cosm1_opt(x), cosm1(x) - opt1 == 0; opt1.rewrite(cos) == expr1; 3 * cosm1(x) == opt2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7bd7081684585f8a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["cosm1(x) - opt1 == 0","opt1.rewrite(cos) == expr1","3 * cosm1(x) == opt2","opt2.rewrite(cos) == expr2","3 * cosm1(x) - 2 == opt3","opt3.rewrite(cos) == expr3","expr3 == optimize(expr3, [cosm1_opt_non_opportunistic])","opt1 == optimize(expr1, [cosm1_opt_non_opportunistic])","opt2 == optimize(expr2, [cosm1_opt_non_opportunistic])","3 * cosm1(x) + log(x) == opt4","opt4.rewrite(cos) == expr4","3 * cosm1(2 * x) == opt5","opt5.rewrite(cos) == expr5","-2 * cosm1(x) == opt6","opt6.rewrite(cos) == expr6"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_cosm1_opt():
     x = Symbol('x')
 
@@ -256,16 +295,22 @@ def test_cosm1_opt():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_cosm1_two_cos_terms(), test_cosm1_two_cos_terms produces the expected output) over Any ║
+# ║ Path(test_cosm1_two_cos_terms(), opt1 == cosm1(x) + cosm1(y)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_cosm1_two_cos_terms : Any → {Any | opt1 == cosm1...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  opt1 == cosm1(x) + cosm1(y)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_cosm1_two_cos_terms : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6590a8501257b686  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 740b336fe4730c1f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_rewriting.test_cosm1_two_cos_terms","kind":"function","src_hash":"45f7b01d0ab83012","in":{"base":"Any"},"out":{"base":"Any","pred":"opt1 == cosm1(x) + cosm1(y)"},"spec":{"lhs":"test_cosm1_two_cos_terms()","rhs":"test_cosm1_two_cos_terms produces the expected output","over":{"base":"Any"},"name":"test_cosm1_two_cos_terms_correct"},"guarantee":"test_cosm1_two_cos_terms produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_rewriting.test_cosm1_two_cos_terms_correct","statement":"Path(test_cosm1_two_cos_terms(x), test_cosm1_two_cos_terms produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6590a8501257b686"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_rewriting.test_cosm1_two_cos_terms","kind":"function","src_hash":"45f7b01d0ab83012","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: opt1 == cosm1(x) + cosm1(y)"},"spec":{"lhs":"test_cosm1_two_cos_terms()","rhs":"opt1 == cosm1(x) + cosm1(y)","over":{"base":"Any"},"name":"test_cosm1_two_cos_terms_correct"},"guarantee":"opt1 == cosm1(x) + cosm1(y)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_rewriting.test_cosm1_two_cos_terms_correct","statement":"Path(test_cosm1_two_cos_terms(x), opt1 == cosm1(x) + cosm1(y))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"740b336fe4730c1f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["opt1 == cosm1(x) + cosm1(y)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_cosm1_two_cos_terms():
     x, y = map(Symbol, 'x y'.split())
     expr1 = cos(x) + cos(y) - 2
@@ -274,16 +319,22 @@ def test_cosm1_two_cos_terms():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_expm1_cosm1_mixed(), test_expm1_cosm1_mixed produces the expected output) over Any ║
+# ║ Path(test_expm1_cosm1_mixed(), opt1 == cosm1(x) + expm1(x)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_expm1_cosm1_mixed : Any → {Any | opt1 == cosm1(x...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  opt1 == cosm1(x) + expm1(x)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_expm1_cosm1_mixed : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5abda8644c52ebfb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8185cc3d652bc56d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_rewriting.test_expm1_cosm1_mixed","kind":"function","src_hash":"f0c6d5bb2afb4004","in":{"base":"Any"},"out":{"base":"Any","pred":"opt1 == cosm1(x) + expm1(x)"},"spec":{"lhs":"test_expm1_cosm1_mixed()","rhs":"test_expm1_cosm1_mixed produces the expected output","over":{"base":"Any"},"name":"test_expm1_cosm1_mixed_correct"},"guarantee":"test_expm1_cosm1_mixed produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_rewriting.test_expm1_cosm1_mixed_correct","statement":"Path(test_expm1_cosm1_mixed(x), test_expm1_cosm1_mixed produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5abda8644c52ebfb"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_rewriting.test_expm1_cosm1_mixed","kind":"function","src_hash":"f0c6d5bb2afb4004","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: opt1 == cosm1(x) + expm1(x)"},"spec":{"lhs":"test_expm1_cosm1_mixed()","rhs":"opt1 == cosm1(x) + expm1(x)","over":{"base":"Any"},"name":"test_expm1_cosm1_mixed_correct"},"guarantee":"opt1 == cosm1(x) + expm1(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_rewriting.test_expm1_cosm1_mixed_correct","statement":"Path(test_expm1_cosm1_mixed(x), opt1 == cosm1(x) + expm1(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8185cc3d652bc56d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["opt1 == cosm1(x) + expm1(x)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_expm1_cosm1_mixed():
     x = Symbol('x')
     expr1 = exp(x) + cos(x) - 2
@@ -292,16 +343,27 @@ def test_expm1_cosm1_mixed():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_check_num_lambdify(exp), poorness=1e10 signifies that `expr` loses precision of at least ten decimal digits) over Any ║
+# ║ Path(_check_num_lambdify(expr, opt, val_subs), abs(num_ref - approx_ref) < approx_ref * eps and num_err1 < abs(num_ref * eps) and num_err2 > abs(num_ref * eps * poorness)) over {Any | hasattr(expr, 'subs') and hasattr(val_subs, 'keys') and hasattr(val_subs, 'values')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _check_num_lambdify : Any → {Any | abs(num_ref - appr...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'subs')                          ║
+# ║   requires: hasattr(val_subs, 'keys')                      ║
+# ║   requires: hasattr(val_subs, 'values')                    ║
+# ║   ensures:  abs(num_ref - approx_ref) < approx_ref * eps   ║
+# ║   ensures:  num_err1 < abs(num_ref * eps)                  ║
+# ║   ensures:  num_err2 > abs(num_ref * eps * poorness)       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _check_num_lambdify : {Any | hasattr(expr, 'subs') an...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8767ab126b47f454  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a7ddd95c56f712ce  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_rewriting._check_num_lambdify","kind":"function","src_hash":"fbfcad6b1a6ec238","in":{"base":"Any"},"out":{"base":"Any","pred":"abs(num_ref - approx_ref) < approx_ref * eps and num_err1 < abs(num_ref * eps) and num_err2 > abs(num_ref * eps * poorness)"},"spec":{"lhs":"_check_num_lambdify(exp)","rhs":"poorness=1e10 signifies that `expr` loses precision of at least ten decimal digits","over":{"base":"Any"},"name":"_check_num_lambdify_correct"},"guarantee":"poorness=1e10 signifies that `expr` loses precision of at least ten decimal digits","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_rewriting._check_num_lambdify_correct","statement":"Path(_check_num_lambdify(x), poorness=1e10 signifies that `expr` loses precision of at least ten decimal digits)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8767ab126b47f454"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_rewriting._check_num_lambdify","kind":"function","src_hash":"fbfcad6b1a6ec238","in":{"base":"Any","pred":"hasattr(expr, 'subs') and hasattr(val_subs, 'keys') and hasattr(val_subs, 'values')"},"out":{"base":"Any","pred":"result satisfies: abs(num_ref - approx_ref) < approx_ref * eps and num_err1 < abs(num_ref * eps) and num_err2 > abs(num_ref * eps * poorness)"},"spec":{"lhs":"_check_num_lambdify(expr, opt, val_subs)","rhs":"abs(num_ref - approx_ref) < approx_ref * eps and num_err1 < abs(num_ref * eps) and num_err2 > abs(num_ref * eps * poorness)","over":{"base":"Any","pred":"hasattr(expr, 'subs') and hasattr(val_subs, 'keys') and hasattr(val_subs, 'values')"},"name":"_check_num_lambdify_correct"},"guarantee":"abs(num_ref - approx_ref) < approx_ref * eps; num_err1 < abs(num_ref * eps); num_err2 > abs(num_ref * eps * poorness)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_rewriting._check_num_lambdify_correct","statement":"Path(_check_num_lambdify(x), abs(num_ref - approx_ref) < approx_ref * eps; num_err1 < abs(num_ref * eps); num_err2 > abs(num_ref * eps * poorness))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a7ddd95c56f712ce","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'subs')","hasattr(val_subs, 'keys')","hasattr(val_subs, 'values')"],"ensures":["abs(num_ref - approx_ref) < approx_ref * eps","num_err1 < abs(num_ref * eps)","num_err2 > abs(num_ref * eps * poorness)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.subs","val_subs.keys","val_subs.values"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _check_num_lambdify(expr, opt, val_subs, approx_ref, lambdify_kw=None, poorness=1e10):
     """ poorness=1e10 signifies that `expr` loses precision of at least ten decimal digits. """
     num_ref = expr.subs(val_subs).evalf()
@@ -317,16 +379,24 @@ def _check_num_lambdify(expr, opt, val_subs, approx_ref, lambdify_kw=None, poorn
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_cosm1_apart(), test_cosm1_apart produces the expected output) over Any ║
+# ║ Path(test_cosm1_apart(), opt1 == -cosm1(x) / cos(x) and opt2 == -2 * cosm1(x) / cos(x) and opt3 == -pi * cosm1(3 * x) / cos(3 * x)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_cosm1_apart : Any → {Any | opt1 == -cosm1(x) / c...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  opt1 == -cosm1(x) / cos(x)                     ║
+# ║   ensures:  opt2 == -2 * cosm1(x) / cos(x)                 ║
+# ║   ensures:  opt3 == -pi * cosm1(3 * x) / cos(3 * x)        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_cosm1_apart : Any → {Any | result satisfies: opt...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8ce207f2637241bc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 72c77c069938b00b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_rewriting.test_cosm1_apart","kind":"function","src_hash":"7de36aedc9ca205a","in":{"base":"Any"},"out":{"base":"Any","pred":"opt1 == -cosm1(x) / cos(x) and opt2 == -2 * cosm1(x) / cos(x) and opt3 == -pi * cosm1(3 * x) / cos(3 * x)"},"spec":{"lhs":"test_cosm1_apart()","rhs":"test_cosm1_apart produces the expected output","over":{"base":"Any"},"name":"test_cosm1_apart_correct"},"guarantee":"test_cosm1_apart produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_rewriting.test_cosm1_apart_correct","statement":"Path(test_cosm1_apart(x), test_cosm1_apart produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8ce207f2637241bc"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_rewriting.test_cosm1_apart","kind":"function","src_hash":"7de36aedc9ca205a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: opt1 == -cosm1(x) / cos(x) and opt2 == -2 * cosm1(x) / cos(x) and opt3 == -pi * cosm1(3 * x) / cos(3 * x)"},"spec":{"lhs":"test_cosm1_apart()","rhs":"opt1 == -cosm1(x) / cos(x) and opt2 == -2 * cosm1(x) / cos(x) and opt3 == -pi * cosm1(3 * x) / cos(3 * x)","over":{"base":"Any"},"name":"test_cosm1_apart_correct"},"guarantee":"opt1 == -cosm1(x) / cos(x); opt2 == -2 * cosm1(x) / cos(x); opt3 == -pi * cosm1(3 * x) / cos(3 * x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_rewriting.test_cosm1_apart_correct","statement":"Path(test_cosm1_apart(x), opt1 == -cosm1(x) / cos(x); opt2 == -2 * cosm1(x) / cos(x); opt3 == -pi * cosm1(3 * x) / cos(3 * x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"72c77c069938b00b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["opt1 == -cosm1(x) / cos(x)","opt2 == -2 * cosm1(x) / cos(x)","opt3 == -pi * cosm1(3 * x) / cos(3 * x)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_cosm1_apart():
     x = Symbol('x')
 
@@ -350,16 +420,22 @@ def test_cosm1_apart():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_powm1(), test_powm1 produces the expected output) over Any ║
+# ║ Path(test_powm1(), opt1 == powm1(x, y)) over Any           ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_powm1 : Any → {Any | opt1 == powm1(x, y) and exp...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  opt1 == powm1(x, y)                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_powm1 : Any → {Any | result satisfies: opt1 == p...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7cba6fd481446ec4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d0c7b9d855f3c2c1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_rewriting.test_powm1","kind":"function","src_hash":"44953755ce7e757e","in":{"base":"Any"},"out":{"base":"Any","pred":"opt1 == powm1(x, y) and expr1.diff(arg) == opt1.diff(arg)"},"spec":{"lhs":"test_powm1()","rhs":"test_powm1 produces the expected output","over":{"base":"Any"},"name":"test_powm1_correct"},"guarantee":"test_powm1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_rewriting.test_powm1_correct","statement":"Path(test_powm1(x), test_powm1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7cba6fd481446ec4"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_rewriting.test_powm1","kind":"function","src_hash":"44953755ce7e757e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: opt1 == powm1(x, y)"},"spec":{"lhs":"test_powm1()","rhs":"opt1 == powm1(x, y)","over":{"base":"Any"},"name":"test_powm1_correct"},"guarantee":"opt1 == powm1(x, y)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_rewriting.test_powm1_correct","statement":"Path(test_powm1(x), opt1 == powm1(x, y))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d0c7b9d855f3c2c1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["opt1 == powm1(x, y)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_powm1():
     args = x, y = map(Symbol, "xy")
 
@@ -379,16 +455,24 @@ def test_powm1():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_log1p_opt(), test_log1p_opt produces the expected output) over Any ║
+# ║ Path(test_log1p_opt(), log1p(x) - opt1 == 0 and opt1.rewrite(log) == expr1 and log1p(x) + log(3) == opt2 and (opt2.rewrite(log) - expr2).simplify() == 0 and log1p(2 * x) - opt3 == 0 and opt3.rewrite(log) == expr3 and str(opt4) == 'log(x + 3)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_log1p_opt : Any → {Any | log1p(x) - opt1 == 0 an...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  log1p(x) - opt1 == 0                           ║
+# ║   ensures:  opt1.rewrite(log) == expr1                     ║
+# ║   ensures:  log1p(x) + log(3) == opt2                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_log1p_opt : Any → {Any | result satisfies: log1p...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b74d55e5911b8f27  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ecb28e91c852f799  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_rewriting.test_log1p_opt","kind":"function","src_hash":"c9b612becc919114","in":{"base":"Any"},"out":{"base":"Any","pred":"log1p(x) - opt1 == 0 and opt1.rewrite(log) == expr1 and log1p(x) + log(3) == opt2 and (opt2.rewrite(log) - expr2).simplify() == 0 and log1p(2 * x) - opt3 == 0 and opt3.rewrite(log) == expr3 and str(opt4) == 'log(x + 3)'"},"spec":{"lhs":"test_log1p_opt()","rhs":"test_log1p_opt produces the expected output","over":{"base":"Any"},"name":"test_log1p_opt_correct"},"guarantee":"test_log1p_opt produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_rewriting.test_log1p_opt_correct","statement":"Path(test_log1p_opt(x), test_log1p_opt produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b74d55e5911b8f27"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_rewriting.test_log1p_opt","kind":"function","src_hash":"c9b612becc919114","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: log1p(x) - opt1 == 0 and opt1.rewrite(log) == expr1 and log1p(x) + log(3) == opt2 and (opt2.rewrite(log) - expr2).simplify() == 0 and log1p(2 * x) - opt3 == 0 and opt3.rewrite(log) == expr3 and str(opt4) == 'log(x + 3)'"},"spec":{"lhs":"test_log1p_opt()","rhs":"log1p(x) - opt1 == 0 and opt1.rewrite(log) == expr1 and log1p(x) + log(3) == opt2 and (opt2.rewrite(log) - expr2).simplify() == 0 and log1p(2 * x) - opt3 == 0 and opt3.rewrite(log) == expr3 and str(opt4) == 'log(x + 3)'","over":{"base":"Any"},"name":"test_log1p_opt_correct"},"guarantee":"log1p(x) - opt1 == 0; opt1.rewrite(log) == expr1; log1p(x) + log(3) == opt2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_rewriting.test_log1p_opt_correct","statement":"Path(test_log1p_opt(x), log1p(x) - opt1 == 0; opt1.rewrite(log) == expr1; log1p(x) + log(3) == opt2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ecb28e91c852f799","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["log1p(x) - opt1 == 0","opt1.rewrite(log) == expr1","log1p(x) + log(3) == opt2","(opt2.rewrite(log) - expr2).simplify() == 0","log1p(2 * x) - opt3 == 0","opt3.rewrite(log) == expr3","str(opt4) == 'log(x + 3)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_log1p_opt():
     x = Symbol('x')
     expr1 = log(x + 1)
@@ -412,16 +496,24 @@ def test_log1p_opt():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_optims_c99(), test_optims_c99 produces the expected output) over Any ║
+# ║ Path(test_optims_c99(), opt1 == exp2(x) + log2(x) + log1p(x) + expm1(x) and opt1.rewrite(exp).rewrite(log).rewrite(Pow) == expr1 and opt2 == log2(x) + log1p(x) and opt2.rewrite(log) == expr2 and delta3 == 0 and (opt3.rewrite(log) - expr3).simplify() == 0 and delta4 == 0 and (opt4.rewrite(exp).rewrite(log).rewrite(Pow) - expr4).simplify() == 0 and delta5 == 0 and opt5.rewrite(exp) == expr5 and opt6 in (expm1(2 * x) - 2, expr6) and delta7 == 0 and (opt7.rewrite(log) - expr7).simplify() == 0 and opt8 == expr8) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_optims_c99 : Any → {Any | opt1 == exp2(x) + log2...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  opt1 == exp2(x) + log2(x) + log1p(x) + ex...   ║
+# ║   ensures:  opt1.rewrite(exp).rewrite(log).rewrite(Po...   ║
+# ║   ensures:  opt2 == log2(x) + log1p(x)                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_optims_c99 : Any → {Any | result satisfies: opt1...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3534a2754eefdf58  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b7f1a1c008f7ae07  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_rewriting.test_optims_c99","kind":"function","src_hash":"9a6f0d0bfdc0bd30","in":{"base":"Any"},"out":{"base":"Any","pred":"opt1 == exp2(x) + log2(x) + log1p(x) + expm1(x) and opt1.rewrite(exp).rewrite(log).rewrite(Pow) == expr1 and opt2 == log2(x) + log1p(x) and opt2.rewrite(log) == expr2 and delta3 == 0 and (opt3.rewrite(log) - expr3).simplify() == 0 and delta4 == 0 and (opt4.rewrite(exp).rewrite(log).rewrite(Pow) - expr4).simplify() == 0 and delta5 == 0 and opt5.rewrite(exp) == expr5 and opt6 in (expm1(2 * x) - 2, expr6) and delta7 == 0 and (opt7.rewrite(log) - expr7).simplify() == 0 and opt8 == expr8"},"spec":{"lhs":"test_optims_c99()","rhs":"test_optims_c99 produces the expected output","over":{"base":"Any"},"name":"test_optims_c99_correct"},"guarantee":"test_optims_c99 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_rewriting.test_optims_c99_correct","statement":"Path(test_optims_c99(x), test_optims_c99 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3534a2754eefdf58"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_rewriting.test_optims_c99","kind":"function","src_hash":"9a6f0d0bfdc0bd30","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: opt1 == exp2(x) + log2(x) + log1p(x) + expm1(x) and opt1.rewrite(exp).rewrite(log).rewrite(Pow) == expr1 and opt2 == log2(x) + log1p(x) and opt2.rewrite(log) == expr2 and delta3 == 0 and (opt3.rewrite(log) - expr3).simplify() == 0 and delta4 == 0 and (opt4.rewrite(exp).rewrite(log).rewrite(Pow) - expr4).simplify() == 0 and delta5 == 0 and opt5.rewrite(exp) == expr5 and opt6 in (expm1(2 * x) - 2, expr6) and delta7 == 0 and (opt7.rewrite(log) - expr7).simplify() == 0 and opt8 == expr8"},"spec":{"lhs":"test_optims_c99()","rhs":"opt1 == exp2(x) + log2(x) + log1p(x) + expm1(x) and opt1.rewrite(exp).rewrite(log).rewrite(Pow) == expr1 and opt2 == log2(x) + log1p(x) and opt2.rewrite(log) == expr2 and delta3 == 0 and (opt3.rewrite(log) - expr3).simplify() == 0 and delta4 == 0 and (opt4.rewrite(exp).rewrite(log).rewrite(Pow) - expr4).simplify() == 0 and delta5 == 0 and opt5.rewrite(exp) == expr5 and opt6 in (expm1(2 * x) - 2, expr6) and delta7 == 0 and (opt7.rewrite(log) - expr7).simplify() == 0 and opt8 == expr8","over":{"base":"Any"},"name":"test_optims_c99_correct"},"guarantee":"opt1 == exp2(x) + log2(x) + log1p(x) + expm1(x); opt1.rewrite(exp).rewrite(log).rewrite(Pow) == expr1; opt2 == log2(x) + log1p(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_rewriting.test_optims_c99_correct","statement":"Path(test_optims_c99(x), opt1 == exp2(x) + log2(x) + log1p(x) + expm1(x); opt1.rewrite(exp).rewrite(log).rewrite(Pow) == expr1; opt2 == log2(x) + log1p(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b7f1a1c008f7ae07","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["opt1 == exp2(x) + log2(x) + log1p(x) + expm1(x)","opt1.rewrite(exp).rewrite(log).rewrite(Pow) == expr1","opt2 == log2(x) + log1p(x)","opt2.rewrite(log) == expr2","delta3 == 0","(opt3.rewrite(log) - expr3).simplify() == 0","delta4 == 0","(opt4.rewrite(exp).rewrite(log).rewrite(Pow) - expr4).simplify() == 0","delta5 == 0","opt5.rewrite(exp) == expr5","opt6 in (expm1(2 * x) - 2, expr6)","delta7 == 0","(opt7.rewrite(log) - expr7).simplify() == 0","opt8 == expr8"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def test_optims_c99():
     x = Symbol('x')
 
@@ -469,16 +561,24 @@ def test_optims_c99():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_create_expand_pow_optimization(), test_create_expand_pow_optimization produces the expected output) over Any ║
+# ║ Path(test_create_expand_pow_optimization(), cc(x ** 4) == 'x*x*x*x' and cc(x ** 4 + x ** 2) == 'x*x + x*x*x*x' and cc(x ** 5 + x ** 4) == 'pow(x, 5) + x*x*x*x' and cc(sin(x) ** 4) == 'pow(sin(x), 4)' and cc(x ** (-4)) == '1.0/(x*x*x*x)' and cc(x ** (-5)) == 'pow(x, -5)' and cc(-x ** 4) == '-(x*x*x*x)' and cc(x ** 4 - x ** 2) == '-(x*x) + x*x*x*x' and cc(x ** i - x ** 2) == 'pow(x, i) - (x*x)' and cc(Abs(exp(y ** 4))) == 'exp(y*y*y*y)' and cc2(x ** 3 + sin(x) ** 3) == 'pow(x, 3) + sin(x)*sin(x)*sin(x)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_create_expand_pow_optimization : Any → {Any | cc...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  cc(x ** 4) == 'x*x*x*x'                        ║
+# ║   ensures:  cc(x ** 4 + x ** 2) == 'x*x + x*x*x*x'         ║
+# ║   ensures:  cc(x ** 5 + x ** 4) == 'pow(x, 5) + x*x*x*x'   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_create_expand_pow_optimization : Any → {Any | re...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5afb0f67888baacf  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a9ab28d58bbed421  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_rewriting.test_create_expand_pow_optimization","kind":"function","src_hash":"cac3679731e3b69c","in":{"base":"Any"},"out":{"base":"Any","pred":"cc(x ** 4) == 'x*x*x*x' and cc(x ** 4 + x ** 2) == 'x*x + x*x*x*x' and cc(x ** 5 + x ** 4) == 'pow(x, 5) + x*x*x*x' and cc(sin(x) ** 4) == 'pow(sin(x), 4)' and cc(x ** (-4)) == '1.0/(x*x*x*x)' and cc(x ** (-5)) == 'pow(x, -5)' and cc(-x ** 4) == '-(x*x*x*x)' and cc(x ** 4 - x ** 2) == '-(x*x) + x*x*x*x' and cc(x ** i - x ** 2) == 'pow(x, i) - (x*x)' and cc(Abs(exp(y ** 4))) == 'exp(y*y*y*y)' and cc2(x ** 3 + sin(x) ** 3) == 'pow(x, 3) + sin(x)*sin(x)*sin(x)'"},"spec":{"lhs":"test_create_expand_pow_optimization()","rhs":"test_create_expand_pow_optimization produces the expected output","over":{"base":"Any"},"name":"test_create_expand_pow_optimization_correct"},"guarantee":"test_create_expand_pow_optimization produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_rewriting.test_create_expand_pow_optimization_correct","statement":"Path(test_create_expand_pow_optimization(x), test_create_expand_pow_optimization produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5afb0f67888baacf"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_rewriting.test_create_expand_pow_optimization","kind":"function","src_hash":"cac3679731e3b69c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: cc(x ** 4) == 'x*x*x*x' and cc(x ** 4 + x ** 2) == 'x*x + x*x*x*x' and cc(x ** 5 + x ** 4) == 'pow(x, 5) + x*x*x*x' and cc(sin(x) ** 4) == 'pow(sin(x), 4)' and cc(x ** (-4)) == '1.0/(x*x*x*x)' and cc(x ** (-5)) == 'pow(x, -5)' and cc(-x ** 4) == '-(x*x*x*x)' and cc(x ** 4 - x ** 2) == '-(x*x) + x*x*x*x' and cc(x ** i - x ** 2) == 'pow(x, i) - (x*x)' and cc(Abs(exp(y ** 4))) == 'exp(y*y*y*y)' and cc2(x ** 3 + sin(x) ** 3) == 'pow(x, 3) + sin(x)*sin(x)*sin(x)'"},"spec":{"lhs":"test_create_expand_pow_optimization()","rhs":"cc(x ** 4) == 'x*x*x*x' and cc(x ** 4 + x ** 2) == 'x*x + x*x*x*x' and cc(x ** 5 + x ** 4) == 'pow(x, 5) + x*x*x*x' and cc(sin(x) ** 4) == 'pow(sin(x), 4)' and cc(x ** (-4)) == '1.0/(x*x*x*x)' and cc(x ** (-5)) == 'pow(x, -5)' and cc(-x ** 4) == '-(x*x*x*x)' and cc(x ** 4 - x ** 2) == '-(x*x) + x*x*x*x' and cc(x ** i - x ** 2) == 'pow(x, i) - (x*x)' and cc(Abs(exp(y ** 4))) == 'exp(y*y*y*y)' and cc2(x ** 3 + sin(x) ** 3) == 'pow(x, 3) + sin(x)*sin(x)*sin(x)'","over":{"base":"Any"},"name":"test_create_expand_pow_optimization_correct"},"guarantee":"cc(x ** 4) == 'x*x*x*x'; cc(x ** 4 + x ** 2) == 'x*x + x*x*x*x'; cc(x ** 5 + x ** 4) == 'pow(x, 5) + x*x*x*x'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_rewriting.test_create_expand_pow_optimization_correct","statement":"Path(test_create_expand_pow_optimization(x), cc(x ** 4) == 'x*x*x*x'; cc(x ** 4 + x ** 2) == 'x*x + x*x*x*x'; cc(x ** 5 + x ** 4) == 'pow(x, 5) + x*x*x*x')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a9ab28d58bbed421","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["cc(x ** 4) == 'x*x*x*x'","cc(x ** 4 + x ** 2) == 'x*x + x*x*x*x'","cc(x ** 5 + x ** 4) == 'pow(x, 5) + x*x*x*x'","cc(sin(x) ** 4) == 'pow(sin(x), 4)'","cc(x ** (-4)) == '1.0/(x*x*x*x)'","cc(x ** (-5)) == 'pow(x, -5)'","cc(-x ** 4) == '-(x*x*x*x)'","cc(x ** 4 - x ** 2) == '-(x*x) + x*x*x*x'","cc(x ** i - x ** 2) == 'pow(x, i) - (x*x)'","cc(Abs(exp(y ** 4))) == 'exp(y*y*y*y)'","cc2(x ** 3 + sin(x) ** 3) == 'pow(x, 3) + sin(x)*sin(x)*sin(x)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_create_expand_pow_optimization():
     cc = lambda x: ccode(
         optimize(x, [create_expand_pow_optimization(4)]))
@@ -504,16 +604,22 @@ def test_create_expand_pow_optimization():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_matsolve(), test_matsolve produces the expected output) over Any ║
+# ║ Path(test_matsolve(), <unspecified:test_matsolve>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_matsolve : Any → {Any | optimize(A ** (-1) * x, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b40dbcfb0bf74689  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_rewriting.test_matsolve","kind":"function","src_hash":"5502c15e644811d6","in":{"base":"Any"},"out":{"base":"Any","pred":"optimize(A ** (-1) * x, [matinv_opt]) == MatrixSolve(A, x) and optimize(A ** (-1) * x + x, [matinv_opt]) == MatrixSolve(A, x) + x"},"spec":{"lhs":"test_matsolve()","rhs":"test_matsolve produces the expected output","over":{"base":"Any"},"name":"test_matsolve_correct"},"guarantee":"test_matsolve produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_rewriting.test_matsolve_correct","statement":"Path(test_matsolve(x), test_matsolve produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b40dbcfb0bf74689"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_rewriting.test_matsolve","kind":"function","src_hash":"5502c15e644811d6","in":{"base":"Any"},"out":{"base":"Any","pred":"optimize(A ** (-1) * x, [matinv_opt]) == MatrixSolve(A, x) and optimize(A ** (-1) * x + x, [matinv_opt]) == MatrixSolve(A, x) + x"},"spec":{"lhs":"test_matsolve()","rhs":"<unspecified:test_matsolve>","over":{"base":"Any"},"name":"test_matsolve_correct"},"guarantee":"test_matsolve produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_rewriting.test_matsolve_correct","statement":"Path(test_matsolve(x), test_matsolve produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b40dbcfb0bf74689","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_matsolve():
     n = Symbol('n', integer=True)
     A = MatrixSymbol('A', n, n)
@@ -525,16 +631,24 @@ def test_matsolve():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_logaddexp_opt(), test_logaddexp_opt produces the expected output) over Any ║
+# ║ Path(test_logaddexp_opt(), logaddexp(x, y) - opt1 == 0 and logaddexp(y, x) - opt1 == 0 and opt1.rewrite(log) == expr1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_logaddexp_opt : Any → {Any | logaddexp(x, y) - o...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  logaddexp(x, y) - opt1 == 0                    ║
+# ║   ensures:  logaddexp(y, x) - opt1 == 0                    ║
+# ║   ensures:  opt1.rewrite(log) == expr1                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_logaddexp_opt : Any → {Any | result satisfies: l...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aeaa7b43c6136a7c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c9821db9dc39f821  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_rewriting.test_logaddexp_opt","kind":"function","src_hash":"d463897c543b73e4","in":{"base":"Any"},"out":{"base":"Any","pred":"logaddexp(x, y) - opt1 == 0 and logaddexp(y, x) - opt1 == 0 and opt1.rewrite(log) == expr1"},"spec":{"lhs":"test_logaddexp_opt()","rhs":"test_logaddexp_opt produces the expected output","over":{"base":"Any"},"name":"test_logaddexp_opt_correct"},"guarantee":"test_logaddexp_opt produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_rewriting.test_logaddexp_opt_correct","statement":"Path(test_logaddexp_opt(x), test_logaddexp_opt produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aeaa7b43c6136a7c"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_rewriting.test_logaddexp_opt","kind":"function","src_hash":"d463897c543b73e4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: logaddexp(x, y) - opt1 == 0 and logaddexp(y, x) - opt1 == 0 and opt1.rewrite(log) == expr1"},"spec":{"lhs":"test_logaddexp_opt()","rhs":"logaddexp(x, y) - opt1 == 0 and logaddexp(y, x) - opt1 == 0 and opt1.rewrite(log) == expr1","over":{"base":"Any"},"name":"test_logaddexp_opt_correct"},"guarantee":"logaddexp(x, y) - opt1 == 0; logaddexp(y, x) - opt1 == 0; opt1.rewrite(log) == expr1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_rewriting.test_logaddexp_opt_correct","statement":"Path(test_logaddexp_opt(x), logaddexp(x, y) - opt1 == 0; logaddexp(y, x) - opt1 == 0; opt1.rewrite(log) == expr1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c9821db9dc39f821","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["logaddexp(x, y) - opt1 == 0","logaddexp(y, x) - opt1 == 0","opt1.rewrite(log) == expr1"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_logaddexp_opt():
     x, y = map(Symbol, 'x y'.split())
     expr1 = log(exp(x) + exp(y))
@@ -545,16 +659,24 @@ def test_logaddexp_opt():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_logaddexp2_opt(), test_logaddexp2_opt produces the expected output) over Any ║
+# ║ Path(test_logaddexp2_opt(), logaddexp2(x, y) - opt1 == 0 and logaddexp2(y, x) - opt1 == 0 and opt1.rewrite(log) == expr1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_logaddexp2_opt : Any → {Any | logaddexp2(x, y) -...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  logaddexp2(x, y) - opt1 == 0                   ║
+# ║   ensures:  logaddexp2(y, x) - opt1 == 0                   ║
+# ║   ensures:  opt1.rewrite(log) == expr1                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_logaddexp2_opt : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1d228fd940745dd6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aaa2fd5ee3103207  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_rewriting.test_logaddexp2_opt","kind":"function","src_hash":"eb7c39d93bf9191f","in":{"base":"Any"},"out":{"base":"Any","pred":"logaddexp2(x, y) - opt1 == 0 and logaddexp2(y, x) - opt1 == 0 and opt1.rewrite(log) == expr1"},"spec":{"lhs":"test_logaddexp2_opt()","rhs":"test_logaddexp2_opt produces the expected output","over":{"base":"Any"},"name":"test_logaddexp2_opt_correct"},"guarantee":"test_logaddexp2_opt produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_rewriting.test_logaddexp2_opt_correct","statement":"Path(test_logaddexp2_opt(x), test_logaddexp2_opt produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1d228fd940745dd6"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_rewriting.test_logaddexp2_opt","kind":"function","src_hash":"eb7c39d93bf9191f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: logaddexp2(x, y) - opt1 == 0 and logaddexp2(y, x) - opt1 == 0 and opt1.rewrite(log) == expr1"},"spec":{"lhs":"test_logaddexp2_opt()","rhs":"logaddexp2(x, y) - opt1 == 0 and logaddexp2(y, x) - opt1 == 0 and opt1.rewrite(log) == expr1","over":{"base":"Any"},"name":"test_logaddexp2_opt_correct"},"guarantee":"logaddexp2(x, y) - opt1 == 0; logaddexp2(y, x) - opt1 == 0; opt1.rewrite(log) == expr1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_rewriting.test_logaddexp2_opt_correct","statement":"Path(test_logaddexp2_opt(x), logaddexp2(x, y) - opt1 == 0; logaddexp2(y, x) - opt1 == 0; opt1.rewrite(log) == expr1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aaa2fd5ee3103207","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["logaddexp2(x, y) - opt1 == 0","logaddexp2(y, x) - opt1 == 0","opt1.rewrite(log) == expr1"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_logaddexp2_opt():
     x, y = map(Symbol, 'x y'.split())
     expr1 = log(2**x + 2**y)/log(2)
@@ -565,16 +687,22 @@ def test_logaddexp2_opt():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_sinc_opts(), test_sinc_opts produces the expected output) over Any ║
+# ║ Path(test_sinc_opts(), <unspecified:test_sinc_opts>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_sinc_opts : Any → {Any | optimize(k, sinc_opts) ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 03c97fe81401d7a9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_rewriting.test_sinc_opts","kind":"function","src_hash":"25f9cd571bc423ac","in":{"base":"Any"},"out":{"base":"Any","pred":"optimize(k, sinc_opts) == v"},"spec":{"lhs":"test_sinc_opts()","rhs":"test_sinc_opts produces the expected output","over":{"base":"Any"},"name":"test_sinc_opts_correct"},"guarantee":"test_sinc_opts produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_rewriting.test_sinc_opts_correct","statement":"Path(test_sinc_opts(x), test_sinc_opts produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"03c97fe81401d7a9"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_rewriting.test_sinc_opts","kind":"function","src_hash":"25f9cd571bc423ac","in":{"base":"Any"},"out":{"base":"Any","pred":"optimize(k, sinc_opts) == v"},"spec":{"lhs":"test_sinc_opts()","rhs":"<unspecified:test_sinc_opts>","over":{"base":"Any"},"name":"test_sinc_opts_correct"},"guarantee":"test_sinc_opts produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_rewriting.test_sinc_opts_correct","statement":"Path(test_sinc_opts(x), test_sinc_opts produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"03c97fe81401d7a9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_sinc_opts():
     def check(d):
         for k, v in d.items():
@@ -599,16 +727,22 @@ def test_sinc_opts():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_optims_numpy(), test_optims_numpy produces the expected output) over Any ║
+# ║ Path(test_optims_numpy(), <unspecified:test_optims_numpy>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_optims_numpy : Any → {Any | optimize(k, optims_n...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f67fc5142006a960  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_rewriting.test_optims_numpy","kind":"function","src_hash":"171cf5268386eaa4","in":{"base":"Any"},"out":{"base":"Any","pred":"optimize(k, optims_numpy) == v"},"spec":{"lhs":"test_optims_numpy()","rhs":"test_optims_numpy produces the expected output","over":{"base":"Any"},"name":"test_optims_numpy_correct"},"guarantee":"test_optims_numpy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_rewriting.test_optims_numpy_correct","statement":"Path(test_optims_numpy(x), test_optims_numpy produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f67fc5142006a960"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_rewriting.test_optims_numpy","kind":"function","src_hash":"171cf5268386eaa4","in":{"base":"Any"},"out":{"base":"Any","pred":"optimize(k, optims_numpy) == v"},"spec":{"lhs":"test_optims_numpy()","rhs":"<unspecified:test_optims_numpy>","over":{"base":"Any"},"name":"test_optims_numpy_correct"},"guarantee":"test_optims_numpy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_rewriting.test_optims_numpy_correct","statement":"Path(test_optims_numpy(x), test_optims_numpy produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f67fc5142006a960","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_optims_numpy():
     def check(d):
         for k, v in d.items():
@@ -623,16 +757,22 @@ def test_optims_numpy():
 
 @XFAIL  # room for improvement, ideally this test case should pass.
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_optims_numpy_TODO(), test_optims_numpy_TODO produces the expected output) over Any ║
+# ║ Path(test_optims_numpy_TODO(), <unspecified:test_optims_numpy_TODO>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_optims_numpy_TODO : Any → {Any | optimize(k, opt...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 13edd212ee98ab2d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_rewriting.test_optims_numpy_TODO","kind":"function","src_hash":"48b80dc9405d32bd","in":{"base":"Any"},"out":{"base":"Any","pred":"optimize(k, optims_numpy) == v"},"spec":{"lhs":"test_optims_numpy_TODO()","rhs":"test_optims_numpy_TODO produces the expected output","over":{"base":"Any"},"name":"test_optims_numpy_TODO_correct"},"guarantee":"test_optims_numpy_TODO produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_rewriting.test_optims_numpy_TODO_correct","statement":"Path(test_optims_numpy_TODO(x), test_optims_numpy_TODO produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"13edd212ee98ab2d"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_rewriting.test_optims_numpy_TODO","kind":"function","src_hash":"48b80dc9405d32bd","in":{"base":"Any"},"out":{"base":"Any","pred":"optimize(k, optims_numpy) == v"},"spec":{"lhs":"test_optims_numpy_TODO()","rhs":"<unspecified:test_optims_numpy_TODO>","over":{"base":"Any"},"name":"test_optims_numpy_TODO_correct"},"guarantee":"test_optims_numpy_TODO produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_rewriting.test_optims_numpy_TODO_correct","statement":"Path(test_optims_numpy_TODO(x), test_optims_numpy_TODO produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"13edd212ee98ab2d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_optims_numpy_TODO():
     def check(d):
         for k, v in d.items():
@@ -647,16 +787,22 @@ def test_optims_numpy_TODO():
 
 @may_xfail
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_compiled_ccode_with_rewriting(), test_compiled_ccode_with_rewriting produces the expected output) over Any ║
+# ║ Path(test_compiled_ccode_with_rewriting(), <unspecified:test_compiled_ccode_with_rewriting>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_compiled_ccode_with_rewriting : Any → {Any | 1e-...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 45e4f81f4414fd76  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_rewriting.test_compiled_ccode_with_rewriting","kind":"function","src_hash":"6f2c6dacfcbebb52","in":{"base":"Any"},"out":{"base":"Any","pred":"1e-27 < err_rewritten < 1e-25 and 1e-19 < err_unchanged < 1e-16"},"spec":{"lhs":"test_compiled_ccode_with_rewriting()","rhs":"test_compiled_ccode_with_rewriting produces the expected output","over":{"base":"Any"},"name":"test_compiled_ccode_with_rewriting_correct"},"guarantee":"test_compiled_ccode_with_rewriting produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_rewriting.test_compiled_ccode_with_rewriting_correct","statement":"Path(test_compiled_ccode_with_rewriting(x), test_compiled_ccode_with_rewriting produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"45e4f81f4414fd76"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_rewriting.test_compiled_ccode_with_rewriting","kind":"function","src_hash":"6f2c6dacfcbebb52","in":{"base":"Any"},"out":{"base":"Any","pred":"1e-27 < err_rewritten < 1e-25 and 1e-19 < err_unchanged < 1e-16"},"spec":{"lhs":"test_compiled_ccode_with_rewriting()","rhs":"<unspecified:test_compiled_ccode_with_rewriting>","over":{"base":"Any"},"name":"test_compiled_ccode_with_rewriting_correct"},"guarantee":"test_compiled_ccode_with_rewriting produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_rewriting.test_compiled_ccode_with_rewriting_correct","statement":"Path(test_compiled_ccode_with_rewriting(x), test_compiled_ccode_with_rewriting produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"45e4f81f4414fd76","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_compiled_ccode_with_rewriting():
     if not cython:
         skip("cython not installed.")

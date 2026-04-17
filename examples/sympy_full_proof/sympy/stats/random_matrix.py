@@ -21,14 +21,20 @@ from sympy.stats.rv import PSpace, _symbol_converter, RandomMatrixSymbol
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(RandomMatrixPSpace(*args), correctly constructs a RandomMatrixPSpace instance) over {Any | isinstance(expr, RandomMatrixSymbol)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, PSpace)                       ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ RandomMatrixPSpace : {Any | isinstance(expr, RandomMa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a0ffd887edf7656b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.random_matrix.RandomMatrixPSpace","kind":"class","src_hash":"f6886ecb0cb4309d","in":{"base":"Any","pred":"isinstance(expr, RandomMatrixSymbol)"},"out":{"base":"Any"},"spec":{"lhs":"RandomMatrixPSpace(*args)","rhs":"correctly constructs a RandomMatrixPSpace instance","over":{"base":"Any","pred":"isinstance(expr, RandomMatrixSymbol)"},"name":"RandomMatrixPSpace_class_invariant"},"guarantee":"correctly constructs a RandomMatrixPSpace instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a0ffd887edf7656b"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.random_matrix.RandomMatrixPSpace","kind":"class","src_hash":"f6886ecb0cb4309d","in":{"base":"Any","pred":"isinstance(expr, RandomMatrixSymbol)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, PSpace)"},"spec":{"lhs":"RandomMatrixPSpace(*args)","rhs":"correctly constructs a RandomMatrixPSpace instance","over":{"base":"Any","pred":"isinstance(expr, RandomMatrixSymbol)"},"name":"RandomMatrixPSpace_class_invariant"},"guarantee":"isinstance(self, PSpace)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a0ffd887edf7656b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, PSpace)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function RandomMatrixPSpace not found in source"]}}
 class RandomMatrixPSpace(PSpace):
     """
     Represents probability space for
@@ -36,16 +42,25 @@ class RandomMatrixPSpace(PSpace):
     for handling the API calls for random matrices.
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, sym, model), result == (Basic.__new__(cls, sym, model) if model else Basic.__new__(cls, sym)) and result == Basic.__new__(cls, sym, model) or result == Basic.__new__(cls, sym)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (Basic.__new__(cls, sym, model)...   ║
+# ║   ensures:  result == Basic.__new__(cls, sym, model) ...   ║
+# ║   fiber[case_0]: model => Basic.__new__(cls, sym, model)   ║
+# ║   fiber[case_1]: not (model) => Basic.__new__(cls, sym)    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : Any → {Any | result satisfies: result == (B...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 65f8c1d8721df679           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.random_matrix.RandomMatrixPSpace.__new__","kind":"method","src_hash":"50355b99a6f6868a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"65f8c1d8721df679"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.random_matrix.RandomMatrixPSpace.__new__","kind":"method","src_hash":"50355b99a6f6868a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (Basic.__new__(cls, sym, model) if model else Basic.__new__(cls, sym)) and result == Basic.__new__(cls, sym, model) or result == Basic.__new__(cls, sym)"},"spec":{"lhs":"__new__(cls, sym, model)","rhs":"result == (Basic.__new__(cls, sym, model) if model else Basic.__new__(cls, sym)) and result == Basic.__new__(cls, sym, model) or result == Basic.__new__(cls, sym)","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"result == (Basic.__new__(cls, sym, model) if model else Basic.__new__(cls, sym)); result == Basic.__new__(cls, sym, model) or result == Basic.__new__(cls, sym); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"65f8c1d8721df679","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (Basic.__new__(cls, sym, model) if model else Basic.__new__(cls, sym))","result == Basic.__new__(cls, sym, model) or result == Basic.__new__(cls, sym)"],"fibers":[{"name":"case_0","guard":"model","ensures":["result == Basic.__new__(cls, sym, model)"],"decidability":"library","returns_expr":"Basic.__new__(cls, sym, model)"},{"name":"case_1","guard":"not (model)","ensures":["result == Basic.__new__(cls, sym)"],"decidability":"library","returns_expr":"Basic.__new__(cls, sym)"}],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, sym, model=None):
         sym = _symbol_converter(sym)
         if model:
@@ -55,16 +70,22 @@ class RandomMatrixPSpace(PSpace):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(model(), returns the model attribute) over Any        ║
+# ║ Path(model(), <unspecified:model>) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ model : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 212e2b74a84c07ff           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.random_matrix.RandomMatrixPSpace.model","kind":"property","src_hash":"977627d5c8acc9fa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"model()","rhs":"returns the model attribute","over":{"base":"Any"},"name":"model_correct"},"guarantee":"returns the model attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"212e2b74a84c07ff"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.random_matrix.RandomMatrixPSpace.model","kind":"property","src_hash":"977627d5c8acc9fa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"model()","rhs":"<unspecified:model>","over":{"base":"Any"},"name":"model_correct"},"guarantee":"returns the model attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"212e2b74a84c07ff","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"],"catches":["IndexError"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def model(self):
         try:
             return self.args[1]
@@ -72,16 +93,24 @@ class RandomMatrixPSpace(PSpace):
             return None
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(compute_density(exp), compute_density produces the expected output) over Any ║
+# ║ Path(compute_density(expr, *args), self.model.density(expr)) over {Any | not (len(rms) > 2 or not isinstance(expr, RandomMatrixSymbol)) and hasattr(expr, 'atoms')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ compute_density : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (len(rms) > 2 or not isinstance(expr,...   ║
+# ║   requires: hasattr(expr, 'atoms')                         ║
+# ║   returns:  self.model.density(expr)                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ compute_density : {Any | not (len(rms) > 2 or not isi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dbe60b637613fcf8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 80371bb97a70b9a9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.random_matrix.RandomMatrixPSpace.compute_density","kind":"method","src_hash":"e4f619cb79664f71","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"compute_density(exp)","rhs":"compute_density produces the expected output","over":{"base":"Any"},"name":"compute_density_correct"},"guarantee":"compute_density produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.random_matrix.RandomMatrixPSpace.compute_density_correct","statement":"Path(compute_density(x), compute_density produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dbe60b637613fcf8"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.random_matrix.RandomMatrixPSpace.compute_density","kind":"method","src_hash":"e4f619cb79664f71","in":{"base":"Any","pred":"not (len(rms) > 2 or not isinstance(expr, RandomMatrixSymbol)) and hasattr(expr, 'atoms')"},"out":{"base":"Any"},"spec":{"lhs":"compute_density(expr, *args)","rhs":"self.model.density(expr)","over":{"base":"Any","pred":"not (len(rms) > 2 or not isinstance(expr, RandomMatrixSymbol)) and hasattr(expr, 'atoms')"},"name":"compute_density_correct"},"guarantee":"returns self.model.density(expr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.random_matrix.RandomMatrixPSpace.compute_density_correct","statement":"Path(compute_density(x), returns self.model.density(expr))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"80371bb97a70b9a9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (len(rms) > 2 or not isinstance(expr, RandomMatrixSymbol))","hasattr(expr, 'atoms')"],"returns_expr":"self.model.density(expr)","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.atoms","self.model"],"raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def compute_density(self, expr, *args):
         rms = expr.atoms(RandomMatrixSymbol)
         if len(rms) > 2 or (not isinstance(expr, RandomMatrixSymbol)):

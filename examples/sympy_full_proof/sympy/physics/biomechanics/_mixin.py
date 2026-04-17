@@ -29,14 +29,20 @@ __all__ = ['_NamedMixin']
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(_NamedMixin(*args), correctly constructs a _NamedMixin instance) over {Any | isinstance(name, str)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ _NamedMixin : {Any | isinstance(name, str)} → Any          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b368c619f8e86bfd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics._mixin._NamedMixin","kind":"class","src_hash":"48791a422b16a356","in":{"base":"Any","pred":"isinstance(name, str)"},"out":{"base":"Any"},"spec":{"lhs":"_NamedMixin(*args)","rhs":"correctly constructs a _NamedMixin instance","over":{"base":"Any","pred":"isinstance(name, str)"},"name":"_NamedMixin_class_invariant"},"guarantee":"correctly constructs a _NamedMixin instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b368c619f8e86bfd"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics._mixin._NamedMixin","kind":"class","src_hash":"48791a422b16a356","in":{"base":"Any","pred":"isinstance(name, str)"},"out":{"base":"Any"},"spec":{"lhs":"_NamedMixin(*args)","rhs":"correctly constructs a _NamedMixin instance","over":{"base":"Any","pred":"isinstance(name, str)"},"name":"_NamedMixin_class_invariant"},"guarantee":"correctly constructs a _NamedMixin instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b368c619f8e86bfd","spec_source":"static","formal_spec":{"source":"static","strength":"trivial"},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function _NamedMixin not found in source"]}}
 class _NamedMixin:
     """Mixin class for adding `name` properties.
 
@@ -55,32 +61,46 @@ class _NamedMixin:
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(name(), returns the name attribute) over Any          ║
+# ║ Path(name(), self._name) over Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ name : Any → str                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, str)                        ║
+# ║   returns:  self._name                                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ name : Any → {str | result satisfies: result == (self...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8781ebf67861e1cc           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics._mixin._NamedMixin.name","kind":"property","src_hash":"82fb043fefc0ab5b","in":{"base":"Any"},"out":{"base":"str"},"spec":{"lhs":"name()","rhs":"returns the name attribute","over":{"base":"Any"},"name":"name_correct"},"guarantee":"returns the name attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8781ebf67861e1cc"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics._mixin._NamedMixin.name","kind":"property","src_hash":"82fb043fefc0ab5b","in":{"base":"Any"},"out":{"base":"str","pred":"result satisfies: result == (self._name)"},"spec":{"lhs":"name()","rhs":"self._name","over":{"base":"Any"},"name":"name_correct"},"guarantee":"returns self._name; isinstance(result, str)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8781ebf67861e1cc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, str)"],"returns_expr":"self._name","pure":false,"effects":{"effect_type":"reads_state","reads":["self._name"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def name(self) -> str:
         """The name associated with the class instance."""
         return self._name
 
     @name.setter
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(name(nam), name produces the expected output) over Any ║
+# ║ Path(name(name), <unspecified:name>) over {Any | isinstance(name, str)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ name : Any → None                                          ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(name, str)                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ name : {Any | isinstance(name, str)} → None                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6abe04aafde6a022  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics._mixin._NamedMixin.name","kind":"method","src_hash":"6119c6dea31982b5","in":{"base":"Any"},"out":{"base":"None"},"spec":{"lhs":"name(nam)","rhs":"name produces the expected output","over":{"base":"Any"},"name":"name_correct"},"guarantee":"name produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics._mixin._NamedMixin.name_correct","statement":"Path(name(x), name produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6abe04aafde6a022"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics._mixin._NamedMixin.name","kind":"method","src_hash":"6119c6dea31982b5","in":{"base":"Any","pred":"isinstance(name, str)"},"out":{"base":"None"},"spec":{"lhs":"name(name)","rhs":"<unspecified:name>","over":{"base":"Any","pred":"isinstance(name, str)"},"name":"name_correct"},"guarantee":"name produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics._mixin._NamedMixin.name_correct","statement":"Path(name(x), name produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6abe04aafde6a022","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(name, str)"],"pure":false,"effects":{"effect_type":"mutates_self","writes":["self._name"],"raises":["AttributeError","TypeError","ValueError"]},"state_contract":{"modifies":["self._name"],"old_bindings":{"old_self__name":"self._name"},"exceptional_post":{"AttributeError":["isinstance(raised, AttributeError)"],"TypeError":["isinstance(raised, TypeError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def name(self, name: str) -> None:
         if hasattr(self, '_name'):
             msg = (

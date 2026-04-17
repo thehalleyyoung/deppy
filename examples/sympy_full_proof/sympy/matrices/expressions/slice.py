@@ -21,7 +21,14 @@ from sympy.core.containers import Tuple
 from sympy.functions.elementary.integers import floor
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(normalize(i, ), normalize produces the expected output) over {Any | isinstance(i, slice) and isinstance(i, (tuple, list, Tuple))} ║
+# ║ Path(normalize(i, parentsize), (start, stop, step)) over {Any | isinstance(i, slice) and isinstance(i, (tuple, list, Tuple)) and hasattr(i, 'start') and hasattr(i, 'stop') and hasattr(i, 'step') and hasattr(i, 'append')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(i, 'start')                            ║
+# ║   requires: hasattr(i, 'stop')                             ║
+# ║   requires: hasattr(i, 'step')                             ║
+# ║   ensures:  len(i) == old_len_i + 1                        ║
+# ║   returns:  (start, stop, step)                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ normalize : {Any | isinstance(i, slice) and isinstanc...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -34,9 +41,12 @@ from sympy.functions.elementary.integers import floor
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?2 ✗1 VCs | 2.2ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 04736023...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.slice.normalize","kind":"function","src_hash":"4d4869e7ff38e1bc","in":{"base":"Any","pred":"isinstance(i, slice) and isinstance(i, (tuple, list, Tuple))"},"out":{"base":"Any"},"spec":{"lhs":"normalize(i, )","rhs":"normalize produces the expected output","over":{"base":"Any","pred":"isinstance(i, slice) and isinstance(i, (tuple, list, Tuple))"},"name":"normalize_correct"},"guarantee":"normalize produces the expected output","fibers":[{"name":"slice","pred":"isinstance(i, slice)","path":{"lhs":"normalize(x)","rhs":"normalize produces the expected output","over":{"base":"slice","pred":"isinstance(i, slice)"},"name":"normalize_slice_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.slice.normalize_slice_correct","statement":"normalize satisfies spec on slice inputs"},"trust":"LIBRARY"},{"name":"(tuple","pred":"isinstance(i, (tuple, list, Tuple))","path":{"lhs":"normalize(x)","rhs":"normalize produces the expected output","over":{"base":"(tuple","pred":"isinstance(i, (tuple, list, Tuple))"},"name":"normalize_(tuple_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.slice.normalize_(tuple_correct","statement":"normalize satisfies spec on (tuple inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"0473602312af8065"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.slice.normalize","kind":"function","src_hash":"4d4869e7ff38e1bc","in":{"base":"Any","pred":"isinstance(i, slice) and isinstance(i, (tuple, list, Tuple)) and hasattr(i, 'start') and hasattr(i, 'stop') and hasattr(i, 'step') and hasattr(i, 'append')"},"out":{"base":"Any","pred":"result satisfies: result == ((start, stop, step))"},"spec":{"lhs":"normalize(i, parentsize)","rhs":"(start, stop, step)","over":{"base":"Any","pred":"isinstance(i, slice) and isinstance(i, (tuple, list, Tuple)) and hasattr(i, 'start') and hasattr(i, 'stop') and hasattr(i, 'step') and hasattr(i, 'append')"},"name":"normalize_correct"},"guarantee":"returns (start, stop, step); len(i) == old_len_i + 1","fibers":[{"name":"slice","pred":"isinstance(i, slice)","path":{"lhs":"normalize(x)","rhs":"returns (start, stop, step); len(i) == old_len_i + 1","over":{"base":"slice","pred":"isinstance(i, slice)"},"name":"normalize_slice_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.slice.normalize_slice_correct","statement":"normalize satisfies spec on slice inputs"},"trust":"LIBRARY"},{"name":"(tuple","pred":"isinstance(i, (tuple, list, Tuple))","path":{"lhs":"normalize(x)","rhs":"returns (start, stop, step); len(i) == old_len_i + 1","over":{"base":"(tuple","pred":"isinstance(i, (tuple, list, Tuple))"},"name":"normalize_(tuple_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.slice.normalize_(tuple_correct","statement":"normalize satisfies spec on (tuple inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"0473602312af8065","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(i, 'start')","hasattr(i, 'stop')","hasattr(i, 'step')","hasattr(i, 'append')"],"ensures":["len(i) == old_len_i + 1"],"returns_expr":"(start, stop, step)","pure":false,"effects":{"effect_type":"mutates_args","reads":["i.append","i.start","i.step","i.stop"],"calls_mutating":["i.append"],"raises":["IndexError"]},"state_contract":{"modifies":["i.*"],"old_bindings":{"old_len_i":"len(i)"},"post_ensures":["len(i) == old_len_i + 1"],"exceptional_post":{"IndexError":["isinstance(raised, IndexError)"]}}},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":2,"n_assumed":2,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.2,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'not isinstance(i, (tuple, list, Tuple))', '(stop < 0) == True', '(i < 0) == True', 'len(i) == 2', '(start < 0) == True', 'stop is None', '((stop - start) * step < 1) == True', 'isinstance(i, slice)'}, fibers={'(tuple', 'slice'})"]}}
 def normalize(i, parentsize):
     if isinstance(i, slice):
         i = (i.start, i.stop, i.step)
@@ -65,14 +75,20 @@ def normalize(i, parentsize):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(MatrixSlice(*args), correctly constructs a MatrixSlice instance) over {Any | isinstance(parent, MatrixSlice)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, MatrixExpr)                   ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ MatrixSlice : {Any | isinstance(parent, MatrixSlice)}...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 81524a76196a251c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.slice.MatrixSlice","kind":"class","src_hash":"31ae0b1e33b8ed07","in":{"base":"Any","pred":"isinstance(parent, MatrixSlice)"},"out":{"base":"Any"},"spec":{"lhs":"MatrixSlice(*args)","rhs":"correctly constructs a MatrixSlice instance","over":{"base":"Any","pred":"isinstance(parent, MatrixSlice)"},"name":"MatrixSlice_class_invariant"},"guarantee":"correctly constructs a MatrixSlice instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"81524a76196a251c"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.slice.MatrixSlice","kind":"class","src_hash":"31ae0b1e33b8ed07","in":{"base":"Any","pred":"isinstance(parent, MatrixSlice)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, MatrixExpr)"},"spec":{"lhs":"MatrixSlice(*args)","rhs":"correctly constructs a MatrixSlice instance","over":{"base":"Any","pred":"isinstance(parent, MatrixSlice)"},"name":"MatrixSlice_class_invariant"},"guarantee":"isinstance(self, MatrixExpr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"81524a76196a251c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, MatrixExpr)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":false,"binding_errors":["Function MatrixSlice not found in source"]}}
 class MatrixSlice(MatrixExpr):
     """ A MatrixSlice of a Matrix Expression
 
@@ -99,16 +115,25 @@ class MatrixSlice(MatrixExpr):
     colslice = property(lambda self: self.args[2])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, parent, rowslice), <unspecified:__new__>) over {Any | len(rowslice) == len(colslice) == 3 and not ((0 > rowslice[0]) == True or (parent.shape[0] < rowslice[1]) == True or (0 > colslice[0]) == True or ((parent.shape[1] < colslice[1]) == True)) and hasattr(parent, 'shape')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: len(rowslice) == len(colslice) == 3            ║
+# ║   requires: not ((0 > rowslice[0]) == True or (parent...   ║
+# ║   requires: hasattr(parent, 'shape')                       ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | len(rowslice) == len(colslice) == 3 ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 414cb35a625b015c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.slice.MatrixSlice.__new__","kind":"method","src_hash":"04b9d15642bbcdba","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"414cb35a625b015c"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.slice.MatrixSlice.__new__","kind":"method","src_hash":"04b9d15642bbcdba","in":{"base":"Any","pred":"len(rowslice) == len(colslice) == 3 and not ((0 > rowslice[0]) == True or (parent.shape[0] < rowslice[1]) == True or (0 > colslice[0]) == True or ((parent.shape[1] < colslice[1]) == True)) and hasattr(parent, 'shape')"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, parent, rowslice)","rhs":"<unspecified:__new__>","over":{"base":"Any","pred":"len(rowslice) == len(colslice) == 3 and not ((0 > rowslice[0]) == True or (parent.shape[0] < rowslice[1]) == True or (0 > colslice[0]) == True or ((parent.shape[1] < colslice[1]) == True)) and hasattr(parent, 'shape')"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"414cb35a625b015c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["len(rowslice) == len(colslice) == 3","not ((0 > rowslice[0]) == True or (parent.shape[0] < rowslice[1]) == True or (0 > colslice[0]) == True or ((parent.shape[1] < colslice[1]) == True))","hasattr(parent, 'shape')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["parent.shape"],"raises":["IndexError"]},"state_contract":{"exceptional_post":{"IndexError":["isinstance(raised, IndexError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, parent, rowslice, colslice):
         rowslice = normalize(rowslice, parent.shape[0])
         colslice = normalize(colslice, parent.shape[1])
@@ -125,16 +150,22 @@ class MatrixSlice(MatrixExpr):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(shape(), returns the shape attribute) over Any        ║
+# ║ Path(shape(), (rows, cols)) over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (rows, cols)                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ shape : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | aa414ed93cae7f95           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.slice.MatrixSlice.shape","kind":"property","src_hash":"d1306ad4734e1906","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"shape()","rhs":"returns the shape attribute","over":{"base":"Any"},"name":"shape_correct"},"guarantee":"returns the shape attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"aa414ed93cae7f95"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.slice.MatrixSlice.shape","kind":"property","src_hash":"d1306ad4734e1906","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"shape()","rhs":"(rows, cols)","over":{"base":"Any"},"name":"shape_correct"},"guarantee":"returns (rows, cols)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"aa414ed93cae7f95","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(rows, cols)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.colslice","self.rowslice"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def shape(self):
         rows = self.rowslice[1] - self.rowslice[0]
         rows = rows if self.rowslice[2] == 1 else floor(rows/self.rowslice[2])
@@ -143,16 +174,22 @@ class MatrixSlice(MatrixExpr):
         return rows, cols
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_entry(i, ), internal helper behaves correctly) over Any ║
+# ║ Path(_entry(i, j, **kwargs), self.parent._entry(i * self.rowslice[2] + self.rowslice[0], j * self.colslice[2] + self.colslice[0], **kwargs)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.parent._entry(i * self.rowslice[2] +...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _entry : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b0fa4d8fafb88d5e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a92e4c570282a480  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.slice.MatrixSlice._entry","kind":"method","src_hash":"75703b80af0f2369","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_entry(i, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_entry_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.slice.MatrixSlice._entry_correct","statement":"Path(_entry(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b0fa4d8fafb88d5e"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.slice.MatrixSlice._entry","kind":"method","src_hash":"75703b80af0f2369","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_entry(i, j, **kwargs)","rhs":"self.parent._entry(i * self.rowslice[2] + self.rowslice[0], j * self.colslice[2] + self.colslice[0], **kwargs)","over":{"base":"Any"},"name":"_entry_correct"},"guarantee":"returns self.parent._entry(i * self.rowslice[2] + self.rowslice[0], j * self.colslice[2] + self.colslice[0], **kwargs)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.slice.MatrixSlice._entry_correct","statement":"Path(_entry(x), returns self.parent._entry(i * self.rowslice[2] + self.rowslice[0], j * self.colslice[2] + self.colslice[0], **kwargs))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a92e4c570282a480","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.parent._entry(i * self.rowslice[2] + self.rowslice[0], j * self.colslice[2] + self.colslice[0], **kwargs)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.colslice","self.parent","self.rowslice"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _entry(self, i, j, **kwargs):
         return self.parent._entry(i*self.rowslice[2] + self.rowslice[0],
                                   j*self.colslice[2] + self.colslice[0],
@@ -160,31 +197,43 @@ class MatrixSlice(MatrixExpr):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(on_diag(), returns the on_diag attribute) over Any    ║
+# ║ Path(on_diag(), self.rowslice == self.colslice) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.rowslice == self.colslice                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ on_diag : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5f7fda518e4a98ba           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.slice.MatrixSlice.on_diag","kind":"property","src_hash":"3d7cac47c84d2065","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"on_diag()","rhs":"returns the on_diag attribute","over":{"base":"Any"},"name":"on_diag_correct"},"guarantee":"returns the on_diag attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5f7fda518e4a98ba"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.slice.MatrixSlice.on_diag","kind":"property","src_hash":"3d7cac47c84d2065","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"on_diag()","rhs":"self.rowslice == self.colslice","over":{"base":"Any"},"name":"on_diag_correct"},"guarantee":"returns self.rowslice == self.colslice","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5f7fda518e4a98ba","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.rowslice == self.colslice","pure":false,"effects":{"effect_type":"reads_state","reads":["self.colslice","self.rowslice"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def on_diag(self):
         return self.rowslice == self.colslice
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(slice_of_slice(s, ), slice_of_slice produces the expected output) over Any ║
+# ║ Path(slice_of_slice(s, t), (start, stop, step)) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (start, stop, step)                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ slice_of_slice : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5ed3c82aee21be5b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9c2da6edcdbf4148  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.slice.slice_of_slice","kind":"function","src_hash":"e9a2bb94f1128155","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"slice_of_slice(s, )","rhs":"slice_of_slice produces the expected output","over":{"base":"Any"},"name":"slice_of_slice_correct"},"guarantee":"slice_of_slice produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.slice.slice_of_slice_correct","statement":"Path(slice_of_slice(x), slice_of_slice produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5ed3c82aee21be5b"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.slice.slice_of_slice","kind":"function","src_hash":"e9a2bb94f1128155","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"slice_of_slice(s, t)","rhs":"(start, stop, step)","over":{"base":"Any"},"name":"slice_of_slice_correct"},"guarantee":"returns (start, stop, step)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.slice.slice_of_slice_correct","statement":"Path(slice_of_slice(x), returns (start, stop, step))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9c2da6edcdbf4148","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(start, stop, step)","pure":false,"effects":{"effect_type":"reads_state","raises":["IndexError"]},"state_contract":{"exceptional_post":{"IndexError":["isinstance(raised, IndexError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def slice_of_slice(s, t):
     start1, stop1, step1 = s
     start2, stop2, step2 = t
@@ -200,16 +249,25 @@ def slice_of_slice(s, t):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(mat_slice_of_slice(par), collapse nested matrix slices) over Any ║
+# ║ Path(mat_slice_of_slice(parent, rowslice, colslice), MatrixSlice(parent.parent, row, col)) over {Any | hasattr(parent, 'rowslice') and hasattr(parent, 'colslice') and hasattr(parent, 'parent')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ mat_slice_of_slice : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(parent, 'rowslice')                    ║
+# ║   requires: hasattr(parent, 'colslice')                    ║
+# ║   requires: hasattr(parent, 'parent')                      ║
+# ║   returns:  MatrixSlice(parent.parent, row, col)           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ mat_slice_of_slice : {Any | hasattr(parent, 'rowslice...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a0b4d54b881dd52c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5673ed41782e3dfe  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.slice.mat_slice_of_slice","kind":"function","src_hash":"8e0950b28c215023","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"mat_slice_of_slice(par)","rhs":"collapse nested matrix slices","over":{"base":"Any"},"name":"mat_slice_of_slice_correct"},"guarantee":"collapse nested matrix slices","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.slice.mat_slice_of_slice_correct","statement":"Path(mat_slice_of_slice(x), collapse nested matrix slices)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a0b4d54b881dd52c"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.slice.mat_slice_of_slice","kind":"function","src_hash":"8e0950b28c215023","in":{"base":"Any","pred":"hasattr(parent, 'rowslice') and hasattr(parent, 'colslice') and hasattr(parent, 'parent')"},"out":{"base":"Any"},"spec":{"lhs":"mat_slice_of_slice(parent, rowslice, colslice)","rhs":"MatrixSlice(parent.parent, row, col)","over":{"base":"Any","pred":"hasattr(parent, 'rowslice') and hasattr(parent, 'colslice') and hasattr(parent, 'parent')"},"name":"mat_slice_of_slice_correct"},"guarantee":"returns MatrixSlice(parent.parent, row, col)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.slice.mat_slice_of_slice_correct","statement":"Path(mat_slice_of_slice(x), returns MatrixSlice(parent.parent, row, col))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5673ed41782e3dfe","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(parent, 'rowslice')","hasattr(parent, 'colslice')","hasattr(parent, 'parent')"],"returns_expr":"MatrixSlice(parent.parent, row, col)","pure":false,"effects":{"effect_type":"reads_state","reads":["parent.colslice","parent.parent","parent.rowslice"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def mat_slice_of_slice(parent, rowslice, colslice):
     """ Collapse nested matrix slices
 

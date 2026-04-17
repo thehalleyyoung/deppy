@@ -50,166 +50,232 @@ f = Function('f')
 
 # shorthand definitions
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_Add(a, ), internal helper behaves correctly) over Any ║
+# ║ Path(_Add(a, b), Add(a, b, evaluate=False)) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Add(a, b, evaluate=False)                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _Add : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 40fef99692d59c2d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_latex._Add","kind":"function","src_hash":"5f4c084ab03c6190","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_Add(a, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_Add_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"40fef99692d59c2d"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_latex._Add","kind":"function","src_hash":"5f4c084ab03c6190","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_Add(a, b)","rhs":"Add(a, b, evaluate=False)","over":{"base":"Any"},"name":"_Add_correct"},"guarantee":"returns Add(a, b, evaluate=False)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"40fef99692d59c2d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Add(a, b, evaluate=False)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":true}}
 def _Add(a, b):
     return Add(a, b, evaluate=False)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_Mul(a, ), internal helper behaves correctly) over Any ║
+# ║ Path(_Mul(a, b), Mul(a, b, evaluate=False)) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Mul(a, b, evaluate=False)                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _Mul : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8642ae32f67a3fa0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_latex._Mul","kind":"function","src_hash":"843e3de25d42970a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_Mul(a, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_Mul_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8642ae32f67a3fa0"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_latex._Mul","kind":"function","src_hash":"843e3de25d42970a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_Mul(a, b)","rhs":"Mul(a, b, evaluate=False)","over":{"base":"Any"},"name":"_Mul_correct"},"guarantee":"returns Mul(a, b, evaluate=False)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8642ae32f67a3fa0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Mul(a, b, evaluate=False)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _Mul(a, b):
     return Mul(a, b, evaluate=False)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_Pow(a, ), internal helper behaves correctly) over Any ║
+# ║ Path(_Pow(a, b), Pow(a, b, evaluate=False)) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Pow(a, b, evaluate=False)                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _Pow : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c1a353843b6ac0f3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_latex._Pow","kind":"function","src_hash":"de98dd81b21ee40c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_Pow(a, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_Pow_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c1a353843b6ac0f3"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_latex._Pow","kind":"function","src_hash":"de98dd81b21ee40c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_Pow(a, b)","rhs":"Pow(a, b, evaluate=False)","over":{"base":"Any"},"name":"_Pow_correct"},"guarantee":"returns Pow(a, b, evaluate=False)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c1a353843b6ac0f3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Pow(a, b, evaluate=False)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _Pow(a, b):
     return Pow(a, b, evaluate=False)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_Sqrt(a), internal helper behaves correctly) over Any ║
+# ║ Path(_Sqrt(a), sqrt(a, evaluate=False)) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  sqrt(a, evaluate=False)                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _Sqrt : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8cbc0345923e8253           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_latex._Sqrt","kind":"function","src_hash":"e1339a0ec1e2d55e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_Sqrt(a)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_Sqrt_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8cbc0345923e8253"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_latex._Sqrt","kind":"function","src_hash":"e1339a0ec1e2d55e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_Sqrt(a)","rhs":"sqrt(a, evaluate=False)","over":{"base":"Any"},"name":"_Sqrt_correct"},"guarantee":"returns sqrt(a, evaluate=False)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8cbc0345923e8253","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"sqrt(a, evaluate=False)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _Sqrt(a):
     return sqrt(a, evaluate=False)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_Conjugate(a), internal helper behaves correctly) over Any ║
+# ║ Path(_Conjugate(a), conjugate(a, evaluate=False)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  conjugate(a, evaluate=False)                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _Conjugate : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 54071f1a8aae6cdf           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_latex._Conjugate","kind":"function","src_hash":"157d304e9b676231","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_Conjugate(a)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_Conjugate_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"54071f1a8aae6cdf"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_latex._Conjugate","kind":"function","src_hash":"157d304e9b676231","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_Conjugate(a)","rhs":"conjugate(a, evaluate=False)","over":{"base":"Any"},"name":"_Conjugate_correct"},"guarantee":"returns conjugate(a, evaluate=False)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"54071f1a8aae6cdf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"conjugate(a, evaluate=False)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _Conjugate(a):
     return conjugate(a, evaluate=False)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_Abs(a), internal helper behaves correctly) over Any  ║
+# ║ Path(_Abs(a), Abs(a, evaluate=False)) over Any             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Abs(a, evaluate=False)                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _Abs : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e104aee325cdd9cc           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_latex._Abs","kind":"function","src_hash":"d27fe1e8743c2761","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_Abs(a)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_Abs_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e104aee325cdd9cc"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_latex._Abs","kind":"function","src_hash":"d27fe1e8743c2761","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_Abs(a)","rhs":"Abs(a, evaluate=False)","over":{"base":"Any"},"name":"_Abs_correct"},"guarantee":"returns Abs(a, evaluate=False)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e104aee325cdd9cc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Abs(a, evaluate=False)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _Abs(a):
     return Abs(a, evaluate=False)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_factorial(a), internal helper behaves correctly) over Any ║
+# ║ Path(_factorial(a), factorial(a, evaluate=False)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  factorial(a, evaluate=False)                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _factorial : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0427c49829b7d915           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_latex._factorial","kind":"function","src_hash":"f9988d1e56fa0bb2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_factorial(a)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_factorial_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0427c49829b7d915"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_latex._factorial","kind":"function","src_hash":"f9988d1e56fa0bb2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_factorial(a)","rhs":"factorial(a, evaluate=False)","over":{"base":"Any"},"name":"_factorial_correct"},"guarantee":"returns factorial(a, evaluate=False)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0427c49829b7d915","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"factorial(a, evaluate=False)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _factorial(a):
     return factorial(a, evaluate=False)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_exp(a), internal helper behaves correctly) over Any  ║
+# ║ Path(_exp(a), exp(a, evaluate=False)) over Any             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  exp(a, evaluate=False)                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _exp : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ff8133e78ebab58f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_latex._exp","kind":"function","src_hash":"93d0f76b89707146","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_exp(a)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_exp_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ff8133e78ebab58f"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_latex._exp","kind":"function","src_hash":"93d0f76b89707146","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_exp(a)","rhs":"exp(a, evaluate=False)","over":{"base":"Any"},"name":"_exp_correct"},"guarantee":"returns exp(a, evaluate=False)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ff8133e78ebab58f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"exp(a, evaluate=False)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _exp(a):
     return exp(a, evaluate=False)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_log(a, ), internal helper behaves correctly) over Any ║
+# ║ Path(_log(a, b), log(a, b, evaluate=False)) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  log(a, b, evaluate=False)                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _log : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | bf07cd3950193cce           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_latex._log","kind":"function","src_hash":"0dacdfe197ccd929","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_log(a, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_log_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bf07cd3950193cce"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_latex._log","kind":"function","src_hash":"0dacdfe197ccd929","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_log(a, b)","rhs":"log(a, b, evaluate=False)","over":{"base":"Any"},"name":"_log_correct"},"guarantee":"returns log(a, b, evaluate=False)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bf07cd3950193cce","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"log(a, b, evaluate=False)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _log(a, b):
     return log(a, b, evaluate=False)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_binomial(n, ), internal helper behaves correctly) over Any ║
+# ║ Path(_binomial(n, k), binomial(n, k, evaluate=False)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  binomial(n, k, evaluate=False)                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _binomial : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | feba94efe660b498           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_latex._binomial","kind":"function","src_hash":"89c693118ff913b7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_binomial(n, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_binomial_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"feba94efe660b498"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_latex._binomial","kind":"function","src_hash":"89c693118ff913b7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_binomial(n, k)","rhs":"binomial(n, k, evaluate=False)","over":{"base":"Any"},"name":"_binomial_correct"},"guarantee":"returns binomial(n, k, evaluate=False)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"feba94efe660b498","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"binomial(n, k, evaluate=False)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _binomial(n, k):
     return binomial(n, k, evaluate=False)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_import(), test_import produces the expected output) over Any ║
+# ║ Path(test_import(), <unspecified:test_import>) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_import : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4aaf7598d61bc7f3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_latex.test_import","kind":"function","src_hash":"84c317ee3b8cbca2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_import()","rhs":"test_import produces the expected output","over":{"base":"Any"},"name":"test_import_correct"},"guarantee":"test_import produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_latex.test_import_correct","statement":"Path(test_import(x), test_import produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4aaf7598d61bc7f3"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_latex.test_import","kind":"function","src_hash":"84c317ee3b8cbca2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_import()","rhs":"<unspecified:test_import>","over":{"base":"Any"},"name":"test_import_correct"},"guarantee":"test_import produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_latex.test_import_correct","statement":"Path(test_import(x), test_import produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4aaf7598d61bc7f3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_import():
     from sympy.parsing.latex._build_latex_antlr import (
         build_parser,
@@ -415,16 +481,22 @@ GOOD_PAIRS = [
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_parseable(), test_parseable produces the expected output) over Any ║
+# ║ Path(test_parseable(), <unspecified:test_parseable>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_parseable : Any → {Any | parse_latex(latex_str) ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3e043e396171b2c6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_latex.test_parseable","kind":"function","src_hash":"6cf16390d18ebc2c","in":{"base":"Any"},"out":{"base":"Any","pred":"parse_latex(latex_str) == sympy_expr"},"spec":{"lhs":"test_parseable()","rhs":"test_parseable produces the expected output","over":{"base":"Any"},"name":"test_parseable_correct"},"guarantee":"test_parseable produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_latex.test_parseable_correct","statement":"Path(test_parseable(x), test_parseable produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3e043e396171b2c6"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_latex.test_parseable","kind":"function","src_hash":"6cf16390d18ebc2c","in":{"base":"Any"},"out":{"base":"Any","pred":"parse_latex(latex_str) == sympy_expr"},"spec":{"lhs":"test_parseable()","rhs":"<unspecified:test_parseable>","over":{"base":"Any"},"name":"test_parseable_correct"},"guarantee":"test_parseable produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_latex.test_parseable_correct","statement":"Path(test_parseable(x), test_parseable produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3e043e396171b2c6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_parseable():
     from sympy.parsing.latex import parse_latex
     for latex_str, sympy_expr in GOOD_PAIRS:
@@ -473,16 +545,22 @@ BAD_STRINGS = [
 ]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_not_parseable(), test_not_parseable produces the expected output) over Any ║
+# ║ Path(test_not_parseable(), <unspecified:test_not_parseable>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_not_parseable : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f73dd22d1a5f81cc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_latex.test_not_parseable","kind":"function","src_hash":"80806d8596e36c49","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_not_parseable()","rhs":"test_not_parseable produces the expected output","over":{"base":"Any"},"name":"test_not_parseable_correct"},"guarantee":"test_not_parseable produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_latex.test_not_parseable_correct","statement":"Path(test_not_parseable(x), test_not_parseable produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f73dd22d1a5f81cc"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_latex.test_not_parseable","kind":"function","src_hash":"80806d8596e36c49","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_not_parseable()","rhs":"<unspecified:test_not_parseable>","over":{"base":"Any"},"name":"test_not_parseable_correct"},"guarantee":"test_not_parseable produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_latex.test_not_parseable_correct","statement":"Path(test_not_parseable(x), test_not_parseable produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f73dd22d1a5f81cc","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_not_parseable():
     from sympy.parsing.latex import parse_latex, LaTeXParsingError
     for latex_str in BAD_STRINGS:
@@ -505,16 +583,22 @@ FAILING_BAD_STRINGS = [
 
 @XFAIL
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_failing_not_parseable(), test_failing_not_parseable produces the expected output) over Any ║
+# ║ Path(test_failing_not_parseable(), <unspecified:test_failing_not_parseable>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_failing_not_parseable : Any → Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 10dde9d45692c7c2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_latex.test_failing_not_parseable","kind":"function","src_hash":"9f0aa3f969c27fbb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_failing_not_parseable()","rhs":"test_failing_not_parseable produces the expected output","over":{"base":"Any"},"name":"test_failing_not_parseable_correct"},"guarantee":"test_failing_not_parseable produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_latex.test_failing_not_parseable_correct","statement":"Path(test_failing_not_parseable(x), test_failing_not_parseable produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"10dde9d45692c7c2"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_latex.test_failing_not_parseable","kind":"function","src_hash":"9f0aa3f969c27fbb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_failing_not_parseable()","rhs":"<unspecified:test_failing_not_parseable>","over":{"base":"Any"},"name":"test_failing_not_parseable_correct"},"guarantee":"test_failing_not_parseable produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_latex.test_failing_not_parseable_correct","statement":"Path(test_failing_not_parseable(x), test_failing_not_parseable produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"10dde9d45692c7c2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_failing_not_parseable():
     from sympy.parsing.latex import parse_latex, LaTeXParsingError
     for latex_str in FAILING_BAD_STRINGS:
@@ -523,16 +607,22 @@ def test_failing_not_parseable():
 
 # In strict mode, FAILING_BAD_STRINGS would fail
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_strict_mode(), test_strict_mode produces the expected output) over Any ║
+# ║ Path(test_strict_mode(), <unspecified:test_strict_mode>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_strict_mode : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4afb43735285238b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_latex.test_strict_mode","kind":"function","src_hash":"fbfd0efe07ace46e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_strict_mode()","rhs":"test_strict_mode produces the expected output","over":{"base":"Any"},"name":"test_strict_mode_correct"},"guarantee":"test_strict_mode produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_latex.test_strict_mode_correct","statement":"Path(test_strict_mode(x), test_strict_mode produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4afb43735285238b"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_latex.test_strict_mode","kind":"function","src_hash":"fbfd0efe07ace46e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_strict_mode()","rhs":"<unspecified:test_strict_mode>","over":{"base":"Any"},"name":"test_strict_mode_correct"},"guarantee":"test_strict_mode produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_latex.test_strict_mode_correct","statement":"Path(test_strict_mode(x), test_strict_mode produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4afb43735285238b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_strict_mode():
     from sympy.parsing.latex import parse_latex, LaTeXParsingError
     for latex_str in FAILING_BAD_STRINGS:

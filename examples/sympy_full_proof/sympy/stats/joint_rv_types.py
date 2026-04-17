@@ -57,16 +57,22 @@ __all__ = ['JointRV',
 ]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(multivariate_rv(cls), multivariate_rv produces the expected output) over Any ║
+# ║ Path(multivariate_rv(cls, sym, *args), JointPSpace(sym, dist).value) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  JointPSpace(sym, dist).value                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ multivariate_rv : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 22e202ab141374ac  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9f42fbb8f3739f1b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.joint_rv_types.multivariate_rv","kind":"function","src_hash":"64860dbffa444c7b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"multivariate_rv(cls)","rhs":"multivariate_rv produces the expected output","over":{"base":"Any"},"name":"multivariate_rv_correct"},"guarantee":"multivariate_rv produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.joint_rv_types.multivariate_rv_correct","statement":"Path(multivariate_rv(x), multivariate_rv produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"22e202ab141374ac"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.joint_rv_types.multivariate_rv","kind":"function","src_hash":"64860dbffa444c7b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"multivariate_rv(cls, sym, *args)","rhs":"JointPSpace(sym, dist).value","over":{"base":"Any"},"name":"multivariate_rv_correct"},"guarantee":"returns JointPSpace(sym, dist).value","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.joint_rv_types.multivariate_rv_correct","statement":"Path(multivariate_rv(x), returns JointPSpace(sym, dist).value)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9f42fbb8f3739f1b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"JointPSpace(sym, dist).value","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['cls', 'sym'], spec=['cls', 'sym', '*args']"]}}
 def multivariate_rv(cls, sym, *args):
     args = list(map(sympify, args))
     dist = cls(*args)
@@ -76,7 +82,13 @@ def multivariate_rv(cls, sym, *args):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(marginal_distribution(rv,), marginal distribution function of a joint random variable) over {Any | isinstance(indices[i], Indexed)} ║
+# ║ Path(marginal_distribution(rv, *indices), <unspecified:marginal_distribution>) over {Any | isinstance(indices[i], Indexed) and indices and hasattr(rv, 'pspace') and hasattr(rv, 'symbol')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: indices                                        ║
+# ║   requires: hasattr(rv, 'pspace')                          ║
+# ║   requires: hasattr(rv, 'symbol')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ marginal_distribution : {Any | isinstance(indices[i],...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -88,9 +100,12 @@ def multivariate_rv(cls, sym, *args):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 0.4ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 0547747a...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.joint_rv_types.marginal_distribution","kind":"function","src_hash":"13a8a11315ad7605","in":{"base":"Any","pred":"isinstance(indices[i], Indexed)"},"out":{"base":"Any"},"spec":{"lhs":"marginal_distribution(rv,)","rhs":"marginal distribution function of a joint random variable","over":{"base":"Any","pred":"isinstance(indices[i], Indexed)"},"name":"marginal_distribution_correct"},"guarantee":"marginal distribution function of a joint random variable","fibers":[{"name":"Indexed","pred":"isinstance(indices[i], Indexed)","path":{"lhs":"marginal_distribution(x)","rhs":"marginal distribution function of a joint random variable","over":{"base":"Indexed","pred":"isinstance(indices[i], Indexed)"},"name":"marginal_distribution_Indexed_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.joint_rv_types.marginal_distribution_Indexed_correct","statement":"marginal_distribution satisfies spec on Indexed inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"0547747ae2c2e6fb"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.joint_rv_types.marginal_distribution","kind":"function","src_hash":"13a8a11315ad7605","in":{"base":"Any","pred":"isinstance(indices[i], Indexed) and indices and hasattr(rv, 'pspace') and hasattr(rv, 'symbol')"},"out":{"base":"Any"},"spec":{"lhs":"marginal_distribution(rv, *indices)","rhs":"<unspecified:marginal_distribution>","over":{"base":"Any","pred":"isinstance(indices[i], Indexed) and indices and hasattr(rv, 'pspace') and hasattr(rv, 'symbol')"},"name":"marginal_distribution_correct"},"guarantee":"marginal distribution function of a joint random variable","fibers":[{"name":"Indexed","pred":"isinstance(indices[i], Indexed)","path":{"lhs":"marginal_distribution(x)","rhs":"marginal distribution function of a joint random variable","over":{"base":"Indexed","pred":"isinstance(indices[i], Indexed)"},"name":"marginal_distribution_Indexed_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.joint_rv_types.marginal_distribution_Indexed_correct","statement":"marginal_distribution satisfies spec on Indexed inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"0547747ae2c2e6fb","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["indices","hasattr(rv, 'pspace')","hasattr(rv, 'symbol')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["rv.pspace","rv.symbol"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['rv'], spec=['rv', '*indices']","Poor branch-fiber coverage: 0% (branches={'isinstance(indices[i], Indexed)'}, fibers={'Indexed'})"]}}
 def marginal_distribution(rv, *indices):
     """
     Marginal distribution function of a joint random variable.
@@ -132,14 +147,20 @@ def marginal_distribution(rv, *indices):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(JointDistributionHandmade(*args), correctly constructs a JointDistributionHandmade instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ JointDistributionHandmade : Any → Any                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, JointDistribution)            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ JointDistributionHandmade : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6db1110939a0be36  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.joint_rv_types.JointDistributionHandmade","kind":"class","src_hash":"69d31aed194e2767","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"JointDistributionHandmade(*args)","rhs":"correctly constructs a JointDistributionHandmade instance","over":{"base":"Any"},"name":"JointDistributionHandmade_class_invariant"},"guarantee":"correctly constructs a JointDistributionHandmade instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6db1110939a0be36"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.joint_rv_types.JointDistributionHandmade","kind":"class","src_hash":"69d31aed194e2767","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, JointDistribution)"},"spec":{"lhs":"JointDistributionHandmade(*args)","rhs":"correctly constructs a JointDistributionHandmade instance","over":{"base":"Any"},"name":"JointDistributionHandmade_class_invariant"},"guarantee":"isinstance(self, JointDistribution)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6db1110939a0be36","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, JointDistribution)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function JointDistributionHandmade not found in source"]}}
 class JointDistributionHandmade(JointDistribution):
 
     _argnames = ('pdf',)
@@ -147,24 +168,34 @@ class JointDistributionHandmade(JointDistribution):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(set(), returns the set attribute) over Any            ║
+# ║ Path(set(), self.args[1]) over Any                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[1]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ set : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0c037bbb06772a4f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.joint_rv_types.JointDistributionHandmade.set","kind":"property","src_hash":"66eae7d4cc35a22e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"set()","rhs":"returns the set attribute","over":{"base":"Any"},"name":"set_correct"},"guarantee":"returns the set attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0c037bbb06772a4f"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.joint_rv_types.JointDistributionHandmade.set","kind":"property","src_hash":"66eae7d4cc35a22e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"set()","rhs":"self.args[1]","over":{"base":"Any"},"name":"set_correct"},"guarantee":"returns self.args[1]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0c037bbb06772a4f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[1]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def set(self):
         return self.args[1]
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(JointRV(sym), create a joint random variable where each of its component is continuous, given the following:) over {Any | isinstance(i, Indexed)} ║
+# ║ Path(JointRV(symbol, pdf, _set), <unspecified:JointRV>) over {Any | isinstance(i, Indexed) and hasattr(pdf, 'free_symbols')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ JointRV : {Any | isinstance(i, Indexed)} → Any             ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(pdf, 'free_symbols')                   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ JointRV : {Any | isinstance(i, Indexed) and hasattr(p...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   Indexed: {isinstance(i, Indexed)} → library_axiom        ║
@@ -174,9 +205,12 @@ class JointDistributionHandmade(JointDistribution):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.5ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 654aaa01...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.joint_rv_types.JointRV","kind":"function","src_hash":"cfe9bfc09502233c","in":{"base":"Any","pred":"isinstance(i, Indexed)"},"out":{"base":"Any"},"spec":{"lhs":"JointRV(sym)","rhs":"create a joint random variable where each of its component is continuous, given the following:","over":{"base":"Any","pred":"isinstance(i, Indexed)"},"name":"JointRV_correct"},"guarantee":"create a joint random variable where each of its component is continuous, given the following:","fibers":[{"name":"Indexed","pred":"isinstance(i, Indexed)","path":{"lhs":"JointRV(x)","rhs":"create a joint random variable where each of its component is continuous, given the following:","over":{"base":"Indexed","pred":"isinstance(i, Indexed)"},"name":"JointRV_Indexed_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.joint_rv_types.JointRV_Indexed_correct","statement":"JointRV satisfies spec on Indexed inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"654aaa019d9164d1"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.joint_rv_types.JointRV","kind":"function","src_hash":"cfe9bfc09502233c","in":{"base":"Any","pred":"isinstance(i, Indexed) and hasattr(pdf, 'free_symbols')"},"out":{"base":"Any"},"spec":{"lhs":"JointRV(symbol, pdf, _set)","rhs":"<unspecified:JointRV>","over":{"base":"Any","pred":"isinstance(i, Indexed) and hasattr(pdf, 'free_symbols')"},"name":"JointRV_correct"},"guarantee":"create a joint random variable where each of its component is continuous, given the following:","fibers":[{"name":"Indexed","pred":"isinstance(i, Indexed)","path":{"lhs":"JointRV(x)","rhs":"create a joint random variable where each of its component is continuous, given the following:","over":{"base":"Indexed","pred":"isinstance(i, Indexed)"},"name":"JointRV_Indexed_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.joint_rv_types.JointRV_Indexed_correct","statement":"JointRV satisfies spec on Indexed inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"654aaa019d9164d1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(pdf, 'free_symbols')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["pdf.free_symbols"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.5,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'len(rvs) != 0'}, fibers={'Indexed'})"]}}
 def JointRV(symbol, pdf, _set=None):
     """
     Create a Joint Random Variable where each of its component is continuous,
@@ -234,14 +268,20 @@ def JointRV(symbol, pdf, _set=None):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(MultivariateNormalDistribution(*args), correctly constructs a MultivariateNormalDistribution instance) over {Any | isinstance(sigma, MatrixSymbol)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, JointDistribution)            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ MultivariateNormalDistribution : {Any | isinstance(si...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a6b2bd2e82a6bc3f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.joint_rv_types.MultivariateNormalDistribution","kind":"class","src_hash":"93ac0f235de83184","in":{"base":"Any","pred":"isinstance(sigma, MatrixSymbol)"},"out":{"base":"Any"},"spec":{"lhs":"MultivariateNormalDistribution(*args)","rhs":"correctly constructs a MultivariateNormalDistribution instance","over":{"base":"Any","pred":"isinstance(sigma, MatrixSymbol)"},"name":"MultivariateNormalDistribution_class_invariant"},"guarantee":"correctly constructs a MultivariateNormalDistribution instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a6b2bd2e82a6bc3f"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.joint_rv_types.MultivariateNormalDistribution","kind":"class","src_hash":"93ac0f235de83184","in":{"base":"Any","pred":"isinstance(sigma, MatrixSymbol)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, JointDistribution)"},"spec":{"lhs":"MultivariateNormalDistribution(*args)","rhs":"correctly constructs a MultivariateNormalDistribution instance","over":{"base":"Any","pred":"isinstance(sigma, MatrixSymbol)"},"name":"MultivariateNormalDistribution_class_invariant"},"guarantee":"isinstance(self, JointDistribution)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a6b2bd2e82a6bc3f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, JointDistribution)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":false,"binding_errors":["Function MultivariateNormalDistribution not found in source"]}}
 class MultivariateNormalDistribution(JointDistribution):
     _argnames = ('mu', 'sigma')
 
@@ -249,32 +289,47 @@ class MultivariateNormalDistribution(JointDistribution):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(set(), returns the set attribute) over Any            ║
+# ║ Path(set(), S.Reals ** k) over Any                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  S.Reals ** k                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ set : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7602d3429b0ecbc3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.joint_rv_types.MultivariateNormalDistribution.set","kind":"property","src_hash":"ca580cc8f10d5e3d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"set()","rhs":"returns the set attribute","over":{"base":"Any"},"name":"set_correct"},"guarantee":"returns the set attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7602d3429b0ecbc3"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.joint_rv_types.MultivariateNormalDistribution.set","kind":"property","src_hash":"ca580cc8f10d5e3d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"set()","rhs":"S.Reals ** k","over":{"base":"Any"},"name":"set_correct"},"guarantee":"returns S.Reals ** k","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7602d3429b0ecbc3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"S.Reals ** k","pure":false,"effects":{"effect_type":"reads_state","reads":["self.mu"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def set(self):
         k = self.mu.shape[0]
         return S.Reals**k
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(check(mu,), check produces the expected output) over Any ║
+# ║ Path(check(mu, sigma), <unspecified:check>) over {Any | hasattr(sigma, 'is_positive_semidefinite') and hasattr(mu, 'shape') and hasattr(sigma, 'shape')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ check : Any → Any                                          ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(sigma, 'is_positive_semidefinite')     ║
+# ║   requires: hasattr(mu, 'shape')                           ║
+# ║   requires: hasattr(sigma, 'shape')                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ check : {Any | hasattr(sigma, 'is_positive_semidefini...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c129e4101633bbd3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.joint_rv_types.MultivariateNormalDistribution.check","kind":"staticmethod","src_hash":"226fed2d4738dbc5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"check(mu,)","rhs":"check produces the expected output","over":{"base":"Any"},"name":"check_correct"},"guarantee":"check produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.joint_rv_types.MultivariateNormalDistribution.check_correct","statement":"Path(check(x), check produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c129e4101633bbd3"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.joint_rv_types.MultivariateNormalDistribution.check","kind":"staticmethod","src_hash":"226fed2d4738dbc5","in":{"base":"Any","pred":"hasattr(sigma, 'is_positive_semidefinite') and hasattr(mu, 'shape') and hasattr(sigma, 'shape')"},"out":{"base":"Any"},"spec":{"lhs":"check(mu, sigma)","rhs":"<unspecified:check>","over":{"base":"Any","pred":"hasattr(sigma, 'is_positive_semidefinite') and hasattr(mu, 'shape') and hasattr(sigma, 'shape')"},"name":"check_correct"},"guarantee":"check produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.joint_rv_types.MultivariateNormalDistribution.check_correct","statement":"Path(check(x), check produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c129e4101633bbd3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(sigma, 'is_positive_semidefinite')","hasattr(mu, 'shape')","hasattr(sigma, 'shape')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["mu.shape","sigma.is_positive_semidefinite","sigma.shape"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def check(mu, sigma):
         _value_check(mu.shape[0] == sigma.shape[0],
             "Size of the mean vector and covariance matrix are incorrect.")
@@ -284,16 +339,22 @@ class MultivariateNormalDistribution(JointDistribution):
             "The covariance matrix must be positive semi definite. ")
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(pdf(*ar), pdf produces the expected output) over Any  ║
+# ║ Path(pdf(*args), MatrixElement(density, 0, 0)) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  MatrixElement(density, 0, 0)                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ pdf : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2fefe76b8bf88306  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 38ff93f46b5aa1c3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.joint_rv_types.MultivariateNormalDistribution.pdf","kind":"method","src_hash":"1d5602a202de9857","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pdf(*ar)","rhs":"pdf produces the expected output","over":{"base":"Any"},"name":"pdf_correct"},"guarantee":"pdf produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.joint_rv_types.MultivariateNormalDistribution.pdf_correct","statement":"Path(pdf(x), pdf produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2fefe76b8bf88306"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.joint_rv_types.MultivariateNormalDistribution.pdf","kind":"method","src_hash":"1d5602a202de9857","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pdf(*args)","rhs":"MatrixElement(density, 0, 0)","over":{"base":"Any"},"name":"pdf_correct"},"guarantee":"returns MatrixElement(density, 0, 0)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.joint_rv_types.MultivariateNormalDistribution.pdf_correct","statement":"Path(pdf(x), returns MatrixElement(density, 0, 0))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"38ff93f46b5aa1c3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"MatrixElement(density, 0, 0)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.mu","self.sigma"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def pdf(self, *args):
         mu, sigma = self.mu, self.sigma
         k = mu.shape[0]
@@ -307,16 +368,22 @@ class MultivariateNormalDistribution(JointDistribution):
         return MatrixElement(density, 0, 0)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_marginal_distribution(ind), id) over Any             ║
+# ║ Path(_marginal_distribution(indices, sym), id) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Lambda(tuple(sym), S.One / sqrt((2 * pi) ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _marginal_distribution : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | bf46411615d48a1a   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.joint_rv_types.MultivariateNormalDistribution._marginal_distribution","kind":"method","src_hash":"be01efc1bbbd1c49","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_marginal_distribution(ind)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_marginal_distribution_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Lambda","by":"library_axiom"},{"fn":"tuple","by":"library_axiom"},{"fn":"sqrt","by":"library_axiom"},{"fn":"len","by":"library_axiom"},{"fn":"det","by":"library_axiom"},{"fn":"exp","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bf46411615d48a1a"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.joint_rv_types.MultivariateNormalDistribution._marginal_distribution","kind":"method","src_hash":"be01efc1bbbd1c49","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_marginal_distribution(indices, sym)","rhs":"Lambda(tuple(sym), S.One / sqrt((2 * pi) ** len(_mu) * det(_sigma)) * exp(Rational(-1, 2) * (_mu - sym).transpose() * (_sigma.inv() * (_mu - sym)))[0])","over":{"base":"Any"},"name":"_marginal_distribution_correct","kind":"composition"},"guarantee":"returns Lambda(tuple(sym), S.One / sqrt((2 * pi) ** len(_mu) * det(_sigma)) * exp(Rational(-1, 2) * (_mu - sym).transpose() * (_sigma.inv() * (_mu - sym)))[0])","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Lambda","by":"library_axiom"},{"fn":"tuple","by":"library_axiom"},{"fn":"sqrt","by":"library_axiom"},{"fn":"len","by":"library_axiom"},{"fn":"det","by":"library_axiom"},{"fn":"exp","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bf46411615d48a1a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Lambda(tuple(sym), S.One / sqrt((2 * pi) ** len(_mu) * det(_sigma)) * exp(Rational(-1, 2) * (_mu - sym).transpose() * (_sigma.inv() * (_mu - sym)))[0])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.mu","self.sigma"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _marginal_distribution(self, indices, sym):
         sym = ImmutableMatrix([Indexed(sym, i) for i in indices])
         _mu, _sigma = self.mu, self.sigma
@@ -331,16 +398,22 @@ class MultivariateNormalDistribution(JointDistribution):
                 (_mu - sym)))[0])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(MultivariateNormal(nam), creates a continuous random variable with multivariate normal distribution) over Any ║
+# ║ Path(MultivariateNormal(name, mu, sigma), multivariate_rv(MultivariateNormalDistribution, name, mu, sigma)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  multivariate_rv(MultivariateNormalDistrib...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ MultivariateNormal : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f5bb1801e460d5c3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.joint_rv_types.MultivariateNormal","kind":"function","src_hash":"2cb3a2a6c3ae496e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"MultivariateNormal(nam)","rhs":"creates a continuous random variable with multivariate normal distribution","over":{"base":"Any"},"name":"MultivariateNormal_correct"},"guarantee":"creates a continuous random variable with multivariate normal distribution","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f5bb1801e460d5c3"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.joint_rv_types.MultivariateNormal","kind":"function","src_hash":"2cb3a2a6c3ae496e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"MultivariateNormal(name, mu, sigma)","rhs":"multivariate_rv(MultivariateNormalDistribution, name, mu, sigma)","over":{"base":"Any"},"name":"MultivariateNormal_correct"},"guarantee":"returns multivariate_rv(MultivariateNormalDistribution, name, mu, sigma)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f5bb1801e460d5c3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"multivariate_rv(MultivariateNormalDistribution, name, mu, sigma)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def MultivariateNormal(name, mu, sigma):
     r"""
     Creates a continuous random variable with Multivariate Normal
@@ -406,46 +479,67 @@ def MultivariateNormal(name, mu, sigma):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(MultivariateLaplaceDistribution(*args), correctly constructs a MultivariateLaplaceDistribution instance) over {Any | isinstance(sigma, MatrixSymbol)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, JointDistribution)            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ MultivariateLaplaceDistribution : {Any | isinstance(s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d61010d4f1ac2a9a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.joint_rv_types.MultivariateLaplaceDistribution","kind":"class","src_hash":"1765a2e75f6797ea","in":{"base":"Any","pred":"isinstance(sigma, MatrixSymbol)"},"out":{"base":"Any"},"spec":{"lhs":"MultivariateLaplaceDistribution(*args)","rhs":"correctly constructs a MultivariateLaplaceDistribution instance","over":{"base":"Any","pred":"isinstance(sigma, MatrixSymbol)"},"name":"MultivariateLaplaceDistribution_class_invariant"},"guarantee":"correctly constructs a MultivariateLaplaceDistribution instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d61010d4f1ac2a9a"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.joint_rv_types.MultivariateLaplaceDistribution","kind":"class","src_hash":"1765a2e75f6797ea","in":{"base":"Any","pred":"isinstance(sigma, MatrixSymbol)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, JointDistribution)"},"spec":{"lhs":"MultivariateLaplaceDistribution(*args)","rhs":"correctly constructs a MultivariateLaplaceDistribution instance","over":{"base":"Any","pred":"isinstance(sigma, MatrixSymbol)"},"name":"MultivariateLaplaceDistribution_class_invariant"},"guarantee":"isinstance(self, JointDistribution)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d61010d4f1ac2a9a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, JointDistribution)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function MultivariateLaplaceDistribution not found in source"]}}
 class MultivariateLaplaceDistribution(JointDistribution):
     _argnames = ('mu', 'sigma')
     is_Continuous=True
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(set(), returns the set attribute) over Any            ║
+# ║ Path(set(), S.Reals ** k) over Any                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  S.Reals ** k                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ set : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c46ae9e2142a0a47           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.joint_rv_types.MultivariateLaplaceDistribution.set","kind":"property","src_hash":"ca580cc8f10d5e3d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"set()","rhs":"returns the set attribute","over":{"base":"Any"},"name":"set_correct"},"guarantee":"returns the set attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c46ae9e2142a0a47"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.joint_rv_types.MultivariateLaplaceDistribution.set","kind":"property","src_hash":"ca580cc8f10d5e3d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"set()","rhs":"S.Reals ** k","over":{"base":"Any"},"name":"set_correct"},"guarantee":"returns S.Reals ** k","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c46ae9e2142a0a47","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"S.Reals ** k","pure":false,"effects":{"effect_type":"reads_state","reads":["self.mu"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def set(self):
         k = self.mu.shape[0]
         return S.Reals**k
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(check(mu,), check produces the expected output) over Any ║
+# ║ Path(check(mu, sigma), <unspecified:check>) over {Any | hasattr(sigma, 'is_positive_definite') and hasattr(mu, 'shape') and hasattr(sigma, 'shape')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ check : Any → Any                                          ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(sigma, 'is_positive_definite')         ║
+# ║   requires: hasattr(mu, 'shape')                           ║
+# ║   requires: hasattr(sigma, 'shape')                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ check : {Any | hasattr(sigma, 'is_positive_definite')...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5011af058d26e873  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.joint_rv_types.MultivariateLaplaceDistribution.check","kind":"staticmethod","src_hash":"1f967cb7cf8b3094","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"check(mu,)","rhs":"check produces the expected output","over":{"base":"Any"},"name":"check_correct"},"guarantee":"check produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.joint_rv_types.MultivariateLaplaceDistribution.check_correct","statement":"Path(check(x), check produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5011af058d26e873"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.joint_rv_types.MultivariateLaplaceDistribution.check","kind":"staticmethod","src_hash":"1f967cb7cf8b3094","in":{"base":"Any","pred":"hasattr(sigma, 'is_positive_definite') and hasattr(mu, 'shape') and hasattr(sigma, 'shape')"},"out":{"base":"Any"},"spec":{"lhs":"check(mu, sigma)","rhs":"<unspecified:check>","over":{"base":"Any","pred":"hasattr(sigma, 'is_positive_definite') and hasattr(mu, 'shape') and hasattr(sigma, 'shape')"},"name":"check_correct"},"guarantee":"check produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.joint_rv_types.MultivariateLaplaceDistribution.check_correct","statement":"Path(check(x), check produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5011af058d26e873","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(sigma, 'is_positive_definite')","hasattr(mu, 'shape')","hasattr(sigma, 'shape')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["mu.shape","sigma.is_positive_definite","sigma.shape"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def check(mu, sigma):
         _value_check(mu.shape[0] == sigma.shape[0],
                      "Size of the mean vector and covariance matrix are incorrect.")
@@ -455,16 +549,22 @@ class MultivariateLaplaceDistribution(JointDistribution):
                          "The covariance matrix must be positive definite. ")
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(pdf(*ar), id) over Any                                ║
+# ║ Path(pdf(*args), id) over Any                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  2 * (y / (2 + x)) ** (v / 2) * besselk(v,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ pdf : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 7351b222bd7dff5c   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.joint_rv_types.MultivariateLaplaceDistribution.pdf","kind":"method","src_hash":"69bd6382a5335732","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pdf(*ar)","rhs":"pdf produces the expected output","over":{"base":"Any"},"name":"pdf_correct","kind":"composition"},"guarantee":"pdf produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"besselk","by":"library_axiom"},{"fn":"sqrt","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7351b222bd7dff5c"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.joint_rv_types.MultivariateLaplaceDistribution.pdf","kind":"method","src_hash":"69bd6382a5335732","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pdf(*args)","rhs":"2 * (y / (2 + x)) ** (v / 2) * besselk(v, sqrt((2 + x) * y)) * exp((args_T * sigma_inv * mu)[0]) / ((2 * pi) ** (k / 2) * sqrt(det(sigma)))","over":{"base":"Any"},"name":"pdf_correct","kind":"composition"},"guarantee":"returns 2 * (y / (2 + x)) ** (v / 2) * besselk(v, sqrt((2 + x) * y)) * exp((args_T * sigma_inv * mu)[0]) / ((2 * pi) ** (k / 2) * sqrt(det(sigma)))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"besselk","by":"library_axiom"},{"fn":"sqrt","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7351b222bd7dff5c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"2 * (y / (2 + x)) ** (v / 2) * besselk(v, sqrt((2 + x) * y)) * exp((args_T * sigma_inv * mu)[0]) / ((2 * pi) ** (k / 2) * sqrt(det(sigma)))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.mu","self.sigma"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def pdf(self, *args):
         mu, sigma = self.mu, self.sigma
         mu_T = mu.transpose()
@@ -481,16 +581,22 @@ class MultivariateLaplaceDistribution(JointDistribution):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(MultivariateLaplace(nam), creates a continuous random variable with multivariate laplace distribution) over Any ║
+# ║ Path(MultivariateLaplace(name, mu, sigma), multivariate_rv(MultivariateLaplaceDistribution, name, mu, sigma)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  multivariate_rv(MultivariateLaplaceDistri...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ MultivariateLaplace : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 12296696f0402ddf           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.joint_rv_types.MultivariateLaplace","kind":"function","src_hash":"ae15434aab98bbad","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"MultivariateLaplace(nam)","rhs":"creates a continuous random variable with multivariate laplace distribution","over":{"base":"Any"},"name":"MultivariateLaplace_correct"},"guarantee":"creates a continuous random variable with multivariate laplace distribution","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"12296696f0402ddf"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.joint_rv_types.MultivariateLaplace","kind":"function","src_hash":"ae15434aab98bbad","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"MultivariateLaplace(name, mu, sigma)","rhs":"multivariate_rv(MultivariateLaplaceDistribution, name, mu, sigma)","over":{"base":"Any"},"name":"MultivariateLaplace_correct"},"guarantee":"returns multivariate_rv(MultivariateLaplaceDistribution, name, mu, sigma)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"12296696f0402ddf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"multivariate_rv(MultivariateLaplaceDistribution, name, mu, sigma)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def MultivariateLaplace(name, mu, sigma):
     """
     Creates a continuous random variable with Multivariate Laplace
@@ -536,46 +642,67 @@ def MultivariateLaplace(name, mu, sigma):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(MultivariateTDistribution(*args), correctly constructs a MultivariateTDistribution instance) over {Any | isinstance(sigma, MatrixSymbol)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, JointDistribution)            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ MultivariateTDistribution : {Any | isinstance(sigma, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6a8b503576e02c7c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.joint_rv_types.MultivariateTDistribution","kind":"class","src_hash":"34f02805af36b0a4","in":{"base":"Any","pred":"isinstance(sigma, MatrixSymbol)"},"out":{"base":"Any"},"spec":{"lhs":"MultivariateTDistribution(*args)","rhs":"correctly constructs a MultivariateTDistribution instance","over":{"base":"Any","pred":"isinstance(sigma, MatrixSymbol)"},"name":"MultivariateTDistribution_class_invariant"},"guarantee":"correctly constructs a MultivariateTDistribution instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6a8b503576e02c7c"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.joint_rv_types.MultivariateTDistribution","kind":"class","src_hash":"34f02805af36b0a4","in":{"base":"Any","pred":"isinstance(sigma, MatrixSymbol)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, JointDistribution)"},"spec":{"lhs":"MultivariateTDistribution(*args)","rhs":"correctly constructs a MultivariateTDistribution instance","over":{"base":"Any","pred":"isinstance(sigma, MatrixSymbol)"},"name":"MultivariateTDistribution_class_invariant"},"guarantee":"isinstance(self, JointDistribution)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6a8b503576e02c7c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, JointDistribution)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function MultivariateTDistribution not found in source"]}}
 class MultivariateTDistribution(JointDistribution):
     _argnames = ('mu', 'shape_mat', 'dof')
     is_Continuous=True
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(set(), returns the set attribute) over Any            ║
+# ║ Path(set(), S.Reals ** k) over Any                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  S.Reals ** k                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ set : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7122c3aafc5cc175           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.joint_rv_types.MultivariateTDistribution.set","kind":"property","src_hash":"ca580cc8f10d5e3d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"set()","rhs":"returns the set attribute","over":{"base":"Any"},"name":"set_correct"},"guarantee":"returns the set attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7122c3aafc5cc175"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.joint_rv_types.MultivariateTDistribution.set","kind":"property","src_hash":"ca580cc8f10d5e3d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"set()","rhs":"S.Reals ** k","over":{"base":"Any"},"name":"set_correct"},"guarantee":"returns S.Reals ** k","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7122c3aafc5cc175","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"S.Reals ** k","pure":false,"effects":{"effect_type":"reads_state","reads":["self.mu"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def set(self):
         k = self.mu.shape[0]
         return S.Reals**k
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(check(mu,), check produces the expected output) over Any ║
+# ║ Path(check(mu, sigma, v), <unspecified:check>) over {Any | hasattr(sigma, 'is_positive_definite') and hasattr(mu, 'shape') and hasattr(sigma, 'shape')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ check : Any → Any                                          ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(sigma, 'is_positive_definite')         ║
+# ║   requires: hasattr(mu, 'shape')                           ║
+# ║   requires: hasattr(sigma, 'shape')                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ check : {Any | hasattr(sigma, 'is_positive_definite')...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 021cb2c1e45c6fde  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.joint_rv_types.MultivariateTDistribution.check","kind":"staticmethod","src_hash":"0e8c273815ccee74","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"check(mu,)","rhs":"check produces the expected output","over":{"base":"Any"},"name":"check_correct"},"guarantee":"check produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.joint_rv_types.MultivariateTDistribution.check_correct","statement":"Path(check(x), check produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"021cb2c1e45c6fde"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.joint_rv_types.MultivariateTDistribution.check","kind":"staticmethod","src_hash":"0e8c273815ccee74","in":{"base":"Any","pred":"hasattr(sigma, 'is_positive_definite') and hasattr(mu, 'shape') and hasattr(sigma, 'shape')"},"out":{"base":"Any"},"spec":{"lhs":"check(mu, sigma, v)","rhs":"<unspecified:check>","over":{"base":"Any","pred":"hasattr(sigma, 'is_positive_definite') and hasattr(mu, 'shape') and hasattr(sigma, 'shape')"},"name":"check_correct"},"guarantee":"check produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.joint_rv_types.MultivariateTDistribution.check_correct","statement":"Path(check(x), check produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"021cb2c1e45c6fde","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(sigma, 'is_positive_definite')","hasattr(mu, 'shape')","hasattr(sigma, 'shape')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["mu.shape","sigma.is_positive_definite","sigma.shape"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def check(mu, sigma, v):
         _value_check(mu.shape[0] == sigma.shape[0],
                      "Size of the location vector and shape matrix are incorrect.")
@@ -585,16 +712,22 @@ class MultivariateTDistribution(JointDistribution):
                          "The shape matrix must be positive definite. ")
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(pdf(*ar), id) over Any                                ║
+# ║ Path(pdf(*args), id) over Any                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  gamma((k + v) / 2) / (gamma(v / 2) * (v *...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ pdf : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 0cdd5c8d920b30f9   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.joint_rv_types.MultivariateTDistribution.pdf","kind":"method","src_hash":"20873806ce6548b1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pdf(*ar)","rhs":"pdf produces the expected output","over":{"base":"Any"},"name":"pdf_correct","kind":"composition"},"guarantee":"pdf produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"gamma","by":"library_axiom"},{"fn":"gamma","by":"library_axiom"},{"fn":"sqrt","by":"library_axiom"},{"fn":"det","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0cdd5c8d920b30f9"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.joint_rv_types.MultivariateTDistribution.pdf","kind":"method","src_hash":"20873806ce6548b1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pdf(*args)","rhs":"gamma((k + v) / 2) / (gamma(v / 2) * (v * pi) ** (k / 2) * sqrt(det(sigma))) * (1 + 1 / v * (x.transpose() * sigma_inv * x)[0]) ** ((-v - k) / 2)","over":{"base":"Any"},"name":"pdf_correct","kind":"composition"},"guarantee":"returns gamma((k + v) / 2) / (gamma(v / 2) * (v * pi) ** (k / 2) * sqrt(det(sigma))) * (1 + 1 / v * (x.transpose() * sigma_inv * x)[0]) ** ((-v - k) / 2)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"gamma","by":"library_axiom"},{"fn":"gamma","by":"library_axiom"},{"fn":"sqrt","by":"library_axiom"},{"fn":"det","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0cdd5c8d920b30f9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"gamma((k + v) / 2) / (gamma(v / 2) * (v * pi) ** (k / 2) * sqrt(det(sigma))) * (1 + 1 / v * (x.transpose() * sigma_inv * x)[0]) ** ((-v - k) / 2)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.dof","self.mu","self.shape_mat"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def pdf(self, *args):
         mu, sigma = self.mu, self.shape_mat
         v = S(self.dof)
@@ -606,16 +739,22 @@ class MultivariateTDistribution(JointDistribution):
         *(1 + 1/v*(x.transpose()*sigma_inv*x)[0])**((-v - k)/2)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(MultivariateT(sym), creates a joint random variable with multivariate t-distribution) over Any ║
+# ║ Path(MultivariateT(syms, mu, sigma), multivariate_rv(MultivariateTDistribution, syms, mu, sigma, v)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  multivariate_rv(MultivariateTDistribution...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ MultivariateT : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f6b25f84dcf9b1e1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.joint_rv_types.MultivariateT","kind":"function","src_hash":"5b670d2c8f5fd4ce","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"MultivariateT(sym)","rhs":"creates a joint random variable with multivariate t-distribution","over":{"base":"Any"},"name":"MultivariateT_correct"},"guarantee":"creates a joint random variable with multivariate t-distribution","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f6b25f84dcf9b1e1"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.joint_rv_types.MultivariateT","kind":"function","src_hash":"5b670d2c8f5fd4ce","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"MultivariateT(syms, mu, sigma)","rhs":"multivariate_rv(MultivariateTDistribution, syms, mu, sigma, v)","over":{"base":"Any"},"name":"MultivariateT_correct"},"guarantee":"returns multivariate_rv(MultivariateTDistribution, syms, mu, sigma, v)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f6b25f84dcf9b1e1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"multivariate_rv(MultivariateTDistribution, syms, mu, sigma, v)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def MultivariateT(syms, mu, sigma, v):
     """
     Creates a joint random variable with multivariate T-distribution.
@@ -656,14 +795,20 @@ def MultivariateT(syms, mu, sigma, v):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(NormalGammaDistribution(*args), correctly constructs a NormalGammaDistribution instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ NormalGammaDistribution : Any → Any                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, JointDistribution)            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ NormalGammaDistribution : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6957b902695bc916  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.joint_rv_types.NormalGammaDistribution","kind":"class","src_hash":"ccc34b884c0c9837","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"NormalGammaDistribution(*args)","rhs":"correctly constructs a NormalGammaDistribution instance","over":{"base":"Any"},"name":"NormalGammaDistribution_class_invariant"},"guarantee":"correctly constructs a NormalGammaDistribution instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6957b902695bc916"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.joint_rv_types.NormalGammaDistribution","kind":"class","src_hash":"ccc34b884c0c9837","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, JointDistribution)"},"spec":{"lhs":"NormalGammaDistribution(*args)","rhs":"correctly constructs a NormalGammaDistribution instance","over":{"base":"Any"},"name":"NormalGammaDistribution_class_invariant"},"guarantee":"isinstance(self, JointDistribution)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6957b902695bc916","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, JointDistribution)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":false,"binding_errors":["Function NormalGammaDistribution not found in source"]}}
 class NormalGammaDistribution(JointDistribution):
 
     _argnames = ('mu', 'lamda', 'alpha', 'beta')
@@ -671,16 +816,23 @@ class NormalGammaDistribution(JointDistribution):
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(check(mu,), check produces the expected output) over Any ║
+# ║ Path(check(mu, lamda, alpha), <unspecified:check>) over {Any | hasattr(mu, 'is_real')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ check : Any → Any                                          ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(mu, 'is_real')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ check : {Any | hasattr(mu, 'is_real')} → Any               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9d34d1ec3bf383ad  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.joint_rv_types.NormalGammaDistribution.check","kind":"staticmethod","src_hash":"6e7f750cacb90e80","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"check(mu,)","rhs":"check produces the expected output","over":{"base":"Any"},"name":"check_correct"},"guarantee":"check produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.joint_rv_types.NormalGammaDistribution.check_correct","statement":"Path(check(x), check produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9d34d1ec3bf383ad"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.joint_rv_types.NormalGammaDistribution.check","kind":"staticmethod","src_hash":"6e7f750cacb90e80","in":{"base":"Any","pred":"hasattr(mu, 'is_real')"},"out":{"base":"Any"},"spec":{"lhs":"check(mu, lamda, alpha)","rhs":"<unspecified:check>","over":{"base":"Any","pred":"hasattr(mu, 'is_real')"},"name":"check_correct"},"guarantee":"check produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.joint_rv_types.NormalGammaDistribution.check_correct","statement":"Path(check(x), check produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9d34d1ec3bf383ad","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(mu, 'is_real')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["mu.is_real"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def check(mu, lamda, alpha, beta):
         _value_check(mu.is_real, "Location must be real.")
         _value_check(lamda > 0, "Lambda must be positive")
@@ -689,30 +841,42 @@ class NormalGammaDistribution(JointDistribution):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(set(), returns the set attribute) over Any            ║
+# ║ Path(set(), S.Reals * Interval(0, S.Infinity)) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  S.Reals * Interval(0, S.Infinity)              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ set : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4488c33898a1eb95           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.joint_rv_types.NormalGammaDistribution.set","kind":"property","src_hash":"97471434fb31edfa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"set()","rhs":"returns the set attribute","over":{"base":"Any"},"name":"set_correct"},"guarantee":"returns the set attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4488c33898a1eb95"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.joint_rv_types.NormalGammaDistribution.set","kind":"property","src_hash":"97471434fb31edfa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"set()","rhs":"S.Reals * Interval(0, S.Infinity)","over":{"base":"Any"},"name":"set_correct"},"guarantee":"returns S.Reals * Interval(0, S.Infinity)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4488c33898a1eb95","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"S.Reals * Interval(0, S.Infinity)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def set(self):
         return S.Reals*Interval(0, S.Infinity)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(pdf(x, ), id) over Any                                ║
+# ║ Path(pdf(x, tau), id) over Any                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  beta ** alpha * sqrt(lamda) / (gamma(alph...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ pdf : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 05525d42e0e32659   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.joint_rv_types.NormalGammaDistribution.pdf","kind":"method","src_hash":"9a96a5e4e23115cf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pdf(x, )","rhs":"pdf produces the expected output","over":{"base":"Any"},"name":"pdf_correct","kind":"composition"},"guarantee":"pdf produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sqrt","by":"library_axiom"},{"fn":"gamma","by":"library_axiom"},{"fn":"sqrt","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"05525d42e0e32659"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.joint_rv_types.NormalGammaDistribution.pdf","kind":"method","src_hash":"9a96a5e4e23115cf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pdf(x, tau)","rhs":"beta ** alpha * sqrt(lamda) / (gamma(alpha) * sqrt(2 * pi)) * tau ** (alpha - S.Half) * exp(-1 * beta * tau) * exp(-1 * (lamda * tau * (x - mu) ** 2) / S(2))","over":{"base":"Any"},"name":"pdf_correct","kind":"composition"},"guarantee":"returns beta ** alpha * sqrt(lamda) / (gamma(alpha) * sqrt(2 * pi)) * tau ** (alpha - S.Half) * exp(-1 * beta * tau) * exp(-1 * (lamda * tau * (x - mu) ** 2) / S(2))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sqrt","by":"library_axiom"},{"fn":"gamma","by":"library_axiom"},{"fn":"sqrt","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"05525d42e0e32659","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"beta ** alpha * sqrt(lamda) / (gamma(alpha) * sqrt(2 * pi)) * tau ** (alpha - S.Half) * exp(-1 * beta * tau) * exp(-1 * (lamda * tau * (x - mu) ** 2) / S(2))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.alpha","self.beta","self.lamda","self.mu"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def pdf(self, x, tau):
         beta, alpha, lamda = self.beta, self.alpha, self.lamda
         mu = self.mu
@@ -722,16 +886,22 @@ class NormalGammaDistribution(JointDistribution):
         exp(-1*(lamda*tau*(x - mu)**2)/S(2))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_marginal_distribution(ind), internal helper behaves correctly) over Any ║
+# ║ Path(_marginal_distribution(indices, *sym), <unspecified:_marginal_distribution>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _marginal_distribution : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 512107c6ae0092bb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.joint_rv_types.NormalGammaDistribution._marginal_distribution","kind":"method","src_hash":"c0407feb1df3b34e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_marginal_distribution(ind)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_marginal_distribution_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.joint_rv_types.NormalGammaDistribution._marginal_distribution_correct","statement":"Path(_marginal_distribution(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"512107c6ae0092bb"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.joint_rv_types.NormalGammaDistribution._marginal_distribution","kind":"method","src_hash":"c0407feb1df3b34e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_marginal_distribution(indices, *sym)","rhs":"<unspecified:_marginal_distribution>","over":{"base":"Any"},"name":"_marginal_distribution_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.joint_rv_types.NormalGammaDistribution._marginal_distribution_correct","statement":"Path(_marginal_distribution(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"512107c6ae0092bb","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.alpha","self.beta","self.lamda","self.mu","self.pdf"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _marginal_distribution(self, indices, *sym):
         if len(indices) == 2:
             return self.pdf(*sym)
@@ -748,16 +918,22 @@ class NormalGammaDistribution(JointDistribution):
         return Lambda(sym, GammaDistribution(self.alpha, self.beta)(sym[0]))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(NormalGamma(sym), creates a bivariate joint random variable with multivariate normal gamma distribution) over Any ║
+# ║ Path(NormalGamma(sym, mu, lamda), multivariate_rv(NormalGammaDistribution, sym, mu, lamda, alpha, beta)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  multivariate_rv(NormalGammaDistribution, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ NormalGamma : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b8f6595708e0e6b5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.joint_rv_types.NormalGamma","kind":"function","src_hash":"2e0efdceb0ad0e26","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"NormalGamma(sym)","rhs":"creates a bivariate joint random variable with multivariate normal gamma distribution","over":{"base":"Any"},"name":"NormalGamma_correct"},"guarantee":"creates a bivariate joint random variable with multivariate normal gamma distribution","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b8f6595708e0e6b5"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.joint_rv_types.NormalGamma","kind":"function","src_hash":"2e0efdceb0ad0e26","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"NormalGamma(sym, mu, lamda)","rhs":"multivariate_rv(NormalGammaDistribution, sym, mu, lamda, alpha, beta)","over":{"base":"Any"},"name":"NormalGamma_correct"},"guarantee":"returns multivariate_rv(NormalGammaDistribution, sym, mu, lamda, alpha, beta)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b8f6595708e0e6b5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"multivariate_rv(NormalGammaDistribution, sym, mu, lamda, alpha, beta)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":true}}
 def NormalGamma(sym, mu, lamda, alpha, beta):
     """
     Creates a bivariate joint random variable with multivariate Normal gamma
@@ -808,14 +984,20 @@ def NormalGamma(sym, mu, lamda, alpha, beta):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(MultivariateBetaDistribution(*args), correctly constructs a MultivariateBetaDistribution instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ MultivariateBetaDistribution : Any → Any                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, JointDistribution)            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ MultivariateBetaDistribution : Any → {Any | result sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 794ac301ac46bc40  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.joint_rv_types.MultivariateBetaDistribution","kind":"class","src_hash":"ed846ac9d47911d8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"MultivariateBetaDistribution(*args)","rhs":"correctly constructs a MultivariateBetaDistribution instance","over":{"base":"Any"},"name":"MultivariateBetaDistribution_class_invariant"},"guarantee":"correctly constructs a MultivariateBetaDistribution instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"794ac301ac46bc40"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.joint_rv_types.MultivariateBetaDistribution","kind":"class","src_hash":"ed846ac9d47911d8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, JointDistribution)"},"spec":{"lhs":"MultivariateBetaDistribution(*args)","rhs":"correctly constructs a MultivariateBetaDistribution instance","over":{"base":"Any"},"name":"MultivariateBetaDistribution_class_invariant"},"guarantee":"isinstance(self, JointDistribution)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"794ac301ac46bc40","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, JointDistribution)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function MultivariateBetaDistribution not found in source"]}}
 class MultivariateBetaDistribution(JointDistribution):
 
     _argnames = ('alpha',)
@@ -823,16 +1005,22 @@ class MultivariateBetaDistribution(JointDistribution):
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(check(alp), check produces the expected output) over Any ║
+# ║ Path(check(alpha), <unspecified:check>) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ check : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1319982bc75bd397  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.joint_rv_types.MultivariateBetaDistribution.check","kind":"staticmethod","src_hash":"2e68dd4abd90c32f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"check(alp)","rhs":"check produces the expected output","over":{"base":"Any"},"name":"check_correct"},"guarantee":"check produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.joint_rv_types.MultivariateBetaDistribution.check_correct","statement":"Path(check(x), check produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1319982bc75bd397"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.joint_rv_types.MultivariateBetaDistribution.check","kind":"staticmethod","src_hash":"2e68dd4abd90c32f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"check(alpha)","rhs":"<unspecified:check>","over":{"base":"Any"},"name":"check_correct"},"guarantee":"check produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.joint_rv_types.MultivariateBetaDistribution.check_correct","statement":"Path(check(x), check produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1319982bc75bd397","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def check(alpha):
         _value_check(len(alpha) >= 2, "At least two categories should be passed.")
         for a_k in alpha:
@@ -841,38 +1029,53 @@ class MultivariateBetaDistribution(JointDistribution):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(set(), returns the set attribute) over Any            ║
+# ║ Path(set(), Interval(0, 1) ** k) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Interval(0, 1) ** k                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ set : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 334ff825f524bf63           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.joint_rv_types.MultivariateBetaDistribution.set","kind":"property","src_hash":"9cbebe977554fa7e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"set()","rhs":"returns the set attribute","over":{"base":"Any"},"name":"set_correct"},"guarantee":"returns the set attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"334ff825f524bf63"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.joint_rv_types.MultivariateBetaDistribution.set","kind":"property","src_hash":"9cbebe977554fa7e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"set()","rhs":"Interval(0, 1) ** k","over":{"base":"Any"},"name":"set_correct"},"guarantee":"returns Interval(0, 1) ** k","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"334ff825f524bf63","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Interval(0, 1) ** k","pure":false,"effects":{"effect_type":"reads_state","reads":["self.alpha"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def set(self):
         k = len(self.alpha)
         return Interval(0, 1)**k
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(pdf(*sy), id) over Any                                ║
+# ║ Path(pdf(*syms), id) over Any                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Mul.fromiter((sym ** (a_k - 1) for a_k, s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ pdf : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 3a4e1d6f3ad305ef   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.joint_rv_types.MultivariateBetaDistribution.pdf","kind":"method","src_hash":"8e0098a10ec18c3f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pdf(*sy)","rhs":"pdf produces the expected output","over":{"base":"Any"},"name":"pdf_correct","kind":"composition"},"guarantee":"pdf produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"fromiter","by":"library_axiom"},{"fn":"zip","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3a4e1d6f3ad305ef"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.joint_rv_types.MultivariateBetaDistribution.pdf","kind":"method","src_hash":"8e0098a10ec18c3f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pdf(*syms)","rhs":"Mul.fromiter((sym ** (a_k - 1) for a_k, sym in zip(alpha, syms))) / B","over":{"base":"Any"},"name":"pdf_correct","kind":"composition"},"guarantee":"returns Mul.fromiter((sym ** (a_k - 1) for a_k, sym in zip(alpha, syms))) / B","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"fromiter","by":"library_axiom"},{"fn":"zip","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3a4e1d6f3ad305ef","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Mul.fromiter((sym ** (a_k - 1) for a_k, sym in zip(alpha, syms))) / B","pure":false,"effects":{"effect_type":"reads_state","reads":["self.alpha"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def pdf(self, *syms):
         alpha = self.alpha
         B = Mul.fromiter(map(gamma, alpha))/gamma(Add(*alpha))
         return Mul.fromiter(sym**(a_k - 1) for a_k, sym in zip(alpha, syms))/B
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(MultivariateBeta(sym), creates a continuous random variable with dirichlet/multivariate beta distribution) over {Any | isinstance(alpha[0], list)} ║
+# ║ Path(MultivariateBeta(syms, *alpha), multivariate_rv(MultivariateBetaDistribution, syms, alpha[0])) over {Any | isinstance(alpha[0], list)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  multivariate_rv(MultivariateBetaDistribut...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ MultivariateBeta : {Any | isinstance(alpha[0], list)}...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -884,9 +1087,12 @@ class MultivariateBetaDistribution(JointDistribution):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 0.2ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 40a1c61e...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.joint_rv_types.MultivariateBeta","kind":"function","src_hash":"124f96939d10fad2","in":{"base":"Any","pred":"isinstance(alpha[0], list)"},"out":{"base":"Any"},"spec":{"lhs":"MultivariateBeta(sym)","rhs":"creates a continuous random variable with dirichlet/multivariate beta distribution","over":{"base":"Any","pred":"isinstance(alpha[0], list)"},"name":"MultivariateBeta_correct"},"guarantee":"creates a continuous random variable with dirichlet/multivariate beta distribution","fibers":[{"name":"list","pred":"isinstance(alpha[0], list)","path":{"lhs":"MultivariateBeta(x)","rhs":"creates a continuous random variable with dirichlet/multivariate beta distribution","over":{"base":"list","pred":"isinstance(alpha[0], list)"},"name":"MultivariateBeta_list_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.joint_rv_types.MultivariateBeta_list_correct","statement":"MultivariateBeta satisfies spec on list inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"40a1c61e2ac8737b"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.joint_rv_types.MultivariateBeta","kind":"function","src_hash":"124f96939d10fad2","in":{"base":"Any","pred":"isinstance(alpha[0], list)"},"out":{"base":"Any"},"spec":{"lhs":"MultivariateBeta(syms, *alpha)","rhs":"multivariate_rv(MultivariateBetaDistribution, syms, alpha[0])","over":{"base":"Any","pred":"isinstance(alpha[0], list)"},"name":"MultivariateBeta_correct"},"guarantee":"returns multivariate_rv(MultivariateBetaDistribution, syms, alpha[0])","fibers":[{"name":"list","pred":"isinstance(alpha[0], list)","path":{"lhs":"MultivariateBeta(x)","rhs":"returns multivariate_rv(MultivariateBetaDistribution, syms, alpha[0])","over":{"base":"list","pred":"isinstance(alpha[0], list)"},"name":"MultivariateBeta_list_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.joint_rv_types.MultivariateBeta_list_correct","statement":"MultivariateBeta satisfies spec on list inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"40a1c61e2ac8737b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"multivariate_rv(MultivariateBetaDistribution, syms, alpha[0])","pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['syms'], spec=['syms', '*alpha']","Poor branch-fiber coverage: 0% (branches={'not isinstance(alpha[0], list)'}, fibers={'list'})"]}}
 def MultivariateBeta(syms, *alpha):
     """
     Creates a continuous random variable with Dirichlet/Multivariate Beta
@@ -940,14 +1146,20 @@ Dirichlet = MultivariateBeta
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(MultivariateEwensDistribution(*args), correctly constructs a MultivariateEwensDistribution instance) over {Any | isinstance(self.n, Integer) and isinstance(syms[0], IndexedBase)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, JointDistribution)            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ MultivariateEwensDistribution : {Any | isinstance(sel...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6ee398bbedca390d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.joint_rv_types.MultivariateEwensDistribution","kind":"class","src_hash":"d1bdbf70691dcfe7","in":{"base":"Any","pred":"isinstance(self.n, Integer) and isinstance(syms[0], IndexedBase)"},"out":{"base":"Any"},"spec":{"lhs":"MultivariateEwensDistribution(*args)","rhs":"correctly constructs a MultivariateEwensDistribution instance","over":{"base":"Any","pred":"isinstance(self.n, Integer) and isinstance(syms[0], IndexedBase)"},"name":"MultivariateEwensDistribution_class_invariant"},"guarantee":"correctly constructs a MultivariateEwensDistribution instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6ee398bbedca390d"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.joint_rv_types.MultivariateEwensDistribution","kind":"class","src_hash":"d1bdbf70691dcfe7","in":{"base":"Any","pred":"isinstance(self.n, Integer) and isinstance(syms[0], IndexedBase)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, JointDistribution)"},"spec":{"lhs":"MultivariateEwensDistribution(*args)","rhs":"correctly constructs a MultivariateEwensDistribution instance","over":{"base":"Any","pred":"isinstance(self.n, Integer) and isinstance(syms[0], IndexedBase)"},"name":"MultivariateEwensDistribution_class_invariant"},"guarantee":"isinstance(self, JointDistribution)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6ee398bbedca390d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, JointDistribution)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":false,"binding_errors":["Function MultivariateEwensDistribution not found in source"]}}
 class MultivariateEwensDistribution(JointDistribution):
 
     _argnames = ('n', 'theta')
@@ -956,16 +1168,23 @@ class MultivariateEwensDistribution(JointDistribution):
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(check(n, ), check produces the expected output) over Any ║
+# ║ Path(check(n, theta), <unspecified:check>) over {Any | hasattr(theta, 'is_positive')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ check : Any → Any                                          ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(theta, 'is_positive')                  ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ check : {Any | hasattr(theta, 'is_positive')} → Any        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 16b36ee3e94f7637  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.joint_rv_types.MultivariateEwensDistribution.check","kind":"staticmethod","src_hash":"3e8470e312a27b63","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"check(n, )","rhs":"check produces the expected output","over":{"base":"Any"},"name":"check_correct"},"guarantee":"check produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.joint_rv_types.MultivariateEwensDistribution.check_correct","statement":"Path(check(x), check produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"16b36ee3e94f7637"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.joint_rv_types.MultivariateEwensDistribution.check","kind":"staticmethod","src_hash":"3e8470e312a27b63","in":{"base":"Any","pred":"hasattr(theta, 'is_positive')"},"out":{"base":"Any"},"spec":{"lhs":"check(n, theta)","rhs":"<unspecified:check>","over":{"base":"Any","pred":"hasattr(theta, 'is_positive')"},"name":"check_correct"},"guarantee":"check produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.joint_rv_types.MultivariateEwensDistribution.check_correct","statement":"Path(check(x), check produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"16b36ee3e94f7637","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(theta, 'is_positive')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["theta.is_positive"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def check(n, theta):
         _value_check((n > 0),
                         "sample size should be positive integer.")
@@ -973,16 +1192,22 @@ class MultivariateEwensDistribution(JointDistribution):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(set(), returns the set attribute) over Any            ║
+# ║ Path(set(), <unspecified:set>) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ set : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 766109243c358f93           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.joint_rv_types.MultivariateEwensDistribution.set","kind":"property","src_hash":"71153ce5be601bc3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"set()","rhs":"returns the set attribute","over":{"base":"Any"},"name":"set_correct"},"guarantee":"returns the set attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"766109243c358f93"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.joint_rv_types.MultivariateEwensDistribution.set","kind":"property","src_hash":"71153ce5be601bc3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"set()","rhs":"<unspecified:set>","over":{"base":"Any"},"name":"set_correct"},"guarantee":"returns the set attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"766109243c358f93","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.n"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def set(self):
         if not isinstance(self.n, Integer):
             i = Symbol('i', integer=True, positive=True)
@@ -994,16 +1219,23 @@ class MultivariateEwensDistribution(JointDistribution):
         return prod_set.flatten()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(pdf(*sy), pdf produces the expected output) over Any  ║
+# ║ Path(pdf(*syms), <unspecified:pdf>) over {Any | isinstance(syms[0], IndexedBase) or condi} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ pdf : Any → Any                                            ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(syms[0], IndexedBase) or condi      ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ pdf : {Any | isinstance(syms[0], IndexedBase) or cond...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4128b737756cb56e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.joint_rv_types.MultivariateEwensDistribution.pdf","kind":"method","src_hash":"297e7332048fdf37","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pdf(*sy)","rhs":"pdf produces the expected output","over":{"base":"Any"},"name":"pdf_correct"},"guarantee":"pdf produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.joint_rv_types.MultivariateEwensDistribution.pdf_correct","statement":"Path(pdf(x), pdf produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4128b737756cb56e"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.joint_rv_types.MultivariateEwensDistribution.pdf","kind":"method","src_hash":"297e7332048fdf37","in":{"base":"Any","pred":"isinstance(syms[0], IndexedBase) or condi"},"out":{"base":"Any"},"spec":{"lhs":"pdf(*syms)","rhs":"<unspecified:pdf>","over":{"base":"Any","pred":"isinstance(syms[0], IndexedBase) or condi"},"name":"pdf_correct"},"guarantee":"pdf produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.joint_rv_types.MultivariateEwensDistribution.pdf_correct","statement":"Path(pdf(x), pdf produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4128b737756cb56e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(syms[0], IndexedBase) or condi"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.n","self.theta"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def pdf(self, *syms):
         n, theta = self.n, self.theta
         condi = isinstance(self.n, Integer)
@@ -1025,16 +1257,22 @@ class MultivariateEwensDistribution(JointDistribution):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(MultivariateEwens(sym), creates a discrete random variable with multivariate ewens distribution) over Any ║
+# ║ Path(MultivariateEwens(syms, n, theta), multivariate_rv(MultivariateEwensDistribution, syms, n, theta)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  multivariate_rv(MultivariateEwensDistribu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ MultivariateEwens : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | dca5b68a3cd2c4ec           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.joint_rv_types.MultivariateEwens","kind":"function","src_hash":"d75e729a4023bcba","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"MultivariateEwens(sym)","rhs":"creates a discrete random variable with multivariate ewens distribution","over":{"base":"Any"},"name":"MultivariateEwens_correct"},"guarantee":"creates a discrete random variable with multivariate ewens distribution","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"dca5b68a3cd2c4ec"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.joint_rv_types.MultivariateEwens","kind":"function","src_hash":"d75e729a4023bcba","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"MultivariateEwens(syms, n, theta)","rhs":"multivariate_rv(MultivariateEwensDistribution, syms, n, theta)","over":{"base":"Any"},"name":"MultivariateEwens_correct"},"guarantee":"returns multivariate_rv(MultivariateEwensDistribution, syms, n, theta)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"dca5b68a3cd2c4ec","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"multivariate_rv(MultivariateEwensDistribution, syms, n, theta)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def MultivariateEwens(syms, n, theta):
     """
     Creates a discrete random variable with Multivariate Ewens
@@ -1082,30 +1320,42 @@ def MultivariateEwens(syms, n, theta):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(GeneralizedMultivariateLogGammaDistribution(*args), correctly constructs a GeneralizedMultivariateLogGammaDistribution instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ GeneralizedMultivariateLogGammaDistribution : Any → Any    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, JointDistribution)            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ GeneralizedMultivariateLogGammaDistribution : Any → {...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 54b3723cf0fd2243  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.joint_rv_types.GeneralizedMultivariateLogGammaDistribution","kind":"class","src_hash":"1c358eddfcb64749","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"GeneralizedMultivariateLogGammaDistribution(*args)","rhs":"correctly constructs a GeneralizedMultivariateLogGammaDistribution instance","over":{"base":"Any"},"name":"GeneralizedMultivariateLogGammaDistribution_class_invariant"},"guarantee":"correctly constructs a GeneralizedMultivariateLogGammaDistribution instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"54b3723cf0fd2243"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.joint_rv_types.GeneralizedMultivariateLogGammaDistribution","kind":"class","src_hash":"1c358eddfcb64749","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, JointDistribution)"},"spec":{"lhs":"GeneralizedMultivariateLogGammaDistribution(*args)","rhs":"correctly constructs a GeneralizedMultivariateLogGammaDistribution instance","over":{"base":"Any"},"name":"GeneralizedMultivariateLogGammaDistribution_class_invariant"},"guarantee":"isinstance(self, JointDistribution)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"54b3723cf0fd2243","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, JointDistribution)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function GeneralizedMultivariateLogGammaDistribution not found in source"]}}
 class GeneralizedMultivariateLogGammaDistribution(JointDistribution):
 
     _argnames = ('delta', 'v', 'lamda', 'mu')
     is_Continuous=True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(check(del), check produces the expected output) over Any ║
+# ║ Path(check(delta, v, l), <unspecified:check>) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ check : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d51649bf65e22406  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.joint_rv_types.GeneralizedMultivariateLogGammaDistribution.check","kind":"method","src_hash":"93ab513ba5d95c0c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"check(del)","rhs":"check produces the expected output","over":{"base":"Any"},"name":"check_correct"},"guarantee":"check produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.joint_rv_types.GeneralizedMultivariateLogGammaDistribution.check_correct","statement":"Path(check(x), check produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d51649bf65e22406"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.joint_rv_types.GeneralizedMultivariateLogGammaDistribution.check","kind":"method","src_hash":"93ab513ba5d95c0c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"check(delta, v, l)","rhs":"<unspecified:check>","over":{"base":"Any"},"name":"check_correct"},"guarantee":"check produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.joint_rv_types.GeneralizedMultivariateLogGammaDistribution.check_correct","statement":"Path(check(x), check produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d51649bf65e22406","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def check(self, delta, v, l, mu):
         _value_check((delta >= 0, delta <= 1), "delta must be in range [0, 1].")
         _value_check((v > 0), "v must be positive")
@@ -1118,30 +1368,42 @@ class GeneralizedMultivariateLogGammaDistribution(JointDistribution):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(set(), returns the set attribute) over Any            ║
+# ║ Path(set(), S.Reals ** len(self.lamda)) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  S.Reals ** len(self.lamda)                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ set : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | dcd7ca054b475ada           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.joint_rv_types.GeneralizedMultivariateLogGammaDistribution.set","kind":"property","src_hash":"12696d97da045f97","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"set()","rhs":"returns the set attribute","over":{"base":"Any"},"name":"set_correct"},"guarantee":"returns the set attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"dcd7ca054b475ada"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.joint_rv_types.GeneralizedMultivariateLogGammaDistribution.set","kind":"property","src_hash":"12696d97da045f97","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"set()","rhs":"S.Reals ** len(self.lamda)","over":{"base":"Any"},"name":"set_correct"},"guarantee":"returns S.Reals ** len(self.lamda)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"dcd7ca054b475ada","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"S.Reals ** len(self.lamda)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.lamda"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def set(self):
         return S.Reals**len(self.lamda)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(pdf(*y), id) over Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Pow(d, v) * Sum(term1 * term2, (n, 0, S.I...   ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ pdf : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 42499448a1f4137f   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.joint_rv_types.GeneralizedMultivariateLogGammaDistribution.pdf","kind":"method","src_hash":"99b7e7a90076a70f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pdf(*y)","rhs":"pdf produces the expected output","over":{"base":"Any"},"name":"pdf_correct","kind":"composition"},"guarantee":"pdf produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Pow","by":"library_axiom"},{"fn":"Sum","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"42499448a1f4137f"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.joint_rv_types.GeneralizedMultivariateLogGammaDistribution.pdf","kind":"method","src_hash":"99b7e7a90076a70f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pdf(*y)","rhs":"Pow(d, v) * Sum(term1 * term2, (n, 0, S.Infinity))","over":{"base":"Any"},"name":"pdf_correct","kind":"composition"},"guarantee":"returns Pow(d, v) * Sum(term1 * term2, (n, 0, S.Infinity))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Pow","by":"library_axiom"},{"fn":"Sum","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"42499448a1f4137f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Pow(d, v) * Sum(term1 * term2, (n, 0, S.Infinity))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.delta","self.lamda","self.mu","self.v"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def pdf(self, *y):
         d, v, l, mu = self.delta, self.v, self.lamda, self.mu
         n = Symbol('n', negative=False, integer=True)
@@ -1156,16 +1418,22 @@ class GeneralizedMultivariateLogGammaDistribution(JointDistribution):
         return Pow(d, v) * Sum(term1 * term2, (n, 0, S.Infinity))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(GeneralizedMultivariateLogGamma(sym), creates a joint random variable with generalized multivariate log gamma distribution) over Any ║
+# ║ Path(GeneralizedMultivariateLogGamma(syms, delta, v), multivariate_rv(GeneralizedMultivariateLogGammaDistribution, syms, delta, v, lamda, mu)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  multivariate_rv(GeneralizedMultivariateLo...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ GeneralizedMultivariateLogGamma : Any → Any                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b9b79357c1ab63a4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 22bfd1aaf33e4dd3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.joint_rv_types.GeneralizedMultivariateLogGamma","kind":"function","src_hash":"fefe47290304834c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"GeneralizedMultivariateLogGamma(sym)","rhs":"creates a joint random variable with generalized multivariate log gamma distribution","over":{"base":"Any"},"name":"GeneralizedMultivariateLogGamma_correct"},"guarantee":"creates a joint random variable with generalized multivariate log gamma distribution","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.joint_rv_types.GeneralizedMultivariateLogGamma_correct","statement":"Path(GeneralizedMultivariateLogGamma(x), creates a joint random variable with generalized multivariate log gamma distribution)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b9b79357c1ab63a4"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.joint_rv_types.GeneralizedMultivariateLogGamma","kind":"function","src_hash":"fefe47290304834c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"GeneralizedMultivariateLogGamma(syms, delta, v)","rhs":"multivariate_rv(GeneralizedMultivariateLogGammaDistribution, syms, delta, v, lamda, mu)","over":{"base":"Any"},"name":"GeneralizedMultivariateLogGamma_correct"},"guarantee":"returns multivariate_rv(GeneralizedMultivariateLogGammaDistribution, syms, delta, v, lamda, mu)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.joint_rv_types.GeneralizedMultivariateLogGamma_correct","statement":"Path(GeneralizedMultivariateLogGamma(x), returns multivariate_rv(GeneralizedMultivariateLogGammaDistribution, syms, delta, v, lamda, mu))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"22bfd1aaf33e4dd3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"multivariate_rv(GeneralizedMultivariateLogGammaDistribution, syms, delta, v, lamda, mu)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def GeneralizedMultivariateLogGamma(syms, delta, v, lamda, mu):
     """
     Creates a joint random variable with generalized multivariate log gamma
@@ -1224,7 +1492,13 @@ def GeneralizedMultivariateLogGamma(syms, delta, v, lamda, mu):
                             syms, delta, v, lamda, mu)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(GeneralizedMultivariateLogGammaOmega(sym), extends generalizedmultivariateloggamma) over {Any | isinstance(omega, Matrix)} ║
+# ║ Path(GeneralizedMultivariateLogGammaOmega(syms, omega, v), GeneralizedMultivariateLogGamma(syms, delta, v, lamda, mu)) over {Any | isinstance(omega, Matrix) and hasattr(omega, 'values') and hasattr(omega, 'is_square') and hasattr(omega, 'det') and hasattr(omega, 'diagonal') and hasattr(omega, 'shape')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(omega, 'values')                       ║
+# ║   requires: hasattr(omega, 'is_square')                    ║
+# ║   requires: hasattr(omega, 'det')                          ║
+# ║   returns:  GeneralizedMultivariateLogGamma(syms, del...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ GeneralizedMultivariateLogGammaOmega : {Any | isinsta...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -1236,9 +1510,12 @@ def GeneralizedMultivariateLogGamma(syms, delta, v, lamda, mu):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.6ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 5168d13a...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.joint_rv_types.GeneralizedMultivariateLogGammaOmega","kind":"function","src_hash":"bfe8ec3b900b8a61","in":{"base":"Any","pred":"isinstance(omega, Matrix)"},"out":{"base":"Any"},"spec":{"lhs":"GeneralizedMultivariateLogGammaOmega(sym)","rhs":"extends generalizedmultivariateloggamma","over":{"base":"Any","pred":"isinstance(omega, Matrix)"},"name":"GeneralizedMultivariateLogGammaOmega_correct"},"guarantee":"extends generalizedmultivariateloggamma","fibers":[{"name":"Matrix","pred":"isinstance(omega, Matrix)","path":{"lhs":"GeneralizedMultivariateLogGammaOmega(x)","rhs":"extends generalizedmultivariateloggamma","over":{"base":"Matrix","pred":"isinstance(omega, Matrix)"},"name":"GeneralizedMultivariateLogGammaOmega_Matrix_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.joint_rv_types.GeneralizedMultivariateLogGammaOmega_Matrix_correct","statement":"GeneralizedMultivariateLogGammaOmega satisfies spec on Matrix inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"5168d13ad4ce1ccb"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.joint_rv_types.GeneralizedMultivariateLogGammaOmega","kind":"function","src_hash":"bfe8ec3b900b8a61","in":{"base":"Any","pred":"isinstance(omega, Matrix) and hasattr(omega, 'values') and hasattr(omega, 'is_square') and hasattr(omega, 'det') and hasattr(omega, 'diagonal') and hasattr(omega, 'shape')"},"out":{"base":"Any"},"spec":{"lhs":"GeneralizedMultivariateLogGammaOmega(syms, omega, v)","rhs":"GeneralizedMultivariateLogGamma(syms, delta, v, lamda, mu)","over":{"base":"Any","pred":"isinstance(omega, Matrix) and hasattr(omega, 'values') and hasattr(omega, 'is_square') and hasattr(omega, 'det') and hasattr(omega, 'diagonal') and hasattr(omega, 'shape')"},"name":"GeneralizedMultivariateLogGammaOmega_correct"},"guarantee":"returns GeneralizedMultivariateLogGamma(syms, delta, v, lamda, mu)","fibers":[{"name":"Matrix","pred":"isinstance(omega, Matrix)","path":{"lhs":"GeneralizedMultivariateLogGammaOmega(x)","rhs":"returns GeneralizedMultivariateLogGamma(syms, delta, v, lamda, mu)","over":{"base":"Matrix","pred":"isinstance(omega, Matrix)"},"name":"GeneralizedMultivariateLogGammaOmega_Matrix_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.joint_rv_types.GeneralizedMultivariateLogGammaOmega_Matrix_correct","statement":"GeneralizedMultivariateLogGammaOmega satisfies spec on Matrix inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"5168d13ad4ce1ccb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(omega, 'values')","hasattr(omega, 'is_square')","hasattr(omega, 'det')","hasattr(omega, 'diagonal')","hasattr(omega, 'shape')"],"returns_expr":"GeneralizedMultivariateLogGamma(syms, delta, v, lamda, mu)","pure":false,"effects":{"effect_type":"reads_state","reads":["omega.det","omega.diagonal","omega.is_square","omega.shape","omega.values"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.6,"verdict_class":"failed","binding":true}}
 def GeneralizedMultivariateLogGammaOmega(syms, omega, v, lamda, mu):
     """
     Extends GeneralizedMultivariateLogGamma.
@@ -1312,14 +1589,20 @@ def GeneralizedMultivariateLogGammaOmega(syms, omega, v, lamda, mu):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(MultinomialDistribution(*args), correctly constructs a MultinomialDistribution instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ MultinomialDistribution : Any → Any                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, JointDistribution)            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ MultinomialDistribution : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8fc3caa633353a74  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.joint_rv_types.MultinomialDistribution","kind":"class","src_hash":"fb6813f0392e7857","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"MultinomialDistribution(*args)","rhs":"correctly constructs a MultinomialDistribution instance","over":{"base":"Any"},"name":"MultinomialDistribution_class_invariant"},"guarantee":"correctly constructs a MultinomialDistribution instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8fc3caa633353a74"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.joint_rv_types.MultinomialDistribution","kind":"class","src_hash":"fb6813f0392e7857","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, JointDistribution)"},"spec":{"lhs":"MultinomialDistribution(*args)","rhs":"correctly constructs a MultinomialDistribution instance","over":{"base":"Any"},"name":"MultinomialDistribution_class_invariant"},"guarantee":"isinstance(self, JointDistribution)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8fc3caa633353a74","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, JointDistribution)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function MultinomialDistribution not found in source"]}}
 class MultinomialDistribution(JointDistribution):
 
     _argnames = ('n', 'p')
@@ -1328,16 +1611,22 @@ class MultinomialDistribution(JointDistribution):
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(check(n, ), check produces the expected output) over Any ║
+# ║ Path(check(n, p), <unspecified:check>) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ check : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0e13dc5096a42909  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.joint_rv_types.MultinomialDistribution.check","kind":"staticmethod","src_hash":"610bf29a0fe7f299","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"check(n, )","rhs":"check produces the expected output","over":{"base":"Any"},"name":"check_correct"},"guarantee":"check produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.joint_rv_types.MultinomialDistribution.check_correct","statement":"Path(check(x), check produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0e13dc5096a42909"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.joint_rv_types.MultinomialDistribution.check","kind":"staticmethod","src_hash":"610bf29a0fe7f299","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"check(n, p)","rhs":"<unspecified:check>","over":{"base":"Any"},"name":"check_correct"},"guarantee":"check produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.joint_rv_types.MultinomialDistribution.check_correct","statement":"Path(check(x), check produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0e13dc5096a42909","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def check(n, p):
         _value_check(n > 0,
                         "number of trials must be a positive integer")
@@ -1349,30 +1638,42 @@ class MultinomialDistribution(JointDistribution):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(set(), returns the set attribute) over Any            ║
+# ║ Path(set(), Intersection(S.Naturals0, Interval(0, self.n)) ** len(self.p)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Intersection(S.Naturals0, Interval(0, sel...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ set : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 14cd3dd09cc84f54           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.joint_rv_types.MultinomialDistribution.set","kind":"property","src_hash":"5bca82e8f08982be","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"set()","rhs":"returns the set attribute","over":{"base":"Any"},"name":"set_correct"},"guarantee":"returns the set attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"14cd3dd09cc84f54"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.joint_rv_types.MultinomialDistribution.set","kind":"property","src_hash":"5bca82e8f08982be","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"set()","rhs":"Intersection(S.Naturals0, Interval(0, self.n)) ** len(self.p)","over":{"base":"Any"},"name":"set_correct"},"guarantee":"returns Intersection(S.Naturals0, Interval(0, self.n)) ** len(self.p)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"14cd3dd09cc84f54","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Intersection(S.Naturals0, Interval(0, self.n)) ** len(self.p)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.n","self.p"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def set(self):
         return Intersection(S.Naturals0, Interval(0, self.n))**len(self.p)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(pdf(*x), id) over Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Piecewise((term_1 * term_2, Eq(sum(x), n)...   ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ pdf : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 1c8f6e1264eef625   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.joint_rv_types.MultinomialDistribution.pdf","kind":"method","src_hash":"a7d21a1f3a5f825c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pdf(*x)","rhs":"pdf produces the expected output","over":{"base":"Any"},"name":"pdf_correct","kind":"composition"},"guarantee":"pdf produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Piecewise","by":"library_axiom"},{"fn":"Eq","by":"library_axiom"},{"fn":"sum","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1c8f6e1264eef625"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.joint_rv_types.MultinomialDistribution.pdf","kind":"method","src_hash":"a7d21a1f3a5f825c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pdf(*x)","rhs":"Piecewise((term_1 * term_2, Eq(sum(x), n)), (0, True))","over":{"base":"Any"},"name":"pdf_correct","kind":"composition"},"guarantee":"returns Piecewise((term_1 * term_2, Eq(sum(x), n)), (0, True))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Piecewise","by":"library_axiom"},{"fn":"Eq","by":"library_axiom"},{"fn":"sum","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1c8f6e1264eef625","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Piecewise((term_1 * term_2, Eq(sum(x), n)), (0, True))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.n","self.p"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def pdf(self, *x):
         n, p = self.n, self.p
         term_1 = factorial(n)/Mul.fromiter(factorial(x_k) for x_k in x)
@@ -1380,7 +1681,10 @@ class MultinomialDistribution(JointDistribution):
         return Piecewise((term_1 * term_2, Eq(sum(x), n)), (0, True))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(Multinomial(sym), creates a discrete random variable with multinomial distribution) over {Any | isinstance(p[0], list)} ║
+# ║ Path(Multinomial(syms, n, *p), multivariate_rv(MultinomialDistribution, syms, n, p[0])) over {Any | isinstance(p[0], list)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  multivariate_rv(MultinomialDistribution, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Multinomial : {Any | isinstance(p[0], list)} → Any         ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -1392,9 +1696,12 @@ class MultinomialDistribution(JointDistribution):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 0.2ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 0d05532e...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.joint_rv_types.Multinomial","kind":"function","src_hash":"92f4a08d83c2ee15","in":{"base":"Any","pred":"isinstance(p[0], list)"},"out":{"base":"Any"},"spec":{"lhs":"Multinomial(sym)","rhs":"creates a discrete random variable with multinomial distribution","over":{"base":"Any","pred":"isinstance(p[0], list)"},"name":"Multinomial_correct"},"guarantee":"creates a discrete random variable with multinomial distribution","fibers":[{"name":"list","pred":"isinstance(p[0], list)","path":{"lhs":"Multinomial(x)","rhs":"creates a discrete random variable with multinomial distribution","over":{"base":"list","pred":"isinstance(p[0], list)"},"name":"Multinomial_list_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.joint_rv_types.Multinomial_list_correct","statement":"Multinomial satisfies spec on list inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"0d05532e59c2f3ad"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.joint_rv_types.Multinomial","kind":"function","src_hash":"92f4a08d83c2ee15","in":{"base":"Any","pred":"isinstance(p[0], list)"},"out":{"base":"Any"},"spec":{"lhs":"Multinomial(syms, n, *p)","rhs":"multivariate_rv(MultinomialDistribution, syms, n, p[0])","over":{"base":"Any","pred":"isinstance(p[0], list)"},"name":"Multinomial_correct"},"guarantee":"returns multivariate_rv(MultinomialDistribution, syms, n, p[0])","fibers":[{"name":"list","pred":"isinstance(p[0], list)","path":{"lhs":"Multinomial(x)","rhs":"returns multivariate_rv(MultinomialDistribution, syms, n, p[0])","over":{"base":"list","pred":"isinstance(p[0], list)"},"name":"Multinomial_list_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.joint_rv_types.Multinomial_list_correct","statement":"Multinomial satisfies spec on list inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"0d05532e59c2f3ad","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"multivariate_rv(MultinomialDistribution, syms, n, p[0])","pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['syms', 'n'], spec=['syms', 'n', '*p']","Poor branch-fiber coverage: 0% (branches={'not isinstance(p[0], list)'}, fibers={'list'})"]}}
 def Multinomial(syms, n, *p):
     """
     Creates a discrete random variable with Multinomial Distribution.
@@ -1445,14 +1752,20 @@ def Multinomial(syms, n, *p):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(NegativeMultinomialDistribution(*args), correctly constructs a NegativeMultinomialDistribution instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ NegativeMultinomialDistribution : Any → Any                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, JointDistribution)            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ NegativeMultinomialDistribution : Any → {Any | result...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 553556713b4a31ee  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.joint_rv_types.NegativeMultinomialDistribution","kind":"class","src_hash":"52c3c63106f90d2c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"NegativeMultinomialDistribution(*args)","rhs":"correctly constructs a NegativeMultinomialDistribution instance","over":{"base":"Any"},"name":"NegativeMultinomialDistribution_class_invariant"},"guarantee":"correctly constructs a NegativeMultinomialDistribution instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"553556713b4a31ee"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.joint_rv_types.NegativeMultinomialDistribution","kind":"class","src_hash":"52c3c63106f90d2c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, JointDistribution)"},"spec":{"lhs":"NegativeMultinomialDistribution(*args)","rhs":"correctly constructs a NegativeMultinomialDistribution instance","over":{"base":"Any"},"name":"NegativeMultinomialDistribution_class_invariant"},"guarantee":"isinstance(self, JointDistribution)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"553556713b4a31ee","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, JointDistribution)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function NegativeMultinomialDistribution not found in source"]}}
 class NegativeMultinomialDistribution(JointDistribution):
 
     _argnames = ('k0', 'p')
@@ -1461,16 +1774,22 @@ class NegativeMultinomialDistribution(JointDistribution):
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(check(k0,), check produces the expected output) over Any ║
+# ║ Path(check(k0, p), <unspecified:check>) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ check : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fae5a5afffc68659  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.joint_rv_types.NegativeMultinomialDistribution.check","kind":"staticmethod","src_hash":"02dbb77586c9c747","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"check(k0,)","rhs":"check produces the expected output","over":{"base":"Any"},"name":"check_correct"},"guarantee":"check produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.joint_rv_types.NegativeMultinomialDistribution.check_correct","statement":"Path(check(x), check produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fae5a5afffc68659"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.joint_rv_types.NegativeMultinomialDistribution.check","kind":"staticmethod","src_hash":"02dbb77586c9c747","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"check(k0, p)","rhs":"<unspecified:check>","over":{"base":"Any"},"name":"check_correct"},"guarantee":"check produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.joint_rv_types.NegativeMultinomialDistribution.check_correct","statement":"Path(check(x), check produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fae5a5afffc68659","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def check(k0, p):
         _value_check(k0 > 0,
                         "number of failures must be a positive integer")
@@ -1482,30 +1801,42 @@ class NegativeMultinomialDistribution(JointDistribution):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(set(), returns the set attribute) over Any            ║
+# ║ Path(set(), Range(0, S.Infinity) ** len(self.p)) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Range(0, S.Infinity) ** len(self.p)            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ set : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | cd50f6be7f5adbc0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.joint_rv_types.NegativeMultinomialDistribution.set","kind":"property","src_hash":"af3d4abe31ba5e40","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"set()","rhs":"returns the set attribute","over":{"base":"Any"},"name":"set_correct"},"guarantee":"returns the set attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cd50f6be7f5adbc0"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.joint_rv_types.NegativeMultinomialDistribution.set","kind":"property","src_hash":"af3d4abe31ba5e40","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"set()","rhs":"Range(0, S.Infinity) ** len(self.p)","over":{"base":"Any"},"name":"set_correct"},"guarantee":"returns Range(0, S.Infinity) ** len(self.p)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cd50f6be7f5adbc0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Range(0, S.Infinity) ** len(self.p)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.p"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def set(self):
         return Range(0, S.Infinity)**len(self.p)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(pdf(*k), pdf produces the expected output) over Any   ║
+# ║ Path(pdf(*k), term_1 * term_2) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  term_1 * term_2                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ pdf : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b4ceddfdec07e531  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 08b3a00f13aa7c20  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.joint_rv_types.NegativeMultinomialDistribution.pdf","kind":"method","src_hash":"acdd1beed6037ffc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pdf(*k)","rhs":"pdf produces the expected output","over":{"base":"Any"},"name":"pdf_correct"},"guarantee":"pdf produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.joint_rv_types.NegativeMultinomialDistribution.pdf_correct","statement":"Path(pdf(x), pdf produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b4ceddfdec07e531"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.joint_rv_types.NegativeMultinomialDistribution.pdf","kind":"method","src_hash":"acdd1beed6037ffc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pdf(*k)","rhs":"term_1 * term_2","over":{"base":"Any"},"name":"pdf_correct"},"guarantee":"returns term_1 * term_2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.joint_rv_types.NegativeMultinomialDistribution.pdf_correct","statement":"Path(pdf(x), returns term_1 * term_2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"08b3a00f13aa7c20","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"term_1 * term_2","pure":false,"effects":{"effect_type":"reads_state","reads":["self.k0","self.p"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def pdf(self, *k):
         k0, p = self.k0, self.p
         term_1 = (gamma(k0 + sum(k))*(1 - sum(p))**k0)/gamma(k0)
@@ -1513,7 +1844,10 @@ class NegativeMultinomialDistribution(JointDistribution):
         return term_1 * term_2
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(NegativeMultinomial(sym), creates a discrete random variable with negative multinomial distribution) over {Any | isinstance(p[0], list)} ║
+# ║ Path(NegativeMultinomial(syms, k0, *p), multivariate_rv(NegativeMultinomialDistribution, syms, k0, p[0])) over {Any | isinstance(p[0], list)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  multivariate_rv(NegativeMultinomialDistri...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ NegativeMultinomial : {Any | isinstance(p[0], list)} ...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -1525,9 +1859,12 @@ class NegativeMultinomialDistribution(JointDistribution):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 0.2ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 30aae199...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.joint_rv_types.NegativeMultinomial","kind":"function","src_hash":"396a4fdba4806bd4","in":{"base":"Any","pred":"isinstance(p[0], list)"},"out":{"base":"Any"},"spec":{"lhs":"NegativeMultinomial(sym)","rhs":"creates a discrete random variable with negative multinomial distribution","over":{"base":"Any","pred":"isinstance(p[0], list)"},"name":"NegativeMultinomial_correct"},"guarantee":"creates a discrete random variable with negative multinomial distribution","fibers":[{"name":"list","pred":"isinstance(p[0], list)","path":{"lhs":"NegativeMultinomial(x)","rhs":"creates a discrete random variable with negative multinomial distribution","over":{"base":"list","pred":"isinstance(p[0], list)"},"name":"NegativeMultinomial_list_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.joint_rv_types.NegativeMultinomial_list_correct","statement":"NegativeMultinomial satisfies spec on list inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"30aae1990a461e52"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.joint_rv_types.NegativeMultinomial","kind":"function","src_hash":"396a4fdba4806bd4","in":{"base":"Any","pred":"isinstance(p[0], list)"},"out":{"base":"Any"},"spec":{"lhs":"NegativeMultinomial(syms, k0, *p)","rhs":"multivariate_rv(NegativeMultinomialDistribution, syms, k0, p[0])","over":{"base":"Any","pred":"isinstance(p[0], list)"},"name":"NegativeMultinomial_correct"},"guarantee":"returns multivariate_rv(NegativeMultinomialDistribution, syms, k0, p[0])","fibers":[{"name":"list","pred":"isinstance(p[0], list)","path":{"lhs":"NegativeMultinomial(x)","rhs":"returns multivariate_rv(NegativeMultinomialDistribution, syms, k0, p[0])","over":{"base":"list","pred":"isinstance(p[0], list)"},"name":"NegativeMultinomial_list_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.joint_rv_types.NegativeMultinomial_list_correct","statement":"NegativeMultinomial satisfies spec on list inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"30aae1990a461e52","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"multivariate_rv(NegativeMultinomialDistribution, syms, k0, p[0])","pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['syms', 'k0'], spec=['syms', 'k0', '*p']","Poor branch-fiber coverage: 0% (branches={'not isinstance(p[0], list)'}, fibers={'list'})"]}}
 def NegativeMultinomial(syms, k0, *p):
     """
     Creates a discrete random variable with Negative Multinomial Distribution.

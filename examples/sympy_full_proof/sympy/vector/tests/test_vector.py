@@ -41,16 +41,24 @@ a, b, c = symbols('a b c')
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_cross(), test_cross produces the expected output) over Any ║
+# ║ Path(test_cross(), Cross(v1, v2) == Cross(C.x * C.i + C.z ** 2 * C.j, C.x * C.i + C.y * C.j + C.z * C.k) and Cross(v1, v2).doit() == C.z ** 3 * C.i + -C.x * C.z * C.j + (C.x * C.y - C.x * C.z ** 2) * C.k and cross(v1, v2) == C.z ** 3 * C.i + -C.x * C.z * C.j + (C.x * C.y - C.x * C.z ** 2) * C.k and Cross(v1, v2) == -Cross(v2, v1) and cross(v1, v2) + cross(v2, v1) == Vector.zero) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_cross : Any → {Any | Cross(v1, v2) == -Cross(v2,...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Cross(v1, v2) == Cross(C.x * C.i + C.z **...   ║
+# ║   ensures:  Cross(v1, v2).doit() == C.z ** 3 * C.i + ...   ║
+# ║   ensures:  cross(v1, v2) == C.z ** 3 * C.i + -C.x * ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_cross : Any → {Any | result satisfies: Cross(v1,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e7d010c67a819485  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 619cd1eb3e891976  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.tests.test_vector.test_cross","kind":"function","src_hash":"8233028e22d35071","in":{"base":"Any"},"out":{"base":"Any","pred":"Cross(v1, v2) == -Cross(v2, v1) and cross(v1, v2) + cross(v2, v1) == Vector.zero"},"spec":{"lhs":"test_cross()","rhs":"test_cross produces the expected output","over":{"base":"Any"},"name":"test_cross_correct"},"guarantee":"test_cross produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.tests.test_vector.test_cross_correct","statement":"Path(test_cross(x), test_cross produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e7d010c67a819485"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.tests.test_vector.test_cross","kind":"function","src_hash":"8233028e22d35071","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Cross(v1, v2) == Cross(C.x * C.i + C.z ** 2 * C.j, C.x * C.i + C.y * C.j + C.z * C.k) and Cross(v1, v2).doit() == C.z ** 3 * C.i + -C.x * C.z * C.j + (C.x * C.y - C.x * C.z ** 2) * C.k and cross(v1, v2) == C.z ** 3 * C.i + -C.x * C.z * C.j + (C.x * C.y - C.x * C.z ** 2) * C.k and Cross(v1, v2) == -Cross(v2, v1) and cross(v1, v2) + cross(v2, v1) == Vector.zero"},"spec":{"lhs":"test_cross()","rhs":"Cross(v1, v2) == Cross(C.x * C.i + C.z ** 2 * C.j, C.x * C.i + C.y * C.j + C.z * C.k) and Cross(v1, v2).doit() == C.z ** 3 * C.i + -C.x * C.z * C.j + (C.x * C.y - C.x * C.z ** 2) * C.k and cross(v1, v2) == C.z ** 3 * C.i + -C.x * C.z * C.j + (C.x * C.y - C.x * C.z ** 2) * C.k and Cross(v1, v2) == -Cross(v2, v1) and cross(v1, v2) + cross(v2, v1) == Vector.zero","over":{"base":"Any"},"name":"test_cross_correct"},"guarantee":"Cross(v1, v2) == Cross(C.x * C.i + C.z ** 2 * C.j, C.x * C.i + C.y * C.j + C.z * C.k); Cross(v1, v2).doit() == C.z ** 3 * C.i + -C.x * C.z * C.j + (C.x * C.y - C.x * C.z ** 2) * C.k; cross(v1, v2) == C.z ** 3 * C.i + -C.x * C.z * C.j + (C.x * C.y - C.x * C.z ** 2) * C.k","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.tests.test_vector.test_cross_correct","statement":"Path(test_cross(x), Cross(v1, v2) == Cross(C.x * C.i + C.z ** 2 * C.j, C.x * C.i + C.y * C.j + C.z * C.k); Cross(v1, v2).doit() == C.z ** 3 * C.i + -C.x * C.z * C.j + (C.x * C.y - C.x * C.z ** 2) * C.k; cross(v1, v2) == C.z ** 3 * C.i + -C.x * C.z * C.j + (C.x * C.y - C.x * C.z ** 2) * C.k)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"619cd1eb3e891976","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Cross(v1, v2) == Cross(C.x * C.i + C.z ** 2 * C.j, C.x * C.i + C.y * C.j + C.z * C.k)","Cross(v1, v2).doit() == C.z ** 3 * C.i + -C.x * C.z * C.j + (C.x * C.y - C.x * C.z ** 2) * C.k","cross(v1, v2) == C.z ** 3 * C.i + -C.x * C.z * C.j + (C.x * C.y - C.x * C.z ** 2) * C.k","Cross(v1, v2) == -Cross(v2, v1)","cross(v1, v2) + cross(v2, v1) == Vector.zero"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_cross():
     v1 = C.x * i + C.z * C.z * j
     v2 = C.x * i + C.y * j + C.z * k
@@ -64,16 +72,22 @@ def test_cross():
 
 @XFAIL
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_cross_xfail(), test_cross_xfail produces the expected output) over Any ║
+# ║ Path(test_cross_xfail(), Cross(v1, v2) + Cross(v2, v1) == Vector.zero) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_cross_xfail : Any → {Any | Cross(v1, v2) + Cross...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Cross(v1, v2) + Cross(v2, v1) == Vector.zero   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_cross_xfail : Any → {Any | result satisfies: Cro...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 69cc4eb62e9e0527  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9e8c4fb90f549442  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.tests.test_vector.test_cross_xfail","kind":"function","src_hash":"38e027139f12435f","in":{"base":"Any"},"out":{"base":"Any","pred":"Cross(v1, v2) + Cross(v2, v1) == Vector.zero"},"spec":{"lhs":"test_cross_xfail()","rhs":"test_cross_xfail produces the expected output","over":{"base":"Any"},"name":"test_cross_xfail_correct"},"guarantee":"test_cross_xfail produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.tests.test_vector.test_cross_xfail_correct","statement":"Path(test_cross_xfail(x), test_cross_xfail produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"69cc4eb62e9e0527"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.tests.test_vector.test_cross_xfail","kind":"function","src_hash":"38e027139f12435f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Cross(v1, v2) + Cross(v2, v1) == Vector.zero"},"spec":{"lhs":"test_cross_xfail()","rhs":"Cross(v1, v2) + Cross(v2, v1) == Vector.zero","over":{"base":"Any"},"name":"test_cross_xfail_correct"},"guarantee":"Cross(v1, v2) + Cross(v2, v1) == Vector.zero","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.tests.test_vector.test_cross_xfail_correct","statement":"Path(test_cross_xfail(x), Cross(v1, v2) + Cross(v2, v1) == Vector.zero)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9e8c4fb90f549442","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Cross(v1, v2) + Cross(v2, v1) == Vector.zero"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_cross_xfail():
     v1 = C.x * i + C.z * C.z * j
     v2 = C.x * i + C.y * j + C.z * k
@@ -81,16 +95,24 @@ def test_cross_xfail():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dot(), test_dot produces the expected output) over Any ║
+# ║ Path(test_dot(), Dot(v1, v2) == Dot(C.x * C.i + C.z ** 2 * C.j, C.x * C.i + C.y * C.j + C.z * C.k) and Dot(v1, v2).doit() == C.x ** 2 + C.y * C.z ** 2 and Dot(v2, v1).doit() == C.x ** 2 + C.y * C.z ** 2 and Dot(v1, v2) == Dot(v2, v1)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dot : Any → {Any | Dot(v1, v2).doit() == C.x ** ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Dot(v1, v2) == Dot(C.x * C.i + C.z ** 2 *...   ║
+# ║   ensures:  Dot(v1, v2).doit() == C.x ** 2 + C.y * C....   ║
+# ║   ensures:  Dot(v2, v1).doit() == C.x ** 2 + C.y * C....   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dot : Any → {Any | result satisfies: Dot(v1, v2)...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e3f48554d20fe951  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eb9d914f8081d797  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.tests.test_vector.test_dot","kind":"function","src_hash":"79e17e802b50598e","in":{"base":"Any"},"out":{"base":"Any","pred":"Dot(v1, v2).doit() == C.x ** 2 + C.y * C.z ** 2 and Dot(v2, v1).doit() == C.x ** 2 + C.y * C.z ** 2 and Dot(v1, v2) == Dot(v2, v1)"},"spec":{"lhs":"test_dot()","rhs":"test_dot produces the expected output","over":{"base":"Any"},"name":"test_dot_correct"},"guarantee":"test_dot produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.tests.test_vector.test_dot_correct","statement":"Path(test_dot(x), test_dot produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e3f48554d20fe951"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.tests.test_vector.test_dot","kind":"function","src_hash":"79e17e802b50598e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Dot(v1, v2) == Dot(C.x * C.i + C.z ** 2 * C.j, C.x * C.i + C.y * C.j + C.z * C.k) and Dot(v1, v2).doit() == C.x ** 2 + C.y * C.z ** 2 and Dot(v2, v1).doit() == C.x ** 2 + C.y * C.z ** 2 and Dot(v1, v2) == Dot(v2, v1)"},"spec":{"lhs":"test_dot()","rhs":"Dot(v1, v2) == Dot(C.x * C.i + C.z ** 2 * C.j, C.x * C.i + C.y * C.j + C.z * C.k) and Dot(v1, v2).doit() == C.x ** 2 + C.y * C.z ** 2 and Dot(v2, v1).doit() == C.x ** 2 + C.y * C.z ** 2 and Dot(v1, v2) == Dot(v2, v1)","over":{"base":"Any"},"name":"test_dot_correct"},"guarantee":"Dot(v1, v2) == Dot(C.x * C.i + C.z ** 2 * C.j, C.x * C.i + C.y * C.j + C.z * C.k); Dot(v1, v2).doit() == C.x ** 2 + C.y * C.z ** 2; Dot(v2, v1).doit() == C.x ** 2 + C.y * C.z ** 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.tests.test_vector.test_dot_correct","statement":"Path(test_dot(x), Dot(v1, v2) == Dot(C.x * C.i + C.z ** 2 * C.j, C.x * C.i + C.y * C.j + C.z * C.k); Dot(v1, v2).doit() == C.x ** 2 + C.y * C.z ** 2; Dot(v2, v1).doit() == C.x ** 2 + C.y * C.z ** 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eb9d914f8081d797","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Dot(v1, v2) == Dot(C.x * C.i + C.z ** 2 * C.j, C.x * C.i + C.y * C.j + C.z * C.k)","Dot(v1, v2).doit() == C.x ** 2 + C.y * C.z ** 2","Dot(v2, v1).doit() == C.x ** 2 + C.y * C.z ** 2","Dot(v1, v2) == Dot(v2, v1)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_dot():
     v1 = C.x * i + C.z * C.z * j
     v2 = C.x * i + C.y * j + C.z * k
@@ -101,16 +123,24 @@ def test_dot():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_vector_sympy(), test whether the vector framework confirms to the hashing and equality testing properties of sympy) over Any ║
+# ║ Path(test_vector_sympy(), v1 == j * 3 and v1.components == {j: 3} and v3 == v2 and v3.__hash__() == v2.__hash__()) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_vector_sympy : Any → {Any | v1 == j * 3 and v1.c...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  v1 == j * 3                                    ║
+# ║   ensures:  v1.components == {j: 3}                        ║
+# ║   ensures:  v3 == v2                                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_vector_sympy : Any → {Any | result satisfies: v1...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 60e2b627b6bd3f75  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 87093eb8766abfc8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.tests.test_vector.test_vector_sympy","kind":"function","src_hash":"4dc92b621bb176c8","in":{"base":"Any"},"out":{"base":"Any","pred":"v1 == j * 3 and v1.components == {j: 3} and v3 == v2 and v3.__hash__() == v2.__hash__()"},"spec":{"lhs":"test_vector_sympy()","rhs":"test whether the vector framework confirms to the hashing and equality testing properties of sympy","over":{"base":"Any"},"name":"test_vector_sympy_correct"},"guarantee":"test whether the vector framework confirms to the hashing and equality testing properties of sympy","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.tests.test_vector.test_vector_sympy_correct","statement":"Path(test_vector_sympy(x), test whether the vector framework confirms to the hashing and equality testing properties of sympy)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"60e2b627b6bd3f75"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.tests.test_vector.test_vector_sympy","kind":"function","src_hash":"4dc92b621bb176c8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: v1 == j * 3 and v1.components == {j: 3} and v3 == v2 and v3.__hash__() == v2.__hash__()"},"spec":{"lhs":"test_vector_sympy()","rhs":"v1 == j * 3 and v1.components == {j: 3} and v3 == v2 and v3.__hash__() == v2.__hash__()","over":{"base":"Any"},"name":"test_vector_sympy_correct"},"guarantee":"v1 == j * 3; v1.components == {j: 3}; v3 == v2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.tests.test_vector.test_vector_sympy_correct","statement":"Path(test_vector_sympy(x), v1 == j * 3; v1.components == {j: 3}; v3 == v2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"87093eb8766abfc8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["v1 == j * 3","v1.components == {j: 3}","v3 == v2","v3.__hash__() == v2.__hash__()"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_vector_sympy():
     """
     Test whether the Vector framework confirms to the hashing
@@ -126,16 +156,24 @@ def test_vector_sympy():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_kind(), test_kind produces the expected output) over Any ║
+# ║ Path(test_kind(), C.i.kind is VectorKind(NumberKind) and C.j.kind is VectorKind(NumberKind) and C.k.kind is VectorKind(NumberKind) and C.x.kind is NumberKind and C.y.kind is NumberKind and C.z.kind is NumberKind and Mul._kind_dispatcher(NumberKind, VectorKind(NumberKind)) is VectorKind(NumberKind) and Mul(2, C.i).kind is VectorKind(NumberKind) and v1.kind is VectorKind(NumberKind) and v2.kind is VectorKind(NumberKind) and (v1 + v2).kind is VectorKind(NumberKind) and Add(v1, v2).kind is VectorKind(NumberKind) and Cross(v1, v2).doit().kind is VectorKind(NumberKind) and VectorAdd(v1, v2).kind is VectorKind(NumberKind) and VectorMul(2, v1).kind is VectorKind(NumberKind) and VectorZero().kind is VectorKind(NumberKind) and v1.projection(v2).kind is VectorKind(NumberKind) and v2.projection(v1).kind is VectorKind(NumberKind)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_kind : Any → {Any | C.i.kind is VectorKind(Numbe...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  C.i.kind is VectorKind(NumberKind)             ║
+# ║   ensures:  C.j.kind is VectorKind(NumberKind)             ║
+# ║   ensures:  C.k.kind is VectorKind(NumberKind)             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_kind : Any → {Any | result satisfies: C.i.kind i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6ff7634b078a0820  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 678625b031b61ffd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.tests.test_vector.test_kind","kind":"function","src_hash":"ed3bc79762a748d9","in":{"base":"Any"},"out":{"base":"Any","pred":"C.i.kind is VectorKind(NumberKind) and C.j.kind is VectorKind(NumberKind) and C.k.kind is VectorKind(NumberKind) and C.x.kind is NumberKind and C.y.kind is NumberKind and C.z.kind is NumberKind and Mul(2, C.i).kind is VectorKind(NumberKind) and v1.kind is VectorKind(NumberKind) and v2.kind is VectorKind(NumberKind) and (v1 + v2).kind is VectorKind(NumberKind) and Add(v1, v2).kind is VectorKind(NumberKind) and Cross(v1, v2).doit().kind is VectorKind(NumberKind) and VectorAdd(v1, v2).kind is VectorKind(NumberKind) and VectorMul(2, v1).kind is VectorKind(NumberKind) and VectorZero().kind is VectorKind(NumberKind) and v1.projection(v2).kind is VectorKind(NumberKind) and v2.projection(v1).kind is VectorKind(NumberKind)"},"spec":{"lhs":"test_kind()","rhs":"test_kind produces the expected output","over":{"base":"Any"},"name":"test_kind_correct"},"guarantee":"test_kind produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.tests.test_vector.test_kind_correct","statement":"Path(test_kind(x), test_kind produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6ff7634b078a0820"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.tests.test_vector.test_kind","kind":"function","src_hash":"ed3bc79762a748d9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: C.i.kind is VectorKind(NumberKind) and C.j.kind is VectorKind(NumberKind) and C.k.kind is VectorKind(NumberKind) and C.x.kind is NumberKind and C.y.kind is NumberKind and C.z.kind is NumberKind and Mul._kind_dispatcher(NumberKind, VectorKind(NumberKind)) is VectorKind(NumberKind) and Mul(2, C.i).kind is VectorKind(NumberKind) and v1.kind is VectorKind(NumberKind) and v2.kind is VectorKind(NumberKind) and (v1 + v2).kind is VectorKind(NumberKind) and Add(v1, v2).kind is VectorKind(NumberKind) and Cross(v1, v2).doit().kind is VectorKind(NumberKind) and VectorAdd(v1, v2).kind is VectorKind(NumberKind) and VectorMul(2, v1).kind is VectorKind(NumberKind) and VectorZero().kind is VectorKind(NumberKind) and v1.projection(v2).kind is VectorKind(NumberKind) and v2.projection(v1).kind is VectorKind(NumberKind)"},"spec":{"lhs":"test_kind()","rhs":"C.i.kind is VectorKind(NumberKind) and C.j.kind is VectorKind(NumberKind) and C.k.kind is VectorKind(NumberKind) and C.x.kind is NumberKind and C.y.kind is NumberKind and C.z.kind is NumberKind and Mul._kind_dispatcher(NumberKind, VectorKind(NumberKind)) is VectorKind(NumberKind) and Mul(2, C.i).kind is VectorKind(NumberKind) and v1.kind is VectorKind(NumberKind) and v2.kind is VectorKind(NumberKind) and (v1 + v2).kind is VectorKind(NumberKind) and Add(v1, v2).kind is VectorKind(NumberKind) and Cross(v1, v2).doit().kind is VectorKind(NumberKind) and VectorAdd(v1, v2).kind is VectorKind(NumberKind) and VectorMul(2, v1).kind is VectorKind(NumberKind) and VectorZero().kind is VectorKind(NumberKind) and v1.projection(v2).kind is VectorKind(NumberKind) and v2.projection(v1).kind is VectorKind(NumberKind)","over":{"base":"Any"},"name":"test_kind_correct"},"guarantee":"C.i.kind is VectorKind(NumberKind); C.j.kind is VectorKind(NumberKind); C.k.kind is VectorKind(NumberKind)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.tests.test_vector.test_kind_correct","statement":"Path(test_kind(x), C.i.kind is VectorKind(NumberKind); C.j.kind is VectorKind(NumberKind); C.k.kind is VectorKind(NumberKind))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"678625b031b61ffd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["C.i.kind is VectorKind(NumberKind)","C.j.kind is VectorKind(NumberKind)","C.k.kind is VectorKind(NumberKind)","C.x.kind is NumberKind","C.y.kind is NumberKind","C.z.kind is NumberKind","Mul._kind_dispatcher(NumberKind, VectorKind(NumberKind)) is VectorKind(NumberKind)","Mul(2, C.i).kind is VectorKind(NumberKind)","v1.kind is VectorKind(NumberKind)","v2.kind is VectorKind(NumberKind)","(v1 + v2).kind is VectorKind(NumberKind)","Add(v1, v2).kind is VectorKind(NumberKind)","Cross(v1, v2).doit().kind is VectorKind(NumberKind)","VectorAdd(v1, v2).kind is VectorKind(NumberKind)","VectorMul(2, v1).kind is VectorKind(NumberKind)","VectorZero().kind is VectorKind(NumberKind)","v1.projection(v2).kind is VectorKind(NumberKind)","v2.projection(v1).kind is VectorKind(NumberKind)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_kind():
     assert C.i.kind is VectorKind(NumberKind)
     assert C.j.kind is VectorKind(NumberKind)
@@ -165,7 +203,12 @@ def test_kind():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_vectoradd(), test_vectoradd produces the expected output) over {Any | isinstance(Add(C.i, C.j), VectorAdd)} ║
+# ║ Path(test_vectoradd(), isinstance(Add(C.i, C.j), VectorAdd) and isinstance(Add(v1, v2), VectorAdd) and av[0].kind == VectorKind() and isinstance(av[0], VectorAdd)) over {Any | isinstance(Add(C.i, C.j), VectorAdd)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(Add(C.i, C.j), VectorAdd)           ║
+# ║   ensures:  isinstance(Add(v1, v2), VectorAdd)             ║
+# ║   ensures:  av[0].kind == VectorKind()                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_vectoradd : {Any | isinstance(Add(C.i, C.j), Vec...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -177,9 +220,12 @@ def test_kind():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 0.4ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 78fb94ef...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.tests.test_vector.test_vectoradd","kind":"function","src_hash":"344e70cec7952a38","in":{"base":"Any","pred":"isinstance(Add(C.i, C.j), VectorAdd)"},"out":{"base":"Any","pred":"isinstance(Add(C.i, C.j), VectorAdd) and isinstance(Add(v1, v2), VectorAdd) and av[0].kind == VectorKind() and isinstance(av[0], VectorAdd)"},"spec":{"lhs":"test_vectoradd()","rhs":"test_vectoradd produces the expected output","over":{"base":"Any","pred":"isinstance(Add(C.i, C.j), VectorAdd)"},"name":"test_vectoradd_correct"},"guarantee":"test_vectoradd produces the expected output","fibers":[{"name":"C_j","pred":"isinstance(Add(C.i, C.j), VectorAdd)","path":{"lhs":"test_vectoradd(x)","rhs":"test_vectoradd produces the expected output","over":{"base":"C.j","pred":"isinstance(Add(C.i, C.j), VectorAdd)"},"name":"test_vectoradd_C.j_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.tests.test_vector.test_vectoradd_C.j_correct","statement":"test_vectoradd satisfies spec on C.j inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"78fb94ef399e4ea8"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.tests.test_vector.test_vectoradd","kind":"function","src_hash":"344e70cec7952a38","in":{"base":"Any","pred":"isinstance(Add(C.i, C.j), VectorAdd)"},"out":{"base":"Any","pred":"result satisfies: isinstance(Add(C.i, C.j), VectorAdd) and isinstance(Add(v1, v2), VectorAdd) and av[0].kind == VectorKind() and isinstance(av[0], VectorAdd)"},"spec":{"lhs":"test_vectoradd()","rhs":"isinstance(Add(C.i, C.j), VectorAdd) and isinstance(Add(v1, v2), VectorAdd) and av[0].kind == VectorKind() and isinstance(av[0], VectorAdd)","over":{"base":"Any","pred":"isinstance(Add(C.i, C.j), VectorAdd)"},"name":"test_vectoradd_correct"},"guarantee":"isinstance(Add(C.i, C.j), VectorAdd); isinstance(Add(v1, v2), VectorAdd); av[0].kind == VectorKind()","fibers":[{"name":"C_j","pred":"isinstance(Add(C.i, C.j), VectorAdd)","path":{"lhs":"test_vectoradd(x)","rhs":"isinstance(Add(C.i, C.j), VectorAdd); isinstance(Add(v1, v2), VectorAdd); av[0].kind == VectorKind()","over":{"base":"C.j","pred":"isinstance(Add(C.i, C.j), VectorAdd)"},"name":"test_vectoradd_C.j_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.tests.test_vector.test_vectoradd_C.j_correct","statement":"test_vectoradd satisfies spec on C.j inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"78fb94ef399e4ea8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(Add(C.i, C.j), VectorAdd)","isinstance(Add(v1, v2), VectorAdd)","av[0].kind == VectorKind()","isinstance(av[0], VectorAdd)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"failed","binding":true}}
 def test_vectoradd():
     assert isinstance(Add(C.i, C.j), VectorAdd)
     v1 = C.x * i + C.z * C.z * j
@@ -197,7 +243,12 @@ def test_vectoradd():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_vector(), test_vector produces the expected output) over {Any | isinstance(i, BaseVector) and isinstance(v1, VectorAdd) and isinstance(v5, VectorMul)} ║
+# ║ Path(test_vector(), isinstance(i, BaseVector) and i != j and j != k and k != i and i - i == Vector.zero and i + Vector.zero == i and i - Vector.zero == i and Vector.zero != 0 and -Vector.zero == Vector.zero and isinstance(v1, VectorAdd) and v1 - v1 == Vector.zero and v1 + Vector.zero == v1 and v1.dot(i) == a and v1.dot(j) == b and v1.dot(k) == c and i.dot(v2) == a ** 2 and j.dot(v2) == b ** 2 and k.dot(v2) == c ** 2 and v3.dot(i) == a ** 2 + a and v3.dot(j) == b ** 2 + b and v3.dot(k) == c ** 2 + c and v1 + v2 == v2 + v1 and v1 - v2 == -1 * (v2 - v1) and a * v1 == v1 * a and isinstance(v5, VectorMul) and v5.base_vector == i and v5.measure_number == a and isinstance(v4, Vector) and isinstance(v4, VectorAdd) and isinstance(Vector.zero, VectorZero) and isinstance(Vector.zero, Vector) and isinstance(v1 * 0, VectorZero) and v1.to_matrix(C) == Matrix([[a], [b], [c]]) and i.components == {i: 1} and v5.components == {i: a} and v1.components == {i: a, j: b, k: c} and VectorAdd(v1, Vector.zero) == v1 and VectorMul(a, v1) == v1 * a and VectorMul(1, i) == i and VectorMul(0, Vector.zero) == Vector.zero) over {Any | isinstance(i, BaseVector) and isinstance(v1, VectorAdd) and isinstance(v5, VectorMul)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(i, BaseVector)                      ║
+# ║   ensures:  i != j                                         ║
+# ║   ensures:  j != k                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_vector : {Any | isinstance(i, BaseVector) and is...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -213,9 +264,12 @@ def test_vectoradd():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?5 ✗11 VCs | 21.5ms                        ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 91aea2f2...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.tests.test_vector.test_vector","kind":"function","src_hash":"8797f6cdd39e9be1","in":{"base":"Any","pred":"isinstance(i, BaseVector) and isinstance(v1, VectorAdd) and isinstance(v5, VectorMul)"},"out":{"base":"Any","pred":"isinstance(i, BaseVector) and i != j and j != k and k != i and i - i == Vector.zero and i + Vector.zero == i and i - Vector.zero == i and Vector.zero != 0 and -Vector.zero == Vector.zero and isinstance(v1, VectorAdd) and v1 - v1 == Vector.zero and v1 + Vector.zero == v1 and v1.dot(i) == a and v1.dot(j) == b and v1.dot(k) == c and i.dot(v2) == a ** 2 and j.dot(v2) == b ** 2 and k.dot(v2) == c ** 2 and v3.dot(i) == a ** 2 + a and v3.dot(j) == b ** 2 + b and v3.dot(k) == c ** 2 + c and v1 + v2 == v2 + v1 and v1 - v2 == -1 * (v2 - v1) and a * v1 == v1 * a and isinstance(v5, VectorMul) and v5.base_vector == i and v5.measure_number == a and isinstance(v4, Vector) and isinstance(v4, VectorAdd) and isinstance(v4, Vector) and isinstance(Vector.zero, VectorZero) and isinstance(Vector.zero, Vector) and isinstance(v1 * 0, VectorZero) and v1.to_matrix(C) == Matrix([[a], [b], [c]]) and i.components == {i: 1} and v5.components == {i: a} and v1.components == {i: a, j: b, k: c} and VectorAdd(v1, Vector.zero) == v1 and VectorMul(a, v1) == v1 * a and VectorMul(1, i) == i and VectorAdd(v1, Vector.zero) == v1 and VectorMul(0, Vector.zero) == Vector.zero"},"spec":{"lhs":"test_vector()","rhs":"test_vector produces the expected output","over":{"base":"Any","pred":"isinstance(i, BaseVector) and isinstance(v1, VectorAdd) and isinstance(v5, VectorMul)"},"name":"test_vector_correct"},"guarantee":"test_vector produces the expected output","fibers":[{"name":"BaseVector","pred":"isinstance(i, BaseVector)","path":{"lhs":"test_vector(x)","rhs":"test_vector produces the expected output","over":{"base":"BaseVector","pred":"isinstance(i, BaseVector)"},"name":"test_vector_BaseVector_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.tests.test_vector.test_vector_BaseVector_correct","statement":"test_vector satisfies spec on BaseVector inputs"},"trust":"LIBRARY"},{"name":"VectorAdd","pred":"isinstance(v1, VectorAdd)","path":{"lhs":"test_vector(x)","rhs":"test_vector produces the expected output","over":{"base":"VectorAdd","pred":"isinstance(v1, VectorAdd)"},"name":"test_vector_VectorAdd_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.tests.test_vector.test_vector_VectorAdd_correct","statement":"test_vector satisfies spec on VectorAdd inputs"},"trust":"LIBRARY"},{"name":"VectorMul","pred":"isinstance(v5, VectorMul)","path":{"lhs":"test_vector(x)","rhs":"test_vector produces the expected output","over":{"base":"VectorMul","pred":"isinstance(v5, VectorMul)"},"name":"test_vector_VectorMul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.tests.test_vector.test_vector_VectorMul_correct","statement":"test_vector satisfies spec on VectorMul inputs"},"trust":"LIBRARY"},{"name":"Vector","pred":"isinstance(v4, Vector)","path":{"lhs":"test_vector(x)","rhs":"test_vector produces the expected output","over":{"base":"Vector","pred":"isinstance(v4, Vector)"},"name":"test_vector_Vector_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.tests.test_vector.test_vector_Vector_correct","statement":"test_vector satisfies spec on Vector inputs"},"trust":"LIBRARY"},{"name":"VectorZero","pred":"isinstance(Vector.zero, VectorZero)","path":{"lhs":"test_vector(x)","rhs":"test_vector produces the expected output","over":{"base":"VectorZero","pred":"isinstance(Vector.zero, VectorZero)"},"name":"test_vector_VectorZero_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.tests.test_vector.test_vector_VectorZero_correct","statement":"test_vector satisfies spec on VectorZero inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":5,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"91aea2f215318f56"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.tests.test_vector.test_vector","kind":"function","src_hash":"8797f6cdd39e9be1","in":{"base":"Any","pred":"isinstance(i, BaseVector) and isinstance(v1, VectorAdd) and isinstance(v5, VectorMul)"},"out":{"base":"Any","pred":"result satisfies: isinstance(i, BaseVector) and i != j and j != k and k != i and i - i == Vector.zero and i + Vector.zero == i and i - Vector.zero == i and Vector.zero != 0 and -Vector.zero == Vector.zero and isinstance(v1, VectorAdd) and v1 - v1 == Vector.zero and v1 + Vector.zero == v1 and v1.dot(i) == a and v1.dot(j) == b and v1.dot(k) == c and i.dot(v2) == a ** 2 and j.dot(v2) == b ** 2 and k.dot(v2) == c ** 2 and v3.dot(i) == a ** 2 + a and v3.dot(j) == b ** 2 + b and v3.dot(k) == c ** 2 + c and v1 + v2 == v2 + v1 and v1 - v2 == -1 * (v2 - v1) and a * v1 == v1 * a and isinstance(v5, VectorMul) and v5.base_vector == i and v5.measure_number == a and isinstance(v4, Vector) and isinstance(v4, VectorAdd) and isinstance(Vector.zero, VectorZero) and isinstance(Vector.zero, Vector) and isinstance(v1 * 0, VectorZero) and v1.to_matrix(C) == Matrix([[a], [b], [c]]) and i.components == {i: 1} and v5.components == {i: a} and v1.components == {i: a, j: b, k: c} and VectorAdd(v1, Vector.zero) == v1 and VectorMul(a, v1) == v1 * a and VectorMul(1, i) == i and VectorMul(0, Vector.zero) == Vector.zero"},"spec":{"lhs":"test_vector()","rhs":"isinstance(i, BaseVector) and i != j and j != k and k != i and i - i == Vector.zero and i + Vector.zero == i and i - Vector.zero == i and Vector.zero != 0 and -Vector.zero == Vector.zero and isinstance(v1, VectorAdd) and v1 - v1 == Vector.zero and v1 + Vector.zero == v1 and v1.dot(i) == a and v1.dot(j) == b and v1.dot(k) == c and i.dot(v2) == a ** 2 and j.dot(v2) == b ** 2 and k.dot(v2) == c ** 2 and v3.dot(i) == a ** 2 + a and v3.dot(j) == b ** 2 + b and v3.dot(k) == c ** 2 + c and v1 + v2 == v2 + v1 and v1 - v2 == -1 * (v2 - v1) and a * v1 == v1 * a and isinstance(v5, VectorMul) and v5.base_vector == i and v5.measure_number == a and isinstance(v4, Vector) and isinstance(v4, VectorAdd) and isinstance(Vector.zero, VectorZero) and isinstance(Vector.zero, Vector) and isinstance(v1 * 0, VectorZero) and v1.to_matrix(C) == Matrix([[a], [b], [c]]) and i.components == {i: 1} and v5.components == {i: a} and v1.components == {i: a, j: b, k: c} and VectorAdd(v1, Vector.zero) == v1 and VectorMul(a, v1) == v1 * a and VectorMul(1, i) == i and VectorMul(0, Vector.zero) == Vector.zero","over":{"base":"Any","pred":"isinstance(i, BaseVector) and isinstance(v1, VectorAdd) and isinstance(v5, VectorMul)"},"name":"test_vector_correct"},"guarantee":"isinstance(i, BaseVector); i != j; j != k","fibers":[{"name":"BaseVector","pred":"isinstance(i, BaseVector)","path":{"lhs":"test_vector(x)","rhs":"isinstance(i, BaseVector); i != j; j != k","over":{"base":"BaseVector","pred":"isinstance(i, BaseVector)"},"name":"test_vector_BaseVector_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.tests.test_vector.test_vector_BaseVector_correct","statement":"test_vector satisfies spec on BaseVector inputs"},"trust":"LIBRARY"},{"name":"VectorAdd","pred":"isinstance(v1, VectorAdd)","path":{"lhs":"test_vector(x)","rhs":"isinstance(i, BaseVector); i != j; j != k","over":{"base":"VectorAdd","pred":"isinstance(v1, VectorAdd)"},"name":"test_vector_VectorAdd_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.tests.test_vector.test_vector_VectorAdd_correct","statement":"test_vector satisfies spec on VectorAdd inputs"},"trust":"LIBRARY"},{"name":"VectorMul","pred":"isinstance(v5, VectorMul)","path":{"lhs":"test_vector(x)","rhs":"isinstance(i, BaseVector); i != j; j != k","over":{"base":"VectorMul","pred":"isinstance(v5, VectorMul)"},"name":"test_vector_VectorMul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.tests.test_vector.test_vector_VectorMul_correct","statement":"test_vector satisfies spec on VectorMul inputs"},"trust":"LIBRARY"},{"name":"Vector","pred":"isinstance(v4, Vector)","path":{"lhs":"test_vector(x)","rhs":"isinstance(i, BaseVector); i != j; j != k","over":{"base":"Vector","pred":"isinstance(v4, Vector)"},"name":"test_vector_Vector_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.tests.test_vector.test_vector_Vector_correct","statement":"test_vector satisfies spec on Vector inputs"},"trust":"LIBRARY"},{"name":"VectorZero","pred":"isinstance(Vector.zero, VectorZero)","path":{"lhs":"test_vector(x)","rhs":"isinstance(i, BaseVector); i != j; j != k","over":{"base":"VectorZero","pred":"isinstance(Vector.zero, VectorZero)"},"name":"test_vector_VectorZero_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.tests.test_vector.test_vector_VectorZero_correct","statement":"test_vector satisfies spec on VectorZero inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":5,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"91aea2f215318f56","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(i, BaseVector)","i != j","j != k","k != i","i - i == Vector.zero","i + Vector.zero == i","i - Vector.zero == i","Vector.zero != 0","-Vector.zero == Vector.zero","isinstance(v1, VectorAdd)","v1 - v1 == Vector.zero","v1 + Vector.zero == v1","v1.dot(i) == a","v1.dot(j) == b","v1.dot(k) == c","i.dot(v2) == a ** 2","j.dot(v2) == b ** 2","k.dot(v2) == c ** 2","v3.dot(i) == a ** 2 + a","v3.dot(j) == b ** 2 + b","v3.dot(k) == c ** 2 + c","v1 + v2 == v2 + v1","v1 - v2 == -1 * (v2 - v1)","a * v1 == v1 * a","isinstance(v5, VectorMul)","v5.base_vector == i","v5.measure_number == a","isinstance(v4, Vector)","isinstance(v4, VectorAdd)","isinstance(Vector.zero, VectorZero)","isinstance(Vector.zero, Vector)","isinstance(v1 * 0, VectorZero)","v1.to_matrix(C) == Matrix([[a], [b], [c]])","i.components == {i: 1}","v5.components == {i: a}","v1.components == {i: a, j: b, k: c}","VectorAdd(v1, Vector.zero) == v1","VectorMul(a, v1) == v1 * a","VectorMul(1, i) == i","VectorMul(0, Vector.zero) == Vector.zero"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":17,"n_verified":1,"n_assumed":5,"n_failed":11,"trust_level":"LIBRARY_ASSUMED","compile_ms":21.5,"verdict_class":"failed","binding":true}}
 def test_vector():
     assert isinstance(i, BaseVector)
     assert i != j
@@ -276,16 +330,24 @@ def test_vector():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_vector_magnitude_normalize(), test_vector_magnitude_normalize produces the expected output) over Any ║
+# ║ Path(test_vector_magnitude_normalize(), Vector.zero.magnitude() == 0 and Vector.zero.normalize() == Vector.zero and i.magnitude() == 1 and j.magnitude() == 1 and k.magnitude() == 1 and i.normalize() == i and j.normalize() == j and k.normalize() == k and v1.normalize() == a / sqrt(a ** 2) * i and v1.magnitude() == sqrt(a ** 2) and v2.magnitude() == sqrt(a ** 2 + b ** 2 + c ** 2) and v2.normalize() == v2 / v2.magnitude() and v3.normalize() == sqrt(2) / 2 * C.i + sqrt(2) / 2 * C.j) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_vector_magnitude_normalize : Any → {Any | Vector...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Vector.zero.magnitude() == 0                   ║
+# ║   ensures:  Vector.zero.normalize() == Vector.zero         ║
+# ║   ensures:  i.magnitude() == 1                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_vector_magnitude_normalize : Any → {Any | result...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bd3fd2208eb77fe1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a0966e7c6bc73b5c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.tests.test_vector.test_vector_magnitude_normalize","kind":"function","src_hash":"79ed6d579f7daf93","in":{"base":"Any"},"out":{"base":"Any","pred":"Vector.zero.magnitude() == 0 and Vector.zero.normalize() == Vector.zero and i.magnitude() == 1 and j.magnitude() == 1 and k.magnitude() == 1 and i.normalize() == i and j.normalize() == j and k.normalize() == k and v1.normalize() == a / sqrt(a ** 2) * i and v1.magnitude() == sqrt(a ** 2) and v2.magnitude() == sqrt(a ** 2 + b ** 2 + c ** 2) and v2.normalize() == v2 / v2.magnitude() and v3.normalize() == sqrt(2) / 2 * C.i + sqrt(2) / 2 * C.j"},"spec":{"lhs":"test_vector_magnitude_normalize()","rhs":"test_vector_magnitude_normalize produces the expected output","over":{"base":"Any"},"name":"test_vector_magnitude_normalize_correct"},"guarantee":"test_vector_magnitude_normalize produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.tests.test_vector.test_vector_magnitude_normalize_correct","statement":"Path(test_vector_magnitude_normalize(x), test_vector_magnitude_normalize produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bd3fd2208eb77fe1"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.tests.test_vector.test_vector_magnitude_normalize","kind":"function","src_hash":"79ed6d579f7daf93","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Vector.zero.magnitude() == 0 and Vector.zero.normalize() == Vector.zero and i.magnitude() == 1 and j.magnitude() == 1 and k.magnitude() == 1 and i.normalize() == i and j.normalize() == j and k.normalize() == k and v1.normalize() == a / sqrt(a ** 2) * i and v1.magnitude() == sqrt(a ** 2) and v2.magnitude() == sqrt(a ** 2 + b ** 2 + c ** 2) and v2.normalize() == v2 / v2.magnitude() and v3.normalize() == sqrt(2) / 2 * C.i + sqrt(2) / 2 * C.j"},"spec":{"lhs":"test_vector_magnitude_normalize()","rhs":"Vector.zero.magnitude() == 0 and Vector.zero.normalize() == Vector.zero and i.magnitude() == 1 and j.magnitude() == 1 and k.magnitude() == 1 and i.normalize() == i and j.normalize() == j and k.normalize() == k and v1.normalize() == a / sqrt(a ** 2) * i and v1.magnitude() == sqrt(a ** 2) and v2.magnitude() == sqrt(a ** 2 + b ** 2 + c ** 2) and v2.normalize() == v2 / v2.magnitude() and v3.normalize() == sqrt(2) / 2 * C.i + sqrt(2) / 2 * C.j","over":{"base":"Any"},"name":"test_vector_magnitude_normalize_correct"},"guarantee":"Vector.zero.magnitude() == 0; Vector.zero.normalize() == Vector.zero; i.magnitude() == 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.tests.test_vector.test_vector_magnitude_normalize_correct","statement":"Path(test_vector_magnitude_normalize(x), Vector.zero.magnitude() == 0; Vector.zero.normalize() == Vector.zero; i.magnitude() == 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a0966e7c6bc73b5c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Vector.zero.magnitude() == 0","Vector.zero.normalize() == Vector.zero","i.magnitude() == 1","j.magnitude() == 1","k.magnitude() == 1","i.normalize() == i","j.normalize() == j","k.normalize() == k","v1.normalize() == a / sqrt(a ** 2) * i","v1.magnitude() == sqrt(a ** 2)","v2.magnitude() == sqrt(a ** 2 + b ** 2 + c ** 2)","v2.normalize() == v2 / v2.magnitude()","v3.normalize() == sqrt(2) / 2 * C.i + sqrt(2) / 2 * C.j"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_vector_magnitude_normalize():
     assert Vector.zero.magnitude() == 0
     assert Vector.zero.normalize() == Vector.zero
@@ -310,16 +372,24 @@ def test_vector_magnitude_normalize():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_vector_simplify(), test_vector_simplify produces the expected output) over Any ║
+# ║ Path(test_vector_simplify(), test1 & i != (a + b) / (a * b) and test1 & i == (a + b) / (a * b) and test1.simplify() == simplify(test1) and test2 & i == A ** 2 * s ** 4 / (4 * pi * k * m ** 3) and test3 & i == 0 and test4 & i == -2 * b and trigsimp(v) == 2 * sin(a + pi / 4) ** 2 * i + -1 * j and trigsimp(v) == v.trigsimp() and simplify(Vector.zero) == Vector.zero) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_vector_simplify : Any → {Any | test1 & i != (a +...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  test1 & i != (a + b) / (a * b)                 ║
+# ║   ensures:  test1 & i == (a + b) / (a * b)                 ║
+# ║   ensures:  test1.simplify() == simplify(test1)            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_vector_simplify : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4da2b9593c8a55e4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8f6d56865d840159  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.tests.test_vector.test_vector_simplify","kind":"function","src_hash":"b565d8d7c3ee307f","in":{"base":"Any"},"out":{"base":"Any","pred":"test1 & i != (a + b) / (a * b) and test1 & i == (a + b) / (a * b) and test1.simplify() == simplify(test1) and test2 & i == A ** 2 * s ** 4 / (4 * pi * k * m ** 3) and test3 & i == 0 and test4 & i == -2 * b and trigsimp(v) == 2 * sin(a + pi / 4) ** 2 * i + -1 * j and trigsimp(v) == v.trigsimp() and simplify(Vector.zero) == Vector.zero"},"spec":{"lhs":"test_vector_simplify()","rhs":"test_vector_simplify produces the expected output","over":{"base":"Any"},"name":"test_vector_simplify_correct"},"guarantee":"test_vector_simplify produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.tests.test_vector.test_vector_simplify_correct","statement":"Path(test_vector_simplify(x), test_vector_simplify produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4da2b9593c8a55e4"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.tests.test_vector.test_vector_simplify","kind":"function","src_hash":"b565d8d7c3ee307f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: test1 & i != (a + b) / (a * b) and test1 & i == (a + b) / (a * b) and test1.simplify() == simplify(test1) and test2 & i == A ** 2 * s ** 4 / (4 * pi * k * m ** 3) and test3 & i == 0 and test4 & i == -2 * b and trigsimp(v) == 2 * sin(a + pi / 4) ** 2 * i + -1 * j and trigsimp(v) == v.trigsimp() and simplify(Vector.zero) == Vector.zero"},"spec":{"lhs":"test_vector_simplify()","rhs":"test1 & i != (a + b) / (a * b) and test1 & i == (a + b) / (a * b) and test1.simplify() == simplify(test1) and test2 & i == A ** 2 * s ** 4 / (4 * pi * k * m ** 3) and test3 & i == 0 and test4 & i == -2 * b and trigsimp(v) == 2 * sin(a + pi / 4) ** 2 * i + -1 * j and trigsimp(v) == v.trigsimp() and simplify(Vector.zero) == Vector.zero","over":{"base":"Any"},"name":"test_vector_simplify_correct"},"guarantee":"test1 & i != (a + b) / (a * b); test1 & i == (a + b) / (a * b); test1.simplify() == simplify(test1)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.tests.test_vector.test_vector_simplify_correct","statement":"Path(test_vector_simplify(x), test1 & i != (a + b) / (a * b); test1 & i == (a + b) / (a * b); test1.simplify() == simplify(test1))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8f6d56865d840159","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["test1 & i != (a + b) / (a * b)","test1 & i == (a + b) / (a * b)","test1.simplify() == simplify(test1)","test2 & i == A ** 2 * s ** 4 / (4 * pi * k * m ** 3)","test3 & i == 0","test4 & i == -2 * b","trigsimp(v) == 2 * sin(a + pi / 4) ** 2 * i + -1 * j","trigsimp(v) == v.trigsimp()","simplify(Vector.zero) == Vector.zero"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_vector_simplify():
     A, s, k, m = symbols('A, s, k, m')
 
@@ -349,16 +419,24 @@ def test_vector_simplify():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_vector_equals(), test_vector_equals produces the expected output) over Any ║
+# ║ Path(test_vector_equals(), (2 * i).equals(j) is False and i.equals(i) is True and (A * i).equals(2 * i) is True and (A * i).equals(3 * i) is False and D.i.equals(C.j) is True and D.i.equals(C.i) is False) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_vector_equals : Any → {Any | (2 * i).equals(j) i...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (2 * i).equals(j) is False                     ║
+# ║   ensures:  i.equals(i) is True                            ║
+# ║   ensures:  (A * i).equals(2 * i) is True                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_vector_equals : Any → {Any | result satisfies: (...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 537cb5b06934dc57  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 65be6d5be0ab826f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.tests.test_vector.test_vector_equals","kind":"function","src_hash":"501a88a1a9999bc8","in":{"base":"Any"},"out":{"base":"Any","pred":"(2 * i).equals(j) is False and i.equals(i) is True and (A * i).equals(2 * i) is True and (A * i).equals(3 * i) is False and D.i.equals(C.j) is True and D.i.equals(C.i) is False"},"spec":{"lhs":"test_vector_equals()","rhs":"test_vector_equals produces the expected output","over":{"base":"Any"},"name":"test_vector_equals_correct"},"guarantee":"test_vector_equals produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.tests.test_vector.test_vector_equals_correct","statement":"Path(test_vector_equals(x), test_vector_equals produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"537cb5b06934dc57"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.tests.test_vector.test_vector_equals","kind":"function","src_hash":"501a88a1a9999bc8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (2 * i).equals(j) is False and i.equals(i) is True and (A * i).equals(2 * i) is True and (A * i).equals(3 * i) is False and D.i.equals(C.j) is True and D.i.equals(C.i) is False"},"spec":{"lhs":"test_vector_equals()","rhs":"(2 * i).equals(j) is False and i.equals(i) is True and (A * i).equals(2 * i) is True and (A * i).equals(3 * i) is False and D.i.equals(C.j) is True and D.i.equals(C.i) is False","over":{"base":"Any"},"name":"test_vector_equals_correct"},"guarantee":"(2 * i).equals(j) is False; i.equals(i) is True; (A * i).equals(2 * i) is True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.tests.test_vector.test_vector_equals_correct","statement":"Path(test_vector_equals(x), (2 * i).equals(j) is False; i.equals(i) is True; (A * i).equals(2 * i) is True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"65be6d5be0ab826f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(2 * i).equals(j) is False","i.equals(i) is True","(A * i).equals(2 * i) is True","(A * i).equals(3 * i) is False","D.i.equals(C.j) is True","D.i.equals(C.i) is False"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_vector_equals():
     assert (2*i).equals(j) is False
     assert i.equals(i) is True
@@ -375,32 +453,46 @@ def test_vector_equals():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_vector_conjugate(), test_vector_conjugate produces the expected output) over Any ║
+# ║ Path(test_vector_conjugate(), (I * i + (1 + I) * j + 2 * k).conjugate() == -I * i + (1 - I) * j + 2 * k) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_vector_conjugate : Any → {Any | (I * i + (1 + I)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (I * i + (1 + I) * j + 2 * k).conjugate()...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_vector_conjugate : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 88b78e01aa684a0d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aaaa213f167f1ba1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.tests.test_vector.test_vector_conjugate","kind":"function","src_hash":"53b3b86343f3824d","in":{"base":"Any"},"out":{"base":"Any","pred":"(I * i + (1 + I) * j + 2 * k).conjugate() == -I * i + (1 - I) * j + 2 * k"},"spec":{"lhs":"test_vector_conjugate()","rhs":"test_vector_conjugate produces the expected output","over":{"base":"Any"},"name":"test_vector_conjugate_correct"},"guarantee":"test_vector_conjugate produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.tests.test_vector.test_vector_conjugate_correct","statement":"Path(test_vector_conjugate(x), test_vector_conjugate produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"88b78e01aa684a0d"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.tests.test_vector.test_vector_conjugate","kind":"function","src_hash":"53b3b86343f3824d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (I * i + (1 + I) * j + 2 * k).conjugate() == -I * i + (1 - I) * j + 2 * k"},"spec":{"lhs":"test_vector_conjugate()","rhs":"(I * i + (1 + I) * j + 2 * k).conjugate() == -I * i + (1 - I) * j + 2 * k","over":{"base":"Any"},"name":"test_vector_conjugate_correct"},"guarantee":"(I * i + (1 + I) * j + 2 * k).conjugate() == -I * i + (1 - I) * j + 2 * k","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.tests.test_vector.test_vector_conjugate_correct","statement":"Path(test_vector_conjugate(x), (I * i + (1 + I) * j + 2 * k).conjugate() == -I * i + (1 - I) * j + 2 * k)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aaaa213f167f1ba1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(I * i + (1 + I) * j + 2 * k).conjugate() == -I * i + (1 - I) * j + 2 * k"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_vector_conjugate():
     # https://github.com/sympy/sympy/issues/27094
     assert (I*i + (1 + I)*j + 2*k).conjugate() == -I*i + (1 - I)*j + 2*k
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_vector_dot(), test_vector_dot produces the expected output) over Any ║
+# ║ Path(test_vector_dot(), i.dot(Vector.zero) == 0 and Vector.zero.dot(i) == 0 and i & Vector.zero == 0 and i.dot(i) == 1 and i.dot(j) == 0 and i.dot(k) == 0 and i & i == 1 and i & j == 0 and i & k == 0 and j.dot(i) == 0 and j.dot(j) == 1 and j.dot(k) == 0 and j & i == 0 and j & j == 1 and j & k == 0 and k.dot(i) == 0 and k.dot(j) == 0 and k.dot(k) == 1 and k & i == 0 and k & j == 0 and k & k == 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_vector_dot : Any → {Any | i.dot(Vector.zero) == ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  i.dot(Vector.zero) == 0                        ║
+# ║   ensures:  Vector.zero.dot(i) == 0                        ║
+# ║   ensures:  i & Vector.zero == 0                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_vector_dot : Any → {Any | result satisfies: i.do...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3213ca04a1e1cd78  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c006aa4ba1bc02d3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.tests.test_vector.test_vector_dot","kind":"function","src_hash":"4c0b53bfb2d9cf41","in":{"base":"Any"},"out":{"base":"Any","pred":"i.dot(Vector.zero) == 0 and Vector.zero.dot(i) == 0 and i & Vector.zero == 0 and i.dot(i) == 1 and i.dot(j) == 0 and i.dot(k) == 0 and i & i == 1 and i & j == 0 and i & k == 0 and j.dot(i) == 0 and j.dot(j) == 1 and j.dot(k) == 0 and j & i == 0 and j & j == 1 and j & k == 0 and k.dot(i) == 0 and k.dot(j) == 0 and k.dot(k) == 1 and k & i == 0 and k & j == 0 and k & k == 1"},"spec":{"lhs":"test_vector_dot()","rhs":"test_vector_dot produces the expected output","over":{"base":"Any"},"name":"test_vector_dot_correct"},"guarantee":"test_vector_dot produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.tests.test_vector.test_vector_dot_correct","statement":"Path(test_vector_dot(x), test_vector_dot produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3213ca04a1e1cd78"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.tests.test_vector.test_vector_dot","kind":"function","src_hash":"4c0b53bfb2d9cf41","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: i.dot(Vector.zero) == 0 and Vector.zero.dot(i) == 0 and i & Vector.zero == 0 and i.dot(i) == 1 and i.dot(j) == 0 and i.dot(k) == 0 and i & i == 1 and i & j == 0 and i & k == 0 and j.dot(i) == 0 and j.dot(j) == 1 and j.dot(k) == 0 and j & i == 0 and j & j == 1 and j & k == 0 and k.dot(i) == 0 and k.dot(j) == 0 and k.dot(k) == 1 and k & i == 0 and k & j == 0 and k & k == 1"},"spec":{"lhs":"test_vector_dot()","rhs":"i.dot(Vector.zero) == 0 and Vector.zero.dot(i) == 0 and i & Vector.zero == 0 and i.dot(i) == 1 and i.dot(j) == 0 and i.dot(k) == 0 and i & i == 1 and i & j == 0 and i & k == 0 and j.dot(i) == 0 and j.dot(j) == 1 and j.dot(k) == 0 and j & i == 0 and j & j == 1 and j & k == 0 and k.dot(i) == 0 and k.dot(j) == 0 and k.dot(k) == 1 and k & i == 0 and k & j == 0 and k & k == 1","over":{"base":"Any"},"name":"test_vector_dot_correct"},"guarantee":"i.dot(Vector.zero) == 0; Vector.zero.dot(i) == 0; i & Vector.zero == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.tests.test_vector.test_vector_dot_correct","statement":"Path(test_vector_dot(x), i.dot(Vector.zero) == 0; Vector.zero.dot(i) == 0; i & Vector.zero == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c006aa4ba1bc02d3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["i.dot(Vector.zero) == 0","Vector.zero.dot(i) == 0","i & Vector.zero == 0","i.dot(i) == 1","i.dot(j) == 0","i.dot(k) == 0","i & i == 1","i & j == 0","i & k == 0","j.dot(i) == 0","j.dot(j) == 1","j.dot(k) == 0","j & i == 0","j & j == 1","j & k == 0","k.dot(i) == 0","k.dot(j) == 0","k.dot(k) == 1","k & i == 0","k & j == 0","k & k == 1"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_vector_dot():
     assert i.dot(Vector.zero) == 0
     assert Vector.zero.dot(i) == 0
@@ -431,16 +523,24 @@ def test_vector_dot():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_vector_cross(), test_vector_cross produces the expected output) over Any ║
+# ║ Path(test_vector_cross(), i.cross(Vector.zero) == Vector.zero and Vector.zero.cross(i) == Vector.zero and i.cross(i) == Vector.zero and i.cross(j) == k and i.cross(k) == -j and i ^ i == Vector.zero and i ^ j == k and i ^ k == -j and j.cross(i) == -k and j.cross(j) == Vector.zero and j.cross(k) == i and j ^ i == -k and j ^ j == Vector.zero and j ^ k == i and k.cross(i) == j and k.cross(j) == -i and k.cross(k) == Vector.zero and k ^ i == j and k ^ j == -i and k ^ k == Vector.zero and k.cross(1) == Cross(k, 1)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_vector_cross : Any → {Any | i.cross(Vector.zero)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  i.cross(Vector.zero) == Vector.zero            ║
+# ║   ensures:  Vector.zero.cross(i) == Vector.zero            ║
+# ║   ensures:  i.cross(i) == Vector.zero                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_vector_cross : Any → {Any | result satisfies: i....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b402d8888c112731  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 80bcf6cc0bd02235  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.tests.test_vector.test_vector_cross","kind":"function","src_hash":"9ad4057728fc8358","in":{"base":"Any"},"out":{"base":"Any","pred":"i.cross(Vector.zero) == Vector.zero and Vector.zero.cross(i) == Vector.zero and i.cross(i) == Vector.zero and i.cross(j) == k and i.cross(k) == -j and i ^ i == Vector.zero and i ^ j == k and i ^ k == -j and j.cross(i) == -k and j.cross(j) == Vector.zero and j.cross(k) == i and j ^ i == -k and j ^ j == Vector.zero and j ^ k == i and k.cross(i) == j and k.cross(j) == -i and k.cross(k) == Vector.zero and k ^ i == j and k ^ j == -i and k ^ k == Vector.zero and k.cross(1) == Cross(k, 1)"},"spec":{"lhs":"test_vector_cross()","rhs":"test_vector_cross produces the expected output","over":{"base":"Any"},"name":"test_vector_cross_correct"},"guarantee":"test_vector_cross produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.tests.test_vector.test_vector_cross_correct","statement":"Path(test_vector_cross(x), test_vector_cross produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b402d8888c112731"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.tests.test_vector.test_vector_cross","kind":"function","src_hash":"9ad4057728fc8358","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: i.cross(Vector.zero) == Vector.zero and Vector.zero.cross(i) == Vector.zero and i.cross(i) == Vector.zero and i.cross(j) == k and i.cross(k) == -j and i ^ i == Vector.zero and i ^ j == k and i ^ k == -j and j.cross(i) == -k and j.cross(j) == Vector.zero and j.cross(k) == i and j ^ i == -k and j ^ j == Vector.zero and j ^ k == i and k.cross(i) == j and k.cross(j) == -i and k.cross(k) == Vector.zero and k ^ i == j and k ^ j == -i and k ^ k == Vector.zero and k.cross(1) == Cross(k, 1)"},"spec":{"lhs":"test_vector_cross()","rhs":"i.cross(Vector.zero) == Vector.zero and Vector.zero.cross(i) == Vector.zero and i.cross(i) == Vector.zero and i.cross(j) == k and i.cross(k) == -j and i ^ i == Vector.zero and i ^ j == k and i ^ k == -j and j.cross(i) == -k and j.cross(j) == Vector.zero and j.cross(k) == i and j ^ i == -k and j ^ j == Vector.zero and j ^ k == i and k.cross(i) == j and k.cross(j) == -i and k.cross(k) == Vector.zero and k ^ i == j and k ^ j == -i and k ^ k == Vector.zero and k.cross(1) == Cross(k, 1)","over":{"base":"Any"},"name":"test_vector_cross_correct"},"guarantee":"i.cross(Vector.zero) == Vector.zero; Vector.zero.cross(i) == Vector.zero; i.cross(i) == Vector.zero","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.tests.test_vector.test_vector_cross_correct","statement":"Path(test_vector_cross(x), i.cross(Vector.zero) == Vector.zero; Vector.zero.cross(i) == Vector.zero; i.cross(i) == Vector.zero)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"80bcf6cc0bd02235","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["i.cross(Vector.zero) == Vector.zero","Vector.zero.cross(i) == Vector.zero","i.cross(i) == Vector.zero","i.cross(j) == k","i.cross(k) == -j","i ^ i == Vector.zero","i ^ j == k","i ^ k == -j","j.cross(i) == -k","j.cross(j) == Vector.zero","j.cross(k) == i","j ^ i == -k","j ^ j == Vector.zero","j ^ k == i","k.cross(i) == j","k.cross(j) == -i","k.cross(k) == Vector.zero","k ^ i == j","k ^ j == -i","k ^ k == Vector.zero","k.cross(1) == Cross(k, 1)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_vector_cross():
     assert i.cross(Vector.zero) == Vector.zero
     assert Vector.zero.cross(i) == Vector.zero
@@ -470,16 +570,24 @@ def test_vector_cross():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_projection(), test_projection produces the expected output) over Any ║
+# ║ Path(test_projection(), v1.projection(v1) == i + j + k and v1.projection(v2) == Rational(7, 3) * C.i + Rational(7, 3) * C.j + Rational(7, 3) * C.k and v1.projection(v1, scalar=True) == S.One and v1.projection(v2, scalar=True) == Rational(7, 3) and v3.projection(v1) == Vector.zero and v3.projection(v1, scalar=True) == S.Zero) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_projection : Any → {Any | v1.projection(v1) == i...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  v1.projection(v1) == i + j + k                 ║
+# ║   ensures:  v1.projection(v2) == Rational(7, 3) * C.i...   ║
+# ║   ensures:  v1.projection(v1, scalar=True) == S.One        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_projection : Any → {Any | result satisfies: v1.p...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b0d95d24239d05cb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0679a7b667883138  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.tests.test_vector.test_projection","kind":"function","src_hash":"6f091d007ae4ded3","in":{"base":"Any"},"out":{"base":"Any","pred":"v1.projection(v1) == i + j + k and v1.projection(v1, scalar=True) == S.One and v1.projection(v2, scalar=True) == Rational(7, 3) and v3.projection(v1) == Vector.zero and v3.projection(v1, scalar=True) == S.Zero"},"spec":{"lhs":"test_projection()","rhs":"test_projection produces the expected output","over":{"base":"Any"},"name":"test_projection_correct"},"guarantee":"test_projection produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.tests.test_vector.test_projection_correct","statement":"Path(test_projection(x), test_projection produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b0d95d24239d05cb"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.tests.test_vector.test_projection","kind":"function","src_hash":"6f091d007ae4ded3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: v1.projection(v1) == i + j + k and v1.projection(v2) == Rational(7, 3) * C.i + Rational(7, 3) * C.j + Rational(7, 3) * C.k and v1.projection(v1, scalar=True) == S.One and v1.projection(v2, scalar=True) == Rational(7, 3) and v3.projection(v1) == Vector.zero and v3.projection(v1, scalar=True) == S.Zero"},"spec":{"lhs":"test_projection()","rhs":"v1.projection(v1) == i + j + k and v1.projection(v2) == Rational(7, 3) * C.i + Rational(7, 3) * C.j + Rational(7, 3) * C.k and v1.projection(v1, scalar=True) == S.One and v1.projection(v2, scalar=True) == Rational(7, 3) and v3.projection(v1) == Vector.zero and v3.projection(v1, scalar=True) == S.Zero","over":{"base":"Any"},"name":"test_projection_correct"},"guarantee":"v1.projection(v1) == i + j + k; v1.projection(v2) == Rational(7, 3) * C.i + Rational(7, 3) * C.j + Rational(7, 3) * C.k; v1.projection(v1, scalar=True) == S.One","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.tests.test_vector.test_projection_correct","statement":"Path(test_projection(x), v1.projection(v1) == i + j + k; v1.projection(v2) == Rational(7, 3) * C.i + Rational(7, 3) * C.j + Rational(7, 3) * C.k; v1.projection(v1, scalar=True) == S.One)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0679a7b667883138","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["v1.projection(v1) == i + j + k","v1.projection(v2) == Rational(7, 3) * C.i + Rational(7, 3) * C.j + Rational(7, 3) * C.k","v1.projection(v1, scalar=True) == S.One","v1.projection(v2, scalar=True) == Rational(7, 3)","v3.projection(v1) == Vector.zero","v3.projection(v1, scalar=True) == S.Zero"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_projection():
     v1 = i + j + k
     v2 = 3*i + 4*j
@@ -493,16 +601,24 @@ def test_projection():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_vector_diff_integrate(), test_vector_diff_integrate produces the expected output) over Any ║
+# ║ Path(test_vector_diff_integrate(), Derivative(v, a) == Derivative(f(a) * C.i + a ** 2 * C.j + -1 * C.k, a) and diff(v, a) == v.diff(a) == Derivative(v, a).doit() == Derivative(f(a), a) * C.i + 2 * a * C.j and Integral(v, a) == Integral(f(a), a) * C.i + Integral(a ** 2, a) * C.j + Integral(-1, a) * C.k) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_vector_diff_integrate : Any → {Any | Derivative(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Derivative(v, a) == Derivative(f(a) * C.i...   ║
+# ║   ensures:  diff(v, a) == v.diff(a) == Derivative(v, ...   ║
+# ║   ensures:  Integral(v, a) == Integral(f(a), a) * C.i...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_vector_diff_integrate : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1f050244327ed122  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5e0b4e87f4a991b8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.tests.test_vector.test_vector_diff_integrate","kind":"function","src_hash":"350427d8925762d3","in":{"base":"Any"},"out":{"base":"Any","pred":"Derivative(v, a) == Derivative(f(a) * C.i + a ** 2 * C.j + -1 * C.k, a)"},"spec":{"lhs":"test_vector_diff_integrate()","rhs":"test_vector_diff_integrate produces the expected output","over":{"base":"Any"},"name":"test_vector_diff_integrate_correct"},"guarantee":"test_vector_diff_integrate produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.tests.test_vector.test_vector_diff_integrate_correct","statement":"Path(test_vector_diff_integrate(x), test_vector_diff_integrate produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1f050244327ed122"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.tests.test_vector.test_vector_diff_integrate","kind":"function","src_hash":"350427d8925762d3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Derivative(v, a) == Derivative(f(a) * C.i + a ** 2 * C.j + -1 * C.k, a) and diff(v, a) == v.diff(a) == Derivative(v, a).doit() == Derivative(f(a), a) * C.i + 2 * a * C.j and Integral(v, a) == Integral(f(a), a) * C.i + Integral(a ** 2, a) * C.j + Integral(-1, a) * C.k"},"spec":{"lhs":"test_vector_diff_integrate()","rhs":"Derivative(v, a) == Derivative(f(a) * C.i + a ** 2 * C.j + -1 * C.k, a) and diff(v, a) == v.diff(a) == Derivative(v, a).doit() == Derivative(f(a), a) * C.i + 2 * a * C.j and Integral(v, a) == Integral(f(a), a) * C.i + Integral(a ** 2, a) * C.j + Integral(-1, a) * C.k","over":{"base":"Any"},"name":"test_vector_diff_integrate_correct"},"guarantee":"Derivative(v, a) == Derivative(f(a) * C.i + a ** 2 * C.j + -1 * C.k, a); diff(v, a) == v.diff(a) == Derivative(v, a).doit() == Derivative(f(a), a) * C.i + 2 * a * C.j; Integral(v, a) == Integral(f(a), a) * C.i + Integral(a ** 2, a) * C.j + Integral(-1, a) * C.k","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.tests.test_vector.test_vector_diff_integrate_correct","statement":"Path(test_vector_diff_integrate(x), Derivative(v, a) == Derivative(f(a) * C.i + a ** 2 * C.j + -1 * C.k, a); diff(v, a) == v.diff(a) == Derivative(v, a).doit() == Derivative(f(a), a) * C.i + 2 * a * C.j; Integral(v, a) == Integral(f(a), a) * C.i + Integral(a ** 2, a) * C.j + Integral(-1, a) * C.k)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5e0b4e87f4a991b8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Derivative(v, a) == Derivative(f(a) * C.i + a ** 2 * C.j + -1 * C.k, a)","diff(v, a) == v.diff(a) == Derivative(v, a).doit() == Derivative(f(a), a) * C.i + 2 * a * C.j","Integral(v, a) == Integral(f(a), a) * C.i + Integral(a ** 2, a) * C.j + Integral(-1, a) * C.k"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_vector_diff_integrate():
     f = Function('f')
     v = f(a)*C.i + a**2*C.j - C.k
@@ -515,32 +631,44 @@ def test_vector_diff_integrate():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_vector_args(), test_vector_args produces the expected output) over Any ║
+# ║ Path(test_vector_args(), <unspecified:test_vector_args>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_vector_args : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 71f4e9b6bcc39dd2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.tests.test_vector.test_vector_args","kind":"function","src_hash":"47720582a23038d5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_vector_args()","rhs":"test_vector_args produces the expected output","over":{"base":"Any"},"name":"test_vector_args_correct"},"guarantee":"test_vector_args produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.tests.test_vector.test_vector_args_correct","statement":"Path(test_vector_args(x), test_vector_args produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"71f4e9b6bcc39dd2"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.tests.test_vector.test_vector_args","kind":"function","src_hash":"47720582a23038d5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_vector_args()","rhs":"<unspecified:test_vector_args>","over":{"base":"Any"},"name":"test_vector_args_correct"},"guarantee":"test_vector_args produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.tests.test_vector.test_vector_args_correct","statement":"Path(test_vector_args(x), test_vector_args produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"71f4e9b6bcc39dd2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_vector_args():
     raises(ValueError, lambda: BaseVector(3, C))
     raises(TypeError, lambda: BaseVector(0, Vector.zero))
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_srepr(), test_srepr produces the expected output) over Any ║
+# ║ Path(test_srepr(), srepr(C.i) == res) over Any             ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_srepr : Any → {Any | srepr(C.i) == res}               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  srepr(C.i) == res                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_srepr : Any → {Any | result satisfies: srepr(C.i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b1053a40ca3cb48f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bc2359dec004be29  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.tests.test_vector.test_srepr","kind":"function","src_hash":"d3d6ae165072e22d","in":{"base":"Any"},"out":{"base":"Any","pred":"srepr(C.i) == res"},"spec":{"lhs":"test_srepr()","rhs":"test_srepr produces the expected output","over":{"base":"Any"},"name":"test_srepr_correct"},"guarantee":"test_srepr produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.tests.test_vector.test_srepr_correct","statement":"Path(test_srepr(x), test_srepr produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b1053a40ca3cb48f"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.tests.test_vector.test_srepr","kind":"function","src_hash":"d3d6ae165072e22d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: srepr(C.i) == res"},"spec":{"lhs":"test_srepr()","rhs":"srepr(C.i) == res","over":{"base":"Any"},"name":"test_srepr_correct"},"guarantee":"srepr(C.i) == res","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.tests.test_vector.test_srepr_correct","statement":"Path(test_srepr(x), srepr(C.i) == res)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bc2359dec004be29","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["srepr(C.i) == res"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_srepr():
     from sympy.printing.repr import srepr
     res = "CoordSys3D(Str('C'), Tuple(ImmutableDenseMatrix([[Integer(1), "\
@@ -550,16 +678,24 @@ def test_srepr():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_scalar(), test_scalar produces the expected output) over Any ║
+# ║ Path(test_scalar(), v1.is_Vector is True and v1.is_scalar is False and v1.dot(v2).is_scalar is True and v1.cross(v2).is_scalar is False) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_scalar : Any → {Any | v1.is_Vector is True and v...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  v1.is_Vector is True                           ║
+# ║   ensures:  v1.is_scalar is False                          ║
+# ║   ensures:  v1.dot(v2).is_scalar is True                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_scalar : Any → {Any | result satisfies: v1.is_Ve...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f879bd5580b4700e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7a3f7bd82b7f80ff  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.tests.test_vector.test_scalar","kind":"function","src_hash":"271ae15a81f087cd","in":{"base":"Any"},"out":{"base":"Any","pred":"v1.is_Vector is True and v1.is_scalar is False and v1.dot(v2).is_scalar is True and v1.cross(v2).is_scalar is False"},"spec":{"lhs":"test_scalar()","rhs":"test_scalar produces the expected output","over":{"base":"Any"},"name":"test_scalar_correct"},"guarantee":"test_scalar produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.tests.test_vector.test_scalar_correct","statement":"Path(test_scalar(x), test_scalar produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f879bd5580b4700e"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.tests.test_vector.test_scalar","kind":"function","src_hash":"271ae15a81f087cd","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: v1.is_Vector is True and v1.is_scalar is False and v1.dot(v2).is_scalar is True and v1.cross(v2).is_scalar is False"},"spec":{"lhs":"test_scalar()","rhs":"v1.is_Vector is True and v1.is_scalar is False and v1.dot(v2).is_scalar is True and v1.cross(v2).is_scalar is False","over":{"base":"Any"},"name":"test_scalar_correct"},"guarantee":"v1.is_Vector is True; v1.is_scalar is False; v1.dot(v2).is_scalar is True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.tests.test_vector.test_scalar_correct","statement":"Path(test_scalar(x), v1.is_Vector is True; v1.is_scalar is False; v1.dot(v2).is_scalar is True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7a3f7bd82b7f80ff","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["v1.is_Vector is True","v1.is_scalar is False","v1.dot(v2).is_scalar is True","v1.cross(v2).is_scalar is False"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_scalar():
     from sympy.vector import CoordSys3D
     C = CoordSys3D('C')

@@ -22,29 +22,41 @@ from sympy.core.relational import Eq
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(ReorderError(*args), correctly constructs a ReorderError instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ ReorderError : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, NotImplementedError)          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ ReorderError : Any → {Any | result satisfies: isinsta...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4d083e99ef7e6ab2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.expr_with_intlimits.ReorderError","kind":"class","src_hash":"c7332d60bbb1bfbf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ReorderError(*args)","rhs":"correctly constructs a ReorderError instance","over":{"base":"Any"},"name":"ReorderError_class_invariant"},"guarantee":"correctly constructs a ReorderError instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4d083e99ef7e6ab2"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.expr_with_intlimits.ReorderError","kind":"class","src_hash":"c7332d60bbb1bfbf","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, NotImplementedError)"},"spec":{"lhs":"ReorderError(*args)","rhs":"correctly constructs a ReorderError instance","over":{"base":"Any"},"name":"ReorderError_class_invariant"},"guarantee":"isinstance(self, NotImplementedError)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4d083e99ef7e6ab2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, NotImplementedError)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function ReorderError not found in source"]}}
 class ReorderError(NotImplementedError):
     """
     Exception raised when trying to reorder dependent limits.
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(exp), initializes the instance correctly) over Any ║
+# ║ Path(__init__(expr, msg), <unspecified:__init__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __init__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f13f1e7418f41e02           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.expr_with_intlimits.ReorderError.__init__","kind":"method","src_hash":"ce48100a480ea643","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(exp)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f13f1e7418f41e02"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.expr_with_intlimits.ReorderError.__init__","kind":"method","src_hash":"ce48100a480ea643","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(expr, msg)","rhs":"<unspecified:__init__>","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f13f1e7418f41e02","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, expr, msg):
         super().__init__(
             "%s could not be reordered: %s." % (expr, msg))
@@ -52,14 +64,20 @@ class ReorderError(NotImplementedError):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(ExprWithIntLimits(*args), correctly constructs a ExprWithIntLimits instance) over {Any | isinstance(r[0], int)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ ExprWithIntLimits : {Any | isinstance(r[0], int)} → Any    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, ExprWithLimits)               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ ExprWithIntLimits : {Any | isinstance(r[0], int)} → {...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.9ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bb267635c3f8524c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.expr_with_intlimits.ExprWithIntLimits","kind":"class","src_hash":"f967432ba86f7c9a","in":{"base":"Any","pred":"isinstance(r[0], int)"},"out":{"base":"Any"},"spec":{"lhs":"ExprWithIntLimits(*args)","rhs":"correctly constructs a ExprWithIntLimits instance","over":{"base":"Any","pred":"isinstance(r[0], int)"},"name":"ExprWithIntLimits_class_invariant"},"guarantee":"correctly constructs a ExprWithIntLimits instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bb267635c3f8524c"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.expr_with_intlimits.ExprWithIntLimits","kind":"class","src_hash":"f967432ba86f7c9a","in":{"base":"Any","pred":"isinstance(r[0], int)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, ExprWithLimits)"},"spec":{"lhs":"ExprWithIntLimits(*args)","rhs":"correctly constructs a ExprWithIntLimits instance","over":{"base":"Any","pred":"isinstance(r[0], int)"},"name":"ExprWithIntLimits_class_invariant"},"guarantee":"isinstance(self, ExprWithLimits)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bb267635c3f8524c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, ExprWithLimits)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.9,"verdict_class":"assumed","binding":false,"binding_errors":["Function ExprWithIntLimits not found in source"]}}
 class ExprWithIntLimits(ExprWithLimits):
     """
     Superclass for Product and Sum.
@@ -74,16 +92,24 @@ class ExprWithIntLimits(ExprWithLimits):
     __slots__ = ()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(change_index(var), change index of a sum or product) over Any ║
+# ║ Path(change_index(var, trafo, newvar), self.func(function, *limits)) over {Any | hasattr(trafo, 'as_poly')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ change_index : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(trafo, 'as_poly')                      ║
+# ║   ensures:  len(limits) == old_len_limits + 1              ║
+# ║   returns:  self.func(function, *limits)                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ change_index : {Any | hasattr(trafo, 'as_poly')} → {A...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c4c9f0f370f96b21  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 42f923102f0abbe3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.expr_with_intlimits.ExprWithIntLimits.change_index","kind":"method","src_hash":"b0f45d84f08bcc20","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"change_index(var)","rhs":"change index of a sum or product","over":{"base":"Any"},"name":"change_index_correct"},"guarantee":"change index of a sum or product","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.expr_with_intlimits.ExprWithIntLimits.change_index_correct","statement":"Path(change_index(x), change index of a sum or product)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c4c9f0f370f96b21"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.expr_with_intlimits.ExprWithIntLimits.change_index","kind":"method","src_hash":"b0f45d84f08bcc20","in":{"base":"Any","pred":"hasattr(trafo, 'as_poly')"},"out":{"base":"Any","pred":"result satisfies: result == (self.func(function, *limits))"},"spec":{"lhs":"change_index(var, trafo, newvar)","rhs":"self.func(function, *limits)","over":{"base":"Any","pred":"hasattr(trafo, 'as_poly')"},"name":"change_index_correct"},"guarantee":"returns self.func(function, *limits); len(limits) == old_len_limits + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.expr_with_intlimits.ExprWithIntLimits.change_index_correct","statement":"Path(change_index(x), returns self.func(function, *limits); len(limits) == old_len_limits + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"42f923102f0abbe3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(trafo, 'as_poly')"],"ensures":["len(limits) == old_len_limits + 1"],"returns_expr":"self.func(function, *limits)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.func","self.function","self.limits","trafo.as_poly"],"calls_mutating":["limits.append"],"raises":["ValueError"]},"state_contract":{"modifies":["limits.*"],"old_bindings":{"old_len_limits":"len(limits)"},"post_ensures":["len(limits) == old_len_limits + 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def change_index(self, var, trafo, newvar=None):
         r"""
         Change index of a Sum or Product.
@@ -204,16 +230,25 @@ class ExprWithIntLimits(ExprWithLimits):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(index(exp), return the index of a dummy variable in the list of limits) over Any ║
+# ║ Path(index(expr, x), <unspecified:index>) over {Any | not (variables.count(x) != 1) and hasattr(expr, 'limits')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ index : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (variables.count(x) != 1)                  ║
+# ║   requires: hasattr(expr, 'limits')                        ║
+# ║   fiber[case_0]: variables.count(x) != 1                   ║
+# ║   fiber[case_1]: not (variables.count(x) != 1) => var...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ index : {Any | not (variables.count(x) != 1) and hasa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 45aad02280bf2fd0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fdb774b3f5b6b2f0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.expr_with_intlimits.ExprWithIntLimits.index","kind":"method","src_hash":"5c1d591c0e0ad188","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"index(exp)","rhs":"return the index of a dummy variable in the list of limits","over":{"base":"Any"},"name":"index_correct"},"guarantee":"return the index of a dummy variable in the list of limits","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.expr_with_intlimits.ExprWithIntLimits.index_correct","statement":"Path(index(x), return the index of a dummy variable in the list of limits)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"45aad02280bf2fd0"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.expr_with_intlimits.ExprWithIntLimits.index","kind":"method","src_hash":"5c1d591c0e0ad188","in":{"base":"Any","pred":"not (variables.count(x) != 1) and hasattr(expr, 'limits')"},"out":{"base":"Any"},"spec":{"lhs":"index(expr, x)","rhs":"<unspecified:index>","over":{"base":"Any","pred":"not (variables.count(x) != 1) and hasattr(expr, 'limits')"},"name":"index_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.expr_with_intlimits.ExprWithIntLimits.index_correct","statement":"Path(index(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fdb774b3f5b6b2f0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (variables.count(x) != 1)","hasattr(expr, 'limits')"],"fibers":[{"name":"case_0","guard":"variables.count(x) != 1","ensures":[],"decidability":"z3"},{"name":"case_1","guard":"not (variables.count(x) != 1)","ensures":["result == variables.index(x)"],"decidability":"z3","returns_expr":"variables.index(x)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.limits"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def index(expr, x):
         """
         Return the index of a dummy variable in the list of limits.
@@ -253,16 +288,23 @@ class ExprWithIntLimits(ExprWithLimits):
             return variables.index(x)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(reorder(exp), reorder limits in a expression containing a sum or a product) over Any ║
+# ║ Path(reorder(expr, *arg), <unspecified:reorder>) over {Any | hasattr(expr, 'index')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ reorder : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'index')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ reorder : {Any | hasattr(expr, 'index')} → Any             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 07fa84c1eb0715f7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.expr_with_intlimits.ExprWithIntLimits.reorder","kind":"method","src_hash":"f421ce4ab563531d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"reorder(exp)","rhs":"reorder limits in a expression containing a sum or a product","over":{"base":"Any"},"name":"reorder_correct"},"guarantee":"reorder limits in a expression containing a sum or a product","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.expr_with_intlimits.ExprWithIntLimits.reorder_correct","statement":"Path(reorder(x), reorder limits in a expression containing a sum or a product)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"07fa84c1eb0715f7"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.expr_with_intlimits.ExprWithIntLimits.reorder","kind":"method","src_hash":"f421ce4ab563531d","in":{"base":"Any","pred":"hasattr(expr, 'index')"},"out":{"base":"Any"},"spec":{"lhs":"reorder(expr, *arg)","rhs":"<unspecified:reorder>","over":{"base":"Any","pred":"hasattr(expr, 'index')"},"name":"reorder_correct"},"guarantee":"reorder limits in a expression containing a sum or a product","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.expr_with_intlimits.ExprWithIntLimits.reorder_correct","statement":"Path(reorder(x), reorder limits in a expression containing a sum or a product)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"07fa84c1eb0715f7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'index')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.index"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def reorder(expr, *arg):
         """
         Reorder limits in a expression containing a Sum or a Product.
@@ -329,16 +371,26 @@ class ExprWithIntLimits(ExprWithLimits):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(reorder_limit(exp), id) over Any                      ║
+# ║ Path(reorder_limit(expr, x, y), id) over {Any | hasattr(expr, 'limits') and hasattr(expr, 'function')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ reorder_limit : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'limits')                        ║
+# ║   requires: hasattr(expr, 'function')                      ║
+# ║   ensures:  len(limits) == old_len_limits + 1              ║
+# ║   fiber[zero_or_none]: len(set(limit_x[1].free_symbol...   ║
+# ║   fiber[zero_or_none]: not (len(set(limit_x[1].free_s...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ reorder_limit : {Any | hasattr(expr, 'limits') and ha...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | ee28bf00b2f4cf22   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.expr_with_intlimits.ExprWithIntLimits.reorder_limit","kind":"method","src_hash":"29f58be2bb6efe25","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"reorder_limit(exp)","rhs":"interchange two limit tuples of a sum or product expression","over":{"base":"Any"},"name":"reorder_limit_correct","kind":"composition"},"guarantee":"interchange two limit tuples of a sum or product expression","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"type","by":"library_axiom"},{"fn":"expr","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ee28bf00b2f4cf22"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.expr_with_intlimits.ExprWithIntLimits.reorder_limit","kind":"method","src_hash":"29f58be2bb6efe25","in":{"base":"Any","pred":"hasattr(expr, 'limits') and hasattr(expr, 'function')"},"out":{"base":"Any","pred":"result satisfies: len(limits) == old_len_limits + 1"},"spec":{"lhs":"reorder_limit(expr, x, y)","rhs":"len(limits) == old_len_limits + 1","over":{"base":"Any","pred":"hasattr(expr, 'limits') and hasattr(expr, 'function')"},"name":"reorder_limit_correct","kind":"composition"},"guarantee":"len(limits) == old_len_limits + 1; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"type","by":"library_axiom"},{"fn":"expr","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ee28bf00b2f4cf22","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'limits')","hasattr(expr, 'function')"],"ensures":["len(limits) == old_len_limits + 1"],"fibers":[{"name":"zero_or_none","guard":"len(set(limit_x[1].free_symbols).intersection(var)) == 0 and len(set(limit_x[2].free_symbols).intersection(var)) == 0 and (len(set(limit_y[1].free_symbols).intersection(var)) == 0) and (len(set(limit_y[2].free_symbols).intersection(var)) == 0)","ensures":["result == type(expr)(expr.function, *limits)"],"decidability":"z3","returns_expr":"type(expr)(expr.function, *limits)"},{"name":"zero_or_none","guard":"not (len(set(limit_x[1].free_symbols).intersection(var)) == 0 and len(set(limit_x[2].free_symbols).intersection(var)) == 0 and (len(set(limit_y[1].free_symbols).intersection(var)) == 0) and (len(set(limit_y[2].free_symbols).intersection(var)) == 0))","ensures":[],"decidability":"z3"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.function","expr.limits"],"calls_mutating":["limits.append"],"raises":["ReorderError"]},"state_contract":{"modifies":["limits.*"],"old_bindings":{"old_len_limits":"len(limits)"},"post_ensures":["len(limits) == old_len_limits + 1"],"exceptional_post":{"ReorderError":["isinstance(raised, ReorderError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def reorder_limit(expr, x, y):
         """
         Interchange two limit tuples of a Sum or Product expression.
@@ -395,16 +447,22 @@ class ExprWithIntLimits(ExprWithLimits):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(has_empty_sequence(), returns the has_empty_sequence attribute) over Any ║
+# ║ Path(has_empty_sequence(), <unspecified:has_empty_sequence>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ has_empty_sequence : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2712ae23cea3035f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.expr_with_intlimits.ExprWithIntLimits.has_empty_sequence","kind":"property","src_hash":"962b89e0d6dd3533","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"has_empty_sequence()","rhs":"returns the has_empty_sequence attribute","over":{"base":"Any"},"name":"has_empty_sequence_correct"},"guarantee":"returns the has_empty_sequence attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2712ae23cea3035f"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.expr_with_intlimits.ExprWithIntLimits.has_empty_sequence","kind":"property","src_hash":"962b89e0d6dd3533","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"has_empty_sequence()","rhs":"<unspecified:has_empty_sequence>","over":{"base":"Any"},"name":"has_empty_sequence_correct"},"guarantee":"returns the has_empty_sequence attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2712ae23cea3035f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.limits"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def has_empty_sequence(self):
         """
         Returns True if the Sum or Product is computed for an empty sequence.

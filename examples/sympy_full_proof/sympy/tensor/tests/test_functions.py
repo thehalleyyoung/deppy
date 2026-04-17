@@ -29,7 +29,12 @@ C = MatrixSymbol("C", 3, 3)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_TensorProduct_construction(), test_TensorProduct_construction produces the expected output) over {Any | isinstance(TensorProduct(A, A), TensorProduct)} ║
+# ║ Path(test_TensorProduct_construction(), TensorProduct(3, 4) == 12 and isinstance(TensorProduct(A, A), TensorProduct) and expr == x * y * z and expr == TensorProduct(A, B, C) and expr == Array([[[[0, -1], [1, 0]], [[0, 0], [0, 0]]], [[[0, 0], [0, 0]], [[0, -1], [1, 0]]]])) over {Any | isinstance(TensorProduct(A, A), TensorProduct)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  TensorProduct(3, 4) == 12                      ║
+# ║   ensures:  isinstance(TensorProduct(A, A), TensorPro...   ║
+# ║   ensures:  expr == x * y * z                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_TensorProduct_construction : {Any | isinstance(T...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -41,9 +46,12 @@ C = MatrixSymbol("C", 3, 3)
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.7ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | c7fcbb8d...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_functions.test_TensorProduct_construction","kind":"function","src_hash":"380ddadd2326e4c2","in":{"base":"Any","pred":"isinstance(TensorProduct(A, A), TensorProduct)"},"out":{"base":"Any","pred":"TensorProduct(3, 4) == 12 and isinstance(TensorProduct(A, A), TensorProduct) and expr == x * y * z and expr == TensorProduct(A, B, C)"},"spec":{"lhs":"test_TensorProduct_construction()","rhs":"test_TensorProduct_construction produces the expected output","over":{"base":"Any","pred":"isinstance(TensorProduct(A, A), TensorProduct)"},"name":"test_TensorProduct_construction_correct"},"guarantee":"test_TensorProduct_construction produces the expected output","fibers":[{"name":"A","pred":"isinstance(TensorProduct(A, A), TensorProduct)","path":{"lhs":"test_TensorProduct_construction(x)","rhs":"test_TensorProduct_construction produces the expected output","over":{"base":"A","pred":"isinstance(TensorProduct(A, A), TensorProduct)"},"name":"test_TensorProduct_construction_A_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_functions.test_TensorProduct_construction_A_correct","statement":"test_TensorProduct_construction satisfies spec on A inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"c7fcbb8d4604d122"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_functions.test_TensorProduct_construction","kind":"function","src_hash":"380ddadd2326e4c2","in":{"base":"Any","pred":"isinstance(TensorProduct(A, A), TensorProduct)"},"out":{"base":"Any","pred":"result satisfies: TensorProduct(3, 4) == 12 and isinstance(TensorProduct(A, A), TensorProduct) and expr == x * y * z and expr == TensorProduct(A, B, C) and expr == Array([[[[0, -1], [1, 0]], [[0, 0], [0, 0]]], [[[0, 0], [0, 0]], [[0, -1], [1, 0]]]])"},"spec":{"lhs":"test_TensorProduct_construction()","rhs":"TensorProduct(3, 4) == 12 and isinstance(TensorProduct(A, A), TensorProduct) and expr == x * y * z and expr == TensorProduct(A, B, C) and expr == Array([[[[0, -1], [1, 0]], [[0, 0], [0, 0]]], [[[0, 0], [0, 0]], [[0, -1], [1, 0]]]])","over":{"base":"Any","pred":"isinstance(TensorProduct(A, A), TensorProduct)"},"name":"test_TensorProduct_construction_correct"},"guarantee":"TensorProduct(3, 4) == 12; isinstance(TensorProduct(A, A), TensorProduct); expr == x * y * z","fibers":[{"name":"A","pred":"isinstance(TensorProduct(A, A), TensorProduct)","path":{"lhs":"test_TensorProduct_construction(x)","rhs":"TensorProduct(3, 4) == 12; isinstance(TensorProduct(A, A), TensorProduct); expr == x * y * z","over":{"base":"A","pred":"isinstance(TensorProduct(A, A), TensorProduct)"},"name":"test_TensorProduct_construction_A_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_functions.test_TensorProduct_construction_A_correct","statement":"test_TensorProduct_construction satisfies spec on A inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"c7fcbb8d4604d122","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["TensorProduct(3, 4) == 12","isinstance(TensorProduct(A, A), TensorProduct)","expr == x * y * z","expr == TensorProduct(A, B, C)","expr == Array([[[[0, -1], [1, 0]], [[0, 0], [0, 0]]], [[[0, 0], [0, 0]], [[0, -1], [1, 0]]]])"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.7,"verdict_class":"failed","binding":true}}
 def test_TensorProduct_construction():
     assert TensorProduct(3, 4) == 12
     assert isinstance(TensorProduct(A, A), TensorProduct)
@@ -68,16 +76,24 @@ def test_TensorProduct_construction():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_TensorProduct_shape(), test_TensorProduct_shape produces the expected output) over Any ║
+# ║ Path(test_TensorProduct_shape(), expr.shape == () and expr.rank() == 0 and expr.shape == (2, 2) and expr.rank() == 2 and expr.shape == (2, 2, 2, 2) and expr.rank() == 4) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_TensorProduct_shape : Any → {Any | expr.shape ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  expr.shape == ()                               ║
+# ║   ensures:  expr.rank() == 0                               ║
+# ║   ensures:  expr.shape == (2, 2)                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_TensorProduct_shape : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 11145b846f001039  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1f1796b5844b8622  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_functions.test_TensorProduct_shape","kind":"function","src_hash":"c45f52baa58517e0","in":{"base":"Any"},"out":{"base":"Any","pred":"expr.shape == () and expr.rank() == 0 and expr.shape == (2, 2) and expr.rank() == 2 and expr.shape == (2, 2, 2, 2) and expr.rank() == 4 and expr.shape == (2, 2, 2, 2) and expr.rank() == 4"},"spec":{"lhs":"test_TensorProduct_shape()","rhs":"test_TensorProduct_shape produces the expected output","over":{"base":"Any"},"name":"test_TensorProduct_shape_correct"},"guarantee":"test_TensorProduct_shape produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_functions.test_TensorProduct_shape_correct","statement":"Path(test_TensorProduct_shape(x), test_TensorProduct_shape produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"11145b846f001039"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_functions.test_TensorProduct_shape","kind":"function","src_hash":"c45f52baa58517e0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: expr.shape == () and expr.rank() == 0 and expr.shape == (2, 2) and expr.rank() == 2 and expr.shape == (2, 2, 2, 2) and expr.rank() == 4"},"spec":{"lhs":"test_TensorProduct_shape()","rhs":"expr.shape == () and expr.rank() == 0 and expr.shape == (2, 2) and expr.rank() == 2 and expr.shape == (2, 2, 2, 2) and expr.rank() == 4","over":{"base":"Any"},"name":"test_TensorProduct_shape_correct"},"guarantee":"expr.shape == (); expr.rank() == 0; expr.shape == (2, 2)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_functions.test_TensorProduct_shape_correct","statement":"Path(test_TensorProduct_shape(x), expr.shape == (); expr.rank() == 0; expr.shape == (2, 2))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1f1796b5844b8622","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["expr.shape == ()","expr.rank() == 0","expr.shape == (2, 2)","expr.rank() == 2","expr.shape == (2, 2, 2, 2)","expr.rank() == 4"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_TensorProduct_shape():
 
     expr = TensorProduct(3, 4, evaluate=False)
@@ -97,16 +113,22 @@ def test_TensorProduct_shape():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_TensorProduct_getitem(), test_TensorProduct_getitem produces the expected output) over Any ║
+# ║ Path(test_TensorProduct_getitem(), expr[i, j, k, l] == A[i, j] * B[k, l]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_TensorProduct_getitem : Any → {Any | expr[i, j, ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  expr[i, j, k, l] == A[i, j] * B[k, l]          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_TensorProduct_getitem : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e125372599c73e6a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ec80896f62cad993  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_functions.test_TensorProduct_getitem","kind":"function","src_hash":"0e015e2ec7a0f278","in":{"base":"Any"},"out":{"base":"Any","pred":"expr[i, j, k, l] == A[i, j] * B[k, l]"},"spec":{"lhs":"test_TensorProduct_getitem()","rhs":"test_TensorProduct_getitem produces the expected output","over":{"base":"Any"},"name":"test_TensorProduct_getitem_correct"},"guarantee":"test_TensorProduct_getitem produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_functions.test_TensorProduct_getitem_correct","statement":"Path(test_TensorProduct_getitem(x), test_TensorProduct_getitem produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e125372599c73e6a"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_functions.test_TensorProduct_getitem","kind":"function","src_hash":"0e015e2ec7a0f278","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: expr[i, j, k, l] == A[i, j] * B[k, l]"},"spec":{"lhs":"test_TensorProduct_getitem()","rhs":"expr[i, j, k, l] == A[i, j] * B[k, l]","over":{"base":"Any"},"name":"test_TensorProduct_getitem_correct"},"guarantee":"expr[i, j, k, l] == A[i, j] * B[k, l]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_functions.test_TensorProduct_getitem_correct","statement":"Path(test_TensorProduct_getitem(x), expr[i, j, k, l] == A[i, j] * B[k, l])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ec80896f62cad993","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["expr[i, j, k, l] == A[i, j] * B[k, l]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_TensorProduct_getitem():
     expr = TensorProduct(A, B)
     assert expr[i, j, k, l] == A[i, j]*B[k, l]

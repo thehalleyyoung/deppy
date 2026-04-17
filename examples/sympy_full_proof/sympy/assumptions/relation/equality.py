@@ -42,14 +42,20 @@ __all__ = ['EqualityPredicate', 'UnequalityPredicate', 'StrictGreaterThanPredica
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(EqualityPredicate(*args), correctly constructs a EqualityPredicate instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ EqualityPredicate : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, BinaryRelation)               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ EqualityPredicate : Any → {Any | result satisfies: is...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b2aeeb62c15f3efb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.relation.equality.EqualityPredicate","kind":"class","src_hash":"0802fcd93417bdc9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"EqualityPredicate(*args)","rhs":"correctly constructs a EqualityPredicate instance","over":{"base":"Any"},"name":"EqualityPredicate_class_invariant"},"guarantee":"correctly constructs a EqualityPredicate instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b2aeeb62c15f3efb"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.relation.equality.EqualityPredicate","kind":"class","src_hash":"0802fcd93417bdc9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, BinaryRelation)"},"spec":{"lhs":"EqualityPredicate(*args)","rhs":"correctly constructs a EqualityPredicate instance","over":{"base":"Any"},"name":"EqualityPredicate_class_invariant"},"guarantee":"isinstance(self, BinaryRelation)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b2aeeb62c15f3efb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, BinaryRelation)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function EqualityPredicate not found in source"]}}
 class EqualityPredicate(BinaryRelation):
     """
     Binary predicate for $=$.
@@ -85,30 +91,42 @@ class EqualityPredicate(BinaryRelation):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(negated(), returns the negated attribute) over Any    ║
+# ║ Path(negated(), Q.ne) over Any                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Q.ne                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ negated : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8646082a8153b1e5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.relation.equality.EqualityPredicate.negated","kind":"property","src_hash":"dcf354bc3de99bf5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"negated()","rhs":"returns the negated attribute","over":{"base":"Any"},"name":"negated_correct"},"guarantee":"returns the negated attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8646082a8153b1e5"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.relation.equality.EqualityPredicate.negated","kind":"property","src_hash":"dcf354bc3de99bf5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"negated()","rhs":"Q.ne","over":{"base":"Any"},"name":"negated_correct"},"guarantee":"returns Q.ne","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8646082a8153b1e5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Q.ne","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def negated(self):
         return Q.ne
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(arg), eval produces the expected output) over Any ║
+# ║ Path(eval(args, assumptions), is_eq(*args, assumptions)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  is_eq(*args, assumptions)                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ eval : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a1ba30b1f6b20d81  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 22c55624761d39ab  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.relation.equality.EqualityPredicate.eval","kind":"method","src_hash":"a9d24e2e211a800d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(arg)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.relation.equality.EqualityPredicate.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a1ba30b1f6b20d81"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.relation.equality.EqualityPredicate.eval","kind":"method","src_hash":"a9d24e2e211a800d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(args, assumptions)","rhs":"is_eq(*args, assumptions)","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"returns is_eq(*args, assumptions)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.relation.equality.EqualityPredicate.eval_correct","statement":"Path(eval(x), returns is_eq(*args, assumptions))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"22c55624761d39ab","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"is_eq(*args, assumptions)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(self, args, assumptions=True):
         if assumptions == True:
             # default assumptions for is_eq is None
@@ -119,14 +137,20 @@ class EqualityPredicate(BinaryRelation):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(UnequalityPredicate(*args), correctly constructs a UnequalityPredicate instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ UnequalityPredicate : Any → Any                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, BinaryRelation)               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ UnequalityPredicate : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aad5f1bb37dae59f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.relation.equality.UnequalityPredicate","kind":"class","src_hash":"3b673e39f63e70d2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"UnequalityPredicate(*args)","rhs":"correctly constructs a UnequalityPredicate instance","over":{"base":"Any"},"name":"UnequalityPredicate_class_invariant"},"guarantee":"correctly constructs a UnequalityPredicate instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aad5f1bb37dae59f"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.relation.equality.UnequalityPredicate","kind":"class","src_hash":"3b673e39f63e70d2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, BinaryRelation)"},"spec":{"lhs":"UnequalityPredicate(*args)","rhs":"correctly constructs a UnequalityPredicate instance","over":{"base":"Any"},"name":"UnequalityPredicate_class_invariant"},"guarantee":"isinstance(self, BinaryRelation)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aad5f1bb37dae59f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, BinaryRelation)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function UnequalityPredicate not found in source"]}}
 class UnequalityPredicate(BinaryRelation):
     r"""
     Binary predicate for $\neq$.
@@ -162,30 +186,42 @@ class UnequalityPredicate(BinaryRelation):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(negated(), returns the negated attribute) over Any    ║
+# ║ Path(negated(), Q.eq) over Any                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Q.eq                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ negated : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 39af1c2b6917a89b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.relation.equality.UnequalityPredicate.negated","kind":"property","src_hash":"b97daaa94f1e6530","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"negated()","rhs":"returns the negated attribute","over":{"base":"Any"},"name":"negated_correct"},"guarantee":"returns the negated attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"39af1c2b6917a89b"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.relation.equality.UnequalityPredicate.negated","kind":"property","src_hash":"b97daaa94f1e6530","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"negated()","rhs":"Q.eq","over":{"base":"Any"},"name":"negated_correct"},"guarantee":"returns Q.eq","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"39af1c2b6917a89b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Q.eq","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def negated(self):
         return Q.eq
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(arg), eval produces the expected output) over Any ║
+# ║ Path(eval(args, assumptions), is_neq(*args, assumptions)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  is_neq(*args, assumptions)                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ eval : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 36cb8a7194fd09da  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4a5bf231db37b977  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.relation.equality.UnequalityPredicate.eval","kind":"method","src_hash":"52c8b2795c93895d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(arg)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.relation.equality.UnequalityPredicate.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"36cb8a7194fd09da"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.relation.equality.UnequalityPredicate.eval","kind":"method","src_hash":"52c8b2795c93895d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(args, assumptions)","rhs":"is_neq(*args, assumptions)","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"returns is_neq(*args, assumptions)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.relation.equality.UnequalityPredicate.eval_correct","statement":"Path(eval(x), returns is_neq(*args, assumptions))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4a5bf231db37b977","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"is_neq(*args, assumptions)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(self, args, assumptions=True):
         if assumptions == True:
             # default assumptions for is_neq is None
@@ -196,14 +232,20 @@ class UnequalityPredicate(BinaryRelation):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(StrictGreaterThanPredicate(*args), correctly constructs a StrictGreaterThanPredicate instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ StrictGreaterThanPredicate : Any → Any                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, BinaryRelation)               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ StrictGreaterThanPredicate : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 534aab11f08776f5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.relation.equality.StrictGreaterThanPredicate","kind":"class","src_hash":"879cc27de7fc74da","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"StrictGreaterThanPredicate(*args)","rhs":"correctly constructs a StrictGreaterThanPredicate instance","over":{"base":"Any"},"name":"StrictGreaterThanPredicate_class_invariant"},"guarantee":"correctly constructs a StrictGreaterThanPredicate instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"534aab11f08776f5"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.relation.equality.StrictGreaterThanPredicate","kind":"class","src_hash":"879cc27de7fc74da","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, BinaryRelation)"},"spec":{"lhs":"StrictGreaterThanPredicate(*args)","rhs":"correctly constructs a StrictGreaterThanPredicate instance","over":{"base":"Any"},"name":"StrictGreaterThanPredicate_class_invariant"},"guarantee":"isinstance(self, BinaryRelation)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"534aab11f08776f5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, BinaryRelation)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function StrictGreaterThanPredicate not found in source"]}}
 class StrictGreaterThanPredicate(BinaryRelation):
     """
     Binary predicate for $>$.
@@ -239,45 +281,63 @@ class StrictGreaterThanPredicate(BinaryRelation):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(reversed(), returns the reversed attribute) over Any  ║
+# ║ Path(reversed(), Q.lt) over Any                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Q.lt                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ reversed : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5bf6759238277c29           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.relation.equality.StrictGreaterThanPredicate.reversed","kind":"property","src_hash":"80650766e53d584f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"reversed()","rhs":"returns the reversed attribute","over":{"base":"Any"},"name":"reversed_correct"},"guarantee":"returns the reversed attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5bf6759238277c29"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.relation.equality.StrictGreaterThanPredicate.reversed","kind":"property","src_hash":"80650766e53d584f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"reversed()","rhs":"Q.lt","over":{"base":"Any"},"name":"reversed_correct"},"guarantee":"returns Q.lt","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5bf6759238277c29","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Q.lt","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def reversed(self):
         return Q.lt
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(negated(), returns the negated attribute) over Any    ║
+# ║ Path(negated(), Q.le) over Any                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Q.le                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ negated : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6f2fbcb7581ff868           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.relation.equality.StrictGreaterThanPredicate.negated","kind":"property","src_hash":"f1d0fa4d11c99619","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"negated()","rhs":"returns the negated attribute","over":{"base":"Any"},"name":"negated_correct"},"guarantee":"returns the negated attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6f2fbcb7581ff868"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.relation.equality.StrictGreaterThanPredicate.negated","kind":"property","src_hash":"f1d0fa4d11c99619","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"negated()","rhs":"Q.le","over":{"base":"Any"},"name":"negated_correct"},"guarantee":"returns Q.le","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6f2fbcb7581ff868","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Q.le","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def negated(self):
         return Q.le
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(arg), eval produces the expected output) over Any ║
+# ║ Path(eval(args, assumptions), is_gt(*args, assumptions)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  is_gt(*args, assumptions)                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ eval : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2931c4c4bfc97788  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0b6ea5a33d26a164  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.relation.equality.StrictGreaterThanPredicate.eval","kind":"method","src_hash":"48c4db58796a66f7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(arg)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.relation.equality.StrictGreaterThanPredicate.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2931c4c4bfc97788"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.relation.equality.StrictGreaterThanPredicate.eval","kind":"method","src_hash":"48c4db58796a66f7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(args, assumptions)","rhs":"is_gt(*args, assumptions)","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"returns is_gt(*args, assumptions)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.relation.equality.StrictGreaterThanPredicate.eval_correct","statement":"Path(eval(x), returns is_gt(*args, assumptions))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0b6ea5a33d26a164","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"is_gt(*args, assumptions)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(self, args, assumptions=True):
         if assumptions == True:
             # default assumptions for is_gt is None
@@ -288,14 +348,20 @@ class StrictGreaterThanPredicate(BinaryRelation):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(GreaterThanPredicate(*args), correctly constructs a GreaterThanPredicate instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ GreaterThanPredicate : Any → Any                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, BinaryRelation)               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ GreaterThanPredicate : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a2d59ab115cbe179  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.relation.equality.GreaterThanPredicate","kind":"class","src_hash":"918bb93b2f2a443c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"GreaterThanPredicate(*args)","rhs":"correctly constructs a GreaterThanPredicate instance","over":{"base":"Any"},"name":"GreaterThanPredicate_class_invariant"},"guarantee":"correctly constructs a GreaterThanPredicate instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a2d59ab115cbe179"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.relation.equality.GreaterThanPredicate","kind":"class","src_hash":"918bb93b2f2a443c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, BinaryRelation)"},"spec":{"lhs":"GreaterThanPredicate(*args)","rhs":"correctly constructs a GreaterThanPredicate instance","over":{"base":"Any"},"name":"GreaterThanPredicate_class_invariant"},"guarantee":"isinstance(self, BinaryRelation)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a2d59ab115cbe179","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, BinaryRelation)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function GreaterThanPredicate not found in source"]}}
 class GreaterThanPredicate(BinaryRelation):
     """
     Binary predicate for $>=$.
@@ -331,45 +397,63 @@ class GreaterThanPredicate(BinaryRelation):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(reversed(), returns the reversed attribute) over Any  ║
+# ║ Path(reversed(), Q.le) over Any                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Q.le                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ reversed : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 27546c6f136fb797           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.relation.equality.GreaterThanPredicate.reversed","kind":"property","src_hash":"343bebb7b661e65e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"reversed()","rhs":"returns the reversed attribute","over":{"base":"Any"},"name":"reversed_correct"},"guarantee":"returns the reversed attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"27546c6f136fb797"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.relation.equality.GreaterThanPredicate.reversed","kind":"property","src_hash":"343bebb7b661e65e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"reversed()","rhs":"Q.le","over":{"base":"Any"},"name":"reversed_correct"},"guarantee":"returns Q.le","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"27546c6f136fb797","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Q.le","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def reversed(self):
         return Q.le
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(negated(), returns the negated attribute) over Any    ║
+# ║ Path(negated(), Q.lt) over Any                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Q.lt                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ negated : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 475ade885ed5e6a8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.relation.equality.GreaterThanPredicate.negated","kind":"property","src_hash":"5efc1d5fb7687a08","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"negated()","rhs":"returns the negated attribute","over":{"base":"Any"},"name":"negated_correct"},"guarantee":"returns the negated attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"475ade885ed5e6a8"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.relation.equality.GreaterThanPredicate.negated","kind":"property","src_hash":"5efc1d5fb7687a08","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"negated()","rhs":"Q.lt","over":{"base":"Any"},"name":"negated_correct"},"guarantee":"returns Q.lt","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"475ade885ed5e6a8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Q.lt","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def negated(self):
         return Q.lt
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(arg), eval produces the expected output) over Any ║
+# ║ Path(eval(args, assumptions), is_ge(*args, assumptions)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  is_ge(*args, assumptions)                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ eval : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4f361a3c501089cf  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e9d4dd90e74be895  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.relation.equality.GreaterThanPredicate.eval","kind":"method","src_hash":"fe15c7afb6c60681","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(arg)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.relation.equality.GreaterThanPredicate.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4f361a3c501089cf"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.relation.equality.GreaterThanPredicate.eval","kind":"method","src_hash":"fe15c7afb6c60681","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(args, assumptions)","rhs":"is_ge(*args, assumptions)","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"returns is_ge(*args, assumptions)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.relation.equality.GreaterThanPredicate.eval_correct","statement":"Path(eval(x), returns is_ge(*args, assumptions))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e9d4dd90e74be895","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"is_ge(*args, assumptions)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(self, args, assumptions=True):
         if assumptions == True:
             # default assumptions for is_ge is None
@@ -380,14 +464,20 @@ class GreaterThanPredicate(BinaryRelation):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(StrictLessThanPredicate(*args), correctly constructs a StrictLessThanPredicate instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ StrictLessThanPredicate : Any → Any                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, BinaryRelation)               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ StrictLessThanPredicate : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a2e0300a60b902e4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.relation.equality.StrictLessThanPredicate","kind":"class","src_hash":"88a13b3b5d8c9bbd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"StrictLessThanPredicate(*args)","rhs":"correctly constructs a StrictLessThanPredicate instance","over":{"base":"Any"},"name":"StrictLessThanPredicate_class_invariant"},"guarantee":"correctly constructs a StrictLessThanPredicate instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a2e0300a60b902e4"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.relation.equality.StrictLessThanPredicate","kind":"class","src_hash":"88a13b3b5d8c9bbd","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, BinaryRelation)"},"spec":{"lhs":"StrictLessThanPredicate(*args)","rhs":"correctly constructs a StrictLessThanPredicate instance","over":{"base":"Any"},"name":"StrictLessThanPredicate_class_invariant"},"guarantee":"isinstance(self, BinaryRelation)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a2e0300a60b902e4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, BinaryRelation)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function StrictLessThanPredicate not found in source"]}}
 class StrictLessThanPredicate(BinaryRelation):
     """
     Binary predicate for $<$.
@@ -423,45 +513,63 @@ class StrictLessThanPredicate(BinaryRelation):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(reversed(), returns the reversed attribute) over Any  ║
+# ║ Path(reversed(), Q.gt) over Any                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Q.gt                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ reversed : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9de2309b7b9f27b2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.relation.equality.StrictLessThanPredicate.reversed","kind":"property","src_hash":"8d0806e9aff13d0e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"reversed()","rhs":"returns the reversed attribute","over":{"base":"Any"},"name":"reversed_correct"},"guarantee":"returns the reversed attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9de2309b7b9f27b2"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.relation.equality.StrictLessThanPredicate.reversed","kind":"property","src_hash":"8d0806e9aff13d0e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"reversed()","rhs":"Q.gt","over":{"base":"Any"},"name":"reversed_correct"},"guarantee":"returns Q.gt","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9de2309b7b9f27b2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Q.gt","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def reversed(self):
         return Q.gt
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(negated(), returns the negated attribute) over Any    ║
+# ║ Path(negated(), Q.ge) over Any                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Q.ge                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ negated : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ae0e55200e8994a3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.relation.equality.StrictLessThanPredicate.negated","kind":"property","src_hash":"db25a57aca61a595","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"negated()","rhs":"returns the negated attribute","over":{"base":"Any"},"name":"negated_correct"},"guarantee":"returns the negated attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ae0e55200e8994a3"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.relation.equality.StrictLessThanPredicate.negated","kind":"property","src_hash":"db25a57aca61a595","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"negated()","rhs":"Q.ge","over":{"base":"Any"},"name":"negated_correct"},"guarantee":"returns Q.ge","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ae0e55200e8994a3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Q.ge","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def negated(self):
         return Q.ge
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(arg), eval produces the expected output) over Any ║
+# ║ Path(eval(args, assumptions), is_lt(*args, assumptions)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  is_lt(*args, assumptions)                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ eval : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fe53818c74c2f540  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 81f1f57933768e7b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.relation.equality.StrictLessThanPredicate.eval","kind":"method","src_hash":"bb580939678f1e83","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(arg)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.relation.equality.StrictLessThanPredicate.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fe53818c74c2f540"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.relation.equality.StrictLessThanPredicate.eval","kind":"method","src_hash":"bb580939678f1e83","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(args, assumptions)","rhs":"is_lt(*args, assumptions)","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"returns is_lt(*args, assumptions)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.relation.equality.StrictLessThanPredicate.eval_correct","statement":"Path(eval(x), returns is_lt(*args, assumptions))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"81f1f57933768e7b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"is_lt(*args, assumptions)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(self, args, assumptions=True):
         if assumptions == True:
             # default assumptions for is_lt is None
@@ -472,14 +580,20 @@ class StrictLessThanPredicate(BinaryRelation):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(LessThanPredicate(*args), correctly constructs a LessThanPredicate instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ LessThanPredicate : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, BinaryRelation)               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ LessThanPredicate : Any → {Any | result satisfies: is...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 58b2f0e9de579c29  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.relation.equality.LessThanPredicate","kind":"class","src_hash":"e5e55a313e416795","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"LessThanPredicate(*args)","rhs":"correctly constructs a LessThanPredicate instance","over":{"base":"Any"},"name":"LessThanPredicate_class_invariant"},"guarantee":"correctly constructs a LessThanPredicate instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"58b2f0e9de579c29"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.relation.equality.LessThanPredicate","kind":"class","src_hash":"e5e55a313e416795","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, BinaryRelation)"},"spec":{"lhs":"LessThanPredicate(*args)","rhs":"correctly constructs a LessThanPredicate instance","over":{"base":"Any"},"name":"LessThanPredicate_class_invariant"},"guarantee":"isinstance(self, BinaryRelation)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"58b2f0e9de579c29","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, BinaryRelation)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function LessThanPredicate not found in source"]}}
 class LessThanPredicate(BinaryRelation):
     """
     Binary predicate for $<=$.
@@ -515,45 +629,63 @@ class LessThanPredicate(BinaryRelation):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(reversed(), returns the reversed attribute) over Any  ║
+# ║ Path(reversed(), Q.ge) over Any                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Q.ge                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ reversed : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2800d5a5c0458c7f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.relation.equality.LessThanPredicate.reversed","kind":"property","src_hash":"d4a6ca0708e60b2d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"reversed()","rhs":"returns the reversed attribute","over":{"base":"Any"},"name":"reversed_correct"},"guarantee":"returns the reversed attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2800d5a5c0458c7f"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.relation.equality.LessThanPredicate.reversed","kind":"property","src_hash":"d4a6ca0708e60b2d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"reversed()","rhs":"Q.ge","over":{"base":"Any"},"name":"reversed_correct"},"guarantee":"returns Q.ge","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2800d5a5c0458c7f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Q.ge","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def reversed(self):
         return Q.ge
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(negated(), returns the negated attribute) over Any    ║
+# ║ Path(negated(), Q.gt) over Any                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Q.gt                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ negated : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a1c1b204a0345b69           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.relation.equality.LessThanPredicate.negated","kind":"property","src_hash":"2dac8f2d359166c7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"negated()","rhs":"returns the negated attribute","over":{"base":"Any"},"name":"negated_correct"},"guarantee":"returns the negated attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a1c1b204a0345b69"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.relation.equality.LessThanPredicate.negated","kind":"property","src_hash":"2dac8f2d359166c7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"negated()","rhs":"Q.gt","over":{"base":"Any"},"name":"negated_correct"},"guarantee":"returns Q.gt","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a1c1b204a0345b69","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Q.gt","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def negated(self):
         return Q.gt
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(arg), eval produces the expected output) over Any ║
+# ║ Path(eval(args, assumptions), is_le(*args, assumptions)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  is_le(*args, assumptions)                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ eval : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 571177ed0f36838e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aa21d4620f3678ac  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.relation.equality.LessThanPredicate.eval","kind":"method","src_hash":"16530fda6fa11701","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(arg)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.relation.equality.LessThanPredicate.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"571177ed0f36838e"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.relation.equality.LessThanPredicate.eval","kind":"method","src_hash":"16530fda6fa11701","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(args, assumptions)","rhs":"is_le(*args, assumptions)","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"returns is_le(*args, assumptions)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.relation.equality.LessThanPredicate.eval_correct","statement":"Path(eval(x), returns is_le(*args, assumptions))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aa21d4620f3678ac","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"is_le(*args, assumptions)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(self, args, assumptions=True):
         if assumptions == True:
             # default assumptions for is_le is None

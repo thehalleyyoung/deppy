@@ -30,16 +30,24 @@ from sympy.utilities import public
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_construct_simple(coe), handle simple domains, e.g.: zz, qq, rr and algebraic domains) over Any ║
+# ║ Path(_construct_simple(coeffs, opt), <unspecified:_construct_simple>) over {Any | hasattr(opt, 'extension') and hasattr(opt, 'field')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _construct_simple : Any → Any                              ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(opt, 'extension')                      ║
+# ║   requires: hasattr(opt, 'field')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _construct_simple : {Any | hasattr(opt, 'extension') ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 65416151c86b093e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.constructor._construct_simple","kind":"function","src_hash":"3e44313958fda1e6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_construct_simple(coe)","rhs":"handle simple domains, e.g.: zz, qq, rr and algebraic domains","over":{"base":"Any"},"name":"_construct_simple_correct"},"guarantee":"handle simple domains, e.g.: zz, qq, rr and algebraic domains","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.constructor._construct_simple_correct","statement":"Path(_construct_simple(x), handle simple domains, e.g.: zz, qq, rr and algebraic domains)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"65416151c86b093e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.constructor._construct_simple","kind":"function","src_hash":"3e44313958fda1e6","in":{"base":"Any","pred":"hasattr(opt, 'extension') and hasattr(opt, 'field')"},"out":{"base":"Any"},"spec":{"lhs":"_construct_simple(coeffs, opt)","rhs":"<unspecified:_construct_simple>","over":{"base":"Any","pred":"hasattr(opt, 'extension') and hasattr(opt, 'field')"},"name":"_construct_simple_correct"},"guarantee":"handle simple domains, e.g.: zz, qq, rr and algebraic domains","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.constructor._construct_simple_correct","statement":"Path(_construct_simple(x), handle simple domains, e.g.: zz, qq, rr and algebraic domains)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"65416151c86b093e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(opt, 'extension')","hasattr(opt, 'field')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def _construct_simple(coeffs, opt):
     """Handle simple domains, e.g.: ZZ, QQ, RR and algebraic domains. """
     rationals = floats = complexes = algebraics = False
@@ -107,16 +115,22 @@ def _construct_simple(coeffs, opt):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_construct_algebraic(coe), we know that coefficients are algebraic so construct the extension) over Any ║
+# ║ Path(_construct_algebraic(coeffs, opt), len(trees) == old_len_trees + 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _construct_algebraic : Any → Any                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(trees) == old_len_trees + 1                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _construct_algebraic : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 473d8244b55c63fa  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ab696138d9c5233c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.constructor._construct_algebraic","kind":"function","src_hash":"fe66bbfc861499a9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_construct_algebraic(coe)","rhs":"we know that coefficients are algebraic so construct the extension","over":{"base":"Any"},"name":"_construct_algebraic_correct"},"guarantee":"we know that coefficients are algebraic so construct the extension","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.constructor._construct_algebraic_correct","statement":"Path(_construct_algebraic(x), we know that coefficients are algebraic so construct the extension)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"473d8244b55c63fa"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.constructor._construct_algebraic","kind":"function","src_hash":"fe66bbfc861499a9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(trees) == old_len_trees + 1"},"spec":{"lhs":"_construct_algebraic(coeffs, opt)","rhs":"len(trees) == old_len_trees + 1","over":{"base":"Any"},"name":"_construct_algebraic_correct"},"guarantee":"len(trees) == old_len_trees + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.constructor._construct_algebraic_correct","statement":"Path(_construct_algebraic(x), len(trees) == old_len_trees + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ab696138d9c5233c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(trees) == old_len_trees + 1"],"pure":false,"effects":{"effect_type":"reads_state","calls_mutating":["exts.add","trees.append"],"raises":["RuntimeError"]},"state_contract":{"modifies":["exts.*","trees.*"],"old_bindings":{"old_len_trees":"len(trees)"},"post_ensures":["len(trees) == old_len_trees + 1"],"exceptional_post":{"RuntimeError":["isinstance(raised, RuntimeError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def _construct_algebraic(coeffs, opt):
     """We know that coefficients are algebraic so construct the extension. """
     from sympy.polys.numberfields import primitive_element
@@ -168,16 +182,27 @@ def _construct_algebraic(coeffs, opt):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_construct_composite(coe), handle composite domains, e.g.: zz[x], qq[x], zz(x), qq(x)) over Any ║
+# ║ Path(_construct_composite(coeffs, opt), len(denoms) == old_len_denoms + 1 and len(float_numbers) == old_len_float_numbers + 1 and len(numers) == old_len_numers + 1 and len(result) == old_len_result + 1) over {Any | hasattr(opt, 'field') and hasattr(opt, 'composite') and hasattr(coeffs, 'update') and hasattr(coeffs, 'add')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _construct_composite : Any → Any                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(opt, 'field')                          ║
+# ║   requires: hasattr(opt, 'composite')                      ║
+# ║   requires: hasattr(coeffs, 'update')                      ║
+# ║   ensures:  len(denoms) == old_len_denoms + 1              ║
+# ║   ensures:  len(float_numbers) == old_len_float_numbe...   ║
+# ║   ensures:  len(numers) == old_len_numers + 1              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _construct_composite : {Any | hasattr(opt, 'field') a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d8702fbf2478274c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.8ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b3ab924a64bf2586  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.constructor._construct_composite","kind":"function","src_hash":"279bb35366cbad22","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_construct_composite(coe)","rhs":"handle composite domains, e.g.: zz[x], qq[x], zz(x), qq(x)","over":{"base":"Any"},"name":"_construct_composite_correct"},"guarantee":"handle composite domains, e.g.: zz[x], qq[x], zz(x), qq(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.constructor._construct_composite_correct","statement":"Path(_construct_composite(x), handle composite domains, e.g.: zz[x], qq[x], zz(x), qq(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d8702fbf2478274c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.constructor._construct_composite","kind":"function","src_hash":"279bb35366cbad22","in":{"base":"Any","pred":"hasattr(opt, 'field') and hasattr(opt, 'composite') and hasattr(coeffs, 'update') and hasattr(coeffs, 'add')"},"out":{"base":"Any","pred":"result satisfies: len(denoms) == old_len_denoms + 1 and len(float_numbers) == old_len_float_numbers + 1 and len(numers) == old_len_numers + 1 and len(result) == old_len_result + 1"},"spec":{"lhs":"_construct_composite(coeffs, opt)","rhs":"len(denoms) == old_len_denoms + 1 and len(float_numbers) == old_len_float_numbers + 1 and len(numers) == old_len_numers + 1 and len(result) == old_len_result + 1","over":{"base":"Any","pred":"hasattr(opt, 'field') and hasattr(opt, 'composite') and hasattr(coeffs, 'update') and hasattr(coeffs, 'add')"},"name":"_construct_composite_correct"},"guarantee":"len(denoms) == old_len_denoms + 1; len(float_numbers) == old_len_float_numbers + 1; len(numers) == old_len_numers + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.constructor._construct_composite_correct","statement":"Path(_construct_composite(x), len(denoms) == old_len_denoms + 1; len(float_numbers) == old_len_float_numbers + 1; len(numers) == old_len_numers + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b3ab924a64bf2586","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(opt, 'field')","hasattr(opt, 'composite')","hasattr(coeffs, 'update')","hasattr(coeffs, 'add')"],"ensures":["len(denoms) == old_len_denoms + 1","len(float_numbers) == old_len_float_numbers + 1","len(numers) == old_len_numers + 1","len(result) == old_len_result + 1"],"pure":false,"effects":{"effect_type":"mutates_args","reads":["coeffs.add","coeffs.update","opt.composite","opt.field"],"calls_mutating":["coeffs.add","coeffs.update","denoms.append","float_numbers.append","numers.append","result.append"]},"state_contract":{"modifies":["coeffs.*","denoms.*","float_numbers.*","numers.*","result.*"],"old_bindings":{"old_len_coeffs":"len(coeffs)","old_len_denoms":"len(denoms)","old_len_float_numbers":"len(float_numbers)","old_len_numers":"len(numers)","old_len_result":"len(result)"},"post_ensures":["len(denoms) == old_len_denoms + 1","len(float_numbers) == old_len_float_numbers + 1","len(numers) == old_len_numers + 1","len(result) == old_len_result + 1"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"assumed","binding":true}}
 def _construct_composite(coeffs, opt):
     """Handle composite domains, e.g.: ZZ[X], QQ[X], ZZ(X), QQ(X). """
     numers, denoms = [], []
@@ -304,16 +329,22 @@ def _construct_composite(coeffs, opt):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_construct_expression(coe), the last resort case, i.e) over Any ║
+# ║ Path(_construct_expression(coeffs, opt), (domain, result)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (domain, result)                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _construct_expression : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a81d7f94985da95d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8a2cbe58f764d2ba  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.constructor._construct_expression","kind":"function","src_hash":"beac7d59172ebe2f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_construct_expression(coe)","rhs":"the last resort case, i.e","over":{"base":"Any"},"name":"_construct_expression_correct"},"guarantee":"the last resort case, i.e","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.constructor._construct_expression_correct","statement":"Path(_construct_expression(x), the last resort case, i.e)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a81d7f94985da95d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.constructor._construct_expression","kind":"function","src_hash":"beac7d59172ebe2f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_construct_expression(coeffs, opt)","rhs":"(domain, result)","over":{"base":"Any"},"name":"_construct_expression_correct"},"guarantee":"returns (domain, result)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.constructor._construct_expression_correct","statement":"Path(_construct_expression(x), returns (domain, result))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8a2cbe58f764d2ba","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(domain, result)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _construct_expression(coeffs, opt):
     """The last resort case, i.e. use the expression domain. """
     domain, result = EX, []
@@ -326,9 +357,13 @@ def _construct_expression(coeffs, opt):
 
 @public
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(construct_domain(obj), construct a minimal domain for a list of expressions) over {Any | isinstance(obj, dict)} ║
+# ║ Path(construct_domain(obj, **args), <unspecified:construct_domain>) over {Any | isinstance(obj, dict) and hasattr(obj, 'items')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ construct_domain : {Any | isinstance(obj, dict)} → Any     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(obj, 'items')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ construct_domain : {Any | isinstance(obj, dict) and h...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   dict: {isinstance(obj, dict)} → library_axiom            ║
@@ -338,9 +373,12 @@ def _construct_expression(coeffs, opt):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.6ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 0d49185f...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.constructor.construct_domain","kind":"function","src_hash":"895a1f2aa74c9dbe","in":{"base":"Any","pred":"isinstance(obj, dict)"},"out":{"base":"Any"},"spec":{"lhs":"construct_domain(obj)","rhs":"construct a minimal domain for a list of expressions","over":{"base":"Any","pred":"isinstance(obj, dict)"},"name":"construct_domain_correct"},"guarantee":"construct a minimal domain for a list of expressions","fibers":[{"name":"dict","pred":"isinstance(obj, dict)","path":{"lhs":"construct_domain(x)","rhs":"construct a minimal domain for a list of expressions","over":{"base":"dict","pred":"isinstance(obj, dict)"},"name":"construct_domain_dict_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.constructor.construct_domain_dict_correct","statement":"construct_domain satisfies spec on dict inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"0d49185f40aa6a6e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.constructor.construct_domain","kind":"function","src_hash":"895a1f2aa74c9dbe","in":{"base":"Any","pred":"isinstance(obj, dict) and hasattr(obj, 'items')"},"out":{"base":"Any"},"spec":{"lhs":"construct_domain(obj, **args)","rhs":"<unspecified:construct_domain>","over":{"base":"Any","pred":"isinstance(obj, dict) and hasattr(obj, 'items')"},"name":"construct_domain_correct"},"guarantee":"construct a minimal domain for a list of expressions","fibers":[{"name":"dict","pred":"isinstance(obj, dict)","path":{"lhs":"construct_domain(x)","rhs":"construct a minimal domain for a list of expressions","over":{"base":"dict","pred":"isinstance(obj, dict)"},"name":"construct_domain_dict_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.constructor.construct_domain_dict_correct","statement":"construct_domain satisfies spec on dict inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"0d49185f40aa6a6e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(obj, 'items')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["obj.items"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.6,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['obj'], spec=['obj', '**args']","Poor branch-fiber coverage: 0% (branches={'isinstance(obj, dict)'}, fibers={'dict'})"]}}
 def construct_domain(obj, **args):
     """Construct a minimal domain for a list of expressions.
 

@@ -20,31 +20,43 @@ from .ast import Token
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(List(), correctly constructs a List instance) over Any ║
+# ║ Path(List(), isinstance(self, AbstractList)) over Any      ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ List : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, AbstractList)                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ List : Any → {Any | result satisfies: isinstance(self...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ea167e67c902df14           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegennodes.List","kind":"class","src_hash":"6619e993fb4434af","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"List()","rhs":"correctly constructs a List instance","over":{"base":"Any"},"name":"List_correct"},"guarantee":"correctly constructs a List instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ea167e67c902df14"}
+# @cctt_verify {"v":2,"sym":"sympy.codegennodes.List","kind":"class","src_hash":"6619e993fb4434af","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, AbstractList)"},"spec":{"lhs":"List()","rhs":"isinstance(self, AbstractList)","over":{"base":"Any"},"name":"List_correct"},"guarantee":"isinstance(self, AbstractList)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ea167e67c902df14","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, AbstractList)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function List not found in source"]}}
 class List(AbstractList):
     pass
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(NumExprEvaluate(), correctly constructs a NumExprEvaluate instance) over Any ║
+# ║ Path(NumExprEvaluate(), isinstance(self, Token)) over Any  ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ NumExprEvaluate : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Token)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ NumExprEvaluate : Any → {Any | result satisfies: isin...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3c1220cf0240a873           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegennodes.NumExprEvaluate","kind":"class","src_hash":"835397c688e7af17","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"NumExprEvaluate()","rhs":"correctly constructs a NumExprEvaluate instance","over":{"base":"Any"},"name":"NumExprEvaluate_correct"},"guarantee":"correctly constructs a NumExprEvaluate instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3c1220cf0240a873"}
+# @cctt_verify {"v":2,"sym":"sympy.codegennodes.NumExprEvaluate","kind":"class","src_hash":"835397c688e7af17","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Token)"},"spec":{"lhs":"NumExprEvaluate()","rhs":"isinstance(self, Token)","over":{"base":"Any"},"name":"NumExprEvaluate_correct"},"guarantee":"isinstance(self, Token)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3c1220cf0240a873","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Token)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function NumExprEvaluate not found in source"]}}
 class NumExprEvaluate(Token):
     """represents a call to :class:`numexpr`s :func:`evaluate`"""
     __slots__ = _fields = ('expr',)

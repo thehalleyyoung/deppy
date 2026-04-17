@@ -54,16 +54,25 @@ from sympy.solvers.ode.ode import get_numbered_constants
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(match_2nd_hypergeometric(eq,), match_2nd_hypergeometric produces the expected output) over Any ║
+# ║ Path(match_2nd_hypergeometric(eq, func), <unspecified:match_2nd_hypergeometric>) over {Any | hasattr(func, 'args') and hasattr(func, 'diff') and hasattr(eq, 'as_numer_denom')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ match_2nd_hypergeometric : Any → Any                       ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(func, 'args')                          ║
+# ║   requires: hasattr(func, 'diff')                          ║
+# ║   requires: hasattr(eq, 'as_numer_denom')                  ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ match_2nd_hypergeometric : {Any | hasattr(func, 'args...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | df65b348f559ee67  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.hypergeometric.match_2nd_hypergeometric","kind":"function","src_hash":"8ae9b980b58516c2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"match_2nd_hypergeometric(eq,)","rhs":"match_2nd_hypergeometric produces the expected output","over":{"base":"Any"},"name":"match_2nd_hypergeometric_correct"},"guarantee":"match_2nd_hypergeometric produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.hypergeometric.match_2nd_hypergeometric_correct","statement":"Path(match_2nd_hypergeometric(x), match_2nd_hypergeometric produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"df65b348f559ee67"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.hypergeometric.match_2nd_hypergeometric","kind":"function","src_hash":"8ae9b980b58516c2","in":{"base":"Any","pred":"hasattr(func, 'args') and hasattr(func, 'diff') and hasattr(eq, 'as_numer_denom')"},"out":{"base":"Any"},"spec":{"lhs":"match_2nd_hypergeometric(eq, func)","rhs":"<unspecified:match_2nd_hypergeometric>","over":{"base":"Any","pred":"hasattr(func, 'args') and hasattr(func, 'diff') and hasattr(eq, 'as_numer_denom')"},"name":"match_2nd_hypergeometric_correct"},"guarantee":"match_2nd_hypergeometric produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.hypergeometric.match_2nd_hypergeometric_correct","statement":"Path(match_2nd_hypergeometric(x), match_2nd_hypergeometric produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"df65b348f559ee67","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(func, 'args')","hasattr(func, 'diff')","hasattr(eq, 'as_numer_denom')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["eq.as_numer_denom","func.args","func.diff"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def match_2nd_hypergeometric(eq, func):
     x = func.args[0]
     df = func.diff(x)
@@ -88,7 +97,12 @@ def match_2nd_hypergeometric(eq, func):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(equivalence_hypergeometric(A, ), equivalence_hypergeometric produces the expected output) over {Any | isinstance(arg, Pow)} ║
+# ║ Path(equivalence_hypergeometric(A, B, func), <unspecified:equivalence_hypergeometric>) over {Any | isinstance(arg, Pow) and hasattr(func, 'args') and hasattr(A, 'diff')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(func, 'args')                          ║
+# ║   requires: hasattr(A, 'diff')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ equivalence_hypergeometric : {Any | isinstance(arg, P...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -100,9 +114,12 @@ def match_2nd_hypergeometric(eq, func):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 2.4ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 4eedb230...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.hypergeometric.equivalence_hypergeometric","kind":"function","src_hash":"e5a96cc5ca4559e6","in":{"base":"Any","pred":"isinstance(arg, Pow)"},"out":{"base":"Any"},"spec":{"lhs":"equivalence_hypergeometric(A, )","rhs":"equivalence_hypergeometric produces the expected output","over":{"base":"Any","pred":"isinstance(arg, Pow)"},"name":"equivalence_hypergeometric_correct"},"guarantee":"equivalence_hypergeometric produces the expected output","fibers":[{"name":"Pow","pred":"isinstance(arg, Pow)","path":{"lhs":"equivalence_hypergeometric(x)","rhs":"equivalence_hypergeometric produces the expected output","over":{"base":"Pow","pred":"isinstance(arg, Pow)"},"name":"equivalence_hypergeometric_Pow_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.hypergeometric.equivalence_hypergeometric_Pow_correct","statement":"equivalence_hypergeometric satisfies spec on Pow inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"4eedb230503b78df"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.hypergeometric.equivalence_hypergeometric","kind":"function","src_hash":"e5a96cc5ca4559e6","in":{"base":"Any","pred":"isinstance(arg, Pow) and hasattr(func, 'args') and hasattr(A, 'diff')"},"out":{"base":"Any"},"spec":{"lhs":"equivalence_hypergeometric(A, B, func)","rhs":"<unspecified:equivalence_hypergeometric>","over":{"base":"Any","pred":"isinstance(arg, Pow) and hasattr(func, 'args') and hasattr(A, 'diff')"},"name":"equivalence_hypergeometric_correct"},"guarantee":"equivalence_hypergeometric produces the expected output","fibers":[{"name":"Pow","pred":"isinstance(arg, Pow)","path":{"lhs":"equivalence_hypergeometric(x)","rhs":"equivalence_hypergeometric produces the expected output","over":{"base":"Pow","pred":"isinstance(arg, Pow)"},"name":"equivalence_hypergeometric_Pow_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.hypergeometric.equivalence_hypergeometric_Pow_correct","statement":"equivalence_hypergeometric satisfies spec on Pow inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"4eedb230503b78df","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(func, 'args')","hasattr(A, 'diff')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.4,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={\"equivalence(max_num_pow, dem_pow) == '2F1'\", 'isinstance(arg, Pow)', 'isinstance(val, Pow) and val.as_base_exp()[0] == x', 'val == x'}, fibers={'Pow'})"]}}
 def equivalence_hypergeometric(A, B, func):
     # This method for finding the equivalence is only for 2F1 type.
     # We can extend it for 1F1 and 0F1 type also.
@@ -177,16 +194,24 @@ def equivalence_hypergeometric(A, B, func):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(match_2nd_2F1_hypergeometric(I, ), match_2nd_2F1_hypergeometric produces the expected output) over Any ║
+# ║ Path(match_2nd_2F1_hypergeometric(I, k, sing_point), <unspecified:match_2nd_2F1_hypergeometric>) over {Any | hasattr(func, 'args') and hasattr(I, 'subs')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ match_2nd_2F1_hypergeometric : Any → Any                   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(func, 'args')                          ║
+# ║   requires: hasattr(I, 'subs')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ match_2nd_2F1_hypergeometric : {Any | hasattr(func, '...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aec00f50d01a1600  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.hypergeometric.match_2nd_2F1_hypergeometric","kind":"function","src_hash":"37e2718461f8b500","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"match_2nd_2F1_hypergeometric(I, )","rhs":"match_2nd_2F1_hypergeometric produces the expected output","over":{"base":"Any"},"name":"match_2nd_2F1_hypergeometric_correct"},"guarantee":"match_2nd_2F1_hypergeometric produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.hypergeometric.match_2nd_2F1_hypergeometric_correct","statement":"Path(match_2nd_2F1_hypergeometric(x), match_2nd_2F1_hypergeometric produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aec00f50d01a1600"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.hypergeometric.match_2nd_2F1_hypergeometric","kind":"function","src_hash":"37e2718461f8b500","in":{"base":"Any","pred":"hasattr(func, 'args') and hasattr(I, 'subs')"},"out":{"base":"Any"},"spec":{"lhs":"match_2nd_2F1_hypergeometric(I, k, sing_point)","rhs":"<unspecified:match_2nd_2F1_hypergeometric>","over":{"base":"Any","pred":"hasattr(func, 'args') and hasattr(I, 'subs')"},"name":"match_2nd_2F1_hypergeometric_correct"},"guarantee":"match_2nd_2F1_hypergeometric produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.hypergeometric.match_2nd_2F1_hypergeometric_correct","statement":"Path(match_2nd_2F1_hypergeometric(x), match_2nd_2F1_hypergeometric produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aec00f50d01a1600","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(func, 'args')","hasattr(I, 'subs')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"assumed","binding":true}}
 def match_2nd_2F1_hypergeometric(I, k, sing_point, func):
     x = func.args[0]
     a = Wild("a")
@@ -263,16 +288,22 @@ def match_2nd_2F1_hypergeometric(I, k, sing_point, func):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(equivalence(max), equivalence produces the expected output) over Any ║
+# ║ Path(equivalence(max_num_pow, dem_pow), <unspecified:equivalence>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ equivalence : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 689499af419cf1b9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.hypergeometric.equivalence","kind":"function","src_hash":"3b7d896a45842d0f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"equivalence(max)","rhs":"equivalence produces the expected output","over":{"base":"Any"},"name":"equivalence_correct"},"guarantee":"equivalence produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.hypergeometric.equivalence_correct","statement":"Path(equivalence(x), equivalence produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"689499af419cf1b9"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.hypergeometric.equivalence","kind":"function","src_hash":"3b7d896a45842d0f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"equivalence(max_num_pow, dem_pow)","rhs":"<unspecified:equivalence>","over":{"base":"Any"},"name":"equivalence_correct"},"guarantee":"equivalence produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.hypergeometric.equivalence_correct","statement":"Path(equivalence(x), equivalence produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"689499af419cf1b9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def equivalence(max_num_pow, dem_pow):
     # this function is made for checking the equivalence with 2F1 type of equation.
     # max_num_pow is the value of maximum power of x in numerator
@@ -295,16 +326,23 @@ def equivalence(max_num_pow, dem_pow):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_sol_2F1_hypergeometric(eq,), get_sol_2F1_hypergeometric produces the expected output) over Any ║
+# ║ Path(get_sol_2F1_hypergeometric(eq, func, match_object), <unspecified:get_sol_2F1_hypergeometric>) over {Any | hasattr(func, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ get_sol_2F1_hypergeometric : Any → Any                     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(func, 'args')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ get_sol_2F1_hypergeometric : {Any | hasattr(func, 'ar...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | abb8a025f3d4f534  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.hypergeometric.get_sol_2F1_hypergeometric","kind":"function","src_hash":"71d697d0ebc7a1c5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_sol_2F1_hypergeometric(eq,)","rhs":"get_sol_2F1_hypergeometric produces the expected output","over":{"base":"Any"},"name":"get_sol_2F1_hypergeometric_correct"},"guarantee":"get_sol_2F1_hypergeometric produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.hypergeometric.get_sol_2F1_hypergeometric_correct","statement":"Path(get_sol_2F1_hypergeometric(x), get_sol_2F1_hypergeometric produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"abb8a025f3d4f534"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.hypergeometric.get_sol_2F1_hypergeometric","kind":"function","src_hash":"71d697d0ebc7a1c5","in":{"base":"Any","pred":"hasattr(func, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"get_sol_2F1_hypergeometric(eq, func, match_object)","rhs":"<unspecified:get_sol_2F1_hypergeometric>","over":{"base":"Any","pred":"hasattr(func, 'args')"},"name":"get_sol_2F1_hypergeometric_correct"},"guarantee":"get_sol_2F1_hypergeometric produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.hypergeometric.get_sol_2F1_hypergeometric_correct","statement":"Path(get_sol_2F1_hypergeometric(x), get_sol_2F1_hypergeometric produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"abb8a025f3d4f534","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(func, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["func.args"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":true}}
 def get_sol_2F1_hypergeometric(eq, func, match_object):
     x = func.args[0]
     from sympy.simplify.hyperexpand import hyperexpand

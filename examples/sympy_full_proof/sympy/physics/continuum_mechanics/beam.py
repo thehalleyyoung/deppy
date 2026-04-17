@@ -62,14 +62,19 @@ numpy = import_module('numpy', import_kwargs={'fromlist':['arange']})
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Beam(*args), correctly constructs a Beam instance) over {Any | isinstance(second_moment, GeometryEntity) and isinstance(v, Symbol) and isinstance(self.length, Expr)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ Beam : {Any | isinstance(second_moment, GeometryEntit...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 11.7ms                        ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d8a318ee06d3eab1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam","kind":"class","src_hash":"7a50171d9361a808","in":{"base":"Any","pred":"isinstance(second_moment, GeometryEntity) and isinstance(v, Symbol) and isinstance(self.length, Expr)"},"out":{"base":"Any"},"spec":{"lhs":"Beam(*args)","rhs":"correctly constructs a Beam instance","over":{"base":"Any","pred":"isinstance(second_moment, GeometryEntity) and isinstance(v, Symbol) and isinstance(self.length, Expr)"},"name":"Beam_class_invariant"},"guarantee":"correctly constructs a Beam instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d8a318ee06d3eab1"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam","kind":"class","src_hash":"7a50171d9361a808","in":{"base":"Any","pred":"isinstance(second_moment, GeometryEntity) and isinstance(v, Symbol) and isinstance(self.length, Expr)"},"out":{"base":"Any"},"spec":{"lhs":"Beam(*args)","rhs":"correctly constructs a Beam instance","over":{"base":"Any","pred":"isinstance(second_moment, GeometryEntity) and isinstance(v, Symbol) and isinstance(self.length, Expr)"},"name":"Beam_class_invariant"},"guarantee":"preserves 23 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d8a318ee06d3eab1","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, 'length')","hasattr(self, 'elastic_modulus')","hasattr(self, 'variable')","hasattr(self, 'ild_variable')","hasattr(self, '_base_char')","hasattr(self, '_boundary_conditions')","hasattr(self, '_load')","hasattr(self, 'area')","hasattr(self, '_applied_supports')","hasattr(self, '_applied_rotation_hinges')","hasattr(self, '_applied_sliding_hinges')","hasattr(self, '_rotation_hinge_symbols')","hasattr(self, '_sliding_hinge_symbols')","hasattr(self, '_support_as_loads')","hasattr(self, '_applied_loads')","hasattr(self, '_reaction_loads')","hasattr(self, '_ild_reactions')","hasattr(self, '_ild_shear')","hasattr(self, '_ild_moment')","hasattr(self, '_original_load')","hasattr(self, '_joined_beam')","hasattr(self, 'cross_section')","hasattr(self, 'second_moment')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":11.7,"verdict_class":"assumed","binding":false,"binding_errors":["Function Beam not found in source"]}}
 class Beam:
     """
     A Beam is a structural element that is capable of withstanding load
@@ -165,16 +170,24 @@ class Beam:
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(len), initializes the instance correctly) over Any ║
+# ║ Path(__init__(length, elastic_modulus, second_moment), self.length == length and self.elastic_modulus == elastic_modulus and self.variable == variable and self.area == area and self.cross_section == second_moment and self.second_moment == second_moment) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  self.length == length                          ║
+# ║   ensures:  self.elastic_modulus == elastic_modulus        ║
+# ║   ensures:  self.variable == variable                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : Any → {Any | result satisfies: self.length...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0750a19ad1f44ce5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.__init__","kind":"method","src_hash":"a78d5fb7f1da779e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(len)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0750a19ad1f44ce5"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.__init__","kind":"method","src_hash":"a78d5fb7f1da779e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: self.length == length and self.elastic_modulus == elastic_modulus and self.variable == variable and self.area == area and self.cross_section == second_moment and self.second_moment == second_moment"},"spec":{"lhs":"__init__(length, elastic_modulus, second_moment)","rhs":"self.length == length and self.elastic_modulus == elastic_modulus and self.variable == variable and self.area == area and self.cross_section == second_moment and self.second_moment == second_moment","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"self.length == length; self.elastic_modulus == elastic_modulus; self.variable == variable","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0750a19ad1f44ce5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["self.length == length","self.elastic_modulus == elastic_modulus","self.variable == variable","self.area == area","self.cross_section == second_moment","self.second_moment == second_moment"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, length, elastic_modulus, second_moment, area=Symbol('A'), variable=Symbol('x'), base_char='C', ild_variable=Symbol('a')):
         """Initializes the class.
 
@@ -249,16 +262,22 @@ class Beam:
         self._joined_beam = False
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__str__(), returns a human-readable string) over Any  ║
+# ║ Path(__str__(), <unspecified:__str__>) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __str__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | aebed84b11c74e10           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.__str__","kind":"method","src_hash":"a280d0d573273746","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"returns a human-readable string","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"aebed84b11c74e10"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.__str__","kind":"method","src_hash":"a280d0d573273746","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"<unspecified:__str__>","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"aebed84b11c74e10","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._cross_section","self._elastic_modulus","self._length","self._second_moment"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __str__(self):
         shape_description = self._cross_section if self._cross_section else self._second_moment
         str_sol = 'Beam({}, {}, {})'.format(sstr(self._length), sstr(self._elastic_modulus), sstr(shape_description))
@@ -266,32 +285,44 @@ class Beam:
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(reaction_loads(), returns the reaction_loads attribute) over Any ║
+# ║ Path(reaction_loads(), self._reaction_loads) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._reaction_loads                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ reaction_loads : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 185033804ef7ca68           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.reaction_loads","kind":"property","src_hash":"4ad656d68e122f55","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"reaction_loads()","rhs":"returns the reaction_loads attribute","over":{"base":"Any"},"name":"reaction_loads_correct"},"guarantee":"returns the reaction_loads attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"185033804ef7ca68"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.reaction_loads","kind":"property","src_hash":"4ad656d68e122f55","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"reaction_loads()","rhs":"self._reaction_loads","over":{"base":"Any"},"name":"reaction_loads_correct"},"guarantee":"returns self._reaction_loads","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"185033804ef7ca68","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._reaction_loads","pure":false,"effects":{"effect_type":"reads_state","reads":["self._reaction_loads"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def reaction_loads(self):
         """ Returns the reaction forces in a dictionary."""
         return self._reaction_loads
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rotation_jumps(), returns the rotation_jumps attribute) over Any ║
+# ║ Path(rotation_jumps(), self._rotation_jumps) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._rotation_jumps                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ rotation_jumps : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3131e6060701f1cd           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.rotation_jumps","kind":"property","src_hash":"aec3f9db30dbb17e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rotation_jumps()","rhs":"returns the rotation_jumps attribute","over":{"base":"Any"},"name":"rotation_jumps_correct"},"guarantee":"returns the rotation_jumps attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3131e6060701f1cd"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.rotation_jumps","kind":"property","src_hash":"aec3f9db30dbb17e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rotation_jumps()","rhs":"self._rotation_jumps","over":{"base":"Any"},"name":"rotation_jumps_correct"},"guarantee":"returns self._rotation_jumps","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3131e6060701f1cd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._rotation_jumps","pure":false,"effects":{"effect_type":"reads_state","reads":["self._rotation_jumps"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def rotation_jumps(self):
         """
         Returns the value for the rotation jumps in rotation hinges in a dictionary.
@@ -302,16 +333,22 @@ class Beam:
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(deflection_jumps(), returns the deflection_jumps attribute) over Any ║
+# ║ Path(deflection_jumps(), self._deflection_jumps) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._deflection_jumps                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ deflection_jumps : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e1618e67769d52cf           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.deflection_jumps","kind":"property","src_hash":"3359b15dfbdd56a9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"deflection_jumps()","rhs":"returns the deflection_jumps attribute","over":{"base":"Any"},"name":"deflection_jumps_correct"},"guarantee":"returns the deflection_jumps attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e1618e67769d52cf"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.deflection_jumps","kind":"property","src_hash":"3359b15dfbdd56a9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"deflection_jumps()","rhs":"self._deflection_jumps","over":{"base":"Any"},"name":"deflection_jumps_correct"},"guarantee":"returns self._deflection_jumps","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e1618e67769d52cf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._deflection_jumps","pure":false,"effects":{"effect_type":"reads_state","reads":["self._deflection_jumps"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def deflection_jumps(self):
         """
         Returns the deflection jumps in sliding hinges in a dictionary.
@@ -322,48 +359,66 @@ class Beam:
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ild_shear(), returns the ild_shear attribute) over Any ║
+# ║ Path(ild_shear(), self._ild_shear) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._ild_shear                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ ild_shear : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c4b388caf29ae226           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.ild_shear","kind":"property","src_hash":"9d8317892d00650a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ild_shear()","rhs":"returns the ild_shear attribute","over":{"base":"Any"},"name":"ild_shear_correct"},"guarantee":"returns the ild_shear attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c4b388caf29ae226"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.ild_shear","kind":"property","src_hash":"9d8317892d00650a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ild_shear()","rhs":"self._ild_shear","over":{"base":"Any"},"name":"ild_shear_correct"},"guarantee":"returns self._ild_shear","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c4b388caf29ae226","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._ild_shear","pure":false,"effects":{"effect_type":"reads_state","reads":["self._ild_shear"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def ild_shear(self):
         """ Returns the I.L.D. shear equation."""
         return self._ild_shear
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ild_reactions(), returns the ild_reactions attribute) over Any ║
+# ║ Path(ild_reactions(), self._ild_reactions) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._ild_reactions                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ ild_reactions : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | dfdc97f305d17f60           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.ild_reactions","kind":"property","src_hash":"0543c879b78fd9b4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ild_reactions()","rhs":"returns the ild_reactions attribute","over":{"base":"Any"},"name":"ild_reactions_correct"},"guarantee":"returns the ild_reactions attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"dfdc97f305d17f60"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.ild_reactions","kind":"property","src_hash":"0543c879b78fd9b4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ild_reactions()","rhs":"self._ild_reactions","over":{"base":"Any"},"name":"ild_reactions_correct"},"guarantee":"returns self._ild_reactions","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"dfdc97f305d17f60","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._ild_reactions","pure":false,"effects":{"effect_type":"reads_state","reads":["self._ild_reactions"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def ild_reactions(self):
         """ Returns the I.L.D. reaction forces in a dictionary."""
         return self._ild_reactions
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ild_rotation_jumps(), returns the ild_rotation_jumps attribute) over Any ║
+# ║ Path(ild_rotation_jumps(), self._ild_rotations_jumps) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._ild_rotations_jumps                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ ild_rotation_jumps : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 474b6846d93005f5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.ild_rotation_jumps","kind":"property","src_hash":"cffd7b82c04b63be","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ild_rotation_jumps()","rhs":"returns the ild_rotation_jumps attribute","over":{"base":"Any"},"name":"ild_rotation_jumps_correct"},"guarantee":"returns the ild_rotation_jumps attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"474b6846d93005f5"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.ild_rotation_jumps","kind":"property","src_hash":"cffd7b82c04b63be","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ild_rotation_jumps()","rhs":"self._ild_rotations_jumps","over":{"base":"Any"},"name":"ild_rotation_jumps_correct"},"guarantee":"returns self._ild_rotations_jumps","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"474b6846d93005f5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._ild_rotations_jumps","pure":false,"effects":{"effect_type":"reads_state","reads":["self._ild_rotations_jumps"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def ild_rotation_jumps(self):
         """
         Returns the I.L.D. rotation jumps in rotation hinges in a dictionary.
@@ -374,16 +429,22 @@ class Beam:
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ild_deflection_jumps(), returns the ild_deflection_jumps attribute) over Any ║
+# ║ Path(ild_deflection_jumps(), self._ild_deflection_jumps) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._ild_deflection_jumps                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ ild_deflection_jumps : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f14d94a5fac5c59d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.ild_deflection_jumps","kind":"property","src_hash":"4198bcfc5079d0e5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ild_deflection_jumps()","rhs":"returns the ild_deflection_jumps attribute","over":{"base":"Any"},"name":"ild_deflection_jumps_correct"},"guarantee":"returns the ild_deflection_jumps attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f14d94a5fac5c59d"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.ild_deflection_jumps","kind":"property","src_hash":"4198bcfc5079d0e5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ild_deflection_jumps()","rhs":"self._ild_deflection_jumps","over":{"base":"Any"},"name":"ild_deflection_jumps_correct"},"guarantee":"returns self._ild_deflection_jumps","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f14d94a5fac5c59d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._ild_deflection_jumps","pure":false,"effects":{"effect_type":"reads_state","reads":["self._ild_deflection_jumps"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def ild_deflection_jumps(self):
         """
         Returns the I.L.D. deflection jumps in sliding hinges in a dictionary.
@@ -394,94 +455,130 @@ class Beam:
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ild_moment(), returns the ild_moment attribute) over Any ║
+# ║ Path(ild_moment(), self._ild_moment) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._ild_moment                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ ild_moment : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 382e0977ea9ee379           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.ild_moment","kind":"property","src_hash":"a55f50ed819fae51","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ild_moment()","rhs":"returns the ild_moment attribute","over":{"base":"Any"},"name":"ild_moment_correct"},"guarantee":"returns the ild_moment attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"382e0977ea9ee379"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.ild_moment","kind":"property","src_hash":"a55f50ed819fae51","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ild_moment()","rhs":"self._ild_moment","over":{"base":"Any"},"name":"ild_moment_correct"},"guarantee":"returns self._ild_moment","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"382e0977ea9ee379","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._ild_moment","pure":false,"effects":{"effect_type":"reads_state","reads":["self._ild_moment"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def ild_moment(self):
         """ Returns the I.L.D. moment equation."""
         return self._ild_moment
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(length(), returns the length attribute) over Any      ║
+# ║ Path(length(), self._length) over Any                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._length                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ length : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9f6ae2f124989829           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.length","kind":"property","src_hash":"3f40d424fd1bd0e8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"length()","rhs":"returns the length attribute","over":{"base":"Any"},"name":"length_correct"},"guarantee":"returns the length attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9f6ae2f124989829"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.length","kind":"property","src_hash":"3f40d424fd1bd0e8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"length()","rhs":"self._length","over":{"base":"Any"},"name":"length_correct"},"guarantee":"returns self._length","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9f6ae2f124989829","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._length","pure":false,"effects":{"effect_type":"reads_state","reads":["self._length"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def length(self):
         """Length of the Beam."""
         return self._length
 
     @length.setter
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(length(l), length produces the expected output) over Any ║
+# ║ Path(length(l), <unspecified:length>) over Any             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ length : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8b16b53253d3b128  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.length","kind":"method","src_hash":"4f2c55ed3df0a5d5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"length(l)","rhs":"length produces the expected output","over":{"base":"Any"},"name":"length_correct"},"guarantee":"length produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam.length_correct","statement":"Path(length(x), length produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8b16b53253d3b128"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.length","kind":"method","src_hash":"4f2c55ed3df0a5d5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"length(l)","rhs":"<unspecified:length>","over":{"base":"Any"},"name":"length_correct"},"guarantee":"length produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam.length_correct","statement":"Path(length(x), length produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8b16b53253d3b128","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","writes":["self._length"]},"state_contract":{"modifies":["self._length"],"old_bindings":{"old_self__length":"self._length"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def length(self, l):
         self._length = sympify(l)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(area(), returns the area attribute) over Any          ║
+# ║ Path(area(), self._area) over Any                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._area                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ area : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 14c74ccd6fb7024f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.area","kind":"property","src_hash":"ddf8f456fc682862","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"area()","rhs":"returns the area attribute","over":{"base":"Any"},"name":"area_correct"},"guarantee":"returns the area attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"14c74ccd6fb7024f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.area","kind":"property","src_hash":"ddf8f456fc682862","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"area()","rhs":"self._area","over":{"base":"Any"},"name":"area_correct"},"guarantee":"returns self._area","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"14c74ccd6fb7024f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._area","pure":false,"effects":{"effect_type":"reads_state","reads":["self._area"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def area(self):
         """Cross-sectional area of the Beam. """
         return self._area
 
     @area.setter
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(area(a), area produces the expected output) over Any  ║
+# ║ Path(area(a), <unspecified:area>) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ area : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6a0e55d43ffe8437  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.area","kind":"method","src_hash":"d0509fabe1fdba20","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"area(a)","rhs":"area produces the expected output","over":{"base":"Any"},"name":"area_correct"},"guarantee":"area produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam.area_correct","statement":"Path(area(x), area produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6a0e55d43ffe8437"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.area","kind":"method","src_hash":"d0509fabe1fdba20","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"area(a)","rhs":"<unspecified:area>","over":{"base":"Any"},"name":"area_correct"},"guarantee":"area produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam.area_correct","statement":"Path(area(x), area produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6a0e55d43ffe8437","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","writes":["self._area"]},"state_contract":{"modifies":["self._area"],"old_bindings":{"old_self__area":"self._area"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def area(self, a):
         self._area = sympify(a)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(variable(), returns the variable attribute) over Any  ║
+# ║ Path(variable(), self._variable) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._variable                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ variable : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a027fdefff6c431e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.variable","kind":"property","src_hash":"dc9e9fb2eefd1165","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"variable()","rhs":"returns the variable attribute","over":{"base":"Any"},"name":"variable_correct"},"guarantee":"returns the variable attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a027fdefff6c431e"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.variable","kind":"property","src_hash":"dc9e9fb2eefd1165","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"variable()","rhs":"self._variable","over":{"base":"Any"},"name":"variable_correct"},"guarantee":"returns self._variable","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a027fdefff6c431e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._variable","pure":false,"effects":{"effect_type":"reads_state","reads":["self._variable"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def variable(self):
         """
         A symbol that can be used as a variable along the length of the beam
@@ -510,16 +607,22 @@ class Beam:
 
     @variable.setter
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(variable(v), variable produces the expected output) over Any ║
+# ║ Path(variable(v), <unspecified:variable>) over Any         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ variable : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cc4304a4fb83298f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.variable","kind":"method","src_hash":"98cefb5c2a0ff98d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"variable(v)","rhs":"variable produces the expected output","over":{"base":"Any"},"name":"variable_correct"},"guarantee":"variable produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam.variable_correct","statement":"Path(variable(x), variable produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cc4304a4fb83298f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.variable","kind":"method","src_hash":"98cefb5c2a0ff98d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"variable(v)","rhs":"<unspecified:variable>","over":{"base":"Any"},"name":"variable_correct"},"guarantee":"variable produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam.variable_correct","statement":"Path(variable(x), variable produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cc4304a4fb83298f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","writes":["self._variable"],"raises":["TypeError"]},"state_contract":{"modifies":["self._variable"],"old_bindings":{"old_self__variable":"self._variable"},"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def variable(self, v):
         if isinstance(v, Symbol):
             self._variable = v
@@ -528,63 +631,88 @@ class Beam:
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(elastic_modulus(), returns the elastic_modulus attribute) over Any ║
+# ║ Path(elastic_modulus(), self._elastic_modulus) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._elastic_modulus                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ elastic_modulus : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | cc993d99df677545           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.elastic_modulus","kind":"property","src_hash":"2248a360e975f21e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"elastic_modulus()","rhs":"returns the elastic_modulus attribute","over":{"base":"Any"},"name":"elastic_modulus_correct"},"guarantee":"returns the elastic_modulus attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cc993d99df677545"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.elastic_modulus","kind":"property","src_hash":"2248a360e975f21e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"elastic_modulus()","rhs":"self._elastic_modulus","over":{"base":"Any"},"name":"elastic_modulus_correct"},"guarantee":"returns self._elastic_modulus","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cc993d99df677545","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._elastic_modulus","pure":false,"effects":{"effect_type":"reads_state","reads":["self._elastic_modulus"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def elastic_modulus(self):
         """Young's Modulus of the Beam. """
         return self._elastic_modulus
 
     @elastic_modulus.setter
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(elastic_modulus(e), elastic_modulus produces the expected output) over Any ║
+# ║ Path(elastic_modulus(e), <unspecified:elastic_modulus>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ elastic_modulus : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ad1ba03c89b5e8c0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.elastic_modulus","kind":"method","src_hash":"282d33720b82c5dd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"elastic_modulus(e)","rhs":"elastic_modulus produces the expected output","over":{"base":"Any"},"name":"elastic_modulus_correct"},"guarantee":"elastic_modulus produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam.elastic_modulus_correct","statement":"Path(elastic_modulus(x), elastic_modulus produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ad1ba03c89b5e8c0"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.elastic_modulus","kind":"method","src_hash":"282d33720b82c5dd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"elastic_modulus(e)","rhs":"<unspecified:elastic_modulus>","over":{"base":"Any"},"name":"elastic_modulus_correct"},"guarantee":"elastic_modulus produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam.elastic_modulus_correct","statement":"Path(elastic_modulus(x), elastic_modulus produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ad1ba03c89b5e8c0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","writes":["self._elastic_modulus"]},"state_contract":{"modifies":["self._elastic_modulus"],"old_bindings":{"old_self__elastic_modulus":"self._elastic_modulus"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def elastic_modulus(self, e):
         self._elastic_modulus = sympify(e)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(second_moment(), returns the second_moment attribute) over Any ║
+# ║ Path(second_moment(), self._second_moment) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._second_moment                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ second_moment : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8cd8af0b93394efe           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.second_moment","kind":"property","src_hash":"5558cb190ee822dd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"second_moment()","rhs":"returns the second_moment attribute","over":{"base":"Any"},"name":"second_moment_correct"},"guarantee":"returns the second_moment attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8cd8af0b93394efe"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.second_moment","kind":"property","src_hash":"5558cb190ee822dd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"second_moment()","rhs":"self._second_moment","over":{"base":"Any"},"name":"second_moment_correct"},"guarantee":"returns self._second_moment","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8cd8af0b93394efe","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._second_moment","pure":false,"effects":{"effect_type":"reads_state","reads":["self._second_moment"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def second_moment(self):
         """Second moment of area of the Beam. """
         return self._second_moment
 
     @second_moment.setter
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(second_moment(i), second_moment produces the expected output) over Any ║
+# ║ Path(second_moment(i), <unspecified:second_moment>) over {Any | not (isinstance(i, GeometryEntity))} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ second_moment : Any → Any                                  ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (isinstance(i, GeometryEntity))            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ second_moment : {Any | not (isinstance(i, GeometryEnt...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d91880d83dcd62f4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.second_moment","kind":"method","src_hash":"32898398b9315a5c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"second_moment(i)","rhs":"second_moment produces the expected output","over":{"base":"Any"},"name":"second_moment_correct"},"guarantee":"second_moment produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam.second_moment_correct","statement":"Path(second_moment(x), second_moment produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d91880d83dcd62f4"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.second_moment","kind":"method","src_hash":"32898398b9315a5c","in":{"base":"Any","pred":"not (isinstance(i, GeometryEntity))"},"out":{"base":"Any"},"spec":{"lhs":"second_moment(i)","rhs":"<unspecified:second_moment>","over":{"base":"Any","pred":"not (isinstance(i, GeometryEntity))"},"name":"second_moment_correct"},"guarantee":"second_moment produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam.second_moment_correct","statement":"Path(second_moment(x), second_moment produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d91880d83dcd62f4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (isinstance(i, GeometryEntity))"],"pure":false,"effects":{"effect_type":"mutates_self","writes":["self._cross_section","self._second_moment"],"raises":["ValueError"]},"state_contract":{"modifies":["self._cross_section","self._second_moment"],"old_bindings":{"old_self__cross_section":"self._cross_section","old_self__second_moment":"self._second_moment"},"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def second_moment(self, i):
         self._cross_section = None
         if isinstance(i, GeometryEntity):
@@ -594,32 +722,45 @@ class Beam:
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(cross_section(), returns the cross_section attribute) over Any ║
+# ║ Path(cross_section(), self._cross_section) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._cross_section                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ cross_section : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 14cd23416ee61587           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.cross_section","kind":"property","src_hash":"de49180106b91113","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"cross_section()","rhs":"returns the cross_section attribute","over":{"base":"Any"},"name":"cross_section_correct"},"guarantee":"returns the cross_section attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"14cd23416ee61587"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.cross_section","kind":"property","src_hash":"de49180106b91113","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"cross_section()","rhs":"self._cross_section","over":{"base":"Any"},"name":"cross_section_correct"},"guarantee":"returns self._cross_section","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"14cd23416ee61587","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._cross_section","pure":false,"effects":{"effect_type":"reads_state","reads":["self._cross_section"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def cross_section(self):
         """Cross-section of the beam"""
         return self._cross_section
 
     @cross_section.setter
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(cross_section(s), cross_section produces the expected output) over Any ║
+# ║ Path(cross_section(s), <unspecified:cross_section>) over {Any | hasattr(s, 'second_moment_of_area')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ cross_section : Any → Any                                  ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(s, 'second_moment_of_area')            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ cross_section : {Any | hasattr(s, 'second_moment_of_a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ca4ea10607cb2825  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.cross_section","kind":"method","src_hash":"f6efc84c4cdf8c76","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"cross_section(s)","rhs":"cross_section produces the expected output","over":{"base":"Any"},"name":"cross_section_correct"},"guarantee":"cross_section produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam.cross_section_correct","statement":"Path(cross_section(x), cross_section produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ca4ea10607cb2825"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.cross_section","kind":"method","src_hash":"f6efc84c4cdf8c76","in":{"base":"Any","pred":"hasattr(s, 'second_moment_of_area')"},"out":{"base":"Any"},"spec":{"lhs":"cross_section(s)","rhs":"<unspecified:cross_section>","over":{"base":"Any","pred":"hasattr(s, 'second_moment_of_area')"},"name":"cross_section_correct"},"guarantee":"cross_section produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam.cross_section_correct","statement":"Path(cross_section(x), cross_section produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ca4ea10607cb2825","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(s, 'second_moment_of_area')"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["s.second_moment_of_area"],"writes":["self._cross_section","self._second_moment"]},"state_contract":{"modifies":["self._cross_section","self._second_moment"],"old_bindings":{"old_self__cross_section":"self._cross_section","old_self__second_moment":"self._second_moment"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def cross_section(self, s):
         if s:
             self._second_moment = s.second_moment_of_area()[0]
@@ -627,16 +768,22 @@ class Beam:
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(boundary_conditions(), returns the boundary_conditions attribute) over Any ║
+# ║ Path(boundary_conditions(), self._boundary_conditions) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._boundary_conditions                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ boundary_conditions : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0a6ac16d8e58a1de           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.boundary_conditions","kind":"property","src_hash":"52280cc4fe79dd05","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"boundary_conditions()","rhs":"returns the boundary_conditions attribute","over":{"base":"Any"},"name":"boundary_conditions_correct"},"guarantee":"returns the boundary_conditions attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0a6ac16d8e58a1de"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.boundary_conditions","kind":"property","src_hash":"52280cc4fe79dd05","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"boundary_conditions()","rhs":"self._boundary_conditions","over":{"base":"Any"},"name":"boundary_conditions_correct"},"guarantee":"returns self._boundary_conditions","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0a6ac16d8e58a1de","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._boundary_conditions","pure":false,"effects":{"effect_type":"reads_state","reads":["self._boundary_conditions"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def boundary_conditions(self):
         """
         Returns a dictionary of boundary conditions applied on the beam.
@@ -667,135 +814,192 @@ class Beam:
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(bc_shear_force(), returns the bc_shear_force attribute) over Any ║
+# ║ Path(bc_shear_force(), self._boundary_conditions['shear_force']) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._boundary_conditions['shear_force']       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ bc_shear_force : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e2998a3a5cbdee1d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.bc_shear_force","kind":"property","src_hash":"842640587566cde5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bc_shear_force()","rhs":"returns the bc_shear_force attribute","over":{"base":"Any"},"name":"bc_shear_force_correct"},"guarantee":"returns the bc_shear_force attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e2998a3a5cbdee1d"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.bc_shear_force","kind":"property","src_hash":"842640587566cde5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bc_shear_force()","rhs":"self._boundary_conditions['shear_force']","over":{"base":"Any"},"name":"bc_shear_force_correct"},"guarantee":"returns self._boundary_conditions['shear_force']","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e2998a3a5cbdee1d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._boundary_conditions['shear_force']","pure":false,"effects":{"effect_type":"reads_state","reads":["self._boundary_conditions"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def bc_shear_force(self):
         return self._boundary_conditions['shear_force']
 
     @bc_shear_force.setter
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(bc_shear_force(sf_), bc_shear_force produces the expected output) over Any ║
+# ║ Path(bc_shear_force(sf_bcs), <unspecified:bc_shear_force>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ bc_shear_force : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f5df7c689f2b5db5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.bc_shear_force","kind":"method","src_hash":"9c6a6e4bd1975187","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bc_shear_force(sf_)","rhs":"bc_shear_force produces the expected output","over":{"base":"Any"},"name":"bc_shear_force_correct"},"guarantee":"bc_shear_force produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam.bc_shear_force_correct","statement":"Path(bc_shear_force(x), bc_shear_force produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f5df7c689f2b5db5"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.bc_shear_force","kind":"method","src_hash":"9c6a6e4bd1975187","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bc_shear_force(sf_bcs)","rhs":"<unspecified:bc_shear_force>","over":{"base":"Any"},"name":"bc_shear_force_correct"},"guarantee":"bc_shear_force produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam.bc_shear_force_correct","statement":"Path(bc_shear_force(x), bc_shear_force produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f5df7c689f2b5db5","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._boundary_conditions"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def bc_shear_force(self, sf_bcs):
         self._boundary_conditions['shear_force'] = sf_bcs
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(bc_bending_moment(), returns the bc_bending_moment attribute) over Any ║
+# ║ Path(bc_bending_moment(), self._boundary_conditions['bending_moment']) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._boundary_conditions['bending_moment']    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ bc_bending_moment : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | fdbdb7d533967c79           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.bc_bending_moment","kind":"property","src_hash":"d1f94e5a4d107737","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bc_bending_moment()","rhs":"returns the bc_bending_moment attribute","over":{"base":"Any"},"name":"bc_bending_moment_correct"},"guarantee":"returns the bc_bending_moment attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fdbdb7d533967c79"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.bc_bending_moment","kind":"property","src_hash":"d1f94e5a4d107737","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bc_bending_moment()","rhs":"self._boundary_conditions['bending_moment']","over":{"base":"Any"},"name":"bc_bending_moment_correct"},"guarantee":"returns self._boundary_conditions['bending_moment']","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fdbdb7d533967c79","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._boundary_conditions['bending_moment']","pure":false,"effects":{"effect_type":"reads_state","reads":["self._boundary_conditions"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def bc_bending_moment(self):
         return self._boundary_conditions['bending_moment']
 
     @bc_bending_moment.setter
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(bc_bending_moment(bm_), bc_bending_moment produces the expected output) over Any ║
+# ║ Path(bc_bending_moment(bm_bcs), <unspecified:bc_bending_moment>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ bc_bending_moment : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 389d9e83ffc6a9a6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.bc_bending_moment","kind":"method","src_hash":"0168ba3ec46a1755","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bc_bending_moment(bm_)","rhs":"bc_bending_moment produces the expected output","over":{"base":"Any"},"name":"bc_bending_moment_correct"},"guarantee":"bc_bending_moment produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam.bc_bending_moment_correct","statement":"Path(bc_bending_moment(x), bc_bending_moment produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"389d9e83ffc6a9a6"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.bc_bending_moment","kind":"method","src_hash":"0168ba3ec46a1755","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bc_bending_moment(bm_bcs)","rhs":"<unspecified:bc_bending_moment>","over":{"base":"Any"},"name":"bc_bending_moment_correct"},"guarantee":"bc_bending_moment produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam.bc_bending_moment_correct","statement":"Path(bc_bending_moment(x), bc_bending_moment produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"389d9e83ffc6a9a6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._boundary_conditions"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def bc_bending_moment(self, bm_bcs):
         self._boundary_conditions['bending_moment'] = bm_bcs
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(bc_slope(), returns the bc_slope attribute) over Any  ║
+# ║ Path(bc_slope(), self._boundary_conditions['slope']) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._boundary_conditions['slope']             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ bc_slope : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1c5eb0c5e5a9a03b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.bc_slope","kind":"property","src_hash":"8e36a1b63f162838","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bc_slope()","rhs":"returns the bc_slope attribute","over":{"base":"Any"},"name":"bc_slope_correct"},"guarantee":"returns the bc_slope attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1c5eb0c5e5a9a03b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.bc_slope","kind":"property","src_hash":"8e36a1b63f162838","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bc_slope()","rhs":"self._boundary_conditions['slope']","over":{"base":"Any"},"name":"bc_slope_correct"},"guarantee":"returns self._boundary_conditions['slope']","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1c5eb0c5e5a9a03b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._boundary_conditions['slope']","pure":false,"effects":{"effect_type":"reads_state","reads":["self._boundary_conditions"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def bc_slope(self):
         return self._boundary_conditions['slope']
 
     @bc_slope.setter
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(bc_slope(s_b), bc_slope produces the expected output) over Any ║
+# ║ Path(bc_slope(s_bcs), <unspecified:bc_slope>) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ bc_slope : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d5bd1fcb2e067101  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.bc_slope","kind":"method","src_hash":"7a51a83da0e5b632","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bc_slope(s_b)","rhs":"bc_slope produces the expected output","over":{"base":"Any"},"name":"bc_slope_correct"},"guarantee":"bc_slope produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam.bc_slope_correct","statement":"Path(bc_slope(x), bc_slope produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d5bd1fcb2e067101"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.bc_slope","kind":"method","src_hash":"7a51a83da0e5b632","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bc_slope(s_bcs)","rhs":"<unspecified:bc_slope>","over":{"base":"Any"},"name":"bc_slope_correct"},"guarantee":"bc_slope produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam.bc_slope_correct","statement":"Path(bc_slope(x), bc_slope produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d5bd1fcb2e067101","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._boundary_conditions"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def bc_slope(self, s_bcs):
         self._boundary_conditions['slope'] = s_bcs
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(bc_deflection(), returns the bc_deflection attribute) over Any ║
+# ║ Path(bc_deflection(), self._boundary_conditions['deflection']) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._boundary_conditions['deflection']        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ bc_deflection : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0c545c4647754884           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.bc_deflection","kind":"property","src_hash":"bb76a1667395a954","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bc_deflection()","rhs":"returns the bc_deflection attribute","over":{"base":"Any"},"name":"bc_deflection_correct"},"guarantee":"returns the bc_deflection attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0c545c4647754884"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.bc_deflection","kind":"property","src_hash":"bb76a1667395a954","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bc_deflection()","rhs":"self._boundary_conditions['deflection']","over":{"base":"Any"},"name":"bc_deflection_correct"},"guarantee":"returns self._boundary_conditions['deflection']","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0c545c4647754884","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._boundary_conditions['deflection']","pure":false,"effects":{"effect_type":"reads_state","reads":["self._boundary_conditions"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def bc_deflection(self):
         return self._boundary_conditions['deflection']
 
     @bc_deflection.setter
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(bc_deflection(d_b), bc_deflection produces the expected output) over Any ║
+# ║ Path(bc_deflection(d_bcs), <unspecified:bc_deflection>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ bc_deflection : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a43884470809d4f7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.bc_deflection","kind":"method","src_hash":"916614c89b115ee3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bc_deflection(d_b)","rhs":"bc_deflection produces the expected output","over":{"base":"Any"},"name":"bc_deflection_correct"},"guarantee":"bc_deflection produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam.bc_deflection_correct","statement":"Path(bc_deflection(x), bc_deflection produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a43884470809d4f7"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.bc_deflection","kind":"method","src_hash":"916614c89b115ee3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bc_deflection(d_bcs)","rhs":"<unspecified:bc_deflection>","over":{"base":"Any"},"name":"bc_deflection_correct"},"guarantee":"bc_deflection produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam.bc_deflection_correct","statement":"Path(bc_deflection(x), bc_deflection produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a43884470809d4f7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._boundary_conditions"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def bc_deflection(self, d_bcs):
         self._boundary_conditions['deflection'] = d_bcs
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(join(bea), this method joins two beams to make a new composite beam system. passed beam class instance is attached to the right end of calling object) over Any ║
+# ║ Path(join(beam, via), <unspecified:join>) over {Any | not (self.elastic_modulus != beam.elastic_modulus) and hasattr(beam, 'length') and hasattr(beam, 'elastic_modulus') and hasattr(beam, 'second_moment')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ join : Any → Any                                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (self.elastic_modulus != beam.elastic...   ║
+# ║   requires: hasattr(beam, 'length')                        ║
+# ║   requires: hasattr(beam, 'elastic_modulus')               ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ join : {Any | not (self.elastic_modulus != beam.elast...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7ebba503b41c98ec  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.join","kind":"method","src_hash":"e6315f9234b0a973","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"join(bea)","rhs":"this method joins two beams to make a new composite beam system. passed beam class instance is attached to the right end of calling object","over":{"base":"Any"},"name":"join_correct"},"guarantee":"this method joins two beams to make a new composite beam system. passed beam class instance is attached to the right end of calling object","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam.join_correct","statement":"Path(join(x), this method joins two beams to make a new composite beam system. passed beam class instance is attached to the right end of calling object)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7ebba503b41c98ec"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.join","kind":"method","src_hash":"e6315f9234b0a973","in":{"base":"Any","pred":"not (self.elastic_modulus != beam.elastic_modulus) and hasattr(beam, 'length') and hasattr(beam, 'elastic_modulus') and hasattr(beam, 'second_moment')"},"out":{"base":"Any"},"spec":{"lhs":"join(beam, via)","rhs":"<unspecified:join>","over":{"base":"Any","pred":"not (self.elastic_modulus != beam.elastic_modulus) and hasattr(beam, 'length') and hasattr(beam, 'elastic_modulus') and hasattr(beam, 'second_moment')"},"name":"join_correct"},"guarantee":"this method joins two beams to make a new composite beam system. passed beam class instance is attached to the right end of calling object","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam.join_correct","statement":"Path(join(x), this method joins two beams to make a new composite beam system. passed beam class instance is attached to the right end of calling object)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7ebba503b41c98ec","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (self.elastic_modulus != beam.elastic_modulus)","hasattr(beam, 'length')","hasattr(beam, 'elastic_modulus')","hasattr(beam, 'second_moment')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["beam.elastic_modulus","beam.length","beam.second_moment","self.elastic_modulus","self.length","self.second_moment","self.variable"],"raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def join(self, beam, via="fixed"):
         """
         This method joins two beams to make a new composite beam system.
@@ -863,16 +1067,22 @@ class Beam:
             return new_beam
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(apply_support(loc), this method applies support to a particular beam object and returns the symbol of the unknown reaction load(s)) over Any ║
+# ║ Path(apply_support(loc, type), len(self) == old_len_self + 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ apply_support : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(self) == old_len_self + 1                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ apply_support : Any → {Any | result satisfies: len(se...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ca836aa2883b9521  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9f08f3266aa39312  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.apply_support","kind":"method","src_hash":"927640332a8a358a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"apply_support(loc)","rhs":"this method applies support to a particular beam object and returns the symbol of the unknown reaction load(s)","over":{"base":"Any"},"name":"apply_support_correct"},"guarantee":"this method applies support to a particular beam object and returns the symbol of the unknown reaction load(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam.apply_support_correct","statement":"Path(apply_support(x), this method applies support to a particular beam object and returns the symbol of the unknown reaction load(s))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ca836aa2883b9521"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.apply_support","kind":"method","src_hash":"927640332a8a358a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(self) == old_len_self + 1"},"spec":{"lhs":"apply_support(loc, type)","rhs":"len(self) == old_len_self + 1","over":{"base":"Any"},"name":"apply_support_correct"},"guarantee":"len(self) == old_len_self + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam.apply_support_correct","statement":"Path(apply_support(x), len(self) == old_len_self + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9f08f3266aa39312","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(self) == old_len_self + 1"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self._applied_supports","self._support_as_loads","self.apply_load","self.bc_deflection","self.bc_slope"],"calls_mutating":["self._applied_supports.append","self._support_as_loads.append","self.bc_deflection.append","self.bc_slope.append"]},"state_contract":{"modifies":["self.*"],"old_bindings":{"old_len_self":"len(self)"},"post_ensures":["len(self) == old_len_self + 1","len(self) == old_len_self + 1","len(self) == old_len_self + 1","len(self) == old_len_self + 1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def apply_support(self, loc, type="fixed"):
         """
         This method applies support to a particular beam object and returns
@@ -948,16 +1158,23 @@ class Beam:
             return reaction_load, reaction_moment
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_I(loc), helper function that returns the second moment (i) at a location in the beam) over Any ║
+# ║ Path(_get_I(loc), <unspecified:_get_I>) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[Piecewise]: not isinstance(I, Piecewise) => I      ║
+# ║   fiber[Piecewise]: not (not isinstance(I, Piecewise))     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_I : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 38893753d7e67202  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c58017be7fd8e962  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam._get_I","kind":"method","src_hash":"87d756244565ecdd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_I(loc)","rhs":"helper function that returns the second moment (i) at a location in the beam","over":{"base":"Any"},"name":"_get_I_correct"},"guarantee":"helper function that returns the second moment (i) at a location in the beam","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam._get_I_correct","statement":"Path(_get_I(x), helper function that returns the second moment (i) at a location in the beam)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"38893753d7e67202"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam._get_I","kind":"method","src_hash":"87d756244565ecdd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_I(loc)","rhs":"<unspecified:_get_I>","over":{"base":"Any"},"name":"_get_I_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam._get_I_correct","statement":"Path(_get_I(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c58017be7fd8e962","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"Piecewise","guard":"not isinstance(I, Piecewise)","ensures":["result == I"],"decidability":"structural","returns_expr":"I"},{"name":"Piecewise","guard":"not (not isinstance(I, Piecewise))","ensures":[],"decidability":"structural"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.second_moment"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_I(self, loc):
         """
         Helper function that returns the Second moment (I) at a location in the beam.
@@ -971,16 +1188,22 @@ class Beam:
                     return I.args[i][0]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(apply_rotation_hinge(loc), this method applies a rotation hinge at a single location on the beam) over Any ║
+# ║ Path(apply_rotation_hinge(loc), len(self) == old_len_self + 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ apply_rotation_hinge : Any → Any                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(self) == old_len_self + 1                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ apply_rotation_hinge : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d1a1fc0396107d1b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a49f80c63af113b9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.apply_rotation_hinge","kind":"method","src_hash":"310684a5c2399436","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"apply_rotation_hinge(loc)","rhs":"this method applies a rotation hinge at a single location on the beam","over":{"base":"Any"},"name":"apply_rotation_hinge_correct"},"guarantee":"this method applies a rotation hinge at a single location on the beam","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam.apply_rotation_hinge_correct","statement":"Path(apply_rotation_hinge(x), this method applies a rotation hinge at a single location on the beam)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d1a1fc0396107d1b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.apply_rotation_hinge","kind":"method","src_hash":"310684a5c2399436","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(self) == old_len_self + 1"},"spec":{"lhs":"apply_rotation_hinge(loc)","rhs":"len(self) == old_len_self + 1","over":{"base":"Any"},"name":"apply_rotation_hinge_correct"},"guarantee":"len(self) == old_len_self + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam.apply_rotation_hinge_correct","statement":"Path(apply_rotation_hinge(x), len(self) == old_len_self + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a49f80c63af113b9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(self) == old_len_self + 1"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self._applied_rotation_hinges","self._get_I","self._rotation_hinge_symbols","self.apply_load","self.bc_bending_moment","self.elastic_modulus"],"calls_mutating":["self._applied_rotation_hinges.append","self._rotation_hinge_symbols.append","self.bc_bending_moment.append"]},"state_contract":{"modifies":["self.*"],"old_bindings":{"old_len_self":"len(self)"},"post_ensures":["len(self) == old_len_self + 1","len(self) == old_len_self + 1","len(self) == old_len_self + 1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def apply_rotation_hinge(self, loc):
         """
         This method applies a rotation hinge at a single location on the beam.
@@ -1043,16 +1266,22 @@ class Beam:
         return rotation_jump
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(apply_sliding_hinge(loc), this method applies a sliding hinge at a single location on the beam) over Any ║
+# ║ Path(apply_sliding_hinge(loc), len(self) == old_len_self + 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ apply_sliding_hinge : Any → Any                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(self) == old_len_self + 1                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ apply_sliding_hinge : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e76502701787661d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a206e4e24aacf0d4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.apply_sliding_hinge","kind":"method","src_hash":"2b06172b9cbf93c6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"apply_sliding_hinge(loc)","rhs":"this method applies a sliding hinge at a single location on the beam","over":{"base":"Any"},"name":"apply_sliding_hinge_correct"},"guarantee":"this method applies a sliding hinge at a single location on the beam","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam.apply_sliding_hinge_correct","statement":"Path(apply_sliding_hinge(x), this method applies a sliding hinge at a single location on the beam)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e76502701787661d"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.apply_sliding_hinge","kind":"method","src_hash":"2b06172b9cbf93c6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(self) == old_len_self + 1"},"spec":{"lhs":"apply_sliding_hinge(loc)","rhs":"len(self) == old_len_self + 1","over":{"base":"Any"},"name":"apply_sliding_hinge_correct"},"guarantee":"len(self) == old_len_self + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam.apply_sliding_hinge_correct","statement":"Path(apply_sliding_hinge(x), len(self) == old_len_self + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a206e4e24aacf0d4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(self) == old_len_self + 1"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self._applied_sliding_hinges","self._get_I","self._sliding_hinge_symbols","self.apply_load","self.bc_shear_force","self.elastic_modulus"],"calls_mutating":["self._applied_sliding_hinges.append","self._sliding_hinge_symbols.append","self.bc_shear_force.append"]},"state_contract":{"modifies":["self.*"],"old_bindings":{"old_len_self":"len(self)"},"post_ensures":["len(self) == old_len_self + 1","len(self) == old_len_self + 1","len(self) == old_len_self + 1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def apply_sliding_hinge(self, loc):
         """
         This method applies a sliding hinge at a single location on the beam.
@@ -1108,16 +1337,22 @@ class Beam:
         return deflection_jump
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(apply_load(val), this method adds up the loads given to a particular beam object) over Any ║
+# ║ Path(apply_load(value, start, order), len(self) == old_len_self + 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ apply_load : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(self) == old_len_self + 1                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ apply_load : Any → {Any | result satisfies: len(self)...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3370d3e777f987e7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d8fd5cf446a538ce  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.apply_load","kind":"method","src_hash":"6cb7f4e30d34af10","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"apply_load(val)","rhs":"this method adds up the loads given to a particular beam object","over":{"base":"Any"},"name":"apply_load_correct"},"guarantee":"this method adds up the loads given to a particular beam object","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam.apply_load_correct","statement":"Path(apply_load(x), this method adds up the loads given to a particular beam object)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3370d3e777f987e7"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.apply_load","kind":"method","src_hash":"6cb7f4e30d34af10","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(self) == old_len_self + 1"},"spec":{"lhs":"apply_load(value, start, order)","rhs":"len(self) == old_len_self + 1","over":{"base":"Any"},"name":"apply_load_correct"},"guarantee":"len(self) == old_len_self + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam.apply_load_correct","statement":"Path(apply_load(x), len(self) == old_len_self + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d8fd5cf446a538ce","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(self) == old_len_self + 1"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self._applied_loads","self._handle_end","self.variable"],"writes":["self._load","self._original_load"],"calls_mutating":["self._applied_loads.append"]},"state_contract":{"modifies":["self.*","self._load","self._original_load"],"old_bindings":{"old_self__load":"self._load","old_self__original_load":"self._original_load","old_len_self":"len(self)"},"post_ensures":["len(self) == old_len_self + 1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def apply_load(self, value, start, order, end=None):
         """
         This method adds up the loads given to a particular beam object.
@@ -1187,16 +1422,22 @@ class Beam:
             self._handle_end(x, value, start, order, end, type="apply")
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(remove_load(val), this method removes a particular load present on the beam object. returns a valueerror if the load passed as an argument is not present on the beam) over Any ║
+# ║ Path(remove_load(value, start, order), <unspecified:remove_load>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ remove_load : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 24be1d90373909da  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.remove_load","kind":"method","src_hash":"b064b4e3ae02028d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"remove_load(val)","rhs":"this method removes a particular load present on the beam object. returns a valueerror if the load passed as an argument is not present on the beam","over":{"base":"Any"},"name":"remove_load_correct"},"guarantee":"this method removes a particular load present on the beam object. returns a valueerror if the load passed as an argument is not present on the beam","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam.remove_load_correct","statement":"Path(remove_load(x), this method removes a particular load present on the beam object. returns a valueerror if the load passed as an argument is not present on the beam)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"24be1d90373909da"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.remove_load","kind":"method","src_hash":"b064b4e3ae02028d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"remove_load(value, start, order)","rhs":"<unspecified:remove_load>","over":{"base":"Any"},"name":"remove_load_correct"},"guarantee":"this method removes a particular load present on the beam object. returns a valueerror if the load passed as an argument is not present on the beam","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam.remove_load_correct","statement":"Path(remove_load(x), this method removes a particular load present on the beam object. returns a valueerror if the load passed as an argument is not present on the beam)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"24be1d90373909da","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._applied_loads","self._handle_end","self.variable"],"writes":["self._load","self._original_load"],"calls_mutating":["self._applied_loads.remove"],"raises":["ValueError"]},"state_contract":{"modifies":["self.*","self._load","self._original_load"],"old_bindings":{"old_self__load":"self._load","old_self__original_load":"self._original_load"},"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def remove_load(self, value, start, order, end=None):
         """
         This method removes a particular load present on the beam object.
@@ -1262,16 +1503,23 @@ class Beam:
             self._handle_end(x, value, start, order, end, type="remove")
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_handle_end(x, ), this functions handles the optional `end` value in the `apply_load` and `remove_load` functions) over Any ║
+# ║ Path(_handle_end(x, value, start), <unspecified:_handle_end>) over {Any | hasattr(order, 'is_negative')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _handle_end : Any → Any                                    ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(order, 'is_negative')                  ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _handle_end : {Any | hasattr(order, 'is_negative')} →...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b561bb8d6078c393  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam._handle_end","kind":"method","src_hash":"86f252a0e89a093e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_handle_end(x, )","rhs":"this functions handles the optional `end` value in the `apply_load` and `remove_load` functions","over":{"base":"Any"},"name":"_handle_end_correct"},"guarantee":"this functions handles the optional `end` value in the `apply_load` and `remove_load` functions","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam._handle_end_correct","statement":"Path(_handle_end(x), this functions handles the optional `end` value in the `apply_load` and `remove_load` functions)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b561bb8d6078c393"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam._handle_end","kind":"method","src_hash":"86f252a0e89a093e","in":{"base":"Any","pred":"hasattr(order, 'is_negative')"},"out":{"base":"Any"},"spec":{"lhs":"_handle_end(x, value, start)","rhs":"<unspecified:_handle_end>","over":{"base":"Any","pred":"hasattr(order, 'is_negative')"},"name":"_handle_end_correct"},"guarantee":"this functions handles the optional `end` value in the `apply_load` and `remove_load` functions","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam._handle_end_correct","statement":"Path(_handle_end(x), this functions handles the optional `end` value in the `apply_load` and `remove_load` functions)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b561bb8d6078c393","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(order, 'is_negative')"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["order.is_negative"],"writes":["self._load","self._original_load"],"raises":["ValueError"]},"state_contract":{"modifies":["self._load","self._original_load"],"old_bindings":{"old_self__load":"self._load","old_self__original_load":"self._original_load"},"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _handle_end(self, x, value, start, order, end, type):
         """
         This functions handles the optional `end` value in the
@@ -1306,16 +1554,22 @@ class Beam:
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(load(), returns the load attribute) over Any          ║
+# ║ Path(load(), self._load) over Any                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._load                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ load : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3ce9651c4c2d81a6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.load","kind":"property","src_hash":"d51aaa2c12db9bf4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"load()","rhs":"returns the load attribute","over":{"base":"Any"},"name":"load_correct"},"guarantee":"returns the load attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3ce9651c4c2d81a6"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.load","kind":"property","src_hash":"d51aaa2c12db9bf4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"load()","rhs":"self._load","over":{"base":"Any"},"name":"load_correct"},"guarantee":"returns self._load","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3ce9651c4c2d81a6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._load","pure":false,"effects":{"effect_type":"reads_state","reads":["self._load"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def load(self):
         """
         Returns a Singularity Function expression which represents
@@ -1344,16 +1598,22 @@ class Beam:
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(applied_loads(), returns the applied_loads attribute) over Any ║
+# ║ Path(applied_loads(), self._applied_loads) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._applied_loads                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ applied_loads : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 940fd51555e401e8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.applied_loads","kind":"property","src_hash":"eb5f2ce9ccc1c599","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"applied_loads()","rhs":"returns the applied_loads attribute","over":{"base":"Any"},"name":"applied_loads_correct"},"guarantee":"returns the applied_loads attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"940fd51555e401e8"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.applied_loads","kind":"property","src_hash":"eb5f2ce9ccc1c599","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"applied_loads()","rhs":"self._applied_loads","over":{"base":"Any"},"name":"applied_loads_correct"},"guarantee":"returns self._applied_loads","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"940fd51555e401e8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._applied_loads","pure":false,"effects":{"effect_type":"reads_state","reads":["self._applied_loads"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def applied_loads(self):
         """
         Returns a list of all loads applied on the beam object.
@@ -1382,16 +1642,24 @@ class Beam:
         return self._applied_loads
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(solve_for_reaction_loads(*re), solves for the reaction forces) over Any ║
+# ║ Path(solve_for_reaction_loads(*reactions), len(bending_moment_eqs) == old_len_bending_moment_eqs + 1 and len(deflection_eqs) == old_len_deflection_eqs + 1 and len(shear_force_eqs) == old_len_shear_force_eqs + 1 and len(slope_eqs) == old_len_slope_eqs + 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ solve_for_reaction_loads : Any → Any                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(bending_moment_eqs) == old_len_bendin...   ║
+# ║   ensures:  len(deflection_eqs) == old_len_deflection...   ║
+# ║   ensures:  len(shear_force_eqs) == old_len_shear_for...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ solve_for_reaction_loads : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6bd4be8b4f150ee7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 328f523f92e71ca1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.solve_for_reaction_loads","kind":"method","src_hash":"3641fe02e0923e0a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"solve_for_reaction_loads(*re)","rhs":"solves for the reaction forces","over":{"base":"Any"},"name":"solve_for_reaction_loads_correct"},"guarantee":"solves for the reaction forces","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam.solve_for_reaction_loads_correct","statement":"Path(solve_for_reaction_loads(x), solves for the reaction forces)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6bd4be8b4f150ee7"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.solve_for_reaction_loads","kind":"method","src_hash":"3641fe02e0923e0a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(bending_moment_eqs) == old_len_bending_moment_eqs + 1 and len(deflection_eqs) == old_len_deflection_eqs + 1 and len(shear_force_eqs) == old_len_shear_force_eqs + 1 and len(slope_eqs) == old_len_slope_eqs + 1"},"spec":{"lhs":"solve_for_reaction_loads(*reactions)","rhs":"len(bending_moment_eqs) == old_len_bending_moment_eqs + 1 and len(deflection_eqs) == old_len_deflection_eqs + 1 and len(shear_force_eqs) == old_len_shear_force_eqs + 1 and len(slope_eqs) == old_len_slope_eqs + 1","over":{"base":"Any"},"name":"solve_for_reaction_loads_correct"},"guarantee":"len(bending_moment_eqs) == old_len_bending_moment_eqs + 1; len(deflection_eqs) == old_len_deflection_eqs + 1; len(shear_force_eqs) == old_len_shear_force_eqs + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam.solve_for_reaction_loads_correct","statement":"Path(solve_for_reaction_loads(x), len(bending_moment_eqs) == old_len_bending_moment_eqs + 1; len(deflection_eqs) == old_len_deflection_eqs + 1; len(shear_force_eqs) == old_len_shear_force_eqs + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"328f523f92e71ca1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(bending_moment_eqs) == old_len_bending_moment_eqs + 1","len(deflection_eqs) == old_len_deflection_eqs + 1","len(shear_force_eqs) == old_len_shear_force_eqs + 1","len(slope_eqs) == old_len_slope_eqs + 1"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self._boundary_conditions","self._deflection_jumps","self._load","self._reaction_loads","self._rotation_hinge_symbols","self._rotation_jumps","self._sliding_hinge_symbols","self.bending_moment","self.length","self.shear_force","self.variable"],"writes":["self._deflection_jumps","self._load","self._reaction_loads","self._rotation_jumps"],"calls_mutating":["bending_moment_eqs.append","deflection_eqs.append","shear_force_eqs.append","slope_eqs.append"]},"state_contract":{"modifies":["bending_moment_eqs.*","deflection_eqs.*","self._deflection_jumps","self._load","self._reaction_loads","self._rotation_jumps","shear_force_eqs.*","slope_eqs.*"],"old_bindings":{"old_self__deflection_jumps":"self._deflection_jumps","old_self__load":"self._load","old_self__reaction_loads":"self._reaction_loads","old_self__rotation_jumps":"self._rotation_jumps","old_len_bending_moment_eqs":"len(bending_moment_eqs)","old_len_deflection_eqs":"len(deflection_eqs)","old_len_shear_force_eqs":"len(shear_force_eqs)","old_len_slope_eqs":"len(slope_eqs)"},"post_ensures":["len(bending_moment_eqs) == old_len_bending_moment_eqs + 1","len(deflection_eqs) == old_len_deflection_eqs + 1","len(shear_force_eqs) == old_len_shear_force_eqs + 1","len(slope_eqs) == old_len_slope_eqs + 1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def solve_for_reaction_loads(self, *reactions):
         """
         Solves for the reaction forces.
@@ -1480,16 +1748,22 @@ class Beam:
         self._load = self._load.subs(self._deflection_jumps)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(shear_force(), returns a singularity function expression which represents the shear force curve of the beam object) over Any ║
+# ║ Path(shear_force(), -integrate(self.load, x)) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  -integrate(self.load, x)                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ shear_force : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 64f511a3bd11803b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a78e07db7a4bcd4f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.shear_force","kind":"method","src_hash":"5cd386e9d0b7a1df","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"shear_force()","rhs":"returns a singularity function expression which represents the shear force curve of the beam object","over":{"base":"Any"},"name":"shear_force_correct"},"guarantee":"returns a singularity function expression which represents the shear force curve of the beam object","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam.shear_force_correct","statement":"Path(shear_force(x), returns a singularity function expression which represents the shear force curve of the beam object)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"64f511a3bd11803b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.shear_force","kind":"method","src_hash":"5cd386e9d0b7a1df","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"shear_force()","rhs":"-integrate(self.load, x)","over":{"base":"Any"},"name":"shear_force_correct"},"guarantee":"returns -integrate(self.load, x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam.shear_force_correct","statement":"Path(shear_force(x), returns -integrate(self.load, x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a78e07db7a4bcd4f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"-integrate(self.load, x)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.load","self.variable"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def shear_force(self):
         """
         Returns a Singularity Function expression which represents
@@ -1525,16 +1799,22 @@ class Beam:
         return -integrate(self.load, x)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(max_shear_force(), returns maximum shear force and its coordinate in the beam object) over Any ║
+# ║ Path(max_shear_force(), (point, maximum_shear)) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (point, maximum_shear)                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ max_shear_force : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 92f9000ef9a9f3e9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cb202e8cf70ef088  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.max_shear_force","kind":"method","src_hash":"bf61df19af36e315","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"max_shear_force()","rhs":"returns maximum shear force and its coordinate in the beam object","over":{"base":"Any"},"name":"max_shear_force_correct"},"guarantee":"returns maximum shear force and its coordinate in the beam object","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam.max_shear_force_correct","statement":"Path(max_shear_force(x), returns maximum shear force and its coordinate in the beam object)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"92f9000ef9a9f3e9"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.max_shear_force","kind":"method","src_hash":"bf61df19af36e315","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"max_shear_force()","rhs":"(point, maximum_shear)","over":{"base":"Any"},"name":"max_shear_force_correct"},"guarantee":"returns (point, maximum_shear)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam.max_shear_force_correct","statement":"Path(max_shear_force(x), returns (point, maximum_shear))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cb202e8cf70ef088","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(point, maximum_shear)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def max_shear_force(self):
         """Returns maximum Shear force and its coordinate
         in the Beam object."""
@@ -1588,14 +1868,20 @@ class Beam:
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(bending_moment(), id) over Any                        ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  integrate(self.shear_force(), x)               ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ bending_moment : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | b6941d3a850f6c52   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.bending_moment","kind":"method","src_hash":"f7ee4301fc341250","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bending_moment()","rhs":"returns a singularity function expression which represents the bending moment curve of the beam object","over":{"base":"Any"},"name":"bending_moment_correct","kind":"composition"},"guarantee":"returns a singularity function expression which represents the bending moment curve of the beam object","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"integrate","by":"library_axiom"},{"fn":"shear_force","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b6941d3a850f6c52"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.bending_moment","kind":"method","src_hash":"f7ee4301fc341250","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bending_moment()","rhs":"integrate(self.shear_force(), x)","over":{"base":"Any"},"name":"bending_moment_correct","kind":"composition"},"guarantee":"returns integrate(self.shear_force(), x)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"integrate","by":"library_axiom"},{"fn":"shear_force","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b6941d3a850f6c52","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"integrate(self.shear_force(), x)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.shear_force","self.variable"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def bending_moment(self):
         """
         Returns a Singularity Function expression which represents
@@ -1631,16 +1917,22 @@ class Beam:
         return integrate(self.shear_force(), x)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(max_bmoment(), returns maximum shear force and its coordinate in the beam object) over Any ║
+# ║ Path(max_bmoment(), (point, maximum_moment)) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (point, maximum_moment)                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ max_bmoment : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c797d418cf7a7662  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3083425ee3386931  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.max_bmoment","kind":"method","src_hash":"d0307d40ca8a2ccc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"max_bmoment()","rhs":"returns maximum shear force and its coordinate in the beam object","over":{"base":"Any"},"name":"max_bmoment_correct"},"guarantee":"returns maximum shear force and its coordinate in the beam object","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam.max_bmoment_correct","statement":"Path(max_bmoment(x), returns maximum shear force and its coordinate in the beam object)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c797d418cf7a7662"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.max_bmoment","kind":"method","src_hash":"d0307d40ca8a2ccc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"max_bmoment()","rhs":"(point, maximum_moment)","over":{"base":"Any"},"name":"max_bmoment_correct"},"guarantee":"returns (point, maximum_moment)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam.max_bmoment_correct","statement":"Path(max_bmoment(x), returns (point, maximum_moment))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3083425ee3386931","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(point, maximum_moment)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def max_bmoment(self):
         """Returns maximum Shear force and its coordinate
         in the Beam object."""
@@ -1696,16 +1988,22 @@ class Beam:
         return (point, maximum_moment)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(point_cflexure(), returns a set of point(s) with zero bending moment and where bending moment curve of the beam object changes its sign from negative to positive or vice versa) over Any ║
+# ║ Path(point_cflexure(), <unspecified:point_cflexure>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ point_cflexure : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9dbf5ba31ff6f236  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.point_cflexure","kind":"method","src_hash":"b3a7ae06976fe4a1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"point_cflexure()","rhs":"returns a set of point(s) with zero bending moment and where bending moment curve of the beam object changes its sign from negative to positive or vice versa","over":{"base":"Any"},"name":"point_cflexure_correct"},"guarantee":"returns a set of point(s) with zero bending moment and where bending moment curve of the beam object changes its sign from negative to positive or vice versa","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam.point_cflexure_correct","statement":"Path(point_cflexure(x), returns a set of point(s) with zero bending moment and where bending moment curve of the beam object changes its sign from negative to positive or vice versa)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9dbf5ba31ff6f236"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.point_cflexure","kind":"method","src_hash":"b3a7ae06976fe4a1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"point_cflexure()","rhs":"<unspecified:point_cflexure>","over":{"base":"Any"},"name":"point_cflexure_correct"},"guarantee":"returns a set of point(s) with zero bending moment and where bending moment curve of the beam object changes its sign from negative to positive or vice versa","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam.point_cflexure_correct","statement":"Path(point_cflexure(x), returns a set of point(s) with zero bending moment and where bending moment curve of the beam object changes its sign from negative to positive or vice versa)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9dbf5ba31ff6f236","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.bending_moment","self.length","self.variable"],"raises":["NotImplementedError"],"catches":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def point_cflexure(self):
         """
         Returns a Set of point(s) with zero bending moment and
@@ -1759,14 +2057,20 @@ class Beam:
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(slope(), id) over Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ slope : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 55265a1d6f0dab8f   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.slope","kind":"method","src_hash":"09f98bbf3833d49d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"slope()","rhs":"returns a singularity function expression which represents the slope the elastic curve of the beam object","over":{"base":"Any"},"name":"slope_correct","kind":"composition"},"guarantee":"returns a singularity function expression which represents the slope the elastic curve of the beam object","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"diff","by":"library_axiom"},{"fn":"deflection","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"55265a1d6f0dab8f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.slope","kind":"method","src_hash":"09f98bbf3833d49d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"slope()","rhs":"<unspecified:slope>","over":{"base":"Any"},"name":"slope_correct","kind":"composition"},"guarantee":"returns a singularity function expression which represents the slope the elastic curve of the beam object","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"diff","by":"library_axiom"},{"fn":"deflection","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"55265a1d6f0dab8f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def slope(self):
         """
         Returns a Singularity Function expression which represents
@@ -1834,16 +2138,25 @@ class Beam:
         return slope_curve
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(deflection(), returns a singularity function expression which represents the elastic curve or deflection of the beam object) over Any ║
+# ║ Path(deflection(), result == S.One / (E * I) * integrate(-integrate(self.bending_moment(), x), x) + constants[0] * x + constants[1] or result == integrate(self.slope(), x) + constant or result == S.One / (E * I) * deflection_curve) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ deflection : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == S.One / (E * I) * integrate(-in...   ║
+# ║   fiber[case_0]: not self._boundary_conditions['defle...   ║
+# ║   fiber[case_1]: not self._boundary_conditions['defle...   ║
+# ║   fiber[case_2]: not self._boundary_conditions['slope...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ deflection : Any → {Any | result satisfies: result ==...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dc48975cb82e87fb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ea4f15d09eadf2ad  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.deflection","kind":"method","src_hash":"e6431dda60227028","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"deflection()","rhs":"returns a singularity function expression which represents the elastic curve or deflection of the beam object","over":{"base":"Any"},"name":"deflection_correct"},"guarantee":"returns a singularity function expression which represents the elastic curve or deflection of the beam object","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam.deflection_correct","statement":"Path(deflection(x), returns a singularity function expression which represents the elastic curve or deflection of the beam object)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dc48975cb82e87fb"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.deflection","kind":"method","src_hash":"e6431dda60227028","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == S.One / (E * I) * integrate(-integrate(self.bending_moment(), x), x) + constants[0] * x + constants[1] or result == integrate(self.slope(), x) + constant or result == S.One / (E * I) * deflection_curve"},"spec":{"lhs":"deflection()","rhs":"result == S.One / (E * I) * integrate(-integrate(self.bending_moment(), x), x) + constants[0] * x + constants[1] or result == integrate(self.slope(), x) + constant or result == S.One / (E * I) * deflection_curve","over":{"base":"Any"},"name":"deflection_correct"},"guarantee":"result == S.One / (E * I) * integrate(-integrate(self.bending_moment(), x), x) + constants[0] * x + constants[1] or result == integrate(self.slope(), x) + constant or result == S.One / (E * I) * deflection_curve; 3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam.deflection_correct","statement":"Path(deflection(x), result == S.One / (E * I) * integrate(-integrate(self.bending_moment(), x), x) + constants[0] * x + constants[1] or result == integrate(self.slope(), x) + constant or result == S.One / (E * I) * deflection_curve; 3-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ea4f15d09eadf2ad","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == S.One / (E * I) * integrate(-integrate(self.bending_moment(), x), x) + constants[0] * x + constants[1] or result == integrate(self.slope(), x) + constant or result == S.One / (E * I) * deflection_curve"],"fibers":[{"name":"case_0","guard":"not self._boundary_conditions['deflection'] and (not self._boundary_conditions['slope'])","ensures":["result == S.One / (E * I) * integrate(-integrate(self.bending_moment(), x), x) + constants[0] * x + constants[1]"],"decidability":"library","returns_expr":"S.One / (E * I) * integrate(-integrate(self.bending_moment(), x), x) + constants[0] * x + constants[1]"},{"name":"case_1","guard":"not self._boundary_conditions['deflection']","ensures":["result == integrate(self.slope(), x) + constant"],"decidability":"library","returns_expr":"integrate(self.slope(), x) + constant"},{"name":"case_2","guard":"not self._boundary_conditions['slope'] and self._boundary_conditions['deflection']","ensures":["result == S.One / (E * I) * deflection_curve"],"decidability":"library","returns_expr":"S.One / (E * I) * deflection_curve"}],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def deflection(self):
         """
         Returns a Singularity Function expression which represents
@@ -1974,16 +2287,25 @@ class Beam:
         return deflection_curve
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(max_deflection(), returns point of max deflection and its corresponding deflection value in a beam object) over Any ║
+# ║ Path(max_deflection(), result == ((points[deflections.index(max_def)], max_def) if len(deflections) != 0 else None) and result == (points[deflections.index(max_def)], max_def) or result == None) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ max_deflection : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == ((points[deflections.index(max_...   ║
+# ║   ensures:  result == (points[deflections.index(max_d...   ║
+# ║   fiber[case_0]: len(deflections) != 0 => (points[def...   ║
+# ║   fiber[case_1]: not (len(deflections) != 0) => None       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ max_deflection : Any → {Any | result satisfies: resul...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e44dd9ba1432968c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b9ae4c63ab8cf78b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.max_deflection","kind":"method","src_hash":"40510a8b3327dd4d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"max_deflection()","rhs":"returns point of max deflection and its corresponding deflection value in a beam object","over":{"base":"Any"},"name":"max_deflection_correct"},"guarantee":"returns point of max deflection and its corresponding deflection value in a beam object","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam.max_deflection_correct","statement":"Path(max_deflection(x), returns point of max deflection and its corresponding deflection value in a beam object)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e44dd9ba1432968c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.max_deflection","kind":"method","src_hash":"40510a8b3327dd4d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == ((points[deflections.index(max_def)], max_def) if len(deflections) != 0 else None) and result == (points[deflections.index(max_def)], max_def) or result == None"},"spec":{"lhs":"max_deflection()","rhs":"result == ((points[deflections.index(max_def)], max_def) if len(deflections) != 0 else None) and result == (points[deflections.index(max_def)], max_def) or result == None","over":{"base":"Any"},"name":"max_deflection_correct"},"guarantee":"result == ((points[deflections.index(max_def)], max_def) if len(deflections) != 0 else None); result == (points[deflections.index(max_def)], max_def) or result == None; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam.max_deflection_correct","statement":"Path(max_deflection(x), result == ((points[deflections.index(max_def)], max_def) if len(deflections) != 0 else None); result == (points[deflections.index(max_def)], max_def) or result == None; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b9ae4c63ab8cf78b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == ((points[deflections.index(max_def)], max_def) if len(deflections) != 0 else None)","result == (points[deflections.index(max_def)], max_def) or result == None"],"fibers":[{"name":"case_0","guard":"len(deflections) != 0","ensures":["result == (points[deflections.index(max_def)], max_def)"],"decidability":"z3","returns_expr":"(points[deflections.index(max_def)], max_def)"},{"name":"case_1","guard":"not (len(deflections) != 0)","ensures":["result == None"],"decidability":"z3","returns_expr":"None"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.deflection","self.length","self.slope","self.variable"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def max_deflection(self):
         """
         Returns point of max deflection and its corresponding deflection value
@@ -2007,16 +2329,22 @@ class Beam:
             return None
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(shear_stress(), returns an expression representing the shear stress curve of the beam object) over Any ║
+# ║ Path(shear_stress(), self.shear_force() / self._area) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.shear_force() / self._area                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ shear_stress : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9a99260c9c35812f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.shear_stress","kind":"method","src_hash":"5d5a113fa9e17e0f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"shear_stress()","rhs":"returns an expression representing the shear stress curve of the beam object","over":{"base":"Any"},"name":"shear_stress_correct"},"guarantee":"returns an expression representing the shear stress curve of the beam object","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9a99260c9c35812f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.shear_stress","kind":"method","src_hash":"5d5a113fa9e17e0f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"shear_stress()","rhs":"self.shear_force() / self._area","over":{"base":"Any"},"name":"shear_stress_correct"},"guarantee":"returns self.shear_force() / self._area","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9a99260c9c35812f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.shear_force() / self._area","pure":false,"effects":{"effect_type":"reads_state","reads":["self._area","self.shear_force"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def shear_stress(self):
         """
         Returns an expression representing the Shear Stress
@@ -2025,16 +2353,22 @@ class Beam:
         return self.shear_force()/self._area
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(plot_shear_stress(sub), returns a plot of shear stress present in the beam object) over Any ║
+# ║ Path(plot_shear_stress(subs), plot(shear_stress.subs(subs), (x, 0, length), title='Shear Stress', xlabel='$\\mathrm{x}$', ylabel='$\\tau$', line_color='r')) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  plot(shear_stress.subs(subs), (x, 0, leng...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ plot_shear_stress : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 58c70720458492b4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7f080d21549975e1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.plot_shear_stress","kind":"method","src_hash":"788f41f61a2b647b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"plot_shear_stress(sub)","rhs":"returns a plot of shear stress present in the beam object","over":{"base":"Any"},"name":"plot_shear_stress_correct"},"guarantee":"returns a plot of shear stress present in the beam object","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam.plot_shear_stress_correct","statement":"Path(plot_shear_stress(x), returns a plot of shear stress present in the beam object)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"58c70720458492b4"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.plot_shear_stress","kind":"method","src_hash":"788f41f61a2b647b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"plot_shear_stress(subs)","rhs":"plot(shear_stress.subs(subs), (x, 0, length), title='Shear Stress', xlabel='$\\\\mathrm{x}$', ylabel='$\\\\tau$', line_color='r')","over":{"base":"Any"},"name":"plot_shear_stress_correct"},"guarantee":"returns plot(shear_stress.subs(subs), (x, 0, length), title='Shear Stress', xlabel='$\\\\mathrm{x}$', ylabel='$\\\\tau$', line_color='r')","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam.plot_shear_stress_correct","statement":"Path(plot_shear_stress(x), returns plot(shear_stress.subs(subs), (x, 0, length), title='Shear Stress', xlabel='$\\\\mathrm{x}$', ylabel='$\\\\tau$', line_color='r'))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7f080d21549975e1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"plot(shear_stress.subs(subs), (x, 0, length), title='Shear Stress', xlabel='$\\\\mathrm{x}$', ylabel='$\\\\tau$', line_color='r')","pure":false,"effects":{"effect_type":"reads_state","reads":["self.length","self.shear_stress","self.variable"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def plot_shear_stress(self, subs=None):
         """
 
@@ -2100,16 +2434,22 @@ class Beam:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(plot_shear_force(sub), id) over Any                   ║
+# ║ Path(plot_shear_force(subs), id) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  plot(shear_force.subs(subs), (self.variab...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ plot_shear_force : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 52fafdc14387c9d8   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.plot_shear_force","kind":"method","src_hash":"e48227f0e55ff5b3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"plot_shear_force(sub)","rhs":"returns a plot for shear force present in the beam object","over":{"base":"Any"},"name":"plot_shear_force_correct","kind":"composition"},"guarantee":"returns a plot for shear force present in the beam object","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"plot","by":"library_axiom"},{"fn":"subs","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"52fafdc14387c9d8"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.plot_shear_force","kind":"method","src_hash":"e48227f0e55ff5b3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"plot_shear_force(subs)","rhs":"plot(shear_force.subs(subs), (self.variable, 0, length), title='Shear Force', xlabel='$\\\\mathrm{x}$', ylabel='$\\\\mathrm{V}$', line_color='g')","over":{"base":"Any"},"name":"plot_shear_force_correct","kind":"composition"},"guarantee":"returns plot(shear_force.subs(subs), (self.variable, 0, length), title='Shear Force', xlabel='$\\\\mathrm{x}$', ylabel='$\\\\mathrm{V}$', line_color='g')","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"plot","by":"library_axiom"},{"fn":"subs","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"52fafdc14387c9d8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"plot(shear_force.subs(subs), (self.variable, 0, length), title='Shear Force', xlabel='$\\\\mathrm{x}$', ylabel='$\\\\mathrm{V}$', line_color='g')","pure":false,"effects":{"effect_type":"reads_state","reads":["self.length","self.shear_force","self.variable"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def plot_shear_force(self, subs=None):
         """
 
@@ -2169,16 +2509,22 @@ class Beam:
                 xlabel=r'$\mathrm{x}$', ylabel=r'$\mathrm{V}$', line_color='g')
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(plot_bending_moment(sub), id) over Any                ║
+# ║ Path(plot_bending_moment(subs), id) over Any               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  plot(bending_moment.subs(subs), (self.var...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ plot_bending_moment : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 8dcb6e13ab72ce85   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.plot_bending_moment","kind":"method","src_hash":"b1cf8f1d48d03a16","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"plot_bending_moment(sub)","rhs":"returns a plot for bending moment present in the beam object","over":{"base":"Any"},"name":"plot_bending_moment_correct","kind":"composition"},"guarantee":"returns a plot for bending moment present in the beam object","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"plot","by":"library_axiom"},{"fn":"subs","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8dcb6e13ab72ce85"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.plot_bending_moment","kind":"method","src_hash":"b1cf8f1d48d03a16","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"plot_bending_moment(subs)","rhs":"plot(bending_moment.subs(subs), (self.variable, 0, length), title='Bending Moment', xlabel='$\\\\mathrm{x}$', ylabel='$\\\\mathrm{M}$', line_color='b')","over":{"base":"Any"},"name":"plot_bending_moment_correct","kind":"composition"},"guarantee":"returns plot(bending_moment.subs(subs), (self.variable, 0, length), title='Bending Moment', xlabel='$\\\\mathrm{x}$', ylabel='$\\\\mathrm{M}$', line_color='b')","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"plot","by":"library_axiom"},{"fn":"subs","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8dcb6e13ab72ce85","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"plot(bending_moment.subs(subs), (self.variable, 0, length), title='Bending Moment', xlabel='$\\\\mathrm{x}$', ylabel='$\\\\mathrm{M}$', line_color='b')","pure":false,"effects":{"effect_type":"reads_state","reads":["self.bending_moment","self.length","self.variable"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def plot_bending_moment(self, subs=None):
         """
 
@@ -2238,16 +2584,22 @@ class Beam:
                 xlabel=r'$\mathrm{x}$', ylabel=r'$\mathrm{M}$', line_color='b')
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(plot_slope(sub), id) over Any                         ║
+# ║ Path(plot_slope(subs), id) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  plot(slope.subs(subs), (self.variable, 0,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ plot_slope : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | c1c78d2afa8c212c   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.plot_slope","kind":"method","src_hash":"21467c3308d8d247","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"plot_slope(sub)","rhs":"returns a plot for slope of deflection curve of the beam object","over":{"base":"Any"},"name":"plot_slope_correct","kind":"composition"},"guarantee":"returns a plot for slope of deflection curve of the beam object","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"plot","by":"library_axiom"},{"fn":"subs","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c1c78d2afa8c212c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.plot_slope","kind":"method","src_hash":"21467c3308d8d247","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"plot_slope(subs)","rhs":"plot(slope.subs(subs), (self.variable, 0, length), title='Slope', xlabel='$\\\\mathrm{x}$', ylabel='$\\\\theta$', line_color='m')","over":{"base":"Any"},"name":"plot_slope_correct","kind":"composition"},"guarantee":"returns plot(slope.subs(subs), (self.variable, 0, length), title='Slope', xlabel='$\\\\mathrm{x}$', ylabel='$\\\\theta$', line_color='m')","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"plot","by":"library_axiom"},{"fn":"subs","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c1c78d2afa8c212c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"plot(slope.subs(subs), (self.variable, 0, length), title='Slope', xlabel='$\\\\mathrm{x}$', ylabel='$\\\\theta$', line_color='m')","pure":false,"effects":{"effect_type":"reads_state","reads":["self.length","self.slope","self.variable"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def plot_slope(self, subs=None):
         """
 
@@ -2307,16 +2659,22 @@ class Beam:
                 xlabel=r'$\mathrm{x}$', ylabel=r'$\theta$', line_color='m')
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(plot_deflection(sub), id) over Any                    ║
+# ║ Path(plot_deflection(subs), id) over Any                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  plot(deflection.subs(subs), (self.variabl...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ plot_deflection : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 28779839c02617ec   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.plot_deflection","kind":"method","src_hash":"2fa4e628dc169a59","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"plot_deflection(sub)","rhs":"returns a plot for deflection curve of the beam object","over":{"base":"Any"},"name":"plot_deflection_correct","kind":"composition"},"guarantee":"returns a plot for deflection curve of the beam object","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"plot","by":"library_axiom"},{"fn":"subs","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"28779839c02617ec"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.plot_deflection","kind":"method","src_hash":"2fa4e628dc169a59","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"plot_deflection(subs)","rhs":"plot(deflection.subs(subs), (self.variable, 0, length), title='Deflection', xlabel='$\\\\mathrm{x}$', ylabel='$\\\\delta$', line_color='r')","over":{"base":"Any"},"name":"plot_deflection_correct","kind":"composition"},"guarantee":"returns plot(deflection.subs(subs), (self.variable, 0, length), title='Deflection', xlabel='$\\\\mathrm{x}$', ylabel='$\\\\delta$', line_color='r')","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"plot","by":"library_axiom"},{"fn":"subs","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"28779839c02617ec","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"plot(deflection.subs(subs), (self.variable, 0, length), title='Deflection', xlabel='$\\\\mathrm{x}$', ylabel='$\\\\delta$', line_color='r')","pure":false,"effects":{"effect_type":"reads_state","reads":["self.deflection","self.length","self.variable"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def plot_deflection(self, subs=None):
         """
 
@@ -2379,16 +2737,22 @@ class Beam:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(plot_loading_results(sub), returns a subplot of shear force, bending moment, slope and deflection of the beam object) over Any ║
+# ║ Path(plot_loading_results(subs), PlotGrid(4, 1, ax1, ax2, ax3, ax4)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  PlotGrid(4, 1, ax1, ax2, ax3, ax4)             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ plot_loading_results : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 71db9f2ca9a8c532  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 82554b1058aa83b8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.plot_loading_results","kind":"method","src_hash":"02211d02b3f9d0ca","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"plot_loading_results(sub)","rhs":"returns a subplot of shear force, bending moment, slope and deflection of the beam object","over":{"base":"Any"},"name":"plot_loading_results_correct"},"guarantee":"returns a subplot of shear force, bending moment, slope and deflection of the beam object","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam.plot_loading_results_correct","statement":"Path(plot_loading_results(x), returns a subplot of shear force, bending moment, slope and deflection of the beam object)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"71db9f2ca9a8c532"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.plot_loading_results","kind":"method","src_hash":"02211d02b3f9d0ca","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"plot_loading_results(subs)","rhs":"PlotGrid(4, 1, ax1, ax2, ax3, ax4)","over":{"base":"Any"},"name":"plot_loading_results_correct"},"guarantee":"returns PlotGrid(4, 1, ax1, ax2, ax3, ax4)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam.plot_loading_results_correct","statement":"Path(plot_loading_results(x), returns PlotGrid(4, 1, ax1, ax2, ax3, ax4))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"82554b1058aa83b8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"PlotGrid(4, 1, ax1, ax2, ax3, ax4)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.bending_moment","self.deflection","self.length","self.shear_force","self.slope","self.variable"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def plot_loading_results(self, subs=None):
         """
         Returns a subplot of Shear Force, Bending Moment,
@@ -2457,16 +2821,22 @@ class Beam:
         return PlotGrid(4, 1, ax1, ax2, ax3, ax4)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_solve_for_ild_equations(val), helper function for i.l.d) over Any ║
+# ║ Path(_solve_for_ild_equations(value), (shear_force, bending_moment)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (shear_force, bending_moment)                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _solve_for_ild_equations : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a18b6a80242fc98f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 98d3fe88f4cacf23  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam._solve_for_ild_equations","kind":"method","src_hash":"d6e4ddcb45c93ed7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_solve_for_ild_equations(val)","rhs":"helper function for i.l.d","over":{"base":"Any"},"name":"_solve_for_ild_equations_correct"},"guarantee":"helper function for i.l.d","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam._solve_for_ild_equations_correct","statement":"Path(_solve_for_ild_equations(x), helper function for i.l.d)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a18b6a80242fc98f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam._solve_for_ild_equations","kind":"method","src_hash":"d6e4ddcb45c93ed7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_solve_for_ild_equations(value)","rhs":"(shear_force, bending_moment)","over":{"base":"Any"},"name":"_solve_for_ild_equations_correct"},"guarantee":"returns (shear_force, bending_moment)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam._solve_for_ild_equations_correct","statement":"Path(_solve_for_ild_equations(x), returns (shear_force, bending_moment))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"98d3fe88f4cacf23","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(shear_force, bending_moment)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._load","self.ild_variable","self.variable"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _solve_for_ild_equations(self, value):
         """
 
@@ -2483,16 +2853,24 @@ class Beam:
         return shear_force, bending_moment
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(solve_for_ild_reactions(val), determines the influence line diagram equations for reaction forces under the effect of a moving load) over Any ║
+# ║ Path(solve_for_ild_reactions(value, *reactions), len(bending_moment_eqs) == old_len_bending_moment_eqs + 1 and len(deflection_eqs) == old_len_deflection_eqs + 1 and len(shear_force_eqs) == old_len_shear_force_eqs + 1 and len(slope_eqs) == old_len_slope_eqs + 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ solve_for_ild_reactions : Any → Any                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(bending_moment_eqs) == old_len_bendin...   ║
+# ║   ensures:  len(deflection_eqs) == old_len_deflection...   ║
+# ║   ensures:  len(shear_force_eqs) == old_len_shear_for...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ solve_for_ild_reactions : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1e601e6365d3aee2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4946c32073034e3d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.solve_for_ild_reactions","kind":"method","src_hash":"8b7cb4a57e30b847","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"solve_for_ild_reactions(val)","rhs":"determines the influence line diagram equations for reaction forces under the effect of a moving load","over":{"base":"Any"},"name":"solve_for_ild_reactions_correct"},"guarantee":"determines the influence line diagram equations for reaction forces under the effect of a moving load","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam.solve_for_ild_reactions_correct","statement":"Path(solve_for_ild_reactions(x), determines the influence line diagram equations for reaction forces under the effect of a moving load)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1e601e6365d3aee2"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.solve_for_ild_reactions","kind":"method","src_hash":"8b7cb4a57e30b847","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(bending_moment_eqs) == old_len_bending_moment_eqs + 1 and len(deflection_eqs) == old_len_deflection_eqs + 1 and len(shear_force_eqs) == old_len_shear_force_eqs + 1 and len(slope_eqs) == old_len_slope_eqs + 1"},"spec":{"lhs":"solve_for_ild_reactions(value, *reactions)","rhs":"len(bending_moment_eqs) == old_len_bending_moment_eqs + 1 and len(deflection_eqs) == old_len_deflection_eqs + 1 and len(shear_force_eqs) == old_len_shear_force_eqs + 1 and len(slope_eqs) == old_len_slope_eqs + 1","over":{"base":"Any"},"name":"solve_for_ild_reactions_correct"},"guarantee":"len(bending_moment_eqs) == old_len_bending_moment_eqs + 1; len(deflection_eqs) == old_len_deflection_eqs + 1; len(shear_force_eqs) == old_len_shear_force_eqs + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam.solve_for_ild_reactions_correct","statement":"Path(solve_for_ild_reactions(x), len(bending_moment_eqs) == old_len_bending_moment_eqs + 1; len(deflection_eqs) == old_len_deflection_eqs + 1; len(shear_force_eqs) == old_len_shear_force_eqs + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4946c32073034e3d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(bending_moment_eqs) == old_len_bending_moment_eqs + 1","len(deflection_eqs) == old_len_deflection_eqs + 1","len(shear_force_eqs) == old_len_shear_force_eqs + 1","len(slope_eqs) == old_len_slope_eqs + 1"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self._boundary_conditions","self._rotation_hinge_symbols","self._sliding_hinge_symbols","self._solve_for_ild_equations","self.bending_moment","self.ild_variable","self.length","self.shear_force","self.variable"],"writes":["self._ild_deflection_jumps","self._ild_reactions","self._ild_rotations_jumps"],"calls_mutating":["bending_moment_eqs.append","deflection_eqs.append","shear_force_eqs.append","slope_eqs.append"]},"state_contract":{"modifies":["bending_moment_eqs.*","deflection_eqs.*","self._ild_deflection_jumps","self._ild_reactions","self._ild_rotations_jumps","shear_force_eqs.*","slope_eqs.*"],"old_bindings":{"old_self__ild_deflection_jumps":"self._ild_deflection_jumps","old_self__ild_reactions":"self._ild_reactions","old_self__ild_rotations_jumps":"self._ild_rotations_jumps","old_len_bending_moment_eqs":"len(bending_moment_eqs)","old_len_deflection_eqs":"len(deflection_eqs)","old_len_shear_force_eqs":"len(shear_force_eqs)","old_len_slope_eqs":"len(slope_eqs)"},"post_ensures":["len(bending_moment_eqs) == old_len_bending_moment_eqs + 1","len(deflection_eqs) == old_len_deflection_eqs + 1","len(shear_force_eqs) == old_len_shear_force_eqs + 1","len(slope_eqs) == old_len_slope_eqs + 1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def solve_for_ild_reactions(self, value, *reactions):
         """
 
@@ -2599,16 +2977,24 @@ class Beam:
         self._ild_deflection_jumps = dict(zip(deflection_jumps, deflection_solution))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(plot_ild_reactions(sub), id) over Any                 ║
+# ║ Path(plot_ild_reactions(subs), id) over {Any | self._ild_reactions} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ plot_ild_reactions : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: self._ild_reactions                            ║
+# ║   ensures:  len(ildplots) == old_len_ildplots + 1          ║
+# ║   returns:  PlotGrid(len(ildplots), 1, *ildplots)          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ plot_ild_reactions : {Any | self._ild_reactions} → {A...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 1b9645285b2e08be   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.plot_ild_reactions","kind":"method","src_hash":"9991d697f7fe1105","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"plot_ild_reactions(sub)","rhs":"plots the influence line diagram of reaction forces under the effect of a moving load","over":{"base":"Any"},"name":"plot_ild_reactions_correct","kind":"composition"},"guarantee":"plots the influence line diagram of reaction forces under the effect of a moving load","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"PlotGrid","by":"library_axiom"},{"fn":"len","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1b9645285b2e08be"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.plot_ild_reactions","kind":"method","src_hash":"9991d697f7fe1105","in":{"base":"Any","pred":"self._ild_reactions"},"out":{"base":"Any","pred":"result satisfies: result == (PlotGrid(len(ildplots), 1, *ildplots))"},"spec":{"lhs":"plot_ild_reactions(subs)","rhs":"PlotGrid(len(ildplots), 1, *ildplots)","over":{"base":"Any","pred":"self._ild_reactions"},"name":"plot_ild_reactions_correct","kind":"composition"},"guarantee":"returns PlotGrid(len(ildplots), 1, *ildplots); len(ildplots) == old_len_ildplots + 1","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"PlotGrid","by":"library_axiom"},{"fn":"len","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1b9645285b2e08be","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["self._ild_reactions"],"ensures":["len(ildplots) == old_len_ildplots + 1"],"returns_expr":"PlotGrid(len(ildplots), 1, *ildplots)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._ild_reactions","self._length","self.ild_variable"],"calls_mutating":["ildplots.append"],"raises":["ValueError"]},"state_contract":{"modifies":["ildplots.*"],"old_bindings":{"old_len_ildplots":"len(ildplots)"},"post_ensures":["len(ildplots) == old_len_ildplots + 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def plot_ild_reactions(self, subs=None):
         """
 
@@ -2695,16 +3081,22 @@ class Beam:
         return PlotGrid(len(ildplots), 1, *ildplots)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(solve_for_ild_shear(dis), determines the influence line diagram equations for shear at a specified point under the effect of a moving load) over Any ║
+# ║ Path(solve_for_ild_shear(distance, value, *reactions), <unspecified:solve_for_ild_shear>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ solve_for_ild_shear : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1207df285c7ebc7a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.solve_for_ild_shear","kind":"method","src_hash":"ce5e77e0124c9466","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"solve_for_ild_shear(dis)","rhs":"determines the influence line diagram equations for shear at a specified point under the effect of a moving load","over":{"base":"Any"},"name":"solve_for_ild_shear_correct"},"guarantee":"determines the influence line diagram equations for shear at a specified point under the effect of a moving load","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam.solve_for_ild_shear_correct","statement":"Path(solve_for_ild_shear(x), determines the influence line diagram equations for shear at a specified point under the effect of a moving load)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1207df285c7ebc7a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.solve_for_ild_shear","kind":"method","src_hash":"ce5e77e0124c9466","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"solve_for_ild_shear(distance, value, *reactions)","rhs":"<unspecified:solve_for_ild_shear>","over":{"base":"Any"},"name":"solve_for_ild_shear_correct"},"guarantee":"determines the influence line diagram equations for shear at a specified point under the effect of a moving load","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam.solve_for_ild_shear_correct","statement":"Path(solve_for_ild_shear(x), determines the influence line diagram equations for shear at a specified point under the effect of a moving load)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1207df285c7ebc7a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._ild_reactions","self._solve_for_ild_equations","self.ild_variable","self.length","self.variable"],"writes":["self._ild_shear"]},"state_contract":{"modifies":["self._ild_shear"],"old_bindings":{"old_self__ild_shear":"self._ild_shear"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def solve_for_ild_shear(self, distance, value, *reactions):
         """
 
@@ -2776,16 +3168,23 @@ class Beam:
         self._ild_shear = shear_eq
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(plot_ild_shear(sub), id) over Any                     ║
+# ║ Path(plot_ild_shear(subs), id) over {Any | self._ild_shear} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ plot_ild_shear : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: self._ild_shear                                ║
+# ║   returns:  plot(self._ild_shear.subs(subs), (a, 0, l...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ plot_ild_shear : {Any | self._ild_shear} → Any             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 5285a1a27f8cfa1b   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.plot_ild_shear","kind":"method","src_hash":"31d1208448aef7d6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"plot_ild_shear(sub)","rhs":"plots the influence line diagram for shear under the effect of a moving load","over":{"base":"Any"},"name":"plot_ild_shear_correct","kind":"composition"},"guarantee":"plots the influence line diagram for shear under the effect of a moving load","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"plot","by":"library_axiom"},{"fn":"subs","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5285a1a27f8cfa1b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.plot_ild_shear","kind":"method","src_hash":"31d1208448aef7d6","in":{"base":"Any","pred":"self._ild_shear"},"out":{"base":"Any"},"spec":{"lhs":"plot_ild_shear(subs)","rhs":"plot(self._ild_shear.subs(subs), (a, 0, l), title='I.L.D. for Shear', xlabel='$\\\\mathrm{a}$', ylabel='$\\\\mathrm{V}$', line_color='blue', show=True)","over":{"base":"Any","pred":"self._ild_shear"},"name":"plot_ild_shear_correct","kind":"composition"},"guarantee":"returns plot(self._ild_shear.subs(subs), (a, 0, l), title='I.L.D. for Shear', xlabel='$\\\\mathrm{a}$', ylabel='$\\\\mathrm{V}$', line_color='blue', show=True)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"plot","by":"library_axiom"},{"fn":"subs","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5285a1a27f8cfa1b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["self._ild_shear"],"returns_expr":"plot(self._ild_shear.subs(subs), (a, 0, l), title='I.L.D. for Shear', xlabel='$\\\\mathrm{a}$', ylabel='$\\\\mathrm{V}$', line_color='blue', show=True)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._ild_shear","self._length","self.ild_variable"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def plot_ild_shear(self,subs=None):
         """
 
@@ -2862,16 +3261,22 @@ class Beam:
                xlabel=r'$\mathrm{a}$', ylabel=r'$\mathrm{V}$', line_color='blue',show=True)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(solve_for_ild_moment(dis), determines the influence line diagram equations for moment at a specified point under the effect of a moving load) over Any ║
+# ║ Path(solve_for_ild_moment(distance, value, *reactions), <unspecified:solve_for_ild_moment>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ solve_for_ild_moment : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ab98fcea4483e453  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.solve_for_ild_moment","kind":"method","src_hash":"781e71df66a63dc0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"solve_for_ild_moment(dis)","rhs":"determines the influence line diagram equations for moment at a specified point under the effect of a moving load","over":{"base":"Any"},"name":"solve_for_ild_moment_correct"},"guarantee":"determines the influence line diagram equations for moment at a specified point under the effect of a moving load","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam.solve_for_ild_moment_correct","statement":"Path(solve_for_ild_moment(x), determines the influence line diagram equations for moment at a specified point under the effect of a moving load)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ab98fcea4483e453"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.solve_for_ild_moment","kind":"method","src_hash":"781e71df66a63dc0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"solve_for_ild_moment(distance, value, *reactions)","rhs":"<unspecified:solve_for_ild_moment>","over":{"base":"Any"},"name":"solve_for_ild_moment_correct"},"guarantee":"determines the influence line diagram equations for moment at a specified point under the effect of a moving load","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam.solve_for_ild_moment_correct","statement":"Path(solve_for_ild_moment(x), determines the influence line diagram equations for moment at a specified point under the effect of a moving load)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ab98fcea4483e453","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._ild_reactions","self._solve_for_ild_equations","self.ild_variable","self.length","self.variable"],"writes":["self._ild_moment"]},"state_contract":{"modifies":["self._ild_moment"],"old_bindings":{"old_self__ild_moment":"self._ild_moment"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def solve_for_ild_moment(self, distance, value, *reactions):
         """
 
@@ -2945,16 +3350,23 @@ class Beam:
         self._ild_moment = moment_eq
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(plot_ild_moment(sub), id) over Any                    ║
+# ║ Path(plot_ild_moment(subs), id) over {Any | self._ild_moment} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ plot_ild_moment : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: self._ild_moment                               ║
+# ║   returns:  plot(self._ild_moment.subs(subs), (a, 0, ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ plot_ild_moment : {Any | self._ild_moment} → Any           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 7f6fa22b1a3e9fc4   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.plot_ild_moment","kind":"method","src_hash":"57bda105d8a67b7f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"plot_ild_moment(sub)","rhs":"plots the influence line diagram for moment under the effect of a moving load","over":{"base":"Any"},"name":"plot_ild_moment_correct","kind":"composition"},"guarantee":"plots the influence line diagram for moment under the effect of a moving load","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"plot","by":"library_axiom"},{"fn":"subs","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7f6fa22b1a3e9fc4"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.plot_ild_moment","kind":"method","src_hash":"57bda105d8a67b7f","in":{"base":"Any","pred":"self._ild_moment"},"out":{"base":"Any"},"spec":{"lhs":"plot_ild_moment(subs)","rhs":"plot(self._ild_moment.subs(subs), (a, 0, self._length), title='I.L.D. for Moment', xlabel='$\\\\mathrm{a}$', ylabel='$\\\\mathrm{M}$', line_color='blue', show=True)","over":{"base":"Any","pred":"self._ild_moment"},"name":"plot_ild_moment_correct","kind":"composition"},"guarantee":"returns plot(self._ild_moment.subs(subs), (a, 0, self._length), title='I.L.D. for Moment', xlabel='$\\\\mathrm{a}$', ylabel='$\\\\mathrm{M}$', line_color='blue', show=True)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"plot","by":"library_axiom"},{"fn":"subs","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7f6fa22b1a3e9fc4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["self._ild_moment"],"returns_expr":"plot(self._ild_moment.subs(subs), (a, 0, self._length), title='I.L.D. for Moment', xlabel='$\\\\mathrm{a}$', ylabel='$\\\\mathrm{M}$', line_color='blue', show=True)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._ild_moment","self._length","self.ild_variable"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def plot_ild_moment(self,subs=None):
         """
 
@@ -3030,16 +3442,24 @@ class Beam:
 
     @doctest_depends_on(modules=('numpy',))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(draw(pic), returns a plot object representing the beam diagram of the beam. in particular, the diagram might include:) over Any ║
+# ║ Path(draw(pictorial), len(rectangles) == old_len_rectangles + 1) over {Any | numpy and not (not pictorial and any((len(l[0].free_symbols) > 0 and l[2] >= 0 for l in loads)))} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ draw : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: numpy                                          ║
+# ║   requires: not (not pictorial and any((len(l[0].free...   ║
+# ║   ensures:  len(rectangles) == old_len_rectangles + 1      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ draw : {Any | numpy and not (not pictorial and any((l...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6155fd8adf438326  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e8803ab973c78fc6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.draw","kind":"method","src_hash":"afc0feb06acbd0dc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"draw(pic)","rhs":"returns a plot object representing the beam diagram of the beam. in particular, the diagram might include:","over":{"base":"Any"},"name":"draw_correct"},"guarantee":"returns a plot object representing the beam diagram of the beam. in particular, the diagram might include:","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam.draw_correct","statement":"Path(draw(x), returns a plot object representing the beam diagram of the beam. in particular, the diagram might include:)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6155fd8adf438326"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam.draw","kind":"method","src_hash":"afc0feb06acbd0dc","in":{"base":"Any","pred":"numpy and not (not pictorial and any((len(l[0].free_symbols) > 0 and l[2] >= 0 for l in loads)))"},"out":{"base":"Any","pred":"result satisfies: len(rectangles) == old_len_rectangles + 1"},"spec":{"lhs":"draw(pictorial)","rhs":"len(rectangles) == old_len_rectangles + 1","over":{"base":"Any","pred":"numpy and not (not pictorial and any((len(l[0].free_symbols) > 0 and l[2] >= 0 for l in loads)))"},"name":"draw_correct"},"guarantee":"len(rectangles) == old_len_rectangles + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam.draw_correct","statement":"Path(draw(x), len(rectangles) == old_len_rectangles + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e8803ab973c78fc6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["numpy","not (not pictorial and any((len(l[0].free_symbols) > 0 and l[2] >= 0 for l in loads)))"],"ensures":["len(rectangles) == old_len_rectangles + 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._applied_rotation_hinges","self._applied_sliding_hinges","self._draw_load","self._draw_supports","self._support_as_loads","self.applied_loads","self.length","self.variable"],"calls_mutating":["rectangles.append"],"raises":["ImportError","ValueError"]},"state_contract":{"modifies":["rectangles.*"],"old_bindings":{"old_len_rectangles":"len(rectangles)"},"post_ensures":["len(rectangles) == old_len_rectangles + 1"],"exceptional_post":{"ImportError":["isinstance(raised, ImportError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def draw(self, pictorial=True):
         """
         Returns a plot object representing the beam diagram of the beam.
@@ -3173,16 +3593,25 @@ class Beam:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_is_load_negative(loa), try to determine if a load is negative or positive, using expansion and doit if necessary) over Any ║
+# ║ Path(_is_load_negative(load), <unspecified:_is_load_negative>) over {Any | hasattr(load, 'is_negative') and hasattr(load, 'is_Atom') and hasattr(load, 'doit')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _is_load_negative : Any → Any                              ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(load, 'is_negative')                   ║
+# ║   requires: hasattr(load, 'is_Atom')                       ║
+# ║   requires: hasattr(load, 'doit')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _is_load_negative : {Any | hasattr(load, 'is_negative...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2ea63ff94b5efbb8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam._is_load_negative","kind":"method","src_hash":"5c36f4676fe328d4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_is_load_negative(loa)","rhs":"try to determine if a load is negative or positive, using expansion and doit if necessary","over":{"base":"Any"},"name":"_is_load_negative_correct"},"guarantee":"try to determine if a load is negative or positive, using expansion and doit if necessary","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam._is_load_negative_correct","statement":"Path(_is_load_negative(x), try to determine if a load is negative or positive, using expansion and doit if necessary)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2ea63ff94b5efbb8"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam._is_load_negative","kind":"method","src_hash":"5c36f4676fe328d4","in":{"base":"Any","pred":"hasattr(load, 'is_negative') and hasattr(load, 'is_Atom') and hasattr(load, 'doit')"},"out":{"base":"Any"},"spec":{"lhs":"_is_load_negative(load)","rhs":"<unspecified:_is_load_negative>","over":{"base":"Any","pred":"hasattr(load, 'is_negative') and hasattr(load, 'is_Atom') and hasattr(load, 'doit')"},"name":"_is_load_negative_correct"},"guarantee":"try to determine if a load is negative or positive, using expansion and doit if necessary","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam._is_load_negative_correct","statement":"Path(_is_load_negative(x), try to determine if a load is negative or positive, using expansion and doit if necessary)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2ea63ff94b5efbb8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(load, 'is_negative')","hasattr(load, 'is_Atom')","hasattr(load, 'doit')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["load.doit","load.is_Atom","load.is_negative"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _is_load_negative(self, load):
         """Try to determine if a load is negative or positive, using
         expansion and doit if necessary.
@@ -3200,16 +3629,22 @@ class Beam:
         return load.doit().expand().is_negative
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_draw_load(pic), internal helper behaves correctly) over Any ║
+# ║ Path(_draw_load(pictorial, length, l), (annotations, markers, load_eq, load_eq1, fill)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (annotations, markers, load_eq, load_eq1,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _draw_load : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d7398678f1e008cb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 554bb00198f9d2b1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam._draw_load","kind":"method","src_hash":"0f9ecb96ce507975","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_draw_load(pic)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_draw_load_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam._draw_load_correct","statement":"Path(_draw_load(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d7398678f1e008cb"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam._draw_load","kind":"method","src_hash":"0f9ecb96ce507975","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_draw_load(pictorial, length, l)","rhs":"(annotations, markers, load_eq, load_eq1, fill)","over":{"base":"Any"},"name":"_draw_load_correct"},"guarantee":"returns (annotations, markers, load_eq, load_eq1, fill)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam._draw_load_correct","statement":"Path(_draw_load(x), returns (annotations, markers, load_eq, load_eq1, fill))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"554bb00198f9d2b1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(annotations, markers, load_eq, load_eq1, fill)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _draw_load(self, pictorial, length, l):
         loads = list(set(self.applied_loads) - set(self._support_as_loads))
         height = length/10
@@ -3330,16 +3765,22 @@ class Beam:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_draw_supports(len), internal helper behaves correctly) over Any ║
+# ║ Path(_draw_supports(length, l), (support_markers, support_rectangles)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (support_markers, support_rectangles)          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _draw_supports : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 864795ecdeff475d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b697bbdeba78a4d5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam._draw_supports","kind":"method","src_hash":"6f49b1dd6354ebf0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_draw_supports(len)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_draw_supports_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam._draw_supports_correct","statement":"Path(_draw_supports(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"864795ecdeff475d"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam._draw_supports","kind":"method","src_hash":"6f49b1dd6354ebf0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_draw_supports(length, l)","rhs":"(support_markers, support_rectangles)","over":{"base":"Any"},"name":"_draw_supports_correct"},"guarantee":"returns (support_markers, support_rectangles)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam._draw_supports_correct","statement":"Path(_draw_supports(x), returns (support_markers, support_rectangles))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b697bbdeba78a4d5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(support_markers, support_rectangles)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _draw_supports(self, length, l):
         height = float(length/10)
 
@@ -3369,14 +3810,20 @@ class Beam:
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Beam3D(*args), correctly constructs a Beam3D instance) over {Any | isinstance(i, list)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Beam3D : {Any | isinstance(i, list)} → Any                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Beam)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Beam3D : {Any | isinstance(i, list)} → {Any | result ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 5.9ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 61201b80bf1edab3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam3D","kind":"class","src_hash":"5884fc9230612354","in":{"base":"Any","pred":"isinstance(i, list)"},"out":{"base":"Any"},"spec":{"lhs":"Beam3D(*args)","rhs":"correctly constructs a Beam3D instance","over":{"base":"Any","pred":"isinstance(i, list)"},"name":"Beam3D_class_invariant"},"guarantee":"correctly constructs a Beam3D instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"61201b80bf1edab3"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam3D","kind":"class","src_hash":"5884fc9230612354","in":{"base":"Any","pred":"isinstance(i, list)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Beam)"},"spec":{"lhs":"Beam3D(*args)","rhs":"correctly constructs a Beam3D instance","over":{"base":"Any","pred":"isinstance(i, list)"},"name":"Beam3D_class_invariant"},"guarantee":"isinstance(self, Beam); preserves 9 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"61201b80bf1edab3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Beam)"],"invariants":["hasattr(self, 'shear_modulus')","hasattr(self, 'area')","hasattr(self, '_load_vector')","hasattr(self, '_moment_load_vector')","hasattr(self, '_torsion_moment')","hasattr(self, '_load_Singularity')","hasattr(self, '_slope')","hasattr(self, '_deflection')","hasattr(self, '_angular_deflection')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":5.9,"verdict_class":"assumed","binding":false,"binding_errors":["Function Beam3D not found in source"]}}
 class Beam3D(Beam):
     """
     This class handles loads applied in any direction of a 3D space along
@@ -3432,16 +3879,23 @@ class Beam3D(Beam):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(len), initializes the instance correctly) over Any ║
+# ║ Path(__init__(length, elastic_modulus, shear_modulus), self.shear_modulus == shear_modulus and self.area == area) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  self.shear_modulus == shear_modulus            ║
+# ║   ensures:  self.area == area                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : Any → {Any | result satisfies: self.shear_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 084e2b7792e0f4d0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam3D.__init__","kind":"method","src_hash":"1a0b1bde634b691c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(len)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"084e2b7792e0f4d0"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam3D.__init__","kind":"method","src_hash":"1a0b1bde634b691c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: self.shear_modulus == shear_modulus and self.area == area"},"spec":{"lhs":"__init__(length, elastic_modulus, shear_modulus)","rhs":"self.shear_modulus == shear_modulus and self.area == area","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"self.shear_modulus == shear_modulus; self.area == area","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"084e2b7792e0f4d0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["self.shear_modulus == shear_modulus","self.area == area"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, length, elastic_modulus, shear_modulus, second_moment,
                  area, variable=Symbol('x')):
         """Initializes the class.
@@ -3482,63 +3936,87 @@ class Beam3D(Beam):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(shear_modulus(), returns the shear_modulus attribute) over Any ║
+# ║ Path(shear_modulus(), self._shear_modulus) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._shear_modulus                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ shear_modulus : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 38026e94f95264a6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam3D.shear_modulus","kind":"property","src_hash":"ad84477093eecc26","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"shear_modulus()","rhs":"returns the shear_modulus attribute","over":{"base":"Any"},"name":"shear_modulus_correct"},"guarantee":"returns the shear_modulus attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"38026e94f95264a6"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam3D.shear_modulus","kind":"property","src_hash":"ad84477093eecc26","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"shear_modulus()","rhs":"self._shear_modulus","over":{"base":"Any"},"name":"shear_modulus_correct"},"guarantee":"returns self._shear_modulus","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"38026e94f95264a6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._shear_modulus","pure":false,"effects":{"effect_type":"reads_state","reads":["self._shear_modulus"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def shear_modulus(self):
         """Young's Modulus of the Beam. """
         return self._shear_modulus
 
     @shear_modulus.setter
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(shear_modulus(e), shear_modulus produces the expected output) over Any ║
+# ║ Path(shear_modulus(e), <unspecified:shear_modulus>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ shear_modulus : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 452a4e4c25d86a35  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam3D.shear_modulus","kind":"method","src_hash":"d370ba231d3f199c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"shear_modulus(e)","rhs":"shear_modulus produces the expected output","over":{"base":"Any"},"name":"shear_modulus_correct"},"guarantee":"shear_modulus produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam3D.shear_modulus_correct","statement":"Path(shear_modulus(x), shear_modulus produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"452a4e4c25d86a35"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam3D.shear_modulus","kind":"method","src_hash":"d370ba231d3f199c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"shear_modulus(e)","rhs":"<unspecified:shear_modulus>","over":{"base":"Any"},"name":"shear_modulus_correct"},"guarantee":"shear_modulus produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam3D.shear_modulus_correct","statement":"Path(shear_modulus(x), shear_modulus produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"452a4e4c25d86a35","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","writes":["self._shear_modulus"]},"state_contract":{"modifies":["self._shear_modulus"],"old_bindings":{"old_self__shear_modulus":"self._shear_modulus"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def shear_modulus(self, e):
         self._shear_modulus = sympify(e)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(second_moment(), returns the second_moment attribute) over Any ║
+# ║ Path(second_moment(), self._second_moment) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._second_moment                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ second_moment : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0648254c7b15accf           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam3D.second_moment","kind":"property","src_hash":"5558cb190ee822dd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"second_moment()","rhs":"returns the second_moment attribute","over":{"base":"Any"},"name":"second_moment_correct"},"guarantee":"returns the second_moment attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0648254c7b15accf"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam3D.second_moment","kind":"property","src_hash":"5558cb190ee822dd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"second_moment()","rhs":"self._second_moment","over":{"base":"Any"},"name":"second_moment_correct"},"guarantee":"returns self._second_moment","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0648254c7b15accf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._second_moment","pure":false,"effects":{"effect_type":"reads_state","reads":["self._second_moment"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def second_moment(self):
         """Second moment of area of the Beam. """
         return self._second_moment
 
     @second_moment.setter
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(second_moment(i), second_moment produces the expected output) over Any ║
+# ║ Path(second_moment(i), <unspecified:second_moment>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ second_moment : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a86d3568363bcfd1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam3D.second_moment","kind":"method","src_hash":"1e64e0bb21182f40","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"second_moment(i)","rhs":"second_moment produces the expected output","over":{"base":"Any"},"name":"second_moment_correct"},"guarantee":"second_moment produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam3D.second_moment_correct","statement":"Path(second_moment(x), second_moment produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a86d3568363bcfd1"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam3D.second_moment","kind":"method","src_hash":"1e64e0bb21182f40","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"second_moment(i)","rhs":"<unspecified:second_moment>","over":{"base":"Any"},"name":"second_moment_correct"},"guarantee":"second_moment produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam3D.second_moment_correct","statement":"Path(second_moment(x), second_moment produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a86d3568363bcfd1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","writes":["self._second_moment"]},"state_contract":{"modifies":["self._second_moment"],"old_bindings":{"old_self__second_moment":"self._second_moment"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def second_moment(self, i):
         if isinstance(i, list):
             i = [sympify(x) for x in i]
@@ -3548,47 +4026,65 @@ class Beam3D(Beam):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(area(), returns the area attribute) over Any          ║
+# ║ Path(area(), self._area) over Any                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._area                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ area : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 63dd82932d46f3ec           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam3D.area","kind":"property","src_hash":"ddf8f456fc682862","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"area()","rhs":"returns the area attribute","over":{"base":"Any"},"name":"area_correct"},"guarantee":"returns the area attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"63dd82932d46f3ec"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam3D.area","kind":"property","src_hash":"ddf8f456fc682862","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"area()","rhs":"self._area","over":{"base":"Any"},"name":"area_correct"},"guarantee":"returns self._area","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"63dd82932d46f3ec","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._area","pure":false,"effects":{"effect_type":"reads_state","reads":["self._area"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def area(self):
         """Cross-sectional area of the Beam. """
         return self._area
 
     @area.setter
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(area(a), area produces the expected output) over Any  ║
+# ║ Path(area(a), <unspecified:area>) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ area : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c02231357e9a50cd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam3D.area","kind":"method","src_hash":"d0509fabe1fdba20","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"area(a)","rhs":"area produces the expected output","over":{"base":"Any"},"name":"area_correct"},"guarantee":"area produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam3D.area_correct","statement":"Path(area(x), area produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c02231357e9a50cd"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam3D.area","kind":"method","src_hash":"d0509fabe1fdba20","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"area(a)","rhs":"<unspecified:area>","over":{"base":"Any"},"name":"area_correct"},"guarantee":"area produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam3D.area_correct","statement":"Path(area(x), area produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c02231357e9a50cd","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","writes":["self._area"]},"state_contract":{"modifies":["self._area"],"old_bindings":{"old_self__area":"self._area"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def area(self, a):
         self._area = sympify(a)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(load_vector(), returns the load_vector attribute) over Any ║
+# ║ Path(load_vector(), self._load_vector) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._load_vector                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ load_vector : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4e65910209d32222           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam3D.load_vector","kind":"property","src_hash":"36d8253f44ca0ce5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"load_vector()","rhs":"returns the load_vector attribute","over":{"base":"Any"},"name":"load_vector_correct"},"guarantee":"returns the load_vector attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4e65910209d32222"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam3D.load_vector","kind":"property","src_hash":"36d8253f44ca0ce5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"load_vector()","rhs":"self._load_vector","over":{"base":"Any"},"name":"load_vector_correct"},"guarantee":"returns self._load_vector","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4e65910209d32222","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._load_vector","pure":false,"effects":{"effect_type":"reads_state","reads":["self._load_vector"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def load_vector(self):
         """
         Returns a three element list representing the load vector.
@@ -3597,16 +4093,22 @@ class Beam3D(Beam):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(moment_load_vector(), returns the moment_load_vector attribute) over Any ║
+# ║ Path(moment_load_vector(), self._moment_load_vector) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._moment_load_vector                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ moment_load_vector : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3a309bb877fec832           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam3D.moment_load_vector","kind":"property","src_hash":"740a1442c261283d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"moment_load_vector()","rhs":"returns the moment_load_vector attribute","over":{"base":"Any"},"name":"moment_load_vector_correct"},"guarantee":"returns the moment_load_vector attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3a309bb877fec832"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam3D.moment_load_vector","kind":"property","src_hash":"740a1442c261283d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"moment_load_vector()","rhs":"self._moment_load_vector","over":{"base":"Any"},"name":"moment_load_vector_correct"},"guarantee":"returns self._moment_load_vector","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3a309bb877fec832","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._moment_load_vector","pure":false,"effects":{"effect_type":"reads_state","reads":["self._moment_load_vector"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def moment_load_vector(self):
         """
         Returns a three element list representing moment loads on Beam.
@@ -3615,16 +4117,22 @@ class Beam3D(Beam):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(boundary_conditions(), returns the boundary_conditions attribute) over Any ║
+# ║ Path(boundary_conditions(), self._boundary_conditions) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._boundary_conditions                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ boundary_conditions : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c8472cc64043c13e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam3D.boundary_conditions","kind":"property","src_hash":"2c2b2442a6554587","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"boundary_conditions()","rhs":"returns the boundary_conditions attribute","over":{"base":"Any"},"name":"boundary_conditions_correct"},"guarantee":"returns the boundary_conditions attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c8472cc64043c13e"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam3D.boundary_conditions","kind":"property","src_hash":"2c2b2442a6554587","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"boundary_conditions()","rhs":"self._boundary_conditions","over":{"base":"Any"},"name":"boundary_conditions_correct"},"guarantee":"returns self._boundary_conditions","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c8472cc64043c13e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._boundary_conditions","pure":false,"effects":{"effect_type":"reads_state","reads":["self._boundary_conditions"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def boundary_conditions(self):
         """
         Returns a dictionary of boundary conditions applied on the beam.
@@ -3656,16 +4164,22 @@ class Beam3D(Beam):
         return self._boundary_conditions
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(polar_moment(), returns the polar moment of area of the beam about the x axis with respect to the centroid) over Any ║
+# ║ Path(polar_moment(), <unspecified:polar_moment>) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ polar_moment : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 942575c62bf2e314  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam3D.polar_moment","kind":"method","src_hash":"d5f72f21442515f0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"polar_moment()","rhs":"returns the polar moment of area of the beam about the x axis with respect to the centroid","over":{"base":"Any"},"name":"polar_moment_correct"},"guarantee":"returns the polar moment of area of the beam about the x axis with respect to the centroid","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam3D.polar_moment_correct","statement":"Path(polar_moment(x), returns the polar moment of area of the beam about the x axis with respect to the centroid)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"942575c62bf2e314"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam3D.polar_moment","kind":"method","src_hash":"d5f72f21442515f0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"polar_moment()","rhs":"<unspecified:polar_moment>","over":{"base":"Any"},"name":"polar_moment_correct"},"guarantee":"returns the polar moment of area of the beam about the x axis with respect to the centroid","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam3D.polar_moment_correct","statement":"Path(polar_moment(x), returns the polar moment of area of the beam about the x axis with respect to the centroid)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"942575c62bf2e314","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.second_moment"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def polar_moment(self):
         """
         Returns the polar moment of area of the beam
@@ -3690,16 +4204,22 @@ class Beam3D(Beam):
         return sum(self.second_moment)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(apply_load(val), this method adds up the force load to a particular beam object) over Any ║
+# ║ Path(apply_load(value, start, order), <unspecified:apply_load>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ apply_load : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 93dc5f9e55a94349  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam3D.apply_load","kind":"method","src_hash":"bb23765f9d194807","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"apply_load(val)","rhs":"this method adds up the force load to a particular beam object","over":{"base":"Any"},"name":"apply_load_correct"},"guarantee":"this method adds up the force load to a particular beam object","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam3D.apply_load_correct","statement":"Path(apply_load(x), this method adds up the force load to a particular beam object)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"93dc5f9e55a94349"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam3D.apply_load","kind":"method","src_hash":"bb23765f9d194807","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"apply_load(value, start, order)","rhs":"<unspecified:apply_load>","over":{"base":"Any"},"name":"apply_load_correct"},"guarantee":"this method adds up the force load to a particular beam object","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam3D.apply_load_correct","statement":"Path(apply_load(x), this method adds up the force load to a particular beam object)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"93dc5f9e55a94349","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._load_Singularity","self._load_vector","self.variable"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def apply_load(self, value, start, order, dir="y"):
         """
         This method adds up the force load to a particular beam object.
@@ -3739,16 +4259,22 @@ class Beam3D(Beam):
             self._load_Singularity[2] += value*SingularityFunction(x, start, order)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(apply_moment_load(val), this method adds up the moment loads to a particular beam object) over Any ║
+# ║ Path(apply_moment_load(value, start, order), <unspecified:apply_moment_load>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ apply_moment_load : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 03d619b3c62a4093  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam3D.apply_moment_load","kind":"method","src_hash":"3ae8915b665492c2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"apply_moment_load(val)","rhs":"this method adds up the moment loads to a particular beam object","over":{"base":"Any"},"name":"apply_moment_load_correct"},"guarantee":"this method adds up the moment loads to a particular beam object","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam3D.apply_moment_load_correct","statement":"Path(apply_moment_load(x), this method adds up the moment loads to a particular beam object)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"03d619b3c62a4093"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam3D.apply_moment_load","kind":"method","src_hash":"3ae8915b665492c2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"apply_moment_load(value, start, order)","rhs":"<unspecified:apply_moment_load>","over":{"base":"Any"},"name":"apply_moment_load_correct"},"guarantee":"this method adds up the moment loads to a particular beam object","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam3D.apply_moment_load_correct","statement":"Path(apply_moment_load(x), this method adds up the moment loads to a particular beam object)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"03d619b3c62a4093","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._load_Singularity","self._moment_load_vector","self._torsion_moment","self.variable"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def apply_moment_load(self, value, start, order, dir="y"):
         """
         This method adds up the moment loads to a particular beam object.
@@ -3791,16 +4317,22 @@ class Beam3D(Beam):
             self._load_Singularity[0] += value*SingularityFunction(x, start, order)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(apply_support(loc), apply_support produces the expected output) over Any ║
+# ║ Path(apply_support(loc, type), len(self) == old_len_self + 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ apply_support : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(self) == old_len_self + 1                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ apply_support : Any → {Any | result satisfies: len(se...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8751a43779d8339f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 12ceaeb7d62e1642  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam3D.apply_support","kind":"method","src_hash":"7bc7a0893895ff76","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"apply_support(loc)","rhs":"apply_support produces the expected output","over":{"base":"Any"},"name":"apply_support_correct"},"guarantee":"apply_support produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam3D.apply_support_correct","statement":"Path(apply_support(x), apply_support produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8751a43779d8339f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam3D.apply_support","kind":"method","src_hash":"7bc7a0893895ff76","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(self) == old_len_self + 1"},"spec":{"lhs":"apply_support(loc, type)","rhs":"len(self) == old_len_self + 1","over":{"base":"Any"},"name":"apply_support_correct"},"guarantee":"len(self) == old_len_self + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam3D.apply_support_correct","statement":"Path(apply_support(x), len(self) == old_len_self + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"12ceaeb7d62e1642","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(self) == old_len_self + 1"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self._reaction_loads","self.bc_deflection","self.bc_slope"],"calls_mutating":["self.bc_deflection.append","self.bc_slope.append"]},"state_contract":{"modifies":["self.*"],"old_bindings":{"old_len_self":"len(self)"},"post_ensures":["len(self) == old_len_self + 1","len(self) == old_len_self + 1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def apply_support(self, loc, type="fixed"):
         if type in ("pin", "roller"):
             reaction_load = Symbol('R_'+str(loc))
@@ -3814,16 +4346,22 @@ class Beam3D(Beam):
             self.bc_slope.append((loc, [0, 0, 0]))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(solve_for_reaction_loads(*re), solves for the reaction forces) over Any ║
+# ║ Path(solve_for_reaction_loads(*reaction), <unspecified:solve_for_reaction_loads>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ solve_for_reaction_loads : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6fa8af390de57d06  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam3D.solve_for_reaction_loads","kind":"method","src_hash":"8b2ec0dc19a1b988","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"solve_for_reaction_loads(*re)","rhs":"solves for the reaction forces","over":{"base":"Any"},"name":"solve_for_reaction_loads_correct"},"guarantee":"solves for the reaction forces","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam3D.solve_for_reaction_loads_correct","statement":"Path(solve_for_reaction_loads(x), solves for the reaction forces)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6fa8af390de57d06"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam3D.solve_for_reaction_loads","kind":"method","src_hash":"8b2ec0dc19a1b988","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"solve_for_reaction_loads(*reaction)","rhs":"<unspecified:solve_for_reaction_loads>","over":{"base":"Any"},"name":"solve_for_reaction_loads_correct"},"guarantee":"solves for the reaction forces","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam3D.solve_for_reaction_loads_correct","statement":"Path(solve_for_reaction_loads(x), solves for the reaction forces)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6fa8af390de57d06","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._load_Singularity","self._reaction_loads","self.length","self.variable"],"calls_mutating":["self._reaction_loads.update"],"raises":["ValueError"]},"state_contract":{"modifies":["self.*"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def solve_for_reaction_loads(self, *reaction):
         """
         Solves for the reaction forces.
@@ -3875,14 +4413,20 @@ class Beam3D(Beam):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(shear_force(), id) over Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [integrate(-q[0], x), integrate(-q[1], x)...   ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ shear_force : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | e66a3247349d77f3   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam3D.shear_force","kind":"method","src_hash":"0f0cdba3f705be4e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"shear_force()","rhs":"returns a list of three expressions which represents the shear force curve of the beam object along all three axes","over":{"base":"Any"},"name":"shear_force_correct","kind":"composition"},"guarantee":"returns a list of three expressions which represents the shear force curve of the beam object along all three axes","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"integrate","by":"library_axiom"},{"fn":"integrate","by":"library_axiom"},{"fn":"integrate","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e66a3247349d77f3"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam3D.shear_force","kind":"method","src_hash":"0f0cdba3f705be4e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"shear_force()","rhs":"[integrate(-q[0], x), integrate(-q[1], x), integrate(-q[2], x)]","over":{"base":"Any"},"name":"shear_force_correct","kind":"composition"},"guarantee":"returns [integrate(-q[0], x), integrate(-q[1], x), integrate(-q[2], x)]","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"integrate","by":"library_axiom"},{"fn":"integrate","by":"library_axiom"},{"fn":"integrate","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e66a3247349d77f3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[integrate(-q[0], x), integrate(-q[1], x), integrate(-q[2], x)]","pure":false,"effects":{"effect_type":"reads_state","reads":["self._load_vector","self.variable"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def shear_force(self):
         """
         Returns a list of three expressions which represents the shear force
@@ -3893,16 +4437,22 @@ class Beam3D(Beam):
         return [integrate(-q[0], x), integrate(-q[1], x), integrate(-q[2], x)]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(axial_force(), returns expression of axial shear force present inside the beam object) over Any ║
+# ║ Path(axial_force(), self.shear_force()[0]) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.shear_force()[0]                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ axial_force : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e462740861a9e11b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam3D.axial_force","kind":"method","src_hash":"1aa18f26817fc71f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"axial_force()","rhs":"returns expression of axial shear force present inside the beam object","over":{"base":"Any"},"name":"axial_force_correct"},"guarantee":"returns expression of axial shear force present inside the beam object","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e462740861a9e11b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam3D.axial_force","kind":"method","src_hash":"1aa18f26817fc71f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"axial_force()","rhs":"self.shear_force()[0]","over":{"base":"Any"},"name":"axial_force_correct"},"guarantee":"returns self.shear_force()[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e462740861a9e11b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.shear_force()[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.shear_force"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def axial_force(self):
         """
         Returns expression of Axial shear force present inside the Beam object.
@@ -3910,16 +4460,22 @@ class Beam3D(Beam):
         return self.shear_force()[0]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(shear_stress(), returns a list of three expressions which represents the shear stress curve of the beam object along all three axes) over Any ║
+# ║ Path(shear_stress(), [self.shear_force()[0] / self._area, self.shear_force()[1] / self._area, self.shear_force()[2] / self._area]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [self.shear_force()[0] / self._area, self...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ shear_stress : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 837854483b5ce92c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam3D.shear_stress","kind":"method","src_hash":"9d726ce906cd0e92","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"shear_stress()","rhs":"returns a list of three expressions which represents the shear stress curve of the beam object along all three axes","over":{"base":"Any"},"name":"shear_stress_correct"},"guarantee":"returns a list of three expressions which represents the shear stress curve of the beam object along all three axes","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"837854483b5ce92c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam3D.shear_stress","kind":"method","src_hash":"9d726ce906cd0e92","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"shear_stress()","rhs":"[self.shear_force()[0] / self._area, self.shear_force()[1] / self._area, self.shear_force()[2] / self._area]","over":{"base":"Any"},"name":"shear_stress_correct"},"guarantee":"returns [self.shear_force()[0] / self._area, self.shear_force()[1] / self._area, self.shear_force()[2] / self._area]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"837854483b5ce92c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[self.shear_force()[0] / self._area, self.shear_force()[1] / self._area, self.shear_force()[2] / self._area]","pure":false,"effects":{"effect_type":"reads_state","reads":["self._area","self.shear_force"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def shear_stress(self):
         """
         Returns a list of three expressions which represents the shear stress
@@ -3928,16 +4484,22 @@ class Beam3D(Beam):
         return [self.shear_force()[0]/self._area, self.shear_force()[1]/self._area, self.shear_force()[2]/self._area]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(axial_stress(), returns expression of axial stress present inside the beam object) over Any ║
+# ║ Path(axial_stress(), self.axial_force() / self._area) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.axial_force() / self._area                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ axial_stress : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 916d5324b3c3d98e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam3D.axial_stress","kind":"method","src_hash":"949e83536d83ae08","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"axial_stress()","rhs":"returns expression of axial stress present inside the beam object","over":{"base":"Any"},"name":"axial_stress_correct"},"guarantee":"returns expression of axial stress present inside the beam object","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"916d5324b3c3d98e"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam3D.axial_stress","kind":"method","src_hash":"949e83536d83ae08","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"axial_stress()","rhs":"self.axial_force() / self._area","over":{"base":"Any"},"name":"axial_stress_correct"},"guarantee":"returns self.axial_force() / self._area","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"916d5324b3c3d98e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.axial_force() / self._area","pure":false,"effects":{"effect_type":"reads_state","reads":["self._area","self.axial_force"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def axial_stress(self):
         """
         Returns expression of Axial stress present inside the Beam object.
@@ -3947,14 +4509,20 @@ class Beam3D(Beam):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(bending_moment(), id) over Any                        ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [integrate(-m[0], x), integrate(-m[1] + s...   ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ bending_moment : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 24719f4ac36b4819   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam3D.bending_moment","kind":"method","src_hash":"e209bc2b3b17d33d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bending_moment()","rhs":"returns a list of three expressions which represents the bending moment curve of the beam object along all three axes","over":{"base":"Any"},"name":"bending_moment_correct","kind":"composition"},"guarantee":"returns a list of three expressions which represents the bending moment curve of the beam object along all three axes","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"integrate","by":"library_axiom"},{"fn":"integrate","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"24719f4ac36b4819"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam3D.bending_moment","kind":"method","src_hash":"e209bc2b3b17d33d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bending_moment()","rhs":"[integrate(-m[0], x), integrate(-m[1] + shear[2], x), integrate(-m[2] - shear[1], x)]","over":{"base":"Any"},"name":"bending_moment_correct","kind":"composition"},"guarantee":"returns [integrate(-m[0], x), integrate(-m[1] + shear[2], x), integrate(-m[2] - shear[1], x)]","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"integrate","by":"library_axiom"},{"fn":"integrate","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"24719f4ac36b4819","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[integrate(-m[0], x), integrate(-m[1] + shear[2], x), integrate(-m[2] - shear[1], x)]","pure":false,"effects":{"effect_type":"reads_state","reads":["self._moment_load_vector","self.shear_force","self.variable"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def bending_moment(self):
         """
         Returns a list of three expressions which represents the bending moment
@@ -3968,16 +4536,22 @@ class Beam3D(Beam):
                 integrate(-m[2] - shear[1], x) ]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(torsional_moment(), returns expression of torsional moment present inside the beam object) over Any ║
+# ║ Path(torsional_moment(), self.bending_moment()[0]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.bending_moment()[0]                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ torsional_moment : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 15717a3beeddabd4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam3D.torsional_moment","kind":"method","src_hash":"743dbed17bca5465","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"torsional_moment()","rhs":"returns expression of torsional moment present inside the beam object","over":{"base":"Any"},"name":"torsional_moment_correct"},"guarantee":"returns expression of torsional moment present inside the beam object","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"15717a3beeddabd4"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam3D.torsional_moment","kind":"method","src_hash":"743dbed17bca5465","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"torsional_moment()","rhs":"self.bending_moment()[0]","over":{"base":"Any"},"name":"torsional_moment_correct"},"guarantee":"returns self.bending_moment()[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"15717a3beeddabd4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.bending_moment()[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.bending_moment"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def torsional_moment(self):
         """
         Returns expression of Torsional moment present inside the Beam object.
@@ -3985,16 +4559,22 @@ class Beam3D(Beam):
         return self.bending_moment()[0]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(solve_for_torsion(), solves for the angular deflection due to the torsional effects of moments being applied in the x-direction i.e) over Any ║
+# ║ Path(solve_for_torsion(), <unspecified:solve_for_torsion>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ solve_for_torsion : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 51e8c870f9fc4ce9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam3D.solve_for_torsion","kind":"method","src_hash":"d9b91c3bd2bb224a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"solve_for_torsion()","rhs":"solves for the angular deflection due to the torsional effects of moments being applied in the x-direction i.e","over":{"base":"Any"},"name":"solve_for_torsion_correct"},"guarantee":"solves for the angular deflection due to the torsional effects of moments being applied in the x-direction i.e","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam3D.solve_for_torsion_correct","statement":"Path(solve_for_torsion(x), solves for the angular deflection due to the torsional effects of moments being applied in the x-direction i.e)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"51e8c870f9fc4ce9"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam3D.solve_for_torsion","kind":"method","src_hash":"d9b91c3bd2bb224a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"solve_for_torsion()","rhs":"<unspecified:solve_for_torsion>","over":{"base":"Any"},"name":"solve_for_torsion_correct"},"guarantee":"solves for the angular deflection due to the torsional effects of moments being applied in the x-direction i.e","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam3D.solve_for_torsion_correct","statement":"Path(solve_for_torsion(x), solves for the angular deflection due to the torsional effects of moments being applied in the x-direction i.e)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"51e8c870f9fc4ce9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._torsion_moment","self.polar_moment","self.shear_modulus","self.variable"],"writes":["self._angular_deflection"]},"state_contract":{"modifies":["self._angular_deflection"],"old_bindings":{"old_self__angular_deflection":"self._angular_deflection"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def solve_for_torsion(self):
         """
         Solves for the angular deflection due to the torsional effects of
@@ -4032,16 +4612,22 @@ class Beam3D(Beam):
         self._angular_deflection =  integrated_torque_diagram/(self.shear_modulus*self.polar_moment())
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(solve_slope_deflection(), solve_slope_deflection produces the expected output) over Any ║
+# ║ Path(solve_slope_deflection(), <unspecified:solve_slope_deflection>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ solve_slope_deflection : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f907f622518e4db3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam3D.solve_slope_deflection","kind":"method","src_hash":"66a252bb50833ffc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"solve_slope_deflection()","rhs":"solve_slope_deflection produces the expected output","over":{"base":"Any"},"name":"solve_slope_deflection_correct"},"guarantee":"solve_slope_deflection produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam3D.solve_slope_deflection_correct","statement":"Path(solve_slope_deflection(x), solve_slope_deflection produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f907f622518e4db3"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam3D.solve_slope_deflection","kind":"method","src_hash":"66a252bb50833ffc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"solve_slope_deflection()","rhs":"<unspecified:solve_slope_deflection>","over":{"base":"Any"},"name":"solve_slope_deflection_correct"},"guarantee":"solve_slope_deflection produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam3D.solve_slope_deflection_correct","statement":"Path(solve_slope_deflection(x), solve_slope_deflection produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f907f622518e4db3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._area","self._deflection","self._load_vector","self._moment_load_vector","self._slope","self.elastic_modulus","self.length","self.second_moment","self.shear_modulus","self.variable"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def solve_slope_deflection(self):
         x = self.variable
         l = self.length
@@ -4111,16 +4697,22 @@ class Beam3D(Beam):
         self._slope[1] = slope_y.subs(C_i, constants[1])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(slope(), returns a three element list representing slope of deflection curve along all the three axes) over Any ║
+# ║ Path(slope(), self._slope) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._slope                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ slope : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 614e6e843fe57a0f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam3D.slope","kind":"method","src_hash":"737d4a5586f83202","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"slope()","rhs":"returns a three element list representing slope of deflection curve along all the three axes","over":{"base":"Any"},"name":"slope_correct"},"guarantee":"returns a three element list representing slope of deflection curve along all the three axes","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"614e6e843fe57a0f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam3D.slope","kind":"method","src_hash":"737d4a5586f83202","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"slope()","rhs":"self._slope","over":{"base":"Any"},"name":"slope_correct"},"guarantee":"returns self._slope","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"614e6e843fe57a0f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._slope","pure":false,"effects":{"effect_type":"reads_state","reads":["self._slope"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def slope(self):
         """
         Returns a three element list representing slope of deflection curve
@@ -4129,16 +4721,22 @@ class Beam3D(Beam):
         return self._slope
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(deflection(), returns a three element list representing deflection curve along all the three axes) over Any ║
+# ║ Path(deflection(), self._deflection) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._deflection                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ deflection : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e4da86a630a13c28           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam3D.deflection","kind":"method","src_hash":"5af318c5bc998ca6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"deflection()","rhs":"returns a three element list representing deflection curve along all the three axes","over":{"base":"Any"},"name":"deflection_correct"},"guarantee":"returns a three element list representing deflection curve along all the three axes","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e4da86a630a13c28"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam3D.deflection","kind":"method","src_hash":"5af318c5bc998ca6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"deflection()","rhs":"self._deflection","over":{"base":"Any"},"name":"deflection_correct"},"guarantee":"returns self._deflection","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e4da86a630a13c28","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._deflection","pure":false,"effects":{"effect_type":"reads_state","reads":["self._deflection"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def deflection(self):
         """
         Returns a three element list representing deflection curve along all
@@ -4147,16 +4745,22 @@ class Beam3D(Beam):
         return self._deflection
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(angular_deflection(), returns a function in x depicting how the angular deflection, due to moments in the x-axis on the beam, varies with x) over Any ║
+# ║ Path(angular_deflection(), self._angular_deflection) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._angular_deflection                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ angular_deflection : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 877a46727502cad2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam3D.angular_deflection","kind":"method","src_hash":"a1c6fa663192936e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"angular_deflection()","rhs":"returns a function in x depicting how the angular deflection, due to moments in the x-axis on the beam, varies with x","over":{"base":"Any"},"name":"angular_deflection_correct"},"guarantee":"returns a function in x depicting how the angular deflection, due to moments in the x-axis on the beam, varies with x","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"877a46727502cad2"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam3D.angular_deflection","kind":"method","src_hash":"a1c6fa663192936e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"angular_deflection()","rhs":"self._angular_deflection","over":{"base":"Any"},"name":"angular_deflection_correct"},"guarantee":"returns self._angular_deflection","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"877a46727502cad2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._angular_deflection","pure":false,"effects":{"effect_type":"reads_state","reads":["self._angular_deflection"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def angular_deflection(self):
         """
         Returns a function in x depicting how the angular deflection, due to moments
@@ -4165,16 +4769,22 @@ class Beam3D(Beam):
         return self._angular_deflection
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_plot_shear_force(dir), id) over Any                  ║
+# ║ Path(_plot_shear_force(dir, subs), id) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  plot(shear_force[dir_num].subs(subs), (se...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _plot_shear_force : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 213ceac295e17773   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam3D._plot_shear_force","kind":"method","src_hash":"f33753dae835bc76","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_plot_shear_force(dir)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_plot_shear_force_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"plot","by":"library_axiom"},{"fn":"subs","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"213ceac295e17773"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam3D._plot_shear_force","kind":"method","src_hash":"f33753dae835bc76","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_plot_shear_force(dir, subs)","rhs":"plot(shear_force[dir_num].subs(subs), (self.variable, 0, length), show=False, title='Shear Force along %c direction' % dir, xlabel='$\\\\mathrm{X}$', ylabel='$\\\\mathrm{V(%c)}$' % dir, line_color=color)","over":{"base":"Any"},"name":"_plot_shear_force_correct","kind":"composition"},"guarantee":"returns plot(shear_force[dir_num].subs(subs), (self.variable, 0, length), show=False, title='Shear Force along %c direction' % dir, xlabel='$\\\\mathrm{X}$', ylabel='$\\\\mathrm{V(%c)}$' % dir, line_color=color)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"plot","by":"library_axiom"},{"fn":"subs","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"213ceac295e17773","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"plot(shear_force[dir_num].subs(subs), (self.variable, 0, length), show=False, title='Shear Force along %c direction' % dir, xlabel='$\\\\mathrm{X}$', ylabel='$\\\\mathrm{V(%c)}$' % dir, line_color=color)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.length","self.shear_force","self.variable"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _plot_shear_force(self, dir, subs=None):
 
         shear_force = self.shear_force()
@@ -4206,16 +4816,27 @@ class Beam3D(Beam):
                 xlabel=r'$\mathrm{X}$', ylabel=r'$\mathrm{V(%c)}$'%dir, line_color=color)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(plot_shear_force(dir), returns a plot for shear force along all three directions present in the beam object) over Any ║
+# ║ Path(plot_shear_force(dir, subs), result == (Px.show() if dir == 'x' else Py.show() if dir == 'y' else Pz.show() if dir == 'z' else PlotGrid(3, 1, Px, Py, Pz)) and result == Px.show() or result == Py.show() or result == Pz.show() or result == PlotGrid(3, 1, Px, Py, Pz)) over {Any | hasattr(dir, 'lower')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ plot_shear_force : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(dir, 'lower')                          ║
+# ║   ensures:  result == (Px.show() if dir == 'x' else P...   ║
+# ║   ensures:  result == Px.show() or result == Py.show(...   ║
+# ║   fiber[case_0]: dir == 'x' => Px.show()                   ║
+# ║   fiber[case_1]: dir == 'y' => Py.show()                   ║
+# ║   fiber[case_2]: dir == 'z' => Pz.show()                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ plot_shear_force : {Any | hasattr(dir, 'lower')} → {A...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 04fb71a7efc96df8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a3058fb6e4bb5bb4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam3D.plot_shear_force","kind":"method","src_hash":"0bcf3b80a796f8fc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"plot_shear_force(dir)","rhs":"returns a plot for shear force along all three directions present in the beam object","over":{"base":"Any"},"name":"plot_shear_force_correct"},"guarantee":"returns a plot for shear force along all three directions present in the beam object","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam3D.plot_shear_force_correct","statement":"Path(plot_shear_force(x), returns a plot for shear force along all three directions present in the beam object)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"04fb71a7efc96df8"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam3D.plot_shear_force","kind":"method","src_hash":"0bcf3b80a796f8fc","in":{"base":"Any","pred":"hasattr(dir, 'lower')"},"out":{"base":"Any","pred":"result satisfies: result == (Px.show() if dir == 'x' else Py.show() if dir == 'y' else Pz.show() if dir == 'z' else PlotGrid(3, 1, Px, Py, Pz)) and result == Px.show() or result == Py.show() or result == Pz.show() or result == PlotGrid(3, 1, Px, Py, Pz)"},"spec":{"lhs":"plot_shear_force(dir, subs)","rhs":"result == (Px.show() if dir == 'x' else Py.show() if dir == 'y' else Pz.show() if dir == 'z' else PlotGrid(3, 1, Px, Py, Pz)) and result == Px.show() or result == Py.show() or result == Pz.show() or result == PlotGrid(3, 1, Px, Py, Pz)","over":{"base":"Any","pred":"hasattr(dir, 'lower')"},"name":"plot_shear_force_correct"},"guarantee":"result == (Px.show() if dir == 'x' else Py.show() if dir == 'y' else Pz.show() if dir == 'z' else PlotGrid(3, 1, Px, Py, Pz)); result == Px.show() or result == Py.show() or result == Pz.show() or result == PlotGrid(3, 1, Px, Py, Pz); 4-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam3D.plot_shear_force_correct","statement":"Path(plot_shear_force(x), result == (Px.show() if dir == 'x' else Py.show() if dir == 'y' else Pz.show() if dir == 'z' else PlotGrid(3, 1, Px, Py, Pz)); result == Px.show() or result == Py.show() or result == Pz.show() or result == PlotGrid(3, 1, Px, Py, Pz); 4-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a3058fb6e4bb5bb4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(dir, 'lower')"],"ensures":["result == (Px.show() if dir == 'x' else Py.show() if dir == 'y' else Pz.show() if dir == 'z' else PlotGrid(3, 1, Px, Py, Pz))","result == Px.show() or result == Py.show() or result == Pz.show() or result == PlotGrid(3, 1, Px, Py, Pz)"],"fibers":[{"name":"case_0","guard":"dir == 'x'","ensures":["result == Px.show()"],"decidability":"z3","returns_expr":"Px.show()"},{"name":"case_1","guard":"dir == 'y'","ensures":["result == Py.show()"],"decidability":"z3","returns_expr":"Py.show()"},{"name":"case_2","guard":"dir == 'z'","ensures":["result == Pz.show()"],"decidability":"z3","returns_expr":"Pz.show()"},{"name":"case_3","guard":"not (dir == 'x') and not (dir == 'y') and not (dir == 'z')","ensures":["result == PlotGrid(3, 1, Px, Py, Pz)"],"decidability":"z3","returns_expr":"PlotGrid(3, 1, Px, Py, Pz)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["dir.lower","self._plot_shear_force"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def plot_shear_force(self, dir="all", subs=None):
 
         """
@@ -4289,16 +4910,22 @@ class Beam3D(Beam):
             return PlotGrid(3, 1, Px, Py, Pz)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_plot_bending_moment(dir), id) over Any               ║
+# ║ Path(_plot_bending_moment(dir, subs), id) over Any         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  plot(bending_moment[dir_num].subs(subs), ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _plot_bending_moment : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | c6f6911b6024adab   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam3D._plot_bending_moment","kind":"method","src_hash":"02f9ee9fba3ccbb8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_plot_bending_moment(dir)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_plot_bending_moment_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"plot","by":"library_axiom"},{"fn":"subs","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c6f6911b6024adab"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam3D._plot_bending_moment","kind":"method","src_hash":"02f9ee9fba3ccbb8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_plot_bending_moment(dir, subs)","rhs":"plot(bending_moment[dir_num].subs(subs), (self.variable, 0, length))","over":{"base":"Any"},"name":"_plot_bending_moment_correct","kind":"composition"},"guarantee":"returns plot(bending_moment[dir_num].subs(subs), (self.variable, 0, length))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"plot","by":"library_axiom"},{"fn":"subs","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c6f6911b6024adab","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"plot(bending_moment[dir_num].subs(subs), (self.variable, 0, length))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.bending_moment","self.length","self.variable"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _plot_bending_moment(self, dir, subs=None):
 
         bending_moment = self.bending_moment()
@@ -4330,16 +4957,27 @@ class Beam3D(Beam):
                 xlabel=r'$\mathrm{X}$', ylabel=r'$\mathrm{M(%c)}$'%dir, line_color=color)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(plot_bending_moment(dir), returns a plot for bending moment along all three directions present in the beam object) over Any ║
+# ║ Path(plot_bending_moment(dir, subs), result == (Px.show() if dir == 'x' else Py.show() if dir == 'y' else Pz.show() if dir == 'z' else PlotGrid(3, 1, Px, Py, Pz)) and result == Px.show() or result == Py.show() or result == Pz.show() or result == PlotGrid(3, 1, Px, Py, Pz)) over {Any | hasattr(dir, 'lower')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ plot_bending_moment : Any → Any                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(dir, 'lower')                          ║
+# ║   ensures:  result == (Px.show() if dir == 'x' else P...   ║
+# ║   ensures:  result == Px.show() or result == Py.show(...   ║
+# ║   fiber[case_0]: dir == 'x' => Px.show()                   ║
+# ║   fiber[case_1]: dir == 'y' => Py.show()                   ║
+# ║   fiber[case_2]: dir == 'z' => Pz.show()                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ plot_bending_moment : {Any | hasattr(dir, 'lower')} →...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 48fc857d177d8c49  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0028cf1b50559c77  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam3D.plot_bending_moment","kind":"method","src_hash":"9a2f916088f28feb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"plot_bending_moment(dir)","rhs":"returns a plot for bending moment along all three directions present in the beam object","over":{"base":"Any"},"name":"plot_bending_moment_correct"},"guarantee":"returns a plot for bending moment along all three directions present in the beam object","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam3D.plot_bending_moment_correct","statement":"Path(plot_bending_moment(x), returns a plot for bending moment along all three directions present in the beam object)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"48fc857d177d8c49"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam3D.plot_bending_moment","kind":"method","src_hash":"9a2f916088f28feb","in":{"base":"Any","pred":"hasattr(dir, 'lower')"},"out":{"base":"Any","pred":"result satisfies: result == (Px.show() if dir == 'x' else Py.show() if dir == 'y' else Pz.show() if dir == 'z' else PlotGrid(3, 1, Px, Py, Pz)) and result == Px.show() or result == Py.show() or result == Pz.show() or result == PlotGrid(3, 1, Px, Py, Pz)"},"spec":{"lhs":"plot_bending_moment(dir, subs)","rhs":"result == (Px.show() if dir == 'x' else Py.show() if dir == 'y' else Pz.show() if dir == 'z' else PlotGrid(3, 1, Px, Py, Pz)) and result == Px.show() or result == Py.show() or result == Pz.show() or result == PlotGrid(3, 1, Px, Py, Pz)","over":{"base":"Any","pred":"hasattr(dir, 'lower')"},"name":"plot_bending_moment_correct"},"guarantee":"result == (Px.show() if dir == 'x' else Py.show() if dir == 'y' else Pz.show() if dir == 'z' else PlotGrid(3, 1, Px, Py, Pz)); result == Px.show() or result == Py.show() or result == Pz.show() or result == PlotGrid(3, 1, Px, Py, Pz); 4-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam3D.plot_bending_moment_correct","statement":"Path(plot_bending_moment(x), result == (Px.show() if dir == 'x' else Py.show() if dir == 'y' else Pz.show() if dir == 'z' else PlotGrid(3, 1, Px, Py, Pz)); result == Px.show() or result == Py.show() or result == Pz.show() or result == PlotGrid(3, 1, Px, Py, Pz); 4-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0028cf1b50559c77","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(dir, 'lower')"],"ensures":["result == (Px.show() if dir == 'x' else Py.show() if dir == 'y' else Pz.show() if dir == 'z' else PlotGrid(3, 1, Px, Py, Pz))","result == Px.show() or result == Py.show() or result == Pz.show() or result == PlotGrid(3, 1, Px, Py, Pz)"],"fibers":[{"name":"case_0","guard":"dir == 'x'","ensures":["result == Px.show()"],"decidability":"z3","returns_expr":"Px.show()"},{"name":"case_1","guard":"dir == 'y'","ensures":["result == Py.show()"],"decidability":"z3","returns_expr":"Py.show()"},{"name":"case_2","guard":"dir == 'z'","ensures":["result == Pz.show()"],"decidability":"z3","returns_expr":"Pz.show()"},{"name":"case_3","guard":"not (dir == 'x') and not (dir == 'y') and not (dir == 'z')","ensures":["result == PlotGrid(3, 1, Px, Py, Pz)"],"decidability":"z3","returns_expr":"PlotGrid(3, 1, Px, Py, Pz)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["dir.lower","self._plot_bending_moment"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def plot_bending_moment(self, dir="all", subs=None):
 
         """
@@ -4413,16 +5051,22 @@ class Beam3D(Beam):
             return PlotGrid(3, 1, Px, Py, Pz)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_plot_slope(dir), id) over Any                        ║
+# ║ Path(_plot_slope(dir, subs), id) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  plot(slope[dir_num].subs(subs), (self.var...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _plot_slope : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 304ca054bb3e168f   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam3D._plot_slope","kind":"method","src_hash":"265b55109ceee607","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_plot_slope(dir)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_plot_slope_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"plot","by":"library_axiom"},{"fn":"subs","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"304ca054bb3e168f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam3D._plot_slope","kind":"method","src_hash":"265b55109ceee607","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_plot_slope(dir, subs)","rhs":"plot(slope[dir_num].subs(subs), (self.variable, 0, length), show=False, title='Slope along %c direction' % dir, xlabel='$\\\\mathrm{X}$', ylabel='$\\\\mathrm{\\\\theta(%c)}$' % dir, line_color=color)","over":{"base":"Any"},"name":"_plot_slope_correct","kind":"composition"},"guarantee":"returns plot(slope[dir_num].subs(subs), (self.variable, 0, length), show=False, title='Slope along %c direction' % dir, xlabel='$\\\\mathrm{X}$', ylabel='$\\\\mathrm{\\\\theta(%c)}$' % dir, line_color=color)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"plot","by":"library_axiom"},{"fn":"subs","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"304ca054bb3e168f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"plot(slope[dir_num].subs(subs), (self.variable, 0, length), show=False, title='Slope along %c direction' % dir, xlabel='$\\\\mathrm{X}$', ylabel='$\\\\mathrm{\\\\theta(%c)}$' % dir, line_color=color)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.length","self.slope","self.variable"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _plot_slope(self, dir, subs=None):
 
         slope = self.slope()
@@ -4455,16 +5099,27 @@ class Beam3D(Beam):
                 xlabel=r'$\mathrm{X}$', ylabel=r'$\mathrm{\theta(%c)}$'%dir, line_color=color)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(plot_slope(dir), returns a plot for slope along all three directions present in the beam object) over Any ║
+# ║ Path(plot_slope(dir, subs), result == (Px.show() if dir == 'x' else Py.show() if dir == 'y' else Pz.show() if dir == 'z' else PlotGrid(3, 1, Px, Py, Pz)) and result == Px.show() or result == Py.show() or result == Pz.show() or result == PlotGrid(3, 1, Px, Py, Pz)) over {Any | hasattr(dir, 'lower')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ plot_slope : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(dir, 'lower')                          ║
+# ║   ensures:  result == (Px.show() if dir == 'x' else P...   ║
+# ║   ensures:  result == Px.show() or result == Py.show(...   ║
+# ║   fiber[case_0]: dir == 'x' => Px.show()                   ║
+# ║   fiber[case_1]: dir == 'y' => Py.show()                   ║
+# ║   fiber[case_2]: dir == 'z' => Pz.show()                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ plot_slope : {Any | hasattr(dir, 'lower')} → {Any | r...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 32a790dea11c604e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bc38b0b1d68ff449  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam3D.plot_slope","kind":"method","src_hash":"7dbcecea995d3f3d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"plot_slope(dir)","rhs":"returns a plot for slope along all three directions present in the beam object","over":{"base":"Any"},"name":"plot_slope_correct"},"guarantee":"returns a plot for slope along all three directions present in the beam object","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam3D.plot_slope_correct","statement":"Path(plot_slope(x), returns a plot for slope along all three directions present in the beam object)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"32a790dea11c604e"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam3D.plot_slope","kind":"method","src_hash":"7dbcecea995d3f3d","in":{"base":"Any","pred":"hasattr(dir, 'lower')"},"out":{"base":"Any","pred":"result satisfies: result == (Px.show() if dir == 'x' else Py.show() if dir == 'y' else Pz.show() if dir == 'z' else PlotGrid(3, 1, Px, Py, Pz)) and result == Px.show() or result == Py.show() or result == Pz.show() or result == PlotGrid(3, 1, Px, Py, Pz)"},"spec":{"lhs":"plot_slope(dir, subs)","rhs":"result == (Px.show() if dir == 'x' else Py.show() if dir == 'y' else Pz.show() if dir == 'z' else PlotGrid(3, 1, Px, Py, Pz)) and result == Px.show() or result == Py.show() or result == Pz.show() or result == PlotGrid(3, 1, Px, Py, Pz)","over":{"base":"Any","pred":"hasattr(dir, 'lower')"},"name":"plot_slope_correct"},"guarantee":"result == (Px.show() if dir == 'x' else Py.show() if dir == 'y' else Pz.show() if dir == 'z' else PlotGrid(3, 1, Px, Py, Pz)); result == Px.show() or result == Py.show() or result == Pz.show() or result == PlotGrid(3, 1, Px, Py, Pz); 4-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam3D.plot_slope_correct","statement":"Path(plot_slope(x), result == (Px.show() if dir == 'x' else Py.show() if dir == 'y' else Pz.show() if dir == 'z' else PlotGrid(3, 1, Px, Py, Pz)); result == Px.show() or result == Py.show() or result == Pz.show() or result == PlotGrid(3, 1, Px, Py, Pz); 4-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bc38b0b1d68ff449","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(dir, 'lower')"],"ensures":["result == (Px.show() if dir == 'x' else Py.show() if dir == 'y' else Pz.show() if dir == 'z' else PlotGrid(3, 1, Px, Py, Pz))","result == Px.show() or result == Py.show() or result == Pz.show() or result == PlotGrid(3, 1, Px, Py, Pz)"],"fibers":[{"name":"case_0","guard":"dir == 'x'","ensures":["result == Px.show()"],"decidability":"z3","returns_expr":"Px.show()"},{"name":"case_1","guard":"dir == 'y'","ensures":["result == Py.show()"],"decidability":"z3","returns_expr":"Py.show()"},{"name":"case_2","guard":"dir == 'z'","ensures":["result == Pz.show()"],"decidability":"z3","returns_expr":"Pz.show()"},{"name":"case_3","guard":"not (dir == 'x') and not (dir == 'y') and not (dir == 'z')","ensures":["result == PlotGrid(3, 1, Px, Py, Pz)"],"decidability":"z3","returns_expr":"PlotGrid(3, 1, Px, Py, Pz)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["dir.lower","self._plot_slope"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def plot_slope(self, dir="all", subs=None):
 
         """
@@ -4539,16 +5194,22 @@ class Beam3D(Beam):
             return PlotGrid(3, 1, Px, Py, Pz)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_plot_deflection(dir), id) over Any                   ║
+# ║ Path(_plot_deflection(dir, subs), id) over Any             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  plot(deflection[dir_num].subs(subs), (sel...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _plot_deflection : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | f3a6b23df5ba651a   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam3D._plot_deflection","kind":"method","src_hash":"515a067a3b7aca12","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_plot_deflection(dir)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_plot_deflection_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"plot","by":"library_axiom"},{"fn":"subs","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f3a6b23df5ba651a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam3D._plot_deflection","kind":"method","src_hash":"515a067a3b7aca12","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_plot_deflection(dir, subs)","rhs":"plot(deflection[dir_num].subs(subs), (self.variable, 0, length))","over":{"base":"Any"},"name":"_plot_deflection_correct","kind":"composition"},"guarantee":"returns plot(deflection[dir_num].subs(subs), (self.variable, 0, length))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"plot","by":"library_axiom"},{"fn":"subs","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f3a6b23df5ba651a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"plot(deflection[dir_num].subs(subs), (self.variable, 0, length))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.deflection","self.length","self.variable"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _plot_deflection(self, dir, subs=None):
 
         deflection = self.deflection()
@@ -4580,16 +5241,27 @@ class Beam3D(Beam):
                 xlabel=r'$\mathrm{X}$', ylabel=r'$\mathrm{\delta(%c)}$'%dir, line_color=color)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(plot_deflection(dir), returns a plot for deflection along all three directions present in the beam object) over Any ║
+# ║ Path(plot_deflection(dir, subs), result == (Px.show() if dir == 'x' else Py.show() if dir == 'y' else Pz.show() if dir == 'z' else PlotGrid(3, 1, Px, Py, Pz)) and result == Px.show() or result == Py.show() or result == Pz.show() or result == PlotGrid(3, 1, Px, Py, Pz)) over {Any | hasattr(dir, 'lower')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ plot_deflection : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(dir, 'lower')                          ║
+# ║   ensures:  result == (Px.show() if dir == 'x' else P...   ║
+# ║   ensures:  result == Px.show() or result == Py.show(...   ║
+# ║   fiber[case_0]: dir == 'x' => Px.show()                   ║
+# ║   fiber[case_1]: dir == 'y' => Py.show()                   ║
+# ║   fiber[case_2]: dir == 'z' => Pz.show()                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ plot_deflection : {Any | hasattr(dir, 'lower')} → {An...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4bf01a21015da9e7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 83f68df854f5ac9d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam3D.plot_deflection","kind":"method","src_hash":"d182bf25a0789717","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"plot_deflection(dir)","rhs":"returns a plot for deflection along all three directions present in the beam object","over":{"base":"Any"},"name":"plot_deflection_correct"},"guarantee":"returns a plot for deflection along all three directions present in the beam object","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam3D.plot_deflection_correct","statement":"Path(plot_deflection(x), returns a plot for deflection along all three directions present in the beam object)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4bf01a21015da9e7"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam3D.plot_deflection","kind":"method","src_hash":"d182bf25a0789717","in":{"base":"Any","pred":"hasattr(dir, 'lower')"},"out":{"base":"Any","pred":"result satisfies: result == (Px.show() if dir == 'x' else Py.show() if dir == 'y' else Pz.show() if dir == 'z' else PlotGrid(3, 1, Px, Py, Pz)) and result == Px.show() or result == Py.show() or result == Pz.show() or result == PlotGrid(3, 1, Px, Py, Pz)"},"spec":{"lhs":"plot_deflection(dir, subs)","rhs":"result == (Px.show() if dir == 'x' else Py.show() if dir == 'y' else Pz.show() if dir == 'z' else PlotGrid(3, 1, Px, Py, Pz)) and result == Px.show() or result == Py.show() or result == Pz.show() or result == PlotGrid(3, 1, Px, Py, Pz)","over":{"base":"Any","pred":"hasattr(dir, 'lower')"},"name":"plot_deflection_correct"},"guarantee":"result == (Px.show() if dir == 'x' else Py.show() if dir == 'y' else Pz.show() if dir == 'z' else PlotGrid(3, 1, Px, Py, Pz)); result == Px.show() or result == Py.show() or result == Pz.show() or result == PlotGrid(3, 1, Px, Py, Pz); 4-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam3D.plot_deflection_correct","statement":"Path(plot_deflection(x), result == (Px.show() if dir == 'x' else Py.show() if dir == 'y' else Pz.show() if dir == 'z' else PlotGrid(3, 1, Px, Py, Pz)); result == Px.show() or result == Py.show() or result == Pz.show() or result == PlotGrid(3, 1, Px, Py, Pz); 4-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"83f68df854f5ac9d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(dir, 'lower')"],"ensures":["result == (Px.show() if dir == 'x' else Py.show() if dir == 'y' else Pz.show() if dir == 'z' else PlotGrid(3, 1, Px, Py, Pz))","result == Px.show() or result == Py.show() or result == Pz.show() or result == PlotGrid(3, 1, Px, Py, Pz)"],"fibers":[{"name":"case_0","guard":"dir == 'x'","ensures":["result == Px.show()"],"decidability":"z3","returns_expr":"Px.show()"},{"name":"case_1","guard":"dir == 'y'","ensures":["result == Py.show()"],"decidability":"z3","returns_expr":"Py.show()"},{"name":"case_2","guard":"dir == 'z'","ensures":["result == Pz.show()"],"decidability":"z3","returns_expr":"Pz.show()"},{"name":"case_3","guard":"not (dir == 'x') and not (dir == 'y') and not (dir == 'z')","ensures":["result == PlotGrid(3, 1, Px, Py, Pz)"],"decidability":"z3","returns_expr":"PlotGrid(3, 1, Px, Py, Pz)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["dir.lower","self._plot_deflection"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def plot_deflection(self, dir="all", subs=None):
 
         """
@@ -4665,16 +5337,23 @@ class Beam3D(Beam):
             return PlotGrid(3, 1, Px, Py, Pz)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(plot_loading_results(dir), returns a subplot of shear force, bending moment, slope and deflection of the beam object along the direction specified) over Any ║
+# ║ Path(plot_loading_results(dir, subs), PlotGrid(4, 1, ax1, ax2, ax3, ax4)) over {Any | hasattr(dir, 'lower')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ plot_loading_results : Any → Any                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(dir, 'lower')                          ║
+# ║   returns:  PlotGrid(4, 1, ax1, ax2, ax3, ax4)             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ plot_loading_results : {Any | hasattr(dir, 'lower')} ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eb32e53710250a4a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 41f30771268be212  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam3D.plot_loading_results","kind":"method","src_hash":"230143e37e848b47","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"plot_loading_results(dir)","rhs":"returns a subplot of shear force, bending moment, slope and deflection of the beam object along the direction specified","over":{"base":"Any"},"name":"plot_loading_results_correct"},"guarantee":"returns a subplot of shear force, bending moment, slope and deflection of the beam object along the direction specified","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam3D.plot_loading_results_correct","statement":"Path(plot_loading_results(x), returns a subplot of shear force, bending moment, slope and deflection of the beam object along the direction specified)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eb32e53710250a4a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam3D.plot_loading_results","kind":"method","src_hash":"230143e37e848b47","in":{"base":"Any","pred":"hasattr(dir, 'lower')"},"out":{"base":"Any"},"spec":{"lhs":"plot_loading_results(dir, subs)","rhs":"PlotGrid(4, 1, ax1, ax2, ax3, ax4)","over":{"base":"Any","pred":"hasattr(dir, 'lower')"},"name":"plot_loading_results_correct"},"guarantee":"returns PlotGrid(4, 1, ax1, ax2, ax3, ax4)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam3D.plot_loading_results_correct","statement":"Path(plot_loading_results(x), returns PlotGrid(4, 1, ax1, ax2, ax3, ax4))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"41f30771268be212","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(dir, 'lower')"],"returns_expr":"PlotGrid(4, 1, ax1, ax2, ax3, ax4)","pure":false,"effects":{"effect_type":"reads_state","reads":["dir.lower","self._plot_bending_moment","self._plot_deflection","self._plot_shear_force","self._plot_slope"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def plot_loading_results(self, dir='x', subs=None):
 
         """
@@ -4744,16 +5423,22 @@ class Beam3D(Beam):
         return PlotGrid(4, 1, ax1, ax2, ax3, ax4)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_plot_shear_stress(dir), id) over Any                 ║
+# ║ Path(_plot_shear_stress(dir, subs), id) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  plot(shear_stress[dir_num].subs(subs), (s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _plot_shear_stress : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | a6bf0cd2c7db1bee   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam3D._plot_shear_stress","kind":"method","src_hash":"d1fe0afb46e4594c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_plot_shear_stress(dir)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_plot_shear_stress_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"plot","by":"library_axiom"},{"fn":"subs","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a6bf0cd2c7db1bee"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam3D._plot_shear_stress","kind":"method","src_hash":"d1fe0afb46e4594c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_plot_shear_stress(dir, subs)","rhs":"plot(shear_stress[dir_num].subs(subs), (self.variable, 0, length), show=False, title='Shear stress along %c direction' % dir, xlabel='$\\\\mathrm{X}$', ylabel='$\\\\tau(%c)$' % dir, line_color=color)","over":{"base":"Any"},"name":"_plot_shear_stress_correct","kind":"composition"},"guarantee":"returns plot(shear_stress[dir_num].subs(subs), (self.variable, 0, length), show=False, title='Shear stress along %c direction' % dir, xlabel='$\\\\mathrm{X}$', ylabel='$\\\\tau(%c)$' % dir, line_color=color)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"plot","by":"library_axiom"},{"fn":"subs","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a6bf0cd2c7db1bee","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"plot(shear_stress[dir_num].subs(subs), (self.variable, 0, length), show=False, title='Shear stress along %c direction' % dir, xlabel='$\\\\mathrm{X}$', ylabel='$\\\\tau(%c)$' % dir, line_color=color)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.length","self.shear_stress","self.variable"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _plot_shear_stress(self, dir, subs=None):
 
         shear_stress = self.shear_stress()
@@ -4785,16 +5470,27 @@ class Beam3D(Beam):
                 xlabel=r'$\mathrm{X}$', ylabel=r'$\tau(%c)$'%dir, line_color=color)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(plot_shear_stress(dir), returns a plot for shear stress along all three directions present in the beam object) over Any ║
+# ║ Path(plot_shear_stress(dir, subs), result == (Px.show() if dir == 'x' else Py.show() if dir == 'y' else Pz.show() if dir == 'z' else PlotGrid(3, 1, Px, Py, Pz)) and result == Px.show() or result == Py.show() or result == Pz.show() or result == PlotGrid(3, 1, Px, Py, Pz)) over {Any | hasattr(dir, 'lower')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ plot_shear_stress : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(dir, 'lower')                          ║
+# ║   ensures:  result == (Px.show() if dir == 'x' else P...   ║
+# ║   ensures:  result == Px.show() or result == Py.show(...   ║
+# ║   fiber[case_0]: dir == 'x' => Px.show()                   ║
+# ║   fiber[case_1]: dir == 'y' => Py.show()                   ║
+# ║   fiber[case_2]: dir == 'z' => Pz.show()                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ plot_shear_stress : {Any | hasattr(dir, 'lower')} → {...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ace357cdb3a171df  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6e5f93c38cf48723  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam3D.plot_shear_stress","kind":"method","src_hash":"634c2436d8479587","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"plot_shear_stress(dir)","rhs":"returns a plot for shear stress along all three directions present in the beam object","over":{"base":"Any"},"name":"plot_shear_stress_correct"},"guarantee":"returns a plot for shear stress along all three directions present in the beam object","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam3D.plot_shear_stress_correct","statement":"Path(plot_shear_stress(x), returns a plot for shear stress along all three directions present in the beam object)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ace357cdb3a171df"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam3D.plot_shear_stress","kind":"method","src_hash":"634c2436d8479587","in":{"base":"Any","pred":"hasattr(dir, 'lower')"},"out":{"base":"Any","pred":"result satisfies: result == (Px.show() if dir == 'x' else Py.show() if dir == 'y' else Pz.show() if dir == 'z' else PlotGrid(3, 1, Px, Py, Pz)) and result == Px.show() or result == Py.show() or result == Pz.show() or result == PlotGrid(3, 1, Px, Py, Pz)"},"spec":{"lhs":"plot_shear_stress(dir, subs)","rhs":"result == (Px.show() if dir == 'x' else Py.show() if dir == 'y' else Pz.show() if dir == 'z' else PlotGrid(3, 1, Px, Py, Pz)) and result == Px.show() or result == Py.show() or result == Pz.show() or result == PlotGrid(3, 1, Px, Py, Pz)","over":{"base":"Any","pred":"hasattr(dir, 'lower')"},"name":"plot_shear_stress_correct"},"guarantee":"result == (Px.show() if dir == 'x' else Py.show() if dir == 'y' else Pz.show() if dir == 'z' else PlotGrid(3, 1, Px, Py, Pz)); result == Px.show() or result == Py.show() or result == Pz.show() or result == PlotGrid(3, 1, Px, Py, Pz); 4-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam3D.plot_shear_stress_correct","statement":"Path(plot_shear_stress(x), result == (Px.show() if dir == 'x' else Py.show() if dir == 'y' else Pz.show() if dir == 'z' else PlotGrid(3, 1, Px, Py, Pz)); result == Px.show() or result == Py.show() or result == Pz.show() or result == PlotGrid(3, 1, Px, Py, Pz); 4-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6e5f93c38cf48723","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(dir, 'lower')"],"ensures":["result == (Px.show() if dir == 'x' else Py.show() if dir == 'y' else Pz.show() if dir == 'z' else PlotGrid(3, 1, Px, Py, Pz))","result == Px.show() or result == Py.show() or result == Pz.show() or result == PlotGrid(3, 1, Px, Py, Pz)"],"fibers":[{"name":"case_0","guard":"dir == 'x'","ensures":["result == Px.show()"],"decidability":"z3","returns_expr":"Px.show()"},{"name":"case_1","guard":"dir == 'y'","ensures":["result == Py.show()"],"decidability":"z3","returns_expr":"Py.show()"},{"name":"case_2","guard":"dir == 'z'","ensures":["result == Pz.show()"],"decidability":"z3","returns_expr":"Pz.show()"},{"name":"case_3","guard":"not (dir == 'x') and not (dir == 'y') and not (dir == 'z')","ensures":["result == PlotGrid(3, 1, Px, Py, Pz)"],"decidability":"z3","returns_expr":"PlotGrid(3, 1, Px, Py, Pz)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["dir.lower","self._plot_shear_stress"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def plot_shear_stress(self, dir="all", subs=None):
 
         """
@@ -4868,16 +5564,23 @@ class Beam3D(Beam):
             return PlotGrid(3, 1, Px, Py, Pz)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_max_shear_force(dir), helper function for max_shear_force()) over Any ║
+# ║ Path(_max_shear_force(dir), <unspecified:_max_shear_force>) over {Any | hasattr(dir, 'lower')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _max_shear_force : Any → Any                               ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(dir, 'lower')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _max_shear_force : {Any | hasattr(dir, 'lower')} → Any     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d1129abcfe2584c6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam3D._max_shear_force","kind":"method","src_hash":"e075b30ba8407d64","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_max_shear_force(dir)","rhs":"helper function for max_shear_force()","over":{"base":"Any"},"name":"_max_shear_force_correct"},"guarantee":"helper function for max_shear_force()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam3D._max_shear_force_correct","statement":"Path(_max_shear_force(x), helper function for max_shear_force())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d1129abcfe2584c6"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam3D._max_shear_force","kind":"method","src_hash":"e075b30ba8407d64","in":{"base":"Any","pred":"hasattr(dir, 'lower')"},"out":{"base":"Any"},"spec":{"lhs":"_max_shear_force(dir)","rhs":"<unspecified:_max_shear_force>","over":{"base":"Any","pred":"hasattr(dir, 'lower')"},"name":"_max_shear_force_correct"},"guarantee":"helper function for max_shear_force()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam3D._max_shear_force_correct","statement":"Path(_max_shear_force(x), helper function for max_shear_force())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d1129abcfe2584c6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(dir, 'lower')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _max_shear_force(self, dir):
         """
         Helper function for max_shear_force().
@@ -4913,16 +5616,22 @@ class Beam3D(Beam):
         return (points[shear_values.index(max_shear)], max_shear)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(max_shear_force(), returns point of max shear force and its corresponding shear value along all directions in a beam object as a list. solve_for_reaction_loads() must be called before using this function) over Any ║
+# ║ Path(max_shear_force(), <unspecified:max_shear_force>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ max_shear_force : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e7f717f730d59b83  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam3D.max_shear_force","kind":"method","src_hash":"a786717ce2d4f20c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"max_shear_force()","rhs":"returns point of max shear force and its corresponding shear value along all directions in a beam object as a list. solve_for_reaction_loads() must be called before using this function","over":{"base":"Any"},"name":"max_shear_force_correct"},"guarantee":"returns point of max shear force and its corresponding shear value along all directions in a beam object as a list. solve_for_reaction_loads() must be called before using this function","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam3D.max_shear_force_correct","statement":"Path(max_shear_force(x), returns point of max shear force and its corresponding shear value along all directions in a beam object as a list. solve_for_reaction_loads() must be called before using this function)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e7f717f730d59b83"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam3D.max_shear_force","kind":"method","src_hash":"a786717ce2d4f20c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"max_shear_force()","rhs":"<unspecified:max_shear_force>","over":{"base":"Any"},"name":"max_shear_force_correct"},"guarantee":"returns point of max shear force and its corresponding shear value along all directions in a beam object as a list. solve_for_reaction_loads() must be called before using this function","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam3D.max_shear_force_correct","statement":"Path(max_shear_force(x), returns point of max shear force and its corresponding shear value along all directions in a beam object as a list. solve_for_reaction_loads() must be called before using this function)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e7f717f730d59b83","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def max_shear_force(self):
         """
         Returns point of max shear force and its corresponding shear value
@@ -4965,16 +5674,23 @@ class Beam3D(Beam):
         return max_shear
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_max_bending_moment(dir), helper function for max_bending_moment()) over Any ║
+# ║ Path(_max_bending_moment(dir), <unspecified:_max_bending_moment>) over {Any | hasattr(dir, 'lower')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _max_bending_moment : Any → Any                            ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(dir, 'lower')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _max_bending_moment : {Any | hasattr(dir, 'lower')} →...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 97d7ea3bfeee1926  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam3D._max_bending_moment","kind":"method","src_hash":"947b371077dee924","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_max_bending_moment(dir)","rhs":"helper function for max_bending_moment()","over":{"base":"Any"},"name":"_max_bending_moment_correct"},"guarantee":"helper function for max_bending_moment()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam3D._max_bending_moment_correct","statement":"Path(_max_bending_moment(x), helper function for max_bending_moment())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"97d7ea3bfeee1926"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam3D._max_bending_moment","kind":"method","src_hash":"947b371077dee924","in":{"base":"Any","pred":"hasattr(dir, 'lower')"},"out":{"base":"Any"},"spec":{"lhs":"_max_bending_moment(dir)","rhs":"<unspecified:_max_bending_moment>","over":{"base":"Any","pred":"hasattr(dir, 'lower')"},"name":"_max_bending_moment_correct"},"guarantee":"helper function for max_bending_moment()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam3D._max_bending_moment_correct","statement":"Path(_max_bending_moment(x), helper function for max_bending_moment())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"97d7ea3bfeee1926","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(dir, 'lower')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _max_bending_moment(self, dir):
         """
         Helper function for max_bending_moment().
@@ -5010,16 +5726,22 @@ class Beam3D(Beam):
         return (points[bending_moments.index(max_bending_moment)], max_bending_moment)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(max_bending_moment(), returns point of max bending moment and its corresponding bending moment value along all directions in a beam object as a list. solve_for_reaction_loads() must be called before using this function) over Any ║
+# ║ Path(max_bending_moment(), <unspecified:max_bending_moment>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ max_bending_moment : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d9c0aeaa5961890d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam3D.max_bending_moment","kind":"method","src_hash":"25f6915559b7576b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"max_bending_moment()","rhs":"returns point of max bending moment and its corresponding bending moment value along all directions in a beam object as a list. solve_for_reaction_loads() must be called before using this function","over":{"base":"Any"},"name":"max_bending_moment_correct"},"guarantee":"returns point of max bending moment and its corresponding bending moment value along all directions in a beam object as a list. solve_for_reaction_loads() must be called before using this function","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam3D.max_bending_moment_correct","statement":"Path(max_bending_moment(x), returns point of max bending moment and its corresponding bending moment value along all directions in a beam object as a list. solve_for_reaction_loads() must be called before using this function)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d9c0aeaa5961890d"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam3D.max_bending_moment","kind":"method","src_hash":"25f6915559b7576b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"max_bending_moment()","rhs":"<unspecified:max_bending_moment>","over":{"base":"Any"},"name":"max_bending_moment_correct"},"guarantee":"returns point of max bending moment and its corresponding bending moment value along all directions in a beam object as a list. solve_for_reaction_loads() must be called before using this function","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam3D.max_bending_moment_correct","statement":"Path(max_bending_moment(x), returns point of max bending moment and its corresponding bending moment value along all directions in a beam object as a list. solve_for_reaction_loads() must be called before using this function)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d9c0aeaa5961890d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def max_bending_moment(self):
         """
         Returns point of max bending moment and its corresponding bending moment value
@@ -5064,16 +5786,23 @@ class Beam3D(Beam):
     max_bmoment = max_bending_moment
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_max_deflection(dir), helper function for max_deflection()) over Any ║
+# ║ Path(_max_deflection(dir), <unspecified:_max_deflection>) over {Any | hasattr(dir, 'lower')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _max_deflection : Any → Any                                ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(dir, 'lower')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _max_deflection : {Any | hasattr(dir, 'lower')} → Any      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0992c7e343756a62  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam3D._max_deflection","kind":"method","src_hash":"fcee63ccca6800df","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_max_deflection(dir)","rhs":"helper function for max_deflection()","over":{"base":"Any"},"name":"_max_deflection_correct"},"guarantee":"helper function for max_deflection()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam3D._max_deflection_correct","statement":"Path(_max_deflection(x), helper function for max_deflection())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0992c7e343756a62"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam3D._max_deflection","kind":"method","src_hash":"fcee63ccca6800df","in":{"base":"Any","pred":"hasattr(dir, 'lower')"},"out":{"base":"Any"},"spec":{"lhs":"_max_deflection(dir)","rhs":"<unspecified:_max_deflection>","over":{"base":"Any","pred":"hasattr(dir, 'lower')"},"name":"_max_deflection_correct"},"guarantee":"helper function for max_deflection()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam3D._max_deflection_correct","statement":"Path(_max_deflection(x), helper function for max_deflection())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0992c7e343756a62","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(dir, 'lower')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _max_deflection(self, dir):
         """
         Helper function for max_Deflection()
@@ -5109,16 +5838,22 @@ class Beam3D(Beam):
         return (points[deflections.index(max_def)], max_def)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(max_deflection(), returns point of max deflection and its corresponding deflection value along all directions in a beam object as a list. solve_for_reaction_loads() and solve_slope_deflection() must be called before us) over Any ║
+# ║ Path(max_deflection(), <unspecified:max_deflection>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ max_deflection : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4a8ff8e18ef2af95  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam3D.max_deflection","kind":"method","src_hash":"2484e1f6de3b6718","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"max_deflection()","rhs":"returns point of max deflection and its corresponding deflection value along all directions in a beam object as a list. solve_for_reaction_loads() and solve_slope_deflection() must be called before us","over":{"base":"Any"},"name":"max_deflection_correct"},"guarantee":"returns point of max deflection and its corresponding deflection value along all directions in a beam object as a list. solve_for_reaction_loads() and solve_slope_deflection() must be called before us","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam3D.max_deflection_correct","statement":"Path(max_deflection(x), returns point of max deflection and its corresponding deflection value along all directions in a beam object as a list. solve_for_reaction_loads() and solve_slope_deflection() must be called before us)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4a8ff8e18ef2af95"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.beam.Beam3D.max_deflection","kind":"method","src_hash":"2484e1f6de3b6718","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"max_deflection()","rhs":"<unspecified:max_deflection>","over":{"base":"Any"},"name":"max_deflection_correct"},"guarantee":"returns point of max deflection and its corresponding deflection value along all directions in a beam object as a list. solve_for_reaction_loads() and solve_slope_deflection() must be called before us","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.beam.Beam3D.max_deflection_correct","statement":"Path(max_deflection(x), returns point of max deflection and its corresponding deflection value along all directions in a beam object as a list. solve_for_reaction_loads() and solve_slope_deflection() must be called before us)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4a8ff8e18ef2af95","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def max_deflection(self):
         """
         Returns point of max deflection and its corresponding deflection value

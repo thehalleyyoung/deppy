@@ -22,16 +22,22 @@ from sympy.utilities import public
 
 @public
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(approximants(l, ), return a generator for consecutive pade approximants for a series. it can also be used for computing the rational generating function of a series when possible, since the last approximant returned by ) over Any ║
+# ║ Path(approximants(l, X, simplify), <unspecified:approximants>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ approximants : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9b22f579dc07a449  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.approximants.approximants","kind":"function","src_hash":"85b5f4de29b9bde5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"approximants(l, )","rhs":"return a generator for consecutive pade approximants for a series. it can also be used for computing the rational generating function of a series when possible, since the last approximant returned by ","over":{"base":"Any"},"name":"approximants_correct"},"guarantee":"return a generator for consecutive pade approximants for a series. it can also be used for computing the rational generating function of a series when possible, since the last approximant returned by ","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.approximants.approximants_correct","statement":"Path(approximants(x), return a generator for consecutive pade approximants for a series. it can also be used for computing the rational generating function of a series when possible, since the last approximant returned by )"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9b22f579dc07a449"}
+# @cctt_verify {"v":2,"sym":"sympy.series.approximants.approximants","kind":"function","src_hash":"85b5f4de29b9bde5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"approximants(l, X, simplify)","rhs":"<unspecified:approximants>","over":{"base":"Any"},"name":"approximants_correct"},"guarantee":"return a generator for consecutive pade approximants for a series. it can also be used for computing the rational generating function of a series when possible, since the last approximant returned by ","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.approximants.approximants_correct","statement":"Path(approximants(x), return a generator for consecutive pade approximants for a series. it can also be used for computing the rational generating function of a series when possible, since the last approximant returned by )"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9b22f579dc07a449","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def approximants(l, X=Symbol('x'), simplify=False):
     """
     Return a generator for consecutive Pade approximants for a series.

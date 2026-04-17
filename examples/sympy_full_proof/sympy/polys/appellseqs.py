@@ -45,16 +45,23 @@ from sympy.polys.polytools import named_poly
 from sympy.utilities import public
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_bernoulli(n, ), low-level implementation of bernoulli polynomials) over Any ║
+# ║ Path(dup_bernoulli(n, K), <unspecified:dup_bernoulli>) over {Any | hasattr(K, 'one')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dup_bernoulli : Any → Any                                  ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(K, 'one')                              ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dup_bernoulli : {Any | hasattr(K, 'one')} → Any            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 727a1344bea83fee  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.appellseqs.dup_bernoulli","kind":"function","src_hash":"21b1baf61da050da","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_bernoulli(n, )","rhs":"low-level implementation of bernoulli polynomials","over":{"base":"Any"},"name":"dup_bernoulli_correct"},"guarantee":"low-level implementation of bernoulli polynomials","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.appellseqs.dup_bernoulli_correct","statement":"Path(dup_bernoulli(x), low-level implementation of bernoulli polynomials)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"727a1344bea83fee"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.appellseqs.dup_bernoulli","kind":"function","src_hash":"21b1baf61da050da","in":{"base":"Any","pred":"hasattr(K, 'one')"},"out":{"base":"Any"},"spec":{"lhs":"dup_bernoulli(n, K)","rhs":"<unspecified:dup_bernoulli>","over":{"base":"Any","pred":"hasattr(K, 'one')"},"name":"dup_bernoulli_correct"},"guarantee":"low-level implementation of bernoulli polynomials","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.appellseqs.dup_bernoulli_correct","statement":"Path(dup_bernoulli(x), low-level implementation of bernoulli polynomials)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"727a1344bea83fee","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(K, 'one')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["K.one"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def dup_bernoulli(n, K):
     """Low-level implementation of Bernoulli polynomials."""
     if n < 1:
@@ -68,16 +75,22 @@ def dup_bernoulli(n, K):
 
 @public
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(bernoulli_poly(n, ), generates the bernoulli polynomial `\operatorname{b}_n(x)`) over Any ║
+# ║ Path(bernoulli_poly(n, x, polys), named_poly(n, dup_bernoulli, QQ, 'Bernoulli polynomial', (x,), polys)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  named_poly(n, dup_bernoulli, QQ, 'Bernoul...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ bernoulli_poly : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6e4d3f2e3c17adc2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.appellseqs.bernoulli_poly","kind":"function","src_hash":"006ca720645a67e0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bernoulli_poly(n, )","rhs":"generates the bernoulli polynomial `\\operatorname{b}_n(x)`","over":{"base":"Any"},"name":"bernoulli_poly_correct"},"guarantee":"generates the bernoulli polynomial `\\operatorname{b}_n(x)`","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6e4d3f2e3c17adc2"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.appellseqs.bernoulli_poly","kind":"function","src_hash":"006ca720645a67e0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bernoulli_poly(n, x, polys)","rhs":"named_poly(n, dup_bernoulli, QQ, 'Bernoulli polynomial', (x,), polys)","over":{"base":"Any"},"name":"bernoulli_poly_correct"},"guarantee":"returns named_poly(n, dup_bernoulli, QQ, 'Bernoulli polynomial', (x,), polys)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6e4d3f2e3c17adc2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"named_poly(n, dup_bernoulli, QQ, 'Bernoulli polynomial', (x,), polys)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":true}}
 def bernoulli_poly(n, x=None, polys=False):
     r"""Generates the Bernoulli polynomial `\operatorname{B}_n(x)`.
 
@@ -139,16 +152,23 @@ def bernoulli_poly(n, x=None, polys=False):
     return named_poly(n, dup_bernoulli, QQ, "Bernoulli polynomial", (x,), polys)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_bernoulli_c(n, ), low-level implementation of central bernoulli polynomials) over Any ║
+# ║ Path(dup_bernoulli_c(n, K), <unspecified:dup_bernoulli_c>) over {Any | hasattr(K, 'one')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dup_bernoulli_c : Any → Any                                ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(K, 'one')                              ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dup_bernoulli_c : {Any | hasattr(K, 'one')} → Any          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7dbe1fdd0422ed22  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.appellseqs.dup_bernoulli_c","kind":"function","src_hash":"03c434ef68dd15f3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_bernoulli_c(n, )","rhs":"low-level implementation of central bernoulli polynomials","over":{"base":"Any"},"name":"dup_bernoulli_c_correct"},"guarantee":"low-level implementation of central bernoulli polynomials","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.appellseqs.dup_bernoulli_c_correct","statement":"Path(dup_bernoulli_c(x), low-level implementation of central bernoulli polynomials)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7dbe1fdd0422ed22"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.appellseqs.dup_bernoulli_c","kind":"function","src_hash":"03c434ef68dd15f3","in":{"base":"Any","pred":"hasattr(K, 'one')"},"out":{"base":"Any"},"spec":{"lhs":"dup_bernoulli_c(n, K)","rhs":"<unspecified:dup_bernoulli_c>","over":{"base":"Any","pred":"hasattr(K, 'one')"},"name":"dup_bernoulli_c_correct"},"guarantee":"low-level implementation of central bernoulli polynomials","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.appellseqs.dup_bernoulli_c_correct","statement":"Path(dup_bernoulli_c(x), low-level implementation of central bernoulli polynomials)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7dbe1fdd0422ed22","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(K, 'one')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["K.one"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def dup_bernoulli_c(n, K):
     """Low-level implementation of central Bernoulli polynomials."""
     p = [K.one]
@@ -160,16 +180,22 @@ def dup_bernoulli_c(n, K):
 
 @public
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(bernoulli_c_poly(n, ), generates the central bernoulli polynomial `\operatorname{b}_n^c(x)`) over Any ║
+# ║ Path(bernoulli_c_poly(n, x, polys), named_poly(n, dup_bernoulli_c, QQ, 'central Bernoulli polynomial', (x,), polys)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  named_poly(n, dup_bernoulli_c, QQ, 'centr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ bernoulli_c_poly : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 667ab191541e34f7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.appellseqs.bernoulli_c_poly","kind":"function","src_hash":"ff0efcd62314dd85","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bernoulli_c_poly(n, )","rhs":"generates the central bernoulli polynomial `\\operatorname{b}_n^c(x)`","over":{"base":"Any"},"name":"bernoulli_c_poly_correct"},"guarantee":"generates the central bernoulli polynomial `\\operatorname{b}_n^c(x)`","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"667ab191541e34f7"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.appellseqs.bernoulli_c_poly","kind":"function","src_hash":"ff0efcd62314dd85","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bernoulli_c_poly(n, x, polys)","rhs":"named_poly(n, dup_bernoulli_c, QQ, 'central Bernoulli polynomial', (x,), polys)","over":{"base":"Any"},"name":"bernoulli_c_poly_correct"},"guarantee":"returns named_poly(n, dup_bernoulli_c, QQ, 'central Bernoulli polynomial', (x,), polys)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"667ab191541e34f7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"named_poly(n, dup_bernoulli_c, QQ, 'central Bernoulli polynomial', (x,), polys)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":true}}
 def bernoulli_c_poly(n, x=None, polys=False):
     r"""Generates the central Bernoulli polynomial `\operatorname{B}_n^c(x)`.
 
@@ -192,16 +218,24 @@ def bernoulli_c_poly(n, x=None, polys=False):
     return named_poly(n, dup_bernoulli_c, QQ, "central Bernoulli polynomial", (x,), polys)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_genocchi(n, ), low-level implementation of genocchi polynomials) over Any ║
+# ║ Path(dup_genocchi(n, K), <unspecified:dup_genocchi>) over {Any | hasattr(K, 'zero') and hasattr(K, 'one')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dup_genocchi : Any → Any                                   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(K, 'zero')                             ║
+# ║   requires: hasattr(K, 'one')                              ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dup_genocchi : {Any | hasattr(K, 'zero') and hasattr(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 66991677094c2ba7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.appellseqs.dup_genocchi","kind":"function","src_hash":"44a9a885cbbf6c54","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_genocchi(n, )","rhs":"low-level implementation of genocchi polynomials","over":{"base":"Any"},"name":"dup_genocchi_correct"},"guarantee":"low-level implementation of genocchi polynomials","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.appellseqs.dup_genocchi_correct","statement":"Path(dup_genocchi(x), low-level implementation of genocchi polynomials)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"66991677094c2ba7"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.appellseqs.dup_genocchi","kind":"function","src_hash":"44a9a885cbbf6c54","in":{"base":"Any","pred":"hasattr(K, 'zero') and hasattr(K, 'one')"},"out":{"base":"Any"},"spec":{"lhs":"dup_genocchi(n, K)","rhs":"<unspecified:dup_genocchi>","over":{"base":"Any","pred":"hasattr(K, 'zero') and hasattr(K, 'one')"},"name":"dup_genocchi_correct"},"guarantee":"low-level implementation of genocchi polynomials","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.appellseqs.dup_genocchi_correct","statement":"Path(dup_genocchi(x), low-level implementation of genocchi polynomials)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"66991677094c2ba7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(K, 'zero')","hasattr(K, 'one')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["K.one","K.zero"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def dup_genocchi(n, K):
     """Low-level implementation of Genocchi polynomials."""
     if n < 1:
@@ -215,16 +249,22 @@ def dup_genocchi(n, K):
 
 @public
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(genocchi_poly(n, ), generates the genocchi polynomial `\operatorname{g}_n(x)`) over Any ║
+# ║ Path(genocchi_poly(n, x, polys), named_poly(n, dup_genocchi, ZZ, 'Genocchi polynomial', (x,), polys)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  named_poly(n, dup_genocchi, ZZ, 'Genocchi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ genocchi_poly : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 78422af42e3075c9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.appellseqs.genocchi_poly","kind":"function","src_hash":"4860c1f4aefd0e05","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"genocchi_poly(n, )","rhs":"generates the genocchi polynomial `\\operatorname{g}_n(x)`","over":{"base":"Any"},"name":"genocchi_poly_correct"},"guarantee":"generates the genocchi polynomial `\\operatorname{g}_n(x)`","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"78422af42e3075c9"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.appellseqs.genocchi_poly","kind":"function","src_hash":"4860c1f4aefd0e05","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"genocchi_poly(n, x, polys)","rhs":"named_poly(n, dup_genocchi, ZZ, 'Genocchi polynomial', (x,), polys)","over":{"base":"Any"},"name":"genocchi_poly_correct"},"guarantee":"returns named_poly(n, dup_genocchi, ZZ, 'Genocchi polynomial', (x,), polys)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"78422af42e3075c9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"named_poly(n, dup_genocchi, ZZ, 'Genocchi polynomial', (x,), polys)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":true}}
 def genocchi_poly(n, x=None, polys=False):
     r"""Generates the Genocchi polynomial `\operatorname{G}_n(x)`.
 
@@ -254,32 +294,44 @@ def genocchi_poly(n, x=None, polys=False):
     return named_poly(n, dup_genocchi, ZZ, "Genocchi polynomial", (x,), polys)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_euler(n, ), low-level implementation of euler polynomials) over Any ║
+# ║ Path(dup_euler(n, K), dup_quo_ground(dup_genocchi(n + 1, ZZ), K(-n - 1), K)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  dup_quo_ground(dup_genocchi(n + 1, ZZ), K...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_euler : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 48a1fe5588ea000f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.appellseqs.dup_euler","kind":"function","src_hash":"9bb3e48725dd56d4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_euler(n, )","rhs":"low-level implementation of euler polynomials","over":{"base":"Any"},"name":"dup_euler_correct"},"guarantee":"low-level implementation of euler polynomials","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"48a1fe5588ea000f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.appellseqs.dup_euler","kind":"function","src_hash":"9bb3e48725dd56d4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_euler(n, K)","rhs":"dup_quo_ground(dup_genocchi(n + 1, ZZ), K(-n - 1), K)","over":{"base":"Any"},"name":"dup_euler_correct"},"guarantee":"returns dup_quo_ground(dup_genocchi(n + 1, ZZ), K(-n - 1), K)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"48a1fe5588ea000f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"dup_quo_ground(dup_genocchi(n + 1, ZZ), K(-n - 1), K)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def dup_euler(n, K):
     """Low-level implementation of Euler polynomials."""
     return dup_quo_ground(dup_genocchi(n+1, ZZ), K(-n-1), K)
 
 @public
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(euler_poly(n, ), generates the euler polynomial `\operatorname{e}_n(x)`) over Any ║
+# ║ Path(euler_poly(n, x, polys), named_poly(n, dup_euler, QQ, 'Euler polynomial', (x,), polys)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  named_poly(n, dup_euler, QQ, 'Euler polyn...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ euler_poly : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 50140269c143fd75           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.appellseqs.euler_poly","kind":"function","src_hash":"b01bb3d5fb67bacf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"euler_poly(n, )","rhs":"generates the euler polynomial `\\operatorname{e}_n(x)`","over":{"base":"Any"},"name":"euler_poly_correct"},"guarantee":"generates the euler polynomial `\\operatorname{e}_n(x)`","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"50140269c143fd75"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.appellseqs.euler_poly","kind":"function","src_hash":"b01bb3d5fb67bacf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"euler_poly(n, x, polys)","rhs":"named_poly(n, dup_euler, QQ, 'Euler polynomial', (x,), polys)","over":{"base":"Any"},"name":"euler_poly_correct"},"guarantee":"returns named_poly(n, dup_euler, QQ, 'Euler polynomial', (x,), polys)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"50140269c143fd75","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"named_poly(n, dup_euler, QQ, 'Euler polynomial', (x,), polys)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def euler_poly(n, x=None, polys=False):
     r"""Generates the Euler polynomial `\operatorname{E}_n(x)`.
 
@@ -304,16 +356,23 @@ def euler_poly(n, x=None, polys=False):
     return named_poly(n, dup_euler, QQ, "Euler polynomial", (x,), polys)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_andre(n, ), low-level implementation of andre polynomials) over Any ║
+# ║ Path(dup_andre(n, K), <unspecified:dup_andre>) over {Any | hasattr(K, 'one')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dup_andre : Any → Any                                      ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(K, 'one')                              ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dup_andre : {Any | hasattr(K, 'one')} → Any                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 14d921fc62e0e369  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.appellseqs.dup_andre","kind":"function","src_hash":"260f42c4d4eb135b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_andre(n, )","rhs":"low-level implementation of andre polynomials","over":{"base":"Any"},"name":"dup_andre_correct"},"guarantee":"low-level implementation of andre polynomials","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.appellseqs.dup_andre_correct","statement":"Path(dup_andre(x), low-level implementation of andre polynomials)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"14d921fc62e0e369"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.appellseqs.dup_andre","kind":"function","src_hash":"260f42c4d4eb135b","in":{"base":"Any","pred":"hasattr(K, 'one')"},"out":{"base":"Any"},"spec":{"lhs":"dup_andre(n, K)","rhs":"<unspecified:dup_andre>","over":{"base":"Any","pred":"hasattr(K, 'one')"},"name":"dup_andre_correct"},"guarantee":"low-level implementation of andre polynomials","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.appellseqs.dup_andre_correct","statement":"Path(dup_andre(x), low-level implementation of andre polynomials)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"14d921fc62e0e369","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(K, 'one')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["K.one"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def dup_andre(n, K):
     """Low-level implementation of Andre polynomials."""
     p = [K.one]
@@ -325,16 +384,22 @@ def dup_andre(n, K):
 
 @public
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(andre_poly(n, ), generates the andre polynomial `\mathcal{a}_n(x)`) over Any ║
+# ║ Path(andre_poly(n, x, polys), named_poly(n, dup_andre, ZZ, 'Andre polynomial', (x,), polys)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  named_poly(n, dup_andre, ZZ, 'Andre polyn...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ andre_poly : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 03295015d4c07d12           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.appellseqs.andre_poly","kind":"function","src_hash":"981041bf5a914997","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"andre_poly(n, )","rhs":"generates the andre polynomial `\\mathcal{a}_n(x)`","over":{"base":"Any"},"name":"andre_poly_correct"},"guarantee":"generates the andre polynomial `\\mathcal{a}_n(x)`","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"03295015d4c07d12"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.appellseqs.andre_poly","kind":"function","src_hash":"981041bf5a914997","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"andre_poly(n, x, polys)","rhs":"named_poly(n, dup_andre, ZZ, 'Andre polynomial', (x,), polys)","over":{"base":"Any"},"name":"andre_poly_correct"},"guarantee":"returns named_poly(n, dup_andre, ZZ, 'Andre polynomial', (x,), polys)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"03295015d4c07d12","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"named_poly(n, dup_andre, ZZ, 'Andre polynomial', (x,), polys)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":true}}
 def andre_poly(n, x=None, polys=False):
     r"""Generates the Andre polynomial `\mathcal{A}_n(x)`.
 

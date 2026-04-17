@@ -59,91 +59,132 @@ from sympy.simplify.simplify import simplify
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(TestMusculotendonFormulation(*args), correctly constructs a TestMusculotendonFormulation instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ TestMusculotendonFormulation : Any → {Any | Musculote...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b0ee38b7645ee479  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonFormulation","kind":"class","src_hash":"bf094152cc2ece14","in":{"base":"Any"},"out":{"base":"Any","pred":"MusculotendonFormulation(0) == 0 and MusculotendonFormulation.RIGID_TENDON == 0 and MusculotendonFormulation(1) == 1 and MusculotendonFormulation.FIBER_LENGTH_EXPLICIT == 1 and MusculotendonFormulation(2) == 2 and MusculotendonFormulation.TENDON_FORCE_EXPLICIT == 2 and MusculotendonFormulation(3) == 3 and MusculotendonFormulation.FIBER_LENGTH_IMPLICIT == 3 and MusculotendonFormulation(4) == 4 and MusculotendonFormulation.TENDON_FORCE_IMPLICIT == 4"},"spec":{"lhs":"TestMusculotendonFormulation(*args)","rhs":"correctly constructs a TestMusculotendonFormulation instance","over":{"base":"Any"},"name":"TestMusculotendonFormulation_class_invariant"},"guarantee":"correctly constructs a TestMusculotendonFormulation instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b0ee38b7645ee479"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonFormulation","kind":"class","src_hash":"bf094152cc2ece14","in":{"base":"Any"},"out":{"base":"Any","pred":"MusculotendonFormulation(0) == 0 and MusculotendonFormulation.RIGID_TENDON == 0 and MusculotendonFormulation(1) == 1 and MusculotendonFormulation.FIBER_LENGTH_EXPLICIT == 1 and MusculotendonFormulation(2) == 2 and MusculotendonFormulation.TENDON_FORCE_EXPLICIT == 2 and MusculotendonFormulation(3) == 3 and MusculotendonFormulation.FIBER_LENGTH_IMPLICIT == 3 and MusculotendonFormulation(4) == 4 and MusculotendonFormulation.TENDON_FORCE_IMPLICIT == 4"},"spec":{"lhs":"TestMusculotendonFormulation(*args)","rhs":"correctly constructs a TestMusculotendonFormulation instance","over":{"base":"Any"},"name":"TestMusculotendonFormulation_class_invariant"},"guarantee":"correctly constructs a TestMusculotendonFormulation instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b0ee38b7645ee479","spec_source":"static","formal_spec":{"source":"static","strength":"trivial"},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function TestMusculotendonFormulation not found in source"]}}
 class TestMusculotendonFormulation:
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_rigid_tendon_member(), test_rigid_tendon_member produces the expected output) over Any ║
+# ║ Path(test_rigid_tendon_member(), MusculotendonFormulation(0) == 0 and MusculotendonFormulation.RIGID_TENDON == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_rigid_tendon_member : Any → Any                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  MusculotendonFormulation(0) == 0               ║
+# ║   ensures:  MusculotendonFormulation.RIGID_TENDON == 0     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_rigid_tendon_member : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c00c3ebb227287c2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 223744a9093a1cc0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonFormulation.test_rigid_tendon_member","kind":"staticmethod","src_hash":"53de678ca6c525bf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_rigid_tendon_member()","rhs":"test_rigid_tendon_member produces the expected output","over":{"base":"Any"},"name":"test_rigid_tendon_member_correct"},"guarantee":"test_rigid_tendon_member produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonFormulation.test_rigid_tendon_member_correct","statement":"Path(test_rigid_tendon_member(x), test_rigid_tendon_member produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c00c3ebb227287c2"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonFormulation.test_rigid_tendon_member","kind":"staticmethod","src_hash":"53de678ca6c525bf","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: MusculotendonFormulation(0) == 0 and MusculotendonFormulation.RIGID_TENDON == 0"},"spec":{"lhs":"test_rigid_tendon_member()","rhs":"MusculotendonFormulation(0) == 0 and MusculotendonFormulation.RIGID_TENDON == 0","over":{"base":"Any"},"name":"test_rigid_tendon_member_correct"},"guarantee":"MusculotendonFormulation(0) == 0; MusculotendonFormulation.RIGID_TENDON == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonFormulation.test_rigid_tendon_member_correct","statement":"Path(test_rigid_tendon_member(x), MusculotendonFormulation(0) == 0; MusculotendonFormulation.RIGID_TENDON == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"223744a9093a1cc0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["MusculotendonFormulation(0) == 0","MusculotendonFormulation.RIGID_TENDON == 0"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_rigid_tendon_member():
         assert MusculotendonFormulation(0) == 0
         assert MusculotendonFormulation.RIGID_TENDON == 0
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_fiber_length_explicit_member(), test_fiber_length_explicit_member produces the expected output) over Any ║
+# ║ Path(test_fiber_length_explicit_member(), MusculotendonFormulation(1) == 1 and MusculotendonFormulation.FIBER_LENGTH_EXPLICIT == 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_fiber_length_explicit_member : Any → Any              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  MusculotendonFormulation(1) == 1               ║
+# ║   ensures:  MusculotendonFormulation.FIBER_LENGTH_EXP...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_fiber_length_explicit_member : Any → {Any | resu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1d90b1aa60063fa2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bb706a411ba76935  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonFormulation.test_fiber_length_explicit_member","kind":"staticmethod","src_hash":"3bfaaacf0279b1e5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_fiber_length_explicit_member()","rhs":"test_fiber_length_explicit_member produces the expected output","over":{"base":"Any"},"name":"test_fiber_length_explicit_member_correct"},"guarantee":"test_fiber_length_explicit_member produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonFormulation.test_fiber_length_explicit_member_correct","statement":"Path(test_fiber_length_explicit_member(x), test_fiber_length_explicit_member produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1d90b1aa60063fa2"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonFormulation.test_fiber_length_explicit_member","kind":"staticmethod","src_hash":"3bfaaacf0279b1e5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: MusculotendonFormulation(1) == 1 and MusculotendonFormulation.FIBER_LENGTH_EXPLICIT == 1"},"spec":{"lhs":"test_fiber_length_explicit_member()","rhs":"MusculotendonFormulation(1) == 1 and MusculotendonFormulation.FIBER_LENGTH_EXPLICIT == 1","over":{"base":"Any"},"name":"test_fiber_length_explicit_member_correct"},"guarantee":"MusculotendonFormulation(1) == 1; MusculotendonFormulation.FIBER_LENGTH_EXPLICIT == 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonFormulation.test_fiber_length_explicit_member_correct","statement":"Path(test_fiber_length_explicit_member(x), MusculotendonFormulation(1) == 1; MusculotendonFormulation.FIBER_LENGTH_EXPLICIT == 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bb706a411ba76935","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["MusculotendonFormulation(1) == 1","MusculotendonFormulation.FIBER_LENGTH_EXPLICIT == 1"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_fiber_length_explicit_member():
         assert MusculotendonFormulation(1) == 1
         assert MusculotendonFormulation.FIBER_LENGTH_EXPLICIT == 1
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_tendon_force_explicit_member(), test_tendon_force_explicit_member produces the expected output) over Any ║
+# ║ Path(test_tendon_force_explicit_member(), MusculotendonFormulation(2) == 2 and MusculotendonFormulation.TENDON_FORCE_EXPLICIT == 2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_tendon_force_explicit_member : Any → Any              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  MusculotendonFormulation(2) == 2               ║
+# ║   ensures:  MusculotendonFormulation.TENDON_FORCE_EXP...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_tendon_force_explicit_member : Any → {Any | resu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 50db9c18ed9413b2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b75db23f440466c5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonFormulation.test_tendon_force_explicit_member","kind":"staticmethod","src_hash":"0ee6a3fd4af163cb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_tendon_force_explicit_member()","rhs":"test_tendon_force_explicit_member produces the expected output","over":{"base":"Any"},"name":"test_tendon_force_explicit_member_correct"},"guarantee":"test_tendon_force_explicit_member produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonFormulation.test_tendon_force_explicit_member_correct","statement":"Path(test_tendon_force_explicit_member(x), test_tendon_force_explicit_member produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"50db9c18ed9413b2"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonFormulation.test_tendon_force_explicit_member","kind":"staticmethod","src_hash":"0ee6a3fd4af163cb","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: MusculotendonFormulation(2) == 2 and MusculotendonFormulation.TENDON_FORCE_EXPLICIT == 2"},"spec":{"lhs":"test_tendon_force_explicit_member()","rhs":"MusculotendonFormulation(2) == 2 and MusculotendonFormulation.TENDON_FORCE_EXPLICIT == 2","over":{"base":"Any"},"name":"test_tendon_force_explicit_member_correct"},"guarantee":"MusculotendonFormulation(2) == 2; MusculotendonFormulation.TENDON_FORCE_EXPLICIT == 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonFormulation.test_tendon_force_explicit_member_correct","statement":"Path(test_tendon_force_explicit_member(x), MusculotendonFormulation(2) == 2; MusculotendonFormulation.TENDON_FORCE_EXPLICIT == 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b75db23f440466c5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["MusculotendonFormulation(2) == 2","MusculotendonFormulation.TENDON_FORCE_EXPLICIT == 2"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_tendon_force_explicit_member():
         assert MusculotendonFormulation(2) == 2
         assert MusculotendonFormulation.TENDON_FORCE_EXPLICIT == 2
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_fiber_length_implicit_member(), test_fiber_length_implicit_member produces the expected output) over Any ║
+# ║ Path(test_fiber_length_implicit_member(), MusculotendonFormulation(3) == 3 and MusculotendonFormulation.FIBER_LENGTH_IMPLICIT == 3) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_fiber_length_implicit_member : Any → Any              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  MusculotendonFormulation(3) == 3               ║
+# ║   ensures:  MusculotendonFormulation.FIBER_LENGTH_IMP...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_fiber_length_implicit_member : Any → {Any | resu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 61bbea4bce7500e1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 669001c1b4c1f1ab  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonFormulation.test_fiber_length_implicit_member","kind":"staticmethod","src_hash":"e3b04668ef4fa55e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_fiber_length_implicit_member()","rhs":"test_fiber_length_implicit_member produces the expected output","over":{"base":"Any"},"name":"test_fiber_length_implicit_member_correct"},"guarantee":"test_fiber_length_implicit_member produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonFormulation.test_fiber_length_implicit_member_correct","statement":"Path(test_fiber_length_implicit_member(x), test_fiber_length_implicit_member produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"61bbea4bce7500e1"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonFormulation.test_fiber_length_implicit_member","kind":"staticmethod","src_hash":"e3b04668ef4fa55e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: MusculotendonFormulation(3) == 3 and MusculotendonFormulation.FIBER_LENGTH_IMPLICIT == 3"},"spec":{"lhs":"test_fiber_length_implicit_member()","rhs":"MusculotendonFormulation(3) == 3 and MusculotendonFormulation.FIBER_LENGTH_IMPLICIT == 3","over":{"base":"Any"},"name":"test_fiber_length_implicit_member_correct"},"guarantee":"MusculotendonFormulation(3) == 3; MusculotendonFormulation.FIBER_LENGTH_IMPLICIT == 3","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonFormulation.test_fiber_length_implicit_member_correct","statement":"Path(test_fiber_length_implicit_member(x), MusculotendonFormulation(3) == 3; MusculotendonFormulation.FIBER_LENGTH_IMPLICIT == 3)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"669001c1b4c1f1ab","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["MusculotendonFormulation(3) == 3","MusculotendonFormulation.FIBER_LENGTH_IMPLICIT == 3"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_fiber_length_implicit_member():
         assert MusculotendonFormulation(3) == 3
         assert MusculotendonFormulation.FIBER_LENGTH_IMPLICIT == 3
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_tendon_force_implicit_member(), test_tendon_force_implicit_member produces the expected output) over Any ║
+# ║ Path(test_tendon_force_implicit_member(), MusculotendonFormulation(4) == 4 and MusculotendonFormulation.TENDON_FORCE_IMPLICIT == 4) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_tendon_force_implicit_member : Any → Any              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  MusculotendonFormulation(4) == 4               ║
+# ║   ensures:  MusculotendonFormulation.TENDON_FORCE_IMP...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_tendon_force_implicit_member : Any → {Any | resu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f27859a5acb3235a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 97a18301df9284c6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonFormulation.test_tendon_force_implicit_member","kind":"staticmethod","src_hash":"b10367e4ccfdc8c6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_tendon_force_implicit_member()","rhs":"test_tendon_force_implicit_member produces the expected output","over":{"base":"Any"},"name":"test_tendon_force_implicit_member_correct"},"guarantee":"test_tendon_force_implicit_member produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonFormulation.test_tendon_force_implicit_member_correct","statement":"Path(test_tendon_force_implicit_member(x), test_tendon_force_implicit_member produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f27859a5acb3235a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonFormulation.test_tendon_force_implicit_member","kind":"staticmethod","src_hash":"b10367e4ccfdc8c6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: MusculotendonFormulation(4) == 4 and MusculotendonFormulation.TENDON_FORCE_IMPLICIT == 4"},"spec":{"lhs":"test_tendon_force_implicit_member()","rhs":"MusculotendonFormulation(4) == 4 and MusculotendonFormulation.TENDON_FORCE_IMPLICIT == 4","over":{"base":"Any"},"name":"test_tendon_force_implicit_member_correct"},"guarantee":"MusculotendonFormulation(4) == 4; MusculotendonFormulation.TENDON_FORCE_IMPLICIT == 4","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonFormulation.test_tendon_force_implicit_member_correct","statement":"Path(test_tendon_force_implicit_member(x), MusculotendonFormulation(4) == 4; MusculotendonFormulation.TENDON_FORCE_IMPLICIT == 4)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"97a18301df9284c6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["MusculotendonFormulation(4) == 4","MusculotendonFormulation.TENDON_FORCE_IMPLICIT == 4"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_tendon_force_implicit_member():
         assert MusculotendonFormulation(4) == 4
         assert MusculotendonFormulation.TENDON_FORCE_IMPLICIT == 4
@@ -152,43 +193,63 @@ class TestMusculotendonFormulation:
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(TestMusculotendonBase(*args), correctly constructs a TestMusculotendonBase instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ TestMusculotendonBase : Any → {Any | issubclass(Muscu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cd5b93605aeb401e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonBase","kind":"class","src_hash":"5bab587725f3bd67","in":{"base":"Any"},"out":{"base":"Any","pred":"issubclass(MusculotendonBase, abc.ABC) and issubclass(MusculotendonBase, ForceActuator) and issubclass(MusculotendonBase, _NamedMixin) and MusculotendonBase.__name__ == 'MusculotendonBase'"},"spec":{"lhs":"TestMusculotendonBase(*args)","rhs":"correctly constructs a TestMusculotendonBase instance","over":{"base":"Any"},"name":"TestMusculotendonBase_class_invariant"},"guarantee":"correctly constructs a TestMusculotendonBase instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cd5b93605aeb401e"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonBase","kind":"class","src_hash":"5bab587725f3bd67","in":{"base":"Any"},"out":{"base":"Any","pred":"issubclass(MusculotendonBase, abc.ABC) and issubclass(MusculotendonBase, ForceActuator) and issubclass(MusculotendonBase, _NamedMixin) and MusculotendonBase.__name__ == 'MusculotendonBase'"},"spec":{"lhs":"TestMusculotendonBase(*args)","rhs":"correctly constructs a TestMusculotendonBase instance","over":{"base":"Any"},"name":"TestMusculotendonBase_class_invariant"},"guarantee":"correctly constructs a TestMusculotendonBase instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cd5b93605aeb401e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial"},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function TestMusculotendonBase not found in source"]}}
 class TestMusculotendonBase:
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_is_abstract_base_class(), test_is_abstract_base_class produces the expected output) over Any ║
+# ║ Path(test_is_abstract_base_class(), issubclass(MusculotendonBase, abc.ABC)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_is_abstract_base_class : Any → Any                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  issubclass(MusculotendonBase, abc.ABC)         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_is_abstract_base_class : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8157deadf03766ea  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 00c57ad6a932a821  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonBase.test_is_abstract_base_class","kind":"staticmethod","src_hash":"3a70cbc97a228971","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_is_abstract_base_class()","rhs":"test_is_abstract_base_class produces the expected output","over":{"base":"Any"},"name":"test_is_abstract_base_class_correct"},"guarantee":"test_is_abstract_base_class produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonBase.test_is_abstract_base_class_correct","statement":"Path(test_is_abstract_base_class(x), test_is_abstract_base_class produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8157deadf03766ea"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonBase.test_is_abstract_base_class","kind":"staticmethod","src_hash":"3a70cbc97a228971","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: issubclass(MusculotendonBase, abc.ABC)"},"spec":{"lhs":"test_is_abstract_base_class()","rhs":"issubclass(MusculotendonBase, abc.ABC)","over":{"base":"Any"},"name":"test_is_abstract_base_class_correct"},"guarantee":"issubclass(MusculotendonBase, abc.ABC)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonBase.test_is_abstract_base_class_correct","statement":"Path(test_is_abstract_base_class(x), issubclass(MusculotendonBase, abc.ABC))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"00c57ad6a932a821","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["issubclass(MusculotendonBase, abc.ABC)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_is_abstract_base_class():
         assert issubclass(MusculotendonBase, abc.ABC)
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_class(), test_class produces the expected output) over Any ║
+# ║ Path(test_class(), issubclass(MusculotendonBase, ForceActuator) and issubclass(MusculotendonBase, _NamedMixin) and MusculotendonBase.__name__ == 'MusculotendonBase') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_class : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  issubclass(MusculotendonBase, ForceActuator)   ║
+# ║   ensures:  issubclass(MusculotendonBase, _NamedMixin)     ║
+# ║   ensures:  MusculotendonBase.__name__ == 'Musculoten...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_class : Any → {Any | result satisfies: issubclas...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b7e5b4036d750aae  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 62a053424aa0ce75  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonBase.test_class","kind":"staticmethod","src_hash":"ae839a620b1b9e4b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_class()","rhs":"test_class produces the expected output","over":{"base":"Any"},"name":"test_class_correct"},"guarantee":"test_class produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonBase.test_class_correct","statement":"Path(test_class(x), test_class produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b7e5b4036d750aae"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonBase.test_class","kind":"staticmethod","src_hash":"ae839a620b1b9e4b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: issubclass(MusculotendonBase, ForceActuator) and issubclass(MusculotendonBase, _NamedMixin) and MusculotendonBase.__name__ == 'MusculotendonBase'"},"spec":{"lhs":"test_class()","rhs":"issubclass(MusculotendonBase, ForceActuator) and issubclass(MusculotendonBase, _NamedMixin) and MusculotendonBase.__name__ == 'MusculotendonBase'","over":{"base":"Any"},"name":"test_class_correct"},"guarantee":"issubclass(MusculotendonBase, ForceActuator); issubclass(MusculotendonBase, _NamedMixin); MusculotendonBase.__name__ == 'MusculotendonBase'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonBase.test_class_correct","statement":"Path(test_class(x), issubclass(MusculotendonBase, ForceActuator); issubclass(MusculotendonBase, _NamedMixin); MusculotendonBase.__name__ == 'MusculotendonBase')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"62a053424aa0ce75","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["issubclass(MusculotendonBase, ForceActuator)","issubclass(MusculotendonBase, _NamedMixin)","MusculotendonBase.__name__ == 'MusculotendonBase'"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_class():
         assert issubclass(MusculotendonBase, ForceActuator)
         assert issubclass(MusculotendonBase, _NamedMixin)
@@ -196,16 +257,22 @@ class TestMusculotendonBase:
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_cannot_instantiate_directly(), test_cannot_instantiate_directly produces the expected output) over Any ║
+# ║ Path(test_cannot_instantiate_directly(), <unspecified:test_cannot_instantiate_directly>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_cannot_instantiate_directly : Any → Any               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f4492d4b4f0e8547  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonBase.test_cannot_instantiate_directly","kind":"staticmethod","src_hash":"a54a624ad75ec642","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_cannot_instantiate_directly()","rhs":"test_cannot_instantiate_directly produces the expected output","over":{"base":"Any"},"name":"test_cannot_instantiate_directly_correct"},"guarantee":"test_cannot_instantiate_directly produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonBase.test_cannot_instantiate_directly_correct","statement":"Path(test_cannot_instantiate_directly(x), test_cannot_instantiate_directly produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f4492d4b4f0e8547"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonBase.test_cannot_instantiate_directly","kind":"staticmethod","src_hash":"a54a624ad75ec642","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_cannot_instantiate_directly()","rhs":"<unspecified:test_cannot_instantiate_directly>","over":{"base":"Any"},"name":"test_cannot_instantiate_directly_correct"},"guarantee":"test_cannot_instantiate_directly produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonBase.test_cannot_instantiate_directly_correct","statement":"Path(test_cannot_instantiate_directly(x), test_cannot_instantiate_directly produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f4492d4b4f0e8547","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_cannot_instantiate_directly():
         with pytest.raises(TypeError):
             _ = MusculotendonBase()
@@ -215,28 +282,40 @@ class TestMusculotendonBase:
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(TestMusculotendonRigidTendon(*args), correctly constructs a TestMusculotendonRigidTendon instance) over {Any | isinstance(self.instance.x, Matrix)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ TestMusculotendonRigidTendon : {Any | isinstance(self...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1ea9f43abf6fea8b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonRigidTendon","kind":"class","src_hash":"a324c02378b0341d","in":{"base":"Any","pred":"isinstance(self.instance.x, Matrix)"},"out":{"base":"Any","pred":"hasattr(self.instance, 'x') and hasattr(self.instance, 'state_vars') and self.instance.x == self.instance.state_vars and self.instance.x == x_expected and self.instance.state_vars == x_expected and isinstance(self.instance.x, Matrix) and isinstance(self.instance.state_vars, Matrix) and self.instance.x.shape == (1, 1) and self.instance.state_vars.shape == (1, 1) and hasattr(self.instance, 'r') and hasattr(self.instance, 'input_vars') and self.instance.r == self.instance.input_vars and self.instance.r == r_expected and self.instance.input_vars == r_expected and isinstance(self.instance.r, Matrix) and isinstance(self.instance.input_vars, Matrix) and self.instance.r.shape == (1, 1) and self.instance.input_vars.shape == (1, 1) and hasattr(self.instance, 'p') and hasattr(self.instance, 'constants') and self.instance.p == self.instance.constants and self.instance.p == p_expected and self.instance.constants == p_expected and isinstance(self.instance.p, Matrix) and isinstance(self.instance.constants, Matrix) and self.instance.p.shape == (31, 1) and self.instance.constants.shape == (31, 1) and hasattr(self.instance, 'M') and self.instance.M == M_expected and isinstance(self.instance.M, Matrix) and self.instance.M.shape == (1, 1) and hasattr(self.instance, 'F') and self.instance.F == F_expected and isinstance(self.instance.F, Matrix) and self.instance.F.shape == (1, 1) and hasattr(self.instance, 'rhs') and isinstance(rhs, Matrix) and rhs.shape == (1, 1) and simplify(rhs - rhs_expected) == zeros(1)"},"spec":{"lhs":"TestMusculotendonRigidTendon(*args)","rhs":"correctly constructs a TestMusculotendonRigidTendon instance","over":{"base":"Any","pred":"isinstance(self.instance.x, Matrix)"},"name":"TestMusculotendonRigidTendon_class_invariant"},"guarantee":"correctly constructs a TestMusculotendonRigidTendon instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1ea9f43abf6fea8b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonRigidTendon","kind":"class","src_hash":"a324c02378b0341d","in":{"base":"Any","pred":"isinstance(self.instance.x, Matrix)"},"out":{"base":"Any","pred":"hasattr(self.instance, 'x') and hasattr(self.instance, 'state_vars') and self.instance.x == self.instance.state_vars and self.instance.x == x_expected and self.instance.state_vars == x_expected and isinstance(self.instance.x, Matrix) and isinstance(self.instance.state_vars, Matrix) and self.instance.x.shape == (1, 1) and self.instance.state_vars.shape == (1, 1) and hasattr(self.instance, 'r') and hasattr(self.instance, 'input_vars') and self.instance.r == self.instance.input_vars and self.instance.r == r_expected and self.instance.input_vars == r_expected and isinstance(self.instance.r, Matrix) and isinstance(self.instance.input_vars, Matrix) and self.instance.r.shape == (1, 1) and self.instance.input_vars.shape == (1, 1) and hasattr(self.instance, 'p') and hasattr(self.instance, 'constants') and self.instance.p == self.instance.constants and self.instance.p == p_expected and self.instance.constants == p_expected and isinstance(self.instance.p, Matrix) and isinstance(self.instance.constants, Matrix) and self.instance.p.shape == (31, 1) and self.instance.constants.shape == (31, 1) and hasattr(self.instance, 'M') and self.instance.M == M_expected and isinstance(self.instance.M, Matrix) and self.instance.M.shape == (1, 1) and hasattr(self.instance, 'F') and self.instance.F == F_expected and isinstance(self.instance.F, Matrix) and self.instance.F.shape == (1, 1) and hasattr(self.instance, 'rhs') and isinstance(rhs, Matrix) and rhs.shape == (1, 1) and simplify(rhs - rhs_expected) == zeros(1)"},"spec":{"lhs":"TestMusculotendonRigidTendon(*args)","rhs":"correctly constructs a TestMusculotendonRigidTendon instance","over":{"base":"Any","pred":"isinstance(self.instance.x, Matrix)"},"name":"TestMusculotendonRigidTendon_class_invariant"},"guarantee":"correctly constructs a TestMusculotendonRigidTendon instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1ea9f43abf6fea8b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial"},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function TestMusculotendonRigidTendon not found in source"]}}
 class TestMusculotendonRigidTendon:
 
     @pytest.fixture(autouse=True)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_musculotendon_rigid_tendon_fixture(mus), internal helper behaves correctly) over Any ║
+# ║ Path(_musculotendon_rigid_tendon_fixture(musculotendon_concrete), <unspecified:_musculotendon_rigid_tendon_fixture>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _musculotendon_rigid_tendon_fixture : Any → Any            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 33e37f2ccaa2876c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonRigidTendon._musculotendon_rigid_tendon_fixture","kind":"method","src_hash":"6a2e1ed163b1ab3c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_musculotendon_rigid_tendon_fixture(mus)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_musculotendon_rigid_tendon_fixture_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonRigidTendon._musculotendon_rigid_tendon_fixture_correct","statement":"Path(_musculotendon_rigid_tendon_fixture(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"33e37f2ccaa2876c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonRigidTendon._musculotendon_rigid_tendon_fixture","kind":"method","src_hash":"6a2e1ed163b1ab3c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_musculotendon_rigid_tendon_fixture(musculotendon_concrete)","rhs":"<unspecified:_musculotendon_rigid_tendon_fixture>","over":{"base":"Any"},"name":"_musculotendon_rigid_tendon_fixture_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonRigidTendon._musculotendon_rigid_tendon_fixture_correct","statement":"Path(_musculotendon_rigid_tendon_fixture(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"33e37f2ccaa2876c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self.F_M_max","self.N","self.a","self.activation","self.alpha_opt","self.b","self.beta","self.e","self.formulation","self.insertion","self.l_M_opt","self.l_T_slack","self.name","self.origin","self.pathway","self.q","self.tau_a","self.tau_d","self.v_M_max"],"writes":["self.F_M_max","self.N","self.a","self.activation","self.alpha_opt","self.b","self.beta","self.da_expr","self.e","self.formulation","self.insertion","self.instance","self.l_M_opt","self.l_T_slack","self.name","self.origin","self.pathway","self.q","self.tau_a","self.tau_d","self.v_M_max"]},"state_contract":{"modifies":["self.F_M_max","self.N","self.a","self.activation","self.alpha_opt","self.b","self.beta","self.da_expr","self.e","self.formulation","self.insertion","self.instance","self.l_M_opt","self.l_T_slack","self.name","self.origin","self.pathway","self.q","self.tau_a","self.tau_d","self.v_M_max"],"old_bindings":{"old_self_F_M_max":"self.F_M_max","old_self_N":"self.N","old_self_a":"self.a","old_self_activation":"self.activation","old_self_alpha_opt":"self.alpha_opt","old_self_b":"self.b","old_self_beta":"self.beta","old_self_da_expr":"self.da_expr","old_self_e":"self.e","old_self_formulation":"self.formulation","old_self_insertion":"self.insertion","old_self_instance":"self.instance","old_self_l_M_opt":"self.l_M_opt","old_self_l_T_slack":"self.l_T_slack","old_self_name":"self.name","old_self_origin":"self.origin","old_self_pathway":"self.pathway","old_self_q":"self.q","old_self_tau_a":"self.tau_a","old_self_tau_d":"self.tau_d","old_self_v_M_max":"self.v_M_max"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _musculotendon_rigid_tendon_fixture(self, musculotendon_concrete):
         self.name = 'name'
         self.N = ReferenceFrame('N')
@@ -278,16 +357,27 @@ class TestMusculotendonRigidTendon:
         )*(self.e - self.a)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_state_vars(), test_state_vars produces the expected output) over Any ║
+# ║ Path(test_state_vars(), hasattr(self.instance, 'x') and hasattr(self.instance, 'state_vars') and self.instance.x == x_expected and self.instance.state_vars == x_expected and isinstance(self.instance.x, Matrix) and isinstance(self.instance.state_vars, Matrix)) over {Any | self.instance.x == self.instance.state_vars and self.instance.x.shape == (1, 1) and self.instance.state_vars.shape == (1, 1)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_state_vars : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: self.instance.x == self.instance.state_vars    ║
+# ║   requires: self.instance.x.shape == (1, 1)                ║
+# ║   requires: self.instance.state_vars.shape == (1, 1)       ║
+# ║   ensures:  hasattr(self.instance, 'x')                    ║
+# ║   ensures:  hasattr(self.instance, 'state_vars')           ║
+# ║   ensures:  self.instance.x == x_expected                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_state_vars : {Any | self.instance.x == self.inst...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 95ba9a226e7a996a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 515dbf508a43292d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonRigidTendon.test_state_vars","kind":"method","src_hash":"2a259a29030a2cfe","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_state_vars()","rhs":"test_state_vars produces the expected output","over":{"base":"Any"},"name":"test_state_vars_correct"},"guarantee":"test_state_vars produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonRigidTendon.test_state_vars_correct","statement":"Path(test_state_vars(x), test_state_vars produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"95ba9a226e7a996a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonRigidTendon.test_state_vars","kind":"method","src_hash":"2a259a29030a2cfe","in":{"base":"Any","pred":"self.instance.x == self.instance.state_vars and self.instance.x.shape == (1, 1) and self.instance.state_vars.shape == (1, 1)"},"out":{"base":"Any","pred":"result satisfies: hasattr(self.instance, 'x') and hasattr(self.instance, 'state_vars') and self.instance.x == x_expected and self.instance.state_vars == x_expected and isinstance(self.instance.x, Matrix) and isinstance(self.instance.state_vars, Matrix)"},"spec":{"lhs":"test_state_vars()","rhs":"hasattr(self.instance, 'x') and hasattr(self.instance, 'state_vars') and self.instance.x == x_expected and self.instance.state_vars == x_expected and isinstance(self.instance.x, Matrix) and isinstance(self.instance.state_vars, Matrix)","over":{"base":"Any","pred":"self.instance.x == self.instance.state_vars and self.instance.x.shape == (1, 1) and self.instance.state_vars.shape == (1, 1)"},"name":"test_state_vars_correct"},"guarantee":"hasattr(self.instance, 'x'); hasattr(self.instance, 'state_vars'); self.instance.x == x_expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonRigidTendon.test_state_vars_correct","statement":"Path(test_state_vars(x), hasattr(self.instance, 'x'); hasattr(self.instance, 'state_vars'); self.instance.x == x_expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"515dbf508a43292d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["self.instance.x == self.instance.state_vars","self.instance.x.shape == (1, 1)","self.instance.state_vars.shape == (1, 1)"],"ensures":["hasattr(self.instance, 'x')","hasattr(self.instance, 'state_vars')","self.instance.x == x_expected","self.instance.state_vars == x_expected","isinstance(self.instance.x, Matrix)","isinstance(self.instance.state_vars, Matrix)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.a","self.instance"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_state_vars(self):
         assert hasattr(self.instance, 'x')
         assert hasattr(self.instance, 'state_vars')
@@ -301,16 +391,27 @@ class TestMusculotendonRigidTendon:
         assert self.instance.state_vars.shape == (1, 1)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_input_vars(), test_input_vars produces the expected output) over Any ║
+# ║ Path(test_input_vars(), hasattr(self.instance, 'r') and hasattr(self.instance, 'input_vars') and self.instance.r == r_expected and self.instance.input_vars == r_expected and isinstance(self.instance.r, Matrix) and isinstance(self.instance.input_vars, Matrix)) over {Any | self.instance.r == self.instance.input_vars and self.instance.r.shape == (1, 1) and self.instance.input_vars.shape == (1, 1)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_input_vars : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: self.instance.r == self.instance.input_vars    ║
+# ║   requires: self.instance.r.shape == (1, 1)                ║
+# ║   requires: self.instance.input_vars.shape == (1, 1)       ║
+# ║   ensures:  hasattr(self.instance, 'r')                    ║
+# ║   ensures:  hasattr(self.instance, 'input_vars')           ║
+# ║   ensures:  self.instance.r == r_expected                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_input_vars : {Any | self.instance.r == self.inst...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8e2fd67d7412b86f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7340ae7af2f21956  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonRigidTendon.test_input_vars","kind":"method","src_hash":"63f02ea4979c209b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_input_vars()","rhs":"test_input_vars produces the expected output","over":{"base":"Any"},"name":"test_input_vars_correct"},"guarantee":"test_input_vars produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonRigidTendon.test_input_vars_correct","statement":"Path(test_input_vars(x), test_input_vars produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8e2fd67d7412b86f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonRigidTendon.test_input_vars","kind":"method","src_hash":"63f02ea4979c209b","in":{"base":"Any","pred":"self.instance.r == self.instance.input_vars and self.instance.r.shape == (1, 1) and self.instance.input_vars.shape == (1, 1)"},"out":{"base":"Any","pred":"result satisfies: hasattr(self.instance, 'r') and hasattr(self.instance, 'input_vars') and self.instance.r == r_expected and self.instance.input_vars == r_expected and isinstance(self.instance.r, Matrix) and isinstance(self.instance.input_vars, Matrix)"},"spec":{"lhs":"test_input_vars()","rhs":"hasattr(self.instance, 'r') and hasattr(self.instance, 'input_vars') and self.instance.r == r_expected and self.instance.input_vars == r_expected and isinstance(self.instance.r, Matrix) and isinstance(self.instance.input_vars, Matrix)","over":{"base":"Any","pred":"self.instance.r == self.instance.input_vars and self.instance.r.shape == (1, 1) and self.instance.input_vars.shape == (1, 1)"},"name":"test_input_vars_correct"},"guarantee":"hasattr(self.instance, 'r'); hasattr(self.instance, 'input_vars'); self.instance.r == r_expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonRigidTendon.test_input_vars_correct","statement":"Path(test_input_vars(x), hasattr(self.instance, 'r'); hasattr(self.instance, 'input_vars'); self.instance.r == r_expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7340ae7af2f21956","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["self.instance.r == self.instance.input_vars","self.instance.r.shape == (1, 1)","self.instance.input_vars.shape == (1, 1)"],"ensures":["hasattr(self.instance, 'r')","hasattr(self.instance, 'input_vars')","self.instance.r == r_expected","self.instance.input_vars == r_expected","isinstance(self.instance.r, Matrix)","isinstance(self.instance.input_vars, Matrix)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.e","self.instance"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_input_vars(self):
         assert hasattr(self.instance, 'r')
         assert hasattr(self.instance, 'input_vars')
@@ -324,16 +425,27 @@ class TestMusculotendonRigidTendon:
         assert self.instance.input_vars.shape == (1, 1)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_constants(), test_constants produces the expected output) over Any ║
+# ║ Path(test_constants(), hasattr(self.instance, 'p') and hasattr(self.instance, 'constants') and self.instance.p == p_expected and self.instance.constants == p_expected and isinstance(self.instance.p, Matrix) and isinstance(self.instance.constants, Matrix)) over {Any | self.instance.p == self.instance.constants and self.instance.p.shape == (31, 1) and self.instance.constants.shape == (31, 1)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_constants : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: self.instance.p == self.instance.constants     ║
+# ║   requires: self.instance.p.shape == (31, 1)               ║
+# ║   requires: self.instance.constants.shape == (31, 1)       ║
+# ║   ensures:  hasattr(self.instance, 'p')                    ║
+# ║   ensures:  hasattr(self.instance, 'constants')            ║
+# ║   ensures:  self.instance.p == p_expected                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_constants : {Any | self.instance.p == self.insta...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6ec36b3fb2dda3b2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5209a0940af8eb26  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonRigidTendon.test_constants","kind":"method","src_hash":"5e78e2502e8e096b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_constants()","rhs":"test_constants produces the expected output","over":{"base":"Any"},"name":"test_constants_correct"},"guarantee":"test_constants produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonRigidTendon.test_constants_correct","statement":"Path(test_constants(x), test_constants produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6ec36b3fb2dda3b2"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonRigidTendon.test_constants","kind":"method","src_hash":"5e78e2502e8e096b","in":{"base":"Any","pred":"self.instance.p == self.instance.constants and self.instance.p.shape == (31, 1) and self.instance.constants.shape == (31, 1)"},"out":{"base":"Any","pred":"result satisfies: hasattr(self.instance, 'p') and hasattr(self.instance, 'constants') and self.instance.p == p_expected and self.instance.constants == p_expected and isinstance(self.instance.p, Matrix) and isinstance(self.instance.constants, Matrix)"},"spec":{"lhs":"test_constants()","rhs":"hasattr(self.instance, 'p') and hasattr(self.instance, 'constants') and self.instance.p == p_expected and self.instance.constants == p_expected and isinstance(self.instance.p, Matrix) and isinstance(self.instance.constants, Matrix)","over":{"base":"Any","pred":"self.instance.p == self.instance.constants and self.instance.p.shape == (31, 1) and self.instance.constants.shape == (31, 1)"},"name":"test_constants_correct"},"guarantee":"hasattr(self.instance, 'p'); hasattr(self.instance, 'constants'); self.instance.p == p_expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonRigidTendon.test_constants_correct","statement":"Path(test_constants(x), hasattr(self.instance, 'p'); hasattr(self.instance, 'constants'); self.instance.p == p_expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5209a0940af8eb26","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["self.instance.p == self.instance.constants","self.instance.p.shape == (31, 1)","self.instance.constants.shape == (31, 1)"],"ensures":["hasattr(self.instance, 'p')","hasattr(self.instance, 'constants')","self.instance.p == p_expected","self.instance.constants == p_expected","isinstance(self.instance.p, Matrix)","isinstance(self.instance.constants, Matrix)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.F_M_max","self.alpha_opt","self.b","self.beta","self.instance","self.l_M_opt","self.l_T_slack","self.tau_a","self.tau_d","self.v_M_max"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_constants(self):
         assert hasattr(self.instance, 'p')
         assert hasattr(self.instance, 'constants')
@@ -381,16 +493,25 @@ class TestMusculotendonRigidTendon:
         assert self.instance.constants.shape == (31, 1)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_M(), test_M produces the expected output) over Any ║
+# ║ Path(test_M(), hasattr(self.instance, 'M') and self.instance.M == M_expected and isinstance(self.instance.M, Matrix)) over {Any | self.instance.M.shape == (1, 1)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_M : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: self.instance.M.shape == (1, 1)                ║
+# ║   ensures:  hasattr(self.instance, 'M')                    ║
+# ║   ensures:  self.instance.M == M_expected                  ║
+# ║   ensures:  isinstance(self.instance.M, Matrix)            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_M : {Any | self.instance.M.shape == (1, 1)} → {A...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b9f67e64549e288e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1ff3c29e7c1409d1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonRigidTendon.test_M","kind":"method","src_hash":"9d6206c09c740040","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_M()","rhs":"test_M produces the expected output","over":{"base":"Any"},"name":"test_M_correct"},"guarantee":"test_M produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonRigidTendon.test_M_correct","statement":"Path(test_M(x), test_M produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b9f67e64549e288e"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonRigidTendon.test_M","kind":"method","src_hash":"9d6206c09c740040","in":{"base":"Any","pred":"self.instance.M.shape == (1, 1)"},"out":{"base":"Any","pred":"result satisfies: hasattr(self.instance, 'M') and self.instance.M == M_expected and isinstance(self.instance.M, Matrix)"},"spec":{"lhs":"test_M()","rhs":"hasattr(self.instance, 'M') and self.instance.M == M_expected and isinstance(self.instance.M, Matrix)","over":{"base":"Any","pred":"self.instance.M.shape == (1, 1)"},"name":"test_M_correct"},"guarantee":"hasattr(self.instance, 'M'); self.instance.M == M_expected; isinstance(self.instance.M, Matrix)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonRigidTendon.test_M_correct","statement":"Path(test_M(x), hasattr(self.instance, 'M'); self.instance.M == M_expected; isinstance(self.instance.M, Matrix))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1ff3c29e7c1409d1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["self.instance.M.shape == (1, 1)"],"ensures":["hasattr(self.instance, 'M')","self.instance.M == M_expected","isinstance(self.instance.M, Matrix)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.instance"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_M(self):
         assert hasattr(self.instance, 'M')
         M_expected = Matrix([1])
@@ -399,16 +520,25 @@ class TestMusculotendonRigidTendon:
         assert self.instance.M.shape == (1, 1)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_F(), test_F produces the expected output) over Any ║
+# ║ Path(test_F(), hasattr(self.instance, 'F') and self.instance.F == F_expected and isinstance(self.instance.F, Matrix)) over {Any | self.instance.F.shape == (1, 1)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_F : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: self.instance.F.shape == (1, 1)                ║
+# ║   ensures:  hasattr(self.instance, 'F')                    ║
+# ║   ensures:  self.instance.F == F_expected                  ║
+# ║   ensures:  isinstance(self.instance.F, Matrix)            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_F : {Any | self.instance.F.shape == (1, 1)} → {A...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6de8ffa29583793a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7b2da6cdc609cf49  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonRigidTendon.test_F","kind":"method","src_hash":"1dc6043b6b298992","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_F()","rhs":"test_F produces the expected output","over":{"base":"Any"},"name":"test_F_correct"},"guarantee":"test_F produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonRigidTendon.test_F_correct","statement":"Path(test_F(x), test_F produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6de8ffa29583793a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonRigidTendon.test_F","kind":"method","src_hash":"1dc6043b6b298992","in":{"base":"Any","pred":"self.instance.F.shape == (1, 1)"},"out":{"base":"Any","pred":"result satisfies: hasattr(self.instance, 'F') and self.instance.F == F_expected and isinstance(self.instance.F, Matrix)"},"spec":{"lhs":"test_F()","rhs":"hasattr(self.instance, 'F') and self.instance.F == F_expected and isinstance(self.instance.F, Matrix)","over":{"base":"Any","pred":"self.instance.F.shape == (1, 1)"},"name":"test_F_correct"},"guarantee":"hasattr(self.instance, 'F'); self.instance.F == F_expected; isinstance(self.instance.F, Matrix)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonRigidTendon.test_F_correct","statement":"Path(test_F(x), hasattr(self.instance, 'F'); self.instance.F == F_expected; isinstance(self.instance.F, Matrix))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7b2da6cdc609cf49","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["self.instance.F.shape == (1, 1)"],"ensures":["hasattr(self.instance, 'F')","self.instance.F == F_expected","isinstance(self.instance.F, Matrix)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.da_expr","self.instance"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_F(self):
         assert hasattr(self.instance, 'F')
         F_expected = Matrix([self.da_expr])
@@ -417,16 +547,24 @@ class TestMusculotendonRigidTendon:
         assert self.instance.F.shape == (1, 1)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_rhs(), test_rhs produces the expected output) over Any ║
+# ║ Path(test_rhs(), hasattr(self.instance, 'rhs') and isinstance(rhs, Matrix) and rhs.shape == (1, 1) and simplify(rhs - rhs_expected) == zeros(1)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_rhs : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  hasattr(self.instance, 'rhs')                  ║
+# ║   ensures:  isinstance(rhs, Matrix)                        ║
+# ║   ensures:  rhs.shape == (1, 1)                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_rhs : Any → {Any | result satisfies: hasattr(sel...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6881b14712472953  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3c090883f8f675fc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonRigidTendon.test_rhs","kind":"method","src_hash":"c081285c6111b241","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_rhs()","rhs":"test_rhs produces the expected output","over":{"base":"Any"},"name":"test_rhs_correct"},"guarantee":"test_rhs produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonRigidTendon.test_rhs_correct","statement":"Path(test_rhs(x), test_rhs produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6881b14712472953"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonRigidTendon.test_rhs","kind":"method","src_hash":"c081285c6111b241","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: hasattr(self.instance, 'rhs') and isinstance(rhs, Matrix) and rhs.shape == (1, 1) and simplify(rhs - rhs_expected) == zeros(1)"},"spec":{"lhs":"test_rhs()","rhs":"hasattr(self.instance, 'rhs') and isinstance(rhs, Matrix) and rhs.shape == (1, 1) and simplify(rhs - rhs_expected) == zeros(1)","over":{"base":"Any"},"name":"test_rhs_correct"},"guarantee":"hasattr(self.instance, 'rhs'); isinstance(rhs, Matrix); rhs.shape == (1, 1)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonRigidTendon.test_rhs_correct","statement":"Path(test_rhs(x), hasattr(self.instance, 'rhs'); isinstance(rhs, Matrix); rhs.shape == (1, 1))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3c090883f8f675fc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["hasattr(self.instance, 'rhs')","isinstance(rhs, Matrix)","rhs.shape == (1, 1)","simplify(rhs - rhs_expected) == zeros(1)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.da_expr","self.instance"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_rhs(self):
         assert hasattr(self.instance, 'rhs')
         rhs_expected = Matrix([self.da_expr])
@@ -456,28 +594,43 @@ class TestMusculotendonRigidTendon:
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(TestFiberLengthExplicit(*args), correctly constructs a TestFiberLengthExplicit instance) over {Any | isinstance(self.instance.x, Matrix)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ TestFiberLengthExplicit : {Any | isinstance(self.inst...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8cb91d2e4a042e46  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_musculotendon.TestFiberLengthExplicit","kind":"class","src_hash":"6c2549117f1aca09","in":{"base":"Any","pred":"isinstance(self.instance.x, Matrix)"},"out":{"base":"Any","pred":"hasattr(self.instance, 'x') and hasattr(self.instance, 'state_vars') and self.instance.x == self.instance.state_vars and self.instance.x == x_expected and self.instance.state_vars == x_expected and isinstance(self.instance.x, Matrix) and isinstance(self.instance.state_vars, Matrix) and self.instance.x.shape == (2, 1) and self.instance.state_vars.shape == (2, 1) and hasattr(self.instance, 'r') and hasattr(self.instance, 'input_vars') and self.instance.r == self.instance.input_vars and self.instance.r == r_expected and self.instance.input_vars == r_expected and isinstance(self.instance.r, Matrix) and isinstance(self.instance.input_vars, Matrix) and self.instance.r.shape == (1, 1) and self.instance.input_vars.shape == (1, 1) and hasattr(self.instance, 'p') and hasattr(self.instance, 'constants') and self.instance.p == self.instance.constants and self.instance.p == p_expected and self.instance.constants == p_expected and isinstance(self.instance.p, Matrix) and isinstance(self.instance.constants, Matrix) and self.instance.p.shape == (9, 1) and self.instance.constants.shape == (9, 1) and hasattr(self.instance, 'M') and self.instance.M == M_expected and isinstance(self.instance.M, Matrix) and self.instance.M.shape == (2, 2) and hasattr(self.instance, 'F') and self.instance.F == F_expected and isinstance(self.instance.F, Matrix) and self.instance.F.shape == (2, 1) and hasattr(self.instance, 'rhs') and isinstance(rhs, Matrix) and rhs.shape == (2, 1) and simplify(rhs - rhs_expected) == zeros(2, 1)"},"spec":{"lhs":"TestFiberLengthExplicit(*args)","rhs":"correctly constructs a TestFiberLengthExplicit instance","over":{"base":"Any","pred":"isinstance(self.instance.x, Matrix)"},"name":"TestFiberLengthExplicit_class_invariant"},"guarantee":"correctly constructs a TestFiberLengthExplicit instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8cb91d2e4a042e46"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_musculotendon.TestFiberLengthExplicit","kind":"class","src_hash":"6c2549117f1aca09","in":{"base":"Any","pred":"isinstance(self.instance.x, Matrix)"},"out":{"base":"Any","pred":"hasattr(self.instance, 'x') and hasattr(self.instance, 'state_vars') and self.instance.x == self.instance.state_vars and self.instance.x == x_expected and self.instance.state_vars == x_expected and isinstance(self.instance.x, Matrix) and isinstance(self.instance.state_vars, Matrix) and self.instance.x.shape == (2, 1) and self.instance.state_vars.shape == (2, 1) and hasattr(self.instance, 'r') and hasattr(self.instance, 'input_vars') and self.instance.r == self.instance.input_vars and self.instance.r == r_expected and self.instance.input_vars == r_expected and isinstance(self.instance.r, Matrix) and isinstance(self.instance.input_vars, Matrix) and self.instance.r.shape == (1, 1) and self.instance.input_vars.shape == (1, 1) and hasattr(self.instance, 'p') and hasattr(self.instance, 'constants') and self.instance.p == self.instance.constants and self.instance.p == p_expected and self.instance.constants == p_expected and isinstance(self.instance.p, Matrix) and isinstance(self.instance.constants, Matrix) and self.instance.p.shape == (9, 1) and self.instance.constants.shape == (9, 1) and hasattr(self.instance, 'M') and self.instance.M == M_expected and isinstance(self.instance.M, Matrix) and self.instance.M.shape == (2, 2) and hasattr(self.instance, 'F') and self.instance.F == F_expected and isinstance(self.instance.F, Matrix) and self.instance.F.shape == (2, 1) and hasattr(self.instance, 'rhs') and isinstance(rhs, Matrix) and rhs.shape == (2, 1) and simplify(rhs - rhs_expected) == zeros(2, 1)"},"spec":{"lhs":"TestFiberLengthExplicit(*args)","rhs":"correctly constructs a TestFiberLengthExplicit instance","over":{"base":"Any","pred":"isinstance(self.instance.x, Matrix)"},"name":"TestFiberLengthExplicit_class_invariant"},"guarantee":"correctly constructs a TestFiberLengthExplicit instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8cb91d2e4a042e46","spec_source":"static","formal_spec":{"source":"static","strength":"trivial"},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function TestFiberLengthExplicit not found in source"]}}
 class TestFiberLengthExplicit:
 
     @pytest.fixture(autouse=True)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_musculotendon_fiber_length_explicit_fixture(mus), internal helper behaves correctly) over Any ║
+# ║ Path(_musculotendon_fiber_length_explicit_fixture(musculotendon_concrete, curve), <unspecified:_musculotendon_fiber_length_explicit_fixture>) over {Any | hasattr(curve, 'tendon_force_length') and hasattr(curve, 'fiber_force_length_passive') and hasattr(curve, 'fiber_force_length_active') and hasattr(curve, 'fiber_force_velocity_inverse')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _musculotendon_fiber_length_explicit_fixture : Any → Any   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(curve, 'tendon_force_length')          ║
+# ║   requires: hasattr(curve, 'fiber_force_length_passive')   ║
+# ║   requires: hasattr(curve, 'fiber_force_length_active')    ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _musculotendon_fiber_length_explicit_fixture : {Any |...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d58aa95704284e45  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_musculotendon.TestFiberLengthExplicit._musculotendon_fiber_length_explicit_fixture","kind":"method","src_hash":"72a2754869e2a186","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_musculotendon_fiber_length_explicit_fixture(mus)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_musculotendon_fiber_length_explicit_fixture_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_musculotendon.TestFiberLengthExplicit._musculotendon_fiber_length_explicit_fixture_correct","statement":"Path(_musculotendon_fiber_length_explicit_fixture(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d58aa95704284e45"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_musculotendon.TestFiberLengthExplicit._musculotendon_fiber_length_explicit_fixture","kind":"method","src_hash":"72a2754869e2a186","in":{"base":"Any","pred":"hasattr(curve, 'tendon_force_length') and hasattr(curve, 'fiber_force_length_passive') and hasattr(curve, 'fiber_force_length_active') and hasattr(curve, 'fiber_force_velocity_inverse')"},"out":{"base":"Any"},"spec":{"lhs":"_musculotendon_fiber_length_explicit_fixture(musculotendon_concrete, curve)","rhs":"<unspecified:_musculotendon_fiber_length_explicit_fixture>","over":{"base":"Any","pred":"hasattr(curve, 'tendon_force_length') and hasattr(curve, 'fiber_force_length_passive') and hasattr(curve, 'fiber_force_length_active') and hasattr(curve, 'fiber_force_velocity_inverse')"},"name":"_musculotendon_fiber_length_explicit_fixture_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_musculotendon.TestFiberLengthExplicit._musculotendon_fiber_length_explicit_fixture_correct","statement":"Path(_musculotendon_fiber_length_explicit_fixture(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d58aa95704284e45","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(curve, 'tendon_force_length')","hasattr(curve, 'fiber_force_length_passive')","hasattr(curve, 'fiber_force_length_active')","hasattr(curve, 'fiber_force_velocity_inverse')"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["curve.fiber_force_length_active","curve.fiber_force_length_passive","curve.fiber_force_velocity_inverse","curve.tendon_force_length","self.F_M_max","self.N","self.a","self.activation","self.alpha_opt","self.b","self.beta","self.e","self.formulation","self.insertion","self.l_M_opt","self.l_M_tilde","self.l_T_slack","self.name","self.origin","self.pathway","self.q","self.tau_a","self.tau_d","self.v_M_max"],"writes":["self.F_M_max","self.N","self.a","self.activation","self.alpha_opt","self.b","self.beta","self.da_expr","self.dl_M_tilde_expr","self.e","self.formulation","self.insertion","self.instance","self.l_M_opt","self.l_M_tilde","self.l_T_slack","self.name","self.origin","self.pathway","self.q","self.tau_a","self.tau_d","self.v_M_max"]},"state_contract":{"modifies":["self.F_M_max","self.N","self.a","self.activation","self.alpha_opt","self.b","self.beta","self.da_expr","self.dl_M_tilde_expr","self.e","self.formulation","self.insertion","self.instance","self.l_M_opt","self.l_M_tilde","self.l_T_slack","self.name","self.origin","self.pathway","self.q","self.tau_a","self.tau_d","self.v_M_max"],"old_bindings":{"old_self_F_M_max":"self.F_M_max","old_self_N":"self.N","old_self_a":"self.a","old_self_activation":"self.activation","old_self_alpha_opt":"self.alpha_opt","old_self_b":"self.b","old_self_beta":"self.beta","old_self_da_expr":"self.da_expr","old_self_dl_M_tilde_expr":"self.dl_M_tilde_expr","old_self_e":"self.e","old_self_formulation":"self.formulation","old_self_insertion":"self.insertion","old_self_instance":"self.instance","old_self_l_M_opt":"self.l_M_opt","old_self_l_M_tilde":"self.l_M_tilde","old_self_l_T_slack":"self.l_T_slack","old_self_name":"self.name","old_self_origin":"self.origin","old_self_pathway":"self.pathway","old_self_q":"self.q","old_self_tau_a":"self.tau_a","old_self_tau_d":"self.tau_d","old_self_v_M_max":"self.v_M_max"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _musculotendon_fiber_length_explicit_fixture(
         self,
         musculotendon_concrete,
@@ -536,16 +689,27 @@ class TestFiberLengthExplicit:
         )*(self.e - self.a)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_state_vars(), test_state_vars produces the expected output) over Any ║
+# ║ Path(test_state_vars(), hasattr(self.instance, 'x') and hasattr(self.instance, 'state_vars') and self.instance.x == x_expected and self.instance.state_vars == x_expected and isinstance(self.instance.x, Matrix) and isinstance(self.instance.state_vars, Matrix)) over {Any | self.instance.x == self.instance.state_vars and self.instance.x.shape == (2, 1) and self.instance.state_vars.shape == (2, 1)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_state_vars : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: self.instance.x == self.instance.state_vars    ║
+# ║   requires: self.instance.x.shape == (2, 1)                ║
+# ║   requires: self.instance.state_vars.shape == (2, 1)       ║
+# ║   ensures:  hasattr(self.instance, 'x')                    ║
+# ║   ensures:  hasattr(self.instance, 'state_vars')           ║
+# ║   ensures:  self.instance.x == x_expected                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_state_vars : {Any | self.instance.x == self.inst...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7a9a1ea52e2cd3d6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | be80ae7f511d548a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_musculotendon.TestFiberLengthExplicit.test_state_vars","kind":"method","src_hash":"74e926ef59dd5aea","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_state_vars()","rhs":"test_state_vars produces the expected output","over":{"base":"Any"},"name":"test_state_vars_correct"},"guarantee":"test_state_vars produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_musculotendon.TestFiberLengthExplicit.test_state_vars_correct","statement":"Path(test_state_vars(x), test_state_vars produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7a9a1ea52e2cd3d6"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_musculotendon.TestFiberLengthExplicit.test_state_vars","kind":"method","src_hash":"74e926ef59dd5aea","in":{"base":"Any","pred":"self.instance.x == self.instance.state_vars and self.instance.x.shape == (2, 1) and self.instance.state_vars.shape == (2, 1)"},"out":{"base":"Any","pred":"result satisfies: hasattr(self.instance, 'x') and hasattr(self.instance, 'state_vars') and self.instance.x == x_expected and self.instance.state_vars == x_expected and isinstance(self.instance.x, Matrix) and isinstance(self.instance.state_vars, Matrix)"},"spec":{"lhs":"test_state_vars()","rhs":"hasattr(self.instance, 'x') and hasattr(self.instance, 'state_vars') and self.instance.x == x_expected and self.instance.state_vars == x_expected and isinstance(self.instance.x, Matrix) and isinstance(self.instance.state_vars, Matrix)","over":{"base":"Any","pred":"self.instance.x == self.instance.state_vars and self.instance.x.shape == (2, 1) and self.instance.state_vars.shape == (2, 1)"},"name":"test_state_vars_correct"},"guarantee":"hasattr(self.instance, 'x'); hasattr(self.instance, 'state_vars'); self.instance.x == x_expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_musculotendon.TestFiberLengthExplicit.test_state_vars_correct","statement":"Path(test_state_vars(x), hasattr(self.instance, 'x'); hasattr(self.instance, 'state_vars'); self.instance.x == x_expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"be80ae7f511d548a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["self.instance.x == self.instance.state_vars","self.instance.x.shape == (2, 1)","self.instance.state_vars.shape == (2, 1)"],"ensures":["hasattr(self.instance, 'x')","hasattr(self.instance, 'state_vars')","self.instance.x == x_expected","self.instance.state_vars == x_expected","isinstance(self.instance.x, Matrix)","isinstance(self.instance.state_vars, Matrix)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.a","self.instance","self.l_M_tilde"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_state_vars(self):
         assert hasattr(self.instance, 'x')
         assert hasattr(self.instance, 'state_vars')
@@ -559,16 +723,27 @@ class TestFiberLengthExplicit:
         assert self.instance.state_vars.shape == (2, 1)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_input_vars(), test_input_vars produces the expected output) over Any ║
+# ║ Path(test_input_vars(), hasattr(self.instance, 'r') and hasattr(self.instance, 'input_vars') and self.instance.r == r_expected and self.instance.input_vars == r_expected and isinstance(self.instance.r, Matrix) and isinstance(self.instance.input_vars, Matrix)) over {Any | self.instance.r == self.instance.input_vars and self.instance.r.shape == (1, 1) and self.instance.input_vars.shape == (1, 1)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_input_vars : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: self.instance.r == self.instance.input_vars    ║
+# ║   requires: self.instance.r.shape == (1, 1)                ║
+# ║   requires: self.instance.input_vars.shape == (1, 1)       ║
+# ║   ensures:  hasattr(self.instance, 'r')                    ║
+# ║   ensures:  hasattr(self.instance, 'input_vars')           ║
+# ║   ensures:  self.instance.r == r_expected                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_input_vars : {Any | self.instance.r == self.inst...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5381bf34bfd7f6ca  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1ba1b7c8f266e68b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_musculotendon.TestFiberLengthExplicit.test_input_vars","kind":"method","src_hash":"63f02ea4979c209b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_input_vars()","rhs":"test_input_vars produces the expected output","over":{"base":"Any"},"name":"test_input_vars_correct"},"guarantee":"test_input_vars produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_musculotendon.TestFiberLengthExplicit.test_input_vars_correct","statement":"Path(test_input_vars(x), test_input_vars produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5381bf34bfd7f6ca"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_musculotendon.TestFiberLengthExplicit.test_input_vars","kind":"method","src_hash":"63f02ea4979c209b","in":{"base":"Any","pred":"self.instance.r == self.instance.input_vars and self.instance.r.shape == (1, 1) and self.instance.input_vars.shape == (1, 1)"},"out":{"base":"Any","pred":"result satisfies: hasattr(self.instance, 'r') and hasattr(self.instance, 'input_vars') and self.instance.r == r_expected and self.instance.input_vars == r_expected and isinstance(self.instance.r, Matrix) and isinstance(self.instance.input_vars, Matrix)"},"spec":{"lhs":"test_input_vars()","rhs":"hasattr(self.instance, 'r') and hasattr(self.instance, 'input_vars') and self.instance.r == r_expected and self.instance.input_vars == r_expected and isinstance(self.instance.r, Matrix) and isinstance(self.instance.input_vars, Matrix)","over":{"base":"Any","pred":"self.instance.r == self.instance.input_vars and self.instance.r.shape == (1, 1) and self.instance.input_vars.shape == (1, 1)"},"name":"test_input_vars_correct"},"guarantee":"hasattr(self.instance, 'r'); hasattr(self.instance, 'input_vars'); self.instance.r == r_expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_musculotendon.TestFiberLengthExplicit.test_input_vars_correct","statement":"Path(test_input_vars(x), hasattr(self.instance, 'r'); hasattr(self.instance, 'input_vars'); self.instance.r == r_expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1ba1b7c8f266e68b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["self.instance.r == self.instance.input_vars","self.instance.r.shape == (1, 1)","self.instance.input_vars.shape == (1, 1)"],"ensures":["hasattr(self.instance, 'r')","hasattr(self.instance, 'input_vars')","self.instance.r == r_expected","self.instance.input_vars == r_expected","isinstance(self.instance.r, Matrix)","isinstance(self.instance.input_vars, Matrix)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.e","self.instance"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_input_vars(self):
         assert hasattr(self.instance, 'r')
         assert hasattr(self.instance, 'input_vars')
@@ -582,16 +757,27 @@ class TestFiberLengthExplicit:
         assert self.instance.input_vars.shape == (1, 1)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_constants(), test_constants produces the expected output) over Any ║
+# ║ Path(test_constants(), hasattr(self.instance, 'p') and hasattr(self.instance, 'constants') and self.instance.p == p_expected and self.instance.constants == p_expected and isinstance(self.instance.p, Matrix) and isinstance(self.instance.constants, Matrix)) over {Any | self.instance.p == self.instance.constants and self.instance.p.shape == (9, 1) and self.instance.constants.shape == (9, 1)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_constants : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: self.instance.p == self.instance.constants     ║
+# ║   requires: self.instance.p.shape == (9, 1)                ║
+# ║   requires: self.instance.constants.shape == (9, 1)        ║
+# ║   ensures:  hasattr(self.instance, 'p')                    ║
+# ║   ensures:  hasattr(self.instance, 'constants')            ║
+# ║   ensures:  self.instance.p == p_expected                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_constants : {Any | self.instance.p == self.insta...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | be1f5598b88aeaa8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5613943bcfab1e07  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_musculotendon.TestFiberLengthExplicit.test_constants","kind":"method","src_hash":"e0ccf50ccce488c9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_constants()","rhs":"test_constants produces the expected output","over":{"base":"Any"},"name":"test_constants_correct"},"guarantee":"test_constants produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_musculotendon.TestFiberLengthExplicit.test_constants_correct","statement":"Path(test_constants(x), test_constants produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"be1f5598b88aeaa8"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_musculotendon.TestFiberLengthExplicit.test_constants","kind":"method","src_hash":"e0ccf50ccce488c9","in":{"base":"Any","pred":"self.instance.p == self.instance.constants and self.instance.p.shape == (9, 1) and self.instance.constants.shape == (9, 1)"},"out":{"base":"Any","pred":"result satisfies: hasattr(self.instance, 'p') and hasattr(self.instance, 'constants') and self.instance.p == p_expected and self.instance.constants == p_expected and isinstance(self.instance.p, Matrix) and isinstance(self.instance.constants, Matrix)"},"spec":{"lhs":"test_constants()","rhs":"hasattr(self.instance, 'p') and hasattr(self.instance, 'constants') and self.instance.p == p_expected and self.instance.constants == p_expected and isinstance(self.instance.p, Matrix) and isinstance(self.instance.constants, Matrix)","over":{"base":"Any","pred":"self.instance.p == self.instance.constants and self.instance.p.shape == (9, 1) and self.instance.constants.shape == (9, 1)"},"name":"test_constants_correct"},"guarantee":"hasattr(self.instance, 'p'); hasattr(self.instance, 'constants'); self.instance.p == p_expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_musculotendon.TestFiberLengthExplicit.test_constants_correct","statement":"Path(test_constants(x), hasattr(self.instance, 'p'); hasattr(self.instance, 'constants'); self.instance.p == p_expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5613943bcfab1e07","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["self.instance.p == self.instance.constants","self.instance.p.shape == (9, 1)","self.instance.constants.shape == (9, 1)"],"ensures":["hasattr(self.instance, 'p')","hasattr(self.instance, 'constants')","self.instance.p == p_expected","self.instance.constants == p_expected","isinstance(self.instance.p, Matrix)","isinstance(self.instance.constants, Matrix)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.F_M_max","self.alpha_opt","self.b","self.beta","self.instance","self.l_M_opt","self.l_T_slack","self.tau_a","self.tau_d","self.v_M_max"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_constants(self):
         assert hasattr(self.instance, 'p')
         assert hasattr(self.instance, 'constants')
@@ -617,16 +803,25 @@ class TestFiberLengthExplicit:
         assert self.instance.constants.shape == (9, 1)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_M(), test_M produces the expected output) over Any ║
+# ║ Path(test_M(), hasattr(self.instance, 'M') and self.instance.M == M_expected and isinstance(self.instance.M, Matrix)) over {Any | self.instance.M.shape == (2, 2)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_M : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: self.instance.M.shape == (2, 2)                ║
+# ║   ensures:  hasattr(self.instance, 'M')                    ║
+# ║   ensures:  self.instance.M == M_expected                  ║
+# ║   ensures:  isinstance(self.instance.M, Matrix)            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_M : {Any | self.instance.M.shape == (2, 2)} → {A...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 956adbfcf581f824  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b4442978e7641bb4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_musculotendon.TestFiberLengthExplicit.test_M","kind":"method","src_hash":"bf126b39e16ca76d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_M()","rhs":"test_M produces the expected output","over":{"base":"Any"},"name":"test_M_correct"},"guarantee":"test_M produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_musculotendon.TestFiberLengthExplicit.test_M_correct","statement":"Path(test_M(x), test_M produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"956adbfcf581f824"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_musculotendon.TestFiberLengthExplicit.test_M","kind":"method","src_hash":"bf126b39e16ca76d","in":{"base":"Any","pred":"self.instance.M.shape == (2, 2)"},"out":{"base":"Any","pred":"result satisfies: hasattr(self.instance, 'M') and self.instance.M == M_expected and isinstance(self.instance.M, Matrix)"},"spec":{"lhs":"test_M()","rhs":"hasattr(self.instance, 'M') and self.instance.M == M_expected and isinstance(self.instance.M, Matrix)","over":{"base":"Any","pred":"self.instance.M.shape == (2, 2)"},"name":"test_M_correct"},"guarantee":"hasattr(self.instance, 'M'); self.instance.M == M_expected; isinstance(self.instance.M, Matrix)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_musculotendon.TestFiberLengthExplicit.test_M_correct","statement":"Path(test_M(x), hasattr(self.instance, 'M'); self.instance.M == M_expected; isinstance(self.instance.M, Matrix))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b4442978e7641bb4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["self.instance.M.shape == (2, 2)"],"ensures":["hasattr(self.instance, 'M')","self.instance.M == M_expected","isinstance(self.instance.M, Matrix)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.instance"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_M(self):
         assert hasattr(self.instance, 'M')
         M_expected = eye(2)
@@ -635,16 +830,25 @@ class TestFiberLengthExplicit:
         assert self.instance.M.shape == (2, 2)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_F(), test_F produces the expected output) over Any ║
+# ║ Path(test_F(), hasattr(self.instance, 'F') and self.instance.F == F_expected and isinstance(self.instance.F, Matrix)) over {Any | self.instance.F.shape == (2, 1)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_F : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: self.instance.F.shape == (2, 1)                ║
+# ║   ensures:  hasattr(self.instance, 'F')                    ║
+# ║   ensures:  self.instance.F == F_expected                  ║
+# ║   ensures:  isinstance(self.instance.F, Matrix)            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_F : {Any | self.instance.F.shape == (2, 1)} → {A...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4807000ac82f8fcb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f9db435ef2523d89  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_musculotendon.TestFiberLengthExplicit.test_F","kind":"method","src_hash":"ddb3bb2eb04adbd0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_F()","rhs":"test_F produces the expected output","over":{"base":"Any"},"name":"test_F_correct"},"guarantee":"test_F produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_musculotendon.TestFiberLengthExplicit.test_F_correct","statement":"Path(test_F(x), test_F produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4807000ac82f8fcb"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_musculotendon.TestFiberLengthExplicit.test_F","kind":"method","src_hash":"ddb3bb2eb04adbd0","in":{"base":"Any","pred":"self.instance.F.shape == (2, 1)"},"out":{"base":"Any","pred":"result satisfies: hasattr(self.instance, 'F') and self.instance.F == F_expected and isinstance(self.instance.F, Matrix)"},"spec":{"lhs":"test_F()","rhs":"hasattr(self.instance, 'F') and self.instance.F == F_expected and isinstance(self.instance.F, Matrix)","over":{"base":"Any","pred":"self.instance.F.shape == (2, 1)"},"name":"test_F_correct"},"guarantee":"hasattr(self.instance, 'F'); self.instance.F == F_expected; isinstance(self.instance.F, Matrix)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_musculotendon.TestFiberLengthExplicit.test_F_correct","statement":"Path(test_F(x), hasattr(self.instance, 'F'); self.instance.F == F_expected; isinstance(self.instance.F, Matrix))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f9db435ef2523d89","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["self.instance.F.shape == (2, 1)"],"ensures":["hasattr(self.instance, 'F')","self.instance.F == F_expected","isinstance(self.instance.F, Matrix)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.da_expr","self.dl_M_tilde_expr","self.instance"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_F(self):
         assert hasattr(self.instance, 'F')
         F_expected = Matrix([self.dl_M_tilde_expr, self.da_expr])
@@ -653,16 +857,24 @@ class TestFiberLengthExplicit:
         assert self.instance.F.shape == (2, 1)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_rhs(), test_rhs produces the expected output) over Any ║
+# ║ Path(test_rhs(), hasattr(self.instance, 'rhs') and isinstance(rhs, Matrix) and rhs.shape == (2, 1) and simplify(rhs - rhs_expected) == zeros(2, 1)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_rhs : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  hasattr(self.instance, 'rhs')                  ║
+# ║   ensures:  isinstance(rhs, Matrix)                        ║
+# ║   ensures:  rhs.shape == (2, 1)                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_rhs : Any → {Any | result satisfies: hasattr(sel...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fa7424e1639aad59  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 62479461f15dcd65  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_musculotendon.TestFiberLengthExplicit.test_rhs","kind":"method","src_hash":"ef27182b7747e035","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_rhs()","rhs":"test_rhs produces the expected output","over":{"base":"Any"},"name":"test_rhs_correct"},"guarantee":"test_rhs produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_musculotendon.TestFiberLengthExplicit.test_rhs_correct","statement":"Path(test_rhs(x), test_rhs produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fa7424e1639aad59"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_musculotendon.TestFiberLengthExplicit.test_rhs","kind":"method","src_hash":"ef27182b7747e035","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: hasattr(self.instance, 'rhs') and isinstance(rhs, Matrix) and rhs.shape == (2, 1) and simplify(rhs - rhs_expected) == zeros(2, 1)"},"spec":{"lhs":"test_rhs()","rhs":"hasattr(self.instance, 'rhs') and isinstance(rhs, Matrix) and rhs.shape == (2, 1) and simplify(rhs - rhs_expected) == zeros(2, 1)","over":{"base":"Any"},"name":"test_rhs_correct"},"guarantee":"hasattr(self.instance, 'rhs'); isinstance(rhs, Matrix); rhs.shape == (2, 1)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_musculotendon.TestFiberLengthExplicit.test_rhs_correct","statement":"Path(test_rhs(x), hasattr(self.instance, 'rhs'); isinstance(rhs, Matrix); rhs.shape == (2, 1))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"62479461f15dcd65","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["hasattr(self.instance, 'rhs')","isinstance(rhs, Matrix)","rhs.shape == (2, 1)","simplify(rhs - rhs_expected) == zeros(2, 1)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.da_expr","self.dl_M_tilde_expr","self.instance"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_rhs(self):
         assert hasattr(self.instance, 'rhs')
         rhs_expected = Matrix([self.dl_M_tilde_expr, self.da_expr])
@@ -692,28 +904,43 @@ class TestFiberLengthExplicit:
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(TestTendonForceExplicit(*args), correctly constructs a TestTendonForceExplicit instance) over {Any | isinstance(self.instance.x, Matrix)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ TestTendonForceExplicit : {Any | isinstance(self.inst...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.5ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 11220cc3b4220c8e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_musculotendon.TestTendonForceExplicit","kind":"class","src_hash":"ca82707002597c6f","in":{"base":"Any","pred":"isinstance(self.instance.x, Matrix)"},"out":{"base":"Any","pred":"hasattr(self.instance, 'x') and hasattr(self.instance, 'state_vars') and self.instance.x == self.instance.state_vars and self.instance.x == x_expected and self.instance.state_vars == x_expected and isinstance(self.instance.x, Matrix) and isinstance(self.instance.state_vars, Matrix) and self.instance.x.shape == (2, 1) and self.instance.state_vars.shape == (2, 1) and hasattr(self.instance, 'r') and hasattr(self.instance, 'input_vars') and self.instance.r == self.instance.input_vars and self.instance.r == r_expected and self.instance.input_vars == r_expected and isinstance(self.instance.r, Matrix) and isinstance(self.instance.input_vars, Matrix) and self.instance.r.shape == (1, 1) and self.instance.input_vars.shape == (1, 1) and hasattr(self.instance, 'p') and hasattr(self.instance, 'constants') and self.instance.p == self.instance.constants and self.instance.p == p_expected and self.instance.constants == p_expected and isinstance(self.instance.p, Matrix) and isinstance(self.instance.constants, Matrix) and self.instance.p.shape == (9, 1) and self.instance.constants.shape == (9, 1) and hasattr(self.instance, 'M') and self.instance.M == M_expected and isinstance(self.instance.M, Matrix) and self.instance.M.shape == (2, 2) and hasattr(self.instance, 'F') and self.instance.F == F_expected and isinstance(self.instance.F, Matrix) and self.instance.F.shape == (2, 1) and hasattr(self.instance, 'rhs') and isinstance(rhs, Matrix) and rhs.shape == (2, 1) and simplify(rhs - rhs_expected) == zeros(2, 1)"},"spec":{"lhs":"TestTendonForceExplicit(*args)","rhs":"correctly constructs a TestTendonForceExplicit instance","over":{"base":"Any","pred":"isinstance(self.instance.x, Matrix)"},"name":"TestTendonForceExplicit_class_invariant"},"guarantee":"correctly constructs a TestTendonForceExplicit instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"11220cc3b4220c8e"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_musculotendon.TestTendonForceExplicit","kind":"class","src_hash":"ca82707002597c6f","in":{"base":"Any","pred":"isinstance(self.instance.x, Matrix)"},"out":{"base":"Any","pred":"hasattr(self.instance, 'x') and hasattr(self.instance, 'state_vars') and self.instance.x == self.instance.state_vars and self.instance.x == x_expected and self.instance.state_vars == x_expected and isinstance(self.instance.x, Matrix) and isinstance(self.instance.state_vars, Matrix) and self.instance.x.shape == (2, 1) and self.instance.state_vars.shape == (2, 1) and hasattr(self.instance, 'r') and hasattr(self.instance, 'input_vars') and self.instance.r == self.instance.input_vars and self.instance.r == r_expected and self.instance.input_vars == r_expected and isinstance(self.instance.r, Matrix) and isinstance(self.instance.input_vars, Matrix) and self.instance.r.shape == (1, 1) and self.instance.input_vars.shape == (1, 1) and hasattr(self.instance, 'p') and hasattr(self.instance, 'constants') and self.instance.p == self.instance.constants and self.instance.p == p_expected and self.instance.constants == p_expected and isinstance(self.instance.p, Matrix) and isinstance(self.instance.constants, Matrix) and self.instance.p.shape == (9, 1) and self.instance.constants.shape == (9, 1) and hasattr(self.instance, 'M') and self.instance.M == M_expected and isinstance(self.instance.M, Matrix) and self.instance.M.shape == (2, 2) and hasattr(self.instance, 'F') and self.instance.F == F_expected and isinstance(self.instance.F, Matrix) and self.instance.F.shape == (2, 1) and hasattr(self.instance, 'rhs') and isinstance(rhs, Matrix) and rhs.shape == (2, 1) and simplify(rhs - rhs_expected) == zeros(2, 1)"},"spec":{"lhs":"TestTendonForceExplicit(*args)","rhs":"correctly constructs a TestTendonForceExplicit instance","over":{"base":"Any","pred":"isinstance(self.instance.x, Matrix)"},"name":"TestTendonForceExplicit_class_invariant"},"guarantee":"correctly constructs a TestTendonForceExplicit instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"11220cc3b4220c8e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial"},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.5,"verdict_class":"assumed","binding":false,"binding_errors":["Function TestTendonForceExplicit not found in source"]}}
 class TestTendonForceExplicit:
 
     @pytest.fixture(autouse=True)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_musculotendon_tendon_force_explicit_fixture(mus), internal helper behaves correctly) over Any ║
+# ║ Path(_musculotendon_tendon_force_explicit_fixture(musculotendon_concrete, curve), <unspecified:_musculotendon_tendon_force_explicit_fixture>) over {Any | hasattr(curve, 'tendon_force_length_inverse') and hasattr(curve, 'fiber_force_length_passive') and hasattr(curve, 'fiber_force_length_active') and hasattr(curve, 'fiber_force_velocity_inverse')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _musculotendon_tendon_force_explicit_fixture : Any → Any   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(curve, 'tendon_force_length_inver...   ║
+# ║   requires: hasattr(curve, 'fiber_force_length_passive')   ║
+# ║   requires: hasattr(curve, 'fiber_force_length_active')    ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _musculotendon_tendon_force_explicit_fixture : {Any |...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eac09b804eb8aa50  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_musculotendon.TestTendonForceExplicit._musculotendon_tendon_force_explicit_fixture","kind":"method","src_hash":"0259b27b45186537","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_musculotendon_tendon_force_explicit_fixture(mus)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_musculotendon_tendon_force_explicit_fixture_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_musculotendon.TestTendonForceExplicit._musculotendon_tendon_force_explicit_fixture_correct","statement":"Path(_musculotendon_tendon_force_explicit_fixture(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eac09b804eb8aa50"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_musculotendon.TestTendonForceExplicit._musculotendon_tendon_force_explicit_fixture","kind":"method","src_hash":"0259b27b45186537","in":{"base":"Any","pred":"hasattr(curve, 'tendon_force_length_inverse') and hasattr(curve, 'fiber_force_length_passive') and hasattr(curve, 'fiber_force_length_active') and hasattr(curve, 'fiber_force_velocity_inverse')"},"out":{"base":"Any"},"spec":{"lhs":"_musculotendon_tendon_force_explicit_fixture(musculotendon_concrete, curve)","rhs":"<unspecified:_musculotendon_tendon_force_explicit_fixture>","over":{"base":"Any","pred":"hasattr(curve, 'tendon_force_length_inverse') and hasattr(curve, 'fiber_force_length_passive') and hasattr(curve, 'fiber_force_length_active') and hasattr(curve, 'fiber_force_velocity_inverse')"},"name":"_musculotendon_tendon_force_explicit_fixture_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_musculotendon.TestTendonForceExplicit._musculotendon_tendon_force_explicit_fixture_correct","statement":"Path(_musculotendon_tendon_force_explicit_fixture(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eac09b804eb8aa50","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(curve, 'tendon_force_length_inverse')","hasattr(curve, 'fiber_force_length_passive')","hasattr(curve, 'fiber_force_length_active')","hasattr(curve, 'fiber_force_velocity_inverse')"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["curve.fiber_force_length_active","curve.fiber_force_length_passive","curve.fiber_force_velocity_inverse","curve.tendon_force_length_inverse","self.F_M_max","self.F_T_tilde","self.N","self.a","self.activation","self.alpha_opt","self.b","self.beta","self.e","self.formulation","self.insertion","self.l_M_opt","self.l_T_slack","self.name","self.origin","self.pathway","self.q","self.tau_a","self.tau_d","self.v_M_max"],"writes":["self.F_M_max","self.F_T_tilde","self.N","self.a","self.activation","self.alpha_opt","self.b","self.beta","self.dF_T_tilde_expr","self.da_expr","self.e","self.formulation","self.insertion","self.instance","self.l_M_opt","self.l_T_slack","self.name","self.origin","self.pathway","self.q","self.tau_a","self.tau_d","self.v_M_max"]},"state_contract":{"modifies":["self.F_M_max","self.F_T_tilde","self.N","self.a","self.activation","self.alpha_opt","self.b","self.beta","self.dF_T_tilde_expr","self.da_expr","self.e","self.formulation","self.insertion","self.instance","self.l_M_opt","self.l_T_slack","self.name","self.origin","self.pathway","self.q","self.tau_a","self.tau_d","self.v_M_max"],"old_bindings":{"old_self_F_M_max":"self.F_M_max","old_self_F_T_tilde":"self.F_T_tilde","old_self_N":"self.N","old_self_a":"self.a","old_self_activation":"self.activation","old_self_alpha_opt":"self.alpha_opt","old_self_b":"self.b","old_self_beta":"self.beta","old_self_dF_T_tilde_expr":"self.dF_T_tilde_expr","old_self_da_expr":"self.da_expr","old_self_e":"self.e","old_self_formulation":"self.formulation","old_self_insertion":"self.insertion","old_self_instance":"self.instance","old_self_l_M_opt":"self.l_M_opt","old_self_l_T_slack":"self.l_T_slack","old_self_name":"self.name","old_self_origin":"self.origin","old_self_pathway":"self.pathway","old_self_q":"self.q","old_self_tau_a":"self.tau_a","old_self_tau_d":"self.tau_d","old_self_v_M_max":"self.v_M_max"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _musculotendon_tendon_force_explicit_fixture(
         self,
         musculotendon_concrete,
@@ -783,16 +1010,27 @@ class TestTendonForceExplicit:
         )*(self.e - self.a)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_state_vars(), test_state_vars produces the expected output) over Any ║
+# ║ Path(test_state_vars(), hasattr(self.instance, 'x') and hasattr(self.instance, 'state_vars') and self.instance.x == x_expected and self.instance.state_vars == x_expected and isinstance(self.instance.x, Matrix) and isinstance(self.instance.state_vars, Matrix)) over {Any | self.instance.x == self.instance.state_vars and self.instance.x.shape == (2, 1) and self.instance.state_vars.shape == (2, 1)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_state_vars : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: self.instance.x == self.instance.state_vars    ║
+# ║   requires: self.instance.x.shape == (2, 1)                ║
+# ║   requires: self.instance.state_vars.shape == (2, 1)       ║
+# ║   ensures:  hasattr(self.instance, 'x')                    ║
+# ║   ensures:  hasattr(self.instance, 'state_vars')           ║
+# ║   ensures:  self.instance.x == x_expected                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_state_vars : {Any | self.instance.x == self.inst...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bd664496d71a21c1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 48f5bf241131ea16  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_musculotendon.TestTendonForceExplicit.test_state_vars","kind":"method","src_hash":"e7e47b172c269d83","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_state_vars()","rhs":"test_state_vars produces the expected output","over":{"base":"Any"},"name":"test_state_vars_correct"},"guarantee":"test_state_vars produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_musculotendon.TestTendonForceExplicit.test_state_vars_correct","statement":"Path(test_state_vars(x), test_state_vars produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bd664496d71a21c1"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_musculotendon.TestTendonForceExplicit.test_state_vars","kind":"method","src_hash":"e7e47b172c269d83","in":{"base":"Any","pred":"self.instance.x == self.instance.state_vars and self.instance.x.shape == (2, 1) and self.instance.state_vars.shape == (2, 1)"},"out":{"base":"Any","pred":"result satisfies: hasattr(self.instance, 'x') and hasattr(self.instance, 'state_vars') and self.instance.x == x_expected and self.instance.state_vars == x_expected and isinstance(self.instance.x, Matrix) and isinstance(self.instance.state_vars, Matrix)"},"spec":{"lhs":"test_state_vars()","rhs":"hasattr(self.instance, 'x') and hasattr(self.instance, 'state_vars') and self.instance.x == x_expected and self.instance.state_vars == x_expected and isinstance(self.instance.x, Matrix) and isinstance(self.instance.state_vars, Matrix)","over":{"base":"Any","pred":"self.instance.x == self.instance.state_vars and self.instance.x.shape == (2, 1) and self.instance.state_vars.shape == (2, 1)"},"name":"test_state_vars_correct"},"guarantee":"hasattr(self.instance, 'x'); hasattr(self.instance, 'state_vars'); self.instance.x == x_expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_musculotendon.TestTendonForceExplicit.test_state_vars_correct","statement":"Path(test_state_vars(x), hasattr(self.instance, 'x'); hasattr(self.instance, 'state_vars'); self.instance.x == x_expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"48f5bf241131ea16","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["self.instance.x == self.instance.state_vars","self.instance.x.shape == (2, 1)","self.instance.state_vars.shape == (2, 1)"],"ensures":["hasattr(self.instance, 'x')","hasattr(self.instance, 'state_vars')","self.instance.x == x_expected","self.instance.state_vars == x_expected","isinstance(self.instance.x, Matrix)","isinstance(self.instance.state_vars, Matrix)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.F_T_tilde","self.a","self.instance"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_state_vars(self):
         assert hasattr(self.instance, 'x')
         assert hasattr(self.instance, 'state_vars')
@@ -806,16 +1044,27 @@ class TestTendonForceExplicit:
         assert self.instance.state_vars.shape == (2, 1)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_input_vars(), test_input_vars produces the expected output) over Any ║
+# ║ Path(test_input_vars(), hasattr(self.instance, 'r') and hasattr(self.instance, 'input_vars') and self.instance.r == r_expected and self.instance.input_vars == r_expected and isinstance(self.instance.r, Matrix) and isinstance(self.instance.input_vars, Matrix)) over {Any | self.instance.r == self.instance.input_vars and self.instance.r.shape == (1, 1) and self.instance.input_vars.shape == (1, 1)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_input_vars : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: self.instance.r == self.instance.input_vars    ║
+# ║   requires: self.instance.r.shape == (1, 1)                ║
+# ║   requires: self.instance.input_vars.shape == (1, 1)       ║
+# ║   ensures:  hasattr(self.instance, 'r')                    ║
+# ║   ensures:  hasattr(self.instance, 'input_vars')           ║
+# ║   ensures:  self.instance.r == r_expected                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_input_vars : {Any | self.instance.r == self.inst...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f14713d8b3766696  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 514916859501b8b4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_musculotendon.TestTendonForceExplicit.test_input_vars","kind":"method","src_hash":"63f02ea4979c209b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_input_vars()","rhs":"test_input_vars produces the expected output","over":{"base":"Any"},"name":"test_input_vars_correct"},"guarantee":"test_input_vars produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_musculotendon.TestTendonForceExplicit.test_input_vars_correct","statement":"Path(test_input_vars(x), test_input_vars produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f14713d8b3766696"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_musculotendon.TestTendonForceExplicit.test_input_vars","kind":"method","src_hash":"63f02ea4979c209b","in":{"base":"Any","pred":"self.instance.r == self.instance.input_vars and self.instance.r.shape == (1, 1) and self.instance.input_vars.shape == (1, 1)"},"out":{"base":"Any","pred":"result satisfies: hasattr(self.instance, 'r') and hasattr(self.instance, 'input_vars') and self.instance.r == r_expected and self.instance.input_vars == r_expected and isinstance(self.instance.r, Matrix) and isinstance(self.instance.input_vars, Matrix)"},"spec":{"lhs":"test_input_vars()","rhs":"hasattr(self.instance, 'r') and hasattr(self.instance, 'input_vars') and self.instance.r == r_expected and self.instance.input_vars == r_expected and isinstance(self.instance.r, Matrix) and isinstance(self.instance.input_vars, Matrix)","over":{"base":"Any","pred":"self.instance.r == self.instance.input_vars and self.instance.r.shape == (1, 1) and self.instance.input_vars.shape == (1, 1)"},"name":"test_input_vars_correct"},"guarantee":"hasattr(self.instance, 'r'); hasattr(self.instance, 'input_vars'); self.instance.r == r_expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_musculotendon.TestTendonForceExplicit.test_input_vars_correct","statement":"Path(test_input_vars(x), hasattr(self.instance, 'r'); hasattr(self.instance, 'input_vars'); self.instance.r == r_expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"514916859501b8b4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["self.instance.r == self.instance.input_vars","self.instance.r.shape == (1, 1)","self.instance.input_vars.shape == (1, 1)"],"ensures":["hasattr(self.instance, 'r')","hasattr(self.instance, 'input_vars')","self.instance.r == r_expected","self.instance.input_vars == r_expected","isinstance(self.instance.r, Matrix)","isinstance(self.instance.input_vars, Matrix)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.e","self.instance"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_input_vars(self):
         assert hasattr(self.instance, 'r')
         assert hasattr(self.instance, 'input_vars')
@@ -829,16 +1078,27 @@ class TestTendonForceExplicit:
         assert self.instance.input_vars.shape == (1, 1)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_constants(), test_constants produces the expected output) over Any ║
+# ║ Path(test_constants(), hasattr(self.instance, 'p') and hasattr(self.instance, 'constants') and self.instance.p == p_expected and self.instance.constants == p_expected and isinstance(self.instance.p, Matrix) and isinstance(self.instance.constants, Matrix)) over {Any | self.instance.p == self.instance.constants and self.instance.p.shape == (9, 1) and self.instance.constants.shape == (9, 1)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_constants : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: self.instance.p == self.instance.constants     ║
+# ║   requires: self.instance.p.shape == (9, 1)                ║
+# ║   requires: self.instance.constants.shape == (9, 1)        ║
+# ║   ensures:  hasattr(self.instance, 'p')                    ║
+# ║   ensures:  hasattr(self.instance, 'constants')            ║
+# ║   ensures:  self.instance.p == p_expected                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_constants : {Any | self.instance.p == self.insta...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 59484210c3ccff75  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c7e0afe5aa1ec6af  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_musculotendon.TestTendonForceExplicit.test_constants","kind":"method","src_hash":"e0ccf50ccce488c9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_constants()","rhs":"test_constants produces the expected output","over":{"base":"Any"},"name":"test_constants_correct"},"guarantee":"test_constants produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_musculotendon.TestTendonForceExplicit.test_constants_correct","statement":"Path(test_constants(x), test_constants produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"59484210c3ccff75"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_musculotendon.TestTendonForceExplicit.test_constants","kind":"method","src_hash":"e0ccf50ccce488c9","in":{"base":"Any","pred":"self.instance.p == self.instance.constants and self.instance.p.shape == (9, 1) and self.instance.constants.shape == (9, 1)"},"out":{"base":"Any","pred":"result satisfies: hasattr(self.instance, 'p') and hasattr(self.instance, 'constants') and self.instance.p == p_expected and self.instance.constants == p_expected and isinstance(self.instance.p, Matrix) and isinstance(self.instance.constants, Matrix)"},"spec":{"lhs":"test_constants()","rhs":"hasattr(self.instance, 'p') and hasattr(self.instance, 'constants') and self.instance.p == p_expected and self.instance.constants == p_expected and isinstance(self.instance.p, Matrix) and isinstance(self.instance.constants, Matrix)","over":{"base":"Any","pred":"self.instance.p == self.instance.constants and self.instance.p.shape == (9, 1) and self.instance.constants.shape == (9, 1)"},"name":"test_constants_correct"},"guarantee":"hasattr(self.instance, 'p'); hasattr(self.instance, 'constants'); self.instance.p == p_expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_musculotendon.TestTendonForceExplicit.test_constants_correct","statement":"Path(test_constants(x), hasattr(self.instance, 'p'); hasattr(self.instance, 'constants'); self.instance.p == p_expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c7e0afe5aa1ec6af","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["self.instance.p == self.instance.constants","self.instance.p.shape == (9, 1)","self.instance.constants.shape == (9, 1)"],"ensures":["hasattr(self.instance, 'p')","hasattr(self.instance, 'constants')","self.instance.p == p_expected","self.instance.constants == p_expected","isinstance(self.instance.p, Matrix)","isinstance(self.instance.constants, Matrix)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.F_M_max","self.alpha_opt","self.b","self.beta","self.instance","self.l_M_opt","self.l_T_slack","self.tau_a","self.tau_d","self.v_M_max"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_constants(self):
         assert hasattr(self.instance, 'p')
         assert hasattr(self.instance, 'constants')
@@ -864,16 +1124,25 @@ class TestTendonForceExplicit:
         assert self.instance.constants.shape == (9, 1)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_M(), test_M produces the expected output) over Any ║
+# ║ Path(test_M(), hasattr(self.instance, 'M') and self.instance.M == M_expected and isinstance(self.instance.M, Matrix)) over {Any | self.instance.M.shape == (2, 2)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_M : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: self.instance.M.shape == (2, 2)                ║
+# ║   ensures:  hasattr(self.instance, 'M')                    ║
+# ║   ensures:  self.instance.M == M_expected                  ║
+# ║   ensures:  isinstance(self.instance.M, Matrix)            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_M : {Any | self.instance.M.shape == (2, 2)} → {A...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 047765098a443ded  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d33a79f189a99fbf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_musculotendon.TestTendonForceExplicit.test_M","kind":"method","src_hash":"bf126b39e16ca76d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_M()","rhs":"test_M produces the expected output","over":{"base":"Any"},"name":"test_M_correct"},"guarantee":"test_M produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_musculotendon.TestTendonForceExplicit.test_M_correct","statement":"Path(test_M(x), test_M produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"047765098a443ded"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_musculotendon.TestTendonForceExplicit.test_M","kind":"method","src_hash":"bf126b39e16ca76d","in":{"base":"Any","pred":"self.instance.M.shape == (2, 2)"},"out":{"base":"Any","pred":"result satisfies: hasattr(self.instance, 'M') and self.instance.M == M_expected and isinstance(self.instance.M, Matrix)"},"spec":{"lhs":"test_M()","rhs":"hasattr(self.instance, 'M') and self.instance.M == M_expected and isinstance(self.instance.M, Matrix)","over":{"base":"Any","pred":"self.instance.M.shape == (2, 2)"},"name":"test_M_correct"},"guarantee":"hasattr(self.instance, 'M'); self.instance.M == M_expected; isinstance(self.instance.M, Matrix)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_musculotendon.TestTendonForceExplicit.test_M_correct","statement":"Path(test_M(x), hasattr(self.instance, 'M'); self.instance.M == M_expected; isinstance(self.instance.M, Matrix))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d33a79f189a99fbf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["self.instance.M.shape == (2, 2)"],"ensures":["hasattr(self.instance, 'M')","self.instance.M == M_expected","isinstance(self.instance.M, Matrix)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.instance"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_M(self):
         assert hasattr(self.instance, 'M')
         M_expected = eye(2)
@@ -882,16 +1151,25 @@ class TestTendonForceExplicit:
         assert self.instance.M.shape == (2, 2)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_F(), test_F produces the expected output) over Any ║
+# ║ Path(test_F(), hasattr(self.instance, 'F') and self.instance.F == F_expected and isinstance(self.instance.F, Matrix)) over {Any | self.instance.F.shape == (2, 1)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_F : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: self.instance.F.shape == (2, 1)                ║
+# ║   ensures:  hasattr(self.instance, 'F')                    ║
+# ║   ensures:  self.instance.F == F_expected                  ║
+# ║   ensures:  isinstance(self.instance.F, Matrix)            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_F : {Any | self.instance.F.shape == (2, 1)} → {A...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8fd3271ab7bbf2cf  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e5d8bac3c3f26c80  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_musculotendon.TestTendonForceExplicit.test_F","kind":"method","src_hash":"12d4f6063ad1fa86","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_F()","rhs":"test_F produces the expected output","over":{"base":"Any"},"name":"test_F_correct"},"guarantee":"test_F produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_musculotendon.TestTendonForceExplicit.test_F_correct","statement":"Path(test_F(x), test_F produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8fd3271ab7bbf2cf"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_musculotendon.TestTendonForceExplicit.test_F","kind":"method","src_hash":"12d4f6063ad1fa86","in":{"base":"Any","pred":"self.instance.F.shape == (2, 1)"},"out":{"base":"Any","pred":"result satisfies: hasattr(self.instance, 'F') and self.instance.F == F_expected and isinstance(self.instance.F, Matrix)"},"spec":{"lhs":"test_F()","rhs":"hasattr(self.instance, 'F') and self.instance.F == F_expected and isinstance(self.instance.F, Matrix)","over":{"base":"Any","pred":"self.instance.F.shape == (2, 1)"},"name":"test_F_correct"},"guarantee":"hasattr(self.instance, 'F'); self.instance.F == F_expected; isinstance(self.instance.F, Matrix)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_musculotendon.TestTendonForceExplicit.test_F_correct","statement":"Path(test_F(x), hasattr(self.instance, 'F'); self.instance.F == F_expected; isinstance(self.instance.F, Matrix))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e5d8bac3c3f26c80","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["self.instance.F.shape == (2, 1)"],"ensures":["hasattr(self.instance, 'F')","self.instance.F == F_expected","isinstance(self.instance.F, Matrix)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.dF_T_tilde_expr","self.da_expr","self.instance"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_F(self):
         assert hasattr(self.instance, 'F')
         F_expected = Matrix([self.dF_T_tilde_expr, self.da_expr])
@@ -900,16 +1178,24 @@ class TestTendonForceExplicit:
         assert self.instance.F.shape == (2, 1)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_rhs(), test_rhs produces the expected output) over Any ║
+# ║ Path(test_rhs(), hasattr(self.instance, 'rhs') and isinstance(rhs, Matrix) and rhs.shape == (2, 1) and simplify(rhs - rhs_expected) == zeros(2, 1)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_rhs : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  hasattr(self.instance, 'rhs')                  ║
+# ║   ensures:  isinstance(rhs, Matrix)                        ║
+# ║   ensures:  rhs.shape == (2, 1)                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_rhs : Any → {Any | result satisfies: hasattr(sel...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9b07afbff91e7315  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cc24176cee1d9774  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_musculotendon.TestTendonForceExplicit.test_rhs","kind":"method","src_hash":"78c9277f33a77468","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_rhs()","rhs":"test_rhs produces the expected output","over":{"base":"Any"},"name":"test_rhs_correct"},"guarantee":"test_rhs produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_musculotendon.TestTendonForceExplicit.test_rhs_correct","statement":"Path(test_rhs(x), test_rhs produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9b07afbff91e7315"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_musculotendon.TestTendonForceExplicit.test_rhs","kind":"method","src_hash":"78c9277f33a77468","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: hasattr(self.instance, 'rhs') and isinstance(rhs, Matrix) and rhs.shape == (2, 1) and simplify(rhs - rhs_expected) == zeros(2, 1)"},"spec":{"lhs":"test_rhs()","rhs":"hasattr(self.instance, 'rhs') and isinstance(rhs, Matrix) and rhs.shape == (2, 1) and simplify(rhs - rhs_expected) == zeros(2, 1)","over":{"base":"Any"},"name":"test_rhs_correct"},"guarantee":"hasattr(self.instance, 'rhs'); isinstance(rhs, Matrix); rhs.shape == (2, 1)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_musculotendon.TestTendonForceExplicit.test_rhs_correct","statement":"Path(test_rhs(x), hasattr(self.instance, 'rhs'); isinstance(rhs, Matrix); rhs.shape == (2, 1))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cc24176cee1d9774","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["hasattr(self.instance, 'rhs')","isinstance(rhs, Matrix)","rhs.shape == (2, 1)","simplify(rhs - rhs_expected) == zeros(2, 1)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.dF_T_tilde_expr","self.da_expr","self.instance"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_rhs(self):
         assert hasattr(self.instance, 'rhs')
         rhs_expected = Matrix([self.dF_T_tilde_expr, self.da_expr])
@@ -922,28 +1208,42 @@ class TestTendonForceExplicit:
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(TestMusculotendonDeGroote2016(*args), correctly constructs a TestMusculotendonDeGroote2016 instance) over {Any | isinstance(instance, MusculotendonDeGroote2016)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ TestMusculotendonDeGroote2016 : {Any | isinstance(ins...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.9ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 371a87d66d82b8c8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonDeGroote2016","kind":"class","src_hash":"53262d3185462a57","in":{"base":"Any","pred":"isinstance(instance, MusculotendonDeGroote2016)"},"out":{"base":"Any","pred":"issubclass(MusculotendonDeGroote2016, ForceActuator) and issubclass(MusculotendonDeGroote2016, _NamedMixin) and MusculotendonDeGroote2016.__name__ == 'MusculotendonDeGroote2016' and isinstance(instance, MusculotendonDeGroote2016) and instance.tendon_slack_length == l_T_slack and instance.peak_isometric_force == F_M_max and instance.optimal_fiber_length == l_M_opt and instance.maximal_fiber_velocity == v_M_max and instance.optimal_pennation_angle == alpha_opt and instance.fiber_damping_coefficient == beta and instance.l_T_slack == expected and instance.tendon_slack_length == expected and instance.F_M_max == expected and instance.peak_isometric_force == expected and instance.l_M_opt == expected and instance.optimal_fiber_length == expected and instance.v_M_max == expected and instance.maximal_fiber_velocity == expected and instance.alpha_opt == expected and instance.optimal_pennation_angle == expected and instance.beta == expected and instance.fiber_damping_coefficient == expected and hasattr(instance, 'e') and hasattr(instance, 'excitation') and instance.e == e_expected and instance.excitation == e_expected and instance.e is instance.excitation and hasattr(instance, 'a') and hasattr(instance, 'activation') and instance.a == a_expected and instance.activation == a_expected and repr(instance) == expected"},"spec":{"lhs":"TestMusculotendonDeGroote2016(*args)","rhs":"correctly constructs a TestMusculotendonDeGroote2016 instance","over":{"base":"Any","pred":"isinstance(instance, MusculotendonDeGroote2016)"},"name":"TestMusculotendonDeGroote2016_class_invariant"},"guarantee":"correctly constructs a TestMusculotendonDeGroote2016 instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"371a87d66d82b8c8"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonDeGroote2016","kind":"class","src_hash":"53262d3185462a57","in":{"base":"Any","pred":"isinstance(instance, MusculotendonDeGroote2016)"},"out":{"base":"Any","pred":"issubclass(MusculotendonDeGroote2016, ForceActuator) and issubclass(MusculotendonDeGroote2016, _NamedMixin) and MusculotendonDeGroote2016.__name__ == 'MusculotendonDeGroote2016' and isinstance(instance, MusculotendonDeGroote2016) and instance.tendon_slack_length == l_T_slack and instance.peak_isometric_force == F_M_max and instance.optimal_fiber_length == l_M_opt and instance.maximal_fiber_velocity == v_M_max and instance.optimal_pennation_angle == alpha_opt and instance.fiber_damping_coefficient == beta and instance.l_T_slack == expected and instance.tendon_slack_length == expected and instance.F_M_max == expected and instance.peak_isometric_force == expected and instance.l_M_opt == expected and instance.optimal_fiber_length == expected and instance.v_M_max == expected and instance.maximal_fiber_velocity == expected and instance.alpha_opt == expected and instance.optimal_pennation_angle == expected and instance.beta == expected and instance.fiber_damping_coefficient == expected and hasattr(instance, 'e') and hasattr(instance, 'excitation') and instance.e == e_expected and instance.excitation == e_expected and instance.e is instance.excitation and hasattr(instance, 'a') and hasattr(instance, 'activation') and instance.a == a_expected and instance.activation == a_expected and repr(instance) == expected"},"spec":{"lhs":"TestMusculotendonDeGroote2016(*args)","rhs":"correctly constructs a TestMusculotendonDeGroote2016 instance","over":{"base":"Any","pred":"isinstance(instance, MusculotendonDeGroote2016)"},"name":"TestMusculotendonDeGroote2016_class_invariant"},"guarantee":"correctly constructs a TestMusculotendonDeGroote2016 instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"371a87d66d82b8c8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial"},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.9,"verdict_class":"assumed","binding":false,"binding_errors":["Function TestMusculotendonDeGroote2016 not found in source"]}}
 class TestMusculotendonDeGroote2016:
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_class(), test_class produces the expected output) over Any ║
+# ║ Path(test_class(), issubclass(MusculotendonDeGroote2016, ForceActuator) and issubclass(MusculotendonDeGroote2016, _NamedMixin) and MusculotendonDeGroote2016.__name__ == 'MusculotendonDeGroote2016') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_class : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  issubclass(MusculotendonDeGroote2016, For...   ║
+# ║   ensures:  issubclass(MusculotendonDeGroote2016, _Na...   ║
+# ║   ensures:  MusculotendonDeGroote2016.__name__ == 'Mu...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_class : Any → {Any | result satisfies: issubclas...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0b02d76cb167aaf1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b6396e8ee9a413df  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonDeGroote2016.test_class","kind":"staticmethod","src_hash":"e53e39cc3950a12b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_class()","rhs":"test_class produces the expected output","over":{"base":"Any"},"name":"test_class_correct"},"guarantee":"test_class produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonDeGroote2016.test_class_correct","statement":"Path(test_class(x), test_class produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0b02d76cb167aaf1"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonDeGroote2016.test_class","kind":"staticmethod","src_hash":"e53e39cc3950a12b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: issubclass(MusculotendonDeGroote2016, ForceActuator) and issubclass(MusculotendonDeGroote2016, _NamedMixin) and MusculotendonDeGroote2016.__name__ == 'MusculotendonDeGroote2016'"},"spec":{"lhs":"test_class()","rhs":"issubclass(MusculotendonDeGroote2016, ForceActuator) and issubclass(MusculotendonDeGroote2016, _NamedMixin) and MusculotendonDeGroote2016.__name__ == 'MusculotendonDeGroote2016'","over":{"base":"Any"},"name":"test_class_correct"},"guarantee":"issubclass(MusculotendonDeGroote2016, ForceActuator); issubclass(MusculotendonDeGroote2016, _NamedMixin); MusculotendonDeGroote2016.__name__ == 'MusculotendonDeGroote2016'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonDeGroote2016.test_class_correct","statement":"Path(test_class(x), issubclass(MusculotendonDeGroote2016, ForceActuator); issubclass(MusculotendonDeGroote2016, _NamedMixin); MusculotendonDeGroote2016.__name__ == 'MusculotendonDeGroote2016')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b6396e8ee9a413df","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["issubclass(MusculotendonDeGroote2016, ForceActuator)","issubclass(MusculotendonDeGroote2016, _NamedMixin)","MusculotendonDeGroote2016.__name__ == 'MusculotendonDeGroote2016'"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_class():
         assert issubclass(MusculotendonDeGroote2016, ForceActuator)
         assert issubclass(MusculotendonDeGroote2016, _NamedMixin)
@@ -951,16 +1251,22 @@ class TestMusculotendonDeGroote2016:
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_instance(), test_instance produces the expected output) over Any ║
+# ║ Path(test_instance(), isinstance(instance, MusculotendonDeGroote2016)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_instance : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(instance, MusculotendonDeGroot...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_instance : Any → {Any | result satisfies: isinst...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 37558d0506bae824  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 900dd57ded6e816e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonDeGroote2016.test_instance","kind":"staticmethod","src_hash":"bccd25dac81992d5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_instance()","rhs":"test_instance produces the expected output","over":{"base":"Any"},"name":"test_instance_correct"},"guarantee":"test_instance produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonDeGroote2016.test_instance_correct","statement":"Path(test_instance(x), test_instance produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"37558d0506bae824"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonDeGroote2016.test_instance","kind":"staticmethod","src_hash":"bccd25dac81992d5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(instance, MusculotendonDeGroote2016)"},"spec":{"lhs":"test_instance()","rhs":"isinstance(instance, MusculotendonDeGroote2016)","over":{"base":"Any"},"name":"test_instance_correct"},"guarantee":"isinstance(instance, MusculotendonDeGroote2016)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonDeGroote2016.test_instance_correct","statement":"Path(test_instance(x), isinstance(instance, MusculotendonDeGroote2016))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"900dd57ded6e816e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(instance, MusculotendonDeGroote2016)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_instance():
         origin = Point('pO')
         insertion = Point('pI')
@@ -989,16 +1295,22 @@ class TestMusculotendonDeGroote2016:
 
     @pytest.fixture(autouse=True)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_musculotendon_fixture(), internal helper behaves correctly) over Any ║
+# ║ Path(_musculotendon_fixture(), <unspecified:_musculotendon_fixture>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _musculotendon_fixture : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fcc6c8721c019c29  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonDeGroote2016._musculotendon_fixture","kind":"method","src_hash":"96068e2232c604a5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_musculotendon_fixture()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_musculotendon_fixture_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonDeGroote2016._musculotendon_fixture_correct","statement":"Path(_musculotendon_fixture(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fcc6c8721c019c29"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonDeGroote2016._musculotendon_fixture","kind":"method","src_hash":"96068e2232c604a5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_musculotendon_fixture()","rhs":"<unspecified:_musculotendon_fixture>","over":{"base":"Any"},"name":"_musculotendon_fixture_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonDeGroote2016._musculotendon_fixture_correct","statement":"Path(_musculotendon_fixture(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fcc6c8721c019c29","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self.N","self.insertion","self.name","self.origin","self.q"],"writes":["self.F_M_max","self.N","self.activation","self.alpha_opt","self.beta","self.insertion","self.l_M_opt","self.l_T_slack","self.name","self.origin","self.pathway","self.q","self.v_M_max"]},"state_contract":{"modifies":["self.F_M_max","self.N","self.activation","self.alpha_opt","self.beta","self.insertion","self.l_M_opt","self.l_T_slack","self.name","self.origin","self.pathway","self.q","self.v_M_max"],"old_bindings":{"old_self_F_M_max":"self.F_M_max","old_self_N":"self.N","old_self_activation":"self.activation","old_self_alpha_opt":"self.alpha_opt","old_self_beta":"self.beta","old_self_insertion":"self.insertion","old_self_l_M_opt":"self.l_M_opt","old_self_l_T_slack":"self.l_T_slack","old_self_name":"self.name","old_self_origin":"self.origin","old_self_pathway":"self.pathway","old_self_q":"self.q","old_self_v_M_max":"self.v_M_max"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _musculotendon_fixture(self):
         self.name = 'name'
         self.N = ReferenceFrame('N')
@@ -1016,16 +1328,24 @@ class TestMusculotendonDeGroote2016:
         self.beta = Symbol('beta')
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_with_defaults(), test_with_defaults produces the expected output) over Any ║
+# ║ Path(test_with_defaults(), instance.tendon_slack_length == l_T_slack and instance.peak_isometric_force == F_M_max and instance.optimal_fiber_length == l_M_opt and instance.maximal_fiber_velocity == v_M_max and instance.optimal_pennation_angle == alpha_opt and instance.fiber_damping_coefficient == beta) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_with_defaults : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  instance.tendon_slack_length == l_T_slack      ║
+# ║   ensures:  instance.peak_isometric_force == F_M_max       ║
+# ║   ensures:  instance.optimal_fiber_length == l_M_opt       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_with_defaults : Any → {Any | result satisfies: i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7dc76bf0411539a6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7ab00b9d7600a468  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonDeGroote2016.test_with_defaults","kind":"method","src_hash":"dc54a37f94ecc1d6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_with_defaults()","rhs":"test_with_defaults produces the expected output","over":{"base":"Any"},"name":"test_with_defaults_correct"},"guarantee":"test_with_defaults produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonDeGroote2016.test_with_defaults_correct","statement":"Path(test_with_defaults(x), test_with_defaults produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7dc76bf0411539a6"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonDeGroote2016.test_with_defaults","kind":"method","src_hash":"dc54a37f94ecc1d6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: instance.tendon_slack_length == l_T_slack and instance.peak_isometric_force == F_M_max and instance.optimal_fiber_length == l_M_opt and instance.maximal_fiber_velocity == v_M_max and instance.optimal_pennation_angle == alpha_opt and instance.fiber_damping_coefficient == beta"},"spec":{"lhs":"test_with_defaults()","rhs":"instance.tendon_slack_length == l_T_slack and instance.peak_isometric_force == F_M_max and instance.optimal_fiber_length == l_M_opt and instance.maximal_fiber_velocity == v_M_max and instance.optimal_pennation_angle == alpha_opt and instance.fiber_damping_coefficient == beta","over":{"base":"Any"},"name":"test_with_defaults_correct"},"guarantee":"instance.tendon_slack_length == l_T_slack; instance.peak_isometric_force == F_M_max; instance.optimal_fiber_length == l_M_opt","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonDeGroote2016.test_with_defaults_correct","statement":"Path(test_with_defaults(x), instance.tendon_slack_length == l_T_slack; instance.peak_isometric_force == F_M_max; instance.optimal_fiber_length == l_M_opt)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7ab00b9d7600a468","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["instance.tendon_slack_length == l_T_slack","instance.peak_isometric_force == F_M_max","instance.optimal_fiber_length == l_M_opt","instance.maximal_fiber_velocity == v_M_max","instance.optimal_pennation_angle == alpha_opt","instance.fiber_damping_coefficient == beta"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_with_defaults(self):
         origin = Point('pO')
         insertion = Point('pI')
@@ -1064,16 +1384,23 @@ class TestMusculotendonDeGroote2016:
         ],
     )
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_tendon_slack_length(l_T), test_tendon_slack_length produces the expected output) over Any ║
+# ║ Path(test_tendon_slack_length(l_T_slack, expected), instance.l_T_slack == expected and instance.tendon_slack_length == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_tendon_slack_length : Any → Any                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  instance.l_T_slack == expected                 ║
+# ║   ensures:  instance.tendon_slack_length == expected       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_tendon_slack_length : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b73a0ff0439b4bd4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6c88f1f408a65da7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonDeGroote2016.test_tendon_slack_length","kind":"method","src_hash":"ae762a17f07460d4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_tendon_slack_length(l_T)","rhs":"test_tendon_slack_length produces the expected output","over":{"base":"Any"},"name":"test_tendon_slack_length_correct"},"guarantee":"test_tendon_slack_length produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonDeGroote2016.test_tendon_slack_length_correct","statement":"Path(test_tendon_slack_length(x), test_tendon_slack_length produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b73a0ff0439b4bd4"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonDeGroote2016.test_tendon_slack_length","kind":"method","src_hash":"ae762a17f07460d4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: instance.l_T_slack == expected and instance.tendon_slack_length == expected"},"spec":{"lhs":"test_tendon_slack_length(l_T_slack, expected)","rhs":"instance.l_T_slack == expected and instance.tendon_slack_length == expected","over":{"base":"Any"},"name":"test_tendon_slack_length_correct"},"guarantee":"instance.l_T_slack == expected; instance.tendon_slack_length == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonDeGroote2016.test_tendon_slack_length_correct","statement":"Path(test_tendon_slack_length(x), instance.l_T_slack == expected; instance.tendon_slack_length == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6c88f1f408a65da7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["instance.l_T_slack == expected","instance.tendon_slack_length == expected"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.F_M_max","self.activation","self.alpha_opt","self.beta","self.l_M_opt","self.name","self.pathway","self.v_M_max"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_tendon_slack_length(self, l_T_slack, expected):
         instance = MusculotendonDeGroote2016(
             self.name,
@@ -1100,16 +1427,23 @@ class TestMusculotendonDeGroote2016:
         ],
     )
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_peak_isometric_force(F_M), test_peak_isometric_force produces the expected output) over Any ║
+# ║ Path(test_peak_isometric_force(F_M_max, expected), instance.F_M_max == expected and instance.peak_isometric_force == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_peak_isometric_force : Any → Any                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  instance.F_M_max == expected                   ║
+# ║   ensures:  instance.peak_isometric_force == expected      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_peak_isometric_force : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f0a03c1501cc8c79  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 31a09f634c47cb5c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonDeGroote2016.test_peak_isometric_force","kind":"method","src_hash":"2094bf85bbee85df","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_peak_isometric_force(F_M)","rhs":"test_peak_isometric_force produces the expected output","over":{"base":"Any"},"name":"test_peak_isometric_force_correct"},"guarantee":"test_peak_isometric_force produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonDeGroote2016.test_peak_isometric_force_correct","statement":"Path(test_peak_isometric_force(x), test_peak_isometric_force produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f0a03c1501cc8c79"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonDeGroote2016.test_peak_isometric_force","kind":"method","src_hash":"2094bf85bbee85df","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: instance.F_M_max == expected and instance.peak_isometric_force == expected"},"spec":{"lhs":"test_peak_isometric_force(F_M_max, expected)","rhs":"instance.F_M_max == expected and instance.peak_isometric_force == expected","over":{"base":"Any"},"name":"test_peak_isometric_force_correct"},"guarantee":"instance.F_M_max == expected; instance.peak_isometric_force == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonDeGroote2016.test_peak_isometric_force_correct","statement":"Path(test_peak_isometric_force(x), instance.F_M_max == expected; instance.peak_isometric_force == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"31a09f634c47cb5c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["instance.F_M_max == expected","instance.peak_isometric_force == expected"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.activation","self.alpha_opt","self.beta","self.l_M_opt","self.l_T_slack","self.name","self.pathway","self.v_M_max"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_peak_isometric_force(self, F_M_max, expected):
         instance = MusculotendonDeGroote2016(
             self.name,
@@ -1136,16 +1470,23 @@ class TestMusculotendonDeGroote2016:
         ],
     )
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_optimal_fiber_length(l_M), test_optimal_fiber_length produces the expected output) over Any ║
+# ║ Path(test_optimal_fiber_length(l_M_opt, expected), instance.l_M_opt == expected and instance.optimal_fiber_length == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_optimal_fiber_length : Any → Any                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  instance.l_M_opt == expected                   ║
+# ║   ensures:  instance.optimal_fiber_length == expected      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_optimal_fiber_length : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 720f73f63f8ce350  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bc8b4ac100eb5a7a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonDeGroote2016.test_optimal_fiber_length","kind":"method","src_hash":"b10008d18cb69cf5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_optimal_fiber_length(l_M)","rhs":"test_optimal_fiber_length produces the expected output","over":{"base":"Any"},"name":"test_optimal_fiber_length_correct"},"guarantee":"test_optimal_fiber_length produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonDeGroote2016.test_optimal_fiber_length_correct","statement":"Path(test_optimal_fiber_length(x), test_optimal_fiber_length produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"720f73f63f8ce350"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonDeGroote2016.test_optimal_fiber_length","kind":"method","src_hash":"b10008d18cb69cf5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: instance.l_M_opt == expected and instance.optimal_fiber_length == expected"},"spec":{"lhs":"test_optimal_fiber_length(l_M_opt, expected)","rhs":"instance.l_M_opt == expected and instance.optimal_fiber_length == expected","over":{"base":"Any"},"name":"test_optimal_fiber_length_correct"},"guarantee":"instance.l_M_opt == expected; instance.optimal_fiber_length == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonDeGroote2016.test_optimal_fiber_length_correct","statement":"Path(test_optimal_fiber_length(x), instance.l_M_opt == expected; instance.optimal_fiber_length == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bc8b4ac100eb5a7a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["instance.l_M_opt == expected","instance.optimal_fiber_length == expected"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.F_M_max","self.activation","self.alpha_opt","self.beta","self.l_T_slack","self.name","self.pathway","self.v_M_max"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_optimal_fiber_length(self, l_M_opt, expected):
         instance = MusculotendonDeGroote2016(
             self.name,
@@ -1172,16 +1513,23 @@ class TestMusculotendonDeGroote2016:
         ],
     )
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_maximal_fiber_velocity(v_M), test_maximal_fiber_velocity produces the expected output) over Any ║
+# ║ Path(test_maximal_fiber_velocity(v_M_max, expected), instance.v_M_max == expected and instance.maximal_fiber_velocity == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_maximal_fiber_velocity : Any → Any                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  instance.v_M_max == expected                   ║
+# ║   ensures:  instance.maximal_fiber_velocity == expected    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_maximal_fiber_velocity : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0b3bee67e6052487  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 46190d57e2b1bcf6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonDeGroote2016.test_maximal_fiber_velocity","kind":"method","src_hash":"7cbc8e4deaccb285","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_maximal_fiber_velocity(v_M)","rhs":"test_maximal_fiber_velocity produces the expected output","over":{"base":"Any"},"name":"test_maximal_fiber_velocity_correct"},"guarantee":"test_maximal_fiber_velocity produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonDeGroote2016.test_maximal_fiber_velocity_correct","statement":"Path(test_maximal_fiber_velocity(x), test_maximal_fiber_velocity produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0b3bee67e6052487"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonDeGroote2016.test_maximal_fiber_velocity","kind":"method","src_hash":"7cbc8e4deaccb285","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: instance.v_M_max == expected and instance.maximal_fiber_velocity == expected"},"spec":{"lhs":"test_maximal_fiber_velocity(v_M_max, expected)","rhs":"instance.v_M_max == expected and instance.maximal_fiber_velocity == expected","over":{"base":"Any"},"name":"test_maximal_fiber_velocity_correct"},"guarantee":"instance.v_M_max == expected; instance.maximal_fiber_velocity == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonDeGroote2016.test_maximal_fiber_velocity_correct","statement":"Path(test_maximal_fiber_velocity(x), instance.v_M_max == expected; instance.maximal_fiber_velocity == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"46190d57e2b1bcf6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["instance.v_M_max == expected","instance.maximal_fiber_velocity == expected"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.F_M_max","self.activation","self.alpha_opt","self.beta","self.l_M_opt","self.l_T_slack","self.name","self.pathway"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_maximal_fiber_velocity(self, v_M_max, expected):
         instance = MusculotendonDeGroote2016(
             self.name,
@@ -1208,16 +1556,23 @@ class TestMusculotendonDeGroote2016:
         ],
     )
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_optimal_pennation_angle(alp), test_optimal_pennation_angle produces the expected output) over Any ║
+# ║ Path(test_optimal_pennation_angle(alpha_opt, expected), instance.alpha_opt == expected and instance.optimal_pennation_angle == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_optimal_pennation_angle : Any → Any                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  instance.alpha_opt == expected                 ║
+# ║   ensures:  instance.optimal_pennation_angle == expected   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_optimal_pennation_angle : Any → {Any | result sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ed4430fc6b407b6e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2cd480aa75d9d958  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonDeGroote2016.test_optimal_pennation_angle","kind":"method","src_hash":"7fe5bb10dc8571fd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_optimal_pennation_angle(alp)","rhs":"test_optimal_pennation_angle produces the expected output","over":{"base":"Any"},"name":"test_optimal_pennation_angle_correct"},"guarantee":"test_optimal_pennation_angle produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonDeGroote2016.test_optimal_pennation_angle_correct","statement":"Path(test_optimal_pennation_angle(x), test_optimal_pennation_angle produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ed4430fc6b407b6e"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonDeGroote2016.test_optimal_pennation_angle","kind":"method","src_hash":"7fe5bb10dc8571fd","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: instance.alpha_opt == expected and instance.optimal_pennation_angle == expected"},"spec":{"lhs":"test_optimal_pennation_angle(alpha_opt, expected)","rhs":"instance.alpha_opt == expected and instance.optimal_pennation_angle == expected","over":{"base":"Any"},"name":"test_optimal_pennation_angle_correct"},"guarantee":"instance.alpha_opt == expected; instance.optimal_pennation_angle == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonDeGroote2016.test_optimal_pennation_angle_correct","statement":"Path(test_optimal_pennation_angle(x), instance.alpha_opt == expected; instance.optimal_pennation_angle == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2cd480aa75d9d958","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["instance.alpha_opt == expected","instance.optimal_pennation_angle == expected"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.F_M_max","self.activation","self.beta","self.l_M_opt","self.l_T_slack","self.name","self.pathway","self.v_M_max"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_optimal_pennation_angle(self, alpha_opt, expected):
         instance = MusculotendonDeGroote2016(
             self.name,
@@ -1245,16 +1600,23 @@ class TestMusculotendonDeGroote2016:
         ],
     )
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_fiber_damping_coefficient(bet), test_fiber_damping_coefficient produces the expected output) over Any ║
+# ║ Path(test_fiber_damping_coefficient(beta, expected), instance.beta == expected and instance.fiber_damping_coefficient == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_fiber_damping_coefficient : Any → Any                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  instance.beta == expected                      ║
+# ║   ensures:  instance.fiber_damping_coefficient == exp...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_fiber_damping_coefficient : Any → {Any | result ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3be23f561a0c63bf  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0faf6ba5597547f2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonDeGroote2016.test_fiber_damping_coefficient","kind":"method","src_hash":"0f219cf4b7f98cda","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_fiber_damping_coefficient(bet)","rhs":"test_fiber_damping_coefficient produces the expected output","over":{"base":"Any"},"name":"test_fiber_damping_coefficient_correct"},"guarantee":"test_fiber_damping_coefficient produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonDeGroote2016.test_fiber_damping_coefficient_correct","statement":"Path(test_fiber_damping_coefficient(x), test_fiber_damping_coefficient produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3be23f561a0c63bf"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonDeGroote2016.test_fiber_damping_coefficient","kind":"method","src_hash":"0f219cf4b7f98cda","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: instance.beta == expected and instance.fiber_damping_coefficient == expected"},"spec":{"lhs":"test_fiber_damping_coefficient(beta, expected)","rhs":"instance.beta == expected and instance.fiber_damping_coefficient == expected","over":{"base":"Any"},"name":"test_fiber_damping_coefficient_correct"},"guarantee":"instance.beta == expected; instance.fiber_damping_coefficient == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonDeGroote2016.test_fiber_damping_coefficient_correct","statement":"Path(test_fiber_damping_coefficient(x), instance.beta == expected; instance.fiber_damping_coefficient == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0faf6ba5597547f2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["instance.beta == expected","instance.fiber_damping_coefficient == expected"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.F_M_max","self.activation","self.alpha_opt","self.l_M_opt","self.l_T_slack","self.name","self.pathway","self.v_M_max"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_fiber_damping_coefficient(self, beta, expected):
         instance = MusculotendonDeGroote2016(
             self.name,
@@ -1272,16 +1634,24 @@ class TestMusculotendonDeGroote2016:
         assert instance.fiber_damping_coefficient == expected
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_excitation(), test_excitation produces the expected output) over Any ║
+# ║ Path(test_excitation(), hasattr(instance, 'e') and hasattr(instance, 'excitation') and instance.e == e_expected and instance.excitation == e_expected and instance.e is instance.excitation) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_excitation : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  hasattr(instance, 'e')                         ║
+# ║   ensures:  hasattr(instance, 'excitation')                ║
+# ║   ensures:  instance.e == e_expected                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_excitation : Any → {Any | result satisfies: hasa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a92b70222b426fd2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 71bbcf1226da945d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonDeGroote2016.test_excitation","kind":"method","src_hash":"7e6f83cae54c8893","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_excitation()","rhs":"test_excitation produces the expected output","over":{"base":"Any"},"name":"test_excitation_correct"},"guarantee":"test_excitation produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonDeGroote2016.test_excitation_correct","statement":"Path(test_excitation(x), test_excitation produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a92b70222b426fd2"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonDeGroote2016.test_excitation","kind":"method","src_hash":"7e6f83cae54c8893","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: hasattr(instance, 'e') and hasattr(instance, 'excitation') and instance.e == e_expected and instance.excitation == e_expected and instance.e is instance.excitation"},"spec":{"lhs":"test_excitation()","rhs":"hasattr(instance, 'e') and hasattr(instance, 'excitation') and instance.e == e_expected and instance.excitation == e_expected and instance.e is instance.excitation","over":{"base":"Any"},"name":"test_excitation_correct"},"guarantee":"hasattr(instance, 'e'); hasattr(instance, 'excitation'); instance.e == e_expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonDeGroote2016.test_excitation_correct","statement":"Path(test_excitation(x), hasattr(instance, 'e'); hasattr(instance, 'excitation'); instance.e == e_expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"71bbcf1226da945d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["hasattr(instance, 'e')","hasattr(instance, 'excitation')","instance.e == e_expected","instance.excitation == e_expected","instance.e is instance.excitation"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.activation","self.name","self.pathway"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_excitation(self):
         instance = MusculotendonDeGroote2016(
             self.name,
@@ -1296,16 +1666,22 @@ class TestMusculotendonDeGroote2016:
         assert instance.e is instance.excitation
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_excitation_is_immutable(), test_excitation_is_immutable produces the expected output) over Any ║
+# ║ Path(test_excitation_is_immutable(), <unspecified:test_excitation_is_immutable>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_excitation_is_immutable : Any → Any                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 95464b738ae1d1ca  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonDeGroote2016.test_excitation_is_immutable","kind":"method","src_hash":"55359362ffef457a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_excitation_is_immutable()","rhs":"test_excitation_is_immutable produces the expected output","over":{"base":"Any"},"name":"test_excitation_is_immutable_correct"},"guarantee":"test_excitation_is_immutable produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonDeGroote2016.test_excitation_is_immutable_correct","statement":"Path(test_excitation_is_immutable(x), test_excitation_is_immutable produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"95464b738ae1d1ca"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonDeGroote2016.test_excitation_is_immutable","kind":"method","src_hash":"55359362ffef457a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_excitation_is_immutable()","rhs":"<unspecified:test_excitation_is_immutable>","over":{"base":"Any"},"name":"test_excitation_is_immutable_correct"},"guarantee":"test_excitation_is_immutable produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonDeGroote2016.test_excitation_is_immutable_correct","statement":"Path(test_excitation_is_immutable(x), test_excitation_is_immutable produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"95464b738ae1d1ca","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.activation","self.name","self.pathway"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_excitation_is_immutable(self):
         instance = MusculotendonDeGroote2016(
             self.name,
@@ -1318,16 +1694,24 @@ class TestMusculotendonDeGroote2016:
             instance.excitation = None
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_activation(), test_activation produces the expected output) over Any ║
+# ║ Path(test_activation(), hasattr(instance, 'a') and hasattr(instance, 'activation') and instance.a == a_expected and instance.activation == a_expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_activation : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  hasattr(instance, 'a')                         ║
+# ║   ensures:  hasattr(instance, 'activation')                ║
+# ║   ensures:  instance.a == a_expected                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_activation : Any → {Any | result satisfies: hasa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 36e4497a0638e169  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2550a836384b228c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonDeGroote2016.test_activation","kind":"method","src_hash":"82cb58fce51dc903","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_activation()","rhs":"test_activation produces the expected output","over":{"base":"Any"},"name":"test_activation_correct"},"guarantee":"test_activation produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonDeGroote2016.test_activation_correct","statement":"Path(test_activation(x), test_activation produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"36e4497a0638e169"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonDeGroote2016.test_activation","kind":"method","src_hash":"82cb58fce51dc903","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: hasattr(instance, 'a') and hasattr(instance, 'activation') and instance.a == a_expected and instance.activation == a_expected"},"spec":{"lhs":"test_activation()","rhs":"hasattr(instance, 'a') and hasattr(instance, 'activation') and instance.a == a_expected and instance.activation == a_expected","over":{"base":"Any"},"name":"test_activation_correct"},"guarantee":"hasattr(instance, 'a'); hasattr(instance, 'activation'); instance.a == a_expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonDeGroote2016.test_activation_correct","statement":"Path(test_activation(x), hasattr(instance, 'a'); hasattr(instance, 'activation'); instance.a == a_expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2550a836384b228c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["hasattr(instance, 'a')","hasattr(instance, 'activation')","instance.a == a_expected","instance.activation == a_expected"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.activation","self.name","self.pathway"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_activation(self):
         instance = MusculotendonDeGroote2016(
             self.name,
@@ -1341,16 +1725,22 @@ class TestMusculotendonDeGroote2016:
         assert instance.activation == a_expected
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_activation_is_immutable(), test_activation_is_immutable produces the expected output) over Any ║
+# ║ Path(test_activation_is_immutable(), <unspecified:test_activation_is_immutable>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_activation_is_immutable : Any → Any                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | af48dee34ddf8294  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonDeGroote2016.test_activation_is_immutable","kind":"method","src_hash":"683a01afdbed2006","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_activation_is_immutable()","rhs":"test_activation_is_immutable produces the expected output","over":{"base":"Any"},"name":"test_activation_is_immutable_correct"},"guarantee":"test_activation_is_immutable produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonDeGroote2016.test_activation_is_immutable_correct","statement":"Path(test_activation_is_immutable(x), test_activation_is_immutable produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"af48dee34ddf8294"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonDeGroote2016.test_activation_is_immutable","kind":"method","src_hash":"683a01afdbed2006","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_activation_is_immutable()","rhs":"<unspecified:test_activation_is_immutable>","over":{"base":"Any"},"name":"test_activation_is_immutable_correct"},"guarantee":"test_activation_is_immutable produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonDeGroote2016.test_activation_is_immutable_correct","statement":"Path(test_activation_is_immutable(x), test_activation_is_immutable produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"af48dee34ddf8294","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.activation","self.name","self.pathway"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_activation_is_immutable(self):
         instance = MusculotendonDeGroote2016(
             self.name,
@@ -1363,16 +1753,22 @@ class TestMusculotendonDeGroote2016:
             instance.activation = None
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_repr(), test_repr produces the expected output) over Any ║
+# ║ Path(test_repr(), repr(instance) == expected) over Any     ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_repr : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  repr(instance) == expected                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_repr : Any → {Any | result satisfies: repr(insta...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ef50ec448b9b8316  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 85825a6bdabda5dd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonDeGroote2016.test_repr","kind":"method","src_hash":"d94494ba29ab2dba","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_repr()","rhs":"test_repr produces the expected output","over":{"base":"Any"},"name":"test_repr_correct"},"guarantee":"test_repr produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonDeGroote2016.test_repr_correct","statement":"Path(test_repr(x), test_repr produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ef50ec448b9b8316"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonDeGroote2016.test_repr","kind":"method","src_hash":"d94494ba29ab2dba","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: repr(instance) == expected"},"spec":{"lhs":"test_repr()","rhs":"repr(instance) == expected","over":{"base":"Any"},"name":"test_repr_correct"},"guarantee":"repr(instance) == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_musculotendon.TestMusculotendonDeGroote2016.test_repr_correct","statement":"Path(test_repr(x), repr(instance) == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"85825a6bdabda5dd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["repr(instance) == expected"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.F_M_max","self.activation","self.alpha_opt","self.beta","self.l_M_opt","self.l_T_slack","self.name","self.pathway","self.v_M_max"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_repr(self):
         instance = MusculotendonDeGroote2016(
             self.name,

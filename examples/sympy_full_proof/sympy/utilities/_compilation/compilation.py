@@ -46,7 +46,10 @@ else:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(compile_sources(fil), compile source code files to object files) over {Any | isinstance(k, Glob) and isinstance(k, ArbitraryDepthGlob)} ║
+# ║ Path(compile_sources(files, Runner, destdir), len(dstpaths) == old_len_dstpaths + 1) over {Any | isinstance(k, Glob) and isinstance(k, ArbitraryDepthGlob)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(dstpaths) == old_len_dstpaths + 1          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ compile_sources : {Any | isinstance(k, Glob) and isin...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -59,9 +62,12 @@ else:
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?2 ✗1 VCs | 2.5ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | b8b111d8...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities._compilation.compilation.compile_sources","kind":"function","src_hash":"044103e9188839eb","in":{"base":"Any","pred":"isinstance(k, Glob) and isinstance(k, ArbitraryDepthGlob)"},"out":{"base":"Any"},"spec":{"lhs":"compile_sources(fil)","rhs":"compile source code files to object files","over":{"base":"Any","pred":"isinstance(k, Glob) and isinstance(k, ArbitraryDepthGlob)"},"name":"compile_sources_correct"},"guarantee":"compile source code files to object files","fibers":[{"name":"Glob","pred":"isinstance(k, Glob)","path":{"lhs":"compile_sources(x)","rhs":"compile source code files to object files","over":{"base":"Glob","pred":"isinstance(k, Glob)"},"name":"compile_sources_Glob_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities._compilation.compilation.compile_sources_Glob_correct","statement":"compile_sources satisfies spec on Glob inputs"},"trust":"LIBRARY"},{"name":"ArbitraryDepthGlob","pred":"isinstance(k, ArbitraryDepthGlob)","path":{"lhs":"compile_sources(x)","rhs":"compile source code files to object files","over":{"base":"ArbitraryDepthGlob","pred":"isinstance(k, ArbitraryDepthGlob)"},"name":"compile_sources_ArbitraryDepthGlob_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities._compilation.compilation.compile_sources_ArbitraryDepthGlob_correct","statement":"compile_sources satisfies spec on ArbitraryDepthGlob inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"b8b111d893262c42"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities._compilation.compilation.compile_sources","kind":"function","src_hash":"044103e9188839eb","in":{"base":"Any","pred":"isinstance(k, Glob) and isinstance(k, ArbitraryDepthGlob)"},"out":{"base":"Any","pred":"result satisfies: len(dstpaths) == old_len_dstpaths + 1"},"spec":{"lhs":"compile_sources(files, Runner, destdir)","rhs":"len(dstpaths) == old_len_dstpaths + 1","over":{"base":"Any","pred":"isinstance(k, Glob) and isinstance(k, ArbitraryDepthGlob)"},"name":"compile_sources_correct"},"guarantee":"len(dstpaths) == old_len_dstpaths + 1","fibers":[{"name":"Glob","pred":"isinstance(k, Glob)","path":{"lhs":"compile_sources(x)","rhs":"len(dstpaths) == old_len_dstpaths + 1","over":{"base":"Glob","pred":"isinstance(k, Glob)"},"name":"compile_sources_Glob_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities._compilation.compilation.compile_sources_Glob_correct","statement":"compile_sources satisfies spec on Glob inputs"},"trust":"LIBRARY"},{"name":"ArbitraryDepthGlob","pred":"isinstance(k, ArbitraryDepthGlob)","path":{"lhs":"compile_sources(x)","rhs":"len(dstpaths) == old_len_dstpaths + 1","over":{"base":"ArbitraryDepthGlob","pred":"isinstance(k, ArbitraryDepthGlob)"},"name":"compile_sources_ArbitraryDepthGlob_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities._compilation.compilation.compile_sources_ArbitraryDepthGlob_correct","statement":"compile_sources satisfies spec on ArbitraryDepthGlob inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"b8b111d893262c42","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(dstpaths) == old_len_dstpaths + 1"],"pure":false,"effects":{"effect_type":"io","reads":["per_file_kwargs.items"],"calls_mutating":["dstpaths.append","file_kwargs.update"],"raises":["OSError"],"io_operations":["copy"]},"state_contract":{"modifies":["dstpaths.*","file_kwargs.*"],"old_bindings":{"old_len_dstpaths":"len(dstpaths)","old_len_file_kwargs":"len(file_kwargs)"},"post_ensures":["len(dstpaths) == old_len_dstpaths + 1"],"exceptional_post":{"OSError":["isinstance(raised, OSError)"]}}},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":2,"n_assumed":2,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.5,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['files', 'Runner', 'destdir', 'cwd', 'keep_dir_struct', 'per_file_kwargs'], spec=['files', 'Runner', 'destdir', 'cwd', 'keep_dir_struct', 'per_file_kwargs', '**kwargs']","Poor branch-fiber coverage: 0% (branches={'isinstance(k, Glob)', 'isinstance(k, ArbitraryDepthGlob)', 'cwd is None'}, fibers={'Glob', 'ArbitraryDepthGlob'})"]}}
 def compile_sources(files, Runner=None, destdir=None, cwd=None, keep_dir_struct=False,
                     per_file_kwargs=None, **kwargs):
     """ Compile source code files to object files.
@@ -129,16 +135,23 @@ def compile_sources(files, Runner=None, destdir=None, cwd=None, keep_dir_struct=
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_mixed_fort_c_linker(ven), get_mixed_fort_c_linker produces the expected output) over Any ║
+# ║ Path(get_mixed_fort_c_linker(vendor, cplus, cwd), <unspecified:get_mixed_fort_c_linker>) over {Any | hasattr(vendor, 'lower')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ get_mixed_fort_c_linker : Any → Any                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(vendor, 'lower')                       ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ get_mixed_fort_c_linker : {Any | hasattr(vendor, 'low...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 971b224ed32df4bb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities._compilation.compilation.get_mixed_fort_c_linker","kind":"function","src_hash":"8aca2ae7e818e6fe","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_mixed_fort_c_linker(ven)","rhs":"get_mixed_fort_c_linker produces the expected output","over":{"base":"Any"},"name":"get_mixed_fort_c_linker_correct"},"guarantee":"get_mixed_fort_c_linker produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities._compilation.compilation.get_mixed_fort_c_linker_correct","statement":"Path(get_mixed_fort_c_linker(x), get_mixed_fort_c_linker produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"971b224ed32df4bb"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities._compilation.compilation.get_mixed_fort_c_linker","kind":"function","src_hash":"8aca2ae7e818e6fe","in":{"base":"Any","pred":"hasattr(vendor, 'lower')"},"out":{"base":"Any"},"spec":{"lhs":"get_mixed_fort_c_linker(vendor, cplus, cwd)","rhs":"<unspecified:get_mixed_fort_c_linker>","over":{"base":"Any","pred":"hasattr(vendor, 'lower')"},"name":"get_mixed_fort_c_linker_correct"},"guarantee":"get_mixed_fort_c_linker produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities._compilation.compilation.get_mixed_fort_c_linker_correct","statement":"Path(get_mixed_fort_c_linker(x), get_mixed_fort_c_linker produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"971b224ed32df4bb","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(vendor, 'lower')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["vendor.lower"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def get_mixed_fort_c_linker(vendor=None, cplus=False, cwd=None):
     vendor = vendor or os.environ.get('SYMPY_COMPILER_VENDOR', 'gnu')
 
@@ -161,16 +174,24 @@ def get_mixed_fort_c_linker(vendor=None, cplus=False, cwd=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(link(obj), link object files) over Any                ║
+# ║ Path(link(obj_files, out_file, shared), len(flags) == old_len_flags + 1 and len(kwargs) == old_len_kwargs - 1) over {Any | len(kwargs) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ link : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: len(kwargs) > 0                                ║
+# ║   ensures:  len(flags) == old_len_flags + 1                ║
+# ║   ensures:  len(kwargs) == old_len_kwargs - 1              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ link : {Any | len(kwargs) > 0} → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 46ac96649052f668  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ce9c80e50fbebf92  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities._compilation.compilation.link","kind":"function","src_hash":"3d6efc8ba12e3899","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"link(obj)","rhs":"link object files","over":{"base":"Any"},"name":"link_correct"},"guarantee":"link object files","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities._compilation.compilation.link_correct","statement":"Path(link(x), link object files)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"46ac96649052f668"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities._compilation.compilation.link","kind":"function","src_hash":"3d6efc8ba12e3899","in":{"base":"Any","pred":"len(kwargs) > 0"},"out":{"base":"Any","pred":"result satisfies: len(flags) == old_len_flags + 1 and len(kwargs) == old_len_kwargs - 1"},"spec":{"lhs":"link(obj_files, out_file, shared)","rhs":"len(flags) == old_len_flags + 1 and len(kwargs) == old_len_kwargs - 1","over":{"base":"Any","pred":"len(kwargs) > 0"},"name":"link_correct"},"guarantee":"len(flags) == old_len_flags + 1; len(kwargs) == old_len_kwargs - 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities._compilation.compilation.link_correct","statement":"Path(link(x), len(flags) == old_len_flags + 1; len(kwargs) == old_len_kwargs - 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ce9c80e50fbebf92","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["len(kwargs) > 0"],"ensures":["len(flags) == old_len_flags + 1","len(kwargs) == old_len_kwargs - 1"],"pure":false,"effects":{"effect_type":"reads_state","calls_mutating":["flags.append","kwargs.pop"],"raises":["ValueError"]},"state_contract":{"modifies":["flags.*","kwargs.*"],"old_bindings":{"old_len_flags":"len(flags)","old_len_kwargs":"len(kwargs)"},"pre_requires":["len(kwargs) > 0"],"post_ensures":["len(flags) == old_len_flags + 1","len(kwargs) == old_len_kwargs - 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['obj_files', 'out_file', 'shared', 'Runner', 'cwd', 'cplus', 'fort', 'extra_objs'], spec=['obj_files', 'out_file', 'shared', 'Runner', 'cwd', 'cplus', 'fort', 'extra_objs', '**kwargs']"]}}
 def link(obj_files, out_file=None, shared=False, Runner=None,
          cwd=None, cplus=False, fort=False, extra_objs=None, **kwargs):
     """ Link object files.
@@ -244,16 +265,27 @@ def link(obj_files, out_file=None, shared=False, Runner=None,
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(link_py_so(obj), link python extension module (shared object) for importing) over Any ║
+# ║ Path(link_py_so(obj_files, so_file, cwd), link(obj_files, shared=True, flags=flags, cwd=cwd, cplus=cplus, fort=fort, include_dirs=include_dirs, libraries=libraries, library_dirs=library_dirs, extra_objs=extra_objs, **kwargs)) over {Any | hasattr(libraries, 'append') and len(kwargs) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ link_py_so : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(libraries, 'append')                   ║
+# ║   requires: len(kwargs) > 0                                ║
+# ║   ensures:  len(flags) == old_len_flags + 1                ║
+# ║   ensures:  len(kwargs) == old_len_kwargs - 1              ║
+# ║   ensures:  len(libraries) == old_len_libraries + 1        ║
+# ║   returns:  link(obj_files, shared=True, flags=flags,...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ link_py_so : {Any | hasattr(libraries, 'append') and ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6cf0ed4913177a18  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | af98b4faa0910834  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities._compilation.compilation.link_py_so","kind":"function","src_hash":"55116c7d1762f3e7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"link_py_so(obj)","rhs":"link python extension module (shared object) for importing","over":{"base":"Any"},"name":"link_py_so_correct"},"guarantee":"link python extension module (shared object) for importing","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities._compilation.compilation.link_py_so_correct","statement":"Path(link_py_so(x), link python extension module (shared object) for importing)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6cf0ed4913177a18"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities._compilation.compilation.link_py_so","kind":"function","src_hash":"55116c7d1762f3e7","in":{"base":"Any","pred":"hasattr(libraries, 'append') and len(kwargs) > 0"},"out":{"base":"Any","pred":"result satisfies: result == (link(obj_files, shared=True, flags=flags, cwd=cwd, cplus=cplus, fort=fort, include_dirs=include_dirs, libraries=libraries, library_dirs=library_dirs, extra_objs=extra_objs, **kwargs))"},"spec":{"lhs":"link_py_so(obj_files, so_file, cwd)","rhs":"link(obj_files, shared=True, flags=flags, cwd=cwd, cplus=cplus, fort=fort, include_dirs=include_dirs, libraries=libraries, library_dirs=library_dirs, extra_objs=extra_objs, **kwargs)","over":{"base":"Any","pred":"hasattr(libraries, 'append') and len(kwargs) > 0"},"name":"link_py_so_correct"},"guarantee":"returns link(obj_files, shared=True, flags=flags, cwd=cwd, cplus=cplus, fort=fort, include_dirs=include_dirs, libraries=libraries, library_dirs=library_dirs, extra_objs=extra_objs, **kwargs); len(flags) == old_len_flags + 1; len(kwargs) == old_len_kwargs - 1; len(libraries) == old_len_libraries + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities._compilation.compilation.link_py_so_correct","statement":"Path(link_py_so(x), returns link(obj_files, shared=True, flags=flags, cwd=cwd, cplus=cplus, fort=fort, include_dirs=include_dirs, libraries=libraries, library_dirs=library_dirs, extra_objs=extra_objs, **kwargs); len(flags) == old_len_flags + 1; len(kwargs) == old_len_kwargs - 1; len(libraries) == old_len_libraries + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"af98b4faa0910834","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(libraries, 'append')","len(kwargs) > 0"],"ensures":["len(flags) == old_len_flags + 1","len(kwargs) == old_len_kwargs - 1","len(libraries) == old_len_libraries + 1"],"returns_expr":"link(obj_files, shared=True, flags=flags, cwd=cwd, cplus=cplus, fort=fort, include_dirs=include_dirs, libraries=libraries, library_dirs=library_dirs, extra_objs=extra_objs, **kwargs)","pure":false,"effects":{"effect_type":"mutates_args","reads":["libraries.append"],"calls_mutating":["flags.append","kwargs.pop","libraries.append"]},"state_contract":{"modifies":["flags.*","kwargs.*","libraries.*"],"old_bindings":{"old_len_flags":"len(flags)","old_len_kwargs":"len(kwargs)","old_len_libraries":"len(libraries)"},"pre_requires":["len(kwargs) > 0"],"post_ensures":["len(flags) == old_len_flags + 1","len(kwargs) == old_len_kwargs - 1","len(libraries) == old_len_libraries + 1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['obj_files', 'so_file', 'cwd', 'libraries', 'cplus', 'fort', 'extra_objs'], spec=['obj_files', 'so_file', 'cwd', 'libraries', 'cplus', 'fort', 'extra_objs', '**kwargs']"]}}
 def link_py_so(obj_files, so_file=None, cwd=None, libraries=None,
                cplus=False, fort=False, extra_objs=None, **kwargs):
     """ Link Python extension module (shared object) for importing
@@ -342,16 +374,24 @@ def link_py_so(obj_files, so_file=None, cwd=None, libraries=None,
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(simple_cythonize(src), generates a c file from a cython source file) over Any ║
+# ║ Path(simple_cythonize(src, destdir, cwd), <unspecified:simple_cythonize>) over {Any | src.lower().endswith('.pyx') or src.lower().endswith('.py') and hasattr(src, 'lower')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ simple_cythonize : Any → {Any | src.lower().endswith(...   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: src.lower().endswith('.pyx') or src.lower...   ║
+# ║   requires: hasattr(src, 'lower')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ simple_cythonize : {Any | src.lower().endswith('.pyx'...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   Cython.__module__                                        ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟡 LIBRARY | library_axiom | Compiled: ✓ | 018d7801a6e8...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities._compilation.compilation.simple_cythonize","kind":"function","src_hash":"0199055a7f13040b","in":{"base":"Any"},"out":{"base":"Any","pred":"src.lower().endswith('.pyx') or src.lower().endswith('.py')"},"spec":{"lhs":"simple_cythonize(src)","rhs":"generates a c file from a cython source file","over":{"base":"Any"},"name":"simple_cythonize_correct"},"guarantee":"generates a c file from a cython source file","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities._compilation.compilation.simple_cythonize_correct","statement":"Path(simple_cythonize(x), generates a c file from a cython source file)"},"assumes":[],"trust":["Cython.__module__"],"compiled":true,"vhash":"018d7801a6e828a7"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities._compilation.compilation.simple_cythonize","kind":"function","src_hash":"0199055a7f13040b","in":{"base":"Any","pred":"src.lower().endswith('.pyx') or src.lower().endswith('.py') and hasattr(src, 'lower')"},"out":{"base":"Any","pred":"src.lower().endswith('.pyx') or src.lower().endswith('.py')"},"spec":{"lhs":"simple_cythonize(src, destdir, cwd)","rhs":"<unspecified:simple_cythonize>","over":{"base":"Any","pred":"src.lower().endswith('.pyx') or src.lower().endswith('.py') and hasattr(src, 'lower')"},"name":"simple_cythonize_correct"},"guarantee":"generates a c file from a cython source file","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities._compilation.compilation.simple_cythonize_correct","statement":"Path(simple_cythonize(x), generates a c file from a cython source file)"},"assumes":[],"trust":["Cython.__module__"],"compiled":true,"vhash":"018d7801a6e828a7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["src.lower().endswith('.pyx') or src.lower().endswith('.py')","hasattr(src, 'lower')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["*.__dict__","src.lower"],"calls_mutating":["cy_options.__dict__.update"],"raises":["ValueError"]},"state_contract":{"modifies":["cy_options.*"],"old_bindings":{"old_len_cy_options":"len(cy_options)"},"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['src', 'destdir', 'cwd'], spec=['src', 'destdir', 'cwd', '**cy_kwargs']"]}}
 def simple_cythonize(src, destdir=None, cwd=None, **cy_kwargs):
     """ Generates a C file from a Cython source file.
 
@@ -425,16 +465,25 @@ extension_mapping = {
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(src2obj(src), compiles a source code file to an object file) over Any ║
+# ║ Path(src2obj(srcpath, Runner, objpath), len(flags) == old_len_flags + 1 and len(include_dirs) == old_len_include_dirs + 1 and len(kwargs) == old_len_kwargs - 1) over {Any | len(kwargs) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ src2obj : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: len(kwargs) > 0                                ║
+# ║   ensures:  len(flags) == old_len_flags + 1                ║
+# ║   ensures:  len(include_dirs) == old_len_include_dirs...   ║
+# ║   ensures:  len(kwargs) == old_len_kwargs - 1              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ src2obj : {Any | len(kwargs) > 0} → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bb3ac0c43035ad60  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bf3d32968da73e8e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities._compilation.compilation.src2obj","kind":"function","src_hash":"b90f019e9220168c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"src2obj(src)","rhs":"compiles a source code file to an object file","over":{"base":"Any"},"name":"src2obj_correct"},"guarantee":"compiles a source code file to an object file","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities._compilation.compilation.src2obj_correct","statement":"Path(src2obj(x), compiles a source code file to an object file)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bb3ac0c43035ad60"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities._compilation.compilation.src2obj","kind":"function","src_hash":"b90f019e9220168c","in":{"base":"Any","pred":"len(kwargs) > 0"},"out":{"base":"Any","pred":"result satisfies: len(flags) == old_len_flags + 1 and len(include_dirs) == old_len_include_dirs + 1 and len(kwargs) == old_len_kwargs - 1"},"spec":{"lhs":"src2obj(srcpath, Runner, objpath)","rhs":"len(flags) == old_len_flags + 1 and len(include_dirs) == old_len_include_dirs + 1 and len(kwargs) == old_len_kwargs - 1","over":{"base":"Any","pred":"len(kwargs) > 0"},"name":"src2obj_correct"},"guarantee":"len(flags) == old_len_flags + 1; len(include_dirs) == old_len_include_dirs + 1; len(kwargs) == old_len_kwargs - 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities._compilation.compilation.src2obj_correct","statement":"Path(src2obj(x), len(flags) == old_len_flags + 1; len(include_dirs) == old_len_include_dirs + 1; len(kwargs) == old_len_kwargs - 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bf3d32968da73e8e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["len(kwargs) > 0"],"ensures":["len(flags) == old_len_flags + 1","len(include_dirs) == old_len_include_dirs + 1","len(kwargs) == old_len_kwargs - 1"],"pure":false,"effects":{"effect_type":"reads_state","calls_mutating":["flags.append","include_dirs.append","kwargs.pop"],"raises":["CompileError"]},"state_contract":{"modifies":["flags.*","include_dirs.*","kwargs.*"],"old_bindings":{"old_len_flags":"len(flags)","old_len_include_dirs":"len(include_dirs)","old_len_kwargs":"len(kwargs)"},"pre_requires":["len(kwargs) > 0"],"post_ensures":["len(flags) == old_len_flags + 1","len(include_dirs) == old_len_include_dirs + 1","len(kwargs) == old_len_kwargs - 1"],"exceptional_post":{"CompileError":["isinstance(raised, CompileError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['srcpath', 'Runner', 'objpath', 'cwd', 'inc_py'], spec=['srcpath', 'Runner', 'objpath', 'cwd', 'inc_py', '**kwargs']"]}}
 def src2obj(srcpath, Runner=None, objpath=None, cwd=None, inc_py=False, **kwargs):
     """ Compiles a source code file to an object file.
 
@@ -502,16 +551,27 @@ def src2obj(srcpath, Runner=None, objpath=None, cwd=None, inc_py=False, **kwargs
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(pyx2obj(pyx), convenience function) over Any          ║
+# ║ Path(pyx2obj(pyxpath, objpath, destdir), src2obj(interm_c_file, objpath=objpath, cwd=cwd, include_dirs=include_dirs, flags=flags, std=std, options=options, inc_py=True, strict_aliasing=False, **kwargs)) over {Any | pyxpath.endswith('.pyx') and hasattr(pyxpath, 'endswith') and len(kwargs) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ pyx2obj : Any → {Any | pyxpath.endswith('.pyx')}           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: pyxpath.endswith('.pyx')                       ║
+# ║   requires: hasattr(pyxpath, 'endswith')                   ║
+# ║   requires: len(kwargs) > 0                                ║
+# ║   ensures:  len(flags) == old_len_flags + 1                ║
+# ║   ensures:  len(kwargs) == old_len_kwargs - 1              ║
+# ║   returns:  src2obj(interm_c_file, objpath=objpath, c...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ pyx2obj : {Any | pyxpath.endswith('.pyx') and hasattr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bb85b04ac1b8ddff  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 61c606207f161626  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities._compilation.compilation.pyx2obj","kind":"function","src_hash":"9241728c857a9cc0","in":{"base":"Any"},"out":{"base":"Any","pred":"pyxpath.endswith('.pyx')"},"spec":{"lhs":"pyx2obj(pyx)","rhs":"convenience function","over":{"base":"Any"},"name":"pyx2obj_correct"},"guarantee":"convenience function","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities._compilation.compilation.pyx2obj_correct","statement":"Path(pyx2obj(x), convenience function)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bb85b04ac1b8ddff"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities._compilation.compilation.pyx2obj","kind":"function","src_hash":"9241728c857a9cc0","in":{"base":"Any","pred":"pyxpath.endswith('.pyx') and hasattr(pyxpath, 'endswith') and len(kwargs) > 0"},"out":{"base":"Any","pred":"result satisfies: result == (src2obj(interm_c_file, objpath=objpath, cwd=cwd, include_dirs=include_dirs, flags=flags, std=std, options=options, inc_py=True, strict_aliasing=False, **kwargs))"},"spec":{"lhs":"pyx2obj(pyxpath, objpath, destdir)","rhs":"src2obj(interm_c_file, objpath=objpath, cwd=cwd, include_dirs=include_dirs, flags=flags, std=std, options=options, inc_py=True, strict_aliasing=False, **kwargs)","over":{"base":"Any","pred":"pyxpath.endswith('.pyx') and hasattr(pyxpath, 'endswith') and len(kwargs) > 0"},"name":"pyx2obj_correct"},"guarantee":"returns src2obj(interm_c_file, objpath=objpath, cwd=cwd, include_dirs=include_dirs, flags=flags, std=std, options=options, inc_py=True, strict_aliasing=False, **kwargs); len(flags) == old_len_flags + 1; len(kwargs) == old_len_kwargs - 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities._compilation.compilation.pyx2obj_correct","statement":"Path(pyx2obj(x), returns src2obj(interm_c_file, objpath=objpath, cwd=cwd, include_dirs=include_dirs, flags=flags, std=std, options=options, inc_py=True, strict_aliasing=False, **kwargs); len(flags) == old_len_flags + 1; len(kwargs) == old_len_kwargs - 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"61c606207f161626","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["pyxpath.endswith('.pyx')","hasattr(pyxpath, 'endswith')","len(kwargs) > 0"],"ensures":["len(flags) == old_len_flags + 1","len(kwargs) == old_len_kwargs - 1"],"returns_expr":"src2obj(interm_c_file, objpath=objpath, cwd=cwd, include_dirs=include_dirs, flags=flags, std=std, options=options, inc_py=True, strict_aliasing=False, **kwargs)","pure":false,"effects":{"effect_type":"mutates_args","reads":["pyxpath.endswith"],"writes":["cy_kwargs[*]"],"calls_mutating":["flags.append","kwargs.pop"],"raises":["CompileError"]},"state_contract":{"modifies":["cy_kwargs[*]","flags.*","kwargs.*"],"old_bindings":{"old_cy_kwargs_star":"cy_kwargs[*]","old_len_flags":"len(flags)","old_len_kwargs":"len(kwargs)"},"pre_requires":["len(kwargs) > 0"],"post_ensures":["len(flags) == old_len_flags + 1","len(kwargs) == old_len_kwargs - 1"],"exceptional_post":{"CompileError":["isinstance(raised, CompileError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['pyxpath', 'objpath', 'destdir', 'cwd', 'include_dirs', 'cy_kwargs', 'cplus'], spec=['pyxpath', 'objpath', 'destdir', 'cwd', 'include_dirs', 'cy_kwargs', 'cplus', '**kwargs']"]}}
 def pyx2obj(pyxpath, objpath=None, destdir=None, cwd=None,
             include_dirs=None, cy_kwargs=None, cplus=None, **kwargs):
     """
@@ -594,16 +654,22 @@ def pyx2obj(pyxpath, objpath=None, destdir=None, cwd=None,
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_any_X(src), internal helper behaves correctly) over Any ║
+# ║ Path(_any_X(srcs, cls), <unspecified:_any_X>) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _any_X : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c1e68c3bc0534518  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities._compilation.compilation._any_X","kind":"function","src_hash":"d82b914592f158dd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_any_X(src)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_any_X_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities._compilation.compilation._any_X_correct","statement":"Path(_any_X(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c1e68c3bc0534518"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities._compilation.compilation._any_X","kind":"function","src_hash":"d82b914592f158dd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_any_X(srcs, cls)","rhs":"<unspecified:_any_X>","over":{"base":"Any"},"name":"_any_X_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities._compilation.compilation._any_X_correct","statement":"Path(_any_X(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c1e68c3bc0534518","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _any_X(srcs, cls):
     for src in srcs:
         name, ext = os.path.splitext(src)
@@ -615,46 +681,64 @@ def _any_X(srcs, cls):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(any_fortran_src(src), any_fortran_src produces the expected output) over Any ║
+# ║ Path(any_fortran_src(srcs), _any_X(srcs, FortranCompilerRunner)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _any_X(srcs, FortranCompilerRunner)            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ any_fortran_src : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 20a2fd6201c44d2f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities._compilation.compilation.any_fortran_src","kind":"function","src_hash":"201a46bbc5efc72a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"any_fortran_src(src)","rhs":"any_fortran_src produces the expected output","over":{"base":"Any"},"name":"any_fortran_src_correct"},"guarantee":"any_fortran_src produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"20a2fd6201c44d2f"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities._compilation.compilation.any_fortran_src","kind":"function","src_hash":"201a46bbc5efc72a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"any_fortran_src(srcs)","rhs":"_any_X(srcs, FortranCompilerRunner)","over":{"base":"Any"},"name":"any_fortran_src_correct"},"guarantee":"returns _any_X(srcs, FortranCompilerRunner)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"20a2fd6201c44d2f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_any_X(srcs, FortranCompilerRunner)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def any_fortran_src(srcs):
     return _any_X(srcs, FortranCompilerRunner)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(any_cplus_src(src), any_cplus_src produces the expected output) over Any ║
+# ║ Path(any_cplus_src(srcs), _any_X(srcs, CppCompilerRunner)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _any_X(srcs, CppCompilerRunner)                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ any_cplus_src : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f09ed5342e3e83f8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities._compilation.compilation.any_cplus_src","kind":"function","src_hash":"c36922a84afc1575","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"any_cplus_src(src)","rhs":"any_cplus_src produces the expected output","over":{"base":"Any"},"name":"any_cplus_src_correct"},"guarantee":"any_cplus_src produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f09ed5342e3e83f8"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities._compilation.compilation.any_cplus_src","kind":"function","src_hash":"c36922a84afc1575","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"any_cplus_src(srcs)","rhs":"_any_X(srcs, CppCompilerRunner)","over":{"base":"Any"},"name":"any_cplus_src_correct"},"guarantee":"returns _any_X(srcs, CppCompilerRunner)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f09ed5342e3e83f8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_any_X(srcs, CppCompilerRunner)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def any_cplus_src(srcs):
     return _any_X(srcs, CppCompilerRunner)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(compile_link_import_py_ext(sou), compiles sources to a shared object (python extension) and imports it) over Any ║
+# ║ Path(compile_link_import_py_ext(sources, extname, build_dir), <unspecified:compile_link_import_py_ext>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ compile_link_import_py_ext : Any → Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b5879d28021b2b45  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities._compilation.compilation.compile_link_import_py_ext","kind":"function","src_hash":"7195ee83fe4507a7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"compile_link_import_py_ext(sou)","rhs":"compiles sources to a shared object (python extension) and imports it","over":{"base":"Any"},"name":"compile_link_import_py_ext_correct"},"guarantee":"compiles sources to a shared object (python extension) and imports it","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities._compilation.compilation.compile_link_import_py_ext_correct","statement":"Path(compile_link_import_py_ext(x), compiles sources to a shared object (python extension) and imports it)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b5879d28021b2b45"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities._compilation.compilation.compile_link_import_py_ext","kind":"function","src_hash":"7195ee83fe4507a7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"compile_link_import_py_ext(sources, extname, build_dir)","rhs":"<unspecified:compile_link_import_py_ext>","over":{"base":"Any"},"name":"compile_link_import_py_ext_correct"},"guarantee":"compiles sources to a shared object (python extension) and imports it","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities._compilation.compilation.compile_link_import_py_ext_correct","statement":"Path(compile_link_import_py_ext(x), compiles sources to a shared object (python extension) and imports it)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b5879d28021b2b45","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def compile_link_import_py_ext(sources, extname=None, build_dir='.', compile_kwargs=None,
                                link_kwargs=None, extra_objs=None):
     """ Compiles sources to a shared object (Python extension) and imports it
@@ -702,16 +786,24 @@ def compile_link_import_py_ext(sources, extname=None, build_dir='.', compile_kwa
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_write_sources_to_build_dir(sou), internal helper behaves correctly) over Any ║
+# ║ Path(_write_sources_to_build_dir(sources, build_dir), (source_files, build_dir)) over {Any | os.path.isdir(build_dir)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _write_sources_to_build_dir : Any → Any                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: os.path.isdir(build_dir)                       ║
+# ║   ensures:  len(source_files) == old_len_source_files...   ║
+# ║   returns:  (source_files, build_dir)                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _write_sources_to_build_dir : {Any | os.path.isdir(bu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b7866fededf2ca8e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 809eebb217688fa1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities._compilation.compilation._write_sources_to_build_dir","kind":"function","src_hash":"7839c63352a0db14","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_write_sources_to_build_dir(sou)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_write_sources_to_build_dir_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities._compilation.compilation._write_sources_to_build_dir_correct","statement":"Path(_write_sources_to_build_dir(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b7866fededf2ca8e"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities._compilation.compilation._write_sources_to_build_dir","kind":"function","src_hash":"7839c63352a0db14","in":{"base":"Any","pred":"os.path.isdir(build_dir)"},"out":{"base":"Any","pred":"result satisfies: result == ((source_files, build_dir))"},"spec":{"lhs":"_write_sources_to_build_dir(sources, build_dir)","rhs":"(source_files, build_dir)","over":{"base":"Any","pred":"os.path.isdir(build_dir)"},"name":"_write_sources_to_build_dir_correct"},"guarantee":"returns (source_files, build_dir); len(source_files) == old_len_source_files + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities._compilation.compilation._write_sources_to_build_dir_correct","statement":"Path(_write_sources_to_build_dir(x), returns (source_files, build_dir); len(source_files) == old_len_source_files + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"809eebb217688fa1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["os.path.isdir(build_dir)"],"ensures":["len(source_files) == old_len_source_files + 1"],"returns_expr":"(source_files, build_dir)","pure":false,"effects":{"effect_type":"io","calls_mutating":["fh.write","source_files.append"],"raises":["OSError"],"io_operations":["fh.write","open"]},"state_contract":{"modifies":["fh.*","source_files.*"],"old_bindings":{"old_len_source_files":"len(source_files)"},"post_ensures":["len(source_files) == old_len_source_files + 1"],"exceptional_post":{"OSError":["isinstance(raised, OSError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _write_sources_to_build_dir(sources, build_dir):
     build_dir = build_dir or tempfile.mkdtemp()
     if not os.path.isdir(build_dir):
@@ -739,16 +831,22 @@ def _write_sources_to_build_dir(sources, build_dir):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(compile_link_import_strings(sou), compiles, links and imports extension module from source) over Any ║
+# ║ Path(compile_link_import_strings(sources, build_dir, **kwargs), (mod, info)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (mod, info)                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ compile_link_import_strings : Any → Any                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cbaae7457263a0fc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0ac2d3ca16ddbca0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities._compilation.compilation.compile_link_import_strings","kind":"function","src_hash":"66ff3689bae343b5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"compile_link_import_strings(sou)","rhs":"compiles, links and imports extension module from source","over":{"base":"Any"},"name":"compile_link_import_strings_correct"},"guarantee":"compiles, links and imports extension module from source","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities._compilation.compilation.compile_link_import_strings_correct","statement":"Path(compile_link_import_strings(x), compiles, links and imports extension module from source)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cbaae7457263a0fc"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities._compilation.compilation.compile_link_import_strings","kind":"function","src_hash":"66ff3689bae343b5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"compile_link_import_strings(sources, build_dir, **kwargs)","rhs":"(mod, info)","over":{"base":"Any"},"name":"compile_link_import_strings_correct"},"guarantee":"returns (mod, info)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities._compilation.compilation.compile_link_import_strings_correct","statement":"Path(compile_link_import_strings(x), returns (mod, info))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0ac2d3ca16ddbca0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(mod, info)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['sources', 'build_dir'], spec=['sources', 'build_dir', '**kwargs']"]}}
 def compile_link_import_strings(sources, build_dir=None, **kwargs):
     """ Compiles, links and imports extension module from source.
 
@@ -777,16 +875,23 @@ def compile_link_import_strings(sources, build_dir=None, **kwargs):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(compile_run_strings(sou), compiles, links and runs a program built from sources) over Any ║
+# ║ Path(compile_run_strings(sources, build_dir, clean), ((stdout, stderr), info)) over {Any | not (clean and build_dir is not None)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ compile_run_strings : Any → Any                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (clean and build_dir is not None)          ║
+# ║   returns:  ((stdout, stderr), info)                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ compile_run_strings : {Any | not (clean and build_dir...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f57e0261b2b3fef8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e24eba5c05a5ab68  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities._compilation.compilation.compile_run_strings","kind":"function","src_hash":"55827aabb2e036f5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"compile_run_strings(sou)","rhs":"compiles, links and runs a program built from sources","over":{"base":"Any"},"name":"compile_run_strings_correct"},"guarantee":"compiles, links and runs a program built from sources","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities._compilation.compilation.compile_run_strings_correct","statement":"Path(compile_run_strings(x), compiles, links and runs a program built from sources)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f57e0261b2b3fef8"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities._compilation.compilation.compile_run_strings","kind":"function","src_hash":"55827aabb2e036f5","in":{"base":"Any","pred":"not (clean and build_dir is not None)"},"out":{"base":"Any"},"spec":{"lhs":"compile_run_strings(sources, build_dir, clean)","rhs":"((stdout, stderr), info)","over":{"base":"Any","pred":"not (clean and build_dir is not None)"},"name":"compile_run_strings_correct"},"guarantee":"returns ((stdout, stderr), info)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities._compilation.compilation.compile_run_strings_correct","statement":"Path(compile_run_strings(x), returns ((stdout, stderr), info))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e24eba5c05a5ab68","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (clean and build_dir is not None)"],"returns_expr":"((stdout, stderr), info)","pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def compile_run_strings(sources, build_dir=None, clean=False, compile_kwargs=None, link_kwargs=None):
     """ Compiles, links and runs a program built from sources.
 

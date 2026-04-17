@@ -42,16 +42,24 @@ sp = re.compile(r"([0-9]+)/([1-9][0-9]*)")
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(process_split(con), process_split produces the expected output) over Any ║
+# ║ Path(process_split(config, items), <unspecified:process_split>) over {Any | m and hasattr(config, 'getoption')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ process_split : Any → Any                                  ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: m                                              ║
+# ║   requires: hasattr(config, 'getoption')                   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ process_split : {Any | m and hasattr(config, 'getopti...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a54af00a6a24c55e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.conftest.process_split","kind":"function","src_hash":"7471f8d6679f2229","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"process_split(con)","rhs":"process_split produces the expected output","over":{"base":"Any"},"name":"process_split_correct"},"guarantee":"process_split produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.conftest.process_split_correct","statement":"Path(process_split(x), process_split produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a54af00a6a24c55e"}
+# @cctt_verify {"v":2,"sym":"sympy.conftest.process_split","kind":"function","src_hash":"7471f8d6679f2229","in":{"base":"Any","pred":"m and hasattr(config, 'getoption')"},"out":{"base":"Any"},"spec":{"lhs":"process_split(config, items)","rhs":"<unspecified:process_split>","over":{"base":"Any","pred":"m and hasattr(config, 'getoption')"},"name":"process_split_correct"},"guarantee":"process_split produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.conftest.process_split_correct","statement":"Path(process_split(x), process_split produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a54af00a6a24c55e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["m","hasattr(config, 'getoption')"],"pure":false,"effects":{"effect_type":"mutates_args","reads":["config.getoption"],"writes":["items[*]"],"raises":["ValueError"]},"state_contract":{"modifies":["items[*]"],"old_bindings":{"old_items_star":"items[*]"},"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def process_split(config, items):
     split = config.getoption("--split")
     if not split:
@@ -71,7 +79,10 @@ def process_split(config, items):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(pytest_report_header(con), pytest_report_header produces the expected output) over Any ║
+# ║ Path(pytest_report_header(config), <unspecified:pytest_report_header>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ pytest_report_header : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -79,9 +90,12 @@ def process_split(config, items):
 # ║   flint.__module__                                         ║
 # ║   gmpy2.__module__                                         ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟡 LIBRARY | library_axiom | Compiled: ✓ | 69beaefe71a6...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.conftest.pytest_report_header","kind":"function","src_hash":"b7f525ddfe7fedbd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pytest_report_header(con)","rhs":"pytest_report_header produces the expected output","over":{"base":"Any"},"name":"pytest_report_header_correct"},"guarantee":"pytest_report_header produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.conftest.pytest_report_header_correct","statement":"Path(pytest_report_header(x), pytest_report_header produces the expected output)"},"assumes":[],"trust":["flint.__module__","gmpy2.__module__"],"compiled":true,"vhash":"69beaefe71a6db90"}
+# @cctt_verify {"v":2,"sym":"sympy.conftest.pytest_report_header","kind":"function","src_hash":"b7f525ddfe7fedbd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pytest_report_header(config)","rhs":"<unspecified:pytest_report_header>","over":{"base":"Any"},"name":"pytest_report_header_correct"},"guarantee":"pytest_report_header produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.conftest.pytest_report_header_correct","statement":"Path(pytest_report_header(x), pytest_report_header produces the expected output)"},"assumes":[],"trust":["flint.__module__","gmpy2.__module__"],"compiled":true,"vhash":"69beaefe71a6db90","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def pytest_report_header(config):
     s = "architecture: %s\n" % ARCH
     s += "cache:        %s\n" % USE_CACHE
@@ -102,16 +116,24 @@ def pytest_report_header(config):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(pytest_terminal_summary(ter), pytest_terminal_summary produces the expected output) over Any ║
+# ║ Path(pytest_terminal_summary(terminalreporter), <unspecified:pytest_terminal_summary>) over {Any | hasattr(terminalreporter, 'write_sep') and hasattr(terminalreporter, 'stats')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ pytest_terminal_summary : Any → Any                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(terminalreporter, 'write_sep')         ║
+# ║   requires: hasattr(terminalreporter, 'stats')             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ pytest_terminal_summary : {Any | hasattr(terminalrepo...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a58f39ac15515e89  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.conftest.pytest_terminal_summary","kind":"function","src_hash":"1fd8c8c576e80005","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pytest_terminal_summary(ter)","rhs":"pytest_terminal_summary produces the expected output","over":{"base":"Any"},"name":"pytest_terminal_summary_correct"},"guarantee":"pytest_terminal_summary produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.conftest.pytest_terminal_summary_correct","statement":"Path(pytest_terminal_summary(x), pytest_terminal_summary produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a58f39ac15515e89"}
+# @cctt_verify {"v":2,"sym":"sympy.conftest.pytest_terminal_summary","kind":"function","src_hash":"1fd8c8c576e80005","in":{"base":"Any","pred":"hasattr(terminalreporter, 'write_sep') and hasattr(terminalreporter, 'stats')"},"out":{"base":"Any"},"spec":{"lhs":"pytest_terminal_summary(terminalreporter)","rhs":"<unspecified:pytest_terminal_summary>","over":{"base":"Any","pred":"hasattr(terminalreporter, 'write_sep') and hasattr(terminalreporter, 'stats')"},"name":"pytest_terminal_summary_correct"},"guarantee":"pytest_terminal_summary produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.conftest.pytest_terminal_summary_correct","statement":"Path(pytest_terminal_summary(x), pytest_terminal_summary produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a58f39ac15515e89","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(terminalreporter, 'write_sep')","hasattr(terminalreporter, 'stats')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["terminalreporter.stats","terminalreporter.write_sep"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def pytest_terminal_summary(terminalreporter):
     if terminalreporter.stats.get("error", None) or terminalreporter.stats.get(
         "failed", None
@@ -120,31 +142,44 @@ def pytest_terminal_summary(terminalreporter):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(pytest_addoption(par), pytest_addoption produces the expected output) over Any ║
+# ║ Path(pytest_addoption(parser), <unspecified:pytest_addoption>) over {Any | hasattr(parser, 'addoption')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ pytest_addoption : Any → Any                               ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(parser, 'addoption')                   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ pytest_addoption : {Any | hasattr(parser, 'addoption'...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6ba4906373840a1a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.conftest.pytest_addoption","kind":"function","src_hash":"aead059abc4461b6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pytest_addoption(par)","rhs":"pytest_addoption produces the expected output","over":{"base":"Any"},"name":"pytest_addoption_correct"},"guarantee":"pytest_addoption produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.conftest.pytest_addoption_correct","statement":"Path(pytest_addoption(x), pytest_addoption produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6ba4906373840a1a"}
+# @cctt_verify {"v":2,"sym":"sympy.conftest.pytest_addoption","kind":"function","src_hash":"aead059abc4461b6","in":{"base":"Any","pred":"hasattr(parser, 'addoption')"},"out":{"base":"Any"},"spec":{"lhs":"pytest_addoption(parser)","rhs":"<unspecified:pytest_addoption>","over":{"base":"Any","pred":"hasattr(parser, 'addoption')"},"name":"pytest_addoption_correct"},"guarantee":"pytest_addoption produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.conftest.pytest_addoption_correct","statement":"Path(pytest_addoption(x), pytest_addoption produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6ba4906373840a1a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(parser, 'addoption')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["parser.addoption"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def pytest_addoption(parser):
     parser.addoption("--split", action="store", default="", help="split tests")
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(pytest_collection_modifyitems(con), pytest hook) over Any ║
+# ║ Path(pytest_collection_modifyitems(config, items), <unspecified:pytest_collection_modifyitems>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ pytest_collection_modifyitems : Any → Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0a7768996ae0b90b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.conftest.pytest_collection_modifyitems","kind":"function","src_hash":"5b6a95c3484a7905","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pytest_collection_modifyitems(con)","rhs":"pytest hook","over":{"base":"Any"},"name":"pytest_collection_modifyitems_correct"},"guarantee":"pytest hook","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.conftest.pytest_collection_modifyitems_correct","statement":"Path(pytest_collection_modifyitems(x), pytest hook)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0a7768996ae0b90b"}
+# @cctt_verify {"v":2,"sym":"sympy.conftest.pytest_collection_modifyitems","kind":"function","src_hash":"5b6a95c3484a7905","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pytest_collection_modifyitems(config, items)","rhs":"<unspecified:pytest_collection_modifyitems>","over":{"base":"Any"},"name":"pytest_collection_modifyitems_correct"},"guarantee":"pytest hook","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.conftest.pytest_collection_modifyitems_correct","statement":"Path(pytest_collection_modifyitems(x), pytest hook)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0a7768996ae0b90b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def pytest_collection_modifyitems(config, items):
     """pytest hook."""
     # handle splits
@@ -153,32 +188,45 @@ def pytest_collection_modifyitems(config, items):
 
 @pytest.fixture(autouse=True, scope="module")
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(file_clear_cache(), file_clear_cache produces the expected output) over Any ║
+# ║ Path(file_clear_cache(), <unspecified:file_clear_cache>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ file_clear_cache : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1b5a248d71ab3e0c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.conftest.file_clear_cache","kind":"function","src_hash":"b91562a6231e430d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"file_clear_cache()","rhs":"file_clear_cache produces the expected output","over":{"base":"Any"},"name":"file_clear_cache_correct"},"guarantee":"file_clear_cache produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.conftest.file_clear_cache_correct","statement":"Path(file_clear_cache(x), file_clear_cache produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1b5a248d71ab3e0c"}
+# @cctt_verify {"v":2,"sym":"sympy.conftest.file_clear_cache","kind":"function","src_hash":"b91562a6231e430d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"file_clear_cache()","rhs":"<unspecified:file_clear_cache>","over":{"base":"Any"},"name":"file_clear_cache_correct"},"guarantee":"file_clear_cache produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.conftest.file_clear_cache_correct","statement":"Path(file_clear_cache(x), file_clear_cache produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1b5a248d71ab3e0c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def file_clear_cache():
     clear_cache()
 
 
 @pytest.fixture(autouse=True, scope="module")
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(check_disabled(req), check_disabled produces the expected output) over Any ║
+# ║ Path(check_disabled(request), <unspecified:check_disabled>) over {Any | hasattr(request, 'module')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ check_disabled : Any → Any                                 ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(request, 'module')                     ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ check_disabled : {Any | hasattr(request, 'module')} →...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ef36607ffc81f920  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.conftest.check_disabled","kind":"function","src_hash":"cb699ceabb836a51","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"check_disabled(req)","rhs":"check_disabled produces the expected output","over":{"base":"Any"},"name":"check_disabled_correct"},"guarantee":"check_disabled produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.conftest.check_disabled_correct","statement":"Path(check_disabled(x), check_disabled produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ef36607ffc81f920"}
+# @cctt_verify {"v":2,"sym":"sympy.conftest.check_disabled","kind":"function","src_hash":"cb699ceabb836a51","in":{"base":"Any","pred":"hasattr(request, 'module')"},"out":{"base":"Any"},"spec":{"lhs":"check_disabled(request)","rhs":"<unspecified:check_disabled>","over":{"base":"Any","pred":"hasattr(request, 'module')"},"name":"check_disabled_correct"},"guarantee":"check_disabled produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.conftest.check_disabled_correct","statement":"Path(check_disabled(x), check_disabled produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ef36607ffc81f920","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(request, 'module')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["request.module"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def check_disabled(request):
     if getattr(request.module, "disabled", False):
         pytest.skip("test requirements not met.")

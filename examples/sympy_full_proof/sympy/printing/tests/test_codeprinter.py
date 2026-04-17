@@ -26,16 +26,22 @@ from sympy.printing.lambdarepr import LambdaPrinter
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(setup_test_printer(**k), setup_test_printer produces the expected output) over Any ║
+# ║ Path(setup_test_printer(**kwargs), <unspecified:setup_test_printer>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ setup_test_printer : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bbb8ca604e8ba8f9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_codeprinter.setup_test_printer","kind":"function","src_hash":"f16e8780bc13edcd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"setup_test_printer(**k)","rhs":"setup_test_printer produces the expected output","over":{"base":"Any"},"name":"setup_test_printer_correct"},"guarantee":"setup_test_printer produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_codeprinter.setup_test_printer_correct","statement":"Path(setup_test_printer(x), setup_test_printer produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bbb8ca604e8ba8f9"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_codeprinter.setup_test_printer","kind":"function","src_hash":"f16e8780bc13edcd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"setup_test_printer(**kwargs)","rhs":"<unspecified:setup_test_printer>","over":{"base":"Any"},"name":"setup_test_printer_correct"},"guarantee":"setup_test_printer produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_codeprinter.setup_test_printer_correct","statement":"Path(setup_test_printer(x), setup_test_printer produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bbb8ca604e8ba8f9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=[], spec=['**kwargs']"]}}
 def setup_test_printer(**kwargs):
     p = CodePrinter(settings=kwargs)
     p._not_supported = set()
@@ -44,32 +50,46 @@ def setup_test_printer(**kwargs):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_print_Dummy(), test_print_Dummy produces the expected output) over Any ║
+# ║ Path(test_print_Dummy(), p._print_Dummy(d) == 'd_%i' % d.dummy_index) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_print_Dummy : Any → {Any | p._print_Dummy(d) == ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  p._print_Dummy(d) == 'd_%i' % d.dummy_index    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_print_Dummy : Any → {Any | result satisfies: p._...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3017c1115d08aac6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 909b65eebe4ddf1e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_codeprinter.test_print_Dummy","kind":"function","src_hash":"88d1de887b6e4b21","in":{"base":"Any"},"out":{"base":"Any","pred":"p._print_Dummy(d) == 'd_%i' % d.dummy_index"},"spec":{"lhs":"test_print_Dummy()","rhs":"test_print_Dummy produces the expected output","over":{"base":"Any"},"name":"test_print_Dummy_correct"},"guarantee":"test_print_Dummy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_codeprinter.test_print_Dummy_correct","statement":"Path(test_print_Dummy(x), test_print_Dummy produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3017c1115d08aac6"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_codeprinter.test_print_Dummy","kind":"function","src_hash":"88d1de887b6e4b21","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: p._print_Dummy(d) == 'd_%i' % d.dummy_index"},"spec":{"lhs":"test_print_Dummy()","rhs":"p._print_Dummy(d) == 'd_%i' % d.dummy_index","over":{"base":"Any"},"name":"test_print_Dummy_correct"},"guarantee":"p._print_Dummy(d) == 'd_%i' % d.dummy_index","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_codeprinter.test_print_Dummy_correct","statement":"Path(test_print_Dummy(x), p._print_Dummy(d) == 'd_%i' % d.dummy_index)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"909b65eebe4ddf1e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["p._print_Dummy(d) == 'd_%i' % d.dummy_index"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_print_Dummy():
     d = Dummy('d')
     p = setup_test_printer()
     assert p._print_Dummy(d) == "d_%i" % d.dummy_index
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_print_Symbol(), test_print_Symbol produces the expected output) over Any ║
+# ║ Path(test_print_Symbol(), p._print(x) == 'x' and p._print(y) == 'if' and p._print(y) == 'if_' and p._print(y) == 'if_He_Man') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_print_Symbol : Any → {Any | p._print(x) == 'x' a...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  p._print(x) == 'x'                             ║
+# ║   ensures:  p._print(y) == 'if'                            ║
+# ║   ensures:  p._print(y) == 'if_'                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_print_Symbol : Any → {Any | result satisfies: p....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 14cdcb52e59df35f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f117e0273fc1e039  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_codeprinter.test_print_Symbol","kind":"function","src_hash":"c1348070f9f150b6","in":{"base":"Any"},"out":{"base":"Any","pred":"p._print(x) == 'x' and p._print(y) == 'if' and p._print(y) == 'if_' and p._print(y) == 'if_He_Man'"},"spec":{"lhs":"test_print_Symbol()","rhs":"test_print_Symbol produces the expected output","over":{"base":"Any"},"name":"test_print_Symbol_correct"},"guarantee":"test_print_Symbol produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_codeprinter.test_print_Symbol_correct","statement":"Path(test_print_Symbol(x), test_print_Symbol produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"14cdcb52e59df35f"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_codeprinter.test_print_Symbol","kind":"function","src_hash":"c1348070f9f150b6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: p._print(x) == 'x' and p._print(y) == 'if' and p._print(y) == 'if_' and p._print(y) == 'if_He_Man'"},"spec":{"lhs":"test_print_Symbol()","rhs":"p._print(x) == 'x' and p._print(y) == 'if' and p._print(y) == 'if_' and p._print(y) == 'if_He_Man'","over":{"base":"Any"},"name":"test_print_Symbol_correct"},"guarantee":"p._print(x) == 'x'; p._print(y) == 'if'; p._print(y) == 'if_'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_codeprinter.test_print_Symbol_correct","statement":"Path(test_print_Symbol(x), p._print(x) == 'x'; p._print(y) == 'if'; p._print(y) == 'if_')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f117e0273fc1e039","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["p._print(x) == 'x'","p._print(y) == 'if'","p._print(y) == 'if_'","p._print(y) == 'if_He_Man'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_print_Symbol():
 
     x, y = symbols('x, if')
@@ -92,16 +112,24 @@ def test_print_Symbol():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_lambdify_LaTeX_symbols_issue_23374(), test_lambdify_LaTeX_symbols_issue_23374 produces the expected output) over Any ║
+# ║ Path(test_lambdify_LaTeX_symbols_issue_23374(), f1(1, 2) == math_cos(1 ** 2 + 2 ** 2) and 'x_1' in expr_str and 'x_2' in expr_str) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f1(1, 2) == math_cos(1 ** 2 + 2 ** 2)          ║
+# ║   ensures:  'x_1' in expr_str                              ║
+# ║   ensures:  'x_2' in expr_str                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_lambdify_LaTeX_symbols_issue_23374 : Any → {Any ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 205290b1d463a1bd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 12c1bdcc9b8bc386  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_codeprinter.test_lambdify_LaTeX_symbols_issue_23374","kind":"function","src_hash":"358f1574944e03c6","in":{"base":"Any"},"out":{"base":"Any","pred":"f1(1, 2) == math_cos(1 ** 2 + 2 ** 2) and 'x_1' in expr_str and 'x_2' in expr_str"},"spec":{"lhs":"test_lambdify_LaTeX_symbols_issue_23374()","rhs":"test_lambdify_LaTeX_symbols_issue_23374 produces the expected output","over":{"base":"Any"},"name":"test_lambdify_LaTeX_symbols_issue_23374_correct"},"guarantee":"test_lambdify_LaTeX_symbols_issue_23374 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_codeprinter.test_lambdify_LaTeX_symbols_issue_23374_correct","statement":"Path(test_lambdify_LaTeX_symbols_issue_23374(x), test_lambdify_LaTeX_symbols_issue_23374 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"205290b1d463a1bd"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_codeprinter.test_lambdify_LaTeX_symbols_issue_23374","kind":"function","src_hash":"358f1574944e03c6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f1(1, 2) == math_cos(1 ** 2 + 2 ** 2) and 'x_1' in expr_str and 'x_2' in expr_str"},"spec":{"lhs":"test_lambdify_LaTeX_symbols_issue_23374()","rhs":"f1(1, 2) == math_cos(1 ** 2 + 2 ** 2) and 'x_1' in expr_str and 'x_2' in expr_str","over":{"base":"Any"},"name":"test_lambdify_LaTeX_symbols_issue_23374_correct"},"guarantee":"f1(1, 2) == math_cos(1 ** 2 + 2 ** 2); 'x_1' in expr_str; 'x_2' in expr_str","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_codeprinter.test_lambdify_LaTeX_symbols_issue_23374_correct","statement":"Path(test_lambdify_LaTeX_symbols_issue_23374(x), f1(1, 2) == math_cos(1 ** 2 + 2 ** 2); 'x_1' in expr_str; 'x_2' in expr_str)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"12c1bdcc9b8bc386","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f1(1, 2) == math_cos(1 ** 2 + 2 ** 2)","'x_1' in expr_str","'x_2' in expr_str"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_lambdify_LaTeX_symbols_issue_23374():
     # Create symbols with Latex style names
     x1, x2 = symbols("x_{1} x_2")
@@ -120,16 +148,22 @@ def test_lambdify_LaTeX_symbols_issue_23374():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_15791(), test_issue_15791 produces the expected output) over Any ║
+# ║ Path(test_issue_15791(), <unspecified:test_issue_15791>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_issue_15791 : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a48bf8a10f093e47  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_codeprinter.test_issue_15791","kind":"function","src_hash":"d6f5b002ff6102fc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_issue_15791()","rhs":"test_issue_15791 produces the expected output","over":{"base":"Any"},"name":"test_issue_15791_correct"},"guarantee":"test_issue_15791 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_codeprinter.test_issue_15791_correct","statement":"Path(test_issue_15791(x), test_issue_15791 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a48bf8a10f093e47"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_codeprinter.test_issue_15791","kind":"function","src_hash":"d6f5b002ff6102fc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_issue_15791()","rhs":"<unspecified:test_issue_15791>","over":{"base":"Any"},"name":"test_issue_15791_correct"},"guarantee":"test_issue_15791 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_codeprinter.test_issue_15791_correct","statement":"Path(test_issue_15791(x), test_issue_15791 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a48bf8a10f093e47","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_15791():
     class CrashingCodePrinter(CodePrinter):
         def emptyPrinter(self, obj):

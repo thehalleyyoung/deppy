@@ -21,16 +21,22 @@ from sympy.simplify.simplify import simplify
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_sho_R_nl(), test_sho_R_nl produces the expected output) over Any ║
+# ║ Path(test_sho_R_nl(), <unspecified:test_sho_R_nl>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_sho_R_nl : Any → {Any | simplify(result.doit()) ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2c7412f9f4d17baa  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_sho.test_sho_R_nl","kind":"function","src_hash":"785e0f8e79f0f2f2","in":{"base":"Any"},"out":{"base":"Any","pred":"simplify(result.doit()) == 0"},"spec":{"lhs":"test_sho_R_nl()","rhs":"test_sho_R_nl produces the expected output","over":{"base":"Any"},"name":"test_sho_R_nl_correct"},"guarantee":"test_sho_R_nl produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_sho.test_sho_R_nl_correct","statement":"Path(test_sho_R_nl(x), test_sho_R_nl produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2c7412f9f4d17baa"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_sho.test_sho_R_nl","kind":"function","src_hash":"785e0f8e79f0f2f2","in":{"base":"Any"},"out":{"base":"Any","pred":"simplify(result.doit()) == 0"},"spec":{"lhs":"test_sho_R_nl()","rhs":"<unspecified:test_sho_R_nl>","over":{"base":"Any"},"name":"test_sho_R_nl_correct"},"guarantee":"test_sho_R_nl produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_sho.test_sho_R_nl_correct","statement":"Path(test_sho_R_nl(x), test_sho_R_nl produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2c7412f9f4d17baa","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_sho_R_nl():
     omega, r = symbols('omega r')
     l = symbols('l', integer=True)
@@ -45,16 +51,22 @@ def test_sho_R_nl():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_energy(), test_energy produces the expected output) over Any ║
+# ║ Path(test_energy(), simplify(E_nl(n, l, hw) - (2 * n + l + Rational(3, 2)) * hw) == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_energy : Any → {Any | simplify(E_nl(n, l, hw) - ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  simplify(E_nl(n, l, hw) - (2 * n + l + Ra...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_energy : Any → {Any | result satisfies: simplify...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0fce5ce21f4f00fe  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 735e5ea44d0d00b7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_sho.test_energy","kind":"function","src_hash":"3ca2dab5f56227d6","in":{"base":"Any"},"out":{"base":"Any","pred":"simplify(E_nl(n, l, hw) - (2 * n + l + Rational(3, 2)) * hw) == 0"},"spec":{"lhs":"test_energy()","rhs":"test_energy produces the expected output","over":{"base":"Any"},"name":"test_energy_correct"},"guarantee":"test_energy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_sho.test_energy_correct","statement":"Path(test_energy(x), test_energy produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0fce5ce21f4f00fe"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_sho.test_energy","kind":"function","src_hash":"3ca2dab5f56227d6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: simplify(E_nl(n, l, hw) - (2 * n + l + Rational(3, 2)) * hw) == 0"},"spec":{"lhs":"test_energy()","rhs":"simplify(E_nl(n, l, hw) - (2 * n + l + Rational(3, 2)) * hw) == 0","over":{"base":"Any"},"name":"test_energy_correct"},"guarantee":"simplify(E_nl(n, l, hw) - (2 * n + l + Rational(3, 2)) * hw) == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_sho.test_energy_correct","statement":"Path(test_energy(x), simplify(E_nl(n, l, hw) - (2 * n + l + Rational(3, 2)) * hw) == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"735e5ea44d0d00b7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["simplify(E_nl(n, l, hw) - (2 * n + l + Rational(3, 2)) * hw) == 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_energy():
     n, l, hw = symbols('n l hw')
     assert simplify(E_nl(n, l, hw) - (2*n + l + Rational(3, 2))*hw) == 0

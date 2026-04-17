@@ -35,14 +35,19 @@ from sympy.polys.polyerrors import CoercionFailed
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a ModuleHomomorphism instance) preserved by ModuleHomomorphism(*args) over {Any | isinstance(domain, Module) and isinstance(oth, ModuleHomomorphism)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ ModuleHomomorphism : {Any | isinstance(domain, Module...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2cf22562f8769092  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.homomorphisms.ModuleHomomorphism","kind":"class","src_hash":"a64752f24791c1db","in":{"base":"Any","pred":"isinstance(domain, Module) and isinstance(oth, ModuleHomomorphism)"},"out":{"base":"Any"},"spec":{"lhs":"ModuleHomomorphism(*args)","rhs":"correctly constructs a ModuleHomomorphism instance","over":{"base":"Any","pred":"isinstance(domain, Module) and isinstance(oth, ModuleHomomorphism)"},"name":"ModuleHomomorphism_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a ModuleHomomorphism instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'domain') and hasattr(self, 'codomain') and hasattr(self, 'ring') and hasattr(self, '_ker') and hasattr(self, '_img')","kind":"class","induction":"structural on domain, codomain, ring, _ker"}],"methods_preserving":["__init__","kernel","image","_kernel","_image","_restrict_domain","_restrict_codomain","_quotient_domain","_quotient_codomain","restrict_domain","restrict_codomain","quotient_domain","quotient_codomain","_apply","__call__","_compose","_mul_scalar","_add","_check_hom","__mul__","__truediv__","__add__","__sub__","is_injective","is_surjective","is_isomorphism","is_zero","__eq__","__ne__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2cf22562f8769092"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.homomorphisms.ModuleHomomorphism","kind":"class","src_hash":"a64752f24791c1db","in":{"base":"Any","pred":"isinstance(domain, Module) and isinstance(oth, ModuleHomomorphism)"},"out":{"base":"Any"},"spec":{"lhs":"ModuleHomomorphism(*args)","rhs":"correctly constructs a ModuleHomomorphism instance","over":{"base":"Any","pred":"isinstance(domain, Module) and isinstance(oth, ModuleHomomorphism)"},"name":"ModuleHomomorphism_class_invariant","kind":"invariant"},"guarantee":"preserves 5 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'domain') and hasattr(self, 'codomain') and hasattr(self, 'ring') and hasattr(self, '_ker') and hasattr(self, '_img')","kind":"class","induction":"structural on domain, codomain, ring, _ker"}],"methods_preserving":["__init__","kernel","image","_kernel","_image","_restrict_domain","_restrict_codomain","_quotient_domain","_quotient_codomain","restrict_domain","restrict_codomain","quotient_domain","quotient_codomain","_apply","__call__","_compose","_mul_scalar","_add","_check_hom","__mul__","__truediv__","__add__","__sub__","is_injective","is_surjective","is_isomorphism","is_zero","__eq__","__ne__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2cf22562f8769092","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, 'domain')","hasattr(self, 'codomain')","hasattr(self, 'ring')","hasattr(self, '_ker')","hasattr(self, '_img')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function ModuleHomomorphism not found in source"]}}
 class ModuleHomomorphism:
     """
     Abstract base class for module homomoprhisms. Do not instantiate.
@@ -82,16 +87,26 @@ class ModuleHomomorphism:
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(dom), initializes the instance correctly) over Any ║
+# ║ Path(__init__(domain, codomain), self.domain == domain and self.codomain == codomain) over {Any | isinstance(domain, Module) and isinstance(codomain, Module) and not (domain.ring != codomain.ring) and hasattr(domain, 'ring') and hasattr(codomain, 'ring')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(domain, Module)                     ║
+# ║   requires: isinstance(codomain, Module)                   ║
+# ║   requires: not (domain.ring != codomain.ring)             ║
+# ║   ensures:  self.domain == domain                          ║
+# ║   ensures:  self.codomain == codomain                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : {Any | isinstance(domain, Module) and isin...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d906c8e5035face2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.homomorphisms.ModuleHomomorphism.__init__","kind":"method","src_hash":"e756278f2503bcb0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(dom)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d906c8e5035face2"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.homomorphisms.ModuleHomomorphism.__init__","kind":"method","src_hash":"e756278f2503bcb0","in":{"base":"Any","pred":"isinstance(domain, Module) and isinstance(codomain, Module) and not (domain.ring != codomain.ring) and hasattr(domain, 'ring') and hasattr(codomain, 'ring')"},"out":{"base":"Any","pred":"result satisfies: self.domain == domain and self.codomain == codomain"},"spec":{"lhs":"__init__(domain, codomain)","rhs":"self.domain == domain and self.codomain == codomain","over":{"base":"Any","pred":"isinstance(domain, Module) and isinstance(codomain, Module) and not (domain.ring != codomain.ring) and hasattr(domain, 'ring') and hasattr(codomain, 'ring')"},"name":"__init___correct"},"guarantee":"self.domain == domain; self.codomain == codomain","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d906c8e5035face2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(domain, Module)","isinstance(codomain, Module)","not (domain.ring != codomain.ring)","hasattr(domain, 'ring')","hasattr(codomain, 'ring')"],"ensures":["self.domain == domain","self.codomain == codomain"],"pure":false,"effects":{"effect_type":"reads_state","reads":["codomain.ring","domain.ring"],"writes":["self._img","self._ker","self.codomain","self.domain","self.ring"],"raises":["TypeError","ValueError"]},"state_contract":{"modifies":["self._img","self._ker","self.codomain","self.domain","self.ring"],"old_bindings":{"old_self__img":"self._img","old_self__ker":"self._ker","old_self_codomain":"self.codomain","old_self_domain":"self.domain","old_self_ring":"self.ring"},"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, domain, codomain):
         if not isinstance(domain, Module):
             raise TypeError('Source must be a module, got %s' % domain)
@@ -107,16 +122,22 @@ class ModuleHomomorphism:
         self._img = None
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(kernel(), compute the kernel of ``self``) over Any    ║
+# ║ Path(kernel(), self._ker) over Any                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._ker                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ kernel : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9ec6a4eea7c63e7c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 29c880a833c2b243  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.homomorphisms.ModuleHomomorphism.kernel","kind":"method","src_hash":"fe406bb215cfa62a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"kernel()","rhs":"compute the kernel of ``self``","over":{"base":"Any"},"name":"kernel_correct"},"guarantee":"compute the kernel of ``self``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.homomorphisms.ModuleHomomorphism.kernel_correct","statement":"Path(kernel(x), compute the kernel of ``self``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9ec6a4eea7c63e7c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.homomorphisms.ModuleHomomorphism.kernel","kind":"method","src_hash":"fe406bb215cfa62a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"kernel()","rhs":"self._ker","over":{"base":"Any"},"name":"kernel_correct"},"guarantee":"returns self._ker","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.homomorphisms.ModuleHomomorphism.kernel_correct","statement":"Path(kernel(x), returns self._ker)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"29c880a833c2b243","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._ker","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._ker","self._kernel"],"writes":["self._ker"]},"state_contract":{"modifies":["self._ker"],"old_bindings":{"old_self__ker":"self._ker"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def kernel(self):
         r"""
         Compute the kernel of ``self``.
@@ -140,16 +161,22 @@ class ModuleHomomorphism:
         return self._ker
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(image(), compute the image of ``self``) over Any      ║
+# ║ Path(image(), self._img) over Any                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._img                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ image : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 43ac91199603844b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ae8162a75f971317  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.homomorphisms.ModuleHomomorphism.image","kind":"method","src_hash":"0a9996c1f76b9c01","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"image()","rhs":"compute the image of ``self``","over":{"base":"Any"},"name":"image_correct"},"guarantee":"compute the image of ``self``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.homomorphisms.ModuleHomomorphism.image_correct","statement":"Path(image(x), compute the image of ``self``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"43ac91199603844b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.homomorphisms.ModuleHomomorphism.image","kind":"method","src_hash":"0a9996c1f76b9c01","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"image()","rhs":"self._img","over":{"base":"Any"},"name":"image_correct"},"guarantee":"returns self._img","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.homomorphisms.ModuleHomomorphism.image_correct","statement":"Path(image(x), returns self._img)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ae8162a75f971317","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._img","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._image","self._img"],"writes":["self._img"]},"state_contract":{"modifies":["self._img"],"old_bindings":{"old_self__img":"self._img"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def image(self):
         r"""
         Compute the image of ``self``.
@@ -173,106 +200,149 @@ class ModuleHomomorphism:
         return self._img
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_kernel(), compute the kernel of ``self``) over Any   ║
+# ║ Path(_kernel(), <unspecified:_kernel>) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _kernel : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 75b762a872013d7c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.homomorphisms.ModuleHomomorphism._kernel","kind":"method","src_hash":"7e3b67c06ec4ecf6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_kernel()","rhs":"compute the kernel of ``self``","over":{"base":"Any"},"name":"_kernel_correct"},"guarantee":"compute the kernel of ``self``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"75b762a872013d7c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.homomorphisms.ModuleHomomorphism._kernel","kind":"method","src_hash":"7e3b67c06ec4ecf6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_kernel()","rhs":"<unspecified:_kernel>","over":{"base":"Any"},"name":"_kernel_correct"},"guarantee":"compute the kernel of ``self``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"75b762a872013d7c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _kernel(self):
         """Compute the kernel of ``self``."""
         raise NotImplementedError
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_image(), compute the image of ``self``) over Any     ║
+# ║ Path(_image(), <unspecified:_image>) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _image : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 38c044bf9cc30807           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.homomorphisms.ModuleHomomorphism._image","kind":"method","src_hash":"3f78da2ffa4d9708","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_image()","rhs":"compute the image of ``self``","over":{"base":"Any"},"name":"_image_correct"},"guarantee":"compute the image of ``self``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"38c044bf9cc30807"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.homomorphisms.ModuleHomomorphism._image","kind":"method","src_hash":"3f78da2ffa4d9708","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_image()","rhs":"<unspecified:_image>","over":{"base":"Any"},"name":"_image_correct"},"guarantee":"compute the image of ``self``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"38c044bf9cc30807","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _image(self):
         """Compute the image of ``self``."""
         raise NotImplementedError
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_restrict_domain(sm), implementation of domain restriction) over Any ║
+# ║ Path(_restrict_domain(sm), <unspecified:_restrict_domain>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _restrict_domain : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2df5e543bc133927           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.homomorphisms.ModuleHomomorphism._restrict_domain","kind":"method","src_hash":"464d3eab5cc6e4d5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_restrict_domain(sm)","rhs":"implementation of domain restriction","over":{"base":"Any"},"name":"_restrict_domain_correct"},"guarantee":"implementation of domain restriction","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2df5e543bc133927"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.homomorphisms.ModuleHomomorphism._restrict_domain","kind":"method","src_hash":"464d3eab5cc6e4d5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_restrict_domain(sm)","rhs":"<unspecified:_restrict_domain>","over":{"base":"Any"},"name":"_restrict_domain_correct"},"guarantee":"implementation of domain restriction","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2df5e543bc133927","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _restrict_domain(self, sm):
         """Implementation of domain restriction."""
         raise NotImplementedError
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_restrict_codomain(sm), implementation of codomain restriction) over Any ║
+# ║ Path(_restrict_codomain(sm), <unspecified:_restrict_codomain>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _restrict_codomain : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d4a263a0e1aca04a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.homomorphisms.ModuleHomomorphism._restrict_codomain","kind":"method","src_hash":"a7aae9906e92e532","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_restrict_codomain(sm)","rhs":"implementation of codomain restriction","over":{"base":"Any"},"name":"_restrict_codomain_correct"},"guarantee":"implementation of codomain restriction","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d4a263a0e1aca04a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.homomorphisms.ModuleHomomorphism._restrict_codomain","kind":"method","src_hash":"a7aae9906e92e532","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_restrict_codomain(sm)","rhs":"<unspecified:_restrict_codomain>","over":{"base":"Any"},"name":"_restrict_codomain_correct"},"guarantee":"implementation of codomain restriction","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d4a263a0e1aca04a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _restrict_codomain(self, sm):
         """Implementation of codomain restriction."""
         raise NotImplementedError
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_quotient_domain(sm), implementation of domain quotient) over Any ║
+# ║ Path(_quotient_domain(sm), <unspecified:_quotient_domain>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _quotient_domain : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2acf363c517a05b2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.homomorphisms.ModuleHomomorphism._quotient_domain","kind":"method","src_hash":"6c8e9d7c4bb676b1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_quotient_domain(sm)","rhs":"implementation of domain quotient","over":{"base":"Any"},"name":"_quotient_domain_correct"},"guarantee":"implementation of domain quotient","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2acf363c517a05b2"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.homomorphisms.ModuleHomomorphism._quotient_domain","kind":"method","src_hash":"6c8e9d7c4bb676b1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_quotient_domain(sm)","rhs":"<unspecified:_quotient_domain>","over":{"base":"Any"},"name":"_quotient_domain_correct"},"guarantee":"implementation of domain quotient","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2acf363c517a05b2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _quotient_domain(self, sm):
         """Implementation of domain quotient."""
         raise NotImplementedError
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_quotient_codomain(sm), implementation of codomain quotient) over Any ║
+# ║ Path(_quotient_codomain(sm), <unspecified:_quotient_codomain>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _quotient_codomain : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 48981b0b1b88f4d4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.homomorphisms.ModuleHomomorphism._quotient_codomain","kind":"method","src_hash":"afaf7082b97e156f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_quotient_codomain(sm)","rhs":"implementation of codomain quotient","over":{"base":"Any"},"name":"_quotient_codomain_correct"},"guarantee":"implementation of codomain quotient","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"48981b0b1b88f4d4"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.homomorphisms.ModuleHomomorphism._quotient_codomain","kind":"method","src_hash":"afaf7082b97e156f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_quotient_codomain(sm)","rhs":"<unspecified:_quotient_codomain>","over":{"base":"Any"},"name":"_quotient_codomain_correct"},"guarantee":"implementation of codomain quotient","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"48981b0b1b88f4d4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _quotient_codomain(self, sm):
         """Implementation of codomain quotient."""
         raise NotImplementedError
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(restrict_domain(sm), return ``self``, with the domain restricted to ``sm``) over Any ║
+# ║ Path(restrict_domain(sm), <unspecified:restrict_domain>) over {Any | self.domain.is_submodule(sm)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ restrict_domain : Any → Any                                ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: self.domain.is_submodule(sm)                   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ restrict_domain : {Any | self.domain.is_submodule(sm)...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 83aa9311b51e5c29  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.homomorphisms.ModuleHomomorphism.restrict_domain","kind":"method","src_hash":"b4876813f5a8fe5f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"restrict_domain(sm)","rhs":"return ``self``, with the domain restricted to ``sm``","over":{"base":"Any"},"name":"restrict_domain_correct"},"guarantee":"return ``self``, with the domain restricted to ``sm``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.homomorphisms.ModuleHomomorphism.restrict_domain_correct","statement":"Path(restrict_domain(x), return ``self``, with the domain restricted to ``sm``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"83aa9311b51e5c29"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.homomorphisms.ModuleHomomorphism.restrict_domain","kind":"method","src_hash":"b4876813f5a8fe5f","in":{"base":"Any","pred":"self.domain.is_submodule(sm)"},"out":{"base":"Any"},"spec":{"lhs":"restrict_domain(sm)","rhs":"<unspecified:restrict_domain>","over":{"base":"Any","pred":"self.domain.is_submodule(sm)"},"name":"restrict_domain_correct"},"guarantee":"return ``self``, with the domain restricted to ``sm``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.homomorphisms.ModuleHomomorphism.restrict_domain_correct","statement":"Path(restrict_domain(x), return ``self``, with the domain restricted to ``sm``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"83aa9311b51e5c29","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["self.domain.is_submodule(sm)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._restrict_domain","self.domain"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def restrict_domain(self, sm):
         """
         Return ``self``, with the domain restricted to ``sm``.
@@ -313,16 +383,24 @@ class ModuleHomomorphism:
         return self._restrict_domain(sm)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(restrict_codomain(sm), return ``self``, with codomain restricted to to ``sm``) over Any ║
+# ║ Path(restrict_codomain(sm), <unspecified:restrict_codomain>) over {Any | sm.is_submodule(self.image()) and hasattr(sm, 'is_submodule')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ restrict_codomain : Any → Any                              ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: sm.is_submodule(self.image())                  ║
+# ║   requires: hasattr(sm, 'is_submodule')                    ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ restrict_codomain : {Any | sm.is_submodule(self.image...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 223cf50f506e88f4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.homomorphisms.ModuleHomomorphism.restrict_codomain","kind":"method","src_hash":"31851d5007164c91","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"restrict_codomain(sm)","rhs":"return ``self``, with codomain restricted to to ``sm``","over":{"base":"Any"},"name":"restrict_codomain_correct"},"guarantee":"return ``self``, with codomain restricted to to ``sm``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.homomorphisms.ModuleHomomorphism.restrict_codomain_correct","statement":"Path(restrict_codomain(x), return ``self``, with codomain restricted to to ``sm``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"223cf50f506e88f4"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.homomorphisms.ModuleHomomorphism.restrict_codomain","kind":"method","src_hash":"31851d5007164c91","in":{"base":"Any","pred":"sm.is_submodule(self.image()) and hasattr(sm, 'is_submodule')"},"out":{"base":"Any"},"spec":{"lhs":"restrict_codomain(sm)","rhs":"<unspecified:restrict_codomain>","over":{"base":"Any","pred":"sm.is_submodule(self.image()) and hasattr(sm, 'is_submodule')"},"name":"restrict_codomain_correct"},"guarantee":"return ``self``, with codomain restricted to to ``sm``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.homomorphisms.ModuleHomomorphism.restrict_codomain_correct","statement":"Path(restrict_codomain(x), return ``self``, with codomain restricted to to ``sm``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"223cf50f506e88f4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["sm.is_submodule(self.image())","hasattr(sm, 'is_submodule')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._restrict_codomain","self.codomain","self.image","sm.is_submodule"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def restrict_codomain(self, sm):
         """
         Return ``self``, with codomain restricted to to ``sm``.
@@ -356,16 +434,24 @@ class ModuleHomomorphism:
         return self._restrict_codomain(sm)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(quotient_domain(sm), return ``self`` with domain replaced by ``domain/sm``) over Any ║
+# ║ Path(quotient_domain(sm), <unspecified:quotient_domain>) over {Any | self.kernel().is_submodule(sm) and hasattr(sm, 'is_zero')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ quotient_domain : Any → Any                                ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: self.kernel().is_submodule(sm)                 ║
+# ║   requires: hasattr(sm, 'is_zero')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ quotient_domain : {Any | self.kernel().is_submodule(s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | adb6903d6a802d62  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.homomorphisms.ModuleHomomorphism.quotient_domain","kind":"method","src_hash":"afb591b0d7aefda3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"quotient_domain(sm)","rhs":"return ``self`` with domain replaced by ``domain/sm``","over":{"base":"Any"},"name":"quotient_domain_correct"},"guarantee":"return ``self`` with domain replaced by ``domain/sm``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.homomorphisms.ModuleHomomorphism.quotient_domain_correct","statement":"Path(quotient_domain(x), return ``self`` with domain replaced by ``domain/sm``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"adb6903d6a802d62"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.homomorphisms.ModuleHomomorphism.quotient_domain","kind":"method","src_hash":"afb591b0d7aefda3","in":{"base":"Any","pred":"self.kernel().is_submodule(sm) and hasattr(sm, 'is_zero')"},"out":{"base":"Any"},"spec":{"lhs":"quotient_domain(sm)","rhs":"<unspecified:quotient_domain>","over":{"base":"Any","pred":"self.kernel().is_submodule(sm) and hasattr(sm, 'is_zero')"},"name":"quotient_domain_correct"},"guarantee":"return ``self`` with domain replaced by ``domain/sm``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.homomorphisms.ModuleHomomorphism.quotient_domain_correct","statement":"Path(quotient_domain(x), return ``self`` with domain replaced by ``domain/sm``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"adb6903d6a802d62","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["self.kernel().is_submodule(sm)","hasattr(sm, 'is_zero')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._quotient_domain","self.kernel","sm.is_zero"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def quotient_domain(self, sm):
         """
         Return ``self`` with domain replaced by ``domain/sm``.
@@ -398,16 +484,24 @@ class ModuleHomomorphism:
         return self._quotient_domain(sm)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(quotient_codomain(sm), return ``self`` with codomain replaced by ``codomain/sm``) over Any ║
+# ║ Path(quotient_codomain(sm), <unspecified:quotient_codomain>) over {Any | self.codomain.is_submodule(sm) and hasattr(sm, 'is_zero')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ quotient_codomain : Any → Any                              ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: self.codomain.is_submodule(sm)                 ║
+# ║   requires: hasattr(sm, 'is_zero')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ quotient_codomain : {Any | self.codomain.is_submodule...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d62fbc2f01527490  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.homomorphisms.ModuleHomomorphism.quotient_codomain","kind":"method","src_hash":"df24d4d693013e6f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"quotient_codomain(sm)","rhs":"return ``self`` with codomain replaced by ``codomain/sm``","over":{"base":"Any"},"name":"quotient_codomain_correct"},"guarantee":"return ``self`` with codomain replaced by ``codomain/sm``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.homomorphisms.ModuleHomomorphism.quotient_codomain_correct","statement":"Path(quotient_codomain(x), return ``self`` with codomain replaced by ``codomain/sm``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d62fbc2f01527490"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.homomorphisms.ModuleHomomorphism.quotient_codomain","kind":"method","src_hash":"df24d4d693013e6f","in":{"base":"Any","pred":"self.codomain.is_submodule(sm) and hasattr(sm, 'is_zero')"},"out":{"base":"Any"},"spec":{"lhs":"quotient_codomain(sm)","rhs":"<unspecified:quotient_codomain>","over":{"base":"Any","pred":"self.codomain.is_submodule(sm) and hasattr(sm, 'is_zero')"},"name":"quotient_codomain_correct"},"guarantee":"return ``self`` with codomain replaced by ``codomain/sm``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.homomorphisms.ModuleHomomorphism.quotient_codomain_correct","statement":"Path(quotient_codomain(x), return ``self`` with codomain replaced by ``codomain/sm``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d62fbc2f01527490","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["self.codomain.is_submodule(sm)","hasattr(sm, 'is_zero')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._quotient_codomain","self.codomain","sm.is_zero"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def quotient_codomain(self, sm):
         """
         Return ``self`` with codomain replaced by ``codomain/sm``.
@@ -447,45 +541,63 @@ class ModuleHomomorphism:
         return self._quotient_codomain(sm)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_apply(ele), apply ``self`` to ``elem``) over Any     ║
+# ║ Path(_apply(elem), <unspecified:_apply>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _apply : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0e3dc0951aedb6d9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.homomorphisms.ModuleHomomorphism._apply","kind":"method","src_hash":"db352f8e3cfeefc6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_apply(ele)","rhs":"apply ``self`` to ``elem``","over":{"base":"Any"},"name":"_apply_correct"},"guarantee":"apply ``self`` to ``elem``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0e3dc0951aedb6d9"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.homomorphisms.ModuleHomomorphism._apply","kind":"method","src_hash":"db352f8e3cfeefc6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_apply(elem)","rhs":"<unspecified:_apply>","over":{"base":"Any"},"name":"_apply_correct"},"guarantee":"apply ``self`` to ``elem``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0e3dc0951aedb6d9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _apply(self, elem):
         """Apply ``self`` to ``elem``."""
         raise NotImplementedError
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__call__(ele), correctly applies the callable) over Any ║
+# ║ Path(__call__(elem), self.codomain.convert(self._apply(self.domain.convert(elem)))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.codomain.convert(self._apply(self.do...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __call__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 53578469e302e9ba           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.homomorphisms.ModuleHomomorphism.__call__","kind":"method","src_hash":"892d44bcf8ff12ed","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__call__(ele)","rhs":"correctly applies the callable","over":{"base":"Any"},"name":"__call___correct"},"guarantee":"correctly applies the callable","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"53578469e302e9ba"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.homomorphisms.ModuleHomomorphism.__call__","kind":"method","src_hash":"892d44bcf8ff12ed","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__call__(elem)","rhs":"self.codomain.convert(self._apply(self.domain.convert(elem)))","over":{"base":"Any"},"name":"__call___correct"},"guarantee":"returns self.codomain.convert(self._apply(self.domain.convert(elem)))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"53578469e302e9ba","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.codomain.convert(self._apply(self.domain.convert(elem)))","pure":false,"effects":{"effect_type":"reads_state","reads":["self._apply","self.codomain","self.domain"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __call__(self, elem):
         return self.codomain.convert(self._apply(self.domain.convert(elem)))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_compose(oth), compose ``self`` with ``oth``, that is, return the homomorphism obtained by first applying then ``self``, then ``oth``) over Any ║
+# ║ Path(_compose(oth), <unspecified:_compose>) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _compose : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4414ece9ff567453           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.homomorphisms.ModuleHomomorphism._compose","kind":"method","src_hash":"76fb5c63208cb975","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_compose(oth)","rhs":"compose ``self`` with ``oth``, that is, return the homomorphism obtained by first applying then ``self``, then ``oth``","over":{"base":"Any"},"name":"_compose_correct"},"guarantee":"compose ``self`` with ``oth``, that is, return the homomorphism obtained by first applying then ``self``, then ``oth``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4414ece9ff567453"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.homomorphisms.ModuleHomomorphism._compose","kind":"method","src_hash":"76fb5c63208cb975","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_compose(oth)","rhs":"<unspecified:_compose>","over":{"base":"Any"},"name":"_compose_correct"},"guarantee":"compose ``self`` with ``oth``, that is, return the homomorphism obtained by first applying then ``self``, then ``oth``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4414ece9ff567453","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _compose(self, oth):
         """
         Compose ``self`` with ``oth``, that is, return the homomorphism
@@ -497,31 +609,43 @@ class ModuleHomomorphism:
         raise NotImplementedError
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_mul_scalar(c), scalar multiplication) over Any       ║
+# ║ Path(_mul_scalar(c), <unspecified:_mul_scalar>) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _mul_scalar : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | aaff2bb9fed8d232           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.homomorphisms.ModuleHomomorphism._mul_scalar","kind":"method","src_hash":"5d2b9c92f169d6ef","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_mul_scalar(c)","rhs":"scalar multiplication","over":{"base":"Any"},"name":"_mul_scalar_correct"},"guarantee":"scalar multiplication","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"aaff2bb9fed8d232"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.homomorphisms.ModuleHomomorphism._mul_scalar","kind":"method","src_hash":"5d2b9c92f169d6ef","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_mul_scalar(c)","rhs":"<unspecified:_mul_scalar>","over":{"base":"Any"},"name":"_mul_scalar_correct"},"guarantee":"scalar multiplication","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"aaff2bb9fed8d232","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _mul_scalar(self, c):
         """Scalar multiplication. ``c`` is guaranteed in self.ring."""
         raise NotImplementedError
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_add(oth), homomorphism addition. ``oth`` is guaranteed to be a homomorphism with same domain/codomain) over Any ║
+# ║ Path(_add(oth), <unspecified:_add>) over Any               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _add : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 917a850a3238fbd7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.homomorphisms.ModuleHomomorphism._add","kind":"method","src_hash":"317014722bde2aef","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_add(oth)","rhs":"homomorphism addition. ``oth`` is guaranteed to be a homomorphism with same domain/codomain","over":{"base":"Any"},"name":"_add_correct"},"guarantee":"homomorphism addition. ``oth`` is guaranteed to be a homomorphism with same domain/codomain","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"917a850a3238fbd7"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.homomorphisms.ModuleHomomorphism._add","kind":"method","src_hash":"317014722bde2aef","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_add(oth)","rhs":"<unspecified:_add>","over":{"base":"Any"},"name":"_add_correct"},"guarantee":"homomorphism addition. ``oth`` is guaranteed to be a homomorphism with same domain/codomain","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"917a850a3238fbd7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _add(self, oth):
         """
         Homomorphism addition.
@@ -530,16 +654,24 @@ class ModuleHomomorphism:
         raise NotImplementedError
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_check_hom(oth), helper to check that oth is a homomorphism with same domain/codomain) over Any ║
+# ║ Path(_check_hom(oth), <unspecified:_check_hom>) over {Any | hasattr(oth, 'domain') and hasattr(oth, 'codomain')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _check_hom : Any → Any                                     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(oth, 'domain')                         ║
+# ║   requires: hasattr(oth, 'codomain')                       ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _check_hom : {Any | hasattr(oth, 'domain') and hasatt...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3e9dea71aec9916f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.homomorphisms.ModuleHomomorphism._check_hom","kind":"method","src_hash":"28ff20608ee5f18c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_check_hom(oth)","rhs":"helper to check that oth is a homomorphism with same domain/codomain","over":{"base":"Any"},"name":"_check_hom_correct"},"guarantee":"helper to check that oth is a homomorphism with same domain/codomain","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.homomorphisms.ModuleHomomorphism._check_hom_correct","statement":"Path(_check_hom(x), helper to check that oth is a homomorphism with same domain/codomain)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3e9dea71aec9916f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.homomorphisms.ModuleHomomorphism._check_hom","kind":"method","src_hash":"28ff20608ee5f18c","in":{"base":"Any","pred":"hasattr(oth, 'domain') and hasattr(oth, 'codomain')"},"out":{"base":"Any"},"spec":{"lhs":"_check_hom(oth)","rhs":"<unspecified:_check_hom>","over":{"base":"Any","pred":"hasattr(oth, 'domain') and hasattr(oth, 'codomain')"},"name":"_check_hom_correct"},"guarantee":"helper to check that oth is a homomorphism with same domain/codomain","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.homomorphisms.ModuleHomomorphism._check_hom_correct","statement":"Path(_check_hom(x), helper to check that oth is a homomorphism with same domain/codomain)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3e9dea71aec9916f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(oth, 'domain')","hasattr(oth, 'codomain')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["oth.codomain","oth.domain","self.codomain","self.domain"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _check_hom(self, oth):
         """Helper to check that oth is a homomorphism with same domain/codomain."""
         if not isinstance(oth, ModuleHomomorphism):
@@ -547,16 +679,24 @@ class ModuleHomomorphism:
         return oth.domain == self.domain and oth.codomain == self.codomain
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__mul__(oth), returns the product) over Any           ║
+# ║ Path(__mul__(oth), <unspecified:__mul__>) over {Any | hasattr(oth, 'codomain') and hasattr(oth, '_compose')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __mul__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(oth, 'codomain')                       ║
+# ║   requires: hasattr(oth, '_compose')                       ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __mul__ : {Any | hasattr(oth, 'codomain') and hasattr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | bce512f0974ea91c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.homomorphisms.ModuleHomomorphism.__mul__","kind":"method","src_hash":"53d2c7061ec7e59f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__mul__(oth)","rhs":"returns the product","over":{"base":"Any"},"name":"__mul___correct"},"guarantee":"returns the product","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bce512f0974ea91c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.homomorphisms.ModuleHomomorphism.__mul__","kind":"method","src_hash":"53d2c7061ec7e59f","in":{"base":"Any","pred":"hasattr(oth, 'codomain') and hasattr(oth, '_compose')"},"out":{"base":"Any"},"spec":{"lhs":"__mul__(oth)","rhs":"<unspecified:__mul__>","over":{"base":"Any","pred":"hasattr(oth, 'codomain') and hasattr(oth, '_compose')"},"name":"__mul___correct"},"guarantee":"returns the product","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bce512f0974ea91c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(oth, 'codomain')","hasattr(oth, '_compose')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["oth._compose","oth.codomain","self._mul_scalar","self.domain","self.ring"],"catches":["CoercionFailed"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __mul__(self, oth):
         if isinstance(oth, ModuleHomomorphism) and self.domain == oth.codomain:
             return oth._compose(self)
@@ -569,16 +709,22 @@ class ModuleHomomorphism:
     __rmul__ = __mul__
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__truediv__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__truediv__(oth), <unspecified:__truediv__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __truediv__ : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | bc1c88d11b177423           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.homomorphisms.ModuleHomomorphism.__truediv__","kind":"method","src_hash":"a64e78d39b479fbf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__truediv__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__truediv___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bc1c88d11b177423"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.homomorphisms.ModuleHomomorphism.__truediv__","kind":"method","src_hash":"a64e78d39b479fbf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__truediv__(oth)","rhs":"<unspecified:__truediv__>","over":{"base":"Any"},"name":"__truediv___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bc1c88d11b177423","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._mul_scalar","self.ring"],"catches":["CoercionFailed"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __truediv__(self, oth):
         try:
             return self._mul_scalar(1/self.ring.convert(oth))
@@ -586,48 +732,67 @@ class ModuleHomomorphism:
             return NotImplemented
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__add__(oth), returns the sum/concatenation) over Any ║
+# ║ Path(__add__(oth), <unspecified:__add__>) over Any         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __add__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9457a75c5fd2e6f6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.homomorphisms.ModuleHomomorphism.__add__","kind":"method","src_hash":"7d60ed108c568459","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__add__(oth)","rhs":"returns the sum/concatenation","over":{"base":"Any"},"name":"__add___correct"},"guarantee":"returns the sum/concatenation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9457a75c5fd2e6f6"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.homomorphisms.ModuleHomomorphism.__add__","kind":"method","src_hash":"7d60ed108c568459","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__add__(oth)","rhs":"<unspecified:__add__>","over":{"base":"Any"},"name":"__add___correct"},"guarantee":"returns the sum/concatenation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9457a75c5fd2e6f6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._add","self._check_hom"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __add__(self, oth):
         if self._check_hom(oth):
             return self._add(oth)
         return NotImplemented
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__sub__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__sub__(oth), <unspecified:__sub__>) over {Any | hasattr(oth, '_mul_scalar')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __sub__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(oth, '_mul_scalar')                    ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __sub__ : {Any | hasattr(oth, '_mul_scalar')} → Any        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4bba7404b6eab1e5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.homomorphisms.ModuleHomomorphism.__sub__","kind":"method","src_hash":"cacac79a588526bd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__sub__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__sub___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4bba7404b6eab1e5"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.homomorphisms.ModuleHomomorphism.__sub__","kind":"method","src_hash":"cacac79a588526bd","in":{"base":"Any","pred":"hasattr(oth, '_mul_scalar')"},"out":{"base":"Any"},"spec":{"lhs":"__sub__(oth)","rhs":"<unspecified:__sub__>","over":{"base":"Any","pred":"hasattr(oth, '_mul_scalar')"},"name":"__sub___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4bba7404b6eab1e5","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(oth, '_mul_scalar')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["oth._mul_scalar","self._add","self._check_hom","self.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __sub__(self, oth):
         if self._check_hom(oth):
             return self._add(oth._mul_scalar(self.ring.convert(-1)))
         return NotImplemented
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_injective(), return true if ``self`` is injective) over Any ║
+# ║ Path(is_injective(), self.kernel().is_zero()) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.kernel().is_zero()                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_injective : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3a9ac6e036f31783           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.homomorphisms.ModuleHomomorphism.is_injective","kind":"method","src_hash":"d7fc2f762ce547b4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_injective()","rhs":"return true if ``self`` is injective","over":{"base":"Any"},"name":"is_injective_correct"},"guarantee":"return true if ``self`` is injective","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3a9ac6e036f31783"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.homomorphisms.ModuleHomomorphism.is_injective","kind":"method","src_hash":"d7fc2f762ce547b4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_injective()","rhs":"self.kernel().is_zero()","over":{"base":"Any"},"name":"is_injective_correct"},"guarantee":"returns self.kernel().is_zero()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3a9ac6e036f31783","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.kernel().is_zero()","pure":false,"effects":{"effect_type":"reads_state","reads":["self.kernel"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_injective(self):
         """
         Return True if ``self`` is injective.
@@ -652,16 +817,22 @@ class ModuleHomomorphism:
         return self.kernel().is_zero()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_surjective(), return true if ``self`` is surjective) over Any ║
+# ║ Path(is_surjective(), self.image() == self.codomain) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.image() == self.codomain                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_surjective : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9e41ce7efeca417a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.homomorphisms.ModuleHomomorphism.is_surjective","kind":"method","src_hash":"5ecfc14c2df6102e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_surjective()","rhs":"return true if ``self`` is surjective","over":{"base":"Any"},"name":"is_surjective_correct"},"guarantee":"return true if ``self`` is surjective","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9e41ce7efeca417a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.homomorphisms.ModuleHomomorphism.is_surjective","kind":"method","src_hash":"5ecfc14c2df6102e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_surjective()","rhs":"self.image() == self.codomain","over":{"base":"Any"},"name":"is_surjective_correct"},"guarantee":"returns self.image() == self.codomain","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9e41ce7efeca417a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.image() == self.codomain","pure":false,"effects":{"effect_type":"reads_state","reads":["self.codomain","self.image"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_surjective(self):
         """
         Return True if ``self`` is surjective.
@@ -686,16 +857,22 @@ class ModuleHomomorphism:
         return self.image() == self.codomain
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_isomorphism(), return true if ``self`` is an isomorphism) over Any ║
+# ║ Path(is_isomorphism(), self.is_injective() and self.is_surjective()) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.is_injective() and self.is_surjective()   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_isomorphism : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ca9d6d408babbb3b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.homomorphisms.ModuleHomomorphism.is_isomorphism","kind":"method","src_hash":"64ad4087fb7c8187","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_isomorphism()","rhs":"return true if ``self`` is an isomorphism","over":{"base":"Any"},"name":"is_isomorphism_correct"},"guarantee":"return true if ``self`` is an isomorphism","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ca9d6d408babbb3b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.homomorphisms.ModuleHomomorphism.is_isomorphism","kind":"method","src_hash":"64ad4087fb7c8187","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_isomorphism()","rhs":"self.is_injective() and self.is_surjective()","over":{"base":"Any"},"name":"is_isomorphism_correct"},"guarantee":"returns self.is_injective() and self.is_surjective()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ca9d6d408babbb3b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.is_injective() and self.is_surjective()","pure":false,"effects":{"effect_type":"reads_state","reads":["self.is_injective","self.is_surjective"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_isomorphism(self):
         """
         Return True if ``self`` is an isomorphism.
@@ -721,16 +898,22 @@ class ModuleHomomorphism:
         return self.is_injective() and self.is_surjective()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_zero(), return true if ``self`` is a zero morphism) over Any ║
+# ║ Path(is_zero(), self.image().is_zero()) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.image().is_zero()                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_zero : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0bf7751f4c895657           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.homomorphisms.ModuleHomomorphism.is_zero","kind":"method","src_hash":"9f3c2e191fec9b21","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_zero()","rhs":"return true if ``self`` is a zero morphism","over":{"base":"Any"},"name":"is_zero_correct"},"guarantee":"return true if ``self`` is a zero morphism","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0bf7751f4c895657"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.homomorphisms.ModuleHomomorphism.is_zero","kind":"method","src_hash":"9f3c2e191fec9b21","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_zero()","rhs":"self.image().is_zero()","over":{"base":"Any"},"name":"is_zero_correct"},"guarantee":"returns self.image().is_zero()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0bf7751f4c895657","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.image().is_zero()","pure":false,"effects":{"effect_type":"reads_state","reads":["self.image"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_zero(self):
         """
         Return True if ``self`` is a zero morphism.
@@ -757,16 +940,22 @@ class ModuleHomomorphism:
         return self.image().is_zero()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__eq__(oth), correctly determines equality) over Any  ║
+# ║ Path(__eq__(oth), <unspecified:__eq__>) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __eq__ : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a70159d5aa882c14           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.homomorphisms.ModuleHomomorphism.__eq__","kind":"method","src_hash":"4a71b3bc611239e8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(oth)","rhs":"correctly determines equality","over":{"base":"Any"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a70159d5aa882c14"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.homomorphisms.ModuleHomomorphism.__eq__","kind":"method","src_hash":"4a71b3bc611239e8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(oth)","rhs":"<unspecified:__eq__>","over":{"base":"Any"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a70159d5aa882c14","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __eq__(self, oth):
         try:
             return (self - oth).is_zero()
@@ -774,16 +963,22 @@ class ModuleHomomorphism:
             return False
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__ne__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__ne__(oth), not self == oth) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  not self == oth                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __ne__ : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5051dc1dea452fa0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.homomorphisms.ModuleHomomorphism.__ne__","kind":"method","src_hash":"20e561ec084aa1a3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__ne__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__ne___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5051dc1dea452fa0"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.homomorphisms.ModuleHomomorphism.__ne__","kind":"method","src_hash":"20e561ec084aa1a3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__ne__(oth)","rhs":"not self == oth","over":{"base":"Any"},"name":"__ne___correct"},"guarantee":"returns not self == oth","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5051dc1dea452fa0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"not self == oth","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __ne__(self, oth):
         return not (self == oth)
 
@@ -791,14 +986,20 @@ class ModuleHomomorphism:
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a MatrixHomomorphism instance) preserved by MatrixHomomorphism(*args) over {Any | isinstance(self.codomain, (SubModule, SubQuotientModule)) and isinstance(self.codomain, (QuotientModule, SubQuotientModule)) and isinstance(self.codomain, SubModule)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, ModuleHomomorphism)           ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ MatrixHomomorphism : {Any | isinstance(self.codomain,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c2a335fc0121ff85  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.homomorphisms.MatrixHomomorphism","kind":"class","src_hash":"ecd731809d2a5c1d","in":{"base":"Any","pred":"isinstance(self.codomain, (SubModule, SubQuotientModule)) and isinstance(self.codomain, (QuotientModule, SubQuotientModule)) and isinstance(self.codomain, SubModule)"},"out":{"base":"Any"},"spec":{"lhs":"MatrixHomomorphism(*args)","rhs":"correctly constructs a MatrixHomomorphism instance","over":{"base":"Any","pred":"isinstance(self.codomain, (SubModule, SubQuotientModule)) and isinstance(self.codomain, (QuotientModule, SubQuotientModule)) and isinstance(self.codomain, SubModule)"},"name":"MatrixHomomorphism_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a MatrixHomomorphism instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'matrix')","kind":"class","induction":"structural on matrix"}],"methods_preserving":["__init__","_sympy_matrix","__repr__","_restrict_domain","_restrict_codomain","_quotient_domain","_quotient_codomain","_add","_mul_scalar","_compose"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c2a335fc0121ff85"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.homomorphisms.MatrixHomomorphism","kind":"class","src_hash":"ecd731809d2a5c1d","in":{"base":"Any","pred":"isinstance(self.codomain, (SubModule, SubQuotientModule)) and isinstance(self.codomain, (QuotientModule, SubQuotientModule)) and isinstance(self.codomain, SubModule)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, ModuleHomomorphism)"},"spec":{"lhs":"MatrixHomomorphism(*args)","rhs":"correctly constructs a MatrixHomomorphism instance","over":{"base":"Any","pred":"isinstance(self.codomain, (SubModule, SubQuotientModule)) and isinstance(self.codomain, (QuotientModule, SubQuotientModule)) and isinstance(self.codomain, SubModule)"},"name":"MatrixHomomorphism_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, ModuleHomomorphism); preserves 1 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'matrix')","kind":"class","induction":"structural on matrix"}],"methods_preserving":["__init__","_sympy_matrix","__repr__","_restrict_domain","_restrict_codomain","_quotient_domain","_quotient_codomain","_add","_mul_scalar","_compose"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c2a335fc0121ff85","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, ModuleHomomorphism)"],"invariants":["hasattr(self, 'matrix')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":false,"binding_errors":["Function MatrixHomomorphism not found in source"]}}
 class MatrixHomomorphism(ModuleHomomorphism):
     r"""
     Helper class for all homomoprhisms which are expressed via a matrix.
@@ -830,16 +1031,24 @@ class MatrixHomomorphism(ModuleHomomorphism):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(dom), initializes the instance correctly) over Any ║
+# ║ Path(__init__(domain, codomain, matrix), <unspecified:__init__>) over {Any | not (len(matrix) != domain.rank) and hasattr(domain, 'rank')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (len(matrix) != domain.rank)               ║
+# ║   requires: hasattr(domain, 'rank')                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : {Any | not (len(matrix) != domain.rank) an...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7dde72b2a0e19f75           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.homomorphisms.MatrixHomomorphism.__init__","kind":"method","src_hash":"02d6906aad340113","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(dom)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7dde72b2a0e19f75"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.homomorphisms.MatrixHomomorphism.__init__","kind":"method","src_hash":"02d6906aad340113","in":{"base":"Any","pred":"not (len(matrix) != domain.rank) and hasattr(domain, 'rank')"},"out":{"base":"Any"},"spec":{"lhs":"__init__(domain, codomain, matrix)","rhs":"<unspecified:__init__>","over":{"base":"Any","pred":"not (len(matrix) != domain.rank) and hasattr(domain, 'rank')"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7dde72b2a0e19f75","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (len(matrix) != domain.rank)","hasattr(domain, 'rank')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["domain.rank","self.codomain"],"writes":["self.matrix"],"raises":["ValueError"]},"state_contract":{"modifies":["self.matrix"],"old_bindings":{"old_self_matrix":"self.matrix"},"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, domain, codomain, matrix):
         ModuleHomomorphism.__init__(self, domain, codomain)
         if len(matrix) != domain.rank:
@@ -854,14 +1063,20 @@ class MatrixHomomorphism(ModuleHomomorphism):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(_sympy_matrix(), id) over Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Matrix([[self.ring.to_sympy(y) for y in c...   ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ _sympy_matrix : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 45b525dca4722dce   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.homomorphisms.MatrixHomomorphism._sympy_matrix","kind":"method","src_hash":"b2473f23bd7f8a2a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sympy_matrix()","rhs":"helper function which returns a sympy matrix ``self.matrix``","over":{"base":"Any"},"name":"_sympy_matrix_correct","kind":"composition"},"guarantee":"helper function which returns a sympy matrix ``self.matrix``","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Matrix","by":"library_axiom"},{"fn":"to_sympy","by":"library_axiom"},{"fn":"c","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"45b525dca4722dce"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.homomorphisms.MatrixHomomorphism._sympy_matrix","kind":"method","src_hash":"b2473f23bd7f8a2a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sympy_matrix()","rhs":"Matrix([[self.ring.to_sympy(y) for y in c(x)] for x in self.matrix]).T","over":{"base":"Any"},"name":"_sympy_matrix_correct","kind":"composition"},"guarantee":"returns Matrix([[self.ring.to_sympy(y) for y in c(x)] for x in self.matrix]).T","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Matrix","by":"library_axiom"},{"fn":"to_sympy","by":"library_axiom"},{"fn":"c","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"45b525dca4722dce","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Matrix([[self.ring.to_sympy(y) for y in c(x)] for x in self.matrix]).T","pure":false,"effects":{"effect_type":"reads_state","reads":["self.codomain","self.matrix","self.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _sympy_matrix(self):
         """Helper function which returns a SymPy matrix ``self.matrix``."""
         from sympy.matrices import Matrix
@@ -871,16 +1086,22 @@ class MatrixHomomorphism(ModuleHomomorphism):
         return Matrix([[self.ring.to_sympy(y) for y in c(x)] for x in self.matrix]).T
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__repr__(), returns a faithful string representation) over Any ║
+# ║ Path(__repr__(), '\n'.join(lines)) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  '\n'.join(lines)                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __repr__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 600214205312d44c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.homomorphisms.MatrixHomomorphism.__repr__","kind":"method","src_hash":"8541f341cd0fddc7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"returns a faithful string representation","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns a faithful string representation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"600214205312d44c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.homomorphisms.MatrixHomomorphism.__repr__","kind":"method","src_hash":"8541f341cd0fddc7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"'\\n'.join(lines)","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns '\\n'.join(lines)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"600214205312d44c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'\\n'.join(lines)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._sympy_matrix","self.codomain","self.domain"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __repr__(self):
         lines = repr(self._sympy_matrix()).split('\n')
         t = " : %s -> %s" % (self.domain, self.codomain)
@@ -894,61 +1115,85 @@ class MatrixHomomorphism(ModuleHomomorphism):
         return '\n'.join(lines)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_restrict_domain(sm), implementation of domain restriction) over Any ║
+# ║ Path(_restrict_domain(sm), SubModuleHomomorphism(sm, self.codomain, self.matrix)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  SubModuleHomomorphism(sm, self.codomain, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _restrict_domain : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 38b0eb0c9cb522ab           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.homomorphisms.MatrixHomomorphism._restrict_domain","kind":"method","src_hash":"23b1f954d4198671","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_restrict_domain(sm)","rhs":"implementation of domain restriction","over":{"base":"Any"},"name":"_restrict_domain_correct"},"guarantee":"implementation of domain restriction","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"38b0eb0c9cb522ab"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.homomorphisms.MatrixHomomorphism._restrict_domain","kind":"method","src_hash":"23b1f954d4198671","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_restrict_domain(sm)","rhs":"SubModuleHomomorphism(sm, self.codomain, self.matrix)","over":{"base":"Any"},"name":"_restrict_domain_correct"},"guarantee":"returns SubModuleHomomorphism(sm, self.codomain, self.matrix)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"38b0eb0c9cb522ab","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"SubModuleHomomorphism(sm, self.codomain, self.matrix)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.codomain","self.matrix"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _restrict_domain(self, sm):
         """Implementation of domain restriction."""
         return SubModuleHomomorphism(sm, self.codomain, self.matrix)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_restrict_codomain(sm), implementation of codomain restriction) over Any ║
+# ║ Path(_restrict_codomain(sm), self.__class__(self.domain, sm, self.matrix)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.__class__(self.domain, sm, self.matrix)   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _restrict_codomain : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 659b2334c420734c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.homomorphisms.MatrixHomomorphism._restrict_codomain","kind":"method","src_hash":"4cb77423f733c328","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_restrict_codomain(sm)","rhs":"implementation of codomain restriction","over":{"base":"Any"},"name":"_restrict_codomain_correct"},"guarantee":"implementation of codomain restriction","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"659b2334c420734c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.homomorphisms.MatrixHomomorphism._restrict_codomain","kind":"method","src_hash":"4cb77423f733c328","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_restrict_codomain(sm)","rhs":"self.__class__(self.domain, sm, self.matrix)","over":{"base":"Any"},"name":"_restrict_codomain_correct"},"guarantee":"returns self.__class__(self.domain, sm, self.matrix)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"659b2334c420734c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.__class__(self.domain, sm, self.matrix)","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","self.__class__","self.domain","self.matrix"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _restrict_codomain(self, sm):
         """Implementation of codomain restriction."""
         return self.__class__(self.domain, sm, self.matrix)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_quotient_domain(sm), implementation of domain quotient) over Any ║
+# ║ Path(_quotient_domain(sm), self.__class__(self.domain / sm, self.codomain, self.matrix)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.__class__(self.domain / sm, self.cod...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _quotient_domain : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | bf6f503560cc03b6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.homomorphisms.MatrixHomomorphism._quotient_domain","kind":"method","src_hash":"487348ae4b5369a3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_quotient_domain(sm)","rhs":"implementation of domain quotient","over":{"base":"Any"},"name":"_quotient_domain_correct"},"guarantee":"implementation of domain quotient","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bf6f503560cc03b6"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.homomorphisms.MatrixHomomorphism._quotient_domain","kind":"method","src_hash":"487348ae4b5369a3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_quotient_domain(sm)","rhs":"self.__class__(self.domain / sm, self.codomain, self.matrix)","over":{"base":"Any"},"name":"_quotient_domain_correct"},"guarantee":"returns self.__class__(self.domain / sm, self.codomain, self.matrix)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bf6f503560cc03b6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.__class__(self.domain / sm, self.codomain, self.matrix)","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","self.__class__","self.codomain","self.domain","self.matrix"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _quotient_domain(self, sm):
         """Implementation of domain quotient."""
         return self.__class__(self.domain/sm, self.codomain, self.matrix)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_quotient_codomain(sm), implementation of codomain quotient) over Any ║
+# ║ Path(_quotient_codomain(sm), self.__class__(self.domain, self.codomain / sm, [converter(x) for x in self.matrix])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.__class__(self.domain, self.codomain...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _quotient_codomain : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 29ece657c2465d92  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4e14d194193d59b7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.homomorphisms.MatrixHomomorphism._quotient_codomain","kind":"method","src_hash":"52a8803a2a8ec976","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_quotient_codomain(sm)","rhs":"implementation of codomain quotient","over":{"base":"Any"},"name":"_quotient_codomain_correct"},"guarantee":"implementation of codomain quotient","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.homomorphisms.MatrixHomomorphism._quotient_codomain_correct","statement":"Path(_quotient_codomain(x), implementation of codomain quotient)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"29ece657c2465d92"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.homomorphisms.MatrixHomomorphism._quotient_codomain","kind":"method","src_hash":"52a8803a2a8ec976","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_quotient_codomain(sm)","rhs":"self.__class__(self.domain, self.codomain / sm, [converter(x) for x in self.matrix])","over":{"base":"Any"},"name":"_quotient_codomain_correct"},"guarantee":"returns self.__class__(self.domain, self.codomain / sm, [converter(x) for x in self.matrix])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.homomorphisms.MatrixHomomorphism._quotient_codomain_correct","statement":"Path(_quotient_codomain(x), returns self.__class__(self.domain, self.codomain / sm, [converter(x) for x in self.matrix]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4e14d194193d59b7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.__class__(self.domain, self.codomain / sm, [converter(x) for x in self.matrix])","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","self.__class__","self.codomain","self.domain","self.matrix"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _quotient_codomain(self, sm):
         """Implementation of codomain quotient."""
         Q = self.codomain/sm
@@ -959,45 +1204,65 @@ class MatrixHomomorphism(ModuleHomomorphism):
             [converter(x) for x in self.matrix])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_add(oth), internal helper behaves correctly) over Any ║
+# ║ Path(_add(oth), self.__class__(self.domain, self.codomain, [x + y for x, y in zip(self.matrix, oth.matrix)])) over {Any | hasattr(oth, 'matrix')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _add : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(oth, 'matrix')                         ║
+# ║   returns:  self.__class__(self.domain, self.codomain...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _add : {Any | hasattr(oth, 'matrix')} → Any                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 32fd2a8fb66b20ca  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8e8a8662c50ce0a2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.homomorphisms.MatrixHomomorphism._add","kind":"method","src_hash":"33462e9f2ad881de","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_add(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_add_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.homomorphisms.MatrixHomomorphism._add_correct","statement":"Path(_add(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"32fd2a8fb66b20ca"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.homomorphisms.MatrixHomomorphism._add","kind":"method","src_hash":"33462e9f2ad881de","in":{"base":"Any","pred":"hasattr(oth, 'matrix')"},"out":{"base":"Any"},"spec":{"lhs":"_add(oth)","rhs":"self.__class__(self.domain, self.codomain, [x + y for x, y in zip(self.matrix, oth.matrix)])","over":{"base":"Any","pred":"hasattr(oth, 'matrix')"},"name":"_add_correct"},"guarantee":"returns self.__class__(self.domain, self.codomain, [x + y for x, y in zip(self.matrix, oth.matrix)])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.homomorphisms.MatrixHomomorphism._add_correct","statement":"Path(_add(x), returns self.__class__(self.domain, self.codomain, [x + y for x, y in zip(self.matrix, oth.matrix)]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8e8a8662c50ce0a2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(oth, 'matrix')"],"returns_expr":"self.__class__(self.domain, self.codomain, [x + y for x, y in zip(self.matrix, oth.matrix)])","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","oth.matrix","self.__class__","self.codomain","self.domain","self.matrix"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _add(self, oth):
         return self.__class__(self.domain, self.codomain,
                               [x + y for x, y in zip(self.matrix, oth.matrix)])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_mul_scalar(c), internal helper behaves correctly) over Any ║
+# ║ Path(_mul_scalar(c), self.__class__(self.domain, self.codomain, [c * x for x in self.matrix])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.__class__(self.domain, self.codomain...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _mul_scalar : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 47d42beb1a494300           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.homomorphisms.MatrixHomomorphism._mul_scalar","kind":"method","src_hash":"6a47c4c40bc5259c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_mul_scalar(c)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_mul_scalar_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"47d42beb1a494300"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.homomorphisms.MatrixHomomorphism._mul_scalar","kind":"method","src_hash":"6a47c4c40bc5259c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_mul_scalar(c)","rhs":"self.__class__(self.domain, self.codomain, [c * x for x in self.matrix])","over":{"base":"Any"},"name":"_mul_scalar_correct"},"guarantee":"returns self.__class__(self.domain, self.codomain, [c * x for x in self.matrix])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"47d42beb1a494300","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.__class__(self.domain, self.codomain, [c * x for x in self.matrix])","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","self.__class__","self.codomain","self.domain","self.matrix"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _mul_scalar(self, c):
         return self.__class__(self.domain, self.codomain, [c*x for x in self.matrix])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_compose(oth), internal helper behaves correctly) over Any ║
+# ║ Path(_compose(oth), self.__class__(self.domain, oth.codomain, [oth(x) for x in self.matrix])) over {Any | hasattr(oth, 'codomain')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _compose : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(oth, 'codomain')                       ║
+# ║   returns:  self.__class__(self.domain, oth.codomain,...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _compose : {Any | hasattr(oth, 'codomain')} → Any          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 896c2524bccb8386           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.homomorphisms.MatrixHomomorphism._compose","kind":"method","src_hash":"96c7e97b0dd5ef6d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_compose(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_compose_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"896c2524bccb8386"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.homomorphisms.MatrixHomomorphism._compose","kind":"method","src_hash":"96c7e97b0dd5ef6d","in":{"base":"Any","pred":"hasattr(oth, 'codomain')"},"out":{"base":"Any"},"spec":{"lhs":"_compose(oth)","rhs":"self.__class__(self.domain, oth.codomain, [oth(x) for x in self.matrix])","over":{"base":"Any","pred":"hasattr(oth, 'codomain')"},"name":"_compose_correct"},"guarantee":"returns self.__class__(self.domain, oth.codomain, [oth(x) for x in self.matrix])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"896c2524bccb8386","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(oth, 'codomain')"],"returns_expr":"self.__class__(self.domain, oth.codomain, [oth(x) for x in self.matrix])","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","oth.codomain","self.__class__","self.domain","self.matrix"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _compose(self, oth):
         return self.__class__(self.domain, oth.codomain, [oth(x) for x in self.matrix])
 
@@ -1005,14 +1270,20 @@ class MatrixHomomorphism(ModuleHomomorphism):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(FreeModuleHomomorphism(*args), correctly constructs a FreeModuleHomomorphism instance) over {Any | isinstance(self.domain, QuotientModule)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, MatrixHomomorphism)           ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ FreeModuleHomomorphism : {Any | isinstance(self.domai...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 15a98752f3dc6362  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.homomorphisms.FreeModuleHomomorphism","kind":"class","src_hash":"d7e5166cbf898db3","in":{"base":"Any","pred":"isinstance(self.domain, QuotientModule)"},"out":{"base":"Any"},"spec":{"lhs":"FreeModuleHomomorphism(*args)","rhs":"correctly constructs a FreeModuleHomomorphism instance","over":{"base":"Any","pred":"isinstance(self.domain, QuotientModule)"},"name":"FreeModuleHomomorphism_class_invariant"},"guarantee":"correctly constructs a FreeModuleHomomorphism instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"15a98752f3dc6362"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.homomorphisms.FreeModuleHomomorphism","kind":"class","src_hash":"d7e5166cbf898db3","in":{"base":"Any","pred":"isinstance(self.domain, QuotientModule)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, MatrixHomomorphism)"},"spec":{"lhs":"FreeModuleHomomorphism(*args)","rhs":"correctly constructs a FreeModuleHomomorphism instance","over":{"base":"Any","pred":"isinstance(self.domain, QuotientModule)"},"name":"FreeModuleHomomorphism_class_invariant"},"guarantee":"isinstance(self, MatrixHomomorphism)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"15a98752f3dc6362","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, MatrixHomomorphism)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function FreeModuleHomomorphism not found in source"]}}
 class FreeModuleHomomorphism(MatrixHomomorphism):
     """
     Concrete class for homomorphisms with domain a free module or a quotient
@@ -1033,46 +1304,65 @@ class FreeModuleHomomorphism(MatrixHomomorphism):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_apply(ele), id) over Any                             ║
+# ║ Path(_apply(elem), id) over {Any | hasattr(elem, 'data')}  ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _apply : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(elem, 'data')                          ║
+# ║   returns:  sum((x * e for x, e in zip(elem, self.mat...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _apply : {Any | hasattr(elem, 'data')} → Any               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 64d453a49bdacc3b   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.homomorphisms.FreeModuleHomomorphism._apply","kind":"method","src_hash":"488450454a948421","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_apply(ele)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_apply_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sum","by":"library_axiom"},{"fn":"zip","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"64d453a49bdacc3b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.homomorphisms.FreeModuleHomomorphism._apply","kind":"method","src_hash":"488450454a948421","in":{"base":"Any","pred":"hasattr(elem, 'data')"},"out":{"base":"Any"},"spec":{"lhs":"_apply(elem)","rhs":"sum((x * e for x, e in zip(elem, self.matrix)))","over":{"base":"Any","pred":"hasattr(elem, 'data')"},"name":"_apply_correct","kind":"composition"},"guarantee":"returns sum((x * e for x, e in zip(elem, self.matrix)))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sum","by":"library_axiom"},{"fn":"zip","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"64d453a49bdacc3b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(elem, 'data')"],"returns_expr":"sum((x * e for x, e in zip(elem, self.matrix)))","pure":false,"effects":{"effect_type":"reads_state","reads":["elem.data","self.domain","self.matrix"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _apply(self, elem):
         if isinstance(self.domain, QuotientModule):
             elem = elem.data
         return sum(x * e for x, e in zip(elem, self.matrix))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_image(), internal helper behaves correctly) over Any ║
+# ║ Path(_image(), self.codomain.submodule(*self.matrix)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.codomain.submodule(*self.matrix)          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _image : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 34bce4c64e408674           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.homomorphisms.FreeModuleHomomorphism._image","kind":"method","src_hash":"549c6659a47429f0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_image()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_image_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"34bce4c64e408674"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.homomorphisms.FreeModuleHomomorphism._image","kind":"method","src_hash":"549c6659a47429f0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_image()","rhs":"self.codomain.submodule(*self.matrix)","over":{"base":"Any"},"name":"_image_correct"},"guarantee":"returns self.codomain.submodule(*self.matrix)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"34bce4c64e408674","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.codomain.submodule(*self.matrix)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.codomain","self.matrix"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _image(self):
         return self.codomain.submodule(*self.matrix)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_kernel(), internal helper behaves correctly) over Any ║
+# ║ Path(_kernel(), self.domain.submodule(*syz.gens)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.domain.submodule(*syz.gens)               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _kernel : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 15ed1d54d40fe36b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 688989ab05e425a1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.homomorphisms.FreeModuleHomomorphism._kernel","kind":"method","src_hash":"0ba004ba90f23a79","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_kernel()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_kernel_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.homomorphisms.FreeModuleHomomorphism._kernel_correct","statement":"Path(_kernel(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"15ed1d54d40fe36b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.homomorphisms.FreeModuleHomomorphism._kernel","kind":"method","src_hash":"0ba004ba90f23a79","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_kernel()","rhs":"self.domain.submodule(*syz.gens)","over":{"base":"Any"},"name":"_kernel_correct"},"guarantee":"returns self.domain.submodule(*syz.gens)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.homomorphisms.FreeModuleHomomorphism._kernel_correct","statement":"Path(_kernel(x), returns self.domain.submodule(*syz.gens))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"688989ab05e425a1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.domain.submodule(*syz.gens)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.image"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _kernel(self):
         # The domain is either a free module or a quotient thereof.
         # It does not matter if it is a quotient, because that won't increase
@@ -1086,14 +1376,20 @@ class FreeModuleHomomorphism(MatrixHomomorphism):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(SubModuleHomomorphism(*args), correctly constructs a SubModuleHomomorphism instance) over {Any | isinstance(self.domain, SubQuotientModule)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, MatrixHomomorphism)           ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ SubModuleHomomorphism : {Any | isinstance(self.domain...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aa663e728334402d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.homomorphisms.SubModuleHomomorphism","kind":"class","src_hash":"27fe1ca5d63f8888","in":{"base":"Any","pred":"isinstance(self.domain, SubQuotientModule)"},"out":{"base":"Any"},"spec":{"lhs":"SubModuleHomomorphism(*args)","rhs":"correctly constructs a SubModuleHomomorphism instance","over":{"base":"Any","pred":"isinstance(self.domain, SubQuotientModule)"},"name":"SubModuleHomomorphism_class_invariant"},"guarantee":"correctly constructs a SubModuleHomomorphism instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aa663e728334402d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.homomorphisms.SubModuleHomomorphism","kind":"class","src_hash":"27fe1ca5d63f8888","in":{"base":"Any","pred":"isinstance(self.domain, SubQuotientModule)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, MatrixHomomorphism)"},"spec":{"lhs":"SubModuleHomomorphism(*args)","rhs":"correctly constructs a SubModuleHomomorphism instance","over":{"base":"Any","pred":"isinstance(self.domain, SubQuotientModule)"},"name":"SubModuleHomomorphism_class_invariant"},"guarantee":"isinstance(self, MatrixHomomorphism)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aa663e728334402d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, MatrixHomomorphism)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function SubModuleHomomorphism not found in source"]}}
 class SubModuleHomomorphism(MatrixHomomorphism):
     """
     Concrete class for homomorphism with domain a submodule of a free module
@@ -1114,46 +1410,65 @@ class SubModuleHomomorphism(MatrixHomomorphism):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_apply(ele), id) over Any                             ║
+# ║ Path(_apply(elem), id) over {Any | hasattr(elem, 'data')}  ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _apply : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(elem, 'data')                          ║
+# ║   returns:  sum((x * e for x, e in zip(elem, self.mat...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _apply : {Any | hasattr(elem, 'data')} → Any               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 4b17aca1f5c95421   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.homomorphisms.SubModuleHomomorphism._apply","kind":"method","src_hash":"24f5647f221ad8e0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_apply(ele)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_apply_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sum","by":"library_axiom"},{"fn":"zip","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4b17aca1f5c95421"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.homomorphisms.SubModuleHomomorphism._apply","kind":"method","src_hash":"24f5647f221ad8e0","in":{"base":"Any","pred":"hasattr(elem, 'data')"},"out":{"base":"Any"},"spec":{"lhs":"_apply(elem)","rhs":"sum((x * e for x, e in zip(elem, self.matrix)))","over":{"base":"Any","pred":"hasattr(elem, 'data')"},"name":"_apply_correct","kind":"composition"},"guarantee":"returns sum((x * e for x, e in zip(elem, self.matrix)))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sum","by":"library_axiom"},{"fn":"zip","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4b17aca1f5c95421","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(elem, 'data')"],"returns_expr":"sum((x * e for x, e in zip(elem, self.matrix)))","pure":false,"effects":{"effect_type":"reads_state","reads":["elem.data","self.domain","self.matrix"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _apply(self, elem):
         if isinstance(self.domain, SubQuotientModule):
             elem = elem.data
         return sum(x * e for x, e in zip(elem, self.matrix))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_image(), internal helper behaves correctly) over Any ║
+# ║ Path(_image(), self.codomain.submodule(*[self(x) for x in self.domain.gens])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.codomain.submodule(*[self(x) for x i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _image : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 25a930c9e8959ff6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.homomorphisms.SubModuleHomomorphism._image","kind":"method","src_hash":"be0ffa8d6d4b145e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_image()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_image_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"25a930c9e8959ff6"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.homomorphisms.SubModuleHomomorphism._image","kind":"method","src_hash":"be0ffa8d6d4b145e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_image()","rhs":"self.codomain.submodule(*[self(x) for x in self.domain.gens])","over":{"base":"Any"},"name":"_image_correct"},"guarantee":"returns self.codomain.submodule(*[self(x) for x in self.domain.gens])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"25a930c9e8959ff6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.codomain.submodule(*[self(x) for x in self.domain.gens])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.codomain","self.domain"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _image(self):
         return self.codomain.submodule(*[self(x) for x in self.domain.gens])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_kernel(), internal helper behaves correctly) over Any ║
+# ║ Path(_kernel(), self.domain.submodule(*[sum((xi * gi for xi, gi in zip(s, self.domain.gens))) for s in syz.gens])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.domain.submodule(*[sum((xi * gi for ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _kernel : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dc8a5c3cbabda3d3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 87b3c68962b17dbb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.homomorphisms.SubModuleHomomorphism._kernel","kind":"method","src_hash":"04a6165e73e9ebdd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_kernel()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_kernel_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.homomorphisms.SubModuleHomomorphism._kernel_correct","statement":"Path(_kernel(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dc8a5c3cbabda3d3"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.homomorphisms.SubModuleHomomorphism._kernel","kind":"method","src_hash":"04a6165e73e9ebdd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_kernel()","rhs":"self.domain.submodule(*[sum((xi * gi for xi, gi in zip(s, self.domain.gens))) for s in syz.gens])","over":{"base":"Any"},"name":"_kernel_correct"},"guarantee":"returns self.domain.submodule(*[sum((xi * gi for xi, gi in zip(s, self.domain.gens))) for s in syz.gens])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.homomorphisms.SubModuleHomomorphism._kernel_correct","statement":"Path(_kernel(x), returns self.domain.submodule(*[sum((xi * gi for xi, gi in zip(s, self.domain.gens))) for s in syz.gens]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"87b3c68962b17dbb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.domain.submodule(*[sum((xi * gi for xi, gi in zip(s, self.domain.gens))) for s in syz.gens])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.image"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _kernel(self):
         syz = self.image().syzygy_module()
         return self.domain.submodule(
@@ -1162,7 +1477,10 @@ class SubModuleHomomorphism(MatrixHomomorphism):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(homomorphism(dom), create a homomorphism object) over {Any | isinstance(module, FreeModule) and isinstance(module, QuotientModule) and isinstance(module, SubQuotientModule)} ║
+# ║ Path(homomorphism(domain, codomain, matrix), <unspecified:homomorphism>) over {Any | isinstance(module, FreeModule) and isinstance(module, QuotientModule) and isinstance(module, SubQuotientModule)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ homomorphism : {Any | isinstance(module, FreeModule) ...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -1176,9 +1494,12 @@ class SubModuleHomomorphism(MatrixHomomorphism):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓4 ?3 ✗1 VCs | 3.5ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 2cc6eb5f...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.homomorphisms.homomorphism","kind":"function","src_hash":"93e85fb8116f19b5","in":{"base":"Any","pred":"isinstance(module, FreeModule) and isinstance(module, QuotientModule) and isinstance(module, SubQuotientModule)"},"out":{"base":"Any"},"spec":{"lhs":"homomorphism(dom)","rhs":"create a homomorphism object","over":{"base":"Any","pred":"isinstance(module, FreeModule) and isinstance(module, QuotientModule) and isinstance(module, SubQuotientModule)"},"name":"homomorphism_correct"},"guarantee":"create a homomorphism object","fibers":[{"name":"FreeModule","pred":"isinstance(module, FreeModule)","path":{"lhs":"homomorphism(x)","rhs":"create a homomorphism object","over":{"base":"FreeModule","pred":"isinstance(module, FreeModule)"},"name":"homomorphism_FreeModule_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.homomorphisms.homomorphism_FreeModule_correct","statement":"homomorphism satisfies spec on FreeModule inputs"},"trust":"LIBRARY"},{"name":"QuotientModule","pred":"isinstance(module, QuotientModule)","path":{"lhs":"homomorphism(x)","rhs":"create a homomorphism object","over":{"base":"QuotientModule","pred":"isinstance(module, QuotientModule)"},"name":"homomorphism_QuotientModule_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.homomorphisms.homomorphism_QuotientModule_correct","statement":"homomorphism satisfies spec on QuotientModule inputs"},"trust":"LIBRARY"},{"name":"SubQuotientModule","pred":"isinstance(module, SubQuotientModule)","path":{"lhs":"homomorphism(x)","rhs":"create a homomorphism object","over":{"base":"SubQuotientModule","pred":"isinstance(module, SubQuotientModule)"},"name":"homomorphism_SubQuotientModule_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.homomorphisms.homomorphism_SubQuotientModule_correct","statement":"homomorphism satisfies spec on SubQuotientModule inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":3,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"2cc6eb5fc67d4c6b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.homomorphisms.homomorphism","kind":"function","src_hash":"93e85fb8116f19b5","in":{"base":"Any","pred":"isinstance(module, FreeModule) and isinstance(module, QuotientModule) and isinstance(module, SubQuotientModule)"},"out":{"base":"Any"},"spec":{"lhs":"homomorphism(domain, codomain, matrix)","rhs":"<unspecified:homomorphism>","over":{"base":"Any","pred":"isinstance(module, FreeModule) and isinstance(module, QuotientModule) and isinstance(module, SubQuotientModule)"},"name":"homomorphism_correct"},"guarantee":"create a homomorphism object","fibers":[{"name":"FreeModule","pred":"isinstance(module, FreeModule)","path":{"lhs":"homomorphism(x)","rhs":"create a homomorphism object","over":{"base":"FreeModule","pred":"isinstance(module, FreeModule)"},"name":"homomorphism_FreeModule_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.homomorphisms.homomorphism_FreeModule_correct","statement":"homomorphism satisfies spec on FreeModule inputs"},"trust":"LIBRARY"},{"name":"QuotientModule","pred":"isinstance(module, QuotientModule)","path":{"lhs":"homomorphism(x)","rhs":"create a homomorphism object","over":{"base":"QuotientModule","pred":"isinstance(module, QuotientModule)"},"name":"homomorphism_QuotientModule_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.homomorphisms.homomorphism_QuotientModule_correct","statement":"homomorphism satisfies spec on QuotientModule inputs"},"trust":"LIBRARY"},{"name":"SubQuotientModule","pred":"isinstance(module, SubQuotientModule)","path":{"lhs":"homomorphism(x)","rhs":"create a homomorphism object","over":{"base":"SubQuotientModule","pred":"isinstance(module, SubQuotientModule)"},"name":"homomorphism_SubQuotientModule_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.homomorphisms.homomorphism_SubQuotientModule_correct","statement":"homomorphism satisfies spec on SubQuotientModule inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":3,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"2cc6eb5fc67d4c6b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":8,"n_verified":4,"n_assumed":3,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":3.5,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(module, SubQuotientModule)', 'isinstance(module, FreeModule)', 'isinstance(module, QuotientModule)'}, fibers={'FreeModule', 'SubQuotientModule', 'QuotientModule'})"]}}
 def homomorphism(domain, codomain, matrix):
     r"""
     Create a homomorphism object.

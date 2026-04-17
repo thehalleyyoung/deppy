@@ -31,7 +31,10 @@ T = TypeVar('T')
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(threaded_factory(fun), a factory for ``threaded`` decorators) over {Any | isinstance(expr, MatrixBase)} ║
+# ║ Path(threaded_factory(func, use_add), <unspecified:threaded_factory>) over {Any | isinstance(expr, MatrixBase)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ threaded_factory : {Any | isinstance(expr, MatrixBase...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -43,9 +46,12 @@ T = TypeVar('T')
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 2.6ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 4cddaed5...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.decorator.threaded_factory","kind":"function","src_hash":"7f60ba8fc5972751","in":{"base":"Any","pred":"isinstance(expr, MatrixBase)"},"out":{"base":"Any"},"spec":{"lhs":"threaded_factory(fun)","rhs":"a factory for ``threaded`` decorators","over":{"base":"Any","pred":"isinstance(expr, MatrixBase)"},"name":"threaded_factory_correct"},"guarantee":"a factory for ``threaded`` decorators","fibers":[{"name":"MatrixBase","pred":"isinstance(expr, MatrixBase)","path":{"lhs":"threaded_factory(x)","rhs":"a factory for ``threaded`` decorators","over":{"base":"MatrixBase","pred":"isinstance(expr, MatrixBase)"},"name":"threaded_factory_MatrixBase_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.decorator.threaded_factory_MatrixBase_correct","statement":"threaded_factory satisfies spec on MatrixBase inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"4cddaed5d24ae3e0"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.decorator.threaded_factory","kind":"function","src_hash":"7f60ba8fc5972751","in":{"base":"Any","pred":"isinstance(expr, MatrixBase)"},"out":{"base":"Any"},"spec":{"lhs":"threaded_factory(func, use_add)","rhs":"<unspecified:threaded_factory>","over":{"base":"Any","pred":"isinstance(expr, MatrixBase)"},"name":"threaded_factory_correct"},"guarantee":"a factory for ``threaded`` decorators","fibers":[{"name":"MatrixBase","pred":"isinstance(expr, MatrixBase)","path":{"lhs":"threaded_factory(x)","rhs":"a factory for ``threaded`` decorators","over":{"base":"MatrixBase","pred":"isinstance(expr, MatrixBase)"},"name":"threaded_factory_MatrixBase_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.decorator.threaded_factory_MatrixBase_correct","statement":"threaded_factory satisfies spec on MatrixBase inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"4cddaed5d24ae3e0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__"],"catches":["TypeError"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.6,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(expr, MatrixBase)'}, fibers={'MatrixBase'})"]}}
 def threaded_factory(func, use_add):
     """A factory for ``threaded`` decorators. """
     from sympy.core import sympify
@@ -76,16 +82,22 @@ def threaded_factory(func, use_add):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(threaded(fun), apply ``func`` to sub--elements of an object, including :class:`~.add`) over Any ║
+# ║ Path(threaded(func), threaded_factory(func, True)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  threaded_factory(func, True)                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ threaded : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 37546f7f45115851           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.decorator.threaded","kind":"function","src_hash":"77ab6e028587f310","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"threaded(fun)","rhs":"apply ``func`` to sub--elements of an object, including :class:`~.add`","over":{"base":"Any"},"name":"threaded_correct"},"guarantee":"apply ``func`` to sub--elements of an object, including :class:`~.add`","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"37546f7f45115851"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.decorator.threaded","kind":"function","src_hash":"77ab6e028587f310","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"threaded(func)","rhs":"threaded_factory(func, True)","over":{"base":"Any"},"name":"threaded_correct"},"guarantee":"returns threaded_factory(func, True)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"37546f7f45115851","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"threaded_factory(func, True)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def threaded(func):
     """Apply ``func`` to sub--elements of an object, including :class:`~.Add`.
 
@@ -107,16 +119,22 @@ def threaded(func):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(xthreaded(fun), apply ``func`` to sub--elements of an object, excluding :class:`~.add`) over Any ║
+# ║ Path(xthreaded(func), threaded_factory(func, False)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  threaded_factory(func, False)                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ xthreaded : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 27518f56a45eea17           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.decorator.xthreaded","kind":"function","src_hash":"30f87f6c23f1c58c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"xthreaded(fun)","rhs":"apply ``func`` to sub--elements of an object, excluding :class:`~.add`","over":{"base":"Any"},"name":"xthreaded_correct"},"guarantee":"apply ``func`` to sub--elements of an object, excluding :class:`~.add`","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"27518f56a45eea17"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.decorator.xthreaded","kind":"function","src_hash":"30f87f6c23f1c58c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"xthreaded(func)","rhs":"threaded_factory(func, False)","over":{"base":"Any"},"name":"xthreaded_correct"},"guarantee":"returns threaded_factory(func, False)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"27518f56a45eea17","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"threaded_factory(func, False)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def xthreaded(func):
     """Apply ``func`` to sub--elements of an object, excluding :class:`~.Add`.
 
@@ -138,16 +156,22 @@ def xthreaded(func):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(conserve_mpmath_dps(fun), after the function finishes, resets the value of ``mpmath.mp.dps`` to the value it had before the function was run) over Any ║
+# ║ Path(conserve_mpmath_dps(func), <unspecified:conserve_mpmath_dps>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ conserve_mpmath_dps : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   mpmath.__module__                                        ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟡 LIBRARY | library_axiom | Compiled: ✓ | e379110ff3b8...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.decorator.conserve_mpmath_dps","kind":"function","src_hash":"2d2ab6c58f483ff8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"conserve_mpmath_dps(fun)","rhs":"after the function finishes, resets the value of ``mpmath.mp.dps`` to the value it had before the function was run","over":{"base":"Any"},"name":"conserve_mpmath_dps_correct"},"guarantee":"after the function finishes, resets the value of ``mpmath.mp.dps`` to the value it had before the function was run","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.decorator.conserve_mpmath_dps_correct","statement":"Path(conserve_mpmath_dps(x), after the function finishes, resets the value of ``mpmath.mp.dps`` to the value it had before the function was run)"},"assumes":[],"trust":["mpmath.__module__"],"compiled":true,"vhash":"e379110ff3b8b120"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.decorator.conserve_mpmath_dps","kind":"function","src_hash":"2d2ab6c58f483ff8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"conserve_mpmath_dps(func)","rhs":"<unspecified:conserve_mpmath_dps>","over":{"base":"Any"},"name":"conserve_mpmath_dps_correct"},"guarantee":"after the function finishes, resets the value of ``mpmath.mp.dps`` to the value it had before the function was run","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.decorator.conserve_mpmath_dps_correct","statement":"Path(conserve_mpmath_dps(x), after the function finishes, resets the value of ``mpmath.mp.dps`` to the value it had before the function was run)"},"assumes":[],"trust":["mpmath.__module__"],"compiled":true,"vhash":"e379110ff3b8b120","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def conserve_mpmath_dps(func):
     """After the function finishes, resets the value of ``mpmath.mp.dps`` to
     the value it had before the function was run."""
@@ -167,14 +191,19 @@ def conserve_mpmath_dps(func):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a no_attrs_in_subclass instance) preserved by no_attrs_in_subclass(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ no_attrs_in_subclass : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 4.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 064f3f300f219983  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.decorator.no_attrs_in_subclass","kind":"class","src_hash":"c474afe19f551ee3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"no_attrs_in_subclass(*args)","rhs":"correctly constructs a no_attrs_in_subclass instance","over":{"base":"Any"},"name":"no_attrs_in_subclass_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a no_attrs_in_subclass instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'cls') and hasattr(self, 'f')","kind":"class","induction":"structural on cls, f"}],"methods_preserving":["__init__","__get__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"064f3f300f219983"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.decorator.no_attrs_in_subclass","kind":"class","src_hash":"c474afe19f551ee3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"no_attrs_in_subclass(*args)","rhs":"correctly constructs a no_attrs_in_subclass instance","over":{"base":"Any"},"name":"no_attrs_in_subclass_class_invariant","kind":"invariant"},"guarantee":"preserves 2 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'cls') and hasattr(self, 'f')","kind":"class","induction":"structural on cls, f"}],"methods_preserving":["__init__","__get__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"064f3f300f219983","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, 'cls')","hasattr(self, 'f')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":4.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function no_attrs_in_subclass not found in source"]}}
 class no_attrs_in_subclass:
     """Don't 'inherit' certain attributes from a base class
 
@@ -195,31 +224,44 @@ class no_attrs_in_subclass:
 
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(cls), initializes the instance correctly) over Any ║
+# ║ Path(__init__(cls, f), self.cls == cls and self.f == f) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  self.cls == cls                                ║
+# ║   ensures:  self.f == f                                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : Any → {Any | result satisfies: self.cls ==...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 73ebb04941292c3c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.decorator.no_attrs_in_subclass.__init__","kind":"method","src_hash":"ab24971b4a07e01e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(cls)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"73ebb04941292c3c"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.decorator.no_attrs_in_subclass.__init__","kind":"method","src_hash":"ab24971b4a07e01e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: self.cls == cls and self.f == f"},"spec":{"lhs":"__init__(cls, f)","rhs":"self.cls == cls and self.f == f","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"self.cls == cls; self.f == f","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"73ebb04941292c3c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["self.cls == cls","self.f == f"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, cls, f):
         self.cls = cls
         self.f = f
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__get__(ins), internal helper behaves correctly) over Any ║
+# ║ Path(__get__(instance, owner), <unspecified:__get__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __get__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0ff51e5d3e8dc84f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.decorator.no_attrs_in_subclass.__get__","kind":"method","src_hash":"fe988b159a595648","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__get__(ins)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__get___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0ff51e5d3e8dc84f"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.decorator.no_attrs_in_subclass.__get__","kind":"method","src_hash":"fe988b159a595648","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__get__(instance, owner)","rhs":"<unspecified:__get__>","over":{"base":"Any"},"name":"__get___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0ff51e5d3e8dc84f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.cls","self.f"],"raises":["AttributeError"]},"state_contract":{"exceptional_post":{"AttributeError":["isinstance(raised, AttributeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __get__(self, instance, owner=None):
         if owner == self.cls:
             if hasattr(self.f, '__get__'):
@@ -229,16 +271,22 @@ class no_attrs_in_subclass:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(doctest_depends_on(exe), adds metadata about the dependencies which need to be met for doctesting the docstrings of the decorated objects) over Any ║
+# ║ Path(doctest_depends_on(exe, modules, disable_viewers), <unspecified:doctest_depends_on>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ doctest_depends_on : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 78a3d204c552498e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.decorator.doctest_depends_on","kind":"function","src_hash":"1335cee9cf06ac2e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"doctest_depends_on(exe)","rhs":"adds metadata about the dependencies which need to be met for doctesting the docstrings of the decorated objects","over":{"base":"Any"},"name":"doctest_depends_on_correct"},"guarantee":"adds metadata about the dependencies which need to be met for doctesting the docstrings of the decorated objects","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.decorator.doctest_depends_on_correct","statement":"Path(doctest_depends_on(x), adds metadata about the dependencies which need to be met for doctesting the docstrings of the decorated objects)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"78a3d204c552498e"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.decorator.doctest_depends_on","kind":"function","src_hash":"1335cee9cf06ac2e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"doctest_depends_on(exe, modules, disable_viewers)","rhs":"<unspecified:doctest_depends_on>","over":{"base":"Any"},"name":"doctest_depends_on_correct"},"guarantee":"adds metadata about the dependencies which need to be met for doctesting the docstrings of the decorated objects","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.decorator.doctest_depends_on_correct","statement":"Path(doctest_depends_on(x), adds metadata about the dependencies which need to be met for doctesting the docstrings of the decorated objects)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"78a3d204c552498e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def doctest_depends_on(exe=None, modules=None, disable_viewers=None,
                        python_version=None, ground_types=None):
     """
@@ -292,7 +340,14 @@ def doctest_depends_on(exe=None, modules=None, disable_viewers=None,
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(public(obj), append ``obj``'s name to global ``__all__`` variable (call site)) over {T | isinstance(obj, types.FunctionType) and isinstance(obj, (type(type), type))} ║
+# ║ Path(public(obj), obj) over {T | isinstance(obj, types.FunctionType) and isinstance(obj, (type(type), type)) and isinstance(obj, T) and hasattr(obj, '__globals__')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(obj, T)                             ║
+# ║   requires: hasattr(obj, '__globals__')                    ║
+# ║   ensures:  isinstance(result, T)                          ║
+# ║   ensures:  result == obj                                  ║
+# ║   returns:  obj                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ public : {T | isinstance(obj, types.FunctionType) and...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -305,9 +360,12 @@ def doctest_depends_on(exe=None, modules=None, disable_viewers=None,
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?2 ✗1 VCs | 5.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 0001fc85...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.decorator.public","kind":"function","src_hash":"82ef65f81dc48a24","in":{"base":"T","pred":"isinstance(obj, types.FunctionType) and isinstance(obj, (type(type), type))"},"out":{"base":"T"},"spec":{"lhs":"public(obj)","rhs":"append ``obj``'s name to global ``__all__`` variable (call site)","over":{"base":"T","pred":"isinstance(obj, types.FunctionType) and isinstance(obj, (type(type), type))"},"name":"public_correct"},"guarantee":"append ``obj``'s name to global ``__all__`` variable (call site)","fibers":[{"name":"types_FunctionType","pred":"isinstance(obj, types.FunctionType)","path":{"lhs":"public(x)","rhs":"append ``obj``'s name to global ``__all__`` variable (call site)","over":{"base":"types.FunctionType","pred":"isinstance(obj, types.FunctionType)"},"name":"public_types.FunctionType_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.decorator.public_types.FunctionType_correct","statement":"public satisfies spec on types.FunctionType inputs"},"trust":"LIBRARY"},{"name":"(type(type","pred":"isinstance(obj, (type(type), type))","path":{"lhs":"public(x)","rhs":"append ``obj``'s name to global ``__all__`` variable (call site)","over":{"base":"(type(type","pred":"isinstance(obj, (type(type), type))"},"name":"public_(type(type_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.decorator.public_(type(type_correct","statement":"public satisfies spec on (type(type inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"0001fc85c2e2cc54"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.decorator.public","kind":"function","src_hash":"82ef65f81dc48a24","in":{"base":"T","pred":"isinstance(obj, types.FunctionType) and isinstance(obj, (type(type), type)) and isinstance(obj, T) and hasattr(obj, '__globals__')"},"out":{"base":"T","pred":"result satisfies: result == (obj)"},"spec":{"lhs":"public(obj)","rhs":"obj","over":{"base":"T","pred":"isinstance(obj, types.FunctionType) and isinstance(obj, (type(type), type)) and isinstance(obj, T) and hasattr(obj, '__globals__')"},"name":"public_correct"},"guarantee":"returns obj; isinstance(result, T); result == obj","fibers":[{"name":"types_FunctionType","pred":"isinstance(obj, types.FunctionType)","path":{"lhs":"public(x)","rhs":"returns obj; isinstance(result, T); result == obj","over":{"base":"types.FunctionType","pred":"isinstance(obj, types.FunctionType)"},"name":"public_types.FunctionType_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.decorator.public_types.FunctionType_correct","statement":"public satisfies spec on types.FunctionType inputs"},"trust":"LIBRARY"},{"name":"(type(type","pred":"isinstance(obj, (type(type), type))","path":{"lhs":"public(x)","rhs":"returns obj; isinstance(result, T); result == obj","over":{"base":"(type(type","pred":"isinstance(obj, (type(type), type))"},"name":"public_(type(type_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.decorator.public_(type(type_correct","statement":"public satisfies spec on (type(type inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"0001fc85c2e2cc54","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(obj, T)","hasattr(obj, '__globals__')"],"ensures":["isinstance(result, T)","result == obj"],"returns_expr":"obj","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__dict__","obj.__globals__","obj.__module__","obj.__name__"],"raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":2,"n_assumed":2,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":5.1,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(obj, types.FunctionType)', 'isinstance(obj, (type(type), type))'}, fibers={'types_FunctionType', '(type(type'})"]}}
 def public(obj: T) -> T:
     """
     Append ``obj``'s name to global ``__all__`` variable (call site).
@@ -358,16 +416,22 @@ def public(obj: T) -> T:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(memoize_property(pro), property decorator that caches the value of potentially expensive ``propfunc`` after the first evaluation) over Any ║
+# ║ Path(memoize_property(propfunc), <unspecified:memoize_property>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ memoize_property : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3262a12842658b61  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.decorator.memoize_property","kind":"function","src_hash":"4995d80d57cf96af","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"memoize_property(pro)","rhs":"property decorator that caches the value of potentially expensive ``propfunc`` after the first evaluation","over":{"base":"Any"},"name":"memoize_property_correct"},"guarantee":"property decorator that caches the value of potentially expensive ``propfunc`` after the first evaluation","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.decorator.memoize_property_correct","statement":"Path(memoize_property(x), property decorator that caches the value of potentially expensive ``propfunc`` after the first evaluation)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3262a12842658b61"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.decorator.memoize_property","kind":"function","src_hash":"4995d80d57cf96af","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"memoize_property(propfunc)","rhs":"<unspecified:memoize_property>","over":{"base":"Any"},"name":"memoize_property_correct"},"guarantee":"property decorator that caches the value of potentially expensive ``propfunc`` after the first evaluation","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.decorator.memoize_property_correct","statement":"Path(memoize_property(x), property decorator that caches the value of potentially expensive ``propfunc`` after the first evaluation)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3262a12842658b61","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["propfunc.__name__"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def memoize_property(propfunc):
     """Property decorator that caches the value of potentially expensive
     ``propfunc`` after the first evaluation. The cached value is stored in
@@ -387,16 +451,22 @@ def memoize_property(propfunc):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(deprecated(mes), mark a function as deprecated) over Any ║
+# ║ Path(deprecated(message, deprecated_since_version, active_deprecations_target), <unspecified:deprecated>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ deprecated : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1cbe22b48c7f79db  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.decorator.deprecated","kind":"function","src_hash":"31ea1b2b1e1b8efc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"deprecated(mes)","rhs":"mark a function as deprecated","over":{"base":"Any"},"name":"deprecated_correct"},"guarantee":"mark a function as deprecated","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.decorator.deprecated_correct","statement":"Path(deprecated(x), mark a function as deprecated)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1cbe22b48c7f79db"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.decorator.deprecated","kind":"function","src_hash":"31ea1b2b1e1b8efc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"deprecated(message, deprecated_since_version, active_deprecations_target)","rhs":"<unspecified:deprecated>","over":{"base":"Any"},"name":"deprecated_correct"},"guarantee":"mark a function as deprecated","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.decorator.deprecated_correct","statement":"Path(deprecated(x), mark a function as deprecated)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1cbe22b48c7f79db","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__dict__"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['message'], spec=['message', 'deprecated_since_version', 'active_deprecations_target', 'stacklevel']"]}}
 def deprecated(message, *, deprecated_since_version,
                active_deprecations_target, stacklevel=3):
     '''

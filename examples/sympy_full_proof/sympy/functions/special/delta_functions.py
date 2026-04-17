@@ -34,14 +34,20 @@ from sympy.utilities.misc import filldedent
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(DiracDelta(*args), correctly constructs a DiracDelta instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ DiracDelta : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DefinedFunction)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ DiracDelta : Any → {Any | result satisfies: isinstanc...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.9ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6e5a9795d77800bf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.delta_functions.DiracDelta","kind":"class","src_hash":"ae4bdabdc815e736","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"DiracDelta(*args)","rhs":"correctly constructs a DiracDelta instance","over":{"base":"Any"},"name":"DiracDelta_class_invariant"},"guarantee":"correctly constructs a DiracDelta instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6e5a9795d77800bf"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.delta_functions.DiracDelta","kind":"class","src_hash":"ae4bdabdc815e736","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DefinedFunction)"},"spec":{"lhs":"DiracDelta(*args)","rhs":"correctly constructs a DiracDelta instance","over":{"base":"Any"},"name":"DiracDelta_class_invariant"},"guarantee":"isinstance(self, DefinedFunction)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6e5a9795d77800bf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DefinedFunction)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.9,"verdict_class":"assumed","binding":false,"binding_errors":["Function DiracDelta not found in source"]}}
 class DiracDelta(DefinedFunction):
     r"""
     The DiracDelta function and its derivatives.
@@ -129,16 +135,23 @@ class DiracDelta(DefinedFunction):
     is_real = True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(fdiff(arg), returns the first derivative of a diracdelta function) over Any ║
+# ║ Path(fdiff(argindex), <unspecified:fdiff>) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: argindex == 1 => self.func(self.args...   ║
+# ║   fiber[case_1]: not (argindex == 1)                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ fdiff : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ce5c6969c210fb84  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d5c63ad4fb2e334c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.delta_functions.DiracDelta.fdiff","kind":"method","src_hash":"87b7b05c98f3f9ec","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(arg)","rhs":"returns the first derivative of a diracdelta function","over":{"base":"Any"},"name":"fdiff_correct"},"guarantee":"returns the first derivative of a diracdelta function","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.delta_functions.DiracDelta.fdiff_correct","statement":"Path(fdiff(x), returns the first derivative of a diracdelta function)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ce5c6969c210fb84"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.delta_functions.DiracDelta.fdiff","kind":"method","src_hash":"87b7b05c98f3f9ec","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(argindex)","rhs":"<unspecified:fdiff>","over":{"base":"Any"},"name":"fdiff_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.delta_functions.DiracDelta.fdiff_correct","statement":"Path(fdiff(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d5c63ad4fb2e334c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"argindex == 1","ensures":["result == self.func(self.args[0], k + 1)"],"decidability":"z3","returns_expr":"self.func(self.args[0], k + 1)"},{"name":"case_1","guard":"not (argindex == 1)","ensures":[],"decidability":"z3"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.func"],"raises":["ArgumentIndexError"]},"state_contract":{"exceptional_post":{"ArgumentIndexError":["isinstance(raised, ArgumentIndexError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def fdiff(self, argindex=1):
         """
         Returns the first derivative of a DiracDelta Function.
@@ -189,16 +202,25 @@ class DiracDelta(DefinedFunction):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), returns a simplified form or a value of diracdelta depending on the argument passed by the diracdelta object) over Any ║
+# ║ Path(eval(cls, arg, k), <unspecified:eval>) over {Any | not (not k.is_Integer or k.is_negative) and not (fuzzy_not(im(arg).is_zero)) and hasattr(arg, 'is_nonzero') and hasattr(k, 'is_negative') and hasattr(arg, 'args_cnc') and hasattr(k, 'is_odd') and hasattr(k, 'is_zero') and hasattr(k, 'is_Integer') and hasattr(k, 'is_even')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Any                                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (not k.is_Integer or k.is_negative)        ║
+# ║   requires: not (fuzzy_not(im(arg).is_zero))               ║
+# ║   requires: hasattr(arg, 'is_nonzero')                     ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : {Any | not (not k.is_Integer or k.is_negative)...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2f0c7dba40fc85c3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.delta_functions.DiracDelta.eval","kind":"classmethod","src_hash":"d95ae980299df2fa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"returns a simplified form or a value of diracdelta depending on the argument passed by the diracdelta object","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"returns a simplified form or a value of diracdelta depending on the argument passed by the diracdelta object","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.delta_functions.DiracDelta.eval_correct","statement":"Path(eval(x), returns a simplified form or a value of diracdelta depending on the argument passed by the diracdelta object)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2f0c7dba40fc85c3"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.delta_functions.DiracDelta.eval","kind":"classmethod","src_hash":"d95ae980299df2fa","in":{"base":"Any","pred":"not (not k.is_Integer or k.is_negative) and not (fuzzy_not(im(arg).is_zero)) and hasattr(arg, 'is_nonzero') and hasattr(k, 'is_negative') and hasattr(arg, 'args_cnc') and hasattr(k, 'is_odd') and hasattr(k, 'is_zero') and hasattr(k, 'is_Integer') and hasattr(k, 'is_even')"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls, arg, k)","rhs":"<unspecified:eval>","over":{"base":"Any","pred":"not (not k.is_Integer or k.is_negative) and not (fuzzy_not(im(arg).is_zero)) and hasattr(arg, 'is_nonzero') and hasattr(k, 'is_negative') and hasattr(arg, 'args_cnc') and hasattr(k, 'is_odd') and hasattr(k, 'is_zero') and hasattr(k, 'is_Integer') and hasattr(k, 'is_even')"},"name":"eval_correct"},"guarantee":"returns a simplified form or a value of diracdelta depending on the argument passed by the diracdelta object","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.delta_functions.DiracDelta.eval_correct","statement":"Path(eval(x), returns a simplified form or a value of diracdelta depending on the argument passed by the diracdelta object)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2f0c7dba40fc85c3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (not k.is_Integer or k.is_negative)","not (fuzzy_not(im(arg).is_zero))","hasattr(arg, 'is_nonzero')","hasattr(k, 'is_negative')","hasattr(arg, 'args_cnc')","hasattr(k, 'is_odd')","hasattr(k, 'is_zero')","hasattr(k, 'is_Integer')","hasattr(k, 'is_even')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["arg.args_cnc","arg.is_nonzero","k.is_Integer","k.is_even","k.is_negative","k.is_odd","k.is_zero"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, arg, k=S.Zero):
         """
         Returns a simplified form or a value of DiracDelta depending on the
@@ -279,16 +301,23 @@ class DiracDelta(DefinedFunction):
             return cls(arg, evaluate=False)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_expand_diracdelta(**h), compute a simplified representation of the function using property number 4) over Any ║
+# ║ Path(_eval_expand_diracdelta(**hints), len(free) == old_len_free - 1) over {Any | len(free) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_expand_diracdelta : Any → Any                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: len(free) > 0                                  ║
+# ║   ensures:  len(free) == old_len_free - 1                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_expand_diracdelta : {Any | len(free) > 0} → {An...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 70bcc39113a5e615  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 23a634d6d258c1de  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.delta_functions.DiracDelta._eval_expand_diracdelta","kind":"method","src_hash":"a3396a58c227ef35","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_expand_diracdelta(**h)","rhs":"compute a simplified representation of the function using property number 4","over":{"base":"Any"},"name":"_eval_expand_diracdelta_correct"},"guarantee":"compute a simplified representation of the function using property number 4","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.delta_functions.DiracDelta._eval_expand_diracdelta_correct","statement":"Path(_eval_expand_diracdelta(x), compute a simplified representation of the function using property number 4)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"70bcc39113a5e615"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.delta_functions.DiracDelta._eval_expand_diracdelta","kind":"method","src_hash":"a3396a58c227ef35","in":{"base":"Any","pred":"len(free) > 0"},"out":{"base":"Any","pred":"result satisfies: len(free) == old_len_free - 1"},"spec":{"lhs":"_eval_expand_diracdelta(**hints)","rhs":"len(free) == old_len_free - 1","over":{"base":"Any","pred":"len(free) > 0"},"name":"_eval_expand_diracdelta_correct"},"guarantee":"len(free) == old_len_free - 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.delta_functions.DiracDelta._eval_expand_diracdelta_correct","statement":"Path(_eval_expand_diracdelta(x), len(free) == old_len_free - 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"23a634d6d258c1de","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["len(free) > 0"],"ensures":["len(free) == old_len_free - 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.free_symbols","self.func"],"calls_mutating":["free.pop"],"raises":["TypeError"],"catches":["PolynomialError"]},"state_contract":{"modifies":["free.*"],"old_bindings":{"old_len_free":"len(free)"},"pre_requires":["len(free) > 0"],"post_ensures":["len(free) == old_len_free - 1"],"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_expand_diracdelta(self, **hints):
         """
         Compute a simplified representation of the function using
@@ -357,16 +386,22 @@ class DiracDelta(DefinedFunction):
         return self
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_simple(x), tells whether the argument(args[0]) of diracdelta is a linear expression in *x*) over Any ║
+# ║ Path(is_simple(x), <unspecified:is_simple>) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_simple : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b6e15c5e0448b340  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.delta_functions.DiracDelta.is_simple","kind":"method","src_hash":"66365dd4f4f8ea5f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_simple(x)","rhs":"tells whether the argument(args[0]) of diracdelta is a linear expression in *x*","over":{"base":"Any"},"name":"is_simple_correct"},"guarantee":"tells whether the argument(args[0]) of diracdelta is a linear expression in *x*","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.delta_functions.DiracDelta.is_simple_correct","statement":"Path(is_simple(x), tells whether the argument(args[0]) of diracdelta is a linear expression in *x*)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b6e15c5e0448b340"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.delta_functions.DiracDelta.is_simple","kind":"method","src_hash":"66365dd4f4f8ea5f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_simple(x)","rhs":"<unspecified:is_simple>","over":{"base":"Any"},"name":"is_simple_correct"},"guarantee":"tells whether the argument(args[0]) of diracdelta is a linear expression in *x*","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.delta_functions.DiracDelta.is_simple_correct","statement":"Path(is_simple(x), tells whether the argument(args[0]) of diracdelta is a linear expression in *x*)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b6e15c5e0448b340","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_simple(self, x):
         """
         Tells whether the argument(args[0]) of DiracDelta is a linear
@@ -406,16 +441,22 @@ class DiracDelta(DefinedFunction):
         return False
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_Piecewise(*ar), id) over Any         ║
+# ║ Path(_eval_rewrite_as_Piecewise(*args, **kwargs), id) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Piecewise((DiracDelta(0), Eq(args[0], 0))...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_Piecewise : Any → Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | ffe2aa5dc6571bd1   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.delta_functions.DiracDelta._eval_rewrite_as_Piecewise","kind":"method","src_hash":"fb498e61644d22e6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_Piecewise(*ar)","rhs":"represents diracdelta in a piecewise form","over":{"base":"Any"},"name":"_eval_rewrite_as_Piecewise_correct","kind":"composition"},"guarantee":"represents diracdelta in a piecewise form","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Piecewise","by":"library_axiom"},{"fn":"DiracDelta","by":"library_axiom"},{"fn":"Eq","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ffe2aa5dc6571bd1"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.delta_functions.DiracDelta._eval_rewrite_as_Piecewise","kind":"method","src_hash":"fb498e61644d22e6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_Piecewise(*args, **kwargs)","rhs":"Piecewise((DiracDelta(0), Eq(args[0], 0)), (0, True))","over":{"base":"Any"},"name":"_eval_rewrite_as_Piecewise_correct","kind":"composition"},"guarantee":"returns Piecewise((DiracDelta(0), Eq(args[0], 0)), (0, True))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Piecewise","by":"library_axiom"},{"fn":"DiracDelta","by":"library_axiom"},{"fn":"Eq","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ffe2aa5dc6571bd1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Piecewise((DiracDelta(0), Eq(args[0], 0)), (0, True))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_Piecewise(self, *args, **kwargs):
         """
         Represents DiracDelta in a piecewise form.
@@ -443,16 +484,23 @@ class DiracDelta(DefinedFunction):
             return Piecewise((DiracDelta(0), Eq(args[0], 0)), (0, True))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_SingularityFunction(*ar), returns the diracdelta expression written in the form of singularity functions) over Any ║
+# ║ Path(_eval_rewrite_as_SingularityFunction(*args, **kwargs), len(free) == old_len_free - 1) over {Any | len(free) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_rewrite_as_SingularityFunction : Any → Any           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: len(free) > 0                                  ║
+# ║   ensures:  len(free) == old_len_free - 1                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_rewrite_as_SingularityFunction : {Any | len(fre...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 71b0f11950e5cb10  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1e1ce73f0dc60f5d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.delta_functions.DiracDelta._eval_rewrite_as_SingularityFunction","kind":"method","src_hash":"dcfda45181907290","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_SingularityFunction(*ar)","rhs":"returns the diracdelta expression written in the form of singularity functions","over":{"base":"Any"},"name":"_eval_rewrite_as_SingularityFunction_correct"},"guarantee":"returns the diracdelta expression written in the form of singularity functions","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.delta_functions.DiracDelta._eval_rewrite_as_SingularityFunction_correct","statement":"Path(_eval_rewrite_as_SingularityFunction(x), returns the diracdelta expression written in the form of singularity functions)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"71b0f11950e5cb10"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.delta_functions.DiracDelta._eval_rewrite_as_SingularityFunction","kind":"method","src_hash":"dcfda45181907290","in":{"base":"Any","pred":"len(free) > 0"},"out":{"base":"Any","pred":"result satisfies: len(free) == old_len_free - 1"},"spec":{"lhs":"_eval_rewrite_as_SingularityFunction(*args, **kwargs)","rhs":"len(free) == old_len_free - 1","over":{"base":"Any","pred":"len(free) > 0"},"name":"_eval_rewrite_as_SingularityFunction_correct"},"guarantee":"len(free) == old_len_free - 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.delta_functions.DiracDelta._eval_rewrite_as_SingularityFunction_correct","statement":"Path(_eval_rewrite_as_SingularityFunction(x), len(free) == old_len_free - 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1e1ce73f0dc60f5d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["len(free) > 0"],"ensures":["len(free) == old_len_free - 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.free_symbols"],"calls_mutating":["free.pop"],"raises":["TypeError"]},"state_contract":{"modifies":["free.*"],"old_bindings":{"old_len_free":"len(free)"},"pre_requires":["len(free) > 0"],"post_ensures":["len(free) == old_len_free - 1"],"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_SingularityFunction(self, *args, **kwargs):
         """
         Returns the DiracDelta expression written in the form of Singularity
@@ -487,14 +535,20 @@ class DiracDelta(DefinedFunction):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Heaviside(*args), correctly constructs a Heaviside instance) over {Any | isinstance(H0, Heaviside)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Heaviside : {Any | isinstance(H0, Heaviside)} → Any        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DefinedFunction)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Heaviside : {Any | isinstance(H0, Heaviside)} → {Any ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 02a4282026aa35f3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.delta_functions.Heaviside","kind":"class","src_hash":"fb4ac32b39ff0a25","in":{"base":"Any","pred":"isinstance(H0, Heaviside)"},"out":{"base":"Any"},"spec":{"lhs":"Heaviside(*args)","rhs":"correctly constructs a Heaviside instance","over":{"base":"Any","pred":"isinstance(H0, Heaviside)"},"name":"Heaviside_class_invariant"},"guarantee":"correctly constructs a Heaviside instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"02a4282026aa35f3"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.delta_functions.Heaviside","kind":"class","src_hash":"fb4ac32b39ff0a25","in":{"base":"Any","pred":"isinstance(H0, Heaviside)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DefinedFunction)"},"spec":{"lhs":"Heaviside(*args)","rhs":"correctly constructs a Heaviside instance","over":{"base":"Any","pred":"isinstance(H0, Heaviside)"},"name":"Heaviside_class_invariant"},"guarantee":"isinstance(self, DefinedFunction)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"02a4282026aa35f3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DefinedFunction)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":false,"binding_errors":["Function Heaviside not found in source"]}}
 class Heaviside(DefinedFunction):
     r"""
     Heaviside step function.
@@ -554,16 +608,23 @@ class Heaviside(DefinedFunction):
     is_real = True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(fdiff(arg), returns the first derivative of a heaviside function) over Any ║
+# ║ Path(fdiff(argindex), <unspecified:fdiff>) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: argindex == 1 => DiracDelta(self.arg...   ║
+# ║   fiber[case_1]: not (argindex == 1)                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ fdiff : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c7a56bfc60030f09  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aa88e1c5f89ab534  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.delta_functions.Heaviside.fdiff","kind":"method","src_hash":"b17e2c1f2d98b161","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(arg)","rhs":"returns the first derivative of a heaviside function","over":{"base":"Any"},"name":"fdiff_correct"},"guarantee":"returns the first derivative of a heaviside function","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.delta_functions.Heaviside.fdiff_correct","statement":"Path(fdiff(x), returns the first derivative of a heaviside function)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c7a56bfc60030f09"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.delta_functions.Heaviside.fdiff","kind":"method","src_hash":"b17e2c1f2d98b161","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(argindex)","rhs":"<unspecified:fdiff>","over":{"base":"Any"},"name":"fdiff_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.delta_functions.Heaviside.fdiff_correct","statement":"Path(fdiff(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aa88e1c5f89ab534","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"argindex == 1","ensures":["result == DiracDelta(self.args[0])"],"decidability":"z3","returns_expr":"DiracDelta(self.args[0])"},{"name":"case_1","guard":"not (argindex == 1)","ensures":[],"decidability":"z3"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"],"raises":["ArgumentIndexError"]},"state_contract":{"exceptional_post":{"ArgumentIndexError":["isinstance(raised, ArgumentIndexError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def fdiff(self, argindex=1):
         """
         Returns the first derivative of a Heaviside Function.
@@ -596,16 +657,23 @@ class Heaviside(DefinedFunction):
             raise ArgumentIndexError(self, argindex)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, arg, H0), super(cls, cls).__new__(cls, arg, H0, **options)) over {Any | hasattr(H0, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(H0, 'args')                            ║
+# ║   returns:  super(cls, cls).__new__(cls, arg, H0, **o...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | hasattr(H0, 'args')} → Any                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 66a43c4200b5fd2d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.delta_functions.Heaviside.__new__","kind":"method","src_hash":"c5801c26b57d3c9a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"66a43c4200b5fd2d"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.delta_functions.Heaviside.__new__","kind":"method","src_hash":"c5801c26b57d3c9a","in":{"base":"Any","pred":"hasattr(H0, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, arg, H0)","rhs":"super(cls, cls).__new__(cls, arg, H0, **options)","over":{"base":"Any","pred":"hasattr(H0, 'args')"},"name":"__new___correct"},"guarantee":"returns super(cls, cls).__new__(cls, arg, H0, **options)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"66a43c4200b5fd2d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(H0, 'args')"],"returns_expr":"super(cls, cls).__new__(cls, arg, H0, **options)","pure":false,"effects":{"effect_type":"reads_state","reads":["H0.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, arg, H0=S.Half, **options):
         if isinstance(H0, Heaviside) and len(H0.args) == 1:
             H0 = S.Half
@@ -613,16 +681,22 @@ class Heaviside(DefinedFunction):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(pargs(), returns the pargs attribute) over Any        ║
+# ║ Path(pargs(), <unspecified:pargs>) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ pargs : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 33b4318414205302           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.delta_functions.Heaviside.pargs","kind":"property","src_hash":"6754a9a0fdc9f8fb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pargs()","rhs":"returns the pargs attribute","over":{"base":"Any"},"name":"pargs_correct"},"guarantee":"returns the pargs attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"33b4318414205302"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.delta_functions.Heaviside.pargs","kind":"property","src_hash":"6754a9a0fdc9f8fb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pargs()","rhs":"<unspecified:pargs>","over":{"base":"Any"},"name":"pargs_correct"},"guarantee":"returns the pargs attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"33b4318414205302","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def pargs(self):
         """Args without default S.Half"""
         args = self.args
@@ -632,16 +706,27 @@ class Heaviside(DefinedFunction):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), returns a simplified form or a value of heaviside depending on the argument passed by the heaviside object) over Any ║
+# ║ Path(eval(cls, arg, H0), <unspecified:eval>) over {Any | hasattr(arg, 'is_extended_negative') and hasattr(arg, 'is_extended_positive') and hasattr(arg, 'is_zero')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(arg, 'is_extended_negative')           ║
+# ║   requires: hasattr(arg, 'is_extended_positive')           ║
+# ║   requires: hasattr(arg, 'is_zero')                        ║
+# ║   fiber[case_0]: arg.is_extended_negative => S.Zero        ║
+# ║   fiber[case_1]: arg.is_extended_positive => S.One         ║
+# ║   fiber[case_2]: arg.is_zero => H0                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : {Any | hasattr(arg, 'is_extended_negative') an...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1f907e658d71e4aa  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1fe9b546640cc7b4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.delta_functions.Heaviside.eval","kind":"classmethod","src_hash":"936cd0a7b349f07d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"returns a simplified form or a value of heaviside depending on the argument passed by the heaviside object","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"returns a simplified form or a value of heaviside depending on the argument passed by the heaviside object","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.delta_functions.Heaviside.eval_correct","statement":"Path(eval(x), returns a simplified form or a value of heaviside depending on the argument passed by the heaviside object)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1f907e658d71e4aa"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.delta_functions.Heaviside.eval","kind":"classmethod","src_hash":"936cd0a7b349f07d","in":{"base":"Any","pred":"hasattr(arg, 'is_extended_negative') and hasattr(arg, 'is_extended_positive') and hasattr(arg, 'is_zero')"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls, arg, H0)","rhs":"<unspecified:eval>","over":{"base":"Any","pred":"hasattr(arg, 'is_extended_negative') and hasattr(arg, 'is_extended_positive') and hasattr(arg, 'is_zero')"},"name":"eval_correct"},"guarantee":"5-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.delta_functions.Heaviside.eval_correct","statement":"Path(eval(x), 5-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1fe9b546640cc7b4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(arg, 'is_extended_negative')","hasattr(arg, 'is_extended_positive')","hasattr(arg, 'is_zero')"],"fibers":[{"name":"case_0","guard":"arg.is_extended_negative","ensures":["result == S.Zero"],"decidability":"library","returns_expr":"S.Zero"},{"name":"case_1","guard":"arg.is_extended_positive","ensures":["result == S.One"],"decidability":"library","returns_expr":"S.One"},{"name":"case_2","guard":"arg.is_zero","ensures":["result == H0"],"decidability":"library","returns_expr":"H0"},{"name":"case_3","guard":"arg is S.NaN","ensures":["result == S.NaN"],"decidability":"library","returns_expr":"S.NaN"},{"name":"case_4","guard":"fuzzy_not(im(arg).is_zero)","ensures":[],"decidability":"library"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["arg.is_extended_negative","arg.is_extended_positive","arg.is_zero"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, arg, H0=S.Half):
         """
         Returns a simplified form or a value of Heaviside depending on the
@@ -706,16 +791,22 @@ class Heaviside(DefinedFunction):
             raise ValueError("Function defined only for Real Values. Complex part: %s  found in %s ." % (repr(im(arg)), repr(arg)) )
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_Piecewise(arg), represents heaviside in a piecewise form) over Any ║
+# ║ Path(_eval_rewrite_as_Piecewise(arg, H0, **kwargs), <unspecified:_eval_rewrite_as_Piecewise>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_Piecewise : Any → Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c8c455f0413c0f32  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.delta_functions.Heaviside._eval_rewrite_as_Piecewise","kind":"method","src_hash":"6f995f83fec00bf4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_Piecewise(arg)","rhs":"represents heaviside in a piecewise form","over":{"base":"Any"},"name":"_eval_rewrite_as_Piecewise_correct"},"guarantee":"represents heaviside in a piecewise form","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.delta_functions.Heaviside._eval_rewrite_as_Piecewise_correct","statement":"Path(_eval_rewrite_as_Piecewise(x), represents heaviside in a piecewise form)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c8c455f0413c0f32"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.delta_functions.Heaviside._eval_rewrite_as_Piecewise","kind":"method","src_hash":"6f995f83fec00bf4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_Piecewise(arg, H0, **kwargs)","rhs":"<unspecified:_eval_rewrite_as_Piecewise>","over":{"base":"Any"},"name":"_eval_rewrite_as_Piecewise_correct"},"guarantee":"represents heaviside in a piecewise form","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.delta_functions.Heaviside._eval_rewrite_as_Piecewise_correct","statement":"Path(_eval_rewrite_as_Piecewise(x), represents heaviside in a piecewise form)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c8c455f0413c0f32","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_Piecewise(self, arg, H0=None, **kwargs):
         """
         Represents Heaviside in a Piecewise form.
@@ -746,16 +837,23 @@ class Heaviside(DefinedFunction):
         return Piecewise((0, arg < 0), (H0, Eq(arg, 0)), (1, True))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_sign(arg), represents the heaviside function in the form of sign function) over Any ║
+# ║ Path(_eval_rewrite_as_sign(arg, H0, **kwargs), <unspecified:_eval_rewrite_as_sign>) over {Any | hasattr(arg, 'is_extended_real')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_rewrite_as_sign : Any → Any                          ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(arg, 'is_extended_real')               ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_rewrite_as_sign : {Any | hasattr(arg, 'is_exten...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 59668dc080448bba  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.delta_functions.Heaviside._eval_rewrite_as_sign","kind":"method","src_hash":"73011a816fa0d465","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_sign(arg)","rhs":"represents the heaviside function in the form of sign function","over":{"base":"Any"},"name":"_eval_rewrite_as_sign_correct"},"guarantee":"represents the heaviside function in the form of sign function","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.delta_functions.Heaviside._eval_rewrite_as_sign_correct","statement":"Path(_eval_rewrite_as_sign(x), represents the heaviside function in the form of sign function)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"59668dc080448bba"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.delta_functions.Heaviside._eval_rewrite_as_sign","kind":"method","src_hash":"73011a816fa0d465","in":{"base":"Any","pred":"hasattr(arg, 'is_extended_real')"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_sign(arg, H0, **kwargs)","rhs":"<unspecified:_eval_rewrite_as_sign>","over":{"base":"Any","pred":"hasattr(arg, 'is_extended_real')"},"name":"_eval_rewrite_as_sign_correct"},"guarantee":"represents the heaviside function in the form of sign function","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.delta_functions.Heaviside._eval_rewrite_as_sign_correct","statement":"Path(_eval_rewrite_as_sign(x), represents the heaviside function in the form of sign function)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"59668dc080448bba","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(arg, 'is_extended_real')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["arg.is_extended_real"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_sign(self, arg, H0=S.Half, **kwargs):
         """
         Represents the Heaviside function in the form of sign function.
@@ -811,16 +909,23 @@ class Heaviside(DefinedFunction):
             return pw2
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_SingularityFunction(arg), returns the heaviside expression written in the form of singularity functions) over Any ║
+# ║ Path(_eval_rewrite_as_SingularityFunction(args, H0, **kwargs), len(free) == old_len_free - 1) over {Any | len(free) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_rewrite_as_SingularityFunction : Any → Any           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: len(free) > 0                                  ║
+# ║   ensures:  len(free) == old_len_free - 1                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_rewrite_as_SingularityFunction : {Any | len(fre...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0cedbc0970edff8e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f28153ac715a3886  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.delta_functions.Heaviside._eval_rewrite_as_SingularityFunction","kind":"method","src_hash":"dfbbe41d44af17db","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_SingularityFunction(arg)","rhs":"returns the heaviside expression written in the form of singularity functions","over":{"base":"Any"},"name":"_eval_rewrite_as_SingularityFunction_correct"},"guarantee":"returns the heaviside expression written in the form of singularity functions","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.delta_functions.Heaviside._eval_rewrite_as_SingularityFunction_correct","statement":"Path(_eval_rewrite_as_SingularityFunction(x), returns the heaviside expression written in the form of singularity functions)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0cedbc0970edff8e"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.delta_functions.Heaviside._eval_rewrite_as_SingularityFunction","kind":"method","src_hash":"dfbbe41d44af17db","in":{"base":"Any","pred":"len(free) > 0"},"out":{"base":"Any","pred":"result satisfies: len(free) == old_len_free - 1"},"spec":{"lhs":"_eval_rewrite_as_SingularityFunction(args, H0, **kwargs)","rhs":"len(free) == old_len_free - 1","over":{"base":"Any","pred":"len(free) > 0"},"name":"_eval_rewrite_as_SingularityFunction_correct"},"guarantee":"len(free) == old_len_free - 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.delta_functions.Heaviside._eval_rewrite_as_SingularityFunction_correct","statement":"Path(_eval_rewrite_as_SingularityFunction(x), len(free) == old_len_free - 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f28153ac715a3886","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["len(free) > 0"],"ensures":["len(free) == old_len_free - 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.free_symbols"],"calls_mutating":["free.pop"],"raises":["TypeError"]},"state_contract":{"modifies":["free.*"],"old_bindings":{"old_len_free":"len(free)"},"pre_requires":["len(free) > 0"],"post_ensures":["len(free) == old_len_free - 1"],"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_SingularityFunction(self, args, H0=S.Half, **kwargs):
         """
         Returns the Heaviside expression written in the form of Singularity

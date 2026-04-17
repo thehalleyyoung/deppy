@@ -26,14 +26,19 @@ from sympy.core.singleton import S
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a GroupHomomorphism instance) preserved by GroupHomomorphism(*args) over {Any | isinstance(self.codomain, PermutationGroup) and isinstance(g, (Permutation, FreeGroupElement)) and isinstance(self.codomain, FpGroup)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ GroupHomomorphism : {Any | isinstance(self.codomain, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.7ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0c854316efab68da  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.homomorphisms.GroupHomomorphism","kind":"class","src_hash":"48d8812994fba4ad","in":{"base":"Any","pred":"isinstance(self.codomain, PermutationGroup) and isinstance(g, (Permutation, FreeGroupElement)) and isinstance(self.codomain, FpGroup)"},"out":{"base":"Any"},"spec":{"lhs":"GroupHomomorphism(*args)","rhs":"correctly constructs a GroupHomomorphism instance","over":{"base":"Any","pred":"isinstance(self.codomain, PermutationGroup) and isinstance(g, (Permutation, FreeGroupElement)) and isinstance(self.codomain, FpGroup)"},"name":"GroupHomomorphism_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a GroupHomomorphism instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'domain') and hasattr(self, 'codomain') and hasattr(self, 'images') and hasattr(self, '_inverses') and hasattr(self, '_kernel') and hasattr(self, '_image')","kind":"class","induction":"structural on domain, codomain, images, _inverses"}],"methods_preserving":["__init__","_invs","invert","kernel","_compute_kernel","image","_apply","__call__","is_injective","is_surjective","is_isomorphism","is_trivial","compose","restrict_to","invert_subgroup"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0c854316efab68da"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.homomorphisms.GroupHomomorphism","kind":"class","src_hash":"48d8812994fba4ad","in":{"base":"Any","pred":"isinstance(self.codomain, PermutationGroup) and isinstance(g, (Permutation, FreeGroupElement)) and isinstance(self.codomain, FpGroup)"},"out":{"base":"Any"},"spec":{"lhs":"GroupHomomorphism(*args)","rhs":"correctly constructs a GroupHomomorphism instance","over":{"base":"Any","pred":"isinstance(self.codomain, PermutationGroup) and isinstance(g, (Permutation, FreeGroupElement)) and isinstance(self.codomain, FpGroup)"},"name":"GroupHomomorphism_class_invariant","kind":"invariant"},"guarantee":"preserves 6 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'domain') and hasattr(self, 'codomain') and hasattr(self, 'images') and hasattr(self, '_inverses') and hasattr(self, '_kernel') and hasattr(self, '_image')","kind":"class","induction":"structural on domain, codomain, images, _inverses"}],"methods_preserving":["__init__","_invs","invert","kernel","_compute_kernel","image","_apply","__call__","is_injective","is_surjective","is_isomorphism","is_trivial","compose","restrict_to","invert_subgroup"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0c854316efab68da","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, 'domain')","hasattr(self, 'codomain')","hasattr(self, 'images')","hasattr(self, '_inverses')","hasattr(self, '_kernel')","hasattr(self, '_image')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.7,"verdict_class":"assumed","binding":false,"binding_errors":["Function GroupHomomorphism not found in source"]}}
 class GroupHomomorphism:
     '''
     A class representing group homomorphisms. Instantiate using `homomorphism()`.
@@ -46,16 +51,24 @@ class GroupHomomorphism:
     '''
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(dom), initializes the instance correctly) over Any ║
+# ║ Path(__init__(domain, codomain, images), self.domain == domain and self.codomain == codomain and self.images == images) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  self.domain == domain                          ║
+# ║   ensures:  self.codomain == codomain                      ║
+# ║   ensures:  self.images == images                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : Any → {Any | result satisfies: self.domain...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e55d3e3daefb2b2b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.homomorphisms.GroupHomomorphism.__init__","kind":"method","src_hash":"3b7b547f15004cc6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(dom)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e55d3e3daefb2b2b"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.homomorphisms.GroupHomomorphism.__init__","kind":"method","src_hash":"3b7b547f15004cc6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: self.domain == domain and self.codomain == codomain and self.images == images"},"spec":{"lhs":"__init__(domain, codomain, images)","rhs":"self.domain == domain and self.codomain == codomain and self.images == images","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"self.domain == domain; self.codomain == codomain; self.images == images","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e55d3e3daefb2b2b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["self.domain == domain","self.codomain == codomain","self.images == images"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, domain, codomain, images):
         self.domain = domain
         self.codomain = codomain
@@ -65,16 +78,22 @@ class GroupHomomorphism:
         self._image = None
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_invs(), return a dictionary with `{gen: inverse}` where `gen` is a rewriting generator of `codomain` (e.g) over Any ║
+# ║ Path(_invs(), <unspecified:_invs>) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _invs : Any → {Any | result satisfies: inverse}` wher...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3aff9a066cdecde7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.homomorphisms.GroupHomomorphism._invs","kind":"method","src_hash":"e3e6b49aad3bb893","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: inverse}` where `gen` is a rewriting"},"spec":{"lhs":"_invs()","rhs":"return a dictionary with `{gen: inverse}` where `gen` is a rewriting generator of `codomain` (e.g","over":{"base":"Any"},"name":"_invs_correct"},"guarantee":"return a dictionary with `{gen: inverse}` where `gen` is a rewriting generator of `codomain` (e.g","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.homomorphisms.GroupHomomorphism._invs_correct","statement":"Path(_invs(x), return a dictionary with `{gen: inverse}` where `gen` is a rewriting generator of `codomain` (e.g)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3aff9a066cdecde7"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.homomorphisms.GroupHomomorphism._invs","kind":"method","src_hash":"e3e6b49aad3bb893","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: inverse}` where `gen` is a rewriting"},"spec":{"lhs":"_invs()","rhs":"<unspecified:_invs>","over":{"base":"Any"},"name":"_invs_correct"},"guarantee":"return a dictionary with `{gen: inverse}` where `gen` is a rewriting generator of `codomain` (e.g","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.homomorphisms.GroupHomomorphism._invs_correct","statement":"Path(_invs(x), return a dictionary with `{gen: inverse}` where `gen` is a rewriting generator of `codomain` (e.g)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3aff9a066cdecde7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.codomain","self.domain","self.image","self.images"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _invs(self):
         '''
         Return a dictionary with `{gen: inverse}` where `gen` is a rewriting
@@ -111,16 +130,25 @@ class GroupHomomorphism:
         return inverses
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(invert(g), return an element of the preimage of ``g`` or of each element of ``g`` if ``g`` is a list) over Any ║
+# ║ Path(invert(g), result == (w if isinstance(g, (Permutation, FreeGroupElement)) else [self.invert(e) for e in g]) and result == w or result == [self.invert(e) for e in g]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ invert : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (w if isinstance(g, (Permutatio...   ║
+# ║   ensures:  result == w or result == [self.invert(e) ...   ║
+# ║   fiber[case_0]: isinstance(g, (Permutation, FreeGrou...   ║
+# ║   fiber[list]: isinstance(g, list) => [self.invert(e)...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ invert : Any → {Any | result satisfies: result == (w ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ae436e0679919371  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cd08f85645452384  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.homomorphisms.GroupHomomorphism.invert","kind":"method","src_hash":"f052ca8d1593ae29","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"invert(g)","rhs":"return an element of the preimage of ``g`` or of each element of ``g`` if ``g`` is a list","over":{"base":"Any"},"name":"invert_correct"},"guarantee":"return an element of the preimage of ``g`` or of each element of ``g`` if ``g`` is a list","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.homomorphisms.GroupHomomorphism.invert_correct","statement":"Path(invert(x), return an element of the preimage of ``g`` or of each element of ``g`` if ``g`` is a list)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ae436e0679919371"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.homomorphisms.GroupHomomorphism.invert","kind":"method","src_hash":"f052ca8d1593ae29","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (w if isinstance(g, (Permutation, FreeGroupElement)) else [self.invert(e) for e in g]) and result == w or result == [self.invert(e) for e in g]"},"spec":{"lhs":"invert(g)","rhs":"result == (w if isinstance(g, (Permutation, FreeGroupElement)) else [self.invert(e) for e in g]) and result == w or result == [self.invert(e) for e in g]","over":{"base":"Any"},"name":"invert_correct"},"guarantee":"result == (w if isinstance(g, (Permutation, FreeGroupElement)) else [self.invert(e) for e in g]); result == w or result == [self.invert(e) for e in g]; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.homomorphisms.GroupHomomorphism.invert_correct","statement":"Path(invert(x), result == (w if isinstance(g, (Permutation, FreeGroupElement)) else [self.invert(e) for e in g]); result == w or result == [self.invert(e) for e in g]; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cd08f85645452384","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (w if isinstance(g, (Permutation, FreeGroupElement)) else [self.invert(e) for e in g])","result == w or result == [self.invert(e) for e in g]"],"fibers":[{"name":"case_0","guard":"isinstance(g, (Permutation, FreeGroupElement))","ensures":["result == w"],"decidability":"structural","returns_expr":"w"},{"name":"list","guard":"isinstance(g, list)","ensures":["result == [self.invert(e) for e in g]"],"decidability":"structural","returns_expr":"[self.invert(e) for e in g]"}],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self._inverses","self._invs","self.codomain","self.domain","self.image","self.invert"],"writes":["self._inverses"]},"state_contract":{"modifies":["self._inverses"],"old_bindings":{"old_self__inverses":"self._inverses"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def invert(self, g):
         '''
         Return an element of the preimage of ``g`` or of each element
@@ -168,16 +196,22 @@ class GroupHomomorphism:
             return [self.invert(e) for e in g]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(kernel(), compute the kernel of `self`) over Any      ║
+# ║ Path(kernel(), self._kernel) over Any                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._kernel                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ kernel : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c628408839512af9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bd119312a8b4f530  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.homomorphisms.GroupHomomorphism.kernel","kind":"method","src_hash":"5cc886e2fcba9f82","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"kernel()","rhs":"compute the kernel of `self`","over":{"base":"Any"},"name":"kernel_correct"},"guarantee":"compute the kernel of `self`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.homomorphisms.GroupHomomorphism.kernel_correct","statement":"Path(kernel(x), compute the kernel of `self`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c628408839512af9"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.homomorphisms.GroupHomomorphism.kernel","kind":"method","src_hash":"5cc886e2fcba9f82","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"kernel()","rhs":"self._kernel","over":{"base":"Any"},"name":"kernel_correct"},"guarantee":"returns self._kernel","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.homomorphisms.GroupHomomorphism.kernel_correct","statement":"Path(kernel(x), returns self._kernel)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bd119312a8b4f530","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._kernel","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._compute_kernel","self._kernel"],"writes":["self._kernel"]},"state_contract":{"modifies":["self._kernel"],"old_bindings":{"old_self__kernel":"self._kernel"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def kernel(self):
         '''
         Compute the kernel of `self`.
@@ -188,16 +222,23 @@ class GroupHomomorphism:
         return self._kernel
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_compute_kernel(), internal helper behaves correctly) over Any ║
+# ║ Path(_compute_kernel(), len(gens) == old_len_gens + 1) over {Any | not (G_order is S.Infinity)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _compute_kernel : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (G_order is S.Infinity)                    ║
+# ║   ensures:  len(gens) == old_len_gens + 1                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _compute_kernel : {Any | not (G_order is S.Infinity)}...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b3fb821ed1ec9c47  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 30d749e75447bff8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.homomorphisms.GroupHomomorphism._compute_kernel","kind":"method","src_hash":"fe8b25b1fe5b0f17","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_compute_kernel()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_compute_kernel_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.homomorphisms.GroupHomomorphism._compute_kernel_correct","statement":"Path(_compute_kernel(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b3fb821ed1ec9c47"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.homomorphisms.GroupHomomorphism._compute_kernel","kind":"method","src_hash":"fe8b25b1fe5b0f17","in":{"base":"Any","pred":"not (G_order is S.Infinity)"},"out":{"base":"Any","pred":"result satisfies: len(gens) == old_len_gens + 1"},"spec":{"lhs":"_compute_kernel()","rhs":"len(gens) == old_len_gens + 1","over":{"base":"Any","pred":"not (G_order is S.Infinity)"},"name":"_compute_kernel_correct"},"guarantee":"len(gens) == old_len_gens + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.homomorphisms.GroupHomomorphism._compute_kernel_correct","statement":"Path(_compute_kernel(x), len(gens) == old_len_gens + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"30d749e75447bff8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (G_order is S.Infinity)"],"ensures":["len(gens) == old_len_gens + 1"],"pure":false,"effects":{"effect_type":"nondeterministic","reads":["self.domain","self.image","self.invert"],"calls_mutating":["gens.append"],"raises":["NotImplementedError"],"nondeterministic_sources":["G.random"]},"state_contract":{"modifies":["gens.*"],"old_bindings":{"old_len_gens":"len(gens)"},"post_ensures":["len(gens) == old_len_gens + 1"],"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _compute_kernel(self):
         G = self.domain
         G_order = G.order()
@@ -222,16 +263,22 @@ class GroupHomomorphism:
         return K
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(image(), compute the image of `self`) over Any        ║
+# ║ Path(image(), self._image) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._image                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ image : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5311277801fd0af5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1f72e1b9c140b002  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.homomorphisms.GroupHomomorphism.image","kind":"method","src_hash":"b65cb0f09eb2bfac","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"image()","rhs":"compute the image of `self`","over":{"base":"Any"},"name":"image_correct"},"guarantee":"compute the image of `self`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.homomorphisms.GroupHomomorphism.image_correct","statement":"Path(image(x), compute the image of `self`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5311277801fd0af5"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.homomorphisms.GroupHomomorphism.image","kind":"method","src_hash":"b65cb0f09eb2bfac","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"image()","rhs":"self._image","over":{"base":"Any"},"name":"image_correct"},"guarantee":"returns self._image","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.homomorphisms.GroupHomomorphism.image_correct","statement":"Path(image(x), returns self._image)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1f72e1b9c140b002","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._image","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._image","self.codomain","self.images"],"writes":["self._image"]},"state_contract":{"modifies":["self._image"],"old_bindings":{"old_self__image":"self._image"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def image(self):
         '''
         Compute the image of `self`.
@@ -246,16 +293,24 @@ class GroupHomomorphism:
         return self._image
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_apply(ele), apply `self` to `elem`) over Any         ║
+# ║ Path(_apply(elem), <unspecified:_apply>) over {Any | hasattr(elem, 'is_identity') and hasattr(elem, 'array_form')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _apply : Any → Any                                         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(elem, 'is_identity')                   ║
+# ║   requires: hasattr(elem, 'array_form')                    ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _apply : {Any | hasattr(elem, 'is_identity') and hasa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bcc7d5c923e4916c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.homomorphisms.GroupHomomorphism._apply","kind":"method","src_hash":"d221ef0a76784a58","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_apply(ele)","rhs":"apply `self` to `elem`","over":{"base":"Any"},"name":"_apply_correct"},"guarantee":"apply `self` to `elem`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.homomorphisms.GroupHomomorphism._apply_correct","statement":"Path(_apply(x), apply `self` to `elem`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bcc7d5c923e4916c"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.homomorphisms.GroupHomomorphism._apply","kind":"method","src_hash":"d221ef0a76784a58","in":{"base":"Any","pred":"hasattr(elem, 'is_identity') and hasattr(elem, 'array_form')"},"out":{"base":"Any"},"spec":{"lhs":"_apply(elem)","rhs":"<unspecified:_apply>","over":{"base":"Any","pred":"hasattr(elem, 'is_identity') and hasattr(elem, 'array_form')"},"name":"_apply_correct"},"guarantee":"apply `self` to `elem`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.homomorphisms.GroupHomomorphism._apply_correct","statement":"Path(_apply(x), apply `self` to `elem`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bcc7d5c923e4916c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(elem, 'is_identity')","hasattr(elem, 'array_form')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["elem.array_form","elem.is_identity","self._apply","self.codomain","self.domain","self.images"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _apply(self, elem):
         '''
         Apply `self` to `elem`.
@@ -289,30 +344,42 @@ class GroupHomomorphism:
         return value
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__call__(ele), correctly applies the callable) over Any ║
+# ║ Path(__call__(elem), self._apply(elem)) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._apply(elem)                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __call__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 056efc7cd8215bc9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.homomorphisms.GroupHomomorphism.__call__","kind":"method","src_hash":"d08517f6eb8eb3ca","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__call__(ele)","rhs":"correctly applies the callable","over":{"base":"Any"},"name":"__call___correct"},"guarantee":"correctly applies the callable","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"056efc7cd8215bc9"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.homomorphisms.GroupHomomorphism.__call__","kind":"method","src_hash":"d08517f6eb8eb3ca","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__call__(elem)","rhs":"self._apply(elem)","over":{"base":"Any"},"name":"__call___correct"},"guarantee":"returns self._apply(elem)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"056efc7cd8215bc9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._apply(elem)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._apply"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __call__(self, elem):
         return self._apply(elem)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_injective(), check if the homomorphism is injective) over Any ║
+# ║ Path(is_injective(), self.kernel().order() == 1) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.kernel().order() == 1                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_injective : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | faab14c1eecc5083           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.homomorphisms.GroupHomomorphism.is_injective","kind":"method","src_hash":"d0fa40e91c43304a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_injective()","rhs":"check if the homomorphism is injective","over":{"base":"Any"},"name":"is_injective_correct"},"guarantee":"check if the homomorphism is injective","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"faab14c1eecc5083"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.homomorphisms.GroupHomomorphism.is_injective","kind":"method","src_hash":"d0fa40e91c43304a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_injective()","rhs":"self.kernel().order() == 1","over":{"base":"Any"},"name":"is_injective_correct"},"guarantee":"returns self.kernel().order() == 1","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"faab14c1eecc5083","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.kernel().order() == 1","pure":false,"effects":{"effect_type":"reads_state","reads":["self.kernel"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_injective(self):
         '''
         Check if the homomorphism is injective
@@ -321,16 +388,25 @@ class GroupHomomorphism:
         return self.kernel().order() == 1
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_surjective(), check if the homomorphism is surjective) over Any ║
+# ║ Path(is_surjective(), result == (None if im is S.Infinity and oth is S.Infinity else im == oth) and result == None or result == im == oth) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ is_surjective : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (None if im is S.Infinity and o...   ║
+# ║   ensures:  result == None or result == im == oth          ║
+# ║   fiber[case_0]: im is S.Infinity and oth is S.Infini...   ║
+# ║   fiber[case_1]: not (im is S.Infinity and oth is S.I...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ is_surjective : Any → {Any | result satisfies: result...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c903fb698c9cdaa8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 91c6a5fb91368165  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.homomorphisms.GroupHomomorphism.is_surjective","kind":"method","src_hash":"1c7fecf9be32e3d4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_surjective()","rhs":"check if the homomorphism is surjective","over":{"base":"Any"},"name":"is_surjective_correct"},"guarantee":"check if the homomorphism is surjective","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.homomorphisms.GroupHomomorphism.is_surjective_correct","statement":"Path(is_surjective(x), check if the homomorphism is surjective)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c903fb698c9cdaa8"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.homomorphisms.GroupHomomorphism.is_surjective","kind":"method","src_hash":"1c7fecf9be32e3d4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (None if im is S.Infinity and oth is S.Infinity else im == oth) and result == None or result == im == oth"},"spec":{"lhs":"is_surjective()","rhs":"result == (None if im is S.Infinity and oth is S.Infinity else im == oth) and result == None or result == im == oth","over":{"base":"Any"},"name":"is_surjective_correct"},"guarantee":"result == (None if im is S.Infinity and oth is S.Infinity else im == oth); result == None or result == im == oth; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.homomorphisms.GroupHomomorphism.is_surjective_correct","statement":"Path(is_surjective(x), result == (None if im is S.Infinity and oth is S.Infinity else im == oth); result == None or result == im == oth; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"91c6a5fb91368165","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (None if im is S.Infinity and oth is S.Infinity else im == oth)","result == None or result == im == oth"],"fibers":[{"name":"case_0","guard":"im is S.Infinity and oth is S.Infinity","ensures":["result == None"],"decidability":"library","returns_expr":"None"},{"name":"case_1","guard":"not (im is S.Infinity and oth is S.Infinity)","ensures":["result == im == oth"],"decidability":"library","returns_expr":"im == oth"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.codomain","self.image"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_surjective(self):
         '''
         Check if the homomorphism is surjective
@@ -344,16 +420,22 @@ class GroupHomomorphism:
             return im == oth
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_isomorphism(), check if `self` is an isomorphism) over Any ║
+# ║ Path(is_isomorphism(), self.is_injective() and self.is_surjective()) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.is_injective() and self.is_surjective()   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_isomorphism : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 93d4c0344ef2d72c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.homomorphisms.GroupHomomorphism.is_isomorphism","kind":"method","src_hash":"6b00097f98db0f87","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_isomorphism()","rhs":"check if `self` is an isomorphism","over":{"base":"Any"},"name":"is_isomorphism_correct"},"guarantee":"check if `self` is an isomorphism","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"93d4c0344ef2d72c"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.homomorphisms.GroupHomomorphism.is_isomorphism","kind":"method","src_hash":"6b00097f98db0f87","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_isomorphism()","rhs":"self.is_injective() and self.is_surjective()","over":{"base":"Any"},"name":"is_isomorphism_correct"},"guarantee":"returns self.is_injective() and self.is_surjective()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"93d4c0344ef2d72c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.is_injective() and self.is_surjective()","pure":false,"effects":{"effect_type":"reads_state","reads":["self.is_injective","self.is_surjective"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_isomorphism(self):
         '''
         Check if `self` is an isomorphism.
@@ -362,16 +444,22 @@ class GroupHomomorphism:
         return self.is_injective() and self.is_surjective()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_trivial(), check is `self` is a trivial homomorphism, i.e) over Any ║
+# ║ Path(is_trivial(), self.image().order() == 1) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.image().order() == 1                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_trivial : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3f0e79ff74c4f3ea           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.homomorphisms.GroupHomomorphism.is_trivial","kind":"method","src_hash":"cf29628afcd804f2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_trivial()","rhs":"check is `self` is a trivial homomorphism, i.e","over":{"base":"Any"},"name":"is_trivial_correct"},"guarantee":"check is `self` is a trivial homomorphism, i.e","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3f0e79ff74c4f3ea"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.homomorphisms.GroupHomomorphism.is_trivial","kind":"method","src_hash":"cf29628afcd804f2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_trivial()","rhs":"self.image().order() == 1","over":{"base":"Any"},"name":"is_trivial_correct"},"guarantee":"returns self.image().order() == 1","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3f0e79ff74c4f3ea","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.image().order() == 1","pure":false,"effects":{"effect_type":"reads_state","reads":["self.image"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_trivial(self):
         '''
         Check is `self` is a trivial homomorphism, i.e. all elements
@@ -381,16 +469,25 @@ class GroupHomomorphism:
         return self.image().order() == 1
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(compose(oth), return the composition of `self` and `other`, i.e. the homomorphism phi such that for all g in the domain of `other`, phi(g) = self(other(g))) over Any ║
+# ║ Path(compose(other), GroupHomomorphism(other.domain, self.codomain, images)) over {Any | other.image().is_subgroup(self.domain) and hasattr(other, 'domain') and hasattr(other, 'images') and hasattr(other, 'image')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ compose : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: other.image().is_subgroup(self.domain)         ║
+# ║   requires: hasattr(other, 'domain')                       ║
+# ║   requires: hasattr(other, 'images')                       ║
+# ║   returns:  GroupHomomorphism(other.domain, self.codo...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ compose : {Any | other.image().is_subgroup(self.domai...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6a27d4124ea31c09  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | db4d4e4ace603c5c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.homomorphisms.GroupHomomorphism.compose","kind":"method","src_hash":"411dc87ca8f4a821","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"compose(oth)","rhs":"return the composition of `self` and `other`, i.e. the homomorphism phi such that for all g in the domain of `other`, phi(g) = self(other(g))","over":{"base":"Any"},"name":"compose_correct"},"guarantee":"return the composition of `self` and `other`, i.e. the homomorphism phi such that for all g in the domain of `other`, phi(g) = self(other(g))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.homomorphisms.GroupHomomorphism.compose_correct","statement":"Path(compose(x), return the composition of `self` and `other`, i.e. the homomorphism phi such that for all g in the domain of `other`, phi(g) = self(other(g)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6a27d4124ea31c09"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.homomorphisms.GroupHomomorphism.compose","kind":"method","src_hash":"411dc87ca8f4a821","in":{"base":"Any","pred":"other.image().is_subgroup(self.domain) and hasattr(other, 'domain') and hasattr(other, 'images') and hasattr(other, 'image')"},"out":{"base":"Any"},"spec":{"lhs":"compose(other)","rhs":"GroupHomomorphism(other.domain, self.codomain, images)","over":{"base":"Any","pred":"other.image().is_subgroup(self.domain) and hasattr(other, 'domain') and hasattr(other, 'images') and hasattr(other, 'image')"},"name":"compose_correct"},"guarantee":"returns GroupHomomorphism(other.domain, self.codomain, images)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.homomorphisms.GroupHomomorphism.compose_correct","statement":"Path(compose(x), returns GroupHomomorphism(other.domain, self.codomain, images))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"db4d4e4ace603c5c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["other.image().is_subgroup(self.domain)","hasattr(other, 'domain')","hasattr(other, 'images')","hasattr(other, 'image')"],"returns_expr":"GroupHomomorphism(other.domain, self.codomain, images)","pure":false,"effects":{"effect_type":"reads_state","reads":["other.domain","other.image","other.images","self.codomain","self.domain"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def compose(self, other):
         '''
         Return the composition of `self` and `other`, i.e.
@@ -405,16 +502,25 @@ class GroupHomomorphism:
         return GroupHomomorphism(other.domain, self.codomain, images)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(restrict_to(H), return the restriction of the homomorphism to the subgroup `h` of the domain) over Any ║
+# ║ Path(restrict_to(H), GroupHomomorphism(domain, self.codomain, images)) over {Any | not (not isinstance(H, PermutationGroup) or not H.is_subgroup(self.domain)) and hasattr(H, 'generators') and hasattr(H, 'is_subgroup')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ restrict_to : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (not isinstance(H, PermutationGroup) ...   ║
+# ║   requires: hasattr(H, 'generators')                       ║
+# ║   requires: hasattr(H, 'is_subgroup')                      ║
+# ║   returns:  GroupHomomorphism(domain, self.codomain, ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ restrict_to : {Any | not (not isinstance(H, Permutati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0a837019447ebf1c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 93d3d1991a3e3e3c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.homomorphisms.GroupHomomorphism.restrict_to","kind":"method","src_hash":"f3de074133949652","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"restrict_to(H)","rhs":"return the restriction of the homomorphism to the subgroup `h` of the domain","over":{"base":"Any"},"name":"restrict_to_correct"},"guarantee":"return the restriction of the homomorphism to the subgroup `h` of the domain","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.homomorphisms.GroupHomomorphism.restrict_to_correct","statement":"Path(restrict_to(x), return the restriction of the homomorphism to the subgroup `h` of the domain)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0a837019447ebf1c"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.homomorphisms.GroupHomomorphism.restrict_to","kind":"method","src_hash":"f3de074133949652","in":{"base":"Any","pred":"not (not isinstance(H, PermutationGroup) or not H.is_subgroup(self.domain)) and hasattr(H, 'generators') and hasattr(H, 'is_subgroup')"},"out":{"base":"Any"},"spec":{"lhs":"restrict_to(H)","rhs":"GroupHomomorphism(domain, self.codomain, images)","over":{"base":"Any","pred":"not (not isinstance(H, PermutationGroup) or not H.is_subgroup(self.domain)) and hasattr(H, 'generators') and hasattr(H, 'is_subgroup')"},"name":"restrict_to_correct"},"guarantee":"returns GroupHomomorphism(domain, self.codomain, images)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.homomorphisms.GroupHomomorphism.restrict_to_correct","statement":"Path(restrict_to(x), returns GroupHomomorphism(domain, self.codomain, images))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"93d3d1991a3e3e3c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (not isinstance(H, PermutationGroup) or not H.is_subgroup(self.domain))","hasattr(H, 'generators')","hasattr(H, 'is_subgroup')"],"returns_expr":"GroupHomomorphism(domain, self.codomain, images)","pure":false,"effects":{"effect_type":"reads_state","reads":["H.generators","H.is_subgroup","self.codomain","self.domain"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def restrict_to(self, H):
         '''
         Return the restriction of the homomorphism to the subgroup `H`
@@ -428,16 +534,25 @@ class GroupHomomorphism:
         return GroupHomomorphism(domain, self.codomain, images)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(invert_subgroup(H), return the subgroup of the domain that is the inverse image of the subgroup ``h`` of the homomorphism image) over Any ║
+# ║ Path(invert_subgroup(H), len(gens) == old_len_gens + 1) over {Any | H.is_subgroup(self.image()) and hasattr(H, 'generators') and hasattr(H, 'is_subgroup')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ invert_subgroup : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: H.is_subgroup(self.image())                    ║
+# ║   requires: hasattr(H, 'generators')                       ║
+# ║   requires: hasattr(H, 'is_subgroup')                      ║
+# ║   ensures:  len(gens) == old_len_gens + 1                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ invert_subgroup : {Any | H.is_subgroup(self.image()) ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | adb9eeb76b09718d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d82ba01637ef5b97  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.homomorphisms.GroupHomomorphism.invert_subgroup","kind":"method","src_hash":"75a591881f16c552","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"invert_subgroup(H)","rhs":"return the subgroup of the domain that is the inverse image of the subgroup ``h`` of the homomorphism image","over":{"base":"Any"},"name":"invert_subgroup_correct"},"guarantee":"return the subgroup of the domain that is the inverse image of the subgroup ``h`` of the homomorphism image","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.homomorphisms.GroupHomomorphism.invert_subgroup_correct","statement":"Path(invert_subgroup(x), return the subgroup of the domain that is the inverse image of the subgroup ``h`` of the homomorphism image)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"adb9eeb76b09718d"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.homomorphisms.GroupHomomorphism.invert_subgroup","kind":"method","src_hash":"75a591881f16c552","in":{"base":"Any","pred":"H.is_subgroup(self.image()) and hasattr(H, 'generators') and hasattr(H, 'is_subgroup')"},"out":{"base":"Any","pred":"result satisfies: len(gens) == old_len_gens + 1"},"spec":{"lhs":"invert_subgroup(H)","rhs":"len(gens) == old_len_gens + 1","over":{"base":"Any","pred":"H.is_subgroup(self.image()) and hasattr(H, 'generators') and hasattr(H, 'is_subgroup')"},"name":"invert_subgroup_correct"},"guarantee":"len(gens) == old_len_gens + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.homomorphisms.GroupHomomorphism.invert_subgroup_correct","statement":"Path(invert_subgroup(x), len(gens) == old_len_gens + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d82ba01637ef5b97","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["H.is_subgroup(self.image())","hasattr(H, 'generators')","hasattr(H, 'is_subgroup')"],"ensures":["len(gens) == old_len_gens + 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["H.generators","H.is_subgroup","self.image","self.invert","self.kernel"],"calls_mutating":["gens.append"],"raises":["ValueError"]},"state_contract":{"modifies":["gens.*"],"old_bindings":{"old_len_gens":"len(gens)"},"post_ensures":["len(gens) == old_len_gens + 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def invert_subgroup(self, H):
         '''
         Return the subgroup of the domain that is the inverse image
@@ -460,7 +575,13 @@ class GroupHomomorphism:
         return P
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(homomorphism(dom), create (if possible) a group homomorphism from the group ``domain`` to the group ``codomain`` defined by the images of the domain's generators ``gens``) over {Any | isinstance(domain, (PermutationGroup, FpGroup, FreeGroup))} ║
+# ║ Path(homomorphism(domain, codomain, gens), GroupHomomorphism(domain, codomain, images)) over {Any | isinstance(domain, (PermutationGroup, FpGroup, FreeGroup)) and isinstance(domain, (PermutationGroup, FpGroup, FreeGroup)) and isinstance(codomain, (PermutationGroup, FpGroup, FreeGroup)) and all((g in generators for g in gens)) and all((g in codomain for g in images)) and hasattr(domain, 'generators') and hasattr(images, 'extend') and hasattr(gens, 'extend') and hasattr(codomain, 'identity')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(domain, (PermutationGroup, FpG...   ║
+# ║   requires: isinstance(codomain, (PermutationGroup, F...   ║
+# ║   requires: all((g in generators for g in gens))           ║
+# ║   returns:  GroupHomomorphism(domain, codomain, images)    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ homomorphism : {Any | isinstance(domain, (Permutation...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -472,9 +593,12 @@ class GroupHomomorphism:
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.9ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 649172d3...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.homomorphisms.homomorphism","kind":"function","src_hash":"dd0c0e4ac0e12203","in":{"base":"Any","pred":"isinstance(domain, (PermutationGroup, FpGroup, FreeGroup))"},"out":{"base":"Any"},"spec":{"lhs":"homomorphism(dom)","rhs":"create (if possible) a group homomorphism from the group ``domain`` to the group ``codomain`` defined by the images of the domain's generators ``gens``","over":{"base":"Any","pred":"isinstance(domain, (PermutationGroup, FpGroup, FreeGroup))"},"name":"homomorphism_correct"},"guarantee":"create (if possible) a group homomorphism from the group ``domain`` to the group ``codomain`` defined by the images of the domain's generators ``gens``","fibers":[{"name":"(PermutationGroup","pred":"isinstance(domain, (PermutationGroup, FpGroup, FreeGroup))","path":{"lhs":"homomorphism(x)","rhs":"create (if possible) a group homomorphism from the group ``domain`` to the group ``codomain`` defined by the images of the domain's generators ``gens``","over":{"base":"(PermutationGroup","pred":"isinstance(domain, (PermutationGroup, FpGroup, FreeGroup))"},"name":"homomorphism_(PermutationGroup_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.homomorphisms.homomorphism_(PermutationGroup_correct","statement":"homomorphism satisfies spec on (PermutationGroup inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"649172d30b076bda"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.homomorphisms.homomorphism","kind":"function","src_hash":"dd0c0e4ac0e12203","in":{"base":"Any","pred":"isinstance(domain, (PermutationGroup, FpGroup, FreeGroup)) and isinstance(domain, (PermutationGroup, FpGroup, FreeGroup)) and isinstance(codomain, (PermutationGroup, FpGroup, FreeGroup)) and all((g in generators for g in gens)) and all((g in codomain for g in images)) and hasattr(domain, 'generators') and hasattr(images, 'extend') and hasattr(gens, 'extend') and hasattr(codomain, 'identity')"},"out":{"base":"Any"},"spec":{"lhs":"homomorphism(domain, codomain, gens)","rhs":"GroupHomomorphism(domain, codomain, images)","over":{"base":"Any","pred":"isinstance(domain, (PermutationGroup, FpGroup, FreeGroup)) and isinstance(domain, (PermutationGroup, FpGroup, FreeGroup)) and isinstance(codomain, (PermutationGroup, FpGroup, FreeGroup)) and all((g in generators for g in gens)) and all((g in codomain for g in images)) and hasattr(domain, 'generators') and hasattr(images, 'extend') and hasattr(gens, 'extend') and hasattr(codomain, 'identity')"},"name":"homomorphism_correct"},"guarantee":"returns GroupHomomorphism(domain, codomain, images)","fibers":[{"name":"(PermutationGroup","pred":"isinstance(domain, (PermutationGroup, FpGroup, FreeGroup))","path":{"lhs":"homomorphism(x)","rhs":"returns GroupHomomorphism(domain, codomain, images)","over":{"base":"(PermutationGroup","pred":"isinstance(domain, (PermutationGroup, FpGroup, FreeGroup))"},"name":"homomorphism_(PermutationGroup_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.homomorphisms.homomorphism_(PermutationGroup_correct","statement":"homomorphism satisfies spec on (PermutationGroup inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"649172d30b076bda","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(domain, (PermutationGroup, FpGroup, FreeGroup))","isinstance(codomain, (PermutationGroup, FpGroup, FreeGroup))","all((g in generators for g in gens))","all((g in codomain for g in images))","hasattr(domain, 'generators')","hasattr(images, 'extend')","hasattr(gens, 'extend')","hasattr(codomain, 'identity')"],"returns_expr":"GroupHomomorphism(domain, codomain, images)","pure":false,"effects":{"effect_type":"mutates_args","reads":["codomain.identity","domain.generators","gens.extend","images.extend"],"calls_mutating":["gens.extend","images.extend"],"raises":["TypeError","ValueError"]},"state_contract":{"modifies":["gens.*","images.*"],"old_bindings":{"old_len_gens":"len(gens)","old_len_images":"len(images)"},"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.9,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'images and len(images) != len(gens)', 'not isinstance(domain, (PermutationGroup, FpGroup, FreeGroup))', 'not isinstance(codomain, (PermutationGroup, FpGroup, FreeGroup))'}, fibers={'(PermutationGroup'})"]}}
 def homomorphism(domain, codomain, gens, images=(), check=True):
     '''
     Create (if possible) a group homomorphism from the group ``domain``
@@ -517,7 +641,13 @@ def homomorphism(domain, codomain, gens, images=(), check=True):
     return GroupHomomorphism(domain, codomain, images)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_check_homomorphism(dom), check that a given mapping of generators to images defines a homomorphism) over {Any | isinstance(codomain, FpGroup)} ║
+# ║ Path(_check_homomorphism(domain, codomain, images), <unspecified:_check_homomorphism>) over {Any | isinstance(codomain, FpGroup) and hasattr(codomain, 'identity') and hasattr(domain, 'presentation') and hasattr(domain, 'generators') and hasattr(codomain, 'equals') and hasattr(codomain, 'make_confluent')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(codomain, 'identity')                  ║
+# ║   requires: hasattr(domain, 'presentation')                ║
+# ║   requires: hasattr(domain, 'generators')                  ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _check_homomorphism : {Any | isinstance(codomain, FpG...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -529,9 +659,12 @@ def homomorphism(domain, codomain, gens, images=(), check=True):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.5ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 9248626b...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.homomorphisms._check_homomorphism","kind":"function","src_hash":"850453e170de84f7","in":{"base":"Any","pred":"isinstance(codomain, FpGroup)"},"out":{"base":"Any"},"spec":{"lhs":"_check_homomorphism(dom)","rhs":"check that a given mapping of generators to images defines a homomorphism","over":{"base":"Any","pred":"isinstance(codomain, FpGroup)"},"name":"_check_homomorphism_correct"},"guarantee":"check that a given mapping of generators to images defines a homomorphism","fibers":[{"name":"FpGroup","pred":"isinstance(codomain, FpGroup)","path":{"lhs":"_check_homomorphism(x)","rhs":"check that a given mapping of generators to images defines a homomorphism","over":{"base":"FpGroup","pred":"isinstance(codomain, FpGroup)"},"name":"_check_homomorphism_FpGroup_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.homomorphisms._check_homomorphism_FpGroup_correct","statement":"_check_homomorphism satisfies spec on FpGroup inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"9248626bf576274f"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.homomorphisms._check_homomorphism","kind":"function","src_hash":"850453e170de84f7","in":{"base":"Any","pred":"isinstance(codomain, FpGroup) and hasattr(codomain, 'identity') and hasattr(domain, 'presentation') and hasattr(domain, 'generators') and hasattr(codomain, 'equals') and hasattr(codomain, 'make_confluent')"},"out":{"base":"Any"},"spec":{"lhs":"_check_homomorphism(domain, codomain, images)","rhs":"<unspecified:_check_homomorphism>","over":{"base":"Any","pred":"isinstance(codomain, FpGroup) and hasattr(codomain, 'identity') and hasattr(domain, 'presentation') and hasattr(domain, 'generators') and hasattr(codomain, 'equals') and hasattr(codomain, 'make_confluent')"},"name":"_check_homomorphism_correct"},"guarantee":"check that a given mapping of generators to images defines a homomorphism","fibers":[{"name":"FpGroup","pred":"isinstance(codomain, FpGroup)","path":{"lhs":"_check_homomorphism(x)","rhs":"check that a given mapping of generators to images defines a homomorphism","over":{"base":"FpGroup","pred":"isinstance(codomain, FpGroup)"},"name":"_check_homomorphism_FpGroup_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.homomorphisms._check_homomorphism_FpGroup_correct","statement":"_check_homomorphism satisfies spec on FpGroup inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"9248626bf576274f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(codomain, 'identity')","hasattr(domain, 'presentation')","hasattr(domain, 'generators')","hasattr(codomain, 'equals')","hasattr(codomain, 'make_confluent')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["codomain.equals","codomain.identity","codomain.make_confluent","domain.generators","domain.presentation"],"raises":["RuntimeError"]},"state_contract":{"exceptional_post":{"RuntimeError":["isinstance(raised, RuntimeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.5,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'s is None and (not success)', 'isinstance(codomain, FpGroup)', 's is None'}, fibers={'FpGroup'})"]}}
 def _check_homomorphism(domain, codomain, images):
     """
     Check that a given mapping of generators to images defines a homomorphism.
@@ -582,16 +715,25 @@ def _check_homomorphism(domain, codomain, images):
     return True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(orbit_homomorphism(gro), return the homomorphism induced by the action of the permutation group ``group`` on the set ``omega`` that is closed under the action) over Any ║
+# ║ Path(orbit_homomorphism(group, omega), <unspecified:orbit_homomorphism>) over {Any | hasattr(group, '_schreier_sims') and hasattr(group, 'generators') and hasattr(group, 'basic_stabilizers') and hasattr(group, 'identity') and hasattr(omega, 'index')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ orbit_homomorphism : Any → Any                             ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(group, '_schreier_sims')               ║
+# ║   requires: hasattr(group, 'generators')                   ║
+# ║   requires: hasattr(group, 'basic_stabilizers')            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ orbit_homomorphism : {Any | hasattr(group, '_schreier...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 98ece4eb434970e7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.homomorphisms.orbit_homomorphism","kind":"function","src_hash":"7388862f4fd8655e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"orbit_homomorphism(gro)","rhs":"return the homomorphism induced by the action of the permutation group ``group`` on the set ``omega`` that is closed under the action","over":{"base":"Any"},"name":"orbit_homomorphism_correct"},"guarantee":"return the homomorphism induced by the action of the permutation group ``group`` on the set ``omega`` that is closed under the action","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.homomorphisms.orbit_homomorphism_correct","statement":"Path(orbit_homomorphism(x), return the homomorphism induced by the action of the permutation group ``group`` on the set ``omega`` that is closed under the action)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"98ece4eb434970e7"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.homomorphisms.orbit_homomorphism","kind":"function","src_hash":"7388862f4fd8655e","in":{"base":"Any","pred":"hasattr(group, '_schreier_sims') and hasattr(group, 'generators') and hasattr(group, 'basic_stabilizers') and hasattr(group, 'identity') and hasattr(omega, 'index')"},"out":{"base":"Any"},"spec":{"lhs":"orbit_homomorphism(group, omega)","rhs":"<unspecified:orbit_homomorphism>","over":{"base":"Any","pred":"hasattr(group, '_schreier_sims') and hasattr(group, 'generators') and hasattr(group, 'basic_stabilizers') and hasattr(group, 'identity') and hasattr(omega, 'index')"},"name":"orbit_homomorphism_correct"},"guarantee":"return the homomorphism induced by the action of the permutation group ``group`` on the set ``omega`` that is closed under the action","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.homomorphisms.orbit_homomorphism_correct","statement":"Path(orbit_homomorphism(x), return the homomorphism induced by the action of the permutation group ``group`` on the set ``omega`` that is closed under the action)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"98ece4eb434970e7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(group, '_schreier_sims')","hasattr(group, 'generators')","hasattr(group, 'basic_stabilizers')","hasattr(group, 'identity')","hasattr(omega, 'index')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["group._schreier_sims","group.basic_stabilizers","group.generators","group.identity","omega.index"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def orbit_homomorphism(group, omega):
     '''
     Return the homomorphism induced by the action of the permutation
@@ -613,16 +755,23 @@ def orbit_homomorphism(group, omega):
     return H
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(block_homomorphism(gro), return the homomorphism induced by the action of the permutation group ``group`` on the block system ``blocks``) over Any ║
+# ║ Path(block_homomorphism(group, blocks), <unspecified:block_homomorphism>) over {Any | hasattr(group, 'generators')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ block_homomorphism : Any → Any                             ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(group, 'generators')                   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ block_homomorphism : {Any | hasattr(group, 'generator...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5bcd23a3a119055c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.homomorphisms.block_homomorphism","kind":"function","src_hash":"89124fa73821af34","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"block_homomorphism(gro)","rhs":"return the homomorphism induced by the action of the permutation group ``group`` on the block system ``blocks``","over":{"base":"Any"},"name":"block_homomorphism_correct"},"guarantee":"return the homomorphism induced by the action of the permutation group ``group`` on the block system ``blocks``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.homomorphisms.block_homomorphism_correct","statement":"Path(block_homomorphism(x), return the homomorphism induced by the action of the permutation group ``group`` on the block system ``blocks``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5bcd23a3a119055c"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.homomorphisms.block_homomorphism","kind":"function","src_hash":"89124fa73821af34","in":{"base":"Any","pred":"hasattr(group, 'generators')"},"out":{"base":"Any"},"spec":{"lhs":"block_homomorphism(group, blocks)","rhs":"<unspecified:block_homomorphism>","over":{"base":"Any","pred":"hasattr(group, 'generators')"},"name":"block_homomorphism_correct"},"guarantee":"return the homomorphism induced by the action of the permutation group ``group`` on the block system ``blocks``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.homomorphisms.block_homomorphism_correct","statement":"Path(block_homomorphism(x), return the homomorphism induced by the action of the permutation group ``group`` on the block system ``blocks``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5bcd23a3a119055c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(group, 'generators')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def block_homomorphism(group, blocks):
     '''
     Return the homomorphism induced by the action of the permutation
@@ -660,7 +809,14 @@ def block_homomorphism(group, blocks):
     return H
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(group_isomorphism(G, ), compute an isomorphism between 2 given groups) over {Any | isinstance(H, FpGroup) and isinstance(G, (PermutationGroup, FpGroup))} ║
+# ║ Path(group_isomorphism(G, H, isomorphism), len(G) == old_len_G and len(H) == old_len_H) over {Any | isinstance(H, FpGroup) and isinstance(G, (PermutationGroup, FpGroup)) and isinstance(G, (PermutationGroup, FpGroup)) and isinstance(H, (PermutationGroup, FpGroup)) and hasattr(G, 'order') and hasattr(H, 'order') and hasattr(G, 'generators') and hasattr(H, '_to_perm_group') and hasattr(G, 'is_abelian') and hasattr(H, 'is_abelian') and hasattr(H, 'generators') and hasattr(G, 'relators') and hasattr(H, 'relators')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(G, (PermutationGroup, FpGroup))     ║
+# ║   requires: isinstance(H, (PermutationGroup, FpGroup))     ║
+# ║   requires: hasattr(G, 'order')                            ║
+# ║   ensures:  len(G) == old_len_G                            ║
+# ║   ensures:  len(H) == old_len_H                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ group_isomorphism : {Any | isinstance(H, FpGroup) and...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -673,9 +829,12 @@ def block_homomorphism(group, blocks):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?2 ✗2 VCs | 5.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 54e9c1b7...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.homomorphisms.group_isomorphism","kind":"function","src_hash":"847c1bc908baa9b3","in":{"base":"Any","pred":"isinstance(H, FpGroup) and isinstance(G, (PermutationGroup, FpGroup))"},"out":{"base":"Any"},"spec":{"lhs":"group_isomorphism(G, )","rhs":"compute an isomorphism between 2 given groups","over":{"base":"Any","pred":"isinstance(H, FpGroup) and isinstance(G, (PermutationGroup, FpGroup))"},"name":"group_isomorphism_correct"},"guarantee":"compute an isomorphism between 2 given groups","fibers":[{"name":"FpGroup","pred":"isinstance(H, FpGroup)","path":{"lhs":"group_isomorphism(x)","rhs":"compute an isomorphism between 2 given groups","over":{"base":"FpGroup","pred":"isinstance(H, FpGroup)"},"name":"group_isomorphism_FpGroup_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.homomorphisms.group_isomorphism_FpGroup_correct","statement":"group_isomorphism satisfies spec on FpGroup inputs"},"trust":"LIBRARY"},{"name":"(PermutationGroup","pred":"isinstance(G, (PermutationGroup, FpGroup))","path":{"lhs":"group_isomorphism(x)","rhs":"compute an isomorphism between 2 given groups","over":{"base":"(PermutationGroup","pred":"isinstance(G, (PermutationGroup, FpGroup))"},"name":"group_isomorphism_(PermutationGroup_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.homomorphisms.group_isomorphism_(PermutationGroup_correct","statement":"group_isomorphism satisfies spec on (PermutationGroup inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"54e9c1b71dc2d934"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.homomorphisms.group_isomorphism","kind":"function","src_hash":"847c1bc908baa9b3","in":{"base":"Any","pred":"isinstance(H, FpGroup) and isinstance(G, (PermutationGroup, FpGroup)) and isinstance(G, (PermutationGroup, FpGroup)) and isinstance(H, (PermutationGroup, FpGroup)) and hasattr(G, 'order') and hasattr(H, 'order') and hasattr(G, 'generators') and hasattr(H, '_to_perm_group') and hasattr(G, 'is_abelian') and hasattr(H, 'is_abelian') and hasattr(H, 'generators') and hasattr(G, 'relators') and hasattr(H, 'relators')"},"out":{"base":"Any","pred":"result satisfies: len(G) == old_len_G and len(H) == old_len_H"},"spec":{"lhs":"group_isomorphism(G, H, isomorphism)","rhs":"len(G) == old_len_G and len(H) == old_len_H","over":{"base":"Any","pred":"isinstance(H, FpGroup) and isinstance(G, (PermutationGroup, FpGroup)) and isinstance(G, (PermutationGroup, FpGroup)) and isinstance(H, (PermutationGroup, FpGroup)) and hasattr(G, 'order') and hasattr(H, 'order') and hasattr(G, 'generators') and hasattr(H, '_to_perm_group') and hasattr(G, 'is_abelian') and hasattr(H, 'is_abelian') and hasattr(H, 'generators') and hasattr(G, 'relators') and hasattr(H, 'relators')"},"name":"group_isomorphism_correct"},"guarantee":"len(G) == old_len_G; len(H) == old_len_H","fibers":[{"name":"FpGroup","pred":"isinstance(H, FpGroup)","path":{"lhs":"group_isomorphism(x)","rhs":"len(G) == old_len_G; len(H) == old_len_H","over":{"base":"FpGroup","pred":"isinstance(H, FpGroup)"},"name":"group_isomorphism_FpGroup_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.homomorphisms.group_isomorphism_FpGroup_correct","statement":"group_isomorphism satisfies spec on FpGroup inputs"},"trust":"LIBRARY"},{"name":"(PermutationGroup","pred":"isinstance(G, (PermutationGroup, FpGroup))","path":{"lhs":"group_isomorphism(x)","rhs":"len(G) == old_len_G; len(H) == old_len_H","over":{"base":"(PermutationGroup","pred":"isinstance(G, (PermutationGroup, FpGroup))"},"name":"group_isomorphism_(PermutationGroup_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.homomorphisms.group_isomorphism_(PermutationGroup_correct","statement":"group_isomorphism satisfies spec on (PermutationGroup inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"54e9c1b71dc2d934","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(G, (PermutationGroup, FpGroup))","isinstance(H, (PermutationGroup, FpGroup))","hasattr(G, 'order')","hasattr(H, 'order')","hasattr(G, 'generators')","hasattr(H, '_to_perm_group')","hasattr(G, 'is_abelian')","hasattr(H, 'is_abelian')","hasattr(H, 'generators')","hasattr(G, 'relators')","hasattr(H, 'relators')"],"ensures":["len(G) == old_len_G","len(H) == old_len_H"],"pure":false,"effects":{"effect_type":"mutates_args","reads":["G.generators","G.is_abelian","G.order","G.relators","H._to_perm_group","H.generators","H.is_abelian","H.order","H.relators"],"calls_mutating":["G.relators.sort","H.relators.sort","images.extend"],"raises":["NotImplementedError","TypeError"]},"state_contract":{"modifies":["G.*","H.*","images.*"],"old_bindings":{"old_len_G":"len(G)","old_len_H":"len(H)","old_len_images":"len(images)"},"post_ensures":["len(G) == old_len_G","len(H) == old_len_H"],"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"],"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":1,"n_assumed":2,"n_failed":2,"trust_level":"LIBRARY_ASSUMED","compile_ms":5.1,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(H, FpGroup)', 'g_order != h_order or G.is_abelian != H.is_abelian', 'G.generators == H.generators and G.relators.sort() == H.relators.sort()', 'not isinstance(G, (PermutationGroup, FpGroup))', 'isinstance(G, FpGroup) and isinstance(H, FpGroup)', 'igcd(n, totient(n)) == 1', 'not isinstance(H, (PermutationGroup, FpGroup))'}, fibers={'(PermutationGroup', 'FpGroup'})"]}}
 def group_isomorphism(G, H, isomorphism=True):
     '''
     Compute an isomorphism between 2 given groups.
@@ -793,16 +952,22 @@ def group_isomorphism(G, H, isomorphism=True):
     return (False, None)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_isomorphic(G, ), check if the groups are isomorphic to each other) over Any ║
+# ║ Path(is_isomorphic(G, H), group_isomorphism(G, H, isomorphism=False)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  group_isomorphism(G, H, isomorphism=False)     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_isomorphic : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e1b5e8530abc9944           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.homomorphisms.is_isomorphic","kind":"function","src_hash":"7d72eff157d3731c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_isomorphic(G, )","rhs":"check if the groups are isomorphic to each other","over":{"base":"Any"},"name":"is_isomorphic_correct"},"guarantee":"check if the groups are isomorphic to each other","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e1b5e8530abc9944"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.homomorphisms.is_isomorphic","kind":"function","src_hash":"7d72eff157d3731c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_isomorphic(G, H)","rhs":"group_isomorphism(G, H, isomorphism=False)","over":{"base":"Any"},"name":"is_isomorphic_correct"},"guarantee":"returns group_isomorphism(G, H, isomorphism=False)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e1b5e8530abc9944","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"group_isomorphism(G, H, isomorphism=False)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def is_isomorphic(G, H):
     '''
     Check if the groups are isomorphic to each other

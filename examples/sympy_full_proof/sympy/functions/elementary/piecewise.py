@@ -36,28 +36,45 @@ Undefined = S.NaN  # Piecewise()
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a ExprCondPair instance) preserved by ExprCondPair(*args) over {Any | isinstance(cond, Boolean) and isinstance(cond, Basic) and isinstance(cond, Piecewise)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Tuple)                        ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ ExprCondPair : {Any | isinstance(cond, Boolean) and i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4e15140226476f79  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.piecewise.ExprCondPair","kind":"class","src_hash":"1b7a15c1ab10212e","in":{"base":"Any","pred":"isinstance(cond, Boolean) and isinstance(cond, Basic) and isinstance(cond, Piecewise)"},"out":{"base":"Any"},"spec":{"lhs":"ExprCondPair(*args)","rhs":"correctly constructs a ExprCondPair instance","over":{"base":"Any","pred":"isinstance(cond, Boolean) and isinstance(cond, Basic) and isinstance(cond, Piecewise)"},"name":"ExprCondPair_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a ExprCondPair instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_commutative","pred":"self.is_commutative","kind":"class"}],"methods_preserving":["expr","cond","is_commutative","__iter__","_eval_simplify"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4e15140226476f79"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.piecewise.ExprCondPair","kind":"class","src_hash":"1b7a15c1ab10212e","in":{"base":"Any","pred":"isinstance(cond, Boolean) and isinstance(cond, Basic) and isinstance(cond, Piecewise)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Tuple)"},"spec":{"lhs":"ExprCondPair(*args)","rhs":"correctly constructs a ExprCondPair instance","over":{"base":"Any","pred":"isinstance(cond, Boolean) and isinstance(cond, Basic) and isinstance(cond, Piecewise)"},"name":"ExprCondPair_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, Tuple)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_commutative","pred":"self.is_commutative","kind":"class"}],"methods_preserving":["expr","cond","is_commutative","__iter__","_eval_simplify"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4e15140226476f79","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Tuple)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function ExprCondPair not found in source"]}}
 class ExprCondPair(Tuple):
     """Represents an expression, condition pair."""
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, expr, cond), <unspecified:__new__>) over {Any | isinstance(cond, Boolean) and hasattr(cond, 'has') and hasattr(cond, 'rewrite')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(cond, Boolean)                      ║
+# ║   requires: hasattr(cond, 'has')                           ║
+# ║   requires: hasattr(cond, 'rewrite')                       ║
+# ║   fiber[case_0]: cond == True => Tuple.__new__(cls, e...   ║
+# ║   fiber[case_1]: cond == False => Tuple.__new__(cls, ...   ║
+# ║   fiber[Basic]: isinstance(cond, Basic) and cond.has(...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | isinstance(cond, Boolean) and hasatt...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6d0996213b5f4d3a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.piecewise.ExprCondPair.__new__","kind":"method","src_hash":"d5a837a72def9f54","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6d0996213b5f4d3a"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.piecewise.ExprCondPair.__new__","kind":"method","src_hash":"d5a837a72def9f54","in":{"base":"Any","pred":"isinstance(cond, Boolean) and hasattr(cond, 'has') and hasattr(cond, 'rewrite')"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, expr, cond)","rhs":"<unspecified:__new__>","over":{"base":"Any","pred":"isinstance(cond, Boolean) and hasattr(cond, 'has') and hasattr(cond, 'rewrite')"},"name":"__new___correct"},"guarantee":"3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6d0996213b5f4d3a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(cond, Boolean)","hasattr(cond, 'has')","hasattr(cond, 'rewrite')"],"fibers":[{"name":"case_0","guard":"cond == True","ensures":["result == Tuple.__new__(cls, expr, true)"],"decidability":"z3","returns_expr":"Tuple.__new__(cls, expr, true)"},{"name":"case_1","guard":"cond == False","ensures":["result == Tuple.__new__(cls, expr, false)"],"decidability":"z3","returns_expr":"Tuple.__new__(cls, expr, false)"},{"name":"Basic","guard":"isinstance(cond, Basic) and cond.has(Piecewise)","ensures":[],"decidability":"structural"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["cond.has","cond.rewrite"],"raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, expr, cond):
         expr = as_Basic(expr)
         if cond == True:
@@ -77,16 +94,22 @@ class ExprCondPair(Tuple):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(expr(), returns the expr attribute) over Any          ║
+# ║ Path(expr(), self.args[0]) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ expr : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0594151e1da5ae6b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.piecewise.ExprCondPair.expr","kind":"property","src_hash":"14e6f272e84f0095","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"expr()","rhs":"returns the expr attribute","over":{"base":"Any"},"name":"expr_correct"},"guarantee":"returns the expr attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0594151e1da5ae6b"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.piecewise.ExprCondPair.expr","kind":"property","src_hash":"14e6f272e84f0095","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"expr()","rhs":"self.args[0]","over":{"base":"Any"},"name":"expr_correct"},"guarantee":"returns self.args[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0594151e1da5ae6b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def expr(self):
         """
         Returns the expression of this pair.
@@ -95,16 +118,22 @@ class ExprCondPair(Tuple):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(cond(), returns the cond attribute) over Any          ║
+# ║ Path(cond(), self.args[1]) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[1]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ cond : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 139fb0b0a3be6174           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.piecewise.ExprCondPair.cond","kind":"property","src_hash":"4d48670c771ba06d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"cond()","rhs":"returns the cond attribute","over":{"base":"Any"},"name":"cond_correct"},"guarantee":"returns the cond attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"139fb0b0a3be6174"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.piecewise.ExprCondPair.cond","kind":"property","src_hash":"4d48670c771ba06d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"cond()","rhs":"self.args[1]","over":{"base":"Any"},"name":"cond_correct"},"guarantee":"returns self.args[1]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"139fb0b0a3be6174","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[1]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def cond(self):
         """
         Returns the condition of this pair.
@@ -113,45 +142,63 @@ class ExprCondPair(Tuple):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_commutative(), returns the is_commutative attribute) over Any ║
+# ║ Path(is_commutative(), self.expr.is_commutative) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.expr.is_commutative                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_commutative : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e726b7169a42cf17           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.piecewise.ExprCondPair.is_commutative","kind":"property","src_hash":"b09a6f4397ec3421","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_commutative()","rhs":"returns the is_commutative attribute","over":{"base":"Any"},"name":"is_commutative_correct"},"guarantee":"returns the is_commutative attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e726b7169a42cf17"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.piecewise.ExprCondPair.is_commutative","kind":"property","src_hash":"b09a6f4397ec3421","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_commutative()","rhs":"self.expr.is_commutative","over":{"base":"Any"},"name":"is_commutative_correct"},"guarantee":"returns self.expr.is_commutative","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e726b7169a42cf17","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.expr.is_commutative","pure":false,"effects":{"effect_type":"reads_state","reads":["self.expr"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_commutative(self):
         return self.expr.is_commutative
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__iter__(), yields all elements in order) over Any    ║
+# ║ Path(__iter__(), <unspecified:__iter__>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __iter__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | bf990acece47a386           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.piecewise.ExprCondPair.__iter__","kind":"method","src_hash":"8bc5a130d912ce4f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__iter__()","rhs":"yields all elements in order","over":{"base":"Any"},"name":"__iter___correct"},"guarantee":"yields all elements in order","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bf990acece47a386"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.piecewise.ExprCondPair.__iter__","kind":"method","src_hash":"8bc5a130d912ce4f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__iter__()","rhs":"<unspecified:__iter__>","over":{"base":"Any"},"name":"__iter___correct"},"guarantee":"yields all elements in order","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bf990acece47a386","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.cond","self.expr"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __iter__(self):
         yield self.expr
         yield self.cond
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_simplify(**k), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_simplify(**kwargs), self.func(*[a.simplify(**kwargs) for a in self.args])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.func(*[a.simplify(**kwargs) for a in...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_simplify : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e2b2d10915fe8e11           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.piecewise.ExprCondPair._eval_simplify","kind":"method","src_hash":"9eea302c5327a174","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_simplify(**k)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_simplify_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e2b2d10915fe8e11"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.piecewise.ExprCondPair._eval_simplify","kind":"method","src_hash":"9eea302c5327a174","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_simplify(**kwargs)","rhs":"self.func(*[a.simplify(**kwargs) for a in self.args])","over":{"base":"Any"},"name":"_eval_simplify_correct"},"guarantee":"returns self.func(*[a.simplify(**kwargs) for a in self.args])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e2b2d10915fe8e11","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.func(*[a.simplify(**kwargs) for a in self.args])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.func"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_simplify(self, **kwargs):
         return self.func(*[a.simplify(**kwargs) for a in self.args])
 
@@ -159,14 +206,20 @@ class ExprCondPair(Tuple):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Piecewise(*args), correctly constructs a Piecewise instance) over {Any | isinstance(self, Piecewise) and isinstance(cond, Eq) and isinstance(rv, Relational)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DefinedFunction)              ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ Piecewise : {Any | isinstance(self, Piecewise) and is...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 6.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 56179006d193a653  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.piecewise.Piecewise","kind":"class","src_hash":"e7179353697bce80","in":{"base":"Any","pred":"isinstance(self, Piecewise) and isinstance(cond, Eq) and isinstance(rv, Relational)"},"out":{"base":"Any","pred":"isinstance(self, Piecewise)"},"spec":{"lhs":"Piecewise(*args)","rhs":"correctly constructs a Piecewise instance","over":{"base":"Any","pred":"isinstance(self, Piecewise) and isinstance(cond, Eq) and isinstance(rv, Relational)"},"name":"Piecewise_class_invariant"},"guarantee":"correctly constructs a Piecewise instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"56179006d193a653"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.piecewise.Piecewise","kind":"class","src_hash":"e7179353697bce80","in":{"base":"Any","pred":"isinstance(self, Piecewise) and isinstance(cond, Eq) and isinstance(rv, Relational)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DefinedFunction)"},"spec":{"lhs":"Piecewise(*args)","rhs":"correctly constructs a Piecewise instance","over":{"base":"Any","pred":"isinstance(self, Piecewise) and isinstance(cond, Eq) and isinstance(rv, Relational)"},"name":"Piecewise_class_invariant"},"guarantee":"isinstance(self, DefinedFunction)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"56179006d193a653","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DefinedFunction)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":6.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function Piecewise not found in source"]}}
 class Piecewise(DefinedFunction):
     """
     Represents a piecewise function.
@@ -234,16 +287,25 @@ class Piecewise(DefinedFunction):
     is_Piecewise = True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, *args, **options), len(newargs) == old_len_newargs + 1 and len(options) == old_len_options - 1) over {Any | not (len(args) == 0) and len(options) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (len(args) == 0)                           ║
+# ║   requires: len(options) > 0                               ║
+# ║   ensures:  len(newargs) == old_len_newargs + 1            ║
+# ║   ensures:  len(options) == old_len_options - 1            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | not (len(args) == 0) and len(options...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e659d1b7228516db           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.piecewise.Piecewise.__new__","kind":"method","src_hash":"8c24963059c18c50","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e659d1b7228516db"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.piecewise.Piecewise.__new__","kind":"method","src_hash":"8c24963059c18c50","in":{"base":"Any","pred":"not (len(args) == 0) and len(options) > 0"},"out":{"base":"Any","pred":"result satisfies: len(newargs) == old_len_newargs + 1 and len(options) == old_len_options - 1"},"spec":{"lhs":"__new__(cls, *args, **options)","rhs":"len(newargs) == old_len_newargs + 1 and len(options) == old_len_options - 1","over":{"base":"Any","pred":"not (len(args) == 0) and len(options) > 0"},"name":"__new___correct"},"guarantee":"len(newargs) == old_len_newargs + 1; len(options) == old_len_options - 1","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e659d1b7228516db","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (len(args) == 0)","len(options) > 0"],"ensures":["len(newargs) == old_len_newargs + 1","len(options) == old_len_options - 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["cls.eval"],"calls_mutating":["newargs.append","options.pop"],"raises":["TypeError"]},"state_contract":{"modifies":["newargs.*","options.*"],"old_bindings":{"old_len_newargs":"len(newargs)","old_len_options":"len(options)"},"pre_requires":["len(options) > 0"],"post_ensures":["len(newargs) == old_len_newargs + 1","len(options) == old_len_options - 1"],"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, *args, **options):
         if len(args) == 0:
             raise TypeError("At least one (expr, cond) pair expected.")
@@ -271,16 +333,22 @@ class Piecewise(DefinedFunction):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), either return a modified version of the args or, if no modifications were made, return none) over Any ║
+# ║ Path(eval(cls, *_args), <unspecified:eval>) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ eval : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1a9b400c08ebc407  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.piecewise.Piecewise.eval","kind":"classmethod","src_hash":"8ba03f0ff1bd206e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"either return a modified version of the args or, if no modifications were made, return none","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"either return a modified version of the args or, if no modifications were made, return none","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.piecewise.Piecewise.eval_correct","statement":"Path(eval(x), either return a modified version of the args or, if no modifications were made, return none)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1a9b400c08ebc407"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.piecewise.Piecewise.eval","kind":"classmethod","src_hash":"8ba03f0ff1bd206e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls, *_args)","rhs":"<unspecified:eval>","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"either return a modified version of the args or, if no modifications were made, return none","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.piecewise.Piecewise.eval_correct","statement":"Path(eval(x), either return a modified version of the args or, if no modifications were made, return none)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1a9b400c08ebc407","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, *_args):
         """Either return a modified version of the args or, if no
         modifications were made, return None.
@@ -331,16 +399,22 @@ class Piecewise(DefinedFunction):
             return cls(*newargs)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(doit(**h), evaluate this piecewise function) over Any ║
+# ║ Path(doit(**hints), self.func(*newargs)) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.func(*newargs)                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ doit : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d311d08119f0f044  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5701e1a105d3a878  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.piecewise.Piecewise.doit","kind":"method","src_hash":"9e8a225d27668025","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"doit(**h)","rhs":"evaluate this piecewise function","over":{"base":"Any"},"name":"doit_correct"},"guarantee":"evaluate this piecewise function","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.piecewise.Piecewise.doit_correct","statement":"Path(doit(x), evaluate this piecewise function)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d311d08119f0f044"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.piecewise.Piecewise.doit","kind":"method","src_hash":"9e8a225d27668025","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"doit(**hints)","rhs":"self.func(*newargs)","over":{"base":"Any"},"name":"doit_correct"},"guarantee":"returns self.func(*newargs)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.piecewise.Piecewise.doit_correct","statement":"Path(doit(x), returns self.func(*newargs))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5701e1a105d3a878","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.func(*newargs)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def doit(self, **hints):
         """
         Evaluate this piecewise function.
@@ -358,102 +432,145 @@ class Piecewise(DefinedFunction):
         return self.func(*newargs)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_simplify(**k), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_simplify(**kwargs), piecewise_simplify(self, **kwargs)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  piecewise_simplify(self, **kwargs)             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_simplify : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | cd5cca6b78420fc6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.piecewise.Piecewise._eval_simplify","kind":"method","src_hash":"7689e95f823304b5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_simplify(**k)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_simplify_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cd5cca6b78420fc6"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.piecewise.Piecewise._eval_simplify","kind":"method","src_hash":"7689e95f823304b5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_simplify(**kwargs)","rhs":"piecewise_simplify(self, **kwargs)","over":{"base":"Any"},"name":"_eval_simplify_correct"},"guarantee":"returns piecewise_simplify(self, **kwargs)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cd5cca6b78420fc6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"piecewise_simplify(self, **kwargs)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_simplify(self, **kwargs):
         return piecewise_simplify(self, **kwargs)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_as_leading_term(x, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_as_leading_term(x, logx, cdir), e.as_leading_term(x)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  e.as_leading_term(x)                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_as_leading_term : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3751dd7df7c8c69b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f3710d14128dc724  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.piecewise.Piecewise._eval_as_leading_term","kind":"method","src_hash":"a8beed81a6ef351d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_as_leading_term(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_as_leading_term_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.piecewise.Piecewise._eval_as_leading_term_correct","statement":"Path(_eval_as_leading_term(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3751dd7df7c8c69b"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.piecewise.Piecewise._eval_as_leading_term","kind":"method","src_hash":"a8beed81a6ef351d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_as_leading_term(x, logx, cdir)","rhs":"e.as_leading_term(x)","over":{"base":"Any"},"name":"_eval_as_leading_term_correct"},"guarantee":"returns e.as_leading_term(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.piecewise.Piecewise._eval_as_leading_term_correct","statement":"Path(_eval_as_leading_term(x), returns e.as_leading_term(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f3710d14128dc724","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"e.as_leading_term(x)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_as_leading_term(self, x, logx, cdir):
         for e, c in self.args:
             if c == True or c.subs(x, 0) == True:
                 return e.as_leading_term(x)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_adjoint(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_adjoint(), self.func(*[(e.adjoint(), c) for e, c in self.args])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.func(*[(e.adjoint(), c) for e, c in ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_adjoint : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1d8c7ffdd5147f9f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.piecewise.Piecewise._eval_adjoint","kind":"method","src_hash":"4ec1510afacea89c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_adjoint()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_adjoint_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1d8c7ffdd5147f9f"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.piecewise.Piecewise._eval_adjoint","kind":"method","src_hash":"4ec1510afacea89c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_adjoint()","rhs":"self.func(*[(e.adjoint(), c) for e, c in self.args])","over":{"base":"Any"},"name":"_eval_adjoint_correct"},"guarantee":"returns self.func(*[(e.adjoint(), c) for e, c in self.args])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1d8c7ffdd5147f9f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.func(*[(e.adjoint(), c) for e, c in self.args])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.func"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_adjoint(self):
         return self.func(*[(e.adjoint(), c) for e, c in self.args])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_conjugate(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_conjugate(), self.func(*[(e.conjugate(), c) for e, c in self.args])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.func(*[(e.conjugate(), c) for e, c i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_conjugate : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4a45f2c67f9aecc0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.piecewise.Piecewise._eval_conjugate","kind":"method","src_hash":"ad9121384514540c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_conjugate()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_conjugate_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4a45f2c67f9aecc0"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.piecewise.Piecewise._eval_conjugate","kind":"method","src_hash":"ad9121384514540c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_conjugate()","rhs":"self.func(*[(e.conjugate(), c) for e, c in self.args])","over":{"base":"Any"},"name":"_eval_conjugate_correct"},"guarantee":"returns self.func(*[(e.conjugate(), c) for e, c in self.args])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4a45f2c67f9aecc0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.func(*[(e.conjugate(), c) for e, c in self.args])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.func"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_conjugate(self):
         return self.func(*[(e.conjugate(), c) for e, c in self.args])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_derivative(x), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_derivative(x), self.func(*[(diff(e, x), c) for e, c in self.args])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.func(*[(diff(e, x), c) for e, c in s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_derivative : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d4b152038cafb222           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.piecewise.Piecewise._eval_derivative","kind":"method","src_hash":"63e01aec617607a9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_derivative(x)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_derivative_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d4b152038cafb222"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.piecewise.Piecewise._eval_derivative","kind":"method","src_hash":"63e01aec617607a9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_derivative(x)","rhs":"self.func(*[(diff(e, x), c) for e, c in self.args])","over":{"base":"Any"},"name":"_eval_derivative_correct"},"guarantee":"returns self.func(*[(diff(e, x), c) for e, c in self.args])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d4b152038cafb222","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.func(*[(diff(e, x), c) for e, c in self.args])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.func"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_derivative(self, x):
         return self.func(*[(diff(e, x), c) for e, c in self.args])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_evalf(pre), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_evalf(prec), self.func(*[(e._evalf(prec), c) for e, c in self.args])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.func(*[(e._evalf(prec), c) for e, c ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_evalf : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 41951d174f7c3627           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.piecewise.Piecewise._eval_evalf","kind":"method","src_hash":"9f54f99562272b93","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_evalf(pre)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_evalf_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"41951d174f7c3627"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.piecewise.Piecewise._eval_evalf","kind":"method","src_hash":"9f54f99562272b93","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_evalf(prec)","rhs":"self.func(*[(e._evalf(prec), c) for e, c in self.args])","over":{"base":"Any"},"name":"_eval_evalf_correct"},"guarantee":"returns self.func(*[(e._evalf(prec), c) for e, c in self.args])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"41951d174f7c3627","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.func(*[(e._evalf(prec), c) for e, c in self.args])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.func"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_evalf(self, prec):
         return self.func(*[(e._evalf(prec), c) for e, c in self.args])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_meromorphic(x, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_meromorphic(x, a), <unspecified:_eval_is_meromorphic>) over {Any | hasattr(a, 'is_real')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_is_meromorphic : Any → Any                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(a, 'is_real')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_is_meromorphic : {Any | hasattr(a, 'is_real')} ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9147a169f3f883f2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.piecewise.Piecewise._eval_is_meromorphic","kind":"method","src_hash":"f735644f89420962","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_meromorphic(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_meromorphic_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.piecewise.Piecewise._eval_is_meromorphic_correct","statement":"Path(_eval_is_meromorphic(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9147a169f3f883f2"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.piecewise.Piecewise._eval_is_meromorphic","kind":"method","src_hash":"f735644f89420962","in":{"base":"Any","pred":"hasattr(a, 'is_real')"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_meromorphic(x, a)","rhs":"<unspecified:_eval_is_meromorphic>","over":{"base":"Any","pred":"hasattr(a, 'is_real')"},"name":"_eval_is_meromorphic_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.piecewise.Piecewise._eval_is_meromorphic_correct","statement":"Path(_eval_is_meromorphic(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9147a169f3f883f2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(a, 'is_real')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["a.is_real","self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_meromorphic(self, x, a):
         # Conditions often implicitly assume that the argument is real.
         # Hence, there needs to be some check for as_set.
@@ -474,16 +591,22 @@ class Piecewise(DefinedFunction):
                 return e._eval_is_meromorphic(x, a)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(piecewise_integrate(x, ), id) over Any                ║
+# ║ Path(piecewise_integrate(x, **kwargs), id) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.func(*[(integrate(e, x, **kwargs), c...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ piecewise_integrate : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | f3c1ca479f6a9491   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.piecewise.Piecewise.piecewise_integrate","kind":"method","src_hash":"1f5cb71431d69a94","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"piecewise_integrate(x, )","rhs":"return the piecewise with each expression being replaced with its antiderivative","over":{"base":"Any"},"name":"piecewise_integrate_correct","kind":"composition"},"guarantee":"return the piecewise with each expression being replaced with its antiderivative","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"func","by":"library_axiom"},{"fn":"integrate","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f3c1ca479f6a9491"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.piecewise.Piecewise.piecewise_integrate","kind":"method","src_hash":"1f5cb71431d69a94","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"piecewise_integrate(x, **kwargs)","rhs":"self.func(*[(integrate(e, x, **kwargs), c) for e, c in self.args])","over":{"base":"Any"},"name":"piecewise_integrate_correct","kind":"composition"},"guarantee":"returns self.func(*[(integrate(e, x, **kwargs), c) for e, c in self.args])","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"func","by":"library_axiom"},{"fn":"integrate","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f3c1ca479f6a9491","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.func(*[(integrate(e, x, **kwargs), c) for e, c in self.args])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.func"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def piecewise_integrate(self, x, **kwargs):
         """Return the Piecewise with each expression being
         replaced with its antiderivative. To obtain a continuous
@@ -522,16 +645,22 @@ class Piecewise(DefinedFunction):
         return self.func(*[(integrate(e, x, **kwargs), c) for e, c in self.args])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_handle_irel(x, ), return either none (if the conditions of self depend only on x) else a piecewise expression whose expressions (handled by the handler that was passed) are paired with the governing x-independent relat) over Any ║
+# ║ Path(_handle_irel(x, handler), Piecewise(*args)) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Piecewise(*args)                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _handle_irel : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dd9373a515b5237c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 088cfb485ed9b392  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.piecewise.Piecewise._handle_irel","kind":"method","src_hash":"da80b57ce38b3cf7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_handle_irel(x, )","rhs":"return either none (if the conditions of self depend only on x) else a piecewise expression whose expressions (handled by the handler that was passed) are paired with the governing x-independent relat","over":{"base":"Any"},"name":"_handle_irel_correct"},"guarantee":"return either none (if the conditions of self depend only on x) else a piecewise expression whose expressions (handled by the handler that was passed) are paired with the governing x-independent relat","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.piecewise.Piecewise._handle_irel_correct","statement":"Path(_handle_irel(x), return either none (if the conditions of self depend only on x) else a piecewise expression whose expressions (handled by the handler that was passed) are paired with the governing x-independent relat)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dd9373a515b5237c"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.piecewise.Piecewise._handle_irel","kind":"method","src_hash":"da80b57ce38b3cf7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_handle_irel(x, handler)","rhs":"Piecewise(*args)","over":{"base":"Any"},"name":"_handle_irel_correct"},"guarantee":"returns Piecewise(*args)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.piecewise.Piecewise._handle_irel_correct","statement":"Path(_handle_irel(x), returns Piecewise(*args))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"088cfb485ed9b392","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Piecewise(*args)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _handle_irel(self, x, handler):
         """Return either None (if the conditions of self depend only on x) else
         a Piecewise expression whose expressions (handled by the handler that
@@ -600,16 +729,22 @@ class Piecewise(DefinedFunction):
             return Piecewise(*args)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_integral(x, ), return the indefinite integral of the piecewise such that subsequent substitution of x with a value will give the value of the integral (not including the constant of integration) up to that point) over Any ║
+# ║ Path(_eval_integral(x, _first, **kwargs), <unspecified:_eval_integral>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_integral : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8b6b1dad6d08d013  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.piecewise.Piecewise._eval_integral","kind":"method","src_hash":"d1751f76a99ba95e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_integral(x, )","rhs":"return the indefinite integral of the piecewise such that subsequent substitution of x with a value will give the value of the integral (not including the constant of integration) up to that point","over":{"base":"Any"},"name":"_eval_integral_correct"},"guarantee":"return the indefinite integral of the piecewise such that subsequent substitution of x with a value will give the value of the integral (not including the constant of integration) up to that point","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.piecewise.Piecewise._eval_integral_correct","statement":"Path(_eval_integral(x), return the indefinite integral of the piecewise such that subsequent substitution of x with a value will give the value of the integral (not including the constant of integration) up to that point)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8b6b1dad6d08d013"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.piecewise.Piecewise._eval_integral","kind":"method","src_hash":"d1751f76a99ba95e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_integral(x, _first, **kwargs)","rhs":"<unspecified:_eval_integral>","over":{"base":"Any"},"name":"_eval_integral_correct"},"guarantee":"return the indefinite integral of the piecewise such that subsequent substitution of x with a value will give the value of the integral (not including the constant of integration) up to that point","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.piecewise.Piecewise._eval_integral_correct","statement":"Path(_eval_integral(x), return the indefinite integral of the piecewise such that subsequent substitution of x with a value will give the value of the integral (not including the constant of integration) up to that point)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8b6b1dad6d08d013","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_integral(self, x, _first=True, **kwargs):
         """Return the indefinite integral of the
         Piecewise such that subsequent substitution of x with a
@@ -700,16 +835,23 @@ class Piecewise(DefinedFunction):
         return Piecewise(*args)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_interval(sym), id) over Any                     ║
+# ║ Path(_eval_interval(sym, a, b), id) over Any               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[zero_or_none]: a is None or b is None => supe...   ║
+# ║   fiber[zero_or_none]: not (a is None or b is None)        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_interval : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | b25d787841394233   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.piecewise.Piecewise._eval_interval","kind":"method","src_hash":"b86ec929b72034c1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_interval(sym)","rhs":"evaluates the function along the sym in a given interval [a, b]","over":{"base":"Any"},"name":"_eval_interval_correct","kind":"composition"},"guarantee":"evaluates the function along the sym in a given interval [a, b]","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"super","by":"library_axiom"},{"fn":"_eval_interval","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b25d787841394233"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.piecewise.Piecewise._eval_interval","kind":"method","src_hash":"b86ec929b72034c1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_interval(sym, a, b)","rhs":"<unspecified:_eval_interval>","over":{"base":"Any"},"name":"_eval_interval_correct","kind":"composition"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"super","by":"library_axiom"},{"fn":"_eval_interval","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b25d787841394233","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"zero_or_none","guard":"a is None or b is None","ensures":["result == super()._eval_interval(sym, a, b)"],"decidability":"structural","returns_expr":"super()._eval_interval(sym, a, b)"},{"name":"zero_or_none","guard":"not (a is None or b is None)","ensures":[],"decidability":"structural"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._eval_interval","self._handle_irel","self._intervals","self.diff","self.func"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_interval(self, sym, a, b, _first=True):
         """Evaluates the function along the sym in a given interval [a, b]"""
         # FIXME: Currently complex intervals are not supported.  A possible
@@ -841,16 +983,22 @@ class Piecewise(DefinedFunction):
         return sum
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_intervals(sym), return a bool and a message (when bool is false), else a list of unique tuples, (a, b, e, i), where a and b are the lower and upper bounds in which the expression e of argument i in self is defined an) over Any ║
+# ║ Path(_intervals(sym, err_on_Eq), isinstance(self, Piecewise)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _intervals : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Piecewise)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _intervals : Any → {Any | result satisfies: isinstanc...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 09f4426b14495fa1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ad3c7c73d81379ac  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.piecewise.Piecewise._intervals","kind":"method","src_hash":"227ff40d19a4bb4a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_intervals(sym)","rhs":"return a bool and a message (when bool is false), else a list of unique tuples, (a, b, e, i), where a and b are the lower and upper bounds in which the expression e of argument i in self is defined an","over":{"base":"Any"},"name":"_intervals_correct"},"guarantee":"return a bool and a message (when bool is false), else a list of unique tuples, (a, b, e, i), where a and b are the lower and upper bounds in which the expression e of argument i in self is defined an","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.piecewise.Piecewise._intervals_correct","statement":"Path(_intervals(x), return a bool and a message (when bool is false), else a list of unique tuples, (a, b, e, i), where a and b are the lower and upper bounds in which the expression e of argument i in self is defined an)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"09f4426b14495fa1"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.piecewise.Piecewise._intervals","kind":"method","src_hash":"227ff40d19a4bb4a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Piecewise)"},"spec":{"lhs":"_intervals(sym, err_on_Eq)","rhs":"isinstance(self, Piecewise)","over":{"base":"Any"},"name":"_intervals_correct"},"guarantee":"isinstance(self, Piecewise)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.piecewise.Piecewise._intervals_correct","statement":"Path(_intervals(x), isinstance(self, Piecewise))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ad3c7c73d81379ac","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Piecewise)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _intervals(self, sym, err_on_Eq=False):
         r"""Return a bool and a message (when bool is False), else a
         list of unique tuples, (a, b, e, i), where a and b
@@ -1018,45 +1166,63 @@ class Piecewise(DefinedFunction):
         return True, list(uniq(int_expr))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_nseries(x, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_nseries(x, n, logx), self.func(*args)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.func(*args)                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_nseries : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5a551ef17e1aebe4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5bfe61e2dc206b7d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.piecewise.Piecewise._eval_nseries","kind":"method","src_hash":"d845ef5088ae3b8b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_nseries(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_nseries_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.piecewise.Piecewise._eval_nseries_correct","statement":"Path(_eval_nseries(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5a551ef17e1aebe4"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.piecewise.Piecewise._eval_nseries","kind":"method","src_hash":"d845ef5088ae3b8b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_nseries(x, n, logx)","rhs":"self.func(*args)","over":{"base":"Any"},"name":"_eval_nseries_correct"},"guarantee":"returns self.func(*args)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.piecewise.Piecewise._eval_nseries_correct","statement":"Path(_eval_nseries(x), returns self.func(*args))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5bfe61e2dc206b7d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.func(*args)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.func"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_nseries(self, x, n, logx, cdir=0):
         args = [(ec.expr._eval_nseries(x, n, logx), ec.cond) for ec in self.args]
         return self.func(*args)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_power(s), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_power(s), self.func(*[(e ** s, c) for e, c in self.args])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.func(*[(e ** s, c) for e, c in self....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_power : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f2c5b05eb489a5f1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.piecewise.Piecewise._eval_power","kind":"method","src_hash":"7275dc4ff076d867","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_power(s)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_power_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f2c5b05eb489a5f1"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.piecewise.Piecewise._eval_power","kind":"method","src_hash":"7275dc4ff076d867","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_power(s)","rhs":"self.func(*[(e ** s, c) for e, c in self.args])","over":{"base":"Any"},"name":"_eval_power_correct"},"guarantee":"returns self.func(*[(e ** s, c) for e, c in self.args])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f2c5b05eb489a5f1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.func(*[(e ** s, c) for e, c in self.args])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.func"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_power(self, s):
         return self.func(*[(e**s, c) for e, c in self.args])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_subs(old), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_subs(old, new), self.func(*args)) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.func(*args)                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_subs : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7d6f7b0951f777e5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 822d6a9ef5d95692  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.piecewise.Piecewise._eval_subs","kind":"method","src_hash":"bf0fc85539293573","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_subs(old)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_subs_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.piecewise.Piecewise._eval_subs_correct","statement":"Path(_eval_subs(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7d6f7b0951f777e5"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.piecewise.Piecewise._eval_subs","kind":"method","src_hash":"bf0fc85539293573","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_subs(old, new)","rhs":"self.func(*args)","over":{"base":"Any"},"name":"_eval_subs_correct"},"guarantee":"returns self.func(*args)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.piecewise.Piecewise._eval_subs_correct","statement":"Path(_eval_subs(x), returns self.func(*args))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"822d6a9ef5d95692","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.func(*args)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.func"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_subs(self, old, new):
         # this is strictly not necessary, but we can keep track
         # of whether True or False conditions arise and be
@@ -1078,30 +1244,42 @@ class Piecewise(DefinedFunction):
         return self.func(*args)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_transpose(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_transpose(), self.func(*[(e.transpose(), c) for e, c in self.args])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.func(*[(e.transpose(), c) for e, c i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_transpose : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 45ed0a404f6b5849           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.piecewise.Piecewise._eval_transpose","kind":"method","src_hash":"c8bd2dda75998aef","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_transpose()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_transpose_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"45ed0a404f6b5849"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.piecewise.Piecewise._eval_transpose","kind":"method","src_hash":"c8bd2dda75998aef","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_transpose()","rhs":"self.func(*[(e.transpose(), c) for e, c in self.args])","over":{"base":"Any"},"name":"_eval_transpose_correct"},"guarantee":"returns self.func(*[(e.transpose(), c) for e, c in self.args])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"45ed0a404f6b5849","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.func(*[(e.transpose(), c) for e, c in self.args])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.func"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_transpose(self):
         return self.func(*[(e.transpose(), c) for e, c in self.args])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_template_is_attr(is_), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_template_is_attr(is_attr), <unspecified:_eval_template_is_attr>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_template_is_attr : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | feabf15c6586b074  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.piecewise.Piecewise._eval_template_is_attr","kind":"method","src_hash":"a0cc74c48023058b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_template_is_attr(is_)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_template_is_attr_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.piecewise.Piecewise._eval_template_is_attr_correct","statement":"Path(_eval_template_is_attr(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"feabf15c6586b074"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.piecewise.Piecewise._eval_template_is_attr","kind":"method","src_hash":"a0cc74c48023058b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_template_is_attr(is_attr)","rhs":"<unspecified:_eval_template_is_attr>","over":{"base":"Any"},"name":"_eval_template_is_attr_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.piecewise.Piecewise._eval_template_is_attr_correct","statement":"Path(_eval_template_is_attr(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"feabf15c6586b074","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_template_is_attr(self, is_attr):
         b = None
         for expr, _ in self.args:
@@ -1151,16 +1329,24 @@ class Piecewise(DefinedFunction):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__eval_cond(cls), return the truth value of the condition) over Any ║
+# ║ Path(__eval_cond(cls, cond), <unspecified:__eval_cond>) over {Any | hasattr(cond, 'lhs') and hasattr(cond, 'rhs')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __eval_cond : Any → Any                                    ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(cond, 'lhs')                           ║
+# ║   requires: hasattr(cond, 'rhs')                           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __eval_cond : {Any | hasattr(cond, 'lhs') and hasattr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7ab396934799465c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.piecewise.Piecewise.__eval_cond","kind":"classmethod","src_hash":"860db26d8b53e0bf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__eval_cond(cls)","rhs":"return the truth value of the condition","over":{"base":"Any"},"name":"__eval_cond_correct"},"guarantee":"return the truth value of the condition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7ab396934799465c"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.piecewise.Piecewise.__eval_cond","kind":"classmethod","src_hash":"860db26d8b53e0bf","in":{"base":"Any","pred":"hasattr(cond, 'lhs') and hasattr(cond, 'rhs')"},"out":{"base":"Any"},"spec":{"lhs":"__eval_cond(cls, cond)","rhs":"<unspecified:__eval_cond>","over":{"base":"Any","pred":"hasattr(cond, 'lhs') and hasattr(cond, 'rhs')"},"name":"__eval_cond_correct"},"guarantee":"return the truth value of the condition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7ab396934799465c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(cond, 'lhs')","hasattr(cond, 'rhs')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["cond.lhs","cond.rhs"],"catches":["TypeError"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __eval_cond(cls, cond):
         """Return the truth value of the condition."""
         if cond == True:
@@ -1174,16 +1360,23 @@ class Piecewise(DefinedFunction):
                 pass
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(as_expr_set_pairs(dom), return tuples for each argument of self that give the expression and the interval in which it is valid which is contained within the given domain. if a condition cannot be converted to a set, an error) over Any ║
+# ║ Path(as_expr_set_pairs(domain), len(exp_sets) == old_len_exp_sets + 1) over {Any | hasattr(domain, 'is_subset')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ as_expr_set_pairs : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(domain, 'is_subset')                   ║
+# ║   ensures:  len(exp_sets) == old_len_exp_sets + 1          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ as_expr_set_pairs : {Any | hasattr(domain, 'is_subset...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3be1bedb91417425  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9d8cc71daeba9adb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.piecewise.Piecewise.as_expr_set_pairs","kind":"method","src_hash":"16516daae3833205","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_expr_set_pairs(dom)","rhs":"return tuples for each argument of self that give the expression and the interval in which it is valid which is contained within the given domain. if a condition cannot be converted to a set, an error","over":{"base":"Any"},"name":"as_expr_set_pairs_correct"},"guarantee":"return tuples for each argument of self that give the expression and the interval in which it is valid which is contained within the given domain. if a condition cannot be converted to a set, an error","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.piecewise.Piecewise.as_expr_set_pairs_correct","statement":"Path(as_expr_set_pairs(x), return tuples for each argument of self that give the expression and the interval in which it is valid which is contained within the given domain. if a condition cannot be converted to a set, an error)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3be1bedb91417425"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.piecewise.Piecewise.as_expr_set_pairs","kind":"method","src_hash":"16516daae3833205","in":{"base":"Any","pred":"hasattr(domain, 'is_subset')"},"out":{"base":"Any","pred":"result satisfies: len(exp_sets) == old_len_exp_sets + 1"},"spec":{"lhs":"as_expr_set_pairs(domain)","rhs":"len(exp_sets) == old_len_exp_sets + 1","over":{"base":"Any","pred":"hasattr(domain, 'is_subset')"},"name":"as_expr_set_pairs_correct"},"guarantee":"len(exp_sets) == old_len_exp_sets + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.piecewise.Piecewise.as_expr_set_pairs_correct","statement":"Path(as_expr_set_pairs(x), len(exp_sets) == old_len_exp_sets + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9d8cc71daeba9adb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(domain, 'is_subset')"],"ensures":["len(exp_sets) == old_len_exp_sets + 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["domain.is_subset","self.args"],"calls_mutating":["exp_sets.append"],"raises":["NotImplementedError","ValueError"]},"state_contract":{"modifies":["exp_sets.*"],"old_bindings":{"old_len_exp_sets":"len(exp_sets)"},"post_ensures":["len(exp_sets) == old_len_exp_sets + 1"],"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def as_expr_set_pairs(self, domain=None):
         """Return tuples for each argument of self that give
         the expression and the interval in which it is valid
@@ -1234,16 +1427,25 @@ class Piecewise(DefinedFunction):
         return exp_sets
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_ITE(*ar), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_ITE(*args, **kwargs), _canonical(last)) over {Any | not (c != True) and len(free) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_rewrite_as_ITE : Any → Any                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (c != True)                                ║
+# ║   requires: len(free) > 0                                  ║
+# ║   ensures:  len(free) == old_len_free - 1                  ║
+# ║   returns:  _canonical(last)                               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_rewrite_as_ITE : {Any | not (c != True) and len...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8337986b323babe1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 098e2c0a42c47a2a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.piecewise.Piecewise._eval_rewrite_as_ITE","kind":"method","src_hash":"c086ce13d1880b0d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_ITE(*ar)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_ITE_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.piecewise.Piecewise._eval_rewrite_as_ITE_correct","statement":"Path(_eval_rewrite_as_ITE(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8337986b323babe1"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.piecewise.Piecewise._eval_rewrite_as_ITE","kind":"method","src_hash":"c086ce13d1880b0d","in":{"base":"Any","pred":"not (c != True) and len(free) > 0"},"out":{"base":"Any","pred":"result satisfies: result == (_canonical(last))"},"spec":{"lhs":"_eval_rewrite_as_ITE(*args, **kwargs)","rhs":"_canonical(last)","over":{"base":"Any","pred":"not (c != True) and len(free) > 0"},"name":"_eval_rewrite_as_ITE_correct"},"guarantee":"returns _canonical(last); len(free) == old_len_free - 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.piecewise.Piecewise._eval_rewrite_as_ITE_correct","statement":"Path(_eval_rewrite_as_ITE(x), returns _canonical(last); len(free) == old_len_free - 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"098e2c0a42c47a2a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (c != True)","len(free) > 0"],"ensures":["len(free) == old_len_free - 1"],"returns_expr":"_canonical(last)","pure":false,"effects":{"effect_type":"reads_state","calls_mutating":["byfree.setdefault","free.pop"],"raises":["NotImplementedError","TypeError","ValueError"],"catches":["NotImplementedError"]},"state_contract":{"modifies":["byfree.*","free.*"],"old_bindings":{"old_len_free":"len(free)"},"pre_requires":["len(free) > 0"],"post_ensures":["len(free) == old_len_free - 1"],"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"],"TypeError":["isinstance(raised, TypeError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_ITE(self, *args, **kwargs):
         byfree = {}
         args = list(args)
@@ -1290,16 +1492,22 @@ class Piecewise(DefinedFunction):
         return _canonical(last)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_KroneckerDelta(*ar), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_KroneckerDelta(*args, **kwargs), len(conditions) == old_len_conditions + 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_rewrite_as_KroneckerDelta : Any → Any                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(conditions) == old_len_conditions + 1      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_rewrite_as_KroneckerDelta : Any → {Any | result...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6b205b23ad8b32ea  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b670627984ab16e5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.piecewise.Piecewise._eval_rewrite_as_KroneckerDelta","kind":"method","src_hash":"cf033d749dd1635e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_KroneckerDelta(*ar)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_KroneckerDelta_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.piecewise.Piecewise._eval_rewrite_as_KroneckerDelta_correct","statement":"Path(_eval_rewrite_as_KroneckerDelta(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6b205b23ad8b32ea"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.piecewise.Piecewise._eval_rewrite_as_KroneckerDelta","kind":"method","src_hash":"cf033d749dd1635e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(conditions) == old_len_conditions + 1"},"spec":{"lhs":"_eval_rewrite_as_KroneckerDelta(*args, **kwargs)","rhs":"len(conditions) == old_len_conditions + 1","over":{"base":"Any"},"name":"_eval_rewrite_as_KroneckerDelta_correct"},"guarantee":"len(conditions) == old_len_conditions + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.piecewise.Piecewise._eval_rewrite_as_KroneckerDelta_correct","statement":"Path(_eval_rewrite_as_KroneckerDelta(x), len(conditions) == old_len_conditions + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b670627984ab16e5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(conditions) == old_len_conditions + 1"],"pure":false,"effects":{"effect_type":"reads_state","calls_mutating":["conditions.append"],"raises":["UnrecognizedCondition"],"catches":["UnrecognizedCondition"]},"state_contract":{"modifies":["conditions.*"],"old_bindings":{"old_len_conditions":"len(conditions)"},"post_ensures":["len(conditions) == old_len_conditions + 1"],"exceptional_post":{"UnrecognizedCondition":["isinstance(raised, UnrecognizedCondition)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_KroneckerDelta(self, *args, **kwargs):
         from sympy.functions.special.tensor_functions import KroneckerDelta
 
@@ -1356,7 +1564,13 @@ class Piecewise(DefinedFunction):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(piecewise_fold(exp), takes an expression containing a piecewise function and returns the expression in piecewise form) over {Any | isinstance(expr, (ExprCondPair, Piecewise)) and isinstance(expr, Basic) and isinstance(c, ITE)} ║
+# ║ Path(piecewise_fold(expr, evaluate), # HINT: piecewise_fold may be idempotent: piecewise_fold(piecewise_fold(x)) == piecewise_fold(x)) over {Any | isinstance(expr, (ExprCondPair, Piecewise)) and isinstance(expr, Basic) and isinstance(c, ITE) and hasattr(expr, 'args') and hasattr(expr, 'is_Add') and hasattr(expr, 'has') and hasattr(expr, 'is_Mul') and hasattr(expr, 'is_commutative') and hasattr(expr, 'func')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   requires: hasattr(expr, 'is_Add')                        ║
+# ║   requires: hasattr(expr, 'has')                           ║
+# ║   ensures:  # HINT: piecewise_fold may be idempotent:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ piecewise_fold : {Any | isinstance(expr, (ExprCondPai...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -1371,9 +1585,12 @@ class Piecewise(DefinedFunction):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?4 ✗6 VCs | 16.8ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 98d1ab0f...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.piecewise.piecewise_fold","kind":"function","src_hash":"f14911cadc320151","in":{"base":"Any","pred":"isinstance(expr, (ExprCondPair, Piecewise)) and isinstance(expr, Basic) and isinstance(c, ITE)"},"out":{"base":"Any","pred":"not c.has(Piecewise)"},"spec":{"lhs":"piecewise_fold(exp)","rhs":"takes an expression containing a piecewise function and returns the expression in piecewise form","over":{"base":"Any","pred":"isinstance(expr, (ExprCondPair, Piecewise)) and isinstance(expr, Basic) and isinstance(c, ITE)"},"name":"piecewise_fold_correct"},"guarantee":"takes an expression containing a piecewise function and returns the expression in piecewise form","fibers":[{"name":"(ExprCondPair","pred":"isinstance(expr, (ExprCondPair, Piecewise))","path":{"lhs":"piecewise_fold(x)","rhs":"takes an expression containing a piecewise function and returns the expression in piecewise form","over":{"base":"(ExprCondPair","pred":"isinstance(expr, (ExprCondPair, Piecewise))"},"name":"piecewise_fold_(ExprCondPair_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.piecewise.piecewise_fold_(ExprCondPair_correct","statement":"piecewise_fold satisfies spec on (ExprCondPair inputs"},"trust":"LIBRARY"},{"name":"Basic","pred":"isinstance(expr, Basic)","path":{"lhs":"piecewise_fold(x)","rhs":"takes an expression containing a piecewise function and returns the expression in piecewise form","over":{"base":"Basic","pred":"isinstance(expr, Basic)"},"name":"piecewise_fold_Basic_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.piecewise.piecewise_fold_Basic_correct","statement":"piecewise_fold satisfies spec on Basic inputs"},"trust":"LIBRARY"},{"name":"ITE","pred":"isinstance(c, ITE)","path":{"lhs":"piecewise_fold(x)","rhs":"takes an expression containing a piecewise function and returns the expression in piecewise form","over":{"base":"ITE","pred":"isinstance(c, ITE)"},"name":"piecewise_fold_ITE_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.piecewise.piecewise_fold_ITE_correct","statement":"piecewise_fold satisfies spec on ITE inputs"},"trust":"LIBRARY"},{"name":"Piecewise","pred":"isinstance(e, Piecewise)","path":{"lhs":"piecewise_fold(x)","rhs":"takes an expression containing a piecewise function and returns the expression in piecewise form","over":{"base":"Piecewise","pred":"isinstance(e, Piecewise)"},"name":"piecewise_fold_Piecewise_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.piecewise.piecewise_fold_Piecewise_correct","statement":"piecewise_fold satisfies spec on Piecewise inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":4,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"98d1ab0f07e4ab8a"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.piecewise.piecewise_fold","kind":"function","src_hash":"f14911cadc320151","in":{"base":"Any","pred":"isinstance(expr, (ExprCondPair, Piecewise)) and isinstance(expr, Basic) and isinstance(c, ITE) and hasattr(expr, 'args') and hasattr(expr, 'is_Add') and hasattr(expr, 'has') and hasattr(expr, 'is_Mul') and hasattr(expr, 'is_commutative') and hasattr(expr, 'func')"},"out":{"base":"Any","pred":"result satisfies: # HINT: piecewise_fold may be idempotent: piecewise_fold(piecewise_fold(x)) == piecewise_fold(x)"},"spec":{"lhs":"piecewise_fold(expr, evaluate)","rhs":"# HINT: piecewise_fold may be idempotent: piecewise_fold(piecewise_fold(x)) == piecewise_fold(x)","over":{"base":"Any","pred":"isinstance(expr, (ExprCondPair, Piecewise)) and isinstance(expr, Basic) and isinstance(c, ITE) and hasattr(expr, 'args') and hasattr(expr, 'is_Add') and hasattr(expr, 'has') and hasattr(expr, 'is_Mul') and hasattr(expr, 'is_commutative') and hasattr(expr, 'func')"},"name":"piecewise_fold_correct"},"guarantee":"# HINT: piecewise_fold may be idempotent: piecewise_fold(piecewise_fold(x)) == piecewise_fold(x)","fibers":[{"name":"(ExprCondPair","pred":"isinstance(expr, (ExprCondPair, Piecewise))","path":{"lhs":"piecewise_fold(x)","rhs":"# HINT: piecewise_fold may be idempotent: piecewise_fold(piecewise_fold(x)) == piecewise_fold(x)","over":{"base":"(ExprCondPair","pred":"isinstance(expr, (ExprCondPair, Piecewise))"},"name":"piecewise_fold_(ExprCondPair_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.piecewise.piecewise_fold_(ExprCondPair_correct","statement":"piecewise_fold satisfies spec on (ExprCondPair inputs"},"trust":"LIBRARY"},{"name":"Basic","pred":"isinstance(expr, Basic)","path":{"lhs":"piecewise_fold(x)","rhs":"# HINT: piecewise_fold may be idempotent: piecewise_fold(piecewise_fold(x)) == piecewise_fold(x)","over":{"base":"Basic","pred":"isinstance(expr, Basic)"},"name":"piecewise_fold_Basic_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.piecewise.piecewise_fold_Basic_correct","statement":"piecewise_fold satisfies spec on Basic inputs"},"trust":"LIBRARY"},{"name":"ITE","pred":"isinstance(c, ITE)","path":{"lhs":"piecewise_fold(x)","rhs":"# HINT: piecewise_fold may be idempotent: piecewise_fold(piecewise_fold(x)) == piecewise_fold(x)","over":{"base":"ITE","pred":"isinstance(c, ITE)"},"name":"piecewise_fold_ITE_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.piecewise.piecewise_fold_ITE_correct","statement":"piecewise_fold satisfies spec on ITE inputs"},"trust":"LIBRARY"},{"name":"Piecewise","pred":"isinstance(e, Piecewise)","path":{"lhs":"piecewise_fold(x)","rhs":"# HINT: piecewise_fold may be idempotent: piecewise_fold(piecewise_fold(x)) == piecewise_fold(x)","over":{"base":"Piecewise","pred":"isinstance(e, Piecewise)"},"name":"piecewise_fold_Piecewise_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.piecewise.piecewise_fold_Piecewise_correct","statement":"piecewise_fold satisfies spec on Piecewise inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":4,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"98d1ab0f07e4ab8a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'args')","hasattr(expr, 'is_Add')","hasattr(expr, 'has')","hasattr(expr, 'is_Mul')","hasattr(expr, 'is_commutative')","hasattr(expr, 'func')"],"ensures":["# HINT: piecewise_fold may be idempotent: piecewise_fold(piecewise_fold(x)) == piecewise_fold(x)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":12,"n_verified":2,"n_assumed":4,"n_failed":6,"trust_level":"LIBRARY_ASSUMED","compile_ms":16.8,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'a[n].cond == True', 'evaluate is None and len(rv.args) == 1 and (rv.args[0].cond == True)', 'isinstance(c, ITE)', 'n == len(a)', 'evaluate is None', 'isinstance(expr, (ExprCondPair, Piecewise))', 'len(pc[c]) > 1', 'not isinstance(expr, Basic) or not expr.has(Piecewise)', 'isinstance(e, Piecewise)', 'not isinstance(e, Piecewise)'}, fibers={'(ExprCondPair', 'Piecewise', 'Basic', 'ITE'})"]}}
 def piecewise_fold(expr, evaluate=True):
     """
     Takes an expression containing a piecewise function and returns the
@@ -1486,16 +1703,22 @@ def piecewise_fold(expr, evaluate=True):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_clip(A, ), return interval b as intervals that are covered by a (keyed to k) and all other intervals of b not covered by a keyed to -1) over Any ║
+# ║ Path(_clip(A, B, k), <unspecified:_clip>) over Any         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _clip : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b5661053bdf11da3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.piecewise._clip","kind":"function","src_hash":"15ae829fb53e8bc8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_clip(A, )","rhs":"return interval b as intervals that are covered by a (keyed to k) and all other intervals of b not covered by a keyed to -1","over":{"base":"Any"},"name":"_clip_correct"},"guarantee":"return interval b as intervals that are covered by a (keyed to k) and all other intervals of b not covered by a keyed to -1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.piecewise._clip_correct","statement":"Path(_clip(x), return interval b as intervals that are covered by a (keyed to k) and all other intervals of b not covered by a keyed to -1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b5661053bdf11da3"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.piecewise._clip","kind":"function","src_hash":"15ae829fb53e8bc8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_clip(A, B, k)","rhs":"<unspecified:_clip>","over":{"base":"Any"},"name":"_clip_correct"},"guarantee":"return interval b as intervals that are covered by a (keyed to k) and all other intervals of b not covered by a keyed to -1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.piecewise._clip_correct","statement":"Path(_clip(x), return interval b as intervals that are covered by a (keyed to k) and all other intervals of b not covered by a keyed to -1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b5661053bdf11da3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _clip(A, B, k):
     """Return interval B as intervals that are covered by A (keyed
     to k) and all other intervals of B not covered by A keyed to -1.
@@ -1543,7 +1766,13 @@ def _clip(A, B, k):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(piecewise_simplify_arguments(exp), piecewise_simplify_arguments produces the expected output) over {Any | isinstance(e, Basic)} ║
+# ║ Path(piecewise_simplify_arguments(expr, **kwargs), <unspecified:piecewise_simplify_arguments>) over {Any | isinstance(e, Basic) and hasattr(expr, '_intervals') and hasattr(expr, 'args') and hasattr(expr, 'atoms')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, '_intervals')                    ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   requires: hasattr(expr, 'atoms')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ piecewise_simplify_arguments : {Any | isinstance(e, B...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -1555,9 +1784,12 @@ def _clip(A, B, k):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 2.3ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 8cfa6201...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.piecewise.piecewise_simplify_arguments","kind":"function","src_hash":"3144df0029125cad","in":{"base":"Any","pred":"isinstance(e, Basic)"},"out":{"base":"Any"},"spec":{"lhs":"piecewise_simplify_arguments(exp)","rhs":"piecewise_simplify_arguments produces the expected output","over":{"base":"Any","pred":"isinstance(e, Basic)"},"name":"piecewise_simplify_arguments_correct"},"guarantee":"piecewise_simplify_arguments produces the expected output","fibers":[{"name":"Basic","pred":"isinstance(e, Basic)","path":{"lhs":"piecewise_simplify_arguments(x)","rhs":"piecewise_simplify_arguments produces the expected output","over":{"base":"Basic","pred":"isinstance(e, Basic)"},"name":"piecewise_simplify_arguments_Basic_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.piecewise.piecewise_simplify_arguments_Basic_correct","statement":"piecewise_simplify_arguments satisfies spec on Basic inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"8cfa62011198cafd"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.piecewise.piecewise_simplify_arguments","kind":"function","src_hash":"3144df0029125cad","in":{"base":"Any","pred":"isinstance(e, Basic) and hasattr(expr, '_intervals') and hasattr(expr, 'args') and hasattr(expr, 'atoms')"},"out":{"base":"Any"},"spec":{"lhs":"piecewise_simplify_arguments(expr, **kwargs)","rhs":"<unspecified:piecewise_simplify_arguments>","over":{"base":"Any","pred":"isinstance(e, Basic) and hasattr(expr, '_intervals') and hasattr(expr, 'args') and hasattr(expr, 'atoms')"},"name":"piecewise_simplify_arguments_correct"},"guarantee":"piecewise_simplify_arguments produces the expected output","fibers":[{"name":"Basic","pred":"isinstance(e, Basic)","path":{"lhs":"piecewise_simplify_arguments(x)","rhs":"piecewise_simplify_arguments produces the expected output","over":{"base":"Basic","pred":"isinstance(e, Basic)"},"name":"piecewise_simplify_arguments_Basic_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.piecewise.piecewise_simplify_arguments_Basic_correct","statement":"piecewise_simplify_arguments satisfies spec on Basic inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"8cfa62011198cafd","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, '_intervals')","hasattr(expr, 'args')","hasattr(expr, 'atoms')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.3,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['expr'], spec=['expr', '**kwargs']","Poor branch-fiber coverage: 0% (branches={'isinstance(e, Basic)', 'isinstance(c, Basic)', 'len(f1) == 1 and (not expr.atoms(Eq))', 'newe != e', 'args is None'}, fibers={'Basic'})"]}}
 def piecewise_simplify_arguments(expr, **kwargs):
     from sympy.simplify.simplify import simplify
 
@@ -1658,7 +1890,10 @@ def piecewise_simplify_arguments(expr, **kwargs):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_piecewise_collapse_arguments(_ar), internal helper behaves correctly) over {Any | isinstance(expr, Piecewise) and isinstance(cond, And) and isinstance(cond, Relational)} ║
+# ║ Path(_piecewise_collapse_arguments(_args), <unspecified:_piecewise_collapse_arguments>) over {Any | isinstance(expr, Piecewise) and isinstance(cond, And) and isinstance(cond, Relational)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _piecewise_collapse_arguments : {Any | isinstance(exp...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -1674,9 +1909,12 @@ def piecewise_simplify_arguments(expr, **kwargs):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?5 ✗10 VCs | 33.7ms                        ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | ec28e99b...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.piecewise._piecewise_collapse_arguments","kind":"function","src_hash":"777fb73a8fcb8052","in":{"base":"Any","pred":"isinstance(expr, Piecewise) and isinstance(cond, And) and isinstance(cond, Relational)"},"out":{"base":"Any"},"spec":{"lhs":"_piecewise_collapse_arguments(_ar)","rhs":"internal helper behaves correctly","over":{"base":"Any","pred":"isinstance(expr, Piecewise) and isinstance(cond, And) and isinstance(cond, Relational)"},"name":"_piecewise_collapse_arguments_correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"Piecewise","pred":"isinstance(expr, Piecewise)","path":{"lhs":"_piecewise_collapse_arguments(x)","rhs":"internal helper behaves correctly","over":{"base":"Piecewise","pred":"isinstance(expr, Piecewise)"},"name":"_piecewise_collapse_arguments_Piecewise_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.piecewise._piecewise_collapse_arguments_Piecewise_correct","statement":"_piecewise_collapse_arguments satisfies spec on Piecewise inputs"},"trust":"LIBRARY"},{"name":"And","pred":"isinstance(cond, And)","path":{"lhs":"_piecewise_collapse_arguments(x)","rhs":"internal helper behaves correctly","over":{"base":"And","pred":"isinstance(cond, And)"},"name":"_piecewise_collapse_arguments_And_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.piecewise._piecewise_collapse_arguments_And_correct","statement":"_piecewise_collapse_arguments satisfies spec on And inputs"},"trust":"LIBRARY"},{"name":"Relational","pred":"isinstance(cond, Relational)","path":{"lhs":"_piecewise_collapse_arguments(x)","rhs":"internal helper behaves correctly","over":{"base":"Relational","pred":"isinstance(cond, Relational)"},"name":"_piecewise_collapse_arguments_Relational_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.piecewise._piecewise_collapse_arguments_Relational_correct","statement":"_piecewise_collapse_arguments satisfies spec on Relational inputs"},"trust":"LIBRARY"},{"name":"(And","pred":"isinstance(orcond, (And, Or))","path":{"lhs":"_piecewise_collapse_arguments(x)","rhs":"internal helper behaves correctly","over":{"base":"(And","pred":"isinstance(orcond, (And, Or))"},"name":"_piecewise_collapse_arguments_(And_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.piecewise._piecewise_collapse_arguments_(And_correct","statement":"_piecewise_collapse_arguments satisfies spec on (And inputs"},"trust":"LIBRARY"},{"name":"(Lt","pred":"isinstance(c, (Lt, Gt))","path":{"lhs":"_piecewise_collapse_arguments(x)","rhs":"internal helper behaves correctly","over":{"base":"(Lt","pred":"isinstance(c, (Lt, Gt))"},"name":"_piecewise_collapse_arguments_(Lt_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.piecewise._piecewise_collapse_arguments_(Lt_correct","statement":"_piecewise_collapse_arguments satisfies spec on (Lt inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":5,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"ec28e99bd7134e31"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.piecewise._piecewise_collapse_arguments","kind":"function","src_hash":"777fb73a8fcb8052","in":{"base":"Any","pred":"isinstance(expr, Piecewise) and isinstance(cond, And) and isinstance(cond, Relational)"},"out":{"base":"Any"},"spec":{"lhs":"_piecewise_collapse_arguments(_args)","rhs":"<unspecified:_piecewise_collapse_arguments>","over":{"base":"Any","pred":"isinstance(expr, Piecewise) and isinstance(cond, And) and isinstance(cond, Relational)"},"name":"_piecewise_collapse_arguments_correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"Piecewise","pred":"isinstance(expr, Piecewise)","path":{"lhs":"_piecewise_collapse_arguments(x)","rhs":"internal helper behaves correctly","over":{"base":"Piecewise","pred":"isinstance(expr, Piecewise)"},"name":"_piecewise_collapse_arguments_Piecewise_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.piecewise._piecewise_collapse_arguments_Piecewise_correct","statement":"_piecewise_collapse_arguments satisfies spec on Piecewise inputs"},"trust":"LIBRARY"},{"name":"And","pred":"isinstance(cond, And)","path":{"lhs":"_piecewise_collapse_arguments(x)","rhs":"internal helper behaves correctly","over":{"base":"And","pred":"isinstance(cond, And)"},"name":"_piecewise_collapse_arguments_And_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.piecewise._piecewise_collapse_arguments_And_correct","statement":"_piecewise_collapse_arguments satisfies spec on And inputs"},"trust":"LIBRARY"},{"name":"Relational","pred":"isinstance(cond, Relational)","path":{"lhs":"_piecewise_collapse_arguments(x)","rhs":"internal helper behaves correctly","over":{"base":"Relational","pred":"isinstance(cond, Relational)"},"name":"_piecewise_collapse_arguments_Relational_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.piecewise._piecewise_collapse_arguments_Relational_correct","statement":"_piecewise_collapse_arguments satisfies spec on Relational inputs"},"trust":"LIBRARY"},{"name":"(And","pred":"isinstance(orcond, (And, Or))","path":{"lhs":"_piecewise_collapse_arguments(x)","rhs":"internal helper behaves correctly","over":{"base":"(And","pred":"isinstance(orcond, (And, Or))"},"name":"_piecewise_collapse_arguments_(And_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.piecewise._piecewise_collapse_arguments_(And_correct","statement":"_piecewise_collapse_arguments satisfies spec on (And inputs"},"trust":"LIBRARY"},{"name":"(Lt","pred":"isinstance(c, (Lt, Gt))","path":{"lhs":"_piecewise_collapse_arguments(x)","rhs":"internal helper behaves correctly","over":{"base":"(Lt","pred":"isinstance(c, (Lt, Gt))"},"name":"_piecewise_collapse_arguments_(Lt_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.piecewise._piecewise_collapse_arguments_(Lt_correct","statement":"_piecewise_collapse_arguments satisfies spec on (Lt inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":5,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"ec28e99bd7134e31","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":17,"n_verified":2,"n_assumed":5,"n_failed":10,"trust_level":"LIBRARY_ASSUMED","compile_ms":33.7,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'c != True', 'isinstance(orcond, (And, Or))', 'isinstance(c, Relational)', 'newargs[-1].cond == cond', 'c == cond', 'isinstance(expr, Piecewise)', 'isinstance(cond, Relational)', 'isinstance(c, (Lt, Gt)) and c.weak in current_cond', 'newargs[-1].expr == expr', 'isinstance(cond, And)'}, fibers={'Piecewise', 'Relational', '(Lt', 'And', '(And'})"]}}
 def _piecewise_collapse_arguments(_args):
     newargs = []  # the unevaluated conditions
     current_cond = set()  # the conditions up to a given e, c pair
@@ -1777,7 +2015,11 @@ _blessed = lambda e: getattr(e.lhs, '_diff_wrt', False) and (
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(piecewise_simplify(exp), piecewise_simplify produces the expected output) over {Any | isinstance(expr, Piecewise)} ║
+# ║ Path(piecewise_simplify(expr, **kwargs), <unspecified:piecewise_simplify>) over {Any | isinstance(expr, Piecewise) and hasattr(expr, 'args')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ piecewise_simplify : {Any | isinstance(expr, Piecewis...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -1789,9 +2031,12 @@ _blessed = lambda e: getattr(e.lhs, '_diff_wrt', False) and (
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.7ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 14140e4c...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.piecewise.piecewise_simplify","kind":"function","src_hash":"bf118959d52994a0","in":{"base":"Any","pred":"isinstance(expr, Piecewise)"},"out":{"base":"Any"},"spec":{"lhs":"piecewise_simplify(exp)","rhs":"piecewise_simplify produces the expected output","over":{"base":"Any","pred":"isinstance(expr, Piecewise)"},"name":"piecewise_simplify_correct"},"guarantee":"piecewise_simplify produces the expected output","fibers":[{"name":"Piecewise","pred":"isinstance(expr, Piecewise)","path":{"lhs":"piecewise_simplify(x)","rhs":"piecewise_simplify produces the expected output","over":{"base":"Piecewise","pred":"isinstance(expr, Piecewise)"},"name":"piecewise_simplify_Piecewise_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.piecewise.piecewise_simplify_Piecewise_correct","statement":"piecewise_simplify satisfies spec on Piecewise inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"14140e4c0215d3b8"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.piecewise.piecewise_simplify","kind":"function","src_hash":"bf118959d52994a0","in":{"base":"Any","pred":"isinstance(expr, Piecewise) and hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"piecewise_simplify(expr, **kwargs)","rhs":"<unspecified:piecewise_simplify>","over":{"base":"Any","pred":"isinstance(expr, Piecewise) and hasattr(expr, 'args')"},"name":"piecewise_simplify_correct"},"guarantee":"piecewise_simplify produces the expected output","fibers":[{"name":"Piecewise","pred":"isinstance(expr, Piecewise)","path":{"lhs":"piecewise_simplify(x)","rhs":"piecewise_simplify produces the expected output","over":{"base":"Piecewise","pred":"isinstance(expr, Piecewise)"},"name":"piecewise_simplify_Piecewise_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.piecewise.piecewise_simplify_Piecewise_correct","statement":"piecewise_simplify satisfies spec on Piecewise inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"14140e4c0215d3b8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.7,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['expr'], spec=['expr', '**kwargs']","Poor branch-fiber coverage: 0% (branches={'not isinstance(expr, Piecewise)'}, fibers={'Piecewise'})"]}}
 def piecewise_simplify(expr, **kwargs):
     expr = piecewise_simplify_arguments(expr, **kwargs)
     if not isinstance(expr, Piecewise):
@@ -1804,7 +2049,11 @@ def piecewise_simplify(expr, **kwargs):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_piecewise_simplify_equal_to_next_segment(arg), see if expressions valid for an equal expression happens to evaluate to the same function as in the next piecewise segment, see: https://github.com/sympy/sympy/issues/8458) over {Any | isinstance(cond, And) and isinstance(cond, Eq)} ║
+# ║ Path(_piecewise_simplify_equal_to_next_segment(args), args) over {Any | isinstance(cond, And) and isinstance(cond, Eq)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == args                                 ║
+# ║   returns:  args                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _piecewise_simplify_equal_to_next_segment : {Any | is...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -1817,9 +2066,12 @@ def piecewise_simplify(expr, **kwargs):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?2 ✗1 VCs | 2.6ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | a3250e9f...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.piecewise._piecewise_simplify_equal_to_next_segment","kind":"function","src_hash":"1f2b19c1a497d3fc","in":{"base":"Any","pred":"isinstance(cond, And) and isinstance(cond, Eq)"},"out":{"base":"Any"},"spec":{"lhs":"_piecewise_simplify_equal_to_next_segment(arg)","rhs":"see if expressions valid for an equal expression happens to evaluate to the same function as in the next piecewise segment, see: https://github.com/sympy/sympy/issues/8458","over":{"base":"Any","pred":"isinstance(cond, And) and isinstance(cond, Eq)"},"name":"_piecewise_simplify_equal_to_next_segment_correct"},"guarantee":"see if expressions valid for an equal expression happens to evaluate to the same function as in the next piecewise segment, see: https://github.com/sympy/sympy/issues/8458","fibers":[{"name":"And","pred":"isinstance(cond, And)","path":{"lhs":"_piecewise_simplify_equal_to_next_segment(x)","rhs":"see if expressions valid for an equal expression happens to evaluate to the same function as in the next piecewise segment, see: https://github.com/sympy/sympy/issues/8458","over":{"base":"And","pred":"isinstance(cond, And)"},"name":"_piecewise_simplify_equal_to_next_segment_And_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.piecewise._piecewise_simplify_equal_to_next_segment_And_correct","statement":"_piecewise_simplify_equal_to_next_segment satisfies spec on And inputs"},"trust":"LIBRARY"},{"name":"Eq","pred":"isinstance(cond, Eq)","path":{"lhs":"_piecewise_simplify_equal_to_next_segment(x)","rhs":"see if expressions valid for an equal expression happens to evaluate to the same function as in the next piecewise segment, see: https://github.com/sympy/sympy/issues/8458","over":{"base":"Eq","pred":"isinstance(cond, Eq)"},"name":"_piecewise_simplify_equal_to_next_segment_Eq_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.piecewise._piecewise_simplify_equal_to_next_segment_Eq_correct","statement":"_piecewise_simplify_equal_to_next_segment satisfies spec on Eq inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"a3250e9fbcdca3b0"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.piecewise._piecewise_simplify_equal_to_next_segment","kind":"function","src_hash":"1f2b19c1a497d3fc","in":{"base":"Any","pred":"isinstance(cond, And) and isinstance(cond, Eq)"},"out":{"base":"Any","pred":"result satisfies: result == (args)"},"spec":{"lhs":"_piecewise_simplify_equal_to_next_segment(args)","rhs":"args","over":{"base":"Any","pred":"isinstance(cond, And) and isinstance(cond, Eq)"},"name":"_piecewise_simplify_equal_to_next_segment_correct"},"guarantee":"returns args; result == args","fibers":[{"name":"And","pred":"isinstance(cond, And)","path":{"lhs":"_piecewise_simplify_equal_to_next_segment(x)","rhs":"returns args; result == args","over":{"base":"And","pred":"isinstance(cond, And)"},"name":"_piecewise_simplify_equal_to_next_segment_And_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.piecewise._piecewise_simplify_equal_to_next_segment_And_correct","statement":"_piecewise_simplify_equal_to_next_segment satisfies spec on And inputs"},"trust":"LIBRARY"},{"name":"Eq","pred":"isinstance(cond, Eq)","path":{"lhs":"_piecewise_simplify_equal_to_next_segment(x)","rhs":"returns args; result == args","over":{"base":"Eq","pred":"isinstance(cond, Eq)"},"name":"_piecewise_simplify_equal_to_next_segment_Eq_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.piecewise._piecewise_simplify_equal_to_next_segment_Eq_correct","statement":"_piecewise_simplify_equal_to_next_segment satisfies spec on Eq inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"a3250e9fbcdca3b0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == args"],"returns_expr":"args","pure":false,"effects":{"effect_type":"mutates_args","writes":["args[*]"]},"state_contract":{"modifies":["args[*]"],"old_bindings":{"old_args_star":"args[*]"}}},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":2,"n_assumed":2,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.6,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'len(args) == 2 or _blessed(e)', 'isinstance(cond, And)', '_prevexpr == _expr', 'isinstance(cond, Eq)'}, fibers={'And', 'Eq'})"]}}
 def _piecewise_simplify_equal_to_next_segment(args):
     """
     See if expressions valid for an Equal expression happens to evaluate
@@ -1862,7 +2114,11 @@ def _piecewise_simplify_equal_to_next_segment(args):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_piecewise_simplify_eq_and(arg), try to simplify conditions and the expression for equalities that are part of the condition, e.g. piecewise((n, and(eq(n,0), eq(n + m, 0))), (1, true)) -> piecewise((0, and(eq(n, 0), eq(m, 0))), (1, t) over {Any | isinstance(cond, And) and isinstance(cond, Eq)} ║
+# ║ Path(_piecewise_simplify_eq_and(args), args) over {Any | isinstance(cond, And) and isinstance(cond, Eq)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == args                                 ║
+# ║   returns:  args                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _piecewise_simplify_eq_and : {Any | isinstance(cond, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -1875,9 +2131,12 @@ def _piecewise_simplify_equal_to_next_segment(args):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?2 ✗1 VCs | 2.3ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 87f52270...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.piecewise._piecewise_simplify_eq_and","kind":"function","src_hash":"93ca6ead9127ea88","in":{"base":"Any","pred":"isinstance(cond, And) and isinstance(cond, Eq)"},"out":{"base":"Any"},"spec":{"lhs":"_piecewise_simplify_eq_and(arg)","rhs":"try to simplify conditions and the expression for equalities that are part of the condition, e.g. piecewise((n, and(eq(n,0), eq(n + m, 0))), (1, true)) -> piecewise((0, and(eq(n, 0), eq(m, 0))), (1, t","over":{"base":"Any","pred":"isinstance(cond, And) and isinstance(cond, Eq)"},"name":"_piecewise_simplify_eq_and_correct"},"guarantee":"try to simplify conditions and the expression for equalities that are part of the condition, e.g. piecewise((n, and(eq(n,0), eq(n + m, 0))), (1, true)) -> piecewise((0, and(eq(n, 0), eq(m, 0))), (1, t","fibers":[{"name":"And","pred":"isinstance(cond, And)","path":{"lhs":"_piecewise_simplify_eq_and(x)","rhs":"try to simplify conditions and the expression for equalities that are part of the condition, e.g. piecewise((n, and(eq(n,0), eq(n + m, 0))), (1, true)) -> piecewise((0, and(eq(n, 0), eq(m, 0))), (1, t","over":{"base":"And","pred":"isinstance(cond, And)"},"name":"_piecewise_simplify_eq_and_And_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.piecewise._piecewise_simplify_eq_and_And_correct","statement":"_piecewise_simplify_eq_and satisfies spec on And inputs"},"trust":"LIBRARY"},{"name":"Eq","pred":"isinstance(cond, Eq)","path":{"lhs":"_piecewise_simplify_eq_and(x)","rhs":"try to simplify conditions and the expression for equalities that are part of the condition, e.g. piecewise((n, and(eq(n,0), eq(n + m, 0))), (1, true)) -> piecewise((0, and(eq(n, 0), eq(m, 0))), (1, t","over":{"base":"Eq","pred":"isinstance(cond, Eq)"},"name":"_piecewise_simplify_eq_and_Eq_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.piecewise._piecewise_simplify_eq_and_Eq_correct","statement":"_piecewise_simplify_eq_and satisfies spec on Eq inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"87f52270a641fb34"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.piecewise._piecewise_simplify_eq_and","kind":"function","src_hash":"93ca6ead9127ea88","in":{"base":"Any","pred":"isinstance(cond, And) and isinstance(cond, Eq)"},"out":{"base":"Any","pred":"result satisfies: result == (args)"},"spec":{"lhs":"_piecewise_simplify_eq_and(args)","rhs":"args","over":{"base":"Any","pred":"isinstance(cond, And) and isinstance(cond, Eq)"},"name":"_piecewise_simplify_eq_and_correct"},"guarantee":"returns args; result == args","fibers":[{"name":"And","pred":"isinstance(cond, And)","path":{"lhs":"_piecewise_simplify_eq_and(x)","rhs":"returns args; result == args","over":{"base":"And","pred":"isinstance(cond, And)"},"name":"_piecewise_simplify_eq_and_And_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.piecewise._piecewise_simplify_eq_and_And_correct","statement":"_piecewise_simplify_eq_and satisfies spec on And inputs"},"trust":"LIBRARY"},{"name":"Eq","pred":"isinstance(cond, Eq)","path":{"lhs":"_piecewise_simplify_eq_and(x)","rhs":"returns args; result == args","over":{"base":"Eq","pred":"isinstance(cond, Eq)"},"name":"_piecewise_simplify_eq_and_Eq_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.piecewise._piecewise_simplify_eq_and_Eq_correct","statement":"_piecewise_simplify_eq_and satisfies spec on Eq inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"87f52270a641fb34","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == args"],"returns_expr":"args","pure":false,"effects":{"effect_type":"mutates_args","writes":["args[*]"]},"state_contract":{"modifies":["args[*]"],"old_bindings":{"old_args_star":"args[*]"}}},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":2,"n_assumed":2,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.3,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(cond, And)', 'isinstance(cond, Eq)'}, fibers={'And', 'Eq'})"]}}
 def _piecewise_simplify_eq_and(args):
     """
     Try to simplify conditions and the expression for
@@ -1908,7 +2167,16 @@ def _piecewise_simplify_eq_and(args):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(piecewise_exclusive(exp), rewrite :class:`piecewise` with mutually exclusive conditions) over {Any | isinstance(expr, Piecewise)} ║
+# ║ Path(piecewise_exclusive(expr, skip_nan, deep), result == (expr.replace(Piecewise, make_exclusive) if deep else make_exclusive(*expr.args) if isinstance(expr, Piecewise) else expr) and result == expr.replace(Piecewise, make_exclusive) or result == make_exclusive(*expr.args) or result == expr) over {Any | isinstance(expr, Piecewise) and hasattr(expr, 'replace') and hasattr(expr, 'args')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'replace')                       ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   ensures:  result == (expr.replace(Piecewise, make_e...   ║
+# ║   ensures:  result == expr.replace(Piecewise, make_ex...   ║
+# ║   fiber[case_0]: deep => expr.replace(Piecewise, make...   ║
+# ║   fiber[Piecewise]: isinstance(expr, Piecewise) => ma...   ║
+# ║   fiber[Piecewise]: not (deep) and not (isinstance(ex...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ piecewise_exclusive : {Any | isinstance(expr, Piecewi...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -1920,9 +2188,12 @@ def _piecewise_simplify_eq_and(args):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.4ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 677e4750...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.piecewise.piecewise_exclusive","kind":"function","src_hash":"9a8e58f957561905","in":{"base":"Any","pred":"isinstance(expr, Piecewise)"},"out":{"base":"Any"},"spec":{"lhs":"piecewise_exclusive(exp)","rhs":"rewrite :class:`piecewise` with mutually exclusive conditions","over":{"base":"Any","pred":"isinstance(expr, Piecewise)"},"name":"piecewise_exclusive_correct"},"guarantee":"rewrite :class:`piecewise` with mutually exclusive conditions","fibers":[{"name":"Piecewise","pred":"isinstance(expr, Piecewise)","path":{"lhs":"piecewise_exclusive(x)","rhs":"rewrite :class:`piecewise` with mutually exclusive conditions","over":{"base":"Piecewise","pred":"isinstance(expr, Piecewise)"},"name":"piecewise_exclusive_Piecewise_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.piecewise.piecewise_exclusive_Piecewise_correct","statement":"piecewise_exclusive satisfies spec on Piecewise inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"677e4750d13121fd"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.piecewise.piecewise_exclusive","kind":"function","src_hash":"9a8e58f957561905","in":{"base":"Any","pred":"isinstance(expr, Piecewise) and hasattr(expr, 'replace') and hasattr(expr, 'args')"},"out":{"base":"Any","pred":"result satisfies: result == (expr.replace(Piecewise, make_exclusive) if deep else make_exclusive(*expr.args) if isinstance(expr, Piecewise) else expr) and result == expr.replace(Piecewise, make_exclusive) or result == make_exclusive(*expr.args) or result == expr"},"spec":{"lhs":"piecewise_exclusive(expr, skip_nan, deep)","rhs":"result == (expr.replace(Piecewise, make_exclusive) if deep else make_exclusive(*expr.args) if isinstance(expr, Piecewise) else expr) and result == expr.replace(Piecewise, make_exclusive) or result == make_exclusive(*expr.args) or result == expr","over":{"base":"Any","pred":"isinstance(expr, Piecewise) and hasattr(expr, 'replace') and hasattr(expr, 'args')"},"name":"piecewise_exclusive_correct"},"guarantee":"result == (expr.replace(Piecewise, make_exclusive) if deep else make_exclusive(*expr.args) if isinstance(expr, Piecewise) else expr); result == expr.replace(Piecewise, make_exclusive) or result == make_exclusive(*expr.args) or result == expr; 3-fiber decomposition","fibers":[{"name":"Piecewise","pred":"isinstance(expr, Piecewise)","path":{"lhs":"piecewise_exclusive(x)","rhs":"result == (expr.replace(Piecewise, make_exclusive) if deep else make_exclusive(*expr.args) if isinstance(expr, Piecewise) else expr); result == expr.replace(Piecewise, make_exclusive) or result == make_exclusive(*expr.args) or result == expr; 3-fiber decomposition","over":{"base":"Piecewise","pred":"isinstance(expr, Piecewise)"},"name":"piecewise_exclusive_Piecewise_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.piecewise.piecewise_exclusive_Piecewise_correct","statement":"piecewise_exclusive satisfies spec on Piecewise inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"677e4750d13121fd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'replace')","hasattr(expr, 'args')"],"ensures":["result == (expr.replace(Piecewise, make_exclusive) if deep else make_exclusive(*expr.args) if isinstance(expr, Piecewise) else expr)","result == expr.replace(Piecewise, make_exclusive) or result == make_exclusive(*expr.args) or result == expr"],"fibers":[{"name":"case_0","guard":"deep","ensures":["result == expr.replace(Piecewise, make_exclusive)"],"decidability":"library","returns_expr":"expr.replace(Piecewise, make_exclusive)"},{"name":"Piecewise","guard":"isinstance(expr, Piecewise)","ensures":["result == make_exclusive(*expr.args)"],"decidability":"structural","returns_expr":"make_exclusive(*expr.args)"},{"name":"Piecewise","guard":"not (deep) and not (isinstance(expr, Piecewise))","ensures":["result == expr"],"decidability":"structural","returns_expr":"expr"}],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.4,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['expr'], spec=['expr', 'skip_nan', 'deep']","Poor branch-fiber coverage: 0% (branches={'isinstance(expr, Piecewise)'}, fibers={'Piecewise'})"]}}
 def piecewise_exclusive(expr, *, skip_nan=False, deep=True):
     """
     Rewrite :class:`Piecewise` with mutually exclusive conditions.

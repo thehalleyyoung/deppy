@@ -27,16 +27,23 @@ x, y = symbols('x y')
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_alignof(), test_alignof produces the expected output) over Any ║
+# ║ Path(test_alignof(), ccode(ax) == 'alignof(x)' and ax.func(*ax.args) == ax) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_alignof : Any → {Any | ccode(ax) == 'alignof(x)'...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  ccode(ax) == 'alignof(x)'                      ║
+# ║   ensures:  ax.func(*ax.args) == ax                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_alignof : Any → {Any | result satisfies: ccode(a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f16496c2c1444c7a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c2c47b9c2b6e77b9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_cnodes.test_alignof","kind":"function","src_hash":"d4698d622d2521ed","in":{"base":"Any"},"out":{"base":"Any","pred":"ccode(ax) == 'alignof(x)' and ax.func(*ax.args) == ax"},"spec":{"lhs":"test_alignof()","rhs":"test_alignof produces the expected output","over":{"base":"Any"},"name":"test_alignof_correct"},"guarantee":"test_alignof produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_cnodes.test_alignof_correct","statement":"Path(test_alignof(x), test_alignof produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f16496c2c1444c7a"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_cnodes.test_alignof","kind":"function","src_hash":"d4698d622d2521ed","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: ccode(ax) == 'alignof(x)' and ax.func(*ax.args) == ax"},"spec":{"lhs":"test_alignof()","rhs":"ccode(ax) == 'alignof(x)' and ax.func(*ax.args) == ax","over":{"base":"Any"},"name":"test_alignof_correct"},"guarantee":"ccode(ax) == 'alignof(x)'; ax.func(*ax.args) == ax","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_cnodes.test_alignof_correct","statement":"Path(test_alignof(x), ccode(ax) == 'alignof(x)'; ax.func(*ax.args) == ax)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c2c47b9c2b6e77b9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["ccode(ax) == 'alignof(x)'","ax.func(*ax.args) == ax"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_alignof():
     ax = alignof(x)
     assert ccode(ax) == 'alignof(x)'
@@ -44,16 +51,23 @@ def test_alignof():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_CommaOperator(), test_CommaOperator produces the expected output) over Any ║
+# ║ Path(test_CommaOperator(), ccode(expr) == '(++(x), 2*x)' and expr.func(*expr.args) == expr) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_CommaOperator : Any → {Any | ccode(expr) == '(++...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  ccode(expr) == '(++(x), 2*x)'                  ║
+# ║   ensures:  expr.func(*expr.args) == expr                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_CommaOperator : Any → {Any | result satisfies: c...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5f4c9b6c36cbb921  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8cde1fc8c83c642a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_cnodes.test_CommaOperator","kind":"function","src_hash":"d3da82fc65759fd2","in":{"base":"Any"},"out":{"base":"Any","pred":"ccode(expr) == '(++(x), 2*x)' and expr.func(*expr.args) == expr"},"spec":{"lhs":"test_CommaOperator()","rhs":"test_CommaOperator produces the expected output","over":{"base":"Any"},"name":"test_CommaOperator_correct"},"guarantee":"test_CommaOperator produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_cnodes.test_CommaOperator_correct","statement":"Path(test_CommaOperator(x), test_CommaOperator produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5f4c9b6c36cbb921"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_cnodes.test_CommaOperator","kind":"function","src_hash":"d3da82fc65759fd2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: ccode(expr) == '(++(x), 2*x)' and expr.func(*expr.args) == expr"},"spec":{"lhs":"test_CommaOperator()","rhs":"ccode(expr) == '(++(x), 2*x)' and expr.func(*expr.args) == expr","over":{"base":"Any"},"name":"test_CommaOperator_correct"},"guarantee":"ccode(expr) == '(++(x), 2*x)'; expr.func(*expr.args) == expr","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_cnodes.test_CommaOperator_correct","statement":"Path(test_CommaOperator(x), ccode(expr) == '(++(x), 2*x)'; expr.func(*expr.args) == expr)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8cde1fc8c83c642a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["ccode(expr) == '(++(x), 2*x)'","expr.func(*expr.args) == expr"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_CommaOperator():
     expr = CommaOperator(PreIncrement(x), 2*x)
     assert ccode(expr) == '(++(x), 2*x)'
@@ -61,16 +75,24 @@ def test_CommaOperator():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_goto_Label(), test_goto_Label produces the expected output) over Any ║
+# ║ Path(test_goto_Label(), g.func(*g.args) == g and g != goto('foobar') and ccode(g) == 'goto early_exit' and ccode(l1) == 'early_exit:' and l1 == Label('early_exit') and l1 != Label('foobar') and l2.name == String('early_exit') and l2.body == CodeBlock(PreIncrement(x)) and ccode(l2) == 'early_exit:\n++(x);' and l2.body == CodeBlock(PreIncrement(x), PreDecrement(y)) and ccode(l2) == 'early_exit:\n{\n   ++(x);\n   --(y);\n}') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_goto_Label : Any → {Any | g.func(*g.args) == g a...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  g.func(*g.args) == g                           ║
+# ║   ensures:  g != goto('foobar')                            ║
+# ║   ensures:  ccode(g) == 'goto early_exit'                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_goto_Label : Any → {Any | result satisfies: g.fu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4f92ac46c4f6b10a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dc72c57e7d8ffe2f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_cnodes.test_goto_Label","kind":"function","src_hash":"a557db86d98b54b2","in":{"base":"Any"},"out":{"base":"Any","pred":"g.func(*g.args) == g and g != goto('foobar') and ccode(g) == 'goto early_exit' and ccode(l1) == 'early_exit:' and l1 == Label('early_exit') and l1 != Label('foobar') and l2.name == String('early_exit') and l2.body == CodeBlock(PreIncrement(x)) and ccode(l2) == 'early_exit:\\n++(x);' and l2.name == String('early_exit') and l2.body == CodeBlock(PreIncrement(x), PreDecrement(y)) and ccode(l2) == 'early_exit:\\n{\\n   ++(x);\\n   --(y);\\n}'"},"spec":{"lhs":"test_goto_Label()","rhs":"test_goto_Label produces the expected output","over":{"base":"Any"},"name":"test_goto_Label_correct"},"guarantee":"test_goto_Label produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_cnodes.test_goto_Label_correct","statement":"Path(test_goto_Label(x), test_goto_Label produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4f92ac46c4f6b10a"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_cnodes.test_goto_Label","kind":"function","src_hash":"a557db86d98b54b2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: g.func(*g.args) == g and g != goto('foobar') and ccode(g) == 'goto early_exit' and ccode(l1) == 'early_exit:' and l1 == Label('early_exit') and l1 != Label('foobar') and l2.name == String('early_exit') and l2.body == CodeBlock(PreIncrement(x)) and ccode(l2) == 'early_exit:\\n++(x);' and l2.body == CodeBlock(PreIncrement(x), PreDecrement(y)) and ccode(l2) == 'early_exit:\\n{\\n   ++(x);\\n   --(y);\\n}'"},"spec":{"lhs":"test_goto_Label()","rhs":"g.func(*g.args) == g and g != goto('foobar') and ccode(g) == 'goto early_exit' and ccode(l1) == 'early_exit:' and l1 == Label('early_exit') and l1 != Label('foobar') and l2.name == String('early_exit') and l2.body == CodeBlock(PreIncrement(x)) and ccode(l2) == 'early_exit:\\n++(x);' and l2.body == CodeBlock(PreIncrement(x), PreDecrement(y)) and ccode(l2) == 'early_exit:\\n{\\n   ++(x);\\n   --(y);\\n}'","over":{"base":"Any"},"name":"test_goto_Label_correct"},"guarantee":"g.func(*g.args) == g; g != goto('foobar'); ccode(g) == 'goto early_exit'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_cnodes.test_goto_Label_correct","statement":"Path(test_goto_Label(x), g.func(*g.args) == g; g != goto('foobar'); ccode(g) == 'goto early_exit')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dc72c57e7d8ffe2f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["g.func(*g.args) == g","g != goto('foobar')","ccode(g) == 'goto early_exit'","ccode(l1) == 'early_exit:'","l1 == Label('early_exit')","l1 != Label('foobar')","l2.name == String('early_exit')","l2.body == CodeBlock(PreIncrement(x))","ccode(l2) == 'early_exit:\\n++(x);'","l2.body == CodeBlock(PreIncrement(x), PreDecrement(y))","ccode(l2) == 'early_exit:\\n{\\n   ++(x);\\n   --(y);\\n}'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_goto_Label():
     s = 'early_exit'
     g = goto(s)
@@ -99,16 +121,23 @@ def test_goto_Label():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_PreDecrement(), test_PreDecrement produces the expected output) over Any ║
+# ║ Path(test_PreDecrement(), p.func(*p.args) == p and ccode(p) == '--(x)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_PreDecrement : Any → {Any | p.func(*p.args) == p...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  p.func(*p.args) == p                           ║
+# ║   ensures:  ccode(p) == '--(x)'                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_PreDecrement : Any → {Any | result satisfies: p....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f7967a456220759a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 95d53048931b2703  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_cnodes.test_PreDecrement","kind":"function","src_hash":"18f4159feb89a8d7","in":{"base":"Any"},"out":{"base":"Any","pred":"p.func(*p.args) == p and ccode(p) == '--(x)'"},"spec":{"lhs":"test_PreDecrement()","rhs":"test_PreDecrement produces the expected output","over":{"base":"Any"},"name":"test_PreDecrement_correct"},"guarantee":"test_PreDecrement produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_cnodes.test_PreDecrement_correct","statement":"Path(test_PreDecrement(x), test_PreDecrement produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f7967a456220759a"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_cnodes.test_PreDecrement","kind":"function","src_hash":"18f4159feb89a8d7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: p.func(*p.args) == p and ccode(p) == '--(x)'"},"spec":{"lhs":"test_PreDecrement()","rhs":"p.func(*p.args) == p and ccode(p) == '--(x)'","over":{"base":"Any"},"name":"test_PreDecrement_correct"},"guarantee":"p.func(*p.args) == p; ccode(p) == '--(x)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_cnodes.test_PreDecrement_correct","statement":"Path(test_PreDecrement(x), p.func(*p.args) == p; ccode(p) == '--(x)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"95d53048931b2703","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["p.func(*p.args) == p","ccode(p) == '--(x)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_PreDecrement():
     p = PreDecrement(x)
     assert p.func(*p.args) == p
@@ -116,16 +145,23 @@ def test_PreDecrement():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_PostDecrement(), test_PostDecrement produces the expected output) over Any ║
+# ║ Path(test_PostDecrement(), p.func(*p.args) == p and ccode(p) == '(x)--') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_PostDecrement : Any → {Any | p.func(*p.args) == ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  p.func(*p.args) == p                           ║
+# ║   ensures:  ccode(p) == '(x)--'                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_PostDecrement : Any → {Any | result satisfies: p...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f5cd70a4fccd7f84  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ebf7142da205722e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_cnodes.test_PostDecrement","kind":"function","src_hash":"43774ec386a93d60","in":{"base":"Any"},"out":{"base":"Any","pred":"p.func(*p.args) == p and ccode(p) == '(x)--'"},"spec":{"lhs":"test_PostDecrement()","rhs":"test_PostDecrement produces the expected output","over":{"base":"Any"},"name":"test_PostDecrement_correct"},"guarantee":"test_PostDecrement produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_cnodes.test_PostDecrement_correct","statement":"Path(test_PostDecrement(x), test_PostDecrement produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f5cd70a4fccd7f84"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_cnodes.test_PostDecrement","kind":"function","src_hash":"43774ec386a93d60","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: p.func(*p.args) == p and ccode(p) == '(x)--'"},"spec":{"lhs":"test_PostDecrement()","rhs":"p.func(*p.args) == p and ccode(p) == '(x)--'","over":{"base":"Any"},"name":"test_PostDecrement_correct"},"guarantee":"p.func(*p.args) == p; ccode(p) == '(x)--'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_cnodes.test_PostDecrement_correct","statement":"Path(test_PostDecrement(x), p.func(*p.args) == p; ccode(p) == '(x)--')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ebf7142da205722e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["p.func(*p.args) == p","ccode(p) == '(x)--'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_PostDecrement():
     p = PostDecrement(x)
     assert p.func(*p.args) == p
@@ -133,16 +169,23 @@ def test_PostDecrement():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_PreIncrement(), test_PreIncrement produces the expected output) over Any ║
+# ║ Path(test_PreIncrement(), p.func(*p.args) == p and ccode(p) == '++(x)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_PreIncrement : Any → {Any | p.func(*p.args) == p...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  p.func(*p.args) == p                           ║
+# ║   ensures:  ccode(p) == '++(x)'                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_PreIncrement : Any → {Any | result satisfies: p....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bc0b0849e26dd343  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3b1a9f887ab2c1fe  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_cnodes.test_PreIncrement","kind":"function","src_hash":"0391dd0d4f6fe8f1","in":{"base":"Any"},"out":{"base":"Any","pred":"p.func(*p.args) == p and ccode(p) == '++(x)'"},"spec":{"lhs":"test_PreIncrement()","rhs":"test_PreIncrement produces the expected output","over":{"base":"Any"},"name":"test_PreIncrement_correct"},"guarantee":"test_PreIncrement produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_cnodes.test_PreIncrement_correct","statement":"Path(test_PreIncrement(x), test_PreIncrement produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bc0b0849e26dd343"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_cnodes.test_PreIncrement","kind":"function","src_hash":"0391dd0d4f6fe8f1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: p.func(*p.args) == p and ccode(p) == '++(x)'"},"spec":{"lhs":"test_PreIncrement()","rhs":"p.func(*p.args) == p and ccode(p) == '++(x)'","over":{"base":"Any"},"name":"test_PreIncrement_correct"},"guarantee":"p.func(*p.args) == p; ccode(p) == '++(x)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_cnodes.test_PreIncrement_correct","statement":"Path(test_PreIncrement(x), p.func(*p.args) == p; ccode(p) == '++(x)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3b1a9f887ab2c1fe","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["p.func(*p.args) == p","ccode(p) == '++(x)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_PreIncrement():
     p = PreIncrement(x)
     assert p.func(*p.args) == p
@@ -150,16 +193,23 @@ def test_PreIncrement():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_PostIncrement(), test_PostIncrement produces the expected output) over Any ║
+# ║ Path(test_PostIncrement(), p.func(*p.args) == p and ccode(p) == '(x)++') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_PostIncrement : Any → {Any | p.func(*p.args) == ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  p.func(*p.args) == p                           ║
+# ║   ensures:  ccode(p) == '(x)++'                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_PostIncrement : Any → {Any | result satisfies: p...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bb3b6e6e8a570e9c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ab11b60dcd79848a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_cnodes.test_PostIncrement","kind":"function","src_hash":"f5622a12f10d79a7","in":{"base":"Any"},"out":{"base":"Any","pred":"p.func(*p.args) == p and ccode(p) == '(x)++'"},"spec":{"lhs":"test_PostIncrement()","rhs":"test_PostIncrement produces the expected output","over":{"base":"Any"},"name":"test_PostIncrement_correct"},"guarantee":"test_PostIncrement produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_cnodes.test_PostIncrement_correct","statement":"Path(test_PostIncrement(x), test_PostIncrement produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bb3b6e6e8a570e9c"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_cnodes.test_PostIncrement","kind":"function","src_hash":"f5622a12f10d79a7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: p.func(*p.args) == p and ccode(p) == '(x)++'"},"spec":{"lhs":"test_PostIncrement()","rhs":"p.func(*p.args) == p and ccode(p) == '(x)++'","over":{"base":"Any"},"name":"test_PostIncrement_correct"},"guarantee":"p.func(*p.args) == p; ccode(p) == '(x)++'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_cnodes.test_PostIncrement_correct","statement":"Path(test_PostIncrement(x), p.func(*p.args) == p; ccode(p) == '(x)++')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ab11b60dcd79848a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["p.func(*p.args) == p","ccode(p) == '(x)++'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_PostIncrement():
     p = PostIncrement(x)
     assert p.func(*p.args) == p
@@ -167,16 +217,24 @@ def test_PostIncrement():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_sizeof(), test_sizeof produces the expected output) over Any ║
+# ║ Path(test_sizeof(), ccode(sz) == 'sizeof(%s)' % typename and sz.func(*sz.args) == sz and not sz.is_Atom and sz.atoms() == {String('unsigned int'), String('sizeof')}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_sizeof : Any → {Any | ccode(sz) == 'sizeof(%s)' ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  ccode(sz) == 'sizeof(%s)' % typename           ║
+# ║   ensures:  sz.func(*sz.args) == sz                        ║
+# ║   ensures:  not sz.is_Atom                                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_sizeof : Any → {Any | result satisfies: ccode(sz...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3826ecb4d4e70a21  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3295e360c7edf77c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_cnodes.test_sizeof","kind":"function","src_hash":"7a5c053137cdf611","in":{"base":"Any"},"out":{"base":"Any","pred":"ccode(sz) == 'sizeof(%s)' % typename and sz.func(*sz.args) == sz and not sz.is_Atom and sz.atoms() == {String('unsigned int'), String('sizeof')}"},"spec":{"lhs":"test_sizeof()","rhs":"test_sizeof produces the expected output","over":{"base":"Any"},"name":"test_sizeof_correct"},"guarantee":"test_sizeof produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_cnodes.test_sizeof_correct","statement":"Path(test_sizeof(x), test_sizeof produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3826ecb4d4e70a21"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_cnodes.test_sizeof","kind":"function","src_hash":"7a5c053137cdf611","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: ccode(sz) == 'sizeof(%s)' % typename and sz.func(*sz.args) == sz and not sz.is_Atom and sz.atoms() == {String('unsigned int'), String('sizeof')}"},"spec":{"lhs":"test_sizeof()","rhs":"ccode(sz) == 'sizeof(%s)' % typename and sz.func(*sz.args) == sz and not sz.is_Atom and sz.atoms() == {String('unsigned int'), String('sizeof')}","over":{"base":"Any"},"name":"test_sizeof_correct"},"guarantee":"ccode(sz) == 'sizeof(%s)' % typename; sz.func(*sz.args) == sz; not sz.is_Atom","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_cnodes.test_sizeof_correct","statement":"Path(test_sizeof(x), ccode(sz) == 'sizeof(%s)' % typename; sz.func(*sz.args) == sz; not sz.is_Atom)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3295e360c7edf77c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["ccode(sz) == 'sizeof(%s)' % typename","sz.func(*sz.args) == sz","not sz.is_Atom","sz.atoms() == {String('unsigned int'), String('sizeof')}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_sizeof():
     typename = 'unsigned int'
     sz = sizeof(typename)
@@ -187,7 +245,12 @@ def test_sizeof():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_struct(), test_struct produces the expected output) over {Any | isinstance(arg, Declaration)} ║
+# ║ Path(test_struct(), s.func(*s.args) == s and s == struct('vec2', (vx, vy)) and s != struct('vec2', (vy, vx)) and str(s.name) == 'vec2' and len(s.declarations) == 2 and all((isinstance(arg, Declaration) for arg in s.declarations)) and ccode(s) == 'struct vec2 {\n   double x;\n   double y;\n}') over {Any | isinstance(arg, Declaration)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  s.func(*s.args) == s                           ║
+# ║   ensures:  s == struct('vec2', (vx, vy))                  ║
+# ║   ensures:  s != struct('vec2', (vy, vx))                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_struct : {Any | isinstance(arg, Declaration)} → ...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -199,9 +262,12 @@ def test_sizeof():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.4ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 4f520c6f...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_cnodes.test_struct","kind":"function","src_hash":"5fa43e956722345a","in":{"base":"Any","pred":"isinstance(arg, Declaration)"},"out":{"base":"Any","pred":"s.func(*s.args) == s and s == struct('vec2', (vx, vy)) and s != struct('vec2', (vy, vx)) and str(s.name) == 'vec2' and len(s.declarations) == 2 and all((isinstance(arg, Declaration) for arg in s.declarations)) and ccode(s) == 'struct vec2 {\\n   double x;\\n   double y;\\n}'"},"spec":{"lhs":"test_struct()","rhs":"test_struct produces the expected output","over":{"base":"Any","pred":"isinstance(arg, Declaration)"},"name":"test_struct_correct"},"guarantee":"test_struct produces the expected output","fibers":[{"name":"Declaration","pred":"isinstance(arg, Declaration)","path":{"lhs":"test_struct(x)","rhs":"test_struct produces the expected output","over":{"base":"Declaration","pred":"isinstance(arg, Declaration)"},"name":"test_struct_Declaration_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_cnodes.test_struct_Declaration_correct","statement":"test_struct satisfies spec on Declaration inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"4f520c6f97b4492e"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_cnodes.test_struct","kind":"function","src_hash":"5fa43e956722345a","in":{"base":"Any","pred":"isinstance(arg, Declaration)"},"out":{"base":"Any","pred":"result satisfies: s.func(*s.args) == s and s == struct('vec2', (vx, vy)) and s != struct('vec2', (vy, vx)) and str(s.name) == 'vec2' and len(s.declarations) == 2 and all((isinstance(arg, Declaration) for arg in s.declarations)) and ccode(s) == 'struct vec2 {\\n   double x;\\n   double y;\\n}'"},"spec":{"lhs":"test_struct()","rhs":"s.func(*s.args) == s and s == struct('vec2', (vx, vy)) and s != struct('vec2', (vy, vx)) and str(s.name) == 'vec2' and len(s.declarations) == 2 and all((isinstance(arg, Declaration) for arg in s.declarations)) and ccode(s) == 'struct vec2 {\\n   double x;\\n   double y;\\n}'","over":{"base":"Any","pred":"isinstance(arg, Declaration)"},"name":"test_struct_correct"},"guarantee":"s.func(*s.args) == s; s == struct('vec2', (vx, vy)); s != struct('vec2', (vy, vx))","fibers":[{"name":"Declaration","pred":"isinstance(arg, Declaration)","path":{"lhs":"test_struct(x)","rhs":"s.func(*s.args) == s; s == struct('vec2', (vx, vy)); s != struct('vec2', (vy, vx))","over":{"base":"Declaration","pred":"isinstance(arg, Declaration)"},"name":"test_struct_Declaration_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_cnodes.test_struct_Declaration_correct","statement":"test_struct satisfies spec on Declaration inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"4f520c6f97b4492e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["s.func(*s.args) == s","s == struct('vec2', (vx, vy))","s != struct('vec2', (vy, vx))","str(s.name) == 'vec2'","len(s.declarations) == 2","all((isinstance(arg, Declaration) for arg in s.declarations))","ccode(s) == 'struct vec2 {\\n   double x;\\n   double y;\\n}'"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.4,"verdict_class":"failed","binding":true}}
 def test_struct():
     vx, vy = Variable(x, type=float64), Variable(y, type=float64)
     s = struct('vec2', [vx, vy])
@@ -219,7 +285,12 @@ def test_struct():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_union(), test_union produces the expected output) over {Any | isinstance(arg, Declaration)} ║
+# ║ Path(test_union(), u.func(*u.args) == u and u == union('dualuse', (vx, vy)) and str(u.name) == 'dualuse' and len(u.declarations) == 2 and all((isinstance(arg, Declaration) for arg in u.declarations)) and ccode(u) == 'union dualuse {\n   double x;\n   int64_t y;\n}') over {Any | isinstance(arg, Declaration)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  u.func(*u.args) == u                           ║
+# ║   ensures:  u == union('dualuse', (vx, vy))                ║
+# ║   ensures:  str(u.name) == 'dualuse'                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_union : {Any | isinstance(arg, Declaration)} → {...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -231,9 +302,12 @@ def test_struct():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 8c7dd15a...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_cnodes.test_union","kind":"function","src_hash":"13dc428a45d1f7c8","in":{"base":"Any","pred":"isinstance(arg, Declaration)"},"out":{"base":"Any","pred":"u.func(*u.args) == u and u == union('dualuse', (vx, vy)) and str(u.name) == 'dualuse' and len(u.declarations) == 2 and all((isinstance(arg, Declaration) for arg in u.declarations)) and ccode(u) == 'union dualuse {\\n   double x;\\n   int64_t y;\\n}'"},"spec":{"lhs":"test_union()","rhs":"test_union produces the expected output","over":{"base":"Any","pred":"isinstance(arg, Declaration)"},"name":"test_union_correct"},"guarantee":"test_union produces the expected output","fibers":[{"name":"Declaration","pred":"isinstance(arg, Declaration)","path":{"lhs":"test_union(x)","rhs":"test_union produces the expected output","over":{"base":"Declaration","pred":"isinstance(arg, Declaration)"},"name":"test_union_Declaration_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_cnodes.test_union_Declaration_correct","statement":"test_union satisfies spec on Declaration inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"8c7dd15a40aea9d6"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_cnodes.test_union","kind":"function","src_hash":"13dc428a45d1f7c8","in":{"base":"Any","pred":"isinstance(arg, Declaration)"},"out":{"base":"Any","pred":"result satisfies: u.func(*u.args) == u and u == union('dualuse', (vx, vy)) and str(u.name) == 'dualuse' and len(u.declarations) == 2 and all((isinstance(arg, Declaration) for arg in u.declarations)) and ccode(u) == 'union dualuse {\\n   double x;\\n   int64_t y;\\n}'"},"spec":{"lhs":"test_union()","rhs":"u.func(*u.args) == u and u == union('dualuse', (vx, vy)) and str(u.name) == 'dualuse' and len(u.declarations) == 2 and all((isinstance(arg, Declaration) for arg in u.declarations)) and ccode(u) == 'union dualuse {\\n   double x;\\n   int64_t y;\\n}'","over":{"base":"Any","pred":"isinstance(arg, Declaration)"},"name":"test_union_correct"},"guarantee":"u.func(*u.args) == u; u == union('dualuse', (vx, vy)); str(u.name) == 'dualuse'","fibers":[{"name":"Declaration","pred":"isinstance(arg, Declaration)","path":{"lhs":"test_union(x)","rhs":"u.func(*u.args) == u; u == union('dualuse', (vx, vy)); str(u.name) == 'dualuse'","over":{"base":"Declaration","pred":"isinstance(arg, Declaration)"},"name":"test_union_Declaration_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_cnodes.test_union_Declaration_correct","statement":"test_union satisfies spec on Declaration inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"8c7dd15a40aea9d6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["u.func(*u.args) == u","u == union('dualuse', (vx, vy))","str(u.name) == 'dualuse'","len(u.declarations) == 2","all((isinstance(arg, Declaration) for arg in u.declarations))","ccode(u) == 'union dualuse {\\n   double x;\\n   int64_t y;\\n}'"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"failed","binding":true}}
 def test_union():
     vx, vy = Variable(x, type=float64), Variable(y, type=int64)
     u = union('dualuse', [vx, vy])

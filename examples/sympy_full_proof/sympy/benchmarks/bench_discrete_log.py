@@ -66,16 +66,22 @@ data_set_3 = [
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(bench_discrete_log(dat), bench_discrete_log produces the expected output) over Any ║
+# ║ Path(bench_discrete_log(data_set, algo), <unspecified:bench_discrete_log>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ bench_discrete_log : Any → {Any | l == p - 1}              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a11e66e4aeaeaced  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.benchmarks.bench_discrete_log.bench_discrete_log","kind":"function","src_hash":"b67063c7166e3897","in":{"base":"Any"},"out":{"base":"Any","pred":"l == p - 1"},"spec":{"lhs":"bench_discrete_log(dat)","rhs":"bench_discrete_log produces the expected output","over":{"base":"Any"},"name":"bench_discrete_log_correct"},"guarantee":"bench_discrete_log produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.benchmarks.bench_discrete_log.bench_discrete_log_correct","statement":"Path(bench_discrete_log(x), bench_discrete_log produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a11e66e4aeaeaced"}
+# @cctt_verify {"v":2,"sym":"sympy.benchmarks.bench_discrete_log.bench_discrete_log","kind":"function","src_hash":"b67063c7166e3897","in":{"base":"Any"},"out":{"base":"Any","pred":"l == p - 1"},"spec":{"lhs":"bench_discrete_log(data_set, algo)","rhs":"<unspecified:bench_discrete_log>","over":{"base":"Any"},"name":"bench_discrete_log_correct"},"guarantee":"bench_discrete_log produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.benchmarks.bench_discrete_log.bench_discrete_log_correct","statement":"Path(bench_discrete_log(x), bench_discrete_log produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a11e66e4aeaeaced","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"nondeterministic","raises":["ValueError"],"io_operations":["print"],"nondeterministic_sources":["time"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def bench_discrete_log(data_set, algo=None):
     if algo is None:
         f = discrete_log

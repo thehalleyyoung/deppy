@@ -19,16 +19,23 @@ from sympy.core.sympify import sympify
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(aseries(exp), see the docstring of expr.aseries() for complete details of this wrapper) over Any ║
+# ║ Path(aseries(expr, x, n), expr.aseries(x, n, bound, hir)) over {Any | hasattr(expr, 'aseries')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ aseries : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'aseries')                       ║
+# ║   returns:  expr.aseries(x, n, bound, hir)                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ aseries : {Any | hasattr(expr, 'aseries')} → Any           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3620cf3fe6619a10  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 674d143150b2a5b7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.aseries.aseries","kind":"function","src_hash":"4ea41006ff881a18","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"aseries(exp)","rhs":"see the docstring of expr.aseries() for complete details of this wrapper","over":{"base":"Any"},"name":"aseries_correct"},"guarantee":"see the docstring of expr.aseries() for complete details of this wrapper","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.aseries.aseries_correct","statement":"Path(aseries(x), see the docstring of expr.aseries() for complete details of this wrapper)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3620cf3fe6619a10"}
+# @cctt_verify {"v":2,"sym":"sympy.series.aseries.aseries","kind":"function","src_hash":"4ea41006ff881a18","in":{"base":"Any","pred":"hasattr(expr, 'aseries')"},"out":{"base":"Any"},"spec":{"lhs":"aseries(expr, x, n)","rhs":"expr.aseries(x, n, bound, hir)","over":{"base":"Any","pred":"hasattr(expr, 'aseries')"},"name":"aseries_correct"},"guarantee":"returns expr.aseries(x, n, bound, hir)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.aseries.aseries_correct","statement":"Path(aseries(x), returns expr.aseries(x, n, bound, hir))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"674d143150b2a5b7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'aseries')"],"returns_expr":"expr.aseries(x, n, bound, hir)","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.aseries"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def aseries(expr, x=None, n=6, bound=0, hir=False):
     """
     See the docstring of Expr.aseries() for complete details of this wrapper.

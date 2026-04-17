@@ -29,16 +29,23 @@ path = os.path.abspath(os.path.join(os.path.dirname(__file__), "test_xxe.py"))
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_xxe(), test_xxe produces the expected output) over Any ║
+# ║ Path(test_xxe(), os.path.isfile(path) and res == '<?xml version="1.0"?>\n<userInfo>\n<firstName>John</firstName>\n<lastName/>\n</userInfo>\n') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_xxe : Any → {Any | os.path.isfile(path)}              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  os.path.isfile(path)                           ║
+# ║   ensures:  res == '<?xml version="1.0"?>\n<userInfo>...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_xxe : Any → {Any | result satisfies: os.path.isf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5aa052b553488701  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b11bfaaa16b7ce29  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_mathml.test_xxe","kind":"function","src_hash":"9648bdaeeb17da6f","in":{"base":"Any"},"out":{"base":"Any","pred":"os.path.isfile(path)"},"spec":{"lhs":"test_xxe()","rhs":"test_xxe produces the expected output","over":{"base":"Any"},"name":"test_xxe_correct"},"guarantee":"test_xxe produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_mathml.test_xxe_correct","statement":"Path(test_xxe(x), test_xxe produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5aa052b553488701"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_mathml.test_xxe","kind":"function","src_hash":"9648bdaeeb17da6f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: os.path.isfile(path) and res == '<?xml version=\"1.0\"?>\\n<userInfo>\\n<firstName>John</firstName>\\n<lastName/>\\n</userInfo>\\n'"},"spec":{"lhs":"test_xxe()","rhs":"os.path.isfile(path) and res == '<?xml version=\"1.0\"?>\\n<userInfo>\\n<firstName>John</firstName>\\n<lastName/>\\n</userInfo>\\n'","over":{"base":"Any"},"name":"test_xxe_correct"},"guarantee":"os.path.isfile(path); res == '<?xml version=\"1.0\"?>\\n<userInfo>\\n<firstName>John</firstName>\\n<lastName/>\\n</userInfo>\\n'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_mathml.test_xxe_correct","statement":"Path(test_xxe(x), os.path.isfile(path); res == '<?xml version=\"1.0\"?>\\n<userInfo>\\n<firstName>John</firstName>\\n<lastName/>\\n</userInfo>\\n')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b11bfaaa16b7ce29","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["os.path.isfile(path)","res == '<?xml version=\"1.0\"?>\\n<userInfo>\\n<firstName>John</firstName>\\n<lastName/>\\n</userInfo>\\n'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_xxe():
     assert os.path.isfile(path)
     if not lxml:

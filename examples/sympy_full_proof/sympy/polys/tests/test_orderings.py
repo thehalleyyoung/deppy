@@ -27,16 +27,24 @@ from sympy.core import S
 from sympy.testing.pytest import raises
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_lex_order(), test_lex_order produces the expected output) over Any ║
+# ║ Path(test_lex_order(), lex((1, 2, 3)) == (1, 2, 3) and str(lex) == 'lex' and lex((1, 2, 3)) == lex((1, 2, 3)) and lex((2, 2, 3)) > lex((1, 2, 3)) and lex((1, 3, 3)) > lex((1, 2, 3)) and lex((1, 2, 4)) > lex((1, 2, 3)) and lex((0, 2, 3)) < lex((1, 2, 3)) and lex((1, 1, 3)) < lex((1, 2, 3)) and lex((1, 2, 2)) < lex((1, 2, 3)) and lex.is_global is True and lex == LexOrder() and lex != grlex) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_lex_order : Any → {Any | lex((1, 2, 3)) == (1, 2...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  lex((1, 2, 3)) == (1, 2, 3)                    ║
+# ║   ensures:  str(lex) == 'lex'                              ║
+# ║   ensures:  lex((1, 2, 3)) == lex((1, 2, 3))               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_lex_order : Any → {Any | result satisfies: lex((...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7c87be118537dc98  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2882e1e3bf283f4e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_orderings.test_lex_order","kind":"function","src_hash":"1e3bce4668eba229","in":{"base":"Any"},"out":{"base":"Any","pred":"lex((1, 2, 3)) == (1, 2, 3) and str(lex) == 'lex' and lex((1, 2, 3)) == lex((1, 2, 3)) and lex((2, 2, 3)) > lex((1, 2, 3)) and lex((1, 3, 3)) > lex((1, 2, 3)) and lex((1, 2, 4)) > lex((1, 2, 3)) and lex((0, 2, 3)) < lex((1, 2, 3)) and lex((1, 1, 3)) < lex((1, 2, 3)) and lex((1, 2, 2)) < lex((1, 2, 3)) and lex.is_global is True and lex == LexOrder() and lex != grlex"},"spec":{"lhs":"test_lex_order()","rhs":"test_lex_order produces the expected output","over":{"base":"Any"},"name":"test_lex_order_correct"},"guarantee":"test_lex_order produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_orderings.test_lex_order_correct","statement":"Path(test_lex_order(x), test_lex_order produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7c87be118537dc98"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_orderings.test_lex_order","kind":"function","src_hash":"1e3bce4668eba229","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: lex((1, 2, 3)) == (1, 2, 3) and str(lex) == 'lex' and lex((1, 2, 3)) == lex((1, 2, 3)) and lex((2, 2, 3)) > lex((1, 2, 3)) and lex((1, 3, 3)) > lex((1, 2, 3)) and lex((1, 2, 4)) > lex((1, 2, 3)) and lex((0, 2, 3)) < lex((1, 2, 3)) and lex((1, 1, 3)) < lex((1, 2, 3)) and lex((1, 2, 2)) < lex((1, 2, 3)) and lex.is_global is True and lex == LexOrder() and lex != grlex"},"spec":{"lhs":"test_lex_order()","rhs":"lex((1, 2, 3)) == (1, 2, 3) and str(lex) == 'lex' and lex((1, 2, 3)) == lex((1, 2, 3)) and lex((2, 2, 3)) > lex((1, 2, 3)) and lex((1, 3, 3)) > lex((1, 2, 3)) and lex((1, 2, 4)) > lex((1, 2, 3)) and lex((0, 2, 3)) < lex((1, 2, 3)) and lex((1, 1, 3)) < lex((1, 2, 3)) and lex((1, 2, 2)) < lex((1, 2, 3)) and lex.is_global is True and lex == LexOrder() and lex != grlex","over":{"base":"Any"},"name":"test_lex_order_correct"},"guarantee":"lex((1, 2, 3)) == (1, 2, 3); str(lex) == 'lex'; lex((1, 2, 3)) == lex((1, 2, 3))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_orderings.test_lex_order_correct","statement":"Path(test_lex_order(x), lex((1, 2, 3)) == (1, 2, 3); str(lex) == 'lex'; lex((1, 2, 3)) == lex((1, 2, 3)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2882e1e3bf283f4e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["lex((1, 2, 3)) == (1, 2, 3)","str(lex) == 'lex'","lex((1, 2, 3)) == lex((1, 2, 3))","lex((2, 2, 3)) > lex((1, 2, 3))","lex((1, 3, 3)) > lex((1, 2, 3))","lex((1, 2, 4)) > lex((1, 2, 3))","lex((0, 2, 3)) < lex((1, 2, 3))","lex((1, 1, 3)) < lex((1, 2, 3))","lex((1, 2, 2)) < lex((1, 2, 3))","lex.is_global is True","lex == LexOrder()","lex != grlex"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_lex_order():
     assert lex((1, 2, 3)) == (1, 2, 3)
     assert str(lex) == 'lex'
@@ -56,16 +64,24 @@ def test_lex_order():
     assert lex != grlex
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_grlex_order(), test_grlex_order produces the expected output) over Any ║
+# ║ Path(test_grlex_order(), grlex((1, 2, 3)) == (6, (1, 2, 3)) and str(grlex) == 'grlex' and grlex((1, 2, 3)) == grlex((1, 2, 3)) and grlex((2, 2, 3)) > grlex((1, 2, 3)) and grlex((1, 3, 3)) > grlex((1, 2, 3)) and grlex((1, 2, 4)) > grlex((1, 2, 3)) and grlex((0, 2, 3)) < grlex((1, 2, 3)) and grlex((1, 1, 3)) < grlex((1, 2, 3)) and grlex((1, 2, 2)) < grlex((1, 2, 3)) and grlex((2, 2, 3)) > grlex((1, 2, 4)) and grlex((1, 3, 3)) > grlex((1, 2, 4)) and grlex((0, 2, 3)) < grlex((1, 2, 2)) and grlex((1, 1, 3)) < grlex((1, 2, 2)) and grlex((0, 1, 1)) > grlex((0, 0, 2)) and grlex((0, 3, 1)) < grlex((2, 2, 1)) and grlex.is_global is True) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_grlex_order : Any → {Any | grlex((1, 2, 3)) == (...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  grlex((1, 2, 3)) == (6, (1, 2, 3))             ║
+# ║   ensures:  str(grlex) == 'grlex'                          ║
+# ║   ensures:  grlex((1, 2, 3)) == grlex((1, 2, 3))           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_grlex_order : Any → {Any | result satisfies: grl...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3fb73b3dd3e797ab  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5499992f6bb886e8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_orderings.test_grlex_order","kind":"function","src_hash":"51a98d4551551ece","in":{"base":"Any"},"out":{"base":"Any","pred":"grlex((1, 2, 3)) == (6, (1, 2, 3)) and str(grlex) == 'grlex' and grlex((1, 2, 3)) == grlex((1, 2, 3)) and grlex((2, 2, 3)) > grlex((1, 2, 3)) and grlex((1, 3, 3)) > grlex((1, 2, 3)) and grlex((1, 2, 4)) > grlex((1, 2, 3)) and grlex((0, 2, 3)) < grlex((1, 2, 3)) and grlex((1, 1, 3)) < grlex((1, 2, 3)) and grlex((1, 2, 2)) < grlex((1, 2, 3)) and grlex((2, 2, 3)) > grlex((1, 2, 4)) and grlex((1, 3, 3)) > grlex((1, 2, 4)) and grlex((0, 2, 3)) < grlex((1, 2, 2)) and grlex((1, 1, 3)) < grlex((1, 2, 2)) and grlex((0, 1, 1)) > grlex((0, 0, 2)) and grlex((0, 3, 1)) < grlex((2, 2, 1)) and grlex.is_global is True"},"spec":{"lhs":"test_grlex_order()","rhs":"test_grlex_order produces the expected output","over":{"base":"Any"},"name":"test_grlex_order_correct"},"guarantee":"test_grlex_order produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_orderings.test_grlex_order_correct","statement":"Path(test_grlex_order(x), test_grlex_order produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3fb73b3dd3e797ab"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_orderings.test_grlex_order","kind":"function","src_hash":"51a98d4551551ece","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: grlex((1, 2, 3)) == (6, (1, 2, 3)) and str(grlex) == 'grlex' and grlex((1, 2, 3)) == grlex((1, 2, 3)) and grlex((2, 2, 3)) > grlex((1, 2, 3)) and grlex((1, 3, 3)) > grlex((1, 2, 3)) and grlex((1, 2, 4)) > grlex((1, 2, 3)) and grlex((0, 2, 3)) < grlex((1, 2, 3)) and grlex((1, 1, 3)) < grlex((1, 2, 3)) and grlex((1, 2, 2)) < grlex((1, 2, 3)) and grlex((2, 2, 3)) > grlex((1, 2, 4)) and grlex((1, 3, 3)) > grlex((1, 2, 4)) and grlex((0, 2, 3)) < grlex((1, 2, 2)) and grlex((1, 1, 3)) < grlex((1, 2, 2)) and grlex((0, 1, 1)) > grlex((0, 0, 2)) and grlex((0, 3, 1)) < grlex((2, 2, 1)) and grlex.is_global is True"},"spec":{"lhs":"test_grlex_order()","rhs":"grlex((1, 2, 3)) == (6, (1, 2, 3)) and str(grlex) == 'grlex' and grlex((1, 2, 3)) == grlex((1, 2, 3)) and grlex((2, 2, 3)) > grlex((1, 2, 3)) and grlex((1, 3, 3)) > grlex((1, 2, 3)) and grlex((1, 2, 4)) > grlex((1, 2, 3)) and grlex((0, 2, 3)) < grlex((1, 2, 3)) and grlex((1, 1, 3)) < grlex((1, 2, 3)) and grlex((1, 2, 2)) < grlex((1, 2, 3)) and grlex((2, 2, 3)) > grlex((1, 2, 4)) and grlex((1, 3, 3)) > grlex((1, 2, 4)) and grlex((0, 2, 3)) < grlex((1, 2, 2)) and grlex((1, 1, 3)) < grlex((1, 2, 2)) and grlex((0, 1, 1)) > grlex((0, 0, 2)) and grlex((0, 3, 1)) < grlex((2, 2, 1)) and grlex.is_global is True","over":{"base":"Any"},"name":"test_grlex_order_correct"},"guarantee":"grlex((1, 2, 3)) == (6, (1, 2, 3)); str(grlex) == 'grlex'; grlex((1, 2, 3)) == grlex((1, 2, 3))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_orderings.test_grlex_order_correct","statement":"Path(test_grlex_order(x), grlex((1, 2, 3)) == (6, (1, 2, 3)); str(grlex) == 'grlex'; grlex((1, 2, 3)) == grlex((1, 2, 3)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5499992f6bb886e8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["grlex((1, 2, 3)) == (6, (1, 2, 3))","str(grlex) == 'grlex'","grlex((1, 2, 3)) == grlex((1, 2, 3))","grlex((2, 2, 3)) > grlex((1, 2, 3))","grlex((1, 3, 3)) > grlex((1, 2, 3))","grlex((1, 2, 4)) > grlex((1, 2, 3))","grlex((0, 2, 3)) < grlex((1, 2, 3))","grlex((1, 1, 3)) < grlex((1, 2, 3))","grlex((1, 2, 2)) < grlex((1, 2, 3))","grlex((2, 2, 3)) > grlex((1, 2, 4))","grlex((1, 3, 3)) > grlex((1, 2, 4))","grlex((0, 2, 3)) < grlex((1, 2, 2))","grlex((1, 1, 3)) < grlex((1, 2, 2))","grlex((0, 1, 1)) > grlex((0, 0, 2))","grlex((0, 3, 1)) < grlex((2, 2, 1))","grlex.is_global is True"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_grlex_order():
     assert grlex((1, 2, 3)) == (6, (1, 2, 3))
     assert str(grlex) == 'grlex'
@@ -92,16 +108,24 @@ def test_grlex_order():
     assert grlex.is_global is True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_grevlex_order(), test_grevlex_order produces the expected output) over Any ║
+# ║ Path(test_grevlex_order(), grevlex((1, 2, 3)) == (6, (-3, -2, -1)) and str(grevlex) == 'grevlex' and grevlex((1, 2, 3)) == grevlex((1, 2, 3)) and grevlex((2, 2, 3)) > grevlex((1, 2, 3)) and grevlex((1, 3, 3)) > grevlex((1, 2, 3)) and grevlex((1, 2, 4)) > grevlex((1, 2, 3)) and grevlex((0, 2, 3)) < grevlex((1, 2, 3)) and grevlex((1, 1, 3)) < grevlex((1, 2, 3)) and grevlex((1, 2, 2)) < grevlex((1, 2, 3)) and grevlex((2, 2, 3)) > grevlex((1, 2, 4)) and grevlex((1, 3, 3)) > grevlex((1, 2, 4)) and grevlex((0, 2, 3)) < grevlex((1, 2, 2)) and grevlex((1, 1, 3)) < grevlex((1, 2, 2)) and grevlex((0, 1, 1)) > grevlex((0, 0, 2)) and grevlex((0, 3, 1)) < grevlex((2, 2, 1)) and grevlex.is_global is True) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_grevlex_order : Any → {Any | grevlex((1, 2, 3)) ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  grevlex((1, 2, 3)) == (6, (-3, -2, -1))        ║
+# ║   ensures:  str(grevlex) == 'grevlex'                      ║
+# ║   ensures:  grevlex((1, 2, 3)) == grevlex((1, 2, 3))       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_grevlex_order : Any → {Any | result satisfies: g...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5e2f302164498a57  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c1f305d17a08d348  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_orderings.test_grevlex_order","kind":"function","src_hash":"f139c4bce1981926","in":{"base":"Any"},"out":{"base":"Any","pred":"grevlex((1, 2, 3)) == (6, (-3, -2, -1)) and str(grevlex) == 'grevlex' and grevlex((1, 2, 3)) == grevlex((1, 2, 3)) and grevlex((2, 2, 3)) > grevlex((1, 2, 3)) and grevlex((1, 3, 3)) > grevlex((1, 2, 3)) and grevlex((1, 2, 4)) > grevlex((1, 2, 3)) and grevlex((0, 2, 3)) < grevlex((1, 2, 3)) and grevlex((1, 1, 3)) < grevlex((1, 2, 3)) and grevlex((1, 2, 2)) < grevlex((1, 2, 3)) and grevlex((2, 2, 3)) > grevlex((1, 2, 4)) and grevlex((1, 3, 3)) > grevlex((1, 2, 4)) and grevlex((0, 2, 3)) < grevlex((1, 2, 2)) and grevlex((1, 1, 3)) < grevlex((1, 2, 2)) and grevlex((0, 1, 1)) > grevlex((0, 0, 2)) and grevlex((0, 3, 1)) < grevlex((2, 2, 1)) and grevlex.is_global is True"},"spec":{"lhs":"test_grevlex_order()","rhs":"test_grevlex_order produces the expected output","over":{"base":"Any"},"name":"test_grevlex_order_correct"},"guarantee":"test_grevlex_order produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_orderings.test_grevlex_order_correct","statement":"Path(test_grevlex_order(x), test_grevlex_order produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5e2f302164498a57"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_orderings.test_grevlex_order","kind":"function","src_hash":"f139c4bce1981926","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: grevlex((1, 2, 3)) == (6, (-3, -2, -1)) and str(grevlex) == 'grevlex' and grevlex((1, 2, 3)) == grevlex((1, 2, 3)) and grevlex((2, 2, 3)) > grevlex((1, 2, 3)) and grevlex((1, 3, 3)) > grevlex((1, 2, 3)) and grevlex((1, 2, 4)) > grevlex((1, 2, 3)) and grevlex((0, 2, 3)) < grevlex((1, 2, 3)) and grevlex((1, 1, 3)) < grevlex((1, 2, 3)) and grevlex((1, 2, 2)) < grevlex((1, 2, 3)) and grevlex((2, 2, 3)) > grevlex((1, 2, 4)) and grevlex((1, 3, 3)) > grevlex((1, 2, 4)) and grevlex((0, 2, 3)) < grevlex((1, 2, 2)) and grevlex((1, 1, 3)) < grevlex((1, 2, 2)) and grevlex((0, 1, 1)) > grevlex((0, 0, 2)) and grevlex((0, 3, 1)) < grevlex((2, 2, 1)) and grevlex.is_global is True"},"spec":{"lhs":"test_grevlex_order()","rhs":"grevlex((1, 2, 3)) == (6, (-3, -2, -1)) and str(grevlex) == 'grevlex' and grevlex((1, 2, 3)) == grevlex((1, 2, 3)) and grevlex((2, 2, 3)) > grevlex((1, 2, 3)) and grevlex((1, 3, 3)) > grevlex((1, 2, 3)) and grevlex((1, 2, 4)) > grevlex((1, 2, 3)) and grevlex((0, 2, 3)) < grevlex((1, 2, 3)) and grevlex((1, 1, 3)) < grevlex((1, 2, 3)) and grevlex((1, 2, 2)) < grevlex((1, 2, 3)) and grevlex((2, 2, 3)) > grevlex((1, 2, 4)) and grevlex((1, 3, 3)) > grevlex((1, 2, 4)) and grevlex((0, 2, 3)) < grevlex((1, 2, 2)) and grevlex((1, 1, 3)) < grevlex((1, 2, 2)) and grevlex((0, 1, 1)) > grevlex((0, 0, 2)) and grevlex((0, 3, 1)) < grevlex((2, 2, 1)) and grevlex.is_global is True","over":{"base":"Any"},"name":"test_grevlex_order_correct"},"guarantee":"grevlex((1, 2, 3)) == (6, (-3, -2, -1)); str(grevlex) == 'grevlex'; grevlex((1, 2, 3)) == grevlex((1, 2, 3))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_orderings.test_grevlex_order_correct","statement":"Path(test_grevlex_order(x), grevlex((1, 2, 3)) == (6, (-3, -2, -1)); str(grevlex) == 'grevlex'; grevlex((1, 2, 3)) == grevlex((1, 2, 3)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c1f305d17a08d348","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["grevlex((1, 2, 3)) == (6, (-3, -2, -1))","str(grevlex) == 'grevlex'","grevlex((1, 2, 3)) == grevlex((1, 2, 3))","grevlex((2, 2, 3)) > grevlex((1, 2, 3))","grevlex((1, 3, 3)) > grevlex((1, 2, 3))","grevlex((1, 2, 4)) > grevlex((1, 2, 3))","grevlex((0, 2, 3)) < grevlex((1, 2, 3))","grevlex((1, 1, 3)) < grevlex((1, 2, 3))","grevlex((1, 2, 2)) < grevlex((1, 2, 3))","grevlex((2, 2, 3)) > grevlex((1, 2, 4))","grevlex((1, 3, 3)) > grevlex((1, 2, 4))","grevlex((0, 2, 3)) < grevlex((1, 2, 2))","grevlex((1, 1, 3)) < grevlex((1, 2, 2))","grevlex((0, 1, 1)) > grevlex((0, 0, 2))","grevlex((0, 3, 1)) < grevlex((2, 2, 1))","grevlex.is_global is True"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_grevlex_order():
     assert grevlex((1, 2, 3)) == (6, (-3, -2, -1))
     assert str(grevlex) == 'grevlex'
@@ -128,16 +152,24 @@ def test_grevlex_order():
     assert grevlex.is_global is True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_InverseOrder(), test_InverseOrder produces the expected output) over Any ║
+# ║ Path(test_InverseOrder(), ilex((1, 2, 3)) > ilex((2, 0, 3)) and igrlex((1, 2, 3)) < igrlex((0, 2, 3)) and str(ilex) == 'ilex' and str(igrlex) == 'igrlex' and ilex.is_global is False and igrlex.is_global is False and ilex != igrlex and ilex == InverseOrder(LexOrder())) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_InverseOrder : Any → {Any | ilex((1, 2, 3)) > il...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  ilex((1, 2, 3)) > ilex((2, 0, 3))              ║
+# ║   ensures:  igrlex((1, 2, 3)) < igrlex((0, 2, 3))          ║
+# ║   ensures:  str(ilex) == 'ilex'                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_InverseOrder : Any → {Any | result satisfies: il...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c284d708f8d5bca7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6c6d44d14a1913ca  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_orderings.test_InverseOrder","kind":"function","src_hash":"c72a1f5d5b8db741","in":{"base":"Any"},"out":{"base":"Any","pred":"ilex((1, 2, 3)) > ilex((2, 0, 3)) and igrlex((1, 2, 3)) < igrlex((0, 2, 3)) and str(ilex) == 'ilex' and str(igrlex) == 'igrlex' and ilex.is_global is False and igrlex.is_global is False and ilex != igrlex and ilex == InverseOrder(LexOrder())"},"spec":{"lhs":"test_InverseOrder()","rhs":"test_InverseOrder produces the expected output","over":{"base":"Any"},"name":"test_InverseOrder_correct"},"guarantee":"test_InverseOrder produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_orderings.test_InverseOrder_correct","statement":"Path(test_InverseOrder(x), test_InverseOrder produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c284d708f8d5bca7"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_orderings.test_InverseOrder","kind":"function","src_hash":"c72a1f5d5b8db741","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: ilex((1, 2, 3)) > ilex((2, 0, 3)) and igrlex((1, 2, 3)) < igrlex((0, 2, 3)) and str(ilex) == 'ilex' and str(igrlex) == 'igrlex' and ilex.is_global is False and igrlex.is_global is False and ilex != igrlex and ilex == InverseOrder(LexOrder())"},"spec":{"lhs":"test_InverseOrder()","rhs":"ilex((1, 2, 3)) > ilex((2, 0, 3)) and igrlex((1, 2, 3)) < igrlex((0, 2, 3)) and str(ilex) == 'ilex' and str(igrlex) == 'igrlex' and ilex.is_global is False and igrlex.is_global is False and ilex != igrlex and ilex == InverseOrder(LexOrder())","over":{"base":"Any"},"name":"test_InverseOrder_correct"},"guarantee":"ilex((1, 2, 3)) > ilex((2, 0, 3)); igrlex((1, 2, 3)) < igrlex((0, 2, 3)); str(ilex) == 'ilex'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_orderings.test_InverseOrder_correct","statement":"Path(test_InverseOrder(x), ilex((1, 2, 3)) > ilex((2, 0, 3)); igrlex((1, 2, 3)) < igrlex((0, 2, 3)); str(ilex) == 'ilex')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6c6d44d14a1913ca","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["ilex((1, 2, 3)) > ilex((2, 0, 3))","igrlex((1, 2, 3)) < igrlex((0, 2, 3))","str(ilex) == 'ilex'","str(igrlex) == 'igrlex'","ilex.is_global is False","igrlex.is_global is False","ilex != igrlex","ilex == InverseOrder(LexOrder())"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_InverseOrder():
     ilex = InverseOrder(lex)
     igrlex = InverseOrder(grlex)
@@ -152,16 +184,24 @@ def test_InverseOrder():
     assert ilex == InverseOrder(LexOrder())
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_ProductOrder(), test_ProductOrder produces the expected output) over Any ║
+# ║ Path(test_ProductOrder(), P((1, 3, 3, 4, 5)) > P((2, 1, 5, 5, 5)) and str(P) == 'ProductOrder(grlex, grlex)' and P.is_global is True and ProductOrder((grlex, None), (ilex, None)).is_global is None and ProductOrder((igrlex, None), (ilex, None)).is_global is False) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_ProductOrder : Any → {Any | P((1, 3, 3, 4, 5)) >...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  P((1, 3, 3, 4, 5)) > P((2, 1, 5, 5, 5))        ║
+# ║   ensures:  str(P) == 'ProductOrder(grlex, grlex)'         ║
+# ║   ensures:  P.is_global is True                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_ProductOrder : Any → {Any | result satisfies: P(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d1cc2554f7edcda2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 98032a4ddefc01dc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_orderings.test_ProductOrder","kind":"function","src_hash":"f494914affe23902","in":{"base":"Any"},"out":{"base":"Any","pred":"P((1, 3, 3, 4, 5)) > P((2, 1, 5, 5, 5)) and str(P) == 'ProductOrder(grlex, grlex)' and P.is_global is True and ProductOrder((grlex, None), (ilex, None)).is_global is None and ProductOrder((igrlex, None), (ilex, None)).is_global is False"},"spec":{"lhs":"test_ProductOrder()","rhs":"test_ProductOrder produces the expected output","over":{"base":"Any"},"name":"test_ProductOrder_correct"},"guarantee":"test_ProductOrder produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_orderings.test_ProductOrder_correct","statement":"Path(test_ProductOrder(x), test_ProductOrder produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d1cc2554f7edcda2"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_orderings.test_ProductOrder","kind":"function","src_hash":"f494914affe23902","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: P((1, 3, 3, 4, 5)) > P((2, 1, 5, 5, 5)) and str(P) == 'ProductOrder(grlex, grlex)' and P.is_global is True and ProductOrder((grlex, None), (ilex, None)).is_global is None and ProductOrder((igrlex, None), (ilex, None)).is_global is False"},"spec":{"lhs":"test_ProductOrder()","rhs":"P((1, 3, 3, 4, 5)) > P((2, 1, 5, 5, 5)) and str(P) == 'ProductOrder(grlex, grlex)' and P.is_global is True and ProductOrder((grlex, None), (ilex, None)).is_global is None and ProductOrder((igrlex, None), (ilex, None)).is_global is False","over":{"base":"Any"},"name":"test_ProductOrder_correct"},"guarantee":"P((1, 3, 3, 4, 5)) > P((2, 1, 5, 5, 5)); str(P) == 'ProductOrder(grlex, grlex)'; P.is_global is True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_orderings.test_ProductOrder_correct","statement":"Path(test_ProductOrder(x), P((1, 3, 3, 4, 5)) > P((2, 1, 5, 5, 5)); str(P) == 'ProductOrder(grlex, grlex)'; P.is_global is True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"98032a4ddefc01dc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["P((1, 3, 3, 4, 5)) > P((2, 1, 5, 5, 5))","str(P) == 'ProductOrder(grlex, grlex)'","P.is_global is True","ProductOrder((grlex, None), (ilex, None)).is_global is None","ProductOrder((igrlex, None), (ilex, None)).is_global is False"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_ProductOrder():
     P = ProductOrder((grlex, lambda m: m[:2]), (grlex, lambda m: m[2:]))
     assert P((1, 3, 3, 4, 5)) > P((2, 1, 5, 5, 5))
@@ -171,16 +211,24 @@ def test_ProductOrder():
     assert ProductOrder((igrlex, None), (ilex, None)).is_global is False
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_monomial_key(), test_monomial_key produces the expected output) over Any ║
+# ║ Path(test_monomial_key(), monomial_key() == lex and monomial_key('lex') == lex and monomial_key('grlex') == grlex and monomial_key('grevlex') == grevlex and sorted(M, key=monomial_key('lex', [z, y, x])) == [S.One, x, x ** 2, x ** 3, y, x * y, y ** 2, x ** 2 * y ** 2, z, x * y ** 2 * z, x ** 2 * z ** 2] and sorted(M, key=monomial_key('grlex', [z, y, x])) == [S.One, x, y, z, x ** 2, x * y, y ** 2, x ** 3, x ** 2 * y ** 2, x * y ** 2 * z, x ** 2 * z ** 2] and sorted(M, key=monomial_key('grevlex', [z, y, x])) == [S.One, x, y, z, x ** 2, x * y, y ** 2, x ** 3, x ** 2 * y ** 2, x ** 2 * z ** 2, x * y ** 2 * z]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_monomial_key : Any → {Any | monomial_key() == le...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  monomial_key() == lex                          ║
+# ║   ensures:  monomial_key('lex') == lex                     ║
+# ║   ensures:  monomial_key('grlex') == grlex                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_monomial_key : Any → {Any | result satisfies: mo...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 43f720743fdabc01  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 325c88c5e7fe6eb0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_orderings.test_monomial_key","kind":"function","src_hash":"de1f0de702ad8435","in":{"base":"Any"},"out":{"base":"Any","pred":"monomial_key() == lex and monomial_key('lex') == lex and monomial_key('grlex') == grlex and monomial_key('grevlex') == grevlex"},"spec":{"lhs":"test_monomial_key()","rhs":"test_monomial_key produces the expected output","over":{"base":"Any"},"name":"test_monomial_key_correct"},"guarantee":"test_monomial_key produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_orderings.test_monomial_key_correct","statement":"Path(test_monomial_key(x), test_monomial_key produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"43f720743fdabc01"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_orderings.test_monomial_key","kind":"function","src_hash":"de1f0de702ad8435","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: monomial_key() == lex and monomial_key('lex') == lex and monomial_key('grlex') == grlex and monomial_key('grevlex') == grevlex and sorted(M, key=monomial_key('lex', [z, y, x])) == [S.One, x, x ** 2, x ** 3, y, x * y, y ** 2, x ** 2 * y ** 2, z, x * y ** 2 * z, x ** 2 * z ** 2] and sorted(M, key=monomial_key('grlex', [z, y, x])) == [S.One, x, y, z, x ** 2, x * y, y ** 2, x ** 3, x ** 2 * y ** 2, x * y ** 2 * z, x ** 2 * z ** 2] and sorted(M, key=monomial_key('grevlex', [z, y, x])) == [S.One, x, y, z, x ** 2, x * y, y ** 2, x ** 3, x ** 2 * y ** 2, x ** 2 * z ** 2, x * y ** 2 * z]"},"spec":{"lhs":"test_monomial_key()","rhs":"monomial_key() == lex and monomial_key('lex') == lex and monomial_key('grlex') == grlex and monomial_key('grevlex') == grevlex and sorted(M, key=monomial_key('lex', [z, y, x])) == [S.One, x, x ** 2, x ** 3, y, x * y, y ** 2, x ** 2 * y ** 2, z, x * y ** 2 * z, x ** 2 * z ** 2] and sorted(M, key=monomial_key('grlex', [z, y, x])) == [S.One, x, y, z, x ** 2, x * y, y ** 2, x ** 3, x ** 2 * y ** 2, x * y ** 2 * z, x ** 2 * z ** 2] and sorted(M, key=monomial_key('grevlex', [z, y, x])) == [S.One, x, y, z, x ** 2, x * y, y ** 2, x ** 3, x ** 2 * y ** 2, x ** 2 * z ** 2, x * y ** 2 * z]","over":{"base":"Any"},"name":"test_monomial_key_correct"},"guarantee":"monomial_key() == lex; monomial_key('lex') == lex; monomial_key('grlex') == grlex","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_orderings.test_monomial_key_correct","statement":"Path(test_monomial_key(x), monomial_key() == lex; monomial_key('lex') == lex; monomial_key('grlex') == grlex)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"325c88c5e7fe6eb0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["monomial_key() == lex","monomial_key('lex') == lex","monomial_key('grlex') == grlex","monomial_key('grevlex') == grevlex","sorted(M, key=monomial_key('lex', [z, y, x])) == [S.One, x, x ** 2, x ** 3, y, x * y, y ** 2, x ** 2 * y ** 2, z, x * y ** 2 * z, x ** 2 * z ** 2]","sorted(M, key=monomial_key('grlex', [z, y, x])) == [S.One, x, y, z, x ** 2, x * y, y ** 2, x ** 3, x ** 2 * y ** 2, x * y ** 2 * z, x ** 2 * z ** 2]","sorted(M, key=monomial_key('grevlex', [z, y, x])) == [S.One, x, y, z, x ** 2, x * y, y ** 2, x ** 3, x ** 2 * y ** 2, x ** 2 * z ** 2, x * y ** 2 * z]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_monomial_key():
     assert monomial_key() == lex
 
@@ -200,16 +248,23 @@ def test_monomial_key():
         [S.One, x, y, z, x**2, x*y, y**2, x**3, x**2*y**2, x**2*z**2, x*y**2*z]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_build_product_order(), test_build_product_order produces the expected output) over Any ║
+# ║ Path(test_build_product_order(), build_product_order((('grlex', x, y), ('grlex', z, t)), [x, y, z, t])((4, 5, 6, 7)) == ((9, (4, 5)), (13, (6, 7))) and build_product_order((('grlex', x, y), ('grlex', z, t)), [x, y, z, t]) == build_product_order((('grlex', x, y), ('grlex', z, t)), [x, y, z, t])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_build_product_order : Any → Any                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  build_product_order((('grlex', x, y), ('g...   ║
+# ║   ensures:  build_product_order((('grlex', x, y), ('g...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_build_product_order : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c9a2fb771d5bcacd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a3dc0ef7b3bb9a69  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_orderings.test_build_product_order","kind":"function","src_hash":"9e63cf87efcb1b9e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_build_product_order()","rhs":"test_build_product_order produces the expected output","over":{"base":"Any"},"name":"test_build_product_order_correct"},"guarantee":"test_build_product_order produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_orderings.test_build_product_order_correct","statement":"Path(test_build_product_order(x), test_build_product_order produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c9a2fb771d5bcacd"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_orderings.test_build_product_order","kind":"function","src_hash":"9e63cf87efcb1b9e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: build_product_order((('grlex', x, y), ('grlex', z, t)), [x, y, z, t])((4, 5, 6, 7)) == ((9, (4, 5)), (13, (6, 7))) and build_product_order((('grlex', x, y), ('grlex', z, t)), [x, y, z, t]) == build_product_order((('grlex', x, y), ('grlex', z, t)), [x, y, z, t])"},"spec":{"lhs":"test_build_product_order()","rhs":"build_product_order((('grlex', x, y), ('grlex', z, t)), [x, y, z, t])((4, 5, 6, 7)) == ((9, (4, 5)), (13, (6, 7))) and build_product_order((('grlex', x, y), ('grlex', z, t)), [x, y, z, t]) == build_product_order((('grlex', x, y), ('grlex', z, t)), [x, y, z, t])","over":{"base":"Any"},"name":"test_build_product_order_correct"},"guarantee":"build_product_order((('grlex', x, y), ('grlex', z, t)), [x, y, z, t])((4, 5, 6, 7)) == ((9, (4, 5)), (13, (6, 7))); build_product_order((('grlex', x, y), ('grlex', z, t)), [x, y, z, t]) == build_product_order((('grlex', x, y), ('grlex', z, t)), [x, y, z, t])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_orderings.test_build_product_order_correct","statement":"Path(test_build_product_order(x), build_product_order((('grlex', x, y), ('grlex', z, t)), [x, y, z, t])((4, 5, 6, 7)) == ((9, (4, 5)), (13, (6, 7))); build_product_order((('grlex', x, y), ('grlex', z, t)), [x, y, z, t]) == build_product_order((('grlex', x, y), ('grlex', z, t)), [x, y, z, t]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a3dc0ef7b3bb9a69","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["build_product_order((('grlex', x, y), ('grlex', z, t)), [x, y, z, t])((4, 5, 6, 7)) == ((9, (4, 5)), (13, (6, 7)))","build_product_order((('grlex', x, y), ('grlex', z, t)), [x, y, z, t]) == build_product_order((('grlex', x, y), ('grlex', z, t)), [x, y, z, t])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_build_product_order():
     assert build_product_order((("grlex", x, y), ("grlex", z, t)), [x, y, z, t])((4, 5, 6, 7)) == \
         ((9, (4, 5)), (13, (6, 7)))

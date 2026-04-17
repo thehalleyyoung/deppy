@@ -31,16 +31,24 @@ from sympy.codegen.cfunctions import isnan
 """ This module collects functions for constructing ASTs representing algorithms. """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(newtons_method(exp), id) over Any                     ║
+# ║ Path(newtons_method(expr, wrt, atol), id) over {Any | hasattr(delta, 'name') and hasattr(wrt, 'name')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ newtons_method : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(delta, 'name')                         ║
+# ║   requires: hasattr(wrt, 'name')                           ║
+# ║   returns:  Wrapper(CodeBlock(*blck))                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ newtons_method : {Any | hasattr(delta, 'name') and ha...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | dcc0ef67ac1c7817   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.algorithms.newtons_method","kind":"function","src_hash":"f2b5d3a1261efe6b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"newtons_method(exp)","rhs":"generates an ast for newton-raphson method (a root-finding algorithm)","over":{"base":"Any"},"name":"newtons_method_correct","kind":"composition"},"guarantee":"generates an ast for newton-raphson method (a root-finding algorithm)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Wrapper","by":"library_axiom"},{"fn":"CodeBlock","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dcc0ef67ac1c7817"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.algorithms.newtons_method","kind":"function","src_hash":"f2b5d3a1261efe6b","in":{"base":"Any","pred":"hasattr(delta, 'name') and hasattr(wrt, 'name')"},"out":{"base":"Any"},"spec":{"lhs":"newtons_method(expr, wrt, atol)","rhs":"Wrapper(CodeBlock(*blck))","over":{"base":"Any","pred":"hasattr(delta, 'name') and hasattr(wrt, 'name')"},"name":"newtons_method_correct","kind":"composition"},"guarantee":"returns Wrapper(CodeBlock(*blck))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Wrapper","by":"library_axiom"},{"fn":"CodeBlock","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dcc0ef67ac1c7817","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(delta, 'name')","hasattr(wrt, 'name')"],"returns_expr":"Wrapper(CodeBlock(*blck))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['expr', 'wrt', 'atol', 'delta'], spec=['expr', 'wrt', 'atol', 'delta', 'rtol', 'debug', 'itermax', 'counter', 'delta_fn', 'cse', 'handle_nan', 'bounds']"]}}
 def newtons_method(expr, wrt, atol=1e-12, delta=None, *, rtol=4e-16, debug=False,
                    itermax=None, counter=None, delta_fn=lambda e, x: -e/e.diff(x),
                    cse=False, handle_nan=None,
@@ -141,7 +149,13 @@ def newtons_method(expr, wrt, atol=1e-12, delta=None, *, rtol=4e-16, debug=False
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_symbol_of(arg), internal helper behaves correctly) over {Any | isinstance(arg, Declaration) and isinstance(arg, Variable)} ║
+# ║ Path(_symbol_of(arg), arg) over {Any | isinstance(arg, Declaration) and isinstance(arg, Variable) and hasattr(arg, 'variable') and hasattr(arg, 'symbol')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(arg, 'variable')                       ║
+# ║   requires: hasattr(arg, 'symbol')                         ║
+# ║   ensures:  result == arg                                  ║
+# ║   returns:  arg                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _symbol_of : {Any | isinstance(arg, Declaration) and ...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -154,9 +168,12 @@ def newtons_method(expr, wrt, atol=1e-12, delta=None, *, rtol=4e-16, debug=False
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?2 ✗1 VCs | 1.9ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 167c500b...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.algorithms._symbol_of","kind":"function","src_hash":"8147255211ddd5e2","in":{"base":"Any","pred":"isinstance(arg, Declaration) and isinstance(arg, Variable)"},"out":{"base":"Any"},"spec":{"lhs":"_symbol_of(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any","pred":"isinstance(arg, Declaration) and isinstance(arg, Variable)"},"name":"_symbol_of_correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"Declaration","pred":"isinstance(arg, Declaration)","path":{"lhs":"_symbol_of(x)","rhs":"internal helper behaves correctly","over":{"base":"Declaration","pred":"isinstance(arg, Declaration)"},"name":"_symbol_of_Declaration_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.algorithms._symbol_of_Declaration_correct","statement":"_symbol_of satisfies spec on Declaration inputs"},"trust":"LIBRARY"},{"name":"Variable","pred":"isinstance(arg, Variable)","path":{"lhs":"_symbol_of(x)","rhs":"internal helper behaves correctly","over":{"base":"Variable","pred":"isinstance(arg, Variable)"},"name":"_symbol_of_Variable_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.algorithms._symbol_of_Variable_correct","statement":"_symbol_of satisfies spec on Variable inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"167c500b14b62b4f"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.algorithms._symbol_of","kind":"function","src_hash":"8147255211ddd5e2","in":{"base":"Any","pred":"isinstance(arg, Declaration) and isinstance(arg, Variable) and hasattr(arg, 'variable') and hasattr(arg, 'symbol')"},"out":{"base":"Any","pred":"result satisfies: result == (arg)"},"spec":{"lhs":"_symbol_of(arg)","rhs":"arg","over":{"base":"Any","pred":"isinstance(arg, Declaration) and isinstance(arg, Variable) and hasattr(arg, 'variable') and hasattr(arg, 'symbol')"},"name":"_symbol_of_correct"},"guarantee":"returns arg; result == arg","fibers":[{"name":"Declaration","pred":"isinstance(arg, Declaration)","path":{"lhs":"_symbol_of(x)","rhs":"returns arg; result == arg","over":{"base":"Declaration","pred":"isinstance(arg, Declaration)"},"name":"_symbol_of_Declaration_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.algorithms._symbol_of_Declaration_correct","statement":"_symbol_of satisfies spec on Declaration inputs"},"trust":"LIBRARY"},{"name":"Variable","pred":"isinstance(arg, Variable)","path":{"lhs":"_symbol_of(x)","rhs":"returns arg; result == arg","over":{"base":"Variable","pred":"isinstance(arg, Variable)"},"name":"_symbol_of_Variable_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.algorithms._symbol_of_Variable_correct","statement":"_symbol_of satisfies spec on Variable inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"167c500b14b62b4f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(arg, 'variable')","hasattr(arg, 'symbol')"],"ensures":["result == arg"],"returns_expr":"arg","pure":false,"effects":{"effect_type":"reads_state","reads":["arg.symbol","arg.variable"]}},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":2,"n_assumed":2,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.9,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(arg, Declaration)', 'isinstance(arg, Variable)'}, fibers={'Variable', 'Declaration'})"]}}
 def _symbol_of(arg):
     if isinstance(arg, Declaration):
         arg = arg.variable.symbol
@@ -166,7 +183,13 @@ def _symbol_of(arg):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(newtons_method_function(exp), generates an ast for a function implementing the newton-raphson method) over {Any | isinstance(algo, Scope) and isinstance(p, Pointer)} ║
+# ║ Path(newtons_method_function(expr, wrt, params), FunctionDefinition(real, func_name, declars, body, attrs=attrs)) over {Any | isinstance(algo, Scope) and isinstance(p, Pointer) and hasattr(expr, 'has') and hasattr(expr, 'free_symbols') and hasattr(wrt, 'name')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'has')                           ║
+# ║   requires: hasattr(expr, 'free_symbols')                  ║
+# ║   requires: hasattr(wrt, 'name')                           ║
+# ║   returns:  FunctionDefinition(real, func_name, decla...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ newtons_method_function : {Any | isinstance(algo, Sco...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -179,9 +202,12 @@ def _symbol_of(arg):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?2 ✗2 VCs | 4.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 855859e6...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.algorithms.newtons_method_function","kind":"function","src_hash":"0164b63b3e971014","in":{"base":"Any","pred":"isinstance(algo, Scope) and isinstance(p, Pointer)"},"out":{"base":"Any"},"spec":{"lhs":"newtons_method_function(exp)","rhs":"generates an ast for a function implementing the newton-raphson method","over":{"base":"Any","pred":"isinstance(algo, Scope) and isinstance(p, Pointer)"},"name":"newtons_method_function_correct"},"guarantee":"generates an ast for a function implementing the newton-raphson method","fibers":[{"name":"Scope","pred":"isinstance(algo, Scope)","path":{"lhs":"newtons_method_function(x)","rhs":"generates an ast for a function implementing the newton-raphson method","over":{"base":"Scope","pred":"isinstance(algo, Scope)"},"name":"newtons_method_function_Scope_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.algorithms.newtons_method_function_Scope_correct","statement":"newtons_method_function satisfies spec on Scope inputs"},"trust":"LIBRARY"},{"name":"Pointer","pred":"isinstance(p, Pointer)","path":{"lhs":"newtons_method_function(x)","rhs":"generates an ast for a function implementing the newton-raphson method","over":{"base":"Pointer","pred":"isinstance(p, Pointer)"},"name":"newtons_method_function_Pointer_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.algorithms.newtons_method_function_Pointer_correct","statement":"newtons_method_function satisfies spec on Pointer inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"855859e6dfa2e8f7"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.algorithms.newtons_method_function","kind":"function","src_hash":"0164b63b3e971014","in":{"base":"Any","pred":"isinstance(algo, Scope) and isinstance(p, Pointer) and hasattr(expr, 'has') and hasattr(expr, 'free_symbols') and hasattr(wrt, 'name')"},"out":{"base":"Any"},"spec":{"lhs":"newtons_method_function(expr, wrt, params)","rhs":"FunctionDefinition(real, func_name, declars, body, attrs=attrs)","over":{"base":"Any","pred":"isinstance(algo, Scope) and isinstance(p, Pointer) and hasattr(expr, 'has') and hasattr(expr, 'free_symbols') and hasattr(wrt, 'name')"},"name":"newtons_method_function_correct"},"guarantee":"returns FunctionDefinition(real, func_name, declars, body, attrs=attrs)","fibers":[{"name":"Scope","pred":"isinstance(algo, Scope)","path":{"lhs":"newtons_method_function(x)","rhs":"returns FunctionDefinition(real, func_name, declars, body, attrs=attrs)","over":{"base":"Scope","pred":"isinstance(algo, Scope)"},"name":"newtons_method_function_Scope_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.algorithms.newtons_method_function_Scope_correct","statement":"newtons_method_function satisfies spec on Scope inputs"},"trust":"LIBRARY"},{"name":"Pointer","pred":"isinstance(p, Pointer)","path":{"lhs":"newtons_method_function(x)","rhs":"returns FunctionDefinition(real, func_name, declars, body, attrs=attrs)","over":{"base":"Pointer","pred":"isinstance(p, Pointer)"},"name":"newtons_method_function_Pointer_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.algorithms.newtons_method_function_Pointer_correct","statement":"newtons_method_function satisfies spec on Pointer inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"855859e6dfa2e8f7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'has')","hasattr(expr, 'free_symbols')","hasattr(wrt, 'name')"],"returns_expr":"FunctionDefinition(real, func_name, declars, body, attrs=attrs)","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.free_symbols","expr.has","wrt.name"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":1,"n_assumed":2,"n_failed":2,"trust_level":"LIBRARY_ASSUMED","compile_ms":4.0,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['expr', 'wrt', 'params', 'func_name', 'attrs'], spec=['expr', 'wrt', 'params', 'func_name', 'attrs', 'delta', '**kwargs']","Poor branch-fiber coverage: 0% (branches={'params is None', 'isinstance(algo, Scope)', 'delta is None'}, fibers={'Scope', 'Pointer'})"]}}
 def newtons_method_function(expr, wrt, params=None, func_name="newton", attrs=Tuple(), *, delta=None, **kwargs):
     """ Generates an AST for a function implementing the Newton-Raphson method.
 

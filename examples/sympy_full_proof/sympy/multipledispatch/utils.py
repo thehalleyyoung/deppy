@@ -19,9 +19,16 @@ from collections import OrderedDict
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(expand_tuples(L), >>> from sympy.multipledispatch.utils import expand_tuples >>> expand_tuples([1, (2, 3)]) [(1, 2), (1, 3)]) over {Any | isinstance(L[0], tuple)} ║
+# ║ Path(expand_tuples(L), result == ([()] if not L else [(L[0],) + t for t in rest] if not isinstance(L[0], tuple) else [(item,) + t for t in rest for item in L[0]]) and result == [()] or result == [(L[0],) + t for t in rest] or result == [(item,) + t for t in rest for item in L[0]]) over {Any | isinstance(L[0], tuple)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ expand_tuples : {Any | isinstance(L[0], tuple)} → Any      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == ([()] if not L else [(L[0],) + ...   ║
+# ║   ensures:  result == [()] or result == [(L[0],) + t ...   ║
+# ║   fiber[case_0]: not L => [()]                             ║
+# ║   fiber[case_1]: not isinstance(L[0], tuple) => [(L[0...   ║
+# ║   fiber[case_2]: not (not L) and not (not isinstance(...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ expand_tuples : {Any | isinstance(L[0], tuple)} → {An...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   tuple: {isinstance(L[0], tuple)} → library_axiom         ║
@@ -31,9 +38,12 @@ from collections import OrderedDict
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 0.3ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | a9bf5d2d...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.utils.expand_tuples","kind":"function","src_hash":"69a87505bfc16fde","in":{"base":"Any","pred":"isinstance(L[0], tuple)"},"out":{"base":"Any"},"spec":{"lhs":"expand_tuples(L)","rhs":">>> from sympy.multipledispatch.utils import expand_tuples >>> expand_tuples([1, (2, 3)]) [(1, 2), (1, 3)]","over":{"base":"Any","pred":"isinstance(L[0], tuple)"},"name":"expand_tuples_correct"},"guarantee":">>> from sympy.multipledispatch.utils import expand_tuples >>> expand_tuples([1, (2, 3)]) [(1, 2), (1, 3)]","fibers":[{"name":"tuple","pred":"isinstance(L[0], tuple)","path":{"lhs":"expand_tuples(x)","rhs":">>> from sympy.multipledispatch.utils import expand_tuples >>> expand_tuples([1, (2, 3)]) [(1, 2), (1, 3)]","over":{"base":"tuple","pred":"isinstance(L[0], tuple)"},"name":"expand_tuples_tuple_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.multipledispatch.utils.expand_tuples_tuple_correct","statement":"expand_tuples satisfies spec on tuple inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"a9bf5d2daaf9fc02"}
+# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.utils.expand_tuples","kind":"function","src_hash":"69a87505bfc16fde","in":{"base":"Any","pred":"isinstance(L[0], tuple)"},"out":{"base":"Any","pred":"result satisfies: result == ([()] if not L else [(L[0],) + t for t in rest] if not isinstance(L[0], tuple) else [(item,) + t for t in rest for item in L[0]]) and result == [()] or result == [(L[0],) + t for t in rest] or result == [(item,) + t for t in rest for item in L[0]]"},"spec":{"lhs":"expand_tuples(L)","rhs":"result == ([()] if not L else [(L[0],) + t for t in rest] if not isinstance(L[0], tuple) else [(item,) + t for t in rest for item in L[0]]) and result == [()] or result == [(L[0],) + t for t in rest] or result == [(item,) + t for t in rest for item in L[0]]","over":{"base":"Any","pred":"isinstance(L[0], tuple)"},"name":"expand_tuples_correct"},"guarantee":"result == ([()] if not L else [(L[0],) + t for t in rest] if not isinstance(L[0], tuple) else [(item,) + t for t in rest for item in L[0]]); result == [()] or result == [(L[0],) + t for t in rest] or result == [(item,) + t for t in rest for item in L[0]]; 3-fiber decomposition","fibers":[{"name":"tuple","pred":"isinstance(L[0], tuple)","path":{"lhs":"expand_tuples(x)","rhs":"result == ([()] if not L else [(L[0],) + t for t in rest] if not isinstance(L[0], tuple) else [(item,) + t for t in rest for item in L[0]]); result == [()] or result == [(L[0],) + t for t in rest] or result == [(item,) + t for t in rest for item in L[0]]; 3-fiber decomposition","over":{"base":"tuple","pred":"isinstance(L[0], tuple)"},"name":"expand_tuples_tuple_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.multipledispatch.utils.expand_tuples_tuple_correct","statement":"expand_tuples satisfies spec on tuple inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"a9bf5d2daaf9fc02","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == ([()] if not L else [(L[0],) + t for t in rest] if not isinstance(L[0], tuple) else [(item,) + t for t in rest for item in L[0]])","result == [()] or result == [(L[0],) + t for t in rest] or result == [(item,) + t for t in rest for item in L[0]]"],"fibers":[{"name":"case_0","guard":"not L","ensures":["result == [()]"],"decidability":"library","returns_expr":"[()]"},{"name":"case_1","guard":"not isinstance(L[0], tuple)","ensures":["result == [(L[0],) + t for t in rest]"],"decidability":"structural","returns_expr":"[(L[0],) + t for t in rest]"},{"name":"case_2","guard":"not (not L) and not (not isinstance(L[0], tuple))","ensures":["result == [(item,) + t for t in rest for item in L[0]]"],"decidability":"structural","returns_expr":"[(item,) + t for t in rest for item in L[0]]"}],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'not isinstance(L[0], tuple)'}, fibers={'tuple'})"]}}
 def expand_tuples(L):
     """
     >>> from sympy.multipledispatch.utils import expand_tuples
@@ -56,16 +66,23 @@ def expand_tuples(L):
 # Taken from theano/theano/gof/sched.py
 # Avoids licensing issues because this was written by Matthew Rocklin
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_toposort(edg), topological sort algorithm by kahn [1] - o(nodes + vertices)) over Any ║
+# ║ Path(_toposort(edges), len(L) == old_len_L + 1) over {Any | hasattr(edges, 'get')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _toposort : Any → {Any | n in incoming_edges[m]}           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(edges, 'get')                          ║
+# ║   ensures:  len(L) == old_len_L + 1                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _toposort : {Any | hasattr(edges, 'get')} → {Any | re...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9c75cb6c1329289b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 707445dd409e4731  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.utils._toposort","kind":"function","src_hash":"009af45eafe34a84","in":{"base":"Any"},"out":{"base":"Any","pred":"n in incoming_edges[m]"},"spec":{"lhs":"_toposort(edg)","rhs":"topological sort algorithm by kahn [1] - o(nodes + vertices)","over":{"base":"Any"},"name":"_toposort_correct"},"guarantee":"topological sort algorithm by kahn [1] - o(nodes + vertices)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.multipledispatch.utils._toposort_correct","statement":"Path(_toposort(x), topological sort algorithm by kahn [1] - o(nodes + vertices))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9c75cb6c1329289b"}
+# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.utils._toposort","kind":"function","src_hash":"009af45eafe34a84","in":{"base":"Any","pred":"hasattr(edges, 'get')"},"out":{"base":"Any","pred":"result satisfies: len(L) == old_len_L + 1"},"spec":{"lhs":"_toposort(edges)","rhs":"len(L) == old_len_L + 1","over":{"base":"Any","pred":"hasattr(edges, 'get')"},"name":"_toposort_correct"},"guarantee":"len(L) == old_len_L + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.multipledispatch.utils._toposort_correct","statement":"Path(_toposort(x), len(L) == old_len_L + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"707445dd409e4731","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(edges, 'get')"],"ensures":["len(L) == old_len_L + 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["edges.get"],"calls_mutating":["L.append","S.popitem"],"raises":["ValueError"]},"state_contract":{"modifies":["L.*","S.*"],"old_bindings":{"old_len_L":"len(L)"},"post_ensures":["len(L) == old_len_L + 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _toposort(edges):
     """ Topological sort algorithm by Kahn [1] - O(nodes + vertices)
 
@@ -103,16 +120,22 @@ def _toposort(edges):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(reverse_dict(d), reverses direction of dependence dict) over Any ║
+# ║ Path(reverse_dict(d), <unspecified:reverse_dict>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ reverse_dict : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 482c725252d02e90  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.utils.reverse_dict","kind":"function","src_hash":"c832c7b839ed0cc3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"reverse_dict(d)","rhs":"reverses direction of dependence dict","over":{"base":"Any"},"name":"reverse_dict_correct"},"guarantee":"reverses direction of dependence dict","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.multipledispatch.utils.reverse_dict_correct","statement":"Path(reverse_dict(x), reverses direction of dependence dict)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"482c725252d02e90"}
+# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.utils.reverse_dict","kind":"function","src_hash":"c832c7b839ed0cc3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"reverse_dict(d)","rhs":"<unspecified:reverse_dict>","over":{"base":"Any"},"name":"reverse_dict_correct"},"guarantee":"reverses direction of dependence dict","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.multipledispatch.utils.reverse_dict_correct","statement":"Path(reverse_dict(x), reverses direction of dependence dict)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"482c725252d02e90","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def reverse_dict(d):
     """Reverses direction of dependence dict
 
@@ -136,16 +159,22 @@ def reverse_dict(d):
 # Taken from toolz
 # Avoids licensing issues because this version was authored by Matthew Rocklin
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(groupby(fun), group a collection by a key function) over Any ║
+# ║ Path(groupby(func, seq), <unspecified:groupby>) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ groupby : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 13f76ac78d7379a6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.utils.groupby","kind":"function","src_hash":"6c5906022f2e7194","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"groupby(fun)","rhs":"group a collection by a key function","over":{"base":"Any"},"name":"groupby_correct"},"guarantee":"group a collection by a key function","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.multipledispatch.utils.groupby_correct","statement":"Path(groupby(x), group a collection by a key function)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"13f76ac78d7379a6"}
+# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.utils.groupby","kind":"function","src_hash":"6c5906022f2e7194","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"groupby(func, seq)","rhs":"<unspecified:groupby>","over":{"base":"Any"},"name":"groupby_correct"},"guarantee":"group a collection by a key function","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.multipledispatch.utils.groupby_correct","statement":"Path(groupby(x), group a collection by a key function)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"13f76ac78d7379a6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def groupby(func, seq):
     """ Group a collection by a key function
 

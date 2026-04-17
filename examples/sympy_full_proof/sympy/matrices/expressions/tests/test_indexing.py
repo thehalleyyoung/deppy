@@ -52,16 +52,22 @@ y = MatrixSymbol('x', 2, 1)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_symbolic_indexing(), test_symbolic_indexing produces the expected output) over Any ║
+# ║ Path(test_symbolic_indexing(), all((s in str(x12) for s in ['1', '2', X.name]))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_symbolic_indexing : Any → {Any | all((s in str(x...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  all((s in str(x12) for s in ['1', '2', X....   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_symbolic_indexing : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 458893ba1c31f63c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 45d31fd7ade5e529  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_indexing.test_symbolic_indexing","kind":"function","src_hash":"8182624f430cae05","in":{"base":"Any"},"out":{"base":"Any","pred":"all((s in str(x12) for s in ['1', '2', X.name]))"},"spec":{"lhs":"test_symbolic_indexing()","rhs":"test_symbolic_indexing produces the expected output","over":{"base":"Any"},"name":"test_symbolic_indexing_correct"},"guarantee":"test_symbolic_indexing produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_indexing.test_symbolic_indexing_correct","statement":"Path(test_symbolic_indexing(x), test_symbolic_indexing produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"458893ba1c31f63c"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_indexing.test_symbolic_indexing","kind":"function","src_hash":"8182624f430cae05","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: all((s in str(x12) for s in ['1', '2', X.name]))"},"spec":{"lhs":"test_symbolic_indexing()","rhs":"all((s in str(x12) for s in ['1', '2', X.name]))","over":{"base":"Any"},"name":"test_symbolic_indexing_correct"},"guarantee":"all((s in str(x12) for s in ['1', '2', X.name]))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_indexing.test_symbolic_indexing_correct","statement":"Path(test_symbolic_indexing(x), all((s in str(x12) for s in ['1', '2', X.name])))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"45d31fd7ade5e529","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["all((s in str(x12) for s in ['1', '2', X.name]))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_symbolic_indexing():
     x12 = X[1, 2]
     assert all(s in str(x12) for s in ['1', '2', X.name])
@@ -70,31 +76,45 @@ def test_symbolic_indexing():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_add_index(), test_add_index produces the expected output) over Any ║
+# ║ Path(test_add_index(), (X + Y)[i, j] == X[i, j] + Y[i, j]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_add_index : Any → {Any | (X + Y)[i, j] == X[i, j...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (X + Y)[i, j] == X[i, j] + Y[i, j]             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_add_index : Any → {Any | result satisfies: (X + ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 495f82b8bf58ce76  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8db7db15a8849803  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_indexing.test_add_index","kind":"function","src_hash":"b07f482a450a30ee","in":{"base":"Any"},"out":{"base":"Any","pred":"(X + Y)[i, j] == X[i, j] + Y[i, j]"},"spec":{"lhs":"test_add_index()","rhs":"test_add_index produces the expected output","over":{"base":"Any"},"name":"test_add_index_correct"},"guarantee":"test_add_index produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_indexing.test_add_index_correct","statement":"Path(test_add_index(x), test_add_index produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"495f82b8bf58ce76"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_indexing.test_add_index","kind":"function","src_hash":"b07f482a450a30ee","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (X + Y)[i, j] == X[i, j] + Y[i, j]"},"spec":{"lhs":"test_add_index()","rhs":"(X + Y)[i, j] == X[i, j] + Y[i, j]","over":{"base":"Any"},"name":"test_add_index_correct"},"guarantee":"(X + Y)[i, j] == X[i, j] + Y[i, j]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_indexing.test_add_index_correct","statement":"Path(test_add_index(x), (X + Y)[i, j] == X[i, j] + Y[i, j])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8db7db15a8849803","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(X + Y)[i, j] == X[i, j] + Y[i, j]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_add_index():
     assert (X + Y)[i, j] == X[i, j] + Y[i, j]
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_mul_index(), test_mul_index produces the expected output) over Any ║
+# ║ Path(test_mul_index(), (A * y)[0, 0] == A[0, 0] * y[0, 0] + A[0, 1] * y[1, 0] and (A * B).as_mutable() == A.as_mutable() * B.as_mutable() and result.args[0].dummy_eq(expected.args[0], i) and result.args[1][1:] == expected.args[1][1:]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_mul_index : Any → {Any | (A * y)[0, 0] == A[0, 0...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (A * y)[0, 0] == A[0, 0] * y[0, 0] + A[0,...   ║
+# ║   ensures:  (A * B).as_mutable() == A.as_mutable() * ...   ║
+# ║   ensures:  result.args[0].dummy_eq(expected.args[0], i)   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_mul_index : Any → {Any | result satisfies: (A * ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 238e1ad191cb6a6a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 07ab672bbb0ab0ac  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_indexing.test_mul_index","kind":"function","src_hash":"b6c521428569741e","in":{"base":"Any"},"out":{"base":"Any","pred":"(A * y)[0, 0] == A[0, 0] * y[0, 0] + A[0, 1] * y[1, 0] and (A * B).as_mutable() == A.as_mutable() * B.as_mutable() and result.args[0].dummy_eq(expected.args[0], i) and result.args[1][1:] == expected.args[1][1:]"},"spec":{"lhs":"test_mul_index()","rhs":"test_mul_index produces the expected output","over":{"base":"Any"},"name":"test_mul_index_correct"},"guarantee":"test_mul_index produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_indexing.test_mul_index_correct","statement":"Path(test_mul_index(x), test_mul_index produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"238e1ad191cb6a6a"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_indexing.test_mul_index","kind":"function","src_hash":"b6c521428569741e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (A * y)[0, 0] == A[0, 0] * y[0, 0] + A[0, 1] * y[1, 0] and (A * B).as_mutable() == A.as_mutable() * B.as_mutable() and result.args[0].dummy_eq(expected.args[0], i) and result.args[1][1:] == expected.args[1][1:]"},"spec":{"lhs":"test_mul_index()","rhs":"(A * y)[0, 0] == A[0, 0] * y[0, 0] + A[0, 1] * y[1, 0] and (A * B).as_mutable() == A.as_mutable() * B.as_mutable() and result.args[0].dummy_eq(expected.args[0], i) and result.args[1][1:] == expected.args[1][1:]","over":{"base":"Any"},"name":"test_mul_index_correct"},"guarantee":"(A * y)[0, 0] == A[0, 0] * y[0, 0] + A[0, 1] * y[1, 0]; (A * B).as_mutable() == A.as_mutable() * B.as_mutable(); result.args[0].dummy_eq(expected.args[0], i)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_indexing.test_mul_index_correct","statement":"Path(test_mul_index(x), (A * y)[0, 0] == A[0, 0] * y[0, 0] + A[0, 1] * y[1, 0]; (A * B).as_mutable() == A.as_mutable() * B.as_mutable(); result.args[0].dummy_eq(expected.args[0], i))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"07ab672bbb0ab0ac","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(A * y)[0, 0] == A[0, 0] * y[0, 0] + A[0, 1] * y[1, 0]","(A * B).as_mutable() == A.as_mutable() * B.as_mutable()","result.args[0].dummy_eq(expected.args[0], i)","result.args[1][1:] == expected.args[1][1:]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_mul_index():
     assert (A*y)[0, 0] == A[0, 0]*y[0, 0] + A[0, 1]*y[1, 0]
     assert (A*B).as_mutable() == (A.as_mutable() * B.as_mutable())
@@ -108,16 +128,23 @@ def test_mul_index():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pow_index(), test_pow_index produces the expected output) over Any ║
+# ║ Path(test_pow_index(), Q[0, 0] == A[0, 0] ** 2 + A[0, 1] * A[1, 0] and Q2[0, 0] == 2 * (-sqrt((A[0, 0] + A[1, 1]) ** 2 - 4 * A[0, 0] * A[1, 1] + 4 * A[0, 1] * A[1, 0]) / 2 + A[0, 0] / 2 + A[1, 1] / 2) ** n * A[0, 1] * A[1, 0] / ((sqrt(A[0, 0] ** 2 - 2 * A[0, 0] * A[1, 1] + 4 * A[0, 1] * A[1, 0] + A[1, 1] ** 2) + A[0, 0] - A[1, 1]) * sqrt(A[0, 0] ** 2 - 2 * A[0, 0] * A[1, 1] + 4 * A[0, 1] * A[1, 0] + A[1, 1] ** 2)) - 2 * (sqrt((A[0, 0] + A[1, 1]) ** 2 - 4 * A[0, 0] * A[1, 1] + 4 * A[0, 1] * A[1, 0]) / 2 + A[0, 0] / 2 + A[1, 1] / 2) ** n * A[0, 1] * A[1, 0] / ((-sqrt(A[0, 0] ** 2 - 2 * A[0, 0] * A[1, 1] + 4 * A[0, 1] * A[1, 0] + A[1, 1] ** 2) + A[0, 0] - A[1, 1]) * sqrt(A[0, 0] ** 2 - 2 * A[0, 0] * A[1, 1] + 4 * A[0, 1] * A[1, 0] + A[1, 1] ** 2))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_pow_index : Any → {Any | Q[0, 0] == A[0, 0] ** 2...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Q[0, 0] == A[0, 0] ** 2 + A[0, 1] * A[1, 0]    ║
+# ║   ensures:  Q2[0, 0] == 2 * (-sqrt((A[0, 0] + A[1, 1]...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_pow_index : Any → {Any | result satisfies: Q[0, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 83926d51e60db317  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a934b4afbda4ec12  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_indexing.test_pow_index","kind":"function","src_hash":"ead963cb9b5a05c2","in":{"base":"Any"},"out":{"base":"Any","pred":"Q[0, 0] == A[0, 0] ** 2 + A[0, 1] * A[1, 0]"},"spec":{"lhs":"test_pow_index()","rhs":"test_pow_index produces the expected output","over":{"base":"Any"},"name":"test_pow_index_correct"},"guarantee":"test_pow_index produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_indexing.test_pow_index_correct","statement":"Path(test_pow_index(x), test_pow_index produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"83926d51e60db317"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_indexing.test_pow_index","kind":"function","src_hash":"ead963cb9b5a05c2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Q[0, 0] == A[0, 0] ** 2 + A[0, 1] * A[1, 0] and Q2[0, 0] == 2 * (-sqrt((A[0, 0] + A[1, 1]) ** 2 - 4 * A[0, 0] * A[1, 1] + 4 * A[0, 1] * A[1, 0]) / 2 + A[0, 0] / 2 + A[1, 1] / 2) ** n * A[0, 1] * A[1, 0] / ((sqrt(A[0, 0] ** 2 - 2 * A[0, 0] * A[1, 1] + 4 * A[0, 1] * A[1, 0] + A[1, 1] ** 2) + A[0, 0] - A[1, 1]) * sqrt(A[0, 0] ** 2 - 2 * A[0, 0] * A[1, 1] + 4 * A[0, 1] * A[1, 0] + A[1, 1] ** 2)) - 2 * (sqrt((A[0, 0] + A[1, 1]) ** 2 - 4 * A[0, 0] * A[1, 1] + 4 * A[0, 1] * A[1, 0]) / 2 + A[0, 0] / 2 + A[1, 1] / 2) ** n * A[0, 1] * A[1, 0] / ((-sqrt(A[0, 0] ** 2 - 2 * A[0, 0] * A[1, 1] + 4 * A[0, 1] * A[1, 0] + A[1, 1] ** 2) + A[0, 0] - A[1, 1]) * sqrt(A[0, 0] ** 2 - 2 * A[0, 0] * A[1, 1] + 4 * A[0, 1] * A[1, 0] + A[1, 1] ** 2))"},"spec":{"lhs":"test_pow_index()","rhs":"Q[0, 0] == A[0, 0] ** 2 + A[0, 1] * A[1, 0] and Q2[0, 0] == 2 * (-sqrt((A[0, 0] + A[1, 1]) ** 2 - 4 * A[0, 0] * A[1, 1] + 4 * A[0, 1] * A[1, 0]) / 2 + A[0, 0] / 2 + A[1, 1] / 2) ** n * A[0, 1] * A[1, 0] / ((sqrt(A[0, 0] ** 2 - 2 * A[0, 0] * A[1, 1] + 4 * A[0, 1] * A[1, 0] + A[1, 1] ** 2) + A[0, 0] - A[1, 1]) * sqrt(A[0, 0] ** 2 - 2 * A[0, 0] * A[1, 1] + 4 * A[0, 1] * A[1, 0] + A[1, 1] ** 2)) - 2 * (sqrt((A[0, 0] + A[1, 1]) ** 2 - 4 * A[0, 0] * A[1, 1] + 4 * A[0, 1] * A[1, 0]) / 2 + A[0, 0] / 2 + A[1, 1] / 2) ** n * A[0, 1] * A[1, 0] / ((-sqrt(A[0, 0] ** 2 - 2 * A[0, 0] * A[1, 1] + 4 * A[0, 1] * A[1, 0] + A[1, 1] ** 2) + A[0, 0] - A[1, 1]) * sqrt(A[0, 0] ** 2 - 2 * A[0, 0] * A[1, 1] + 4 * A[0, 1] * A[1, 0] + A[1, 1] ** 2))","over":{"base":"Any"},"name":"test_pow_index_correct"},"guarantee":"Q[0, 0] == A[0, 0] ** 2 + A[0, 1] * A[1, 0]; Q2[0, 0] == 2 * (-sqrt((A[0, 0] + A[1, 1]) ** 2 - 4 * A[0, 0] * A[1, 1] + 4 * A[0, 1] * A[1, 0]) / 2 + A[0, 0] / 2 + A[1, 1] / 2) ** n * A[0, 1] * A[1, 0] / ((sqrt(A[0, 0] ** 2 - 2 * A[0, 0] * A[1, 1] + 4 * A[0, 1] * A[1, 0] + A[1, 1] ** 2) + A[0, 0] - A[1, 1]) * sqrt(A[0, 0] ** 2 - 2 * A[0, 0] * A[1, 1] + 4 * A[0, 1] * A[1, 0] + A[1, 1] ** 2)) - 2 * (sqrt((A[0, 0] + A[1, 1]) ** 2 - 4 * A[0, 0] * A[1, 1] + 4 * A[0, 1] * A[1, 0]) / 2 + A[0, 0] / 2 + A[1, 1] / 2) ** n * A[0, 1] * A[1, 0] / ((-sqrt(A[0, 0] ** 2 - 2 * A[0, 0] * A[1, 1] + 4 * A[0, 1] * A[1, 0] + A[1, 1] ** 2) + A[0, 0] - A[1, 1]) * sqrt(A[0, 0] ** 2 - 2 * A[0, 0] * A[1, 1] + 4 * A[0, 1] * A[1, 0] + A[1, 1] ** 2))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_indexing.test_pow_index_correct","statement":"Path(test_pow_index(x), Q[0, 0] == A[0, 0] ** 2 + A[0, 1] * A[1, 0]; Q2[0, 0] == 2 * (-sqrt((A[0, 0] + A[1, 1]) ** 2 - 4 * A[0, 0] * A[1, 1] + 4 * A[0, 1] * A[1, 0]) / 2 + A[0, 0] / 2 + A[1, 1] / 2) ** n * A[0, 1] * A[1, 0] / ((sqrt(A[0, 0] ** 2 - 2 * A[0, 0] * A[1, 1] + 4 * A[0, 1] * A[1, 0] + A[1, 1] ** 2) + A[0, 0] - A[1, 1]) * sqrt(A[0, 0] ** 2 - 2 * A[0, 0] * A[1, 1] + 4 * A[0, 1] * A[1, 0] + A[1, 1] ** 2)) - 2 * (sqrt((A[0, 0] + A[1, 1]) ** 2 - 4 * A[0, 0] * A[1, 1] + 4 * A[0, 1] * A[1, 0]) / 2 + A[0, 0] / 2 + A[1, 1] / 2) ** n * A[0, 1] * A[1, 0] / ((-sqrt(A[0, 0] ** 2 - 2 * A[0, 0] * A[1, 1] + 4 * A[0, 1] * A[1, 0] + A[1, 1] ** 2) + A[0, 0] - A[1, 1]) * sqrt(A[0, 0] ** 2 - 2 * A[0, 0] * A[1, 1] + 4 * A[0, 1] * A[1, 0] + A[1, 1] ** 2)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a934b4afbda4ec12","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Q[0, 0] == A[0, 0] ** 2 + A[0, 1] * A[1, 0]","Q2[0, 0] == 2 * (-sqrt((A[0, 0] + A[1, 1]) ** 2 - 4 * A[0, 0] * A[1, 1] + 4 * A[0, 1] * A[1, 0]) / 2 + A[0, 0] / 2 + A[1, 1] / 2) ** n * A[0, 1] * A[1, 0] / ((sqrt(A[0, 0] ** 2 - 2 * A[0, 0] * A[1, 1] + 4 * A[0, 1] * A[1, 0] + A[1, 1] ** 2) + A[0, 0] - A[1, 1]) * sqrt(A[0, 0] ** 2 - 2 * A[0, 0] * A[1, 1] + 4 * A[0, 1] * A[1, 0] + A[1, 1] ** 2)) - 2 * (sqrt((A[0, 0] + A[1, 1]) ** 2 - 4 * A[0, 0] * A[1, 1] + 4 * A[0, 1] * A[1, 0]) / 2 + A[0, 0] / 2 + A[1, 1] / 2) ** n * A[0, 1] * A[1, 0] / ((-sqrt(A[0, 0] ** 2 - 2 * A[0, 0] * A[1, 1] + 4 * A[0, 1] * A[1, 0] + A[1, 1] ** 2) + A[0, 0] - A[1, 1]) * sqrt(A[0, 0] ** 2 - 2 * A[0, 0] * A[1, 1] + 4 * A[0, 1] * A[1, 0] + A[1, 1] ** 2))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def test_pow_index():
     Q = MatPow(A, 2)
     assert Q[0, 0] == A[0, 0]**2 + A[0, 1]*A[1, 0]
@@ -142,31 +169,45 @@ def test_pow_index():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_transpose_index(), test_transpose_index produces the expected output) over Any ║
+# ║ Path(test_transpose_index(), X.T[i, j] == X[j, i]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_transpose_index : Any → {Any | X.T[i, j] == X[j,...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  X.T[i, j] == X[j, i]                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_transpose_index : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d4fc548f9de70210  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e40b70df215a4e17  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_indexing.test_transpose_index","kind":"function","src_hash":"2a2b208875a889b8","in":{"base":"Any"},"out":{"base":"Any","pred":"X.T[i, j] == X[j, i]"},"spec":{"lhs":"test_transpose_index()","rhs":"test_transpose_index produces the expected output","over":{"base":"Any"},"name":"test_transpose_index_correct"},"guarantee":"test_transpose_index produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_indexing.test_transpose_index_correct","statement":"Path(test_transpose_index(x), test_transpose_index produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d4fc548f9de70210"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_indexing.test_transpose_index","kind":"function","src_hash":"2a2b208875a889b8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: X.T[i, j] == X[j, i]"},"spec":{"lhs":"test_transpose_index()","rhs":"X.T[i, j] == X[j, i]","over":{"base":"Any"},"name":"test_transpose_index_correct"},"guarantee":"X.T[i, j] == X[j, i]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_indexing.test_transpose_index_correct","statement":"Path(test_transpose_index(x), X.T[i, j] == X[j, i])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e40b70df215a4e17","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["X.T[i, j] == X[j, i]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_transpose_index():
     assert X.T[i, j] == X[j, i]
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Identity_index(), test_Identity_index produces the expected output) over Any ║
+# ║ Path(test_Identity_index(), I[0, 0] == I[1, 1] == I[2, 2] == 1 and I[1, 0] == I[0, 1] == I[2, 1] == 0 and I[i, 0].delta_range == (0, 2)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Identity_index : Any → {Any | I[0, 0] == I[1, 1]...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  I[0, 0] == I[1, 1] == I[2, 2] == 1             ║
+# ║   ensures:  I[1, 0] == I[0, 1] == I[2, 1] == 0             ║
+# ║   ensures:  I[i, 0].delta_range == (0, 2)                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Identity_index : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1e58a434cd3e5595  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 499f3afb013cdc94  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_indexing.test_Identity_index","kind":"function","src_hash":"7dd10b2dd2831a44","in":{"base":"Any"},"out":{"base":"Any","pred":"I[0, 0] == I[1, 1] == I[2, 2] == 1 and I[1, 0] == I[0, 1] == I[2, 1] == 0 and I[i, 0].delta_range == (0, 2)"},"spec":{"lhs":"test_Identity_index()","rhs":"test_Identity_index produces the expected output","over":{"base":"Any"},"name":"test_Identity_index_correct"},"guarantee":"test_Identity_index produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_indexing.test_Identity_index_correct","statement":"Path(test_Identity_index(x), test_Identity_index produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1e58a434cd3e5595"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_indexing.test_Identity_index","kind":"function","src_hash":"7dd10b2dd2831a44","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: I[0, 0] == I[1, 1] == I[2, 2] == 1 and I[1, 0] == I[0, 1] == I[2, 1] == 0 and I[i, 0].delta_range == (0, 2)"},"spec":{"lhs":"test_Identity_index()","rhs":"I[0, 0] == I[1, 1] == I[2, 2] == 1 and I[1, 0] == I[0, 1] == I[2, 1] == 0 and I[i, 0].delta_range == (0, 2)","over":{"base":"Any"},"name":"test_Identity_index_correct"},"guarantee":"I[0, 0] == I[1, 1] == I[2, 2] == 1; I[1, 0] == I[0, 1] == I[2, 1] == 0; I[i, 0].delta_range == (0, 2)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_indexing.test_Identity_index_correct","statement":"Path(test_Identity_index(x), I[0, 0] == I[1, 1] == I[2, 2] == 1; I[1, 0] == I[0, 1] == I[2, 1] == 0; I[i, 0].delta_range == (0, 2))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"499f3afb013cdc94","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["I[0, 0] == I[1, 1] == I[2, 2] == 1","I[1, 0] == I[0, 1] == I[2, 1] == 0","I[i, 0].delta_range == (0, 2)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Identity_index():
     I = Identity(3)
     assert I[0, 0] == I[1, 1] == I[2, 2] == 1
@@ -176,16 +217,24 @@ def test_Identity_index():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_block_index(), test_block_index produces the expected output) over Any ║
+# ║ Path(test_block_index(), B[0, 0] == B[3, 0] == B[0, 3] == B[3, 3] == 1 and B[4, 3] == B[5, 1] == 0 and B.as_explicit() == BB.as_explicit() and BI.as_explicit().equals(eye(6))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_block_index : Any → {Any | B[0, 0] == B[3, 0] ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  B[0, 0] == B[3, 0] == B[0, 3] == B[3, 3] ...   ║
+# ║   ensures:  B[4, 3] == B[5, 1] == 0                        ║
+# ║   ensures:  B.as_explicit() == BB.as_explicit()            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_block_index : Any → {Any | result satisfies: B[0...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 81c330a957b3a83b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d0fe6e3a3b54d99c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_indexing.test_block_index","kind":"function","src_hash":"3a7d07f1f961668c","in":{"base":"Any"},"out":{"base":"Any","pred":"B[0, 0] == B[3, 0] == B[0, 3] == B[3, 3] == 1 and B[4, 3] == B[5, 1] == 0 and B.as_explicit() == BB.as_explicit() and BI.as_explicit().equals(eye(6))"},"spec":{"lhs":"test_block_index()","rhs":"test_block_index produces the expected output","over":{"base":"Any"},"name":"test_block_index_correct"},"guarantee":"test_block_index produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_indexing.test_block_index_correct","statement":"Path(test_block_index(x), test_block_index produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"81c330a957b3a83b"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_indexing.test_block_index","kind":"function","src_hash":"3a7d07f1f961668c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: B[0, 0] == B[3, 0] == B[0, 3] == B[3, 3] == 1 and B[4, 3] == B[5, 1] == 0 and B.as_explicit() == BB.as_explicit() and BI.as_explicit().equals(eye(6))"},"spec":{"lhs":"test_block_index()","rhs":"B[0, 0] == B[3, 0] == B[0, 3] == B[3, 3] == 1 and B[4, 3] == B[5, 1] == 0 and B.as_explicit() == BB.as_explicit() and BI.as_explicit().equals(eye(6))","over":{"base":"Any"},"name":"test_block_index_correct"},"guarantee":"B[0, 0] == B[3, 0] == B[0, 3] == B[3, 3] == 1; B[4, 3] == B[5, 1] == 0; B.as_explicit() == BB.as_explicit()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_indexing.test_block_index_correct","statement":"Path(test_block_index(x), B[0, 0] == B[3, 0] == B[0, 3] == B[3, 3] == 1; B[4, 3] == B[5, 1] == 0; B.as_explicit() == BB.as_explicit())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d0fe6e3a3b54d99c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["B[0, 0] == B[3, 0] == B[0, 3] == B[3, 3] == 1","B[4, 3] == B[5, 1] == 0","B.as_explicit() == BB.as_explicit()","BI.as_explicit().equals(eye(6))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_block_index():
     I = Identity(3)
     Z = ZeroMatrix(3, 3)
@@ -204,16 +253,24 @@ def test_block_index():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_block_index_symbolic(), test_block_index_symbolic produces the expected output) over Any ║
+# ║ Path(test_block_index_symbolic(), A[0, 0] == MatrixElement(A, 0, 0) and A[n - 1, k - 1] == A1[n - 1, k - 1] and A[n, k] == A4[0, 0] and A[n + m - 1, 0] == MatrixElement(A, n + m - 1, 0) and A[0, k + l - 1] == MatrixElement(A, 0, k + l - 1) and A[n + m - 1, k + l - 1] == MatrixElement(A, n + m - 1, k + l - 1) and A[i, j] == MatrixElement(A, i, j) and A[n + i, k + j] == MatrixElement(A, n + i, k + j) and A[n - i - 1, k - j - 1] == MatrixElement(A, n - i - 1, k - j - 1)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_block_index_symbolic : Any → {Any | A[0, 0] == M...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A[0, 0] == MatrixElement(A, 0, 0)              ║
+# ║   ensures:  A[n - 1, k - 1] == A1[n - 1, k - 1]            ║
+# ║   ensures:  A[n, k] == A4[0, 0]                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_block_index_symbolic : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ea21572d70174fb8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0aff8907f05fcdd0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_indexing.test_block_index_symbolic","kind":"function","src_hash":"fd8058cd22aa00ac","in":{"base":"Any"},"out":{"base":"Any","pred":"A[0, 0] == MatrixElement(A, 0, 0) and A[n - 1, k - 1] == A1[n - 1, k - 1] and A[n, k] == A4[0, 0] and A[n + m - 1, 0] == MatrixElement(A, n + m - 1, 0) and A[0, k + l - 1] == MatrixElement(A, 0, k + l - 1) and A[n + m - 1, k + l - 1] == MatrixElement(A, n + m - 1, k + l - 1) and A[i, j] == MatrixElement(A, i, j) and A[n + i, k + j] == MatrixElement(A, n + i, k + j) and A[n - i - 1, k - j - 1] == MatrixElement(A, n - i - 1, k - j - 1)"},"spec":{"lhs":"test_block_index_symbolic()","rhs":"test_block_index_symbolic produces the expected output","over":{"base":"Any"},"name":"test_block_index_symbolic_correct"},"guarantee":"test_block_index_symbolic produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_indexing.test_block_index_symbolic_correct","statement":"Path(test_block_index_symbolic(x), test_block_index_symbolic produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ea21572d70174fb8"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_indexing.test_block_index_symbolic","kind":"function","src_hash":"fd8058cd22aa00ac","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A[0, 0] == MatrixElement(A, 0, 0) and A[n - 1, k - 1] == A1[n - 1, k - 1] and A[n, k] == A4[0, 0] and A[n + m - 1, 0] == MatrixElement(A, n + m - 1, 0) and A[0, k + l - 1] == MatrixElement(A, 0, k + l - 1) and A[n + m - 1, k + l - 1] == MatrixElement(A, n + m - 1, k + l - 1) and A[i, j] == MatrixElement(A, i, j) and A[n + i, k + j] == MatrixElement(A, n + i, k + j) and A[n - i - 1, k - j - 1] == MatrixElement(A, n - i - 1, k - j - 1)"},"spec":{"lhs":"test_block_index_symbolic()","rhs":"A[0, 0] == MatrixElement(A, 0, 0) and A[n - 1, k - 1] == A1[n - 1, k - 1] and A[n, k] == A4[0, 0] and A[n + m - 1, 0] == MatrixElement(A, n + m - 1, 0) and A[0, k + l - 1] == MatrixElement(A, 0, k + l - 1) and A[n + m - 1, k + l - 1] == MatrixElement(A, n + m - 1, k + l - 1) and A[i, j] == MatrixElement(A, i, j) and A[n + i, k + j] == MatrixElement(A, n + i, k + j) and A[n - i - 1, k - j - 1] == MatrixElement(A, n - i - 1, k - j - 1)","over":{"base":"Any"},"name":"test_block_index_symbolic_correct"},"guarantee":"A[0, 0] == MatrixElement(A, 0, 0); A[n - 1, k - 1] == A1[n - 1, k - 1]; A[n, k] == A4[0, 0]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_indexing.test_block_index_symbolic_correct","statement":"Path(test_block_index_symbolic(x), A[0, 0] == MatrixElement(A, 0, 0); A[n - 1, k - 1] == A1[n - 1, k - 1]; A[n, k] == A4[0, 0])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0aff8907f05fcdd0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A[0, 0] == MatrixElement(A, 0, 0)","A[n - 1, k - 1] == A1[n - 1, k - 1]","A[n, k] == A4[0, 0]","A[n + m - 1, 0] == MatrixElement(A, n + m - 1, 0)","A[0, k + l - 1] == MatrixElement(A, 0, k + l - 1)","A[n + m - 1, k + l - 1] == MatrixElement(A, n + m - 1, k + l - 1)","A[i, j] == MatrixElement(A, i, j)","A[n + i, k + j] == MatrixElement(A, n + i, k + j)","A[n - i - 1, k - j - 1] == MatrixElement(A, n - i - 1, k - j - 1)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_block_index_symbolic():
     # Note that these matrices may be zero-sized and indices may be negative, which causes
     # all naive simplifications given in the comments to be invalid
@@ -234,16 +291,24 @@ def test_block_index_symbolic():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_block_index_symbolic_nonzero(), test_block_index_symbolic_nonzero produces the expected output) over Any ║
+# ║ Path(test_block_index_symbolic_nonzero(), A[0, 0] == A1[0, 0] and A[n + m - 1, 0] == A3[m - 1, 0] and A[0, k + l - 1] == A2[0, l - 1] and A[n + m - 1, k + l - 1] == A4[m - 1, l - 1] and A[i, j] == MatrixElement(A, i, j) and A[n + i, k + j] == A4[i, j] and A[n - i - 1, k - j - 1] == A1[n - i - 1, k - j - 1] and A[2 * n, 2 * k] == A4[n, k]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_block_index_symbolic_nonzero : Any → {Any | A[0,...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A[0, 0] == A1[0, 0]                            ║
+# ║   ensures:  A[n + m - 1, 0] == A3[m - 1, 0]                ║
+# ║   ensures:  A[0, k + l - 1] == A2[0, l - 1]                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_block_index_symbolic_nonzero : Any → {Any | resu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8c84760d11a1c2eb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f7e18d3f93987184  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_indexing.test_block_index_symbolic_nonzero","kind":"function","src_hash":"72618b431c7101eb","in":{"base":"Any"},"out":{"base":"Any","pred":"A[0, 0] == A1[0, 0] and A[n + m - 1, 0] == A3[m - 1, 0] and A[0, k + l - 1] == A2[0, l - 1] and A[n + m - 1, k + l - 1] == A4[m - 1, l - 1] and A[i, j] == MatrixElement(A, i, j) and A[n + i, k + j] == A4[i, j] and A[n - i - 1, k - j - 1] == A1[n - i - 1, k - j - 1] and A[2 * n, 2 * k] == A4[n, k]"},"spec":{"lhs":"test_block_index_symbolic_nonzero()","rhs":"test_block_index_symbolic_nonzero produces the expected output","over":{"base":"Any"},"name":"test_block_index_symbolic_nonzero_correct"},"guarantee":"test_block_index_symbolic_nonzero produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_indexing.test_block_index_symbolic_nonzero_correct","statement":"Path(test_block_index_symbolic_nonzero(x), test_block_index_symbolic_nonzero produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8c84760d11a1c2eb"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_indexing.test_block_index_symbolic_nonzero","kind":"function","src_hash":"72618b431c7101eb","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A[0, 0] == A1[0, 0] and A[n + m - 1, 0] == A3[m - 1, 0] and A[0, k + l - 1] == A2[0, l - 1] and A[n + m - 1, k + l - 1] == A4[m - 1, l - 1] and A[i, j] == MatrixElement(A, i, j) and A[n + i, k + j] == A4[i, j] and A[n - i - 1, k - j - 1] == A1[n - i - 1, k - j - 1] and A[2 * n, 2 * k] == A4[n, k]"},"spec":{"lhs":"test_block_index_symbolic_nonzero()","rhs":"A[0, 0] == A1[0, 0] and A[n + m - 1, 0] == A3[m - 1, 0] and A[0, k + l - 1] == A2[0, l - 1] and A[n + m - 1, k + l - 1] == A4[m - 1, l - 1] and A[i, j] == MatrixElement(A, i, j) and A[n + i, k + j] == A4[i, j] and A[n - i - 1, k - j - 1] == A1[n - i - 1, k - j - 1] and A[2 * n, 2 * k] == A4[n, k]","over":{"base":"Any"},"name":"test_block_index_symbolic_nonzero_correct"},"guarantee":"A[0, 0] == A1[0, 0]; A[n + m - 1, 0] == A3[m - 1, 0]; A[0, k + l - 1] == A2[0, l - 1]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_indexing.test_block_index_symbolic_nonzero_correct","statement":"Path(test_block_index_symbolic_nonzero(x), A[0, 0] == A1[0, 0]; A[n + m - 1, 0] == A3[m - 1, 0]; A[0, k + l - 1] == A2[0, l - 1])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f7e18d3f93987184","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A[0, 0] == A1[0, 0]","A[n + m - 1, 0] == A3[m - 1, 0]","A[0, k + l - 1] == A2[0, l - 1]","A[n + m - 1, k + l - 1] == A4[m - 1, l - 1]","A[i, j] == MatrixElement(A, i, j)","A[n + i, k + j] == A4[i, j]","A[n - i - 1, k - j - 1] == A1[n - i - 1, k - j - 1]","A[2 * n, 2 * k] == A4[n, k]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_block_index_symbolic_nonzero():
     # All invalid simplifications from test_block_index_symbolic() that become valid if all
     # matrices have nonzero size and all indices are nonnegative
@@ -265,16 +330,22 @@ def test_block_index_symbolic_nonzero():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_block_index_large(), test_block_index_large produces the expected output) over Any ║
+# ║ Path(test_block_index_large(), A[n + i, n + i] == MatrixElement(A, n + i, n + i)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_block_index_large : Any → {Any | A[n + i, n + i]...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A[n + i, n + i] == MatrixElement(A, n + i...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_block_index_large : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7b3546ba875c8484  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1471c68ec6f2496b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_indexing.test_block_index_large","kind":"function","src_hash":"8954f4cae209f475","in":{"base":"Any"},"out":{"base":"Any","pred":"A[n + i, n + i] == MatrixElement(A, n + i, n + i)"},"spec":{"lhs":"test_block_index_large()","rhs":"test_block_index_large produces the expected output","over":{"base":"Any"},"name":"test_block_index_large_correct"},"guarantee":"test_block_index_large produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_indexing.test_block_index_large_correct","statement":"Path(test_block_index_large(x), test_block_index_large produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7b3546ba875c8484"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_indexing.test_block_index_large","kind":"function","src_hash":"8954f4cae209f475","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A[n + i, n + i] == MatrixElement(A, n + i, n + i)"},"spec":{"lhs":"test_block_index_large()","rhs":"A[n + i, n + i] == MatrixElement(A, n + i, n + i)","over":{"base":"Any"},"name":"test_block_index_large_correct"},"guarantee":"A[n + i, n + i] == MatrixElement(A, n + i, n + i)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_indexing.test_block_index_large_correct","statement":"Path(test_block_index_large(x), A[n + i, n + i] == MatrixElement(A, n + i, n + i))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1471c68ec6f2496b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A[n + i, n + i] == MatrixElement(A, n + i, n + i)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_block_index_large():
     n, m, k = symbols('n m k', integer=True, positive=True)
     i = symbols('i', integer=True, nonnegative=True)
@@ -293,16 +364,22 @@ def test_block_index_large():
 
 @XFAIL
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_block_index_symbolic_fail(), test_block_index_symbolic_fail produces the expected output) over Any ║
+# ║ Path(test_block_index_symbolic_fail(), A[2 * n, 0] == A2[n, 0]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_block_index_symbolic_fail : Any → {Any | A[2 * n...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A[2 * n, 0] == A2[n, 0]                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_block_index_symbolic_fail : Any → {Any | result ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 315491e1f1a5de75  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 385cb318eaaea3ff  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_indexing.test_block_index_symbolic_fail","kind":"function","src_hash":"23e393b6152c5f13","in":{"base":"Any"},"out":{"base":"Any","pred":"A[2 * n, 0] == A2[n, 0]"},"spec":{"lhs":"test_block_index_symbolic_fail()","rhs":"test_block_index_symbolic_fail produces the expected output","over":{"base":"Any"},"name":"test_block_index_symbolic_fail_correct"},"guarantee":"test_block_index_symbolic_fail produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_indexing.test_block_index_symbolic_fail_correct","statement":"Path(test_block_index_symbolic_fail(x), test_block_index_symbolic_fail produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"315491e1f1a5de75"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_indexing.test_block_index_symbolic_fail","kind":"function","src_hash":"23e393b6152c5f13","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A[2 * n, 0] == A2[n, 0]"},"spec":{"lhs":"test_block_index_symbolic_fail()","rhs":"A[2 * n, 0] == A2[n, 0]","over":{"base":"Any"},"name":"test_block_index_symbolic_fail_correct"},"guarantee":"A[2 * n, 0] == A2[n, 0]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_indexing.test_block_index_symbolic_fail_correct","statement":"Path(test_block_index_symbolic_fail(x), A[2 * n, 0] == A2[n, 0])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"385cb318eaaea3ff","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A[2 * n, 0] == A2[n, 0]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_block_index_symbolic_fail():
     # To make this work, symbolic matrix dimensions would need to be somehow assumed nonnegative
     # even if the symbols aren't specified as such.  Then 2 * n < n would correctly evaluate to
@@ -314,47 +391,68 @@ def test_block_index_symbolic_fail():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_slicing(), test_slicing produces the expected output) over Any ║
+# ║ Path(test_slicing(), <unspecified:test_slicing>) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_slicing : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8ae884eeb9c1c251  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_indexing.test_slicing","kind":"function","src_hash":"519c07109f085c78","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_slicing()","rhs":"test_slicing produces the expected output","over":{"base":"Any"},"name":"test_slicing_correct"},"guarantee":"test_slicing produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_indexing.test_slicing_correct","statement":"Path(test_slicing(x), test_slicing produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8ae884eeb9c1c251"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_indexing.test_slicing","kind":"function","src_hash":"519c07109f085c78","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_slicing()","rhs":"<unspecified:test_slicing>","over":{"base":"Any"},"name":"test_slicing_correct"},"guarantee":"test_slicing produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_indexing.test_slicing_correct","statement":"Path(test_slicing(x), test_slicing produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8ae884eeb9c1c251","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_slicing():
     A.as_explicit()[0, :]  # does not raise an error
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_errors(), test_errors produces the expected output) over Any ║
+# ║ Path(test_errors(), <unspecified:test_errors>) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_errors : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 452b89abd35a3cde  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_indexing.test_errors","kind":"function","src_hash":"e50cd6ff987ce21c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_errors()","rhs":"test_errors produces the expected output","over":{"base":"Any"},"name":"test_errors_correct"},"guarantee":"test_errors produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_indexing.test_errors_correct","statement":"Path(test_errors(x), test_errors produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"452b89abd35a3cde"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_indexing.test_errors","kind":"function","src_hash":"e50cd6ff987ce21c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_errors()","rhs":"<unspecified:test_errors>","over":{"base":"Any"},"name":"test_errors_correct"},"guarantee":"test_errors produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_indexing.test_errors_correct","statement":"Path(test_errors(x), test_errors produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"452b89abd35a3cde","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_errors():
     raises(IndexError, lambda: Identity(2)[1, 2, 3, 4, 5])
     raises(IndexError, lambda: Identity(2)[[1, 2, 3, 4, 5]])
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_matrix_expression_to_indices(), test_matrix_expression_to_indices produces the expected output) over Any ║
+# ║ Path(test_matrix_expression_to_indices(), expr.xreplace(repl)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_matrix_expression_to_indices : Any → {Any | Matr...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  replace_dummies(expr._entry(i, j)) == Sum...   ║
+# ║   ensures:  MatrixExpr.from_index_summation(expr._ent...   ║
+# ║   ensures:  replace_dummies(expr._entry(i, j)) == Sum...   ║
+# ║   returns:  expr.xreplace(repl)                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_matrix_expression_to_indices : Any → {Any | resu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 264acc8cb4d36868  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1535901ce0a23c5a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_indexing.test_matrix_expression_to_indices","kind":"function","src_hash":"f7de5a62d8774115","in":{"base":"Any"},"out":{"base":"Any","pred":"MatrixExpr.from_index_summation(expr._entry(i, j)) == expr and MatrixExpr.from_index_summation(expr._entry(i, j), i) == expr and MatrixExpr.from_index_summation(expr._entry(i, j)) == expr and MatrixExpr.from_index_summation(expr._entry(i, j)) == expr and MatrixExpr.from_index_summation(expr._entry(i, j)) == expr"},"spec":{"lhs":"test_matrix_expression_to_indices()","rhs":"test_matrix_expression_to_indices produces the expected output","over":{"base":"Any"},"name":"test_matrix_expression_to_indices_correct"},"guarantee":"test_matrix_expression_to_indices produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_indexing.test_matrix_expression_to_indices_correct","statement":"Path(test_matrix_expression_to_indices(x), test_matrix_expression_to_indices produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"264acc8cb4d36868"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_indexing.test_matrix_expression_to_indices","kind":"function","src_hash":"f7de5a62d8774115","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (expr.xreplace(repl))"},"spec":{"lhs":"test_matrix_expression_to_indices()","rhs":"expr.xreplace(repl)","over":{"base":"Any"},"name":"test_matrix_expression_to_indices_correct"},"guarantee":"returns expr.xreplace(repl); replace_dummies(expr._entry(i, j)) == Sum(W[i, i1] * X[i1, i2] * Z[i2, j], (i1, 0, l - 1), (i2, 0, m - 1)); MatrixExpr.from_index_summation(expr._entry(i, j)) == expr; replace_dummies(expr._entry(i, j)) == Sum(W[j, i2] * X[i2, i1] * Z[i1, i], (i1, 0, m - 1), (i2, 0, l - 1))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_indexing.test_matrix_expression_to_indices_correct","statement":"Path(test_matrix_expression_to_indices(x), returns expr.xreplace(repl); replace_dummies(expr._entry(i, j)) == Sum(W[i, i1] * X[i1, i2] * Z[i2, j], (i1, 0, l - 1), (i2, 0, m - 1)); MatrixExpr.from_index_summation(expr._entry(i, j)) == expr; replace_dummies(expr._entry(i, j)) == Sum(W[j, i2] * X[i2, i1] * Z[i1, i], (i1, 0, m - 1), (i2, 0, l - 1)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1535901ce0a23c5a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["replace_dummies(expr._entry(i, j)) == Sum(W[i, i1] * X[i1, i2] * Z[i2, j], (i1, 0, l - 1), (i2, 0, m - 1))","MatrixExpr.from_index_summation(expr._entry(i, j)) == expr","replace_dummies(expr._entry(i, j)) == Sum(W[j, i2] * X[i2, i1] * Z[i1, i], (i1, 0, m - 1), (i2, 0, l - 1))","MatrixExpr.from_index_summation(expr._entry(i, j), i) == expr","replace_dummies(expr._entry(i, j)) == Sum(W[i, i1] * X[i1, i2] * Z[i2, j], (i1, 0, l - 1), (i2, 0, m - 1)) + Sum(W[i, i1] * Y[i1, i2] * Z[i2, j], (i1, 0, l - 1), (i2, 0, m - 1))","replace_dummies(expr._entry(i, j)) == 2 * Sum(W[i, i1] * X[i1, i2] * Z[i2, j], (i1, 0, l - 1), (i2, 0, m - 1)) + 3 * Sum(W[i, i1] * Y[i1, i2] * Z[i2, j], (i1, 0, l - 1), (i2, 0, m - 1))","replace_dummies(expr._entry(i, j)) == Sum(W[i, i1] * (X[i1, i2] + Y[i1, i2]) * Z[i2, j], (i1, 0, l - 1), (i2, 0, m - 1))","replace_dummies(expr._entry(i, j)) == Sum((Sum(X1[i, i2] * X2[i2, i1], (i2, 0, m - 1)) + Sum(X1[i3, i1] * X2[i, i3], (i3, 0, m - 1))) * X3[i1, j], (i1, 0, m - 1))"],"returns_expr":"expr.xreplace(repl)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"assumed","binding":true}}
 def test_matrix_expression_to_indices():
     i, j = symbols("i, j")
     i1, i2, i3 = symbols("i_1:4")
@@ -402,16 +500,24 @@ def test_matrix_expression_to_indices():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_matrix_expression_from_index_summation(), test_matrix_expression_from_index_summation produces the expected output) over Any ║
+# ║ Path(test_matrix_expression_from_index_summation(), MatrixExpr.from_index_summation(expr, a) == W * X * Z and MatrixSymbol.from_index_summation(expr, a) == A.T * B * C and MatrixSymbol.from_index_summation(expr, a) == A.T * B.T * C and MatrixExpr.from_index_summation(expr, a) == OneMatrix(1, k) * A * OneMatrix(k, 1) + OneMatrix(1, k) * B * OneMatrix(k, 1) and MatrixExpr.from_index_summation(expr, a) == Trace(A * A.T) and MatrixExpr.from_index_summation(expr, a) == Trace(HadamardPower(A.T, 2) * A) and MatrixExpr.from_index_summation(expr, a) == (A + B) * C and MatrixExpr.from_index_summation(expr, a) == (A + B.T) * C and MatrixExpr.from_index_summation(expr, a) == A ** 3 and MatrixExpr.from_index_summation(expr, a) == A ** 2 * B and MatrixExpr.from_index_summation(expr, None) == trace(A) and MatrixExpr.from_index_summation(expr, b) == trace(A) * B * C and MatrixExpr.from_index_summation(expr, a) == A * B * C and MatrixExpr.from_index_summation(expr, a) == A * B and MatrixExpr.from_index_summation(expr, m) == ArrayTensorProduct(A.T, A) and MatrixExpr.from_index_summation(expr, i1) == MatrixElement(A * w1, i1, 0) and MatrixExpr.from_index_summation(expr, i1) == MatrixElement(A * B, i1, 0)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  MatrixExpr.from_index_summation(expr, a) ...   ║
+# ║   ensures:  MatrixSymbol.from_index_summation(expr, a...   ║
+# ║   ensures:  MatrixSymbol.from_index_summation(expr, a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_matrix_expression_from_index_summation : Any → {...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9025860dabd917e7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2b98a303b6fc6755  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_indexing.test_matrix_expression_from_index_summation","kind":"function","src_hash":"3f5f03a095657064","in":{"base":"Any"},"out":{"base":"Any","pred":"MatrixExpr.from_index_summation(expr, a) == W * X * Z and MatrixExpr.from_index_summation(expr, a) == W * X * Z and MatrixSymbol.from_index_summation(expr, a) == A.T * B * C and MatrixSymbol.from_index_summation(expr, a) == A.T * B.T * C and MatrixSymbol.from_index_summation(expr, a) == A.T * B.T * C and MatrixExpr.from_index_summation(expr, a) == Trace(A * A.T) and MatrixExpr.from_index_summation(expr, a) == Trace(HadamardPower(A.T, 2) * A) and MatrixExpr.from_index_summation(expr, a) == (A + B) * C and MatrixExpr.from_index_summation(expr, a) == (A + B.T) * C and MatrixExpr.from_index_summation(expr, a) == A ** 3 and MatrixExpr.from_index_summation(expr, a) == A ** 2 * B and MatrixExpr.from_index_summation(expr, None) == trace(A) and MatrixExpr.from_index_summation(expr, b) == trace(A) * B * C and MatrixExpr.from_index_summation(expr, a) == A * B * C and MatrixExpr.from_index_summation(expr, a) == A * B and MatrixExpr.from_index_summation(expr, m) == ArrayTensorProduct(A.T, A) and MatrixExpr.from_index_summation(expr, i1) == MatrixElement(A * w1, i1, 0) and MatrixExpr.from_index_summation(expr, i1) == MatrixElement(A * B, i1, 0)"},"spec":{"lhs":"test_matrix_expression_from_index_summation()","rhs":"test_matrix_expression_from_index_summation produces the expected output","over":{"base":"Any"},"name":"test_matrix_expression_from_index_summation_correct"},"guarantee":"test_matrix_expression_from_index_summation produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_indexing.test_matrix_expression_from_index_summation_correct","statement":"Path(test_matrix_expression_from_index_summation(x), test_matrix_expression_from_index_summation produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9025860dabd917e7"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_indexing.test_matrix_expression_from_index_summation","kind":"function","src_hash":"3f5f03a095657064","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: MatrixExpr.from_index_summation(expr, a) == W * X * Z and MatrixSymbol.from_index_summation(expr, a) == A.T * B * C and MatrixSymbol.from_index_summation(expr, a) == A.T * B.T * C and MatrixExpr.from_index_summation(expr, a) == OneMatrix(1, k) * A * OneMatrix(k, 1) + OneMatrix(1, k) * B * OneMatrix(k, 1) and MatrixExpr.from_index_summation(expr, a) == Trace(A * A.T) and MatrixExpr.from_index_summation(expr, a) == Trace(HadamardPower(A.T, 2) * A) and MatrixExpr.from_index_summation(expr, a) == (A + B) * C and MatrixExpr.from_index_summation(expr, a) == (A + B.T) * C and MatrixExpr.from_index_summation(expr, a) == A ** 3 and MatrixExpr.from_index_summation(expr, a) == A ** 2 * B and MatrixExpr.from_index_summation(expr, None) == trace(A) and MatrixExpr.from_index_summation(expr, b) == trace(A) * B * C and MatrixExpr.from_index_summation(expr, a) == A * B * C and MatrixExpr.from_index_summation(expr, a) == A * B and MatrixExpr.from_index_summation(expr, m) == ArrayTensorProduct(A.T, A) and MatrixExpr.from_index_summation(expr, i1) == MatrixElement(A * w1, i1, 0) and MatrixExpr.from_index_summation(expr, i1) == MatrixElement(A * B, i1, 0)"},"spec":{"lhs":"test_matrix_expression_from_index_summation()","rhs":"MatrixExpr.from_index_summation(expr, a) == W * X * Z and MatrixSymbol.from_index_summation(expr, a) == A.T * B * C and MatrixSymbol.from_index_summation(expr, a) == A.T * B.T * C and MatrixExpr.from_index_summation(expr, a) == OneMatrix(1, k) * A * OneMatrix(k, 1) + OneMatrix(1, k) * B * OneMatrix(k, 1) and MatrixExpr.from_index_summation(expr, a) == Trace(A * A.T) and MatrixExpr.from_index_summation(expr, a) == Trace(HadamardPower(A.T, 2) * A) and MatrixExpr.from_index_summation(expr, a) == (A + B) * C and MatrixExpr.from_index_summation(expr, a) == (A + B.T) * C and MatrixExpr.from_index_summation(expr, a) == A ** 3 and MatrixExpr.from_index_summation(expr, a) == A ** 2 * B and MatrixExpr.from_index_summation(expr, None) == trace(A) and MatrixExpr.from_index_summation(expr, b) == trace(A) * B * C and MatrixExpr.from_index_summation(expr, a) == A * B * C and MatrixExpr.from_index_summation(expr, a) == A * B and MatrixExpr.from_index_summation(expr, m) == ArrayTensorProduct(A.T, A) and MatrixExpr.from_index_summation(expr, i1) == MatrixElement(A * w1, i1, 0) and MatrixExpr.from_index_summation(expr, i1) == MatrixElement(A * B, i1, 0)","over":{"base":"Any"},"name":"test_matrix_expression_from_index_summation_correct"},"guarantee":"MatrixExpr.from_index_summation(expr, a) == W * X * Z; MatrixSymbol.from_index_summation(expr, a) == A.T * B * C; MatrixSymbol.from_index_summation(expr, a) == A.T * B.T * C","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_indexing.test_matrix_expression_from_index_summation_correct","statement":"Path(test_matrix_expression_from_index_summation(x), MatrixExpr.from_index_summation(expr, a) == W * X * Z; MatrixSymbol.from_index_summation(expr, a) == A.T * B * C; MatrixSymbol.from_index_summation(expr, a) == A.T * B.T * C)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2b98a303b6fc6755","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["MatrixExpr.from_index_summation(expr, a) == W * X * Z","MatrixSymbol.from_index_summation(expr, a) == A.T * B * C","MatrixSymbol.from_index_summation(expr, a) == A.T * B.T * C","MatrixExpr.from_index_summation(expr, a) == OneMatrix(1, k) * A * OneMatrix(k, 1) + OneMatrix(1, k) * B * OneMatrix(k, 1)","MatrixExpr.from_index_summation(expr, a) == Trace(A * A.T)","MatrixExpr.from_index_summation(expr, a) == Trace(HadamardPower(A.T, 2) * A)","MatrixExpr.from_index_summation(expr, a) == (A + B) * C","MatrixExpr.from_index_summation(expr, a) == (A + B.T) * C","MatrixExpr.from_index_summation(expr, a) == A ** 3","MatrixExpr.from_index_summation(expr, a) == A ** 2 * B","MatrixExpr.from_index_summation(expr, None) == trace(A)","MatrixExpr.from_index_summation(expr, b) == trace(A) * B * C","MatrixExpr.from_index_summation(expr, a) == A * B * C","MatrixExpr.from_index_summation(expr, a) == A * B","MatrixExpr.from_index_summation(expr, m) == ArrayTensorProduct(A.T, A)","MatrixExpr.from_index_summation(expr, i1) == MatrixElement(A * w1, i1, 0)","MatrixExpr.from_index_summation(expr, i1) == MatrixElement(A * B, i1, 0)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.6,"verdict_class":"assumed","binding":true}}
 def test_matrix_expression_from_index_summation():
     from sympy.abc import a,b,c,d
     A = MatrixSymbol("A", k, k)

@@ -28,14 +28,20 @@ __all__ = ['JointsMethod']
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a JointsMethod instance) preserved by JointsMethod(*args) over {Any | isinstance(newtonion, BodyBase) and isinstance(body, Body)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, _Methods)                     ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ JointsMethod : {Any | isinstance(newtonion, BodyBase)...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 034bb87fe9f9bd64  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.jointsmethod.JointsMethod","kind":"class","src_hash":"b2dae2fc3cbdbad2","in":{"base":"Any","pred":"isinstance(newtonion, BodyBase) and isinstance(body, Body)"},"out":{"base":"Any"},"spec":{"lhs":"JointsMethod(*args)","rhs":"correctly constructs a JointsMethod instance","over":{"base":"Any","pred":"isinstance(newtonion, BodyBase) and isinstance(body, Body)"},"name":"JointsMethod_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a JointsMethod instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'frame') and hasattr(self, 'frame') and hasattr(self, '_joints') and hasattr(self, '_bodies') and hasattr(self, '_loads') and hasattr(self, '_q') and hasattr(self, '_u') and hasattr(self, '_kdes')","kind":"class","induction":"structural on frame, frame, _joints, _bodies"}],"methods_preserving":["__init__","bodies","loads","q","u","kdes","forcing_full","mass_matrix_full","mass_matrix","forcing","method","_generate_bodylist","_generate_loadlist","_generate_q","_generate_u","_generate_kdes","_convert_bodies","form_eoms","rhs"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"034bb87fe9f9bd64"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.jointsmethod.JointsMethod","kind":"class","src_hash":"b2dae2fc3cbdbad2","in":{"base":"Any","pred":"isinstance(newtonion, BodyBase) and isinstance(body, Body)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, _Methods)"},"spec":{"lhs":"JointsMethod(*args)","rhs":"correctly constructs a JointsMethod instance","over":{"base":"Any","pred":"isinstance(newtonion, BodyBase) and isinstance(body, Body)"},"name":"JointsMethod_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, _Methods); preserves 8 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'frame') and hasattr(self, 'frame') and hasattr(self, '_joints') and hasattr(self, '_bodies') and hasattr(self, '_loads') and hasattr(self, '_q') and hasattr(self, '_u') and hasattr(self, '_kdes')","kind":"class","induction":"structural on frame, frame, _joints, _bodies"}],"methods_preserving":["__init__","bodies","loads","q","u","kdes","forcing_full","mass_matrix_full","mass_matrix","forcing","method","_generate_bodylist","_generate_loadlist","_generate_q","_generate_u","_generate_kdes","_convert_bodies","form_eoms","rhs"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"034bb87fe9f9bd64","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, _Methods)"],"invariants":["hasattr(self, '_joints')","hasattr(self, '_bodies')","hasattr(self, '_loads')","hasattr(self, '_q')","hasattr(self, '_u')","hasattr(self, '_kdes')","hasattr(self, '_method')","hasattr(self, 'frame')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"assumed","binding":false,"binding_errors":["Function JointsMethod not found in source"]}}
 class JointsMethod(_Methods):
     """Method for formulating the equations of motion using a set of interconnected bodies with joints.
 
@@ -120,16 +126,23 @@ class JointsMethod(_Methods):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(new), initializes the instance correctly) over Any ║
+# ║ Path(__init__(newtonion, *joints), self.frame == newtonion) over {Any | hasattr(newtonion, 'frame')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(newtonion, 'frame')                    ║
+# ║   ensures:  self.frame == newtonion                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : {Any | hasattr(newtonion, 'frame')} → {Any...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b132a688e55e6988           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.jointsmethod.JointsMethod.__init__","kind":"method","src_hash":"26f9108aefe63bde","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(new)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b132a688e55e6988"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.jointsmethod.JointsMethod.__init__","kind":"method","src_hash":"26f9108aefe63bde","in":{"base":"Any","pred":"hasattr(newtonion, 'frame')"},"out":{"base":"Any","pred":"result satisfies: self.frame == newtonion"},"spec":{"lhs":"__init__(newtonion, *joints)","rhs":"self.frame == newtonion","over":{"base":"Any","pred":"hasattr(newtonion, 'frame')"},"name":"__init___correct"},"guarantee":"self.frame == newtonion","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b132a688e55e6988","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(newtonion, 'frame')"],"ensures":["self.frame == newtonion"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, newtonion, *joints):
         sympy_deprecation_warning(
             """
@@ -155,175 +168,241 @@ class JointsMethod(_Methods):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(bodies(), returns the bodies attribute) over Any      ║
+# ║ Path(bodies(), self._bodies) over Any                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._bodies                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ bodies : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 104b5eee798dfe8c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.jointsmethod.JointsMethod.bodies","kind":"property","src_hash":"e180dbc73761413a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bodies()","rhs":"returns the bodies attribute","over":{"base":"Any"},"name":"bodies_correct"},"guarantee":"returns the bodies attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"104b5eee798dfe8c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.jointsmethod.JointsMethod.bodies","kind":"property","src_hash":"e180dbc73761413a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bodies()","rhs":"self._bodies","over":{"base":"Any"},"name":"bodies_correct"},"guarantee":"returns self._bodies","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"104b5eee798dfe8c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._bodies","pure":false,"effects":{"effect_type":"reads_state","reads":["self._bodies"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def bodies(self):
         """List of bodies in they system."""
         return self._bodies
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(loads(), returns the loads attribute) over Any        ║
+# ║ Path(loads(), self._loads) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._loads                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ loads : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ed078008dc5dc44d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.jointsmethod.JointsMethod.loads","kind":"property","src_hash":"d290603b4eb68f9d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"loads()","rhs":"returns the loads attribute","over":{"base":"Any"},"name":"loads_correct"},"guarantee":"returns the loads attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ed078008dc5dc44d"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.jointsmethod.JointsMethod.loads","kind":"property","src_hash":"d290603b4eb68f9d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"loads()","rhs":"self._loads","over":{"base":"Any"},"name":"loads_correct"},"guarantee":"returns self._loads","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ed078008dc5dc44d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._loads","pure":false,"effects":{"effect_type":"reads_state","reads":["self._loads"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def loads(self):
         """List of loads on the system."""
         return self._loads
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(q(), returns the q attribute) over Any                ║
+# ║ Path(q(), self._q) over Any                                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._q                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ q : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1900800e92e35a80           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.jointsmethod.JointsMethod.q","kind":"property","src_hash":"b0dadb80df3e1462","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"q()","rhs":"returns the q attribute","over":{"base":"Any"},"name":"q_correct"},"guarantee":"returns the q attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1900800e92e35a80"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.jointsmethod.JointsMethod.q","kind":"property","src_hash":"b0dadb80df3e1462","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"q()","rhs":"self._q","over":{"base":"Any"},"name":"q_correct"},"guarantee":"returns self._q","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1900800e92e35a80","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._q","pure":false,"effects":{"effect_type":"reads_state","reads":["self._q"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def q(self):
         """List of the generalized coordinates."""
         return self._q
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(u(), returns the u attribute) over Any                ║
+# ║ Path(u(), self._u) over Any                                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._u                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ u : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9977cd6feeb65d47           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.jointsmethod.JointsMethod.u","kind":"property","src_hash":"d77ac2a9ecf645fd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"u()","rhs":"returns the u attribute","over":{"base":"Any"},"name":"u_correct"},"guarantee":"returns the u attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9977cd6feeb65d47"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.jointsmethod.JointsMethod.u","kind":"property","src_hash":"d77ac2a9ecf645fd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"u()","rhs":"self._u","over":{"base":"Any"},"name":"u_correct"},"guarantee":"returns self._u","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9977cd6feeb65d47","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._u","pure":false,"effects":{"effect_type":"reads_state","reads":["self._u"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def u(self):
         """List of the generalized speeds."""
         return self._u
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(kdes(), returns the kdes attribute) over Any          ║
+# ║ Path(kdes(), self._kdes) over Any                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._kdes                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ kdes : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8409cb37b37ae5de           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.jointsmethod.JointsMethod.kdes","kind":"property","src_hash":"57ca60c04daf1014","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"kdes()","rhs":"returns the kdes attribute","over":{"base":"Any"},"name":"kdes_correct"},"guarantee":"returns the kdes attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8409cb37b37ae5de"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.jointsmethod.JointsMethod.kdes","kind":"property","src_hash":"57ca60c04daf1014","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"kdes()","rhs":"self._kdes","over":{"base":"Any"},"name":"kdes_correct"},"guarantee":"returns self._kdes","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8409cb37b37ae5de","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._kdes","pure":false,"effects":{"effect_type":"reads_state","reads":["self._kdes"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def kdes(self):
         """List of the generalized coordinates."""
         return self._kdes
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(forcing_full(), returns the forcing_full attribute) over Any ║
+# ║ Path(forcing_full(), self.method.forcing_full) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.method.forcing_full                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ forcing_full : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 62f5f9a1015016de           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.jointsmethod.JointsMethod.forcing_full","kind":"property","src_hash":"e18a6c081b11e518","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"forcing_full()","rhs":"returns the forcing_full attribute","over":{"base":"Any"},"name":"forcing_full_correct"},"guarantee":"returns the forcing_full attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"62f5f9a1015016de"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.jointsmethod.JointsMethod.forcing_full","kind":"property","src_hash":"e18a6c081b11e518","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"forcing_full()","rhs":"self.method.forcing_full","over":{"base":"Any"},"name":"forcing_full_correct"},"guarantee":"returns self.method.forcing_full","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"62f5f9a1015016de","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.method.forcing_full","pure":false,"effects":{"effect_type":"reads_state","reads":["self.method"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def forcing_full(self):
         """The "forcing vector" for the u's and q's."""
         return self.method.forcing_full
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(mass_matrix_full(), returns the mass_matrix_full attribute) over Any ║
+# ║ Path(mass_matrix_full(), self.method.mass_matrix_full) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.method.mass_matrix_full                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ mass_matrix_full : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 918cb1fd6e32433b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.jointsmethod.JointsMethod.mass_matrix_full","kind":"property","src_hash":"6dab88b0a4686f72","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"mass_matrix_full()","rhs":"returns the mass_matrix_full attribute","over":{"base":"Any"},"name":"mass_matrix_full_correct"},"guarantee":"returns the mass_matrix_full attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"918cb1fd6e32433b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.jointsmethod.JointsMethod.mass_matrix_full","kind":"property","src_hash":"6dab88b0a4686f72","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"mass_matrix_full()","rhs":"self.method.mass_matrix_full","over":{"base":"Any"},"name":"mass_matrix_full_correct"},"guarantee":"returns self.method.mass_matrix_full","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"918cb1fd6e32433b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.method.mass_matrix_full","pure":false,"effects":{"effect_type":"reads_state","reads":["self.method"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def mass_matrix_full(self):
         """The "mass matrix" for the u's and q's."""
         return self.method.mass_matrix_full
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(mass_matrix(), returns the mass_matrix attribute) over Any ║
+# ║ Path(mass_matrix(), self.method.mass_matrix) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.method.mass_matrix                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ mass_matrix : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | bb1208384140bed4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.jointsmethod.JointsMethod.mass_matrix","kind":"property","src_hash":"67934fbd2cce761b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"mass_matrix()","rhs":"returns the mass_matrix attribute","over":{"base":"Any"},"name":"mass_matrix_correct"},"guarantee":"returns the mass_matrix attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bb1208384140bed4"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.jointsmethod.JointsMethod.mass_matrix","kind":"property","src_hash":"67934fbd2cce761b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"mass_matrix()","rhs":"self.method.mass_matrix","over":{"base":"Any"},"name":"mass_matrix_correct"},"guarantee":"returns self.method.mass_matrix","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bb1208384140bed4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.method.mass_matrix","pure":false,"effects":{"effect_type":"reads_state","reads":["self.method"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def mass_matrix(self):
         """The system's mass matrix."""
         return self.method.mass_matrix
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(forcing(), returns the forcing attribute) over Any    ║
+# ║ Path(forcing(), self.method.forcing) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.method.forcing                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ forcing : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f7a8e6783f693958           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.jointsmethod.JointsMethod.forcing","kind":"property","src_hash":"762cb591cca7b2a8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"forcing()","rhs":"returns the forcing attribute","over":{"base":"Any"},"name":"forcing_correct"},"guarantee":"returns the forcing attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f7a8e6783f693958"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.jointsmethod.JointsMethod.forcing","kind":"property","src_hash":"762cb591cca7b2a8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"forcing()","rhs":"self.method.forcing","over":{"base":"Any"},"name":"forcing_correct"},"guarantee":"returns self.method.forcing","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f7a8e6783f693958","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.method.forcing","pure":false,"effects":{"effect_type":"reads_state","reads":["self.method"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def forcing(self):
         """The system's forcing vector."""
         return self.method.forcing
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(method(), returns the method attribute) over Any      ║
+# ║ Path(method(), self._method) over Any                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._method                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ method : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8a4b43296dfdfbda           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.jointsmethod.JointsMethod.method","kind":"property","src_hash":"5d68a9371329162a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"method()","rhs":"returns the method attribute","over":{"base":"Any"},"name":"method_correct"},"guarantee":"returns the method attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8a4b43296dfdfbda"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.jointsmethod.JointsMethod.method","kind":"property","src_hash":"5d68a9371329162a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"method()","rhs":"self._method","over":{"base":"Any"},"name":"method_correct"},"guarantee":"returns self._method","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8a4b43296dfdfbda","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._method","pure":false,"effects":{"effect_type":"reads_state","reads":["self._method"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def method(self):
         """Object of method used to form equations of systems."""
         return self._method
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_generate_bodylist(), internal helper behaves correctly) over Any ║
+# ║ Path(_generate_bodylist(), <unspecified:_generate_bodylist>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _generate_bodylist : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4c8477b06a9600cb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.jointsmethod.JointsMethod._generate_bodylist","kind":"method","src_hash":"f8351a0c273f3502","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_generate_bodylist()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_generate_bodylist_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.jointsmethod.JointsMethod._generate_bodylist_correct","statement":"Path(_generate_bodylist(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4c8477b06a9600cb"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.jointsmethod.JointsMethod._generate_bodylist","kind":"method","src_hash":"f8351a0c273f3502","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_generate_bodylist()","rhs":"<unspecified:_generate_bodylist>","over":{"base":"Any"},"name":"_generate_bodylist_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.jointsmethod.JointsMethod._generate_bodylist_correct","statement":"Path(_generate_bodylist(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4c8477b06a9600cb","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _generate_bodylist(self):
         bodies = []
         for joint in self._joints:
@@ -334,16 +413,22 @@ class JointsMethod(_Methods):
         return bodies
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_generate_loadlist(), internal helper behaves correctly) over Any ║
+# ║ Path(_generate_loadlist(), <unspecified:_generate_loadlist>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _generate_loadlist : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b36d472f114b539a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.jointsmethod.JointsMethod._generate_loadlist","kind":"method","src_hash":"8fdfcc7adf978758","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_generate_loadlist()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_generate_loadlist_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.jointsmethod.JointsMethod._generate_loadlist_correct","statement":"Path(_generate_loadlist(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b36d472f114b539a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.jointsmethod.JointsMethod._generate_loadlist","kind":"method","src_hash":"8fdfcc7adf978758","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_generate_loadlist()","rhs":"<unspecified:_generate_loadlist>","over":{"base":"Any"},"name":"_generate_loadlist_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.jointsmethod.JointsMethod._generate_loadlist_correct","statement":"Path(_generate_loadlist(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b36d472f114b539a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _generate_loadlist(self):
         load_list = []
         for body in self.bodies:
@@ -352,16 +437,23 @@ class JointsMethod(_Methods):
         return load_list
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_generate_q(), internal helper behaves correctly) over Any ║
+# ║ Path(_generate_q(), Matrix(q_ind)) over Any                ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _generate_q : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(q_ind) == old_len_q_ind + 1                ║
+# ║   returns:  Matrix(q_ind)                                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _generate_q : Any → {Any | result satisfies: result =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f2e7323c205cb142  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 91c356e7b2a3c74d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.jointsmethod.JointsMethod._generate_q","kind":"method","src_hash":"3be8e92b4804b7f3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_generate_q()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_generate_q_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.jointsmethod.JointsMethod._generate_q_correct","statement":"Path(_generate_q(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f2e7323c205cb142"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.jointsmethod.JointsMethod._generate_q","kind":"method","src_hash":"3be8e92b4804b7f3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (Matrix(q_ind))"},"spec":{"lhs":"_generate_q()","rhs":"Matrix(q_ind)","over":{"base":"Any"},"name":"_generate_q_correct"},"guarantee":"returns Matrix(q_ind); len(q_ind) == old_len_q_ind + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.jointsmethod.JointsMethod._generate_q_correct","statement":"Path(_generate_q(x), returns Matrix(q_ind); len(q_ind) == old_len_q_ind + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"91c356e7b2a3c74d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(q_ind) == old_len_q_ind + 1"],"returns_expr":"Matrix(q_ind)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._joints"],"calls_mutating":["q_ind.append"],"raises":["ValueError"]},"state_contract":{"modifies":["q_ind.*"],"old_bindings":{"old_len_q_ind":"len(q_ind)"},"post_ensures":["len(q_ind) == old_len_q_ind + 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _generate_q(self):
         q_ind = []
         for joint in self._joints:
@@ -372,16 +464,23 @@ class JointsMethod(_Methods):
         return Matrix(q_ind)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_generate_u(), internal helper behaves correctly) over Any ║
+# ║ Path(_generate_u(), Matrix(u_ind)) over Any                ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _generate_u : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(u_ind) == old_len_u_ind + 1                ║
+# ║   returns:  Matrix(u_ind)                                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _generate_u : Any → {Any | result satisfies: result =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d5b6eaab665f78ac  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7ba8592b470ceeee  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.jointsmethod.JointsMethod._generate_u","kind":"method","src_hash":"57e8e3897e6d703b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_generate_u()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_generate_u_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.jointsmethod.JointsMethod._generate_u_correct","statement":"Path(_generate_u(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d5b6eaab665f78ac"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.jointsmethod.JointsMethod._generate_u","kind":"method","src_hash":"57e8e3897e6d703b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (Matrix(u_ind))"},"spec":{"lhs":"_generate_u()","rhs":"Matrix(u_ind)","over":{"base":"Any"},"name":"_generate_u_correct"},"guarantee":"returns Matrix(u_ind); len(u_ind) == old_len_u_ind + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.jointsmethod.JointsMethod._generate_u_correct","statement":"Path(_generate_u(x), returns Matrix(u_ind); len(u_ind) == old_len_u_ind + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7ba8592b470ceeee","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(u_ind) == old_len_u_ind + 1"],"returns_expr":"Matrix(u_ind)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._joints"],"calls_mutating":["u_ind.append"],"raises":["ValueError"]},"state_contract":{"modifies":["u_ind.*"],"old_bindings":{"old_len_u_ind":"len(u_ind)"},"post_ensures":["len(u_ind) == old_len_u_ind + 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _generate_u(self):
         u_ind = []
         for joint in self._joints:
@@ -392,16 +491,22 @@ class JointsMethod(_Methods):
         return Matrix(u_ind)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_generate_kdes(), internal helper behaves correctly) over Any ║
+# ║ Path(_generate_kdes(), <unspecified:_generate_kdes>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _generate_kdes : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 750dee43e8c6013a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.jointsmethod.JointsMethod._generate_kdes","kind":"method","src_hash":"6d3b60b010b40e1c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_generate_kdes()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_generate_kdes_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.jointsmethod.JointsMethod._generate_kdes_correct","statement":"Path(_generate_kdes(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"750dee43e8c6013a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.jointsmethod.JointsMethod._generate_kdes","kind":"method","src_hash":"6d3b60b010b40e1c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_generate_kdes()","rhs":"<unspecified:_generate_kdes>","over":{"base":"Any"},"name":"_generate_kdes_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.jointsmethod.JointsMethod._generate_kdes_correct","statement":"Path(_generate_kdes(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"750dee43e8c6013a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._joints"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _generate_kdes(self):
         kd_ind = Matrix(1, 0, []).T
         for joint in self._joints:
@@ -409,16 +514,22 @@ class JointsMethod(_Methods):
         return kd_ind
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_convert_bodies(), internal helper behaves correctly) over Any ║
+# ║ Path(_convert_bodies(), <unspecified:_convert_bodies>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _convert_bodies : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c1c007f76e054220  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.jointsmethod.JointsMethod._convert_bodies","kind":"method","src_hash":"b803f6dcd75519c5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_convert_bodies()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_convert_bodies_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.jointsmethod.JointsMethod._convert_bodies_correct","statement":"Path(_convert_bodies(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c1c007f76e054220"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.jointsmethod.JointsMethod._convert_bodies","kind":"method","src_hash":"b803f6dcd75519c5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_convert_bodies()","rhs":"<unspecified:_convert_bodies>","over":{"base":"Any"},"name":"_convert_bodies_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.jointsmethod.JointsMethod._convert_bodies_correct","statement":"Path(_convert_bodies(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c1c007f76e054220","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _convert_bodies(self):
         # Convert `Body` to `Particle` and `RigidBody`
         bodylist = []
@@ -438,16 +549,22 @@ class JointsMethod(_Methods):
         return bodylist
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(form_eoms(met), method to form system's equation of motions) over Any ║
+# ║ Path(form_eoms(method), <unspecified:form_eoms>) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ form_eoms : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c59027fbdd4c262f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.jointsmethod.JointsMethod.form_eoms","kind":"method","src_hash":"16584e09f95fd7ea","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"form_eoms(met)","rhs":"method to form system's equation of motions","over":{"base":"Any"},"name":"form_eoms_correct"},"guarantee":"method to form system's equation of motions","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.jointsmethod.JointsMethod.form_eoms_correct","statement":"Path(form_eoms(x), method to form system's equation of motions)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c59027fbdd4c262f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.jointsmethod.JointsMethod.form_eoms","kind":"method","src_hash":"16584e09f95fd7ea","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"form_eoms(method)","rhs":"<unspecified:form_eoms>","over":{"base":"Any"},"name":"form_eoms_correct"},"guarantee":"method to form system's equation of motions","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.jointsmethod.JointsMethod.form_eoms_correct","statement":"Path(form_eoms(x), method to form system's equation of motions)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c59027fbdd4c262f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._convert_bodies","self.frame","self.kdes","self.loads","self.method","self.q","self.u"],"writes":["self._method"]},"state_contract":{"modifies":["self._method"],"old_bindings":{"old_self__method":"self._method"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def form_eoms(self, method=KanesMethod):
         """Method to form system's equation of motions.
 
@@ -515,16 +632,22 @@ class JointsMethod(_Methods):
         return soln
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rhs(inv), returns equations that can be solved numerically) over Any ║
+# ║ Path(rhs(inv_method), self.method.rhs(inv_method=inv_method)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.method.rhs(inv_method=inv_method)         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ rhs : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | cd6678c398ea75ee           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.jointsmethod.JointsMethod.rhs","kind":"method","src_hash":"00991f6c4ff0a2a2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rhs(inv)","rhs":"returns equations that can be solved numerically","over":{"base":"Any"},"name":"rhs_correct"},"guarantee":"returns equations that can be solved numerically","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cd6678c398ea75ee"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.jointsmethod.JointsMethod.rhs","kind":"method","src_hash":"00991f6c4ff0a2a2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rhs(inv_method)","rhs":"self.method.rhs(inv_method=inv_method)","over":{"base":"Any"},"name":"rhs_correct"},"guarantee":"returns self.method.rhs(inv_method=inv_method)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cd6678c398ea75ee","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.method.rhs(inv_method=inv_method)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.method"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def rhs(self, inv_method=None):
         """Returns equations that can be solved numerically.
 

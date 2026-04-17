@@ -26,32 +26,44 @@ from sympy.testing.pytest import XFAIL
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(pretty(exp), ascii pretty-printing) over Any          ║
+# ║ Path(pretty(expr), xpretty(expr, use_unicode=False, wrap_line=False)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  xpretty(expr, use_unicode=False, wrap_lin...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ pretty : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2c177fcfc09ca5c2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.tests.test_printing.pretty","kind":"function","src_hash":"f01f2dd7786908fc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pretty(exp)","rhs":"ascii pretty-printing","over":{"base":"Any"},"name":"pretty_correct"},"guarantee":"ascii pretty-printing","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2c177fcfc09ca5c2"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.tests.test_printing.pretty","kind":"function","src_hash":"f01f2dd7786908fc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pretty(expr)","rhs":"xpretty(expr, use_unicode=False, wrap_line=False)","over":{"base":"Any"},"name":"pretty_correct"},"guarantee":"returns xpretty(expr, use_unicode=False, wrap_line=False)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2c177fcfc09ca5c2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"xpretty(expr, use_unicode=False, wrap_line=False)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def pretty(expr):
     """ASCII pretty-printing"""
     return xpretty(expr, use_unicode=False, wrap_line=False)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(upretty(exp), unicode pretty-printing) over Any       ║
+# ║ Path(upretty(expr), xpretty(expr, use_unicode=True, wrap_line=False)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  xpretty(expr, use_unicode=True, wrap_line...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ upretty : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2b63cad4ed5e31e9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.tests.test_printing.upretty","kind":"function","src_hash":"8929e95af89cea74","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"upretty(exp)","rhs":"unicode pretty-printing","over":{"base":"Any"},"name":"upretty_correct"},"guarantee":"unicode pretty-printing","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2b63cad4ed5e31e9"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.tests.test_printing.upretty","kind":"function","src_hash":"8929e95af89cea74","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"upretty(expr)","rhs":"xpretty(expr, use_unicode=True, wrap_line=False)","over":{"base":"Any"},"name":"upretty_correct"},"guarantee":"returns xpretty(expr, use_unicode=True, wrap_line=False)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2b63cad4ed5e31e9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"xpretty(expr, use_unicode=True, wrap_line=False)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def upretty(expr):
     """Unicode pretty-printing"""
     return xpretty(expr, use_unicode=True, wrap_line=False)
@@ -128,16 +140,24 @@ pretty_d_7 = """\
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_str_printing(), test_str_printing produces the expected output) over Any ║
+# ║ Path(test_str_printing(), str(v[0]) == '0' and str(v[1]) == 'N.i' and str(v[2]) == '(-1)*N.i' and str(v[3]) == 'N.i + N.j' and str(v[8]) == 'N.j + (C.x**2 - Integral(f(b), b))*N.k' and str(v[9]) == 'C.k + N.i' and str(s) == '3*C.y*N.x**2' and str(d[0]) == '0' and str(d[1]) == '(N.i|N.k)' and str(d[4]) == 'a*(N.i|N.k)' and str(d[5]) == 'a*(N.i|N.k) + (-b)*(N.j|N.k)' and str(d[8]) == '(N.j|N.k) + (C.x**2 - ' + 'Integral(f(b), b))*(N.k|N.k)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_str_printing : Any → {Any | str(v[0]) == '0' and...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(v[0]) == '0'                               ║
+# ║   ensures:  str(v[1]) == 'N.i'                             ║
+# ║   ensures:  str(v[2]) == '(-1)*N.i'                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_str_printing : Any → {Any | result satisfies: st...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0a75641d1be2eb4a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d8a1bf7962f80548  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.tests.test_printing.test_str_printing","kind":"function","src_hash":"828c8b3f1fe3309e","in":{"base":"Any"},"out":{"base":"Any","pred":"str(v[0]) == '0' and str(v[1]) == 'N.i' and str(v[2]) == '(-1)*N.i' and str(v[3]) == 'N.i + N.j' and str(v[8]) == 'N.j + (C.x**2 - Integral(f(b), b))*N.k' and str(v[9]) == 'C.k + N.i' and str(s) == '3*C.y*N.x**2' and str(d[0]) == '0' and str(d[1]) == '(N.i|N.k)' and str(d[4]) == 'a*(N.i|N.k)' and str(d[5]) == 'a*(N.i|N.k) + (-b)*(N.j|N.k)' and str(d[8]) == '(N.j|N.k) + (C.x**2 - ' + 'Integral(f(b), b))*(N.k|N.k)'"},"spec":{"lhs":"test_str_printing()","rhs":"test_str_printing produces the expected output","over":{"base":"Any"},"name":"test_str_printing_correct"},"guarantee":"test_str_printing produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.tests.test_printing.test_str_printing_correct","statement":"Path(test_str_printing(x), test_str_printing produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0a75641d1be2eb4a"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.tests.test_printing.test_str_printing","kind":"function","src_hash":"828c8b3f1fe3309e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(v[0]) == '0' and str(v[1]) == 'N.i' and str(v[2]) == '(-1)*N.i' and str(v[3]) == 'N.i + N.j' and str(v[8]) == 'N.j + (C.x**2 - Integral(f(b), b))*N.k' and str(v[9]) == 'C.k + N.i' and str(s) == '3*C.y*N.x**2' and str(d[0]) == '0' and str(d[1]) == '(N.i|N.k)' and str(d[4]) == 'a*(N.i|N.k)' and str(d[5]) == 'a*(N.i|N.k) + (-b)*(N.j|N.k)' and str(d[8]) == '(N.j|N.k) + (C.x**2 - ' + 'Integral(f(b), b))*(N.k|N.k)'"},"spec":{"lhs":"test_str_printing()","rhs":"str(v[0]) == '0' and str(v[1]) == 'N.i' and str(v[2]) == '(-1)*N.i' and str(v[3]) == 'N.i + N.j' and str(v[8]) == 'N.j + (C.x**2 - Integral(f(b), b))*N.k' and str(v[9]) == 'C.k + N.i' and str(s) == '3*C.y*N.x**2' and str(d[0]) == '0' and str(d[1]) == '(N.i|N.k)' and str(d[4]) == 'a*(N.i|N.k)' and str(d[5]) == 'a*(N.i|N.k) + (-b)*(N.j|N.k)' and str(d[8]) == '(N.j|N.k) + (C.x**2 - ' + 'Integral(f(b), b))*(N.k|N.k)'","over":{"base":"Any"},"name":"test_str_printing_correct"},"guarantee":"str(v[0]) == '0'; str(v[1]) == 'N.i'; str(v[2]) == '(-1)*N.i'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.tests.test_printing.test_str_printing_correct","statement":"Path(test_str_printing(x), str(v[0]) == '0'; str(v[1]) == 'N.i'; str(v[2]) == '(-1)*N.i')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d8a1bf7962f80548","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(v[0]) == '0'","str(v[1]) == 'N.i'","str(v[2]) == '(-1)*N.i'","str(v[3]) == 'N.i + N.j'","str(v[8]) == 'N.j + (C.x**2 - Integral(f(b), b))*N.k'","str(v[9]) == 'C.k + N.i'","str(s) == '3*C.y*N.x**2'","str(d[0]) == '0'","str(d[1]) == '(N.i|N.k)'","str(d[4]) == 'a*(N.i|N.k)'","str(d[5]) == 'a*(N.i|N.k) + (-b)*(N.j|N.k)'","str(d[8]) == '(N.j|N.k) + (C.x**2 - ' + 'Integral(f(b), b))*(N.k|N.k)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_str_printing():
     assert str(v[0]) == '0'
     assert str(v[1]) == 'N.i'
@@ -156,16 +176,24 @@ def test_str_printing():
 
 @XFAIL
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pretty_printing_ascii(), test_pretty_printing_ascii produces the expected output) over Any ║
+# ║ Path(test_pretty_printing_ascii(), pretty(v[0]) == '0' and pretty(v[1]) == 'i_N' and pretty(v[5]) == '(a) i_N + (-b) j_N' and pretty(v[8]) == pretty_v_8 and pretty(v[2]) == '(-1) i_N' and pretty(v[11]) == pretty_v_11 and pretty(s) == pretty_s and pretty(d[0]) == '(0|0)' and pretty(d[5]) == '(a) (i_N|k_N) + (-b) (j_N|k_N)' and pretty(d[7]) == pretty_d_7 and pretty(d[10]) == '(cos(a)) (i_C|k_N) + (-sin(a)) (j_C|k_N)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_pretty_printing_ascii : Any → {Any | pretty(v[0]...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pretty(v[0]) == '0'                            ║
+# ║   ensures:  pretty(v[1]) == 'i_N'                          ║
+# ║   ensures:  pretty(v[5]) == '(a) i_N + (-b) j_N'           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_pretty_printing_ascii : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 26cfd53084506287  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2c4ae46e9b3bf48c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.tests.test_printing.test_pretty_printing_ascii","kind":"function","src_hash":"adbf1c8f1bcecad7","in":{"base":"Any"},"out":{"base":"Any","pred":"pretty(v[0]) == '0' and pretty(v[1]) == 'i_N' and pretty(v[5]) == '(a) i_N + (-b) j_N' and pretty(v[8]) == pretty_v_8 and pretty(v[2]) == '(-1) i_N' and pretty(v[11]) == pretty_v_11 and pretty(s) == pretty_s and pretty(d[0]) == '(0|0)' and pretty(d[5]) == '(a) (i_N|k_N) + (-b) (j_N|k_N)' and pretty(d[7]) == pretty_d_7 and pretty(d[10]) == '(cos(a)) (i_C|k_N) + (-sin(a)) (j_C|k_N)'"},"spec":{"lhs":"test_pretty_printing_ascii()","rhs":"test_pretty_printing_ascii produces the expected output","over":{"base":"Any"},"name":"test_pretty_printing_ascii_correct"},"guarantee":"test_pretty_printing_ascii produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.tests.test_printing.test_pretty_printing_ascii_correct","statement":"Path(test_pretty_printing_ascii(x), test_pretty_printing_ascii produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"26cfd53084506287"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.tests.test_printing.test_pretty_printing_ascii","kind":"function","src_hash":"adbf1c8f1bcecad7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pretty(v[0]) == '0' and pretty(v[1]) == 'i_N' and pretty(v[5]) == '(a) i_N + (-b) j_N' and pretty(v[8]) == pretty_v_8 and pretty(v[2]) == '(-1) i_N' and pretty(v[11]) == pretty_v_11 and pretty(s) == pretty_s and pretty(d[0]) == '(0|0)' and pretty(d[5]) == '(a) (i_N|k_N) + (-b) (j_N|k_N)' and pretty(d[7]) == pretty_d_7 and pretty(d[10]) == '(cos(a)) (i_C|k_N) + (-sin(a)) (j_C|k_N)'"},"spec":{"lhs":"test_pretty_printing_ascii()","rhs":"pretty(v[0]) == '0' and pretty(v[1]) == 'i_N' and pretty(v[5]) == '(a) i_N + (-b) j_N' and pretty(v[8]) == pretty_v_8 and pretty(v[2]) == '(-1) i_N' and pretty(v[11]) == pretty_v_11 and pretty(s) == pretty_s and pretty(d[0]) == '(0|0)' and pretty(d[5]) == '(a) (i_N|k_N) + (-b) (j_N|k_N)' and pretty(d[7]) == pretty_d_7 and pretty(d[10]) == '(cos(a)) (i_C|k_N) + (-sin(a)) (j_C|k_N)'","over":{"base":"Any"},"name":"test_pretty_printing_ascii_correct"},"guarantee":"pretty(v[0]) == '0'; pretty(v[1]) == 'i_N'; pretty(v[5]) == '(a) i_N + (-b) j_N'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.tests.test_printing.test_pretty_printing_ascii_correct","statement":"Path(test_pretty_printing_ascii(x), pretty(v[0]) == '0'; pretty(v[1]) == 'i_N'; pretty(v[5]) == '(a) i_N + (-b) j_N')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2c4ae46e9b3bf48c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pretty(v[0]) == '0'","pretty(v[1]) == 'i_N'","pretty(v[5]) == '(a) i_N + (-b) j_N'","pretty(v[8]) == pretty_v_8","pretty(v[2]) == '(-1) i_N'","pretty(v[11]) == pretty_v_11","pretty(s) == pretty_s","pretty(d[0]) == '(0|0)'","pretty(d[5]) == '(a) (i_N|k_N) + (-b) (j_N|k_N)'","pretty(d[7]) == pretty_d_7","pretty(d[10]) == '(cos(a)) (i_C|k_N) + (-sin(a)) (j_C|k_N)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_pretty_printing_ascii():
     assert pretty(v[0]) == '0'
     assert pretty(v[1]) == 'i_N'
@@ -181,16 +209,24 @@ def test_pretty_printing_ascii():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pretty_print_unicode_v(), test_pretty_print_unicode_v produces the expected output) over Any ║
+# ║ Path(test_pretty_print_unicode_v(), upretty(v[0]) == '0' and upretty(v[1]) == 'i_N' and upretty(v[5]) == '(a) i_N + (-b) j_N' and upretty(v[5].args) == '((a) i_N, (-b) j_N)' and upretty(v[8]) == upretty_v_8 and upretty(v[2]) == '(-1) i_N' and upretty(v[11]) == upretty_v_11 and upretty(s) == upretty_s and upretty(d[0]) == '(0|0)' and upretty(d[5]) == '(a) (i_N|k_N) + (-b) (j_N|k_N)' and upretty(d[7]) == upretty_d_7 and upretty(d[10]) == '(cos(a)) (i_C|k_N) + (-sin(a)) (j_C|k_N)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_pretty_print_unicode_v : Any → {Any | upretty(v[...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  upretty(v[0]) == '0'                           ║
+# ║   ensures:  upretty(v[1]) == 'i_N'                         ║
+# ║   ensures:  upretty(v[5]) == '(a) i_N + (-b) j_N'          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_pretty_print_unicode_v : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 75f481611f6b322a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b5a31ddb3fa6debc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.tests.test_printing.test_pretty_print_unicode_v","kind":"function","src_hash":"6762a1559be819d1","in":{"base":"Any"},"out":{"base":"Any","pred":"upretty(v[0]) == '0' and upretty(v[1]) == 'i_N' and upretty(v[5]) == '(a) i_N + (-b) j_N' and upretty(v[5].args) == '((a) i_N, (-b) j_N)' and upretty(v[8]) == upretty_v_8 and upretty(v[2]) == '(-1) i_N' and upretty(v[11]) == upretty_v_11 and upretty(s) == upretty_s and upretty(d[0]) == '(0|0)' and upretty(d[5]) == '(a) (i_N|k_N) + (-b) (j_N|k_N)' and upretty(d[7]) == upretty_d_7 and upretty(d[10]) == '(cos(a)) (i_C|k_N) + (-sin(a)) (j_C|k_N)'"},"spec":{"lhs":"test_pretty_print_unicode_v()","rhs":"test_pretty_print_unicode_v produces the expected output","over":{"base":"Any"},"name":"test_pretty_print_unicode_v_correct"},"guarantee":"test_pretty_print_unicode_v produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.tests.test_printing.test_pretty_print_unicode_v_correct","statement":"Path(test_pretty_print_unicode_v(x), test_pretty_print_unicode_v produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"75f481611f6b322a"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.tests.test_printing.test_pretty_print_unicode_v","kind":"function","src_hash":"6762a1559be819d1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: upretty(v[0]) == '0' and upretty(v[1]) == 'i_N' and upretty(v[5]) == '(a) i_N + (-b) j_N' and upretty(v[5].args) == '((a) i_N, (-b) j_N)' and upretty(v[8]) == upretty_v_8 and upretty(v[2]) == '(-1) i_N' and upretty(v[11]) == upretty_v_11 and upretty(s) == upretty_s and upretty(d[0]) == '(0|0)' and upretty(d[5]) == '(a) (i_N|k_N) + (-b) (j_N|k_N)' and upretty(d[7]) == upretty_d_7 and upretty(d[10]) == '(cos(a)) (i_C|k_N) + (-sin(a)) (j_C|k_N)'"},"spec":{"lhs":"test_pretty_print_unicode_v()","rhs":"upretty(v[0]) == '0' and upretty(v[1]) == 'i_N' and upretty(v[5]) == '(a) i_N + (-b) j_N' and upretty(v[5].args) == '((a) i_N, (-b) j_N)' and upretty(v[8]) == upretty_v_8 and upretty(v[2]) == '(-1) i_N' and upretty(v[11]) == upretty_v_11 and upretty(s) == upretty_s and upretty(d[0]) == '(0|0)' and upretty(d[5]) == '(a) (i_N|k_N) + (-b) (j_N|k_N)' and upretty(d[7]) == upretty_d_7 and upretty(d[10]) == '(cos(a)) (i_C|k_N) + (-sin(a)) (j_C|k_N)'","over":{"base":"Any"},"name":"test_pretty_print_unicode_v_correct"},"guarantee":"upretty(v[0]) == '0'; upretty(v[1]) == 'i_N'; upretty(v[5]) == '(a) i_N + (-b) j_N'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.tests.test_printing.test_pretty_print_unicode_v_correct","statement":"Path(test_pretty_print_unicode_v(x), upretty(v[0]) == '0'; upretty(v[1]) == 'i_N'; upretty(v[5]) == '(a) i_N + (-b) j_N')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b5a31ddb3fa6debc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["upretty(v[0]) == '0'","upretty(v[1]) == 'i_N'","upretty(v[5]) == '(a) i_N + (-b) j_N'","upretty(v[5].args) == '((a) i_N, (-b) j_N)'","upretty(v[8]) == upretty_v_8","upretty(v[2]) == '(-1) i_N'","upretty(v[11]) == upretty_v_11","upretty(s) == upretty_s","upretty(d[0]) == '(0|0)'","upretty(d[5]) == '(a) (i_N|k_N) + (-b) (j_N|k_N)'","upretty(d[7]) == upretty_d_7","upretty(d[10]) == '(cos(a)) (i_C|k_N) + (-sin(a)) (j_C|k_N)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_pretty_print_unicode_v():
     assert upretty(v[0]) == '0'
     assert upretty(v[1]) == 'i_N'
@@ -208,16 +244,24 @@ def test_pretty_print_unicode_v():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_latex_printing(), test_latex_printing produces the expected output) over Any ║
+# ║ Path(test_latex_printing(), latex(v[0]) == '\\mathbf{\\hat{0}}' and latex(v[1]) == '\\mathbf{\\hat{i}_{N}}' and latex(v[2]) == '- \\mathbf{\\hat{i}_{N}}' and latex(v[5]) == '\\left(a\\right)\\mathbf{\\hat{i}_{N}} + ' + '\\left(- b\\right)\\mathbf{\\hat{j}_{N}}' and latex(v[6]) == '\\left(\\mathbf{{x}_{N}} + a^{2}\\right)\\mathbf{\\hat{i}_' + '{N}} + \\mathbf{\\hat{k}_{N}}' and latex(v[8]) == '\\mathbf{\\hat{j}_{N}} + \\left(\\mathbf{{x}_' + '{C}}^{2} - \\int f{\\left(b \\right)}\\,' + ' db\\right)\\mathbf{\\hat{k}_{N}}' and latex(s) == '3 \\mathbf{{y}_{C}} \\mathbf{{x}_{N}}^{2}' and latex(d[0]) == '(\\mathbf{\\hat{0}}|\\mathbf{\\hat{0}})' and latex(d[4]) == '\\left(a\\right)\\left(\\mathbf{\\hat{i}_{N}}{\\middle|}' + '\\mathbf{\\hat{k}_{N}}\\right)' and latex(d[9]) == '\\left(\\mathbf{\\hat{k}_{C}}{\\middle|}' + '\\mathbf{\\hat{k}_{N}}\\right) + \\left(' + '\\mathbf{\\hat{i}_{N}}{\\middle|}\\mathbf{' + '\\hat{k}_{N}}\\right)' and latex(d[11]) == '\\left(a^{2} + b\\right)\\left(\\mathbf{\\hat{i}_{N}}' + '{\\middle|}\\mathbf{\\hat{k}_{N}}\\right) + ' + '\\left(\\int f{\\left(b \\right)}\\, db\\right)\\left(' + '\\mathbf{\\hat{k}_{N}}{\\middle|}\\mathbf{' + '\\hat{k}_{N}}\\right)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_latex_printing : Any → {Any | latex(v[0]) == '\\...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  latex(v[0]) == '\\mathbf{\\hat{0}}'            ║
+# ║   ensures:  latex(v[1]) == '\\mathbf{\\hat{i}_{N}}'        ║
+# ║   ensures:  latex(v[2]) == '- \\mathbf{\\hat{i}_{N}}'      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_latex_printing : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 31d0ea12819e3991  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d4a7a36b392ad2f0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.tests.test_printing.test_latex_printing","kind":"function","src_hash":"01e226c42ec07bd0","in":{"base":"Any"},"out":{"base":"Any","pred":"latex(v[0]) == '\\\\mathbf{\\\\hat{0}}' and latex(v[1]) == '\\\\mathbf{\\\\hat{i}_{N}}' and latex(v[2]) == '- \\\\mathbf{\\\\hat{i}_{N}}' and latex(s) == '3 \\\\mathbf{{y}_{C}} \\\\mathbf{{x}_{N}}^{2}' and latex(d[0]) == '(\\\\mathbf{\\\\hat{0}}|\\\\mathbf{\\\\hat{0}})'"},"spec":{"lhs":"test_latex_printing()","rhs":"test_latex_printing produces the expected output","over":{"base":"Any"},"name":"test_latex_printing_correct"},"guarantee":"test_latex_printing produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.tests.test_printing.test_latex_printing_correct","statement":"Path(test_latex_printing(x), test_latex_printing produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"31d0ea12819e3991"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.tests.test_printing.test_latex_printing","kind":"function","src_hash":"01e226c42ec07bd0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: latex(v[0]) == '\\\\mathbf{\\\\hat{0}}' and latex(v[1]) == '\\\\mathbf{\\\\hat{i}_{N}}' and latex(v[2]) == '- \\\\mathbf{\\\\hat{i}_{N}}' and latex(v[5]) == '\\\\left(a\\\\right)\\\\mathbf{\\\\hat{i}_{N}} + ' + '\\\\left(- b\\\\right)\\\\mathbf{\\\\hat{j}_{N}}' and latex(v[6]) == '\\\\left(\\\\mathbf{{x}_{N}} + a^{2}\\\\right)\\\\mathbf{\\\\hat{i}_' + '{N}} + \\\\mathbf{\\\\hat{k}_{N}}' and latex(v[8]) == '\\\\mathbf{\\\\hat{j}_{N}} + \\\\left(\\\\mathbf{{x}_' + '{C}}^{2} - \\\\int f{\\\\left(b \\\\right)}\\\\,' + ' db\\\\right)\\\\mathbf{\\\\hat{k}_{N}}' and latex(s) == '3 \\\\mathbf{{y}_{C}} \\\\mathbf{{x}_{N}}^{2}' and latex(d[0]) == '(\\\\mathbf{\\\\hat{0}}|\\\\mathbf{\\\\hat{0}})' and latex(d[4]) == '\\\\left(a\\\\right)\\\\left(\\\\mathbf{\\\\hat{i}_{N}}{\\\\middle|}' + '\\\\mathbf{\\\\hat{k}_{N}}\\\\right)' and latex(d[9]) == '\\\\left(\\\\mathbf{\\\\hat{k}_{C}}{\\\\middle|}' + '\\\\mathbf{\\\\hat{k}_{N}}\\\\right) + \\\\left(' + '\\\\mathbf{\\\\hat{i}_{N}}{\\\\middle|}\\\\mathbf{' + '\\\\hat{k}_{N}}\\\\right)' and latex(d[11]) == '\\\\left(a^{2} + b\\\\right)\\\\left(\\\\mathbf{\\\\hat{i}_{N}}' + '{\\\\middle|}\\\\mathbf{\\\\hat{k}_{N}}\\\\right) + ' + '\\\\left(\\\\int f{\\\\left(b \\\\right)}\\\\, db\\\\right)\\\\left(' + '\\\\mathbf{\\\\hat{k}_{N}}{\\\\middle|}\\\\mathbf{' + '\\\\hat{k}_{N}}\\\\right)'"},"spec":{"lhs":"test_latex_printing()","rhs":"latex(v[0]) == '\\\\mathbf{\\\\hat{0}}' and latex(v[1]) == '\\\\mathbf{\\\\hat{i}_{N}}' and latex(v[2]) == '- \\\\mathbf{\\\\hat{i}_{N}}' and latex(v[5]) == '\\\\left(a\\\\right)\\\\mathbf{\\\\hat{i}_{N}} + ' + '\\\\left(- b\\\\right)\\\\mathbf{\\\\hat{j}_{N}}' and latex(v[6]) == '\\\\left(\\\\mathbf{{x}_{N}} + a^{2}\\\\right)\\\\mathbf{\\\\hat{i}_' + '{N}} + \\\\mathbf{\\\\hat{k}_{N}}' and latex(v[8]) == '\\\\mathbf{\\\\hat{j}_{N}} + \\\\left(\\\\mathbf{{x}_' + '{C}}^{2} - \\\\int f{\\\\left(b \\\\right)}\\\\,' + ' db\\\\right)\\\\mathbf{\\\\hat{k}_{N}}' and latex(s) == '3 \\\\mathbf{{y}_{C}} \\\\mathbf{{x}_{N}}^{2}' and latex(d[0]) == '(\\\\mathbf{\\\\hat{0}}|\\\\mathbf{\\\\hat{0}})' and latex(d[4]) == '\\\\left(a\\\\right)\\\\left(\\\\mathbf{\\\\hat{i}_{N}}{\\\\middle|}' + '\\\\mathbf{\\\\hat{k}_{N}}\\\\right)' and latex(d[9]) == '\\\\left(\\\\mathbf{\\\\hat{k}_{C}}{\\\\middle|}' + '\\\\mathbf{\\\\hat{k}_{N}}\\\\right) + \\\\left(' + '\\\\mathbf{\\\\hat{i}_{N}}{\\\\middle|}\\\\mathbf{' + '\\\\hat{k}_{N}}\\\\right)' and latex(d[11]) == '\\\\left(a^{2} + b\\\\right)\\\\left(\\\\mathbf{\\\\hat{i}_{N}}' + '{\\\\middle|}\\\\mathbf{\\\\hat{k}_{N}}\\\\right) + ' + '\\\\left(\\\\int f{\\\\left(b \\\\right)}\\\\, db\\\\right)\\\\left(' + '\\\\mathbf{\\\\hat{k}_{N}}{\\\\middle|}\\\\mathbf{' + '\\\\hat{k}_{N}}\\\\right)'","over":{"base":"Any"},"name":"test_latex_printing_correct"},"guarantee":"latex(v[0]) == '\\\\mathbf{\\\\hat{0}}'; latex(v[1]) == '\\\\mathbf{\\\\hat{i}_{N}}'; latex(v[2]) == '- \\\\mathbf{\\\\hat{i}_{N}}'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.tests.test_printing.test_latex_printing_correct","statement":"Path(test_latex_printing(x), latex(v[0]) == '\\\\mathbf{\\\\hat{0}}'; latex(v[1]) == '\\\\mathbf{\\\\hat{i}_{N}}'; latex(v[2]) == '- \\\\mathbf{\\\\hat{i}_{N}}')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d4a7a36b392ad2f0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["latex(v[0]) == '\\\\mathbf{\\\\hat{0}}'","latex(v[1]) == '\\\\mathbf{\\\\hat{i}_{N}}'","latex(v[2]) == '- \\\\mathbf{\\\\hat{i}_{N}}'","latex(v[5]) == '\\\\left(a\\\\right)\\\\mathbf{\\\\hat{i}_{N}} + ' + '\\\\left(- b\\\\right)\\\\mathbf{\\\\hat{j}_{N}}'","latex(v[6]) == '\\\\left(\\\\mathbf{{x}_{N}} + a^{2}\\\\right)\\\\mathbf{\\\\hat{i}_' + '{N}} + \\\\mathbf{\\\\hat{k}_{N}}'","latex(v[8]) == '\\\\mathbf{\\\\hat{j}_{N}} + \\\\left(\\\\mathbf{{x}_' + '{C}}^{2} - \\\\int f{\\\\left(b \\\\right)}\\\\,' + ' db\\\\right)\\\\mathbf{\\\\hat{k}_{N}}'","latex(s) == '3 \\\\mathbf{{y}_{C}} \\\\mathbf{{x}_{N}}^{2}'","latex(d[0]) == '(\\\\mathbf{\\\\hat{0}}|\\\\mathbf{\\\\hat{0}})'","latex(d[4]) == '\\\\left(a\\\\right)\\\\left(\\\\mathbf{\\\\hat{i}_{N}}{\\\\middle|}' + '\\\\mathbf{\\\\hat{k}_{N}}\\\\right)'","latex(d[9]) == '\\\\left(\\\\mathbf{\\\\hat{k}_{C}}{\\\\middle|}' + '\\\\mathbf{\\\\hat{k}_{N}}\\\\right) + \\\\left(' + '\\\\mathbf{\\\\hat{i}_{N}}{\\\\middle|}\\\\mathbf{' + '\\\\hat{k}_{N}}\\\\right)'","latex(d[11]) == '\\\\left(a^{2} + b\\\\right)\\\\left(\\\\mathbf{\\\\hat{i}_{N}}' + '{\\\\middle|}\\\\mathbf{\\\\hat{k}_{N}}\\\\right) + ' + '\\\\left(\\\\int f{\\\\left(b \\\\right)}\\\\, db\\\\right)\\\\left(' + '\\\\mathbf{\\\\hat{k}_{N}}{\\\\middle|}\\\\mathbf{' + '\\\\hat{k}_{N}}\\\\right)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_latex_printing():
     assert latex(v[0]) == '\\mathbf{\\hat{0}}'
     assert latex(v[1]) == '\\mathbf{\\hat{i}_{N}}'
@@ -244,16 +288,23 @@ def test_latex_printing():
                             '\\hat{k}_{N}}\\right)')
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_23058(), test_issue_23058 produces the expected output) over Any ║
+# ║ Path(test_issue_23058(), upretty(vecB) == vecB_str and upretty(vecE) == vecE_str) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_23058 : Any → {Any | upretty(vecB) == vecB...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  upretty(vecB) == vecB_str                      ║
+# ║   ensures:  upretty(vecE) == vecE_str                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_23058 : Any → {Any | result satisfies: upr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fd66b9e6c3056138  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 16cd08b030d9f9ec  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.tests.test_printing.test_issue_23058","kind":"function","src_hash":"4d314411b4e5ee02","in":{"base":"Any"},"out":{"base":"Any","pred":"upretty(vecB) == vecB_str and upretty(vecE) == vecE_str and upretty(vecB) == vecB_str"},"spec":{"lhs":"test_issue_23058()","rhs":"test_issue_23058 produces the expected output","over":{"base":"Any"},"name":"test_issue_23058_correct"},"guarantee":"test_issue_23058 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.tests.test_printing.test_issue_23058_correct","statement":"Path(test_issue_23058(x), test_issue_23058 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fd66b9e6c3056138"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.tests.test_printing.test_issue_23058","kind":"function","src_hash":"4d314411b4e5ee02","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: upretty(vecB) == vecB_str and upretty(vecE) == vecE_str"},"spec":{"lhs":"test_issue_23058()","rhs":"upretty(vecB) == vecB_str and upretty(vecE) == vecE_str","over":{"base":"Any"},"name":"test_issue_23058_correct"},"guarantee":"upretty(vecB) == vecB_str; upretty(vecE) == vecE_str","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.tests.test_printing.test_issue_23058_correct","statement":"Path(test_issue_23058(x), upretty(vecB) == vecB_str; upretty(vecE) == vecE_str)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"16cd08b030d9f9ec","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["upretty(vecB) == vecB_str","upretty(vecE) == vecE_str"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_issue_23058():
     from sympy import symbols, sin, cos, pi, UnevaluatedExpr
 
@@ -305,16 +356,24 @@ def test_issue_23058():
     assert upretty(vecB) == vecB_str
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_custom_names(), test_custom_names produces the expected output) over Any ║
+# ║ Path(test_custom_names(), A.i.__str__() == 'A.i' and A.x.__str__() == 'A.x' and A.i._pretty_form == 'i_A' and A.x._pretty_form == 'x_A' and A.i._latex_form == '\\mathbf{{i}_{A}}' and A.x._latex_form == '\\mathbf{\\hat{x}_{A}}') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_custom_names : Any → {Any | A.i.__str__() == 'A....   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A.i.__str__() == 'A.i'                         ║
+# ║   ensures:  A.x.__str__() == 'A.x'                         ║
+# ║   ensures:  A.i._pretty_form == 'i_A'                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_custom_names : Any → {Any | result satisfies: A....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9c7748bce1061124  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8cc77ff38faa91d9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.tests.test_printing.test_custom_names","kind":"function","src_hash":"0118318f00821d9b","in":{"base":"Any"},"out":{"base":"Any","pred":"A.i.__str__() == 'A.i' and A.x.__str__() == 'A.x' and A.i._pretty_form == 'i_A' and A.x._pretty_form == 'x_A' and A.i._latex_form == '\\\\mathbf{{i}_{A}}' and A.x._latex_form == '\\\\mathbf{\\\\hat{x}_{A}}'"},"spec":{"lhs":"test_custom_names()","rhs":"test_custom_names produces the expected output","over":{"base":"Any"},"name":"test_custom_names_correct"},"guarantee":"test_custom_names produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.tests.test_printing.test_custom_names_correct","statement":"Path(test_custom_names(x), test_custom_names produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9c7748bce1061124"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.tests.test_printing.test_custom_names","kind":"function","src_hash":"0118318f00821d9b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A.i.__str__() == 'A.i' and A.x.__str__() == 'A.x' and A.i._pretty_form == 'i_A' and A.x._pretty_form == 'x_A' and A.i._latex_form == '\\\\mathbf{{i}_{A}}' and A.x._latex_form == '\\\\mathbf{\\\\hat{x}_{A}}'"},"spec":{"lhs":"test_custom_names()","rhs":"A.i.__str__() == 'A.i' and A.x.__str__() == 'A.x' and A.i._pretty_form == 'i_A' and A.x._pretty_form == 'x_A' and A.i._latex_form == '\\\\mathbf{{i}_{A}}' and A.x._latex_form == '\\\\mathbf{\\\\hat{x}_{A}}'","over":{"base":"Any"},"name":"test_custom_names_correct"},"guarantee":"A.i.__str__() == 'A.i'; A.x.__str__() == 'A.x'; A.i._pretty_form == 'i_A'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.tests.test_printing.test_custom_names_correct","statement":"Path(test_custom_names(x), A.i.__str__() == 'A.i'; A.x.__str__() == 'A.x'; A.i._pretty_form == 'i_A')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8cc77ff38faa91d9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A.i.__str__() == 'A.i'","A.x.__str__() == 'A.x'","A.i._pretty_form == 'i_A'","A.x._pretty_form == 'x_A'","A.i._latex_form == '\\\\mathbf{{i}_{A}}'","A.x._latex_form == '\\\\mathbf{\\\\hat{x}_{A}}'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_custom_names():
     A = CoordSys3D('A', vector_names=['x', 'y', 'z'],
                    variable_names=['i', 'j', 'k'])

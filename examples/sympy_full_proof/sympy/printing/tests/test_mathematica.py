@@ -36,32 +36,47 @@ f = Function('f')
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Integer(), test_Integer produces the expected output) over Any ║
+# ║ Path(test_Integer(), mcode(Integer(67)) == '67' and mcode(Integer(-1)) == '-1') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Integer : Any → {Any | mcode(Integer(67)) == '67...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  mcode(Integer(67)) == '67'                     ║
+# ║   ensures:  mcode(Integer(-1)) == '-1'                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Integer : Any → {Any | result satisfies: mcode(I...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 638e1a5869362d8c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | af332281b085712a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_mathematica.test_Integer","kind":"function","src_hash":"aa811f712e4f61d7","in":{"base":"Any"},"out":{"base":"Any","pred":"mcode(Integer(67)) == '67' and mcode(Integer(-1)) == '-1'"},"spec":{"lhs":"test_Integer()","rhs":"test_Integer produces the expected output","over":{"base":"Any"},"name":"test_Integer_correct"},"guarantee":"test_Integer produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_mathematica.test_Integer_correct","statement":"Path(test_Integer(x), test_Integer produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"638e1a5869362d8c"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_mathematica.test_Integer","kind":"function","src_hash":"aa811f712e4f61d7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: mcode(Integer(67)) == '67' and mcode(Integer(-1)) == '-1'"},"spec":{"lhs":"test_Integer()","rhs":"mcode(Integer(67)) == '67' and mcode(Integer(-1)) == '-1'","over":{"base":"Any"},"name":"test_Integer_correct"},"guarantee":"mcode(Integer(67)) == '67'; mcode(Integer(-1)) == '-1'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_mathematica.test_Integer_correct","statement":"Path(test_Integer(x), mcode(Integer(67)) == '67'; mcode(Integer(-1)) == '-1')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"af332281b085712a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["mcode(Integer(67)) == '67'","mcode(Integer(-1)) == '-1'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_Integer():
     assert mcode(Integer(67)) == "67"
     assert mcode(Integer(-1)) == "-1"
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Rational(), test_Rational produces the expected output) over Any ║
+# ║ Path(test_Rational(), mcode(Rational(3, 7)) == '3/7' and mcode(Rational(18, 9)) == '2' and mcode(Rational(3, -7)) == '-3/7' and mcode(Rational(-3, -7)) == '3/7' and mcode(x + Rational(3, 7)) == 'x + 3/7' and mcode(Rational(3, 7) * x) == '(3/7)*x') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Rational : Any → {Any | mcode(Rational(3, 7)) ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  mcode(Rational(3, 7)) == '3/7'                 ║
+# ║   ensures:  mcode(Rational(18, 9)) == '2'                  ║
+# ║   ensures:  mcode(Rational(3, -7)) == '-3/7'               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Rational : Any → {Any | result satisfies: mcode(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | daa5bfa1615fdfcd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dd3462a38c2a5c26  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_mathematica.test_Rational","kind":"function","src_hash":"66d62b3f7dfad7fa","in":{"base":"Any"},"out":{"base":"Any","pred":"mcode(Rational(3, 7)) == '3/7' and mcode(Rational(18, 9)) == '2' and mcode(Rational(3, -7)) == '-3/7' and mcode(Rational(-3, -7)) == '3/7' and mcode(x + Rational(3, 7)) == 'x + 3/7' and mcode(Rational(3, 7) * x) == '(3/7)*x'"},"spec":{"lhs":"test_Rational()","rhs":"test_Rational produces the expected output","over":{"base":"Any"},"name":"test_Rational_correct"},"guarantee":"test_Rational produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_mathematica.test_Rational_correct","statement":"Path(test_Rational(x), test_Rational produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"daa5bfa1615fdfcd"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_mathematica.test_Rational","kind":"function","src_hash":"66d62b3f7dfad7fa","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: mcode(Rational(3, 7)) == '3/7' and mcode(Rational(18, 9)) == '2' and mcode(Rational(3, -7)) == '-3/7' and mcode(Rational(-3, -7)) == '3/7' and mcode(x + Rational(3, 7)) == 'x + 3/7' and mcode(Rational(3, 7) * x) == '(3/7)*x'"},"spec":{"lhs":"test_Rational()","rhs":"mcode(Rational(3, 7)) == '3/7' and mcode(Rational(18, 9)) == '2' and mcode(Rational(3, -7)) == '-3/7' and mcode(Rational(-3, -7)) == '3/7' and mcode(x + Rational(3, 7)) == 'x + 3/7' and mcode(Rational(3, 7) * x) == '(3/7)*x'","over":{"base":"Any"},"name":"test_Rational_correct"},"guarantee":"mcode(Rational(3, 7)) == '3/7'; mcode(Rational(18, 9)) == '2'; mcode(Rational(3, -7)) == '-3/7'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_mathematica.test_Rational_correct","statement":"Path(test_Rational(x), mcode(Rational(3, 7)) == '3/7'; mcode(Rational(18, 9)) == '2'; mcode(Rational(3, -7)) == '-3/7')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dd3462a38c2a5c26","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["mcode(Rational(3, 7)) == '3/7'","mcode(Rational(18, 9)) == '2'","mcode(Rational(3, -7)) == '-3/7'","mcode(Rational(-3, -7)) == '3/7'","mcode(x + Rational(3, 7)) == 'x + 3/7'","mcode(Rational(3, 7) * x) == '(3/7)*x'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Rational():
     assert mcode(Rational(3, 7)) == "3/7"
     assert mcode(Rational(18, 9)) == "2"
@@ -72,16 +87,24 @@ def test_Rational():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Relational(), test_Relational produces the expected output) over Any ║
+# ║ Path(test_Relational(), mcode(Eq(x, y)) == 'x == y' and mcode(Ne(x, y)) == 'x != y' and mcode(Le(x, y)) == 'x <= y' and mcode(Lt(x, y)) == 'x < y' and mcode(Gt(x, y)) == 'x > y' and mcode(Ge(x, y)) == 'x >= y') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Relational : Any → {Any | mcode(Eq(x, y)) == 'x ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  mcode(Eq(x, y)) == 'x == y'                    ║
+# ║   ensures:  mcode(Ne(x, y)) == 'x != y'                    ║
+# ║   ensures:  mcode(Le(x, y)) == 'x <= y'                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Relational : Any → {Any | result satisfies: mcod...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c83421ace86e34b9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3cc00f1f60f16d3a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_mathematica.test_Relational","kind":"function","src_hash":"58fc4c5e97490d43","in":{"base":"Any"},"out":{"base":"Any","pred":"mcode(Eq(x, y)) == 'x == y' and mcode(Ne(x, y)) == 'x != y' and mcode(Le(x, y)) == 'x <= y' and mcode(Lt(x, y)) == 'x < y' and mcode(Gt(x, y)) == 'x > y' and mcode(Ge(x, y)) == 'x >= y'"},"spec":{"lhs":"test_Relational()","rhs":"test_Relational produces the expected output","over":{"base":"Any"},"name":"test_Relational_correct"},"guarantee":"test_Relational produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_mathematica.test_Relational_correct","statement":"Path(test_Relational(x), test_Relational produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c83421ace86e34b9"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_mathematica.test_Relational","kind":"function","src_hash":"58fc4c5e97490d43","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: mcode(Eq(x, y)) == 'x == y' and mcode(Ne(x, y)) == 'x != y' and mcode(Le(x, y)) == 'x <= y' and mcode(Lt(x, y)) == 'x < y' and mcode(Gt(x, y)) == 'x > y' and mcode(Ge(x, y)) == 'x >= y'"},"spec":{"lhs":"test_Relational()","rhs":"mcode(Eq(x, y)) == 'x == y' and mcode(Ne(x, y)) == 'x != y' and mcode(Le(x, y)) == 'x <= y' and mcode(Lt(x, y)) == 'x < y' and mcode(Gt(x, y)) == 'x > y' and mcode(Ge(x, y)) == 'x >= y'","over":{"base":"Any"},"name":"test_Relational_correct"},"guarantee":"mcode(Eq(x, y)) == 'x == y'; mcode(Ne(x, y)) == 'x != y'; mcode(Le(x, y)) == 'x <= y'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_mathematica.test_Relational_correct","statement":"Path(test_Relational(x), mcode(Eq(x, y)) == 'x == y'; mcode(Ne(x, y)) == 'x != y'; mcode(Le(x, y)) == 'x <= y')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3cc00f1f60f16d3a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["mcode(Eq(x, y)) == 'x == y'","mcode(Ne(x, y)) == 'x != y'","mcode(Le(x, y)) == 'x <= y'","mcode(Lt(x, y)) == 'x < y'","mcode(Gt(x, y)) == 'x > y'","mcode(Ge(x, y)) == 'x >= y'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Relational():
     assert mcode(Eq(x, y)) == "x == y"
     assert mcode(Ne(x, y)) == "x != y"
@@ -92,16 +115,24 @@ def test_Relational():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Function(), test_Function produces the expected output) over Any ║
+# ║ Path(test_Function(), mcode(f(x, y, z)) == 'f[x, y, z]' and mcode(sin(x) ** cos(x)) == 'Sin[x]^Cos[x]' and mcode(sec(x) * acsc(x)) == 'ArcCsc[x]*Sec[x]' and mcode(atan2(y, x)) == 'ArcTan[x, y]' and mcode(conjugate(x)) == 'Conjugate[x]' and mcode(Max(x, y, z) * Min(y, z)) == 'Max[x, y, z]*Min[y, z]' and mcode(fresnelc(x)) == 'FresnelC[x]' and mcode(fresnels(x)) == 'FresnelS[x]' and mcode(gamma(x)) == 'Gamma[x]' and mcode(uppergamma(x, y)) == 'Gamma[x, y]' and mcode(polygamma(x, y)) == 'PolyGamma[x, y]' and mcode(loggamma(x)) == 'LogGamma[x]' and mcode(erf(x)) == 'Erf[x]' and mcode(erfc(x)) == 'Erfc[x]' and mcode(erfi(x)) == 'Erfi[x]' and mcode(erf2(x, y)) == 'Erf[x, y]' and mcode(expint(x, y)) == 'ExpIntegralE[x, y]' and mcode(erfcinv(x)) == 'InverseErfc[x]' and mcode(erfinv(x)) == 'InverseErf[x]' and mcode(erf2inv(x, y)) == 'InverseErf[x, y]' and mcode(Ei(x)) == 'ExpIntegralEi[x]' and mcode(Ci(x)) == 'CosIntegral[x]' and mcode(li(x)) == 'LogIntegral[x]' and mcode(Si(x)) == 'SinIntegral[x]' and mcode(Shi(x)) == 'SinhIntegral[x]' and mcode(Chi(x)) == 'CoshIntegral[x]' and mcode(beta(x, y)) == 'Beta[x, y]' and mcode(factorial(x)) == 'Factorial[x]' and mcode(factorial2(x)) == 'Factorial2[x]' and mcode(subfactorial(x)) == 'Subfactorial[x]' and mcode(FallingFactorial(x, y)) == 'FactorialPower[x, y]' and mcode(RisingFactorial(x, y)) == 'Pochhammer[x, y]' and mcode(catalan(x)) == 'CatalanNumber[x]' and mcode(harmonic(x)) == 'HarmonicNumber[x]' and mcode(harmonic(x, y)) == 'HarmonicNumber[x, y]' and mcode(Li(x)) == 'LogIntegral[x] - LogIntegral[2]' and mcode(LambertW(x)) == 'ProductLog[x]' and mcode(LambertW(x, -1)) == 'ProductLog[-1, x]' and mcode(LambertW(x, y)) == 'ProductLog[y, x]') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Function : Any → {Any | mcode(f(x, y, z)) == 'f[...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  mcode(f(x, y, z)) == 'f[x, y, z]'              ║
+# ║   ensures:  mcode(sin(x) ** cos(x)) == 'Sin[x]^Cos[x]'     ║
+# ║   ensures:  mcode(sec(x) * acsc(x)) == 'ArcCsc[x]*Sec...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Function : Any → {Any | result satisfies: mcode(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e2cd6790d8c5acb8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 22e42d4f732ce1c3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_mathematica.test_Function","kind":"function","src_hash":"7ab0ad592cdf717e","in":{"base":"Any"},"out":{"base":"Any","pred":"mcode(f(x, y, z)) == 'f[x, y, z]' and mcode(sin(x) ** cos(x)) == 'Sin[x]^Cos[x]' and mcode(sec(x) * acsc(x)) == 'ArcCsc[x]*Sec[x]' and mcode(atan2(y, x)) == 'ArcTan[x, y]' and mcode(conjugate(x)) == 'Conjugate[x]' and mcode(Max(x, y, z) * Min(y, z)) == 'Max[x, y, z]*Min[y, z]' and mcode(fresnelc(x)) == 'FresnelC[x]' and mcode(fresnels(x)) == 'FresnelS[x]' and mcode(gamma(x)) == 'Gamma[x]' and mcode(uppergamma(x, y)) == 'Gamma[x, y]' and mcode(polygamma(x, y)) == 'PolyGamma[x, y]' and mcode(loggamma(x)) == 'LogGamma[x]' and mcode(erf(x)) == 'Erf[x]' and mcode(erfc(x)) == 'Erfc[x]' and mcode(erfi(x)) == 'Erfi[x]' and mcode(erf2(x, y)) == 'Erf[x, y]' and mcode(expint(x, y)) == 'ExpIntegralE[x, y]' and mcode(erfcinv(x)) == 'InverseErfc[x]' and mcode(erfinv(x)) == 'InverseErf[x]' and mcode(erf2inv(x, y)) == 'InverseErf[x, y]' and mcode(Ei(x)) == 'ExpIntegralEi[x]' and mcode(Ci(x)) == 'CosIntegral[x]' and mcode(li(x)) == 'LogIntegral[x]' and mcode(Si(x)) == 'SinIntegral[x]' and mcode(Shi(x)) == 'SinhIntegral[x]' and mcode(Chi(x)) == 'CoshIntegral[x]' and mcode(beta(x, y)) == 'Beta[x, y]' and mcode(factorial(x)) == 'Factorial[x]' and mcode(factorial2(x)) == 'Factorial2[x]' and mcode(subfactorial(x)) == 'Subfactorial[x]' and mcode(FallingFactorial(x, y)) == 'FactorialPower[x, y]' and mcode(RisingFactorial(x, y)) == 'Pochhammer[x, y]' and mcode(catalan(x)) == 'CatalanNumber[x]' and mcode(harmonic(x)) == 'HarmonicNumber[x]' and mcode(harmonic(x, y)) == 'HarmonicNumber[x, y]' and mcode(Li(x)) == 'LogIntegral[x] - LogIntegral[2]' and mcode(LambertW(x)) == 'ProductLog[x]' and mcode(LambertW(x, -1)) == 'ProductLog[-1, x]' and mcode(LambertW(x, y)) == 'ProductLog[y, x]'"},"spec":{"lhs":"test_Function()","rhs":"test_Function produces the expected output","over":{"base":"Any"},"name":"test_Function_correct"},"guarantee":"test_Function produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_mathematica.test_Function_correct","statement":"Path(test_Function(x), test_Function produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e2cd6790d8c5acb8"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_mathematica.test_Function","kind":"function","src_hash":"7ab0ad592cdf717e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: mcode(f(x, y, z)) == 'f[x, y, z]' and mcode(sin(x) ** cos(x)) == 'Sin[x]^Cos[x]' and mcode(sec(x) * acsc(x)) == 'ArcCsc[x]*Sec[x]' and mcode(atan2(y, x)) == 'ArcTan[x, y]' and mcode(conjugate(x)) == 'Conjugate[x]' and mcode(Max(x, y, z) * Min(y, z)) == 'Max[x, y, z]*Min[y, z]' and mcode(fresnelc(x)) == 'FresnelC[x]' and mcode(fresnels(x)) == 'FresnelS[x]' and mcode(gamma(x)) == 'Gamma[x]' and mcode(uppergamma(x, y)) == 'Gamma[x, y]' and mcode(polygamma(x, y)) == 'PolyGamma[x, y]' and mcode(loggamma(x)) == 'LogGamma[x]' and mcode(erf(x)) == 'Erf[x]' and mcode(erfc(x)) == 'Erfc[x]' and mcode(erfi(x)) == 'Erfi[x]' and mcode(erf2(x, y)) == 'Erf[x, y]' and mcode(expint(x, y)) == 'ExpIntegralE[x, y]' and mcode(erfcinv(x)) == 'InverseErfc[x]' and mcode(erfinv(x)) == 'InverseErf[x]' and mcode(erf2inv(x, y)) == 'InverseErf[x, y]' and mcode(Ei(x)) == 'ExpIntegralEi[x]' and mcode(Ci(x)) == 'CosIntegral[x]' and mcode(li(x)) == 'LogIntegral[x]' and mcode(Si(x)) == 'SinIntegral[x]' and mcode(Shi(x)) == 'SinhIntegral[x]' and mcode(Chi(x)) == 'CoshIntegral[x]' and mcode(beta(x, y)) == 'Beta[x, y]' and mcode(factorial(x)) == 'Factorial[x]' and mcode(factorial2(x)) == 'Factorial2[x]' and mcode(subfactorial(x)) == 'Subfactorial[x]' and mcode(FallingFactorial(x, y)) == 'FactorialPower[x, y]' and mcode(RisingFactorial(x, y)) == 'Pochhammer[x, y]' and mcode(catalan(x)) == 'CatalanNumber[x]' and mcode(harmonic(x)) == 'HarmonicNumber[x]' and mcode(harmonic(x, y)) == 'HarmonicNumber[x, y]' and mcode(Li(x)) == 'LogIntegral[x] - LogIntegral[2]' and mcode(LambertW(x)) == 'ProductLog[x]' and mcode(LambertW(x, -1)) == 'ProductLog[-1, x]' and mcode(LambertW(x, y)) == 'ProductLog[y, x]'"},"spec":{"lhs":"test_Function()","rhs":"mcode(f(x, y, z)) == 'f[x, y, z]' and mcode(sin(x) ** cos(x)) == 'Sin[x]^Cos[x]' and mcode(sec(x) * acsc(x)) == 'ArcCsc[x]*Sec[x]' and mcode(atan2(y, x)) == 'ArcTan[x, y]' and mcode(conjugate(x)) == 'Conjugate[x]' and mcode(Max(x, y, z) * Min(y, z)) == 'Max[x, y, z]*Min[y, z]' and mcode(fresnelc(x)) == 'FresnelC[x]' and mcode(fresnels(x)) == 'FresnelS[x]' and mcode(gamma(x)) == 'Gamma[x]' and mcode(uppergamma(x, y)) == 'Gamma[x, y]' and mcode(polygamma(x, y)) == 'PolyGamma[x, y]' and mcode(loggamma(x)) == 'LogGamma[x]' and mcode(erf(x)) == 'Erf[x]' and mcode(erfc(x)) == 'Erfc[x]' and mcode(erfi(x)) == 'Erfi[x]' and mcode(erf2(x, y)) == 'Erf[x, y]' and mcode(expint(x, y)) == 'ExpIntegralE[x, y]' and mcode(erfcinv(x)) == 'InverseErfc[x]' and mcode(erfinv(x)) == 'InverseErf[x]' and mcode(erf2inv(x, y)) == 'InverseErf[x, y]' and mcode(Ei(x)) == 'ExpIntegralEi[x]' and mcode(Ci(x)) == 'CosIntegral[x]' and mcode(li(x)) == 'LogIntegral[x]' and mcode(Si(x)) == 'SinIntegral[x]' and mcode(Shi(x)) == 'SinhIntegral[x]' and mcode(Chi(x)) == 'CoshIntegral[x]' and mcode(beta(x, y)) == 'Beta[x, y]' and mcode(factorial(x)) == 'Factorial[x]' and mcode(factorial2(x)) == 'Factorial2[x]' and mcode(subfactorial(x)) == 'Subfactorial[x]' and mcode(FallingFactorial(x, y)) == 'FactorialPower[x, y]' and mcode(RisingFactorial(x, y)) == 'Pochhammer[x, y]' and mcode(catalan(x)) == 'CatalanNumber[x]' and mcode(harmonic(x)) == 'HarmonicNumber[x]' and mcode(harmonic(x, y)) == 'HarmonicNumber[x, y]' and mcode(Li(x)) == 'LogIntegral[x] - LogIntegral[2]' and mcode(LambertW(x)) == 'ProductLog[x]' and mcode(LambertW(x, -1)) == 'ProductLog[-1, x]' and mcode(LambertW(x, y)) == 'ProductLog[y, x]'","over":{"base":"Any"},"name":"test_Function_correct"},"guarantee":"mcode(f(x, y, z)) == 'f[x, y, z]'; mcode(sin(x) ** cos(x)) == 'Sin[x]^Cos[x]'; mcode(sec(x) * acsc(x)) == 'ArcCsc[x]*Sec[x]'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_mathematica.test_Function_correct","statement":"Path(test_Function(x), mcode(f(x, y, z)) == 'f[x, y, z]'; mcode(sin(x) ** cos(x)) == 'Sin[x]^Cos[x]'; mcode(sec(x) * acsc(x)) == 'ArcCsc[x]*Sec[x]')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"22e42d4f732ce1c3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["mcode(f(x, y, z)) == 'f[x, y, z]'","mcode(sin(x) ** cos(x)) == 'Sin[x]^Cos[x]'","mcode(sec(x) * acsc(x)) == 'ArcCsc[x]*Sec[x]'","mcode(atan2(y, x)) == 'ArcTan[x, y]'","mcode(conjugate(x)) == 'Conjugate[x]'","mcode(Max(x, y, z) * Min(y, z)) == 'Max[x, y, z]*Min[y, z]'","mcode(fresnelc(x)) == 'FresnelC[x]'","mcode(fresnels(x)) == 'FresnelS[x]'","mcode(gamma(x)) == 'Gamma[x]'","mcode(uppergamma(x, y)) == 'Gamma[x, y]'","mcode(polygamma(x, y)) == 'PolyGamma[x, y]'","mcode(loggamma(x)) == 'LogGamma[x]'","mcode(erf(x)) == 'Erf[x]'","mcode(erfc(x)) == 'Erfc[x]'","mcode(erfi(x)) == 'Erfi[x]'","mcode(erf2(x, y)) == 'Erf[x, y]'","mcode(expint(x, y)) == 'ExpIntegralE[x, y]'","mcode(erfcinv(x)) == 'InverseErfc[x]'","mcode(erfinv(x)) == 'InverseErf[x]'","mcode(erf2inv(x, y)) == 'InverseErf[x, y]'","mcode(Ei(x)) == 'ExpIntegralEi[x]'","mcode(Ci(x)) == 'CosIntegral[x]'","mcode(li(x)) == 'LogIntegral[x]'","mcode(Si(x)) == 'SinIntegral[x]'","mcode(Shi(x)) == 'SinhIntegral[x]'","mcode(Chi(x)) == 'CoshIntegral[x]'","mcode(beta(x, y)) == 'Beta[x, y]'","mcode(factorial(x)) == 'Factorial[x]'","mcode(factorial2(x)) == 'Factorial2[x]'","mcode(subfactorial(x)) == 'Subfactorial[x]'","mcode(FallingFactorial(x, y)) == 'FactorialPower[x, y]'","mcode(RisingFactorial(x, y)) == 'Pochhammer[x, y]'","mcode(catalan(x)) == 'CatalanNumber[x]'","mcode(harmonic(x)) == 'HarmonicNumber[x]'","mcode(harmonic(x, y)) == 'HarmonicNumber[x, y]'","mcode(Li(x)) == 'LogIntegral[x] - LogIntegral[2]'","mcode(LambertW(x)) == 'ProductLog[x]'","mcode(LambertW(x, -1)) == 'ProductLog[-1, x]'","mcode(LambertW(x, y)) == 'ProductLog[y, x]'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":true}}
 def test_Function():
     assert mcode(f(x, y, z)) == "f[x, y, z]"
     assert mcode(sin(x) ** cos(x)) == "Sin[x]^Cos[x]"
@@ -145,16 +176,24 @@ def test_Function():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_special_polynomials(), test_special_polynomials produces the expected output) over Any ║
+# ║ Path(test_special_polynomials(), mcode(hermite(x, y)) == 'HermiteH[x, y]' and mcode(laguerre(x, y)) == 'LaguerreL[x, y]' and mcode(assoc_laguerre(x, y, z)) == 'LaguerreL[x, y, z]' and mcode(jacobi(x, y, z, w)) == 'JacobiP[x, y, z, w]' and mcode(gegenbauer(x, y, z)) == 'GegenbauerC[x, y, z]' and mcode(chebyshevt(x, y)) == 'ChebyshevT[x, y]' and mcode(chebyshevu(x, y)) == 'ChebyshevU[x, y]' and mcode(legendre(x, y)) == 'LegendreP[x, y]' and mcode(assoc_legendre(x, y, z)) == 'LegendreP[x, y, z]') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_special_polynomials : Any → {Any | mcode(hermite...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  mcode(hermite(x, y)) == 'HermiteH[x, y]'       ║
+# ║   ensures:  mcode(laguerre(x, y)) == 'LaguerreL[x, y]'     ║
+# ║   ensures:  mcode(assoc_laguerre(x, y, z)) == 'Laguer...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_special_polynomials : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2cea7375ba83c0f3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0713bd274f190e4c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_mathematica.test_special_polynomials","kind":"function","src_hash":"f8a9184240c1ebde","in":{"base":"Any"},"out":{"base":"Any","pred":"mcode(hermite(x, y)) == 'HermiteH[x, y]' and mcode(laguerre(x, y)) == 'LaguerreL[x, y]' and mcode(assoc_laguerre(x, y, z)) == 'LaguerreL[x, y, z]' and mcode(jacobi(x, y, z, w)) == 'JacobiP[x, y, z, w]' and mcode(gegenbauer(x, y, z)) == 'GegenbauerC[x, y, z]' and mcode(chebyshevt(x, y)) == 'ChebyshevT[x, y]' and mcode(chebyshevu(x, y)) == 'ChebyshevU[x, y]' and mcode(legendre(x, y)) == 'LegendreP[x, y]' and mcode(assoc_legendre(x, y, z)) == 'LegendreP[x, y, z]'"},"spec":{"lhs":"test_special_polynomials()","rhs":"test_special_polynomials produces the expected output","over":{"base":"Any"},"name":"test_special_polynomials_correct"},"guarantee":"test_special_polynomials produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_mathematica.test_special_polynomials_correct","statement":"Path(test_special_polynomials(x), test_special_polynomials produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2cea7375ba83c0f3"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_mathematica.test_special_polynomials","kind":"function","src_hash":"f8a9184240c1ebde","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: mcode(hermite(x, y)) == 'HermiteH[x, y]' and mcode(laguerre(x, y)) == 'LaguerreL[x, y]' and mcode(assoc_laguerre(x, y, z)) == 'LaguerreL[x, y, z]' and mcode(jacobi(x, y, z, w)) == 'JacobiP[x, y, z, w]' and mcode(gegenbauer(x, y, z)) == 'GegenbauerC[x, y, z]' and mcode(chebyshevt(x, y)) == 'ChebyshevT[x, y]' and mcode(chebyshevu(x, y)) == 'ChebyshevU[x, y]' and mcode(legendre(x, y)) == 'LegendreP[x, y]' and mcode(assoc_legendre(x, y, z)) == 'LegendreP[x, y, z]'"},"spec":{"lhs":"test_special_polynomials()","rhs":"mcode(hermite(x, y)) == 'HermiteH[x, y]' and mcode(laguerre(x, y)) == 'LaguerreL[x, y]' and mcode(assoc_laguerre(x, y, z)) == 'LaguerreL[x, y, z]' and mcode(jacobi(x, y, z, w)) == 'JacobiP[x, y, z, w]' and mcode(gegenbauer(x, y, z)) == 'GegenbauerC[x, y, z]' and mcode(chebyshevt(x, y)) == 'ChebyshevT[x, y]' and mcode(chebyshevu(x, y)) == 'ChebyshevU[x, y]' and mcode(legendre(x, y)) == 'LegendreP[x, y]' and mcode(assoc_legendre(x, y, z)) == 'LegendreP[x, y, z]'","over":{"base":"Any"},"name":"test_special_polynomials_correct"},"guarantee":"mcode(hermite(x, y)) == 'HermiteH[x, y]'; mcode(laguerre(x, y)) == 'LaguerreL[x, y]'; mcode(assoc_laguerre(x, y, z)) == 'LaguerreL[x, y, z]'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_mathematica.test_special_polynomials_correct","statement":"Path(test_special_polynomials(x), mcode(hermite(x, y)) == 'HermiteH[x, y]'; mcode(laguerre(x, y)) == 'LaguerreL[x, y]'; mcode(assoc_laguerre(x, y, z)) == 'LaguerreL[x, y, z]')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0713bd274f190e4c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["mcode(hermite(x, y)) == 'HermiteH[x, y]'","mcode(laguerre(x, y)) == 'LaguerreL[x, y]'","mcode(assoc_laguerre(x, y, z)) == 'LaguerreL[x, y, z]'","mcode(jacobi(x, y, z, w)) == 'JacobiP[x, y, z, w]'","mcode(gegenbauer(x, y, z)) == 'GegenbauerC[x, y, z]'","mcode(chebyshevt(x, y)) == 'ChebyshevT[x, y]'","mcode(chebyshevu(x, y)) == 'ChebyshevU[x, y]'","mcode(legendre(x, y)) == 'LegendreP[x, y]'","mcode(assoc_legendre(x, y, z)) == 'LegendreP[x, y, z]'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_special_polynomials():
     assert mcode(hermite(x, y)) == "HermiteH[x, y]"
     assert mcode(laguerre(x, y)) == "LaguerreL[x, y]"
@@ -168,16 +207,24 @@ def test_special_polynomials():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Pow(), test_Pow produces the expected output) over Any ║
+# ║ Path(test_Pow(), mcode(x ** 3) == 'x^3' and mcode(x ** y ** 3) == 'x^(y^3)' and mcode(1 / (f(x) * 3.5) ** (x - y ** x) / (x ** 2 + y)) == '(3.5*f[x])^(-x + y^x)/(x^2 + y)' and mcode(x ** (-1.0)) == 'x^(-1.0)' and mcode(x ** Rational(2, 3)) == 'x^(2/3)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Pow : Any → {Any | mcode(x ** 3) == 'x^3' and mc...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  mcode(x ** 3) == 'x^3'                         ║
+# ║   ensures:  mcode(x ** y ** 3) == 'x^(y^3)'                ║
+# ║   ensures:  mcode(1 / (f(x) * 3.5) ** (x - y ** x) / ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Pow : Any → {Any | result satisfies: mcode(x ** ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e2bda1611dacf7b5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4ff558c5f3d97f14  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_mathematica.test_Pow","kind":"function","src_hash":"5d7e233e804109f2","in":{"base":"Any"},"out":{"base":"Any","pred":"mcode(x ** 3) == 'x^3' and mcode(x ** y ** 3) == 'x^(y^3)' and mcode(x ** (-1.0)) == 'x^(-1.0)' and mcode(x ** Rational(2, 3)) == 'x^(2/3)'"},"spec":{"lhs":"test_Pow()","rhs":"test_Pow produces the expected output","over":{"base":"Any"},"name":"test_Pow_correct"},"guarantee":"test_Pow produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_mathematica.test_Pow_correct","statement":"Path(test_Pow(x), test_Pow produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e2bda1611dacf7b5"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_mathematica.test_Pow","kind":"function","src_hash":"5d7e233e804109f2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: mcode(x ** 3) == 'x^3' and mcode(x ** y ** 3) == 'x^(y^3)' and mcode(1 / (f(x) * 3.5) ** (x - y ** x) / (x ** 2 + y)) == '(3.5*f[x])^(-x + y^x)/(x^2 + y)' and mcode(x ** (-1.0)) == 'x^(-1.0)' and mcode(x ** Rational(2, 3)) == 'x^(2/3)'"},"spec":{"lhs":"test_Pow()","rhs":"mcode(x ** 3) == 'x^3' and mcode(x ** y ** 3) == 'x^(y^3)' and mcode(1 / (f(x) * 3.5) ** (x - y ** x) / (x ** 2 + y)) == '(3.5*f[x])^(-x + y^x)/(x^2 + y)' and mcode(x ** (-1.0)) == 'x^(-1.0)' and mcode(x ** Rational(2, 3)) == 'x^(2/3)'","over":{"base":"Any"},"name":"test_Pow_correct"},"guarantee":"mcode(x ** 3) == 'x^3'; mcode(x ** y ** 3) == 'x^(y^3)'; mcode(1 / (f(x) * 3.5) ** (x - y ** x) / (x ** 2 + y)) == '(3.5*f[x])^(-x + y^x)/(x^2 + y)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_mathematica.test_Pow_correct","statement":"Path(test_Pow(x), mcode(x ** 3) == 'x^3'; mcode(x ** y ** 3) == 'x^(y^3)'; mcode(1 / (f(x) * 3.5) ** (x - y ** x) / (x ** 2 + y)) == '(3.5*f[x])^(-x + y^x)/(x^2 + y)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4ff558c5f3d97f14","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["mcode(x ** 3) == 'x^3'","mcode(x ** y ** 3) == 'x^(y^3)'","mcode(1 / (f(x) * 3.5) ** (x - y ** x) / (x ** 2 + y)) == '(3.5*f[x])^(-x + y^x)/(x^2 + y)'","mcode(x ** (-1.0)) == 'x^(-1.0)'","mcode(x ** Rational(2, 3)) == 'x^(2/3)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Pow():
     assert mcode(x**3) == "x^3"
     assert mcode(x**(y**3)) == "x^(y^3)"
@@ -188,16 +235,24 @@ def test_Pow():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Mul(), test_Mul produces the expected output) over Any ║
+# ║ Path(test_Mul(), mcode(x * y * z) == 'x*y*z' and mcode(x * y * A) == 'x*y*A' and mcode(x * y * A * B) == 'x*y*A**B' and mcode(x * y * A * B * C) == 'x*y*A**B**C' and mcode(x * A * B * (C + D) * A * y) == 'x*y*A**B**(C + D)**A') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Mul : Any → {Any | mcode(x * y * z) == 'x*y*z' a...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  mcode(x * y * z) == 'x*y*z'                    ║
+# ║   ensures:  mcode(x * y * A) == 'x*y*A'                    ║
+# ║   ensures:  mcode(x * y * A * B) == 'x*y*A**B'             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Mul : Any → {Any | result satisfies: mcode(x * y...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c79b181bcfe80194  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 75fa7938604134aa  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_mathematica.test_Mul","kind":"function","src_hash":"fb83115acbefecc3","in":{"base":"Any"},"out":{"base":"Any","pred":"mcode(x * y * z) == 'x*y*z' and mcode(x * y * A) == 'x*y*A' and mcode(x * y * A * B) == 'x*y*A**B' and mcode(x * y * A * B * C) == 'x*y*A**B**C' and mcode(x * A * B * (C + D) * A * y) == 'x*y*A**B**(C + D)**A'"},"spec":{"lhs":"test_Mul()","rhs":"test_Mul produces the expected output","over":{"base":"Any"},"name":"test_Mul_correct"},"guarantee":"test_Mul produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_mathematica.test_Mul_correct","statement":"Path(test_Mul(x), test_Mul produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c79b181bcfe80194"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_mathematica.test_Mul","kind":"function","src_hash":"fb83115acbefecc3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: mcode(x * y * z) == 'x*y*z' and mcode(x * y * A) == 'x*y*A' and mcode(x * y * A * B) == 'x*y*A**B' and mcode(x * y * A * B * C) == 'x*y*A**B**C' and mcode(x * A * B * (C + D) * A * y) == 'x*y*A**B**(C + D)**A'"},"spec":{"lhs":"test_Mul()","rhs":"mcode(x * y * z) == 'x*y*z' and mcode(x * y * A) == 'x*y*A' and mcode(x * y * A * B) == 'x*y*A**B' and mcode(x * y * A * B * C) == 'x*y*A**B**C' and mcode(x * A * B * (C + D) * A * y) == 'x*y*A**B**(C + D)**A'","over":{"base":"Any"},"name":"test_Mul_correct"},"guarantee":"mcode(x * y * z) == 'x*y*z'; mcode(x * y * A) == 'x*y*A'; mcode(x * y * A * B) == 'x*y*A**B'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_mathematica.test_Mul_correct","statement":"Path(test_Mul(x), mcode(x * y * z) == 'x*y*z'; mcode(x * y * A) == 'x*y*A'; mcode(x * y * A * B) == 'x*y*A**B')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"75fa7938604134aa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["mcode(x * y * z) == 'x*y*z'","mcode(x * y * A) == 'x*y*A'","mcode(x * y * A * B) == 'x*y*A**B'","mcode(x * y * A * B * C) == 'x*y*A**B**C'","mcode(x * A * B * (C + D) * A * y) == 'x*y*A**B**(C + D)**A'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Mul():
     A, B, C, D = symbols('A B C D', commutative=False)
     assert mcode(x*y*z) == "x*y*z"
@@ -208,16 +263,24 @@ def test_Mul():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_constants(), test_constants produces the expected output) over Any ║
+# ║ Path(test_constants(), mcode(S.Zero) == '0' and mcode(S.One) == '1' and mcode(S.NegativeOne) == '-1' and mcode(S.Half) == '1/2' and mcode(S.ImaginaryUnit) == 'I' and mcode(oo) == 'Infinity' and mcode(S.NegativeInfinity) == '-Infinity' and mcode(S.ComplexInfinity) == 'ComplexInfinity' and mcode(S.NaN) == 'Indeterminate' and mcode(S.Exp1) == 'E' and mcode(pi) == 'Pi' and mcode(S.GoldenRatio) == 'GoldenRatio' and mcode(S.TribonacciConstant) == '(1/3 + (1/3)*(19 - 3*33^(1/2))^(1/3) + (1/3)*(3*33^(1/2) + 19)^(1/3))' and mcode(2 * S.TribonacciConstant) == '2*(1/3 + (1/3)*(19 - 3*33^(1/2))^(1/3) + (1/3)*(3*33^(1/2) + 19)^(1/3))' and mcode(S.EulerGamma) == 'EulerGamma' and mcode(S.Catalan) == 'Catalan') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_constants : Any → {Any | mcode(S.Zero) == '0' an...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  mcode(S.Zero) == '0'                           ║
+# ║   ensures:  mcode(S.One) == '1'                            ║
+# ║   ensures:  mcode(S.NegativeOne) == '-1'                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_constants : Any → {Any | result satisfies: mcode...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 771f0b84eeaf3ebd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 181863e650a4c5ae  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_mathematica.test_constants","kind":"function","src_hash":"ea09ee23052e4e6b","in":{"base":"Any"},"out":{"base":"Any","pred":"mcode(S.Zero) == '0' and mcode(S.One) == '1' and mcode(S.NegativeOne) == '-1' and mcode(S.Half) == '1/2' and mcode(S.ImaginaryUnit) == 'I' and mcode(oo) == 'Infinity' and mcode(S.NegativeInfinity) == '-Infinity' and mcode(S.ComplexInfinity) == 'ComplexInfinity' and mcode(S.NaN) == 'Indeterminate' and mcode(S.Exp1) == 'E' and mcode(pi) == 'Pi' and mcode(S.GoldenRatio) == 'GoldenRatio' and mcode(S.EulerGamma) == 'EulerGamma' and mcode(S.Catalan) == 'Catalan'"},"spec":{"lhs":"test_constants()","rhs":"test_constants produces the expected output","over":{"base":"Any"},"name":"test_constants_correct"},"guarantee":"test_constants produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_mathematica.test_constants_correct","statement":"Path(test_constants(x), test_constants produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"771f0b84eeaf3ebd"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_mathematica.test_constants","kind":"function","src_hash":"ea09ee23052e4e6b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: mcode(S.Zero) == '0' and mcode(S.One) == '1' and mcode(S.NegativeOne) == '-1' and mcode(S.Half) == '1/2' and mcode(S.ImaginaryUnit) == 'I' and mcode(oo) == 'Infinity' and mcode(S.NegativeInfinity) == '-Infinity' and mcode(S.ComplexInfinity) == 'ComplexInfinity' and mcode(S.NaN) == 'Indeterminate' and mcode(S.Exp1) == 'E' and mcode(pi) == 'Pi' and mcode(S.GoldenRatio) == 'GoldenRatio' and mcode(S.TribonacciConstant) == '(1/3 + (1/3)*(19 - 3*33^(1/2))^(1/3) + (1/3)*(3*33^(1/2) + 19)^(1/3))' and mcode(2 * S.TribonacciConstant) == '2*(1/3 + (1/3)*(19 - 3*33^(1/2))^(1/3) + (1/3)*(3*33^(1/2) + 19)^(1/3))' and mcode(S.EulerGamma) == 'EulerGamma' and mcode(S.Catalan) == 'Catalan'"},"spec":{"lhs":"test_constants()","rhs":"mcode(S.Zero) == '0' and mcode(S.One) == '1' and mcode(S.NegativeOne) == '-1' and mcode(S.Half) == '1/2' and mcode(S.ImaginaryUnit) == 'I' and mcode(oo) == 'Infinity' and mcode(S.NegativeInfinity) == '-Infinity' and mcode(S.ComplexInfinity) == 'ComplexInfinity' and mcode(S.NaN) == 'Indeterminate' and mcode(S.Exp1) == 'E' and mcode(pi) == 'Pi' and mcode(S.GoldenRatio) == 'GoldenRatio' and mcode(S.TribonacciConstant) == '(1/3 + (1/3)*(19 - 3*33^(1/2))^(1/3) + (1/3)*(3*33^(1/2) + 19)^(1/3))' and mcode(2 * S.TribonacciConstant) == '2*(1/3 + (1/3)*(19 - 3*33^(1/2))^(1/3) + (1/3)*(3*33^(1/2) + 19)^(1/3))' and mcode(S.EulerGamma) == 'EulerGamma' and mcode(S.Catalan) == 'Catalan'","over":{"base":"Any"},"name":"test_constants_correct"},"guarantee":"mcode(S.Zero) == '0'; mcode(S.One) == '1'; mcode(S.NegativeOne) == '-1'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_mathematica.test_constants_correct","statement":"Path(test_constants(x), mcode(S.Zero) == '0'; mcode(S.One) == '1'; mcode(S.NegativeOne) == '-1')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"181863e650a4c5ae","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["mcode(S.Zero) == '0'","mcode(S.One) == '1'","mcode(S.NegativeOne) == '-1'","mcode(S.Half) == '1/2'","mcode(S.ImaginaryUnit) == 'I'","mcode(oo) == 'Infinity'","mcode(S.NegativeInfinity) == '-Infinity'","mcode(S.ComplexInfinity) == 'ComplexInfinity'","mcode(S.NaN) == 'Indeterminate'","mcode(S.Exp1) == 'E'","mcode(pi) == 'Pi'","mcode(S.GoldenRatio) == 'GoldenRatio'","mcode(S.TribonacciConstant) == '(1/3 + (1/3)*(19 - 3*33^(1/2))^(1/3) + (1/3)*(3*33^(1/2) + 19)^(1/3))'","mcode(2 * S.TribonacciConstant) == '2*(1/3 + (1/3)*(19 - 3*33^(1/2))^(1/3) + (1/3)*(3*33^(1/2) + 19)^(1/3))'","mcode(S.EulerGamma) == 'EulerGamma'","mcode(S.Catalan) == 'Catalan'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_constants():
     assert mcode(S.Zero) == "0"
     assert mcode(S.One) == "1"
@@ -244,16 +307,24 @@ def test_constants():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_containers(), test_containers produces the expected output) over Any ║
+# ║ Path(test_containers(), mcode([1, 2, 3, [4, 5, [6, 7]], 8, [9, 10], 11]) == '{1, 2, 3, {4, 5, {6, 7}}, 8, {9, 10}, 11}' and mcode((1, 2, (3, 4))) == '{1, 2, {3, 4}}' and mcode([1]) == '{1}' and mcode((1,)) == '{1}' and mcode(Tuple(*[1, 2, 3])) == '{1, 2, 3}') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_containers : Any → {Any | mcode((1, 2, (3, 4))) ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  mcode([1, 2, 3, [4, 5, [6, 7]], 8, [9, 10...   ║
+# ║   ensures:  mcode((1, 2, (3, 4))) == '{1, 2, {3, 4}}'      ║
+# ║   ensures:  mcode([1]) == '{1}'                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_containers : Any → {Any | result satisfies: mcod...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 92103756398f1b4b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 111f2344e9ad1854  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_mathematica.test_containers","kind":"function","src_hash":"17a3c981ab12ddcc","in":{"base":"Any"},"out":{"base":"Any","pred":"mcode((1, 2, (3, 4))) == '{1, 2, {3, 4}}' and mcode([1]) == '{1}' and mcode((1,)) == '{1}' and mcode(Tuple(*[1, 2, 3])) == '{1, 2, 3}'"},"spec":{"lhs":"test_containers()","rhs":"test_containers produces the expected output","over":{"base":"Any"},"name":"test_containers_correct"},"guarantee":"test_containers produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_mathematica.test_containers_correct","statement":"Path(test_containers(x), test_containers produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"92103756398f1b4b"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_mathematica.test_containers","kind":"function","src_hash":"17a3c981ab12ddcc","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: mcode([1, 2, 3, [4, 5, [6, 7]], 8, [9, 10], 11]) == '{1, 2, 3, {4, 5, {6, 7}}, 8, {9, 10}, 11}' and mcode((1, 2, (3, 4))) == '{1, 2, {3, 4}}' and mcode([1]) == '{1}' and mcode((1,)) == '{1}' and mcode(Tuple(*[1, 2, 3])) == '{1, 2, 3}'"},"spec":{"lhs":"test_containers()","rhs":"mcode([1, 2, 3, [4, 5, [6, 7]], 8, [9, 10], 11]) == '{1, 2, 3, {4, 5, {6, 7}}, 8, {9, 10}, 11}' and mcode((1, 2, (3, 4))) == '{1, 2, {3, 4}}' and mcode([1]) == '{1}' and mcode((1,)) == '{1}' and mcode(Tuple(*[1, 2, 3])) == '{1, 2, 3}'","over":{"base":"Any"},"name":"test_containers_correct"},"guarantee":"mcode([1, 2, 3, [4, 5, [6, 7]], 8, [9, 10], 11]) == '{1, 2, 3, {4, 5, {6, 7}}, 8, {9, 10}, 11}'; mcode((1, 2, (3, 4))) == '{1, 2, {3, 4}}'; mcode([1]) == '{1}'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_mathematica.test_containers_correct","statement":"Path(test_containers(x), mcode([1, 2, 3, [4, 5, [6, 7]], 8, [9, 10], 11]) == '{1, 2, 3, {4, 5, {6, 7}}, 8, {9, 10}, 11}'; mcode((1, 2, (3, 4))) == '{1, 2, {3, 4}}'; mcode([1]) == '{1}')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"111f2344e9ad1854","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["mcode([1, 2, 3, [4, 5, [6, 7]], 8, [9, 10], 11]) == '{1, 2, 3, {4, 5, {6, 7}}, 8, {9, 10}, 11}'","mcode((1, 2, (3, 4))) == '{1, 2, {3, 4}}'","mcode([1]) == '{1}'","mcode((1,)) == '{1}'","mcode(Tuple(*[1, 2, 3])) == '{1, 2, 3}'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_containers():
     assert mcode([1, 2, 3, [4, 5, [6, 7]], 8, [9, 10], 11]) == \
         "{1, 2, 3, {4, 5, {6, 7}}, 8, {9, 10}, 11}"
@@ -264,16 +335,24 @@ def test_containers():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_matrices(), test_matrices produces the expected output) over Any ║
+# ║ Path(test_matrices(), mcode(C) == mcode(A) == '{{1, -1, 0, 0}, {0, 1, -1, 0}, {0, 0, 1, -1}, {0, 0, 0, 1}}' and mcode(D) == mcode(B) == 'SparseArray[{{1, 1} -> 1, {1, 2} -> -1, {2, 2} -> 1, {2, 3} -> -1, {3, 3} -> 1, {3, 4} -> -1, {4, 4} -> 1}, {4, 4}]' and mcode(MutableDenseMatrix(0, 0, [])) == '{}' and mcode(MutableSparseMatrix(0, 0, [])) == 'SparseArray[{}, {0, 0}]' and mcode(MutableDenseMatrix(0, 3, [])) == '{}' and mcode(MutableSparseMatrix(0, 3, [])) == 'SparseArray[{}, {0, 3}]' and mcode(MutableDenseMatrix(3, 0, [])) == '{{}, {}, {}}' and mcode(MutableSparseMatrix(3, 0, [])) == 'SparseArray[{}, {3, 0}]') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_matrices : Any → {Any | mcode(MutableDenseMatrix...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  mcode(C) == mcode(A) == '{{1, -1, 0, 0}, ...   ║
+# ║   ensures:  mcode(D) == mcode(B) == 'SparseArray[{{1,...   ║
+# ║   ensures:  mcode(MutableDenseMatrix(0, 0, [])) == '{}'    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_matrices : Any → {Any | result satisfies: mcode(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 801b0f1fa3518a3e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 51426b6a89de8108  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_mathematica.test_matrices","kind":"function","src_hash":"d53e04362d2c7e9d","in":{"base":"Any"},"out":{"base":"Any","pred":"mcode(MutableDenseMatrix(0, 0, [])) == '{}' and mcode(MutableSparseMatrix(0, 0, [])) == 'SparseArray[{}, {0, 0}]' and mcode(MutableDenseMatrix(0, 3, [])) == '{}' and mcode(MutableSparseMatrix(0, 3, [])) == 'SparseArray[{}, {0, 3}]' and mcode(MutableDenseMatrix(3, 0, [])) == '{{}, {}, {}}' and mcode(MutableSparseMatrix(3, 0, [])) == 'SparseArray[{}, {3, 0}]'"},"spec":{"lhs":"test_matrices()","rhs":"test_matrices produces the expected output","over":{"base":"Any"},"name":"test_matrices_correct"},"guarantee":"test_matrices produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_mathematica.test_matrices_correct","statement":"Path(test_matrices(x), test_matrices produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"801b0f1fa3518a3e"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_mathematica.test_matrices","kind":"function","src_hash":"d53e04362d2c7e9d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: mcode(C) == mcode(A) == '{{1, -1, 0, 0}, {0, 1, -1, 0}, {0, 0, 1, -1}, {0, 0, 0, 1}}' and mcode(D) == mcode(B) == 'SparseArray[{{1, 1} -> 1, {1, 2} -> -1, {2, 2} -> 1, {2, 3} -> -1, {3, 3} -> 1, {3, 4} -> -1, {4, 4} -> 1}, {4, 4}]' and mcode(MutableDenseMatrix(0, 0, [])) == '{}' and mcode(MutableSparseMatrix(0, 0, [])) == 'SparseArray[{}, {0, 0}]' and mcode(MutableDenseMatrix(0, 3, [])) == '{}' and mcode(MutableSparseMatrix(0, 3, [])) == 'SparseArray[{}, {0, 3}]' and mcode(MutableDenseMatrix(3, 0, [])) == '{{}, {}, {}}' and mcode(MutableSparseMatrix(3, 0, [])) == 'SparseArray[{}, {3, 0}]'"},"spec":{"lhs":"test_matrices()","rhs":"mcode(C) == mcode(A) == '{{1, -1, 0, 0}, {0, 1, -1, 0}, {0, 0, 1, -1}, {0, 0, 0, 1}}' and mcode(D) == mcode(B) == 'SparseArray[{{1, 1} -> 1, {1, 2} -> -1, {2, 2} -> 1, {2, 3} -> -1, {3, 3} -> 1, {3, 4} -> -1, {4, 4} -> 1}, {4, 4}]' and mcode(MutableDenseMatrix(0, 0, [])) == '{}' and mcode(MutableSparseMatrix(0, 0, [])) == 'SparseArray[{}, {0, 0}]' and mcode(MutableDenseMatrix(0, 3, [])) == '{}' and mcode(MutableSparseMatrix(0, 3, [])) == 'SparseArray[{}, {0, 3}]' and mcode(MutableDenseMatrix(3, 0, [])) == '{{}, {}, {}}' and mcode(MutableSparseMatrix(3, 0, [])) == 'SparseArray[{}, {3, 0}]'","over":{"base":"Any"},"name":"test_matrices_correct"},"guarantee":"mcode(C) == mcode(A) == '{{1, -1, 0, 0}, {0, 1, -1, 0}, {0, 0, 1, -1}, {0, 0, 0, 1}}'; mcode(D) == mcode(B) == 'SparseArray[{{1, 1} -> 1, {1, 2} -> -1, {2, 2} -> 1, {2, 3} -> -1, {3, 3} -> 1, {3, 4} -> -1, {4, 4} -> 1}, {4, 4}]'; mcode(MutableDenseMatrix(0, 0, [])) == '{}'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_mathematica.test_matrices_correct","statement":"Path(test_matrices(x), mcode(C) == mcode(A) == '{{1, -1, 0, 0}, {0, 1, -1, 0}, {0, 0, 1, -1}, {0, 0, 0, 1}}'; mcode(D) == mcode(B) == 'SparseArray[{{1, 1} -> 1, {1, 2} -> -1, {2, 2} -> 1, {2, 3} -> -1, {3, 3} -> 1, {3, 4} -> -1, {4, 4} -> 1}, {4, 4}]'; mcode(MutableDenseMatrix(0, 0, [])) == '{}')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"51426b6a89de8108","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["mcode(C) == mcode(A) == '{{1, -1, 0, 0}, {0, 1, -1, 0}, {0, 0, 1, -1}, {0, 0, 0, 1}}'","mcode(D) == mcode(B) == 'SparseArray[{{1, 1} -> 1, {1, 2} -> -1, {2, 2} -> 1, {2, 3} -> -1, {3, 3} -> 1, {3, 4} -> -1, {4, 4} -> 1}, {4, 4}]'","mcode(MutableDenseMatrix(0, 0, [])) == '{}'","mcode(MutableSparseMatrix(0, 0, [])) == 'SparseArray[{}, {0, 0}]'","mcode(MutableDenseMatrix(0, 3, [])) == '{}'","mcode(MutableSparseMatrix(0, 3, [])) == 'SparseArray[{}, {0, 3}]'","mcode(MutableDenseMatrix(3, 0, [])) == '{{}, {}, {}}'","mcode(MutableSparseMatrix(3, 0, [])) == 'SparseArray[{}, {3, 0}]'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_matrices():
     from sympy.matrices import MutableDenseMatrix, MutableSparseMatrix, \
         ImmutableDenseMatrix, ImmutableSparseMatrix
@@ -308,16 +387,23 @@ def test_matrices():
     assert mcode(MutableSparseMatrix(3, 0, [])) == 'SparseArray[{}, {3, 0}]'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_NDArray(), test_NDArray produces the expected output) over Any ║
+# ║ Path(test_NDArray(), mcode(example) == '{{{1, 2, 3, 4}, {5, 6, 7, 8}, {9, 10, 11, 12}}, {{13, 14, 15, 16}, {17, 18, 19, 20}, {21, 22, 23, 24}}}' and mcode(example) == 'SparseArray[{{1, 1, 1} -> 1, {1, 1, 2} -> 2, {1, 1, 3} -> 3, {1, 1, 4} -> 4, {1, 2, 1} -> 5, {1, 2, 2} -> 6, {1, 2, 3} -> 7, {1, 2, 4} -> 8, {1, 3, 1} -> 9, {1, 3, 2} -> 10, {1, 3, 3} -> 11, {1, 3, 4} -> 12, {2, 1, 1} -> 13, {2, 1, 2} -> 14, {2, 1, 3} -> 15, {2, 1, 4} -> 16, {2, 2, 1} -> 17, {2, 2, 2} -> 18, {2, 2, 3} -> 19, {2, 2, 4} -> 20, {2, 3, 1} -> 21, {2, 3, 2} -> 22, {2, 3, 3} -> 23, {2, 3, 4} -> 24}, {2, 3, 4}]') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_NDArray : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  mcode(example) == '{{{1, 2, 3, 4}, {5, 6,...   ║
+# ║   ensures:  mcode(example) == 'SparseArray[{{1, 1, 1}...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_NDArray : Any → {Any | result satisfies: mcode(e...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dc9b86e840046021  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8a89a709a8aeb2ac  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_mathematica.test_NDArray","kind":"function","src_hash":"8ef01e66f6cd5cc0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_NDArray()","rhs":"test_NDArray produces the expected output","over":{"base":"Any"},"name":"test_NDArray_correct"},"guarantee":"test_NDArray produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_mathematica.test_NDArray_correct","statement":"Path(test_NDArray(x), test_NDArray produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dc9b86e840046021"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_mathematica.test_NDArray","kind":"function","src_hash":"8ef01e66f6cd5cc0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: mcode(example) == '{{{1, 2, 3, 4}, {5, 6, 7, 8}, {9, 10, 11, 12}}, {{13, 14, 15, 16}, {17, 18, 19, 20}, {21, 22, 23, 24}}}' and mcode(example) == 'SparseArray[{{1, 1, 1} -> 1, {1, 1, 2} -> 2, {1, 1, 3} -> 3, {1, 1, 4} -> 4, {1, 2, 1} -> 5, {1, 2, 2} -> 6, {1, 2, 3} -> 7, {1, 2, 4} -> 8, {1, 3, 1} -> 9, {1, 3, 2} -> 10, {1, 3, 3} -> 11, {1, 3, 4} -> 12, {2, 1, 1} -> 13, {2, 1, 2} -> 14, {2, 1, 3} -> 15, {2, 1, 4} -> 16, {2, 2, 1} -> 17, {2, 2, 2} -> 18, {2, 2, 3} -> 19, {2, 2, 4} -> 20, {2, 3, 1} -> 21, {2, 3, 2} -> 22, {2, 3, 3} -> 23, {2, 3, 4} -> 24}, {2, 3, 4}]'"},"spec":{"lhs":"test_NDArray()","rhs":"mcode(example) == '{{{1, 2, 3, 4}, {5, 6, 7, 8}, {9, 10, 11, 12}}, {{13, 14, 15, 16}, {17, 18, 19, 20}, {21, 22, 23, 24}}}' and mcode(example) == 'SparseArray[{{1, 1, 1} -> 1, {1, 1, 2} -> 2, {1, 1, 3} -> 3, {1, 1, 4} -> 4, {1, 2, 1} -> 5, {1, 2, 2} -> 6, {1, 2, 3} -> 7, {1, 2, 4} -> 8, {1, 3, 1} -> 9, {1, 3, 2} -> 10, {1, 3, 3} -> 11, {1, 3, 4} -> 12, {2, 1, 1} -> 13, {2, 1, 2} -> 14, {2, 1, 3} -> 15, {2, 1, 4} -> 16, {2, 2, 1} -> 17, {2, 2, 2} -> 18, {2, 2, 3} -> 19, {2, 2, 4} -> 20, {2, 3, 1} -> 21, {2, 3, 2} -> 22, {2, 3, 3} -> 23, {2, 3, 4} -> 24}, {2, 3, 4}]'","over":{"base":"Any"},"name":"test_NDArray_correct"},"guarantee":"mcode(example) == '{{{1, 2, 3, 4}, {5, 6, 7, 8}, {9, 10, 11, 12}}, {{13, 14, 15, 16}, {17, 18, 19, 20}, {21, 22, 23, 24}}}'; mcode(example) == 'SparseArray[{{1, 1, 1} -> 1, {1, 1, 2} -> 2, {1, 1, 3} -> 3, {1, 1, 4} -> 4, {1, 2, 1} -> 5, {1, 2, 2} -> 6, {1, 2, 3} -> 7, {1, 2, 4} -> 8, {1, 3, 1} -> 9, {1, 3, 2} -> 10, {1, 3, 3} -> 11, {1, 3, 4} -> 12, {2, 1, 1} -> 13, {2, 1, 2} -> 14, {2, 1, 3} -> 15, {2, 1, 4} -> 16, {2, 2, 1} -> 17, {2, 2, 2} -> 18, {2, 2, 3} -> 19, {2, 2, 4} -> 20, {2, 3, 1} -> 21, {2, 3, 2} -> 22, {2, 3, 3} -> 23, {2, 3, 4} -> 24}, {2, 3, 4}]'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_mathematica.test_NDArray_correct","statement":"Path(test_NDArray(x), mcode(example) == '{{{1, 2, 3, 4}, {5, 6, 7, 8}, {9, 10, 11, 12}}, {{13, 14, 15, 16}, {17, 18, 19, 20}, {21, 22, 23, 24}}}'; mcode(example) == 'SparseArray[{{1, 1, 1} -> 1, {1, 1, 2} -> 2, {1, 1, 3} -> 3, {1, 1, 4} -> 4, {1, 2, 1} -> 5, {1, 2, 2} -> 6, {1, 2, 3} -> 7, {1, 2, 4} -> 8, {1, 3, 1} -> 9, {1, 3, 2} -> 10, {1, 3, 3} -> 11, {1, 3, 4} -> 12, {2, 1, 1} -> 13, {2, 1, 2} -> 14, {2, 1, 3} -> 15, {2, 1, 4} -> 16, {2, 2, 1} -> 17, {2, 2, 2} -> 18, {2, 2, 3} -> 19, {2, 2, 4} -> 20, {2, 3, 1} -> 21, {2, 3, 2} -> 22, {2, 3, 3} -> 23, {2, 3, 4} -> 24}, {2, 3, 4}]')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8a89a709a8aeb2ac","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["mcode(example) == '{{{1, 2, 3, 4}, {5, 6, 7, 8}, {9, 10, 11, 12}}, {{13, 14, 15, 16}, {17, 18, 19, 20}, {21, 22, 23, 24}}}'","mcode(example) == 'SparseArray[{{1, 1, 1} -> 1, {1, 1, 2} -> 2, {1, 1, 3} -> 3, {1, 1, 4} -> 4, {1, 2, 1} -> 5, {1, 2, 2} -> 6, {1, 2, 3} -> 7, {1, 2, 4} -> 8, {1, 3, 1} -> 9, {1, 3, 2} -> 10, {1, 3, 3} -> 11, {1, 3, 4} -> 12, {2, 1, 1} -> 13, {2, 1, 2} -> 14, {2, 1, 3} -> 15, {2, 1, 4} -> 16, {2, 2, 1} -> 17, {2, 2, 2} -> 18, {2, 2, 3} -> 19, {2, 2, 4} -> 20, {2, 3, 1} -> 21, {2, 3, 2} -> 22, {2, 3, 3} -> 23, {2, 3, 4} -> 24}, {2, 3, 4}]'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_NDArray():
     from sympy.tensor.array import (
         MutableDenseNDimArray, ImmutableDenseNDimArray,
@@ -372,16 +458,23 @@ def test_NDArray():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Integral(), test_Integral produces the expected output) over Any ║
+# ║ Path(test_Integral(), mcode(Integral(sin(sin(x)), x)) == 'Hold[Integrate[Sin[Sin[x]], x]]' and mcode(Integral(exp(-x ** 2 - y ** 2), (x, -oo, oo), (y, -oo, oo))) == 'Hold[Integrate[Exp[-x^2 - y^2], {x, -Infinity, Infinity}, {y, -Infinity, Infinity}]]') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Integral : Any → {Any | mcode(Integral(sin(sin(x...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  mcode(Integral(sin(sin(x)), x)) == 'Hold[...   ║
+# ║   ensures:  mcode(Integral(exp(-x ** 2 - y ** 2), (x,...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Integral : Any → {Any | result satisfies: mcode(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 63af3ccd675614c9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a669cfde6ea60c5a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_mathematica.test_Integral","kind":"function","src_hash":"c61c3980452532d2","in":{"base":"Any"},"out":{"base":"Any","pred":"mcode(Integral(sin(sin(x)), x)) == 'Hold[Integrate[Sin[Sin[x]], x]]'"},"spec":{"lhs":"test_Integral()","rhs":"test_Integral produces the expected output","over":{"base":"Any"},"name":"test_Integral_correct"},"guarantee":"test_Integral produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_mathematica.test_Integral_correct","statement":"Path(test_Integral(x), test_Integral produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"63af3ccd675614c9"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_mathematica.test_Integral","kind":"function","src_hash":"c61c3980452532d2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: mcode(Integral(sin(sin(x)), x)) == 'Hold[Integrate[Sin[Sin[x]], x]]' and mcode(Integral(exp(-x ** 2 - y ** 2), (x, -oo, oo), (y, -oo, oo))) == 'Hold[Integrate[Exp[-x^2 - y^2], {x, -Infinity, Infinity}, {y, -Infinity, Infinity}]]'"},"spec":{"lhs":"test_Integral()","rhs":"mcode(Integral(sin(sin(x)), x)) == 'Hold[Integrate[Sin[Sin[x]], x]]' and mcode(Integral(exp(-x ** 2 - y ** 2), (x, -oo, oo), (y, -oo, oo))) == 'Hold[Integrate[Exp[-x^2 - y^2], {x, -Infinity, Infinity}, {y, -Infinity, Infinity}]]'","over":{"base":"Any"},"name":"test_Integral_correct"},"guarantee":"mcode(Integral(sin(sin(x)), x)) == 'Hold[Integrate[Sin[Sin[x]], x]]'; mcode(Integral(exp(-x ** 2 - y ** 2), (x, -oo, oo), (y, -oo, oo))) == 'Hold[Integrate[Exp[-x^2 - y^2], {x, -Infinity, Infinity}, {y, -Infinity, Infinity}]]'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_mathematica.test_Integral_correct","statement":"Path(test_Integral(x), mcode(Integral(sin(sin(x)), x)) == 'Hold[Integrate[Sin[Sin[x]], x]]'; mcode(Integral(exp(-x ** 2 - y ** 2), (x, -oo, oo), (y, -oo, oo))) == 'Hold[Integrate[Exp[-x^2 - y^2], {x, -Infinity, Infinity}, {y, -Infinity, Infinity}]]')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a669cfde6ea60c5a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["mcode(Integral(sin(sin(x)), x)) == 'Hold[Integrate[Sin[Sin[x]], x]]'","mcode(Integral(exp(-x ** 2 - y ** 2), (x, -oo, oo), (y, -oo, oo))) == 'Hold[Integrate[Exp[-x^2 - y^2], {x, -Infinity, Infinity}, {y, -Infinity, Infinity}]]'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Integral():
     assert mcode(Integral(sin(sin(x)), x)) == "Hold[Integrate[Sin[Sin[x]], x]]"
     assert mcode(Integral(exp(-x**2 - y**2),
@@ -392,16 +485,24 @@ def test_Integral():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Derivative(), test_Derivative produces the expected output) over Any ║
+# ║ Path(test_Derivative(), mcode(Derivative(sin(x), x)) == 'Hold[D[Sin[x], x]]' and mcode(Derivative(x, x)) == 'Hold[D[x, x]]' and mcode(Derivative(sin(x) * y ** 4, x, 2)) == 'Hold[D[y^4*Sin[x], {x, 2}]]' and mcode(Derivative(sin(x) * y ** 4, x, y, x)) == 'Hold[D[y^4*Sin[x], x, y, x]]' and mcode(Derivative(sin(x) * y ** 4, x, y, 3, x)) == 'Hold[D[y^4*Sin[x], x, {y, 3}, x]]') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Derivative : Any → {Any | mcode(Derivative(sin(x...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  mcode(Derivative(sin(x), x)) == 'Hold[D[S...   ║
+# ║   ensures:  mcode(Derivative(x, x)) == 'Hold[D[x, x]]'     ║
+# ║   ensures:  mcode(Derivative(sin(x) * y ** 4, x, 2)) ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Derivative : Any → {Any | result satisfies: mcod...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7fd3208b252de4df  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5d92d901beaa1b75  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_mathematica.test_Derivative","kind":"function","src_hash":"1232209ed8b5adc6","in":{"base":"Any"},"out":{"base":"Any","pred":"mcode(Derivative(sin(x), x)) == 'Hold[D[Sin[x], x]]' and mcode(Derivative(x, x)) == 'Hold[D[x, x]]' and mcode(Derivative(sin(x) * y ** 4, x, 2)) == 'Hold[D[y^4*Sin[x], {x, 2}]]' and mcode(Derivative(sin(x) * y ** 4, x, y, x)) == 'Hold[D[y^4*Sin[x], x, y, x]]'"},"spec":{"lhs":"test_Derivative()","rhs":"test_Derivative produces the expected output","over":{"base":"Any"},"name":"test_Derivative_correct"},"guarantee":"test_Derivative produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_mathematica.test_Derivative_correct","statement":"Path(test_Derivative(x), test_Derivative produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7fd3208b252de4df"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_mathematica.test_Derivative","kind":"function","src_hash":"1232209ed8b5adc6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: mcode(Derivative(sin(x), x)) == 'Hold[D[Sin[x], x]]' and mcode(Derivative(x, x)) == 'Hold[D[x, x]]' and mcode(Derivative(sin(x) * y ** 4, x, 2)) == 'Hold[D[y^4*Sin[x], {x, 2}]]' and mcode(Derivative(sin(x) * y ** 4, x, y, x)) == 'Hold[D[y^4*Sin[x], x, y, x]]' and mcode(Derivative(sin(x) * y ** 4, x, y, 3, x)) == 'Hold[D[y^4*Sin[x], x, {y, 3}, x]]'"},"spec":{"lhs":"test_Derivative()","rhs":"mcode(Derivative(sin(x), x)) == 'Hold[D[Sin[x], x]]' and mcode(Derivative(x, x)) == 'Hold[D[x, x]]' and mcode(Derivative(sin(x) * y ** 4, x, 2)) == 'Hold[D[y^4*Sin[x], {x, 2}]]' and mcode(Derivative(sin(x) * y ** 4, x, y, x)) == 'Hold[D[y^4*Sin[x], x, y, x]]' and mcode(Derivative(sin(x) * y ** 4, x, y, 3, x)) == 'Hold[D[y^4*Sin[x], x, {y, 3}, x]]'","over":{"base":"Any"},"name":"test_Derivative_correct"},"guarantee":"mcode(Derivative(sin(x), x)) == 'Hold[D[Sin[x], x]]'; mcode(Derivative(x, x)) == 'Hold[D[x, x]]'; mcode(Derivative(sin(x) * y ** 4, x, 2)) == 'Hold[D[y^4*Sin[x], {x, 2}]]'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_mathematica.test_Derivative_correct","statement":"Path(test_Derivative(x), mcode(Derivative(sin(x), x)) == 'Hold[D[Sin[x], x]]'; mcode(Derivative(x, x)) == 'Hold[D[x, x]]'; mcode(Derivative(sin(x) * y ** 4, x, 2)) == 'Hold[D[y^4*Sin[x], {x, 2}]]')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5d92d901beaa1b75","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["mcode(Derivative(sin(x), x)) == 'Hold[D[Sin[x], x]]'","mcode(Derivative(x, x)) == 'Hold[D[x, x]]'","mcode(Derivative(sin(x) * y ** 4, x, 2)) == 'Hold[D[y^4*Sin[x], {x, 2}]]'","mcode(Derivative(sin(x) * y ** 4, x, y, x)) == 'Hold[D[y^4*Sin[x], x, y, x]]'","mcode(Derivative(sin(x) * y ** 4, x, y, 3, x)) == 'Hold[D[y^4*Sin[x], x, {y, 3}, x]]'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Derivative():
     assert mcode(Derivative(sin(x), x)) == "Hold[D[Sin[x], x]]"
     assert mcode(Derivative(x, x)) == "Hold[D[x, x]]"
@@ -411,16 +512,23 @@ def test_Derivative():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Sum(), test_Sum produces the expected output) over Any ║
+# ║ Path(test_Sum(), mcode(Sum(sin(x), (x, 0, 10))) == 'Hold[Sum[Sin[x], {x, 0, 10}]]' and mcode(Sum(exp(-x ** 2 - y ** 2), (x, -oo, oo), (y, -oo, oo))) == 'Hold[Sum[Exp[-x^2 - y^2], {x, -Infinity, Infinity}, {y, -Infinity, Infinity}]]') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Sum : Any → {Any | mcode(Sum(sin(x), (x, 0, 10))...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  mcode(Sum(sin(x), (x, 0, 10))) == 'Hold[S...   ║
+# ║   ensures:  mcode(Sum(exp(-x ** 2 - y ** 2), (x, -oo,...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Sum : Any → {Any | result satisfies: mcode(Sum(s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6fec9ee2ce11bd53  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e15f8888e83ee847  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_mathematica.test_Sum","kind":"function","src_hash":"524723edd76804a9","in":{"base":"Any"},"out":{"base":"Any","pred":"mcode(Sum(sin(x), (x, 0, 10))) == 'Hold[Sum[Sin[x], {x, 0, 10}]]'"},"spec":{"lhs":"test_Sum()","rhs":"test_Sum produces the expected output","over":{"base":"Any"},"name":"test_Sum_correct"},"guarantee":"test_Sum produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_mathematica.test_Sum_correct","statement":"Path(test_Sum(x), test_Sum produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6fec9ee2ce11bd53"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_mathematica.test_Sum","kind":"function","src_hash":"524723edd76804a9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: mcode(Sum(sin(x), (x, 0, 10))) == 'Hold[Sum[Sin[x], {x, 0, 10}]]' and mcode(Sum(exp(-x ** 2 - y ** 2), (x, -oo, oo), (y, -oo, oo))) == 'Hold[Sum[Exp[-x^2 - y^2], {x, -Infinity, Infinity}, {y, -Infinity, Infinity}]]'"},"spec":{"lhs":"test_Sum()","rhs":"mcode(Sum(sin(x), (x, 0, 10))) == 'Hold[Sum[Sin[x], {x, 0, 10}]]' and mcode(Sum(exp(-x ** 2 - y ** 2), (x, -oo, oo), (y, -oo, oo))) == 'Hold[Sum[Exp[-x^2 - y^2], {x, -Infinity, Infinity}, {y, -Infinity, Infinity}]]'","over":{"base":"Any"},"name":"test_Sum_correct"},"guarantee":"mcode(Sum(sin(x), (x, 0, 10))) == 'Hold[Sum[Sin[x], {x, 0, 10}]]'; mcode(Sum(exp(-x ** 2 - y ** 2), (x, -oo, oo), (y, -oo, oo))) == 'Hold[Sum[Exp[-x^2 - y^2], {x, -Infinity, Infinity}, {y, -Infinity, Infinity}]]'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_mathematica.test_Sum_correct","statement":"Path(test_Sum(x), mcode(Sum(sin(x), (x, 0, 10))) == 'Hold[Sum[Sin[x], {x, 0, 10}]]'; mcode(Sum(exp(-x ** 2 - y ** 2), (x, -oo, oo), (y, -oo, oo))) == 'Hold[Sum[Exp[-x^2 - y^2], {x, -Infinity, Infinity}, {y, -Infinity, Infinity}]]')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e15f8888e83ee847","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["mcode(Sum(sin(x), (x, 0, 10))) == 'Hold[Sum[Sin[x], {x, 0, 10}]]'","mcode(Sum(exp(-x ** 2 - y ** 2), (x, -oo, oo), (y, -oo, oo))) == 'Hold[Sum[Exp[-x^2 - y^2], {x, -Infinity, Infinity}, {y, -Infinity, Infinity}]]'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Sum():
     assert mcode(Sum(sin(x), (x, 0, 10))) == "Hold[Sum[Sin[x], {x, 0, 10}]]"
     assert mcode(Sum(exp(-x**2 - y**2),
@@ -431,16 +539,22 @@ def test_Sum():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_comment(), test_comment produces the expected output) over Any ║
+# ║ Path(test_comment(), MCodePrinter()._get_comment('Hello World') == '(* Hello World *)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_comment : Any → {Any | MCodePrinter()._get_comme...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  MCodePrinter()._get_comment('Hello World'...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_comment : Any → {Any | result satisfies: MCodePr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 571f8b668482f02d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 115d39a1897ad286  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_mathematica.test_comment","kind":"function","src_hash":"fe21ae95341fa723","in":{"base":"Any"},"out":{"base":"Any","pred":"MCodePrinter()._get_comment('Hello World') == '(* Hello World *)'"},"spec":{"lhs":"test_comment()","rhs":"test_comment produces the expected output","over":{"base":"Any"},"name":"test_comment_correct"},"guarantee":"test_comment produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_mathematica.test_comment_correct","statement":"Path(test_comment(x), test_comment produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"571f8b668482f02d"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_mathematica.test_comment","kind":"function","src_hash":"fe21ae95341fa723","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: MCodePrinter()._get_comment('Hello World') == '(* Hello World *)'"},"spec":{"lhs":"test_comment()","rhs":"MCodePrinter()._get_comment('Hello World') == '(* Hello World *)'","over":{"base":"Any"},"name":"test_comment_correct"},"guarantee":"MCodePrinter()._get_comment('Hello World') == '(* Hello World *)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_mathematica.test_comment_correct","statement":"Path(test_comment(x), MCodePrinter()._get_comment('Hello World') == '(* Hello World *)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"115d39a1897ad286","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["MCodePrinter()._get_comment('Hello World') == '(* Hello World *)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_comment():
     from sympy.printing.mathematica import MCodePrinter
     assert MCodePrinter()._get_comment("Hello World") == \
@@ -448,16 +562,23 @@ def test_comment():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_userfuncs(), test_userfuncs produces the expected output) over Any ║
+# ║ Path(test_userfuncs(), mcode(some_function(z), user_functions=my_user_functions) == 'SomeFunction[z]' and mcode(some_function(z), user_functions=my_user_functions) == 'SomeOtherFunction[z]') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_userfuncs : Any → {Any | mcode(some_function(z),...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  mcode(some_function(z), user_functions=my...   ║
+# ║   ensures:  mcode(some_function(z), user_functions=my...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_userfuncs : Any → {Any | result satisfies: mcode...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 938c65de56cf3857  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5069dae37a17881a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_mathematica.test_userfuncs","kind":"function","src_hash":"9d313e618256ad4b","in":{"base":"Any"},"out":{"base":"Any","pred":"mcode(some_function(z), user_functions=my_user_functions) == 'SomeFunction[z]' and mcode(some_function(z), user_functions=my_user_functions) == 'SomeFunction[z]'"},"spec":{"lhs":"test_userfuncs()","rhs":"test_userfuncs produces the expected output","over":{"base":"Any"},"name":"test_userfuncs_correct"},"guarantee":"test_userfuncs produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_mathematica.test_userfuncs_correct","statement":"Path(test_userfuncs(x), test_userfuncs produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"938c65de56cf3857"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_mathematica.test_userfuncs","kind":"function","src_hash":"9d313e618256ad4b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: mcode(some_function(z), user_functions=my_user_functions) == 'SomeFunction[z]' and mcode(some_function(z), user_functions=my_user_functions) == 'SomeOtherFunction[z]'"},"spec":{"lhs":"test_userfuncs()","rhs":"mcode(some_function(z), user_functions=my_user_functions) == 'SomeFunction[z]' and mcode(some_function(z), user_functions=my_user_functions) == 'SomeOtherFunction[z]'","over":{"base":"Any"},"name":"test_userfuncs_correct"},"guarantee":"mcode(some_function(z), user_functions=my_user_functions) == 'SomeFunction[z]'; mcode(some_function(z), user_functions=my_user_functions) == 'SomeOtherFunction[z]'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_mathematica.test_userfuncs_correct","statement":"Path(test_userfuncs(x), mcode(some_function(z), user_functions=my_user_functions) == 'SomeFunction[z]'; mcode(some_function(z), user_functions=my_user_functions) == 'SomeOtherFunction[z]')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5069dae37a17881a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["mcode(some_function(z), user_functions=my_user_functions) == 'SomeFunction[z]'","mcode(some_function(z), user_functions=my_user_functions) == 'SomeOtherFunction[z]'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_userfuncs():
     # Dictionary mutation test
     some_function = symbols("some_function", cls=Function)

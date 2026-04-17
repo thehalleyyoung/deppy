@@ -37,9 +37,17 @@ from sympy.testing.pytest import raises, XFAIL, warns_deprecated_sympy
 from sympy.matrices import diag
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_is_equal(arg), internal helper behaves correctly) over {Any | isinstance(arg1, TensExpr)} ║
+# ║ Path(_is_equal(arg1, arg2), result == (arg1.equals(arg2) if isinstance(arg1, TensExpr) else arg2.equals(arg1)) and result == arg1.equals(arg2) or result == arg2.equals(arg1)) over {Any | isinstance(arg1, TensExpr) and hasattr(arg1, 'equals') and hasattr(arg2, 'equals')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _is_equal : {Any | isinstance(arg1, TensExpr)} → Any       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(arg1, 'equals')                        ║
+# ║   requires: hasattr(arg2, 'equals')                        ║
+# ║   ensures:  result == (arg1.equals(arg2) if isinstanc...   ║
+# ║   ensures:  result == arg1.equals(arg2) or result == ...   ║
+# ║   fiber[TensExpr]: isinstance(arg1, TensExpr) => arg1...   ║
+# ║   fiber[TensExpr]: isinstance(arg2, TensExpr) => arg2...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _is_equal : {Any | isinstance(arg1, TensExpr) and has...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   TensExpr: {isinstance(arg1, TensExpr)} → library_axiom   ║
@@ -49,9 +57,12 @@ from sympy.matrices import diag
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.3ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 321ae3e0...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor._is_equal","kind":"function","src_hash":"1f6f6d3a8422506a","in":{"base":"Any","pred":"isinstance(arg1, TensExpr)"},"out":{"base":"Any"},"spec":{"lhs":"_is_equal(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any","pred":"isinstance(arg1, TensExpr)"},"name":"_is_equal_correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"TensExpr","pred":"isinstance(arg1, TensExpr)","path":{"lhs":"_is_equal(x)","rhs":"internal helper behaves correctly","over":{"base":"TensExpr","pred":"isinstance(arg1, TensExpr)"},"name":"_is_equal_TensExpr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor._is_equal_TensExpr_correct","statement":"_is_equal satisfies spec on TensExpr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"321ae3e0a3e981cd"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor._is_equal","kind":"function","src_hash":"1f6f6d3a8422506a","in":{"base":"Any","pred":"isinstance(arg1, TensExpr) and hasattr(arg1, 'equals') and hasattr(arg2, 'equals')"},"out":{"base":"Any","pred":"result satisfies: result == (arg1.equals(arg2) if isinstance(arg1, TensExpr) else arg2.equals(arg1)) and result == arg1.equals(arg2) or result == arg2.equals(arg1)"},"spec":{"lhs":"_is_equal(arg1, arg2)","rhs":"result == (arg1.equals(arg2) if isinstance(arg1, TensExpr) else arg2.equals(arg1)) and result == arg1.equals(arg2) or result == arg2.equals(arg1)","over":{"base":"Any","pred":"isinstance(arg1, TensExpr) and hasattr(arg1, 'equals') and hasattr(arg2, 'equals')"},"name":"_is_equal_correct"},"guarantee":"result == (arg1.equals(arg2) if isinstance(arg1, TensExpr) else arg2.equals(arg1)); result == arg1.equals(arg2) or result == arg2.equals(arg1); 2-fiber decomposition","fibers":[{"name":"TensExpr","pred":"isinstance(arg1, TensExpr)","path":{"lhs":"_is_equal(x)","rhs":"result == (arg1.equals(arg2) if isinstance(arg1, TensExpr) else arg2.equals(arg1)); result == arg1.equals(arg2) or result == arg2.equals(arg1); 2-fiber decomposition","over":{"base":"TensExpr","pred":"isinstance(arg1, TensExpr)"},"name":"_is_equal_TensExpr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor._is_equal_TensExpr_correct","statement":"_is_equal satisfies spec on TensExpr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"321ae3e0a3e981cd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(arg1, 'equals')","hasattr(arg2, 'equals')"],"ensures":["result == (arg1.equals(arg2) if isinstance(arg1, TensExpr) else arg2.equals(arg1))","result == arg1.equals(arg2) or result == arg2.equals(arg1)"],"fibers":[{"name":"TensExpr","guard":"isinstance(arg1, TensExpr)","ensures":["result == arg1.equals(arg2)"],"decidability":"structural","returns_expr":"arg1.equals(arg2)"},{"name":"TensExpr","guard":"isinstance(arg2, TensExpr)","ensures":["result == arg2.equals(arg1)"],"decidability":"structural","returns_expr":"arg2.equals(arg1)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["arg1.equals","arg2.equals"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.3,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(arg1, TensExpr)', 'isinstance(arg2, TensExpr)'}, fibers={'TensExpr'})"]}}
 def _is_equal(arg1, arg2):
     if isinstance(arg1, TensExpr):
         return arg1.equals(arg2)
@@ -62,16 +73,24 @@ def _is_equal(arg1, arg2):
 
 #################### Tests from tensor_can.py #######################
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_canonicalize_no_slot_sym(), test_canonicalize_no_slot_sym produces the expected output) over Any ║
+# ║ Path(test_canonicalize_no_slot_sym(), str(tc) == 'A(L_0)*B(-L_0)' and tc == t and str(tc) == 'A(a)*B(b)' and str(tc) == 'A(a, L_0)*A(b, -L_0)' and str(tc) == 'A(L_0, L_1)*B(-L_0)*C(-L_1)' and str(tc) == 'A(L_0, L_1)*B(-L_1)*C(-L_0)' and str(tc) == 'A(L_0, L_1)*B(-L_0, -L_1)' and str(tc) == 'A(L_0, L_1)*B(-L_1, -L_0)' and str(tc) == 'A(L_0, L_1)*B(-a, -L_1)*C(-L_0, -b)' and str(tc) == 'A(L_0, L_1)*B(-a, -L_0)*C(-L_1, -b)' and str(tc) == 'A(L_0, L_1)*B(-a, -L_0)*C(-b, -L_1)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_canonicalize_no_slot_sym : Any → {Any | str(tc) ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(tc) == 'A(L_0)*B(-L_0)'                    ║
+# ║   ensures:  tc == t                                        ║
+# ║   ensures:  str(tc) == 'A(a)*B(b)'                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_canonicalize_no_slot_sym : Any → {Any | result s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 324a7b265b32c59c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 680c4d00bac4d673  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_canonicalize_no_slot_sym","kind":"function","src_hash":"39ffbddba2931fcf","in":{"base":"Any"},"out":{"base":"Any","pred":"str(tc) == 'A(L_0)*B(-L_0)' and tc == t and str(tc) == 'A(a)*B(b)' and str(tc) == 'A(a, L_0)*A(b, -L_0)' and str(tc) == 'A(L_0, L_1)*B(-L_0)*C(-L_1)' and str(tc) == 'A(L_0, L_1)*B(-L_1)*C(-L_0)' and str(tc) == 'A(L_0, L_1)*B(-L_0, -L_1)' and str(tc) == 'A(L_0, L_1)*B(-L_1, -L_0)' and str(tc) == 'A(L_0, L_1)*B(-a, -L_1)*C(-L_0, -b)' and str(tc) == 'A(L_0, L_1)*B(-a, -L_0)*C(-L_1, -b)' and str(tc) == 'A(L_0, L_1)*B(-a, -L_0)*C(-b, -L_1)'"},"spec":{"lhs":"test_canonicalize_no_slot_sym()","rhs":"test_canonicalize_no_slot_sym produces the expected output","over":{"base":"Any"},"name":"test_canonicalize_no_slot_sym_correct"},"guarantee":"test_canonicalize_no_slot_sym produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_canonicalize_no_slot_sym_correct","statement":"Path(test_canonicalize_no_slot_sym(x), test_canonicalize_no_slot_sym produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"324a7b265b32c59c"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_canonicalize_no_slot_sym","kind":"function","src_hash":"39ffbddba2931fcf","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(tc) == 'A(L_0)*B(-L_0)' and tc == t and str(tc) == 'A(a)*B(b)' and str(tc) == 'A(a, L_0)*A(b, -L_0)' and str(tc) == 'A(L_0, L_1)*B(-L_0)*C(-L_1)' and str(tc) == 'A(L_0, L_1)*B(-L_1)*C(-L_0)' and str(tc) == 'A(L_0, L_1)*B(-L_0, -L_1)' and str(tc) == 'A(L_0, L_1)*B(-L_1, -L_0)' and str(tc) == 'A(L_0, L_1)*B(-a, -L_1)*C(-L_0, -b)' and str(tc) == 'A(L_0, L_1)*B(-a, -L_0)*C(-L_1, -b)' and str(tc) == 'A(L_0, L_1)*B(-a, -L_0)*C(-b, -L_1)'"},"spec":{"lhs":"test_canonicalize_no_slot_sym()","rhs":"str(tc) == 'A(L_0)*B(-L_0)' and tc == t and str(tc) == 'A(a)*B(b)' and str(tc) == 'A(a, L_0)*A(b, -L_0)' and str(tc) == 'A(L_0, L_1)*B(-L_0)*C(-L_1)' and str(tc) == 'A(L_0, L_1)*B(-L_1)*C(-L_0)' and str(tc) == 'A(L_0, L_1)*B(-L_0, -L_1)' and str(tc) == 'A(L_0, L_1)*B(-L_1, -L_0)' and str(tc) == 'A(L_0, L_1)*B(-a, -L_1)*C(-L_0, -b)' and str(tc) == 'A(L_0, L_1)*B(-a, -L_0)*C(-L_1, -b)' and str(tc) == 'A(L_0, L_1)*B(-a, -L_0)*C(-b, -L_1)'","over":{"base":"Any"},"name":"test_canonicalize_no_slot_sym_correct"},"guarantee":"str(tc) == 'A(L_0)*B(-L_0)'; tc == t; str(tc) == 'A(a)*B(b)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_canonicalize_no_slot_sym_correct","statement":"Path(test_canonicalize_no_slot_sym(x), str(tc) == 'A(L_0)*B(-L_0)'; tc == t; str(tc) == 'A(a)*B(b)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"680c4d00bac4d673","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(tc) == 'A(L_0)*B(-L_0)'","tc == t","str(tc) == 'A(a)*B(b)'","str(tc) == 'A(a, L_0)*A(b, -L_0)'","str(tc) == 'A(L_0, L_1)*B(-L_0)*C(-L_1)'","str(tc) == 'A(L_0, L_1)*B(-L_1)*C(-L_0)'","str(tc) == 'A(L_0, L_1)*B(-L_0, -L_1)'","str(tc) == 'A(L_0, L_1)*B(-L_1, -L_0)'","str(tc) == 'A(L_0, L_1)*B(-a, -L_1)*C(-L_0, -b)'","str(tc) == 'A(L_0, L_1)*B(-a, -L_0)*C(-L_1, -b)'","str(tc) == 'A(L_0, L_1)*B(-a, -L_0)*C(-b, -L_1)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":true}}
 def test_canonicalize_no_slot_sym():
     # A_d0 * B^d0; T_c = A^d0*B_d0
     Lorentz = TensorIndexType('Lorentz', dummy_name='L')
@@ -150,16 +169,24 @@ def test_canonicalize_no_slot_sym():
     assert str(tc) == 'A(L_0, L_1)*B(-a, -L_0)*C(-b, -L_1)'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_canonicalize_no_dummies(), test_canonicalize_no_dummies produces the expected output) over Any ║
+# ║ Path(test_canonicalize_no_dummies(), str(tc) == 'A(a)*A(b)*A(c)' and str(tc) == '-A(a)*A(b)*A(c)' and str(tc) == 'A(a, c)*A(b, d)' and str(tc) == '-A(a, c)*A(b, d)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_canonicalize_no_dummies : Any → {Any | str(tc) =...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(tc) == 'A(a)*A(b)*A(c)'                    ║
+# ║   ensures:  str(tc) == '-A(a)*A(b)*A(c)'                   ║
+# ║   ensures:  str(tc) == 'A(a, c)*A(b, d)'                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_canonicalize_no_dummies : Any → {Any | result sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b1cd9b463d48d6cd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b2593655f3a2a9e0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_canonicalize_no_dummies","kind":"function","src_hash":"a1d36081dd37aeab","in":{"base":"Any"},"out":{"base":"Any","pred":"str(tc) == 'A(a)*A(b)*A(c)' and str(tc) == '-A(a)*A(b)*A(c)' and str(tc) == 'A(a, c)*A(b, d)' and str(tc) == '-A(a, c)*A(b, d)' and str(tc) == 'A(a, c)*A(b, d)'"},"spec":{"lhs":"test_canonicalize_no_dummies()","rhs":"test_canonicalize_no_dummies produces the expected output","over":{"base":"Any"},"name":"test_canonicalize_no_dummies_correct"},"guarantee":"test_canonicalize_no_dummies produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_canonicalize_no_dummies_correct","statement":"Path(test_canonicalize_no_dummies(x), test_canonicalize_no_dummies produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b1cd9b463d48d6cd"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_canonicalize_no_dummies","kind":"function","src_hash":"a1d36081dd37aeab","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(tc) == 'A(a)*A(b)*A(c)' and str(tc) == '-A(a)*A(b)*A(c)' and str(tc) == 'A(a, c)*A(b, d)' and str(tc) == '-A(a, c)*A(b, d)'"},"spec":{"lhs":"test_canonicalize_no_dummies()","rhs":"str(tc) == 'A(a)*A(b)*A(c)' and str(tc) == '-A(a)*A(b)*A(c)' and str(tc) == 'A(a, c)*A(b, d)' and str(tc) == '-A(a, c)*A(b, d)'","over":{"base":"Any"},"name":"test_canonicalize_no_dummies_correct"},"guarantee":"str(tc) == 'A(a)*A(b)*A(c)'; str(tc) == '-A(a)*A(b)*A(c)'; str(tc) == 'A(a, c)*A(b, d)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_canonicalize_no_dummies_correct","statement":"Path(test_canonicalize_no_dummies(x), str(tc) == 'A(a)*A(b)*A(c)'; str(tc) == '-A(a)*A(b)*A(c)'; str(tc) == 'A(a, c)*A(b, d)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b2593655f3a2a9e0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(tc) == 'A(a)*A(b)*A(c)'","str(tc) == '-A(a)*A(b)*A(c)'","str(tc) == 'A(a, c)*A(b, d)'","str(tc) == '-A(a, c)*A(b, d)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_canonicalize_no_dummies():
     Lorentz = TensorIndexType('Lorentz', dummy_name='L')
     a, b, c, d = tensor_indices('a, b, c, d', Lorentz)
@@ -203,16 +230,23 @@ def test_canonicalize_no_dummies():
     assert str(tc) == 'A(a, c)*A(b, d)'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_tensorhead_construction_without_symmetry(), test_tensorhead_construction_without_symmetry produces the expected output) over Any ║
+# ║ Path(test_tensorhead_construction_without_symmetry(), A1 == A2 and A1 != A3) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A1 == A2                                       ║
+# ║   ensures:  A1 != A3                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_tensorhead_construction_without_symmetry : Any →...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 69d3f353e9412625  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 08d464ded7bafecf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_tensorhead_construction_without_symmetry","kind":"function","src_hash":"65271ab8c3450167","in":{"base":"Any"},"out":{"base":"Any","pred":"A1 == A2 and A1 != A3"},"spec":{"lhs":"test_tensorhead_construction_without_symmetry()","rhs":"test_tensorhead_construction_without_symmetry produces the expected output","over":{"base":"Any"},"name":"test_tensorhead_construction_without_symmetry_correct"},"guarantee":"test_tensorhead_construction_without_symmetry produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_tensorhead_construction_without_symmetry_correct","statement":"Path(test_tensorhead_construction_without_symmetry(x), test_tensorhead_construction_without_symmetry produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"69d3f353e9412625"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_tensorhead_construction_without_symmetry","kind":"function","src_hash":"65271ab8c3450167","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A1 == A2 and A1 != A3"},"spec":{"lhs":"test_tensorhead_construction_without_symmetry()","rhs":"A1 == A2 and A1 != A3","over":{"base":"Any"},"name":"test_tensorhead_construction_without_symmetry_correct"},"guarantee":"A1 == A2; A1 != A3","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_tensorhead_construction_without_symmetry_correct","statement":"Path(test_tensorhead_construction_without_symmetry(x), A1 == A2; A1 != A3)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"08d464ded7bafecf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A1 == A2","A1 != A3"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_tensorhead_construction_without_symmetry():
     L = TensorIndexType('Lorentz')
     A1 = TensorHead('A', [L, L])
@@ -222,16 +256,24 @@ def test_tensorhead_construction_without_symmetry():
     assert A1 != A3
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_no_metric_symmetry(), test_no_metric_symmetry produces the expected output) over Any ║
+# ║ Path(test_no_metric_symmetry(), str(tc) == 'A(L_0, -L_1)*A(L_1, -L_0)' and str(tc) == 'A(L_0, -L_1)*A(L_1, -L_0)*A(L_2, -L_3)*A(L_3, -L_2)' and str(tc) == 'A(L_0, -L_1)*A(L_1, -L_2)*A(L_2, -L_3)*A(L_3, -L_0)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_no_metric_symmetry : Any → {Any | str(tc) == 'A(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(tc) == 'A(L_0, -L_1)*A(L_1, -L_0)'         ║
+# ║   ensures:  str(tc) == 'A(L_0, -L_1)*A(L_1, -L_0)*A(L...   ║
+# ║   ensures:  str(tc) == 'A(L_0, -L_1)*A(L_1, -L_2)*A(L...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_no_metric_symmetry : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 07d33b1ffd766709  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9b1764dc40aaa617  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_no_metric_symmetry","kind":"function","src_hash":"a1abc4cac70cee59","in":{"base":"Any"},"out":{"base":"Any","pred":"str(tc) == 'A(L_0, -L_1)*A(L_1, -L_0)' and str(tc) == 'A(L_0, -L_1)*A(L_1, -L_0)*A(L_2, -L_3)*A(L_3, -L_2)' and str(tc) == 'A(L_0, -L_1)*A(L_1, -L_2)*A(L_2, -L_3)*A(L_3, -L_0)'"},"spec":{"lhs":"test_no_metric_symmetry()","rhs":"test_no_metric_symmetry produces the expected output","over":{"base":"Any"},"name":"test_no_metric_symmetry_correct"},"guarantee":"test_no_metric_symmetry produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_no_metric_symmetry_correct","statement":"Path(test_no_metric_symmetry(x), test_no_metric_symmetry produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"07d33b1ffd766709"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_no_metric_symmetry","kind":"function","src_hash":"a1abc4cac70cee59","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(tc) == 'A(L_0, -L_1)*A(L_1, -L_0)' and str(tc) == 'A(L_0, -L_1)*A(L_1, -L_0)*A(L_2, -L_3)*A(L_3, -L_2)' and str(tc) == 'A(L_0, -L_1)*A(L_1, -L_2)*A(L_2, -L_3)*A(L_3, -L_0)'"},"spec":{"lhs":"test_no_metric_symmetry()","rhs":"str(tc) == 'A(L_0, -L_1)*A(L_1, -L_0)' and str(tc) == 'A(L_0, -L_1)*A(L_1, -L_0)*A(L_2, -L_3)*A(L_3, -L_2)' and str(tc) == 'A(L_0, -L_1)*A(L_1, -L_2)*A(L_2, -L_3)*A(L_3, -L_0)'","over":{"base":"Any"},"name":"test_no_metric_symmetry_correct"},"guarantee":"str(tc) == 'A(L_0, -L_1)*A(L_1, -L_0)'; str(tc) == 'A(L_0, -L_1)*A(L_1, -L_0)*A(L_2, -L_3)*A(L_3, -L_2)'; str(tc) == 'A(L_0, -L_1)*A(L_1, -L_2)*A(L_2, -L_3)*A(L_3, -L_0)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_no_metric_symmetry_correct","statement":"Path(test_no_metric_symmetry(x), str(tc) == 'A(L_0, -L_1)*A(L_1, -L_0)'; str(tc) == 'A(L_0, -L_1)*A(L_1, -L_0)*A(L_2, -L_3)*A(L_3, -L_2)'; str(tc) == 'A(L_0, -L_1)*A(L_1, -L_2)*A(L_2, -L_3)*A(L_3, -L_0)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9b1764dc40aaa617","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(tc) == 'A(L_0, -L_1)*A(L_1, -L_0)'","str(tc) == 'A(L_0, -L_1)*A(L_1, -L_0)*A(L_2, -L_3)*A(L_3, -L_2)'","str(tc) == 'A(L_0, -L_1)*A(L_1, -L_2)*A(L_2, -L_3)*A(L_3, -L_0)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_no_metric_symmetry():
     # no metric symmetry; A no symmetry
     # A^d1_d0 * A^d0_d1
@@ -256,16 +298,24 @@ def test_no_metric_symmetry():
     assert str(tc) == 'A(L_0, -L_1)*A(L_1, -L_2)*A(L_2, -L_3)*A(L_3, -L_0)'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_canonicalize1(), test_canonicalize1 produces the expected output) over Any ║
+# ║ Path(test_canonicalize1(), str(tc) == 'A(L_0)*A(-L_0)' and str(tc) == 'A(L_0)*A(-L_0)*A(L_1)*A(-L_1)*A(L_2)*A(-L_2)' and tc == 0 and str(tc) == 'A(a, L_0)*A(b, L_1)*A(-L_0, -L_1)' and str(tc) == 'A(b, L_0)*A(-L_0, L_1)*B(a, -L_1)' and str(tc) == 'A(a, L_0, L_1)*A(b, -L_0, -L_1)' and str(tc) == 'A(a0, L_0, L_1)*A(a1, -L_0, L_2)*A(a2, a3, L_3)*A(-L_1, -L_2, -L_3)' and str(tc) == 'A(L_0, L_1, L_2)*A(-L_0, -L_1, L_3)*B(-L_2, -L_3)' and str(tc) == '-A(S_0, S_1, S_2)*A(-S_0, -S_1, S_3)*B(-S_2, -S_3)' and str(tc) == 'A(M_0, M_1, M_2)*A(-M_0, -M_1, -M_3)*B(-M_2, M_3)' and str(tc) == '-Gamma(L_0, L_1)*Gamma(rho)*Gamma(alpha, -L_0, -L_1)' and str(tc) == 'Gamma(L_0, L_1)*Gamma(beta, gamma)*Gamma(-rho)*Gamma(alpha, -L_0, -L_1)' and str(tc) == '-f(F_0, F_1, F_2)*f(-F_0, F_3, F_4)*A(L_0, -F_1)*A(-L_0, -F_3)*A(L_1, -F_2)*A(-L_1, -F_4)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_canonicalize1 : Any → {Any | str(tc) == 'A(L_0)*...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(tc) == 'A(L_0)*A(-L_0)'                    ║
+# ║   ensures:  str(tc) == 'A(L_0)*A(-L_0)*A(L_1)*A(-L_1)...   ║
+# ║   ensures:  tc == 0                                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_canonicalize1 : Any → {Any | result satisfies: s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 583211ce4e07d6c2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ab2b90d3ba5252c1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_canonicalize1","kind":"function","src_hash":"0a5c7dbe5baa4c25","in":{"base":"Any"},"out":{"base":"Any","pred":"str(tc) == 'A(L_0)*A(-L_0)' and str(tc) == 'A(L_0)*A(-L_0)*A(L_1)*A(-L_1)*A(L_2)*A(-L_2)' and tc == 0 and str(tc) == 'A(a, L_0)*A(b, L_1)*A(-L_0, -L_1)' and str(tc) == 'A(b, L_0)*A(-L_0, L_1)*B(a, -L_1)' and str(tc) == 'A(a, L_0, L_1)*A(b, -L_0, -L_1)' and tc == 0 and str(tc) == 'A(L_0, L_1, L_2)*A(-L_0, -L_1, L_3)*B(-L_2, -L_3)' and str(tc) == '-A(S_0, S_1, S_2)*A(-S_0, -S_1, S_3)*B(-S_2, -S_3)' and str(tc) == 'A(M_0, M_1, M_2)*A(-M_0, -M_1, -M_3)*B(-M_2, M_3)' and str(tc) == '-Gamma(L_0, L_1)*Gamma(rho)*Gamma(alpha, -L_0, -L_1)'"},"spec":{"lhs":"test_canonicalize1()","rhs":"test_canonicalize1 produces the expected output","over":{"base":"Any"},"name":"test_canonicalize1_correct"},"guarantee":"test_canonicalize1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_canonicalize1_correct","statement":"Path(test_canonicalize1(x), test_canonicalize1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"583211ce4e07d6c2"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_canonicalize1","kind":"function","src_hash":"0a5c7dbe5baa4c25","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(tc) == 'A(L_0)*A(-L_0)' and str(tc) == 'A(L_0)*A(-L_0)*A(L_1)*A(-L_1)*A(L_2)*A(-L_2)' and tc == 0 and str(tc) == 'A(a, L_0)*A(b, L_1)*A(-L_0, -L_1)' and str(tc) == 'A(b, L_0)*A(-L_0, L_1)*B(a, -L_1)' and str(tc) == 'A(a, L_0, L_1)*A(b, -L_0, -L_1)' and str(tc) == 'A(a0, L_0, L_1)*A(a1, -L_0, L_2)*A(a2, a3, L_3)*A(-L_1, -L_2, -L_3)' and str(tc) == 'A(L_0, L_1, L_2)*A(-L_0, -L_1, L_3)*B(-L_2, -L_3)' and str(tc) == '-A(S_0, S_1, S_2)*A(-S_0, -S_1, S_3)*B(-S_2, -S_3)' and str(tc) == 'A(M_0, M_1, M_2)*A(-M_0, -M_1, -M_3)*B(-M_2, M_3)' and str(tc) == '-Gamma(L_0, L_1)*Gamma(rho)*Gamma(alpha, -L_0, -L_1)' and str(tc) == 'Gamma(L_0, L_1)*Gamma(beta, gamma)*Gamma(-rho)*Gamma(alpha, -L_0, -L_1)' and str(tc) == '-f(F_0, F_1, F_2)*f(-F_0, F_3, F_4)*A(L_0, -F_1)*A(-L_0, -F_3)*A(L_1, -F_2)*A(-L_1, -F_4)'"},"spec":{"lhs":"test_canonicalize1()","rhs":"str(tc) == 'A(L_0)*A(-L_0)' and str(tc) == 'A(L_0)*A(-L_0)*A(L_1)*A(-L_1)*A(L_2)*A(-L_2)' and tc == 0 and str(tc) == 'A(a, L_0)*A(b, L_1)*A(-L_0, -L_1)' and str(tc) == 'A(b, L_0)*A(-L_0, L_1)*B(a, -L_1)' and str(tc) == 'A(a, L_0, L_1)*A(b, -L_0, -L_1)' and str(tc) == 'A(a0, L_0, L_1)*A(a1, -L_0, L_2)*A(a2, a3, L_3)*A(-L_1, -L_2, -L_3)' and str(tc) == 'A(L_0, L_1, L_2)*A(-L_0, -L_1, L_3)*B(-L_2, -L_3)' and str(tc) == '-A(S_0, S_1, S_2)*A(-S_0, -S_1, S_3)*B(-S_2, -S_3)' and str(tc) == 'A(M_0, M_1, M_2)*A(-M_0, -M_1, -M_3)*B(-M_2, M_3)' and str(tc) == '-Gamma(L_0, L_1)*Gamma(rho)*Gamma(alpha, -L_0, -L_1)' and str(tc) == 'Gamma(L_0, L_1)*Gamma(beta, gamma)*Gamma(-rho)*Gamma(alpha, -L_0, -L_1)' and str(tc) == '-f(F_0, F_1, F_2)*f(-F_0, F_3, F_4)*A(L_0, -F_1)*A(-L_0, -F_3)*A(L_1, -F_2)*A(-L_1, -F_4)'","over":{"base":"Any"},"name":"test_canonicalize1_correct"},"guarantee":"str(tc) == 'A(L_0)*A(-L_0)'; str(tc) == 'A(L_0)*A(-L_0)*A(L_1)*A(-L_1)*A(L_2)*A(-L_2)'; tc == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_canonicalize1_correct","statement":"Path(test_canonicalize1(x), str(tc) == 'A(L_0)*A(-L_0)'; str(tc) == 'A(L_0)*A(-L_0)*A(L_1)*A(-L_1)*A(L_2)*A(-L_2)'; tc == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ab2b90d3ba5252c1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(tc) == 'A(L_0)*A(-L_0)'","str(tc) == 'A(L_0)*A(-L_0)*A(L_1)*A(-L_1)*A(L_2)*A(-L_2)'","tc == 0","str(tc) == 'A(a, L_0)*A(b, L_1)*A(-L_0, -L_1)'","str(tc) == 'A(b, L_0)*A(-L_0, L_1)*B(a, -L_1)'","str(tc) == 'A(a, L_0, L_1)*A(b, -L_0, -L_1)'","str(tc) == 'A(a0, L_0, L_1)*A(a1, -L_0, L_2)*A(a2, a3, L_3)*A(-L_1, -L_2, -L_3)'","str(tc) == 'A(L_0, L_1, L_2)*A(-L_0, -L_1, L_3)*B(-L_2, -L_3)'","str(tc) == '-A(S_0, S_1, S_2)*A(-S_0, -S_1, S_3)*B(-S_2, -S_3)'","str(tc) == 'A(M_0, M_1, M_2)*A(-M_0, -M_1, -M_3)*B(-M_2, M_3)'","str(tc) == '-Gamma(L_0, L_1)*Gamma(rho)*Gamma(alpha, -L_0, -L_1)'","str(tc) == 'Gamma(L_0, L_1)*Gamma(beta, gamma)*Gamma(-rho)*Gamma(alpha, -L_0, -L_1)'","str(tc) == '-f(F_0, F_1, F_2)*f(-F_0, F_3, F_4)*A(L_0, -F_1)*A(-L_0, -F_3)*A(L_1, -F_2)*A(-L_1, -F_4)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.4,"verdict_class":"assumed","binding":true}}
 def test_canonicalize1():
     Lorentz = TensorIndexType('Lorentz', dummy_name='L')
     a, a0, a1, a2, a3, b, d0, d1, d2, d3 = \
@@ -405,7 +455,11 @@ def test_canonicalize1():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_bug_correction_tensor_indices(), test_bug_correction_tensor_indices produces the expected output) over {Any | isinstance(i, TensorIndex) and isinstance(i, (tuple, list))} ║
+# ║ Path(test_bug_correction_tensor_indices(), not isinstance(i, (tuple, list)) and isinstance(i, TensorIndex)) over {Any | isinstance(i, TensorIndex) and isinstance(i, (tuple, list))} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  not isinstance(i, (tuple, list))               ║
+# ║   ensures:  isinstance(i, TensorIndex)                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_bug_correction_tensor_indices : {Any | isinstanc...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -418,9 +472,12 @@ def test_canonicalize1():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?2 ✗1 VCs | 1.8ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | b5b15c27...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_bug_correction_tensor_indices","kind":"function","src_hash":"fb23dbb6f9822042","in":{"base":"Any","pred":"isinstance(i, TensorIndex) and isinstance(i, (tuple, list))"},"out":{"base":"Any","pred":"not isinstance(i, (tuple, list)) and isinstance(i, TensorIndex)"},"spec":{"lhs":"test_bug_correction_tensor_indices()","rhs":"test_bug_correction_tensor_indices produces the expected output","over":{"base":"Any","pred":"isinstance(i, TensorIndex) and isinstance(i, (tuple, list))"},"name":"test_bug_correction_tensor_indices_correct"},"guarantee":"test_bug_correction_tensor_indices produces the expected output","fibers":[{"name":"TensorIndex","pred":"isinstance(i, TensorIndex)","path":{"lhs":"test_bug_correction_tensor_indices(x)","rhs":"test_bug_correction_tensor_indices produces the expected output","over":{"base":"TensorIndex","pred":"isinstance(i, TensorIndex)"},"name":"test_bug_correction_tensor_indices_TensorIndex_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_bug_correction_tensor_indices_TensorIndex_correct","statement":"test_bug_correction_tensor_indices satisfies spec on TensorIndex inputs"},"trust":"LIBRARY"},{"name":"(tuple","pred":"isinstance(i, (tuple, list))","path":{"lhs":"test_bug_correction_tensor_indices(x)","rhs":"test_bug_correction_tensor_indices produces the expected output","over":{"base":"(tuple","pred":"isinstance(i, (tuple, list))"},"name":"test_bug_correction_tensor_indices_(tuple_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_bug_correction_tensor_indices_(tuple_correct","statement":"test_bug_correction_tensor_indices satisfies spec on (tuple inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"b5b15c27a002762c"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_bug_correction_tensor_indices","kind":"function","src_hash":"fb23dbb6f9822042","in":{"base":"Any","pred":"isinstance(i, TensorIndex) and isinstance(i, (tuple, list))"},"out":{"base":"Any","pred":"result satisfies: not isinstance(i, (tuple, list)) and isinstance(i, TensorIndex)"},"spec":{"lhs":"test_bug_correction_tensor_indices()","rhs":"not isinstance(i, (tuple, list)) and isinstance(i, TensorIndex)","over":{"base":"Any","pred":"isinstance(i, TensorIndex) and isinstance(i, (tuple, list))"},"name":"test_bug_correction_tensor_indices_correct"},"guarantee":"not isinstance(i, (tuple, list)); isinstance(i, TensorIndex)","fibers":[{"name":"TensorIndex","pred":"isinstance(i, TensorIndex)","path":{"lhs":"test_bug_correction_tensor_indices(x)","rhs":"not isinstance(i, (tuple, list)); isinstance(i, TensorIndex)","over":{"base":"TensorIndex","pred":"isinstance(i, TensorIndex)"},"name":"test_bug_correction_tensor_indices_TensorIndex_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_bug_correction_tensor_indices_TensorIndex_correct","statement":"test_bug_correction_tensor_indices satisfies spec on TensorIndex inputs"},"trust":"LIBRARY"},{"name":"(tuple","pred":"isinstance(i, (tuple, list))","path":{"lhs":"test_bug_correction_tensor_indices(x)","rhs":"not isinstance(i, (tuple, list)); isinstance(i, TensorIndex)","over":{"base":"(tuple","pred":"isinstance(i, (tuple, list))"},"name":"test_bug_correction_tensor_indices_(tuple_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_bug_correction_tensor_indices_(tuple_correct","statement":"test_bug_correction_tensor_indices satisfies spec on (tuple inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"b5b15c27a002762c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["not isinstance(i, (tuple, list))","isinstance(i, TensorIndex)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":2,"n_assumed":2,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.8,"verdict_class":"failed","binding":true}}
 def test_bug_correction_tensor_indices():
     # to make sure that tensor_indices does not return a list if creating
     # only one index:
@@ -431,16 +488,23 @@ def test_bug_correction_tensor_indices():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_riemann_invariants(), test_riemann_invariants produces the expected output) over Any ║
+# ║ Path(test_riemann_invariants(), str(tc) == '-R(L_0, L_1, -L_0, -L_1)' and str(tc) == 'R(L_0, L_1, L_2, L_3)*R(-L_0, -L_1, L_4, L_5)*R(-L_2, -L_3, L_6, L_7)*R(-L_4, -L_5, L_8, L_9)*R(-L_6, -L_7, L_10, L_11)*R(-L_8, -L_9, -L_10, -L_11)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_riemann_invariants : Any → {Any | str(tc) == '-R...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(tc) == '-R(L_0, L_1, -L_0, -L_1)'          ║
+# ║   ensures:  str(tc) == 'R(L_0, L_1, L_2, L_3)*R(-L_0,...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_riemann_invariants : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 135852041647eab0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4d1eb8d95e5c7f56  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_riemann_invariants","kind":"function","src_hash":"c50868c064f607ab","in":{"base":"Any"},"out":{"base":"Any","pred":"str(tc) == '-R(L_0, L_1, -L_0, -L_1)'"},"spec":{"lhs":"test_riemann_invariants()","rhs":"test_riemann_invariants produces the expected output","over":{"base":"Any"},"name":"test_riemann_invariants_correct"},"guarantee":"test_riemann_invariants produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_riemann_invariants_correct","statement":"Path(test_riemann_invariants(x), test_riemann_invariants produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"135852041647eab0"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_riemann_invariants","kind":"function","src_hash":"c50868c064f607ab","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(tc) == '-R(L_0, L_1, -L_0, -L_1)' and str(tc) == 'R(L_0, L_1, L_2, L_3)*R(-L_0, -L_1, L_4, L_5)*R(-L_2, -L_3, L_6, L_7)*R(-L_4, -L_5, L_8, L_9)*R(-L_6, -L_7, L_10, L_11)*R(-L_8, -L_9, -L_10, -L_11)'"},"spec":{"lhs":"test_riemann_invariants()","rhs":"str(tc) == '-R(L_0, L_1, -L_0, -L_1)' and str(tc) == 'R(L_0, L_1, L_2, L_3)*R(-L_0, -L_1, L_4, L_5)*R(-L_2, -L_3, L_6, L_7)*R(-L_4, -L_5, L_8, L_9)*R(-L_6, -L_7, L_10, L_11)*R(-L_8, -L_9, -L_10, -L_11)'","over":{"base":"Any"},"name":"test_riemann_invariants_correct"},"guarantee":"str(tc) == '-R(L_0, L_1, -L_0, -L_1)'; str(tc) == 'R(L_0, L_1, L_2, L_3)*R(-L_0, -L_1, L_4, L_5)*R(-L_2, -L_3, L_6, L_7)*R(-L_4, -L_5, L_8, L_9)*R(-L_6, -L_7, L_10, L_11)*R(-L_8, -L_9, -L_10, -L_11)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_riemann_invariants_correct","statement":"Path(test_riemann_invariants(x), str(tc) == '-R(L_0, L_1, -L_0, -L_1)'; str(tc) == 'R(L_0, L_1, L_2, L_3)*R(-L_0, -L_1, L_4, L_5)*R(-L_2, -L_3, L_6, L_7)*R(-L_4, -L_5, L_8, L_9)*R(-L_6, -L_7, L_10, L_11)*R(-L_8, -L_9, -L_10, -L_11)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4d1eb8d95e5c7f56","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(tc) == '-R(L_0, L_1, -L_0, -L_1)'","str(tc) == 'R(L_0, L_1, L_2, L_3)*R(-L_0, -L_1, L_4, L_5)*R(-L_2, -L_3, L_6, L_7)*R(-L_4, -L_5, L_8, L_9)*R(-L_6, -L_7, L_10, L_11)*R(-L_8, -L_9, -L_10, -L_11)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_riemann_invariants():
     Lorentz = TensorIndexType('Lorentz', dummy_name='L')
     d0, d1, d2, d3, d4, d5, d6, d7, d8, d9, d10, d11 = \
@@ -465,16 +529,24 @@ def test_riemann_invariants():
     assert str(tc) == 'R(L_0, L_1, L_2, L_3)*R(-L_0, -L_1, L_4, L_5)*R(-L_2, -L_3, L_6, L_7)*R(-L_4, -L_5, L_8, L_9)*R(-L_6, -L_7, L_10, L_11)*R(-L_8, -L_9, -L_10, -L_11)'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_riemann_products(), test_riemann_products produces the expected output) over Any ║
+# ║ Path(test_riemann_products(), tc == 0 and str(tc) == '-R(a, L_0, b, -L_0)' and str(tc) == '-R(a, L_0, L_1, L_2)*R(b, -L_0, -L_1, -L_2)' and str(tc) == '-R(L_0, L_1, L_2, L_3)*R(-L_0, L_4, L_5, L_6)*V(-L_1, -L_4)*V(-L_2, -L_5)*V(-L_3, -L_6)' and str(tc) == 'R(a0, L_0, a2, L_1)*R(a1, a3, -L_0, L_2)*R(a4, a5, -L_1, -L_2)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_riemann_products : Any → {Any | tc == 0 and str(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  tc == 0                                        ║
+# ║   ensures:  str(tc) == '-R(a, L_0, b, -L_0)'               ║
+# ║   ensures:  str(tc) == '-R(a, L_0, L_1, L_2)*R(b, -L_...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_riemann_products : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6307173424bfab87  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d60aa6f92b927a6b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_riemann_products","kind":"function","src_hash":"8311f035e4c4f469","in":{"base":"Any"},"out":{"base":"Any","pred":"tc == 0 and str(tc) == '-R(a, L_0, b, -L_0)' and str(tc) == '-R(a, L_0, L_1, L_2)*R(b, -L_0, -L_1, -L_2)' and str(tc) == 'R(a0, L_0, a2, L_1)*R(a1, a3, -L_0, L_2)*R(a4, a5, -L_1, -L_2)'"},"spec":{"lhs":"test_riemann_products()","rhs":"test_riemann_products produces the expected output","over":{"base":"Any"},"name":"test_riemann_products_correct"},"guarantee":"test_riemann_products produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_riemann_products_correct","statement":"Path(test_riemann_products(x), test_riemann_products produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6307173424bfab87"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_riemann_products","kind":"function","src_hash":"8311f035e4c4f469","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: tc == 0 and str(tc) == '-R(a, L_0, b, -L_0)' and str(tc) == '-R(a, L_0, L_1, L_2)*R(b, -L_0, -L_1, -L_2)' and str(tc) == '-R(L_0, L_1, L_2, L_3)*R(-L_0, L_4, L_5, L_6)*V(-L_1, -L_4)*V(-L_2, -L_5)*V(-L_3, -L_6)' and str(tc) == 'R(a0, L_0, a2, L_1)*R(a1, a3, -L_0, L_2)*R(a4, a5, -L_1, -L_2)'"},"spec":{"lhs":"test_riemann_products()","rhs":"tc == 0 and str(tc) == '-R(a, L_0, b, -L_0)' and str(tc) == '-R(a, L_0, L_1, L_2)*R(b, -L_0, -L_1, -L_2)' and str(tc) == '-R(L_0, L_1, L_2, L_3)*R(-L_0, L_4, L_5, L_6)*V(-L_1, -L_4)*V(-L_2, -L_5)*V(-L_3, -L_6)' and str(tc) == 'R(a0, L_0, a2, L_1)*R(a1, a3, -L_0, L_2)*R(a4, a5, -L_1, -L_2)'","over":{"base":"Any"},"name":"test_riemann_products_correct"},"guarantee":"tc == 0; str(tc) == '-R(a, L_0, b, -L_0)'; str(tc) == '-R(a, L_0, L_1, L_2)*R(b, -L_0, -L_1, -L_2)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_riemann_products_correct","statement":"Path(test_riemann_products(x), tc == 0; str(tc) == '-R(a, L_0, b, -L_0)'; str(tc) == '-R(a, L_0, L_1, L_2)*R(b, -L_0, -L_1, -L_2)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d60aa6f92b927a6b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["tc == 0","str(tc) == '-R(a, L_0, b, -L_0)'","str(tc) == '-R(a, L_0, L_1, L_2)*R(b, -L_0, -L_1, -L_2)'","str(tc) == '-R(L_0, L_1, L_2, L_3)*R(-L_0, L_4, L_5, L_6)*V(-L_1, -L_4)*V(-L_2, -L_5)*V(-L_3, -L_6)'","str(tc) == 'R(a0, L_0, a2, L_1)*R(a1, a3, -L_0, L_2)*R(a4, a5, -L_1, -L_2)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_riemann_products():
     Lorentz = TensorIndexType('Lorentz', dummy_name='L')
     d0, d1, d2, d3, d4, d5, d6 = tensor_indices('d0:7', Lorentz)
@@ -516,16 +588,22 @@ def test_riemann_products():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_canonicalize2(), test_canonicalize2 produces the expected output) over Any ║
+# ║ Path(test_canonicalize2(), t1 == 0) over Any               ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_canonicalize2 : Any → {Any | t1 == 0 and t1 == 0}     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  t1 == 0                                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_canonicalize2 : Any → {Any | result satisfies: t...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7f75597f90d8a3ab  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f1485d0a657bbf65  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_canonicalize2","kind":"function","src_hash":"97a78481bbdac2d3","in":{"base":"Any"},"out":{"base":"Any","pred":"t1 == 0 and t1 == 0"},"spec":{"lhs":"test_canonicalize2()","rhs":"test_canonicalize2 produces the expected output","over":{"base":"Any"},"name":"test_canonicalize2_correct"},"guarantee":"test_canonicalize2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_canonicalize2_correct","statement":"Path(test_canonicalize2(x), test_canonicalize2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7f75597f90d8a3ab"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_canonicalize2","kind":"function","src_hash":"97a78481bbdac2d3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: t1 == 0"},"spec":{"lhs":"test_canonicalize2()","rhs":"t1 == 0","over":{"base":"Any"},"name":"test_canonicalize2_correct"},"guarantee":"t1 == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_canonicalize2_correct","statement":"Path(test_canonicalize2(x), t1 == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f1485d0a657bbf65","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["t1 == 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_canonicalize2():
     D = Symbol('D')
     Eucl = TensorIndexType('Eucl', metric_symmetry=1, dim=D, dummy_name='E')
@@ -549,16 +627,23 @@ def test_canonicalize2():
     assert t1 == 0
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_canonicalize3(), test_canonicalize3 produces the expected output) over Any ║
+# ║ Path(test_canonicalize3(), t1 == t and t1 == -chi(a0) * psi(a1)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_canonicalize3 : Any → {Any | t1 == t and t1 == -...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  t1 == t                                        ║
+# ║   ensures:  t1 == -chi(a0) * psi(a1)                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_canonicalize3 : Any → {Any | result satisfies: t...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9430829bd5a6f15c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5e7f7a3cf75b03f9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_canonicalize3","kind":"function","src_hash":"59b87e37820dfc25","in":{"base":"Any"},"out":{"base":"Any","pred":"t1 == t and t1 == -chi(a0) * psi(a1)"},"spec":{"lhs":"test_canonicalize3()","rhs":"test_canonicalize3 produces the expected output","over":{"base":"Any"},"name":"test_canonicalize3_correct"},"guarantee":"test_canonicalize3 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_canonicalize3_correct","statement":"Path(test_canonicalize3(x), test_canonicalize3 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9430829bd5a6f15c"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_canonicalize3","kind":"function","src_hash":"59b87e37820dfc25","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: t1 == t and t1 == -chi(a0) * psi(a1)"},"spec":{"lhs":"test_canonicalize3()","rhs":"t1 == t and t1 == -chi(a0) * psi(a1)","over":{"base":"Any"},"name":"test_canonicalize3_correct"},"guarantee":"t1 == t; t1 == -chi(a0) * psi(a1)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_canonicalize3_correct","statement":"Path(test_canonicalize3(x), t1 == t; t1 == -chi(a0) * psi(a1))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5e7f7a3cf75b03f9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["t1 == t","t1 == -chi(a0) * psi(a1)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_canonicalize3():
     D = Symbol('D')
     Spinor = TensorIndexType('Spinor', dim=D, metric_symmetry=-1, dummy_name='S')
@@ -574,16 +659,22 @@ def test_canonicalize3():
     assert t1 == -chi(a0)*psi(a1)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_canonicalize4(), test_canonicalize4 produces the expected output) over Any ║
+# ║ Path(test_canonicalize4(), expr.canon_bp() == -K(p)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_canonicalize4 : Any → {Any | expr.canon_bp() == ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  expr.canon_bp() == -K(p)                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_canonicalize4 : Any → {Any | result satisfies: e...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 09b61554c49adab1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 502121a3906e2754  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_canonicalize4","kind":"function","src_hash":"e6cf63e5d48bbcb8","in":{"base":"Any"},"out":{"base":"Any","pred":"expr.canon_bp() == -K(p)"},"spec":{"lhs":"test_canonicalize4()","rhs":"test_canonicalize4 produces the expected output","over":{"base":"Any"},"name":"test_canonicalize4_correct"},"guarantee":"test_canonicalize4 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_canonicalize4_correct","statement":"Path(test_canonicalize4(x), test_canonicalize4 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"09b61554c49adab1"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_canonicalize4","kind":"function","src_hash":"e6cf63e5d48bbcb8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: expr.canon_bp() == -K(p)"},"spec":{"lhs":"test_canonicalize4()","rhs":"expr.canon_bp() == -K(p)","over":{"base":"Any"},"name":"test_canonicalize4_correct"},"guarantee":"expr.canon_bp() == -K(p)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_canonicalize4_correct","statement":"Path(test_canonicalize4(x), expr.canon_bp() == -K(p))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"502121a3906e2754","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["expr.canon_bp() == -K(p)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_canonicalize4():
     #Check whether TensAdd.canon_bp chokes on a case where the type of the expression changes on calling expand
     Cartesian = TensorIndexType('Cartesian', dim=3)
@@ -593,16 +684,22 @@ def test_canonicalize4():
     assert expr.canon_bp() == -K(p)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_canonicalize5(), test_canonicalize5 produces the expected output) over Any ║
+# ║ Path(test_canonicalize5(), expr.as_dummy().canon_bp() == integrate(f(x), (x, 0, 1)).as_dummy() * K(p)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_canonicalize5 : Any → {Any | expr.as_dummy().can...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  expr.as_dummy().canon_bp() == integrate(f...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_canonicalize5 : Any → {Any | result satisfies: e...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 31f48a67a55811d6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1ab440b9f1d588a7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_canonicalize5","kind":"function","src_hash":"70b2fb1cfdb8b275","in":{"base":"Any"},"out":{"base":"Any","pred":"expr.as_dummy().canon_bp() == integrate(f(x), (x, 0, 1)).as_dummy() * K(p)"},"spec":{"lhs":"test_canonicalize5()","rhs":"test_canonicalize5 produces the expected output","over":{"base":"Any"},"name":"test_canonicalize5_correct"},"guarantee":"test_canonicalize5 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_canonicalize5_correct","statement":"Path(test_canonicalize5(x), test_canonicalize5 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"31f48a67a55811d6"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_canonicalize5","kind":"function","src_hash":"70b2fb1cfdb8b275","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: expr.as_dummy().canon_bp() == integrate(f(x), (x, 0, 1)).as_dummy() * K(p)"},"spec":{"lhs":"test_canonicalize5()","rhs":"expr.as_dummy().canon_bp() == integrate(f(x), (x, 0, 1)).as_dummy() * K(p)","over":{"base":"Any"},"name":"test_canonicalize5_correct"},"guarantee":"expr.as_dummy().canon_bp() == integrate(f(x), (x, 0, 1)).as_dummy() * K(p)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_canonicalize5_correct","statement":"Path(test_canonicalize5(x), expr.as_dummy().canon_bp() == integrate(f(x), (x, 0, 1)).as_dummy() * K(p))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1ab440b9f1d588a7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["expr.as_dummy().canon_bp() == integrate(f(x), (x, 0, 1)).as_dummy() * K(p)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_canonicalize5():
     R3 = TensorIndexType('R3', dim=3)
     p = tensor_indices("p", R3)
@@ -614,16 +711,24 @@ def test_canonicalize5():
     assert expr.as_dummy().canon_bp() == integrate(f(x), (x,0,1)).as_dummy() * K(p)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_TensorIndexType(), test_TensorIndexType produces the expected output) over Any ║
+# ║ Path(test_TensorIndexType(), sym2 == sym2n and str(g) == 'g(Lorentz,Lorentz)' and Lorentz.eps_dim == Lorentz.dim and str(A(i0, -i0).canon_bp()) == 'A(TSpace_0, -TSpace_0)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_TensorIndexType : Any → {Any | sym2 == sym2n and...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  sym2 == sym2n                                  ║
+# ║   ensures:  str(g) == 'g(Lorentz,Lorentz)'                 ║
+# ║   ensures:  Lorentz.eps_dim == Lorentz.dim                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_TensorIndexType : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a50d3d20c565f45c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d05b2360ebad13c5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_TensorIndexType","kind":"function","src_hash":"640bfa1308f3a3e4","in":{"base":"Any"},"out":{"base":"Any","pred":"sym2 == sym2n and str(g) == 'g(Lorentz,Lorentz)' and Lorentz.eps_dim == Lorentz.dim and str(A(i0, -i0).canon_bp()) == 'A(TSpace_0, -TSpace_0)'"},"spec":{"lhs":"test_TensorIndexType()","rhs":"test_TensorIndexType produces the expected output","over":{"base":"Any"},"name":"test_TensorIndexType_correct"},"guarantee":"test_TensorIndexType produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_TensorIndexType_correct","statement":"Path(test_TensorIndexType(x), test_TensorIndexType produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a50d3d20c565f45c"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_TensorIndexType","kind":"function","src_hash":"640bfa1308f3a3e4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: sym2 == sym2n and str(g) == 'g(Lorentz,Lorentz)' and Lorentz.eps_dim == Lorentz.dim and str(A(i0, -i0).canon_bp()) == 'A(TSpace_0, -TSpace_0)'"},"spec":{"lhs":"test_TensorIndexType()","rhs":"sym2 == sym2n and str(g) == 'g(Lorentz,Lorentz)' and Lorentz.eps_dim == Lorentz.dim and str(A(i0, -i0).canon_bp()) == 'A(TSpace_0, -TSpace_0)'","over":{"base":"Any"},"name":"test_TensorIndexType_correct"},"guarantee":"sym2 == sym2n; str(g) == 'g(Lorentz,Lorentz)'; Lorentz.eps_dim == Lorentz.dim","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_TensorIndexType_correct","statement":"Path(test_TensorIndexType(x), sym2 == sym2n; str(g) == 'g(Lorentz,Lorentz)'; Lorentz.eps_dim == Lorentz.dim)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d05b2360ebad13c5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["sym2 == sym2n","str(g) == 'g(Lorentz,Lorentz)'","Lorentz.eps_dim == Lorentz.dim","str(A(i0, -i0).canon_bp()) == 'A(TSpace_0, -TSpace_0)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_TensorIndexType():
     D = Symbol('D')
     Lorentz = TensorIndexType('Lorentz', metric_name='g', metric_symmetry=1,
@@ -643,16 +748,24 @@ def test_TensorIndexType():
     assert str(A(i0,-i0).canon_bp()) == 'A(TSpace_0, -TSpace_0)'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_indices(), test_indices produces the expected output) over Any ║
+# ║ Path(test_indices(), a.tensor_index_type == Lorentz and a != -a and indices == [a, L_0, -L_0, c] and A('a', 'b') == A(TensorIndex('a', Lorentz), TensorIndex('b', Lorentz)) and A('a', '-b') == A(TensorIndex('a', Lorentz), TensorIndex('b', Lorentz, is_up=False)) and A('a', TensorIndex('b', Lorentz)) == A(TensorIndex('a', Lorentz), TensorIndex('b', Lorentz))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_indices : Any → {Any | a.tensor_index_type == Lo...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  a.tensor_index_type == Lorentz                 ║
+# ║   ensures:  a != -a                                        ║
+# ║   ensures:  indices == [a, L_0, -L_0, c]                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_indices : Any → {Any | result satisfies: a.tenso...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e131e809def6ce2a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2a9f222701608e08  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_indices","kind":"function","src_hash":"99abf226db666af9","in":{"base":"Any"},"out":{"base":"Any","pred":"a.tensor_index_type == Lorentz and a != -a and indices == [a, L_0, -L_0, c] and A('a', 'b') == A(TensorIndex('a', Lorentz), TensorIndex('b', Lorentz))"},"spec":{"lhs":"test_indices()","rhs":"test_indices produces the expected output","over":{"base":"Any"},"name":"test_indices_correct"},"guarantee":"test_indices produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_indices_correct","statement":"Path(test_indices(x), test_indices produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e131e809def6ce2a"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_indices","kind":"function","src_hash":"99abf226db666af9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: a.tensor_index_type == Lorentz and a != -a and indices == [a, L_0, -L_0, c] and A('a', 'b') == A(TensorIndex('a', Lorentz), TensorIndex('b', Lorentz)) and A('a', '-b') == A(TensorIndex('a', Lorentz), TensorIndex('b', Lorentz, is_up=False)) and A('a', TensorIndex('b', Lorentz)) == A(TensorIndex('a', Lorentz), TensorIndex('b', Lorentz))"},"spec":{"lhs":"test_indices()","rhs":"a.tensor_index_type == Lorentz and a != -a and indices == [a, L_0, -L_0, c] and A('a', 'b') == A(TensorIndex('a', Lorentz), TensorIndex('b', Lorentz)) and A('a', '-b') == A(TensorIndex('a', Lorentz), TensorIndex('b', Lorentz, is_up=False)) and A('a', TensorIndex('b', Lorentz)) == A(TensorIndex('a', Lorentz), TensorIndex('b', Lorentz))","over":{"base":"Any"},"name":"test_indices_correct"},"guarantee":"a.tensor_index_type == Lorentz; a != -a; indices == [a, L_0, -L_0, c]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_indices_correct","statement":"Path(test_indices(x), a.tensor_index_type == Lorentz; a != -a; indices == [a, L_0, -L_0, c])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2a9f222701608e08","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["a.tensor_index_type == Lorentz","a != -a","indices == [a, L_0, -L_0, c]","A('a', 'b') == A(TensorIndex('a', Lorentz), TensorIndex('b', Lorentz))","A('a', '-b') == A(TensorIndex('a', Lorentz), TensorIndex('b', Lorentz, is_up=False))","A('a', TensorIndex('b', Lorentz)) == A(TensorIndex('a', Lorentz), TensorIndex('b', Lorentz))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_indices():
     Lorentz = TensorIndexType('Lorentz', dummy_name='L')
     a, b, c, d = tensor_indices('a,b,c,d', Lorentz)
@@ -675,16 +788,24 @@ def test_indices():
                                                   TensorIndex('b', Lorentz))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_TensorSymmetry(), test_TensorSymmetry produces the expected output) over Any ║
+# ║ Path(test_TensorSymmetry(), TensorSymmetry.fully_symmetric(2) == TensorSymmetry(get_symmetric_group_sgs(2)) and TensorSymmetry.fully_symmetric(-3) == TensorSymmetry(get_symmetric_group_sgs(3, True)) and TensorSymmetry.direct_product(-4) == TensorSymmetry.fully_symmetric(-4) and TensorSymmetry.fully_symmetric(-1) == TensorSymmetry.fully_symmetric(1) and TensorSymmetry.direct_product(1, -1, 1) == TensorSymmetry.no_symmetry(3) and TensorSymmetry(get_symmetric_group_sgs(2)) == TensorSymmetry(*get_symmetric_group_sgs(2)) and sym.rank == 3 and sym.base == Tuple(0, 1) and sym.generators == Tuple(Permutation(0, 1)(3, 4), Permutation(1, 2)(3, 4))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_TensorSymmetry : Any → {Any | TensorSymmetry.ful...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  TensorSymmetry.fully_symmetric(2) == Tens...   ║
+# ║   ensures:  TensorSymmetry.fully_symmetric(-3) == Ten...   ║
+# ║   ensures:  TensorSymmetry.direct_product(-4) == Tens...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_TensorSymmetry : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 878064bb8dbb0200  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f07bb76d149dd38d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_TensorSymmetry","kind":"function","src_hash":"dd2057da438a9612","in":{"base":"Any"},"out":{"base":"Any","pred":"TensorSymmetry.fully_symmetric(2) == TensorSymmetry(get_symmetric_group_sgs(2)) and TensorSymmetry.direct_product(-4) == TensorSymmetry.fully_symmetric(-4) and TensorSymmetry.fully_symmetric(-1) == TensorSymmetry.fully_symmetric(1) and TensorSymmetry.direct_product(1, -1, 1) == TensorSymmetry.no_symmetry(3) and sym.rank == 3 and sym.base == Tuple(0, 1) and sym.generators == Tuple(Permutation(0, 1)(3, 4), Permutation(1, 2)(3, 4))"},"spec":{"lhs":"test_TensorSymmetry()","rhs":"test_TensorSymmetry produces the expected output","over":{"base":"Any"},"name":"test_TensorSymmetry_correct"},"guarantee":"test_TensorSymmetry produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_TensorSymmetry_correct","statement":"Path(test_TensorSymmetry(x), test_TensorSymmetry produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"878064bb8dbb0200"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_TensorSymmetry","kind":"function","src_hash":"dd2057da438a9612","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: TensorSymmetry.fully_symmetric(2) == TensorSymmetry(get_symmetric_group_sgs(2)) and TensorSymmetry.fully_symmetric(-3) == TensorSymmetry(get_symmetric_group_sgs(3, True)) and TensorSymmetry.direct_product(-4) == TensorSymmetry.fully_symmetric(-4) and TensorSymmetry.fully_symmetric(-1) == TensorSymmetry.fully_symmetric(1) and TensorSymmetry.direct_product(1, -1, 1) == TensorSymmetry.no_symmetry(3) and TensorSymmetry(get_symmetric_group_sgs(2)) == TensorSymmetry(*get_symmetric_group_sgs(2)) and sym.rank == 3 and sym.base == Tuple(0, 1) and sym.generators == Tuple(Permutation(0, 1)(3, 4), Permutation(1, 2)(3, 4))"},"spec":{"lhs":"test_TensorSymmetry()","rhs":"TensorSymmetry.fully_symmetric(2) == TensorSymmetry(get_symmetric_group_sgs(2)) and TensorSymmetry.fully_symmetric(-3) == TensorSymmetry(get_symmetric_group_sgs(3, True)) and TensorSymmetry.direct_product(-4) == TensorSymmetry.fully_symmetric(-4) and TensorSymmetry.fully_symmetric(-1) == TensorSymmetry.fully_symmetric(1) and TensorSymmetry.direct_product(1, -1, 1) == TensorSymmetry.no_symmetry(3) and TensorSymmetry(get_symmetric_group_sgs(2)) == TensorSymmetry(*get_symmetric_group_sgs(2)) and sym.rank == 3 and sym.base == Tuple(0, 1) and sym.generators == Tuple(Permutation(0, 1)(3, 4), Permutation(1, 2)(3, 4))","over":{"base":"Any"},"name":"test_TensorSymmetry_correct"},"guarantee":"TensorSymmetry.fully_symmetric(2) == TensorSymmetry(get_symmetric_group_sgs(2)); TensorSymmetry.fully_symmetric(-3) == TensorSymmetry(get_symmetric_group_sgs(3, True)); TensorSymmetry.direct_product(-4) == TensorSymmetry.fully_symmetric(-4)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_TensorSymmetry_correct","statement":"Path(test_TensorSymmetry(x), TensorSymmetry.fully_symmetric(2) == TensorSymmetry(get_symmetric_group_sgs(2)); TensorSymmetry.fully_symmetric(-3) == TensorSymmetry(get_symmetric_group_sgs(3, True)); TensorSymmetry.direct_product(-4) == TensorSymmetry.fully_symmetric(-4))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f07bb76d149dd38d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["TensorSymmetry.fully_symmetric(2) == TensorSymmetry(get_symmetric_group_sgs(2))","TensorSymmetry.fully_symmetric(-3) == TensorSymmetry(get_symmetric_group_sgs(3, True))","TensorSymmetry.direct_product(-4) == TensorSymmetry.fully_symmetric(-4)","TensorSymmetry.fully_symmetric(-1) == TensorSymmetry.fully_symmetric(1)","TensorSymmetry.direct_product(1, -1, 1) == TensorSymmetry.no_symmetry(3)","TensorSymmetry(get_symmetric_group_sgs(2)) == TensorSymmetry(*get_symmetric_group_sgs(2))","sym.rank == 3","sym.base == Tuple(0, 1)","sym.generators == Tuple(Permutation(0, 1)(3, 4), Permutation(1, 2)(3, 4))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_TensorSymmetry():
     assert TensorSymmetry.fully_symmetric(2) == \
         TensorSymmetry(get_symmetric_group_sgs(2))
@@ -705,16 +826,22 @@ def test_TensorSymmetry():
     assert sym.generators == Tuple(Permutation(0, 1)(3, 4), Permutation(1, 2)(3, 4))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_TensExpr(), test_TensExpr produces the expected output) over Any ║
+# ║ Path(test_TensExpr(), <unspecified:test_TensExpr>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_TensExpr : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2810c8220ffa1bac  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_TensExpr","kind":"function","src_hash":"7a77b365710d951b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_TensExpr()","rhs":"test_TensExpr produces the expected output","over":{"base":"Any"},"name":"test_TensExpr_correct"},"guarantee":"test_TensExpr produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_TensExpr_correct","statement":"Path(test_TensExpr(x), test_TensExpr produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2810c8220ffa1bac"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_TensExpr","kind":"function","src_hash":"7a77b365710d951b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_TensExpr()","rhs":"<unspecified:test_TensExpr>","over":{"base":"Any"},"name":"test_TensExpr_correct"},"guarantee":"test_TensExpr produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_TensExpr_correct","statement":"Path(test_TensExpr(x), test_TensExpr produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2810c8220ffa1bac","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_TensExpr():
     Lorentz = TensorIndexType('Lorentz', dummy_name='L')
     a, b, c, d = tensor_indices('a,b,c,d', Lorentz)
@@ -741,16 +868,24 @@ def test_TensExpr():
     raises(NotImplementedError, lambda: abs(A(a, b)))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_TensorHead(), test_TensorHead produces the expected output) over Any ║
+# ║ Path(test_TensorHead(), A.name == 'A' and A.index_types == [Lorentz, Lorentz] and A.rank == 2 and A.symmetry == TensorSymmetry.no_symmetry(2) and A.comm == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_TensorHead : Any → {Any | A.name == 'A' and A.in...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A.name == 'A'                                  ║
+# ║   ensures:  A.index_types == [Lorentz, Lorentz]            ║
+# ║   ensures:  A.rank == 2                                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_TensorHead : Any → {Any | result satisfies: A.na...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 750568eaff0b4e61  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a2f31cd9f14224a4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_TensorHead","kind":"function","src_hash":"d4659abcc768c3b9","in":{"base":"Any"},"out":{"base":"Any","pred":"A.name == 'A' and A.index_types == [Lorentz, Lorentz] and A.rank == 2 and A.symmetry == TensorSymmetry.no_symmetry(2) and A.comm == 0"},"spec":{"lhs":"test_TensorHead()","rhs":"test_TensorHead produces the expected output","over":{"base":"Any"},"name":"test_TensorHead_correct"},"guarantee":"test_TensorHead produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_TensorHead_correct","statement":"Path(test_TensorHead(x), test_TensorHead produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"750568eaff0b4e61"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_TensorHead","kind":"function","src_hash":"d4659abcc768c3b9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A.name == 'A' and A.index_types == [Lorentz, Lorentz] and A.rank == 2 and A.symmetry == TensorSymmetry.no_symmetry(2) and A.comm == 0"},"spec":{"lhs":"test_TensorHead()","rhs":"A.name == 'A' and A.index_types == [Lorentz, Lorentz] and A.rank == 2 and A.symmetry == TensorSymmetry.no_symmetry(2) and A.comm == 0","over":{"base":"Any"},"name":"test_TensorHead_correct"},"guarantee":"A.name == 'A'; A.index_types == [Lorentz, Lorentz]; A.rank == 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_TensorHead_correct","statement":"Path(test_TensorHead(x), A.name == 'A'; A.index_types == [Lorentz, Lorentz]; A.rank == 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a2f31cd9f14224a4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A.name == 'A'","A.index_types == [Lorentz, Lorentz]","A.rank == 2","A.symmetry == TensorSymmetry.no_symmetry(2)","A.comm == 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_TensorHead():
     # simple example of algebraic expression
     Lorentz = TensorIndexType('Lorentz', dummy_name='L')
@@ -763,16 +898,24 @@ def test_TensorHead():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_add1(), test_add1 produces the expected output) over Any ║
+# ║ Path(test_add1(), TensAdd().args == () and TensAdd().doit() == 0 and TensAdd(t1).equals(t1) and str(t2) == 'A(b, -L_0)*(A(L_0, a) + B(L_0, a))' and str(t2) == 'A(b, -L_0)*A(L_0, a) + A(b, -L_0)*B(L_0, a)' and str(t2) == 'A(a, L_0)*A(b, -L_0) + A(b, L_0)*B(a, -L_0)' and str(t2b) == 'A(a, L_0)*A(b, -L_0) + A(b, -L_0)*B(L_0, a) + A(b, L_0)*B(a, -L_0)' and str(t2b) == 'A(a, L_0)*A(b, -L_0) + 2*A(b, L_0)*B(a, -L_0)' and str(t) == '2*q(d0)' and str(t1) == '2*q(d0) + p(d0)' and str(t2) == '2*q(-d0) + p(-d0)' and str(t3) == 'p(L_0)*(2*q(-L_0) + p(-L_0))' and str(t3) == 'p(L_0)*p(-L_0) + 2*p(L_0)*q(-L_0)' and str(t3) == 'p(-L_0)*p(L_0) + 2*q(-L_0)*p(L_0)' and str(t3) == 'p(L_0)*p(-L_0) + 4*p(L_0)*q(-L_0) + 4*q(L_0)*q(-L_0)' and str(t1) == '-2*q(d0) + p(d0)' and t3 == p(d0) * p(-d0) - 4 * q(d0) * q(-d0) and t == 2 * p(i) * p(j) * p(k) - 2 * p(i) * p(j) * q(k) + p(i) * p(k) * q(j) - 3 * p(i) * q(j) * q(k) and t == 2 * p(i) * p(j) + 2 * p(i) * r(j) + 2 * p(j) * r(i) - 2 * q(i) * q(j) - 2 * q(i) * r(j) - 2 * q(j) * r(i) and 2 * t == p(i) * q(j) and 2 * t == p(i) + q(i) and tz1 != 1 and tz1.equals(1) and (t - p(-j) * p(j)).canon_bp().equals(1) and t.rank == 2 and t1 == 0 and (t + t1).expand().equals(2) and t1 != t2 and t2 != TensMul.from_data(0, [], [], []) and TensAdd(p(a), TensMul(0, p(a))).doit() == p(a)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_add1 : Any → {Any | TensAdd().args == () and Ten...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  TensAdd().args == ()                           ║
+# ║   ensures:  TensAdd().doit() == 0                          ║
+# ║   ensures:  TensAdd(t1).equals(t1)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_add1 : Any → {Any | result satisfies: TensAdd()....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4886cf041573282f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6a1bceeea0c14c9b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_add1","kind":"function","src_hash":"b1fe5fde476731a5","in":{"base":"Any"},"out":{"base":"Any","pred":"TensAdd().args == () and TensAdd().doit() == 0 and TensAdd(t1).equals(t1) and str(t2) == 'A(b, -L_0)*(A(L_0, a) + B(L_0, a))' and str(t2) == 'A(b, -L_0)*A(L_0, a) + A(b, -L_0)*B(L_0, a)' and str(t2) == 'A(a, L_0)*A(b, -L_0) + A(b, L_0)*B(a, -L_0)' and str(t2b) == 'A(a, L_0)*A(b, -L_0) + 2*A(b, L_0)*B(a, -L_0)' and str(t) == '2*q(d0)' and str(t) == '2*q(d0)' and str(t1) == '2*q(d0) + p(d0)' and str(t2) == '2*q(-d0) + p(-d0)' and str(t3) == 'p(L_0)*(2*q(-L_0) + p(-L_0))' and str(t3) == 'p(L_0)*p(-L_0) + 2*p(L_0)*q(-L_0)' and str(t3) == 'p(-L_0)*p(L_0) + 2*q(-L_0)*p(L_0)' and str(t3) == 'p(L_0)*p(-L_0) + 2*p(L_0)*q(-L_0)' and str(t3) == 'p(L_0)*p(-L_0) + 4*p(L_0)*q(-L_0) + 4*q(L_0)*q(-L_0)' and str(t1) == '-2*q(d0) + p(d0)' and t3 == p(d0) * p(-d0) - 4 * q(d0) * q(-d0) and 2 * t == p(i) * q(j) and 2 * t == p(i) + q(i) and tz1 != 1 and tz1.equals(1) and (t - p(-j) * p(j)).canon_bp().equals(1) and t.rank == 2 and t1 == 0 and (t + t1).expand().equals(2) and t1 != t2 and t2 != TensMul.from_data(0, [], [], []) and TensAdd(p(a), TensMul(0, p(a))).doit() == p(a)"},"spec":{"lhs":"test_add1()","rhs":"test_add1 produces the expected output","over":{"base":"Any"},"name":"test_add1_correct"},"guarantee":"test_add1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_add1_correct","statement":"Path(test_add1(x), test_add1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4886cf041573282f"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_add1","kind":"function","src_hash":"b1fe5fde476731a5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: TensAdd().args == () and TensAdd().doit() == 0 and TensAdd(t1).equals(t1) and str(t2) == 'A(b, -L_0)*(A(L_0, a) + B(L_0, a))' and str(t2) == 'A(b, -L_0)*A(L_0, a) + A(b, -L_0)*B(L_0, a)' and str(t2) == 'A(a, L_0)*A(b, -L_0) + A(b, L_0)*B(a, -L_0)' and str(t2b) == 'A(a, L_0)*A(b, -L_0) + A(b, -L_0)*B(L_0, a) + A(b, L_0)*B(a, -L_0)' and str(t2b) == 'A(a, L_0)*A(b, -L_0) + 2*A(b, L_0)*B(a, -L_0)' and str(t) == '2*q(d0)' and str(t1) == '2*q(d0) + p(d0)' and str(t2) == '2*q(-d0) + p(-d0)' and str(t3) == 'p(L_0)*(2*q(-L_0) + p(-L_0))' and str(t3) == 'p(L_0)*p(-L_0) + 2*p(L_0)*q(-L_0)' and str(t3) == 'p(-L_0)*p(L_0) + 2*q(-L_0)*p(L_0)' and str(t3) == 'p(L_0)*p(-L_0) + 4*p(L_0)*q(-L_0) + 4*q(L_0)*q(-L_0)' and str(t1) == '-2*q(d0) + p(d0)' and t3 == p(d0) * p(-d0) - 4 * q(d0) * q(-d0) and t == 2 * p(i) * p(j) * p(k) - 2 * p(i) * p(j) * q(k) + p(i) * p(k) * q(j) - 3 * p(i) * q(j) * q(k) and t == 2 * p(i) * p(j) + 2 * p(i) * r(j) + 2 * p(j) * r(i) - 2 * q(i) * q(j) - 2 * q(i) * r(j) - 2 * q(j) * r(i) and 2 * t == p(i) * q(j) and 2 * t == p(i) + q(i) and tz1 != 1 and tz1.equals(1) and (t - p(-j) * p(j)).canon_bp().equals(1) and t.rank == 2 and t1 == 0 and (t + t1).expand().equals(2) and t1 != t2 and t2 != TensMul.from_data(0, [], [], []) and TensAdd(p(a), TensMul(0, p(a))).doit() == p(a)"},"spec":{"lhs":"test_add1()","rhs":"TensAdd().args == () and TensAdd().doit() == 0 and TensAdd(t1).equals(t1) and str(t2) == 'A(b, -L_0)*(A(L_0, a) + B(L_0, a))' and str(t2) == 'A(b, -L_0)*A(L_0, a) + A(b, -L_0)*B(L_0, a)' and str(t2) == 'A(a, L_0)*A(b, -L_0) + A(b, L_0)*B(a, -L_0)' and str(t2b) == 'A(a, L_0)*A(b, -L_0) + A(b, -L_0)*B(L_0, a) + A(b, L_0)*B(a, -L_0)' and str(t2b) == 'A(a, L_0)*A(b, -L_0) + 2*A(b, L_0)*B(a, -L_0)' and str(t) == '2*q(d0)' and str(t1) == '2*q(d0) + p(d0)' and str(t2) == '2*q(-d0) + p(-d0)' and str(t3) == 'p(L_0)*(2*q(-L_0) + p(-L_0))' and str(t3) == 'p(L_0)*p(-L_0) + 2*p(L_0)*q(-L_0)' and str(t3) == 'p(-L_0)*p(L_0) + 2*q(-L_0)*p(L_0)' and str(t3) == 'p(L_0)*p(-L_0) + 4*p(L_0)*q(-L_0) + 4*q(L_0)*q(-L_0)' and str(t1) == '-2*q(d0) + p(d0)' and t3 == p(d0) * p(-d0) - 4 * q(d0) * q(-d0) and t == 2 * p(i) * p(j) * p(k) - 2 * p(i) * p(j) * q(k) + p(i) * p(k) * q(j) - 3 * p(i) * q(j) * q(k) and t == 2 * p(i) * p(j) + 2 * p(i) * r(j) + 2 * p(j) * r(i) - 2 * q(i) * q(j) - 2 * q(i) * r(j) - 2 * q(j) * r(i) and 2 * t == p(i) * q(j) and 2 * t == p(i) + q(i) and tz1 != 1 and tz1.equals(1) and (t - p(-j) * p(j)).canon_bp().equals(1) and t.rank == 2 and t1 == 0 and (t + t1).expand().equals(2) and t1 != t2 and t2 != TensMul.from_data(0, [], [], []) and TensAdd(p(a), TensMul(0, p(a))).doit() == p(a)","over":{"base":"Any"},"name":"test_add1_correct"},"guarantee":"TensAdd().args == (); TensAdd().doit() == 0; TensAdd(t1).equals(t1)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_add1_correct","statement":"Path(test_add1(x), TensAdd().args == (); TensAdd().doit() == 0; TensAdd(t1).equals(t1))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6a1bceeea0c14c9b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["TensAdd().args == ()","TensAdd().doit() == 0","TensAdd(t1).equals(t1)","str(t2) == 'A(b, -L_0)*(A(L_0, a) + B(L_0, a))'","str(t2) == 'A(b, -L_0)*A(L_0, a) + A(b, -L_0)*B(L_0, a)'","str(t2) == 'A(a, L_0)*A(b, -L_0) + A(b, L_0)*B(a, -L_0)'","str(t2b) == 'A(a, L_0)*A(b, -L_0) + A(b, -L_0)*B(L_0, a) + A(b, L_0)*B(a, -L_0)'","str(t2b) == 'A(a, L_0)*A(b, -L_0) + 2*A(b, L_0)*B(a, -L_0)'","str(t) == '2*q(d0)'","str(t1) == '2*q(d0) + p(d0)'","str(t2) == '2*q(-d0) + p(-d0)'","str(t3) == 'p(L_0)*(2*q(-L_0) + p(-L_0))'","str(t3) == 'p(L_0)*p(-L_0) + 2*p(L_0)*q(-L_0)'","str(t3) == 'p(-L_0)*p(L_0) + 2*q(-L_0)*p(L_0)'","str(t3) == 'p(L_0)*p(-L_0) + 4*p(L_0)*q(-L_0) + 4*q(L_0)*q(-L_0)'","str(t1) == '-2*q(d0) + p(d0)'","t3 == p(d0) * p(-d0) - 4 * q(d0) * q(-d0)","t == 2 * p(i) * p(j) * p(k) - 2 * p(i) * p(j) * q(k) + p(i) * p(k) * q(j) - 3 * p(i) * q(j) * q(k)","t == 2 * p(i) * p(j) + 2 * p(i) * r(j) + 2 * p(j) * r(i) - 2 * q(i) * q(j) - 2 * q(i) * r(j) - 2 * q(j) * r(i)","2 * t == p(i) * q(j)","2 * t == p(i) + q(i)","tz1 != 1","tz1.equals(1)","(t - p(-j) * p(j)).canon_bp().equals(1)","t.rank == 2","t1 == 0","(t + t1).expand().equals(2)","t1 != t2","t2 != TensMul.from_data(0, [], [], [])","TensAdd(p(a), TensMul(0, p(a))).doit() == p(a)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.3,"verdict_class":"assumed","binding":true}}
 def test_add1():
     assert TensAdd().args == ()
     assert TensAdd().doit() == 0
@@ -860,16 +1003,24 @@ def test_add1():
     assert TensAdd(p(a), TensMul(0, p(a)) ).doit() == p(a)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_special_eq_ne(), test_special_eq_ne produces the expected output) over Any ║
+# ║ Path(test_special_eq_ne(), _is_equal(t, 0) and _is_equal(t, S.Zero) and p(i) != A(a, b) and A(a, -a) != A(a, b) and 0 * (A(a, b) + B(a, b)) == 0 and 0 * (A(a, b) + B(a, b)) is S.Zero and 3 * (A(a, b) - A(a, b)) is S.Zero and p(i) + q(i) != A(a, b) and p(i) + q(i) != A(a, b) + B(a, b) and p(i) - p(i) == 0 and p(i) - p(i) is S.Zero and _is_equal(A(a, b), A(b, a))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_special_eq_ne : Any → {Any | _is_equal(t, 0) and...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  _is_equal(t, 0)                                ║
+# ║   ensures:  _is_equal(t, S.Zero)                           ║
+# ║   ensures:  p(i) != A(a, b)                                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_special_eq_ne : Any → {Any | result satisfies: _...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a4dca4c4a8bf76db  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | adbc00f2001f299c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_special_eq_ne","kind":"function","src_hash":"2adabc216294648e","in":{"base":"Any"},"out":{"base":"Any","pred":"_is_equal(t, 0) and _is_equal(t, S.Zero) and p(i) != A(a, b) and A(a, -a) != A(a, b) and 0 * (A(a, b) + B(a, b)) == 0 and 0 * (A(a, b) + B(a, b)) is S.Zero and 3 * (A(a, b) - A(a, b)) is S.Zero and p(i) + q(i) != A(a, b) and p(i) + q(i) != A(a, b) + B(a, b) and p(i) - p(i) == 0 and p(i) - p(i) is S.Zero and _is_equal(A(a, b), A(b, a))"},"spec":{"lhs":"test_special_eq_ne()","rhs":"test_special_eq_ne produces the expected output","over":{"base":"Any"},"name":"test_special_eq_ne_correct"},"guarantee":"test_special_eq_ne produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_special_eq_ne_correct","statement":"Path(test_special_eq_ne(x), test_special_eq_ne produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a4dca4c4a8bf76db"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_special_eq_ne","kind":"function","src_hash":"2adabc216294648e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: _is_equal(t, 0) and _is_equal(t, S.Zero) and p(i) != A(a, b) and A(a, -a) != A(a, b) and 0 * (A(a, b) + B(a, b)) == 0 and 0 * (A(a, b) + B(a, b)) is S.Zero and 3 * (A(a, b) - A(a, b)) is S.Zero and p(i) + q(i) != A(a, b) and p(i) + q(i) != A(a, b) + B(a, b) and p(i) - p(i) == 0 and p(i) - p(i) is S.Zero and _is_equal(A(a, b), A(b, a))"},"spec":{"lhs":"test_special_eq_ne()","rhs":"_is_equal(t, 0) and _is_equal(t, S.Zero) and p(i) != A(a, b) and A(a, -a) != A(a, b) and 0 * (A(a, b) + B(a, b)) == 0 and 0 * (A(a, b) + B(a, b)) is S.Zero and 3 * (A(a, b) - A(a, b)) is S.Zero and p(i) + q(i) != A(a, b) and p(i) + q(i) != A(a, b) + B(a, b) and p(i) - p(i) == 0 and p(i) - p(i) is S.Zero and _is_equal(A(a, b), A(b, a))","over":{"base":"Any"},"name":"test_special_eq_ne_correct"},"guarantee":"_is_equal(t, 0); _is_equal(t, S.Zero); p(i) != A(a, b)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_special_eq_ne_correct","statement":"Path(test_special_eq_ne(x), _is_equal(t, 0); _is_equal(t, S.Zero); p(i) != A(a, b))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"adbc00f2001f299c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["_is_equal(t, 0)","_is_equal(t, S.Zero)","p(i) != A(a, b)","A(a, -a) != A(a, b)","0 * (A(a, b) + B(a, b)) == 0","0 * (A(a, b) + B(a, b)) is S.Zero","3 * (A(a, b) - A(a, b)) is S.Zero","p(i) + q(i) != A(a, b)","p(i) + q(i) != A(a, b) + B(a, b)","p(i) - p(i) == 0","p(i) - p(i) is S.Zero","_is_equal(A(a, b), A(b, a))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_special_eq_ne():
     # test special equality cases:
     Lorentz = TensorIndexType('Lorentz', dummy_name='L')
@@ -898,16 +1049,23 @@ def test_special_eq_ne():
     assert _is_equal(A(a, b), A(b, a))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_add2(), test_add2 produces the expected output) over Any ║
+# ║ Path(test_add2(), t2 == 0 and t == 0) over Any             ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_add2 : Any → {Any | t2 == 0 and t2 == 0 and t == 0}   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  t2 == 0                                        ║
+# ║   ensures:  t == 0                                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_add2 : Any → {Any | result satisfies: t2 == 0 an...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 065b5e30092776de  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 04012e88ff332fcb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_add2","kind":"function","src_hash":"e0bc237862fe9427","in":{"base":"Any"},"out":{"base":"Any","pred":"t2 == 0 and t2 == 0 and t == 0"},"spec":{"lhs":"test_add2()","rhs":"test_add2 produces the expected output","over":{"base":"Any"},"name":"test_add2_correct"},"guarantee":"test_add2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_add2_correct","statement":"Path(test_add2(x), test_add2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"065b5e30092776de"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_add2","kind":"function","src_hash":"e0bc237862fe9427","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: t2 == 0 and t == 0"},"spec":{"lhs":"test_add2()","rhs":"t2 == 0 and t == 0","over":{"base":"Any"},"name":"test_add2_correct"},"guarantee":"t2 == 0; t == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_add2_correct","statement":"Path(test_add2(x), t2 == 0; t == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"04012e88ff332fcb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["t2 == 0","t == 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_add2():
     Lorentz = TensorIndexType('Lorentz', dummy_name='L')
     m, n, p, q = tensor_indices('m,n,p,q', Lorentz)
@@ -926,16 +1084,24 @@ def test_add2():
     assert t == 0
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_add3(), test_add3 produces the expected output) over Any ║
+# ║ Path(test_add3(), expr1.args == (-E ** 2, px ** 2, py ** 2, pz ** 2, A(i0) * A(-i0)) and expr2.args == (E ** 2, -px ** 2, -py ** 2, -pz ** 2, -A(i0) * A(-i0)) and expr3.args == (-E ** 2, px ** 2, py ** 2, pz ** 2, A(i0) * A(-i0)) and expr4.args == (2 * E ** 2, -2 * px ** 2, -2 * py ** 2, -2 * pz ** 2, B(i1) * B(-i1), -A(i0) * A(-i0))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_add3 : Any → {Any | expr1.args == (-E ** 2, px *...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  expr1.args == (-E ** 2, px ** 2, py ** 2,...   ║
+# ║   ensures:  expr2.args == (E ** 2, -px ** 2, -py ** 2...   ║
+# ║   ensures:  expr3.args == (-E ** 2, px ** 2, py ** 2,...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_add3 : Any → {Any | result satisfies: expr1.args...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0c0726087fbe8fbc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 394752f4403e1aeb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_add3","kind":"function","src_hash":"1c97abbd36b28807","in":{"base":"Any"},"out":{"base":"Any","pred":"expr1.args == (-E ** 2, px ** 2, py ** 2, pz ** 2, A(i0) * A(-i0)) and expr2.args == (E ** 2, -px ** 2, -py ** 2, -pz ** 2, -A(i0) * A(-i0)) and expr3.args == (-E ** 2, px ** 2, py ** 2, pz ** 2, A(i0) * A(-i0))"},"spec":{"lhs":"test_add3()","rhs":"test_add3 produces the expected output","over":{"base":"Any"},"name":"test_add3_correct"},"guarantee":"test_add3 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_add3_correct","statement":"Path(test_add3(x), test_add3 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0c0726087fbe8fbc"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_add3","kind":"function","src_hash":"1c97abbd36b28807","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: expr1.args == (-E ** 2, px ** 2, py ** 2, pz ** 2, A(i0) * A(-i0)) and expr2.args == (E ** 2, -px ** 2, -py ** 2, -pz ** 2, -A(i0) * A(-i0)) and expr3.args == (-E ** 2, px ** 2, py ** 2, pz ** 2, A(i0) * A(-i0)) and expr4.args == (2 * E ** 2, -2 * px ** 2, -2 * py ** 2, -2 * pz ** 2, B(i1) * B(-i1), -A(i0) * A(-i0))"},"spec":{"lhs":"test_add3()","rhs":"expr1.args == (-E ** 2, px ** 2, py ** 2, pz ** 2, A(i0) * A(-i0)) and expr2.args == (E ** 2, -px ** 2, -py ** 2, -pz ** 2, -A(i0) * A(-i0)) and expr3.args == (-E ** 2, px ** 2, py ** 2, pz ** 2, A(i0) * A(-i0)) and expr4.args == (2 * E ** 2, -2 * px ** 2, -2 * py ** 2, -2 * pz ** 2, B(i1) * B(-i1), -A(i0) * A(-i0))","over":{"base":"Any"},"name":"test_add3_correct"},"guarantee":"expr1.args == (-E ** 2, px ** 2, py ** 2, pz ** 2, A(i0) * A(-i0)); expr2.args == (E ** 2, -px ** 2, -py ** 2, -pz ** 2, -A(i0) * A(-i0)); expr3.args == (-E ** 2, px ** 2, py ** 2, pz ** 2, A(i0) * A(-i0))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_add3_correct","statement":"Path(test_add3(x), expr1.args == (-E ** 2, px ** 2, py ** 2, pz ** 2, A(i0) * A(-i0)); expr2.args == (E ** 2, -px ** 2, -py ** 2, -pz ** 2, -A(i0) * A(-i0)); expr3.args == (-E ** 2, px ** 2, py ** 2, pz ** 2, A(i0) * A(-i0)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"394752f4403e1aeb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["expr1.args == (-E ** 2, px ** 2, py ** 2, pz ** 2, A(i0) * A(-i0))","expr2.args == (E ** 2, -px ** 2, -py ** 2, -pz ** 2, -A(i0) * A(-i0))","expr3.args == (-E ** 2, px ** 2, py ** 2, pz ** 2, A(i0) * A(-i0))","expr4.args == (2 * E ** 2, -2 * px ** 2, -2 * py ** 2, -2 * pz ** 2, B(i1) * B(-i1), -A(i0) * A(-i0))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_add3():
     Lorentz = TensorIndexType('Lorentz', dummy_name='L')
     i0, i1 = tensor_indices('i0:2', Lorentz)
@@ -957,16 +1123,24 @@ def test_add3():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_mul(), test_mul produces the expected output) over Any ║
+# ║ Path(test_mul(), str(t) == '1' and str(t) == '(x + 1)*A(a, b)' and t.index_types == [Lorentz, Lorentz] and t.rank == 2 and t.dum == [] and t.coeff == 1 + x and sorted(t.free) == [(a, 0), (b, 1)] and t.components == [A] and str(ts) == 'A(a, b)' and ts.index_types == [Lorentz, Lorentz] and ts.rank == 2 and ts.dum == [] and ts.coeff == 1 and sorted(ts.free) == [(a, 0), (b, 1)] and ts.components == [A] and t == t1 and tensor_mul(*[]) == TensMul.from_data(S.One, [], [], []) and str(C()) == 'C' and t == 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_mul : Any → {Any | str(t) == '1' and str(t) == '...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(t) == '1'                                  ║
+# ║   ensures:  str(t) == '(x + 1)*A(a, b)'                    ║
+# ║   ensures:  t.index_types == [Lorentz, Lorentz]            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_mul : Any → {Any | result satisfies: str(t) == '...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d9cb6ae4659c8a11  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a07bffb649bb8b64  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_mul","kind":"function","src_hash":"db999a6e754579e4","in":{"base":"Any"},"out":{"base":"Any","pred":"str(t) == '1' and str(t) == '(x + 1)*A(a, b)' and t.index_types == [Lorentz, Lorentz] and t.rank == 2 and t.dum == [] and t.coeff == 1 + x and sorted(t.free) == [(a, 0), (b, 1)] and t.components == [A] and str(ts) == 'A(a, b)' and ts.index_types == [Lorentz, Lorentz] and ts.rank == 2 and ts.dum == [] and ts.coeff == 1 and sorted(ts.free) == [(a, 0), (b, 1)] and ts.components == [A] and t == t1 and tensor_mul(*[]) == TensMul.from_data(S.One, [], [], []) and str(C()) == 'C' and str(t) == '1' and t == 1"},"spec":{"lhs":"test_mul()","rhs":"test_mul produces the expected output","over":{"base":"Any"},"name":"test_mul_correct"},"guarantee":"test_mul produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_mul_correct","statement":"Path(test_mul(x), test_mul produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d9cb6ae4659c8a11"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_mul","kind":"function","src_hash":"db999a6e754579e4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(t) == '1' and str(t) == '(x + 1)*A(a, b)' and t.index_types == [Lorentz, Lorentz] and t.rank == 2 and t.dum == [] and t.coeff == 1 + x and sorted(t.free) == [(a, 0), (b, 1)] and t.components == [A] and str(ts) == 'A(a, b)' and ts.index_types == [Lorentz, Lorentz] and ts.rank == 2 and ts.dum == [] and ts.coeff == 1 and sorted(ts.free) == [(a, 0), (b, 1)] and ts.components == [A] and t == t1 and tensor_mul(*[]) == TensMul.from_data(S.One, [], [], []) and str(C()) == 'C' and t == 1"},"spec":{"lhs":"test_mul()","rhs":"str(t) == '1' and str(t) == '(x + 1)*A(a, b)' and t.index_types == [Lorentz, Lorentz] and t.rank == 2 and t.dum == [] and t.coeff == 1 + x and sorted(t.free) == [(a, 0), (b, 1)] and t.components == [A] and str(ts) == 'A(a, b)' and ts.index_types == [Lorentz, Lorentz] and ts.rank == 2 and ts.dum == [] and ts.coeff == 1 and sorted(ts.free) == [(a, 0), (b, 1)] and ts.components == [A] and t == t1 and tensor_mul(*[]) == TensMul.from_data(S.One, [], [], []) and str(C()) == 'C' and t == 1","over":{"base":"Any"},"name":"test_mul_correct"},"guarantee":"str(t) == '1'; str(t) == '(x + 1)*A(a, b)'; t.index_types == [Lorentz, Lorentz]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_mul_correct","statement":"Path(test_mul(x), str(t) == '1'; str(t) == '(x + 1)*A(a, b)'; t.index_types == [Lorentz, Lorentz])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a07bffb649bb8b64","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(t) == '1'","str(t) == '(x + 1)*A(a, b)'","t.index_types == [Lorentz, Lorentz]","t.rank == 2","t.dum == []","t.coeff == 1 + x","sorted(t.free) == [(a, 0), (b, 1)]","t.components == [A]","str(ts) == 'A(a, b)'","ts.index_types == [Lorentz, Lorentz]","ts.rank == 2","ts.dum == []","ts.coeff == 1","sorted(ts.free) == [(a, 0), (b, 1)]","ts.components == [A]","t == t1","tensor_mul(*[]) == TensMul.from_data(S.One, [], [], [])","str(C()) == 'C'","t == 1"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_mul():
     from sympy.abc import x
     Lorentz = TensorIndexType('Lorentz', dummy_name='L')
@@ -1005,16 +1179,24 @@ def test_mul():
     raises(ValueError, lambda: A(a, b)*A(a, c))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_substitute_indices(), test_substitute_indices produces the expected output) over Any ║
+# ║ Path(test_substitute_indices(), t1 == t and t1 == p(j) and t1 == p(-j) and t1 == A(n, -n) and t1 == t1a) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_substitute_indices : Any → {Any | t1 == t and t1...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  t1 == t                                        ║
+# ║   ensures:  t1 == p(j)                                     ║
+# ║   ensures:  t1 == p(-j)                                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_substitute_indices : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 06559471624bd399  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 14ca60079d41be84  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_substitute_indices","kind":"function","src_hash":"9abaddf7907d0983","in":{"base":"Any"},"out":{"base":"Any","pred":"t1 == t and t1 == p(j) and t1 == p(-j) and t1 == p(-j) and t1 == p(j) and t1 == A(n, -n) and t1 == A(n, -n) and t1 == t1a and t1 == t1a and t1 == t1a and t1 == t1a"},"spec":{"lhs":"test_substitute_indices()","rhs":"test_substitute_indices produces the expected output","over":{"base":"Any"},"name":"test_substitute_indices_correct"},"guarantee":"test_substitute_indices produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_substitute_indices_correct","statement":"Path(test_substitute_indices(x), test_substitute_indices produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"06559471624bd399"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_substitute_indices","kind":"function","src_hash":"9abaddf7907d0983","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: t1 == t and t1 == p(j) and t1 == p(-j) and t1 == A(n, -n) and t1 == t1a"},"spec":{"lhs":"test_substitute_indices()","rhs":"t1 == t and t1 == p(j) and t1 == p(-j) and t1 == A(n, -n) and t1 == t1a","over":{"base":"Any"},"name":"test_substitute_indices_correct"},"guarantee":"t1 == t; t1 == p(j); t1 == p(-j)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_substitute_indices_correct","statement":"Path(test_substitute_indices(x), t1 == t; t1 == p(j); t1 == p(-j))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"14ca60079d41be84","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["t1 == t","t1 == p(j)","t1 == p(-j)","t1 == A(n, -n)","t1 == t1a"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_substitute_indices():
     Lorentz = TensorIndexType('Lorentz', dummy_name='L')
     i, j, k, l, m, n, p, q = tensor_indices('i,j,k,l,m,n,p,q', Lorentz)
@@ -1053,16 +1235,22 @@ def test_substitute_indices():
     assert t1 == t1a
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_riemann_cyclic_replace(), test_riemann_cyclic_replace produces the expected output) over Any ║
+# ║ Path(test_riemann_cyclic_replace(), t1 == t1a) over Any    ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_riemann_cyclic_replace : Any → {Any | t1 == t1a}      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  t1 == t1a                                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_riemann_cyclic_replace : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 72c25f02c1680e1f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0a3bb32844443972  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_riemann_cyclic_replace","kind":"function","src_hash":"bfe2a2e6cf50b87c","in":{"base":"Any"},"out":{"base":"Any","pred":"t1 == t1a"},"spec":{"lhs":"test_riemann_cyclic_replace()","rhs":"test_riemann_cyclic_replace produces the expected output","over":{"base":"Any"},"name":"test_riemann_cyclic_replace_correct"},"guarantee":"test_riemann_cyclic_replace produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_riemann_cyclic_replace_correct","statement":"Path(test_riemann_cyclic_replace(x), test_riemann_cyclic_replace produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"72c25f02c1680e1f"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_riemann_cyclic_replace","kind":"function","src_hash":"bfe2a2e6cf50b87c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: t1 == t1a"},"spec":{"lhs":"test_riemann_cyclic_replace()","rhs":"t1 == t1a","over":{"base":"Any"},"name":"test_riemann_cyclic_replace_correct"},"guarantee":"t1 == t1a","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_riemann_cyclic_replace_correct","statement":"Path(test_riemann_cyclic_replace(x), t1 == t1a)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0a3bb32844443972","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["t1 == t1a"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_riemann_cyclic_replace():
     Lorentz = TensorIndexType('Lorentz', dummy_name='L')
     m0, m1, m2, m3 = tensor_indices('m:4', Lorentz)
@@ -1073,16 +1261,24 @@ def test_riemann_cyclic_replace():
     assert t1 == t1a
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_riemann_cyclic(), test_riemann_cyclic produces the expected output) over Any ║
+# ║ Path(test_riemann_cyclic(), t3 == 0 and t1 == 0 and t1 == Rational(-1, 3) * R(i, l, j, k) + Rational(1, 3) * R(i, k, j, l) + Rational(2, 3) * R(i, j, k, l)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_riemann_cyclic : Any → {Any | t3 == 0 and t1 == ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  t3 == 0                                        ║
+# ║   ensures:  t1 == 0                                        ║
+# ║   ensures:  t1 == Rational(-1, 3) * R(i, l, j, k) + R...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_riemann_cyclic : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 70d95261c666976e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e9cbbff5f3dd28cb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_riemann_cyclic","kind":"function","src_hash":"01e449788d01708e","in":{"base":"Any"},"out":{"base":"Any","pred":"t3 == 0 and t1 == 0 and t1 == 0"},"spec":{"lhs":"test_riemann_cyclic()","rhs":"test_riemann_cyclic produces the expected output","over":{"base":"Any"},"name":"test_riemann_cyclic_correct"},"guarantee":"test_riemann_cyclic produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_riemann_cyclic_correct","statement":"Path(test_riemann_cyclic(x), test_riemann_cyclic produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"70d95261c666976e"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_riemann_cyclic","kind":"function","src_hash":"01e449788d01708e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: t3 == 0 and t1 == 0 and t1 == Rational(-1, 3) * R(i, l, j, k) + Rational(1, 3) * R(i, k, j, l) + Rational(2, 3) * R(i, j, k, l)"},"spec":{"lhs":"test_riemann_cyclic()","rhs":"t3 == 0 and t1 == 0 and t1 == Rational(-1, 3) * R(i, l, j, k) + Rational(1, 3) * R(i, k, j, l) + Rational(2, 3) * R(i, j, k, l)","over":{"base":"Any"},"name":"test_riemann_cyclic_correct"},"guarantee":"t3 == 0; t1 == 0; t1 == Rational(-1, 3) * R(i, l, j, k) + Rational(1, 3) * R(i, k, j, l) + Rational(2, 3) * R(i, j, k, l)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_riemann_cyclic_correct","statement":"Path(test_riemann_cyclic(x), t3 == 0; t1 == 0; t1 == Rational(-1, 3) * R(i, l, j, k) + Rational(1, 3) * R(i, k, j, l) + Rational(2, 3) * R(i, j, k, l))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e9cbbff5f3dd28cb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["t3 == 0","t1 == 0","t1 == Rational(-1, 3) * R(i, l, j, k) + Rational(1, 3) * R(i, k, j, l) + Rational(2, 3) * R(i, j, k, l)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_riemann_cyclic():
     Lorentz = TensorIndexType('Lorentz', dummy_name='L')
     i, j, k, l, m, n, p, q = tensor_indices('i,j,k,l,m,n,p,q', Lorentz)
@@ -1105,16 +1301,24 @@ def test_riemann_cyclic():
 
 @XFAIL
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_div(), test_div produces the expected output) over Any ║
+# ║ Path(test_div(), str(t1) == '(1/4)*R(m0, L_0, -L_0, m3)' and not t1._is_canon_bp and t1._is_canon_bp) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_div : Any → {Any | str(t1) == '(1/4)*R(m0, L_0, ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(t1) == '(1/4)*R(m0, L_0, -L_0, m3)'        ║
+# ║   ensures:  not t1._is_canon_bp                            ║
+# ║   ensures:  t1._is_canon_bp                                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_div : Any → {Any | result satisfies: str(t1) == ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5dbf022d4d8fbe19  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 84056fe8ca8d0855  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_div","kind":"function","src_hash":"385ec62cc86ec689","in":{"base":"Any"},"out":{"base":"Any","pred":"str(t1) == '(1/4)*R(m0, L_0, -L_0, m3)' and not t1._is_canon_bp and t1._is_canon_bp and t1._is_canon_bp"},"spec":{"lhs":"test_div()","rhs":"test_div produces the expected output","over":{"base":"Any"},"name":"test_div_correct"},"guarantee":"test_div produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_div_correct","statement":"Path(test_div(x), test_div produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5dbf022d4d8fbe19"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_div","kind":"function","src_hash":"385ec62cc86ec689","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(t1) == '(1/4)*R(m0, L_0, -L_0, m3)' and not t1._is_canon_bp and t1._is_canon_bp"},"spec":{"lhs":"test_div()","rhs":"str(t1) == '(1/4)*R(m0, L_0, -L_0, m3)' and not t1._is_canon_bp and t1._is_canon_bp","over":{"base":"Any"},"name":"test_div_correct"},"guarantee":"str(t1) == '(1/4)*R(m0, L_0, -L_0, m3)'; not t1._is_canon_bp; t1._is_canon_bp","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_div_correct","statement":"Path(test_div(x), str(t1) == '(1/4)*R(m0, L_0, -L_0, m3)'; not t1._is_canon_bp; t1._is_canon_bp)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"84056fe8ca8d0855","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(t1) == '(1/4)*R(m0, L_0, -L_0, m3)'","not t1._is_canon_bp","t1._is_canon_bp"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_div():
     Lorentz = TensorIndexType('Lorentz', dummy_name='L')
     m0, m1, m2, m3 = tensor_indices('m0:4', Lorentz)
@@ -1130,16 +1334,24 @@ def test_div():
     assert t1._is_canon_bp
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_contract_metric1(), test_contract_metric1 produces the expected output) over Any ║
+# ║ Path(test_contract_metric1(), t1 == p(a) and t1 == t2 and t2 == D * A(a, d) * B(-d, c) and t2 == A(a, c) * B(-c, d) and _is_equal(t2, A(a, b) * B(-b, -a)) and _is_equal(t2, A(a, -a)) and not t2.free and _is_equal(g(a, -a).contract_metric(g), Lorentz.dim)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_contract_metric1 : Any → {Any | t1 == p(a) and t...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  t1 == p(a)                                     ║
+# ║   ensures:  t1 == t2                                       ║
+# ║   ensures:  t2 == D * A(a, d) * B(-d, c)                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_contract_metric1 : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d415e240ce62526c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1c42e55543753deb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_contract_metric1","kind":"function","src_hash":"b48b55b75bc04155","in":{"base":"Any"},"out":{"base":"Any","pred":"t1 == p(a) and t1 == t2 and t2 == D * A(a, d) * B(-d, c) and t2 == A(a, c) * B(-c, d) and _is_equal(t2, A(a, b) * B(-b, -a)) and _is_equal(t2, A(a, b) * B(-b, -a)) and _is_equal(t2, A(a, -a)) and not t2.free and _is_equal(g(a, -a).contract_metric(g), Lorentz.dim)"},"spec":{"lhs":"test_contract_metric1()","rhs":"test_contract_metric1 produces the expected output","over":{"base":"Any"},"name":"test_contract_metric1_correct"},"guarantee":"test_contract_metric1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_contract_metric1_correct","statement":"Path(test_contract_metric1(x), test_contract_metric1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d415e240ce62526c"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_contract_metric1","kind":"function","src_hash":"b48b55b75bc04155","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: t1 == p(a) and t1 == t2 and t2 == D * A(a, d) * B(-d, c) and t2 == A(a, c) * B(-c, d) and _is_equal(t2, A(a, b) * B(-b, -a)) and _is_equal(t2, A(a, -a)) and not t2.free and _is_equal(g(a, -a).contract_metric(g), Lorentz.dim)"},"spec":{"lhs":"test_contract_metric1()","rhs":"t1 == p(a) and t1 == t2 and t2 == D * A(a, d) * B(-d, c) and t2 == A(a, c) * B(-c, d) and _is_equal(t2, A(a, b) * B(-b, -a)) and _is_equal(t2, A(a, -a)) and not t2.free and _is_equal(g(a, -a).contract_metric(g), Lorentz.dim)","over":{"base":"Any"},"name":"test_contract_metric1_correct"},"guarantee":"t1 == p(a); t1 == t2; t2 == D * A(a, d) * B(-d, c)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_contract_metric1_correct","statement":"Path(test_contract_metric1(x), t1 == p(a); t1 == t2; t2 == D * A(a, d) * B(-d, c))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1c42e55543753deb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["t1 == p(a)","t1 == t2","t2 == D * A(a, d) * B(-d, c)","t2 == A(a, c) * B(-c, d)","_is_equal(t2, A(a, b) * B(-b, -a))","_is_equal(t2, A(a, -a))","not t2.free","_is_equal(g(a, -a).contract_metric(g), Lorentz.dim)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_contract_metric1():
     D = Symbol('D')
     Lorentz = TensorIndexType('Lorentz', dim=D, dummy_name='L')
@@ -1185,16 +1397,24 @@ def test_contract_metric1():
     assert _is_equal(g(a, -a).contract_metric(g), Lorentz.dim) # no dim
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_contract_metric2(), test_contract_metric2 produces the expected output) over Any ║
+# ║ Path(test_contract_metric2(), t == 3 * D * p(a) * p(-a) * q(b) * q(-b) and t == 3 * p(a) * p(-a) * q(b) * q(-b) and t == (2 + 6 * D) * p(a) * p(-a) * q(b) * q(-b) and canon_bp(t - t1) == 0 and t1 == g(a, d) and t.equals(3 * D ** 2 + 6 * D) and t1.equals(2 * D * p(a)) and t1 == 2 * p(b) and t1 == p(a) * p(-a) and str(t1) == 'A(L_1, -L_1)*p(L_0)' or str(t1) == 'A(-L_1, L_1)*p(L_0)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_contract_metric2 : Any → {Any | t == 3 * D * p(a...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  t == 3 * D * p(a) * p(-a) * q(b) * q(-b)       ║
+# ║   ensures:  t == 3 * p(a) * p(-a) * q(b) * q(-b)           ║
+# ║   ensures:  t == (2 + 6 * D) * p(a) * p(-a) * q(b) * ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_contract_metric2 : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 19452b340482eb64  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a984d60c962a6efa  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_contract_metric2","kind":"function","src_hash":"8ec500601c4b8fc5","in":{"base":"Any"},"out":{"base":"Any","pred":"t == 3 * D * p(a) * p(-a) * q(b) * q(-b) and t == 3 * p(a) * p(-a) * q(b) * q(-b) and t == (2 + 6 * D) * p(a) * p(-a) * q(b) * q(-b) and canon_bp(t - t1) == 0 and t1 == g(a, d) and t.equals(3 * D ** 2 + 6 * D) and t1.equals(2 * D * p(a)) and t1 == 2 * p(b) and t1 == p(a) * p(-a) and str(t1) == 'A(L_1, -L_1)*p(L_0)' or str(t1) == 'A(-L_1, L_1)*p(L_0)'"},"spec":{"lhs":"test_contract_metric2()","rhs":"test_contract_metric2 produces the expected output","over":{"base":"Any"},"name":"test_contract_metric2_correct"},"guarantee":"test_contract_metric2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_contract_metric2_correct","statement":"Path(test_contract_metric2(x), test_contract_metric2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"19452b340482eb64"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_contract_metric2","kind":"function","src_hash":"8ec500601c4b8fc5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: t == 3 * D * p(a) * p(-a) * q(b) * q(-b) and t == 3 * p(a) * p(-a) * q(b) * q(-b) and t == (2 + 6 * D) * p(a) * p(-a) * q(b) * q(-b) and canon_bp(t - t1) == 0 and t1 == g(a, d) and t.equals(3 * D ** 2 + 6 * D) and t1.equals(2 * D * p(a)) and t1 == 2 * p(b) and t1 == p(a) * p(-a) and str(t1) == 'A(L_1, -L_1)*p(L_0)' or str(t1) == 'A(-L_1, L_1)*p(L_0)'"},"spec":{"lhs":"test_contract_metric2()","rhs":"t == 3 * D * p(a) * p(-a) * q(b) * q(-b) and t == 3 * p(a) * p(-a) * q(b) * q(-b) and t == (2 + 6 * D) * p(a) * p(-a) * q(b) * q(-b) and canon_bp(t - t1) == 0 and t1 == g(a, d) and t.equals(3 * D ** 2 + 6 * D) and t1.equals(2 * D * p(a)) and t1 == 2 * p(b) and t1 == p(a) * p(-a) and str(t1) == 'A(L_1, -L_1)*p(L_0)' or str(t1) == 'A(-L_1, L_1)*p(L_0)'","over":{"base":"Any"},"name":"test_contract_metric2_correct"},"guarantee":"t == 3 * D * p(a) * p(-a) * q(b) * q(-b); t == 3 * p(a) * p(-a) * q(b) * q(-b); t == (2 + 6 * D) * p(a) * p(-a) * q(b) * q(-b)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_contract_metric2_correct","statement":"Path(test_contract_metric2(x), t == 3 * D * p(a) * p(-a) * q(b) * q(-b); t == 3 * p(a) * p(-a) * q(b) * q(-b); t == (2 + 6 * D) * p(a) * p(-a) * q(b) * q(-b))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a984d60c962a6efa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["t == 3 * D * p(a) * p(-a) * q(b) * q(-b)","t == 3 * p(a) * p(-a) * q(b) * q(-b)","t == (2 + 6 * D) * p(a) * p(-a) * q(b) * q(-b)","canon_bp(t - t1) == 0","t1 == g(a, d)","t.equals(3 * D ** 2 + 6 * D)","t1.equals(2 * D * p(a))","t1 == 2 * p(b)","t1 == p(a) * p(-a)","str(t1) == 'A(L_1, -L_1)*p(L_0)' or str(t1) == 'A(-L_1, L_1)*p(L_0)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.2,"verdict_class":"assumed","binding":true}}
 def test_contract_metric2():
     D = Symbol('D')
     Lorentz = TensorIndexType('Lorentz', dim=D, dummy_name='L')
@@ -1263,16 +1483,24 @@ def test_contract_metric2():
     assert str(t1) == 'A(L_1, -L_1)*p(L_0)' or str(t1) == 'A(-L_1, L_1)*p(L_0)'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_metric_contract3(), test_metric_contract3 produces the expected output) over Any ║
+# ║ Path(test_metric_contract3(), t1.equals(-D) and t1.equals(D) and _is_equal(t1, B(a0, -a0)) and _is_equal(t1, -B(a0, -a0)) and _is_equal(t1, psi(a0)) and _is_equal(t1, -psi(a0)) and _is_equal(t1, -chi(a1) * psi(-a1)) and _is_equal(t1, chi(a1) * psi(-a1)) and _is_equal(t1, chi(-a1) * psi(a1)) and _is_equal(t1, -chi(-a1) * psi(a1)) and _is_equal(t1, -B(-a1, a2) * psi(a1)) and _is_equal(t1, B(-a2, a1) * psi(-a1))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_metric_contract3 : Any → {Any | t1.equals(-D) an...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  t1.equals(-D)                                  ║
+# ║   ensures:  t1.equals(D)                                   ║
+# ║   ensures:  _is_equal(t1, B(a0, -a0))                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_metric_contract3 : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ba752c04a75a8aaa  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 08e1901c3939ce8b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_metric_contract3","kind":"function","src_hash":"2a6b061be9fc694e","in":{"base":"Any"},"out":{"base":"Any","pred":"t1.equals(-D) and t1.equals(D) and t1.equals(D) and t1.equals(-D) and t1.equals(-D) and t1.equals(D) and _is_equal(t1, B(a0, -a0)) and _is_equal(t1, -B(a0, -a0)) and _is_equal(t1, -B(a0, -a0)) and _is_equal(t1, -B(a0, -a0)) and _is_equal(t1, B(a0, -a0)) and _is_equal(t1, B(a0, -a0)) and _is_equal(t1, psi(a0)) and _is_equal(t1, -psi(a0)) and _is_equal(t1, -chi(a1) * psi(-a1)) and _is_equal(t1, chi(a1) * psi(-a1)) and _is_equal(t1, chi(-a1) * psi(a1)) and _is_equal(t1, -chi(-a1) * psi(a1)) and _is_equal(t1, chi(-a1) * psi(a1)) and _is_equal(t1, -chi(-a1) * psi(a1)) and _is_equal(t1, -B(-a1, a2) * psi(a1)) and _is_equal(t1, B(-a2, a1) * psi(-a1))"},"spec":{"lhs":"test_metric_contract3()","rhs":"test_metric_contract3 produces the expected output","over":{"base":"Any"},"name":"test_metric_contract3_correct"},"guarantee":"test_metric_contract3 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_metric_contract3_correct","statement":"Path(test_metric_contract3(x), test_metric_contract3 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ba752c04a75a8aaa"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_metric_contract3","kind":"function","src_hash":"2a6b061be9fc694e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: t1.equals(-D) and t1.equals(D) and _is_equal(t1, B(a0, -a0)) and _is_equal(t1, -B(a0, -a0)) and _is_equal(t1, psi(a0)) and _is_equal(t1, -psi(a0)) and _is_equal(t1, -chi(a1) * psi(-a1)) and _is_equal(t1, chi(a1) * psi(-a1)) and _is_equal(t1, chi(-a1) * psi(a1)) and _is_equal(t1, -chi(-a1) * psi(a1)) and _is_equal(t1, -B(-a1, a2) * psi(a1)) and _is_equal(t1, B(-a2, a1) * psi(-a1))"},"spec":{"lhs":"test_metric_contract3()","rhs":"t1.equals(-D) and t1.equals(D) and _is_equal(t1, B(a0, -a0)) and _is_equal(t1, -B(a0, -a0)) and _is_equal(t1, psi(a0)) and _is_equal(t1, -psi(a0)) and _is_equal(t1, -chi(a1) * psi(-a1)) and _is_equal(t1, chi(a1) * psi(-a1)) and _is_equal(t1, chi(-a1) * psi(a1)) and _is_equal(t1, -chi(-a1) * psi(a1)) and _is_equal(t1, -B(-a1, a2) * psi(a1)) and _is_equal(t1, B(-a2, a1) * psi(-a1))","over":{"base":"Any"},"name":"test_metric_contract3_correct"},"guarantee":"t1.equals(-D); t1.equals(D); _is_equal(t1, B(a0, -a0))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_metric_contract3_correct","statement":"Path(test_metric_contract3(x), t1.equals(-D); t1.equals(D); _is_equal(t1, B(a0, -a0)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"08e1901c3939ce8b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["t1.equals(-D)","t1.equals(D)","_is_equal(t1, B(a0, -a0))","_is_equal(t1, -B(a0, -a0))","_is_equal(t1, psi(a0))","_is_equal(t1, -psi(a0))","_is_equal(t1, -chi(a1) * psi(-a1))","_is_equal(t1, chi(a1) * psi(-a1))","_is_equal(t1, chi(-a1) * psi(a1))","_is_equal(t1, -chi(-a1) * psi(a1))","_is_equal(t1, -B(-a1, a2) * psi(a1))","_is_equal(t1, B(-a2, a1) * psi(-a1))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.2,"verdict_class":"assumed","binding":true}}
 def test_metric_contract3():
     D = Symbol('D')
     Spinor = TensorIndexType('Spinor', dim=D, metric_symmetry=-1, dummy_name='S')
@@ -1372,16 +1600,22 @@ def test_metric_contract3():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_contract_metric4(), test_contract_metric4 produces the expected output) over Any ║
+# ║ Path(test_contract_metric4(), expr.contract_metric(delta) == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_contract_metric4 : Any → {Any | expr.contract_me...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  expr.contract_metric(delta) == 0               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_contract_metric4 : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bfb5ff95e60eebac  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a11ce03def62a49f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_contract_metric4","kind":"function","src_hash":"77601bbf7718b510","in":{"base":"Any"},"out":{"base":"Any","pred":"expr.contract_metric(delta) == 0"},"spec":{"lhs":"test_contract_metric4()","rhs":"test_contract_metric4 produces the expected output","over":{"base":"Any"},"name":"test_contract_metric4_correct"},"guarantee":"test_contract_metric4 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_contract_metric4_correct","statement":"Path(test_contract_metric4(x), test_contract_metric4 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bfb5ff95e60eebac"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_contract_metric4","kind":"function","src_hash":"77601bbf7718b510","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: expr.contract_metric(delta) == 0"},"spec":{"lhs":"test_contract_metric4()","rhs":"expr.contract_metric(delta) == 0","over":{"base":"Any"},"name":"test_contract_metric4_correct"},"guarantee":"expr.contract_metric(delta) == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_contract_metric4_correct","statement":"Path(test_contract_metric4(x), expr.contract_metric(delta) == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a11ce03def62a49f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["expr.contract_metric(delta) == 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_contract_metric4():
     R3 = TensorIndexType('R3', dim=3)
     p, q, r = tensor_indices("p q r", R3)
@@ -1395,16 +1629,22 @@ def test_contract_metric4():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_contract_metric5(), test_contract_metric5 produces the expected output) over Any ║
+# ║ Path(test_contract_metric5(), expr.contract_metric(delta) == expr) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_contract_metric5 : Any → {Any | expr.contract_me...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  expr.contract_metric(delta) == expr            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_contract_metric5 : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 39b4e8782f9b1ccf  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | afc23f60350383f0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_contract_metric5","kind":"function","src_hash":"00e66a17f63238d9","in":{"base":"Any"},"out":{"base":"Any","pred":"expr.contract_metric(delta) == expr"},"spec":{"lhs":"test_contract_metric5()","rhs":"test_contract_metric5 produces the expected output","over":{"base":"Any"},"name":"test_contract_metric5_correct"},"guarantee":"test_contract_metric5 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_contract_metric5_correct","statement":"Path(test_contract_metric5(x), test_contract_metric5 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"39b4e8782f9b1ccf"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_contract_metric5","kind":"function","src_hash":"00e66a17f63238d9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: expr.contract_metric(delta) == expr"},"spec":{"lhs":"test_contract_metric5()","rhs":"expr.contract_metric(delta) == expr","over":{"base":"Any"},"name":"test_contract_metric5_correct"},"guarantee":"expr.contract_metric(delta) == expr","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_contract_metric5_correct","statement":"Path(test_contract_metric5(x), expr.contract_metric(delta) == expr)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"afc23f60350383f0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["expr.contract_metric(delta) == expr"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_contract_metric5():
     R3 = TensorIndexType('R3', dim=3)
     p, q, r = tensor_indices("p q r", R3)
@@ -1420,7 +1660,12 @@ def test_contract_metric5():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_epsilon(), test_epsilon produces the expected output) over {Any | isinstance(epsilon, TensorHead)} ║
+# ║ Path(test_epsilon(), t1 == -epsilon(a, b, c, d) and t1 == epsilon(a, b, c, d) and t1 == epsilon(c, d, a, b) * p(-a) * q(-b) and t1 == -epsilon(c, d, a, b) * p(-a) * q(-b) and t1 == 0 and t1 == -2 * epsilon(c, d, a, b) * p(-a) * q(-b) and isinstance(epsilon, TensorHead)) over {Any | isinstance(epsilon, TensorHead)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  t1 == -epsilon(a, b, c, d)                     ║
+# ║   ensures:  t1 == epsilon(a, b, c, d)                      ║
+# ║   ensures:  t1 == epsilon(c, d, a, b) * p(-a) * q(-b)      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_epsilon : {Any | isinstance(epsilon, TensorHead)...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -1432,9 +1677,12 @@ def test_contract_metric5():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 2.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 66542a6c...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_epsilon","kind":"function","src_hash":"5f1b2148439c0b13","in":{"base":"Any","pred":"isinstance(epsilon, TensorHead)"},"out":{"base":"Any","pred":"t1 == -epsilon(a, b, c, d) and t1 == epsilon(a, b, c, d) and t1 == -epsilon(a, b, c, d) and t1 == epsilon(c, d, a, b) * p(-a) * q(-b) and t1 == epsilon(c, d, a, b) * p(-a) * q(-b) and t1 == -epsilon(c, d, a, b) * p(-a) * q(-b) and t1 == 0 and t1 == -2 * epsilon(c, d, a, b) * p(-a) * q(-b) and isinstance(epsilon, TensorHead)"},"spec":{"lhs":"test_epsilon()","rhs":"test_epsilon produces the expected output","over":{"base":"Any","pred":"isinstance(epsilon, TensorHead)"},"name":"test_epsilon_correct"},"guarantee":"test_epsilon produces the expected output","fibers":[{"name":"TensorHead","pred":"isinstance(epsilon, TensorHead)","path":{"lhs":"test_epsilon(x)","rhs":"test_epsilon produces the expected output","over":{"base":"TensorHead","pred":"isinstance(epsilon, TensorHead)"},"name":"test_epsilon_TensorHead_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_epsilon_TensorHead_correct","statement":"test_epsilon satisfies spec on TensorHead inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"66542a6c09f2cebb"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_epsilon","kind":"function","src_hash":"5f1b2148439c0b13","in":{"base":"Any","pred":"isinstance(epsilon, TensorHead)"},"out":{"base":"Any","pred":"result satisfies: t1 == -epsilon(a, b, c, d) and t1 == epsilon(a, b, c, d) and t1 == epsilon(c, d, a, b) * p(-a) * q(-b) and t1 == -epsilon(c, d, a, b) * p(-a) * q(-b) and t1 == 0 and t1 == -2 * epsilon(c, d, a, b) * p(-a) * q(-b) and isinstance(epsilon, TensorHead)"},"spec":{"lhs":"test_epsilon()","rhs":"t1 == -epsilon(a, b, c, d) and t1 == epsilon(a, b, c, d) and t1 == epsilon(c, d, a, b) * p(-a) * q(-b) and t1 == -epsilon(c, d, a, b) * p(-a) * q(-b) and t1 == 0 and t1 == -2 * epsilon(c, d, a, b) * p(-a) * q(-b) and isinstance(epsilon, TensorHead)","over":{"base":"Any","pred":"isinstance(epsilon, TensorHead)"},"name":"test_epsilon_correct"},"guarantee":"t1 == -epsilon(a, b, c, d); t1 == epsilon(a, b, c, d); t1 == epsilon(c, d, a, b) * p(-a) * q(-b)","fibers":[{"name":"TensorHead","pred":"isinstance(epsilon, TensorHead)","path":{"lhs":"test_epsilon(x)","rhs":"t1 == -epsilon(a, b, c, d); t1 == epsilon(a, b, c, d); t1 == epsilon(c, d, a, b) * p(-a) * q(-b)","over":{"base":"TensorHead","pred":"isinstance(epsilon, TensorHead)"},"name":"test_epsilon_TensorHead_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_epsilon_TensorHead_correct","statement":"test_epsilon satisfies spec on TensorHead inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"66542a6c09f2cebb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["t1 == -epsilon(a, b, c, d)","t1 == epsilon(a, b, c, d)","t1 == epsilon(c, d, a, b) * p(-a) * q(-b)","t1 == -epsilon(c, d, a, b) * p(-a) * q(-b)","t1 == 0","t1 == -2 * epsilon(c, d, a, b) * p(-a) * q(-b)","isinstance(epsilon, TensorHead)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.0,"verdict_class":"failed","binding":true}}
 def test_epsilon():
     Lorentz = TensorIndexType('Lorentz', dim=4, dummy_name='L')
     a, b, c, d, e = tensor_indices('a,b,c,d,e', Lorentz)
@@ -1481,14 +1729,22 @@ def test_epsilon():
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(test_contract_delta1(), id) over Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_contract_delta1 : Any → {Any | canon_bp(t1 - P1(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  canon_bp(t1 - P1(a, -b, d, -c)) == 0           ║
+# ║   ensures:  t1 == P2(a, -b, d, -c)                         ║
+# ║   ensures:  t1 == 0                                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_contract_delta1 : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | d8f2b7c3a811f61e   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_contract_delta1","kind":"function","src_hash":"e34516ecd4cbc544","in":{"base":"Any"},"out":{"base":"Any","pred":"canon_bp(t1 - P1(a, -b, d, -c)) == 0 and t1 == P2(a, -b, d, -c) and t1 == 0 and t1.equals(n ** 2 - 1) and a.is_up and d.is_up and not (b.is_up or c.is_up) and a.is_up and d.is_up and not (b.is_up or c.is_up)"},"spec":{"lhs":"test_contract_delta1()","rhs":"test_contract_delta1 produces the expected output","over":{"base":"Any"},"name":"test_contract_delta1_correct","kind":"composition"},"guarantee":"test_contract_delta1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"delta","by":"library_axiom"},{"fn":"delta","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d8f2b7c3a811f61e"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_contract_delta1","kind":"function","src_hash":"e34516ecd4cbc544","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: canon_bp(t1 - P1(a, -b, d, -c)) == 0 and t1 == P2(a, -b, d, -c) and t1 == 0 and t1.equals(n ** 2 - 1)"},"spec":{"lhs":"test_contract_delta1()","rhs":"canon_bp(t1 - P1(a, -b, d, -c)) == 0 and t1 == P2(a, -b, d, -c) and t1 == 0 and t1.equals(n ** 2 - 1)","over":{"base":"Any"},"name":"test_contract_delta1_correct","kind":"composition"},"guarantee":"canon_bp(t1 - P1(a, -b, d, -c)) == 0; t1 == P2(a, -b, d, -c); t1 == 0","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"delta","by":"library_axiom"},{"fn":"delta","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d8f2b7c3a811f61e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["canon_bp(t1 - P1(a, -b, d, -c)) == 0","t1 == P2(a, -b, d, -c)","t1 == 0","t1.equals(n ** 2 - 1)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_contract_delta1():
     # see Group Theory by Cvitanovic page 9
     n = Symbol('n')
@@ -1529,16 +1785,22 @@ def test_contract_delta1():
     assert t1.equals(n**2 - 1)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_contract_delta2(), test_contract_delta2 produces the expected output) over Any ║
+# ║ Path(test_contract_delta2(), expr.contract_delta(delta) == 1 + K(p) * K(-p)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_contract_delta2 : Any → {Any | expr.contract_del...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  expr.contract_delta(delta) == 1 + K(p) * ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_contract_delta2 : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 59f688de1c5eb604  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 13b8c463018766db  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_contract_delta2","kind":"function","src_hash":"f1b0199610bdffe7","in":{"base":"Any"},"out":{"base":"Any","pred":"expr.contract_delta(delta) == 1 + K(p) * K(-p)"},"spec":{"lhs":"test_contract_delta2()","rhs":"test_contract_delta2 produces the expected output","over":{"base":"Any"},"name":"test_contract_delta2_correct"},"guarantee":"test_contract_delta2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_contract_delta2_correct","statement":"Path(test_contract_delta2(x), test_contract_delta2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"59f688de1c5eb604"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_contract_delta2","kind":"function","src_hash":"f1b0199610bdffe7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: expr.contract_delta(delta) == 1 + K(p) * K(-p)"},"spec":{"lhs":"test_contract_delta2()","rhs":"expr.contract_delta(delta) == 1 + K(p) * K(-p)","over":{"base":"Any"},"name":"test_contract_delta2_correct"},"guarantee":"expr.contract_delta(delta) == 1 + K(p) * K(-p)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_contract_delta2_correct","statement":"Path(test_contract_delta2(x), expr.contract_delta(delta) == 1 + K(p) * K(-p))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"13b8c463018766db","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["expr.contract_delta(delta) == 1 + K(p) * K(-p)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_contract_delta2():
     R3 = TensorIndexType('R3', dim=3)
     p, q = tensor_indices("p q", R3)
@@ -1550,16 +1812,22 @@ def test_contract_delta2():
     assert expr.contract_delta(delta) == 1 + K(p)*K(-p)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_fun(), test_fun produces the expected output) over Any ║
+# ║ Path(test_fun(), <unspecified:test_fun>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_fun : Any → {Any | t(a, b, c) == t and canon_bp(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c180866c0da92ee9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_fun","kind":"function","src_hash":"2df0ba9fcca309df","in":{"base":"Any"},"out":{"base":"Any","pred":"t(a, b, c) == t and canon_bp(t - t(b, a, c) - q(c) * p(a) * q(b) + q(c) * p(b) * q(a)) == 0 and t(b, c, d) == q(d) * p(b) * q(c) + g(b, c) * g(d, e) * q(-e) and canon_bp(t1 - q(c) * p(b) * q(a) - g(a, b) * g(c, d) * q(-d)) == 0 and t == 0 and t(b, c, d) == q(d) * p(b) * q(c)"},"spec":{"lhs":"test_fun()","rhs":"test_fun produces the expected output","over":{"base":"Any"},"name":"test_fun_correct"},"guarantee":"test_fun produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_fun_correct","statement":"Path(test_fun(x), test_fun produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c180866c0da92ee9"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_fun","kind":"function","src_hash":"2df0ba9fcca309df","in":{"base":"Any"},"out":{"base":"Any","pred":"t(a, b, c) == t and canon_bp(t - t(b, a, c) - q(c) * p(a) * q(b) + q(c) * p(b) * q(a)) == 0 and t(b, c, d) == q(d) * p(b) * q(c) + g(b, c) * g(d, e) * q(-e) and canon_bp(t1 - q(c) * p(b) * q(a) - g(a, b) * g(c, d) * q(-d)) == 0 and t == 0 and t(b, c, d) == q(d) * p(b) * q(c)"},"spec":{"lhs":"test_fun()","rhs":"<unspecified:test_fun>","over":{"base":"Any"},"name":"test_fun_correct"},"guarantee":"test_fun produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_fun_correct","statement":"Path(test_fun(x), test_fun produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c180866c0da92ee9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_fun():
     with warns_deprecated_sympy():
         D = Symbol('D')
@@ -1590,16 +1858,24 @@ def test_fun():
         assert t(b,c,d) == q(d)*p(b)*q(c)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_TensorManager(), test_TensorManager produces the expected output) over Any ║
+# ║ Path(test_TensorManager(), TensorManager._comm_i2symbol[G.comm] == Gsymbol and canon_bp(t1 - ps * ps - 2 * ps * psh - psh * psh) == 0 and _is_equal(ps * qsh, qsh * ps) and not _is_equal(ps * qs, qs * ps) and TensorManager.comm_i2symbol(n) == Gsymbol and GHsymbol in TensorManager._comm_symbols2i and TensorManager.get_comm(n, 1) == TensorManager.get_comm(1, n) == 1 and TensorManager.comm == [{0: 0, 1: 0, 2: 0}, {0: 0, 1: 1, 2: None}, {0: 0, 1: None}] and GHsymbol not in TensorManager._comm_symbols2i and TensorManager.comm_i2symbol(nh) == GHsymbol) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_TensorManager : Any → {Any | TensorManager._comm...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  TensorManager._comm_i2symbol[G.comm] == G...   ║
+# ║   ensures:  canon_bp(t1 - ps * ps - 2 * ps * psh - ps...   ║
+# ║   ensures:  _is_equal(ps * qsh, qsh * ps)                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_TensorManager : Any → {Any | result satisfies: T...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 47bb759314b5b29f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e7d2d3956148ebcc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_TensorManager","kind":"function","src_hash":"6da522284c59e3a3","in":{"base":"Any"},"out":{"base":"Any","pred":"TensorManager._comm_i2symbol[G.comm] == Gsymbol and canon_bp(t1 - ps * ps - 2 * ps * psh - psh * psh) == 0 and _is_equal(ps * qsh, qsh * ps) and not _is_equal(ps * qs, qs * ps) and TensorManager.comm_i2symbol(n) == Gsymbol and GHsymbol in TensorManager._comm_symbols2i and TensorManager.get_comm(n, 1) == TensorManager.get_comm(1, n) == 1 and GHsymbol not in TensorManager._comm_symbols2i and TensorManager.comm_i2symbol(nh) == GHsymbol and GHsymbol in TensorManager._comm_symbols2i"},"spec":{"lhs":"test_TensorManager()","rhs":"test_TensorManager produces the expected output","over":{"base":"Any"},"name":"test_TensorManager_correct"},"guarantee":"test_TensorManager produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_TensorManager_correct","statement":"Path(test_TensorManager(x), test_TensorManager produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"47bb759314b5b29f"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_TensorManager","kind":"function","src_hash":"6da522284c59e3a3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: TensorManager._comm_i2symbol[G.comm] == Gsymbol and canon_bp(t1 - ps * ps - 2 * ps * psh - psh * psh) == 0 and _is_equal(ps * qsh, qsh * ps) and not _is_equal(ps * qs, qs * ps) and TensorManager.comm_i2symbol(n) == Gsymbol and GHsymbol in TensorManager._comm_symbols2i and TensorManager.get_comm(n, 1) == TensorManager.get_comm(1, n) == 1 and TensorManager.comm == [{0: 0, 1: 0, 2: 0}, {0: 0, 1: 1, 2: None}, {0: 0, 1: None}] and GHsymbol not in TensorManager._comm_symbols2i and TensorManager.comm_i2symbol(nh) == GHsymbol"},"spec":{"lhs":"test_TensorManager()","rhs":"TensorManager._comm_i2symbol[G.comm] == Gsymbol and canon_bp(t1 - ps * ps - 2 * ps * psh - psh * psh) == 0 and _is_equal(ps * qsh, qsh * ps) and not _is_equal(ps * qs, qs * ps) and TensorManager.comm_i2symbol(n) == Gsymbol and GHsymbol in TensorManager._comm_symbols2i and TensorManager.get_comm(n, 1) == TensorManager.get_comm(1, n) == 1 and TensorManager.comm == [{0: 0, 1: 0, 2: 0}, {0: 0, 1: 1, 2: None}, {0: 0, 1: None}] and GHsymbol not in TensorManager._comm_symbols2i and TensorManager.comm_i2symbol(nh) == GHsymbol","over":{"base":"Any"},"name":"test_TensorManager_correct"},"guarantee":"TensorManager._comm_i2symbol[G.comm] == Gsymbol; canon_bp(t1 - ps * ps - 2 * ps * psh - psh * psh) == 0; _is_equal(ps * qsh, qsh * ps)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_TensorManager_correct","statement":"Path(test_TensorManager(x), TensorManager._comm_i2symbol[G.comm] == Gsymbol; canon_bp(t1 - ps * ps - 2 * ps * psh - psh * psh) == 0; _is_equal(ps * qsh, qsh * ps))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e7d2d3956148ebcc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["TensorManager._comm_i2symbol[G.comm] == Gsymbol","canon_bp(t1 - ps * ps - 2 * ps * psh - psh * psh) == 0","_is_equal(ps * qsh, qsh * ps)","not _is_equal(ps * qs, qs * ps)","TensorManager.comm_i2symbol(n) == Gsymbol","GHsymbol in TensorManager._comm_symbols2i","TensorManager.get_comm(n, 1) == TensorManager.get_comm(1, n) == 1","TensorManager.comm == [{0: 0, 1: 0, 2: 0}, {0: 0, 1: 1, 2: None}, {0: 0, 1: None}]","GHsymbol not in TensorManager._comm_symbols2i","TensorManager.comm_i2symbol(nh) == GHsymbol"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_TensorManager():
     Lorentz = TensorIndexType('Lorentz', dummy_name='L')
     LorentzH = TensorIndexType('LorentzH', dummy_name='LH')
@@ -1639,9 +1915,15 @@ def test_TensorManager():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_hash(), test_hash produces the expected output) over {Any | isinstance(_, Basic)} ║
+# ║ Path(test_hash(), all((isinstance(_, Basic) for _ in obj.args))) over {Any | isinstance(_, Basic)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_hash : {Any | isinstance(_, Basic)} → {Any | has...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  hash(t1) != hash(t2)                           ║
+# ║   ensures:  hash(t3) != hash(t4)                           ║
+# ║   ensures:  a.func(*a.args) == a                           ║
+# ║   returns:  all((isinstance(_, Basic) for _ in obj.ar...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_hash : {Any | isinstance(_, Basic)} → {Any | res...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   Basic: {isinstance(_, Basic)} → library_axiom            ║
@@ -1651,9 +1933,12 @@ def test_TensorManager():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 2.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 77648f1c...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_hash","kind":"function","src_hash":"f9deedc060bc69a2","in":{"base":"Any","pred":"isinstance(_, Basic)"},"out":{"base":"Any","pred":"hash(t1) != hash(t2) and hash(t3) != hash(t4) and a.func(*a.args) == a and Lorentz.func(*Lorentz.args) == Lorentz and g.func(*g.args) == g and p.func(*p.args) == p and p_type.func(*p_type.args) == p_type and p(a).func(*p(a).args) == p(a) and t1.func(*t1.args) == t1 and t2.func(*t2.args) == t2 and t3.func(*t3.args) == t3 and t4.func(*t4.args) == t4 and hash(a.func(*a.args)) == hash(a) and hash(Lorentz.func(*Lorentz.args)) == hash(Lorentz) and hash(g.func(*g.args)) == hash(g) and hash(p.func(*p.args)) == hash(p) and hash(p_type.func(*p_type.args)) == hash(p_type) and hash(p(a).func(*p(a).args)) == hash(p(a)) and hash(t1.func(*t1.args)) == hash(t1) and hash(t2.func(*t2.args)) == hash(t2) and hash(t3.func(*t3.args)) == hash(t3) and hash(t4.func(*t4.args)) == hash(t4) and check_all(a) and check_all(Lorentz) and check_all(g) and check_all(p) and check_all(p_type) and check_all(p(a)) and check_all(t1) and check_all(t2) and check_all(t3) and check_all(t4) and tsymmetry.func(*tsymmetry.args) == tsymmetry and hash(tsymmetry.func(*tsymmetry.args)) == hash(tsymmetry) and check_all(tsymmetry)"},"spec":{"lhs":"test_hash()","rhs":"test_hash produces the expected output","over":{"base":"Any","pred":"isinstance(_, Basic)"},"name":"test_hash_correct"},"guarantee":"test_hash produces the expected output","fibers":[{"name":"Basic","pred":"isinstance(_, Basic)","path":{"lhs":"test_hash(x)","rhs":"test_hash produces the expected output","over":{"base":"Basic","pred":"isinstance(_, Basic)"},"name":"test_hash_Basic_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_hash_Basic_correct","statement":"test_hash satisfies spec on Basic inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"77648f1c9e373ed0"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_hash","kind":"function","src_hash":"f9deedc060bc69a2","in":{"base":"Any","pred":"isinstance(_, Basic)"},"out":{"base":"Any","pred":"result satisfies: result == (all((isinstance(_, Basic) for _ in obj.args)))"},"spec":{"lhs":"test_hash()","rhs":"all((isinstance(_, Basic) for _ in obj.args))","over":{"base":"Any","pred":"isinstance(_, Basic)"},"name":"test_hash_correct"},"guarantee":"returns all((isinstance(_, Basic) for _ in obj.args)); hash(t1) != hash(t2); hash(t3) != hash(t4); a.func(*a.args) == a","fibers":[{"name":"Basic","pred":"isinstance(_, Basic)","path":{"lhs":"test_hash(x)","rhs":"returns all((isinstance(_, Basic) for _ in obj.args)); hash(t1) != hash(t2); hash(t3) != hash(t4); a.func(*a.args) == a","over":{"base":"Basic","pred":"isinstance(_, Basic)"},"name":"test_hash_Basic_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_hash_Basic_correct","statement":"test_hash satisfies spec on Basic inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"77648f1c9e373ed0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["hash(t1) != hash(t2)","hash(t3) != hash(t4)","a.func(*a.args) == a","Lorentz.func(*Lorentz.args) == Lorentz","g.func(*g.args) == g","p.func(*p.args) == p","p_type.func(*p_type.args) == p_type","p(a).func(*p(a).args) == p(a)","t1.func(*t1.args) == t1","t2.func(*t2.args) == t2","t3.func(*t3.args) == t3","t4.func(*t4.args) == t4","hash(a.func(*a.args)) == hash(a)","hash(Lorentz.func(*Lorentz.args)) == hash(Lorentz)","hash(g.func(*g.args)) == hash(g)","hash(p.func(*p.args)) == hash(p)","hash(p_type.func(*p_type.args)) == hash(p_type)","hash(p(a).func(*p(a).args)) == hash(p(a))","hash(t1.func(*t1.args)) == hash(t1)","hash(t2.func(*t2.args)) == hash(t2)","hash(t3.func(*t3.args)) == hash(t3)","hash(t4.func(*t4.args)) == hash(t4)","check_all(a)","check_all(Lorentz)","check_all(g)","check_all(p)","check_all(p_type)","check_all(p(a))","check_all(t1)","check_all(t2)","check_all(t3)","check_all(t4)","tsymmetry.func(*tsymmetry.args) == tsymmetry","hash(tsymmetry.func(*tsymmetry.args)) == hash(tsymmetry)","check_all(tsymmetry)"],"returns_expr":"all((isinstance(_, Basic) for _ in obj.args))","pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.1,"verdict_class":"failed","binding":true}}
 def test_hash():
     D = Symbol('D')
     Lorentz = TensorIndexType('Lorentz', dim=D, dummy_name='L')
@@ -1716,16 +2001,22 @@ def test_hash():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_valued_base_test_variables(), internal helper behaves correctly) over Any ║
+# ║ Path(_get_valued_base_test_variables(), (A, B, AB, BA, C, Lorentz, E, px, py, pz, LorentzD, mu0, mu1, mu2, ndm, n0, n1, n2, NA, NB, NC, minkowski, ba_matrix, ndm_matrix, i0, i1, i2, i3, i4)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (A, B, AB, BA, C, Lorentz, E, px, py, pz,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_valued_base_test_variables : Any → Any                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0549cf73fc9dae5b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bfa064c81336d028  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor._get_valued_base_test_variables","kind":"function","src_hash":"a8f1b4726b238fe2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_valued_base_test_variables()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_valued_base_test_variables_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor._get_valued_base_test_variables_correct","statement":"Path(_get_valued_base_test_variables(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0549cf73fc9dae5b"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor._get_valued_base_test_variables","kind":"function","src_hash":"a8f1b4726b238fe2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_valued_base_test_variables()","rhs":"(A, B, AB, BA, C, Lorentz, E, px, py, pz, LorentzD, mu0, mu1, mu2, ndm, n0, n1, n2, NA, NB, NC, minkowski, ba_matrix, ndm_matrix, i0, i1, i2, i3, i4)","over":{"base":"Any"},"name":"_get_valued_base_test_variables_correct"},"guarantee":"returns (A, B, AB, BA, C, Lorentz, E, px, py, pz, LorentzD, mu0, mu1, mu2, ndm, n0, n1, n2, NA, NB, NC, minkowski, ba_matrix, ndm_matrix, i0, i1, i2, i3, i4)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor._get_valued_base_test_variables_correct","statement":"Path(_get_valued_base_test_variables(x), returns (A, B, AB, BA, C, Lorentz, E, px, py, pz, LorentzD, mu0, mu1, mu2, ndm, n0, n1, n2, NA, NB, NC, minkowski, ba_matrix, ndm_matrix, i0, i1, i2, i3, i4))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bfa064c81336d028","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(A, B, AB, BA, C, Lorentz, E, px, py, pz, LorentzD, mu0, mu1, mu2, ndm, n0, n1, n2, NA, NB, NC, minkowski, ba_matrix, ndm_matrix, i0, i1, i2, i3, i4)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def _get_valued_base_test_variables():
     minkowski = Matrix((
         (1, 0, 0, 0),
@@ -1784,16 +2075,22 @@ def _get_valued_base_test_variables():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_valued_tensor_iter(), test_valued_tensor_iter produces the expected output) over Any ║
+# ║ Path(test_valued_tensor_iter(), <unspecified:test_valued_tensor_iter>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_valued_tensor_iter : Any → {Any | list(A) == [E,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8d96abe12f46e638  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_valued_tensor_iter","kind":"function","src_hash":"78e066a1cef185b3","in":{"base":"Any"},"out":{"base":"Any","pred":"list(A) == [E, px, py, pz] and list(ba_matrix) == [1, 2, 3, 4, 5, 6, 7, 8, 9, 0, -1, -2, -3, -4, -5, -6] and list(BA) == list_BA and list(A(i1)) == [E, px, py, pz] and list(BA(i1, i2)) == list_BA and list(3 * BA(i1, i2)) == [3 * i for i in list_BA] and list(-5 * BA(i1, i2)) == [-5 * i for i in list_BA] and list(A(i1) + A(i1)) == [2 * E, 2 * px, 2 * py, 2 * pz] and BA(i1, i2) - BA(i1, i2) == 0 and list(BA(i1, i2) - 2 * BA(i1, i2)) == [-i for i in list_BA]"},"spec":{"lhs":"test_valued_tensor_iter()","rhs":"test_valued_tensor_iter produces the expected output","over":{"base":"Any"},"name":"test_valued_tensor_iter_correct"},"guarantee":"test_valued_tensor_iter produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_valued_tensor_iter_correct","statement":"Path(test_valued_tensor_iter(x), test_valued_tensor_iter produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8d96abe12f46e638"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_valued_tensor_iter","kind":"function","src_hash":"78e066a1cef185b3","in":{"base":"Any"},"out":{"base":"Any","pred":"list(A) == [E, px, py, pz] and list(ba_matrix) == [1, 2, 3, 4, 5, 6, 7, 8, 9, 0, -1, -2, -3, -4, -5, -6] and list(BA) == list_BA and list(A(i1)) == [E, px, py, pz] and list(BA(i1, i2)) == list_BA and list(3 * BA(i1, i2)) == [3 * i for i in list_BA] and list(-5 * BA(i1, i2)) == [-5 * i for i in list_BA] and list(A(i1) + A(i1)) == [2 * E, 2 * px, 2 * py, 2 * pz] and BA(i1, i2) - BA(i1, i2) == 0 and list(BA(i1, i2) - 2 * BA(i1, i2)) == [-i for i in list_BA]"},"spec":{"lhs":"test_valued_tensor_iter()","rhs":"<unspecified:test_valued_tensor_iter>","over":{"base":"Any"},"name":"test_valued_tensor_iter_correct"},"guarantee":"test_valued_tensor_iter produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_valued_tensor_iter_correct","statement":"Path(test_valued_tensor_iter(x), test_valued_tensor_iter produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8d96abe12f46e638","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_valued_tensor_iter():
     with warns_deprecated_sympy():
         (A, B, AB, BA, C, Lorentz, E, px, py, pz, LorentzD, mu0, mu1, mu2, ndm, n0, n1,
@@ -1819,16 +2116,22 @@ def test_valued_tensor_iter():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_valued_tensor_covariant_contravariant_elements(), test_valued_tensor_covariant_contravariant_elements produces the expected output) over Any ║
+# ║ Path(test_valued_tensor_covariant_contravariant_elements(), <unspecified:test_valued_tensor_covariant_contravariant_elements>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_valued_tensor_covariant_contravariant_elements :...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 821e6daae2dc3e44  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_valued_tensor_covariant_contravariant_elements","kind":"function","src_hash":"b64ed4b3fb625aa7","in":{"base":"Any"},"out":{"base":"Any","pred":"A(-i0)[0] == A(i0)[0] and A(-i0)[1] == -A(i0)[1] and AB(i0, i1)[1, 1] == -1 and AB(i0, -i1)[1, 1] == 1 and AB(-i0, -i1)[1, 1] == -1 and AB(-i0, i1)[1, 1] == 1"},"spec":{"lhs":"test_valued_tensor_covariant_contravariant_elements()","rhs":"test_valued_tensor_covariant_contravariant_elements produces the expected output","over":{"base":"Any"},"name":"test_valued_tensor_covariant_contravariant_elements_correct"},"guarantee":"test_valued_tensor_covariant_contravariant_elements produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_valued_tensor_covariant_contravariant_elements_correct","statement":"Path(test_valued_tensor_covariant_contravariant_elements(x), test_valued_tensor_covariant_contravariant_elements produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"821e6daae2dc3e44"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_valued_tensor_covariant_contravariant_elements","kind":"function","src_hash":"b64ed4b3fb625aa7","in":{"base":"Any"},"out":{"base":"Any","pred":"A(-i0)[0] == A(i0)[0] and A(-i0)[1] == -A(i0)[1] and AB(i0, i1)[1, 1] == -1 and AB(i0, -i1)[1, 1] == 1 and AB(-i0, -i1)[1, 1] == -1 and AB(-i0, i1)[1, 1] == 1"},"spec":{"lhs":"test_valued_tensor_covariant_contravariant_elements()","rhs":"<unspecified:test_valued_tensor_covariant_contravariant_elements>","over":{"base":"Any"},"name":"test_valued_tensor_covariant_contravariant_elements_correct"},"guarantee":"test_valued_tensor_covariant_contravariant_elements produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_valued_tensor_covariant_contravariant_elements_correct","statement":"Path(test_valued_tensor_covariant_contravariant_elements(x), test_valued_tensor_covariant_contravariant_elements produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"821e6daae2dc3e44","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_valued_tensor_covariant_contravariant_elements():
     with warns_deprecated_sympy():
         (A, B, AB, BA, C, Lorentz, E, px, py, pz, LorentzD, mu0, mu1, mu2, ndm, n0, n1,
@@ -1844,16 +2147,22 @@ def test_valued_tensor_covariant_contravariant_elements():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_valued_tensor_get_matrix(), test_valued_tensor_get_matrix produces the expected output) over Any ║
+# ║ Path(test_valued_tensor_get_matrix(), <unspecified:test_valued_tensor_get_matrix>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_valued_tensor_get_matrix : Any → {Any | matab ==...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f4f59dcbc8564370  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_valued_tensor_get_matrix","kind":"function","src_hash":"91930dc4faa8a9af","in":{"base":"Any"},"out":{"base":"Any","pred":"matab == Matrix([[1, 0, 0, 0], [0, -1, 0, 0], [0, 0, -1, 0], [0, 0, 0, -1]]) and AB(i0, -i1).get_matrix() == eye(4) and A(i0).get_matrix() == Matrix([E, px, py, pz]) and A(-i0).get_matrix() == Matrix([E, -px, -py, -pz])"},"spec":{"lhs":"test_valued_tensor_get_matrix()","rhs":"test_valued_tensor_get_matrix produces the expected output","over":{"base":"Any"},"name":"test_valued_tensor_get_matrix_correct"},"guarantee":"test_valued_tensor_get_matrix produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_valued_tensor_get_matrix_correct","statement":"Path(test_valued_tensor_get_matrix(x), test_valued_tensor_get_matrix produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f4f59dcbc8564370"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_valued_tensor_get_matrix","kind":"function","src_hash":"91930dc4faa8a9af","in":{"base":"Any"},"out":{"base":"Any","pred":"matab == Matrix([[1, 0, 0, 0], [0, -1, 0, 0], [0, 0, -1, 0], [0, 0, 0, -1]]) and AB(i0, -i1).get_matrix() == eye(4) and A(i0).get_matrix() == Matrix([E, px, py, pz]) and A(-i0).get_matrix() == Matrix([E, -px, -py, -pz])"},"spec":{"lhs":"test_valued_tensor_get_matrix()","rhs":"<unspecified:test_valued_tensor_get_matrix>","over":{"base":"Any"},"name":"test_valued_tensor_get_matrix_correct"},"guarantee":"test_valued_tensor_get_matrix produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_valued_tensor_get_matrix_correct","statement":"Path(test_valued_tensor_get_matrix(x), test_valued_tensor_get_matrix produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f4f59dcbc8564370","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_valued_tensor_get_matrix():
     with warns_deprecated_sympy():
         (A, B, AB, BA, C, Lorentz, E, px, py, pz, LorentzD, mu0, mu1, mu2, ndm, n0, n1,
@@ -1875,16 +2184,22 @@ def test_valued_tensor_get_matrix():
         assert A(-i0).get_matrix() == Matrix([E, -px, -py, -pz])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_valued_tensor_contraction(), test_valued_tensor_contraction produces the expected output) over Any ║
+# ║ Path(test_valued_tensor_contraction(), <unspecified:test_valued_tensor_contraction>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_valued_tensor_contraction : Any → {Any | (A(i0) ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0d7dd1c50a1fb541  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_valued_tensor_contraction","kind":"function","src_hash":"0134e90f0cb47b47","in":{"base":"Any"},"out":{"base":"Any","pred":"(A(i0) * A(-i0)).data == E ** 2 - px ** 2 - py ** 2 - pz ** 2 and (A(i0) * A(-i0)).data == A ** 2 and (A(i0) * A(-i0)).data == A(i0) ** 2 and (A(i0) * B(-i0)).data == -px - 2 * py - 3 * pz and (C(mu0) * C(-mu0)).data == -E ** 2 + px ** 2 + py ** 2 + pz ** 2 and A(i0).rank == 1 and AB(i1, -i0).rank == 2 and contrexp.rank == 1 and contrexp[i] == [E, px, py, pz][i] and (A(i0) * B(-i1))[i, j] == [E, px, py, pz][i] * [0, -1, -2, -3][j]"},"spec":{"lhs":"test_valued_tensor_contraction()","rhs":"test_valued_tensor_contraction produces the expected output","over":{"base":"Any"},"name":"test_valued_tensor_contraction_correct"},"guarantee":"test_valued_tensor_contraction produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_valued_tensor_contraction_correct","statement":"Path(test_valued_tensor_contraction(x), test_valued_tensor_contraction produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0d7dd1c50a1fb541"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_valued_tensor_contraction","kind":"function","src_hash":"0134e90f0cb47b47","in":{"base":"Any"},"out":{"base":"Any","pred":"(A(i0) * A(-i0)).data == E ** 2 - px ** 2 - py ** 2 - pz ** 2 and (A(i0) * A(-i0)).data == A ** 2 and (A(i0) * A(-i0)).data == A(i0) ** 2 and (A(i0) * B(-i0)).data == -px - 2 * py - 3 * pz and (C(mu0) * C(-mu0)).data == -E ** 2 + px ** 2 + py ** 2 + pz ** 2 and A(i0).rank == 1 and AB(i1, -i0).rank == 2 and contrexp.rank == 1 and contrexp[i] == [E, px, py, pz][i] and (A(i0) * B(-i1))[i, j] == [E, px, py, pz][i] * [0, -1, -2, -3][j]"},"spec":{"lhs":"test_valued_tensor_contraction()","rhs":"<unspecified:test_valued_tensor_contraction>","over":{"base":"Any"},"name":"test_valued_tensor_contraction_correct"},"guarantee":"test_valued_tensor_contraction produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_valued_tensor_contraction_correct","statement":"Path(test_valued_tensor_contraction(x), test_valued_tensor_contraction produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0d7dd1c50a1fb541","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_valued_tensor_contraction():
     with warns_deprecated_sympy():
         (A, B, AB, BA, C, Lorentz, E, px, py, pz, LorentzD, mu0, mu1, mu2, ndm, n0, n1,
@@ -1910,16 +2225,22 @@ def test_valued_tensor_contraction():
             assert contrexp[i] == [E, px, py, pz][i]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_valued_tensor_self_contraction(), test_valued_tensor_self_contraction produces the expected output) over Any ║
+# ║ Path(test_valued_tensor_self_contraction(), <unspecified:test_valued_tensor_self_contraction>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_valued_tensor_self_contraction : Any → {Any | AB...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4c00b1e80274ad0d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_valued_tensor_self_contraction","kind":"function","src_hash":"22dff2ea8717693b","in":{"base":"Any"},"out":{"base":"Any","pred":"AB(i0, -i0).data == 4 and BA(i0, -i0).data == 2"},"spec":{"lhs":"test_valued_tensor_self_contraction()","rhs":"test_valued_tensor_self_contraction produces the expected output","over":{"base":"Any"},"name":"test_valued_tensor_self_contraction_correct"},"guarantee":"test_valued_tensor_self_contraction produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_valued_tensor_self_contraction_correct","statement":"Path(test_valued_tensor_self_contraction(x), test_valued_tensor_self_contraction produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4c00b1e80274ad0d"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_valued_tensor_self_contraction","kind":"function","src_hash":"22dff2ea8717693b","in":{"base":"Any"},"out":{"base":"Any","pred":"AB(i0, -i0).data == 4 and BA(i0, -i0).data == 2"},"spec":{"lhs":"test_valued_tensor_self_contraction()","rhs":"<unspecified:test_valued_tensor_self_contraction>","over":{"base":"Any"},"name":"test_valued_tensor_self_contraction_correct"},"guarantee":"test_valued_tensor_self_contraction produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_valued_tensor_self_contraction_correct","statement":"Path(test_valued_tensor_self_contraction(x), test_valued_tensor_self_contraction produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4c00b1e80274ad0d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_valued_tensor_self_contraction():
     with warns_deprecated_sympy():
         (A, B, AB, BA, C, Lorentz, E, px, py, pz, LorentzD, mu0, mu1, mu2, ndm, n0, n1,
@@ -1930,16 +2251,22 @@ def test_valued_tensor_self_contraction():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_valued_tensor_pow(), test_valued_tensor_pow produces the expected output) over Any ║
+# ║ Path(test_valued_tensor_pow(), <unspecified:test_valued_tensor_pow>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_valued_tensor_pow : Any → {Any | C ** 2 == -E **...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 94a752351b53ff6d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_valued_tensor_pow","kind":"function","src_hash":"a80445887cd1a1e0","in":{"base":"Any"},"out":{"base":"Any","pred":"C ** 2 == -E ** 2 + px ** 2 + py ** 2 + pz ** 2 and C ** 1 == sqrt(-E ** 2 + px ** 2 + py ** 2 + pz ** 2) and C(mu0) ** 2 == C ** 2 and C(mu0) ** 1 == C ** 1"},"spec":{"lhs":"test_valued_tensor_pow()","rhs":"test_valued_tensor_pow produces the expected output","over":{"base":"Any"},"name":"test_valued_tensor_pow_correct"},"guarantee":"test_valued_tensor_pow produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_valued_tensor_pow_correct","statement":"Path(test_valued_tensor_pow(x), test_valued_tensor_pow produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"94a752351b53ff6d"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_valued_tensor_pow","kind":"function","src_hash":"a80445887cd1a1e0","in":{"base":"Any"},"out":{"base":"Any","pred":"C ** 2 == -E ** 2 + px ** 2 + py ** 2 + pz ** 2 and C ** 1 == sqrt(-E ** 2 + px ** 2 + py ** 2 + pz ** 2) and C(mu0) ** 2 == C ** 2 and C(mu0) ** 1 == C ** 1"},"spec":{"lhs":"test_valued_tensor_pow()","rhs":"<unspecified:test_valued_tensor_pow>","over":{"base":"Any"},"name":"test_valued_tensor_pow_correct"},"guarantee":"test_valued_tensor_pow produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_valued_tensor_pow_correct","statement":"Path(test_valued_tensor_pow(x), test_valued_tensor_pow produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"94a752351b53ff6d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_valued_tensor_pow():
     with warns_deprecated_sympy():
         (A, B, AB, BA, C, Lorentz, E, px, py, pz, LorentzD, mu0, mu1, mu2, ndm, n0, n1,
@@ -1952,16 +2279,22 @@ def test_valued_tensor_pow():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_valued_tensor_expressions(), test_valued_tensor_expressions produces the expected output) over Any ║
+# ║ Path(test_valued_tensor_expressions(), <unspecified:test_valued_tensor_expressions>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_valued_tensor_expressions : Any → {Any | rank2co...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9cf4aed2f45d100a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_valued_tensor_expressions","kind":"function","src_hash":"652c440fb675aa02","in":{"base":"Any"},"out":{"base":"Any","pred":"rank2coeff[1, 1] == x1 * px and rank2coeff[3, 3] == 3 * pz * x1 and coeff_expr.expand() == -px * x1 / x2 - 2 * py * x1 / x2 - 3 * pz * x1 / x2 and add_expr[0] == E and add_expr[1] == px + 1 and add_expr[2] == py + 2 and add_expr[3] == pz + 3 and sub_expr[0] == E and sub_expr[1] == px - 1 and sub_expr[2] == py - 2 and sub_expr[3] == pz - 3 and (add_expr * B(-i0)).data == -px - 2 * py - 3 * pz - 14 and expr4 * 2 == expr3"},"spec":{"lhs":"test_valued_tensor_expressions()","rhs":"test_valued_tensor_expressions produces the expected output","over":{"base":"Any"},"name":"test_valued_tensor_expressions_correct"},"guarantee":"test_valued_tensor_expressions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_valued_tensor_expressions_correct","statement":"Path(test_valued_tensor_expressions(x), test_valued_tensor_expressions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9cf4aed2f45d100a"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_valued_tensor_expressions","kind":"function","src_hash":"652c440fb675aa02","in":{"base":"Any"},"out":{"base":"Any","pred":"rank2coeff[1, 1] == x1 * px and rank2coeff[3, 3] == 3 * pz * x1 and coeff_expr.expand() == -px * x1 / x2 - 2 * py * x1 / x2 - 3 * pz * x1 / x2 and add_expr[0] == E and add_expr[1] == px + 1 and add_expr[2] == py + 2 and add_expr[3] == pz + 3 and sub_expr[0] == E and sub_expr[1] == px - 1 and sub_expr[2] == py - 2 and sub_expr[3] == pz - 3 and (add_expr * B(-i0)).data == -px - 2 * py - 3 * pz - 14 and expr4 * 2 == expr3"},"spec":{"lhs":"test_valued_tensor_expressions()","rhs":"<unspecified:test_valued_tensor_expressions>","over":{"base":"Any"},"name":"test_valued_tensor_expressions_correct"},"guarantee":"test_valued_tensor_expressions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_valued_tensor_expressions_correct","statement":"Path(test_valued_tensor_expressions(x), test_valued_tensor_expressions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9cf4aed2f45d100a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_valued_tensor_expressions():
     with warns_deprecated_sympy():
         (A, B, AB, BA, C, Lorentz, E, px, py, pz, LorentzD, mu0, mu1, mu2, ndm, n0, n1,
@@ -2004,16 +2337,22 @@ def test_valued_tensor_expressions():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_valued_tensor_add_scalar(), test_valued_tensor_add_scalar produces the expected output) over Any ║
+# ║ Path(test_valued_tensor_add_scalar(), <unspecified:test_valued_tensor_add_scalar>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_valued_tensor_add_scalar : Any → {Any | expr1.da...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7d7058c1dee90674  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_valued_tensor_add_scalar","kind":"function","src_hash":"2ca1a29962326bfb","in":{"base":"Any"},"out":{"base":"Any","pred":"expr1.data == 0 and expr2.data == 0 and expr3.data == 0 and expr4.data == 0"},"spec":{"lhs":"test_valued_tensor_add_scalar()","rhs":"test_valued_tensor_add_scalar produces the expected output","over":{"base":"Any"},"name":"test_valued_tensor_add_scalar_correct"},"guarantee":"test_valued_tensor_add_scalar produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_valued_tensor_add_scalar_correct","statement":"Path(test_valued_tensor_add_scalar(x), test_valued_tensor_add_scalar produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7d7058c1dee90674"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_valued_tensor_add_scalar","kind":"function","src_hash":"2ca1a29962326bfb","in":{"base":"Any"},"out":{"base":"Any","pred":"expr1.data == 0 and expr2.data == 0 and expr3.data == 0 and expr4.data == 0"},"spec":{"lhs":"test_valued_tensor_add_scalar()","rhs":"<unspecified:test_valued_tensor_add_scalar>","over":{"base":"Any"},"name":"test_valued_tensor_add_scalar_correct"},"guarantee":"test_valued_tensor_add_scalar produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_valued_tensor_add_scalar_correct","statement":"Path(test_valued_tensor_add_scalar(x), test_valued_tensor_add_scalar produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7d7058c1dee90674","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_valued_tensor_add_scalar():
     with warns_deprecated_sympy():
         (A, B, AB, BA, C, Lorentz, E, px, py, pz, LorentzD, mu0, mu1, mu2, ndm, n0, n1,
@@ -2036,16 +2375,22 @@ def test_valued_tensor_add_scalar():
         assert expr4.data == 0
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_noncommuting_components(), test_noncommuting_components produces the expected output) over Any ║
+# ║ Path(test_noncommuting_components(), <unspecified:test_noncommuting_components>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_noncommuting_components : Any → {Any | vtp.data ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 59cc5785160bd5d6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_noncommuting_components","kind":"function","src_hash":"3ba411a0217992bb","in":{"base":"Any"},"out":{"base":"Any","pred":"vtp.data == a ** 2 + b ** 2 + c ** 2 + d ** 2 and vtp.data != a ** 2 + 2 * b * c + d ** 2 and vtp2.data == a ** 2 + b * c + c * b + d ** 2 and vtp2.data != a ** 2 + 2 * b * c + d ** 2 and Vc.expand() == b * a + b * d"},"spec":{"lhs":"test_noncommuting_components()","rhs":"test_noncommuting_components produces the expected output","over":{"base":"Any"},"name":"test_noncommuting_components_correct"},"guarantee":"test_noncommuting_components produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_noncommuting_components_correct","statement":"Path(test_noncommuting_components(x), test_noncommuting_components produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"59cc5785160bd5d6"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_noncommuting_components","kind":"function","src_hash":"3ba411a0217992bb","in":{"base":"Any"},"out":{"base":"Any","pred":"vtp.data == a ** 2 + b ** 2 + c ** 2 + d ** 2 and vtp.data != a ** 2 + 2 * b * c + d ** 2 and vtp2.data == a ** 2 + b * c + c * b + d ** 2 and vtp2.data != a ** 2 + 2 * b * c + d ** 2 and Vc.expand() == b * a + b * d"},"spec":{"lhs":"test_noncommuting_components()","rhs":"<unspecified:test_noncommuting_components>","over":{"base":"Any"},"name":"test_noncommuting_components_correct"},"guarantee":"test_noncommuting_components produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_noncommuting_components_correct","statement":"Path(test_noncommuting_components(x), test_noncommuting_components produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"59cc5785160bd5d6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_noncommuting_components():
     with warns_deprecated_sympy():
         (A, B, AB, BA, C, Lorentz, E, px, py, pz, LorentzD, mu0, mu1, mu2, ndm, n0, n1,
@@ -2076,16 +2421,22 @@ def test_noncommuting_components():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_valued_non_diagonal_metric(), test_valued_non_diagonal_metric produces the expected output) over Any ║
+# ║ Path(test_valued_non_diagonal_metric(), <unspecified:test_valued_non_diagonal_metric>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_valued_non_diagonal_metric : Any → Any                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1fb6bbf1d9a9c7ab  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_valued_non_diagonal_metric","kind":"function","src_hash":"5423cfdbb64f2678","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_valued_non_diagonal_metric()","rhs":"test_valued_non_diagonal_metric produces the expected output","over":{"base":"Any"},"name":"test_valued_non_diagonal_metric_correct"},"guarantee":"test_valued_non_diagonal_metric produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_valued_non_diagonal_metric_correct","statement":"Path(test_valued_non_diagonal_metric(x), test_valued_non_diagonal_metric produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1fb6bbf1d9a9c7ab"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_valued_non_diagonal_metric","kind":"function","src_hash":"5423cfdbb64f2678","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_valued_non_diagonal_metric()","rhs":"<unspecified:test_valued_non_diagonal_metric>","over":{"base":"Any"},"name":"test_valued_non_diagonal_metric_correct"},"guarantee":"test_valued_non_diagonal_metric produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_valued_non_diagonal_metric_correct","statement":"Path(test_valued_non_diagonal_metric(x), test_valued_non_diagonal_metric produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1fb6bbf1d9a9c7ab","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_valued_non_diagonal_metric():
     with warns_deprecated_sympy():
         (A, B, AB, BA, C, Lorentz, E, px, py, pz, LorentzD, mu0, mu1, mu2, ndm, n0, n1,
@@ -2096,16 +2447,22 @@ def test_valued_non_diagonal_metric():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_valued_assign_numpy_ndarray(), test_valued_assign_numpy_ndarray produces the expected output) over Any ║
+# ║ Path(test_valued_assign_numpy_ndarray(), <unspecified:test_valued_assign_numpy_ndarray>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_valued_assign_numpy_ndarray : Any → {Any | A(i0)...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3d539d4d52ec8160  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_valued_assign_numpy_ndarray","kind":"function","src_hash":"7988bf480d98b02c","in":{"base":"Any"},"out":{"base":"Any","pred":"A(i0).data[i] == arr[i] and A(i0).data[i] == [E, -qx, -qy, -qz][i] and A.data[i] == [E, -qx, -qy, -qz][i] and AB(-i0, i1).data[i, j] == random_4x4_data[i][j] * (-1 if j else 1) and AB(i0, -i1).data[i, j] == random_4x4_data[i][j] * (-1 if i else 1) and AB(-i0, -i1).data[i, j] == random_4x4_data[i][j] and AB(i0, i1).data[i, j] == random_4x4_data[i][j] * (-1 if i else 1) and AB(-i0, i1).data[i, j] == random_4x4_data[i][j] and AB(-i0, -i1).data[i, j] == random_4x4_data[i][j] * (-1 if j else 1)"},"spec":{"lhs":"test_valued_assign_numpy_ndarray()","rhs":"test_valued_assign_numpy_ndarray produces the expected output","over":{"base":"Any"},"name":"test_valued_assign_numpy_ndarray_correct"},"guarantee":"test_valued_assign_numpy_ndarray produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_valued_assign_numpy_ndarray_correct","statement":"Path(test_valued_assign_numpy_ndarray(x), test_valued_assign_numpy_ndarray produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3d539d4d52ec8160"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_valued_assign_numpy_ndarray","kind":"function","src_hash":"7988bf480d98b02c","in":{"base":"Any"},"out":{"base":"Any","pred":"A(i0).data[i] == arr[i] and A(i0).data[i] == [E, -qx, -qy, -qz][i] and A.data[i] == [E, -qx, -qy, -qz][i] and AB(-i0, i1).data[i, j] == random_4x4_data[i][j] * (-1 if j else 1) and AB(i0, -i1).data[i, j] == random_4x4_data[i][j] * (-1 if i else 1) and AB(-i0, -i1).data[i, j] == random_4x4_data[i][j] and AB(i0, i1).data[i, j] == random_4x4_data[i][j] * (-1 if i else 1) and AB(-i0, i1).data[i, j] == random_4x4_data[i][j] and AB(-i0, -i1).data[i, j] == random_4x4_data[i][j] * (-1 if j else 1)"},"spec":{"lhs":"test_valued_assign_numpy_ndarray()","rhs":"<unspecified:test_valued_assign_numpy_ndarray>","over":{"base":"Any"},"name":"test_valued_assign_numpy_ndarray_correct"},"guarantee":"test_valued_assign_numpy_ndarray produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_valued_assign_numpy_ndarray_correct","statement":"Path(test_valued_assign_numpy_ndarray(x), test_valued_assign_numpy_ndarray produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3d539d4d52ec8160","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":true}}
 def test_valued_assign_numpy_ndarray():
     with warns_deprecated_sympy():
         (A, B, AB, BA, C, Lorentz, E, px, py, pz, LorentzD, mu0, mu1, mu2, ndm, n0, n1,
@@ -2145,16 +2502,22 @@ def test_valued_assign_numpy_ndarray():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_valued_metric_inverse(), test_valued_metric_inverse produces the expected output) over Any ║
+# ║ Path(test_valued_metric_inverse(), <unspecified:test_valued_metric_inverse>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_valued_metric_inverse : Any → {Any | metric(i0, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d951ff0300ab21e3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_valued_metric_inverse","kind":"function","src_hash":"f43ce81a32772be9","in":{"base":"Any"},"out":{"base":"Any","pred":"metric(i0, i1).data[i, j] == m[i, j] and metric(-i0, -i1).data[i, j] == minv[i, j] and metric(i0, -i1).data[i, j] == meye[i, j] and metric(-i0, i1).data[i, j] == meye[i, j] and metric(i0, i1)[i, j] == m[i, j] and metric(-i0, -i1)[i, j] == minv[i, j] and metric(i0, -i1)[i, j] == meye[i, j] and metric(-i0, i1)[i, j] == meye[i, j] and KD(i0, -i1)[i, j] == meye[i, j]"},"spec":{"lhs":"test_valued_metric_inverse()","rhs":"test_valued_metric_inverse produces the expected output","over":{"base":"Any"},"name":"test_valued_metric_inverse_correct"},"guarantee":"test_valued_metric_inverse produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_valued_metric_inverse_correct","statement":"Path(test_valued_metric_inverse(x), test_valued_metric_inverse produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d951ff0300ab21e3"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_valued_metric_inverse","kind":"function","src_hash":"f43ce81a32772be9","in":{"base":"Any"},"out":{"base":"Any","pred":"metric(i0, i1).data[i, j] == m[i, j] and metric(-i0, -i1).data[i, j] == minv[i, j] and metric(i0, -i1).data[i, j] == meye[i, j] and metric(-i0, i1).data[i, j] == meye[i, j] and metric(i0, i1)[i, j] == m[i, j] and metric(-i0, -i1)[i, j] == minv[i, j] and metric(i0, -i1)[i, j] == meye[i, j] and metric(-i0, i1)[i, j] == meye[i, j] and KD(i0, -i1)[i, j] == meye[i, j]"},"spec":{"lhs":"test_valued_metric_inverse()","rhs":"<unspecified:test_valued_metric_inverse>","over":{"base":"Any"},"name":"test_valued_metric_inverse_correct"},"guarantee":"test_valued_metric_inverse produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_valued_metric_inverse_correct","statement":"Path(test_valued_metric_inverse(x), test_valued_metric_inverse produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d951ff0300ab21e3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_valued_metric_inverse():
     with warns_deprecated_sympy():
         (A, B, AB, BA, C, Lorentz, E, px, py, pz, LorentzD, mu0, mu1, mu2, ndm, n0, n1,
@@ -2189,16 +2552,22 @@ def test_valued_metric_inverse():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_valued_canon_bp_swapaxes(), test_valued_canon_bp_swapaxes produces the expected output) over Any ║
+# ║ Path(test_valued_canon_bp_swapaxes(), <unspecified:test_valued_canon_bp_swapaxes>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_valued_canon_bp_swapaxes : Any → {Any | e2 == A(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 00d60d58ed1d0c80  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_valued_canon_bp_swapaxes","kind":"function","src_hash":"5b8d615742a3a3be","in":{"base":"Any"},"out":{"base":"Any","pred":"e2 == A(i0) * A(i1) and e1[i, j] == e2[j, i] and o1[i, j, k] == o2[j, i, k]"},"spec":{"lhs":"test_valued_canon_bp_swapaxes()","rhs":"test_valued_canon_bp_swapaxes produces the expected output","over":{"base":"Any"},"name":"test_valued_canon_bp_swapaxes_correct"},"guarantee":"test_valued_canon_bp_swapaxes produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_valued_canon_bp_swapaxes_correct","statement":"Path(test_valued_canon_bp_swapaxes(x), test_valued_canon_bp_swapaxes produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"00d60d58ed1d0c80"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_valued_canon_bp_swapaxes","kind":"function","src_hash":"5b8d615742a3a3be","in":{"base":"Any"},"out":{"base":"Any","pred":"e2 == A(i0) * A(i1) and e1[i, j] == e2[j, i] and o1[i, j, k] == o2[j, i, k]"},"spec":{"lhs":"test_valued_canon_bp_swapaxes()","rhs":"<unspecified:test_valued_canon_bp_swapaxes>","over":{"base":"Any"},"name":"test_valued_canon_bp_swapaxes_correct"},"guarantee":"test_valued_canon_bp_swapaxes produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_valued_canon_bp_swapaxes_correct","statement":"Path(test_valued_canon_bp_swapaxes(x), test_valued_canon_bp_swapaxes produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"00d60d58ed1d0c80","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_valued_canon_bp_swapaxes():
     with warns_deprecated_sympy():
         (A, B, AB, BA, C, Lorentz, E, px, py, pz, LorentzD, mu0, mu1, mu2, ndm, n0, n1,
@@ -2219,16 +2588,22 @@ def test_valued_canon_bp_swapaxes():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_valued_components_with_wrong_symmetry(), test_valued_components_with_wrong_symmetry produces the expected output) over Any ║
+# ║ Path(test_valued_components_with_wrong_symmetry(), <unspecified:test_valued_components_with_wrong_symmetry>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_valued_components_with_wrong_symmetry : Any → Any     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5e78ab8e9d2b9730  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_valued_components_with_wrong_symmetry","kind":"function","src_hash":"51413c1e8c21a0ee","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_valued_components_with_wrong_symmetry()","rhs":"test_valued_components_with_wrong_symmetry produces the expected output","over":{"base":"Any"},"name":"test_valued_components_with_wrong_symmetry_correct"},"guarantee":"test_valued_components_with_wrong_symmetry produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_valued_components_with_wrong_symmetry_correct","statement":"Path(test_valued_components_with_wrong_symmetry(x), test_valued_components_with_wrong_symmetry produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5e78ab8e9d2b9730"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_valued_components_with_wrong_symmetry","kind":"function","src_hash":"51413c1e8c21a0ee","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_valued_components_with_wrong_symmetry()","rhs":"<unspecified:test_valued_components_with_wrong_symmetry>","over":{"base":"Any"},"name":"test_valued_components_with_wrong_symmetry_correct"},"guarantee":"test_valued_components_with_wrong_symmetry produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_valued_components_with_wrong_symmetry_correct","statement":"Path(test_valued_components_with_wrong_symmetry(x), test_valued_components_with_wrong_symmetry produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5e78ab8e9d2b9730","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_valued_components_with_wrong_symmetry():
     with warns_deprecated_sympy():
         IT = TensorIndexType('IT', dim=3)
@@ -2261,16 +2636,22 @@ def test_valued_components_with_wrong_symmetry():
         A_antisym.data = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_10972_TensMul_data(), test_issue_10972_TensMul_data produces the expected output) over Any ║
+# ║ Path(test_issue_10972_TensMul_data(), <unspecified:test_issue_10972_TensMul_data>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_issue_10972_TensMul_data : Any → {Any | mul_1.da...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 383fd49f5c9eba2a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_issue_10972_TensMul_data","kind":"function","src_hash":"dd24f1bd9aa0d599","in":{"base":"Any"},"out":{"base":"Any","pred":"mul_1.data == Array([[0, 0], [0, 1]]) and mul_2.data == mul_1.data and (mul_1 + mul_1).data == 2 * mul_1.data"},"spec":{"lhs":"test_issue_10972_TensMul_data()","rhs":"test_issue_10972_TensMul_data produces the expected output","over":{"base":"Any"},"name":"test_issue_10972_TensMul_data_correct"},"guarantee":"test_issue_10972_TensMul_data produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_issue_10972_TensMul_data_correct","statement":"Path(test_issue_10972_TensMul_data(x), test_issue_10972_TensMul_data produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"383fd49f5c9eba2a"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_issue_10972_TensMul_data","kind":"function","src_hash":"dd24f1bd9aa0d599","in":{"base":"Any"},"out":{"base":"Any","pred":"mul_1.data == Array([[0, 0], [0, 1]]) and mul_2.data == mul_1.data and (mul_1 + mul_1).data == 2 * mul_1.data"},"spec":{"lhs":"test_issue_10972_TensMul_data()","rhs":"<unspecified:test_issue_10972_TensMul_data>","over":{"base":"Any"},"name":"test_issue_10972_TensMul_data_correct"},"guarantee":"test_issue_10972_TensMul_data produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_issue_10972_TensMul_data_correct","statement":"Path(test_issue_10972_TensMul_data(x), test_issue_10972_TensMul_data produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"383fd49f5c9eba2a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_issue_10972_TensMul_data():
     with warns_deprecated_sympy():
         Lorentz = TensorIndexType('Lorentz', metric_symmetry=1, dummy_name='i', dim=2)
@@ -2296,16 +2677,22 @@ def test_issue_10972_TensMul_data():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_TensMul_data(), test_TensMul_data produces the expected output) over Any ║
+# ║ Path(test_TensMul_data(), <unspecified:test_TensMul_data>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_TensMul_data : Any → {Any | (E(mu) * E(nu)).cano...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b5adb827bf7d0ed8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_TensMul_data","kind":"function","src_hash":"ed095b37c171a788","in":{"base":"Any"},"out":{"base":"Any","pred":"(E(mu) * E(nu)).canon_bp().data == (E(mu) * E(nu)).data and mul_1.data == Array([0, 0, 0, 0]) and mul_2.data == Array.zeros(4, 4, 4) and Fperp.data[0, :] == Array([0, 0, 0, 0]) and Fperp.data[:, 0] == Array([0, 0, 0, 0]) and mul_3.data == Array([0, 0, 0, 0])"},"spec":{"lhs":"test_TensMul_data()","rhs":"test_TensMul_data produces the expected output","over":{"base":"Any"},"name":"test_TensMul_data_correct"},"guarantee":"test_TensMul_data produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_TensMul_data_correct","statement":"Path(test_TensMul_data(x), test_TensMul_data produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b5adb827bf7d0ed8"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_TensMul_data","kind":"function","src_hash":"ed095b37c171a788","in":{"base":"Any"},"out":{"base":"Any","pred":"(E(mu) * E(nu)).canon_bp().data == (E(mu) * E(nu)).data and mul_1.data == Array([0, 0, 0, 0]) and mul_2.data == Array.zeros(4, 4, 4) and Fperp.data[0, :] == Array([0, 0, 0, 0]) and Fperp.data[:, 0] == Array([0, 0, 0, 0]) and mul_3.data == Array([0, 0, 0, 0])"},"spec":{"lhs":"test_TensMul_data()","rhs":"<unspecified:test_TensMul_data>","over":{"base":"Any"},"name":"test_TensMul_data_correct"},"guarantee":"test_TensMul_data produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_TensMul_data_correct","statement":"Path(test_TensMul_data(x), test_TensMul_data produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b5adb827bf7d0ed8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":true}}
 def test_TensMul_data():
     with warns_deprecated_sympy():
         Lorentz = TensorIndexType('Lorentz', metric_symmetry=1, dummy_name='L', dim=4)
@@ -2366,16 +2753,22 @@ def test_TensMul_data():
         del g.data
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_11020_TensAdd_data(), test_issue_11020_TensAdd_data produces the expected output) over Any ║
+# ║ Path(test_issue_11020_TensAdd_data(), <unspecified:test_issue_11020_TensAdd_data>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_issue_11020_TensAdd_data : Any → {Any | add_1.da...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 070d87c223b4e98a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_issue_11020_TensAdd_data","kind":"function","src_hash":"c2d247fa7a40916f","in":{"base":"Any"},"out":{"base":"Any","pred":"add_1.data == Array.zeros(2, 2, 2) and add_2.data == Array.zeros(2, 2, 2) and mul_1.data == Array([0, 0]) and mul_2.data == Array.zeros(2, 2, 2)"},"spec":{"lhs":"test_issue_11020_TensAdd_data()","rhs":"test_issue_11020_TensAdd_data produces the expected output","over":{"base":"Any"},"name":"test_issue_11020_TensAdd_data_correct"},"guarantee":"test_issue_11020_TensAdd_data produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_issue_11020_TensAdd_data_correct","statement":"Path(test_issue_11020_TensAdd_data(x), test_issue_11020_TensAdd_data produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"070d87c223b4e98a"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_issue_11020_TensAdd_data","kind":"function","src_hash":"c2d247fa7a40916f","in":{"base":"Any"},"out":{"base":"Any","pred":"add_1.data == Array.zeros(2, 2, 2) and add_2.data == Array.zeros(2, 2, 2) and mul_1.data == Array([0, 0]) and mul_2.data == Array.zeros(2, 2, 2)"},"spec":{"lhs":"test_issue_11020_TensAdd_data()","rhs":"<unspecified:test_issue_11020_TensAdd_data>","over":{"base":"Any"},"name":"test_issue_11020_TensAdd_data_correct"},"guarantee":"test_issue_11020_TensAdd_data produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_issue_11020_TensAdd_data_correct","statement":"Path(test_issue_11020_TensAdd_data(x), test_issue_11020_TensAdd_data produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"070d87c223b4e98a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_issue_11020_TensAdd_data():
     with warns_deprecated_sympy():
         Lorentz = TensorIndexType('Lorentz', metric_symmetry=1, dummy_name='i', dim=2)
@@ -2408,16 +2801,24 @@ def test_issue_11020_TensAdd_data():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_index_iteration(), test_index_iteration produces the expected output) over Any ║
+# ║ Path(test_index_iteration(), list(e1._iterate_free_indices) == [(i0, (1, 0)), (i2, (1, 1))] and list(e1._iterate_dummy_indices) == [] and list(e1._iterate_indices) == [(i0, (1, 0)), (i2, (1, 1))] and list(e2._iterate_free_indices) == [] and list(e2._iterate_dummy_indices) == [(L0, (1, 0)), (-L0, (1, 1))] and list(e2._iterate_indices) == [(L0, (1, 0)), (-L0, (1, 1))] and list(e3._iterate_free_indices) == [(i0, (0, 1, 0)), (i1, (0, 1, 1)), (i2, (1, 1, 0)), (i3, (1, 1, 1))] and list(e3._iterate_dummy_indices) == [] and list(e3._iterate_indices) == [(i0, (0, 1, 0)), (i1, (0, 1, 1)), (i2, (1, 1, 0)), (i3, (1, 1, 1))] and list(e4._iterate_free_indices) == [(i0, (0, 1, 0)), (i2, (1, 1, 0))] and list(e4._iterate_dummy_indices) == [(L0, (0, 1, 1)), (-L0, (1, 1, 1))] and list(e4._iterate_indices) == [(i0, (0, 1, 0)), (L0, (0, 1, 1)), (i2, (1, 1, 0)), (-L0, (1, 1, 1))] and list(e5._iterate_free_indices) == [] and list(e5._iterate_dummy_indices) == [(L0, (0, 1, 0)), (L1, (0, 1, 1)), (-L0, (1, 1, 0)), (-L1, (1, 1, 1))] and list(e5._iterate_indices) == [(L0, (0, 1, 0)), (L1, (0, 1, 1)), (-L0, (1, 1, 0)), (-L1, (1, 1, 1))] and list(e6._iterate_free_indices) == [(i0, (0, 0, 1, 0)), (i2, (0, 1, 1, 0)), (i0, (1, 1, 0)), (i2, (1, 1, 1))] and list(e6._iterate_dummy_indices) == [(L0, (0, 0, 1, 1)), (-L0, (0, 1, 1, 1))] and list(e6._iterate_indices) == [(i0, (0, 0, 1, 0)), (L0, (0, 0, 1, 1)), (i2, (0, 1, 1, 0)), (-L0, (0, 1, 1, 1)), (i0, (1, 1, 0)), (i2, (1, 1, 1))] and e1.get_indices() == [i0, i2] and e1.get_free_indices() == [i0, i2] and e2.get_indices() == [L0, -L0] and e2.get_free_indices() == [] and e3.get_indices() == [i0, i1, i2, i3] and e3.get_free_indices() == [i0, i1, i2, i3] and e4.get_indices() == [i0, L0, i2, -L0] and e4.get_free_indices() == [i0, i2] and e5.get_indices() == [L0, L1, -L0, -L1] and e5.get_free_indices() == []) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_index_iteration : Any → {Any | list(e1._iterate_...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  list(e1._iterate_free_indices) == [(i0, (...   ║
+# ║   ensures:  list(e1._iterate_dummy_indices) == []          ║
+# ║   ensures:  list(e1._iterate_indices) == [(i0, (1, 0)...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_index_iteration : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5fbcec6f18ac2ada  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7d8cfa5efc03afa7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_index_iteration","kind":"function","src_hash":"0c77f3fb74a9107f","in":{"base":"Any"},"out":{"base":"Any","pred":"list(e1._iterate_free_indices) == [(i0, (1, 0)), (i2, (1, 1))] and list(e1._iterate_dummy_indices) == [] and list(e1._iterate_indices) == [(i0, (1, 0)), (i2, (1, 1))] and list(e2._iterate_free_indices) == [] and list(e2._iterate_dummy_indices) == [(L0, (1, 0)), (-L0, (1, 1))] and list(e2._iterate_indices) == [(L0, (1, 0)), (-L0, (1, 1))] and list(e3._iterate_dummy_indices) == [] and list(e4._iterate_free_indices) == [(i0, (0, 1, 0)), (i2, (1, 1, 0))] and list(e4._iterate_dummy_indices) == [(L0, (0, 1, 1)), (-L0, (1, 1, 1))] and list(e5._iterate_free_indices) == [] and list(e6._iterate_dummy_indices) == [(L0, (0, 0, 1, 1)), (-L0, (0, 1, 1, 1))] and e1.get_indices() == [i0, i2] and e1.get_free_indices() == [i0, i2] and e2.get_indices() == [L0, -L0] and e2.get_free_indices() == [] and e3.get_indices() == [i0, i1, i2, i3] and e3.get_free_indices() == [i0, i1, i2, i3] and e4.get_indices() == [i0, L0, i2, -L0] and e4.get_free_indices() == [i0, i2] and e5.get_indices() == [L0, L1, -L0, -L1] and e5.get_free_indices() == []"},"spec":{"lhs":"test_index_iteration()","rhs":"test_index_iteration produces the expected output","over":{"base":"Any"},"name":"test_index_iteration_correct"},"guarantee":"test_index_iteration produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_index_iteration_correct","statement":"Path(test_index_iteration(x), test_index_iteration produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5fbcec6f18ac2ada"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_index_iteration","kind":"function","src_hash":"0c77f3fb74a9107f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: list(e1._iterate_free_indices) == [(i0, (1, 0)), (i2, (1, 1))] and list(e1._iterate_dummy_indices) == [] and list(e1._iterate_indices) == [(i0, (1, 0)), (i2, (1, 1))] and list(e2._iterate_free_indices) == [] and list(e2._iterate_dummy_indices) == [(L0, (1, 0)), (-L0, (1, 1))] and list(e2._iterate_indices) == [(L0, (1, 0)), (-L0, (1, 1))] and list(e3._iterate_free_indices) == [(i0, (0, 1, 0)), (i1, (0, 1, 1)), (i2, (1, 1, 0)), (i3, (1, 1, 1))] and list(e3._iterate_dummy_indices) == [] and list(e3._iterate_indices) == [(i0, (0, 1, 0)), (i1, (0, 1, 1)), (i2, (1, 1, 0)), (i3, (1, 1, 1))] and list(e4._iterate_free_indices) == [(i0, (0, 1, 0)), (i2, (1, 1, 0))] and list(e4._iterate_dummy_indices) == [(L0, (0, 1, 1)), (-L0, (1, 1, 1))] and list(e4._iterate_indices) == [(i0, (0, 1, 0)), (L0, (0, 1, 1)), (i2, (1, 1, 0)), (-L0, (1, 1, 1))] and list(e5._iterate_free_indices) == [] and list(e5._iterate_dummy_indices) == [(L0, (0, 1, 0)), (L1, (0, 1, 1)), (-L0, (1, 1, 0)), (-L1, (1, 1, 1))] and list(e5._iterate_indices) == [(L0, (0, 1, 0)), (L1, (0, 1, 1)), (-L0, (1, 1, 0)), (-L1, (1, 1, 1))] and list(e6._iterate_free_indices) == [(i0, (0, 0, 1, 0)), (i2, (0, 1, 1, 0)), (i0, (1, 1, 0)), (i2, (1, 1, 1))] and list(e6._iterate_dummy_indices) == [(L0, (0, 0, 1, 1)), (-L0, (0, 1, 1, 1))] and list(e6._iterate_indices) == [(i0, (0, 0, 1, 0)), (L0, (0, 0, 1, 1)), (i2, (0, 1, 1, 0)), (-L0, (0, 1, 1, 1)), (i0, (1, 1, 0)), (i2, (1, 1, 1))] and e1.get_indices() == [i0, i2] and e1.get_free_indices() == [i0, i2] and e2.get_indices() == [L0, -L0] and e2.get_free_indices() == [] and e3.get_indices() == [i0, i1, i2, i3] and e3.get_free_indices() == [i0, i1, i2, i3] and e4.get_indices() == [i0, L0, i2, -L0] and e4.get_free_indices() == [i0, i2] and e5.get_indices() == [L0, L1, -L0, -L1] and e5.get_free_indices() == []"},"spec":{"lhs":"test_index_iteration()","rhs":"list(e1._iterate_free_indices) == [(i0, (1, 0)), (i2, (1, 1))] and list(e1._iterate_dummy_indices) == [] and list(e1._iterate_indices) == [(i0, (1, 0)), (i2, (1, 1))] and list(e2._iterate_free_indices) == [] and list(e2._iterate_dummy_indices) == [(L0, (1, 0)), (-L0, (1, 1))] and list(e2._iterate_indices) == [(L0, (1, 0)), (-L0, (1, 1))] and list(e3._iterate_free_indices) == [(i0, (0, 1, 0)), (i1, (0, 1, 1)), (i2, (1, 1, 0)), (i3, (1, 1, 1))] and list(e3._iterate_dummy_indices) == [] and list(e3._iterate_indices) == [(i0, (0, 1, 0)), (i1, (0, 1, 1)), (i2, (1, 1, 0)), (i3, (1, 1, 1))] and list(e4._iterate_free_indices) == [(i0, (0, 1, 0)), (i2, (1, 1, 0))] and list(e4._iterate_dummy_indices) == [(L0, (0, 1, 1)), (-L0, (1, 1, 1))] and list(e4._iterate_indices) == [(i0, (0, 1, 0)), (L0, (0, 1, 1)), (i2, (1, 1, 0)), (-L0, (1, 1, 1))] and list(e5._iterate_free_indices) == [] and list(e5._iterate_dummy_indices) == [(L0, (0, 1, 0)), (L1, (0, 1, 1)), (-L0, (1, 1, 0)), (-L1, (1, 1, 1))] and list(e5._iterate_indices) == [(L0, (0, 1, 0)), (L1, (0, 1, 1)), (-L0, (1, 1, 0)), (-L1, (1, 1, 1))] and list(e6._iterate_free_indices) == [(i0, (0, 0, 1, 0)), (i2, (0, 1, 1, 0)), (i0, (1, 1, 0)), (i2, (1, 1, 1))] and list(e6._iterate_dummy_indices) == [(L0, (0, 0, 1, 1)), (-L0, (0, 1, 1, 1))] and list(e6._iterate_indices) == [(i0, (0, 0, 1, 0)), (L0, (0, 0, 1, 1)), (i2, (0, 1, 1, 0)), (-L0, (0, 1, 1, 1)), (i0, (1, 1, 0)), (i2, (1, 1, 1))] and e1.get_indices() == [i0, i2] and e1.get_free_indices() == [i0, i2] and e2.get_indices() == [L0, -L0] and e2.get_free_indices() == [] and e3.get_indices() == [i0, i1, i2, i3] and e3.get_free_indices() == [i0, i1, i2, i3] and e4.get_indices() == [i0, L0, i2, -L0] and e4.get_free_indices() == [i0, i2] and e5.get_indices() == [L0, L1, -L0, -L1] and e5.get_free_indices() == []","over":{"base":"Any"},"name":"test_index_iteration_correct"},"guarantee":"list(e1._iterate_free_indices) == [(i0, (1, 0)), (i2, (1, 1))]; list(e1._iterate_dummy_indices) == []; list(e1._iterate_indices) == [(i0, (1, 0)), (i2, (1, 1))]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_index_iteration_correct","statement":"Path(test_index_iteration(x), list(e1._iterate_free_indices) == [(i0, (1, 0)), (i2, (1, 1))]; list(e1._iterate_dummy_indices) == []; list(e1._iterate_indices) == [(i0, (1, 0)), (i2, (1, 1))])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7d8cfa5efc03afa7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["list(e1._iterate_free_indices) == [(i0, (1, 0)), (i2, (1, 1))]","list(e1._iterate_dummy_indices) == []","list(e1._iterate_indices) == [(i0, (1, 0)), (i2, (1, 1))]","list(e2._iterate_free_indices) == []","list(e2._iterate_dummy_indices) == [(L0, (1, 0)), (-L0, (1, 1))]","list(e2._iterate_indices) == [(L0, (1, 0)), (-L0, (1, 1))]","list(e3._iterate_free_indices) == [(i0, (0, 1, 0)), (i1, (0, 1, 1)), (i2, (1, 1, 0)), (i3, (1, 1, 1))]","list(e3._iterate_dummy_indices) == []","list(e3._iterate_indices) == [(i0, (0, 1, 0)), (i1, (0, 1, 1)), (i2, (1, 1, 0)), (i3, (1, 1, 1))]","list(e4._iterate_free_indices) == [(i0, (0, 1, 0)), (i2, (1, 1, 0))]","list(e4._iterate_dummy_indices) == [(L0, (0, 1, 1)), (-L0, (1, 1, 1))]","list(e4._iterate_indices) == [(i0, (0, 1, 0)), (L0, (0, 1, 1)), (i2, (1, 1, 0)), (-L0, (1, 1, 1))]","list(e5._iterate_free_indices) == []","list(e5._iterate_dummy_indices) == [(L0, (0, 1, 0)), (L1, (0, 1, 1)), (-L0, (1, 1, 0)), (-L1, (1, 1, 1))]","list(e5._iterate_indices) == [(L0, (0, 1, 0)), (L1, (0, 1, 1)), (-L0, (1, 1, 0)), (-L1, (1, 1, 1))]","list(e6._iterate_free_indices) == [(i0, (0, 0, 1, 0)), (i2, (0, 1, 1, 0)), (i0, (1, 1, 0)), (i2, (1, 1, 1))]","list(e6._iterate_dummy_indices) == [(L0, (0, 0, 1, 1)), (-L0, (0, 1, 1, 1))]","list(e6._iterate_indices) == [(i0, (0, 0, 1, 0)), (L0, (0, 0, 1, 1)), (i2, (0, 1, 1, 0)), (-L0, (0, 1, 1, 1)), (i0, (1, 1, 0)), (i2, (1, 1, 1))]","e1.get_indices() == [i0, i2]","e1.get_free_indices() == [i0, i2]","e2.get_indices() == [L0, -L0]","e2.get_free_indices() == []","e3.get_indices() == [i0, i1, i2, i3]","e3.get_free_indices() == [i0, i1, i2, i3]","e4.get_indices() == [i0, L0, i2, -L0]","e4.get_free_indices() == [i0, i2]","e5.get_indices() == [L0, L1, -L0, -L1]","e5.get_free_indices() == []"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.1,"verdict_class":"assumed","binding":true}}
 def test_index_iteration():
     L = TensorIndexType("Lorentz", dummy_name="L")
     i0, i1, i2, i3, i4 = tensor_indices('i0:5', L)
@@ -2470,7 +2871,12 @@ def test_index_iteration():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_tensor_expand(), test_tensor_expand produces the expected output) over {Any | isinstance(Add(A(i), B(i)), TensAdd) and isinstance(TensMul(3), TensMul) and isinstance(tm, Integer)} ║
+# ║ Path(test_tensor_expand(), isinstance(Add(A(i), B(i)), TensAdd) and isinstance(expand(A(i) + B(i)), TensAdd) and expr.args == (A(L_0), A(-L_0) + B(-L_0)) and expr != A(i) * A(-i) + A(i) * B(-i) and expr.expand() == A(i) * A(-i) + A(i) * B(-i) and str(expr) == 'A(L_0)*(A(-L_0) + B(-L_0))' and str(expr) == 'A(i)*A(j) + A(i)*B(j)' and expr != A(-i) * A(i) * A(j) + A(-i) * A(i) * B(j) * C(k) * C(-k) and expr.expand() == A(-i) * A(i) * A(j) + A(-i) * A(i) * B(j) * C(k) * C(-k) and str(expr) == 'A(-L_0)*(A(L_0)*A(j) + A(L_0)*B(j)*C(L_1)*C(-L_1))' and str(expr.canon_bp()) == 'A(j)*A(L_0)*A(-L_0) + A(L_0)*A(-L_0)*B(j)*C(L_1)*C(-L_1)' and expr.expand() == 2 * A(-i) * A(i) * A(j) + A(-i) * A(i) * B(j) and expr.coeff == 2 and str(expr) == 'A(i)*(B(j)*C(k) + C(j)*(A(k) + D(k)))' and str(expr.expand()) == 'A(i)*B(j)*C(k) + A(i)*C(j)*A(k) + A(i)*C(j)*D(k)' and isinstance(TensMul(3), TensMul) and tm == 3 and isinstance(tm, Integer) and p3.expand() == A(i) * C(-i) * B(j) * B(-j) + A(i) * C(-i) * B(j) * C(-j) and expr.expand() == A(i) * B(-i) + A(i) * C(-i) * B(j) * B(-j) + A(i) * C(-i) * B(j) * C(-j) and expr.expand() == C(-i) * B(j) * B(-j) + C(-i) * B(j) * C(-j) and isinstance(expr_expand, TensAdd) and expr_expand.args == (2 * A(i), F(x) * A(i)) and expr_expand.args == (2 * A(i), F(x) * A(i), B(i))) over {Any | isinstance(Add(A(i), B(i)), TensAdd) and isinstance(TensMul(3), TensMul) and isinstance(tm, Integer)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(Add(A(i), B(i)), TensAdd)           ║
+# ║   ensures:  isinstance(expand(A(i) + B(i)), TensAdd)       ║
+# ║   ensures:  expr.args == (A(L_0), A(-L_0) + B(-L_0))       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_tensor_expand : {Any | isinstance(Add(A(i), B(i)...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -2484,9 +2890,12 @@ def test_index_iteration():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?3 ✗4 VCs | 16.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 108b7025...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_tensor_expand","kind":"function","src_hash":"198e243954a0211c","in":{"base":"Any","pred":"isinstance(Add(A(i), B(i)), TensAdd) and isinstance(TensMul(3), TensMul) and isinstance(tm, Integer)"},"out":{"base":"Any","pred":"isinstance(Add(A(i), B(i)), TensAdd) and isinstance(expand(A(i) + B(i)), TensAdd) and expr.args == (A(L_0), A(-L_0) + B(-L_0)) and expr != A(i) * A(-i) + A(i) * B(-i) and expr.expand() == A(i) * A(-i) + A(i) * B(-i) and str(expr) == 'A(L_0)*(A(-L_0) + B(-L_0))' and str(expr) == 'A(i)*A(j) + A(i)*B(j)' and expr != A(-i) * A(i) * A(j) + A(-i) * A(i) * B(j) * C(k) * C(-k) and expr.expand() == A(-i) * A(i) * A(j) + A(-i) * A(i) * B(j) * C(k) * C(-k) and str(expr) == 'A(-L_0)*(A(L_0)*A(j) + A(L_0)*B(j)*C(L_1)*C(-L_1))' and expr.expand() == 2 * A(-i) * A(i) * A(j) + A(-i) * A(i) * B(j) and expr.coeff == 2 and str(expr) == 'A(i)*(B(j)*C(k) + C(j)*(A(k) + D(k)))' and str(expr.expand()) == 'A(i)*B(j)*C(k) + A(i)*C(j)*A(k) + A(i)*C(j)*D(k)' and isinstance(TensMul(3), TensMul) and tm == 3 and isinstance(tm, Integer) and p3.expand() == A(i) * C(-i) * B(j) * B(-j) + A(i) * C(-i) * B(j) * C(-j) and expr.expand() == C(-i) * B(j) * B(-j) + C(-i) * B(j) * C(-j) and isinstance(expr_expand, TensAdd) and expr_expand.args == (2 * A(i), F(x) * A(i)) and isinstance(expr_expand, TensAdd) and expr_expand.args == (2 * A(i), F(x) * A(i), B(i))"},"spec":{"lhs":"test_tensor_expand()","rhs":"test_tensor_expand produces the expected output","over":{"base":"Any","pred":"isinstance(Add(A(i), B(i)), TensAdd) and isinstance(TensMul(3), TensMul) and isinstance(tm, Integer)"},"name":"test_tensor_expand_correct"},"guarantee":"test_tensor_expand produces the expected output","fibers":[{"name":"B(i","pred":"isinstance(Add(A(i), B(i)), TensAdd)","path":{"lhs":"test_tensor_expand(x)","rhs":"test_tensor_expand produces the expected output","over":{"base":"B(i","pred":"isinstance(Add(A(i), B(i)), TensAdd)"},"name":"test_tensor_expand_B(i_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_tensor_expand_B(i_correct","statement":"test_tensor_expand satisfies spec on B(i inputs"},"trust":"LIBRARY"},{"name":"TensMul","pred":"isinstance(TensMul(3), TensMul)","path":{"lhs":"test_tensor_expand(x)","rhs":"test_tensor_expand produces the expected output","over":{"base":"TensMul","pred":"isinstance(TensMul(3), TensMul)"},"name":"test_tensor_expand_TensMul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_tensor_expand_TensMul_correct","statement":"test_tensor_expand satisfies spec on TensMul inputs"},"trust":"LIBRARY"},{"name":"Integer","pred":"isinstance(tm, Integer)","path":{"lhs":"test_tensor_expand(x)","rhs":"test_tensor_expand produces the expected output","over":{"base":"Integer","pred":"isinstance(tm, Integer)"},"name":"test_tensor_expand_Integer_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_tensor_expand_Integer_correct","statement":"test_tensor_expand satisfies spec on Integer inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":3,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"108b7025479e23f5"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_tensor_expand","kind":"function","src_hash":"198e243954a0211c","in":{"base":"Any","pred":"isinstance(Add(A(i), B(i)), TensAdd) and isinstance(TensMul(3), TensMul) and isinstance(tm, Integer)"},"out":{"base":"Any","pred":"result satisfies: isinstance(Add(A(i), B(i)), TensAdd) and isinstance(expand(A(i) + B(i)), TensAdd) and expr.args == (A(L_0), A(-L_0) + B(-L_0)) and expr != A(i) * A(-i) + A(i) * B(-i) and expr.expand() == A(i) * A(-i) + A(i) * B(-i) and str(expr) == 'A(L_0)*(A(-L_0) + B(-L_0))' and str(expr) == 'A(i)*A(j) + A(i)*B(j)' and expr != A(-i) * A(i) * A(j) + A(-i) * A(i) * B(j) * C(k) * C(-k) and expr.expand() == A(-i) * A(i) * A(j) + A(-i) * A(i) * B(j) * C(k) * C(-k) and str(expr) == 'A(-L_0)*(A(L_0)*A(j) + A(L_0)*B(j)*C(L_1)*C(-L_1))' and str(expr.canon_bp()) == 'A(j)*A(L_0)*A(-L_0) + A(L_0)*A(-L_0)*B(j)*C(L_1)*C(-L_1)' and expr.expand() == 2 * A(-i) * A(i) * A(j) + A(-i) * A(i) * B(j) and expr.coeff == 2 and str(expr) == 'A(i)*(B(j)*C(k) + C(j)*(A(k) + D(k)))' and str(expr.expand()) == 'A(i)*B(j)*C(k) + A(i)*C(j)*A(k) + A(i)*C(j)*D(k)' and isinstance(TensMul(3), TensMul) and tm == 3 and isinstance(tm, Integer) and p3.expand() == A(i) * C(-i) * B(j) * B(-j) + A(i) * C(-i) * B(j) * C(-j) and expr.expand() == A(i) * B(-i) + A(i) * C(-i) * B(j) * B(-j) + A(i) * C(-i) * B(j) * C(-j) and expr.expand() == C(-i) * B(j) * B(-j) + C(-i) * B(j) * C(-j) and isinstance(expr_expand, TensAdd) and expr_expand.args == (2 * A(i), F(x) * A(i)) and expr_expand.args == (2 * A(i), F(x) * A(i), B(i))"},"spec":{"lhs":"test_tensor_expand()","rhs":"isinstance(Add(A(i), B(i)), TensAdd) and isinstance(expand(A(i) + B(i)), TensAdd) and expr.args == (A(L_0), A(-L_0) + B(-L_0)) and expr != A(i) * A(-i) + A(i) * B(-i) and expr.expand() == A(i) * A(-i) + A(i) * B(-i) and str(expr) == 'A(L_0)*(A(-L_0) + B(-L_0))' and str(expr) == 'A(i)*A(j) + A(i)*B(j)' and expr != A(-i) * A(i) * A(j) + A(-i) * A(i) * B(j) * C(k) * C(-k) and expr.expand() == A(-i) * A(i) * A(j) + A(-i) * A(i) * B(j) * C(k) * C(-k) and str(expr) == 'A(-L_0)*(A(L_0)*A(j) + A(L_0)*B(j)*C(L_1)*C(-L_1))' and str(expr.canon_bp()) == 'A(j)*A(L_0)*A(-L_0) + A(L_0)*A(-L_0)*B(j)*C(L_1)*C(-L_1)' and expr.expand() == 2 * A(-i) * A(i) * A(j) + A(-i) * A(i) * B(j) and expr.coeff == 2 and str(expr) == 'A(i)*(B(j)*C(k) + C(j)*(A(k) + D(k)))' and str(expr.expand()) == 'A(i)*B(j)*C(k) + A(i)*C(j)*A(k) + A(i)*C(j)*D(k)' and isinstance(TensMul(3), TensMul) and tm == 3 and isinstance(tm, Integer) and p3.expand() == A(i) * C(-i) * B(j) * B(-j) + A(i) * C(-i) * B(j) * C(-j) and expr.expand() == A(i) * B(-i) + A(i) * C(-i) * B(j) * B(-j) + A(i) * C(-i) * B(j) * C(-j) and expr.expand() == C(-i) * B(j) * B(-j) + C(-i) * B(j) * C(-j) and isinstance(expr_expand, TensAdd) and expr_expand.args == (2 * A(i), F(x) * A(i)) and expr_expand.args == (2 * A(i), F(x) * A(i), B(i))","over":{"base":"Any","pred":"isinstance(Add(A(i), B(i)), TensAdd) and isinstance(TensMul(3), TensMul) and isinstance(tm, Integer)"},"name":"test_tensor_expand_correct"},"guarantee":"isinstance(Add(A(i), B(i)), TensAdd); isinstance(expand(A(i) + B(i)), TensAdd); expr.args == (A(L_0), A(-L_0) + B(-L_0))","fibers":[{"name":"B(i","pred":"isinstance(Add(A(i), B(i)), TensAdd)","path":{"lhs":"test_tensor_expand(x)","rhs":"isinstance(Add(A(i), B(i)), TensAdd); isinstance(expand(A(i) + B(i)), TensAdd); expr.args == (A(L_0), A(-L_0) + B(-L_0))","over":{"base":"B(i","pred":"isinstance(Add(A(i), B(i)), TensAdd)"},"name":"test_tensor_expand_B(i_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_tensor_expand_B(i_correct","statement":"test_tensor_expand satisfies spec on B(i inputs"},"trust":"LIBRARY"},{"name":"TensMul","pred":"isinstance(TensMul(3), TensMul)","path":{"lhs":"test_tensor_expand(x)","rhs":"isinstance(Add(A(i), B(i)), TensAdd); isinstance(expand(A(i) + B(i)), TensAdd); expr.args == (A(L_0), A(-L_0) + B(-L_0))","over":{"base":"TensMul","pred":"isinstance(TensMul(3), TensMul)"},"name":"test_tensor_expand_TensMul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_tensor_expand_TensMul_correct","statement":"test_tensor_expand satisfies spec on TensMul inputs"},"trust":"LIBRARY"},{"name":"Integer","pred":"isinstance(tm, Integer)","path":{"lhs":"test_tensor_expand(x)","rhs":"isinstance(Add(A(i), B(i)), TensAdd); isinstance(expand(A(i) + B(i)), TensAdd); expr.args == (A(L_0), A(-L_0) + B(-L_0))","over":{"base":"Integer","pred":"isinstance(tm, Integer)"},"name":"test_tensor_expand_Integer_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_tensor_expand_Integer_correct","statement":"test_tensor_expand satisfies spec on Integer inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":3,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"108b7025479e23f5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(Add(A(i), B(i)), TensAdd)","isinstance(expand(A(i) + B(i)), TensAdd)","expr.args == (A(L_0), A(-L_0) + B(-L_0))","expr != A(i) * A(-i) + A(i) * B(-i)","expr.expand() == A(i) * A(-i) + A(i) * B(-i)","str(expr) == 'A(L_0)*(A(-L_0) + B(-L_0))'","str(expr) == 'A(i)*A(j) + A(i)*B(j)'","expr != A(-i) * A(i) * A(j) + A(-i) * A(i) * B(j) * C(k) * C(-k)","expr.expand() == A(-i) * A(i) * A(j) + A(-i) * A(i) * B(j) * C(k) * C(-k)","str(expr) == 'A(-L_0)*(A(L_0)*A(j) + A(L_0)*B(j)*C(L_1)*C(-L_1))'","str(expr.canon_bp()) == 'A(j)*A(L_0)*A(-L_0) + A(L_0)*A(-L_0)*B(j)*C(L_1)*C(-L_1)'","expr.expand() == 2 * A(-i) * A(i) * A(j) + A(-i) * A(i) * B(j)","expr.coeff == 2","str(expr) == 'A(i)*(B(j)*C(k) + C(j)*(A(k) + D(k)))'","str(expr.expand()) == 'A(i)*B(j)*C(k) + A(i)*C(j)*A(k) + A(i)*C(j)*D(k)'","isinstance(TensMul(3), TensMul)","tm == 3","isinstance(tm, Integer)","p3.expand() == A(i) * C(-i) * B(j) * B(-j) + A(i) * C(-i) * B(j) * C(-j)","expr.expand() == A(i) * B(-i) + A(i) * C(-i) * B(j) * B(-j) + A(i) * C(-i) * B(j) * C(-j)","expr.expand() == C(-i) * B(j) * B(-j) + C(-i) * B(j) * C(-j)","isinstance(expr_expand, TensAdd)","expr_expand.args == (2 * A(i), F(x) * A(i))","expr_expand.args == (2 * A(i), F(x) * A(i), B(i))"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":8,"n_verified":1,"n_assumed":3,"n_failed":4,"trust_level":"LIBRARY_ASSUMED","compile_ms":16.0,"verdict_class":"failed","binding":true}}
 def test_tensor_expand():
     L = TensorIndexType("L")
 
@@ -2559,16 +2968,23 @@ def test_tensor_expand():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_tensor_alternative_construction(), test_tensor_alternative_construction produces the expected output) over Any ║
+# ║ Path(test_tensor_alternative_construction(), A(i0) == A(Symbol('i0')) and A(-i0) == A(-Symbol('i0'))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_tensor_alternative_construction : Any → {Any | A...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A(i0) == A(Symbol('i0'))                       ║
+# ║   ensures:  A(-i0) == A(-Symbol('i0'))                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_tensor_alternative_construction : Any → {Any | r...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0706f719e285ffa0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e2134ecb6bb8f090  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_tensor_alternative_construction","kind":"function","src_hash":"31606e0fd30b787f","in":{"base":"Any"},"out":{"base":"Any","pred":"A(i0) == A(Symbol('i0')) and A(-i0) == A(-Symbol('i0'))"},"spec":{"lhs":"test_tensor_alternative_construction()","rhs":"test_tensor_alternative_construction produces the expected output","over":{"base":"Any"},"name":"test_tensor_alternative_construction_correct"},"guarantee":"test_tensor_alternative_construction produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_tensor_alternative_construction_correct","statement":"Path(test_tensor_alternative_construction(x), test_tensor_alternative_construction produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0706f719e285ffa0"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_tensor_alternative_construction","kind":"function","src_hash":"31606e0fd30b787f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A(i0) == A(Symbol('i0')) and A(-i0) == A(-Symbol('i0'))"},"spec":{"lhs":"test_tensor_alternative_construction()","rhs":"A(i0) == A(Symbol('i0')) and A(-i0) == A(-Symbol('i0'))","over":{"base":"Any"},"name":"test_tensor_alternative_construction_correct"},"guarantee":"A(i0) == A(Symbol('i0')); A(-i0) == A(-Symbol('i0'))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_tensor_alternative_construction_correct","statement":"Path(test_tensor_alternative_construction(x), A(i0) == A(Symbol('i0')); A(-i0) == A(-Symbol('i0')))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e2134ecb6bb8f090","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A(i0) == A(Symbol('i0'))","A(-i0) == A(-Symbol('i0'))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_tensor_alternative_construction():
     L = TensorIndexType("L")
     i0, i1, i2, i3 = tensor_indices('i0:4', L)
@@ -2582,16 +2998,24 @@ def test_tensor_alternative_construction():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_tensor_replacement(), test_tensor_replacement produces the expected output) over Any ║
+# ║ Path(test_tensor_replacement(), expr._extract_data(repl) == ([i, j], Array([[1, -2], [3, -4]])) and expr.replace_with_arrays(repl) == Array([[1, -2], [3, -4]]) and expr.replace_with_arrays(repl, [i, j]) == Array([[1, -2], [3, -4]]) and expr.replace_with_arrays(repl, [i, -j]) == Array([[1, 2], [3, 4]]) and expr.replace_with_arrays(repl, [Symbol('i'), -Symbol('j')]) == Array([[1, 2], [3, 4]]) and expr.replace_with_arrays(repl, [-i, j]) == Array([[1, -2], [-3, 4]]) and expr.replace_with_arrays(repl, [-i, -j]) == Array([[1, 2], [-3, -4]]) and expr.replace_with_arrays(repl, [j, i]) == Array([[1, 3], [-2, -4]]) and expr.replace_with_arrays(repl, [j, -i]) == Array([[1, -3], [-2, 4]]) and expr.replace_with_arrays(repl, [-j, i]) == Array([[1, 3], [2, 4]]) and expr.replace_with_arrays(repl, [-j, -i]) == Array([[1, -3], [2, -4]]) and expr._extract_data(repl) == ([i, j], Array([[1, 2], [3, 4]])) and expr.replace_with_arrays(repl) == Array([[1, 2], [3, 4]]) and expr.replace_with_arrays(repl, [i, j]) == Array([[1, 2], [3, 4]]) and expr.replace_with_arrays(repl, [i, -j]) == Array([[1, -2], [3, -4]]) and expr.replace_with_arrays(repl, [-i, j]) == Array([[1, 2], [-3, -4]]) and expr.replace_with_arrays(repl, [-i, -j]) == Array([[1, -2], [-3, 4]]) and expr.replace_with_arrays(repl, [j, i]) == Array([[1, 3], [2, 4]]) and expr.replace_with_arrays(repl, [j, -i]) == Array([[1, -3], [2, -4]]) and expr.replace_with_arrays(repl, [-j, i]) == Array([[1, 3], [-2, -4]]) and expr.replace_with_arrays(repl, [-j, -i]) == Array([[1, -3], [-2, 4]]) and expr._extract_data(repl) == ([i, k], Array([[1, 2], [3, 4]])) and expr._extract_data(repl) == ([], -3) and expr.replace_with_arrays(repl, []) == -3 and expr._extract_data(repl) and expr._extract_data(repl) == ([k, i, j], Array([[[2, 4], [6, 8]]])) and expr.replace_with_arrays(repl, [k, i, j]) == Array([[[2, 4], [6, 8]]]) and expr.replace_with_arrays(repl, [k, j, i]) == Array([[[2, 6], [4, 8]]]) and expr.replace_with_arrays(repl, []) == 113 and expr._extract_data(repl) == ([i, j], Array([[2, 5], [5, 8]])) and expr.replace_with_arrays(repl, [i, j]) == Array([[2, 5], [5, 8]]) and expr.replace_with_arrays(repl, [j, i]) == Array([[2, 5], [5, 8]]) and expr.replace_with_arrays(repl, [i, j]) == Array([[0, -1], [1, 0]]) and expr.replace_with_arrays(repl, [j, i]) == Array([[0, 1], [-1, 0]]) and expr._extract_data(repl) == ([], 42) and expr._extract_data(repl) == ([], 4)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_tensor_replacement : Any → {Any | expr._extract_...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  expr._extract_data(repl) == ([i, j], Arra...   ║
+# ║   ensures:  expr.replace_with_arrays(repl) == Array([...   ║
+# ║   ensures:  expr.replace_with_arrays(repl, [i, j]) ==...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_tensor_replacement : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0a501b95152a3bc3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 2.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 68b2d8c9adbe8acf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_tensor_replacement","kind":"function","src_hash":"f9341032ca04acd4","in":{"base":"Any"},"out":{"base":"Any","pred":"expr._extract_data(repl) == ([i, j], Array([[1, -2], [3, -4]])) and expr.replace_with_arrays(repl) == Array([[1, -2], [3, -4]]) and expr.replace_with_arrays(repl, [i, j]) == Array([[1, -2], [3, -4]]) and expr.replace_with_arrays(repl, [i, -j]) == Array([[1, 2], [3, 4]]) and expr.replace_with_arrays(repl, [-i, j]) == Array([[1, -2], [-3, 4]]) and expr.replace_with_arrays(repl, [-i, -j]) == Array([[1, 2], [-3, -4]]) and expr.replace_with_arrays(repl, [j, i]) == Array([[1, 3], [-2, -4]]) and expr.replace_with_arrays(repl, [j, -i]) == Array([[1, -3], [-2, 4]]) and expr.replace_with_arrays(repl, [-j, i]) == Array([[1, 3], [2, 4]]) and expr.replace_with_arrays(repl, [-j, -i]) == Array([[1, -3], [2, -4]]) and expr.replace_with_arrays(repl) == Array([[1, -2], [3, -4]]) and expr._extract_data(repl) == ([i, j], Array([[1, 2], [3, 4]])) and expr.replace_with_arrays(repl) == Array([[1, 2], [3, 4]]) and expr.replace_with_arrays(repl, [i, j]) == Array([[1, 2], [3, 4]]) and expr.replace_with_arrays(repl, [i, -j]) == Array([[1, -2], [3, -4]]) and expr.replace_with_arrays(repl, [-i, j]) == Array([[1, 2], [-3, -4]]) and expr.replace_with_arrays(repl, [-i, -j]) == Array([[1, -2], [-3, 4]]) and expr.replace_with_arrays(repl, [j, i]) == Array([[1, 3], [2, 4]]) and expr.replace_with_arrays(repl, [j, -i]) == Array([[1, -3], [2, -4]]) and expr.replace_with_arrays(repl, [-j, i]) == Array([[1, 3], [-2, -4]]) and expr.replace_with_arrays(repl, [-j, -i]) == Array([[1, -3], [-2, 4]]) and expr._extract_data(repl) == ([i, k], Array([[1, 2], [3, 4]])) and expr._extract_data(repl) == ([], -3) and expr.replace_with_arrays(repl, []) == -3 and expr._extract_data(repl) and expr._extract_data(repl) == ([k, i, j], Array([[[2, 4], [6, 8]]])) and expr.replace_with_arrays(repl, [k, i, j]) == Array([[[2, 4], [6, 8]]]) and expr.replace_with_arrays(repl, [k, j, i]) == Array([[[2, 6], [4, 8]]]) and expr.replace_with_arrays(repl, []) == 113 and expr._extract_data(repl) == ([i, j], Array([[2, 5], [5, 8]])) and expr.replace_with_arrays(repl, [i, j]) == Array([[2, 5], [5, 8]]) and expr.replace_with_arrays(repl, [j, i]) == Array([[2, 5], [5, 8]]) and expr.replace_with_arrays(repl, [i, j]) == Array([[0, -1], [1, 0]]) and expr.replace_with_arrays(repl, [j, i]) == Array([[0, 1], [-1, 0]]) and expr._extract_data(repl) == ([i, j], Array([[1, 2], [3, 4]])) and expr._extract_data(repl) == ([], 42) and expr._extract_data(repl) == ([], 4)"},"spec":{"lhs":"test_tensor_replacement()","rhs":"test_tensor_replacement produces the expected output","over":{"base":"Any"},"name":"test_tensor_replacement_correct"},"guarantee":"test_tensor_replacement produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_tensor_replacement_correct","statement":"Path(test_tensor_replacement(x), test_tensor_replacement produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0a501b95152a3bc3"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_tensor_replacement","kind":"function","src_hash":"f9341032ca04acd4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: expr._extract_data(repl) == ([i, j], Array([[1, -2], [3, -4]])) and expr.replace_with_arrays(repl) == Array([[1, -2], [3, -4]]) and expr.replace_with_arrays(repl, [i, j]) == Array([[1, -2], [3, -4]]) and expr.replace_with_arrays(repl, [i, -j]) == Array([[1, 2], [3, 4]]) and expr.replace_with_arrays(repl, [Symbol('i'), -Symbol('j')]) == Array([[1, 2], [3, 4]]) and expr.replace_with_arrays(repl, [-i, j]) == Array([[1, -2], [-3, 4]]) and expr.replace_with_arrays(repl, [-i, -j]) == Array([[1, 2], [-3, -4]]) and expr.replace_with_arrays(repl, [j, i]) == Array([[1, 3], [-2, -4]]) and expr.replace_with_arrays(repl, [j, -i]) == Array([[1, -3], [-2, 4]]) and expr.replace_with_arrays(repl, [-j, i]) == Array([[1, 3], [2, 4]]) and expr.replace_with_arrays(repl, [-j, -i]) == Array([[1, -3], [2, -4]]) and expr._extract_data(repl) == ([i, j], Array([[1, 2], [3, 4]])) and expr.replace_with_arrays(repl) == Array([[1, 2], [3, 4]]) and expr.replace_with_arrays(repl, [i, j]) == Array([[1, 2], [3, 4]]) and expr.replace_with_arrays(repl, [i, -j]) == Array([[1, -2], [3, -4]]) and expr.replace_with_arrays(repl, [-i, j]) == Array([[1, 2], [-3, -4]]) and expr.replace_with_arrays(repl, [-i, -j]) == Array([[1, -2], [-3, 4]]) and expr.replace_with_arrays(repl, [j, i]) == Array([[1, 3], [2, 4]]) and expr.replace_with_arrays(repl, [j, -i]) == Array([[1, -3], [2, -4]]) and expr.replace_with_arrays(repl, [-j, i]) == Array([[1, 3], [-2, -4]]) and expr.replace_with_arrays(repl, [-j, -i]) == Array([[1, -3], [-2, 4]]) and expr._extract_data(repl) == ([i, k], Array([[1, 2], [3, 4]])) and expr._extract_data(repl) == ([], -3) and expr.replace_with_arrays(repl, []) == -3 and expr._extract_data(repl) and expr._extract_data(repl) == ([k, i, j], Array([[[2, 4], [6, 8]]])) and expr.replace_with_arrays(repl, [k, i, j]) == Array([[[2, 4], [6, 8]]]) and expr.replace_with_arrays(repl, [k, j, i]) == Array([[[2, 6], [4, 8]]]) and expr.replace_with_arrays(repl, []) == 113 and expr._extract_data(repl) == ([i, j], Array([[2, 5], [5, 8]])) and expr.replace_with_arrays(repl, [i, j]) == Array([[2, 5], [5, 8]]) and expr.replace_with_arrays(repl, [j, i]) == Array([[2, 5], [5, 8]]) and expr.replace_with_arrays(repl, [i, j]) == Array([[0, -1], [1, 0]]) and expr.replace_with_arrays(repl, [j, i]) == Array([[0, 1], [-1, 0]]) and expr._extract_data(repl) == ([], 42) and expr._extract_data(repl) == ([], 4)"},"spec":{"lhs":"test_tensor_replacement()","rhs":"expr._extract_data(repl) == ([i, j], Array([[1, -2], [3, -4]])) and expr.replace_with_arrays(repl) == Array([[1, -2], [3, -4]]) and expr.replace_with_arrays(repl, [i, j]) == Array([[1, -2], [3, -4]]) and expr.replace_with_arrays(repl, [i, -j]) == Array([[1, 2], [3, 4]]) and expr.replace_with_arrays(repl, [Symbol('i'), -Symbol('j')]) == Array([[1, 2], [3, 4]]) and expr.replace_with_arrays(repl, [-i, j]) == Array([[1, -2], [-3, 4]]) and expr.replace_with_arrays(repl, [-i, -j]) == Array([[1, 2], [-3, -4]]) and expr.replace_with_arrays(repl, [j, i]) == Array([[1, 3], [-2, -4]]) and expr.replace_with_arrays(repl, [j, -i]) == Array([[1, -3], [-2, 4]]) and expr.replace_with_arrays(repl, [-j, i]) == Array([[1, 3], [2, 4]]) and expr.replace_with_arrays(repl, [-j, -i]) == Array([[1, -3], [2, -4]]) and expr._extract_data(repl) == ([i, j], Array([[1, 2], [3, 4]])) and expr.replace_with_arrays(repl) == Array([[1, 2], [3, 4]]) and expr.replace_with_arrays(repl, [i, j]) == Array([[1, 2], [3, 4]]) and expr.replace_with_arrays(repl, [i, -j]) == Array([[1, -2], [3, -4]]) and expr.replace_with_arrays(repl, [-i, j]) == Array([[1, 2], [-3, -4]]) and expr.replace_with_arrays(repl, [-i, -j]) == Array([[1, -2], [-3, 4]]) and expr.replace_with_arrays(repl, [j, i]) == Array([[1, 3], [2, 4]]) and expr.replace_with_arrays(repl, [j, -i]) == Array([[1, -3], [2, -4]]) and expr.replace_with_arrays(repl, [-j, i]) == Array([[1, 3], [-2, -4]]) and expr.replace_with_arrays(repl, [-j, -i]) == Array([[1, -3], [-2, 4]]) and expr._extract_data(repl) == ([i, k], Array([[1, 2], [3, 4]])) and expr._extract_data(repl) == ([], -3) and expr.replace_with_arrays(repl, []) == -3 and expr._extract_data(repl) and expr._extract_data(repl) == ([k, i, j], Array([[[2, 4], [6, 8]]])) and expr.replace_with_arrays(repl, [k, i, j]) == Array([[[2, 4], [6, 8]]]) and expr.replace_with_arrays(repl, [k, j, i]) == Array([[[2, 6], [4, 8]]]) and expr.replace_with_arrays(repl, []) == 113 and expr._extract_data(repl) == ([i, j], Array([[2, 5], [5, 8]])) and expr.replace_with_arrays(repl, [i, j]) == Array([[2, 5], [5, 8]]) and expr.replace_with_arrays(repl, [j, i]) == Array([[2, 5], [5, 8]]) and expr.replace_with_arrays(repl, [i, j]) == Array([[0, -1], [1, 0]]) and expr.replace_with_arrays(repl, [j, i]) == Array([[0, 1], [-1, 0]]) and expr._extract_data(repl) == ([], 42) and expr._extract_data(repl) == ([], 4)","over":{"base":"Any"},"name":"test_tensor_replacement_correct"},"guarantee":"expr._extract_data(repl) == ([i, j], Array([[1, -2], [3, -4]])); expr.replace_with_arrays(repl) == Array([[1, -2], [3, -4]]); expr.replace_with_arrays(repl, [i, j]) == Array([[1, -2], [3, -4]])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_tensor_replacement_correct","statement":"Path(test_tensor_replacement(x), expr._extract_data(repl) == ([i, j], Array([[1, -2], [3, -4]])); expr.replace_with_arrays(repl) == Array([[1, -2], [3, -4]]); expr.replace_with_arrays(repl, [i, j]) == Array([[1, -2], [3, -4]]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"68b2d8c9adbe8acf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["expr._extract_data(repl) == ([i, j], Array([[1, -2], [3, -4]]))","expr.replace_with_arrays(repl) == Array([[1, -2], [3, -4]])","expr.replace_with_arrays(repl, [i, j]) == Array([[1, -2], [3, -4]])","expr.replace_with_arrays(repl, [i, -j]) == Array([[1, 2], [3, 4]])","expr.replace_with_arrays(repl, [Symbol('i'), -Symbol('j')]) == Array([[1, 2], [3, 4]])","expr.replace_with_arrays(repl, [-i, j]) == Array([[1, -2], [-3, 4]])","expr.replace_with_arrays(repl, [-i, -j]) == Array([[1, 2], [-3, -4]])","expr.replace_with_arrays(repl, [j, i]) == Array([[1, 3], [-2, -4]])","expr.replace_with_arrays(repl, [j, -i]) == Array([[1, -3], [-2, 4]])","expr.replace_with_arrays(repl, [-j, i]) == Array([[1, 3], [2, 4]])","expr.replace_with_arrays(repl, [-j, -i]) == Array([[1, -3], [2, -4]])","expr._extract_data(repl) == ([i, j], Array([[1, 2], [3, 4]]))","expr.replace_with_arrays(repl) == Array([[1, 2], [3, 4]])","expr.replace_with_arrays(repl, [i, j]) == Array([[1, 2], [3, 4]])","expr.replace_with_arrays(repl, [i, -j]) == Array([[1, -2], [3, -4]])","expr.replace_with_arrays(repl, [-i, j]) == Array([[1, 2], [-3, -4]])","expr.replace_with_arrays(repl, [-i, -j]) == Array([[1, -2], [-3, 4]])","expr.replace_with_arrays(repl, [j, i]) == Array([[1, 3], [2, 4]])","expr.replace_with_arrays(repl, [j, -i]) == Array([[1, -3], [2, -4]])","expr.replace_with_arrays(repl, [-j, i]) == Array([[1, 3], [-2, -4]])","expr.replace_with_arrays(repl, [-j, -i]) == Array([[1, -3], [-2, 4]])","expr._extract_data(repl) == ([i, k], Array([[1, 2], [3, 4]]))","expr._extract_data(repl) == ([], -3)","expr.replace_with_arrays(repl, []) == -3","expr._extract_data(repl)","expr._extract_data(repl) == ([k, i, j], Array([[[2, 4], [6, 8]]]))","expr.replace_with_arrays(repl, [k, i, j]) == Array([[[2, 4], [6, 8]]])","expr.replace_with_arrays(repl, [k, j, i]) == Array([[[2, 6], [4, 8]]])","expr.replace_with_arrays(repl, []) == 113","expr._extract_data(repl) == ([i, j], Array([[2, 5], [5, 8]]))","expr.replace_with_arrays(repl, [i, j]) == Array([[2, 5], [5, 8]])","expr.replace_with_arrays(repl, [j, i]) == Array([[2, 5], [5, 8]])","expr.replace_with_arrays(repl, [i, j]) == Array([[0, -1], [1, 0]])","expr.replace_with_arrays(repl, [j, i]) == Array([[0, 1], [-1, 0]])","expr._extract_data(repl) == ([], 42)","expr._extract_data(repl) == ([], 4)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.4,"verdict_class":"assumed","binding":true}}
 def test_tensor_replacement():
     L = TensorIndexType("L")
     L2 = TensorIndexType("L2", dim=2)
@@ -2716,16 +3140,24 @@ def test_tensor_replacement():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_rewrite_tensor_to_Indexed(), test_rewrite_tensor_to_Indexed produces the expected output) over Any ║
+# ║ Path(test_rewrite_tensor_to_Indexed(), a1.rewrite(Indexed) == Indexed(Symbol('A'), i0, i1, i2, i3) and a2.rewrite(Indexed) == Sum(Indexed(Symbol('A'), L_0, L_0, i2, i3), (L_0, 0, 3)) and a3.rewrite(Indexed) == Sum(Indexed(Symbol('A'), L_0, L_0, i2, i3), (L_0, 0, 3)) + Sum(Indexed(Symbol('A'), i2, i3, L_0, L_0), (L_0, 0, 3)) and b1.rewrite(Indexed) == Sum(Indexed(Symbol('B'), L_0) * Indexed(Symbol('A'), L_0, i1, i2, i3), (L_0, 0, 3)) and b2.rewrite(Indexed) == Sum(Indexed(Symbol('B'), L_1) * Indexed(Symbol('A'), L_0, L_0, i2, L_1), (L_0, 0, 3), (L_1, 0, 3))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_rewrite_tensor_to_Indexed : Any → {Any | a1.rewr...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  a1.rewrite(Indexed) == Indexed(Symbol('A'...   ║
+# ║   ensures:  a2.rewrite(Indexed) == Sum(Indexed(Symbol...   ║
+# ║   ensures:  a3.rewrite(Indexed) == Sum(Indexed(Symbol...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_rewrite_tensor_to_Indexed : Any → {Any | result ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e7450da68d493394  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0bc330d00e230c11  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_rewrite_tensor_to_Indexed","kind":"function","src_hash":"e3eb7707944deced","in":{"base":"Any"},"out":{"base":"Any","pred":"a1.rewrite(Indexed) == Indexed(Symbol('A'), i0, i1, i2, i3) and a2.rewrite(Indexed) == Sum(Indexed(Symbol('A'), L_0, L_0, i2, i3), (L_0, 0, 3))"},"spec":{"lhs":"test_rewrite_tensor_to_Indexed()","rhs":"test_rewrite_tensor_to_Indexed produces the expected output","over":{"base":"Any"},"name":"test_rewrite_tensor_to_Indexed_correct"},"guarantee":"test_rewrite_tensor_to_Indexed produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_rewrite_tensor_to_Indexed_correct","statement":"Path(test_rewrite_tensor_to_Indexed(x), test_rewrite_tensor_to_Indexed produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e7450da68d493394"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_rewrite_tensor_to_Indexed","kind":"function","src_hash":"e3eb7707944deced","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: a1.rewrite(Indexed) == Indexed(Symbol('A'), i0, i1, i2, i3) and a2.rewrite(Indexed) == Sum(Indexed(Symbol('A'), L_0, L_0, i2, i3), (L_0, 0, 3)) and a3.rewrite(Indexed) == Sum(Indexed(Symbol('A'), L_0, L_0, i2, i3), (L_0, 0, 3)) + Sum(Indexed(Symbol('A'), i2, i3, L_0, L_0), (L_0, 0, 3)) and b1.rewrite(Indexed) == Sum(Indexed(Symbol('B'), L_0) * Indexed(Symbol('A'), L_0, i1, i2, i3), (L_0, 0, 3)) and b2.rewrite(Indexed) == Sum(Indexed(Symbol('B'), L_1) * Indexed(Symbol('A'), L_0, L_0, i2, L_1), (L_0, 0, 3), (L_1, 0, 3))"},"spec":{"lhs":"test_rewrite_tensor_to_Indexed()","rhs":"a1.rewrite(Indexed) == Indexed(Symbol('A'), i0, i1, i2, i3) and a2.rewrite(Indexed) == Sum(Indexed(Symbol('A'), L_0, L_0, i2, i3), (L_0, 0, 3)) and a3.rewrite(Indexed) == Sum(Indexed(Symbol('A'), L_0, L_0, i2, i3), (L_0, 0, 3)) + Sum(Indexed(Symbol('A'), i2, i3, L_0, L_0), (L_0, 0, 3)) and b1.rewrite(Indexed) == Sum(Indexed(Symbol('B'), L_0) * Indexed(Symbol('A'), L_0, i1, i2, i3), (L_0, 0, 3)) and b2.rewrite(Indexed) == Sum(Indexed(Symbol('B'), L_1) * Indexed(Symbol('A'), L_0, L_0, i2, L_1), (L_0, 0, 3), (L_1, 0, 3))","over":{"base":"Any"},"name":"test_rewrite_tensor_to_Indexed_correct"},"guarantee":"a1.rewrite(Indexed) == Indexed(Symbol('A'), i0, i1, i2, i3); a2.rewrite(Indexed) == Sum(Indexed(Symbol('A'), L_0, L_0, i2, i3), (L_0, 0, 3)); a3.rewrite(Indexed) == Sum(Indexed(Symbol('A'), L_0, L_0, i2, i3), (L_0, 0, 3)) + Sum(Indexed(Symbol('A'), i2, i3, L_0, L_0), (L_0, 0, 3))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_rewrite_tensor_to_Indexed_correct","statement":"Path(test_rewrite_tensor_to_Indexed(x), a1.rewrite(Indexed) == Indexed(Symbol('A'), i0, i1, i2, i3); a2.rewrite(Indexed) == Sum(Indexed(Symbol('A'), L_0, L_0, i2, i3), (L_0, 0, 3)); a3.rewrite(Indexed) == Sum(Indexed(Symbol('A'), L_0, L_0, i2, i3), (L_0, 0, 3)) + Sum(Indexed(Symbol('A'), i2, i3, L_0, L_0), (L_0, 0, 3)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0bc330d00e230c11","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["a1.rewrite(Indexed) == Indexed(Symbol('A'), i0, i1, i2, i3)","a2.rewrite(Indexed) == Sum(Indexed(Symbol('A'), L_0, L_0, i2, i3), (L_0, 0, 3))","a3.rewrite(Indexed) == Sum(Indexed(Symbol('A'), L_0, L_0, i2, i3), (L_0, 0, 3)) + Sum(Indexed(Symbol('A'), i2, i3, L_0, L_0), (L_0, 0, 3))","b1.rewrite(Indexed) == Sum(Indexed(Symbol('B'), L_0) * Indexed(Symbol('A'), L_0, i1, i2, i3), (L_0, 0, 3))","b2.rewrite(Indexed) == Sum(Indexed(Symbol('B'), L_1) * Indexed(Symbol('A'), L_0, L_0, i2, L_1), (L_0, 0, 3), (L_1, 0, 3))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_rewrite_tensor_to_Indexed():
     L = TensorIndexType("L", dim=4)
     A = TensorHead("A", [L]*4)
@@ -2752,16 +3184,24 @@ def test_rewrite_tensor_to_Indexed():
     assert b2.rewrite(Indexed) == Sum(Indexed(Symbol("B"), L_1)*Indexed(Symbol("A"), L_0, L_0, i2, L_1), (L_0, 0, 3), (L_1, 0, 3))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_tensor_matching(), test match and replace with the pattern being a wildtensor or a wildtensorindex) over Any ║
+# ║ Path(test_tensor_matching(), a.matches(q) == {a: q} and a.matches(-q) == {a: -q} and g.matches(-q) == None and g.matches(q) == {g: q} and eps(p, -a, a).matches(eps(p, q, r)) == None and eps(p, -b, a).matches(eps(p, q, r)) == {a: r, -b: q} and eps(p, -q, r).replace(eps(a, b, c), 1) == 1 and W().matches(K(p) * V(q)) == {W(): K(p) * V(q)} and W(a).matches(K(p)) == {a: p, W(a).head: _WildTensExpr(K(p))} and W(a, p).matches(K(p) * V(q)) == {a: q, W(a, p).head: _WildTensExpr(K(p) * V(q))} and W(p, q).matches(K(p) * V(q)) == {W(p, q).head: _WildTensExpr(K(p) * V(q))} and W(p, q).matches(A(q, p)) == {W(p, q).head: _WildTensExpr(A(q, p))} and U(p, q).matches(A(q, p)) == None and (K(q) * K(p)).replace(W(q, p), 1) == 1 and delta(p, q).matches(delta(q, p)) == {} and eps(p, q, r).matches(eps(q, p, r)) is None and eps(p, q, r).matches(eps(q, r, p)) == {}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_tensor_matching : Any → {Any | a.matches(q) == {...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  a.matches(q) == {a: q}                         ║
+# ║   ensures:  a.matches(-q) == {a: -q}                       ║
+# ║   ensures:  g.matches(-q) == None                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_tensor_matching : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c67fc681a2447671  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6781fbc0effb7e4d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_tensor_matching","kind":"function","src_hash":"3dea19fed2a143e4","in":{"base":"Any"},"out":{"base":"Any","pred":"a.matches(q) == {a: q} and a.matches(-q) == {a: -q} and g.matches(-q) == None and g.matches(q) == {g: q} and eps(p, -a, a).matches(eps(p, q, r)) == None and eps(p, -b, a).matches(eps(p, q, r)) == {a: r, -b: q} and eps(p, -q, r).replace(eps(a, b, c), 1) == 1 and W().matches(K(p) * V(q)) == {W(): K(p) * V(q)} and W(a).matches(K(p)) == {a: p, W(a).head: _WildTensExpr(K(p))} and W(p, q).matches(K(p) * V(q)) == {W(p, q).head: _WildTensExpr(K(p) * V(q))} and W(p, q).matches(A(q, p)) == {W(p, q).head: _WildTensExpr(A(q, p))} and U(p, q).matches(A(q, p)) == None and (K(q) * K(p)).replace(W(q, p), 1) == 1 and delta(p, q).matches(delta(q, p)) == {} and eps(p, q, r).matches(eps(q, p, r)) is None and eps(p, q, r).matches(eps(q, r, p)) == {}"},"spec":{"lhs":"test_tensor_matching()","rhs":"test match and replace with the pattern being a wildtensor or a wildtensorindex","over":{"base":"Any"},"name":"test_tensor_matching_correct"},"guarantee":"test match and replace with the pattern being a wildtensor or a wildtensorindex","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_tensor_matching_correct","statement":"Path(test_tensor_matching(x), test match and replace with the pattern being a wildtensor or a wildtensorindex)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c67fc681a2447671"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_tensor_matching","kind":"function","src_hash":"3dea19fed2a143e4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: a.matches(q) == {a: q} and a.matches(-q) == {a: -q} and g.matches(-q) == None and g.matches(q) == {g: q} and eps(p, -a, a).matches(eps(p, q, r)) == None and eps(p, -b, a).matches(eps(p, q, r)) == {a: r, -b: q} and eps(p, -q, r).replace(eps(a, b, c), 1) == 1 and W().matches(K(p) * V(q)) == {W(): K(p) * V(q)} and W(a).matches(K(p)) == {a: p, W(a).head: _WildTensExpr(K(p))} and W(a, p).matches(K(p) * V(q)) == {a: q, W(a, p).head: _WildTensExpr(K(p) * V(q))} and W(p, q).matches(K(p) * V(q)) == {W(p, q).head: _WildTensExpr(K(p) * V(q))} and W(p, q).matches(A(q, p)) == {W(p, q).head: _WildTensExpr(A(q, p))} and U(p, q).matches(A(q, p)) == None and (K(q) * K(p)).replace(W(q, p), 1) == 1 and delta(p, q).matches(delta(q, p)) == {} and eps(p, q, r).matches(eps(q, p, r)) is None and eps(p, q, r).matches(eps(q, r, p)) == {}"},"spec":{"lhs":"test_tensor_matching()","rhs":"a.matches(q) == {a: q} and a.matches(-q) == {a: -q} and g.matches(-q) == None and g.matches(q) == {g: q} and eps(p, -a, a).matches(eps(p, q, r)) == None and eps(p, -b, a).matches(eps(p, q, r)) == {a: r, -b: q} and eps(p, -q, r).replace(eps(a, b, c), 1) == 1 and W().matches(K(p) * V(q)) == {W(): K(p) * V(q)} and W(a).matches(K(p)) == {a: p, W(a).head: _WildTensExpr(K(p))} and W(a, p).matches(K(p) * V(q)) == {a: q, W(a, p).head: _WildTensExpr(K(p) * V(q))} and W(p, q).matches(K(p) * V(q)) == {W(p, q).head: _WildTensExpr(K(p) * V(q))} and W(p, q).matches(A(q, p)) == {W(p, q).head: _WildTensExpr(A(q, p))} and U(p, q).matches(A(q, p)) == None and (K(q) * K(p)).replace(W(q, p), 1) == 1 and delta(p, q).matches(delta(q, p)) == {} and eps(p, q, r).matches(eps(q, p, r)) is None and eps(p, q, r).matches(eps(q, r, p)) == {}","over":{"base":"Any"},"name":"test_tensor_matching_correct"},"guarantee":"a.matches(q) == {a: q}; a.matches(-q) == {a: -q}; g.matches(-q) == None","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_tensor_matching_correct","statement":"Path(test_tensor_matching(x), a.matches(q) == {a: q}; a.matches(-q) == {a: -q}; g.matches(-q) == None)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6781fbc0effb7e4d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["a.matches(q) == {a: q}","a.matches(-q) == {a: -q}","g.matches(-q) == None","g.matches(q) == {g: q}","eps(p, -a, a).matches(eps(p, q, r)) == None","eps(p, -b, a).matches(eps(p, q, r)) == {a: r, -b: q}","eps(p, -q, r).replace(eps(a, b, c), 1) == 1","W().matches(K(p) * V(q)) == {W(): K(p) * V(q)}","W(a).matches(K(p)) == {a: p, W(a).head: _WildTensExpr(K(p))}","W(a, p).matches(K(p) * V(q)) == {a: q, W(a, p).head: _WildTensExpr(K(p) * V(q))}","W(p, q).matches(K(p) * V(q)) == {W(p, q).head: _WildTensExpr(K(p) * V(q))}","W(p, q).matches(A(q, p)) == {W(p, q).head: _WildTensExpr(A(q, p))}","U(p, q).matches(A(q, p)) == None","(K(q) * K(p)).replace(W(q, p), 1) == 1","delta(p, q).matches(delta(q, p)) == {}","eps(p, q, r).matches(eps(q, p, r)) is None","eps(p, q, r).matches(eps(q, r, p)) == {}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":true}}
 def test_tensor_matching():
     """
     Test match and replace with the pattern being a WildTensor or a WildTensorIndex
@@ -2799,16 +3239,24 @@ def test_tensor_matching():
     assert eps(p,q,r).matches(eps(q,r,p)) == {}
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_TensAdd_matching(), test match and replace with the pattern being a tensadd) over Any ║
+# ║ Path(test_TensAdd_matching(), (K(p) * K(q) + V(p) * V(q)).matches(K(p) * K(q) + V(p) * V(q)) == {} and (K(p) * K(q) + V(p) * V(q)).matches(K(p) * K(q) + V(p) * V(q) + K(p) * V(q) + V(p) * K(q)) is None and (K(p) * K(q) + V(p) * V(q) + K(p) * V(q) + K(q) * V(p)).replace(W(p, q) + K(p) * K(q) + V(p) * V(q), W(p, q) + 3 * K(p) * V(q)).doit() == K(q) * V(p) + 4 * K(p) * V(q)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_TensAdd_matching : Any → {Any | (K(p) * K(q) + V...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (K(p) * K(q) + V(p) * V(q)).matches(K(p) ...   ║
+# ║   ensures:  (K(p) * K(q) + V(p) * V(q)).matches(K(p) ...   ║
+# ║   ensures:  (K(p) * K(q) + V(p) * V(q) + K(p) * V(q) ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_TensAdd_matching : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e2525e9750e43181  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7b0abb140c6157d0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_TensAdd_matching","kind":"function","src_hash":"03451cff44493577","in":{"base":"Any"},"out":{"base":"Any","pred":"(K(p) * K(q) + V(p) * V(q)).matches(K(p) * K(q) + V(p) * V(q)) == {}"},"spec":{"lhs":"test_TensAdd_matching()","rhs":"test match and replace with the pattern being a tensadd","over":{"base":"Any"},"name":"test_TensAdd_matching_correct"},"guarantee":"test match and replace with the pattern being a tensadd","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_TensAdd_matching_correct","statement":"Path(test_TensAdd_matching(x), test match and replace with the pattern being a tensadd)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e2525e9750e43181"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_TensAdd_matching","kind":"function","src_hash":"03451cff44493577","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (K(p) * K(q) + V(p) * V(q)).matches(K(p) * K(q) + V(p) * V(q)) == {} and (K(p) * K(q) + V(p) * V(q)).matches(K(p) * K(q) + V(p) * V(q) + K(p) * V(q) + V(p) * K(q)) is None and (K(p) * K(q) + V(p) * V(q) + K(p) * V(q) + K(q) * V(p)).replace(W(p, q) + K(p) * K(q) + V(p) * V(q), W(p, q) + 3 * K(p) * V(q)).doit() == K(q) * V(p) + 4 * K(p) * V(q)"},"spec":{"lhs":"test_TensAdd_matching()","rhs":"(K(p) * K(q) + V(p) * V(q)).matches(K(p) * K(q) + V(p) * V(q)) == {} and (K(p) * K(q) + V(p) * V(q)).matches(K(p) * K(q) + V(p) * V(q) + K(p) * V(q) + V(p) * K(q)) is None and (K(p) * K(q) + V(p) * V(q) + K(p) * V(q) + K(q) * V(p)).replace(W(p, q) + K(p) * K(q) + V(p) * V(q), W(p, q) + 3 * K(p) * V(q)).doit() == K(q) * V(p) + 4 * K(p) * V(q)","over":{"base":"Any"},"name":"test_TensAdd_matching_correct"},"guarantee":"(K(p) * K(q) + V(p) * V(q)).matches(K(p) * K(q) + V(p) * V(q)) == {}; (K(p) * K(q) + V(p) * V(q)).matches(K(p) * K(q) + V(p) * V(q) + K(p) * V(q) + V(p) * K(q)) is None; (K(p) * K(q) + V(p) * V(q) + K(p) * V(q) + K(q) * V(p)).replace(W(p, q) + K(p) * K(q) + V(p) * V(q), W(p, q) + 3 * K(p) * V(q)).doit() == K(q) * V(p) + 4 * K(p) * V(q)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_TensAdd_matching_correct","statement":"Path(test_TensAdd_matching(x), (K(p) * K(q) + V(p) * V(q)).matches(K(p) * K(q) + V(p) * V(q)) == {}; (K(p) * K(q) + V(p) * V(q)).matches(K(p) * K(q) + V(p) * V(q) + K(p) * V(q) + V(p) * K(q)) is None; (K(p) * K(q) + V(p) * V(q) + K(p) * V(q) + K(q) * V(p)).replace(W(p, q) + K(p) * K(q) + V(p) * V(q), W(p, q) + 3 * K(p) * V(q)).doit() == K(q) * V(p) + 4 * K(p) * V(q))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7b0abb140c6157d0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(K(p) * K(q) + V(p) * V(q)).matches(K(p) * K(q) + V(p) * V(q)) == {}","(K(p) * K(q) + V(p) * V(q)).matches(K(p) * K(q) + V(p) * V(q) + K(p) * V(q) + V(p) * K(q)) is None","(K(p) * K(q) + V(p) * V(q) + K(p) * V(q) + K(q) * V(p)).replace(W(p, q) + K(p) * K(q) + V(p) * V(q), W(p, q) + 3 * K(p) * V(q)).doit() == K(q) * V(p) + 4 * K(p) * V(q)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_TensAdd_matching():
     """
     Test match and replace with the pattern being a TensAdd
@@ -2827,16 +3275,24 @@ def test_TensAdd_matching():
         ).doit() == K(q)*V(p) + 4*K(p)*V(q)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_TensMul_matching(), test match and replace with the pattern being a tensmul) over Any ║
+# ║ Path(test_TensMul_matching(), (wi * K(p)).matches(K(p)) == {wi: 1} and (wi * eps(p, q, r)).matches(eps(p, r, q)) == {wi: -1} and (K(p) * V(-p)).replace(W(a) * V(-a), 1) == 1 and (K(q) * K(p) * V(-p)).replace(W(q, a) * V(-a), 1) == 1 and (K(p) * V(-p)).replace(K(-a) * V(a), 1) == 1 and (K(q) * K(p) * V(-p)).replace(W(q) * U(p) * V(-p), 1) == 1 and (K(p) * V(q)).replace(W() * K(p) * V(q), W() * V(p) * V(q)).doit() == V(p) * V(q) and (eps(r, p, q) * eps(-r, -s, -t)).replace(eps(e, a, b) * eps(-e, c, d), delta(a, c) * delta(b, d) - delta(a, d) * delta(b, c)).doit().canon_bp() == delta(p, -s) * delta(q, -t) - delta(p, -t) * delta(q, -s) and (eps(r, p, q) * eps(-r, -p, -q)).replace(eps(c, a, b) * eps(-c, d, f), delta(a, d) * delta(b, f) - delta(a, f) * delta(b, d)).contract_delta(delta).doit() == 6 and (V(-p) * V(q) * V(-q)).replace(wi * W() * V(a) * V(-a), wi * W()).doit() == V(-p) and (k ** 4 * K(r) * K(-r)).replace(wi * W() * K(a) * K(-a), wi * W() * k ** 2).doit() == k ** 6 and (K(p) * V(q)).replace(W(q) * K(p), W(p) * W(q)) == V(p) * V(q) and (K(p) * V(q) * V(r)).replace(W(q, r) * K(p), W(p, r) * W(q, s) * V(-s)) == V(p) * V(r) * V(q) * V(s) * V(-s) and D2 not in m.values()) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_TensMul_matching : Any → {Any | (wi * K(p)).matc...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (wi * K(p)).matches(K(p)) == {wi: 1}           ║
+# ║   ensures:  (wi * eps(p, q, r)).matches(eps(p, r, q))...   ║
+# ║   ensures:  (K(p) * V(-p)).replace(W(a) * V(-a), 1) == 1   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_TensMul_matching : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1e4a62619956b101  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e0bb072b7e68c6b9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_TensMul_matching","kind":"function","src_hash":"7030e6c67d64647c","in":{"base":"Any"},"out":{"base":"Any","pred":"(wi * K(p)).matches(K(p)) == {wi: 1} and (wi * eps(p, q, r)).matches(eps(p, r, q)) == {wi: -1} and (K(p) * V(-p)).replace(W(a) * V(-a), 1) == 1 and (K(q) * K(p) * V(-p)).replace(W(q, a) * V(-a), 1) == 1 and (K(p) * V(-p)).replace(K(-a) * V(a), 1) == 1 and (K(q) * K(p) * V(-p)).replace(W(q) * U(p) * V(-p), 1) == 1 and (K(p) * V(q)).replace(W(q) * K(p), W(p) * W(q)) == V(p) * V(q) and D2 not in m.values()"},"spec":{"lhs":"test_TensMul_matching()","rhs":"test match and replace with the pattern being a tensmul","over":{"base":"Any"},"name":"test_TensMul_matching_correct"},"guarantee":"test match and replace with the pattern being a tensmul","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_TensMul_matching_correct","statement":"Path(test_TensMul_matching(x), test match and replace with the pattern being a tensmul)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1e4a62619956b101"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_TensMul_matching","kind":"function","src_hash":"7030e6c67d64647c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (wi * K(p)).matches(K(p)) == {wi: 1} and (wi * eps(p, q, r)).matches(eps(p, r, q)) == {wi: -1} and (K(p) * V(-p)).replace(W(a) * V(-a), 1) == 1 and (K(q) * K(p) * V(-p)).replace(W(q, a) * V(-a), 1) == 1 and (K(p) * V(-p)).replace(K(-a) * V(a), 1) == 1 and (K(q) * K(p) * V(-p)).replace(W(q) * U(p) * V(-p), 1) == 1 and (K(p) * V(q)).replace(W() * K(p) * V(q), W() * V(p) * V(q)).doit() == V(p) * V(q) and (eps(r, p, q) * eps(-r, -s, -t)).replace(eps(e, a, b) * eps(-e, c, d), delta(a, c) * delta(b, d) - delta(a, d) * delta(b, c)).doit().canon_bp() == delta(p, -s) * delta(q, -t) - delta(p, -t) * delta(q, -s) and (eps(r, p, q) * eps(-r, -p, -q)).replace(eps(c, a, b) * eps(-c, d, f), delta(a, d) * delta(b, f) - delta(a, f) * delta(b, d)).contract_delta(delta).doit() == 6 and (V(-p) * V(q) * V(-q)).replace(wi * W() * V(a) * V(-a), wi * W()).doit() == V(-p) and (k ** 4 * K(r) * K(-r)).replace(wi * W() * K(a) * K(-a), wi * W() * k ** 2).doit() == k ** 6 and (K(p) * V(q)).replace(W(q) * K(p), W(p) * W(q)) == V(p) * V(q) and (K(p) * V(q) * V(r)).replace(W(q, r) * K(p), W(p, r) * W(q, s) * V(-s)) == V(p) * V(r) * V(q) * V(s) * V(-s) and D2 not in m.values()"},"spec":{"lhs":"test_TensMul_matching()","rhs":"(wi * K(p)).matches(K(p)) == {wi: 1} and (wi * eps(p, q, r)).matches(eps(p, r, q)) == {wi: -1} and (K(p) * V(-p)).replace(W(a) * V(-a), 1) == 1 and (K(q) * K(p) * V(-p)).replace(W(q, a) * V(-a), 1) == 1 and (K(p) * V(-p)).replace(K(-a) * V(a), 1) == 1 and (K(q) * K(p) * V(-p)).replace(W(q) * U(p) * V(-p), 1) == 1 and (K(p) * V(q)).replace(W() * K(p) * V(q), W() * V(p) * V(q)).doit() == V(p) * V(q) and (eps(r, p, q) * eps(-r, -s, -t)).replace(eps(e, a, b) * eps(-e, c, d), delta(a, c) * delta(b, d) - delta(a, d) * delta(b, c)).doit().canon_bp() == delta(p, -s) * delta(q, -t) - delta(p, -t) * delta(q, -s) and (eps(r, p, q) * eps(-r, -p, -q)).replace(eps(c, a, b) * eps(-c, d, f), delta(a, d) * delta(b, f) - delta(a, f) * delta(b, d)).contract_delta(delta).doit() == 6 and (V(-p) * V(q) * V(-q)).replace(wi * W() * V(a) * V(-a), wi * W()).doit() == V(-p) and (k ** 4 * K(r) * K(-r)).replace(wi * W() * K(a) * K(-a), wi * W() * k ** 2).doit() == k ** 6 and (K(p) * V(q)).replace(W(q) * K(p), W(p) * W(q)) == V(p) * V(q) and (K(p) * V(q) * V(r)).replace(W(q, r) * K(p), W(p, r) * W(q, s) * V(-s)) == V(p) * V(r) * V(q) * V(s) * V(-s) and D2 not in m.values()","over":{"base":"Any"},"name":"test_TensMul_matching_correct"},"guarantee":"(wi * K(p)).matches(K(p)) == {wi: 1}; (wi * eps(p, q, r)).matches(eps(p, r, q)) == {wi: -1}; (K(p) * V(-p)).replace(W(a) * V(-a), 1) == 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_TensMul_matching_correct","statement":"Path(test_TensMul_matching(x), (wi * K(p)).matches(K(p)) == {wi: 1}; (wi * eps(p, q, r)).matches(eps(p, r, q)) == {wi: -1}; (K(p) * V(-p)).replace(W(a) * V(-a), 1) == 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e0bb072b7e68c6b9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(wi * K(p)).matches(K(p)) == {wi: 1}","(wi * eps(p, q, r)).matches(eps(p, r, q)) == {wi: -1}","(K(p) * V(-p)).replace(W(a) * V(-a), 1) == 1","(K(q) * K(p) * V(-p)).replace(W(q, a) * V(-a), 1) == 1","(K(p) * V(-p)).replace(K(-a) * V(a), 1) == 1","(K(q) * K(p) * V(-p)).replace(W(q) * U(p) * V(-p), 1) == 1","(K(p) * V(q)).replace(W() * K(p) * V(q), W() * V(p) * V(q)).doit() == V(p) * V(q)","(eps(r, p, q) * eps(-r, -s, -t)).replace(eps(e, a, b) * eps(-e, c, d), delta(a, c) * delta(b, d) - delta(a, d) * delta(b, c)).doit().canon_bp() == delta(p, -s) * delta(q, -t) - delta(p, -t) * delta(q, -s)","(eps(r, p, q) * eps(-r, -p, -q)).replace(eps(c, a, b) * eps(-c, d, f), delta(a, d) * delta(b, f) - delta(a, f) * delta(b, d)).contract_delta(delta).doit() == 6","(V(-p) * V(q) * V(-q)).replace(wi * W() * V(a) * V(-a), wi * W()).doit() == V(-p)","(k ** 4 * K(r) * K(-r)).replace(wi * W() * K(a) * K(-a), wi * W() * k ** 2).doit() == k ** 6","(K(p) * V(q)).replace(W(q) * K(p), W(p) * W(q)) == V(p) * V(q)","(K(p) * V(q) * V(r)).replace(W(q, r) * K(p), W(p, r) * W(q, s) * V(-s)) == V(p) * V(r) * V(q) * V(s) * V(-s)","D2 not in m.values()"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"assumed","binding":true}}
 def test_TensMul_matching():
     """
     Test match and replace with the pattern being a TensMul
@@ -2897,16 +3353,24 @@ def test_TensMul_matching():
     assert D2 not in m.values()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_TensMul_subs(), test subs and xreplace in tensmul) over Any ║
+# ║ Path(test_TensMul_subs(), (K(p) * V(r) * K(-p)).subs({V(r): K(q) * K(-q)}) == K(p) * K(q) * K(-q) * K(-p) and (K(p) * V(r) * K(-p)).xreplace({V(r): K(q) * K(-q)}) == K(p) * K(q) * K(-q) * K(-p) and (K(p) * V(r)).xreplace({p: C0, V(r): K(q) * K(-q)}) == K(C0) * K(q) * K(-q) and (K(p) * A(q, -q) * K(-p)).doit() == K(p) * A(q, -q) * K(-p) and (K(p) * V(-p)).replace(K(a), V(a) * V(q) * V(-q)) == V(p) * V(q) * V(-q) * V(-p)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_TensMul_subs : Any → {Any | (K(p) * V(r) * K(-p)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (K(p) * V(r) * K(-p)).subs({V(r): K(q) * ...   ║
+# ║   ensures:  (K(p) * V(r) * K(-p)).xreplace({V(r): K(q...   ║
+# ║   ensures:  (K(p) * V(r)).xreplace({p: C0, V(r): K(q)...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_TensMul_subs : Any → {Any | result satisfies: (K...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ab90175098854d34  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4e08d31928da6561  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_TensMul_subs","kind":"function","src_hash":"5451dc2fb6eb8c2b","in":{"base":"Any"},"out":{"base":"Any","pred":"(K(p) * V(r) * K(-p)).subs({V(r): K(q) * K(-q)}) == K(p) * K(q) * K(-q) * K(-p) and (K(p) * V(r)).xreplace({p: C0, V(r): K(q) * K(-q)}) == K(C0) * K(q) * K(-q) and (K(p) * A(q, -q) * K(-p)).doit() == K(p) * A(q, -q) * K(-p)"},"spec":{"lhs":"test_TensMul_subs()","rhs":"test subs and xreplace in tensmul","over":{"base":"Any"},"name":"test_TensMul_subs_correct"},"guarantee":"test subs and xreplace in tensmul","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_TensMul_subs_correct","statement":"Path(test_TensMul_subs(x), test subs and xreplace in tensmul)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ab90175098854d34"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_TensMul_subs","kind":"function","src_hash":"5451dc2fb6eb8c2b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (K(p) * V(r) * K(-p)).subs({V(r): K(q) * K(-q)}) == K(p) * K(q) * K(-q) * K(-p) and (K(p) * V(r) * K(-p)).xreplace({V(r): K(q) * K(-q)}) == K(p) * K(q) * K(-q) * K(-p) and (K(p) * V(r)).xreplace({p: C0, V(r): K(q) * K(-q)}) == K(C0) * K(q) * K(-q) and (K(p) * A(q, -q) * K(-p)).doit() == K(p) * A(q, -q) * K(-p) and (K(p) * V(-p)).replace(K(a), V(a) * V(q) * V(-q)) == V(p) * V(q) * V(-q) * V(-p)"},"spec":{"lhs":"test_TensMul_subs()","rhs":"(K(p) * V(r) * K(-p)).subs({V(r): K(q) * K(-q)}) == K(p) * K(q) * K(-q) * K(-p) and (K(p) * V(r) * K(-p)).xreplace({V(r): K(q) * K(-q)}) == K(p) * K(q) * K(-q) * K(-p) and (K(p) * V(r)).xreplace({p: C0, V(r): K(q) * K(-q)}) == K(C0) * K(q) * K(-q) and (K(p) * A(q, -q) * K(-p)).doit() == K(p) * A(q, -q) * K(-p) and (K(p) * V(-p)).replace(K(a), V(a) * V(q) * V(-q)) == V(p) * V(q) * V(-q) * V(-p)","over":{"base":"Any"},"name":"test_TensMul_subs_correct"},"guarantee":"(K(p) * V(r) * K(-p)).subs({V(r): K(q) * K(-q)}) == K(p) * K(q) * K(-q) * K(-p); (K(p) * V(r) * K(-p)).xreplace({V(r): K(q) * K(-q)}) == K(p) * K(q) * K(-q) * K(-p); (K(p) * V(r)).xreplace({p: C0, V(r): K(q) * K(-q)}) == K(C0) * K(q) * K(-q)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_TensMul_subs_correct","statement":"Path(test_TensMul_subs(x), (K(p) * V(r) * K(-p)).subs({V(r): K(q) * K(-q)}) == K(p) * K(q) * K(-q) * K(-p); (K(p) * V(r) * K(-p)).xreplace({V(r): K(q) * K(-q)}) == K(p) * K(q) * K(-q) * K(-p); (K(p) * V(r)).xreplace({p: C0, V(r): K(q) * K(-q)}) == K(C0) * K(q) * K(-q))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4e08d31928da6561","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(K(p) * V(r) * K(-p)).subs({V(r): K(q) * K(-q)}) == K(p) * K(q) * K(-q) * K(-p)","(K(p) * V(r) * K(-p)).xreplace({V(r): K(q) * K(-q)}) == K(p) * K(q) * K(-q) * K(-p)","(K(p) * V(r)).xreplace({p: C0, V(r): K(q) * K(-q)}) == K(C0) * K(q) * K(-q)","(K(p) * A(q, -q) * K(-p)).doit() == K(p) * A(q, -q) * K(-p)","(K(p) * V(-p)).replace(K(a), V(a) * V(q) * V(-q)) == V(p) * V(q) * V(-q) * V(-p)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_TensMul_subs():
     """
     Test subs and xreplace in TensMul. See bug #24337
@@ -2927,37 +3391,52 @@ def test_TensMul_subs():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_tensorsymmetry(), test_tensorsymmetry produces the expected output) over Any ║
+# ║ Path(test_tensorsymmetry(), <unspecified:test_tensorsymmetry>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_tensorsymmetry : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | efea1220aba840cf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_tensorsymmetry","kind":"function","src_hash":"cfbf40bb2ed1c5a5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_tensorsymmetry()","rhs":"test_tensorsymmetry produces the expected output","over":{"base":"Any"},"name":"test_tensorsymmetry_correct"},"guarantee":"test_tensorsymmetry produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_tensorsymmetry_correct","statement":"Path(test_tensorsymmetry(x), test_tensorsymmetry produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"efea1220aba840cf"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_tensorsymmetry","kind":"function","src_hash":"cfbf40bb2ed1c5a5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_tensorsymmetry()","rhs":"<unspecified:test_tensorsymmetry>","over":{"base":"Any"},"name":"test_tensorsymmetry_correct"},"guarantee":"test_tensorsymmetry produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_tensorsymmetry_correct","statement":"Path(test_tensorsymmetry(x), test_tensorsymmetry produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"efea1220aba840cf","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_tensorsymmetry():
     with warns_deprecated_sympy():
         tensorsymmetry([1]*2)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_tensorhead(), test_tensorhead produces the expected output) over Any ║
+# ║ Path(test_tensorhead(), <unspecified:test_tensorhead>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_tensorhead : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a8aff8d68c20e99f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_tensorhead","kind":"function","src_hash":"641be6f73a6c768c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_tensorhead()","rhs":"test_tensorhead produces the expected output","over":{"base":"Any"},"name":"test_tensorhead_correct"},"guarantee":"test_tensorhead produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_tensorhead_correct","statement":"Path(test_tensorhead(x), test_tensorhead produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a8aff8d68c20e99f"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_tensorhead","kind":"function","src_hash":"641be6f73a6c768c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_tensorhead()","rhs":"<unspecified:test_tensorhead>","over":{"base":"Any"},"name":"test_tensorhead_correct"},"guarantee":"test_tensorhead produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_tensorhead_correct","statement":"Path(test_tensorhead(x), test_tensorhead produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a8aff8d68c20e99f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_tensorhead():
     with warns_deprecated_sympy():
         tensorhead('A', [])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_TensorType(), test_TensorType produces the expected output) over {Any | isinstance(S2, TensorType)} ║
+# ║ Path(test_TensorType(), <unspecified:test_TensorType>) over {Any | isinstance(S2, TensorType)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_TensorType : {Any | isinstance(S2, TensorType)} ...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -2969,9 +3448,12 @@ def test_tensorhead():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.3ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | a331291f...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_TensorType","kind":"function","src_hash":"78c8f44df09308f9","in":{"base":"Any","pred":"isinstance(S2, TensorType)"},"out":{"base":"Any","pred":"isinstance(S2, TensorType)"},"spec":{"lhs":"test_TensorType()","rhs":"test_TensorType produces the expected output","over":{"base":"Any","pred":"isinstance(S2, TensorType)"},"name":"test_TensorType_correct"},"guarantee":"test_TensorType produces the expected output","fibers":[{"name":"TensorType","pred":"isinstance(S2, TensorType)","path":{"lhs":"test_TensorType(x)","rhs":"test_TensorType produces the expected output","over":{"base":"TensorType","pred":"isinstance(S2, TensorType)"},"name":"test_TensorType_TensorType_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_TensorType_TensorType_correct","statement":"test_TensorType satisfies spec on TensorType inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"a331291fd43f4a26"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_TensorType","kind":"function","src_hash":"78c8f44df09308f9","in":{"base":"Any","pred":"isinstance(S2, TensorType)"},"out":{"base":"Any","pred":"isinstance(S2, TensorType)"},"spec":{"lhs":"test_TensorType()","rhs":"<unspecified:test_TensorType>","over":{"base":"Any","pred":"isinstance(S2, TensorType)"},"name":"test_TensorType_correct"},"guarantee":"test_TensorType produces the expected output","fibers":[{"name":"TensorType","pred":"isinstance(S2, TensorType)","path":{"lhs":"test_TensorType(x)","rhs":"test_TensorType produces the expected output","over":{"base":"TensorType","pred":"isinstance(S2, TensorType)"},"name":"test_TensorType_TensorType_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_TensorType_TensorType_correct","statement":"test_TensorType satisfies spec on TensorType inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"a331291fd43f4a26","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.3,"verdict_class":"failed","binding":true}}
 def test_TensorType():
     with warns_deprecated_sympy():
         sym2 = TensorSymmetry.fully_symmetric(2)
@@ -2980,22 +3462,33 @@ def test_TensorType():
         assert isinstance(S2, TensorType)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dummy_fmt(), test_dummy_fmt produces the expected output) over Any ║
+# ║ Path(test_dummy_fmt(), <unspecified:test_dummy_fmt>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_dummy_fmt : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 95165f5d383f1829  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_dummy_fmt","kind":"function","src_hash":"494fa878a6595737","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_dummy_fmt()","rhs":"test_dummy_fmt produces the expected output","over":{"base":"Any"},"name":"test_dummy_fmt_correct"},"guarantee":"test_dummy_fmt produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_dummy_fmt_correct","statement":"Path(test_dummy_fmt(x), test_dummy_fmt produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"95165f5d383f1829"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_dummy_fmt","kind":"function","src_hash":"494fa878a6595737","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_dummy_fmt()","rhs":"<unspecified:test_dummy_fmt>","over":{"base":"Any"},"name":"test_dummy_fmt_correct"},"guarantee":"test_dummy_fmt produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_dummy_fmt_correct","statement":"Path(test_dummy_fmt(x), test_dummy_fmt produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"95165f5d383f1829","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_dummy_fmt():
     with warns_deprecated_sympy():
         TensorIndexType('Lorentz', dummy_fmt='L')
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_postprocessor(), test if substituting a tensor into a mul or add automatically converts it to tensmul or tensadd respectively) over {Any | isinstance((x * 2).xreplace({x: K(i)}), TensMul) and isinstance((x + 2).xreplace({x: K(i) * K(-i)}), TensAdd)} ║
+# ║ Path(test_postprocessor(), isinstance((x * 2).xreplace({x: K(i)}), TensMul) and isinstance((x + 2).xreplace({x: K(i) * K(-i)}), TensAdd) and isinstance((x * 2).subs({x: K(i)}), TensMul) and isinstance((x + 2).subs({x: K(i) * K(-i)}), TensAdd) and isinstance((x * 2).replace(x, K(i)), TensMul) and isinstance((x + 2).replace(x, K(i) * K(-i)), TensAdd)) over {Any | isinstance((x * 2).xreplace({x: K(i)}), TensMul) and isinstance((x + 2).xreplace({x: K(i) * K(-i)}), TensAdd)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance((x * 2).xreplace({x: K(i)}), T...   ║
+# ║   ensures:  isinstance((x + 2).xreplace({x: K(i) * K(...   ║
+# ║   ensures:  isinstance((x * 2).subs({x: K(i)}), TensMul)   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_postprocessor : {Any | isinstance((x * 2).xrepla...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -3008,9 +3501,12 @@ def test_dummy_fmt():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?2 ✗2 VCs | 0.7ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | cd26f0c8...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_postprocessor","kind":"function","src_hash":"421792f34d261dac","in":{"base":"Any","pred":"isinstance((x * 2).xreplace({x: K(i)}), TensMul) and isinstance((x + 2).xreplace({x: K(i) * K(-i)}), TensAdd)"},"out":{"base":"Any","pred":"isinstance((x * 2).xreplace({x: K(i)}), TensMul) and isinstance((x + 2).xreplace({x: K(i) * K(-i)}), TensAdd) and isinstance((x * 2).subs({x: K(i)}), TensMul) and isinstance((x + 2).subs({x: K(i) * K(-i)}), TensAdd) and isinstance((x * 2).replace(x, K(i)), TensMul) and isinstance((x + 2).replace(x, K(i) * K(-i)), TensAdd)"},"spec":{"lhs":"test_postprocessor()","rhs":"test if substituting a tensor into a mul or add automatically converts it to tensmul or tensadd respectively","over":{"base":"Any","pred":"isinstance((x * 2).xreplace({x: K(i)}), TensMul) and isinstance((x + 2).xreplace({x: K(i) * K(-i)}), TensAdd)"},"name":"test_postprocessor_correct"},"guarantee":"test if substituting a tensor into a mul or add automatically converts it to tensmul or tensadd respectively","fibers":[{"name":"TensMul","pred":"isinstance((x * 2).xreplace({x: K(i)}), TensMul)","path":{"lhs":"test_postprocessor(x)","rhs":"test if substituting a tensor into a mul or add automatically converts it to tensmul or tensadd respectively","over":{"base":"TensMul","pred":"isinstance((x * 2).xreplace({x: K(i)}), TensMul)"},"name":"test_postprocessor_TensMul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_postprocessor_TensMul_correct","statement":"test_postprocessor satisfies spec on TensMul inputs"},"trust":"LIBRARY"},{"name":"TensAdd","pred":"isinstance((x + 2).xreplace({x: K(i) * K(-i)}), TensAdd)","path":{"lhs":"test_postprocessor(x)","rhs":"test if substituting a tensor into a mul or add automatically converts it to tensmul or tensadd respectively","over":{"base":"TensAdd","pred":"isinstance((x + 2).xreplace({x: K(i) * K(-i)}), TensAdd)"},"name":"test_postprocessor_TensAdd_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_postprocessor_TensAdd_correct","statement":"test_postprocessor satisfies spec on TensAdd inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"cd26f0c820a953ae"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_postprocessor","kind":"function","src_hash":"421792f34d261dac","in":{"base":"Any","pred":"isinstance((x * 2).xreplace({x: K(i)}), TensMul) and isinstance((x + 2).xreplace({x: K(i) * K(-i)}), TensAdd)"},"out":{"base":"Any","pred":"result satisfies: isinstance((x * 2).xreplace({x: K(i)}), TensMul) and isinstance((x + 2).xreplace({x: K(i) * K(-i)}), TensAdd) and isinstance((x * 2).subs({x: K(i)}), TensMul) and isinstance((x + 2).subs({x: K(i) * K(-i)}), TensAdd) and isinstance((x * 2).replace(x, K(i)), TensMul) and isinstance((x + 2).replace(x, K(i) * K(-i)), TensAdd)"},"spec":{"lhs":"test_postprocessor()","rhs":"isinstance((x * 2).xreplace({x: K(i)}), TensMul) and isinstance((x + 2).xreplace({x: K(i) * K(-i)}), TensAdd) and isinstance((x * 2).subs({x: K(i)}), TensMul) and isinstance((x + 2).subs({x: K(i) * K(-i)}), TensAdd) and isinstance((x * 2).replace(x, K(i)), TensMul) and isinstance((x + 2).replace(x, K(i) * K(-i)), TensAdd)","over":{"base":"Any","pred":"isinstance((x * 2).xreplace({x: K(i)}), TensMul) and isinstance((x + 2).xreplace({x: K(i) * K(-i)}), TensAdd)"},"name":"test_postprocessor_correct"},"guarantee":"isinstance((x * 2).xreplace({x: K(i)}), TensMul); isinstance((x + 2).xreplace({x: K(i) * K(-i)}), TensAdd); isinstance((x * 2).subs({x: K(i)}), TensMul)","fibers":[{"name":"TensMul","pred":"isinstance((x * 2).xreplace({x: K(i)}), TensMul)","path":{"lhs":"test_postprocessor(x)","rhs":"isinstance((x * 2).xreplace({x: K(i)}), TensMul); isinstance((x + 2).xreplace({x: K(i) * K(-i)}), TensAdd); isinstance((x * 2).subs({x: K(i)}), TensMul)","over":{"base":"TensMul","pred":"isinstance((x * 2).xreplace({x: K(i)}), TensMul)"},"name":"test_postprocessor_TensMul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_postprocessor_TensMul_correct","statement":"test_postprocessor satisfies spec on TensMul inputs"},"trust":"LIBRARY"},{"name":"TensAdd","pred":"isinstance((x + 2).xreplace({x: K(i) * K(-i)}), TensAdd)","path":{"lhs":"test_postprocessor(x)","rhs":"isinstance((x * 2).xreplace({x: K(i)}), TensMul); isinstance((x + 2).xreplace({x: K(i) * K(-i)}), TensAdd); isinstance((x * 2).subs({x: K(i)}), TensMul)","over":{"base":"TensAdd","pred":"isinstance((x + 2).xreplace({x: K(i) * K(-i)}), TensAdd)"},"name":"test_postprocessor_TensAdd_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_postprocessor_TensAdd_correct","statement":"test_postprocessor satisfies spec on TensAdd inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"cd26f0c820a953ae","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance((x * 2).xreplace({x: K(i)}), TensMul)","isinstance((x + 2).xreplace({x: K(i) * K(-i)}), TensAdd)","isinstance((x * 2).subs({x: K(i)}), TensMul)","isinstance((x + 2).subs({x: K(i) * K(-i)}), TensAdd)","isinstance((x * 2).replace(x, K(i)), TensMul)","isinstance((x + 2).replace(x, K(i) * K(-i)), TensAdd)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":1,"n_assumed":2,"n_failed":2,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"failed","binding":true}}
 def test_postprocessor():
     """
     Test if substituting a Tensor into a Mul or Add automatically converts it
@@ -3031,16 +3527,22 @@ def test_postprocessor():
     assert isinstance((x+2).replace(x, K(i)*K(-i)), TensAdd)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_TensMul_nocoeff(), ensure that for any tensmul instance, self.coeff * self.nocoeff == self) over Any ║
+# ║ Path(test_TensMul_nocoeff(), expr.coeff * expr.nocoeff == expr) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_TensMul_nocoeff : Any → {Any | expr.coeff * expr...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  expr.coeff * expr.nocoeff == expr              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_TensMul_nocoeff : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7149495d294c41c9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 832d5f02df577874  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_TensMul_nocoeff","kind":"function","src_hash":"471de7b1acfebb6b","in":{"base":"Any"},"out":{"base":"Any","pred":"expr.coeff * expr.nocoeff == expr"},"spec":{"lhs":"test_TensMul_nocoeff()","rhs":"ensure that for any tensmul instance, self.coeff * self.nocoeff == self","over":{"base":"Any"},"name":"test_TensMul_nocoeff_correct"},"guarantee":"ensure that for any tensmul instance, self.coeff * self.nocoeff == self","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_TensMul_nocoeff_correct","statement":"Path(test_TensMul_nocoeff(x), ensure that for any tensmul instance, self.coeff * self.nocoeff == self)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7149495d294c41c9"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_tensor.test_TensMul_nocoeff","kind":"function","src_hash":"471de7b1acfebb6b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: expr.coeff * expr.nocoeff == expr"},"spec":{"lhs":"test_TensMul_nocoeff()","rhs":"expr.coeff * expr.nocoeff == expr","over":{"base":"Any"},"name":"test_TensMul_nocoeff_correct"},"guarantee":"expr.coeff * expr.nocoeff == expr","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_tensor.test_TensMul_nocoeff_correct","statement":"Path(test_TensMul_nocoeff(x), expr.coeff * expr.nocoeff == expr)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"832d5f02df577874","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["expr.coeff * expr.nocoeff == expr"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_TensMul_nocoeff():
     """
     Ensure that for any TensMul instance, self.coeff * self.nocoeff == self

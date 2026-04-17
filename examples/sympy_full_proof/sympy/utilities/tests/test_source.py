@@ -19,32 +19,44 @@ from sympy.utilities.source import get_mod_func, get_class
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_get_mod_func(), test_get_mod_func produces the expected output) over Any ║
+# ║ Path(test_get_mod_func(), get_mod_func('sympy.core.basic.Basic') == ('sympy.core.basic', 'Basic')) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_get_mod_func : Any → {Any | get_mod_func('sympy....   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  get_mod_func('sympy.core.basic.Basic') ==...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_get_mod_func : Any → {Any | result satisfies: ge...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 286520dbb96d045a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0201b03966fb9918  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_source.test_get_mod_func","kind":"function","src_hash":"fc36333cd576d582","in":{"base":"Any"},"out":{"base":"Any","pred":"get_mod_func('sympy.core.basic.Basic') == ('sympy.core.basic', 'Basic')"},"spec":{"lhs":"test_get_mod_func()","rhs":"test_get_mod_func produces the expected output","over":{"base":"Any"},"name":"test_get_mod_func_correct"},"guarantee":"test_get_mod_func produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_source.test_get_mod_func_correct","statement":"Path(test_get_mod_func(x), test_get_mod_func produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"286520dbb96d045a"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_source.test_get_mod_func","kind":"function","src_hash":"fc36333cd576d582","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: get_mod_func('sympy.core.basic.Basic') == ('sympy.core.basic', 'Basic')"},"spec":{"lhs":"test_get_mod_func()","rhs":"get_mod_func('sympy.core.basic.Basic') == ('sympy.core.basic', 'Basic')","over":{"base":"Any"},"name":"test_get_mod_func_correct"},"guarantee":"get_mod_func('sympy.core.basic.Basic') == ('sympy.core.basic', 'Basic')","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_source.test_get_mod_func_correct","statement":"Path(test_get_mod_func(x), get_mod_func('sympy.core.basic.Basic') == ('sympy.core.basic', 'Basic'))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0201b03966fb9918","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["get_mod_func('sympy.core.basic.Basic') == ('sympy.core.basic', 'Basic')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_get_mod_func():
     assert get_mod_func(
         'sympy.core.basic.Basic') == ('sympy.core.basic', 'Basic')
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_get_class(), test_get_class produces the expected output) over Any ║
+# ║ Path(test_get_class(), _basic.__name__ == 'Basic') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_get_class : Any → {Any | _basic.__name__ == 'Bas...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  _basic.__name__ == 'Basic'                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_get_class : Any → {Any | result satisfies: _basi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e37fe25bbe1c5f65  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6775b067eae94588  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_source.test_get_class","kind":"function","src_hash":"56e90e6af037a081","in":{"base":"Any"},"out":{"base":"Any","pred":"_basic.__name__ == 'Basic'"},"spec":{"lhs":"test_get_class()","rhs":"test_get_class produces the expected output","over":{"base":"Any"},"name":"test_get_class_correct"},"guarantee":"test_get_class produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_source.test_get_class_correct","statement":"Path(test_get_class(x), test_get_class produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e37fe25bbe1c5f65"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_source.test_get_class","kind":"function","src_hash":"56e90e6af037a081","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: _basic.__name__ == 'Basic'"},"spec":{"lhs":"test_get_class()","rhs":"_basic.__name__ == 'Basic'","over":{"base":"Any"},"name":"test_get_class_correct"},"guarantee":"_basic.__name__ == 'Basic'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_source.test_get_class_correct","statement":"Path(test_get_class(x), _basic.__name__ == 'Basic')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6775b067eae94588","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["_basic.__name__ == 'Basic'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_get_class():
     _basic = get_class('sympy.core.basic.Basic')
     assert _basic.__name__ == 'Basic'

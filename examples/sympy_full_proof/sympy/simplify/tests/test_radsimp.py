@@ -40,16 +40,24 @@ from sympy.abc import x, y, z, a, b, c, d
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_radsimp(), test_radsimp produces the expected output) over Any ║
+# ║ Path(test_radsimp(), fraction(radsimp(1 / r2)) == (sqrt(2), 2) and radsimp(1 / (1 + r2)) == -1 + sqrt(2) and radsimp(1 / (r2 + r3)) == -sqrt(2) + sqrt(3) and fraction(radsimp(1 / (1 + r2 + r3))) == (-sqrt(6) + sqrt(2) + 2, 4) and fraction(radsimp(1 / (r2 + r3 + r5))) == (-sqrt(30) + 2 * sqrt(3) + 3 * sqrt(2), 12) and fraction(radsimp(1 / (1 + r2 + r3 + r5))) == (-34 * sqrt(10) - 26 * sqrt(15) - 55 * sqrt(3) - 61 * sqrt(2) + 14 * sqrt(30) + 93 + 46 * sqrt(6) + 53 * sqrt(5), 71) and fraction(radsimp(1 / (r2 + r3 + r5 + r7))) == (-50 * sqrt(42) - 133 * sqrt(5) - 34 * sqrt(70) - 145 * sqrt(3) + 22 * sqrt(105) + 185 * sqrt(2) + 62 * sqrt(30) + 135 * sqrt(7), 215) and len((3616791619821680643598 * z).args) == 16 and radsimp(1 / z) == 1 / z and radsimp(1 / z, max_terms=20).expand() == 1 + r2 / 3 + r3 / 5 + r5 + r7 and radsimp(1 / (r2 * 3)) == sqrt(2) / 6 and radsimp(1 / (r2 * a + r3 + r5 + r7)) == (8 * sqrt(2) * a ** 7 - 8 * sqrt(7) * a ** 6 - 8 * sqrt(5) * a ** 6 - 8 * sqrt(3) * a ** 6 - 180 * sqrt(2) * a ** 5 + 8 * sqrt(30) * a ** 5 + 8 * sqrt(42) * a ** 5 + 8 * sqrt(70) * a ** 5 - 24 * sqrt(105) * a ** 4 + 84 * sqrt(3) * a ** 4 + 100 * sqrt(5) * a ** 4 + 116 * sqrt(7) * a ** 4 - 72 * sqrt(70) * a ** 3 - 40 * sqrt(42) * a ** 3 - 8 * sqrt(30) * a ** 3 + 782 * sqrt(2) * a ** 3 - 462 * sqrt(3) * a ** 2 - 302 * sqrt(7) * a ** 2 - 254 * sqrt(5) * a ** 2 + 120 * sqrt(105) * a ** 2 - 795 * sqrt(2) * a - 62 * sqrt(30) * a + 82 * sqrt(42) * a + 98 * sqrt(70) * a - 118 * sqrt(105) + 59 * sqrt(7) + 295 * sqrt(5) + 531 * sqrt(3)) / (16 * a ** 8 - 480 * a ** 6 + 3128 * a ** 4 - 6360 * a ** 2 + 3481) and radsimp(1 / (r2 * a + r2 * b + r3 + r7)) == (sqrt(2) * a * (a + b) ** 2 - 5 * sqrt(2) * a + sqrt(42) * a + sqrt(2) * b * (a + b) ** 2 - 5 * sqrt(2) * b + sqrt(42) * b - sqrt(7) * (a + b) ** 2 - sqrt(3) * (a + b) ** 2 - 2 * sqrt(3) + 2 * sqrt(7)) / (2 * a ** 4 + 8 * a ** 3 * b + 12 * a ** 2 * b ** 2 - 20 * a ** 2 + 8 * a * b ** 3 - 40 * a * b + 2 * b ** 4 - 20 * b ** 2 + 8) and radsimp(1 / (r2 * a + r2 * b + r2 * c + r2 * d)) == sqrt(2) / (2 * a + 2 * b + 2 * c + 2 * d) and radsimp(1 / (1 + r2 * a + r2 * b + r2 * c + r2 * d)) == (sqrt(2) * a + sqrt(2) * b + sqrt(2) * c + sqrt(2) * d - 1) / (2 * a ** 2 + 4 * a * b + 4 * a * c + 4 * a * d + 2 * b ** 2 + 4 * b * c + 4 * b * d + 2 * c ** 2 + 4 * c * d + 2 * d ** 2 - 1) and radsimp((y ** 2 - x) / (y - sqrt(x))) == sqrt(x) + y and radsimp(-(y ** 2 - x) / (y - sqrt(x))) == -(sqrt(x) + y) and radsimp(1 / (1 - I + a * I)) == (-I * a + 1 + I) / (a ** 2 - 2 * a + 2) and radsimp(1 / ((-x + y) * (x - sqrt(y)))) == (-x - sqrt(y)) / ((x - y) * (x ** 2 - y)) and radsimp(e) == x * (3 + 3 * sqrt(2)) * (3 * x - 3 * sqrt(y)) and radsimp(1 / e) == (-9 * x + 9 * sqrt(2) * x - 9 * sqrt(y) + 9 * sqrt(2) * sqrt(y)) / (9 * x * (9 * x ** 2 - 9 * y)) and radsimp(1 + 1 / (1 + sqrt(3))) == Mul(S.Half, -1 + sqrt(3), evaluate=False) + 1 and radsimp(x ** 2 + sqrt(2) * x ** 2 - sqrt(2) * x * A) == x ** 2 + sqrt(2) * x ** 2 - sqrt(2) * x * A and radsimp(1 / sqrt(5 + 2 * sqrt(6))) == -sqrt(2) + sqrt(3) and radsimp(1 / sqrt(5 + 2 * sqrt(6)) ** 3) == -(-sqrt(3) + sqrt(2)) ** 3 and fraction(radsimp(1 / sqrt(x))) == (sqrt(x), x) and fraction(radsimp(1 / sqrt(2 * x + 3))) == (sqrt(2 * x + 3), 2 * x + 3) and fraction(radsimp(1 / sqrt(2 * (x + 3)))) == (sqrt(2 * x + 6), 2 * x + 6) and radsimp(e).expand() == -2 * 2 ** Rational(3, 4) - 2 * 2 ** Rational(1, 4) + 2 + 2 * sqrt(2) and radsimp(1 / (-sqrt(5) / 2 - S.Half + (-sqrt(5) / 2 - S.Half) ** 2)) == 1 and radsimp(eq) is S.NaN and radsimp(e) == -sqrt(sqrt(7) + 14 * sqrt(2) + 21 * sqrt(3) + 35 * sqrt(5)) * (-11654899 * sqrt(35) - 1577436 * sqrt(210) - 1278438 * sqrt(15) - 1346996 * sqrt(10) + 1635060 * sqrt(6) + 5709765 + 7539830 * sqrt(14) + 8291415 * sqrt(21)) / 1300423175 + 3 and radsimp(1 / base ** 3) == (sqrt(3) + sqrt(2)) ** 3 and radsimp(1 / (-base) ** 3) == -(sqrt(2) + sqrt(3)) ** 3 and radsimp(1 / (-base) ** x) == (-base) ** (-x) and radsimp(1 / base ** x) == (sqrt(2) + sqrt(3)) ** x and radsimp(root(1 / (-1 - sqrt(2)), -x)) == (-1) ** (-1 / x) * (1 + sqrt(2)) ** (1 / x) and radsimp(e) == cos(-sqrt(2) + 1) and radsimp(e / 2) == cos(-sqrt(2) + 1) / 2 and radsimp(1 / e) == 1 / cos(-sqrt(2) + 1) and radsimp(2 / e) == 2 / cos(-sqrt(2) + 1) and fraction(radsimp(e / sqrt(x))) == (sqrt(x) * cos(-sqrt(2) + 1), x) and radsimp(x / r, symbolic=False) == -x * (-sqrt(2) + 1) and radsimp(x / (y + r), symbolic=False) == x / (y + 1 + sqrt(2)) and radsimp(x / (y + r) / r, symbolic=False) == -x * (-sqrt(2) + 1) / (y + 1 + sqrt(2)) and radsimp(eq) == umul(sqrt(x), sqrt(y), 1 / y) and radsimp(eq, symbolic=False) == eq and radsimp(sqrt(x) / sqrt(y) ** 3) == umul(sqrt(x), sqrt(y ** 3), 1 / y ** 3) and radsimp(eq) == eq and radsimp(eq) == Integral((sqrt(2) + 1) * x, (x, 0, sqrt(2) - 1)) and radsimp(eq) == FiniteSet((sqrt(2) + 1) * x)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_radsimp : Any → {Any | fraction(radsimp(1 / r2))...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  fraction(radsimp(1 / r2)) == (sqrt(2), 2)      ║
+# ║   ensures:  radsimp(1 / (1 + r2)) == -1 + sqrt(2)          ║
+# ║   ensures:  radsimp(1 / (r2 + r3)) == -sqrt(2) + sqrt(3)   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_radsimp : Any → {Any | result satisfies: fractio...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3c55e1f74cb6c954  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 3.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9c626c996d888084  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_radsimp.test_radsimp","kind":"function","src_hash":"c538e4b472c55aad","in":{"base":"Any"},"out":{"base":"Any","pred":"fraction(radsimp(1 / r2)) == (sqrt(2), 2) and radsimp(1 / (1 + r2)) == -1 + sqrt(2) and radsimp(1 / (r2 + r3)) == -sqrt(2) + sqrt(3) and fraction(radsimp(1 / (1 + r2 + r3))) == (-sqrt(6) + sqrt(2) + 2, 4) and len((3616791619821680643598 * z).args) == 16 and radsimp(1 / z) == 1 / z and radsimp(1 / z, max_terms=20).expand() == 1 + r2 / 3 + r3 / 5 + r5 + r7 and radsimp(1 / (r2 * 3)) == sqrt(2) / 6 and radsimp((y ** 2 - x) / (y - sqrt(x))) == sqrt(x) + y and radsimp(-(y ** 2 - x) / (y - sqrt(x))) == -(sqrt(x) + y) and radsimp(1 / (1 - I + a * I)) == (-I * a + 1 + I) / (a ** 2 - 2 * a + 2) and radsimp(e) == x * (3 + 3 * sqrt(2)) * (3 * x - 3 * sqrt(y)) and radsimp(1 + 1 / (1 + sqrt(3))) == Mul(S.Half, -1 + sqrt(3), evaluate=False) + 1 and radsimp(1 / sqrt(5 + 2 * sqrt(6))) == -sqrt(2) + sqrt(3) and radsimp(1 / sqrt(5 + 2 * sqrt(6)) ** 3) == -(-sqrt(3) + sqrt(2)) ** 3 and fraction(radsimp(1 / sqrt(x))) == (sqrt(x), x) and fraction(radsimp(1 / sqrt(2 * x + 3))) == (sqrt(2 * x + 3), 2 * x + 3) and fraction(radsimp(1 / sqrt(2 * (x + 3)))) == (sqrt(2 * x + 6), 2 * x + 6) and radsimp(1 / (-sqrt(5) / 2 - S.Half + (-sqrt(5) / 2 - S.Half) ** 2)) == 1 and radsimp(eq) is S.NaN and radsimp(1 / base ** 3) == (sqrt(3) + sqrt(2)) ** 3 and radsimp(1 / (-base) ** 3) == -(sqrt(2) + sqrt(3)) ** 3 and radsimp(1 / (-base) ** x) == (-base) ** (-x) and radsimp(1 / base ** x) == (sqrt(2) + sqrt(3)) ** x and radsimp(e) == cos(-sqrt(2) + 1) and radsimp(e / 2) == cos(-sqrt(2) + 1) / 2 and radsimp(1 / e) == 1 / cos(-sqrt(2) + 1) and radsimp(2 / e) == 2 / cos(-sqrt(2) + 1) and fraction(radsimp(e / sqrt(x))) == (sqrt(x) * cos(-sqrt(2) + 1), x) and radsimp(x / r, symbolic=False) == -x * (-sqrt(2) + 1) and radsimp(x / (y + r), symbolic=False) == x / (y + 1 + sqrt(2)) and radsimp(eq) == umul(sqrt(x), sqrt(y), 1 / y) and radsimp(eq, symbolic=False) == eq and radsimp(sqrt(x) / sqrt(y) ** 3) == umul(sqrt(x), sqrt(y ** 3), 1 / y ** 3) and radsimp(eq) == eq and radsimp(eq) == Integral((sqrt(2) + 1) * x, (x, 0, sqrt(2) - 1)) and radsimp(eq) == FiniteSet((sqrt(2) + 1) * x)"},"spec":{"lhs":"test_radsimp()","rhs":"test_radsimp produces the expected output","over":{"base":"Any"},"name":"test_radsimp_correct"},"guarantee":"test_radsimp produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_radsimp.test_radsimp_correct","statement":"Path(test_radsimp(x), test_radsimp produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3c55e1f74cb6c954"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_radsimp.test_radsimp","kind":"function","src_hash":"c538e4b472c55aad","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: fraction(radsimp(1 / r2)) == (sqrt(2), 2) and radsimp(1 / (1 + r2)) == -1 + sqrt(2) and radsimp(1 / (r2 + r3)) == -sqrt(2) + sqrt(3) and fraction(radsimp(1 / (1 + r2 + r3))) == (-sqrt(6) + sqrt(2) + 2, 4) and fraction(radsimp(1 / (r2 + r3 + r5))) == (-sqrt(30) + 2 * sqrt(3) + 3 * sqrt(2), 12) and fraction(radsimp(1 / (1 + r2 + r3 + r5))) == (-34 * sqrt(10) - 26 * sqrt(15) - 55 * sqrt(3) - 61 * sqrt(2) + 14 * sqrt(30) + 93 + 46 * sqrt(6) + 53 * sqrt(5), 71) and fraction(radsimp(1 / (r2 + r3 + r5 + r7))) == (-50 * sqrt(42) - 133 * sqrt(5) - 34 * sqrt(70) - 145 * sqrt(3) + 22 * sqrt(105) + 185 * sqrt(2) + 62 * sqrt(30) + 135 * sqrt(7), 215) and len((3616791619821680643598 * z).args) == 16 and radsimp(1 / z) == 1 / z and radsimp(1 / z, max_terms=20).expand() == 1 + r2 / 3 + r3 / 5 + r5 + r7 and radsimp(1 / (r2 * 3)) == sqrt(2) / 6 and radsimp(1 / (r2 * a + r3 + r5 + r7)) == (8 * sqrt(2) * a ** 7 - 8 * sqrt(7) * a ** 6 - 8 * sqrt(5) * a ** 6 - 8 * sqrt(3) * a ** 6 - 180 * sqrt(2) * a ** 5 + 8 * sqrt(30) * a ** 5 + 8 * sqrt(42) * a ** 5 + 8 * sqrt(70) * a ** 5 - 24 * sqrt(105) * a ** 4 + 84 * sqrt(3) * a ** 4 + 100 * sqrt(5) * a ** 4 + 116 * sqrt(7) * a ** 4 - 72 * sqrt(70) * a ** 3 - 40 * sqrt(42) * a ** 3 - 8 * sqrt(30) * a ** 3 + 782 * sqrt(2) * a ** 3 - 462 * sqrt(3) * a ** 2 - 302 * sqrt(7) * a ** 2 - 254 * sqrt(5) * a ** 2 + 120 * sqrt(105) * a ** 2 - 795 * sqrt(2) * a - 62 * sqrt(30) * a + 82 * sqrt(42) * a + 98 * sqrt(70) * a - 118 * sqrt(105) + 59 * sqrt(7) + 295 * sqrt(5) + 531 * sqrt(3)) / (16 * a ** 8 - 480 * a ** 6 + 3128 * a ** 4 - 6360 * a ** 2 + 3481) and radsimp(1 / (r2 * a + r2 * b + r3 + r7)) == (sqrt(2) * a * (a + b) ** 2 - 5 * sqrt(2) * a + sqrt(42) * a + sqrt(2) * b * (a + b) ** 2 - 5 * sqrt(2) * b + sqrt(42) * b - sqrt(7) * (a + b) ** 2 - sqrt(3) * (a + b) ** 2 - 2 * sqrt(3) + 2 * sqrt(7)) / (2 * a ** 4 + 8 * a ** 3 * b + 12 * a ** 2 * b ** 2 - 20 * a ** 2 + 8 * a * b ** 3 - 40 * a * b + 2 * b ** 4 - 20 * b ** 2 + 8) and radsimp(1 / (r2 * a + r2 * b + r2 * c + r2 * d)) == sqrt(2) / (2 * a + 2 * b + 2 * c + 2 * d) and radsimp(1 / (1 + r2 * a + r2 * b + r2 * c + r2 * d)) == (sqrt(2) * a + sqrt(2) * b + sqrt(2) * c + sqrt(2) * d - 1) / (2 * a ** 2 + 4 * a * b + 4 * a * c + 4 * a * d + 2 * b ** 2 + 4 * b * c + 4 * b * d + 2 * c ** 2 + 4 * c * d + 2 * d ** 2 - 1) and radsimp((y ** 2 - x) / (y - sqrt(x))) == sqrt(x) + y and radsimp(-(y ** 2 - x) / (y - sqrt(x))) == -(sqrt(x) + y) and radsimp(1 / (1 - I + a * I)) == (-I * a + 1 + I) / (a ** 2 - 2 * a + 2) and radsimp(1 / ((-x + y) * (x - sqrt(y)))) == (-x - sqrt(y)) / ((x - y) * (x ** 2 - y)) and radsimp(e) == x * (3 + 3 * sqrt(2)) * (3 * x - 3 * sqrt(y)) and radsimp(1 / e) == (-9 * x + 9 * sqrt(2) * x - 9 * sqrt(y) + 9 * sqrt(2) * sqrt(y)) / (9 * x * (9 * x ** 2 - 9 * y)) and radsimp(1 + 1 / (1 + sqrt(3))) == Mul(S.Half, -1 + sqrt(3), evaluate=False) + 1 and radsimp(x ** 2 + sqrt(2) * x ** 2 - sqrt(2) * x * A) == x ** 2 + sqrt(2) * x ** 2 - sqrt(2) * x * A and radsimp(1 / sqrt(5 + 2 * sqrt(6))) == -sqrt(2) + sqrt(3) and radsimp(1 / sqrt(5 + 2 * sqrt(6)) ** 3) == -(-sqrt(3) + sqrt(2)) ** 3 and fraction(radsimp(1 / sqrt(x))) == (sqrt(x), x) and fraction(radsimp(1 / sqrt(2 * x + 3))) == (sqrt(2 * x + 3), 2 * x + 3) and fraction(radsimp(1 / sqrt(2 * (x + 3)))) == (sqrt(2 * x + 6), 2 * x + 6) and radsimp(e).expand() == -2 * 2 ** Rational(3, 4) - 2 * 2 ** Rational(1, 4) + 2 + 2 * sqrt(2) and radsimp(1 / (-sqrt(5) / 2 - S.Half + (-sqrt(5) / 2 - S.Half) ** 2)) == 1 and radsimp(eq) is S.NaN and radsimp(e) == -sqrt(sqrt(7) + 14 * sqrt(2) + 21 * sqrt(3) + 35 * sqrt(5)) * (-11654899 * sqrt(35) - 1577436 * sqrt(210) - 1278438 * sqrt(15) - 1346996 * sqrt(10) + 1635060 * sqrt(6) + 5709765 + 7539830 * sqrt(14) + 8291415 * sqrt(21)) / 1300423175 + 3 and radsimp(1 / base ** 3) == (sqrt(3) + sqrt(2)) ** 3 and radsimp(1 / (-base) ** 3) == -(sqrt(2) + sqrt(3)) ** 3 and radsimp(1 / (-base) ** x) == (-base) ** (-x) and radsimp(1 / base ** x) == (sqrt(2) + sqrt(3)) ** x and radsimp(root(1 / (-1 - sqrt(2)), -x)) == (-1) ** (-1 / x) * (1 + sqrt(2)) ** (1 / x) and radsimp(e) == cos(-sqrt(2) + 1) and radsimp(e / 2) == cos(-sqrt(2) + 1) / 2 and radsimp(1 / e) == 1 / cos(-sqrt(2) + 1) and radsimp(2 / e) == 2 / cos(-sqrt(2) + 1) and fraction(radsimp(e / sqrt(x))) == (sqrt(x) * cos(-sqrt(2) + 1), x) and radsimp(x / r, symbolic=False) == -x * (-sqrt(2) + 1) and radsimp(x / (y + r), symbolic=False) == x / (y + 1 + sqrt(2)) and radsimp(x / (y + r) / r, symbolic=False) == -x * (-sqrt(2) + 1) / (y + 1 + sqrt(2)) and radsimp(eq) == umul(sqrt(x), sqrt(y), 1 / y) and radsimp(eq, symbolic=False) == eq and radsimp(sqrt(x) / sqrt(y) ** 3) == umul(sqrt(x), sqrt(y ** 3), 1 / y ** 3) and radsimp(eq) == eq and radsimp(eq) == Integral((sqrt(2) + 1) * x, (x, 0, sqrt(2) - 1)) and radsimp(eq) == FiniteSet((sqrt(2) + 1) * x)"},"spec":{"lhs":"test_radsimp()","rhs":"fraction(radsimp(1 / r2)) == (sqrt(2), 2) and radsimp(1 / (1 + r2)) == -1 + sqrt(2) and radsimp(1 / (r2 + r3)) == -sqrt(2) + sqrt(3) and fraction(radsimp(1 / (1 + r2 + r3))) == (-sqrt(6) + sqrt(2) + 2, 4) and fraction(radsimp(1 / (r2 + r3 + r5))) == (-sqrt(30) + 2 * sqrt(3) + 3 * sqrt(2), 12) and fraction(radsimp(1 / (1 + r2 + r3 + r5))) == (-34 * sqrt(10) - 26 * sqrt(15) - 55 * sqrt(3) - 61 * sqrt(2) + 14 * sqrt(30) + 93 + 46 * sqrt(6) + 53 * sqrt(5), 71) and fraction(radsimp(1 / (r2 + r3 + r5 + r7))) == (-50 * sqrt(42) - 133 * sqrt(5) - 34 * sqrt(70) - 145 * sqrt(3) + 22 * sqrt(105) + 185 * sqrt(2) + 62 * sqrt(30) + 135 * sqrt(7), 215) and len((3616791619821680643598 * z).args) == 16 and radsimp(1 / z) == 1 / z and radsimp(1 / z, max_terms=20).expand() == 1 + r2 / 3 + r3 / 5 + r5 + r7 and radsimp(1 / (r2 * 3)) == sqrt(2) / 6 and radsimp(1 / (r2 * a + r3 + r5 + r7)) == (8 * sqrt(2) * a ** 7 - 8 * sqrt(7) * a ** 6 - 8 * sqrt(5) * a ** 6 - 8 * sqrt(3) * a ** 6 - 180 * sqrt(2) * a ** 5 + 8 * sqrt(30) * a ** 5 + 8 * sqrt(42) * a ** 5 + 8 * sqrt(70) * a ** 5 - 24 * sqrt(105) * a ** 4 + 84 * sqrt(3) * a ** 4 + 100 * sqrt(5) * a ** 4 + 116 * sqrt(7) * a ** 4 - 72 * sqrt(70) * a ** 3 - 40 * sqrt(42) * a ** 3 - 8 * sqrt(30) * a ** 3 + 782 * sqrt(2) * a ** 3 - 462 * sqrt(3) * a ** 2 - 302 * sqrt(7) * a ** 2 - 254 * sqrt(5) * a ** 2 + 120 * sqrt(105) * a ** 2 - 795 * sqrt(2) * a - 62 * sqrt(30) * a + 82 * sqrt(42) * a + 98 * sqrt(70) * a - 118 * sqrt(105) + 59 * sqrt(7) + 295 * sqrt(5) + 531 * sqrt(3)) / (16 * a ** 8 - 480 * a ** 6 + 3128 * a ** 4 - 6360 * a ** 2 + 3481) and radsimp(1 / (r2 * a + r2 * b + r3 + r7)) == (sqrt(2) * a * (a + b) ** 2 - 5 * sqrt(2) * a + sqrt(42) * a + sqrt(2) * b * (a + b) ** 2 - 5 * sqrt(2) * b + sqrt(42) * b - sqrt(7) * (a + b) ** 2 - sqrt(3) * (a + b) ** 2 - 2 * sqrt(3) + 2 * sqrt(7)) / (2 * a ** 4 + 8 * a ** 3 * b + 12 * a ** 2 * b ** 2 - 20 * a ** 2 + 8 * a * b ** 3 - 40 * a * b + 2 * b ** 4 - 20 * b ** 2 + 8) and radsimp(1 / (r2 * a + r2 * b + r2 * c + r2 * d)) == sqrt(2) / (2 * a + 2 * b + 2 * c + 2 * d) and radsimp(1 / (1 + r2 * a + r2 * b + r2 * c + r2 * d)) == (sqrt(2) * a + sqrt(2) * b + sqrt(2) * c + sqrt(2) * d - 1) / (2 * a ** 2 + 4 * a * b + 4 * a * c + 4 * a * d + 2 * b ** 2 + 4 * b * c + 4 * b * d + 2 * c ** 2 + 4 * c * d + 2 * d ** 2 - 1) and radsimp((y ** 2 - x) / (y - sqrt(x))) == sqrt(x) + y and radsimp(-(y ** 2 - x) / (y - sqrt(x))) == -(sqrt(x) + y) and radsimp(1 / (1 - I + a * I)) == (-I * a + 1 + I) / (a ** 2 - 2 * a + 2) and radsimp(1 / ((-x + y) * (x - sqrt(y)))) == (-x - sqrt(y)) / ((x - y) * (x ** 2 - y)) and radsimp(e) == x * (3 + 3 * sqrt(2)) * (3 * x - 3 * sqrt(y)) and radsimp(1 / e) == (-9 * x + 9 * sqrt(2) * x - 9 * sqrt(y) + 9 * sqrt(2) * sqrt(y)) / (9 * x * (9 * x ** 2 - 9 * y)) and radsimp(1 + 1 / (1 + sqrt(3))) == Mul(S.Half, -1 + sqrt(3), evaluate=False) + 1 and radsimp(x ** 2 + sqrt(2) * x ** 2 - sqrt(2) * x * A) == x ** 2 + sqrt(2) * x ** 2 - sqrt(2) * x * A and radsimp(1 / sqrt(5 + 2 * sqrt(6))) == -sqrt(2) + sqrt(3) and radsimp(1 / sqrt(5 + 2 * sqrt(6)) ** 3) == -(-sqrt(3) + sqrt(2)) ** 3 and fraction(radsimp(1 / sqrt(x))) == (sqrt(x), x) and fraction(radsimp(1 / sqrt(2 * x + 3))) == (sqrt(2 * x + 3), 2 * x + 3) and fraction(radsimp(1 / sqrt(2 * (x + 3)))) == (sqrt(2 * x + 6), 2 * x + 6) and radsimp(e).expand() == -2 * 2 ** Rational(3, 4) - 2 * 2 ** Rational(1, 4) + 2 + 2 * sqrt(2) and radsimp(1 / (-sqrt(5) / 2 - S.Half + (-sqrt(5) / 2 - S.Half) ** 2)) == 1 and radsimp(eq) is S.NaN and radsimp(e) == -sqrt(sqrt(7) + 14 * sqrt(2) + 21 * sqrt(3) + 35 * sqrt(5)) * (-11654899 * sqrt(35) - 1577436 * sqrt(210) - 1278438 * sqrt(15) - 1346996 * sqrt(10) + 1635060 * sqrt(6) + 5709765 + 7539830 * sqrt(14) + 8291415 * sqrt(21)) / 1300423175 + 3 and radsimp(1 / base ** 3) == (sqrt(3) + sqrt(2)) ** 3 and radsimp(1 / (-base) ** 3) == -(sqrt(2) + sqrt(3)) ** 3 and radsimp(1 / (-base) ** x) == (-base) ** (-x) and radsimp(1 / base ** x) == (sqrt(2) + sqrt(3)) ** x and radsimp(root(1 / (-1 - sqrt(2)), -x)) == (-1) ** (-1 / x) * (1 + sqrt(2)) ** (1 / x) and radsimp(e) == cos(-sqrt(2) + 1) and radsimp(e / 2) == cos(-sqrt(2) + 1) / 2 and radsimp(1 / e) == 1 / cos(-sqrt(2) + 1) and radsimp(2 / e) == 2 / cos(-sqrt(2) + 1) and fraction(radsimp(e / sqrt(x))) == (sqrt(x) * cos(-sqrt(2) + 1), x) and radsimp(x / r, symbolic=False) == -x * (-sqrt(2) + 1) and radsimp(x / (y + r), symbolic=False) == x / (y + 1 + sqrt(2)) and radsimp(x / (y + r) / r, symbolic=False) == -x * (-sqrt(2) + 1) / (y + 1 + sqrt(2)) and radsimp(eq) == umul(sqrt(x), sqrt(y), 1 / y) and radsimp(eq, symbolic=False) == eq and radsimp(sqrt(x) / sqrt(y) ** 3) == umul(sqrt(x), sqrt(y ** 3), 1 / y ** 3) and radsimp(eq) == eq and radsimp(eq) == Integral((sqrt(2) + 1) * x, (x, 0, sqrt(2) - 1)) and radsimp(eq) == FiniteSet((sqrt(2) + 1) * x)","over":{"base":"Any"},"name":"test_radsimp_correct"},"guarantee":"fraction(radsimp(1 / r2)) == (sqrt(2), 2); radsimp(1 / (1 + r2)) == -1 + sqrt(2); radsimp(1 / (r2 + r3)) == -sqrt(2) + sqrt(3)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_radsimp.test_radsimp_correct","statement":"Path(test_radsimp(x), fraction(radsimp(1 / r2)) == (sqrt(2), 2); radsimp(1 / (1 + r2)) == -1 + sqrt(2); radsimp(1 / (r2 + r3)) == -sqrt(2) + sqrt(3))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9c626c996d888084","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["fraction(radsimp(1 / r2)) == (sqrt(2), 2)","radsimp(1 / (1 + r2)) == -1 + sqrt(2)","radsimp(1 / (r2 + r3)) == -sqrt(2) + sqrt(3)","fraction(radsimp(1 / (1 + r2 + r3))) == (-sqrt(6) + sqrt(2) + 2, 4)","fraction(radsimp(1 / (r2 + r3 + r5))) == (-sqrt(30) + 2 * sqrt(3) + 3 * sqrt(2), 12)","fraction(radsimp(1 / (1 + r2 + r3 + r5))) == (-34 * sqrt(10) - 26 * sqrt(15) - 55 * sqrt(3) - 61 * sqrt(2) + 14 * sqrt(30) + 93 + 46 * sqrt(6) + 53 * sqrt(5), 71)","fraction(radsimp(1 / (r2 + r3 + r5 + r7))) == (-50 * sqrt(42) - 133 * sqrt(5) - 34 * sqrt(70) - 145 * sqrt(3) + 22 * sqrt(105) + 185 * sqrt(2) + 62 * sqrt(30) + 135 * sqrt(7), 215)","len((3616791619821680643598 * z).args) == 16","radsimp(1 / z) == 1 / z","radsimp(1 / z, max_terms=20).expand() == 1 + r2 / 3 + r3 / 5 + r5 + r7","radsimp(1 / (r2 * 3)) == sqrt(2) / 6","radsimp(1 / (r2 * a + r3 + r5 + r7)) == (8 * sqrt(2) * a ** 7 - 8 * sqrt(7) * a ** 6 - 8 * sqrt(5) * a ** 6 - 8 * sqrt(3) * a ** 6 - 180 * sqrt(2) * a ** 5 + 8 * sqrt(30) * a ** 5 + 8 * sqrt(42) * a ** 5 + 8 * sqrt(70) * a ** 5 - 24 * sqrt(105) * a ** 4 + 84 * sqrt(3) * a ** 4 + 100 * sqrt(5) * a ** 4 + 116 * sqrt(7) * a ** 4 - 72 * sqrt(70) * a ** 3 - 40 * sqrt(42) * a ** 3 - 8 * sqrt(30) * a ** 3 + 782 * sqrt(2) * a ** 3 - 462 * sqrt(3) * a ** 2 - 302 * sqrt(7) * a ** 2 - 254 * sqrt(5) * a ** 2 + 120 * sqrt(105) * a ** 2 - 795 * sqrt(2) * a - 62 * sqrt(30) * a + 82 * sqrt(42) * a + 98 * sqrt(70) * a - 118 * sqrt(105) + 59 * sqrt(7) + 295 * sqrt(5) + 531 * sqrt(3)) / (16 * a ** 8 - 480 * a ** 6 + 3128 * a ** 4 - 6360 * a ** 2 + 3481)","radsimp(1 / (r2 * a + r2 * b + r3 + r7)) == (sqrt(2) * a * (a + b) ** 2 - 5 * sqrt(2) * a + sqrt(42) * a + sqrt(2) * b * (a + b) ** 2 - 5 * sqrt(2) * b + sqrt(42) * b - sqrt(7) * (a + b) ** 2 - sqrt(3) * (a + b) ** 2 - 2 * sqrt(3) + 2 * sqrt(7)) / (2 * a ** 4 + 8 * a ** 3 * b + 12 * a ** 2 * b ** 2 - 20 * a ** 2 + 8 * a * b ** 3 - 40 * a * b + 2 * b ** 4 - 20 * b ** 2 + 8)","radsimp(1 / (r2 * a + r2 * b + r2 * c + r2 * d)) == sqrt(2) / (2 * a + 2 * b + 2 * c + 2 * d)","radsimp(1 / (1 + r2 * a + r2 * b + r2 * c + r2 * d)) == (sqrt(2) * a + sqrt(2) * b + sqrt(2) * c + sqrt(2) * d - 1) / (2 * a ** 2 + 4 * a * b + 4 * a * c + 4 * a * d + 2 * b ** 2 + 4 * b * c + 4 * b * d + 2 * c ** 2 + 4 * c * d + 2 * d ** 2 - 1)","radsimp((y ** 2 - x) / (y - sqrt(x))) == sqrt(x) + y","radsimp(-(y ** 2 - x) / (y - sqrt(x))) == -(sqrt(x) + y)","radsimp(1 / (1 - I + a * I)) == (-I * a + 1 + I) / (a ** 2 - 2 * a + 2)","radsimp(1 / ((-x + y) * (x - sqrt(y)))) == (-x - sqrt(y)) / ((x - y) * (x ** 2 - y))","radsimp(e) == x * (3 + 3 * sqrt(2)) * (3 * x - 3 * sqrt(y))","radsimp(1 / e) == (-9 * x + 9 * sqrt(2) * x - 9 * sqrt(y) + 9 * sqrt(2) * sqrt(y)) / (9 * x * (9 * x ** 2 - 9 * y))","radsimp(1 + 1 / (1 + sqrt(3))) == Mul(S.Half, -1 + sqrt(3), evaluate=False) + 1","radsimp(x ** 2 + sqrt(2) * x ** 2 - sqrt(2) * x * A) == x ** 2 + sqrt(2) * x ** 2 - sqrt(2) * x * A","radsimp(1 / sqrt(5 + 2 * sqrt(6))) == -sqrt(2) + sqrt(3)","radsimp(1 / sqrt(5 + 2 * sqrt(6)) ** 3) == -(-sqrt(3) + sqrt(2)) ** 3","fraction(radsimp(1 / sqrt(x))) == (sqrt(x), x)","fraction(radsimp(1 / sqrt(2 * x + 3))) == (sqrt(2 * x + 3), 2 * x + 3)","fraction(radsimp(1 / sqrt(2 * (x + 3)))) == (sqrt(2 * x + 6), 2 * x + 6)","radsimp(e).expand() == -2 * 2 ** Rational(3, 4) - 2 * 2 ** Rational(1, 4) + 2 + 2 * sqrt(2)","radsimp(1 / (-sqrt(5) / 2 - S.Half + (-sqrt(5) / 2 - S.Half) ** 2)) == 1","radsimp(eq) is S.NaN","radsimp(e) == -sqrt(sqrt(7) + 14 * sqrt(2) + 21 * sqrt(3) + 35 * sqrt(5)) * (-11654899 * sqrt(35) - 1577436 * sqrt(210) - 1278438 * sqrt(15) - 1346996 * sqrt(10) + 1635060 * sqrt(6) + 5709765 + 7539830 * sqrt(14) + 8291415 * sqrt(21)) / 1300423175 + 3","radsimp(1 / base ** 3) == (sqrt(3) + sqrt(2)) ** 3","radsimp(1 / (-base) ** 3) == -(sqrt(2) + sqrt(3)) ** 3","radsimp(1 / (-base) ** x) == (-base) ** (-x)","radsimp(1 / base ** x) == (sqrt(2) + sqrt(3)) ** x","radsimp(root(1 / (-1 - sqrt(2)), -x)) == (-1) ** (-1 / x) * (1 + sqrt(2)) ** (1 / x)","radsimp(e) == cos(-sqrt(2) + 1)","radsimp(e / 2) == cos(-sqrt(2) + 1) / 2","radsimp(1 / e) == 1 / cos(-sqrt(2) + 1)","radsimp(2 / e) == 2 / cos(-sqrt(2) + 1)","fraction(radsimp(e / sqrt(x))) == (sqrt(x) * cos(-sqrt(2) + 1), x)","radsimp(x / r, symbolic=False) == -x * (-sqrt(2) + 1)","radsimp(x / (y + r), symbolic=False) == x / (y + 1 + sqrt(2))","radsimp(x / (y + r) / r, symbolic=False) == -x * (-sqrt(2) + 1) / (y + 1 + sqrt(2))","radsimp(eq) == umul(sqrt(x), sqrt(y), 1 / y)","radsimp(eq, symbolic=False) == eq","radsimp(sqrt(x) / sqrt(y) ** 3) == umul(sqrt(x), sqrt(y ** 3), 1 / y ** 3)","radsimp(eq) == eq","radsimp(eq) == Integral((sqrt(2) + 1) * x, (x, 0, sqrt(2) - 1))","radsimp(eq) == FiniteSet((sqrt(2) + 1) * x)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":3.3,"verdict_class":"assumed","binding":true}}
 def test_radsimp():
     r2 = sqrt(2)
     r3 = sqrt(3)
@@ -197,16 +205,22 @@ def test_radsimp():
     assert radsimp(eq) == FiniteSet((sqrt(2) + 1)*x)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_radsimp_issue_3214(), test_radsimp_issue_3214 produces the expected output) over Any ║
+# ║ Path(test_radsimp_issue_3214(), radsimp(b) == -I * (c + I * p - sqrt(c ** 2 - p ** 2)) ** 2 / (2 * c * p)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_radsimp_issue_3214 : Any → {Any | radsimp(b) == ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  radsimp(b) == -I * (c + I * p - sqrt(c **...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_radsimp_issue_3214 : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 54f6d9838fe58bfd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 18ad92407fe91bf8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_radsimp.test_radsimp_issue_3214","kind":"function","src_hash":"3d242359ac2dc770","in":{"base":"Any"},"out":{"base":"Any","pred":"radsimp(b) == -I * (c + I * p - sqrt(c ** 2 - p ** 2)) ** 2 / (2 * c * p)"},"spec":{"lhs":"test_radsimp_issue_3214()","rhs":"test_radsimp_issue_3214 produces the expected output","over":{"base":"Any"},"name":"test_radsimp_issue_3214_correct"},"guarantee":"test_radsimp_issue_3214 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_radsimp.test_radsimp_issue_3214_correct","statement":"Path(test_radsimp_issue_3214(x), test_radsimp_issue_3214 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"54f6d9838fe58bfd"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_radsimp.test_radsimp_issue_3214","kind":"function","src_hash":"3d242359ac2dc770","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: radsimp(b) == -I * (c + I * p - sqrt(c ** 2 - p ** 2)) ** 2 / (2 * c * p)"},"spec":{"lhs":"test_radsimp_issue_3214()","rhs":"radsimp(b) == -I * (c + I * p - sqrt(c ** 2 - p ** 2)) ** 2 / (2 * c * p)","over":{"base":"Any"},"name":"test_radsimp_issue_3214_correct"},"guarantee":"radsimp(b) == -I * (c + I * p - sqrt(c ** 2 - p ** 2)) ** 2 / (2 * c * p)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_radsimp.test_radsimp_issue_3214_correct","statement":"Path(test_radsimp_issue_3214(x), radsimp(b) == -I * (c + I * p - sqrt(c ** 2 - p ** 2)) ** 2 / (2 * c * p))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"18ad92407fe91bf8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["radsimp(b) == -I * (c + I * p - sqrt(c ** 2 - p ** 2)) ** 2 / (2 * c * p)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_radsimp_issue_3214():
     c, p = symbols('c p', positive=True)
     s = sqrt(c**2 - p**2)
@@ -215,16 +229,24 @@ def test_radsimp_issue_3214():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_collect_1(), collect with respect to symbol) over Any ║
+# ║ Path(test_collect_1(), collect(1, x) == 1 and collect(x + y * x, x) == x * (1 + y) and collect(x + x ** 2, x) == x + x ** 2 and collect(x ** 2 + y * x ** 2, x) == x ** 2 * (1 + y) and collect(x ** 2 + y * x, x) == x * y + x ** 2 and collect(2 * x ** 2 + y * x ** 2 + 3 * x * y, [x]) == x ** 2 * (2 + y) + 3 * x * y and collect(2 * x ** 2 + y * x ** 2 + 3 * x * y, [y]) == 2 * x ** 2 + y * (x ** 2 + 3 * x) and collect(((1 + y + x) ** 4).expand(), x) == ((1 + y) ** 4).expand() + x * (4 * (1 + y) ** 3).expand() + x ** 2 * (6 * (1 + y) ** 2).expand() + x ** 3 * (4 * (1 + y)).expand() + x ** 4 and collect(expr, expr.free_symbols) == expr and collect(x * exp(x) + sin(x) * y + sin(x) * 2 + 3 * x, x, exact=None) == x * exp(x) + 3 * x + (y + 2) * sin(x) and collect(x * exp(x) + sin(x) * y + sin(x) * 2 + 3 * x + y * x + y * x * exp(x), x, exact=None) == x * exp(x) * (y + 1) + (3 + y) * x + (y + 2) * sin(x)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_collect_1 : Any → {Any | collect(1, x) == 1 and ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  collect(1, x) == 1                             ║
+# ║   ensures:  collect(x + y * x, x) == x * (1 + y)           ║
+# ║   ensures:  collect(x + x ** 2, x) == x + x ** 2           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_collect_1 : Any → {Any | result satisfies: colle...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | be34aaa11b4999cd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f5e0cba0b0416236  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_radsimp.test_collect_1","kind":"function","src_hash":"7055c45aaa2285ab","in":{"base":"Any"},"out":{"base":"Any","pred":"collect(1, x) == 1 and collect(x + y * x, x) == x * (1 + y) and collect(x + x ** 2, x) == x + x ** 2 and collect(x ** 2 + y * x ** 2, x) == x ** 2 * (1 + y) and collect(x ** 2 + y * x, x) == x * y + x ** 2 and collect(expr, expr.free_symbols) == expr"},"spec":{"lhs":"test_collect_1()","rhs":"collect with respect to symbol","over":{"base":"Any"},"name":"test_collect_1_correct"},"guarantee":"collect with respect to symbol","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_radsimp.test_collect_1_correct","statement":"Path(test_collect_1(x), collect with respect to symbol)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"be34aaa11b4999cd"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_radsimp.test_collect_1","kind":"function","src_hash":"7055c45aaa2285ab","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: collect(1, x) == 1 and collect(x + y * x, x) == x * (1 + y) and collect(x + x ** 2, x) == x + x ** 2 and collect(x ** 2 + y * x ** 2, x) == x ** 2 * (1 + y) and collect(x ** 2 + y * x, x) == x * y + x ** 2 and collect(2 * x ** 2 + y * x ** 2 + 3 * x * y, [x]) == x ** 2 * (2 + y) + 3 * x * y and collect(2 * x ** 2 + y * x ** 2 + 3 * x * y, [y]) == 2 * x ** 2 + y * (x ** 2 + 3 * x) and collect(((1 + y + x) ** 4).expand(), x) == ((1 + y) ** 4).expand() + x * (4 * (1 + y) ** 3).expand() + x ** 2 * (6 * (1 + y) ** 2).expand() + x ** 3 * (4 * (1 + y)).expand() + x ** 4 and collect(expr, expr.free_symbols) == expr and collect(x * exp(x) + sin(x) * y + sin(x) * 2 + 3 * x, x, exact=None) == x * exp(x) + 3 * x + (y + 2) * sin(x) and collect(x * exp(x) + sin(x) * y + sin(x) * 2 + 3 * x + y * x + y * x * exp(x), x, exact=None) == x * exp(x) * (y + 1) + (3 + y) * x + (y + 2) * sin(x)"},"spec":{"lhs":"test_collect_1()","rhs":"collect(1, x) == 1 and collect(x + y * x, x) == x * (1 + y) and collect(x + x ** 2, x) == x + x ** 2 and collect(x ** 2 + y * x ** 2, x) == x ** 2 * (1 + y) and collect(x ** 2 + y * x, x) == x * y + x ** 2 and collect(2 * x ** 2 + y * x ** 2 + 3 * x * y, [x]) == x ** 2 * (2 + y) + 3 * x * y and collect(2 * x ** 2 + y * x ** 2 + 3 * x * y, [y]) == 2 * x ** 2 + y * (x ** 2 + 3 * x) and collect(((1 + y + x) ** 4).expand(), x) == ((1 + y) ** 4).expand() + x * (4 * (1 + y) ** 3).expand() + x ** 2 * (6 * (1 + y) ** 2).expand() + x ** 3 * (4 * (1 + y)).expand() + x ** 4 and collect(expr, expr.free_symbols) == expr and collect(x * exp(x) + sin(x) * y + sin(x) * 2 + 3 * x, x, exact=None) == x * exp(x) + 3 * x + (y + 2) * sin(x) and collect(x * exp(x) + sin(x) * y + sin(x) * 2 + 3 * x + y * x + y * x * exp(x), x, exact=None) == x * exp(x) * (y + 1) + (3 + y) * x + (y + 2) * sin(x)","over":{"base":"Any"},"name":"test_collect_1_correct"},"guarantee":"collect(1, x) == 1; collect(x + y * x, x) == x * (1 + y); collect(x + x ** 2, x) == x + x ** 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_radsimp.test_collect_1_correct","statement":"Path(test_collect_1(x), collect(1, x) == 1; collect(x + y * x, x) == x * (1 + y); collect(x + x ** 2, x) == x + x ** 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f5e0cba0b0416236","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["collect(1, x) == 1","collect(x + y * x, x) == x * (1 + y)","collect(x + x ** 2, x) == x + x ** 2","collect(x ** 2 + y * x ** 2, x) == x ** 2 * (1 + y)","collect(x ** 2 + y * x, x) == x * y + x ** 2","collect(2 * x ** 2 + y * x ** 2 + 3 * x * y, [x]) == x ** 2 * (2 + y) + 3 * x * y","collect(2 * x ** 2 + y * x ** 2 + 3 * x * y, [y]) == 2 * x ** 2 + y * (x ** 2 + 3 * x)","collect(((1 + y + x) ** 4).expand(), x) == ((1 + y) ** 4).expand() + x * (4 * (1 + y) ** 3).expand() + x ** 2 * (6 * (1 + y) ** 2).expand() + x ** 3 * (4 * (1 + y)).expand() + x ** 4","collect(expr, expr.free_symbols) == expr","collect(x * exp(x) + sin(x) * y + sin(x) * 2 + 3 * x, x, exact=None) == x * exp(x) + 3 * x + (y + 2) * sin(x)","collect(x * exp(x) + sin(x) * y + sin(x) * 2 + 3 * x + y * x + y * x * exp(x), x, exact=None) == x * exp(x) * (y + 1) + (3 + y) * x + (y + 2) * sin(x)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_collect_1():
     """Collect with respect to Symbol"""
     x, y, z, n = symbols('x,y,z,n')
@@ -250,16 +272,22 @@ def test_collect_1():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_collect_2(), collect with respect to a sum) over Any ║
+# ║ Path(test_collect_2(), collect(a * (cos(x) + sin(x)) + b * (cos(x) + sin(x)), sin(x) + cos(x)) == (a + b) * (cos(x) + sin(x))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_collect_2 : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  collect(a * (cos(x) + sin(x)) + b * (cos(...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_collect_2 : Any → {Any | result satisfies: colle...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d7d34c4336effb2b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0b7f20c946816d2b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_radsimp.test_collect_2","kind":"function","src_hash":"17db2a1d5c84cdb3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_collect_2()","rhs":"collect with respect to a sum","over":{"base":"Any"},"name":"test_collect_2_correct"},"guarantee":"collect with respect to a sum","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_radsimp.test_collect_2_correct","statement":"Path(test_collect_2(x), collect with respect to a sum)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d7d34c4336effb2b"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_radsimp.test_collect_2","kind":"function","src_hash":"17db2a1d5c84cdb3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: collect(a * (cos(x) + sin(x)) + b * (cos(x) + sin(x)), sin(x) + cos(x)) == (a + b) * (cos(x) + sin(x))"},"spec":{"lhs":"test_collect_2()","rhs":"collect(a * (cos(x) + sin(x)) + b * (cos(x) + sin(x)), sin(x) + cos(x)) == (a + b) * (cos(x) + sin(x))","over":{"base":"Any"},"name":"test_collect_2_correct"},"guarantee":"collect(a * (cos(x) + sin(x)) + b * (cos(x) + sin(x)), sin(x) + cos(x)) == (a + b) * (cos(x) + sin(x))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_radsimp.test_collect_2_correct","statement":"Path(test_collect_2(x), collect(a * (cos(x) + sin(x)) + b * (cos(x) + sin(x)), sin(x) + cos(x)) == (a + b) * (cos(x) + sin(x)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0b7f20c946816d2b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["collect(a * (cos(x) + sin(x)) + b * (cos(x) + sin(x)), sin(x) + cos(x)) == (a + b) * (cos(x) + sin(x))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_collect_2():
     """Collect with respect to a sum"""
     a, b, x = symbols('a,b,x')
@@ -268,16 +296,24 @@ def test_collect_2():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_collect_3(), collect with respect to a product) over Any ║
+# ║ Path(test_collect_3(), collect(-x / 8 + x * y, -x) == x * (y - Rational(1, 8)) and collect(1 + x * y ** 2, x * y) == 1 + x * y ** 2 and collect(x * y + a * x * y, x * y) == x * y * (1 + a) and collect(1 + x * y + a * x * y, x * y) == 1 + x * y * (1 + a) and collect(a * x * f(x) + b * (x * f(x)), x * f(x)) == x * (a + b) * f(x) and collect(a * x * log(x) + b * (x * log(x)), x * log(x)) == x * (a + b) * log(x) and collect(a * x ** 2 * log(x) ** 2 + b * (x * log(x)) ** 2, x * log(x)) == x ** 2 * log(x) ** 2 * (a + b) and collect(y * x * z + a * x * y * z, x * y * z) == (1 + a) * x * y * z) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_collect_3 : Any → {Any | collect(-x / 8 + x * y,...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  collect(-x / 8 + x * y, -x) == x * (y - R...   ║
+# ║   ensures:  collect(1 + x * y ** 2, x * y) == 1 + x *...   ║
+# ║   ensures:  collect(x * y + a * x * y, x * y) == x * ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_collect_3 : Any → {Any | result satisfies: colle...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3b9cc129077007e7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4fa808a2f049eb35  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_radsimp.test_collect_3","kind":"function","src_hash":"3892db5420209550","in":{"base":"Any"},"out":{"base":"Any","pred":"collect(-x / 8 + x * y, -x) == x * (y - Rational(1, 8)) and collect(1 + x * y ** 2, x * y) == 1 + x * y ** 2 and collect(x * y + a * x * y, x * y) == x * y * (1 + a) and collect(1 + x * y + a * x * y, x * y) == 1 + x * y * (1 + a) and collect(a * x * f(x) + b * (x * f(x)), x * f(x)) == x * (a + b) * f(x) and collect(a * x * log(x) + b * (x * log(x)), x * log(x)) == x * (a + b) * log(x) and collect(y * x * z + a * x * y * z, x * y * z) == (1 + a) * x * y * z"},"spec":{"lhs":"test_collect_3()","rhs":"collect with respect to a product","over":{"base":"Any"},"name":"test_collect_3_correct"},"guarantee":"collect with respect to a product","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_radsimp.test_collect_3_correct","statement":"Path(test_collect_3(x), collect with respect to a product)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3b9cc129077007e7"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_radsimp.test_collect_3","kind":"function","src_hash":"3892db5420209550","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: collect(-x / 8 + x * y, -x) == x * (y - Rational(1, 8)) and collect(1 + x * y ** 2, x * y) == 1 + x * y ** 2 and collect(x * y + a * x * y, x * y) == x * y * (1 + a) and collect(1 + x * y + a * x * y, x * y) == 1 + x * y * (1 + a) and collect(a * x * f(x) + b * (x * f(x)), x * f(x)) == x * (a + b) * f(x) and collect(a * x * log(x) + b * (x * log(x)), x * log(x)) == x * (a + b) * log(x) and collect(a * x ** 2 * log(x) ** 2 + b * (x * log(x)) ** 2, x * log(x)) == x ** 2 * log(x) ** 2 * (a + b) and collect(y * x * z + a * x * y * z, x * y * z) == (1 + a) * x * y * z"},"spec":{"lhs":"test_collect_3()","rhs":"collect(-x / 8 + x * y, -x) == x * (y - Rational(1, 8)) and collect(1 + x * y ** 2, x * y) == 1 + x * y ** 2 and collect(x * y + a * x * y, x * y) == x * y * (1 + a) and collect(1 + x * y + a * x * y, x * y) == 1 + x * y * (1 + a) and collect(a * x * f(x) + b * (x * f(x)), x * f(x)) == x * (a + b) * f(x) and collect(a * x * log(x) + b * (x * log(x)), x * log(x)) == x * (a + b) * log(x) and collect(a * x ** 2 * log(x) ** 2 + b * (x * log(x)) ** 2, x * log(x)) == x ** 2 * log(x) ** 2 * (a + b) and collect(y * x * z + a * x * y * z, x * y * z) == (1 + a) * x * y * z","over":{"base":"Any"},"name":"test_collect_3_correct"},"guarantee":"collect(-x / 8 + x * y, -x) == x * (y - Rational(1, 8)); collect(1 + x * y ** 2, x * y) == 1 + x * y ** 2; collect(x * y + a * x * y, x * y) == x * y * (1 + a)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_radsimp.test_collect_3_correct","statement":"Path(test_collect_3(x), collect(-x / 8 + x * y, -x) == x * (y - Rational(1, 8)); collect(1 + x * y ** 2, x * y) == 1 + x * y ** 2; collect(x * y + a * x * y, x * y) == x * y * (1 + a))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4fa808a2f049eb35","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["collect(-x / 8 + x * y, -x) == x * (y - Rational(1, 8))","collect(1 + x * y ** 2, x * y) == 1 + x * y ** 2","collect(x * y + a * x * y, x * y) == x * y * (1 + a)","collect(1 + x * y + a * x * y, x * y) == 1 + x * y * (1 + a)","collect(a * x * f(x) + b * (x * f(x)), x * f(x)) == x * (a + b) * f(x)","collect(a * x * log(x) + b * (x * log(x)), x * log(x)) == x * (a + b) * log(x)","collect(a * x ** 2 * log(x) ** 2 + b * (x * log(x)) ** 2, x * log(x)) == x ** 2 * log(x) ** 2 * (a + b)","collect(y * x * z + a * x * y * z, x * y * z) == (1 + a) * x * y * z"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_collect_3():
     """Collect with respect to a product"""
     a, b, c = symbols('a,b,c')
@@ -300,16 +336,23 @@ def test_collect_3():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_collect_4(), collect with respect to a power) over Any ║
+# ║ Path(test_collect_4(), collect(a * x ** c + b * x ** c, x ** c) == x ** c * (a + b) and collect(a * x ** (2 * c) + b * x ** (2 * c), x ** c) == x ** (2 * c) * (a + b)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_collect_4 : Any → {Any | collect(a * x ** c + b ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  collect(a * x ** c + b * x ** c, x ** c) ...   ║
+# ║   ensures:  collect(a * x ** (2 * c) + b * x ** (2 * ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_collect_4 : Any → {Any | result satisfies: colle...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fda354a0a064b482  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1b0164aff7e7be7e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_radsimp.test_collect_4","kind":"function","src_hash":"9fb1579b67e0cc26","in":{"base":"Any"},"out":{"base":"Any","pred":"collect(a * x ** c + b * x ** c, x ** c) == x ** c * (a + b) and collect(a * x ** (2 * c) + b * x ** (2 * c), x ** c) == x ** (2 * c) * (a + b)"},"spec":{"lhs":"test_collect_4()","rhs":"collect with respect to a power","over":{"base":"Any"},"name":"test_collect_4_correct"},"guarantee":"collect with respect to a power","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_radsimp.test_collect_4_correct","statement":"Path(test_collect_4(x), collect with respect to a power)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fda354a0a064b482"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_radsimp.test_collect_4","kind":"function","src_hash":"9fb1579b67e0cc26","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: collect(a * x ** c + b * x ** c, x ** c) == x ** c * (a + b) and collect(a * x ** (2 * c) + b * x ** (2 * c), x ** c) == x ** (2 * c) * (a + b)"},"spec":{"lhs":"test_collect_4()","rhs":"collect(a * x ** c + b * x ** c, x ** c) == x ** c * (a + b) and collect(a * x ** (2 * c) + b * x ** (2 * c), x ** c) == x ** (2 * c) * (a + b)","over":{"base":"Any"},"name":"test_collect_4_correct"},"guarantee":"collect(a * x ** c + b * x ** c, x ** c) == x ** c * (a + b); collect(a * x ** (2 * c) + b * x ** (2 * c), x ** c) == x ** (2 * c) * (a + b)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_radsimp.test_collect_4_correct","statement":"Path(test_collect_4(x), collect(a * x ** c + b * x ** c, x ** c) == x ** c * (a + b); collect(a * x ** (2 * c) + b * x ** (2 * c), x ** c) == x ** (2 * c) * (a + b))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1b0164aff7e7be7e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["collect(a * x ** c + b * x ** c, x ** c) == x ** c * (a + b)","collect(a * x ** (2 * c) + b * x ** (2 * c), x ** c) == x ** (2 * c) * (a + b)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_collect_4():
     """Collect with respect to a power"""
     a, b, c, x = symbols('a,b,c,x')
@@ -320,16 +363,23 @@ def test_collect_4():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_collect_5(), collect with respect to a tuple) over Any ║
+# ║ Path(test_collect_5(), collect(x ** 2 * y ** 4 + z * (x * y ** 2) ** 2 + z + a * z, [x * y ** 2, z]) in [z * (1 + a + x ** 2 * y ** 4) + x ** 2 * y ** 4, z * (1 + a) + x ** 2 * y ** 4 * (1 + z)] and collect((1 + (x + y) + (x + y) ** 2).expand(), [x, y]) == 1 + y + x * (1 + 2 * y) + x ** 2 + y ** 2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_collect_5 : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  collect(x ** 2 * y ** 4 + z * (x * y ** 2...   ║
+# ║   ensures:  collect((1 + (x + y) + (x + y) ** 2).expa...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_collect_5 : Any → {Any | result satisfies: colle...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8fb9fdc79b4901df  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 39f3fba38edd20a3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_radsimp.test_collect_5","kind":"function","src_hash":"6a59ca02ece9e37d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_collect_5()","rhs":"collect with respect to a tuple","over":{"base":"Any"},"name":"test_collect_5_correct"},"guarantee":"collect with respect to a tuple","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_radsimp.test_collect_5_correct","statement":"Path(test_collect_5(x), collect with respect to a tuple)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8fb9fdc79b4901df"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_radsimp.test_collect_5","kind":"function","src_hash":"6a59ca02ece9e37d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: collect(x ** 2 * y ** 4 + z * (x * y ** 2) ** 2 + z + a * z, [x * y ** 2, z]) in [z * (1 + a + x ** 2 * y ** 4) + x ** 2 * y ** 4, z * (1 + a) + x ** 2 * y ** 4 * (1 + z)] and collect((1 + (x + y) + (x + y) ** 2).expand(), [x, y]) == 1 + y + x * (1 + 2 * y) + x ** 2 + y ** 2"},"spec":{"lhs":"test_collect_5()","rhs":"collect(x ** 2 * y ** 4 + z * (x * y ** 2) ** 2 + z + a * z, [x * y ** 2, z]) in [z * (1 + a + x ** 2 * y ** 4) + x ** 2 * y ** 4, z * (1 + a) + x ** 2 * y ** 4 * (1 + z)] and collect((1 + (x + y) + (x + y) ** 2).expand(), [x, y]) == 1 + y + x * (1 + 2 * y) + x ** 2 + y ** 2","over":{"base":"Any"},"name":"test_collect_5_correct"},"guarantee":"collect(x ** 2 * y ** 4 + z * (x * y ** 2) ** 2 + z + a * z, [x * y ** 2, z]) in [z * (1 + a + x ** 2 * y ** 4) + x ** 2 * y ** 4, z * (1 + a) + x ** 2 * y ** 4 * (1 + z)]; collect((1 + (x + y) + (x + y) ** 2).expand(), [x, y]) == 1 + y + x * (1 + 2 * y) + x ** 2 + y ** 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_radsimp.test_collect_5_correct","statement":"Path(test_collect_5(x), collect(x ** 2 * y ** 4 + z * (x * y ** 2) ** 2 + z + a * z, [x * y ** 2, z]) in [z * (1 + a + x ** 2 * y ** 4) + x ** 2 * y ** 4, z * (1 + a) + x ** 2 * y ** 4 * (1 + z)]; collect((1 + (x + y) + (x + y) ** 2).expand(), [x, y]) == 1 + y + x * (1 + 2 * y) + x ** 2 + y ** 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"39f3fba38edd20a3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["collect(x ** 2 * y ** 4 + z * (x * y ** 2) ** 2 + z + a * z, [x * y ** 2, z]) in [z * (1 + a + x ** 2 * y ** 4) + x ** 2 * y ** 4, z * (1 + a) + x ** 2 * y ** 4 * (1 + z)]","collect((1 + (x + y) + (x + y) ** 2).expand(), [x, y]) == 1 + y + x * (1 + 2 * y) + x ** 2 + y ** 2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_collect_5():
     """Collect with respect to a tuple"""
     a, x, y, z, n = symbols('a,x,y,z,n')
@@ -341,16 +391,22 @@ def test_collect_5():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_collect_pr19431(), unevaluated collect with respect to a product) over Any ║
+# ║ Path(test_collect_pr19431(), collect(a ** 2 * (a ** 2 + 1), a ** 2, evaluate=False)[a ** 2] == a ** 2 + 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_collect_pr19431 : Any → {Any | collect(a ** 2 * ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  collect(a ** 2 * (a ** 2 + 1), a ** 2, ev...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_collect_pr19431 : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3e35d44909b8abb0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2636036c559bab5f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_radsimp.test_collect_pr19431","kind":"function","src_hash":"252e3df692652ff8","in":{"base":"Any"},"out":{"base":"Any","pred":"collect(a ** 2 * (a ** 2 + 1), a ** 2, evaluate=False)[a ** 2] == a ** 2 + 1"},"spec":{"lhs":"test_collect_pr19431()","rhs":"unevaluated collect with respect to a product","over":{"base":"Any"},"name":"test_collect_pr19431_correct"},"guarantee":"unevaluated collect with respect to a product","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_radsimp.test_collect_pr19431_correct","statement":"Path(test_collect_pr19431(x), unevaluated collect with respect to a product)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3e35d44909b8abb0"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_radsimp.test_collect_pr19431","kind":"function","src_hash":"252e3df692652ff8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: collect(a ** 2 * (a ** 2 + 1), a ** 2, evaluate=False)[a ** 2] == a ** 2 + 1"},"spec":{"lhs":"test_collect_pr19431()","rhs":"collect(a ** 2 * (a ** 2 + 1), a ** 2, evaluate=False)[a ** 2] == a ** 2 + 1","over":{"base":"Any"},"name":"test_collect_pr19431_correct"},"guarantee":"collect(a ** 2 * (a ** 2 + 1), a ** 2, evaluate=False)[a ** 2] == a ** 2 + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_radsimp.test_collect_pr19431_correct","statement":"Path(test_collect_pr19431(x), collect(a ** 2 * (a ** 2 + 1), a ** 2, evaluate=False)[a ** 2] == a ** 2 + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2636036c559bab5f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["collect(a ** 2 * (a ** 2 + 1), a ** 2, evaluate=False)[a ** 2] == a ** 2 + 1"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_collect_pr19431():
     """Unevaluated collect with respect to a product"""
     a = symbols('a')
@@ -358,16 +414,24 @@ def test_collect_pr19431():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_collect_D(), test_collect_D produces the expected output) over Any ║
+# ║ Path(test_collect_D(), collect(a * fx + b * fx, fx) == (a + b) * fx and collect(a * D(fx, x) + b * D(fx, x), fx) == (a + b) * D(fx, x) and collect(a * fxx + b * fxx, fx) == (a + b) * D(fx, x) and collect(5 * f(x) + 3 * fx, fx) == 5 * f(x) + 3 * fx and collect(f(x) + f(x) * diff(f(x), x) + x * diff(f(x), x) * f(x), f(x).diff(x)) == (x * f(x) + f(x)) * D(f(x), x) + f(x) and collect(f(x) + f(x) * diff(f(x), x) + x * diff(f(x), x) * f(x), f(x).diff(x), exact=True) == (x * f(x) + f(x)) * D(f(x), x) + f(x) and collect(1 / f(x) + 1 / f(x) * diff(f(x), x) + x * diff(f(x), x) / f(x), f(x).diff(x), exact=True) == (1 / f(x) + x / f(x)) * D(f(x), x) + 1 / f(x) and collect(e.expand(), fx) == fx * (x / f(x) + 1 / f(x)) + 1 / f(x)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_collect_D : Any → {Any | collect(a * fx + b * fx...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  collect(a * fx + b * fx, fx) == (a + b) * fx   ║
+# ║   ensures:  collect(a * D(fx, x) + b * D(fx, x), fx) ...   ║
+# ║   ensures:  collect(a * fxx + b * fxx, fx) == (a + b)...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_collect_D : Any → {Any | result satisfies: colle...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c37a95847d1111d9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 950342cd197d91c6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_radsimp.test_collect_D","kind":"function","src_hash":"3aeb1ce00cf8b512","in":{"base":"Any"},"out":{"base":"Any","pred":"collect(a * fx + b * fx, fx) == (a + b) * fx and collect(a * D(fx, x) + b * D(fx, x), fx) == (a + b) * D(fx, x) and collect(a * fxx + b * fxx, fx) == (a + b) * D(fx, x) and collect(5 * f(x) + 3 * fx, fx) == 5 * f(x) + 3 * fx and collect(e.expand(), fx) == fx * (x / f(x) + 1 / f(x)) + 1 / f(x)"},"spec":{"lhs":"test_collect_D()","rhs":"test_collect_D produces the expected output","over":{"base":"Any"},"name":"test_collect_D_correct"},"guarantee":"test_collect_D produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_radsimp.test_collect_D_correct","statement":"Path(test_collect_D(x), test_collect_D produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c37a95847d1111d9"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_radsimp.test_collect_D","kind":"function","src_hash":"3aeb1ce00cf8b512","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: collect(a * fx + b * fx, fx) == (a + b) * fx and collect(a * D(fx, x) + b * D(fx, x), fx) == (a + b) * D(fx, x) and collect(a * fxx + b * fxx, fx) == (a + b) * D(fx, x) and collect(5 * f(x) + 3 * fx, fx) == 5 * f(x) + 3 * fx and collect(f(x) + f(x) * diff(f(x), x) + x * diff(f(x), x) * f(x), f(x).diff(x)) == (x * f(x) + f(x)) * D(f(x), x) + f(x) and collect(f(x) + f(x) * diff(f(x), x) + x * diff(f(x), x) * f(x), f(x).diff(x), exact=True) == (x * f(x) + f(x)) * D(f(x), x) + f(x) and collect(1 / f(x) + 1 / f(x) * diff(f(x), x) + x * diff(f(x), x) / f(x), f(x).diff(x), exact=True) == (1 / f(x) + x / f(x)) * D(f(x), x) + 1 / f(x) and collect(e.expand(), fx) == fx * (x / f(x) + 1 / f(x)) + 1 / f(x)"},"spec":{"lhs":"test_collect_D()","rhs":"collect(a * fx + b * fx, fx) == (a + b) * fx and collect(a * D(fx, x) + b * D(fx, x), fx) == (a + b) * D(fx, x) and collect(a * fxx + b * fxx, fx) == (a + b) * D(fx, x) and collect(5 * f(x) + 3 * fx, fx) == 5 * f(x) + 3 * fx and collect(f(x) + f(x) * diff(f(x), x) + x * diff(f(x), x) * f(x), f(x).diff(x)) == (x * f(x) + f(x)) * D(f(x), x) + f(x) and collect(f(x) + f(x) * diff(f(x), x) + x * diff(f(x), x) * f(x), f(x).diff(x), exact=True) == (x * f(x) + f(x)) * D(f(x), x) + f(x) and collect(1 / f(x) + 1 / f(x) * diff(f(x), x) + x * diff(f(x), x) / f(x), f(x).diff(x), exact=True) == (1 / f(x) + x / f(x)) * D(f(x), x) + 1 / f(x) and collect(e.expand(), fx) == fx * (x / f(x) + 1 / f(x)) + 1 / f(x)","over":{"base":"Any"},"name":"test_collect_D_correct"},"guarantee":"collect(a * fx + b * fx, fx) == (a + b) * fx; collect(a * D(fx, x) + b * D(fx, x), fx) == (a + b) * D(fx, x); collect(a * fxx + b * fxx, fx) == (a + b) * D(fx, x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_radsimp.test_collect_D_correct","statement":"Path(test_collect_D(x), collect(a * fx + b * fx, fx) == (a + b) * fx; collect(a * D(fx, x) + b * D(fx, x), fx) == (a + b) * D(fx, x); collect(a * fxx + b * fxx, fx) == (a + b) * D(fx, x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"950342cd197d91c6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["collect(a * fx + b * fx, fx) == (a + b) * fx","collect(a * D(fx, x) + b * D(fx, x), fx) == (a + b) * D(fx, x)","collect(a * fxx + b * fxx, fx) == (a + b) * D(fx, x)","collect(5 * f(x) + 3 * fx, fx) == 5 * f(x) + 3 * fx","collect(f(x) + f(x) * diff(f(x), x) + x * diff(f(x), x) * f(x), f(x).diff(x)) == (x * f(x) + f(x)) * D(f(x), x) + f(x)","collect(f(x) + f(x) * diff(f(x), x) + x * diff(f(x), x) * f(x), f(x).diff(x), exact=True) == (x * f(x) + f(x)) * D(f(x), x) + f(x)","collect(1 / f(x) + 1 / f(x) * diff(f(x), x) + x * diff(f(x), x) / f(x), f(x).diff(x), exact=True) == (1 / f(x) + x / f(x)) * D(f(x), x) + 1 / f(x)","collect(e.expand(), fx) == fx * (x / f(x) + 1 / f(x)) + 1 / f(x)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def test_collect_D():
     D = Derivative
     f = Function('f')
@@ -391,16 +455,24 @@ def test_collect_D():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_collect_func(), test_collect_func produces the expected output) over Any ║
+# ║ Path(test_collect_func(), collect(f, x) == a ** 3 + 3 * a ** 2 + 3 * a + x ** 3 + x ** 2 * (3 * a + 3) + x * (3 * a ** 2 + 6 * a + 3) + 1 and collect(f, x, factor) == x ** 3 + 3 * x ** 2 * (a + 1) + 3 * x * (a + 1) ** 2 + (a + 1) ** 3 and collect(f, x, evaluate=False) == {S.One: a ** 3 + 3 * a ** 2 + 3 * a + 1, x: 3 * a ** 2 + 6 * a + 3, x ** 2: 3 * a + 3, x ** 3: 1} and collect(f, x, factor, evaluate=False) == {S.One: (a + 1) ** 3, x: 3 * (a + 1) ** 2, x ** 2: umul(S(3), a + 1), x ** 3: 1}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_collect_func : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  collect(f, x) == a ** 3 + 3 * a ** 2 + 3 ...   ║
+# ║   ensures:  collect(f, x, factor) == x ** 3 + 3 * x *...   ║
+# ║   ensures:  collect(f, x, evaluate=False) == {S.One: ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_collect_func : Any → {Any | result satisfies: co...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1bbaff9c027bd7ea  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8e699ab524522f48  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_radsimp.test_collect_func","kind":"function","src_hash":"e492de9e54c99360","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_collect_func()","rhs":"test_collect_func produces the expected output","over":{"base":"Any"},"name":"test_collect_func_correct"},"guarantee":"test_collect_func produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_radsimp.test_collect_func_correct","statement":"Path(test_collect_func(x), test_collect_func produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1bbaff9c027bd7ea"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_radsimp.test_collect_func","kind":"function","src_hash":"e492de9e54c99360","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: collect(f, x) == a ** 3 + 3 * a ** 2 + 3 * a + x ** 3 + x ** 2 * (3 * a + 3) + x * (3 * a ** 2 + 6 * a + 3) + 1 and collect(f, x, factor) == x ** 3 + 3 * x ** 2 * (a + 1) + 3 * x * (a + 1) ** 2 + (a + 1) ** 3 and collect(f, x, evaluate=False) == {S.One: a ** 3 + 3 * a ** 2 + 3 * a + 1, x: 3 * a ** 2 + 6 * a + 3, x ** 2: 3 * a + 3, x ** 3: 1} and collect(f, x, factor, evaluate=False) == {S.One: (a + 1) ** 3, x: 3 * (a + 1) ** 2, x ** 2: umul(S(3), a + 1), x ** 3: 1}"},"spec":{"lhs":"test_collect_func()","rhs":"collect(f, x) == a ** 3 + 3 * a ** 2 + 3 * a + x ** 3 + x ** 2 * (3 * a + 3) + x * (3 * a ** 2 + 6 * a + 3) + 1 and collect(f, x, factor) == x ** 3 + 3 * x ** 2 * (a + 1) + 3 * x * (a + 1) ** 2 + (a + 1) ** 3 and collect(f, x, evaluate=False) == {S.One: a ** 3 + 3 * a ** 2 + 3 * a + 1, x: 3 * a ** 2 + 6 * a + 3, x ** 2: 3 * a + 3, x ** 3: 1} and collect(f, x, factor, evaluate=False) == {S.One: (a + 1) ** 3, x: 3 * (a + 1) ** 2, x ** 2: umul(S(3), a + 1), x ** 3: 1}","over":{"base":"Any"},"name":"test_collect_func_correct"},"guarantee":"collect(f, x) == a ** 3 + 3 * a ** 2 + 3 * a + x ** 3 + x ** 2 * (3 * a + 3) + x * (3 * a ** 2 + 6 * a + 3) + 1; collect(f, x, factor) == x ** 3 + 3 * x ** 2 * (a + 1) + 3 * x * (a + 1) ** 2 + (a + 1) ** 3; collect(f, x, evaluate=False) == {S.One: a ** 3 + 3 * a ** 2 + 3 * a + 1, x: 3 * a ** 2 + 6 * a + 3, x ** 2: 3 * a + 3, x ** 3: 1}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_radsimp.test_collect_func_correct","statement":"Path(test_collect_func(x), collect(f, x) == a ** 3 + 3 * a ** 2 + 3 * a + x ** 3 + x ** 2 * (3 * a + 3) + x * (3 * a ** 2 + 6 * a + 3) + 1; collect(f, x, factor) == x ** 3 + 3 * x ** 2 * (a + 1) + 3 * x * (a + 1) ** 2 + (a + 1) ** 3; collect(f, x, evaluate=False) == {S.One: a ** 3 + 3 * a ** 2 + 3 * a + 1, x: 3 * a ** 2 + 6 * a + 3, x ** 2: 3 * a + 3, x ** 3: 1})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8e699ab524522f48","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["collect(f, x) == a ** 3 + 3 * a ** 2 + 3 * a + x ** 3 + x ** 2 * (3 * a + 3) + x * (3 * a ** 2 + 6 * a + 3) + 1","collect(f, x, factor) == x ** 3 + 3 * x ** 2 * (a + 1) + 3 * x * (a + 1) ** 2 + (a + 1) ** 3","collect(f, x, evaluate=False) == {S.One: a ** 3 + 3 * a ** 2 + 3 * a + 1, x: 3 * a ** 2 + 6 * a + 3, x ** 2: 3 * a + 3, x ** 3: 1}","collect(f, x, factor, evaluate=False) == {S.One: (a + 1) ** 3, x: 3 * (a + 1) ** 2, x ** 2: umul(S(3), a + 1), x ** 3: 1}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_collect_func():
     f = ((x + a + 1)**3).expand()
 
@@ -421,16 +493,24 @@ def test_collect_func():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_collect_order(), test_collect_order produces the expected output) over Any ║
+# ║ Path(test_collect_order(), collect(t + t * x + t * x ** 2 + O(x ** 3), t) == t * (1 + x + x ** 2 + O(x ** 3)) and collect(t + t * x + x ** 2 + O(x ** 3), t) == t * (1 + x + O(x ** 3)) + x ** 2 + O(x ** 3) and collect(f, x) == g and collect(f, x, distribute_order_term=False) == g and collect(f, [sin(a), cos(a)]) == sin(a) * cos(b).series(b, 0, 10) + cos(a) * sin(b).series(b, 0, 10) and collect(f, [sin(a), cos(a)], distribute_order_term=False) == sin(a) * cos(b).series(b, 0, 10).removeO() + cos(a) * sin(b).series(b, 0, 10).removeO() + O(b ** 10)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_collect_order : Any → {Any | collect(f, x) == g ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  collect(t + t * x + t * x ** 2 + O(x ** 3...   ║
+# ║   ensures:  collect(t + t * x + x ** 2 + O(x ** 3), t...   ║
+# ║   ensures:  collect(f, x) == g                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_collect_order : Any → {Any | result satisfies: c...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e6ee1007411667a1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 77e917e251dd48ce  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_radsimp.test_collect_order","kind":"function","src_hash":"ead0efa09c7c8290","in":{"base":"Any"},"out":{"base":"Any","pred":"collect(f, x) == g and collect(f, x, distribute_order_term=False) == g"},"spec":{"lhs":"test_collect_order()","rhs":"test_collect_order produces the expected output","over":{"base":"Any"},"name":"test_collect_order_correct"},"guarantee":"test_collect_order produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_radsimp.test_collect_order_correct","statement":"Path(test_collect_order(x), test_collect_order produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e6ee1007411667a1"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_radsimp.test_collect_order","kind":"function","src_hash":"ead0efa09c7c8290","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: collect(t + t * x + t * x ** 2 + O(x ** 3), t) == t * (1 + x + x ** 2 + O(x ** 3)) and collect(t + t * x + x ** 2 + O(x ** 3), t) == t * (1 + x + O(x ** 3)) + x ** 2 + O(x ** 3) and collect(f, x) == g and collect(f, x, distribute_order_term=False) == g and collect(f, [sin(a), cos(a)]) == sin(a) * cos(b).series(b, 0, 10) + cos(a) * sin(b).series(b, 0, 10) and collect(f, [sin(a), cos(a)], distribute_order_term=False) == sin(a) * cos(b).series(b, 0, 10).removeO() + cos(a) * sin(b).series(b, 0, 10).removeO() + O(b ** 10)"},"spec":{"lhs":"test_collect_order()","rhs":"collect(t + t * x + t * x ** 2 + O(x ** 3), t) == t * (1 + x + x ** 2 + O(x ** 3)) and collect(t + t * x + x ** 2 + O(x ** 3), t) == t * (1 + x + O(x ** 3)) + x ** 2 + O(x ** 3) and collect(f, x) == g and collect(f, x, distribute_order_term=False) == g and collect(f, [sin(a), cos(a)]) == sin(a) * cos(b).series(b, 0, 10) + cos(a) * sin(b).series(b, 0, 10) and collect(f, [sin(a), cos(a)], distribute_order_term=False) == sin(a) * cos(b).series(b, 0, 10).removeO() + cos(a) * sin(b).series(b, 0, 10).removeO() + O(b ** 10)","over":{"base":"Any"},"name":"test_collect_order_correct"},"guarantee":"collect(t + t * x + t * x ** 2 + O(x ** 3), t) == t * (1 + x + x ** 2 + O(x ** 3)); collect(t + t * x + x ** 2 + O(x ** 3), t) == t * (1 + x + O(x ** 3)) + x ** 2 + O(x ** 3); collect(f, x) == g","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_radsimp.test_collect_order_correct","statement":"Path(test_collect_order(x), collect(t + t * x + t * x ** 2 + O(x ** 3), t) == t * (1 + x + x ** 2 + O(x ** 3)); collect(t + t * x + x ** 2 + O(x ** 3), t) == t * (1 + x + O(x ** 3)) + x ** 2 + O(x ** 3); collect(f, x) == g)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"77e917e251dd48ce","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["collect(t + t * x + t * x ** 2 + O(x ** 3), t) == t * (1 + x + x ** 2 + O(x ** 3))","collect(t + t * x + x ** 2 + O(x ** 3), t) == t * (1 + x + O(x ** 3)) + x ** 2 + O(x ** 3)","collect(f, x) == g","collect(f, x, distribute_order_term=False) == g","collect(f, [sin(a), cos(a)]) == sin(a) * cos(b).series(b, 0, 10) + cos(a) * sin(b).series(b, 0, 10)","collect(f, [sin(a), cos(a)], distribute_order_term=False) == sin(a) * cos(b).series(b, 0, 10).removeO() + cos(a) * sin(b).series(b, 0, 10).removeO() + O(b ** 10)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_collect_order():
     a, b, x, t = symbols('a,b,x,t')
 
@@ -454,16 +534,23 @@ def test_collect_order():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_rcollect(), test_rcollect produces the expected output) over Any ║
+# ║ Path(test_rcollect(), rcollect((x ** 2 * y + x * y + x + y) / (x + y), y) == (x + y * (1 + x + x ** 2)) / (x + y) and rcollect(sqrt(-((x + 1) * (y + 1))), z) == sqrt(-((x + 1) * (y + 1)))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_rcollect : Any → {Any | rcollect(sqrt(-((x + 1) ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  rcollect((x ** 2 * y + x * y + x + y) / (...   ║
+# ║   ensures:  rcollect(sqrt(-((x + 1) * (y + 1))), z) =...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_rcollect : Any → {Any | result satisfies: rcolle...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 285f8e703df5ab93  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8aee036d8b195853  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_radsimp.test_rcollect","kind":"function","src_hash":"b2f00c758de9e9fd","in":{"base":"Any"},"out":{"base":"Any","pred":"rcollect(sqrt(-((x + 1) * (y + 1))), z) == sqrt(-((x + 1) * (y + 1)))"},"spec":{"lhs":"test_rcollect()","rhs":"test_rcollect produces the expected output","over":{"base":"Any"},"name":"test_rcollect_correct"},"guarantee":"test_rcollect produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_radsimp.test_rcollect_correct","statement":"Path(test_rcollect(x), test_rcollect produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"285f8e703df5ab93"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_radsimp.test_rcollect","kind":"function","src_hash":"b2f00c758de9e9fd","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: rcollect((x ** 2 * y + x * y + x + y) / (x + y), y) == (x + y * (1 + x + x ** 2)) / (x + y) and rcollect(sqrt(-((x + 1) * (y + 1))), z) == sqrt(-((x + 1) * (y + 1)))"},"spec":{"lhs":"test_rcollect()","rhs":"rcollect((x ** 2 * y + x * y + x + y) / (x + y), y) == (x + y * (1 + x + x ** 2)) / (x + y) and rcollect(sqrt(-((x + 1) * (y + 1))), z) == sqrt(-((x + 1) * (y + 1)))","over":{"base":"Any"},"name":"test_rcollect_correct"},"guarantee":"rcollect((x ** 2 * y + x * y + x + y) / (x + y), y) == (x + y * (1 + x + x ** 2)) / (x + y); rcollect(sqrt(-((x + 1) * (y + 1))), z) == sqrt(-((x + 1) * (y + 1)))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_radsimp.test_rcollect_correct","statement":"Path(test_rcollect(x), rcollect((x ** 2 * y + x * y + x + y) / (x + y), y) == (x + y * (1 + x + x ** 2)) / (x + y); rcollect(sqrt(-((x + 1) * (y + 1))), z) == sqrt(-((x + 1) * (y + 1))))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8aee036d8b195853","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["rcollect((x ** 2 * y + x * y + x + y) / (x + y), y) == (x + y * (1 + x + x ** 2)) / (x + y)","rcollect(sqrt(-((x + 1) * (y + 1))), z) == sqrt(-((x + 1) * (y + 1)))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_rcollect():
     assert rcollect((x**2*y + x*y + x + y)/(x + y), y) == \
         (x + y*(1 + x + x**2))/(x + y)
@@ -471,16 +558,22 @@ def test_rcollect():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_collect_D_0(), test_collect_D_0 produces the expected output) over Any ║
+# ║ Path(test_collect_D_0(), collect(a * fxx + b * fxx, fxx) == (a + b) * fxx) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_collect_D_0 : Any → {Any | collect(a * fxx + b *...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  collect(a * fxx + b * fxx, fxx) == (a + b...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_collect_D_0 : Any → {Any | result satisfies: col...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9bbb455e743419d7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5b4b236cd5d757a0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_radsimp.test_collect_D_0","kind":"function","src_hash":"96dc31ba2027b436","in":{"base":"Any"},"out":{"base":"Any","pred":"collect(a * fxx + b * fxx, fxx) == (a + b) * fxx"},"spec":{"lhs":"test_collect_D_0()","rhs":"test_collect_D_0 produces the expected output","over":{"base":"Any"},"name":"test_collect_D_0_correct"},"guarantee":"test_collect_D_0 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_radsimp.test_collect_D_0_correct","statement":"Path(test_collect_D_0(x), test_collect_D_0 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9bbb455e743419d7"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_radsimp.test_collect_D_0","kind":"function","src_hash":"96dc31ba2027b436","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: collect(a * fxx + b * fxx, fxx) == (a + b) * fxx"},"spec":{"lhs":"test_collect_D_0()","rhs":"collect(a * fxx + b * fxx, fxx) == (a + b) * fxx","over":{"base":"Any"},"name":"test_collect_D_0_correct"},"guarantee":"collect(a * fxx + b * fxx, fxx) == (a + b) * fxx","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_radsimp.test_collect_D_0_correct","statement":"Path(test_collect_D_0(x), collect(a * fxx + b * fxx, fxx) == (a + b) * fxx)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5b4b236cd5d757a0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["collect(a * fxx + b * fxx, fxx) == (a + b) * fxx"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_collect_D_0():
     D = Derivative
     f = Function('f')
@@ -491,16 +584,24 @@ def test_collect_D_0():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_collect_Wild(), collect with respect to functions with wild argument) over Any ║
+# ║ Path(test_collect_Wild(), collect(f(x) + a * f(x), f(w1)) == (1 + a) * f(x) and collect(f(x, y) + a * f(x, y), f(w1)) == f(x, y) + a * f(x, y) and collect(f(x, y) + a * f(x, y), f(w1, w2)) == (1 + a) * f(x, y) and collect(f(x, y) + a * f(x, y), f(w1, w1)) == f(x, y) + a * f(x, y) and collect(f(x, x) + a * f(x, x), f(w1, w1)) == (1 + a) * f(x, x) and collect(a * (x + 1) ** y + (x + 1) ** y, w1 ** y) == (1 + a) * (x + 1) ** y and collect(a * (x + 1) ** y + (x + 1) ** y, w1 ** b) == a * (x + 1) ** y + (x + 1) ** y and collect(a * (x + 1) ** y + (x + 1) ** y, (x + 1) ** w2) == (1 + a) * (x + 1) ** y and collect(a * (x + 1) ** y + (x + 1) ** y, w1 ** w2) == (1 + a) * (x + 1) ** y) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_collect_Wild : Any → {Any | collect(f(x) + a * f...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  collect(f(x) + a * f(x), f(w1)) == (1 + a...   ║
+# ║   ensures:  collect(f(x, y) + a * f(x, y), f(w1)) == ...   ║
+# ║   ensures:  collect(f(x, y) + a * f(x, y), f(w1, w2))...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_collect_Wild : Any → {Any | result satisfies: co...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a07acb090c5d7b19  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 22568bec1e42dcb0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_radsimp.test_collect_Wild","kind":"function","src_hash":"68af0e85b2c13871","in":{"base":"Any"},"out":{"base":"Any","pred":"collect(f(x) + a * f(x), f(w1)) == (1 + a) * f(x) and collect(f(x, y) + a * f(x, y), f(w1)) == f(x, y) + a * f(x, y) and collect(f(x, y) + a * f(x, y), f(w1, w2)) == (1 + a) * f(x, y) and collect(f(x, y) + a * f(x, y), f(w1, w1)) == f(x, y) + a * f(x, y) and collect(f(x, x) + a * f(x, x), f(w1, w1)) == (1 + a) * f(x, x) and collect(a * (x + 1) ** y + (x + 1) ** y, w1 ** y) == (1 + a) * (x + 1) ** y and collect(a * (x + 1) ** y + (x + 1) ** y, w1 ** w2) == (1 + a) * (x + 1) ** y"},"spec":{"lhs":"test_collect_Wild()","rhs":"collect with respect to functions with wild argument","over":{"base":"Any"},"name":"test_collect_Wild_correct"},"guarantee":"collect with respect to functions with wild argument","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_radsimp.test_collect_Wild_correct","statement":"Path(test_collect_Wild(x), collect with respect to functions with wild argument)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a07acb090c5d7b19"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_radsimp.test_collect_Wild","kind":"function","src_hash":"68af0e85b2c13871","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: collect(f(x) + a * f(x), f(w1)) == (1 + a) * f(x) and collect(f(x, y) + a * f(x, y), f(w1)) == f(x, y) + a * f(x, y) and collect(f(x, y) + a * f(x, y), f(w1, w2)) == (1 + a) * f(x, y) and collect(f(x, y) + a * f(x, y), f(w1, w1)) == f(x, y) + a * f(x, y) and collect(f(x, x) + a * f(x, x), f(w1, w1)) == (1 + a) * f(x, x) and collect(a * (x + 1) ** y + (x + 1) ** y, w1 ** y) == (1 + a) * (x + 1) ** y and collect(a * (x + 1) ** y + (x + 1) ** y, w1 ** b) == a * (x + 1) ** y + (x + 1) ** y and collect(a * (x + 1) ** y + (x + 1) ** y, (x + 1) ** w2) == (1 + a) * (x + 1) ** y and collect(a * (x + 1) ** y + (x + 1) ** y, w1 ** w2) == (1 + a) * (x + 1) ** y"},"spec":{"lhs":"test_collect_Wild()","rhs":"collect(f(x) + a * f(x), f(w1)) == (1 + a) * f(x) and collect(f(x, y) + a * f(x, y), f(w1)) == f(x, y) + a * f(x, y) and collect(f(x, y) + a * f(x, y), f(w1, w2)) == (1 + a) * f(x, y) and collect(f(x, y) + a * f(x, y), f(w1, w1)) == f(x, y) + a * f(x, y) and collect(f(x, x) + a * f(x, x), f(w1, w1)) == (1 + a) * f(x, x) and collect(a * (x + 1) ** y + (x + 1) ** y, w1 ** y) == (1 + a) * (x + 1) ** y and collect(a * (x + 1) ** y + (x + 1) ** y, w1 ** b) == a * (x + 1) ** y + (x + 1) ** y and collect(a * (x + 1) ** y + (x + 1) ** y, (x + 1) ** w2) == (1 + a) * (x + 1) ** y and collect(a * (x + 1) ** y + (x + 1) ** y, w1 ** w2) == (1 + a) * (x + 1) ** y","over":{"base":"Any"},"name":"test_collect_Wild_correct"},"guarantee":"collect(f(x) + a * f(x), f(w1)) == (1 + a) * f(x); collect(f(x, y) + a * f(x, y), f(w1)) == f(x, y) + a * f(x, y); collect(f(x, y) + a * f(x, y), f(w1, w2)) == (1 + a) * f(x, y)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_radsimp.test_collect_Wild_correct","statement":"Path(test_collect_Wild(x), collect(f(x) + a * f(x), f(w1)) == (1 + a) * f(x); collect(f(x, y) + a * f(x, y), f(w1)) == f(x, y) + a * f(x, y); collect(f(x, y) + a * f(x, y), f(w1, w2)) == (1 + a) * f(x, y))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"22568bec1e42dcb0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["collect(f(x) + a * f(x), f(w1)) == (1 + a) * f(x)","collect(f(x, y) + a * f(x, y), f(w1)) == f(x, y) + a * f(x, y)","collect(f(x, y) + a * f(x, y), f(w1, w2)) == (1 + a) * f(x, y)","collect(f(x, y) + a * f(x, y), f(w1, w1)) == f(x, y) + a * f(x, y)","collect(f(x, x) + a * f(x, x), f(w1, w1)) == (1 + a) * f(x, x)","collect(a * (x + 1) ** y + (x + 1) ** y, w1 ** y) == (1 + a) * (x + 1) ** y","collect(a * (x + 1) ** y + (x + 1) ** y, w1 ** b) == a * (x + 1) ** y + (x + 1) ** y","collect(a * (x + 1) ** y + (x + 1) ** y, (x + 1) ** w2) == (1 + a) * (x + 1) ** y","collect(a * (x + 1) ** y + (x + 1) ** y, w1 ** w2) == (1 + a) * (x + 1) ** y"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_collect_Wild():
     """Collect with respect to functions with Wild argument"""
     a, b, x, y = symbols('a b x y')
@@ -521,16 +622,24 @@ def test_collect_Wild():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_collect_const(), test_collect_const produces the expected output) over Any ║
+# ║ Path(test_collect_const(), collect_const(2 * sqrt(3) + 4 * a * sqrt(5)) == 2 * (2 * sqrt(5) * a + sqrt(3)) and collect_const(2 * sqrt(3) + 4 * a * sqrt(5), sqrt(3)) == 2 * sqrt(3) + 4 * a * sqrt(5) and collect_const(sqrt(2) * (1 + sqrt(2)) + sqrt(3) + x * sqrt(2)) == sqrt(2) * (x + 1 + sqrt(2)) + sqrt(3) and collect_const(2 * x + 2 * y + 1, 2) == collect_const(2 * x + 2 * y + 1) == Add(S.One, Mul(2, x + y, evaluate=False), evaluate=False) and collect_const(-y - z) == Mul(-1, y + z, evaluate=False) and collect_const(2 * x - 2 * y - 2 * z, 2) == Mul(2, x - y - z, evaluate=False) and collect_const(2 * x - 2 * y - 2 * z, -2) == _unevaluated_Add(2 * x, Mul(-2, y + z, evaluate=False)) and collect_sqrt(eq + 2) == 2 * sqrt(sqrt(2) + 3) * (sqrt(5) * x + y) + 2 and collect_const(a + b + x / 2 + y / 2) == a + b + Mul(S.Half, x + y, evaluate=False)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_collect_const : Any → {Any | collect_const(2 * s...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  collect_const(2 * sqrt(3) + 4 * a * sqrt(...   ║
+# ║   ensures:  collect_const(2 * sqrt(3) + 4 * a * sqrt(...   ║
+# ║   ensures:  collect_const(sqrt(2) * (1 + sqrt(2)) + s...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_collect_const : Any → {Any | result satisfies: c...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bd082a6be01bc6ef  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 826294d90771bbd1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_radsimp.test_collect_const","kind":"function","src_hash":"1de093117367ca09","in":{"base":"Any"},"out":{"base":"Any","pred":"collect_const(2 * sqrt(3) + 4 * a * sqrt(5)) == 2 * (2 * sqrt(5) * a + sqrt(3)) and collect_const(-y - z) == Mul(-1, y + z, evaluate=False) and collect_const(2 * x - 2 * y - 2 * z, 2) == Mul(2, x - y - z, evaluate=False) and collect_sqrt(eq + 2) == 2 * sqrt(sqrt(2) + 3) * (sqrt(5) * x + y) + 2"},"spec":{"lhs":"test_collect_const()","rhs":"test_collect_const produces the expected output","over":{"base":"Any"},"name":"test_collect_const_correct"},"guarantee":"test_collect_const produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_radsimp.test_collect_const_correct","statement":"Path(test_collect_const(x), test_collect_const produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bd082a6be01bc6ef"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_radsimp.test_collect_const","kind":"function","src_hash":"1de093117367ca09","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: collect_const(2 * sqrt(3) + 4 * a * sqrt(5)) == 2 * (2 * sqrt(5) * a + sqrt(3)) and collect_const(2 * sqrt(3) + 4 * a * sqrt(5), sqrt(3)) == 2 * sqrt(3) + 4 * a * sqrt(5) and collect_const(sqrt(2) * (1 + sqrt(2)) + sqrt(3) + x * sqrt(2)) == sqrt(2) * (x + 1 + sqrt(2)) + sqrt(3) and collect_const(2 * x + 2 * y + 1, 2) == collect_const(2 * x + 2 * y + 1) == Add(S.One, Mul(2, x + y, evaluate=False), evaluate=False) and collect_const(-y - z) == Mul(-1, y + z, evaluate=False) and collect_const(2 * x - 2 * y - 2 * z, 2) == Mul(2, x - y - z, evaluate=False) and collect_const(2 * x - 2 * y - 2 * z, -2) == _unevaluated_Add(2 * x, Mul(-2, y + z, evaluate=False)) and collect_sqrt(eq + 2) == 2 * sqrt(sqrt(2) + 3) * (sqrt(5) * x + y) + 2 and collect_const(a + b + x / 2 + y / 2) == a + b + Mul(S.Half, x + y, evaluate=False)"},"spec":{"lhs":"test_collect_const()","rhs":"collect_const(2 * sqrt(3) + 4 * a * sqrt(5)) == 2 * (2 * sqrt(5) * a + sqrt(3)) and collect_const(2 * sqrt(3) + 4 * a * sqrt(5), sqrt(3)) == 2 * sqrt(3) + 4 * a * sqrt(5) and collect_const(sqrt(2) * (1 + sqrt(2)) + sqrt(3) + x * sqrt(2)) == sqrt(2) * (x + 1 + sqrt(2)) + sqrt(3) and collect_const(2 * x + 2 * y + 1, 2) == collect_const(2 * x + 2 * y + 1) == Add(S.One, Mul(2, x + y, evaluate=False), evaluate=False) and collect_const(-y - z) == Mul(-1, y + z, evaluate=False) and collect_const(2 * x - 2 * y - 2 * z, 2) == Mul(2, x - y - z, evaluate=False) and collect_const(2 * x - 2 * y - 2 * z, -2) == _unevaluated_Add(2 * x, Mul(-2, y + z, evaluate=False)) and collect_sqrt(eq + 2) == 2 * sqrt(sqrt(2) + 3) * (sqrt(5) * x + y) + 2 and collect_const(a + b + x / 2 + y / 2) == a + b + Mul(S.Half, x + y, evaluate=False)","over":{"base":"Any"},"name":"test_collect_const_correct"},"guarantee":"collect_const(2 * sqrt(3) + 4 * a * sqrt(5)) == 2 * (2 * sqrt(5) * a + sqrt(3)); collect_const(2 * sqrt(3) + 4 * a * sqrt(5), sqrt(3)) == 2 * sqrt(3) + 4 * a * sqrt(5); collect_const(sqrt(2) * (1 + sqrt(2)) + sqrt(3) + x * sqrt(2)) == sqrt(2) * (x + 1 + sqrt(2)) + sqrt(3)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_radsimp.test_collect_const_correct","statement":"Path(test_collect_const(x), collect_const(2 * sqrt(3) + 4 * a * sqrt(5)) == 2 * (2 * sqrt(5) * a + sqrt(3)); collect_const(2 * sqrt(3) + 4 * a * sqrt(5), sqrt(3)) == 2 * sqrt(3) + 4 * a * sqrt(5); collect_const(sqrt(2) * (1 + sqrt(2)) + sqrt(3) + x * sqrt(2)) == sqrt(2) * (x + 1 + sqrt(2)) + sqrt(3))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"826294d90771bbd1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["collect_const(2 * sqrt(3) + 4 * a * sqrt(5)) == 2 * (2 * sqrt(5) * a + sqrt(3))","collect_const(2 * sqrt(3) + 4 * a * sqrt(5), sqrt(3)) == 2 * sqrt(3) + 4 * a * sqrt(5)","collect_const(sqrt(2) * (1 + sqrt(2)) + sqrt(3) + x * sqrt(2)) == sqrt(2) * (x + 1 + sqrt(2)) + sqrt(3)","collect_const(2 * x + 2 * y + 1, 2) == collect_const(2 * x + 2 * y + 1) == Add(S.One, Mul(2, x + y, evaluate=False), evaluate=False)","collect_const(-y - z) == Mul(-1, y + z, evaluate=False)","collect_const(2 * x - 2 * y - 2 * z, 2) == Mul(2, x - y - z, evaluate=False)","collect_const(2 * x - 2 * y - 2 * z, -2) == _unevaluated_Add(2 * x, Mul(-2, y + z, evaluate=False))","collect_sqrt(eq + 2) == 2 * sqrt(sqrt(2) + 3) * (sqrt(5) * x + y) + 2","collect_const(a + b + x / 2 + y / 2) == a + b + Mul(S.Half, x + y, evaluate=False)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_collect_const():
     # coverage not provided by above tests
     assert collect_const(2*sqrt(3) + 4*a*sqrt(5)) == \
@@ -560,16 +669,24 @@ def test_collect_const():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_13143(), test_issue_13143 produces the expected output) over Any ║
+# ║ Path(test_issue_13143(), collect(e, Wild('w')) == f(x) * (fx + 1) + fx and collect(e, fx) == (x * f(x) + f(x)) * fx + f(x) and collect(e, f(x)) == (x * fx + fx + 1) * f(x) and collect(e, [f(x), fx]) == f(x) * (1 + fx) + fx and collect(e, [fx, f(x)]) == fx * (1 + f(x)) + f(x)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_13143 : Any → {Any | collect(e, Wild('w'))...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  collect(e, Wild('w')) == f(x) * (fx + 1) ...   ║
+# ║   ensures:  collect(e, fx) == (x * f(x) + f(x)) * fx ...   ║
+# ║   ensures:  collect(e, f(x)) == (x * fx + fx + 1) * f(x)   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_13143 : Any → {Any | result satisfies: col...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c6921034605c7a85  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1f4a4186f2a508ea  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_radsimp.test_issue_13143","kind":"function","src_hash":"9f22b67407bed965","in":{"base":"Any"},"out":{"base":"Any","pred":"collect(e, Wild('w')) == f(x) * (fx + 1) + fx and collect(e, fx) == (x * f(x) + f(x)) * fx + f(x) and collect(e, f(x)) == (x * fx + fx + 1) * f(x) and collect(e, [f(x), fx]) == f(x) * (1 + fx) + fx and collect(e, [fx, f(x)]) == fx * (1 + f(x)) + f(x)"},"spec":{"lhs":"test_issue_13143()","rhs":"test_issue_13143 produces the expected output","over":{"base":"Any"},"name":"test_issue_13143_correct"},"guarantee":"test_issue_13143 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_radsimp.test_issue_13143_correct","statement":"Path(test_issue_13143(x), test_issue_13143 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c6921034605c7a85"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_radsimp.test_issue_13143","kind":"function","src_hash":"9f22b67407bed965","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: collect(e, Wild('w')) == f(x) * (fx + 1) + fx and collect(e, fx) == (x * f(x) + f(x)) * fx + f(x) and collect(e, f(x)) == (x * fx + fx + 1) * f(x) and collect(e, [f(x), fx]) == f(x) * (1 + fx) + fx and collect(e, [fx, f(x)]) == fx * (1 + f(x)) + f(x)"},"spec":{"lhs":"test_issue_13143()","rhs":"collect(e, Wild('w')) == f(x) * (fx + 1) + fx and collect(e, fx) == (x * f(x) + f(x)) * fx + f(x) and collect(e, f(x)) == (x * fx + fx + 1) * f(x) and collect(e, [f(x), fx]) == f(x) * (1 + fx) + fx and collect(e, [fx, f(x)]) == fx * (1 + f(x)) + f(x)","over":{"base":"Any"},"name":"test_issue_13143_correct"},"guarantee":"collect(e, Wild('w')) == f(x) * (fx + 1) + fx; collect(e, fx) == (x * f(x) + f(x)) * fx + f(x); collect(e, f(x)) == (x * fx + fx + 1) * f(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_radsimp.test_issue_13143_correct","statement":"Path(test_issue_13143(x), collect(e, Wild('w')) == f(x) * (fx + 1) + fx; collect(e, fx) == (x * f(x) + f(x)) * fx + f(x); collect(e, f(x)) == (x * fx + fx + 1) * f(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1f4a4186f2a508ea","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["collect(e, Wild('w')) == f(x) * (fx + 1) + fx","collect(e, fx) == (x * f(x) + f(x)) * fx + f(x)","collect(e, f(x)) == (x * fx + fx + 1) * f(x)","collect(e, [f(x), fx]) == f(x) * (1 + fx) + fx","collect(e, [fx, f(x)]) == fx * (1 + f(x)) + f(x)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_issue_13143():
     f = Function('f')
     fx = f(x).diff(x)
@@ -585,32 +702,46 @@ def test_issue_13143():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_6097(), test_issue_6097 produces the expected output) over Any ║
+# ║ Path(test_issue_6097(), collect(a * y ** (2.0 * x) + b * y ** (2.0 * x), y ** x) == (a + b) * (y ** x) ** 2.0 and collect(a * 2 ** (2.0 * x) + b * 2 ** (2.0 * x), 2 ** x) == (a + b) * (2 ** x) ** 2.0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_6097 : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  collect(a * y ** (2.0 * x) + b * y ** (2....   ║
+# ║   ensures:  collect(a * 2 ** (2.0 * x) + b * 2 ** (2....   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_6097 : Any → {Any | result satisfies: coll...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b4ba5911b6dd38b2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 56e1bfe4e5dfc5b1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_radsimp.test_issue_6097","kind":"function","src_hash":"d488d1244748421d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_issue_6097()","rhs":"test_issue_6097 produces the expected output","over":{"base":"Any"},"name":"test_issue_6097_correct"},"guarantee":"test_issue_6097 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_radsimp.test_issue_6097_correct","statement":"Path(test_issue_6097(x), test_issue_6097 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b4ba5911b6dd38b2"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_radsimp.test_issue_6097","kind":"function","src_hash":"d488d1244748421d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: collect(a * y ** (2.0 * x) + b * y ** (2.0 * x), y ** x) == (a + b) * (y ** x) ** 2.0 and collect(a * 2 ** (2.0 * x) + b * 2 ** (2.0 * x), 2 ** x) == (a + b) * (2 ** x) ** 2.0"},"spec":{"lhs":"test_issue_6097()","rhs":"collect(a * y ** (2.0 * x) + b * y ** (2.0 * x), y ** x) == (a + b) * (y ** x) ** 2.0 and collect(a * 2 ** (2.0 * x) + b * 2 ** (2.0 * x), 2 ** x) == (a + b) * (2 ** x) ** 2.0","over":{"base":"Any"},"name":"test_issue_6097_correct"},"guarantee":"collect(a * y ** (2.0 * x) + b * y ** (2.0 * x), y ** x) == (a + b) * (y ** x) ** 2.0; collect(a * 2 ** (2.0 * x) + b * 2 ** (2.0 * x), 2 ** x) == (a + b) * (2 ** x) ** 2.0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_radsimp.test_issue_6097_correct","statement":"Path(test_issue_6097(x), collect(a * y ** (2.0 * x) + b * y ** (2.0 * x), y ** x) == (a + b) * (y ** x) ** 2.0; collect(a * 2 ** (2.0 * x) + b * 2 ** (2.0 * x), 2 ** x) == (a + b) * (2 ** x) ** 2.0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"56e1bfe4e5dfc5b1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["collect(a * y ** (2.0 * x) + b * y ** (2.0 * x), y ** x) == (a + b) * (y ** x) ** 2.0","collect(a * 2 ** (2.0 * x) + b * 2 ** (2.0 * x), 2 ** x) == (a + b) * (2 ** x) ** 2.0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_6097():
     assert collect(a*y**(2.0*x) + b*y**(2.0*x), y**x) == (a + b)*(y**x)**2.0
     assert collect(a*2**(2.0*x) + b*2**(2.0*x), 2**x) == (a + b)*(2**x)**2.0
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_fraction_expand(), test_fraction_expand produces the expected output) over Any ║
+# ║ Path(test_fraction_expand(), eq.expand(frac=True) == fraction_expand(eq) == (x * y + y ** 2) / x and eq.expand() == y + y ** 2 / x) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_fraction_expand : Any → {Any | eq.expand(frac=Tr...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  eq.expand(frac=True) == fraction_expand(e...   ║
+# ║   ensures:  eq.expand() == y + y ** 2 / x                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_fraction_expand : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 294098e2b327bd64  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bc6ae127a585e13b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_radsimp.test_fraction_expand","kind":"function","src_hash":"b89471a0074cf5f1","in":{"base":"Any"},"out":{"base":"Any","pred":"eq.expand(frac=True) == fraction_expand(eq) == (x * y + y ** 2) / x and eq.expand() == y + y ** 2 / x"},"spec":{"lhs":"test_fraction_expand()","rhs":"test_fraction_expand produces the expected output","over":{"base":"Any"},"name":"test_fraction_expand_correct"},"guarantee":"test_fraction_expand produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_radsimp.test_fraction_expand_correct","statement":"Path(test_fraction_expand(x), test_fraction_expand produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"294098e2b327bd64"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_radsimp.test_fraction_expand","kind":"function","src_hash":"b89471a0074cf5f1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: eq.expand(frac=True) == fraction_expand(eq) == (x * y + y ** 2) / x and eq.expand() == y + y ** 2 / x"},"spec":{"lhs":"test_fraction_expand()","rhs":"eq.expand(frac=True) == fraction_expand(eq) == (x * y + y ** 2) / x and eq.expand() == y + y ** 2 / x","over":{"base":"Any"},"name":"test_fraction_expand_correct"},"guarantee":"eq.expand(frac=True) == fraction_expand(eq) == (x * y + y ** 2) / x; eq.expand() == y + y ** 2 / x","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_radsimp.test_fraction_expand_correct","statement":"Path(test_fraction_expand(x), eq.expand(frac=True) == fraction_expand(eq) == (x * y + y ** 2) / x; eq.expand() == y + y ** 2 / x)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bc6ae127a585e13b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["eq.expand(frac=True) == fraction_expand(eq) == (x * y + y ** 2) / x","eq.expand() == y + y ** 2 / x"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_fraction_expand():
     eq = (x + y)*y/x
     assert eq.expand(frac=True) == fraction_expand(eq) == (x*y + y**2)/x
@@ -618,16 +749,24 @@ def test_fraction_expand():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_fraction(), test_fraction produces the expected output) over Any ║
+# ║ Path(test_fraction(), fraction(S.Half) == (1, 2) and fraction(x) == (x, 1) and fraction(1 / x) == (1, x) and fraction(x / y) == (x, y) and fraction(x / 2) == (x, 2) and fraction(x * y / z) == (x * y, z) and fraction(x / (y * z)) == (x, y * z) and fraction(1 / y ** 2) == (1, y ** 2) and fraction(x / y ** 2) == (x, y ** 2) and fraction((x ** 2 + 1) / y) == (x ** 2 + 1, y) and fraction(x * (y + 1) / y ** 7) == (x * (y + 1), y ** 7) and fraction(exp(-x), exact=True) == (exp(-x), 1) and fraction(1 / (x + y) / 2, exact=True) == (1, Mul(2, x + y, evaluate=False)) and fraction(x * A / y) == (x * A, y) and fraction(x * A ** (-1) / y) == (x * A ** (-1), y) and fraction(exp(n)) == (1, exp(-n)) and fraction(exp(-n)) == (exp(-n), 1) and fraction(exp(-p) * log(p), exact=True) == (exp(-p) * log(p), 1) and fraction(m) == (1, 2) and fraction(m, exact=True) == (Mul(1, 1, evaluate=False), 2) and fraction(m) == (1, 4) and fraction(m, exact=True) == (Mul(1, 1, evaluate=False), Mul(2, 2, 1, evaluate=False))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_fraction : Any → {Any | fraction(S.Half) == (1, ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  fraction(S.Half) == (1, 2)                     ║
+# ║   ensures:  fraction(x) == (x, 1)                          ║
+# ║   ensures:  fraction(1 / x) == (1, x)                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_fraction : Any → {Any | result satisfies: fracti...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8eec55b74130f514  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 792bd797bf7c9166  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_radsimp.test_fraction","kind":"function","src_hash":"b5fc244aaa10889d","in":{"base":"Any"},"out":{"base":"Any","pred":"fraction(S.Half) == (1, 2) and fraction(x) == (x, 1) and fraction(1 / x) == (1, x) and fraction(x / y) == (x, y) and fraction(x / 2) == (x, 2) and fraction(x * y / z) == (x * y, z) and fraction(x / (y * z)) == (x, y * z) and fraction(1 / y ** 2) == (1, y ** 2) and fraction(x / y ** 2) == (x, y ** 2) and fraction((x ** 2 + 1) / y) == (x ** 2 + 1, y) and fraction(x * (y + 1) / y ** 7) == (x * (y + 1), y ** 7) and fraction(exp(-x), exact=True) == (exp(-x), 1) and fraction(1 / (x + y) / 2, exact=True) == (1, Mul(2, x + y, evaluate=False)) and fraction(x * A / y) == (x * A, y) and fraction(x * A ** (-1) / y) == (x * A ** (-1), y) and fraction(exp(n)) == (1, exp(-n)) and fraction(exp(-n)) == (exp(-n), 1) and fraction(exp(-p) * log(p), exact=True) == (exp(-p) * log(p), 1) and fraction(m) == (1, 2) and fraction(m, exact=True) == (Mul(1, 1, evaluate=False), 2) and fraction(m) == (1, 4)"},"spec":{"lhs":"test_fraction()","rhs":"test_fraction produces the expected output","over":{"base":"Any"},"name":"test_fraction_correct"},"guarantee":"test_fraction produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_radsimp.test_fraction_correct","statement":"Path(test_fraction(x), test_fraction produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8eec55b74130f514"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_radsimp.test_fraction","kind":"function","src_hash":"b5fc244aaa10889d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: fraction(S.Half) == (1, 2) and fraction(x) == (x, 1) and fraction(1 / x) == (1, x) and fraction(x / y) == (x, y) and fraction(x / 2) == (x, 2) and fraction(x * y / z) == (x * y, z) and fraction(x / (y * z)) == (x, y * z) and fraction(1 / y ** 2) == (1, y ** 2) and fraction(x / y ** 2) == (x, y ** 2) and fraction((x ** 2 + 1) / y) == (x ** 2 + 1, y) and fraction(x * (y + 1) / y ** 7) == (x * (y + 1), y ** 7) and fraction(exp(-x), exact=True) == (exp(-x), 1) and fraction(1 / (x + y) / 2, exact=True) == (1, Mul(2, x + y, evaluate=False)) and fraction(x * A / y) == (x * A, y) and fraction(x * A ** (-1) / y) == (x * A ** (-1), y) and fraction(exp(n)) == (1, exp(-n)) and fraction(exp(-n)) == (exp(-n), 1) and fraction(exp(-p) * log(p), exact=True) == (exp(-p) * log(p), 1) and fraction(m) == (1, 2) and fraction(m, exact=True) == (Mul(1, 1, evaluate=False), 2) and fraction(m) == (1, 4) and fraction(m, exact=True) == (Mul(1, 1, evaluate=False), Mul(2, 2, 1, evaluate=False))"},"spec":{"lhs":"test_fraction()","rhs":"fraction(S.Half) == (1, 2) and fraction(x) == (x, 1) and fraction(1 / x) == (1, x) and fraction(x / y) == (x, y) and fraction(x / 2) == (x, 2) and fraction(x * y / z) == (x * y, z) and fraction(x / (y * z)) == (x, y * z) and fraction(1 / y ** 2) == (1, y ** 2) and fraction(x / y ** 2) == (x, y ** 2) and fraction((x ** 2 + 1) / y) == (x ** 2 + 1, y) and fraction(x * (y + 1) / y ** 7) == (x * (y + 1), y ** 7) and fraction(exp(-x), exact=True) == (exp(-x), 1) and fraction(1 / (x + y) / 2, exact=True) == (1, Mul(2, x + y, evaluate=False)) and fraction(x * A / y) == (x * A, y) and fraction(x * A ** (-1) / y) == (x * A ** (-1), y) and fraction(exp(n)) == (1, exp(-n)) and fraction(exp(-n)) == (exp(-n), 1) and fraction(exp(-p) * log(p), exact=True) == (exp(-p) * log(p), 1) and fraction(m) == (1, 2) and fraction(m, exact=True) == (Mul(1, 1, evaluate=False), 2) and fraction(m) == (1, 4) and fraction(m, exact=True) == (Mul(1, 1, evaluate=False), Mul(2, 2, 1, evaluate=False))","over":{"base":"Any"},"name":"test_fraction_correct"},"guarantee":"fraction(S.Half) == (1, 2); fraction(x) == (x, 1); fraction(1 / x) == (1, x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_radsimp.test_fraction_correct","statement":"Path(test_fraction(x), fraction(S.Half) == (1, 2); fraction(x) == (x, 1); fraction(1 / x) == (1, x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"792bd797bf7c9166","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["fraction(S.Half) == (1, 2)","fraction(x) == (x, 1)","fraction(1 / x) == (1, x)","fraction(x / y) == (x, y)","fraction(x / 2) == (x, 2)","fraction(x * y / z) == (x * y, z)","fraction(x / (y * z)) == (x, y * z)","fraction(1 / y ** 2) == (1, y ** 2)","fraction(x / y ** 2) == (x, y ** 2)","fraction((x ** 2 + 1) / y) == (x ** 2 + 1, y)","fraction(x * (y + 1) / y ** 7) == (x * (y + 1), y ** 7)","fraction(exp(-x), exact=True) == (exp(-x), 1)","fraction(1 / (x + y) / 2, exact=True) == (1, Mul(2, x + y, evaluate=False))","fraction(x * A / y) == (x * A, y)","fraction(x * A ** (-1) / y) == (x * A ** (-1), y)","fraction(exp(n)) == (1, exp(-n))","fraction(exp(-n)) == (exp(-n), 1)","fraction(exp(-p) * log(p), exact=True) == (exp(-p) * log(p), 1)","fraction(m) == (1, 2)","fraction(m, exact=True) == (Mul(1, 1, evaluate=False), 2)","fraction(m) == (1, 4)","fraction(m, exact=True) == (Mul(1, 1, evaluate=False), Mul(2, 2, 1, evaluate=False))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def test_fraction():
     x, y, z = map(Symbol, 'xyz')
     A = Symbol('A', commutative=False)
@@ -672,16 +811,22 @@ def test_fraction():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_5615(), test_issue_5615 produces the expected output) over Any ║
+# ║ Path(test_issue_5615(), collect(e, [aA ** 3 / Re, a]) == e) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_5615 : Any → {Any | collect(e, [aA ** 3 / ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  collect(e, [aA ** 3 / Re, a]) == e             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_5615 : Any → {Any | result satisfies: coll...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f5817a845de67c97  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 00930090534fe99d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_radsimp.test_issue_5615","kind":"function","src_hash":"928c1411f5878a0e","in":{"base":"Any"},"out":{"base":"Any","pred":"collect(e, [aA ** 3 / Re, a]) == e"},"spec":{"lhs":"test_issue_5615()","rhs":"test_issue_5615 produces the expected output","over":{"base":"Any"},"name":"test_issue_5615_correct"},"guarantee":"test_issue_5615 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_radsimp.test_issue_5615_correct","statement":"Path(test_issue_5615(x), test_issue_5615 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f5817a845de67c97"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_radsimp.test_issue_5615","kind":"function","src_hash":"928c1411f5878a0e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: collect(e, [aA ** 3 / Re, a]) == e"},"spec":{"lhs":"test_issue_5615()","rhs":"collect(e, [aA ** 3 / Re, a]) == e","over":{"base":"Any"},"name":"test_issue_5615_correct"},"guarantee":"collect(e, [aA ** 3 / Re, a]) == e","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_radsimp.test_issue_5615_correct","statement":"Path(test_issue_5615(x), collect(e, [aA ** 3 / Re, a]) == e)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"00930090534fe99d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["collect(e, [aA ** 3 / Re, a]) == e"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_5615():
     aA, Re, a, b, D = symbols('aA Re a b D')
     e = ((D**3*a + b*aA**3)/Re).expand()
@@ -689,16 +834,23 @@ def test_issue_5615():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_5933(), test_issue_5933 produces the expected output) over Any ║
+# ║ Path(test_issue_5933(), abs(denom(x).n()) > 1e-12 and abs(denom(radsimp(x))) > 1e-12) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_5933 : Any → {Any | abs(denom(x).n()) > 1e...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  abs(denom(x).n()) > 1e-12                      ║
+# ║   ensures:  abs(denom(radsimp(x))) > 1e-12                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_5933 : Any → {Any | result satisfies: abs(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 51b1d3b746b789a4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6a19ba8d188b084e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_radsimp.test_issue_5933","kind":"function","src_hash":"6b550d90432d3d70","in":{"base":"Any"},"out":{"base":"Any","pred":"abs(denom(x).n()) > 1e-12 and abs(denom(radsimp(x))) > 1e-12"},"spec":{"lhs":"test_issue_5933()","rhs":"test_issue_5933 produces the expected output","over":{"base":"Any"},"name":"test_issue_5933_correct"},"guarantee":"test_issue_5933 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_radsimp.test_issue_5933_correct","statement":"Path(test_issue_5933(x), test_issue_5933 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"51b1d3b746b789a4"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_radsimp.test_issue_5933","kind":"function","src_hash":"6b550d90432d3d70","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: abs(denom(x).n()) > 1e-12 and abs(denom(radsimp(x))) > 1e-12"},"spec":{"lhs":"test_issue_5933()","rhs":"abs(denom(x).n()) > 1e-12 and abs(denom(radsimp(x))) > 1e-12","over":{"base":"Any"},"name":"test_issue_5933_correct"},"guarantee":"abs(denom(x).n()) > 1e-12; abs(denom(radsimp(x))) > 1e-12","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_radsimp.test_issue_5933_correct","statement":"Path(test_issue_5933(x), abs(denom(x).n()) > 1e-12; abs(denom(radsimp(x))) > 1e-12)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6a19ba8d188b084e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["abs(denom(x).n()) > 1e-12","abs(denom(radsimp(x))) > 1e-12"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_5933():
     from sympy.geometry.polygon import (Polygon, RegularPolygon)
     from sympy.simplify.radsimp import denom
@@ -708,16 +860,23 @@ def test_issue_5933():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_14608(), test_issue_14608 produces the expected output) over Any ║
+# ║ Path(test_issue_14608(), collect(x * y + y * (x + 1), a) == x * y + y * (x + 1) and collect(x * y + y * (x + 1) + a * b + b * a, y) == y * (2 * x + 1) + a * b + b * a) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_14608 : Any → {Any | collect(x * y + y * (...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  collect(x * y + y * (x + 1), a) == x * y ...   ║
+# ║   ensures:  collect(x * y + y * (x + 1) + a * b + b *...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_14608 : Any → {Any | result satisfies: col...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 977bcb626034aa0a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9e5d52f2e5fb58cf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_radsimp.test_issue_14608","kind":"function","src_hash":"40446499eac33854","in":{"base":"Any"},"out":{"base":"Any","pred":"collect(x * y + y * (x + 1), a) == x * y + y * (x + 1)"},"spec":{"lhs":"test_issue_14608()","rhs":"test_issue_14608 produces the expected output","over":{"base":"Any"},"name":"test_issue_14608_correct"},"guarantee":"test_issue_14608 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_radsimp.test_issue_14608_correct","statement":"Path(test_issue_14608(x), test_issue_14608 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"977bcb626034aa0a"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_radsimp.test_issue_14608","kind":"function","src_hash":"40446499eac33854","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: collect(x * y + y * (x + 1), a) == x * y + y * (x + 1) and collect(x * y + y * (x + 1) + a * b + b * a, y) == y * (2 * x + 1) + a * b + b * a"},"spec":{"lhs":"test_issue_14608()","rhs":"collect(x * y + y * (x + 1), a) == x * y + y * (x + 1) and collect(x * y + y * (x + 1) + a * b + b * a, y) == y * (2 * x + 1) + a * b + b * a","over":{"base":"Any"},"name":"test_issue_14608_correct"},"guarantee":"collect(x * y + y * (x + 1), a) == x * y + y * (x + 1); collect(x * y + y * (x + 1) + a * b + b * a, y) == y * (2 * x + 1) + a * b + b * a","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_radsimp.test_issue_14608_correct","statement":"Path(test_issue_14608(x), collect(x * y + y * (x + 1), a) == x * y + y * (x + 1); collect(x * y + y * (x + 1) + a * b + b * a, y) == y * (2 * x + 1) + a * b + b * a)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9e5d52f2e5fb58cf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["collect(x * y + y * (x + 1), a) == x * y + y * (x + 1)","collect(x * y + y * (x + 1) + a * b + b * a, y) == y * (2 * x + 1) + a * b + b * a"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_issue_14608():
     a, b = symbols('a b', commutative=False)
     x, y = symbols('x y')
@@ -727,7 +886,12 @@ def test_issue_14608():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_collect_abs(), test_collect_abs produces the expected output) over {Any | isinstance(ans, Abs)} ║
+# ║ Path(test_collect_abs(), collect_abs(s) == s and unchanged(Mul, abs(x), abs(y)) and isinstance(ans, Abs) and collect_abs(abs(x) * abs(y)) == ans and collect_abs(1 + exp(abs(x) * abs(y))) == 1 + exp(ans) and collect_abs(p / abs(1 - p)).is_commutative is True) over {Any | isinstance(ans, Abs)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  collect_abs(s) == s                            ║
+# ║   ensures:  unchanged(Mul, abs(x), abs(y))                 ║
+# ║   ensures:  isinstance(ans, Abs)                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_collect_abs : {Any | isinstance(ans, Abs)} → {An...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -739,9 +903,12 @@ def test_issue_14608():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.5ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 3273ab58...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_radsimp.test_collect_abs","kind":"function","src_hash":"673506e4a6da5a59","in":{"base":"Any","pred":"isinstance(ans, Abs)"},"out":{"base":"Any","pred":"collect_abs(s) == s and unchanged(Mul, abs(x), abs(y)) and isinstance(ans, Abs) and collect_abs(abs(x) * abs(y)) == ans and collect_abs(1 + exp(abs(x) * abs(y))) == 1 + exp(ans) and collect_abs(p / abs(1 - p)).is_commutative is True"},"spec":{"lhs":"test_collect_abs()","rhs":"test_collect_abs produces the expected output","over":{"base":"Any","pred":"isinstance(ans, Abs)"},"name":"test_collect_abs_correct"},"guarantee":"test_collect_abs produces the expected output","fibers":[{"name":"Abs","pred":"isinstance(ans, Abs)","path":{"lhs":"test_collect_abs(x)","rhs":"test_collect_abs produces the expected output","over":{"base":"Abs","pred":"isinstance(ans, Abs)"},"name":"test_collect_abs_Abs_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_radsimp.test_collect_abs_Abs_correct","statement":"test_collect_abs satisfies spec on Abs inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"3273ab585501f3c7"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_radsimp.test_collect_abs","kind":"function","src_hash":"673506e4a6da5a59","in":{"base":"Any","pred":"isinstance(ans, Abs)"},"out":{"base":"Any","pred":"result satisfies: collect_abs(s) == s and unchanged(Mul, abs(x), abs(y)) and isinstance(ans, Abs) and collect_abs(abs(x) * abs(y)) == ans and collect_abs(1 + exp(abs(x) * abs(y))) == 1 + exp(ans) and collect_abs(p / abs(1 - p)).is_commutative is True"},"spec":{"lhs":"test_collect_abs()","rhs":"collect_abs(s) == s and unchanged(Mul, abs(x), abs(y)) and isinstance(ans, Abs) and collect_abs(abs(x) * abs(y)) == ans and collect_abs(1 + exp(abs(x) * abs(y))) == 1 + exp(ans) and collect_abs(p / abs(1 - p)).is_commutative is True","over":{"base":"Any","pred":"isinstance(ans, Abs)"},"name":"test_collect_abs_correct"},"guarantee":"collect_abs(s) == s; unchanged(Mul, abs(x), abs(y)); isinstance(ans, Abs)","fibers":[{"name":"Abs","pred":"isinstance(ans, Abs)","path":{"lhs":"test_collect_abs(x)","rhs":"collect_abs(s) == s; unchanged(Mul, abs(x), abs(y)); isinstance(ans, Abs)","over":{"base":"Abs","pred":"isinstance(ans, Abs)"},"name":"test_collect_abs_Abs_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_radsimp.test_collect_abs_Abs_correct","statement":"test_collect_abs satisfies spec on Abs inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"3273ab585501f3c7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["collect_abs(s) == s","unchanged(Mul, abs(x), abs(y))","isinstance(ans, Abs)","collect_abs(abs(x) * abs(y)) == ans","collect_abs(1 + exp(abs(x) * abs(y))) == 1 + exp(ans)","collect_abs(p / abs(1 - p)).is_commutative is True"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.5,"verdict_class":"failed","binding":true}}
 def test_collect_abs():
     s = abs(x) + abs(y)
     assert collect_abs(s) == s
@@ -757,31 +924,43 @@ def test_collect_abs():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_19149(), test_issue_19149 produces the expected output) over Any ║
+# ║ Path(test_issue_19149(), collect(eq, exp(x)) == eq) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_19149 : Any → {Any | collect(eq, exp(x)) =...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  collect(eq, exp(x)) == eq                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_19149 : Any → {Any | result satisfies: col...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f3125a023e84c654  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 633d36e55ddb14c5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_radsimp.test_issue_19149","kind":"function","src_hash":"98575118effdea2d","in":{"base":"Any"},"out":{"base":"Any","pred":"collect(eq, exp(x)) == eq"},"spec":{"lhs":"test_issue_19149()","rhs":"test_issue_19149 produces the expected output","over":{"base":"Any"},"name":"test_issue_19149_correct"},"guarantee":"test_issue_19149 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_radsimp.test_issue_19149_correct","statement":"Path(test_issue_19149(x), test_issue_19149 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f3125a023e84c654"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_radsimp.test_issue_19149","kind":"function","src_hash":"98575118effdea2d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: collect(eq, exp(x)) == eq"},"spec":{"lhs":"test_issue_19149()","rhs":"collect(eq, exp(x)) == eq","over":{"base":"Any"},"name":"test_issue_19149_correct"},"guarantee":"collect(eq, exp(x)) == eq","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_radsimp.test_issue_19149_correct","statement":"Path(test_issue_19149(x), collect(eq, exp(x)) == eq)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"633d36e55ddb14c5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["collect(eq, exp(x)) == eq"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_issue_19149():
     eq = exp(3*x/4)
     assert collect(eq, exp(x)) == eq
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_19719(), test_issue_19719 produces the expected output) over Any ║
+# ║ Path(test_issue_19719(), collected == {a ** 2: b + 1, 1 / a: 7 + 1 / b}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_19719 : Any → {Any | collected == {a ** 2:...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  collected == {a ** 2: b + 1, 1 / a: 7 + 1...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_19719 : Any → {Any | result satisfies: col...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bb3d5138964fad60  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 02a6ee53725e3b5d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_radsimp.test_issue_19719","kind":"function","src_hash":"56ec58f3f4a47122","in":{"base":"Any"},"out":{"base":"Any","pred":"collected == {a ** 2: b + 1, 1 / a: 7 + 1 / b}"},"spec":{"lhs":"test_issue_19719()","rhs":"test_issue_19719 produces the expected output","over":{"base":"Any"},"name":"test_issue_19719_correct"},"guarantee":"test_issue_19719 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_radsimp.test_issue_19719_correct","statement":"Path(test_issue_19719(x), test_issue_19719 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bb3d5138964fad60"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_radsimp.test_issue_19719","kind":"function","src_hash":"56ec58f3f4a47122","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: collected == {a ** 2: b + 1, 1 / a: 7 + 1 / b}"},"spec":{"lhs":"test_issue_19719()","rhs":"collected == {a ** 2: b + 1, 1 / a: 7 + 1 / b}","over":{"base":"Any"},"name":"test_issue_19719_correct"},"guarantee":"collected == {a ** 2: b + 1, 1 / a: 7 + 1 / b}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_radsimp.test_issue_19719_correct","statement":"Path(test_issue_19719(x), collected == {a ** 2: b + 1, 1 / a: 7 + 1 / b})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"02a6ee53725e3b5d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["collected == {a ** 2: b + 1, 1 / a: 7 + 1 / b}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_19719():
     a, b = symbols('a, b')
     expr = a**2 * (b + 1) + (7 + 1/b)/a
@@ -791,16 +970,23 @@ def test_issue_19719():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_21355(), test_issue_21355 produces the expected output) over Any ║
+# ║ Path(test_issue_21355(), radsimp(1 / (x + sqrt(x ** 2))) == 1 / (x + sqrt(x ** 2)) and radsimp(1 / (x - sqrt(x ** 2))) == 1 / (x - sqrt(x ** 2))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_21355 : Any → {Any | radsimp(1 / (x + sqrt...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  radsimp(1 / (x + sqrt(x ** 2))) == 1 / (x...   ║
+# ║   ensures:  radsimp(1 / (x - sqrt(x ** 2))) == 1 / (x...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_21355 : Any → {Any | result satisfies: rad...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ff1de3775530b7b5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c8194e0046e852a9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_radsimp.test_issue_21355","kind":"function","src_hash":"c5e23a24f00caf52","in":{"base":"Any"},"out":{"base":"Any","pred":"radsimp(1 / (x + sqrt(x ** 2))) == 1 / (x + sqrt(x ** 2)) and radsimp(1 / (x - sqrt(x ** 2))) == 1 / (x - sqrt(x ** 2))"},"spec":{"lhs":"test_issue_21355()","rhs":"test_issue_21355 produces the expected output","over":{"base":"Any"},"name":"test_issue_21355_correct"},"guarantee":"test_issue_21355 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_radsimp.test_issue_21355_correct","statement":"Path(test_issue_21355(x), test_issue_21355 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ff1de3775530b7b5"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_radsimp.test_issue_21355","kind":"function","src_hash":"c5e23a24f00caf52","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: radsimp(1 / (x + sqrt(x ** 2))) == 1 / (x + sqrt(x ** 2)) and radsimp(1 / (x - sqrt(x ** 2))) == 1 / (x - sqrt(x ** 2))"},"spec":{"lhs":"test_issue_21355()","rhs":"radsimp(1 / (x + sqrt(x ** 2))) == 1 / (x + sqrt(x ** 2)) and radsimp(1 / (x - sqrt(x ** 2))) == 1 / (x - sqrt(x ** 2))","over":{"base":"Any"},"name":"test_issue_21355_correct"},"guarantee":"radsimp(1 / (x + sqrt(x ** 2))) == 1 / (x + sqrt(x ** 2)); radsimp(1 / (x - sqrt(x ** 2))) == 1 / (x - sqrt(x ** 2))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_radsimp.test_issue_21355_correct","statement":"Path(test_issue_21355(x), radsimp(1 / (x + sqrt(x ** 2))) == 1 / (x + sqrt(x ** 2)); radsimp(1 / (x - sqrt(x ** 2))) == 1 / (x - sqrt(x ** 2)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c8194e0046e852a9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["radsimp(1 / (x + sqrt(x ** 2))) == 1 / (x + sqrt(x ** 2))","radsimp(1 / (x - sqrt(x ** 2))) == 1 / (x - sqrt(x ** 2))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_21355():
     assert radsimp(1/(x + sqrt(x**2))) == 1/(x + sqrt(x**2))
     assert radsimp(1/(x - sqrt(x**2))) == 1/(x - sqrt(x**2))

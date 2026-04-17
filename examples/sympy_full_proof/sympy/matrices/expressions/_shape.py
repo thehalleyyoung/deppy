@@ -25,16 +25,23 @@ from typing import Union
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_matadd_valid(*ar), return the symbolic condition how ``matadd``, ``hadamardproduct`` makes sense) over Any ║
+# ║ Path(is_matadd_valid(*args), And(*(Eq(i, j) for i, j in zip(rows[:-1], rows[1:])), *(Eq(i, j) for i, j in zip(cols[:-1], cols[1:])))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ is_matadd_valid : Any → Boolean                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, Boolean)                    ║
+# ║   returns:  And(*(Eq(i, j) for i, j in zip(rows[:-1],...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ is_matadd_valid : Any → {Boolean | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 20f0ba8905ad7a26  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 720ec93f5e8d986c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions._shape.is_matadd_valid","kind":"function","src_hash":"f10b8595d194cade","in":{"base":"Any"},"out":{"base":"Boolean"},"spec":{"lhs":"is_matadd_valid(*ar)","rhs":"return the symbolic condition how ``matadd``, ``hadamardproduct`` makes sense","over":{"base":"Any"},"name":"is_matadd_valid_correct"},"guarantee":"return the symbolic condition how ``matadd``, ``hadamardproduct`` makes sense","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions._shape.is_matadd_valid_correct","statement":"Path(is_matadd_valid(x), return the symbolic condition how ``matadd``, ``hadamardproduct`` makes sense)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"20f0ba8905ad7a26"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions._shape.is_matadd_valid","kind":"function","src_hash":"f10b8595d194cade","in":{"base":"Any"},"out":{"base":"Boolean","pred":"result satisfies: result == (And(*(Eq(i, j) for i, j in zip(rows[:-1], rows[1:])), *(Eq(i, j) for i, j in zip(cols[:-1], cols[1:]))))"},"spec":{"lhs":"is_matadd_valid(*args)","rhs":"And(*(Eq(i, j) for i, j in zip(rows[:-1], rows[1:])), *(Eq(i, j) for i, j in zip(cols[:-1], cols[1:])))","over":{"base":"Any"},"name":"is_matadd_valid_correct"},"guarantee":"returns And(*(Eq(i, j) for i, j in zip(rows[:-1], rows[1:])), *(Eq(i, j) for i, j in zip(cols[:-1], cols[1:]))); isinstance(result, Boolean)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions._shape.is_matadd_valid_correct","statement":"Path(is_matadd_valid(x), returns And(*(Eq(i, j) for i, j in zip(rows[:-1], rows[1:])), *(Eq(i, j) for i, j in zip(cols[:-1], cols[1:]))); isinstance(result, Boolean))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"720ec93f5e8d986c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, Boolean)"],"returns_expr":"And(*(Eq(i, j) for i, j in zip(rows[:-1], rows[1:])), *(Eq(i, j) for i, j in zip(cols[:-1], cols[1:])))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=[], spec=['*args']"]}}
 def is_matadd_valid(*args: MatrixExpr) -> Boolean:
     """Return the symbolic condition how ``MatAdd``, ``HadamardProduct``
     makes sense.
@@ -65,7 +72,11 @@ def is_matadd_valid(*args: MatrixExpr) -> Boolean:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_matmul_valid(*ar), return the symbolic condition how ``matmul`` makes sense) over {Any | isinstance(arg, MatrixExpr)} ║
+# ║ Path(is_matmul_valid(*args), And(*(Eq(i, j) for i, j in zip(cols[:-1], rows[1:])))) over {Any | isinstance(arg, MatrixExpr)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, Boolean)                    ║
+# ║   returns:  And(*(Eq(i, j) for i, j in zip(cols[:-1],...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_matmul_valid : {Any | isinstance(arg, MatrixExpr)}...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -77,9 +88,12 @@ def is_matadd_valid(*args: MatrixExpr) -> Boolean:
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.4ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | c9825740...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions._shape.is_matmul_valid","kind":"function","src_hash":"24662b77cccbe88d","in":{"base":"Any","pred":"isinstance(arg, MatrixExpr)"},"out":{"base":"Boolean"},"spec":{"lhs":"is_matmul_valid(*ar)","rhs":"return the symbolic condition how ``matmul`` makes sense","over":{"base":"Any","pred":"isinstance(arg, MatrixExpr)"},"name":"is_matmul_valid_correct"},"guarantee":"return the symbolic condition how ``matmul`` makes sense","fibers":[{"name":"MatrixExpr","pred":"isinstance(arg, MatrixExpr)","path":{"lhs":"is_matmul_valid(x)","rhs":"return the symbolic condition how ``matmul`` makes sense","over":{"base":"MatrixExpr","pred":"isinstance(arg, MatrixExpr)"},"name":"is_matmul_valid_MatrixExpr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions._shape.is_matmul_valid_MatrixExpr_correct","statement":"is_matmul_valid satisfies spec on MatrixExpr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"c9825740e6bf82ad"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions._shape.is_matmul_valid","kind":"function","src_hash":"24662b77cccbe88d","in":{"base":"Any","pred":"isinstance(arg, MatrixExpr)"},"out":{"base":"Boolean","pred":"result satisfies: result == (And(*(Eq(i, j) for i, j in zip(cols[:-1], rows[1:]))))"},"spec":{"lhs":"is_matmul_valid(*args)","rhs":"And(*(Eq(i, j) for i, j in zip(cols[:-1], rows[1:])))","over":{"base":"Any","pred":"isinstance(arg, MatrixExpr)"},"name":"is_matmul_valid_correct"},"guarantee":"returns And(*(Eq(i, j) for i, j in zip(cols[:-1], rows[1:]))); isinstance(result, Boolean)","fibers":[{"name":"MatrixExpr","pred":"isinstance(arg, MatrixExpr)","path":{"lhs":"is_matmul_valid(x)","rhs":"returns And(*(Eq(i, j) for i, j in zip(cols[:-1], rows[1:]))); isinstance(result, Boolean)","over":{"base":"MatrixExpr","pred":"isinstance(arg, MatrixExpr)"},"name":"is_matmul_valid_MatrixExpr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions._shape.is_matmul_valid_MatrixExpr_correct","statement":"is_matmul_valid satisfies spec on MatrixExpr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"c9825740e6bf82ad","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, Boolean)"],"returns_expr":"And(*(Eq(i, j) for i, j in zip(cols[:-1], rows[1:])))","pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.4,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=[], spec=['*args']"]}}
 def is_matmul_valid(*args: Union[MatrixExpr, Expr]) -> Boolean:
     """Return the symbolic condition how ``MatMul`` makes sense
 
@@ -107,16 +121,23 @@ def is_matmul_valid(*args: Union[MatrixExpr, Expr]) -> Boolean:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_square(), return the symbolic condition how the matrix is assumed to be square) over Any ║
+# ║ Path(is_square(), Eq(arg.rows, arg.cols)) over Any         ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ is_square : Any → Boolean                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, Boolean)                    ║
+# ║   returns:  Eq(arg.rows, arg.cols)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ is_square : Any → {Boolean | result satisfies: result...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8841067eb2842411           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions._shape.is_square","kind":"function","src_hash":"1dc6e29e317bde54","in":{"base":"Any"},"out":{"base":"Boolean"},"spec":{"lhs":"is_square()","rhs":"return the symbolic condition how the matrix is assumed to be square","over":{"base":"Any"},"name":"is_square_correct"},"guarantee":"return the symbolic condition how the matrix is assumed to be square","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8841067eb2842411"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions._shape.is_square","kind":"function","src_hash":"1dc6e29e317bde54","in":{"base":"Any"},"out":{"base":"Boolean","pred":"result satisfies: result == (Eq(arg.rows, arg.cols))"},"spec":{"lhs":"is_square()","rhs":"Eq(arg.rows, arg.cols)","over":{"base":"Any"},"name":"is_square_correct"},"guarantee":"returns Eq(arg.rows, arg.cols); isinstance(result, Boolean)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8841067eb2842411","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, Boolean)"],"returns_expr":"Eq(arg.rows, arg.cols)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def is_square(arg: MatrixExpr, /) -> Boolean:
     """Return the symbolic condition how the matrix is assumed to be square
 
@@ -141,7 +162,12 @@ def is_square(arg: MatrixExpr, /) -> Boolean:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(validate_matadd_integer(*ar), validate matrix shape for addition only for integer values) over {Any | isinstance(x, (int, Integer))} ║
+# ║ Path(validate_matadd_integer(*args), <unspecified:validate_matadd_integer>) over {Any | isinstance(x, (int, Integer)) and not (len(set(filter(lambda x: isinstance(x, (int, Integer)), rows))) > 1) and not (len(set(filter(lambda x: isinstance(x, (int, Integer)), cols))) > 1)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (len(set(filter(lambda x: isinstance(...   ║
+# ║   requires: not (len(set(filter(lambda x: isinstance(...   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ validate_matadd_integer : {Any | isinstance(x, (int, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -153,9 +179,12 @@ def is_square(arg: MatrixExpr, /) -> Boolean:
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | bedf2b35...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions._shape.validate_matadd_integer","kind":"function","src_hash":"96d4892a2437f21e","in":{"base":"Any","pred":"isinstance(x, (int, Integer))"},"out":{"base":"None"},"spec":{"lhs":"validate_matadd_integer(*ar)","rhs":"validate matrix shape for addition only for integer values","over":{"base":"Any","pred":"isinstance(x, (int, Integer))"},"name":"validate_matadd_integer_correct"},"guarantee":"validate matrix shape for addition only for integer values","fibers":[{"name":"(int","pred":"isinstance(x, (int, Integer))","path":{"lhs":"validate_matadd_integer(x)","rhs":"validate matrix shape for addition only for integer values","over":{"base":"(int","pred":"isinstance(x, (int, Integer))"},"name":"validate_matadd_integer_(int_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions._shape.validate_matadd_integer_(int_correct","statement":"validate_matadd_integer satisfies spec on (int inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"bedf2b35d5e1e15e"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions._shape.validate_matadd_integer","kind":"function","src_hash":"96d4892a2437f21e","in":{"base":"Any","pred":"isinstance(x, (int, Integer)) and not (len(set(filter(lambda x: isinstance(x, (int, Integer)), rows))) > 1) and not (len(set(filter(lambda x: isinstance(x, (int, Integer)), cols))) > 1)"},"out":{"base":"None"},"spec":{"lhs":"validate_matadd_integer(*args)","rhs":"<unspecified:validate_matadd_integer>","over":{"base":"Any","pred":"isinstance(x, (int, Integer)) and not (len(set(filter(lambda x: isinstance(x, (int, Integer)), rows))) > 1) and not (len(set(filter(lambda x: isinstance(x, (int, Integer)), cols))) > 1)"},"name":"validate_matadd_integer_correct"},"guarantee":"validate matrix shape for addition only for integer values","fibers":[{"name":"(int","pred":"isinstance(x, (int, Integer))","path":{"lhs":"validate_matadd_integer(x)","rhs":"validate matrix shape for addition only for integer values","over":{"base":"(int","pred":"isinstance(x, (int, Integer))"},"name":"validate_matadd_integer_(int_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions._shape.validate_matadd_integer_(int_correct","statement":"validate_matadd_integer satisfies spec on (int inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"bedf2b35d5e1e15e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (len(set(filter(lambda x: isinstance(x, (int, Integer)), rows))) > 1)","not (len(set(filter(lambda x: isinstance(x, (int, Integer)), cols))) > 1)"],"pure":false,"effects":{"effect_type":"reads_state","raises":["ShapeError"]},"state_contract":{"exceptional_post":{"ShapeError":["isinstance(raised, ShapeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.1,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=[], spec=['*args']","Poor branch-fiber coverage: 0% (branches={'len(set(filter(lambda x: isinstance(x, (int, Integer)), rows))) > 1', 'len(set(filter(lambda x: isinstance(x, (int, Integer)), cols))) > 1'}, fibers={'(int'})"]}}
 def validate_matadd_integer(*args: MatrixExpr) -> None:
     """Validate matrix shape for addition only for integer values"""
     rows, cols = zip(*(x.shape for x in args))
@@ -166,7 +195,10 @@ def validate_matadd_integer(*args: MatrixExpr) -> None:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(validate_matmul_integer(*ar), validate matrix shape for multiplication only for integer values) over {Any | isinstance(i, (int, Integer))} ║
+# ║ Path(validate_matmul_integer(*args), <unspecified:validate_matmul_integer>) over {Any | isinstance(i, (int, Integer))} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ validate_matmul_integer : {Any | isinstance(i, (int, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -178,9 +210,12 @@ def validate_matadd_integer(*args: MatrixExpr) -> None:
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 8883fce1...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions._shape.validate_matmul_integer","kind":"function","src_hash":"cb9be160fb6773b9","in":{"base":"Any","pred":"isinstance(i, (int, Integer))"},"out":{"base":"None"},"spec":{"lhs":"validate_matmul_integer(*ar)","rhs":"validate matrix shape for multiplication only for integer values","over":{"base":"Any","pred":"isinstance(i, (int, Integer))"},"name":"validate_matmul_integer_correct"},"guarantee":"validate matrix shape for multiplication only for integer values","fibers":[{"name":"(int","pred":"isinstance(i, (int, Integer))","path":{"lhs":"validate_matmul_integer(x)","rhs":"validate matrix shape for multiplication only for integer values","over":{"base":"(int","pred":"isinstance(i, (int, Integer))"},"name":"validate_matmul_integer_(int_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions._shape.validate_matmul_integer_(int_correct","statement":"validate_matmul_integer satisfies spec on (int inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"8883fce1c42d57bb"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions._shape.validate_matmul_integer","kind":"function","src_hash":"cb9be160fb6773b9","in":{"base":"Any","pred":"isinstance(i, (int, Integer))"},"out":{"base":"None"},"spec":{"lhs":"validate_matmul_integer(*args)","rhs":"<unspecified:validate_matmul_integer>","over":{"base":"Any","pred":"isinstance(i, (int, Integer))"},"name":"validate_matmul_integer_correct"},"guarantee":"validate matrix shape for multiplication only for integer values","fibers":[{"name":"(int","pred":"isinstance(i, (int, Integer))","path":{"lhs":"validate_matmul_integer(x)","rhs":"validate matrix shape for multiplication only for integer values","over":{"base":"(int","pred":"isinstance(i, (int, Integer))"},"name":"validate_matmul_integer_(int_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions._shape.validate_matmul_integer_(int_correct","statement":"validate_matmul_integer satisfies spec on (int inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"8883fce1c42d57bb","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["ShapeError"]},"state_contract":{"exceptional_post":{"ShapeError":["isinstance(raised, ShapeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=[], spec=['*args']","Poor branch-fiber coverage: 0% (branches={'isinstance(i, (int, Integer)) and isinstance(j, (int, Integer)) and (i != j)'}, fibers={'(int'})"]}}
 def validate_matmul_integer(*args: MatrixExpr) -> None:
     """Validate matrix shape for multiplication only for integer values"""
     for A, B in zip(args[:-1], args[1:]):

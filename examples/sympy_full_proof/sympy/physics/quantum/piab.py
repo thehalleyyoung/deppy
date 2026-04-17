@@ -44,43 +44,62 @@ __all__ = [
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(PIABHamiltonian(*args), correctly constructs a PIABHamiltonian instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ PIABHamiltonian : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, HermitianOperator)            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ PIABHamiltonian : Any → {Any | result satisfies: isin...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 31f9919521027349  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.piab.PIABHamiltonian","kind":"class","src_hash":"ee50c5ec2487f99f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"PIABHamiltonian(*args)","rhs":"correctly constructs a PIABHamiltonian instance","over":{"base":"Any"},"name":"PIABHamiltonian_class_invariant"},"guarantee":"correctly constructs a PIABHamiltonian instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"31f9919521027349"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.piab.PIABHamiltonian","kind":"class","src_hash":"ee50c5ec2487f99f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, HermitianOperator)"},"spec":{"lhs":"PIABHamiltonian(*args)","rhs":"correctly constructs a PIABHamiltonian instance","over":{"base":"Any"},"name":"PIABHamiltonian_class_invariant"},"guarantee":"isinstance(self, HermitianOperator)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"31f9919521027349","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, HermitianOperator)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function PIABHamiltonian not found in source"]}}
 class PIABHamiltonian(HermitianOperator):
     """Particle in a box Hamiltonian operator."""
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_hilbert_space(cls), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_hilbert_space(cls, label), L2(Interval(S.NegativeInfinity, S.Infinity))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  L2(Interval(S.NegativeInfinity, S.Infinity))   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_hilbert_space : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ad3b1738fbf7fbf9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.piab.PIABHamiltonian._eval_hilbert_space","kind":"classmethod","src_hash":"4e4932000353d088","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_hilbert_space(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_hilbert_space_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ad3b1738fbf7fbf9"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.piab.PIABHamiltonian._eval_hilbert_space","kind":"classmethod","src_hash":"4e4932000353d088","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_hilbert_space(cls, label)","rhs":"L2(Interval(S.NegativeInfinity, S.Infinity))","over":{"base":"Any"},"name":"_eval_hilbert_space_correct"},"guarantee":"returns L2(Interval(S.NegativeInfinity, S.Infinity))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ad3b1738fbf7fbf9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"L2(Interval(S.NegativeInfinity, S.Infinity))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_hilbert_space(cls, label):
         return L2(Interval(S.NegativeInfinity, S.Infinity))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_apply_operator_PIABKet(ket), internal helper behaves correctly) over Any ║
+# ║ Path(_apply_operator_PIABKet(ket, **options), n ** 2 * pi ** 2 * hbar ** 2 / (2 * m * L ** 2) * ket) over {Any | hasattr(ket, 'label')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _apply_operator_PIABKet : Any → Any                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(ket, 'label')                          ║
+# ║   returns:  n ** 2 * pi ** 2 * hbar ** 2 / (2 * m * L...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _apply_operator_PIABKet : {Any | hasattr(ket, 'label'...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fb265930c4f4bb33  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0d0a7927e205b2f4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.piab.PIABHamiltonian._apply_operator_PIABKet","kind":"method","src_hash":"35b86ba03249985c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_apply_operator_PIABKet(ket)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_apply_operator_PIABKet_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.piab.PIABHamiltonian._apply_operator_PIABKet_correct","statement":"Path(_apply_operator_PIABKet(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fb265930c4f4bb33"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.piab.PIABHamiltonian._apply_operator_PIABKet","kind":"method","src_hash":"35b86ba03249985c","in":{"base":"Any","pred":"hasattr(ket, 'label')"},"out":{"base":"Any"},"spec":{"lhs":"_apply_operator_PIABKet(ket, **options)","rhs":"n ** 2 * pi ** 2 * hbar ** 2 / (2 * m * L ** 2) * ket","over":{"base":"Any","pred":"hasattr(ket, 'label')"},"name":"_apply_operator_PIABKet_correct"},"guarantee":"returns n ** 2 * pi ** 2 * hbar ** 2 / (2 * m * L ** 2) * ket","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.piab.PIABHamiltonian._apply_operator_PIABKet_correct","statement":"Path(_apply_operator_PIABKet(x), returns n ** 2 * pi ** 2 * hbar ** 2 / (2 * m * L ** 2) * ket)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0d0a7927e205b2f4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(ket, 'label')"],"returns_expr":"n ** 2 * pi ** 2 * hbar ** 2 / (2 * m * L ** 2) * ket","pure":false,"effects":{"effect_type":"reads_state","reads":["ket.label"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _apply_operator_PIABKet(self, ket, **options):
         n = ket.label[0]
         return (n**2*pi**2*hbar**2)/(2*m*L**2)*ket
@@ -89,72 +108,102 @@ class PIABHamiltonian(HermitianOperator):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(PIABKet(*args), correctly constructs a PIABKet instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ PIABKet : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Ket)                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ PIABKet : Any → {Any | result satisfies: isinstance(s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f18397cb0a655c7a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.piab.PIABKet","kind":"class","src_hash":"5288752c8acc122f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"PIABKet(*args)","rhs":"correctly constructs a PIABKet instance","over":{"base":"Any"},"name":"PIABKet_class_invariant"},"guarantee":"correctly constructs a PIABKet instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f18397cb0a655c7a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.piab.PIABKet","kind":"class","src_hash":"5288752c8acc122f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Ket)"},"spec":{"lhs":"PIABKet(*args)","rhs":"correctly constructs a PIABKet instance","over":{"base":"Any"},"name":"PIABKet_class_invariant"},"guarantee":"isinstance(self, Ket)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f18397cb0a655c7a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Ket)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function PIABKet not found in source"]}}
 class PIABKet(Ket):
     """Particle in a box eigenket."""
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_hilbert_space(cls), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_hilbert_space(cls, args), L2(Interval(S.NegativeInfinity, S.Infinity))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  L2(Interval(S.NegativeInfinity, S.Infinity))   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_hilbert_space : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 79f41d0d061cf441           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.piab.PIABKet._eval_hilbert_space","kind":"classmethod","src_hash":"93c3e00e006536ed","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_hilbert_space(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_hilbert_space_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"79f41d0d061cf441"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.piab.PIABKet._eval_hilbert_space","kind":"classmethod","src_hash":"93c3e00e006536ed","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_hilbert_space(cls, args)","rhs":"L2(Interval(S.NegativeInfinity, S.Infinity))","over":{"base":"Any"},"name":"_eval_hilbert_space_correct"},"guarantee":"returns L2(Interval(S.NegativeInfinity, S.Infinity))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"79f41d0d061cf441","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"L2(Interval(S.NegativeInfinity, S.Infinity))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_hilbert_space(cls, args):
         return L2(Interval(S.NegativeInfinity, S.Infinity))
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dual_class(), dual_class produces the expected output) over Any ║
+# ║ Path(dual_class(), <unspecified:dual_class>) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dual_class : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e56898453fd085d5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.piab.PIABKet.dual_class","kind":"classmethod","src_hash":"a5127b199d95e580","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dual_class()","rhs":"dual_class produces the expected output","over":{"base":"Any"},"name":"dual_class_correct"},"guarantee":"dual_class produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e56898453fd085d5"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.piab.PIABKet.dual_class","kind":"classmethod","src_hash":"a5127b199d95e580","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dual_class()","rhs":"<unspecified:dual_class>","over":{"base":"Any"},"name":"dual_class_correct"},"guarantee":"dual_class produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e56898453fd085d5","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dual_class(self):
         return PIABBra
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_represent_default_basis(**o), internal helper behaves correctly) over Any ║
+# ║ Path(_represent_default_basis(**options), self._represent_XOp(None, **options)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._represent_XOp(None, **options)           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _represent_default_basis : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 311ff5bcace9b126           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.piab.PIABKet._represent_default_basis","kind":"method","src_hash":"5f69c68b7ec87eda","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_represent_default_basis(**o)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_represent_default_basis_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"311ff5bcace9b126"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.piab.PIABKet._represent_default_basis","kind":"method","src_hash":"5f69c68b7ec87eda","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_represent_default_basis(**options)","rhs":"self._represent_XOp(None, **options)","over":{"base":"Any"},"name":"_represent_default_basis_correct"},"guarantee":"returns self._represent_XOp(None, **options)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"311ff5bcace9b126","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._represent_XOp(None, **options)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._represent_XOp"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _represent_default_basis(self, **options):
         return self._represent_XOp(None, **options)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_represent_XOp(bas), id) over Any                     ║
+# ║ Path(_represent_XOp(basis, **options), id) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  sqrt(2 / L) * sin(n * pi * x / L).subs(su...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _represent_XOp : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 32fbb9244f2cbf56   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.piab.PIABKet._represent_XOp","kind":"method","src_hash":"f92020d978a3b863","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_represent_XOp(bas)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_represent_XOp_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sqrt","by":"library_axiom"},{"fn":"sin","by":"library_axiom"},{"fn":"subs","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"32fbb9244f2cbf56"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.piab.PIABKet._represent_XOp","kind":"method","src_hash":"f92020d978a3b863","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_represent_XOp(basis, **options)","rhs":"sqrt(2 / L) * sin(n * pi * x / L).subs(subs_info)","over":{"base":"Any"},"name":"_represent_XOp_correct","kind":"composition"},"guarantee":"returns sqrt(2 / L) * sin(n * pi * x / L).subs(subs_info)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sqrt","by":"library_axiom"},{"fn":"sin","by":"library_axiom"},{"fn":"subs","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"32fbb9244f2cbf56","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"sqrt(2 / L) * sin(n * pi * x / L).subs(subs_info)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _represent_XOp(self, basis, **options):
         x = Symbol('x')
         n = Symbol('n')
@@ -162,16 +211,23 @@ class PIABKet(Ket):
         return sqrt(2/L)*sin(n*pi*x/L).subs(subs_info)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_innerproduct_PIABBra(bra), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_innerproduct_PIABBra(bra), KroneckerDelta(bra.label[0], self.label[0])) over {Any | hasattr(bra, 'label')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_innerproduct_PIABBra : Any → Any                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(bra, 'label')                          ║
+# ║   returns:  KroneckerDelta(bra.label[0], self.label[0])    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_innerproduct_PIABBra : {Any | hasattr(bra, 'lab...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a85e2fef76874f03           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.piab.PIABKet._eval_innerproduct_PIABBra","kind":"method","src_hash":"628481b2051acbd8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_innerproduct_PIABBra(bra)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_innerproduct_PIABBra_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a85e2fef76874f03"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.piab.PIABKet._eval_innerproduct_PIABBra","kind":"method","src_hash":"628481b2051acbd8","in":{"base":"Any","pred":"hasattr(bra, 'label')"},"out":{"base":"Any"},"spec":{"lhs":"_eval_innerproduct_PIABBra(bra)","rhs":"KroneckerDelta(bra.label[0], self.label[0])","over":{"base":"Any","pred":"hasattr(bra, 'label')"},"name":"_eval_innerproduct_PIABBra_correct"},"guarantee":"returns KroneckerDelta(bra.label[0], self.label[0])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a85e2fef76874f03","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(bra, 'label')"],"returns_expr":"KroneckerDelta(bra.label[0], self.label[0])","pure":false,"effects":{"effect_type":"reads_state","reads":["bra.label","self.label"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_innerproduct_PIABBra(self, bra):
         return KroneckerDelta(bra.label[0], self.label[0])
 
@@ -179,43 +235,61 @@ class PIABKet(Ket):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(PIABBra(*args), correctly constructs a PIABBra instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ PIABBra : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Bra)                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ PIABBra : Any → {Any | result satisfies: isinstance(s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a041ed9fa4717fda  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.piab.PIABBra","kind":"class","src_hash":"4f16b26cb8f399a1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"PIABBra(*args)","rhs":"correctly constructs a PIABBra instance","over":{"base":"Any"},"name":"PIABBra_class_invariant"},"guarantee":"correctly constructs a PIABBra instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a041ed9fa4717fda"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.piab.PIABBra","kind":"class","src_hash":"4f16b26cb8f399a1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Bra)"},"spec":{"lhs":"PIABBra(*args)","rhs":"correctly constructs a PIABBra instance","over":{"base":"Any"},"name":"PIABBra_class_invariant"},"guarantee":"isinstance(self, Bra)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a041ed9fa4717fda","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Bra)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function PIABBra not found in source"]}}
 class PIABBra(Bra):
     """Particle in a box eigenbra."""
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_hilbert_space(cls), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_hilbert_space(cls, label), L2(Interval(S.NegativeInfinity, S.Infinity))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  L2(Interval(S.NegativeInfinity, S.Infinity))   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_hilbert_space : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4f2229e62b79a3fd           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.piab.PIABBra._eval_hilbert_space","kind":"classmethod","src_hash":"4e4932000353d088","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_hilbert_space(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_hilbert_space_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4f2229e62b79a3fd"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.piab.PIABBra._eval_hilbert_space","kind":"classmethod","src_hash":"4e4932000353d088","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_hilbert_space(cls, label)","rhs":"L2(Interval(S.NegativeInfinity, S.Infinity))","over":{"base":"Any"},"name":"_eval_hilbert_space_correct"},"guarantee":"returns L2(Interval(S.NegativeInfinity, S.Infinity))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4f2229e62b79a3fd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"L2(Interval(S.NegativeInfinity, S.Infinity))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_hilbert_space(cls, label):
         return L2(Interval(S.NegativeInfinity, S.Infinity))
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dual_class(), dual_class produces the expected output) over Any ║
+# ║ Path(dual_class(), <unspecified:dual_class>) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dual_class : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7a642fb7a0cee1ae           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.piab.PIABBra.dual_class","kind":"classmethod","src_hash":"2c77c7a90e7c9481","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dual_class()","rhs":"dual_class produces the expected output","over":{"base":"Any"},"name":"dual_class_correct"},"guarantee":"dual_class produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7a642fb7a0cee1ae"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.piab.PIABBra.dual_class","kind":"classmethod","src_hash":"2c77c7a90e7c9481","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dual_class()","rhs":"<unspecified:dual_class>","over":{"base":"Any"},"name":"dual_class_correct"},"guarantee":"dual_class produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7a642fb7a0cee1ae","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dual_class(self):
         return PIABKet

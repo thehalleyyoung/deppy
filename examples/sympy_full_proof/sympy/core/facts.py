@@ -70,9 +70,16 @@ from .logic import Logic, And, Or, Not
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_base_fact(ato), return the literal fact of an atom) over {Any | isinstance(atom, Not)} ║
+# ║ Path(_base_fact(atom), result == (atom.arg if isinstance(atom, Not) else atom) and result == atom.arg or result == atom) over {Any | isinstance(atom, Not) and hasattr(atom, 'arg')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _base_fact : {Any | isinstance(atom, Not)} → Any           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(atom, 'arg')                           ║
+# ║   ensures:  result == (atom.arg if isinstance(atom, N...   ║
+# ║   ensures:  result == atom.arg or result == atom           ║
+# ║   fiber[Not]: isinstance(atom, Not) => atom.arg            ║
+# ║   fiber[Not]: not (isinstance(atom, Not)) => atom          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _base_fact : {Any | isinstance(atom, Not) and hasattr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   Not: {isinstance(atom, Not)} → library_axiom             ║
@@ -82,9 +89,12 @@ from .logic import Logic, And, Or, Not
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 0.9ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | a9285788...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.facts._base_fact","kind":"function","src_hash":"5795dccfab8377f6","in":{"base":"Any","pred":"isinstance(atom, Not)"},"out":{"base":"Any"},"spec":{"lhs":"_base_fact(ato)","rhs":"return the literal fact of an atom","over":{"base":"Any","pred":"isinstance(atom, Not)"},"name":"_base_fact_correct"},"guarantee":"return the literal fact of an atom","fibers":[{"name":"Not","pred":"isinstance(atom, Not)","path":{"lhs":"_base_fact(x)","rhs":"return the literal fact of an atom","over":{"base":"Not","pred":"isinstance(atom, Not)"},"name":"_base_fact_Not_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.facts._base_fact_Not_correct","statement":"_base_fact satisfies spec on Not inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"a92857881288457e"}
+# @cctt_verify {"v":2,"sym":"sympy.core.facts._base_fact","kind":"function","src_hash":"5795dccfab8377f6","in":{"base":"Any","pred":"isinstance(atom, Not) and hasattr(atom, 'arg')"},"out":{"base":"Any","pred":"result satisfies: result == (atom.arg if isinstance(atom, Not) else atom) and result == atom.arg or result == atom"},"spec":{"lhs":"_base_fact(atom)","rhs":"result == (atom.arg if isinstance(atom, Not) else atom) and result == atom.arg or result == atom","over":{"base":"Any","pred":"isinstance(atom, Not) and hasattr(atom, 'arg')"},"name":"_base_fact_correct"},"guarantee":"result == (atom.arg if isinstance(atom, Not) else atom); result == atom.arg or result == atom; 2-fiber decomposition","fibers":[{"name":"Not","pred":"isinstance(atom, Not)","path":{"lhs":"_base_fact(x)","rhs":"result == (atom.arg if isinstance(atom, Not) else atom); result == atom.arg or result == atom; 2-fiber decomposition","over":{"base":"Not","pred":"isinstance(atom, Not)"},"name":"_base_fact_Not_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.facts._base_fact_Not_correct","statement":"_base_fact satisfies spec on Not inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"a92857881288457e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(atom, 'arg')"],"ensures":["result == (atom.arg if isinstance(atom, Not) else atom)","result == atom.arg or result == atom"],"fibers":[{"name":"Not","guard":"isinstance(atom, Not)","ensures":["result == atom.arg"],"decidability":"structural","returns_expr":"atom.arg"},{"name":"Not","guard":"not (isinstance(atom, Not))","ensures":["result == atom"],"decidability":"structural","returns_expr":"atom"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["atom.arg"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.9,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(atom, Not)'}, fibers={'Not'})"]}}
 def _base_fact(atom):
     """Return the literal fact of an atom.
 
@@ -97,9 +107,16 @@ def _base_fact(atom):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_as_pair(ato), internal helper behaves correctly) over {Any | isinstance(atom, Not)} ║
+# ║ Path(_as_pair(atom), result == ((atom.arg, False) if isinstance(atom, Not) else (atom, True)) and result == (atom.arg, False) or result == (atom, True)) over {Any | isinstance(atom, Not) and hasattr(atom, 'arg')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _as_pair : {Any | isinstance(atom, Not)} → Any             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(atom, 'arg')                           ║
+# ║   ensures:  result == ((atom.arg, False) if isinstanc...   ║
+# ║   ensures:  result == (atom.arg, False) or result == ...   ║
+# ║   fiber[Not]: isinstance(atom, Not) => (atom.arg, False)   ║
+# ║   fiber[Not]: not (isinstance(atom, Not)) => (atom, T...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _as_pair : {Any | isinstance(atom, Not) and hasattr(a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   Not: {isinstance(atom, Not)} → library_axiom             ║
@@ -109,9 +126,12 @@ def _base_fact(atom):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 0.8ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 26eb2e0a...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.facts._as_pair","kind":"function","src_hash":"11856c3dfd661170","in":{"base":"Any","pred":"isinstance(atom, Not)"},"out":{"base":"Any"},"spec":{"lhs":"_as_pair(ato)","rhs":"internal helper behaves correctly","over":{"base":"Any","pred":"isinstance(atom, Not)"},"name":"_as_pair_correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"Not","pred":"isinstance(atom, Not)","path":{"lhs":"_as_pair(x)","rhs":"internal helper behaves correctly","over":{"base":"Not","pred":"isinstance(atom, Not)"},"name":"_as_pair_Not_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.facts._as_pair_Not_correct","statement":"_as_pair satisfies spec on Not inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"26eb2e0ad6d4d953"}
+# @cctt_verify {"v":2,"sym":"sympy.core.facts._as_pair","kind":"function","src_hash":"11856c3dfd661170","in":{"base":"Any","pred":"isinstance(atom, Not) and hasattr(atom, 'arg')"},"out":{"base":"Any","pred":"result satisfies: result == ((atom.arg, False) if isinstance(atom, Not) else (atom, True)) and result == (atom.arg, False) or result == (atom, True)"},"spec":{"lhs":"_as_pair(atom)","rhs":"result == ((atom.arg, False) if isinstance(atom, Not) else (atom, True)) and result == (atom.arg, False) or result == (atom, True)","over":{"base":"Any","pred":"isinstance(atom, Not) and hasattr(atom, 'arg')"},"name":"_as_pair_correct"},"guarantee":"result == ((atom.arg, False) if isinstance(atom, Not) else (atom, True)); result == (atom.arg, False) or result == (atom, True); 2-fiber decomposition","fibers":[{"name":"Not","pred":"isinstance(atom, Not)","path":{"lhs":"_as_pair(x)","rhs":"result == ((atom.arg, False) if isinstance(atom, Not) else (atom, True)); result == (atom.arg, False) or result == (atom, True); 2-fiber decomposition","over":{"base":"Not","pred":"isinstance(atom, Not)"},"name":"_as_pair_Not_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.facts._as_pair_Not_correct","statement":"_as_pair satisfies spec on Not inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"26eb2e0ad6d4d953","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(atom, 'arg')"],"ensures":["result == ((atom.arg, False) if isinstance(atom, Not) else (atom, True))","result == (atom.arg, False) or result == (atom, True)"],"fibers":[{"name":"Not","guard":"isinstance(atom, Not)","ensures":["result == (atom.arg, False)"],"decidability":"structural","returns_expr":"(atom.arg, False)"},{"name":"Not","guard":"not (isinstance(atom, Not))","ensures":["result == (atom, True)"],"decidability":"structural","returns_expr":"(atom, True)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["atom.arg"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(atom, Not)'}, fibers={'Not'})"]}}
 def _as_pair(atom):
     if isinstance(atom, Not):
         return (atom.arg, False)
@@ -122,16 +142,22 @@ def _as_pair(atom):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(transitive_closure(imp), computes the transitive closure of a list of implications) over Any ║
+# ║ Path(transitive_closure(implications), <unspecified:transitive_closure>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ transitive_closure : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fded7970de19487c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.facts.transitive_closure","kind":"function","src_hash":"8575e14cdd133f99","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"transitive_closure(imp)","rhs":"computes the transitive closure of a list of implications","over":{"base":"Any"},"name":"transitive_closure_correct"},"guarantee":"computes the transitive closure of a list of implications","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.facts.transitive_closure_correct","statement":"Path(transitive_closure(x), computes the transitive closure of a list of implications)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fded7970de19487c"}
+# @cctt_verify {"v":2,"sym":"sympy.core.facts.transitive_closure","kind":"function","src_hash":"8575e14cdd133f99","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"transitive_closure(implications)","rhs":"<unspecified:transitive_closure>","over":{"base":"Any"},"name":"transitive_closure_correct"},"guarantee":"computes the transitive closure of a list of implications","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.facts.transitive_closure_correct","statement":"Path(transitive_closure(x), computes the transitive closure of a list of implications)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fded7970de19487c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def transitive_closure(implications):
     """
     Computes the transitive closure of a list of implications
@@ -153,16 +179,22 @@ def transitive_closure(implications):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(deduce_alpha_implications(imp), deduce all implications) over Any ║
+# ║ Path(deduce_alpha_implications(implications), <unspecified:deduce_alpha_implications>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ deduce_alpha_implications : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d8ec13e52cbdce63  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.facts.deduce_alpha_implications","kind":"function","src_hash":"98f0c3d92b1410dc","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: {} of a -> set([b, c, ...])"},"spec":{"lhs":"deduce_alpha_implications(imp)","rhs":"deduce all implications","over":{"base":"Any"},"name":"deduce_alpha_implications_correct"},"guarantee":"deduce all implications","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.facts.deduce_alpha_implications_correct","statement":"Path(deduce_alpha_implications(x), deduce all implications)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d8ec13e52cbdce63"}
+# @cctt_verify {"v":2,"sym":"sympy.core.facts.deduce_alpha_implications","kind":"function","src_hash":"98f0c3d92b1410dc","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: {} of a -> set([b, c, ...])"},"spec":{"lhs":"deduce_alpha_implications(implications)","rhs":"<unspecified:deduce_alpha_implications>","over":{"base":"Any"},"name":"deduce_alpha_implications_correct"},"guarantee":"deduce all implications","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.facts.deduce_alpha_implications_correct","statement":"Path(deduce_alpha_implications(x), deduce all implications)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d8ec13e52cbdce63","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","calls_mutating":["impl.discard"],"raises":["ValueError"]},"state_contract":{"modifies":["impl.*"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def deduce_alpha_implications(implications):
     """deduce all implications
 
@@ -204,7 +236,11 @@ def deduce_alpha_implications(implications):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(apply_beta_to_alpha_route(alp), apply additional beta-rules (and conditions) to already-built alpha implication tables) over {Any | isinstance(bcond, And)} ║
+# ║ Path(apply_beta_to_alpha_route(alpha_implications, beta_rules), len(bb) == old_len_bb + 1) over {Any | isinstance(bcond, And) and hasattr(alpha_implications, 'keys')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(alpha_implications, 'keys')            ║
+# ║   ensures:  len(bb) == old_len_bb + 1                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ apply_beta_to_alpha_route : {Any | isinstance(bcond, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -216,9 +252,12 @@ def deduce_alpha_implications(implications):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.5ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 3ff796b2...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.facts.apply_beta_to_alpha_route","kind":"function","src_hash":"f0b97b1233792f52","in":{"base":"Any","pred":"isinstance(bcond, And)"},"out":{"base":"Any"},"spec":{"lhs":"apply_beta_to_alpha_route(alp)","rhs":"apply additional beta-rules (and conditions) to already-built alpha implication tables","over":{"base":"Any","pred":"isinstance(bcond, And)"},"name":"apply_beta_to_alpha_route_correct"},"guarantee":"apply additional beta-rules (and conditions) to already-built alpha implication tables","fibers":[{"name":"And","pred":"isinstance(bcond, And)","path":{"lhs":"apply_beta_to_alpha_route(x)","rhs":"apply additional beta-rules (and conditions) to already-built alpha implication tables","over":{"base":"And","pred":"isinstance(bcond, And)"},"name":"apply_beta_to_alpha_route_And_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.facts.apply_beta_to_alpha_route_And_correct","statement":"apply_beta_to_alpha_route satisfies spec on And inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"3ff796b2f9007172"}
+# @cctt_verify {"v":2,"sym":"sympy.core.facts.apply_beta_to_alpha_route","kind":"function","src_hash":"f0b97b1233792f52","in":{"base":"Any","pred":"isinstance(bcond, And) and hasattr(alpha_implications, 'keys')"},"out":{"base":"Any","pred":"result satisfies: len(bb) == old_len_bb + 1"},"spec":{"lhs":"apply_beta_to_alpha_route(alpha_implications, beta_rules)","rhs":"len(bb) == old_len_bb + 1","over":{"base":"Any","pred":"isinstance(bcond, And) and hasattr(alpha_implications, 'keys')"},"name":"apply_beta_to_alpha_route_correct"},"guarantee":"len(bb) == old_len_bb + 1","fibers":[{"name":"And","pred":"isinstance(bcond, And)","path":{"lhs":"apply_beta_to_alpha_route(x)","rhs":"len(bb) == old_len_bb + 1","over":{"base":"And","pred":"isinstance(bcond, And)"},"name":"apply_beta_to_alpha_route_And_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.facts.apply_beta_to_alpha_route_And_correct","statement":"apply_beta_to_alpha_route satisfies spec on And inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"3ff796b2f9007172","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(alpha_implications, 'keys')"],"ensures":["len(bb) == old_len_bb + 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["alpha_implications.keys"],"calls_mutating":["bb.append","ximpls.add"],"raises":["TypeError"]},"state_contract":{"modifies":["bb.*","ximpls.*"],"old_bindings":{"old_len_bb":"len(bb)"},"post_ensures":["len(bb) == old_len_bb + 1"],"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.5,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'not isinstance(bcond, And)', 'any((Not(xi) in bargs or Not(xi) == bimpl for xi in x_all))'}, fibers={'And'})"]}}
 def apply_beta_to_alpha_route(alpha_implications, beta_rules):
     """apply additional beta-rules (And conditions) to already-built
     alpha implication tables
@@ -299,9 +338,13 @@ def apply_beta_to_alpha_route(alpha_implications, beta_rules):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rules_2prereq(rul), build prerequisites table from rules) over {Any | isinstance(a, Not)} ║
+# ║ Path(rules_2prereq(rules), <unspecified:rules_2prereq>) over {Any | isinstance(a, Not) and hasattr(rules, 'items')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ rules_2prereq : {Any | isinstance(a, Not)} → {Any | r...   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(rules, 'items')                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ rules_2prereq : {Any | isinstance(a, Not) and hasattr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   Not: {isinstance(a, Not)} → library_axiom                ║
@@ -311,9 +354,12 @@ def apply_beta_to_alpha_route(alpha_implications, beta_rules):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | ce16428b...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.facts.rules_2prereq","kind":"function","src_hash":"0fcd8fbcaa47e952","in":{"base":"Any","pred":"isinstance(a, Not)"},"out":{"base":"Any","pred":"result satisfies: {} of c <- [a, b, ...]"},"spec":{"lhs":"rules_2prereq(rul)","rhs":"build prerequisites table from rules","over":{"base":"Any","pred":"isinstance(a, Not)"},"name":"rules_2prereq_correct"},"guarantee":"build prerequisites table from rules","fibers":[{"name":"Not","pred":"isinstance(a, Not)","path":{"lhs":"rules_2prereq(x)","rhs":"build prerequisites table from rules","over":{"base":"Not","pred":"isinstance(a, Not)"},"name":"rules_2prereq_Not_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.facts.rules_2prereq_Not_correct","statement":"rules_2prereq satisfies spec on Not inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"ce16428bb0db6b8f"}
+# @cctt_verify {"v":2,"sym":"sympy.core.facts.rules_2prereq","kind":"function","src_hash":"0fcd8fbcaa47e952","in":{"base":"Any","pred":"isinstance(a, Not) and hasattr(rules, 'items')"},"out":{"base":"Any","pred":"result satisfies: {} of c <- [a, b, ...]"},"spec":{"lhs":"rules_2prereq(rules)","rhs":"<unspecified:rules_2prereq>","over":{"base":"Any","pred":"isinstance(a, Not) and hasattr(rules, 'items')"},"name":"rules_2prereq_correct"},"guarantee":"build prerequisites table from rules","fibers":[{"name":"Not","pred":"isinstance(a, Not)","path":{"lhs":"rules_2prereq(x)","rhs":"build prerequisites table from rules","over":{"base":"Not","pred":"isinstance(a, Not)"},"name":"rules_2prereq_Not_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.facts.rules_2prereq_Not_correct","statement":"rules_2prereq satisfies spec on Not inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"ce16428bb0db6b8f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(rules, 'items')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["rules.items"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(i, Not)', 'isinstance(a, Not)'}, fibers={'Not'})"]}}
 def rules_2prereq(rules):
     """build prerequisites table from rules
 
@@ -353,16 +399,22 @@ def rules_2prereq(rules):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(TautologyDetected(), correctly constructs a TautologyDetected instance) over Any ║
+# ║ Path(TautologyDetected(), isinstance(self, Exception)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ TautologyDetected : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Exception)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ TautologyDetected : Any → {Any | result satisfies: is...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1f34956b66f96634           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.facts.TautologyDetected","kind":"class","src_hash":"b80767daa4106ec4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"TautologyDetected()","rhs":"correctly constructs a TautologyDetected instance","over":{"base":"Any"},"name":"TautologyDetected_correct"},"guarantee":"correctly constructs a TautologyDetected instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1f34956b66f96634"}
+# @cctt_verify {"v":2,"sym":"sympy.core.facts.TautologyDetected","kind":"class","src_hash":"b80767daa4106ec4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Exception)"},"spec":{"lhs":"TautologyDetected()","rhs":"isinstance(self, Exception)","over":{"base":"Any"},"name":"TautologyDetected_correct"},"guarantee":"isinstance(self, Exception)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1f34956b66f96634","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Exception)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function TautologyDetected not found in source"]}}
 class TautologyDetected(Exception):
     """(internal) Prover uses it for reporting detected tautology"""
     pass
@@ -371,14 +423,19 @@ class TautologyDetected(Exception):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a Prover instance) preserved by Prover(*args) over {Any | isinstance(a, bool) and isinstance(b, And) and isinstance(b, Or)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ Prover : {Any | isinstance(a, bool) and isinstance(b,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5f44416dd7fb4fbe  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.facts.Prover","kind":"class","src_hash":"2055d74984ee641d","in":{"base":"Any","pred":"isinstance(a, bool) and isinstance(b, And) and isinstance(b, Or)"},"out":{"base":"Any"},"spec":{"lhs":"Prover(*args)","rhs":"correctly constructs a Prover instance","over":{"base":"Any","pred":"isinstance(a, bool) and isinstance(b, And) and isinstance(b, Or)"},"name":"Prover_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a Prover instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'proved_rules') and hasattr(self, '_rules_seen')","kind":"class","induction":"structural on proved_rules, _rules_seen"}],"methods_preserving":["__init__","split_alpha_beta","rules_alpha","rules_beta","process_rule","_process_rule"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5f44416dd7fb4fbe"}
+# @cctt_verify {"v":2,"sym":"sympy.core.facts.Prover","kind":"class","src_hash":"2055d74984ee641d","in":{"base":"Any","pred":"isinstance(a, bool) and isinstance(b, And) and isinstance(b, Or)"},"out":{"base":"Any"},"spec":{"lhs":"Prover(*args)","rhs":"correctly constructs a Prover instance","over":{"base":"Any","pred":"isinstance(a, bool) and isinstance(b, And) and isinstance(b, Or)"},"name":"Prover_class_invariant","kind":"invariant"},"guarantee":"preserves 2 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'proved_rules') and hasattr(self, '_rules_seen')","kind":"class","induction":"structural on proved_rules, _rules_seen"}],"methods_preserving":["__init__","split_alpha_beta","rules_alpha","rules_beta","process_rule","_process_rule"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5f44416dd7fb4fbe","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, 'proved_rules')","hasattr(self, '_rules_seen')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":false,"binding_errors":["Function Prover not found in source"]}}
 class Prover:
     """ai - prover of logic rules
 
@@ -409,31 +466,43 @@ class Prover:
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(), initializes the instance correctly) over Any ║
+# ║ Path(__init__(), <unspecified:__init__>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __init__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | af546f3cc6666a8a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.facts.Prover.__init__","kind":"method","src_hash":"4ad7aac2a9a547b1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__()","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"af546f3cc6666a8a"}
+# @cctt_verify {"v":2,"sym":"sympy.core.facts.Prover.__init__","kind":"method","src_hash":"4ad7aac2a9a547b1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__()","rhs":"<unspecified:__init__>","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"af546f3cc6666a8a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self):
         self.proved_rules = []
         self._rules_seen = set()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(split_alpha_beta(), split proved rules into alpha and beta chains) over Any ║
+# ║ Path(split_alpha_beta(), (rules_alpha, rules_beta)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (rules_alpha, rules_beta)                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ split_alpha_beta : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 815439faec0a9bd1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5d6bc8acde2ae02a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.facts.Prover.split_alpha_beta","kind":"method","src_hash":"8989dbb6b431d957","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"split_alpha_beta()","rhs":"split proved rules into alpha and beta chains","over":{"base":"Any"},"name":"split_alpha_beta_correct"},"guarantee":"split proved rules into alpha and beta chains","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.facts.Prover.split_alpha_beta_correct","statement":"Path(split_alpha_beta(x), split proved rules into alpha and beta chains)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"815439faec0a9bd1"}
+# @cctt_verify {"v":2,"sym":"sympy.core.facts.Prover.split_alpha_beta","kind":"method","src_hash":"8989dbb6b431d957","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"split_alpha_beta()","rhs":"(rules_alpha, rules_beta)","over":{"base":"Any"},"name":"split_alpha_beta_correct"},"guarantee":"returns (rules_alpha, rules_beta)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.facts.Prover.split_alpha_beta_correct","statement":"Path(split_alpha_beta(x), returns (rules_alpha, rules_beta))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5d6bc8acde2ae02a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(rules_alpha, rules_beta)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def split_alpha_beta(self):
         """split proved rules into alpha and beta chains"""
         rules_alpha = []    # a      -> b
@@ -447,45 +516,63 @@ class Prover:
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rules_alpha(), returns the rules_alpha attribute) over Any ║
+# ║ Path(rules_alpha(), self.split_alpha_beta()[0]) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.split_alpha_beta()[0]                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ rules_alpha : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 26a5f486ade6b482           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.facts.Prover.rules_alpha","kind":"property","src_hash":"9c1f24569719fe5d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rules_alpha()","rhs":"returns the rules_alpha attribute","over":{"base":"Any"},"name":"rules_alpha_correct"},"guarantee":"returns the rules_alpha attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"26a5f486ade6b482"}
+# @cctt_verify {"v":2,"sym":"sympy.core.facts.Prover.rules_alpha","kind":"property","src_hash":"9c1f24569719fe5d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rules_alpha()","rhs":"self.split_alpha_beta()[0]","over":{"base":"Any"},"name":"rules_alpha_correct"},"guarantee":"returns self.split_alpha_beta()[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"26a5f486ade6b482","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.split_alpha_beta()[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.split_alpha_beta"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def rules_alpha(self):
         return self.split_alpha_beta()[0]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rules_beta(), returns the rules_beta attribute) over Any ║
+# ║ Path(rules_beta(), self.split_alpha_beta()[1]) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.split_alpha_beta()[1]                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ rules_beta : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c839119ff91b3f08           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.facts.Prover.rules_beta","kind":"property","src_hash":"30376fda81a5924b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rules_beta()","rhs":"returns the rules_beta attribute","over":{"base":"Any"},"name":"rules_beta_correct"},"guarantee":"returns the rules_beta attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c839119ff91b3f08"}
+# @cctt_verify {"v":2,"sym":"sympy.core.facts.Prover.rules_beta","kind":"property","src_hash":"30376fda81a5924b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rules_beta()","rhs":"self.split_alpha_beta()[1]","over":{"base":"Any"},"name":"rules_beta_correct"},"guarantee":"returns self.split_alpha_beta()[1]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c839119ff91b3f08","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.split_alpha_beta()[1]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.split_alpha_beta"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def rules_beta(self):
         return self.split_alpha_beta()[1]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(process_rule(a, ), process a -> b rule) over Any      ║
+# ║ Path(process_rule(a, b), <unspecified:process_rule>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ process_rule : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 91add82fb788b269  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.facts.Prover.process_rule","kind":"method","src_hash":"f84ef09041ff7b89","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"process_rule(a, )","rhs":"process a -> b rule","over":{"base":"Any"},"name":"process_rule_correct"},"guarantee":"process a -> b rule","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.facts.Prover.process_rule_correct","statement":"Path(process_rule(x), process a -> b rule)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"91add82fb788b269"}
+# @cctt_verify {"v":2,"sym":"sympy.core.facts.Prover.process_rule","kind":"method","src_hash":"f84ef09041ff7b89","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"process_rule(a, b)","rhs":"<unspecified:process_rule>","over":{"base":"Any"},"name":"process_rule_correct"},"guarantee":"process a -> b rule","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.facts.Prover.process_rule_correct","statement":"Path(process_rule(x), process a -> b rule)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"91add82fb788b269","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._process_rule","self._rules_seen"],"calls_mutating":["self._rules_seen.add"],"catches":["TautologyDetected"]},"state_contract":{"modifies":["self.*"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def process_rule(self, a, b):
         """process a -> b rule"""   # TODO write more?
         if (not a) or isinstance(b, bool):
@@ -504,16 +591,24 @@ class Prover:
             pass
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_process_rule(a, ), internal helper behaves correctly) over Any ║
+# ║ Path(_process_rule(a, b), len(self) == old_len_self + 1) over {Any | hasattr(b, 'args') and hasattr(a, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _process_rule : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(b, 'args')                             ║
+# ║   requires: hasattr(a, 'args')                             ║
+# ║   ensures:  len(self) == old_len_self + 1                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _process_rule : {Any | hasattr(b, 'args') and hasattr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 54b61edcfca5f5fe  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0e81071608708a1f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.facts.Prover._process_rule","kind":"method","src_hash":"da4fd632f9a794fb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_process_rule(a, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_process_rule_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.facts.Prover._process_rule_correct","statement":"Path(_process_rule(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"54b61edcfca5f5fe"}
+# @cctt_verify {"v":2,"sym":"sympy.core.facts.Prover._process_rule","kind":"method","src_hash":"da4fd632f9a794fb","in":{"base":"Any","pred":"hasattr(b, 'args') and hasattr(a, 'args')"},"out":{"base":"Any","pred":"result satisfies: len(self) == old_len_self + 1"},"spec":{"lhs":"_process_rule(a, b)","rhs":"len(self) == old_len_self + 1","over":{"base":"Any","pred":"hasattr(b, 'args') and hasattr(a, 'args')"},"name":"_process_rule_correct"},"guarantee":"len(self) == old_len_self + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.facts.Prover._process_rule_correct","statement":"Path(_process_rule(x), len(self) == old_len_self + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0e81071608708a1f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(b, 'args')","hasattr(a, 'args')"],"ensures":["len(self) == old_len_self + 1"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["a.args","b.args","self.process_rule","self.proved_rules"],"calls_mutating":["self.proved_rules.append"],"raises":["TautologyDetected"]},"state_contract":{"modifies":["self.*"],"old_bindings":{"old_len_self":"len(self)"},"post_ensures":["len(self) == old_len_self + 1"],"exceptional_post":{"TautologyDetected":["isinstance(raised, TautologyDetected)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _process_rule(self, a, b):
         # right part first
 
@@ -571,14 +666,19 @@ class Prover:
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a FactRules instance) preserved by FactRules(*args) over {Any | isinstance(rules, str)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ FactRules : {Any | isinstance(rules, str)} → Any           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3671331d3bc97bdd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.facts.FactRules","kind":"class","src_hash":"0e9cac88a083ed5a","in":{"base":"Any","pred":"isinstance(rules, str)"},"out":{"base":"Any"},"spec":{"lhs":"FactRules(*args)","rhs":"correctly constructs a FactRules instance","over":{"base":"Any","pred":"isinstance(rules, str)"},"name":"FactRules_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a FactRules instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'beta_rules') and hasattr(self, 'defined_facts') and hasattr(self, 'full_implications') and hasattr(self, 'beta_triggers') and hasattr(self, 'prereq')","kind":"class","induction":"structural on beta_rules, defined_facts, full_implications, beta_triggers"}],"methods_preserving":["__init__","_to_python","_defined_facts_lines","_full_implications_lines","_prereq_lines","_beta_rules_lines","print_rules"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3671331d3bc97bdd"}
+# @cctt_verify {"v":2,"sym":"sympy.core.facts.FactRules","kind":"class","src_hash":"0e9cac88a083ed5a","in":{"base":"Any","pred":"isinstance(rules, str)"},"out":{"base":"Any"},"spec":{"lhs":"FactRules(*args)","rhs":"correctly constructs a FactRules instance","over":{"base":"Any","pred":"isinstance(rules, str)"},"name":"FactRules_class_invariant","kind":"invariant"},"guarantee":"preserves 5 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'beta_rules') and hasattr(self, 'defined_facts') and hasattr(self, 'full_implications') and hasattr(self, 'beta_triggers') and hasattr(self, 'prereq')","kind":"class","induction":"structural on beta_rules, defined_facts, full_implications, beta_triggers"}],"methods_preserving":["__init__","_to_python","_defined_facts_lines","_full_implications_lines","_prereq_lines","_beta_rules_lines","print_rules"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3671331d3bc97bdd","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, 'beta_rules')","hasattr(self, 'defined_facts')","hasattr(self, 'full_implications')","hasattr(self, 'beta_triggers')","hasattr(self, 'prereq')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"assumed","binding":false,"binding_errors":["Function FactRules not found in source"]}}
 class FactRules:
     """Rules that describe how to deduce facts in logic space
 
@@ -611,16 +711,23 @@ class FactRules:
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(rul), initializes the instance correctly) over Any ║
+# ║ Path(__init__(rules), len(self) == old_len_self + 1) over {Any | hasattr(rules, 'splitlines')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(rules, 'splitlines')                   ║
+# ║   ensures:  len(self) == old_len_self + 1                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : {Any | hasattr(rules, 'splitlines')} → {An...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 104f3a6ea374f7f0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.facts.FactRules.__init__","kind":"method","src_hash":"c95c3c2507575d9c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(rul)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"104f3a6ea374f7f0"}
+# @cctt_verify {"v":2,"sym":"sympy.core.facts.FactRules.__init__","kind":"method","src_hash":"c95c3c2507575d9c","in":{"base":"Any","pred":"hasattr(rules, 'splitlines')"},"out":{"base":"Any","pred":"result satisfies: len(self) == old_len_self + 1"},"spec":{"lhs":"__init__(rules)","rhs":"len(self) == old_len_self + 1","over":{"base":"Any","pred":"hasattr(rules, 'splitlines')"},"name":"__init___correct"},"guarantee":"len(self) == old_len_self + 1","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"104f3a6ea374f7f0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(rules, 'splitlines')"],"ensures":["len(self) == old_len_self + 1"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["rules.splitlines","self.beta_rules"],"writes":["self.beta_rules","self.beta_triggers","self.defined_facts","self.full_implications","self.prereq"],"calls_mutating":["self.beta_rules.append"],"raises":["ValueError"]},"state_contract":{"modifies":["self.*","self.beta_rules","self.beta_triggers","self.defined_facts","self.full_implications","self.prereq"],"old_bindings":{"old_self_beta_rules":"self.beta_rules","old_self_beta_triggers":"self.beta_triggers","old_self_defined_facts":"self.defined_facts","old_self_full_implications":"self.full_implications","old_self_prereq":"self.prereq","old_len_self":"len(self)"},"post_ensures":["len(self) == old_len_self + 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, rules):
         """Compile rules into internal lookup tables"""
 
@@ -681,32 +788,46 @@ class FactRules:
         self.prereq = prereq
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_to_python(), generate a string with plain python representation of the instance) over Any ║
+# ║ Path(_to_python(), '\n'.join(self.print_rules())) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _to_python : Any → str                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, str)                        ║
+# ║   returns:  '\n'.join(self.print_rules())                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _to_python : Any → {str | result satisfies: result ==...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a8dd7bfbf32265bc           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.facts.FactRules._to_python","kind":"method","src_hash":"64eb3b0733cadfb8","in":{"base":"Any"},"out":{"base":"str"},"spec":{"lhs":"_to_python()","rhs":"generate a string with plain python representation of the instance","over":{"base":"Any"},"name":"_to_python_correct"},"guarantee":"generate a string with plain python representation of the instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a8dd7bfbf32265bc"}
+# @cctt_verify {"v":2,"sym":"sympy.core.facts.FactRules._to_python","kind":"method","src_hash":"64eb3b0733cadfb8","in":{"base":"Any"},"out":{"base":"str","pred":"result satisfies: result == ('\\n'.join(self.print_rules()))"},"spec":{"lhs":"_to_python()","rhs":"'\\n'.join(self.print_rules())","over":{"base":"Any"},"name":"_to_python_correct"},"guarantee":"returns '\\n'.join(self.print_rules()); isinstance(result, str)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a8dd7bfbf32265bc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, str)"],"returns_expr":"'\\n'.join(self.print_rules())","pure":false,"effects":{"effect_type":"reads_state","reads":["self.print_rules"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _to_python(self) -> str:
         """ Generate a string with plain python representation of the instance """
         return '\n'.join(self.print_rules())
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_from_python(cls), generate an instance from the plain python representation) over Any ║
+# ║ Path(_from_python(cls, data), <unspecified:_from_python>) over {Any | isinstance(data, dict)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _from_python : Any → Any                                   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(data, dict)                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _from_python : {Any | isinstance(data, dict)} → Any        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 727735f4a74897b8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.facts.FactRules._from_python","kind":"classmethod","src_hash":"d691da4addde24d7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_from_python(cls)","rhs":"generate an instance from the plain python representation","over":{"base":"Any"},"name":"_from_python_correct"},"guarantee":"generate an instance from the plain python representation","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.facts.FactRules._from_python_correct","statement":"Path(_from_python(x), generate an instance from the plain python representation)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"727735f4a74897b8"}
+# @cctt_verify {"v":2,"sym":"sympy.core.facts.FactRules._from_python","kind":"classmethod","src_hash":"d691da4addde24d7","in":{"base":"Any","pred":"isinstance(data, dict)"},"out":{"base":"Any"},"spec":{"lhs":"_from_python(cls, data)","rhs":"<unspecified:_from_python>","over":{"base":"Any","pred":"isinstance(data, dict)"},"name":"_from_python_correct"},"guarantee":"generate an instance from the plain python representation","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.facts.FactRules._from_python_correct","statement":"Path(_from_python(x), generate an instance from the plain python representation)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"727735f4a74897b8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(data, dict)"],"pure":false,"effects":{"effect_type":"mutates_self","calls_mutating":["d.update"]},"state_contract":{"modifies":["d.*"],"old_bindings":{"old_len_d":"len(d)"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _from_python(cls, data : dict):
         """ Generate an instance from the plain python representation """
         self = cls('')
@@ -720,16 +841,22 @@ class FactRules:
         return self
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_defined_facts_lines(), internal helper behaves correctly) over Any ║
+# ║ Path(_defined_facts_lines(), <unspecified:_defined_facts_lines>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _defined_facts_lines : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fff4cedd1e5651d2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.facts.FactRules._defined_facts_lines","kind":"method","src_hash":"5d4c887a78367176","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_defined_facts_lines()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_defined_facts_lines_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.facts.FactRules._defined_facts_lines_correct","statement":"Path(_defined_facts_lines(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fff4cedd1e5651d2"}
+# @cctt_verify {"v":2,"sym":"sympy.core.facts.FactRules._defined_facts_lines","kind":"method","src_hash":"5d4c887a78367176","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_defined_facts_lines()","rhs":"<unspecified:_defined_facts_lines>","over":{"base":"Any"},"name":"_defined_facts_lines_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.facts.FactRules._defined_facts_lines_correct","statement":"Path(_defined_facts_lines(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fff4cedd1e5651d2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.defined_facts"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _defined_facts_lines(self):
         yield 'defined_facts = ['
         for fact in sorted(self.defined_facts):
@@ -737,16 +864,22 @@ class FactRules:
         yield '] # defined_facts'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_full_implications_lines(), internal helper behaves correctly) over Any ║
+# ║ Path(_full_implications_lines(), <unspecified:_full_implications_lines>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _full_implications_lines : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4dcee88df3dcf918  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.facts.FactRules._full_implications_lines","kind":"method","src_hash":"d238f0fb74a04e97","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_full_implications_lines()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_full_implications_lines_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.facts.FactRules._full_implications_lines_correct","statement":"Path(_full_implications_lines(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4dcee88df3dcf918"}
+# @cctt_verify {"v":2,"sym":"sympy.core.facts.FactRules._full_implications_lines","kind":"method","src_hash":"d238f0fb74a04e97","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_full_implications_lines()","rhs":"<unspecified:_full_implications_lines>","over":{"base":"Any"},"name":"_full_implications_lines_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.facts.FactRules._full_implications_lines_correct","statement":"Path(_full_implications_lines(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4dcee88df3dcf918","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.defined_facts","self.full_implications"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _full_implications_lines(self):
         yield 'full_implications = dict( ['
         for fact in sorted(self.defined_facts):
@@ -761,16 +894,22 @@ class FactRules:
         yield ' ] ) # full_implications'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_prereq_lines(), internal helper behaves correctly) over Any ║
+# ║ Path(_prereq_lines(), <unspecified:_prereq_lines>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _prereq_lines : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 291a96b62ad7c397  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.facts.FactRules._prereq_lines","kind":"method","src_hash":"6b07dbaba823745b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_prereq_lines()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_prereq_lines_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.facts.FactRules._prereq_lines_correct","statement":"Path(_prereq_lines(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"291a96b62ad7c397"}
+# @cctt_verify {"v":2,"sym":"sympy.core.facts.FactRules._prereq_lines","kind":"method","src_hash":"6b07dbaba823745b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_prereq_lines()","rhs":"<unspecified:_prereq_lines>","over":{"base":"Any"},"name":"_prereq_lines_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.facts.FactRules._prereq_lines_correct","statement":"Path(_prereq_lines(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"291a96b62ad7c397","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.prereq"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _prereq_lines(self):
         yield 'prereq = {'
         yield ''
@@ -784,16 +923,22 @@ class FactRules:
         yield '} # prereq'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_beta_rules_lines(), internal helper behaves correctly) over Any ║
+# ║ Path(_beta_rules_lines(), <unspecified:_beta_rules_lines>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _beta_rules_lines : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 16326e7717e0f298  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.facts.FactRules._beta_rules_lines","kind":"method","src_hash":"349c11fde9a09822","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_beta_rules_lines()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_beta_rules_lines_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.facts.FactRules._beta_rules_lines_correct","statement":"Path(_beta_rules_lines(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"16326e7717e0f298"}
+# @cctt_verify {"v":2,"sym":"sympy.core.facts.FactRules._beta_rules_lines","kind":"method","src_hash":"349c11fde9a09822","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_beta_rules_lines()","rhs":"<unspecified:_beta_rules_lines>","over":{"base":"Any"},"name":"_beta_rules_lines_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.facts.FactRules._beta_rules_lines_correct","statement":"Path(_beta_rules_lines(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"16326e7717e0f298","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.beta_rules","self.beta_triggers"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _beta_rules_lines(self):
         reverse_implications = defaultdict(list)
         for n, (pre, implied) in enumerate(self.beta_rules):
@@ -824,16 +969,22 @@ class FactRules:
         yield '} # beta_triggers'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(print_rules(), returns a generator with lines to represent the facts and rules) over Any ║
+# ║ Path(print_rules(), isinstance(result, Iterator[str])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ print_rules : Any → Iterator[str]                          ║
+# ║ C4 Spec [static] strength=partial                          ║
+# ║   ensures:  isinstance(result, Iterator[str])              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ print_rules : Any → {Iterator[str] | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e3159715238c1032  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 35b908562fb97c1e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.facts.FactRules.print_rules","kind":"method","src_hash":"9f796e72e01eb770","in":{"base":"Any"},"out":{"base":"Iterator[str]"},"spec":{"lhs":"print_rules()","rhs":"returns a generator with lines to represent the facts and rules","over":{"base":"Any"},"name":"print_rules_correct"},"guarantee":"returns a generator with lines to represent the facts and rules","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.facts.FactRules.print_rules_correct","statement":"Path(print_rules(x), returns a generator with lines to represent the facts and rules)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e3159715238c1032"}
+# @cctt_verify {"v":2,"sym":"sympy.core.facts.FactRules.print_rules","kind":"method","src_hash":"9f796e72e01eb770","in":{"base":"Any"},"out":{"base":"Iterator[str]","pred":"result satisfies: isinstance(result, Iterator[str])"},"spec":{"lhs":"print_rules()","rhs":"isinstance(result, Iterator[str])","over":{"base":"Any"},"name":"print_rules_correct"},"guarantee":"isinstance(result, Iterator[str])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.facts.FactRules.print_rules_correct","statement":"Path(print_rules(x), isinstance(result, Iterator[str]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"35b908562fb97c1e","spec_source":"static","formal_spec":{"source":"static","strength":"partial","ensures":["isinstance(result, Iterator[str])"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._beta_rules_lines","self._defined_facts_lines","self._full_implications_lines","self._prereq_lines"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def print_rules(self) -> Iterator[str]:
         """ Returns a generator with lines to represent the facts and rules """
         yield from self._defined_facts_lines()
@@ -855,26 +1006,38 @@ class FactRules:
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(InconsistentAssumptions(*args), correctly constructs a InconsistentAssumptions instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ InconsistentAssumptions : Any → Any                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, ValueError)                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ InconsistentAssumptions : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 47dda324f19cf66a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.facts.InconsistentAssumptions","kind":"class","src_hash":"d17dded32ea1d829","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"InconsistentAssumptions(*args)","rhs":"correctly constructs a InconsistentAssumptions instance","over":{"base":"Any"},"name":"InconsistentAssumptions_class_invariant"},"guarantee":"correctly constructs a InconsistentAssumptions instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"47dda324f19cf66a"}
+# @cctt_verify {"v":2,"sym":"sympy.core.facts.InconsistentAssumptions","kind":"class","src_hash":"d17dded32ea1d829","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, ValueError)"},"spec":{"lhs":"InconsistentAssumptions(*args)","rhs":"correctly constructs a InconsistentAssumptions instance","over":{"base":"Any"},"name":"InconsistentAssumptions_class_invariant"},"guarantee":"isinstance(self, ValueError)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"47dda324f19cf66a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, ValueError)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function InconsistentAssumptions not found in source"]}}
 class InconsistentAssumptions(ValueError):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__str__(), returns a human-readable string) over Any  ║
+# ║ Path(__str__(), '%s, %s=%s' % (kb, fact, value)) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  '%s, %s=%s' % (kb, fact, value)                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __str__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1a26366d24e44391           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.facts.InconsistentAssumptions.__str__","kind":"method","src_hash":"f16f6d9b72bed596","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"returns a human-readable string","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1a26366d24e44391"}
+# @cctt_verify {"v":2,"sym":"sympy.core.facts.InconsistentAssumptions.__str__","kind":"method","src_hash":"f16f6d9b72bed596","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"'%s, %s=%s' % (kb, fact, value)","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns '%s, %s=%s' % (kb, fact, value)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1a26366d24e44391","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'%s, %s=%s' % (kb, fact, value)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __str__(self):
         kb, fact, value = self.args
         return "%s, %s=%s" % (kb, fact, value)
@@ -883,58 +1046,83 @@ class InconsistentAssumptions(ValueError):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a FactKB instance) preserved by FactKB(*args) over {Any | isinstance(facts, dict)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ FactKB : {Any | isinstance(facts, dict)} → Any             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, dict)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ FactKB : {Any | isinstance(facts, dict)} → {Any | res...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 85c98fd6c806ebe4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.facts.FactKB","kind":"class","src_hash":"9f4d852ecd71f05b","in":{"base":"Any","pred":"isinstance(facts, dict)"},"out":{"base":"Any"},"spec":{"lhs":"FactKB(*args)","rhs":"correctly constructs a FactKB instance","over":{"base":"Any","pred":"isinstance(facts, dict)"},"name":"FactKB_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a FactKB instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'rules')","kind":"class","induction":"structural on rules"}],"methods_preserving":["__str__","__init__","_tell","deduce_all_facts"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"85c98fd6c806ebe4"}
+# @cctt_verify {"v":2,"sym":"sympy.core.facts.FactKB","kind":"class","src_hash":"9f4d852ecd71f05b","in":{"base":"Any","pred":"isinstance(facts, dict)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, dict)"},"spec":{"lhs":"FactKB(*args)","rhs":"correctly constructs a FactKB instance","over":{"base":"Any","pred":"isinstance(facts, dict)"},"name":"FactKB_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, dict); preserves 1 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'rules')","kind":"class","induction":"structural on rules"}],"methods_preserving":["__str__","__init__","_tell","deduce_all_facts"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"85c98fd6c806ebe4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, dict)"],"invariants":["hasattr(self, 'rules')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function FactKB not found in source"]}}
 class FactKB(dict):
     """
     A simple propositional knowledge base relying on compiled inference rules.
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__str__(), returns a human-readable string) over Any  ║
+# ║ Path(__str__(), '{\n%s}' % ',\n'.join(['\t%s: %s' % i for i in sorted(self.items())])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  '{\n%s}' % ',\n'.join(['\t%s: %s' % i for...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __str__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8c4828af453905d3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.facts.FactKB.__str__","kind":"method","src_hash":"32d914123296c67e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"returns a human-readable string","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8c4828af453905d3"}
+# @cctt_verify {"v":2,"sym":"sympy.core.facts.FactKB.__str__","kind":"method","src_hash":"32d914123296c67e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"'{\\n%s}' % ',\\n'.join(['\\t%s: %s' % i for i in sorted(self.items())])","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns '{\\n%s}' % ',\\n'.join(['\\t%s: %s' % i for i in sorted(self.items())])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8c4828af453905d3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'{\\n%s}' % ',\\n'.join(['\\t%s: %s' % i for i in sorted(self.items())])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.items"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __str__(self):
         return '{\n%s}' % ',\n'.join(
             ["\t%s: %s" % i for i in sorted(self.items())])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(rul), initializes the instance correctly) over Any ║
+# ║ Path(__init__(rules), self.rules == rules) over Any        ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  self.rules == rules                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : Any → {Any | result satisfies: self.rules ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0205a1827e3c1019           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.facts.FactKB.__init__","kind":"method","src_hash":"ff0173225ed8070e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(rul)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0205a1827e3c1019"}
+# @cctt_verify {"v":2,"sym":"sympy.core.facts.FactKB.__init__","kind":"method","src_hash":"ff0173225ed8070e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: self.rules == rules"},"spec":{"lhs":"__init__(rules)","rhs":"self.rules == rules","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"self.rules == rules","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0205a1827e3c1019","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["self.rules == rules"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, rules):
         self.rules = rules
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_tell(k, ), add fact k=v to the knowledge base) over Any ║
+# ║ Path(_tell(k, v), <unspecified:_tell>) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: k in self and self[k] is not None         ║
+# ║   fiber[case_1]: not (k in self and self[k] is not No...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _tell : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 40e4d60df1226805  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3f691a284efb0c37  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.facts.FactKB._tell","kind":"method","src_hash":"59346aae4736ed7c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_tell(k, )","rhs":"add fact k=v to the knowledge base","over":{"base":"Any"},"name":"_tell_correct"},"guarantee":"add fact k=v to the knowledge base","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.facts.FactKB._tell_correct","statement":"Path(_tell(x), add fact k=v to the knowledge base)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"40e4d60df1226805"}
+# @cctt_verify {"v":2,"sym":"sympy.core.facts.FactKB._tell","kind":"method","src_hash":"59346aae4736ed7c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_tell(k, v)","rhs":"<unspecified:_tell>","over":{"base":"Any"},"name":"_tell_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.facts.FactKB._tell_correct","statement":"Path(_tell(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3f691a284efb0c37","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"k in self and self[k] is not None","ensures":[],"decidability":"library"},{"name":"case_1","guard":"not (k in self and self[k] is not None)","ensures":["result == True"],"decidability":"library","returns_expr":"True"}],"pure":false,"effects":{"effect_type":"mutates_self","writes":["self[*]"],"raises":["InconsistentAssumptions"]},"state_contract":{"modifies":["self[*]"],"old_bindings":{"old_self_star":"self[*]"},"exceptional_post":{"InconsistentAssumptions":["isinstance(raised, InconsistentAssumptions)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _tell(self, k, v):
         """Add fact k=v to the knowledge base.
 
@@ -953,16 +1141,24 @@ class FactKB(dict):
     # * This is the workhorse, so keep it *fast*. *
     # *********************************************
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(deduce_all_facts(fac), update the kb with all the implications of a list of facts) over Any ║
+# ║ Path(deduce_all_facts(facts), len(facts) == old_len_facts + 1) over {Any | hasattr(facts, 'items') and hasattr(facts, 'append')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ deduce_all_facts : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(facts, 'items')                        ║
+# ║   requires: hasattr(facts, 'append')                       ║
+# ║   ensures:  len(facts) == old_len_facts + 1                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ deduce_all_facts : {Any | hasattr(facts, 'items') and...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4531d9c40ea4d5e6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 95f473752bd45501  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.facts.FactKB.deduce_all_facts","kind":"method","src_hash":"3691afbbd5a95ab6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"deduce_all_facts(fac)","rhs":"update the kb with all the implications of a list of facts","over":{"base":"Any"},"name":"deduce_all_facts_correct"},"guarantee":"update the kb with all the implications of a list of facts","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.facts.FactKB.deduce_all_facts_correct","statement":"Path(deduce_all_facts(x), update the kb with all the implications of a list of facts)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4531d9c40ea4d5e6"}
+# @cctt_verify {"v":2,"sym":"sympy.core.facts.FactKB.deduce_all_facts","kind":"method","src_hash":"3691afbbd5a95ab6","in":{"base":"Any","pred":"hasattr(facts, 'items') and hasattr(facts, 'append')"},"out":{"base":"Any","pred":"result satisfies: len(facts) == old_len_facts + 1"},"spec":{"lhs":"deduce_all_facts(facts)","rhs":"len(facts) == old_len_facts + 1","over":{"base":"Any","pred":"hasattr(facts, 'items') and hasattr(facts, 'append')"},"name":"deduce_all_facts_correct"},"guarantee":"len(facts) == old_len_facts + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.facts.FactKB.deduce_all_facts_correct","statement":"Path(deduce_all_facts(x), len(facts) == old_len_facts + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"95f473752bd45501","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(facts, 'items')","hasattr(facts, 'append')"],"ensures":["len(facts) == old_len_facts + 1"],"pure":false,"effects":{"effect_type":"mutates_args","reads":["facts.append","facts.items","self._tell","self.get","self.rules"],"calls_mutating":["beta_maytrigger.update","facts.append"]},"state_contract":{"modifies":["beta_maytrigger.*","facts.*"],"old_bindings":{"old_len_beta_maytrigger":"len(beta_maytrigger)","old_len_facts":"len(facts)"},"post_ensures":["len(facts) == old_len_facts + 1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def deduce_all_facts(self, facts):
         """
         Update the KB with all the implications of a list of facts.

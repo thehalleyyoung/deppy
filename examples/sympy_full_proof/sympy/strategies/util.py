@@ -21,16 +21,24 @@ new = Basic.__new__
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(assoc(d, ), assoc produces the expected output) over Any ║
+# ║ Path(assoc(d, k, v), d) over {Any | hasattr(d, 'copy')}    ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ assoc : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(d, 'copy')                             ║
+# ║   ensures:  result == d                                    ║
+# ║   returns:  d                                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ assoc : {Any | hasattr(d, 'copy')} → {Any | result sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5ccb973555d3f7ca  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e0611c6687132dd0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.strategies.util.assoc","kind":"function","src_hash":"42f6f6bf77a09ab2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"assoc(d, )","rhs":"assoc produces the expected output","over":{"base":"Any"},"name":"assoc_correct"},"guarantee":"assoc produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.util.assoc_correct","statement":"Path(assoc(x), assoc produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5ccb973555d3f7ca"}
+# @cctt_verify {"v":2,"sym":"sympy.strategies.util.assoc","kind":"function","src_hash":"42f6f6bf77a09ab2","in":{"base":"Any","pred":"hasattr(d, 'copy')"},"out":{"base":"Any","pred":"result satisfies: result == (d)"},"spec":{"lhs":"assoc(d, k, v)","rhs":"d","over":{"base":"Any","pred":"hasattr(d, 'copy')"},"name":"assoc_correct"},"guarantee":"returns d; result == d","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.util.assoc_correct","statement":"Path(assoc(x), returns d; result == d)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e0611c6687132dd0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(d, 'copy')"],"ensures":["result == d"],"returns_expr":"d","pure":false,"effects":{"effect_type":"mutates_args","reads":["d.copy"],"writes":["d[*]"]},"state_contract":{"modifies":["d[*]"],"old_bindings":{"old_d_star":"d[*]"}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def assoc(d, k, v):
     d = d.copy()
     d[k] = v

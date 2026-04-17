@@ -94,16 +94,24 @@ z = Dummy('z')
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_has(res), internal helper behaves correctly) over Any ║
+# ║ Path(_has(res, *f), # HINT: _has may be idempotent: _has(_has(x)) == _has(x)) over {Any | hasattr(res, 'has') and hasattr(res, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _has : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(res, 'has')                            ║
+# ║   requires: hasattr(res, 'args')                           ║
+# ║   ensures:  # HINT: _has may be idempotent: _has(_has...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _has : {Any | hasattr(res, 'has') and hasattr(res, 'a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bb3c9466e4e85476  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9d1d1466d6580ec2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.meijerint._has","kind":"function","src_hash":"ec476f3281b5c5d0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_has(res)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_has_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.meijerint._has_correct","statement":"Path(_has(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bb3c9466e4e85476"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.meijerint._has","kind":"function","src_hash":"ec476f3281b5c5d0","in":{"base":"Any","pred":"hasattr(res, 'has') and hasattr(res, 'args')"},"out":{"base":"Any","pred":"result satisfies: # HINT: _has may be idempotent: _has(_has(x)) == _has(x)"},"spec":{"lhs":"_has(res, *f)","rhs":"# HINT: _has may be idempotent: _has(_has(x)) == _has(x)","over":{"base":"Any","pred":"hasattr(res, 'has') and hasattr(res, 'args')"},"name":"_has_correct"},"guarantee":"# HINT: _has may be idempotent: _has(_has(x)) == _has(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.meijerint._has_correct","statement":"Path(_has(x), # HINT: _has may be idempotent: _has(_has(x)) == _has(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9d1d1466d6580ec2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(res, 'has')","hasattr(res, 'args')"],"ensures":["# HINT: _has may be idempotent: _has(_has(x)) == _has(x)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["res.args","res.has"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['res'], spec=['res', '*f']"]}}
 def _has(res, *f):
     # return True if res has f; in the case of Piecewise
     # only return True if *all* pieces have f
@@ -114,16 +122,23 @@ def _has(res, *f):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_create_lookup_table(tab), add formulae for the function -> meijerg lookup table) over Any ║
+# ║ Path(_create_lookup_table(table), <unspecified:_create_lookup_table>) over {Any | hasattr(table, 'setdefault')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _create_lookup_table : Any → Any                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(table, 'setdefault')                   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _create_lookup_table : {Any | hasattr(table, 'setdefa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 2.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6df48a6de2fe1561  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.meijerint._create_lookup_table","kind":"function","src_hash":"2e820d6c324212f6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_create_lookup_table(tab)","rhs":"add formulae for the function -> meijerg lookup table","over":{"base":"Any"},"name":"_create_lookup_table_correct"},"guarantee":"add formulae for the function -> meijerg lookup table","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.meijerint._create_lookup_table_correct","statement":"Path(_create_lookup_table(x), add formulae for the function -> meijerg lookup table)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6df48a6de2fe1561"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.meijerint._create_lookup_table","kind":"function","src_hash":"2e820d6c324212f6","in":{"base":"Any","pred":"hasattr(table, 'setdefault')"},"out":{"base":"Any"},"spec":{"lhs":"_create_lookup_table(table)","rhs":"<unspecified:_create_lookup_table>","over":{"base":"Any","pred":"hasattr(table, 'setdefault')"},"name":"_create_lookup_table_correct"},"guarantee":"add formulae for the function -> meijerg lookup table","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.meijerint._create_lookup_table_correct","statement":"Path(_create_lookup_table(x), add formulae for the function -> meijerg lookup table)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6df48a6de2fe1561","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(table, 'setdefault')"],"pure":false,"effects":{"effect_type":"mutates_args","reads":["table.setdefault"],"writes":["table[*]"],"calls_mutating":["table.setdefault"]},"state_contract":{"modifies":["table.*","table[*]"],"old_bindings":{"old_table_star":"table[*]"}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.6,"verdict_class":"assumed","binding":true}}
 def _create_lookup_table(table):
     """ Add formulae for the function -> meijerg lookup table. """
     def wild(n):
@@ -338,16 +353,29 @@ timeit = timethis('meijerg')
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_mytype(f, ), create a hashable entity describing the type of f) over Basic ║
+# ║ Path(_mytype(f, x), isinstance(result, tuple) and result == (() if x not in f.free_symbols else (type(f),)) and result == () or result == (type(f),)) over {Basic | isinstance(f, Basic) and isinstance(x, Symbol) and hasattr(f, 'free_symbols') and hasattr(f, 'is_Function') and hasattr(x, 'class_key') and hasattr(f, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _mytype : Basic → tuple[type[Basic], ...]                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(f, Basic)                           ║
+# ║   requires: isinstance(x, Symbol)                          ║
+# ║   requires: hasattr(f, 'free_symbols')                     ║
+# ║   ensures:  isinstance(result, tuple)                      ║
+# ║   ensures:  result == (() if x not in f.free_symbols ...   ║
+# ║   ensures:  result == () or result == (type(f),)           ║
+# ║   fiber[case_0]: x not in f.free_symbols => ()             ║
+# ║   fiber[case_1]: f.is_Function => (type(f),)               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _mytype : {Basic | isinstance(f, Basic) and isinstanc...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ab8aa031ae446172  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e4170d77f6e6292f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.meijerint._mytype","kind":"function","src_hash":"0a897bee6324b3f1","in":{"base":"Basic"},"out":{"base":"tuple[type[Basic], ...]"},"spec":{"lhs":"_mytype(f, )","rhs":"create a hashable entity describing the type of f","over":{"base":"Basic"},"name":"_mytype_correct"},"guarantee":"create a hashable entity describing the type of f","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.meijerint._mytype_correct","statement":"Path(_mytype(x), create a hashable entity describing the type of f)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ab8aa031ae446172"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.meijerint._mytype","kind":"function","src_hash":"0a897bee6324b3f1","in":{"base":"Basic","pred":"isinstance(f, Basic) and isinstance(x, Symbol) and hasattr(f, 'free_symbols') and hasattr(f, 'is_Function') and hasattr(x, 'class_key') and hasattr(f, 'args')"},"out":{"base":"tuple[type[Basic], ...]","pred":"result satisfies: isinstance(result, tuple) and result == (() if x not in f.free_symbols else (type(f),)) and result == () or result == (type(f),)"},"spec":{"lhs":"_mytype(f, x)","rhs":"isinstance(result, tuple) and result == (() if x not in f.free_symbols else (type(f),)) and result == () or result == (type(f),)","over":{"base":"Basic","pred":"isinstance(f, Basic) and isinstance(x, Symbol) and hasattr(f, 'free_symbols') and hasattr(f, 'is_Function') and hasattr(x, 'class_key') and hasattr(f, 'args')"},"name":"_mytype_correct"},"guarantee":"isinstance(result, tuple); result == (() if x not in f.free_symbols else (type(f),)); result == () or result == (type(f),); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.meijerint._mytype_correct","statement":"Path(_mytype(x), isinstance(result, tuple); result == (() if x not in f.free_symbols else (type(f),)); result == () or result == (type(f),); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e4170d77f6e6292f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(f, Basic)","isinstance(x, Symbol)","hasattr(f, 'free_symbols')","hasattr(f, 'is_Function')","hasattr(x, 'class_key')","hasattr(f, 'args')"],"ensures":["isinstance(result, tuple)","result == (() if x not in f.free_symbols else (type(f),))","result == () or result == (type(f),)"],"fibers":[{"name":"case_0","guard":"x not in f.free_symbols","ensures":["result == ()"],"decidability":"library","returns_expr":"()"},{"name":"case_1","guard":"f.is_Function","ensures":["result == (type(f),)"],"decidability":"library","returns_expr":"(type(f),)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["f.args","f.free_symbols","f.is_Function","x.class_key"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _mytype(f: Basic, x: Symbol) -> tuple[type[Basic], ...]:
     """ Create a hashable entity describing the type of f. """
     def key(x: type[Basic]) -> tuple[int, int, str]:
@@ -361,16 +389,22 @@ def _mytype(f: Basic, x: Symbol) -> tuple[type[Basic], ...]:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_CoeffExpValueError(), correctly constructs a _CoeffExpValueError instance) over Any ║
+# ║ Path(_CoeffExpValueError(), isinstance(self, ValueError)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _CoeffExpValueError : Any → Any                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, ValueError)                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _CoeffExpValueError : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4018a5074c3eb22d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.meijerint._CoeffExpValueError","kind":"class","src_hash":"49cb0e3bec2e861b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_CoeffExpValueError()","rhs":"correctly constructs a _CoeffExpValueError instance","over":{"base":"Any"},"name":"_CoeffExpValueError_correct"},"guarantee":"correctly constructs a _CoeffExpValueError instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4018a5074c3eb22d"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.meijerint._CoeffExpValueError","kind":"class","src_hash":"49cb0e3bec2e861b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, ValueError)"},"spec":{"lhs":"_CoeffExpValueError()","rhs":"isinstance(self, ValueError)","over":{"base":"Any"},"name":"_CoeffExpValueError_correct"},"guarantee":"isinstance(self, ValueError)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4018a5074c3eb22d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, ValueError)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Function _CoeffExpValueError not found in source"]}}
 class _CoeffExpValueError(ValueError):
     """
     Exception raised by _get_coeff_exp, for internal use only.
@@ -379,16 +413,22 @@ class _CoeffExpValueError(ValueError):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_coeff_exp(exp), when expr is known to be of the form c*x**b, with c and/or b possibly 1, return c, b) over Any ║
+# ║ Path(_get_coeff_exp(expr, x), <unspecified:_get_coeff_exp>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_coeff_exp : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 72296eb1680844e6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.meijerint._get_coeff_exp","kind":"function","src_hash":"50fc9ba01801ab4b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_coeff_exp(exp)","rhs":"when expr is known to be of the form c*x**b, with c and/or b possibly 1, return c, b","over":{"base":"Any"},"name":"_get_coeff_exp_correct"},"guarantee":"when expr is known to be of the form c*x**b, with c and/or b possibly 1, return c, b","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.meijerint._get_coeff_exp_correct","statement":"Path(_get_coeff_exp(x), when expr is known to be of the form c*x**b, with c and/or b possibly 1, return c, b)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"72296eb1680844e6"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.meijerint._get_coeff_exp","kind":"function","src_hash":"50fc9ba01801ab4b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_coeff_exp(expr, x)","rhs":"<unspecified:_get_coeff_exp>","over":{"base":"Any"},"name":"_get_coeff_exp_correct"},"guarantee":"when expr is known to be of the form c*x**b, with c and/or b possibly 1, return c, b","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.meijerint._get_coeff_exp_correct","statement":"Path(_get_coeff_exp(x), when expr is known to be of the form c*x**b, with c and/or b possibly 1, return c, b)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"72296eb1680844e6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["_CoeffExpValueError"]},"state_contract":{"exceptional_post":{"_CoeffExpValueError":["isinstance(raised, _CoeffExpValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _get_coeff_exp(expr, x):
     """
     When expr is known to be of the form c*x**b, with c and/or b possibly 1,
@@ -424,16 +464,25 @@ def _get_coeff_exp(expr, x):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_exponents(exp), find the exponents of ``x`` (not including zero) in ``expr``) over Any ║
+# ║ Path(_exponents(expr, x), <unspecified:_exponents>) over {Any | hasattr(expr, 'args') and hasattr(expr, 'is_Pow') and hasattr(expr, 'base') and hasattr(expr, 'exp')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _exponents : Any → Any                                     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   requires: hasattr(expr, 'is_Pow')                        ║
+# ║   requires: hasattr(expr, 'base')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _exponents : {Any | hasattr(expr, 'args') and hasattr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f9b0962b4677f91e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.meijerint._exponents","kind":"function","src_hash":"e0d4537613daacc7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_exponents(exp)","rhs":"find the exponents of ``x`` (not including zero) in ``expr``","over":{"base":"Any"},"name":"_exponents_correct"},"guarantee":"find the exponents of ``x`` (not including zero) in ``expr``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.meijerint._exponents_correct","statement":"Path(_exponents(x), find the exponents of ``x`` (not including zero) in ``expr``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f9b0962b4677f91e"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.meijerint._exponents","kind":"function","src_hash":"e0d4537613daacc7","in":{"base":"Any","pred":"hasattr(expr, 'args') and hasattr(expr, 'is_Pow') and hasattr(expr, 'base') and hasattr(expr, 'exp')"},"out":{"base":"Any"},"spec":{"lhs":"_exponents(expr, x)","rhs":"<unspecified:_exponents>","over":{"base":"Any","pred":"hasattr(expr, 'args') and hasattr(expr, 'is_Pow') and hasattr(expr, 'base') and hasattr(expr, 'exp')"},"name":"_exponents_correct"},"guarantee":"find the exponents of ``x`` (not including zero) in ``expr``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.meijerint._exponents_correct","statement":"Path(_exponents(x), find the exponents of ``x`` (not including zero) in ``expr``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f9b0962b4677f91e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'args')","hasattr(expr, 'is_Pow')","hasattr(expr, 'base')","hasattr(expr, 'exp')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _exponents(expr, x):
     """
     Find the exponents of ``x`` (not including zero) in ``expr``.
@@ -468,23 +517,36 @@ def _exponents(expr, x):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_functions(exp), find the types of functions in expr, to estimate the complexity) over Any ║
+# ║ Path(_functions(expr, x), {e.func for e in expr.atoms(Function) if x in e.free_symbols}) over {Any | hasattr(expr, 'atoms')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _functions : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'atoms')                         ║
+# ║   returns:  {e.func for e in expr.atoms(Function) if ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _functions : {Any | hasattr(expr, 'atoms')} → Any          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 21b395fe2764814f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.meijerint._functions","kind":"function","src_hash":"a1869d25b046ffa8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_functions(exp)","rhs":"find the types of functions in expr, to estimate the complexity","over":{"base":"Any"},"name":"_functions_correct"},"guarantee":"find the types of functions in expr, to estimate the complexity","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"21b395fe2764814f"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.meijerint._functions","kind":"function","src_hash":"a1869d25b046ffa8","in":{"base":"Any","pred":"hasattr(expr, 'atoms')"},"out":{"base":"Any"},"spec":{"lhs":"_functions(expr, x)","rhs":"{e.func for e in expr.atoms(Function) if x in e.free_symbols}","over":{"base":"Any","pred":"hasattr(expr, 'atoms')"},"name":"_functions_correct"},"guarantee":"returns {e.func for e in expr.atoms(Function) if x in e.free_symbols}","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"21b395fe2764814f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'atoms')"],"returns_expr":"{e.func for e in expr.atoms(Function) if x in e.free_symbols}","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.atoms"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _functions(expr, x):
     """ Find the types of functions in expr, to estimate the complexity. """
     return {e.func for e in expr.atoms(Function) if x in e.free_symbols}
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_find_splitting_points(exp), find numbers a such that a linear substitution x -> x + a would (hopefully) simplify expr) over {Any | isinstance(expr, Expr)} ║
+# ║ Path(_find_splitting_points(expr, x), <unspecified:_find_splitting_points>) over {Any | isinstance(expr, Expr) and hasattr(expr, 'is_Atom') and hasattr(expr, 'args') and hasattr(expr, 'match')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'is_Atom')                       ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   requires: hasattr(expr, 'match')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _find_splitting_points : {Any | isinstance(expr, Expr...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -496,9 +558,12 @@ def _functions(expr, x):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.4ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 3ad0afb5...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.meijerint._find_splitting_points","kind":"function","src_hash":"cd9ab35c88e9e5d0","in":{"base":"Any","pred":"isinstance(expr, Expr)"},"out":{"base":"Any"},"spec":{"lhs":"_find_splitting_points(exp)","rhs":"find numbers a such that a linear substitution x -> x + a would (hopefully) simplify expr","over":{"base":"Any","pred":"isinstance(expr, Expr)"},"name":"_find_splitting_points_correct"},"guarantee":"find numbers a such that a linear substitution x -> x + a would (hopefully) simplify expr","fibers":[{"name":"Expr","pred":"isinstance(expr, Expr)","path":{"lhs":"_find_splitting_points(x)","rhs":"find numbers a such that a linear substitution x -> x + a would (hopefully) simplify expr","over":{"base":"Expr","pred":"isinstance(expr, Expr)"},"name":"_find_splitting_points_Expr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.meijerint._find_splitting_points_Expr_correct","statement":"_find_splitting_points satisfies spec on Expr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"3ad0afb592aeb90c"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.meijerint._find_splitting_points","kind":"function","src_hash":"cd9ab35c88e9e5d0","in":{"base":"Any","pred":"isinstance(expr, Expr) and hasattr(expr, 'is_Atom') and hasattr(expr, 'args') and hasattr(expr, 'match')"},"out":{"base":"Any"},"spec":{"lhs":"_find_splitting_points(expr, x)","rhs":"<unspecified:_find_splitting_points>","over":{"base":"Any","pred":"isinstance(expr, Expr) and hasattr(expr, 'is_Atom') and hasattr(expr, 'args') and hasattr(expr, 'match')"},"name":"_find_splitting_points_correct"},"guarantee":"find numbers a such that a linear substitution x -> x + a would (hopefully) simplify expr","fibers":[{"name":"Expr","pred":"isinstance(expr, Expr)","path":{"lhs":"_find_splitting_points(x)","rhs":"find numbers a such that a linear substitution x -> x + a would (hopefully) simplify expr","over":{"base":"Expr","pred":"isinstance(expr, Expr)"},"name":"_find_splitting_points_Expr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.meijerint._find_splitting_points_Expr_correct","statement":"_find_splitting_points satisfies spec on Expr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"3ad0afb592aeb90c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'is_Atom')","hasattr(expr, 'args')","hasattr(expr, 'match')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.4,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'m and m[p] != 0', 'not isinstance(expr, Expr)'}, fibers={'Expr'})"]}}
 def _find_splitting_points(expr, x):
     """
     Find numbers a such that a linear substitution x -> x + a would
@@ -536,16 +601,22 @@ def _find_splitting_points(expr, x):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_split_mul(f, ), split expression ``f`` into fac, po, g, where fac is a constant factor, po = x**s for some s independent of s, and g is "the rest") over Any ║
+# ║ Path(_split_mul(f, x), (fac, po, g)) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (fac, po, g)                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _split_mul : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6f81b7c332cf467a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2c2f586ba8016a54  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.meijerint._split_mul","kind":"function","src_hash":"4e0918f0bb152ea4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_split_mul(f, )","rhs":"split expression ``f`` into fac, po, g, where fac is a constant factor, po = x**s for some s independent of s, and g is \"the rest\"","over":{"base":"Any"},"name":"_split_mul_correct"},"guarantee":"split expression ``f`` into fac, po, g, where fac is a constant factor, po = x**s for some s independent of s, and g is \"the rest\"","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.meijerint._split_mul_correct","statement":"Path(_split_mul(x), split expression ``f`` into fac, po, g, where fac is a constant factor, po = x**s for some s independent of s, and g is \"the rest\")"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6f81b7c332cf467a"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.meijerint._split_mul","kind":"function","src_hash":"4e0918f0bb152ea4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_split_mul(f, x)","rhs":"(fac, po, g)","over":{"base":"Any"},"name":"_split_mul_correct"},"guarantee":"returns (fac, po, g)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.meijerint._split_mul_correct","statement":"Path(_split_mul(x), returns (fac, po, g))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2c2f586ba8016a54","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(fac, po, g)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _split_mul(f, x):
     """
     Split expression ``f`` into fac, po, g, where fac is a constant factor,
@@ -586,16 +657,22 @@ def _split_mul(f, x):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_mul_args(f), return a list ``l`` such that ``mul(*l) == f``) over Any ║
+# ║ Path(_mul_args(f), <unspecified:_mul_args>) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _mul_args : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b1e1b7ec490d82ed  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.meijerint._mul_args","kind":"function","src_hash":"5588db5a3ccae296","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_mul_args(f)","rhs":"return a list ``l`` such that ``mul(*l) == f``","over":{"base":"Any"},"name":"_mul_args_correct"},"guarantee":"return a list ``l`` such that ``mul(*l) == f``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.meijerint._mul_args_correct","statement":"Path(_mul_args(x), return a list ``l`` such that ``mul(*l) == f``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b1e1b7ec490d82ed"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.meijerint._mul_args","kind":"function","src_hash":"5588db5a3ccae296","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_mul_args(f)","rhs":"<unspecified:_mul_args>","over":{"base":"Any"},"name":"_mul_args_correct"},"guarantee":"return a list ``l`` such that ``mul(*l) == f``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.meijerint._mul_args_correct","statement":"Path(_mul_args(x), return a list ``l`` such that ``mul(*l) == f``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b1e1b7ec490d82ed","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _mul_args(f):
     """
     Return a list ``L`` such that ``Mul(*L) == f``.
@@ -620,16 +697,22 @@ def _mul_args(f):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_mul_as_two_parts(f), find all the ways to split ``f`` into a product of two terms. return none on failure) over Any ║
+# ║ Path(_mul_as_two_parts(f), <unspecified:_mul_as_two_parts>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _mul_as_two_parts : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 219b4fed39b444e6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.meijerint._mul_as_two_parts","kind":"function","src_hash":"e0bfa5ef0dd80454","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_mul_as_two_parts(f)","rhs":"find all the ways to split ``f`` into a product of two terms. return none on failure","over":{"base":"Any"},"name":"_mul_as_two_parts_correct"},"guarantee":"find all the ways to split ``f`` into a product of two terms. return none on failure","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.meijerint._mul_as_two_parts_correct","statement":"Path(_mul_as_two_parts(x), find all the ways to split ``f`` into a product of two terms. return none on failure)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"219b4fed39b444e6"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.meijerint._mul_as_two_parts","kind":"function","src_hash":"e0bfa5ef0dd80454","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_mul_as_two_parts(f)","rhs":"<unspecified:_mul_as_two_parts>","over":{"base":"Any"},"name":"_mul_as_two_parts_correct"},"guarantee":"find all the ways to split ``f`` into a product of two terms. return none on failure","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.meijerint._mul_as_two_parts_correct","statement":"Path(_mul_as_two_parts(x), find all the ways to split ``f`` into a product of two terms. return none on failure)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"219b4fed39b444e6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _mul_as_two_parts(f):
     """
     Find all the ways to split ``f`` into a product of two terms.
@@ -662,16 +745,25 @@ def _mul_as_two_parts(f):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_inflate_g(g, ), id) over Any                         ║
+# ║ Path(_inflate_g(g, n), id) over {Any | hasattr(g, 'delta') and hasattr(g, 'ap') and hasattr(g, 'bq') and hasattr(g, 'nu') and hasattr(g, 'an') and hasattr(g, 'aother') and hasattr(g, 'bm') and hasattr(g, 'bother') and hasattr(g, 'argument')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _inflate_g : Any → Any                                     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(g, 'delta')                            ║
+# ║   requires: hasattr(g, 'ap')                               ║
+# ║   requires: hasattr(g, 'bq')                               ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _inflate_g : {Any | hasattr(g, 'delta') and hasattr(g...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 8f0d842dbe0bee6b   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.meijerint._inflate_g","kind":"function","src_hash":"2cc2bafa82cccc50","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_inflate_g(g, )","rhs":"return c, h such that h is a g function of argument z**n and g = c*h","over":{"base":"Any"},"name":"_inflate_g_correct","kind":"composition"},"guarantee":"return c, h such that h is a g function of argument z**n and g = c*h","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"product","by":"library_axiom"},{"fn":"range","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8f0d842dbe0bee6b"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.meijerint._inflate_g","kind":"function","src_hash":"2cc2bafa82cccc50","in":{"base":"Any","pred":"hasattr(g, 'delta') and hasattr(g, 'ap') and hasattr(g, 'bq') and hasattr(g, 'nu') and hasattr(g, 'an') and hasattr(g, 'aother') and hasattr(g, 'bm') and hasattr(g, 'bother') and hasattr(g, 'argument')"},"out":{"base":"Any"},"spec":{"lhs":"_inflate_g(g, n)","rhs":"<unspecified:_inflate_g>","over":{"base":"Any","pred":"hasattr(g, 'delta') and hasattr(g, 'ap') and hasattr(g, 'bq') and hasattr(g, 'nu') and hasattr(g, 'an') and hasattr(g, 'aother') and hasattr(g, 'bm') and hasattr(g, 'bother') and hasattr(g, 'argument')"},"name":"_inflate_g_correct","kind":"composition"},"guarantee":"return c, h such that h is a g function of argument z**n and g = c*h","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"product","by":"library_axiom"},{"fn":"range","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8f0d842dbe0bee6b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(g, 'delta')","hasattr(g, 'ap')","hasattr(g, 'bq')","hasattr(g, 'nu')","hasattr(g, 'an')","hasattr(g, 'aother')","hasattr(g, 'bm')","hasattr(g, 'bother')","hasattr(g, 'argument')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["g.an","g.aother","g.ap","g.argument","g.bm","g.bother","g.bq","g.delta","g.nu"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _inflate_g(g, n):
     """ Return C, h such that h is a G function of argument z**n and
         g = C*h. """
@@ -689,16 +781,25 @@ def _inflate_g(g, n):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_flip_g(g), turn the g function into one of inverse argument (i.e) over Any ║
+# ║ Path(_flip_g(g), <unspecified:_flip_g>) over {Any | hasattr(g, 'bm') and hasattr(g, 'bother') and hasattr(g, 'an') and hasattr(g, 'aother') and hasattr(g, 'argument')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _flip_g : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(g, 'bm')                               ║
+# ║   requires: hasattr(g, 'bother')                           ║
+# ║   requires: hasattr(g, 'an')                               ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _flip_g : {Any | hasattr(g, 'bm') and hasattr(g, 'bot...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b5676520b0f05a0f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.meijerint._flip_g","kind":"function","src_hash":"fe57d3b99ad595d8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_flip_g(g)","rhs":"turn the g function into one of inverse argument (i.e","over":{"base":"Any"},"name":"_flip_g_correct"},"guarantee":"turn the g function into one of inverse argument (i.e","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.meijerint._flip_g_correct","statement":"Path(_flip_g(x), turn the g function into one of inverse argument (i.e)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b5676520b0f05a0f"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.meijerint._flip_g","kind":"function","src_hash":"fe57d3b99ad595d8","in":{"base":"Any","pred":"hasattr(g, 'bm') and hasattr(g, 'bother') and hasattr(g, 'an') and hasattr(g, 'aother') and hasattr(g, 'argument')"},"out":{"base":"Any"},"spec":{"lhs":"_flip_g(g)","rhs":"<unspecified:_flip_g>","over":{"base":"Any","pred":"hasattr(g, 'bm') and hasattr(g, 'bother') and hasattr(g, 'an') and hasattr(g, 'aother') and hasattr(g, 'argument')"},"name":"_flip_g_correct"},"guarantee":"turn the g function into one of inverse argument (i.e","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.meijerint._flip_g_correct","statement":"Path(_flip_g(x), turn the g function into one of inverse argument (i.e)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b5676520b0f05a0f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(g, 'bm')","hasattr(g, 'bother')","hasattr(g, 'an')","hasattr(g, 'aother')","hasattr(g, 'argument')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["g.an","g.aother","g.argument","g.bm","g.bother"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _flip_g(g):
     """ Turn the G function into one of inverse argument
         (i.e. G(1/x) -> G'(x)) """
@@ -709,16 +810,25 @@ def _flip_g(g):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_inflate_fox_h(g, ), id) over Any                     ║
+# ║ Path(_inflate_fox_h(g, a), id) over {Any | hasattr(g, 'argument') and hasattr(a, 'p') and hasattr(a, 'q') and hasattr(g, 'an') and hasattr(g, 'aother') and hasattr(g, 'bm') and hasattr(g, 'bother')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _inflate_fox_h : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(g, 'argument')                         ║
+# ║   requires: hasattr(a, 'p')                                ║
+# ║   requires: hasattr(a, 'q')                                ║
+# ║   ensures:  # HINT: _inflate_fox_h may be idempotent:...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _inflate_fox_h : {Any | hasattr(g, 'argument') and ha...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 18608c858c6dc047   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.meijerint._inflate_fox_h","kind":"function","src_hash":"8f421b66d9234eec","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_inflate_fox_h(g, )","rhs":"let d denote the integrand in the definition of the g function ``g``. consider the function h which is defined in the same way, but with integrand d/gamma(a*s) (contour conventions as usual)","over":{"base":"Any"},"name":"_inflate_fox_h_correct","kind":"composition"},"guarantee":"let d denote the integrand in the definition of the g function ``g``. consider the function h which is defined in the same way, but with integrand d/gamma(a*s) (contour conventions as usual)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"_inflate_fox_h","by":"library_axiom"},{"fn":"_flip_g","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"18608c858c6dc047"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.meijerint._inflate_fox_h","kind":"function","src_hash":"8f421b66d9234eec","in":{"base":"Any","pred":"hasattr(g, 'argument') and hasattr(a, 'p') and hasattr(a, 'q') and hasattr(g, 'an') and hasattr(g, 'aother') and hasattr(g, 'bm') and hasattr(g, 'bother')"},"out":{"base":"Any","pred":"result satisfies: # HINT: _inflate_fox_h may be idempotent: _inflate_fox_h(_inflate_fox_h(x)) == _inflate_fox_h(x)"},"spec":{"lhs":"_inflate_fox_h(g, a)","rhs":"# HINT: _inflate_fox_h may be idempotent: _inflate_fox_h(_inflate_fox_h(x)) == _inflate_fox_h(x)","over":{"base":"Any","pred":"hasattr(g, 'argument') and hasattr(a, 'p') and hasattr(a, 'q') and hasattr(g, 'an') and hasattr(g, 'aother') and hasattr(g, 'bm') and hasattr(g, 'bother')"},"name":"_inflate_fox_h_correct","kind":"composition"},"guarantee":"# HINT: _inflate_fox_h may be idempotent: _inflate_fox_h(_inflate_fox_h(x)) == _inflate_fox_h(x)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"_inflate_fox_h","by":"library_axiom"},{"fn":"_flip_g","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"18608c858c6dc047","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(g, 'argument')","hasattr(a, 'p')","hasattr(a, 'q')","hasattr(g, 'an')","hasattr(g, 'aother')","hasattr(g, 'bm')","hasattr(g, 'bother')"],"ensures":["# HINT: _inflate_fox_h may be idempotent: _inflate_fox_h(_inflate_fox_h(x)) == _inflate_fox_h(x)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["a.p","a.q","g.an","g.aother","g.argument","g.bm","g.bother"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _inflate_fox_h(g, a):
     r"""
     Let d denote the integrand in the definition of the G function ``g``.
@@ -749,16 +859,23 @@ _dummies: dict[tuple[str, str], Dummy]  = {}
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_dummy(nam), return a dummy) over Any                 ║
+# ║ Path(_dummy(name, token, expr), <unspecified:_dummy>) over {Any | hasattr(expr, 'free_symbols')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _dummy : Any → Any                                         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'free_symbols')                  ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _dummy : {Any | hasattr(expr, 'free_symbols')} → Any       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f2317bf12cd15c12  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.meijerint._dummy","kind":"function","src_hash":"9d33a8aba674a5b4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_dummy(nam)","rhs":"return a dummy","over":{"base":"Any"},"name":"_dummy_correct"},"guarantee":"return a dummy","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.meijerint._dummy_correct","statement":"Path(_dummy(x), return a dummy)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f2317bf12cd15c12"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.meijerint._dummy","kind":"function","src_hash":"9d33a8aba674a5b4","in":{"base":"Any","pred":"hasattr(expr, 'free_symbols')"},"out":{"base":"Any"},"spec":{"lhs":"_dummy(name, token, expr)","rhs":"<unspecified:_dummy>","over":{"base":"Any","pred":"hasattr(expr, 'free_symbols')"},"name":"_dummy_correct"},"guarantee":"return a dummy","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.meijerint._dummy_correct","statement":"Path(_dummy(x), return a dummy)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f2317bf12cd15c12","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'free_symbols')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.free_symbols"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['name', 'token', 'expr'], spec=['name', 'token', 'expr', '**kwargs']"]}}
 def _dummy(name, token, expr, **kwargs):
     """
     Return a dummy. This will return the same dummy if the same token+name is
@@ -772,16 +889,22 @@ def _dummy(name, token, expr, **kwargs):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_dummy_(nam), return a dummy associated to name and token) over Any ║
+# ║ Path(_dummy_(name, token, **kwargs), _dummies[name, token]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _dummies[name, token]                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _dummy_ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6e791d609cf3e546  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1261b52e0fca5b4c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.meijerint._dummy_","kind":"function","src_hash":"066f0d1b3b67e512","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_dummy_(nam)","rhs":"return a dummy associated to name and token","over":{"base":"Any"},"name":"_dummy__correct"},"guarantee":"return a dummy associated to name and token","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.meijerint._dummy__correct","statement":"Path(_dummy_(x), return a dummy associated to name and token)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6e791d609cf3e546"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.meijerint._dummy_","kind":"function","src_hash":"066f0d1b3b67e512","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_dummy_(name, token, **kwargs)","rhs":"_dummies[name, token]","over":{"base":"Any"},"name":"_dummy__correct"},"guarantee":"returns _dummies[name, token]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.meijerint._dummy__correct","statement":"Path(_dummy_(x), returns _dummies[name, token])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1261b52e0fca5b4c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_dummies[name, token]","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['name', 'token'], spec=['name', 'token', '**kwargs']"]}}
 def _dummy_(name, token, **kwargs):
     """
     Return a dummy associated to name and token. Same effect as declaring
@@ -793,16 +916,23 @@ def _dummy_(name, token, **kwargs):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_is_analytic(f, ), check if f(x), when expressed using g functions on the positive reals, will in fact agree with the g functions almost everywhere) over Any ║
+# ║ Path(_is_analytic(f, x), not any((x in expr.free_symbols for expr in f.atoms(Heaviside, Abs)))) over {Any | hasattr(f, 'atoms')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _is_analytic : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'atoms')                            ║
+# ║   returns:  not any((x in expr.free_symbols for expr ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _is_analytic : {Any | hasattr(f, 'atoms')} → Any           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2ec35f3a204d2ce2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.meijerint._is_analytic","kind":"function","src_hash":"5e53be5912ed2c3d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_is_analytic(f, )","rhs":"check if f(x), when expressed using g functions on the positive reals, will in fact agree with the g functions almost everywhere","over":{"base":"Any"},"name":"_is_analytic_correct"},"guarantee":"check if f(x), when expressed using g functions on the positive reals, will in fact agree with the g functions almost everywhere","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2ec35f3a204d2ce2"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.meijerint._is_analytic","kind":"function","src_hash":"5e53be5912ed2c3d","in":{"base":"Any","pred":"hasattr(f, 'atoms')"},"out":{"base":"Any"},"spec":{"lhs":"_is_analytic(f, x)","rhs":"not any((x in expr.free_symbols for expr in f.atoms(Heaviside, Abs)))","over":{"base":"Any","pred":"hasattr(f, 'atoms')"},"name":"_is_analytic_correct"},"guarantee":"returns not any((x in expr.free_symbols for expr in f.atoms(Heaviside, Abs)))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2ec35f3a204d2ce2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'atoms')"],"returns_expr":"not any((x in expr.free_symbols for expr in f.atoms(Heaviside, Abs)))","pure":false,"effects":{"effect_type":"reads_state","reads":["f.atoms"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":true}}
 def _is_analytic(f, x):
     """ Check if f(x), when expressed using G functions on the positive reals,
         will in fact agree with the G functions almost everywhere """
@@ -810,7 +940,13 @@ def _is_analytic(f, x):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_condsimp(con), do naive simplifications on ``cond``) over {Any | isinstance(cond, BooleanFunction) and isinstance(LHS, periodic_argument) and isinstance(arg3, And)} ║
+# ║ Path(_condsimp(cond, first), # HINT: _condsimp may be idempotent: _condsimp(_condsimp(x)) == _condsimp(x)) over {Any | isinstance(cond, BooleanFunction) and isinstance(LHS, periodic_argument) and isinstance(arg3, And) and hasattr(cond, 'func') and hasattr(cond, 'replace') and hasattr(cond, 'args')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(cond, 'func')                          ║
+# ║   requires: hasattr(cond, 'replace')                       ║
+# ║   requires: hasattr(cond, 'args')                          ║
+# ║   ensures:  # HINT: _condsimp may be idempotent: _con...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _condsimp : {Any | isinstance(cond, BooleanFunction) ...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -824,9 +960,12 @@ def _is_analytic(f, x):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?3 ✗4 VCs | 11.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | f495b3e5...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.meijerint._condsimp","kind":"function","src_hash":"69751e5a8d912b4b","in":{"base":"Any","pred":"isinstance(cond, BooleanFunction) and isinstance(LHS, periodic_argument) and isinstance(arg3, And)"},"out":{"base":"Any"},"spec":{"lhs":"_condsimp(con)","rhs":"do naive simplifications on ``cond``","over":{"base":"Any","pred":"isinstance(cond, BooleanFunction) and isinstance(LHS, periodic_argument) and isinstance(arg3, And)"},"name":"_condsimp_correct"},"guarantee":"do naive simplifications on ``cond``","fibers":[{"name":"BooleanFunction","pred":"isinstance(cond, BooleanFunction)","path":{"lhs":"_condsimp(x)","rhs":"do naive simplifications on ``cond``","over":{"base":"BooleanFunction","pred":"isinstance(cond, BooleanFunction)"},"name":"_condsimp_BooleanFunction_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.meijerint._condsimp_BooleanFunction_correct","statement":"_condsimp satisfies spec on BooleanFunction inputs"},"trust":"LIBRARY"},{"name":"periodic_argument","pred":"isinstance(LHS, periodic_argument)","path":{"lhs":"_condsimp(x)","rhs":"do naive simplifications on ``cond``","over":{"base":"periodic_argument","pred":"isinstance(LHS, periodic_argument)"},"name":"_condsimp_periodic_argument_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.meijerint._condsimp_periodic_argument_correct","statement":"_condsimp satisfies spec on periodic_argument inputs"},"trust":"LIBRARY"},{"name":"And","pred":"isinstance(arg3, And)","path":{"lhs":"_condsimp(x)","rhs":"do naive simplifications on ``cond``","over":{"base":"And","pred":"isinstance(arg3, And)"},"name":"_condsimp_And_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.meijerint._condsimp_And_correct","statement":"_condsimp satisfies spec on And inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":3,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"f495b3e5e45d7f9a"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.meijerint._condsimp","kind":"function","src_hash":"69751e5a8d912b4b","in":{"base":"Any","pred":"isinstance(cond, BooleanFunction) and isinstance(LHS, periodic_argument) and isinstance(arg3, And) and hasattr(cond, 'func') and hasattr(cond, 'replace') and hasattr(cond, 'args')"},"out":{"base":"Any","pred":"result satisfies: # HINT: _condsimp may be idempotent: _condsimp(_condsimp(x)) == _condsimp(x)"},"spec":{"lhs":"_condsimp(cond, first)","rhs":"# HINT: _condsimp may be idempotent: _condsimp(_condsimp(x)) == _condsimp(x)","over":{"base":"Any","pred":"isinstance(cond, BooleanFunction) and isinstance(LHS, periodic_argument) and isinstance(arg3, And) and hasattr(cond, 'func') and hasattr(cond, 'replace') and hasattr(cond, 'args')"},"name":"_condsimp_correct"},"guarantee":"# HINT: _condsimp may be idempotent: _condsimp(_condsimp(x)) == _condsimp(x)","fibers":[{"name":"BooleanFunction","pred":"isinstance(cond, BooleanFunction)","path":{"lhs":"_condsimp(x)","rhs":"# HINT: _condsimp may be idempotent: _condsimp(_condsimp(x)) == _condsimp(x)","over":{"base":"BooleanFunction","pred":"isinstance(cond, BooleanFunction)"},"name":"_condsimp_BooleanFunction_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.meijerint._condsimp_BooleanFunction_correct","statement":"_condsimp satisfies spec on BooleanFunction inputs"},"trust":"LIBRARY"},{"name":"periodic_argument","pred":"isinstance(LHS, periodic_argument)","path":{"lhs":"_condsimp(x)","rhs":"# HINT: _condsimp may be idempotent: _condsimp(_condsimp(x)) == _condsimp(x)","over":{"base":"periodic_argument","pred":"isinstance(LHS, periodic_argument)"},"name":"_condsimp_periodic_argument_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.meijerint._condsimp_periodic_argument_correct","statement":"_condsimp satisfies spec on periodic_argument inputs"},"trust":"LIBRARY"},{"name":"And","pred":"isinstance(arg3, And)","path":{"lhs":"_condsimp(x)","rhs":"# HINT: _condsimp may be idempotent: _condsimp(_condsimp(x)) == _condsimp(x)","over":{"base":"And","pred":"isinstance(arg3, And)"},"name":"_condsimp_And_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.meijerint._condsimp_And_correct","statement":"_condsimp satisfies spec on And inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":3,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"f495b3e5e45d7f9a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(cond, 'func')","hasattr(cond, 'replace')","hasattr(cond, 'args')"],"ensures":["# HINT: _condsimp may be idempotent: _condsimp(_condsimp(x)) == _condsimp(x)"],"pure":false,"effects":{"effect_type":"io","reads":["cond.args","cond.func","cond.replace"],"io_operations":["print"]}},"c4_verdict":{"valid":false,"n_vcs":8,"n_verified":1,"n_assumed":3,"n_failed":4,"trust_level":"LIBRARY_ASSUMED","compile_ms":11.1,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'len(otherlist) != len(otherargs) + 1', \"rel.rel_op != '==' or rel.rhs != 0\", 'isinstance(LHS, periodic_argument) and (not LHS.args[0].is_polar) and (LHS.args[1] is S.Infinity)', 'not isinstance(cond, BooleanFunction)', 'fro.func != cond.func', 'isinstance(arg3, And) and arg2.args[1] == r and isinstance(arg2, And) and (arg2.args[0] in arg3.args)', 'isinstance(arg3, And) and arg2.args[0] == r and isinstance(arg2, And) and (arg2.args[1] in arg3.args)', 'arg2 == arg3'}, fibers={'And', 'BooleanFunction', 'periodic_argument'})"]}}
 def _condsimp(cond, first=True):
     """
     Do naive simplifications on ``cond``.
@@ -951,9 +1090,13 @@ def _condsimp(cond, first=True):
     return cond
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_cond(con), re-evaluate the conditions) over {Any | isinstance(cond, bool)} ║
+# ║ Path(_eval_cond(cond), <unspecified:_eval_cond>) over {Any | isinstance(cond, bool) and hasattr(cond, 'doit')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_cond : {Any | isinstance(cond, bool)} → Any          ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(cond, 'doit')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_cond : {Any | isinstance(cond, bool) and hasatt...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   bool: {isinstance(cond, bool)} → library_axiom           ║
@@ -963,9 +1106,12 @@ def _condsimp(cond, first=True):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 0.9ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 832cc663...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.meijerint._eval_cond","kind":"function","src_hash":"f94d768f659cdd41","in":{"base":"Any","pred":"isinstance(cond, bool)"},"out":{"base":"Any"},"spec":{"lhs":"_eval_cond(con)","rhs":"re-evaluate the conditions","over":{"base":"Any","pred":"isinstance(cond, bool)"},"name":"_eval_cond_correct"},"guarantee":"re-evaluate the conditions","fibers":[{"name":"bool","pred":"isinstance(cond, bool)","path":{"lhs":"_eval_cond(x)","rhs":"re-evaluate the conditions","over":{"base":"bool","pred":"isinstance(cond, bool)"},"name":"_eval_cond_bool_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.meijerint._eval_cond_bool_correct","statement":"_eval_cond satisfies spec on bool inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"832cc6630bd0efc3"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.meijerint._eval_cond","kind":"function","src_hash":"f94d768f659cdd41","in":{"base":"Any","pred":"isinstance(cond, bool) and hasattr(cond, 'doit')"},"out":{"base":"Any"},"spec":{"lhs":"_eval_cond(cond)","rhs":"<unspecified:_eval_cond>","over":{"base":"Any","pred":"isinstance(cond, bool) and hasattr(cond, 'doit')"},"name":"_eval_cond_correct"},"guarantee":"re-evaluate the conditions","fibers":[{"name":"bool","pred":"isinstance(cond, bool)","path":{"lhs":"_eval_cond(x)","rhs":"re-evaluate the conditions","over":{"base":"bool","pred":"isinstance(cond, bool)"},"name":"_eval_cond_bool_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.meijerint._eval_cond_bool_correct","statement":"_eval_cond satisfies spec on bool inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"832cc6630bd0efc3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(cond, 'doit')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["cond.doit"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.9,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(cond, bool)'}, fibers={'bool'})"]}}
 def _eval_cond(cond):
     """ Re-evaluate the conditions. """
     if isinstance(cond, bool):
@@ -978,16 +1124,22 @@ def _eval_cond(cond):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_my_principal_branch(exp), bring expr nearer to its principal branch by removing superfluous factors. this function does *not* guarantee to yield the principal branch, to avoid introducing opaque principal_branch() objects, unl) over Any ║
+# ║ Path(_my_principal_branch(expr, period, full_pb), <unspecified:_my_principal_branch>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _my_principal_branch : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 21a2cbc47ea0b515  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.meijerint._my_principal_branch","kind":"function","src_hash":"ee26e24faee9632e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_my_principal_branch(exp)","rhs":"bring expr nearer to its principal branch by removing superfluous factors. this function does *not* guarantee to yield the principal branch, to avoid introducing opaque principal_branch() objects, unl","over":{"base":"Any"},"name":"_my_principal_branch_correct"},"guarantee":"bring expr nearer to its principal branch by removing superfluous factors. this function does *not* guarantee to yield the principal branch, to avoid introducing opaque principal_branch() objects, unl","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.meijerint._my_principal_branch_correct","statement":"Path(_my_principal_branch(x), bring expr nearer to its principal branch by removing superfluous factors. this function does *not* guarantee to yield the principal branch, to avoid introducing opaque principal_branch() objects, unl)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"21a2cbc47ea0b515"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.meijerint._my_principal_branch","kind":"function","src_hash":"ee26e24faee9632e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_my_principal_branch(expr, period, full_pb)","rhs":"<unspecified:_my_principal_branch>","over":{"base":"Any"},"name":"_my_principal_branch_correct"},"guarantee":"bring expr nearer to its principal branch by removing superfluous factors. this function does *not* guarantee to yield the principal branch, to avoid introducing opaque principal_branch() objects, unl","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.meijerint._my_principal_branch_correct","statement":"Path(_my_principal_branch(x), bring expr nearer to its principal branch by removing superfluous factors. this function does *not* guarantee to yield the principal branch, to avoid introducing opaque principal_branch() objects, unl)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"21a2cbc47ea0b515","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _my_principal_branch(expr, period, full_pb=False):
     """ Bring expr nearer to its principal branch by removing superfluous
         factors.
@@ -1001,16 +1153,25 @@ def _my_principal_branch(expr, period, full_pb=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_rewrite_saxena_1(fac), rewrite the integral fac*po*g dx, from zero to infinity, as integral fac*g, where g has argument a*x) over Any ║
+# ║ Path(_rewrite_saxena_1(fac, po, g), <unspecified:_rewrite_saxena_1>) over {Any | hasattr(g, 'argument') and hasattr(g, 'get_period') and hasattr(g, 'an') and hasattr(g, 'aother') and hasattr(g, 'bm') and hasattr(g, 'bother')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _rewrite_saxena_1 : Any → Any                              ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(g, 'argument')                         ║
+# ║   requires: hasattr(g, 'get_period')                       ║
+# ║   requires: hasattr(g, 'an')                               ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _rewrite_saxena_1 : {Any | hasattr(g, 'argument') and...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b8097ecc6e396ac0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.meijerint._rewrite_saxena_1","kind":"function","src_hash":"0daae81a59ee91bf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_rewrite_saxena_1(fac)","rhs":"rewrite the integral fac*po*g dx, from zero to infinity, as integral fac*g, where g has argument a*x","over":{"base":"Any"},"name":"_rewrite_saxena_1_correct"},"guarantee":"rewrite the integral fac*po*g dx, from zero to infinity, as integral fac*g, where g has argument a*x","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.meijerint._rewrite_saxena_1_correct","statement":"Path(_rewrite_saxena_1(x), rewrite the integral fac*po*g dx, from zero to infinity, as integral fac*g, where g has argument a*x)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b8097ecc6e396ac0"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.meijerint._rewrite_saxena_1","kind":"function","src_hash":"0daae81a59ee91bf","in":{"base":"Any","pred":"hasattr(g, 'argument') and hasattr(g, 'get_period') and hasattr(g, 'an') and hasattr(g, 'aother') and hasattr(g, 'bm') and hasattr(g, 'bother')"},"out":{"base":"Any"},"spec":{"lhs":"_rewrite_saxena_1(fac, po, g)","rhs":"<unspecified:_rewrite_saxena_1>","over":{"base":"Any","pred":"hasattr(g, 'argument') and hasattr(g, 'get_period') and hasattr(g, 'an') and hasattr(g, 'aother') and hasattr(g, 'bm') and hasattr(g, 'bother')"},"name":"_rewrite_saxena_1_correct"},"guarantee":"rewrite the integral fac*po*g dx, from zero to infinity, as integral fac*g, where g has argument a*x","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.meijerint._rewrite_saxena_1_correct","statement":"Path(_rewrite_saxena_1(x), rewrite the integral fac*po*g dx, from zero to infinity, as integral fac*g, where g has argument a*x)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b8097ecc6e396ac0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(g, 'argument')","hasattr(g, 'get_period')","hasattr(g, 'an')","hasattr(g, 'aother')","hasattr(g, 'bm')","hasattr(g, 'bother')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["g.an","g.aother","g.argument","g.bm","g.bother","g.get_period"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _rewrite_saxena_1(fac, po, g, x):
     """
     Rewrite the integral fac*po*g dx, from zero to infinity, as
@@ -1033,16 +1194,25 @@ def _rewrite_saxena_1(fac, po, g, x):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_check_antecedents_1(g, ), return a condition under which the mellin transform of g exists. any power of x has already been absorbed into the g function, so this is just $\int_0^\infty g\, dx$) over Any ║
+# ║ Path(_check_antecedents_1(g, x, helper), # HINT: _check_antecedents_1 may be idempotent: _check_antecedents_1(_check_antecedents_1(x)) == _check_antecedents_1(x)) over {Any | hasattr(g, 'delta') and hasattr(g, 'argument') and hasattr(g, 'ap') and hasattr(g, 'bq') and hasattr(g, 'bother') and hasattr(g, 'aother') and hasattr(g, 'bm') and hasattr(g, 'an') and hasattr(g, 'nu')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _check_antecedents_1 : Any → Any                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(g, 'delta')                            ║
+# ║   requires: hasattr(g, 'argument')                         ║
+# ║   requires: hasattr(g, 'ap')                               ║
+# ║   ensures:  # HINT: _check_antecedents_1 may be idemp...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _check_antecedents_1 : {Any | hasattr(g, 'delta') and...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 06714d8f86216432  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4668245a35d2086e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.meijerint._check_antecedents_1","kind":"function","src_hash":"713a15df8cba5ca6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_check_antecedents_1(g, )","rhs":"return a condition under which the mellin transform of g exists. any power of x has already been absorbed into the g function, so this is just $\\int_0^\\infty g\\, dx$","over":{"base":"Any"},"name":"_check_antecedents_1_correct"},"guarantee":"return a condition under which the mellin transform of g exists. any power of x has already been absorbed into the g function, so this is just $\\int_0^\\infty g\\, dx$","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.meijerint._check_antecedents_1_correct","statement":"Path(_check_antecedents_1(x), return a condition under which the mellin transform of g exists. any power of x has already been absorbed into the g function, so this is just $\\int_0^\\infty g\\, dx$)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"06714d8f86216432"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.meijerint._check_antecedents_1","kind":"function","src_hash":"713a15df8cba5ca6","in":{"base":"Any","pred":"hasattr(g, 'delta') and hasattr(g, 'argument') and hasattr(g, 'ap') and hasattr(g, 'bq') and hasattr(g, 'bother') and hasattr(g, 'aother') and hasattr(g, 'bm') and hasattr(g, 'an') and hasattr(g, 'nu')"},"out":{"base":"Any","pred":"result satisfies: # HINT: _check_antecedents_1 may be idempotent: _check_antecedents_1(_check_antecedents_1(x)) == _check_antecedents_1(x)"},"spec":{"lhs":"_check_antecedents_1(g, x, helper)","rhs":"# HINT: _check_antecedents_1 may be idempotent: _check_antecedents_1(_check_antecedents_1(x)) == _check_antecedents_1(x)","over":{"base":"Any","pred":"hasattr(g, 'delta') and hasattr(g, 'argument') and hasattr(g, 'ap') and hasattr(g, 'bq') and hasattr(g, 'bother') and hasattr(g, 'aother') and hasattr(g, 'bm') and hasattr(g, 'an') and hasattr(g, 'nu')"},"name":"_check_antecedents_1_correct"},"guarantee":"# HINT: _check_antecedents_1 may be idempotent: _check_antecedents_1(_check_antecedents_1(x)) == _check_antecedents_1(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.meijerint._check_antecedents_1_correct","statement":"Path(_check_antecedents_1(x), # HINT: _check_antecedents_1 may be idempotent: _check_antecedents_1(_check_antecedents_1(x)) == _check_antecedents_1(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4668245a35d2086e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(g, 'delta')","hasattr(g, 'argument')","hasattr(g, 'ap')","hasattr(g, 'bq')","hasattr(g, 'bother')","hasattr(g, 'aother')","hasattr(g, 'bm')","hasattr(g, 'an')","hasattr(g, 'nu')"],"ensures":["# HINT: _check_antecedents_1 may be idempotent: _check_antecedents_1(_check_antecedents_1(x)) == _check_antecedents_1(x)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["g.an","g.aother","g.ap","g.argument","g.bm","g.bother","g.bq","g.delta","g.nu"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.1,"verdict_class":"assumed","binding":true}}
 def _check_antecedents_1(g, x, helper=False):
     r"""
     Return a condition under which the mellin transform of g exists.
@@ -1156,16 +1326,25 @@ def _check_antecedents_1(g, x, helper=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_int0oo_1(g, ), id) over Any                          ║
+# ║ Path(_int0oo_1(g, x), id) over {Any | hasattr(g, 'bm') and hasattr(g, 'an') and hasattr(g, 'bother') and hasattr(g, 'aother') and hasattr(g, 'argument')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _int0oo_1 : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(g, 'bm')                               ║
+# ║   requires: hasattr(g, 'an')                               ║
+# ║   requires: hasattr(g, 'bother')                           ║
+# ║   returns:  gammasimp(unpolarify(res))                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _int0oo_1 : {Any | hasattr(g, 'bm') and hasattr(g, 'a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 266c9abb33812662   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.meijerint._int0oo_1","kind":"function","src_hash":"31de38a08ae94e55","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_int0oo_1(g, )","rhs":"evaluate $\\int_0^\\infty g\\, dx$ using g functions, assuming the necessary conditions are fulfilled","over":{"base":"Any"},"name":"_int0oo_1_correct","kind":"composition"},"guarantee":"evaluate $\\int_0^\\infty g\\, dx$ using g functions, assuming the necessary conditions are fulfilled","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"gammasimp","by":"library_axiom"},{"fn":"unpolarify","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"266c9abb33812662"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.meijerint._int0oo_1","kind":"function","src_hash":"31de38a08ae94e55","in":{"base":"Any","pred":"hasattr(g, 'bm') and hasattr(g, 'an') and hasattr(g, 'bother') and hasattr(g, 'aother') and hasattr(g, 'argument')"},"out":{"base":"Any"},"spec":{"lhs":"_int0oo_1(g, x)","rhs":"gammasimp(unpolarify(res))","over":{"base":"Any","pred":"hasattr(g, 'bm') and hasattr(g, 'an') and hasattr(g, 'bother') and hasattr(g, 'aother') and hasattr(g, 'argument')"},"name":"_int0oo_1_correct","kind":"composition"},"guarantee":"returns gammasimp(unpolarify(res))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"gammasimp","by":"library_axiom"},{"fn":"unpolarify","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"266c9abb33812662","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(g, 'bm')","hasattr(g, 'an')","hasattr(g, 'bother')","hasattr(g, 'aother')","hasattr(g, 'argument')"],"returns_expr":"gammasimp(unpolarify(res))","pure":false,"effects":{"effect_type":"reads_state","reads":["g.an","g.aother","g.argument","g.bm","g.bother"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _int0oo_1(g, x):
     r"""
     Evaluate $\int_0^\infty g\, dx$ using G functions,
@@ -1197,16 +1376,25 @@ def _int0oo_1(g, x):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_rewrite_saxena(fac), rewrite the integral ``fac*po*g1*g2`` from 0 to oo in terms of g functions with argument ``c*x``) over Any ║
+# ║ Path(_rewrite_saxena(fac, po, g1), <unspecified:_rewrite_saxena>) over {Any | hasattr(g1, 'argument') and hasattr(g2, 'argument') and hasattr(g2, 'an') and hasattr(g2, 'aother') and hasattr(g2, 'bm') and hasattr(g2, 'bother') and hasattr(g1, 'an') and hasattr(g1, 'aother') and hasattr(g1, 'bm') and hasattr(g1, 'bother')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _rewrite_saxena : Any → Any                                ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(g1, 'argument')                        ║
+# ║   requires: hasattr(g2, 'argument')                        ║
+# ║   requires: hasattr(g2, 'an')                              ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _rewrite_saxena : {Any | hasattr(g1, 'argument') and ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | df6c50226137ed37  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.meijerint._rewrite_saxena","kind":"function","src_hash":"37883b6f65046bf2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_rewrite_saxena(fac)","rhs":"rewrite the integral ``fac*po*g1*g2`` from 0 to oo in terms of g functions with argument ``c*x``","over":{"base":"Any"},"name":"_rewrite_saxena_correct"},"guarantee":"rewrite the integral ``fac*po*g1*g2`` from 0 to oo in terms of g functions with argument ``c*x``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.meijerint._rewrite_saxena_correct","statement":"Path(_rewrite_saxena(x), rewrite the integral ``fac*po*g1*g2`` from 0 to oo in terms of g functions with argument ``c*x``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"df6c50226137ed37"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.meijerint._rewrite_saxena","kind":"function","src_hash":"37883b6f65046bf2","in":{"base":"Any","pred":"hasattr(g1, 'argument') and hasattr(g2, 'argument') and hasattr(g2, 'an') and hasattr(g2, 'aother') and hasattr(g2, 'bm') and hasattr(g2, 'bother') and hasattr(g1, 'an') and hasattr(g1, 'aother') and hasattr(g1, 'bm') and hasattr(g1, 'bother')"},"out":{"base":"Any"},"spec":{"lhs":"_rewrite_saxena(fac, po, g1)","rhs":"<unspecified:_rewrite_saxena>","over":{"base":"Any","pred":"hasattr(g1, 'argument') and hasattr(g2, 'argument') and hasattr(g2, 'an') and hasattr(g2, 'aother') and hasattr(g2, 'bm') and hasattr(g2, 'bother') and hasattr(g1, 'an') and hasattr(g1, 'aother') and hasattr(g1, 'bm') and hasattr(g1, 'bother')"},"name":"_rewrite_saxena_correct"},"guarantee":"rewrite the integral ``fac*po*g1*g2`` from 0 to oo in terms of g functions with argument ``c*x``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.meijerint._rewrite_saxena_correct","statement":"Path(_rewrite_saxena(x), rewrite the integral ``fac*po*g1*g2`` from 0 to oo in terms of g functions with argument ``c*x``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"df6c50226137ed37","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(g1, 'argument')","hasattr(g2, 'argument')","hasattr(g2, 'an')","hasattr(g2, 'aother')","hasattr(g2, 'bm')","hasattr(g2, 'bother')","hasattr(g1, 'an')","hasattr(g1, 'aother')","hasattr(g1, 'bm')","hasattr(g1, 'bother')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["g1.an","g1.aother","g1.argument","g1.bm","g1.bother","g2.an","g2.aother","g2.argument","g2.bm","g2.bother"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def _rewrite_saxena(fac, po, g1, g2, x, full_pb=False):
     """
     Rewrite the integral ``fac*po*g1*g2`` from 0 to oo in terms of G
@@ -1281,16 +1469,25 @@ def _rewrite_saxena(fac, po, g1, g2, x, full_pb=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_check_antecedents(g1,), return a condition under which the integral theorem applies) over Any ║
+# ║ Path(_check_antecedents(g1, g2, x), <unspecified:_check_antecedents>) over {Any | hasattr(g1, 'argument') and hasattr(g2, 'argument') and hasattr(g1, 'nu') and hasattr(g2, 'nu') and hasattr(g1, 'bm') and hasattr(g1, 'an') and hasattr(g1, 'ap') and hasattr(g1, 'bq') and hasattr(g2, 'bm') and hasattr(g2, 'an') and hasattr(g2, 'ap') and hasattr(g2, 'bq')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _check_antecedents : Any → Any                             ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(g1, 'argument')                        ║
+# ║   requires: hasattr(g2, 'argument')                        ║
+# ║   requires: hasattr(g1, 'nu')                              ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _check_antecedents : {Any | hasattr(g1, 'argument') a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 4.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bda9cd9265194505  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.meijerint._check_antecedents","kind":"function","src_hash":"db39d36578115df3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_check_antecedents(g1,)","rhs":"return a condition under which the integral theorem applies","over":{"base":"Any"},"name":"_check_antecedents_correct"},"guarantee":"return a condition under which the integral theorem applies","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.meijerint._check_antecedents_correct","statement":"Path(_check_antecedents(x), return a condition under which the integral theorem applies)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bda9cd9265194505"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.meijerint._check_antecedents","kind":"function","src_hash":"db39d36578115df3","in":{"base":"Any","pred":"hasattr(g1, 'argument') and hasattr(g2, 'argument') and hasattr(g1, 'nu') and hasattr(g2, 'nu') and hasattr(g1, 'bm') and hasattr(g1, 'an') and hasattr(g1, 'ap') and hasattr(g1, 'bq') and hasattr(g2, 'bm') and hasattr(g2, 'an') and hasattr(g2, 'ap') and hasattr(g2, 'bq')"},"out":{"base":"Any"},"spec":{"lhs":"_check_antecedents(g1, g2, x)","rhs":"<unspecified:_check_antecedents>","over":{"base":"Any","pred":"hasattr(g1, 'argument') and hasattr(g2, 'argument') and hasattr(g1, 'nu') and hasattr(g2, 'nu') and hasattr(g1, 'bm') and hasattr(g1, 'an') and hasattr(g1, 'ap') and hasattr(g1, 'bq') and hasattr(g2, 'bm') and hasattr(g2, 'an') and hasattr(g2, 'ap') and hasattr(g2, 'bq')"},"name":"_check_antecedents_correct"},"guarantee":"return a condition under which the integral theorem applies","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.meijerint._check_antecedents_correct","statement":"Path(_check_antecedents(x), return a condition under which the integral theorem applies)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bda9cd9265194505","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(g1, 'argument')","hasattr(g2, 'argument')","hasattr(g1, 'nu')","hasattr(g2, 'nu')","hasattr(g1, 'bm')","hasattr(g1, 'an')","hasattr(g1, 'ap')","hasattr(g1, 'bq')","hasattr(g2, 'bm')","hasattr(g2, 'an')","hasattr(g2, 'ap')","hasattr(g2, 'bq')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["g1.an","g1.ap","g1.argument","g1.bm","g1.bq","g1.nu","g2.an","g2.ap","g2.argument","g2.bm","g2.bq","g2.nu"],"catches":["TypeError"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":4.5,"verdict_class":"assumed","binding":true}}
 def _check_antecedents(g1, g2, x):
     """ Return a condition under which the integral theorem applies. """
     #  Yes, this is madness.
@@ -1596,16 +1793,25 @@ def _check_antecedents(g1, g2, x):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_int0oo(g1,), express integral from zero to infinity g1*g2 using a g function, assuming the necessary conditions are fulfilled) over Any ║
+# ║ Path(_int0oo(g1, g2, x), <unspecified:_int0oo>) over {Any | hasattr(g1, 'argument') and hasattr(g2, 'argument') and hasattr(g1, 'bm') and hasattr(g2, 'an') and hasattr(g2, 'aother') and hasattr(g1, 'bother') and hasattr(g1, 'an') and hasattr(g2, 'bm') and hasattr(g2, 'bother') and hasattr(g1, 'aother')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _int0oo : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(g1, 'argument')                        ║
+# ║   requires: hasattr(g2, 'argument')                        ║
+# ║   requires: hasattr(g1, 'bm')                              ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _int0oo : {Any | hasattr(g1, 'argument') and hasattr(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4d474c9463d2b697  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.meijerint._int0oo","kind":"function","src_hash":"8add6d5c5f263181","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_int0oo(g1,)","rhs":"express integral from zero to infinity g1*g2 using a g function, assuming the necessary conditions are fulfilled","over":{"base":"Any"},"name":"_int0oo_correct"},"guarantee":"express integral from zero to infinity g1*g2 using a g function, assuming the necessary conditions are fulfilled","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.meijerint._int0oo_correct","statement":"Path(_int0oo(x), express integral from zero to infinity g1*g2 using a g function, assuming the necessary conditions are fulfilled)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4d474c9463d2b697"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.meijerint._int0oo","kind":"function","src_hash":"8add6d5c5f263181","in":{"base":"Any","pred":"hasattr(g1, 'argument') and hasattr(g2, 'argument') and hasattr(g1, 'bm') and hasattr(g2, 'an') and hasattr(g2, 'aother') and hasattr(g1, 'bother') and hasattr(g1, 'an') and hasattr(g2, 'bm') and hasattr(g2, 'bother') and hasattr(g1, 'aother')"},"out":{"base":"Any"},"spec":{"lhs":"_int0oo(g1, g2, x)","rhs":"<unspecified:_int0oo>","over":{"base":"Any","pred":"hasattr(g1, 'argument') and hasattr(g2, 'argument') and hasattr(g1, 'bm') and hasattr(g2, 'an') and hasattr(g2, 'aother') and hasattr(g1, 'bother') and hasattr(g1, 'an') and hasattr(g2, 'bm') and hasattr(g2, 'bother') and hasattr(g1, 'aother')"},"name":"_int0oo_correct"},"guarantee":"express integral from zero to infinity g1*g2 using a g function, assuming the necessary conditions are fulfilled","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.meijerint._int0oo_correct","statement":"Path(_int0oo(x), express integral from zero to infinity g1*g2 using a g function, assuming the necessary conditions are fulfilled)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4d474c9463d2b697","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(g1, 'argument')","hasattr(g2, 'argument')","hasattr(g1, 'bm')","hasattr(g2, 'an')","hasattr(g2, 'aother')","hasattr(g1, 'bother')","hasattr(g1, 'an')","hasattr(g2, 'bm')","hasattr(g2, 'bother')","hasattr(g1, 'aother')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["g1.an","g1.aother","g1.argument","g1.bm","g1.bother","g2.an","g2.aother","g2.argument","g2.bm","g2.bother"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _int0oo(g1, g2, x):
     """
     Express integral from zero to infinity g1*g2 using a G function,
@@ -1636,16 +1842,25 @@ def _int0oo(g1, g2, x):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_rewrite_inversion(fac), absorb ``po`` == x**s into g) over Any ║
+# ║ Path(_rewrite_inversion(fac, po, g), <unspecified:_rewrite_inversion>) over {Any | hasattr(g, 'argument') and hasattr(g, 'an') and hasattr(g, 'aother') and hasattr(g, 'bm') and hasattr(g, 'bother')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _rewrite_inversion : Any → Any                             ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(g, 'argument')                         ║
+# ║   requires: hasattr(g, 'an')                               ║
+# ║   requires: hasattr(g, 'aother')                           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _rewrite_inversion : {Any | hasattr(g, 'argument') an...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e6b1bf640eb2d540  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.meijerint._rewrite_inversion","kind":"function","src_hash":"378d741dd8f62045","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_rewrite_inversion(fac)","rhs":"absorb ``po`` == x**s into g","over":{"base":"Any"},"name":"_rewrite_inversion_correct"},"guarantee":"absorb ``po`` == x**s into g","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.meijerint._rewrite_inversion_correct","statement":"Path(_rewrite_inversion(x), absorb ``po`` == x**s into g)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e6b1bf640eb2d540"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.meijerint._rewrite_inversion","kind":"function","src_hash":"378d741dd8f62045","in":{"base":"Any","pred":"hasattr(g, 'argument') and hasattr(g, 'an') and hasattr(g, 'aother') and hasattr(g, 'bm') and hasattr(g, 'bother')"},"out":{"base":"Any"},"spec":{"lhs":"_rewrite_inversion(fac, po, g)","rhs":"<unspecified:_rewrite_inversion>","over":{"base":"Any","pred":"hasattr(g, 'argument') and hasattr(g, 'an') and hasattr(g, 'aother') and hasattr(g, 'bm') and hasattr(g, 'bother')"},"name":"_rewrite_inversion_correct"},"guarantee":"absorb ``po`` == x**s into g","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.meijerint._rewrite_inversion_correct","statement":"Path(_rewrite_inversion(x), absorb ``po`` == x**s into g)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e6b1bf640eb2d540","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(g, 'argument')","hasattr(g, 'an')","hasattr(g, 'aother')","hasattr(g, 'bm')","hasattr(g, 'bother')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["g.an","g.aother","g.argument","g.bm","g.bother"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _rewrite_inversion(fac, po, g, x):
     """ Absorb ``po`` == x**s into g. """
     _, s = _get_coeff_exp(po, x)
@@ -1659,16 +1874,25 @@ def _rewrite_inversion(fac, po, g, x):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_check_antecedents_inversion(g, ), id) over Any       ║
+# ║ Path(_check_antecedents_inversion(g, x), id) over {Any | hasattr(g, 'argument') and hasattr(g, 'delta') and hasattr(g, 'an') and hasattr(g, 'bm') and hasattr(g, 'ap') and hasattr(g, 'bq')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _check_antecedents_inversion : Any → Any                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(g, 'argument')                         ║
+# ║   requires: hasattr(g, 'delta')                            ║
+# ║   requires: hasattr(g, 'an')                               ║
+# ║   ensures:  # HINT: _check_antecedents_inversion may ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _check_antecedents_inversion : {Any | hasattr(g, 'arg...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | ae33695ec752c413   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.meijerint._check_antecedents_inversion","kind":"function","src_hash":"1711975f9011a654","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_check_antecedents_inversion(g, )","rhs":"check antecedents for the laplace inversion integral","over":{"base":"Any"},"name":"_check_antecedents_inversion_correct","kind":"composition"},"guarantee":"check antecedents for the laplace inversion integral","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"_check_antecedents_inversion","by":"library_axiom"},{"fn":"_flip_g","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ae33695ec752c413"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.meijerint._check_antecedents_inversion","kind":"function","src_hash":"1711975f9011a654","in":{"base":"Any","pred":"hasattr(g, 'argument') and hasattr(g, 'delta') and hasattr(g, 'an') and hasattr(g, 'bm') and hasattr(g, 'ap') and hasattr(g, 'bq')"},"out":{"base":"Any","pred":"result satisfies: # HINT: _check_antecedents_inversion may be idempotent: _check_antecedents_inversion(_check_antecedents_inversion(x)) == _check_antecedents_inversion(x)"},"spec":{"lhs":"_check_antecedents_inversion(g, x)","rhs":"# HINT: _check_antecedents_inversion may be idempotent: _check_antecedents_inversion(_check_antecedents_inversion(x)) == _check_antecedents_inversion(x)","over":{"base":"Any","pred":"hasattr(g, 'argument') and hasattr(g, 'delta') and hasattr(g, 'an') and hasattr(g, 'bm') and hasattr(g, 'ap') and hasattr(g, 'bq')"},"name":"_check_antecedents_inversion_correct","kind":"composition"},"guarantee":"# HINT: _check_antecedents_inversion may be idempotent: _check_antecedents_inversion(_check_antecedents_inversion(x)) == _check_antecedents_inversion(x)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"_check_antecedents_inversion","by":"library_axiom"},{"fn":"_flip_g","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ae33695ec752c413","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(g, 'argument')","hasattr(g, 'delta')","hasattr(g, 'an')","hasattr(g, 'bm')","hasattr(g, 'ap')","hasattr(g, 'bq')"],"ensures":["# HINT: _check_antecedents_inversion may be idempotent: _check_antecedents_inversion(_check_antecedents_inversion(x)) == _check_antecedents_inversion(x)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["g.an","g.ap","g.argument","g.bm","g.bq","g.delta"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.3,"verdict_class":"assumed","binding":true}}
 def _check_antecedents_inversion(g, x):
     """ Check antecedents for the laplace inversion integral. """
     _debug('Checking antecedents for inversion:')
@@ -1792,16 +2016,25 @@ def _check_antecedents_inversion(g, x):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_int_inversion(g, ), compute the laplace inversion integral, assuming the formula applies) over Any ║
+# ║ Path(_int_inversion(g, x, t), C / t * g) over {Any | hasattr(g, 'argument') and hasattr(g, 'an') and hasattr(g, 'aother') and hasattr(g, 'bm') and hasattr(g, 'bother')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _int_inversion : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(g, 'argument')                         ║
+# ║   requires: hasattr(g, 'an')                               ║
+# ║   requires: hasattr(g, 'aother')                           ║
+# ║   returns:  C / t * g                                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _int_inversion : {Any | hasattr(g, 'argument') and ha...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ea5526e711a6e794  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7d87a4db8283cb5f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.meijerint._int_inversion","kind":"function","src_hash":"a69b04d152f5f83d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_int_inversion(g, )","rhs":"compute the laplace inversion integral, assuming the formula applies","over":{"base":"Any"},"name":"_int_inversion_correct"},"guarantee":"compute the laplace inversion integral, assuming the formula applies","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.meijerint._int_inversion_correct","statement":"Path(_int_inversion(x), compute the laplace inversion integral, assuming the formula applies)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ea5526e711a6e794"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.meijerint._int_inversion","kind":"function","src_hash":"a69b04d152f5f83d","in":{"base":"Any","pred":"hasattr(g, 'argument') and hasattr(g, 'an') and hasattr(g, 'aother') and hasattr(g, 'bm') and hasattr(g, 'bother')"},"out":{"base":"Any"},"spec":{"lhs":"_int_inversion(g, x, t)","rhs":"C / t * g","over":{"base":"Any","pred":"hasattr(g, 'argument') and hasattr(g, 'an') and hasattr(g, 'aother') and hasattr(g, 'bm') and hasattr(g, 'bother')"},"name":"_int_inversion_correct"},"guarantee":"returns C / t * g","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.meijerint._int_inversion_correct","statement":"Path(_int_inversion(x), returns C / t * g)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7d87a4db8283cb5f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(g, 'argument')","hasattr(g, 'an')","hasattr(g, 'aother')","hasattr(g, 'bm')","hasattr(g, 'bother')"],"returns_expr":"C / t * g","pure":false,"effects":{"effect_type":"reads_state","reads":["g.an","g.aother","g.argument","g.bm","g.bother"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _int_inversion(g, x, t):
     """
     Compute the laplace inversion integral, assuming the formula applies.
@@ -1821,7 +2054,13 @@ _lookup_table = None
 @cacheit
 @timeit
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_rewrite_single(f, ), try to rewrite f as a sum of single g functions of the form c*x**s*g(a*x**b), where b is a rational number and c is independent of x. we guarantee that result.argument.as_coeff_mul(x) returns (a, (x**) over {Any | isinstance(f, meijerg) and isinstance(hint, bool) and isinstance(cond, (bool, BooleanAtom))} ║
+# ║ Path(_rewrite_single(f, x, recursive), len(res) == old_len_res + 1) over {Any | isinstance(f, meijerg) and isinstance(hint, bool) and isinstance(cond, (bool, BooleanAtom)) and hasattr(f, 'subs') and hasattr(f, 'as_coeff_mul') and hasattr(f, 'match') and hasattr(f, 'free_symbols') and hasattr(f, 'argument') and hasattr(f, 'an') and hasattr(f, 'aother') and hasattr(f, 'bm') and hasattr(f, 'bother')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'subs')                             ║
+# ║   requires: hasattr(f, 'as_coeff_mul')                     ║
+# ║   requires: hasattr(f, 'match')                            ║
+# ║   ensures:  len(res) == old_len_res + 1                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _rewrite_single : {Any | isinstance(f, meijerg) and i...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -1836,9 +2075,12 @@ _lookup_table = None
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?4 ✗7 VCs | 18.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | d87875dd...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.meijerint._rewrite_single","kind":"function","src_hash":"7039b26b2b982521","in":{"base":"Any","pred":"isinstance(f, meijerg) and isinstance(hint, bool) and isinstance(cond, (bool, BooleanAtom))"},"out":{"base":"Any"},"spec":{"lhs":"_rewrite_single(f, )","rhs":"try to rewrite f as a sum of single g functions of the form c*x**s*g(a*x**b), where b is a rational number and c is independent of x. we guarantee that result.argument.as_coeff_mul(x) returns (a, (x**","over":{"base":"Any","pred":"isinstance(f, meijerg) and isinstance(hint, bool) and isinstance(cond, (bool, BooleanAtom))"},"name":"_rewrite_single_correct"},"guarantee":"try to rewrite f as a sum of single g functions of the form c*x**s*g(a*x**b), where b is a rational number and c is independent of x. we guarantee that result.argument.as_coeff_mul(x) returns (a, (x**","fibers":[{"name":"meijerg","pred":"isinstance(f, meijerg)","path":{"lhs":"_rewrite_single(x)","rhs":"try to rewrite f as a sum of single g functions of the form c*x**s*g(a*x**b), where b is a rational number and c is independent of x. we guarantee that result.argument.as_coeff_mul(x) returns (a, (x**","over":{"base":"meijerg","pred":"isinstance(f, meijerg)"},"name":"_rewrite_single_meijerg_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.meijerint._rewrite_single_meijerg_correct","statement":"_rewrite_single satisfies spec on meijerg inputs"},"trust":"LIBRARY"},{"name":"bool","pred":"isinstance(hint, bool)","path":{"lhs":"_rewrite_single(x)","rhs":"try to rewrite f as a sum of single g functions of the form c*x**s*g(a*x**b), where b is a rational number and c is independent of x. we guarantee that result.argument.as_coeff_mul(x) returns (a, (x**","over":{"base":"bool","pred":"isinstance(hint, bool)"},"name":"_rewrite_single_bool_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.meijerint._rewrite_single_bool_correct","statement":"_rewrite_single satisfies spec on bool inputs"},"trust":"LIBRARY"},{"name":"(bool","pred":"isinstance(cond, (bool, BooleanAtom))","path":{"lhs":"_rewrite_single(x)","rhs":"try to rewrite f as a sum of single g functions of the form c*x**s*g(a*x**b), where b is a rational number and c is independent of x. we guarantee that result.argument.as_coeff_mul(x) returns (a, (x**","over":{"base":"(bool","pred":"isinstance(cond, (bool, BooleanAtom))"},"name":"_rewrite_single_(bool_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.meijerint._rewrite_single_(bool_correct","statement":"_rewrite_single satisfies spec on (bool inputs"},"trust":"LIBRARY"},{"name":"list","pred":"isinstance(terms, list)","path":{"lhs":"_rewrite_single(x)","rhs":"try to rewrite f as a sum of single g functions of the form c*x**s*g(a*x**b), where b is a rational number and c is independent of x. we guarantee that result.argument.as_coeff_mul(x) returns (a, (x**","over":{"base":"list","pred":"isinstance(terms, list)"},"name":"_rewrite_single_list_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.meijerint._rewrite_single_list_correct","statement":"_rewrite_single satisfies spec on list inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":4,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"d87875dd7ef4f156"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.meijerint._rewrite_single","kind":"function","src_hash":"7039b26b2b982521","in":{"base":"Any","pred":"isinstance(f, meijerg) and isinstance(hint, bool) and isinstance(cond, (bool, BooleanAtom)) and hasattr(f, 'subs') and hasattr(f, 'as_coeff_mul') and hasattr(f, 'match') and hasattr(f, 'free_symbols') and hasattr(f, 'argument') and hasattr(f, 'an') and hasattr(f, 'aother') and hasattr(f, 'bm') and hasattr(f, 'bother')"},"out":{"base":"Any","pred":"result satisfies: len(res) == old_len_res + 1"},"spec":{"lhs":"_rewrite_single(f, x, recursive)","rhs":"len(res) == old_len_res + 1","over":{"base":"Any","pred":"isinstance(f, meijerg) and isinstance(hint, bool) and isinstance(cond, (bool, BooleanAtom)) and hasattr(f, 'subs') and hasattr(f, 'as_coeff_mul') and hasattr(f, 'match') and hasattr(f, 'free_symbols') and hasattr(f, 'argument') and hasattr(f, 'an') and hasattr(f, 'aother') and hasattr(f, 'bm') and hasattr(f, 'bother')"},"name":"_rewrite_single_correct"},"guarantee":"len(res) == old_len_res + 1","fibers":[{"name":"meijerg","pred":"isinstance(f, meijerg)","path":{"lhs":"_rewrite_single(x)","rhs":"len(res) == old_len_res + 1","over":{"base":"meijerg","pred":"isinstance(f, meijerg)"},"name":"_rewrite_single_meijerg_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.meijerint._rewrite_single_meijerg_correct","statement":"_rewrite_single satisfies spec on meijerg inputs"},"trust":"LIBRARY"},{"name":"bool","pred":"isinstance(hint, bool)","path":{"lhs":"_rewrite_single(x)","rhs":"len(res) == old_len_res + 1","over":{"base":"bool","pred":"isinstance(hint, bool)"},"name":"_rewrite_single_bool_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.meijerint._rewrite_single_bool_correct","statement":"_rewrite_single satisfies spec on bool inputs"},"trust":"LIBRARY"},{"name":"(bool","pred":"isinstance(cond, (bool, BooleanAtom))","path":{"lhs":"_rewrite_single(x)","rhs":"len(res) == old_len_res + 1","over":{"base":"(bool","pred":"isinstance(cond, (bool, BooleanAtom))"},"name":"_rewrite_single_(bool_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.meijerint._rewrite_single_(bool_correct","statement":"_rewrite_single satisfies spec on (bool inputs"},"trust":"LIBRARY"},{"name":"list","pred":"isinstance(terms, list)","path":{"lhs":"_rewrite_single(x)","rhs":"len(res) == old_len_res + 1","over":{"base":"list","pred":"isinstance(terms, list)"},"name":"_rewrite_single_list_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.meijerint._rewrite_single_list_correct","statement":"_rewrite_single satisfies spec on list inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":4,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"d87875dd7ef4f156","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'subs')","hasattr(f, 'as_coeff_mul')","hasattr(f, 'match')","hasattr(f, 'free_symbols')","hasattr(f, 'argument')","hasattr(f, 'an')","hasattr(f, 'aother')","hasattr(f, 'bm')","hasattr(f, 'bother')"],"ensures":["len(res) == old_len_res + 1"],"pure":false,"effects":{"effect_type":"mutates_global","reads":["f.an","f.aother","f.argument","f.as_coeff_mul","f.bm","f.bother","f.free_symbols","f.match","f.subs"],"calls_mutating":["res.append"],"raises":["NotImplementedError"],"catches":["IntegralTransformError","MellinTransformStripError","ValueError"],"globals_read":["_lookup_table"],"globals_written":["_lookup_table"]},"state_contract":{"modifies":["res.*"],"old_bindings":{"old_len_res":"len(res)"},"post_ensures":["len(res) == old_len_res + 1"],"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":12,"n_verified":1,"n_assumed":4,"n_failed":7,"trust_level":"LIBRARY_ASSUMED","compile_ms":18.2,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'g is None or g.has(S.Infinity, S.NaN, S.ComplexInfinity)', 'm != x', 'not isinstance(terms, list)', 'not isinstance(cond, (bool, BooleanAtom))', 'not isinstance(hint, bool)', 'g is None', '_eval_cond(cond) == False', 'len(m) > 1', 'isinstance(f, meijerg)', 'm.base != x or not m.exp.is_Rational', 'hint == False'}, fibers={'(bool', 'bool', 'meijerg', 'list'})"]}}
 def _rewrite_single(f, x, recursive=True):
     """
     Try to rewrite f as a sum of single G functions of the form
@@ -1980,16 +2222,22 @@ def _rewrite_single(f, x, recursive=True):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_rewrite1(f, ), try to rewrite ``f`` using a (sum of) single g functions with argument a*x**b. return fac, po, g such that f = fac*po*g, fac is independent of ``x``. and po = x**s. here g is a result from _rewrite_si) over Any ║
+# ║ Path(_rewrite1(f, x, recursive), (fac, po, g[0], g[1])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (fac, po, g[0], g[1])                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _rewrite1 : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 79ca1a5ebacdbf12  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f03bf71e1b8d2945  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.meijerint._rewrite1","kind":"function","src_hash":"278c1c8bea268ef2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_rewrite1(f, )","rhs":"try to rewrite ``f`` using a (sum of) single g functions with argument a*x**b. return fac, po, g such that f = fac*po*g, fac is independent of ``x``. and po = x**s. here g is a result from _rewrite_si","over":{"base":"Any"},"name":"_rewrite1_correct"},"guarantee":"try to rewrite ``f`` using a (sum of) single g functions with argument a*x**b. return fac, po, g such that f = fac*po*g, fac is independent of ``x``. and po = x**s. here g is a result from _rewrite_si","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.meijerint._rewrite1_correct","statement":"Path(_rewrite1(x), try to rewrite ``f`` using a (sum of) single g functions with argument a*x**b. return fac, po, g such that f = fac*po*g, fac is independent of ``x``. and po = x**s. here g is a result from _rewrite_si)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"79ca1a5ebacdbf12"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.meijerint._rewrite1","kind":"function","src_hash":"278c1c8bea268ef2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_rewrite1(f, x, recursive)","rhs":"(fac, po, g[0], g[1])","over":{"base":"Any"},"name":"_rewrite1_correct"},"guarantee":"returns (fac, po, g[0], g[1])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.meijerint._rewrite1_correct","statement":"Path(_rewrite1(x), returns (fac, po, g[0], g[1]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f03bf71e1b8d2945","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(fac, po, g[0], g[1])","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _rewrite1(f, x, recursive=True):
     """
     Try to rewrite ``f`` using a (sum of) single G functions with argument a*x**b.
@@ -2005,16 +2253,22 @@ def _rewrite1(f, x, recursive=True):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_rewrite2(f, ), try to rewrite ``f`` as a product of two g functions of arguments a*x**b. return fac, po, g1, g2 such that f = fac*po*g1*g2, where fac is independent of x and po is x**s. here g1 and g2 are results of) over Any ║
+# ║ Path(_rewrite2(f, x), <unspecified:_rewrite2>) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _rewrite2 : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 945d600c59ebb184  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.meijerint._rewrite2","kind":"function","src_hash":"558b4e60279d1107","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_rewrite2(f, )","rhs":"try to rewrite ``f`` as a product of two g functions of arguments a*x**b. return fac, po, g1, g2 such that f = fac*po*g1*g2, where fac is independent of x and po is x**s. here g1 and g2 are results of","over":{"base":"Any"},"name":"_rewrite2_correct"},"guarantee":"try to rewrite ``f`` as a product of two g functions of arguments a*x**b. return fac, po, g1, g2 such that f = fac*po*g1*g2, where fac is independent of x and po is x**s. here g1 and g2 are results of","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.meijerint._rewrite2_correct","statement":"Path(_rewrite2(x), try to rewrite ``f`` as a product of two g functions of arguments a*x**b. return fac, po, g1, g2 such that f = fac*po*g1*g2, where fac is independent of x and po is x**s. here g1 and g2 are results of)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"945d600c59ebb184"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.meijerint._rewrite2","kind":"function","src_hash":"558b4e60279d1107","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_rewrite2(f, x)","rhs":"<unspecified:_rewrite2>","over":{"base":"Any"},"name":"_rewrite2_correct"},"guarantee":"try to rewrite ``f`` as a product of two g functions of arguments a*x**b. return fac, po, g1, g2 such that f = fac*po*g1*g2, where fac is independent of x and po is x**s. here g1 and g2 are results of","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.meijerint._rewrite2_correct","statement":"Path(_rewrite2(x), try to rewrite ``f`` as a product of two g functions of arguments a*x**b. return fac, po, g1, g2 such that f = fac*po*g1*g2, where fac is independent of x and po is x**s. here g1 and g2 are results of)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"945d600c59ebb184","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def _rewrite2(f, x):
     """
     Try to rewrite ``f`` as a product of two G functions of arguments a*x**b.
@@ -2045,9 +2299,14 @@ def _rewrite2(f, x):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(meijerint_indefinite(f, ), compute an indefinite integral of ``f`` by rewriting it as a g function) over {Any | isinstance(rv, list)} ║
+# ║ Path(meijerint_indefinite(f, x), # HINT: meijerint_indefinite may be idempotent: meijerint_indefinite(meijerint_indefinite(x)) == meijerint_indefinite(x)) over {Any | isinstance(rv, list) and hasattr(f, 'has') and hasattr(f, 'subs')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ meijerint_indefinite : {Any | isinstance(rv, list)} →...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'has')                              ║
+# ║   requires: hasattr(f, 'subs')                             ║
+# ║   ensures:  # HINT: meijerint_indefinite may be idemp...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ meijerint_indefinite : {Any | isinstance(rv, list) an...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   list: {isinstance(rv, list)} → library_axiom             ║
@@ -2057,9 +2316,12 @@ def _rewrite2(f, x):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 570c5f06...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.meijerint.meijerint_indefinite","kind":"function","src_hash":"262778bc2ad283f6","in":{"base":"Any","pred":"isinstance(rv, list)"},"out":{"base":"Any"},"spec":{"lhs":"meijerint_indefinite(f, )","rhs":"compute an indefinite integral of ``f`` by rewriting it as a g function","over":{"base":"Any","pred":"isinstance(rv, list)"},"name":"meijerint_indefinite_correct"},"guarantee":"compute an indefinite integral of ``f`` by rewriting it as a g function","fibers":[{"name":"list","pred":"isinstance(rv, list)","path":{"lhs":"meijerint_indefinite(x)","rhs":"compute an indefinite integral of ``f`` by rewriting it as a g function","over":{"base":"list","pred":"isinstance(rv, list)"},"name":"meijerint_indefinite_list_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.meijerint.meijerint_indefinite_list_correct","statement":"meijerint_indefinite satisfies spec on list inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"570c5f06f422bea3"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.meijerint.meijerint_indefinite","kind":"function","src_hash":"262778bc2ad283f6","in":{"base":"Any","pred":"isinstance(rv, list) and hasattr(f, 'has') and hasattr(f, 'subs')"},"out":{"base":"Any","pred":"result satisfies: # HINT: meijerint_indefinite may be idempotent: meijerint_indefinite(meijerint_indefinite(x)) == meijerint_indefinite(x)"},"spec":{"lhs":"meijerint_indefinite(f, x)","rhs":"# HINT: meijerint_indefinite may be idempotent: meijerint_indefinite(meijerint_indefinite(x)) == meijerint_indefinite(x)","over":{"base":"Any","pred":"isinstance(rv, list) and hasattr(f, 'has') and hasattr(f, 'subs')"},"name":"meijerint_indefinite_correct"},"guarantee":"# HINT: meijerint_indefinite may be idempotent: meijerint_indefinite(meijerint_indefinite(x)) == meijerint_indefinite(x)","fibers":[{"name":"list","pred":"isinstance(rv, list)","path":{"lhs":"meijerint_indefinite(x)","rhs":"# HINT: meijerint_indefinite may be idempotent: meijerint_indefinite(meijerint_indefinite(x)) == meijerint_indefinite(x)","over":{"base":"list","pred":"isinstance(rv, list)"},"name":"meijerint_indefinite_list_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.meijerint.meijerint_indefinite_list_correct","statement":"meijerint_indefinite satisfies spec on list inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"570c5f06f422bea3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'has')","hasattr(f, 'subs')"],"ensures":["# HINT: meijerint_indefinite may be idempotent: meijerint_indefinite(meijerint_indefinite(x)) == meijerint_indefinite(x)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.1,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'not isinstance(rv, list)'}, fibers={'list'})"]}}
 def meijerint_indefinite(f, x):
     """
     Compute an indefinite integral of ``f`` by rewriting it as a G function.
@@ -2098,16 +2360,23 @@ def meijerint_indefinite(f, x):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_meijerint_indefinite_1(f, ), helper that does not attempt any substitution) over Any ║
+# ║ Path(_meijerint_indefinite_1(f, x), <unspecified:_meijerint_indefinite_1>) over {Any | hasattr(f, 'subs')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _meijerint_indefinite_1 : Any → Any                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(f, 'subs')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _meijerint_indefinite_1 : {Any | hasattr(f, 'subs')} ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f835d5ff7309d7de  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.meijerint._meijerint_indefinite_1","kind":"function","src_hash":"ad5b25c47e449e69","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_meijerint_indefinite_1(f, )","rhs":"helper that does not attempt any substitution","over":{"base":"Any"},"name":"_meijerint_indefinite_1_correct"},"guarantee":"helper that does not attempt any substitution","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.meijerint._meijerint_indefinite_1_correct","statement":"Path(_meijerint_indefinite_1(x), helper that does not attempt any substitution)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f835d5ff7309d7de"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.meijerint._meijerint_indefinite_1","kind":"function","src_hash":"ad5b25c47e449e69","in":{"base":"Any","pred":"hasattr(f, 'subs')"},"out":{"base":"Any"},"spec":{"lhs":"_meijerint_indefinite_1(f, x)","rhs":"<unspecified:_meijerint_indefinite_1>","over":{"base":"Any","pred":"hasattr(f, 'subs')"},"name":"_meijerint_indefinite_1_correct"},"guarantee":"helper that does not attempt any substitution","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.meijerint._meijerint_indefinite_1_correct","statement":"Path(_meijerint_indefinite_1(x), helper that does not attempt any substitution)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f835d5ff7309d7de","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(f, 'subs')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["f.subs"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def _meijerint_indefinite_1(f, x):
     """ Helper that does not attempt any substitution. """
     _debug('Trying to compute the indefinite integral of', f, 'wrt', x)
@@ -2200,9 +2469,14 @@ def _meijerint_indefinite_1(f, x):
 
 @timeit
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(meijerint_definite(f, ), integrate ``f`` over the interval [``a``, ``b``], by rewriting it as a product of two g functions, or as a single g function) over {Any | isinstance(rv, list)} ║
+# ║ Path(meijerint_definite(f, x, a), # HINT: meijerint_definite may be idempotent: meijerint_definite(meijerint_definite(x)) == meijerint_definite(x)) over {Any | isinstance(rv, list) and hasattr(f, 'has') and hasattr(f, 'subs')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ meijerint_definite : {Any | isinstance(rv, list)} → Any    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'has')                              ║
+# ║   requires: hasattr(f, 'subs')                             ║
+# ║   ensures:  # HINT: meijerint_definite may be idempot...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ meijerint_definite : {Any | isinstance(rv, list) and ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   list: {isinstance(rv, list)} → library_axiom             ║
@@ -2212,9 +2486,12 @@ def _meijerint_indefinite_1(f, x):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 2.6ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 8a72d6d5...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.meijerint.meijerint_definite","kind":"function","src_hash":"bd0ce5c89e9b6edd","in":{"base":"Any","pred":"isinstance(rv, list)"},"out":{"base":"Any"},"spec":{"lhs":"meijerint_definite(f, )","rhs":"integrate ``f`` over the interval [``a``, ``b``], by rewriting it as a product of two g functions, or as a single g function","over":{"base":"Any","pred":"isinstance(rv, list)"},"name":"meijerint_definite_correct"},"guarantee":"integrate ``f`` over the interval [``a``, ``b``], by rewriting it as a product of two g functions, or as a single g function","fibers":[{"name":"list","pred":"isinstance(rv, list)","path":{"lhs":"meijerint_definite(x)","rhs":"integrate ``f`` over the interval [``a``, ``b``], by rewriting it as a product of two g functions, or as a single g function","over":{"base":"list","pred":"isinstance(rv, list)"},"name":"meijerint_definite_list_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.meijerint.meijerint_definite_list_correct","statement":"meijerint_definite satisfies spec on list inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"8a72d6d595f1ed85"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.meijerint.meijerint_definite","kind":"function","src_hash":"bd0ce5c89e9b6edd","in":{"base":"Any","pred":"isinstance(rv, list) and hasattr(f, 'has') and hasattr(f, 'subs')"},"out":{"base":"Any","pred":"result satisfies: # HINT: meijerint_definite may be idempotent: meijerint_definite(meijerint_definite(x)) == meijerint_definite(x)"},"spec":{"lhs":"meijerint_definite(f, x, a)","rhs":"# HINT: meijerint_definite may be idempotent: meijerint_definite(meijerint_definite(x)) == meijerint_definite(x)","over":{"base":"Any","pred":"isinstance(rv, list) and hasattr(f, 'has') and hasattr(f, 'subs')"},"name":"meijerint_definite_correct"},"guarantee":"# HINT: meijerint_definite may be idempotent: meijerint_definite(meijerint_definite(x)) == meijerint_definite(x)","fibers":[{"name":"list","pred":"isinstance(rv, list)","path":{"lhs":"meijerint_definite(x)","rhs":"# HINT: meijerint_definite may be idempotent: meijerint_definite(meijerint_definite(x)) == meijerint_definite(x)","over":{"base":"list","pred":"isinstance(rv, list)"},"name":"meijerint_definite_list_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.meijerint.meijerint_definite_list_correct","statement":"meijerint_definite satisfies spec on list inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"8a72d6d595f1ed85","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'has')","hasattr(f, 'subs')"],"ensures":["# HINT: meijerint_definite may be idempotent: meijerint_definite(meijerint_definite(x)) == meijerint_definite(x)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.6,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'res2 is None', 'not isinstance(rv, list)', '(a, b) == (S.Zero, S.Infinity)', 'a == b', '(a - split >= 0) == True', 'res1 is None', 'cond == False'}, fibers={'list'})"]}}
 def meijerint_definite(f, x, a, b):
     """
     Integrate ``f`` over the interval [``a``, ``b``], by rewriting it as a product
@@ -2354,16 +2631,22 @@ def meijerint_definite(f, x, a, b):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_guess_expansion(f, ), try to guess sensible rewritings for integrand f(x)) over Any ║
+# ║ Path(_guess_expansion(f, x), <unspecified:_guess_expansion>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _guess_expansion : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 87e82f7aa73ba065  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.meijerint._guess_expansion","kind":"function","src_hash":"8c459557caa41200","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_guess_expansion(f, )","rhs":"try to guess sensible rewritings for integrand f(x)","over":{"base":"Any"},"name":"_guess_expansion_correct"},"guarantee":"try to guess sensible rewritings for integrand f(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.meijerint._guess_expansion_correct","statement":"Path(_guess_expansion(x), try to guess sensible rewritings for integrand f(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"87e82f7aa73ba065"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.meijerint._guess_expansion","kind":"function","src_hash":"8c459557caa41200","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_guess_expansion(f, x)","rhs":"<unspecified:_guess_expansion>","over":{"base":"Any"},"name":"_guess_expansion_correct"},"guarantee":"try to guess sensible rewritings for integrand f(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.meijerint._guess_expansion_correct","statement":"Path(_guess_expansion(x), try to guess sensible rewritings for integrand f(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"87e82f7aa73ba065","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _guess_expansion(f, x):
     """ Try to guess sensible rewritings for integrand f(x). """
     res = [(f, 'original integrand')]
@@ -2397,16 +2680,23 @@ def _guess_expansion(f, x):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_meijerint_definite_2(f, ), try to integrate f dx from zero to infinity) over Any ║
+# ║ Path(_meijerint_definite_2(f, x), <unspecified:_meijerint_definite_2>) over {Any | hasattr(f, 'subs')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _meijerint_definite_2 : Any → Any                          ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(f, 'subs')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _meijerint_definite_2 : {Any | hasattr(f, 'subs')} → Any   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c2966c986c79dd20  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.meijerint._meijerint_definite_2","kind":"function","src_hash":"0923d779c80e9e06","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_meijerint_definite_2(f, )","rhs":"try to integrate f dx from zero to infinity","over":{"base":"Any"},"name":"_meijerint_definite_2_correct"},"guarantee":"try to integrate f dx from zero to infinity","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.meijerint._meijerint_definite_2_correct","statement":"Path(_meijerint_definite_2(x), try to integrate f dx from zero to infinity)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c2966c986c79dd20"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.meijerint._meijerint_definite_2","kind":"function","src_hash":"0923d779c80e9e06","in":{"base":"Any","pred":"hasattr(f, 'subs')"},"out":{"base":"Any"},"spec":{"lhs":"_meijerint_definite_2(f, x)","rhs":"<unspecified:_meijerint_definite_2>","over":{"base":"Any","pred":"hasattr(f, 'subs')"},"name":"_meijerint_definite_2_correct"},"guarantee":"try to integrate f dx from zero to infinity","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.meijerint._meijerint_definite_2_correct","statement":"Path(_meijerint_definite_2(x), try to integrate f dx from zero to infinity)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c2966c986c79dd20","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(f, 'subs')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["f.subs"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _meijerint_definite_2(f, x):
     """
     Try to integrate f dx from zero to infinity.
@@ -2438,16 +2728,24 @@ def _meijerint_definite_2(f, x):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_meijerint_definite_3(f, ), try to integrate f dx from zero to infinity) over Any ║
+# ║ Path(_meijerint_definite_3(f, x), <unspecified:_meijerint_definite_3>) over {Any | hasattr(f, 'is_Add') and hasattr(f, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _meijerint_definite_3 : Any → Any                          ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(f, 'is_Add')                           ║
+# ║   requires: hasattr(f, 'args')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _meijerint_definite_3 : {Any | hasattr(f, 'is_Add') a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 11f9e79867a070a9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.meijerint._meijerint_definite_3","kind":"function","src_hash":"48afe4a818727e2c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_meijerint_definite_3(f, )","rhs":"try to integrate f dx from zero to infinity","over":{"base":"Any"},"name":"_meijerint_definite_3_correct"},"guarantee":"try to integrate f dx from zero to infinity","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.meijerint._meijerint_definite_3_correct","statement":"Path(_meijerint_definite_3(x), try to integrate f dx from zero to infinity)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"11f9e79867a070a9"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.meijerint._meijerint_definite_3","kind":"function","src_hash":"48afe4a818727e2c","in":{"base":"Any","pred":"hasattr(f, 'is_Add') and hasattr(f, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_meijerint_definite_3(f, x)","rhs":"<unspecified:_meijerint_definite_3>","over":{"base":"Any","pred":"hasattr(f, 'is_Add') and hasattr(f, 'args')"},"name":"_meijerint_definite_3_correct"},"guarantee":"try to integrate f dx from zero to infinity","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.meijerint._meijerint_definite_3_correct","statement":"Path(_meijerint_definite_3(x), try to integrate f dx from zero to infinity)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"11f9e79867a070a9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(f, 'is_Add')","hasattr(f, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["f.args","f.is_Add"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _meijerint_definite_3(f, x):
     """
     Try to integrate f dx from zero to infinity.
@@ -2473,32 +2771,44 @@ def _meijerint_definite_3(f, x):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_my_unpolarify(f), internal helper behaves correctly) over Any ║
+# ║ Path(_my_unpolarify(f), _eval_cond(unpolarify(f))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _eval_cond(unpolarify(f))                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _my_unpolarify : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 685efab6d1fea8f8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.meijerint._my_unpolarify","kind":"function","src_hash":"feda74e1f0fcb6f6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_my_unpolarify(f)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_my_unpolarify_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"685efab6d1fea8f8"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.meijerint._my_unpolarify","kind":"function","src_hash":"feda74e1f0fcb6f6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_my_unpolarify(f)","rhs":"_eval_cond(unpolarify(f))","over":{"base":"Any"},"name":"_my_unpolarify_correct"},"guarantee":"returns _eval_cond(unpolarify(f))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"685efab6d1fea8f8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_eval_cond(unpolarify(f))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _my_unpolarify(f):
     return _eval_cond(unpolarify(f))
 
 
 @timeit
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_meijerint_definite_4(f, ), id) over Any              ║
+# ║ Path(_meijerint_definite_4(f, x, only_double), id) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _meijerint_definite_4 : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | e0ce131644d8c3af   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.meijerint._meijerint_definite_4","kind":"function","src_hash":"66a0489a6d4aea3e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_meijerint_definite_4(f, )","rhs":"try to integrate f dx from zero to infinity","over":{"base":"Any"},"name":"_meijerint_definite_4_correct","kind":"composition"},"guarantee":"try to integrate f dx from zero to infinity","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"_my_unpolarify","by":"library_axiom"},{"fn":"hyperexpand","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e0ce131644d8c3af"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.meijerint._meijerint_definite_4","kind":"function","src_hash":"66a0489a6d4aea3e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_meijerint_definite_4(f, x, only_double)","rhs":"<unspecified:_meijerint_definite_4>","over":{"base":"Any"},"name":"_meijerint_definite_4_correct","kind":"composition"},"guarantee":"try to integrate f dx from zero to infinity","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"_my_unpolarify","by":"library_axiom"},{"fn":"hyperexpand","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e0ce131644d8c3af","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def _meijerint_definite_4(f, x, only_double=False):
     """
     Try to integrate f dx from zero to infinity.
@@ -2571,7 +2881,13 @@ def _meijerint_definite_4(f, x, only_double=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(meijerint_inversion(f, ), compute the inverse laplace transform $\int_{c+i\infty}^{c-i\infty} f(x) e^{tx}\, dx$, for real c larger than the real part of all singularities of ``f``) over {Any | isinstance(f, exp) and isinstance(cond, bool)} ║
+# ║ Path(meijerint_inversion(f, x, t), <unspecified:meijerint_inversion>) over {Any | isinstance(f, exp) and isinstance(cond, bool) and hasattr(f, 'is_Mul') and hasattr(f, 'subs') and hasattr(f, 'free_symbols') and hasattr(f, 'args')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(f, 'is_Mul')                           ║
+# ║   requires: hasattr(f, 'subs')                             ║
+# ║   requires: hasattr(f, 'free_symbols')                     ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ meijerint_inversion : {Any | isinstance(f, exp) and i...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -2584,9 +2900,12 @@ def _meijerint_definite_4(f, x, only_double=False):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?2 ✗2 VCs | 4.9ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 094f11ae...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.meijerint.meijerint_inversion","kind":"function","src_hash":"954871fee528a9f0","in":{"base":"Any","pred":"isinstance(f, exp) and isinstance(cond, bool)"},"out":{"base":"Any"},"spec":{"lhs":"meijerint_inversion(f, )","rhs":"compute the inverse laplace transform $\\int_{c+i\\infty}^{c-i\\infty} f(x) e^{tx}\\, dx$, for real c larger than the real part of all singularities of ``f``","over":{"base":"Any","pred":"isinstance(f, exp) and isinstance(cond, bool)"},"name":"meijerint_inversion_correct"},"guarantee":"compute the inverse laplace transform $\\int_{c+i\\infty}^{c-i\\infty} f(x) e^{tx}\\, dx$, for real c larger than the real part of all singularities of ``f``","fibers":[{"name":"exp","pred":"isinstance(f, exp)","path":{"lhs":"meijerint_inversion(x)","rhs":"compute the inverse laplace transform $\\int_{c+i\\infty}^{c-i\\infty} f(x) e^{tx}\\, dx$, for real c larger than the real part of all singularities of ``f``","over":{"base":"exp","pred":"isinstance(f, exp)"},"name":"meijerint_inversion_exp_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.meijerint.meijerint_inversion_exp_correct","statement":"meijerint_inversion satisfies spec on exp inputs"},"trust":"LIBRARY"},{"name":"bool","pred":"isinstance(cond, bool)","path":{"lhs":"meijerint_inversion(x)","rhs":"compute the inverse laplace transform $\\int_{c+i\\infty}^{c-i\\infty} f(x) e^{tx}\\, dx$, for real c larger than the real part of all singularities of ``f``","over":{"base":"bool","pred":"isinstance(cond, bool)"},"name":"meijerint_inversion_bool_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.meijerint.meijerint_inversion_bool_correct","statement":"meijerint_inversion satisfies spec on bool inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"094f11aec164e868"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.meijerint.meijerint_inversion","kind":"function","src_hash":"954871fee528a9f0","in":{"base":"Any","pred":"isinstance(f, exp) and isinstance(cond, bool) and hasattr(f, 'is_Mul') and hasattr(f, 'subs') and hasattr(f, 'free_symbols') and hasattr(f, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"meijerint_inversion(f, x, t)","rhs":"<unspecified:meijerint_inversion>","over":{"base":"Any","pred":"isinstance(f, exp) and isinstance(cond, bool) and hasattr(f, 'is_Mul') and hasattr(f, 'subs') and hasattr(f, 'free_symbols') and hasattr(f, 'args')"},"name":"meijerint_inversion_correct"},"guarantee":"compute the inverse laplace transform $\\int_{c+i\\infty}^{c-i\\infty} f(x) e^{tx}\\, dx$, for real c larger than the real part of all singularities of ``f``","fibers":[{"name":"exp","pred":"isinstance(f, exp)","path":{"lhs":"meijerint_inversion(x)","rhs":"compute the inverse laplace transform $\\int_{c+i\\infty}^{c-i\\infty} f(x) e^{tx}\\, dx$, for real c larger than the real part of all singularities of ``f``","over":{"base":"exp","pred":"isinstance(f, exp)"},"name":"meijerint_inversion_exp_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.meijerint.meijerint_inversion_exp_correct","statement":"meijerint_inversion satisfies spec on exp inputs"},"trust":"LIBRARY"},{"name":"bool","pred":"isinstance(cond, bool)","path":{"lhs":"meijerint_inversion(x)","rhs":"compute the inverse laplace transform $\\int_{c+i\\infty}^{c-i\\infty} f(x) e^{tx}\\, dx$, for real c larger than the real part of all singularities of ``f``","over":{"base":"bool","pred":"isinstance(cond, bool)"},"name":"meijerint_inversion_bool_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.meijerint.meijerint_inversion_bool_correct","statement":"meijerint_inversion satisfies spec on bool inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"094f11aec164e868","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(f, 'is_Mul')","hasattr(f, 'subs')","hasattr(f, 'free_symbols')","hasattr(f, 'args')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":1,"n_assumed":2,"n_failed":2,"trust_level":"LIBRARY_ASSUMED","compile_ms":4.9,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(arg, exp)', 'isinstance(f, exp)', 'b == 1', 'cond == False', 'not isinstance(cond, bool)'}, fibers={'exp', 'bool'})"]}}
 def meijerint_inversion(f, x, t):
     r"""
     Compute the inverse laplace transform

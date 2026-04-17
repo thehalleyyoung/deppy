@@ -76,14 +76,20 @@ BLACKLIST_DEFAULT = (
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(PytestPluginManager(*args), correctly constructs a PytestPluginManager instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ PytestPluginManager : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 75d9bcab0e18d922  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.runtests_pytest.PytestPluginManager","kind":"class","src_hash":"763d68fa6406053a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"PytestPluginManager(*args)","rhs":"correctly constructs a PytestPluginManager instance","over":{"base":"Any"},"name":"PytestPluginManager_class_invariant"},"guarantee":"correctly constructs a PytestPluginManager instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"75d9bcab0e18d922"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.runtests_pytest.PytestPluginManager","kind":"class","src_hash":"763d68fa6406053a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"PytestPluginManager(*args)","rhs":"correctly constructs a PytestPluginManager instance","over":{"base":"Any"},"name":"PytestPluginManager_class_invariant"},"guarantee":"correctly constructs a PytestPluginManager instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"75d9bcab0e18d922","spec_source":"static","formal_spec":{"source":"static","strength":"trivial"},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function PytestPluginManager not found in source"]}}
 class PytestPluginManager:
     """Module names for pytest plugins used by SymPy."""
     PYTEST: str = 'pytest'
@@ -94,76 +100,111 @@ class PytestPluginManager:
 
     @functools.cached_property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(has_pytest(), has_pytest produces the expected output) over Any ║
+# ║ Path(has_pytest(), bool(importlib.util.find_spec(self.PYTEST))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ has_pytest : Any → bool                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, bool)                       ║
+# ║   returns:  bool(importlib.util.find_spec(self.PYTEST))    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ has_pytest : Any → {bool | result satisfies: result =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f2c50f4d7b6ef1d9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.runtests_pytest.PytestPluginManager.has_pytest","kind":"method","src_hash":"f3bd88ce23f6bff4","in":{"base":"Any"},"out":{"base":"bool"},"spec":{"lhs":"has_pytest()","rhs":"has_pytest produces the expected output","over":{"base":"Any"},"name":"has_pytest_correct"},"guarantee":"has_pytest produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f2c50f4d7b6ef1d9"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.runtests_pytest.PytestPluginManager.has_pytest","kind":"method","src_hash":"f3bd88ce23f6bff4","in":{"base":"Any"},"out":{"base":"bool","pred":"result satisfies: result == (bool(importlib.util.find_spec(self.PYTEST)))"},"spec":{"lhs":"has_pytest()","rhs":"bool(importlib.util.find_spec(self.PYTEST))","over":{"base":"Any"},"name":"has_pytest_correct"},"guarantee":"returns bool(importlib.util.find_spec(self.PYTEST)); isinstance(result, bool)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f2c50f4d7b6ef1d9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, bool)"],"returns_expr":"bool(importlib.util.find_spec(self.PYTEST))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.PYTEST"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def has_pytest(self) -> bool:
         return bool(importlib.util.find_spec(self.PYTEST))
 
     @functools.cached_property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(has_randomly(), has_randomly produces the expected output) over Any ║
+# ║ Path(has_randomly(), bool(importlib.util.find_spec(self.RANDOMLY))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ has_randomly : Any → bool                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, bool)                       ║
+# ║   returns:  bool(importlib.util.find_spec(self.RANDOM...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ has_randomly : Any → {bool | result satisfies: result...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d92d41004a51d168           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.runtests_pytest.PytestPluginManager.has_randomly","kind":"method","src_hash":"d092870d5ec62d78","in":{"base":"Any"},"out":{"base":"bool"},"spec":{"lhs":"has_randomly()","rhs":"has_randomly produces the expected output","over":{"base":"Any"},"name":"has_randomly_correct"},"guarantee":"has_randomly produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d92d41004a51d168"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.runtests_pytest.PytestPluginManager.has_randomly","kind":"method","src_hash":"d092870d5ec62d78","in":{"base":"Any"},"out":{"base":"bool","pred":"result satisfies: result == (bool(importlib.util.find_spec(self.RANDOMLY)))"},"spec":{"lhs":"has_randomly()","rhs":"bool(importlib.util.find_spec(self.RANDOMLY))","over":{"base":"Any"},"name":"has_randomly_correct"},"guarantee":"returns bool(importlib.util.find_spec(self.RANDOMLY)); isinstance(result, bool)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d92d41004a51d168","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, bool)"],"returns_expr":"bool(importlib.util.find_spec(self.RANDOMLY))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.RANDOMLY"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def has_randomly(self) -> bool:
         return bool(importlib.util.find_spec(self.RANDOMLY))
 
     @functools.cached_property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(has_split(), has_split produces the expected output) over Any ║
+# ║ Path(has_split(), bool(importlib.util.find_spec(self.SPLIT))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ has_split : Any → bool                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, bool)                       ║
+# ║   returns:  bool(importlib.util.find_spec(self.SPLIT))     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ has_split : Any → {bool | result satisfies: result ==...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b6568a83ca2da69d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.runtests_pytest.PytestPluginManager.has_split","kind":"method","src_hash":"497fe1b27bd5d5a2","in":{"base":"Any"},"out":{"base":"bool"},"spec":{"lhs":"has_split()","rhs":"has_split produces the expected output","over":{"base":"Any"},"name":"has_split_correct"},"guarantee":"has_split produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b6568a83ca2da69d"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.runtests_pytest.PytestPluginManager.has_split","kind":"method","src_hash":"497fe1b27bd5d5a2","in":{"base":"Any"},"out":{"base":"bool","pred":"result satisfies: result == (bool(importlib.util.find_spec(self.SPLIT)))"},"spec":{"lhs":"has_split()","rhs":"bool(importlib.util.find_spec(self.SPLIT))","over":{"base":"Any"},"name":"has_split_correct"},"guarantee":"returns bool(importlib.util.find_spec(self.SPLIT)); isinstance(result, bool)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b6568a83ca2da69d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, bool)"],"returns_expr":"bool(importlib.util.find_spec(self.SPLIT))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.SPLIT"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def has_split(self) -> bool:
         return bool(importlib.util.find_spec(self.SPLIT))
 
     @functools.cached_property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(has_timeout(), has_timeout produces the expected output) over Any ║
+# ║ Path(has_timeout(), bool(importlib.util.find_spec(self.TIMEOUT))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ has_timeout : Any → bool                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, bool)                       ║
+# ║   returns:  bool(importlib.util.find_spec(self.TIMEOUT))   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ has_timeout : Any → {bool | result satisfies: result ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e08bc027096309d4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.runtests_pytest.PytestPluginManager.has_timeout","kind":"method","src_hash":"54e69f5959940af8","in":{"base":"Any"},"out":{"base":"bool"},"spec":{"lhs":"has_timeout()","rhs":"has_timeout produces the expected output","over":{"base":"Any"},"name":"has_timeout_correct"},"guarantee":"has_timeout produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e08bc027096309d4"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.runtests_pytest.PytestPluginManager.has_timeout","kind":"method","src_hash":"54e69f5959940af8","in":{"base":"Any"},"out":{"base":"bool","pred":"result satisfies: result == (bool(importlib.util.find_spec(self.TIMEOUT)))"},"spec":{"lhs":"has_timeout()","rhs":"bool(importlib.util.find_spec(self.TIMEOUT))","over":{"base":"Any"},"name":"has_timeout_correct"},"guarantee":"returns bool(importlib.util.find_spec(self.TIMEOUT)); isinstance(result, bool)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e08bc027096309d4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, bool)"],"returns_expr":"bool(importlib.util.find_spec(self.TIMEOUT))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.TIMEOUT"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def has_timeout(self) -> bool:
         return bool(importlib.util.find_spec(self.TIMEOUT))
 
     @functools.cached_property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(has_xdist(), has_xdist produces the expected output) over Any ║
+# ║ Path(has_xdist(), bool(importlib.util.find_spec(self.XDIST))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ has_xdist : Any → bool                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, bool)                       ║
+# ║   returns:  bool(importlib.util.find_spec(self.XDIST))     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ has_xdist : Any → {bool | result satisfies: result ==...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d5ae757299cfdb7f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.runtests_pytest.PytestPluginManager.has_xdist","kind":"method","src_hash":"e3c30606f89584a4","in":{"base":"Any"},"out":{"base":"bool"},"spec":{"lhs":"has_xdist()","rhs":"has_xdist produces the expected output","over":{"base":"Any"},"name":"has_xdist_correct"},"guarantee":"has_xdist produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d5ae757299cfdb7f"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.runtests_pytest.PytestPluginManager.has_xdist","kind":"method","src_hash":"e3c30606f89584a4","in":{"base":"Any"},"out":{"base":"bool","pred":"result satisfies: result == (bool(importlib.util.find_spec(self.XDIST)))"},"spec":{"lhs":"has_xdist()","rhs":"bool(importlib.util.find_spec(self.XDIST))","over":{"base":"Any"},"name":"has_xdist_correct"},"guarantee":"returns bool(importlib.util.find_spec(self.XDIST)); isinstance(result, bool)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d5ae757299cfdb7f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, bool)"],"returns_expr":"bool(importlib.util.find_spec(self.XDIST))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.XDIST"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def has_xdist(self) -> bool:
         return bool(importlib.util.find_spec(self.XDIST))
 
@@ -173,32 +214,50 @@ split_pattern = re.compile(r'([1-9][0-9]*)/([1-9][0-9]*)')
 
 @functools.lru_cache
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sympy_dir(), returns the root sympy directory) over Any ║
+# ║ Path(sympy_dir(), pathlib.Path(__file__).parents[2]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ sympy_dir : Any → pathlib.Path                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, pathlib.Path)               ║
+# ║   returns:  pathlib.Path(__file__).parents[2]              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ sympy_dir : Any → {pathlib.Path | result satisfies: r...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9546107e8991f083           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.runtests_pytest.sympy_dir","kind":"function","src_hash":"a8cb830d7cb4d941","in":{"base":"Any"},"out":{"base":"pathlib.Path"},"spec":{"lhs":"sympy_dir()","rhs":"returns the root sympy directory","over":{"base":"Any"},"name":"sympy_dir_correct"},"guarantee":"returns the root sympy directory","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9546107e8991f083"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.runtests_pytest.sympy_dir","kind":"function","src_hash":"a8cb830d7cb4d941","in":{"base":"Any"},"out":{"base":"pathlib.Path","pred":"result satisfies: result == (pathlib.Path(__file__).parents[2])"},"spec":{"lhs":"sympy_dir()","rhs":"pathlib.Path(__file__).parents[2]","over":{"base":"Any"},"name":"sympy_dir_correct"},"guarantee":"returns pathlib.Path(__file__).parents[2]; isinstance(result, pathlib.Path)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9546107e8991f083","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, pathlib.Path)"],"returns_expr":"pathlib.Path(__file__).parents[2]","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def sympy_dir() -> pathlib.Path:
     """Returns the root SymPy directory."""
     return pathlib.Path(__file__).parents[2]
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(update_args_with_paths(pat), appends valid paths and flags to the args `list` passed to `pytest.main`) over List[str] ║
+# ║ Path(update_args_with_paths(paths, keywords, args), isinstance(result, list) and all(isinstance(x, str) for x in result) and len(full_paths) == old_len_full_paths + 1 and len(matches) == old_len_matches + 1 and len(partial_path_file_patterns) == old_len_partial_path_file_patterns + 1 and len(partial_paths) == old_len_partial_paths + 1 and len(valid_testpaths_default) == old_len_valid_testpaths_default + 1) over {List[str] | isinstance(paths, List[str]) and isinstance(keywords, Optional[Tuple[str]]) and isinstance(args, List[str]) and hasattr(args, 'extend')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ update_args_with_paths : List[str] → List[str]             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(paths, List[str])                   ║
+# ║   requires: isinstance(keywords, Optional[Tuple[str]])     ║
+# ║   requires: isinstance(args, List[str])                    ║
+# ║   ensures:  isinstance(result, list)                       ║
+# ║   ensures:  all(isinstance(x, str) for x in result)        ║
+# ║   ensures:  len(full_paths) == old_len_full_paths + 1      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ update_args_with_paths : {List[str] | isinstance(path...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5c6437afc65f4308  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.8ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a1cd5c80be2bfcb8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.runtests_pytest.update_args_with_paths","kind":"function","src_hash":"50069b9a223c9457","in":{"base":"List[str]"},"out":{"base":"List[str]"},"spec":{"lhs":"update_args_with_paths(pat)","rhs":"appends valid paths and flags to the args `list` passed to `pytest.main`","over":{"base":"List[str]"},"name":"update_args_with_paths_correct"},"guarantee":"appends valid paths and flags to the args `list` passed to `pytest.main`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.runtests_pytest.update_args_with_paths_correct","statement":"Path(update_args_with_paths(x), appends valid paths and flags to the args `list` passed to `pytest.main`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5c6437afc65f4308"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.runtests_pytest.update_args_with_paths","kind":"function","src_hash":"50069b9a223c9457","in":{"base":"List[str]","pred":"isinstance(paths, List[str]) and isinstance(keywords, Optional[Tuple[str]]) and isinstance(args, List[str]) and hasattr(args, 'extend')"},"out":{"base":"List[str]","pred":"result satisfies: isinstance(result, list) and all(isinstance(x, str) for x in result) and len(full_paths) == old_len_full_paths + 1 and len(matches) == old_len_matches + 1 and len(partial_path_file_patterns) == old_len_partial_path_file_patterns + 1 and len(partial_paths) == old_len_partial_paths + 1 and len(valid_testpaths_default) == old_len_valid_testpaths_default + 1"},"spec":{"lhs":"update_args_with_paths(paths, keywords, args)","rhs":"isinstance(result, list) and all(isinstance(x, str) for x in result) and len(full_paths) == old_len_full_paths + 1 and len(matches) == old_len_matches + 1 and len(partial_path_file_patterns) == old_len_partial_path_file_patterns + 1 and len(partial_paths) == old_len_partial_paths + 1 and len(valid_testpaths_default) == old_len_valid_testpaths_default + 1","over":{"base":"List[str]","pred":"isinstance(paths, List[str]) and isinstance(keywords, Optional[Tuple[str]]) and isinstance(args, List[str]) and hasattr(args, 'extend')"},"name":"update_args_with_paths_correct"},"guarantee":"isinstance(result, list); all(isinstance(x, str) for x in result); len(full_paths) == old_len_full_paths + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.runtests_pytest.update_args_with_paths_correct","statement":"Path(update_args_with_paths(x), isinstance(result, list); all(isinstance(x, str) for x in result); len(full_paths) == old_len_full_paths + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a1cd5c80be2bfcb8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(paths, List[str])","isinstance(keywords, Optional[Tuple[str]])","isinstance(args, List[str])","hasattr(args, 'extend')"],"ensures":["isinstance(result, list)","all(isinstance(x, str) for x in result)","len(full_paths) == old_len_full_paths + 1","len(matches) == old_len_matches + 1","len(partial_path_file_patterns) == old_len_partial_path_file_patterns + 1","len(partial_paths) == old_len_partial_paths + 1","len(valid_testpaths_default) == old_len_valid_testpaths_default + 1"],"pure":false,"effects":{"effect_type":"mutates_args","reads":["args.extend"],"calls_mutating":["args.extend","candidate_paths.extend","full_paths.append","matches.append","matches.extend","partial_path_file_patterns.append","partial_paths.append","valid_testpaths_default.append"]},"state_contract":{"modifies":["args.*","candidate_paths.*","full_paths.*","matches.*","partial_path_file_patterns.*","partial_paths.*","valid_testpaths_default.*"],"old_bindings":{"old_len_args":"len(args)","old_len_candidate_paths":"len(candidate_paths)","old_len_full_paths":"len(full_paths)","old_len_matches":"len(matches)","old_len_partial_path_file_patterns":"len(partial_path_file_patterns)","old_len_partial_paths":"len(partial_paths)","old_len_valid_testpaths_default":"len(valid_testpaths_default)"},"post_ensures":["len(full_paths) == old_len_full_paths + 1","len(matches) == old_len_matches + 1","len(partial_path_file_patterns) == old_len_partial_path_file_patterns + 1","len(partial_paths) == old_len_partial_paths + 1","len(valid_testpaths_default) == old_len_valid_testpaths_default + 1"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"assumed","binding":true}}
 def update_args_with_paths(
     paths: List[str],
     keywords: Optional[Tuple[str]],
@@ -322,16 +381,23 @@ def update_args_with_paths(
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(make_absolute_path(par), convert a partial path to an absolute path) over str ║
+# ║ Path(make_absolute_path(partial_path), isinstance(result, str)) over {str | isinstance(partial_path, str)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ make_absolute_path : str → str                             ║
+# ║ C4 Spec [static] strength=partial                          ║
+# ║   requires: isinstance(partial_path, str)                  ║
+# ║   ensures:  isinstance(result, str)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ make_absolute_path : {str | isinstance(partial_path, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1e3a209e6212ffb3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 87c03d4bbb630cc7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.runtests_pytest.make_absolute_path","kind":"function","src_hash":"bce0a157369636a6","in":{"base":"str"},"out":{"base":"str"},"spec":{"lhs":"make_absolute_path(par)","rhs":"convert a partial path to an absolute path","over":{"base":"str"},"name":"make_absolute_path_correct"},"guarantee":"convert a partial path to an absolute path","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.runtests_pytest.make_absolute_path_correct","statement":"Path(make_absolute_path(x), convert a partial path to an absolute path)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1e3a209e6212ffb3"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.runtests_pytest.make_absolute_path","kind":"function","src_hash":"bce0a157369636a6","in":{"base":"str","pred":"isinstance(partial_path, str)"},"out":{"base":"str","pred":"result satisfies: isinstance(result, str)"},"spec":{"lhs":"make_absolute_path(partial_path)","rhs":"isinstance(result, str)","over":{"base":"str","pred":"isinstance(partial_path, str)"},"name":"make_absolute_path_correct"},"guarantee":"isinstance(result, str)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.runtests_pytest.make_absolute_path_correct","statement":"Path(make_absolute_path(x), isinstance(result, str))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"87c03d4bbb630cc7","spec_source":"static","formal_spec":{"source":"static","strength":"partial","requires":["isinstance(partial_path, str)"],"ensures":["isinstance(result, str)"],"pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def make_absolute_path(partial_path: str) -> str:
     """Convert a partial path to an absolute path.
 
@@ -360,16 +426,24 @@ def make_absolute_path(partial_path: str) -> str:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test(*pa), interface to run tests via pytest compatible with sympy's test runner) over Any ║
+# ║ Path(test(*paths, subprocess, rerun), len(args) == old_len_args + 1 and len(kwargs) == old_len_kwargs - 1) over {Any | len(kwargs) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: len(kwargs) > 0                                ║
+# ║   ensures:  len(args) == old_len_args + 1                  ║
+# ║   ensures:  len(kwargs) == old_len_kwargs - 1              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test : {Any | len(kwargs) > 0} → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f71e22c57caa9cda  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 60c2a0e2963ebb51  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.runtests_pytest.test","kind":"function","src_hash":"434772963e878c78","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test(*pa)","rhs":"interface to run tests via pytest compatible with sympy's test runner","over":{"base":"Any"},"name":"test_correct"},"guarantee":"interface to run tests via pytest compatible with sympy's test runner","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.runtests_pytest.test_correct","statement":"Path(test(x), interface to run tests via pytest compatible with sympy's test runner)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f71e22c57caa9cda"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.runtests_pytest.test","kind":"function","src_hash":"434772963e878c78","in":{"base":"Any","pred":"len(kwargs) > 0"},"out":{"base":"Any","pred":"result satisfies: len(args) == old_len_args + 1 and len(kwargs) == old_len_kwargs - 1"},"spec":{"lhs":"test(*paths, subprocess, rerun)","rhs":"len(args) == old_len_args + 1 and len(kwargs) == old_len_kwargs - 1","over":{"base":"Any","pred":"len(kwargs) > 0"},"name":"test_correct"},"guarantee":"len(args) == old_len_args + 1; len(kwargs) == old_len_kwargs - 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.runtests_pytest.test_correct","statement":"Path(test(x), len(args) == old_len_args + 1; len(kwargs) == old_len_kwargs - 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"60c2a0e2963ebb51","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["len(kwargs) > 0"],"ensures":["len(args) == old_len_args + 1","len(kwargs) == old_len_kwargs - 1"],"pure":false,"effects":{"effect_type":"reads_state","calls_mutating":["args.append","args.extend","kwargs.pop"],"raises":["ModuleNotFoundError","ValueError"]},"state_contract":{"modifies":["args.*","kwargs.*"],"old_bindings":{"old_len_args":"len(args)","old_len_kwargs":"len(kwargs)"},"pre_requires":["len(kwargs) > 0"],"post_ensures":["len(args) == old_len_args + 1","len(kwargs) == old_len_kwargs - 1"],"exceptional_post":{"ModuleNotFoundError":["isinstance(raised, ModuleNotFoundError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=[], spec=['*paths', 'subprocess', 'rerun', '**kwargs']"]}}
 def test(*paths, subprocess=True, rerun=0, **kwargs):
     """Interface to run tests via pytest compatible with SymPy's test runner.
 
@@ -583,16 +657,22 @@ def test(*paths, subprocess=True, rerun=0, **kwargs):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(doctest(), interface to run doctests via pytest compatible with sympy's test runner) over Any ║
+# ║ Path(doctest(), <unspecified:doctest>) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ doctest : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 559c3d80a47810d9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.runtests_pytest.doctest","kind":"function","src_hash":"e11fecc59dad3e4a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"doctest()","rhs":"interface to run doctests via pytest compatible with sympy's test runner","over":{"base":"Any"},"name":"doctest_correct"},"guarantee":"interface to run doctests via pytest compatible with sympy's test runner","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"559c3d80a47810d9"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.runtests_pytest.doctest","kind":"function","src_hash":"e11fecc59dad3e4a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"doctest()","rhs":"<unspecified:doctest>","over":{"base":"Any"},"name":"doctest_correct"},"guarantee":"interface to run doctests via pytest compatible with sympy's test runner","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"559c3d80a47810d9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def doctest():
     """Interface to run doctests via pytest compatible with SymPy's test runner.
     """

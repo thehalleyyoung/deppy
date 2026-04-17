@@ -28,14 +28,20 @@ import warnings
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a PlotModeBase instance) preserved by PlotModeBase(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ PlotModeBase : Any → {Any | callable(function) and ca...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, PlotMode)                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ PlotModeBase : Any → {Any | result satisfies: isinsta...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 2.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 752bd88fe90fb5b7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_mode_base.PlotModeBase","kind":"class","src_hash":"7421b014f72613a4","in":{"base":"Any"},"out":{"base":"Any","pred":"callable(function) and callable(function)"},"spec":{"lhs":"PlotModeBase(*args)","rhs":"correctly constructs a PlotModeBase instance","over":{"base":"Any"},"name":"PlotModeBase_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a PlotModeBase instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'verts') and hasattr(self, 'cverts') and hasattr(self, 'bounds') and hasattr(self, 'cbounds') and hasattr(self, '_draw_lock') and hasattr(self, '_calculating_verts') and hasattr(self, '_calculating_cverts') and hasattr(self, '_calculating_verts_pos')","kind":"class","induction":"structural on verts, cverts, bounds, cbounds"}],"methods_preserving":["_get_evaluator","_get_sympy_evaluator","_get_lambda_evaluator","_on_calculate_verts","_on_calculate_cverts","__init__","w","push_wireframe","push_solid","_create_display_list","_render_stack_top","_draw_solid_display_list","_draw_wireframe_display_list","draw","_on_change_color","_on_calculate","_calculate_all","_calculate_verts","_calculate_cverts","_get_calculating_verts","_get_calculating_verts_pos","_get_calculating_verts_len","_get_calculating_cverts","_get_calculating_cverts_pos","_get_calculating_cverts_len","_get_style","_set_style","_get_color","_set_color","__str__","__repr__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"752bd88fe90fb5b7"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_mode_base.PlotModeBase","kind":"class","src_hash":"7421b014f72613a4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, PlotMode)"},"spec":{"lhs":"PlotModeBase(*args)","rhs":"correctly constructs a PlotModeBase instance","over":{"base":"Any"},"name":"PlotModeBase_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, PlotMode); preserves 22 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'verts') and hasattr(self, 'cverts') and hasattr(self, 'bounds') and hasattr(self, 'cbounds') and hasattr(self, '_draw_lock') and hasattr(self, '_calculating_verts') and hasattr(self, '_calculating_cverts') and hasattr(self, '_calculating_verts_pos')","kind":"class","induction":"structural on verts, cverts, bounds, cbounds"}],"methods_preserving":["_get_evaluator","_get_sympy_evaluator","_get_lambda_evaluator","_on_calculate_verts","_on_calculate_cverts","__init__","w","push_wireframe","push_solid","_create_display_list","_render_stack_top","_draw_solid_display_list","_draw_wireframe_display_list","draw","_on_change_color","_on_calculate","_calculate_all","_calculate_verts","_calculate_cverts","_get_calculating_verts","_get_calculating_verts_pos","_get_calculating_verts_len","_get_calculating_cverts","_get_calculating_cverts_pos","_get_calculating_cverts_len","_get_style","_set_style","_get_color","_set_color","__str__","__repr__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"752bd88fe90fb5b7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, PlotMode)"],"invariants":["hasattr(self, 'verts')","hasattr(self, 'cverts')","hasattr(self, 'bounds')","hasattr(self, 'cbounds')","hasattr(self, '_draw_lock')","hasattr(self, '_calculating_verts')","hasattr(self, '_calculating_cverts')","hasattr(self, '_calculating_verts_pos')","hasattr(self, '_calculating_verts_len')","hasattr(self, '_calculating_cverts_pos')","hasattr(self, '_calculating_cverts_len')","hasattr(self, '_max_render_stack_size')","hasattr(self, '_draw_wireframe')","hasattr(self, '_draw_solid')","hasattr(self, '_style')","hasattr(self, '_color')","hasattr(self, 'predraw')","hasattr(self, 'postdraw')","hasattr(self, 'use_lambda_eval')","hasattr(self, 'style')","hasattr(self, 'color')","hasattr(self, 'bounds_callback')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.0,"verdict_class":"assumed","binding":false,"binding_errors":["Function PlotModeBase not found in source"]}}
 class PlotModeBase(PlotMode):
     """
     Intended parent class for plotting
@@ -135,16 +141,22 @@ class PlotModeBase(PlotMode):
 
     ## 'Abstract' member functions
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_evaluator(), internal helper behaves correctly) over Any ║
+# ║ Path(_get_evaluator(), <unspecified:_get_evaluator>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_evaluator : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 80dfe3d1827b4e35  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_mode_base.PlotModeBase._get_evaluator","kind":"method","src_hash":"4dd7195bcf0304a6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_evaluator()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_evaluator_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_mode_base.PlotModeBase._get_evaluator_correct","statement":"Path(_get_evaluator(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"80dfe3d1827b4e35"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_mode_base.PlotModeBase._get_evaluator","kind":"method","src_hash":"4dd7195bcf0304a6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_evaluator()","rhs":"<unspecified:_get_evaluator>","over":{"base":"Any"},"name":"_get_evaluator_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_mode_base.PlotModeBase._get_evaluator_correct","statement":"Path(_get_evaluator(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"80dfe3d1827b4e35","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._get_lambda_evaluator","self._get_sympy_evaluator","self.use_lambda_eval"],"catches":["Exception"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_evaluator(self):
         if self.use_lambda_eval:
             try:
@@ -156,73 +168,104 @@ class PlotModeBase(PlotMode):
         return self._get_sympy_evaluator()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_sympy_evaluator(), internal helper behaves correctly) over Any ║
+# ║ Path(_get_sympy_evaluator(), <unspecified:_get_sympy_evaluator>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_sympy_evaluator : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 944089d64177957b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_mode_base.PlotModeBase._get_sympy_evaluator","kind":"method","src_hash":"84a8e33f8a3a7dde","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_sympy_evaluator()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_sympy_evaluator_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"944089d64177957b"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_mode_base.PlotModeBase._get_sympy_evaluator","kind":"method","src_hash":"84a8e33f8a3a7dde","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_sympy_evaluator()","rhs":"<unspecified:_get_sympy_evaluator>","over":{"base":"Any"},"name":"_get_sympy_evaluator_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"944089d64177957b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_sympy_evaluator(self):
         raise NotImplementedError()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_lambda_evaluator(), internal helper behaves correctly) over Any ║
+# ║ Path(_get_lambda_evaluator(), <unspecified:_get_lambda_evaluator>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_lambda_evaluator : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d8e78da5b7b5a560           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_mode_base.PlotModeBase._get_lambda_evaluator","kind":"method","src_hash":"8f79610182f9e146","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_lambda_evaluator()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_lambda_evaluator_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d8e78da5b7b5a560"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_mode_base.PlotModeBase._get_lambda_evaluator","kind":"method","src_hash":"8f79610182f9e146","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_lambda_evaluator()","rhs":"<unspecified:_get_lambda_evaluator>","over":{"base":"Any"},"name":"_get_lambda_evaluator_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d8e78da5b7b5a560","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_lambda_evaluator(self):
         raise NotImplementedError()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_on_calculate_verts(), internal helper behaves correctly) over Any ║
+# ║ Path(_on_calculate_verts(), <unspecified:_on_calculate_verts>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _on_calculate_verts : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9367990a65a52966           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_mode_base.PlotModeBase._on_calculate_verts","kind":"method","src_hash":"401e2824139d4add","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_on_calculate_verts()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_on_calculate_verts_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9367990a65a52966"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_mode_base.PlotModeBase._on_calculate_verts","kind":"method","src_hash":"401e2824139d4add","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_on_calculate_verts()","rhs":"<unspecified:_on_calculate_verts>","over":{"base":"Any"},"name":"_on_calculate_verts_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9367990a65a52966","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _on_calculate_verts(self):
         raise NotImplementedError()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_on_calculate_cverts(), internal helper behaves correctly) over Any ║
+# ║ Path(_on_calculate_cverts(), <unspecified:_on_calculate_cverts>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _on_calculate_cverts : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8ef6a04a983ff12f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_mode_base.PlotModeBase._on_calculate_cverts","kind":"method","src_hash":"2464a8d6057bd946","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_on_calculate_cverts()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_on_calculate_cverts_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8ef6a04a983ff12f"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_mode_base.PlotModeBase._on_calculate_cverts","kind":"method","src_hash":"2464a8d6057bd946","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_on_calculate_cverts()","rhs":"<unspecified:_on_calculate_cverts>","over":{"base":"Any"},"name":"_on_calculate_cverts_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8ef6a04a983ff12f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _on_calculate_cverts(self):
         raise NotImplementedError()
 
     ## Base member functions
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(*ar), initializes the instance correctly) over Any ║
+# ║ Path(__init__(*args, bounds_callback, **kwargs), len(self) == old_len_self - 1) over {Any | len(self) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: len(self) > 0                                  ║
+# ║   ensures:  len(self) == old_len_self - 1                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : {Any | len(self) > 0} → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 462678ff286123c7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_mode_base.PlotModeBase.__init__","kind":"method","src_hash":"49ec1378aabd8779","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(*ar)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"462678ff286123c7"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_mode_base.PlotModeBase.__init__","kind":"method","src_hash":"49ec1378aabd8779","in":{"base":"Any","pred":"len(self) > 0"},"out":{"base":"Any","pred":"result satisfies: len(self) == old_len_self - 1"},"spec":{"lhs":"__init__(*args, bounds_callback, **kwargs)","rhs":"len(self) == old_len_self - 1","over":{"base":"Any","pred":"len(self) > 0"},"name":"__init___correct"},"guarantee":"len(self) == old_len_self - 1","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"462678ff286123c7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["len(self) > 0"],"ensures":["len(self) == old_len_self - 1"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self._on_calculate","self.options"],"writes":["self._calculating_cverts","self._calculating_cverts_len","self._calculating_cverts_pos","self._calculating_verts","self._calculating_verts_len","self._calculating_verts_pos","self._color","self._draw_lock","self._draw_solid","self._draw_wireframe","self._max_render_stack_size","self._style","self.bounds","self.bounds_callback","self.cbounds","self.color","self.cverts","self.postdraw","self.predraw","self.style","self.use_lambda_eval","self.verts"],"calls_mutating":["self.options.pop"]},"state_contract":{"modifies":["self.*","self._calculating_cverts","self._calculating_cverts_len","self._calculating_cverts_pos","self._calculating_verts","self._calculating_verts_len","self._calculating_verts_pos","self._color","self._draw_lock","self._draw_solid","self._draw_wireframe","self._max_render_stack_size","self._style","self.bounds","self.bounds_callback","self.cbounds","self.color","self.cverts","self.postdraw","self.predraw","self.style","self.use_lambda_eval","self.verts"],"old_bindings":{"old_self__calculating_cverts":"self._calculating_cverts","old_self__calculating_cverts_len":"self._calculating_cverts_len","old_self__calculating_cverts_pos":"self._calculating_cverts_pos","old_self__calculating_verts":"self._calculating_verts","old_self__calculating_verts_len":"self._calculating_verts_len","old_self__calculating_verts_pos":"self._calculating_verts_pos","old_self__color":"self._color","old_self__draw_lock":"self._draw_lock","old_self__draw_solid":"self._draw_solid","old_self__draw_wireframe":"self._draw_wireframe","old_self__max_render_stack_size":"self._max_render_stack_size","old_self__style":"self._style","old_self_bounds":"self.bounds","old_self_bounds_callback":"self.bounds_callback","old_self_cbounds":"self.cbounds","old_self_color":"self.color","old_self_cverts":"self.cverts","old_self_postdraw":"self.postdraw","old_self_predraw":"self.predraw","old_self_style":"self.style","old_self_use_lambda_eval":"self.use_lambda_eval","old_self_verts":"self.verts","old_len_self":"len(self)"},"pre_requires":["len(self) > 0"],"post_ensures":["len(self) == old_len_self - 1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, *args, bounds_callback=None, **kwargs):
         self.verts = []
         self.cverts = []
@@ -260,16 +303,22 @@ class PlotModeBase(PlotMode):
         self._on_calculate()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(synchronized(f), synchronized produces the expected output) over Any ║
+# ║ Path(synchronized(f), <unspecified:synchronized>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ synchronized : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 03bbd17ee1acb8d3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_mode_base.PlotModeBase.synchronized","kind":"method","src_hash":"6efadce98e173bca","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"synchronized(f)","rhs":"synchronized produces the expected output","over":{"base":"Any"},"name":"synchronized_correct"},"guarantee":"synchronized produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_mode_base.PlotModeBase.synchronized_correct","statement":"Path(synchronized(x), synchronized produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"03bbd17ee1acb8d3"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_mode_base.PlotModeBase.synchronized","kind":"method","src_hash":"6efadce98e173bca","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"synchronized(f)","rhs":"<unspecified:synchronized>","over":{"base":"Any"},"name":"synchronized_correct"},"guarantee":"synchronized produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_mode_base.PlotModeBase.synchronized_correct","statement":"Path(synchronized(x), synchronized produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"03bbd17ee1acb8d3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def synchronized(f):
         def w(self, *args, **kwargs):
             self._draw_lock.acquire()
@@ -282,16 +331,23 @@ class PlotModeBase(PlotMode):
 
     @synchronized
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(push_wireframe(fun), push a function which performs gl commands used to build a display list) over Any ║
+# ║ Path(push_wireframe(function), callable(function) and len(self) == old_len_self + 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ push_wireframe : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  callable(function)                             ║
+# ║   ensures:  len(self) == old_len_self + 1                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ push_wireframe : Any → {Any | result satisfies: calla...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d3773d6bfbdb647b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 45f5b342b4bd8e39  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_mode_base.PlotModeBase.push_wireframe","kind":"method","src_hash":"7d5f252a0b96a9c3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"push_wireframe(fun)","rhs":"push a function which performs gl commands used to build a display list","over":{"base":"Any"},"name":"push_wireframe_correct"},"guarantee":"push a function which performs gl commands used to build a display list","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_mode_base.PlotModeBase.push_wireframe_correct","statement":"Path(push_wireframe(x), push a function which performs gl commands used to build a display list)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d3773d6bfbdb647b"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_mode_base.PlotModeBase.push_wireframe","kind":"method","src_hash":"7d5f252a0b96a9c3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: callable(function) and len(self) == old_len_self + 1"},"spec":{"lhs":"push_wireframe(function)","rhs":"callable(function) and len(self) == old_len_self + 1","over":{"base":"Any"},"name":"push_wireframe_correct"},"guarantee":"callable(function); len(self) == old_len_self + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_mode_base.PlotModeBase.push_wireframe_correct","statement":"Path(push_wireframe(x), callable(function); len(self) == old_len_self + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"45f5b342b4bd8e39","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["callable(function)","len(self) == old_len_self + 1"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self._draw_wireframe","self._max_render_stack_size"],"calls_mutating":["self._draw_wireframe.append"]},"state_contract":{"modifies":["self.*"],"old_bindings":{"old_len_self":"len(self)"},"post_ensures":["len(self) == old_len_self + 1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def push_wireframe(self, function):
         """
         Push a function which performs gl commands
@@ -305,16 +361,23 @@ class PlotModeBase(PlotMode):
 
     @synchronized
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(push_solid(fun), push a function which performs gl commands used to build a display list) over Any ║
+# ║ Path(push_solid(function), callable(function) and len(self) == old_len_self + 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ push_solid : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  callable(function)                             ║
+# ║   ensures:  len(self) == old_len_self + 1                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ push_solid : Any → {Any | result satisfies: callable(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fd41940e1c26f731  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9600db52dd3f16b2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_mode_base.PlotModeBase.push_solid","kind":"method","src_hash":"344ce88ee5e62dc0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"push_solid(fun)","rhs":"push a function which performs gl commands used to build a display list","over":{"base":"Any"},"name":"push_solid_correct"},"guarantee":"push a function which performs gl commands used to build a display list","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_mode_base.PlotModeBase.push_solid_correct","statement":"Path(push_solid(x), push a function which performs gl commands used to build a display list)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fd41940e1c26f731"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_mode_base.PlotModeBase.push_solid","kind":"method","src_hash":"344ce88ee5e62dc0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: callable(function) and len(self) == old_len_self + 1"},"spec":{"lhs":"push_solid(function)","rhs":"callable(function) and len(self) == old_len_self + 1","over":{"base":"Any"},"name":"push_solid_correct"},"guarantee":"callable(function); len(self) == old_len_self + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_mode_base.PlotModeBase.push_solid_correct","statement":"Path(push_solid(x), callable(function); len(self) == old_len_self + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9600db52dd3f16b2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["callable(function)","len(self) == old_len_self + 1"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self._draw_solid","self._max_render_stack_size"],"calls_mutating":["self._draw_solid.append"]},"state_contract":{"modifies":["self.*"],"old_bindings":{"old_len_self":"len(self)"},"post_ensures":["len(self) == old_len_self + 1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def push_solid(self, function):
         """
         Push a function which performs gl commands
@@ -327,16 +390,22 @@ class PlotModeBase(PlotMode):
             del self._draw_solid[1]  # leave marker element
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_create_display_list(fun), internal helper behaves correctly) over Any ║
+# ║ Path(_create_display_list(function), <unspecified:_create_display_list>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _create_display_list : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f3590ea94492f421  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_mode_base.PlotModeBase._create_display_list","kind":"method","src_hash":"b34f141bad0f9bca","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_create_display_list(fun)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_create_display_list_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_mode_base.PlotModeBase._create_display_list_correct","statement":"Path(_create_display_list(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f3590ea94492f421"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_mode_base.PlotModeBase._create_display_list","kind":"method","src_hash":"b34f141bad0f9bca","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_create_display_list(function)","rhs":"<unspecified:_create_display_list>","over":{"base":"Any"},"name":"_create_display_list_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_mode_base.PlotModeBase._create_display_list_correct","statement":"Path(_create_display_list(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f3590ea94492f421","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _create_display_list(self, function):
         dl = pgl.glGenLists(1)
         pgl.glNewList(dl, pgl.GL_COMPILE)
@@ -345,16 +414,26 @@ class PlotModeBase(PlotMode):
         return dl
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_render_stack_top(ren), internal helper behaves correctly) over Any ║
+# ║ Path(_render_stack_top(render_stack), result == (-1 if top == -1 else dl if callable(top) else dl) and result == -1 or result == dl) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _render_stack_top : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (-1 if top == -1 else dl if cal...   ║
+# ║   ensures:  result == -1 or result == dl                   ║
+# ║   fiber[case_0]: top == -1 => -1                           ║
+# ║   fiber[case_1]: callable(top) => dl                       ║
+# ║   fiber[case_2]: len(top) == 2 => dl                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _render_stack_top : Any → {Any | result satisfies: re...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 71f27a78d0b0f7ee  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9e95ce747fee4c8f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_mode_base.PlotModeBase._render_stack_top","kind":"method","src_hash":"ab596d7e21e1b3ee","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_render_stack_top(ren)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_render_stack_top_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_mode_base.PlotModeBase._render_stack_top_correct","statement":"Path(_render_stack_top(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"71f27a78d0b0f7ee"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_mode_base.PlotModeBase._render_stack_top","kind":"method","src_hash":"ab596d7e21e1b3ee","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (-1 if top == -1 else dl if callable(top) else dl) and result == -1 or result == dl"},"spec":{"lhs":"_render_stack_top(render_stack)","rhs":"result == (-1 if top == -1 else dl if callable(top) else dl) and result == -1 or result == dl","over":{"base":"Any"},"name":"_render_stack_top_correct"},"guarantee":"result == (-1 if top == -1 else dl if callable(top) else dl); result == -1 or result == dl; 3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_mode_base.PlotModeBase._render_stack_top_correct","statement":"Path(_render_stack_top(x), result == (-1 if top == -1 else dl if callable(top) else dl); result == -1 or result == dl; 3-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9e95ce747fee4c8f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (-1 if top == -1 else dl if callable(top) else dl)","result == -1 or result == dl"],"fibers":[{"name":"case_0","guard":"top == -1","ensures":["result == -1"],"decidability":"z3","returns_expr":"-1"},{"name":"case_1","guard":"callable(top)","ensures":["result == dl"],"decidability":"library","returns_expr":"dl"},{"name":"case_2","guard":"len(top) == 2","ensures":["result == dl"],"decidability":"z3","returns_expr":"dl"}],"pure":false,"effects":{"effect_type":"mutates_args","reads":["self._create_display_list"],"writes":["render_stack[*]"]},"state_contract":{"modifies":["render_stack[*]"],"old_bindings":{"old_render_stack_star":"render_stack[*]"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _render_stack_top(self, render_stack):
         top = render_stack[-1]
         if top == -1:
@@ -371,16 +450,22 @@ class PlotModeBase(PlotMode):
             return dl  # display regenerated list
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_draw_solid_display_list(dl), internal helper behaves correctly) over Any ║
+# ║ Path(_draw_solid_display_list(dl), <unspecified:_draw_solid_display_list>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _draw_solid_display_list : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a1654db7eb4f106b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_mode_base.PlotModeBase._draw_solid_display_list","kind":"method","src_hash":"c2dfd818af621916","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_draw_solid_display_list(dl)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_draw_solid_display_list_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_mode_base.PlotModeBase._draw_solid_display_list_correct","statement":"Path(_draw_solid_display_list(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a1654db7eb4f106b"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_mode_base.PlotModeBase._draw_solid_display_list","kind":"method","src_hash":"c2dfd818af621916","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_draw_solid_display_list(dl)","rhs":"<unspecified:_draw_solid_display_list>","over":{"base":"Any"},"name":"_draw_solid_display_list_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_mode_base.PlotModeBase._draw_solid_display_list_correct","statement":"Path(_draw_solid_display_list(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a1654db7eb4f106b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _draw_solid_display_list(self, dl):
         pgl.glPushAttrib(pgl.GL_ENABLE_BIT | pgl.GL_POLYGON_BIT)
         pgl.glPolygonMode(pgl.GL_FRONT_AND_BACK, pgl.GL_FILL)
@@ -388,16 +473,22 @@ class PlotModeBase(PlotMode):
         pgl.glPopAttrib()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_draw_wireframe_display_list(dl), internal helper behaves correctly) over Any ║
+# ║ Path(_draw_wireframe_display_list(dl), <unspecified:_draw_wireframe_display_list>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _draw_wireframe_display_list : Any → Any                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f297b9bcb905d353  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_mode_base.PlotModeBase._draw_wireframe_display_list","kind":"method","src_hash":"a662d86b80c8d4a0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_draw_wireframe_display_list(dl)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_draw_wireframe_display_list_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_mode_base.PlotModeBase._draw_wireframe_display_list_correct","statement":"Path(_draw_wireframe_display_list(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f297b9bcb905d353"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_mode_base.PlotModeBase._draw_wireframe_display_list","kind":"method","src_hash":"a662d86b80c8d4a0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_draw_wireframe_display_list(dl)","rhs":"<unspecified:_draw_wireframe_display_list>","over":{"base":"Any"},"name":"_draw_wireframe_display_list_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_mode_base.PlotModeBase._draw_wireframe_display_list_correct","statement":"Path(_draw_wireframe_display_list(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f297b9bcb905d353","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _draw_wireframe_display_list(self, dl):
         pgl.glPushAttrib(pgl.GL_ENABLE_BIT | pgl.GL_POLYGON_BIT)
         pgl.glPolygonMode(pgl.GL_FRONT_AND_BACK, pgl.GL_LINE)
@@ -408,16 +499,22 @@ class PlotModeBase(PlotMode):
 
     @synchronized
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(draw(), draw produces the expected output) over Any   ║
+# ║ Path(draw(), <unspecified:draw>) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ draw : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 985f0c446ddde624  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_mode_base.PlotModeBase.draw","kind":"method","src_hash":"e8f91e295bd361b0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"draw()","rhs":"draw produces the expected output","over":{"base":"Any"},"name":"draw_correct"},"guarantee":"draw produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_mode_base.PlotModeBase.draw_correct","statement":"Path(draw(x), draw produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"985f0c446ddde624"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_mode_base.PlotModeBase.draw","kind":"method","src_hash":"e8f91e295bd361b0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"draw()","rhs":"<unspecified:draw>","over":{"base":"Any"},"name":"draw_correct"},"guarantee":"draw produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_mode_base.PlotModeBase.draw_correct","statement":"Path(draw(x), draw produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"985f0c446ddde624","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._draw_solid","self._draw_solid_display_list","self._draw_wireframe","self._draw_wireframe_display_list","self._render_stack_top","self._style","self.postdraw","self.predraw","self.style_override","self.styles"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def draw(self):
         for f in self.predraw:
             if callable(f):
@@ -441,59 +538,83 @@ class PlotModeBase(PlotMode):
                 f()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_on_change_color(col), internal helper behaves correctly) over Any ║
+# ║ Path(_on_change_color(color), <unspecified:_on_change_color>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _on_change_color : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 06cd24fa60d375f3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_mode_base.PlotModeBase._on_change_color","kind":"method","src_hash":"5015d47370c2b87d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_on_change_color(col)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_on_change_color_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_mode_base.PlotModeBase._on_change_color_correct","statement":"Path(_on_change_color(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"06cd24fa60d375f3"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_mode_base.PlotModeBase._on_change_color","kind":"method","src_hash":"5015d47370c2b87d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_on_change_color(color)","rhs":"<unspecified:_on_change_color>","over":{"base":"Any"},"name":"_on_change_color_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_mode_base.PlotModeBase._on_change_color_correct","statement":"Path(_on_change_color(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"06cd24fa60d375f3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._calculate_cverts"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _on_change_color(self, color):
         Thread(target=self._calculate_cverts).start()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_on_calculate(), internal helper behaves correctly) over Any ║
+# ║ Path(_on_calculate(), <unspecified:_on_calculate>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _on_calculate : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 13b2857baeecc524  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_mode_base.PlotModeBase._on_calculate","kind":"method","src_hash":"b0210e3ec62de99f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_on_calculate()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_on_calculate_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_mode_base.PlotModeBase._on_calculate_correct","statement":"Path(_on_calculate(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"13b2857baeecc524"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_mode_base.PlotModeBase._on_calculate","kind":"method","src_hash":"b0210e3ec62de99f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_on_calculate()","rhs":"<unspecified:_on_calculate>","over":{"base":"Any"},"name":"_on_calculate_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_mode_base.PlotModeBase._on_calculate_correct","statement":"Path(_on_calculate(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"13b2857baeecc524","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._calculate_all"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _on_calculate(self):
         Thread(target=self._calculate_all).start()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_calculate_all(), internal helper behaves correctly) over Any ║
+# ║ Path(_calculate_all(), <unspecified:_calculate_all>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _calculate_all : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 801c2026d9e0f28a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_mode_base.PlotModeBase._calculate_all","kind":"method","src_hash":"16946df9e37e6a37","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_calculate_all()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_calculate_all_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_mode_base.PlotModeBase._calculate_all_correct","statement":"Path(_calculate_all(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"801c2026d9e0f28a"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_mode_base.PlotModeBase._calculate_all","kind":"method","src_hash":"16946df9e37e6a37","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_calculate_all()","rhs":"<unspecified:_calculate_all>","over":{"base":"Any"},"name":"_calculate_all_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_mode_base.PlotModeBase._calculate_all_correct","statement":"Path(_calculate_all(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"801c2026d9e0f28a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._calculate_cverts","self._calculate_verts"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _calculate_all(self):
         self._calculate_verts()
         self._calculate_cverts()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_calculate_verts(), internal helper behaves correctly) over Any ║
+# ║ Path(_calculate_verts(), len(self) == 0) over Any          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _calculate_verts : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(self) == 0                                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _calculate_verts : Any → {Any | result satisfies: len...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 83c1bf393026ecef  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e24a07f3a43a3e70  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_mode_base.PlotModeBase._calculate_verts","kind":"method","src_hash":"61acfcf0f72a4050","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_calculate_verts()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_calculate_verts_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_mode_base.PlotModeBase._calculate_verts_correct","statement":"Path(_calculate_verts(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"83c1bf393026ecef"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_mode_base.PlotModeBase._calculate_verts","kind":"method","src_hash":"61acfcf0f72a4050","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(self) == 0"},"spec":{"lhs":"_calculate_verts()","rhs":"len(self) == 0","over":{"base":"Any"},"name":"_calculate_verts_correct"},"guarantee":"len(self) == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_mode_base.PlotModeBase._calculate_verts_correct","statement":"Path(_calculate_verts(x), len(self) == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e24a07f3a43a3e70","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(self) == 0"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self._calculating_verts","self._on_calculate_verts","self.bounds_callback"],"calls_mutating":["self._calculating_verts.clear"]},"state_contract":{"modifies":["self.*"],"post_ensures":["len(self) == 0"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _calculate_verts(self):
         if self._calculating_verts.is_set():
             return
@@ -506,16 +627,22 @@ class PlotModeBase(PlotMode):
             self.bounds_callback()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_calculate_cverts(), internal helper behaves correctly) over Any ║
+# ║ Path(_calculate_cverts(), len(self) == 0) over Any         ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _calculate_cverts : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(self) == 0                                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _calculate_cverts : Any → {Any | result satisfies: le...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3722df82f997e585  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6f4fb5a5af89b6bf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_mode_base.PlotModeBase._calculate_cverts","kind":"method","src_hash":"5081316b1926063c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_calculate_cverts()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_calculate_cverts_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_mode_base.PlotModeBase._calculate_cverts_correct","statement":"Path(_calculate_cverts(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3722df82f997e585"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_mode_base.PlotModeBase._calculate_cverts","kind":"method","src_hash":"5081316b1926063c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(self) == 0"},"spec":{"lhs":"_calculate_cverts()","rhs":"len(self) == 0","over":{"base":"Any"},"name":"_calculate_cverts_correct"},"guarantee":"len(self) == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_mode_base.PlotModeBase._calculate_cverts_correct","statement":"Path(_calculate_cverts(x), len(self) == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6f4fb5a5af89b6bf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(self) == 0"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self._calculating_cverts","self._calculating_verts","self._on_calculate_cverts"],"calls_mutating":["self._calculating_cverts.clear"]},"state_contract":{"modifies":["self.*"],"post_ensures":["len(self) == 0"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _calculate_cverts(self):
         if self._calculating_verts.is_set():
             return
@@ -528,116 +655,165 @@ class PlotModeBase(PlotMode):
             self._calculating_cverts.clear()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_calculating_verts(), internal helper behaves correctly) over Any ║
+# ║ Path(_get_calculating_verts(), self._calculating_verts.is_set()) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._calculating_verts.is_set()               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_calculating_verts : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9b18d940308000ab           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_mode_base.PlotModeBase._get_calculating_verts","kind":"method","src_hash":"204457319d8f1fd4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_calculating_verts()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_calculating_verts_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9b18d940308000ab"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_mode_base.PlotModeBase._get_calculating_verts","kind":"method","src_hash":"204457319d8f1fd4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_calculating_verts()","rhs":"self._calculating_verts.is_set()","over":{"base":"Any"},"name":"_get_calculating_verts_correct"},"guarantee":"returns self._calculating_verts.is_set()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9b18d940308000ab","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._calculating_verts.is_set()","pure":false,"effects":{"effect_type":"reads_state","reads":["self._calculating_verts"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_calculating_verts(self):
         return self._calculating_verts.is_set()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_calculating_verts_pos(), internal helper behaves correctly) over Any ║
+# ║ Path(_get_calculating_verts_pos(), self._calculating_verts_pos) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._calculating_verts_pos                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_calculating_verts_pos : Any → Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1c79277edfc4e0d5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_mode_base.PlotModeBase._get_calculating_verts_pos","kind":"method","src_hash":"28b09a736c373b85","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_calculating_verts_pos()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_calculating_verts_pos_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1c79277edfc4e0d5"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_mode_base.PlotModeBase._get_calculating_verts_pos","kind":"method","src_hash":"28b09a736c373b85","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_calculating_verts_pos()","rhs":"self._calculating_verts_pos","over":{"base":"Any"},"name":"_get_calculating_verts_pos_correct"},"guarantee":"returns self._calculating_verts_pos","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1c79277edfc4e0d5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._calculating_verts_pos","pure":false,"effects":{"effect_type":"reads_state","reads":["self._calculating_verts_pos"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_calculating_verts_pos(self):
         return self._calculating_verts_pos
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_calculating_verts_len(), internal helper behaves correctly) over Any ║
+# ║ Path(_get_calculating_verts_len(), self._calculating_verts_len) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._calculating_verts_len                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_calculating_verts_len : Any → Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 38addfad23efcc65           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_mode_base.PlotModeBase._get_calculating_verts_len","kind":"method","src_hash":"f4e5a3c3b79b0784","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_calculating_verts_len()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_calculating_verts_len_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"38addfad23efcc65"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_mode_base.PlotModeBase._get_calculating_verts_len","kind":"method","src_hash":"f4e5a3c3b79b0784","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_calculating_verts_len()","rhs":"self._calculating_verts_len","over":{"base":"Any"},"name":"_get_calculating_verts_len_correct"},"guarantee":"returns self._calculating_verts_len","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"38addfad23efcc65","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._calculating_verts_len","pure":false,"effects":{"effect_type":"reads_state","reads":["self._calculating_verts_len"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_calculating_verts_len(self):
         return self._calculating_verts_len
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_calculating_cverts(), internal helper behaves correctly) over Any ║
+# ║ Path(_get_calculating_cverts(), self._calculating_cverts.is_set()) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._calculating_cverts.is_set()              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_calculating_cverts : Any → Any                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | da0c8ddffa1d4449           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_mode_base.PlotModeBase._get_calculating_cverts","kind":"method","src_hash":"db811015f2eb5023","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_calculating_cverts()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_calculating_cverts_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"da0c8ddffa1d4449"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_mode_base.PlotModeBase._get_calculating_cverts","kind":"method","src_hash":"db811015f2eb5023","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_calculating_cverts()","rhs":"self._calculating_cverts.is_set()","over":{"base":"Any"},"name":"_get_calculating_cverts_correct"},"guarantee":"returns self._calculating_cverts.is_set()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"da0c8ddffa1d4449","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._calculating_cverts.is_set()","pure":false,"effects":{"effect_type":"reads_state","reads":["self._calculating_cverts"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_calculating_cverts(self):
         return self._calculating_cverts.is_set()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_calculating_cverts_pos(), internal helper behaves correctly) over Any ║
+# ║ Path(_get_calculating_cverts_pos(), self._calculating_cverts_pos) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._calculating_cverts_pos                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_calculating_cverts_pos : Any → Any                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0c26f1499aa619c4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_mode_base.PlotModeBase._get_calculating_cverts_pos","kind":"method","src_hash":"0b2f828cb6847c5d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_calculating_cverts_pos()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_calculating_cverts_pos_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0c26f1499aa619c4"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_mode_base.PlotModeBase._get_calculating_cverts_pos","kind":"method","src_hash":"0b2f828cb6847c5d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_calculating_cverts_pos()","rhs":"self._calculating_cverts_pos","over":{"base":"Any"},"name":"_get_calculating_cverts_pos_correct"},"guarantee":"returns self._calculating_cverts_pos","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0c26f1499aa619c4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._calculating_cverts_pos","pure":false,"effects":{"effect_type":"reads_state","reads":["self._calculating_cverts_pos"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_calculating_cverts_pos(self):
         return self._calculating_cverts_pos
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_calculating_cverts_len(), internal helper behaves correctly) over Any ║
+# ║ Path(_get_calculating_cverts_len(), self._calculating_cverts_len) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._calculating_cverts_len                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_calculating_cverts_len : Any → Any                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 44e0b58ec84c9d4e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_mode_base.PlotModeBase._get_calculating_cverts_len","kind":"method","src_hash":"cc20e21c378d926f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_calculating_cverts_len()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_calculating_cverts_len_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"44e0b58ec84c9d4e"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_mode_base.PlotModeBase._get_calculating_cverts_len","kind":"method","src_hash":"cc20e21c378d926f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_calculating_cverts_len()","rhs":"self._calculating_cverts_len","over":{"base":"Any"},"name":"_get_calculating_cverts_len_correct"},"guarantee":"returns self._calculating_cverts_len","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"44e0b58ec84c9d4e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._calculating_cverts_len","pure":false,"effects":{"effect_type":"reads_state","reads":["self._calculating_cverts_len"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_calculating_cverts_len(self):
         return self._calculating_cverts_len
 
     ## Property handlers
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_style(), internal helper behaves correctly) over Any ║
+# ║ Path(_get_style(), self._style) over Any                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._style                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_style : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 58523a79386546f4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_mode_base.PlotModeBase._get_style","kind":"method","src_hash":"a8d6c8aa5b9ed233","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_style()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_style_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"58523a79386546f4"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_mode_base.PlotModeBase._get_style","kind":"method","src_hash":"a8d6c8aa5b9ed233","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_style()","rhs":"self._style","over":{"base":"Any"},"name":"_get_style_correct"},"guarantee":"returns self._style","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"58523a79386546f4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._style","pure":false,"effects":{"effect_type":"reads_state","reads":["self._style"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_style(self):
         return self._style
 
     @synchronized
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_set_style(v), internal helper behaves correctly) over Any ║
+# ║ Path(_set_style(v), <unspecified:_set_style>) over {Any | not (v not in self.styles)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _set_style : Any → Any                                     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (v not in self.styles)                     ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _set_style : {Any | not (v not in self.styles)} → Any      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9f3f102e86d48f95  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_mode_base.PlotModeBase._set_style","kind":"method","src_hash":"d7b9e3519e55330c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_set_style(v)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_set_style_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_mode_base.PlotModeBase._set_style_correct","statement":"Path(_set_style(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9f3f102e86d48f95"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_mode_base.PlotModeBase._set_style","kind":"method","src_hash":"d7b9e3519e55330c","in":{"base":"Any","pred":"not (v not in self.styles)"},"out":{"base":"Any"},"spec":{"lhs":"_set_style(v)","rhs":"<unspecified:_set_style>","over":{"base":"Any","pred":"not (v not in self.styles)"},"name":"_set_style_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_mode_base.PlotModeBase._set_style_correct","statement":"Path(_set_style(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9f3f102e86d48f95","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (v not in self.styles)"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self._style","self.intervals","self.styles"],"writes":["self._style"],"raises":["ValueError"]},"state_contract":{"modifies":["self._style"],"old_bindings":{"old_self__style":"self._style"},"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _set_style(self, v):
         if v is None:
             return
@@ -655,31 +831,43 @@ class PlotModeBase(PlotMode):
         self._style = v
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_color(), internal helper behaves correctly) over Any ║
+# ║ Path(_get_color(), self._color) over Any                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._color                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_color : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | eb55029d21042e50           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_mode_base.PlotModeBase._get_color","kind":"method","src_hash":"c50fecbf1bcc1b32","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_color()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_color_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"eb55029d21042e50"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_mode_base.PlotModeBase._get_color","kind":"method","src_hash":"c50fecbf1bcc1b32","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_color()","rhs":"self._color","over":{"base":"Any"},"name":"_get_color_correct"},"guarantee":"returns self._color","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"eb55029d21042e50","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._color","pure":false,"effects":{"effect_type":"reads_state","reads":["self._color"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_color(self):
         return self._color
 
     @synchronized
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_set_color(v), internal helper behaves correctly) over Any ║
+# ║ Path(_set_color(v), <unspecified:_set_color>) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _set_color : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4b414d4f9b071829  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_mode_base.PlotModeBase._set_color","kind":"method","src_hash":"ecf77a1cb08f8e62","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_set_color(v)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_set_color_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_mode_base.PlotModeBase._set_color_correct","statement":"Path(_set_color(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4b414d4f9b071829"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_mode_base.PlotModeBase._set_color","kind":"method","src_hash":"ecf77a1cb08f8e62","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_set_color(v)","rhs":"<unspecified:_set_color>","over":{"base":"Any"},"name":"_set_color_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_mode_base.PlotModeBase._set_color_correct","statement":"Path(_set_color(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4b414d4f9b071829","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._color","self._on_change_color"],"writes":["self._color"],"raises":["RuntimeError"],"catches":["Exception"]},"state_contract":{"modifies":["self._color"],"old_bindings":{"old_self__color":"self._color"},"exceptional_post":{"RuntimeError":["isinstance(raised, RuntimeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _set_color(self, v):
         try:
             if v is not None:
@@ -709,32 +897,44 @@ class PlotModeBase(PlotMode):
     ## String representations
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__str__(), returns a human-readable string) over Any  ║
+# ║ Path(__str__(), ', '.join([f, o])) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  ', '.join([f, o])                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __str__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 838efe0577f15839           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_mode_base.PlotModeBase.__str__","kind":"method","src_hash":"c62bf688da1ba211","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"returns a human-readable string","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"838efe0577f15839"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_mode_base.PlotModeBase.__str__","kind":"method","src_hash":"c62bf688da1ba211","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"', '.join([f, o])","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns ', '.join([f, o])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"838efe0577f15839","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"', '.join([f, o])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.d_vars","self.primary_alias"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __str__(self):
         f = ", ".join(str(d) for d in self.d_vars)
         o = "'mode=%s'" % (self.primary_alias)
         return ", ".join([f, o])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__repr__(), returns a faithful string representation) over Any ║
+# ║ Path(__repr__(), ', '.join([f, i, o])) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  ', '.join([f, i, o])                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __repr__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a82c81367e0fb105           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_mode_base.PlotModeBase.__repr__","kind":"method","src_hash":"eccbfd08c57dc72d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"returns a faithful string representation","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns a faithful string representation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a82c81367e0fb105"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_mode_base.PlotModeBase.__repr__","kind":"method","src_hash":"eccbfd08c57dc72d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"', '.join([f, i, o])","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns ', '.join([f, i, o])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a82c81367e0fb105","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"', '.join([f, i, o])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.color","self.d_vars","self.intervals","self.primary_alias","self.style"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __repr__(self):
         f = ", ".join(str(d) for d in self.d_vars)
         i = ", ".join(str(i) for i in self.intervals)

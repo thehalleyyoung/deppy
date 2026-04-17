@@ -26,16 +26,22 @@ import math
 from itertools import count
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_pre(), internal helper behaves correctly) over Any   ║
+# ║ Path(_pre(), <unspecified:_pre>) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _pre : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ff698d9c53c782a6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.partitions_._pre","kind":"function","src_hash":"0a9729465ea08aaa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_pre()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_pre_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.partitions_._pre_correct","statement":"Path(_pre(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ff698d9c53c782a6"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.partitions_._pre","kind":"function","src_hash":"0a9729465ea08aaa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_pre()","rhs":"<unspecified:_pre>","over":{"base":"Any"},"name":"_pre_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.partitions_._pre_correct","statement":"Path(_pre(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ff698d9c53c782a6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_global","globals_read":["_factor","_totient"],"globals_written":["_factor","_totient"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _pre():
     maxn = 10**5
     global _factor, _totient
@@ -60,16 +66,22 @@ def _pre():
             _totient[i] = _totient[y]*(x - 1)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_a(n, ), compute the inner sum in hrr formula [1]_) over Any ║
+# ║ Path(_a(n, k, prec), # HINT: _a may be idempotent: _a(_a(x)) == _a(x)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _a : Any → Any                                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  # HINT: _a may be idempotent: _a(_a(x)) =...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _a : Any → {Any | result satisfies: # HINT: _a may be...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2ff8a90f8b375284  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9855dc70b1d785c3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.partitions_._a","kind":"function","src_hash":"149bbb88bae06c80","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_a(n, )","rhs":"compute the inner sum in hrr formula [1]_","over":{"base":"Any"},"name":"_a_correct"},"guarantee":"compute the inner sum in hrr formula [1]_","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.partitions_._a_correct","statement":"Path(_a(x), compute the inner sum in hrr formula [1]_)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2ff8a90f8b375284"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.partitions_._a","kind":"function","src_hash":"149bbb88bae06c80","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: # HINT: _a may be idempotent: _a(_a(x)) == _a(x)"},"spec":{"lhs":"_a(n, k, prec)","rhs":"# HINT: _a may be idempotent: _a(_a(x)) == _a(x)","over":{"base":"Any"},"name":"_a_correct"},"guarantee":"# HINT: _a may be idempotent: _a(_a(x)) == _a(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.partitions_._a_correct","statement":"Path(_a(x), # HINT: _a may be idempotent: _a(_a(x)) == _a(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9855dc70b1d785c3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["# HINT: _a may be idempotent: _a(_a(x)) == _a(x)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"assumed","binding":true}}
 def _a(n, k, prec):
     """ Compute the inner sum in HRR formula [1]_
 
@@ -158,16 +170,22 @@ def _a(n, k, prec):
     return mpf_mul(_a(n1, k1, prec), _a(n2, k2, prec), prec)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_d(n, ), compute the sinh term in the outer sum of the hrr formula. the constants sqrt(2/3*pi) and sqrt(8) must be precomputed) over Any ║
+# ║ Path(_d(n, j, prec), mpf_mul(D, E)) over Any               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  mpf_mul(D, E)                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _d : Any → Any                                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9481f91f60076e72  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8099483f31ca0f96  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.partitions_._d","kind":"function","src_hash":"b4b4b93a4a7bcd99","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_d(n, )","rhs":"compute the sinh term in the outer sum of the hrr formula. the constants sqrt(2/3*pi) and sqrt(8) must be precomputed","over":{"base":"Any"},"name":"_d_correct"},"guarantee":"compute the sinh term in the outer sum of the hrr formula. the constants sqrt(2/3*pi) and sqrt(8) must be precomputed","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.partitions_._d_correct","statement":"Path(_d(x), compute the sinh term in the outer sum of the hrr formula. the constants sqrt(2/3*pi) and sqrt(8) must be precomputed)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9481f91f60076e72"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.partitions_._d","kind":"function","src_hash":"b4b4b93a4a7bcd99","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_d(n, j, prec)","rhs":"mpf_mul(D, E)","over":{"base":"Any"},"name":"_d_correct"},"guarantee":"returns mpf_mul(D, E)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.partitions_._d_correct","statement":"Path(_d(x), returns mpf_mul(D, E))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8099483f31ca0f96","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"mpf_mul(D, E)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _d(n, j, prec, sq23pi, sqrt8):
     """
     Compute the sinh term in the outer sum of the HRR formula.
@@ -188,16 +206,23 @@ def _d(n, j, prec, sq23pi, sqrt8):
 
 @recurrence_memo([1, 1])
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_partition_rec(n, ), calculate the partition function p(n)) over int ║
+# ║ Path(_partition_rec(n, prev), isinstance(result, int)) over {int | isinstance(n, int)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _partition_rec : int → int                                 ║
+# ║ C4 Spec [static] strength=partial                          ║
+# ║   requires: isinstance(n, int)                             ║
+# ║   ensures:  isinstance(result, int)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _partition_rec : {int | isinstance(n, int)} → {int | ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eb37751520c3b786  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e80b18a8741048c1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.partitions_._partition_rec","kind":"function","src_hash":"c8368fea7bf6e651","in":{"base":"int"},"out":{"base":"int"},"spec":{"lhs":"_partition_rec(n, )","rhs":"calculate the partition function p(n)","over":{"base":"int"},"name":"_partition_rec_correct"},"guarantee":"calculate the partition function p(n)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.partitions_._partition_rec_correct","statement":"Path(_partition_rec(x), calculate the partition function p(n))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eb37751520c3b786"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.partitions_._partition_rec","kind":"function","src_hash":"c8368fea7bf6e651","in":{"base":"int","pred":"isinstance(n, int)"},"out":{"base":"int","pred":"result satisfies: isinstance(result, int)"},"spec":{"lhs":"_partition_rec(n, prev)","rhs":"isinstance(result, int)","over":{"base":"int","pred":"isinstance(n, int)"},"name":"_partition_rec_correct"},"guarantee":"isinstance(result, int)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.partitions_._partition_rec_correct","statement":"Path(_partition_rec(x), isinstance(result, int))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e80b18a8741048c1","spec_source":"static","formal_spec":{"source":"static","strength":"partial","requires":["isinstance(n, int)"],"ensures":["isinstance(result, int)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _partition_rec(n: int, prev) -> int:
     """ Calculate the partition function P(n)
 
@@ -225,16 +250,24 @@ def _partition_rec(n: int, prev) -> int:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_partition(n), calculate the partition function p(n)) over int ║
+# ║ Path(_partition(n), isinstance(result, int) and _M(n, big) < 0.5) over {int | isinstance(n, int)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _partition : int → {int | _M(n, big) < 0.5}                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(n, int)                             ║
+# ║   ensures:  isinstance(result, int)                        ║
+# ║   ensures:  _M(n, big) < 0.5                               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _partition : {int | isinstance(n, int)} → {int | resu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e4f960a2d0889529  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6a54cbeb6ffa1d2e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.partitions_._partition","kind":"function","src_hash":"b2f97bca27b6863c","in":{"base":"int"},"out":{"base":"int","pred":"_M(n, big) < 0.5"},"spec":{"lhs":"_partition(n)","rhs":"calculate the partition function p(n)","over":{"base":"int"},"name":"_partition_correct"},"guarantee":"calculate the partition function p(n)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.partitions_._partition_correct","statement":"Path(_partition(x), calculate the partition function p(n))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e4f960a2d0889529"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.partitions_._partition","kind":"function","src_hash":"b2f97bca27b6863c","in":{"base":"int","pred":"isinstance(n, int)"},"out":{"base":"int","pred":"result satisfies: isinstance(result, int) and _M(n, big) < 0.5"},"spec":{"lhs":"_partition(n)","rhs":"isinstance(result, int) and _M(n, big) < 0.5","over":{"base":"int","pred":"isinstance(n, int)"},"name":"_partition_correct"},"guarantee":"isinstance(result, int); _M(n, big) < 0.5","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.partitions_._partition_correct","statement":"Path(_partition(x), isinstance(result, int); _M(n, big) < 0.5)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6a54cbeb6ffa1d2e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(n, int)"],"ensures":["isinstance(result, int)","_M(n, big) < 0.5"],"pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def _partition(n: int) -> int:
     """ Calculate the partition function P(n)
 
@@ -317,16 +350,22 @@ The `sympy.ntheory.partitions_.npartitions` has been moved to `sympy.functions.c
 deprecated_since_version="1.13",
 active_deprecations_target='deprecated-ntheory-symbolic-functions')
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(npartitions(n, ), calculate the partition function p(n), i.e) over Any ║
+# ║ Path(npartitions(n, verbose), func_partition(n)) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  func_partition(n)                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ npartitions : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c9a678c0e3685669  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 82439d4b4401b3da  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.partitions_.npartitions","kind":"function","src_hash":"c60af5e1af469239","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"npartitions(n, )","rhs":"calculate the partition function p(n), i.e","over":{"base":"Any"},"name":"npartitions_correct"},"guarantee":"calculate the partition function p(n), i.e","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.partitions_.npartitions_correct","statement":"Path(npartitions(x), calculate the partition function p(n), i.e)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c9a678c0e3685669"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.partitions_.npartitions","kind":"function","src_hash":"c60af5e1af469239","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"npartitions(n, verbose)","rhs":"func_partition(n)","over":{"base":"Any"},"name":"npartitions_correct"},"guarantee":"returns func_partition(n)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.partitions_.npartitions_correct","statement":"Path(npartitions(x), returns func_partition(n))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"82439d4b4401b3da","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"func_partition(n)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def npartitions(n, verbose=False):
     """
     Calculate the partition function P(n), i.e. the number of ways that

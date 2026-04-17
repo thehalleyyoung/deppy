@@ -25,16 +25,24 @@ from sympy.printing import pretty
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_equal(), test for equality) over Any             ║
+# ║ Path(test_equal(), Q.positive(x) == Q.positive(x) and Q.positive(x) != ~Q.positive(x) and ~Q.positive(x) == ~Q.positive(x)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_equal : Any → {Any | Q.positive(x) == Q.positive...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Q.positive(x) == Q.positive(x)                 ║
+# ║   ensures:  Q.positive(x) != ~Q.positive(x)                ║
+# ║   ensures:  ~Q.positive(x) == ~Q.positive(x)               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_equal : Any → {Any | result satisfies: Q.positiv...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ad2f46cf05346a07  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7deff37b701cf338  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.tests.test_assumptions_2.test_equal","kind":"function","src_hash":"b4ed1302e797aa3d","in":{"base":"Any"},"out":{"base":"Any","pred":"Q.positive(x) == Q.positive(x) and Q.positive(x) != ~Q.positive(x) and ~Q.positive(x) == ~Q.positive(x)"},"spec":{"lhs":"test_equal()","rhs":"test for equality","over":{"base":"Any"},"name":"test_equal_correct"},"guarantee":"test for equality","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.tests.test_assumptions_2.test_equal_correct","statement":"Path(test_equal(x), test for equality)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ad2f46cf05346a07"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.tests.test_assumptions_2.test_equal","kind":"function","src_hash":"b4ed1302e797aa3d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Q.positive(x) == Q.positive(x) and Q.positive(x) != ~Q.positive(x) and ~Q.positive(x) == ~Q.positive(x)"},"spec":{"lhs":"test_equal()","rhs":"Q.positive(x) == Q.positive(x) and Q.positive(x) != ~Q.positive(x) and ~Q.positive(x) == ~Q.positive(x)","over":{"base":"Any"},"name":"test_equal_correct"},"guarantee":"Q.positive(x) == Q.positive(x); Q.positive(x) != ~Q.positive(x); ~Q.positive(x) == ~Q.positive(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.tests.test_assumptions_2.test_equal_correct","statement":"Path(test_equal(x), Q.positive(x) == Q.positive(x); Q.positive(x) != ~Q.positive(x); ~Q.positive(x) == ~Q.positive(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7deff37b701cf338","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Q.positive(x) == Q.positive(x)","Q.positive(x) != ~Q.positive(x)","~Q.positive(x) == ~Q.positive(x)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_equal():
     """Test for equality"""
     assert Q.positive(x) == Q.positive(x)
@@ -43,16 +51,23 @@ def test_equal():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pretty(), test_pretty produces the expected output) over Any ║
+# ║ Path(test_pretty(), pretty(Q.positive(x)) == 'Q.positive(x)' and pretty({Q.positive, Q.integer}) == '{Q.integer, Q.positive}') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_pretty : Any → {Any | pretty(Q.positive(x)) == '...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pretty(Q.positive(x)) == 'Q.positive(x)'       ║
+# ║   ensures:  pretty({Q.positive, Q.integer}) == '{Q.in...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_pretty : Any → {Any | result satisfies: pretty(Q...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 08a1f833373e82b6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 46c89797687e4103  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.tests.test_assumptions_2.test_pretty","kind":"function","src_hash":"1dcd58f5a696ab2f","in":{"base":"Any"},"out":{"base":"Any","pred":"pretty(Q.positive(x)) == 'Q.positive(x)' and pretty({Q.positive, Q.integer}) == '{Q.integer, Q.positive}'"},"spec":{"lhs":"test_pretty()","rhs":"test_pretty produces the expected output","over":{"base":"Any"},"name":"test_pretty_correct"},"guarantee":"test_pretty produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.tests.test_assumptions_2.test_pretty_correct","statement":"Path(test_pretty(x), test_pretty produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"08a1f833373e82b6"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.tests.test_assumptions_2.test_pretty","kind":"function","src_hash":"1dcd58f5a696ab2f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pretty(Q.positive(x)) == 'Q.positive(x)' and pretty({Q.positive, Q.integer}) == '{Q.integer, Q.positive}'"},"spec":{"lhs":"test_pretty()","rhs":"pretty(Q.positive(x)) == 'Q.positive(x)' and pretty({Q.positive, Q.integer}) == '{Q.integer, Q.positive}'","over":{"base":"Any"},"name":"test_pretty_correct"},"guarantee":"pretty(Q.positive(x)) == 'Q.positive(x)'; pretty({Q.positive, Q.integer}) == '{Q.integer, Q.positive}'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.tests.test_assumptions_2.test_pretty_correct","statement":"Path(test_pretty(x), pretty(Q.positive(x)) == 'Q.positive(x)'; pretty({Q.positive, Q.integer}) == '{Q.integer, Q.positive}')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"46c89797687e4103","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pretty(Q.positive(x)) == 'Q.positive(x)'","pretty({Q.positive, Q.integer}) == '{Q.integer, Q.positive}'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_pretty():
     assert pretty(Q.positive(x)) == "Q.positive(x)"
     assert pretty(
@@ -60,16 +75,24 @@ def test_pretty():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_global(), test for global assumptions) over Any  ║
+# ║ Path(test_global(), (x > 0) in global_assumptions and not (x > 0) in global_assumptions and (y > 0) in global_assumptions and not (y > 0) in global_assumptions) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_global : Any → {Any | (x > 0) in global_assumpti...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (x > 0) in global_assumptions                  ║
+# ║   ensures:  not (x > 0) in global_assumptions              ║
+# ║   ensures:  (y > 0) in global_assumptions                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_global : Any → {Any | result satisfies: (x > 0) ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ec3945acca1e993b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6c5c791c8f891008  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.tests.test_assumptions_2.test_global","kind":"function","src_hash":"f9b310e734eae98e","in":{"base":"Any"},"out":{"base":"Any","pred":"(x > 0) in global_assumptions and not (x > 0) in global_assumptions and (x > 0) in global_assumptions and (y > 0) in global_assumptions and not (x > 0) in global_assumptions and not (y > 0) in global_assumptions"},"spec":{"lhs":"test_global()","rhs":"test for global assumptions","over":{"base":"Any"},"name":"test_global_correct"},"guarantee":"test for global assumptions","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.tests.test_assumptions_2.test_global_correct","statement":"Path(test_global(x), test for global assumptions)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ec3945acca1e993b"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.tests.test_assumptions_2.test_global","kind":"function","src_hash":"f9b310e734eae98e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (x > 0) in global_assumptions and not (x > 0) in global_assumptions and (y > 0) in global_assumptions and not (y > 0) in global_assumptions"},"spec":{"lhs":"test_global()","rhs":"(x > 0) in global_assumptions and not (x > 0) in global_assumptions and (y > 0) in global_assumptions and not (y > 0) in global_assumptions","over":{"base":"Any"},"name":"test_global_correct"},"guarantee":"(x > 0) in global_assumptions; not (x > 0) in global_assumptions; (y > 0) in global_assumptions","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.tests.test_assumptions_2.test_global_correct","statement":"Path(test_global(x), (x > 0) in global_assumptions; not (x > 0) in global_assumptions; (y > 0) in global_assumptions)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6c5c791c8f891008","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(x > 0) in global_assumptions","not (x > 0) in global_assumptions","(y > 0) in global_assumptions","not (y > 0) in global_assumptions"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_global():
     """Test for global assumptions"""
     global_assumptions.add(x > 0)

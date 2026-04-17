@@ -26,14 +26,20 @@ from sympy.functions.elementary.complexes import re, im
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(FunctionMatrix(*args), correctly constructs a FunctionMatrix instance) over {Any | isinstance(lamda, (FunctionClass, Lambda)) and isinstance(lamda, Lambda)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, MatrixExpr)                   ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ FunctionMatrix : {Any | isinstance(lamda, (FunctionCl...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5f07ce1d31c6cd85  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.funcmatrix.FunctionMatrix","kind":"class","src_hash":"58556cc4776b8cc7","in":{"base":"Any","pred":"isinstance(lamda, (FunctionClass, Lambda)) and isinstance(lamda, Lambda)"},"out":{"base":"Any"},"spec":{"lhs":"FunctionMatrix(*args)","rhs":"correctly constructs a FunctionMatrix instance","over":{"base":"Any","pred":"isinstance(lamda, (FunctionClass, Lambda)) and isinstance(lamda, Lambda)"},"name":"FunctionMatrix_class_invariant"},"guarantee":"correctly constructs a FunctionMatrix instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5f07ce1d31c6cd85"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.funcmatrix.FunctionMatrix","kind":"class","src_hash":"58556cc4776b8cc7","in":{"base":"Any","pred":"isinstance(lamda, (FunctionClass, Lambda)) and isinstance(lamda, Lambda)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, MatrixExpr)"},"spec":{"lhs":"FunctionMatrix(*args)","rhs":"correctly constructs a FunctionMatrix instance","over":{"base":"Any","pred":"isinstance(lamda, (FunctionClass, Lambda)) and isinstance(lamda, Lambda)"},"name":"FunctionMatrix_class_invariant"},"guarantee":"isinstance(self, MatrixExpr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5f07ce1d31c6cd85","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, MatrixExpr)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function FunctionMatrix not found in source"]}}
 class FunctionMatrix(MatrixExpr):
     """Represents a matrix using a function (``Lambda``) which gives
     outputs according to the coordinates of each matrix entries.
@@ -106,16 +112,24 @@ class FunctionMatrix(MatrixExpr):
     sparse way.
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, rows, cols), super().__new__(cls, rows, cols, lamda)) over {Any | isinstance(lamda, (FunctionClass, Lambda)) and hasattr(lamda, 'nargs')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(lamda, (FunctionClass, Lambda))     ║
+# ║   requires: hasattr(lamda, 'nargs')                        ║
+# ║   returns:  super().__new__(cls, rows, cols, lamda)        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | isinstance(lamda, (FunctionClass, La...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9325716810926e7c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.funcmatrix.FunctionMatrix.__new__","kind":"method","src_hash":"274f9d9d5c0786a2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9325716810926e7c"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.funcmatrix.FunctionMatrix.__new__","kind":"method","src_hash":"274f9d9d5c0786a2","in":{"base":"Any","pred":"isinstance(lamda, (FunctionClass, Lambda)) and hasattr(lamda, 'nargs')"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, rows, cols)","rhs":"super().__new__(cls, rows, cols, lamda)","over":{"base":"Any","pred":"isinstance(lamda, (FunctionClass, Lambda)) and hasattr(lamda, 'nargs')"},"name":"__new___correct"},"guarantee":"returns super().__new__(cls, rows, cols, lamda)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9325716810926e7c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(lamda, (FunctionClass, Lambda))","hasattr(lamda, 'nargs')"],"returns_expr":"super().__new__(cls, rows, cols, lamda)","pure":false,"effects":{"effect_type":"reads_state","reads":["cls._check_dim","lamda.nargs"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, rows, cols, lamda):
         rows, cols = _sympify(rows), _sympify(cols)
         cls._check_dim(rows)
@@ -139,74 +153,104 @@ class FunctionMatrix(MatrixExpr):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(shape(), returns the shape attribute) over Any        ║
+# ║ Path(shape(), self.args[0:2]) over Any                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0:2]                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ shape : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 458730b62e32ba7d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.funcmatrix.FunctionMatrix.shape","kind":"property","src_hash":"e23e04b4fbd69d53","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"shape()","rhs":"returns the shape attribute","over":{"base":"Any"},"name":"shape_correct"},"guarantee":"returns the shape attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"458730b62e32ba7d"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.funcmatrix.FunctionMatrix.shape","kind":"property","src_hash":"e23e04b4fbd69d53","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"shape()","rhs":"self.args[0:2]","over":{"base":"Any"},"name":"shape_correct"},"guarantee":"returns self.args[0:2]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"458730b62e32ba7d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0:2]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def shape(self):
         return self.args[0:2]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(lamda(), returns the lamda attribute) over Any        ║
+# ║ Path(lamda(), self.args[2]) over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[2]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ lamda : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 48c29424c3a5e2e8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.funcmatrix.FunctionMatrix.lamda","kind":"property","src_hash":"c9c65d54430bd06d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"lamda()","rhs":"returns the lamda attribute","over":{"base":"Any"},"name":"lamda_correct"},"guarantee":"returns the lamda attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"48c29424c3a5e2e8"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.funcmatrix.FunctionMatrix.lamda","kind":"property","src_hash":"c9c65d54430bd06d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"lamda()","rhs":"self.args[2]","over":{"base":"Any"},"name":"lamda_correct"},"guarantee":"returns self.args[2]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"48c29424c3a5e2e8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[2]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def lamda(self):
         return self.args[2]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_entry(i, ), internal helper behaves correctly) over Any ║
+# ║ Path(_entry(i, j, **kwargs), self.lamda(i, j)) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.lamda(i, j)                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _entry : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 56a31b4d842c5b6d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.funcmatrix.FunctionMatrix._entry","kind":"method","src_hash":"a01c7bd3822cbc62","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_entry(i, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_entry_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"56a31b4d842c5b6d"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.funcmatrix.FunctionMatrix._entry","kind":"method","src_hash":"a01c7bd3822cbc62","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_entry(i, j, **kwargs)","rhs":"self.lamda(i, j)","over":{"base":"Any"},"name":"_entry_correct"},"guarantee":"returns self.lamda(i, j)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"56a31b4d842c5b6d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.lamda(i, j)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.lamda"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _entry(self, i, j, **kwargs):
         return self.lamda(i, j)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(_eval_trace(), id) over Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Trace(self).rewrite(Sum).doit()                ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_trace : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | b54b33ad50703039   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.funcmatrix.FunctionMatrix._eval_trace","kind":"method","src_hash":"b10516521642a005","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_trace()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_trace_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Trace","by":"library_axiom"},{"fn":"rewrite","by":"library_axiom"},{"fn":"doit","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b54b33ad50703039"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.funcmatrix.FunctionMatrix._eval_trace","kind":"method","src_hash":"b10516521642a005","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_trace()","rhs":"Trace(self).rewrite(Sum).doit()","over":{"base":"Any"},"name":"_eval_trace_correct","kind":"composition"},"guarantee":"returns Trace(self).rewrite(Sum).doit()","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Trace","by":"library_axiom"},{"fn":"rewrite","by":"library_axiom"},{"fn":"doit","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b54b33ad50703039","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Trace(self).rewrite(Sum).doit()","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_trace(self):
         from sympy.matrices.expressions.trace import Trace
         from sympy.concrete.summations import Sum
         return Trace(self).rewrite(Sum).doit()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_as_real_imag(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_as_real_imag(), (re(Matrix(self)), im(Matrix(self)))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (re(Matrix(self)), im(Matrix(self)))           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_as_real_imag : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a11aece4feba910e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.funcmatrix.FunctionMatrix._eval_as_real_imag","kind":"method","src_hash":"8f5fec7f8f913808","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_as_real_imag()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_as_real_imag_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a11aece4feba910e"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.funcmatrix.FunctionMatrix._eval_as_real_imag","kind":"method","src_hash":"8f5fec7f8f913808","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_as_real_imag()","rhs":"(re(Matrix(self)), im(Matrix(self)))","over":{"base":"Any"},"name":"_eval_as_real_imag_correct"},"guarantee":"returns (re(Matrix(self)), im(Matrix(self)))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a11aece4feba910e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(re(Matrix(self)), im(Matrix(self)))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_as_real_imag(self):
         return (re(Matrix(self)), im(Matrix(self)))

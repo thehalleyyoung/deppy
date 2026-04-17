@@ -41,16 +41,22 @@ from sympy.utilities.iterables import capture
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(fac_multiplicity(n, ), return the power of the prime number p in the factorization of n!) over Any ║
+# ║ Path(fac_multiplicity(n, p), <unspecified:fac_multiplicity>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ fac_multiplicity : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1e09abbfb861fb0b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_factor_.fac_multiplicity","kind":"function","src_hash":"89e5fac3886a4f36","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fac_multiplicity(n, )","rhs":"return the power of the prime number p in the factorization of n!","over":{"base":"Any"},"name":"fac_multiplicity_correct"},"guarantee":"return the power of the prime number p in the factorization of n!","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_factor_.fac_multiplicity_correct","statement":"Path(fac_multiplicity(x), return the power of the prime number p in the factorization of n!)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1e09abbfb861fb0b"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_factor_.fac_multiplicity","kind":"function","src_hash":"89e5fac3886a4f36","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fac_multiplicity(n, p)","rhs":"<unspecified:fac_multiplicity>","over":{"base":"Any"},"name":"fac_multiplicity_correct"},"guarantee":"return the power of the prime number p in the factorization of n!","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_factor_.fac_multiplicity_correct","statement":"Path(fac_multiplicity(x), return the power of the prime number p in the factorization of n!)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1e09abbfb861fb0b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def fac_multiplicity(n, p):
     """Return the power of the prime number p in the
     factorization of n!"""
@@ -66,9 +72,13 @@ def fac_multiplicity(n, p):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(multiproduct(seq), return the product of a sequence of factors with multiplicities, times the value of the parameter ``start``) over {Any | isinstance(seq, dict)} ║
+# ║ Path(multiproduct(seq, start), # HINT: multiproduct may be idempotent: multiproduct(multiproduct(x)) == multiproduct(x)) over {Any | isinstance(seq, dict) and hasattr(seq, 'items')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ multiproduct : {Any | isinstance(seq, dict)} → Any         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(seq, 'items')                          ║
+# ║   ensures:  # HINT: multiproduct may be idempotent: m...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ multiproduct : {Any | isinstance(seq, dict) and hasat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   dict: {isinstance(seq, dict)} → library_axiom            ║
@@ -78,9 +88,12 @@ def fac_multiplicity(n, p):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.6ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 3b1118d3...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_factor_.multiproduct","kind":"function","src_hash":"90a0e862a6a8e773","in":{"base":"Any","pred":"isinstance(seq, dict)"},"out":{"base":"Any"},"spec":{"lhs":"multiproduct(seq)","rhs":"return the product of a sequence of factors with multiplicities, times the value of the parameter ``start``","over":{"base":"Any","pred":"isinstance(seq, dict)"},"name":"multiproduct_correct"},"guarantee":"return the product of a sequence of factors with multiplicities, times the value of the parameter ``start``","fibers":[{"name":"dict","pred":"isinstance(seq, dict)","path":{"lhs":"multiproduct(x)","rhs":"return the product of a sequence of factors with multiplicities, times the value of the parameter ``start``","over":{"base":"dict","pred":"isinstance(seq, dict)"},"name":"multiproduct_dict_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_factor_.multiproduct_dict_correct","statement":"multiproduct satisfies spec on dict inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"3b1118d34cbe30f3"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_factor_.multiproduct","kind":"function","src_hash":"90a0e862a6a8e773","in":{"base":"Any","pred":"isinstance(seq, dict) and hasattr(seq, 'items')"},"out":{"base":"Any","pred":"result satisfies: # HINT: multiproduct may be idempotent: multiproduct(multiproduct(x)) == multiproduct(x)"},"spec":{"lhs":"multiproduct(seq, start)","rhs":"# HINT: multiproduct may be idempotent: multiproduct(multiproduct(x)) == multiproduct(x)","over":{"base":"Any","pred":"isinstance(seq, dict) and hasattr(seq, 'items')"},"name":"multiproduct_correct"},"guarantee":"# HINT: multiproduct may be idempotent: multiproduct(multiproduct(x)) == multiproduct(x)","fibers":[{"name":"dict","pred":"isinstance(seq, dict)","path":{"lhs":"multiproduct(x)","rhs":"# HINT: multiproduct may be idempotent: multiproduct(multiproduct(x)) == multiproduct(x)","over":{"base":"dict","pred":"isinstance(seq, dict)"},"name":"multiproduct_dict_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_factor_.multiproduct_dict_correct","statement":"multiproduct satisfies spec on dict inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"3b1118d34cbe30f3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(seq, 'items')"],"ensures":["# HINT: multiproduct may be idempotent: multiproduct(multiproduct(x)) == multiproduct(x)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.6,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(seq, dict)', 'exp == 1'}, fibers={'dict'})"]}}
 def multiproduct(seq=(), start=1):
     """
     Return the product of a sequence of factors with multiplicities,
@@ -110,16 +123,24 @@ def multiproduct(seq=(), start=1):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_multiplicity(), test_multiplicity produces the expected output) over Any ║
+# ║ Path(test_multiplicity(), multiplicity(10, 10 ** 10023) == 10023 and multiplicity(10 ** 10, 10 ** 10) == 1 and multiplicity(10, Rational(30, 7)) == 1 and multiplicity(Rational(2, 7), Rational(4, 7)) == 1 and multiplicity(Rational(1, 7), Rational(3, 49)) == 2 and multiplicity(Rational(2, 7), Rational(7, 2)) == -1 and multiplicity(3, Rational(1, 9)) == -2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_multiplicity : Any → {Any | multiplicity(10, 10 ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  multiplicity(10, 10 ** 10023) == 10023         ║
+# ║   ensures:  multiplicity(10 ** 10, 10 ** 10) == 1          ║
+# ║   ensures:  multiplicity(10, Rational(30, 7)) == 1         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_multiplicity : Any → {Any | result satisfies: mu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ab7ab427ee03070a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 07b1e2dd609fe842  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_factor_.test_multiplicity","kind":"function","src_hash":"55defaf8179bcbcf","in":{"base":"Any"},"out":{"base":"Any","pred":"multiplicity(10, 10 ** 10023) == 10023 and multiplicity(10 ** 10, 10 ** 10) == 1 and multiplicity(10, Rational(30, 7)) == 1 and multiplicity(Rational(2, 7), Rational(4, 7)) == 1 and multiplicity(Rational(1, 7), Rational(3, 49)) == 2 and multiplicity(Rational(2, 7), Rational(7, 2)) == -1 and multiplicity(3, Rational(1, 9)) == -2 and multiplicity(b, b ** i) == i and multiplicity(b, b ** i * 23) == i and multiplicity(b, b ** i * 1000249) == i"},"spec":{"lhs":"test_multiplicity()","rhs":"test_multiplicity produces the expected output","over":{"base":"Any"},"name":"test_multiplicity_correct"},"guarantee":"test_multiplicity produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_factor_.test_multiplicity_correct","statement":"Path(test_multiplicity(x), test_multiplicity produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ab7ab427ee03070a"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_factor_.test_multiplicity","kind":"function","src_hash":"55defaf8179bcbcf","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: multiplicity(10, 10 ** 10023) == 10023 and multiplicity(10 ** 10, 10 ** 10) == 1 and multiplicity(10, Rational(30, 7)) == 1 and multiplicity(Rational(2, 7), Rational(4, 7)) == 1 and multiplicity(Rational(1, 7), Rational(3, 49)) == 2 and multiplicity(Rational(2, 7), Rational(7, 2)) == -1 and multiplicity(3, Rational(1, 9)) == -2"},"spec":{"lhs":"test_multiplicity()","rhs":"multiplicity(10, 10 ** 10023) == 10023 and multiplicity(10 ** 10, 10 ** 10) == 1 and multiplicity(10, Rational(30, 7)) == 1 and multiplicity(Rational(2, 7), Rational(4, 7)) == 1 and multiplicity(Rational(1, 7), Rational(3, 49)) == 2 and multiplicity(Rational(2, 7), Rational(7, 2)) == -1 and multiplicity(3, Rational(1, 9)) == -2","over":{"base":"Any"},"name":"test_multiplicity_correct"},"guarantee":"multiplicity(10, 10 ** 10023) == 10023; multiplicity(10 ** 10, 10 ** 10) == 1; multiplicity(10, Rational(30, 7)) == 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_factor_.test_multiplicity_correct","statement":"Path(test_multiplicity(x), multiplicity(10, 10 ** 10023) == 10023; multiplicity(10 ** 10, 10 ** 10) == 1; multiplicity(10, Rational(30, 7)) == 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"07b1e2dd609fe842","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["multiplicity(10, 10 ** 10023) == 10023","multiplicity(10 ** 10, 10 ** 10) == 1","multiplicity(10, Rational(30, 7)) == 1","multiplicity(Rational(2, 7), Rational(4, 7)) == 1","multiplicity(Rational(1, 7), Rational(3, 49)) == 2","multiplicity(Rational(2, 7), Rational(7, 2)) == -1","multiplicity(3, Rational(1, 9)) == -2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_multiplicity():
     for b in range(2, 20):
         for i in range(100):
@@ -146,16 +167,22 @@ def test_multiplicity():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_multiplicity_in_factorial(), test_multiplicity_in_factorial produces the expected output) over Any ║
+# ║ Path(test_multiplicity_in_factorial(), <unspecified:test_multiplicity_in_factorial>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_multiplicity_in_factorial : Any → {Any | multipl...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | db3ad159d96dcca9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_factor_.test_multiplicity_in_factorial","kind":"function","src_hash":"ebb212f7420e53b5","in":{"base":"Any"},"out":{"base":"Any","pred":"multiplicity(i, n) == multiplicity_in_factorial(i, 1000)"},"spec":{"lhs":"test_multiplicity_in_factorial()","rhs":"test_multiplicity_in_factorial produces the expected output","over":{"base":"Any"},"name":"test_multiplicity_in_factorial_correct"},"guarantee":"test_multiplicity_in_factorial produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_factor_.test_multiplicity_in_factorial_correct","statement":"Path(test_multiplicity_in_factorial(x), test_multiplicity_in_factorial produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"db3ad159d96dcca9"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_factor_.test_multiplicity_in_factorial","kind":"function","src_hash":"ebb212f7420e53b5","in":{"base":"Any"},"out":{"base":"Any","pred":"multiplicity(i, n) == multiplicity_in_factorial(i, 1000)"},"spec":{"lhs":"test_multiplicity_in_factorial()","rhs":"<unspecified:test_multiplicity_in_factorial>","over":{"base":"Any"},"name":"test_multiplicity_in_factorial_correct"},"guarantee":"test_multiplicity_in_factorial produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_factor_.test_multiplicity_in_factorial_correct","statement":"Path(test_multiplicity_in_factorial(x), test_multiplicity_in_factorial produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"db3ad159d96dcca9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_multiplicity_in_factorial():
     n = fac(1000)
     for i in (2, 4, 6, 12, 30, 36, 48, 60, 72, 96):
@@ -163,16 +190,24 @@ def test_multiplicity_in_factorial():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_private_perfect_power(), test_private_perfect_power produces the expected output) over Any ║
+# ║ Path(test_private_perfect_power(), _perfect_power(0) is False and _perfect_power(1) is False and _perfect_power(2) is False and _perfect_power(3) is False) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_private_perfect_power : Any → {Any | _perfect_po...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  _perfect_power(0) is False                     ║
+# ║   ensures:  _perfect_power(1) is False                     ║
+# ║   ensures:  _perfect_power(2) is False                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_private_perfect_power : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e1789454c6625644  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9958af618bb45d0f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_factor_.test_private_perfect_power","kind":"function","src_hash":"83c50290bdd72e51","in":{"base":"Any"},"out":{"base":"Any","pred":"_perfect_power(0) is False and _perfect_power(1) is False and _perfect_power(2) is False and _perfect_power(3) is False and _perfect_power(x ** y) == (x, y) and _perfect_power(101 * x ** y) == False and _perfect_power(x ** y, next_p=3) == (x, y) and _perfect_power(x ** y, next_p=100003) == (x, y) and _perfect_power(x ** y + 1) == False and _perfect_power(x ** y - 1) == False and _perfect_power(5 ** x * 101 ** y) == False and _perfect_power(5 ** x * 101 ** y) == (5 ** (x // g) * 101 ** (y // g), g)"},"spec":{"lhs":"test_private_perfect_power()","rhs":"test_private_perfect_power produces the expected output","over":{"base":"Any"},"name":"test_private_perfect_power_correct"},"guarantee":"test_private_perfect_power produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_factor_.test_private_perfect_power_correct","statement":"Path(test_private_perfect_power(x), test_private_perfect_power produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e1789454c6625644"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_factor_.test_private_perfect_power","kind":"function","src_hash":"83c50290bdd72e51","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: _perfect_power(0) is False and _perfect_power(1) is False and _perfect_power(2) is False and _perfect_power(3) is False"},"spec":{"lhs":"test_private_perfect_power()","rhs":"_perfect_power(0) is False and _perfect_power(1) is False and _perfect_power(2) is False and _perfect_power(3) is False","over":{"base":"Any"},"name":"test_private_perfect_power_correct"},"guarantee":"_perfect_power(0) is False; _perfect_power(1) is False; _perfect_power(2) is False","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_factor_.test_private_perfect_power_correct","statement":"Path(test_private_perfect_power(x), _perfect_power(0) is False; _perfect_power(1) is False; _perfect_power(2) is False)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9958af618bb45d0f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["_perfect_power(0) is False","_perfect_power(1) is False","_perfect_power(2) is False","_perfect_power(3) is False"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_private_perfect_power():
     assert _perfect_power(0) is False
     assert _perfect_power(1) is False
@@ -200,16 +235,24 @@ def test_private_perfect_power():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_perfect_power(), test_perfect_power produces the expected output) over Any ║
+# ║ Path(test_perfect_power(), perfect_power(0) is False and perfect_power(1) is False and perfect_power(2) is False and perfect_power(3) is False and perfect_power(4) == (2, 2) and perfect_power(14) is False and perfect_power(25) == (5, 2) and perfect_power(22) is False and perfect_power(22, [2]) is False and perfect_power(137 ** (3 * 5 * 13)) == (137, 3 * 5 * 13) and perfect_power(137 ** (3 * 5 * 13) + 1) is False and perfect_power(137 ** (3 * 5 * 13) - 1) is False and perfect_power(103005006004 ** 7) == (103005006004, 7) and perfect_power(103005006004 ** 7 + 1) is False and perfect_power(103005006004 ** 7 - 1) is False and perfect_power(103005006004 ** 12) == (103005006004, 12) and perfect_power(103005006004 ** 12 + 1) is False and perfect_power(103005006004 ** 12 - 1) is False and perfect_power(2 ** 10007) == (2, 10007) and perfect_power(2 ** 10007 + 1) is False and perfect_power(2 ** 10007 - 1) is False and perfect_power((9 ** 99 + 1) ** 60) == (9 ** 99 + 1, 60) and perfect_power((9 ** 99 + 1) ** 60 + 1) is False and perfect_power((9 ** 99 + 1) ** 60 - 1) is False and perfect_power((10 ** 40000) ** 2, big=False) == (10 ** 40000, 2) and perfect_power(10 ** 100000) == (10, 100000) and perfect_power(10 ** 100001) == (10, 100001) and perfect_power(13 ** 4, [3, 5]) is False and perfect_power(3 ** 4, [3, 10], factor=0) is False and perfect_power(3 ** 3 * 5 ** 3) == (15, 3) and perfect_power(2 ** 3 * 5 ** 5) is False and perfect_power(2 * 13 ** 4) is False and perfect_power(2 ** 5 * 3 ** 3) is False and perfect_power(-4) is False and perfect_power(-8) == (-2, 3) and perfect_power(-S(1) / 8) == (-S(1) / 2, 3) and perfect_power(S(1) / 3) == False and perfect_power(-5 ** 15) == (-5, 15) and perfect_power(-5 ** 15, big=False) == (-3125, 3) and perfect_power(-5 ** 15, [15]) == (-5, 15) and perfect_power(n) == (-81, 15) and perfect_power(n, big=False) == (-3486784401, 3) and perfect_power(n, [3, 5], big=True) == (-531441, 5) and perfect_power(n, [3, 5], big=False) == (-3486784401, 3) and perfect_power(n, [2]) == False and perfect_power(n, [2, 15]) == (-81, 15) and perfect_power(n, [2, 13]) == False and perfect_power(n, [17]) == False and perfect_power(n, [3]) == (-3486784401, 3) and perfect_power(n + 1) == False and perfect_power(r) == (S(32) / 3, 14) and perfect_power(-r) == (-S(1024) / 9, 7) and perfect_power(r, big=False) == (S(34359738368) / 2187, 2) and perfect_power(r, [2, 5]) == (S(34359738368) / 2187, 2) and perfect_power(r, [5, 7]) == (S(1024) / 9, 7) and perfect_power(r, [5, 7], big=False) == (S(1024) / 9, 7) and perfect_power(r, [2, 5, 7], big=False) == (S(34359738368) / 2187, 2) and perfect_power(-r, [5, 7], big=False) == (-S(1024) / 9, 7) and perfect_power((-3) ** 60) == (3, 60) and perfect_power((-3) ** 61) == (-3, 61) and perfect_power(S(2 ** 9) / 3 ** 12) == (S(8) / 81, 3) and perfect_power(Rational(1, 2) ** 3) == (S.Half, 3) and perfect_power(Rational(-3, 2) ** 3) == (-3 * S.Half, 3)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_perfect_power : Any → {Any | perfect_power(0) is...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  perfect_power(0) is False                      ║
+# ║   ensures:  perfect_power(1) is False                      ║
+# ║   ensures:  perfect_power(2) is False                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_perfect_power : Any → {Any | result satisfies: p...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c95d615dc90f60cf  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 21.4ms                        ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e1e6285f3281711b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_factor_.test_perfect_power","kind":"function","src_hash":"5ff57ef4c721a99e","in":{"base":"Any"},"out":{"base":"Any","pred":"perfect_power(0) is False and perfect_power(1) is False and perfect_power(2) is False and perfect_power(3) is False and perfect_power(4) == (2, 2) and perfect_power(14) is False and perfect_power(25) == (5, 2) and perfect_power(22) is False and perfect_power(22, [2]) is False and perfect_power(137 ** (3 * 5 * 13)) == (137, 3 * 5 * 13) and perfect_power(137 ** (3 * 5 * 13) + 1) is False and perfect_power(137 ** (3 * 5 * 13) - 1) is False and perfect_power(103005006004 ** 7) == (103005006004, 7) and perfect_power(103005006004 ** 7 + 1) is False and perfect_power(103005006004 ** 7 - 1) is False and perfect_power(103005006004 ** 12) == (103005006004, 12) and perfect_power(103005006004 ** 12 + 1) is False and perfect_power(103005006004 ** 12 - 1) is False and perfect_power(2 ** 10007) == (2, 10007) and perfect_power(2 ** 10007 + 1) is False and perfect_power(2 ** 10007 - 1) is False and perfect_power((9 ** 99 + 1) ** 60) == (9 ** 99 + 1, 60) and perfect_power((9 ** 99 + 1) ** 60 + 1) is False and perfect_power((9 ** 99 + 1) ** 60 - 1) is False and perfect_power((10 ** 40000) ** 2, big=False) == (10 ** 40000, 2) and perfect_power(10 ** 100000) == (10, 100000) and perfect_power(10 ** 100001) == (10, 100001) and perfect_power(13 ** 4, [3, 5]) is False and perfect_power(3 ** 4, [3, 10], factor=0) is False and perfect_power(3 ** 3 * 5 ** 3) == (15, 3) and perfect_power(2 ** 3 * 5 ** 5) is False and perfect_power(2 * 13 ** 4) is False and perfect_power(2 ** 5 * 3 ** 3) is False and perfect_power(-4) is False and perfect_power(-8) == (-2, 3) and perfect_power(-S(1) / 8) == (-S(1) / 2, 3) and perfect_power(S(1) / 3) == False and perfect_power(-5 ** 15) == (-5, 15) and perfect_power(-5 ** 15, big=False) == (-3125, 3) and perfect_power(-5 ** 15, [15]) == (-5, 15) and perfect_power(n) == (-81, 15) and perfect_power(n, big=False) == (-3486784401, 3) and perfect_power(n, [3, 5], big=True) == (-531441, 5) and perfect_power(n, [3, 5], big=False) == (-3486784401, 3) and perfect_power(n, [2]) == False and perfect_power(n, [2, 15]) == (-81, 15) and perfect_power(n, [2, 13]) == False and perfect_power(n, [17]) == False and perfect_power(n, [3]) == (-3486784401, 3) and perfect_power(n + 1) == False and perfect_power(r) == (S(32) / 3, 14) and perfect_power(-r) == (-S(1024) / 9, 7) and perfect_power(r, big=False) == (S(34359738368) / 2187, 2) and perfect_power(r, [2, 5]) == (S(34359738368) / 2187, 2) and perfect_power(r, [5, 7]) == (S(1024) / 9, 7) and perfect_power(r, [5, 7], big=False) == (S(1024) / 9, 7) and perfect_power(r, [2, 5, 7], big=False) == (S(34359738368) / 2187, 2) and perfect_power(-r, [5, 7], big=False) == (-S(1024) / 9, 7) and perfect_power(-S(1) / 8) == (-S(1) / 2, 3) and perfect_power((-3) ** 60) == (3, 60) and perfect_power((-3) ** 61) == (-3, 61) and perfect_power(S(2 ** 9) / 3 ** 12) == (S(8) / 81, 3) and perfect_power(Rational(1, 2) ** 3) == (S.Half, 3) and perfect_power(Rational(-3, 2) ** 3) == (-3 * S.Half, 3) and m and m[1] == d or d == 1 and m and m[1] == 2 or d == 1 or d == 3"},"spec":{"lhs":"test_perfect_power()","rhs":"test_perfect_power produces the expected output","over":{"base":"Any"},"name":"test_perfect_power_correct"},"guarantee":"test_perfect_power produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_factor_.test_perfect_power_correct","statement":"Path(test_perfect_power(x), test_perfect_power produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c95d615dc90f60cf"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_factor_.test_perfect_power","kind":"function","src_hash":"5ff57ef4c721a99e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: perfect_power(0) is False and perfect_power(1) is False and perfect_power(2) is False and perfect_power(3) is False and perfect_power(4) == (2, 2) and perfect_power(14) is False and perfect_power(25) == (5, 2) and perfect_power(22) is False and perfect_power(22, [2]) is False and perfect_power(137 ** (3 * 5 * 13)) == (137, 3 * 5 * 13) and perfect_power(137 ** (3 * 5 * 13) + 1) is False and perfect_power(137 ** (3 * 5 * 13) - 1) is False and perfect_power(103005006004 ** 7) == (103005006004, 7) and perfect_power(103005006004 ** 7 + 1) is False and perfect_power(103005006004 ** 7 - 1) is False and perfect_power(103005006004 ** 12) == (103005006004, 12) and perfect_power(103005006004 ** 12 + 1) is False and perfect_power(103005006004 ** 12 - 1) is False and perfect_power(2 ** 10007) == (2, 10007) and perfect_power(2 ** 10007 + 1) is False and perfect_power(2 ** 10007 - 1) is False and perfect_power((9 ** 99 + 1) ** 60) == (9 ** 99 + 1, 60) and perfect_power((9 ** 99 + 1) ** 60 + 1) is False and perfect_power((9 ** 99 + 1) ** 60 - 1) is False and perfect_power((10 ** 40000) ** 2, big=False) == (10 ** 40000, 2) and perfect_power(10 ** 100000) == (10, 100000) and perfect_power(10 ** 100001) == (10, 100001) and perfect_power(13 ** 4, [3, 5]) is False and perfect_power(3 ** 4, [3, 10], factor=0) is False and perfect_power(3 ** 3 * 5 ** 3) == (15, 3) and perfect_power(2 ** 3 * 5 ** 5) is False and perfect_power(2 * 13 ** 4) is False and perfect_power(2 ** 5 * 3 ** 3) is False and perfect_power(-4) is False and perfect_power(-8) == (-2, 3) and perfect_power(-S(1) / 8) == (-S(1) / 2, 3) and perfect_power(S(1) / 3) == False and perfect_power(-5 ** 15) == (-5, 15) and perfect_power(-5 ** 15, big=False) == (-3125, 3) and perfect_power(-5 ** 15, [15]) == (-5, 15) and perfect_power(n) == (-81, 15) and perfect_power(n, big=False) == (-3486784401, 3) and perfect_power(n, [3, 5], big=True) == (-531441, 5) and perfect_power(n, [3, 5], big=False) == (-3486784401, 3) and perfect_power(n, [2]) == False and perfect_power(n, [2, 15]) == (-81, 15) and perfect_power(n, [2, 13]) == False and perfect_power(n, [17]) == False and perfect_power(n, [3]) == (-3486784401, 3) and perfect_power(n + 1) == False and perfect_power(r) == (S(32) / 3, 14) and perfect_power(-r) == (-S(1024) / 9, 7) and perfect_power(r, big=False) == (S(34359738368) / 2187, 2) and perfect_power(r, [2, 5]) == (S(34359738368) / 2187, 2) and perfect_power(r, [5, 7]) == (S(1024) / 9, 7) and perfect_power(r, [5, 7], big=False) == (S(1024) / 9, 7) and perfect_power(r, [2, 5, 7], big=False) == (S(34359738368) / 2187, 2) and perfect_power(-r, [5, 7], big=False) == (-S(1024) / 9, 7) and perfect_power((-3) ** 60) == (3, 60) and perfect_power((-3) ** 61) == (-3, 61) and perfect_power(S(2 ** 9) / 3 ** 12) == (S(8) / 81, 3) and perfect_power(Rational(1, 2) ** 3) == (S.Half, 3) and perfect_power(Rational(-3, 2) ** 3) == (-3 * S.Half, 3)"},"spec":{"lhs":"test_perfect_power()","rhs":"perfect_power(0) is False and perfect_power(1) is False and perfect_power(2) is False and perfect_power(3) is False and perfect_power(4) == (2, 2) and perfect_power(14) is False and perfect_power(25) == (5, 2) and perfect_power(22) is False and perfect_power(22, [2]) is False and perfect_power(137 ** (3 * 5 * 13)) == (137, 3 * 5 * 13) and perfect_power(137 ** (3 * 5 * 13) + 1) is False and perfect_power(137 ** (3 * 5 * 13) - 1) is False and perfect_power(103005006004 ** 7) == (103005006004, 7) and perfect_power(103005006004 ** 7 + 1) is False and perfect_power(103005006004 ** 7 - 1) is False and perfect_power(103005006004 ** 12) == (103005006004, 12) and perfect_power(103005006004 ** 12 + 1) is False and perfect_power(103005006004 ** 12 - 1) is False and perfect_power(2 ** 10007) == (2, 10007) and perfect_power(2 ** 10007 + 1) is False and perfect_power(2 ** 10007 - 1) is False and perfect_power((9 ** 99 + 1) ** 60) == (9 ** 99 + 1, 60) and perfect_power((9 ** 99 + 1) ** 60 + 1) is False and perfect_power((9 ** 99 + 1) ** 60 - 1) is False and perfect_power((10 ** 40000) ** 2, big=False) == (10 ** 40000, 2) and perfect_power(10 ** 100000) == (10, 100000) and perfect_power(10 ** 100001) == (10, 100001) and perfect_power(13 ** 4, [3, 5]) is False and perfect_power(3 ** 4, [3, 10], factor=0) is False and perfect_power(3 ** 3 * 5 ** 3) == (15, 3) and perfect_power(2 ** 3 * 5 ** 5) is False and perfect_power(2 * 13 ** 4) is False and perfect_power(2 ** 5 * 3 ** 3) is False and perfect_power(-4) is False and perfect_power(-8) == (-2, 3) and perfect_power(-S(1) / 8) == (-S(1) / 2, 3) and perfect_power(S(1) / 3) == False and perfect_power(-5 ** 15) == (-5, 15) and perfect_power(-5 ** 15, big=False) == (-3125, 3) and perfect_power(-5 ** 15, [15]) == (-5, 15) and perfect_power(n) == (-81, 15) and perfect_power(n, big=False) == (-3486784401, 3) and perfect_power(n, [3, 5], big=True) == (-531441, 5) and perfect_power(n, [3, 5], big=False) == (-3486784401, 3) and perfect_power(n, [2]) == False and perfect_power(n, [2, 15]) == (-81, 15) and perfect_power(n, [2, 13]) == False and perfect_power(n, [17]) == False and perfect_power(n, [3]) == (-3486784401, 3) and perfect_power(n + 1) == False and perfect_power(r) == (S(32) / 3, 14) and perfect_power(-r) == (-S(1024) / 9, 7) and perfect_power(r, big=False) == (S(34359738368) / 2187, 2) and perfect_power(r, [2, 5]) == (S(34359738368) / 2187, 2) and perfect_power(r, [5, 7]) == (S(1024) / 9, 7) and perfect_power(r, [5, 7], big=False) == (S(1024) / 9, 7) and perfect_power(r, [2, 5, 7], big=False) == (S(34359738368) / 2187, 2) and perfect_power(-r, [5, 7], big=False) == (-S(1024) / 9, 7) and perfect_power((-3) ** 60) == (3, 60) and perfect_power((-3) ** 61) == (-3, 61) and perfect_power(S(2 ** 9) / 3 ** 12) == (S(8) / 81, 3) and perfect_power(Rational(1, 2) ** 3) == (S.Half, 3) and perfect_power(Rational(-3, 2) ** 3) == (-3 * S.Half, 3)","over":{"base":"Any"},"name":"test_perfect_power_correct"},"guarantee":"perfect_power(0) is False; perfect_power(1) is False; perfect_power(2) is False","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_factor_.test_perfect_power_correct","statement":"Path(test_perfect_power(x), perfect_power(0) is False; perfect_power(1) is False; perfect_power(2) is False)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e1e6285f3281711b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["perfect_power(0) is False","perfect_power(1) is False","perfect_power(2) is False","perfect_power(3) is False","perfect_power(4) == (2, 2)","perfect_power(14) is False","perfect_power(25) == (5, 2)","perfect_power(22) is False","perfect_power(22, [2]) is False","perfect_power(137 ** (3 * 5 * 13)) == (137, 3 * 5 * 13)","perfect_power(137 ** (3 * 5 * 13) + 1) is False","perfect_power(137 ** (3 * 5 * 13) - 1) is False","perfect_power(103005006004 ** 7) == (103005006004, 7)","perfect_power(103005006004 ** 7 + 1) is False","perfect_power(103005006004 ** 7 - 1) is False","perfect_power(103005006004 ** 12) == (103005006004, 12)","perfect_power(103005006004 ** 12 + 1) is False","perfect_power(103005006004 ** 12 - 1) is False","perfect_power(2 ** 10007) == (2, 10007)","perfect_power(2 ** 10007 + 1) is False","perfect_power(2 ** 10007 - 1) is False","perfect_power((9 ** 99 + 1) ** 60) == (9 ** 99 + 1, 60)","perfect_power((9 ** 99 + 1) ** 60 + 1) is False","perfect_power((9 ** 99 + 1) ** 60 - 1) is False","perfect_power((10 ** 40000) ** 2, big=False) == (10 ** 40000, 2)","perfect_power(10 ** 100000) == (10, 100000)","perfect_power(10 ** 100001) == (10, 100001)","perfect_power(13 ** 4, [3, 5]) is False","perfect_power(3 ** 4, [3, 10], factor=0) is False","perfect_power(3 ** 3 * 5 ** 3) == (15, 3)","perfect_power(2 ** 3 * 5 ** 5) is False","perfect_power(2 * 13 ** 4) is False","perfect_power(2 ** 5 * 3 ** 3) is False","perfect_power(-4) is False","perfect_power(-8) == (-2, 3)","perfect_power(-S(1) / 8) == (-S(1) / 2, 3)","perfect_power(S(1) / 3) == False","perfect_power(-5 ** 15) == (-5, 15)","perfect_power(-5 ** 15, big=False) == (-3125, 3)","perfect_power(-5 ** 15, [15]) == (-5, 15)","perfect_power(n) == (-81, 15)","perfect_power(n, big=False) == (-3486784401, 3)","perfect_power(n, [3, 5], big=True) == (-531441, 5)","perfect_power(n, [3, 5], big=False) == (-3486784401, 3)","perfect_power(n, [2]) == False","perfect_power(n, [2, 15]) == (-81, 15)","perfect_power(n, [2, 13]) == False","perfect_power(n, [17]) == False","perfect_power(n, [3]) == (-3486784401, 3)","perfect_power(n + 1) == False","perfect_power(r) == (S(32) / 3, 14)","perfect_power(-r) == (-S(1024) / 9, 7)","perfect_power(r, big=False) == (S(34359738368) / 2187, 2)","perfect_power(r, [2, 5]) == (S(34359738368) / 2187, 2)","perfect_power(r, [5, 7]) == (S(1024) / 9, 7)","perfect_power(r, [5, 7], big=False) == (S(1024) / 9, 7)","perfect_power(r, [2, 5, 7], big=False) == (S(34359738368) / 2187, 2)","perfect_power(-r, [5, 7], big=False) == (-S(1024) / 9, 7)","perfect_power((-3) ** 60) == (3, 60)","perfect_power((-3) ** 61) == (-3, 61)","perfect_power(S(2 ** 9) / 3 ** 12) == (S(8) / 81, 3)","perfect_power(Rational(1, 2) ** 3) == (S.Half, 3)","perfect_power(Rational(-3, 2) ** 3) == (-3 * S.Half, 3)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":21.4,"verdict_class":"assumed","binding":true}}
 def test_perfect_power():
     raises(ValueError, lambda: perfect_power(0.1))
     assert perfect_power(0) is False
@@ -294,16 +337,24 @@ def test_perfect_power():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_factor_cache(), test_factor_cache produces the expected output) over Any ║
+# ║ Path(test_factor_cache(), len(factor_cache) == 3 and len(factor_cache) == 5 and len(factor_cache) == 2 and factor_cache.get(40) == 5 and factor_cache.get(20) is None and factor_cache[40] == 5 and len(factor_cache) == 0 and factor_cache[100] == 5) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_factor_cache : Any → {Any | len(factor_cache) ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(factor_cache) == 3                         ║
+# ║   ensures:  len(factor_cache) == 5                         ║
+# ║   ensures:  len(factor_cache) == 2                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_factor_cache : Any → {Any | result satisfies: le...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b3986483f2cd10eb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4c4410013bef755b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_factor_.test_factor_cache","kind":"function","src_hash":"1f1ec320eb682a65","in":{"base":"Any"},"out":{"base":"Any","pred":"len(factor_cache) == 3 and len(factor_cache) == 5 and len(factor_cache) == 2 and factor_cache.get(40) == 5 and factor_cache.get(20) is None and factor_cache[40] == 5 and len(factor_cache) == 0 and len(factor_cache) == 2 and factor_cache[100] == 5 and n in factor_cache"},"spec":{"lhs":"test_factor_cache()","rhs":"test_factor_cache produces the expected output","over":{"base":"Any"},"name":"test_factor_cache_correct"},"guarantee":"test_factor_cache produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_factor_.test_factor_cache_correct","statement":"Path(test_factor_cache(x), test_factor_cache produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b3986483f2cd10eb"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_factor_.test_factor_cache","kind":"function","src_hash":"1f1ec320eb682a65","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(factor_cache) == 3 and len(factor_cache) == 5 and len(factor_cache) == 2 and factor_cache.get(40) == 5 and factor_cache.get(20) is None and factor_cache[40] == 5 and len(factor_cache) == 0 and factor_cache[100] == 5"},"spec":{"lhs":"test_factor_cache()","rhs":"len(factor_cache) == 3 and len(factor_cache) == 5 and len(factor_cache) == 2 and factor_cache.get(40) == 5 and factor_cache.get(20) is None and factor_cache[40] == 5 and len(factor_cache) == 0 and factor_cache[100] == 5","over":{"base":"Any"},"name":"test_factor_cache_correct"},"guarantee":"len(factor_cache) == 3; len(factor_cache) == 5; len(factor_cache) == 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_factor_.test_factor_cache_correct","statement":"Path(test_factor_cache(x), len(factor_cache) == 3; len(factor_cache) == 5; len(factor_cache) == 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4c4410013bef755b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(factor_cache) == 3","len(factor_cache) == 5","len(factor_cache) == 2","factor_cache.get(40) == 5","factor_cache.get(20) is None","factor_cache[40] == 5","len(factor_cache) == 0","factor_cache[100] == 5"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_factor_cache():
     factor_cache.cache_clear()
     raises(ValueError, lambda: factor_cache.__setitem__(1, 5))
@@ -347,16 +398,24 @@ def test_factor_cache():
 
 @slow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_factorint(), test_factorint produces the expected output) over Any ║
+# ║ Path(test_factorint(), primefactors(123456) == [2, 3, 643] and factorint(0) == {0: 1} and factorint(1) == {} and factorint(-1) == {-1: 1} and factorint(-2) == {-1: 1, 2: 1} and factorint(-16) == {-1: 1, 2: 4} and factorint(2) == {2: 1} and factorint(126) == {2: 1, 3: 2, 7: 1} and factorint(123456) == {2: 6, 3: 1, 643: 1} and factorint(5951757) == {3: 1, 7: 1, 29: 2, 337: 1} and factorint(64015937) == {7993: 1, 8009: 1} and factorint(2 ** 2 ** 6 + 1) == {274177: 1, 67280421310721: 1} and factorint(10 ** 38 - 1) == {3: 2, 11: 1, 909090909090909091: 1, 1111111111111111111: 1} and factorint(28300421052393658575) == {3: 1, 5: 2, 11: 2, 43: 1, 2063: 2, 4127: 1, 4129: 1} and factorint(2063 ** 2 * 4127 ** 1 * 4129 ** 1) == {2063: 2, 4127: 1, 4129: 1} and factorint(2347 ** 2 * 7039 ** 1 * 7043 ** 1) == {2347: 2, 7039: 1, 7043: 1} and factorint(0, multiple=True) == [0] and factorint(1, multiple=True) == [] and factorint(-1, multiple=True) == [-1] and factorint(-2, multiple=True) == [-1, 2] and factorint(-16, multiple=True) == [-1, 2, 2, 2, 2] and factorint(2, multiple=True) == [2] and factorint(24, multiple=True) == [2, 2, 2, 3] and factorint(126, multiple=True) == [2, 3, 3, 7] and factorint(123456, multiple=True) == [2, 2, 2, 2, 2, 2, 3, 643] and factorint(5951757, multiple=True) == [3, 7, 29, 29, 337] and factorint(64015937, multiple=True) == [7993, 8009] and factorint(2 ** 2 ** 6 + 1, multiple=True) == [274177, 67280421310721] and factorint(fac(1, evaluate=False)) == {} and factorint(fac(7, evaluate=False)) == {2: 4, 3: 2, 5: 1, 7: 1} and factorint(fac(15, evaluate=False)) == {2: 11, 3: 6, 5: 3, 7: 2, 11: 1, 13: 1} and factorint(fac(20, evaluate=False)) == {2: 18, 3: 8, 5: 4, 7: 2, 11: 1, 13: 1, 17: 1, 19: 1} and factorint(fac(23, evaluate=False)) == {2: 19, 3: 9, 5: 4, 7: 3, 11: 2, 13: 1, 17: 1, 19: 1, 23: 1} and multiproduct(factorint(fac(200))) == fac(200) and multiproduct(factorint(fac(200, evaluate=False))) == fac(200) and factorint(103005006059 ** 7) == {103005006059: 7} and factorint(31337 ** 191) == {31337: 191} and factorint(2 ** 1000 * 3 ** 500 * 257 ** 127 * 383 ** 60) == {2: 1000, 3: 500, 257: 127, 383: 60} and len(factorint(fac(10000))) == 1229 and len(factorint(fac(10000, evaluate=False))) == 1229 and factorint(12932983746293756928584532764589230) == {2: 1, 5: 1, 73: 1, 727719592270351: 1, 63564265087747: 1, 383: 1} and factorint(727719592270351) == {727719592270351: 1} and factorint(2 ** 64 + 1, use_trial=False) == factorint(2 ** 64 + 1) and pollard_rho(2 ** 64 + 1, seed=1) == 274177 and pollard_rho(19, seed=1) is None and factorint(3, limit=2) == {3: 1} and factorint(12345) == {3: 1, 5: 1, 823: 1} and factorint(12345, limit=3) == {4115: 1, 3: 1} and factorint(1, limit=1) == {} and factorint(0, 3) == {0: 1} and factorint(12, limit=1) == {12: 1} and factorint(30, limit=2) == {2: 1, 15: 1} and factorint(16, limit=2) == {2: 4} and factorint(124, limit=3) == {2: 2, 31: 1} and factorint(4 * 31 ** 2, limit=3) == {2: 2, 31: 2} and factorint(p1 * p2 * p3) == {p1: 1, p2: 1, p3: 1} and factorint(13 * 17 * 19, limit=15) == {13: 1, 17 * 19: 1} and factorint(1951 * 15013 * 15053, limit=2000) == {225990689: 1, 1951: 1} and factorint(primorial(17) + 1, use_pm1=0) == {int(19026377261): 1, 3467: 1, 277: 1, 105229: 1} and 'Fermat' in capture(lambda: factorint(a * b, verbose=1)) and 'with primes' in capture(lambda: factorint(n, verbose=1)) and '1000' in capture(lambda: factorint(n, limit=1000, verbose=1)) and len(factorint(n)) == 3 and len(factorint(n, limit=p1)) == 3 and '2001' in capture(lambda: factorint(n, limit=2000, verbose=1)) and capture(lambda: factorint(n, limit=4000, verbose=1)).count('Pollard') == 2 and factorint((p1 * p2 ** 2) ** 3) == {p1: 3, p2: 6} and str(factorint(n)) == sans and str(factorint(Dict(n))) == sans) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_factorint : Any → {Any | primefactors(123456) ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  primefactors(123456) == [2, 3, 643]            ║
+# ║   ensures:  factorint(0) == {0: 1}                         ║
+# ║   ensures:  factorint(1) == {}                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_factorint : Any → {Any | result satisfies: prime...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | adf7c3d6892dc004  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 2.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b275598a629e792b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_factor_.test_factorint","kind":"function","src_hash":"62bc7309b13bca2e","in":{"base":"Any"},"out":{"base":"Any","pred":"primefactors(123456) == [2, 3, 643] and factorint(0) == {0: 1} and factorint(1) == {} and factorint(-1) == {-1: 1} and factorint(-2) == {-1: 1, 2: 1} and factorint(-16) == {-1: 1, 2: 4} and factorint(2) == {2: 1} and factorint(126) == {2: 1, 3: 2, 7: 1} and factorint(123456) == {2: 6, 3: 1, 643: 1} and factorint(5951757) == {3: 1, 7: 1, 29: 2, 337: 1} and factorint(64015937) == {7993: 1, 8009: 1} and factorint(2 ** 2 ** 6 + 1) == {274177: 1, 67280421310721: 1} and factorint(2063 ** 2 * 4127 ** 1 * 4129 ** 1) == {2063: 2, 4127: 1, 4129: 1} and factorint(2347 ** 2 * 7039 ** 1 * 7043 ** 1) == {2347: 2, 7039: 1, 7043: 1} and factorint(0, multiple=True) == [0] and factorint(1, multiple=True) == [] and factorint(-1, multiple=True) == [-1] and factorint(-2, multiple=True) == [-1, 2] and factorint(-16, multiple=True) == [-1, 2, 2, 2, 2] and factorint(2, multiple=True) == [2] and factorint(24, multiple=True) == [2, 2, 2, 3] and factorint(126, multiple=True) == [2, 3, 3, 7] and factorint(123456, multiple=True) == [2, 2, 2, 2, 2, 2, 3, 643] and factorint(5951757, multiple=True) == [3, 7, 29, 29, 337] and factorint(64015937, multiple=True) == [7993, 8009] and factorint(2 ** 2 ** 6 + 1, multiple=True) == [274177, 67280421310721] and factorint(fac(1, evaluate=False)) == {} and factorint(fac(7, evaluate=False)) == {2: 4, 3: 2, 5: 1, 7: 1} and factorint(fac(15, evaluate=False)) == {2: 11, 3: 6, 5: 3, 7: 2, 11: 1, 13: 1} and multiproduct(factorint(fac(200))) == fac(200) and multiproduct(factorint(fac(200, evaluate=False))) == fac(200) and factorint(103005006059 ** 7) == {103005006059: 7} and factorint(31337 ** 191) == {31337: 191} and len(factorint(fac(10000))) == 1229 and len(factorint(fac(10000, evaluate=False))) == 1229 and factorint(727719592270351) == {727719592270351: 1} and factorint(2 ** 64 + 1, use_trial=False) == factorint(2 ** 64 + 1) and pollard_rho(2 ** 64 + 1, seed=1) == 274177 and pollard_rho(19, seed=1) is None and factorint(3, limit=2) == {3: 1} and factorint(12345) == {3: 1, 5: 1, 823: 1} and factorint(12345, limit=3) == {4115: 1, 3: 1} and factorint(1, limit=1) == {} and factorint(0, 3) == {0: 1} and factorint(12, limit=1) == {12: 1} and factorint(30, limit=2) == {2: 1, 15: 1} and factorint(16, limit=2) == {2: 4} and factorint(124, limit=3) == {2: 2, 31: 1} and factorint(4 * 31 ** 2, limit=3) == {2: 2, 31: 2} and factorint(p1 * p2 * p3) == {p1: 1, p2: 1, p3: 1} and factorint(13 * 17 * 19, limit=15) == {13: 1, 17 * 19: 1} and factorint(1951 * 15013 * 15053, limit=2000) == {225990689: 1, 1951: 1} and 'Fermat' in capture(lambda: factorint(a * b, verbose=1)) and 'with primes' in capture(lambda: factorint(n, verbose=1)) and '1000' in capture(lambda: factorint(n, limit=1000, verbose=1)) and len(factorint(n)) == 3 and len(factorint(n, limit=p1)) == 3 and '2001' in capture(lambda: factorint(n, limit=2000, verbose=1)) and capture(lambda: factorint(n, limit=4000, verbose=1)).count('Pollard') == 2 and factorint((p1 * p2 ** 2) ** 3) == {p1: 3, p2: 6} and str(factorint(n)) == sans and str(factorint(Dict(n))) == sans and e == fac_multiplicity(150, b) and e == fac_multiplicity(150, b) and multiproduct(factorint(n)) == n"},"spec":{"lhs":"test_factorint()","rhs":"test_factorint produces the expected output","over":{"base":"Any"},"name":"test_factorint_correct"},"guarantee":"test_factorint produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_factor_.test_factorint_correct","statement":"Path(test_factorint(x), test_factorint produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"adf7c3d6892dc004"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_factor_.test_factorint","kind":"function","src_hash":"62bc7309b13bca2e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: primefactors(123456) == [2, 3, 643] and factorint(0) == {0: 1} and factorint(1) == {} and factorint(-1) == {-1: 1} and factorint(-2) == {-1: 1, 2: 1} and factorint(-16) == {-1: 1, 2: 4} and factorint(2) == {2: 1} and factorint(126) == {2: 1, 3: 2, 7: 1} and factorint(123456) == {2: 6, 3: 1, 643: 1} and factorint(5951757) == {3: 1, 7: 1, 29: 2, 337: 1} and factorint(64015937) == {7993: 1, 8009: 1} and factorint(2 ** 2 ** 6 + 1) == {274177: 1, 67280421310721: 1} and factorint(10 ** 38 - 1) == {3: 2, 11: 1, 909090909090909091: 1, 1111111111111111111: 1} and factorint(28300421052393658575) == {3: 1, 5: 2, 11: 2, 43: 1, 2063: 2, 4127: 1, 4129: 1} and factorint(2063 ** 2 * 4127 ** 1 * 4129 ** 1) == {2063: 2, 4127: 1, 4129: 1} and factorint(2347 ** 2 * 7039 ** 1 * 7043 ** 1) == {2347: 2, 7039: 1, 7043: 1} and factorint(0, multiple=True) == [0] and factorint(1, multiple=True) == [] and factorint(-1, multiple=True) == [-1] and factorint(-2, multiple=True) == [-1, 2] and factorint(-16, multiple=True) == [-1, 2, 2, 2, 2] and factorint(2, multiple=True) == [2] and factorint(24, multiple=True) == [2, 2, 2, 3] and factorint(126, multiple=True) == [2, 3, 3, 7] and factorint(123456, multiple=True) == [2, 2, 2, 2, 2, 2, 3, 643] and factorint(5951757, multiple=True) == [3, 7, 29, 29, 337] and factorint(64015937, multiple=True) == [7993, 8009] and factorint(2 ** 2 ** 6 + 1, multiple=True) == [274177, 67280421310721] and factorint(fac(1, evaluate=False)) == {} and factorint(fac(7, evaluate=False)) == {2: 4, 3: 2, 5: 1, 7: 1} and factorint(fac(15, evaluate=False)) == {2: 11, 3: 6, 5: 3, 7: 2, 11: 1, 13: 1} and factorint(fac(20, evaluate=False)) == {2: 18, 3: 8, 5: 4, 7: 2, 11: 1, 13: 1, 17: 1, 19: 1} and factorint(fac(23, evaluate=False)) == {2: 19, 3: 9, 5: 4, 7: 3, 11: 2, 13: 1, 17: 1, 19: 1, 23: 1} and multiproduct(factorint(fac(200))) == fac(200) and multiproduct(factorint(fac(200, evaluate=False))) == fac(200) and factorint(103005006059 ** 7) == {103005006059: 7} and factorint(31337 ** 191) == {31337: 191} and factorint(2 ** 1000 * 3 ** 500 * 257 ** 127 * 383 ** 60) == {2: 1000, 3: 500, 257: 127, 383: 60} and len(factorint(fac(10000))) == 1229 and len(factorint(fac(10000, evaluate=False))) == 1229 and factorint(12932983746293756928584532764589230) == {2: 1, 5: 1, 73: 1, 727719592270351: 1, 63564265087747: 1, 383: 1} and factorint(727719592270351) == {727719592270351: 1} and factorint(2 ** 64 + 1, use_trial=False) == factorint(2 ** 64 + 1) and pollard_rho(2 ** 64 + 1, seed=1) == 274177 and pollard_rho(19, seed=1) is None and factorint(3, limit=2) == {3: 1} and factorint(12345) == {3: 1, 5: 1, 823: 1} and factorint(12345, limit=3) == {4115: 1, 3: 1} and factorint(1, limit=1) == {} and factorint(0, 3) == {0: 1} and factorint(12, limit=1) == {12: 1} and factorint(30, limit=2) == {2: 1, 15: 1} and factorint(16, limit=2) == {2: 4} and factorint(124, limit=3) == {2: 2, 31: 1} and factorint(4 * 31 ** 2, limit=3) == {2: 2, 31: 2} and factorint(p1 * p2 * p3) == {p1: 1, p2: 1, p3: 1} and factorint(13 * 17 * 19, limit=15) == {13: 1, 17 * 19: 1} and factorint(1951 * 15013 * 15053, limit=2000) == {225990689: 1, 1951: 1} and factorint(primorial(17) + 1, use_pm1=0) == {int(19026377261): 1, 3467: 1, 277: 1, 105229: 1} and 'Fermat' in capture(lambda: factorint(a * b, verbose=1)) and 'with primes' in capture(lambda: factorint(n, verbose=1)) and '1000' in capture(lambda: factorint(n, limit=1000, verbose=1)) and len(factorint(n)) == 3 and len(factorint(n, limit=p1)) == 3 and '2001' in capture(lambda: factorint(n, limit=2000, verbose=1)) and capture(lambda: factorint(n, limit=4000, verbose=1)).count('Pollard') == 2 and factorint((p1 * p2 ** 2) ** 3) == {p1: 3, p2: 6} and str(factorint(n)) == sans and str(factorint(Dict(n))) == sans"},"spec":{"lhs":"test_factorint()","rhs":"primefactors(123456) == [2, 3, 643] and factorint(0) == {0: 1} and factorint(1) == {} and factorint(-1) == {-1: 1} and factorint(-2) == {-1: 1, 2: 1} and factorint(-16) == {-1: 1, 2: 4} and factorint(2) == {2: 1} and factorint(126) == {2: 1, 3: 2, 7: 1} and factorint(123456) == {2: 6, 3: 1, 643: 1} and factorint(5951757) == {3: 1, 7: 1, 29: 2, 337: 1} and factorint(64015937) == {7993: 1, 8009: 1} and factorint(2 ** 2 ** 6 + 1) == {274177: 1, 67280421310721: 1} and factorint(10 ** 38 - 1) == {3: 2, 11: 1, 909090909090909091: 1, 1111111111111111111: 1} and factorint(28300421052393658575) == {3: 1, 5: 2, 11: 2, 43: 1, 2063: 2, 4127: 1, 4129: 1} and factorint(2063 ** 2 * 4127 ** 1 * 4129 ** 1) == {2063: 2, 4127: 1, 4129: 1} and factorint(2347 ** 2 * 7039 ** 1 * 7043 ** 1) == {2347: 2, 7039: 1, 7043: 1} and factorint(0, multiple=True) == [0] and factorint(1, multiple=True) == [] and factorint(-1, multiple=True) == [-1] and factorint(-2, multiple=True) == [-1, 2] and factorint(-16, multiple=True) == [-1, 2, 2, 2, 2] and factorint(2, multiple=True) == [2] and factorint(24, multiple=True) == [2, 2, 2, 3] and factorint(126, multiple=True) == [2, 3, 3, 7] and factorint(123456, multiple=True) == [2, 2, 2, 2, 2, 2, 3, 643] and factorint(5951757, multiple=True) == [3, 7, 29, 29, 337] and factorint(64015937, multiple=True) == [7993, 8009] and factorint(2 ** 2 ** 6 + 1, multiple=True) == [274177, 67280421310721] and factorint(fac(1, evaluate=False)) == {} and factorint(fac(7, evaluate=False)) == {2: 4, 3: 2, 5: 1, 7: 1} and factorint(fac(15, evaluate=False)) == {2: 11, 3: 6, 5: 3, 7: 2, 11: 1, 13: 1} and factorint(fac(20, evaluate=False)) == {2: 18, 3: 8, 5: 4, 7: 2, 11: 1, 13: 1, 17: 1, 19: 1} and factorint(fac(23, evaluate=False)) == {2: 19, 3: 9, 5: 4, 7: 3, 11: 2, 13: 1, 17: 1, 19: 1, 23: 1} and multiproduct(factorint(fac(200))) == fac(200) and multiproduct(factorint(fac(200, evaluate=False))) == fac(200) and factorint(103005006059 ** 7) == {103005006059: 7} and factorint(31337 ** 191) == {31337: 191} and factorint(2 ** 1000 * 3 ** 500 * 257 ** 127 * 383 ** 60) == {2: 1000, 3: 500, 257: 127, 383: 60} and len(factorint(fac(10000))) == 1229 and len(factorint(fac(10000, evaluate=False))) == 1229 and factorint(12932983746293756928584532764589230) == {2: 1, 5: 1, 73: 1, 727719592270351: 1, 63564265087747: 1, 383: 1} and factorint(727719592270351) == {727719592270351: 1} and factorint(2 ** 64 + 1, use_trial=False) == factorint(2 ** 64 + 1) and pollard_rho(2 ** 64 + 1, seed=1) == 274177 and pollard_rho(19, seed=1) is None and factorint(3, limit=2) == {3: 1} and factorint(12345) == {3: 1, 5: 1, 823: 1} and factorint(12345, limit=3) == {4115: 1, 3: 1} and factorint(1, limit=1) == {} and factorint(0, 3) == {0: 1} and factorint(12, limit=1) == {12: 1} and factorint(30, limit=2) == {2: 1, 15: 1} and factorint(16, limit=2) == {2: 4} and factorint(124, limit=3) == {2: 2, 31: 1} and factorint(4 * 31 ** 2, limit=3) == {2: 2, 31: 2} and factorint(p1 * p2 * p3) == {p1: 1, p2: 1, p3: 1} and factorint(13 * 17 * 19, limit=15) == {13: 1, 17 * 19: 1} and factorint(1951 * 15013 * 15053, limit=2000) == {225990689: 1, 1951: 1} and factorint(primorial(17) + 1, use_pm1=0) == {int(19026377261): 1, 3467: 1, 277: 1, 105229: 1} and 'Fermat' in capture(lambda: factorint(a * b, verbose=1)) and 'with primes' in capture(lambda: factorint(n, verbose=1)) and '1000' in capture(lambda: factorint(n, limit=1000, verbose=1)) and len(factorint(n)) == 3 and len(factorint(n, limit=p1)) == 3 and '2001' in capture(lambda: factorint(n, limit=2000, verbose=1)) and capture(lambda: factorint(n, limit=4000, verbose=1)).count('Pollard') == 2 and factorint((p1 * p2 ** 2) ** 3) == {p1: 3, p2: 6} and str(factorint(n)) == sans and str(factorint(Dict(n))) == sans","over":{"base":"Any"},"name":"test_factorint_correct"},"guarantee":"primefactors(123456) == [2, 3, 643]; factorint(0) == {0: 1}; factorint(1) == {}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_factor_.test_factorint_correct","statement":"Path(test_factorint(x), primefactors(123456) == [2, 3, 643]; factorint(0) == {0: 1}; factorint(1) == {})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b275598a629e792b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["primefactors(123456) == [2, 3, 643]","factorint(0) == {0: 1}","factorint(1) == {}","factorint(-1) == {-1: 1}","factorint(-2) == {-1: 1, 2: 1}","factorint(-16) == {-1: 1, 2: 4}","factorint(2) == {2: 1}","factorint(126) == {2: 1, 3: 2, 7: 1}","factorint(123456) == {2: 6, 3: 1, 643: 1}","factorint(5951757) == {3: 1, 7: 1, 29: 2, 337: 1}","factorint(64015937) == {7993: 1, 8009: 1}","factorint(2 ** 2 ** 6 + 1) == {274177: 1, 67280421310721: 1}","factorint(10 ** 38 - 1) == {3: 2, 11: 1, 909090909090909091: 1, 1111111111111111111: 1}","factorint(28300421052393658575) == {3: 1, 5: 2, 11: 2, 43: 1, 2063: 2, 4127: 1, 4129: 1}","factorint(2063 ** 2 * 4127 ** 1 * 4129 ** 1) == {2063: 2, 4127: 1, 4129: 1}","factorint(2347 ** 2 * 7039 ** 1 * 7043 ** 1) == {2347: 2, 7039: 1, 7043: 1}","factorint(0, multiple=True) == [0]","factorint(1, multiple=True) == []","factorint(-1, multiple=True) == [-1]","factorint(-2, multiple=True) == [-1, 2]","factorint(-16, multiple=True) == [-1, 2, 2, 2, 2]","factorint(2, multiple=True) == [2]","factorint(24, multiple=True) == [2, 2, 2, 3]","factorint(126, multiple=True) == [2, 3, 3, 7]","factorint(123456, multiple=True) == [2, 2, 2, 2, 2, 2, 3, 643]","factorint(5951757, multiple=True) == [3, 7, 29, 29, 337]","factorint(64015937, multiple=True) == [7993, 8009]","factorint(2 ** 2 ** 6 + 1, multiple=True) == [274177, 67280421310721]","factorint(fac(1, evaluate=False)) == {}","factorint(fac(7, evaluate=False)) == {2: 4, 3: 2, 5: 1, 7: 1}","factorint(fac(15, evaluate=False)) == {2: 11, 3: 6, 5: 3, 7: 2, 11: 1, 13: 1}","factorint(fac(20, evaluate=False)) == {2: 18, 3: 8, 5: 4, 7: 2, 11: 1, 13: 1, 17: 1, 19: 1}","factorint(fac(23, evaluate=False)) == {2: 19, 3: 9, 5: 4, 7: 3, 11: 2, 13: 1, 17: 1, 19: 1, 23: 1}","multiproduct(factorint(fac(200))) == fac(200)","multiproduct(factorint(fac(200, evaluate=False))) == fac(200)","factorint(103005006059 ** 7) == {103005006059: 7}","factorint(31337 ** 191) == {31337: 191}","factorint(2 ** 1000 * 3 ** 500 * 257 ** 127 * 383 ** 60) == {2: 1000, 3: 500, 257: 127, 383: 60}","len(factorint(fac(10000))) == 1229","len(factorint(fac(10000, evaluate=False))) == 1229","factorint(12932983746293756928584532764589230) == {2: 1, 5: 1, 73: 1, 727719592270351: 1, 63564265087747: 1, 383: 1}","factorint(727719592270351) == {727719592270351: 1}","factorint(2 ** 64 + 1, use_trial=False) == factorint(2 ** 64 + 1)","pollard_rho(2 ** 64 + 1, seed=1) == 274177","pollard_rho(19, seed=1) is None","factorint(3, limit=2) == {3: 1}","factorint(12345) == {3: 1, 5: 1, 823: 1}","factorint(12345, limit=3) == {4115: 1, 3: 1}","factorint(1, limit=1) == {}","factorint(0, 3) == {0: 1}","factorint(12, limit=1) == {12: 1}","factorint(30, limit=2) == {2: 1, 15: 1}","factorint(16, limit=2) == {2: 4}","factorint(124, limit=3) == {2: 2, 31: 1}","factorint(4 * 31 ** 2, limit=3) == {2: 2, 31: 2}","factorint(p1 * p2 * p3) == {p1: 1, p2: 1, p3: 1}","factorint(13 * 17 * 19, limit=15) == {13: 1, 17 * 19: 1}","factorint(1951 * 15013 * 15053, limit=2000) == {225990689: 1, 1951: 1}","factorint(primorial(17) + 1, use_pm1=0) == {int(19026377261): 1, 3467: 1, 277: 1, 105229: 1}","'Fermat' in capture(lambda: factorint(a * b, verbose=1))","'with primes' in capture(lambda: factorint(n, verbose=1))","'1000' in capture(lambda: factorint(n, limit=1000, verbose=1))","len(factorint(n)) == 3","len(factorint(n, limit=p1)) == 3","'2001' in capture(lambda: factorint(n, limit=2000, verbose=1))","capture(lambda: factorint(n, limit=4000, verbose=1)).count('Pollard') == 2","factorint((p1 * p2 ** 2) ** 3) == {p1: 3, p2: 6}","str(factorint(n)) == sans","str(factorint(Dict(n))) == sans"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.0,"verdict_class":"assumed","binding":true}}
 def test_factorint():
     assert primefactors(123456) == [2, 3, 643]
     assert factorint(0) == {0: 1}
@@ -486,16 +545,24 @@ def test_factorint():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_divisors_and_divisor_count(), test_divisors_and_divisor_count produces the expected output) over Any ║
+# ║ Path(test_divisors_and_divisor_count(), divisors(-1) == [1] and divisors(0) == [] and divisors(1) == [1] and divisors(2) == [1, 2] and divisors(3) == [1, 3] and divisors(17) == [1, 17] and divisors(10) == [1, 2, 5, 10] and divisors(100) == [1, 2, 4, 5, 10, 20, 25, 50, 100] and divisors(101) == [1, 101] and type(divisors(2, generator=True)) is not list and divisor_count(0) == 0 and divisor_count(-1) == 1 and divisor_count(1) == 1 and divisor_count(6) == 4 and divisor_count(12) == 6 and divisor_count(180, 3) == divisor_count(180 // 3) and divisor_count(2 * 3 * 5, 7) == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_divisors_and_divisor_count : Any → {Any | diviso...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  divisors(-1) == [1]                            ║
+# ║   ensures:  divisors(0) == []                              ║
+# ║   ensures:  divisors(1) == [1]                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_divisors_and_divisor_count : Any → {Any | result...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | efc30e6a2de15f39  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ae0f840033309a11  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_factor_.test_divisors_and_divisor_count","kind":"function","src_hash":"573576a7a5ccc845","in":{"base":"Any"},"out":{"base":"Any","pred":"divisors(-1) == [1] and divisors(0) == [] and divisors(1) == [1] and divisors(2) == [1, 2] and divisors(3) == [1, 3] and divisors(17) == [1, 17] and divisors(10) == [1, 2, 5, 10] and divisors(100) == [1, 2, 4, 5, 10, 20, 25, 50, 100] and divisors(101) == [1, 101] and type(divisors(2, generator=True)) is not list and divisor_count(0) == 0 and divisor_count(-1) == 1 and divisor_count(1) == 1 and divisor_count(6) == 4 and divisor_count(12) == 6 and divisor_count(180, 3) == divisor_count(180 // 3) and divisor_count(2 * 3 * 5, 7) == 0"},"spec":{"lhs":"test_divisors_and_divisor_count()","rhs":"test_divisors_and_divisor_count produces the expected output","over":{"base":"Any"},"name":"test_divisors_and_divisor_count_correct"},"guarantee":"test_divisors_and_divisor_count produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_factor_.test_divisors_and_divisor_count_correct","statement":"Path(test_divisors_and_divisor_count(x), test_divisors_and_divisor_count produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"efc30e6a2de15f39"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_factor_.test_divisors_and_divisor_count","kind":"function","src_hash":"573576a7a5ccc845","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: divisors(-1) == [1] and divisors(0) == [] and divisors(1) == [1] and divisors(2) == [1, 2] and divisors(3) == [1, 3] and divisors(17) == [1, 17] and divisors(10) == [1, 2, 5, 10] and divisors(100) == [1, 2, 4, 5, 10, 20, 25, 50, 100] and divisors(101) == [1, 101] and type(divisors(2, generator=True)) is not list and divisor_count(0) == 0 and divisor_count(-1) == 1 and divisor_count(1) == 1 and divisor_count(6) == 4 and divisor_count(12) == 6 and divisor_count(180, 3) == divisor_count(180 // 3) and divisor_count(2 * 3 * 5, 7) == 0"},"spec":{"lhs":"test_divisors_and_divisor_count()","rhs":"divisors(-1) == [1] and divisors(0) == [] and divisors(1) == [1] and divisors(2) == [1, 2] and divisors(3) == [1, 3] and divisors(17) == [1, 17] and divisors(10) == [1, 2, 5, 10] and divisors(100) == [1, 2, 4, 5, 10, 20, 25, 50, 100] and divisors(101) == [1, 101] and type(divisors(2, generator=True)) is not list and divisor_count(0) == 0 and divisor_count(-1) == 1 and divisor_count(1) == 1 and divisor_count(6) == 4 and divisor_count(12) == 6 and divisor_count(180, 3) == divisor_count(180 // 3) and divisor_count(2 * 3 * 5, 7) == 0","over":{"base":"Any"},"name":"test_divisors_and_divisor_count_correct"},"guarantee":"divisors(-1) == [1]; divisors(0) == []; divisors(1) == [1]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_factor_.test_divisors_and_divisor_count_correct","statement":"Path(test_divisors_and_divisor_count(x), divisors(-1) == [1]; divisors(0) == []; divisors(1) == [1])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ae0f840033309a11","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["divisors(-1) == [1]","divisors(0) == []","divisors(1) == [1]","divisors(2) == [1, 2]","divisors(3) == [1, 3]","divisors(17) == [1, 17]","divisors(10) == [1, 2, 5, 10]","divisors(100) == [1, 2, 4, 5, 10, 20, 25, 50, 100]","divisors(101) == [1, 101]","type(divisors(2, generator=True)) is not list","divisor_count(0) == 0","divisor_count(-1) == 1","divisor_count(1) == 1","divisor_count(6) == 4","divisor_count(12) == 6","divisor_count(180, 3) == divisor_count(180 // 3)","divisor_count(2 * 3 * 5, 7) == 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_divisors_and_divisor_count():
     assert divisors(-1) == [1]
     assert divisors(0) == []
@@ -519,16 +586,24 @@ def test_divisors_and_divisor_count():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_proper_divisors_and_proper_divisor_count(), test_proper_divisors_and_proper_divisor_count produces the expected output) over Any ║
+# ║ Path(test_proper_divisors_and_proper_divisor_count(), proper_divisors(-1) == [] and proper_divisors(0) == [] and proper_divisors(1) == [] and proper_divisors(2) == [1] and proper_divisors(3) == [1] and proper_divisors(17) == [1] and proper_divisors(10) == [1, 2, 5] and proper_divisors(100) == [1, 2, 4, 5, 10, 20, 25, 50] and proper_divisors(1000000007) == [1] and type(proper_divisors(2, generator=True)) is not list and proper_divisor_count(0) == 0 and proper_divisor_count(-1) == 0 and proper_divisor_count(1) == 0 and proper_divisor_count(36) == 8 and proper_divisor_count(2 * 3 * 5) == 7) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  proper_divisors(-1) == []                      ║
+# ║   ensures:  proper_divisors(0) == []                       ║
+# ║   ensures:  proper_divisors(1) == []                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_proper_divisors_and_proper_divisor_count : Any →...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 09fde9fdcdee7d26  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 64e935e2d28c091f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_factor_.test_proper_divisors_and_proper_divisor_count","kind":"function","src_hash":"cd06db108da16d0b","in":{"base":"Any"},"out":{"base":"Any","pred":"proper_divisors(-1) == [] and proper_divisors(0) == [] and proper_divisors(1) == [] and proper_divisors(2) == [1] and proper_divisors(3) == [1] and proper_divisors(17) == [1] and proper_divisors(10) == [1, 2, 5] and proper_divisors(100) == [1, 2, 4, 5, 10, 20, 25, 50] and proper_divisors(1000000007) == [1] and type(proper_divisors(2, generator=True)) is not list and proper_divisor_count(0) == 0 and proper_divisor_count(-1) == 0 and proper_divisor_count(1) == 0 and proper_divisor_count(36) == 8 and proper_divisor_count(2 * 3 * 5) == 7"},"spec":{"lhs":"test_proper_divisors_and_proper_divisor_count()","rhs":"test_proper_divisors_and_proper_divisor_count produces the expected output","over":{"base":"Any"},"name":"test_proper_divisors_and_proper_divisor_count_correct"},"guarantee":"test_proper_divisors_and_proper_divisor_count produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_factor_.test_proper_divisors_and_proper_divisor_count_correct","statement":"Path(test_proper_divisors_and_proper_divisor_count(x), test_proper_divisors_and_proper_divisor_count produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"09fde9fdcdee7d26"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_factor_.test_proper_divisors_and_proper_divisor_count","kind":"function","src_hash":"cd06db108da16d0b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: proper_divisors(-1) == [] and proper_divisors(0) == [] and proper_divisors(1) == [] and proper_divisors(2) == [1] and proper_divisors(3) == [1] and proper_divisors(17) == [1] and proper_divisors(10) == [1, 2, 5] and proper_divisors(100) == [1, 2, 4, 5, 10, 20, 25, 50] and proper_divisors(1000000007) == [1] and type(proper_divisors(2, generator=True)) is not list and proper_divisor_count(0) == 0 and proper_divisor_count(-1) == 0 and proper_divisor_count(1) == 0 and proper_divisor_count(36) == 8 and proper_divisor_count(2 * 3 * 5) == 7"},"spec":{"lhs":"test_proper_divisors_and_proper_divisor_count()","rhs":"proper_divisors(-1) == [] and proper_divisors(0) == [] and proper_divisors(1) == [] and proper_divisors(2) == [1] and proper_divisors(3) == [1] and proper_divisors(17) == [1] and proper_divisors(10) == [1, 2, 5] and proper_divisors(100) == [1, 2, 4, 5, 10, 20, 25, 50] and proper_divisors(1000000007) == [1] and type(proper_divisors(2, generator=True)) is not list and proper_divisor_count(0) == 0 and proper_divisor_count(-1) == 0 and proper_divisor_count(1) == 0 and proper_divisor_count(36) == 8 and proper_divisor_count(2 * 3 * 5) == 7","over":{"base":"Any"},"name":"test_proper_divisors_and_proper_divisor_count_correct"},"guarantee":"proper_divisors(-1) == []; proper_divisors(0) == []; proper_divisors(1) == []","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_factor_.test_proper_divisors_and_proper_divisor_count_correct","statement":"Path(test_proper_divisors_and_proper_divisor_count(x), proper_divisors(-1) == []; proper_divisors(0) == []; proper_divisors(1) == [])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"64e935e2d28c091f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["proper_divisors(-1) == []","proper_divisors(0) == []","proper_divisors(1) == []","proper_divisors(2) == [1]","proper_divisors(3) == [1]","proper_divisors(17) == [1]","proper_divisors(10) == [1, 2, 5]","proper_divisors(100) == [1, 2, 4, 5, 10, 20, 25, 50]","proper_divisors(1000000007) == [1]","type(proper_divisors(2, generator=True)) is not list","proper_divisor_count(0) == 0","proper_divisor_count(-1) == 0","proper_divisor_count(1) == 0","proper_divisor_count(36) == 8","proper_divisor_count(2 * 3 * 5) == 7"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_proper_divisors_and_proper_divisor_count():
     assert proper_divisors(-1) == []
     assert proper_divisors(0) == []
@@ -549,16 +624,24 @@ def test_proper_divisors_and_proper_divisor_count():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_udivisors_and_udivisor_count(), test_udivisors_and_udivisor_count produces the expected output) over Any ║
+# ║ Path(test_udivisors_and_udivisor_count(), udivisors(-1) == [1] and udivisors(0) == [] and udivisors(1) == [1] and udivisors(2) == [1, 2] and udivisors(3) == [1, 3] and udivisors(17) == [1, 17] and udivisors(10) == [1, 2, 5, 10] and udivisors(100) == [1, 4, 25, 100] and udivisors(101) == [1, 101] and udivisors(1000) == [1, 8, 125, 1000] and type(udivisors(2, generator=True)) is not list and udivisor_count(0) == 0 and udivisor_count(-1) == 1 and udivisor_count(1) == 1 and udivisor_count(6) == 4 and udivisor_count(12) == 4 and udivisor_count(180) == 8 and udivisor_count(2 * 3 * 5 * 7) == 16) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_udivisors_and_udivisor_count : Any → {Any | udiv...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  udivisors(-1) == [1]                           ║
+# ║   ensures:  udivisors(0) == []                             ║
+# ║   ensures:  udivisors(1) == [1]                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_udivisors_and_udivisor_count : Any → {Any | resu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7fb4707f9540a15c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | af38b45a4032e542  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_factor_.test_udivisors_and_udivisor_count","kind":"function","src_hash":"846632b2a5ff25ad","in":{"base":"Any"},"out":{"base":"Any","pred":"udivisors(-1) == [1] and udivisors(0) == [] and udivisors(1) == [1] and udivisors(2) == [1, 2] and udivisors(3) == [1, 3] and udivisors(17) == [1, 17] and udivisors(10) == [1, 2, 5, 10] and udivisors(100) == [1, 4, 25, 100] and udivisors(101) == [1, 101] and udivisors(1000) == [1, 8, 125, 1000] and type(udivisors(2, generator=True)) is not list and udivisor_count(0) == 0 and udivisor_count(-1) == 1 and udivisor_count(1) == 1 and udivisor_count(6) == 4 and udivisor_count(12) == 4 and udivisor_count(180) == 8 and udivisor_count(2 * 3 * 5 * 7) == 16"},"spec":{"lhs":"test_udivisors_and_udivisor_count()","rhs":"test_udivisors_and_udivisor_count produces the expected output","over":{"base":"Any"},"name":"test_udivisors_and_udivisor_count_correct"},"guarantee":"test_udivisors_and_udivisor_count produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_factor_.test_udivisors_and_udivisor_count_correct","statement":"Path(test_udivisors_and_udivisor_count(x), test_udivisors_and_udivisor_count produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7fb4707f9540a15c"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_factor_.test_udivisors_and_udivisor_count","kind":"function","src_hash":"846632b2a5ff25ad","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: udivisors(-1) == [1] and udivisors(0) == [] and udivisors(1) == [1] and udivisors(2) == [1, 2] and udivisors(3) == [1, 3] and udivisors(17) == [1, 17] and udivisors(10) == [1, 2, 5, 10] and udivisors(100) == [1, 4, 25, 100] and udivisors(101) == [1, 101] and udivisors(1000) == [1, 8, 125, 1000] and type(udivisors(2, generator=True)) is not list and udivisor_count(0) == 0 and udivisor_count(-1) == 1 and udivisor_count(1) == 1 and udivisor_count(6) == 4 and udivisor_count(12) == 4 and udivisor_count(180) == 8 and udivisor_count(2 * 3 * 5 * 7) == 16"},"spec":{"lhs":"test_udivisors_and_udivisor_count()","rhs":"udivisors(-1) == [1] and udivisors(0) == [] and udivisors(1) == [1] and udivisors(2) == [1, 2] and udivisors(3) == [1, 3] and udivisors(17) == [1, 17] and udivisors(10) == [1, 2, 5, 10] and udivisors(100) == [1, 4, 25, 100] and udivisors(101) == [1, 101] and udivisors(1000) == [1, 8, 125, 1000] and type(udivisors(2, generator=True)) is not list and udivisor_count(0) == 0 and udivisor_count(-1) == 1 and udivisor_count(1) == 1 and udivisor_count(6) == 4 and udivisor_count(12) == 4 and udivisor_count(180) == 8 and udivisor_count(2 * 3 * 5 * 7) == 16","over":{"base":"Any"},"name":"test_udivisors_and_udivisor_count_correct"},"guarantee":"udivisors(-1) == [1]; udivisors(0) == []; udivisors(1) == [1]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_factor_.test_udivisors_and_udivisor_count_correct","statement":"Path(test_udivisors_and_udivisor_count(x), udivisors(-1) == [1]; udivisors(0) == []; udivisors(1) == [1])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"af38b45a4032e542","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["udivisors(-1) == [1]","udivisors(0) == []","udivisors(1) == [1]","udivisors(2) == [1, 2]","udivisors(3) == [1, 3]","udivisors(17) == [1, 17]","udivisors(10) == [1, 2, 5, 10]","udivisors(100) == [1, 4, 25, 100]","udivisors(101) == [1, 101]","udivisors(1000) == [1, 8, 125, 1000]","type(udivisors(2, generator=True)) is not list","udivisor_count(0) == 0","udivisor_count(-1) == 1","udivisor_count(1) == 1","udivisor_count(6) == 4","udivisor_count(12) == 4","udivisor_count(180) == 8","udivisor_count(2 * 3 * 5 * 7) == 16"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_udivisors_and_udivisor_count():
     assert udivisors(-1) == [1]
     assert udivisors(0) == []
@@ -583,47 +666,67 @@ def test_udivisors_and_udivisor_count():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_6981(), test_issue_6981 produces the expected output) over Any ║
+# ║ Path(test_issue_6981(), S == {1, 2, 4}) over Any           ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_6981 : Any → {Any | S == {1, 2, 4}}             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  S == {1, 2, 4}                                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_6981 : Any → {Any | result satisfies: S ==...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8520d26c98c92362  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 79172eeb80153870  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_factor_.test_issue_6981","kind":"function","src_hash":"874733014eb980e5","in":{"base":"Any"},"out":{"base":"Any","pred":"S == {1, 2, 4}"},"spec":{"lhs":"test_issue_6981()","rhs":"test_issue_6981 produces the expected output","over":{"base":"Any"},"name":"test_issue_6981_correct"},"guarantee":"test_issue_6981 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_factor_.test_issue_6981_correct","statement":"Path(test_issue_6981(x), test_issue_6981 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8520d26c98c92362"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_factor_.test_issue_6981","kind":"function","src_hash":"874733014eb980e5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: S == {1, 2, 4}"},"spec":{"lhs":"test_issue_6981()","rhs":"S == {1, 2, 4}","over":{"base":"Any"},"name":"test_issue_6981_correct"},"guarantee":"S == {1, 2, 4}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_factor_.test_issue_6981_correct","statement":"Path(test_issue_6981(x), S == {1, 2, 4})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"79172eeb80153870","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["S == {1, 2, 4}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_6981():
     S = set(divisors(4)).union(set(divisors(Integer(2))))
     assert S == {1,2,4}
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_4356(), test_issue_4356 produces the expected output) over Any ║
+# ║ Path(test_issue_4356(), factorint(1030903) == {53: 2, 367: 1}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_4356 : Any → {Any | factorint(1030903) == ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  factorint(1030903) == {53: 2, 367: 1}          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_4356 : Any → {Any | result satisfies: fact...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2400659a27820c00  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2ec9310e8f97563b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_factor_.test_issue_4356","kind":"function","src_hash":"e30d377ed6db4c4f","in":{"base":"Any"},"out":{"base":"Any","pred":"factorint(1030903) == {53: 2, 367: 1}"},"spec":{"lhs":"test_issue_4356()","rhs":"test_issue_4356 produces the expected output","over":{"base":"Any"},"name":"test_issue_4356_correct"},"guarantee":"test_issue_4356 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_factor_.test_issue_4356_correct","statement":"Path(test_issue_4356(x), test_issue_4356 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2400659a27820c00"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_factor_.test_issue_4356","kind":"function","src_hash":"e30d377ed6db4c4f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: factorint(1030903) == {53: 2, 367: 1}"},"spec":{"lhs":"test_issue_4356()","rhs":"factorint(1030903) == {53: 2, 367: 1}","over":{"base":"Any"},"name":"test_issue_4356_correct"},"guarantee":"factorint(1030903) == {53: 2, 367: 1}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_factor_.test_issue_4356_correct","statement":"Path(test_issue_4356(x), factorint(1030903) == {53: 2, 367: 1})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2ec9310e8f97563b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["factorint(1030903) == {53: 2, 367: 1}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_issue_4356():
     assert factorint(1030903) == {53: 2, 367: 1}
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_divisors(), test_divisors produces the expected output) over Any ║
+# ║ Path(test_divisors(), divisors(28) == [1, 2, 4, 7, 14, 28] and list(divisors(3 * 5 * 7, 1)) == [1, 3, 5, 15, 7, 21, 35, 105] and divisors(0) == []) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_divisors : Any → {Any | divisors(28) == [1, 2, 4...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  divisors(28) == [1, 2, 4, 7, 14, 28]           ║
+# ║   ensures:  list(divisors(3 * 5 * 7, 1)) == [1, 3, 5,...   ║
+# ║   ensures:  divisors(0) == []                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_divisors : Any → {Any | result satisfies: diviso...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e089b965780de3a6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | af06aa3c382dafc4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_factor_.test_divisors","kind":"function","src_hash":"70f17f28ce11a4b1","in":{"base":"Any"},"out":{"base":"Any","pred":"divisors(28) == [1, 2, 4, 7, 14, 28] and list(divisors(3 * 5 * 7, 1)) == [1, 3, 5, 15, 7, 21, 35, 105] and divisors(0) == []"},"spec":{"lhs":"test_divisors()","rhs":"test_divisors produces the expected output","over":{"base":"Any"},"name":"test_divisors_correct"},"guarantee":"test_divisors produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_factor_.test_divisors_correct","statement":"Path(test_divisors(x), test_divisors produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e089b965780de3a6"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_factor_.test_divisors","kind":"function","src_hash":"70f17f28ce11a4b1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: divisors(28) == [1, 2, 4, 7, 14, 28] and list(divisors(3 * 5 * 7, 1)) == [1, 3, 5, 15, 7, 21, 35, 105] and divisors(0) == []"},"spec":{"lhs":"test_divisors()","rhs":"divisors(28) == [1, 2, 4, 7, 14, 28] and list(divisors(3 * 5 * 7, 1)) == [1, 3, 5, 15, 7, 21, 35, 105] and divisors(0) == []","over":{"base":"Any"},"name":"test_divisors_correct"},"guarantee":"divisors(28) == [1, 2, 4, 7, 14, 28]; list(divisors(3 * 5 * 7, 1)) == [1, 3, 5, 15, 7, 21, 35, 105]; divisors(0) == []","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_factor_.test_divisors_correct","statement":"Path(test_divisors(x), divisors(28) == [1, 2, 4, 7, 14, 28]; list(divisors(3 * 5 * 7, 1)) == [1, 3, 5, 15, 7, 21, 35, 105]; divisors(0) == [])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"af06aa3c382dafc4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["divisors(28) == [1, 2, 4, 7, 14, 28]","list(divisors(3 * 5 * 7, 1)) == [1, 3, 5, 15, 7, 21, 35, 105]","divisors(0) == []"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_divisors():
     assert divisors(28) == [1, 2, 4, 7, 14, 28]
     assert list(divisors(3*5*7, 1)) == [1, 3, 5, 15, 7, 21, 35, 105]
@@ -631,32 +734,47 @@ def test_divisors():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_divisor_count(), test_divisor_count produces the expected output) over Any ║
+# ║ Path(test_divisor_count(), divisor_count(0) == 0 and divisor_count(6) == 4) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_divisor_count : Any → {Any | divisor_count(0) ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  divisor_count(0) == 0                          ║
+# ║   ensures:  divisor_count(6) == 4                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_divisor_count : Any → {Any | result satisfies: d...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7bd6ea7a38d502de  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2d44be0f1a29922e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_factor_.test_divisor_count","kind":"function","src_hash":"71fff660a4da086e","in":{"base":"Any"},"out":{"base":"Any","pred":"divisor_count(0) == 0 and divisor_count(6) == 4"},"spec":{"lhs":"test_divisor_count()","rhs":"test_divisor_count produces the expected output","over":{"base":"Any"},"name":"test_divisor_count_correct"},"guarantee":"test_divisor_count produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_factor_.test_divisor_count_correct","statement":"Path(test_divisor_count(x), test_divisor_count produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7bd6ea7a38d502de"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_factor_.test_divisor_count","kind":"function","src_hash":"71fff660a4da086e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: divisor_count(0) == 0 and divisor_count(6) == 4"},"spec":{"lhs":"test_divisor_count()","rhs":"divisor_count(0) == 0 and divisor_count(6) == 4","over":{"base":"Any"},"name":"test_divisor_count_correct"},"guarantee":"divisor_count(0) == 0; divisor_count(6) == 4","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_factor_.test_divisor_count_correct","statement":"Path(test_divisor_count(x), divisor_count(0) == 0; divisor_count(6) == 4)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2d44be0f1a29922e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["divisor_count(0) == 0","divisor_count(6) == 4"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_divisor_count():
     assert divisor_count(0) == 0
     assert divisor_count(6) == 4
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_proper_divisors(), test_proper_divisors produces the expected output) over Any ║
+# ║ Path(test_proper_divisors(), proper_divisors(-1) == [] and proper_divisors(28) == [1, 2, 4, 7, 14] and list(proper_divisors(3 * 5 * 7, True)) == [1, 3, 5, 15, 7, 21, 35]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_proper_divisors : Any → {Any | proper_divisors(-...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  proper_divisors(-1) == []                      ║
+# ║   ensures:  proper_divisors(28) == [1, 2, 4, 7, 14]        ║
+# ║   ensures:  list(proper_divisors(3 * 5 * 7, True)) ==...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_proper_divisors : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 604465bc6633e114  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 12be0f53dfeea818  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_factor_.test_proper_divisors","kind":"function","src_hash":"19ea934d7e4de6a2","in":{"base":"Any"},"out":{"base":"Any","pred":"proper_divisors(-1) == [] and proper_divisors(28) == [1, 2, 4, 7, 14] and list(proper_divisors(3 * 5 * 7, True)) == [1, 3, 5, 15, 7, 21, 35]"},"spec":{"lhs":"test_proper_divisors()","rhs":"test_proper_divisors produces the expected output","over":{"base":"Any"},"name":"test_proper_divisors_correct"},"guarantee":"test_proper_divisors produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_factor_.test_proper_divisors_correct","statement":"Path(test_proper_divisors(x), test_proper_divisors produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"604465bc6633e114"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_factor_.test_proper_divisors","kind":"function","src_hash":"19ea934d7e4de6a2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: proper_divisors(-1) == [] and proper_divisors(28) == [1, 2, 4, 7, 14] and list(proper_divisors(3 * 5 * 7, True)) == [1, 3, 5, 15, 7, 21, 35]"},"spec":{"lhs":"test_proper_divisors()","rhs":"proper_divisors(-1) == [] and proper_divisors(28) == [1, 2, 4, 7, 14] and list(proper_divisors(3 * 5 * 7, True)) == [1, 3, 5, 15, 7, 21, 35]","over":{"base":"Any"},"name":"test_proper_divisors_correct"},"guarantee":"proper_divisors(-1) == []; proper_divisors(28) == [1, 2, 4, 7, 14]; list(proper_divisors(3 * 5 * 7, True)) == [1, 3, 5, 15, 7, 21, 35]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_factor_.test_proper_divisors_correct","statement":"Path(test_proper_divisors(x), proper_divisors(-1) == []; proper_divisors(28) == [1, 2, 4, 7, 14]; list(proper_divisors(3 * 5 * 7, True)) == [1, 3, 5, 15, 7, 21, 35])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"12be0f53dfeea818","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["proper_divisors(-1) == []","proper_divisors(28) == [1, 2, 4, 7, 14]","list(proper_divisors(3 * 5 * 7, True)) == [1, 3, 5, 15, 7, 21, 35]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_proper_divisors():
     assert proper_divisors(-1) == []
     assert proper_divisors(28) == [1, 2, 4, 7, 14]
@@ -664,32 +782,47 @@ def test_proper_divisors():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_proper_divisor_count(), test_proper_divisor_count produces the expected output) over Any ║
+# ║ Path(test_proper_divisor_count(), proper_divisor_count(6) == 3 and proper_divisor_count(108) == 11) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_proper_divisor_count : Any → {Any | proper_divis...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  proper_divisor_count(6) == 3                   ║
+# ║   ensures:  proper_divisor_count(108) == 11                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_proper_divisor_count : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1001b8db0f97cdc2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2b1a092c26e399db  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_factor_.test_proper_divisor_count","kind":"function","src_hash":"0d16d3088711ab95","in":{"base":"Any"},"out":{"base":"Any","pred":"proper_divisor_count(6) == 3 and proper_divisor_count(108) == 11"},"spec":{"lhs":"test_proper_divisor_count()","rhs":"test_proper_divisor_count produces the expected output","over":{"base":"Any"},"name":"test_proper_divisor_count_correct"},"guarantee":"test_proper_divisor_count produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_factor_.test_proper_divisor_count_correct","statement":"Path(test_proper_divisor_count(x), test_proper_divisor_count produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1001b8db0f97cdc2"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_factor_.test_proper_divisor_count","kind":"function","src_hash":"0d16d3088711ab95","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: proper_divisor_count(6) == 3 and proper_divisor_count(108) == 11"},"spec":{"lhs":"test_proper_divisor_count()","rhs":"proper_divisor_count(6) == 3 and proper_divisor_count(108) == 11","over":{"base":"Any"},"name":"test_proper_divisor_count_correct"},"guarantee":"proper_divisor_count(6) == 3; proper_divisor_count(108) == 11","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_factor_.test_proper_divisor_count_correct","statement":"Path(test_proper_divisor_count(x), proper_divisor_count(6) == 3; proper_divisor_count(108) == 11)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2b1a092c26e399db","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["proper_divisor_count(6) == 3","proper_divisor_count(108) == 11"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_proper_divisor_count():
     assert proper_divisor_count(6) == 3
     assert proper_divisor_count(108) == 11
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_antidivisors(), test_antidivisors produces the expected output) over Any ║
+# ║ Path(test_antidivisors(), antidivisors(-1) == [] and antidivisors(-3) == [2] and antidivisors(14) == [3, 4, 9] and antidivisors(237) == [2, 5, 6, 11, 19, 25, 43, 95, 158] and antidivisors(12345) == [2, 6, 7, 10, 30, 1646, 3527, 4938, 8230] and antidivisors(393216) == [262144] and sorted((x for x in antidivisors(3 * 5 * 7, 1))) == [2, 6, 10, 11, 14, 19, 30, 42, 70] and antidivisors(1) == [] and type(antidivisors(2, generator=True)) is not list) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_antidivisors : Any → {Any | antidivisors(-1) == ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  antidivisors(-1) == []                         ║
+# ║   ensures:  antidivisors(-3) == [2]                        ║
+# ║   ensures:  antidivisors(14) == [3, 4, 9]                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_antidivisors : Any → {Any | result satisfies: an...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e6d1cf4fddcd47be  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 68fd0dda2b162fce  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_factor_.test_antidivisors","kind":"function","src_hash":"eeb2fcba8fe3351a","in":{"base":"Any"},"out":{"base":"Any","pred":"antidivisors(-1) == [] and antidivisors(-3) == [2] and antidivisors(14) == [3, 4, 9] and antidivisors(237) == [2, 5, 6, 11, 19, 25, 43, 95, 158] and antidivisors(12345) == [2, 6, 7, 10, 30, 1646, 3527, 4938, 8230] and antidivisors(393216) == [262144] and antidivisors(1) == [] and type(antidivisors(2, generator=True)) is not list"},"spec":{"lhs":"test_antidivisors()","rhs":"test_antidivisors produces the expected output","over":{"base":"Any"},"name":"test_antidivisors_correct"},"guarantee":"test_antidivisors produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_factor_.test_antidivisors_correct","statement":"Path(test_antidivisors(x), test_antidivisors produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e6d1cf4fddcd47be"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_factor_.test_antidivisors","kind":"function","src_hash":"eeb2fcba8fe3351a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: antidivisors(-1) == [] and antidivisors(-3) == [2] and antidivisors(14) == [3, 4, 9] and antidivisors(237) == [2, 5, 6, 11, 19, 25, 43, 95, 158] and antidivisors(12345) == [2, 6, 7, 10, 30, 1646, 3527, 4938, 8230] and antidivisors(393216) == [262144] and sorted((x for x in antidivisors(3 * 5 * 7, 1))) == [2, 6, 10, 11, 14, 19, 30, 42, 70] and antidivisors(1) == [] and type(antidivisors(2, generator=True)) is not list"},"spec":{"lhs":"test_antidivisors()","rhs":"antidivisors(-1) == [] and antidivisors(-3) == [2] and antidivisors(14) == [3, 4, 9] and antidivisors(237) == [2, 5, 6, 11, 19, 25, 43, 95, 158] and antidivisors(12345) == [2, 6, 7, 10, 30, 1646, 3527, 4938, 8230] and antidivisors(393216) == [262144] and sorted((x for x in antidivisors(3 * 5 * 7, 1))) == [2, 6, 10, 11, 14, 19, 30, 42, 70] and antidivisors(1) == [] and type(antidivisors(2, generator=True)) is not list","over":{"base":"Any"},"name":"test_antidivisors_correct"},"guarantee":"antidivisors(-1) == []; antidivisors(-3) == [2]; antidivisors(14) == [3, 4, 9]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_factor_.test_antidivisors_correct","statement":"Path(test_antidivisors(x), antidivisors(-1) == []; antidivisors(-3) == [2]; antidivisors(14) == [3, 4, 9])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"68fd0dda2b162fce","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["antidivisors(-1) == []","antidivisors(-3) == [2]","antidivisors(14) == [3, 4, 9]","antidivisors(237) == [2, 5, 6, 11, 19, 25, 43, 95, 158]","antidivisors(12345) == [2, 6, 7, 10, 30, 1646, 3527, 4938, 8230]","antidivisors(393216) == [262144]","sorted((x for x in antidivisors(3 * 5 * 7, 1))) == [2, 6, 10, 11, 14, 19, 30, 42, 70]","antidivisors(1) == []","type(antidivisors(2, generator=True)) is not list"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_antidivisors():
     assert antidivisors(-1) == []
     assert antidivisors(-3) == [2]
@@ -703,16 +836,24 @@ def test_antidivisors():
     assert type(antidivisors(2, generator=True)) is not list
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_antidivisor_count(), test_antidivisor_count produces the expected output) over Any ║
+# ║ Path(test_antidivisor_count(), antidivisor_count(0) == 0 and antidivisor_count(-1) == 0 and antidivisor_count(-4) == 1 and antidivisor_count(20) == 3 and antidivisor_count(25) == 5 and antidivisor_count(38) == 7 and antidivisor_count(180) == 6 and antidivisor_count(2 * 3 * 5) == 3) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_antidivisor_count : Any → {Any | antidivisor_cou...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  antidivisor_count(0) == 0                      ║
+# ║   ensures:  antidivisor_count(-1) == 0                     ║
+# ║   ensures:  antidivisor_count(-4) == 1                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_antidivisor_count : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 39382365faefbed3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aa362b6b9e7baab9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_factor_.test_antidivisor_count","kind":"function","src_hash":"628732d8f59df399","in":{"base":"Any"},"out":{"base":"Any","pred":"antidivisor_count(0) == 0 and antidivisor_count(-1) == 0 and antidivisor_count(-4) == 1 and antidivisor_count(20) == 3 and antidivisor_count(25) == 5 and antidivisor_count(38) == 7 and antidivisor_count(180) == 6 and antidivisor_count(2 * 3 * 5) == 3"},"spec":{"lhs":"test_antidivisor_count()","rhs":"test_antidivisor_count produces the expected output","over":{"base":"Any"},"name":"test_antidivisor_count_correct"},"guarantee":"test_antidivisor_count produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_factor_.test_antidivisor_count_correct","statement":"Path(test_antidivisor_count(x), test_antidivisor_count produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"39382365faefbed3"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_factor_.test_antidivisor_count","kind":"function","src_hash":"628732d8f59df399","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: antidivisor_count(0) == 0 and antidivisor_count(-1) == 0 and antidivisor_count(-4) == 1 and antidivisor_count(20) == 3 and antidivisor_count(25) == 5 and antidivisor_count(38) == 7 and antidivisor_count(180) == 6 and antidivisor_count(2 * 3 * 5) == 3"},"spec":{"lhs":"test_antidivisor_count()","rhs":"antidivisor_count(0) == 0 and antidivisor_count(-1) == 0 and antidivisor_count(-4) == 1 and antidivisor_count(20) == 3 and antidivisor_count(25) == 5 and antidivisor_count(38) == 7 and antidivisor_count(180) == 6 and antidivisor_count(2 * 3 * 5) == 3","over":{"base":"Any"},"name":"test_antidivisor_count_correct"},"guarantee":"antidivisor_count(0) == 0; antidivisor_count(-1) == 0; antidivisor_count(-4) == 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_factor_.test_antidivisor_count_correct","statement":"Path(test_antidivisor_count(x), antidivisor_count(0) == 0; antidivisor_count(-1) == 0; antidivisor_count(-4) == 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aa362b6b9e7baab9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["antidivisor_count(0) == 0","antidivisor_count(-1) == 0","antidivisor_count(-4) == 1","antidivisor_count(20) == 3","antidivisor_count(25) == 5","antidivisor_count(38) == 7","antidivisor_count(180) == 6","antidivisor_count(2 * 3 * 5) == 3"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_antidivisor_count():
     assert antidivisor_count(0) == 0
     assert antidivisor_count(-1) == 0
@@ -725,16 +866,24 @@ def test_antidivisor_count():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_smoothness_and_smoothness_p(), test_smoothness_and_smoothness_p produces the expected output) over Any ║
+# ║ Path(test_smoothness_and_smoothness_p(), smoothness(1) == (1, 1) and smoothness(2 ** 4 * 3 ** 2) == (3, 16) and smoothness_p(10431, m=1) == (1, [(3, (2, 2, 4)), (19, (1, 5, 5)), (61, (1, 31, 31))]) and smoothness_p(10431) == (-1, [(3, (2, 2, 2)), (19, (1, 3, 9)), (61, (1, 5, 5))]) and smoothness_p(10431, power=1) == (-1, [(3, (2, 2, 2)), (61, (1, 5, 5)), (19, (1, 3, 9))]) and smoothness_p(21477639576571, visual=1) == 'p**i=4410317**1 has p-1 B=1787, B-pow=1787\n' + 'p**i=4869863**1 has p-1 B=2434931, B-pow=2434931') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_smoothness_and_smoothness_p : Any → {Any | smoot...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  smoothness(1) == (1, 1)                        ║
+# ║   ensures:  smoothness(2 ** 4 * 3 ** 2) == (3, 16)         ║
+# ║   ensures:  smoothness_p(10431, m=1) == (1, [(3, (2, ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_smoothness_and_smoothness_p : Any → {Any | resul...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8f9ad5a8d8906839  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3a1012143d6254fd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_factor_.test_smoothness_and_smoothness_p","kind":"function","src_hash":"11ee7cbeb45bd749","in":{"base":"Any"},"out":{"base":"Any","pred":"smoothness(1) == (1, 1) and smoothness(2 ** 4 * 3 ** 2) == (3, 16) and smoothness_p(10431) == (-1, [(3, (2, 2, 2)), (19, (1, 3, 9)), (61, (1, 5, 5))])"},"spec":{"lhs":"test_smoothness_and_smoothness_p()","rhs":"test_smoothness_and_smoothness_p produces the expected output","over":{"base":"Any"},"name":"test_smoothness_and_smoothness_p_correct"},"guarantee":"test_smoothness_and_smoothness_p produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_factor_.test_smoothness_and_smoothness_p_correct","statement":"Path(test_smoothness_and_smoothness_p(x), test_smoothness_and_smoothness_p produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8f9ad5a8d8906839"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_factor_.test_smoothness_and_smoothness_p","kind":"function","src_hash":"11ee7cbeb45bd749","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: smoothness(1) == (1, 1) and smoothness(2 ** 4 * 3 ** 2) == (3, 16) and smoothness_p(10431, m=1) == (1, [(3, (2, 2, 4)), (19, (1, 5, 5)), (61, (1, 31, 31))]) and smoothness_p(10431) == (-1, [(3, (2, 2, 2)), (19, (1, 3, 9)), (61, (1, 5, 5))]) and smoothness_p(10431, power=1) == (-1, [(3, (2, 2, 2)), (61, (1, 5, 5)), (19, (1, 3, 9))]) and smoothness_p(21477639576571, visual=1) == 'p**i=4410317**1 has p-1 B=1787, B-pow=1787\\n' + 'p**i=4869863**1 has p-1 B=2434931, B-pow=2434931'"},"spec":{"lhs":"test_smoothness_and_smoothness_p()","rhs":"smoothness(1) == (1, 1) and smoothness(2 ** 4 * 3 ** 2) == (3, 16) and smoothness_p(10431, m=1) == (1, [(3, (2, 2, 4)), (19, (1, 5, 5)), (61, (1, 31, 31))]) and smoothness_p(10431) == (-1, [(3, (2, 2, 2)), (19, (1, 3, 9)), (61, (1, 5, 5))]) and smoothness_p(10431, power=1) == (-1, [(3, (2, 2, 2)), (61, (1, 5, 5)), (19, (1, 3, 9))]) and smoothness_p(21477639576571, visual=1) == 'p**i=4410317**1 has p-1 B=1787, B-pow=1787\\n' + 'p**i=4869863**1 has p-1 B=2434931, B-pow=2434931'","over":{"base":"Any"},"name":"test_smoothness_and_smoothness_p_correct"},"guarantee":"smoothness(1) == (1, 1); smoothness(2 ** 4 * 3 ** 2) == (3, 16); smoothness_p(10431, m=1) == (1, [(3, (2, 2, 4)), (19, (1, 5, 5)), (61, (1, 31, 31))])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_factor_.test_smoothness_and_smoothness_p_correct","statement":"Path(test_smoothness_and_smoothness_p(x), smoothness(1) == (1, 1); smoothness(2 ** 4 * 3 ** 2) == (3, 16); smoothness_p(10431, m=1) == (1, [(3, (2, 2, 4)), (19, (1, 5, 5)), (61, (1, 31, 31))]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3a1012143d6254fd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["smoothness(1) == (1, 1)","smoothness(2 ** 4 * 3 ** 2) == (3, 16)","smoothness_p(10431, m=1) == (1, [(3, (2, 2, 4)), (19, (1, 5, 5)), (61, (1, 31, 31))])","smoothness_p(10431) == (-1, [(3, (2, 2, 2)), (19, (1, 3, 9)), (61, (1, 5, 5))])","smoothness_p(10431, power=1) == (-1, [(3, (2, 2, 2)), (61, (1, 5, 5)), (19, (1, 3, 9))])","smoothness_p(21477639576571, visual=1) == 'p**i=4410317**1 has p-1 B=1787, B-pow=1787\\n' + 'p**i=4869863**1 has p-1 B=2434931, B-pow=2434931'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_smoothness_and_smoothness_p():
     assert smoothness(1) == (1, 1)
     assert smoothness(2**4*3**2) == (3, 16)
@@ -751,16 +900,24 @@ def test_smoothness_and_smoothness_p():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_visual_factorint(), test_visual_factorint produces the expected output) over Any ║
+# ║ Path(test_visual_factorint(), factorint(1, visual=1) == 1 and type(forty2) == Mul and str(forty2) == '2**1*3**1*7**1' and factorint(1, visual=True) is S.One and factorint(42 ** 2, visual=True) == Mul(Pow(2, 2, **no), Pow(3, 2, **no), Pow(7, 2, **no), **no) and -1 in factorint(-42, visual=True).args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_visual_factorint : Any → {Any | factorint(1, vis...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  factorint(1, visual=1) == 1                    ║
+# ║   ensures:  type(forty2) == Mul                            ║
+# ║   ensures:  str(forty2) == '2**1*3**1*7**1'                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_visual_factorint : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dc3219b9f84794c6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 78431773822397c2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_factor_.test_visual_factorint","kind":"function","src_hash":"193ec4aba370e398","in":{"base":"Any"},"out":{"base":"Any","pred":"factorint(1, visual=1) == 1 and type(forty2) == Mul and str(forty2) == '2**1*3**1*7**1' and factorint(1, visual=True) is S.One and -1 in factorint(-42, visual=True).args"},"spec":{"lhs":"test_visual_factorint()","rhs":"test_visual_factorint produces the expected output","over":{"base":"Any"},"name":"test_visual_factorint_correct"},"guarantee":"test_visual_factorint produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_factor_.test_visual_factorint_correct","statement":"Path(test_visual_factorint(x), test_visual_factorint produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dc3219b9f84794c6"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_factor_.test_visual_factorint","kind":"function","src_hash":"193ec4aba370e398","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: factorint(1, visual=1) == 1 and type(forty2) == Mul and str(forty2) == '2**1*3**1*7**1' and factorint(1, visual=True) is S.One and factorint(42 ** 2, visual=True) == Mul(Pow(2, 2, **no), Pow(3, 2, **no), Pow(7, 2, **no), **no) and -1 in factorint(-42, visual=True).args"},"spec":{"lhs":"test_visual_factorint()","rhs":"factorint(1, visual=1) == 1 and type(forty2) == Mul and str(forty2) == '2**1*3**1*7**1' and factorint(1, visual=True) is S.One and factorint(42 ** 2, visual=True) == Mul(Pow(2, 2, **no), Pow(3, 2, **no), Pow(7, 2, **no), **no) and -1 in factorint(-42, visual=True).args","over":{"base":"Any"},"name":"test_visual_factorint_correct"},"guarantee":"factorint(1, visual=1) == 1; type(forty2) == Mul; str(forty2) == '2**1*3**1*7**1'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_factor_.test_visual_factorint_correct","statement":"Path(test_visual_factorint(x), factorint(1, visual=1) == 1; type(forty2) == Mul; str(forty2) == '2**1*3**1*7**1')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"78431773822397c2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["factorint(1, visual=1) == 1","type(forty2) == Mul","str(forty2) == '2**1*3**1*7**1'","factorint(1, visual=True) is S.One","factorint(42 ** 2, visual=True) == Mul(Pow(2, 2, **no), Pow(3, 2, **no), Pow(7, 2, **no), **no)","-1 in factorint(-42, visual=True).args"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_visual_factorint():
     assert factorint(1, visual=1) == 1
     forty2 = factorint(42, visual=True)
@@ -775,16 +932,24 @@ def test_visual_factorint():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_factorrat(), test_factorrat produces the expected output) over Any ║
+# ║ Path(test_factorrat(), str(factorrat(S(12) / 1, visual=True)) == '2**2*3**1' and str(factorrat(Rational(1, 1), visual=True)) == '1' and str(factorrat(S(25) / 14, visual=True)) == '5**2/(2*7)' and str(factorrat(Rational(25, 14), visual=True)) == '5**2/(2*7)' and str(factorrat(S(-25) / 14 / 9, visual=True)) == '-1*5**2/(2*3**2*7)' and factorrat(S(12) / 1, multiple=True) == [2, 2, 3] and factorrat(Rational(1, 1), multiple=True) == [] and factorrat(S(25) / 14, multiple=True) == [Rational(1, 7), S.Half, 5, 5] and factorrat(Rational(25, 14), multiple=True) == [Rational(1, 7), S.Half, 5, 5] and factorrat(Rational(12, 1), multiple=True) == [2, 2, 3] and factorrat(S(-25) / 14 / 9, multiple=True) == [-1, Rational(1, 7), Rational(1, 3), Rational(1, 3), S.Half, 5, 5]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_factorrat : Any → {Any | str(factorrat(S(12) / 1...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(factorrat(S(12) / 1, visual=True)) ==...   ║
+# ║   ensures:  str(factorrat(Rational(1, 1), visual=True...   ║
+# ║   ensures:  str(factorrat(S(25) / 14, visual=True)) =...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_factorrat : Any → {Any | result satisfies: str(f...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 001ac1ae6c779d06  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b3b4bcb21828171f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_factor_.test_factorrat","kind":"function","src_hash":"82ba5dbde77443f0","in":{"base":"Any"},"out":{"base":"Any","pred":"str(factorrat(S(12) / 1, visual=True)) == '2**2*3**1' and str(factorrat(Rational(1, 1), visual=True)) == '1' and str(factorrat(S(25) / 14, visual=True)) == '5**2/(2*7)' and str(factorrat(Rational(25, 14), visual=True)) == '5**2/(2*7)' and str(factorrat(S(-25) / 14 / 9, visual=True)) == '-1*5**2/(2*3**2*7)' and factorrat(S(12) / 1, multiple=True) == [2, 2, 3] and factorrat(Rational(1, 1), multiple=True) == [] and factorrat(S(25) / 14, multiple=True) == [Rational(1, 7), S.Half, 5, 5] and factorrat(Rational(25, 14), multiple=True) == [Rational(1, 7), S.Half, 5, 5] and factorrat(Rational(12, 1), multiple=True) == [2, 2, 3]"},"spec":{"lhs":"test_factorrat()","rhs":"test_factorrat produces the expected output","over":{"base":"Any"},"name":"test_factorrat_correct"},"guarantee":"test_factorrat produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_factor_.test_factorrat_correct","statement":"Path(test_factorrat(x), test_factorrat produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"001ac1ae6c779d06"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_factor_.test_factorrat","kind":"function","src_hash":"82ba5dbde77443f0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(factorrat(S(12) / 1, visual=True)) == '2**2*3**1' and str(factorrat(Rational(1, 1), visual=True)) == '1' and str(factorrat(S(25) / 14, visual=True)) == '5**2/(2*7)' and str(factorrat(Rational(25, 14), visual=True)) == '5**2/(2*7)' and str(factorrat(S(-25) / 14 / 9, visual=True)) == '-1*5**2/(2*3**2*7)' and factorrat(S(12) / 1, multiple=True) == [2, 2, 3] and factorrat(Rational(1, 1), multiple=True) == [] and factorrat(S(25) / 14, multiple=True) == [Rational(1, 7), S.Half, 5, 5] and factorrat(Rational(25, 14), multiple=True) == [Rational(1, 7), S.Half, 5, 5] and factorrat(Rational(12, 1), multiple=True) == [2, 2, 3] and factorrat(S(-25) / 14 / 9, multiple=True) == [-1, Rational(1, 7), Rational(1, 3), Rational(1, 3), S.Half, 5, 5]"},"spec":{"lhs":"test_factorrat()","rhs":"str(factorrat(S(12) / 1, visual=True)) == '2**2*3**1' and str(factorrat(Rational(1, 1), visual=True)) == '1' and str(factorrat(S(25) / 14, visual=True)) == '5**2/(2*7)' and str(factorrat(Rational(25, 14), visual=True)) == '5**2/(2*7)' and str(factorrat(S(-25) / 14 / 9, visual=True)) == '-1*5**2/(2*3**2*7)' and factorrat(S(12) / 1, multiple=True) == [2, 2, 3] and factorrat(Rational(1, 1), multiple=True) == [] and factorrat(S(25) / 14, multiple=True) == [Rational(1, 7), S.Half, 5, 5] and factorrat(Rational(25, 14), multiple=True) == [Rational(1, 7), S.Half, 5, 5] and factorrat(Rational(12, 1), multiple=True) == [2, 2, 3] and factorrat(S(-25) / 14 / 9, multiple=True) == [-1, Rational(1, 7), Rational(1, 3), Rational(1, 3), S.Half, 5, 5]","over":{"base":"Any"},"name":"test_factorrat_correct"},"guarantee":"str(factorrat(S(12) / 1, visual=True)) == '2**2*3**1'; str(factorrat(Rational(1, 1), visual=True)) == '1'; str(factorrat(S(25) / 14, visual=True)) == '5**2/(2*7)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_factor_.test_factorrat_correct","statement":"Path(test_factorrat(x), str(factorrat(S(12) / 1, visual=True)) == '2**2*3**1'; str(factorrat(Rational(1, 1), visual=True)) == '1'; str(factorrat(S(25) / 14, visual=True)) == '5**2/(2*7)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b3b4bcb21828171f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(factorrat(S(12) / 1, visual=True)) == '2**2*3**1'","str(factorrat(Rational(1, 1), visual=True)) == '1'","str(factorrat(S(25) / 14, visual=True)) == '5**2/(2*7)'","str(factorrat(Rational(25, 14), visual=True)) == '5**2/(2*7)'","str(factorrat(S(-25) / 14 / 9, visual=True)) == '-1*5**2/(2*3**2*7)'","factorrat(S(12) / 1, multiple=True) == [2, 2, 3]","factorrat(Rational(1, 1), multiple=True) == []","factorrat(S(25) / 14, multiple=True) == [Rational(1, 7), S.Half, 5, 5]","factorrat(Rational(25, 14), multiple=True) == [Rational(1, 7), S.Half, 5, 5]","factorrat(Rational(12, 1), multiple=True) == [2, 2, 3]","factorrat(S(-25) / 14 / 9, multiple=True) == [-1, Rational(1, 7), Rational(1, 3), Rational(1, 3), S.Half, 5, 5]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_factorrat():
     assert str(factorrat(S(12)/1, visual=True)) == '2**2*3**1'
     assert str(factorrat(Rational(1, 1), visual=True)) == '1'
@@ -802,16 +967,24 @@ def test_factorrat():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_visual_io(), test_visual_io produces the expected output) over Any ║
+# ║ Path(test_visual_io(), [sm(th, visual=None) for th in [d, s, t, n, m]] == [s, d, s, t, t] and [sm(th, visual=2) for th in [d, s, t, n, m]] == [s, d, s, t, t] and [fi(th, visual=None) for th in [d, m, n]] == [m, d, d] and [fi(th, visual=0) for th in [d, m, n]] == [m, d, d] and sm({4: 2}, visual=False) == sm(16) and sm(Mul(*[Pow(k, v, **no) for k, v in {4: 2, 2: 6}.items()], **no), visual=False) == sm(2 ** 10) and fi({4: 2}, visual=False) == fi(16) and fi(Mul(*[Pow(k, v, **no) for k, v in {4: 2, 2: 6}.items()], **no), visual=False) == fi(2 ** 10)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_visual_io : Any → {Any | [sm(th, visual=None) fo...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  [sm(th, visual=None) for th in [d, s, t, ...   ║
+# ║   ensures:  [sm(th, visual=2) for th in [d, s, t, n, ...   ║
+# ║   ensures:  [fi(th, visual=None) for th in [d, m, n]]...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_visual_io : Any → {Any | result satisfies: [sm(t...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fa45733fe7586739  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6a91dd759ad838e0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_factor_.test_visual_io","kind":"function","src_hash":"10f0c356a4978fb4","in":{"base":"Any"},"out":{"base":"Any","pred":"[sm(th, visual=None) for th in [d, s, t, n, m]] == [s, d, s, t, t] and [sm(th, visual=2) for th in [d, s, t, n, m]] == [s, d, s, t, t] and [fi(th, visual=None) for th in [d, m, n]] == [m, d, d] and [fi(th, visual=0) for th in [d, m, n]] == [m, d, d] and sm({4: 2}, visual=False) == sm(16) and fi({4: 2}, visual=False) == fi(16) and sm(th, visual=True) == s and sm(th, visual=1) == s and sm(th, visual=False) == t and fi(th, visual=True) == m and fi(th, visual=1) == m and fi(th, visual=False) == d"},"spec":{"lhs":"test_visual_io()","rhs":"test_visual_io produces the expected output","over":{"base":"Any"},"name":"test_visual_io_correct"},"guarantee":"test_visual_io produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_factor_.test_visual_io_correct","statement":"Path(test_visual_io(x), test_visual_io produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fa45733fe7586739"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_factor_.test_visual_io","kind":"function","src_hash":"10f0c356a4978fb4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: [sm(th, visual=None) for th in [d, s, t, n, m]] == [s, d, s, t, t] and [sm(th, visual=2) for th in [d, s, t, n, m]] == [s, d, s, t, t] and [fi(th, visual=None) for th in [d, m, n]] == [m, d, d] and [fi(th, visual=0) for th in [d, m, n]] == [m, d, d] and sm({4: 2}, visual=False) == sm(16) and sm(Mul(*[Pow(k, v, **no) for k, v in {4: 2, 2: 6}.items()], **no), visual=False) == sm(2 ** 10) and fi({4: 2}, visual=False) == fi(16) and fi(Mul(*[Pow(k, v, **no) for k, v in {4: 2, 2: 6}.items()], **no), visual=False) == fi(2 ** 10)"},"spec":{"lhs":"test_visual_io()","rhs":"[sm(th, visual=None) for th in [d, s, t, n, m]] == [s, d, s, t, t] and [sm(th, visual=2) for th in [d, s, t, n, m]] == [s, d, s, t, t] and [fi(th, visual=None) for th in [d, m, n]] == [m, d, d] and [fi(th, visual=0) for th in [d, m, n]] == [m, d, d] and sm({4: 2}, visual=False) == sm(16) and sm(Mul(*[Pow(k, v, **no) for k, v in {4: 2, 2: 6}.items()], **no), visual=False) == sm(2 ** 10) and fi({4: 2}, visual=False) == fi(16) and fi(Mul(*[Pow(k, v, **no) for k, v in {4: 2, 2: 6}.items()], **no), visual=False) == fi(2 ** 10)","over":{"base":"Any"},"name":"test_visual_io_correct"},"guarantee":"[sm(th, visual=None) for th in [d, s, t, n, m]] == [s, d, s, t, t]; [sm(th, visual=2) for th in [d, s, t, n, m]] == [s, d, s, t, t]; [fi(th, visual=None) for th in [d, m, n]] == [m, d, d]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_factor_.test_visual_io_correct","statement":"Path(test_visual_io(x), [sm(th, visual=None) for th in [d, s, t, n, m]] == [s, d, s, t, t]; [sm(th, visual=2) for th in [d, s, t, n, m]] == [s, d, s, t, t]; [fi(th, visual=None) for th in [d, m, n]] == [m, d, d])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6a91dd759ad838e0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["[sm(th, visual=None) for th in [d, s, t, n, m]] == [s, d, s, t, t]","[sm(th, visual=2) for th in [d, s, t, n, m]] == [s, d, s, t, t]","[fi(th, visual=None) for th in [d, m, n]] == [m, d, d]","[fi(th, visual=0) for th in [d, m, n]] == [m, d, d]","sm({4: 2}, visual=False) == sm(16)","sm(Mul(*[Pow(k, v, **no) for k, v in {4: 2, 2: 6}.items()], **no), visual=False) == sm(2 ** 10)","fi({4: 2}, visual=False) == fi(16)","fi(Mul(*[Pow(k, v, **no) for k, v in {4: 2, 2: 6}.items()], **no), visual=False) == fi(2 ** 10)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_visual_io():
     sm = smoothness_p
     fi = factorint
@@ -850,16 +1023,24 @@ def test_visual_io():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_core(), test_core produces the expected output) over Any ║
+# ║ Path(test_core(), core(35 ** 13, 10) == 42875 and core(210 ** 2) == 1 and core(7776, 3) == 36 and core(10 ** 27, 22) == 10 ** 5 and core(537824) == 14 and core(1, 6) == 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_core : Any → {Any | core(35 ** 13, 10) == 42875 ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  core(35 ** 13, 10) == 42875                    ║
+# ║   ensures:  core(210 ** 2) == 1                            ║
+# ║   ensures:  core(7776, 3) == 36                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_core : Any → {Any | result satisfies: core(35 **...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1e509d4bc601c251  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 85a732c70d244e25  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_factor_.test_core","kind":"function","src_hash":"83f93c4ce964e00e","in":{"base":"Any"},"out":{"base":"Any","pred":"core(35 ** 13, 10) == 42875 and core(210 ** 2) == 1 and core(7776, 3) == 36 and core(10 ** 27, 22) == 10 ** 5 and core(537824) == 14 and core(1, 6) == 1"},"spec":{"lhs":"test_core()","rhs":"test_core produces the expected output","over":{"base":"Any"},"name":"test_core_correct"},"guarantee":"test_core produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_factor_.test_core_correct","statement":"Path(test_core(x), test_core produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1e509d4bc601c251"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_factor_.test_core","kind":"function","src_hash":"83f93c4ce964e00e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: core(35 ** 13, 10) == 42875 and core(210 ** 2) == 1 and core(7776, 3) == 36 and core(10 ** 27, 22) == 10 ** 5 and core(537824) == 14 and core(1, 6) == 1"},"spec":{"lhs":"test_core()","rhs":"core(35 ** 13, 10) == 42875 and core(210 ** 2) == 1 and core(7776, 3) == 36 and core(10 ** 27, 22) == 10 ** 5 and core(537824) == 14 and core(1, 6) == 1","over":{"base":"Any"},"name":"test_core_correct"},"guarantee":"core(35 ** 13, 10) == 42875; core(210 ** 2) == 1; core(7776, 3) == 36","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_factor_.test_core_correct","statement":"Path(test_core(x), core(35 ** 13, 10) == 42875; core(210 ** 2) == 1; core(7776, 3) == 36)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"85a732c70d244e25","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["core(35 ** 13, 10) == 42875","core(210 ** 2) == 1","core(7776, 3) == 36","core(10 ** 27, 22) == 10 ** 5","core(537824) == 14","core(1, 6) == 1"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_core():
     assert core(35**13, 10) == 42875
     assert core(210**2) == 1
@@ -870,16 +1051,24 @@ def test_core():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test__divisor_sigma(), test__divisor_sigma produces the expected output) over Any ║
+# ║ Path(test__divisor_sigma(), _divisor_sigma(23450) == 50592 and _divisor_sigma(23450, 0) == 24 and _divisor_sigma(23450, 1) == 50592 and _divisor_sigma(23450, 2) == 730747500 and _divisor_sigma(23450, 3) == 14666785333344) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test__divisor_sigma : Any → {Any | _divisor_sigma(234...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  _divisor_sigma(23450) == 50592                 ║
+# ║   ensures:  _divisor_sigma(23450, 0) == 24                 ║
+# ║   ensures:  _divisor_sigma(23450, 1) == 50592              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test__divisor_sigma : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6c99aa90e5a7f226  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fd4c00d20c777051  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_factor_.test__divisor_sigma","kind":"function","src_hash":"4d52853d247721e4","in":{"base":"Any"},"out":{"base":"Any","pred":"_divisor_sigma(23450) == 50592 and _divisor_sigma(23450, 0) == 24 and _divisor_sigma(23450, 1) == 50592 and _divisor_sigma(23450, 2) == 730747500 and _divisor_sigma(23450, 3) == 14666785333344 and _divisor_sigma(n, 0) == val and _divisor_sigma(n, 1) == val and _divisor_sigma(n, 2) == val"},"spec":{"lhs":"test__divisor_sigma()","rhs":"test__divisor_sigma produces the expected output","over":{"base":"Any"},"name":"test__divisor_sigma_correct"},"guarantee":"test__divisor_sigma produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_factor_.test__divisor_sigma_correct","statement":"Path(test__divisor_sigma(x), test__divisor_sigma produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6c99aa90e5a7f226"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_factor_.test__divisor_sigma","kind":"function","src_hash":"4d52853d247721e4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: _divisor_sigma(23450) == 50592 and _divisor_sigma(23450, 0) == 24 and _divisor_sigma(23450, 1) == 50592 and _divisor_sigma(23450, 2) == 730747500 and _divisor_sigma(23450, 3) == 14666785333344"},"spec":{"lhs":"test__divisor_sigma()","rhs":"_divisor_sigma(23450) == 50592 and _divisor_sigma(23450, 0) == 24 and _divisor_sigma(23450, 1) == 50592 and _divisor_sigma(23450, 2) == 730747500 and _divisor_sigma(23450, 3) == 14666785333344","over":{"base":"Any"},"name":"test__divisor_sigma_correct"},"guarantee":"_divisor_sigma(23450) == 50592; _divisor_sigma(23450, 0) == 24; _divisor_sigma(23450, 1) == 50592","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_factor_.test__divisor_sigma_correct","statement":"Path(test__divisor_sigma(x), _divisor_sigma(23450) == 50592; _divisor_sigma(23450, 0) == 24; _divisor_sigma(23450, 1) == 50592)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fd4c00d20c777051","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["_divisor_sigma(23450) == 50592","_divisor_sigma(23450, 0) == 24","_divisor_sigma(23450, 1) == 50592","_divisor_sigma(23450, 2) == 730747500","_divisor_sigma(23450, 3) == 14666785333344"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test__divisor_sigma():
     assert _divisor_sigma(23450) == 50592
     assert _divisor_sigma(23450, 0) == 24
@@ -901,16 +1090,24 @@ def test__divisor_sigma():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_mersenne_prime_exponent(), test_mersenne_prime_exponent produces the expected output) over Any ║
+# ║ Path(test_mersenne_prime_exponent(), mersenne_prime_exponent(1) == 2 and mersenne_prime_exponent(4) == 7 and mersenne_prime_exponent(10) == 89 and mersenne_prime_exponent(25) == 21701) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_mersenne_prime_exponent : Any → {Any | mersenne_...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  mersenne_prime_exponent(1) == 2                ║
+# ║   ensures:  mersenne_prime_exponent(4) == 7                ║
+# ║   ensures:  mersenne_prime_exponent(10) == 89              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_mersenne_prime_exponent : Any → {Any | result sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8a65350c63b5fe5a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 03722cdde75bcd83  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_factor_.test_mersenne_prime_exponent","kind":"function","src_hash":"1f3f714894af9bbe","in":{"base":"Any"},"out":{"base":"Any","pred":"mersenne_prime_exponent(1) == 2 and mersenne_prime_exponent(4) == 7 and mersenne_prime_exponent(10) == 89 and mersenne_prime_exponent(25) == 21701"},"spec":{"lhs":"test_mersenne_prime_exponent()","rhs":"test_mersenne_prime_exponent produces the expected output","over":{"base":"Any"},"name":"test_mersenne_prime_exponent_correct"},"guarantee":"test_mersenne_prime_exponent produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_factor_.test_mersenne_prime_exponent_correct","statement":"Path(test_mersenne_prime_exponent(x), test_mersenne_prime_exponent produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8a65350c63b5fe5a"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_factor_.test_mersenne_prime_exponent","kind":"function","src_hash":"1f3f714894af9bbe","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: mersenne_prime_exponent(1) == 2 and mersenne_prime_exponent(4) == 7 and mersenne_prime_exponent(10) == 89 and mersenne_prime_exponent(25) == 21701"},"spec":{"lhs":"test_mersenne_prime_exponent()","rhs":"mersenne_prime_exponent(1) == 2 and mersenne_prime_exponent(4) == 7 and mersenne_prime_exponent(10) == 89 and mersenne_prime_exponent(25) == 21701","over":{"base":"Any"},"name":"test_mersenne_prime_exponent_correct"},"guarantee":"mersenne_prime_exponent(1) == 2; mersenne_prime_exponent(4) == 7; mersenne_prime_exponent(10) == 89","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_factor_.test_mersenne_prime_exponent_correct","statement":"Path(test_mersenne_prime_exponent(x), mersenne_prime_exponent(1) == 2; mersenne_prime_exponent(4) == 7; mersenne_prime_exponent(10) == 89)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"03722cdde75bcd83","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["mersenne_prime_exponent(1) == 2","mersenne_prime_exponent(4) == 7","mersenne_prime_exponent(10) == 89","mersenne_prime_exponent(25) == 21701"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_mersenne_prime_exponent():
     assert mersenne_prime_exponent(1) == 2
     assert mersenne_prime_exponent(4) == 7
@@ -921,16 +1118,24 @@ def test_mersenne_prime_exponent():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_is_perfect(), test_is_perfect produces the expected output) over Any ║
+# ║ Path(test_is_perfect(), is_perfect(-6) is False and is_perfect(6) is True and is_perfect(15) is False and is_perfect(28) is True and is_perfect(400) is False and is_perfect(496) is True and is_perfect(8128) is True and is_perfect(10000) is False) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_is_perfect : Any → {Any | is_perfect(-6) is Fals...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  is_perfect(-6) is False                        ║
+# ║   ensures:  is_perfect(6) is True                          ║
+# ║   ensures:  is_perfect(15) is False                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_is_perfect : Any → {Any | result satisfies: is_p...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f56cfea94b5aa769  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2e380d1b234eb9a9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_factor_.test_is_perfect","kind":"function","src_hash":"43da703e916cd165","in":{"base":"Any"},"out":{"base":"Any","pred":"is_perfect(-6) is False and is_perfect(6) is True and is_perfect(15) is False and is_perfect(28) is True and is_perfect(400) is False and is_perfect(496) is True and is_perfect(8128) is True and is_perfect(10000) is False"},"spec":{"lhs":"test_is_perfect()","rhs":"test_is_perfect produces the expected output","over":{"base":"Any"},"name":"test_is_perfect_correct"},"guarantee":"test_is_perfect produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_factor_.test_is_perfect_correct","statement":"Path(test_is_perfect(x), test_is_perfect produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f56cfea94b5aa769"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_factor_.test_is_perfect","kind":"function","src_hash":"43da703e916cd165","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: is_perfect(-6) is False and is_perfect(6) is True and is_perfect(15) is False and is_perfect(28) is True and is_perfect(400) is False and is_perfect(496) is True and is_perfect(8128) is True and is_perfect(10000) is False"},"spec":{"lhs":"test_is_perfect()","rhs":"is_perfect(-6) is False and is_perfect(6) is True and is_perfect(15) is False and is_perfect(28) is True and is_perfect(400) is False and is_perfect(496) is True and is_perfect(8128) is True and is_perfect(10000) is False","over":{"base":"Any"},"name":"test_is_perfect_correct"},"guarantee":"is_perfect(-6) is False; is_perfect(6) is True; is_perfect(15) is False","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_factor_.test_is_perfect_correct","statement":"Path(test_is_perfect(x), is_perfect(-6) is False; is_perfect(6) is True; is_perfect(15) is False)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2e380d1b234eb9a9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["is_perfect(-6) is False","is_perfect(6) is True","is_perfect(15) is False","is_perfect(28) is True","is_perfect(400) is False","is_perfect(496) is True","is_perfect(8128) is True","is_perfect(10000) is False"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_is_perfect():
     assert is_perfect(-6) is False
     assert is_perfect(6) is True
@@ -943,16 +1148,24 @@ def test_is_perfect():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_is_abundant(), test_is_abundant produces the expected output) over Any ║
+# ║ Path(test_is_abundant(), is_abundant(10) is False and is_abundant(12) is True and is_abundant(18) is True and is_abundant(21) is False and is_abundant(945) is True) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_is_abundant : Any → {Any | is_abundant(10) is Fa...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  is_abundant(10) is False                       ║
+# ║   ensures:  is_abundant(12) is True                        ║
+# ║   ensures:  is_abundant(18) is True                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_is_abundant : Any → {Any | result satisfies: is_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ed26d128a9c8521f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fc84ec5dc32bedd1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_factor_.test_is_abundant","kind":"function","src_hash":"272eec179509625b","in":{"base":"Any"},"out":{"base":"Any","pred":"is_abundant(10) is False and is_abundant(12) is True and is_abundant(18) is True and is_abundant(21) is False and is_abundant(945) is True"},"spec":{"lhs":"test_is_abundant()","rhs":"test_is_abundant produces the expected output","over":{"base":"Any"},"name":"test_is_abundant_correct"},"guarantee":"test_is_abundant produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_factor_.test_is_abundant_correct","statement":"Path(test_is_abundant(x), test_is_abundant produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ed26d128a9c8521f"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_factor_.test_is_abundant","kind":"function","src_hash":"272eec179509625b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: is_abundant(10) is False and is_abundant(12) is True and is_abundant(18) is True and is_abundant(21) is False and is_abundant(945) is True"},"spec":{"lhs":"test_is_abundant()","rhs":"is_abundant(10) is False and is_abundant(12) is True and is_abundant(18) is True and is_abundant(21) is False and is_abundant(945) is True","over":{"base":"Any"},"name":"test_is_abundant_correct"},"guarantee":"is_abundant(10) is False; is_abundant(12) is True; is_abundant(18) is True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_factor_.test_is_abundant_correct","statement":"Path(test_is_abundant(x), is_abundant(10) is False; is_abundant(12) is True; is_abundant(18) is True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fc84ec5dc32bedd1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["is_abundant(10) is False","is_abundant(12) is True","is_abundant(18) is True","is_abundant(21) is False","is_abundant(945) is True"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_is_abundant():
     assert is_abundant(10) is False
     assert is_abundant(12) is True
@@ -962,16 +1175,24 @@ def test_is_abundant():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_is_deficient(), test_is_deficient produces the expected output) over Any ║
+# ║ Path(test_is_deficient(), is_deficient(10) is True and is_deficient(22) is True and is_deficient(56) is False and is_deficient(20) is False and is_deficient(36) is False) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_is_deficient : Any → {Any | is_deficient(10) is ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  is_deficient(10) is True                       ║
+# ║   ensures:  is_deficient(22) is True                       ║
+# ║   ensures:  is_deficient(56) is False                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_is_deficient : Any → {Any | result satisfies: is...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 33b4e4546b58a5ca  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 89cfcad4ab91e7ea  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_factor_.test_is_deficient","kind":"function","src_hash":"044602a8ae636bb9","in":{"base":"Any"},"out":{"base":"Any","pred":"is_deficient(10) is True and is_deficient(22) is True and is_deficient(56) is False and is_deficient(20) is False and is_deficient(36) is False"},"spec":{"lhs":"test_is_deficient()","rhs":"test_is_deficient produces the expected output","over":{"base":"Any"},"name":"test_is_deficient_correct"},"guarantee":"test_is_deficient produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_factor_.test_is_deficient_correct","statement":"Path(test_is_deficient(x), test_is_deficient produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"33b4e4546b58a5ca"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_factor_.test_is_deficient","kind":"function","src_hash":"044602a8ae636bb9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: is_deficient(10) is True and is_deficient(22) is True and is_deficient(56) is False and is_deficient(20) is False and is_deficient(36) is False"},"spec":{"lhs":"test_is_deficient()","rhs":"is_deficient(10) is True and is_deficient(22) is True and is_deficient(56) is False and is_deficient(20) is False and is_deficient(36) is False","over":{"base":"Any"},"name":"test_is_deficient_correct"},"guarantee":"is_deficient(10) is True; is_deficient(22) is True; is_deficient(56) is False","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_factor_.test_is_deficient_correct","statement":"Path(test_is_deficient(x), is_deficient(10) is True; is_deficient(22) is True; is_deficient(56) is False)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"89cfcad4ab91e7ea","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["is_deficient(10) is True","is_deficient(22) is True","is_deficient(56) is False","is_deficient(20) is False","is_deficient(36) is False"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_is_deficient():
     assert is_deficient(10) is True
     assert is_deficient(22) is True
@@ -981,16 +1202,24 @@ def test_is_deficient():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_is_amicable(), test_is_amicable produces the expected output) over Any ║
+# ║ Path(test_is_amicable(), is_amicable(173, 129) is False and is_amicable(220, 284) is True and is_amicable(8756, 8756) is False) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_is_amicable : Any → {Any | is_amicable(173, 129)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  is_amicable(173, 129) is False                 ║
+# ║   ensures:  is_amicable(220, 284) is True                  ║
+# ║   ensures:  is_amicable(8756, 8756) is False               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_is_amicable : Any → {Any | result satisfies: is_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 56935286a918a273  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 609de49b6bf2f039  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_factor_.test_is_amicable","kind":"function","src_hash":"61ecd1518dff30f0","in":{"base":"Any"},"out":{"base":"Any","pred":"is_amicable(173, 129) is False and is_amicable(220, 284) is True and is_amicable(8756, 8756) is False"},"spec":{"lhs":"test_is_amicable()","rhs":"test_is_amicable produces the expected output","over":{"base":"Any"},"name":"test_is_amicable_correct"},"guarantee":"test_is_amicable produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_factor_.test_is_amicable_correct","statement":"Path(test_is_amicable(x), test_is_amicable produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"56935286a918a273"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_factor_.test_is_amicable","kind":"function","src_hash":"61ecd1518dff30f0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: is_amicable(173, 129) is False and is_amicable(220, 284) is True and is_amicable(8756, 8756) is False"},"spec":{"lhs":"test_is_amicable()","rhs":"is_amicable(173, 129) is False and is_amicable(220, 284) is True and is_amicable(8756, 8756) is False","over":{"base":"Any"},"name":"test_is_amicable_correct"},"guarantee":"is_amicable(173, 129) is False; is_amicable(220, 284) is True; is_amicable(8756, 8756) is False","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_factor_.test_is_amicable_correct","statement":"Path(test_is_amicable(x), is_amicable(173, 129) is False; is_amicable(220, 284) is True; is_amicable(8756, 8756) is False)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"609de49b6bf2f039","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["is_amicable(173, 129) is False","is_amicable(220, 284) is True","is_amicable(8756, 8756) is False"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_is_amicable():
     assert is_amicable(173, 129) is False
     assert is_amicable(220, 284) is True
@@ -998,16 +1227,22 @@ def test_is_amicable():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_is_carmichael(), test_is_carmichael produces the expected output) over Any ║
+# ║ Path(test_is_carmichael(), <unspecified:test_is_carmichael>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_is_carmichael : Any → {Any | is_carmichael(n) ==...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 37bb306415fc08bb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_factor_.test_is_carmichael","kind":"function","src_hash":"3031b7771b4370cc","in":{"base":"Any"},"out":{"base":"Any","pred":"is_carmichael(n) == (n in A002997) and is_carmichael(n)"},"spec":{"lhs":"test_is_carmichael()","rhs":"test_is_carmichael produces the expected output","over":{"base":"Any"},"name":"test_is_carmichael_correct"},"guarantee":"test_is_carmichael produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_factor_.test_is_carmichael_correct","statement":"Path(test_is_carmichael(x), test_is_carmichael produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"37bb306415fc08bb"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_factor_.test_is_carmichael","kind":"function","src_hash":"3031b7771b4370cc","in":{"base":"Any"},"out":{"base":"Any","pred":"is_carmichael(n) == (n in A002997) and is_carmichael(n)"},"spec":{"lhs":"test_is_carmichael()","rhs":"<unspecified:test_is_carmichael>","over":{"base":"Any"},"name":"test_is_carmichael_correct"},"guarantee":"test_is_carmichael produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_factor_.test_is_carmichael_correct","statement":"Path(test_is_carmichael(x), test_is_carmichael produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"37bb306415fc08bb","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_is_carmichael():
     A002997 = [561, 1105, 1729, 2465, 2821, 6601, 8911, 10585, 15841,
                29341, 41041, 46657, 52633, 62745, 63973, 75361, 101101]
@@ -1018,16 +1253,24 @@ def test_is_carmichael():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_find_carmichael_numbers_in_range(), test_find_carmichael_numbers_in_range produces the expected output) over Any ║
+# ║ Path(test_find_carmichael_numbers_in_range(), find_carmichael_numbers_in_range(0, 561) == [] and find_carmichael_numbers_in_range(561, 562) == [561] and find_carmichael_numbers_in_range(561, 1105) == find_carmichael_numbers_in_range(561, 562)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  find_carmichael_numbers_in_range(0, 561) ...   ║
+# ║   ensures:  find_carmichael_numbers_in_range(561, 562...   ║
+# ║   ensures:  find_carmichael_numbers_in_range(561, 110...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_find_carmichael_numbers_in_range : Any → {Any | ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2c2d86b418459130  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 90e80303e05eb6e8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_factor_.test_find_carmichael_numbers_in_range","kind":"function","src_hash":"238d402488800a37","in":{"base":"Any"},"out":{"base":"Any","pred":"find_carmichael_numbers_in_range(0, 561) == [] and find_carmichael_numbers_in_range(561, 562) == [561]"},"spec":{"lhs":"test_find_carmichael_numbers_in_range()","rhs":"test_find_carmichael_numbers_in_range produces the expected output","over":{"base":"Any"},"name":"test_find_carmichael_numbers_in_range_correct"},"guarantee":"test_find_carmichael_numbers_in_range produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_factor_.test_find_carmichael_numbers_in_range_correct","statement":"Path(test_find_carmichael_numbers_in_range(x), test_find_carmichael_numbers_in_range produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2c2d86b418459130"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_factor_.test_find_carmichael_numbers_in_range","kind":"function","src_hash":"238d402488800a37","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: find_carmichael_numbers_in_range(0, 561) == [] and find_carmichael_numbers_in_range(561, 562) == [561] and find_carmichael_numbers_in_range(561, 1105) == find_carmichael_numbers_in_range(561, 562)"},"spec":{"lhs":"test_find_carmichael_numbers_in_range()","rhs":"find_carmichael_numbers_in_range(0, 561) == [] and find_carmichael_numbers_in_range(561, 562) == [561] and find_carmichael_numbers_in_range(561, 1105) == find_carmichael_numbers_in_range(561, 562)","over":{"base":"Any"},"name":"test_find_carmichael_numbers_in_range_correct"},"guarantee":"find_carmichael_numbers_in_range(0, 561) == []; find_carmichael_numbers_in_range(561, 562) == [561]; find_carmichael_numbers_in_range(561, 1105) == find_carmichael_numbers_in_range(561, 562)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_factor_.test_find_carmichael_numbers_in_range_correct","statement":"Path(test_find_carmichael_numbers_in_range(x), find_carmichael_numbers_in_range(0, 561) == []; find_carmichael_numbers_in_range(561, 562) == [561]; find_carmichael_numbers_in_range(561, 1105) == find_carmichael_numbers_in_range(561, 562))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"90e80303e05eb6e8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["find_carmichael_numbers_in_range(0, 561) == []","find_carmichael_numbers_in_range(561, 562) == [561]","find_carmichael_numbers_in_range(561, 1105) == find_carmichael_numbers_in_range(561, 562)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_find_carmichael_numbers_in_range():
     assert find_carmichael_numbers_in_range(0, 561) == []
     assert find_carmichael_numbers_in_range(561, 562) == [561]
@@ -1037,16 +1280,24 @@ def test_find_carmichael_numbers_in_range():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_find_first_n_carmichaels(), test_find_first_n_carmichaels produces the expected output) over Any ║
+# ║ Path(test_find_first_n_carmichaels(), find_first_n_carmichaels(0) == [] and find_first_n_carmichaels(1) == [561] and find_first_n_carmichaels(2) == [561, 1105]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_find_first_n_carmichaels : Any → {Any | find_fir...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  find_first_n_carmichaels(0) == []              ║
+# ║   ensures:  find_first_n_carmichaels(1) == [561]           ║
+# ║   ensures:  find_first_n_carmichaels(2) == [561, 1105]     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_find_first_n_carmichaels : Any → {Any | result s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e3af74971618ffd2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2fd7d57f66c48d6e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_factor_.test_find_first_n_carmichaels","kind":"function","src_hash":"ab07d7173247ad3e","in":{"base":"Any"},"out":{"base":"Any","pred":"find_first_n_carmichaels(0) == [] and find_first_n_carmichaels(1) == [561] and find_first_n_carmichaels(2) == [561, 1105]"},"spec":{"lhs":"test_find_first_n_carmichaels()","rhs":"test_find_first_n_carmichaels produces the expected output","over":{"base":"Any"},"name":"test_find_first_n_carmichaels_correct"},"guarantee":"test_find_first_n_carmichaels produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_factor_.test_find_first_n_carmichaels_correct","statement":"Path(test_find_first_n_carmichaels(x), test_find_first_n_carmichaels produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e3af74971618ffd2"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_factor_.test_find_first_n_carmichaels","kind":"function","src_hash":"ab07d7173247ad3e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: find_first_n_carmichaels(0) == [] and find_first_n_carmichaels(1) == [561] and find_first_n_carmichaels(2) == [561, 1105]"},"spec":{"lhs":"test_find_first_n_carmichaels()","rhs":"find_first_n_carmichaels(0) == [] and find_first_n_carmichaels(1) == [561] and find_first_n_carmichaels(2) == [561, 1105]","over":{"base":"Any"},"name":"test_find_first_n_carmichaels_correct"},"guarantee":"find_first_n_carmichaels(0) == []; find_first_n_carmichaels(1) == [561]; find_first_n_carmichaels(2) == [561, 1105]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_factor_.test_find_first_n_carmichaels_correct","statement":"Path(test_find_first_n_carmichaels(x), find_first_n_carmichaels(0) == []; find_first_n_carmichaels(1) == [561]; find_first_n_carmichaels(2) == [561, 1105])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2fd7d57f66c48d6e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["find_first_n_carmichaels(0) == []","find_first_n_carmichaels(1) == [561]","find_first_n_carmichaels(2) == [561, 1105]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_find_first_n_carmichaels():
     assert find_first_n_carmichaels(0) == []
     assert find_first_n_carmichaels(1) == [561]
@@ -1054,16 +1305,24 @@ def test_find_first_n_carmichaels():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dra(), test_dra produces the expected output) over Any ║
+# ║ Path(test_dra(), dra(19, 12) == 8 and dra(2718, 10) == 9 and dra(0, 22) == 0 and dra(23456789, 10) == 8) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dra : Any → {Any | dra(19, 12) == 8 and dra(2718...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dra(19, 12) == 8                               ║
+# ║   ensures:  dra(2718, 10) == 9                             ║
+# ║   ensures:  dra(0, 22) == 0                                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dra : Any → {Any | result satisfies: dra(19, 12)...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8e94f55b03452cfc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b8706f8460647d55  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_factor_.test_dra","kind":"function","src_hash":"b82afdc8ee1f240c","in":{"base":"Any"},"out":{"base":"Any","pred":"dra(19, 12) == 8 and dra(2718, 10) == 9 and dra(0, 22) == 0 and dra(23456789, 10) == 8"},"spec":{"lhs":"test_dra()","rhs":"test_dra produces the expected output","over":{"base":"Any"},"name":"test_dra_correct"},"guarantee":"test_dra produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_factor_.test_dra_correct","statement":"Path(test_dra(x), test_dra produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8e94f55b03452cfc"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_factor_.test_dra","kind":"function","src_hash":"b82afdc8ee1f240c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dra(19, 12) == 8 and dra(2718, 10) == 9 and dra(0, 22) == 0 and dra(23456789, 10) == 8"},"spec":{"lhs":"test_dra()","rhs":"dra(19, 12) == 8 and dra(2718, 10) == 9 and dra(0, 22) == 0 and dra(23456789, 10) == 8","over":{"base":"Any"},"name":"test_dra_correct"},"guarantee":"dra(19, 12) == 8; dra(2718, 10) == 9; dra(0, 22) == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_factor_.test_dra_correct","statement":"Path(test_dra(x), dra(19, 12) == 8; dra(2718, 10) == 9; dra(0, 22) == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b8706f8460647d55","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dra(19, 12) == 8","dra(2718, 10) == 9","dra(0, 22) == 0","dra(23456789, 10) == 8"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_dra():
     assert dra(19, 12) == 8
     assert dra(2718, 10) == 9
@@ -1073,16 +1332,24 @@ def test_dra():
     raises(ValueError, lambda: dra(24.2, 5))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_drm(), test_drm produces the expected output) over Any ║
+# ║ Path(test_drm(), drm(19, 12) == 7 and drm(2718, 10) == 2 and drm(0, 15) == 0 and drm(234161, 10) == 6) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_drm : Any → {Any | drm(19, 12) == 7 and drm(2718...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  drm(19, 12) == 7                               ║
+# ║   ensures:  drm(2718, 10) == 2                             ║
+# ║   ensures:  drm(0, 15) == 0                                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_drm : Any → {Any | result satisfies: drm(19, 12)...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3bd1ae70388da0e5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b7f21cd1da74e84c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_factor_.test_drm","kind":"function","src_hash":"a930be6759f9419a","in":{"base":"Any"},"out":{"base":"Any","pred":"drm(19, 12) == 7 and drm(2718, 10) == 2 and drm(0, 15) == 0 and drm(234161, 10) == 6"},"spec":{"lhs":"test_drm()","rhs":"test_drm produces the expected output","over":{"base":"Any"},"name":"test_drm_correct"},"guarantee":"test_drm produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_factor_.test_drm_correct","statement":"Path(test_drm(x), test_drm produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3bd1ae70388da0e5"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_factor_.test_drm","kind":"function","src_hash":"a930be6759f9419a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: drm(19, 12) == 7 and drm(2718, 10) == 2 and drm(0, 15) == 0 and drm(234161, 10) == 6"},"spec":{"lhs":"test_drm()","rhs":"drm(19, 12) == 7 and drm(2718, 10) == 2 and drm(0, 15) == 0 and drm(234161, 10) == 6","over":{"base":"Any"},"name":"test_drm_correct"},"guarantee":"drm(19, 12) == 7; drm(2718, 10) == 2; drm(0, 15) == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_factor_.test_drm_correct","statement":"Path(test_drm(x), drm(19, 12) == 7; drm(2718, 10) == 2; drm(0, 15) == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b7f21cd1da74e84c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["drm(19, 12) == 7","drm(2718, 10) == 2","drm(0, 15) == 0","drm(234161, 10) == 6"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_drm():
     assert drm(19, 12) == 7
     assert drm(2718, 10) == 2
@@ -1093,16 +1360,22 @@ def test_drm():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_deprecated_ntheory_symbolic_functions(), test_deprecated_ntheory_symbolic_functions produces the expected output) over Any ║
+# ║ Path(test_deprecated_ntheory_symbolic_functions(), <unspecified:test_deprecated_ntheory_symbolic_functions>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_deprecated_ntheory_symbolic_functions : Any → {A...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 55b0ebf9d6320371  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_factor_.test_deprecated_ntheory_symbolic_functions","kind":"function","src_hash":"591fb776b3628b14","in":{"base":"Any"},"out":{"base":"Any","pred":"primenu(3) == 1 and primeomega(3) == 1 and totient(3) == 2 and reduced_totient(3) == 2 and divisor_sigma(3) == 4 and udivisor_sigma(3) == 4"},"spec":{"lhs":"test_deprecated_ntheory_symbolic_functions()","rhs":"test_deprecated_ntheory_symbolic_functions produces the expected output","over":{"base":"Any"},"name":"test_deprecated_ntheory_symbolic_functions_correct"},"guarantee":"test_deprecated_ntheory_symbolic_functions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_factor_.test_deprecated_ntheory_symbolic_functions_correct","statement":"Path(test_deprecated_ntheory_symbolic_functions(x), test_deprecated_ntheory_symbolic_functions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"55b0ebf9d6320371"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_factor_.test_deprecated_ntheory_symbolic_functions","kind":"function","src_hash":"591fb776b3628b14","in":{"base":"Any"},"out":{"base":"Any","pred":"primenu(3) == 1 and primeomega(3) == 1 and totient(3) == 2 and reduced_totient(3) == 2 and divisor_sigma(3) == 4 and udivisor_sigma(3) == 4"},"spec":{"lhs":"test_deprecated_ntheory_symbolic_functions()","rhs":"<unspecified:test_deprecated_ntheory_symbolic_functions>","over":{"base":"Any"},"name":"test_deprecated_ntheory_symbolic_functions_correct"},"guarantee":"test_deprecated_ntheory_symbolic_functions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_factor_.test_deprecated_ntheory_symbolic_functions_correct","statement":"Path(test_deprecated_ntheory_symbolic_functions(x), test_deprecated_ntheory_symbolic_functions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"55b0ebf9d6320371","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_deprecated_ntheory_symbolic_functions():
     from sympy.testing.pytest import warns_deprecated_sympy
 

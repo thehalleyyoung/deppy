@@ -30,9 +30,13 @@ default_styles = (
 
 slotClasses = (Symbol, Integer, Rational, Float)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(purestr(x, ), a string that follows ```obj = type(obj)(*obj.args)``` exactly) over {Any | isinstance(x, Basic)} ║
+# ║ Path(purestr(x, with_args), <unspecified:purestr>) over {Any | isinstance(x, Basic) and hasattr(x, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ purestr : {Any | isinstance(x, Basic)} → Any               ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(x, 'args')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ purestr : {Any | isinstance(x, Basic) and hasattr(x, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   Basic: {isinstance(x, Basic)} → library_axiom            ║
@@ -42,9 +46,12 @@ slotClasses = (Symbol, Integer, Rational, Float)
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.4ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | ca20c8e0...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.dot.purestr","kind":"function","src_hash":"241e69276fcdad85","in":{"base":"Any","pred":"isinstance(x, Basic)"},"out":{"base":"Any"},"spec":{"lhs":"purestr(x, )","rhs":"a string that follows ```obj = type(obj)(*obj.args)``` exactly","over":{"base":"Any","pred":"isinstance(x, Basic)"},"name":"purestr_correct"},"guarantee":"a string that follows ```obj = type(obj)(*obj.args)``` exactly","fibers":[{"name":"Basic","pred":"isinstance(x, Basic)","path":{"lhs":"purestr(x)","rhs":"a string that follows ```obj = type(obj)(*obj.args)``` exactly","over":{"base":"Basic","pred":"isinstance(x, Basic)"},"name":"purestr_Basic_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.dot.purestr_Basic_correct","statement":"purestr satisfies spec on Basic inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"ca20c8e0b0be05b7"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.dot.purestr","kind":"function","src_hash":"241e69276fcdad85","in":{"base":"Any","pred":"isinstance(x, Basic) and hasattr(x, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"purestr(x, with_args)","rhs":"<unspecified:purestr>","over":{"base":"Any","pred":"isinstance(x, Basic) and hasattr(x, 'args')"},"name":"purestr_correct"},"guarantee":"a string that follows ```obj = type(obj)(*obj.args)``` exactly","fibers":[{"name":"Basic","pred":"isinstance(x, Basic)","path":{"lhs":"purestr(x)","rhs":"a string that follows ```obj = type(obj)(*obj.args)``` exactly","over":{"base":"Basic","pred":"isinstance(x, Basic)"},"name":"purestr_Basic_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.dot.purestr_Basic_correct","statement":"purestr satisfies spec on Basic inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"ca20c8e0b0be05b7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(x, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["x.args"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.4,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'not isinstance(x, Basic)'}, fibers={'Basic'})"]}}
 def purestr(x, with_args=False):
     """A string that follows ```obj = type(obj)(*obj.args)``` exactly.
 
@@ -109,7 +116,10 @@ def purestr(x, with_args=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(styleof(exp), merge style dictionaries in order) over {Any | isinstance(expr, typ)} ║
+# ║ Path(styleof(expr, styles), <unspecified:styleof>) over {Any | isinstance(expr, typ)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ styleof : {Any | isinstance(expr, typ)} → Any              ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -121,9 +131,12 @@ def purestr(x, with_args=False):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 0.9ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 5519ca80...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.dot.styleof","kind":"function","src_hash":"b6fbf21920af5bf2","in":{"base":"Any","pred":"isinstance(expr, typ)"},"out":{"base":"Any"},"spec":{"lhs":"styleof(exp)","rhs":"merge style dictionaries in order","over":{"base":"Any","pred":"isinstance(expr, typ)"},"name":"styleof_correct"},"guarantee":"merge style dictionaries in order","fibers":[{"name":"typ","pred":"isinstance(expr, typ)","path":{"lhs":"styleof(x)","rhs":"merge style dictionaries in order","over":{"base":"typ","pred":"isinstance(expr, typ)"},"name":"styleof_typ_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.dot.styleof_typ_correct","statement":"styleof satisfies spec on typ inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"5519ca804975f834"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.dot.styleof","kind":"function","src_hash":"b6fbf21920af5bf2","in":{"base":"Any","pred":"isinstance(expr, typ)"},"out":{"base":"Any"},"spec":{"lhs":"styleof(expr, styles)","rhs":"<unspecified:styleof>","over":{"base":"Any","pred":"isinstance(expr, typ)"},"name":"styleof_correct"},"guarantee":"merge style dictionaries in order","fibers":[{"name":"typ","pred":"isinstance(expr, typ)","path":{"lhs":"styleof(x)","rhs":"merge style dictionaries in order","over":{"base":"typ","pred":"isinstance(expr, typ)"},"name":"styleof_typ_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.dot.styleof_typ_correct","statement":"styleof satisfies spec on typ inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"5519ca804975f834","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.9,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(expr, typ)'}, fibers={'typ'})"]}}
 def styleof(expr, styles=default_styles):
     """ Merge style dictionaries in order
 
@@ -150,16 +163,24 @@ def styleof(expr, styles=default_styles):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(attrprint(d, ), print a dictionary of attributes) over Any ║
+# ║ Path(attrprint(d, delimiter), delimiter.join(('"%s"="%s"' % item for item in sorted(d.items())))) over {Any | hasattr(delimiter, 'join') and hasattr(d, 'items')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ attrprint : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(delimiter, 'join')                     ║
+# ║   requires: hasattr(d, 'items')                            ║
+# ║   returns:  delimiter.join(('"%s"="%s"' % item for it...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ attrprint : {Any | hasattr(delimiter, 'join') and has...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7aa120b382df1071           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.dot.attrprint","kind":"function","src_hash":"c2e833e893ea3506","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"attrprint(d, )","rhs":"print a dictionary of attributes","over":{"base":"Any"},"name":"attrprint_correct"},"guarantee":"print a dictionary of attributes","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7aa120b382df1071"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.dot.attrprint","kind":"function","src_hash":"c2e833e893ea3506","in":{"base":"Any","pred":"hasattr(delimiter, 'join') and hasattr(d, 'items')"},"out":{"base":"Any"},"spec":{"lhs":"attrprint(d, delimiter)","rhs":"delimiter.join(('\"%s\"=\"%s\"' % item for item in sorted(d.items())))","over":{"base":"Any","pred":"hasattr(delimiter, 'join') and hasattr(d, 'items')"},"name":"attrprint_correct"},"guarantee":"returns delimiter.join(('\"%s\"=\"%s\"' % item for item in sorted(d.items())))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7aa120b382df1071","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(delimiter, 'join')","hasattr(d, 'items')"],"returns_expr":"delimiter.join(('\"%s\"=\"%s\"' % item for item in sorted(d.items())))","pure":false,"effects":{"effect_type":"reads_state","reads":["d.items","delimiter.join"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":true}}
 def attrprint(d, delimiter=', '):
     """ Print a dictionary of attributes
 
@@ -174,9 +195,13 @@ def attrprint(d, delimiter=', '):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dotnode(exp), string defining a node) over {Any | isinstance(expr, Basic)} ║
+# ║ Path(dotnode(expr, styles, labelfunc), '"%s" [%s];' % (expr_str, attrprint(style))) over {Any | isinstance(expr, Basic) and hasattr(expr, 'is_Atom')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dotnode : {Any | isinstance(expr, Basic)} → Any            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'is_Atom')                       ║
+# ║   returns:  '"%s" [%s];' % (expr_str, attrprint(style))    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dotnode : {Any | isinstance(expr, Basic) and hasattr(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   Basic: {isinstance(expr, Basic)} → library_axiom         ║
@@ -186,9 +211,12 @@ def attrprint(d, delimiter=', '):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 7f2d42db...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.dot.dotnode","kind":"function","src_hash":"65c75b8b8dfcf4a1","in":{"base":"Any","pred":"isinstance(expr, Basic)"},"out":{"base":"Any"},"spec":{"lhs":"dotnode(exp)","rhs":"string defining a node","over":{"base":"Any","pred":"isinstance(expr, Basic)"},"name":"dotnode_correct"},"guarantee":"string defining a node","fibers":[{"name":"Basic","pred":"isinstance(expr, Basic)","path":{"lhs":"dotnode(x)","rhs":"string defining a node","over":{"base":"Basic","pred":"isinstance(expr, Basic)"},"name":"dotnode_Basic_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.dot.dotnode_Basic_correct","statement":"dotnode satisfies spec on Basic inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"7f2d42db32d3c077"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.dot.dotnode","kind":"function","src_hash":"65c75b8b8dfcf4a1","in":{"base":"Any","pred":"isinstance(expr, Basic) and hasattr(expr, 'is_Atom')"},"out":{"base":"Any"},"spec":{"lhs":"dotnode(expr, styles, labelfunc)","rhs":"'\"%s\" [%s];' % (expr_str, attrprint(style))","over":{"base":"Any","pred":"isinstance(expr, Basic) and hasattr(expr, 'is_Atom')"},"name":"dotnode_correct"},"guarantee":"returns '\"%s\" [%s];' % (expr_str, attrprint(style))","fibers":[{"name":"Basic","pred":"isinstance(expr, Basic)","path":{"lhs":"dotnode(x)","rhs":"returns '\"%s\" [%s];' % (expr_str, attrprint(style))","over":{"base":"Basic","pred":"isinstance(expr, Basic)"},"name":"dotnode_Basic_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.dot.dotnode_Basic_correct","statement":"dotnode satisfies spec on Basic inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"7f2d42db32d3c077","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'is_Atom')"],"returns_expr":"'\"%s\" [%s];' % (expr_str, attrprint(style))","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","expr.__class__","expr.is_Atom"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(expr, Basic) and (not expr.is_Atom)'}, fibers={'Basic'})"]}}
 def dotnode(expr, styles=default_styles, labelfunc=str, pos=(), repeat=True):
     """ String defining a node
 
@@ -214,9 +242,15 @@ def dotnode(expr, styles=default_styles, labelfunc=str, pos=(), repeat=True):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dotedges(exp), list of strings for all expr->expr.arg pairs) over {Any | isinstance(x, Basic)} ║
+# ║ Path(dotedges(expr, atom, pos), result == ([] if atom(expr) else ['"%s" -> "%s";' % (expr_str, a) for a in arg_strs]) and result == [] or result == ['"%s" -> "%s";' % (expr_str, a) for a in arg_strs]) over {Any | isinstance(x, Basic)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dotedges : {Any | isinstance(x, Basic)} → Any              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == ([] if atom(expr) else ['"%s" -...   ║
+# ║   ensures:  result == [] or result == ['"%s" -> "%s";...   ║
+# ║   fiber[case_0]: atom(expr) => []                          ║
+# ║   fiber[case_1]: not (atom(expr)) => ['"%s" -> "%s";'...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dotedges : {Any | isinstance(x, Basic)} → {Any | resu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   Basic: {isinstance(x, Basic)} → library_axiom            ║
@@ -226,9 +260,12 @@ def dotnode(expr, styles=default_styles, labelfunc=str, pos=(), repeat=True):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 5afe53b7...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.dot.dotedges","kind":"function","src_hash":"84ce661322d47731","in":{"base":"Any","pred":"isinstance(x, Basic)"},"out":{"base":"Any"},"spec":{"lhs":"dotedges(exp)","rhs":"list of strings for all expr->expr.arg pairs","over":{"base":"Any","pred":"isinstance(x, Basic)"},"name":"dotedges_correct"},"guarantee":"list of strings for all expr->expr.arg pairs","fibers":[{"name":"Basic","pred":"isinstance(x, Basic)","path":{"lhs":"dotedges(x)","rhs":"list of strings for all expr->expr.arg pairs","over":{"base":"Basic","pred":"isinstance(x, Basic)"},"name":"dotedges_Basic_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.dot.dotedges_Basic_correct","statement":"dotedges satisfies spec on Basic inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"5afe53b70ea56dc4"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.dot.dotedges","kind":"function","src_hash":"84ce661322d47731","in":{"base":"Any","pred":"isinstance(x, Basic)"},"out":{"base":"Any","pred":"result satisfies: result == ([] if atom(expr) else ['\"%s\" -> \"%s\";' % (expr_str, a) for a in arg_strs]) and result == [] or result == ['\"%s\" -> \"%s\";' % (expr_str, a) for a in arg_strs]"},"spec":{"lhs":"dotedges(expr, atom, pos)","rhs":"result == ([] if atom(expr) else ['\"%s\" -> \"%s\";' % (expr_str, a) for a in arg_strs]) and result == [] or result == ['\"%s\" -> \"%s\";' % (expr_str, a) for a in arg_strs]","over":{"base":"Any","pred":"isinstance(x, Basic)"},"name":"dotedges_correct"},"guarantee":"result == ([] if atom(expr) else ['\"%s\" -> \"%s\";' % (expr_str, a) for a in arg_strs]); result == [] or result == ['\"%s\" -> \"%s\";' % (expr_str, a) for a in arg_strs]; 2-fiber decomposition","fibers":[{"name":"Basic","pred":"isinstance(x, Basic)","path":{"lhs":"dotedges(x)","rhs":"result == ([] if atom(expr) else ['\"%s\" -> \"%s\";' % (expr_str, a) for a in arg_strs]); result == [] or result == ['\"%s\" -> \"%s\";' % (expr_str, a) for a in arg_strs]; 2-fiber decomposition","over":{"base":"Basic","pred":"isinstance(x, Basic)"},"name":"dotedges_Basic_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.dot.dotedges_Basic_correct","statement":"dotedges satisfies spec on Basic inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"5afe53b70ea56dc4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == ([] if atom(expr) else ['\"%s\" -> \"%s\";' % (expr_str, a) for a in arg_strs])","result == [] or result == ['\"%s\" -> \"%s\";' % (expr_str, a) for a in arg_strs]"],"fibers":[{"name":"case_0","guard":"atom(expr)","ensures":["result == []"],"decidability":"library","returns_expr":"[]"},{"name":"case_1","guard":"not (atom(expr))","ensures":["result == ['\"%s\" -> \"%s\";' % (expr_str, a) for a in arg_strs]"],"decidability":"library","returns_expr":"['\"%s\" -> \"%s\";' % (expr_str, a) for a in arg_strs]"}],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"failed","binding":true}}
 def dotedges(expr, atom=lambda x: not isinstance(x, Basic), pos=(), repeat=True):
     """ List of strings for all expr->expr.arg pairs
 
@@ -276,7 +313,10 @@ template = \
 _graphstyle = {'rankdir': 'TD', 'ordering': 'out'}
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dotprint(exp), dot description of a sympy expression tree) over {Any | isinstance(x, Basic)} ║
+# ║ Path(dotprint(expr, styles, atom), template % {'graphstyle': attrprint(graphstyle, delimiter='\n'), 'nodes': '\n'.join(nodes), 'edges': '\n'.join(edges)}) over {Any | isinstance(x, Basic)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  template % {'graphstyle': attrprint(graph...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dotprint : {Any | isinstance(x, Basic)} → Any              ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -288,9 +328,12 @@ _graphstyle = {'rankdir': 'TD', 'ordering': 'out'}
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.2ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 2097758b...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.dot.dotprint","kind":"function","src_hash":"f5e1c7866c150f4c","in":{"base":"Any","pred":"isinstance(x, Basic)"},"out":{"base":"Any"},"spec":{"lhs":"dotprint(exp)","rhs":"dot description of a sympy expression tree","over":{"base":"Any","pred":"isinstance(x, Basic)"},"name":"dotprint_correct"},"guarantee":"dot description of a sympy expression tree","fibers":[{"name":"Basic","pred":"isinstance(x, Basic)","path":{"lhs":"dotprint(x)","rhs":"dot description of a sympy expression tree","over":{"base":"Basic","pred":"isinstance(x, Basic)"},"name":"dotprint_Basic_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.dot.dotprint_Basic_correct","statement":"dotprint satisfies spec on Basic inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"2097758b38ac5cba"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.dot.dotprint","kind":"function","src_hash":"f5e1c7866c150f4c","in":{"base":"Any","pred":"isinstance(x, Basic)"},"out":{"base":"Any"},"spec":{"lhs":"dotprint(expr, styles, atom)","rhs":"template % {'graphstyle': attrprint(graphstyle, delimiter='\\n'), 'nodes': '\\n'.join(nodes), 'edges': '\\n'.join(edges)}","over":{"base":"Any","pred":"isinstance(x, Basic)"},"name":"dotprint_correct"},"guarantee":"returns template % {'graphstyle': attrprint(graphstyle, delimiter='\\n'), 'nodes': '\\n'.join(nodes), 'edges': '\\n'.join(edges)}","fibers":[{"name":"Basic","pred":"isinstance(x, Basic)","path":{"lhs":"dotprint(x)","rhs":"returns template % {'graphstyle': attrprint(graphstyle, delimiter='\\n'), 'nodes': '\\n'.join(nodes), 'edges': '\\n'.join(edges)}","over":{"base":"Basic","pred":"isinstance(x, Basic)"},"name":"dotprint_Basic_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.dot.dotprint_Basic_correct","statement":"dotprint satisfies spec on Basic inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"2097758b38ac5cba","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"template % {'graphstyle': attrprint(graphstyle, delimiter='\\n'), 'nodes': '\\n'.join(nodes), 'edges': '\\n'.join(edges)}","pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.2,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['expr', 'styles', 'atom', 'maxdepth', 'repeat', 'labelfunc'], spec=['expr', 'styles', 'atom', 'maxdepth', 'repeat', 'labelfunc', '**kwargs']","Poor branch-fiber coverage: 0% (branches={'maxdepth and depth >= maxdepth'}, fibers={'Basic'})"]}}
 def dotprint(expr,
     styles=default_styles, atom=lambda x: not isinstance(x, Basic),
     maxdepth=None, repeat=True, labelfunc=str, **kwargs):

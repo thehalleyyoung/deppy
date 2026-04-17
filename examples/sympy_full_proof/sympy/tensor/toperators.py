@@ -26,14 +26,20 @@ from sympy.tensor.tensor import Tensor, TensExpr, TensAdd, TensMul
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(PartialDerivative(*args), correctly constructs a PartialDerivative instance) over {Any | isinstance(expr, PartialDerivative) and isinstance(i, Tensor) and isinstance(obj.expr, TensAdd)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, TensExpr)                     ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ PartialDerivative : {Any | isinstance(expr, PartialDe...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dbcd5b0ea0787922  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.toperators.PartialDerivative","kind":"class","src_hash":"f4d107b46c8ba04b","in":{"base":"Any","pred":"isinstance(expr, PartialDerivative) and isinstance(i, Tensor) and isinstance(obj.expr, TensAdd)"},"out":{"base":"Any"},"spec":{"lhs":"PartialDerivative(*args)","rhs":"correctly constructs a PartialDerivative instance","over":{"base":"Any","pred":"isinstance(expr, PartialDerivative) and isinstance(i, Tensor) and isinstance(obj.expr, TensAdd)"},"name":"PartialDerivative_class_invariant"},"guarantee":"correctly constructs a PartialDerivative instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dbcd5b0ea0787922"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.toperators.PartialDerivative","kind":"class","src_hash":"f4d107b46c8ba04b","in":{"base":"Any","pred":"isinstance(expr, PartialDerivative) and isinstance(i, Tensor) and isinstance(obj.expr, TensAdd)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, TensExpr)"},"spec":{"lhs":"PartialDerivative(*args)","rhs":"correctly constructs a PartialDerivative instance","over":{"base":"Any","pred":"isinstance(expr, PartialDerivative) and isinstance(i, Tensor) and isinstance(obj.expr, TensAdd)"},"name":"PartialDerivative_class_invariant"},"guarantee":"isinstance(self, TensExpr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dbcd5b0ea0787922","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, TensExpr)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function PartialDerivative not found in source"]}}
 class PartialDerivative(TensExpr):
     """
     Partial derivative for tensor expressions.
@@ -122,16 +128,24 @@ class PartialDerivative(TensExpr):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, expr, *variables), <unspecified:__new__>) over {Any | hasattr(expr, 'expr') and hasattr(expr, 'variables')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'expr')                          ║
+# ║   requires: hasattr(expr, 'variables')                     ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | hasattr(expr, 'expr') and hasattr(ex...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4b99b2c154c73ccb           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.toperators.PartialDerivative.__new__","kind":"method","src_hash":"83a615f16d8f7ea9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4b99b2c154c73ccb"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.toperators.PartialDerivative.__new__","kind":"method","src_hash":"83a615f16d8f7ea9","in":{"base":"Any","pred":"hasattr(expr, 'expr') and hasattr(expr, 'variables')"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, expr, *variables)","rhs":"<unspecified:__new__>","over":{"base":"Any","pred":"hasattr(expr, 'expr') and hasattr(expr, 'variables')"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4b99b2c154c73ccb","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'expr')","hasattr(expr, 'variables')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["cls._contract_indices_for_derivative","expr.expr","expr.variables"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, expr, *variables):
 
         # Flatten:
@@ -151,46 +165,65 @@ class PartialDerivative(TensExpr):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(coeff(), returns the coeff attribute) over Any        ║
+# ║ Path(coeff(), S.One) over Any                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  S.One                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ coeff : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ef0fc21ac1be3c3b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.toperators.PartialDerivative.coeff","kind":"property","src_hash":"3d13c0747698761a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"coeff()","rhs":"returns the coeff attribute","over":{"base":"Any"},"name":"coeff_correct"},"guarantee":"returns the coeff attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ef0fc21ac1be3c3b"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.toperators.PartialDerivative.coeff","kind":"property","src_hash":"3d13c0747698761a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"coeff()","rhs":"S.One","over":{"base":"Any"},"name":"coeff_correct"},"guarantee":"returns S.One","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ef0fc21ac1be3c3b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"S.One","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def coeff(self):
         return S.One
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(nocoeff(), returns the nocoeff attribute) over Any    ║
+# ║ Path(nocoeff(), self) over Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ nocoeff : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == self                                 ║
+# ║   returns:  self                                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ nocoeff : Any → {Any | result satisfies: result == (s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 336238d913b2dca9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.toperators.PartialDerivative.nocoeff","kind":"property","src_hash":"be17435814ef4c62","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"nocoeff()","rhs":"returns the nocoeff attribute","over":{"base":"Any"},"name":"nocoeff_correct"},"guarantee":"returns the nocoeff attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"336238d913b2dca9"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.toperators.PartialDerivative.nocoeff","kind":"property","src_hash":"be17435814ef4c62","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (self)"},"spec":{"lhs":"nocoeff()","rhs":"self","over":{"base":"Any"},"name":"nocoeff_correct"},"guarantee":"returns self; result == self","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"336238d913b2dca9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == self"],"returns_expr":"self","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def nocoeff(self):
         return self
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_contract_indices_for_derivative(cls), internal helper behaves correctly) over Any ║
+# ║ Path(_contract_indices_for_derivative(cls, expr, variables), (args, indices, free, dum)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (args, indices, free, dum)                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _contract_indices_for_derivative : Any → Any               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bb9c428a6c505afe  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f4e862657de2b703  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.toperators.PartialDerivative._contract_indices_for_derivative","kind":"classmethod","src_hash":"02042c43ef4a3797","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_contract_indices_for_derivative(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_contract_indices_for_derivative_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.toperators.PartialDerivative._contract_indices_for_derivative_correct","statement":"Path(_contract_indices_for_derivative(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bb9c428a6c505afe"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.toperators.PartialDerivative._contract_indices_for_derivative","kind":"classmethod","src_hash":"02042c43ef4a3797","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_contract_indices_for_derivative(cls, expr, variables)","rhs":"(args, indices, free, dum)","over":{"base":"Any"},"name":"_contract_indices_for_derivative_correct"},"guarantee":"returns (args, indices, free, dum)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.toperators.PartialDerivative._contract_indices_for_derivative_correct","statement":"Path(_contract_indices_for_derivative(x), returns (args, indices, free, dum))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f4e862657de2b703","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(args, indices, free, dum)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _contract_indices_for_derivative(cls, expr, variables):
         variables_opposite_valence = []
 
@@ -214,16 +247,22 @@ class PartialDerivative(TensExpr):
         return args, indices, free, dum
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(doit(**h), doit produces the expected output) over Any ║
+# ║ Path(doit(**hints), <unspecified:doit>) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ doit : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ea16348cdbb4a3f4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.toperators.PartialDerivative.doit","kind":"method","src_hash":"d2b2797bc4d3dbd1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"doit(**h)","rhs":"doit produces the expected output","over":{"base":"Any"},"name":"doit_correct"},"guarantee":"doit produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.toperators.PartialDerivative.doit_correct","statement":"Path(doit(x), doit produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ea16348cdbb4a3f4"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.toperators.PartialDerivative.doit","kind":"method","src_hash":"d2b2797bc4d3dbd1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"doit(**hints)","rhs":"<unspecified:doit>","over":{"base":"Any"},"name":"doit_correct"},"guarantee":"doit produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.toperators.PartialDerivative.doit_correct","statement":"Path(doit(x), doit produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ea16348cdbb4a3f4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._contract_indices_for_derivative","self.expr","self.func","self.variables"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def doit(self, **hints):
         args, indices, free, dum = self._contract_indices_for_derivative(self.expr, self.variables)
 
@@ -235,16 +274,24 @@ class PartialDerivative(TensExpr):
         return obj
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_expand_partial_derivative(), internal helper behaves correctly) over Any ║
+# ║ Path(_expand_partial_derivative(), <unspecified:_expand_partial_derivative>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: not args[0].free_symbols => S.Zero        ║
+# ║   fiber[case_1]: isinstance(obj.expr, TensAdd)             ║
+# ║   fiber[case_2]: isinstance(obj.expr, TensMul)             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _expand_partial_derivative : Any → Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c6cda00308b341f8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dd69534a76436f2a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.toperators.PartialDerivative._expand_partial_derivative","kind":"method","src_hash":"349b42573d4d7d76","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_expand_partial_derivative()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_expand_partial_derivative_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.toperators.PartialDerivative._expand_partial_derivative_correct","statement":"Path(_expand_partial_derivative(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c6cda00308b341f8"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.toperators.PartialDerivative._expand_partial_derivative","kind":"method","src_hash":"349b42573d4d7d76","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_expand_partial_derivative()","rhs":"<unspecified:_expand_partial_derivative>","over":{"base":"Any"},"name":"_expand_partial_derivative_correct"},"guarantee":"3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.toperators.PartialDerivative._expand_partial_derivative_correct","statement":"Path(_expand_partial_derivative(x), 3-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dd69534a76436f2a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"not args[0].free_symbols","ensures":["result == S.Zero"],"decidability":"library","returns_expr":"S.Zero"},{"name":"case_1","guard":"isinstance(obj.expr, TensAdd)","ensures":[],"decidability":"structural"},{"name":"case_2","guard":"isinstance(obj.expr, TensMul)","ensures":[],"decidability":"structural"}],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _expand_partial_derivative(self):
         args, indices, free, dum = self._contract_indices_for_derivative(self.expr, self.variables)
 
@@ -290,16 +337,22 @@ class PartialDerivative(TensExpr):
         return result
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_perform_derivative(), internal helper behaves correctly) over Any ║
+# ║ Path(_perform_derivative(), <unspecified:_perform_derivative>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _perform_derivative : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cdffd3e1a20bb684  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.toperators.PartialDerivative._perform_derivative","kind":"method","src_hash":"5e6cea039e1052ef","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_perform_derivative()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_perform_derivative_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.toperators.PartialDerivative._perform_derivative_correct","statement":"Path(_perform_derivative(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cdffd3e1a20bb684"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.toperators.PartialDerivative._perform_derivative","kind":"method","src_hash":"5e6cea039e1052ef","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_perform_derivative()","rhs":"<unspecified:_perform_derivative>","over":{"base":"Any"},"name":"_perform_derivative_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.toperators.PartialDerivative._perform_derivative_correct","statement":"Path(_perform_derivative(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cdffd3e1a20bb684","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.expr","self.variables"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _perform_derivative(self):
         result = self.expr
         for v in self.variables:
@@ -313,45 +366,64 @@ class PartialDerivative(TensExpr):
         return result
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_indices(), get_indices produces the expected output) over Any ║
+# ║ Path(get_indices(), self._indices) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._indices                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ get_indices : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | edccdeb252760609           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.toperators.PartialDerivative.get_indices","kind":"method","src_hash":"ccd5c57bbdb86946","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_indices()","rhs":"get_indices produces the expected output","over":{"base":"Any"},"name":"get_indices_correct"},"guarantee":"get_indices produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"edccdeb252760609"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.toperators.PartialDerivative.get_indices","kind":"method","src_hash":"ccd5c57bbdb86946","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_indices()","rhs":"self._indices","over":{"base":"Any"},"name":"get_indices_correct"},"guarantee":"returns self._indices","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"edccdeb252760609","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._indices","pure":false,"effects":{"effect_type":"reads_state","reads":["self._indices"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def get_indices(self):
         return self._indices
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_free_indices(), get_free_indices produces the expected output) over Any ║
+# ║ Path(get_free_indices(), [i[0] for i in free]) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [i[0] for i in free]                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ get_free_indices : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 55694e697dfbae21  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a65ab2473124a9e8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.toperators.PartialDerivative.get_free_indices","kind":"method","src_hash":"e588cacc5c9d268e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_free_indices()","rhs":"get_free_indices produces the expected output","over":{"base":"Any"},"name":"get_free_indices_correct"},"guarantee":"get_free_indices produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.toperators.PartialDerivative.get_free_indices_correct","statement":"Path(get_free_indices(x), get_free_indices produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"55694e697dfbae21"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.toperators.PartialDerivative.get_free_indices","kind":"method","src_hash":"e588cacc5c9d268e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_free_indices()","rhs":"[i[0] for i in free]","over":{"base":"Any"},"name":"get_free_indices_correct"},"guarantee":"returns [i[0] for i in free]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.toperators.PartialDerivative.get_free_indices_correct","statement":"Path(get_free_indices(x), returns [i[0] for i in free])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a65ab2473124a9e8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[i[0] for i in free]","pure":false,"effects":{"effect_type":"reads_state","reads":["self._free"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def get_free_indices(self):
         free = sorted(self._free, key=lambda x: x[1])
         return [i[0] for i in free]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_replace_indices(rep), internal helper behaves correctly) over Any ║
+# ║ Path(_replace_indices(repl), self.func(expr, *variables)) over {Any | hasattr(repl, 'items')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _replace_indices : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(repl, 'items')                         ║
+# ║   returns:  self.func(expr, *variables)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _replace_indices : {Any | hasattr(repl, 'items')} → Any    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 271cce2711ce52a0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b290be537a151c3b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.toperators.PartialDerivative._replace_indices","kind":"method","src_hash":"42c70152508a1419","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_replace_indices(rep)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_replace_indices_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.toperators.PartialDerivative._replace_indices_correct","statement":"Path(_replace_indices(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"271cce2711ce52a0"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.toperators.PartialDerivative._replace_indices","kind":"method","src_hash":"42c70152508a1419","in":{"base":"Any","pred":"hasattr(repl, 'items')"},"out":{"base":"Any"},"spec":{"lhs":"_replace_indices(repl)","rhs":"self.func(expr, *variables)","over":{"base":"Any","pred":"hasattr(repl, 'items')"},"name":"_replace_indices_correct"},"guarantee":"returns self.func(expr, *variables)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.toperators.PartialDerivative._replace_indices_correct","statement":"Path(_replace_indices(x), returns self.func(expr, *variables))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b290be537a151c3b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(repl, 'items')"],"returns_expr":"self.func(expr, *variables)","pure":false,"effects":{"effect_type":"reads_state","reads":["repl.items","self.expr","self.func","self.variables"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _replace_indices(self, repl):
         expr = self.expr.xreplace(repl)
         mirrored = {-k: -v for k, v in repl.items()}
@@ -360,45 +432,63 @@ class PartialDerivative(TensExpr):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(expr(), returns the expr attribute) over Any          ║
+# ║ Path(expr(), self.args[0]) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ expr : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6e5638dc2cedd301           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.toperators.PartialDerivative.expr","kind":"property","src_hash":"8e47c443b9fdeae3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"expr()","rhs":"returns the expr attribute","over":{"base":"Any"},"name":"expr_correct"},"guarantee":"returns the expr attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6e5638dc2cedd301"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.toperators.PartialDerivative.expr","kind":"property","src_hash":"8e47c443b9fdeae3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"expr()","rhs":"self.args[0]","over":{"base":"Any"},"name":"expr_correct"},"guarantee":"returns self.args[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6e5638dc2cedd301","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def expr(self):
         return self.args[0]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(variables(), returns the variables attribute) over Any ║
+# ║ Path(variables(), self.args[1:]) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[1:]                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ variables : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1f794e895cf97cfa           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.toperators.PartialDerivative.variables","kind":"property","src_hash":"0b20f509e3a70a0c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"variables()","rhs":"returns the variables attribute","over":{"base":"Any"},"name":"variables_correct"},"guarantee":"returns the variables attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1f794e895cf97cfa"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.toperators.PartialDerivative.variables","kind":"property","src_hash":"0b20f509e3a70a0c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"variables()","rhs":"self.args[1:]","over":{"base":"Any"},"name":"variables_correct"},"guarantee":"returns self.args[1:]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1f794e895cf97cfa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[1:]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def variables(self):
         return self.args[1:]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_extract_data(rep), internal helper behaves correctly) over Any ║
+# ║ Path(_extract_data(replacement_dict), (indices, array)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (indices, array)                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _extract_data : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cdae612556cff66c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 360cfa012cd9123d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.toperators.PartialDerivative._extract_data","kind":"method","src_hash":"9863ac38eaf634ef","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_extract_data(rep)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_extract_data_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.toperators.PartialDerivative._extract_data_correct","statement":"Path(_extract_data(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cdae612556cff66c"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.toperators.PartialDerivative._extract_data","kind":"method","src_hash":"9863ac38eaf634ef","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_extract_data(replacement_dict)","rhs":"(indices, array)","over":{"base":"Any"},"name":"_extract_data_correct"},"guarantee":"returns (indices, array)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.toperators.PartialDerivative._extract_data_correct","statement":"Path(_extract_data(x), returns (indices, array))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"360cfa012cd9123d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(indices, array)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _extract_data(self, replacement_dict):
         from .array import derive_by_array, tensorcontraction
         indices, array = self.expr._extract_data(replacement_dict)

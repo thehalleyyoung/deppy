@@ -19,16 +19,24 @@ from sympy.tensor.tensor import TensorIndexType, tensor_indices, TensorHead
 from sympy import I
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_printing_TensMul(), test_printing_TensMul produces the expected output) over Any ║
+# ║ Path(test_printing_TensMul(), repr(2 * K(p)) == '2*K(p)' and repr(-K(p)) == '-K(p)' and repr(-2 * K(p) * K(q)) == '-2*K(p)*K(q)' and repr(-I * K(p)) == '-I*K(p)' and repr(I * K(p)) == 'I*K(p)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_printing_TensMul : Any → {Any | repr(2 * K(p)) =...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  repr(2 * K(p)) == '2*K(p)'                     ║
+# ║   ensures:  repr(-K(p)) == '-K(p)'                         ║
+# ║   ensures:  repr(-2 * K(p) * K(q)) == '-2*K(p)*K(q)'       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_printing_TensMul : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 770b0e1ad70b76ef  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 09acdbf364007f77  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_printing.test_printing_TensMul","kind":"function","src_hash":"086063fa1df541db","in":{"base":"Any"},"out":{"base":"Any","pred":"repr(2 * K(p)) == '2*K(p)' and repr(-K(p)) == '-K(p)' and repr(-2 * K(p) * K(q)) == '-2*K(p)*K(q)' and repr(-I * K(p)) == '-I*K(p)' and repr(I * K(p)) == 'I*K(p)'"},"spec":{"lhs":"test_printing_TensMul()","rhs":"test_printing_TensMul produces the expected output","over":{"base":"Any"},"name":"test_printing_TensMul_correct"},"guarantee":"test_printing_TensMul produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_printing.test_printing_TensMul_correct","statement":"Path(test_printing_TensMul(x), test_printing_TensMul produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"770b0e1ad70b76ef"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_printing.test_printing_TensMul","kind":"function","src_hash":"086063fa1df541db","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: repr(2 * K(p)) == '2*K(p)' and repr(-K(p)) == '-K(p)' and repr(-2 * K(p) * K(q)) == '-2*K(p)*K(q)' and repr(-I * K(p)) == '-I*K(p)' and repr(I * K(p)) == 'I*K(p)'"},"spec":{"lhs":"test_printing_TensMul()","rhs":"repr(2 * K(p)) == '2*K(p)' and repr(-K(p)) == '-K(p)' and repr(-2 * K(p) * K(q)) == '-2*K(p)*K(q)' and repr(-I * K(p)) == '-I*K(p)' and repr(I * K(p)) == 'I*K(p)'","over":{"base":"Any"},"name":"test_printing_TensMul_correct"},"guarantee":"repr(2 * K(p)) == '2*K(p)'; repr(-K(p)) == '-K(p)'; repr(-2 * K(p) * K(q)) == '-2*K(p)*K(q)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_printing.test_printing_TensMul_correct","statement":"Path(test_printing_TensMul(x), repr(2 * K(p)) == '2*K(p)'; repr(-K(p)) == '-K(p)'; repr(-2 * K(p) * K(q)) == '-2*K(p)*K(q)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"09acdbf364007f77","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["repr(2 * K(p)) == '2*K(p)'","repr(-K(p)) == '-K(p)'","repr(-2 * K(p) * K(q)) == '-2*K(p)*K(q)'","repr(-I * K(p)) == '-I*K(p)'","repr(I * K(p)) == 'I*K(p)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_printing_TensMul():
     R3 = TensorIndexType('R3', dim=3)
     p, q = tensor_indices("p q", R3)

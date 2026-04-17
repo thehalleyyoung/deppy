@@ -42,30 +42,45 @@ from sympy.vector.orienters import (Orienter, AxisOrienter, BodyOrienter,
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(CoordSys3D(*args), correctly constructs a CoordSys3D instance) over {Any | isinstance(transformation, Tuple) and isinstance(curv_coord_name, str) and isinstance(orienters, Orienter)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Basic)                        ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ CoordSys3D : {Any | isinstance(transformation, Tuple)...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 4.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d901e0c47327d2d4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.coordsysrect.CoordSys3D","kind":"class","src_hash":"cf679a748dd0d17f","in":{"base":"Any","pred":"isinstance(transformation, Tuple) and isinstance(curv_coord_name, str) and isinstance(orienters, Orienter)"},"out":{"base":"Any"},"spec":{"lhs":"CoordSys3D(*args)","rhs":"correctly constructs a CoordSys3D instance","over":{"base":"Any","pred":"isinstance(transformation, Tuple) and isinstance(curv_coord_name, str) and isinstance(orienters, Orienter)"},"name":"CoordSys3D_class_invariant"},"guarantee":"correctly constructs a CoordSys3D instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d901e0c47327d2d4"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.coordsysrect.CoordSys3D","kind":"class","src_hash":"cf679a748dd0d17f","in":{"base":"Any","pred":"isinstance(transformation, Tuple) and isinstance(curv_coord_name, str) and isinstance(orienters, Orienter)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Basic)"},"spec":{"lhs":"CoordSys3D(*args)","rhs":"correctly constructs a CoordSys3D instance","over":{"base":"Any","pred":"isinstance(transformation, Tuple) and isinstance(curv_coord_name, str) and isinstance(orienters, Orienter)"},"name":"CoordSys3D_class_invariant"},"guarantee":"isinstance(self, Basic)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d901e0c47327d2d4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Basic)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":4.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function CoordSys3D not found in source"]}}
 class CoordSys3D(Basic):
     """
     Represents a coordinate system in 3-D space.
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), the orientation/location parameters are necessary if this system is being defined at a certain orientation or location wrt another) over Any ║
+# ║ Path(__new__(cls, name, transformation), <unspecified:__new__>) over {Any | isinstance(name, str) and hasattr(location, 'free_symbols') and hasattr(transformation, 'name') and hasattr(parent, 'origin') and hasattr(parent, 'lame_coefficients')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(name, str)                          ║
+# ║   requires: hasattr(location, 'free_symbols')              ║
+# ║   requires: hasattr(transformation, 'name')                ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | isinstance(name, str) and hasattr(lo...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1a0c38e72cafd096           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.coordsysrect.CoordSys3D.__new__","kind":"method","src_hash":"4bd8bc8ec569130f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"the orientation/location parameters are necessary if this system is being defined at a certain orientation or location wrt another","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"the orientation/location parameters are necessary if this system is being defined at a certain orientation or location wrt another","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1a0c38e72cafd096"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.coordsysrect.CoordSys3D.__new__","kind":"method","src_hash":"4bd8bc8ec569130f","in":{"base":"Any","pred":"isinstance(name, str) and hasattr(location, 'free_symbols') and hasattr(transformation, 'name') and hasattr(parent, 'origin') and hasattr(parent, 'lame_coefficients')"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, name, transformation)","rhs":"<unspecified:__new__>","over":{"base":"Any","pred":"isinstance(name, str) and hasattr(location, 'free_symbols') and hasattr(transformation, 'name') and hasattr(parent, 'origin') and hasattr(parent, 'lame_coefficients')"},"name":"__new___correct"},"guarantee":"the orientation/location parameters are necessary if this system is being defined at a certain orientation or location wrt another","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1a0c38e72cafd096","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(name, str)","hasattr(location, 'free_symbols')","hasattr(transformation, 'name')","hasattr(parent, 'origin')","hasattr(parent, 'lame_coefficients')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["location.free_symbols","parent.lame_coefficients","parent.origin","rotation_matrix.as_immutable","transformation.name"],"raises":["TypeError","ValueError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, name, transformation=None, parent=None, location=None,
                 rotation_matrix=None, vector_names=None, variable_names=None):
         """
@@ -291,45 +306,67 @@ class CoordSys3D(Basic):
         return obj
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_sympystr(pri), internal helper behaves correctly) over Any ║
+# ║ Path(_sympystr(printer), self._name) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._name                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _sympystr : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 49db7efc076aa259           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.coordsysrect.CoordSys3D._sympystr","kind":"method","src_hash":"81dccc04ff69b929","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sympystr(pri)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_sympystr_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"49db7efc076aa259"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.coordsysrect.CoordSys3D._sympystr","kind":"method","src_hash":"81dccc04ff69b929","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sympystr(printer)","rhs":"self._name","over":{"base":"Any"},"name":"_sympystr_correct"},"guarantee":"returns self._name","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"49db7efc076aa259","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._name","pure":false,"effects":{"effect_type":"reads_state","reads":["self._name"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _sympystr(self, printer):
         return self._name
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__iter__(), yields all elements in order) over Any    ║
+# ║ Path(__iter__(), iter(self.base_vectors())) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  iter(self.base_vectors())                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __iter__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7121d95f32290468           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.coordsysrect.CoordSys3D.__iter__","kind":"method","src_hash":"6774a0ccf9cd06c7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__iter__()","rhs":"yields all elements in order","over":{"base":"Any"},"name":"__iter___correct"},"guarantee":"yields all elements in order","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7121d95f32290468"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.coordsysrect.CoordSys3D.__iter__","kind":"method","src_hash":"6774a0ccf9cd06c7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__iter__()","rhs":"iter(self.base_vectors())","over":{"base":"Any"},"name":"__iter___correct"},"guarantee":"returns iter(self.base_vectors())","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7121d95f32290468","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"iter(self.base_vectors())","pure":false,"effects":{"effect_type":"reads_state","reads":["self.base_vectors"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __iter__(self):
         return iter(self.base_vectors())
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_check_orthogonality(equ), helper method for _connect_to_cartesian) over Any ║
+# ║ Path(_check_orthogonality(equations), result == (False if any((simplify(i[0] + i[1] + i[2]) == 0 for i in (v1, v2, v3))) else True if simplify(v1.dot(v2)) == 0 and simplify(v2.dot(v3)) == 0 and (simplify(v3.dot(v1)) == 0) else False) and result == False or result == True) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _check_orthogonality : Any → Any                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (False if any((simplify(i[0] + ...   ║
+# ║   ensures:  result == False or result == True              ║
+# ║   fiber[zero_or_none]: any((simplify(i[0] + i[1] + i[...   ║
+# ║   fiber[zero_or_none]: simplify(v1.dot(v2)) == 0 and ...   ║
+# ║   fiber[zero_or_none]: not (any((simplify(i[0] + i[1]...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _check_orthogonality : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 84ecd4b41d37862d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 08bc216e4c26b1d1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.coordsysrect.CoordSys3D._check_orthogonality","kind":"staticmethod","src_hash":"1850dd5fc75703e6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_check_orthogonality(equ)","rhs":"helper method for _connect_to_cartesian","over":{"base":"Any"},"name":"_check_orthogonality_correct"},"guarantee":"helper method for _connect_to_cartesian","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.coordsysrect.CoordSys3D._check_orthogonality_correct","statement":"Path(_check_orthogonality(x), helper method for _connect_to_cartesian)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"84ecd4b41d37862d"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.coordsysrect.CoordSys3D._check_orthogonality","kind":"staticmethod","src_hash":"1850dd5fc75703e6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (False if any((simplify(i[0] + i[1] + i[2]) == 0 for i in (v1, v2, v3))) else True if simplify(v1.dot(v2)) == 0 and simplify(v2.dot(v3)) == 0 and (simplify(v3.dot(v1)) == 0) else False) and result == False or result == True"},"spec":{"lhs":"_check_orthogonality(equations)","rhs":"result == (False if any((simplify(i[0] + i[1] + i[2]) == 0 for i in (v1, v2, v3))) else True if simplify(v1.dot(v2)) == 0 and simplify(v2.dot(v3)) == 0 and (simplify(v3.dot(v1)) == 0) else False) and result == False or result == True","over":{"base":"Any"},"name":"_check_orthogonality_correct"},"guarantee":"result == (False if any((simplify(i[0] + i[1] + i[2]) == 0 for i in (v1, v2, v3))) else True if simplify(v1.dot(v2)) == 0 and simplify(v2.dot(v3)) == 0 and (simplify(v3.dot(v1)) == 0) else False); result == False or result == True; 3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.coordsysrect.CoordSys3D._check_orthogonality_correct","statement":"Path(_check_orthogonality(x), result == (False if any((simplify(i[0] + i[1] + i[2]) == 0 for i in (v1, v2, v3))) else True if simplify(v1.dot(v2)) == 0 and simplify(v2.dot(v3)) == 0 and (simplify(v3.dot(v1)) == 0) else False); result == False or result == True; 3-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"08bc216e4c26b1d1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (False if any((simplify(i[0] + i[1] + i[2]) == 0 for i in (v1, v2, v3))) else True if simplify(v1.dot(v2)) == 0 and simplify(v2.dot(v3)) == 0 and (simplify(v3.dot(v1)) == 0) else False)","result == False or result == True"],"fibers":[{"name":"zero_or_none","guard":"any((simplify(i[0] + i[1] + i[2]) == 0 for i in (v1, v2, v3)))","ensures":["result == False"],"decidability":"z3","returns_expr":"False"},{"name":"zero_or_none","guard":"simplify(v1.dot(v2)) == 0 and simplify(v2.dot(v3)) == 0 and (simplify(v3.dot(v1)) == 0)","ensures":["result == True"],"decidability":"z3","returns_expr":"True"},{"name":"zero_or_none","guard":"not (any((simplify(i[0] + i[1] + i[2]) == 0 for i in (v1, v2, v3)))) and not (simplify(v1.dot(v2)) == 0 and simplify(v2.dot(v3)) == 0 and (simplify(v3.dot(v1)) == 0))","ensures":["result == False"],"decidability":"z3","returns_expr":"False"}],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _check_orthogonality(equations):
         """
         Helper method for _connect_to_cartesian. It checks if
@@ -366,16 +403,22 @@ class CoordSys3D(Basic):
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_set_inv_trans_equations(cur), store information about inverse transformation equations for pre-defined coordinate systems) over Any ║
+# ║ Path(_set_inv_trans_equations(curv_coord_name), <unspecified:_set_inv_trans_equations>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _set_inv_trans_equations : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bc1a6aec3eec4061  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.coordsysrect.CoordSys3D._set_inv_trans_equations","kind":"staticmethod","src_hash":"3f6e5286c8457afc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_set_inv_trans_equations(cur)","rhs":"store information about inverse transformation equations for pre-defined coordinate systems","over":{"base":"Any"},"name":"_set_inv_trans_equations_correct"},"guarantee":"store information about inverse transformation equations for pre-defined coordinate systems","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.coordsysrect.CoordSys3D._set_inv_trans_equations_correct","statement":"Path(_set_inv_trans_equations(x), store information about inverse transformation equations for pre-defined coordinate systems)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bc1a6aec3eec4061"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.coordsysrect.CoordSys3D._set_inv_trans_equations","kind":"staticmethod","src_hash":"3f6e5286c8457afc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_set_inv_trans_equations(curv_coord_name)","rhs":"<unspecified:_set_inv_trans_equations>","over":{"base":"Any"},"name":"_set_inv_trans_equations_correct"},"guarantee":"store information about inverse transformation equations for pre-defined coordinate systems","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.coordsysrect.CoordSys3D._set_inv_trans_equations_correct","statement":"Path(_set_inv_trans_equations(x), store information about inverse transformation equations for pre-defined coordinate systems)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bc1a6aec3eec4061","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _set_inv_trans_equations(curv_coord_name):
         """
         Store information about inverse transformation equations for
@@ -407,16 +450,22 @@ class CoordSys3D(Basic):
                          'Type of coordinate system is defined')
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_calculate_inv_trans_equations(), helper method for set_coordinate_type) over Any ║
+# ║ Path(_calculate_inv_trans_equations(), <unspecified:_calculate_inv_trans_equations>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _calculate_inv_trans_equations : Any → Any                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0209bbcc73d53d1f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.coordsysrect.CoordSys3D._calculate_inv_trans_equations","kind":"method","src_hash":"eaa0d01f209bf0c4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_calculate_inv_trans_equations()","rhs":"helper method for set_coordinate_type","over":{"base":"Any"},"name":"_calculate_inv_trans_equations_correct"},"guarantee":"helper method for set_coordinate_type","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.coordsysrect.CoordSys3D._calculate_inv_trans_equations_correct","statement":"Path(_calculate_inv_trans_equations(x), helper method for set_coordinate_type)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0209bbcc73d53d1f"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.coordsysrect.CoordSys3D._calculate_inv_trans_equations","kind":"method","src_hash":"eaa0d01f209bf0c4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_calculate_inv_trans_equations()","rhs":"<unspecified:_calculate_inv_trans_equations>","over":{"base":"Any"},"name":"_calculate_inv_trans_equations_correct"},"guarantee":"helper method for set_coordinate_type","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.coordsysrect.CoordSys3D._calculate_inv_trans_equations_correct","statement":"Path(_calculate_inv_trans_equations(x), helper method for set_coordinate_type)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0209bbcc73d53d1f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._transformation"],"writes":["self._transformation_from_parent_lambda"]},"state_contract":{"modifies":["self._transformation_from_parent_lambda"],"old_bindings":{"old_self__transformation_from_parent_lambda":"self._transformation_from_parent_lambda"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _calculate_inv_trans_equations(self):
         """
         Helper method for set_coordinate_type. It calculates inverse
@@ -437,16 +486,22 @@ class CoordSys3D(Basic):
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_lame_coeff(cur), store information about lame coefficients for pre-defined coordinate systems) over Any ║
+# ║ Path(_get_lame_coeff(curv_coord_name), <unspecified:_get_lame_coeff>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_lame_coeff : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 402055140fa48115  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.coordsysrect.CoordSys3D._get_lame_coeff","kind":"staticmethod","src_hash":"6a680b81360bcbff","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_lame_coeff(cur)","rhs":"store information about lame coefficients for pre-defined coordinate systems","over":{"base":"Any"},"name":"_get_lame_coeff_correct"},"guarantee":"store information about lame coefficients for pre-defined coordinate systems","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.coordsysrect.CoordSys3D._get_lame_coeff_correct","statement":"Path(_get_lame_coeff(x), store information about lame coefficients for pre-defined coordinate systems)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"402055140fa48115"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.coordsysrect.CoordSys3D._get_lame_coeff","kind":"staticmethod","src_hash":"6a680b81360bcbff","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_lame_coeff(curv_coord_name)","rhs":"<unspecified:_get_lame_coeff>","over":{"base":"Any"},"name":"_get_lame_coeff_correct"},"guarantee":"store information about lame coefficients for pre-defined coordinate systems","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.coordsysrect.CoordSys3D._get_lame_coeff_correct","statement":"Path(_get_lame_coeff(x), store information about lame coefficients for pre-defined coordinate systems)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"402055140fa48115","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_lame_coeff(curv_coord_name):
         """
         Store information about Lame coefficients for pre-defined
@@ -472,16 +527,22 @@ class CoordSys3D(Basic):
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_calculate_lame_coeff(equ), it calculates lame coefficients for given transformations equations) over Any ║
+# ║ Path(_calculate_lame_coeff(equations), <unspecified:_calculate_lame_coeff>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _calculate_lame_coeff : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5068b2ca05cdf12e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.coordsysrect.CoordSys3D._calculate_lame_coeff","kind":"staticmethod","src_hash":"0b0ab526f09141f4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_calculate_lame_coeff(equ)","rhs":"it calculates lame coefficients for given transformations equations","over":{"base":"Any"},"name":"_calculate_lame_coeff_correct"},"guarantee":"it calculates lame coefficients for given transformations equations","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.coordsysrect.CoordSys3D._calculate_lame_coeff_correct","statement":"Path(_calculate_lame_coeff(x), it calculates lame coefficients for given transformations equations)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5068b2ca05cdf12e"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.coordsysrect.CoordSys3D._calculate_lame_coeff","kind":"staticmethod","src_hash":"0b0ab526f09141f4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_calculate_lame_coeff(equations)","rhs":"<unspecified:_calculate_lame_coeff>","over":{"base":"Any"},"name":"_calculate_lame_coeff_correct"},"guarantee":"it calculates lame coefficients for given transformations equations","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.coordsysrect.CoordSys3D._calculate_lame_coeff_correct","statement":"Path(_calculate_lame_coeff(x), it calculates lame coefficients for given transformations equations)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5068b2ca05cdf12e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _calculate_lame_coeff(equations):
         """
         It calculates Lame coefficients
@@ -507,16 +568,22 @@ class CoordSys3D(Basic):
                       )
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_inverse_rotation_matrix(), returns inverse rotation matrix) over Any ║
+# ║ Path(_inverse_rotation_matrix(), simplify(self._parent_rotation_matrix ** (-1))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  simplify(self._parent_rotation_matrix ** ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _inverse_rotation_matrix : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c877f552628db897           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.coordsysrect.CoordSys3D._inverse_rotation_matrix","kind":"method","src_hash":"b9f995c7b9fdc4cd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_inverse_rotation_matrix()","rhs":"returns inverse rotation matrix","over":{"base":"Any"},"name":"_inverse_rotation_matrix_correct"},"guarantee":"returns inverse rotation matrix","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c877f552628db897"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.coordsysrect.CoordSys3D._inverse_rotation_matrix","kind":"method","src_hash":"b9f995c7b9fdc4cd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_inverse_rotation_matrix()","rhs":"simplify(self._parent_rotation_matrix ** (-1))","over":{"base":"Any"},"name":"_inverse_rotation_matrix_correct"},"guarantee":"returns simplify(self._parent_rotation_matrix ** (-1))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c877f552628db897","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"simplify(self._parent_rotation_matrix ** (-1))","pure":false,"effects":{"effect_type":"reads_state","reads":["self._parent_rotation_matrix"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _inverse_rotation_matrix(self):
         """
         Returns inverse rotation matrix.
@@ -525,16 +592,22 @@ class CoordSys3D(Basic):
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_transformation_lambdas(cur), store information about transformation equations for pre-defined coordinate systems) over Any ║
+# ║ Path(_get_transformation_lambdas(curv_coord_name), <unspecified:_get_transformation_lambdas>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_transformation_lambdas : Any → Any                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e10cccfc468032ae  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.coordsysrect.CoordSys3D._get_transformation_lambdas","kind":"staticmethod","src_hash":"0b839362e19c965c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_transformation_lambdas(cur)","rhs":"store information about transformation equations for pre-defined coordinate systems","over":{"base":"Any"},"name":"_get_transformation_lambdas_correct"},"guarantee":"store information about transformation equations for pre-defined coordinate systems","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.coordsysrect.CoordSys3D._get_transformation_lambdas_correct","statement":"Path(_get_transformation_lambdas(x), store information about transformation equations for pre-defined coordinate systems)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e10cccfc468032ae"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.coordsysrect.CoordSys3D._get_transformation_lambdas","kind":"staticmethod","src_hash":"0b839362e19c965c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_transformation_lambdas(curv_coord_name)","rhs":"<unspecified:_get_transformation_lambdas>","over":{"base":"Any"},"name":"_get_transformation_lambdas_correct"},"guarantee":"store information about transformation equations for pre-defined coordinate systems","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.coordsysrect.CoordSys3D._get_transformation_lambdas_correct","statement":"Path(_get_transformation_lambdas(x), store information about transformation equations for pre-defined coordinate systems)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e10cccfc468032ae","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_transformation_lambdas(curv_coord_name):
         """
         Store information about transformation equations for pre-defined
@@ -567,16 +640,22 @@ class CoordSys3D(Basic):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_rotation_trans_equations(cls), returns the transformation equations obtained from rotation matrix) over Any ║
+# ║ Path(_rotation_trans_equations(cls, matrix, equations), tuple(matrix * Matrix(equations))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  tuple(matrix * Matrix(equations))              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _rotation_trans_equations : Any → Any                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d820f90f6305d8ad           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.coordsysrect.CoordSys3D._rotation_trans_equations","kind":"classmethod","src_hash":"3e17e8adeb8323fe","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_rotation_trans_equations(cls)","rhs":"returns the transformation equations obtained from rotation matrix","over":{"base":"Any"},"name":"_rotation_trans_equations_correct"},"guarantee":"returns the transformation equations obtained from rotation matrix","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d820f90f6305d8ad"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.coordsysrect.CoordSys3D._rotation_trans_equations","kind":"classmethod","src_hash":"3e17e8adeb8323fe","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_rotation_trans_equations(cls, matrix, equations)","rhs":"tuple(matrix * Matrix(equations))","over":{"base":"Any"},"name":"_rotation_trans_equations_correct"},"guarantee":"returns tuple(matrix * Matrix(equations))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d820f90f6305d8ad","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"tuple(matrix * Matrix(equations))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _rotation_trans_equations(cls, matrix, equations):
         """
         Returns the transformation equations obtained from rotation matrix.
@@ -595,86 +674,123 @@ class CoordSys3D(Basic):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(origin(), returns the origin attribute) over Any      ║
+# ║ Path(origin(), self._origin) over Any                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._origin                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ origin : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8e1327d3a47b1c2a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.coordsysrect.CoordSys3D.origin","kind":"property","src_hash":"efb0af024f1b3402","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"origin()","rhs":"returns the origin attribute","over":{"base":"Any"},"name":"origin_correct"},"guarantee":"returns the origin attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8e1327d3a47b1c2a"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.coordsysrect.CoordSys3D.origin","kind":"property","src_hash":"efb0af024f1b3402","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"origin()","rhs":"self._origin","over":{"base":"Any"},"name":"origin_correct"},"guarantee":"returns self._origin","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8e1327d3a47b1c2a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._origin","pure":false,"effects":{"effect_type":"reads_state","reads":["self._origin"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def origin(self):
         return self._origin
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(base_vectors(), base_vectors produces the expected output) over Any ║
+# ║ Path(base_vectors(), self._base_vectors) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._base_vectors                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ base_vectors : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 860bf5d39ffa7f00           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.coordsysrect.CoordSys3D.base_vectors","kind":"method","src_hash":"c3e4468697cc4cfa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"base_vectors()","rhs":"base_vectors produces the expected output","over":{"base":"Any"},"name":"base_vectors_correct"},"guarantee":"base_vectors produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"860bf5d39ffa7f00"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.coordsysrect.CoordSys3D.base_vectors","kind":"method","src_hash":"c3e4468697cc4cfa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"base_vectors()","rhs":"self._base_vectors","over":{"base":"Any"},"name":"base_vectors_correct"},"guarantee":"returns self._base_vectors","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"860bf5d39ffa7f00","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._base_vectors","pure":false,"effects":{"effect_type":"reads_state","reads":["self._base_vectors"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def base_vectors(self):
         return self._base_vectors
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(base_scalars(), base_scalars produces the expected output) over Any ║
+# ║ Path(base_scalars(), self._base_scalars) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._base_scalars                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ base_scalars : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c3561a89675c7235           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.coordsysrect.CoordSys3D.base_scalars","kind":"method","src_hash":"c2fe75cbc33198af","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"base_scalars()","rhs":"base_scalars produces the expected output","over":{"base":"Any"},"name":"base_scalars_correct"},"guarantee":"base_scalars produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c3561a89675c7235"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.coordsysrect.CoordSys3D.base_scalars","kind":"method","src_hash":"c2fe75cbc33198af","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"base_scalars()","rhs":"self._base_scalars","over":{"base":"Any"},"name":"base_scalars_correct"},"guarantee":"returns self._base_scalars","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c3561a89675c7235","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._base_scalars","pure":false,"effects":{"effect_type":"reads_state","reads":["self._base_scalars"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def base_scalars(self):
         return self._base_scalars
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(lame_coefficients(), lame_coefficients produces the expected output) over Any ║
+# ║ Path(lame_coefficients(), self._lame_coefficients) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._lame_coefficients                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ lame_coefficients : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d8a9d1438b4dbb06           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.coordsysrect.CoordSys3D.lame_coefficients","kind":"method","src_hash":"734d332a8d1c1bed","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"lame_coefficients()","rhs":"lame_coefficients produces the expected output","over":{"base":"Any"},"name":"lame_coefficients_correct"},"guarantee":"lame_coefficients produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d8a9d1438b4dbb06"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.coordsysrect.CoordSys3D.lame_coefficients","kind":"method","src_hash":"734d332a8d1c1bed","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"lame_coefficients()","rhs":"self._lame_coefficients","over":{"base":"Any"},"name":"lame_coefficients_correct"},"guarantee":"returns self._lame_coefficients","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d8a9d1438b4dbb06","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._lame_coefficients","pure":false,"effects":{"effect_type":"reads_state","reads":["self._lame_coefficients"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def lame_coefficients(self):
         return self._lame_coefficients
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(transformation_to_parent(), transformation_to_parent produces the expected output) over Any ║
+# ║ Path(transformation_to_parent(), self._transformation_lambda(*self.base_scalars())) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._transformation_lambda(*self.base_sc...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ transformation_to_parent : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 47393daa4d919a7a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.coordsysrect.CoordSys3D.transformation_to_parent","kind":"method","src_hash":"957a286b30c3172d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"transformation_to_parent()","rhs":"transformation_to_parent produces the expected output","over":{"base":"Any"},"name":"transformation_to_parent_correct"},"guarantee":"transformation_to_parent produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"47393daa4d919a7a"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.coordsysrect.CoordSys3D.transformation_to_parent","kind":"method","src_hash":"957a286b30c3172d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"transformation_to_parent()","rhs":"self._transformation_lambda(*self.base_scalars())","over":{"base":"Any"},"name":"transformation_to_parent_correct"},"guarantee":"returns self._transformation_lambda(*self.base_scalars())","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"47393daa4d919a7a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._transformation_lambda(*self.base_scalars())","pure":false,"effects":{"effect_type":"reads_state","reads":["self._transformation_lambda","self.base_scalars"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def transformation_to_parent(self):
         return self._transformation_lambda(*self.base_scalars())
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(transformation_from_parent(), transformation_from_parent produces the expected output) over Any ║
+# ║ Path(transformation_from_parent(), self._transformation_from_parent_lambda(*self._parent.base_scalars())) over {Any | not (self._parent is None)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ transformation_from_parent : Any → Any                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (self._parent is None)                     ║
+# ║   returns:  self._transformation_from_parent_lambda(*...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ transformation_from_parent : {Any | not (self._parent...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3886781826250666  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ceab7e3331c772fd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.coordsysrect.CoordSys3D.transformation_from_parent","kind":"method","src_hash":"4f1c34ae4a74c450","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"transformation_from_parent()","rhs":"transformation_from_parent produces the expected output","over":{"base":"Any"},"name":"transformation_from_parent_correct"},"guarantee":"transformation_from_parent produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.coordsysrect.CoordSys3D.transformation_from_parent_correct","statement":"Path(transformation_from_parent(x), transformation_from_parent produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3886781826250666"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.coordsysrect.CoordSys3D.transformation_from_parent","kind":"method","src_hash":"4f1c34ae4a74c450","in":{"base":"Any","pred":"not (self._parent is None)"},"out":{"base":"Any"},"spec":{"lhs":"transformation_from_parent()","rhs":"self._transformation_from_parent_lambda(*self._parent.base_scalars())","over":{"base":"Any","pred":"not (self._parent is None)"},"name":"transformation_from_parent_correct"},"guarantee":"returns self._transformation_from_parent_lambda(*self._parent.base_scalars())","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.coordsysrect.CoordSys3D.transformation_from_parent_correct","statement":"Path(transformation_from_parent(x), returns self._transformation_from_parent_lambda(*self._parent.base_scalars()))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ceab7e3331c772fd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (self._parent is None)"],"returns_expr":"self._transformation_from_parent_lambda(*self._parent.base_scalars())","pure":false,"effects":{"effect_type":"reads_state","reads":["self._parent","self._transformation_from_parent_lambda"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def transformation_from_parent(self):
         if self._parent is None:
             raise ValueError("no parent coordinate system, use "
@@ -683,30 +799,45 @@ class CoordSys3D(Basic):
                             *self._parent.base_scalars())
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(transformation_from_parent_function(), transformation_from_parent_function produces the expected output) over Any ║
+# ║ Path(transformation_from_parent_function(), self._transformation_from_parent_lambda) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._transformation_from_parent_lambda        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ transformation_from_parent_function : Any → Any            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 37e969855b729e02           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.coordsysrect.CoordSys3D.transformation_from_parent_function","kind":"method","src_hash":"34dad8a8a9cb387e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"transformation_from_parent_function()","rhs":"transformation_from_parent_function produces the expected output","over":{"base":"Any"},"name":"transformation_from_parent_function_correct"},"guarantee":"transformation_from_parent_function produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"37e969855b729e02"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.coordsysrect.CoordSys3D.transformation_from_parent_function","kind":"method","src_hash":"34dad8a8a9cb387e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"transformation_from_parent_function()","rhs":"self._transformation_from_parent_lambda","over":{"base":"Any"},"name":"transformation_from_parent_function_correct"},"guarantee":"returns self._transformation_from_parent_lambda","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"37e969855b729e02","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._transformation_from_parent_lambda","pure":false,"effects":{"effect_type":"reads_state","reads":["self._transformation_from_parent_lambda"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def transformation_from_parent_function(self):
         return self._transformation_from_parent_lambda
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rotation_matrix(oth), returns the direction cosine matrix(dcm), also known as the 'rotation matrix' of this coordinate system with respect to another system) over Any ║
+# ║ Path(rotation_matrix(other), <unspecified:rotation_matrix>) over {Any | isinstance(other, CoordSys3D) and hasattr(other, '_parent') and hasattr(other, '_parent_rotation_matrix')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ rotation_matrix : Any → Any                                ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(other, CoordSys3D)                  ║
+# ║   requires: hasattr(other, '_parent')                      ║
+# ║   requires: hasattr(other, '_parent_rotation_matrix')      ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ rotation_matrix : {Any | isinstance(other, CoordSys3D...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f4b3bb350301b73f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.coordsysrect.CoordSys3D.rotation_matrix","kind":"method","src_hash":"ab632d8b9a33e3e3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rotation_matrix(oth)","rhs":"returns the direction cosine matrix(dcm), also known as the 'rotation matrix' of this coordinate system with respect to another system","over":{"base":"Any"},"name":"rotation_matrix_correct"},"guarantee":"returns the direction cosine matrix(dcm), also known as the 'rotation matrix' of this coordinate system with respect to another system","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.coordsysrect.CoordSys3D.rotation_matrix_correct","statement":"Path(rotation_matrix(x), returns the direction cosine matrix(dcm), also known as the 'rotation matrix' of this coordinate system with respect to another system)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f4b3bb350301b73f"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.coordsysrect.CoordSys3D.rotation_matrix","kind":"method","src_hash":"ab632d8b9a33e3e3","in":{"base":"Any","pred":"isinstance(other, CoordSys3D) and hasattr(other, '_parent') and hasattr(other, '_parent_rotation_matrix')"},"out":{"base":"Any"},"spec":{"lhs":"rotation_matrix(other)","rhs":"<unspecified:rotation_matrix>","over":{"base":"Any","pred":"isinstance(other, CoordSys3D) and hasattr(other, '_parent') and hasattr(other, '_parent_rotation_matrix')"},"name":"rotation_matrix_correct"},"guarantee":"returns the direction cosine matrix(dcm), also known as the 'rotation matrix' of this coordinate system with respect to another system","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.coordsysrect.CoordSys3D.rotation_matrix_correct","statement":"Path(rotation_matrix(x), returns the direction cosine matrix(dcm), also known as the 'rotation matrix' of this coordinate system with respect to another system)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f4b3bb350301b73f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(other, CoordSys3D)","hasattr(other, '_parent')","hasattr(other, '_parent_rotation_matrix')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other._parent","other._parent_rotation_matrix","self._parent","self._parent_rotation_matrix"],"raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def rotation_matrix(self, other):
         """
         Returns the direction cosine matrix(DCM), also known as the
@@ -762,16 +893,22 @@ class CoordSys3D(Basic):
 
     @cacheit
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(position_wrt(oth), returns the position vector of the origin of this coordinate system with respect to another point/coordsys3d) over Any ║
+# ║ Path(position_wrt(other), self.origin.position_wrt(other)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.origin.position_wrt(other)                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ position_wrt : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d9db6905335b9930           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.coordsysrect.CoordSys3D.position_wrt","kind":"method","src_hash":"af011a8e964b500f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"position_wrt(oth)","rhs":"returns the position vector of the origin of this coordinate system with respect to another point/coordsys3d","over":{"base":"Any"},"name":"position_wrt_correct"},"guarantee":"returns the position vector of the origin of this coordinate system with respect to another point/coordsys3d","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d9db6905335b9930"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.coordsysrect.CoordSys3D.position_wrt","kind":"method","src_hash":"af011a8e964b500f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"position_wrt(other)","rhs":"self.origin.position_wrt(other)","over":{"base":"Any"},"name":"position_wrt_correct"},"guarantee":"returns self.origin.position_wrt(other)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d9db6905335b9930","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.origin.position_wrt(other)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.origin"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def position_wrt(self, other):
         """
         Returns the position vector of the origin of this coordinate
@@ -798,16 +935,23 @@ class CoordSys3D(Basic):
         return self.origin.position_wrt(other)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(scalar_map(oth), returns a dictionary which expresses the coordinate variables (base scalars) of this frame in terms of the variables of otherframe) over Any ║
+# ║ Path(scalar_map(other), {x: trigsimp(vars_matrix[i]) for i, x in enumerate(self.base_scalars())}) over {Any | hasattr(other, 'base_scalars')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ scalar_map : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, 'base_scalars')                 ║
+# ║   returns:  {x: trigsimp(vars_matrix[i]) for i, x in ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ scalar_map : {Any | hasattr(other, 'base_scalars')} →...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3e253dde9018f2da  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cf423d92b4936a27  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.coordsysrect.CoordSys3D.scalar_map","kind":"method","src_hash":"38c5925131d2efde","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"scalar_map(oth)","rhs":"returns a dictionary which expresses the coordinate variables (base scalars) of this frame in terms of the variables of otherframe","over":{"base":"Any"},"name":"scalar_map_correct"},"guarantee":"returns a dictionary which expresses the coordinate variables (base scalars) of this frame in terms of the variables of otherframe","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.coordsysrect.CoordSys3D.scalar_map_correct","statement":"Path(scalar_map(x), returns a dictionary which expresses the coordinate variables (base scalars) of this frame in terms of the variables of otherframe)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3e253dde9018f2da"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.coordsysrect.CoordSys3D.scalar_map","kind":"method","src_hash":"38c5925131d2efde","in":{"base":"Any","pred":"hasattr(other, 'base_scalars')"},"out":{"base":"Any"},"spec":{"lhs":"scalar_map(other)","rhs":"{x: trigsimp(vars_matrix[i]) for i, x in enumerate(self.base_scalars())}","over":{"base":"Any","pred":"hasattr(other, 'base_scalars')"},"name":"scalar_map_correct"},"guarantee":"returns {x: trigsimp(vars_matrix[i]) for i, x in enumerate(self.base_scalars())}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.coordsysrect.CoordSys3D.scalar_map_correct","statement":"Path(scalar_map(x), returns {x: trigsimp(vars_matrix[i]) for i, x in enumerate(self.base_scalars())})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cf423d92b4936a27","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, 'base_scalars')"],"returns_expr":"{x: trigsimp(vars_matrix[i]) for i, x in enumerate(self.base_scalars())}","pure":false,"effects":{"effect_type":"reads_state","reads":["other.base_scalars","self.base_scalars","self.position_wrt","self.rotation_matrix"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def scalar_map(self, other):
         """
         Returns a dictionary which expresses the coordinate variables
@@ -843,16 +987,22 @@ class CoordSys3D(Basic):
                 for i, x in enumerate(self.base_scalars())}
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(locate_new(nam), returns a coordsys3d with its origin located at the given position wrt this coordinate system's origin) over Any ║
+# ║ Path(locate_new(name, position, vector_names), CoordSys3D(name, location=position, vector_names=vector_names, variable_names=variable_names, parent=self)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  CoordSys3D(name, location=position, vecto...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ locate_new : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8ea393db23ecbf35  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8ef68ba9f9559170  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.coordsysrect.CoordSys3D.locate_new","kind":"method","src_hash":"fa2490aee16dd794","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"locate_new(nam)","rhs":"returns a coordsys3d with its origin located at the given position wrt this coordinate system's origin","over":{"base":"Any"},"name":"locate_new_correct"},"guarantee":"returns a coordsys3d with its origin located at the given position wrt this coordinate system's origin","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.coordsysrect.CoordSys3D.locate_new_correct","statement":"Path(locate_new(x), returns a coordsys3d with its origin located at the given position wrt this coordinate system's origin)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8ea393db23ecbf35"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.coordsysrect.CoordSys3D.locate_new","kind":"method","src_hash":"fa2490aee16dd794","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"locate_new(name, position, vector_names)","rhs":"CoordSys3D(name, location=position, vector_names=vector_names, variable_names=variable_names, parent=self)","over":{"base":"Any"},"name":"locate_new_correct"},"guarantee":"returns CoordSys3D(name, location=position, vector_names=vector_names, variable_names=variable_names, parent=self)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.coordsysrect.CoordSys3D.locate_new_correct","statement":"Path(locate_new(x), returns CoordSys3D(name, location=position, vector_names=vector_names, variable_names=variable_names, parent=self))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8ef68ba9f9559170","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"CoordSys3D(name, location=position, vector_names=vector_names, variable_names=variable_names, parent=self)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._variable_names","self._vector_names"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def locate_new(self, name, position, vector_names=None,
                    variable_names=None):
         """
@@ -895,16 +1045,23 @@ class CoordSys3D(Basic):
                           parent=self)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(orient_new(nam), creates a new coordsys3d oriented in the user-specified way with respect to this system) over Any ║
+# ║ Path(orient_new(name, orienters, location), CoordSys3D(name, rotation_matrix=final_matrix, vector_names=vector_names, variable_names=variable_names, location=location, parent=self)) over {Any | hasattr(orienters, 'rotation_matrix')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ orient_new : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(orienters, 'rotation_matrix')          ║
+# ║   returns:  CoordSys3D(name, rotation_matrix=final_ma...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ orient_new : {Any | hasattr(orienters, 'rotation_matr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e0bbe323f53bf93f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e2d88512557e0c60  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.coordsysrect.CoordSys3D.orient_new","kind":"method","src_hash":"fd24f56b046993b8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"orient_new(nam)","rhs":"creates a new coordsys3d oriented in the user-specified way with respect to this system","over":{"base":"Any"},"name":"orient_new_correct"},"guarantee":"creates a new coordsys3d oriented in the user-specified way with respect to this system","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.coordsysrect.CoordSys3D.orient_new_correct","statement":"Path(orient_new(x), creates a new coordsys3d oriented in the user-specified way with respect to this system)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e0bbe323f53bf93f"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.coordsysrect.CoordSys3D.orient_new","kind":"method","src_hash":"fd24f56b046993b8","in":{"base":"Any","pred":"hasattr(orienters, 'rotation_matrix')"},"out":{"base":"Any"},"spec":{"lhs":"orient_new(name, orienters, location)","rhs":"CoordSys3D(name, rotation_matrix=final_matrix, vector_names=vector_names, variable_names=variable_names, location=location, parent=self)","over":{"base":"Any","pred":"hasattr(orienters, 'rotation_matrix')"},"name":"orient_new_correct"},"guarantee":"returns CoordSys3D(name, rotation_matrix=final_matrix, vector_names=vector_names, variable_names=variable_names, location=location, parent=self)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.coordsysrect.CoordSys3D.orient_new_correct","statement":"Path(orient_new(x), returns CoordSys3D(name, rotation_matrix=final_matrix, vector_names=vector_names, variable_names=variable_names, location=location, parent=self))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e2d88512557e0c60","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(orienters, 'rotation_matrix')"],"returns_expr":"CoordSys3D(name, rotation_matrix=final_matrix, vector_names=vector_names, variable_names=variable_names, location=location, parent=self)","pure":false,"effects":{"effect_type":"reads_state","reads":["orienters.rotation_matrix","self._variable_names","self._vector_names"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def orient_new(self, name, orienters, location=None,
                    vector_names=None, variable_names=None):
         """
@@ -1001,16 +1158,22 @@ class CoordSys3D(Basic):
                           parent=self)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(orient_new_axis(nam), axis rotation is a rotation about an arbitrary axis by some angle) over Any ║
+# ║ Path(orient_new_axis(name, angle, axis), self.orient_new(name, orienter, location=location, vector_names=vector_names, variable_names=variable_names)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.orient_new(name, orienter, location=...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ orient_new_axis : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c9070745bd4408c5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | de04ce0f21002b18  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.coordsysrect.CoordSys3D.orient_new_axis","kind":"method","src_hash":"2e04011417d488a1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"orient_new_axis(nam)","rhs":"axis rotation is a rotation about an arbitrary axis by some angle","over":{"base":"Any"},"name":"orient_new_axis_correct"},"guarantee":"axis rotation is a rotation about an arbitrary axis by some angle","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.coordsysrect.CoordSys3D.orient_new_axis_correct","statement":"Path(orient_new_axis(x), axis rotation is a rotation about an arbitrary axis by some angle)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c9070745bd4408c5"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.coordsysrect.CoordSys3D.orient_new_axis","kind":"method","src_hash":"2e04011417d488a1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"orient_new_axis(name, angle, axis)","rhs":"self.orient_new(name, orienter, location=location, vector_names=vector_names, variable_names=variable_names)","over":{"base":"Any"},"name":"orient_new_axis_correct"},"guarantee":"returns self.orient_new(name, orienter, location=location, vector_names=vector_names, variable_names=variable_names)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.coordsysrect.CoordSys3D.orient_new_axis_correct","statement":"Path(orient_new_axis(x), returns self.orient_new(name, orienter, location=location, vector_names=vector_names, variable_names=variable_names))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"de04ce0f21002b18","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.orient_new(name, orienter, location=location, vector_names=vector_names, variable_names=variable_names)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._variable_names","self._vector_names","self.orient_new"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def orient_new_axis(self, name, angle, axis, location=None,
                         vector_names=None, variable_names=None):
         """
@@ -1062,16 +1225,22 @@ class CoordSys3D(Basic):
                                variable_names=variable_names)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(orient_new_body(nam), body orientation takes this coordinate system through three successive simple rotations) over Any ║
+# ║ Path(orient_new_body(name, angle1, angle2), self.orient_new(name, orienter, location=location, vector_names=vector_names, variable_names=variable_names)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.orient_new(name, orienter, location=...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ orient_new_body : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1e522beb446cfc0a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0005c84dfef84cf3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.coordsysrect.CoordSys3D.orient_new_body","kind":"method","src_hash":"c9912b600d674cbc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"orient_new_body(nam)","rhs":"body orientation takes this coordinate system through three successive simple rotations","over":{"base":"Any"},"name":"orient_new_body_correct"},"guarantee":"body orientation takes this coordinate system through three successive simple rotations","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.coordsysrect.CoordSys3D.orient_new_body_correct","statement":"Path(orient_new_body(x), body orientation takes this coordinate system through three successive simple rotations)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1e522beb446cfc0a"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.coordsysrect.CoordSys3D.orient_new_body","kind":"method","src_hash":"c9912b600d674cbc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"orient_new_body(name, angle1, angle2)","rhs":"self.orient_new(name, orienter, location=location, vector_names=vector_names, variable_names=variable_names)","over":{"base":"Any"},"name":"orient_new_body_correct"},"guarantee":"returns self.orient_new(name, orienter, location=location, vector_names=vector_names, variable_names=variable_names)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.coordsysrect.CoordSys3D.orient_new_body_correct","statement":"Path(orient_new_body(x), returns self.orient_new(name, orienter, location=location, vector_names=vector_names, variable_names=variable_names))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0005c84dfef84cf3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.orient_new(name, orienter, location=location, vector_names=vector_names, variable_names=variable_names)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.orient_new"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def orient_new_body(self, name, angle1, angle2, angle3,
                         rotation_order, location=None,
                         vector_names=None, variable_names=None):
@@ -1144,16 +1313,22 @@ class CoordSys3D(Basic):
                                variable_names=variable_names)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(orient_new_space(nam), space rotation is similar to body rotation, but the rotations are applied in the opposite order) over Any ║
+# ║ Path(orient_new_space(name, angle1, angle2), self.orient_new(name, orienter, location=location, vector_names=vector_names, variable_names=variable_names)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.orient_new(name, orienter, location=...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ orient_new_space : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 49e41f0bc0abd5d2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 09664f1d797ab81d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.coordsysrect.CoordSys3D.orient_new_space","kind":"method","src_hash":"971744e2a310d347","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"orient_new_space(nam)","rhs":"space rotation is similar to body rotation, but the rotations are applied in the opposite order","over":{"base":"Any"},"name":"orient_new_space_correct"},"guarantee":"space rotation is similar to body rotation, but the rotations are applied in the opposite order","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.coordsysrect.CoordSys3D.orient_new_space_correct","statement":"Path(orient_new_space(x), space rotation is similar to body rotation, but the rotations are applied in the opposite order)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"49e41f0bc0abd5d2"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.coordsysrect.CoordSys3D.orient_new_space","kind":"method","src_hash":"971744e2a310d347","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"orient_new_space(name, angle1, angle2)","rhs":"self.orient_new(name, orienter, location=location, vector_names=vector_names, variable_names=variable_names)","over":{"base":"Any"},"name":"orient_new_space_correct"},"guarantee":"returns self.orient_new(name, orienter, location=location, vector_names=vector_names, variable_names=variable_names)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.coordsysrect.CoordSys3D.orient_new_space_correct","statement":"Path(orient_new_space(x), returns self.orient_new(name, orienter, location=location, vector_names=vector_names, variable_names=variable_names))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"09664f1d797ab81d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.orient_new(name, orienter, location=location, vector_names=vector_names, variable_names=variable_names)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.orient_new"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def orient_new_space(self, name, angle1, angle2, angle3,
                          rotation_order, location=None,
                          vector_names=None, variable_names=None):
@@ -1220,16 +1395,22 @@ class CoordSys3D(Basic):
                                variable_names=variable_names)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(orient_new_quaternion(nam), quaternion orientation orients the new coordsys3d with quaternions, defined as a finite rotation about lambda, a unit vector, by some amount theta) over Any ║
+# ║ Path(orient_new_quaternion(name, q0, q1), self.orient_new(name, orienter, location=location, vector_names=vector_names, variable_names=variable_names)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.orient_new(name, orienter, location=...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ orient_new_quaternion : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2af48fbeec5f4583  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a393aa8817d10b91  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.coordsysrect.CoordSys3D.orient_new_quaternion","kind":"method","src_hash":"fdb8a5d035a0e665","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"orient_new_quaternion(nam)","rhs":"quaternion orientation orients the new coordsys3d with quaternions, defined as a finite rotation about lambda, a unit vector, by some amount theta","over":{"base":"Any"},"name":"orient_new_quaternion_correct"},"guarantee":"quaternion orientation orients the new coordsys3d with quaternions, defined as a finite rotation about lambda, a unit vector, by some amount theta","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.coordsysrect.CoordSys3D.orient_new_quaternion_correct","statement":"Path(orient_new_quaternion(x), quaternion orientation orients the new coordsys3d with quaternions, defined as a finite rotation about lambda, a unit vector, by some amount theta)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2af48fbeec5f4583"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.coordsysrect.CoordSys3D.orient_new_quaternion","kind":"method","src_hash":"fdb8a5d035a0e665","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"orient_new_quaternion(name, q0, q1)","rhs":"self.orient_new(name, orienter, location=location, vector_names=vector_names, variable_names=variable_names)","over":{"base":"Any"},"name":"orient_new_quaternion_correct"},"guarantee":"returns self.orient_new(name, orienter, location=location, vector_names=vector_names, variable_names=variable_names)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.coordsysrect.CoordSys3D.orient_new_quaternion_correct","statement":"Path(orient_new_quaternion(x), returns self.orient_new(name, orienter, location=location, vector_names=vector_names, variable_names=variable_names))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a393aa8817d10b91","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.orient_new(name, orienter, location=location, vector_names=vector_names, variable_names=variable_names)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.orient_new"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def orient_new_quaternion(self, name, q0, q1, q2, q3, location=None,
                               vector_names=None, variable_names=None):
         """
@@ -1286,16 +1467,22 @@ class CoordSys3D(Basic):
                                variable_names=variable_names)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(create_new(nam), returns a coordsys3d which is connected to self by transformation) over Any ║
+# ║ Path(create_new(name, transformation, variable_names), CoordSys3D(name, parent=self, transformation=transformation, variable_names=variable_names, vector_names=vector_names)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  CoordSys3D(name, parent=self, transformat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ create_new : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f73f38c34f67d9bc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 53202493d5aba6f6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.coordsysrect.CoordSys3D.create_new","kind":"method","src_hash":"34522e0a0ab20713","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"create_new(nam)","rhs":"returns a coordsys3d which is connected to self by transformation","over":{"base":"Any"},"name":"create_new_correct"},"guarantee":"returns a coordsys3d which is connected to self by transformation","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.coordsysrect.CoordSys3D.create_new_correct","statement":"Path(create_new(x), returns a coordsys3d which is connected to self by transformation)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f73f38c34f67d9bc"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.coordsysrect.CoordSys3D.create_new","kind":"method","src_hash":"34522e0a0ab20713","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"create_new(name, transformation, variable_names)","rhs":"CoordSys3D(name, parent=self, transformation=transformation, variable_names=variable_names, vector_names=vector_names)","over":{"base":"Any"},"name":"create_new_correct"},"guarantee":"returns CoordSys3D(name, parent=self, transformation=transformation, variable_names=variable_names, vector_names=vector_names)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.coordsysrect.CoordSys3D.create_new_correct","statement":"Path(create_new(x), returns CoordSys3D(name, parent=self, transformation=transformation, variable_names=variable_names, vector_names=vector_names))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"53202493d5aba6f6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"CoordSys3D(name, parent=self, transformation=transformation, variable_names=variable_names, vector_names=vector_names)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def create_new(self, name, transformation, variable_names=None, vector_names=None):
         """
         Returns a CoordSys3D which is connected to self by transformation.
@@ -1331,16 +1518,22 @@ class CoordSys3D(Basic):
                           variable_names=variable_names, vector_names=vector_names)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(nam), initializes the instance correctly) over Any ║
+# ║ Path(__init__(name, location, rotation_matrix), <unspecified:__init__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __init__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2eb59737d1ca1c1a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.coordsysrect.CoordSys3D.__init__","kind":"method","src_hash":"d0a9002d605b1020","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(nam)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2eb59737d1ca1c1a"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.coordsysrect.CoordSys3D.__init__","kind":"method","src_hash":"d0a9002d605b1020","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(name, location, rotation_matrix)","rhs":"<unspecified:__init__>","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2eb59737d1ca1c1a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, name, location=None, rotation_matrix=None,
                  parent=None, vector_names=None, variable_names=None,
                  latex_vects=None, pretty_vects=None, latex_scalars=None,
@@ -1352,16 +1545,24 @@ class CoordSys3D(Basic):
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_compose_rotation_and_translation(rot), internal helper behaves correctly) over Any ║
+# ║ Path(_compose_rotation_and_translation(rot, translation, parent), <unspecified:_compose_rotation_and_translation>) over {Any | hasattr(translation, 'dot') and hasattr(parent, 'base_vectors')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _compose_rotation_and_translation : Any → Any              ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(translation, 'dot')                    ║
+# ║   requires: hasattr(parent, 'base_vectors')                ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _compose_rotation_and_translation : {Any | hasattr(tr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2c55c6c4048f873b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.coordsysrect.CoordSys3D._compose_rotation_and_translation","kind":"staticmethod","src_hash":"342266f8fd0e2b68","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_compose_rotation_and_translation(rot)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_compose_rotation_and_translation_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.coordsysrect.CoordSys3D._compose_rotation_and_translation_correct","statement":"Path(_compose_rotation_and_translation(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2c55c6c4048f873b"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.coordsysrect.CoordSys3D._compose_rotation_and_translation","kind":"staticmethod","src_hash":"342266f8fd0e2b68","in":{"base":"Any","pred":"hasattr(translation, 'dot') and hasattr(parent, 'base_vectors')"},"out":{"base":"Any"},"spec":{"lhs":"_compose_rotation_and_translation(rot, translation, parent)","rhs":"<unspecified:_compose_rotation_and_translation>","over":{"base":"Any","pred":"hasattr(translation, 'dot') and hasattr(parent, 'base_vectors')"},"name":"_compose_rotation_and_translation_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.coordsysrect.CoordSys3D._compose_rotation_and_translation_correct","statement":"Path(_compose_rotation_and_translation(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2c55c6c4048f873b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(translation, 'dot')","hasattr(parent, 'base_vectors')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["parent.base_vectors","translation.dot"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _compose_rotation_and_translation(rot, translation, parent):
         r = lambda x, y, z: CoordSys3D._rotation_trans_equations(rot, (x, y, z))
         if parent is None:
@@ -1377,9 +1578,13 @@ class CoordSys3D(Basic):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_check_strings(arg), internal helper behaves correctly) over {Any | isinstance(s, str)} ║
+# ║ Path(_check_strings(arg_name, arg), <unspecified:_check_strings>) over {Any | isinstance(s, str) and not (len(arg) != 3)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _check_strings : {Any | isinstance(s, str)} → Any          ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (len(arg) != 3)                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _check_strings : {Any | isinstance(s, str) and not (l...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   str: {isinstance(s, str)} → library_axiom                ║
@@ -1389,9 +1594,12 @@ class CoordSys3D(Basic):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.5ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 459a2939...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.coordsysrect._check_strings","kind":"function","src_hash":"78b9a2a2dfc9a429","in":{"base":"Any","pred":"isinstance(s, str)"},"out":{"base":"Any"},"spec":{"lhs":"_check_strings(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any","pred":"isinstance(s, str)"},"name":"_check_strings_correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"str","pred":"isinstance(s, str)","path":{"lhs":"_check_strings(x)","rhs":"internal helper behaves correctly","over":{"base":"str","pred":"isinstance(s, str)"},"name":"_check_strings_str_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.coordsysrect._check_strings_str_correct","statement":"_check_strings satisfies spec on str inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"459a2939ffebc0ed"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.coordsysrect._check_strings","kind":"function","src_hash":"78b9a2a2dfc9a429","in":{"base":"Any","pred":"isinstance(s, str) and not (len(arg) != 3)"},"out":{"base":"Any"},"spec":{"lhs":"_check_strings(arg_name, arg)","rhs":"<unspecified:_check_strings>","over":{"base":"Any","pred":"isinstance(s, str) and not (len(arg) != 3)"},"name":"_check_strings_correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"str","pred":"isinstance(s, str)","path":{"lhs":"_check_strings(x)","rhs":"internal helper behaves correctly","over":{"base":"str","pred":"isinstance(s, str)"},"name":"_check_strings_str_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.coordsysrect._check_strings_str_correct","statement":"_check_strings satisfies spec on str inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"459a2939ffebc0ed","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (len(arg) != 3)"],"pure":false,"effects":{"effect_type":"reads_state","raises":["TypeError","ValueError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.5,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'len(arg) != 3', 'not isinstance(s, str)'}, fibers={'str'})"]}}
 def _check_strings(arg_name, arg):
     errorstr = arg_name + " must be an iterable of 3 string-types"
     if len(arg) != 3:

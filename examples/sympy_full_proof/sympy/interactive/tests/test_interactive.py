@@ -19,16 +19,24 @@ from sympy.interactive.session import int_to_Integer
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_int_to_Integer(), test_int_to_Integer produces the expected output) over Any ║
+# ║ Path(test_int_to_Integer(), int_to_Integer('1 + 2.2 + 0x3 + 40') == 'Integer (1 )+2.2 +Integer (0x3 )+Integer (40 )' and int_to_Integer('0b101') == 'Integer (0b101 )' and int_to_Integer("ab1 + 1 + '1 + 2'") == "ab1 +Integer (1 )+'1 + 2'" and int_to_Integer('(2 + \n3)') == '(Integer (2 )+\nInteger (3 ))' and int_to_Integer('2 + 2.0 + 2j + 2e-10') == 'Integer (2 )+2.0 +2j +2e-10 ') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_int_to_Integer : Any → {Any | int_to_Integer('0b...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  int_to_Integer('1 + 2.2 + 0x3 + 40') == '...   ║
+# ║   ensures:  int_to_Integer('0b101') == 'Integer (0b10...   ║
+# ║   ensures:  int_to_Integer("ab1 + 1 + '1 + 2'") == "a...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_int_to_Integer : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e8024a7f4cd0b031  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a9e509dda78bbaf3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.interactive.tests.test_interactive.test_int_to_Integer","kind":"function","src_hash":"5b4718482e69766c","in":{"base":"Any"},"out":{"base":"Any","pred":"int_to_Integer('0b101') == 'Integer (0b101 )' and int_to_Integer(\"ab1 + 1 + '1 + 2'\") == \"ab1 +Integer (1 )+'1 + 2'\" and int_to_Integer('(2 + \\n3)') == '(Integer (2 )+\\nInteger (3 ))' and int_to_Integer('2 + 2.0 + 2j + 2e-10') == 'Integer (2 )+2.0 +2j +2e-10 '"},"spec":{"lhs":"test_int_to_Integer()","rhs":"test_int_to_Integer produces the expected output","over":{"base":"Any"},"name":"test_int_to_Integer_correct"},"guarantee":"test_int_to_Integer produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.interactive.tests.test_interactive.test_int_to_Integer_correct","statement":"Path(test_int_to_Integer(x), test_int_to_Integer produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e8024a7f4cd0b031"}
+# @cctt_verify {"v":2,"sym":"sympy.interactive.tests.test_interactive.test_int_to_Integer","kind":"function","src_hash":"5b4718482e69766c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: int_to_Integer('1 + 2.2 + 0x3 + 40') == 'Integer (1 )+2.2 +Integer (0x3 )+Integer (40 )' and int_to_Integer('0b101') == 'Integer (0b101 )' and int_to_Integer(\"ab1 + 1 + '1 + 2'\") == \"ab1 +Integer (1 )+'1 + 2'\" and int_to_Integer('(2 + \\n3)') == '(Integer (2 )+\\nInteger (3 ))' and int_to_Integer('2 + 2.0 + 2j + 2e-10') == 'Integer (2 )+2.0 +2j +2e-10 '"},"spec":{"lhs":"test_int_to_Integer()","rhs":"int_to_Integer('1 + 2.2 + 0x3 + 40') == 'Integer (1 )+2.2 +Integer (0x3 )+Integer (40 )' and int_to_Integer('0b101') == 'Integer (0b101 )' and int_to_Integer(\"ab1 + 1 + '1 + 2'\") == \"ab1 +Integer (1 )+'1 + 2'\" and int_to_Integer('(2 + \\n3)') == '(Integer (2 )+\\nInteger (3 ))' and int_to_Integer('2 + 2.0 + 2j + 2e-10') == 'Integer (2 )+2.0 +2j +2e-10 '","over":{"base":"Any"},"name":"test_int_to_Integer_correct"},"guarantee":"int_to_Integer('1 + 2.2 + 0x3 + 40') == 'Integer (1 )+2.2 +Integer (0x3 )+Integer (40 )'; int_to_Integer('0b101') == 'Integer (0b101 )'; int_to_Integer(\"ab1 + 1 + '1 + 2'\") == \"ab1 +Integer (1 )+'1 + 2'\"","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.interactive.tests.test_interactive.test_int_to_Integer_correct","statement":"Path(test_int_to_Integer(x), int_to_Integer('1 + 2.2 + 0x3 + 40') == 'Integer (1 )+2.2 +Integer (0x3 )+Integer (40 )'; int_to_Integer('0b101') == 'Integer (0b101 )'; int_to_Integer(\"ab1 + 1 + '1 + 2'\") == \"ab1 +Integer (1 )+'1 + 2'\")"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a9e509dda78bbaf3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["int_to_Integer('1 + 2.2 + 0x3 + 40') == 'Integer (1 )+2.2 +Integer (0x3 )+Integer (40 )'","int_to_Integer('0b101') == 'Integer (0b101 )'","int_to_Integer(\"ab1 + 1 + '1 + 2'\") == \"ab1 +Integer (1 )+'1 + 2'\"","int_to_Integer('(2 + \\n3)') == '(Integer (2 )+\\nInteger (3 ))'","int_to_Integer('2 + 2.0 + 2j + 2e-10') == 'Integer (2 )+2.0 +2j +2e-10 '"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_int_to_Integer():
     assert int_to_Integer("1 + 2.2 + 0x3 + 40") == \
         'Integer (1 )+2.2 +Integer (0x3 )+Integer (40 )'

@@ -28,14 +28,20 @@ from sympy.core.parameters import global_parameters
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(TensorProduct(*args), correctly constructs a TensorProduct instance) over {Any | isinstance(arg, (Iterable, MatrixBase, NDimArray)) and isinstance(arg, (MatrixExpr,))} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Expr)                         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ TensorProduct : {Any | isinstance(arg, (Iterable, Mat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e9dfe6a70fe46315  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.functions.TensorProduct","kind":"class","src_hash":"9cf1f5331e945b1f","in":{"base":"Any","pred":"isinstance(arg, (Iterable, MatrixBase, NDimArray)) and isinstance(arg, (MatrixExpr,))"},"out":{"base":"Any"},"spec":{"lhs":"TensorProduct(*args)","rhs":"correctly constructs a TensorProduct instance","over":{"base":"Any","pred":"isinstance(arg, (Iterable, MatrixBase, NDimArray)) and isinstance(arg, (MatrixExpr,))"},"name":"TensorProduct_class_invariant"},"guarantee":"correctly constructs a TensorProduct instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e9dfe6a70fe46315"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.functions.TensorProduct","kind":"class","src_hash":"9cf1f5331e945b1f","in":{"base":"Any","pred":"isinstance(arg, (Iterable, MatrixBase, NDimArray)) and isinstance(arg, (MatrixExpr,))"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Expr)"},"spec":{"lhs":"TensorProduct(*args)","rhs":"correctly constructs a TensorProduct instance","over":{"base":"Any","pred":"isinstance(arg, (Iterable, MatrixBase, NDimArray)) and isinstance(arg, (MatrixExpr,))"},"name":"TensorProduct_class_invariant"},"guarantee":"isinstance(self, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e9dfe6a70fe46315","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Expr)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":false,"binding_errors":["Function TensorProduct not found in source"]}}
 class TensorProduct(Expr):
     """
     Generic class for tensor products.
@@ -43,16 +49,22 @@ class TensorProduct(Expr):
     is_number = False
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, *args, **kwargs), <unspecified:__new__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 832bafd1d43955e0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.functions.TensorProduct.__new__","kind":"method","src_hash":"1ac88a8d919b92e1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"832bafd1d43955e0"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.functions.TensorProduct.__new__","kind":"method","src_hash":"1ac88a8d919b92e1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, *args, **kwargs)","rhs":"<unspecified:__new__>","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"832bafd1d43955e0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, *args, **kwargs):
         from sympy.tensor.array import NDimArray, tensorproduct, Array
         from sympy.matrices.expressions.matexpr import MatrixExpr
@@ -88,61 +100,85 @@ class TensorProduct(Expr):
         return flatten(obj)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rank(), rank produces the expected output) over Any   ║
+# ║ Path(rank(), len(self.shape)) over Any                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  len(self.shape)                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ rank : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4f5ce4fb455e8108           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.functions.TensorProduct.rank","kind":"method","src_hash":"dfb1440aa7592461","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rank()","rhs":"rank produces the expected output","over":{"base":"Any"},"name":"rank_correct"},"guarantee":"rank produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4f5ce4fb455e8108"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.functions.TensorProduct.rank","kind":"method","src_hash":"dfb1440aa7592461","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rank()","rhs":"len(self.shape)","over":{"base":"Any"},"name":"rank_correct"},"guarantee":"returns len(self.shape)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4f5ce4fb455e8108","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"len(self.shape)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.shape"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def rank(self):
         return len(self.shape)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(_get_args_shapes(), id) over Any                      ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [i.shape if hasattr(i, 'shape') else Arra...   ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ _get_args_shapes : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 26cc3501a9a4fd5a   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.functions.TensorProduct._get_args_shapes","kind":"method","src_hash":"672b489bbb1fca86","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_args_shapes()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_args_shapes_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"hasattr","by":"library_axiom"},{"fn":"Array","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"26cc3501a9a4fd5a"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.functions.TensorProduct._get_args_shapes","kind":"method","src_hash":"672b489bbb1fca86","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_args_shapes()","rhs":"[i.shape if hasattr(i, 'shape') else Array(i).shape for i in self.args]","over":{"base":"Any"},"name":"_get_args_shapes_correct","kind":"composition"},"guarantee":"returns [i.shape if hasattr(i, 'shape') else Array(i).shape for i in self.args]","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"hasattr","by":"library_axiom"},{"fn":"Array","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"26cc3501a9a4fd5a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[i.shape if hasattr(i, 'shape') else Array(i).shape for i in self.args]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_args_shapes(self):
         from sympy.tensor.array import Array
         return [i.shape if hasattr(i, "shape") else Array(i).shape for i in self.args]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(shape(), returns the shape attribute) over Any        ║
+# ║ Path(shape(), sum(shape_list, ())) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  sum(shape_list, ())                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ shape : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | be97824db01ef3fe           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.functions.TensorProduct.shape","kind":"property","src_hash":"564bd42576eacbd3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"shape()","rhs":"returns the shape attribute","over":{"base":"Any"},"name":"shape_correct"},"guarantee":"returns the shape attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"be97824db01ef3fe"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.functions.TensorProduct.shape","kind":"property","src_hash":"564bd42576eacbd3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"shape()","rhs":"sum(shape_list, ())","over":{"base":"Any"},"name":"shape_correct"},"guarantee":"returns sum(shape_list, ())","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"be97824db01ef3fe","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"sum(shape_list, ())","pure":false,"effects":{"effect_type":"reads_state","reads":["self._get_args_shapes"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def shape(self):
         shape_list = self._get_args_shapes()
         return sum(shape_list, ())
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__getitem__(ind), returns the element at the given index) over Any ║
+# ║ Path(__getitem__(index), Mul.fromiter((arg.__getitem__(tuple((next(index) for i in shp))) for arg, shp in zip(self.args, self._get_args_shapes())))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Mul.fromiter((arg.__getitem__(tuple((next...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __getitem__ : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 305095f2acf4421e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.functions.TensorProduct.__getitem__","kind":"method","src_hash":"e8052245be96fa6d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getitem__(ind)","rhs":"returns the element at the given index","over":{"base":"Any"},"name":"__getitem___correct"},"guarantee":"returns the element at the given index","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"305095f2acf4421e"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.functions.TensorProduct.__getitem__","kind":"method","src_hash":"e8052245be96fa6d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getitem__(index)","rhs":"Mul.fromiter((arg.__getitem__(tuple((next(index) for i in shp))) for arg, shp in zip(self.args, self._get_args_shapes())))","over":{"base":"Any"},"name":"__getitem___correct"},"guarantee":"returns Mul.fromiter((arg.__getitem__(tuple((next(index) for i in shp))) for arg, shp in zip(self.args, self._get_args_shapes())))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"305095f2acf4421e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Mul.fromiter((arg.__getitem__(tuple((next(index) for i in shp))) for arg, shp in zip(self.args, self._get_args_shapes())))","pure":false,"effects":{"effect_type":"reads_state","reads":["self._get_args_shapes","self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __getitem__(self, index):
         index = iter(index)
         return Mul.fromiter(
@@ -153,16 +189,23 @@ class TensorProduct(Expr):
 
 @singledispatch
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(shape(exp), return the shape of the *expr* as a tuple) over Any ║
+# ║ Path(shape(expr), expr.shape) over {Any | hasattr(expr, 'shape')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ shape : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'shape')                         ║
+# ║   returns:  expr.shape                                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ shape : {Any | hasattr(expr, 'shape')} → Any               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c91231ac7a36b057  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 09294c93213f95c4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.functions.shape","kind":"function","src_hash":"2fa03663d078deaf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"shape(exp)","rhs":"return the shape of the *expr* as a tuple","over":{"base":"Any"},"name":"shape_correct"},"guarantee":"return the shape of the *expr* as a tuple","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.functions.shape_correct","statement":"Path(shape(x), return the shape of the *expr* as a tuple)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c91231ac7a36b057"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.functions.shape","kind":"function","src_hash":"2fa03663d078deaf","in":{"base":"Any","pred":"hasattr(expr, 'shape')"},"out":{"base":"Any"},"spec":{"lhs":"shape(expr)","rhs":"expr.shape","over":{"base":"Any","pred":"hasattr(expr, 'shape')"},"name":"shape_correct"},"guarantee":"returns expr.shape","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.functions.shape_correct","statement":"Path(shape(x), returns expr.shape)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"09294c93213f95c4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'shape')"],"returns_expr":"expr.shape","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.shape"],"raises":["NoShapeError"]},"state_contract":{"exceptional_post":{"NoShapeError":["isinstance(raised, NoShapeError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def shape(expr):
     """
     Return the shape of the *expr* as a tuple. *expr* should represent
@@ -230,16 +273,22 @@ def shape(expr):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(NoShapeError(), correctly constructs a NoShapeError instance) over Any ║
+# ║ Path(NoShapeError(), isinstance(self, Exception)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ NoShapeError : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Exception)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ NoShapeError : Any → {Any | result satisfies: isinsta...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5c38792e7355bc0a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.functions.NoShapeError","kind":"class","src_hash":"63a2bd4e123f4fd6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"NoShapeError()","rhs":"correctly constructs a NoShapeError instance","over":{"base":"Any"},"name":"NoShapeError_correct"},"guarantee":"correctly constructs a NoShapeError instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5c38792e7355bc0a"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.functions.NoShapeError","kind":"class","src_hash":"63a2bd4e123f4fd6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Exception)"},"spec":{"lhs":"NoShapeError()","rhs":"isinstance(self, Exception)","over":{"base":"Any"},"name":"NoShapeError_correct"},"guarantee":"isinstance(self, Exception)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5c38792e7355bc0a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Exception)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function NoShapeError not found in source"]}}
 class NoShapeError(Exception):
     """
     Raised when ``shape()`` is called on non-array object.

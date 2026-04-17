@@ -28,41 +28,59 @@ import functools
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(SparseNDimArray(*args), correctly constructs a SparseNDimArray instance) over {Any | isinstance(index, tuple) and isinstance(i, slice)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, NDimArray)                    ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ SparseNDimArray : {Any | isinstance(index, tuple) and...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a362ab30870177b6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.sparse_ndim_array.SparseNDimArray","kind":"class","src_hash":"3263b458fd16bbb5","in":{"base":"Any","pred":"isinstance(index, tuple) and isinstance(i, slice)"},"out":{"base":"Any"},"spec":{"lhs":"SparseNDimArray(*args)","rhs":"correctly constructs a SparseNDimArray instance","over":{"base":"Any","pred":"isinstance(index, tuple) and isinstance(i, slice)"},"name":"SparseNDimArray_class_invariant"},"guarantee":"correctly constructs a SparseNDimArray instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a362ab30870177b6"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.sparse_ndim_array.SparseNDimArray","kind":"class","src_hash":"3263b458fd16bbb5","in":{"base":"Any","pred":"isinstance(index, tuple) and isinstance(i, slice)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, NDimArray)"},"spec":{"lhs":"SparseNDimArray(*args)","rhs":"correctly constructs a SparseNDimArray instance","over":{"base":"Any","pred":"isinstance(index, tuple) and isinstance(i, slice)"},"name":"SparseNDimArray_class_invariant"},"guarantee":"isinstance(self, NDimArray)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a362ab30870177b6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, NDimArray)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function SparseNDimArray not found in source"]}}
 class SparseNDimArray(NDimArray):
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(*ar), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(*args, **kwargs), ImmutableSparseNDimArray(*args, **kwargs)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  ImmutableSparseNDimArray(*args, **kwargs)      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 05bb0edd4e08bdb7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.sparse_ndim_array.SparseNDimArray.__new__","kind":"method","src_hash":"67c3e122e376a3f0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(*ar)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"05bb0edd4e08bdb7"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.sparse_ndim_array.SparseNDimArray.__new__","kind":"method","src_hash":"67c3e122e376a3f0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(*args, **kwargs)","rhs":"ImmutableSparseNDimArray(*args, **kwargs)","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"returns ImmutableSparseNDimArray(*args, **kwargs)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"05bb0edd4e08bdb7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"ImmutableSparseNDimArray(*args, **kwargs)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(self, *args, **kwargs):
         return ImmutableSparseNDimArray(*args, **kwargs)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__getitem__(ind), returns the element at the given index) over Any ║
+# ║ Path(__getitem__(index), <unspecified:__getitem__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __getitem__ : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 89759d5fc52261e6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.sparse_ndim_array.SparseNDimArray.__getitem__","kind":"method","src_hash":"c5b5242d9dd0826e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getitem__(ind)","rhs":"returns the element at the given index","over":{"base":"Any"},"name":"__getitem___correct"},"guarantee":"returns the element at the given index","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"89759d5fc52261e6"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.sparse_ndim_array.SparseNDimArray.__getitem__","kind":"method","src_hash":"c5b5242d9dd0826e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getitem__(index)","rhs":"<unspecified:__getitem__>","over":{"base":"Any"},"name":"__getitem___correct"},"guarantee":"returns the element at the given index","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"89759d5fc52261e6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._check_index_for_getitem","self._check_symbolic_index","self._get_slice_data_for_array_access","self._parse_index","self._sparse_array"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __getitem__(self, index):
         """
         Get an element from a sparse N-dim array.
@@ -113,16 +131,22 @@ class SparseNDimArray(NDimArray):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(zeros(cls), return a sparse n-dim array of zeros) over Any ║
+# ║ Path(zeros(cls, *shape), cls({}, shape)) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  cls({}, shape)                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ zeros : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 540293571407a5e0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.sparse_ndim_array.SparseNDimArray.zeros","kind":"classmethod","src_hash":"44c7b6c9ee9e45ad","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"zeros(cls)","rhs":"return a sparse n-dim array of zeros","over":{"base":"Any"},"name":"zeros_correct"},"guarantee":"return a sparse n-dim array of zeros","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"540293571407a5e0"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.sparse_ndim_array.SparseNDimArray.zeros","kind":"classmethod","src_hash":"44c7b6c9ee9e45ad","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"zeros(cls, *shape)","rhs":"cls({}, shape)","over":{"base":"Any"},"name":"zeros_correct"},"guarantee":"returns cls({}, shape)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"540293571407a5e0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"cls({}, shape)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def zeros(cls, *shape):
         """
         Return a sparse N-dim array of zeros.
@@ -130,16 +154,23 @@ class SparseNDimArray(NDimArray):
         return cls({}, shape)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(tomatrix(), converts mutabledensendimarray to matrix) over Any ║
+# ║ Path(tomatrix(), SparseMatrix(self.shape[0], self.shape[1], mat_sparse)) over {Any | not (self.rank() != 2)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ tomatrix : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (self.rank() != 2)                         ║
+# ║   returns:  SparseMatrix(self.shape[0], self.shape[1]...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ tomatrix : {Any | not (self.rank() != 2)} → Any            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f8cf0066b17cb956  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3377c208ebc36ce6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.sparse_ndim_array.SparseNDimArray.tomatrix","kind":"method","src_hash":"6cd4690623166ac2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"tomatrix()","rhs":"converts mutabledensendimarray to matrix","over":{"base":"Any"},"name":"tomatrix_correct"},"guarantee":"converts mutabledensendimarray to matrix","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.sparse_ndim_array.SparseNDimArray.tomatrix_correct","statement":"Path(tomatrix(x), converts mutabledensendimarray to matrix)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f8cf0066b17cb956"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.sparse_ndim_array.SparseNDimArray.tomatrix","kind":"method","src_hash":"6cd4690623166ac2","in":{"base":"Any","pred":"not (self.rank() != 2)"},"out":{"base":"Any"},"spec":{"lhs":"tomatrix()","rhs":"SparseMatrix(self.shape[0], self.shape[1], mat_sparse)","over":{"base":"Any","pred":"not (self.rank() != 2)"},"name":"tomatrix_correct"},"guarantee":"returns SparseMatrix(self.shape[0], self.shape[1], mat_sparse)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.sparse_ndim_array.SparseNDimArray.tomatrix_correct","statement":"Path(tomatrix(x), returns SparseMatrix(self.shape[0], self.shape[1], mat_sparse))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3377c208ebc36ce6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (self.rank() != 2)"],"returns_expr":"SparseMatrix(self.shape[0], self.shape[1], mat_sparse)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._get_tuple_index","self._sparse_array","self.rank","self.shape"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def tomatrix(self):
         """
         Converts MutableDenseNDimArray to Matrix. Can convert only 2-dim array, else will raise error.
@@ -167,16 +198,23 @@ class SparseNDimArray(NDimArray):
         return SparseMatrix(self.shape[0], self.shape[1], mat_sparse)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(reshape(*ne), id) over Any                            ║
+# ║ Path(reshape(*newshape), id) over {Any | not (new_total_size != self._loop_size)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ reshape : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (new_total_size != self._loop_size)        ║
+# ║   returns:  type(self)(self._sparse_array, newshape)       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ reshape : {Any | not (new_total_size != self._loop_si...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 07ab0549a3afed2e   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.sparse_ndim_array.SparseNDimArray.reshape","kind":"method","src_hash":"04dce63652fd1ff6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"reshape(*ne)","rhs":"reshape produces the expected output","over":{"base":"Any"},"name":"reshape_correct","kind":"composition"},"guarantee":"reshape produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"type","by":"library_axiom"},{"fn":"self","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"07ab0549a3afed2e"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.sparse_ndim_array.SparseNDimArray.reshape","kind":"method","src_hash":"04dce63652fd1ff6","in":{"base":"Any","pred":"not (new_total_size != self._loop_size)"},"out":{"base":"Any"},"spec":{"lhs":"reshape(*newshape)","rhs":"type(self)(self._sparse_array, newshape)","over":{"base":"Any","pred":"not (new_total_size != self._loop_size)"},"name":"reshape_correct","kind":"composition"},"guarantee":"returns type(self)(self._sparse_array, newshape)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"type","by":"library_axiom"},{"fn":"self","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"07ab0549a3afed2e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (new_total_size != self._loop_size)"],"returns_expr":"type(self)(self._sparse_array, newshape)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._loop_size","self._sparse_array"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def reshape(self, *newshape):
         new_total_size = functools.reduce(lambda x,y: x*y, newshape)
         if new_total_size != self._loop_size:
@@ -187,27 +225,40 @@ class SparseNDimArray(NDimArray):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(ImmutableSparseNDimArray(*args), correctly constructs a ImmutableSparseNDimArray instance) over {Any | isinstance(flat_list, (dict, Dict))} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, SparseNDimArray)              ║
+# ║   ensures:  isinstance(self, ImmutableNDimArray)           ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ ImmutableSparseNDimArray : {Any | isinstance(flat_lis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9246af3f3daac9d7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.sparse_ndim_array.ImmutableSparseNDimArray","kind":"class","src_hash":"04ce7a0d0921b70f","in":{"base":"Any","pred":"isinstance(flat_list, (dict, Dict))"},"out":{"base":"Any"},"spec":{"lhs":"ImmutableSparseNDimArray(*args)","rhs":"correctly constructs a ImmutableSparseNDimArray instance","over":{"base":"Any","pred":"isinstance(flat_list, (dict, Dict))"},"name":"ImmutableSparseNDimArray_class_invariant"},"guarantee":"correctly constructs a ImmutableSparseNDimArray instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9246af3f3daac9d7"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.sparse_ndim_array.ImmutableSparseNDimArray","kind":"class","src_hash":"04ce7a0d0921b70f","in":{"base":"Any","pred":"isinstance(flat_list, (dict, Dict))"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, SparseNDimArray) and isinstance(self, ImmutableNDimArray)"},"spec":{"lhs":"ImmutableSparseNDimArray(*args)","rhs":"correctly constructs a ImmutableSparseNDimArray instance","over":{"base":"Any","pred":"isinstance(flat_list, (dict, Dict))"},"name":"ImmutableSparseNDimArray_class_invariant"},"guarantee":"isinstance(self, SparseNDimArray); isinstance(self, ImmutableNDimArray)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9246af3f3daac9d7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, SparseNDimArray)","isinstance(self, ImmutableNDimArray)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function ImmutableSparseNDimArray not found in source"]}}
 class ImmutableSparseNDimArray(SparseNDimArray, ImmutableNDimArray): # type: ignore
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, iterable, shape), <unspecified:__new__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a65d1b66ef39697c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.sparse_ndim_array.ImmutableSparseNDimArray.__new__","kind":"method","src_hash":"f95a45cbcf3bbf6c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a65d1b66ef39697c"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.sparse_ndim_array.ImmutableSparseNDimArray.__new__","kind":"method","src_hash":"f95a45cbcf3bbf6c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, iterable, shape)","rhs":"<unspecified:__new__>","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a65d1b66ef39697c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["cls._check_special_bounds","cls._handle_ndarray_creation_inputs"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, iterable=None, shape=None, **kwargs):
         shape, flat_list = cls._handle_ndarray_creation_inputs(iterable, shape, **kwargs)
         shape = Tuple(*map(_sympify, shape))
@@ -234,30 +285,42 @@ class ImmutableSparseNDimArray(SparseNDimArray, ImmutableNDimArray): # type: ign
         return self
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__setitem__(ind), correctly sets the element at the given index) over Any ║
+# ║ Path(__setitem__(index, value), <unspecified:__setitem__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __setitem__ : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 798a792985a01c2d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.sparse_ndim_array.ImmutableSparseNDimArray.__setitem__","kind":"method","src_hash":"b01f1976d47d5d24","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__setitem__(ind)","rhs":"correctly sets the element at the given index","over":{"base":"Any"},"name":"__setitem___correct"},"guarantee":"correctly sets the element at the given index","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"798a792985a01c2d"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.sparse_ndim_array.ImmutableSparseNDimArray.__setitem__","kind":"method","src_hash":"b01f1976d47d5d24","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__setitem__(index, value)","rhs":"<unspecified:__setitem__>","over":{"base":"Any"},"name":"__setitem___correct"},"guarantee":"correctly sets the element at the given index","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"798a792985a01c2d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __setitem__(self, index, value):
         raise TypeError("immutable N-dim array")
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(as_mutable(), as_mutable produces the expected output) over Any ║
+# ║ Path(as_mutable(), MutableSparseNDimArray(self)) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  MutableSparseNDimArray(self)                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ as_mutable : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3f8aa470560421fa           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.sparse_ndim_array.ImmutableSparseNDimArray.as_mutable","kind":"method","src_hash":"b2023d49cc44b543","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_mutable()","rhs":"as_mutable produces the expected output","over":{"base":"Any"},"name":"as_mutable_correct"},"guarantee":"as_mutable produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3f8aa470560421fa"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.sparse_ndim_array.ImmutableSparseNDimArray.as_mutable","kind":"method","src_hash":"b2023d49cc44b543","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_mutable()","rhs":"MutableSparseNDimArray(self)","over":{"base":"Any"},"name":"as_mutable_correct"},"guarantee":"returns MutableSparseNDimArray(self)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3f8aa470560421fa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"MutableSparseNDimArray(self)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def as_mutable(self):
         return MutableSparseNDimArray(self)
 
@@ -265,27 +328,40 @@ class ImmutableSparseNDimArray(SparseNDimArray, ImmutableNDimArray): # type: ign
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(MutableSparseNDimArray(*args), correctly constructs a MutableSparseNDimArray instance) over {Any | isinstance(flat_list, (dict, Dict)) and isinstance(index, tuple) and isinstance(i, slice)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, MutableNDimArray)             ║
+# ║   ensures:  isinstance(self, SparseNDimArray)              ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ MutableSparseNDimArray : {Any | isinstance(flat_list,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7edb4178c7fe0c24  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.sparse_ndim_array.MutableSparseNDimArray","kind":"class","src_hash":"ecada4ab93894a7c","in":{"base":"Any","pred":"isinstance(flat_list, (dict, Dict)) and isinstance(index, tuple) and isinstance(i, slice)"},"out":{"base":"Any"},"spec":{"lhs":"MutableSparseNDimArray(*args)","rhs":"correctly constructs a MutableSparseNDimArray instance","over":{"base":"Any","pred":"isinstance(flat_list, (dict, Dict)) and isinstance(index, tuple) and isinstance(i, slice)"},"name":"MutableSparseNDimArray_class_invariant"},"guarantee":"correctly constructs a MutableSparseNDimArray instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7edb4178c7fe0c24"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.sparse_ndim_array.MutableSparseNDimArray","kind":"class","src_hash":"ecada4ab93894a7c","in":{"base":"Any","pred":"isinstance(flat_list, (dict, Dict)) and isinstance(index, tuple) and isinstance(i, slice)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, MutableNDimArray) and isinstance(self, SparseNDimArray)"},"spec":{"lhs":"MutableSparseNDimArray(*args)","rhs":"correctly constructs a MutableSparseNDimArray instance","over":{"base":"Any","pred":"isinstance(flat_list, (dict, Dict)) and isinstance(index, tuple) and isinstance(i, slice)"},"name":"MutableSparseNDimArray_class_invariant"},"guarantee":"isinstance(self, MutableNDimArray); isinstance(self, SparseNDimArray)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7edb4178c7fe0c24","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, MutableNDimArray)","isinstance(self, SparseNDimArray)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":false,"binding_errors":["Function MutableSparseNDimArray not found in source"]}}
 class MutableSparseNDimArray(MutableNDimArray, SparseNDimArray):
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, iterable, shape), <unspecified:__new__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3579a8cc20664e36           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.sparse_ndim_array.MutableSparseNDimArray.__new__","kind":"method","src_hash":"96f49287f18810e4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3579a8cc20664e36"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.sparse_ndim_array.MutableSparseNDimArray.__new__","kind":"method","src_hash":"96f49287f18810e4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, iterable, shape)","rhs":"<unspecified:__new__>","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3579a8cc20664e36","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["cls._handle_ndarray_creation_inputs"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, iterable=None, shape=None, **kwargs):
         shape, flat_list = cls._handle_ndarray_creation_inputs(iterable, shape, **kwargs)
         self = object.__new__(cls)
@@ -307,16 +383,23 @@ class MutableSparseNDimArray(MutableNDimArray, SparseNDimArray):
         return self
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__setitem__(ind), correctly sets the element at the given index) over Any ║
+# ║ Path(__setitem__(index, value), len(self) == old_len_self - 1) over {Any | len(self) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __setitem__ : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: len(self) > 0                                  ║
+# ║   ensures:  len(self) == old_len_self - 1                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __setitem__ : {Any | len(self) > 0} → {Any | result s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e629684abfbaa57a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.sparse_ndim_array.MutableSparseNDimArray.__setitem__","kind":"method","src_hash":"0d448ebd40f9cb07","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__setitem__(ind)","rhs":"correctly sets the element at the given index","over":{"base":"Any"},"name":"__setitem___correct"},"guarantee":"correctly sets the element at the given index","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e629684abfbaa57a"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.sparse_ndim_array.MutableSparseNDimArray.__setitem__","kind":"method","src_hash":"0d448ebd40f9cb07","in":{"base":"Any","pred":"len(self) > 0"},"out":{"base":"Any","pred":"result satisfies: len(self) == old_len_self - 1"},"spec":{"lhs":"__setitem__(index, value)","rhs":"len(self) == old_len_self - 1","over":{"base":"Any","pred":"len(self) > 0"},"name":"__setitem___correct"},"guarantee":"len(self) == old_len_self - 1","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e629684abfbaa57a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["len(self) > 0"],"ensures":["len(self) == old_len_self - 1"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self._get_slice_data_for_array_assignment","self._parse_index","self._sparse_array"],"calls_mutating":["self._sparse_array.pop"]},"state_contract":{"modifies":["self.*"],"old_bindings":{"old_len_self":"len(self)"},"pre_requires":["len(self) > 0"],"post_ensures":["len(self) == old_len_self - 1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __setitem__(self, index, value):
         """Allows to set items to MutableDenseNDimArray.
 
@@ -349,30 +432,42 @@ class MutableSparseNDimArray(MutableNDimArray, SparseNDimArray):
                 self._sparse_array[index] = value
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(as_immutable(), as_immutable produces the expected output) over Any ║
+# ║ Path(as_immutable(), ImmutableSparseNDimArray(self)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  ImmutableSparseNDimArray(self)                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ as_immutable : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e6a275f39c5f4b99           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.sparse_ndim_array.MutableSparseNDimArray.as_immutable","kind":"method","src_hash":"434333cb31ebcf65","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_immutable()","rhs":"as_immutable produces the expected output","over":{"base":"Any"},"name":"as_immutable_correct"},"guarantee":"as_immutable produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e6a275f39c5f4b99"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.sparse_ndim_array.MutableSparseNDimArray.as_immutable","kind":"method","src_hash":"434333cb31ebcf65","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_immutable()","rhs":"ImmutableSparseNDimArray(self)","over":{"base":"Any"},"name":"as_immutable_correct"},"guarantee":"returns ImmutableSparseNDimArray(self)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e6a275f39c5f4b99","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"ImmutableSparseNDimArray(self)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def as_immutable(self):
         return ImmutableSparseNDimArray(self)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(free_symbols(), returns the free_symbols attribute) over Any ║
+# ║ Path(free_symbols(), {i for j in self._sparse_array.values() for i in j.free_symbols}) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  {i for j in self._sparse_array.values() f...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ free_symbols : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 248262d08872f256           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.sparse_ndim_array.MutableSparseNDimArray.free_symbols","kind":"property","src_hash":"6d93b90034feb88e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"free_symbols()","rhs":"returns the free_symbols attribute","over":{"base":"Any"},"name":"free_symbols_correct"},"guarantee":"returns the free_symbols attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"248262d08872f256"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.sparse_ndim_array.MutableSparseNDimArray.free_symbols","kind":"property","src_hash":"6d93b90034feb88e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"free_symbols()","rhs":"{i for j in self._sparse_array.values() for i in j.free_symbols}","over":{"base":"Any"},"name":"free_symbols_correct"},"guarantee":"returns {i for j in self._sparse_array.values() for i in j.free_symbols}","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"248262d08872f256","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"{i for j in self._sparse_array.values() for i in j.free_symbols}","pure":false,"effects":{"effect_type":"reads_state","reads":["self._sparse_array"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def free_symbols(self):
         return {i for j in self._sparse_array.values() for i in j.free_symbols}

@@ -22,16 +22,24 @@ from sympy.testing.pytest import raises, warns_deprecated_sympy
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_particle_default(), test_particle_default produces the expected output) over Any ║
+# ║ Path(test_particle_default(), p.name == 'P' and p.mass == symbols('P_mass') and p.masscenter.name == 'P_masscenter' and p.potential_energy == 0 and p.__str__() == 'P' and p.__repr__() == "Particle('P', masscenter=P_masscenter, mass=P_mass)") over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_particle_default : Any → {Any | p.name == 'P' an...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  p.name == 'P'                                  ║
+# ║   ensures:  p.mass == symbols('P_mass')                    ║
+# ║   ensures:  p.masscenter.name == 'P_masscenter'            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_particle_default : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e83cf23735244e48  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | efd6c1f39fc3e88a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_particle.test_particle_default","kind":"function","src_hash":"192224b11e26529b","in":{"base":"Any"},"out":{"base":"Any","pred":"p.name == 'P' and p.mass == symbols('P_mass') and p.masscenter.name == 'P_masscenter' and p.potential_energy == 0 and p.__str__() == 'P' and p.__repr__() == \"Particle('P', masscenter=P_masscenter, mass=P_mass)\""},"spec":{"lhs":"test_particle_default()","rhs":"test_particle_default produces the expected output","over":{"base":"Any"},"name":"test_particle_default_correct"},"guarantee":"test_particle_default produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_particle.test_particle_default_correct","statement":"Path(test_particle_default(x), test_particle_default produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e83cf23735244e48"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_particle.test_particle_default","kind":"function","src_hash":"192224b11e26529b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: p.name == 'P' and p.mass == symbols('P_mass') and p.masscenter.name == 'P_masscenter' and p.potential_energy == 0 and p.__str__() == 'P' and p.__repr__() == \"Particle('P', masscenter=P_masscenter, mass=P_mass)\""},"spec":{"lhs":"test_particle_default()","rhs":"p.name == 'P' and p.mass == symbols('P_mass') and p.masscenter.name == 'P_masscenter' and p.potential_energy == 0 and p.__str__() == 'P' and p.__repr__() == \"Particle('P', masscenter=P_masscenter, mass=P_mass)\"","over":{"base":"Any"},"name":"test_particle_default_correct"},"guarantee":"p.name == 'P'; p.mass == symbols('P_mass'); p.masscenter.name == 'P_masscenter'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_particle.test_particle_default_correct","statement":"Path(test_particle_default(x), p.name == 'P'; p.mass == symbols('P_mass'); p.masscenter.name == 'P_masscenter')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"efd6c1f39fc3e88a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["p.name == 'P'","p.mass == symbols('P_mass')","p.masscenter.name == 'P_masscenter'","p.potential_energy == 0","p.__str__() == 'P'","p.__repr__() == \"Particle('P', masscenter=P_masscenter, mass=P_mass)\""],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_particle_default():
     # Test default
     p = Particle('P')
@@ -46,7 +54,12 @@ def test_particle_default():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_particle(), test_particle produces the expected output) over {Any | isinstance(p, BodyBase)} ║
+# ║ Path(test_particle(), isinstance(p, BodyBase) and p.mass == m and p.point == P and p.mass == m2 and p.point == P2 and p.linear_momentum(N) == m2 * v1 * N.x and p.angular_momentum(O, N) == -m2 * r * v1 * N.z and p.linear_momentum(N) == m2 * v2 * N.y and p.angular_momentum(O, N) == 0 and p.linear_momentum(N) == m2 * v3 * N.z and p.angular_momentum(O, N) == m2 * r * v3 * N.x and p.linear_momentum(N) == m2 * (v1 * N.x + v2 * N.y + v3 * N.z) and p.angular_momentum(O, N) == m2 * r * (v3 * N.x - v1 * N.z) and p.potential_energy == m * g * h and p.kinetic_energy(N) in [m2 * (v1 ** 2 + v2 ** 2 + v3 ** 2) / 2, m2 * v1 ** 2 / 2 + m2 * v2 ** 2 / 2 + m2 * v3 ** 2 / 2]) over {Any | isinstance(p, BodyBase)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(p, BodyBase)                        ║
+# ║   ensures:  p.mass == m                                    ║
+# ║   ensures:  p.point == P                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_particle : {Any | isinstance(p, BodyBase)} → {An...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -58,9 +71,12 @@ def test_particle_default():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 2.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | fd58020e...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_particle.test_particle","kind":"function","src_hash":"28c7b6e19911174b","in":{"base":"Any","pred":"isinstance(p, BodyBase)"},"out":{"base":"Any","pred":"isinstance(p, BodyBase) and p.mass == m and p.point == P and p.mass == m2 and p.point == P2 and p.linear_momentum(N) == m2 * v1 * N.x and p.angular_momentum(O, N) == -m2 * r * v1 * N.z and p.linear_momentum(N) == m2 * v2 * N.y and p.angular_momentum(O, N) == 0 and p.linear_momentum(N) == m2 * v3 * N.z and p.angular_momentum(O, N) == m2 * r * v3 * N.x and p.linear_momentum(N) == m2 * (v1 * N.x + v2 * N.y + v3 * N.z) and p.angular_momentum(O, N) == m2 * r * (v3 * N.x - v1 * N.z) and p.potential_energy == m * g * h"},"spec":{"lhs":"test_particle()","rhs":"test_particle produces the expected output","over":{"base":"Any","pred":"isinstance(p, BodyBase)"},"name":"test_particle_correct"},"guarantee":"test_particle produces the expected output","fibers":[{"name":"BodyBase","pred":"isinstance(p, BodyBase)","path":{"lhs":"test_particle(x)","rhs":"test_particle produces the expected output","over":{"base":"BodyBase","pred":"isinstance(p, BodyBase)"},"name":"test_particle_BodyBase_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_particle.test_particle_BodyBase_correct","statement":"test_particle satisfies spec on BodyBase inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"fd58020e8b7c6fc0"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_particle.test_particle","kind":"function","src_hash":"28c7b6e19911174b","in":{"base":"Any","pred":"isinstance(p, BodyBase)"},"out":{"base":"Any","pred":"result satisfies: isinstance(p, BodyBase) and p.mass == m and p.point == P and p.mass == m2 and p.point == P2 and p.linear_momentum(N) == m2 * v1 * N.x and p.angular_momentum(O, N) == -m2 * r * v1 * N.z and p.linear_momentum(N) == m2 * v2 * N.y and p.angular_momentum(O, N) == 0 and p.linear_momentum(N) == m2 * v3 * N.z and p.angular_momentum(O, N) == m2 * r * v3 * N.x and p.linear_momentum(N) == m2 * (v1 * N.x + v2 * N.y + v3 * N.z) and p.angular_momentum(O, N) == m2 * r * (v3 * N.x - v1 * N.z) and p.potential_energy == m * g * h and p.kinetic_energy(N) in [m2 * (v1 ** 2 + v2 ** 2 + v3 ** 2) / 2, m2 * v1 ** 2 / 2 + m2 * v2 ** 2 / 2 + m2 * v3 ** 2 / 2]"},"spec":{"lhs":"test_particle()","rhs":"isinstance(p, BodyBase) and p.mass == m and p.point == P and p.mass == m2 and p.point == P2 and p.linear_momentum(N) == m2 * v1 * N.x and p.angular_momentum(O, N) == -m2 * r * v1 * N.z and p.linear_momentum(N) == m2 * v2 * N.y and p.angular_momentum(O, N) == 0 and p.linear_momentum(N) == m2 * v3 * N.z and p.angular_momentum(O, N) == m2 * r * v3 * N.x and p.linear_momentum(N) == m2 * (v1 * N.x + v2 * N.y + v3 * N.z) and p.angular_momentum(O, N) == m2 * r * (v3 * N.x - v1 * N.z) and p.potential_energy == m * g * h and p.kinetic_energy(N) in [m2 * (v1 ** 2 + v2 ** 2 + v3 ** 2) / 2, m2 * v1 ** 2 / 2 + m2 * v2 ** 2 / 2 + m2 * v3 ** 2 / 2]","over":{"base":"Any","pred":"isinstance(p, BodyBase)"},"name":"test_particle_correct"},"guarantee":"isinstance(p, BodyBase); p.mass == m; p.point == P","fibers":[{"name":"BodyBase","pred":"isinstance(p, BodyBase)","path":{"lhs":"test_particle(x)","rhs":"isinstance(p, BodyBase); p.mass == m; p.point == P","over":{"base":"BodyBase","pred":"isinstance(p, BodyBase)"},"name":"test_particle_BodyBase_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_particle.test_particle_BodyBase_correct","statement":"test_particle satisfies spec on BodyBase inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"fd58020e8b7c6fc0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(p, BodyBase)","p.mass == m","p.point == P","p.mass == m2","p.point == P2","p.linear_momentum(N) == m2 * v1 * N.x","p.angular_momentum(O, N) == -m2 * r * v1 * N.z","p.linear_momentum(N) == m2 * v2 * N.y","p.angular_momentum(O, N) == 0","p.linear_momentum(N) == m2 * v3 * N.z","p.angular_momentum(O, N) == m2 * r * v3 * N.x","p.linear_momentum(N) == m2 * (v1 * N.x + v2 * N.y + v3 * N.z)","p.angular_momentum(O, N) == m2 * r * (v3 * N.x - v1 * N.z)","p.potential_energy == m * g * h","p.kinetic_energy(N) in [m2 * (v1 ** 2 + v2 ** 2 + v3 ** 2) / 2, m2 * v1 ** 2 / 2 + m2 * v2 ** 2 / 2 + m2 * v3 ** 2 / 2]"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.0,"verdict_class":"failed","binding":true}}
 def test_particle():
     # Test initializing with parameters
     m, m2, v1, v2, v3, r, g, h = symbols('m m2 v1 v2 v3 r g h')
@@ -103,16 +119,22 @@ def test_particle():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_parallel_axis(), test_parallel_axis produces the expected output) over Any ║
+# ║ Path(test_parallel_axis(), Ip == Ip_expected) over Any     ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_parallel_axis : Any → {Any | Ip == Ip_expected}       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Ip == Ip_expected                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_parallel_axis : Any → {Any | result satisfies: I...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0e6c92c3c64b0055  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ba2b483e5d721ccc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_particle.test_parallel_axis","kind":"function","src_hash":"610c986f940808cc","in":{"base":"Any"},"out":{"base":"Any","pred":"Ip == Ip_expected"},"spec":{"lhs":"test_parallel_axis()","rhs":"test_parallel_axis produces the expected output","over":{"base":"Any"},"name":"test_parallel_axis_correct"},"guarantee":"test_parallel_axis produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_particle.test_parallel_axis_correct","statement":"Path(test_parallel_axis(x), test_parallel_axis produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0e6c92c3c64b0055"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_particle.test_parallel_axis","kind":"function","src_hash":"610c986f940808cc","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Ip == Ip_expected"},"spec":{"lhs":"test_parallel_axis()","rhs":"Ip == Ip_expected","over":{"base":"Any"},"name":"test_parallel_axis_correct"},"guarantee":"Ip == Ip_expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_particle.test_parallel_axis_correct","statement":"Path(test_parallel_axis(x), Ip == Ip_expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ba2b483e5d721ccc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Ip == Ip_expected"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_parallel_axis():
     N = ReferenceFrame('N')
     m, a, b = symbols('m, a, b')
@@ -126,16 +148,22 @@ def test_parallel_axis():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_deprecated_set_potential_energy(), test_deprecated_set_potential_energy produces the expected output) over Any ║
+# ║ Path(test_deprecated_set_potential_energy(), <unspecified:test_deprecated_set_potential_energy>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_deprecated_set_potential_energy : Any → Any           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | caa62d10de5520ab  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_particle.test_deprecated_set_potential_energy","kind":"function","src_hash":"a09924f737990d05","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_deprecated_set_potential_energy()","rhs":"test_deprecated_set_potential_energy produces the expected output","over":{"base":"Any"},"name":"test_deprecated_set_potential_energy_correct"},"guarantee":"test_deprecated_set_potential_energy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_particle.test_deprecated_set_potential_energy_correct","statement":"Path(test_deprecated_set_potential_energy(x), test_deprecated_set_potential_energy produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"caa62d10de5520ab"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_particle.test_deprecated_set_potential_energy","kind":"function","src_hash":"a09924f737990d05","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_deprecated_set_potential_energy()","rhs":"<unspecified:test_deprecated_set_potential_energy>","over":{"base":"Any"},"name":"test_deprecated_set_potential_energy_correct"},"guarantee":"test_deprecated_set_potential_energy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_particle.test_deprecated_set_potential_energy_correct","statement":"Path(test_deprecated_set_potential_energy(x), test_deprecated_set_potential_energy produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"caa62d10de5520ab","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_deprecated_set_potential_energy():
     m, g, h = symbols('m g h')
     P = Point('P')

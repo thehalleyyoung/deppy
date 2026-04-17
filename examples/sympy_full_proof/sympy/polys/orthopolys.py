@@ -24,16 +24,23 @@ from sympy.polys.polytools import named_poly
 from sympy.utilities import public
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_jacobi(n, ), low-level implementation of jacobi polynomials) over Any ║
+# ║ Path(dup_jacobi(n, a, b), <unspecified:dup_jacobi>) over {Any | hasattr(K, 'one')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dup_jacobi : Any → Any                                     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(K, 'one')                              ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dup_jacobi : {Any | hasattr(K, 'one')} → Any               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 37321e54b0c418b9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.orthopolys.dup_jacobi","kind":"function","src_hash":"122d30adb6406ee8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_jacobi(n, )","rhs":"low-level implementation of jacobi polynomials","over":{"base":"Any"},"name":"dup_jacobi_correct"},"guarantee":"low-level implementation of jacobi polynomials","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.orthopolys.dup_jacobi_correct","statement":"Path(dup_jacobi(x), low-level implementation of jacobi polynomials)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"37321e54b0c418b9"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.orthopolys.dup_jacobi","kind":"function","src_hash":"122d30adb6406ee8","in":{"base":"Any","pred":"hasattr(K, 'one')"},"out":{"base":"Any"},"spec":{"lhs":"dup_jacobi(n, a, b)","rhs":"<unspecified:dup_jacobi>","over":{"base":"Any","pred":"hasattr(K, 'one')"},"name":"dup_jacobi_correct"},"guarantee":"low-level implementation of jacobi polynomials","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.orthopolys.dup_jacobi_correct","statement":"Path(dup_jacobi(x), low-level implementation of jacobi polynomials)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"37321e54b0c418b9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(K, 'one')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["K.one"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def dup_jacobi(n, a, b, K):
     """Low-level implementation of Jacobi polynomials."""
     if n < 1:
@@ -52,16 +59,22 @@ def dup_jacobi(n, a, b, K):
 
 @public
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(jacobi_poly(n, ), generates the jacobi polynomial `p_n^{(a,b)}(x)`) over Any ║
+# ║ Path(jacobi_poly(n, a, b), named_poly(n, dup_jacobi, None, 'Jacobi polynomial', (x, a, b), polys)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  named_poly(n, dup_jacobi, None, 'Jacobi p...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ jacobi_poly : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8bf61e39b46a62b7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.orthopolys.jacobi_poly","kind":"function","src_hash":"ae920656ae60da86","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"jacobi_poly(n, )","rhs":"generates the jacobi polynomial `p_n^{(a,b)}(x)`","over":{"base":"Any"},"name":"jacobi_poly_correct"},"guarantee":"generates the jacobi polynomial `p_n^{(a,b)}(x)`","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8bf61e39b46a62b7"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.orthopolys.jacobi_poly","kind":"function","src_hash":"ae920656ae60da86","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"jacobi_poly(n, a, b)","rhs":"named_poly(n, dup_jacobi, None, 'Jacobi polynomial', (x, a, b), polys)","over":{"base":"Any"},"name":"jacobi_poly_correct"},"guarantee":"returns named_poly(n, dup_jacobi, None, 'Jacobi polynomial', (x, a, b), polys)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8bf61e39b46a62b7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"named_poly(n, dup_jacobi, None, 'Jacobi polynomial', (x, a, b), polys)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":true}}
 def jacobi_poly(n, a, b, x=None, polys=False):
     r"""Generates the Jacobi polynomial `P_n^{(a,b)}(x)`.
 
@@ -81,16 +94,24 @@ def jacobi_poly(n, a, b, x=None, polys=False):
     return named_poly(n, dup_jacobi, None, "Jacobi polynomial", (x, a, b), polys)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_gegenbauer(n, ), low-level implementation of gegenbauer polynomials) over Any ║
+# ║ Path(dup_gegenbauer(n, a, K), <unspecified:dup_gegenbauer>) over {Any | hasattr(K, 'one') and hasattr(K, 'zero')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dup_gegenbauer : Any → Any                                 ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(K, 'one')                              ║
+# ║   requires: hasattr(K, 'zero')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dup_gegenbauer : {Any | hasattr(K, 'one') and hasattr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | de0babf675e1ebac  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.orthopolys.dup_gegenbauer","kind":"function","src_hash":"b5ef45ff0c21856c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_gegenbauer(n, )","rhs":"low-level implementation of gegenbauer polynomials","over":{"base":"Any"},"name":"dup_gegenbauer_correct"},"guarantee":"low-level implementation of gegenbauer polynomials","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.orthopolys.dup_gegenbauer_correct","statement":"Path(dup_gegenbauer(x), low-level implementation of gegenbauer polynomials)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"de0babf675e1ebac"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.orthopolys.dup_gegenbauer","kind":"function","src_hash":"b5ef45ff0c21856c","in":{"base":"Any","pred":"hasattr(K, 'one') and hasattr(K, 'zero')"},"out":{"base":"Any"},"spec":{"lhs":"dup_gegenbauer(n, a, K)","rhs":"<unspecified:dup_gegenbauer>","over":{"base":"Any","pred":"hasattr(K, 'one') and hasattr(K, 'zero')"},"name":"dup_gegenbauer_correct"},"guarantee":"low-level implementation of gegenbauer polynomials","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.orthopolys.dup_gegenbauer_correct","statement":"Path(dup_gegenbauer(x), low-level implementation of gegenbauer polynomials)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"de0babf675e1ebac","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(K, 'one')","hasattr(K, 'zero')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["K.one","K.zero"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def dup_gegenbauer(n, a, K):
     """Low-level implementation of Gegenbauer polynomials."""
     if n < 1:
@@ -103,16 +124,22 @@ def dup_gegenbauer(n, a, K):
     return m1
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gegenbauer_poly(n, ), generates the gegenbauer polynomial `c_n^{(a)}(x)`) over Any ║
+# ║ Path(gegenbauer_poly(n, a, x), named_poly(n, dup_gegenbauer, None, 'Gegenbauer polynomial', (x, a), polys)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  named_poly(n, dup_gegenbauer, None, 'Gege...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gegenbauer_poly : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c0606929e1aeed8c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.orthopolys.gegenbauer_poly","kind":"function","src_hash":"247df58e2da909b1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gegenbauer_poly(n, )","rhs":"generates the gegenbauer polynomial `c_n^{(a)}(x)`","over":{"base":"Any"},"name":"gegenbauer_poly_correct"},"guarantee":"generates the gegenbauer polynomial `c_n^{(a)}(x)`","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c0606929e1aeed8c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.orthopolys.gegenbauer_poly","kind":"function","src_hash":"247df58e2da909b1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gegenbauer_poly(n, a, x)","rhs":"named_poly(n, dup_gegenbauer, None, 'Gegenbauer polynomial', (x, a), polys)","over":{"base":"Any"},"name":"gegenbauer_poly_correct"},"guarantee":"returns named_poly(n, dup_gegenbauer, None, 'Gegenbauer polynomial', (x, a), polys)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c0606929e1aeed8c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"named_poly(n, dup_gegenbauer, None, 'Gegenbauer polynomial', (x, a), polys)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":true}}
 def gegenbauer_poly(n, a, x=None, polys=False):
     r"""Generates the Gegenbauer polynomial `C_n^{(a)}(x)`.
 
@@ -130,16 +157,23 @@ def gegenbauer_poly(n, a, x=None, polys=False):
     return named_poly(n, dup_gegenbauer, None, "Gegenbauer polynomial", (x, a), polys)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_chebyshevt(n, ), low-level implementation of chebyshev polynomials of the first kind) over Any ║
+# ║ Path(dup_chebyshevt(n, K), <unspecified:dup_chebyshevt>) over {Any | hasattr(K, 'one')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dup_chebyshevt : Any → Any                                 ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(K, 'one')                              ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dup_chebyshevt : {Any | hasattr(K, 'one')} → Any           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c29f1605b75fe0a2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.orthopolys.dup_chebyshevt","kind":"function","src_hash":"353f9e1ac81ca505","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_chebyshevt(n, )","rhs":"low-level implementation of chebyshev polynomials of the first kind","over":{"base":"Any"},"name":"dup_chebyshevt_correct"},"guarantee":"low-level implementation of chebyshev polynomials of the first kind","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.orthopolys.dup_chebyshevt_correct","statement":"Path(dup_chebyshevt(x), low-level implementation of chebyshev polynomials of the first kind)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c29f1605b75fe0a2"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.orthopolys.dup_chebyshevt","kind":"function","src_hash":"353f9e1ac81ca505","in":{"base":"Any","pred":"hasattr(K, 'one')"},"out":{"base":"Any"},"spec":{"lhs":"dup_chebyshevt(n, K)","rhs":"<unspecified:dup_chebyshevt>","over":{"base":"Any","pred":"hasattr(K, 'one')"},"name":"dup_chebyshevt_correct"},"guarantee":"low-level implementation of chebyshev polynomials of the first kind","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.orthopolys.dup_chebyshevt_correct","statement":"Path(dup_chebyshevt(x), low-level implementation of chebyshev polynomials of the first kind)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c29f1605b75fe0a2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(K, 'one')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["K.one"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def dup_chebyshevt(n, K):
     """Low-level implementation of Chebyshev polynomials of the first kind."""
     if n < 1:
@@ -150,16 +184,24 @@ def dup_chebyshevt(n, K):
     return _dup_chebyshevt_prod(n, K)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_dup_chebyshevt_rec(n, ), chebyshev polynomials of the first kind using recurrence) over Any ║
+# ║ Path(_dup_chebyshevt_rec(n, K), <unspecified:_dup_chebyshevt_rec>) over {Any | hasattr(K, 'one') and hasattr(K, 'zero')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _dup_chebyshevt_rec : Any → Any                            ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(K, 'one')                              ║
+# ║   requires: hasattr(K, 'zero')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _dup_chebyshevt_rec : {Any | hasattr(K, 'one') and ha...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 810715a2c1fa1f97  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.orthopolys._dup_chebyshevt_rec","kind":"function","src_hash":"eaef0415606f5e9c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_dup_chebyshevt_rec(n, )","rhs":"chebyshev polynomials of the first kind using recurrence","over":{"base":"Any"},"name":"_dup_chebyshevt_rec_correct"},"guarantee":"chebyshev polynomials of the first kind using recurrence","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.orthopolys._dup_chebyshevt_rec_correct","statement":"Path(_dup_chebyshevt_rec(x), chebyshev polynomials of the first kind using recurrence)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"810715a2c1fa1f97"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.orthopolys._dup_chebyshevt_rec","kind":"function","src_hash":"eaef0415606f5e9c","in":{"base":"Any","pred":"hasattr(K, 'one') and hasattr(K, 'zero')"},"out":{"base":"Any"},"spec":{"lhs":"_dup_chebyshevt_rec(n, K)","rhs":"<unspecified:_dup_chebyshevt_rec>","over":{"base":"Any","pred":"hasattr(K, 'one') and hasattr(K, 'zero')"},"name":"_dup_chebyshevt_rec_correct"},"guarantee":"chebyshev polynomials of the first kind using recurrence","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.orthopolys._dup_chebyshevt_rec_correct","statement":"Path(_dup_chebyshevt_rec(x), chebyshev polynomials of the first kind using recurrence)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"810715a2c1fa1f97","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(K, 'one')","hasattr(K, 'zero')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["K.one","K.zero"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _dup_chebyshevt_rec(n, K):
     r""" Chebyshev polynomials of the first kind using recurrence.
 
@@ -191,16 +233,24 @@ def _dup_chebyshevt_rec(n, K):
     return m1
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_dup_chebyshevt_prod(n, ), chebyshev polynomials of the first kind using recursive products) over Any ║
+# ║ Path(_dup_chebyshevt_prod(n, K), <unspecified:_dup_chebyshevt_prod>) over {Any | hasattr(K, 'one') and hasattr(K, 'zero')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _dup_chebyshevt_prod : Any → Any                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(K, 'one')                              ║
+# ║   requires: hasattr(K, 'zero')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _dup_chebyshevt_prod : {Any | hasattr(K, 'one') and h...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d46f74ebaddd0a69  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.orthopolys._dup_chebyshevt_prod","kind":"function","src_hash":"727dd77678d15964","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_dup_chebyshevt_prod(n, )","rhs":"chebyshev polynomials of the first kind using recursive products","over":{"base":"Any"},"name":"_dup_chebyshevt_prod_correct"},"guarantee":"chebyshev polynomials of the first kind using recursive products","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.orthopolys._dup_chebyshevt_prod_correct","statement":"Path(_dup_chebyshevt_prod(x), chebyshev polynomials of the first kind using recursive products)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d46f74ebaddd0a69"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.orthopolys._dup_chebyshevt_prod","kind":"function","src_hash":"727dd77678d15964","in":{"base":"Any","pred":"hasattr(K, 'one') and hasattr(K, 'zero')"},"out":{"base":"Any"},"spec":{"lhs":"_dup_chebyshevt_prod(n, K)","rhs":"<unspecified:_dup_chebyshevt_prod>","over":{"base":"Any","pred":"hasattr(K, 'one') and hasattr(K, 'zero')"},"name":"_dup_chebyshevt_prod_correct"},"guarantee":"chebyshev polynomials of the first kind using recursive products","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.orthopolys._dup_chebyshevt_prod_correct","statement":"Path(_dup_chebyshevt_prod(x), chebyshev polynomials of the first kind using recursive products)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d46f74ebaddd0a69","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(K, 'one')","hasattr(K, 'zero')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["K.one","K.zero"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _dup_chebyshevt_prod(n, K):
     r""" Chebyshev polynomials of the first kind using recursive products.
 
@@ -233,16 +283,24 @@ def _dup_chebyshevt_prod(n, K):
     return m2
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_chebyshevu(n, ), low-level implementation of chebyshev polynomials of the second kind) over Any ║
+# ║ Path(dup_chebyshevu(n, K), <unspecified:dup_chebyshevu>) over {Any | hasattr(K, 'one') and hasattr(K, 'zero')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dup_chebyshevu : Any → Any                                 ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(K, 'one')                              ║
+# ║   requires: hasattr(K, 'zero')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dup_chebyshevu : {Any | hasattr(K, 'one') and hasattr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c365fa8e0fb82114  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.orthopolys.dup_chebyshevu","kind":"function","src_hash":"0df9ee107c40396b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_chebyshevu(n, )","rhs":"low-level implementation of chebyshev polynomials of the second kind","over":{"base":"Any"},"name":"dup_chebyshevu_correct"},"guarantee":"low-level implementation of chebyshev polynomials of the second kind","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.orthopolys.dup_chebyshevu_correct","statement":"Path(dup_chebyshevu(x), low-level implementation of chebyshev polynomials of the second kind)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c365fa8e0fb82114"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.orthopolys.dup_chebyshevu","kind":"function","src_hash":"0df9ee107c40396b","in":{"base":"Any","pred":"hasattr(K, 'one') and hasattr(K, 'zero')"},"out":{"base":"Any"},"spec":{"lhs":"dup_chebyshevu(n, K)","rhs":"<unspecified:dup_chebyshevu>","over":{"base":"Any","pred":"hasattr(K, 'one') and hasattr(K, 'zero')"},"name":"dup_chebyshevu_correct"},"guarantee":"low-level implementation of chebyshev polynomials of the second kind","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.orthopolys.dup_chebyshevu_correct","statement":"Path(dup_chebyshevu(x), low-level implementation of chebyshev polynomials of the second kind)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c365fa8e0fb82114","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(K, 'one')","hasattr(K, 'zero')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["K.one","K.zero"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def dup_chebyshevu(n, K):
     """Low-level implementation of Chebyshev polynomials of the second kind."""
     if n < 1:
@@ -254,16 +312,22 @@ def dup_chebyshevu(n, K):
 
 @public
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(chebyshevt_poly(n, ), generates the chebyshev polynomial of the first kind `t_n(x)`) over Any ║
+# ║ Path(chebyshevt_poly(n, x, polys), named_poly(n, dup_chebyshevt, ZZ, 'Chebyshev polynomial of the first kind', (x,), polys)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  named_poly(n, dup_chebyshevt, ZZ, 'Chebys...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ chebyshevt_poly : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 07887ed00f637a6b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f893e0f446a4b987  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.orthopolys.chebyshevt_poly","kind":"function","src_hash":"644fbfd505ca8268","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"chebyshevt_poly(n, )","rhs":"generates the chebyshev polynomial of the first kind `t_n(x)`","over":{"base":"Any"},"name":"chebyshevt_poly_correct"},"guarantee":"generates the chebyshev polynomial of the first kind `t_n(x)`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.orthopolys.chebyshevt_poly_correct","statement":"Path(chebyshevt_poly(x), generates the chebyshev polynomial of the first kind `t_n(x)`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"07887ed00f637a6b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.orthopolys.chebyshevt_poly","kind":"function","src_hash":"644fbfd505ca8268","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"chebyshevt_poly(n, x, polys)","rhs":"named_poly(n, dup_chebyshevt, ZZ, 'Chebyshev polynomial of the first kind', (x,), polys)","over":{"base":"Any"},"name":"chebyshevt_poly_correct"},"guarantee":"returns named_poly(n, dup_chebyshevt, ZZ, 'Chebyshev polynomial of the first kind', (x,), polys)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.orthopolys.chebyshevt_poly_correct","statement":"Path(chebyshevt_poly(x), returns named_poly(n, dup_chebyshevt, ZZ, 'Chebyshev polynomial of the first kind', (x,), polys))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f893e0f446a4b987","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"named_poly(n, dup_chebyshevt, ZZ, 'Chebyshev polynomial of the first kind', (x,), polys)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def chebyshevt_poly(n, x=None, polys=False):
     r"""Generates the Chebyshev polynomial of the first kind `T_n(x)`.
 
@@ -281,16 +345,22 @@ def chebyshevt_poly(n, x=None, polys=False):
 
 @public
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(chebyshevu_poly(n, ), generates the chebyshev polynomial of the second kind `u_n(x)`) over Any ║
+# ║ Path(chebyshevu_poly(n, x, polys), named_poly(n, dup_chebyshevu, ZZ, 'Chebyshev polynomial of the second kind', (x,), polys)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  named_poly(n, dup_chebyshevu, ZZ, 'Chebys...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ chebyshevu_poly : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | da4557d2c7ef9b0c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5f704440df089864  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.orthopolys.chebyshevu_poly","kind":"function","src_hash":"711051f9e7afce72","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"chebyshevu_poly(n, )","rhs":"generates the chebyshev polynomial of the second kind `u_n(x)`","over":{"base":"Any"},"name":"chebyshevu_poly_correct"},"guarantee":"generates the chebyshev polynomial of the second kind `u_n(x)`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.orthopolys.chebyshevu_poly_correct","statement":"Path(chebyshevu_poly(x), generates the chebyshev polynomial of the second kind `u_n(x)`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"da4557d2c7ef9b0c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.orthopolys.chebyshevu_poly","kind":"function","src_hash":"711051f9e7afce72","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"chebyshevu_poly(n, x, polys)","rhs":"named_poly(n, dup_chebyshevu, ZZ, 'Chebyshev polynomial of the second kind', (x,), polys)","over":{"base":"Any"},"name":"chebyshevu_poly_correct"},"guarantee":"returns named_poly(n, dup_chebyshevu, ZZ, 'Chebyshev polynomial of the second kind', (x,), polys)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.orthopolys.chebyshevu_poly_correct","statement":"Path(chebyshevu_poly(x), returns named_poly(n, dup_chebyshevu, ZZ, 'Chebyshev polynomial of the second kind', (x,), polys))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5f704440df089864","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"named_poly(n, dup_chebyshevu, ZZ, 'Chebyshev polynomial of the second kind', (x,), polys)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def chebyshevu_poly(n, x=None, polys=False):
     r"""Generates the Chebyshev polynomial of the second kind `U_n(x)`.
 
@@ -307,16 +377,24 @@ def chebyshevu_poly(n, x=None, polys=False):
             "Chebyshev polynomial of the second kind", (x,), polys)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_hermite(n, ), low-level implementation of hermite polynomials) over Any ║
+# ║ Path(dup_hermite(n, K), <unspecified:dup_hermite>) over {Any | hasattr(K, 'one') and hasattr(K, 'zero')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dup_hermite : Any → Any                                    ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(K, 'one')                              ║
+# ║   requires: hasattr(K, 'zero')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dup_hermite : {Any | hasattr(K, 'one') and hasattr(K,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 194b85e39f588343  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.orthopolys.dup_hermite","kind":"function","src_hash":"31c5bc28235af749","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_hermite(n, )","rhs":"low-level implementation of hermite polynomials","over":{"base":"Any"},"name":"dup_hermite_correct"},"guarantee":"low-level implementation of hermite polynomials","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.orthopolys.dup_hermite_correct","statement":"Path(dup_hermite(x), low-level implementation of hermite polynomials)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"194b85e39f588343"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.orthopolys.dup_hermite","kind":"function","src_hash":"31c5bc28235af749","in":{"base":"Any","pred":"hasattr(K, 'one') and hasattr(K, 'zero')"},"out":{"base":"Any"},"spec":{"lhs":"dup_hermite(n, K)","rhs":"<unspecified:dup_hermite>","over":{"base":"Any","pred":"hasattr(K, 'one') and hasattr(K, 'zero')"},"name":"dup_hermite_correct"},"guarantee":"low-level implementation of hermite polynomials","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.orthopolys.dup_hermite_correct","statement":"Path(dup_hermite(x), low-level implementation of hermite polynomials)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"194b85e39f588343","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(K, 'one')","hasattr(K, 'zero')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["K.one","K.zero"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def dup_hermite(n, K):
     """Low-level implementation of Hermite polynomials."""
     if n < 1:
@@ -329,16 +407,24 @@ def dup_hermite(n, K):
     return m1
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_hermite_prob(n, ), low-level implementation of probabilist's hermite polynomials) over Any ║
+# ║ Path(dup_hermite_prob(n, K), <unspecified:dup_hermite_prob>) over {Any | hasattr(K, 'one') and hasattr(K, 'zero')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dup_hermite_prob : Any → Any                               ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(K, 'one')                              ║
+# ║   requires: hasattr(K, 'zero')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dup_hermite_prob : {Any | hasattr(K, 'one') and hasat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b4e45f8da00a6d81  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.orthopolys.dup_hermite_prob","kind":"function","src_hash":"292b783404adb2f8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_hermite_prob(n, )","rhs":"low-level implementation of probabilist's hermite polynomials","over":{"base":"Any"},"name":"dup_hermite_prob_correct"},"guarantee":"low-level implementation of probabilist's hermite polynomials","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.orthopolys.dup_hermite_prob_correct","statement":"Path(dup_hermite_prob(x), low-level implementation of probabilist's hermite polynomials)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b4e45f8da00a6d81"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.orthopolys.dup_hermite_prob","kind":"function","src_hash":"292b783404adb2f8","in":{"base":"Any","pred":"hasattr(K, 'one') and hasattr(K, 'zero')"},"out":{"base":"Any"},"spec":{"lhs":"dup_hermite_prob(n, K)","rhs":"<unspecified:dup_hermite_prob>","over":{"base":"Any","pred":"hasattr(K, 'one') and hasattr(K, 'zero')"},"name":"dup_hermite_prob_correct"},"guarantee":"low-level implementation of probabilist's hermite polynomials","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.orthopolys.dup_hermite_prob_correct","statement":"Path(dup_hermite_prob(x), low-level implementation of probabilist's hermite polynomials)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b4e45f8da00a6d81","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(K, 'one')","hasattr(K, 'zero')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["K.one","K.zero"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def dup_hermite_prob(n, K):
     """Low-level implementation of probabilist's Hermite polynomials."""
     if n < 1:
@@ -352,16 +438,22 @@ def dup_hermite_prob(n, K):
 
 @public
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(hermite_poly(n, ), generates the hermite polynomial `h_n(x)`) over Any ║
+# ║ Path(hermite_poly(n, x, polys), named_poly(n, dup_hermite, ZZ, 'Hermite polynomial', (x,), polys)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  named_poly(n, dup_hermite, ZZ, 'Hermite p...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ hermite_poly : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 77a13fa4bd7a5cbe           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.orthopolys.hermite_poly","kind":"function","src_hash":"049416adc4af704b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"hermite_poly(n, )","rhs":"generates the hermite polynomial `h_n(x)`","over":{"base":"Any"},"name":"hermite_poly_correct"},"guarantee":"generates the hermite polynomial `h_n(x)`","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"77a13fa4bd7a5cbe"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.orthopolys.hermite_poly","kind":"function","src_hash":"049416adc4af704b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"hermite_poly(n, x, polys)","rhs":"named_poly(n, dup_hermite, ZZ, 'Hermite polynomial', (x,), polys)","over":{"base":"Any"},"name":"hermite_poly_correct"},"guarantee":"returns named_poly(n, dup_hermite, ZZ, 'Hermite polynomial', (x,), polys)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"77a13fa4bd7a5cbe","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"named_poly(n, dup_hermite, ZZ, 'Hermite polynomial', (x,), polys)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def hermite_poly(n, x=None, polys=False):
     r"""Generates the Hermite polynomial `H_n(x)`.
 
@@ -378,16 +470,22 @@ def hermite_poly(n, x=None, polys=False):
 
 @public
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(hermite_prob_poly(n, ), generates the probabilist's hermite polynomial `he_n(x)`) over Any ║
+# ║ Path(hermite_prob_poly(n, x, polys), named_poly(n, dup_hermite_prob, ZZ, "probabilist's Hermite polynomial", (x,), polys)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  named_poly(n, dup_hermite_prob, ZZ, "prob...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ hermite_prob_poly : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c5d35ece7afcab1f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8546b65c6cb404c7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.orthopolys.hermite_prob_poly","kind":"function","src_hash":"b5dd9b200cb408f6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"hermite_prob_poly(n, )","rhs":"generates the probabilist's hermite polynomial `he_n(x)`","over":{"base":"Any"},"name":"hermite_prob_poly_correct"},"guarantee":"generates the probabilist's hermite polynomial `he_n(x)`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.orthopolys.hermite_prob_poly_correct","statement":"Path(hermite_prob_poly(x), generates the probabilist's hermite polynomial `he_n(x)`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c5d35ece7afcab1f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.orthopolys.hermite_prob_poly","kind":"function","src_hash":"b5dd9b200cb408f6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"hermite_prob_poly(n, x, polys)","rhs":"named_poly(n, dup_hermite_prob, ZZ, \"probabilist's Hermite polynomial\", (x,), polys)","over":{"base":"Any"},"name":"hermite_prob_poly_correct"},"guarantee":"returns named_poly(n, dup_hermite_prob, ZZ, \"probabilist's Hermite polynomial\", (x,), polys)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.orthopolys.hermite_prob_poly_correct","statement":"Path(hermite_prob_poly(x), returns named_poly(n, dup_hermite_prob, ZZ, \"probabilist's Hermite polynomial\", (x,), polys))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8546b65c6cb404c7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"named_poly(n, dup_hermite_prob, ZZ, \"probabilist's Hermite polynomial\", (x,), polys)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def hermite_prob_poly(n, x=None, polys=False):
     r"""Generates the probabilist's Hermite polynomial `He_n(x)`.
 
@@ -404,16 +502,24 @@ def hermite_prob_poly(n, x=None, polys=False):
             "probabilist's Hermite polynomial", (x,), polys)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_legendre(n, ), low-level implementation of legendre polynomials) over Any ║
+# ║ Path(dup_legendre(n, K), <unspecified:dup_legendre>) over {Any | hasattr(K, 'one') and hasattr(K, 'zero')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dup_legendre : Any → Any                                   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(K, 'one')                              ║
+# ║   requires: hasattr(K, 'zero')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dup_legendre : {Any | hasattr(K, 'one') and hasattr(K...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 537102e123a00c2e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.orthopolys.dup_legendre","kind":"function","src_hash":"ce55f7e1b6e28043","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_legendre(n, )","rhs":"low-level implementation of legendre polynomials","over":{"base":"Any"},"name":"dup_legendre_correct"},"guarantee":"low-level implementation of legendre polynomials","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.orthopolys.dup_legendre_correct","statement":"Path(dup_legendre(x), low-level implementation of legendre polynomials)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"537102e123a00c2e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.orthopolys.dup_legendre","kind":"function","src_hash":"ce55f7e1b6e28043","in":{"base":"Any","pred":"hasattr(K, 'one') and hasattr(K, 'zero')"},"out":{"base":"Any"},"spec":{"lhs":"dup_legendre(n, K)","rhs":"<unspecified:dup_legendre>","over":{"base":"Any","pred":"hasattr(K, 'one') and hasattr(K, 'zero')"},"name":"dup_legendre_correct"},"guarantee":"low-level implementation of legendre polynomials","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.orthopolys.dup_legendre_correct","statement":"Path(dup_legendre(x), low-level implementation of legendre polynomials)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"537102e123a00c2e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(K, 'one')","hasattr(K, 'zero')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["K.one","K.zero"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def dup_legendre(n, K):
     """Low-level implementation of Legendre polynomials."""
     if n < 1:
@@ -427,16 +533,22 @@ def dup_legendre(n, K):
 
 @public
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(legendre_poly(n, ), generates the legendre polynomial `p_n(x)`) over Any ║
+# ║ Path(legendre_poly(n, x, polys), named_poly(n, dup_legendre, QQ, 'Legendre polynomial', (x,), polys)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  named_poly(n, dup_legendre, QQ, 'Legendre...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ legendre_poly : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 095e419399021214           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.orthopolys.legendre_poly","kind":"function","src_hash":"7710b67abfb0f624","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"legendre_poly(n, )","rhs":"generates the legendre polynomial `p_n(x)`","over":{"base":"Any"},"name":"legendre_poly_correct"},"guarantee":"generates the legendre polynomial `p_n(x)`","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"095e419399021214"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.orthopolys.legendre_poly","kind":"function","src_hash":"7710b67abfb0f624","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"legendre_poly(n, x, polys)","rhs":"named_poly(n, dup_legendre, QQ, 'Legendre polynomial', (x,), polys)","over":{"base":"Any"},"name":"legendre_poly_correct"},"guarantee":"returns named_poly(n, dup_legendre, QQ, 'Legendre polynomial', (x,), polys)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"095e419399021214","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"named_poly(n, dup_legendre, QQ, 'Legendre polynomial', (x,), polys)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def legendre_poly(n, x=None, polys=False):
     r"""Generates the Legendre polynomial `P_n(x)`.
 
@@ -452,16 +564,24 @@ def legendre_poly(n, x=None, polys=False):
     return named_poly(n, dup_legendre, QQ, "Legendre polynomial", (x,), polys)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_laguerre(n, ), low-level implementation of laguerre polynomials) over Any ║
+# ║ Path(dup_laguerre(n, alpha, K), <unspecified:dup_laguerre>) over {Any | hasattr(K, 'zero') and hasattr(K, 'one')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dup_laguerre : Any → Any                                   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(K, 'zero')                             ║
+# ║   requires: hasattr(K, 'one')                              ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dup_laguerre : {Any | hasattr(K, 'zero') and hasattr(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 445b79d8d6c9be42  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.orthopolys.dup_laguerre","kind":"function","src_hash":"f0bf8fa419f760c6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_laguerre(n, )","rhs":"low-level implementation of laguerre polynomials","over":{"base":"Any"},"name":"dup_laguerre_correct"},"guarantee":"low-level implementation of laguerre polynomials","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.orthopolys.dup_laguerre_correct","statement":"Path(dup_laguerre(x), low-level implementation of laguerre polynomials)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"445b79d8d6c9be42"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.orthopolys.dup_laguerre","kind":"function","src_hash":"f0bf8fa419f760c6","in":{"base":"Any","pred":"hasattr(K, 'zero') and hasattr(K, 'one')"},"out":{"base":"Any"},"spec":{"lhs":"dup_laguerre(n, alpha, K)","rhs":"<unspecified:dup_laguerre>","over":{"base":"Any","pred":"hasattr(K, 'zero') and hasattr(K, 'one')"},"name":"dup_laguerre_correct"},"guarantee":"low-level implementation of laguerre polynomials","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.orthopolys.dup_laguerre_correct","statement":"Path(dup_laguerre(x), low-level implementation of laguerre polynomials)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"445b79d8d6c9be42","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(K, 'zero')","hasattr(K, 'one')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["K.one","K.zero"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def dup_laguerre(n, alpha, K):
     """Low-level implementation of Laguerre polynomials."""
     m2, m1 = [K.zero], [K.one]
@@ -473,16 +593,22 @@ def dup_laguerre(n, alpha, K):
 
 @public
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(laguerre_poly(n, ), generates the laguerre polynomial `l_n^{(\alpha)}(x)`) over Any ║
+# ║ Path(laguerre_poly(n, x, alpha), named_poly(n, dup_laguerre, None, 'Laguerre polynomial', (x, alpha), polys)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  named_poly(n, dup_laguerre, None, 'Laguer...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ laguerre_poly : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a37a23844663e346           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.orthopolys.laguerre_poly","kind":"function","src_hash":"8870ef1bb68b5065","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"laguerre_poly(n, )","rhs":"generates the laguerre polynomial `l_n^{(\\alpha)}(x)`","over":{"base":"Any"},"name":"laguerre_poly_correct"},"guarantee":"generates the laguerre polynomial `l_n^{(\\alpha)}(x)`","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a37a23844663e346"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.orthopolys.laguerre_poly","kind":"function","src_hash":"8870ef1bb68b5065","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"laguerre_poly(n, x, alpha)","rhs":"named_poly(n, dup_laguerre, None, 'Laguerre polynomial', (x, alpha), polys)","over":{"base":"Any"},"name":"laguerre_poly_correct"},"guarantee":"returns named_poly(n, dup_laguerre, None, 'Laguerre polynomial', (x, alpha), polys)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a37a23844663e346","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"named_poly(n, dup_laguerre, None, 'Laguerre polynomial', (x, alpha), polys)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":true}}
 def laguerre_poly(n, x=None, alpha=0, polys=False):
     r"""Generates the Laguerre polynomial `L_n^{(\alpha)}(x)`.
 
@@ -500,16 +626,24 @@ def laguerre_poly(n, x=None, alpha=0, polys=False):
     return named_poly(n, dup_laguerre, None, "Laguerre polynomial", (x, alpha), polys)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_spherical_bessel_fn(n, ), low-level implementation of fn(n, x)) over Any ║
+# ║ Path(dup_spherical_bessel_fn(n, K), <unspecified:dup_spherical_bessel_fn>) over {Any | hasattr(K, 'one') and hasattr(K, 'zero')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dup_spherical_bessel_fn : Any → Any                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(K, 'one')                              ║
+# ║   requires: hasattr(K, 'zero')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dup_spherical_bessel_fn : {Any | hasattr(K, 'one') an...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c4e30c3b31bb6898  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.orthopolys.dup_spherical_bessel_fn","kind":"function","src_hash":"e0c28a10256bbcb2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_spherical_bessel_fn(n, )","rhs":"low-level implementation of fn(n, x)","over":{"base":"Any"},"name":"dup_spherical_bessel_fn_correct"},"guarantee":"low-level implementation of fn(n, x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.orthopolys.dup_spherical_bessel_fn_correct","statement":"Path(dup_spherical_bessel_fn(x), low-level implementation of fn(n, x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c4e30c3b31bb6898"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.orthopolys.dup_spherical_bessel_fn","kind":"function","src_hash":"e0c28a10256bbcb2","in":{"base":"Any","pred":"hasattr(K, 'one') and hasattr(K, 'zero')"},"out":{"base":"Any"},"spec":{"lhs":"dup_spherical_bessel_fn(n, K)","rhs":"<unspecified:dup_spherical_bessel_fn>","over":{"base":"Any","pred":"hasattr(K, 'one') and hasattr(K, 'zero')"},"name":"dup_spherical_bessel_fn_correct"},"guarantee":"low-level implementation of fn(n, x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.orthopolys.dup_spherical_bessel_fn_correct","statement":"Path(dup_spherical_bessel_fn(x), low-level implementation of fn(n, x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c4e30c3b31bb6898","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(K, 'one')","hasattr(K, 'zero')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["K.one","K.zero"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def dup_spherical_bessel_fn(n, K):
     """Low-level implementation of fn(n, x)."""
     if n < 1:
@@ -520,16 +654,24 @@ def dup_spherical_bessel_fn(n, K):
     return dup_lshift(m1, 1, K)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_spherical_bessel_fn_minus(n, ), low-level implementation of fn(-n, x)) over Any ║
+# ║ Path(dup_spherical_bessel_fn_minus(n, K), <unspecified:dup_spherical_bessel_fn_minus>) over {Any | hasattr(K, 'one') and hasattr(K, 'zero')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dup_spherical_bessel_fn_minus : Any → Any                  ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(K, 'one')                              ║
+# ║   requires: hasattr(K, 'zero')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dup_spherical_bessel_fn_minus : {Any | hasattr(K, 'on...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8c97d985113f711f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.orthopolys.dup_spherical_bessel_fn_minus","kind":"function","src_hash":"a36c34615691c121","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_spherical_bessel_fn_minus(n, )","rhs":"low-level implementation of fn(-n, x)","over":{"base":"Any"},"name":"dup_spherical_bessel_fn_minus_correct"},"guarantee":"low-level implementation of fn(-n, x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.orthopolys.dup_spherical_bessel_fn_minus_correct","statement":"Path(dup_spherical_bessel_fn_minus(x), low-level implementation of fn(-n, x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8c97d985113f711f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.orthopolys.dup_spherical_bessel_fn_minus","kind":"function","src_hash":"a36c34615691c121","in":{"base":"Any","pred":"hasattr(K, 'one') and hasattr(K, 'zero')"},"out":{"base":"Any"},"spec":{"lhs":"dup_spherical_bessel_fn_minus(n, K)","rhs":"<unspecified:dup_spherical_bessel_fn_minus>","over":{"base":"Any","pred":"hasattr(K, 'one') and hasattr(K, 'zero')"},"name":"dup_spherical_bessel_fn_minus_correct"},"guarantee":"low-level implementation of fn(-n, x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.orthopolys.dup_spherical_bessel_fn_minus_correct","statement":"Path(dup_spherical_bessel_fn_minus(x), low-level implementation of fn(-n, x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8c97d985113f711f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(K, 'one')","hasattr(K, 'zero')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["K.one","K.zero"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def dup_spherical_bessel_fn_minus(n, K):
     """Low-level implementation of fn(-n, x)."""
     m2, m1 = [K.one, K.zero], [K.zero]
@@ -538,16 +680,22 @@ def dup_spherical_bessel_fn_minus(n, K):
     return m1
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(spherical_bessel_fn(n, ), coefficients for the spherical bessel functions) over Any ║
+# ║ Path(spherical_bessel_fn(n, x, polys), named_poly(abs(n), f, ZZ, '', (QQ(1) / x,), polys)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  named_poly(abs(n), f, ZZ, '', (QQ(1) / x,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ spherical_bessel_fn : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | db0dd9bae92d87e5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d65a1ace55858e8c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.orthopolys.spherical_bessel_fn","kind":"function","src_hash":"4499b1c078a72828","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"spherical_bessel_fn(n, )","rhs":"coefficients for the spherical bessel functions","over":{"base":"Any"},"name":"spherical_bessel_fn_correct"},"guarantee":"coefficients for the spherical bessel functions","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.orthopolys.spherical_bessel_fn_correct","statement":"Path(spherical_bessel_fn(x), coefficients for the spherical bessel functions)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"db0dd9bae92d87e5"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.orthopolys.spherical_bessel_fn","kind":"function","src_hash":"4499b1c078a72828","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"spherical_bessel_fn(n, x, polys)","rhs":"named_poly(abs(n), f, ZZ, '', (QQ(1) / x,), polys)","over":{"base":"Any"},"name":"spherical_bessel_fn_correct"},"guarantee":"returns named_poly(abs(n), f, ZZ, '', (QQ(1) / x,), polys)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.orthopolys.spherical_bessel_fn_correct","statement":"Path(spherical_bessel_fn(x), returns named_poly(abs(n), f, ZZ, '', (QQ(1) / x,), polys))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d65a1ace55858e8c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"named_poly(abs(n), f, ZZ, '', (QQ(1) / x,), polys)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def spherical_bessel_fn(n, x=None, polys=False):
     """
     Coefficients for the spherical Bessel functions.

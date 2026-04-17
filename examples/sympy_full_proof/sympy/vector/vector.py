@@ -37,14 +37,20 @@ from sympy.vector.kind import VectorKind
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Vector(*args), correctly constructs a Vector instance) over {Any | isinstance(other, Dyadic) and isinstance(other, Del) and isinstance(self, VectorZero)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, BasisDependent)               ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ Vector : {Any | isinstance(other, Dyadic) and isinsta...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e376f830dd9a9477  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.vector.Vector","kind":"class","src_hash":"60598850cefd8c15","in":{"base":"Any","pred":"isinstance(other, Dyadic) and isinstance(other, Del) and isinstance(self, VectorZero)"},"out":{"base":"Any"},"spec":{"lhs":"Vector(*args)","rhs":"correctly constructs a Vector instance","over":{"base":"Any","pred":"isinstance(other, Dyadic) and isinstance(other, Del) and isinstance(self, VectorZero)"},"name":"Vector_class_invariant"},"guarantee":"correctly constructs a Vector instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e376f830dd9a9477"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.vector.Vector","kind":"class","src_hash":"60598850cefd8c15","in":{"base":"Any","pred":"isinstance(other, Dyadic) and isinstance(other, Del) and isinstance(self, VectorZero)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, BasisDependent)"},"spec":{"lhs":"Vector(*args)","rhs":"correctly constructs a Vector instance","over":{"base":"Any","pred":"isinstance(other, Dyadic) and isinstance(other, Del) and isinstance(self, VectorZero)"},"name":"Vector_class_invariant"},"guarantee":"isinstance(self, BasisDependent)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e376f830dd9a9477","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, BasisDependent)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function Vector not found in source"]}}
 class Vector(BasisDependent):
     """
     Super class for all Vector classes.
@@ -67,16 +73,22 @@ class Vector(BasisDependent):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(components(), returns the components attribute) over Any ║
+# ║ Path(components(), self._components) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._components                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ components : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d62f6dcf883b1124           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.vector.Vector.components","kind":"property","src_hash":"b96d33006f692aaf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"components()","rhs":"returns the components attribute","over":{"base":"Any"},"name":"components_correct"},"guarantee":"returns the components attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d62f6dcf883b1124"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.vector.Vector.components","kind":"property","src_hash":"b96d33006f692aaf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"components()","rhs":"self._components","over":{"base":"Any"},"name":"components_correct"},"guarantee":"returns self._components","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d62f6dcf883b1124","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._components","pure":false,"effects":{"effect_type":"reads_state","reads":["self._components"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def components(self):
         """
         Returns the components of this vector in the form of a
@@ -98,16 +110,22 @@ class Vector(BasisDependent):
         return self._components
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(magnitude(), returns the magnitude of this vector) over Any ║
+# ║ Path(magnitude(), sqrt(self & self)) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  sqrt(self & self)                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ magnitude : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 60df4cf5ad310b13           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.vector.Vector.magnitude","kind":"method","src_hash":"76b56f092a8cc92b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"magnitude()","rhs":"returns the magnitude of this vector","over":{"base":"Any"},"name":"magnitude_correct"},"guarantee":"returns the magnitude of this vector","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"60df4cf5ad310b13"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.vector.Vector.magnitude","kind":"method","src_hash":"76b56f092a8cc92b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"magnitude()","rhs":"sqrt(self & self)","over":{"base":"Any"},"name":"magnitude_correct"},"guarantee":"returns sqrt(self & self)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"60df4cf5ad310b13","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"sqrt(self & self)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def magnitude(self):
         """
         Returns the magnitude of this vector.
@@ -115,16 +133,22 @@ class Vector(BasisDependent):
         return sqrt(self & self)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(normalize(), returns the normalized version of this vector) over Any ║
+# ║ Path(normalize(), self / self.magnitude()) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self / self.magnitude()                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ normalize : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ac466187af574965           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.vector.Vector.normalize","kind":"method","src_hash":"a36977bdf699d071","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"normalize()","rhs":"returns the normalized version of this vector","over":{"base":"Any"},"name":"normalize_correct"},"guarantee":"returns the normalized version of this vector","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ac466187af574965"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.vector.Vector.normalize","kind":"method","src_hash":"a36977bdf699d071","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"normalize()","rhs":"self / self.magnitude()","over":{"base":"Any"},"name":"normalize_correct"},"guarantee":"returns self / self.magnitude()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ac466187af574965","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self / self.magnitude()","pure":false,"effects":{"effect_type":"reads_state","reads":["self.magnitude"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def normalize(self):
         """
         Returns the normalized version of this vector.
@@ -132,16 +156,22 @@ class Vector(BasisDependent):
         return self / self.magnitude()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(equals(oth), check if ``self`` and ``other`` are identically equal vectors) over Any ║
+# ║ Path(equals(other), diff_mag2.equals(0)) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  diff_mag2.equals(0)                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ equals : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a094694398b96354  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7955a08394108d32  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.vector.Vector.equals","kind":"method","src_hash":"8a5ea496c6858284","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"equals(oth)","rhs":"check if ``self`` and ``other`` are identically equal vectors","over":{"base":"Any"},"name":"equals_correct"},"guarantee":"check if ``self`` and ``other`` are identically equal vectors","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.vector.Vector.equals_correct","statement":"Path(equals(x), check if ``self`` and ``other`` are identically equal vectors)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a094694398b96354"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.vector.Vector.equals","kind":"method","src_hash":"8a5ea496c6858284","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"equals(other)","rhs":"diff_mag2.equals(0)","over":{"base":"Any"},"name":"equals_correct"},"guarantee":"returns diff_mag2.equals(0)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.vector.Vector.equals_correct","statement":"Path(equals(x), returns diff_mag2.equals(0))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7955a08394108d32","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"diff_mag2.equals(0)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def equals(self, other):
         """
         Check if ``self`` and ``other`` are identically equal vectors.
@@ -210,16 +240,24 @@ class Vector(BasisDependent):
         return diff_mag2.equals(0)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dot(oth), returns the dot product of this vector, either with another vector, or a dyadic, or a del operator. if 'other' is a vector, returns the dot product scalar (sympy expression). if 'other' is a dyadic, t) over Any ║
+# ║ Path(dot(other), # HINT: dot may be idempotent: dot(dot(x)) == dot(x)) over {Any | isinstance(other, (Del, Vector)) and hasattr(other, 'components')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dot : Any → Any                                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(other, (Del, Vector))               ║
+# ║   requires: hasattr(other, 'components')                   ║
+# ║   ensures:  # HINT: dot may be idempotent: dot(dot(x)...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dot : {Any | isinstance(other, (Del, Vector)) and has...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4448daacef58de18  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8bd12330b9ef274a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.vector.Vector.dot","kind":"method","src_hash":"b883444e3c5fba20","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dot(oth)","rhs":"returns the dot product of this vector, either with another vector, or a dyadic, or a del operator. if 'other' is a vector, returns the dot product scalar (sympy expression). if 'other' is a dyadic, t","over":{"base":"Any"},"name":"dot_correct"},"guarantee":"returns the dot product of this vector, either with another vector, or a dyadic, or a del operator. if 'other' is a vector, returns the dot product scalar (sympy expression). if 'other' is a dyadic, t","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.vector.Vector.dot_correct","statement":"Path(dot(x), returns the dot product of this vector, either with another vector, or a dyadic, or a del operator. if 'other' is a vector, returns the dot product scalar (sympy expression). if 'other' is a dyadic, t)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4448daacef58de18"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.vector.Vector.dot","kind":"method","src_hash":"b883444e3c5fba20","in":{"base":"Any","pred":"isinstance(other, (Del, Vector)) and hasattr(other, 'components')"},"out":{"base":"Any","pred":"result satisfies: # HINT: dot may be idempotent: dot(dot(x)) == dot(x)"},"spec":{"lhs":"dot(other)","rhs":"# HINT: dot may be idempotent: dot(dot(x)) == dot(x)","over":{"base":"Any","pred":"isinstance(other, (Del, Vector)) and hasattr(other, 'components')"},"name":"dot_correct"},"guarantee":"# HINT: dot may be idempotent: dot(dot(x)) == dot(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.vector.Vector.dot_correct","statement":"Path(dot(x), # HINT: dot may be idempotent: dot(dot(x)) == dot(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8bd12330b9ef274a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(other, (Del, Vector))","hasattr(other, 'components')"],"ensures":["# HINT: dot may be idempotent: dot(dot(x)) == dot(x)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.components"],"raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dot(self, other):
         """
         Returns the dot product of this Vector, either with another
@@ -283,32 +321,45 @@ class Vector(BasisDependent):
         return dot(self, other)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__and__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__and__(other), self.dot(other)) over Any             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.dot(other)                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __and__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b75ef751f7734bc8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.vector.Vector.__and__","kind":"method","src_hash":"0e493dad63d6c013","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__and__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__and___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b75ef751f7734bc8"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.vector.Vector.__and__","kind":"method","src_hash":"0e493dad63d6c013","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__and__(other)","rhs":"self.dot(other)","over":{"base":"Any"},"name":"__and___correct"},"guarantee":"returns self.dot(other)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b75ef751f7734bc8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.dot(other)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.dot"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __and__(self, other):
         return self.dot(other)
 
     __and__.__doc__ = dot.__doc__
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(cross(oth), returns the cross product of this vector with another vector or dyadic instance. the cross product is a vector, if 'other' is a vector) over Any ║
+# ║ Path(cross(other), # HINT: cross may be idempotent: cross(cross(x)) == cross(x)) over {Any | hasattr(other, 'components')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ cross : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, 'components')                   ║
+# ║   ensures:  # HINT: cross may be idempotent: cross(cr...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ cross : {Any | hasattr(other, 'components')} → {Any |...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c92f629fc03c59bf  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 641614f999fbeb78  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.vector.Vector.cross","kind":"method","src_hash":"524ded5a5461ac63","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"cross(oth)","rhs":"returns the cross product of this vector with another vector or dyadic instance. the cross product is a vector, if 'other' is a vector","over":{"base":"Any"},"name":"cross_correct"},"guarantee":"returns the cross product of this vector with another vector or dyadic instance. the cross product is a vector, if 'other' is a vector","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.vector.Vector.cross_correct","statement":"Path(cross(x), returns the cross product of this vector with another vector or dyadic instance. the cross product is a vector, if 'other' is a vector)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c92f629fc03c59bf"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.vector.Vector.cross","kind":"method","src_hash":"524ded5a5461ac63","in":{"base":"Any","pred":"hasattr(other, 'components')"},"out":{"base":"Any","pred":"result satisfies: # HINT: cross may be idempotent: cross(cross(x)) == cross(x)"},"spec":{"lhs":"cross(other)","rhs":"# HINT: cross may be idempotent: cross(cross(x)) == cross(x)","over":{"base":"Any","pred":"hasattr(other, 'components')"},"name":"cross_correct"},"guarantee":"# HINT: cross may be idempotent: cross(cross(x)) == cross(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.vector.Vector.cross_correct","statement":"Path(cross(x), # HINT: cross may be idempotent: cross(cross(x)) == cross(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"641614f999fbeb78","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, 'components')"],"ensures":["# HINT: cross may be idempotent: cross(cross(x)) == cross(x)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.components","self.cross"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def cross(self, other):
         """
         Returns the cross product of this Vector with another Vector or
@@ -354,32 +405,47 @@ class Vector(BasisDependent):
         return cross(self, other)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__xor__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__xor__(other), self.cross(other)) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.cross(other)                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __xor__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3c2cabd093eb12c2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.vector.Vector.__xor__","kind":"method","src_hash":"1a1fe5896bc8ad0d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__xor__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__xor___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3c2cabd093eb12c2"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.vector.Vector.__xor__","kind":"method","src_hash":"1a1fe5896bc8ad0d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__xor__(other)","rhs":"self.cross(other)","over":{"base":"Any"},"name":"__xor___correct"},"guarantee":"returns self.cross(other)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3c2cabd093eb12c2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.cross(other)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.cross"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __xor__(self, other):
         return self.cross(other)
 
     __xor__.__doc__ = cross.__doc__
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(outer(oth), returns the outer product of this vector with another, in the form of a dyadic instance) over Any ║
+# ║ Path(outer(other), <unspecified:outer>) over {Any | isinstance(other, Vector) and hasattr(other, 'components')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ outer : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(other, Vector)                      ║
+# ║   requires: hasattr(other, 'components')                   ║
+# ║   fiber[Vector]: not isinstance(other, Vector)             ║
+# ║   fiber[VectorZero]: isinstance(self, VectorZero) or ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ outer : {Any | isinstance(other, Vector) and hasattr(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c62ad4f2f979a38c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b022670da4066660  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.vector.Vector.outer","kind":"method","src_hash":"92a1170ecca73b97","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"outer(oth)","rhs":"returns the outer product of this vector with another, in the form of a dyadic instance","over":{"base":"Any"},"name":"outer_correct"},"guarantee":"returns the outer product of this vector with another, in the form of a dyadic instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.vector.Vector.outer_correct","statement":"Path(outer(x), returns the outer product of this vector with another, in the form of a dyadic instance)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c62ad4f2f979a38c"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.vector.Vector.outer","kind":"method","src_hash":"92a1170ecca73b97","in":{"base":"Any","pred":"isinstance(other, Vector) and hasattr(other, 'components')"},"out":{"base":"Any"},"spec":{"lhs":"outer(other)","rhs":"<unspecified:outer>","over":{"base":"Any","pred":"isinstance(other, Vector) and hasattr(other, 'components')"},"name":"outer_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.vector.Vector.outer_correct","statement":"Path(outer(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b022670da4066660","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(other, Vector)","hasattr(other, 'components')"],"fibers":[{"name":"Vector","guard":"not isinstance(other, Vector)","ensures":[],"decidability":"structural"},{"name":"VectorZero","guard":"isinstance(self, VectorZero) or isinstance(other, VectorZero)","ensures":["result == Dyadic.zero"],"decidability":"structural","returns_expr":"Dyadic.zero"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.components","self.components"],"raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def outer(self, other):
         """
         Returns the outer product of this vector with another, in the
@@ -417,16 +483,22 @@ class Vector(BasisDependent):
         return DyadicAdd(*args)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(projection(oth), returns the vector or scalar projection of the 'other' on 'self') over Any ║
+# ║ Path(projection(other, scalar), <unspecified:projection>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ projection : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4e3c724467eae688  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.vector.Vector.projection","kind":"method","src_hash":"d22a371fd5da7763","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"projection(oth)","rhs":"returns the vector or scalar projection of the 'other' on 'self'","over":{"base":"Any"},"name":"projection_correct"},"guarantee":"returns the vector or scalar projection of the 'other' on 'self'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.vector.Vector.projection_correct","statement":"Path(projection(x), returns the vector or scalar projection of the 'other' on 'self')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4e3c724467eae688"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.vector.Vector.projection","kind":"method","src_hash":"d22a371fd5da7763","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"projection(other, scalar)","rhs":"<unspecified:projection>","over":{"base":"Any"},"name":"projection_correct"},"guarantee":"returns the vector or scalar projection of the 'other' on 'self'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.vector.Vector.projection_correct","statement":"Path(projection(x), returns the vector or scalar projection of the 'other' on 'self')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4e3c724467eae688","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.dot","self.equals"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def projection(self, other, scalar=False):
         """
         Returns the vector or scalar projection of the 'other' on 'self'.
@@ -455,16 +527,22 @@ class Vector(BasisDependent):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_projections(), returns the _projections attribute) over Any ║
+# ║ Path(_projections(), <unspecified:_projections>) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _projections : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2c54f6c3dfe5b6ed           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.vector.Vector._projections","kind":"property","src_hash":"434918b4883e5849","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_projections()","rhs":"returns the _projections attribute","over":{"base":"Any"},"name":"_projections_correct"},"guarantee":"returns the _projections attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2c54f6c3dfe5b6ed"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.vector.Vector._projections","kind":"property","src_hash":"434918b4883e5849","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_projections()","rhs":"<unspecified:_projections>","over":{"base":"Any"},"name":"_projections_correct"},"guarantee":"returns the _projections attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2c54f6c3dfe5b6ed","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.dot"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _projections(self):
         """
         Returns the components of this vector but the output includes
@@ -493,32 +571,45 @@ class Vector(BasisDependent):
         return tuple([self.dot(i) for i in base_vec])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__or__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__or__(other), self.outer(other)) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.outer(other)                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __or__ : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9280795407f2cd30           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.vector.Vector.__or__","kind":"method","src_hash":"0530786e802e8c65","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__or__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__or___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9280795407f2cd30"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.vector.Vector.__or__","kind":"method","src_hash":"0530786e802e8c65","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__or__(other)","rhs":"self.outer(other)","over":{"base":"Any"},"name":"__or___correct"},"guarantee":"returns self.outer(other)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9280795407f2cd30","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.outer(other)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.outer"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __or__(self, other):
         return self.outer(other)
 
     __or__.__doc__ = outer.__doc__
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(to_matrix(sys), id) over Any                          ║
+# ║ Path(to_matrix(system), id) over {Any | hasattr(system, 'base_vectors')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ to_matrix : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(system, 'base_vectors')                ║
+# ║   returns:  Matrix([self.dot(unit_vec) for unit_vec i...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ to_matrix : {Any | hasattr(system, 'base_vectors')} →...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | daaf2b5bc7199330   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.vector.Vector.to_matrix","kind":"method","src_hash":"7cfc165dee7eb147","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_matrix(sys)","rhs":"returns the matrix form of this vector with respect to the specified coordinate system","over":{"base":"Any"},"name":"to_matrix_correct","kind":"composition"},"guarantee":"returns the matrix form of this vector with respect to the specified coordinate system","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Matrix","by":"library_axiom"},{"fn":"dot","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"daaf2b5bc7199330"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.vector.Vector.to_matrix","kind":"method","src_hash":"7cfc165dee7eb147","in":{"base":"Any","pred":"hasattr(system, 'base_vectors')"},"out":{"base":"Any"},"spec":{"lhs":"to_matrix(system)","rhs":"Matrix([self.dot(unit_vec) for unit_vec in system.base_vectors()])","over":{"base":"Any","pred":"hasattr(system, 'base_vectors')"},"name":"to_matrix_correct","kind":"composition"},"guarantee":"returns Matrix([self.dot(unit_vec) for unit_vec in system.base_vectors()])","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Matrix","by":"library_axiom"},{"fn":"dot","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"daaf2b5bc7199330","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(system, 'base_vectors')"],"returns_expr":"Matrix([self.dot(unit_vec) for unit_vec in system.base_vectors()])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.dot","system.base_vectors"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def to_matrix(self, system):
         """
         Returns the matrix form of this vector with respect to the
@@ -549,16 +640,22 @@ class Vector(BasisDependent):
                        system.base_vectors()])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(separate(), the constituents of this vector in different coordinate systems, as per its definition) over Any ║
+# ║ Path(separate(), <unspecified:separate>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ separate : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e1af1efc4763c161  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.vector.Vector.separate","kind":"method","src_hash":"2f038f36e4bc8372","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"separate()","rhs":"the constituents of this vector in different coordinate systems, as per its definition","over":{"base":"Any"},"name":"separate_correct"},"guarantee":"the constituents of this vector in different coordinate systems, as per its definition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.vector.Vector.separate_correct","statement":"Path(separate(x), the constituents of this vector in different coordinate systems, as per its definition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e1af1efc4763c161"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.vector.Vector.separate","kind":"method","src_hash":"2f038f36e4bc8372","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"separate()","rhs":"<unspecified:separate>","over":{"base":"Any"},"name":"separate_correct"},"guarantee":"the constituents of this vector in different coordinate systems, as per its definition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.vector.Vector.separate_correct","statement":"Path(separate(x), the constituents of this vector in different coordinate systems, as per its definition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e1af1efc4763c161","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.components"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def separate(self):
         """
         The constituents of this vector in different coordinate systems,
@@ -586,16 +683,25 @@ class Vector(BasisDependent):
         return parts
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_div_helper(one), id) over Any                        ║
+# ║ Path(_div_helper(one, other), id) over {Any | not (isinstance(one, Vector) and isinstance(other, Vector))} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _div_helper : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (isinstance(one, Vector) and isinstan...   ║
+# ║   fiber[Vector]: isinstance(one, Vector) and isinstan...   ║
+# ║   fiber[Vector]: isinstance(one, Vector) => VectorMul...   ║
+# ║   fiber[Vector]: not (isinstance(one, Vector) and isi...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _div_helper : {Any | not (isinstance(one, Vector) and...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 2dc9f6149cd3a66d   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.vector.Vector._div_helper","kind":"method","src_hash":"9333c36b9f64d980","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_div_helper(one)","rhs":"helper for division involving vectors","over":{"base":"Any"},"name":"_div_helper_correct","kind":"composition"},"guarantee":"helper for division involving vectors","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"VectorMul","by":"library_axiom"},{"fn":"Pow","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2dc9f6149cd3a66d"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.vector.Vector._div_helper","kind":"method","src_hash":"9333c36b9f64d980","in":{"base":"Any","pred":"not (isinstance(one, Vector) and isinstance(other, Vector))"},"out":{"base":"Any"},"spec":{"lhs":"_div_helper(one, other)","rhs":"<unspecified:_div_helper>","over":{"base":"Any","pred":"not (isinstance(one, Vector) and isinstance(other, Vector))"},"name":"_div_helper_correct","kind":"composition"},"guarantee":"3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"VectorMul","by":"library_axiom"},{"fn":"Pow","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2dc9f6149cd3a66d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (isinstance(one, Vector) and isinstance(other, Vector))"],"fibers":[{"name":"Vector","guard":"isinstance(one, Vector) and isinstance(other, Vector)","ensures":[],"decidability":"structural"},{"name":"Vector","guard":"isinstance(one, Vector)","ensures":["result == VectorMul(one, Pow(other, S.NegativeOne))"],"decidability":"structural","returns_expr":"VectorMul(one, Pow(other, S.NegativeOne))"},{"name":"Vector","guard":"not (isinstance(one, Vector) and isinstance(other, Vector)) and not (isinstance(one, Vector))","ensures":[],"decidability":"structural"}],"pure":false,"effects":{"effect_type":"reads_state","raises":["TypeError","ValueError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _div_helper(one, other):
         """ Helper for division involving vectors. """
         if isinstance(one, Vector) and isinstance(other, Vector):
@@ -610,7 +716,10 @@ class Vector(BasisDependent):
 # The following is adapted from the matrices.expressions.matexpr file
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_postprocessor(cls), get_postprocessor produces the expected output) over {Any | isinstance(term.kind, VectorKind)} ║
+# ║ Path(get_postprocessor(cls), <unspecified:get_postprocessor>) over {Any | isinstance(term.kind, VectorKind)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ get_postprocessor : {Any | isinstance(term.kind, Vect...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -622,9 +731,12 @@ class Vector(BasisDependent):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 0.3ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 6944757f...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.vector.get_postprocessor","kind":"function","src_hash":"14e35219e4a3ffe0","in":{"base":"Any","pred":"isinstance(term.kind, VectorKind)"},"out":{"base":"Any"},"spec":{"lhs":"get_postprocessor(cls)","rhs":"get_postprocessor produces the expected output","over":{"base":"Any","pred":"isinstance(term.kind, VectorKind)"},"name":"get_postprocessor_correct"},"guarantee":"get_postprocessor produces the expected output","fibers":[{"name":"VectorKind","pred":"isinstance(term.kind, VectorKind)","path":{"lhs":"get_postprocessor(x)","rhs":"get_postprocessor produces the expected output","over":{"base":"VectorKind","pred":"isinstance(term.kind, VectorKind)"},"name":"get_postprocessor_VectorKind_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.vector.get_postprocessor_VectorKind_correct","statement":"get_postprocessor satisfies spec on VectorKind inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"6944757f9f592955"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.vector.get_postprocessor","kind":"function","src_hash":"14e35219e4a3ffe0","in":{"base":"Any","pred":"isinstance(term.kind, VectorKind)"},"out":{"base":"Any"},"spec":{"lhs":"get_postprocessor(cls)","rhs":"<unspecified:get_postprocessor>","over":{"base":"Any","pred":"isinstance(term.kind, VectorKind)"},"name":"get_postprocessor_correct"},"guarantee":"get_postprocessor produces the expected output","fibers":[{"name":"VectorKind","pred":"isinstance(term.kind, VectorKind)","path":{"lhs":"get_postprocessor(x)","rhs":"get_postprocessor produces the expected output","over":{"base":"VectorKind","pred":"isinstance(term.kind, VectorKind)"},"name":"get_postprocessor_VectorKind_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.vector.get_postprocessor_VectorKind_correct","statement":"get_postprocessor satisfies spec on VectorKind inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"6944757f9f592955","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'vec_class == VectorAdd', 'isinstance(term.kind, VectorKind)'}, fibers={'VectorKind'})"]}}
 def get_postprocessor(cls):
     def _postprocessor(expr):
         vec_class = {Add: VectorAdd}[cls]
@@ -645,14 +757,21 @@ Basic._constructor_postprocessor_mapping[Vector] = {
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(BaseVector(*args), correctly constructs a BaseVector instance) over {Any | isinstance(system, CoordSys3D)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Vector)                       ║
+# ║   ensures:  isinstance(self, AtomicExpr)                   ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ BaseVector : {Any | isinstance(system, CoordSys3D)} →...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ae9a351f63b0a56a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.vector.BaseVector","kind":"class","src_hash":"df927e2ecbc65dd0","in":{"base":"Any","pred":"isinstance(system, CoordSys3D)"},"out":{"base":"Any"},"spec":{"lhs":"BaseVector(*args)","rhs":"correctly constructs a BaseVector instance","over":{"base":"Any","pred":"isinstance(system, CoordSys3D)"},"name":"BaseVector_class_invariant"},"guarantee":"correctly constructs a BaseVector instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ae9a351f63b0a56a"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.vector.BaseVector","kind":"class","src_hash":"df927e2ecbc65dd0","in":{"base":"Any","pred":"isinstance(system, CoordSys3D)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Vector) and isinstance(self, AtomicExpr)"},"spec":{"lhs":"BaseVector(*args)","rhs":"correctly constructs a BaseVector instance","over":{"base":"Any","pred":"isinstance(system, CoordSys3D)"},"name":"BaseVector_class_invariant"},"guarantee":"isinstance(self, Vector); isinstance(self, AtomicExpr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ae9a351f63b0a56a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Vector)","isinstance(self, AtomicExpr)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function BaseVector not found in source"]}}
 class BaseVector(Vector, AtomicExpr):
     """
     Class to denote a base vector.
@@ -660,16 +779,25 @@ class BaseVector(Vector, AtomicExpr):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, index, system), <unspecified:__new__>) over {Any | not (index not in range(0, 3)) and hasattr(system, '_vector_names') and hasattr(system, '_name')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (index not in range(0, 3))                 ║
+# ║   requires: hasattr(system, '_vector_names')               ║
+# ║   requires: hasattr(system, '_name')                       ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | not (index not in range(0, 3)) and h...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e9cad24cd9bcda9a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.vector.BaseVector.__new__","kind":"method","src_hash":"9ef3f5ddcf2b4780","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e9cad24cd9bcda9a"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.vector.BaseVector.__new__","kind":"method","src_hash":"9ef3f5ddcf2b4780","in":{"base":"Any","pred":"not (index not in range(0, 3)) and hasattr(system, '_vector_names') and hasattr(system, '_name')"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, index, system)","rhs":"<unspecified:__new__>","over":{"base":"Any","pred":"not (index not in range(0, 3)) and hasattr(system, '_vector_names') and hasattr(system, '_name')"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e9cad24cd9bcda9a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (index not in range(0, 3))","hasattr(system, '_vector_names')","hasattr(system, '_name')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["system._name","system._vector_names"],"raises":["TypeError","ValueError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, index, system, pretty_str=None, latex_str=None):
         if pretty_str is None:
             pretty_str = "x{}".format(index)
@@ -707,74 +835,106 @@ class BaseVector(Vector, AtomicExpr):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(system(), returns the system attribute) over Any      ║
+# ║ Path(system(), self._system) over Any                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._system                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ system : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | fea61239ad26dbd5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.vector.BaseVector.system","kind":"property","src_hash":"76e75c9b65c01030","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"system()","rhs":"returns the system attribute","over":{"base":"Any"},"name":"system_correct"},"guarantee":"returns the system attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fea61239ad26dbd5"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.vector.BaseVector.system","kind":"property","src_hash":"76e75c9b65c01030","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"system()","rhs":"self._system","over":{"base":"Any"},"name":"system_correct"},"guarantee":"returns self._system","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fea61239ad26dbd5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._system","pure":false,"effects":{"effect_type":"reads_state","reads":["self._system"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def system(self):
         return self._system
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_sympystr(pri), internal helper behaves correctly) over Any ║
+# ║ Path(_sympystr(printer), self._name) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._name                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _sympystr : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 28a52c82307dbb7e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.vector.BaseVector._sympystr","kind":"method","src_hash":"81dccc04ff69b929","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sympystr(pri)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_sympystr_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"28a52c82307dbb7e"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.vector.BaseVector._sympystr","kind":"method","src_hash":"81dccc04ff69b929","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sympystr(printer)","rhs":"self._name","over":{"base":"Any"},"name":"_sympystr_correct"},"guarantee":"returns self._name","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"28a52c82307dbb7e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._name","pure":false,"effects":{"effect_type":"reads_state","reads":["self._name"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _sympystr(self, printer):
         return self._name
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_sympyrepr(pri), internal helper behaves correctly) over Any ║
+# ║ Path(_sympyrepr(printer), printer._print(system) + '.' + system._vector_names[index]) over {Any | hasattr(printer, '_print')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _sympyrepr : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(printer, '_print')                     ║
+# ║   returns:  printer._print(system) + '.' + system._ve...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _sympyrepr : {Any | hasattr(printer, '_print')} → Any      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 96f62f4766a487c8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a65ad9974fea8282  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.vector.BaseVector._sympyrepr","kind":"method","src_hash":"040337f2f9166fc1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sympyrepr(pri)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_sympyrepr_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.vector.BaseVector._sympyrepr_correct","statement":"Path(_sympyrepr(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"96f62f4766a487c8"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.vector.BaseVector._sympyrepr","kind":"method","src_hash":"040337f2f9166fc1","in":{"base":"Any","pred":"hasattr(printer, '_print')"},"out":{"base":"Any"},"spec":{"lhs":"_sympyrepr(printer)","rhs":"printer._print(system) + '.' + system._vector_names[index]","over":{"base":"Any","pred":"hasattr(printer, '_print')"},"name":"_sympyrepr_correct"},"guarantee":"returns printer._print(system) + '.' + system._vector_names[index]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.vector.BaseVector._sympyrepr_correct","statement":"Path(_sympyrepr(x), returns printer._print(system) + '.' + system._vector_names[index])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a65ad9974fea8282","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(printer, '_print')"],"returns_expr":"printer._print(system) + '.' + system._vector_names[index]","pure":false,"effects":{"effect_type":"reads_state","reads":["printer._print","self._id"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _sympyrepr(self, printer):
         index, system = self._id
         return printer._print(system) + '.' + system._vector_names[index]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(free_symbols(), returns the free_symbols attribute) over Any ║
+# ║ Path(free_symbols(), {self}) over Any                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  {self}                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ free_symbols : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a75a2267a5227966           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.vector.BaseVector.free_symbols","kind":"property","src_hash":"c9df35f53a9c7ab2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"free_symbols()","rhs":"returns the free_symbols attribute","over":{"base":"Any"},"name":"free_symbols_correct"},"guarantee":"returns the free_symbols attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a75a2267a5227966"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.vector.BaseVector.free_symbols","kind":"property","src_hash":"c9df35f53a9c7ab2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"free_symbols()","rhs":"{self}","over":{"base":"Any"},"name":"free_symbols_correct"},"guarantee":"returns {self}","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a75a2267a5227966","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"{self}","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def free_symbols(self):
         return {self}
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_conjugate(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_conjugate(), self) over Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_conjugate : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == self                                 ║
+# ║   returns:  self                                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_conjugate : Any → {Any | result satisfies: resu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 32fc3cd3f4c1fd16           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.vector.BaseVector._eval_conjugate","kind":"method","src_hash":"db4c0c8cb11b0a6f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_conjugate()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_conjugate_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"32fc3cd3f4c1fd16"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.vector.BaseVector._eval_conjugate","kind":"method","src_hash":"db4c0c8cb11b0a6f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (self)"},"spec":{"lhs":"_eval_conjugate()","rhs":"self","over":{"base":"Any"},"name":"_eval_conjugate_correct"},"guarantee":"returns self; result == self","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"32fc3cd3f4c1fd16","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == self"],"returns_expr":"self","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_conjugate(self):
         return self
 
@@ -782,45 +942,65 @@ class BaseVector(Vector, AtomicExpr):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(VectorAdd(*args), correctly constructs a VectorAdd instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ VectorAdd : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, BasisDependentAdd)            ║
+# ║   ensures:  isinstance(self, Vector)                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ VectorAdd : Any → {Any | result satisfies: isinstance...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0ee234189e2d68d2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.vector.VectorAdd","kind":"class","src_hash":"7661bdb7d00d63f7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"VectorAdd(*args)","rhs":"correctly constructs a VectorAdd instance","over":{"base":"Any"},"name":"VectorAdd_class_invariant"},"guarantee":"correctly constructs a VectorAdd instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0ee234189e2d68d2"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.vector.VectorAdd","kind":"class","src_hash":"7661bdb7d00d63f7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, BasisDependentAdd) and isinstance(self, Vector)"},"spec":{"lhs":"VectorAdd(*args)","rhs":"correctly constructs a VectorAdd instance","over":{"base":"Any"},"name":"VectorAdd_class_invariant"},"guarantee":"isinstance(self, BasisDependentAdd); isinstance(self, Vector)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0ee234189e2d68d2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, BasisDependentAdd)","isinstance(self, Vector)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function VectorAdd not found in source"]}}
 class VectorAdd(BasisDependentAdd, Vector):
     """
     Class to denote sum of Vector instances.
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, *args, **options), <unspecified:__new__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9db5fec2a10a7949           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.vector.VectorAdd.__new__","kind":"method","src_hash":"ca82259474094e1b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9db5fec2a10a7949"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.vector.VectorAdd.__new__","kind":"method","src_hash":"ca82259474094e1b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, *args, **options)","rhs":"<unspecified:__new__>","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9db5fec2a10a7949","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, *args, **options):
         obj = BasisDependentAdd.__new__(cls, *args, **options)
         return obj
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_sympystr(pri), internal helper behaves correctly) over Any ║
+# ║ Path(_sympystr(printer), ret_str[:-3]) over {Any | hasattr(printer, '_print')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _sympystr : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(printer, '_print')                     ║
+# ║   returns:  ret_str[:-3]                                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _sympystr : {Any | hasattr(printer, '_print')} → Any       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c728252042747d03  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d95a936400512872  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.vector.VectorAdd._sympystr","kind":"method","src_hash":"98158251ef2bb28b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sympystr(pri)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_sympystr_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.vector.VectorAdd._sympystr_correct","statement":"Path(_sympystr(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c728252042747d03"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.vector.VectorAdd._sympystr","kind":"method","src_hash":"98158251ef2bb28b","in":{"base":"Any","pred":"hasattr(printer, '_print')"},"out":{"base":"Any"},"spec":{"lhs":"_sympystr(printer)","rhs":"ret_str[:-3]","over":{"base":"Any","pred":"hasattr(printer, '_print')"},"name":"_sympystr_correct"},"guarantee":"returns ret_str[:-3]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.vector.VectorAdd._sympystr_correct","statement":"Path(_sympystr(x), returns ret_str[:-3])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d95a936400512872","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(printer, '_print')"],"returns_expr":"ret_str[:-3]","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _sympystr(self, printer):
         ret_str = ''
         items = list(self.separate().items())
@@ -837,62 +1017,87 @@ class VectorAdd(BasisDependentAdd, Vector):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(VectorMul(*args), correctly constructs a VectorMul instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ VectorMul : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, BasisDependentMul)            ║
+# ║   ensures:  isinstance(self, Vector)                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ VectorMul : Any → {Any | result satisfies: isinstance...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 680af575c71069bf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.vector.VectorMul","kind":"class","src_hash":"f6f1a7f8fe307c9c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"VectorMul(*args)","rhs":"correctly constructs a VectorMul instance","over":{"base":"Any"},"name":"VectorMul_class_invariant"},"guarantee":"correctly constructs a VectorMul instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"680af575c71069bf"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.vector.VectorMul","kind":"class","src_hash":"f6f1a7f8fe307c9c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, BasisDependentMul) and isinstance(self, Vector)"},"spec":{"lhs":"VectorMul(*args)","rhs":"correctly constructs a VectorMul instance","over":{"base":"Any"},"name":"VectorMul_class_invariant"},"guarantee":"isinstance(self, BasisDependentMul); isinstance(self, Vector)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"680af575c71069bf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, BasisDependentMul)","isinstance(self, Vector)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function VectorMul not found in source"]}}
 class VectorMul(BasisDependentMul, Vector):
     """
     Class to denote products of scalars and BaseVectors.
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, *args, **options), <unspecified:__new__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 06872f1d2c9fa933           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.vector.VectorMul.__new__","kind":"method","src_hash":"602e050359afc423","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"06872f1d2c9fa933"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.vector.VectorMul.__new__","kind":"method","src_hash":"602e050359afc423","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, *args, **options)","rhs":"<unspecified:__new__>","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"06872f1d2c9fa933","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, *args, **options):
         obj = BasisDependentMul.__new__(cls, *args, **options)
         return obj
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(base_vector(), returns the base_vector attribute) over Any ║
+# ║ Path(base_vector(), self._base_instance) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._base_instance                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ base_vector : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 07e26b6e646d829e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.vector.VectorMul.base_vector","kind":"property","src_hash":"f650973899b9cbd0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"base_vector()","rhs":"returns the base_vector attribute","over":{"base":"Any"},"name":"base_vector_correct"},"guarantee":"returns the base_vector attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"07e26b6e646d829e"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.vector.VectorMul.base_vector","kind":"property","src_hash":"f650973899b9cbd0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"base_vector()","rhs":"self._base_instance","over":{"base":"Any"},"name":"base_vector_correct"},"guarantee":"returns self._base_instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"07e26b6e646d829e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._base_instance","pure":false,"effects":{"effect_type":"reads_state","reads":["self._base_instance"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def base_vector(self):
         """ The BaseVector involved in the product. """
         return self._base_instance
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(measure_number(), returns the measure_number attribute) over Any ║
+# ║ Path(measure_number(), self._measure_number) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._measure_number                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ measure_number : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2dee4488889f3765           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.vector.VectorMul.measure_number","kind":"property","src_hash":"cddc855f5143d796","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"measure_number()","rhs":"returns the measure_number attribute","over":{"base":"Any"},"name":"measure_number_correct"},"guarantee":"returns the measure_number attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2dee4488889f3765"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.vector.VectorMul.measure_number","kind":"property","src_hash":"cddc855f5143d796","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"measure_number()","rhs":"self._measure_number","over":{"base":"Any"},"name":"measure_number_correct"},"guarantee":"returns self._measure_number","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2dee4488889f3765","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._measure_number","pure":false,"effects":{"effect_type":"reads_state","reads":["self._measure_number"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def measure_number(self):
         """ The scalar expression involved in the definition of
         this VectorMul.
@@ -903,14 +1108,21 @@ class VectorMul(BasisDependentMul, Vector):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(VectorZero(*args), correctly constructs a VectorZero instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ VectorZero : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, BasisDependentZero)           ║
+# ║   ensures:  isinstance(self, Vector)                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ VectorZero : Any → {Any | result satisfies: isinstanc...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d1d35c59a27ad735  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.vector.VectorZero","kind":"class","src_hash":"5ca2e37bbbbeb90c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"VectorZero(*args)","rhs":"correctly constructs a VectorZero instance","over":{"base":"Any"},"name":"VectorZero_class_invariant"},"guarantee":"correctly constructs a VectorZero instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d1d35c59a27ad735"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.vector.VectorZero","kind":"class","src_hash":"5ca2e37bbbbeb90c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, BasisDependentZero) and isinstance(self, Vector)"},"spec":{"lhs":"VectorZero(*args)","rhs":"correctly constructs a VectorZero instance","over":{"base":"Any"},"name":"VectorZero_class_invariant"},"guarantee":"isinstance(self, BasisDependentZero); isinstance(self, Vector)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d1d35c59a27ad735","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, BasisDependentZero)","isinstance(self, Vector)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function VectorZero not found in source"]}}
 class VectorZero(BasisDependentZero, Vector):
     """
     Class to denote a zero vector
@@ -921,16 +1133,22 @@ class VectorZero(BasisDependentZero, Vector):
     _latex_form = r'\mathbf{\hat{0}}'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls), <unspecified:__new__>) over Any         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7a351786d299de68           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.vector.VectorZero.__new__","kind":"method","src_hash":"29f9820164301c39","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7a351786d299de68"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.vector.VectorZero.__new__","kind":"method","src_hash":"29f9820164301c39","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"<unspecified:__new__>","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7a351786d299de68","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls):
         obj = BasisDependentZero.__new__(cls)
         return obj
@@ -939,14 +1157,20 @@ class VectorZero(BasisDependentZero, Vector):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Cross(*args), correctly constructs a Cross instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Cross : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Vector)                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Cross : Any → {Any | result satisfies: isinstance(sel...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 99ae23000c4f9fec  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.vector.Cross","kind":"class","src_hash":"9d1fdf60d7d5b42b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Cross(*args)","rhs":"correctly constructs a Cross instance","over":{"base":"Any"},"name":"Cross_class_invariant"},"guarantee":"correctly constructs a Cross instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"99ae23000c4f9fec"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.vector.Cross","kind":"class","src_hash":"9d1fdf60d7d5b42b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Vector)"},"spec":{"lhs":"Cross(*args)","rhs":"correctly constructs a Cross instance","over":{"base":"Any"},"name":"Cross_class_invariant"},"guarantee":"isinstance(self, Vector)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"99ae23000c4f9fec","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Vector)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function Cross not found in source"]}}
 class Cross(Vector):
     """
     Represents unevaluated Cross product.
@@ -966,16 +1190,22 @@ class Cross(Vector):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, expr1, expr2), <unspecified:__new__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 408167eb9292b936           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.vector.Cross.__new__","kind":"method","src_hash":"b1f673daee122889","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"408167eb9292b936"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.vector.Cross.__new__","kind":"method","src_hash":"b1f673daee122889","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, expr1, expr2)","rhs":"<unspecified:__new__>","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"408167eb9292b936","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, expr1, expr2):
         expr1 = sympify(expr1)
         expr2 = sympify(expr2)
@@ -987,16 +1217,22 @@ class Cross(Vector):
         return obj
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(doit(**h), doit produces the expected output) over Any ║
+# ║ Path(doit(**hints), cross(self._expr1, self._expr2)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  cross(self._expr1, self._expr2)                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ doit : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2ecb6bfc65c0fef6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.vector.Cross.doit","kind":"method","src_hash":"1ce5dcae103c005d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"doit(**h)","rhs":"doit produces the expected output","over":{"base":"Any"},"name":"doit_correct"},"guarantee":"doit produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2ecb6bfc65c0fef6"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.vector.Cross.doit","kind":"method","src_hash":"1ce5dcae103c005d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"doit(**hints)","rhs":"cross(self._expr1, self._expr2)","over":{"base":"Any"},"name":"doit_correct"},"guarantee":"returns cross(self._expr1, self._expr2)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2ecb6bfc65c0fef6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"cross(self._expr1, self._expr2)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._expr1","self._expr2"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def doit(self, **hints):
         return cross(self._expr1, self._expr2)
 
@@ -1004,14 +1240,20 @@ class Cross(Vector):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Dot(*args), correctly constructs a Dot instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Dot : Any → Any                                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Expr)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Dot : Any → {Any | result satisfies: isinstance(self,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c74c433b6fc2620d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.vector.Dot","kind":"class","src_hash":"63e4f823cd508133","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Dot(*args)","rhs":"correctly constructs a Dot instance","over":{"base":"Any"},"name":"Dot_class_invariant"},"guarantee":"correctly constructs a Dot instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c74c433b6fc2620d"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.vector.Dot","kind":"class","src_hash":"63e4f823cd508133","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Expr)"},"spec":{"lhs":"Dot(*args)","rhs":"correctly constructs a Dot instance","over":{"base":"Any"},"name":"Dot_class_invariant"},"guarantee":"isinstance(self, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c74c433b6fc2620d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Expr)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function Dot not found in source"]}}
 class Dot(Expr):
     """
     Represents unevaluated Dot product.
@@ -1033,16 +1275,22 @@ class Dot(Expr):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, expr1, expr2), <unspecified:__new__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b61b0027c55f690a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.vector.Dot.__new__","kind":"method","src_hash":"4dfde112c2d1f5dd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b61b0027c55f690a"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.vector.Dot.__new__","kind":"method","src_hash":"4dfde112c2d1f5dd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, expr1, expr2)","rhs":"<unspecified:__new__>","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b61b0027c55f690a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, expr1, expr2):
         expr1 = sympify(expr1)
         expr2 = sympify(expr2)
@@ -1053,22 +1301,34 @@ class Dot(Expr):
         return obj
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(doit(**h), doit produces the expected output) over Any ║
+# ║ Path(doit(**hints), dot(self._expr1, self._expr2)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  dot(self._expr1, self._expr2)                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ doit : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 194cad017ad6c59b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.vector.Dot.doit","kind":"method","src_hash":"fdbfb2db37cde2ca","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"doit(**h)","rhs":"doit produces the expected output","over":{"base":"Any"},"name":"doit_correct"},"guarantee":"doit produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"194cad017ad6c59b"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.vector.Dot.doit","kind":"method","src_hash":"fdbfb2db37cde2ca","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"doit(**hints)","rhs":"dot(self._expr1, self._expr2)","over":{"base":"Any"},"name":"doit_correct"},"guarantee":"returns dot(self._expr1, self._expr2)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"194cad017ad6c59b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"dot(self._expr1, self._expr2)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._expr1","self._expr2"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def doit(self, **hints):
         return dot(self._expr1, self._expr2)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(cross(vec), returns cross product of two vectors) over {Any | isinstance(vect1, Add) and isinstance(vect1, VectorMul) and isinstance(vect1, BaseVector)} ║
+# ║ Path(cross(vect1, vect2), # HINT: cross may be idempotent: cross(cross(x)) == cross(x)) over {Any | isinstance(vect1, Add) and isinstance(vect1, VectorMul) and isinstance(vect1, BaseVector) and hasattr(vect1, '_sys') and hasattr(vect2, '_sys') and hasattr(vect1, 'args') and hasattr(vect2, 'args') and hasattr(vect1, 'components') and hasattr(vect2, 'components')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(vect1, '_sys')                         ║
+# ║   requires: hasattr(vect2, '_sys')                         ║
+# ║   requires: hasattr(vect1, 'args')                         ║
+# ║   ensures:  # HINT: cross may be idempotent: cross(cr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ cross : {Any | isinstance(vect1, Add) and isinstance(...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -1083,9 +1343,12 @@ class Dot(Expr):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓7 ?4 ✗1 VCs | 4.9ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 3592cb17...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.vector.cross","kind":"function","src_hash":"6cd18eafeb8fe48e","in":{"base":"Any","pred":"isinstance(vect1, Add) and isinstance(vect1, VectorMul) and isinstance(vect1, BaseVector)"},"out":{"base":"Any"},"spec":{"lhs":"cross(vec)","rhs":"returns cross product of two vectors","over":{"base":"Any","pred":"isinstance(vect1, Add) and isinstance(vect1, VectorMul) and isinstance(vect1, BaseVector)"},"name":"cross_correct"},"guarantee":"returns cross product of two vectors","fibers":[{"name":"Add","pred":"isinstance(vect1, Add)","path":{"lhs":"cross(x)","rhs":"returns cross product of two vectors","over":{"base":"Add","pred":"isinstance(vect1, Add)"},"name":"cross_Add_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.vector.cross_Add_correct","statement":"cross satisfies spec on Add inputs"},"trust":"LIBRARY"},{"name":"VectorMul","pred":"isinstance(vect1, VectorMul)","path":{"lhs":"cross(x)","rhs":"returns cross product of two vectors","over":{"base":"VectorMul","pred":"isinstance(vect1, VectorMul)"},"name":"cross_VectorMul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.vector.cross_VectorMul_correct","statement":"cross satisfies spec on VectorMul inputs"},"trust":"LIBRARY"},{"name":"BaseVector","pred":"isinstance(vect1, BaseVector)","path":{"lhs":"cross(x)","rhs":"returns cross product of two vectors","over":{"base":"BaseVector","pred":"isinstance(vect1, BaseVector)"},"name":"cross_BaseVector_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.vector.cross_BaseVector_correct","statement":"cross satisfies spec on BaseVector inputs"},"trust":"LIBRARY"},{"name":"VectorZero","pred":"isinstance(vect1, VectorZero)","path":{"lhs":"cross(x)","rhs":"returns cross product of two vectors","over":{"base":"VectorZero","pred":"isinstance(vect1, VectorZero)"},"name":"cross_VectorZero_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.vector.cross_VectorZero_correct","statement":"cross satisfies spec on VectorZero inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":4,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"3592cb1743d4efc6"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.vector.cross","kind":"function","src_hash":"6cd18eafeb8fe48e","in":{"base":"Any","pred":"isinstance(vect1, Add) and isinstance(vect1, VectorMul) and isinstance(vect1, BaseVector) and hasattr(vect1, '_sys') and hasattr(vect2, '_sys') and hasattr(vect1, 'args') and hasattr(vect2, 'args') and hasattr(vect1, 'components') and hasattr(vect2, 'components')"},"out":{"base":"Any","pred":"result satisfies: # HINT: cross may be idempotent: cross(cross(x)) == cross(x)"},"spec":{"lhs":"cross(vect1, vect2)","rhs":"# HINT: cross may be idempotent: cross(cross(x)) == cross(x)","over":{"base":"Any","pred":"isinstance(vect1, Add) and isinstance(vect1, VectorMul) and isinstance(vect1, BaseVector) and hasattr(vect1, '_sys') and hasattr(vect2, '_sys') and hasattr(vect1, 'args') and hasattr(vect2, 'args') and hasattr(vect1, 'components') and hasattr(vect2, 'components')"},"name":"cross_correct"},"guarantee":"# HINT: cross may be idempotent: cross(cross(x)) == cross(x)","fibers":[{"name":"Add","pred":"isinstance(vect1, Add)","path":{"lhs":"cross(x)","rhs":"# HINT: cross may be idempotent: cross(cross(x)) == cross(x)","over":{"base":"Add","pred":"isinstance(vect1, Add)"},"name":"cross_Add_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.vector.cross_Add_correct","statement":"cross satisfies spec on Add inputs"},"trust":"LIBRARY"},{"name":"VectorMul","pred":"isinstance(vect1, VectorMul)","path":{"lhs":"cross(x)","rhs":"# HINT: cross may be idempotent: cross(cross(x)) == cross(x)","over":{"base":"VectorMul","pred":"isinstance(vect1, VectorMul)"},"name":"cross_VectorMul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.vector.cross_VectorMul_correct","statement":"cross satisfies spec on VectorMul inputs"},"trust":"LIBRARY"},{"name":"BaseVector","pred":"isinstance(vect1, BaseVector)","path":{"lhs":"cross(x)","rhs":"# HINT: cross may be idempotent: cross(cross(x)) == cross(x)","over":{"base":"BaseVector","pred":"isinstance(vect1, BaseVector)"},"name":"cross_BaseVector_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.vector.cross_BaseVector_correct","statement":"cross satisfies spec on BaseVector inputs"},"trust":"LIBRARY"},{"name":"VectorZero","pred":"isinstance(vect1, VectorZero)","path":{"lhs":"cross(x)","rhs":"# HINT: cross may be idempotent: cross(cross(x)) == cross(x)","over":{"base":"VectorZero","pred":"isinstance(vect1, VectorZero)"},"name":"cross_VectorZero_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.vector.cross_VectorZero_correct","statement":"cross satisfies spec on VectorZero inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":4,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"3592cb1743d4efc6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(vect1, '_sys')","hasattr(vect2, '_sys')","hasattr(vect1, 'args')","hasattr(vect2, 'args')","hasattr(vect1, 'components')","hasattr(vect2, 'components')"],"ensures":["# HINT: cross may be idempotent: cross(cross(x)) == cross(x)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["vect1._sys","vect1.args","vect1.components","vect2._sys","vect2.args","vect2.components"],"catches":["ValueError"]}},"c4_verdict":{"valid":false,"n_vcs":12,"n_verified":7,"n_assumed":4,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":4.9,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'n1 == n2', 'isinstance(vect1, Add)', 'isinstance(vect1, VectorZero) or isinstance(vect2, VectorZero)', 'vect1._sys == vect2._sys', 'isinstance(vect2, Add)', 'isinstance(vect1, VectorMul)', 'isinstance(vect2, VectorMul)', 'isinstance(vect1, BaseVector) and isinstance(vect2, BaseVector)'}, fibers={'Add', 'BaseVector', 'VectorMul', 'VectorZero'})"]}}
 def cross(vect1, vect2):
     """
     Returns cross product of two vectors.
@@ -1135,7 +1398,13 @@ def cross(vect1, vect2):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dot(vec), returns dot product of two vectors) over {Any | isinstance(vect1, Add) and isinstance(vect1, VectorMul) and isinstance(vect1, BaseVector)} ║
+# ║ Path(dot(vect1, vect2), # HINT: dot may be idempotent: dot(dot(x)) == dot(x)) over {Any | isinstance(vect1, Add) and isinstance(vect1, VectorMul) and isinstance(vect1, BaseVector) and hasattr(vect1, '_sys') and hasattr(vect2, '_sys') and hasattr(vect1, 'args') and hasattr(vect2, 'args') and hasattr(vect1, 'components') and hasattr(vect2, 'components')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(vect1, '_sys')                         ║
+# ║   requires: hasattr(vect2, '_sys')                         ║
+# ║   requires: hasattr(vect1, 'args')                         ║
+# ║   ensures:  # HINT: dot may be idempotent: dot(dot(x)...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dot : {Any | isinstance(vect1, Add) and isinstance(ve...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -1150,9 +1419,12 @@ def cross(vect1, vect2):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓7 ?4 ✗1 VCs | 4.4ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | c718c408...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.vector.dot","kind":"function","src_hash":"ae6f73e479a5af50","in":{"base":"Any","pred":"isinstance(vect1, Add) and isinstance(vect1, VectorMul) and isinstance(vect1, BaseVector)"},"out":{"base":"Any"},"spec":{"lhs":"dot(vec)","rhs":"returns dot product of two vectors","over":{"base":"Any","pred":"isinstance(vect1, Add) and isinstance(vect1, VectorMul) and isinstance(vect1, BaseVector)"},"name":"dot_correct"},"guarantee":"returns dot product of two vectors","fibers":[{"name":"Add","pred":"isinstance(vect1, Add)","path":{"lhs":"dot(x)","rhs":"returns dot product of two vectors","over":{"base":"Add","pred":"isinstance(vect1, Add)"},"name":"dot_Add_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.vector.dot_Add_correct","statement":"dot satisfies spec on Add inputs"},"trust":"LIBRARY"},{"name":"VectorMul","pred":"isinstance(vect1, VectorMul)","path":{"lhs":"dot(x)","rhs":"returns dot product of two vectors","over":{"base":"VectorMul","pred":"isinstance(vect1, VectorMul)"},"name":"dot_VectorMul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.vector.dot_VectorMul_correct","statement":"dot satisfies spec on VectorMul inputs"},"trust":"LIBRARY"},{"name":"BaseVector","pred":"isinstance(vect1, BaseVector)","path":{"lhs":"dot(x)","rhs":"returns dot product of two vectors","over":{"base":"BaseVector","pred":"isinstance(vect1, BaseVector)"},"name":"dot_BaseVector_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.vector.dot_BaseVector_correct","statement":"dot satisfies spec on BaseVector inputs"},"trust":"LIBRARY"},{"name":"VectorZero","pred":"isinstance(vect1, VectorZero)","path":{"lhs":"dot(x)","rhs":"returns dot product of two vectors","over":{"base":"VectorZero","pred":"isinstance(vect1, VectorZero)"},"name":"dot_VectorZero_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.vector.dot_VectorZero_correct","statement":"dot satisfies spec on VectorZero inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":4,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"c718c408db194bc0"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.vector.dot","kind":"function","src_hash":"ae6f73e479a5af50","in":{"base":"Any","pred":"isinstance(vect1, Add) and isinstance(vect1, VectorMul) and isinstance(vect1, BaseVector) and hasattr(vect1, '_sys') and hasattr(vect2, '_sys') and hasattr(vect1, 'args') and hasattr(vect2, 'args') and hasattr(vect1, 'components') and hasattr(vect2, 'components')"},"out":{"base":"Any","pred":"result satisfies: # HINT: dot may be idempotent: dot(dot(x)) == dot(x)"},"spec":{"lhs":"dot(vect1, vect2)","rhs":"# HINT: dot may be idempotent: dot(dot(x)) == dot(x)","over":{"base":"Any","pred":"isinstance(vect1, Add) and isinstance(vect1, VectorMul) and isinstance(vect1, BaseVector) and hasattr(vect1, '_sys') and hasattr(vect2, '_sys') and hasattr(vect1, 'args') and hasattr(vect2, 'args') and hasattr(vect1, 'components') and hasattr(vect2, 'components')"},"name":"dot_correct"},"guarantee":"# HINT: dot may be idempotent: dot(dot(x)) == dot(x)","fibers":[{"name":"Add","pred":"isinstance(vect1, Add)","path":{"lhs":"dot(x)","rhs":"# HINT: dot may be idempotent: dot(dot(x)) == dot(x)","over":{"base":"Add","pred":"isinstance(vect1, Add)"},"name":"dot_Add_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.vector.dot_Add_correct","statement":"dot satisfies spec on Add inputs"},"trust":"LIBRARY"},{"name":"VectorMul","pred":"isinstance(vect1, VectorMul)","path":{"lhs":"dot(x)","rhs":"# HINT: dot may be idempotent: dot(dot(x)) == dot(x)","over":{"base":"VectorMul","pred":"isinstance(vect1, VectorMul)"},"name":"dot_VectorMul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.vector.dot_VectorMul_correct","statement":"dot satisfies spec on VectorMul inputs"},"trust":"LIBRARY"},{"name":"BaseVector","pred":"isinstance(vect1, BaseVector)","path":{"lhs":"dot(x)","rhs":"# HINT: dot may be idempotent: dot(dot(x)) == dot(x)","over":{"base":"BaseVector","pred":"isinstance(vect1, BaseVector)"},"name":"dot_BaseVector_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.vector.dot_BaseVector_correct","statement":"dot satisfies spec on BaseVector inputs"},"trust":"LIBRARY"},{"name":"VectorZero","pred":"isinstance(vect1, VectorZero)","path":{"lhs":"dot(x)","rhs":"# HINT: dot may be idempotent: dot(dot(x)) == dot(x)","over":{"base":"VectorZero","pred":"isinstance(vect1, VectorZero)"},"name":"dot_VectorZero_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.vector.dot_VectorZero_correct","statement":"dot satisfies spec on VectorZero inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":4,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"c718c408db194bc0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(vect1, '_sys')","hasattr(vect2, '_sys')","hasattr(vect1, 'args')","hasattr(vect2, 'args')","hasattr(vect1, 'components')","hasattr(vect2, 'components')"],"ensures":["# HINT: dot may be idempotent: dot(dot(x)) == dot(x)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["vect1._sys","vect1.args","vect1.components","vect2._sys","vect2.args","vect2.components"],"catches":["ValueError"]}},"c4_verdict":{"valid":false,"n_vcs":12,"n_verified":7,"n_assumed":4,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":4.4,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(vect1, Add)', 'isinstance(vect1, VectorZero) or isinstance(vect2, VectorZero)', 'vect1._sys == vect2._sys', 'isinstance(vect2, Add)', 'isinstance(vect1, VectorMul)', 'isinstance(vect2, VectorMul)', 'isinstance(vect1, BaseVector) and isinstance(vect2, BaseVector)'}, fibers={'Add', 'BaseVector', 'VectorMul', 'VectorZero'})"]}}
 def dot(vect1, vect2):
     """
     Returns dot product of two vectors.

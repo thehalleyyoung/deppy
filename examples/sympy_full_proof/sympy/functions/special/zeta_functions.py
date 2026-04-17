@@ -42,14 +42,20 @@ from sympy.polys.polytools import Poly
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(lerchphi(*args), correctly constructs a lerchphi instance) over {Any | isinstance(p, polylog) and isinstance(z, exp)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DefinedFunction)              ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ lerchphi : {Any | isinstance(p, polylog) and isinstan...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 65ab4050b16d29a4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.zeta_functions.lerchphi","kind":"class","src_hash":"5df1cf8beddde794","in":{"base":"Any","pred":"isinstance(p, polylog) and isinstance(z, exp)"},"out":{"base":"Any"},"spec":{"lhs":"lerchphi(*args)","rhs":"correctly constructs a lerchphi instance","over":{"base":"Any","pred":"isinstance(p, polylog) and isinstance(z, exp)"},"name":"lerchphi_class_invariant"},"guarantee":"correctly constructs a lerchphi instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"65ab4050b16d29a4"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.zeta_functions.lerchphi","kind":"class","src_hash":"5df1cf8beddde794","in":{"base":"Any","pred":"isinstance(p, polylog) and isinstance(z, exp)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DefinedFunction)"},"spec":{"lhs":"lerchphi(*args)","rhs":"correctly constructs a lerchphi instance","over":{"base":"Any","pred":"isinstance(p, polylog) and isinstance(z, exp)"},"name":"lerchphi_class_invariant"},"guarantee":"isinstance(self, DefinedFunction)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"65ab4050b16d29a4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DefinedFunction)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"assumed","binding":false,"binding_errors":["Function lerchphi not found in source"]}}
 class lerchphi(DefinedFunction):
     r"""
     Lerch transcendent (Lerch phi function).
@@ -157,16 +163,22 @@ class lerchphi(DefinedFunction):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_expand_func(**h), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_expand_func(**hints), <unspecified:_eval_expand_func>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_expand_func : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0d5c5f6cdfbca771  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.zeta_functions.lerchphi._eval_expand_func","kind":"method","src_hash":"c59dd0913c4fc72b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_expand_func(**h)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_expand_func_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.zeta_functions.lerchphi._eval_expand_func_correct","statement":"Path(_eval_expand_func(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0d5c5f6cdfbca771"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.zeta_functions.lerchphi._eval_expand_func","kind":"method","src_hash":"c59dd0913c4fc72b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_expand_func(**hints)","rhs":"<unspecified:_eval_expand_func>","over":{"base":"Any"},"name":"_eval_expand_func_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.zeta_functions.lerchphi._eval_expand_func_correct","statement":"Path(_eval_expand_func(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0d5c5f6cdfbca771","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_expand_func(self, **hints):
         z, s, a = self.args
         if z == 1:
@@ -233,16 +245,24 @@ class lerchphi(DefinedFunction):
         return lerchphi(z, s, a)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(fdiff(arg), fdiff produces the expected output) over Any ║
+# ║ Path(fdiff(argindex), <unspecified:fdiff>) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: argindex == 3 => -s * lerchphi(z, s ...   ║
+# ║   fiber[case_1]: argindex == 1 => (lerchphi(z, s - 1,...   ║
+# ║   fiber[case_2]: not (argindex == 3) and not (arginde...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ fdiff : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b88af141a8ec70ea  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dea6b1c2273624ae  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.zeta_functions.lerchphi.fdiff","kind":"method","src_hash":"1ecb863ffd997318","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(arg)","rhs":"fdiff produces the expected output","over":{"base":"Any"},"name":"fdiff_correct"},"guarantee":"fdiff produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.zeta_functions.lerchphi.fdiff_correct","statement":"Path(fdiff(x), fdiff produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b88af141a8ec70ea"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.zeta_functions.lerchphi.fdiff","kind":"method","src_hash":"1ecb863ffd997318","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(argindex)","rhs":"<unspecified:fdiff>","over":{"base":"Any"},"name":"fdiff_correct"},"guarantee":"3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.zeta_functions.lerchphi.fdiff_correct","statement":"Path(fdiff(x), 3-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dea6b1c2273624ae","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"argindex == 3","ensures":["result == -s * lerchphi(z, s + 1, a)"],"decidability":"z3","returns_expr":"-s * lerchphi(z, s + 1, a)"},{"name":"case_1","guard":"argindex == 1","ensures":["result == (lerchphi(z, s - 1, a) - a * lerchphi(z, s, a)) / z"],"decidability":"z3","returns_expr":"(lerchphi(z, s - 1, a) - a * lerchphi(z, s, a)) / z"},{"name":"case_2","guard":"not (argindex == 3) and not (argindex == 1)","ensures":[],"decidability":"z3"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"],"raises":["ArgumentIndexError"]},"state_contract":{"exceptional_post":{"ArgumentIndexError":["isinstance(raised, ArgumentIndexError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def fdiff(self, argindex=1):
         z, s, a = self.args
         if argindex == 3:
@@ -253,16 +273,25 @@ class lerchphi(DefinedFunction):
             raise ArgumentIndexError
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_helper(tar), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_helper(target), result == (res if res.has(target) else self) and result == res or result == self) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_rewrite_helper : Any → Any                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (res if res.has(target) else self)   ║
+# ║   ensures:  result == res or result == self                ║
+# ║   fiber[case_0]: res.has(target) => res                    ║
+# ║   fiber[case_1]: not (res.has(target)) => self             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_rewrite_helper : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 08b43591913334c7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 35bbd131d5dcc14d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.zeta_functions.lerchphi._eval_rewrite_helper","kind":"method","src_hash":"8303b2b5b1f1dca2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_helper(tar)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_helper_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.zeta_functions.lerchphi._eval_rewrite_helper_correct","statement":"Path(_eval_rewrite_helper(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"08b43591913334c7"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.zeta_functions.lerchphi._eval_rewrite_helper","kind":"method","src_hash":"8303b2b5b1f1dca2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (res if res.has(target) else self) and result == res or result == self"},"spec":{"lhs":"_eval_rewrite_helper(target)","rhs":"result == (res if res.has(target) else self) and result == res or result == self","over":{"base":"Any"},"name":"_eval_rewrite_helper_correct"},"guarantee":"result == (res if res.has(target) else self); result == res or result == self; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.zeta_functions.lerchphi._eval_rewrite_helper_correct","statement":"Path(_eval_rewrite_helper(x), result == (res if res.has(target) else self); result == res or result == self; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"35bbd131d5dcc14d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (res if res.has(target) else self)","result == res or result == self"],"fibers":[{"name":"case_0","guard":"res.has(target)","ensures":["result == res"],"decidability":"library","returns_expr":"res"},{"name":"case_1","guard":"not (res.has(target))","ensures":["result == self"],"decidability":"library","returns_expr":"self"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._eval_expand_func"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_helper(self, target):
         res = self._eval_expand_func()
         if res.has(target):
@@ -271,30 +300,42 @@ class lerchphi(DefinedFunction):
             return self
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_zeta(z, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_zeta(z, s, a), self._eval_rewrite_helper(zeta)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._eval_rewrite_helper(zeta)                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_zeta : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8ba9f90bc7db3a26           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.zeta_functions.lerchphi._eval_rewrite_as_zeta","kind":"method","src_hash":"1e88cd8a91b49072","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_zeta(z, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_zeta_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8ba9f90bc7db3a26"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.zeta_functions.lerchphi._eval_rewrite_as_zeta","kind":"method","src_hash":"1e88cd8a91b49072","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_zeta(z, s, a)","rhs":"self._eval_rewrite_helper(zeta)","over":{"base":"Any"},"name":"_eval_rewrite_as_zeta_correct"},"guarantee":"returns self._eval_rewrite_helper(zeta)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8ba9f90bc7db3a26","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._eval_rewrite_helper(zeta)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._eval_rewrite_helper"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_zeta(self, z, s, a, **kwargs):
         return self._eval_rewrite_helper(zeta)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_polylog(z, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_polylog(z, s, a), self._eval_rewrite_helper(polylog)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._eval_rewrite_helper(polylog)             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_polylog : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 56bd52c9289856a1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.zeta_functions.lerchphi._eval_rewrite_as_polylog","kind":"method","src_hash":"dd48dc347b6ab2f5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_polylog(z, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_polylog_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"56bd52c9289856a1"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.zeta_functions.lerchphi._eval_rewrite_as_polylog","kind":"method","src_hash":"dd48dc347b6ab2f5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_polylog(z, s, a)","rhs":"self._eval_rewrite_helper(polylog)","over":{"base":"Any"},"name":"_eval_rewrite_as_polylog_correct"},"guarantee":"returns self._eval_rewrite_helper(polylog)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"56bd52c9289856a1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._eval_rewrite_helper(polylog)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._eval_rewrite_helper"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_polylog(self, z, s, a, **kwargs):
         return self._eval_rewrite_helper(polylog)
 
@@ -306,14 +347,20 @@ class lerchphi(DefinedFunction):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(polylog(*args), correctly constructs a polylog instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ polylog : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DefinedFunction)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ polylog : Any → {Any | result satisfies: isinstance(s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fb0ba8e0268a28ba  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.zeta_functions.polylog","kind":"class","src_hash":"f6fa494212ca3bc7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"polylog(*args)","rhs":"correctly constructs a polylog instance","over":{"base":"Any"},"name":"polylog_class_invariant"},"guarantee":"correctly constructs a polylog instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fb0ba8e0268a28ba"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.zeta_functions.polylog","kind":"class","src_hash":"f6fa494212ca3bc7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DefinedFunction)"},"spec":{"lhs":"polylog(*args)","rhs":"correctly constructs a polylog instance","over":{"base":"Any"},"name":"polylog_class_invariant"},"guarantee":"isinstance(self, DefinedFunction)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fb0ba8e0268a28ba","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DefinedFunction)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":false,"binding_errors":["Function polylog not found in source"]}}
 class polylog(DefinedFunction):
     r"""
     Polylogarithm function.
@@ -386,16 +433,25 @@ class polylog(DefinedFunction):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), eval produces the expected output) over Any ║
+# ║ Path(eval(cls, s, z), <unspecified:eval>) over {Any | hasattr(z, 'is_number') and hasattr(z, 'is_zero') and hasattr(z, 'equals') and hasattr(s, 'is_zero') and hasattr(z, 'has')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Any                                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(z, 'is_number')                        ║
+# ║   requires: hasattr(z, 'is_zero')                          ║
+# ║   requires: hasattr(z, 'equals')                           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : {Any | hasattr(z, 'is_number') and hasattr(z, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6f189009e27f4099  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.zeta_functions.polylog.eval","kind":"classmethod","src_hash":"8128ae82b0ae9924","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.zeta_functions.polylog.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6f189009e27f4099"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.zeta_functions.polylog.eval","kind":"classmethod","src_hash":"8128ae82b0ae9924","in":{"base":"Any","pred":"hasattr(z, 'is_number') and hasattr(z, 'is_zero') and hasattr(z, 'equals') and hasattr(s, 'is_zero') and hasattr(z, 'has')"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls, s, z)","rhs":"<unspecified:eval>","over":{"base":"Any","pred":"hasattr(z, 'is_number') and hasattr(z, 'is_zero') and hasattr(z, 'equals') and hasattr(s, 'is_zero') and hasattr(z, 'has')"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.zeta_functions.polylog.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6f189009e27f4099","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(z, 'is_number')","hasattr(z, 'is_zero')","hasattr(z, 'equals')","hasattr(s, 'is_zero')","hasattr(z, 'has')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["s.is_zero","z.equals","z.has","z.is_number","z.is_zero"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, s, z):
         if z.is_number:
             if z is S.One:
@@ -435,16 +491,22 @@ class polylog(DefinedFunction):
             return cls(s, unpolarify(z))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(fdiff(arg), fdiff produces the expected output) over Any ║
+# ║ Path(fdiff(argindex), polylog(s - 1, z) / z) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  polylog(s - 1, z) / z                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ fdiff : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 72e33152f9b2cce2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c09625a63df246ad  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.zeta_functions.polylog.fdiff","kind":"method","src_hash":"710a46998aa6d930","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(arg)","rhs":"fdiff produces the expected output","over":{"base":"Any"},"name":"fdiff_correct"},"guarantee":"fdiff produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.zeta_functions.polylog.fdiff_correct","statement":"Path(fdiff(x), fdiff produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"72e33152f9b2cce2"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.zeta_functions.polylog.fdiff","kind":"method","src_hash":"710a46998aa6d930","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(argindex)","rhs":"polylog(s - 1, z) / z","over":{"base":"Any"},"name":"fdiff_correct"},"guarantee":"returns polylog(s - 1, z) / z","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.zeta_functions.polylog.fdiff_correct","statement":"Path(fdiff(x), returns polylog(s - 1, z) / z)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c09625a63df246ad","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"polylog(s - 1, z) / z","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"],"raises":["ArgumentIndexError"]},"state_contract":{"exceptional_post":{"ArgumentIndexError":["isinstance(raised, ArgumentIndexError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def fdiff(self, argindex=1):
         s, z = self.args
         if argindex == 2:
@@ -452,30 +514,42 @@ class polylog(DefinedFunction):
         raise ArgumentIndexError
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_lerchphi(s, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_lerchphi(s, z, **kwargs), z * lerchphi(z, s, 1)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  z * lerchphi(z, s, 1)                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_lerchphi : Any → Any                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | dc2d28352831cb52           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.zeta_functions.polylog._eval_rewrite_as_lerchphi","kind":"method","src_hash":"b9afd0b32a9ebd0c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_lerchphi(s, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_lerchphi_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"dc2d28352831cb52"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.zeta_functions.polylog._eval_rewrite_as_lerchphi","kind":"method","src_hash":"b9afd0b32a9ebd0c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_lerchphi(s, z, **kwargs)","rhs":"z * lerchphi(z, s, 1)","over":{"base":"Any"},"name":"_eval_rewrite_as_lerchphi_correct"},"guarantee":"returns z * lerchphi(z, s, 1)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"dc2d28352831cb52","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"z * lerchphi(z, s, 1)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_lerchphi(self, s, z, **kwargs):
         return z*lerchphi(z, s, 1)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_expand_func(**h), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_expand_func(**hints), <unspecified:_eval_expand_func>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_expand_func : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ba72ec24baf8904c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.zeta_functions.polylog._eval_expand_func","kind":"method","src_hash":"02ca55404771aee0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_expand_func(**h)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_expand_func_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.zeta_functions.polylog._eval_expand_func_correct","statement":"Path(_eval_expand_func(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ba72ec24baf8904c"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.zeta_functions.polylog._eval_expand_func","kind":"method","src_hash":"02ca55404771aee0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_expand_func(**hints)","rhs":"<unspecified:_eval_expand_func>","over":{"base":"Any"},"name":"_eval_expand_func_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.zeta_functions.polylog._eval_expand_func_correct","statement":"Path(_eval_expand_func(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ba72ec24baf8904c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_expand_func(self, **hints):
         s, z = self.args
         if s == 1:
@@ -489,32 +563,44 @@ class polylog(DefinedFunction):
         return polylog(s, z)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_zero(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_zero(), True) over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  True                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_zero : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 512b53f65a6e3486  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 858e4c56e9455428  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.zeta_functions.polylog._eval_is_zero","kind":"method","src_hash":"d4f8448a39ae050d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_zero()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_zero_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.zeta_functions.polylog._eval_is_zero_correct","statement":"Path(_eval_is_zero(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"512b53f65a6e3486"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.zeta_functions.polylog._eval_is_zero","kind":"method","src_hash":"d4f8448a39ae050d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_zero()","rhs":"True","over":{"base":"Any"},"name":"_eval_is_zero_correct"},"guarantee":"returns True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.zeta_functions.polylog._eval_is_zero_correct","statement":"Path(_eval_is_zero(x), returns True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"858e4c56e9455428","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"True","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_zero(self):
         z = self.args[1]
         if z.is_zero:
             return True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_nseries(x, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_nseries(x, n, logx), <unspecified:_eval_nseries>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_nseries : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 10756c4be256524c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.zeta_functions.polylog._eval_nseries","kind":"method","src_hash":"3d0c8d196a5ebb5d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_nseries(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_nseries_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.zeta_functions.polylog._eval_nseries_correct","statement":"Path(_eval_nseries(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"10756c4be256524c"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.zeta_functions.polylog._eval_nseries","kind":"method","src_hash":"3d0c8d196a5ebb5d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_nseries(x, n, logx)","rhs":"<unspecified:_eval_nseries>","over":{"base":"Any"},"name":"_eval_nseries_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.zeta_functions.polylog._eval_nseries_correct","statement":"Path(_eval_nseries(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"10756c4be256524c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_nseries(self, x, n, logx, cdir=0):
         from sympy.series.order import Order
         nu, z = self.args
@@ -555,14 +641,20 @@ class polylog(DefinedFunction):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(zeta(*args), correctly constructs a zeta instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ zeta : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DefinedFunction)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ zeta : Any → {Any | result satisfies: isinstance(self...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.8ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 713724d263ec09f7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.zeta_functions.zeta","kind":"class","src_hash":"9abaa244a6c440de","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"zeta(*args)","rhs":"correctly constructs a zeta instance","over":{"base":"Any"},"name":"zeta_class_invariant"},"guarantee":"correctly constructs a zeta instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"713724d263ec09f7"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.zeta_functions.zeta","kind":"class","src_hash":"9abaa244a6c440de","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DefinedFunction)"},"spec":{"lhs":"zeta(*args)","rhs":"correctly constructs a zeta instance","over":{"base":"Any"},"name":"zeta_class_invariant"},"guarantee":"isinstance(self, DefinedFunction)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"713724d263ec09f7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DefinedFunction)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"assumed","binding":false,"binding_errors":["Function zeta not found in source"]}}
 class zeta(DefinedFunction):
     r"""
     Hurwitz zeta function (or Riemann zeta function).
@@ -672,16 +764,28 @@ class zeta(DefinedFunction):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), eval produces the expected output) over Any ║
+# ║ Path(eval(cls, s, a), result == (cls(s) if a is S.One else S.NaN if s is S.NaN or a is S.NaN else S.ComplexInfinity if s is S.One else S.One if s is S.Infinity else S.Zero)) over {Any | hasattr(s, 'is_Integer') and hasattr(s, 'is_nonpositive') and hasattr(s, 'is_even') and hasattr(a, 'is_Integer') and hasattr(a, 'is_positive') and hasattr(a, 'is_nonpositive') and hasattr(s, 'is_integer')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(s, 'is_Integer')                       ║
+# ║   requires: hasattr(s, 'is_nonpositive')                   ║
+# ║   requires: hasattr(s, 'is_even')                          ║
+# ║   ensures:  result == (cls(s) if a is S.One else S.Na...   ║
+# ║   fiber[case_0]: a is S.One => cls(s)                      ║
+# ║   fiber[case_1]: s is S.NaN or a is S.NaN => S.NaN         ║
+# ║   fiber[case_2]: s is S.One => S.ComplexInfinity           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : {Any | hasattr(s, 'is_Integer') and hasattr(s,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 91e0530eb4f0fe87  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f520a14f3c0b69a4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.zeta_functions.zeta.eval","kind":"classmethod","src_hash":"46f6ebb2075c1671","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.zeta_functions.zeta.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"91e0530eb4f0fe87"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.zeta_functions.zeta.eval","kind":"classmethod","src_hash":"46f6ebb2075c1671","in":{"base":"Any","pred":"hasattr(s, 'is_Integer') and hasattr(s, 'is_nonpositive') and hasattr(s, 'is_even') and hasattr(a, 'is_Integer') and hasattr(a, 'is_positive') and hasattr(a, 'is_nonpositive') and hasattr(s, 'is_integer')"},"out":{"base":"Any","pred":"result satisfies: result == (cls(s) if a is S.One else S.NaN if s is S.NaN or a is S.NaN else S.ComplexInfinity if s is S.One else S.One if s is S.Infinity else S.Zero)"},"spec":{"lhs":"eval(cls, s, a)","rhs":"result == (cls(s) if a is S.One else S.NaN if s is S.NaN or a is S.NaN else S.ComplexInfinity if s is S.One else S.One if s is S.Infinity else S.Zero)","over":{"base":"Any","pred":"hasattr(s, 'is_Integer') and hasattr(s, 'is_nonpositive') and hasattr(s, 'is_even') and hasattr(a, 'is_Integer') and hasattr(a, 'is_positive') and hasattr(a, 'is_nonpositive') and hasattr(s, 'is_integer')"},"name":"eval_correct"},"guarantee":"result == (cls(s) if a is S.One else S.NaN if s is S.NaN or a is S.NaN else S.ComplexInfinity if s is S.One else S.One if s is S.Infinity else S.Zero); 5-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.zeta_functions.zeta.eval_correct","statement":"Path(eval(x), result == (cls(s) if a is S.One else S.NaN if s is S.NaN or a is S.NaN else S.ComplexInfinity if s is S.One else S.One if s is S.Infinity else S.Zero); 5-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f520a14f3c0b69a4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(s, 'is_Integer')","hasattr(s, 'is_nonpositive')","hasattr(s, 'is_even')","hasattr(a, 'is_Integer')","hasattr(a, 'is_positive')","hasattr(a, 'is_nonpositive')","hasattr(s, 'is_integer')"],"ensures":["result == (cls(s) if a is S.One else S.NaN if s is S.NaN or a is S.NaN else S.ComplexInfinity if s is S.One else S.One if s is S.Infinity else S.Zero)"],"fibers":[{"name":"case_0","guard":"a is S.One","ensures":["result == cls(s)"],"decidability":"library","returns_expr":"cls(s)"},{"name":"case_1","guard":"s is S.NaN or a is S.NaN","ensures":["result == S.NaN"],"decidability":"library","returns_expr":"S.NaN"},{"name":"case_2","guard":"s is S.One","ensures":["result == S.ComplexInfinity"],"decidability":"library","returns_expr":"S.ComplexInfinity"},{"name":"case_3","guard":"s is S.Infinity","ensures":["result == S.One"],"decidability":"library","returns_expr":"S.One"},{"name":"case_4","guard":"a is S.Infinity","ensures":["result == S.Zero"],"decidability":"library","returns_expr":"S.Zero"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["a.is_Integer","a.is_nonpositive","a.is_positive","s.is_Integer","s.is_even","s.is_integer","s.is_nonpositive"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, s, a=None):
         if a is S.One:
             return cls(s)
@@ -709,32 +813,47 @@ class zeta(DefinedFunction):
             return S.NaN
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_bernoulli(s, ), id) over Any         ║
+# ║ Path(_eval_rewrite_as_bernoulli(s, a, **kwargs), id) over {Any | hasattr(s, 'is_integer') and hasattr(s, 'is_nonnegative') and hasattr(s, 'is_even')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_rewrite_as_bernoulli : Any → Any                     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(s, 'is_integer')                       ║
+# ║   requires: hasattr(s, 'is_nonnegative')                   ║
+# ║   requires: hasattr(s, 'is_even')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_rewrite_as_bernoulli : {Any | hasattr(s, 'is_in...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 07668fd1188a6d07   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.zeta_functions.zeta._eval_rewrite_as_bernoulli","kind":"method","src_hash":"e43d1abb4fd92a07","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_bernoulli(s, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_bernoulli_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"bernoulli","by":"library_axiom"},{"fn":"factorial","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"07668fd1188a6d07"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.zeta_functions.zeta._eval_rewrite_as_bernoulli","kind":"method","src_hash":"e43d1abb4fd92a07","in":{"base":"Any","pred":"hasattr(s, 'is_integer') and hasattr(s, 'is_nonnegative') and hasattr(s, 'is_even')"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_bernoulli(s, a, **kwargs)","rhs":"<unspecified:_eval_rewrite_as_bernoulli>","over":{"base":"Any","pred":"hasattr(s, 'is_integer') and hasattr(s, 'is_nonnegative') and hasattr(s, 'is_even')"},"name":"_eval_rewrite_as_bernoulli_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"bernoulli","by":"library_axiom"},{"fn":"factorial","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"07668fd1188a6d07","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(s, 'is_integer')","hasattr(s, 'is_nonnegative')","hasattr(s, 'is_even')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["s.is_even","s.is_integer","s.is_nonnegative"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_bernoulli(self, s, a=1, **kwargs):
         if a == 1 and s.is_integer and s.is_nonnegative and s.is_even:
             return -(2*pi*I)**s * bernoulli(s) / (2*factorial(s))
         return bernoulli(1-s, a) / (s-1)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_dirichlet_eta(s, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_dirichlet_eta(s, a, **kwargs), <unspecified:_eval_rewrite_as_dirichlet_eta>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_dirichlet_eta : Any → Any                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bafd67755eacf929  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.zeta_functions.zeta._eval_rewrite_as_dirichlet_eta","kind":"method","src_hash":"a1eb29980d6f4b7a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_dirichlet_eta(s, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_dirichlet_eta_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.zeta_functions.zeta._eval_rewrite_as_dirichlet_eta_correct","statement":"Path(_eval_rewrite_as_dirichlet_eta(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bafd67755eacf929"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.zeta_functions.zeta._eval_rewrite_as_dirichlet_eta","kind":"method","src_hash":"a1eb29980d6f4b7a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_dirichlet_eta(s, a, **kwargs)","rhs":"<unspecified:_eval_rewrite_as_dirichlet_eta>","over":{"base":"Any"},"name":"_eval_rewrite_as_dirichlet_eta_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.zeta_functions.zeta._eval_rewrite_as_dirichlet_eta_correct","statement":"Path(_eval_rewrite_as_dirichlet_eta(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bafd67755eacf929","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_dirichlet_eta(self, s, a=1, **kwargs):
         if a != 1:
             return self
@@ -742,44 +861,62 @@ class zeta(DefinedFunction):
         return dirichlet_eta(s)/(1 - 2**(1 - s))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_lerchphi(s, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_lerchphi(s, a, **kwargs), lerchphi(1, s, a)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  lerchphi(1, s, a)                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_lerchphi : Any → Any                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9b83b52185a66ddd           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.zeta_functions.zeta._eval_rewrite_as_lerchphi","kind":"method","src_hash":"fe972c85b7c9a726","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_lerchphi(s, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_lerchphi_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9b83b52185a66ddd"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.zeta_functions.zeta._eval_rewrite_as_lerchphi","kind":"method","src_hash":"fe972c85b7c9a726","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_lerchphi(s, a, **kwargs)","rhs":"lerchphi(1, s, a)","over":{"base":"Any"},"name":"_eval_rewrite_as_lerchphi_correct"},"guarantee":"returns lerchphi(1, s, a)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9b83b52185a66ddd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"lerchphi(1, s, a)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_lerchphi(self, s, a=1, **kwargs):
         return lerchphi(1, s, a)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_finite(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_finite(), fuzzy_not((self.args[0] - 1).is_zero)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  fuzzy_not((self.args[0] - 1).is_zero)          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_finite : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 16b0ada8dab6a4a0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.zeta_functions.zeta._eval_is_finite","kind":"method","src_hash":"0b89e7f8936b4081","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_finite()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_finite_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"16b0ada8dab6a4a0"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.zeta_functions.zeta._eval_is_finite","kind":"method","src_hash":"0b89e7f8936b4081","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_finite()","rhs":"fuzzy_not((self.args[0] - 1).is_zero)","over":{"base":"Any"},"name":"_eval_is_finite_correct"},"guarantee":"returns fuzzy_not((self.args[0] - 1).is_zero)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"16b0ada8dab6a4a0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"fuzzy_not((self.args[0] - 1).is_zero)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_finite(self):
         return fuzzy_not((self.args[0] - 1).is_zero)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_expand_func(**h), id) over Any                  ║
+# ║ Path(_eval_expand_func(**hints), id) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_expand_func : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 2e1aa9d346c9dc76   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.zeta_functions.zeta._eval_expand_func","kind":"method","src_hash":"f340241c7e557847","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_expand_func(**h)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_expand_func_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"zeta","by":"library_axiom"},{"fn":"harmonic","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2e1aa9d346c9dc76"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.zeta_functions.zeta._eval_expand_func","kind":"method","src_hash":"f340241c7e557847","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_expand_func(**hints)","rhs":"<unspecified:_eval_expand_func>","over":{"base":"Any"},"name":"_eval_expand_func_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"zeta","by":"library_axiom"},{"fn":"harmonic","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2e1aa9d346c9dc76","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_expand_func(self, **hints):
         s = self.args[0]
         a = self.args[1] if len(self.args) > 1 else S.One
@@ -792,16 +929,22 @@ class zeta(DefinedFunction):
         return self
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(fdiff(arg), fdiff produces the expected output) over Any ║
+# ║ Path(fdiff(argindex), -s * zeta(s + 1, a)) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  -s * zeta(s + 1, a)                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ fdiff : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c20a0036a55f2b0b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cff10cab0cbf55f3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.zeta_functions.zeta.fdiff","kind":"method","src_hash":"d7e1273ddc9a361f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(arg)","rhs":"fdiff produces the expected output","over":{"base":"Any"},"name":"fdiff_correct"},"guarantee":"fdiff produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.zeta_functions.zeta.fdiff_correct","statement":"Path(fdiff(x), fdiff produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c20a0036a55f2b0b"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.zeta_functions.zeta.fdiff","kind":"method","src_hash":"d7e1273ddc9a361f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(argindex)","rhs":"-s * zeta(s + 1, a)","over":{"base":"Any"},"name":"fdiff_correct"},"guarantee":"returns -s * zeta(s + 1, a)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.zeta_functions.zeta.fdiff_correct","statement":"Path(fdiff(x), returns -s * zeta(s + 1, a))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cff10cab0cbf55f3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"-s * zeta(s + 1, a)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"],"raises":["ArgumentIndexError"]},"state_contract":{"exceptional_post":{"ArgumentIndexError":["isinstance(raised, ArgumentIndexError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def fdiff(self, argindex=1):
         if len(self.args) == 2:
             s, a = self.args
@@ -813,16 +956,23 @@ class zeta(DefinedFunction):
             raise ArgumentIndexError
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_as_leading_term(x, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_as_leading_term(x, logx, cdir), <unspecified:_eval_as_leading_term>) over {Any | not (e.is_negative and (not s.is_positive))} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_as_leading_term : Any → Any                          ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (e.is_negative and (not s.is_positive))    ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_as_leading_term : {Any | not (e.is_negative and...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f4f0c4015ac15218  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.zeta_functions.zeta._eval_as_leading_term","kind":"method","src_hash":"514da816c29f8890","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_as_leading_term(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_as_leading_term_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.zeta_functions.zeta._eval_as_leading_term_correct","statement":"Path(_eval_as_leading_term(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f4f0c4015ac15218"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.zeta_functions.zeta._eval_as_leading_term","kind":"method","src_hash":"514da816c29f8890","in":{"base":"Any","pred":"not (e.is_negative and (not s.is_positive))"},"out":{"base":"Any"},"spec":{"lhs":"_eval_as_leading_term(x, logx, cdir)","rhs":"<unspecified:_eval_as_leading_term>","over":{"base":"Any","pred":"not (e.is_negative and (not s.is_positive))"},"name":"_eval_as_leading_term_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.zeta_functions.zeta._eval_as_leading_term_correct","statement":"Path(_eval_as_leading_term(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f4f0c4015ac15218","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (e.is_negative and (not s.is_positive))"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"],"raises":["NotImplementedError"],"catches":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_as_leading_term(self, x, logx, cdir):
         if len(self.args) == 2:
             s, a = self.args
@@ -843,14 +993,20 @@ class zeta(DefinedFunction):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(dirichlet_eta(*args), correctly constructs a dirichlet_eta instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dirichlet_eta : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DefinedFunction)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dirichlet_eta : Any → {Any | result satisfies: isinst...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 340d7d2c3a5a507f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.zeta_functions.dirichlet_eta","kind":"class","src_hash":"1a780b68cb558467","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dirichlet_eta(*args)","rhs":"correctly constructs a dirichlet_eta instance","over":{"base":"Any"},"name":"dirichlet_eta_class_invariant"},"guarantee":"correctly constructs a dirichlet_eta instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"340d7d2c3a5a507f"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.zeta_functions.dirichlet_eta","kind":"class","src_hash":"1a780b68cb558467","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DefinedFunction)"},"spec":{"lhs":"dirichlet_eta(*args)","rhs":"correctly constructs a dirichlet_eta instance","over":{"base":"Any"},"name":"dirichlet_eta_class_invariant"},"guarantee":"isinstance(self, DefinedFunction)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"340d7d2c3a5a507f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DefinedFunction)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":false,"binding_errors":["Function dirichlet_eta not found in source"]}}
 class dirichlet_eta(DefinedFunction):
     r"""
     Dirichlet eta function.
@@ -900,16 +1056,22 @@ class dirichlet_eta(DefinedFunction):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), eval produces the expected output) over Any ║
+# ║ Path(eval(cls, s, a), <unspecified:eval>) over Any         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ eval : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 22f0601af9e60051  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.zeta_functions.dirichlet_eta.eval","kind":"classmethod","src_hash":"acbca17d48310505","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.zeta_functions.dirichlet_eta.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"22f0601af9e60051"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.zeta_functions.dirichlet_eta.eval","kind":"classmethod","src_hash":"acbca17d48310505","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls, s, a)","rhs":"<unspecified:eval>","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.zeta_functions.dirichlet_eta.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"22f0601af9e60051","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, s, a=None):
         if a is S.One:
             return cls(s)
@@ -929,16 +1091,22 @@ class dirichlet_eta(DefinedFunction):
             return z1 - 2**(1-s) * z2
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_zeta(s, ), id) over Any              ║
+# ║ Path(_eval_rewrite_as_zeta(s, a, **kwargs), id) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_zeta : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 5e16d2de3d42efa4   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.zeta_functions.dirichlet_eta._eval_rewrite_as_zeta","kind":"method","src_hash":"d7a767e6336cb718","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_zeta(s, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_zeta_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Piecewise","by":"library_axiom"},{"fn":"log","by":"library_axiom"},{"fn":"Eq","by":"library_axiom"},{"fn":"zeta","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5e16d2de3d42efa4"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.zeta_functions.dirichlet_eta._eval_rewrite_as_zeta","kind":"method","src_hash":"d7a767e6336cb718","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_zeta(s, a, **kwargs)","rhs":"<unspecified:_eval_rewrite_as_zeta>","over":{"base":"Any"},"name":"_eval_rewrite_as_zeta_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Piecewise","by":"library_axiom"},{"fn":"log","by":"library_axiom"},{"fn":"Eq","by":"library_axiom"},{"fn":"zeta","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5e16d2de3d42efa4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_zeta(self, s, a=1, **kwargs):
         from sympy.functions.special.gamma_functions import digamma
         if a == 1:
@@ -947,32 +1115,44 @@ class dirichlet_eta(DefinedFunction):
                 (zeta(s, a) - 2**(1-s) * zeta(s, (a+1)/2), True))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_genocchi(s, ), id) over Any          ║
+# ║ Path(_eval_rewrite_as_genocchi(s, a, **kwargs), id) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Piecewise((log(2) - digamma(a) + digamma(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_genocchi : Any → Any                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 55d2cc8fee6c0269   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.zeta_functions.dirichlet_eta._eval_rewrite_as_genocchi","kind":"method","src_hash":"8f0da982d635c983","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_genocchi(s, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_genocchi_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Piecewise","by":"library_axiom"},{"fn":"log","by":"library_axiom"},{"fn":"digamma","by":"library_axiom"},{"fn":"digamma","by":"library_axiom"},{"fn":"Eq","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"55d2cc8fee6c0269"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.zeta_functions.dirichlet_eta._eval_rewrite_as_genocchi","kind":"method","src_hash":"8f0da982d635c983","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_genocchi(s, a, **kwargs)","rhs":"Piecewise((log(2) - digamma(a) + digamma((a + 1) / 2), Eq(s, 1)), (genocchi(1 - s, a) / (2 * (s - 1)), True))","over":{"base":"Any"},"name":"_eval_rewrite_as_genocchi_correct","kind":"composition"},"guarantee":"returns Piecewise((log(2) - digamma(a) + digamma((a + 1) / 2), Eq(s, 1)), (genocchi(1 - s, a) / (2 * (s - 1)), True))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Piecewise","by":"library_axiom"},{"fn":"log","by":"library_axiom"},{"fn":"digamma","by":"library_axiom"},{"fn":"digamma","by":"library_axiom"},{"fn":"Eq","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"55d2cc8fee6c0269","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Piecewise((log(2) - digamma(a) + digamma((a + 1) / 2), Eq(s, 1)), (genocchi(1 - s, a) / (2 * (s - 1)), True))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_genocchi(self, s, a=S.One, **kwargs):
         from sympy.functions.special.gamma_functions import digamma
         return Piecewise((log(2) - digamma(a) + digamma((a+1)/2), Eq(s, 1)),
                 (genocchi(1-s, a) / (2 * (s-1)), True))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_evalf(pre), id) over Any                        ║
+# ║ Path(_eval_evalf(prec), id) over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.rewrite(zeta)._eval_evalf(prec)           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_evalf : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 00df1b1b0a3dede9   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.zeta_functions.dirichlet_eta._eval_evalf","kind":"method","src_hash":"9f735545aee38982","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_evalf(pre)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_evalf_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"rewrite","by":"library_axiom"},{"fn":"_eval_evalf","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"00df1b1b0a3dede9"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.zeta_functions.dirichlet_eta._eval_evalf","kind":"method","src_hash":"9f735545aee38982","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_evalf(prec)","rhs":"self.rewrite(zeta)._eval_evalf(prec)","over":{"base":"Any"},"name":"_eval_evalf_correct","kind":"composition"},"guarantee":"returns self.rewrite(zeta)._eval_evalf(prec)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"rewrite","by":"library_axiom"},{"fn":"_eval_evalf","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"00df1b1b0a3dede9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.rewrite(zeta)._eval_evalf(prec)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.rewrite"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_evalf(self, prec):
         if all(i.is_number for i in self.args):
             return self.rewrite(zeta)._eval_evalf(prec)
@@ -981,14 +1161,20 @@ class dirichlet_eta(DefinedFunction):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(riemann_xi(*args), correctly constructs a riemann_xi instance) over {Any | isinstance(z, zeta)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ riemann_xi : {Any | isinstance(z, zeta)} → Any             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DefinedFunction)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ riemann_xi : {Any | isinstance(z, zeta)} → {Any | res...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d96a1f4053f97838  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.zeta_functions.riemann_xi","kind":"class","src_hash":"6e7133bcde7376ce","in":{"base":"Any","pred":"isinstance(z, zeta)"},"out":{"base":"Any"},"spec":{"lhs":"riemann_xi(*args)","rhs":"correctly constructs a riemann_xi instance","over":{"base":"Any","pred":"isinstance(z, zeta)"},"name":"riemann_xi_class_invariant"},"guarantee":"correctly constructs a riemann_xi instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d96a1f4053f97838"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.zeta_functions.riemann_xi","kind":"class","src_hash":"6e7133bcde7376ce","in":{"base":"Any","pred":"isinstance(z, zeta)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DefinedFunction)"},"spec":{"lhs":"riemann_xi(*args)","rhs":"correctly constructs a riemann_xi instance","over":{"base":"Any","pred":"isinstance(z, zeta)"},"name":"riemann_xi_class_invariant"},"guarantee":"isinstance(self, DefinedFunction)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d96a1f4053f97838","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DefinedFunction)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function riemann_xi not found in source"]}}
 class riemann_xi(DefinedFunction):
     r"""
     Riemann Xi function.
@@ -1015,16 +1201,22 @@ class riemann_xi(DefinedFunction):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), eval produces the expected output) over Any ║
+# ║ Path(eval(cls, s), <unspecified:eval>) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ eval : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a30eca053fef5145  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.zeta_functions.riemann_xi.eval","kind":"classmethod","src_hash":"db4d65df53c03e7d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.zeta_functions.riemann_xi.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a30eca053fef5145"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.zeta_functions.riemann_xi.eval","kind":"classmethod","src_hash":"db4d65df53c03e7d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls, s)","rhs":"<unspecified:eval>","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.zeta_functions.riemann_xi.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a30eca053fef5145","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, s):
         from sympy.functions.special.gamma_functions import gamma
         z = zeta(s)
@@ -1035,16 +1227,22 @@ class riemann_xi(DefinedFunction):
             return s*(s - 1)*gamma(s/2)*z/(2*pi**(s/2))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_zeta(s, ), id) over Any              ║
+# ║ Path(_eval_rewrite_as_zeta(s, **kwargs), id) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  s * (s - 1) * gamma(s / 2) * zeta(s) / (2...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_zeta : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | a1987cd7cec86f2d   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.zeta_functions.riemann_xi._eval_rewrite_as_zeta","kind":"method","src_hash":"f5a8ff301739a8fc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_zeta(s, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_zeta_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"gamma","by":"library_axiom"},{"fn":"zeta","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a1987cd7cec86f2d"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.zeta_functions.riemann_xi._eval_rewrite_as_zeta","kind":"method","src_hash":"f5a8ff301739a8fc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_zeta(s, **kwargs)","rhs":"s * (s - 1) * gamma(s / 2) * zeta(s) / (2 * pi ** (s / 2))","over":{"base":"Any"},"name":"_eval_rewrite_as_zeta_correct","kind":"composition"},"guarantee":"returns s * (s - 1) * gamma(s / 2) * zeta(s) / (2 * pi ** (s / 2))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"gamma","by":"library_axiom"},{"fn":"zeta","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a1987cd7cec86f2d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"s * (s - 1) * gamma(s / 2) * zeta(s) / (2 * pi ** (s / 2))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_zeta(self, s, **kwargs):
         from sympy.functions.special.gamma_functions import gamma
         return s*(s - 1)*gamma(s/2)*zeta(s)/(2*pi**(s/2))
@@ -1053,14 +1251,20 @@ class riemann_xi(DefinedFunction):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(stieltjes(*args), correctly constructs a stieltjes instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ stieltjes : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DefinedFunction)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ stieltjes : Any → {Any | result satisfies: isinstance...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7c10018c6f118f84  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.zeta_functions.stieltjes","kind":"class","src_hash":"0fbb946a6b496ad9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"stieltjes(*args)","rhs":"correctly constructs a stieltjes instance","over":{"base":"Any"},"name":"stieltjes_class_invariant"},"guarantee":"correctly constructs a stieltjes instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7c10018c6f118f84"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.zeta_functions.stieltjes","kind":"class","src_hash":"0fbb946a6b496ad9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DefinedFunction)"},"spec":{"lhs":"stieltjes(*args)","rhs":"correctly constructs a stieltjes instance","over":{"base":"Any"},"name":"stieltjes_class_invariant"},"guarantee":"isinstance(self, DefinedFunction)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7c10018c6f118f84","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DefinedFunction)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function stieltjes not found in source"]}}
 class stieltjes(DefinedFunction):
     r"""
     Represents Stieltjes constants, $\gamma_{k}$ that occur in
@@ -1100,16 +1304,25 @@ class stieltjes(DefinedFunction):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), eval produces the expected output) over Any ║
+# ║ Path(eval(cls, n, a), <unspecified:eval>) over {Any | hasattr(n, 'is_Number') and hasattr(n, 'is_extended_negative') and hasattr(n, 'is_zero') and hasattr(n, 'is_integer') and hasattr(a, 'is_Integer') and hasattr(a, 'is_nonpositive') and hasattr(n, 'is_Integer')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Any                                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(n, 'is_Number')                        ║
+# ║   requires: hasattr(n, 'is_extended_negative')             ║
+# ║   requires: hasattr(n, 'is_zero')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : {Any | hasattr(n, 'is_Number') and hasattr(n, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d47295468a736026  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.zeta_functions.stieltjes.eval","kind":"classmethod","src_hash":"abe9564a7322643a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.zeta_functions.stieltjes.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d47295468a736026"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.zeta_functions.stieltjes.eval","kind":"classmethod","src_hash":"abe9564a7322643a","in":{"base":"Any","pred":"hasattr(n, 'is_Number') and hasattr(n, 'is_extended_negative') and hasattr(n, 'is_zero') and hasattr(n, 'is_integer') and hasattr(a, 'is_Integer') and hasattr(a, 'is_nonpositive') and hasattr(n, 'is_Integer')"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls, n, a)","rhs":"<unspecified:eval>","over":{"base":"Any","pred":"hasattr(n, 'is_Number') and hasattr(n, 'is_extended_negative') and hasattr(n, 'is_zero') and hasattr(n, 'is_integer') and hasattr(a, 'is_Integer') and hasattr(a, 'is_nonpositive') and hasattr(n, 'is_Integer')"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.zeta_functions.stieltjes.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d47295468a736026","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(n, 'is_Number')","hasattr(n, 'is_extended_negative')","hasattr(n, 'is_zero')","hasattr(n, 'is_integer')","hasattr(a, 'is_Integer')","hasattr(a, 'is_nonpositive')","hasattr(n, 'is_Integer')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["a.is_Integer","a.is_nonpositive","n.is_Integer","n.is_Number","n.is_extended_negative","n.is_integer","n.is_zero"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, n, a=None):
         if a is not None:
             a = sympify(a)
@@ -1140,16 +1353,22 @@ class stieltjes(DefinedFunction):
 
 @cacheit
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_dilogtable(), internal helper behaves correctly) over Any ║
+# ║ Path(_dilogtable(), <unspecified:_dilogtable>) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _dilogtable : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7573c7dca0c90e0d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.zeta_functions._dilogtable","kind":"function","src_hash":"4f7cabd18788f876","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_dilogtable()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_dilogtable_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.zeta_functions._dilogtable_correct","statement":"Path(_dilogtable(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7573c7dca0c90e0d"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.zeta_functions._dilogtable","kind":"function","src_hash":"4f7cabd18788f876","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_dilogtable()","rhs":"<unspecified:_dilogtable>","over":{"base":"Any"},"name":"_dilogtable_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.zeta_functions._dilogtable_correct","statement":"Path(_dilogtable(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7573c7dca0c90e0d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def _dilogtable():
     return {
         S.Half: pi**2/12 - log(2)**2/2,

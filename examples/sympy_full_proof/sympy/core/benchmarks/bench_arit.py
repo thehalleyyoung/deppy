@@ -21,150 +21,210 @@ x, y, z = symbols('x,y,z')
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(timeit_neg(), timeit_neg produces the expected output) over Any ║
+# ║ Path(timeit_neg(), <unspecified:timeit_neg>) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ timeit_neg : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0088b052b16b66e7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.benchmarks.bench_arit.timeit_neg","kind":"function","src_hash":"e6d7c99a5fb5f394","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"timeit_neg()","rhs":"timeit_neg produces the expected output","over":{"base":"Any"},"name":"timeit_neg_correct"},"guarantee":"timeit_neg produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.benchmarks.bench_arit.timeit_neg_correct","statement":"Path(timeit_neg(x), timeit_neg produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0088b052b16b66e7"}
+# @cctt_verify {"v":2,"sym":"sympy.core.benchmarks.bench_arit.timeit_neg","kind":"function","src_hash":"e6d7c99a5fb5f394","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"timeit_neg()","rhs":"<unspecified:timeit_neg>","over":{"base":"Any"},"name":"timeit_neg_correct"},"guarantee":"timeit_neg produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.benchmarks.bench_arit.timeit_neg_correct","statement":"Path(timeit_neg(x), timeit_neg produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0088b052b16b66e7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def timeit_neg():
     -x
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(timeit_Add_x1(), timeit_Add_x1 produces the expected output) over Any ║
+# ║ Path(timeit_Add_x1(), <unspecified:timeit_Add_x1>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ timeit_Add_x1 : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 508cd85369fadaff  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.benchmarks.bench_arit.timeit_Add_x1","kind":"function","src_hash":"9305ce8321c04d13","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"timeit_Add_x1()","rhs":"timeit_Add_x1 produces the expected output","over":{"base":"Any"},"name":"timeit_Add_x1_correct"},"guarantee":"timeit_Add_x1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.benchmarks.bench_arit.timeit_Add_x1_correct","statement":"Path(timeit_Add_x1(x), timeit_Add_x1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"508cd85369fadaff"}
+# @cctt_verify {"v":2,"sym":"sympy.core.benchmarks.bench_arit.timeit_Add_x1","kind":"function","src_hash":"9305ce8321c04d13","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"timeit_Add_x1()","rhs":"<unspecified:timeit_Add_x1>","over":{"base":"Any"},"name":"timeit_Add_x1_correct"},"guarantee":"timeit_Add_x1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.benchmarks.bench_arit.timeit_Add_x1_correct","statement":"Path(timeit_Add_x1(x), timeit_Add_x1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"508cd85369fadaff","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def timeit_Add_x1():
     x + 1
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(timeit_Add_1x(), timeit_Add_1x produces the expected output) over Any ║
+# ║ Path(timeit_Add_1x(), <unspecified:timeit_Add_1x>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ timeit_Add_1x : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8c04a3f148e21695  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.benchmarks.bench_arit.timeit_Add_1x","kind":"function","src_hash":"738356a6ce3bfa83","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"timeit_Add_1x()","rhs":"timeit_Add_1x produces the expected output","over":{"base":"Any"},"name":"timeit_Add_1x_correct"},"guarantee":"timeit_Add_1x produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.benchmarks.bench_arit.timeit_Add_1x_correct","statement":"Path(timeit_Add_1x(x), timeit_Add_1x produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8c04a3f148e21695"}
+# @cctt_verify {"v":2,"sym":"sympy.core.benchmarks.bench_arit.timeit_Add_1x","kind":"function","src_hash":"738356a6ce3bfa83","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"timeit_Add_1x()","rhs":"<unspecified:timeit_Add_1x>","over":{"base":"Any"},"name":"timeit_Add_1x_correct"},"guarantee":"timeit_Add_1x produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.benchmarks.bench_arit.timeit_Add_1x_correct","statement":"Path(timeit_Add_1x(x), timeit_Add_1x produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8c04a3f148e21695","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def timeit_Add_1x():
     1 + x
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(timeit_Add_x05(), timeit_Add_x05 produces the expected output) over Any ║
+# ║ Path(timeit_Add_x05(), <unspecified:timeit_Add_x05>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ timeit_Add_x05 : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 238c13804fb7d2e8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.benchmarks.bench_arit.timeit_Add_x05","kind":"function","src_hash":"de45a3bb2f18396a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"timeit_Add_x05()","rhs":"timeit_Add_x05 produces the expected output","over":{"base":"Any"},"name":"timeit_Add_x05_correct"},"guarantee":"timeit_Add_x05 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.benchmarks.bench_arit.timeit_Add_x05_correct","statement":"Path(timeit_Add_x05(x), timeit_Add_x05 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"238c13804fb7d2e8"}
+# @cctt_verify {"v":2,"sym":"sympy.core.benchmarks.bench_arit.timeit_Add_x05","kind":"function","src_hash":"de45a3bb2f18396a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"timeit_Add_x05()","rhs":"<unspecified:timeit_Add_x05>","over":{"base":"Any"},"name":"timeit_Add_x05_correct"},"guarantee":"timeit_Add_x05 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.benchmarks.bench_arit.timeit_Add_x05_correct","statement":"Path(timeit_Add_x05(x), timeit_Add_x05 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"238c13804fb7d2e8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def timeit_Add_x05():
     x + 0.5
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(timeit_Add_xy(), timeit_Add_xy produces the expected output) over Any ║
+# ║ Path(timeit_Add_xy(), <unspecified:timeit_Add_xy>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ timeit_Add_xy : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 59894bbe736e8cfb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.benchmarks.bench_arit.timeit_Add_xy","kind":"function","src_hash":"75cb53fd158b4a67","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"timeit_Add_xy()","rhs":"timeit_Add_xy produces the expected output","over":{"base":"Any"},"name":"timeit_Add_xy_correct"},"guarantee":"timeit_Add_xy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.benchmarks.bench_arit.timeit_Add_xy_correct","statement":"Path(timeit_Add_xy(x), timeit_Add_xy produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"59894bbe736e8cfb"}
+# @cctt_verify {"v":2,"sym":"sympy.core.benchmarks.bench_arit.timeit_Add_xy","kind":"function","src_hash":"75cb53fd158b4a67","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"timeit_Add_xy()","rhs":"<unspecified:timeit_Add_xy>","over":{"base":"Any"},"name":"timeit_Add_xy_correct"},"guarantee":"timeit_Add_xy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.benchmarks.bench_arit.timeit_Add_xy_correct","statement":"Path(timeit_Add_xy(x), timeit_Add_xy produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"59894bbe736e8cfb","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def timeit_Add_xy():
     x + y
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(timeit_Add_xyz(), timeit_Add_xyz produces the expected output) over Any ║
+# ║ Path(timeit_Add_xyz(), <unspecified:timeit_Add_xyz>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ timeit_Add_xyz : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cc8e6f484d90c542  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.benchmarks.bench_arit.timeit_Add_xyz","kind":"function","src_hash":"c222b8a0da0c4d29","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"timeit_Add_xyz()","rhs":"timeit_Add_xyz produces the expected output","over":{"base":"Any"},"name":"timeit_Add_xyz_correct"},"guarantee":"timeit_Add_xyz produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.benchmarks.bench_arit.timeit_Add_xyz_correct","statement":"Path(timeit_Add_xyz(x), timeit_Add_xyz produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cc8e6f484d90c542"}
+# @cctt_verify {"v":2,"sym":"sympy.core.benchmarks.bench_arit.timeit_Add_xyz","kind":"function","src_hash":"c222b8a0da0c4d29","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"timeit_Add_xyz()","rhs":"<unspecified:timeit_Add_xyz>","over":{"base":"Any"},"name":"timeit_Add_xyz_correct"},"guarantee":"timeit_Add_xyz produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.benchmarks.bench_arit.timeit_Add_xyz_correct","statement":"Path(timeit_Add_xyz(x), timeit_Add_xyz produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cc8e6f484d90c542","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def timeit_Add_xyz():
     Add(*[x, y, z])
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(timeit_Mul_xy(), timeit_Mul_xy produces the expected output) over Any ║
+# ║ Path(timeit_Mul_xy(), <unspecified:timeit_Mul_xy>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ timeit_Mul_xy : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 702b2205ba799923  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.benchmarks.bench_arit.timeit_Mul_xy","kind":"function","src_hash":"6f0592bab7418417","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"timeit_Mul_xy()","rhs":"timeit_Mul_xy produces the expected output","over":{"base":"Any"},"name":"timeit_Mul_xy_correct"},"guarantee":"timeit_Mul_xy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.benchmarks.bench_arit.timeit_Mul_xy_correct","statement":"Path(timeit_Mul_xy(x), timeit_Mul_xy produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"702b2205ba799923"}
+# @cctt_verify {"v":2,"sym":"sympy.core.benchmarks.bench_arit.timeit_Mul_xy","kind":"function","src_hash":"6f0592bab7418417","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"timeit_Mul_xy()","rhs":"<unspecified:timeit_Mul_xy>","over":{"base":"Any"},"name":"timeit_Mul_xy_correct"},"guarantee":"timeit_Mul_xy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.benchmarks.bench_arit.timeit_Mul_xy_correct","statement":"Path(timeit_Mul_xy(x), timeit_Mul_xy produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"702b2205ba799923","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def timeit_Mul_xy():
     x*y
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(timeit_Mul_xyz(), timeit_Mul_xyz produces the expected output) over Any ║
+# ║ Path(timeit_Mul_xyz(), <unspecified:timeit_Mul_xyz>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ timeit_Mul_xyz : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 89f0eb01388f1f3b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.benchmarks.bench_arit.timeit_Mul_xyz","kind":"function","src_hash":"f9f557d20884677f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"timeit_Mul_xyz()","rhs":"timeit_Mul_xyz produces the expected output","over":{"base":"Any"},"name":"timeit_Mul_xyz_correct"},"guarantee":"timeit_Mul_xyz produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.benchmarks.bench_arit.timeit_Mul_xyz_correct","statement":"Path(timeit_Mul_xyz(x), timeit_Mul_xyz produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"89f0eb01388f1f3b"}
+# @cctt_verify {"v":2,"sym":"sympy.core.benchmarks.bench_arit.timeit_Mul_xyz","kind":"function","src_hash":"f9f557d20884677f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"timeit_Mul_xyz()","rhs":"<unspecified:timeit_Mul_xyz>","over":{"base":"Any"},"name":"timeit_Mul_xyz_correct"},"guarantee":"timeit_Mul_xyz produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.benchmarks.bench_arit.timeit_Mul_xyz_correct","statement":"Path(timeit_Mul_xyz(x), timeit_Mul_xyz produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"89f0eb01388f1f3b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def timeit_Mul_xyz():
     Mul(*[x, y, z])
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(timeit_Div_xy(), timeit_Div_xy produces the expected output) over Any ║
+# ║ Path(timeit_Div_xy(), <unspecified:timeit_Div_xy>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ timeit_Div_xy : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c2036516fe185a93  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.benchmarks.bench_arit.timeit_Div_xy","kind":"function","src_hash":"52ebb95e82d75a8e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"timeit_Div_xy()","rhs":"timeit_Div_xy produces the expected output","over":{"base":"Any"},"name":"timeit_Div_xy_correct"},"guarantee":"timeit_Div_xy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.benchmarks.bench_arit.timeit_Div_xy_correct","statement":"Path(timeit_Div_xy(x), timeit_Div_xy produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c2036516fe185a93"}
+# @cctt_verify {"v":2,"sym":"sympy.core.benchmarks.bench_arit.timeit_Div_xy","kind":"function","src_hash":"52ebb95e82d75a8e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"timeit_Div_xy()","rhs":"<unspecified:timeit_Div_xy>","over":{"base":"Any"},"name":"timeit_Div_xy_correct"},"guarantee":"timeit_Div_xy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.benchmarks.bench_arit.timeit_Div_xy_correct","statement":"Path(timeit_Div_xy(x), timeit_Div_xy produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c2036516fe185a93","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def timeit_Div_xy():
     x/y
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(timeit_Div_2y(), timeit_Div_2y produces the expected output) over Any ║
+# ║ Path(timeit_Div_2y(), <unspecified:timeit_Div_2y>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ timeit_Div_2y : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 63a767d1a13fe64d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.benchmarks.bench_arit.timeit_Div_2y","kind":"function","src_hash":"6c1151eb30536404","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"timeit_Div_2y()","rhs":"timeit_Div_2y produces the expected output","over":{"base":"Any"},"name":"timeit_Div_2y_correct"},"guarantee":"timeit_Div_2y produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.benchmarks.bench_arit.timeit_Div_2y_correct","statement":"Path(timeit_Div_2y(x), timeit_Div_2y produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"63a767d1a13fe64d"}
+# @cctt_verify {"v":2,"sym":"sympy.core.benchmarks.bench_arit.timeit_Div_2y","kind":"function","src_hash":"6c1151eb30536404","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"timeit_Div_2y()","rhs":"<unspecified:timeit_Div_2y>","over":{"base":"Any"},"name":"timeit_Div_2y_correct"},"guarantee":"timeit_Div_2y produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.benchmarks.bench_arit.timeit_Div_2y_correct","statement":"Path(timeit_Div_2y(x), timeit_Div_2y produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"63a767d1a13fe64d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def timeit_Div_2y():
     2/y

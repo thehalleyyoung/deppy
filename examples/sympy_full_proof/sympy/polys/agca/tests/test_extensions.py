@@ -29,16 +29,24 @@ from sympy.abc import x, y, t
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_FiniteExtension(), test_FiniteExtension produces the expected output) over Any ║
+# ║ Path(test_FiniteExtension(), A.rank == 2 and str(A) == 'ZZ[x]/(x**2 + 1)' and i.parent() is A and i * i == A(-1) and A.basis == (A.one, i) and A(1) == A.one and i ** 2 == A(-1) and i ** 2 != -1 and (2 + i) * (1 - i) == 3 - i and (1 + i) ** 8 == A(16) and A(1).inverse() == A(1) and F.rank == 3 and F.basis == (F(1), a, a ** 2) and a ** 27 == a and a ** 26 == F(1) and a ** 13 == F(-1) and a ** 9 == a + 1 and a ** 3 == a - 1 and a ** 6 == a ** 2 + a + 1 and F(x ** 2 + x).inverse() == 1 - a and F(x + 2) ** (-1) == F(x + 2).inverse() and a ** 19 * a ** (-19) == F(1) and (a - 1) / (2 * a ** 2 - 1) == a ** 2 + 1 and (a - 1) // (2 * a ** 2 - 1) == a ** 2 + 1 and 2 / (a ** 2 + 1) == a ** 2 - a + 1 and (a ** 2 + 1) / 2 == -a ** 2 - 1 and K.rank == 2 and str(K) == 'ZZ(x)[t]/(t**2 - x**3 - x + 1)' and ((y + x) * (y - x)).inverse() == K(c) and (y + x) * (y - x) * c == K(1)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_FiniteExtension : Any → {Any | A.rank == 2 and s...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A.rank == 2                                    ║
+# ║   ensures:  str(A) == 'ZZ[x]/(x**2 + 1)'                   ║
+# ║   ensures:  i.parent() is A                                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_FiniteExtension : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 050141e52158dc69  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3c645943ebb1f751  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.tests.test_extensions.test_FiniteExtension","kind":"function","src_hash":"d2814723e0335cdc","in":{"base":"Any"},"out":{"base":"Any","pred":"A.rank == 2 and str(A) == 'ZZ[x]/(x**2 + 1)' and i.parent() is A and i * i == A(-1) and A.basis == (A.one, i) and A(1) == A.one and i ** 2 == A(-1) and i ** 2 != -1 and (2 + i) * (1 - i) == 3 - i and (1 + i) ** 8 == A(16) and A(1).inverse() == A(1) and F.rank == 3 and F.basis == (F(1), a, a ** 2) and a ** 27 == a and a ** 26 == F(1) and a ** 13 == F(-1) and a ** 9 == a + 1 and a ** 3 == a - 1 and a ** 6 == a ** 2 + a + 1 and F(x ** 2 + x).inverse() == 1 - a and F(x + 2) ** (-1) == F(x + 2).inverse() and a ** 19 * a ** (-19) == F(1) and (a - 1) / (2 * a ** 2 - 1) == a ** 2 + 1 and (a - 1) // (2 * a ** 2 - 1) == a ** 2 + 1 and 2 / (a ** 2 + 1) == a ** 2 - a + 1 and (a ** 2 + 1) / 2 == -a ** 2 - 1 and K.rank == 2 and str(K) == 'ZZ(x)[t]/(t**2 - x**3 - x + 1)' and ((y + x) * (y - x)).inverse() == K(c) and (y + x) * (y - x) * c == K(1)"},"spec":{"lhs":"test_FiniteExtension()","rhs":"test_FiniteExtension produces the expected output","over":{"base":"Any"},"name":"test_FiniteExtension_correct"},"guarantee":"test_FiniteExtension produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.tests.test_extensions.test_FiniteExtension_correct","statement":"Path(test_FiniteExtension(x), test_FiniteExtension produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"050141e52158dc69"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.tests.test_extensions.test_FiniteExtension","kind":"function","src_hash":"d2814723e0335cdc","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A.rank == 2 and str(A) == 'ZZ[x]/(x**2 + 1)' and i.parent() is A and i * i == A(-1) and A.basis == (A.one, i) and A(1) == A.one and i ** 2 == A(-1) and i ** 2 != -1 and (2 + i) * (1 - i) == 3 - i and (1 + i) ** 8 == A(16) and A(1).inverse() == A(1) and F.rank == 3 and F.basis == (F(1), a, a ** 2) and a ** 27 == a and a ** 26 == F(1) and a ** 13 == F(-1) and a ** 9 == a + 1 and a ** 3 == a - 1 and a ** 6 == a ** 2 + a + 1 and F(x ** 2 + x).inverse() == 1 - a and F(x + 2) ** (-1) == F(x + 2).inverse() and a ** 19 * a ** (-19) == F(1) and (a - 1) / (2 * a ** 2 - 1) == a ** 2 + 1 and (a - 1) // (2 * a ** 2 - 1) == a ** 2 + 1 and 2 / (a ** 2 + 1) == a ** 2 - a + 1 and (a ** 2 + 1) / 2 == -a ** 2 - 1 and K.rank == 2 and str(K) == 'ZZ(x)[t]/(t**2 - x**3 - x + 1)' and ((y + x) * (y - x)).inverse() == K(c) and (y + x) * (y - x) * c == K(1)"},"spec":{"lhs":"test_FiniteExtension()","rhs":"A.rank == 2 and str(A) == 'ZZ[x]/(x**2 + 1)' and i.parent() is A and i * i == A(-1) and A.basis == (A.one, i) and A(1) == A.one and i ** 2 == A(-1) and i ** 2 != -1 and (2 + i) * (1 - i) == 3 - i and (1 + i) ** 8 == A(16) and A(1).inverse() == A(1) and F.rank == 3 and F.basis == (F(1), a, a ** 2) and a ** 27 == a and a ** 26 == F(1) and a ** 13 == F(-1) and a ** 9 == a + 1 and a ** 3 == a - 1 and a ** 6 == a ** 2 + a + 1 and F(x ** 2 + x).inverse() == 1 - a and F(x + 2) ** (-1) == F(x + 2).inverse() and a ** 19 * a ** (-19) == F(1) and (a - 1) / (2 * a ** 2 - 1) == a ** 2 + 1 and (a - 1) // (2 * a ** 2 - 1) == a ** 2 + 1 and 2 / (a ** 2 + 1) == a ** 2 - a + 1 and (a ** 2 + 1) / 2 == -a ** 2 - 1 and K.rank == 2 and str(K) == 'ZZ(x)[t]/(t**2 - x**3 - x + 1)' and ((y + x) * (y - x)).inverse() == K(c) and (y + x) * (y - x) * c == K(1)","over":{"base":"Any"},"name":"test_FiniteExtension_correct"},"guarantee":"A.rank == 2; str(A) == 'ZZ[x]/(x**2 + 1)'; i.parent() is A","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.tests.test_extensions.test_FiniteExtension_correct","statement":"Path(test_FiniteExtension(x), A.rank == 2; str(A) == 'ZZ[x]/(x**2 + 1)'; i.parent() is A)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3c645943ebb1f751","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A.rank == 2","str(A) == 'ZZ[x]/(x**2 + 1)'","i.parent() is A","i * i == A(-1)","A.basis == (A.one, i)","A(1) == A.one","i ** 2 == A(-1)","i ** 2 != -1","(2 + i) * (1 - i) == 3 - i","(1 + i) ** 8 == A(16)","A(1).inverse() == A(1)","F.rank == 3","F.basis == (F(1), a, a ** 2)","a ** 27 == a","a ** 26 == F(1)","a ** 13 == F(-1)","a ** 9 == a + 1","a ** 3 == a - 1","a ** 6 == a ** 2 + a + 1","F(x ** 2 + x).inverse() == 1 - a","F(x + 2) ** (-1) == F(x + 2).inverse()","a ** 19 * a ** (-19) == F(1)","(a - 1) / (2 * a ** 2 - 1) == a ** 2 + 1","(a - 1) // (2 * a ** 2 - 1) == a ** 2 + 1","2 / (a ** 2 + 1) == a ** 2 - a + 1","(a ** 2 + 1) / 2 == -a ** 2 - 1","K.rank == 2","str(K) == 'ZZ(x)[t]/(t**2 - x**3 - x + 1)'","((y + x) * (y - x)).inverse() == K(c)","(y + x) * (y - x) * c == K(1)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":true}}
 def test_FiniteExtension():
     # Gaussian integers
     A = FiniteExtension(Poly(x**2 + 1, x))
@@ -90,16 +98,24 @@ def test_FiniteExtension():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_FiniteExtension_eq_hash(), test_FiniteExtension_eq_hash produces the expected output) over Any ║
+# ║ Path(test_FiniteExtension_eq_hash(), K1 == FiniteExtension(Poly(x ** 2 - 2)) and K2 != FiniteExtension(Poly(x ** 2 - 2)) and len({K1, K2, FiniteExtension(p1)}) == 2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_FiniteExtension_eq_hash : Any → {Any | K1 == Fin...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  K1 == FiniteExtension(Poly(x ** 2 - 2))        ║
+# ║   ensures:  K2 != FiniteExtension(Poly(x ** 2 - 2))        ║
+# ║   ensures:  len({K1, K2, FiniteExtension(p1)}) == 2        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_FiniteExtension_eq_hash : Any → {Any | result sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fe90b0e695fa8daa  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 283a9a4c73cb611d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.tests.test_extensions.test_FiniteExtension_eq_hash","kind":"function","src_hash":"88849a76ebe67585","in":{"base":"Any"},"out":{"base":"Any","pred":"K1 == FiniteExtension(Poly(x ** 2 - 2)) and K2 != FiniteExtension(Poly(x ** 2 - 2)) and len({K1, K2, FiniteExtension(p1)}) == 2"},"spec":{"lhs":"test_FiniteExtension_eq_hash()","rhs":"test_FiniteExtension_eq_hash produces the expected output","over":{"base":"Any"},"name":"test_FiniteExtension_eq_hash_correct"},"guarantee":"test_FiniteExtension_eq_hash produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.tests.test_extensions.test_FiniteExtension_eq_hash_correct","statement":"Path(test_FiniteExtension_eq_hash(x), test_FiniteExtension_eq_hash produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fe90b0e695fa8daa"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.tests.test_extensions.test_FiniteExtension_eq_hash","kind":"function","src_hash":"88849a76ebe67585","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: K1 == FiniteExtension(Poly(x ** 2 - 2)) and K2 != FiniteExtension(Poly(x ** 2 - 2)) and len({K1, K2, FiniteExtension(p1)}) == 2"},"spec":{"lhs":"test_FiniteExtension_eq_hash()","rhs":"K1 == FiniteExtension(Poly(x ** 2 - 2)) and K2 != FiniteExtension(Poly(x ** 2 - 2)) and len({K1, K2, FiniteExtension(p1)}) == 2","over":{"base":"Any"},"name":"test_FiniteExtension_eq_hash_correct"},"guarantee":"K1 == FiniteExtension(Poly(x ** 2 - 2)); K2 != FiniteExtension(Poly(x ** 2 - 2)); len({K1, K2, FiniteExtension(p1)}) == 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.tests.test_extensions.test_FiniteExtension_eq_hash_correct","statement":"Path(test_FiniteExtension_eq_hash(x), K1 == FiniteExtension(Poly(x ** 2 - 2)); K2 != FiniteExtension(Poly(x ** 2 - 2)); len({K1, K2, FiniteExtension(p1)}) == 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"283a9a4c73cb611d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["K1 == FiniteExtension(Poly(x ** 2 - 2))","K2 != FiniteExtension(Poly(x ** 2 - 2))","len({K1, K2, FiniteExtension(p1)}) == 2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_FiniteExtension_eq_hash():
     # Test eq and hash
     p1 = Poly(x**2 - 2, x, domain=ZZ)
@@ -112,16 +128,24 @@ def test_FiniteExtension_eq_hash():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_FiniteExtension_mod(), test_FiniteExtension_mod produces the expected output) over Any ║
+# ║ Path(test_FiniteExtension_mod(), (xf ** 2 - 1) % 1 == K.zero and 1 % (xf ** 2 - 1) == K.zero and (xf ** 2 - 1) / (xf - 1) == xf + 1 and (xf ** 2 - 1) // (xf - 1) == xf + 1 and (xf ** 2 - 1) % (xf - 1) == K.zero) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_FiniteExtension_mod : Any → {Any | (xf ** 2 - 1)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (xf ** 2 - 1) % 1 == K.zero                    ║
+# ║   ensures:  1 % (xf ** 2 - 1) == K.zero                    ║
+# ║   ensures:  (xf ** 2 - 1) / (xf - 1) == xf + 1             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_FiniteExtension_mod : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ba8d5efce4e718a0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dffa5841378c1481  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.tests.test_extensions.test_FiniteExtension_mod","kind":"function","src_hash":"a46a41449a545cfc","in":{"base":"Any"},"out":{"base":"Any","pred":"(xf ** 2 - 1) % 1 == K.zero and 1 % (xf ** 2 - 1) == K.zero and (xf ** 2 - 1) / (xf - 1) == xf + 1 and (xf ** 2 - 1) // (xf - 1) == xf + 1 and (xf ** 2 - 1) % (xf - 1) == K.zero and (xf ** 2 - 1) % 1 == K.zero"},"spec":{"lhs":"test_FiniteExtension_mod()","rhs":"test_FiniteExtension_mod produces the expected output","over":{"base":"Any"},"name":"test_FiniteExtension_mod_correct"},"guarantee":"test_FiniteExtension_mod produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.tests.test_extensions.test_FiniteExtension_mod_correct","statement":"Path(test_FiniteExtension_mod(x), test_FiniteExtension_mod produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ba8d5efce4e718a0"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.tests.test_extensions.test_FiniteExtension_mod","kind":"function","src_hash":"a46a41449a545cfc","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (xf ** 2 - 1) % 1 == K.zero and 1 % (xf ** 2 - 1) == K.zero and (xf ** 2 - 1) / (xf - 1) == xf + 1 and (xf ** 2 - 1) // (xf - 1) == xf + 1 and (xf ** 2 - 1) % (xf - 1) == K.zero"},"spec":{"lhs":"test_FiniteExtension_mod()","rhs":"(xf ** 2 - 1) % 1 == K.zero and 1 % (xf ** 2 - 1) == K.zero and (xf ** 2 - 1) / (xf - 1) == xf + 1 and (xf ** 2 - 1) // (xf - 1) == xf + 1 and (xf ** 2 - 1) % (xf - 1) == K.zero","over":{"base":"Any"},"name":"test_FiniteExtension_mod_correct"},"guarantee":"(xf ** 2 - 1) % 1 == K.zero; 1 % (xf ** 2 - 1) == K.zero; (xf ** 2 - 1) / (xf - 1) == xf + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.tests.test_extensions.test_FiniteExtension_mod_correct","statement":"Path(test_FiniteExtension_mod(x), (xf ** 2 - 1) % 1 == K.zero; 1 % (xf ** 2 - 1) == K.zero; (xf ** 2 - 1) / (xf - 1) == xf + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dffa5841378c1481","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(xf ** 2 - 1) % 1 == K.zero","1 % (xf ** 2 - 1) == K.zero","(xf ** 2 - 1) / (xf - 1) == xf + 1","(xf ** 2 - 1) // (xf - 1) == xf + 1","(xf ** 2 - 1) % (xf - 1) == K.zero"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_FiniteExtension_mod():
     # Test mod
     K = FiniteExtension(Poly(x**3 + 1, x, domain=QQ))
@@ -143,16 +167,23 @@ def test_FiniteExtension_mod():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_FiniteExtension_from_sympy(), test_FiniteExtension_from_sympy produces the expected output) over Any ║
+# ║ Path(test_FiniteExtension_from_sympy(), K.from_sympy(x) == xf and K.to_sympy(xf) == x) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_FiniteExtension_from_sympy : Any → {Any | K.from...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  K.from_sympy(x) == xf                          ║
+# ║   ensures:  K.to_sympy(xf) == x                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_FiniteExtension_from_sympy : Any → {Any | result...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 994b8e161af0abd2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4b510f006277ebd9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.tests.test_extensions.test_FiniteExtension_from_sympy","kind":"function","src_hash":"7712f47572a089c6","in":{"base":"Any"},"out":{"base":"Any","pred":"K.from_sympy(x) == xf and K.to_sympy(xf) == x"},"spec":{"lhs":"test_FiniteExtension_from_sympy()","rhs":"test_FiniteExtension_from_sympy produces the expected output","over":{"base":"Any"},"name":"test_FiniteExtension_from_sympy_correct"},"guarantee":"test_FiniteExtension_from_sympy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.tests.test_extensions.test_FiniteExtension_from_sympy_correct","statement":"Path(test_FiniteExtension_from_sympy(x), test_FiniteExtension_from_sympy produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"994b8e161af0abd2"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.tests.test_extensions.test_FiniteExtension_from_sympy","kind":"function","src_hash":"7712f47572a089c6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: K.from_sympy(x) == xf and K.to_sympy(xf) == x"},"spec":{"lhs":"test_FiniteExtension_from_sympy()","rhs":"K.from_sympy(x) == xf and K.to_sympy(xf) == x","over":{"base":"Any"},"name":"test_FiniteExtension_from_sympy_correct"},"guarantee":"K.from_sympy(x) == xf; K.to_sympy(xf) == x","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.tests.test_extensions.test_FiniteExtension_from_sympy_correct","statement":"Path(test_FiniteExtension_from_sympy(x), K.from_sympy(x) == xf; K.to_sympy(xf) == x)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4b510f006277ebd9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["K.from_sympy(x) == xf","K.to_sympy(xf) == x"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_FiniteExtension_from_sympy():
     # Test to_sympy/from_sympy
     K = FiniteExtension(Poly(x**3 + 1, x, domain=ZZ))
@@ -162,16 +193,22 @@ def test_FiniteExtension_from_sympy():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_FiniteExtension_set_domain(), test_FiniteExtension_set_domain produces the expected output) over Any ║
+# ║ Path(test_FiniteExtension_set_domain(), KZ.set_domain(QQ) == KQ) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_FiniteExtension_set_domain : Any → {Any | KZ.set...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  KZ.set_domain(QQ) == KQ                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_FiniteExtension_set_domain : Any → {Any | result...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c38d4da84487cae0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9035ea24d9f5b6da  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.tests.test_extensions.test_FiniteExtension_set_domain","kind":"function","src_hash":"fc176a402d816170","in":{"base":"Any"},"out":{"base":"Any","pred":"KZ.set_domain(QQ) == KQ"},"spec":{"lhs":"test_FiniteExtension_set_domain()","rhs":"test_FiniteExtension_set_domain produces the expected output","over":{"base":"Any"},"name":"test_FiniteExtension_set_domain_correct"},"guarantee":"test_FiniteExtension_set_domain produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.tests.test_extensions.test_FiniteExtension_set_domain_correct","statement":"Path(test_FiniteExtension_set_domain(x), test_FiniteExtension_set_domain produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c38d4da84487cae0"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.tests.test_extensions.test_FiniteExtension_set_domain","kind":"function","src_hash":"fc176a402d816170","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: KZ.set_domain(QQ) == KQ"},"spec":{"lhs":"test_FiniteExtension_set_domain()","rhs":"KZ.set_domain(QQ) == KQ","over":{"base":"Any"},"name":"test_FiniteExtension_set_domain_correct"},"guarantee":"KZ.set_domain(QQ) == KQ","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.tests.test_extensions.test_FiniteExtension_set_domain_correct","statement":"Path(test_FiniteExtension_set_domain(x), KZ.set_domain(QQ) == KQ)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9035ea24d9f5b6da","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["KZ.set_domain(QQ) == KQ"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_FiniteExtension_set_domain():
     KZ = FiniteExtension(Poly(x**2 + 1, x, domain='ZZ'))
     KQ = FiniteExtension(Poly(x**2 + 1, x, domain='QQ'))
@@ -179,16 +216,22 @@ def test_FiniteExtension_set_domain():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_FiniteExtension_exquo(), test_FiniteExtension_exquo produces the expected output) over Any ║
+# ║ Path(test_FiniteExtension_exquo(), K.exquo(xf ** 2 - 1, xf - 1) == xf + 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_FiniteExtension_exquo : Any → {Any | K.exquo(xf ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  K.exquo(xf ** 2 - 1, xf - 1) == xf + 1         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_FiniteExtension_exquo : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1cddf149ea1a8a4e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3dadc1b5b9699901  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.tests.test_extensions.test_FiniteExtension_exquo","kind":"function","src_hash":"e0aff6e94c4c4ff8","in":{"base":"Any"},"out":{"base":"Any","pred":"K.exquo(xf ** 2 - 1, xf - 1) == xf + 1"},"spec":{"lhs":"test_FiniteExtension_exquo()","rhs":"test_FiniteExtension_exquo produces the expected output","over":{"base":"Any"},"name":"test_FiniteExtension_exquo_correct"},"guarantee":"test_FiniteExtension_exquo produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.tests.test_extensions.test_FiniteExtension_exquo_correct","statement":"Path(test_FiniteExtension_exquo(x), test_FiniteExtension_exquo produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1cddf149ea1a8a4e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.tests.test_extensions.test_FiniteExtension_exquo","kind":"function","src_hash":"e0aff6e94c4c4ff8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: K.exquo(xf ** 2 - 1, xf - 1) == xf + 1"},"spec":{"lhs":"test_FiniteExtension_exquo()","rhs":"K.exquo(xf ** 2 - 1, xf - 1) == xf + 1","over":{"base":"Any"},"name":"test_FiniteExtension_exquo_correct"},"guarantee":"K.exquo(xf ** 2 - 1, xf - 1) == xf + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.tests.test_extensions.test_FiniteExtension_exquo_correct","statement":"Path(test_FiniteExtension_exquo(x), K.exquo(xf ** 2 - 1, xf - 1) == xf + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3dadc1b5b9699901","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["K.exquo(xf ** 2 - 1, xf - 1) == xf + 1"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_FiniteExtension_exquo():
     # Test exquo
     K = FiniteExtension(Poly(x**4 + 1))
@@ -197,16 +240,24 @@ def test_FiniteExtension_exquo():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_FiniteExtension_convert(), test_FiniteExtension_convert produces the expected output) over Any ║
+# ║ Path(test_FiniteExtension_convert(), K1.convert(x2) == x1 and K2.convert(x1) == x2 and K.convert_from(QQ(1, 2), QQ) == K.one / 2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_FiniteExtension_convert : Any → {Any | K1.conver...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  K1.convert(x2) == x1                           ║
+# ║   ensures:  K2.convert(x1) == x2                           ║
+# ║   ensures:  K.convert_from(QQ(1, 2), QQ) == K.one / 2      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_FiniteExtension_convert : Any → {Any | result sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5b13e692d0765854  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 315dfd9abeb1f21b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.tests.test_extensions.test_FiniteExtension_convert","kind":"function","src_hash":"556da0891963f799","in":{"base":"Any"},"out":{"base":"Any","pred":"K1.convert(x2) == x1 and K2.convert(x1) == x2 and K.convert_from(QQ(1, 2), QQ) == K.one / 2"},"spec":{"lhs":"test_FiniteExtension_convert()","rhs":"test_FiniteExtension_convert produces the expected output","over":{"base":"Any"},"name":"test_FiniteExtension_convert_correct"},"guarantee":"test_FiniteExtension_convert produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.tests.test_extensions.test_FiniteExtension_convert_correct","statement":"Path(test_FiniteExtension_convert(x), test_FiniteExtension_convert produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5b13e692d0765854"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.tests.test_extensions.test_FiniteExtension_convert","kind":"function","src_hash":"556da0891963f799","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: K1.convert(x2) == x1 and K2.convert(x1) == x2 and K.convert_from(QQ(1, 2), QQ) == K.one / 2"},"spec":{"lhs":"test_FiniteExtension_convert()","rhs":"K1.convert(x2) == x1 and K2.convert(x1) == x2 and K.convert_from(QQ(1, 2), QQ) == K.one / 2","over":{"base":"Any"},"name":"test_FiniteExtension_convert_correct"},"guarantee":"K1.convert(x2) == x1; K2.convert(x1) == x2; K.convert_from(QQ(1, 2), QQ) == K.one / 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.tests.test_extensions.test_FiniteExtension_convert_correct","statement":"Path(test_FiniteExtension_convert(x), K1.convert(x2) == x1; K2.convert(x1) == x2; K.convert_from(QQ(1, 2), QQ) == K.one / 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"315dfd9abeb1f21b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["K1.convert(x2) == x1","K2.convert(x1) == x2","K.convert_from(QQ(1, 2), QQ) == K.one / 2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_FiniteExtension_convert():
     # Test from_MonogenicFiniteExtension
     K1 = FiniteExtension(Poly(x**2 + 1))
@@ -220,16 +271,24 @@ def test_FiniteExtension_convert():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_FiniteExtension_division_ring(), test_FiniteExtension_division_ring produces the expected output) over Any ║
+# ║ Path(test_FiniteExtension_division_ring(), KQ.is_Field is True and KZ.is_Field is False and KQt.is_Field is False and KQtf.is_Field is True) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_FiniteExtension_division_ring : Any → {Any | KQ....   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  KQ.is_Field is True                            ║
+# ║   ensures:  KZ.is_Field is False                           ║
+# ║   ensures:  KQt.is_Field is False                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_FiniteExtension_division_ring : Any → {Any | res...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b134302ee3feeb00  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3851ad1704930358  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.tests.test_extensions.test_FiniteExtension_division_ring","kind":"function","src_hash":"7ef6b1884b86cb51","in":{"base":"Any"},"out":{"base":"Any","pred":"KQ.is_Field is True and KZ.is_Field is False and KQt.is_Field is False and KQtf.is_Field is True and xK / K.one == xK and xK // K.one == xK and xK % K.one == K.zero and xK / xK == K.one and xK // xK == K.one and xK % xK == K.zero"},"spec":{"lhs":"test_FiniteExtension_division_ring()","rhs":"test_FiniteExtension_division_ring produces the expected output","over":{"base":"Any"},"name":"test_FiniteExtension_division_ring_correct"},"guarantee":"test_FiniteExtension_division_ring produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.tests.test_extensions.test_FiniteExtension_division_ring_correct","statement":"Path(test_FiniteExtension_division_ring(x), test_FiniteExtension_division_ring produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b134302ee3feeb00"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.tests.test_extensions.test_FiniteExtension_division_ring","kind":"function","src_hash":"7ef6b1884b86cb51","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: KQ.is_Field is True and KZ.is_Field is False and KQt.is_Field is False and KQtf.is_Field is True"},"spec":{"lhs":"test_FiniteExtension_division_ring()","rhs":"KQ.is_Field is True and KZ.is_Field is False and KQt.is_Field is False and KQtf.is_Field is True","over":{"base":"Any"},"name":"test_FiniteExtension_division_ring_correct"},"guarantee":"KQ.is_Field is True; KZ.is_Field is False; KQt.is_Field is False","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.tests.test_extensions.test_FiniteExtension_division_ring_correct","statement":"Path(test_FiniteExtension_division_ring(x), KQ.is_Field is True; KZ.is_Field is False; KQt.is_Field is False)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3851ad1704930358","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["KQ.is_Field is True","KZ.is_Field is False","KQt.is_Field is False","KQtf.is_Field is True"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_FiniteExtension_division_ring():
     # Test division in FiniteExtension over a ring
     KQ = FiniteExtension(Poly(x**2 - 1, x, domain=QQ))
@@ -259,16 +318,24 @@ def test_FiniteExtension_division_ring():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_FiniteExtension_Poly(), test_FiniteExtension_Poly produces the expected output) over Any ║
+# ║ Path(test_FiniteExtension_Poly(), p.domain == K and p.as_expr() == x and (p ** 2).as_expr() == 2 and str(K2) == 'QQ[x]/(x**2 - 2)[t]/(t**2 - 2)' and K2.to_sympy(eK) == x + t and K2.to_sympy(eK ** 2) == 4 + 2 * x * t and p ** 2 == Poly(4 + 2 * x * t, y, domain=K2)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_FiniteExtension_Poly : Any → {Any | p.domain == ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  p.domain == K                                  ║
+# ║   ensures:  p.as_expr() == x                               ║
+# ║   ensures:  (p ** 2).as_expr() == 2                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_FiniteExtension_Poly : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 034d8493d3b9f85a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ee99d3a05da82858  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.tests.test_extensions.test_FiniteExtension_Poly","kind":"function","src_hash":"e1e51fa9985e8e3e","in":{"base":"Any"},"out":{"base":"Any","pred":"p.domain == K and p.as_expr() == x and (p ** 2).as_expr() == 2 and str(K2) == 'QQ[x]/(x**2 - 2)[t]/(t**2 - 2)' and K2.to_sympy(eK) == x + t and K2.to_sympy(eK ** 2) == 4 + 2 * x * t and p ** 2 == Poly(4 + 2 * x * t, y, domain=K2)"},"spec":{"lhs":"test_FiniteExtension_Poly()","rhs":"test_FiniteExtension_Poly produces the expected output","over":{"base":"Any"},"name":"test_FiniteExtension_Poly_correct"},"guarantee":"test_FiniteExtension_Poly produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.tests.test_extensions.test_FiniteExtension_Poly_correct","statement":"Path(test_FiniteExtension_Poly(x), test_FiniteExtension_Poly produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"034d8493d3b9f85a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.tests.test_extensions.test_FiniteExtension_Poly","kind":"function","src_hash":"e1e51fa9985e8e3e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: p.domain == K and p.as_expr() == x and (p ** 2).as_expr() == 2 and str(K2) == 'QQ[x]/(x**2 - 2)[t]/(t**2 - 2)' and K2.to_sympy(eK) == x + t and K2.to_sympy(eK ** 2) == 4 + 2 * x * t and p ** 2 == Poly(4 + 2 * x * t, y, domain=K2)"},"spec":{"lhs":"test_FiniteExtension_Poly()","rhs":"p.domain == K and p.as_expr() == x and (p ** 2).as_expr() == 2 and str(K2) == 'QQ[x]/(x**2 - 2)[t]/(t**2 - 2)' and K2.to_sympy(eK) == x + t and K2.to_sympy(eK ** 2) == 4 + 2 * x * t and p ** 2 == Poly(4 + 2 * x * t, y, domain=K2)","over":{"base":"Any"},"name":"test_FiniteExtension_Poly_correct"},"guarantee":"p.domain == K; p.as_expr() == x; (p ** 2).as_expr() == 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.tests.test_extensions.test_FiniteExtension_Poly_correct","statement":"Path(test_FiniteExtension_Poly(x), p.domain == K; p.as_expr() == x; (p ** 2).as_expr() == 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ee99d3a05da82858","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["p.domain == K","p.as_expr() == x","(p ** 2).as_expr() == 2","str(K2) == 'QQ[x]/(x**2 - 2)[t]/(t**2 - 2)'","K2.to_sympy(eK) == x + t","K2.to_sympy(eK ** 2) == 4 + 2 * x * t","p ** 2 == Poly(4 + 2 * x * t, y, domain=K2)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_FiniteExtension_Poly():
     K = FiniteExtension(Poly(x**2 - 2))
     p = Poly(x, y, domain=K)
@@ -288,16 +355,22 @@ def test_FiniteExtension_Poly():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_FiniteExtension_sincos_jacobian(), test_FiniteExtension_sincos_jacobian produces the expected output) over Any ║
+# ║ Path(test_FiniteExtension_sincos_jacobian(), <unspecified:test_FiniteExtension_sincos_jacobian>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_FiniteExtension_sincos_jacobian : Any → {Any | d...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2319dcae4232d0e8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.tests.test_extensions.test_FiniteExtension_sincos_jacobian","kind":"function","src_hash":"52d97a68fb13792e","in":{"base":"Any"},"out":{"base":"Any","pred":"det == K.convert(r ** 2 * sin(p))"},"spec":{"lhs":"test_FiniteExtension_sincos_jacobian()","rhs":"test_FiniteExtension_sincos_jacobian produces the expected output","over":{"base":"Any"},"name":"test_FiniteExtension_sincos_jacobian_correct"},"guarantee":"test_FiniteExtension_sincos_jacobian produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.tests.test_extensions.test_FiniteExtension_sincos_jacobian_correct","statement":"Path(test_FiniteExtension_sincos_jacobian(x), test_FiniteExtension_sincos_jacobian produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2319dcae4232d0e8"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.tests.test_extensions.test_FiniteExtension_sincos_jacobian","kind":"function","src_hash":"52d97a68fb13792e","in":{"base":"Any"},"out":{"base":"Any","pred":"det == K.convert(r ** 2 * sin(p))"},"spec":{"lhs":"test_FiniteExtension_sincos_jacobian()","rhs":"<unspecified:test_FiniteExtension_sincos_jacobian>","over":{"base":"Any"},"name":"test_FiniteExtension_sincos_jacobian_correct"},"guarantee":"test_FiniteExtension_sincos_jacobian produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.tests.test_extensions.test_FiniteExtension_sincos_jacobian_correct","statement":"Path(test_FiniteExtension_sincos_jacobian(x), test_FiniteExtension_sincos_jacobian produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2319dcae4232d0e8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_FiniteExtension_sincos_jacobian():
     # Use FiniteExtensino to compute the Jacobian of a matrix involving sin
     # and cos of different symbols.

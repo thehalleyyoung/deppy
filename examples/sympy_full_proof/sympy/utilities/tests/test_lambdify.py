@@ -102,16 +102,22 @@ w, x, y, z = symbols('w,x,y,z')
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_no_args(), test_no_args produces the expected output) over Any ║
+# ║ Path(test_no_args(), f() == 1) over Any                    ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_no_args : Any → {Any | f() == 1}                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f() == 1                                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_no_args : Any → {Any | result satisfies: f() == 1}    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1a4475ba27af8952  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fa30f7e4750ca384  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_no_args","kind":"function","src_hash":"60df0441cf08db03","in":{"base":"Any"},"out":{"base":"Any","pred":"f() == 1"},"spec":{"lhs":"test_no_args()","rhs":"test_no_args produces the expected output","over":{"base":"Any"},"name":"test_no_args_correct"},"guarantee":"test_no_args produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_no_args_correct","statement":"Path(test_no_args(x), test_no_args produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1a4475ba27af8952"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_no_args","kind":"function","src_hash":"60df0441cf08db03","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f() == 1"},"spec":{"lhs":"test_no_args()","rhs":"f() == 1","over":{"base":"Any"},"name":"test_no_args_correct"},"guarantee":"f() == 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_no_args_correct","statement":"Path(test_no_args(x), f() == 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fa30f7e4750ca384","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f() == 1"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_no_args():
     f = lambdify([], 1)
     raises(TypeError, lambda: f(-1))
@@ -119,48 +125,68 @@ def test_no_args():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_single_arg(), test_single_arg produces the expected output) over Any ║
+# ║ Path(test_single_arg(), f(1) == 2) over Any                ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_single_arg : Any → {Any | f(1) == 2}                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f(1) == 2                                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_single_arg : Any → {Any | result satisfies: f(1)...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | df10dd0284372fed  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 10760e26bea9a920  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_single_arg","kind":"function","src_hash":"0c6bf9e13abdd716","in":{"base":"Any"},"out":{"base":"Any","pred":"f(1) == 2"},"spec":{"lhs":"test_single_arg()","rhs":"test_single_arg produces the expected output","over":{"base":"Any"},"name":"test_single_arg_correct"},"guarantee":"test_single_arg produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_single_arg_correct","statement":"Path(test_single_arg(x), test_single_arg produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"df10dd0284372fed"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_single_arg","kind":"function","src_hash":"0c6bf9e13abdd716","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f(1) == 2"},"spec":{"lhs":"test_single_arg()","rhs":"f(1) == 2","over":{"base":"Any"},"name":"test_single_arg_correct"},"guarantee":"f(1) == 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_single_arg_correct","statement":"Path(test_single_arg(x), f(1) == 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"10760e26bea9a920","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f(1) == 2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_single_arg():
     f = lambdify(x, 2*x)
     assert f(1) == 2
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_list_args(), test_list_args produces the expected output) over Any ║
+# ║ Path(test_list_args(), f(1, 2) == 3) over Any              ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_list_args : Any → {Any | f(1, 2) == 3}                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f(1, 2) == 3                                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_list_args : Any → {Any | result satisfies: f(1, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 00dae90bc7d3ff6d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 46a94f04f5c8ba57  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_list_args","kind":"function","src_hash":"e363fa05241f234d","in":{"base":"Any"},"out":{"base":"Any","pred":"f(1, 2) == 3"},"spec":{"lhs":"test_list_args()","rhs":"test_list_args produces the expected output","over":{"base":"Any"},"name":"test_list_args_correct"},"guarantee":"test_list_args produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_list_args_correct","statement":"Path(test_list_args(x), test_list_args produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"00dae90bc7d3ff6d"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_list_args","kind":"function","src_hash":"e363fa05241f234d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f(1, 2) == 3"},"spec":{"lhs":"test_list_args()","rhs":"f(1, 2) == 3","over":{"base":"Any"},"name":"test_list_args_correct"},"guarantee":"f(1, 2) == 3","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_list_args_correct","statement":"Path(test_list_args(x), f(1, 2) == 3)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"46a94f04f5c8ba57","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f(1, 2) == 3"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_list_args():
     f = lambdify([x, y], x + y)
     assert f(1, 2) == 3
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_nested_args(), test_nested_args produces the expected output) over Any ║
+# ║ Path(test_nested_args(), f1([91, 2]) == [91, 2] and f2((18, 12), (73, 4)) == [18, 12, 73, 4] and f3(10, [[[52]], 31], 44) == [10, 52, 31, 44]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_nested_args : Any → {Any | f1([91, 2]) == [91, 2...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f1([91, 2]) == [91, 2]                         ║
+# ║   ensures:  f2((18, 12), (73, 4)) == [18, 12, 73, 4]       ║
+# ║   ensures:  f3(10, [[[52]], 31], 44) == [10, 52, 31, 44]   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_nested_args : Any → {Any | result satisfies: f1(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f82056253bf87ac7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aaab2c0a6e8ceddf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_nested_args","kind":"function","src_hash":"f58bc10b172a6023","in":{"base":"Any"},"out":{"base":"Any","pred":"f1([91, 2]) == [91, 2] and f2((18, 12), (73, 4)) == [18, 12, 73, 4] and f3(10, [[[52]], 31], 44) == [10, 52, 31, 44]"},"spec":{"lhs":"test_nested_args()","rhs":"test_nested_args produces the expected output","over":{"base":"Any"},"name":"test_nested_args_correct"},"guarantee":"test_nested_args produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_nested_args_correct","statement":"Path(test_nested_args(x), test_nested_args produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f82056253bf87ac7"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_nested_args","kind":"function","src_hash":"f58bc10b172a6023","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f1([91, 2]) == [91, 2] and f2((18, 12), (73, 4)) == [18, 12, 73, 4] and f3(10, [[[52]], 31], 44) == [10, 52, 31, 44]"},"spec":{"lhs":"test_nested_args()","rhs":"f1([91, 2]) == [91, 2] and f2((18, 12), (73, 4)) == [18, 12, 73, 4] and f3(10, [[[52]], 31], 44) == [10, 52, 31, 44]","over":{"base":"Any"},"name":"test_nested_args_correct"},"guarantee":"f1([91, 2]) == [91, 2]; f2((18, 12), (73, 4)) == [18, 12, 73, 4]; f3(10, [[[52]], 31], 44) == [10, 52, 31, 44]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_nested_args_correct","statement":"Path(test_nested_args(x), f1([91, 2]) == [91, 2]; f2((18, 12), (73, 4)) == [18, 12, 73, 4]; f3(10, [[[52]], 31], 44) == [10, 52, 31, 44])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aaab2c0a6e8ceddf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f1([91, 2]) == [91, 2]","f2((18, 12), (73, 4)) == [18, 12, 73, 4]","f3(10, [[[52]], 31], 44) == [10, 52, 31, 44]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_nested_args():
     f1 = lambdify([[w, x]], [w, x])
     assert f1([91, 2]) == [91, 2]
@@ -175,16 +201,23 @@ def test_nested_args():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_str_args(), test_str_args produces the expected output) over Any ║
+# ║ Path(test_str_args(), f(3, 2, 1) == (1, 2, 3) and f(1.0, 2.0, 3.0) == (3.0, 2.0, 1.0)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_str_args : Any → {Any | f(3, 2, 1) == (1, 2, 3) ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f(3, 2, 1) == (1, 2, 3)                        ║
+# ║   ensures:  f(1.0, 2.0, 3.0) == (3.0, 2.0, 1.0)            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_str_args : Any → {Any | result satisfies: f(3, 2...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b3a173b4fa85c911  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f065843a8d8fd99f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_str_args","kind":"function","src_hash":"4bb800f727d34163","in":{"base":"Any"},"out":{"base":"Any","pred":"f(3, 2, 1) == (1, 2, 3) and f(1.0, 2.0, 3.0) == (3.0, 2.0, 1.0)"},"spec":{"lhs":"test_str_args()","rhs":"test_str_args produces the expected output","over":{"base":"Any"},"name":"test_str_args_correct"},"guarantee":"test_str_args produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_str_args_correct","statement":"Path(test_str_args(x), test_str_args produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b3a173b4fa85c911"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_str_args","kind":"function","src_hash":"4bb800f727d34163","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f(3, 2, 1) == (1, 2, 3) and f(1.0, 2.0, 3.0) == (3.0, 2.0, 1.0)"},"spec":{"lhs":"test_str_args()","rhs":"f(3, 2, 1) == (1, 2, 3) and f(1.0, 2.0, 3.0) == (3.0, 2.0, 1.0)","over":{"base":"Any"},"name":"test_str_args_correct"},"guarantee":"f(3, 2, 1) == (1, 2, 3); f(1.0, 2.0, 3.0) == (3.0, 2.0, 1.0)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_str_args_correct","statement":"Path(test_str_args(x), f(3, 2, 1) == (1, 2, 3); f(1.0, 2.0, 3.0) == (3.0, 2.0, 1.0))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f065843a8d8fd99f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f(3, 2, 1) == (1, 2, 3)","f(1.0, 2.0, 3.0) == (3.0, 2.0, 1.0)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_str_args():
     f = lambdify('x,y,z', 'z,y,x')
     assert f(3, 2, 1) == (1, 2, 3)
@@ -194,16 +227,23 @@ def test_str_args():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_own_namespace_1(), test_own_namespace_1 produces the expected output) over Any ║
+# ║ Path(test_own_namespace_1(), f(0.1) == 1 and f(100) == 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_own_namespace_1 : Any → {Any | f(0.1) == 1 and f...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f(0.1) == 1                                    ║
+# ║   ensures:  f(100) == 1                                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_own_namespace_1 : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d1795d8adaf81dea  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 884577519a80feea  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_own_namespace_1","kind":"function","src_hash":"203dd192d45063ec","in":{"base":"Any"},"out":{"base":"Any","pred":"f(0.1) == 1 and f(100) == 1"},"spec":{"lhs":"test_own_namespace_1()","rhs":"test_own_namespace_1 produces the expected output","over":{"base":"Any"},"name":"test_own_namespace_1_correct"},"guarantee":"test_own_namespace_1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_own_namespace_1_correct","statement":"Path(test_own_namespace_1(x), test_own_namespace_1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d1795d8adaf81dea"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_own_namespace_1","kind":"function","src_hash":"203dd192d45063ec","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f(0.1) == 1 and f(100) == 1"},"spec":{"lhs":"test_own_namespace_1()","rhs":"f(0.1) == 1 and f(100) == 1","over":{"base":"Any"},"name":"test_own_namespace_1_correct"},"guarantee":"f(0.1) == 1; f(100) == 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_own_namespace_1_correct","statement":"Path(test_own_namespace_1(x), f(0.1) == 1; f(100) == 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"884577519a80feea","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f(0.1) == 1","f(100) == 1"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_own_namespace_1():
     myfunc = lambda x: 1
     f = lambdify(x, sin(x), {"sin": myfunc})
@@ -212,16 +252,24 @@ def test_own_namespace_1():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_own_namespace_2(), test_own_namespace_2 produces the expected output) over Any ║
+# ║ Path(test_own_namespace_2(), 1) over Any                   ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_own_namespace_2 : Any → {Any | f(0.1) == 1 and f...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f(0.1) == 1                                    ║
+# ║   ensures:  f(100) == 1                                    ║
+# ║   returns:  1                                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_own_namespace_2 : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 89634b3949117280  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5247c063336752a9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_own_namespace_2","kind":"function","src_hash":"cfa9f7fa83c1341f","in":{"base":"Any"},"out":{"base":"Any","pred":"f(0.1) == 1 and f(100) == 1"},"spec":{"lhs":"test_own_namespace_2()","rhs":"test_own_namespace_2 produces the expected output","over":{"base":"Any"},"name":"test_own_namespace_2_correct"},"guarantee":"test_own_namespace_2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_own_namespace_2_correct","statement":"Path(test_own_namespace_2(x), test_own_namespace_2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"89634b3949117280"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_own_namespace_2","kind":"function","src_hash":"cfa9f7fa83c1341f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (1)"},"spec":{"lhs":"test_own_namespace_2()","rhs":"1","over":{"base":"Any"},"name":"test_own_namespace_2_correct"},"guarantee":"returns 1; f(0.1) == 1; f(100) == 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_own_namespace_2_correct","statement":"Path(test_own_namespace_2(x), returns 1; f(0.1) == 1; f(100) == 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5247c063336752a9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f(0.1) == 1","f(100) == 1"],"returns_expr":"1","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_own_namespace_2():
     def myfunc(x):
         return 1
@@ -231,16 +279,22 @@ def test_own_namespace_2():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_own_module(), test_own_module produces the expected output) over Any ║
+# ║ Path(test_own_module(), f(0) == 0.0) over Any              ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_own_module : Any → {Any | f(0) == 0.0 and abs((r...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f(0) == 0.0                                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_own_module : Any → {Any | result satisfies: f(0)...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 00cd3383acf67b16  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f959b5fd9df5bf22  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_own_module","kind":"function","src_hash":"715455ad01bc1be5","in":{"base":"Any"},"out":{"base":"Any","pred":"f(0) == 0.0 and abs((res - ref) / ref) < 1e-15"},"spec":{"lhs":"test_own_module()","rhs":"test_own_module produces the expected output","over":{"base":"Any"},"name":"test_own_module_correct"},"guarantee":"test_own_module produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_own_module_correct","statement":"Path(test_own_module(x), test_own_module produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"00cd3383acf67b16"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_own_module","kind":"function","src_hash":"715455ad01bc1be5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f(0) == 0.0"},"spec":{"lhs":"test_own_module()","rhs":"f(0) == 0.0","over":{"base":"Any"},"name":"test_own_module_correct"},"guarantee":"f(0) == 0.0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_own_module_correct","statement":"Path(test_own_module(x), f(0) == 0.0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f959b5fd9df5bf22","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f(0) == 0.0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_own_module():
     f = lambdify(x, sin(x), math)
     assert f(0) == 0.0
@@ -255,16 +309,22 @@ def test_own_module():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_bad_args(), test_bad_args produces the expected output) over Any ║
+# ║ Path(test_bad_args(), <unspecified:test_bad_args>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_bad_args : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 83a4adce80befe41  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_bad_args","kind":"function","src_hash":"87c2e98c3684c877","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_bad_args()","rhs":"test_bad_args produces the expected output","over":{"base":"Any"},"name":"test_bad_args_correct"},"guarantee":"test_bad_args produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_bad_args_correct","statement":"Path(test_bad_args(x), test_bad_args produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"83a4adce80befe41"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_bad_args","kind":"function","src_hash":"87c2e98c3684c877","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_bad_args()","rhs":"<unspecified:test_bad_args>","over":{"base":"Any"},"name":"test_bad_args_correct"},"guarantee":"test_bad_args produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_bad_args_correct","statement":"Path(test_bad_args(x), test_bad_args produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"83a4adce80befe41","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_bad_args():
     # no vargs given
     raises(TypeError, lambda: lambdify(1))
@@ -273,16 +333,23 @@ def test_bad_args():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_atoms(), test_atoms produces the expected output) over Any ║
+# ║ Path(test_atoms(), f(0) == 3.14 and f(1) == 1 + 1j) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_atoms : Any → {Any | f(0) == 3.14 and f(1) == 1 ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f(0) == 3.14                                   ║
+# ║   ensures:  f(1) == 1 + 1j                                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_atoms : Any → {Any | result satisfies: f(0) == 3...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 68c5f4d39238bae4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 68badcb24e55d752  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_atoms","kind":"function","src_hash":"d869363cab0bfa06","in":{"base":"Any"},"out":{"base":"Any","pred":"f(0) == 3.14 and f(1) == 1 + 1j"},"spec":{"lhs":"test_atoms()","rhs":"test_atoms produces the expected output","over":{"base":"Any"},"name":"test_atoms_correct"},"guarantee":"test_atoms produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_atoms_correct","statement":"Path(test_atoms(x), test_atoms produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"68c5f4d39238bae4"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_atoms","kind":"function","src_hash":"d869363cab0bfa06","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f(0) == 3.14 and f(1) == 1 + 1j"},"spec":{"lhs":"test_atoms()","rhs":"f(0) == 3.14 and f(1) == 1 + 1j","over":{"base":"Any"},"name":"test_atoms_correct"},"guarantee":"f(0) == 3.14; f(1) == 1 + 1j","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_atoms_correct","statement":"Path(test_atoms(x), f(0) == 3.14; f(1) == 1 + 1j)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"68badcb24e55d752","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f(0) == 3.14","f(1) == 1 + 1j"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_atoms():
     # Non-Symbol atoms should not be pulled out from the expression namespace
     f = lambdify(x, pi + x, {"pi": 3.14})
@@ -297,16 +364,23 @@ def test_atoms():
 
 @conserve_mpmath_dps
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_sympy_lambda(), test_sympy_lambda produces the expected output) over Any ║
+# ║ Path(test_sympy_lambda(), f(x) == sin(x) and -prec < f(Rational(1, 5)).evalf() - Float(str(sin02)) < prec) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_sympy_lambda : Any → {Any | f(x) == sin(x) and -...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f(x) == sin(x)                                 ║
+# ║   ensures:  -prec < f(Rational(1, 5)).evalf() - Float...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_sympy_lambda : Any → {Any | result satisfies: f(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 37e52961c774142e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bd8b2b6eee5069c1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_sympy_lambda","kind":"function","src_hash":"fd85a5e6d5a9b260","in":{"base":"Any"},"out":{"base":"Any","pred":"f(x) == sin(x) and -prec < f(Rational(1, 5)).evalf() - Float(str(sin02)) < prec"},"spec":{"lhs":"test_sympy_lambda()","rhs":"test_sympy_lambda produces the expected output","over":{"base":"Any"},"name":"test_sympy_lambda_correct"},"guarantee":"test_sympy_lambda produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_sympy_lambda_correct","statement":"Path(test_sympy_lambda(x), test_sympy_lambda produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"37e52961c774142e"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_sympy_lambda","kind":"function","src_hash":"fd85a5e6d5a9b260","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f(x) == sin(x) and -prec < f(Rational(1, 5)).evalf() - Float(str(sin02)) < prec"},"spec":{"lhs":"test_sympy_lambda()","rhs":"f(x) == sin(x) and -prec < f(Rational(1, 5)).evalf() - Float(str(sin02)) < prec","over":{"base":"Any"},"name":"test_sympy_lambda_correct"},"guarantee":"f(x) == sin(x); -prec < f(Rational(1, 5)).evalf() - Float(str(sin02)) < prec","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_sympy_lambda_correct","statement":"Path(test_sympy_lambda(x), f(x) == sin(x); -prec < f(Rational(1, 5)).evalf() - Float(str(sin02)) < prec)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bd8b2b6eee5069c1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f(x) == sin(x)","-prec < f(Rational(1, 5)).evalf() - Float(str(sin02)) < prec"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_sympy_lambda():
     mpmath.mp.dps = 50
     sin02 = mpmath.mpf("0.19866933079506121545941262711838975037020672954020")
@@ -321,16 +395,22 @@ def test_sympy_lambda():
 
 @conserve_mpmath_dps
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_math_lambda(), test_math_lambda produces the expected output) over Any ║
+# ║ Path(test_math_lambda(), -prec < f(0.2) - sin02 < prec) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_math_lambda : Any → {Any | -prec < f(0.2) - sin0...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  -prec < f(0.2) - sin02 < prec                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_math_lambda : Any → {Any | result satisfies: -pr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ced6e4840afe9782  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6a017ccb468763ac  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_math_lambda","kind":"function","src_hash":"ca3a139257cb9df0","in":{"base":"Any"},"out":{"base":"Any","pred":"-prec < f(0.2) - sin02 < prec"},"spec":{"lhs":"test_math_lambda()","rhs":"test_math_lambda produces the expected output","over":{"base":"Any"},"name":"test_math_lambda_correct"},"guarantee":"test_math_lambda produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_math_lambda_correct","statement":"Path(test_math_lambda(x), test_math_lambda produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ced6e4840afe9782"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_math_lambda","kind":"function","src_hash":"ca3a139257cb9df0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: -prec < f(0.2) - sin02 < prec"},"spec":{"lhs":"test_math_lambda()","rhs":"-prec < f(0.2) - sin02 < prec","over":{"base":"Any"},"name":"test_math_lambda_correct"},"guarantee":"-prec < f(0.2) - sin02 < prec","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_math_lambda_correct","statement":"Path(test_math_lambda(x), -prec < f(0.2) - sin02 < prec)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6a017ccb468763ac","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["-prec < f(0.2) - sin02 < prec"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_math_lambda():
     mpmath.mp.dps = 50
     sin02 = mpmath.mpf("0.19866933079506121545941262711838975037020672954020")
@@ -343,16 +423,24 @@ def test_math_lambda():
 
 @conserve_mpmath_dps
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_mpmath_lambda(), test_mpmath_lambda produces the expected output) over Any ║
+# ║ Path(test_mpmath_lambda(), -prec < f(mpmath.mpf('0.2')) - sin02 < prec and abs(ans2a - ref2) < 1e-51 and abs(ans2b - ref2) < 1e-67 and abs(ans2c - ref2) < 1e-80) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_mpmath_lambda : Any → {Any | -prec < f(mpmath.mp...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  -prec < f(mpmath.mpf('0.2')) - sin02 < prec    ║
+# ║   ensures:  abs(ans2a - ref2) < 1e-51                      ║
+# ║   ensures:  abs(ans2b - ref2) < 1e-67                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_mpmath_lambda : Any → {Any | result satisfies: -...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | af00a927dbcdda46  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a4a5384071827595  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_mpmath_lambda","kind":"function","src_hash":"0d1258374c2d10e0","in":{"base":"Any"},"out":{"base":"Any","pred":"-prec < f(mpmath.mpf('0.2')) - sin02 < prec and abs(ans2a - ref2) < 1e-51 and abs(ans2b - ref2) < 1e-67 and abs(ans2c - ref2) < 1e-80"},"spec":{"lhs":"test_mpmath_lambda()","rhs":"test_mpmath_lambda produces the expected output","over":{"base":"Any"},"name":"test_mpmath_lambda_correct"},"guarantee":"test_mpmath_lambda produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_mpmath_lambda_correct","statement":"Path(test_mpmath_lambda(x), test_mpmath_lambda produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"af00a927dbcdda46"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_mpmath_lambda","kind":"function","src_hash":"0d1258374c2d10e0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: -prec < f(mpmath.mpf('0.2')) - sin02 < prec and abs(ans2a - ref2) < 1e-51 and abs(ans2b - ref2) < 1e-67 and abs(ans2c - ref2) < 1e-80"},"spec":{"lhs":"test_mpmath_lambda()","rhs":"-prec < f(mpmath.mpf('0.2')) - sin02 < prec and abs(ans2a - ref2) < 1e-51 and abs(ans2b - ref2) < 1e-67 and abs(ans2c - ref2) < 1e-80","over":{"base":"Any"},"name":"test_mpmath_lambda_correct"},"guarantee":"-prec < f(mpmath.mpf('0.2')) - sin02 < prec; abs(ans2a - ref2) < 1e-51; abs(ans2b - ref2) < 1e-67","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_mpmath_lambda_correct","statement":"Path(test_mpmath_lambda(x), -prec < f(mpmath.mpf('0.2')) - sin02 < prec; abs(ans2a - ref2) < 1e-51; abs(ans2b - ref2) < 1e-67)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a4a5384071827595","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["-prec < f(mpmath.mpf('0.2')) - sin02 < prec","abs(ans2a - ref2) < 1e-51","abs(ans2b - ref2) < 1e-67","abs(ans2c - ref2) < 1e-80"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_mpmath_lambda():
     mpmath.mp.dps = 50
     sin02 = mpmath.mpf("0.19866933079506121545941262711838975037020672954020")
@@ -381,16 +469,22 @@ def test_mpmath_lambda():
 
 @conserve_mpmath_dps
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_number_precision(), test_number_precision produces the expected output) over Any ║
+# ║ Path(test_number_precision(), -prec < f(0) - sin02 < prec) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_number_precision : Any → {Any | -prec < f(0) - s...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  -prec < f(0) - sin02 < prec                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_number_precision : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7b6b85d96d357d81  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 507bd0e093efc1ca  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_number_precision","kind":"function","src_hash":"f98556887230dfd9","in":{"base":"Any"},"out":{"base":"Any","pred":"-prec < f(0) - sin02 < prec"},"spec":{"lhs":"test_number_precision()","rhs":"test_number_precision produces the expected output","over":{"base":"Any"},"name":"test_number_precision_correct"},"guarantee":"test_number_precision produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_number_precision_correct","statement":"Path(test_number_precision(x), test_number_precision produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7b6b85d96d357d81"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_number_precision","kind":"function","src_hash":"f98556887230dfd9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: -prec < f(0) - sin02 < prec"},"spec":{"lhs":"test_number_precision()","rhs":"-prec < f(0) - sin02 < prec","over":{"base":"Any"},"name":"test_number_precision_correct"},"guarantee":"-prec < f(0) - sin02 < prec","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_number_precision_correct","statement":"Path(test_number_precision(x), -prec < f(0) - sin02 < prec)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"507bd0e093efc1ca","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["-prec < f(0) - sin02 < prec"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_number_precision():
     mpmath.mp.dps = 50
     sin02 = mpmath.mpf("0.19866933079506121545941262711838975037020672954020")
@@ -400,16 +494,22 @@ def test_number_precision():
 
 @conserve_mpmath_dps
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_mpmath_precision(), test_mpmath_precision produces the expected output) over Any ║
+# ║ Path(test_mpmath_precision(), str(lambdify((), pi.evalf(100), 'mpmath')()) == str(pi.evalf(100))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_mpmath_precision : Any → {Any | str(lambdify((),...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(lambdify((), pi.evalf(100), 'mpmath')...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_mpmath_precision : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e854f2ebdb8d2f62  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6fce502af1cfc356  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_mpmath_precision","kind":"function","src_hash":"599fe5dd7b2173ef","in":{"base":"Any"},"out":{"base":"Any","pred":"str(lambdify((), pi.evalf(100), 'mpmath')()) == str(pi.evalf(100))"},"spec":{"lhs":"test_mpmath_precision()","rhs":"test_mpmath_precision produces the expected output","over":{"base":"Any"},"name":"test_mpmath_precision_correct"},"guarantee":"test_mpmath_precision produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_mpmath_precision_correct","statement":"Path(test_mpmath_precision(x), test_mpmath_precision produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e854f2ebdb8d2f62"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_mpmath_precision","kind":"function","src_hash":"599fe5dd7b2173ef","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(lambdify((), pi.evalf(100), 'mpmath')()) == str(pi.evalf(100))"},"spec":{"lhs":"test_mpmath_precision()","rhs":"str(lambdify((), pi.evalf(100), 'mpmath')()) == str(pi.evalf(100))","over":{"base":"Any"},"name":"test_mpmath_precision_correct"},"guarantee":"str(lambdify((), pi.evalf(100), 'mpmath')()) == str(pi.evalf(100))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_mpmath_precision_correct","statement":"Path(test_mpmath_precision(x), str(lambdify((), pi.evalf(100), 'mpmath')()) == str(pi.evalf(100)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6fce502af1cfc356","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(lambdify((), pi.evalf(100), 'mpmath')()) == str(pi.evalf(100))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_mpmath_precision():
     mpmath.mp.dps = 100
     assert str(lambdify((), pi.evalf(100), 'mpmath')()) == str(pi.evalf(100))
@@ -420,16 +520,22 @@ def test_mpmath_precision():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_math_transl(), test_math_transl produces the expected output) over Any ║
+# ║ Path(test_math_transl(), <unspecified:test_math_transl>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_math_transl : Any → {Any | sym in sympy.__dict__...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 666edf533406b03f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_math_transl","kind":"function","src_hash":"1f3449be7e4bbe7a","in":{"base":"Any"},"out":{"base":"Any","pred":"sym in sympy.__dict__ and mat in math.__dict__"},"spec":{"lhs":"test_math_transl()","rhs":"test_math_transl produces the expected output","over":{"base":"Any"},"name":"test_math_transl_correct"},"guarantee":"test_math_transl produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_math_transl_correct","statement":"Path(test_math_transl(x), test_math_transl produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"666edf533406b03f"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_math_transl","kind":"function","src_hash":"1f3449be7e4bbe7a","in":{"base":"Any"},"out":{"base":"Any","pred":"sym in sympy.__dict__ and mat in math.__dict__"},"spec":{"lhs":"test_math_transl()","rhs":"<unspecified:test_math_transl>","over":{"base":"Any"},"name":"test_math_transl_correct"},"guarantee":"test_math_transl produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_math_transl_correct","statement":"Path(test_math_transl(x), test_math_transl produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"666edf533406b03f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__dict__"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_math_transl():
     from sympy.utilities.lambdify import MATH_TRANSLATIONS
     for sym, mat in MATH_TRANSLATIONS.items():
@@ -438,16 +544,22 @@ def test_math_transl():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_mpmath_transl(), test_mpmath_transl produces the expected output) over Any ║
+# ║ Path(test_mpmath_transl(), <unspecified:test_mpmath_transl>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_mpmath_transl : Any → {Any | sym in sympy.__dict...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fe871cbf7fe9493b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_mpmath_transl","kind":"function","src_hash":"e754db50d924af43","in":{"base":"Any"},"out":{"base":"Any","pred":"sym in sympy.__dict__ or sym == 'Matrix' and mat in mpmath.__dict__"},"spec":{"lhs":"test_mpmath_transl()","rhs":"test_mpmath_transl produces the expected output","over":{"base":"Any"},"name":"test_mpmath_transl_correct"},"guarantee":"test_mpmath_transl produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_mpmath_transl_correct","statement":"Path(test_mpmath_transl(x), test_mpmath_transl produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fe871cbf7fe9493b"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_mpmath_transl","kind":"function","src_hash":"e754db50d924af43","in":{"base":"Any"},"out":{"base":"Any","pred":"sym in sympy.__dict__ or sym == 'Matrix' and mat in mpmath.__dict__"},"spec":{"lhs":"test_mpmath_transl()","rhs":"<unspecified:test_mpmath_transl>","over":{"base":"Any"},"name":"test_mpmath_transl_correct"},"guarantee":"test_mpmath_transl produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_mpmath_transl_correct","statement":"Path(test_mpmath_transl(x), test_mpmath_transl produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fe871cbf7fe9493b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__dict__"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_mpmath_transl():
     from sympy.utilities.lambdify import MPMATH_TRANSLATIONS
     for sym, mat in MPMATH_TRANSLATIONS.items():
@@ -456,16 +568,22 @@ def test_mpmath_transl():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_numpy_transl(), test_numpy_transl produces the expected output) over Any ║
+# ║ Path(test_numpy_transl(), <unspecified:test_numpy_transl>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_numpy_transl : Any → {Any | sym in sympy.__dict_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c93e398889bf620f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_numpy_transl","kind":"function","src_hash":"6236009015913fd3","in":{"base":"Any"},"out":{"base":"Any","pred":"sym in sympy.__dict__ and nump in numpy.__dict__"},"spec":{"lhs":"test_numpy_transl()","rhs":"test_numpy_transl produces the expected output","over":{"base":"Any"},"name":"test_numpy_transl_correct"},"guarantee":"test_numpy_transl produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_numpy_transl_correct","statement":"Path(test_numpy_transl(x), test_numpy_transl produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c93e398889bf620f"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_numpy_transl","kind":"function","src_hash":"6236009015913fd3","in":{"base":"Any"},"out":{"base":"Any","pred":"sym in sympy.__dict__ and nump in numpy.__dict__"},"spec":{"lhs":"test_numpy_transl()","rhs":"<unspecified:test_numpy_transl>","over":{"base":"Any"},"name":"test_numpy_transl_correct"},"guarantee":"test_numpy_transl produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_numpy_transl_correct","statement":"Path(test_numpy_transl(x), test_numpy_transl produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c93e398889bf620f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__dict__"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_numpy_transl():
     if not numpy:
         skip("numpy not installed.")
@@ -477,16 +595,22 @@ def test_numpy_transl():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_scipy_transl(), test_scipy_transl produces the expected output) over Any ║
+# ║ Path(test_scipy_transl(), <unspecified:test_scipy_transl>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_scipy_transl : Any → {Any | sym in sympy.__dict_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9958837b47117042  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_scipy_transl","kind":"function","src_hash":"71356200957046e9","in":{"base":"Any"},"out":{"base":"Any","pred":"sym in sympy.__dict__ and scip in scipy.__dict__ or scip in scipy.special.__dict__"},"spec":{"lhs":"test_scipy_transl()","rhs":"test_scipy_transl produces the expected output","over":{"base":"Any"},"name":"test_scipy_transl_correct"},"guarantee":"test_scipy_transl produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_scipy_transl_correct","statement":"Path(test_scipy_transl(x), test_scipy_transl produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9958837b47117042"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_scipy_transl","kind":"function","src_hash":"71356200957046e9","in":{"base":"Any"},"out":{"base":"Any","pred":"sym in sympy.__dict__ and scip in scipy.__dict__ or scip in scipy.special.__dict__"},"spec":{"lhs":"test_scipy_transl()","rhs":"<unspecified:test_scipy_transl>","over":{"base":"Any"},"name":"test_scipy_transl_correct"},"guarantee":"test_scipy_transl produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_scipy_transl_correct","statement":"Path(test_scipy_transl(x), test_scipy_transl produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9958837b47117042","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__dict__"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_scipy_transl():
     if not scipy:
         skip("scipy not installed.")
@@ -498,16 +622,23 @@ def test_scipy_transl():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_numpy_translation_abs(), test_numpy_translation_abs produces the expected output) over Any ║
+# ║ Path(test_numpy_translation_abs(), f(-1) == 1 and f(1) == 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_numpy_translation_abs : Any → {Any | f(-1) == 1 ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f(-1) == 1                                     ║
+# ║   ensures:  f(1) == 1                                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_numpy_translation_abs : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4d3806bb3a3c92c1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 557ec87b41ef676f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_numpy_translation_abs","kind":"function","src_hash":"29753940271ef0fe","in":{"base":"Any"},"out":{"base":"Any","pred":"f(-1) == 1 and f(1) == 1"},"spec":{"lhs":"test_numpy_translation_abs()","rhs":"test_numpy_translation_abs produces the expected output","over":{"base":"Any"},"name":"test_numpy_translation_abs_correct"},"guarantee":"test_numpy_translation_abs produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_numpy_translation_abs_correct","statement":"Path(test_numpy_translation_abs(x), test_numpy_translation_abs produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4d3806bb3a3c92c1"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_numpy_translation_abs","kind":"function","src_hash":"29753940271ef0fe","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f(-1) == 1 and f(1) == 1"},"spec":{"lhs":"test_numpy_translation_abs()","rhs":"f(-1) == 1 and f(1) == 1","over":{"base":"Any"},"name":"test_numpy_translation_abs_correct"},"guarantee":"f(-1) == 1; f(1) == 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_numpy_translation_abs_correct","statement":"Path(test_numpy_translation_abs(x), f(-1) == 1; f(1) == 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"557ec87b41ef676f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f(-1) == 1","f(1) == 1"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_numpy_translation_abs():
     if not numpy:
         skip("numpy not installed.")
@@ -518,16 +649,22 @@ def test_numpy_translation_abs():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_numexpr_printer(), test_numexpr_printer produces the expected output) over Any ║
+# ║ Path(test_numexpr_printer(), <unspecified:test_numexpr_printer>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_numexpr_printer : Any → {Any | f(*(1,) * nargs) ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b7d25b00ac1e19e9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_numexpr_printer","kind":"function","src_hash":"f6e2db2727ae2ac0","in":{"base":"Any"},"out":{"base":"Any","pred":"f(*(1,) * nargs) is not None"},"spec":{"lhs":"test_numexpr_printer()","rhs":"test_numexpr_printer produces the expected output","over":{"base":"Any"},"name":"test_numexpr_printer_correct"},"guarantee":"test_numexpr_printer produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_numexpr_printer_correct","statement":"Path(test_numexpr_printer(x), test_numexpr_printer produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b7d25b00ac1e19e9"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_numexpr_printer","kind":"function","src_hash":"f6e2db2727ae2ac0","in":{"base":"Any"},"out":{"base":"Any","pred":"f(*(1,) * nargs) is not None"},"spec":{"lhs":"test_numexpr_printer()","rhs":"<unspecified:test_numexpr_printer>","over":{"base":"Any"},"name":"test_numexpr_printer_correct"},"guarantee":"test_numexpr_printer produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_numexpr_printer_correct","statement":"Path(test_numexpr_printer(x), test_numexpr_printer produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b7d25b00ac1e19e9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_numexpr_printer():
     if not numexpr:
         skip("numexpr not installed.")
@@ -552,16 +689,24 @@ def test_numexpr_printer():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_cmath_sqrt(), test_cmath_sqrt produces the expected output) over Any ║
+# ║ Path(test_cmath_sqrt(), f(0) == 0 and f(1) == 1 and f(4) == 2 and abs(f(2) - 1.414) < 0.001 and f(-1) == 1j and f(-4) == 2j) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_cmath_sqrt : Any → {Any | f(0) == 0 and f(1) == ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f(0) == 0                                      ║
+# ║   ensures:  f(1) == 1                                      ║
+# ║   ensures:  f(4) == 2                                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_cmath_sqrt : Any → {Any | result satisfies: f(0)...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9842a2f5d3dbb592  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1a680c037a5daf13  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_cmath_sqrt","kind":"function","src_hash":"7b6f1b6bdac285fc","in":{"base":"Any"},"out":{"base":"Any","pred":"f(0) == 0 and f(1) == 1 and f(4) == 2 and abs(f(2) - 1.414) < 0.001 and f(-1) == 1j and f(-4) == 2j"},"spec":{"lhs":"test_cmath_sqrt()","rhs":"test_cmath_sqrt produces the expected output","over":{"base":"Any"},"name":"test_cmath_sqrt_correct"},"guarantee":"test_cmath_sqrt produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_cmath_sqrt_correct","statement":"Path(test_cmath_sqrt(x), test_cmath_sqrt produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9842a2f5d3dbb592"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_cmath_sqrt","kind":"function","src_hash":"7b6f1b6bdac285fc","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f(0) == 0 and f(1) == 1 and f(4) == 2 and abs(f(2) - 1.414) < 0.001 and f(-1) == 1j and f(-4) == 2j"},"spec":{"lhs":"test_cmath_sqrt()","rhs":"f(0) == 0 and f(1) == 1 and f(4) == 2 and abs(f(2) - 1.414) < 0.001 and f(-1) == 1j and f(-4) == 2j","over":{"base":"Any"},"name":"test_cmath_sqrt_correct"},"guarantee":"f(0) == 0; f(1) == 1; f(4) == 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_cmath_sqrt_correct","statement":"Path(test_cmath_sqrt(x), f(0) == 0; f(1) == 1; f(4) == 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1a680c037a5daf13","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f(0) == 0","f(1) == 1","f(4) == 2","abs(f(2) - 1.414) < 0.001","f(-1) == 1j","f(-4) == 2j"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_cmath_sqrt():
     f = lambdify(x, sqrt(x), "cmath")
     assert f(0) == 0
@@ -573,16 +718,24 @@ def test_cmath_sqrt():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_cmath_log(), test_cmath_log produces the expected output) over Any ║
+# ║ Path(test_cmath_log(), abs(f(1) - 0) < 1e-15 and abs(f(cmath.e) - 1) < 1e-15 and abs(f(-1) - cmath.log(-1)) < 1e-15) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_cmath_log : Any → {Any | abs(f(1) - 0) < 1e-15 a...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  abs(f(1) - 0) < 1e-15                          ║
+# ║   ensures:  abs(f(cmath.e) - 1) < 1e-15                    ║
+# ║   ensures:  abs(f(-1) - cmath.log(-1)) < 1e-15             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_cmath_log : Any → {Any | result satisfies: abs(f...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 393abc7d412fb9fe  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9f8004bb0ec53c27  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_cmath_log","kind":"function","src_hash":"bcee5d225ceaa6db","in":{"base":"Any"},"out":{"base":"Any","pred":"abs(f(1) - 0) < 1e-15 and abs(f(cmath.e) - 1) < 1e-15 and abs(f(-1) - cmath.log(-1)) < 1e-15"},"spec":{"lhs":"test_cmath_log()","rhs":"test_cmath_log produces the expected output","over":{"base":"Any"},"name":"test_cmath_log_correct"},"guarantee":"test_cmath_log produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_cmath_log_correct","statement":"Path(test_cmath_log(x), test_cmath_log produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"393abc7d412fb9fe"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_cmath_log","kind":"function","src_hash":"bcee5d225ceaa6db","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: abs(f(1) - 0) < 1e-15 and abs(f(cmath.e) - 1) < 1e-15 and abs(f(-1) - cmath.log(-1)) < 1e-15"},"spec":{"lhs":"test_cmath_log()","rhs":"abs(f(1) - 0) < 1e-15 and abs(f(cmath.e) - 1) < 1e-15 and abs(f(-1) - cmath.log(-1)) < 1e-15","over":{"base":"Any"},"name":"test_cmath_log_correct"},"guarantee":"abs(f(1) - 0) < 1e-15; abs(f(cmath.e) - 1) < 1e-15; abs(f(-1) - cmath.log(-1)) < 1e-15","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_cmath_log_correct","statement":"Path(test_cmath_log(x), abs(f(1) - 0) < 1e-15; abs(f(cmath.e) - 1) < 1e-15; abs(f(-1) - cmath.log(-1)) < 1e-15)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9f8004bb0ec53c27","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["abs(f(1) - 0) < 1e-15","abs(f(cmath.e) - 1) < 1e-15","abs(f(-1) - cmath.log(-1)) < 1e-15"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_cmath_log():
     f = lambdify(x, log(x), "cmath")
     assert abs(f(1) - 0) < 1e-15
@@ -591,16 +744,24 @@ def test_cmath_log():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_cmath_sinh(), test_cmath_sinh produces the expected output) over Any ║
+# ║ Path(test_cmath_sinh(), abs(f(0) - cmath.sinh(0)) < 1e-15 and abs(f(pi) - cmath.sinh(pi)) < 1e-15 and abs(f(-pi) - cmath.sinh(-pi)) < 1e-15 and abs(f(1j) - cmath.sinh(1j)) < 1e-15) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_cmath_sinh : Any → {Any | abs(f(0) - cmath.sinh(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  abs(f(0) - cmath.sinh(0)) < 1e-15              ║
+# ║   ensures:  abs(f(pi) - cmath.sinh(pi)) < 1e-15            ║
+# ║   ensures:  abs(f(-pi) - cmath.sinh(-pi)) < 1e-15          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_cmath_sinh : Any → {Any | result satisfies: abs(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ffe1c00604eb9192  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5806d730c9efb40a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_cmath_sinh","kind":"function","src_hash":"0b3d9a589fe87a45","in":{"base":"Any"},"out":{"base":"Any","pred":"abs(f(0) - cmath.sinh(0)) < 1e-15 and abs(f(pi) - cmath.sinh(pi)) < 1e-15 and abs(f(-pi) - cmath.sinh(-pi)) < 1e-15 and abs(f(1j) - cmath.sinh(1j)) < 1e-15"},"spec":{"lhs":"test_cmath_sinh()","rhs":"test_cmath_sinh produces the expected output","over":{"base":"Any"},"name":"test_cmath_sinh_correct"},"guarantee":"test_cmath_sinh produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_cmath_sinh_correct","statement":"Path(test_cmath_sinh(x), test_cmath_sinh produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ffe1c00604eb9192"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_cmath_sinh","kind":"function","src_hash":"0b3d9a589fe87a45","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: abs(f(0) - cmath.sinh(0)) < 1e-15 and abs(f(pi) - cmath.sinh(pi)) < 1e-15 and abs(f(-pi) - cmath.sinh(-pi)) < 1e-15 and abs(f(1j) - cmath.sinh(1j)) < 1e-15"},"spec":{"lhs":"test_cmath_sinh()","rhs":"abs(f(0) - cmath.sinh(0)) < 1e-15 and abs(f(pi) - cmath.sinh(pi)) < 1e-15 and abs(f(-pi) - cmath.sinh(-pi)) < 1e-15 and abs(f(1j) - cmath.sinh(1j)) < 1e-15","over":{"base":"Any"},"name":"test_cmath_sinh_correct"},"guarantee":"abs(f(0) - cmath.sinh(0)) < 1e-15; abs(f(pi) - cmath.sinh(pi)) < 1e-15; abs(f(-pi) - cmath.sinh(-pi)) < 1e-15","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_cmath_sinh_correct","statement":"Path(test_cmath_sinh(x), abs(f(0) - cmath.sinh(0)) < 1e-15; abs(f(pi) - cmath.sinh(pi)) < 1e-15; abs(f(-pi) - cmath.sinh(-pi)) < 1e-15)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5806d730c9efb40a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["abs(f(0) - cmath.sinh(0)) < 1e-15","abs(f(pi) - cmath.sinh(pi)) < 1e-15","abs(f(-pi) - cmath.sinh(-pi)) < 1e-15","abs(f(1j) - cmath.sinh(1j)) < 1e-15"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_cmath_sinh():
     f = lambdify(x, sinh(x), "cmath")
     assert abs(f(0) - cmath.sinh(0)) < 1e-15
@@ -610,16 +771,24 @@ def test_cmath_sinh():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_cmath_cosh(), test_cmath_cosh produces the expected output) over Any ║
+# ║ Path(test_cmath_cosh(), abs(f(0) - cmath.cosh(0)) < 1e-15 and abs(f(pi) - cmath.cosh(pi)) < 1e-15 and abs(f(-pi) - cmath.cosh(-pi)) < 1e-15 and abs(f(1j) - cmath.cosh(1j)) < 1e-15) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_cmath_cosh : Any → {Any | abs(f(0) - cmath.cosh(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  abs(f(0) - cmath.cosh(0)) < 1e-15              ║
+# ║   ensures:  abs(f(pi) - cmath.cosh(pi)) < 1e-15            ║
+# ║   ensures:  abs(f(-pi) - cmath.cosh(-pi)) < 1e-15          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_cmath_cosh : Any → {Any | result satisfies: abs(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 64f202d479192d92  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ccce46431fbf3a63  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_cmath_cosh","kind":"function","src_hash":"81418fbfa9f11fb5","in":{"base":"Any"},"out":{"base":"Any","pred":"abs(f(0) - cmath.cosh(0)) < 1e-15 and abs(f(pi) - cmath.cosh(pi)) < 1e-15 and abs(f(-pi) - cmath.cosh(-pi)) < 1e-15 and abs(f(1j) - cmath.cosh(1j)) < 1e-15"},"spec":{"lhs":"test_cmath_cosh()","rhs":"test_cmath_cosh produces the expected output","over":{"base":"Any"},"name":"test_cmath_cosh_correct"},"guarantee":"test_cmath_cosh produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_cmath_cosh_correct","statement":"Path(test_cmath_cosh(x), test_cmath_cosh produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"64f202d479192d92"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_cmath_cosh","kind":"function","src_hash":"81418fbfa9f11fb5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: abs(f(0) - cmath.cosh(0)) < 1e-15 and abs(f(pi) - cmath.cosh(pi)) < 1e-15 and abs(f(-pi) - cmath.cosh(-pi)) < 1e-15 and abs(f(1j) - cmath.cosh(1j)) < 1e-15"},"spec":{"lhs":"test_cmath_cosh()","rhs":"abs(f(0) - cmath.cosh(0)) < 1e-15 and abs(f(pi) - cmath.cosh(pi)) < 1e-15 and abs(f(-pi) - cmath.cosh(-pi)) < 1e-15 and abs(f(1j) - cmath.cosh(1j)) < 1e-15","over":{"base":"Any"},"name":"test_cmath_cosh_correct"},"guarantee":"abs(f(0) - cmath.cosh(0)) < 1e-15; abs(f(pi) - cmath.cosh(pi)) < 1e-15; abs(f(-pi) - cmath.cosh(-pi)) < 1e-15","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_cmath_cosh_correct","statement":"Path(test_cmath_cosh(x), abs(f(0) - cmath.cosh(0)) < 1e-15; abs(f(pi) - cmath.cosh(pi)) < 1e-15; abs(f(-pi) - cmath.cosh(-pi)) < 1e-15)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ccce46431fbf3a63","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["abs(f(0) - cmath.cosh(0)) < 1e-15","abs(f(pi) - cmath.cosh(pi)) < 1e-15","abs(f(-pi) - cmath.cosh(-pi)) < 1e-15","abs(f(1j) - cmath.cosh(1j)) < 1e-15"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_cmath_cosh():
     f = lambdify(x, cosh(x), "cmath")
     assert abs(f(0) - cmath.cosh(0)) < 1e-15
@@ -629,16 +798,24 @@ def test_cmath_cosh():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_cmath_tanh(), test_cmath_tanh produces the expected output) over Any ║
+# ║ Path(test_cmath_tanh(), abs(f(0) - cmath.tanh(0)) < 1e-15 and abs(f(pi) - cmath.tanh(pi)) < 1e-15 and abs(f(-pi) - cmath.tanh(-pi)) < 1e-15 and abs(f(1j) - cmath.tanh(1j)) < 1e-15) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_cmath_tanh : Any → {Any | abs(f(0) - cmath.tanh(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  abs(f(0) - cmath.tanh(0)) < 1e-15              ║
+# ║   ensures:  abs(f(pi) - cmath.tanh(pi)) < 1e-15            ║
+# ║   ensures:  abs(f(-pi) - cmath.tanh(-pi)) < 1e-15          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_cmath_tanh : Any → {Any | result satisfies: abs(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 480a3b29224cb006  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d5ff10bc1d8a17ab  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_cmath_tanh","kind":"function","src_hash":"37956f8e3766d266","in":{"base":"Any"},"out":{"base":"Any","pred":"abs(f(0) - cmath.tanh(0)) < 1e-15 and abs(f(pi) - cmath.tanh(pi)) < 1e-15 and abs(f(-pi) - cmath.tanh(-pi)) < 1e-15 and abs(f(1j) - cmath.tanh(1j)) < 1e-15"},"spec":{"lhs":"test_cmath_tanh()","rhs":"test_cmath_tanh produces the expected output","over":{"base":"Any"},"name":"test_cmath_tanh_correct"},"guarantee":"test_cmath_tanh produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_cmath_tanh_correct","statement":"Path(test_cmath_tanh(x), test_cmath_tanh produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"480a3b29224cb006"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_cmath_tanh","kind":"function","src_hash":"37956f8e3766d266","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: abs(f(0) - cmath.tanh(0)) < 1e-15 and abs(f(pi) - cmath.tanh(pi)) < 1e-15 and abs(f(-pi) - cmath.tanh(-pi)) < 1e-15 and abs(f(1j) - cmath.tanh(1j)) < 1e-15"},"spec":{"lhs":"test_cmath_tanh()","rhs":"abs(f(0) - cmath.tanh(0)) < 1e-15 and abs(f(pi) - cmath.tanh(pi)) < 1e-15 and abs(f(-pi) - cmath.tanh(-pi)) < 1e-15 and abs(f(1j) - cmath.tanh(1j)) < 1e-15","over":{"base":"Any"},"name":"test_cmath_tanh_correct"},"guarantee":"abs(f(0) - cmath.tanh(0)) < 1e-15; abs(f(pi) - cmath.tanh(pi)) < 1e-15; abs(f(-pi) - cmath.tanh(-pi)) < 1e-15","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_cmath_tanh_correct","statement":"Path(test_cmath_tanh(x), abs(f(0) - cmath.tanh(0)) < 1e-15; abs(f(pi) - cmath.tanh(pi)) < 1e-15; abs(f(-pi) - cmath.tanh(-pi)) < 1e-15)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d5ff10bc1d8a17ab","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["abs(f(0) - cmath.tanh(0)) < 1e-15","abs(f(pi) - cmath.tanh(pi)) < 1e-15","abs(f(-pi) - cmath.tanh(-pi)) < 1e-15","abs(f(1j) - cmath.tanh(1j)) < 1e-15"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_cmath_tanh():
     f = lambdify(x, tanh(x), "cmath")
     assert abs(f(0) - cmath.tanh(0)) < 1e-15
@@ -648,16 +825,24 @@ def test_cmath_tanh():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_cmath_sin(), test_cmath_sin produces the expected output) over Any ║
+# ║ Path(test_cmath_sin(), abs(f(0) - cmath.sin(0)) < 1e-15 and abs(f(pi) - cmath.sin(pi)) < 1e-15 and abs(f(-pi) - cmath.sin(-pi)) < 1e-15 and abs(f(1j) - cmath.sin(1j)) < 1e-15) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_cmath_sin : Any → {Any | abs(f(0) - cmath.sin(0)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  abs(f(0) - cmath.sin(0)) < 1e-15               ║
+# ║   ensures:  abs(f(pi) - cmath.sin(pi)) < 1e-15             ║
+# ║   ensures:  abs(f(-pi) - cmath.sin(-pi)) < 1e-15           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_cmath_sin : Any → {Any | result satisfies: abs(f...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0ffdc39a9937190f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6c5e4e8329261642  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_cmath_sin","kind":"function","src_hash":"b473689e79e75af2","in":{"base":"Any"},"out":{"base":"Any","pred":"abs(f(0) - cmath.sin(0)) < 1e-15 and abs(f(pi) - cmath.sin(pi)) < 1e-15 and abs(f(-pi) - cmath.sin(-pi)) < 1e-15 and abs(f(1j) - cmath.sin(1j)) < 1e-15"},"spec":{"lhs":"test_cmath_sin()","rhs":"test_cmath_sin produces the expected output","over":{"base":"Any"},"name":"test_cmath_sin_correct"},"guarantee":"test_cmath_sin produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_cmath_sin_correct","statement":"Path(test_cmath_sin(x), test_cmath_sin produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0ffdc39a9937190f"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_cmath_sin","kind":"function","src_hash":"b473689e79e75af2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: abs(f(0) - cmath.sin(0)) < 1e-15 and abs(f(pi) - cmath.sin(pi)) < 1e-15 and abs(f(-pi) - cmath.sin(-pi)) < 1e-15 and abs(f(1j) - cmath.sin(1j)) < 1e-15"},"spec":{"lhs":"test_cmath_sin()","rhs":"abs(f(0) - cmath.sin(0)) < 1e-15 and abs(f(pi) - cmath.sin(pi)) < 1e-15 and abs(f(-pi) - cmath.sin(-pi)) < 1e-15 and abs(f(1j) - cmath.sin(1j)) < 1e-15","over":{"base":"Any"},"name":"test_cmath_sin_correct"},"guarantee":"abs(f(0) - cmath.sin(0)) < 1e-15; abs(f(pi) - cmath.sin(pi)) < 1e-15; abs(f(-pi) - cmath.sin(-pi)) < 1e-15","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_cmath_sin_correct","statement":"Path(test_cmath_sin(x), abs(f(0) - cmath.sin(0)) < 1e-15; abs(f(pi) - cmath.sin(pi)) < 1e-15; abs(f(-pi) - cmath.sin(-pi)) < 1e-15)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6c5e4e8329261642","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["abs(f(0) - cmath.sin(0)) < 1e-15","abs(f(pi) - cmath.sin(pi)) < 1e-15","abs(f(-pi) - cmath.sin(-pi)) < 1e-15","abs(f(1j) - cmath.sin(1j)) < 1e-15"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_cmath_sin():
     f = lambdify(x, sin(x), "cmath")
     assert abs(f(0) - cmath.sin(0)) < 1e-15
@@ -667,16 +852,24 @@ def test_cmath_sin():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_cmath_cos(), test_cmath_cos produces the expected output) over Any ║
+# ║ Path(test_cmath_cos(), abs(f(0) - cmath.cos(0)) < 1e-15 and abs(f(pi) - cmath.cos(pi)) < 1e-15 and abs(f(-pi) - cmath.cos(-pi)) < 1e-15 and abs(f(1j) - cmath.cos(1j)) < 1e-15) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_cmath_cos : Any → {Any | abs(f(0) - cmath.cos(0)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  abs(f(0) - cmath.cos(0)) < 1e-15               ║
+# ║   ensures:  abs(f(pi) - cmath.cos(pi)) < 1e-15             ║
+# ║   ensures:  abs(f(-pi) - cmath.cos(-pi)) < 1e-15           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_cmath_cos : Any → {Any | result satisfies: abs(f...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b6817540b92b727d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c09edc8bc2dea6a1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_cmath_cos","kind":"function","src_hash":"047ca1ef23cb9ca7","in":{"base":"Any"},"out":{"base":"Any","pred":"abs(f(0) - cmath.cos(0)) < 1e-15 and abs(f(pi) - cmath.cos(pi)) < 1e-15 and abs(f(-pi) - cmath.cos(-pi)) < 1e-15 and abs(f(1j) - cmath.cos(1j)) < 1e-15"},"spec":{"lhs":"test_cmath_cos()","rhs":"test_cmath_cos produces the expected output","over":{"base":"Any"},"name":"test_cmath_cos_correct"},"guarantee":"test_cmath_cos produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_cmath_cos_correct","statement":"Path(test_cmath_cos(x), test_cmath_cos produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b6817540b92b727d"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_cmath_cos","kind":"function","src_hash":"047ca1ef23cb9ca7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: abs(f(0) - cmath.cos(0)) < 1e-15 and abs(f(pi) - cmath.cos(pi)) < 1e-15 and abs(f(-pi) - cmath.cos(-pi)) < 1e-15 and abs(f(1j) - cmath.cos(1j)) < 1e-15"},"spec":{"lhs":"test_cmath_cos()","rhs":"abs(f(0) - cmath.cos(0)) < 1e-15 and abs(f(pi) - cmath.cos(pi)) < 1e-15 and abs(f(-pi) - cmath.cos(-pi)) < 1e-15 and abs(f(1j) - cmath.cos(1j)) < 1e-15","over":{"base":"Any"},"name":"test_cmath_cos_correct"},"guarantee":"abs(f(0) - cmath.cos(0)) < 1e-15; abs(f(pi) - cmath.cos(pi)) < 1e-15; abs(f(-pi) - cmath.cos(-pi)) < 1e-15","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_cmath_cos_correct","statement":"Path(test_cmath_cos(x), abs(f(0) - cmath.cos(0)) < 1e-15; abs(f(pi) - cmath.cos(pi)) < 1e-15; abs(f(-pi) - cmath.cos(-pi)) < 1e-15)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c09edc8bc2dea6a1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["abs(f(0) - cmath.cos(0)) < 1e-15","abs(f(pi) - cmath.cos(pi)) < 1e-15","abs(f(-pi) - cmath.cos(-pi)) < 1e-15","abs(f(1j) - cmath.cos(1j)) < 1e-15"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_cmath_cos():
     f = lambdify(x, cos(x), "cmath")
     assert abs(f(0) - cmath.cos(0)) < 1e-15
@@ -686,16 +879,23 @@ def test_cmath_cos():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_cmath_tan(), test_cmath_tan produces the expected output) over Any ║
+# ║ Path(test_cmath_tan(), abs(f(0) - cmath.tan(0)) < 1e-15 and abs(f(1j) - cmath.tan(1j)) < 1e-15) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_cmath_tan : Any → {Any | abs(f(0) - cmath.tan(0)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  abs(f(0) - cmath.tan(0)) < 1e-15               ║
+# ║   ensures:  abs(f(1j) - cmath.tan(1j)) < 1e-15             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_cmath_tan : Any → {Any | result satisfies: abs(f...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 20f66c82b5a1d6f2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 58b228569f10ca6a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_cmath_tan","kind":"function","src_hash":"6ce0640ed0b876c3","in":{"base":"Any"},"out":{"base":"Any","pred":"abs(f(0) - cmath.tan(0)) < 1e-15 and abs(f(1j) - cmath.tan(1j)) < 1e-15"},"spec":{"lhs":"test_cmath_tan()","rhs":"test_cmath_tan produces the expected output","over":{"base":"Any"},"name":"test_cmath_tan_correct"},"guarantee":"test_cmath_tan produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_cmath_tan_correct","statement":"Path(test_cmath_tan(x), test_cmath_tan produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"20f66c82b5a1d6f2"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_cmath_tan","kind":"function","src_hash":"6ce0640ed0b876c3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: abs(f(0) - cmath.tan(0)) < 1e-15 and abs(f(1j) - cmath.tan(1j)) < 1e-15"},"spec":{"lhs":"test_cmath_tan()","rhs":"abs(f(0) - cmath.tan(0)) < 1e-15 and abs(f(1j) - cmath.tan(1j)) < 1e-15","over":{"base":"Any"},"name":"test_cmath_tan_correct"},"guarantee":"abs(f(0) - cmath.tan(0)) < 1e-15; abs(f(1j) - cmath.tan(1j)) < 1e-15","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_cmath_tan_correct","statement":"Path(test_cmath_tan(x), abs(f(0) - cmath.tan(0)) < 1e-15; abs(f(1j) - cmath.tan(1j)) < 1e-15)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"58b228569f10ca6a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["abs(f(0) - cmath.tan(0)) < 1e-15","abs(f(1j) - cmath.tan(1j)) < 1e-15"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_cmath_tan():
     f = lambdify(x, tan(x), "cmath")
     assert abs(f(0) - cmath.tan(0)) < 1e-15
@@ -703,16 +903,24 @@ def test_cmath_tan():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_cmath_asin(), test_cmath_asin produces the expected output) over Any ║
+# ║ Path(test_cmath_asin(), abs(f(0) - cmath.asin(0)) < 1e-15 and abs(f(1) - cmath.asin(1)) < 1e-15 and abs(f(-1) - cmath.asin(-1)) < 1e-15 and abs(f(2) - cmath.asin(2)) < 1e-15 and abs(f(1j) - cmath.asin(1j)) < 1e-15) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_cmath_asin : Any → {Any | abs(f(0) - cmath.asin(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  abs(f(0) - cmath.asin(0)) < 1e-15              ║
+# ║   ensures:  abs(f(1) - cmath.asin(1)) < 1e-15              ║
+# ║   ensures:  abs(f(-1) - cmath.asin(-1)) < 1e-15            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_cmath_asin : Any → {Any | result satisfies: abs(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5f8558e27a1d1f8f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bc06ef401c5530c5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_cmath_asin","kind":"function","src_hash":"d8d616d00a0fe381","in":{"base":"Any"},"out":{"base":"Any","pred":"abs(f(0) - cmath.asin(0)) < 1e-15 and abs(f(1) - cmath.asin(1)) < 1e-15 and abs(f(-1) - cmath.asin(-1)) < 1e-15 and abs(f(2) - cmath.asin(2)) < 1e-15 and abs(f(1j) - cmath.asin(1j)) < 1e-15"},"spec":{"lhs":"test_cmath_asin()","rhs":"test_cmath_asin produces the expected output","over":{"base":"Any"},"name":"test_cmath_asin_correct"},"guarantee":"test_cmath_asin produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_cmath_asin_correct","statement":"Path(test_cmath_asin(x), test_cmath_asin produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5f8558e27a1d1f8f"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_cmath_asin","kind":"function","src_hash":"d8d616d00a0fe381","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: abs(f(0) - cmath.asin(0)) < 1e-15 and abs(f(1) - cmath.asin(1)) < 1e-15 and abs(f(-1) - cmath.asin(-1)) < 1e-15 and abs(f(2) - cmath.asin(2)) < 1e-15 and abs(f(1j) - cmath.asin(1j)) < 1e-15"},"spec":{"lhs":"test_cmath_asin()","rhs":"abs(f(0) - cmath.asin(0)) < 1e-15 and abs(f(1) - cmath.asin(1)) < 1e-15 and abs(f(-1) - cmath.asin(-1)) < 1e-15 and abs(f(2) - cmath.asin(2)) < 1e-15 and abs(f(1j) - cmath.asin(1j)) < 1e-15","over":{"base":"Any"},"name":"test_cmath_asin_correct"},"guarantee":"abs(f(0) - cmath.asin(0)) < 1e-15; abs(f(1) - cmath.asin(1)) < 1e-15; abs(f(-1) - cmath.asin(-1)) < 1e-15","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_cmath_asin_correct","statement":"Path(test_cmath_asin(x), abs(f(0) - cmath.asin(0)) < 1e-15; abs(f(1) - cmath.asin(1)) < 1e-15; abs(f(-1) - cmath.asin(-1)) < 1e-15)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bc06ef401c5530c5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["abs(f(0) - cmath.asin(0)) < 1e-15","abs(f(1) - cmath.asin(1)) < 1e-15","abs(f(-1) - cmath.asin(-1)) < 1e-15","abs(f(2) - cmath.asin(2)) < 1e-15","abs(f(1j) - cmath.asin(1j)) < 1e-15"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_cmath_asin():
     f = lambdify(x, asin(x), "cmath")
     assert abs(f(0) - cmath.asin(0)) < 1e-15
@@ -723,16 +931,24 @@ def test_cmath_asin():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_cmath_acos(), test_cmath_acos produces the expected output) over Any ║
+# ║ Path(test_cmath_acos(), abs(f(1) - cmath.acos(1)) < 1e-15 and abs(f(-1) - cmath.acos(-1)) < 1e-15 and abs(f(2) - cmath.acos(2)) < 1e-15 and abs(f(1j) - cmath.acos(1j)) < 1e-15) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_cmath_acos : Any → {Any | abs(f(1) - cmath.acos(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  abs(f(1) - cmath.acos(1)) < 1e-15              ║
+# ║   ensures:  abs(f(-1) - cmath.acos(-1)) < 1e-15            ║
+# ║   ensures:  abs(f(2) - cmath.acos(2)) < 1e-15              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_cmath_acos : Any → {Any | result satisfies: abs(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dc6c4f9f23013f85  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6d4bdfd98518ad63  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_cmath_acos","kind":"function","src_hash":"d2bcf3f5ef537f4e","in":{"base":"Any"},"out":{"base":"Any","pred":"abs(f(1) - cmath.acos(1)) < 1e-15 and abs(f(-1) - cmath.acos(-1)) < 1e-15 and abs(f(2) - cmath.acos(2)) < 1e-15 and abs(f(1j) - cmath.acos(1j)) < 1e-15"},"spec":{"lhs":"test_cmath_acos()","rhs":"test_cmath_acos produces the expected output","over":{"base":"Any"},"name":"test_cmath_acos_correct"},"guarantee":"test_cmath_acos produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_cmath_acos_correct","statement":"Path(test_cmath_acos(x), test_cmath_acos produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dc6c4f9f23013f85"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_cmath_acos","kind":"function","src_hash":"d2bcf3f5ef537f4e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: abs(f(1) - cmath.acos(1)) < 1e-15 and abs(f(-1) - cmath.acos(-1)) < 1e-15 and abs(f(2) - cmath.acos(2)) < 1e-15 and abs(f(1j) - cmath.acos(1j)) < 1e-15"},"spec":{"lhs":"test_cmath_acos()","rhs":"abs(f(1) - cmath.acos(1)) < 1e-15 and abs(f(-1) - cmath.acos(-1)) < 1e-15 and abs(f(2) - cmath.acos(2)) < 1e-15 and abs(f(1j) - cmath.acos(1j)) < 1e-15","over":{"base":"Any"},"name":"test_cmath_acos_correct"},"guarantee":"abs(f(1) - cmath.acos(1)) < 1e-15; abs(f(-1) - cmath.acos(-1)) < 1e-15; abs(f(2) - cmath.acos(2)) < 1e-15","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_cmath_acos_correct","statement":"Path(test_cmath_acos(x), abs(f(1) - cmath.acos(1)) < 1e-15; abs(f(-1) - cmath.acos(-1)) < 1e-15; abs(f(2) - cmath.acos(2)) < 1e-15)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6d4bdfd98518ad63","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["abs(f(1) - cmath.acos(1)) < 1e-15","abs(f(-1) - cmath.acos(-1)) < 1e-15","abs(f(2) - cmath.acos(2)) < 1e-15","abs(f(1j) - cmath.acos(1j)) < 1e-15"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_cmath_acos():
     f = lambdify(x, acos(x), "cmath")
     assert abs(f(1) - cmath.acos(1)) < 1e-15
@@ -742,16 +958,24 @@ def test_cmath_acos():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_cmath_atan(), test_cmath_atan produces the expected output) over Any ║
+# ║ Path(test_cmath_atan(), abs(f(0) - cmath.atan(0)) < 1e-15 and abs(f(1) - cmath.atan(1)) < 1e-15 and abs(f(-1) - cmath.atan(-1)) < 1e-15 and abs(f(2) - cmath.atan(2)) < 1e-15 and abs(f(2j) - cmath.atan(2j)) < 1e-15) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_cmath_atan : Any → {Any | abs(f(0) - cmath.atan(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  abs(f(0) - cmath.atan(0)) < 1e-15              ║
+# ║   ensures:  abs(f(1) - cmath.atan(1)) < 1e-15              ║
+# ║   ensures:  abs(f(-1) - cmath.atan(-1)) < 1e-15            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_cmath_atan : Any → {Any | result satisfies: abs(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 41933f11dd30582e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 47ed9f5f2cf6e496  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_cmath_atan","kind":"function","src_hash":"65756551abb9c5e0","in":{"base":"Any"},"out":{"base":"Any","pred":"abs(f(0) - cmath.atan(0)) < 1e-15 and abs(f(1) - cmath.atan(1)) < 1e-15 and abs(f(-1) - cmath.atan(-1)) < 1e-15 and abs(f(2) - cmath.atan(2)) < 1e-15 and abs(f(2j) - cmath.atan(2j)) < 1e-15"},"spec":{"lhs":"test_cmath_atan()","rhs":"test_cmath_atan produces the expected output","over":{"base":"Any"},"name":"test_cmath_atan_correct"},"guarantee":"test_cmath_atan produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_cmath_atan_correct","statement":"Path(test_cmath_atan(x), test_cmath_atan produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"41933f11dd30582e"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_cmath_atan","kind":"function","src_hash":"65756551abb9c5e0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: abs(f(0) - cmath.atan(0)) < 1e-15 and abs(f(1) - cmath.atan(1)) < 1e-15 and abs(f(-1) - cmath.atan(-1)) < 1e-15 and abs(f(2) - cmath.atan(2)) < 1e-15 and abs(f(2j) - cmath.atan(2j)) < 1e-15"},"spec":{"lhs":"test_cmath_atan()","rhs":"abs(f(0) - cmath.atan(0)) < 1e-15 and abs(f(1) - cmath.atan(1)) < 1e-15 and abs(f(-1) - cmath.atan(-1)) < 1e-15 and abs(f(2) - cmath.atan(2)) < 1e-15 and abs(f(2j) - cmath.atan(2j)) < 1e-15","over":{"base":"Any"},"name":"test_cmath_atan_correct"},"guarantee":"abs(f(0) - cmath.atan(0)) < 1e-15; abs(f(1) - cmath.atan(1)) < 1e-15; abs(f(-1) - cmath.atan(-1)) < 1e-15","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_cmath_atan_correct","statement":"Path(test_cmath_atan(x), abs(f(0) - cmath.atan(0)) < 1e-15; abs(f(1) - cmath.atan(1)) < 1e-15; abs(f(-1) - cmath.atan(-1)) < 1e-15)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"47ed9f5f2cf6e496","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["abs(f(0) - cmath.atan(0)) < 1e-15","abs(f(1) - cmath.atan(1)) < 1e-15","abs(f(-1) - cmath.atan(-1)) < 1e-15","abs(f(2) - cmath.atan(2)) < 1e-15","abs(f(2j) - cmath.atan(2j)) < 1e-15"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_cmath_atan():
     f = lambdify(x, atan(x), "cmath")
     assert abs(f(0) - cmath.atan(0)) < 1e-15
@@ -762,16 +986,24 @@ def test_cmath_atan():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_cmath_asinh(), test_cmath_asinh produces the expected output) over Any ║
+# ║ Path(test_cmath_asinh(), abs(f(0) - cmath.asinh(0)) < 1e-15 and abs(f(1) - cmath.asinh(1)) < 1e-15 and abs(f(-1) - cmath.asinh(-1)) < 1e-15 and abs(f(2) - cmath.asinh(2)) < 1e-15 and abs(f(2j) - cmath.asinh(2j)) < 1e-15) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_cmath_asinh : Any → {Any | abs(f(0) - cmath.asin...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  abs(f(0) - cmath.asinh(0)) < 1e-15             ║
+# ║   ensures:  abs(f(1) - cmath.asinh(1)) < 1e-15             ║
+# ║   ensures:  abs(f(-1) - cmath.asinh(-1)) < 1e-15           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_cmath_asinh : Any → {Any | result satisfies: abs...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e7199830f1939e92  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | abdedda42abe5304  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_cmath_asinh","kind":"function","src_hash":"4a1f654efabe9767","in":{"base":"Any"},"out":{"base":"Any","pred":"abs(f(0) - cmath.asinh(0)) < 1e-15 and abs(f(1) - cmath.asinh(1)) < 1e-15 and abs(f(-1) - cmath.asinh(-1)) < 1e-15 and abs(f(2) - cmath.asinh(2)) < 1e-15 and abs(f(2j) - cmath.asinh(2j)) < 1e-15"},"spec":{"lhs":"test_cmath_asinh()","rhs":"test_cmath_asinh produces the expected output","over":{"base":"Any"},"name":"test_cmath_asinh_correct"},"guarantee":"test_cmath_asinh produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_cmath_asinh_correct","statement":"Path(test_cmath_asinh(x), test_cmath_asinh produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e7199830f1939e92"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_cmath_asinh","kind":"function","src_hash":"4a1f654efabe9767","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: abs(f(0) - cmath.asinh(0)) < 1e-15 and abs(f(1) - cmath.asinh(1)) < 1e-15 and abs(f(-1) - cmath.asinh(-1)) < 1e-15 and abs(f(2) - cmath.asinh(2)) < 1e-15 and abs(f(2j) - cmath.asinh(2j)) < 1e-15"},"spec":{"lhs":"test_cmath_asinh()","rhs":"abs(f(0) - cmath.asinh(0)) < 1e-15 and abs(f(1) - cmath.asinh(1)) < 1e-15 and abs(f(-1) - cmath.asinh(-1)) < 1e-15 and abs(f(2) - cmath.asinh(2)) < 1e-15 and abs(f(2j) - cmath.asinh(2j)) < 1e-15","over":{"base":"Any"},"name":"test_cmath_asinh_correct"},"guarantee":"abs(f(0) - cmath.asinh(0)) < 1e-15; abs(f(1) - cmath.asinh(1)) < 1e-15; abs(f(-1) - cmath.asinh(-1)) < 1e-15","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_cmath_asinh_correct","statement":"Path(test_cmath_asinh(x), abs(f(0) - cmath.asinh(0)) < 1e-15; abs(f(1) - cmath.asinh(1)) < 1e-15; abs(f(-1) - cmath.asinh(-1)) < 1e-15)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"abdedda42abe5304","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["abs(f(0) - cmath.asinh(0)) < 1e-15","abs(f(1) - cmath.asinh(1)) < 1e-15","abs(f(-1) - cmath.asinh(-1)) < 1e-15","abs(f(2) - cmath.asinh(2)) < 1e-15","abs(f(2j) - cmath.asinh(2j)) < 1e-15"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_cmath_asinh():
     f = lambdify(x, asinh(x), "cmath")
     assert abs(f(0) - cmath.asinh(0)) < 1e-15
@@ -782,16 +1014,24 @@ def test_cmath_asinh():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_cmath_acosh(), test_cmath_acosh produces the expected output) over Any ║
+# ║ Path(test_cmath_acosh(), abs(f(1) - cmath.acosh(1)) < 1e-15 and abs(f(2) - cmath.acosh(2)) < 1e-15 and abs(f(-1) - cmath.acosh(-1)) < 1e-15 and abs(f(2j) - cmath.acosh(2j)) < 1e-15) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_cmath_acosh : Any → {Any | abs(f(1) - cmath.acos...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  abs(f(1) - cmath.acosh(1)) < 1e-15             ║
+# ║   ensures:  abs(f(2) - cmath.acosh(2)) < 1e-15             ║
+# ║   ensures:  abs(f(-1) - cmath.acosh(-1)) < 1e-15           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_cmath_acosh : Any → {Any | result satisfies: abs...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f2d68814565022f2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aa1f64a550bcdc2e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_cmath_acosh","kind":"function","src_hash":"cac5cce5c4372b16","in":{"base":"Any"},"out":{"base":"Any","pred":"abs(f(1) - cmath.acosh(1)) < 1e-15 and abs(f(2) - cmath.acosh(2)) < 1e-15 and abs(f(-1) - cmath.acosh(-1)) < 1e-15 and abs(f(2j) - cmath.acosh(2j)) < 1e-15"},"spec":{"lhs":"test_cmath_acosh()","rhs":"test_cmath_acosh produces the expected output","over":{"base":"Any"},"name":"test_cmath_acosh_correct"},"guarantee":"test_cmath_acosh produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_cmath_acosh_correct","statement":"Path(test_cmath_acosh(x), test_cmath_acosh produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f2d68814565022f2"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_cmath_acosh","kind":"function","src_hash":"cac5cce5c4372b16","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: abs(f(1) - cmath.acosh(1)) < 1e-15 and abs(f(2) - cmath.acosh(2)) < 1e-15 and abs(f(-1) - cmath.acosh(-1)) < 1e-15 and abs(f(2j) - cmath.acosh(2j)) < 1e-15"},"spec":{"lhs":"test_cmath_acosh()","rhs":"abs(f(1) - cmath.acosh(1)) < 1e-15 and abs(f(2) - cmath.acosh(2)) < 1e-15 and abs(f(-1) - cmath.acosh(-1)) < 1e-15 and abs(f(2j) - cmath.acosh(2j)) < 1e-15","over":{"base":"Any"},"name":"test_cmath_acosh_correct"},"guarantee":"abs(f(1) - cmath.acosh(1)) < 1e-15; abs(f(2) - cmath.acosh(2)) < 1e-15; abs(f(-1) - cmath.acosh(-1)) < 1e-15","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_cmath_acosh_correct","statement":"Path(test_cmath_acosh(x), abs(f(1) - cmath.acosh(1)) < 1e-15; abs(f(2) - cmath.acosh(2)) < 1e-15; abs(f(-1) - cmath.acosh(-1)) < 1e-15)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aa1f64a550bcdc2e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["abs(f(1) - cmath.acosh(1)) < 1e-15","abs(f(2) - cmath.acosh(2)) < 1e-15","abs(f(-1) - cmath.acosh(-1)) < 1e-15","abs(f(2j) - cmath.acosh(2j)) < 1e-15"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_cmath_acosh():
     f = lambdify(x, acosh(x), "cmath")
     assert abs(f(1) - cmath.acosh(1)) < 1e-15
@@ -801,16 +1041,24 @@ def test_cmath_acosh():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_cmath_atanh(), test_cmath_atanh produces the expected output) over Any ║
+# ║ Path(test_cmath_atanh(), abs(f(0) - cmath.atanh(0)) < 1e-15 and abs(f(0.5) - cmath.atanh(0.5)) < 1e-15 and abs(f(-0.5) - cmath.atanh(-0.5)) < 1e-15 and abs(f(2) - cmath.atanh(2)) < 1e-15 and abs(f(-2) - cmath.atanh(-2)) < 1e-15 and abs(f(2j) - cmath.atanh(2j)) < 1e-15) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_cmath_atanh : Any → {Any | abs(f(0) - cmath.atan...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  abs(f(0) - cmath.atanh(0)) < 1e-15             ║
+# ║   ensures:  abs(f(0.5) - cmath.atanh(0.5)) < 1e-15         ║
+# ║   ensures:  abs(f(-0.5) - cmath.atanh(-0.5)) < 1e-15       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_cmath_atanh : Any → {Any | result satisfies: abs...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 780d37a009bde258  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 65b7efbed67ddd93  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_cmath_atanh","kind":"function","src_hash":"da65b57fe133abed","in":{"base":"Any"},"out":{"base":"Any","pred":"abs(f(0) - cmath.atanh(0)) < 1e-15 and abs(f(0.5) - cmath.atanh(0.5)) < 1e-15 and abs(f(-0.5) - cmath.atanh(-0.5)) < 1e-15 and abs(f(2) - cmath.atanh(2)) < 1e-15 and abs(f(-2) - cmath.atanh(-2)) < 1e-15 and abs(f(2j) - cmath.atanh(2j)) < 1e-15"},"spec":{"lhs":"test_cmath_atanh()","rhs":"test_cmath_atanh produces the expected output","over":{"base":"Any"},"name":"test_cmath_atanh_correct"},"guarantee":"test_cmath_atanh produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_cmath_atanh_correct","statement":"Path(test_cmath_atanh(x), test_cmath_atanh produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"780d37a009bde258"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_cmath_atanh","kind":"function","src_hash":"da65b57fe133abed","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: abs(f(0) - cmath.atanh(0)) < 1e-15 and abs(f(0.5) - cmath.atanh(0.5)) < 1e-15 and abs(f(-0.5) - cmath.atanh(-0.5)) < 1e-15 and abs(f(2) - cmath.atanh(2)) < 1e-15 and abs(f(-2) - cmath.atanh(-2)) < 1e-15 and abs(f(2j) - cmath.atanh(2j)) < 1e-15"},"spec":{"lhs":"test_cmath_atanh()","rhs":"abs(f(0) - cmath.atanh(0)) < 1e-15 and abs(f(0.5) - cmath.atanh(0.5)) < 1e-15 and abs(f(-0.5) - cmath.atanh(-0.5)) < 1e-15 and abs(f(2) - cmath.atanh(2)) < 1e-15 and abs(f(-2) - cmath.atanh(-2)) < 1e-15 and abs(f(2j) - cmath.atanh(2j)) < 1e-15","over":{"base":"Any"},"name":"test_cmath_atanh_correct"},"guarantee":"abs(f(0) - cmath.atanh(0)) < 1e-15; abs(f(0.5) - cmath.atanh(0.5)) < 1e-15; abs(f(-0.5) - cmath.atanh(-0.5)) < 1e-15","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_cmath_atanh_correct","statement":"Path(test_cmath_atanh(x), abs(f(0) - cmath.atanh(0)) < 1e-15; abs(f(0.5) - cmath.atanh(0.5)) < 1e-15; abs(f(-0.5) - cmath.atanh(-0.5)) < 1e-15)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"65b7efbed67ddd93","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["abs(f(0) - cmath.atanh(0)) < 1e-15","abs(f(0.5) - cmath.atanh(0.5)) < 1e-15","abs(f(-0.5) - cmath.atanh(-0.5)) < 1e-15","abs(f(2) - cmath.atanh(2)) < 1e-15","abs(f(-2) - cmath.atanh(-2)) < 1e-15","abs(f(2j) - cmath.atanh(2j)) < 1e-15"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_cmath_atanh():
     f = lambdify(x, atanh(x), "cmath")
     assert abs(f(0) - cmath.atanh(0)) < 1e-15
@@ -822,16 +1070,24 @@ def test_cmath_atanh():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_cmath_complex_identities(), test_cmath_complex_identities produces the expected output) over Any ║
+# ║ Path(test_cmath_complex_identities(), abs(func(hpi + 1j * hpi)) < 4e-16 and abs(func(hpi)) < 4e-16 and abs(func_exp(hpi + 1j * hpi)) < 4e-16 and abs(func_cos(hpi + 1j * hpi)) < 4e-16 and abs(func_sin(hpi + 1j * hpi)) < 4e-16 and abs(func_cosh_1(hpi + 1j * hpi)) < 4e-16 and abs(func_sinh(hpi + 1j * hpi)) < 4e-16 and abs(func_cosh_2(hpi)) < 4e-16 and abs(func1(test_value)) < 4e-16 and abs(func2(test_value)) < 4e-16 and abs(func3(test_value)) < 4e-16 and abs(func4(test_value)) < 4e-16 and abs(func5(test_value)) < 4e-16 and abs(func6(test_value)) < 4e-16) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_cmath_complex_identities : Any → {Any | abs(func...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  abs(func(hpi + 1j * hpi)) < 4e-16              ║
+# ║   ensures:  abs(func(hpi)) < 4e-16                         ║
+# ║   ensures:  abs(func_exp(hpi + 1j * hpi)) < 4e-16          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_cmath_complex_identities : Any → {Any | result s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 36b6a7e7febba87e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9adeef958e887bf8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_cmath_complex_identities","kind":"function","src_hash":"4ce942dc5501b39c","in":{"base":"Any"},"out":{"base":"Any","pred":"abs(func(hpi + 1j * hpi)) < 4e-16 and abs(func(hpi)) < 4e-16 and abs(func_exp(hpi + 1j * hpi)) < 4e-16 and abs(func_cos(hpi + 1j * hpi)) < 4e-16 and abs(func_sin(hpi + 1j * hpi)) < 4e-16 and abs(func_cosh_1(hpi + 1j * hpi)) < 4e-16 and abs(func_sinh(hpi + 1j * hpi)) < 4e-16 and abs(func_cosh_2(hpi)) < 4e-16 and abs(func1(test_value)) < 4e-16 and abs(func2(test_value)) < 4e-16 and abs(func3(test_value)) < 4e-16 and abs(func4(test_value)) < 4e-16 and abs(func5(test_value)) < 4e-16 and abs(func6(test_value)) < 4e-16"},"spec":{"lhs":"test_cmath_complex_identities()","rhs":"test_cmath_complex_identities produces the expected output","over":{"base":"Any"},"name":"test_cmath_complex_identities_correct"},"guarantee":"test_cmath_complex_identities produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_cmath_complex_identities_correct","statement":"Path(test_cmath_complex_identities(x), test_cmath_complex_identities produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"36b6a7e7febba87e"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_cmath_complex_identities","kind":"function","src_hash":"4ce942dc5501b39c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: abs(func(hpi + 1j * hpi)) < 4e-16 and abs(func(hpi)) < 4e-16 and abs(func_exp(hpi + 1j * hpi)) < 4e-16 and abs(func_cos(hpi + 1j * hpi)) < 4e-16 and abs(func_sin(hpi + 1j * hpi)) < 4e-16 and abs(func_cosh_1(hpi + 1j * hpi)) < 4e-16 and abs(func_sinh(hpi + 1j * hpi)) < 4e-16 and abs(func_cosh_2(hpi)) < 4e-16 and abs(func1(test_value)) < 4e-16 and abs(func2(test_value)) < 4e-16 and abs(func3(test_value)) < 4e-16 and abs(func4(test_value)) < 4e-16 and abs(func5(test_value)) < 4e-16 and abs(func6(test_value)) < 4e-16"},"spec":{"lhs":"test_cmath_complex_identities()","rhs":"abs(func(hpi + 1j * hpi)) < 4e-16 and abs(func(hpi)) < 4e-16 and abs(func_exp(hpi + 1j * hpi)) < 4e-16 and abs(func_cos(hpi + 1j * hpi)) < 4e-16 and abs(func_sin(hpi + 1j * hpi)) < 4e-16 and abs(func_cosh_1(hpi + 1j * hpi)) < 4e-16 and abs(func_sinh(hpi + 1j * hpi)) < 4e-16 and abs(func_cosh_2(hpi)) < 4e-16 and abs(func1(test_value)) < 4e-16 and abs(func2(test_value)) < 4e-16 and abs(func3(test_value)) < 4e-16 and abs(func4(test_value)) < 4e-16 and abs(func5(test_value)) < 4e-16 and abs(func6(test_value)) < 4e-16","over":{"base":"Any"},"name":"test_cmath_complex_identities_correct"},"guarantee":"abs(func(hpi + 1j * hpi)) < 4e-16; abs(func(hpi)) < 4e-16; abs(func_exp(hpi + 1j * hpi)) < 4e-16","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_cmath_complex_identities_correct","statement":"Path(test_cmath_complex_identities(x), abs(func(hpi + 1j * hpi)) < 4e-16; abs(func(hpi)) < 4e-16; abs(func_exp(hpi + 1j * hpi)) < 4e-16)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9adeef958e887bf8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["abs(func(hpi + 1j * hpi)) < 4e-16","abs(func(hpi)) < 4e-16","abs(func_exp(hpi + 1j * hpi)) < 4e-16","abs(func_cos(hpi + 1j * hpi)) < 4e-16","abs(func_sin(hpi + 1j * hpi)) < 4e-16","abs(func_cosh_1(hpi + 1j * hpi)) < 4e-16","abs(func_sinh(hpi + 1j * hpi)) < 4e-16","abs(func_cosh_2(hpi)) < 4e-16","abs(func1(test_value)) < 4e-16","abs(func2(test_value)) < 4e-16","abs(func3(test_value)) < 4e-16","abs(func4(test_value)) < 4e-16","abs(func5(test_value)) < 4e-16","abs(func6(test_value)) < 4e-16"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.1,"verdict_class":"assumed","binding":true}}
 def test_cmath_complex_identities():
     # Define symbol
     z = symbols('z')
@@ -898,16 +1154,22 @@ def test_cmath_complex_identities():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_9334(), test_issue_9334 produces the expected output) over Any ║
+# ║ Path(test_issue_9334(), <unspecified:test_issue_9334>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_issue_9334 : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 149eadb28d89f7d8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_issue_9334","kind":"function","src_hash":"af89324005365dd6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_issue_9334()","rhs":"test_issue_9334 produces the expected output","over":{"base":"Any"},"name":"test_issue_9334_correct"},"guarantee":"test_issue_9334 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_issue_9334_correct","statement":"Path(test_issue_9334(x), test_issue_9334 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"149eadb28d89f7d8"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_issue_9334","kind":"function","src_hash":"af89324005365dd6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_issue_9334()","rhs":"<unspecified:test_issue_9334>","over":{"base":"Any"},"name":"test_issue_9334_correct"},"guarantee":"test_issue_9334 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_issue_9334_correct","statement":"Path(test_issue_9334(x), test_issue_9334 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"149eadb28d89f7d8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"nondeterministic","nondeterministic_sources":["numpy.random.random"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_9334():
     if not numexpr:
         skip("numexpr not installed.")
@@ -921,16 +1183,22 @@ def test_issue_9334():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_12984(), test_issue_12984 produces the expected output) over Any ║
+# ║ Path(test_issue_12984(), <unspecified:test_issue_12984>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_issue_12984 : Any → {Any | func_numexpr(1, 24, 4...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4e8d241ef5d75076  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_issue_12984","kind":"function","src_hash":"13b29e15f49cd5be","in":{"base":"Any"},"out":{"base":"Any","pred":"func_numexpr(1, 24, 42) == 24 and str(func_numexpr(-1, 24, 42)) == 'nan'"},"spec":{"lhs":"test_issue_12984()","rhs":"test_issue_12984 produces the expected output","over":{"base":"Any"},"name":"test_issue_12984_correct"},"guarantee":"test_issue_12984 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_issue_12984_correct","statement":"Path(test_issue_12984(x), test_issue_12984 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4e8d241ef5d75076"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_issue_12984","kind":"function","src_hash":"13b29e15f49cd5be","in":{"base":"Any"},"out":{"base":"Any","pred":"func_numexpr(1, 24, 42) == 24 and str(func_numexpr(-1, 24, 42)) == 'nan'"},"spec":{"lhs":"test_issue_12984()","rhs":"<unspecified:test_issue_12984>","over":{"base":"Any"},"name":"test_issue_12984_correct"},"guarantee":"test_issue_12984 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_issue_12984_correct","statement":"Path(test_issue_12984(x), test_issue_12984 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4e8d241ef5d75076","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_12984():
     if not numexpr:
         skip("numexpr not installed.")
@@ -941,16 +1209,23 @@ def test_issue_12984():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_empty_modules(), test_empty_modules produces the expected output) over Any ║
+# ║ Path(test_empty_modules(), no_modules(3, 7) == empty_modules(3, 7) and no_modules(3, 7) == -3) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_empty_modules : Any → {Any | no_modules(3, 7) ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  no_modules(3, 7) == empty_modules(3, 7)        ║
+# ║   ensures:  no_modules(3, 7) == -3                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_empty_modules : Any → {Any | result satisfies: n...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7487d166d0100347  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 31daa425118bc006  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_empty_modules","kind":"function","src_hash":"8b70454a37325ee7","in":{"base":"Any"},"out":{"base":"Any","pred":"no_modules(3, 7) == empty_modules(3, 7) and no_modules(3, 7) == -3"},"spec":{"lhs":"test_empty_modules()","rhs":"test_empty_modules produces the expected output","over":{"base":"Any"},"name":"test_empty_modules_correct"},"guarantee":"test_empty_modules produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_empty_modules_correct","statement":"Path(test_empty_modules(x), test_empty_modules produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7487d166d0100347"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_empty_modules","kind":"function","src_hash":"8b70454a37325ee7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: no_modules(3, 7) == empty_modules(3, 7) and no_modules(3, 7) == -3"},"spec":{"lhs":"test_empty_modules()","rhs":"no_modules(3, 7) == empty_modules(3, 7) and no_modules(3, 7) == -3","over":{"base":"Any"},"name":"test_empty_modules_correct"},"guarantee":"no_modules(3, 7) == empty_modules(3, 7); no_modules(3, 7) == -3","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_empty_modules_correct","statement":"Path(test_empty_modules(x), no_modules(3, 7) == empty_modules(3, 7); no_modules(3, 7) == -3)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"31daa425118bc006","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["no_modules(3, 7) == empty_modules(3, 7)","no_modules(3, 7) == -3"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_empty_modules():
     x, y = symbols('x y')
     expr = -(x % y)
@@ -962,16 +1237,24 @@ def test_empty_modules():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_exponentiation(), test_exponentiation produces the expected output) over Any ║
+# ║ Path(test_exponentiation(), f(-1) == 1 and f(0) == 0 and f(1) == 1 and f(-2) == 4 and f(2) == 4 and f(2.5) == 6.25) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_exponentiation : Any → {Any | f(-1) == 1 and f(0...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f(-1) == 1                                     ║
+# ║   ensures:  f(0) == 0                                      ║
+# ║   ensures:  f(1) == 1                                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_exponentiation : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 94c118fa4247a6a7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1f169fef88e59b4d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_exponentiation","kind":"function","src_hash":"b2fa44d9f012eac7","in":{"base":"Any"},"out":{"base":"Any","pred":"f(-1) == 1 and f(0) == 0 and f(1) == 1 and f(-2) == 4 and f(2) == 4 and f(2.5) == 6.25"},"spec":{"lhs":"test_exponentiation()","rhs":"test_exponentiation produces the expected output","over":{"base":"Any"},"name":"test_exponentiation_correct"},"guarantee":"test_exponentiation produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_exponentiation_correct","statement":"Path(test_exponentiation(x), test_exponentiation produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"94c118fa4247a6a7"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_exponentiation","kind":"function","src_hash":"b2fa44d9f012eac7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f(-1) == 1 and f(0) == 0 and f(1) == 1 and f(-2) == 4 and f(2) == 4 and f(2.5) == 6.25"},"spec":{"lhs":"test_exponentiation()","rhs":"f(-1) == 1 and f(0) == 0 and f(1) == 1 and f(-2) == 4 and f(2) == 4 and f(2.5) == 6.25","over":{"base":"Any"},"name":"test_exponentiation_correct"},"guarantee":"f(-1) == 1; f(0) == 0; f(1) == 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_exponentiation_correct","statement":"Path(test_exponentiation(x), f(-1) == 1; f(0) == 0; f(1) == 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1f169fef88e59b4d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f(-1) == 1","f(0) == 0","f(1) == 1","f(-2) == 4","f(2) == 4","f(2.5) == 6.25"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_exponentiation():
     f = lambdify(x, x**2)
     assert f(-1) == 1
@@ -983,16 +1266,24 @@ def test_exponentiation():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_sqrt(), test_sqrt produces the expected output) over Any ║
+# ║ Path(test_sqrt(), f(0) == 0.0 and f(1) == 1.0 and f(4) == 2.0 and abs(f(2) - 1.414) < 0.001 and f(6.25) == 2.5) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_sqrt : Any → {Any | f(0) == 0.0 and f(1) == 1.0 ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f(0) == 0.0                                    ║
+# ║   ensures:  f(1) == 1.0                                    ║
+# ║   ensures:  f(4) == 2.0                                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_sqrt : Any → {Any | result satisfies: f(0) == 0....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3ef9067a0b3ea511  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bb43798e1804a975  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_sqrt","kind":"function","src_hash":"7ab53d493b030d46","in":{"base":"Any"},"out":{"base":"Any","pred":"f(0) == 0.0 and f(1) == 1.0 and f(4) == 2.0 and abs(f(2) - 1.414) < 0.001 and f(6.25) == 2.5"},"spec":{"lhs":"test_sqrt()","rhs":"test_sqrt produces the expected output","over":{"base":"Any"},"name":"test_sqrt_correct"},"guarantee":"test_sqrt produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_sqrt_correct","statement":"Path(test_sqrt(x), test_sqrt produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3ef9067a0b3ea511"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_sqrt","kind":"function","src_hash":"7ab53d493b030d46","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f(0) == 0.0 and f(1) == 1.0 and f(4) == 2.0 and abs(f(2) - 1.414) < 0.001 and f(6.25) == 2.5"},"spec":{"lhs":"test_sqrt()","rhs":"f(0) == 0.0 and f(1) == 1.0 and f(4) == 2.0 and abs(f(2) - 1.414) < 0.001 and f(6.25) == 2.5","over":{"base":"Any"},"name":"test_sqrt_correct"},"guarantee":"f(0) == 0.0; f(1) == 1.0; f(4) == 2.0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_sqrt_correct","statement":"Path(test_sqrt(x), f(0) == 0.0; f(1) == 1.0; f(4) == 2.0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bb43798e1804a975","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f(0) == 0.0","f(1) == 1.0","f(4) == 2.0","abs(f(2) - 1.414) < 0.001","f(6.25) == 2.5"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_sqrt():
     f = lambdify(x, sqrt(x))
     assert f(0) == 0.0
@@ -1003,16 +1294,23 @@ def test_sqrt():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_trig(), test_trig produces the expected output) over Any ║
+# ║ Path(test_trig(), -prec < d[0] + 1 < prec and -prec < d[1] < prec) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_trig : Any → {Any | -prec < d[0] + 1 < prec and ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  -prec < d[0] + 1 < prec                        ║
+# ║   ensures:  -prec < d[1] < prec                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_trig : Any → {Any | result satisfies: -prec < d[...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2865636b713c60b0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 76f218691d4d3867  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_trig","kind":"function","src_hash":"2e39d8595cfb38fd","in":{"base":"Any"},"out":{"base":"Any","pred":"-prec < d[0] + 1 < prec and -prec < d[1] < prec and -prec < d[0] + 1 < prec and -prec < d[1] < prec"},"spec":{"lhs":"test_trig()","rhs":"test_trig produces the expected output","over":{"base":"Any"},"name":"test_trig_correct"},"guarantee":"test_trig produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_trig_correct","statement":"Path(test_trig(x), test_trig produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2865636b713c60b0"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_trig","kind":"function","src_hash":"2e39d8595cfb38fd","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: -prec < d[0] + 1 < prec and -prec < d[1] < prec"},"spec":{"lhs":"test_trig()","rhs":"-prec < d[0] + 1 < prec and -prec < d[1] < prec","over":{"base":"Any"},"name":"test_trig_correct"},"guarantee":"-prec < d[0] + 1 < prec; -prec < d[1] < prec","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_trig_correct","statement":"Path(test_trig(x), -prec < d[0] + 1 < prec; -prec < d[1] < prec)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"76f218691d4d3867","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["-prec < d[0] + 1 < prec","-prec < d[1] < prec"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_trig():
     f = lambdify([x], [cos(x), sin(x)], 'math')
     d = f(pi)
@@ -1026,16 +1324,22 @@ def test_trig():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_integral(), test_integral produces the expected output) over Any ║
+# ║ Path(test_integral(), 1.77245385 < d < 1.772453851) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_integral : Any → {Any | 1.77245385 < d < 1.77245...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  1.77245385 < d < 1.772453851                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_integral : Any → {Any | result satisfies: 1.7724...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 262f2f8c05820ec3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9303c359a3bb6ab4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_integral","kind":"function","src_hash":"d1342279e945b019","in":{"base":"Any"},"out":{"base":"Any","pred":"1.77245385 < d < 1.772453851"},"spec":{"lhs":"test_integral()","rhs":"test_integral produces the expected output","over":{"base":"Any"},"name":"test_integral_correct"},"guarantee":"test_integral produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_integral_correct","statement":"Path(test_integral(x), test_integral produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"262f2f8c05820ec3"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_integral","kind":"function","src_hash":"d1342279e945b019","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: 1.77245385 < d < 1.772453851"},"spec":{"lhs":"test_integral()","rhs":"1.77245385 < d < 1.772453851","over":{"base":"Any"},"name":"test_integral_correct"},"guarantee":"1.77245385 < d < 1.772453851","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_integral_correct","statement":"Path(test_integral(x), 1.77245385 < d < 1.772453851)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9303c359a3bb6ab4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["1.77245385 < d < 1.772453851"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_integral():
     if numpy and not scipy:
         skip("scipy not installed.")
@@ -1046,16 +1350,22 @@ def test_integral():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_double_integral(), test_double_integral produces the expected output) over Any ║
+# ║ Path(test_double_integral(), 1.23370055 < d < 1.233700551) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_double_integral : Any → {Any | 1.23370055 < d < ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  1.23370055 < d < 1.233700551                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_double_integral : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d8e8851776d62827  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 32c33b06199e6aab  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_double_integral","kind":"function","src_hash":"13a98521dc8e2189","in":{"base":"Any"},"out":{"base":"Any","pred":"1.23370055 < d < 1.233700551"},"spec":{"lhs":"test_double_integral()","rhs":"test_double_integral produces the expected output","over":{"base":"Any"},"name":"test_double_integral_correct"},"guarantee":"test_double_integral produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_double_integral_correct","statement":"Path(test_double_integral(x), test_double_integral produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d8e8851776d62827"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_double_integral","kind":"function","src_hash":"13a98521dc8e2189","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: 1.23370055 < d < 1.233700551"},"spec":{"lhs":"test_double_integral()","rhs":"1.23370055 < d < 1.233700551","over":{"base":"Any"},"name":"test_double_integral_correct"},"guarantee":"1.23370055 < d < 1.233700551","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_double_integral_correct","statement":"Path(test_double_integral(x), 1.23370055 < d < 1.233700551)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"32c33b06199e6aab","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["1.23370055 < d < 1.233700551"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_double_integral():
     if numpy and not scipy:
         skip("scipy not installed.")
@@ -1066,16 +1376,23 @@ def test_double_integral():
     assert 1.23370055 < d < 1.233700551
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_spherical_bessel(), test_spherical_bessel produces the expected output) over Any ║
+# ║ Path(test_spherical_bessel(), abs(lambdify(x, jtest)(test_point) - jtest.subs(x, test_point).evalf()) < 1e-08 and abs(lambdify(x, ytest)(test_point) - ytest.subs(x, test_point).evalf()) < 1e-08) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_spherical_bessel : Any → {Any | abs(lambdify(x, ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  abs(lambdify(x, jtest)(test_point) - jtes...   ║
+# ║   ensures:  abs(lambdify(x, ytest)(test_point) - ytes...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_spherical_bessel : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4dd90d7004f3951b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f6ca60c418291a11  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_spherical_bessel","kind":"function","src_hash":"e5262fdda157874e","in":{"base":"Any"},"out":{"base":"Any","pred":"abs(lambdify(x, jtest)(test_point) - jtest.subs(x, test_point).evalf()) < 1e-08 and abs(lambdify(x, ytest)(test_point) - ytest.subs(x, test_point).evalf()) < 1e-08"},"spec":{"lhs":"test_spherical_bessel()","rhs":"test_spherical_bessel produces the expected output","over":{"base":"Any"},"name":"test_spherical_bessel_correct"},"guarantee":"test_spherical_bessel produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_spherical_bessel_correct","statement":"Path(test_spherical_bessel(x), test_spherical_bessel produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4dd90d7004f3951b"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_spherical_bessel","kind":"function","src_hash":"e5262fdda157874e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: abs(lambdify(x, jtest)(test_point) - jtest.subs(x, test_point).evalf()) < 1e-08 and abs(lambdify(x, ytest)(test_point) - ytest.subs(x, test_point).evalf()) < 1e-08"},"spec":{"lhs":"test_spherical_bessel()","rhs":"abs(lambdify(x, jtest)(test_point) - jtest.subs(x, test_point).evalf()) < 1e-08 and abs(lambdify(x, ytest)(test_point) - ytest.subs(x, test_point).evalf()) < 1e-08","over":{"base":"Any"},"name":"test_spherical_bessel_correct"},"guarantee":"abs(lambdify(x, jtest)(test_point) - jtest.subs(x, test_point).evalf()) < 1e-08; abs(lambdify(x, ytest)(test_point) - ytest.subs(x, test_point).evalf()) < 1e-08","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_spherical_bessel_correct","statement":"Path(test_spherical_bessel(x), abs(lambdify(x, jtest)(test_point) - jtest.subs(x, test_point).evalf()) < 1e-08; abs(lambdify(x, ytest)(test_point) - ytest.subs(x, test_point).evalf()) < 1e-08)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f6ca60c418291a11","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["abs(lambdify(x, jtest)(test_point) - jtest.subs(x, test_point).evalf()) < 1e-08","abs(lambdify(x, ytest)(test_point) - ytest.subs(x, test_point).evalf()) < 1e-08"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_spherical_bessel():
     if numpy and not scipy:
         skip("scipy not installed.")
@@ -1093,16 +1410,23 @@ def test_spherical_bessel():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_vector_simple(), test_vector_simple produces the expected output) over Any ║
+# ║ Path(test_vector_simple(), f(3, 2, 1) == (1, 2, 3) and f(1.0, 2.0, 3.0) == (3.0, 2.0, 1.0)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_vector_simple : Any → {Any | f(3, 2, 1) == (1, 2...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f(3, 2, 1) == (1, 2, 3)                        ║
+# ║   ensures:  f(1.0, 2.0, 3.0) == (3.0, 2.0, 1.0)            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_vector_simple : Any → {Any | result satisfies: f...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 94ba6a6d332449fb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 087be8e9325981f3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_vector_simple","kind":"function","src_hash":"c6e1525d9860d1a4","in":{"base":"Any"},"out":{"base":"Any","pred":"f(3, 2, 1) == (1, 2, 3) and f(1.0, 2.0, 3.0) == (3.0, 2.0, 1.0)"},"spec":{"lhs":"test_vector_simple()","rhs":"test_vector_simple produces the expected output","over":{"base":"Any"},"name":"test_vector_simple_correct"},"guarantee":"test_vector_simple produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_vector_simple_correct","statement":"Path(test_vector_simple(x), test_vector_simple produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"94ba6a6d332449fb"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_vector_simple","kind":"function","src_hash":"c6e1525d9860d1a4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f(3, 2, 1) == (1, 2, 3) and f(1.0, 2.0, 3.0) == (3.0, 2.0, 1.0)"},"spec":{"lhs":"test_vector_simple()","rhs":"f(3, 2, 1) == (1, 2, 3) and f(1.0, 2.0, 3.0) == (3.0, 2.0, 1.0)","over":{"base":"Any"},"name":"test_vector_simple_correct"},"guarantee":"f(3, 2, 1) == (1, 2, 3); f(1.0, 2.0, 3.0) == (3.0, 2.0, 1.0)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_vector_simple_correct","statement":"Path(test_vector_simple(x), f(3, 2, 1) == (1, 2, 3); f(1.0, 2.0, 3.0) == (3.0, 2.0, 1.0))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"087be8e9325981f3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f(3, 2, 1) == (1, 2, 3)","f(1.0, 2.0, 3.0) == (3.0, 2.0, 1.0)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_vector_simple():
     f = lambdify((x, y, z), (z, y, x))
     assert f(3, 2, 1) == (1, 2, 3)
@@ -1112,16 +1436,24 @@ def test_vector_simple():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_vector_discontinuous(), test_vector_discontinuous produces the expected output) over Any ║
+# ║ Path(test_vector_discontinuous(), f(1) == (-1.0, 1.0) and f(2) == (-0.5, 0.5) and f(-2) == (0.5, -0.5)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_vector_discontinuous : Any → {Any | f(1) == (-1....   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f(1) == (-1.0, 1.0)                            ║
+# ║   ensures:  f(2) == (-0.5, 0.5)                            ║
+# ║   ensures:  f(-2) == (0.5, -0.5)                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_vector_discontinuous : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 90de8f75b1ec9d1c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ac3798ffb06d355d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_vector_discontinuous","kind":"function","src_hash":"57ec641e889c0bf4","in":{"base":"Any"},"out":{"base":"Any","pred":"f(1) == (-1.0, 1.0) and f(2) == (-0.5, 0.5) and f(-2) == (0.5, -0.5)"},"spec":{"lhs":"test_vector_discontinuous()","rhs":"test_vector_discontinuous produces the expected output","over":{"base":"Any"},"name":"test_vector_discontinuous_correct"},"guarantee":"test_vector_discontinuous produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_vector_discontinuous_correct","statement":"Path(test_vector_discontinuous(x), test_vector_discontinuous produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"90de8f75b1ec9d1c"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_vector_discontinuous","kind":"function","src_hash":"57ec641e889c0bf4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f(1) == (-1.0, 1.0) and f(2) == (-0.5, 0.5) and f(-2) == (0.5, -0.5)"},"spec":{"lhs":"test_vector_discontinuous()","rhs":"f(1) == (-1.0, 1.0) and f(2) == (-0.5, 0.5) and f(-2) == (0.5, -0.5)","over":{"base":"Any"},"name":"test_vector_discontinuous_correct"},"guarantee":"f(1) == (-1.0, 1.0); f(2) == (-0.5, 0.5); f(-2) == (0.5, -0.5)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_vector_discontinuous_correct","statement":"Path(test_vector_discontinuous(x), f(1) == (-1.0, 1.0); f(2) == (-0.5, 0.5); f(-2) == (0.5, -0.5))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ac3798ffb06d355d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f(1) == (-1.0, 1.0)","f(2) == (-0.5, 0.5)","f(-2) == (0.5, -0.5)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_vector_discontinuous():
     f = lambdify(x, (-1/x, 1/x))
     raises(ZeroDivisionError, lambda: f(0))
@@ -1131,16 +1463,23 @@ def test_vector_discontinuous():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_trig_symbolic(), test_trig_symbolic produces the expected output) over Any ║
+# ║ Path(test_trig_symbolic(), abs(d[0] + 1) < 0.0001 and abs(d[1] - 0) < 0.0001) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_trig_symbolic : Any → {Any | abs(d[0] + 1) < 0.0...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  abs(d[0] + 1) < 0.0001                         ║
+# ║   ensures:  abs(d[1] - 0) < 0.0001                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_trig_symbolic : Any → {Any | result satisfies: a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9410c169c018229c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 49a78694257d9f0a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_trig_symbolic","kind":"function","src_hash":"430de9551c9d0737","in":{"base":"Any"},"out":{"base":"Any","pred":"abs(d[0] + 1) < 0.0001 and abs(d[1] - 0) < 0.0001"},"spec":{"lhs":"test_trig_symbolic()","rhs":"test_trig_symbolic produces the expected output","over":{"base":"Any"},"name":"test_trig_symbolic_correct"},"guarantee":"test_trig_symbolic produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_trig_symbolic_correct","statement":"Path(test_trig_symbolic(x), test_trig_symbolic produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9410c169c018229c"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_trig_symbolic","kind":"function","src_hash":"430de9551c9d0737","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: abs(d[0] + 1) < 0.0001 and abs(d[1] - 0) < 0.0001"},"spec":{"lhs":"test_trig_symbolic()","rhs":"abs(d[0] + 1) < 0.0001 and abs(d[1] - 0) < 0.0001","over":{"base":"Any"},"name":"test_trig_symbolic_correct"},"guarantee":"abs(d[0] + 1) < 0.0001; abs(d[1] - 0) < 0.0001","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_trig_symbolic_correct","statement":"Path(test_trig_symbolic(x), abs(d[0] + 1) < 0.0001; abs(d[1] - 0) < 0.0001)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"49a78694257d9f0a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["abs(d[0] + 1) < 0.0001","abs(d[1] - 0) < 0.0001"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_trig_symbolic():
     f = lambdify([x], [cos(x), sin(x)], 'math')
     d = f(pi)
@@ -1149,16 +1488,23 @@ def test_trig_symbolic():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_trig_float(), test_trig_float produces the expected output) over Any ║
+# ║ Path(test_trig_float(), abs(d[0] + 1) < 0.0001 and abs(d[1] - 0) < 0.0001) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_trig_float : Any → {Any | abs(d[0] + 1) < 0.0001...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  abs(d[0] + 1) < 0.0001                         ║
+# ║   ensures:  abs(d[1] - 0) < 0.0001                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_trig_float : Any → {Any | result satisfies: abs(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3e203536fdbbd361  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d0dec3281d8182ef  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_trig_float","kind":"function","src_hash":"024920672d55f099","in":{"base":"Any"},"out":{"base":"Any","pred":"abs(d[0] + 1) < 0.0001 and abs(d[1] - 0) < 0.0001"},"spec":{"lhs":"test_trig_float()","rhs":"test_trig_float produces the expected output","over":{"base":"Any"},"name":"test_trig_float_correct"},"guarantee":"test_trig_float produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_trig_float_correct","statement":"Path(test_trig_float(x), test_trig_float produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3e203536fdbbd361"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_trig_float","kind":"function","src_hash":"024920672d55f099","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: abs(d[0] + 1) < 0.0001 and abs(d[1] - 0) < 0.0001"},"spec":{"lhs":"test_trig_float()","rhs":"abs(d[0] + 1) < 0.0001 and abs(d[1] - 0) < 0.0001","over":{"base":"Any"},"name":"test_trig_float_correct"},"guarantee":"abs(d[0] + 1) < 0.0001; abs(d[1] - 0) < 0.0001","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_trig_float_correct","statement":"Path(test_trig_float(x), abs(d[0] + 1) < 0.0001; abs(d[1] - 0) < 0.0001)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d0dec3281d8182ef","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["abs(d[0] + 1) < 0.0001","abs(d[1] - 0) < 0.0001"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_trig_float():
     f = lambdify([x], [cos(x), sin(x)])
     d = f(3.14159)
@@ -1167,16 +1513,24 @@ def test_trig_float():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_docs(), test_docs produces the expected output) over Any ║
+# ║ Path(test_docs(), f(2) == 4 and f(1, 2, 3) == [3, 2, 1] and f(4) == 2.0 and f(0, 5) == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_docs : Any → {Any | f(2) == 4 and f(1, 2, 3) == ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f(2) == 4                                      ║
+# ║   ensures:  f(1, 2, 3) == [3, 2, 1]                        ║
+# ║   ensures:  f(4) == 2.0                                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_docs : Any → {Any | result satisfies: f(2) == 4 ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 81bb914310d43bfa  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a96f3e1ce499258c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_docs","kind":"function","src_hash":"d330c3885bda9217","in":{"base":"Any"},"out":{"base":"Any","pred":"f(2) == 4 and f(1, 2, 3) == [3, 2, 1] and f(4) == 2.0 and f(0, 5) == 0"},"spec":{"lhs":"test_docs()","rhs":"test_docs produces the expected output","over":{"base":"Any"},"name":"test_docs_correct"},"guarantee":"test_docs produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_docs_correct","statement":"Path(test_docs(x), test_docs produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"81bb914310d43bfa"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_docs","kind":"function","src_hash":"d330c3885bda9217","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f(2) == 4 and f(1, 2, 3) == [3, 2, 1] and f(4) == 2.0 and f(0, 5) == 0"},"spec":{"lhs":"test_docs()","rhs":"f(2) == 4 and f(1, 2, 3) == [3, 2, 1] and f(4) == 2.0 and f(0, 5) == 0","over":{"base":"Any"},"name":"test_docs_correct"},"guarantee":"f(2) == 4; f(1, 2, 3) == [3, 2, 1]; f(4) == 2.0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_docs_correct","statement":"Path(test_docs(x), f(2) == 4; f(1, 2, 3) == [3, 2, 1]; f(4) == 2.0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a96f3e1ce499258c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f(2) == 4","f(1, 2, 3) == [3, 2, 1]","f(4) == 2.0","f(0, 5) == 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_docs():
     f = lambdify(x, x**2)
     assert f(2) == 4
@@ -1189,25 +1543,34 @@ def test_docs():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_math(), test_math produces the expected output) over Any ║
+# ║ Path(test_math(), f(0, 5) == 0) over Any                   ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_math : Any → {Any | f(0, 5) == 0}                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f(0, 5) == 0                                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_math : Any → {Any | result satisfies: f(0, 5) == 0}   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f0a886f394af691a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f35c3ec5e4b0da8b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_math","kind":"function","src_hash":"26b409c5723f9089","in":{"base":"Any"},"out":{"base":"Any","pred":"f(0, 5) == 0"},"spec":{"lhs":"test_math()","rhs":"test_math produces the expected output","over":{"base":"Any"},"name":"test_math_correct"},"guarantee":"test_math produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_math_correct","statement":"Path(test_math(x), test_math produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f0a886f394af691a"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_math","kind":"function","src_hash":"26b409c5723f9089","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f(0, 5) == 0"},"spec":{"lhs":"test_math()","rhs":"f(0, 5) == 0","over":{"base":"Any"},"name":"test_math_correct"},"guarantee":"f(0, 5) == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_math_correct","statement":"Path(test_math(x), f(0, 5) == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f35c3ec5e4b0da8b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f(0, 5) == 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_math():
     f = lambdify((x, y), sin(x), modules="math")
     assert f(0, 5) == 0
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_sin(), test_sin produces the expected output) over {Any | isinstance(f(2), float)} ║
+# ║ Path(test_sin(), isinstance(f(2), float)) over {Any | isinstance(f(2), float)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_sin : {Any | isinstance(f(2), float)} → {Any | i...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(f(2), float)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_sin : {Any | isinstance(f(2), float)} → {Any | r...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   float: {isinstance(f(2), float)} → library_axiom         ║
@@ -1217,9 +1580,12 @@ def test_math():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.4ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 45b129a4...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_sin","kind":"function","src_hash":"ba51c01f451df681","in":{"base":"Any","pred":"isinstance(f(2), float)"},"out":{"base":"Any","pred":"isinstance(f(2), float) and isinstance(f(2), float)"},"spec":{"lhs":"test_sin()","rhs":"test_sin produces the expected output","over":{"base":"Any","pred":"isinstance(f(2), float)"},"name":"test_sin_correct"},"guarantee":"test_sin produces the expected output","fibers":[{"name":"float","pred":"isinstance(f(2), float)","path":{"lhs":"test_sin(x)","rhs":"test_sin produces the expected output","over":{"base":"float","pred":"isinstance(f(2), float)"},"name":"test_sin_float_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_sin_float_correct","statement":"test_sin satisfies spec on float inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"45b129a453e86475"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_sin","kind":"function","src_hash":"ba51c01f451df681","in":{"base":"Any","pred":"isinstance(f(2), float)"},"out":{"base":"Any","pred":"result satisfies: isinstance(f(2), float)"},"spec":{"lhs":"test_sin()","rhs":"isinstance(f(2), float)","over":{"base":"Any","pred":"isinstance(f(2), float)"},"name":"test_sin_correct"},"guarantee":"isinstance(f(2), float)","fibers":[{"name":"float","pred":"isinstance(f(2), float)","path":{"lhs":"test_sin(x)","rhs":"isinstance(f(2), float)","over":{"base":"float","pred":"isinstance(f(2), float)"},"name":"test_sin_float_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_sin_float_correct","statement":"test_sin satisfies spec on float inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"45b129a453e86475","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(f(2), float)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.4,"verdict_class":"failed","binding":true}}
 def test_sin():
     f = lambdify(x, sin(x)**2)
     assert isinstance(f(2), float)
@@ -1228,16 +1594,24 @@ def test_sin():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_matrix(), test_matrix produces the expected output) over Any ║
+# ║ Path(test_matrix(), f(1, 2, 3) == sol and f(1, 2, 3) == (sol, [sol]) and lambdify(v, J, modules='sympy')(1, 2) == sol and lambdify(v.T, J, modules='sympy')(1, 2) == sol) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_matrix : Any → {Any | f(1, 2, 3) == sol and f(1,...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f(1, 2, 3) == sol                              ║
+# ║   ensures:  f(1, 2, 3) == (sol, [sol])                     ║
+# ║   ensures:  lambdify(v, J, modules='sympy')(1, 2) == sol   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_matrix : Any → {Any | result satisfies: f(1, 2, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d4f33d91f90bcb22  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9fc0297b519782a5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_matrix","kind":"function","src_hash":"b2184a95082c8b4d","in":{"base":"Any"},"out":{"base":"Any","pred":"f(1, 2, 3) == sol and f(1, 2, 3) == (sol, [sol]) and lambdify(v, J, modules='sympy')(1, 2) == sol and lambdify(v.T, J, modules='sympy')(1, 2) == sol"},"spec":{"lhs":"test_matrix()","rhs":"test_matrix produces the expected output","over":{"base":"Any"},"name":"test_matrix_correct"},"guarantee":"test_matrix produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_matrix_correct","statement":"Path(test_matrix(x), test_matrix produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d4f33d91f90bcb22"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_matrix","kind":"function","src_hash":"b2184a95082c8b4d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f(1, 2, 3) == sol and f(1, 2, 3) == (sol, [sol]) and lambdify(v, J, modules='sympy')(1, 2) == sol and lambdify(v.T, J, modules='sympy')(1, 2) == sol"},"spec":{"lhs":"test_matrix()","rhs":"f(1, 2, 3) == sol and f(1, 2, 3) == (sol, [sol]) and lambdify(v, J, modules='sympy')(1, 2) == sol and lambdify(v.T, J, modules='sympy')(1, 2) == sol","over":{"base":"Any"},"name":"test_matrix_correct"},"guarantee":"f(1, 2, 3) == sol; f(1, 2, 3) == (sol, [sol]); lambdify(v, J, modules='sympy')(1, 2) == sol","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_matrix_correct","statement":"Path(test_matrix(x), f(1, 2, 3) == sol; f(1, 2, 3) == (sol, [sol]); lambdify(v, J, modules='sympy')(1, 2) == sol)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9fc0297b519782a5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f(1, 2, 3) == sol","f(1, 2, 3) == (sol, [sol])","lambdify(v, J, modules='sympy')(1, 2) == sol","lambdify(v.T, J, modules='sympy')(1, 2) == sol"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_matrix():
     A = Matrix([[x, x*y], [sin(z) + 4, x**z]])
     sol = Matrix([[1, 2], [sin(3) + 4, 1]])
@@ -1253,7 +1627,12 @@ def test_matrix():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_numpy_matrix(), test_numpy_matrix produces the expected output) over {Any | isinstance(f(1, 2, 3), numpy.ndarray)} ║
+# ║ Path(test_numpy_matrix(), isinstance(f(1, 2, 3), numpy.ndarray) and numpy.all(f_dot1(inp) == 0) and numpy.all(f_dot2(inp) == 0)) over {Any | isinstance(f(1, 2, 3), numpy.ndarray)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(f(1, 2, 3), numpy.ndarray)          ║
+# ║   ensures:  numpy.all(f_dot1(inp) == 0)                    ║
+# ║   ensures:  numpy.all(f_dot2(inp) == 0)                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_numpy_matrix : {Any | isinstance(f(1, 2, 3), num...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -1265,9 +1644,12 @@ def test_matrix():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.5ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 2b6f9394...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_numpy_matrix","kind":"function","src_hash":"5e30b12b6b620ac4","in":{"base":"Any","pred":"isinstance(f(1, 2, 3), numpy.ndarray)"},"out":{"base":"Any","pred":"isinstance(f(1, 2, 3), numpy.ndarray) and numpy.all(f_dot1(inp) == 0) and numpy.all(f_dot2(inp) == 0)"},"spec":{"lhs":"test_numpy_matrix()","rhs":"test_numpy_matrix produces the expected output","over":{"base":"Any","pred":"isinstance(f(1, 2, 3), numpy.ndarray)"},"name":"test_numpy_matrix_correct"},"guarantee":"test_numpy_matrix produces the expected output","fibers":[{"name":"2","pred":"isinstance(f(1, 2, 3), numpy.ndarray)","path":{"lhs":"test_numpy_matrix(x)","rhs":"test_numpy_matrix produces the expected output","over":{"base":"2","pred":"isinstance(f(1, 2, 3), numpy.ndarray)"},"name":"test_numpy_matrix_2_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_numpy_matrix_2_correct","statement":"test_numpy_matrix satisfies spec on 2 inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"2b6f939462d660bf"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_numpy_matrix","kind":"function","src_hash":"5e30b12b6b620ac4","in":{"base":"Any","pred":"isinstance(f(1, 2, 3), numpy.ndarray)"},"out":{"base":"Any","pred":"result satisfies: isinstance(f(1, 2, 3), numpy.ndarray) and numpy.all(f_dot1(inp) == 0) and numpy.all(f_dot2(inp) == 0)"},"spec":{"lhs":"test_numpy_matrix()","rhs":"isinstance(f(1, 2, 3), numpy.ndarray) and numpy.all(f_dot1(inp) == 0) and numpy.all(f_dot2(inp) == 0)","over":{"base":"Any","pred":"isinstance(f(1, 2, 3), numpy.ndarray)"},"name":"test_numpy_matrix_correct"},"guarantee":"isinstance(f(1, 2, 3), numpy.ndarray); numpy.all(f_dot1(inp) == 0); numpy.all(f_dot2(inp) == 0)","fibers":[{"name":"2","pred":"isinstance(f(1, 2, 3), numpy.ndarray)","path":{"lhs":"test_numpy_matrix(x)","rhs":"isinstance(f(1, 2, 3), numpy.ndarray); numpy.all(f_dot1(inp) == 0); numpy.all(f_dot2(inp) == 0)","over":{"base":"2","pred":"isinstance(f(1, 2, 3), numpy.ndarray)"},"name":"test_numpy_matrix_2_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_numpy_matrix_2_correct","statement":"test_numpy_matrix satisfies spec on 2 inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"2b6f939462d660bf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(f(1, 2, 3), numpy.ndarray)","numpy.all(f_dot1(inp) == 0)","numpy.all(f_dot2(inp) == 0)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.5,"verdict_class":"failed","binding":true}}
 def test_numpy_matrix():
     if not numpy:
         skip("numpy not installed.")
@@ -1298,16 +1680,22 @@ def test_numpy_matrix():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_numpy_transpose(), test_numpy_transpose produces the expected output) over Any ║
+# ║ Path(test_numpy_transpose(), <unspecified:test_numpy_transpose>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_numpy_transpose : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 23dc8726bbe261c8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_numpy_transpose","kind":"function","src_hash":"a64d1fe10dca1ac0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_numpy_transpose()","rhs":"test_numpy_transpose produces the expected output","over":{"base":"Any"},"name":"test_numpy_transpose_correct"},"guarantee":"test_numpy_transpose produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_numpy_transpose_correct","statement":"Path(test_numpy_transpose(x), test_numpy_transpose produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"23dc8726bbe261c8"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_numpy_transpose","kind":"function","src_hash":"a64d1fe10dca1ac0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_numpy_transpose()","rhs":"<unspecified:test_numpy_transpose>","over":{"base":"Any"},"name":"test_numpy_transpose_correct"},"guarantee":"test_numpy_transpose produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_numpy_transpose_correct","statement":"Path(test_numpy_transpose(x), test_numpy_transpose produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"23dc8726bbe261c8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_numpy_transpose():
     if not numpy:
         skip("numpy not installed.")
@@ -1317,16 +1705,22 @@ def test_numpy_transpose():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_numpy_dotproduct(), test_numpy_dotproduct produces the expected output) over Any ║
+# ║ Path(test_numpy_dotproduct(), f1(1, 2, 3) == f2(1, 2, 3) == f3(1, 2, 3) == f4(1, 2, 3) == numpy.array([14])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_numpy_dotproduct : Any → {Any | f1(1, 2, 3) == f...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f1(1, 2, 3) == f2(1, 2, 3) == f3(1, 2, 3)...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_numpy_dotproduct : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 20c3a4e6a6394d7d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 346a14a6e6f135ce  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_numpy_dotproduct","kind":"function","src_hash":"c6bc57bf05bfd51d","in":{"base":"Any"},"out":{"base":"Any","pred":"f1(1, 2, 3) == f2(1, 2, 3) == f3(1, 2, 3) == f4(1, 2, 3) == numpy.array([14])"},"spec":{"lhs":"test_numpy_dotproduct()","rhs":"test_numpy_dotproduct produces the expected output","over":{"base":"Any"},"name":"test_numpy_dotproduct_correct"},"guarantee":"test_numpy_dotproduct produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_numpy_dotproduct_correct","statement":"Path(test_numpy_dotproduct(x), test_numpy_dotproduct produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"20c3a4e6a6394d7d"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_numpy_dotproduct","kind":"function","src_hash":"c6bc57bf05bfd51d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f1(1, 2, 3) == f2(1, 2, 3) == f3(1, 2, 3) == f4(1, 2, 3) == numpy.array([14])"},"spec":{"lhs":"test_numpy_dotproduct()","rhs":"f1(1, 2, 3) == f2(1, 2, 3) == f3(1, 2, 3) == f4(1, 2, 3) == numpy.array([14])","over":{"base":"Any"},"name":"test_numpy_dotproduct_correct"},"guarantee":"f1(1, 2, 3) == f2(1, 2, 3) == f3(1, 2, 3) == f4(1, 2, 3) == numpy.array([14])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_numpy_dotproduct_correct","statement":"Path(test_numpy_dotproduct(x), f1(1, 2, 3) == f2(1, 2, 3) == f3(1, 2, 3) == f4(1, 2, 3) == numpy.array([14]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"346a14a6e6f135ce","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f1(1, 2, 3) == f2(1, 2, 3) == f3(1, 2, 3) == f4(1, 2, 3) == numpy.array([14])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_numpy_dotproduct():
     if not numpy:
         skip("numpy not installed")
@@ -1344,16 +1738,22 @@ def test_numpy_dotproduct():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_numpy_inverse(), test_numpy_inverse produces the expected output) over Any ║
+# ║ Path(test_numpy_inverse(), <unspecified:test_numpy_inverse>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_numpy_inverse : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 673c72d1692ba341  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_numpy_inverse","kind":"function","src_hash":"c6f3a3cc35094d5a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_numpy_inverse()","rhs":"test_numpy_inverse produces the expected output","over":{"base":"Any"},"name":"test_numpy_inverse_correct"},"guarantee":"test_numpy_inverse produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_numpy_inverse_correct","statement":"Path(test_numpy_inverse(x), test_numpy_inverse produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"673c72d1692ba341"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_numpy_inverse","kind":"function","src_hash":"c6f3a3cc35094d5a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_numpy_inverse()","rhs":"<unspecified:test_numpy_inverse>","over":{"base":"Any"},"name":"test_numpy_inverse_correct"},"guarantee":"test_numpy_inverse produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_numpy_inverse_correct","statement":"Path(test_numpy_inverse(x), test_numpy_inverse produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"673c72d1692ba341","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_numpy_inverse():
     if not numpy:
         skip("numpy not installed.")
@@ -1363,7 +1763,10 @@ def test_numpy_inverse():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_numpy_old_matrix(), test_numpy_old_matrix produces the expected output) over {Any | isinstance(f(1, 2, 3), numpy.matrix)} ║
+# ║ Path(test_numpy_old_matrix(), <unspecified:test_numpy_old_matrix>) over {Any | isinstance(f(1, 2, 3), numpy.matrix)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_numpy_old_matrix : {Any | isinstance(f(1, 2, 3),...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -1375,9 +1778,12 @@ def test_numpy_inverse():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.4ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 268c75f2...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_numpy_old_matrix","kind":"function","src_hash":"b95417fb709b9cb9","in":{"base":"Any","pred":"isinstance(f(1, 2, 3), numpy.matrix)"},"out":{"base":"Any","pred":"isinstance(f(1, 2, 3), numpy.matrix)"},"spec":{"lhs":"test_numpy_old_matrix()","rhs":"test_numpy_old_matrix produces the expected output","over":{"base":"Any","pred":"isinstance(f(1, 2, 3), numpy.matrix)"},"name":"test_numpy_old_matrix_correct"},"guarantee":"test_numpy_old_matrix produces the expected output","fibers":[{"name":"2","pred":"isinstance(f(1, 2, 3), numpy.matrix)","path":{"lhs":"test_numpy_old_matrix(x)","rhs":"test_numpy_old_matrix produces the expected output","over":{"base":"2","pred":"isinstance(f(1, 2, 3), numpy.matrix)"},"name":"test_numpy_old_matrix_2_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_numpy_old_matrix_2_correct","statement":"test_numpy_old_matrix satisfies spec on 2 inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"268c75f20866b6c0"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_numpy_old_matrix","kind":"function","src_hash":"b95417fb709b9cb9","in":{"base":"Any","pred":"isinstance(f(1, 2, 3), numpy.matrix)"},"out":{"base":"Any","pred":"isinstance(f(1, 2, 3), numpy.matrix)"},"spec":{"lhs":"test_numpy_old_matrix()","rhs":"<unspecified:test_numpy_old_matrix>","over":{"base":"Any","pred":"isinstance(f(1, 2, 3), numpy.matrix)"},"name":"test_numpy_old_matrix_correct"},"guarantee":"test_numpy_old_matrix produces the expected output","fibers":[{"name":"2","pred":"isinstance(f(1, 2, 3), numpy.matrix)","path":{"lhs":"test_numpy_old_matrix(x)","rhs":"test_numpy_old_matrix produces the expected output","over":{"base":"2","pred":"isinstance(f(1, 2, 3), numpy.matrix)"},"name":"test_numpy_old_matrix_2_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_numpy_old_matrix_2_correct","statement":"test_numpy_old_matrix satisfies spec on 2 inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"268c75f20866b6c0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.4,"verdict_class":"failed","binding":true}}
 def test_numpy_old_matrix():
     if not numpy:
         skip("numpy not installed.")
@@ -1390,7 +1796,10 @@ def test_numpy_old_matrix():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_scipy_sparse_matrix(), test_scipy_sparse_matrix produces the expected output) over {Any | isinstance(B, scipy.sparse.coo_matrix)} ║
+# ║ Path(test_scipy_sparse_matrix(), isinstance(B, scipy.sparse.coo_matrix)) over {Any | isinstance(B, scipy.sparse.coo_matrix)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(B, scipy.sparse.coo_matrix)         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_scipy_sparse_matrix : {Any | isinstance(B, scipy...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -1402,9 +1811,12 @@ def test_numpy_old_matrix():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 9417e0ed...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_scipy_sparse_matrix","kind":"function","src_hash":"46febd7a06d9793e","in":{"base":"Any","pred":"isinstance(B, scipy.sparse.coo_matrix)"},"out":{"base":"Any","pred":"isinstance(B, scipy.sparse.coo_matrix)"},"spec":{"lhs":"test_scipy_sparse_matrix()","rhs":"test_scipy_sparse_matrix produces the expected output","over":{"base":"Any","pred":"isinstance(B, scipy.sparse.coo_matrix)"},"name":"test_scipy_sparse_matrix_correct"},"guarantee":"test_scipy_sparse_matrix produces the expected output","fibers":[{"name":"scipy_sparse_coo_matrix","pred":"isinstance(B, scipy.sparse.coo_matrix)","path":{"lhs":"test_scipy_sparse_matrix(x)","rhs":"test_scipy_sparse_matrix produces the expected output","over":{"base":"scipy.sparse.coo_matrix","pred":"isinstance(B, scipy.sparse.coo_matrix)"},"name":"test_scipy_sparse_matrix_scipy.sparse.coo_matrix_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_scipy_sparse_matrix_scipy.sparse.coo_matrix_correct","statement":"test_scipy_sparse_matrix satisfies spec on scipy.sparse.coo_matrix inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"9417e0ed94ad016a"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_scipy_sparse_matrix","kind":"function","src_hash":"46febd7a06d9793e","in":{"base":"Any","pred":"isinstance(B, scipy.sparse.coo_matrix)"},"out":{"base":"Any","pred":"result satisfies: isinstance(B, scipy.sparse.coo_matrix)"},"spec":{"lhs":"test_scipy_sparse_matrix()","rhs":"isinstance(B, scipy.sparse.coo_matrix)","over":{"base":"Any","pred":"isinstance(B, scipy.sparse.coo_matrix)"},"name":"test_scipy_sparse_matrix_correct"},"guarantee":"isinstance(B, scipy.sparse.coo_matrix)","fibers":[{"name":"scipy_sparse_coo_matrix","pred":"isinstance(B, scipy.sparse.coo_matrix)","path":{"lhs":"test_scipy_sparse_matrix(x)","rhs":"isinstance(B, scipy.sparse.coo_matrix)","over":{"base":"scipy.sparse.coo_matrix","pred":"isinstance(B, scipy.sparse.coo_matrix)"},"name":"test_scipy_sparse_matrix_scipy.sparse.coo_matrix_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_scipy_sparse_matrix_scipy.sparse.coo_matrix_correct","statement":"test_scipy_sparse_matrix satisfies spec on scipy.sparse.coo_matrix inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"9417e0ed94ad016a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(B, scipy.sparse.coo_matrix)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"failed","binding":true}}
 def test_scipy_sparse_matrix():
     if not scipy:
         skip("scipy not installed.")
@@ -1415,16 +1827,22 @@ def test_scipy_sparse_matrix():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_python_div_zero_issue_11306(), test_python_div_zero_issue_11306 produces the expected output) over Any ║
+# ║ Path(test_python_div_zero_issue_11306(), <unspecified:test_python_div_zero_issue_11306>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_python_div_zero_issue_11306 : Any → {Any | float...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 54f7dd971e4b7275  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_python_div_zero_issue_11306","kind":"function","src_hash":"ae94da73c39f3ba3","in":{"base":"Any"},"out":{"base":"Any","pred":"float(f(numpy.array(0), numpy.array(0.5))) == 0 and float(f(numpy.array(0), numpy.array(1))) == float('inf')"},"spec":{"lhs":"test_python_div_zero_issue_11306()","rhs":"test_python_div_zero_issue_11306 produces the expected output","over":{"base":"Any"},"name":"test_python_div_zero_issue_11306_correct"},"guarantee":"test_python_div_zero_issue_11306 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_python_div_zero_issue_11306_correct","statement":"Path(test_python_div_zero_issue_11306(x), test_python_div_zero_issue_11306 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"54f7dd971e4b7275"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_python_div_zero_issue_11306","kind":"function","src_hash":"ae94da73c39f3ba3","in":{"base":"Any"},"out":{"base":"Any","pred":"float(f(numpy.array(0), numpy.array(0.5))) == 0 and float(f(numpy.array(0), numpy.array(1))) == float('inf')"},"spec":{"lhs":"test_python_div_zero_issue_11306()","rhs":"<unspecified:test_python_div_zero_issue_11306>","over":{"base":"Any"},"name":"test_python_div_zero_issue_11306_correct"},"guarantee":"test_python_div_zero_issue_11306 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_python_div_zero_issue_11306_correct","statement":"Path(test_python_div_zero_issue_11306(x), test_python_div_zero_issue_11306 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"54f7dd971e4b7275","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_python_div_zero_issue_11306():
     if not numpy:
         skip("numpy not installed.")
@@ -1436,16 +1854,22 @@ def test_python_div_zero_issue_11306():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue9474(), test_issue9474 produces the expected output) over Any ║
+# ║ Path(test_issue9474(), <unspecified:test_issue9474>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_issue9474 : Any → {Any | f(2) == 0.5 and f(2) ==...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c9e4acbd5ca9afb4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_issue9474","kind":"function","src_hash":"e812a29b12e19794","in":{"base":"Any"},"out":{"base":"Any","pred":"f(2) == 0.5 and f(2) == 0 and f(-1) == 1 and f(1) == 1 and f(3 + 4j) == 5"},"spec":{"lhs":"test_issue9474()","rhs":"test_issue9474 produces the expected output","over":{"base":"Any"},"name":"test_issue9474_correct"},"guarantee":"test_issue9474 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_issue9474_correct","statement":"Path(test_issue9474(x), test_issue9474 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c9e4acbd5ca9afb4"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_issue9474","kind":"function","src_hash":"e812a29b12e19794","in":{"base":"Any"},"out":{"base":"Any","pred":"f(2) == 0.5 and f(2) == 0 and f(-1) == 1 and f(1) == 1 and f(3 + 4j) == 5"},"spec":{"lhs":"test_issue9474()","rhs":"<unspecified:test_issue9474>","over":{"base":"Any"},"name":"test_issue9474_correct"},"guarantee":"test_issue9474 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_issue9474_correct","statement":"Path(test_issue9474(x), test_issue9474 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c9e4acbd5ca9afb4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_issue9474():
     mods = [None, 'math']
     if numpy:
@@ -1466,16 +1890,22 @@ def test_issue9474():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_9871(), test_issue_9871 produces the expected output) over Any ║
+# ║ Path(test_issue_9871(), <unspecified:test_issue_9871>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_issue_9871 : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f74210b155259d1d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_issue_9871","kind":"function","src_hash":"493e62835dd45b84","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_issue_9871()","rhs":"test_issue_9871 produces the expected output","over":{"base":"Any"},"name":"test_issue_9871_correct"},"guarantee":"test_issue_9871 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_issue_9871_correct","statement":"Path(test_issue_9871(x), test_issue_9871 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f74210b155259d1d"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_issue_9871","kind":"function","src_hash":"493e62835dd45b84","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_issue_9871()","rhs":"<unspecified:test_issue_9871>","over":{"base":"Any"},"name":"test_issue_9871_correct"},"guarantee":"test_issue_9871 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_issue_9871_correct","statement":"Path(test_issue_9871(x), test_issue_9871 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f74210b155259d1d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_issue_9871():
     if not numexpr:
         skip("numexpr not installed.")
@@ -1496,16 +1926,22 @@ def test_issue_9871():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_numpy_piecewise(), test_numpy_piecewise produces the expected output) over Any ║
+# ║ Path(test_numpy_piecewise(), <unspecified:test_numpy_piecewise>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_numpy_piecewise : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 15a977cec7c65fa6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_numpy_piecewise","kind":"function","src_hash":"8a03a3a805aa25b1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_numpy_piecewise()","rhs":"test_numpy_piecewise produces the expected output","over":{"base":"Any"},"name":"test_numpy_piecewise_correct"},"guarantee":"test_numpy_piecewise produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_numpy_piecewise_correct","statement":"Path(test_numpy_piecewise(x), test_numpy_piecewise produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"15a977cec7c65fa6"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_numpy_piecewise","kind":"function","src_hash":"8a03a3a805aa25b1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_numpy_piecewise()","rhs":"<unspecified:test_numpy_piecewise>","over":{"base":"Any"},"name":"test_numpy_piecewise_correct"},"guarantee":"test_numpy_piecewise produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_numpy_piecewise_correct","statement":"Path(test_numpy_piecewise(x), test_numpy_piecewise produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"15a977cec7c65fa6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_numpy_piecewise():
     if not numpy:
         skip("numpy not installed.")
@@ -1520,16 +1956,22 @@ def test_numpy_piecewise():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_numpy_logical_ops(), test_numpy_logical_ops produces the expected output) over Any ║
+# ║ Path(test_numpy_logical_ops(), <unspecified:test_numpy_logical_ops>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_numpy_logical_ops : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e2724e35edef85f0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_numpy_logical_ops","kind":"function","src_hash":"47be86cbd6a3ddd9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_numpy_logical_ops()","rhs":"test_numpy_logical_ops produces the expected output","over":{"base":"Any"},"name":"test_numpy_logical_ops_correct"},"guarantee":"test_numpy_logical_ops produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_numpy_logical_ops_correct","statement":"Path(test_numpy_logical_ops(x), test_numpy_logical_ops produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e2724e35edef85f0"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_numpy_logical_ops","kind":"function","src_hash":"47be86cbd6a3ddd9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_numpy_logical_ops()","rhs":"<unspecified:test_numpy_logical_ops>","over":{"base":"Any"},"name":"test_numpy_logical_ops_correct"},"guarantee":"test_numpy_logical_ops produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_numpy_logical_ops_correct","statement":"Path(test_numpy_logical_ops(x), test_numpy_logical_ops produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e2724e35edef85f0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_numpy_logical_ops():
     if not numpy:
         skip("numpy not installed.")
@@ -1549,16 +1991,22 @@ def test_numpy_logical_ops():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_numpy_matmul(), test_numpy_matmul produces the expected output) over Any ║
+# ║ Path(test_numpy_matmul(), <unspecified:test_numpy_matmul>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_numpy_matmul : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fbe26a95679dbbd8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_numpy_matmul","kind":"function","src_hash":"9626db22742e024f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_numpy_matmul()","rhs":"test_numpy_matmul produces the expected output","over":{"base":"Any"},"name":"test_numpy_matmul_correct"},"guarantee":"test_numpy_matmul produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_numpy_matmul_correct","statement":"Path(test_numpy_matmul(x), test_numpy_matmul produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fbe26a95679dbbd8"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_numpy_matmul","kind":"function","src_hash":"9626db22742e024f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_numpy_matmul()","rhs":"<unspecified:test_numpy_matmul>","over":{"base":"Any"},"name":"test_numpy_matmul_correct"},"guarantee":"test_numpy_matmul produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_numpy_matmul_correct","statement":"Path(test_numpy_matmul(x), test_numpy_matmul produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fbe26a95679dbbd8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_numpy_matmul():
     if not numpy:
         skip("numpy not installed.")
@@ -1574,16 +2022,22 @@ def test_numpy_matmul():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_numpy_numexpr(), test_numpy_numexpr produces the expected output) over Any ║
+# ║ Path(test_numpy_numexpr(), numpy.allclose(npfunc(a, b, c), nefunc(a, b, c))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_numpy_numexpr : Any → {Any | numpy.allclose(npfu...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  numpy.allclose(npfunc(a, b, c), nefunc(a,...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_numpy_numexpr : Any → {Any | result satisfies: n...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e01f8d11c9ef154e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6ec243b2a14a435a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_numpy_numexpr","kind":"function","src_hash":"b5f4b4aee7076148","in":{"base":"Any"},"out":{"base":"Any","pred":"numpy.allclose(npfunc(a, b, c), nefunc(a, b, c))"},"spec":{"lhs":"test_numpy_numexpr()","rhs":"test_numpy_numexpr produces the expected output","over":{"base":"Any"},"name":"test_numpy_numexpr_correct"},"guarantee":"test_numpy_numexpr produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_numpy_numexpr_correct","statement":"Path(test_numpy_numexpr(x), test_numpy_numexpr produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e01f8d11c9ef154e"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_numpy_numexpr","kind":"function","src_hash":"b5f4b4aee7076148","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: numpy.allclose(npfunc(a, b, c), nefunc(a, b, c))"},"spec":{"lhs":"test_numpy_numexpr()","rhs":"numpy.allclose(npfunc(a, b, c), nefunc(a, b, c))","over":{"base":"Any"},"name":"test_numpy_numexpr_correct"},"guarantee":"numpy.allclose(npfunc(a, b, c), nefunc(a, b, c))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_numpy_numexpr_correct","statement":"Path(test_numpy_numexpr(x), numpy.allclose(npfunc(a, b, c), nefunc(a, b, c)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6ec243b2a14a435a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["numpy.allclose(npfunc(a, b, c), nefunc(a, b, c))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_numpy_numexpr():
     if not numpy:
         skip("numpy not installed.")
@@ -1599,16 +2053,23 @@ def test_numpy_numexpr():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_numexpr_userfunctions(), test_numexpr_userfunctions produces the expected output) over Any ║
+# ║ Path(test_numexpr_userfunctions(), numpy.allclose(func(a), -a ** 2) and numpy.allclose(func(a, b), 2 * a * b + 1)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_numexpr_userfunctions : Any → {Any | numpy.allcl...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  numpy.allclose(func(a), -a ** 2)               ║
+# ║   ensures:  numpy.allclose(func(a, b), 2 * a * b + 1)      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_numexpr_userfunctions : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b886028b31c6e9cc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e202da8fce5d3d01  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_numexpr_userfunctions","kind":"function","src_hash":"aa1c3551f07f40e9","in":{"base":"Any"},"out":{"base":"Any","pred":"numpy.allclose(func(a), -a ** 2) and numpy.allclose(func(a, b), 2 * a * b + 1)"},"spec":{"lhs":"test_numexpr_userfunctions()","rhs":"test_numexpr_userfunctions produces the expected output","over":{"base":"Any"},"name":"test_numexpr_userfunctions_correct"},"guarantee":"test_numexpr_userfunctions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_numexpr_userfunctions_correct","statement":"Path(test_numexpr_userfunctions(x), test_numexpr_userfunctions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b886028b31c6e9cc"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_numexpr_userfunctions","kind":"function","src_hash":"aa1c3551f07f40e9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: numpy.allclose(func(a), -a ** 2) and numpy.allclose(func(a, b), 2 * a * b + 1)"},"spec":{"lhs":"test_numexpr_userfunctions()","rhs":"numpy.allclose(func(a), -a ** 2) and numpy.allclose(func(a, b), 2 * a * b + 1)","over":{"base":"Any"},"name":"test_numexpr_userfunctions_correct"},"guarantee":"numpy.allclose(func(a), -a ** 2); numpy.allclose(func(a, b), 2 * a * b + 1)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_numexpr_userfunctions_correct","statement":"Path(test_numexpr_userfunctions(x), numpy.allclose(func(a), -a ** 2); numpy.allclose(func(a, b), 2 * a * b + 1))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e202da8fce5d3d01","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["numpy.allclose(func(a), -a ** 2)","numpy.allclose(func(a, b), 2 * a * b + 1)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_numexpr_userfunctions():
     if not numpy:
         skip("numpy not installed.")
@@ -1626,16 +2087,22 @@ def test_numexpr_userfunctions():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_tensorflow_basic_math(), test_tensorflow_basic_math produces the expected output) over Any ║
+# ║ Path(test_tensorflow_basic_math(), <unspecified:test_tensorflow_basic_math>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_tensorflow_basic_math : Any → {Any | func(a).eva...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aad233f45e6fbc40  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_tensorflow_basic_math","kind":"function","src_hash":"aab6bc73d89c44bf","in":{"base":"Any"},"out":{"base":"Any","pred":"func(a).eval(session=s) == 0.5"},"spec":{"lhs":"test_tensorflow_basic_math()","rhs":"test_tensorflow_basic_math produces the expected output","over":{"base":"Any"},"name":"test_tensorflow_basic_math_correct"},"guarantee":"test_tensorflow_basic_math produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_tensorflow_basic_math_correct","statement":"Path(test_tensorflow_basic_math(x), test_tensorflow_basic_math produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aad233f45e6fbc40"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_tensorflow_basic_math","kind":"function","src_hash":"aab6bc73d89c44bf","in":{"base":"Any"},"out":{"base":"Any","pred":"func(a).eval(session=s) == 0.5"},"spec":{"lhs":"test_tensorflow_basic_math()","rhs":"<unspecified:test_tensorflow_basic_math>","over":{"base":"Any"},"name":"test_tensorflow_basic_math_correct"},"guarantee":"test_tensorflow_basic_math produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_tensorflow_basic_math_correct","statement":"Path(test_tensorflow_basic_math(x), test_tensorflow_basic_math produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aad233f45e6fbc40","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_tensorflow_basic_math():
     if not tensorflow:
         skip("tensorflow not installed.")
@@ -1648,16 +2115,22 @@ def test_tensorflow_basic_math():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_tensorflow_placeholders(), test_tensorflow_placeholders produces the expected output) over Any ║
+# ║ Path(test_tensorflow_placeholders(), <unspecified:test_tensorflow_placeholders>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_tensorflow_placeholders : Any → {Any | func(a).e...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 583f58e0ebc586b3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_tensorflow_placeholders","kind":"function","src_hash":"231cd7f3a03c11bd","in":{"base":"Any"},"out":{"base":"Any","pred":"func(a).eval(session=s, feed_dict={a: 0}) == 0.5"},"spec":{"lhs":"test_tensorflow_placeholders()","rhs":"test_tensorflow_placeholders produces the expected output","over":{"base":"Any"},"name":"test_tensorflow_placeholders_correct"},"guarantee":"test_tensorflow_placeholders produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_tensorflow_placeholders_correct","statement":"Path(test_tensorflow_placeholders(x), test_tensorflow_placeholders produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"583f58e0ebc586b3"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_tensorflow_placeholders","kind":"function","src_hash":"231cd7f3a03c11bd","in":{"base":"Any"},"out":{"base":"Any","pred":"func(a).eval(session=s, feed_dict={a: 0}) == 0.5"},"spec":{"lhs":"test_tensorflow_placeholders()","rhs":"<unspecified:test_tensorflow_placeholders>","over":{"base":"Any"},"name":"test_tensorflow_placeholders_correct"},"guarantee":"test_tensorflow_placeholders produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_tensorflow_placeholders_correct","statement":"Path(test_tensorflow_placeholders(x), test_tensorflow_placeholders produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"583f58e0ebc586b3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_tensorflow_placeholders():
     if not tensorflow:
         skip("tensorflow not installed.")
@@ -1670,16 +2143,22 @@ def test_tensorflow_placeholders():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_tensorflow_variables(), test_tensorflow_variables produces the expected output) over Any ║
+# ║ Path(test_tensorflow_variables(), <unspecified:test_tensorflow_variables>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_tensorflow_variables : Any → {Any | func(a).eval...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d338001a2df22c04  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_tensorflow_variables","kind":"function","src_hash":"1ebd0c6febe3cdc2","in":{"base":"Any"},"out":{"base":"Any","pred":"func(a).eval(session=s, feed_dict={a: 0}) == 0.5"},"spec":{"lhs":"test_tensorflow_variables()","rhs":"test_tensorflow_variables produces the expected output","over":{"base":"Any"},"name":"test_tensorflow_variables_correct"},"guarantee":"test_tensorflow_variables produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_tensorflow_variables_correct","statement":"Path(test_tensorflow_variables(x), test_tensorflow_variables produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d338001a2df22c04"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_tensorflow_variables","kind":"function","src_hash":"1ebd0c6febe3cdc2","in":{"base":"Any"},"out":{"base":"Any","pred":"func(a).eval(session=s, feed_dict={a: 0}) == 0.5"},"spec":{"lhs":"test_tensorflow_variables()","rhs":"<unspecified:test_tensorflow_variables>","over":{"base":"Any"},"name":"test_tensorflow_variables_correct"},"guarantee":"test_tensorflow_variables produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_tensorflow_variables_correct","statement":"Path(test_tensorflow_variables(x), test_tensorflow_variables produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d338001a2df22c04","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_tensorflow_variables():
     if not tensorflow:
         skip("tensorflow not installed.")
@@ -1693,16 +2172,22 @@ def test_tensorflow_variables():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_tensorflow_logical_operations(), test_tensorflow_logical_operations produces the expected output) over Any ║
+# ║ Path(test_tensorflow_logical_operations(), <unspecified:test_tensorflow_logical_operations>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_tensorflow_logical_operations : Any → {Any | fun...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 01f6c59fceb88ce4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_tensorflow_logical_operations","kind":"function","src_hash":"62a968511983fcf6","in":{"base":"Any"},"out":{"base":"Any","pred":"func(False, True).eval(session=s) == False"},"spec":{"lhs":"test_tensorflow_logical_operations()","rhs":"test_tensorflow_logical_operations produces the expected output","over":{"base":"Any"},"name":"test_tensorflow_logical_operations_correct"},"guarantee":"test_tensorflow_logical_operations produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_tensorflow_logical_operations_correct","statement":"Path(test_tensorflow_logical_operations(x), test_tensorflow_logical_operations produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"01f6c59fceb88ce4"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_tensorflow_logical_operations","kind":"function","src_hash":"62a968511983fcf6","in":{"base":"Any"},"out":{"base":"Any","pred":"func(False, True).eval(session=s) == False"},"spec":{"lhs":"test_tensorflow_logical_operations()","rhs":"<unspecified:test_tensorflow_logical_operations>","over":{"base":"Any"},"name":"test_tensorflow_logical_operations_correct"},"guarantee":"test_tensorflow_logical_operations produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_tensorflow_logical_operations_correct","statement":"Path(test_tensorflow_logical_operations(x), test_tensorflow_logical_operations produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"01f6c59fceb88ce4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_tensorflow_logical_operations():
     if not tensorflow:
         skip("tensorflow not installed.")
@@ -1714,16 +2199,22 @@ def test_tensorflow_logical_operations():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_tensorflow_piecewise(), test_tensorflow_piecewise produces the expected output) over Any ║
+# ║ Path(test_tensorflow_piecewise(), <unspecified:test_tensorflow_piecewise>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_tensorflow_piecewise : Any → {Any | func(-1).eva...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 18e5f24b5f05f873  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_tensorflow_piecewise","kind":"function","src_hash":"abd4746e8ad07dcb","in":{"base":"Any"},"out":{"base":"Any","pred":"func(-1).eval(session=s) == -1 and func(0).eval(session=s) == 0 and func(1).eval(session=s) == 1"},"spec":{"lhs":"test_tensorflow_piecewise()","rhs":"test_tensorflow_piecewise produces the expected output","over":{"base":"Any"},"name":"test_tensorflow_piecewise_correct"},"guarantee":"test_tensorflow_piecewise produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_tensorflow_piecewise_correct","statement":"Path(test_tensorflow_piecewise(x), test_tensorflow_piecewise produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"18e5f24b5f05f873"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_tensorflow_piecewise","kind":"function","src_hash":"abd4746e8ad07dcb","in":{"base":"Any"},"out":{"base":"Any","pred":"func(-1).eval(session=s) == -1 and func(0).eval(session=s) == 0 and func(1).eval(session=s) == 1"},"spec":{"lhs":"test_tensorflow_piecewise()","rhs":"<unspecified:test_tensorflow_piecewise>","over":{"base":"Any"},"name":"test_tensorflow_piecewise_correct"},"guarantee":"test_tensorflow_piecewise produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_tensorflow_piecewise_correct","statement":"Path(test_tensorflow_piecewise(x), test_tensorflow_piecewise produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"18e5f24b5f05f873","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_tensorflow_piecewise():
     if not tensorflow:
         skip("tensorflow not installed.")
@@ -1737,16 +2228,22 @@ def test_tensorflow_piecewise():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_tensorflow_multi_max(), test_tensorflow_multi_max produces the expected output) over Any ║
+# ║ Path(test_tensorflow_multi_max(), <unspecified:test_tensorflow_multi_max>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_tensorflow_multi_max : Any → {Any | func(-2).eva...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2f7db82e15ff6cff  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_tensorflow_multi_max","kind":"function","src_hash":"a88b82e7eb045622","in":{"base":"Any"},"out":{"base":"Any","pred":"func(-2).eval(session=s) == 4"},"spec":{"lhs":"test_tensorflow_multi_max()","rhs":"test_tensorflow_multi_max produces the expected output","over":{"base":"Any"},"name":"test_tensorflow_multi_max_correct"},"guarantee":"test_tensorflow_multi_max produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_tensorflow_multi_max_correct","statement":"Path(test_tensorflow_multi_max(x), test_tensorflow_multi_max produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2f7db82e15ff6cff"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_tensorflow_multi_max","kind":"function","src_hash":"a88b82e7eb045622","in":{"base":"Any"},"out":{"base":"Any","pred":"func(-2).eval(session=s) == 4"},"spec":{"lhs":"test_tensorflow_multi_max()","rhs":"<unspecified:test_tensorflow_multi_max>","over":{"base":"Any"},"name":"test_tensorflow_multi_max_correct"},"guarantee":"test_tensorflow_multi_max produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_tensorflow_multi_max_correct","statement":"Path(test_tensorflow_multi_max(x), test_tensorflow_multi_max produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2f7db82e15ff6cff","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_tensorflow_multi_max():
     if not tensorflow:
         skip("tensorflow not installed.")
@@ -1758,16 +2255,22 @@ def test_tensorflow_multi_max():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_tensorflow_multi_min(), test_tensorflow_multi_min produces the expected output) over Any ║
+# ║ Path(test_tensorflow_multi_min(), <unspecified:test_tensorflow_multi_min>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_tensorflow_multi_min : Any → {Any | func(-2).eva...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1447414f968eb16e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_tensorflow_multi_min","kind":"function","src_hash":"dfb79ea9376c6c48","in":{"base":"Any"},"out":{"base":"Any","pred":"func(-2).eval(session=s) == -2"},"spec":{"lhs":"test_tensorflow_multi_min()","rhs":"test_tensorflow_multi_min produces the expected output","over":{"base":"Any"},"name":"test_tensorflow_multi_min_correct"},"guarantee":"test_tensorflow_multi_min produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_tensorflow_multi_min_correct","statement":"Path(test_tensorflow_multi_min(x), test_tensorflow_multi_min produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1447414f968eb16e"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_tensorflow_multi_min","kind":"function","src_hash":"dfb79ea9376c6c48","in":{"base":"Any"},"out":{"base":"Any","pred":"func(-2).eval(session=s) == -2"},"spec":{"lhs":"test_tensorflow_multi_min()","rhs":"<unspecified:test_tensorflow_multi_min>","over":{"base":"Any"},"name":"test_tensorflow_multi_min_correct"},"guarantee":"test_tensorflow_multi_min produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_tensorflow_multi_min_correct","statement":"Path(test_tensorflow_multi_min(x), test_tensorflow_multi_min produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1447414f968eb16e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_tensorflow_multi_min():
     if not tensorflow:
         skip("tensorflow not installed.")
@@ -1779,16 +2282,22 @@ def test_tensorflow_multi_min():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_tensorflow_relational(), test_tensorflow_relational produces the expected output) over Any ║
+# ║ Path(test_tensorflow_relational(), <unspecified:test_tensorflow_relational>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_tensorflow_relational : Any → {Any | func(1).eva...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4a419a31ec12c157  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_tensorflow_relational","kind":"function","src_hash":"42b9ed2346a61d01","in":{"base":"Any"},"out":{"base":"Any","pred":"func(1).eval(session=s) == True"},"spec":{"lhs":"test_tensorflow_relational()","rhs":"test_tensorflow_relational produces the expected output","over":{"base":"Any"},"name":"test_tensorflow_relational_correct"},"guarantee":"test_tensorflow_relational produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_tensorflow_relational_correct","statement":"Path(test_tensorflow_relational(x), test_tensorflow_relational produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4a419a31ec12c157"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_tensorflow_relational","kind":"function","src_hash":"42b9ed2346a61d01","in":{"base":"Any"},"out":{"base":"Any","pred":"func(1).eval(session=s) == True"},"spec":{"lhs":"test_tensorflow_relational()","rhs":"<unspecified:test_tensorflow_relational>","over":{"base":"Any"},"name":"test_tensorflow_relational_correct"},"guarantee":"test_tensorflow_relational produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_tensorflow_relational_correct","statement":"Path(test_tensorflow_relational(x), test_tensorflow_relational produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4a419a31ec12c157","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_tensorflow_relational():
     if not tensorflow:
         skip("tensorflow not installed.")
@@ -1800,16 +2309,22 @@ def test_tensorflow_relational():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_tensorflow_complexes(), test_tensorflow_complexes produces the expected output) over Any ║
+# ║ Path(test_tensorflow_complexes(), <unspecified:test_tensorflow_complexes>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_tensorflow_complexes : Any → {Any | func1(a).eva...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a604ac063aad89e4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_tensorflow_complexes","kind":"function","src_hash":"05583724e6520533","in":{"base":"Any"},"out":{"base":"Any","pred":"func1(a).eval(session=s) == 1 and func2(a).eval(session=s) == 2 and abs(tensorflow_result - sympy_result) < 10 ** (-6) and abs(tensorflow_result - sympy_result) < 10 ** (-6)"},"spec":{"lhs":"test_tensorflow_complexes()","rhs":"test_tensorflow_complexes produces the expected output","over":{"base":"Any"},"name":"test_tensorflow_complexes_correct"},"guarantee":"test_tensorflow_complexes produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_tensorflow_complexes_correct","statement":"Path(test_tensorflow_complexes(x), test_tensorflow_complexes produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a604ac063aad89e4"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_tensorflow_complexes","kind":"function","src_hash":"05583724e6520533","in":{"base":"Any"},"out":{"base":"Any","pred":"func1(a).eval(session=s) == 1 and func2(a).eval(session=s) == 2 and abs(tensorflow_result - sympy_result) < 10 ** (-6) and abs(tensorflow_result - sympy_result) < 10 ** (-6)"},"spec":{"lhs":"test_tensorflow_complexes()","rhs":"<unspecified:test_tensorflow_complexes>","over":{"base":"Any"},"name":"test_tensorflow_complexes_correct"},"guarantee":"test_tensorflow_complexes produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_tensorflow_complexes_correct","statement":"Path(test_tensorflow_complexes(x), test_tensorflow_complexes produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a604ac063aad89e4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_tensorflow_complexes():
     if not tensorflow:
         skip("tensorflow not installed")
@@ -1837,16 +2352,22 @@ def test_tensorflow_complexes():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_tensorflow_array_arg(), test_tensorflow_array_arg produces the expected output) over Any ║
+# ║ Path(test_tensorflow_array_arg(), <unspecified:test_tensorflow_array_arg>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_tensorflow_array_arg : Any → {Any | fcall.eval(s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 676999682e174723  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_tensorflow_array_arg","kind":"function","src_hash":"0222d389f253ef39","in":{"base":"Any"},"out":{"base":"Any","pred":"fcall.eval(session=s) == 5.0"},"spec":{"lhs":"test_tensorflow_array_arg()","rhs":"test_tensorflow_array_arg produces the expected output","over":{"base":"Any"},"name":"test_tensorflow_array_arg_correct"},"guarantee":"test_tensorflow_array_arg produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_tensorflow_array_arg_correct","statement":"Path(test_tensorflow_array_arg(x), test_tensorflow_array_arg produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"676999682e174723"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_tensorflow_array_arg","kind":"function","src_hash":"0222d389f253ef39","in":{"base":"Any"},"out":{"base":"Any","pred":"fcall.eval(session=s) == 5.0"},"spec":{"lhs":"test_tensorflow_array_arg()","rhs":"<unspecified:test_tensorflow_array_arg>","over":{"base":"Any"},"name":"test_tensorflow_array_arg_correct"},"guarantee":"test_tensorflow_array_arg produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_tensorflow_array_arg_correct","statement":"Path(test_tensorflow_array_arg(x), test_tensorflow_array_arg produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"676999682e174723","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_tensorflow_array_arg():
     # Test for issue 14655 (tensorflow part)
     if not tensorflow:
@@ -1863,48 +2384,67 @@ def test_tensorflow_array_arg():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_sym_single_arg(), test_sym_single_arg produces the expected output) over Any ║
+# ║ Path(test_sym_single_arg(), f(z) == z * y) over Any        ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_sym_single_arg : Any → {Any | f(z) == z * y}          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f(z) == z * y                                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_sym_single_arg : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 11c3ece56da3505a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 303a7a9454d3bd7a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_sym_single_arg","kind":"function","src_hash":"cbc6f2f569bf0f96","in":{"base":"Any"},"out":{"base":"Any","pred":"f(z) == z * y"},"spec":{"lhs":"test_sym_single_arg()","rhs":"test_sym_single_arg produces the expected output","over":{"base":"Any"},"name":"test_sym_single_arg_correct"},"guarantee":"test_sym_single_arg produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_sym_single_arg_correct","statement":"Path(test_sym_single_arg(x), test_sym_single_arg produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"11c3ece56da3505a"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_sym_single_arg","kind":"function","src_hash":"cbc6f2f569bf0f96","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f(z) == z * y"},"spec":{"lhs":"test_sym_single_arg()","rhs":"f(z) == z * y","over":{"base":"Any"},"name":"test_sym_single_arg_correct"},"guarantee":"f(z) == z * y","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_sym_single_arg_correct","statement":"Path(test_sym_single_arg(x), f(z) == z * y)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"303a7a9454d3bd7a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f(z) == z * y"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_sym_single_arg():
     f = lambdify(x, x * y)
     assert f(z) == z * y
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_sym_list_args(), test_sym_list_args produces the expected output) over Any ║
+# ║ Path(test_sym_list_args(), f(1, 2) == 3 + z) over Any      ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_sym_list_args : Any → {Any | f(1, 2) == 3 + z}        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f(1, 2) == 3 + z                               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_sym_list_args : Any → {Any | result satisfies: f...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d15cdfb34351e4f1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6a7dd2443d0f0ae2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_sym_list_args","kind":"function","src_hash":"e12b3385f83d13f8","in":{"base":"Any"},"out":{"base":"Any","pred":"f(1, 2) == 3 + z"},"spec":{"lhs":"test_sym_list_args()","rhs":"test_sym_list_args produces the expected output","over":{"base":"Any"},"name":"test_sym_list_args_correct"},"guarantee":"test_sym_list_args produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_sym_list_args_correct","statement":"Path(test_sym_list_args(x), test_sym_list_args produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d15cdfb34351e4f1"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_sym_list_args","kind":"function","src_hash":"e12b3385f83d13f8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f(1, 2) == 3 + z"},"spec":{"lhs":"test_sym_list_args()","rhs":"f(1, 2) == 3 + z","over":{"base":"Any"},"name":"test_sym_list_args_correct"},"guarantee":"f(1, 2) == 3 + z","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_sym_list_args_correct","statement":"Path(test_sym_list_args(x), f(1, 2) == 3 + z)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6a7dd2443d0f0ae2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f(1, 2) == 3 + z"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_sym_list_args():
     f = lambdify([x, y], x + y + z)
     assert f(1, 2) == 3 + z
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_sym_integral(), test_sym_integral produces the expected output) over Any ║
+# ║ Path(test_sym_integral(), l(y) == Integral(exp(-y ** 2), (y, -oo, oo)) and l(y).doit() == sqrt(pi)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_sym_integral : Any → {Any | l(y) == Integral(exp...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  l(y) == Integral(exp(-y ** 2), (y, -oo, oo))   ║
+# ║   ensures:  l(y).doit() == sqrt(pi)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_sym_integral : Any → {Any | result satisfies: l(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 015a716120ce96b7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 28c9c5279d9f8a0c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_sym_integral","kind":"function","src_hash":"aa9387e3242f7fbf","in":{"base":"Any"},"out":{"base":"Any","pred":"l(y) == Integral(exp(-y ** 2), (y, -oo, oo)) and l(y).doit() == sqrt(pi)"},"spec":{"lhs":"test_sym_integral()","rhs":"test_sym_integral produces the expected output","over":{"base":"Any"},"name":"test_sym_integral_correct"},"guarantee":"test_sym_integral produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_sym_integral_correct","statement":"Path(test_sym_integral(x), test_sym_integral produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"015a716120ce96b7"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_sym_integral","kind":"function","src_hash":"aa9387e3242f7fbf","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: l(y) == Integral(exp(-y ** 2), (y, -oo, oo)) and l(y).doit() == sqrt(pi)"},"spec":{"lhs":"test_sym_integral()","rhs":"l(y) == Integral(exp(-y ** 2), (y, -oo, oo)) and l(y).doit() == sqrt(pi)","over":{"base":"Any"},"name":"test_sym_integral_correct"},"guarantee":"l(y) == Integral(exp(-y ** 2), (y, -oo, oo)); l(y).doit() == sqrt(pi)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_sym_integral_correct","statement":"Path(test_sym_integral(x), l(y) == Integral(exp(-y ** 2), (y, -oo, oo)); l(y).doit() == sqrt(pi))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"28c9c5279d9f8a0c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["l(y) == Integral(exp(-y ** 2), (y, -oo, oo))","l(y).doit() == sqrt(pi)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_sym_integral():
     f = Lambda(x, exp(-x**2))
     l = lambdify(x, Integral(f(x), (x, -oo, oo)), modules="sympy")
@@ -1913,16 +2453,23 @@ def test_sym_integral():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_namespace_order(), test_namespace_order produces the expected output) over Any ║
+# ║ Path(test_namespace_order(), if1(1) == 'first f' and if2(1) == 'function g') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_namespace_order : Any → {Any | if1(1) == 'first ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  if1(1) == 'first f'                            ║
+# ║   ensures:  if2(1) == 'function g'                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_namespace_order : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4fb44e166d7f250b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6b89a3200d2236ba  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_namespace_order","kind":"function","src_hash":"57706552eb70782d","in":{"base":"Any"},"out":{"base":"Any","pred":"if1(1) == 'first f' and if1(1) == 'first f' and if2(1) == 'function g'"},"spec":{"lhs":"test_namespace_order()","rhs":"test_namespace_order produces the expected output","over":{"base":"Any"},"name":"test_namespace_order_correct"},"guarantee":"test_namespace_order produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_namespace_order_correct","statement":"Path(test_namespace_order(x), test_namespace_order produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4fb44e166d7f250b"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_namespace_order","kind":"function","src_hash":"57706552eb70782d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: if1(1) == 'first f' and if2(1) == 'function g'"},"spec":{"lhs":"test_namespace_order()","rhs":"if1(1) == 'first f' and if2(1) == 'function g'","over":{"base":"Any"},"name":"test_namespace_order_correct"},"guarantee":"if1(1) == 'first f'; if2(1) == 'function g'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_namespace_order_correct","statement":"Path(test_namespace_order(x), if1(1) == 'first f'; if2(1) == 'function g')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6b89a3200d2236ba","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["if1(1) == 'first f'","if2(1) == 'function g'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_namespace_order():
     # lambdify had a bug, such that module dictionaries or cached module
     # dictionaries would pull earlier namespaces into themselves.
@@ -1945,16 +2492,24 @@ def test_namespace_order():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_imps(), test_imps produces the expected output) over Any ║
+# ║ Path(test_imps(), str(f(x)) == str(g(x)) and l1(3) == 6 and l2(3) == math.sqrt(3) and not hasattr(func, '_imp_') and hasattr(my_f, '_imp_')) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_imps : Any → {Any | str(f(x)) == str(g(x)) and l...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(f(x)) == str(g(x))                         ║
+# ║   ensures:  l1(3) == 6                                     ║
+# ║   ensures:  l2(3) == math.sqrt(3)                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_imps : Any → {Any | result satisfies: str(f(x)) ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1a5d4d5342a71bbd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c5c239bd48952aa2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_imps","kind":"function","src_hash":"f4aee9890e315db2","in":{"base":"Any"},"out":{"base":"Any","pred":"str(f(x)) == str(g(x)) and l1(3) == 6 and l2(3) == math.sqrt(3) and not hasattr(func, '_imp_') and hasattr(my_f, '_imp_')"},"spec":{"lhs":"test_imps()","rhs":"test_imps produces the expected output","over":{"base":"Any"},"name":"test_imps_correct"},"guarantee":"test_imps produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_imps_correct","statement":"Path(test_imps(x), test_imps produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1a5d4d5342a71bbd"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_imps","kind":"function","src_hash":"f4aee9890e315db2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(f(x)) == str(g(x)) and l1(3) == 6 and l2(3) == math.sqrt(3) and not hasattr(func, '_imp_') and hasattr(my_f, '_imp_')"},"spec":{"lhs":"test_imps()","rhs":"str(f(x)) == str(g(x)) and l1(3) == 6 and l2(3) == math.sqrt(3) and not hasattr(func, '_imp_') and hasattr(my_f, '_imp_')","over":{"base":"Any"},"name":"test_imps_correct"},"guarantee":"str(f(x)) == str(g(x)); l1(3) == 6; l2(3) == math.sqrt(3)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_imps_correct","statement":"Path(test_imps(x), str(f(x)) == str(g(x)); l1(3) == 6; l2(3) == math.sqrt(3))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c5c239bd48952aa2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(f(x)) == str(g(x))","l1(3) == 6","l2(3) == math.sqrt(3)","not hasattr(func, '_imp_')","hasattr(my_f, '_imp_')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_imps():
     # Here we check if the default returned functions are anonymous - in
     # the sense that we can have more than one function with the same name
@@ -1976,16 +2531,22 @@ def test_imps():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_imps_errors(), test_imps_errors produces the expected output) over Any ║
+# ║ Path(test_imps_errors(), 1) over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  1                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_imps_errors : Any → {Any | expr == f(val)}            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8ab840c740882b7d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 072267c91ca8f5d7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_imps_errors","kind":"function","src_hash":"82341542383085ae","in":{"base":"Any"},"out":{"base":"Any","pred":"expr == f(val)"},"spec":{"lhs":"test_imps_errors()","rhs":"test_imps_errors produces the expected output","over":{"base":"Any"},"name":"test_imps_errors_correct"},"guarantee":"test_imps_errors produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_imps_errors_correct","statement":"Path(test_imps_errors(x), test_imps_errors produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8ab840c740882b7d"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_imps_errors","kind":"function","src_hash":"82341542383085ae","in":{"base":"Any"},"out":{"base":"Any","pred":"expr == f(val)"},"spec":{"lhs":"test_imps_errors()","rhs":"1","over":{"base":"Any"},"name":"test_imps_errors_correct"},"guarantee":"returns 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_imps_errors_correct","statement":"Path(test_imps_errors(x), returns 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"072267c91ca8f5d7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"1","pure":false,"effects":{"effect_type":"reads_state","raises":["error_class"]},"state_contract":{"exceptional_post":{"error_class":["isinstance(raised, error_class)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_imps_errors():
     # Test errors that implemented functions can return, and still be able to
     # form expressions.
@@ -2007,31 +2568,45 @@ def test_imps_errors():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_imps_wrong_args(), test_imps_wrong_args produces the expected output) over Any ║
+# ║ Path(test_imps_wrong_args(), <unspecified:test_imps_wrong_args>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_imps_wrong_args : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6886c6a82406714c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_imps_wrong_args","kind":"function","src_hash":"705fb0d142d5aba3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_imps_wrong_args()","rhs":"test_imps_wrong_args produces the expected output","over":{"base":"Any"},"name":"test_imps_wrong_args_correct"},"guarantee":"test_imps_wrong_args produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_imps_wrong_args_correct","statement":"Path(test_imps_wrong_args(x), test_imps_wrong_args produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6886c6a82406714c"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_imps_wrong_args","kind":"function","src_hash":"705fb0d142d5aba3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_imps_wrong_args()","rhs":"<unspecified:test_imps_wrong_args>","over":{"base":"Any"},"name":"test_imps_wrong_args_correct"},"guarantee":"test_imps_wrong_args produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_imps_wrong_args_correct","statement":"Path(test_imps_wrong_args(x), test_imps_wrong_args produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6886c6a82406714c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_imps_wrong_args():
     raises(ValueError, lambda: implemented_function(sin, lambda x: x))
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_lambdify_imps(), test_lambdify_imps produces the expected output) over Any ║
+# ║ Path(test_lambdify_imps(), lambdify(x, f(x))(0) == 1 and lambdify(x, 1 + f(x))(0) == 2 and lambdify((x, y), y + f(x))(0, 1) == 2 and lambdify(x, f(x))(0) == 100 and lambdify(x, 1 + f(x))(0) == 101 and lambdify((x, y), y + f(x))(0, 1) == 101 and lam(3) == (103, 3) and lam(3) == [103, 3] and lam(3) == [103, (103, 3)] and lam(3) == {103: 3} and lam(3) == {3: 103} and lam(3) == 103 and lam(3) == 102) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_lambdify_imps : Any → {Any | lambdify(x, f(x))(0...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  lambdify(x, f(x))(0) == 1                      ║
+# ║   ensures:  lambdify(x, 1 + f(x))(0) == 2                  ║
+# ║   ensures:  lambdify((x, y), y + f(x))(0, 1) == 2          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_lambdify_imps : Any → {Any | result satisfies: l...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | edb0c28a03a0cd31  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 42907ed77930a4fc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_lambdify_imps","kind":"function","src_hash":"2efeb1c6a76a05d3","in":{"base":"Any"},"out":{"base":"Any","pred":"lambdify(x, f(x))(0) == 1 and lambdify(x, 1 + f(x))(0) == 2 and lambdify((x, y), y + f(x))(0, 1) == 2 and lambdify(x, f(x))(0) == 100 and lambdify(x, 1 + f(x))(0) == 101 and lambdify((x, y), y + f(x))(0, 1) == 101 and lam(3) == (103, 3) and lam(3) == [103, 3] and lam(3) == [103, (103, 3)] and lam(3) == {103: 3} and lam(3) == {103: 3} and lam(3) == {3: 103} and lam(3) == 103 and lam(3) == 102"},"spec":{"lhs":"test_lambdify_imps()","rhs":"test_lambdify_imps produces the expected output","over":{"base":"Any"},"name":"test_lambdify_imps_correct"},"guarantee":"test_lambdify_imps produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_lambdify_imps_correct","statement":"Path(test_lambdify_imps(x), test_lambdify_imps produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"edb0c28a03a0cd31"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_lambdify_imps","kind":"function","src_hash":"2efeb1c6a76a05d3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: lambdify(x, f(x))(0) == 1 and lambdify(x, 1 + f(x))(0) == 2 and lambdify((x, y), y + f(x))(0, 1) == 2 and lambdify(x, f(x))(0) == 100 and lambdify(x, 1 + f(x))(0) == 101 and lambdify((x, y), y + f(x))(0, 1) == 101 and lam(3) == (103, 3) and lam(3) == [103, 3] and lam(3) == [103, (103, 3)] and lam(3) == {103: 3} and lam(3) == {3: 103} and lam(3) == 103 and lam(3) == 102"},"spec":{"lhs":"test_lambdify_imps()","rhs":"lambdify(x, f(x))(0) == 1 and lambdify(x, 1 + f(x))(0) == 2 and lambdify((x, y), y + f(x))(0, 1) == 2 and lambdify(x, f(x))(0) == 100 and lambdify(x, 1 + f(x))(0) == 101 and lambdify((x, y), y + f(x))(0, 1) == 101 and lam(3) == (103, 3) and lam(3) == [103, 3] and lam(3) == [103, (103, 3)] and lam(3) == {103: 3} and lam(3) == {3: 103} and lam(3) == 103 and lam(3) == 102","over":{"base":"Any"},"name":"test_lambdify_imps_correct"},"guarantee":"lambdify(x, f(x))(0) == 1; lambdify(x, 1 + f(x))(0) == 2; lambdify((x, y), y + f(x))(0, 1) == 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_lambdify_imps_correct","statement":"Path(test_lambdify_imps(x), lambdify(x, f(x))(0) == 1; lambdify(x, 1 + f(x))(0) == 2; lambdify((x, y), y + f(x))(0, 1) == 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"42907ed77930a4fc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["lambdify(x, f(x))(0) == 1","lambdify(x, 1 + f(x))(0) == 2","lambdify((x, y), y + f(x))(0, 1) == 2","lambdify(x, f(x))(0) == 100","lambdify(x, 1 + f(x))(0) == 101","lambdify((x, y), y + f(x))(0, 1) == 101","lam(3) == (103, 3)","lam(3) == [103, 3]","lam(3) == [103, (103, 3)]","lam(3) == {103: 3}","lam(3) == {3: 103}","lam(3) == 103","lam(3) == 102"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_lambdify_imps():
     # Test lambdify with implemented functions
     # first test basic (sympy) lambdify
@@ -2067,16 +2642,24 @@ def test_lambdify_imps():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dummification(), test_dummification produces the expected output) over Any ║
+# ║ Path(test_dummification(), lam(3, 9) == 2 and lam(F(t)) == 2 * F(t) ** 2 and lam(2, 1) == 5) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dummification : Any → {Any | lam(3, 9) == 2 and ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  lam(3, 9) == 2                                 ║
+# ║   ensures:  lam(F(t)) == 2 * F(t) ** 2                     ║
+# ║   ensures:  lam(2, 1) == 5                                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dummification : Any → {Any | result satisfies: l...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a436465227a7b95d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7f7fe4b33d63e487  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_dummification","kind":"function","src_hash":"bbf9a634c7ed283e","in":{"base":"Any"},"out":{"base":"Any","pred":"lam(3, 9) == 2 and lam(F(t)) == 2 * F(t) ** 2 and lam(2, 1) == 5"},"spec":{"lhs":"test_dummification()","rhs":"test_dummification produces the expected output","over":{"base":"Any"},"name":"test_dummification_correct"},"guarantee":"test_dummification produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_dummification_correct","statement":"Path(test_dummification(x), test_dummification produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a436465227a7b95d"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_dummification","kind":"function","src_hash":"bbf9a634c7ed283e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: lam(3, 9) == 2 and lam(F(t)) == 2 * F(t) ** 2 and lam(2, 1) == 5"},"spec":{"lhs":"test_dummification()","rhs":"lam(3, 9) == 2 and lam(F(t)) == 2 * F(t) ** 2 and lam(2, 1) == 5","over":{"base":"Any"},"name":"test_dummification_correct"},"guarantee":"lam(3, 9) == 2; lam(F(t)) == 2 * F(t) ** 2; lam(2, 1) == 5","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_dummification_correct","statement":"Path(test_dummification(x), lam(3, 9) == 2; lam(F(t)) == 2 * F(t) ** 2; lam(2, 1) == 5)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7f7fe4b33d63e487","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["lam(3, 9) == 2","lam(F(t)) == 2 * F(t) ** 2","lam(2, 1) == 5"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_dummification():
     t = symbols('t')
     F = Function('F')
@@ -2099,16 +2682,22 @@ def test_dummification():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_lambdify__arguments_with_invalid_python_identifiers(), test_lambdify__arguments_with_invalid_python_identifiers produces the expected output) over Any ║
+# ║ Path(test_lambdify__arguments_with_invalid_python_identifiers(), abs(res - ref) < 1e-15) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  abs(res - ref) < 1e-15                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_lambdify__arguments_with_invalid_python_identifi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 25f2c35ea5ae4235  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 88823fd354617ff6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_lambdify__arguments_with_invalid_python_identifiers","kind":"function","src_hash":"f25e2faed2c4764a","in":{"base":"Any"},"out":{"base":"Any","pred":"abs(res - ref) < 1e-15"},"spec":{"lhs":"test_lambdify__arguments_with_invalid_python_identifiers()","rhs":"test_lambdify__arguments_with_invalid_python_identifiers produces the expected output","over":{"base":"Any"},"name":"test_lambdify__arguments_with_invalid_python_identifiers_correct"},"guarantee":"test_lambdify__arguments_with_invalid_python_identifiers produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_lambdify__arguments_with_invalid_python_identifiers_correct","statement":"Path(test_lambdify__arguments_with_invalid_python_identifiers(x), test_lambdify__arguments_with_invalid_python_identifiers produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"25f2c35ea5ae4235"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_lambdify__arguments_with_invalid_python_identifiers","kind":"function","src_hash":"f25e2faed2c4764a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: abs(res - ref) < 1e-15"},"spec":{"lhs":"test_lambdify__arguments_with_invalid_python_identifiers()","rhs":"abs(res - ref) < 1e-15","over":{"base":"Any"},"name":"test_lambdify__arguments_with_invalid_python_identifiers_correct"},"guarantee":"abs(res - ref) < 1e-15","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_lambdify__arguments_with_invalid_python_identifiers_correct","statement":"Path(test_lambdify__arguments_with_invalid_python_identifiers(x), abs(res - ref) < 1e-15)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"88823fd354617ff6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["abs(res - ref) < 1e-15"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_lambdify__arguments_with_invalid_python_identifiers():
     # see sympy/sympy#26690
     N = CoordSys3D('N')
@@ -2121,16 +2710,22 @@ def test_lambdify__arguments_with_invalid_python_identifiers():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_curly_matrix_symbol(), test_curly_matrix_symbol produces the expected output) over Any ║
+# ║ Path(test_curly_matrix_symbol(), lam(1) == 1) over Any     ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_curly_matrix_symbol : Any → {Any | lam(1) == 1 a...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  lam(1) == 1                                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_curly_matrix_symbol : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0d2c2b391f45aee2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8992b743db8e68ad  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_curly_matrix_symbol","kind":"function","src_hash":"959dd47946ec61a6","in":{"base":"Any"},"out":{"base":"Any","pred":"lam(1) == 1 and lam(1) == 1"},"spec":{"lhs":"test_curly_matrix_symbol()","rhs":"test_curly_matrix_symbol produces the expected output","over":{"base":"Any"},"name":"test_curly_matrix_symbol_correct"},"guarantee":"test_curly_matrix_symbol produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_curly_matrix_symbol_correct","statement":"Path(test_curly_matrix_symbol(x), test_curly_matrix_symbol produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0d2c2b391f45aee2"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_curly_matrix_symbol","kind":"function","src_hash":"959dd47946ec61a6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: lam(1) == 1"},"spec":{"lhs":"test_curly_matrix_symbol()","rhs":"lam(1) == 1","over":{"base":"Any"},"name":"test_curly_matrix_symbol_correct"},"guarantee":"lam(1) == 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_curly_matrix_symbol_correct","statement":"Path(test_curly_matrix_symbol(x), lam(1) == 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8992b743db8e68ad","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["lam(1) == 1"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_curly_matrix_symbol():
     # Issue #15009
     curlyv = sympy.MatrixSymbol("{v}", 2, 1)
@@ -2141,16 +2736,22 @@ def test_curly_matrix_symbol():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_python_keywords(), test_python_keywords produces the expected output) over Any ║
+# ║ Path(test_python_keywords(), f(4.0) == 2.0) over Any       ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_python_keywords : Any → {Any | f(4.0) == 2.0}         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f(4.0) == 2.0                                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_python_keywords : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 640121029e01d81f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 69856db3a91a2e48  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_python_keywords","kind":"function","src_hash":"c26882b9b02a30c3","in":{"base":"Any"},"out":{"base":"Any","pred":"f(4.0) == 2.0"},"spec":{"lhs":"test_python_keywords()","rhs":"test_python_keywords produces the expected output","over":{"base":"Any"},"name":"test_python_keywords_correct"},"guarantee":"test_python_keywords produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_python_keywords_correct","statement":"Path(test_python_keywords(x), test_python_keywords produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"640121029e01d81f"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_python_keywords","kind":"function","src_hash":"c26882b9b02a30c3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f(4.0) == 2.0"},"spec":{"lhs":"test_python_keywords()","rhs":"f(4.0) == 2.0","over":{"base":"Any"},"name":"test_python_keywords_correct"},"guarantee":"f(4.0) == 2.0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_python_keywords_correct","statement":"Path(test_python_keywords(x), f(4.0) == 2.0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"69856db3a91a2e48","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f(4.0) == 2.0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_python_keywords():
     # Test for issue 7452. The automatic dummification should ensure use of
     # Python reserved keywords as symbol names will create valid lambda
@@ -2162,16 +2763,22 @@ def test_python_keywords():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_lambdify_docstring(), test_lambdify_docstring produces the expected output) over Any ║
+# ║ Path(test_lambdify_docstring(), func.__doc__.splitlines()[:len(ref)] == ref) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_lambdify_docstring : Any → {Any | func.__doc__.s...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  func.__doc__.splitlines()[:len(ref)] == ref    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_lambdify_docstring : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 47e836d7ecc98ce6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2ab0ea922eae2dc2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_lambdify_docstring","kind":"function","src_hash":"44365297187fe609","in":{"base":"Any"},"out":{"base":"Any","pred":"func.__doc__.splitlines()[:len(ref)] == ref and func.__doc__.splitlines()[:len(ref)] == ref"},"spec":{"lhs":"test_lambdify_docstring()","rhs":"test_lambdify_docstring produces the expected output","over":{"base":"Any"},"name":"test_lambdify_docstring_correct"},"guarantee":"test_lambdify_docstring produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_lambdify_docstring_correct","statement":"Path(test_lambdify_docstring(x), test_lambdify_docstring produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"47e836d7ecc98ce6"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_lambdify_docstring","kind":"function","src_hash":"44365297187fe609","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: func.__doc__.splitlines()[:len(ref)] == ref"},"spec":{"lhs":"test_lambdify_docstring()","rhs":"func.__doc__.splitlines()[:len(ref)] == ref","over":{"base":"Any"},"name":"test_lambdify_docstring_correct"},"guarantee":"func.__doc__.splitlines()[:len(ref)] == ref","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_lambdify_docstring_correct","statement":"Path(test_lambdify_docstring(x), func.__doc__.splitlines()[:len(ref)] == ref)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2ab0ea922eae2dc2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["func.__doc__.splitlines()[:len(ref)] == ref"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_lambdify_docstring():
     func = lambdify((w, x, y, z), w + x + y + z)
     ref = (
@@ -2194,16 +2801,24 @@ def test_lambdify_docstring():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_lambdify_linecache(), test_lambdify_linecache produces the expected output) over Any ║
+# ║ Path(test_lambdify_linecache(), inspect.getsource(func) == source and filename.startswith('<lambdifygenerated-') and filename in linecache.cache and linecache.cache[filename] == (len(source), None, source.splitlines(True), filename) and filename not in linecache.cache) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_lambdify_linecache : Any → {Any | inspect.getsou...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  inspect.getsource(func) == source              ║
+# ║   ensures:  filename.startswith('<lambdifygenerated-')     ║
+# ║   ensures:  filename in linecache.cache                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_lambdify_linecache : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ce9392967f2bd464  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aa876eb318b7492f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_lambdify_linecache","kind":"function","src_hash":"0f7186afe9573998","in":{"base":"Any"},"out":{"base":"Any","pred":"inspect.getsource(func) == source and filename.startswith('<lambdifygenerated-') and filename in linecache.cache and filename not in linecache.cache"},"spec":{"lhs":"test_lambdify_linecache()","rhs":"test_lambdify_linecache produces the expected output","over":{"base":"Any"},"name":"test_lambdify_linecache_correct"},"guarantee":"test_lambdify_linecache produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_lambdify_linecache_correct","statement":"Path(test_lambdify_linecache(x), test_lambdify_linecache produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ce9392967f2bd464"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_lambdify_linecache","kind":"function","src_hash":"0f7186afe9573998","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: inspect.getsource(func) == source and filename.startswith('<lambdifygenerated-') and filename in linecache.cache and linecache.cache[filename] == (len(source), None, source.splitlines(True), filename) and filename not in linecache.cache"},"spec":{"lhs":"test_lambdify_linecache()","rhs":"inspect.getsource(func) == source and filename.startswith('<lambdifygenerated-') and filename in linecache.cache and linecache.cache[filename] == (len(source), None, source.splitlines(True), filename) and filename not in linecache.cache","over":{"base":"Any"},"name":"test_lambdify_linecache_correct"},"guarantee":"inspect.getsource(func) == source; filename.startswith('<lambdifygenerated-'); filename in linecache.cache","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_lambdify_linecache_correct","statement":"Path(test_lambdify_linecache(x), inspect.getsource(func) == source; filename.startswith('<lambdifygenerated-'); filename in linecache.cache)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aa876eb318b7492f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["inspect.getsource(func) == source","filename.startswith('<lambdifygenerated-')","filename in linecache.cache","linecache.cache[filename] == (len(source), None, source.splitlines(True), filename)","filename not in linecache.cache"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_lambdify_linecache():
     func = lambdify(x, x + 1)
     source = 'def _lambdifygenerated(x):\n    return x + 1\n'
@@ -2220,7 +2835,13 @@ def test_lambdify_linecache():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_special_printers(), test_special_printers produces the expected output) over {Any | isinstance(func0(), mpi)} ║
+# ║ Path(test_special_printers(), IntervalPrinter().doprint(expr)) over {Any | isinstance(func0(), mpi)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(func0(), mpi)                       ║
+# ║   ensures:  isinstance(func1(), mpi)                       ║
+# ║   ensures:  isinstance(func2(), mpi)                       ║
+# ║   returns:  IntervalPrinter().doprint(expr)                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_special_printers : {Any | isinstance(func0(), mp...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -2232,9 +2853,12 @@ def test_lambdify_linecache():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.6ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 3e0468c0...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_special_printers","kind":"function","src_hash":"9ef3d7dd737926b5","in":{"base":"Any","pred":"isinstance(func0(), mpi)"},"out":{"base":"Any","pred":"isinstance(func0(), mpi) and isinstance(func1(), mpi) and isinstance(func2(), mpi) and exp_ls == sol_ls"},"spec":{"lhs":"test_special_printers()","rhs":"test_special_printers produces the expected output","over":{"base":"Any","pred":"isinstance(func0(), mpi)"},"name":"test_special_printers_correct"},"guarantee":"test_special_printers produces the expected output","fibers":[{"name":"mpi","pred":"isinstance(func0(), mpi)","path":{"lhs":"test_special_printers(x)","rhs":"test_special_printers produces the expected output","over":{"base":"mpi","pred":"isinstance(func0(), mpi)"},"name":"test_special_printers_mpi_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_special_printers_mpi_correct","statement":"test_special_printers satisfies spec on mpi inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"3e0468c07acf319c"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_special_printers","kind":"function","src_hash":"9ef3d7dd737926b5","in":{"base":"Any","pred":"isinstance(func0(), mpi)"},"out":{"base":"Any","pred":"result satisfies: result == (IntervalPrinter().doprint(expr))"},"spec":{"lhs":"test_special_printers()","rhs":"IntervalPrinter().doprint(expr)","over":{"base":"Any","pred":"isinstance(func0(), mpi)"},"name":"test_special_printers_correct"},"guarantee":"returns IntervalPrinter().doprint(expr); isinstance(func0(), mpi); isinstance(func1(), mpi); isinstance(func2(), mpi)","fibers":[{"name":"mpi","pred":"isinstance(func0(), mpi)","path":{"lhs":"test_special_printers(x)","rhs":"returns IntervalPrinter().doprint(expr); isinstance(func0(), mpi); isinstance(func1(), mpi); isinstance(func2(), mpi)","over":{"base":"mpi","pred":"isinstance(func0(), mpi)"},"name":"test_special_printers_mpi_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_special_printers_mpi_correct","statement":"test_special_printers satisfies spec on mpi inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"3e0468c07acf319c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(func0(), mpi)","isinstance(func1(), mpi)","isinstance(func2(), mpi)","exp_ls == sol_ls"],"returns_expr":"IntervalPrinter().doprint(expr)","pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.6,"verdict_class":"failed","binding":true}}
 def test_special_printers():
     from sympy.printing.lambdarepr import IntervalPrinter
 
@@ -2268,16 +2892,23 @@ def test_special_printers():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_true_false(), test_true_false produces the expected output) over Any ║
+# ║ Path(test_true_false(), lambdify([], true)() is True and lambdify([], false)() is False) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_true_false : Any → {Any | lambdify([], true)() i...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  lambdify([], true)() is True                   ║
+# ║   ensures:  lambdify([], false)() is False                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_true_false : Any → {Any | result satisfies: lamb...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ac481048ff775cab  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a7c4b440776e78c5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_true_false","kind":"function","src_hash":"c13edbf40c1f7df3","in":{"base":"Any"},"out":{"base":"Any","pred":"lambdify([], true)() is True and lambdify([], false)() is False"},"spec":{"lhs":"test_true_false()","rhs":"test_true_false produces the expected output","over":{"base":"Any"},"name":"test_true_false_correct"},"guarantee":"test_true_false produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_true_false_correct","statement":"Path(test_true_false(x), test_true_false produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ac481048ff775cab"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_true_false","kind":"function","src_hash":"c13edbf40c1f7df3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: lambdify([], true)() is True and lambdify([], false)() is False"},"spec":{"lhs":"test_true_false()","rhs":"lambdify([], true)() is True and lambdify([], false)() is False","over":{"base":"Any"},"name":"test_true_false_correct"},"guarantee":"lambdify([], true)() is True; lambdify([], false)() is False","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_true_false_correct","statement":"Path(test_true_false(x), lambdify([], true)() is True; lambdify([], false)() is False)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a7c4b440776e78c5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["lambdify([], true)() is True","lambdify([], false)() is False"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_true_false():
     # We want exact is comparison here, not just ==
     assert lambdify([], true)() is True
@@ -2285,16 +2916,24 @@ def test_true_false():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_2790(), test_issue_2790 produces the expected output) over Any ║
+# ║ Path(test_issue_2790(), lambdify((x, (y, z)), x + y)(1, (2, 4)) == 3 and lambdify((x, (y, (w, z))), w + x + y + z)(1, (2, (3, 4))) == 10 and lambdify(x, x + 1, dummify=False)(1) == 2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_2790 : Any → {Any | lambdify((x, (y, z)), ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  lambdify((x, (y, z)), x + y)(1, (2, 4)) == 3   ║
+# ║   ensures:  lambdify((x, (y, (w, z))), w + x + y + z)...   ║
+# ║   ensures:  lambdify(x, x + 1, dummify=False)(1) == 2      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_2790 : Any → {Any | result satisfies: lamb...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 66a5ac75a78ce95c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7974162a3d904e07  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_issue_2790","kind":"function","src_hash":"3d2ef1f7b7111050","in":{"base":"Any"},"out":{"base":"Any","pred":"lambdify((x, (y, z)), x + y)(1, (2, 4)) == 3 and lambdify((x, (y, (w, z))), w + x + y + z)(1, (2, (3, 4))) == 10 and lambdify(x, x + 1, dummify=False)(1) == 2"},"spec":{"lhs":"test_issue_2790()","rhs":"test_issue_2790 produces the expected output","over":{"base":"Any"},"name":"test_issue_2790_correct"},"guarantee":"test_issue_2790 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_issue_2790_correct","statement":"Path(test_issue_2790(x), test_issue_2790 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"66a5ac75a78ce95c"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_issue_2790","kind":"function","src_hash":"3d2ef1f7b7111050","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: lambdify((x, (y, z)), x + y)(1, (2, 4)) == 3 and lambdify((x, (y, (w, z))), w + x + y + z)(1, (2, (3, 4))) == 10 and lambdify(x, x + 1, dummify=False)(1) == 2"},"spec":{"lhs":"test_issue_2790()","rhs":"lambdify((x, (y, z)), x + y)(1, (2, 4)) == 3 and lambdify((x, (y, (w, z))), w + x + y + z)(1, (2, (3, 4))) == 10 and lambdify(x, x + 1, dummify=False)(1) == 2","over":{"base":"Any"},"name":"test_issue_2790_correct"},"guarantee":"lambdify((x, (y, z)), x + y)(1, (2, 4)) == 3; lambdify((x, (y, (w, z))), w + x + y + z)(1, (2, (3, 4))) == 10; lambdify(x, x + 1, dummify=False)(1) == 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_issue_2790_correct","statement":"Path(test_issue_2790(x), lambdify((x, (y, z)), x + y)(1, (2, 4)) == 3; lambdify((x, (y, (w, z))), w + x + y + z)(1, (2, (3, 4))) == 10; lambdify(x, x + 1, dummify=False)(1) == 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7974162a3d904e07","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["lambdify((x, (y, z)), x + y)(1, (2, 4)) == 3","lambdify((x, (y, (w, z))), w + x + y + z)(1, (2, (3, 4))) == 10","lambdify(x, x + 1, dummify=False)(1) == 2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_2790():
     assert lambdify((x, (y, z)), x + y)(1, (2, 4)) == 3
     assert lambdify((x, (y, (w, z))), w + x + y + z)(1, (2, (3, 4))) == 10
@@ -2302,32 +2941,45 @@ def test_issue_2790():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_12092(), test_issue_12092 produces the expected output) over Any ║
+# ║ Path(test_issue_12092(), f(f(2)).evalf() == Float(16)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_12092 : Any → {Any | f(f(2)).evalf() == Fl...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f(f(2)).evalf() == Float(16)                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_12092 : Any → {Any | result satisfies: f(f...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d3a0f49db15a661a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 57bb9ddf7aeec374  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_issue_12092","kind":"function","src_hash":"32debb958fbaa7f0","in":{"base":"Any"},"out":{"base":"Any","pred":"f(f(2)).evalf() == Float(16)"},"spec":{"lhs":"test_issue_12092()","rhs":"test_issue_12092 produces the expected output","over":{"base":"Any"},"name":"test_issue_12092_correct"},"guarantee":"test_issue_12092 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_issue_12092_correct","statement":"Path(test_issue_12092(x), test_issue_12092 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d3a0f49db15a661a"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_issue_12092","kind":"function","src_hash":"32debb958fbaa7f0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f(f(2)).evalf() == Float(16)"},"spec":{"lhs":"test_issue_12092()","rhs":"f(f(2)).evalf() == Float(16)","over":{"base":"Any"},"name":"test_issue_12092_correct"},"guarantee":"f(f(2)).evalf() == Float(16)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_issue_12092_correct","statement":"Path(test_issue_12092(x), f(f(2)).evalf() == Float(16))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"57bb9ddf7aeec374","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f(f(2)).evalf() == Float(16)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_12092():
     f = implemented_function('f', lambda x: x**2)
     assert f(f(2)).evalf() == Float(16)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_14911(), test_issue_14911 produces the expected output) over Any ║
+# ║ Path(test_issue_14911(), printer.doprint(self.name)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_14911 : Any → {Any | code.replace(' ', '')...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  code.replace(' ', '') == '2*x'                 ║
+# ║   returns:  printer.doprint(self.name)                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_14911 : Any → {Any | result satisfies: res...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e6d40a18137729f6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5c3faa2459ba9f80  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_issue_14911","kind":"function","src_hash":"bc6cc5a1dfb72ff5","in":{"base":"Any"},"out":{"base":"Any","pred":"code.replace(' ', '') == '2*x'"},"spec":{"lhs":"test_issue_14911()","rhs":"test_issue_14911 produces the expected output","over":{"base":"Any"},"name":"test_issue_14911_correct"},"guarantee":"test_issue_14911 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_issue_14911_correct","statement":"Path(test_issue_14911(x), test_issue_14911 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e6d40a18137729f6"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_issue_14911","kind":"function","src_hash":"bc6cc5a1dfb72ff5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (printer.doprint(self.name))"},"spec":{"lhs":"test_issue_14911()","rhs":"printer.doprint(self.name)","over":{"base":"Any"},"name":"test_issue_14911_correct"},"guarantee":"returns printer.doprint(self.name); code.replace(' ', '') == '2*x'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_issue_14911_correct","statement":"Path(test_issue_14911(x), returns printer.doprint(self.name); code.replace(' ', '') == '2*x')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5c3faa2459ba9f80","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["code.replace(' ', '') == '2*x'"],"returns_expr":"printer.doprint(self.name)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_14911():
     class Variable(sympy.Symbol):
         def _sympystr(self, printer):
@@ -2343,32 +2995,46 @@ def test_issue_14911():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_ITE(), test_ITE produces the expected output) over Any ║
+# ║ Path(test_ITE(), lambdify((x, y, z), ITE(x, y, z))(True, 5, 3) == 5 and lambdify((x, y, z), ITE(x, y, z))(False, 5, 3) == 3) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_ITE : Any → {Any | lambdify((x, y, z), ITE(x, y,...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  lambdify((x, y, z), ITE(x, y, z))(True, 5...   ║
+# ║   ensures:  lambdify((x, y, z), ITE(x, y, z))(False, ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_ITE : Any → {Any | result satisfies: lambdify((x...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8b2003a84b95345c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d5eb5690618b8700  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_ITE","kind":"function","src_hash":"bb87c9052d110581","in":{"base":"Any"},"out":{"base":"Any","pred":"lambdify((x, y, z), ITE(x, y, z))(True, 5, 3) == 5 and lambdify((x, y, z), ITE(x, y, z))(False, 5, 3) == 3"},"spec":{"lhs":"test_ITE()","rhs":"test_ITE produces the expected output","over":{"base":"Any"},"name":"test_ITE_correct"},"guarantee":"test_ITE produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_ITE_correct","statement":"Path(test_ITE(x), test_ITE produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8b2003a84b95345c"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_ITE","kind":"function","src_hash":"bb87c9052d110581","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: lambdify((x, y, z), ITE(x, y, z))(True, 5, 3) == 5 and lambdify((x, y, z), ITE(x, y, z))(False, 5, 3) == 3"},"spec":{"lhs":"test_ITE()","rhs":"lambdify((x, y, z), ITE(x, y, z))(True, 5, 3) == 5 and lambdify((x, y, z), ITE(x, y, z))(False, 5, 3) == 3","over":{"base":"Any"},"name":"test_ITE_correct"},"guarantee":"lambdify((x, y, z), ITE(x, y, z))(True, 5, 3) == 5; lambdify((x, y, z), ITE(x, y, z))(False, 5, 3) == 3","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_ITE_correct","statement":"Path(test_ITE(x), lambdify((x, y, z), ITE(x, y, z))(True, 5, 3) == 5; lambdify((x, y, z), ITE(x, y, z))(False, 5, 3) == 3)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d5eb5690618b8700","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["lambdify((x, y, z), ITE(x, y, z))(True, 5, 3) == 5","lambdify((x, y, z), ITE(x, y, z))(False, 5, 3) == 3"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_ITE():
     assert lambdify((x, y, z), ITE(x, y, z))(True, 5, 3) == 5
     assert lambdify((x, y, z), ITE(x, y, z))(False, 5, 3) == 3
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Min_Max(), test_Min_Max produces the expected output) over Any ║
+# ║ Path(test_Min_Max(), lambdify((x, y, z), Min(x, y, z))(1, 2, 3) == 1 and lambdify((x, y, z), Max(x, y, z))(1, 2, 3) == 3) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Min_Max : Any → {Any | lambdify((x, y, z), Min(x...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  lambdify((x, y, z), Min(x, y, z))(1, 2, 3...   ║
+# ║   ensures:  lambdify((x, y, z), Max(x, y, z))(1, 2, 3...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Min_Max : Any → {Any | result satisfies: lambdif...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7f5fcd22c08be343  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aa1143422f567636  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_Min_Max","kind":"function","src_hash":"b070c6e98a22c803","in":{"base":"Any"},"out":{"base":"Any","pred":"lambdify((x, y, z), Min(x, y, z))(1, 2, 3) == 1 and lambdify((x, y, z), Max(x, y, z))(1, 2, 3) == 3"},"spec":{"lhs":"test_Min_Max()","rhs":"test_Min_Max produces the expected output","over":{"base":"Any"},"name":"test_Min_Max_correct"},"guarantee":"test_Min_Max produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_Min_Max_correct","statement":"Path(test_Min_Max(x), test_Min_Max produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7f5fcd22c08be343"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_Min_Max","kind":"function","src_hash":"b070c6e98a22c803","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: lambdify((x, y, z), Min(x, y, z))(1, 2, 3) == 1 and lambdify((x, y, z), Max(x, y, z))(1, 2, 3) == 3"},"spec":{"lhs":"test_Min_Max()","rhs":"lambdify((x, y, z), Min(x, y, z))(1, 2, 3) == 1 and lambdify((x, y, z), Max(x, y, z))(1, 2, 3) == 3","over":{"base":"Any"},"name":"test_Min_Max_correct"},"guarantee":"lambdify((x, y, z), Min(x, y, z))(1, 2, 3) == 1; lambdify((x, y, z), Max(x, y, z))(1, 2, 3) == 3","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_Min_Max_correct","statement":"Path(test_Min_Max(x), lambdify((x, y, z), Min(x, y, z))(1, 2, 3) == 1; lambdify((x, y, z), Max(x, y, z))(1, 2, 3) == 3)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aa1143422f567636","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["lambdify((x, y, z), Min(x, y, z))(1, 2, 3) == 1","lambdify((x, y, z), Max(x, y, z))(1, 2, 3) == 3"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Min_Max():
     # see gh-10375
     assert lambdify((x, y, z), Min(x, y, z))(1, 2, 3) == 1
@@ -2376,16 +3042,24 @@ def test_Min_Max():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_amin_amax_minimum_maximum(), test_amin_amax_minimum_maximum produces the expected output) over Any ║
+# ║ Path(test_amin_amax_minimum_maximum(), numpy.all(lambdify((x, y), maximum(x, y))(a234, a152) == a254) and numpy.all(lambdify((x, y), minimum(x, y))(a234, a152) == a132) and numpy.all(lambdify((x, y, z), maximum(x, y, z))(a234, a152, a234) == a254) and numpy.all(lambdify((x, y, z), minimum(x, y, z))(a234, a152, a234) == a132) and numpy.all(lambdify((x,), maximum(x))(a234) == a234) and numpy.all(lambdify((x,), minimum(x))(a234) == a234) and numpy.all(lambdify((x, y, z, w), maximum(x, y, z, w))(a234, a152, a234, 3) == [3, 5, 4]) and numpy.all(lambdify((x, y, z, w), minimum(x, y, z, w))(a234, a152, a234, 2) == [1, 2, 2]) and lambdify((x, y), [amin(x), amax(y)])(a234, a152) == [2, 5] and numpy.all(min_ == numpy.amin(A, axis=0)) and numpy.all(max_ == numpy.amax(A, axis=1)) and numpy.all(lambdify((x, y), Max(x, y))([1, 2, 3], [3, 2, 1]) == [3, 2, 3]) and numpy.all(lambdify(x, Min(2, x))([1, 2, 3]) == [1, 2, 2])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_amin_amax_minimum_maximum : Any → {Any | numpy.a...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  numpy.all(lambdify((x, y), maximum(x, y))...   ║
+# ║   ensures:  numpy.all(lambdify((x, y), minimum(x, y))...   ║
+# ║   ensures:  numpy.all(lambdify((x, y, z), maximum(x, ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_amin_amax_minimum_maximum : Any → {Any | result ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8cd613668bd4580b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2524603189d6e3f5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_amin_amax_minimum_maximum","kind":"function","src_hash":"b21f5d905fdb5b3d","in":{"base":"Any"},"out":{"base":"Any","pred":"numpy.all(lambdify((x, y), maximum(x, y))(a234, a152) == a254) and numpy.all(lambdify((x, y), minimum(x, y))(a234, a152) == a132) and numpy.all(lambdify((x, y, z), maximum(x, y, z))(a234, a152, a234) == a254) and numpy.all(lambdify((x, y, z), minimum(x, y, z))(a234, a152, a234) == a132) and numpy.all(lambdify((x,), maximum(x))(a234) == a234) and numpy.all(lambdify((x,), minimum(x))(a234) == a234) and lambdify((x, y), [amin(x), amax(y)])(a234, a152) == [2, 5] and numpy.all(min_ == numpy.amin(A, axis=0)) and numpy.all(max_ == numpy.amax(A, axis=1)) and numpy.all(lambdify((x, y), Max(x, y))([1, 2, 3], [3, 2, 1]) == [3, 2, 3]) and numpy.all(lambdify(x, Min(2, x))([1, 2, 3]) == [1, 2, 2])"},"spec":{"lhs":"test_amin_amax_minimum_maximum()","rhs":"test_amin_amax_minimum_maximum produces the expected output","over":{"base":"Any"},"name":"test_amin_amax_minimum_maximum_correct"},"guarantee":"test_amin_amax_minimum_maximum produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_amin_amax_minimum_maximum_correct","statement":"Path(test_amin_amax_minimum_maximum(x), test_amin_amax_minimum_maximum produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8cd613668bd4580b"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_amin_amax_minimum_maximum","kind":"function","src_hash":"b21f5d905fdb5b3d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: numpy.all(lambdify((x, y), maximum(x, y))(a234, a152) == a254) and numpy.all(lambdify((x, y), minimum(x, y))(a234, a152) == a132) and numpy.all(lambdify((x, y, z), maximum(x, y, z))(a234, a152, a234) == a254) and numpy.all(lambdify((x, y, z), minimum(x, y, z))(a234, a152, a234) == a132) and numpy.all(lambdify((x,), maximum(x))(a234) == a234) and numpy.all(lambdify((x,), minimum(x))(a234) == a234) and numpy.all(lambdify((x, y, z, w), maximum(x, y, z, w))(a234, a152, a234, 3) == [3, 5, 4]) and numpy.all(lambdify((x, y, z, w), minimum(x, y, z, w))(a234, a152, a234, 2) == [1, 2, 2]) and lambdify((x, y), [amin(x), amax(y)])(a234, a152) == [2, 5] and numpy.all(min_ == numpy.amin(A, axis=0)) and numpy.all(max_ == numpy.amax(A, axis=1)) and numpy.all(lambdify((x, y), Max(x, y))([1, 2, 3], [3, 2, 1]) == [3, 2, 3]) and numpy.all(lambdify(x, Min(2, x))([1, 2, 3]) == [1, 2, 2])"},"spec":{"lhs":"test_amin_amax_minimum_maximum()","rhs":"numpy.all(lambdify((x, y), maximum(x, y))(a234, a152) == a254) and numpy.all(lambdify((x, y), minimum(x, y))(a234, a152) == a132) and numpy.all(lambdify((x, y, z), maximum(x, y, z))(a234, a152, a234) == a254) and numpy.all(lambdify((x, y, z), minimum(x, y, z))(a234, a152, a234) == a132) and numpy.all(lambdify((x,), maximum(x))(a234) == a234) and numpy.all(lambdify((x,), minimum(x))(a234) == a234) and numpy.all(lambdify((x, y, z, w), maximum(x, y, z, w))(a234, a152, a234, 3) == [3, 5, 4]) and numpy.all(lambdify((x, y, z, w), minimum(x, y, z, w))(a234, a152, a234, 2) == [1, 2, 2]) and lambdify((x, y), [amin(x), amax(y)])(a234, a152) == [2, 5] and numpy.all(min_ == numpy.amin(A, axis=0)) and numpy.all(max_ == numpy.amax(A, axis=1)) and numpy.all(lambdify((x, y), Max(x, y))([1, 2, 3], [3, 2, 1]) == [3, 2, 3]) and numpy.all(lambdify(x, Min(2, x))([1, 2, 3]) == [1, 2, 2])","over":{"base":"Any"},"name":"test_amin_amax_minimum_maximum_correct"},"guarantee":"numpy.all(lambdify((x, y), maximum(x, y))(a234, a152) == a254); numpy.all(lambdify((x, y), minimum(x, y))(a234, a152) == a132); numpy.all(lambdify((x, y, z), maximum(x, y, z))(a234, a152, a234) == a254)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_amin_amax_minimum_maximum_correct","statement":"Path(test_amin_amax_minimum_maximum(x), numpy.all(lambdify((x, y), maximum(x, y))(a234, a152) == a254); numpy.all(lambdify((x, y), minimum(x, y))(a234, a152) == a132); numpy.all(lambdify((x, y, z), maximum(x, y, z))(a234, a152, a234) == a254))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2524603189d6e3f5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["numpy.all(lambdify((x, y), maximum(x, y))(a234, a152) == a254)","numpy.all(lambdify((x, y), minimum(x, y))(a234, a152) == a132)","numpy.all(lambdify((x, y, z), maximum(x, y, z))(a234, a152, a234) == a254)","numpy.all(lambdify((x, y, z), minimum(x, y, z))(a234, a152, a234) == a132)","numpy.all(lambdify((x,), maximum(x))(a234) == a234)","numpy.all(lambdify((x,), minimum(x))(a234) == a234)","numpy.all(lambdify((x, y, z, w), maximum(x, y, z, w))(a234, a152, a234, 3) == [3, 5, 4])","numpy.all(lambdify((x, y, z, w), minimum(x, y, z, w))(a234, a152, a234, 2) == [1, 2, 2])","lambdify((x, y), [amin(x), amax(y)])(a234, a152) == [2, 5]","numpy.all(min_ == numpy.amin(A, axis=0))","numpy.all(max_ == numpy.amax(A, axis=1))","numpy.all(lambdify((x, y), Max(x, y))([1, 2, 3], [3, 2, 1]) == [3, 2, 3])","numpy.all(lambdify(x, Min(2, x))([1, 2, 3]) == [1, 2, 2])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def test_amin_amax_minimum_maximum():
     if not numpy:
         skip("numpy not installed")
@@ -2429,16 +3103,22 @@ def test_amin_amax_minimum_maximum():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Indexed(), test_Indexed produces the expected output) over Any ║
+# ║ Path(test_Indexed(), lambdify(a, Sum(a[x, y], (x, 0, 1), (y, 0, 1)))(b) == 10) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Indexed : Any → {Any | lambdify(a, Sum(a[x, y], ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  lambdify(a, Sum(a[x, y], (x, 0, 1), (y, 0...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Indexed : Any → {Any | result satisfies: lambdif...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 94fc94f65159bb62  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9d573947dc7792f8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_Indexed","kind":"function","src_hash":"426f3323478b4a79","in":{"base":"Any"},"out":{"base":"Any","pred":"lambdify(a, Sum(a[x, y], (x, 0, 1), (y, 0, 1)))(b) == 10"},"spec":{"lhs":"test_Indexed()","rhs":"test_Indexed produces the expected output","over":{"base":"Any"},"name":"test_Indexed_correct"},"guarantee":"test_Indexed produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_Indexed_correct","statement":"Path(test_Indexed(x), test_Indexed produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"94fc94f65159bb62"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_Indexed","kind":"function","src_hash":"426f3323478b4a79","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: lambdify(a, Sum(a[x, y], (x, 0, 1), (y, 0, 1)))(b) == 10"},"spec":{"lhs":"test_Indexed()","rhs":"lambdify(a, Sum(a[x, y], (x, 0, 1), (y, 0, 1)))(b) == 10","over":{"base":"Any"},"name":"test_Indexed_correct"},"guarantee":"lambdify(a, Sum(a[x, y], (x, 0, 1), (y, 0, 1)))(b) == 10","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_Indexed_correct","statement":"Path(test_Indexed(x), lambdify(a, Sum(a[x, y], (x, 0, 1), (y, 0, 1)))(b) == 10)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9d573947dc7792f8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["lambdify(a, Sum(a[x, y], (x, 0, 1), (y, 0, 1)))(b) == 10"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Indexed():
     # Issue #10934
     if not numpy:
@@ -2450,16 +3130,23 @@ def test_Indexed():
     assert lambdify(a, Sum(a[x, y], (x, 0, 1), (y, 0, 1)))(b) == 10
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Sum(), test_Sum produces the expected output) over Any ║
+# ║ Path(test_Sum(), e.doit() == ref and lambdify([z], e)(7) == ref.subs(z, 7)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Sum : Any → {Any | e.doit() == ref and lambdify(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  e.doit() == ref                                ║
+# ║   ensures:  lambdify([z], e)(7) == ref.subs(z, 7)          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Sum : Any → {Any | result satisfies: e.doit() ==...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 24a359d99d6c5769  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ca1db561af66fd3f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_Sum","kind":"function","src_hash":"0566d451b6e0e5b7","in":{"base":"Any"},"out":{"base":"Any","pred":"e.doit() == ref and lambdify([z], e)(7) == ref.subs(z, 7)"},"spec":{"lhs":"test_Sum()","rhs":"test_Sum produces the expected output","over":{"base":"Any"},"name":"test_Sum_correct"},"guarantee":"test_Sum produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_Sum_correct","statement":"Path(test_Sum(x), test_Sum produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"24a359d99d6c5769"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_Sum","kind":"function","src_hash":"0566d451b6e0e5b7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: e.doit() == ref and lambdify([z], e)(7) == ref.subs(z, 7)"},"spec":{"lhs":"test_Sum()","rhs":"e.doit() == ref and lambdify([z], e)(7) == ref.subs(z, 7)","over":{"base":"Any"},"name":"test_Sum_correct"},"guarantee":"e.doit() == ref; lambdify([z], e)(7) == ref.subs(z, 7)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_Sum_correct","statement":"Path(test_Sum(x), e.doit() == ref; lambdify([z], e)(7) == ref.subs(z, 7))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ca1db561af66fd3f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["e.doit() == ref","lambdify([z], e)(7) == ref.subs(z, 7)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Sum():
     e = Sum(z, (y, 0, x), (x, 0, 10))
     ref = 66*z
@@ -2467,16 +3154,22 @@ def test_Sum():
     assert lambdify([z], e)(7) == ref.subs(z, 7)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Idx(), test_Idx produces the expected output) over Any ║
+# ║ Path(test_Idx(), lambdify([a, i], a[i])(b, 2) == 3) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Idx : Any → {Any | lambdify([a, i], a[i])(b, 2) ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  lambdify([a, i], a[i])(b, 2) == 3              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Idx : Any → {Any | result satisfies: lambdify([a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2882a566e5f2f436  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c250cac31af7e5b0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_Idx","kind":"function","src_hash":"7e4d1131e2c7e862","in":{"base":"Any"},"out":{"base":"Any","pred":"lambdify([a, i], a[i])(b, 2) == 3"},"spec":{"lhs":"test_Idx()","rhs":"test_Idx produces the expected output","over":{"base":"Any"},"name":"test_Idx_correct"},"guarantee":"test_Idx produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_Idx_correct","statement":"Path(test_Idx(x), test_Idx produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2882a566e5f2f436"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_Idx","kind":"function","src_hash":"7e4d1131e2c7e862","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: lambdify([a, i], a[i])(b, 2) == 3"},"spec":{"lhs":"test_Idx()","rhs":"lambdify([a, i], a[i])(b, 2) == 3","over":{"base":"Any"},"name":"test_Idx_correct"},"guarantee":"lambdify([a, i], a[i])(b, 2) == 3","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_Idx_correct","statement":"Path(test_Idx(x), lambdify([a, i], a[i])(b, 2) == 3)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c250cac31af7e5b0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["lambdify([a, i], a[i])(b, 2) == 3"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Idx():
     # Issue 26888
     a = IndexedBase('a')
@@ -2486,16 +3179,23 @@ def test_Idx():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_12173(), test_issue_12173 produces the expected output) over Any ║
+# ║ Path(test_issue_12173(), expr1 == uppergamma(1, 2).evalf() and expr2 == lowergamma(1, 2).evalf()) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_12173 : Any → {Any | expr1 == uppergamma(1...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  expr1 == uppergamma(1, 2).evalf()              ║
+# ║   ensures:  expr2 == lowergamma(1, 2).evalf()              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_12173 : Any → {Any | result satisfies: exp...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4509be11a8169a90  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | da642b615763ed00  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_issue_12173","kind":"function","src_hash":"b7f4baa810f5a92d","in":{"base":"Any"},"out":{"base":"Any","pred":"expr1 == uppergamma(1, 2).evalf() and expr2 == lowergamma(1, 2).evalf()"},"spec":{"lhs":"test_issue_12173()","rhs":"test_issue_12173 produces the expected output","over":{"base":"Any"},"name":"test_issue_12173_correct"},"guarantee":"test_issue_12173 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_issue_12173_correct","statement":"Path(test_issue_12173(x), test_issue_12173 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4509be11a8169a90"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_issue_12173","kind":"function","src_hash":"b7f4baa810f5a92d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: expr1 == uppergamma(1, 2).evalf() and expr2 == lowergamma(1, 2).evalf()"},"spec":{"lhs":"test_issue_12173()","rhs":"expr1 == uppergamma(1, 2).evalf() and expr2 == lowergamma(1, 2).evalf()","over":{"base":"Any"},"name":"test_issue_12173_correct"},"guarantee":"expr1 == uppergamma(1, 2).evalf(); expr2 == lowergamma(1, 2).evalf()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_issue_12173_correct","statement":"Path(test_issue_12173(x), expr1 == uppergamma(1, 2).evalf(); expr2 == lowergamma(1, 2).evalf())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"da642b615763ed00","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["expr1 == uppergamma(1, 2).evalf()","expr2 == lowergamma(1, 2).evalf()"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_12173():
     #test for issue 12173
     expr1 = lambdify((x, y), uppergamma(x, y),"mpmath")(1, 2)
@@ -2505,16 +3205,22 @@ def test_issue_12173():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_13642(), test_issue_13642 produces the expected output) over Any ║
+# ║ Path(test_issue_13642(), Abs(f(1) - sinc(1)).n() < 1e-15) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_13642 : Any → {Any | Abs(f(1) - sinc(1)).n...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Abs(f(1) - sinc(1)).n() < 1e-15                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_13642 : Any → {Any | result satisfies: Abs...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 31094505da73ff97  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6348e24eebdb00c3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_issue_13642","kind":"function","src_hash":"0233e1bbc35a248a","in":{"base":"Any"},"out":{"base":"Any","pred":"Abs(f(1) - sinc(1)).n() < 1e-15"},"spec":{"lhs":"test_issue_13642()","rhs":"test_issue_13642 produces the expected output","over":{"base":"Any"},"name":"test_issue_13642_correct"},"guarantee":"test_issue_13642 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_issue_13642_correct","statement":"Path(test_issue_13642(x), test_issue_13642 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"31094505da73ff97"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_issue_13642","kind":"function","src_hash":"0233e1bbc35a248a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Abs(f(1) - sinc(1)).n() < 1e-15"},"spec":{"lhs":"test_issue_13642()","rhs":"Abs(f(1) - sinc(1)).n() < 1e-15","over":{"base":"Any"},"name":"test_issue_13642_correct"},"guarantee":"Abs(f(1) - sinc(1)).n() < 1e-15","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_issue_13642_correct","statement":"Path(test_issue_13642(x), Abs(f(1) - sinc(1)).n() < 1e-15)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6348e24eebdb00c3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Abs(f(1) - sinc(1)).n() < 1e-15"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_13642():
     if not numpy:
         skip("numpy not installed")
@@ -2523,32 +3229,46 @@ def test_issue_13642():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_sinc_mpmath(), test_sinc_mpmath produces the expected output) over Any ║
+# ║ Path(test_sinc_mpmath(), Abs(f(1) - sinc(1)).n() < 1e-15) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_sinc_mpmath : Any → {Any | Abs(f(1) - sinc(1)).n...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Abs(f(1) - sinc(1)).n() < 1e-15                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_sinc_mpmath : Any → {Any | result satisfies: Abs...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cc572f7238f92cc6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1a280b179ca1b206  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_sinc_mpmath","kind":"function","src_hash":"3b4042938b4aea7d","in":{"base":"Any"},"out":{"base":"Any","pred":"Abs(f(1) - sinc(1)).n() < 1e-15"},"spec":{"lhs":"test_sinc_mpmath()","rhs":"test_sinc_mpmath produces the expected output","over":{"base":"Any"},"name":"test_sinc_mpmath_correct"},"guarantee":"test_sinc_mpmath produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_sinc_mpmath_correct","statement":"Path(test_sinc_mpmath(x), test_sinc_mpmath produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cc572f7238f92cc6"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_sinc_mpmath","kind":"function","src_hash":"3b4042938b4aea7d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Abs(f(1) - sinc(1)).n() < 1e-15"},"spec":{"lhs":"test_sinc_mpmath()","rhs":"Abs(f(1) - sinc(1)).n() < 1e-15","over":{"base":"Any"},"name":"test_sinc_mpmath_correct"},"guarantee":"Abs(f(1) - sinc(1)).n() < 1e-15","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_sinc_mpmath_correct","statement":"Path(test_sinc_mpmath(x), Abs(f(1) - sinc(1)).n() < 1e-15)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1a280b179ca1b206","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Abs(f(1) - sinc(1)).n() < 1e-15"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_sinc_mpmath():
     f = lambdify(x, sinc(x), "mpmath")
     assert Abs(f(1) - sinc(1)).n() < 1e-15
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_lambdify_dummy_arg(), test_lambdify_dummy_arg produces the expected output) over Any ║
+# ║ Path(test_lambdify_dummy_arg(), f1(2) == 3 and f1b(2) == 3 and f2(2) == 3 and f3([2]) == 3) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_lambdify_dummy_arg : Any → {Any | f1(2) == 3 and...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f1(2) == 3                                     ║
+# ║   ensures:  f1b(2) == 3                                    ║
+# ║   ensures:  f2(2) == 3                                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_lambdify_dummy_arg : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2e086387dca499cc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 796510e0336da499  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_lambdify_dummy_arg","kind":"function","src_hash":"2ed2314fcc8571a2","in":{"base":"Any"},"out":{"base":"Any","pred":"f1(2) == 3 and f1b(2) == 3 and f2(2) == 3 and f3([2]) == 3"},"spec":{"lhs":"test_lambdify_dummy_arg()","rhs":"test_lambdify_dummy_arg produces the expected output","over":{"base":"Any"},"name":"test_lambdify_dummy_arg_correct"},"guarantee":"test_lambdify_dummy_arg produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_lambdify_dummy_arg_correct","statement":"Path(test_lambdify_dummy_arg(x), test_lambdify_dummy_arg produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2e086387dca499cc"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_lambdify_dummy_arg","kind":"function","src_hash":"2ed2314fcc8571a2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f1(2) == 3 and f1b(2) == 3 and f2(2) == 3 and f3([2]) == 3"},"spec":{"lhs":"test_lambdify_dummy_arg()","rhs":"f1(2) == 3 and f1b(2) == 3 and f2(2) == 3 and f3([2]) == 3","over":{"base":"Any"},"name":"test_lambdify_dummy_arg_correct"},"guarantee":"f1(2) == 3; f1b(2) == 3; f2(2) == 3","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_lambdify_dummy_arg_correct","statement":"Path(test_lambdify_dummy_arg(x), f1(2) == 3; f1b(2) == 3; f2(2) == 3)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"796510e0336da499","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f1(2) == 3","f1b(2) == 3","f2(2) == 3","f3([2]) == 3"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_lambdify_dummy_arg():
     d1 = Dummy()
     f1 = lambdify(d1, d1 + 1, dummify=False)
@@ -2563,16 +3283,22 @@ def test_lambdify_dummy_arg():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_lambdify_mixed_symbol_dummy_args(), test_lambdify_mixed_symbol_dummy_args produces the expected output) over Any ║
+# ║ Path(test_lambdify_mixed_symbol_dummy_args(), f(4, 1) == 3) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f(4, 1) == 3                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_lambdify_mixed_symbol_dummy_args : Any → {Any | ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e0dd2a2a9d9c9e7a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7a0d5f705c4205fe  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_lambdify_mixed_symbol_dummy_args","kind":"function","src_hash":"4f94b01e5cdb058f","in":{"base":"Any"},"out":{"base":"Any","pred":"f(4, 1) == 3"},"spec":{"lhs":"test_lambdify_mixed_symbol_dummy_args()","rhs":"test_lambdify_mixed_symbol_dummy_args produces the expected output","over":{"base":"Any"},"name":"test_lambdify_mixed_symbol_dummy_args_correct"},"guarantee":"test_lambdify_mixed_symbol_dummy_args produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_lambdify_mixed_symbol_dummy_args_correct","statement":"Path(test_lambdify_mixed_symbol_dummy_args(x), test_lambdify_mixed_symbol_dummy_args produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e0dd2a2a9d9c9e7a"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_lambdify_mixed_symbol_dummy_args","kind":"function","src_hash":"4f94b01e5cdb058f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f(4, 1) == 3"},"spec":{"lhs":"test_lambdify_mixed_symbol_dummy_args()","rhs":"f(4, 1) == 3","over":{"base":"Any"},"name":"test_lambdify_mixed_symbol_dummy_args_correct"},"guarantee":"f(4, 1) == 3","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_lambdify_mixed_symbol_dummy_args_correct","statement":"Path(test_lambdify_mixed_symbol_dummy_args(x), f(4, 1) == 3)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7a0d5f705c4205fe","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f(4, 1) == 3"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_lambdify_mixed_symbol_dummy_args():
     d = Dummy()
     # Contrived example of name clash
@@ -2582,16 +3308,22 @@ def test_lambdify_mixed_symbol_dummy_args():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_numpy_array_arg(), test_numpy_array_arg produces the expected output) over Any ║
+# ║ Path(test_numpy_array_arg(), f(numpy.array([2.0, 1.0])) == 5) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_numpy_array_arg : Any → {Any | f(numpy.array([2....   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f(numpy.array([2.0, 1.0])) == 5                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_numpy_array_arg : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 43efc8d66971dd8d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b5a2617571dbe1e0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_numpy_array_arg","kind":"function","src_hash":"c2eef26a54695d22","in":{"base":"Any"},"out":{"base":"Any","pred":"f(numpy.array([2.0, 1.0])) == 5"},"spec":{"lhs":"test_numpy_array_arg()","rhs":"test_numpy_array_arg produces the expected output","over":{"base":"Any"},"name":"test_numpy_array_arg_correct"},"guarantee":"test_numpy_array_arg produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_numpy_array_arg_correct","statement":"Path(test_numpy_array_arg(x), test_numpy_array_arg produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"43efc8d66971dd8d"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_numpy_array_arg","kind":"function","src_hash":"c2eef26a54695d22","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f(numpy.array([2.0, 1.0])) == 5"},"spec":{"lhs":"test_numpy_array_arg()","rhs":"f(numpy.array([2.0, 1.0])) == 5","over":{"base":"Any"},"name":"test_numpy_array_arg_correct"},"guarantee":"f(numpy.array([2.0, 1.0])) == 5","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_numpy_array_arg_correct","statement":"Path(test_numpy_array_arg(x), f(numpy.array([2.0, 1.0])) == 5)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b5a2617571dbe1e0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f(numpy.array([2.0, 1.0])) == 5"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_numpy_array_arg():
     # Test for issue 14655 (numpy part)
     if not numpy:
@@ -2603,16 +3335,22 @@ def test_numpy_array_arg():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_scipy_fns(), test_scipy_fns produces the expected output) over Any ║
+# ║ Path(test_scipy_fns(), <unspecified:test_scipy_fns>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_scipy_fns : Any → {Any | abs(f(tv) - sympy_resul...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8aab9df8a580c041  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_scipy_fns","kind":"function","src_hash":"2e600833666f10c8","in":{"base":"Any"},"out":{"base":"Any","pred":"abs(f(tv) - sympy_result) < 1e-13 * (1 + abs(sympy_result)) and abs(f(tv) - scipy_result) < 1e-13 * (1 + abs(sympy_result)) and abs(f(tv1, tv2) - sympy_result) < 1e-13 * (1 + abs(sympy_result)) and abs(f(tv1, tv2) - scipy_fn(tv1, tv2)) < 1e-13 * (1 + abs(sympy_result))"},"spec":{"lhs":"test_scipy_fns()","rhs":"test_scipy_fns produces the expected output","over":{"base":"Any"},"name":"test_scipy_fns_correct"},"guarantee":"test_scipy_fns produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_scipy_fns_correct","statement":"Path(test_scipy_fns(x), test_scipy_fns produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8aab9df8a580c041"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_scipy_fns","kind":"function","src_hash":"2e600833666f10c8","in":{"base":"Any"},"out":{"base":"Any","pred":"abs(f(tv) - sympy_result) < 1e-13 * (1 + abs(sympy_result)) and abs(f(tv) - scipy_result) < 1e-13 * (1 + abs(sympy_result)) and abs(f(tv1, tv2) - sympy_result) < 1e-13 * (1 + abs(sympy_result)) and abs(f(tv1, tv2) - scipy_fn(tv1, tv2)) < 1e-13 * (1 + abs(sympy_result))"},"spec":{"lhs":"test_scipy_fns()","rhs":"<unspecified:test_scipy_fns>","over":{"base":"Any"},"name":"test_scipy_fns_correct"},"guarantee":"test_scipy_fns produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_scipy_fns_correct","statement":"Path(test_scipy_fns(x), test_scipy_fns produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8aab9df8a580c041","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"nondeterministic","nondeterministic_sources":["numpy.random.uniform"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def test_scipy_fns():
     if not scipy:
         skip("scipy not installed")
@@ -2671,16 +3409,22 @@ def test_scipy_fns():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_scipy_polys(), test_scipy_polys produces the expected output) over Any ║
+# ║ Path(test_scipy_polys(), <unspecified:test_scipy_polys>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_scipy_polys : Any → {Any | diff < atol}               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 18b061924d2f77df  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_scipy_polys","kind":"function","src_hash":"7c2aa9da10ded9ec","in":{"base":"Any"},"out":{"base":"Any","pred":"diff < atol"},"spec":{"lhs":"test_scipy_polys()","rhs":"test_scipy_polys produces the expected output","over":{"base":"Any"},"name":"test_scipy_polys_correct"},"guarantee":"test_scipy_polys produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_scipy_polys_correct","statement":"Path(test_scipy_polys(x), test_scipy_polys produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"18b061924d2f77df"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_scipy_polys","kind":"function","src_hash":"7c2aa9da10ded9ec","in":{"base":"Any"},"out":{"base":"Any","pred":"diff < atol"},"spec":{"lhs":"test_scipy_polys()","rhs":"<unspecified:test_scipy_polys>","over":{"base":"Any"},"name":"test_scipy_polys_correct"},"guarantee":"test_scipy_polys produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_scipy_polys_correct","statement":"Path(test_scipy_polys(x), test_scipy_polys produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"18b061924d2f77df","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"nondeterministic","raises":["AssertionError"],"catches":["TypeError"],"nondeterministic_sources":["numpy.random.randint","numpy.random.uniform"]},"state_contract":{"exceptional_post":{"AssertionError":["isinstance(raised, AssertionError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_scipy_polys():
     if not scipy:
         skip("scipy not installed")
@@ -2742,16 +3486,22 @@ def test_scipy_polys():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_lambdify_inspect(), test_lambdify_inspect produces the expected output) over Any ║
+# ║ Path(test_lambdify_inspect(), 'x**2' in inspect.getsource(f)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_lambdify_inspect : Any → {Any | 'x**2' in inspec...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  'x**2' in inspect.getsource(f)                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_lambdify_inspect : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | edd94b00e44001af  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 990757c6de24897a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_lambdify_inspect","kind":"function","src_hash":"fd26822e33384218","in":{"base":"Any"},"out":{"base":"Any","pred":"'x**2' in inspect.getsource(f)"},"spec":{"lhs":"test_lambdify_inspect()","rhs":"test_lambdify_inspect produces the expected output","over":{"base":"Any"},"name":"test_lambdify_inspect_correct"},"guarantee":"test_lambdify_inspect produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_lambdify_inspect_correct","statement":"Path(test_lambdify_inspect(x), test_lambdify_inspect produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"edd94b00e44001af"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_lambdify_inspect","kind":"function","src_hash":"fd26822e33384218","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: 'x**2' in inspect.getsource(f)"},"spec":{"lhs":"test_lambdify_inspect()","rhs":"'x**2' in inspect.getsource(f)","over":{"base":"Any"},"name":"test_lambdify_inspect_correct"},"guarantee":"'x**2' in inspect.getsource(f)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_lambdify_inspect_correct","statement":"Path(test_lambdify_inspect(x), 'x**2' in inspect.getsource(f))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"990757c6de24897a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["'x**2' in inspect.getsource(f)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_lambdify_inspect():
     f = lambdify(x, x**2)
     # Test that inspect.getsource works but don't hard-code implementation
@@ -2760,16 +3510,24 @@ def test_lambdify_inspect():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_14941(), test_issue_14941 produces the expected output) over Any ║
+# ║ Path(test_issue_14941(), f1(2, 3) == {2: 3, 3: 3} and f2(2, 3) == (3, 2) and f2b() == (1,) and f3(2, 3) == [3, 2]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_14941 : Any → {Any | f1(2, 3) == {2: 3, 3:...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f1(2, 3) == {2: 3, 3: 3}                       ║
+# ║   ensures:  f2(2, 3) == (3, 2)                             ║
+# ║   ensures:  f2b() == (1,)                                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_14941 : Any → {Any | result satisfies: f1(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 64725f1045a20637  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6a32854f3e2db14b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_issue_14941","kind":"function","src_hash":"6d71a828e3675b9b","in":{"base":"Any"},"out":{"base":"Any","pred":"f1(2, 3) == {2: 3, 3: 3} and f2(2, 3) == (3, 2) and f2b() == (1,) and f3(2, 3) == [3, 2]"},"spec":{"lhs":"test_issue_14941()","rhs":"test_issue_14941 produces the expected output","over":{"base":"Any"},"name":"test_issue_14941_correct"},"guarantee":"test_issue_14941 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_issue_14941_correct","statement":"Path(test_issue_14941(x), test_issue_14941 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"64725f1045a20637"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_issue_14941","kind":"function","src_hash":"6d71a828e3675b9b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f1(2, 3) == {2: 3, 3: 3} and f2(2, 3) == (3, 2) and f2b() == (1,) and f3(2, 3) == [3, 2]"},"spec":{"lhs":"test_issue_14941()","rhs":"f1(2, 3) == {2: 3, 3: 3} and f2(2, 3) == (3, 2) and f2b() == (1,) and f3(2, 3) == [3, 2]","over":{"base":"Any"},"name":"test_issue_14941_correct"},"guarantee":"f1(2, 3) == {2: 3, 3: 3}; f2(2, 3) == (3, 2); f2b() == (1,)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_issue_14941_correct","statement":"Path(test_issue_14941(x), f1(2, 3) == {2: 3, 3: 3}; f2(2, 3) == (3, 2); f2b() == (1,))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6a32854f3e2db14b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f1(2, 3) == {2: 3, 3: 3}","f2(2, 3) == (3, 2)","f2b() == (1,)","f3(2, 3) == [3, 2]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_issue_14941():
     x, y = Dummy(), Dummy()
 
@@ -2789,16 +3547,24 @@ def test_issue_14941():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_lambdify_Derivative_arg_issue_16468(), test_lambdify_Derivative_arg_issue_16468 produces the expected output) over Any ║
+# ║ Path(test_lambdify_Derivative_arg_issue_16468(), lambdify((f, fx), f + fx)(10, 5) == 15 and eval(lambdastr((f, fx), f / fx))(10, 5) == 2 and eval(lambdastr((f, fx), f / fx, dummify=True))(10, 5) == 2 and eval(lambdastr((fx, f), f / fx, dummify=True))(S(10), 5) == S.Half and lambdify(fx, 1 + fx)(41) == 42 and eval(lambdastr(fx, 1 + fx, dummify=True))(41) == 42) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  lambdify((f, fx), f + fx)(10, 5) == 15         ║
+# ║   ensures:  eval(lambdastr((f, fx), f / fx))(10, 5) == 2   ║
+# ║   ensures:  eval(lambdastr((f, fx), f / fx, dummify=T...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_lambdify_Derivative_arg_issue_16468 : Any → {Any...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 08c987d7572f7e38  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d386b23952f0f33e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_lambdify_Derivative_arg_issue_16468","kind":"function","src_hash":"52be66073415660e","in":{"base":"Any"},"out":{"base":"Any","pred":"lambdify((f, fx), f + fx)(10, 5) == 15 and eval(lambdastr((f, fx), f / fx))(10, 5) == 2 and eval(lambdastr((f, fx), f / fx, dummify=True))(10, 5) == 2 and eval(lambdastr((fx, f), f / fx, dummify=True))(S(10), 5) == S.Half and lambdify(fx, 1 + fx)(41) == 42 and eval(lambdastr(fx, 1 + fx, dummify=True))(41) == 42"},"spec":{"lhs":"test_lambdify_Derivative_arg_issue_16468()","rhs":"test_lambdify_Derivative_arg_issue_16468 produces the expected output","over":{"base":"Any"},"name":"test_lambdify_Derivative_arg_issue_16468_correct"},"guarantee":"test_lambdify_Derivative_arg_issue_16468 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_lambdify_Derivative_arg_issue_16468_correct","statement":"Path(test_lambdify_Derivative_arg_issue_16468(x), test_lambdify_Derivative_arg_issue_16468 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"08c987d7572f7e38"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_lambdify_Derivative_arg_issue_16468","kind":"function","src_hash":"52be66073415660e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: lambdify((f, fx), f + fx)(10, 5) == 15 and eval(lambdastr((f, fx), f / fx))(10, 5) == 2 and eval(lambdastr((f, fx), f / fx, dummify=True))(10, 5) == 2 and eval(lambdastr((fx, f), f / fx, dummify=True))(S(10), 5) == S.Half and lambdify(fx, 1 + fx)(41) == 42 and eval(lambdastr(fx, 1 + fx, dummify=True))(41) == 42"},"spec":{"lhs":"test_lambdify_Derivative_arg_issue_16468()","rhs":"lambdify((f, fx), f + fx)(10, 5) == 15 and eval(lambdastr((f, fx), f / fx))(10, 5) == 2 and eval(lambdastr((f, fx), f / fx, dummify=True))(10, 5) == 2 and eval(lambdastr((fx, f), f / fx, dummify=True))(S(10), 5) == S.Half and lambdify(fx, 1 + fx)(41) == 42 and eval(lambdastr(fx, 1 + fx, dummify=True))(41) == 42","over":{"base":"Any"},"name":"test_lambdify_Derivative_arg_issue_16468_correct"},"guarantee":"lambdify((f, fx), f + fx)(10, 5) == 15; eval(lambdastr((f, fx), f / fx))(10, 5) == 2; eval(lambdastr((f, fx), f / fx, dummify=True))(10, 5) == 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_lambdify_Derivative_arg_issue_16468_correct","statement":"Path(test_lambdify_Derivative_arg_issue_16468(x), lambdify((f, fx), f + fx)(10, 5) == 15; eval(lambdastr((f, fx), f / fx))(10, 5) == 2; eval(lambdastr((f, fx), f / fx, dummify=True))(10, 5) == 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d386b23952f0f33e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["lambdify((f, fx), f + fx)(10, 5) == 15","eval(lambdastr((f, fx), f / fx))(10, 5) == 2","eval(lambdastr((f, fx), f / fx, dummify=True))(10, 5) == 2","eval(lambdastr((fx, f), f / fx, dummify=True))(S(10), 5) == S.Half","lambdify(fx, 1 + fx)(41) == 42","eval(lambdastr(fx, 1 + fx, dummify=True))(41) == 42"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_lambdify_Derivative_arg_issue_16468():
     f = Function('f')(x)
     fx = f.diff()
@@ -2813,16 +3579,23 @@ def test_lambdify_Derivative_arg_issue_16468():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_lambdify_Derivative_zeta(), test_lambdify_Derivative_zeta produces the expected output) over Any ║
+# ║ Path(test_lambdify_Derivative_zeta(), abs(ans1 - ref1) / abs(ref1) < 1e-07 and abs(ans2 - ref2) / abs(ref2) < 1e-07) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_lambdify_Derivative_zeta : Any → {Any | abs(ans1...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  abs(ans1 - ref1) / abs(ref1) < 1e-07           ║
+# ║   ensures:  abs(ans2 - ref2) / abs(ref2) < 1e-07           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_lambdify_Derivative_zeta : Any → {Any | result s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d21b1bfe75bdf7e2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 056e989925bb9aed  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_lambdify_Derivative_zeta","kind":"function","src_hash":"a9b7b5489f24c6e6","in":{"base":"Any"},"out":{"base":"Any","pred":"abs(ans1 - ref1) / abs(ref1) < 1e-07 and abs(ans2 - ref2) / abs(ref2) < 1e-07"},"spec":{"lhs":"test_lambdify_Derivative_zeta()","rhs":"test_lambdify_Derivative_zeta produces the expected output","over":{"base":"Any"},"name":"test_lambdify_Derivative_zeta_correct"},"guarantee":"test_lambdify_Derivative_zeta produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_lambdify_Derivative_zeta_correct","statement":"Path(test_lambdify_Derivative_zeta(x), test_lambdify_Derivative_zeta produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d21b1bfe75bdf7e2"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_lambdify_Derivative_zeta","kind":"function","src_hash":"a9b7b5489f24c6e6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: abs(ans1 - ref1) / abs(ref1) < 1e-07 and abs(ans2 - ref2) / abs(ref2) < 1e-07"},"spec":{"lhs":"test_lambdify_Derivative_zeta()","rhs":"abs(ans1 - ref1) / abs(ref1) < 1e-07 and abs(ans2 - ref2) / abs(ref2) < 1e-07","over":{"base":"Any"},"name":"test_lambdify_Derivative_zeta_correct"},"guarantee":"abs(ans1 - ref1) / abs(ref1) < 1e-07; abs(ans2 - ref2) / abs(ref2) < 1e-07","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_lambdify_Derivative_zeta_correct","statement":"Path(test_lambdify_Derivative_zeta(x), abs(ans1 - ref1) / abs(ref1) < 1e-07; abs(ans2 - ref2) / abs(ref2) < 1e-07)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"056e989925bb9aed","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["abs(ans1 - ref1) / abs(ref1) < 1e-07","abs(ans2 - ref2) / abs(ref2) < 1e-07"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_lambdify_Derivative_zeta():
     # This is related to gh-11802 (and to lesser extent gh-26663)
     expr1 = zeta(x).diff(x, evaluate=False)
@@ -2839,16 +3612,23 @@ def test_lambdify_Derivative_zeta():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_lambdify_Derivative_custom_printer(), test_lambdify_Derivative_custom_printer produces the expected output) over Any ║
+# ║ Path(test_lambdify_Derivative_custom_printer(), '42') over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f1(7) == 42                                    ║
+# ║   returns:  '42'                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_lambdify_Derivative_custom_printer : Any → {Any ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 01ba8e5f41c10640  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 160ec155f59c851b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_lambdify_Derivative_custom_printer","kind":"function","src_hash":"21ef8dcf80c8a097","in":{"base":"Any"},"out":{"base":"Any","pred":"f1(7) == 42"},"spec":{"lhs":"test_lambdify_Derivative_custom_printer()","rhs":"test_lambdify_Derivative_custom_printer produces the expected output","over":{"base":"Any"},"name":"test_lambdify_Derivative_custom_printer_correct"},"guarantee":"test_lambdify_Derivative_custom_printer produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_lambdify_Derivative_custom_printer_correct","statement":"Path(test_lambdify_Derivative_custom_printer(x), test_lambdify_Derivative_custom_printer produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"01ba8e5f41c10640"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_lambdify_Derivative_custom_printer","kind":"function","src_hash":"21ef8dcf80c8a097","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == ('42')"},"spec":{"lhs":"test_lambdify_Derivative_custom_printer()","rhs":"'42'","over":{"base":"Any"},"name":"test_lambdify_Derivative_custom_printer_correct"},"guarantee":"returns '42'; f1(7) == 42","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_lambdify_Derivative_custom_printer_correct","statement":"Path(test_lambdify_Derivative_custom_printer(x), returns '42'; f1(7) == 42)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"160ec155f59c851b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f1(7) == 42"],"returns_expr":"'42'","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_lambdify_Derivative_custom_printer():
     func1 = Function('func1')
     func2 = Function('func2')
@@ -2870,16 +3650,22 @@ def test_lambdify_Derivative_custom_printer():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_lambdify_derivative_and_functions_as_arguments(), test_lambdify_derivative_and_functions_as_arguments produces the expected output) over Any ║
+# ║ Path(test_lambdify_derivative_and_functions_as_arguments(), <unspecified:test_lambdify_derivative_and_functions_as_arguments>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_lambdify_derivative_and_functions_as_arguments :...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 41861482b1847862  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_lambdify_derivative_and_functions_as_arguments","kind":"function","src_hash":"1551af9b98224132","in":{"base":"Any"},"out":{"base":"Any","pred":"abs(res1 - ref1) < 1e-12 and len(res12) == 2 and abs(res12[0] - ref1) < 1e-12 and abs(res12[1] - ref2) < 1e-12"},"spec":{"lhs":"test_lambdify_derivative_and_functions_as_arguments()","rhs":"test_lambdify_derivative_and_functions_as_arguments produces the expected output","over":{"base":"Any"},"name":"test_lambdify_derivative_and_functions_as_arguments_correct"},"guarantee":"test_lambdify_derivative_and_functions_as_arguments produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_lambdify_derivative_and_functions_as_arguments_correct","statement":"Path(test_lambdify_derivative_and_functions_as_arguments(x), test_lambdify_derivative_and_functions_as_arguments produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"41861482b1847862"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_lambdify_derivative_and_functions_as_arguments","kind":"function","src_hash":"1551af9b98224132","in":{"base":"Any"},"out":{"base":"Any","pred":"abs(res1 - ref1) < 1e-12 and len(res12) == 2 and abs(res12[0] - ref1) < 1e-12 and abs(res12[1] - ref2) < 1e-12"},"spec":{"lhs":"test_lambdify_derivative_and_functions_as_arguments()","rhs":"<unspecified:test_lambdify_derivative_and_functions_as_arguments>","over":{"base":"Any"},"name":"test_lambdify_derivative_and_functions_as_arguments_correct"},"guarantee":"test_lambdify_derivative_and_functions_as_arguments produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_lambdify_derivative_and_functions_as_arguments_correct","statement":"Path(test_lambdify_derivative_and_functions_as_arguments(x), test_lambdify_derivative_and_functions_as_arguments produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"41861482b1847862","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_lambdify_derivative_and_functions_as_arguments():
     # see: https://github.com/sympy/sympy/issues/26663#issuecomment-2157179517
     t, a, b = symbols('t, a, b')
@@ -2905,16 +3691,23 @@ def test_lambdify_derivative_and_functions_as_arguments():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_imag_real(), test_imag_real produces the expected output) over Any ║
+# ║ Path(test_imag_real(), f_re(val) == val.real and f_im(val) == val.imag) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_imag_real : Any → {Any | f_re(val) == val.real a...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f_re(val) == val.real                          ║
+# ║   ensures:  f_im(val) == val.imag                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_imag_real : Any → {Any | result satisfies: f_re(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9a242f04f14300ae  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ec2f261790d25930  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_imag_real","kind":"function","src_hash":"5f76e63ffa5e0ea3","in":{"base":"Any"},"out":{"base":"Any","pred":"f_re(val) == val.real and f_im(val) == val.imag"},"spec":{"lhs":"test_imag_real()","rhs":"test_imag_real produces the expected output","over":{"base":"Any"},"name":"test_imag_real_correct"},"guarantee":"test_imag_real produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_imag_real_correct","statement":"Path(test_imag_real(x), test_imag_real produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9a242f04f14300ae"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_imag_real","kind":"function","src_hash":"5f76e63ffa5e0ea3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f_re(val) == val.real and f_im(val) == val.imag"},"spec":{"lhs":"test_imag_real()","rhs":"f_re(val) == val.real and f_im(val) == val.imag","over":{"base":"Any"},"name":"test_imag_real_correct"},"guarantee":"f_re(val) == val.real; f_im(val) == val.imag","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_imag_real_correct","statement":"Path(test_imag_real(x), f_re(val) == val.real; f_im(val) == val.imag)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ec2f261790d25930","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f_re(val) == val.real","f_im(val) == val.imag"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_imag_real():
     f_re = lambdify([z], sympy.re(z))
     val = 3+2j
@@ -2925,16 +3718,23 @@ def test_imag_real():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_MatrixSymbol_issue_15578(), test_MatrixSymbol_issue_15578 produces the expected output) over Any ║
+# ║ Path(test_MatrixSymbol_issue_15578(), numpy.allclose(f(A0), numpy.array([[-2.0, 1.0], [1.5, -0.5]])) and numpy.allclose(g(A0), numpy.array([[37, 54], [81, 118]]))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_MatrixSymbol_issue_15578 : Any → {Any | numpy.al...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  numpy.allclose(f(A0), numpy.array([[-2.0,...   ║
+# ║   ensures:  numpy.allclose(g(A0), numpy.array([[37, 5...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_MatrixSymbol_issue_15578 : Any → {Any | result s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a64ee3eea17c9e47  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e42a6456611cf86e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_MatrixSymbol_issue_15578","kind":"function","src_hash":"cb7544d11fa7e243","in":{"base":"Any"},"out":{"base":"Any","pred":"numpy.allclose(f(A0), numpy.array([[-2.0, 1.0], [1.5, -0.5]])) and numpy.allclose(g(A0), numpy.array([[37, 54], [81, 118]]))"},"spec":{"lhs":"test_MatrixSymbol_issue_15578()","rhs":"test_MatrixSymbol_issue_15578 produces the expected output","over":{"base":"Any"},"name":"test_MatrixSymbol_issue_15578_correct"},"guarantee":"test_MatrixSymbol_issue_15578 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_MatrixSymbol_issue_15578_correct","statement":"Path(test_MatrixSymbol_issue_15578(x), test_MatrixSymbol_issue_15578 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a64ee3eea17c9e47"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_MatrixSymbol_issue_15578","kind":"function","src_hash":"cb7544d11fa7e243","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: numpy.allclose(f(A0), numpy.array([[-2.0, 1.0], [1.5, -0.5]])) and numpy.allclose(g(A0), numpy.array([[37, 54], [81, 118]]))"},"spec":{"lhs":"test_MatrixSymbol_issue_15578()","rhs":"numpy.allclose(f(A0), numpy.array([[-2.0, 1.0], [1.5, -0.5]])) and numpy.allclose(g(A0), numpy.array([[37, 54], [81, 118]]))","over":{"base":"Any"},"name":"test_MatrixSymbol_issue_15578_correct"},"guarantee":"numpy.allclose(f(A0), numpy.array([[-2.0, 1.0], [1.5, -0.5]])); numpy.allclose(g(A0), numpy.array([[37, 54], [81, 118]]))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_MatrixSymbol_issue_15578_correct","statement":"Path(test_MatrixSymbol_issue_15578(x), numpy.allclose(f(A0), numpy.array([[-2.0, 1.0], [1.5, -0.5]])); numpy.allclose(g(A0), numpy.array([[37, 54], [81, 118]])))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e42a6456611cf86e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["numpy.allclose(f(A0), numpy.array([[-2.0, 1.0], [1.5, -0.5]]))","numpy.allclose(g(A0), numpy.array([[37, 54], [81, 118]]))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_MatrixSymbol_issue_15578():
     if not numpy:
         skip("numpy not installed")
@@ -2947,16 +3747,22 @@ def test_MatrixSymbol_issue_15578():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_15654(), test_issue_15654 produces the expected output) over Any ║
+# ║ Path(test_issue_15654(), abs(sympy_value - scipy_value) < 1e-15) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_15654 : Any → {Any | abs(sympy_value - sci...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  abs(sympy_value - scipy_value) < 1e-15         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_15654 : Any → {Any | result satisfies: abs...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0c53263be7ea84f0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8b443263a7eba039  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_issue_15654","kind":"function","src_hash":"b17ba28ec4c8e618","in":{"base":"Any"},"out":{"base":"Any","pred":"abs(sympy_value - scipy_value) < 1e-15"},"spec":{"lhs":"test_issue_15654()","rhs":"test_issue_15654 produces the expected output","over":{"base":"Any"},"name":"test_issue_15654_correct"},"guarantee":"test_issue_15654 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_issue_15654_correct","statement":"Path(test_issue_15654(x), test_issue_15654 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0c53263be7ea84f0"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_issue_15654","kind":"function","src_hash":"b17ba28ec4c8e618","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: abs(sympy_value - scipy_value) < 1e-15"},"spec":{"lhs":"test_issue_15654()","rhs":"abs(sympy_value - scipy_value) < 1e-15","over":{"base":"Any"},"name":"test_issue_15654_correct"},"guarantee":"abs(sympy_value - scipy_value) < 1e-15","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_issue_15654_correct","statement":"Path(test_issue_15654(x), abs(sympy_value - scipy_value) < 1e-15)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8b443263a7eba039","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["abs(sympy_value - scipy_value) < 1e-15"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_15654():
     if not scipy:
         skip("scipy not installed")
@@ -2970,16 +3776,24 @@ def test_issue_15654():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_15827(), test_issue_15827 produces the expected output) over Any ║
+# ║ Path(test_issue_15827(), numpy.array_equal(f(numpy.array([[1, 2, 3], [1, 2, 3], [1, 2, 3]])), numpy.array([[2 * k, 4 * k, 6 * k], [2 * k, 4 * k, 6 * k], [2 * k, 4 * k, 6 * k]], dtype=object)) and numpy.array_equal(g(numpy.array([[1, 2, 3], [1, 2, 3], [1, 2, 3]])), numpy.array([[k + 2, 2 * k + 4, 3 * k + 6], [k + 2, 2 * k + 4, 3 * k + 6], [k + 2, 2 * k + 4, 3 * k + 6]], dtype=object)) and numpy.array_equal(h(numpy.array([[1, 2, 3], [1, 2, 3], [1, 2, 3]])), numpy.array([[2, 4, 6], [2, 4, 6], [2, 4, 6]])) and numpy.array_equal(i(numpy.array([[1, 2, 3], [1, 2, 3]]), numpy.array([[1, 2, 3, 4], [1, 2, 3, 4], [1, 2, 3, 4]]), numpy.array([[1, 2, 3, 4, 5], [1, 2, 3, 4, 5], [1, 2, 3, 4, 5], [1, 2, 3, 4, 5]])), numpy.array([[120, 240, 360, 480, 600], [120, 240, 360, 480, 600]]))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_15827 : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  numpy.array_equal(f(numpy.array([[1, 2, 3...   ║
+# ║   ensures:  numpy.array_equal(g(numpy.array([[1, 2, 3...   ║
+# ║   ensures:  numpy.array_equal(h(numpy.array([[1, 2, 3...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_15827 : Any → {Any | result satisfies: num...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4929176c868eec10  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e5968a681284d26e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_issue_15827","kind":"function","src_hash":"28e503be69b5f58c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_issue_15827()","rhs":"test_issue_15827 produces the expected output","over":{"base":"Any"},"name":"test_issue_15827_correct"},"guarantee":"test_issue_15827 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_issue_15827_correct","statement":"Path(test_issue_15827(x), test_issue_15827 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4929176c868eec10"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_issue_15827","kind":"function","src_hash":"28e503be69b5f58c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: numpy.array_equal(f(numpy.array([[1, 2, 3], [1, 2, 3], [1, 2, 3]])), numpy.array([[2 * k, 4 * k, 6 * k], [2 * k, 4 * k, 6 * k], [2 * k, 4 * k, 6 * k]], dtype=object)) and numpy.array_equal(g(numpy.array([[1, 2, 3], [1, 2, 3], [1, 2, 3]])), numpy.array([[k + 2, 2 * k + 4, 3 * k + 6], [k + 2, 2 * k + 4, 3 * k + 6], [k + 2, 2 * k + 4, 3 * k + 6]], dtype=object)) and numpy.array_equal(h(numpy.array([[1, 2, 3], [1, 2, 3], [1, 2, 3]])), numpy.array([[2, 4, 6], [2, 4, 6], [2, 4, 6]])) and numpy.array_equal(i(numpy.array([[1, 2, 3], [1, 2, 3]]), numpy.array([[1, 2, 3, 4], [1, 2, 3, 4], [1, 2, 3, 4]]), numpy.array([[1, 2, 3, 4, 5], [1, 2, 3, 4, 5], [1, 2, 3, 4, 5], [1, 2, 3, 4, 5]])), numpy.array([[120, 240, 360, 480, 600], [120, 240, 360, 480, 600]]))"},"spec":{"lhs":"test_issue_15827()","rhs":"numpy.array_equal(f(numpy.array([[1, 2, 3], [1, 2, 3], [1, 2, 3]])), numpy.array([[2 * k, 4 * k, 6 * k], [2 * k, 4 * k, 6 * k], [2 * k, 4 * k, 6 * k]], dtype=object)) and numpy.array_equal(g(numpy.array([[1, 2, 3], [1, 2, 3], [1, 2, 3]])), numpy.array([[k + 2, 2 * k + 4, 3 * k + 6], [k + 2, 2 * k + 4, 3 * k + 6], [k + 2, 2 * k + 4, 3 * k + 6]], dtype=object)) and numpy.array_equal(h(numpy.array([[1, 2, 3], [1, 2, 3], [1, 2, 3]])), numpy.array([[2, 4, 6], [2, 4, 6], [2, 4, 6]])) and numpy.array_equal(i(numpy.array([[1, 2, 3], [1, 2, 3]]), numpy.array([[1, 2, 3, 4], [1, 2, 3, 4], [1, 2, 3, 4]]), numpy.array([[1, 2, 3, 4, 5], [1, 2, 3, 4, 5], [1, 2, 3, 4, 5], [1, 2, 3, 4, 5]])), numpy.array([[120, 240, 360, 480, 600], [120, 240, 360, 480, 600]]))","over":{"base":"Any"},"name":"test_issue_15827_correct"},"guarantee":"numpy.array_equal(f(numpy.array([[1, 2, 3], [1, 2, 3], [1, 2, 3]])), numpy.array([[2 * k, 4 * k, 6 * k], [2 * k, 4 * k, 6 * k], [2 * k, 4 * k, 6 * k]], dtype=object)); numpy.array_equal(g(numpy.array([[1, 2, 3], [1, 2, 3], [1, 2, 3]])), numpy.array([[k + 2, 2 * k + 4, 3 * k + 6], [k + 2, 2 * k + 4, 3 * k + 6], [k + 2, 2 * k + 4, 3 * k + 6]], dtype=object)); numpy.array_equal(h(numpy.array([[1, 2, 3], [1, 2, 3], [1, 2, 3]])), numpy.array([[2, 4, 6], [2, 4, 6], [2, 4, 6]]))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_issue_15827_correct","statement":"Path(test_issue_15827(x), numpy.array_equal(f(numpy.array([[1, 2, 3], [1, 2, 3], [1, 2, 3]])), numpy.array([[2 * k, 4 * k, 6 * k], [2 * k, 4 * k, 6 * k], [2 * k, 4 * k, 6 * k]], dtype=object)); numpy.array_equal(g(numpy.array([[1, 2, 3], [1, 2, 3], [1, 2, 3]])), numpy.array([[k + 2, 2 * k + 4, 3 * k + 6], [k + 2, 2 * k + 4, 3 * k + 6], [k + 2, 2 * k + 4, 3 * k + 6]], dtype=object)); numpy.array_equal(h(numpy.array([[1, 2, 3], [1, 2, 3], [1, 2, 3]])), numpy.array([[2, 4, 6], [2, 4, 6], [2, 4, 6]])))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e5968a681284d26e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["numpy.array_equal(f(numpy.array([[1, 2, 3], [1, 2, 3], [1, 2, 3]])), numpy.array([[2 * k, 4 * k, 6 * k], [2 * k, 4 * k, 6 * k], [2 * k, 4 * k, 6 * k]], dtype=object))","numpy.array_equal(g(numpy.array([[1, 2, 3], [1, 2, 3], [1, 2, 3]])), numpy.array([[k + 2, 2 * k + 4, 3 * k + 6], [k + 2, 2 * k + 4, 3 * k + 6], [k + 2, 2 * k + 4, 3 * k + 6]], dtype=object))","numpy.array_equal(h(numpy.array([[1, 2, 3], [1, 2, 3], [1, 2, 3]])), numpy.array([[2, 4, 6], [2, 4, 6], [2, 4, 6]]))","numpy.array_equal(i(numpy.array([[1, 2, 3], [1, 2, 3]]), numpy.array([[1, 2, 3, 4], [1, 2, 3, 4], [1, 2, 3, 4]]), numpy.array([[1, 2, 3, 4, 5], [1, 2, 3, 4, 5], [1, 2, 3, 4, 5], [1, 2, 3, 4, 5]])), numpy.array([[120, 240, 360, 480, 600], [120, 240, 360, 480, 600]]))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def test_issue_15827():
     if not numpy:
         skip("numpy not installed")
@@ -3008,16 +3822,22 @@ def test_issue_15827():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_16930(), test_issue_16930 produces the expected output) over Any ║
+# ║ Path(test_issue_16930(), f_(1) == scipy.constants.golden_ratio) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_16930 : Any → {Any | f_(1) == scipy.consta...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f_(1) == scipy.constants.golden_ratio          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_16930 : Any → {Any | result satisfies: f_(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0ff94e24d77cd3c2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1adb19c64f08976d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_issue_16930","kind":"function","src_hash":"02f8b2782ec1d629","in":{"base":"Any"},"out":{"base":"Any","pred":"f_(1) == scipy.constants.golden_ratio"},"spec":{"lhs":"test_issue_16930()","rhs":"test_issue_16930 produces the expected output","over":{"base":"Any"},"name":"test_issue_16930_correct"},"guarantee":"test_issue_16930 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_issue_16930_correct","statement":"Path(test_issue_16930(x), test_issue_16930 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0ff94e24d77cd3c2"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_issue_16930","kind":"function","src_hash":"02f8b2782ec1d629","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f_(1) == scipy.constants.golden_ratio"},"spec":{"lhs":"test_issue_16930()","rhs":"f_(1) == scipy.constants.golden_ratio","over":{"base":"Any"},"name":"test_issue_16930_correct"},"guarantee":"f_(1) == scipy.constants.golden_ratio","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_issue_16930_correct","statement":"Path(test_issue_16930(x), f_(1) == scipy.constants.golden_ratio)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1adb19c64f08976d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f_(1) == scipy.constants.golden_ratio"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_16930():
     if not scipy:
         skip("scipy not installed")
@@ -3028,16 +3848,22 @@ def test_issue_16930():
     assert f_(1) == scipy.constants.golden_ratio
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_17898(), test_issue_17898 produces the expected output) over Any ║
+# ║ Path(test_issue_17898(), f_(0.1) == mpmath.lambertw(0.1, -1)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_17898 : Any → {Any | f_(0.1) == mpmath.lam...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f_(0.1) == mpmath.lambertw(0.1, -1)            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_17898 : Any → {Any | result satisfies: f_(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2e89a2f20c4c5e09  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8fd4fee71ab2d2b9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_issue_17898","kind":"function","src_hash":"c6914c89a37da27c","in":{"base":"Any"},"out":{"base":"Any","pred":"f_(0.1) == mpmath.lambertw(0.1, -1)"},"spec":{"lhs":"test_issue_17898()","rhs":"test_issue_17898 produces the expected output","over":{"base":"Any"},"name":"test_issue_17898_correct"},"guarantee":"test_issue_17898 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_issue_17898_correct","statement":"Path(test_issue_17898(x), test_issue_17898 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2e89a2f20c4c5e09"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_issue_17898","kind":"function","src_hash":"c6914c89a37da27c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f_(0.1) == mpmath.lambertw(0.1, -1)"},"spec":{"lhs":"test_issue_17898()","rhs":"f_(0.1) == mpmath.lambertw(0.1, -1)","over":{"base":"Any"},"name":"test_issue_17898_correct"},"guarantee":"f_(0.1) == mpmath.lambertw(0.1, -1)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_issue_17898_correct","statement":"Path(test_issue_17898(x), f_(0.1) == mpmath.lambertw(0.1, -1))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8fd4fee71ab2d2b9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f_(0.1) == mpmath.lambertw(0.1, -1)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_17898():
     if not scipy:
         skip("scipy not installed")
@@ -3046,16 +3872,24 @@ def test_issue_17898():
     assert f_(0.1) == mpmath.lambertw(0.1, -1)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_13167_21411(), test_issue_13167_21411 produces the expected output) over Any ║
+# ║ Path(test_issue_13167_21411(), Abs(res1[0]).n() < 1e-15 and Abs(res1[1] - 1 / 2).n() < 1e-15 and Abs(res1[2] - 1).n() < 1e-15 and Abs(res2[0]).n() < 1e-15 and Abs(res2[1] - 1).n() < 1e-15 and Abs(res2[2] - 1).n() < 1e-15) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_13167_21411 : Any → {Any | Abs(res1[0]).n(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Abs(res1[0]).n() < 1e-15                       ║
+# ║   ensures:  Abs(res1[1] - 1 / 2).n() < 1e-15               ║
+# ║   ensures:  Abs(res1[2] - 1).n() < 1e-15                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_13167_21411 : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7bcffd2b95853325  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3276eaf5bd6abaf6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_issue_13167_21411","kind":"function","src_hash":"01a34bccdfd933b6","in":{"base":"Any"},"out":{"base":"Any","pred":"Abs(res1[0]).n() < 1e-15 and Abs(res1[1] - 1 / 2).n() < 1e-15 and Abs(res1[2] - 1).n() < 1e-15 and Abs(res2[0]).n() < 1e-15 and Abs(res2[1] - 1).n() < 1e-15 and Abs(res2[2] - 1).n() < 1e-15"},"spec":{"lhs":"test_issue_13167_21411()","rhs":"test_issue_13167_21411 produces the expected output","over":{"base":"Any"},"name":"test_issue_13167_21411_correct"},"guarantee":"test_issue_13167_21411 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_issue_13167_21411_correct","statement":"Path(test_issue_13167_21411(x), test_issue_13167_21411 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7bcffd2b95853325"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_issue_13167_21411","kind":"function","src_hash":"01a34bccdfd933b6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Abs(res1[0]).n() < 1e-15 and Abs(res1[1] - 1 / 2).n() < 1e-15 and Abs(res1[2] - 1).n() < 1e-15 and Abs(res2[0]).n() < 1e-15 and Abs(res2[1] - 1).n() < 1e-15 and Abs(res2[2] - 1).n() < 1e-15"},"spec":{"lhs":"test_issue_13167_21411()","rhs":"Abs(res1[0]).n() < 1e-15 and Abs(res1[1] - 1 / 2).n() < 1e-15 and Abs(res1[2] - 1).n() < 1e-15 and Abs(res2[0]).n() < 1e-15 and Abs(res2[1] - 1).n() < 1e-15 and Abs(res2[2] - 1).n() < 1e-15","over":{"base":"Any"},"name":"test_issue_13167_21411_correct"},"guarantee":"Abs(res1[0]).n() < 1e-15; Abs(res1[1] - 1 / 2).n() < 1e-15; Abs(res1[2] - 1).n() < 1e-15","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_issue_13167_21411_correct","statement":"Path(test_issue_13167_21411(x), Abs(res1[0]).n() < 1e-15; Abs(res1[1] - 1 / 2).n() < 1e-15; Abs(res1[2] - 1).n() < 1e-15)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3276eaf5bd6abaf6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Abs(res1[0]).n() < 1e-15","Abs(res1[1] - 1 / 2).n() < 1e-15","Abs(res1[2] - 1).n() < 1e-15","Abs(res2[0]).n() < 1e-15","Abs(res2[1] - 1).n() < 1e-15","Abs(res2[2] - 1).n() < 1e-15"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_issue_13167_21411():
     if not numpy:
         skip("numpy not installed")
@@ -3071,31 +3905,44 @@ def test_issue_13167_21411():
     assert Abs(res2[2] - 1).n() < 1e-15
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_single_e(), test_single_e produces the expected output) over Any ║
+# ║ Path(test_single_e(), f(23) == exp(1.0)) over Any          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_single_e : Any → {Any | f(23) == exp(1.0)}            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f(23) == exp(1.0)                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_single_e : Any → {Any | result satisfies: f(23) ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 10790634a38f0a21  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9e5f81cbf3792303  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_single_e","kind":"function","src_hash":"f616cad1674632f6","in":{"base":"Any"},"out":{"base":"Any","pred":"f(23) == exp(1.0)"},"spec":{"lhs":"test_single_e()","rhs":"test_single_e produces the expected output","over":{"base":"Any"},"name":"test_single_e_correct"},"guarantee":"test_single_e produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_single_e_correct","statement":"Path(test_single_e(x), test_single_e produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"10790634a38f0a21"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_single_e","kind":"function","src_hash":"f616cad1674632f6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f(23) == exp(1.0)"},"spec":{"lhs":"test_single_e()","rhs":"f(23) == exp(1.0)","over":{"base":"Any"},"name":"test_single_e_correct"},"guarantee":"f(23) == exp(1.0)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_single_e_correct","statement":"Path(test_single_e(x), f(23) == exp(1.0))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9e5f81cbf3792303","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f(23) == exp(1.0)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_single_e():
     f = lambdify(x, E)
     assert f(23) == exp(1.0)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_16536(), test_issue_16536 produces the expected output) over Any ║
+# ║ Path(test_issue_16536(), abs(lowergamma(1, 3) - F(1, 3)) <= 1e-10 and abs(uppergamma(1, 3) - F(1, 3)) <= 1e-10) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_16536 : Any → {Any | abs(lowergamma(1, 3) ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  abs(lowergamma(1, 3) - F(1, 3)) <= 1e-10       ║
+# ║   ensures:  abs(uppergamma(1, 3) - F(1, 3)) <= 1e-10       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_16536 : Any → {Any | result satisfies: abs...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9b3ce53a1e7e7192  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 96fbe0f23ea3edcf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_issue_16536","kind":"function","src_hash":"6fd24e7cd0afdef6","in":{"base":"Any"},"out":{"base":"Any","pred":"abs(lowergamma(1, 3) - F(1, 3)) <= 1e-10 and abs(uppergamma(1, 3) - F(1, 3)) <= 1e-10"},"spec":{"lhs":"test_issue_16536()","rhs":"test_issue_16536 produces the expected output","over":{"base":"Any"},"name":"test_issue_16536_correct"},"guarantee":"test_issue_16536 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_issue_16536_correct","statement":"Path(test_issue_16536(x), test_issue_16536 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9b3ce53a1e7e7192"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_issue_16536","kind":"function","src_hash":"6fd24e7cd0afdef6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: abs(lowergamma(1, 3) - F(1, 3)) <= 1e-10 and abs(uppergamma(1, 3) - F(1, 3)) <= 1e-10"},"spec":{"lhs":"test_issue_16536()","rhs":"abs(lowergamma(1, 3) - F(1, 3)) <= 1e-10 and abs(uppergamma(1, 3) - F(1, 3)) <= 1e-10","over":{"base":"Any"},"name":"test_issue_16536_correct"},"guarantee":"abs(lowergamma(1, 3) - F(1, 3)) <= 1e-10; abs(uppergamma(1, 3) - F(1, 3)) <= 1e-10","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_issue_16536_correct","statement":"Path(test_issue_16536(x), abs(lowergamma(1, 3) - F(1, 3)) <= 1e-10; abs(uppergamma(1, 3) - F(1, 3)) <= 1e-10)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"96fbe0f23ea3edcf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["abs(lowergamma(1, 3) - F(1, 3)) <= 1e-10","abs(uppergamma(1, 3) - F(1, 3)) <= 1e-10"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_16536():
     if not scipy:
         skip("scipy not installed")
@@ -3111,16 +3958,22 @@ def test_issue_16536():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_22726(), test_issue_22726 produces the expected output) over Any ║
+# ║ Path(test_issue_22726(), (abs(g.subs(point) - G(*point.values())) <= 1e-10).all()) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_22726 : Any → {Any | (abs(g.subs(point) - ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (abs(g.subs(point) - G(*point.values())) ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_22726 : Any → {Any | result satisfies: (ab...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ebea295277ebea25  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a81b537e3efee1bc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_issue_22726","kind":"function","src_hash":"ed390ff148cc15c8","in":{"base":"Any"},"out":{"base":"Any","pred":"(abs(g.subs(point) - G(*point.values())) <= 1e-10).all()"},"spec":{"lhs":"test_issue_22726()","rhs":"test_issue_22726 produces the expected output","over":{"base":"Any"},"name":"test_issue_22726_correct"},"guarantee":"test_issue_22726 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_issue_22726_correct","statement":"Path(test_issue_22726(x), test_issue_22726 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ebea295277ebea25"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_issue_22726","kind":"function","src_hash":"ed390ff148cc15c8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (abs(g.subs(point) - G(*point.values())) <= 1e-10).all()"},"spec":{"lhs":"test_issue_22726()","rhs":"(abs(g.subs(point) - G(*point.values())) <= 1e-10).all()","over":{"base":"Any"},"name":"test_issue_22726_correct"},"guarantee":"(abs(g.subs(point) - G(*point.values())) <= 1e-10).all()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_issue_22726_correct","statement":"Path(test_issue_22726(x), (abs(g.subs(point) - G(*point.values())) <= 1e-10).all())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a81b537e3efee1bc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(abs(g.subs(point) - G(*point.values())) <= 1e-10).all()"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_22726():
     if not numpy:
         skip("numpy not installed")
@@ -3134,16 +3987,22 @@ def test_issue_22726():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_22739(), test_issue_22739 produces the expected output) over Any ║
+# ║ Path(test_issue_22739(), abs(f.subs(point) - F(*point.values())) <= 1e-10) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_22739 : Any → {Any | abs(f.subs(point) - F...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  abs(f.subs(point) - F(*point.values())) <...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_22739 : Any → {Any | result satisfies: abs...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f48a28b539d8a6e7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5ee8fa1c6f8138ad  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_issue_22739","kind":"function","src_hash":"eac1a8ceef4665e7","in":{"base":"Any"},"out":{"base":"Any","pred":"abs(f.subs(point) - F(*point.values())) <= 1e-10"},"spec":{"lhs":"test_issue_22739()","rhs":"test_issue_22739 produces the expected output","over":{"base":"Any"},"name":"test_issue_22739_correct"},"guarantee":"test_issue_22739 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_issue_22739_correct","statement":"Path(test_issue_22739(x), test_issue_22739 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f48a28b539d8a6e7"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_issue_22739","kind":"function","src_hash":"eac1a8ceef4665e7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: abs(f.subs(point) - F(*point.values())) <= 1e-10"},"spec":{"lhs":"test_issue_22739()","rhs":"abs(f.subs(point) - F(*point.values())) <= 1e-10","over":{"base":"Any"},"name":"test_issue_22739_correct"},"guarantee":"abs(f.subs(point) - F(*point.values())) <= 1e-10","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_issue_22739_correct","statement":"Path(test_issue_22739(x), abs(f.subs(point) - F(*point.values())) <= 1e-10)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5ee8fa1c6f8138ad","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["abs(f.subs(point) - F(*point.values())) <= 1e-10"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_22739():
     if not numpy:
         skip("numpy not installed")
@@ -3156,16 +4015,22 @@ def test_issue_22739():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_22992(), test_issue_22992 produces the expected output) over Any ║
+# ║ Path(test_issue_22992(), abs(expr.subs(point) - F(*point.values())) <= 1e-10) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_22992 : Any → {Any | abs(expr.subs(point) ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  abs(expr.subs(point) - F(*point.values())...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_22992 : Any → {Any | result satisfies: abs...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 83c5c143ca360192  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bba9dcd09521d0cf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_issue_22992","kind":"function","src_hash":"aa237d01b019c318","in":{"base":"Any"},"out":{"base":"Any","pred":"abs(expr.subs(point) - F(*point.values())) <= 1e-10 and abs(expr.subs(point) - F(*point.values())) <= 1e-10"},"spec":{"lhs":"test_issue_22992()","rhs":"test_issue_22992 produces the expected output","over":{"base":"Any"},"name":"test_issue_22992_correct"},"guarantee":"test_issue_22992 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_issue_22992_correct","statement":"Path(test_issue_22992(x), test_issue_22992 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"83c5c143ca360192"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_issue_22992","kind":"function","src_hash":"aa237d01b019c318","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: abs(expr.subs(point) - F(*point.values())) <= 1e-10"},"spec":{"lhs":"test_issue_22992()","rhs":"abs(expr.subs(point) - F(*point.values())) <= 1e-10","over":{"base":"Any"},"name":"test_issue_22992_correct"},"guarantee":"abs(expr.subs(point) - F(*point.values())) <= 1e-10","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_issue_22992_correct","statement":"Path(test_issue_22992(x), abs(expr.subs(point) - F(*point.values())) <= 1e-10)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bba9dcd09521d0cf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["abs(expr.subs(point) - F(*point.values())) <= 1e-10"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_issue_22992():
     if not numpy:
         skip("numpy not installed")
@@ -3185,16 +4050,22 @@ def test_issue_22992():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_19764(), test_issue_19764 produces the expected output) over Any ║
+# ║ Path(test_issue_19764(), f(1).__class__ == numpy.ndarray) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_19764 : Any → {Any | f(1).__class__ == num...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f(1).__class__ == numpy.ndarray                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_19764 : Any → {Any | result satisfies: f(1...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1f723901b561e774  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 19a6824d125edfca  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_issue_19764","kind":"function","src_hash":"5b92d9ed73594d2d","in":{"base":"Any"},"out":{"base":"Any","pred":"f(1).__class__ == numpy.ndarray"},"spec":{"lhs":"test_issue_19764()","rhs":"test_issue_19764 produces the expected output","over":{"base":"Any"},"name":"test_issue_19764_correct"},"guarantee":"test_issue_19764 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_issue_19764_correct","statement":"Path(test_issue_19764(x), test_issue_19764 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1f723901b561e774"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_issue_19764","kind":"function","src_hash":"5b92d9ed73594d2d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f(1).__class__ == numpy.ndarray"},"spec":{"lhs":"test_issue_19764()","rhs":"f(1).__class__ == numpy.ndarray","over":{"base":"Any"},"name":"test_issue_19764_correct"},"guarantee":"f(1).__class__ == numpy.ndarray","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_issue_19764_correct","statement":"Path(test_issue_19764(x), f(1).__class__ == numpy.ndarray)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"19a6824d125edfca","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f(1).__class__ == numpy.ndarray"],"pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_19764():
     if not numpy:
         skip("numpy not installed")
@@ -3205,16 +4076,22 @@ def test_issue_19764():
     assert f(1).__class__ == numpy.ndarray
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_20070(), test_issue_20070 produces the expected output) over Any ║
+# ║ Path(test_issue_20070(), numba.jit(f, nopython=True)(1) == 0.8414709848078965) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_20070 : Any → {Any | numba.jit(f, nopython...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  numba.jit(f, nopython=True)(1) == 0.84147...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_20070 : Any → {Any | result satisfies: num...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 21fc34fe2dd6ddb3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a97a14e610374ac3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_issue_20070","kind":"function","src_hash":"8b0de638e5ad12da","in":{"base":"Any"},"out":{"base":"Any","pred":"numba.jit(f, nopython=True)(1) == 0.8414709848078965"},"spec":{"lhs":"test_issue_20070()","rhs":"test_issue_20070 produces the expected output","over":{"base":"Any"},"name":"test_issue_20070_correct"},"guarantee":"test_issue_20070 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_issue_20070_correct","statement":"Path(test_issue_20070(x), test_issue_20070 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"21fc34fe2dd6ddb3"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_issue_20070","kind":"function","src_hash":"8b0de638e5ad12da","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: numba.jit(f, nopython=True)(1) == 0.8414709848078965"},"spec":{"lhs":"test_issue_20070()","rhs":"numba.jit(f, nopython=True)(1) == 0.8414709848078965","over":{"base":"Any"},"name":"test_issue_20070_correct"},"guarantee":"numba.jit(f, nopython=True)(1) == 0.8414709848078965","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_issue_20070_correct","statement":"Path(test_issue_20070(x), numba.jit(f, nopython=True)(1) == 0.8414709848078965)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a97a14e610374ac3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["numba.jit(f, nopython=True)(1) == 0.8414709848078965"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_20070():
     if not numba:
         skip("numba not installed")
@@ -3224,16 +4101,23 @@ def test_issue_20070():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_fresnel_integrals_scipy(), test_fresnel_integrals_scipy produces the expected output) over Any ║
+# ║ Path(test_fresnel_integrals_scipy(), abs(fresnelc(1.3) - F1(1.3)) <= 1e-10 and abs(fresnels(1.3) - F2(1.3)) <= 1e-10) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_fresnel_integrals_scipy : Any → {Any | abs(fresn...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  abs(fresnelc(1.3) - F1(1.3)) <= 1e-10          ║
+# ║   ensures:  abs(fresnels(1.3) - F2(1.3)) <= 1e-10          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_fresnel_integrals_scipy : Any → {Any | result sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9c5237d8d878ea17  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1bc4e003bfc6f263  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_fresnel_integrals_scipy","kind":"function","src_hash":"3476a7dac105080c","in":{"base":"Any"},"out":{"base":"Any","pred":"abs(fresnelc(1.3) - F1(1.3)) <= 1e-10 and abs(fresnels(1.3) - F2(1.3)) <= 1e-10"},"spec":{"lhs":"test_fresnel_integrals_scipy()","rhs":"test_fresnel_integrals_scipy produces the expected output","over":{"base":"Any"},"name":"test_fresnel_integrals_scipy_correct"},"guarantee":"test_fresnel_integrals_scipy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_fresnel_integrals_scipy_correct","statement":"Path(test_fresnel_integrals_scipy(x), test_fresnel_integrals_scipy produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9c5237d8d878ea17"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_fresnel_integrals_scipy","kind":"function","src_hash":"3476a7dac105080c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: abs(fresnelc(1.3) - F1(1.3)) <= 1e-10 and abs(fresnels(1.3) - F2(1.3)) <= 1e-10"},"spec":{"lhs":"test_fresnel_integrals_scipy()","rhs":"abs(fresnelc(1.3) - F1(1.3)) <= 1e-10 and abs(fresnels(1.3) - F2(1.3)) <= 1e-10","over":{"base":"Any"},"name":"test_fresnel_integrals_scipy_correct"},"guarantee":"abs(fresnelc(1.3) - F1(1.3)) <= 1e-10; abs(fresnels(1.3) - F2(1.3)) <= 1e-10","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_fresnel_integrals_scipy_correct","statement":"Path(test_fresnel_integrals_scipy(x), abs(fresnelc(1.3) - F1(1.3)) <= 1e-10; abs(fresnels(1.3) - F2(1.3)) <= 1e-10)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1bc4e003bfc6f263","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["abs(fresnelc(1.3) - F1(1.3)) <= 1e-10","abs(fresnels(1.3) - F2(1.3)) <= 1e-10"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_fresnel_integrals_scipy():
     if not scipy:
         skip("scipy not installed")
@@ -3248,16 +4132,22 @@ def test_fresnel_integrals_scipy():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_beta_scipy(), test_beta_scipy produces the expected output) over Any ║
+# ║ Path(test_beta_scipy(), abs(beta(1.3, 2.3) - F(1.3, 2.3)) <= 1e-10) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_beta_scipy : Any → {Any | abs(beta(1.3, 2.3) - F...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  abs(beta(1.3, 2.3) - F(1.3, 2.3)) <= 1e-10     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_beta_scipy : Any → {Any | result satisfies: abs(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 87bc1eec7b487629  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4e5855c84f638f0d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_beta_scipy","kind":"function","src_hash":"f869cbfeffd458c5","in":{"base":"Any"},"out":{"base":"Any","pred":"abs(beta(1.3, 2.3) - F(1.3, 2.3)) <= 1e-10"},"spec":{"lhs":"test_beta_scipy()","rhs":"test_beta_scipy produces the expected output","over":{"base":"Any"},"name":"test_beta_scipy_correct"},"guarantee":"test_beta_scipy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_beta_scipy_correct","statement":"Path(test_beta_scipy(x), test_beta_scipy produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"87bc1eec7b487629"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_beta_scipy","kind":"function","src_hash":"f869cbfeffd458c5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: abs(beta(1.3, 2.3) - F(1.3, 2.3)) <= 1e-10"},"spec":{"lhs":"test_beta_scipy()","rhs":"abs(beta(1.3, 2.3) - F(1.3, 2.3)) <= 1e-10","over":{"base":"Any"},"name":"test_beta_scipy_correct"},"guarantee":"abs(beta(1.3, 2.3) - F(1.3, 2.3)) <= 1e-10","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_beta_scipy_correct","statement":"Path(test_beta_scipy(x), abs(beta(1.3, 2.3) - F(1.3, 2.3)) <= 1e-10)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4e5855c84f638f0d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["abs(beta(1.3, 2.3) - F(1.3, 2.3)) <= 1e-10"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_beta_scipy():
     if not scipy:
         skip("scipy not installed")
@@ -3269,16 +4159,22 @@ def test_beta_scipy():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_beta_math(), test_beta_math produces the expected output) over Any ║
+# ║ Path(test_beta_math(), abs(beta(1.3, 2.3) - F(1.3, 2.3)) <= 1e-10) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_beta_math : Any → {Any | abs(beta(1.3, 2.3) - F(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  abs(beta(1.3, 2.3) - F(1.3, 2.3)) <= 1e-10     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_beta_math : Any → {Any | result satisfies: abs(b...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ea5b5959bc4a9edc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d7cdb5c3a6fbaebf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_beta_math","kind":"function","src_hash":"0ad68d002e1b9fb3","in":{"base":"Any"},"out":{"base":"Any","pred":"abs(beta(1.3, 2.3) - F(1.3, 2.3)) <= 1e-10"},"spec":{"lhs":"test_beta_math()","rhs":"test_beta_math produces the expected output","over":{"base":"Any"},"name":"test_beta_math_correct"},"guarantee":"test_beta_math produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_beta_math_correct","statement":"Path(test_beta_math(x), test_beta_math produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ea5b5959bc4a9edc"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_beta_math","kind":"function","src_hash":"0ad68d002e1b9fb3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: abs(beta(1.3, 2.3) - F(1.3, 2.3)) <= 1e-10"},"spec":{"lhs":"test_beta_math()","rhs":"abs(beta(1.3, 2.3) - F(1.3, 2.3)) <= 1e-10","over":{"base":"Any"},"name":"test_beta_math_correct"},"guarantee":"abs(beta(1.3, 2.3) - F(1.3, 2.3)) <= 1e-10","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_beta_math_correct","statement":"Path(test_beta_math(x), abs(beta(1.3, 2.3) - F(1.3, 2.3)) <= 1e-10)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d7cdb5c3a6fbaebf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["abs(beta(1.3, 2.3) - F(1.3, 2.3)) <= 1e-10"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_beta_math():
     f = beta(x, y)
     F = lambdify((x, y), f, modules='math')
@@ -3287,16 +4183,22 @@ def test_beta_math():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_betainc_scipy(), test_betainc_scipy produces the expected output) over Any ║
+# ║ Path(test_betainc_scipy(), abs(betainc(1.4, 3.1, 0.1, 0.5) - F(1.4, 3.1, 0.1, 0.5)) <= 1e-10) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_betainc_scipy : Any → {Any | abs(betainc(1.4, 3....   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  abs(betainc(1.4, 3.1, 0.1, 0.5) - F(1.4, ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_betainc_scipy : Any → {Any | result satisfies: a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 829c0c17bcc7d5c0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dbfb8c0db434cd04  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_betainc_scipy","kind":"function","src_hash":"244775084d2a3081","in":{"base":"Any"},"out":{"base":"Any","pred":"abs(betainc(1.4, 3.1, 0.1, 0.5) - F(1.4, 3.1, 0.1, 0.5)) <= 1e-10"},"spec":{"lhs":"test_betainc_scipy()","rhs":"test_betainc_scipy produces the expected output","over":{"base":"Any"},"name":"test_betainc_scipy_correct"},"guarantee":"test_betainc_scipy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_betainc_scipy_correct","statement":"Path(test_betainc_scipy(x), test_betainc_scipy produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"829c0c17bcc7d5c0"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_betainc_scipy","kind":"function","src_hash":"244775084d2a3081","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: abs(betainc(1.4, 3.1, 0.1, 0.5) - F(1.4, 3.1, 0.1, 0.5)) <= 1e-10"},"spec":{"lhs":"test_betainc_scipy()","rhs":"abs(betainc(1.4, 3.1, 0.1, 0.5) - F(1.4, 3.1, 0.1, 0.5)) <= 1e-10","over":{"base":"Any"},"name":"test_betainc_scipy_correct"},"guarantee":"abs(betainc(1.4, 3.1, 0.1, 0.5) - F(1.4, 3.1, 0.1, 0.5)) <= 1e-10","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_betainc_scipy_correct","statement":"Path(test_betainc_scipy(x), abs(betainc(1.4, 3.1, 0.1, 0.5) - F(1.4, 3.1, 0.1, 0.5)) <= 1e-10)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dbfb8c0db434cd04","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["abs(betainc(1.4, 3.1, 0.1, 0.5) - F(1.4, 3.1, 0.1, 0.5)) <= 1e-10"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_betainc_scipy():
     if not scipy:
         skip("scipy not installed")
@@ -3308,16 +4210,22 @@ def test_betainc_scipy():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_betainc_regularized_scipy(), test_betainc_regularized_scipy produces the expected output) over Any ║
+# ║ Path(test_betainc_regularized_scipy(), abs(betainc_regularized(0.2, 3.5, 0.1, 1) - F(0.2, 3.5, 0.1, 1)) <= 1e-10) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_betainc_regularized_scipy : Any → {Any | abs(bet...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  abs(betainc_regularized(0.2, 3.5, 0.1, 1)...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_betainc_regularized_scipy : Any → {Any | result ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 05d83593ce0b7ef0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0476949125cf3bc9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_betainc_regularized_scipy","kind":"function","src_hash":"35e8ce8f13c67fd6","in":{"base":"Any"},"out":{"base":"Any","pred":"abs(betainc_regularized(0.2, 3.5, 0.1, 1) - F(0.2, 3.5, 0.1, 1)) <= 1e-10"},"spec":{"lhs":"test_betainc_regularized_scipy()","rhs":"test_betainc_regularized_scipy produces the expected output","over":{"base":"Any"},"name":"test_betainc_regularized_scipy_correct"},"guarantee":"test_betainc_regularized_scipy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_betainc_regularized_scipy_correct","statement":"Path(test_betainc_regularized_scipy(x), test_betainc_regularized_scipy produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"05d83593ce0b7ef0"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_betainc_regularized_scipy","kind":"function","src_hash":"35e8ce8f13c67fd6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: abs(betainc_regularized(0.2, 3.5, 0.1, 1) - F(0.2, 3.5, 0.1, 1)) <= 1e-10"},"spec":{"lhs":"test_betainc_regularized_scipy()","rhs":"abs(betainc_regularized(0.2, 3.5, 0.1, 1) - F(0.2, 3.5, 0.1, 1)) <= 1e-10","over":{"base":"Any"},"name":"test_betainc_regularized_scipy_correct"},"guarantee":"abs(betainc_regularized(0.2, 3.5, 0.1, 1) - F(0.2, 3.5, 0.1, 1)) <= 1e-10","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_betainc_regularized_scipy_correct","statement":"Path(test_betainc_regularized_scipy(x), abs(betainc_regularized(0.2, 3.5, 0.1, 1) - F(0.2, 3.5, 0.1, 1)) <= 1e-10)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0476949125cf3bc9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["abs(betainc_regularized(0.2, 3.5, 0.1, 1) - F(0.2, 3.5, 0.1, 1)) <= 1e-10"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_betainc_regularized_scipy():
     if not scipy:
         skip("scipy not installed")
@@ -3329,16 +4237,22 @@ def test_betainc_regularized_scipy():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_numpy_special_math(), test_numpy_special_math produces the expected output) over Any ║
+# ║ Path(test_numpy_special_math(), abs(2.0 ** lae2(1e-50, 2.5e-50) - 3.5e-50) < 1e-62) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_numpy_special_math : Any → {Any | abs(2.0 ** lae...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  abs(2.0 ** lae2(1e-50, 2.5e-50) - 3.5e-50...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_numpy_special_math : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 84c444fb65f3f061  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ede61d8077704f82  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_numpy_special_math","kind":"function","src_hash":"b960fdb1a481313e","in":{"base":"Any"},"out":{"base":"Any","pred":"abs(2.0 ** lae2(1e-50, 2.5e-50) - 3.5e-50) < 1e-62 and numpy.allclose(result, float(reference))"},"spec":{"lhs":"test_numpy_special_math()","rhs":"test_numpy_special_math produces the expected output","over":{"base":"Any"},"name":"test_numpy_special_math_correct"},"guarantee":"test_numpy_special_math produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_numpy_special_math_correct","statement":"Path(test_numpy_special_math(x), test_numpy_special_math produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"84c444fb65f3f061"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_numpy_special_math","kind":"function","src_hash":"b960fdb1a481313e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: abs(2.0 ** lae2(1e-50, 2.5e-50) - 3.5e-50) < 1e-62"},"spec":{"lhs":"test_numpy_special_math()","rhs":"abs(2.0 ** lae2(1e-50, 2.5e-50) - 3.5e-50) < 1e-62","over":{"base":"Any"},"name":"test_numpy_special_math_correct"},"guarantee":"abs(2.0 ** lae2(1e-50, 2.5e-50) - 3.5e-50) < 1e-62","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_numpy_special_math_correct","statement":"Path(test_numpy_special_math(x), abs(2.0 ** lae2(1e-50, 2.5e-50) - 3.5e-50) < 1e-62)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ede61d8077704f82","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["abs(2.0 ** lae2(1e-50, 2.5e-50) - 3.5e-50) < 1e-62"],"pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_numpy_special_math():
     if not numpy:
         skip("numpy not installed")
@@ -3365,16 +4279,22 @@ def test_numpy_special_math():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_scipy_special_math(), test_scipy_special_math produces the expected output) over Any ║
+# ║ Path(test_scipy_special_math(), abs(cm1(1e-20) + 5e-41) < 1e-200) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_scipy_special_math : Any → {Any | abs(cm1(1e-20)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  abs(cm1(1e-20) + 5e-41) < 1e-200               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_scipy_special_math : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 87f31c420024bee6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 05c56a17c6db0aa4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_scipy_special_math","kind":"function","src_hash":"f55594b4f8c05d5f","in":{"base":"Any"},"out":{"base":"Any","pred":"abs(cm1(1e-20) + 5e-41) < 1e-200 and abs(cm2(1.2, 1e-09) - 1.82321557e-10) < 1e-17"},"spec":{"lhs":"test_scipy_special_math()","rhs":"test_scipy_special_math produces the expected output","over":{"base":"Any"},"name":"test_scipy_special_math_correct"},"guarantee":"test_scipy_special_math produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_scipy_special_math_correct","statement":"Path(test_scipy_special_math(x), test_scipy_special_math produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"87f31c420024bee6"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_scipy_special_math","kind":"function","src_hash":"f55594b4f8c05d5f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: abs(cm1(1e-20) + 5e-41) < 1e-200"},"spec":{"lhs":"test_scipy_special_math()","rhs":"abs(cm1(1e-20) + 5e-41) < 1e-200","over":{"base":"Any"},"name":"test_scipy_special_math_correct"},"guarantee":"abs(cm1(1e-20) + 5e-41) < 1e-200","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_scipy_special_math_correct","statement":"Path(test_scipy_special_math(x), abs(cm1(1e-20) + 5e-41) < 1e-200)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"05c56a17c6db0aa4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["abs(cm1(1e-20) + 5e-41) < 1e-200"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_scipy_special_math():
     if not scipy:
         skip("scipy not installed")
@@ -3390,16 +4310,22 @@ def test_scipy_special_math():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_scipy_bernoulli(), test_scipy_bernoulli produces the expected output) over Any ║
+# ║ Path(test_scipy_bernoulli(), bern(1) == 0.5) over Any      ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_scipy_bernoulli : Any → {Any | bern(1) == 0.5}        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  bern(1) == 0.5                                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_scipy_bernoulli : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ed8f2f5545c65805  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1424e521ceae5504  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_scipy_bernoulli","kind":"function","src_hash":"b14f643388d52c8f","in":{"base":"Any"},"out":{"base":"Any","pred":"bern(1) == 0.5"},"spec":{"lhs":"test_scipy_bernoulli()","rhs":"test_scipy_bernoulli produces the expected output","over":{"base":"Any"},"name":"test_scipy_bernoulli_correct"},"guarantee":"test_scipy_bernoulli produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_scipy_bernoulli_correct","statement":"Path(test_scipy_bernoulli(x), test_scipy_bernoulli produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ed8f2f5545c65805"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_scipy_bernoulli","kind":"function","src_hash":"b14f643388d52c8f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: bern(1) == 0.5"},"spec":{"lhs":"test_scipy_bernoulli()","rhs":"bern(1) == 0.5","over":{"base":"Any"},"name":"test_scipy_bernoulli_correct"},"guarantee":"bern(1) == 0.5","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_scipy_bernoulli_correct","statement":"Path(test_scipy_bernoulli(x), bern(1) == 0.5)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1424e521ceae5504","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["bern(1) == 0.5"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_scipy_bernoulli():
     if not scipy:
         skip("scipy not installed")
@@ -3409,16 +4335,23 @@ def test_scipy_bernoulli():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_scipy_harmonic(), test_scipy_harmonic produces the expected output) over Any ║
+# ║ Path(test_scipy_harmonic(), hn(2) == 1.5 and hnm(2, 2) == 1.25) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_scipy_harmonic : Any → {Any | hn(2) == 1.5 and h...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  hn(2) == 1.5                                   ║
+# ║   ensures:  hnm(2, 2) == 1.25                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_scipy_harmonic : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0d54ccfe76edd179  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7d892e6535f6a350  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_scipy_harmonic","kind":"function","src_hash":"1dc0654c795091a4","in":{"base":"Any"},"out":{"base":"Any","pred":"hn(2) == 1.5 and hnm(2, 2) == 1.25"},"spec":{"lhs":"test_scipy_harmonic()","rhs":"test_scipy_harmonic produces the expected output","over":{"base":"Any"},"name":"test_scipy_harmonic_correct"},"guarantee":"test_scipy_harmonic produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_scipy_harmonic_correct","statement":"Path(test_scipy_harmonic(x), test_scipy_harmonic produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0d54ccfe76edd179"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_scipy_harmonic","kind":"function","src_hash":"1dc0654c795091a4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: hn(2) == 1.5 and hnm(2, 2) == 1.25"},"spec":{"lhs":"test_scipy_harmonic()","rhs":"hn(2) == 1.5 and hnm(2, 2) == 1.25","over":{"base":"Any"},"name":"test_scipy_harmonic_correct"},"guarantee":"hn(2) == 1.5; hnm(2, 2) == 1.25","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_scipy_harmonic_correct","statement":"Path(test_scipy_harmonic(x), hn(2) == 1.5; hnm(2, 2) == 1.25)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7d892e6535f6a350","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["hn(2) == 1.5","hnm(2, 2) == 1.25"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_scipy_harmonic():
     if not scipy:
         skip("scipy not installed")
@@ -3430,16 +4363,23 @@ def test_scipy_harmonic():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_cupy_array_arg(), test_cupy_array_arg produces the expected output) over Any ║
+# ║ Path(test_cupy_array_arg(), result == 5 and 'cupy' in str(type(result))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_cupy_array_arg : Any → {Any | result == 5 and 'c...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == 5                                    ║
+# ║   ensures:  'cupy' in str(type(result))                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_cupy_array_arg : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 57d9c47922a9bab8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6755dd529aed6bf3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_cupy_array_arg","kind":"function","src_hash":"b2e7eddc76df0a35","in":{"base":"Any"},"out":{"base":"Any","pred":"result == 5 and 'cupy' in str(type(result))"},"spec":{"lhs":"test_cupy_array_arg()","rhs":"test_cupy_array_arg produces the expected output","over":{"base":"Any"},"name":"test_cupy_array_arg_correct"},"guarantee":"test_cupy_array_arg produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_cupy_array_arg_correct","statement":"Path(test_cupy_array_arg(x), test_cupy_array_arg produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"57d9c47922a9bab8"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_cupy_array_arg","kind":"function","src_hash":"b2e7eddc76df0a35","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == 5 and 'cupy' in str(type(result))"},"spec":{"lhs":"test_cupy_array_arg()","rhs":"result == 5 and 'cupy' in str(type(result))","over":{"base":"Any"},"name":"test_cupy_array_arg_correct"},"guarantee":"result == 5; 'cupy' in str(type(result))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_cupy_array_arg_correct","statement":"Path(test_cupy_array_arg(x), result == 5; 'cupy' in str(type(result)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6755dd529aed6bf3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == 5","'cupy' in str(type(result))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_cupy_array_arg():
     if not cupy:
         skip("CuPy not installed")
@@ -3451,16 +4391,23 @@ def test_cupy_array_arg():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_cupy_array_arg_using_numpy(), test_cupy_array_arg_using_numpy produces the expected output) over Any ║
+# ║ Path(test_cupy_array_arg_using_numpy(), result == 5 and 'cupy' in str(type(result))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == 5                                    ║
+# ║   ensures:  'cupy' in str(type(result))                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_cupy_array_arg_using_numpy : Any → {Any | result...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b24028091d0d4422  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 016585c6fe27897e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_cupy_array_arg_using_numpy","kind":"function","src_hash":"7f0a0dc1d995920e","in":{"base":"Any"},"out":{"base":"Any","pred":"result == 5 and 'cupy' in str(type(result))"},"spec":{"lhs":"test_cupy_array_arg_using_numpy()","rhs":"test_cupy_array_arg_using_numpy produces the expected output","over":{"base":"Any"},"name":"test_cupy_array_arg_using_numpy_correct"},"guarantee":"test_cupy_array_arg_using_numpy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_cupy_array_arg_using_numpy_correct","statement":"Path(test_cupy_array_arg_using_numpy(x), test_cupy_array_arg_using_numpy produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b24028091d0d4422"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_cupy_array_arg_using_numpy","kind":"function","src_hash":"7f0a0dc1d995920e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == 5 and 'cupy' in str(type(result))"},"spec":{"lhs":"test_cupy_array_arg_using_numpy()","rhs":"result == 5 and 'cupy' in str(type(result))","over":{"base":"Any"},"name":"test_cupy_array_arg_using_numpy_correct"},"guarantee":"result == 5; 'cupy' in str(type(result))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_cupy_array_arg_using_numpy_correct","statement":"Path(test_cupy_array_arg_using_numpy(x), result == 5; 'cupy' in str(type(result)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"016585c6fe27897e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == 5","'cupy' in str(type(result))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_cupy_array_arg_using_numpy():
     # numpy functions can be run on cupy arrays
     # unclear if we can "officially" support this,
@@ -3474,16 +4421,22 @@ def test_cupy_array_arg_using_numpy():
     assert "cupy" in str(type(result))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_cupy_dotproduct(), test_cupy_dotproduct produces the expected output) over Any ║
+# ║ Path(test_cupy_dotproduct(), f1(1, 2, 3) == f2(1, 2, 3) == f3(1, 2, 3) == f4(1, 2, 3) == cupy.array([14])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_cupy_dotproduct : Any → {Any | f1(1, 2, 3) == f2...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f1(1, 2, 3) == f2(1, 2, 3) == f3(1, 2, 3)...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_cupy_dotproduct : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 06c62dfd6f91beab  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7391deb97b8a125e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_cupy_dotproduct","kind":"function","src_hash":"a4fbd1ccdb5612cc","in":{"base":"Any"},"out":{"base":"Any","pred":"f1(1, 2, 3) == f2(1, 2, 3) == f3(1, 2, 3) == f4(1, 2, 3) == cupy.array([14])"},"spec":{"lhs":"test_cupy_dotproduct()","rhs":"test_cupy_dotproduct produces the expected output","over":{"base":"Any"},"name":"test_cupy_dotproduct_correct"},"guarantee":"test_cupy_dotproduct produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_cupy_dotproduct_correct","statement":"Path(test_cupy_dotproduct(x), test_cupy_dotproduct produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"06c62dfd6f91beab"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_cupy_dotproduct","kind":"function","src_hash":"a4fbd1ccdb5612cc","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f1(1, 2, 3) == f2(1, 2, 3) == f3(1, 2, 3) == f4(1, 2, 3) == cupy.array([14])"},"spec":{"lhs":"test_cupy_dotproduct()","rhs":"f1(1, 2, 3) == f2(1, 2, 3) == f3(1, 2, 3) == f4(1, 2, 3) == cupy.array([14])","over":{"base":"Any"},"name":"test_cupy_dotproduct_correct"},"guarantee":"f1(1, 2, 3) == f2(1, 2, 3) == f3(1, 2, 3) == f4(1, 2, 3) == cupy.array([14])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_cupy_dotproduct_correct","statement":"Path(test_cupy_dotproduct(x), f1(1, 2, 3) == f2(1, 2, 3) == f3(1, 2, 3) == f4(1, 2, 3) == cupy.array([14]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7391deb97b8a125e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f1(1, 2, 3) == f2(1, 2, 3) == f3(1, 2, 3) == f4(1, 2, 3) == cupy.array([14])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_cupy_dotproduct():
     if not cupy:
         skip("CuPy not installed")
@@ -3502,16 +4455,23 @@ def test_cupy_dotproduct():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_jax_array_arg(), test_jax_array_arg produces the expected output) over Any ║
+# ║ Path(test_jax_array_arg(), result == 5 and 'jax' in str(type(result))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_jax_array_arg : Any → {Any | result == 5 and 'ja...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == 5                                    ║
+# ║   ensures:  'jax' in str(type(result))                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_jax_array_arg : Any → {Any | result satisfies: r...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5ae61f28aa1bda74  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 51455d69944016d4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_jax_array_arg","kind":"function","src_hash":"5352d784b4ffea51","in":{"base":"Any"},"out":{"base":"Any","pred":"result == 5 and 'jax' in str(type(result))"},"spec":{"lhs":"test_jax_array_arg()","rhs":"test_jax_array_arg produces the expected output","over":{"base":"Any"},"name":"test_jax_array_arg_correct"},"guarantee":"test_jax_array_arg produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_jax_array_arg_correct","statement":"Path(test_jax_array_arg(x), test_jax_array_arg produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5ae61f28aa1bda74"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_jax_array_arg","kind":"function","src_hash":"5352d784b4ffea51","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == 5 and 'jax' in str(type(result))"},"spec":{"lhs":"test_jax_array_arg()","rhs":"result == 5 and 'jax' in str(type(result))","over":{"base":"Any"},"name":"test_jax_array_arg_correct"},"guarantee":"result == 5; 'jax' in str(type(result))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_jax_array_arg_correct","statement":"Path(test_jax_array_arg(x), result == 5; 'jax' in str(type(result)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"51455d69944016d4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == 5","'jax' in str(type(result))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_jax_array_arg():
     if not jax:
         skip("JAX not installed")
@@ -3523,16 +4483,23 @@ def test_jax_array_arg():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_jax_array_arg_using_numpy(), test_jax_array_arg_using_numpy produces the expected output) over Any ║
+# ║ Path(test_jax_array_arg_using_numpy(), result == 5 and 'jax' in str(type(result))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == 5                                    ║
+# ║   ensures:  'jax' in str(type(result))                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_jax_array_arg_using_numpy : Any → {Any | result ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c586b8d7943f45b2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 73b245321772c2ac  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_jax_array_arg_using_numpy","kind":"function","src_hash":"94fd9a1906767229","in":{"base":"Any"},"out":{"base":"Any","pred":"result == 5 and 'jax' in str(type(result))"},"spec":{"lhs":"test_jax_array_arg_using_numpy()","rhs":"test_jax_array_arg_using_numpy produces the expected output","over":{"base":"Any"},"name":"test_jax_array_arg_using_numpy_correct"},"guarantee":"test_jax_array_arg_using_numpy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_jax_array_arg_using_numpy_correct","statement":"Path(test_jax_array_arg_using_numpy(x), test_jax_array_arg_using_numpy produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c586b8d7943f45b2"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_jax_array_arg_using_numpy","kind":"function","src_hash":"94fd9a1906767229","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == 5 and 'jax' in str(type(result))"},"spec":{"lhs":"test_jax_array_arg_using_numpy()","rhs":"result == 5 and 'jax' in str(type(result))","over":{"base":"Any"},"name":"test_jax_array_arg_using_numpy_correct"},"guarantee":"result == 5; 'jax' in str(type(result))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_jax_array_arg_using_numpy_correct","statement":"Path(test_jax_array_arg_using_numpy(x), result == 5; 'jax' in str(type(result)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"73b245321772c2ac","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == 5","'jax' in str(type(result))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_jax_array_arg_using_numpy():
     if not jax:
         skip("JAX not installed")
@@ -3544,16 +4511,22 @@ def test_jax_array_arg_using_numpy():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_jax_dotproduct(), test_jax_dotproduct produces the expected output) over Any ║
+# ║ Path(test_jax_dotproduct(), f1(1, 2, 3) == f2(1, 2, 3) == f3(1, 2, 3) == f4(1, 2, 3) == jax.numpy.array([14])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_jax_dotproduct : Any → Any                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f1(1, 2, 3) == f2(1, 2, 3) == f3(1, 2, 3)...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_jax_dotproduct : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 91ecb010396db720  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fe833f970205e5d7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_jax_dotproduct","kind":"function","src_hash":"61a682ae5f5b3459","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_jax_dotproduct()","rhs":"test_jax_dotproduct produces the expected output","over":{"base":"Any"},"name":"test_jax_dotproduct_correct"},"guarantee":"test_jax_dotproduct produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_jax_dotproduct_correct","statement":"Path(test_jax_dotproduct(x), test_jax_dotproduct produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"91ecb010396db720"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_jax_dotproduct","kind":"function","src_hash":"61a682ae5f5b3459","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f1(1, 2, 3) == f2(1, 2, 3) == f3(1, 2, 3) == f4(1, 2, 3) == jax.numpy.array([14])"},"spec":{"lhs":"test_jax_dotproduct()","rhs":"f1(1, 2, 3) == f2(1, 2, 3) == f3(1, 2, 3) == f4(1, 2, 3) == jax.numpy.array([14])","over":{"base":"Any"},"name":"test_jax_dotproduct_correct"},"guarantee":"f1(1, 2, 3) == f2(1, 2, 3) == f3(1, 2, 3) == f4(1, 2, 3) == jax.numpy.array([14])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_jax_dotproduct_correct","statement":"Path(test_jax_dotproduct(x), f1(1, 2, 3) == f2(1, 2, 3) == f3(1, 2, 3) == f4(1, 2, 3) == jax.numpy.array([14]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fe833f970205e5d7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f1(1, 2, 3) == f2(1, 2, 3) == f3(1, 2, 3) == f4(1, 2, 3) == jax.numpy.array([14])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_jax_dotproduct():
     if not jax:
         skip("JAX not installed")
@@ -3572,16 +4545,22 @@ def test_jax_dotproduct():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_lambdify_cse(), test_lambdify_cse produces the expected output) over Any ║
+# ║ Path(test_lambdify_cse(), <unspecified:test_lambdify_cse>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_lambdify_cse : Any → {Any | abs_err < abstol and...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.8ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 64cf287c716a7b91  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_lambdify_cse","kind":"function","src_hash":"40967533b337335c","in":{"base":"Any"},"out":{"base":"Any","pred":"abs_err < abstol and abs_err / abs(r) < reltol"},"spec":{"lhs":"test_lambdify_cse()","rhs":"test_lambdify_cse produces the expected output","over":{"base":"Any"},"name":"test_lambdify_cse_correct"},"guarantee":"test_lambdify_cse produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_lambdify_cse_correct","statement":"Path(test_lambdify_cse(x), test_lambdify_cse produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"64cf287c716a7b91"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_lambdify_cse","kind":"function","src_hash":"40967533b337335c","in":{"base":"Any"},"out":{"base":"Any","pred":"abs_err < abstol and abs_err / abs(r) < reltol"},"spec":{"lhs":"test_lambdify_cse()","rhs":"<unspecified:test_lambdify_cse>","over":{"base":"Any"},"name":"test_lambdify_cse_correct"},"guarantee":"test_lambdify_cse produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_lambdify_cse_correct","statement":"Path(test_lambdify_cse(x), test_lambdify_cse produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"64cf287c716a7b91","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"assumed","binding":true}}
 def test_lambdify_cse():
     def no_op_cse(exprs):
         return (), exprs
@@ -3676,16 +4655,22 @@ def test_lambdify_cse():
             case.assertAllClose(result)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_25288(), test_issue_25288 produces the expected output) over Any ║
+# ║ Path(test_issue_25288(), ok) over Any                      ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_25288 : Any → {Any | ok}                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  ok                                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_25288 : Any → {Any | result satisfies: ok}      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eb56da61784b601d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | afccdcfc9c218408  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_issue_25288","kind":"function","src_hash":"8fa11648a5ff4d0c","in":{"base":"Any"},"out":{"base":"Any","pred":"ok"},"spec":{"lhs":"test_issue_25288()","rhs":"test_issue_25288 produces the expected output","over":{"base":"Any"},"name":"test_issue_25288_correct"},"guarantee":"test_issue_25288 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_issue_25288_correct","statement":"Path(test_issue_25288(x), test_issue_25288 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eb56da61784b601d"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_issue_25288","kind":"function","src_hash":"8fa11648a5ff4d0c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: ok"},"spec":{"lhs":"test_issue_25288()","rhs":"ok","over":{"base":"Any"},"name":"test_issue_25288_correct"},"guarantee":"ok","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_issue_25288_correct","statement":"Path(test_issue_25288(x), ok)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"afccdcfc9c218408","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["ok"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_25288():
     syms = numbered_symbols(cls=Dummy)
     ok = lambdify(x, [x**2, sin(x**2)], cse=lambda e: cse(e, symbols=syms))(2)
@@ -3693,31 +4678,45 @@ def test_issue_25288():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_deprecated_set(), test_deprecated_set produces the expected output) over Any ║
+# ║ Path(test_deprecated_set(), <unspecified:test_deprecated_set>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_deprecated_set : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 76859e5f928b27b9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_deprecated_set","kind":"function","src_hash":"32ceb2eb3150bc82","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_deprecated_set()","rhs":"test_deprecated_set produces the expected output","over":{"base":"Any"},"name":"test_deprecated_set_correct"},"guarantee":"test_deprecated_set produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_deprecated_set_correct","statement":"Path(test_deprecated_set(x), test_deprecated_set produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"76859e5f928b27b9"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_deprecated_set","kind":"function","src_hash":"32ceb2eb3150bc82","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_deprecated_set()","rhs":"<unspecified:test_deprecated_set>","over":{"base":"Any"},"name":"test_deprecated_set_correct"},"guarantee":"test_deprecated_set produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_deprecated_set_correct","statement":"Path(test_deprecated_set(x), test_deprecated_set produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"76859e5f928b27b9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_deprecated_set():
     with warns_deprecated_sympy():
         lambdify({x, y}, x + y)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_13881(), test_issue_13881 produces the expected output) over Any ║
+# ║ Path(test_issue_13881(), f(numpy.array([1, 2, 3])) == 14 and f(numpy.array([3, 2, 1])) == 14 and numpy.array_equal(f(arr1), arr2)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_13881 : Any → {Any | f(numpy.array([1, 2, ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f(numpy.array([1, 2, 3])) == 14                ║
+# ║   ensures:  f(numpy.array([3, 2, 1])) == 14                ║
+# ║   ensures:  numpy.array_equal(f(arr1), arr2)               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_13881 : Any → {Any | result satisfies: f(n...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dfdfac89b1c815d6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aa889c6e57373eb4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_issue_13881","kind":"function","src_hash":"be2ddc0bf52a250b","in":{"base":"Any"},"out":{"base":"Any","pred":"f(numpy.array([1, 2, 3])) == 14 and f(numpy.array([3, 2, 1])) == 14 and f(numpy.array([1, 2, 3])) == 14 and f(numpy.array([3, 2, 1])) == 14 and numpy.array_equal(f(arr1), arr2)"},"spec":{"lhs":"test_issue_13881()","rhs":"test_issue_13881 produces the expected output","over":{"base":"Any"},"name":"test_issue_13881_correct"},"guarantee":"test_issue_13881 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_issue_13881_correct","statement":"Path(test_issue_13881(x), test_issue_13881 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dfdfac89b1c815d6"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_issue_13881","kind":"function","src_hash":"be2ddc0bf52a250b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f(numpy.array([1, 2, 3])) == 14 and f(numpy.array([3, 2, 1])) == 14 and numpy.array_equal(f(arr1), arr2)"},"spec":{"lhs":"test_issue_13881()","rhs":"f(numpy.array([1, 2, 3])) == 14 and f(numpy.array([3, 2, 1])) == 14 and numpy.array_equal(f(arr1), arr2)","over":{"base":"Any"},"name":"test_issue_13881_correct"},"guarantee":"f(numpy.array([1, 2, 3])) == 14; f(numpy.array([3, 2, 1])) == 14; numpy.array_equal(f(arr1), arr2)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_issue_13881_correct","statement":"Path(test_issue_13881(x), f(numpy.array([1, 2, 3])) == 14; f(numpy.array([3, 2, 1])) == 14; numpy.array_equal(f(arr1), arr2))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aa889c6e57373eb4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f(numpy.array([1, 2, 3])) == 14","f(numpy.array([3, 2, 1])) == 14","numpy.array_equal(f(arr1), arr2)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_issue_13881():
     if not numpy:
         skip("numpy not installed.")
@@ -3740,16 +4739,22 @@ def test_issue_13881():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_23536_lambdify_cse_dummy(), test_23536_lambdify_cse_dummy produces the expected output) over Any ║
+# ║ Path(test_23536_lambdify_cse_dummy(), ans == 300.0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_23536_lambdify_cse_dummy : Any → {Any | ans == 3...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  ans == 300.0                                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_23536_lambdify_cse_dummy : Any → {Any | result s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 222ad086235ae82b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5eca148e863492f3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_23536_lambdify_cse_dummy","kind":"function","src_hash":"fd42a0414619cae1","in":{"base":"Any"},"out":{"base":"Any","pred":"ans == 300.0"},"spec":{"lhs":"test_23536_lambdify_cse_dummy()","rhs":"test_23536_lambdify_cse_dummy produces the expected output","over":{"base":"Any"},"name":"test_23536_lambdify_cse_dummy_correct"},"guarantee":"test_23536_lambdify_cse_dummy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_23536_lambdify_cse_dummy_correct","statement":"Path(test_23536_lambdify_cse_dummy(x), test_23536_lambdify_cse_dummy produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"222ad086235ae82b"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_23536_lambdify_cse_dummy","kind":"function","src_hash":"fd42a0414619cae1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: ans == 300.0"},"spec":{"lhs":"test_23536_lambdify_cse_dummy()","rhs":"ans == 300.0","over":{"base":"Any"},"name":"test_23536_lambdify_cse_dummy_correct"},"guarantee":"ans == 300.0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_23536_lambdify_cse_dummy_correct","statement":"Path(test_23536_lambdify_cse_dummy(x), ans == 300.0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5eca148e863492f3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["ans == 300.0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_23536_lambdify_cse_dummy():
 
     f = Function('x')(y)
@@ -3764,78 +4769,108 @@ def test_23536_lambdify_cse_dummy():
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a LambdifyDocstringTestCase instance) preserved by LambdifyDocstringTestCase(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ LambdifyDocstringTestCase : Any → Any                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 91b3ecb829b09841  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.LambdifyDocstringTestCase","kind":"class","src_hash":"bc50403e233ca245","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"LambdifyDocstringTestCase(*args)","rhs":"correctly constructs a LambdifyDocstringTestCase instance","over":{"base":"Any"},"name":"LambdifyDocstringTestCase_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a LambdifyDocstringTestCase instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'docstring_limit') and hasattr(self, 'expected_redacted')","kind":"class","induction":"structural on docstring_limit, expected_redacted"}],"methods_preserving":["__init__","expected_expr","expected_src","expected_docstring","__len__","__repr__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"91b3ecb829b09841"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.LambdifyDocstringTestCase","kind":"class","src_hash":"bc50403e233ca245","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"LambdifyDocstringTestCase(*args)","rhs":"correctly constructs a LambdifyDocstringTestCase instance","over":{"base":"Any"},"name":"LambdifyDocstringTestCase_class_invariant","kind":"invariant"},"guarantee":"preserves 2 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'docstring_limit') and hasattr(self, 'expected_redacted')","kind":"class","induction":"structural on docstring_limit, expected_redacted"}],"methods_preserving":["__init__","expected_expr","expected_src","expected_docstring","__len__","__repr__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"91b3ecb829b09841","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, 'docstring_limit')","hasattr(self, 'expected_redacted')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function LambdifyDocstringTestCase not found in source"]}}
 class LambdifyDocstringTestCase:
     SIGNATURE = None
     EXPR = None
     SRC = None
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(doc), initializes the instance correctly) over Any ║
+# ║ Path(__init__(docstring_limit, expected_redacted), self.docstring_limit == docstring_limit and self.expected_redacted == expected_redacted) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  self.docstring_limit == docstring_limit        ║
+# ║   ensures:  self.expected_redacted == expected_redacted    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : Any → {Any | result satisfies: self.docstr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f2535e07e450a525           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.LambdifyDocstringTestCase.__init__","kind":"method","src_hash":"b0921e5986b9d429","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(doc)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f2535e07e450a525"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.LambdifyDocstringTestCase.__init__","kind":"method","src_hash":"b0921e5986b9d429","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: self.docstring_limit == docstring_limit and self.expected_redacted == expected_redacted"},"spec":{"lhs":"__init__(docstring_limit, expected_redacted)","rhs":"self.docstring_limit == docstring_limit and self.expected_redacted == expected_redacted","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"self.docstring_limit == docstring_limit; self.expected_redacted == expected_redacted","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f2535e07e450a525","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["self.docstring_limit == docstring_limit","self.expected_redacted == expected_redacted"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, docstring_limit, expected_redacted):
         self.docstring_limit = docstring_limit
         self.expected_redacted = expected_redacted
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(expected_expr(), returns the expected_expr attribute) over Any ║
+# ║ Path(expected_expr(), self.EXPR if not self.expected_redacted else expr_redacted_msg) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.EXPR if not self.expected_redacted e...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ expected_expr : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 57aa46d85375d42a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.LambdifyDocstringTestCase.expected_expr","kind":"property","src_hash":"dfd5c976e6f74acb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"expected_expr()","rhs":"returns the expected_expr attribute","over":{"base":"Any"},"name":"expected_expr_correct"},"guarantee":"returns the expected_expr attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"57aa46d85375d42a"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.LambdifyDocstringTestCase.expected_expr","kind":"property","src_hash":"dfd5c976e6f74acb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"expected_expr()","rhs":"self.EXPR if not self.expected_redacted else expr_redacted_msg","over":{"base":"Any"},"name":"expected_expr_correct"},"guarantee":"returns self.EXPR if not self.expected_redacted else expr_redacted_msg","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"57aa46d85375d42a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.EXPR if not self.expected_redacted else expr_redacted_msg","pure":false,"effects":{"effect_type":"reads_state","reads":["self.EXPR","self.expected_redacted"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def expected_expr(self):
         expr_redacted_msg = "EXPRESSION REDACTED DUE TO LENGTH, (see lambdify's `docstring_limit`)"
         return self.EXPR if not self.expected_redacted else expr_redacted_msg
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(expected_src(), returns the expected_src attribute) over Any ║
+# ║ Path(expected_src(), self.SRC if not self.expected_redacted else src_redacted_msg) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.SRC if not self.expected_redacted el...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ expected_src : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b8ac0f46eb1a716a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.LambdifyDocstringTestCase.expected_src","kind":"property","src_hash":"24016167baabd360","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"expected_src()","rhs":"returns the expected_src attribute","over":{"base":"Any"},"name":"expected_src_correct"},"guarantee":"returns the expected_src attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b8ac0f46eb1a716a"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.LambdifyDocstringTestCase.expected_src","kind":"property","src_hash":"24016167baabd360","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"expected_src()","rhs":"self.SRC if not self.expected_redacted else src_redacted_msg","over":{"base":"Any"},"name":"expected_src_correct"},"guarantee":"returns self.SRC if not self.expected_redacted else src_redacted_msg","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b8ac0f46eb1a716a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.SRC if not self.expected_redacted else src_redacted_msg","pure":false,"effects":{"effect_type":"reads_state","reads":["self.SRC","self.expected_redacted"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def expected_src(self):
         src_redacted_msg = "SOURCE CODE REDACTED DUE TO LENGTH, (see lambdify's `docstring_limit`)"
         return self.SRC if not self.expected_redacted else src_redacted_msg
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(expected_docstring(), returns the expected_docstring attribute) over Any ║
+# ║ Path(expected_docstring(), <unspecified:expected_docstring>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ expected_docstring : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0a6fc9a38f1c5b8c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.LambdifyDocstringTestCase.expected_docstring","kind":"property","src_hash":"ed8b9a68d6b69695","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"expected_docstring()","rhs":"returns the expected_docstring attribute","over":{"base":"Any"},"name":"expected_docstring_correct"},"guarantee":"returns the expected_docstring attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0a6fc9a38f1c5b8c"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.LambdifyDocstringTestCase.expected_docstring","kind":"property","src_hash":"ed8b9a68d6b69695","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"expected_docstring()","rhs":"<unspecified:expected_docstring>","over":{"base":"Any"},"name":"expected_docstring_correct"},"guarantee":"returns the expected_docstring attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0a6fc9a38f1c5b8c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.SIGNATURE","self.expected_expr","self.expected_src"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def expected_docstring(self):
         expected_docstring = (
             f'Created with lambdify. Signature:\n\n'
@@ -3849,30 +4884,42 @@ class LambdifyDocstringTestCase:
         return expected_docstring
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__len__(), returns the number of elements) over Any   ║
+# ║ Path(__len__(), len(self.expected_docstring)) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  len(self.expected_docstring)                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __len__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c739175eb8ec8abc           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.LambdifyDocstringTestCase.__len__","kind":"method","src_hash":"dd208a41748aabd2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__len__()","rhs":"returns the number of elements","over":{"base":"Any"},"name":"__len___correct"},"guarantee":"returns the number of elements","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c739175eb8ec8abc"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.LambdifyDocstringTestCase.__len__","kind":"method","src_hash":"dd208a41748aabd2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__len__()","rhs":"len(self.expected_docstring)","over":{"base":"Any"},"name":"__len___correct"},"guarantee":"returns len(self.expected_docstring)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c739175eb8ec8abc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"len(self.expected_docstring)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.expected_docstring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __len__(self):
         return len(self.expected_docstring)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__repr__(), returns a faithful string representation) over Any ║
+# ║ Path(__repr__(), f'{self.__class__.__name__}(docstring_limit={self.docstring_limit}, expected_redacted={self.expected_redacted})') over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  f'{self.__class__.__name__}(docstring_lim...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __repr__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 555ec2a0abe3ba44           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.LambdifyDocstringTestCase.__repr__","kind":"method","src_hash":"953769a9f0c662b0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"returns a faithful string representation","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns a faithful string representation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"555ec2a0abe3ba44"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.LambdifyDocstringTestCase.__repr__","kind":"method","src_hash":"953769a9f0c662b0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"f'{self.__class__.__name__}(docstring_limit={self.docstring_limit}, expected_redacted={self.expected_redacted})'","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns f'{self.__class__.__name__}(docstring_limit={self.docstring_limit}, expected_redacted={self.expected_redacted})'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"555ec2a0abe3ba44","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"f'{self.__class__.__name__}(docstring_limit={self.docstring_limit}, expected_redacted={self.expected_redacted})'","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","self.__class__","self.docstring_limit","self.expected_redacted"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __repr__(self):
         return (
             f'{self.__class__.__name__}('
@@ -3882,16 +4929,22 @@ class LambdifyDocstringTestCase:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_lambdify_docstring_size_limit_simple_symbol(), test_lambdify_docstring_size_limit_simple_symbol produces the expected output) over Any ║
+# ║ Path(test_lambdify_docstring_size_limit_simple_symbol(), <unspecified:test_lambdify_docstring_size_limit_simple_symbol>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_lambdify_docstring_size_limit_simple_symbol : An...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 81a2c9598def9221  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_lambdify_docstring_size_limit_simple_symbol","kind":"function","src_hash":"df0201c4f9fa3595","in":{"base":"Any"},"out":{"base":"Any","pred":"lambdified_expr.__doc__ == test_case.expected_docstring"},"spec":{"lhs":"test_lambdify_docstring_size_limit_simple_symbol()","rhs":"test_lambdify_docstring_size_limit_simple_symbol produces the expected output","over":{"base":"Any"},"name":"test_lambdify_docstring_size_limit_simple_symbol_correct"},"guarantee":"test_lambdify_docstring_size_limit_simple_symbol produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_lambdify_docstring_size_limit_simple_symbol_correct","statement":"Path(test_lambdify_docstring_size_limit_simple_symbol(x), test_lambdify_docstring_size_limit_simple_symbol produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"81a2c9598def9221"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_lambdify_docstring_size_limit_simple_symbol","kind":"function","src_hash":"df0201c4f9fa3595","in":{"base":"Any"},"out":{"base":"Any","pred":"lambdified_expr.__doc__ == test_case.expected_docstring"},"spec":{"lhs":"test_lambdify_docstring_size_limit_simple_symbol()","rhs":"<unspecified:test_lambdify_docstring_size_limit_simple_symbol>","over":{"base":"Any"},"name":"test_lambdify_docstring_size_limit_simple_symbol_correct"},"guarantee":"test_lambdify_docstring_size_limit_simple_symbol produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_lambdify_docstring_size_limit_simple_symbol_correct","statement":"Path(test_lambdify_docstring_size_limit_simple_symbol(x), test_lambdify_docstring_size_limit_simple_symbol produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"81a2c9598def9221","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_lambdify_docstring_size_limit_simple_symbol():
 
     class SimpleSymbolTestCase(LambdifyDocstringTestCase):
@@ -3922,16 +4975,22 @@ def test_lambdify_docstring_size_limit_simple_symbol():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_lambdify_docstring_size_limit_nested_expr(), test_lambdify_docstring_size_limit_nested_expr produces the expected output) over Any ║
+# ║ Path(test_lambdify_docstring_size_limit_nested_expr(), <unspecified:test_lambdify_docstring_size_limit_nested_expr>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_lambdify_docstring_size_limit_nested_expr : Any ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cbaf4880f2195249  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_lambdify_docstring_size_limit_nested_expr","kind":"function","src_hash":"28542e1b49b291f8","in":{"base":"Any"},"out":{"base":"Any","pred":"lambdified_expr.__doc__ == test_case.expected_docstring"},"spec":{"lhs":"test_lambdify_docstring_size_limit_nested_expr()","rhs":"test_lambdify_docstring_size_limit_nested_expr produces the expected output","over":{"base":"Any"},"name":"test_lambdify_docstring_size_limit_nested_expr_correct"},"guarantee":"test_lambdify_docstring_size_limit_nested_expr produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_lambdify_docstring_size_limit_nested_expr_correct","statement":"Path(test_lambdify_docstring_size_limit_nested_expr(x), test_lambdify_docstring_size_limit_nested_expr produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cbaf4880f2195249"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_lambdify_docstring_size_limit_nested_expr","kind":"function","src_hash":"28542e1b49b291f8","in":{"base":"Any"},"out":{"base":"Any","pred":"lambdified_expr.__doc__ == test_case.expected_docstring"},"spec":{"lhs":"test_lambdify_docstring_size_limit_nested_expr()","rhs":"<unspecified:test_lambdify_docstring_size_limit_nested_expr>","over":{"base":"Any"},"name":"test_lambdify_docstring_size_limit_nested_expr_correct"},"guarantee":"test_lambdify_docstring_size_limit_nested_expr produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_lambdify_docstring_size_limit_nested_expr_correct","statement":"Path(test_lambdify_docstring_size_limit_nested_expr(x), test_lambdify_docstring_size_limit_nested_expr produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cbaf4880f2195249","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_lambdify_docstring_size_limit_nested_expr():
 
     class ExprListTestCase(LambdifyDocstringTestCase):
@@ -3967,16 +5026,22 @@ def test_lambdify_docstring_size_limit_nested_expr():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_lambdify_docstring_size_limit_matrix(), test_lambdify_docstring_size_limit_matrix produces the expected output) over Any ║
+# ║ Path(test_lambdify_docstring_size_limit_matrix(), <unspecified:test_lambdify_docstring_size_limit_matrix>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_lambdify_docstring_size_limit_matrix : Any → {An...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ceb01c3a1454492e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_lambdify_docstring_size_limit_matrix","kind":"function","src_hash":"4d25b45ee4f3748d","in":{"base":"Any"},"out":{"base":"Any","pred":"lambdified_expr.__doc__ == test_case.expected_docstring"},"spec":{"lhs":"test_lambdify_docstring_size_limit_matrix()","rhs":"test_lambdify_docstring_size_limit_matrix produces the expected output","over":{"base":"Any"},"name":"test_lambdify_docstring_size_limit_matrix_correct"},"guarantee":"test_lambdify_docstring_size_limit_matrix produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_lambdify_docstring_size_limit_matrix_correct","statement":"Path(test_lambdify_docstring_size_limit_matrix(x), test_lambdify_docstring_size_limit_matrix produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ceb01c3a1454492e"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_lambdify_docstring_size_limit_matrix","kind":"function","src_hash":"4d25b45ee4f3748d","in":{"base":"Any"},"out":{"base":"Any","pred":"lambdified_expr.__doc__ == test_case.expected_docstring"},"spec":{"lhs":"test_lambdify_docstring_size_limit_matrix()","rhs":"<unspecified:test_lambdify_docstring_size_limit_matrix>","over":{"base":"Any"},"name":"test_lambdify_docstring_size_limit_matrix_correct"},"guarantee":"test_lambdify_docstring_size_limit_matrix produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_lambdify_docstring_size_limit_matrix_correct","statement":"Path(test_lambdify_docstring_size_limit_matrix(x), test_lambdify_docstring_size_limit_matrix produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ceb01c3a1454492e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_lambdify_docstring_size_limit_matrix():
 
     class MatrixTestCase(LambdifyDocstringTestCase):
@@ -4013,16 +5078,22 @@ def test_lambdify_docstring_size_limit_matrix():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_lambdify_empty_tuple(), test_lambdify_empty_tuple produces the expected output) over Any ║
+# ║ Path(test_lambdify_empty_tuple(), result == ((), (1,))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_lambdify_empty_tuple : Any → {Any | result == ((...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == ((), (1,))                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_lambdify_empty_tuple : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4834e1d229805e34  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b902625d3616d831  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_lambdify_empty_tuple","kind":"function","src_hash":"bf84c2a9de33d594","in":{"base":"Any"},"out":{"base":"Any","pred":"result == ((), (1,))"},"spec":{"lhs":"test_lambdify_empty_tuple()","rhs":"test_lambdify_empty_tuple produces the expected output","over":{"base":"Any"},"name":"test_lambdify_empty_tuple_correct"},"guarantee":"test_lambdify_empty_tuple produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_lambdify_empty_tuple_correct","statement":"Path(test_lambdify_empty_tuple(x), test_lambdify_empty_tuple produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4834e1d229805e34"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_lambdify_empty_tuple","kind":"function","src_hash":"bf84c2a9de33d594","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == ((), (1,))"},"spec":{"lhs":"test_lambdify_empty_tuple()","rhs":"result == ((), (1,))","over":{"base":"Any"},"name":"test_lambdify_empty_tuple_correct"},"guarantee":"result == ((), (1,))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_lambdify_empty_tuple_correct","statement":"Path(test_lambdify_empty_tuple(x), result == ((), (1,)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b902625d3616d831","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == ((), (1,))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_lambdify_empty_tuple():
     a = symbols("a")
     expr = ((), (a,))
@@ -4032,16 +5103,23 @@ def test_lambdify_empty_tuple():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_assoc_legendre_numerical_evaluation(), test_assoc_legendre_numerical_evaluation produces the expected output) over Any ║
+# ║ Path(test_assoc_legendre_numerical_evaluation(), all_close(sympy_result_integer, mpmath_result_integer, tol) and all_close(sympy_result_complex, mpmath_result_complex, tol)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  all_close(sympy_result_integer, mpmath_re...   ║
+# ║   ensures:  all_close(sympy_result_complex, mpmath_re...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_assoc_legendre_numerical_evaluation : Any → {Any...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8bf2af1d8b230889  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | faef1168d42dd2f0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_assoc_legendre_numerical_evaluation","kind":"function","src_hash":"a9cc86ee397f2974","in":{"base":"Any"},"out":{"base":"Any","pred":"all_close(sympy_result_integer, mpmath_result_integer, tol) and all_close(sympy_result_complex, mpmath_result_complex, tol)"},"spec":{"lhs":"test_assoc_legendre_numerical_evaluation()","rhs":"test_assoc_legendre_numerical_evaluation produces the expected output","over":{"base":"Any"},"name":"test_assoc_legendre_numerical_evaluation_correct"},"guarantee":"test_assoc_legendre_numerical_evaluation produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_assoc_legendre_numerical_evaluation_correct","statement":"Path(test_assoc_legendre_numerical_evaluation(x), test_assoc_legendre_numerical_evaluation produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8bf2af1d8b230889"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_assoc_legendre_numerical_evaluation","kind":"function","src_hash":"a9cc86ee397f2974","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: all_close(sympy_result_integer, mpmath_result_integer, tol) and all_close(sympy_result_complex, mpmath_result_complex, tol)"},"spec":{"lhs":"test_assoc_legendre_numerical_evaluation()","rhs":"all_close(sympy_result_integer, mpmath_result_integer, tol) and all_close(sympy_result_complex, mpmath_result_complex, tol)","over":{"base":"Any"},"name":"test_assoc_legendre_numerical_evaluation_correct"},"guarantee":"all_close(sympy_result_integer, mpmath_result_integer, tol); all_close(sympy_result_complex, mpmath_result_complex, tol)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_assoc_legendre_numerical_evaluation_correct","statement":"Path(test_assoc_legendre_numerical_evaluation(x), all_close(sympy_result_integer, mpmath_result_integer, tol); all_close(sympy_result_complex, mpmath_result_complex, tol))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"faef1168d42dd2f0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["all_close(sympy_result_integer, mpmath_result_integer, tol)","all_close(sympy_result_complex, mpmath_result_complex, tol)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_assoc_legendre_numerical_evaluation():
 
     tol = 1e-10
@@ -4056,16 +5134,22 @@ def test_assoc_legendre_numerical_evaluation():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Piecewise(), test_Piecewise produces the expected output) over Any ║
+# ║ Path(test_Piecewise(), <unspecified:test_Piecewise>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_Piecewise : Any → {Any | f(+float('inf')) == +7....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 25dad5c94441da7f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_Piecewise","kind":"function","src_hash":"4497c6afa4699e0c","in":{"base":"Any"},"out":{"base":"Any","pred":"f(+float('inf')) == +7.0 and f(-float('inf')) == +7.0 and f(42.0) == 3.0 and f2(+float('inf')) == +7.0 and f2(-float('inf')) == -7.0 and f2(42.0) == 3.0 and g(float('nan')) == 7.0 and g(42.0) == 3.0"},"spec":{"lhs":"test_Piecewise()","rhs":"test_Piecewise produces the expected output","over":{"base":"Any"},"name":"test_Piecewise_correct"},"guarantee":"test_Piecewise produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_Piecewise_correct","statement":"Path(test_Piecewise(x), test_Piecewise produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"25dad5c94441da7f"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_Piecewise","kind":"function","src_hash":"4497c6afa4699e0c","in":{"base":"Any"},"out":{"base":"Any","pred":"f(+float('inf')) == +7.0 and f(-float('inf')) == +7.0 and f(42.0) == 3.0 and f2(+float('inf')) == +7.0 and f2(-float('inf')) == -7.0 and f2(42.0) == 3.0 and g(float('nan')) == 7.0 and g(42.0) == 3.0"},"spec":{"lhs":"test_Piecewise()","rhs":"<unspecified:test_Piecewise>","over":{"base":"Any"},"name":"test_Piecewise_correct"},"guarantee":"test_Piecewise produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_Piecewise_correct","statement":"Path(test_Piecewise(x), test_Piecewise produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"25dad5c94441da7f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_Piecewise():
 
     modules = [math]
@@ -4091,16 +5175,22 @@ def test_Piecewise():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_array_symbol(), test_array_symbol produces the expected output) over Any ║
+# ║ Path(test_array_symbol(), numpy.all(f(numpy.array([1, 2, 3])) == numpy.array([1, 2, 3]))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_array_symbol : Any → {Any | numpy.all(f(numpy.ar...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  numpy.all(f(numpy.array([1, 2, 3])) == nu...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_array_symbol : Any → {Any | result satisfies: nu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6d965367b20661ff  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dec6a33b161c7276  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_array_symbol","kind":"function","src_hash":"9a4a0cefdabc95cd","in":{"base":"Any"},"out":{"base":"Any","pred":"numpy.all(f(numpy.array([1, 2, 3])) == numpy.array([1, 2, 3]))"},"spec":{"lhs":"test_array_symbol()","rhs":"test_array_symbol produces the expected output","over":{"base":"Any"},"name":"test_array_symbol_correct"},"guarantee":"test_array_symbol produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_array_symbol_correct","statement":"Path(test_array_symbol(x), test_array_symbol produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6d965367b20661ff"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_lambdify.test_array_symbol","kind":"function","src_hash":"9a4a0cefdabc95cd","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: numpy.all(f(numpy.array([1, 2, 3])) == numpy.array([1, 2, 3]))"},"spec":{"lhs":"test_array_symbol()","rhs":"numpy.all(f(numpy.array([1, 2, 3])) == numpy.array([1, 2, 3]))","over":{"base":"Any"},"name":"test_array_symbol_correct"},"guarantee":"numpy.all(f(numpy.array([1, 2, 3])) == numpy.array([1, 2, 3]))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_lambdify.test_array_symbol_correct","statement":"Path(test_array_symbol(x), numpy.all(f(numpy.array([1, 2, 3])) == numpy.array([1, 2, 3])))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dec6a33b161c7276","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["numpy.all(f(numpy.array([1, 2, 3])) == numpy.array([1, 2, 3]))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_array_symbol():
     if not numpy:
         skip("numpy not installed.")

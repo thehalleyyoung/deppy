@@ -38,32 +38,44 @@ from itertools import product
 
 @public
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(fp_group(fr_), fp_group produces the expected output) over Any ║
+# ║ Path(fp_group(fr_grp, relators), (_fp_group,) + tuple(_fp_group._generators)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (_fp_group,) + tuple(_fp_group._generators)    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ fp_group : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1603e11ddc114c8c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 45c229b79c2c7880  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups.fp_group","kind":"function","src_hash":"9324b523bff227f8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fp_group(fr_)","rhs":"fp_group produces the expected output","over":{"base":"Any"},"name":"fp_group_correct"},"guarantee":"fp_group produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.fp_groups.fp_group_correct","statement":"Path(fp_group(x), fp_group produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1603e11ddc114c8c"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups.fp_group","kind":"function","src_hash":"9324b523bff227f8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fp_group(fr_grp, relators)","rhs":"(_fp_group,) + tuple(_fp_group._generators)","over":{"base":"Any"},"name":"fp_group_correct"},"guarantee":"returns (_fp_group,) + tuple(_fp_group._generators)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.fp_groups.fp_group_correct","statement":"Path(fp_group(x), returns (_fp_group,) + tuple(_fp_group._generators))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"45c229b79c2c7880","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(_fp_group,) + tuple(_fp_group._generators)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def fp_group(fr_grp, relators=()):
     _fp_group = FpGroup(fr_grp, relators)
     return (_fp_group,) + tuple(_fp_group._generators)
 
 @public
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(xfp_group(fr_), xfp_group produces the expected output) over Any ║
+# ║ Path(xfp_group(fr_grp, relators), (_fp_group, _fp_group._generators)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (_fp_group, _fp_group._generators)             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ xfp_group : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1790d50aa961da92  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e5c0831c52952915  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups.xfp_group","kind":"function","src_hash":"f80ad1f420a8b93d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"xfp_group(fr_)","rhs":"xfp_group produces the expected output","over":{"base":"Any"},"name":"xfp_group_correct"},"guarantee":"xfp_group produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.fp_groups.xfp_group_correct","statement":"Path(xfp_group(x), xfp_group produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1790d50aa961da92"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups.xfp_group","kind":"function","src_hash":"f80ad1f420a8b93d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"xfp_group(fr_grp, relators)","rhs":"(_fp_group, _fp_group._generators)","over":{"base":"Any"},"name":"xfp_group_correct"},"guarantee":"returns (_fp_group, _fp_group._generators)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.fp_groups.xfp_group_correct","statement":"Path(xfp_group(x), returns (_fp_group, _fp_group._generators))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e5c0831c52952915","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(_fp_group, _fp_group._generators)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def xfp_group(fr_grp, relators=()):
     _fp_group = FpGroup(fr_grp, relators)
     return (_fp_group, _fp_group._generators)
@@ -71,16 +83,22 @@ def xfp_group(fr_grp, relators=()):
 # Does not work. Both symbols and pollute are undefined. Never tested.
 @public
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(vfp_group(fr_), vfp_group produces the expected output) over Any ║
+# ║ Path(vfp_group(fr_grpm, relators), <unspecified:vfp_group>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ vfp_group : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 04a6df2cdf6817fe  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups.vfp_group","kind":"function","src_hash":"8c82336a8e1d11f0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"vfp_group(fr_)","rhs":"vfp_group produces the expected output","over":{"base":"Any"},"name":"vfp_group_correct"},"guarantee":"vfp_group produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.fp_groups.vfp_group_correct","statement":"Path(vfp_group(x), vfp_group produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"04a6df2cdf6817fe"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups.vfp_group","kind":"function","src_hash":"8c82336a8e1d11f0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"vfp_group(fr_grpm, relators)","rhs":"<unspecified:vfp_group>","over":{"base":"Any"},"name":"vfp_group_correct"},"guarantee":"vfp_group produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.fp_groups.vfp_group_correct","statement":"Path(vfp_group(x), vfp_group produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"04a6df2cdf6817fe","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def vfp_group(fr_grpm, relators):
     _fp_group = FpGroup(symbols, relators)
     pollute([sym.name for sym in _fp_group.symbols], _fp_group.generators)
@@ -88,16 +106,23 @@ def vfp_group(fr_grpm, relators):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_parse_relators(rel), parse the passed relators) over Any ║
+# ║ Path(_parse_relators(rels), rels) over Any                 ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _parse_relators : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == rels                                 ║
+# ║   returns:  rels                                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _parse_relators : Any → {Any | result satisfies: resu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f35c7dc95396963b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups._parse_relators","kind":"function","src_hash":"894453a632d70aea","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_parse_relators(rel)","rhs":"parse the passed relators","over":{"base":"Any"},"name":"_parse_relators_correct"},"guarantee":"parse the passed relators","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f35c7dc95396963b"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups._parse_relators","kind":"function","src_hash":"894453a632d70aea","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (rels)"},"spec":{"lhs":"_parse_relators(rels)","rhs":"rels","over":{"base":"Any"},"name":"_parse_relators_correct"},"guarantee":"returns rels; result == rels","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f35c7dc95396963b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == rels"],"returns_expr":"rels","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _parse_relators(rels):
     """Parse the passed relators."""
     return rels
@@ -111,14 +136,20 @@ def _parse_relators(rels):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a FpGroup instance) preserved by FpGroup(*args) over {Any | isinstance(perm_result, PermutationGroup) and isinstance(g, FreeGroupElement)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DefaultPrinting)              ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ FpGroup : {Any | isinstance(perm_result, PermutationG...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 2.6ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7737323ea496b671  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups.FpGroup","kind":"class","src_hash":"6c163271e75e9523","in":{"base":"Any","pred":"isinstance(perm_result, PermutationGroup) and isinstance(g, FreeGroupElement)"},"out":{"base":"Any"},"spec":{"lhs":"FpGroup(*args)","rhs":"correctly constructs a FpGroup instance","over":{"base":"Any","pred":"isinstance(perm_result, PermutationGroup) and isinstance(g, FreeGroupElement)"},"name":"FpGroup_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a FpGroup instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_abelian","pred":"self.is_abelian","kind":"class"},{"name":"is_nilpotent","pred":"self.is_nilpotent","kind":"class"},{"name":"is_solvable","pred":"self.is_solvable","kind":"class"},{"name":"is_cyclic","pred":"self.is_cyclic","kind":"class"},{"name":"representation","pred":"hasattr(self, 'free_group') and hasattr(self, 'relators') and hasattr(self, 'generators') and hasattr(self, 'dtype') and hasattr(self, '_coset_table') and hasattr(self, '_is_standardized') and hasattr(self, '_order') and hasattr(self, '_center')","kind":"class","induction":"structural on free_group, relators, generators, dtype"}],"methods_preserving":["__init__","_generators","make_confluent","reduce","equals","identity","__contains__","subgroup","coset_enumeration","standardize_coset_table","coset_table","order","_is_infinite","_finite_index_subgroup","most_frequent_generator","random","index","__str__","_to_perm_group","_perm_group_list","derived_series","lower_central_series","center","derived_subgroup","centralizer","normal_closure","_perm_property","is_abelian","is_nilpotent","is_solvable","elements","is_cyclic","abelian_invariants","composition_series"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7737323ea496b671"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups.FpGroup","kind":"class","src_hash":"6c163271e75e9523","in":{"base":"Any","pred":"isinstance(perm_result, PermutationGroup) and isinstance(g, FreeGroupElement)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DefaultPrinting)"},"spec":{"lhs":"FpGroup(*args)","rhs":"correctly constructs a FpGroup instance","over":{"base":"Any","pred":"isinstance(perm_result, PermutationGroup) and isinstance(g, FreeGroupElement)"},"name":"FpGroup_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, DefaultPrinting); preserves 10 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_abelian","pred":"self.is_abelian","kind":"class"},{"name":"is_nilpotent","pred":"self.is_nilpotent","kind":"class"},{"name":"is_solvable","pred":"self.is_solvable","kind":"class"},{"name":"is_cyclic","pred":"self.is_cyclic","kind":"class"},{"name":"representation","pred":"hasattr(self, 'free_group') and hasattr(self, 'relators') and hasattr(self, 'generators') and hasattr(self, 'dtype') and hasattr(self, '_coset_table') and hasattr(self, '_is_standardized') and hasattr(self, '_order') and hasattr(self, '_center')","kind":"class","induction":"structural on free_group, relators, generators, dtype"}],"methods_preserving":["__init__","_generators","make_confluent","reduce","equals","identity","__contains__","subgroup","coset_enumeration","standardize_coset_table","coset_table","order","_is_infinite","_finite_index_subgroup","most_frequent_generator","random","index","__str__","_to_perm_group","_perm_group_list","derived_series","lower_central_series","center","derived_subgroup","centralizer","normal_closure","_perm_property","is_abelian","is_nilpotent","is_solvable","elements","is_cyclic","abelian_invariants","composition_series"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7737323ea496b671","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DefaultPrinting)"],"invariants":["hasattr(self, 'free_group')","hasattr(self, 'relators')","hasattr(self, 'generators')","hasattr(self, 'dtype')","hasattr(self, '_coset_table')","hasattr(self, '_is_standardized')","hasattr(self, '_order')","hasattr(self, '_center')","hasattr(self, '_rewriting_system')","hasattr(self, '_perm_isomorphism')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.6,"verdict_class":"assumed","binding":false,"binding_errors":["Function FpGroup not found in source"]}}
 class FpGroup(DefaultPrinting):
     """
     The FpGroup would take a FreeGroup and a list/tuple of relators, the
@@ -131,16 +162,23 @@ class FpGroup(DefaultPrinting):
     is_PermutationGroup = False
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(fr_), initializes the instance correctly) over Any ║
+# ║ Path(__init__(fr_grp, relators), self.free_group == fr_grp and self.relators == relators) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  self.free_group == fr_grp                      ║
+# ║   ensures:  self.relators == relators                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : Any → {Any | result satisfies: self.free_g...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 905f9bccca1ab114           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups.FpGroup.__init__","kind":"method","src_hash":"ee75db041ba7dedf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(fr_)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"905f9bccca1ab114"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups.FpGroup.__init__","kind":"method","src_hash":"ee75db041ba7dedf","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: self.free_group == fr_grp and self.relators == relators"},"spec":{"lhs":"__init__(fr_grp, relators)","rhs":"self.free_group == fr_grp and self.relators == relators","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"self.free_group == fr_grp; self.relators == relators","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"905f9bccca1ab114","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["self.free_group == fr_grp","self.relators == relators"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, fr_grp, relators):
         relators = _parse_relators(relators)
         self.free_group = fr_grp
@@ -162,30 +200,42 @@ class FpGroup(DefaultPrinting):
         return
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_generators(), internal helper behaves correctly) over Any ║
+# ║ Path(_generators(), self.free_group.generators) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.free_group.generators                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _generators : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | afa80eb1280afd56           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups.FpGroup._generators","kind":"method","src_hash":"692831afb9177b2d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_generators()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_generators_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"afa80eb1280afd56"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups.FpGroup._generators","kind":"method","src_hash":"692831afb9177b2d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_generators()","rhs":"self.free_group.generators","over":{"base":"Any"},"name":"_generators_correct"},"guarantee":"returns self.free_group.generators","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"afa80eb1280afd56","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.free_group.generators","pure":false,"effects":{"effect_type":"reads_state","reads":["self.free_group"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _generators(self):
         return self.free_group.generators
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(make_confluent(), try to make the group's rewriting system confluent) over Any ║
+# ║ Path(make_confluent(), <unspecified:make_confluent>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ make_confluent : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 05a92e62053d0da0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups.FpGroup.make_confluent","kind":"method","src_hash":"a17b5bad5f23885b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"make_confluent()","rhs":"try to make the group's rewriting system confluent","over":{"base":"Any"},"name":"make_confluent_correct"},"guarantee":"try to make the group's rewriting system confluent","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.fp_groups.FpGroup.make_confluent_correct","statement":"Path(make_confluent(x), try to make the group's rewriting system confluent)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"05a92e62053d0da0"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups.FpGroup.make_confluent","kind":"method","src_hash":"a17b5bad5f23885b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"make_confluent()","rhs":"<unspecified:make_confluent>","over":{"base":"Any"},"name":"make_confluent_correct"},"guarantee":"try to make the group's rewriting system confluent","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.fp_groups.FpGroup.make_confluent_correct","statement":"Path(make_confluent(x), try to make the group's rewriting system confluent)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"05a92e62053d0da0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._rewriting_system"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def make_confluent(self):
         '''
         Try to make the group's rewriting system confluent
@@ -195,16 +245,22 @@ class FpGroup(DefaultPrinting):
         return
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(reduce(wor), return the reduced form of `word` in `self` according to the group's rewriting system) over Any ║
+# ║ Path(reduce(word), self._rewriting_system.reduce(word)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._rewriting_system.reduce(word)            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ reduce : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ca0246389b1c718c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups.FpGroup.reduce","kind":"method","src_hash":"dc53af80106e3592","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"reduce(wor)","rhs":"return the reduced form of `word` in `self` according to the group's rewriting system","over":{"base":"Any"},"name":"reduce_correct"},"guarantee":"return the reduced form of `word` in `self` according to the group's rewriting system","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ca0246389b1c718c"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups.FpGroup.reduce","kind":"method","src_hash":"dc53af80106e3592","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"reduce(word)","rhs":"self._rewriting_system.reduce(word)","over":{"base":"Any"},"name":"reduce_correct"},"guarantee":"returns self._rewriting_system.reduce(word)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ca0246389b1c718c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._rewriting_system.reduce(word)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._rewriting_system"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def reduce(self, word):
         '''
         Return the reduced form of `word` in `self` according to the group's
@@ -215,16 +271,25 @@ class FpGroup(DefaultPrinting):
         return self._rewriting_system.reduce(word)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(equals(wor), compare `word1` and `word2` for equality in the group using the group's rewriting system) over Any ║
+# ║ Path(equals(word1, word2), result == (True if self.reduce(word1 * word2 ** (-1)) == self.identity else False) and result == True or result == False) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ equals : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (True if self.reduce(word1 * wo...   ║
+# ║   ensures:  result == True or result == False              ║
+# ║   fiber[case_0]: self.reduce(word1 * word2 ** (-1)) =...   ║
+# ║   fiber[case_1]: self._rewriting_system.is_confluent ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ equals : Any → {Any | result satisfies: result == (Tr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ee8c0b2f10926dd4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2d4641dca457fa20  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups.FpGroup.equals","kind":"method","src_hash":"4a6ed634642ae36a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"equals(wor)","rhs":"compare `word1` and `word2` for equality in the group using the group's rewriting system","over":{"base":"Any"},"name":"equals_correct"},"guarantee":"compare `word1` and `word2` for equality in the group using the group's rewriting system","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.fp_groups.FpGroup.equals_correct","statement":"Path(equals(x), compare `word1` and `word2` for equality in the group using the group's rewriting system)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ee8c0b2f10926dd4"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups.FpGroup.equals","kind":"method","src_hash":"4a6ed634642ae36a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (True if self.reduce(word1 * word2 ** (-1)) == self.identity else False) and result == True or result == False"},"spec":{"lhs":"equals(word1, word2)","rhs":"result == (True if self.reduce(word1 * word2 ** (-1)) == self.identity else False) and result == True or result == False","over":{"base":"Any"},"name":"equals_correct"},"guarantee":"result == (True if self.reduce(word1 * word2 ** (-1)) == self.identity else False); result == True or result == False; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.fp_groups.FpGroup.equals_correct","statement":"Path(equals(x), result == (True if self.reduce(word1 * word2 ** (-1)) == self.identity else False); result == True or result == False; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2d4641dca457fa20","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (True if self.reduce(word1 * word2 ** (-1)) == self.identity else False)","result == True or result == False"],"fibers":[{"name":"case_0","guard":"self.reduce(word1 * word2 ** (-1)) == self.identity","ensures":["result == True"],"decidability":"z3","returns_expr":"True"},{"name":"case_1","guard":"self._rewriting_system.is_confluent","ensures":["result == False"],"decidability":"library","returns_expr":"False"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._rewriting_system","self.identity","self.reduce"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def equals(self, word1, word2):
         '''
         Compare `word1` and `word2` for equality in the group
@@ -242,44 +307,64 @@ class FpGroup(DefaultPrinting):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(identity(), returns the identity attribute) over Any  ║
+# ║ Path(identity(), self.free_group.identity) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.free_group.identity                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ identity : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 094ef5fc5ddf2f78           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups.FpGroup.identity","kind":"property","src_hash":"bd002cfe292e7207","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"identity()","rhs":"returns the identity attribute","over":{"base":"Any"},"name":"identity_correct"},"guarantee":"returns the identity attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"094ef5fc5ddf2f78"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups.FpGroup.identity","kind":"property","src_hash":"bd002cfe292e7207","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"identity()","rhs":"self.free_group.identity","over":{"base":"Any"},"name":"identity_correct"},"guarantee":"returns self.free_group.identity","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"094ef5fc5ddf2f78","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.free_group.identity","pure":false,"effects":{"effect_type":"reads_state","reads":["self.free_group"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def identity(self):
         return self.free_group.identity
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__contains__(g), correctly tests membership) over Any ║
+# ║ Path(__contains__(g), g in self.free_group) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  g in self.free_group                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __contains__ : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 594f69e8b409a76d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups.FpGroup.__contains__","kind":"method","src_hash":"380e48672ef3efb5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__contains__(g)","rhs":"correctly tests membership","over":{"base":"Any"},"name":"__contains___correct"},"guarantee":"correctly tests membership","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"594f69e8b409a76d"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups.FpGroup.__contains__","kind":"method","src_hash":"380e48672ef3efb5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__contains__(g)","rhs":"g in self.free_group","over":{"base":"Any"},"name":"__contains___correct"},"guarantee":"returns g in self.free_group","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"594f69e8b409a76d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"g in self.free_group","pure":false,"effects":{"effect_type":"reads_state","reads":["self.free_group"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __contains__(self, g):
         return g in self.free_group
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(subgroup(gen), return the subgroup generated by `gens` using the reidemeister-schreier algorithm homomorphism -- when set to true, return a dictionary containing the images of the presentation generators in the orig) over Any ║
+# ║ Path(subgroup(gens, C, homomorphism), <unspecified:subgroup>) over {Any | all((isinstance(g, FreeGroupElement) for g in gens)) and all((g.group == self.free_group for g in gens))} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ subgroup : Any → Any                                       ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: all((isinstance(g, FreeGroupElement) for ...   ║
+# ║   requires: all((g.group == self.free_group for g in ...   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ subgroup : {Any | all((isinstance(g, FreeGroupElement...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e9e9cb1faaa8f9b8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups.FpGroup.subgroup","kind":"method","src_hash":"4e294f5b3757b9a1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"subgroup(gen)","rhs":"return the subgroup generated by `gens` using the reidemeister-schreier algorithm homomorphism -- when set to true, return a dictionary containing the images of the presentation generators in the orig","over":{"base":"Any"},"name":"subgroup_correct"},"guarantee":"return the subgroup generated by `gens` using the reidemeister-schreier algorithm homomorphism -- when set to true, return a dictionary containing the images of the presentation generators in the orig","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.fp_groups.FpGroup.subgroup_correct","statement":"Path(subgroup(x), return the subgroup generated by `gens` using the reidemeister-schreier algorithm homomorphism -- when set to true, return a dictionary containing the images of the presentation generators in the orig)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e9e9cb1faaa8f9b8"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups.FpGroup.subgroup","kind":"method","src_hash":"4e294f5b3757b9a1","in":{"base":"Any","pred":"all((isinstance(g, FreeGroupElement) for g in gens)) and all((g.group == self.free_group for g in gens))"},"out":{"base":"Any"},"spec":{"lhs":"subgroup(gens, C, homomorphism)","rhs":"<unspecified:subgroup>","over":{"base":"Any","pred":"all((isinstance(g, FreeGroupElement) for g in gens)) and all((g.group == self.free_group for g in gens))"},"name":"subgroup_correct"},"guarantee":"return the subgroup generated by `gens` using the reidemeister-schreier algorithm homomorphism -- when set to true, return a dictionary containing the images of the presentation generators in the orig","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.fp_groups.FpGroup.subgroup_correct","statement":"Path(subgroup(x), return the subgroup generated by `gens` using the reidemeister-schreier algorithm homomorphism -- when set to true, return a dictionary containing the images of the presentation generators in the orig)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e9e9cb1faaa8f9b8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["all((isinstance(g, FreeGroupElement) for g in gens))","all((g.group == self.free_group for g in gens))"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.free_group"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def subgroup(self, gens, C=None, homomorphism=False):
         '''
         Return the subgroup generated by `gens` using the
@@ -319,16 +404,22 @@ class FpGroup(DefaultPrinting):
         return g
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(coset_enumeration(H, ), return an instance of ``coset table``, when todd-coxeter algorithm is run over the ``self`` with ``h`` as subgroup, using ``strategy`` argument as strategy) over Any ║
+# ║ Path(coset_enumeration(H, strategy, max_cosets), <unspecified:coset_enumeration>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ coset_enumeration : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 119f9f620606bfc8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups.FpGroup.coset_enumeration","kind":"method","src_hash":"0891d090991430c7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"coset_enumeration(H, )","rhs":"return an instance of ``coset table``, when todd-coxeter algorithm is run over the ``self`` with ``h`` as subgroup, using ``strategy`` argument as strategy","over":{"base":"Any"},"name":"coset_enumeration_correct"},"guarantee":"return an instance of ``coset table``, when todd-coxeter algorithm is run over the ``self`` with ``h`` as subgroup, using ``strategy`` argument as strategy","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.fp_groups.FpGroup.coset_enumeration_correct","statement":"Path(coset_enumeration(x), return an instance of ``coset table``, when todd-coxeter algorithm is run over the ``self`` with ``h`` as subgroup, using ``strategy`` argument as strategy)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"119f9f620606bfc8"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups.FpGroup.coset_enumeration","kind":"method","src_hash":"0891d090991430c7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"coset_enumeration(H, strategy, max_cosets)","rhs":"<unspecified:coset_enumeration>","over":{"base":"Any"},"name":"coset_enumeration_correct"},"guarantee":"return an instance of ``coset table``, when todd-coxeter algorithm is run over the ``self`` with ``h`` as subgroup, using ``strategy`` argument as strategy","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.fp_groups.FpGroup.coset_enumeration_correct","statement":"Path(coset_enumeration(x), return an instance of ``coset table``, when todd-coxeter algorithm is run over the ``self`` with ``h`` as subgroup, using ``strategy`` argument as strategy)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"119f9f620606bfc8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def coset_enumeration(self, H, strategy="relator_based", max_cosets=None,
                                                         draft=None, incomplete=False):
         """
@@ -358,16 +449,22 @@ class FpGroup(DefaultPrinting):
         return C
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(standardize_coset_table(), standardized the coset table ``self`` and makes the internal variable ``_is_standardized`` equal to ``true``) over Any ║
+# ║ Path(standardize_coset_table(), <unspecified:standardize_coset_table>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ standardize_coset_table : Any → Any                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 14490d3659b35f75  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups.FpGroup.standardize_coset_table","kind":"method","src_hash":"76867a5669dbec74","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"standardize_coset_table()","rhs":"standardized the coset table ``self`` and makes the internal variable ``_is_standardized`` equal to ``true``","over":{"base":"Any"},"name":"standardize_coset_table_correct"},"guarantee":"standardized the coset table ``self`` and makes the internal variable ``_is_standardized`` equal to ``true``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.fp_groups.FpGroup.standardize_coset_table_correct","statement":"Path(standardize_coset_table(x), standardized the coset table ``self`` and makes the internal variable ``_is_standardized`` equal to ``true``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"14490d3659b35f75"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups.FpGroup.standardize_coset_table","kind":"method","src_hash":"76867a5669dbec74","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"standardize_coset_table()","rhs":"<unspecified:standardize_coset_table>","over":{"base":"Any"},"name":"standardize_coset_table_correct"},"guarantee":"standardized the coset table ``self`` and makes the internal variable ``_is_standardized`` equal to ``true``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.fp_groups.FpGroup.standardize_coset_table_correct","statement":"Path(standardize_coset_table(x), standardized the coset table ``self`` and makes the internal variable ``_is_standardized`` equal to ``true``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"14490d3659b35f75","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._coset_table"],"writes":["self._is_standardized"]},"state_contract":{"modifies":["self._is_standardized"],"old_bindings":{"old_self__is_standardized":"self._is_standardized"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def standardize_coset_table(self):
         """
         Standardized the coset table ``self`` and makes the internal variable
@@ -378,16 +475,25 @@ class FpGroup(DefaultPrinting):
         self._is_standardized = True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(coset_table(H, ), return the mathematical coset table of ``self`` in ``h``) over Any ║
+# ║ Path(coset_table(H, strategy, max_cosets), result == (self._coset_table.table if not H else C.table) and result == self._coset_table.table or result == C.table) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ coset_table : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (self._coset_table.table if not...   ║
+# ║   ensures:  result == self._coset_table.table or resu...   ║
+# ║   fiber[case_0]: not H => self._coset_table.table          ║
+# ║   fiber[case_1]: not (not H) => C.table                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ coset_table : Any → {Any | result satisfies: result =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 936e5ed5ea1fcf51  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 264011d2cce5170d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups.FpGroup.coset_table","kind":"method","src_hash":"83ddb827e4d8ba15","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"coset_table(H, )","rhs":"return the mathematical coset table of ``self`` in ``h``","over":{"base":"Any"},"name":"coset_table_correct"},"guarantee":"return the mathematical coset table of ``self`` in ``h``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.fp_groups.FpGroup.coset_table_correct","statement":"Path(coset_table(x), return the mathematical coset table of ``self`` in ``h``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"936e5ed5ea1fcf51"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups.FpGroup.coset_table","kind":"method","src_hash":"83ddb827e4d8ba15","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (self._coset_table.table if not H else C.table) and result == self._coset_table.table or result == C.table"},"spec":{"lhs":"coset_table(H, strategy, max_cosets)","rhs":"result == (self._coset_table.table if not H else C.table) and result == self._coset_table.table or result == C.table","over":{"base":"Any"},"name":"coset_table_correct"},"guarantee":"result == (self._coset_table.table if not H else C.table); result == self._coset_table.table or result == C.table; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.fp_groups.FpGroup.coset_table_correct","statement":"Path(coset_table(x), result == (self._coset_table.table if not H else C.table); result == self._coset_table.table or result == C.table; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"264011d2cce5170d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (self._coset_table.table if not H else C.table)","result == self._coset_table.table or result == C.table"],"fibers":[{"name":"case_0","guard":"not H","ensures":["result == self._coset_table.table"],"decidability":"library","returns_expr":"self._coset_table.table"},{"name":"case_1","guard":"not (not H)","ensures":["result == C.table"],"decidability":"library","returns_expr":"C.table"}],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self._coset_table","self._is_standardized","self.coset_enumeration","self.standardize_coset_table"],"writes":["self._coset_table"]},"state_contract":{"modifies":["self._coset_table"],"old_bindings":{"old_self__coset_table":"self._coset_table"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def coset_table(self, H, strategy="relator_based", max_cosets=None,
                                                  draft=None, incomplete=False):
         """
@@ -411,16 +517,22 @@ class FpGroup(DefaultPrinting):
             return C.table
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(order(str), returns the order of the finitely presented group ``self``) over Any ║
+# ║ Path(order(strategy), <unspecified:order>) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ order : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f16fc4ecc7a69a32  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups.FpGroup.order","kind":"method","src_hash":"cca5e16d65edfde6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"order(str)","rhs":"returns the order of the finitely presented group ``self``","over":{"base":"Any"},"name":"order_correct"},"guarantee":"returns the order of the finitely presented group ``self``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.fp_groups.FpGroup.order_correct","statement":"Path(order(x), returns the order of the finitely presented group ``self``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f16fc4ecc7a69a32"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups.FpGroup.order","kind":"method","src_hash":"cca5e16d65edfde6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"order(strategy)","rhs":"<unspecified:order>","over":{"base":"Any"},"name":"order_correct"},"guarantee":"returns the order of the finitely presented group ``self``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.fp_groups.FpGroup.order_correct","statement":"Path(order(x), returns the order of the finitely presented group ``self``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f16fc4ecc7a69a32","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._coset_table","self._finite_index_subgroup","self._is_infinite","self._order","self.free_group","self.generators","self.index","self.relators","self.subgroup"],"writes":["self._order"]},"state_contract":{"modifies":["self._order"],"old_bindings":{"old_self__order":"self._order"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def order(self, strategy="relator_based"):
         """
         Returns the order of the finitely presented group ``self``. It uses
@@ -457,16 +569,22 @@ class FpGroup(DefaultPrinting):
         return self._order
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_is_infinite(), test if the group is infinite) over Any ║
+# ║ Path(_is_infinite(), <unspecified:_is_infinite>) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _is_infinite : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6bf4a0836274eede  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups.FpGroup._is_infinite","kind":"method","src_hash":"494d078c9c46b0f5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_is_infinite()","rhs":"test if the group is infinite","over":{"base":"Any"},"name":"_is_infinite_correct"},"guarantee":"test if the group is infinite","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.fp_groups.FpGroup._is_infinite_correct","statement":"Path(_is_infinite(x), test if the group is infinite)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6bf4a0836274eede"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups.FpGroup._is_infinite","kind":"method","src_hash":"494d078c9c46b0f5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_is_infinite()","rhs":"<unspecified:_is_infinite>","over":{"base":"Any"},"name":"_is_infinite_correct"},"guarantee":"test if the group is infinite","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.fp_groups.FpGroup._is_infinite_correct","statement":"Path(_is_infinite(x), test if the group is infinite)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6bf4a0836274eede","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _is_infinite(self):
         '''
         Test if the group is infinite. Return `True` if the test succeeds
@@ -490,16 +608,22 @@ class FpGroup(DefaultPrinting):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_finite_index_subgroup(s), find the elements of `self` that generate a finite index subgroup and, if found, return the list of elements and the coset table of `self` by the subgroup, otherwise return `(none, none)`) over Any ║
+# ║ Path(_finite_index_subgroup(s), <unspecified:_finite_index_subgroup>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _finite_index_subgroup : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c9b7fde0a0a1a301  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups.FpGroup._finite_index_subgroup","kind":"method","src_hash":"832838a23e9cf6e4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_finite_index_subgroup(s)","rhs":"find the elements of `self` that generate a finite index subgroup and, if found, return the list of elements and the coset table of `self` by the subgroup, otherwise return `(none, none)`","over":{"base":"Any"},"name":"_finite_index_subgroup_correct"},"guarantee":"find the elements of `self` that generate a finite index subgroup and, if found, return the list of elements and the coset table of `self` by the subgroup, otherwise return `(none, none)`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.fp_groups.FpGroup._finite_index_subgroup_correct","statement":"Path(_finite_index_subgroup(x), find the elements of `self` that generate a finite index subgroup and, if found, return the list of elements and the coset table of `self` by the subgroup, otherwise return `(none, none)`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c9b7fde0a0a1a301"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups.FpGroup._finite_index_subgroup","kind":"method","src_hash":"832838a23e9cf6e4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_finite_index_subgroup(s)","rhs":"<unspecified:_finite_index_subgroup>","over":{"base":"Any"},"name":"_finite_index_subgroup_correct"},"guarantee":"find the elements of `self` that generate a finite index subgroup and, if found, return the list of elements and the coset table of `self` by the subgroup, otherwise return `(none, none)`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.fp_groups.FpGroup._finite_index_subgroup_correct","statement":"Path(_finite_index_subgroup(x), find the elements of `self` that generate a finite index subgroup and, if found, return the list of elements and the coset table of `self` by the subgroup, otherwise return `(none, none)`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c9b7fde0a0a1a301","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"nondeterministic","reads":["self.coset_enumeration","self.free_group","self.generators","self.most_frequent_generator","self.random","self.relators"],"calls_mutating":["rels.extend"],"nondeterministic_sources":["self.random"]},"state_contract":{"modifies":["rels.*"],"old_bindings":{"old_len_rels":"len(rels)"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _finite_index_subgroup(self, s=None):
         '''
         Find the elements of `self` that generate a finite index subgroup
@@ -551,14 +675,20 @@ class FpGroup(DefaultPrinting):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(most_frequent_generator(), id) over Any               ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  gens[freqs.index(max(freqs))]                  ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ most_frequent_generator : Any → Any                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | afadacfea10d6537   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups.FpGroup.most_frequent_generator","kind":"method","src_hash":"d548646042f51331","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"most_frequent_generator()","rhs":"most_frequent_generator produces the expected output","over":{"base":"Any"},"name":"most_frequent_generator_correct","kind":"composition"},"guarantee":"most_frequent_generator produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"index","by":"library_axiom"},{"fn":"max","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"afadacfea10d6537"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups.FpGroup.most_frequent_generator","kind":"method","src_hash":"d548646042f51331","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"most_frequent_generator()","rhs":"gens[freqs.index(max(freqs))]","over":{"base":"Any"},"name":"most_frequent_generator_correct","kind":"composition"},"guarantee":"returns gens[freqs.index(max(freqs))]","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"index","by":"library_axiom"},{"fn":"max","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"afadacfea10d6537","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"gens[freqs.index(max(freqs))]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.generators","self.relators"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def most_frequent_generator(self):
         gens = self.generators
         rels = self.relators
@@ -566,16 +696,22 @@ class FpGroup(DefaultPrinting):
         return gens[freqs.index(max(freqs))]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(random(), random produces the expected output) over Any ║
+# ║ Path(random(), <unspecified:random>) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ random : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 43bab02117173e0d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups.FpGroup.random","kind":"method","src_hash":"5786c0f5f6916071","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"random()","rhs":"random produces the expected output","over":{"base":"Any"},"name":"random_correct"},"guarantee":"random produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.fp_groups.FpGroup.random_correct","statement":"Path(random(x), random produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"43bab02117173e0d"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups.FpGroup.random","kind":"method","src_hash":"5786c0f5f6916071","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"random()","rhs":"<unspecified:random>","over":{"base":"Any"},"name":"random_correct"},"guarantee":"random produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.fp_groups.FpGroup.random_correct","statement":"Path(random(x), random produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"43bab02117173e0d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"nondeterministic","reads":["self.free_group","self.generators"],"nondeterministic_sources":["random.choice","random.randint"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def random(self):
         import random
         r = self.free_group.identity
@@ -584,16 +720,25 @@ class FpGroup(DefaultPrinting):
         return r
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(index(H, ), return the index of subgroup ``h`` in group ``self``) over Any ║
+# ║ Path(index(H, strategy), result == (self.order() if H == [] else len(C.table)) and result == self.order() or result == len(C.table)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ index : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (self.order() if H == [] else l...   ║
+# ║   ensures:  result == self.order() or result == len(C...   ║
+# ║   fiber[case_0]: H == [] => self.order()                   ║
+# ║   fiber[case_1]: not (H == []) => len(C.table)             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ index : Any → {Any | result satisfies: result == (sel...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 20b623e9b6b2d43e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ea5eabb6b07e38be  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups.FpGroup.index","kind":"method","src_hash":"704298e32a68ba1e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"index(H, )","rhs":"return the index of subgroup ``h`` in group ``self``","over":{"base":"Any"},"name":"index_correct"},"guarantee":"return the index of subgroup ``h`` in group ``self``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.fp_groups.FpGroup.index_correct","statement":"Path(index(x), return the index of subgroup ``h`` in group ``self``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"20b623e9b6b2d43e"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups.FpGroup.index","kind":"method","src_hash":"704298e32a68ba1e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (self.order() if H == [] else len(C.table)) and result == self.order() or result == len(C.table)"},"spec":{"lhs":"index(H, strategy)","rhs":"result == (self.order() if H == [] else len(C.table)) and result == self.order() or result == len(C.table)","over":{"base":"Any"},"name":"index_correct"},"guarantee":"result == (self.order() if H == [] else len(C.table)); result == self.order() or result == len(C.table); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.fp_groups.FpGroup.index_correct","statement":"Path(index(x), result == (self.order() if H == [] else len(C.table)); result == self.order() or result == len(C.table); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ea5eabb6b07e38be","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (self.order() if H == [] else len(C.table))","result == self.order() or result == len(C.table)"],"fibers":[{"name":"case_0","guard":"H == []","ensures":["result == self.order()"],"decidability":"z3","returns_expr":"self.order()"},{"name":"case_1","guard":"not (H == [])","ensures":["result == len(C.table)"],"decidability":"z3","returns_expr":"len(C.table)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.coset_enumeration","self.order"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def index(self, H, strategy="relator_based"):
         """
         Return the index of subgroup ``H`` in group ``self``.
@@ -619,16 +764,22 @@ class FpGroup(DefaultPrinting):
             return len(C.table)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__str__(), returns a human-readable string) over Any  ║
+# ║ Path(__str__(), <unspecified:__str__>) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __str__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c7fce3359c2bb5c8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups.FpGroup.__str__","kind":"method","src_hash":"b2b717bd33c9aa93","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"returns a human-readable string","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c7fce3359c2bb5c8"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups.FpGroup.__str__","kind":"method","src_hash":"b2b717bd33c9aa93","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"<unspecified:__str__>","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c7fce3359c2bb5c8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.free_group","self.generators"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __str__(self):
         if self.free_group.rank > 30:
             str_form = "<fp group with %s generators>" % self.free_group.rank
@@ -643,16 +794,23 @@ class FpGroup(DefaultPrinting):
 #==============================================================================
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_to_perm_group(), return an isomorphic permutation group and the isomorphism. the implementation is dependent on coset enumeration so will only terminate for finite groups) over Any ║
+# ║ Path(_to_perm_group(), (P, T)) over {Any | not (self.order() is S.Infinity)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _to_perm_group : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (self.order() is S.Infinity)               ║
+# ║   returns:  (P, T)                                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _to_perm_group : {Any | not (self.order() is S.Infini...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7ef67d0004ca7071  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9fbdafbf7f6aba3e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups.FpGroup._to_perm_group","kind":"method","src_hash":"e8ff2da20a6d9ae5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_to_perm_group()","rhs":"return an isomorphic permutation group and the isomorphism. the implementation is dependent on coset enumeration so will only terminate for finite groups","over":{"base":"Any"},"name":"_to_perm_group_correct"},"guarantee":"return an isomorphic permutation group and the isomorphism. the implementation is dependent on coset enumeration so will only terminate for finite groups","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.fp_groups.FpGroup._to_perm_group_correct","statement":"Path(_to_perm_group(x), return an isomorphic permutation group and the isomorphism. the implementation is dependent on coset enumeration so will only terminate for finite groups)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7ef67d0004ca7071"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups.FpGroup._to_perm_group","kind":"method","src_hash":"e8ff2da20a6d9ae5","in":{"base":"Any","pred":"not (self.order() is S.Infinity)"},"out":{"base":"Any"},"spec":{"lhs":"_to_perm_group()","rhs":"(P, T)","over":{"base":"Any","pred":"not (self.order() is S.Infinity)"},"name":"_to_perm_group_correct"},"guarantee":"returns (P, T)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.fp_groups.FpGroup._to_perm_group_correct","statement":"Path(_to_perm_group(x), returns (P, T))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9fbdafbf7f6aba3e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (self.order() is S.Infinity)"],"returns_expr":"(P, T)","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._perm_isomorphism","self.coset_table","self.generators","self.order"],"writes":["self._perm_isomorphism"],"raises":["NotImplementedError"]},"state_contract":{"modifies":["self._perm_isomorphism"],"old_bindings":{"old_self__perm_isomorphism":"self._perm_isomorphism"},"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _to_perm_group(self):
         '''
         Return an isomorphic permutation group and the isomorphism.
@@ -679,16 +837,22 @@ class FpGroup(DefaultPrinting):
         return P, T
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_perm_group_list(met), given the name of a `permutationgroup` method (returning a subgroup or a list of subgroups) and (optionally) additional arguments it takes, return a list or a list of lists containing the generators o) over Any ║
+# ║ Path(_perm_group_list(method_name, *args), result[0] if single else result) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  result[0] if single else result                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _perm_group_list : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5433be250a3dc133  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | da2601e9cee260a0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups.FpGroup._perm_group_list","kind":"method","src_hash":"c76fde78bf46a5b8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_perm_group_list(met)","rhs":"given the name of a `permutationgroup` method (returning a subgroup or a list of subgroups) and (optionally) additional arguments it takes, return a list or a list of lists containing the generators o","over":{"base":"Any"},"name":"_perm_group_list_correct"},"guarantee":"given the name of a `permutationgroup` method (returning a subgroup or a list of subgroups) and (optionally) additional arguments it takes, return a list or a list of lists containing the generators o","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.fp_groups.FpGroup._perm_group_list_correct","statement":"Path(_perm_group_list(x), given the name of a `permutationgroup` method (returning a subgroup or a list of subgroups) and (optionally) additional arguments it takes, return a list or a list of lists containing the generators o)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5433be250a3dc133"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups.FpGroup._perm_group_list","kind":"method","src_hash":"c76fde78bf46a5b8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_perm_group_list(method_name, *args)","rhs":"result[0] if single else result","over":{"base":"Any"},"name":"_perm_group_list_correct"},"guarantee":"returns result[0] if single else result","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.fp_groups.FpGroup._perm_group_list_correct","statement":"Path(_perm_group_list(x), returns result[0] if single else result)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"da2601e9cee260a0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"result[0] if single else result","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _perm_group_list(self, method_name, *args):
         '''
         Given the name of a `PermutationGroup` method (returning a subgroup
@@ -709,16 +873,22 @@ class FpGroup(DefaultPrinting):
         return result[0] if single else result
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(derived_series(), return the list of lists containing the generators of the subgroups in the derived series of `self`) over Any ║
+# ║ Path(derived_series(), self._perm_group_list('derived_series')) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._perm_group_list('derived_series')        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ derived_series : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6bc202a64576c5d5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups.FpGroup.derived_series","kind":"method","src_hash":"d791d26e3b6c51ce","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"derived_series()","rhs":"return the list of lists containing the generators of the subgroups in the derived series of `self`","over":{"base":"Any"},"name":"derived_series_correct"},"guarantee":"return the list of lists containing the generators of the subgroups in the derived series of `self`","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6bc202a64576c5d5"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups.FpGroup.derived_series","kind":"method","src_hash":"d791d26e3b6c51ce","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"derived_series()","rhs":"self._perm_group_list('derived_series')","over":{"base":"Any"},"name":"derived_series_correct"},"guarantee":"returns self._perm_group_list('derived_series')","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6bc202a64576c5d5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._perm_group_list('derived_series')","pure":false,"effects":{"effect_type":"reads_state","reads":["self._perm_group_list"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def derived_series(self):
         '''
         Return the list of lists containing the generators
@@ -728,16 +898,22 @@ class FpGroup(DefaultPrinting):
         return self._perm_group_list('derived_series')
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(lower_central_series(), return the list of lists containing the generators of the subgroups in the lower central series of `self`) over Any ║
+# ║ Path(lower_central_series(), self._perm_group_list('lower_central_series')) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._perm_group_list('lower_central_seri...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ lower_central_series : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 856a87fac1f44afa           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups.FpGroup.lower_central_series","kind":"method","src_hash":"0399c41239b52431","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"lower_central_series()","rhs":"return the list of lists containing the generators of the subgroups in the lower central series of `self`","over":{"base":"Any"},"name":"lower_central_series_correct"},"guarantee":"return the list of lists containing the generators of the subgroups in the lower central series of `self`","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"856a87fac1f44afa"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups.FpGroup.lower_central_series","kind":"method","src_hash":"0399c41239b52431","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"lower_central_series()","rhs":"self._perm_group_list('lower_central_series')","over":{"base":"Any"},"name":"lower_central_series_correct"},"guarantee":"returns self._perm_group_list('lower_central_series')","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"856a87fac1f44afa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._perm_group_list('lower_central_series')","pure":false,"effects":{"effect_type":"reads_state","reads":["self._perm_group_list"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def lower_central_series(self):
         '''
         Return the list of lists containing the generators
@@ -747,16 +923,22 @@ class FpGroup(DefaultPrinting):
         return self._perm_group_list('lower_central_series')
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(center(), return the list of generators of the center of `self`) over Any ║
+# ║ Path(center(), self._perm_group_list('center')) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._perm_group_list('center')                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ center : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | eb4be8857cf1bba3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups.FpGroup.center","kind":"method","src_hash":"e38a7e43c120d8b0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"center()","rhs":"return the list of generators of the center of `self`","over":{"base":"Any"},"name":"center_correct"},"guarantee":"return the list of generators of the center of `self`","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"eb4be8857cf1bba3"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups.FpGroup.center","kind":"method","src_hash":"e38a7e43c120d8b0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"center()","rhs":"self._perm_group_list('center')","over":{"base":"Any"},"name":"center_correct"},"guarantee":"returns self._perm_group_list('center')","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"eb4be8857cf1bba3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._perm_group_list('center')","pure":false,"effects":{"effect_type":"reads_state","reads":["self._perm_group_list"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def center(self):
         '''
         Return the list of generators of the center of `self`.
@@ -766,16 +948,22 @@ class FpGroup(DefaultPrinting):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(derived_subgroup(), return the list of generators of the derived subgroup of `self`) over Any ║
+# ║ Path(derived_subgroup(), self._perm_group_list('derived_subgroup')) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._perm_group_list('derived_subgroup')      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ derived_subgroup : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ab02a16600b2b2fa           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups.FpGroup.derived_subgroup","kind":"method","src_hash":"10d76d833ecbdb19","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"derived_subgroup()","rhs":"return the list of generators of the derived subgroup of `self`","over":{"base":"Any"},"name":"derived_subgroup_correct"},"guarantee":"return the list of generators of the derived subgroup of `self`","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ab02a16600b2b2fa"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups.FpGroup.derived_subgroup","kind":"method","src_hash":"10d76d833ecbdb19","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"derived_subgroup()","rhs":"self._perm_group_list('derived_subgroup')","over":{"base":"Any"},"name":"derived_subgroup_correct"},"guarantee":"returns self._perm_group_list('derived_subgroup')","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ab02a16600b2b2fa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._perm_group_list('derived_subgroup')","pure":false,"effects":{"effect_type":"reads_state","reads":["self._perm_group_list"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def derived_subgroup(self):
         '''
         Return the list of generators of the derived subgroup of `self`.
@@ -785,16 +973,22 @@ class FpGroup(DefaultPrinting):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(centralizer(oth), return the list of generators of the centralizer of `other` (a list of elements of `self`) in `self`) over Any ║
+# ║ Path(centralizer(other), self._perm_group_list('centralizer', other)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._perm_group_list('centralizer', other)    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ centralizer : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d349e8b083f374de  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 07330e0f13992751  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups.FpGroup.centralizer","kind":"method","src_hash":"ef868cd14f13e6be","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"centralizer(oth)","rhs":"return the list of generators of the centralizer of `other` (a list of elements of `self`) in `self`","over":{"base":"Any"},"name":"centralizer_correct"},"guarantee":"return the list of generators of the centralizer of `other` (a list of elements of `self`) in `self`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.fp_groups.FpGroup.centralizer_correct","statement":"Path(centralizer(x), return the list of generators of the centralizer of `other` (a list of elements of `self`) in `self`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d349e8b083f374de"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups.FpGroup.centralizer","kind":"method","src_hash":"ef868cd14f13e6be","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"centralizer(other)","rhs":"self._perm_group_list('centralizer', other)","over":{"base":"Any"},"name":"centralizer_correct"},"guarantee":"returns self._perm_group_list('centralizer', other)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.fp_groups.FpGroup.centralizer_correct","statement":"Path(centralizer(x), returns self._perm_group_list('centralizer', other))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"07330e0f13992751","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._perm_group_list('centralizer', other)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._perm_group_list","self._to_perm_group"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def centralizer(self, other):
         '''
         Return the list of generators of the centralizer of `other`
@@ -806,16 +1000,22 @@ class FpGroup(DefaultPrinting):
         return self._perm_group_list('centralizer', other)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(normal_closure(oth), return the list of generators of the normal closure of `other` (a list of elements of `self`) in `self`) over Any ║
+# ║ Path(normal_closure(other), self._perm_group_list('normal_closure', other)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._perm_group_list('normal_closure', o...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ normal_closure : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c3763007e60b41ee  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 633d631b8e0c6ef3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups.FpGroup.normal_closure","kind":"method","src_hash":"2de1b764b9f4b7fc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"normal_closure(oth)","rhs":"return the list of generators of the normal closure of `other` (a list of elements of `self`) in `self`","over":{"base":"Any"},"name":"normal_closure_correct"},"guarantee":"return the list of generators of the normal closure of `other` (a list of elements of `self`) in `self`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.fp_groups.FpGroup.normal_closure_correct","statement":"Path(normal_closure(x), return the list of generators of the normal closure of `other` (a list of elements of `self`) in `self`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c3763007e60b41ee"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups.FpGroup.normal_closure","kind":"method","src_hash":"2de1b764b9f4b7fc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"normal_closure(other)","rhs":"self._perm_group_list('normal_closure', other)","over":{"base":"Any"},"name":"normal_closure_correct"},"guarantee":"returns self._perm_group_list('normal_closure', other)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.fp_groups.FpGroup.normal_closure_correct","statement":"Path(normal_closure(x), returns self._perm_group_list('normal_closure', other))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"633d631b8e0c6ef3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._perm_group_list('normal_closure', other)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._perm_group_list","self._to_perm_group"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def normal_closure(self, other):
         '''
         Return the list of generators of the normal closure of `other`
@@ -827,16 +1027,22 @@ class FpGroup(DefaultPrinting):
         return self._perm_group_list('normal_closure', other)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_perm_property(att), given an attribute of a `permutationgroup`, return its value for a permutation group isomorphic to `self`) over Any ║
+# ║ Path(_perm_property(attr), getattr(P, attr)) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  getattr(P, attr)                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _perm_property : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a4599aec4e4fbf7f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d2d4cd6f773223b6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups.FpGroup._perm_property","kind":"method","src_hash":"0c46d6834f7af0a0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_perm_property(att)","rhs":"given an attribute of a `permutationgroup`, return its value for a permutation group isomorphic to `self`","over":{"base":"Any"},"name":"_perm_property_correct"},"guarantee":"given an attribute of a `permutationgroup`, return its value for a permutation group isomorphic to `self`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.fp_groups.FpGroup._perm_property_correct","statement":"Path(_perm_property(x), given an attribute of a `permutationgroup`, return its value for a permutation group isomorphic to `self`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a4599aec4e4fbf7f"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups.FpGroup._perm_property","kind":"method","src_hash":"0c46d6834f7af0a0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_perm_property(attr)","rhs":"getattr(P, attr)","over":{"base":"Any"},"name":"_perm_property_correct"},"guarantee":"returns getattr(P, attr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.fp_groups.FpGroup._perm_property_correct","statement":"Path(_perm_property(x), returns getattr(P, attr))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d2d4cd6f773223b6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"getattr(P, attr)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._to_perm_group"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _perm_property(self, attr):
         '''
         Given an attribute of a `PermutationGroup`, return
@@ -848,16 +1054,22 @@ class FpGroup(DefaultPrinting):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_abelian(), returns the is_abelian attribute) over Any ║
+# ║ Path(is_abelian(), self._perm_property('is_abelian')) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._perm_property('is_abelian')              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_abelian : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3b9355dcabc7cc97           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups.FpGroup.is_abelian","kind":"property","src_hash":"d10a63a0f822a5d0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_abelian()","rhs":"returns the is_abelian attribute","over":{"base":"Any"},"name":"is_abelian_correct"},"guarantee":"returns the is_abelian attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3b9355dcabc7cc97"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups.FpGroup.is_abelian","kind":"property","src_hash":"d10a63a0f822a5d0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_abelian()","rhs":"self._perm_property('is_abelian')","over":{"base":"Any"},"name":"is_abelian_correct"},"guarantee":"returns self._perm_property('is_abelian')","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3b9355dcabc7cc97","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._perm_property('is_abelian')","pure":false,"effects":{"effect_type":"reads_state","reads":["self._perm_property"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_abelian(self):
         '''
         Check if `self` is abelian.
@@ -867,16 +1079,22 @@ class FpGroup(DefaultPrinting):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_nilpotent(), returns the is_nilpotent attribute) over Any ║
+# ║ Path(is_nilpotent(), self._perm_property('is_nilpotent')) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._perm_property('is_nilpotent')            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_nilpotent : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 334df7400cdaa02f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups.FpGroup.is_nilpotent","kind":"property","src_hash":"adef035d7c1a1f93","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_nilpotent()","rhs":"returns the is_nilpotent attribute","over":{"base":"Any"},"name":"is_nilpotent_correct"},"guarantee":"returns the is_nilpotent attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"334df7400cdaa02f"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups.FpGroup.is_nilpotent","kind":"property","src_hash":"adef035d7c1a1f93","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_nilpotent()","rhs":"self._perm_property('is_nilpotent')","over":{"base":"Any"},"name":"is_nilpotent_correct"},"guarantee":"returns self._perm_property('is_nilpotent')","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"334df7400cdaa02f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._perm_property('is_nilpotent')","pure":false,"effects":{"effect_type":"reads_state","reads":["self._perm_property"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_nilpotent(self):
         '''
         Check if `self` is nilpotent.
@@ -886,16 +1104,22 @@ class FpGroup(DefaultPrinting):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_solvable(), returns the is_solvable attribute) over Any ║
+# ║ Path(is_solvable(), self._perm_property('is_solvable')) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._perm_property('is_solvable')             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_solvable : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 61561789e978865c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups.FpGroup.is_solvable","kind":"property","src_hash":"e7151869bba2a487","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_solvable()","rhs":"returns the is_solvable attribute","over":{"base":"Any"},"name":"is_solvable_correct"},"guarantee":"returns the is_solvable attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"61561789e978865c"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups.FpGroup.is_solvable","kind":"property","src_hash":"e7151869bba2a487","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_solvable()","rhs":"self._perm_property('is_solvable')","over":{"base":"Any"},"name":"is_solvable_correct"},"guarantee":"returns self._perm_property('is_solvable')","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"61561789e978865c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._perm_property('is_solvable')","pure":false,"effects":{"effect_type":"reads_state","reads":["self._perm_property"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_solvable(self):
         '''
         Check if `self` is solvable.
@@ -905,16 +1129,22 @@ class FpGroup(DefaultPrinting):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(elements(), returns the elements attribute) over Any  ║
+# ║ Path(elements(), T.invert(P.elements)) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  T.invert(P.elements)                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ elements : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 70b6bad24e97a821           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups.FpGroup.elements","kind":"property","src_hash":"0a773916537fd2f8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"elements()","rhs":"returns the elements attribute","over":{"base":"Any"},"name":"elements_correct"},"guarantee":"returns the elements attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"70b6bad24e97a821"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups.FpGroup.elements","kind":"property","src_hash":"0a773916537fd2f8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"elements()","rhs":"T.invert(P.elements)","over":{"base":"Any"},"name":"elements_correct"},"guarantee":"returns T.invert(P.elements)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"70b6bad24e97a821","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"T.invert(P.elements)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._to_perm_group"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def elements(self):
         '''
         List the elements of `self`.
@@ -925,16 +1155,22 @@ class FpGroup(DefaultPrinting):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_cyclic(), returns the is_cyclic attribute) over Any ║
+# ║ Path(is_cyclic(), <unspecified:is_cyclic>) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_cyclic : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | be0407471d60af68           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups.FpGroup.is_cyclic","kind":"property","src_hash":"f686d40101084f57","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_cyclic()","rhs":"returns the is_cyclic attribute","over":{"base":"Any"},"name":"is_cyclic_correct"},"guarantee":"returns the is_cyclic attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"be0407471d60af68"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups.FpGroup.is_cyclic","kind":"property","src_hash":"f686d40101084f57","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_cyclic()","rhs":"<unspecified:is_cyclic>","over":{"base":"Any"},"name":"is_cyclic_correct"},"guarantee":"returns the is_cyclic attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"be0407471d60af68","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._to_perm_group","self.generators"],"raises":["NotImplementedError"],"catches":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_cyclic(self):
         """
         Return ``True`` if group is Cyclic.
@@ -950,16 +1186,22 @@ class FpGroup(DefaultPrinting):
         return P.is_cyclic
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(abelian_invariants(), return abelian invariants of a group) over Any ║
+# ║ Path(abelian_invariants(), P.abelian_invariants()) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  P.abelian_invariants()                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ abelian_invariants : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | baabdbe90cc483e2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a007ccbf7aa1a461  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups.FpGroup.abelian_invariants","kind":"method","src_hash":"5f02fe4e360e1141","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"abelian_invariants()","rhs":"return abelian invariants of a group","over":{"base":"Any"},"name":"abelian_invariants_correct"},"guarantee":"return abelian invariants of a group","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.fp_groups.FpGroup.abelian_invariants_correct","statement":"Path(abelian_invariants(x), return abelian invariants of a group)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"baabdbe90cc483e2"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups.FpGroup.abelian_invariants","kind":"method","src_hash":"5f02fe4e360e1141","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"abelian_invariants()","rhs":"P.abelian_invariants()","over":{"base":"Any"},"name":"abelian_invariants_correct"},"guarantee":"returns P.abelian_invariants()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.fp_groups.FpGroup.abelian_invariants_correct","statement":"Path(abelian_invariants(x), returns P.abelian_invariants())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a007ccbf7aa1a461","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"P.abelian_invariants()","pure":false,"effects":{"effect_type":"reads_state","reads":["self._to_perm_group"],"raises":["NotImplementedError"],"catches":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def abelian_invariants(self):
         """
         Return Abelian Invariants of a group.
@@ -972,16 +1214,22 @@ class FpGroup(DefaultPrinting):
         return P.abelian_invariants()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(composition_series(), return subnormal series of maximum length for a group) over Any ║
+# ║ Path(composition_series(), P.composition_series()) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  P.composition_series()                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ composition_series : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 787f406b9bd8d8ef  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1a6e3f26bba9adf5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups.FpGroup.composition_series","kind":"method","src_hash":"e770aaf9de536b79","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"composition_series()","rhs":"return subnormal series of maximum length for a group","over":{"base":"Any"},"name":"composition_series_correct"},"guarantee":"return subnormal series of maximum length for a group","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.fp_groups.FpGroup.composition_series_correct","statement":"Path(composition_series(x), return subnormal series of maximum length for a group)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"787f406b9bd8d8ef"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups.FpGroup.composition_series","kind":"method","src_hash":"e770aaf9de536b79","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"composition_series()","rhs":"P.composition_series()","over":{"base":"Any"},"name":"composition_series_correct"},"guarantee":"returns P.composition_series()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.fp_groups.FpGroup.composition_series_correct","statement":"Path(composition_series(x), returns P.composition_series())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1a6e3f26bba9adf5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"P.composition_series()","pure":false,"effects":{"effect_type":"reads_state","reads":["self._to_perm_group"],"raises":["NotImplementedError"],"catches":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def composition_series(self):
         """
         Return subnormal series of maximum length for a group.
@@ -997,14 +1245,20 @@ class FpGroup(DefaultPrinting):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a FpSubgroup instance) preserved by FpSubgroup(*args) over {Any | isinstance(self.parent, FreeGroup) and isinstance(w1, tuple)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DefaultPrinting)              ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ FpSubgroup : {Any | isinstance(self.parent, FreeGroup...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 56fd99c0fb02efa4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups.FpSubgroup","kind":"class","src_hash":"b025608a17aa8d59","in":{"base":"Any","pred":"isinstance(self.parent, FreeGroup) and isinstance(w1, tuple)"},"out":{"base":"Any"},"spec":{"lhs":"FpSubgroup(*args)","rhs":"correctly constructs a FpSubgroup instance","over":{"base":"Any","pred":"isinstance(self.parent, FreeGroup) and isinstance(w1, tuple)"},"name":"FpSubgroup_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a FpSubgroup instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'parent') and hasattr(self, 'generators') and hasattr(self, '_min_words') and hasattr(self, 'C') and hasattr(self, 'normal')","kind":"class","induction":"structural on parent, generators, _min_words, C"}],"methods_preserving":["__init__","__contains__","order","to_FpGroup","__str__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"56fd99c0fb02efa4"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups.FpSubgroup","kind":"class","src_hash":"b025608a17aa8d59","in":{"base":"Any","pred":"isinstance(self.parent, FreeGroup) and isinstance(w1, tuple)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DefaultPrinting)"},"spec":{"lhs":"FpSubgroup(*args)","rhs":"correctly constructs a FpSubgroup instance","over":{"base":"Any","pred":"isinstance(self.parent, FreeGroup) and isinstance(w1, tuple)"},"name":"FpSubgroup_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, DefaultPrinting); preserves 5 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'parent') and hasattr(self, 'generators') and hasattr(self, '_min_words') and hasattr(self, 'C') and hasattr(self, 'normal')","kind":"class","induction":"structural on parent, generators, _min_words, C"}],"methods_preserving":["__init__","__contains__","order","to_FpGroup","__str__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"56fd99c0fb02efa4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DefaultPrinting)"],"invariants":["hasattr(self, 'parent')","hasattr(self, 'generators')","hasattr(self, '_min_words')","hasattr(self, 'C')","hasattr(self, 'normal')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function FpSubgroup not found in source"]}}
 class FpSubgroup(DefaultPrinting):
     '''
     The class implementing a subgroup of an FpGroup or a FreeGroup
@@ -1014,16 +1268,24 @@ class FpSubgroup(DefaultPrinting):
 
     '''
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(G, ), initializes the instance correctly) over Any ║
+# ║ Path(__init__(G, gens, normal), self.parent == G and self.normal == normal) over {Any | hasattr(G, 'identity')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(G, 'identity')                         ║
+# ║   ensures:  self.parent == G                               ║
+# ║   ensures:  self.normal == normal                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : {Any | hasattr(G, 'identity')} → {Any | re...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 33162769a045fc11           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups.FpSubgroup.__init__","kind":"method","src_hash":"8354278882857007","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(G, )","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"33162769a045fc11"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups.FpSubgroup.__init__","kind":"method","src_hash":"8354278882857007","in":{"base":"Any","pred":"hasattr(G, 'identity')"},"out":{"base":"Any","pred":"result satisfies: self.parent == G and self.normal == normal"},"spec":{"lhs":"__init__(G, gens, normal)","rhs":"self.parent == G and self.normal == normal","over":{"base":"Any","pred":"hasattr(G, 'identity')"},"name":"__init___correct"},"guarantee":"self.parent == G; self.normal == normal","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"33162769a045fc11","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(G, 'identity')"],"ensures":["self.parent == G","self.normal == normal"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, G, gens, normal=False):
         super().__init__()
         self.parent = G
@@ -1033,16 +1295,26 @@ class FpSubgroup(DefaultPrinting):
         self.normal = normal
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__contains__(g), correctly tests membership) over Any ║
+# ║ Path(__contains__(g), result == (_word_break(g) if isinstance(self.parent, FreeGroup) else i == 0) and result == _word_break(g) or result == i == 0) over {Any | hasattr(g, 'cyclic_reduction')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __contains__ : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(g, 'cyclic_reduction')                 ║
+# ║   ensures:  result == (_word_break(g) if isinstance(s...   ║
+# ║   ensures:  result == _word_break(g) or result == i == 0   ║
+# ║   fiber[case_0]: isinstance(self.parent, FreeGroup) =...   ║
+# ║   fiber[case_1]: not (isinstance(self.parent, FreeGro...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __contains__ : {Any | hasattr(g, 'cyclic_reduction')}...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 322048314d5d25c9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups.FpSubgroup.__contains__","kind":"method","src_hash":"f5d717af4ac45c46","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__contains__(g)","rhs":"correctly tests membership","over":{"base":"Any"},"name":"__contains___correct"},"guarantee":"correctly tests membership","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"322048314d5d25c9"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups.FpSubgroup.__contains__","kind":"method","src_hash":"f5d717af4ac45c46","in":{"base":"Any","pred":"hasattr(g, 'cyclic_reduction')"},"out":{"base":"Any","pred":"result satisfies: result == (_word_break(g) if isinstance(self.parent, FreeGroup) else i == 0) and result == _word_break(g) or result == i == 0"},"spec":{"lhs":"__contains__(g)","rhs":"result == (_word_break(g) if isinstance(self.parent, FreeGroup) else i == 0) and result == _word_break(g) or result == i == 0","over":{"base":"Any","pred":"hasattr(g, 'cyclic_reduction')"},"name":"__contains___correct"},"guarantee":"result == (_word_break(g) if isinstance(self.parent, FreeGroup) else i == 0); result == _word_break(g) or result == i == 0; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"322048314d5d25c9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(g, 'cyclic_reduction')"],"ensures":["result == (_word_break(g) if isinstance(self.parent, FreeGroup) else i == 0)","result == _word_break(g) or result == i == 0"],"fibers":[{"name":"case_0","guard":"isinstance(self.parent, FreeGroup)","ensures":["result == _word_break(g)"],"decidability":"structural","returns_expr":"_word_break(g)"},{"name":"case_1","guard":"not (isinstance(self.parent, FreeGroup))","ensures":["result == i == 0"],"decidability":"structural","returns_expr":"i == 0"}],"pure":false,"effects":{"effect_type":"mutates_self","reads":["g.cyclic_reduction","self.C","self._min_words","self.generators","self.normal","self.parent"],"writes":["self.C","self._min_words"],"calls_mutating":["gens.extend"]},"state_contract":{"modifies":["gens.*","self.C","self._min_words"],"old_bindings":{"old_self_C":"self.C","old_self__min_words":"self._min_words","old_len_gens":"len(gens)"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __contains__(self, g):
 
         if isinstance(self.parent, FreeGroup):
@@ -1165,16 +1437,22 @@ class FpSubgroup(DefaultPrinting):
             return i == 0
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(order(), order produces the expected output) over Any ║
+# ║ Path(order(), <unspecified:order>) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ order : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7202817b9d05fe84  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups.FpSubgroup.order","kind":"method","src_hash":"f22d9f2dcbbcba73","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"order()","rhs":"order produces the expected output","over":{"base":"Any"},"name":"order_correct"},"guarantee":"order produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.fp_groups.FpSubgroup.order_correct","statement":"Path(order(x), order produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7202817b9d05fe84"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups.FpSubgroup.order","kind":"method","src_hash":"f22d9f2dcbbcba73","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"order()","rhs":"<unspecified:order>","over":{"base":"Any"},"name":"order_correct"},"guarantee":"order produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.fp_groups.FpSubgroup.order_correct","statement":"Path(order(x), order produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7202817b9d05fe84","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self.C","self.generators","self.parent"],"writes":["self.C"]},"state_contract":{"modifies":["self.C"],"old_bindings":{"old_self_C":"self.C"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def order(self):
         if not self.generators:
             return S.One
@@ -1190,14 +1468,20 @@ class FpSubgroup(DefaultPrinting):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(to_FpGroup(), id) over Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ to_FpGroup : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | ba06acb1e290db32   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups.FpSubgroup.to_FpGroup","kind":"method","src_hash":"6818f4c37b85088b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_FpGroup()","rhs":"to_FpGroup produces the expected output","over":{"base":"Any"},"name":"to_FpGroup_correct","kind":"composition"},"guarantee":"to_FpGroup produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"free_group","by":"library_axiom"},{"fn":"join","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ba06acb1e290db32"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups.FpSubgroup.to_FpGroup","kind":"method","src_hash":"6818f4c37b85088b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_FpGroup()","rhs":"<unspecified:to_FpGroup>","over":{"base":"Any"},"name":"to_FpGroup_correct","kind":"composition"},"guarantee":"to_FpGroup produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"free_group","by":"library_axiom"},{"fn":"join","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ba06acb1e290db32","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.C","self.generators","self.parent"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def to_FpGroup(self):
         if isinstance(self.parent, FreeGroup):
             gen_syms = [('x_%d'%i) for i in range(len(self.generators))]
@@ -1205,16 +1489,22 @@ class FpSubgroup(DefaultPrinting):
         return self.parent.subgroup(C=self.C)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__str__(), returns a human-readable string) over Any  ║
+# ║ Path(__str__(), <unspecified:__str__>) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __str__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e5dd30a2aeaabe58           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups.FpSubgroup.__str__","kind":"method","src_hash":"f050ba32dcbb04b5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"returns a human-readable string","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e5dd30a2aeaabe58"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups.FpSubgroup.__str__","kind":"method","src_hash":"f050ba32dcbb04b5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"<unspecified:__str__>","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e5dd30a2aeaabe58","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.generators"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __str__(self):
         if len(self.generators) > 30:
             str_form = "<fp subgroup with %s generators>" % len(self.generators)
@@ -1230,16 +1520,23 @@ class FpSubgroup(DefaultPrinting):
 ###############################################################################
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(low_index_subgroups(G, ), implements the low index subgroups algorithm, i.e find all subgroups of ``g`` upto a given index ``n``) over Any ║
+# ║ Path(low_index_subgroups(G, N, Y), <unspecified:low_index_subgroups>) over {Any | hasattr(G, 'relators')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ low_index_subgroups : Any → Any                            ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(G, 'relators')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ low_index_subgroups : {Any | hasattr(G, 'relators')} ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cec081e8c8b1acc7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups.low_index_subgroups","kind":"function","src_hash":"1646a6b9073537ca","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"low_index_subgroups(G, )","rhs":"implements the low index subgroups algorithm, i.e find all subgroups of ``g`` upto a given index ``n``","over":{"base":"Any"},"name":"low_index_subgroups_correct"},"guarantee":"implements the low index subgroups algorithm, i.e find all subgroups of ``g`` upto a given index ``n``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.fp_groups.low_index_subgroups_correct","statement":"Path(low_index_subgroups(x), implements the low index subgroups algorithm, i.e find all subgroups of ``g`` upto a given index ``n``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cec081e8c8b1acc7"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups.low_index_subgroups","kind":"function","src_hash":"1646a6b9073537ca","in":{"base":"Any","pred":"hasattr(G, 'relators')"},"out":{"base":"Any"},"spec":{"lhs":"low_index_subgroups(G, N, Y)","rhs":"<unspecified:low_index_subgroups>","over":{"base":"Any","pred":"hasattr(G, 'relators')"},"name":"low_index_subgroups_correct"},"guarantee":"implements the low index subgroups algorithm, i.e find all subgroups of ``g`` upto a given index ``n``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.fp_groups.low_index_subgroups_correct","statement":"Path(low_index_subgroups(x), implements the low index subgroups algorithm, i.e find all subgroups of ``g`` upto a given index ``n``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cec081e8c8b1acc7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(G, 'relators')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["G.relators"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def low_index_subgroups(G, N, Y=()):
     """
     Implements the Low Index Subgroups algorithm, i.e find all subgroups of
@@ -1298,16 +1595,25 @@ def low_index_subgroups(G, N, Y=()):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(descendant_subgroups(S, ), descendant_subgroups produces the expected output) over Any ║
+# ║ Path(descendant_subgroups(S, C, R1_c_list), len(S) == old_len_S + 1) over {Any | hasattr(C, 'A_dict') and hasattr(C, 'A_dict_inv') and hasattr(C, 'is_complete') and hasattr(C, 'omega') and hasattr(S, 'append') and hasattr(C, 'A') and hasattr(C, 'n') and hasattr(C, 'scan_check') and hasattr(C, 'table')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ descendant_subgroups : Any → Any                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(C, 'A_dict')                           ║
+# ║   requires: hasattr(C, 'A_dict_inv')                       ║
+# ║   requires: hasattr(C, 'is_complete')                      ║
+# ║   ensures:  len(S) == old_len_S + 1                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ descendant_subgroups : {Any | hasattr(C, 'A_dict') an...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c980820828269245  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7631fca67c122a39  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups.descendant_subgroups","kind":"function","src_hash":"a27d1c4a7f4e4d44","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"descendant_subgroups(S, )","rhs":"descendant_subgroups produces the expected output","over":{"base":"Any"},"name":"descendant_subgroups_correct"},"guarantee":"descendant_subgroups produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.fp_groups.descendant_subgroups_correct","statement":"Path(descendant_subgroups(x), descendant_subgroups produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c980820828269245"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups.descendant_subgroups","kind":"function","src_hash":"a27d1c4a7f4e4d44","in":{"base":"Any","pred":"hasattr(C, 'A_dict') and hasattr(C, 'A_dict_inv') and hasattr(C, 'is_complete') and hasattr(C, 'omega') and hasattr(S, 'append') and hasattr(C, 'A') and hasattr(C, 'n') and hasattr(C, 'scan_check') and hasattr(C, 'table')"},"out":{"base":"Any","pred":"result satisfies: len(S) == old_len_S + 1"},"spec":{"lhs":"descendant_subgroups(S, C, R1_c_list)","rhs":"len(S) == old_len_S + 1","over":{"base":"Any","pred":"hasattr(C, 'A_dict') and hasattr(C, 'A_dict_inv') and hasattr(C, 'is_complete') and hasattr(C, 'omega') and hasattr(S, 'append') and hasattr(C, 'A') and hasattr(C, 'n') and hasattr(C, 'scan_check') and hasattr(C, 'table')"},"name":"descendant_subgroups_correct"},"guarantee":"len(S) == old_len_S + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.fp_groups.descendant_subgroups_correct","statement":"Path(descendant_subgroups(x), len(S) == old_len_S + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7631fca67c122a39","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(C, 'A_dict')","hasattr(C, 'A_dict_inv')","hasattr(C, 'is_complete')","hasattr(C, 'omega')","hasattr(S, 'append')","hasattr(C, 'A')","hasattr(C, 'n')","hasattr(C, 'scan_check')","hasattr(C, 'table')"],"ensures":["len(S) == old_len_S + 1"],"pure":false,"effects":{"effect_type":"mutates_args","reads":["C.A","C.A_dict","C.A_dict_inv","C.is_complete","C.n","C.omega","C.scan_check","C.table","S.append"],"calls_mutating":["S.append"]},"state_contract":{"modifies":["S.*"],"old_bindings":{"old_len_S":"len(S)"},"post_ensures":["len(S) == old_len_S + 1"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def descendant_subgroups(S, C, R1_c_list, x, R2, N, Y):
     A_dict = C.A_dict
     A_dict_inv = C.A_dict_inv
@@ -1337,16 +1643,23 @@ def descendant_subgroups(S, C, R1_c_list, x, R2, N, Y):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(try_descendant(S, ), solves the problem of trying out each individual possibility for `\alpha^x) over Any ║
+# ║ Path(try_descendant(S, C, R1_c_list), <unspecified:try_descendant>) over {Any | hasattr(C, 'copy')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ try_descendant : Any → Any                                 ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(C, 'copy')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ try_descendant : {Any | hasattr(C, 'copy')} → Any          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b808d7645b03a506  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups.try_descendant","kind":"function","src_hash":"49c0b3547f826970","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"try_descendant(S, )","rhs":"solves the problem of trying out each individual possibility for `\\alpha^x","over":{"base":"Any"},"name":"try_descendant_correct"},"guarantee":"solves the problem of trying out each individual possibility for `\\alpha^x","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.fp_groups.try_descendant_correct","statement":"Path(try_descendant(x), solves the problem of trying out each individual possibility for `\\alpha^x)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b808d7645b03a506"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups.try_descendant","kind":"function","src_hash":"49c0b3547f826970","in":{"base":"Any","pred":"hasattr(C, 'copy')"},"out":{"base":"Any"},"spec":{"lhs":"try_descendant(S, C, R1_c_list)","rhs":"<unspecified:try_descendant>","over":{"base":"Any","pred":"hasattr(C, 'copy')"},"name":"try_descendant_correct"},"guarantee":"solves the problem of trying out each individual possibility for `\\alpha^x","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.fp_groups.try_descendant_correct","statement":"Path(try_descendant(x), solves the problem of trying out each individual possibility for `\\alpha^x)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b808d7645b03a506","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(C, 'copy')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def try_descendant(S, C, R1_c_list, R2, N, alpha, x, beta, Y):
     r"""
     Solves the problem of trying out each individual possibility
@@ -1371,16 +1684,25 @@ def try_descendant(S, C, R1_c_list, R2, N, alpha, x, beta, Y):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(first_in_class(C, ), checks whether the subgroup ``h=g1`` corresponding to the coset table could possibly be the canonical representative of its conjugacy class) over Any ║
+# ║ Path(first_in_class(C, Y), <unspecified:first_in_class>) over {Any | hasattr(C, 'n') and hasattr(C, 'A') and hasattr(C, 'table') and hasattr(C, 'A_dict')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ first_in_class : Any → Any                                 ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(C, 'n')                                ║
+# ║   requires: hasattr(C, 'A')                                ║
+# ║   requires: hasattr(C, 'table')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ first_in_class : {Any | hasattr(C, 'n') and hasattr(C...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6c1c752f28d9a9af  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups.first_in_class","kind":"function","src_hash":"35481974c653dc6f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"first_in_class(C, )","rhs":"checks whether the subgroup ``h=g1`` corresponding to the coset table could possibly be the canonical representative of its conjugacy class","over":{"base":"Any"},"name":"first_in_class_correct"},"guarantee":"checks whether the subgroup ``h=g1`` corresponding to the coset table could possibly be the canonical representative of its conjugacy class","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.fp_groups.first_in_class_correct","statement":"Path(first_in_class(x), checks whether the subgroup ``h=g1`` corresponding to the coset table could possibly be the canonical representative of its conjugacy class)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6c1c752f28d9a9af"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups.first_in_class","kind":"function","src_hash":"35481974c653dc6f","in":{"base":"Any","pred":"hasattr(C, 'n') and hasattr(C, 'A') and hasattr(C, 'table') and hasattr(C, 'A_dict')"},"out":{"base":"Any"},"spec":{"lhs":"first_in_class(C, Y)","rhs":"<unspecified:first_in_class>","over":{"base":"Any","pred":"hasattr(C, 'n') and hasattr(C, 'A') and hasattr(C, 'table') and hasattr(C, 'A_dict')"},"name":"first_in_class_correct"},"guarantee":"checks whether the subgroup ``h=g1`` corresponding to the coset table could possibly be the canonical representative of its conjugacy class","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.fp_groups.first_in_class_correct","statement":"Path(first_in_class(x), checks whether the subgroup ``h=g1`` corresponding to the coset table could possibly be the canonical representative of its conjugacy class)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6c1c752f28d9a9af","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(C, 'n')","hasattr(C, 'A')","hasattr(C, 'table')","hasattr(C, 'A_dict')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["C.A","C.A_dict","C.n","C.table"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def first_in_class(C, Y=()):
     """
     Checks whether the subgroup ``H=G1`` corresponding to the Coset Table
@@ -1501,7 +1823,12 @@ def first_in_class(C, Y=()):
 #========================================================================
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(simplify_presentation(*ar), for an instance of `fpgroup`, return a simplified isomorphic copy of the group (e.g) over {Any | isinstance(args[0], FpGroup)} ║
+# ║ Path(simplify_presentation(*args, change_gens), <unspecified:simplify_presentation>) over {Any | isinstance(args[0], FpGroup)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: len(args) == 1 => FpGroup(FreeGroup(...   ║
+# ║   fiber[case_1]: len(args) == 2                            ║
+# ║   fiber[case_2]: not (len(args) == 1) and not (len(ar...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ simplify_presentation : {Any | isinstance(args[0], Fp...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -1513,9 +1840,12 @@ def first_in_class(C, Y=()):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 0.9ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 443ffa07...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups.simplify_presentation","kind":"function","src_hash":"2c98e9ccd0960d52","in":{"base":"Any","pred":"isinstance(args[0], FpGroup)"},"out":{"base":"Any"},"spec":{"lhs":"simplify_presentation(*ar)","rhs":"for an instance of `fpgroup`, return a simplified isomorphic copy of the group (e.g","over":{"base":"Any","pred":"isinstance(args[0], FpGroup)"},"name":"simplify_presentation_correct"},"guarantee":"for an instance of `fpgroup`, return a simplified isomorphic copy of the group (e.g","fibers":[{"name":"FpGroup","pred":"isinstance(args[0], FpGroup)","path":{"lhs":"simplify_presentation(x)","rhs":"for an instance of `fpgroup`, return a simplified isomorphic copy of the group (e.g","over":{"base":"FpGroup","pred":"isinstance(args[0], FpGroup)"},"name":"simplify_presentation_FpGroup_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.fp_groups.simplify_presentation_FpGroup_correct","statement":"simplify_presentation satisfies spec on FpGroup inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"443ffa074f09a494"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups.simplify_presentation","kind":"function","src_hash":"2c98e9ccd0960d52","in":{"base":"Any","pred":"isinstance(args[0], FpGroup)"},"out":{"base":"Any"},"spec":{"lhs":"simplify_presentation(*args, change_gens)","rhs":"<unspecified:simplify_presentation>","over":{"base":"Any","pred":"isinstance(args[0], FpGroup)"},"name":"simplify_presentation_correct"},"guarantee":"3-fiber decomposition","fibers":[{"name":"FpGroup","pred":"isinstance(args[0], FpGroup)","path":{"lhs":"simplify_presentation(x)","rhs":"3-fiber decomposition","over":{"base":"FpGroup","pred":"isinstance(args[0], FpGroup)"},"name":"simplify_presentation_FpGroup_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.fp_groups.simplify_presentation_FpGroup_correct","statement":"simplify_presentation satisfies spec on FpGroup inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"443ffa074f09a494","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"len(args) == 1","ensures":["result == FpGroup(FreeGroup([]), [])"],"decidability":"z3","returns_expr":"FpGroup(FreeGroup([]), [])"},{"name":"case_1","guard":"len(args) == 2","ensures":[],"decidability":"z3"},{"name":"case_2","guard":"not (len(args) == 1) and not (len(args) == 2)","ensures":[],"decidability":"z3"}],"pure":false,"effects":{"effect_type":"reads_state","raises":["RuntimeError","TypeError"]},"state_contract":{"exceptional_post":{"RuntimeError":["isinstance(raised, RuntimeError)"],"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.9,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=[], spec=['*args', 'change_gens']","Poor branch-fiber coverage: 0% (branches={'len(args) == 0', 'len(args) == 1', 'len(args) == 2', 'not isinstance(args[0], FpGroup)'}, fibers={'FpGroup'})"]}}
 def simplify_presentation(*args, change_gens=False):
     '''
     For an instance of `FpGroup`, return a simplified isomorphic copy of
@@ -1573,16 +1903,24 @@ def simplify_presentation(*args, change_gens=False):
     return gens, rels
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_simplify_relators(rel), simplifies a set of relators) over Any ║
+# ║ Path(_simplify_relators(rels), len(rels) == old_len_rels) over {Any | hasattr(rels, 'sort') and hasattr(rels, 'remove')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _simplify_relators : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(rels, 'sort')                          ║
+# ║   requires: hasattr(rels, 'remove')                        ║
+# ║   ensures:  len(rels) == old_len_rels                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _simplify_relators : {Any | hasattr(rels, 'sort') and...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c13804c058d72fac  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f8b288b1c5d1fae1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups._simplify_relators","kind":"function","src_hash":"5f8facd6f11633be","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_simplify_relators(rel)","rhs":"simplifies a set of relators","over":{"base":"Any"},"name":"_simplify_relators_correct"},"guarantee":"simplifies a set of relators","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.fp_groups._simplify_relators_correct","statement":"Path(_simplify_relators(x), simplifies a set of relators)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c13804c058d72fac"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups._simplify_relators","kind":"function","src_hash":"5f8facd6f11633be","in":{"base":"Any","pred":"hasattr(rels, 'sort') and hasattr(rels, 'remove')"},"out":{"base":"Any","pred":"result satisfies: len(rels) == old_len_rels"},"spec":{"lhs":"_simplify_relators(rels)","rhs":"len(rels) == old_len_rels","over":{"base":"Any","pred":"hasattr(rels, 'sort') and hasattr(rels, 'remove')"},"name":"_simplify_relators_correct"},"guarantee":"len(rels) == old_len_rels","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.fp_groups._simplify_relators_correct","statement":"Path(_simplify_relators(x), len(rels) == old_len_rels)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f8b288b1c5d1fae1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(rels, 'sort')","hasattr(rels, 'remove')"],"ensures":["len(rels) == old_len_rels"],"pure":false,"effects":{"effect_type":"mutates_args","reads":["rels.remove","rels.sort"],"writes":["rels[*]"],"calls_mutating":["rels.remove","rels.sort"],"catches":["ValueError"]},"state_contract":{"modifies":["rels.*","rels[*]"],"old_bindings":{"old_rels_star":"rels[*]","old_len_rels":"len(rels)"},"post_ensures":["len(rels) == old_len_rels"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def _simplify_relators(rels):
     """
     Simplifies a set of relators. All relators are checked to see if they are
@@ -1665,16 +2003,27 @@ def _simplify_relators(rels):
 
 # Pg 350, section 2.5.1 from [2]
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(elimination_technique_1(gen), elimination_technique_1 produces the expected output) over Any ║
+# ║ Path(elimination_technique_1(gens, rels, identity), (gens, rels)) over {Any | hasattr(rels, 'sort') and hasattr(rels, 'remove')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ elimination_technique_1 : Any → Any                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(rels, 'sort')                          ║
+# ║   requires: hasattr(rels, 'remove')                        ║
+# ║   ensures:  len(contained_gens) == old_len_contained_...   ║
+# ║   ensures:  len(redundant_rels) == old_len_redundant_...   ║
+# ║   ensures:  len(rels) == old_len_rels                      ║
+# ║   returns:  (gens, rels)                                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ elimination_technique_1 : {Any | hasattr(rels, 'sort'...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f3583411b23deac3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5c218b780da62ffc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups.elimination_technique_1","kind":"function","src_hash":"49dcc97ccc3bac85","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"elimination_technique_1(gen)","rhs":"elimination_technique_1 produces the expected output","over":{"base":"Any"},"name":"elimination_technique_1_correct"},"guarantee":"elimination_technique_1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.fp_groups.elimination_technique_1_correct","statement":"Path(elimination_technique_1(x), elimination_technique_1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f3583411b23deac3"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups.elimination_technique_1","kind":"function","src_hash":"49dcc97ccc3bac85","in":{"base":"Any","pred":"hasattr(rels, 'sort') and hasattr(rels, 'remove')"},"out":{"base":"Any","pred":"result satisfies: result == ((gens, rels))"},"spec":{"lhs":"elimination_technique_1(gens, rels, identity)","rhs":"(gens, rels)","over":{"base":"Any","pred":"hasattr(rels, 'sort') and hasattr(rels, 'remove')"},"name":"elimination_technique_1_correct"},"guarantee":"returns (gens, rels); len(contained_gens) == old_len_contained_gens; len(redundant_rels) == old_len_redundant_rels + 1; len(rels) == old_len_rels","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.fp_groups.elimination_technique_1_correct","statement":"Path(elimination_technique_1(x), returns (gens, rels); len(contained_gens) == old_len_contained_gens; len(redundant_rels) == old_len_redundant_rels + 1; len(rels) == old_len_rels)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5c218b780da62ffc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(rels, 'sort')","hasattr(rels, 'remove')"],"ensures":["len(contained_gens) == old_len_contained_gens","len(redundant_rels) == old_len_redundant_rels + 1","len(rels) == old_len_rels"],"returns_expr":"(gens, rels)","pure":false,"effects":{"effect_type":"mutates_args","reads":["rels.remove","rels.sort"],"calls_mutating":["contained_gens.sort","redundant_rels.append","rels.remove","rels.sort","used_gens.update"],"catches":["ValueError"]},"state_contract":{"modifies":["contained_gens.*","redundant_rels.*","rels.*","used_gens.*"],"old_bindings":{"old_len_contained_gens":"len(contained_gens)","old_len_redundant_rels":"len(redundant_rels)","old_len_rels":"len(rels)","old_len_used_gens":"len(used_gens)"},"post_ensures":["len(contained_gens) == old_len_contained_gens","len(redundant_rels) == old_len_redundant_rels + 1","len(rels) == old_len_rels"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def elimination_technique_1(gens, rels, identity):
     rels = rels[:]
     # the shorter relators are examined first so that generators selected for
@@ -1722,7 +2071,14 @@ def elimination_technique_1(gens, rels, identity):
 
 # Pg 175 [1]
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(define_schreier_generators(C, ), parameters ==========) over {Any | isinstance(C.P[i][j], str)} ║
+# ║ Path(define_schreier_generators(C, homomorphism), len(grp_gens) == old_len_grp_gens - 1 and len(y) == old_len_y + 1) over {Any | isinstance(C.P[i][j], str) and hasattr(C, 'fp_group') and hasattr(C, 'P') and hasattr(C, '_schreier_free_group') and hasattr(C, '_schreier_generators') and hasattr(C, 'omega') and hasattr(C, 'A') and hasattr(C, '_schreier_gen_elem') and hasattr(C, 'n') and hasattr(C, 'table') and hasattr(C, 'A_dict') and hasattr(C, 'A_dict_inv') and len(grp_gens) > 0} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(C, 'fp_group')                         ║
+# ║   requires: hasattr(C, 'P')                                ║
+# ║   requires: hasattr(C, '_schreier_free_group')             ║
+# ║   ensures:  len(grp_gens) == old_len_grp_gens - 1          ║
+# ║   ensures:  len(y) == old_len_y + 1                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ define_schreier_generators : {Any | isinstance(C.P[i]...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -1734,9 +2090,12 @@ def elimination_technique_1(gens, rels, identity):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 8234e503...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups.define_schreier_generators","kind":"function","src_hash":"c4aaf97e990a2725","in":{"base":"Any","pred":"isinstance(C.P[i][j], str)"},"out":{"base":"Any"},"spec":{"lhs":"define_schreier_generators(C, )","rhs":"parameters ==========","over":{"base":"Any","pred":"isinstance(C.P[i][j], str)"},"name":"define_schreier_generators_correct"},"guarantee":"parameters ==========","fibers":[{"name":"str","pred":"isinstance(C.P[i][j], str)","path":{"lhs":"define_schreier_generators(x)","rhs":"parameters ==========","over":{"base":"str","pred":"isinstance(C.P[i][j], str)"},"name":"define_schreier_generators_str_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.fp_groups.define_schreier_generators_str_correct","statement":"define_schreier_generators satisfies spec on str inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"8234e5030a88d57c"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups.define_schreier_generators","kind":"function","src_hash":"c4aaf97e990a2725","in":{"base":"Any","pred":"isinstance(C.P[i][j], str) and hasattr(C, 'fp_group') and hasattr(C, 'P') and hasattr(C, '_schreier_free_group') and hasattr(C, '_schreier_generators') and hasattr(C, 'omega') and hasattr(C, 'A') and hasattr(C, '_schreier_gen_elem') and hasattr(C, 'n') and hasattr(C, 'table') and hasattr(C, 'A_dict') and hasattr(C, 'A_dict_inv') and len(grp_gens) > 0"},"out":{"base":"Any","pred":"result satisfies: len(grp_gens) == old_len_grp_gens - 1 and len(y) == old_len_y + 1"},"spec":{"lhs":"define_schreier_generators(C, homomorphism)","rhs":"len(grp_gens) == old_len_grp_gens - 1 and len(y) == old_len_y + 1","over":{"base":"Any","pred":"isinstance(C.P[i][j], str) and hasattr(C, 'fp_group') and hasattr(C, 'P') and hasattr(C, '_schreier_free_group') and hasattr(C, '_schreier_generators') and hasattr(C, 'omega') and hasattr(C, 'A') and hasattr(C, '_schreier_gen_elem') and hasattr(C, 'n') and hasattr(C, 'table') and hasattr(C, 'A_dict') and hasattr(C, 'A_dict_inv') and len(grp_gens) > 0"},"name":"define_schreier_generators_correct"},"guarantee":"len(grp_gens) == old_len_grp_gens - 1; len(y) == old_len_y + 1","fibers":[{"name":"str","pred":"isinstance(C.P[i][j], str)","path":{"lhs":"define_schreier_generators(x)","rhs":"len(grp_gens) == old_len_grp_gens - 1; len(y) == old_len_y + 1","over":{"base":"str","pred":"isinstance(C.P[i][j], str)"},"name":"define_schreier_generators_str_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.fp_groups.define_schreier_generators_str_correct","statement":"define_schreier_generators satisfies spec on str inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"8234e5030a88d57c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(C, 'fp_group')","hasattr(C, 'P')","hasattr(C, '_schreier_free_group')","hasattr(C, '_schreier_generators')","hasattr(C, 'omega')","hasattr(C, 'A')","hasattr(C, '_schreier_gen_elem')","hasattr(C, 'n')","hasattr(C, 'table')","hasattr(C, 'A_dict')","hasattr(C, 'A_dict_inv')","len(grp_gens) > 0"],"ensures":["len(grp_gens) == old_len_grp_gens - 1","len(y) == old_len_y + 1"],"pure":false,"effects":{"effect_type":"mutates_args","reads":["C.A","C.A_dict","C.A_dict_inv","C.P","C._schreier_free_group","C._schreier_generators","C.fp_group","C.n","C.omega","C.table"],"writes":["C.P","C._schreier_free_group","C._schreier_gen_elem","C._schreier_generators"],"calls_mutating":["grp_gens.pop","y.append"]},"state_contract":{"modifies":["C.P","C._schreier_free_group","C._schreier_gen_elem","C._schreier_generators","grp_gens.*","y.*"],"old_bindings":{"old_C_P":"C.P","old_C__schreier_free_group":"C._schreier_free_group","old_C__schreier_gen_elem":"C._schreier_gen_elem","old_C__schreier_generators":"C._schreier_generators","old_len_grp_gens":"len(grp_gens)","old_len_y":"len(y)"},"pre_requires":["len(grp_gens) > 0"],"post_ensures":["len(grp_gens) == old_len_grp_gens - 1","len(y) == old_len_y + 1"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={\"C.P[i][j] == '<identity>'\", 'x in X and C.P[alpha][C.A_dict[x]] is None', 'isinstance(C.P[i][j], str)', 'beta == gamma'}, fibers={'str'})"]}}
 def define_schreier_generators(C, homomorphism=False):
     '''
     Parameters
@@ -1789,16 +2148,25 @@ def define_schreier_generators(C, homomorphism=False):
             C.P[beta][j + 1] = r**-1
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(reidemeister_relators(C), reidemeister_relators produces the expected output) over Any ║
+# ║ Path(reidemeister_relators(C), <unspecified:reidemeister_relators>) over {Any | hasattr(C, '_schreier_generators') and hasattr(C, '_reidemeister_relators') and hasattr(C, 'fp_group') and hasattr(C, 'n')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ reidemeister_relators : Any → Any                          ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(C, '_schreier_generators')             ║
+# ║   requires: hasattr(C, '_reidemeister_relators')           ║
+# ║   requires: hasattr(C, 'fp_group')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ reidemeister_relators : {Any | hasattr(C, '_schreier_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8cc568d6e0e8d1c0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups.reidemeister_relators","kind":"function","src_hash":"0077a67377a65856","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"reidemeister_relators(C)","rhs":"reidemeister_relators produces the expected output","over":{"base":"Any"},"name":"reidemeister_relators_correct"},"guarantee":"reidemeister_relators produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.fp_groups.reidemeister_relators_correct","statement":"Path(reidemeister_relators(x), reidemeister_relators produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8cc568d6e0e8d1c0"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups.reidemeister_relators","kind":"function","src_hash":"0077a67377a65856","in":{"base":"Any","pred":"hasattr(C, '_schreier_generators') and hasattr(C, '_reidemeister_relators') and hasattr(C, 'fp_group') and hasattr(C, 'n')"},"out":{"base":"Any"},"spec":{"lhs":"reidemeister_relators(C)","rhs":"<unspecified:reidemeister_relators>","over":{"base":"Any","pred":"hasattr(C, '_schreier_generators') and hasattr(C, '_reidemeister_relators') and hasattr(C, 'fp_group') and hasattr(C, 'n')"},"name":"reidemeister_relators_correct"},"guarantee":"reidemeister_relators produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.fp_groups.reidemeister_relators_correct","statement":"Path(reidemeister_relators(x), reidemeister_relators produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8cc568d6e0e8d1c0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(C, '_schreier_generators')","hasattr(C, '_reidemeister_relators')","hasattr(C, 'fp_group')","hasattr(C, 'n')"],"pure":false,"effects":{"effect_type":"mutates_args","reads":["C._schreier_generators","C.fp_group","C.n"],"writes":["C._reidemeister_relators","C._schreier_generators"]},"state_contract":{"modifies":["C._reidemeister_relators","C._schreier_generators"],"old_bindings":{"old_C__reidemeister_relators":"C._reidemeister_relators","old_C__schreier_generators":"C._schreier_generators"}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def reidemeister_relators(C):
     R = C.fp_group.relators
     rels = [rewrite(C, coset, word) for word in R for coset in range(C.n)]
@@ -1833,16 +2201,25 @@ def reidemeister_relators(C):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rewrite(C, ), parameters ==========) over Any         ║
+# ║ Path(rewrite(C, alpha, w), <unspecified:rewrite>) over {Any | hasattr(C, '_schreier_free_group') and hasattr(C, 'table') and hasattr(C, 'A_dict') and hasattr(C, 'P')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ rewrite : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(C, '_schreier_free_group')             ║
+# ║   requires: hasattr(C, 'table')                            ║
+# ║   requires: hasattr(C, 'A_dict')                           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ rewrite : {Any | hasattr(C, '_schreier_free_group') a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 975bc51a545d4b9e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups.rewrite","kind":"function","src_hash":"e244b58dcac165d4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rewrite(C, )","rhs":"parameters ==========","over":{"base":"Any"},"name":"rewrite_correct"},"guarantee":"parameters ==========","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.fp_groups.rewrite_correct","statement":"Path(rewrite(x), parameters ==========)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"975bc51a545d4b9e"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups.rewrite","kind":"function","src_hash":"e244b58dcac165d4","in":{"base":"Any","pred":"hasattr(C, '_schreier_free_group') and hasattr(C, 'table') and hasattr(C, 'A_dict') and hasattr(C, 'P')"},"out":{"base":"Any"},"spec":{"lhs":"rewrite(C, alpha, w)","rhs":"<unspecified:rewrite>","over":{"base":"Any","pred":"hasattr(C, '_schreier_free_group') and hasattr(C, 'table') and hasattr(C, 'A_dict') and hasattr(C, 'P')"},"name":"rewrite_correct"},"guarantee":"parameters ==========","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.fp_groups.rewrite_correct","statement":"Path(rewrite(x), parameters ==========)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"975bc51a545d4b9e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(C, '_schreier_free_group')","hasattr(C, 'table')","hasattr(C, 'A_dict')","hasattr(C, 'P')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["C.A_dict","C.P","C._schreier_free_group","C.table"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def rewrite(C, alpha, w):
     """
     Parameters
@@ -1881,16 +2258,25 @@ def rewrite(C, alpha, w):
 
 # Pg 350, section 2.5.2 from [2]
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(elimination_technique_2(C), this technique eliminates one generator at a time) over Any ║
+# ║ Path(elimination_technique_2(C), (C._schreier_generators, C._reidemeister_relators)) over {Any | hasattr(C, '_reidemeister_relators') and hasattr(C, '_schreier_generators')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ elimination_technique_2 : Any → Any                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(C, '_reidemeister_relators')           ║
+# ║   requires: hasattr(C, '_schreier_generators')             ║
+# ║   ensures:  len(rels) == old_len_rels                      ║
+# ║   returns:  (C._schreier_generators, C._reidemeister_...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ elimination_technique_2 : {Any | hasattr(C, '_reideme...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c77a24b330051672  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 69d8d6bbac1b3208  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups.elimination_technique_2","kind":"function","src_hash":"8db551624930bc53","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"elimination_technique_2(C)","rhs":"this technique eliminates one generator at a time","over":{"base":"Any"},"name":"elimination_technique_2_correct"},"guarantee":"this technique eliminates one generator at a time","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.fp_groups.elimination_technique_2_correct","statement":"Path(elimination_technique_2(x), this technique eliminates one generator at a time)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c77a24b330051672"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups.elimination_technique_2","kind":"function","src_hash":"8db551624930bc53","in":{"base":"Any","pred":"hasattr(C, '_reidemeister_relators') and hasattr(C, '_schreier_generators')"},"out":{"base":"Any","pred":"result satisfies: result == ((C._schreier_generators, C._reidemeister_relators))"},"spec":{"lhs":"elimination_technique_2(C)","rhs":"(C._schreier_generators, C._reidemeister_relators)","over":{"base":"Any","pred":"hasattr(C, '_reidemeister_relators') and hasattr(C, '_schreier_generators')"},"name":"elimination_technique_2_correct"},"guarantee":"returns (C._schreier_generators, C._reidemeister_relators); len(rels) == old_len_rels","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.fp_groups.elimination_technique_2_correct","statement":"Path(elimination_technique_2(x), returns (C._schreier_generators, C._reidemeister_relators); len(rels) == old_len_rels)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"69d8d6bbac1b3208","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(C, '_reidemeister_relators')","hasattr(C, '_schreier_generators')"],"ensures":["len(rels) == old_len_rels"],"returns_expr":"(C._schreier_generators, C._reidemeister_relators)","pure":false,"effects":{"effect_type":"mutates_args","reads":["C._reidemeister_relators","C._schreier_generators"],"writes":["C._reidemeister_relators","C._schreier_generators"],"calls_mutating":["rels.sort"]},"state_contract":{"modifies":["C._reidemeister_relators","C._schreier_generators","rels.*"],"old_bindings":{"old_C__reidemeister_relators":"C._reidemeister_relators","old_C__schreier_generators":"C._schreier_generators","old_len_rels":"len(rels)"},"post_ensures":["len(rels) == old_len_rels"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def elimination_technique_2(C):
     """
     This technique eliminates one generator at a time. Heuristically this
@@ -1932,16 +2318,25 @@ def elimination_technique_2(C):
     return C._schreier_generators, C._reidemeister_relators
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(reidemeister_presentation(fp_), parameters ==========) over Any ║
+# ║ Path(reidemeister_presentation(fp_grp, H, C), <unspecified:reidemeister_presentation>) over {Any | hasattr(C, 'schreier_generators') and hasattr(C, 'reidemeister_relators') and hasattr(C, 'compress') and hasattr(C, 'standardize') and hasattr(C, '_schreier_generators') and hasattr(C, '_reidemeister_relators') and hasattr(C, '_schreier_gen_elem')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ reidemeister_presentation : Any → Any                      ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(C, 'schreier_generators')              ║
+# ║   requires: hasattr(C, 'reidemeister_relators')            ║
+# ║   requires: hasattr(C, 'compress')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ reidemeister_presentation : {Any | hasattr(C, 'schrei...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 846947a437a2957c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups.reidemeister_presentation","kind":"function","src_hash":"5ed53dfe3edf0666","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"reidemeister_presentation(fp_)","rhs":"parameters ==========","over":{"base":"Any"},"name":"reidemeister_presentation_correct"},"guarantee":"parameters ==========","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.fp_groups.reidemeister_presentation_correct","statement":"Path(reidemeister_presentation(x), parameters ==========)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"846947a437a2957c"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.fp_groups.reidemeister_presentation","kind":"function","src_hash":"5ed53dfe3edf0666","in":{"base":"Any","pred":"hasattr(C, 'schreier_generators') and hasattr(C, 'reidemeister_relators') and hasattr(C, 'compress') and hasattr(C, 'standardize') and hasattr(C, '_schreier_generators') and hasattr(C, '_reidemeister_relators') and hasattr(C, '_schreier_gen_elem')"},"out":{"base":"Any"},"spec":{"lhs":"reidemeister_presentation(fp_grp, H, C)","rhs":"<unspecified:reidemeister_presentation>","over":{"base":"Any","pred":"hasattr(C, 'schreier_generators') and hasattr(C, 'reidemeister_relators') and hasattr(C, 'compress') and hasattr(C, 'standardize') and hasattr(C, '_schreier_generators') and hasattr(C, '_reidemeister_relators') and hasattr(C, '_schreier_gen_elem')"},"name":"reidemeister_presentation_correct"},"guarantee":"parameters ==========","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.fp_groups.reidemeister_presentation_correct","statement":"Path(reidemeister_presentation(x), parameters ==========)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"846947a437a2957c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(C, 'schreier_generators')","hasattr(C, 'reidemeister_relators')","hasattr(C, 'compress')","hasattr(C, 'standardize')","hasattr(C, '_schreier_generators')","hasattr(C, '_reidemeister_relators')","hasattr(C, '_schreier_gen_elem')"],"pure":false,"effects":{"effect_type":"mutates_args","reads":["C._reidemeister_relators","C._schreier_gen_elem","C._schreier_generators","C.compress","C.reidemeister_relators","C.schreier_generators","C.standardize"],"writes":["C.reidemeister_relators","C.schreier_generators"]},"state_contract":{"modifies":["C.reidemeister_relators","C.schreier_generators"],"old_bindings":{"old_C_reidemeister_relators":"C.reidemeister_relators","old_C_schreier_generators":"C.schreier_generators"}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def reidemeister_presentation(fp_grp, H, C=None, homomorphism=False):
     """
     Parameters

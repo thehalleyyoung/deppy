@@ -92,16 +92,25 @@ INVERSE_EXAMPLES = [
 
 @pytest.mark.parametrize('name, A, A_inv, den', INVERSE_EXAMPLES)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Matrix_inv(nam), test_Matrix_inv produces the expected output) over Any ║
+# ║ Path(test_Matrix_inv(name, A, A_inv), <unspecified:test_Matrix_inv>) over {Any | hasattr(A, 'domain') and hasattr(A, 'to_Matrix') and hasattr(A_inv, 'to_Matrix') and hasattr(A, 'inv')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Matrix_inv : Any → {Any | A.inv(**kwargs) == A_inv}   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(A, 'domain')                           ║
+# ║   requires: hasattr(A, 'to_Matrix')                        ║
+# ║   requires: hasattr(A_inv, 'to_Matrix')                    ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Matrix_inv : {Any | hasattr(A, 'domain') and has...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5fcd29d071e16aec  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_inverse.test_Matrix_inv","kind":"function","src_hash":"318dc1fe64ee38bb","in":{"base":"Any"},"out":{"base":"Any","pred":"A.inv(**kwargs) == A_inv"},"spec":{"lhs":"test_Matrix_inv(nam)","rhs":"test_Matrix_inv produces the expected output","over":{"base":"Any"},"name":"test_Matrix_inv_correct"},"guarantee":"test_Matrix_inv produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_inverse.test_Matrix_inv_correct","statement":"Path(test_Matrix_inv(x), test_Matrix_inv produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5fcd29d071e16aec"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_inverse.test_Matrix_inv","kind":"function","src_hash":"318dc1fe64ee38bb","in":{"base":"Any","pred":"hasattr(A, 'domain') and hasattr(A, 'to_Matrix') and hasattr(A_inv, 'to_Matrix') and hasattr(A, 'inv')"},"out":{"base":"Any","pred":"A.inv(**kwargs) == A_inv"},"spec":{"lhs":"test_Matrix_inv(name, A, A_inv)","rhs":"<unspecified:test_Matrix_inv>","over":{"base":"Any","pred":"hasattr(A, 'domain') and hasattr(A, 'to_Matrix') and hasattr(A_inv, 'to_Matrix') and hasattr(A, 'inv')"},"name":"test_Matrix_inv_correct"},"guarantee":"test_Matrix_inv produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_inverse.test_Matrix_inv_correct","statement":"Path(test_Matrix_inv(x), test_Matrix_inv produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5fcd29d071e16aec","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(A, 'domain')","hasattr(A, 'to_Matrix')","hasattr(A_inv, 'to_Matrix')","hasattr(A, 'inv')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["A.domain","A.inv","A.to_Matrix","A_inv.to_Matrix"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Matrix_inv(name, A, A_inv, den):
 
     def _check(**kwargs):
@@ -120,16 +129,24 @@ def test_Matrix_inv(name, A, A_inv, den):
 
 @pytest.mark.parametrize('name, A, A_inv, den', INVERSE_EXAMPLES)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dm_inv_den(nam), test_dm_inv_den produces the expected output) over Any ║
+# ║ Path(test_dm_inv_den(name, A, A_inv), <unspecified:test_dm_inv_den>) over {Any | hasattr(A, 'inv_den') and hasattr(A_inv, 'cancel_denom')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dm_inv_den : Any → {Any | A_inv_f.cancel_denom(d...   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(A, 'inv_den')                          ║
+# ║   requires: hasattr(A_inv, 'cancel_denom')                 ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dm_inv_den : {Any | hasattr(A, 'inv_den') and ha...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cf80671e69d3c9b4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_inverse.test_dm_inv_den","kind":"function","src_hash":"8e7fb07e174987ed","in":{"base":"Any"},"out":{"base":"Any","pred":"A_inv_f.cancel_denom(den_f) == A_inv.cancel_denom(den)"},"spec":{"lhs":"test_dm_inv_den(nam)","rhs":"test_dm_inv_den produces the expected output","over":{"base":"Any"},"name":"test_dm_inv_den_correct"},"guarantee":"test_dm_inv_den produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_inverse.test_dm_inv_den_correct","statement":"Path(test_dm_inv_den(x), test_dm_inv_den produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cf80671e69d3c9b4"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_inverse.test_dm_inv_den","kind":"function","src_hash":"8e7fb07e174987ed","in":{"base":"Any","pred":"hasattr(A, 'inv_den') and hasattr(A_inv, 'cancel_denom')"},"out":{"base":"Any","pred":"A_inv_f.cancel_denom(den_f) == A_inv.cancel_denom(den)"},"spec":{"lhs":"test_dm_inv_den(name, A, A_inv)","rhs":"<unspecified:test_dm_inv_den>","over":{"base":"Any","pred":"hasattr(A, 'inv_den') and hasattr(A_inv, 'cancel_denom')"},"name":"test_dm_inv_den_correct"},"guarantee":"test_dm_inv_den produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_inverse.test_dm_inv_den_correct","statement":"Path(test_dm_inv_den(x), test_dm_inv_den produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cf80671e69d3c9b4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(A, 'inv_den')","hasattr(A_inv, 'cancel_denom')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["A.inv_den","A_inv.cancel_denom"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_dm_inv_den(name, A, A_inv, den):
     if den != 0:
         A_inv_f, den_f = A.inv_den()
@@ -140,16 +157,25 @@ def test_dm_inv_den(name, A, A_inv, den):
 
 @pytest.mark.parametrize('name, A, A_inv, den', INVERSE_EXAMPLES)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dm_inv(nam), test_dm_inv produces the expected output) over Any ║
+# ║ Path(test_dm_inv(name, A, A_inv), <unspecified:test_dm_inv>) over {Any | hasattr(A, 'to_field') and hasattr(A_inv, 'to_field') and hasattr(A, 'inv')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dm_inv : Any → {Any | A.inv() == A_inv}               ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(A, 'to_field')                         ║
+# ║   requires: hasattr(A_inv, 'to_field')                     ║
+# ║   requires: hasattr(A, 'inv')                              ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dm_inv : {Any | hasattr(A, 'to_field') and hasat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 91366091e6d3fd86  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_inverse.test_dm_inv","kind":"function","src_hash":"3fdf03bbce703e79","in":{"base":"Any"},"out":{"base":"Any","pred":"A.inv() == A_inv"},"spec":{"lhs":"test_dm_inv(nam)","rhs":"test_dm_inv produces the expected output","over":{"base":"Any"},"name":"test_dm_inv_correct"},"guarantee":"test_dm_inv produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_inverse.test_dm_inv_correct","statement":"Path(test_dm_inv(x), test_dm_inv produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"91366091e6d3fd86"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_inverse.test_dm_inv","kind":"function","src_hash":"3fdf03bbce703e79","in":{"base":"Any","pred":"hasattr(A, 'to_field') and hasattr(A_inv, 'to_field') and hasattr(A, 'inv')"},"out":{"base":"Any","pred":"A.inv() == A_inv"},"spec":{"lhs":"test_dm_inv(name, A, A_inv)","rhs":"<unspecified:test_dm_inv>","over":{"base":"Any","pred":"hasattr(A, 'to_field') and hasattr(A_inv, 'to_field') and hasattr(A, 'inv')"},"name":"test_dm_inv_correct"},"guarantee":"test_dm_inv produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_inverse.test_dm_inv_correct","statement":"Path(test_dm_inv(x), test_dm_inv produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"91366091e6d3fd86","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(A, 'to_field')","hasattr(A_inv, 'to_field')","hasattr(A, 'inv')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["A.inv","A.to_field","A_inv.to_field"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_dm_inv(name, A, A_inv, den):
     A = A.to_field()
     if den != 0:
@@ -161,16 +187,25 @@ def test_dm_inv(name, A, A_inv, den):
 
 @pytest.mark.parametrize('name, A, A_inv, den', INVERSE_EXAMPLES)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_ddm_inv(nam), test_ddm_inv produces the expected output) over Any ║
+# ║ Path(test_ddm_inv(name, A, A_inv), <unspecified:test_ddm_inv>) over {Any | hasattr(A, 'to_field') and hasattr(A, 'inv') and hasattr(A_inv, 'to_field')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_ddm_inv : Any → {Any | A.inv() == A_inv}              ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(A, 'to_field')                         ║
+# ║   requires: hasattr(A, 'inv')                              ║
+# ║   requires: hasattr(A_inv, 'to_field')                     ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_ddm_inv : {Any | hasattr(A, 'to_field') and hasa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 30b29dea3b029f2c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_inverse.test_ddm_inv","kind":"function","src_hash":"184c51dd5f4b13c1","in":{"base":"Any"},"out":{"base":"Any","pred":"A.inv() == A_inv"},"spec":{"lhs":"test_ddm_inv(nam)","rhs":"test_ddm_inv produces the expected output","over":{"base":"Any"},"name":"test_ddm_inv_correct"},"guarantee":"test_ddm_inv produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_inverse.test_ddm_inv_correct","statement":"Path(test_ddm_inv(x), test_ddm_inv produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"30b29dea3b029f2c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_inverse.test_ddm_inv","kind":"function","src_hash":"184c51dd5f4b13c1","in":{"base":"Any","pred":"hasattr(A, 'to_field') and hasattr(A, 'inv') and hasattr(A_inv, 'to_field')"},"out":{"base":"Any","pred":"A.inv() == A_inv"},"spec":{"lhs":"test_ddm_inv(name, A, A_inv)","rhs":"<unspecified:test_ddm_inv>","over":{"base":"Any","pred":"hasattr(A, 'to_field') and hasattr(A, 'inv') and hasattr(A_inv, 'to_field')"},"name":"test_ddm_inv_correct"},"guarantee":"test_ddm_inv produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_inverse.test_ddm_inv_correct","statement":"Path(test_ddm_inv(x), test_ddm_inv produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"30b29dea3b029f2c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(A, 'to_field')","hasattr(A, 'inv')","hasattr(A_inv, 'to_field')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["A.inv","A.to_field","A_inv.to_field"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_ddm_inv(name, A, A_inv, den):
     A = A.to_field().to_ddm()
     if den != 0:
@@ -182,16 +217,25 @@ def test_ddm_inv(name, A, A_inv, den):
 
 @pytest.mark.parametrize('name, A, A_inv, den', INVERSE_EXAMPLES)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_sdm_inv(nam), test_sdm_inv produces the expected output) over Any ║
+# ║ Path(test_sdm_inv(name, A, A_inv), <unspecified:test_sdm_inv>) over {Any | hasattr(A, 'to_field') and hasattr(A, 'inv') and hasattr(A_inv, 'to_field')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_sdm_inv : Any → {Any | A.inv() == A_inv}              ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(A, 'to_field')                         ║
+# ║   requires: hasattr(A, 'inv')                              ║
+# ║   requires: hasattr(A_inv, 'to_field')                     ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_sdm_inv : {Any | hasattr(A, 'to_field') and hasa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 407f9ff8cfdf76f4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_inverse.test_sdm_inv","kind":"function","src_hash":"672a02cf36f6a6d0","in":{"base":"Any"},"out":{"base":"Any","pred":"A.inv() == A_inv"},"spec":{"lhs":"test_sdm_inv(nam)","rhs":"test_sdm_inv produces the expected output","over":{"base":"Any"},"name":"test_sdm_inv_correct"},"guarantee":"test_sdm_inv produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_inverse.test_sdm_inv_correct","statement":"Path(test_sdm_inv(x), test_sdm_inv produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"407f9ff8cfdf76f4"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_inverse.test_sdm_inv","kind":"function","src_hash":"672a02cf36f6a6d0","in":{"base":"Any","pred":"hasattr(A, 'to_field') and hasattr(A, 'inv') and hasattr(A_inv, 'to_field')"},"out":{"base":"Any","pred":"A.inv() == A_inv"},"spec":{"lhs":"test_sdm_inv(name, A, A_inv)","rhs":"<unspecified:test_sdm_inv>","over":{"base":"Any","pred":"hasattr(A, 'to_field') and hasattr(A, 'inv') and hasattr(A_inv, 'to_field')"},"name":"test_sdm_inv_correct"},"guarantee":"test_sdm_inv produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_inverse.test_sdm_inv_correct","statement":"Path(test_sdm_inv(x), test_sdm_inv produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"407f9ff8cfdf76f4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(A, 'to_field')","hasattr(A, 'inv')","hasattr(A_inv, 'to_field')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["A.inv","A.to_field","A_inv.to_field"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_sdm_inv(name, A, A_inv, den):
     A = A.to_field().to_sdm()
     if den != 0:
@@ -203,16 +247,25 @@ def test_sdm_inv(name, A, A_inv, den):
 
 @pytest.mark.parametrize('name, A, A_inv, den', INVERSE_EXAMPLES)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dense_ddm_iinv(nam), test_dense_ddm_iinv produces the expected output) over Any ║
+# ║ Path(test_dense_ddm_iinv(name, A, A_inv), <unspecified:test_dense_ddm_iinv>) over {Any | hasattr(A, 'domain') and hasattr(A, 'copy') and hasattr(A, 'to_field') and hasattr(A_inv, 'to_field')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dense_ddm_iinv : Any → {Any | A_result == A_inv}      ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(A, 'domain')                           ║
+# ║   requires: hasattr(A, 'copy')                             ║
+# ║   requires: hasattr(A, 'to_field')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dense_ddm_iinv : {Any | hasattr(A, 'domain') and...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7e0b0e25c483354a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_inverse.test_dense_ddm_iinv","kind":"function","src_hash":"a73b078ba6852e9f","in":{"base":"Any"},"out":{"base":"Any","pred":"A_result == A_inv"},"spec":{"lhs":"test_dense_ddm_iinv(nam)","rhs":"test_dense_ddm_iinv produces the expected output","over":{"base":"Any"},"name":"test_dense_ddm_iinv_correct"},"guarantee":"test_dense_ddm_iinv produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_inverse.test_dense_ddm_iinv_correct","statement":"Path(test_dense_ddm_iinv(x), test_dense_ddm_iinv produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7e0b0e25c483354a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_inverse.test_dense_ddm_iinv","kind":"function","src_hash":"a73b078ba6852e9f","in":{"base":"Any","pred":"hasattr(A, 'domain') and hasattr(A, 'copy') and hasattr(A, 'to_field') and hasattr(A_inv, 'to_field')"},"out":{"base":"Any","pred":"A_result == A_inv"},"spec":{"lhs":"test_dense_ddm_iinv(name, A, A_inv)","rhs":"<unspecified:test_dense_ddm_iinv>","over":{"base":"Any","pred":"hasattr(A, 'domain') and hasattr(A, 'copy') and hasattr(A, 'to_field') and hasattr(A_inv, 'to_field')"},"name":"test_dense_ddm_iinv_correct"},"guarantee":"test_dense_ddm_iinv produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_inverse.test_dense_ddm_iinv_correct","statement":"Path(test_dense_ddm_iinv(x), test_dense_ddm_iinv produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7e0b0e25c483354a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(A, 'domain')","hasattr(A, 'copy')","hasattr(A, 'to_field')","hasattr(A_inv, 'to_field')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["A.copy","A.domain","A.to_field","A_inv.to_field"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_dense_ddm_iinv(name, A, A_inv, den):
     A = A.to_field().to_ddm().copy()
     K = A.domain
@@ -227,16 +280,25 @@ def test_dense_ddm_iinv(name, A, A_inv, den):
 
 @pytest.mark.parametrize('name, A, A_inv, den', INVERSE_EXAMPLES)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Matrix_adjugate(nam), test_Matrix_adjugate produces the expected output) over Any ║
+# ║ Path(test_Matrix_adjugate(name, A, A_inv), <unspecified:test_Matrix_adjugate>) over {Any | A.adjugate() == A_inv and hasattr(A, 'to_Matrix') and hasattr(A_inv, 'to_Matrix') and hasattr(A, 'adjugate')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Matrix_adjugate : Any → {Any | A.adjugate() == A...   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: A.adjugate() == A_inv                          ║
+# ║   requires: hasattr(A, 'to_Matrix')                        ║
+# ║   requires: hasattr(A_inv, 'to_Matrix')                    ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Matrix_adjugate : {Any | A.adjugate() == A_inv a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ce5fde0a2ba7470e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_inverse.test_Matrix_adjugate","kind":"function","src_hash":"196cb10c334a8034","in":{"base":"Any"},"out":{"base":"Any","pred":"A.adjugate() == A_inv and A.adjugate(method=method) == A_inv"},"spec":{"lhs":"test_Matrix_adjugate(nam)","rhs":"test_Matrix_adjugate produces the expected output","over":{"base":"Any"},"name":"test_Matrix_adjugate_correct"},"guarantee":"test_Matrix_adjugate produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_inverse.test_Matrix_adjugate_correct","statement":"Path(test_Matrix_adjugate(x), test_Matrix_adjugate produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ce5fde0a2ba7470e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_inverse.test_Matrix_adjugate","kind":"function","src_hash":"196cb10c334a8034","in":{"base":"Any","pred":"A.adjugate() == A_inv and hasattr(A, 'to_Matrix') and hasattr(A_inv, 'to_Matrix') and hasattr(A, 'adjugate')"},"out":{"base":"Any","pred":"A.adjugate() == A_inv and A.adjugate(method=method) == A_inv"},"spec":{"lhs":"test_Matrix_adjugate(name, A, A_inv)","rhs":"<unspecified:test_Matrix_adjugate>","over":{"base":"Any","pred":"A.adjugate() == A_inv and hasattr(A, 'to_Matrix') and hasattr(A_inv, 'to_Matrix') and hasattr(A, 'adjugate')"},"name":"test_Matrix_adjugate_correct"},"guarantee":"test_Matrix_adjugate produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_inverse.test_Matrix_adjugate_correct","statement":"Path(test_Matrix_adjugate(x), test_Matrix_adjugate produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ce5fde0a2ba7470e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["A.adjugate() == A_inv","hasattr(A, 'to_Matrix')","hasattr(A_inv, 'to_Matrix')","hasattr(A, 'adjugate')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["A.adjugate","A.to_Matrix","A_inv.to_Matrix"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Matrix_adjugate(name, A, A_inv, den):
     A = A.to_Matrix()
     A_inv = A_inv.to_Matrix()
@@ -247,31 +309,45 @@ def test_Matrix_adjugate(name, A, A_inv, den):
 
 @pytest.mark.parametrize('name, A, A_inv, den', INVERSE_EXAMPLES)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dm_adj_det(nam), test_dm_adj_det produces the expected output) over Any ║
+# ║ Path(test_dm_adj_det(name, A, A_inv), <unspecified:test_dm_adj_det>) over {Any | A.adj_det() == (A_inv, den) and hasattr(A, 'adj_det')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dm_adj_det : Any → {Any | A.adj_det() == (A_inv,...   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: A.adj_det() == (A_inv, den)                    ║
+# ║   requires: hasattr(A, 'adj_det')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dm_adj_det : {Any | A.adj_det() == (A_inv, den) ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dc910c4c1393c9d6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_inverse.test_dm_adj_det","kind":"function","src_hash":"e4af3e11f3cfb57a","in":{"base":"Any"},"out":{"base":"Any","pred":"A.adj_det() == (A_inv, den)"},"spec":{"lhs":"test_dm_adj_det(nam)","rhs":"test_dm_adj_det produces the expected output","over":{"base":"Any"},"name":"test_dm_adj_det_correct"},"guarantee":"test_dm_adj_det produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_inverse.test_dm_adj_det_correct","statement":"Path(test_dm_adj_det(x), test_dm_adj_det produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dc910c4c1393c9d6"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_inverse.test_dm_adj_det","kind":"function","src_hash":"e4af3e11f3cfb57a","in":{"base":"Any","pred":"A.adj_det() == (A_inv, den) and hasattr(A, 'adj_det')"},"out":{"base":"Any","pred":"A.adj_det() == (A_inv, den)"},"spec":{"lhs":"test_dm_adj_det(name, A, A_inv)","rhs":"<unspecified:test_dm_adj_det>","over":{"base":"Any","pred":"A.adj_det() == (A_inv, den) and hasattr(A, 'adj_det')"},"name":"test_dm_adj_det_correct"},"guarantee":"test_dm_adj_det produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_inverse.test_dm_adj_det_correct","statement":"Path(test_dm_adj_det(x), test_dm_adj_det produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dc910c4c1393c9d6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["A.adj_det() == (A_inv, den)","hasattr(A, 'adj_det')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["A.adj_det"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_dm_adj_det(name, A, A_inv, den):
     assert A.adj_det() == (A_inv, den)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_inverse_inexact(), test_inverse_inexact produces the expected output) over Any ║
+# ║ Path(test_inverse_inexact(), <unspecified:test_inverse_inexact>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_inverse_inexact : Any → {Any | all_close(Mi2, Mi1)}   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6d88c4e4c204ac62  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_inverse.test_inverse_inexact","kind":"function","src_hash":"e3cbaa3dc94b796d","in":{"base":"Any"},"out":{"base":"Any","pred":"all_close(Mi2, Mi1)"},"spec":{"lhs":"test_inverse_inexact()","rhs":"test_inverse_inexact produces the expected output","over":{"base":"Any"},"name":"test_inverse_inexact_correct"},"guarantee":"test_inverse_inexact produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_inverse.test_inverse_inexact_correct","statement":"Path(test_inverse_inexact(x), test_inverse_inexact produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6d88c4e4c204ac62"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_inverse.test_inverse_inexact","kind":"function","src_hash":"e3cbaa3dc94b796d","in":{"base":"Any"},"out":{"base":"Any","pred":"all_close(Mi2, Mi1)"},"spec":{"lhs":"test_inverse_inexact()","rhs":"<unspecified:test_inverse_inexact>","over":{"base":"Any"},"name":"test_inverse_inexact_correct"},"guarantee":"test_inverse_inexact produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_inverse.test_inverse_inexact_correct","statement":"Path(test_inverse_inexact(x), test_inverse_inexact produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6d88c4e4c204ac62","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_inverse_inexact():
 
     M = Matrix([[x-0.3, -0.06, -0.22],

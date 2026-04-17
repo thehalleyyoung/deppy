@@ -59,14 +59,21 @@ import itertools
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Sum(*args), correctly constructs a Sum instance) over {Any | isinstance(did, tuple) and isinstance(x, Symbol) and isinstance(f, Piecewise)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, AddWithLimits)                ║
+# ║   ensures:  isinstance(self, ExprWithIntLimits)            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ Sum : {Any | isinstance(did, tuple) and isinstance(x,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 4.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 45c323424bc20496  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.summations.Sum","kind":"class","src_hash":"98b6b9397ae63187","in":{"base":"Any","pred":"isinstance(did, tuple) and isinstance(x, Symbol) and isinstance(f, Piecewise)"},"out":{"base":"Any"},"spec":{"lhs":"Sum(*args)","rhs":"correctly constructs a Sum instance","over":{"base":"Any","pred":"isinstance(did, tuple) and isinstance(x, Symbol) and isinstance(f, Piecewise)"},"name":"Sum_class_invariant"},"guarantee":"correctly constructs a Sum instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"45c323424bc20496"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.summations.Sum","kind":"class","src_hash":"98b6b9397ae63187","in":{"base":"Any","pred":"isinstance(did, tuple) and isinstance(x, Symbol) and isinstance(f, Piecewise)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, AddWithLimits) and isinstance(self, ExprWithIntLimits)"},"spec":{"lhs":"Sum(*args)","rhs":"correctly constructs a Sum instance","over":{"base":"Any","pred":"isinstance(did, tuple) and isinstance(x, Symbol) and isinstance(f, Piecewise)"},"name":"Sum_class_invariant"},"guarantee":"isinstance(self, AddWithLimits); isinstance(self, ExprWithIntLimits)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"45c323424bc20496","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, AddWithLimits)","isinstance(self, ExprWithIntLimits)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":4.0,"verdict_class":"assumed","binding":false,"binding_errors":["Function Sum not found in source"]}}
 class Sum(AddWithLimits, ExprWithIntLimits):
     r"""
     Represents unevaluated summation.
@@ -205,16 +212,23 @@ class Sum(AddWithLimits, ExprWithIntLimits):
     limits: tuple[tuple[Symbol, Expr, Expr]]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, function, *symbols), <unspecified:__new__>) over {Any | not (any((len(l) != 3 or None in l for l in obj.limits)))} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (any((len(l) != 3 or None in l for l ...   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | not (any((len(l) != 3 or None in l f...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a294df5eb380fca9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.summations.Sum.__new__","kind":"method","src_hash":"6c2196bcbc8b4781","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a294df5eb380fca9"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.summations.Sum.__new__","kind":"method","src_hash":"6c2196bcbc8b4781","in":{"base":"Any","pred":"not (any((len(l) != 3 or None in l for l in obj.limits)))"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, function, *symbols)","rhs":"<unspecified:__new__>","over":{"base":"Any","pred":"not (any((len(l) != 3 or None in l for l in obj.limits)))"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a294df5eb380fca9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (any((len(l) != 3 or None in l for l in obj.limits)))"],"pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, function, *symbols, **assumptions):
         obj = AddWithLimits.__new__(cls, function, *symbols, **assumptions)
         if not hasattr(obj, 'limits'):
@@ -225,16 +239,22 @@ class Sum(AddWithLimits, ExprWithIntLimits):
         return obj
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_zero(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_zero(), True) over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  True                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_zero : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 31f40a092ccbb5aa  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c70b67d0848e0df8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.summations.Sum._eval_is_zero","kind":"method","src_hash":"bef5d21ba7fe61a0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_zero()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_zero_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.summations.Sum._eval_is_zero_correct","statement":"Path(_eval_is_zero(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"31f40a092ccbb5aa"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.summations.Sum._eval_is_zero","kind":"method","src_hash":"bef5d21ba7fe61a0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_zero()","rhs":"True","over":{"base":"Any"},"name":"_eval_is_zero_correct"},"guarantee":"returns True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.summations.Sum._eval_is_zero_correct","statement":"Path(_eval_is_zero(x), returns True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c70b67d0848e0df8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"True","pure":false,"effects":{"effect_type":"reads_state","reads":["self.function","self.has_empty_sequence"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_zero(self):
         # a Sum is only zero if its function is zero or if all terms
         # cancel out. This only answers whether the summand is zero; if
@@ -244,77 +264,107 @@ class Sum(AddWithLimits, ExprWithIntLimits):
             return True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_extended_real(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_extended_real(), <unspecified:_eval_is_extended_real>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_extended_real : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ed2ccfe5bb37d053  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.summations.Sum._eval_is_extended_real","kind":"method","src_hash":"3e575c298d4c19e2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_extended_real()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_extended_real_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.summations.Sum._eval_is_extended_real_correct","statement":"Path(_eval_is_extended_real(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ed2ccfe5bb37d053"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.summations.Sum._eval_is_extended_real","kind":"method","src_hash":"3e575c298d4c19e2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_extended_real()","rhs":"<unspecified:_eval_is_extended_real>","over":{"base":"Any"},"name":"_eval_is_extended_real_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.summations.Sum._eval_is_extended_real_correct","statement":"Path(_eval_is_extended_real(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ed2ccfe5bb37d053","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.function","self.has_empty_sequence"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_extended_real(self):
         if self.has_empty_sequence:
             return True
         return self.function.is_extended_real
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_positive(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_positive(), self.function.is_positive) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.function.is_positive                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_positive : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bd8bbcedd28eb5ee  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 27256472c2552555  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.summations.Sum._eval_is_positive","kind":"method","src_hash":"e7bf2b414a3fc384","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_positive()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_positive_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.summations.Sum._eval_is_positive_correct","statement":"Path(_eval_is_positive(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bd8bbcedd28eb5ee"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.summations.Sum._eval_is_positive","kind":"method","src_hash":"e7bf2b414a3fc384","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_positive()","rhs":"self.function.is_positive","over":{"base":"Any"},"name":"_eval_is_positive_correct"},"guarantee":"returns self.function.is_positive","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.summations.Sum._eval_is_positive_correct","statement":"Path(_eval_is_positive(x), returns self.function.is_positive)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"27256472c2552555","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.function.is_positive","pure":false,"effects":{"effect_type":"reads_state","reads":["self.function","self.has_finite_limits","self.has_reversed_limits"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_positive(self):
         if self.has_finite_limits and self.has_reversed_limits is False:
             return self.function.is_positive
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_negative(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_negative(), self.function.is_negative) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.function.is_negative                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_negative : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 62908e7d233232f7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c2614070953bb71c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.summations.Sum._eval_is_negative","kind":"method","src_hash":"bd77a04066e3ff94","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_negative()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_negative_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.summations.Sum._eval_is_negative_correct","statement":"Path(_eval_is_negative(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"62908e7d233232f7"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.summations.Sum._eval_is_negative","kind":"method","src_hash":"bd77a04066e3ff94","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_negative()","rhs":"self.function.is_negative","over":{"base":"Any"},"name":"_eval_is_negative_correct"},"guarantee":"returns self.function.is_negative","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.summations.Sum._eval_is_negative_correct","statement":"Path(_eval_is_negative(x), returns self.function.is_negative)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c2614070953bb71c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.function.is_negative","pure":false,"effects":{"effect_type":"reads_state","reads":["self.function","self.has_finite_limits","self.has_reversed_limits"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_negative(self):
         if self.has_finite_limits and self.has_reversed_limits is False:
             return self.function.is_negative
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_finite(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_finite(), True) over Any                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  True                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_finite : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a26c9332e09d92b1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b2b10e8208f3dee1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.summations.Sum._eval_is_finite","kind":"method","src_hash":"834eab5e12247858","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_finite()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_finite_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.summations.Sum._eval_is_finite_correct","statement":"Path(_eval_is_finite(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a26c9332e09d92b1"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.summations.Sum._eval_is_finite","kind":"method","src_hash":"834eab5e12247858","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_finite()","rhs":"True","over":{"base":"Any"},"name":"_eval_is_finite_correct"},"guarantee":"returns True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.summations.Sum._eval_is_finite_correct","statement":"Path(_eval_is_finite(x), returns True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b2b10e8208f3dee1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"True","pure":false,"effects":{"effect_type":"reads_state","reads":["self.function","self.has_finite_limits"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_finite(self):
         if self.has_finite_limits and self.function.is_finite:
             return True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(doit(**h), doit produces the expected output) over Any ║
+# ║ Path(doit(**hints), <unspecified:doit>) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ doit : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4ccd036887b21709  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.summations.Sum.doit","kind":"method","src_hash":"031644ac88a1b438","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"doit(**h)","rhs":"doit produces the expected output","over":{"base":"Any"},"name":"doit_correct"},"guarantee":"doit produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.summations.Sum.doit_correct","statement":"Path(doit(x), doit produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4ccd036887b21709"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.summations.Sum.doit","kind":"method","src_hash":"031644ac88a1b438","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"doit(**hints)","rhs":"<unspecified:doit>","over":{"base":"Any"},"name":"doit_correct"},"guarantee":"doit produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.summations.Sum.doit_correct","statement":"Path(doit(x), doit produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4ccd036887b21709","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.eval_zeta_function","self.expand","self.func","self.function","self.limits","self.xreplace"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def doit(self, **hints):
         if hints.get('deep', True):
             f = self.function.doit(**hints)
@@ -377,16 +427,23 @@ class Sum(AddWithLimits, ExprWithIntLimits):
         return f
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval_zeta_function(f, ), check whether the function matches with the zeta function) over Any ║
+# ║ Path(eval_zeta_function(f, limits), <unspecified:eval_zeta_function>) over {Any | hasattr(f, 'match')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval_zeta_function : Any → Any                             ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(f, 'match')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval_zeta_function : {Any | hasattr(f, 'match')} → Any     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c08f561834f7786d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.summations.Sum.eval_zeta_function","kind":"method","src_hash":"c2e0d8d0b9098ef5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval_zeta_function(f, )","rhs":"check whether the function matches with the zeta function","over":{"base":"Any"},"name":"eval_zeta_function_correct"},"guarantee":"check whether the function matches with the zeta function","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.summations.Sum.eval_zeta_function_correct","statement":"Path(eval_zeta_function(x), check whether the function matches with the zeta function)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c08f561834f7786d"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.summations.Sum.eval_zeta_function","kind":"method","src_hash":"c2e0d8d0b9098ef5","in":{"base":"Any","pred":"hasattr(f, 'match')"},"out":{"base":"Any"},"spec":{"lhs":"eval_zeta_function(f, limits)","rhs":"<unspecified:eval_zeta_function>","over":{"base":"Any","pred":"hasattr(f, 'match')"},"name":"eval_zeta_function_correct"},"guarantee":"check whether the function matches with the zeta function","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.summations.Sum.eval_zeta_function_correct","statement":"Path(eval_zeta_function(x), check whether the function matches with the zeta function)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c08f561834f7786d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(f, 'match')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["f.match","self.eval_zeta_function"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval_zeta_function(self, f, limits):
         """
         Check whether the function matches with the zeta function.
@@ -409,16 +466,22 @@ class Sum(AddWithLimits, ExprWithIntLimits):
                              (self, True))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_derivative(x), differentiate wrt x as long as x is not in the free symbols of any of the upper or lower limits) over Any ║
+# ║ Path(_eval_derivative(x), <unspecified:_eval_derivative>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_derivative : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 455b7a783cd62844  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.summations.Sum._eval_derivative","kind":"method","src_hash":"5a4664ad6d8860f1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_derivative(x)","rhs":"differentiate wrt x as long as x is not in the free symbols of any of the upper or lower limits","over":{"base":"Any"},"name":"_eval_derivative_correct"},"guarantee":"differentiate wrt x as long as x is not in the free symbols of any of the upper or lower limits","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.summations.Sum._eval_derivative_correct","statement":"Path(_eval_derivative(x), differentiate wrt x as long as x is not in the free symbols of any of the upper or lower limits)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"455b7a783cd62844"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.summations.Sum._eval_derivative","kind":"method","src_hash":"5a4664ad6d8860f1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_derivative(x)","rhs":"<unspecified:_eval_derivative>","over":{"base":"Any"},"name":"_eval_derivative_correct"},"guarantee":"differentiate wrt x as long as x is not in the free symbols of any of the upper or lower limits","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.summations.Sum._eval_derivative_correct","statement":"Path(_eval_derivative(x), differentiate wrt x as long as x is not in the free symbols of any of the upper or lower limits)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"455b7a783cd62844","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_derivative(self, x):
         """
         Differentiate wrt x as long as x is not in the free symbols of any of
@@ -455,16 +518,22 @@ class Sum(AddWithLimits, ExprWithIntLimits):
         return rv
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_difference_delta(n, ), id) over Any             ║
+# ║ Path(_eval_difference_delta(n, step), id) over Any         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Sum(f, (k, upper + 1, new_upper)).doit()       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_difference_delta : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 5f1f884cdf294020   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.summations.Sum._eval_difference_delta","kind":"method","src_hash":"8b521e9452281cd5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_difference_delta(n, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_difference_delta_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Sum","by":"library_axiom"},{"fn":"doit","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5f1f884cdf294020"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.summations.Sum._eval_difference_delta","kind":"method","src_hash":"8b521e9452281cd5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_difference_delta(n, step)","rhs":"Sum(f, (k, upper + 1, new_upper)).doit()","over":{"base":"Any"},"name":"_eval_difference_delta_correct","kind":"composition"},"guarantee":"returns Sum(f, (k, upper + 1, new_upper)).doit()","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Sum","by":"library_axiom"},{"fn":"doit","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5f1f884cdf294020","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Sum(f, (k, upper + 1, new_upper)).doit()","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.func"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_difference_delta(self, n, step):
         k, _, upper = self.args[-1]
         new_upper = upper.subs(n, n + step)
@@ -477,16 +546,22 @@ class Sum(AddWithLimits, ExprWithIntLimits):
         return Sum(f, (k, upper + 1, new_upper)).doit()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_simplify(**k), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_simplify(**kwargs), factor_sum(result, limits=self.limits)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  factor_sum(result, limits=self.limits)         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_simplify : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fc6e6f0629c3a5ab  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d8707561eb1b36ef  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.summations.Sum._eval_simplify","kind":"method","src_hash":"b1987930cddc0539","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_simplify(**k)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_simplify_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.summations.Sum._eval_simplify_correct","statement":"Path(_eval_simplify(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fc6e6f0629c3a5ab"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.summations.Sum._eval_simplify","kind":"method","src_hash":"b1987930cddc0539","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_simplify(**kwargs)","rhs":"factor_sum(result, limits=self.limits)","over":{"base":"Any"},"name":"_eval_simplify_correct"},"guarantee":"returns factor_sum(result, limits=self.limits)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.summations.Sum._eval_simplify_correct","statement":"Path(_eval_simplify(x), returns factor_sum(result, limits=self.limits))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d8707561eb1b36ef","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"factor_sum(result, limits=self.limits)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_simplify(self, **kwargs):
 
         function = self.function
@@ -527,16 +602,22 @@ class Sum(AddWithLimits, ExprWithIntLimits):
         return factor_sum(result, limits=self.limits)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_convergent(), checks for the convergence of a sum) over Any ║
+# ║ Path(is_convergent(), <unspecified:is_convergent>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_convergent : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 395c43d2fed01315  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.summations.Sum.is_convergent","kind":"method","src_hash":"c11afb0dc2be2b31","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_convergent()","rhs":"checks for the convergence of a sum","over":{"base":"Any"},"name":"is_convergent_correct"},"guarantee":"checks for the convergence of a sum","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.summations.Sum.is_convergent_correct","statement":"Path(is_convergent(x), checks for the convergence of a sum)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"395c43d2fed01315"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.summations.Sum.is_convergent","kind":"method","src_hash":"c11afb0dc2be2b31","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_convergent()","rhs":"<unspecified:is_convergent>","over":{"base":"Any"},"name":"is_convergent_correct"},"guarantee":"checks for the convergence of a sum","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.summations.Sum.is_convergent_correct","statement":"Path(is_convergent(x), checks for the convergence of a sum)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"395c43d2fed01315","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.function","self.limits"],"raises":["NotImplementedError"],"catches":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_convergent(self):
         r"""
         Checks for the convergence of a Sum.
@@ -830,16 +911,22 @@ class Sum(AddWithLimits, ExprWithIntLimits):
                                   "is not yet implemented" % (sequence_term))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_absolutely_convergent(), checks for the absolute convergence of an infinite series) over Any ║
+# ║ Path(is_absolutely_convergent(), Sum(abs(self.function), self.limits).is_convergent()) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Sum(abs(self.function), self.limits).is_c...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_absolutely_convergent : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e6bc02f280e5bf22           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.summations.Sum.is_absolutely_convergent","kind":"method","src_hash":"b84eb7363055b0ad","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_absolutely_convergent()","rhs":"checks for the absolute convergence of an infinite series","over":{"base":"Any"},"name":"is_absolutely_convergent_correct"},"guarantee":"checks for the absolute convergence of an infinite series","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e6bc02f280e5bf22"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.summations.Sum.is_absolutely_convergent","kind":"method","src_hash":"b84eb7363055b0ad","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_absolutely_convergent()","rhs":"Sum(abs(self.function), self.limits).is_convergent()","over":{"base":"Any"},"name":"is_absolutely_convergent_correct"},"guarantee":"returns Sum(abs(self.function), self.limits).is_convergent()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e6bc02f280e5bf22","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Sum(abs(self.function), self.limits).is_convergent()","pure":false,"effects":{"effect_type":"reads_state","reads":["self.function","self.limits"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_absolutely_convergent(self):
         """
         Checks for the absolute convergence of an infinite series.
@@ -870,16 +957,23 @@ class Sum(AddWithLimits, ExprWithIntLimits):
         return Sum(abs(self.function), self.limits).is_convergent()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(euler_maclaurin(m, ), return an euler-maclaurin approximation of self, where m is the number of leading terms to sum directly and n is the number of terms in the tail) over Any ║
+# ║ Path(euler_maclaurin(m, n, eps), <unspecified:euler_maclaurin>) over {Any | not (len(self.limits) != 1)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ euler_maclaurin : Any → Any                                ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (len(self.limits) != 1)                    ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ euler_maclaurin : {Any | not (len(self.limits) != 1)}...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d5c774dfac2c7278  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.summations.Sum.euler_maclaurin","kind":"method","src_hash":"a71e76f04e3ff948","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"euler_maclaurin(m, )","rhs":"return an euler-maclaurin approximation of self, where m is the number of leading terms to sum directly and n is the number of terms in the tail","over":{"base":"Any"},"name":"euler_maclaurin_correct"},"guarantee":"return an euler-maclaurin approximation of self, where m is the number of leading terms to sum directly and n is the number of terms in the tail","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.summations.Sum.euler_maclaurin_correct","statement":"Path(euler_maclaurin(x), return an euler-maclaurin approximation of self, where m is the number of leading terms to sum directly and n is the number of terms in the tail)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d5c774dfac2c7278"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.summations.Sum.euler_maclaurin","kind":"method","src_hash":"a71e76f04e3ff948","in":{"base":"Any","pred":"not (len(self.limits) != 1)"},"out":{"base":"Any"},"spec":{"lhs":"euler_maclaurin(m, n, eps)","rhs":"<unspecified:euler_maclaurin>","over":{"base":"Any","pred":"not (len(self.limits) != 1)"},"name":"euler_maclaurin_correct"},"guarantee":"return an euler-maclaurin approximation of self, where m is the number of leading terms to sum directly and n is the number of terms in the tail","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.summations.Sum.euler_maclaurin_correct","statement":"Path(euler_maclaurin(x), return an euler-maclaurin approximation of self, where m is the number of leading terms to sum directly and n is the number of terms in the tail)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d5c774dfac2c7278","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (len(self.limits) != 1)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.function","self.limits"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def euler_maclaurin(self, m=0, n=0, eps=0, eval_integral=True):
         """
         Return an Euler-Maclaurin approximation of self, where m is the
@@ -988,16 +1082,22 @@ class Sum(AddWithLimits, ExprWithIntLimits):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(reverse_order(*in), reverse the order of a limit in a sum) over Any ║
+# ║ Path(reverse_order(*indices), Sum(e * self.function, *limits)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Sum(e * self.function, *limits)                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ reverse_order : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4f5b5feea89940b6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 94e58f120dacde5f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.summations.Sum.reverse_order","kind":"method","src_hash":"ecf9424594e00496","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"reverse_order(*in)","rhs":"reverse the order of a limit in a sum","over":{"base":"Any"},"name":"reverse_order_correct"},"guarantee":"reverse the order of a limit in a sum","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.summations.Sum.reverse_order_correct","statement":"Path(reverse_order(x), reverse the order of a limit in a sum)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4f5b5feea89940b6"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.summations.Sum.reverse_order","kind":"method","src_hash":"ecf9424594e00496","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"reverse_order(*indices)","rhs":"Sum(e * self.function, *limits)","over":{"base":"Any"},"name":"reverse_order_correct"},"guarantee":"returns Sum(e * self.function, *limits)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.summations.Sum.reverse_order_correct","statement":"Path(reverse_order(x), returns Sum(e * self.function, *limits))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"94e58f120dacde5f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Sum(e * self.function, *limits)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def reverse_order(self, *indices):
         """
         Reverse the order of a limit in a Sum.
@@ -1078,16 +1178,22 @@ class Sum(AddWithLimits, ExprWithIntLimits):
         return Sum(e * self.function, *limits)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_Product(*ar), id) over Any           ║
+# ║ Path(_eval_rewrite_as_Product(*args, **kwargs), id) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  log(Product(exp(self.function), *self.lim...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_Product : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 3e1b224b37cec472   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.summations.Sum._eval_rewrite_as_Product","kind":"method","src_hash":"c205ec0ee32d3adc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_Product(*ar)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_Product_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"log","by":"library_axiom"},{"fn":"Product","by":"library_axiom"},{"fn":"exp","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3e1b224b37cec472"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.summations.Sum._eval_rewrite_as_Product","kind":"method","src_hash":"c205ec0ee32d3adc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_Product(*args, **kwargs)","rhs":"log(Product(exp(self.function), *self.limits))","over":{"base":"Any"},"name":"_eval_rewrite_as_Product_correct","kind":"composition"},"guarantee":"returns log(Product(exp(self.function), *self.limits))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"log","by":"library_axiom"},{"fn":"Product","by":"library_axiom"},{"fn":"exp","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3e1b224b37cec472","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"log(Product(exp(self.function), *self.limits))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.function","self.limits"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_Product(self, *args, **kwargs):
         from sympy.concrete.products import Product
         if self.function.is_extended_real:
@@ -1095,16 +1201,22 @@ class Sum(AddWithLimits, ExprWithIntLimits):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(summation(f, ), compute the summation of f with respect to symbols) over Any ║
+# ║ Path(summation(f, *symbols, **kwargs), Sum(f, *symbols, **kwargs).doit(deep=False)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Sum(f, *symbols, **kwargs).doit(deep=False)    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ summation : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | eb2511e25f2ba568           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.summations.summation","kind":"function","src_hash":"d1414a7de43a32fb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"summation(f, )","rhs":"compute the summation of f with respect to symbols","over":{"base":"Any"},"name":"summation_correct"},"guarantee":"compute the summation of f with respect to symbols","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"eb2511e25f2ba568"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.summations.summation","kind":"function","src_hash":"d1414a7de43a32fb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"summation(f, *symbols, **kwargs)","rhs":"Sum(f, *symbols, **kwargs).doit(deep=False)","over":{"base":"Any"},"name":"summation_correct"},"guarantee":"returns Sum(f, *symbols, **kwargs).doit(deep=False)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"eb2511e25f2ba568","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Sum(f, *symbols, **kwargs).doit(deep=False)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['f'], spec=['f', '*symbols', '**kwargs']"]}}
 def summation(f, *symbols, **kwargs):
     r"""
     Compute the summation of f with respect to symbols.
@@ -1159,16 +1271,24 @@ def summation(f, *symbols, **kwargs):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(telescopic_direct(L, ), id) over Any                  ║
+# ║ Path(telescopic_direct(L, R, n), id) over {Any | hasattr(L, 'subs') and hasattr(R, 'subs')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ telescopic_direct : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(L, 'subs')                             ║
+# ║   requires: hasattr(R, 'subs')                             ║
+# ║   returns:  Add(*[L.subs(i, a + m) + R.subs(i, b - m)...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ telescopic_direct : {Any | hasattr(L, 'subs') and has...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | cef130eeb44ef098   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.summations.telescopic_direct","kind":"function","src_hash":"e03fb3c97014a80d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"telescopic_direct(L, )","rhs":"returns the direct summation of the terms of a telescopic sum","over":{"base":"Any"},"name":"telescopic_direct_correct","kind":"composition"},"guarantee":"returns the direct summation of the terms of a telescopic sum","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Add","by":"library_axiom"},{"fn":"subs","by":"library_axiom"},{"fn":"subs","by":"library_axiom"},{"fn":"range","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cef130eeb44ef098"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.summations.telescopic_direct","kind":"function","src_hash":"e03fb3c97014a80d","in":{"base":"Any","pred":"hasattr(L, 'subs') and hasattr(R, 'subs')"},"out":{"base":"Any"},"spec":{"lhs":"telescopic_direct(L, R, n)","rhs":"Add(*[L.subs(i, a + m) + R.subs(i, b - m) for m in range(n)])","over":{"base":"Any","pred":"hasattr(L, 'subs') and hasattr(R, 'subs')"},"name":"telescopic_direct_correct","kind":"composition"},"guarantee":"returns Add(*[L.subs(i, a + m) + R.subs(i, b - m) for m in range(n)])","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Add","by":"library_axiom"},{"fn":"subs","by":"library_axiom"},{"fn":"subs","by":"library_axiom"},{"fn":"range","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cef130eeb44ef098","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(L, 'subs')","hasattr(R, 'subs')"],"returns_expr":"Add(*[L.subs(i, a + m) + R.subs(i, b - m) for m in range(n)])","pure":false,"effects":{"effect_type":"reads_state","reads":["L.subs","R.subs"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def telescopic_direct(L, R, n, limits):
     """
     Returns the direct summation of the terms of a telescopic sum
@@ -1194,16 +1314,25 @@ def telescopic_direct(L, R, n, limits):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(telescopic(L, ), tries to perform the summation using the telescopic property) over Any ║
+# ║ Path(telescopic(L, R, limits), <unspecified:telescopic>) over {Any | hasattr(L, 'is_Add') and hasattr(R, 'is_Add') and hasattr(L, 'subs')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ telescopic : Any → Any                                     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(L, 'is_Add')                           ║
+# ║   requires: hasattr(R, 'is_Add')                           ║
+# ║   requires: hasattr(L, 'subs')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ telescopic : {Any | hasattr(L, 'is_Add') and hasattr(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 223e5ba8e49a0f48  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.summations.telescopic","kind":"function","src_hash":"7a3b18b05f2f69f9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"telescopic(L, )","rhs":"tries to perform the summation using the telescopic property","over":{"base":"Any"},"name":"telescopic_correct"},"guarantee":"tries to perform the summation using the telescopic property","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.summations.telescopic_correct","statement":"Path(telescopic(x), tries to perform the summation using the telescopic property)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"223e5ba8e49a0f48"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.summations.telescopic","kind":"function","src_hash":"7a3b18b05f2f69f9","in":{"base":"Any","pred":"hasattr(L, 'is_Add') and hasattr(R, 'is_Add') and hasattr(L, 'subs')"},"out":{"base":"Any"},"spec":{"lhs":"telescopic(L, R, limits)","rhs":"<unspecified:telescopic>","over":{"base":"Any","pred":"hasattr(L, 'is_Add') and hasattr(R, 'is_Add') and hasattr(L, 'subs')"},"name":"telescopic_correct"},"guarantee":"tries to perform the summation using the telescopic property","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.summations.telescopic_correct","statement":"Path(telescopic(x), tries to perform the summation using the telescopic property)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"223e5ba8e49a0f48","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(L, 'is_Add')","hasattr(R, 'is_Add')","hasattr(L, 'subs')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["L.is_Add","L.subs","R.is_Add"],"catches":["NotImplementedError"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def telescopic(L, R, limits):
     '''
     Tries to perform the summation using the telescopic property.
@@ -1251,7 +1380,13 @@ def telescopic(L, R, limits):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval_sum(f, ), eval_sum produces the expected output) over {Any | isinstance(f, Piecewise) and isinstance(x, Sum)} ║
+# ║ Path(eval_sum(f, limits), # HINT: eval_sum may be idempotent: eval_sum(eval_sum(x)) == eval_sum(x)) over {Any | isinstance(f, Piecewise) and isinstance(x, Sum) and hasattr(f, 'is_zero') and hasattr(f, 'free_symbols') and hasattr(f, 'has') and hasattr(f, 'subs') and hasattr(f, 'args') and hasattr(f, 'replace') and hasattr(f, 'expand') and hasattr(f, 'func')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'is_zero')                          ║
+# ║   requires: hasattr(f, 'free_symbols')                     ║
+# ║   requires: hasattr(f, 'has')                              ║
+# ║   ensures:  # HINT: eval_sum may be idempotent: eval_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ eval_sum : {Any | isinstance(f, Piecewise) and isinst...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -1264,9 +1399,12 @@ def telescopic(L, R, limits):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?2 ✗2 VCs | 4.4ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 0d7d6ba1...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.summations.eval_sum","kind":"function","src_hash":"b11353fee082ba6e","in":{"base":"Any","pred":"isinstance(f, Piecewise) and isinstance(x, Sum)"},"out":{"base":"Any"},"spec":{"lhs":"eval_sum(f, )","rhs":"eval_sum produces the expected output","over":{"base":"Any","pred":"isinstance(f, Piecewise) and isinstance(x, Sum)"},"name":"eval_sum_correct"},"guarantee":"eval_sum produces the expected output","fibers":[{"name":"Piecewise","pred":"isinstance(f, Piecewise)","path":{"lhs":"eval_sum(x)","rhs":"eval_sum produces the expected output","over":{"base":"Piecewise","pred":"isinstance(f, Piecewise)"},"name":"eval_sum_Piecewise_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.summations.eval_sum_Piecewise_correct","statement":"eval_sum satisfies spec on Piecewise inputs"},"trust":"LIBRARY"},{"name":"Sum","pred":"isinstance(x, Sum)","path":{"lhs":"eval_sum(x)","rhs":"eval_sum produces the expected output","over":{"base":"Sum","pred":"isinstance(x, Sum)"},"name":"eval_sum_Sum_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.summations.eval_sum_Sum_correct","statement":"eval_sum satisfies spec on Sum inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"0d7d6ba1088c1f4e"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.summations.eval_sum","kind":"function","src_hash":"b11353fee082ba6e","in":{"base":"Any","pred":"isinstance(f, Piecewise) and isinstance(x, Sum) and hasattr(f, 'is_zero') and hasattr(f, 'free_symbols') and hasattr(f, 'has') and hasattr(f, 'subs') and hasattr(f, 'args') and hasattr(f, 'replace') and hasattr(f, 'expand') and hasattr(f, 'func')"},"out":{"base":"Any","pred":"result satisfies: # HINT: eval_sum may be idempotent: eval_sum(eval_sum(x)) == eval_sum(x)"},"spec":{"lhs":"eval_sum(f, limits)","rhs":"# HINT: eval_sum may be idempotent: eval_sum(eval_sum(x)) == eval_sum(x)","over":{"base":"Any","pred":"isinstance(f, Piecewise) and isinstance(x, Sum) and hasattr(f, 'is_zero') and hasattr(f, 'free_symbols') and hasattr(f, 'has') and hasattr(f, 'subs') and hasattr(f, 'args') and hasattr(f, 'replace') and hasattr(f, 'expand') and hasattr(f, 'func')"},"name":"eval_sum_correct"},"guarantee":"# HINT: eval_sum may be idempotent: eval_sum(eval_sum(x)) == eval_sum(x)","fibers":[{"name":"Piecewise","pred":"isinstance(f, Piecewise)","path":{"lhs":"eval_sum(x)","rhs":"# HINT: eval_sum may be idempotent: eval_sum(eval_sum(x)) == eval_sum(x)","over":{"base":"Piecewise","pred":"isinstance(f, Piecewise)"},"name":"eval_sum_Piecewise_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.summations.eval_sum_Piecewise_correct","statement":"eval_sum satisfies spec on Piecewise inputs"},"trust":"LIBRARY"},{"name":"Sum","pred":"isinstance(x, Sum)","path":{"lhs":"eval_sum(x)","rhs":"# HINT: eval_sum may be idempotent: eval_sum(eval_sum(x)) == eval_sum(x)","over":{"base":"Sum","pred":"isinstance(x, Sum)"},"name":"eval_sum_Sum_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.summations.eval_sum_Sum_correct","statement":"eval_sum satisfies spec on Sum inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"0d7d6ba1088c1f4e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'is_zero')","hasattr(f, 'free_symbols')","hasattr(f, 'has')","hasattr(f, 'subs')","hasattr(f, 'args')","hasattr(f, 'replace')","hasattr(f, 'expand')","hasattr(f, 'func')"],"ensures":["# HINT: eval_sum may be idempotent: eval_sum(eval_sum(x)) == eval_sum(x)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":1,"n_assumed":2,"n_failed":2,"trust_level":"LIBRARY_ASSUMED","compile_ms":4.4,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(f, Piecewise)', 'a.is_comparable and b.is_comparable and (a > b)', 'a == b', 'newexpr is None', 'definite and dif < 100'}, fibers={'Sum', 'Piecewise'})"]}}
 def eval_sum(f, limits):
     (i, a, b) = limits
     if f.is_zero:
@@ -1317,16 +1455,25 @@ def eval_sum(f, limits):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval_sum_direct(exp), evaluate expression directly, but perform some simple checks first to possibly result in a smaller expression and faster execution) over Any ║
+# ║ Path(eval_sum_direct(expr, limits), # HINT: eval_sum_direct may be idempotent: eval_sum_direct(eval_sum_direct(x)) == eval_sum_direct(x)) over {Any | hasattr(expr, 'is_Mul') and hasattr(expr, 'is_Add') and hasattr(expr, 'as_independent') and hasattr(expr, 'as_two_terms') and hasattr(expr, 'subs')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval_sum_direct : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'is_Mul')                        ║
+# ║   requires: hasattr(expr, 'is_Add')                        ║
+# ║   requires: hasattr(expr, 'as_independent')                ║
+# ║   ensures:  # HINT: eval_sum_direct may be idempotent...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval_sum_direct : {Any | hasattr(expr, 'is_Mul') and ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a02975f6fead9333  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c43f239b1d01156d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.summations.eval_sum_direct","kind":"function","src_hash":"09a5563c714fa11a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval_sum_direct(exp)","rhs":"evaluate expression directly, but perform some simple checks first to possibly result in a smaller expression and faster execution","over":{"base":"Any"},"name":"eval_sum_direct_correct"},"guarantee":"evaluate expression directly, but perform some simple checks first to possibly result in a smaller expression and faster execution","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.summations.eval_sum_direct_correct","statement":"Path(eval_sum_direct(x), evaluate expression directly, but perform some simple checks first to possibly result in a smaller expression and faster execution)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a02975f6fead9333"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.summations.eval_sum_direct","kind":"function","src_hash":"09a5563c714fa11a","in":{"base":"Any","pred":"hasattr(expr, 'is_Mul') and hasattr(expr, 'is_Add') and hasattr(expr, 'as_independent') and hasattr(expr, 'as_two_terms') and hasattr(expr, 'subs')"},"out":{"base":"Any","pred":"result satisfies: # HINT: eval_sum_direct may be idempotent: eval_sum_direct(eval_sum_direct(x)) == eval_sum_direct(x)"},"spec":{"lhs":"eval_sum_direct(expr, limits)","rhs":"# HINT: eval_sum_direct may be idempotent: eval_sum_direct(eval_sum_direct(x)) == eval_sum_direct(x)","over":{"base":"Any","pred":"hasattr(expr, 'is_Mul') and hasattr(expr, 'is_Add') and hasattr(expr, 'as_independent') and hasattr(expr, 'as_two_terms') and hasattr(expr, 'subs')"},"name":"eval_sum_direct_correct"},"guarantee":"# HINT: eval_sum_direct may be idempotent: eval_sum_direct(eval_sum_direct(x)) == eval_sum_direct(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.summations.eval_sum_direct_correct","statement":"Path(eval_sum_direct(x), # HINT: eval_sum_direct may be idempotent: eval_sum_direct(eval_sum_direct(x)) == eval_sum_direct(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c43f239b1d01156d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'is_Mul')","hasattr(expr, 'is_Add')","hasattr(expr, 'as_independent')","hasattr(expr, 'as_two_terms')","hasattr(expr, 'subs')"],"ensures":["# HINT: eval_sum_direct may be idempotent: eval_sum_direct(eval_sum_direct(x)) == eval_sum_direct(x)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.as_independent","expr.as_two_terms","expr.is_Add","expr.is_Mul","expr.subs"],"catches":["PolynomialError"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def eval_sum_direct(expr, limits):
     """
     Evaluate expression directly, but perform some simple checks first
@@ -1392,9 +1539,15 @@ def eval_sum_direct(expr, limits):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval_sum_symbolic(f, ), eval_sum_symbolic produces the expected output) over {Any | isinstance(r, (Mul, Add))} ║
+# ║ Path(eval_sum_symbolic(f, limits), # HINT: eval_sum_symbolic may be idempotent: eval_sum_symbolic(eval_sum_symbolic(x)) == eval_sum_symbolic(x)) over {Any | isinstance(r, (Mul, Add)) and hasattr(f, 'is_Mul') and hasattr(f, 'is_Add') and hasattr(f, 'match') and hasattr(f, 'has') and hasattr(f, 'as_independent') and hasattr(f, 'as_two_terms') and hasattr(f, 'powsimp')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval_sum_symbolic : {Any | isinstance(r, (Mul, Add))}...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'is_Mul')                           ║
+# ║   requires: hasattr(f, 'is_Add')                           ║
+# ║   requires: hasattr(f, 'match')                            ║
+# ║   ensures:  # HINT: eval_sum_symbolic may be idempote...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval_sum_symbolic : {Any | isinstance(r, (Mul, Add)) ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   (Mul: {isinstance(r, (Mul, Add))} → library_axiom        ║
@@ -1404,9 +1557,12 @@ def eval_sum_direct(expr, limits):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 2.8ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | ae73b788...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.summations.eval_sum_symbolic","kind":"function","src_hash":"f318eef076caa864","in":{"base":"Any","pred":"isinstance(r, (Mul, Add))"},"out":{"base":"Any"},"spec":{"lhs":"eval_sum_symbolic(f, )","rhs":"eval_sum_symbolic produces the expected output","over":{"base":"Any","pred":"isinstance(r, (Mul, Add))"},"name":"eval_sum_symbolic_correct"},"guarantee":"eval_sum_symbolic produces the expected output","fibers":[{"name":"(Mul","pred":"isinstance(r, (Mul, Add))","path":{"lhs":"eval_sum_symbolic(x)","rhs":"eval_sum_symbolic produces the expected output","over":{"base":"(Mul","pred":"isinstance(r, (Mul, Add))"},"name":"eval_sum_symbolic_(Mul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.summations.eval_sum_symbolic_(Mul_correct","statement":"eval_sum_symbolic satisfies spec on (Mul inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"ae73b788062baa93"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.summations.eval_sum_symbolic","kind":"function","src_hash":"f318eef076caa864","in":{"base":"Any","pred":"isinstance(r, (Mul, Add)) and hasattr(f, 'is_Mul') and hasattr(f, 'is_Add') and hasattr(f, 'match') and hasattr(f, 'has') and hasattr(f, 'as_independent') and hasattr(f, 'as_two_terms') and hasattr(f, 'powsimp')"},"out":{"base":"Any","pred":"result satisfies: # HINT: eval_sum_symbolic may be idempotent: eval_sum_symbolic(eval_sum_symbolic(x)) == eval_sum_symbolic(x)"},"spec":{"lhs":"eval_sum_symbolic(f, limits)","rhs":"# HINT: eval_sum_symbolic may be idempotent: eval_sum_symbolic(eval_sum_symbolic(x)) == eval_sum_symbolic(x)","over":{"base":"Any","pred":"isinstance(r, (Mul, Add)) and hasattr(f, 'is_Mul') and hasattr(f, 'is_Add') and hasattr(f, 'match') and hasattr(f, 'has') and hasattr(f, 'as_independent') and hasattr(f, 'as_two_terms') and hasattr(f, 'powsimp')"},"name":"eval_sum_symbolic_correct"},"guarantee":"# HINT: eval_sum_symbolic may be idempotent: eval_sum_symbolic(eval_sum_symbolic(x)) == eval_sum_symbolic(x)","fibers":[{"name":"(Mul","pred":"isinstance(r, (Mul, Add))","path":{"lhs":"eval_sum_symbolic(x)","rhs":"# HINT: eval_sum_symbolic may be idempotent: eval_sum_symbolic(eval_sum_symbolic(x)) == eval_sum_symbolic(x)","over":{"base":"(Mul","pred":"isinstance(r, (Mul, Add))"},"name":"eval_sum_symbolic_(Mul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.summations.eval_sum_symbolic_(Mul_correct","statement":"eval_sum_symbolic satisfies spec on (Mul inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"ae73b788062baa93","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'is_Mul')","hasattr(f, 'is_Add')","hasattr(f, 'match')","hasattr(f, 'has')","hasattr(f, 'as_independent')","hasattr(f, 'as_two_terms')","hasattr(f, 'powsimp')"],"ensures":["# HINT: eval_sum_symbolic may be idempotent: eval_sum_symbolic(eval_sum_symbolic(x)) == eval_sum_symbolic(x)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.8,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'n >= 0', 'factored != f_orig', 'without_i != 1', 'a.is_Integer and a >= 1', 'm != False', 'n == -1', 'without_i != 0', 'isinstance(r, (Mul, Add))'}, fibers={'(Mul'})"]}}
 def eval_sum_symbolic(f, limits):
     f_orig = f
     (i, a, b) = limits
@@ -1553,9 +1709,13 @@ def eval_sum_symbolic(f, limits):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_sum_hyper(f, ), returns (res, cond)) over {Any | isinstance(hs, Float)} ║
+# ║ Path(_eval_sum_hyper(f, i, a), # HINT: _eval_sum_hyper may be idempotent: _eval_sum_hyper(_eval_sum_hyper(x)) == _eval_sum_hyper(x)) over {Any | isinstance(hs, Float) and hasattr(f, 'subs')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_sum_hyper : {Any | isinstance(hs, Float)} → Any      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'subs')                             ║
+# ║   ensures:  # HINT: _eval_sum_hyper may be idempotent...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_sum_hyper : {Any | isinstance(hs, Float) and ha...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   Float: {isinstance(hs, Float)} → library_axiom           ║
@@ -1565,9 +1725,12 @@ def eval_sum_symbolic(f, limits):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.6ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | ceb3f1e6...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.summations._eval_sum_hyper","kind":"function","src_hash":"e6db8f0a070ad667","in":{"base":"Any","pred":"isinstance(hs, Float)"},"out":{"base":"Any"},"spec":{"lhs":"_eval_sum_hyper(f, )","rhs":"returns (res, cond)","over":{"base":"Any","pred":"isinstance(hs, Float)"},"name":"_eval_sum_hyper_correct"},"guarantee":"returns (res, cond)","fibers":[{"name":"Float","pred":"isinstance(hs, Float)","path":{"lhs":"_eval_sum_hyper(x)","rhs":"returns (res, cond)","over":{"base":"Float","pred":"isinstance(hs, Float)"},"name":"_eval_sum_hyper_Float_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.summations._eval_sum_hyper_Float_correct","statement":"_eval_sum_hyper satisfies spec on Float inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"ceb3f1e644085349"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.summations._eval_sum_hyper","kind":"function","src_hash":"e6db8f0a070ad667","in":{"base":"Any","pred":"isinstance(hs, Float) and hasattr(f, 'subs')"},"out":{"base":"Any","pred":"result satisfies: # HINT: _eval_sum_hyper may be idempotent: _eval_sum_hyper(_eval_sum_hyper(x)) == _eval_sum_hyper(x)"},"spec":{"lhs":"_eval_sum_hyper(f, i, a)","rhs":"# HINT: _eval_sum_hyper may be idempotent: _eval_sum_hyper(_eval_sum_hyper(x)) == _eval_sum_hyper(x)","over":{"base":"Any","pred":"isinstance(hs, Float) and hasattr(f, 'subs')"},"name":"_eval_sum_hyper_correct"},"guarantee":"# HINT: _eval_sum_hyper may be idempotent: _eval_sum_hyper(_eval_sum_hyper(x)) == _eval_sum_hyper(x)","fibers":[{"name":"Float","pred":"isinstance(hs, Float)","path":{"lhs":"_eval_sum_hyper(x)","rhs":"# HINT: _eval_sum_hyper may be idempotent: _eval_sum_hyper(_eval_sum_hyper(x)) == _eval_sum_hyper(x)","over":{"base":"Float","pred":"isinstance(hs, Float)"},"name":"_eval_sum_hyper_Float_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.summations._eval_sum_hyper_Float_correct","statement":"_eval_sum_hyper satisfies spec on Float inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"ceb3f1e644085349","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'subs')"],"ensures":["# HINT: _eval_sum_hyper may be idempotent: _eval_sum_hyper(_eval_sum_hyper(x)) == _eval_sum_hyper(x)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["f.subs"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.6,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'p.degree() != 1', 'isinstance(hs, Float)', 'hs is None', \"simplify(f.subs(i, Dummy('i', integer=True, positive=True))) == 0\", 'a != 0', 'f.subs(i, 0) == 0'}, fibers={'Float'})"]}}
 def _eval_sum_hyper(f, i, a):
     """ Returns (res, cond). Sums from a to oo. """
     if a != 0:
@@ -1623,16 +1786,25 @@ def _eval_sum_hyper(f, i, a):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval_sum_hyper(f, ), eval_sum_hyper produces the expected output) over Any ║
+# ║ Path(eval_sum_hyper(f, i_a_b), <unspecified:eval_sum_hyper>) over {Any | hasattr(f, 'is_hypergeometric') and hasattr(f, 'subs') and hasattr(f, 'is_positive') and hasattr(f, 'is_zero') and hasattr(f, 'is_negative')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval_sum_hyper : Any → Any                                 ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(f, 'is_hypergeometric')                ║
+# ║   requires: hasattr(f, 'subs')                             ║
+# ║   requires: hasattr(f, 'is_positive')                      ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval_sum_hyper : {Any | hasattr(f, 'is_hypergeometric...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 75b710f9512d5c90  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.summations.eval_sum_hyper","kind":"function","src_hash":"2da62ac2ebd8bbaa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval_sum_hyper(f, )","rhs":"eval_sum_hyper produces the expected output","over":{"base":"Any"},"name":"eval_sum_hyper_correct"},"guarantee":"eval_sum_hyper produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.summations.eval_sum_hyper_correct","statement":"Path(eval_sum_hyper(x), eval_sum_hyper produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"75b710f9512d5c90"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.summations.eval_sum_hyper","kind":"function","src_hash":"2da62ac2ebd8bbaa","in":{"base":"Any","pred":"hasattr(f, 'is_hypergeometric') and hasattr(f, 'subs') and hasattr(f, 'is_positive') and hasattr(f, 'is_zero') and hasattr(f, 'is_negative')"},"out":{"base":"Any"},"spec":{"lhs":"eval_sum_hyper(f, i_a_b)","rhs":"<unspecified:eval_sum_hyper>","over":{"base":"Any","pred":"hasattr(f, 'is_hypergeometric') and hasattr(f, 'subs') and hasattr(f, 'is_positive') and hasattr(f, 'is_zero') and hasattr(f, 'is_negative')"},"name":"eval_sum_hyper_correct"},"guarantee":"eval_sum_hyper produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.summations.eval_sum_hyper_correct","statement":"Path(eval_sum_hyper(x), eval_sum_hyper produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"75b710f9512d5c90","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(f, 'is_hypergeometric')","hasattr(f, 'subs')","hasattr(f, 'is_positive')","hasattr(f, 'is_zero')","hasattr(f, 'is_negative')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["f.is_hypergeometric","f.is_negative","f.is_positive","f.is_zero","f.subs"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def eval_sum_hyper(f, i_a_b):
     i, a, b = i_a_b
 
@@ -1694,16 +1866,25 @@ def eval_sum_hyper(f, i_a_b):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval_sum_residue(f, ), compute the infinite summation with residues) over Any ║
+# ║ Path(eval_sum_residue(f, i_a_b), # HINT: eval_sum_residue may be idempotent: eval_sum_residue(eval_sum_residue(x)) == eval_sum_residue(x)) over {Any | hasattr(f, 'free_symbols') and hasattr(f, 'as_numer_denom') and hasattr(f, 'xreplace')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval_sum_residue : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'free_symbols')                     ║
+# ║   requires: hasattr(f, 'as_numer_denom')                   ║
+# ║   requires: hasattr(f, 'xreplace')                         ║
+# ║   ensures:  # HINT: eval_sum_residue may be idempoten...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval_sum_residue : {Any | hasattr(f, 'free_symbols') ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2d01b2ab3df3ce50  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a4e427c349853c77  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.summations.eval_sum_residue","kind":"function","src_hash":"6d77912c5fe2536f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval_sum_residue(f, )","rhs":"compute the infinite summation with residues","over":{"base":"Any"},"name":"eval_sum_residue_correct"},"guarantee":"compute the infinite summation with residues","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.summations.eval_sum_residue_correct","statement":"Path(eval_sum_residue(x), compute the infinite summation with residues)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2d01b2ab3df3ce50"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.summations.eval_sum_residue","kind":"function","src_hash":"6d77912c5fe2536f","in":{"base":"Any","pred":"hasattr(f, 'free_symbols') and hasattr(f, 'as_numer_denom') and hasattr(f, 'xreplace')"},"out":{"base":"Any","pred":"result satisfies: # HINT: eval_sum_residue may be idempotent: eval_sum_residue(eval_sum_residue(x)) == eval_sum_residue(x)"},"spec":{"lhs":"eval_sum_residue(f, i_a_b)","rhs":"# HINT: eval_sum_residue may be idempotent: eval_sum_residue(eval_sum_residue(x)) == eval_sum_residue(x)","over":{"base":"Any","pred":"hasattr(f, 'free_symbols') and hasattr(f, 'as_numer_denom') and hasattr(f, 'xreplace')"},"name":"eval_sum_residue_correct"},"guarantee":"# HINT: eval_sum_residue may be idempotent: eval_sum_residue(eval_sum_residue(x)) == eval_sum_residue(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.summations.eval_sum_residue_correct","statement":"Path(eval_sum_residue(x), # HINT: eval_sum_residue may be idempotent: eval_sum_residue(eval_sum_residue(x)) == eval_sum_residue(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a4e427c349853c77","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'free_symbols')","hasattr(f, 'as_numer_denom')","hasattr(f, 'xreplace')"],"ensures":["# HINT: eval_sum_residue may be idempotent: eval_sum_residue(eval_sum_residue(x)) == eval_sum_residue(x)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["f.as_numer_denom","f.free_symbols","f.xreplace"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.2,"verdict_class":"assumed","binding":true}}
 def eval_sum_residue(f, i_a_b):
     r"""Compute the infinite summation with residues
 
@@ -1933,16 +2114,24 @@ def eval_sum_residue(f, i_a_b):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_matrix_sum(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_matrix_sum(expression), newf.doit()) over {Any | hasattr(expression, 'function') and hasattr(expression, 'limits')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_matrix_sum : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expression, 'function')                ║
+# ║   requires: hasattr(expression, 'limits')                  ║
+# ║   returns:  newf.doit()                                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_matrix_sum : {Any | hasattr(expression, 'functi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a655a926cbf56a8d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fddaedc1e5aa9f56  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.summations._eval_matrix_sum","kind":"function","src_hash":"837433131e22e9e5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_matrix_sum(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_matrix_sum_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.summations._eval_matrix_sum_correct","statement":"Path(_eval_matrix_sum(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a655a926cbf56a8d"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.summations._eval_matrix_sum","kind":"function","src_hash":"837433131e22e9e5","in":{"base":"Any","pred":"hasattr(expression, 'function') and hasattr(expression, 'limits')"},"out":{"base":"Any"},"spec":{"lhs":"_eval_matrix_sum(expression)","rhs":"newf.doit()","over":{"base":"Any","pred":"hasattr(expression, 'function') and hasattr(expression, 'limits')"},"name":"_eval_matrix_sum_correct"},"guarantee":"returns newf.doit()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.summations._eval_matrix_sum_correct","statement":"Path(_eval_matrix_sum(x), returns newf.doit())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fddaedc1e5aa9f56","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expression, 'function')","hasattr(expression, 'limits')"],"returns_expr":"newf.doit()","pure":false,"effects":{"effect_type":"reads_state","reads":["expression.function","expression.limits"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _eval_matrix_sum(expression):
     f = expression.function
     for limit in expression.limits:
@@ -1959,16 +2148,22 @@ def _eval_matrix_sum(expression):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_dummy_with_inherited_properties_concrete(lim), return a dummy symbol that inherits as many assumptions as possible from the provided symbol and limits) over Any ║
+# ║ Path(_dummy_with_inherited_properties_concrete(limits), Dummy('d', **assumptions_to_keep)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Dummy('d', **assumptions_to_keep)              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _dummy_with_inherited_properties_concrete : Any → Any      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aecbb2e522bbe938  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 88567f45cc2136eb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.summations._dummy_with_inherited_properties_concrete","kind":"function","src_hash":"171dea378cbcb3ba","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_dummy_with_inherited_properties_concrete(lim)","rhs":"return a dummy symbol that inherits as many assumptions as possible from the provided symbol and limits","over":{"base":"Any"},"name":"_dummy_with_inherited_properties_concrete_correct"},"guarantee":"return a dummy symbol that inherits as many assumptions as possible from the provided symbol and limits","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.summations._dummy_with_inherited_properties_concrete_correct","statement":"Path(_dummy_with_inherited_properties_concrete(x), return a dummy symbol that inherits as many assumptions as possible from the provided symbol and limits)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aecbb2e522bbe938"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.summations._dummy_with_inherited_properties_concrete","kind":"function","src_hash":"171dea378cbcb3ba","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_dummy_with_inherited_properties_concrete(limits)","rhs":"Dummy('d', **assumptions_to_keep)","over":{"base":"Any"},"name":"_dummy_with_inherited_properties_concrete_correct"},"guarantee":"returns Dummy('d', **assumptions_to_keep)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.summations._dummy_with_inherited_properties_concrete_correct","statement":"Path(_dummy_with_inherited_properties_concrete(x), returns Dummy('d', **assumptions_to_keep))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"88567f45cc2136eb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Dummy('d', **assumptions_to_keep)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _dummy_with_inherited_properties_concrete(limits):
     """
     Return a Dummy symbol that inherits as many assumptions as possible

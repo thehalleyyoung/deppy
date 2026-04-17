@@ -26,14 +26,20 @@ from .special import ZeroMatrix, Identity, OneMatrix
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a PermutationMatrix instance) preserved by PermutationMatrix(*args) over {Any | isinstance(perm, Permutation)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, MatrixExpr)                   ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ PermutationMatrix : {Any | isinstance(perm, Permutati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a4f3f4dd90641ef6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.permutation.PermutationMatrix","kind":"class","src_hash":"9d9b145843b796d4","in":{"base":"Any","pred":"isinstance(perm, Permutation)"},"out":{"base":"Any"},"spec":{"lhs":"PermutationMatrix(*args)","rhs":"correctly constructs a PermutationMatrix instance","over":{"base":"Any","pred":"isinstance(perm, Permutation)"},"name":"PermutationMatrix_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a PermutationMatrix instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_Identity","pred":"self.is_Identity","kind":"class"}],"methods_preserving":["shape","is_Identity","doit","_entry","_eval_power","_eval_inverse","_eval_determinant","_eval_rewrite_as_BlockDiagMatrix"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a4f3f4dd90641ef6"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.permutation.PermutationMatrix","kind":"class","src_hash":"9d9b145843b796d4","in":{"base":"Any","pred":"isinstance(perm, Permutation)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, MatrixExpr)"},"spec":{"lhs":"PermutationMatrix(*args)","rhs":"correctly constructs a PermutationMatrix instance","over":{"base":"Any","pred":"isinstance(perm, Permutation)"},"name":"PermutationMatrix_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, MatrixExpr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_Identity","pred":"self.is_Identity","kind":"class"}],"methods_preserving":["shape","is_Identity","doit","_entry","_eval_power","_eval_inverse","_eval_determinant","_eval_rewrite_as_BlockDiagMatrix"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a4f3f4dd90641ef6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, MatrixExpr)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":false,"binding_errors":["Function PermutationMatrix not found in source"]}}
 class PermutationMatrix(MatrixExpr):
     """A Permutation Matrix
 
@@ -85,16 +91,23 @@ class PermutationMatrix(MatrixExpr):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, perm), super().__new__(cls, perm)) over {Any | isinstance(perm, Permutation)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(perm, Permutation)                  ║
+# ║   returns:  super().__new__(cls, perm)                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | isinstance(perm, Permutation)} → Any      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ae52eaff2433cbf3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.permutation.PermutationMatrix.__new__","kind":"method","src_hash":"7f5e9326725fadd3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ae52eaff2433cbf3"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.permutation.PermutationMatrix.__new__","kind":"method","src_hash":"7f5e9326725fadd3","in":{"base":"Any","pred":"isinstance(perm, Permutation)"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, perm)","rhs":"super().__new__(cls, perm)","over":{"base":"Any","pred":"isinstance(perm, Permutation)"},"name":"__new___correct"},"guarantee":"returns super().__new__(cls, perm)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ae52eaff2433cbf3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(perm, Permutation)"],"returns_expr":"super().__new__(cls, perm)","pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, perm):
         from sympy.combinatorics.permutations import Permutation
 
@@ -107,107 +120,152 @@ class PermutationMatrix(MatrixExpr):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(shape(), returns the shape attribute) over Any        ║
+# ║ Path(shape(), (size, size)) over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (size, size)                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ shape : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3392c303fb6d8054           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.permutation.PermutationMatrix.shape","kind":"property","src_hash":"ffbdfdbb5dd315a5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"shape()","rhs":"returns the shape attribute","over":{"base":"Any"},"name":"shape_correct"},"guarantee":"returns the shape attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3392c303fb6d8054"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.permutation.PermutationMatrix.shape","kind":"property","src_hash":"ffbdfdbb5dd315a5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"shape()","rhs":"(size, size)","over":{"base":"Any"},"name":"shape_correct"},"guarantee":"returns (size, size)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3392c303fb6d8054","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(size, size)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def shape(self):
         size = self.args[0].size
         return (size, size)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_Identity(), returns the is_Identity attribute) over Any ║
+# ║ Path(is_Identity(), self.args[0].is_Identity) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0].is_Identity                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_Identity : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | bd420cd329b230d8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.permutation.PermutationMatrix.is_Identity","kind":"property","src_hash":"9694fa20a975f3af","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_Identity()","rhs":"returns the is_Identity attribute","over":{"base":"Any"},"name":"is_Identity_correct"},"guarantee":"returns the is_Identity attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bd420cd329b230d8"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.permutation.PermutationMatrix.is_Identity","kind":"property","src_hash":"9694fa20a975f3af","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_Identity()","rhs":"self.args[0].is_Identity","over":{"base":"Any"},"name":"is_Identity_correct"},"guarantee":"returns self.args[0].is_Identity","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bd420cd329b230d8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0].is_Identity","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_Identity(self):
         return self.args[0].is_Identity
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(doit(**h), doit produces the expected output) over Any ║
+# ║ Path(doit(**hints), <unspecified:doit>) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ doit : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 92f2f42bd40631df  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.permutation.PermutationMatrix.doit","kind":"method","src_hash":"3eaf8f8153ce0e3f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"doit(**h)","rhs":"doit produces the expected output","over":{"base":"Any"},"name":"doit_correct"},"guarantee":"doit produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.permutation.PermutationMatrix.doit_correct","statement":"Path(doit(x), doit produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"92f2f42bd40631df"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.permutation.PermutationMatrix.doit","kind":"method","src_hash":"3eaf8f8153ce0e3f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"doit(**hints)","rhs":"<unspecified:doit>","over":{"base":"Any"},"name":"doit_correct"},"guarantee":"doit produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.permutation.PermutationMatrix.doit_correct","statement":"Path(doit(x), doit produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"92f2f42bd40631df","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.is_Identity","self.rows"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def doit(self, **hints):
         if self.is_Identity:
             return Identity(self.rows)
         return self
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_entry(i, ), id) over Any                             ║
+# ║ Path(_entry(i, j, **kwargs), id) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  KroneckerDelta(perm.apply(i), j)               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _entry : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | fa949e71dd65d729   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.permutation.PermutationMatrix._entry","kind":"method","src_hash":"eeae55c0f507883f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_entry(i, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_entry_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"KroneckerDelta","by":"library_axiom"},{"fn":"apply","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fa949e71dd65d729"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.permutation.PermutationMatrix._entry","kind":"method","src_hash":"eeae55c0f507883f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_entry(i, j, **kwargs)","rhs":"KroneckerDelta(perm.apply(i), j)","over":{"base":"Any"},"name":"_entry_correct","kind":"composition"},"guarantee":"returns KroneckerDelta(perm.apply(i), j)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"KroneckerDelta","by":"library_axiom"},{"fn":"apply","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fa949e71dd65d729","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"KroneckerDelta(perm.apply(i), j)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _entry(self, i, j, **kwargs):
         perm = self.args[0]
         return KroneckerDelta(perm.apply(i), j)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_power(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_power(exp), PermutationMatrix(self.args[0] ** exp).doit()) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  PermutationMatrix(self.args[0] ** exp).do...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_power : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c1e7f8aea4f4947d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.permutation.PermutationMatrix._eval_power","kind":"method","src_hash":"6ef8de39d29524dc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_power(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_power_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c1e7f8aea4f4947d"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.permutation.PermutationMatrix._eval_power","kind":"method","src_hash":"6ef8de39d29524dc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_power(exp)","rhs":"PermutationMatrix(self.args[0] ** exp).doit()","over":{"base":"Any"},"name":"_eval_power_correct"},"guarantee":"returns PermutationMatrix(self.args[0] ** exp).doit()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c1e7f8aea4f4947d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"PermutationMatrix(self.args[0] ** exp).doit()","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_power(self, exp):
         return PermutationMatrix(self.args[0] ** exp).doit()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_inverse(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_inverse(), PermutationMatrix(self.args[0] ** (-1))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  PermutationMatrix(self.args[0] ** (-1))        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_inverse : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5511ed6c054cd048           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.permutation.PermutationMatrix._eval_inverse","kind":"method","src_hash":"d9f5b34fa0417520","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_inverse()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_inverse_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5511ed6c054cd048"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.permutation.PermutationMatrix._eval_inverse","kind":"method","src_hash":"d9f5b34fa0417520","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_inverse()","rhs":"PermutationMatrix(self.args[0] ** (-1))","over":{"base":"Any"},"name":"_eval_inverse_correct"},"guarantee":"returns PermutationMatrix(self.args[0] ** (-1))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5511ed6c054cd048","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"PermutationMatrix(self.args[0] ** (-1))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_inverse(self):
         return PermutationMatrix(self.args[0] ** -1)
 
     _eval_transpose = _eval_adjoint = _eval_inverse
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_determinant(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_determinant(), result == (S.One if sign == 1 else S.NegativeOne) and result == S.One or result == S.NegativeOne) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_determinant : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (S.One if sign == 1 else S.Nega...   ║
+# ║   ensures:  result == S.One or result == S.NegativeOne     ║
+# ║   fiber[case_0]: sign == 1 => S.One                        ║
+# ║   fiber[case_1]: sign == -1 => S.NegativeOne               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_determinant : Any → {Any | result satisfies: re...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9b30327291ab49fb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5b0b2953a2c55d77  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.permutation.PermutationMatrix._eval_determinant","kind":"method","src_hash":"c05719cccb5c6ba9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_determinant()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_determinant_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.permutation.PermutationMatrix._eval_determinant_correct","statement":"Path(_eval_determinant(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9b30327291ab49fb"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.permutation.PermutationMatrix._eval_determinant","kind":"method","src_hash":"c05719cccb5c6ba9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (S.One if sign == 1 else S.NegativeOne) and result == S.One or result == S.NegativeOne"},"spec":{"lhs":"_eval_determinant()","rhs":"result == (S.One if sign == 1 else S.NegativeOne) and result == S.One or result == S.NegativeOne","over":{"base":"Any"},"name":"_eval_determinant_correct"},"guarantee":"result == (S.One if sign == 1 else S.NegativeOne); result == S.One or result == S.NegativeOne; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.permutation.PermutationMatrix._eval_determinant_correct","statement":"Path(_eval_determinant(x), result == (S.One if sign == 1 else S.NegativeOne); result == S.One or result == S.NegativeOne; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5b0b2953a2c55d77","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (S.One if sign == 1 else S.NegativeOne)","result == S.One or result == S.NegativeOne"],"fibers":[{"name":"case_0","guard":"sign == 1","ensures":["result == S.One"],"decidability":"z3","returns_expr":"S.One"},{"name":"case_1","guard":"sign == -1","ensures":["result == S.NegativeOne"],"decidability":"z3","returns_expr":"S.NegativeOne"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"],"raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_determinant(self):
         sign = self.args[0].signature()
         if sign == 1:
@@ -217,16 +275,22 @@ class PermutationMatrix(MatrixExpr):
         raise NotImplementedError
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_BlockDiagMatrix(*ar), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_BlockDiagMatrix(*args, **kwargs), BlockDiagMatrix(*args)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  BlockDiagMatrix(*args)                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_BlockDiagMatrix : Any → Any               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8330b4f39842c8ef  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c48896f364baf0d2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.permutation.PermutationMatrix._eval_rewrite_as_BlockDiagMatrix","kind":"method","src_hash":"93c5c1986ec3c8ee","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_BlockDiagMatrix(*ar)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_BlockDiagMatrix_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.permutation.PermutationMatrix._eval_rewrite_as_BlockDiagMatrix_correct","statement":"Path(_eval_rewrite_as_BlockDiagMatrix(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8330b4f39842c8ef"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.permutation.PermutationMatrix._eval_rewrite_as_BlockDiagMatrix","kind":"method","src_hash":"93c5c1986ec3c8ee","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_BlockDiagMatrix(*args, **kwargs)","rhs":"BlockDiagMatrix(*args)","over":{"base":"Any"},"name":"_eval_rewrite_as_BlockDiagMatrix_correct"},"guarantee":"returns BlockDiagMatrix(*args)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.permutation.PermutationMatrix._eval_rewrite_as_BlockDiagMatrix_correct","statement":"Path(_eval_rewrite_as_BlockDiagMatrix(x), returns BlockDiagMatrix(*args))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c48896f364baf0d2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"BlockDiagMatrix(*args)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_BlockDiagMatrix(self, *args, **kwargs):
         from sympy.combinatorics.permutations import Permutation
         from .blockmatrix import BlockDiagMatrix
@@ -295,14 +359,20 @@ class PermutationMatrix(MatrixExpr):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(MatrixPermute(*args), correctly constructs a MatrixPermute instance) over {Any | isinstance(perm, PermutationMatrix) and isinstance(mat, (ZeroMatrix, OneMatrix)) and isinstance(perm, Permutation)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, MatrixExpr)                   ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ MatrixPermute : {Any | isinstance(perm, PermutationMa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b19994295af25250  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.permutation.MatrixPermute","kind":"class","src_hash":"266436ff47c40fe8","in":{"base":"Any","pred":"isinstance(perm, PermutationMatrix) and isinstance(mat, (ZeroMatrix, OneMatrix)) and isinstance(perm, Permutation)"},"out":{"base":"Any"},"spec":{"lhs":"MatrixPermute(*args)","rhs":"correctly constructs a MatrixPermute instance","over":{"base":"Any","pred":"isinstance(perm, PermutationMatrix) and isinstance(mat, (ZeroMatrix, OneMatrix)) and isinstance(perm, Permutation)"},"name":"MatrixPermute_class_invariant"},"guarantee":"correctly constructs a MatrixPermute instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b19994295af25250"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.permutation.MatrixPermute","kind":"class","src_hash":"266436ff47c40fe8","in":{"base":"Any","pred":"isinstance(perm, PermutationMatrix) and isinstance(mat, (ZeroMatrix, OneMatrix)) and isinstance(perm, Permutation)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, MatrixExpr)"},"spec":{"lhs":"MatrixPermute(*args)","rhs":"correctly constructs a MatrixPermute instance","over":{"base":"Any","pred":"isinstance(perm, PermutationMatrix) and isinstance(mat, (ZeroMatrix, OneMatrix)) and isinstance(perm, Permutation)"},"name":"MatrixPermute_class_invariant"},"guarantee":"isinstance(self, MatrixExpr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b19994295af25250","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, MatrixExpr)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":false,"binding_errors":["Function MatrixPermute not found in source"]}}
 class MatrixPermute(MatrixExpr):
     r"""Symbolic representation for permuting matrix rows or columns.
 
@@ -356,16 +426,25 @@ class MatrixPermute(MatrixExpr):
     sympy.matrices.matrixbase.MatrixBase.permute
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, mat, perm), super().__new__(cls, mat, perm, axis)) over {Any | mat.is_Matrix and hasattr(mat, 'is_Matrix') and hasattr(mat, 'shape') and hasattr(perm, 'size') and hasattr(perm, 'args') and hasattr(perm, 'resize')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: mat.is_Matrix                                  ║
+# ║   requires: hasattr(mat, 'is_Matrix')                      ║
+# ║   requires: hasattr(mat, 'shape')                          ║
+# ║   returns:  super().__new__(cls, mat, perm, axis)          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | mat.is_Matrix and hasattr(mat, 'is_M...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 34511e31de14a26e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.permutation.MatrixPermute.__new__","kind":"method","src_hash":"05bf8047f38228bf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"34511e31de14a26e"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.permutation.MatrixPermute.__new__","kind":"method","src_hash":"05bf8047f38228bf","in":{"base":"Any","pred":"mat.is_Matrix and hasattr(mat, 'is_Matrix') and hasattr(mat, 'shape') and hasattr(perm, 'size') and hasattr(perm, 'args') and hasattr(perm, 'resize')"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, mat, perm)","rhs":"super().__new__(cls, mat, perm, axis)","over":{"base":"Any","pred":"mat.is_Matrix and hasattr(mat, 'is_Matrix') and hasattr(mat, 'shape') and hasattr(perm, 'size') and hasattr(perm, 'args') and hasattr(perm, 'resize')"},"name":"__new___correct"},"guarantee":"returns super().__new__(cls, mat, perm, axis)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"34511e31de14a26e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["mat.is_Matrix","hasattr(mat, 'is_Matrix')","hasattr(mat, 'shape')","hasattr(perm, 'size')","hasattr(perm, 'args')","hasattr(perm, 'resize')"],"returns_expr":"super().__new__(cls, mat, perm, axis)","pure":false,"effects":{"effect_type":"reads_state","reads":["mat.is_Matrix","mat.shape","perm.args","perm.resize","perm.size"],"raises":["ValueError"],"catches":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, mat, perm, axis=S.Zero):
         from sympy.combinatorics.permutations import Permutation
 
@@ -401,16 +480,22 @@ class MatrixPermute(MatrixExpr):
         return super().__new__(cls, mat, perm, axis)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(doit(dee), doit produces the expected output) over Any ║
+# ║ Path(doit(deep, **hints), <unspecified:doit>) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ doit : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 55d7b3fb3ecaf64e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.permutation.MatrixPermute.doit","kind":"method","src_hash":"ba8801125b3b05e2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"doit(dee)","rhs":"doit produces the expected output","over":{"base":"Any"},"name":"doit_correct"},"guarantee":"doit produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.permutation.MatrixPermute.doit_correct","statement":"Path(doit(x), doit produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"55d7b3fb3ecaf64e"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.permutation.MatrixPermute.doit","kind":"method","src_hash":"ba8801125b3b05e2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"doit(deep, **hints)","rhs":"<unspecified:doit>","over":{"base":"Any"},"name":"doit_correct"},"guarantee":"doit produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.permutation.MatrixPermute.doit_correct","statement":"Path(doit(x), doit produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"55d7b3fb3ecaf64e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def doit(self, deep=True, **hints):
         mat, perm, axis = self.args
 
@@ -437,30 +522,45 @@ class MatrixPermute(MatrixExpr):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(shape(), returns the shape attribute) over Any        ║
+# ║ Path(shape(), self.args[0].shape) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0].shape                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ shape : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 48b93cda23908d09           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.permutation.MatrixPermute.shape","kind":"property","src_hash":"a4239be726663feb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"shape()","rhs":"returns the shape attribute","over":{"base":"Any"},"name":"shape_correct"},"guarantee":"returns the shape attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"48b93cda23908d09"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.permutation.MatrixPermute.shape","kind":"property","src_hash":"a4239be726663feb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"shape()","rhs":"self.args[0].shape","over":{"base":"Any"},"name":"shape_correct"},"guarantee":"returns self.args[0].shape","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"48b93cda23908d09","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0].shape","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def shape(self):
         return self.args[0].shape
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_entry(i, ), internal helper behaves correctly) over Any ║
+# ║ Path(_entry(i, j, **kwargs), result == (mat[perm.apply(i), j] if axis == 0 else mat[i, perm.apply(j)]) and result == mat[perm.apply(i), j] or result == mat[i, perm.apply(j)]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _entry : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (mat[perm.apply(i), j] if axis ...   ║
+# ║   ensures:  result == mat[perm.apply(i), j] or result...   ║
+# ║   fiber[zero_or_none]: axis == 0 => mat[perm.apply(i)...   ║
+# ║   fiber[case_1]: axis == 1 => mat[i, perm.apply(j)]        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _entry : Any → {Any | result satisfies: result == (ma...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c174be71f16548f5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4530228212d9bee0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.permutation.MatrixPermute._entry","kind":"method","src_hash":"3db0e91f447261a4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_entry(i, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_entry_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.permutation.MatrixPermute._entry_correct","statement":"Path(_entry(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c174be71f16548f5"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.permutation.MatrixPermute._entry","kind":"method","src_hash":"3db0e91f447261a4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (mat[perm.apply(i), j] if axis == 0 else mat[i, perm.apply(j)]) and result == mat[perm.apply(i), j] or result == mat[i, perm.apply(j)]"},"spec":{"lhs":"_entry(i, j, **kwargs)","rhs":"result == (mat[perm.apply(i), j] if axis == 0 else mat[i, perm.apply(j)]) and result == mat[perm.apply(i), j] or result == mat[i, perm.apply(j)]","over":{"base":"Any"},"name":"_entry_correct"},"guarantee":"result == (mat[perm.apply(i), j] if axis == 0 else mat[i, perm.apply(j)]); result == mat[perm.apply(i), j] or result == mat[i, perm.apply(j)]; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.permutation.MatrixPermute._entry_correct","statement":"Path(_entry(x), result == (mat[perm.apply(i), j] if axis == 0 else mat[i, perm.apply(j)]); result == mat[perm.apply(i), j] or result == mat[i, perm.apply(j)]; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4530228212d9bee0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (mat[perm.apply(i), j] if axis == 0 else mat[i, perm.apply(j)])","result == mat[perm.apply(i), j] or result == mat[i, perm.apply(j)]"],"fibers":[{"name":"zero_or_none","guard":"axis == 0","ensures":["result == mat[perm.apply(i), j]"],"decidability":"z3","returns_expr":"mat[perm.apply(i), j]"},{"name":"case_1","guard":"axis == 1","ensures":["result == mat[i, perm.apply(j)]"],"decidability":"z3","returns_expr":"mat[i, perm.apply(j)]"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _entry(self, i, j, **kwargs):
         mat, perm, axis = self.args
 
@@ -470,16 +570,22 @@ class MatrixPermute(MatrixExpr):
             return mat[i, perm.apply(j)]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_MatMul(*ar), id) over Any            ║
+# ║ Path(_eval_rewrite_as_MatMul(*args, **kwargs), id) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_MatMul : Any → Any                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 53ab35fc6cf7f80b   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.permutation.MatrixPermute._eval_rewrite_as_MatMul","kind":"method","src_hash":"3fa28e8ec0dd0686","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_MatMul(*ar)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_MatMul_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"MatMul","by":"library_axiom"},{"fn":"PermutationMatrix","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"53ab35fc6cf7f80b"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.permutation.MatrixPermute._eval_rewrite_as_MatMul","kind":"method","src_hash":"3fa28e8ec0dd0686","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_MatMul(*args, **kwargs)","rhs":"<unspecified:_eval_rewrite_as_MatMul>","over":{"base":"Any"},"name":"_eval_rewrite_as_MatMul_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"MatMul","by":"library_axiom"},{"fn":"PermutationMatrix","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"53ab35fc6cf7f80b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_MatMul(self, *args, **kwargs):
         from .matmul import MatMul
 

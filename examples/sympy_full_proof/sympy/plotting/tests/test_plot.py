@@ -53,32 +53,44 @@ matplotlib = import_module(
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(DummyBackendNotOk(), correctly constructs a DummyBackendNotOk instance) over Any ║
+# ║ Path(DummyBackendNotOk(), isinstance(self, Plot)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ DummyBackendNotOk : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Plot)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ DummyBackendNotOk : Any → {Any | result satisfies: is...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 795ca1ffe8e3854d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.tests.test_plot.DummyBackendNotOk","kind":"class","src_hash":"19540c67fac4a232","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"DummyBackendNotOk()","rhs":"correctly constructs a DummyBackendNotOk instance","over":{"base":"Any"},"name":"DummyBackendNotOk_correct"},"guarantee":"correctly constructs a DummyBackendNotOk instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"795ca1ffe8e3854d"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.tests.test_plot.DummyBackendNotOk","kind":"class","src_hash":"19540c67fac4a232","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Plot)"},"spec":{"lhs":"DummyBackendNotOk()","rhs":"isinstance(self, Plot)","over":{"base":"Any"},"name":"DummyBackendNotOk_correct"},"guarantee":"isinstance(self, Plot)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"795ca1ffe8e3854d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Plot)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Function DummyBackendNotOk not found in source"]}}
 class DummyBackendNotOk(Plot):
     """ Used to verify if users can create their own backends.
     This backend is meant to raise NotImplementedError for methods `show`,
     `save`, `close`.
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, *args, **kwargs), object.__new__(cls)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  object.__new__(cls)                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d57c083147865075           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.tests.test_plot.DummyBackendNotOk.__new__","kind":"method","src_hash":"9a4cf57d42b00d2d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d57c083147865075"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.tests.test_plot.DummyBackendNotOk.__new__","kind":"method","src_hash":"9a4cf57d42b00d2d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, *args, **kwargs)","rhs":"object.__new__(cls)","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"returns object.__new__(cls)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d57c083147865075","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"object.__new__(cls)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, *args, **kwargs):
         return object.__new__(cls)
 
@@ -86,85 +98,121 @@ class DummyBackendNotOk(Plot):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(DummyBackendOk(*args), correctly constructs a DummyBackendOk instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ DummyBackendOk : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Plot)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ DummyBackendOk : Any → {Any | result satisfies: isins...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ab8712f107874b17  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.tests.test_plot.DummyBackendOk","kind":"class","src_hash":"12fcc41aa8881ff9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"DummyBackendOk(*args)","rhs":"correctly constructs a DummyBackendOk instance","over":{"base":"Any"},"name":"DummyBackendOk_class_invariant"},"guarantee":"correctly constructs a DummyBackendOk instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ab8712f107874b17"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.tests.test_plot.DummyBackendOk","kind":"class","src_hash":"12fcc41aa8881ff9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Plot)"},"spec":{"lhs":"DummyBackendOk(*args)","rhs":"correctly constructs a DummyBackendOk instance","over":{"base":"Any"},"name":"DummyBackendOk_class_invariant"},"guarantee":"isinstance(self, Plot)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ab8712f107874b17","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Plot)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function DummyBackendOk not found in source"]}}
 class DummyBackendOk(Plot):
     """ Used to verify if users can create their own backends.
     This backend is meant to pass all tests.
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, *args, **kwargs), object.__new__(cls)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  object.__new__(cls)                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4acf0765aebb9d84           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.tests.test_plot.DummyBackendOk.__new__","kind":"method","src_hash":"9a4cf57d42b00d2d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4acf0765aebb9d84"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.tests.test_plot.DummyBackendOk.__new__","kind":"method","src_hash":"9a4cf57d42b00d2d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, *args, **kwargs)","rhs":"object.__new__(cls)","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"returns object.__new__(cls)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4acf0765aebb9d84","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"object.__new__(cls)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, *args, **kwargs):
         return object.__new__(cls)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(show(), show produces the expected output) over Any   ║
+# ║ Path(show(), <unspecified:show>) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ show : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e62c0be5a6d4aad2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.tests.test_plot.DummyBackendOk.show","kind":"method","src_hash":"12ce295a2f70352d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"show()","rhs":"show produces the expected output","over":{"base":"Any"},"name":"show_correct"},"guarantee":"show produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e62c0be5a6d4aad2"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.tests.test_plot.DummyBackendOk.show","kind":"method","src_hash":"12ce295a2f70352d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"show()","rhs":"<unspecified:show>","over":{"base":"Any"},"name":"show_correct"},"guarantee":"show produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e62c0be5a6d4aad2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def show(self):
         pass
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(save(), save produces the expected output) over Any   ║
+# ║ Path(save(), <unspecified:save>) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ save : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9ebddf20bad64d78           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.tests.test_plot.DummyBackendOk.save","kind":"method","src_hash":"a547ed0976ff3b7c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"save()","rhs":"save produces the expected output","over":{"base":"Any"},"name":"save_correct"},"guarantee":"save produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9ebddf20bad64d78"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.tests.test_plot.DummyBackendOk.save","kind":"method","src_hash":"a547ed0976ff3b7c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"save()","rhs":"<unspecified:save>","over":{"base":"Any"},"name":"save_correct"},"guarantee":"save produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9ebddf20bad64d78","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def save(self):
         pass
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(close(), close produces the expected output) over Any ║
+# ║ Path(close(), <unspecified:close>) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ close : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a99a66ec69caab55           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.tests.test_plot.DummyBackendOk.close","kind":"method","src_hash":"7eb62d4e0bb01da6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"close()","rhs":"close produces the expected output","over":{"base":"Any"},"name":"close_correct"},"guarantee":"close produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a99a66ec69caab55"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.tests.test_plot.DummyBackendOk.close","kind":"method","src_hash":"7eb62d4e0bb01da6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"close()","rhs":"<unspecified:close>","over":{"base":"Any"},"name":"close_correct"},"guarantee":"close produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a99a66ec69caab55","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def close(self):
         pass
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_basic_plotting_backend(), test_basic_plotting_backend produces the expected output) over Any ║
+# ║ Path(test_basic_plotting_backend(), <unspecified:test_basic_plotting_backend>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_basic_plotting_backend : Any → Any                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0aea72b6d4093080  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.tests.test_plot.test_basic_plotting_backend","kind":"function","src_hash":"14b614e26058b2d1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_basic_plotting_backend()","rhs":"test_basic_plotting_backend produces the expected output","over":{"base":"Any"},"name":"test_basic_plotting_backend_correct"},"guarantee":"test_basic_plotting_backend produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.tests.test_plot.test_basic_plotting_backend_correct","statement":"Path(test_basic_plotting_backend(x), test_basic_plotting_backend produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0aea72b6d4093080"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.tests.test_plot.test_basic_plotting_backend","kind":"function","src_hash":"14b614e26058b2d1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_basic_plotting_backend()","rhs":"<unspecified:test_basic_plotting_backend>","over":{"base":"Any"},"name":"test_basic_plotting_backend_correct"},"guarantee":"test_basic_plotting_backend produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.tests.test_plot.test_basic_plotting_backend_correct","statement":"Path(test_basic_plotting_backend(x), test_basic_plotting_backend produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0aea72b6d4093080","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_basic_plotting_backend():
     x = Symbol('x')
     plot(x, (x, 0, 3), backend='text')
@@ -172,16 +220,22 @@ def test_basic_plotting_backend():
 
 @pytest.mark.parametrize("adaptive", [True, False])
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_plot_and_save_1(ada), test_plot_and_save_1 produces the expected output) over Any ║
+# ║ Path(test_plot_and_save_1(adaptive), len(p) == old_len_p + 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_plot_and_save_1 : Any → Any                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(p) == old_len_p + 1                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_plot_and_save_1 : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8abfe9dc29554255  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.9ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 679e5ba3d597ae00  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.tests.test_plot.test_plot_and_save_1","kind":"function","src_hash":"6c78e81186c034de","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_plot_and_save_1(ada)","rhs":"test_plot_and_save_1 produces the expected output","over":{"base":"Any"},"name":"test_plot_and_save_1_correct"},"guarantee":"test_plot_and_save_1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.tests.test_plot.test_plot_and_save_1_correct","statement":"Path(test_plot_and_save_1(x), test_plot_and_save_1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8abfe9dc29554255"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.tests.test_plot.test_plot_and_save_1","kind":"function","src_hash":"6c78e81186c034de","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(p) == old_len_p + 1"},"spec":{"lhs":"test_plot_and_save_1(adaptive)","rhs":"len(p) == old_len_p + 1","over":{"base":"Any"},"name":"test_plot_and_save_1_correct"},"guarantee":"len(p) == old_len_p + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.tests.test_plot.test_plot_and_save_1_correct","statement":"Path(test_plot_and_save_1(x), len(p) == old_len_p + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"679e5ba3d597ae00","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(p) == old_len_p + 1"],"pure":false,"effects":{"effect_type":"io","calls_mutating":["p._backend.close","p.append","p.extend","p1.extend"],"io_operations":["p._backend.close"]},"state_contract":{"modifies":["p.*","p1.*"],"old_bindings":{"old_len_p":"len(p)","old_len_p1":"len(p1)"},"post_ensures":["len(p) == old_len_p + 1"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.9,"verdict_class":"assumed","binding":true}}
 def test_plot_and_save_1(adaptive):
     if not matplotlib:
         skip("Matplotlib not the default backend")
@@ -265,16 +319,22 @@ def test_plot_and_save_1(adaptive):
 
 @pytest.mark.parametrize("adaptive", [True, False])
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_plot_and_save_2(ada), test_plot_and_save_2 produces the expected output) over Any ║
+# ║ Path(test_plot_and_save_2(adaptive), <unspecified:test_plot_and_save_2>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_plot_and_save_2 : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7d069f8a6e82ba9f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.tests.test_plot.test_plot_and_save_2","kind":"function","src_hash":"7814f8ebe5330bf7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_plot_and_save_2(ada)","rhs":"test_plot_and_save_2 produces the expected output","over":{"base":"Any"},"name":"test_plot_and_save_2_correct"},"guarantee":"test_plot_and_save_2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.tests.test_plot.test_plot_and_save_2_correct","statement":"Path(test_plot_and_save_2(x), test_plot_and_save_2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7d069f8a6e82ba9f"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.tests.test_plot.test_plot_and_save_2","kind":"function","src_hash":"7814f8ebe5330bf7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_plot_and_save_2(adaptive)","rhs":"<unspecified:test_plot_and_save_2>","over":{"base":"Any"},"name":"test_plot_and_save_2_correct"},"guarantee":"test_plot_and_save_2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.tests.test_plot.test_plot_and_save_2_correct","statement":"Path(test_plot_and_save_2(x), test_plot_and_save_2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7d069f8a6e82ba9f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"io","calls_mutating":["p._backend.close"],"io_operations":["p._backend.close"]},"state_contract":{"modifies":["p.*"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.3,"verdict_class":"assumed","binding":true}}
 def test_plot_and_save_2(adaptive):
     if not matplotlib:
         skip("Matplotlib not the default backend")
@@ -410,16 +470,22 @@ def test_plot_and_save_2(adaptive):
 
 @pytest.mark.parametrize("adaptive", [True, False])
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_plot_and_save_3(ada), test_plot_and_save_3 produces the expected output) over Any ║
+# ║ Path(test_plot_and_save_3(adaptive), <unspecified:test_plot_and_save_3>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_plot_and_save_3 : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a4cba02ca58a8c04  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.tests.test_plot.test_plot_and_save_3","kind":"function","src_hash":"ed3f201dcc79e525","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_plot_and_save_3(ada)","rhs":"test_plot_and_save_3 produces the expected output","over":{"base":"Any"},"name":"test_plot_and_save_3_correct"},"guarantee":"test_plot_and_save_3 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.tests.test_plot.test_plot_and_save_3_correct","statement":"Path(test_plot_and_save_3(x), test_plot_and_save_3 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a4cba02ca58a8c04"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.tests.test_plot.test_plot_and_save_3","kind":"function","src_hash":"ed3f201dcc79e525","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_plot_and_save_3(adaptive)","rhs":"<unspecified:test_plot_and_save_3>","over":{"base":"Any"},"name":"test_plot_and_save_3_correct"},"guarantee":"test_plot_and_save_3 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.tests.test_plot.test_plot_and_save_3_correct","statement":"Path(test_plot_and_save_3(x), test_plot_and_save_3 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a4cba02ca58a8c04","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"io","calls_mutating":["p._backend.close"],"io_operations":["p._backend.close"]},"state_contract":{"modifies":["p.*"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"assumed","binding":true}}
 def test_plot_and_save_3(adaptive):
     if not matplotlib:
         skip("Matplotlib not the default backend")
@@ -504,16 +570,22 @@ def test_plot_and_save_3(adaptive):
 
 @pytest.mark.parametrize("adaptive", [True])
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_plot_and_save_4(ada), test_plot_and_save_4 produces the expected output) over Any ║
+# ║ Path(test_plot_and_save_4(adaptive), <unspecified:test_plot_and_save_4>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_plot_and_save_4 : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 049214d9370e75ea  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.tests.test_plot.test_plot_and_save_4","kind":"function","src_hash":"4f2cd31d461651e2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_plot_and_save_4(ada)","rhs":"test_plot_and_save_4 produces the expected output","over":{"base":"Any"},"name":"test_plot_and_save_4_correct"},"guarantee":"test_plot_and_save_4 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.tests.test_plot.test_plot_and_save_4_correct","statement":"Path(test_plot_and_save_4(x), test_plot_and_save_4 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"049214d9370e75ea"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.tests.test_plot.test_plot_and_save_4","kind":"function","src_hash":"4f2cd31d461651e2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_plot_and_save_4(adaptive)","rhs":"<unspecified:test_plot_and_save_4>","over":{"base":"Any"},"name":"test_plot_and_save_4_correct"},"guarantee":"test_plot_and_save_4 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.tests.test_plot.test_plot_and_save_4_correct","statement":"Path(test_plot_and_save_4(x), test_plot_and_save_4 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"049214d9370e75ea","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"io","calls_mutating":["p._backend.close"],"io_operations":["p._backend.close"]},"state_contract":{"modifies":["p.*"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_plot_and_save_4(adaptive):
     if not matplotlib:
         skip("Matplotlib not the default backend")
@@ -535,16 +607,22 @@ def test_plot_and_save_4(adaptive):
 
 @pytest.mark.parametrize("adaptive", [True, False])
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_plot_and_save_5(ada), test_plot_and_save_5 produces the expected output) over Any ║
+# ║ Path(test_plot_and_save_5(adaptive), <unspecified:test_plot_and_save_5>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_plot_and_save_5 : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 69a317afbbbf08c5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.tests.test_plot.test_plot_and_save_5","kind":"function","src_hash":"339a1dbb4ef44c3a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_plot_and_save_5(ada)","rhs":"test_plot_and_save_5 produces the expected output","over":{"base":"Any"},"name":"test_plot_and_save_5_correct"},"guarantee":"test_plot_and_save_5 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.tests.test_plot.test_plot_and_save_5_correct","statement":"Path(test_plot_and_save_5(x), test_plot_and_save_5 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"69a317afbbbf08c5"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.tests.test_plot.test_plot_and_save_5","kind":"function","src_hash":"339a1dbb4ef44c3a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_plot_and_save_5(adaptive)","rhs":"<unspecified:test_plot_and_save_5>","over":{"base":"Any"},"name":"test_plot_and_save_5_correct"},"guarantee":"test_plot_and_save_5 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.tests.test_plot.test_plot_and_save_5_correct","statement":"Path(test_plot_and_save_5(x), test_plot_and_save_5 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"69a317afbbbf08c5","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"io","calls_mutating":["p._backend.close"],"io_operations":["p._backend.close"]},"state_contract":{"modifies":["p.*"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_plot_and_save_5(adaptive):
     if not matplotlib:
         skip("Matplotlib not the default backend")
@@ -580,16 +658,22 @@ def test_plot_and_save_5(adaptive):
 
 @pytest.mark.parametrize("adaptive", [True, False])
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_plot_and_save_6(ada), test_plot_and_save_6 produces the expected output) over Any ║
+# ║ Path(test_plot_and_save_6(adaptive), <unspecified:test_plot_and_save_6>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_plot_and_save_6 : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2fc494fe8c601066  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.tests.test_plot.test_plot_and_save_6","kind":"function","src_hash":"ecc14def8c5f36d3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_plot_and_save_6(ada)","rhs":"test_plot_and_save_6 produces the expected output","over":{"base":"Any"},"name":"test_plot_and_save_6_correct"},"guarantee":"test_plot_and_save_6 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.tests.test_plot.test_plot_and_save_6_correct","statement":"Path(test_plot_and_save_6(x), test_plot_and_save_6 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2fc494fe8c601066"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.tests.test_plot.test_plot_and_save_6","kind":"function","src_hash":"ecc14def8c5f36d3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_plot_and_save_6(adaptive)","rhs":"<unspecified:test_plot_and_save_6>","over":{"base":"Any"},"name":"test_plot_and_save_6_correct"},"guarantee":"test_plot_and_save_6 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.tests.test_plot.test_plot_and_save_6_correct","statement":"Path(test_plot_and_save_6(x), test_plot_and_save_6 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2fc494fe8c601066","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_plot_and_save_6(adaptive):
     if not matplotlib:
         skip("Matplotlib not the default backend")
@@ -631,16 +715,22 @@ def test_plot_and_save_6(adaptive):
 
 @pytest.mark.parametrize("adaptive", [True, False])
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_plotgrid_and_save(ada), test_plotgrid_and_save produces the expected output) over Any ║
+# ║ Path(test_plotgrid_and_save(adaptive), <unspecified:test_plotgrid_and_save>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_plotgrid_and_save : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b87c5e0ad5847f6b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.tests.test_plot.test_plotgrid_and_save","kind":"function","src_hash":"d58a759ef9590bc9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_plotgrid_and_save(ada)","rhs":"test_plotgrid_and_save produces the expected output","over":{"base":"Any"},"name":"test_plotgrid_and_save_correct"},"guarantee":"test_plotgrid_and_save produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.tests.test_plot.test_plotgrid_and_save_correct","statement":"Path(test_plotgrid_and_save(x), test_plotgrid_and_save produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b87c5e0ad5847f6b"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.tests.test_plot.test_plotgrid_and_save","kind":"function","src_hash":"d58a759ef9590bc9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_plotgrid_and_save(adaptive)","rhs":"<unspecified:test_plotgrid_and_save>","over":{"base":"Any"},"name":"test_plotgrid_and_save_correct"},"guarantee":"test_plotgrid_and_save produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.tests.test_plot.test_plotgrid_and_save_correct","statement":"Path(test_plotgrid_and_save(x), test_plotgrid_and_save produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b87c5e0ad5847f6b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"io","calls_mutating":["p._backend.close"],"io_operations":["p._backend.close"]},"state_contract":{"modifies":["p.*"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_plotgrid_and_save(adaptive):
     if not matplotlib:
         skip("Matplotlib not the default backend")
@@ -685,16 +775,22 @@ def test_plotgrid_and_save(adaptive):
 
 @pytest.mark.parametrize("adaptive", [True, False])
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_append_issue_7140(ada), test_append_issue_7140 produces the expected output) over Any ║
+# ║ Path(test_append_issue_7140(adaptive), len(p2._series) == 2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_append_issue_7140 : Any → {Any | len(p2._series)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(p2._series) == 2                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_append_issue_7140 : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7119004d425dbf18  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9452efda525ce248  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.tests.test_plot.test_append_issue_7140","kind":"function","src_hash":"479f869d5bc47413","in":{"base":"Any"},"out":{"base":"Any","pred":"len(p2._series) == 2"},"spec":{"lhs":"test_append_issue_7140(ada)","rhs":"test_append_issue_7140 produces the expected output","over":{"base":"Any"},"name":"test_append_issue_7140_correct"},"guarantee":"test_append_issue_7140 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.tests.test_plot.test_append_issue_7140_correct","statement":"Path(test_append_issue_7140(x), test_append_issue_7140 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7119004d425dbf18"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.tests.test_plot.test_append_issue_7140","kind":"function","src_hash":"479f869d5bc47413","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(p2._series) == 2"},"spec":{"lhs":"test_append_issue_7140(adaptive)","rhs":"len(p2._series) == 2","over":{"base":"Any"},"name":"test_append_issue_7140_correct"},"guarantee":"len(p2._series) == 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.tests.test_plot.test_append_issue_7140_correct","statement":"Path(test_append_issue_7140(x), len(p2._series) == 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9452efda525ce248","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(p2._series) == 2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_append_issue_7140(adaptive):
     if not matplotlib:
         skip("Matplotlib not the default backend")
@@ -717,16 +813,22 @@ def test_append_issue_7140(adaptive):
 
 @pytest.mark.parametrize("adaptive", [True, False])
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_15265(ada), test_issue_15265 produces the expected output) over Any ║
+# ║ Path(test_issue_15265(adaptive), <unspecified:test_issue_15265>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_issue_15265 : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 740ea72c06619e82  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.tests.test_plot.test_issue_15265","kind":"function","src_hash":"d196e88f9a0a96ca","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_issue_15265(ada)","rhs":"test_issue_15265 produces the expected output","over":{"base":"Any"},"name":"test_issue_15265_correct"},"guarantee":"test_issue_15265 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.tests.test_plot.test_issue_15265_correct","statement":"Path(test_issue_15265(x), test_issue_15265 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"740ea72c06619e82"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.tests.test_plot.test_issue_15265","kind":"function","src_hash":"d196e88f9a0a96ca","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_issue_15265(adaptive)","rhs":"<unspecified:test_issue_15265>","over":{"base":"Any"},"name":"test_issue_15265_correct"},"guarantee":"test_issue_15265 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.tests.test_plot.test_issue_15265_correct","statement":"Path(test_issue_15265(x), test_issue_15265 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"740ea72c06619e82","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"io","calls_mutating":["p._backend.close"],"io_operations":["p._backend.close"]},"state_contract":{"modifies":["p.*"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_issue_15265(adaptive):
     if not matplotlib:
         skip("Matplotlib not the default backend")
@@ -766,16 +868,22 @@ def test_issue_15265(adaptive):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_empty_Plot(), test_empty_Plot produces the expected output) over Any ║
+# ║ Path(test_empty_Plot(), <unspecified:test_empty_Plot>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_empty_Plot : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b27ff8bf601095f1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.tests.test_plot.test_empty_Plot","kind":"function","src_hash":"517da3254685259a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_empty_Plot()","rhs":"test_empty_Plot produces the expected output","over":{"base":"Any"},"name":"test_empty_Plot_correct"},"guarantee":"test_empty_Plot produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.tests.test_plot.test_empty_Plot_correct","statement":"Path(test_empty_Plot(x), test_empty_Plot produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b27ff8bf601095f1"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.tests.test_plot.test_empty_Plot","kind":"function","src_hash":"517da3254685259a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_empty_Plot()","rhs":"<unspecified:test_empty_Plot>","over":{"base":"Any"},"name":"test_empty_Plot_correct"},"guarantee":"test_empty_Plot produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.tests.test_plot.test_empty_Plot_correct","statement":"Path(test_empty_Plot(x), test_empty_Plot produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b27ff8bf601095f1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_empty_Plot():
     if not matplotlib:
         skip("Matplotlib not the default backend")
@@ -790,16 +898,22 @@ def test_empty_Plot():
 
 @pytest.mark.parametrize("adaptive", [True, False])
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_17405(ada), test_issue_17405 produces the expected output) over Any ║
+# ║ Path(test_issue_17405(adaptive), <unspecified:test_issue_17405>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_issue_17405 : Any → {Any | len(p[0].get_data()[0...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d991344a68a58129  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.tests.test_plot.test_issue_17405","kind":"function","src_hash":"fa29b720c769e109","in":{"base":"Any"},"out":{"base":"Any","pred":"len(p[0].get_data()[0]) >= 30"},"spec":{"lhs":"test_issue_17405(ada)","rhs":"test_issue_17405 produces the expected output","over":{"base":"Any"},"name":"test_issue_17405_correct"},"guarantee":"test_issue_17405 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.tests.test_plot.test_issue_17405_correct","statement":"Path(test_issue_17405(x), test_issue_17405 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d991344a68a58129"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.tests.test_plot.test_issue_17405","kind":"function","src_hash":"fa29b720c769e109","in":{"base":"Any"},"out":{"base":"Any","pred":"len(p[0].get_data()[0]) >= 30"},"spec":{"lhs":"test_issue_17405(adaptive)","rhs":"<unspecified:test_issue_17405>","over":{"base":"Any"},"name":"test_issue_17405_correct"},"guarantee":"test_issue_17405 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.tests.test_plot.test_issue_17405_correct","statement":"Path(test_issue_17405(x), test_issue_17405 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d991344a68a58129","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_17405(adaptive):
     if not matplotlib:
         skip("Matplotlib not the default backend")
@@ -817,16 +931,24 @@ def test_issue_17405(adaptive):
 
 @pytest.mark.parametrize("adaptive", [True, False])
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_logplot_PR_16796(ada), test_logplot_PR_16796 produces the expected output) over Any ║
+# ║ Path(test_logplot_PR_16796(adaptive), len(p[0].get_data()[0]) >= 30 and p[0].end == 100.0 and p[0].start == 0.001) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_logplot_PR_16796 : Any → {Any | len(p[0].get_dat...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(p[0].get_data()[0]) >= 30                  ║
+# ║   ensures:  p[0].end == 100.0                              ║
+# ║   ensures:  p[0].start == 0.001                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_logplot_PR_16796 : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 13152d56e80c1167  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4f6db5b79a7f5ad8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.tests.test_plot.test_logplot_PR_16796","kind":"function","src_hash":"6fde2f6cae20e420","in":{"base":"Any"},"out":{"base":"Any","pred":"len(p[0].get_data()[0]) >= 30 and p[0].end == 100.0 and p[0].start == 0.001"},"spec":{"lhs":"test_logplot_PR_16796(ada)","rhs":"test_logplot_PR_16796 produces the expected output","over":{"base":"Any"},"name":"test_logplot_PR_16796_correct"},"guarantee":"test_logplot_PR_16796 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.tests.test_plot.test_logplot_PR_16796_correct","statement":"Path(test_logplot_PR_16796(x), test_logplot_PR_16796 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"13152d56e80c1167"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.tests.test_plot.test_logplot_PR_16796","kind":"function","src_hash":"6fde2f6cae20e420","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(p[0].get_data()[0]) >= 30 and p[0].end == 100.0 and p[0].start == 0.001"},"spec":{"lhs":"test_logplot_PR_16796(adaptive)","rhs":"len(p[0].get_data()[0]) >= 30 and p[0].end == 100.0 and p[0].start == 0.001","over":{"base":"Any"},"name":"test_logplot_PR_16796_correct"},"guarantee":"len(p[0].get_data()[0]) >= 30; p[0].end == 100.0; p[0].start == 0.001","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.tests.test_plot.test_logplot_PR_16796_correct","statement":"Path(test_logplot_PR_16796(x), len(p[0].get_data()[0]) >= 30; p[0].end == 100.0; p[0].start == 0.001)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4f6db5b79a7f5ad8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(p[0].get_data()[0]) >= 30","p[0].end == 100.0","p[0].start == 0.001"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_logplot_PR_16796(adaptive):
     if not matplotlib:
         skip("Matplotlib not the default backend")
@@ -843,16 +965,22 @@ def test_logplot_PR_16796(adaptive):
 
 @pytest.mark.parametrize("adaptive", [True, False])
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_16572(ada), test_issue_16572 produces the expected output) over Any ║
+# ║ Path(test_issue_16572(adaptive), len(p[0].get_data()[0]) >= 30) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_16572 : Any → {Any | len(p[0].get_data()[0...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(p[0].get_data()[0]) >= 30                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_16572 : Any → {Any | result satisfies: len...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e90604ff5e81f656  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dfe347431c4476fa  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.tests.test_plot.test_issue_16572","kind":"function","src_hash":"cea84c1bf535963f","in":{"base":"Any"},"out":{"base":"Any","pred":"len(p[0].get_data()[0]) >= 30"},"spec":{"lhs":"test_issue_16572(ada)","rhs":"test_issue_16572 produces the expected output","over":{"base":"Any"},"name":"test_issue_16572_correct"},"guarantee":"test_issue_16572 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.tests.test_plot.test_issue_16572_correct","statement":"Path(test_issue_16572(x), test_issue_16572 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e90604ff5e81f656"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.tests.test_plot.test_issue_16572","kind":"function","src_hash":"cea84c1bf535963f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(p[0].get_data()[0]) >= 30"},"spec":{"lhs":"test_issue_16572(adaptive)","rhs":"len(p[0].get_data()[0]) >= 30","over":{"base":"Any"},"name":"test_issue_16572_correct"},"guarantee":"len(p[0].get_data()[0]) >= 30","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.tests.test_plot.test_issue_16572_correct","statement":"Path(test_issue_16572(x), len(p[0].get_data()[0]) >= 30)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dfe347431c4476fa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(p[0].get_data()[0]) >= 30"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_16572(adaptive):
     if not matplotlib:
         skip("Matplotlib not the default backend")
@@ -866,16 +994,22 @@ def test_issue_16572(adaptive):
 
 @pytest.mark.parametrize("adaptive", [True, False])
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_11865(ada), test_issue_11865 produces the expected output) over Any ║
+# ║ Path(test_issue_11865(adaptive), len(p[0].get_data()[0]) >= 30) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_11865 : Any → {Any | len(p[0].get_data()[0...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(p[0].get_data()[0]) >= 30                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_11865 : Any → {Any | result satisfies: len...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1896634ead018343  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 10e5167268d94a18  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.tests.test_plot.test_issue_11865","kind":"function","src_hash":"e5cefa1fb8e187b7","in":{"base":"Any"},"out":{"base":"Any","pred":"len(p[0].get_data()[0]) >= 30"},"spec":{"lhs":"test_issue_11865(ada)","rhs":"test_issue_11865 produces the expected output","over":{"base":"Any"},"name":"test_issue_11865_correct"},"guarantee":"test_issue_11865 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.tests.test_plot.test_issue_11865_correct","statement":"Path(test_issue_11865(x), test_issue_11865 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1896634ead018343"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.tests.test_plot.test_issue_11865","kind":"function","src_hash":"e5cefa1fb8e187b7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(p[0].get_data()[0]) >= 30"},"spec":{"lhs":"test_issue_11865(adaptive)","rhs":"len(p[0].get_data()[0]) >= 30","over":{"base":"Any"},"name":"test_issue_11865_correct"},"guarantee":"len(p[0].get_data()[0]) >= 30","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.tests.test_plot.test_issue_11865_correct","statement":"Path(test_issue_11865(x), len(p[0].get_data()[0]) >= 30)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"10e5167268d94a18","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(p[0].get_data()[0]) >= 30"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_11865(adaptive):
     if not matplotlib:
         skip("Matplotlib not the default backend")
@@ -891,16 +1025,22 @@ def test_issue_11865(adaptive):
 
 @skip_under_pyodide("Warnings not emitted in Pyodide because of lack of WASM fp exception support")
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_11461(), test_issue_11461 produces the expected output) over Any ║
+# ║ Path(test_issue_11461(), <unspecified:test_issue_11461>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_issue_11461 : Any → {Any | len(p[0].get_data()[0...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 38e75d5316775fac  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.tests.test_plot.test_issue_11461","kind":"function","src_hash":"0abeea10305b2068","in":{"base":"Any"},"out":{"base":"Any","pred":"len(p[0].get_data()[0]) >= 30"},"spec":{"lhs":"test_issue_11461()","rhs":"test_issue_11461 produces the expected output","over":{"base":"Any"},"name":"test_issue_11461_correct"},"guarantee":"test_issue_11461 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.tests.test_plot.test_issue_11461_correct","statement":"Path(test_issue_11461(x), test_issue_11461 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"38e75d5316775fac"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.tests.test_plot.test_issue_11461","kind":"function","src_hash":"0abeea10305b2068","in":{"base":"Any"},"out":{"base":"Any","pred":"len(p[0].get_data()[0]) >= 30"},"spec":{"lhs":"test_issue_11461()","rhs":"<unspecified:test_issue_11461>","over":{"base":"Any"},"name":"test_issue_11461_correct"},"guarantee":"test_issue_11461 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.tests.test_plot.test_issue_11461_correct","statement":"Path(test_issue_11461(x), test_issue_11461 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"38e75d5316775fac","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_11461():
     if not matplotlib:
         skip("Matplotlib not the default backend")
@@ -920,16 +1060,23 @@ def test_issue_11461():
 
 @pytest.mark.parametrize("adaptive", [True, False])
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_11764(ada), test_issue_11764 produces the expected output) over Any ║
+# ║ Path(test_issue_11764(adaptive), p.aspect_ratio == (1, 1) and len(p[0].get_data()[0]) >= 30) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_11764 : Any → {Any | p.aspect_ratio == (1,...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  p.aspect_ratio == (1, 1)                       ║
+# ║   ensures:  len(p[0].get_data()[0]) >= 30                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_11764 : Any → {Any | result satisfies: p.a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ce9b6ddf53f09083  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a3a1a9918a739867  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.tests.test_plot.test_issue_11764","kind":"function","src_hash":"51b4e2f5a1b6cdce","in":{"base":"Any"},"out":{"base":"Any","pred":"p.aspect_ratio == (1, 1) and len(p[0].get_data()[0]) >= 30"},"spec":{"lhs":"test_issue_11764(ada)","rhs":"test_issue_11764 produces the expected output","over":{"base":"Any"},"name":"test_issue_11764_correct"},"guarantee":"test_issue_11764 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.tests.test_plot.test_issue_11764_correct","statement":"Path(test_issue_11764(x), test_issue_11764 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ce9b6ddf53f09083"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.tests.test_plot.test_issue_11764","kind":"function","src_hash":"51b4e2f5a1b6cdce","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: p.aspect_ratio == (1, 1) and len(p[0].get_data()[0]) >= 30"},"spec":{"lhs":"test_issue_11764(adaptive)","rhs":"p.aspect_ratio == (1, 1) and len(p[0].get_data()[0]) >= 30","over":{"base":"Any"},"name":"test_issue_11764_correct"},"guarantee":"p.aspect_ratio == (1, 1); len(p[0].get_data()[0]) >= 30","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.tests.test_plot.test_issue_11764_correct","statement":"Path(test_issue_11764(x), p.aspect_ratio == (1, 1); len(p[0].get_data()[0]) >= 30)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a3a1a9918a739867","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["p.aspect_ratio == (1, 1)","len(p[0].get_data()[0]) >= 30"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_11764(adaptive):
     if not matplotlib:
         skip("Matplotlib not the default backend")
@@ -945,16 +1092,24 @@ def test_issue_11764(adaptive):
 
 @pytest.mark.parametrize("adaptive", [True, False])
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_13516(ada), test_issue_13516 produces the expected output) over Any ║
+# ║ Path(test_issue_13516(adaptive), pm.backend == MatplotlibBackend and len(pm[0].get_data()[0]) >= 30 and pt.backend == TextBackend and len(pt[0].get_data()[0]) >= 30 and pd.backend == MatplotlibBackend and len(pd[0].get_data()[0]) >= 30 and p.backend == MatplotlibBackend and len(p[0].get_data()[0]) >= 30) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_13516 : Any → {Any | pm.backend == Matplot...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pm.backend == MatplotlibBackend                ║
+# ║   ensures:  len(pm[0].get_data()[0]) >= 30                 ║
+# ║   ensures:  pt.backend == TextBackend                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_13516 : Any → {Any | result satisfies: pm....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ec5c297fdd5a6822  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8a7b6d6ba1d9c472  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.tests.test_plot.test_issue_13516","kind":"function","src_hash":"4c41f8febc4503b5","in":{"base":"Any"},"out":{"base":"Any","pred":"pm.backend == MatplotlibBackend and len(pm[0].get_data()[0]) >= 30 and pt.backend == TextBackend and len(pt[0].get_data()[0]) >= 30 and pd.backend == MatplotlibBackend and len(pd[0].get_data()[0]) >= 30 and p.backend == MatplotlibBackend and len(p[0].get_data()[0]) >= 30"},"spec":{"lhs":"test_issue_13516(ada)","rhs":"test_issue_13516 produces the expected output","over":{"base":"Any"},"name":"test_issue_13516_correct"},"guarantee":"test_issue_13516 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.tests.test_plot.test_issue_13516_correct","statement":"Path(test_issue_13516(x), test_issue_13516 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ec5c297fdd5a6822"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.tests.test_plot.test_issue_13516","kind":"function","src_hash":"4c41f8febc4503b5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pm.backend == MatplotlibBackend and len(pm[0].get_data()[0]) >= 30 and pt.backend == TextBackend and len(pt[0].get_data()[0]) >= 30 and pd.backend == MatplotlibBackend and len(pd[0].get_data()[0]) >= 30 and p.backend == MatplotlibBackend and len(p[0].get_data()[0]) >= 30"},"spec":{"lhs":"test_issue_13516(adaptive)","rhs":"pm.backend == MatplotlibBackend and len(pm[0].get_data()[0]) >= 30 and pt.backend == TextBackend and len(pt[0].get_data()[0]) >= 30 and pd.backend == MatplotlibBackend and len(pd[0].get_data()[0]) >= 30 and p.backend == MatplotlibBackend and len(p[0].get_data()[0]) >= 30","over":{"base":"Any"},"name":"test_issue_13516_correct"},"guarantee":"pm.backend == MatplotlibBackend; len(pm[0].get_data()[0]) >= 30; pt.backend == TextBackend","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.tests.test_plot.test_issue_13516_correct","statement":"Path(test_issue_13516(x), pm.backend == MatplotlibBackend; len(pm[0].get_data()[0]) >= 30; pt.backend == TextBackend)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8a7b6d6ba1d9c472","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pm.backend == MatplotlibBackend","len(pm[0].get_data()[0]) >= 30","pt.backend == TextBackend","len(pt[0].get_data()[0]) >= 30","pd.backend == MatplotlibBackend","len(pd[0].get_data()[0]) >= 30","p.backend == MatplotlibBackend","len(p[0].get_data()[0]) >= 30"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_issue_13516(adaptive):
     if not matplotlib:
         skip("Matplotlib not the default backend")
@@ -980,16 +1135,24 @@ def test_issue_13516(adaptive):
 
 @pytest.mark.parametrize("adaptive", [True, False])
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_plot_limits(ada), test_plot_limits produces the expected output) over Any ║
+# ║ Path(test_plot_limits(adaptive), abs(xmin + 10) < 2 and abs(xmax - 10) < 2 and abs(ymin + 10) < 10 and abs(ymax - 100) < 10) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_plot_limits : Any → {Any | abs(xmin + 10) < 2 an...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  abs(xmin + 10) < 2                             ║
+# ║   ensures:  abs(xmax - 10) < 2                             ║
+# ║   ensures:  abs(ymin + 10) < 10                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_plot_limits : Any → {Any | result satisfies: abs...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bb06bdd16009d53d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8539b92717500dff  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.tests.test_plot.test_plot_limits","kind":"function","src_hash":"c97b594ec8768ebe","in":{"base":"Any"},"out":{"base":"Any","pred":"abs(xmin + 10) < 2 and abs(xmax - 10) < 2 and abs(ymin + 10) < 10 and abs(ymax - 100) < 10"},"spec":{"lhs":"test_plot_limits(ada)","rhs":"test_plot_limits produces the expected output","over":{"base":"Any"},"name":"test_plot_limits_correct"},"guarantee":"test_plot_limits produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.tests.test_plot.test_plot_limits_correct","statement":"Path(test_plot_limits(x), test_plot_limits produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bb06bdd16009d53d"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.tests.test_plot.test_plot_limits","kind":"function","src_hash":"c97b594ec8768ebe","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: abs(xmin + 10) < 2 and abs(xmax - 10) < 2 and abs(ymin + 10) < 10 and abs(ymax - 100) < 10"},"spec":{"lhs":"test_plot_limits(adaptive)","rhs":"abs(xmin + 10) < 2 and abs(xmax - 10) < 2 and abs(ymin + 10) < 10 and abs(ymax - 100) < 10","over":{"base":"Any"},"name":"test_plot_limits_correct"},"guarantee":"abs(xmin + 10) < 2; abs(xmax - 10) < 2; abs(ymin + 10) < 10","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.tests.test_plot.test_plot_limits_correct","statement":"Path(test_plot_limits(x), abs(xmin + 10) < 2; abs(xmax - 10) < 2; abs(ymin + 10) < 10)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8539b92717500dff","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["abs(xmin + 10) < 2","abs(xmax - 10) < 2","abs(ymin + 10) < 10","abs(ymax - 100) < 10"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_plot_limits(adaptive):
     if not matplotlib:
         skip("Matplotlib not the default backend")
@@ -1008,16 +1171,24 @@ def test_plot_limits(adaptive):
 
 @pytest.mark.parametrize("adaptive", [True, False])
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_plot3d_parametric_line_limits(ada), test_plot3d_parametric_line_limits produces the expected output) over Any ║
+# ║ Path(test_plot3d_parametric_line_limits(adaptive), abs(xmin + 2) < 0.01 and abs(xmax - 2) < 0.01 and abs(ymin + 2) < 0.01 and abs(ymax - 2) < 0.01 and abs(zmin + 10) < 0.01 and abs(zmax - 10) < 0.01) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_plot3d_parametric_line_limits : Any → {Any | abs...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  abs(xmin + 2) < 0.01                           ║
+# ║   ensures:  abs(xmax - 2) < 0.01                           ║
+# ║   ensures:  abs(ymin + 2) < 0.01                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_plot3d_parametric_line_limits : Any → {Any | res...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e2a9cf6813f0fa6c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ea17462e18b2567d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.tests.test_plot.test_plot3d_parametric_line_limits","kind":"function","src_hash":"be758385d06d702f","in":{"base":"Any"},"out":{"base":"Any","pred":"abs(xmin + 2) < 0.01 and abs(xmax - 2) < 0.01 and abs(ymin + 2) < 0.01 and abs(ymax - 2) < 0.01 and abs(zmin + 10) < 0.01 and abs(zmax - 10) < 0.01 and abs(xmin + 2) < 0.01 and abs(xmax - 2) < 0.01 and abs(ymin + 2) < 0.01 and abs(ymax - 2) < 0.01 and abs(zmin + 10) < 0.01 and abs(zmax - 10) < 0.01"},"spec":{"lhs":"test_plot3d_parametric_line_limits(ada)","rhs":"test_plot3d_parametric_line_limits produces the expected output","over":{"base":"Any"},"name":"test_plot3d_parametric_line_limits_correct"},"guarantee":"test_plot3d_parametric_line_limits produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.tests.test_plot.test_plot3d_parametric_line_limits_correct","statement":"Path(test_plot3d_parametric_line_limits(x), test_plot3d_parametric_line_limits produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e2a9cf6813f0fa6c"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.tests.test_plot.test_plot3d_parametric_line_limits","kind":"function","src_hash":"be758385d06d702f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: abs(xmin + 2) < 0.01 and abs(xmax - 2) < 0.01 and abs(ymin + 2) < 0.01 and abs(ymax - 2) < 0.01 and abs(zmin + 10) < 0.01 and abs(zmax - 10) < 0.01"},"spec":{"lhs":"test_plot3d_parametric_line_limits(adaptive)","rhs":"abs(xmin + 2) < 0.01 and abs(xmax - 2) < 0.01 and abs(ymin + 2) < 0.01 and abs(ymax - 2) < 0.01 and abs(zmin + 10) < 0.01 and abs(zmax - 10) < 0.01","over":{"base":"Any"},"name":"test_plot3d_parametric_line_limits_correct"},"guarantee":"abs(xmin + 2) < 0.01; abs(xmax - 2) < 0.01; abs(ymin + 2) < 0.01","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.tests.test_plot.test_plot3d_parametric_line_limits_correct","statement":"Path(test_plot3d_parametric_line_limits(x), abs(xmin + 2) < 0.01; abs(xmax - 2) < 0.01; abs(ymin + 2) < 0.01)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ea17462e18b2567d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["abs(xmin + 2) < 0.01","abs(xmax - 2) < 0.01","abs(ymin + 2) < 0.01","abs(ymax - 2) < 0.01","abs(zmin + 10) < 0.01","abs(zmax - 10) < 0.01"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_plot3d_parametric_line_limits(adaptive):
     if not matplotlib:
         skip("Matplotlib not the default backend")
@@ -1055,16 +1226,24 @@ def test_plot3d_parametric_line_limits(adaptive):
 
 @pytest.mark.parametrize("adaptive", [True, False])
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_plot_size(ada), test_plot_size produces the expected output) over Any ║
+# ║ Path(test_plot_size(adaptive), s1[0] == 8 and s1[1] == 4 and s2[0] == 5 and s2[1] == 10 and s3[0] == 6 and s3[1] == 2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_plot_size : Any → {Any | s1[0] == 8 and s1[1] ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  s1[0] == 8 and s1[1] == 4                      ║
+# ║   ensures:  s2[0] == 5 and s2[1] == 10                     ║
+# ║   ensures:  s3[0] == 6 and s3[1] == 2                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_plot_size : Any → {Any | result satisfies: s1[0]...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1d15ed332fb2e006  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d5a9fe7872fd1d94  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.tests.test_plot.test_plot_size","kind":"function","src_hash":"133715c74363131b","in":{"base":"Any"},"out":{"base":"Any","pred":"s1[0] == 8 and s1[1] == 4 and s2[0] == 5 and s2[1] == 10 and s3[0] == 6 and s3[1] == 2"},"spec":{"lhs":"test_plot_size(ada)","rhs":"test_plot_size produces the expected output","over":{"base":"Any"},"name":"test_plot_size_correct"},"guarantee":"test_plot_size produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.tests.test_plot.test_plot_size_correct","statement":"Path(test_plot_size(x), test_plot_size produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1d15ed332fb2e006"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.tests.test_plot.test_plot_size","kind":"function","src_hash":"133715c74363131b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: s1[0] == 8 and s1[1] == 4 and s2[0] == 5 and s2[1] == 10 and s3[0] == 6 and s3[1] == 2"},"spec":{"lhs":"test_plot_size(adaptive)","rhs":"s1[0] == 8 and s1[1] == 4 and s2[0] == 5 and s2[1] == 10 and s3[0] == 6 and s3[1] == 2","over":{"base":"Any"},"name":"test_plot_size_correct"},"guarantee":"s1[0] == 8 and s1[1] == 4; s2[0] == 5 and s2[1] == 10; s3[0] == 6 and s3[1] == 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.tests.test_plot.test_plot_size_correct","statement":"Path(test_plot_size(x), s1[0] == 8 and s1[1] == 4; s2[0] == 5 and s2[1] == 10; s3[0] == 6 and s3[1] == 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d5a9fe7872fd1d94","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["s1[0] == 8 and s1[1] == 4","s2[0] == 5 and s2[1] == 10","s3[0] == 6 and s3[1] == 2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_plot_size(adaptive):
     if not matplotlib:
         skip("Matplotlib not the default backend")
@@ -1089,16 +1268,24 @@ def test_plot_size(adaptive):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_20113(), test_issue_20113 produces the expected output) over Any ║
+# ║ Path(test_issue_20113(), p2.backend == MatplotlibBackend and len(p2[0].get_data()[0]) >= 30 and p3.backend == DummyBackendOk and len(p3[0].get_data()[0]) >= 30 and p4.backend == DummyBackendNotOk and len(p4[0].get_data()[0]) >= 30) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_20113 : Any → {Any | p2.backend == Matplot...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  p2.backend == MatplotlibBackend                ║
+# ║   ensures:  len(p2[0].get_data()[0]) >= 30                 ║
+# ║   ensures:  p3.backend == DummyBackendOk                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_20113 : Any → {Any | result satisfies: p2....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6ddbebc1d96c8d81  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 393e21080601c3ab  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.tests.test_plot.test_issue_20113","kind":"function","src_hash":"ea24d5e27bfe7a90","in":{"base":"Any"},"out":{"base":"Any","pred":"p2.backend == MatplotlibBackend and len(p2[0].get_data()[0]) >= 30 and p3.backend == DummyBackendOk and len(p3[0].get_data()[0]) >= 30 and p4.backend == DummyBackendNotOk and len(p4[0].get_data()[0]) >= 30"},"spec":{"lhs":"test_issue_20113()","rhs":"test_issue_20113 produces the expected output","over":{"base":"Any"},"name":"test_issue_20113_correct"},"guarantee":"test_issue_20113 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.tests.test_plot.test_issue_20113_correct","statement":"Path(test_issue_20113(x), test_issue_20113 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6ddbebc1d96c8d81"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.tests.test_plot.test_issue_20113","kind":"function","src_hash":"ea24d5e27bfe7a90","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: p2.backend == MatplotlibBackend and len(p2[0].get_data()[0]) >= 30 and p3.backend == DummyBackendOk and len(p3[0].get_data()[0]) >= 30 and p4.backend == DummyBackendNotOk and len(p4[0].get_data()[0]) >= 30"},"spec":{"lhs":"test_issue_20113()","rhs":"p2.backend == MatplotlibBackend and len(p2[0].get_data()[0]) >= 30 and p3.backend == DummyBackendOk and len(p3[0].get_data()[0]) >= 30 and p4.backend == DummyBackendNotOk and len(p4[0].get_data()[0]) >= 30","over":{"base":"Any"},"name":"test_issue_20113_correct"},"guarantee":"p2.backend == MatplotlibBackend; len(p2[0].get_data()[0]) >= 30; p3.backend == DummyBackendOk","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.tests.test_plot.test_issue_20113_correct","statement":"Path(test_issue_20113(x), p2.backend == MatplotlibBackend; len(p2[0].get_data()[0]) >= 30; p3.backend == DummyBackendOk)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"393e21080601c3ab","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["p2.backend == MatplotlibBackend","len(p2[0].get_data()[0]) >= 30","p3.backend == DummyBackendOk","len(p3[0].get_data()[0]) >= 30","p4.backend == DummyBackendNotOk","len(p4[0].get_data()[0]) >= 30"],"pure":false,"effects":{"effect_type":"io","calls_mutating":["p4._backend.close"],"io_operations":["p4._backend.close"]},"state_contract":{"modifies":["p4.*"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_issue_20113():
     if not matplotlib:
         skip("Matplotlib not the default backend")
@@ -1127,16 +1314,22 @@ def test_issue_20113():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_custom_coloring(), test_custom_coloring produces the expected output) over Any ║
+# ║ Path(test_custom_coloring(), <unspecified:test_custom_coloring>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_custom_coloring : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a44b06e7a7e56340  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.tests.test_plot.test_custom_coloring","kind":"function","src_hash":"47cfea26d8ac89a9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_custom_coloring()","rhs":"test_custom_coloring produces the expected output","over":{"base":"Any"},"name":"test_custom_coloring_correct"},"guarantee":"test_custom_coloring produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.tests.test_plot.test_custom_coloring_correct","statement":"Path(test_custom_coloring(x), test_custom_coloring produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a44b06e7a7e56340"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.tests.test_plot.test_custom_coloring","kind":"function","src_hash":"47cfea26d8ac89a9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_custom_coloring()","rhs":"<unspecified:test_custom_coloring>","over":{"base":"Any"},"name":"test_custom_coloring_correct"},"guarantee":"test_custom_coloring produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.tests.test_plot.test_custom_coloring_correct","statement":"Path(test_custom_coloring(x), test_custom_coloring produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a44b06e7a7e56340","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_custom_coloring():
     x = Symbol('x')
     y = Symbol('y')
@@ -1166,16 +1359,22 @@ def test_custom_coloring():
 
 @pytest.mark.parametrize("adaptive", [True, False])
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_deprecated_get_segments(ada), test_deprecated_get_segments produces the expected output) over Any ║
+# ║ Path(test_deprecated_get_segments(adaptive), <unspecified:test_deprecated_get_segments>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_deprecated_get_segments : Any → Any                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 54a5fe3d5dd1b969  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.tests.test_plot.test_deprecated_get_segments","kind":"function","src_hash":"f3121b9ffc6b802f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_deprecated_get_segments(ada)","rhs":"test_deprecated_get_segments produces the expected output","over":{"base":"Any"},"name":"test_deprecated_get_segments_correct"},"guarantee":"test_deprecated_get_segments produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.tests.test_plot.test_deprecated_get_segments_correct","statement":"Path(test_deprecated_get_segments(x), test_deprecated_get_segments produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"54a5fe3d5dd1b969"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.tests.test_plot.test_deprecated_get_segments","kind":"function","src_hash":"f3121b9ffc6b802f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_deprecated_get_segments(adaptive)","rhs":"<unspecified:test_deprecated_get_segments>","over":{"base":"Any"},"name":"test_deprecated_get_segments_correct"},"guarantee":"test_deprecated_get_segments produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.tests.test_plot.test_deprecated_get_segments_correct","statement":"Path(test_deprecated_get_segments(x), test_deprecated_get_segments produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"54a5fe3d5dd1b969","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_deprecated_get_segments(adaptive):
     if not matplotlib:
         skip("Matplotlib not the default backend")
@@ -1189,16 +1388,24 @@ def test_deprecated_get_segments(adaptive):
 
 @pytest.mark.parametrize("adaptive", [True, False])
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_generic_data_series(ada), test_generic_data_series produces the expected output) over Any ║
+# ║ Path(test_generic_data_series(adaptive), len(p._backend.ax.collections) == 1 and len(p._backend.ax.patches) == 1 and len(p._backend.ax.lines) == 2 and len(p._backend.ax.texts) == 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_generic_data_series : Any → {Any | len(p._backen...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(p._backend.ax.collections) == 1            ║
+# ║   ensures:  len(p._backend.ax.patches) == 1                ║
+# ║   ensures:  len(p._backend.ax.lines) == 2                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_generic_data_series : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a9c9e8bf1b183362  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 34bbe4e7d2985d22  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.tests.test_plot.test_generic_data_series","kind":"function","src_hash":"97936dccb89eb2c4","in":{"base":"Any"},"out":{"base":"Any","pred":"len(p._backend.ax.collections) == 1 and len(p._backend.ax.patches) == 1 and len(p._backend.ax.lines) == 2 and len(p._backend.ax.texts) == 1"},"spec":{"lhs":"test_generic_data_series(ada)","rhs":"test_generic_data_series produces the expected output","over":{"base":"Any"},"name":"test_generic_data_series_correct"},"guarantee":"test_generic_data_series produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.tests.test_plot.test_generic_data_series_correct","statement":"Path(test_generic_data_series(x), test_generic_data_series produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a9c9e8bf1b183362"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.tests.test_plot.test_generic_data_series","kind":"function","src_hash":"97936dccb89eb2c4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(p._backend.ax.collections) == 1 and len(p._backend.ax.patches) == 1 and len(p._backend.ax.lines) == 2 and len(p._backend.ax.texts) == 1"},"spec":{"lhs":"test_generic_data_series(adaptive)","rhs":"len(p._backend.ax.collections) == 1 and len(p._backend.ax.patches) == 1 and len(p._backend.ax.lines) == 2 and len(p._backend.ax.texts) == 1","over":{"base":"Any"},"name":"test_generic_data_series_correct"},"guarantee":"len(p._backend.ax.collections) == 1; len(p._backend.ax.patches) == 1; len(p._backend.ax.lines) == 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.tests.test_plot.test_generic_data_series_correct","statement":"Path(test_generic_data_series(x), len(p._backend.ax.collections) == 1; len(p._backend.ax.patches) == 1; len(p._backend.ax.lines) == 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"34bbe4e7d2985d22","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(p._backend.ax.collections) == 1","len(p._backend.ax.patches) == 1","len(p._backend.ax.lines) == 2","len(p._backend.ax.texts) == 1"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_generic_data_series(adaptive):
     # verify that no errors are raised when generic data series are used
     if not matplotlib:
@@ -1218,16 +1425,24 @@ def test_generic_data_series(adaptive):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_deprecated_markers_annotations_rectangles_fill(), test_deprecated_markers_annotations_rectangles_fill produces the expected output) over Any ║
+# ║ Path(test_deprecated_markers_annotations_rectangles_fill(), len(p._series) == 2 and len(p._series) == 3 and len(p._series) == 4 and len(p._series) == 5) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(p._series) == 2                            ║
+# ║   ensures:  len(p._series) == 3                            ║
+# ║   ensures:  len(p._series) == 4                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_deprecated_markers_annotations_rectangles_fill :...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 08f51577f489be13  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0cee05f496c99990  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.tests.test_plot.test_deprecated_markers_annotations_rectangles_fill","kind":"function","src_hash":"2b3512cde55092ed","in":{"base":"Any"},"out":{"base":"Any","pred":"len(p._series) == 2 and len(p._series) == 3 and len(p._series) == 4 and len(p._series) == 5"},"spec":{"lhs":"test_deprecated_markers_annotations_rectangles_fill()","rhs":"test_deprecated_markers_annotations_rectangles_fill produces the expected output","over":{"base":"Any"},"name":"test_deprecated_markers_annotations_rectangles_fill_correct"},"guarantee":"test_deprecated_markers_annotations_rectangles_fill produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.tests.test_plot.test_deprecated_markers_annotations_rectangles_fill_correct","statement":"Path(test_deprecated_markers_annotations_rectangles_fill(x), test_deprecated_markers_annotations_rectangles_fill produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"08f51577f489be13"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.tests.test_plot.test_deprecated_markers_annotations_rectangles_fill","kind":"function","src_hash":"2b3512cde55092ed","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(p._series) == 2 and len(p._series) == 3 and len(p._series) == 4 and len(p._series) == 5"},"spec":{"lhs":"test_deprecated_markers_annotations_rectangles_fill()","rhs":"len(p._series) == 2 and len(p._series) == 3 and len(p._series) == 4 and len(p._series) == 5","over":{"base":"Any"},"name":"test_deprecated_markers_annotations_rectangles_fill_correct"},"guarantee":"len(p._series) == 2; len(p._series) == 3; len(p._series) == 4","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.tests.test_plot.test_deprecated_markers_annotations_rectangles_fill_correct","statement":"Path(test_deprecated_markers_annotations_rectangles_fill(x), len(p._series) == 2; len(p._series) == 3; len(p._series) == 4)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0cee05f496c99990","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(p._series) == 2","len(p._series) == 3","len(p._series) == 4","len(p._series) == 5"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_deprecated_markers_annotations_rectangles_fill():
     if not matplotlib:
         skip("Matplotlib not the default backend")
@@ -1249,16 +1464,24 @@ def test_deprecated_markers_annotations_rectangles_fill():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_back_compatibility(), test_back_compatibility produces the expected output) over Any ║
+# ║ Path(test_back_compatibility(), len(p[0].get_points()) == 2 and len(p[0].get_data()) == 2 and len(p[0].get_data()) == 3 and len(p[0].get_points()) == 3 and len(p[0].get_data()) == 4 and len(p[0].get_meshes()) == 3 and len(p[0].get_data()) == 5) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_back_compatibility : Any → {Any | len(p[0].get_p...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(p[0].get_points()) == 2                    ║
+# ║   ensures:  len(p[0].get_data()) == 2                      ║
+# ║   ensures:  len(p[0].get_data()) == 3                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_back_compatibility : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 08749bbb4f54d89d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b1176d3cb91c3571  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.tests.test_plot.test_back_compatibility","kind":"function","src_hash":"4bd45870a1c53b74","in":{"base":"Any"},"out":{"base":"Any","pred":"len(p[0].get_points()) == 2 and len(p[0].get_data()) == 2 and len(p[0].get_points()) == 2 and len(p[0].get_data()) == 3 and len(p[0].get_points()) == 3 and len(p[0].get_data()) == 4 and len(p[0].get_meshes()) == 3 and len(p[0].get_data()) == 3 and len(p[0].get_meshes()) == 3 and len(p[0].get_data()) == 3 and len(p[0].get_meshes()) == 3 and len(p[0].get_data()) == 5"},"spec":{"lhs":"test_back_compatibility()","rhs":"test_back_compatibility produces the expected output","over":{"base":"Any"},"name":"test_back_compatibility_correct"},"guarantee":"test_back_compatibility produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.tests.test_plot.test_back_compatibility_correct","statement":"Path(test_back_compatibility(x), test_back_compatibility produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"08749bbb4f54d89d"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.tests.test_plot.test_back_compatibility","kind":"function","src_hash":"4bd45870a1c53b74","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(p[0].get_points()) == 2 and len(p[0].get_data()) == 2 and len(p[0].get_data()) == 3 and len(p[0].get_points()) == 3 and len(p[0].get_data()) == 4 and len(p[0].get_meshes()) == 3 and len(p[0].get_data()) == 5"},"spec":{"lhs":"test_back_compatibility()","rhs":"len(p[0].get_points()) == 2 and len(p[0].get_data()) == 2 and len(p[0].get_data()) == 3 and len(p[0].get_points()) == 3 and len(p[0].get_data()) == 4 and len(p[0].get_meshes()) == 3 and len(p[0].get_data()) == 5","over":{"base":"Any"},"name":"test_back_compatibility_correct"},"guarantee":"len(p[0].get_points()) == 2; len(p[0].get_data()) == 2; len(p[0].get_data()) == 3","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.tests.test_plot.test_back_compatibility_correct","statement":"Path(test_back_compatibility(x), len(p[0].get_points()) == 2; len(p[0].get_data()) == 2; len(p[0].get_data()) == 3)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b1176d3cb91c3571","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(p[0].get_points()) == 2","len(p[0].get_data()) == 2","len(p[0].get_data()) == 3","len(p[0].get_points()) == 3","len(p[0].get_data()) == 4","len(p[0].get_meshes()) == 3","len(p[0].get_data()) == 5"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_back_compatibility():
     if not matplotlib:
         skip("Matplotlib not the default backend")
@@ -1288,7 +1511,12 @@ def test_back_compatibility():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_plot_arguments(), test_plot_arguments produces the expected output) over {Any | isinstance(p[0], LineOver1DRangeSeries)} ║
+# ║ Path(test_plot_arguments(), isinstance(p[0], LineOver1DRangeSeries) and p[0].expr == x + 1 and p[0].ranges == [(x, -10, 10)] and p[0].get_label(False) == 'x + 1' and p[0].rendering_kw == {} and p[0].get_label(False) == 'label' and p[0].ranges == [(x, -2, 2)] and p[0].get_label(False) == 'test' and p[0].rendering_kw == {'color': 'r'} and isinstance(p[1], LineOver1DRangeSeries) and p[1].expr == x ** 2 and p[1].ranges == [(x, -10, 10)] and p[1].get_label(False) == 'x**2' and p[1].rendering_kw == {} and p[0].ranges == [(x, 0, 5)] and p[1].ranges == [(x, 0, 5)] and p[1].rendering_kw == {'color': 'r'} and p[1].ranges == [(x, -2, 2)] and p[1].get_label(False) == 'test' and callable(p[0].expr) and p[0].ranges[0][1:] == (-10, 10) and p[0].get_label(False) == '' and p[0].ranges[0][1:] == (-5, 6)) over {Any | isinstance(p[0], LineOver1DRangeSeries)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(p[0], LineOver1DRangeSeries)        ║
+# ║   ensures:  p[0].expr == x + 1                             ║
+# ║   ensures:  p[0].ranges == [(x, -10, 10)]                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_plot_arguments : {Any | isinstance(p[0], LineOve...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -1300,9 +1528,12 @@ def test_back_compatibility():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.6ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 39b5a3ff...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.tests.test_plot.test_plot_arguments","kind":"function","src_hash":"dcec3501a6e29f62","in":{"base":"Any","pred":"isinstance(p[0], LineOver1DRangeSeries)"},"out":{"base":"Any","pred":"isinstance(p[0], LineOver1DRangeSeries) and p[0].expr == x + 1 and p[0].ranges == [(x, -10, 10)] and p[0].get_label(False) == 'x + 1' and p[0].rendering_kw == {} and isinstance(p[0], LineOver1DRangeSeries) and p[0].expr == x + 1 and p[0].ranges == [(x, -10, 10)] and p[0].get_label(False) == 'label' and p[0].rendering_kw == {} and p[0].ranges == [(x, -2, 2)] and p[0].get_label(False) == 'test' and p[0].rendering_kw == {'color': 'r'} and isinstance(p[0], LineOver1DRangeSeries) and p[0].expr == x + 1 and p[0].ranges == [(x, -10, 10)] and p[0].get_label(False) == 'x + 1' and p[0].rendering_kw == {} and isinstance(p[1], LineOver1DRangeSeries) and p[1].expr == x ** 2 and p[1].ranges == [(x, -10, 10)] and p[1].get_label(False) == 'x**2' and p[1].rendering_kw == {} and p[0].ranges == [(x, 0, 5)] and p[1].ranges == [(x, 0, 5)] and p[0].ranges == [(x, 0, 5)] and p[1].ranges == [(x, 0, 5)] and p[0].rendering_kw == {'color': 'r'} and p[1].rendering_kw == {'color': 'r'} and isinstance(p[0], LineOver1DRangeSeries) and p[0].expr == x + 1 and p[0].ranges == [(x, 0, 5)] and p[0].get_label(False) == 'x + 1' and p[0].rendering_kw == {} and isinstance(p[1], LineOver1DRangeSeries) and p[1].expr == x ** 2 and p[1].ranges == [(x, -2, 2)] and p[1].get_label(False) == 'test' and p[1].rendering_kw == {'color': 'r'} and isinstance(p[0], LineOver1DRangeSeries) and callable(p[0].expr) and p[0].ranges[0][1:] == (-10, 10) and p[0].get_label(False) == '' and p[0].rendering_kw == {} and p[0].ranges[0][1:] == (-5, 6) and p[0].get_label(False) == 'test'"},"spec":{"lhs":"test_plot_arguments()","rhs":"test_plot_arguments produces the expected output","over":{"base":"Any","pred":"isinstance(p[0], LineOver1DRangeSeries)"},"name":"test_plot_arguments_correct"},"guarantee":"test_plot_arguments produces the expected output","fibers":[{"name":"LineOver1DRangeSeries","pred":"isinstance(p[0], LineOver1DRangeSeries)","path":{"lhs":"test_plot_arguments(x)","rhs":"test_plot_arguments produces the expected output","over":{"base":"LineOver1DRangeSeries","pred":"isinstance(p[0], LineOver1DRangeSeries)"},"name":"test_plot_arguments_LineOver1DRangeSeries_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.tests.test_plot.test_plot_arguments_LineOver1DRangeSeries_correct","statement":"test_plot_arguments satisfies spec on LineOver1DRangeSeries inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"39b5a3ff619cc580"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.tests.test_plot.test_plot_arguments","kind":"function","src_hash":"dcec3501a6e29f62","in":{"base":"Any","pred":"isinstance(p[0], LineOver1DRangeSeries)"},"out":{"base":"Any","pred":"result satisfies: isinstance(p[0], LineOver1DRangeSeries) and p[0].expr == x + 1 and p[0].ranges == [(x, -10, 10)] and p[0].get_label(False) == 'x + 1' and p[0].rendering_kw == {} and p[0].get_label(False) == 'label' and p[0].ranges == [(x, -2, 2)] and p[0].get_label(False) == 'test' and p[0].rendering_kw == {'color': 'r'} and isinstance(p[1], LineOver1DRangeSeries) and p[1].expr == x ** 2 and p[1].ranges == [(x, -10, 10)] and p[1].get_label(False) == 'x**2' and p[1].rendering_kw == {} and p[0].ranges == [(x, 0, 5)] and p[1].ranges == [(x, 0, 5)] and p[1].rendering_kw == {'color': 'r'} and p[1].ranges == [(x, -2, 2)] and p[1].get_label(False) == 'test' and callable(p[0].expr) and p[0].ranges[0][1:] == (-10, 10) and p[0].get_label(False) == '' and p[0].ranges[0][1:] == (-5, 6)"},"spec":{"lhs":"test_plot_arguments()","rhs":"isinstance(p[0], LineOver1DRangeSeries) and p[0].expr == x + 1 and p[0].ranges == [(x, -10, 10)] and p[0].get_label(False) == 'x + 1' and p[0].rendering_kw == {} and p[0].get_label(False) == 'label' and p[0].ranges == [(x, -2, 2)] and p[0].get_label(False) == 'test' and p[0].rendering_kw == {'color': 'r'} and isinstance(p[1], LineOver1DRangeSeries) and p[1].expr == x ** 2 and p[1].ranges == [(x, -10, 10)] and p[1].get_label(False) == 'x**2' and p[1].rendering_kw == {} and p[0].ranges == [(x, 0, 5)] and p[1].ranges == [(x, 0, 5)] and p[1].rendering_kw == {'color': 'r'} and p[1].ranges == [(x, -2, 2)] and p[1].get_label(False) == 'test' and callable(p[0].expr) and p[0].ranges[0][1:] == (-10, 10) and p[0].get_label(False) == '' and p[0].ranges[0][1:] == (-5, 6)","over":{"base":"Any","pred":"isinstance(p[0], LineOver1DRangeSeries)"},"name":"test_plot_arguments_correct"},"guarantee":"isinstance(p[0], LineOver1DRangeSeries); p[0].expr == x + 1; p[0].ranges == [(x, -10, 10)]","fibers":[{"name":"LineOver1DRangeSeries","pred":"isinstance(p[0], LineOver1DRangeSeries)","path":{"lhs":"test_plot_arguments(x)","rhs":"isinstance(p[0], LineOver1DRangeSeries); p[0].expr == x + 1; p[0].ranges == [(x, -10, 10)]","over":{"base":"LineOver1DRangeSeries","pred":"isinstance(p[0], LineOver1DRangeSeries)"},"name":"test_plot_arguments_LineOver1DRangeSeries_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.tests.test_plot.test_plot_arguments_LineOver1DRangeSeries_correct","statement":"test_plot_arguments satisfies spec on LineOver1DRangeSeries inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"39b5a3ff619cc580","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(p[0], LineOver1DRangeSeries)","p[0].expr == x + 1","p[0].ranges == [(x, -10, 10)]","p[0].get_label(False) == 'x + 1'","p[0].rendering_kw == {}","p[0].get_label(False) == 'label'","p[0].ranges == [(x, -2, 2)]","p[0].get_label(False) == 'test'","p[0].rendering_kw == {'color': 'r'}","isinstance(p[1], LineOver1DRangeSeries)","p[1].expr == x ** 2","p[1].ranges == [(x, -10, 10)]","p[1].get_label(False) == 'x**2'","p[1].rendering_kw == {}","p[0].ranges == [(x, 0, 5)]","p[1].ranges == [(x, 0, 5)]","p[1].rendering_kw == {'color': 'r'}","p[1].ranges == [(x, -2, 2)]","p[1].get_label(False) == 'test'","callable(p[0].expr)","p[0].ranges[0][1:] == (-10, 10)","p[0].get_label(False) == ''","p[0].ranges[0][1:] == (-5, 6)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.6,"verdict_class":"failed","binding":true}}
 def test_plot_arguments():
     ### Test arguments for plot()
     if not matplotlib:
@@ -1391,7 +1622,12 @@ def test_plot_arguments():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_plot_parametric_arguments(), test_plot_parametric_arguments produces the expected output) over {Any | isinstance(p[0], Parametric2DLineSeries)} ║
+# ║ Path(test_plot_parametric_arguments(), isinstance(p[0], Parametric2DLineSeries) and p[0].expr == (x + 1, x) and p[0].ranges == [(x, -10, 10)] and p[0].get_label(False) == 'x' and p[0].rendering_kw == {} and p[0].ranges == [(x, -2, 2)] and p[0].get_label(False) == 'test' and p[0].rendering_kw == {'cmap': 'Reds'} and p[1].expr == (x ** 2, x + 1) and p[1].ranges == [(x, -10, 10)] and p[1].get_label(False) == 'x' and p[1].rendering_kw == {} and p[1].expr == (y ** 2, y + 1) and p[1].ranges == [(y, -10, 10)] and p[1].get_label(False) == 'test' and p[1].ranges == [(x, -2, 2)] and p[0].get_label(False) == 'test1' and p[1].ranges == [(x, -3, 3)] and p[1].get_label(False) == 'test2' and p[1].rendering_kw == {'cmap': 'Reds'} and all((callable(t) for t in p[0].expr)) and p[0].ranges[0][1:] == (-10, 10) and 'Dummy' in p[0].get_label(False) and p[0].ranges[0][1:] == (0, 2)) over {Any | isinstance(p[0], Parametric2DLineSeries)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(p[0], Parametric2DLineSeries)       ║
+# ║   ensures:  p[0].expr == (x + 1, x)                        ║
+# ║   ensures:  p[0].ranges == [(x, -10, 10)]                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_plot_parametric_arguments : {Any | isinstance(p[...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -1403,9 +1639,12 @@ def test_plot_arguments():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.8ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | e6f84d5d...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.tests.test_plot.test_plot_parametric_arguments","kind":"function","src_hash":"33521f2d0b98edbe","in":{"base":"Any","pred":"isinstance(p[0], Parametric2DLineSeries)"},"out":{"base":"Any","pred":"isinstance(p[0], Parametric2DLineSeries) and p[0].expr == (x + 1, x) and p[0].ranges == [(x, -10, 10)] and p[0].get_label(False) == 'x' and p[0].rendering_kw == {} and p[0].expr == (x + 1, x) and p[0].ranges == [(x, -2, 2)] and p[0].get_label(False) == 'test' and p[0].rendering_kw == {'cmap': 'Reds'} and p[0].expr == (x + 1, x) and p[0].ranges == [(x, -2, 2)] and p[0].get_label(False) == 'test' and p[0].rendering_kw == {} and p[0].expr == (x + 1, x) and p[0].ranges == [(x, -10, 10)] and p[0].get_label(False) == 'x' and p[0].rendering_kw == {} and p[1].expr == (x ** 2, x + 1) and p[1].ranges == [(x, -10, 10)] and p[1].get_label(False) == 'x' and p[1].rendering_kw == {} and p[0].expr == (x + 1, x) and p[0].ranges == [(x, -10, 10)] and p[0].get_label(False) == 'x' and p[0].rendering_kw == {} and p[1].expr == (y ** 2, y + 1) and p[1].ranges == [(y, -10, 10)] and p[1].get_label(False) == 'test' and p[1].rendering_kw == {} and p[0].expr == (x + 1, x) and p[0].ranges == [(x, -2, 2)] and p[0].get_label(False) == 'x' and p[0].rendering_kw == {} and p[1].expr == (x ** 2, x + 1) and p[1].ranges == [(x, -2, 2)] and p[1].get_label(False) == 'x' and p[1].rendering_kw == {} and p[0].expr == (x + 1, x) and p[0].ranges == [(x, -2, 2)] and p[0].get_label(False) == 'test1' and p[0].rendering_kw == {} and p[1].expr == (x ** 2, x + 1) and p[1].ranges == [(x, -3, 3)] and p[1].get_label(False) == 'test2' and p[1].rendering_kw == {'cmap': 'Reds'} and all((callable(t) for t in p[0].expr)) and p[0].ranges[0][1:] == (-10, 10) and 'Dummy' in p[0].get_label(False) and p[0].rendering_kw == {} and all((callable(t) for t in p[0].expr)) and p[0].ranges[0][1:] == (0, 2) and p[0].get_label(False) == 'test' and p[0].rendering_kw == {}"},"spec":{"lhs":"test_plot_parametric_arguments()","rhs":"test_plot_parametric_arguments produces the expected output","over":{"base":"Any","pred":"isinstance(p[0], Parametric2DLineSeries)"},"name":"test_plot_parametric_arguments_correct"},"guarantee":"test_plot_parametric_arguments produces the expected output","fibers":[{"name":"Parametric2DLineSeries","pred":"isinstance(p[0], Parametric2DLineSeries)","path":{"lhs":"test_plot_parametric_arguments(x)","rhs":"test_plot_parametric_arguments produces the expected output","over":{"base":"Parametric2DLineSeries","pred":"isinstance(p[0], Parametric2DLineSeries)"},"name":"test_plot_parametric_arguments_Parametric2DLineSeries_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.tests.test_plot.test_plot_parametric_arguments_Parametric2DLineSeries_correct","statement":"test_plot_parametric_arguments satisfies spec on Parametric2DLineSeries inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"e6f84d5d61889986"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.tests.test_plot.test_plot_parametric_arguments","kind":"function","src_hash":"33521f2d0b98edbe","in":{"base":"Any","pred":"isinstance(p[0], Parametric2DLineSeries)"},"out":{"base":"Any","pred":"result satisfies: isinstance(p[0], Parametric2DLineSeries) and p[0].expr == (x + 1, x) and p[0].ranges == [(x, -10, 10)] and p[0].get_label(False) == 'x' and p[0].rendering_kw == {} and p[0].ranges == [(x, -2, 2)] and p[0].get_label(False) == 'test' and p[0].rendering_kw == {'cmap': 'Reds'} and p[1].expr == (x ** 2, x + 1) and p[1].ranges == [(x, -10, 10)] and p[1].get_label(False) == 'x' and p[1].rendering_kw == {} and p[1].expr == (y ** 2, y + 1) and p[1].ranges == [(y, -10, 10)] and p[1].get_label(False) == 'test' and p[1].ranges == [(x, -2, 2)] and p[0].get_label(False) == 'test1' and p[1].ranges == [(x, -3, 3)] and p[1].get_label(False) == 'test2' and p[1].rendering_kw == {'cmap': 'Reds'} and all((callable(t) for t in p[0].expr)) and p[0].ranges[0][1:] == (-10, 10) and 'Dummy' in p[0].get_label(False) and p[0].ranges[0][1:] == (0, 2)"},"spec":{"lhs":"test_plot_parametric_arguments()","rhs":"isinstance(p[0], Parametric2DLineSeries) and p[0].expr == (x + 1, x) and p[0].ranges == [(x, -10, 10)] and p[0].get_label(False) == 'x' and p[0].rendering_kw == {} and p[0].ranges == [(x, -2, 2)] and p[0].get_label(False) == 'test' and p[0].rendering_kw == {'cmap': 'Reds'} and p[1].expr == (x ** 2, x + 1) and p[1].ranges == [(x, -10, 10)] and p[1].get_label(False) == 'x' and p[1].rendering_kw == {} and p[1].expr == (y ** 2, y + 1) and p[1].ranges == [(y, -10, 10)] and p[1].get_label(False) == 'test' and p[1].ranges == [(x, -2, 2)] and p[0].get_label(False) == 'test1' and p[1].ranges == [(x, -3, 3)] and p[1].get_label(False) == 'test2' and p[1].rendering_kw == {'cmap': 'Reds'} and all((callable(t) for t in p[0].expr)) and p[0].ranges[0][1:] == (-10, 10) and 'Dummy' in p[0].get_label(False) and p[0].ranges[0][1:] == (0, 2)","over":{"base":"Any","pred":"isinstance(p[0], Parametric2DLineSeries)"},"name":"test_plot_parametric_arguments_correct"},"guarantee":"isinstance(p[0], Parametric2DLineSeries); p[0].expr == (x + 1, x); p[0].ranges == [(x, -10, 10)]","fibers":[{"name":"Parametric2DLineSeries","pred":"isinstance(p[0], Parametric2DLineSeries)","path":{"lhs":"test_plot_parametric_arguments(x)","rhs":"isinstance(p[0], Parametric2DLineSeries); p[0].expr == (x + 1, x); p[0].ranges == [(x, -10, 10)]","over":{"base":"Parametric2DLineSeries","pred":"isinstance(p[0], Parametric2DLineSeries)"},"name":"test_plot_parametric_arguments_Parametric2DLineSeries_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.tests.test_plot.test_plot_parametric_arguments_Parametric2DLineSeries_correct","statement":"test_plot_parametric_arguments satisfies spec on Parametric2DLineSeries inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"e6f84d5d61889986","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(p[0], Parametric2DLineSeries)","p[0].expr == (x + 1, x)","p[0].ranges == [(x, -10, 10)]","p[0].get_label(False) == 'x'","p[0].rendering_kw == {}","p[0].ranges == [(x, -2, 2)]","p[0].get_label(False) == 'test'","p[0].rendering_kw == {'cmap': 'Reds'}","p[1].expr == (x ** 2, x + 1)","p[1].ranges == [(x, -10, 10)]","p[1].get_label(False) == 'x'","p[1].rendering_kw == {}","p[1].expr == (y ** 2, y + 1)","p[1].ranges == [(y, -10, 10)]","p[1].get_label(False) == 'test'","p[1].ranges == [(x, -2, 2)]","p[0].get_label(False) == 'test1'","p[1].ranges == [(x, -3, 3)]","p[1].get_label(False) == 'test2'","p[1].rendering_kw == {'cmap': 'Reds'}","all((callable(t) for t in p[0].expr))","p[0].ranges[0][1:] == (-10, 10)","'Dummy' in p[0].get_label(False)","p[0].ranges[0][1:] == (0, 2)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.8,"verdict_class":"failed","binding":true}}
 def test_plot_parametric_arguments():
     ### Test arguments for plot_parametric()
     if not matplotlib:
@@ -1499,7 +1738,12 @@ def test_plot_parametric_arguments():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_plot3d_parametric_line_arguments(), test_plot3d_parametric_line_arguments produces the expected output) over {Any | isinstance(p[0], Parametric3DLineSeries)} ║
+# ║ Path(test_plot3d_parametric_line_arguments(), isinstance(p[0], Parametric3DLineSeries) and p[0].expr == (x + 1, x, sin(x)) and p[0].ranges == [(x, -10, 10)] and p[0].get_label(False) == 'x' and p[0].rendering_kw == {} and p[0].ranges == [(x, -2, 2)] and p[0].get_label(False) == 'test' and p[0].rendering_kw == {'cmap': 'Reds'} and p[1].expr == (x ** 2, 1, cos(x)) and p[1].ranges == [(x, -10, 10)] and p[1].get_label(False) == 'x' and p[1].rendering_kw == {'cmap': 'Reds'} and p[1].expr == (y ** 2, 1, cos(y)) and p[1].ranges == [(y, -10, 10)] and p[1].get_label(False) == 'y' and p[1].rendering_kw == {} and p[1].ranges == [(x, -2, 2)] and p[1].get_label(False) == 'test' and all((callable(t) for t in p[0].expr)) and p[0].ranges[0][1:] == (-10, 10) and 'Dummy' in p[0].get_label(False) and p[0].ranges[0][1:] == (0, 2)) over {Any | isinstance(p[0], Parametric3DLineSeries)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(p[0], Parametric3DLineSeries)       ║
+# ║   ensures:  p[0].expr == (x + 1, x, sin(x))                ║
+# ║   ensures:  p[0].ranges == [(x, -10, 10)]                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_plot3d_parametric_line_arguments : {Any | isinst...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -1511,9 +1755,12 @@ def test_plot_parametric_arguments():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.8ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 57879ae4...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.tests.test_plot.test_plot3d_parametric_line_arguments","kind":"function","src_hash":"2b06b34f500dba37","in":{"base":"Any","pred":"isinstance(p[0], Parametric3DLineSeries)"},"out":{"base":"Any","pred":"isinstance(p[0], Parametric3DLineSeries) and p[0].expr == (x + 1, x, sin(x)) and p[0].ranges == [(x, -10, 10)] and p[0].get_label(False) == 'x' and p[0].rendering_kw == {} and isinstance(p[0], Parametric3DLineSeries) and p[0].expr == (x + 1, x, sin(x)) and p[0].ranges == [(x, -2, 2)] and p[0].get_label(False) == 'test' and p[0].rendering_kw == {'cmap': 'Reds'} and p[0].expr == (x + 1, x, sin(x)) and p[0].ranges == [(x, -2, 2)] and p[0].get_label(False) == 'test' and p[0].rendering_kw == {} and p[0].expr == (x + 1, x, sin(x)) and p[0].ranges == [(x, -10, 10)] and p[0].get_label(False) == 'x' and p[0].rendering_kw == {} and p[1].expr == (x ** 2, 1, cos(x)) and p[1].ranges == [(x, -10, 10)] and p[1].get_label(False) == 'x' and p[1].rendering_kw == {'cmap': 'Reds'} and p[0].expr == (x + 1, x, sin(x)) and p[0].ranges == [(x, -10, 10)] and p[0].get_label(False) == 'x' and p[0].rendering_kw == {} and p[1].expr == (y ** 2, 1, cos(y)) and p[1].ranges == [(y, -10, 10)] and p[1].get_label(False) == 'y' and p[1].rendering_kw == {} and p[0].expr == (x + 1, x, sin(x)) and p[0].ranges == [(x, -10, 10)] and p[0].get_label(False) == 'x' and p[0].rendering_kw == {} and p[1].expr == (x ** 2, 1, cos(x)) and p[1].ranges == [(x, -2, 2)] and p[1].get_label(False) == 'test' and p[1].rendering_kw == {'cmap': 'Reds'} and all((callable(t) for t in p[0].expr)) and p[0].ranges[0][1:] == (-10, 10) and 'Dummy' in p[0].get_label(False) and p[0].rendering_kw == {} and all((callable(t) for t in p[0].expr)) and p[0].ranges[0][1:] == (0, 2) and p[0].get_label(False) == 'test' and p[0].rendering_kw == {}"},"spec":{"lhs":"test_plot3d_parametric_line_arguments()","rhs":"test_plot3d_parametric_line_arguments produces the expected output","over":{"base":"Any","pred":"isinstance(p[0], Parametric3DLineSeries)"},"name":"test_plot3d_parametric_line_arguments_correct"},"guarantee":"test_plot3d_parametric_line_arguments produces the expected output","fibers":[{"name":"Parametric3DLineSeries","pred":"isinstance(p[0], Parametric3DLineSeries)","path":{"lhs":"test_plot3d_parametric_line_arguments(x)","rhs":"test_plot3d_parametric_line_arguments produces the expected output","over":{"base":"Parametric3DLineSeries","pred":"isinstance(p[0], Parametric3DLineSeries)"},"name":"test_plot3d_parametric_line_arguments_Parametric3DLineSeries_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.tests.test_plot.test_plot3d_parametric_line_arguments_Parametric3DLineSeries_correct","statement":"test_plot3d_parametric_line_arguments satisfies spec on Parametric3DLineSeries inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"57879ae428214874"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.tests.test_plot.test_plot3d_parametric_line_arguments","kind":"function","src_hash":"2b06b34f500dba37","in":{"base":"Any","pred":"isinstance(p[0], Parametric3DLineSeries)"},"out":{"base":"Any","pred":"result satisfies: isinstance(p[0], Parametric3DLineSeries) and p[0].expr == (x + 1, x, sin(x)) and p[0].ranges == [(x, -10, 10)] and p[0].get_label(False) == 'x' and p[0].rendering_kw == {} and p[0].ranges == [(x, -2, 2)] and p[0].get_label(False) == 'test' and p[0].rendering_kw == {'cmap': 'Reds'} and p[1].expr == (x ** 2, 1, cos(x)) and p[1].ranges == [(x, -10, 10)] and p[1].get_label(False) == 'x' and p[1].rendering_kw == {'cmap': 'Reds'} and p[1].expr == (y ** 2, 1, cos(y)) and p[1].ranges == [(y, -10, 10)] and p[1].get_label(False) == 'y' and p[1].rendering_kw == {} and p[1].ranges == [(x, -2, 2)] and p[1].get_label(False) == 'test' and all((callable(t) for t in p[0].expr)) and p[0].ranges[0][1:] == (-10, 10) and 'Dummy' in p[0].get_label(False) and p[0].ranges[0][1:] == (0, 2)"},"spec":{"lhs":"test_plot3d_parametric_line_arguments()","rhs":"isinstance(p[0], Parametric3DLineSeries) and p[0].expr == (x + 1, x, sin(x)) and p[0].ranges == [(x, -10, 10)] and p[0].get_label(False) == 'x' and p[0].rendering_kw == {} and p[0].ranges == [(x, -2, 2)] and p[0].get_label(False) == 'test' and p[0].rendering_kw == {'cmap': 'Reds'} and p[1].expr == (x ** 2, 1, cos(x)) and p[1].ranges == [(x, -10, 10)] and p[1].get_label(False) == 'x' and p[1].rendering_kw == {'cmap': 'Reds'} and p[1].expr == (y ** 2, 1, cos(y)) and p[1].ranges == [(y, -10, 10)] and p[1].get_label(False) == 'y' and p[1].rendering_kw == {} and p[1].ranges == [(x, -2, 2)] and p[1].get_label(False) == 'test' and all((callable(t) for t in p[0].expr)) and p[0].ranges[0][1:] == (-10, 10) and 'Dummy' in p[0].get_label(False) and p[0].ranges[0][1:] == (0, 2)","over":{"base":"Any","pred":"isinstance(p[0], Parametric3DLineSeries)"},"name":"test_plot3d_parametric_line_arguments_correct"},"guarantee":"isinstance(p[0], Parametric3DLineSeries); p[0].expr == (x + 1, x, sin(x)); p[0].ranges == [(x, -10, 10)]","fibers":[{"name":"Parametric3DLineSeries","pred":"isinstance(p[0], Parametric3DLineSeries)","path":{"lhs":"test_plot3d_parametric_line_arguments(x)","rhs":"isinstance(p[0], Parametric3DLineSeries); p[0].expr == (x + 1, x, sin(x)); p[0].ranges == [(x, -10, 10)]","over":{"base":"Parametric3DLineSeries","pred":"isinstance(p[0], Parametric3DLineSeries)"},"name":"test_plot3d_parametric_line_arguments_Parametric3DLineSeries_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.tests.test_plot.test_plot3d_parametric_line_arguments_Parametric3DLineSeries_correct","statement":"test_plot3d_parametric_line_arguments satisfies spec on Parametric3DLineSeries inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"57879ae428214874","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(p[0], Parametric3DLineSeries)","p[0].expr == (x + 1, x, sin(x))","p[0].ranges == [(x, -10, 10)]","p[0].get_label(False) == 'x'","p[0].rendering_kw == {}","p[0].ranges == [(x, -2, 2)]","p[0].get_label(False) == 'test'","p[0].rendering_kw == {'cmap': 'Reds'}","p[1].expr == (x ** 2, 1, cos(x))","p[1].ranges == [(x, -10, 10)]","p[1].get_label(False) == 'x'","p[1].rendering_kw == {'cmap': 'Reds'}","p[1].expr == (y ** 2, 1, cos(y))","p[1].ranges == [(y, -10, 10)]","p[1].get_label(False) == 'y'","p[1].rendering_kw == {}","p[1].ranges == [(x, -2, 2)]","p[1].get_label(False) == 'test'","all((callable(t) for t in p[0].expr))","p[0].ranges[0][1:] == (-10, 10)","'Dummy' in p[0].get_label(False)","p[0].ranges[0][1:] == (0, 2)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.8,"verdict_class":"failed","binding":true}}
 def test_plot3d_parametric_line_arguments():
     ### Test arguments for plot3d_parametric_line()
     if not matplotlib:
@@ -1599,7 +1846,12 @@ def test_plot3d_parametric_line_arguments():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_plot3d_plot_contour_arguments(), test_plot3d_plot_contour_arguments produces the expected output) over {Any | isinstance(p[0], SurfaceOver2DRangeSeries)} ║
+# ║ Path(test_plot3d_plot_contour_arguments(), isinstance(p[0], SurfaceOver2DRangeSeries) and p[0].expr == x + y and p[0].ranges[0] == (x, -10, 10) or (y, -10, 10) and p[0].ranges[1] == (x, -10, 10) or (y, -10, 10) and p[0].get_label(False) == 'x + y' and p[0].rendering_kw == {} and p[0].ranges[0] == (x, -2, 2) and p[0].ranges[1] == (y, -10, 10) and p[0].get_label(False) == 'test' and p[0].rendering_kw == {'cmap': 'Reds'} and p[0].ranges[1] == (y, -4, 4) and p[1].expr == x * y and p[1].ranges[0] == (x, -10, 10) or (y, -10, 10) and p[1].ranges[1] == (x, -10, 10) or (y, -10, 10) and p[1].get_label(False) == 'x*y' and p[1].rendering_kw == {} and p[1].ranges[0] == (x, -2, 2) and p[1].ranges[1] == (y, -4, 4) and p[1].ranges[0] == (x, -3, 3) and p[1].ranges[1] == (y, -6, 6) and p[1].get_label(False) == 'test' and p[1].rendering_kw == {'cmap': 'Reds'} and callable(p[0].expr) and p[0].ranges[0][1:] == (-10, 10) and p[0].ranges[1][1:] == (-10, 10) and p[0].get_label(False) == '' and p[0].ranges[0][1:] == (-5, 3) and p[0].ranges[1][1:] == (-2, 1) and p[0].expr == Min(x, y) and p[0].ranges[0] == (x, 0, 10) and p[0].ranges[1] == (y, 0, 10) and p[0].get_label(False) == 'Min(x, y)') over {Any | isinstance(p[0], SurfaceOver2DRangeSeries)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(p[0], SurfaceOver2DRangeSeries)     ║
+# ║   ensures:  p[0].expr == x + y                             ║
+# ║   ensures:  p[0].ranges[0] == (x, -10, 10) or (y, -10...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_plot3d_plot_contour_arguments : {Any | isinstanc...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -1611,9 +1863,12 @@ def test_plot3d_parametric_line_arguments():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 2.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 8e7d89b1...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.tests.test_plot.test_plot3d_plot_contour_arguments","kind":"function","src_hash":"157bfdb10a9faa29","in":{"base":"Any","pred":"isinstance(p[0], SurfaceOver2DRangeSeries)"},"out":{"base":"Any","pred":"isinstance(p[0], SurfaceOver2DRangeSeries) and p[0].expr == x + y and p[0].ranges[0] == (x, -10, 10) or (y, -10, 10) and p[0].ranges[1] == (x, -10, 10) or (y, -10, 10) and p[0].get_label(False) == 'x + y' and p[0].rendering_kw == {} and isinstance(p[0], SurfaceOver2DRangeSeries) and p[0].expr == x + y and p[0].ranges[0] == (x, -2, 2) and p[0].ranges[1] == (y, -10, 10) and p[0].get_label(False) == 'test' and p[0].rendering_kw == {'cmap': 'Reds'} and p[0].ranges[0] == (x, -2, 2) and p[0].ranges[1] == (y, -4, 4) and p[0].expr == x + y and p[0].ranges[0] == (x, -10, 10) or (y, -10, 10) and p[0].ranges[1] == (x, -10, 10) or (y, -10, 10) and p[0].get_label(False) == 'x + y' and p[0].rendering_kw == {} and p[1].expr == x * y and p[1].ranges[0] == (x, -10, 10) or (y, -10, 10) and p[1].ranges[1] == (x, -10, 10) or (y, -10, 10) and p[1].get_label(False) == 'x*y' and p[1].rendering_kw == {} and p[0].expr == x + y and p[0].ranges[0] == (x, -2, 2) and p[0].ranges[1] == (y, -4, 4) and p[0].get_label(False) == 'x + y' and p[0].rendering_kw == {} and p[1].expr == x * y and p[1].ranges[0] == (x, -2, 2) and p[1].ranges[1] == (y, -4, 4) and p[1].get_label(False) == 'x*y' and p[1].rendering_kw == {} and p[0].expr == x + y and p[0].ranges[0] == (x, -2, 2) and p[0].ranges[1] == (y, -4, 4) and p[0].get_label(False) == 'x + y' and p[0].rendering_kw == {} and p[1].expr == x * y and p[1].ranges[0] == (x, -3, 3) and p[1].ranges[1] == (y, -6, 6) and p[1].get_label(False) == 'test' and p[1].rendering_kw == {'cmap': 'Reds'} and callable(p[0].expr) and p[0].ranges[0][1:] == (-10, 10) and p[0].ranges[1][1:] == (-10, 10) and p[0].get_label(False) == '' and p[0].rendering_kw == {} and callable(p[0].expr) and p[0].ranges[0][1:] == (-5, 3) and p[0].ranges[1][1:] == (-2, 1) and p[0].get_label(False) == 'test' and p[0].rendering_kw == {} and isinstance(p[0], SurfaceOver2DRangeSeries) and p[0].expr == Min(x, y) and p[0].ranges[0] == (x, 0, 10) and p[0].ranges[1] == (y, 0, 10) and p[0].get_label(False) == 'Min(x, y)' and p[0].rendering_kw == {}"},"spec":{"lhs":"test_plot3d_plot_contour_arguments()","rhs":"test_plot3d_plot_contour_arguments produces the expected output","over":{"base":"Any","pred":"isinstance(p[0], SurfaceOver2DRangeSeries)"},"name":"test_plot3d_plot_contour_arguments_correct"},"guarantee":"test_plot3d_plot_contour_arguments produces the expected output","fibers":[{"name":"SurfaceOver2DRangeSeries","pred":"isinstance(p[0], SurfaceOver2DRangeSeries)","path":{"lhs":"test_plot3d_plot_contour_arguments(x)","rhs":"test_plot3d_plot_contour_arguments produces the expected output","over":{"base":"SurfaceOver2DRangeSeries","pred":"isinstance(p[0], SurfaceOver2DRangeSeries)"},"name":"test_plot3d_plot_contour_arguments_SurfaceOver2DRangeSeries_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.tests.test_plot.test_plot3d_plot_contour_arguments_SurfaceOver2DRangeSeries_correct","statement":"test_plot3d_plot_contour_arguments satisfies spec on SurfaceOver2DRangeSeries inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"8e7d89b1b8552fe6"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.tests.test_plot.test_plot3d_plot_contour_arguments","kind":"function","src_hash":"157bfdb10a9faa29","in":{"base":"Any","pred":"isinstance(p[0], SurfaceOver2DRangeSeries)"},"out":{"base":"Any","pred":"result satisfies: isinstance(p[0], SurfaceOver2DRangeSeries) and p[0].expr == x + y and p[0].ranges[0] == (x, -10, 10) or (y, -10, 10) and p[0].ranges[1] == (x, -10, 10) or (y, -10, 10) and p[0].get_label(False) == 'x + y' and p[0].rendering_kw == {} and p[0].ranges[0] == (x, -2, 2) and p[0].ranges[1] == (y, -10, 10) and p[0].get_label(False) == 'test' and p[0].rendering_kw == {'cmap': 'Reds'} and p[0].ranges[1] == (y, -4, 4) and p[1].expr == x * y and p[1].ranges[0] == (x, -10, 10) or (y, -10, 10) and p[1].ranges[1] == (x, -10, 10) or (y, -10, 10) and p[1].get_label(False) == 'x*y' and p[1].rendering_kw == {} and p[1].ranges[0] == (x, -2, 2) and p[1].ranges[1] == (y, -4, 4) and p[1].ranges[0] == (x, -3, 3) and p[1].ranges[1] == (y, -6, 6) and p[1].get_label(False) == 'test' and p[1].rendering_kw == {'cmap': 'Reds'} and callable(p[0].expr) and p[0].ranges[0][1:] == (-10, 10) and p[0].ranges[1][1:] == (-10, 10) and p[0].get_label(False) == '' and p[0].ranges[0][1:] == (-5, 3) and p[0].ranges[1][1:] == (-2, 1) and p[0].expr == Min(x, y) and p[0].ranges[0] == (x, 0, 10) and p[0].ranges[1] == (y, 0, 10) and p[0].get_label(False) == 'Min(x, y)'"},"spec":{"lhs":"test_plot3d_plot_contour_arguments()","rhs":"isinstance(p[0], SurfaceOver2DRangeSeries) and p[0].expr == x + y and p[0].ranges[0] == (x, -10, 10) or (y, -10, 10) and p[0].ranges[1] == (x, -10, 10) or (y, -10, 10) and p[0].get_label(False) == 'x + y' and p[0].rendering_kw == {} and p[0].ranges[0] == (x, -2, 2) and p[0].ranges[1] == (y, -10, 10) and p[0].get_label(False) == 'test' and p[0].rendering_kw == {'cmap': 'Reds'} and p[0].ranges[1] == (y, -4, 4) and p[1].expr == x * y and p[1].ranges[0] == (x, -10, 10) or (y, -10, 10) and p[1].ranges[1] == (x, -10, 10) or (y, -10, 10) and p[1].get_label(False) == 'x*y' and p[1].rendering_kw == {} and p[1].ranges[0] == (x, -2, 2) and p[1].ranges[1] == (y, -4, 4) and p[1].ranges[0] == (x, -3, 3) and p[1].ranges[1] == (y, -6, 6) and p[1].get_label(False) == 'test' and p[1].rendering_kw == {'cmap': 'Reds'} and callable(p[0].expr) and p[0].ranges[0][1:] == (-10, 10) and p[0].ranges[1][1:] == (-10, 10) and p[0].get_label(False) == '' and p[0].ranges[0][1:] == (-5, 3) and p[0].ranges[1][1:] == (-2, 1) and p[0].expr == Min(x, y) and p[0].ranges[0] == (x, 0, 10) and p[0].ranges[1] == (y, 0, 10) and p[0].get_label(False) == 'Min(x, y)'","over":{"base":"Any","pred":"isinstance(p[0], SurfaceOver2DRangeSeries)"},"name":"test_plot3d_plot_contour_arguments_correct"},"guarantee":"isinstance(p[0], SurfaceOver2DRangeSeries); p[0].expr == x + y; p[0].ranges[0] == (x, -10, 10) or (y, -10, 10)","fibers":[{"name":"SurfaceOver2DRangeSeries","pred":"isinstance(p[0], SurfaceOver2DRangeSeries)","path":{"lhs":"test_plot3d_plot_contour_arguments(x)","rhs":"isinstance(p[0], SurfaceOver2DRangeSeries); p[0].expr == x + y; p[0].ranges[0] == (x, -10, 10) or (y, -10, 10)","over":{"base":"SurfaceOver2DRangeSeries","pred":"isinstance(p[0], SurfaceOver2DRangeSeries)"},"name":"test_plot3d_plot_contour_arguments_SurfaceOver2DRangeSeries_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.tests.test_plot.test_plot3d_plot_contour_arguments_SurfaceOver2DRangeSeries_correct","statement":"test_plot3d_plot_contour_arguments satisfies spec on SurfaceOver2DRangeSeries inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"8e7d89b1b8552fe6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(p[0], SurfaceOver2DRangeSeries)","p[0].expr == x + y","p[0].ranges[0] == (x, -10, 10) or (y, -10, 10)","p[0].ranges[1] == (x, -10, 10) or (y, -10, 10)","p[0].get_label(False) == 'x + y'","p[0].rendering_kw == {}","p[0].ranges[0] == (x, -2, 2)","p[0].ranges[1] == (y, -10, 10)","p[0].get_label(False) == 'test'","p[0].rendering_kw == {'cmap': 'Reds'}","p[0].ranges[1] == (y, -4, 4)","p[1].expr == x * y","p[1].ranges[0] == (x, -10, 10) or (y, -10, 10)","p[1].ranges[1] == (x, -10, 10) or (y, -10, 10)","p[1].get_label(False) == 'x*y'","p[1].rendering_kw == {}","p[1].ranges[0] == (x, -2, 2)","p[1].ranges[1] == (y, -4, 4)","p[1].ranges[0] == (x, -3, 3)","p[1].ranges[1] == (y, -6, 6)","p[1].get_label(False) == 'test'","p[1].rendering_kw == {'cmap': 'Reds'}","callable(p[0].expr)","p[0].ranges[0][1:] == (-10, 10)","p[0].ranges[1][1:] == (-10, 10)","p[0].get_label(False) == ''","p[0].ranges[0][1:] == (-5, 3)","p[0].ranges[1][1:] == (-2, 1)","p[0].expr == Min(x, y)","p[0].ranges[0] == (x, 0, 10)","p[0].ranges[1] == (y, 0, 10)","p[0].get_label(False) == 'Min(x, y)'"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.1,"verdict_class":"failed","binding":true}}
 def test_plot3d_plot_contour_arguments():
     ### Test arguments for plot3d() and plot_contour()
     if not matplotlib:
@@ -1713,7 +1968,12 @@ def test_plot3d_plot_contour_arguments():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_plot3d_parametric_surface_arguments(), test_plot3d_parametric_surface_arguments produces the expected output) over {Any | isinstance(p[0], ParametricSurfaceSeries)} ║
+# ║ Path(test_plot3d_parametric_surface_arguments(), isinstance(p[0], ParametricSurfaceSeries) and p[0].expr == (x + y, cos(x + y), sin(x + y)) and p[0].ranges[0] == (x, -10, 10) or (y, -10, 10) and p[0].ranges[1] == (x, -10, 10) or (y, -10, 10) and p[0].get_label(False) == '(x + y, cos(x + y), sin(x + y))' and p[0].rendering_kw == {} and p[0].ranges[0] == (x, -2, 2) and p[0].ranges[1] == (y, -4, 4) and p[0].get_label(False) == 'test' and p[0].rendering_kw == {'cmap': 'Reds'} and p[1].expr == (x - y, cos(x - y), sin(x - y)) and p[1].ranges[0] == (x, -10, 10) or (y, -10, 10) and p[1].ranges[1] == (x, -10, 10) or (y, -10, 10) and p[1].get_label(False) == 'test' and p[1].rendering_kw == {} and p[0].ranges[1] == (y, -10, 10) and p[1].ranges[0] == (x, -3, 3) and p[1].ranges[1] == (y, -4, 4) and p[1].get_label(False) == 'test2' and p[1].rendering_kw == {'cmap': 'Reds'} and all((callable(t) for t in p[0].expr)) and p[0].ranges[0][1:] == (-0, 2) and p[0].ranges[1][1:] == (-3, 4) and p[0].get_label(False) == '' and p[0].ranges[0][1:] == (0, 2) and all((callable(t) for t in p[1].expr)) and p[1].ranges[0][1:] == (-2, 3) and p[1].ranges[1][1:] == (-4, 5)) over {Any | isinstance(p[0], ParametricSurfaceSeries)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(p[0], ParametricSurfaceSeries)      ║
+# ║   ensures:  p[0].expr == (x + y, cos(x + y), sin(x + y))   ║
+# ║   ensures:  p[0].ranges[0] == (x, -10, 10) or (y, -10...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_plot3d_parametric_surface_arguments : {Any | isi...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -1725,9 +1985,12 @@ def test_plot3d_plot_contour_arguments():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 2.3ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 8a4e9566...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.tests.test_plot.test_plot3d_parametric_surface_arguments","kind":"function","src_hash":"07e4312e62e970a9","in":{"base":"Any","pred":"isinstance(p[0], ParametricSurfaceSeries)"},"out":{"base":"Any","pred":"isinstance(p[0], ParametricSurfaceSeries) and p[0].expr == (x + y, cos(x + y), sin(x + y)) and p[0].ranges[0] == (x, -10, 10) or (y, -10, 10) and p[0].ranges[1] == (x, -10, 10) or (y, -10, 10) and p[0].get_label(False) == '(x + y, cos(x + y), sin(x + y))' and p[0].rendering_kw == {} and isinstance(p[0], ParametricSurfaceSeries) and p[0].expr == (x + y, cos(x + y), sin(x + y)) and p[0].ranges[0] == (x, -2, 2) and p[0].ranges[1] == (y, -4, 4) and p[0].get_label(False) == 'test' and p[0].rendering_kw == {'cmap': 'Reds'} and p[0].expr == (x + y, cos(x + y), sin(x + y)) and p[0].ranges[0] == (x, -10, 10) or (y, -10, 10) and p[0].ranges[1] == (x, -10, 10) or (y, -10, 10) and p[0].get_label(False) == '(x + y, cos(x + y), sin(x + y))' and p[0].rendering_kw == {} and p[1].expr == (x - y, cos(x - y), sin(x - y)) and p[1].ranges[0] == (x, -10, 10) or (y, -10, 10) and p[1].ranges[1] == (x, -10, 10) or (y, -10, 10) and p[1].get_label(False) == 'test' and p[1].rendering_kw == {} and p[0].expr == (x + y, cos(x + y), sin(x + y)) and p[0].ranges[0] == (x, -2, 2) and p[0].ranges[1] == (y, -10, 10) and p[0].get_label(False) == 'test' and p[0].rendering_kw == {} and p[1].expr == (x - y, cos(x - y), sin(x - y)) and p[1].ranges[0] == (x, -3, 3) and p[1].ranges[1] == (y, -4, 4) and p[1].get_label(False) == 'test2' and p[1].rendering_kw == {'cmap': 'Reds'} and all((callable(t) for t in p[0].expr)) and p[0].ranges[0][1:] == (-0, 2) and p[0].ranges[1][1:] == (-3, 4) and p[0].get_label(False) == '' and p[0].rendering_kw == {} and all((callable(t) for t in p[0].expr)) and p[0].ranges[0][1:] == (0, 2) and p[0].ranges[1][1:] == (-3, 4) and p[0].get_label(False) == '' and p[0].rendering_kw == {} and all((callable(t) for t in p[1].expr)) and p[1].ranges[0][1:] == (-2, 3) and p[1].ranges[1][1:] == (-4, 5) and p[1].get_label(False) == 'test' and p[1].rendering_kw == {}"},"spec":{"lhs":"test_plot3d_parametric_surface_arguments()","rhs":"test_plot3d_parametric_surface_arguments produces the expected output","over":{"base":"Any","pred":"isinstance(p[0], ParametricSurfaceSeries)"},"name":"test_plot3d_parametric_surface_arguments_correct"},"guarantee":"test_plot3d_parametric_surface_arguments produces the expected output","fibers":[{"name":"ParametricSurfaceSeries","pred":"isinstance(p[0], ParametricSurfaceSeries)","path":{"lhs":"test_plot3d_parametric_surface_arguments(x)","rhs":"test_plot3d_parametric_surface_arguments produces the expected output","over":{"base":"ParametricSurfaceSeries","pred":"isinstance(p[0], ParametricSurfaceSeries)"},"name":"test_plot3d_parametric_surface_arguments_ParametricSurfaceSeries_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.tests.test_plot.test_plot3d_parametric_surface_arguments_ParametricSurfaceSeries_correct","statement":"test_plot3d_parametric_surface_arguments satisfies spec on ParametricSurfaceSeries inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"8a4e9566fb78e903"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.tests.test_plot.test_plot3d_parametric_surface_arguments","kind":"function","src_hash":"07e4312e62e970a9","in":{"base":"Any","pred":"isinstance(p[0], ParametricSurfaceSeries)"},"out":{"base":"Any","pred":"result satisfies: isinstance(p[0], ParametricSurfaceSeries) and p[0].expr == (x + y, cos(x + y), sin(x + y)) and p[0].ranges[0] == (x, -10, 10) or (y, -10, 10) and p[0].ranges[1] == (x, -10, 10) or (y, -10, 10) and p[0].get_label(False) == '(x + y, cos(x + y), sin(x + y))' and p[0].rendering_kw == {} and p[0].ranges[0] == (x, -2, 2) and p[0].ranges[1] == (y, -4, 4) and p[0].get_label(False) == 'test' and p[0].rendering_kw == {'cmap': 'Reds'} and p[1].expr == (x - y, cos(x - y), sin(x - y)) and p[1].ranges[0] == (x, -10, 10) or (y, -10, 10) and p[1].ranges[1] == (x, -10, 10) or (y, -10, 10) and p[1].get_label(False) == 'test' and p[1].rendering_kw == {} and p[0].ranges[1] == (y, -10, 10) and p[1].ranges[0] == (x, -3, 3) and p[1].ranges[1] == (y, -4, 4) and p[1].get_label(False) == 'test2' and p[1].rendering_kw == {'cmap': 'Reds'} and all((callable(t) for t in p[0].expr)) and p[0].ranges[0][1:] == (-0, 2) and p[0].ranges[1][1:] == (-3, 4) and p[0].get_label(False) == '' and p[0].ranges[0][1:] == (0, 2) and all((callable(t) for t in p[1].expr)) and p[1].ranges[0][1:] == (-2, 3) and p[1].ranges[1][1:] == (-4, 5)"},"spec":{"lhs":"test_plot3d_parametric_surface_arguments()","rhs":"isinstance(p[0], ParametricSurfaceSeries) and p[0].expr == (x + y, cos(x + y), sin(x + y)) and p[0].ranges[0] == (x, -10, 10) or (y, -10, 10) and p[0].ranges[1] == (x, -10, 10) or (y, -10, 10) and p[0].get_label(False) == '(x + y, cos(x + y), sin(x + y))' and p[0].rendering_kw == {} and p[0].ranges[0] == (x, -2, 2) and p[0].ranges[1] == (y, -4, 4) and p[0].get_label(False) == 'test' and p[0].rendering_kw == {'cmap': 'Reds'} and p[1].expr == (x - y, cos(x - y), sin(x - y)) and p[1].ranges[0] == (x, -10, 10) or (y, -10, 10) and p[1].ranges[1] == (x, -10, 10) or (y, -10, 10) and p[1].get_label(False) == 'test' and p[1].rendering_kw == {} and p[0].ranges[1] == (y, -10, 10) and p[1].ranges[0] == (x, -3, 3) and p[1].ranges[1] == (y, -4, 4) and p[1].get_label(False) == 'test2' and p[1].rendering_kw == {'cmap': 'Reds'} and all((callable(t) for t in p[0].expr)) and p[0].ranges[0][1:] == (-0, 2) and p[0].ranges[1][1:] == (-3, 4) and p[0].get_label(False) == '' and p[0].ranges[0][1:] == (0, 2) and all((callable(t) for t in p[1].expr)) and p[1].ranges[0][1:] == (-2, 3) and p[1].ranges[1][1:] == (-4, 5)","over":{"base":"Any","pred":"isinstance(p[0], ParametricSurfaceSeries)"},"name":"test_plot3d_parametric_surface_arguments_correct"},"guarantee":"isinstance(p[0], ParametricSurfaceSeries); p[0].expr == (x + y, cos(x + y), sin(x + y)); p[0].ranges[0] == (x, -10, 10) or (y, -10, 10)","fibers":[{"name":"ParametricSurfaceSeries","pred":"isinstance(p[0], ParametricSurfaceSeries)","path":{"lhs":"test_plot3d_parametric_surface_arguments(x)","rhs":"isinstance(p[0], ParametricSurfaceSeries); p[0].expr == (x + y, cos(x + y), sin(x + y)); p[0].ranges[0] == (x, -10, 10) or (y, -10, 10)","over":{"base":"ParametricSurfaceSeries","pred":"isinstance(p[0], ParametricSurfaceSeries)"},"name":"test_plot3d_parametric_surface_arguments_ParametricSurfaceSeries_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.tests.test_plot.test_plot3d_parametric_surface_arguments_ParametricSurfaceSeries_correct","statement":"test_plot3d_parametric_surface_arguments satisfies spec on ParametricSurfaceSeries inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"8a4e9566fb78e903","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(p[0], ParametricSurfaceSeries)","p[0].expr == (x + y, cos(x + y), sin(x + y))","p[0].ranges[0] == (x, -10, 10) or (y, -10, 10)","p[0].ranges[1] == (x, -10, 10) or (y, -10, 10)","p[0].get_label(False) == '(x + y, cos(x + y), sin(x + y))'","p[0].rendering_kw == {}","p[0].ranges[0] == (x, -2, 2)","p[0].ranges[1] == (y, -4, 4)","p[0].get_label(False) == 'test'","p[0].rendering_kw == {'cmap': 'Reds'}","p[1].expr == (x - y, cos(x - y), sin(x - y))","p[1].ranges[0] == (x, -10, 10) or (y, -10, 10)","p[1].ranges[1] == (x, -10, 10) or (y, -10, 10)","p[1].get_label(False) == 'test'","p[1].rendering_kw == {}","p[0].ranges[1] == (y, -10, 10)","p[1].ranges[0] == (x, -3, 3)","p[1].ranges[1] == (y, -4, 4)","p[1].get_label(False) == 'test2'","p[1].rendering_kw == {'cmap': 'Reds'}","all((callable(t) for t in p[0].expr))","p[0].ranges[0][1:] == (-0, 2)","p[0].ranges[1][1:] == (-3, 4)","p[0].get_label(False) == ''","p[0].ranges[0][1:] == (0, 2)","all((callable(t) for t in p[1].expr))","p[1].ranges[0][1:] == (-2, 3)","p[1].ranges[1][1:] == (-4, 5)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.3,"verdict_class":"failed","binding":true}}
 def test_plot3d_parametric_surface_arguments():
     ### Test arguments for plot3d_parametric_surface()
     if not matplotlib:

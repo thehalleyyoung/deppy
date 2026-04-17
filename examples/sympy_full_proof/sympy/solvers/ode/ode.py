@@ -342,16 +342,22 @@ allhints = (
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_numbered_constants(eq,), returns a list of constants that do not occur in eq already) over Any ║
+# ║ Path(get_numbered_constants(eq, num, start), Cs[0] if num == 1 else tuple(Cs)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Cs[0] if num == 1 else tuple(Cs)               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ get_numbered_constants : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cca35354c185d4d6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f392308a05d40dd4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.ode.get_numbered_constants","kind":"function","src_hash":"c34a2d97392de921","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_numbered_constants(eq,)","rhs":"returns a list of constants that do not occur in eq already","over":{"base":"Any"},"name":"get_numbered_constants_correct"},"guarantee":"returns a list of constants that do not occur in eq already","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.ode.get_numbered_constants_correct","statement":"Path(get_numbered_constants(x), returns a list of constants that do not occur in eq already)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cca35354c185d4d6"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.ode.get_numbered_constants","kind":"function","src_hash":"c34a2d97392de921","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_numbered_constants(eq, num, start)","rhs":"Cs[0] if num == 1 else tuple(Cs)","over":{"base":"Any"},"name":"get_numbered_constants_correct"},"guarantee":"returns Cs[0] if num == 1 else tuple(Cs)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.ode.get_numbered_constants_correct","statement":"Path(get_numbered_constants(x), returns Cs[0] if num == 1 else tuple(Cs))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f392308a05d40dd4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Cs[0] if num == 1 else tuple(Cs)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def get_numbered_constants(eq, num=1, start=1, prefix='C'):
     """
     Returns a list of constants that do not occur
@@ -364,7 +370,10 @@ def get_numbered_constants(eq, num=1, start=1, prefix='C'):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(iter_numbered_constants(eq,), returns an iterator of constants that do not occur in eq already) over {Any | isinstance(eq, (Expr, Eq))} ║
+# ║ Path(iter_numbered_constants(eq, start, prefix), numbered_symbols(start=start, prefix=prefix, exclude=atom_set)) over {Any | isinstance(eq, (Expr, Eq))} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  numbered_symbols(start=start, prefix=pref...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ iter_numbered_constants : {Any | isinstance(eq, (Expr...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -376,9 +385,12 @@ def get_numbered_constants(eq, num=1, start=1, prefix='C'):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.5ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 430e85aa...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.ode.iter_numbered_constants","kind":"function","src_hash":"0838b699b0ffdce2","in":{"base":"Any","pred":"isinstance(eq, (Expr, Eq))"},"out":{"base":"Any"},"spec":{"lhs":"iter_numbered_constants(eq,)","rhs":"returns an iterator of constants that do not occur in eq already","over":{"base":"Any","pred":"isinstance(eq, (Expr, Eq))"},"name":"iter_numbered_constants_correct"},"guarantee":"returns an iterator of constants that do not occur in eq already","fibers":[{"name":"(Expr","pred":"isinstance(eq, (Expr, Eq))","path":{"lhs":"iter_numbered_constants(x)","rhs":"returns an iterator of constants that do not occur in eq already","over":{"base":"(Expr","pred":"isinstance(eq, (Expr, Eq))"},"name":"iter_numbered_constants_(Expr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.ode.iter_numbered_constants_(Expr_correct","statement":"iter_numbered_constants satisfies spec on (Expr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"430e85aa8e23de94"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.ode.iter_numbered_constants","kind":"function","src_hash":"0838b699b0ffdce2","in":{"base":"Any","pred":"isinstance(eq, (Expr, Eq))"},"out":{"base":"Any"},"spec":{"lhs":"iter_numbered_constants(eq, start, prefix)","rhs":"numbered_symbols(start=start, prefix=prefix, exclude=atom_set)","over":{"base":"Any","pred":"isinstance(eq, (Expr, Eq))"},"name":"iter_numbered_constants_correct"},"guarantee":"returns numbered_symbols(start=start, prefix=prefix, exclude=atom_set)","fibers":[{"name":"(Expr","pred":"isinstance(eq, (Expr, Eq))","path":{"lhs":"iter_numbered_constants(x)","rhs":"returns numbered_symbols(start=start, prefix=prefix, exclude=atom_set)","over":{"base":"(Expr","pred":"isinstance(eq, (Expr, Eq))"},"name":"iter_numbered_constants_(Expr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.ode.iter_numbered_constants_(Expr_correct","statement":"iter_numbered_constants satisfies spec on (Expr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"430e85aa8e23de94","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"numbered_symbols(start=start, prefix=prefix, exclude=atom_set)","pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.5,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(eq, (Expr, Eq))'}, fibers={'(Expr'})"]}}
 def iter_numbered_constants(eq, start=1, prefix='C'):
     """
     Returns an iterator of constants that do not occur
@@ -398,9 +410,13 @@ def iter_numbered_constants(eq, start=1, prefix='C'):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dsolve(eq,), solves any (supported) kind of ordinary differential equation and system of ordinary differential equations) over {Any | isinstance(func_, list)} ║
+# ║ Path(dsolve(eq, func, hint), len(hints) == old_len_hints - 1) over {Any | isinstance(func_, list) and len(hints) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dsolve : {Any | isinstance(func_, list)} → {Any | res...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: len(hints) > 0                                 ║
+# ║   ensures:  len(hints) == old_len_hints - 1                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dsolve : {Any | isinstance(func_, list) and len(hints...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   list: {isinstance(func_, list)} → library_axiom          ║
@@ -410,9 +426,12 @@ def iter_numbered_constants(eq, start=1, prefix='C'):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 2.3ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | adb47bbb...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.ode.dsolve","kind":"function","src_hash":"61885f843525d1b5","in":{"base":"Any","pred":"isinstance(func_, list)"},"out":{"base":"Any","pred":"result satisfies: py:meth:`~sympy.solvers.ode.classify_ode`.  see"},"spec":{"lhs":"dsolve(eq,)","rhs":"solves any (supported) kind of ordinary differential equation and system of ordinary differential equations","over":{"base":"Any","pred":"isinstance(func_, list)"},"name":"dsolve_correct"},"guarantee":"solves any (supported) kind of ordinary differential equation and system of ordinary differential equations","fibers":[{"name":"list","pred":"isinstance(func_, list)","path":{"lhs":"dsolve(x)","rhs":"solves any (supported) kind of ordinary differential equation and system of ordinary differential equations","over":{"base":"list","pred":"isinstance(func_, list)"},"name":"dsolve_list_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.ode.dsolve_list_correct","statement":"dsolve satisfies spec on list inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"adb47bbb0de82bbc"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.ode.dsolve","kind":"function","src_hash":"61885f843525d1b5","in":{"base":"Any","pred":"isinstance(func_, list) and len(hints) > 0"},"out":{"base":"Any","pred":"result satisfies: len(hints) == old_len_hints - 1"},"spec":{"lhs":"dsolve(eq, func, hint)","rhs":"len(hints) == old_len_hints - 1","over":{"base":"Any","pred":"isinstance(func_, list) and len(hints) > 0"},"name":"dsolve_correct"},"guarantee":"len(hints) == old_len_hints - 1","fibers":[{"name":"list","pred":"isinstance(func_, list)","path":{"lhs":"dsolve(x)","rhs":"len(hints) == old_len_hints - 1","over":{"base":"list","pred":"isinstance(func_, list)"},"name":"dsolve_list_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.ode.dsolve_list_correct","statement":"dsolve satisfies spec on list inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"adb47bbb0de82bbc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["len(hints) > 0"],"ensures":["len(hints) == old_len_hints - 1"],"pure":false,"effects":{"effect_type":"mutates_args","writes":["eq[*]"],"calls_mutating":["hints.pop","retdict.update"],"raises":["NotImplementedError","ValueError"],"catches":["NotImplementedError"]},"state_contract":{"modifies":["eq[*]","hints.*","retdict.*"],"old_bindings":{"old_eq_star":"eq[*]","old_len_hints":"len(hints)","old_len_retdict":"len(retdict)"},"pre_requires":["len(hints) > 0"],"post_ensures":["len(hints) == old_len_hints - 1"],"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.3,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['eq', 'func', 'hint', 'simplify', 'ics', 'xi', 'eta', 'x0', 'n'], spec=['eq', 'func', 'hint', 'simplify', 'ics', 'xi', 'eta', 'x0', 'n', '**kwargs']","Poor branch-fiber coverage: 0% (branches={\"match['type_of_equation'] is None\", \"given_hint == 'best'\", 'isinstance(func_, list)', 'len(set(order.values())) != 1', 'recur_len(func) != len(eq)', \"match['is_linear'] == True\", \"retdict['best'] == retdict.get(i, None)\"}, fibers={'list'})"]}}
 def dsolve(eq, func=None, hint="default", simplify=True,
     ics= None, xi=None, eta=None, x0=0, n=6, **kwargs):
     r"""
@@ -701,7 +720,13 @@ def dsolve(eq, func=None, hint="default", simplify=True,
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_helper_simplify(eq,), helper function of dsolve that calls the respective :py:mod:`~sympy.solvers.ode` functions to solve for the ordinary differential equations) over {Any | isinstance(match, SingleODESolver) and isinstance(rv, list) and isinstance(rv, (Expr, Eq))} ║
+# ║ Path(_helper_simplify(eq, hint, match), len(rv) == old_len_rv + 1 and len(rv1) == old_len_rv1 + 1) over {Any | isinstance(match, SingleODESolver) and isinstance(rv, list) and isinstance(rv, (Expr, Eq)) and hasattr(eq, 'free_symbols') and hasattr(hint, 'removesuffix')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(eq, 'free_symbols')                    ║
+# ║   requires: hasattr(hint, 'removesuffix')                  ║
+# ║   ensures:  len(rv) == old_len_rv + 1                      ║
+# ║   ensures:  len(rv1) == old_len_rv1 + 1                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _helper_simplify : {Any | isinstance(match, SingleODE...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -716,9 +741,12 @@ def dsolve(eq, func=None, hint="default", simplify=True,
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?4 ✗6 VCs | 17.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | b324ea08...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.ode._helper_simplify","kind":"function","src_hash":"d43b0300613411b3","in":{"base":"Any","pred":"isinstance(match, SingleODESolver) and isinstance(rv, list) and isinstance(rv, (Expr, Eq))"},"out":{"base":"Any","pred":"all((isinstance(i, Eq) for i in rv))"},"spec":{"lhs":"_helper_simplify(eq,)","rhs":"helper function of dsolve that calls the respective :py:mod:`~sympy.solvers.ode` functions to solve for the ordinary differential equations","over":{"base":"Any","pred":"isinstance(match, SingleODESolver) and isinstance(rv, list) and isinstance(rv, (Expr, Eq))"},"name":"_helper_simplify_correct"},"guarantee":"helper function of dsolve that calls the respective :py:mod:`~sympy.solvers.ode` functions to solve for the ordinary differential equations","fibers":[{"name":"SingleODESolver","pred":"isinstance(match, SingleODESolver)","path":{"lhs":"_helper_simplify(x)","rhs":"helper function of dsolve that calls the respective :py:mod:`~sympy.solvers.ode` functions to solve for the ordinary differential equations","over":{"base":"SingleODESolver","pred":"isinstance(match, SingleODESolver)"},"name":"_helper_simplify_SingleODESolver_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.ode._helper_simplify_SingleODESolver_correct","statement":"_helper_simplify satisfies spec on SingleODESolver inputs"},"trust":"LIBRARY"},{"name":"list","pred":"isinstance(rv, list)","path":{"lhs":"_helper_simplify(x)","rhs":"helper function of dsolve that calls the respective :py:mod:`~sympy.solvers.ode` functions to solve for the ordinary differential equations","over":{"base":"list","pred":"isinstance(rv, list)"},"name":"_helper_simplify_list_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.ode._helper_simplify_list_correct","statement":"_helper_simplify satisfies spec on list inputs"},"trust":"LIBRARY"},{"name":"(Expr","pred":"isinstance(rv, (Expr, Eq))","path":{"lhs":"_helper_simplify(x)","rhs":"helper function of dsolve that calls the respective :py:mod:`~sympy.solvers.ode` functions to solve for the ordinary differential equations","over":{"base":"(Expr","pred":"isinstance(rv, (Expr, Eq))"},"name":"_helper_simplify_(Expr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.ode._helper_simplify_(Expr_correct","statement":"_helper_simplify satisfies spec on (Expr inputs"},"trust":"LIBRARY"},{"name":"Eq","pred":"isinstance(i, Eq)","path":{"lhs":"_helper_simplify(x)","rhs":"helper function of dsolve that calls the respective :py:mod:`~sympy.solvers.ode` functions to solve for the ordinary differential equations","over":{"base":"Eq","pred":"isinstance(i, Eq)"},"name":"_helper_simplify_Eq_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.ode._helper_simplify_Eq_correct","statement":"_helper_simplify satisfies spec on Eq inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":4,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"b324ea08074ce634"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.ode._helper_simplify","kind":"function","src_hash":"d43b0300613411b3","in":{"base":"Any","pred":"isinstance(match, SingleODESolver) and isinstance(rv, list) and isinstance(rv, (Expr, Eq)) and hasattr(eq, 'free_symbols') and hasattr(hint, 'removesuffix')"},"out":{"base":"Any","pred":"result satisfies: len(rv) == old_len_rv + 1 and len(rv1) == old_len_rv1 + 1"},"spec":{"lhs":"_helper_simplify(eq, hint, match)","rhs":"len(rv) == old_len_rv + 1 and len(rv1) == old_len_rv1 + 1","over":{"base":"Any","pred":"isinstance(match, SingleODESolver) and isinstance(rv, list) and isinstance(rv, (Expr, Eq)) and hasattr(eq, 'free_symbols') and hasattr(hint, 'removesuffix')"},"name":"_helper_simplify_correct"},"guarantee":"len(rv) == old_len_rv + 1; len(rv1) == old_len_rv1 + 1","fibers":[{"name":"SingleODESolver","pred":"isinstance(match, SingleODESolver)","path":{"lhs":"_helper_simplify(x)","rhs":"len(rv) == old_len_rv + 1; len(rv1) == old_len_rv1 + 1","over":{"base":"SingleODESolver","pred":"isinstance(match, SingleODESolver)"},"name":"_helper_simplify_SingleODESolver_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.ode._helper_simplify_SingleODESolver_correct","statement":"_helper_simplify satisfies spec on SingleODESolver inputs"},"trust":"LIBRARY"},{"name":"list","pred":"isinstance(rv, list)","path":{"lhs":"_helper_simplify(x)","rhs":"len(rv) == old_len_rv + 1; len(rv1) == old_len_rv1 + 1","over":{"base":"list","pred":"isinstance(rv, list)"},"name":"_helper_simplify_list_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.ode._helper_simplify_list_correct","statement":"_helper_simplify satisfies spec on list inputs"},"trust":"LIBRARY"},{"name":"(Expr","pred":"isinstance(rv, (Expr, Eq))","path":{"lhs":"_helper_simplify(x)","rhs":"len(rv) == old_len_rv + 1; len(rv1) == old_len_rv1 + 1","over":{"base":"(Expr","pred":"isinstance(rv, (Expr, Eq))"},"name":"_helper_simplify_(Expr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.ode._helper_simplify_(Expr_correct","statement":"_helper_simplify satisfies spec on (Expr inputs"},"trust":"LIBRARY"},{"name":"Eq","pred":"isinstance(i, Eq)","path":{"lhs":"_helper_simplify(x)","rhs":"len(rv) == old_len_rv + 1; len(rv1) == old_len_rv1 + 1","over":{"base":"Eq","pred":"isinstance(i, Eq)"},"name":"_helper_simplify_Eq_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.ode._helper_simplify_Eq_correct","statement":"_helper_simplify satisfies spec on Eq inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":4,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"b324ea08074ce634","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(eq, 'free_symbols')","hasattr(hint, 'removesuffix')"],"ensures":["len(rv) == old_len_rv + 1","len(rv1) == old_len_rv1 + 1"],"pure":false,"effects":{"effect_type":"mutates_args","reads":["eq.free_symbols","hint.removesuffix"],"writes":["match[*]"],"calls_mutating":["rv.append","rv.extend","rv1.append"],"catches":["ValueError"]},"state_contract":{"modifies":["match[*]","rv.*","rv1.*"],"old_bindings":{"old_match_star":"match[*]","old_len_rv":"len(rv)","old_len_rv1":"len(rv1)"},"post_ensures":["len(rv) == old_len_rv + 1","len(rv1) == old_len_rv1 + 1"]}},"c4_verdict":{"valid":false,"n_vcs":12,"n_verified":2,"n_assumed":4,"n_failed":6,"trust_level":"LIBRARY_ASSUMED","compile_ms":17.2,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['eq', 'hint', 'match', 'simplify', 'ics'], spec=['eq', 'hint', 'match', 'simplify', 'ics', '**kwargs']","Poor branch-fiber coverage: 0% (branches={'isinstance(rv, (Expr, Eq))', 'len(rv) == 1', 'len(rv1) == 1', 'isinstance(match, SingleODESolver)', 'isinstance(exprs, list)', 'isinstance(solvefunc, SingleODESolver)', 'isinstance(rv, list)'}, fibers={'SingleODESolver', 'Eq', '(Expr', 'list'})"]}}
 def _helper_simplify(eq, hint, match, simplify=True, ics=None, **kwargs):
     r"""
     Helper function of dsolve that calls the respective
@@ -794,7 +822,13 @@ def _helper_simplify(eq, hint, match, simplify=True, ics=None, **kwargs):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(solve_ics(sol), solve for the constants given initial conditions) over {Any | isinstance(funcarg, AppliedUndef) and isinstance(funcarg, (Subs, Derivative)) and isinstance(funcarg, Subs)} ║
+# ║ Path(solve_ics(sols, funcs, constants), solved_constants[0]) over {Any | isinstance(funcarg, AppliedUndef) and isinstance(funcarg, (Subs, Derivative)) and isinstance(funcarg, Subs) and hasattr(ics, 'items')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(ics, 'items')                          ║
+# ║   ensures:  len(diff_sols) == old_len_diff_sols + 1        ║
+# ║   ensures:  len(subs_sols) == old_len_subs_sols + 1        ║
+# ║   returns:  solved_constants[0]                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ solve_ics : {Any | isinstance(funcarg, AppliedUndef) ...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -810,9 +844,12 @@ def _helper_simplify(eq, hint, match, simplify=True, ics=None, **kwargs):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓7 ?5 ✗5 VCs | 15.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 1aebf85a...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.ode.solve_ics","kind":"function","src_hash":"370a385789146187","in":{"base":"Any","pred":"isinstance(funcarg, AppliedUndef) and isinstance(funcarg, (Subs, Derivative)) and isinstance(funcarg, Subs)"},"out":{"base":"Any"},"spec":{"lhs":"solve_ics(sol)","rhs":"solve for the constants given initial conditions","over":{"base":"Any","pred":"isinstance(funcarg, AppliedUndef) and isinstance(funcarg, (Subs, Derivative)) and isinstance(funcarg, Subs)"},"name":"solve_ics_correct"},"guarantee":"solve for the constants given initial conditions","fibers":[{"name":"AppliedUndef","pred":"isinstance(funcarg, AppliedUndef)","path":{"lhs":"solve_ics(x)","rhs":"solve for the constants given initial conditions","over":{"base":"AppliedUndef","pred":"isinstance(funcarg, AppliedUndef)"},"name":"solve_ics_AppliedUndef_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.ode.solve_ics_AppliedUndef_correct","statement":"solve_ics satisfies spec on AppliedUndef inputs"},"trust":"LIBRARY"},{"name":"(Subs","pred":"isinstance(funcarg, (Subs, Derivative))","path":{"lhs":"solve_ics(x)","rhs":"solve for the constants given initial conditions","over":{"base":"(Subs","pred":"isinstance(funcarg, (Subs, Derivative))"},"name":"solve_ics_(Subs_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.ode.solve_ics_(Subs_correct","statement":"solve_ics satisfies spec on (Subs inputs"},"trust":"LIBRARY"},{"name":"Subs","pred":"isinstance(funcarg, Subs)","path":{"lhs":"solve_ics(x)","rhs":"solve for the constants given initial conditions","over":{"base":"Subs","pred":"isinstance(funcarg, Subs)"},"name":"solve_ics_Subs_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.ode.solve_ics_Subs_correct","statement":"solve_ics satisfies spec on Subs inputs"},"trust":"LIBRARY"},{"name":"Derivative","pred":"isinstance(funcarg, Derivative)","path":{"lhs":"solve_ics(x)","rhs":"solve for the constants given initial conditions","over":{"base":"Derivative","pred":"isinstance(funcarg, Derivative)"},"name":"solve_ics_Derivative_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.ode.solve_ics_Derivative_correct","statement":"solve_ics satisfies spec on Derivative inputs"},"trust":"LIBRARY"},{"name":"BooleanAtom","pred":"isinstance(sol2, BooleanAtom)","path":{"lhs":"solve_ics(x)","rhs":"solve for the constants given initial conditions","over":{"base":"BooleanAtom","pred":"isinstance(sol2, BooleanAtom)"},"name":"solve_ics_BooleanAtom_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.ode.solve_ics_BooleanAtom_correct","statement":"solve_ics satisfies spec on BooleanAtom inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":5,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"1aebf85ab16ca769"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.ode.solve_ics","kind":"function","src_hash":"370a385789146187","in":{"base":"Any","pred":"isinstance(funcarg, AppliedUndef) and isinstance(funcarg, (Subs, Derivative)) and isinstance(funcarg, Subs) and hasattr(ics, 'items')"},"out":{"base":"Any","pred":"result satisfies: result == (solved_constants[0])"},"spec":{"lhs":"solve_ics(sols, funcs, constants)","rhs":"solved_constants[0]","over":{"base":"Any","pred":"isinstance(funcarg, AppliedUndef) and isinstance(funcarg, (Subs, Derivative)) and isinstance(funcarg, Subs) and hasattr(ics, 'items')"},"name":"solve_ics_correct"},"guarantee":"returns solved_constants[0]; len(diff_sols) == old_len_diff_sols + 1; len(subs_sols) == old_len_subs_sols + 1","fibers":[{"name":"AppliedUndef","pred":"isinstance(funcarg, AppliedUndef)","path":{"lhs":"solve_ics(x)","rhs":"returns solved_constants[0]; len(diff_sols) == old_len_diff_sols + 1; len(subs_sols) == old_len_subs_sols + 1","over":{"base":"AppliedUndef","pred":"isinstance(funcarg, AppliedUndef)"},"name":"solve_ics_AppliedUndef_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.ode.solve_ics_AppliedUndef_correct","statement":"solve_ics satisfies spec on AppliedUndef inputs"},"trust":"LIBRARY"},{"name":"(Subs","pred":"isinstance(funcarg, (Subs, Derivative))","path":{"lhs":"solve_ics(x)","rhs":"returns solved_constants[0]; len(diff_sols) == old_len_diff_sols + 1; len(subs_sols) == old_len_subs_sols + 1","over":{"base":"(Subs","pred":"isinstance(funcarg, (Subs, Derivative))"},"name":"solve_ics_(Subs_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.ode.solve_ics_(Subs_correct","statement":"solve_ics satisfies spec on (Subs inputs"},"trust":"LIBRARY"},{"name":"Subs","pred":"isinstance(funcarg, Subs)","path":{"lhs":"solve_ics(x)","rhs":"returns solved_constants[0]; len(diff_sols) == old_len_diff_sols + 1; len(subs_sols) == old_len_subs_sols + 1","over":{"base":"Subs","pred":"isinstance(funcarg, Subs)"},"name":"solve_ics_Subs_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.ode.solve_ics_Subs_correct","statement":"solve_ics satisfies spec on Subs inputs"},"trust":"LIBRARY"},{"name":"Derivative","pred":"isinstance(funcarg, Derivative)","path":{"lhs":"solve_ics(x)","rhs":"returns solved_constants[0]; len(diff_sols) == old_len_diff_sols + 1; len(subs_sols) == old_len_subs_sols + 1","over":{"base":"Derivative","pred":"isinstance(funcarg, Derivative)"},"name":"solve_ics_Derivative_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.ode.solve_ics_Derivative_correct","statement":"solve_ics satisfies spec on Derivative inputs"},"trust":"LIBRARY"},{"name":"BooleanAtom","pred":"isinstance(sol2, BooleanAtom)","path":{"lhs":"solve_ics(x)","rhs":"returns solved_constants[0]; len(diff_sols) == old_len_diff_sols + 1; len(subs_sols) == old_len_subs_sols + 1","over":{"base":"BooleanAtom","pred":"isinstance(sol2, BooleanAtom)"},"name":"solve_ics_BooleanAtom_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.ode.solve_ics_BooleanAtom_correct","statement":"solve_ics satisfies spec on BooleanAtom inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":5,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"1aebf85ab16ca769","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(ics, 'items')"],"ensures":["len(diff_sols) == old_len_diff_sols + 1","len(subs_sols) == old_len_subs_sols + 1"],"returns_expr":"solved_constants[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["ics.items"],"calls_mutating":["diff_sols.append","diff_variables.add","subs_sols.append"],"raises":["NotImplementedError","ValueError"],"catches":["NotImplementedError"]},"state_contract":{"modifies":["diff_sols.*","diff_variables.*","subs_sols.*"],"old_bindings":{"old_len_diff_sols":"len(diff_sols)","old_len_subs_sols":"len(subs_sols)"},"post_ensures":["len(diff_sols) == old_len_diff_sols + 1","len(subs_sols) == old_len_subs_sols + 1"],"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":17,"n_verified":7,"n_assumed":5,"n_failed":5,"trust_level":"LIBRARY_ASSUMED","compile_ms":15.2,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'solved_constants == True', 'isinstance(funcarg, Derivative)', 'isinstance(funcarg, Subs)', 'isinstance(funcarg, (Subs, Derivative))', 'not isinstance(sol2, BooleanAtom) or not subs_sols', 'isinstance(funcarg, AppliedUndef)', 'len(solved_constants) > 1'}, fibers={'Subs', 'Derivative', '(Subs', 'AppliedUndef', 'BooleanAtom'})"]}}
 def solve_ics(sols, funcs, constants, ics):
     """
     Solve for the constants given initial conditions
@@ -916,7 +953,13 @@ def solve_ics(sols, funcs, constants, ics):
     return solved_constants[0]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(classify_ode(eq,), returns a tuple of possible :py:meth:`~sympy.solvers.ode.dsolve` classifications for an ode) over {Any | isinstance(eq, Equality) and isinstance(funcarg, (Subs, Derivative)) and isinstance(funcarg, Subs)} ║
+# ║ Path(classify_ode(eq, func, dict), <unspecified:classify_ode>) over {Any | isinstance(eq, Equality) and isinstance(funcarg, (Subs, Derivative)) and isinstance(funcarg, Subs) and not (func and len(func.args) != 1) and hasattr(func, 'func') and hasattr(eq, 'is_Add') and hasattr(func, 'args') and hasattr(eq, 'lhs') and hasattr(eq, 'rhs') and hasattr(eq, 'coeff') and hasattr(eq, 'args')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (func and len(func.args) != 1)             ║
+# ║   requires: hasattr(func, 'func')                          ║
+# ║   requires: hasattr(eq, 'is_Add')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ classify_ode : {Any | isinstance(eq, Equality) and is...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -932,9 +975,12 @@ def solve_ics(sols, funcs, constants, ics):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓7 ?5 ✗5 VCs | 17.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 9330c0bc...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.ode.classify_ode","kind":"function","src_hash":"2d4798f21209b813","in":{"base":"Any","pred":"isinstance(eq, Equality) and isinstance(funcarg, (Subs, Derivative)) and isinstance(funcarg, Subs)"},"out":{"base":"Any","pred":"result satisfies: py:meth:`~sympy.solvers.ode.dsolve`"},"spec":{"lhs":"classify_ode(eq,)","rhs":"returns a tuple of possible :py:meth:`~sympy.solvers.ode.dsolve` classifications for an ode","over":{"base":"Any","pred":"isinstance(eq, Equality) and isinstance(funcarg, (Subs, Derivative)) and isinstance(funcarg, Subs)"},"name":"classify_ode_correct"},"guarantee":"returns a tuple of possible :py:meth:`~sympy.solvers.ode.dsolve` classifications for an ode","fibers":[{"name":"Equality","pred":"isinstance(eq, Equality)","path":{"lhs":"classify_ode(x)","rhs":"returns a tuple of possible :py:meth:`~sympy.solvers.ode.dsolve` classifications for an ode","over":{"base":"Equality","pred":"isinstance(eq, Equality)"},"name":"classify_ode_Equality_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.ode.classify_ode_Equality_correct","statement":"classify_ode satisfies spec on Equality inputs"},"trust":"LIBRARY"},{"name":"(Subs","pred":"isinstance(funcarg, (Subs, Derivative))","path":{"lhs":"classify_ode(x)","rhs":"returns a tuple of possible :py:meth:`~sympy.solvers.ode.dsolve` classifications for an ode","over":{"base":"(Subs","pred":"isinstance(funcarg, (Subs, Derivative))"},"name":"classify_ode_(Subs_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.ode.classify_ode_(Subs_correct","statement":"classify_ode satisfies spec on (Subs inputs"},"trust":"LIBRARY"},{"name":"Subs","pred":"isinstance(funcarg, Subs)","path":{"lhs":"classify_ode(x)","rhs":"returns a tuple of possible :py:meth:`~sympy.solvers.ode.dsolve` classifications for an ode","over":{"base":"Subs","pred":"isinstance(funcarg, Subs)"},"name":"classify_ode_Subs_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.ode.classify_ode_Subs_correct","statement":"classify_ode satisfies spec on Subs inputs"},"trust":"LIBRARY"},{"name":"AppliedUndef","pred":"isinstance(funcarg, AppliedUndef)","path":{"lhs":"classify_ode(x)","rhs":"returns a tuple of possible :py:meth:`~sympy.solvers.ode.dsolve` classifications for an ode","over":{"base":"AppliedUndef","pred":"isinstance(funcarg, AppliedUndef)"},"name":"classify_ode_AppliedUndef_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.ode.classify_ode_AppliedUndef_correct","statement":"classify_ode satisfies spec on AppliedUndef inputs"},"trust":"LIBRARY"},{"name":"Derivative","pred":"isinstance(funcarg, Derivative)","path":{"lhs":"classify_ode(x)","rhs":"returns a tuple of possible :py:meth:`~sympy.solvers.ode.dsolve` classifications for an ode","over":{"base":"Derivative","pred":"isinstance(funcarg, Derivative)"},"name":"classify_ode_Derivative_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.ode.classify_ode_Derivative_correct","statement":"classify_ode satisfies spec on Derivative inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":5,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"9330c0bc7ec7de52"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.ode.classify_ode","kind":"function","src_hash":"2d4798f21209b813","in":{"base":"Any","pred":"isinstance(eq, Equality) and isinstance(funcarg, (Subs, Derivative)) and isinstance(funcarg, Subs) and not (func and len(func.args) != 1) and hasattr(func, 'func') and hasattr(eq, 'is_Add') and hasattr(func, 'args') and hasattr(eq, 'lhs') and hasattr(eq, 'rhs') and hasattr(eq, 'coeff') and hasattr(eq, 'args')"},"out":{"base":"Any","pred":"result satisfies: py:meth:`~sympy.solvers.ode.dsolve`"},"spec":{"lhs":"classify_ode(eq, func, dict)","rhs":"<unspecified:classify_ode>","over":{"base":"Any","pred":"isinstance(eq, Equality) and isinstance(funcarg, (Subs, Derivative)) and isinstance(funcarg, Subs) and not (func and len(func.args) != 1) and hasattr(func, 'func') and hasattr(eq, 'is_Add') and hasattr(func, 'args') and hasattr(eq, 'lhs') and hasattr(eq, 'rhs') and hasattr(eq, 'coeff') and hasattr(eq, 'args')"},"name":"classify_ode_correct"},"guarantee":"returns a tuple of possible :py:meth:`~sympy.solvers.ode.dsolve` classifications for an ode","fibers":[{"name":"Equality","pred":"isinstance(eq, Equality)","path":{"lhs":"classify_ode(x)","rhs":"returns a tuple of possible :py:meth:`~sympy.solvers.ode.dsolve` classifications for an ode","over":{"base":"Equality","pred":"isinstance(eq, Equality)"},"name":"classify_ode_Equality_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.ode.classify_ode_Equality_correct","statement":"classify_ode satisfies spec on Equality inputs"},"trust":"LIBRARY"},{"name":"(Subs","pred":"isinstance(funcarg, (Subs, Derivative))","path":{"lhs":"classify_ode(x)","rhs":"returns a tuple of possible :py:meth:`~sympy.solvers.ode.dsolve` classifications for an ode","over":{"base":"(Subs","pred":"isinstance(funcarg, (Subs, Derivative))"},"name":"classify_ode_(Subs_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.ode.classify_ode_(Subs_correct","statement":"classify_ode satisfies spec on (Subs inputs"},"trust":"LIBRARY"},{"name":"Subs","pred":"isinstance(funcarg, Subs)","path":{"lhs":"classify_ode(x)","rhs":"returns a tuple of possible :py:meth:`~sympy.solvers.ode.dsolve` classifications for an ode","over":{"base":"Subs","pred":"isinstance(funcarg, Subs)"},"name":"classify_ode_Subs_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.ode.classify_ode_Subs_correct","statement":"classify_ode satisfies spec on Subs inputs"},"trust":"LIBRARY"},{"name":"AppliedUndef","pred":"isinstance(funcarg, AppliedUndef)","path":{"lhs":"classify_ode(x)","rhs":"returns a tuple of possible :py:meth:`~sympy.solvers.ode.dsolve` classifications for an ode","over":{"base":"AppliedUndef","pred":"isinstance(funcarg, AppliedUndef)"},"name":"classify_ode_AppliedUndef_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.ode.classify_ode_AppliedUndef_correct","statement":"classify_ode satisfies spec on AppliedUndef inputs"},"trust":"LIBRARY"},{"name":"Derivative","pred":"isinstance(funcarg, Derivative)","path":{"lhs":"classify_ode(x)","rhs":"returns a tuple of possible :py:meth:`~sympy.solvers.ode.dsolve` classifications for an ode","over":{"base":"Derivative","pred":"isinstance(funcarg, Derivative)"},"name":"classify_ode_Derivative_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.ode.classify_ode_Derivative_correct","statement":"classify_ode satisfies spec on Derivative inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":5,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"9330c0bc7ec7de52","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (func and len(func.args) != 1)","hasattr(func, 'func')","hasattr(eq, 'is_Add')","hasattr(func, 'args')","hasattr(eq, 'lhs')","hasattr(eq, 'rhs')","hasattr(eq, 'coeff')","hasattr(eq, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["eq.args","eq.coeff","eq.is_Add","eq.lhs","eq.rhs","func.args","func.func"],"calls_mutating":["boundary.update","r.update","rseries.update"],"raises":["ValueError"]},"state_contract":{"modifies":["boundary.*","r.*","rseries.*"],"old_bindings":{"old_len_boundary":"len(boundary)","old_len_r":"len(r)","old_len_rseries":"len(rseries)"},"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":17,"n_verified":7,"n_assumed":5,"n_failed":5,"trust_level":"LIBRARY_ASSUMED","compile_ms":17.2,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['eq', 'func', 'dict', 'ics'], spec=['eq', 'func', 'dict', 'ics', 'prep', 'xi', 'eta', 'n', '**kwargs']","Poor branch-fiber coverage: 0% (branches={'prep or func is None', 'funcarg.func == f and len(funcarg.args) == 1 and (not funcarg.args[0].has(x)) and (x not in ics[funcarg].free_symbols)', 'isinstance(funcarg, Derivative)', 'order == 2', 'isinstance(eq, Equality)', 'func and len(func.args) != 1', 'order == 1', 'isinstance(funcarg, Subs)', 'func is None', 'isinstance(funcarg, (Subs, Derivative))', 'isinstance(deriv, Derivative) and isinstance(deriv.args[0], AppliedUndef) and (deriv.args[0].func == f) and (len(deriv.args[0].args) == 1) and (old == x) and (not new.has(x)) and all((i == deriv.variables[0] for i in deriv.variables)) and (x not in ics[funcarg].free_symbols)', 'isinstance(funcarg, AppliedUndef)', 'r and r[a3] != 0'}, fibers={'Subs', 'Derivative', '(Subs', 'AppliedUndef', 'Equality'})"]}}
 def classify_ode(eq, func=None, dict=False, ics=None, *, prep=True, xi=None, eta=None, n=None, **kwargs):
     r"""
     Returns a tuple of possible :py:meth:`~sympy.solvers.ode.dsolve`
@@ -1259,7 +1305,10 @@ def classify_ode(eq, func=None, dict=False, ics=None, *, prep=True, xi=None, eta
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(classify_sysode(eq,), returns a dictionary of parameter names and values that define the system of ordinary differential equations in ``eq``. the parameters are further used in :py:meth:`~sympy.solvers.ode.dsolve` for solv) over {Any | isinstance(fi, Equality) and isinstance(func, list)} ║
+# ║ Path(classify_sysode(eq, funcs, **kwargs), <unspecified:classify_sysode>) over {Any | isinstance(fi, Equality) and isinstance(func, list)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ classify_sysode : {Any | isinstance(fi, Equality) and...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -1272,9 +1321,12 @@ def classify_ode(eq, func=None, dict=False, ics=None, *, prep=True, xi=None, eta
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?2 ✗2 VCs | 5.7ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 0a4843ea...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.ode.classify_sysode","kind":"function","src_hash":"e4ccb2b397e750f5","in":{"base":"Any","pred":"isinstance(fi, Equality) and isinstance(func, list)"},"out":{"base":"Any"},"spec":{"lhs":"classify_sysode(eq,)","rhs":"returns a dictionary of parameter names and values that define the system of ordinary differential equations in ``eq``. the parameters are further used in :py:meth:`~sympy.solvers.ode.dsolve` for solv","over":{"base":"Any","pred":"isinstance(fi, Equality) and isinstance(func, list)"},"name":"classify_sysode_correct"},"guarantee":"returns a dictionary of parameter names and values that define the system of ordinary differential equations in ``eq``. the parameters are further used in :py:meth:`~sympy.solvers.ode.dsolve` for solv","fibers":[{"name":"Equality","pred":"isinstance(fi, Equality)","path":{"lhs":"classify_sysode(x)","rhs":"returns a dictionary of parameter names and values that define the system of ordinary differential equations in ``eq``. the parameters are further used in :py:meth:`~sympy.solvers.ode.dsolve` for solv","over":{"base":"Equality","pred":"isinstance(fi, Equality)"},"name":"classify_sysode_Equality_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.ode.classify_sysode_Equality_correct","statement":"classify_sysode satisfies spec on Equality inputs"},"trust":"LIBRARY"},{"name":"list","pred":"isinstance(func, list)","path":{"lhs":"classify_sysode(x)","rhs":"returns a dictionary of parameter names and values that define the system of ordinary differential equations in ``eq``. the parameters are further used in :py:meth:`~sympy.solvers.ode.dsolve` for solv","over":{"base":"list","pred":"isinstance(func, list)"},"name":"classify_sysode_list_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.ode.classify_sysode_list_correct","statement":"classify_sysode satisfies spec on list inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"0a4843ea0b9c2198"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.ode.classify_sysode","kind":"function","src_hash":"e4ccb2b397e750f5","in":{"base":"Any","pred":"isinstance(fi, Equality) and isinstance(func, list)"},"out":{"base":"Any"},"spec":{"lhs":"classify_sysode(eq, funcs, **kwargs)","rhs":"<unspecified:classify_sysode>","over":{"base":"Any","pred":"isinstance(fi, Equality) and isinstance(func, list)"},"name":"classify_sysode_correct"},"guarantee":"returns a dictionary of parameter names and values that define the system of ordinary differential equations in ``eq``. the parameters are further used in :py:meth:`~sympy.solvers.ode.dsolve` for solv","fibers":[{"name":"Equality","pred":"isinstance(fi, Equality)","path":{"lhs":"classify_sysode(x)","rhs":"returns a dictionary of parameter names and values that define the system of ordinary differential equations in ``eq``. the parameters are further used in :py:meth:`~sympy.solvers.ode.dsolve` for solv","over":{"base":"Equality","pred":"isinstance(fi, Equality)"},"name":"classify_sysode_Equality_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.ode.classify_sysode_Equality_correct","statement":"classify_sysode satisfies spec on Equality inputs"},"trust":"LIBRARY"},{"name":"list","pred":"isinstance(func, list)","path":{"lhs":"classify_sysode(x)","rhs":"returns a dictionary of parameter names and values that define the system of ordinary differential equations in ``eq``. the parameters are further used in :py:meth:`~sympy.solvers.ode.dsolve` for solv","over":{"base":"list","pred":"isinstance(func, list)"},"name":"classify_sysode_list_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.ode.classify_sysode_list_correct","statement":"classify_sysode satisfies spec on list inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"0a4843ea0b9c2198","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_args","writes":["eq[*]"],"raises":["ValueError"]},"state_contract":{"modifies":["eq[*]"],"old_bindings":{"old_eq_star":"eq[*]"},"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":1,"n_assumed":2,"n_failed":2,"trust_level":"LIBRARY_ASSUMED","compile_ms":5.7,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['eq', 'funcs'], spec=['eq', 'funcs', '**kwargs']","Poor branch-fiber coverage: 0% (branches={'funcs == [None]', 'dep != 0', 'i == 0', 'coef != 0', 'k == 0', \"matching_hints['no_of_equation'] == 3\", 'func and len(func.args) != 1', 'is_linear_ == True', 'len(funcs) != len(eq)', 'isinstance(func, list)', 'max_order < order_', 'order_eq == 1', 'len(set(order.values())) == 1', 'len(func_elem.args) != 1', 'isinstance(func_, list)', 'func_coef[j, func, k] == 0', 'isinstance(fi, Equality)', \"matching_hints['no_of_equation'] == 2\", \"matching_hints['is_linear'] == True\"}, fibers={'Equality', 'list'})"]}}
 def classify_sysode(eq, funcs=None, **kwargs):
     r"""
     Returns a dictionary of parameter names and values that define the system
@@ -1488,16 +1540,23 @@ def classify_sysode(eq, funcs=None, **kwargs):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(check_linear_2eq_order1(eq,), check_linear_2eq_order1 produces the expected output) over Any ║
+# ║ Path(check_linear_2eq_order1(eq, func, func_coef), <unspecified:check_linear_2eq_order1>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: not (forcing[0].has(t) or forcing[1]...   ║
+# ║   fiber[case_1]: not (not (forcing[0].has(t) or forci...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ check_linear_2eq_order1 : Any → Any                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d131a10f0dba80f4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b8e8896c8933f297  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.ode.check_linear_2eq_order1","kind":"function","src_hash":"d1edc50004bfef79","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"check_linear_2eq_order1(eq,)","rhs":"check_linear_2eq_order1 produces the expected output","over":{"base":"Any"},"name":"check_linear_2eq_order1_correct"},"guarantee":"check_linear_2eq_order1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.ode.check_linear_2eq_order1_correct","statement":"Path(check_linear_2eq_order1(x), check_linear_2eq_order1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d131a10f0dba80f4"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.ode.check_linear_2eq_order1","kind":"function","src_hash":"d1edc50004bfef79","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"check_linear_2eq_order1(eq, func, func_coef)","rhs":"<unspecified:check_linear_2eq_order1>","over":{"base":"Any"},"name":"check_linear_2eq_order1_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.ode.check_linear_2eq_order1_correct","statement":"Path(check_linear_2eq_order1(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b8e8896c8933f297","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"not (forcing[0].has(t) or forcing[1].has(t))","ensures":[],"decidability":"library"},{"name":"case_1","guard":"not (not (forcing[0].has(t) or forcing[1].has(t)))","ensures":["result == None"],"decidability":"library","returns_expr":"None"}],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":true}}
 def check_linear_2eq_order1(eq, func, func_coef):
     x = func[0].func
     y = func[1].func
@@ -1554,7 +1613,10 @@ def check_linear_2eq_order1(eq, func, func_coef):
                 # Equations for type 7 are Eq(diff(x(t),t), f(t)*x(t) + g(t)*y(t)) and Eq(diff(y(t),t), h(t)*x(t) + p(t)*y(t))
                 return "type7"
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(check_nonlinear_2eq_order1(eq,), check_nonlinear_2eq_order1 produces the expected output) over {Any | isinstance(func_, list)} ║
+# ║ Path(check_nonlinear_2eq_order1(eq, func, func_coef), <unspecified:check_nonlinear_2eq_order1>) over {Any | isinstance(func_, list)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ check_nonlinear_2eq_order1 : {Any | isinstance(func_,...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -1566,9 +1628,12 @@ def check_linear_2eq_order1(eq, func, func_coef):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 3.3ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 53977dee...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.ode.check_nonlinear_2eq_order1","kind":"function","src_hash":"71e98044674e9cb8","in":{"base":"Any","pred":"isinstance(func_, list)"},"out":{"base":"Any"},"spec":{"lhs":"check_nonlinear_2eq_order1(eq,)","rhs":"check_nonlinear_2eq_order1 produces the expected output","over":{"base":"Any","pred":"isinstance(func_, list)"},"name":"check_nonlinear_2eq_order1_correct"},"guarantee":"check_nonlinear_2eq_order1 produces the expected output","fibers":[{"name":"list","pred":"isinstance(func_, list)","path":{"lhs":"check_nonlinear_2eq_order1(x)","rhs":"check_nonlinear_2eq_order1 produces the expected output","over":{"base":"list","pred":"isinstance(func_, list)"},"name":"check_nonlinear_2eq_order1_list_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.ode.check_nonlinear_2eq_order1_list_correct","statement":"check_nonlinear_2eq_order1 satisfies spec on list inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"53977deeab5a11e1"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.ode.check_nonlinear_2eq_order1","kind":"function","src_hash":"71e98044674e9cb8","in":{"base":"Any","pred":"isinstance(func_, list)"},"out":{"base":"Any"},"spec":{"lhs":"check_nonlinear_2eq_order1(eq, func, func_coef)","rhs":"<unspecified:check_nonlinear_2eq_order1>","over":{"base":"Any","pred":"isinstance(func_, list)"},"name":"check_nonlinear_2eq_order1_correct"},"guarantee":"check_nonlinear_2eq_order1 produces the expected output","fibers":[{"name":"list","pred":"isinstance(func_, list)","path":{"lhs":"check_nonlinear_2eq_order1(x)","rhs":"check_nonlinear_2eq_order1 produces the expected output","over":{"base":"list","pred":"isinstance(func_, list)"},"name":"check_nonlinear_2eq_order1_list_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.ode.check_nonlinear_2eq_order1_list_correct","statement":"check_nonlinear_2eq_order1 satisfies spec on list inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"53977deeab5a11e1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_args","writes":["eq[*]"]},"state_contract":{"modifies":["eq[*]"],"old_bindings":{"old_eq_star":"eq[*]"}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":3.3,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(func_, list)'}, fibers={'list'})"]}}
 def check_nonlinear_2eq_order1(eq, func, func_coef):
     t = list(list(eq[0].atoms(Derivative))[0].atoms(Symbol))[0]
     f = Wild('f')
@@ -1642,30 +1707,42 @@ def check_nonlinear_2eq_order1(eq, func, func_coef):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(check_nonlinear_2eq_order2(eq,), check_nonlinear_2eq_order2 produces the expected output) over Any ║
+# ║ Path(check_nonlinear_2eq_order2(eq, func, func_coef), None) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  None                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ check_nonlinear_2eq_order2 : Any → Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5805ca99d9e1785b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.ode.check_nonlinear_2eq_order2","kind":"function","src_hash":"9c66b66b979161d6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"check_nonlinear_2eq_order2(eq,)","rhs":"check_nonlinear_2eq_order2 produces the expected output","over":{"base":"Any"},"name":"check_nonlinear_2eq_order2_correct"},"guarantee":"check_nonlinear_2eq_order2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5805ca99d9e1785b"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.ode.check_nonlinear_2eq_order2","kind":"function","src_hash":"9c66b66b979161d6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"check_nonlinear_2eq_order2(eq, func, func_coef)","rhs":"None","over":{"base":"Any"},"name":"check_nonlinear_2eq_order2_correct"},"guarantee":"returns None","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5805ca99d9e1785b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"None","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def check_nonlinear_2eq_order2(eq, func, func_coef):
     return None
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(check_nonlinear_3eq_order1(eq,), check_nonlinear_3eq_order1 produces the expected output) over Any ║
+# ║ Path(check_nonlinear_3eq_order1(eq, func, func_coef), <unspecified:check_nonlinear_3eq_order1>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ check_nonlinear_3eq_order1 : Any → Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1986d8bef6cd31f8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.ode.check_nonlinear_3eq_order1","kind":"function","src_hash":"e01e245c172c5108","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"check_nonlinear_3eq_order1(eq,)","rhs":"check_nonlinear_3eq_order1 produces the expected output","over":{"base":"Any"},"name":"check_nonlinear_3eq_order1_correct"},"guarantee":"check_nonlinear_3eq_order1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.ode.check_nonlinear_3eq_order1_correct","statement":"Path(check_nonlinear_3eq_order1(x), check_nonlinear_3eq_order1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1986d8bef6cd31f8"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.ode.check_nonlinear_3eq_order1","kind":"function","src_hash":"e01e245c172c5108","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"check_nonlinear_3eq_order1(eq, func, func_coef)","rhs":"<unspecified:check_nonlinear_3eq_order1>","over":{"base":"Any"},"name":"check_nonlinear_3eq_order1_correct"},"guarantee":"check_nonlinear_3eq_order1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.ode.check_nonlinear_3eq_order1_correct","statement":"Path(check_nonlinear_3eq_order1(x), check_nonlinear_3eq_order1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1986d8bef6cd31f8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_args","writes":["eq[*]"],"calls_mutating":["r1.update"]},"state_contract":{"modifies":["eq[*]","r1.*"],"old_bindings":{"old_eq_star":"eq[*]","old_len_r1":"len(r1)"}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.7,"verdict_class":"assumed","binding":true}}
 def check_nonlinear_3eq_order1(eq, func, func_coef):
     x = func[0].func
     y = func[1].func
@@ -1748,23 +1825,35 @@ def check_nonlinear_3eq_order1(eq, func, func_coef):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(check_nonlinear_3eq_order2(eq,), check_nonlinear_3eq_order2 produces the expected output) over Any ║
+# ║ Path(check_nonlinear_3eq_order2(eq, func, func_coef), None) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  None                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ check_nonlinear_3eq_order2 : Any → Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4cad782f2aebeab4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.ode.check_nonlinear_3eq_order2","kind":"function","src_hash":"77ed6d33d5a2e10a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"check_nonlinear_3eq_order2(eq,)","rhs":"check_nonlinear_3eq_order2 produces the expected output","over":{"base":"Any"},"name":"check_nonlinear_3eq_order2_correct"},"guarantee":"check_nonlinear_3eq_order2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4cad782f2aebeab4"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.ode.check_nonlinear_3eq_order2","kind":"function","src_hash":"77ed6d33d5a2e10a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"check_nonlinear_3eq_order2(eq, func, func_coef)","rhs":"None","over":{"base":"Any"},"name":"check_nonlinear_3eq_order2_correct"},"guarantee":"returns None","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4cad782f2aebeab4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"None","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def check_nonlinear_3eq_order2(eq, func, func_coef):
     return None
 
 
 @vectorize(0)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(odesimp(ode), simplifies solutions of odes, including trying to solve for ``func`` and running :py:meth:`~sympy.solvers.ode.constantsimp`) over {Any | isinstance(eq, Equality) and isinstance(newi.lhs, log)} ║
+# ║ Path(odesimp(ode, eq, func), <unspecified:odesimp>) over {Any | isinstance(eq, Equality) and isinstance(newi.lhs, log) and hasattr(func, 'func') and hasattr(func, 'args') and hasattr(eq, 'free_symbols') and hasattr(ode, 'free_symbols') and hasattr(hint, 'startswith') and hasattr(eq, 'rhs') and hasattr(eq, 'lhs') and hasattr(eq, 'xreplace') and hasattr(eq, 'atoms')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(func, 'func')                          ║
+# ║   requires: hasattr(func, 'args')                          ║
+# ║   requires: hasattr(eq, 'free_symbols')                    ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ odesimp : {Any | isinstance(eq, Equality) and isinsta...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -1777,9 +1866,12 @@ def check_nonlinear_3eq_order2(eq, func, func_coef):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?2 ✗2 VCs | 1.4ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | e206aafc...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.ode.odesimp","kind":"function","src_hash":"9ad91df7ea4ce9ff","in":{"base":"Any","pred":"isinstance(eq, Equality) and isinstance(newi.lhs, log)"},"out":{"base":"Any"},"spec":{"lhs":"odesimp(ode)","rhs":"simplifies solutions of odes, including trying to solve for ``func`` and running :py:meth:`~sympy.solvers.ode.constantsimp`","over":{"base":"Any","pred":"isinstance(eq, Equality) and isinstance(newi.lhs, log)"},"name":"odesimp_correct"},"guarantee":"simplifies solutions of odes, including trying to solve for ``func`` and running :py:meth:`~sympy.solvers.ode.constantsimp`","fibers":[{"name":"Equality","pred":"isinstance(eq, Equality)","path":{"lhs":"odesimp(x)","rhs":"simplifies solutions of odes, including trying to solve for ``func`` and running :py:meth:`~sympy.solvers.ode.constantsimp`","over":{"base":"Equality","pred":"isinstance(eq, Equality)"},"name":"odesimp_Equality_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.ode.odesimp_Equality_correct","statement":"odesimp satisfies spec on Equality inputs"},"trust":"LIBRARY"},{"name":"log","pred":"isinstance(newi.lhs, log)","path":{"lhs":"odesimp(x)","rhs":"simplifies solutions of odes, including trying to solve for ``func`` and running :py:meth:`~sympy.solvers.ode.constantsimp`","over":{"base":"log","pred":"isinstance(newi.lhs, log)"},"name":"odesimp_log_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.ode.odesimp_log_correct","statement":"odesimp satisfies spec on log inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"e206aafc77979ca3"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.ode.odesimp","kind":"function","src_hash":"9ad91df7ea4ce9ff","in":{"base":"Any","pred":"isinstance(eq, Equality) and isinstance(newi.lhs, log) and hasattr(func, 'func') and hasattr(func, 'args') and hasattr(eq, 'free_symbols') and hasattr(ode, 'free_symbols') and hasattr(hint, 'startswith') and hasattr(eq, 'rhs') and hasattr(eq, 'lhs') and hasattr(eq, 'xreplace') and hasattr(eq, 'atoms')"},"out":{"base":"Any"},"spec":{"lhs":"odesimp(ode, eq, func)","rhs":"<unspecified:odesimp>","over":{"base":"Any","pred":"isinstance(eq, Equality) and isinstance(newi.lhs, log) and hasattr(func, 'func') and hasattr(func, 'args') and hasattr(eq, 'free_symbols') and hasattr(ode, 'free_symbols') and hasattr(hint, 'startswith') and hasattr(eq, 'rhs') and hasattr(eq, 'lhs') and hasattr(eq, 'xreplace') and hasattr(eq, 'atoms')"},"name":"odesimp_correct"},"guarantee":"simplifies solutions of odes, including trying to solve for ``func`` and running :py:meth:`~sympy.solvers.ode.constantsimp`","fibers":[{"name":"Equality","pred":"isinstance(eq, Equality)","path":{"lhs":"odesimp(x)","rhs":"simplifies solutions of odes, including trying to solve for ``func`` and running :py:meth:`~sympy.solvers.ode.constantsimp`","over":{"base":"Equality","pred":"isinstance(eq, Equality)"},"name":"odesimp_Equality_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.ode.odesimp_Equality_correct","statement":"odesimp satisfies spec on Equality inputs"},"trust":"LIBRARY"},{"name":"log","pred":"isinstance(newi.lhs, log)","path":{"lhs":"odesimp(x)","rhs":"simplifies solutions of odes, including trying to solve for ``func`` and running :py:meth:`~sympy.solvers.ode.constantsimp`","over":{"base":"log","pred":"isinstance(newi.lhs, log)"},"name":"odesimp_log_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.ode.odesimp_log_correct","statement":"odesimp satisfies spec on log inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"e206aafc77979ca3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(func, 'func')","hasattr(func, 'args')","hasattr(eq, 'free_symbols')","hasattr(ode, 'free_symbols')","hasattr(hint, 'startswith')","hasattr(eq, 'rhs')","hasattr(eq, 'lhs')","hasattr(eq, 'xreplace')","hasattr(eq, 'atoms')"],"pure":false,"effects":{"effect_type":"mutates_args","reads":["eq.atoms","eq.free_symbols","eq.lhs","eq.rhs","eq.xreplace","func.args","func.func","hint.startswith","ode.free_symbols"],"writes":["eq[*]"],"raises":["NotImplementedError","TypeError"]},"state_contract":{"modifies":["eq[*]"],"old_bindings":{"old_eq_star":"eq[*]"},"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"],"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":1,"n_assumed":2,"n_failed":2,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.4,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'eq.lhs == func and (not eq.rhs.has(func))', 'not isinstance(eq, Equality)', 'isinstance(newi.lhs, log) and newi.rhs == 0', 'eq.rhs == func and (not eq.lhs.has(func))', 'len(eq) == 1'}, fibers={'Equality', 'log'})"]}}
 def odesimp(ode, eq, func, hint):
     r"""
     Simplifies solutions of ODEs, including trying to solve for ``func`` and
@@ -1919,16 +2011,25 @@ def odesimp(ode, eq, func, hint):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ode_sol_simplicity(sol), returns an extended integer representing how simple a solution to an ode is) over Any ║
+# ║ Path(ode_sol_simplicity(sol, func, trysolving), # HINT: ode_sol_simplicity may be idempotent: ode_sol_simplicity(ode_sol_simplicity(x)) == ode_sol_simplicity(x)) over {Any | hasattr(sol, 'has') and hasattr(sol, 'lhs') and hasattr(sol, 'rhs')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ ode_sol_simplicity : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(sol, 'has')                            ║
+# ║   requires: hasattr(sol, 'lhs')                            ║
+# ║   requires: hasattr(sol, 'rhs')                            ║
+# ║   ensures:  # HINT: ode_sol_simplicity may be idempot...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ ode_sol_simplicity : {Any | hasattr(sol, 'has') and h...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9df0679431fbdd23  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c1b585a45b7c8b15  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.ode.ode_sol_simplicity","kind":"function","src_hash":"b2700e874b4438df","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ode_sol_simplicity(sol)","rhs":"returns an extended integer representing how simple a solution to an ode is","over":{"base":"Any"},"name":"ode_sol_simplicity_correct"},"guarantee":"returns an extended integer representing how simple a solution to an ode is","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.ode.ode_sol_simplicity_correct","statement":"Path(ode_sol_simplicity(x), returns an extended integer representing how simple a solution to an ode is)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9df0679431fbdd23"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.ode.ode_sol_simplicity","kind":"function","src_hash":"b2700e874b4438df","in":{"base":"Any","pred":"hasattr(sol, 'has') and hasattr(sol, 'lhs') and hasattr(sol, 'rhs')"},"out":{"base":"Any","pred":"result satisfies: # HINT: ode_sol_simplicity may be idempotent: ode_sol_simplicity(ode_sol_simplicity(x)) == ode_sol_simplicity(x)"},"spec":{"lhs":"ode_sol_simplicity(sol, func, trysolving)","rhs":"# HINT: ode_sol_simplicity may be idempotent: ode_sol_simplicity(ode_sol_simplicity(x)) == ode_sol_simplicity(x)","over":{"base":"Any","pred":"hasattr(sol, 'has') and hasattr(sol, 'lhs') and hasattr(sol, 'rhs')"},"name":"ode_sol_simplicity_correct"},"guarantee":"# HINT: ode_sol_simplicity may be idempotent: ode_sol_simplicity(ode_sol_simplicity(x)) == ode_sol_simplicity(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.ode.ode_sol_simplicity_correct","statement":"Path(ode_sol_simplicity(x), # HINT: ode_sol_simplicity may be idempotent: ode_sol_simplicity(ode_sol_simplicity(x)) == ode_sol_simplicity(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c1b585a45b7c8b15","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(sol, 'has')","hasattr(sol, 'lhs')","hasattr(sol, 'rhs')"],"ensures":["# HINT: ode_sol_simplicity may be idempotent: ode_sol_simplicity(ode_sol_simplicity(x)) == ode_sol_simplicity(x)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["sol.has","sol.lhs","sol.rhs"],"raises":["NotImplementedError"],"catches":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def ode_sol_simplicity(sol, func, trysolving=True):
     r"""
     Returns an extended integer representing how simple a solution to an ODE
@@ -2054,7 +2155,10 @@ def ode_sol_simplicity(sol, func, trysolving=True):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_extract_funcs(eqs), internal helper behaves correctly) over {Any | isinstance(node, Derivative)} ║
+# ║ Path(_extract_funcs(eqs), <unspecified:_extract_funcs>) over {Any | isinstance(node, Derivative)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _extract_funcs : {Any | isinstance(node, Derivative)}...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -2066,9 +2170,12 @@ def ode_sol_simplicity(sol, func, trysolving=True):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.3ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 87122984...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.ode._extract_funcs","kind":"function","src_hash":"f47ccbf29f855216","in":{"base":"Any","pred":"isinstance(node, Derivative)"},"out":{"base":"Any"},"spec":{"lhs":"_extract_funcs(eqs)","rhs":"internal helper behaves correctly","over":{"base":"Any","pred":"isinstance(node, Derivative)"},"name":"_extract_funcs_correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"Derivative","pred":"isinstance(node, Derivative)","path":{"lhs":"_extract_funcs(x)","rhs":"internal helper behaves correctly","over":{"base":"Derivative","pred":"isinstance(node, Derivative)"},"name":"_extract_funcs_Derivative_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.ode._extract_funcs_Derivative_correct","statement":"_extract_funcs satisfies spec on Derivative inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"871229845c671aba"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.ode._extract_funcs","kind":"function","src_hash":"f47ccbf29f855216","in":{"base":"Any","pred":"isinstance(node, Derivative)"},"out":{"base":"Any"},"spec":{"lhs":"_extract_funcs(eqs)","rhs":"<unspecified:_extract_funcs>","over":{"base":"Any","pred":"isinstance(node, Derivative)"},"name":"_extract_funcs_correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"Derivative","pred":"isinstance(node, Derivative)","path":{"lhs":"_extract_funcs(x)","rhs":"internal helper behaves correctly","over":{"base":"Derivative","pred":"isinstance(node, Derivative)"},"name":"_extract_funcs_Derivative_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.ode._extract_funcs_Derivative_correct","statement":"_extract_funcs satisfies spec on Derivative inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"871229845c671aba","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.3,"verdict_class":"failed","binding":true}}
 def _extract_funcs(eqs):
     funcs = []
     for eq in eqs:
@@ -2084,7 +2191,13 @@ def _extract_funcs(eqs):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_constant_subexpressions(exp), internal helper behaves correctly) over {Any | isinstance(expr, Integral)} ║
+# ║ Path(_get_constant_subexpressions(expr, Cs), <unspecified:_get_constant_subexpressions>) over {Any | isinstance(expr, Integral) and hasattr(expr, 'free_symbols') and hasattr(expr, 'args') and hasattr(expr, 'func') and hasattr(expr, 'expand') and hasattr(expr, 'limits')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'free_symbols')                  ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   requires: hasattr(expr, 'func')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_constant_subexpressions : {Any | isinstance(expr...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -2096,9 +2209,12 @@ def _extract_funcs(eqs):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.3ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 3c535fde...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.ode._get_constant_subexpressions","kind":"function","src_hash":"53d7942f48a9f86c","in":{"base":"Any","pred":"isinstance(expr, Integral)"},"out":{"base":"Any"},"spec":{"lhs":"_get_constant_subexpressions(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any","pred":"isinstance(expr, Integral)"},"name":"_get_constant_subexpressions_correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"Integral","pred":"isinstance(expr, Integral)","path":{"lhs":"_get_constant_subexpressions(x)","rhs":"internal helper behaves correctly","over":{"base":"Integral","pred":"isinstance(expr, Integral)"},"name":"_get_constant_subexpressions_Integral_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.ode._get_constant_subexpressions_Integral_correct","statement":"_get_constant_subexpressions satisfies spec on Integral inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"3c535fde8e94554d"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.ode._get_constant_subexpressions","kind":"function","src_hash":"53d7942f48a9f86c","in":{"base":"Any","pred":"isinstance(expr, Integral) and hasattr(expr, 'free_symbols') and hasattr(expr, 'args') and hasattr(expr, 'func') and hasattr(expr, 'expand') and hasattr(expr, 'limits')"},"out":{"base":"Any"},"spec":{"lhs":"_get_constant_subexpressions(expr, Cs)","rhs":"<unspecified:_get_constant_subexpressions>","over":{"base":"Any","pred":"isinstance(expr, Integral) and hasattr(expr, 'free_symbols') and hasattr(expr, 'args') and hasattr(expr, 'func') and hasattr(expr, 'expand') and hasattr(expr, 'limits')"},"name":"_get_constant_subexpressions_correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"Integral","pred":"isinstance(expr, Integral)","path":{"lhs":"_get_constant_subexpressions(x)","rhs":"internal helper behaves correctly","over":{"base":"Integral","pred":"isinstance(expr, Integral)"},"name":"_get_constant_subexpressions_Integral_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.ode._get_constant_subexpressions_Integral_correct","statement":"_get_constant_subexpressions satisfies spec on Integral inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"3c535fde8e94554d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'free_symbols')","hasattr(expr, 'args')","hasattr(expr, 'func')","hasattr(expr, 'expand')","hasattr(expr, 'limits')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.3,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'expr.func == exp', 'len(d[True]) > 1', 'isinstance(expr, Integral)', 'expr.free_symbols.issubset(Cs) and all((len(x) == 3 for x in expr.limits))'}, fibers={'Integral'})"]}}
 def _get_constant_subexpressions(expr, Cs):
     Cs = set(Cs)
     Ces = []
@@ -2126,16 +2242,28 @@ def _get_constant_subexpressions(expr, Cs):
     return Ces
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__remove_linear_redundancies(exp), internal helper behaves correctly) over {Any | isinstance(expr, Equality) and isinstance(expr, Add) and isinstance(lhs, Symbol)} ║
+# ║ Path(__remove_linear_redundancies(expr, Cs), result == (Eq(lhs, rhs) if isinstance(expr, Equality) else _recursive_walk(expr)) and result == Eq(lhs, rhs) or result == _recursive_walk(expr)) over {Any | isinstance(expr, Equality) and isinstance(expr, Add) and isinstance(lhs, Symbol) and hasattr(expr, 'count') and hasattr(expr, 'args') and hasattr(expr, 'func') and hasattr(expr, 'diff') and hasattr(expr, 'subs')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'count')                         ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   requires: hasattr(expr, 'func')                          ║
+# ║   ensures:  result == (Eq(lhs, rhs) if isinstance(exp...   ║
+# ║   ensures:  result == Eq(lhs, rhs) or result == _recu...   ║
+# ║   fiber[Equality]: isinstance(expr, Equality) => Eq(l...   ║
+# ║   fiber[Equality]: not (isinstance(expr, Equality)) =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __remove_linear_redundancies : {Any | isinstance(expr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.7ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3dd6dfb312825add           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.ode.__remove_linear_redundancies","kind":"function","src_hash":"21621bc81f7d9db7","in":{"base":"Any","pred":"isinstance(expr, Equality) and isinstance(expr, Add) and isinstance(lhs, Symbol)"},"out":{"base":"Any"},"spec":{"lhs":"__remove_linear_redundancies(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any","pred":"isinstance(expr, Equality) and isinstance(expr, Add) and isinstance(lhs, Symbol)"},"name":"__remove_linear_redundancies_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3dd6dfb312825add"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.ode.__remove_linear_redundancies","kind":"function","src_hash":"21621bc81f7d9db7","in":{"base":"Any","pred":"isinstance(expr, Equality) and isinstance(expr, Add) and isinstance(lhs, Symbol) and hasattr(expr, 'count') and hasattr(expr, 'args') and hasattr(expr, 'func') and hasattr(expr, 'diff') and hasattr(expr, 'subs')"},"out":{"base":"Any","pred":"result satisfies: result == (Eq(lhs, rhs) if isinstance(expr, Equality) else _recursive_walk(expr)) and result == Eq(lhs, rhs) or result == _recursive_walk(expr)"},"spec":{"lhs":"__remove_linear_redundancies(expr, Cs)","rhs":"result == (Eq(lhs, rhs) if isinstance(expr, Equality) else _recursive_walk(expr)) and result == Eq(lhs, rhs) or result == _recursive_walk(expr)","over":{"base":"Any","pred":"isinstance(expr, Equality) and isinstance(expr, Add) and isinstance(lhs, Symbol) and hasattr(expr, 'count') and hasattr(expr, 'args') and hasattr(expr, 'func') and hasattr(expr, 'diff') and hasattr(expr, 'subs')"},"name":"__remove_linear_redundancies_correct"},"guarantee":"result == (Eq(lhs, rhs) if isinstance(expr, Equality) else _recursive_walk(expr)); result == Eq(lhs, rhs) or result == _recursive_walk(expr); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3dd6dfb312825add","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'count')","hasattr(expr, 'args')","hasattr(expr, 'func')","hasattr(expr, 'diff')","hasattr(expr, 'subs')"],"ensures":["result == (Eq(lhs, rhs) if isinstance(expr, Equality) else _recursive_walk(expr))","result == Eq(lhs, rhs) or result == _recursive_walk(expr)"],"fibers":[{"name":"Equality","guard":"isinstance(expr, Equality)","ensures":["result == Eq(lhs, rhs)"],"decidability":"structural","returns_expr":"Eq(lhs, rhs)"},{"name":"Equality","guard":"not (isinstance(expr, Equality))","ensures":["result == _recursive_walk(expr)"],"decidability":"structural","returns_expr":"_recursive_walk(expr)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","expr.count","expr.diff","expr.func","expr.subs"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.7,"verdict_class":"failed","binding":true}}
 def __remove_linear_redundancies(expr, Cs):
     cnts = {i: expr.count(i) for i in Cs}
     Cs = [i for i in Cs if cnts[i] > 0]
@@ -2191,9 +2319,14 @@ def __remove_linear_redundancies(expr, Cs):
 
 @vectorize(0)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(constantsimp(exp), simplifies an expression with arbitrary constants in it) over {Any | isinstance(m, exp)} ║
+# ║ Path(constantsimp(expr, constants), # HINT: constantsimp may be idempotent: constantsimp(constantsimp(x)) == constantsimp(x)) over {Any | isinstance(m, exp) and hasattr(expr, 'subs') and hasattr(expr, 'count')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ constantsimp : {Any | isinstance(m, exp)} → Any            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'subs')                          ║
+# ║   requires: hasattr(expr, 'count')                         ║
+# ║   ensures:  # HINT: constantsimp may be idempotent: c...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ constantsimp : {Any | isinstance(m, exp) and hasattr(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   exp: {isinstance(m, exp)} → library_axiom                ║
@@ -2203,9 +2336,12 @@ def __remove_linear_redundancies(expr, Cs):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.8ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | f4fbc3ac...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.ode.constantsimp","kind":"function","src_hash":"1b8e64935216d853","in":{"base":"Any","pred":"isinstance(m, exp)"},"out":{"base":"Any"},"spec":{"lhs":"constantsimp(exp)","rhs":"simplifies an expression with arbitrary constants in it","over":{"base":"Any","pred":"isinstance(m, exp)"},"name":"constantsimp_correct"},"guarantee":"simplifies an expression with arbitrary constants in it","fibers":[{"name":"exp","pred":"isinstance(m, exp)","path":{"lhs":"constantsimp(x)","rhs":"simplifies an expression with arbitrary constants in it","over":{"base":"exp","pred":"isinstance(m, exp)"},"name":"constantsimp_exp_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.ode.constantsimp_exp_correct","statement":"constantsimp satisfies spec on exp inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"f4fbc3ac622bc97f"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.ode.constantsimp","kind":"function","src_hash":"1b8e64935216d853","in":{"base":"Any","pred":"isinstance(m, exp) and hasattr(expr, 'subs') and hasattr(expr, 'count')"},"out":{"base":"Any","pred":"result satisfies: # HINT: constantsimp may be idempotent: constantsimp(constantsimp(x)) == constantsimp(x)"},"spec":{"lhs":"constantsimp(expr, constants)","rhs":"# HINT: constantsimp may be idempotent: constantsimp(constantsimp(x)) == constantsimp(x)","over":{"base":"Any","pred":"isinstance(m, exp) and hasattr(expr, 'subs') and hasattr(expr, 'count')"},"name":"constantsimp_correct"},"guarantee":"# HINT: constantsimp may be idempotent: constantsimp(constantsimp(x)) == constantsimp(x)","fibers":[{"name":"exp","pred":"isinstance(m, exp)","path":{"lhs":"constantsimp(x)","rhs":"# HINT: constantsimp may be idempotent: constantsimp(constantsimp(x)) == constantsimp(x)","over":{"base":"exp","pred":"isinstance(m, exp)"},"name":"constantsimp_exp_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.ode.constantsimp_exp_correct","statement":"constantsimp satisfies spec on exp inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"f4fbc3ac622bc97f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'subs')","hasattr(expr, 'count')"],"ensures":["# HINT: constantsimp may be idempotent: constantsimp(constantsimp(x)) == constantsimp(x)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.8,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'orig_expr != expr', 'isinstance(m, exp)', 'all((expr.count(c) == xe.count(c) for c in xes))', 'len(cs) == 1 and cs[0] in Cs and (cs[0] not in rexpr.atoms(Symbol)) and (not any((cs[0] in ex for ex in commons if ex != s)))'}, fibers={'exp'})"]}}
 def constantsimp(expr, constants):
     r"""
     Simplifies an expression with arbitrary constants in it.
@@ -2334,7 +2470,13 @@ def constantsimp(expr, constants):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(constant_renumber(exp), renumber arbitrary constants in ``expr`` to use the symbol names as given in ``newconstants``) over {Any | isinstance(expr, (set, list, tuple)) and isinstance(expr, Tuple) and isinstance(expr, Equality)} ║
+# ║ Path(constant_renumber(expr, variables, newconstants), # HINT: constant_renumber may be idempotent: constant_renumber(constant_renumber(x)) == constant_renumber(x)) over {Any | isinstance(expr, (set, list, tuple)) and isinstance(expr, Tuple) and isinstance(expr, Equality) and hasattr(expr, 'free_symbols') and hasattr(expr, 'subs') and hasattr(expr, 'is_Piecewise') and hasattr(expr, 'is_Function') and hasattr(expr, 'lhs') and hasattr(expr, 'rhs') and hasattr(expr, 'has') and hasattr(expr, 'is_Pow') and hasattr(expr, 'func') and hasattr(expr, 'args')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'free_symbols')                  ║
+# ║   requires: hasattr(expr, 'subs')                          ║
+# ║   requires: hasattr(expr, 'is_Piecewise')                  ║
+# ║   ensures:  # HINT: constant_renumber may be idempote...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ constant_renumber : {Any | isinstance(expr, (set, lis...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -2348,9 +2490,12 @@ def constantsimp(expr, constants):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓4 ?3 ✗1 VCs | 3.4ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 28813e72...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.ode.constant_renumber","kind":"function","src_hash":"85450a5e261a06ad","in":{"base":"Any","pred":"isinstance(expr, (set, list, tuple)) and isinstance(expr, Tuple) and isinstance(expr, Equality)"},"out":{"base":"Any"},"spec":{"lhs":"constant_renumber(exp)","rhs":"renumber arbitrary constants in ``expr`` to use the symbol names as given in ``newconstants``","over":{"base":"Any","pred":"isinstance(expr, (set, list, tuple)) and isinstance(expr, Tuple) and isinstance(expr, Equality)"},"name":"constant_renumber_correct"},"guarantee":"renumber arbitrary constants in ``expr`` to use the symbol names as given in ``newconstants``","fibers":[{"name":"(set","pred":"isinstance(expr, (set, list, tuple))","path":{"lhs":"constant_renumber(x)","rhs":"renumber arbitrary constants in ``expr`` to use the symbol names as given in ``newconstants``","over":{"base":"(set","pred":"isinstance(expr, (set, list, tuple))"},"name":"constant_renumber_(set_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.ode.constant_renumber_(set_correct","statement":"constant_renumber satisfies spec on (set inputs"},"trust":"LIBRARY"},{"name":"Tuple","pred":"isinstance(expr, Tuple)","path":{"lhs":"constant_renumber(x)","rhs":"renumber arbitrary constants in ``expr`` to use the symbol names as given in ``newconstants``","over":{"base":"Tuple","pred":"isinstance(expr, Tuple)"},"name":"constant_renumber_Tuple_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.ode.constant_renumber_Tuple_correct","statement":"constant_renumber satisfies spec on Tuple inputs"},"trust":"LIBRARY"},{"name":"Equality","pred":"isinstance(expr, Equality)","path":{"lhs":"constant_renumber(x)","rhs":"renumber arbitrary constants in ``expr`` to use the symbol names as given in ``newconstants``","over":{"base":"Equality","pred":"isinstance(expr, Equality)"},"name":"constant_renumber_Equality_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.ode.constant_renumber_Equality_correct","statement":"constant_renumber satisfies spec on Equality inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":3,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"28813e723f55db56"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.ode.constant_renumber","kind":"function","src_hash":"85450a5e261a06ad","in":{"base":"Any","pred":"isinstance(expr, (set, list, tuple)) and isinstance(expr, Tuple) and isinstance(expr, Equality) and hasattr(expr, 'free_symbols') and hasattr(expr, 'subs') and hasattr(expr, 'is_Piecewise') and hasattr(expr, 'is_Function') and hasattr(expr, 'lhs') and hasattr(expr, 'rhs') and hasattr(expr, 'has') and hasattr(expr, 'is_Pow') and hasattr(expr, 'func') and hasattr(expr, 'args')"},"out":{"base":"Any","pred":"result satisfies: # HINT: constant_renumber may be idempotent: constant_renumber(constant_renumber(x)) == constant_renumber(x)"},"spec":{"lhs":"constant_renumber(expr, variables, newconstants)","rhs":"# HINT: constant_renumber may be idempotent: constant_renumber(constant_renumber(x)) == constant_renumber(x)","over":{"base":"Any","pred":"isinstance(expr, (set, list, tuple)) and isinstance(expr, Tuple) and isinstance(expr, Equality) and hasattr(expr, 'free_symbols') and hasattr(expr, 'subs') and hasattr(expr, 'is_Piecewise') and hasattr(expr, 'is_Function') and hasattr(expr, 'lhs') and hasattr(expr, 'rhs') and hasattr(expr, 'has') and hasattr(expr, 'is_Pow') and hasattr(expr, 'func') and hasattr(expr, 'args')"},"name":"constant_renumber_correct"},"guarantee":"# HINT: constant_renumber may be idempotent: constant_renumber(constant_renumber(x)) == constant_renumber(x)","fibers":[{"name":"(set","pred":"isinstance(expr, (set, list, tuple))","path":{"lhs":"constant_renumber(x)","rhs":"# HINT: constant_renumber may be idempotent: constant_renumber(constant_renumber(x)) == constant_renumber(x)","over":{"base":"(set","pred":"isinstance(expr, (set, list, tuple))"},"name":"constant_renumber_(set_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.ode.constant_renumber_(set_correct","statement":"constant_renumber satisfies spec on (set inputs"},"trust":"LIBRARY"},{"name":"Tuple","pred":"isinstance(expr, Tuple)","path":{"lhs":"constant_renumber(x)","rhs":"# HINT: constant_renumber may be idempotent: constant_renumber(constant_renumber(x)) == constant_renumber(x)","over":{"base":"Tuple","pred":"isinstance(expr, Tuple)"},"name":"constant_renumber_Tuple_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.ode.constant_renumber_Tuple_correct","statement":"constant_renumber satisfies spec on Tuple inputs"},"trust":"LIBRARY"},{"name":"Equality","pred":"isinstance(expr, Equality)","path":{"lhs":"constant_renumber(x)","rhs":"# HINT: constant_renumber may be idempotent: constant_renumber(constant_renumber(x)) == constant_renumber(x)","over":{"base":"Equality","pred":"isinstance(expr, Equality)"},"name":"constant_renumber_Equality_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.ode.constant_renumber_Equality_correct","statement":"constant_renumber satisfies spec on Equality inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":3,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"28813e723f55db56","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'free_symbols')","hasattr(expr, 'subs')","hasattr(expr, 'is_Piecewise')","hasattr(expr, 'is_Function')","hasattr(expr, 'lhs')","hasattr(expr, 'rhs')","hasattr(expr, 'has')","hasattr(expr, 'is_Pow')","hasattr(expr, 'func')","hasattr(expr, 'args')"],"ensures":["# HINT: constant_renumber may be idempotent: constant_renumber(constant_renumber(x)) == constant_renumber(x)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":8,"n_verified":4,"n_assumed":3,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":3.4,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'newconstants is None', 'isinstance(expr, Equality)', 'isinstance(expr, Tuple)', 'isinstance(expr, (set, list, tuple))'}, fibers={'Equality', 'Tuple', '(set'})"]}}
 def constant_renumber(expr, variables=None, newconstants=None):
     r"""
     Renumber arbitrary constants in ``expr`` to use the symbol names as given
@@ -2476,16 +2621,24 @@ def constant_renumber(expr, variables=None, newconstants=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_handle_Integral(exp), converts a solution with integrals in it into an actual solution) over Any ║
+# ║ Path(_handle_Integral(expr, func, hint), <unspecified:_handle_Integral>) over {Any | hasattr(hint, 'endswith') and hasattr(expr, 'doit')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _handle_Integral : Any → Any                               ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(hint, 'endswith')                      ║
+# ║   requires: hasattr(expr, 'doit')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _handle_Integral : {Any | hasattr(hint, 'endswith') a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f7ab5c3ba6a6618b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.ode._handle_Integral","kind":"function","src_hash":"bbf376e2b355ad9d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_handle_Integral(exp)","rhs":"converts a solution with integrals in it into an actual solution","over":{"base":"Any"},"name":"_handle_Integral_correct"},"guarantee":"converts a solution with integrals in it into an actual solution","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.ode._handle_Integral_correct","statement":"Path(_handle_Integral(x), converts a solution with integrals in it into an actual solution)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f7ab5c3ba6a6618b"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.ode._handle_Integral","kind":"function","src_hash":"bbf376e2b355ad9d","in":{"base":"Any","pred":"hasattr(hint, 'endswith') and hasattr(expr, 'doit')"},"out":{"base":"Any"},"spec":{"lhs":"_handle_Integral(expr, func, hint)","rhs":"<unspecified:_handle_Integral>","over":{"base":"Any","pred":"hasattr(hint, 'endswith') and hasattr(expr, 'doit')"},"name":"_handle_Integral_correct"},"guarantee":"converts a solution with integrals in it into an actual solution","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.ode._handle_Integral_correct","statement":"Path(_handle_Integral(x), converts a solution with integrals in it into an actual solution)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f7ab5c3ba6a6618b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(hint, 'endswith')","hasattr(expr, 'doit')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.doit","hint.endswith"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _handle_Integral(expr, func, hint):
     r"""
     Converts a solution with Integrals in it into an actual solution.
@@ -2506,9 +2659,15 @@ def _handle_Integral(expr, func, hint):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(homogeneous_order(eq,), returns the order `n` if `g` is homogeneous and ``none`` if it is not homogeneous) over {Any | isinstance(eq, Function)} ║
+# ║ Path(homogeneous_order(eq, *symbols), # HINT: homogeneous_order may be idempotent: homogeneous_order(homogeneous_order(x)) == homogeneous_order(x)) over {Any | isinstance(eq, Function) and symbols and hasattr(eq, 'has') and hasattr(eq, 'is_Number') and hasattr(eq, 'is_NumberSymbol') and hasattr(eq, 'is_number') and hasattr(eq, 'free_symbols') and hasattr(eq, 'subs') and hasattr(eq, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ homogeneous_order : {Any | isinstance(eq, Function)} ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: symbols                                        ║
+# ║   requires: hasattr(eq, 'has')                             ║
+# ║   requires: hasattr(eq, 'is_Number')                       ║
+# ║   ensures:  # HINT: homogeneous_order may be idempote...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ homogeneous_order : {Any | isinstance(eq, Function) a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   Function: {isinstance(eq, Function)} → library_axiom     ║
@@ -2518,9 +2677,12 @@ def _handle_Integral(expr, func, hint):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.6ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | e126c87d...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.ode.homogeneous_order","kind":"function","src_hash":"38dca47f328a4317","in":{"base":"Any","pred":"isinstance(eq, Function)"},"out":{"base":"Any"},"spec":{"lhs":"homogeneous_order(eq,)","rhs":"returns the order `n` if `g` is homogeneous and ``none`` if it is not homogeneous","over":{"base":"Any","pred":"isinstance(eq, Function)"},"name":"homogeneous_order_correct"},"guarantee":"returns the order `n` if `g` is homogeneous and ``none`` if it is not homogeneous","fibers":[{"name":"Function","pred":"isinstance(eq, Function)","path":{"lhs":"homogeneous_order(x)","rhs":"returns the order `n` if `g` is homogeneous and ``none`` if it is not homogeneous","over":{"base":"Function","pred":"isinstance(eq, Function)"},"name":"homogeneous_order_Function_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.ode.homogeneous_order_Function_correct","statement":"homogeneous_order satisfies spec on Function inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"e126c87dfadca008"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.ode.homogeneous_order","kind":"function","src_hash":"38dca47f328a4317","in":{"base":"Any","pred":"isinstance(eq, Function) and symbols and hasattr(eq, 'has') and hasattr(eq, 'is_Number') and hasattr(eq, 'is_NumberSymbol') and hasattr(eq, 'is_number') and hasattr(eq, 'free_symbols') and hasattr(eq, 'subs') and hasattr(eq, 'args')"},"out":{"base":"Any","pred":"result satisfies: # HINT: homogeneous_order may be idempotent: homogeneous_order(homogeneous_order(x)) == homogeneous_order(x)"},"spec":{"lhs":"homogeneous_order(eq, *symbols)","rhs":"# HINT: homogeneous_order may be idempotent: homogeneous_order(homogeneous_order(x)) == homogeneous_order(x)","over":{"base":"Any","pred":"isinstance(eq, Function) and symbols and hasattr(eq, 'has') and hasattr(eq, 'is_Number') and hasattr(eq, 'is_NumberSymbol') and hasattr(eq, 'is_number') and hasattr(eq, 'free_symbols') and hasattr(eq, 'subs') and hasattr(eq, 'args')"},"name":"homogeneous_order_correct"},"guarantee":"# HINT: homogeneous_order may be idempotent: homogeneous_order(homogeneous_order(x)) == homogeneous_order(x)","fibers":[{"name":"Function","pred":"isinstance(eq, Function)","path":{"lhs":"homogeneous_order(x)","rhs":"# HINT: homogeneous_order may be idempotent: homogeneous_order(homogeneous_order(x)) == homogeneous_order(x)","over":{"base":"Function","pred":"isinstance(eq, Function)"},"name":"homogeneous_order_Function_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.ode.homogeneous_order_Function_correct","statement":"homogeneous_order satisfies spec on Function inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"e126c87dfadca008","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["symbols","hasattr(eq, 'has')","hasattr(eq, 'is_Number')","hasattr(eq, 'is_NumberSymbol')","hasattr(eq, 'is_number')","hasattr(eq, 'free_symbols')","hasattr(eq, 'subs')","hasattr(eq, 'args')"],"ensures":["# HINT: homogeneous_order may be idempotent: homogeneous_order(homogeneous_order(x)) == homogeneous_order(x)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["eq.args","eq.free_symbols","eq.has","eq.is_Number","eq.is_NumberSymbol","eq.is_number","eq.subs"],"calls_mutating":["newsyms.add","symset.remove","symset.update"],"raises":["ValueError"]},"state_contract":{"modifies":["newsyms.*","symset.*"],"old_bindings":{"old_len_symset":"len(symset)"},"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.6,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['eq'], spec=['eq', '*symbols']","Poor branch-fiber coverage: 0% (branches={'b == t', 'isinstance(eq, Function)'}, fibers={'Function'})"]}}
 def homogeneous_order(eq, *symbols):
     r"""
     Returns the order `n` if `g` is homogeneous and ``None`` if it is not
@@ -2613,7 +2775,12 @@ def homogeneous_order(eq, *symbols):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ode_2nd_power_series_ordinary(eq,), gives a power series solution to a second order homogeneous differential equation with polynomial coefficients at an ordinary point) over {Any | isinstance(rhs, list)} ║
+# ║ Path(ode_2nd_power_series_ordinary(eq, func, order), Eq(f(x), series)) over {Any | isinstance(rhs, list) and hasattr(func, 'func') and hasattr(func, 'args')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(func, 'func')                          ║
+# ║   requires: hasattr(func, 'args')                          ║
+# ║   returns:  Eq(f(x), series)                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ ode_2nd_power_series_ordinary : {Any | isinstance(rhs...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -2625,9 +2792,12 @@ def homogeneous_order(eq, *symbols):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 2.4ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 338c0235...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.ode.ode_2nd_power_series_ordinary","kind":"function","src_hash":"9941aa02322ac4d4","in":{"base":"Any","pred":"isinstance(rhs, list)"},"out":{"base":"Any"},"spec":{"lhs":"ode_2nd_power_series_ordinary(eq,)","rhs":"gives a power series solution to a second order homogeneous differential equation with polynomial coefficients at an ordinary point","over":{"base":"Any","pred":"isinstance(rhs, list)"},"name":"ode_2nd_power_series_ordinary_correct"},"guarantee":"gives a power series solution to a second order homogeneous differential equation with polynomial coefficients at an ordinary point","fibers":[{"name":"list","pred":"isinstance(rhs, list)","path":{"lhs":"ode_2nd_power_series_ordinary(x)","rhs":"gives a power series solution to a second order homogeneous differential equation with polynomial coefficients at an ordinary point","over":{"base":"list","pred":"isinstance(rhs, list)"},"name":"ode_2nd_power_series_ordinary_list_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.ode.ode_2nd_power_series_ordinary_list_correct","statement":"ode_2nd_power_series_ordinary satisfies spec on list inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"338c02354a84e8a4"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.ode.ode_2nd_power_series_ordinary","kind":"function","src_hash":"9941aa02322ac4d4","in":{"base":"Any","pred":"isinstance(rhs, list) and hasattr(func, 'func') and hasattr(func, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"ode_2nd_power_series_ordinary(eq, func, order)","rhs":"Eq(f(x), series)","over":{"base":"Any","pred":"isinstance(rhs, list) and hasattr(func, 'func') and hasattr(func, 'args')"},"name":"ode_2nd_power_series_ordinary_correct"},"guarantee":"returns Eq(f(x), series)","fibers":[{"name":"list","pred":"isinstance(rhs, list)","path":{"lhs":"ode_2nd_power_series_ordinary(x)","rhs":"returns Eq(f(x), series)","over":{"base":"list","pred":"isinstance(rhs, list)"},"name":"ode_2nd_power_series_ordinary_list_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.ode.ode_2nd_power_series_ordinary_list_correct","statement":"ode_2nd_power_series_ordinary satisfies spec on list inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"338c02354a84e8a4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(func, 'func')","hasattr(func, 'args')"],"returns_expr":"Eq(f(x), series)","pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.4,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'val != maxval', 'isinstance(sol, list)', 'len(fargs) == 1', 'isinstance(rhs, list)'}, fibers={'list'})"]}}
 def ode_2nd_power_series_ordinary(eq, func, order, match):
     r"""
     Gives a power series solution to a second order homogeneous differential
@@ -2774,7 +2944,12 @@ def ode_2nd_power_series_ordinary(eq, func, order, match):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ode_2nd_power_series_regular(eq,), gives a power series solution to a second order homogeneous differential equation with polynomial coefficients at a regular point) over {Any | isinstance(sollist, list) and isinstance(term, Order)} ║
+# ║ Path(ode_2nd_power_series_regular(eq, func, order), <unspecified:ode_2nd_power_series_regular>) over {Any | isinstance(sollist, list) and isinstance(term, Order) and hasattr(func, 'func') and hasattr(func, 'args')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(func, 'func')                          ║
+# ║   requires: hasattr(func, 'args')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ ode_2nd_power_series_regular : {Any | isinstance(soll...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -2787,9 +2962,12 @@ def ode_2nd_power_series_ordinary(eq, func, order, match):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?2 ✗2 VCs | 4.7ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 134eb791...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.ode.ode_2nd_power_series_regular","kind":"function","src_hash":"b5b1c863ab4b9f5f","in":{"base":"Any","pred":"isinstance(sollist, list) and isinstance(term, Order)"},"out":{"base":"Any"},"spec":{"lhs":"ode_2nd_power_series_regular(eq,)","rhs":"gives a power series solution to a second order homogeneous differential equation with polynomial coefficients at a regular point","over":{"base":"Any","pred":"isinstance(sollist, list) and isinstance(term, Order)"},"name":"ode_2nd_power_series_regular_correct"},"guarantee":"gives a power series solution to a second order homogeneous differential equation with polynomial coefficients at a regular point","fibers":[{"name":"list","pred":"isinstance(sollist, list)","path":{"lhs":"ode_2nd_power_series_regular(x)","rhs":"gives a power series solution to a second order homogeneous differential equation with polynomial coefficients at a regular point","over":{"base":"list","pred":"isinstance(sollist, list)"},"name":"ode_2nd_power_series_regular_list_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.ode.ode_2nd_power_series_regular_list_correct","statement":"ode_2nd_power_series_regular satisfies spec on list inputs"},"trust":"LIBRARY"},{"name":"Order","pred":"isinstance(term, Order)","path":{"lhs":"ode_2nd_power_series_regular(x)","rhs":"gives a power series solution to a second order homogeneous differential equation with polynomial coefficients at a regular point","over":{"base":"Order","pred":"isinstance(term, Order)"},"name":"ode_2nd_power_series_regular_Order_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.ode.ode_2nd_power_series_regular_Order_correct","statement":"ode_2nd_power_series_regular satisfies spec on Order inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"134eb791ab5ff96b"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.ode.ode_2nd_power_series_regular","kind":"function","src_hash":"b5b1c863ab4b9f5f","in":{"base":"Any","pred":"isinstance(sollist, list) and isinstance(term, Order) and hasattr(func, 'func') and hasattr(func, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"ode_2nd_power_series_regular(eq, func, order)","rhs":"<unspecified:ode_2nd_power_series_regular>","over":{"base":"Any","pred":"isinstance(sollist, list) and isinstance(term, Order) and hasattr(func, 'func') and hasattr(func, 'args')"},"name":"ode_2nd_power_series_regular_correct"},"guarantee":"gives a power series solution to a second order homogeneous differential equation with polynomial coefficients at a regular point","fibers":[{"name":"list","pred":"isinstance(sollist, list)","path":{"lhs":"ode_2nd_power_series_regular(x)","rhs":"gives a power series solution to a second order homogeneous differential equation with polynomial coefficients at a regular point","over":{"base":"list","pred":"isinstance(sollist, list)"},"name":"ode_2nd_power_series_regular_list_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.ode.ode_2nd_power_series_regular_list_correct","statement":"ode_2nd_power_series_regular satisfies spec on list inputs"},"trust":"LIBRARY"},{"name":"Order","pred":"isinstance(term, Order)","path":{"lhs":"ode_2nd_power_series_regular(x)","rhs":"gives a power series solution to a second order homogeneous differential equation with polynomial coefficients at a regular point","over":{"base":"Order","pred":"isinstance(term, Order)"},"name":"ode_2nd_power_series_regular_Order_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.ode.ode_2nd_power_series_regular_Order_correct","statement":"ode_2nd_power_series_regular satisfies spec on Order inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"134eb791ab5ff96b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(func, 'func')","hasattr(func, 'args')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":1,"n_assumed":2,"n_failed":2,"trust_level":"LIBRARY_ASSUMED","compile_ms":4.7,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'sollist and isinstance(sollist, list) and all((sol.is_real for sol in sollist))', 'len(sollist) == 1', 'isinstance(term, Order)', 'terms - m1 - 1 <= 0', 'm1 < m2'}, fibers={'Order', 'list'})"]}}
 def ode_2nd_power_series_regular(eq, func, order, match):
     r"""
     Gives a power series solution to a second order homogeneous differential
@@ -2914,16 +3092,22 @@ def ode_2nd_power_series_regular(eq, func, order, match):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_frobenius(n, ), returns a dict with keys as coefficients and values as their values in terms of c0) over Any ║
+# ║ Path(_frobenius(n, m, p0), <unspecified:_frobenius>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _frobenius : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 761ffad457efa738  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.ode._frobenius","kind":"function","src_hash":"d686e510c03d7612","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_frobenius(n, )","rhs":"returns a dict with keys as coefficients and values as their values in terms of c0","over":{"base":"Any"},"name":"_frobenius_correct"},"guarantee":"returns a dict with keys as coefficients and values as their values in terms of c0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.ode._frobenius_correct","statement":"Path(_frobenius(x), returns a dict with keys as coefficients and values as their values in terms of c0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"761ffad457efa738"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.ode._frobenius","kind":"function","src_hash":"d686e510c03d7612","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_frobenius(n, m, p0)","rhs":"<unspecified:_frobenius>","over":{"base":"Any"},"name":"_frobenius_correct"},"guarantee":"returns a dict with keys as coefficients and values as their values in terms of c0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.ode._frobenius_correct","statement":"Path(_frobenius(x), returns a dict with keys as coefficients and values as their values in terms of c0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"761ffad457efa738","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def _frobenius(n, m, p0, q0, p, q, x0, x, c, check=None):
     r"""
     Returns a dict with keys as coefficients and values as their values in terms of C0
@@ -2977,16 +3161,22 @@ def _frobenius(n, m, p0, q0, p, q, x0, x, c, check=None):
     return frobdict
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_remove_redundant_solutions(eq,), remove redundant solutions from the set of solutions) over Any ║
+# ║ Path(_remove_redundant_solutions(eq, solns, order), <unspecified:_remove_redundant_solutions>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _remove_redundant_solutions : Any → Any                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4052b2cca00db211  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.ode._remove_redundant_solutions","kind":"function","src_hash":"a2c3319133733b6f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_remove_redundant_solutions(eq,)","rhs":"remove redundant solutions from the set of solutions","over":{"base":"Any"},"name":"_remove_redundant_solutions_correct"},"guarantee":"remove redundant solutions from the set of solutions","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.ode._remove_redundant_solutions_correct","statement":"Path(_remove_redundant_solutions(x), remove redundant solutions from the set of solutions)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4052b2cca00db211"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.ode._remove_redundant_solutions","kind":"function","src_hash":"a2c3319133733b6f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_remove_redundant_solutions(eq, solns, order)","rhs":"<unspecified:_remove_redundant_solutions>","over":{"base":"Any"},"name":"_remove_redundant_solutions_correct"},"guarantee":"remove redundant solutions from the set of solutions","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.ode._remove_redundant_solutions_correct","statement":"Path(_remove_redundant_solutions(x), remove redundant solutions from the set of solutions)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4052b2cca00db211","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _remove_redundant_solutions(eq, solns, order, var):
     r"""
     Remove redundant solutions from the set of solutions.
@@ -3026,7 +3216,14 @@ def _remove_redundant_solutions(eq, solns, order, var):
     return unique_solns
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_is_special_case_of(sol), true if soln1 is found to be a special case of soln2 wrt some value of the constants that appear in soln2) over {Any | isinstance(constant_solns, dict) and isinstance(eq, BooleanFalse) and isinstance(eq, BooleanTrue)} ║
+# ║ Path(_is_special_case_of(soln1, soln2, eq), <unspecified:_is_special_case_of>) over {Any | isinstance(constant_solns, dict) and isinstance(eq, BooleanFalse) and isinstance(eq, BooleanTrue) and hasattr(soln1, 'rhs') and hasattr(soln1, 'lhs') and hasattr(soln2, 'rhs') and hasattr(soln2, 'lhs') and hasattr(eq, 'free_symbols') and hasattr(soln1, 'has') and hasattr(soln2, 'has') and hasattr(soln1, 'free_symbols') and hasattr(soln2, 'free_symbols') and hasattr(soln1, 'subs') and hasattr(soln1, 'getO') and hasattr(soln2, 'getO') and hasattr(soln1, 'removeO') and hasattr(soln2, 'removeO') and hasattr(eq, 'rhs') and hasattr(eq, 'lhs')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(soln1, 'rhs')                          ║
+# ║   requires: hasattr(soln1, 'lhs')                          ║
+# ║   requires: hasattr(soln2, 'rhs')                          ║
+# ║   fiber[case_0]: soln1.has(Order) and soln2.has(Order)     ║
+# ║   fiber[case_1]: soln1.has(Order) or soln2.has(Order)...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _is_special_case_of : {Any | isinstance(constant_soln...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -3040,9 +3237,12 @@ def _remove_redundant_solutions(eq, solns, order, var):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?3 ✗3 VCs | 7.3ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 20d85686...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.ode._is_special_case_of","kind":"function","src_hash":"1e645a6c8c5b3495","in":{"base":"Any","pred":"isinstance(constant_solns, dict) and isinstance(eq, BooleanFalse) and isinstance(eq, BooleanTrue)"},"out":{"base":"Any"},"spec":{"lhs":"_is_special_case_of(sol)","rhs":"true if soln1 is found to be a special case of soln2 wrt some value of the constants that appear in soln2","over":{"base":"Any","pred":"isinstance(constant_solns, dict) and isinstance(eq, BooleanFalse) and isinstance(eq, BooleanTrue)"},"name":"_is_special_case_of_correct"},"guarantee":"true if soln1 is found to be a special case of soln2 wrt some value of the constants that appear in soln2","fibers":[{"name":"dict","pred":"isinstance(constant_solns, dict)","path":{"lhs":"_is_special_case_of(x)","rhs":"true if soln1 is found to be a special case of soln2 wrt some value of the constants that appear in soln2","over":{"base":"dict","pred":"isinstance(constant_solns, dict)"},"name":"_is_special_case_of_dict_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.ode._is_special_case_of_dict_correct","statement":"_is_special_case_of satisfies spec on dict inputs"},"trust":"LIBRARY"},{"name":"BooleanFalse","pred":"isinstance(eq, BooleanFalse)","path":{"lhs":"_is_special_case_of(x)","rhs":"true if soln1 is found to be a special case of soln2 wrt some value of the constants that appear in soln2","over":{"base":"BooleanFalse","pred":"isinstance(eq, BooleanFalse)"},"name":"_is_special_case_of_BooleanFalse_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.ode._is_special_case_of_BooleanFalse_correct","statement":"_is_special_case_of satisfies spec on BooleanFalse inputs"},"trust":"LIBRARY"},{"name":"BooleanTrue","pred":"isinstance(eq, BooleanTrue)","path":{"lhs":"_is_special_case_of(x)","rhs":"true if soln1 is found to be a special case of soln2 wrt some value of the constants that appear in soln2","over":{"base":"BooleanTrue","pred":"isinstance(eq, BooleanTrue)"},"name":"_is_special_case_of_BooleanTrue_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.ode._is_special_case_of_BooleanTrue_correct","statement":"_is_special_case_of satisfies spec on BooleanTrue inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":3,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"20d85686cfe8d0ba"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.ode._is_special_case_of","kind":"function","src_hash":"1e645a6c8c5b3495","in":{"base":"Any","pred":"isinstance(constant_solns, dict) and isinstance(eq, BooleanFalse) and isinstance(eq, BooleanTrue) and hasattr(soln1, 'rhs') and hasattr(soln1, 'lhs') and hasattr(soln2, 'rhs') and hasattr(soln2, 'lhs') and hasattr(eq, 'free_symbols') and hasattr(soln1, 'has') and hasattr(soln2, 'has') and hasattr(soln1, 'free_symbols') and hasattr(soln2, 'free_symbols') and hasattr(soln1, 'subs') and hasattr(soln1, 'getO') and hasattr(soln2, 'getO') and hasattr(soln1, 'removeO') and hasattr(soln2, 'removeO') and hasattr(eq, 'rhs') and hasattr(eq, 'lhs')"},"out":{"base":"Any"},"spec":{"lhs":"_is_special_case_of(soln1, soln2, eq)","rhs":"<unspecified:_is_special_case_of>","over":{"base":"Any","pred":"isinstance(constant_solns, dict) and isinstance(eq, BooleanFalse) and isinstance(eq, BooleanTrue) and hasattr(soln1, 'rhs') and hasattr(soln1, 'lhs') and hasattr(soln2, 'rhs') and hasattr(soln2, 'lhs') and hasattr(eq, 'free_symbols') and hasattr(soln1, 'has') and hasattr(soln2, 'has') and hasattr(soln1, 'free_symbols') and hasattr(soln2, 'free_symbols') and hasattr(soln1, 'subs') and hasattr(soln1, 'getO') and hasattr(soln2, 'getO') and hasattr(soln1, 'removeO') and hasattr(soln2, 'removeO') and hasattr(eq, 'rhs') and hasattr(eq, 'lhs')"},"name":"_is_special_case_of_correct"},"guarantee":"2-fiber decomposition","fibers":[{"name":"dict","pred":"isinstance(constant_solns, dict)","path":{"lhs":"_is_special_case_of(x)","rhs":"2-fiber decomposition","over":{"base":"dict","pred":"isinstance(constant_solns, dict)"},"name":"_is_special_case_of_dict_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.ode._is_special_case_of_dict_correct","statement":"_is_special_case_of satisfies spec on dict inputs"},"trust":"LIBRARY"},{"name":"BooleanFalse","pred":"isinstance(eq, BooleanFalse)","path":{"lhs":"_is_special_case_of(x)","rhs":"2-fiber decomposition","over":{"base":"BooleanFalse","pred":"isinstance(eq, BooleanFalse)"},"name":"_is_special_case_of_BooleanFalse_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.ode._is_special_case_of_BooleanFalse_correct","statement":"_is_special_case_of satisfies spec on BooleanFalse inputs"},"trust":"LIBRARY"},{"name":"BooleanTrue","pred":"isinstance(eq, BooleanTrue)","path":{"lhs":"_is_special_case_of(x)","rhs":"2-fiber decomposition","over":{"base":"BooleanTrue","pred":"isinstance(eq, BooleanTrue)"},"name":"_is_special_case_of_BooleanTrue_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.ode._is_special_case_of_BooleanTrue_correct","statement":"_is_special_case_of satisfies spec on BooleanTrue inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":3,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"20d85686cfe8d0ba","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(soln1, 'rhs')","hasattr(soln1, 'lhs')","hasattr(soln2, 'rhs')","hasattr(soln2, 'lhs')","hasattr(eq, 'free_symbols')","hasattr(soln1, 'has')","hasattr(soln2, 'has')","hasattr(soln1, 'free_symbols')","hasattr(soln2, 'free_symbols')","hasattr(soln1, 'subs')","hasattr(soln1, 'getO')","hasattr(soln2, 'getO')","hasattr(soln1, 'removeO')","hasattr(soln2, 'removeO')","hasattr(eq, 'rhs')","hasattr(eq, 'lhs')"],"fibers":[{"name":"case_0","guard":"soln1.has(Order) and soln2.has(Order)","ensures":[],"decidability":"library"},{"name":"case_1","guard":"soln1.has(Order) or soln2.has(Order)","ensures":["result == False"],"decidability":"library","returns_expr":"False"}],"pure":true},"c4_verdict":{"valid":false,"n_vcs":8,"n_verified":2,"n_assumed":3,"n_failed":3,"trust_level":"LIBRARY_ASSUMED","compile_ms":7.3,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(constant_solns, dict)', 'soln1.getO() == soln2.getO()', 'len(constants1) == 1', 'any((isinstance(eq, BooleanFalse) for eq in eqns))'}, fibers={'BooleanTrue', 'dict', 'BooleanFalse'})"]}}
 def _is_special_case_of(soln1, soln2, eq, order, var):
     r"""
     True if soln1 is found to be a special case of soln2 wrt some value of the
@@ -3125,16 +3325,24 @@ def _is_special_case_of(soln1, soln2, eq, order, var):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ode_1st_power_series(eq,), id) over Any               ║
+# ║ Path(ode_1st_power_series(eq, func, order), id) over {Any | hasattr(func, 'func') and hasattr(func, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ ode_1st_power_series : Any → Any                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(func, 'func')                          ║
+# ║   requires: hasattr(func, 'args')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ ode_1st_power_series : {Any | hasattr(func, 'func') a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | bed172e72260b64d   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.ode.ode_1st_power_series","kind":"function","src_hash":"df00620c648d72e9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ode_1st_power_series(eq,)","rhs":"the power series solution is a method which gives the taylor series expansion to the solution of a differential equation","over":{"base":"Any"},"name":"ode_1st_power_series_correct","kind":"composition"},"guarantee":"the power series solution is a method which gives the taylor series expansion to the solution of a differential equation","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Eq","by":"library_axiom"},{"fn":"f","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bed172e72260b64d"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.ode.ode_1st_power_series","kind":"function","src_hash":"df00620c648d72e9","in":{"base":"Any","pred":"hasattr(func, 'func') and hasattr(func, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"ode_1st_power_series(eq, func, order)","rhs":"<unspecified:ode_1st_power_series>","over":{"base":"Any","pred":"hasattr(func, 'func') and hasattr(func, 'args')"},"name":"ode_1st_power_series_correct","kind":"composition"},"guarantee":"the power series solution is a method which gives the taylor series expansion to the solution of a differential equation","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Eq","by":"library_axiom"},{"fn":"f","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bed172e72260b64d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(func, 'func')","hasattr(func, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["func.args","func.func"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def ode_1st_power_series(eq, func, order, match):
     r"""
     The power series solution is a method which gives the Taylor series expansion
@@ -3210,9 +3418,15 @@ def ode_1st_power_series(eq, func, order, match):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(checkinfsol(eq,), this function is used to check if the given infinitesimals are the actual infinitesimals of the given first order differential equation. this method is specific to the lie group solver of odes) over {Any | isinstance(eq, Equality)} ║
+# ║ Path(checkinfsol(eq, infinitesimals, func), len(soltup) == old_len_soltup + 1) over {Any | isinstance(eq, Equality) and not (len(variables) != 1) and hasattr(func, 'args') and hasattr(eq, 'lhs') and hasattr(eq, 'rhs') and hasattr(func, 'diff')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ checkinfsol : {Any | isinstance(eq, Equality)} → Any       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (len(variables) != 1)                      ║
+# ║   requires: hasattr(func, 'args')                          ║
+# ║   requires: hasattr(eq, 'lhs')                             ║
+# ║   ensures:  len(soltup) == old_len_soltup + 1              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ checkinfsol : {Any | isinstance(eq, Equality) and not...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   Equality: {isinstance(eq, Equality)} → library_axiom     ║
@@ -3222,9 +3436,12 @@ def ode_1st_power_series(eq, func, order, match):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.8ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 43358796...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.ode.checkinfsol","kind":"function","src_hash":"21b29a802e8041bc","in":{"base":"Any","pred":"isinstance(eq, Equality)"},"out":{"base":"Any"},"spec":{"lhs":"checkinfsol(eq,)","rhs":"this function is used to check if the given infinitesimals are the actual infinitesimals of the given first order differential equation. this method is specific to the lie group solver of odes","over":{"base":"Any","pred":"isinstance(eq, Equality)"},"name":"checkinfsol_correct"},"guarantee":"this function is used to check if the given infinitesimals are the actual infinitesimals of the given first order differential equation. this method is specific to the lie group solver of odes","fibers":[{"name":"Equality","pred":"isinstance(eq, Equality)","path":{"lhs":"checkinfsol(x)","rhs":"this function is used to check if the given infinitesimals are the actual infinitesimals of the given first order differential equation. this method is specific to the lie group solver of odes","over":{"base":"Equality","pred":"isinstance(eq, Equality)"},"name":"checkinfsol_Equality_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.ode.checkinfsol_Equality_correct","statement":"checkinfsol satisfies spec on Equality inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"433587966ad7fa5c"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.ode.checkinfsol","kind":"function","src_hash":"21b29a802e8041bc","in":{"base":"Any","pred":"isinstance(eq, Equality) and not (len(variables) != 1) and hasattr(func, 'args') and hasattr(eq, 'lhs') and hasattr(eq, 'rhs') and hasattr(func, 'diff')"},"out":{"base":"Any","pred":"result satisfies: len(soltup) == old_len_soltup + 1"},"spec":{"lhs":"checkinfsol(eq, infinitesimals, func)","rhs":"len(soltup) == old_len_soltup + 1","over":{"base":"Any","pred":"isinstance(eq, Equality) and not (len(variables) != 1) and hasattr(func, 'args') and hasattr(eq, 'lhs') and hasattr(eq, 'rhs') and hasattr(func, 'diff')"},"name":"checkinfsol_correct"},"guarantee":"len(soltup) == old_len_soltup + 1","fibers":[{"name":"Equality","pred":"isinstance(eq, Equality)","path":{"lhs":"checkinfsol(x)","rhs":"len(soltup) == old_len_soltup + 1","over":{"base":"Equality","pred":"isinstance(eq, Equality)"},"name":"checkinfsol_Equality_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.ode.checkinfsol_Equality_correct","statement":"checkinfsol satisfies spec on Equality inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"433587966ad7fa5c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (len(variables) != 1)","hasattr(func, 'args')","hasattr(eq, 'lhs')","hasattr(eq, 'rhs')","hasattr(func, 'diff')"],"ensures":["len(soltup) == old_len_soltup + 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["eq.lhs","eq.rhs","func.args","func.diff"],"calls_mutating":["soltup.append"],"raises":["NotImplementedError","ValueError"],"catches":["NotImplementedError"]},"state_contract":{"modifies":["soltup.*"],"old_bindings":{"old_len_soltup":"len(soltup)"},"post_ensures":["len(soltup) == old_len_soltup + 1"],"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.8,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(eq, Equality)', 'len(variables) != 1', 'order != 1'}, fibers={'Equality'})"]}}
 def checkinfsol(eq, infinitesimals, func=None, order=None):
     r"""
     This function is used to check if the given infinitesimals are the
@@ -3303,16 +3520,22 @@ def checkinfsol(eq, infinitesimals, func=None, order=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sysode_linear_2eq_order1(mat), sysode_linear_2eq_order1 produces the expected output) over Any ║
+# ║ Path(sysode_linear_2eq_order1(match_), <unspecified:sysode_linear_2eq_order1>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ sysode_linear_2eq_order1 : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1dcf8e159f5f86a0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.ode.sysode_linear_2eq_order1","kind":"function","src_hash":"226b442f5c566f5b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sysode_linear_2eq_order1(mat)","rhs":"sysode_linear_2eq_order1 produces the expected output","over":{"base":"Any"},"name":"sysode_linear_2eq_order1_correct"},"guarantee":"sysode_linear_2eq_order1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.ode.sysode_linear_2eq_order1_correct","statement":"Path(sysode_linear_2eq_order1(x), sysode_linear_2eq_order1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1dcf8e159f5f86a0"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.ode.sysode_linear_2eq_order1","kind":"function","src_hash":"226b442f5c566f5b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sysode_linear_2eq_order1(match_)","rhs":"<unspecified:sysode_linear_2eq_order1>","over":{"base":"Any"},"name":"sysode_linear_2eq_order1_correct"},"guarantee":"sysode_linear_2eq_order1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.ode.sysode_linear_2eq_order1_correct","statement":"Path(sysode_linear_2eq_order1(x), sysode_linear_2eq_order1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1dcf8e159f5f86a0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def sysode_linear_2eq_order1(match_):
     x = match_['func'][0].func
     y = match_['func'][1].func
@@ -3349,16 +3572,22 @@ def sysode_linear_2eq_order1(match_):
     return sol
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_linear_2eq_order1_type6(x, ), id) over Any           ║
+# ║ Path(_linear_2eq_order1_type6(x, y, t), id) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [Eq(x(t), sol1), Eq(y(t), sol2)]               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _linear_2eq_order1_type6 : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | baf7290d6b2ca7d6   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.ode._linear_2eq_order1_type6","kind":"function","src_hash":"dc6316a064b5826e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_linear_2eq_order1_type6(x, )","rhs":"the equations of this type of ode are ","over":{"base":"Any"},"name":"_linear_2eq_order1_type6_correct","kind":"composition"},"guarantee":"the equations of this type of ode are ","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Eq","by":"library_axiom"},{"fn":"x","by":"library_axiom"},{"fn":"Eq","by":"library_axiom"},{"fn":"y","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"baf7290d6b2ca7d6"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.ode._linear_2eq_order1_type6","kind":"function","src_hash":"dc6316a064b5826e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_linear_2eq_order1_type6(x, y, t)","rhs":"[Eq(x(t), sol1), Eq(y(t), sol2)]","over":{"base":"Any"},"name":"_linear_2eq_order1_type6_correct","kind":"composition"},"guarantee":"returns [Eq(x(t), sol1), Eq(y(t), sol2)]","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Eq","by":"library_axiom"},{"fn":"x","by":"library_axiom"},{"fn":"Eq","by":"library_axiom"},{"fn":"y","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"baf7290d6b2ca7d6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[Eq(x(t), sol1), Eq(y(t), sol2)]","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def _linear_2eq_order1_type6(x, y, t, r, eq):
     r"""
     The equations of this type of ode are .
@@ -3413,16 +3642,22 @@ def _linear_2eq_order1_type6(x, y, t, r, eq):
     return [Eq(x(t), sol1), Eq(y(t), sol2)]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_linear_2eq_order1_type7(x, ), id) over Any           ║
+# ║ Path(_linear_2eq_order1_type7(x, y, t), id) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [Eq(x(t), sol1), Eq(y(t), sol2)]               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _linear_2eq_order1_type7 : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.9ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 7bf458f8f469ba55   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.ode._linear_2eq_order1_type7","kind":"function","src_hash":"f34e171b7bbec85e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_linear_2eq_order1_type7(x, )","rhs":"the equations of this type of ode are ","over":{"base":"Any"},"name":"_linear_2eq_order1_type7_correct","kind":"composition"},"guarantee":"the equations of this type of ode are ","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Eq","by":"library_axiom"},{"fn":"x","by":"library_axiom"},{"fn":"Eq","by":"library_axiom"},{"fn":"y","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7bf458f8f469ba55"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.ode._linear_2eq_order1_type7","kind":"function","src_hash":"f34e171b7bbec85e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_linear_2eq_order1_type7(x, y, t)","rhs":"[Eq(x(t), sol1), Eq(y(t), sol2)]","over":{"base":"Any"},"name":"_linear_2eq_order1_type7_correct","kind":"composition"},"guarantee":"returns [Eq(x(t), sol1), Eq(y(t), sol2)]","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Eq","by":"library_axiom"},{"fn":"x","by":"library_axiom"},{"fn":"Eq","by":"library_axiom"},{"fn":"y","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7bf458f8f469ba55","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[Eq(x(t), sol1), Eq(y(t), sol2)]","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.9,"verdict_class":"assumed","binding":true}}
 def _linear_2eq_order1_type7(x, y, t, r, eq):
     r"""
     The equations of this type of ode are .
@@ -3486,16 +3721,22 @@ def _linear_2eq_order1_type7(x, y, t, r, eq):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sysode_nonlinear_2eq_order1(mat), sysode_nonlinear_2eq_order1 produces the expected output) over Any ║
+# ║ Path(sysode_nonlinear_2eq_order1(match_), <unspecified:sysode_nonlinear_2eq_order1>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ sysode_nonlinear_2eq_order1 : Any → Any                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 81e9c2be93bde73c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.ode.sysode_nonlinear_2eq_order1","kind":"function","src_hash":"ab663378d407a8c8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sysode_nonlinear_2eq_order1(mat)","rhs":"sysode_nonlinear_2eq_order1 produces the expected output","over":{"base":"Any"},"name":"sysode_nonlinear_2eq_order1_correct"},"guarantee":"sysode_nonlinear_2eq_order1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.ode.sysode_nonlinear_2eq_order1_correct","statement":"Path(sysode_nonlinear_2eq_order1(x), sysode_nonlinear_2eq_order1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"81e9c2be93bde73c"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.ode.sysode_nonlinear_2eq_order1","kind":"function","src_hash":"ab663378d407a8c8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sysode_nonlinear_2eq_order1(match_)","rhs":"<unspecified:sysode_nonlinear_2eq_order1>","over":{"base":"Any"},"name":"sysode_nonlinear_2eq_order1_correct"},"guarantee":"sysode_nonlinear_2eq_order1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.ode.sysode_nonlinear_2eq_order1_correct","statement":"Path(sysode_nonlinear_2eq_order1(x), sysode_nonlinear_2eq_order1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"81e9c2be93bde73c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def sysode_nonlinear_2eq_order1(match_):
     func = match_['func']
     eq = match_['eq']
@@ -3523,16 +3764,22 @@ def sysode_nonlinear_2eq_order1(match_):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_nonlinear_2eq_order1_type1(x, ), equations:) over Any ║
+# ║ Path(_nonlinear_2eq_order1_type1(x, y, t), <unspecified:_nonlinear_2eq_order1_type1>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _nonlinear_2eq_order1_type1 : Any → Any                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1a1cbc82e5522c39  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.ode._nonlinear_2eq_order1_type1","kind":"function","src_hash":"65d186ff9ded58ce","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_nonlinear_2eq_order1_type1(x, )","rhs":"equations:","over":{"base":"Any"},"name":"_nonlinear_2eq_order1_type1_correct"},"guarantee":"equations:","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.ode._nonlinear_2eq_order1_type1_correct","statement":"Path(_nonlinear_2eq_order1_type1(x), equations:)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1a1cbc82e5522c39"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.ode._nonlinear_2eq_order1_type1","kind":"function","src_hash":"65d186ff9ded58ce","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_nonlinear_2eq_order1_type1(x, y, t)","rhs":"<unspecified:_nonlinear_2eq_order1_type1>","over":{"base":"Any"},"name":"_nonlinear_2eq_order1_type1_correct"},"guarantee":"equations:","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.ode._nonlinear_2eq_order1_type1_correct","statement":"Path(_nonlinear_2eq_order1_type1(x), equations:)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1a1cbc82e5522c39","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def _nonlinear_2eq_order1_type1(x, y, t, eq):
     r"""
     Equations:
@@ -3579,16 +3826,22 @@ def _nonlinear_2eq_order1_type1(x, y, t, eq):
     return sol
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_nonlinear_2eq_order1_type2(x, ), equations:) over Any ║
+# ║ Path(_nonlinear_2eq_order1_type2(x, y, t), <unspecified:_nonlinear_2eq_order1_type2>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _nonlinear_2eq_order1_type2 : Any → Any                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5d2599deee682d3c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.ode._nonlinear_2eq_order1_type2","kind":"function","src_hash":"0fb9bde28aff8d25","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_nonlinear_2eq_order1_type2(x, )","rhs":"equations:","over":{"base":"Any"},"name":"_nonlinear_2eq_order1_type2_correct"},"guarantee":"equations:","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.ode._nonlinear_2eq_order1_type2_correct","statement":"Path(_nonlinear_2eq_order1_type2(x), equations:)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5d2599deee682d3c"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.ode._nonlinear_2eq_order1_type2","kind":"function","src_hash":"0fb9bde28aff8d25","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_nonlinear_2eq_order1_type2(x, y, t)","rhs":"<unspecified:_nonlinear_2eq_order1_type2>","over":{"base":"Any"},"name":"_nonlinear_2eq_order1_type2_correct"},"guarantee":"equations:","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.ode._nonlinear_2eq_order1_type2_correct","statement":"Path(_nonlinear_2eq_order1_type2(x), equations:)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5d2599deee682d3c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def _nonlinear_2eq_order1_type2(x, y, t, eq):
     r"""
     Equations:
@@ -3635,7 +3888,10 @@ def _nonlinear_2eq_order1_type2(x, y, t, eq):
     return sol
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_nonlinear_2eq_order1_type3(x, ), autonomous system of general form) over {Any | isinstance(sol2r, Equality)} ║
+# ║ Path(_nonlinear_2eq_order1_type3(x, y, t), <unspecified:_nonlinear_2eq_order1_type3>) over {Any | isinstance(sol2r, Equality)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _nonlinear_2eq_order1_type3 : {Any | isinstance(sol2r...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -3647,9 +3903,12 @@ def _nonlinear_2eq_order1_type2(x, y, t, eq):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.9ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 11344b67...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.ode._nonlinear_2eq_order1_type3","kind":"function","src_hash":"13b9ea6f639dcef2","in":{"base":"Any","pred":"isinstance(sol2r, Equality)"},"out":{"base":"Any"},"spec":{"lhs":"_nonlinear_2eq_order1_type3(x, )","rhs":"autonomous system of general form","over":{"base":"Any","pred":"isinstance(sol2r, Equality)"},"name":"_nonlinear_2eq_order1_type3_correct"},"guarantee":"autonomous system of general form","fibers":[{"name":"Equality","pred":"isinstance(sol2r, Equality)","path":{"lhs":"_nonlinear_2eq_order1_type3(x)","rhs":"autonomous system of general form","over":{"base":"Equality","pred":"isinstance(sol2r, Equality)"},"name":"_nonlinear_2eq_order1_type3_Equality_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.ode._nonlinear_2eq_order1_type3_Equality_correct","statement":"_nonlinear_2eq_order1_type3 satisfies spec on Equality inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"11344b67e5f58988"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.ode._nonlinear_2eq_order1_type3","kind":"function","src_hash":"13b9ea6f639dcef2","in":{"base":"Any","pred":"isinstance(sol2r, Equality)"},"out":{"base":"Any"},"spec":{"lhs":"_nonlinear_2eq_order1_type3(x, y, t)","rhs":"<unspecified:_nonlinear_2eq_order1_type3>","over":{"base":"Any","pred":"isinstance(sol2r, Equality)"},"name":"_nonlinear_2eq_order1_type3_correct"},"guarantee":"autonomous system of general form","fibers":[{"name":"Equality","pred":"isinstance(sol2r, Equality)","path":{"lhs":"_nonlinear_2eq_order1_type3(x)","rhs":"autonomous system of general form","over":{"base":"Equality","pred":"isinstance(sol2r, Equality)"},"name":"_nonlinear_2eq_order1_type3_Equality_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.ode._nonlinear_2eq_order1_type3_Equality_correct","statement":"_nonlinear_2eq_order1_type3 satisfies spec on Equality inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"11344b67e5f58988","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.9,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(sol2r, Equality)'}, fibers={'Equality'})"]}}
 def _nonlinear_2eq_order1_type3(x, y, t, eq):
     r"""
     Autonomous system of general form
@@ -3689,16 +3948,22 @@ def _nonlinear_2eq_order1_type3(x, y, t, eq):
     return sol
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_nonlinear_2eq_order1_type4(x, ), equation:) over Any ║
+# ║ Path(_nonlinear_2eq_order1_type4(x, y, t), set(sol)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  set(sol)                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _nonlinear_2eq_order1_type4 : Any → Any                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5498c257c0c1db18  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eff32db70e57ff28  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.ode._nonlinear_2eq_order1_type4","kind":"function","src_hash":"737c30911f67f6f5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_nonlinear_2eq_order1_type4(x, )","rhs":"equation:","over":{"base":"Any"},"name":"_nonlinear_2eq_order1_type4_correct"},"guarantee":"equation:","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.ode._nonlinear_2eq_order1_type4_correct","statement":"Path(_nonlinear_2eq_order1_type4(x), equation:)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5498c257c0c1db18"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.ode._nonlinear_2eq_order1_type4","kind":"function","src_hash":"737c30911f67f6f5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_nonlinear_2eq_order1_type4(x, y, t)","rhs":"set(sol)","over":{"base":"Any"},"name":"_nonlinear_2eq_order1_type4_correct"},"guarantee":"returns set(sol)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.ode._nonlinear_2eq_order1_type4_correct","statement":"Path(_nonlinear_2eq_order1_type4(x), returns set(sol))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eff32db70e57ff28","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"set(sol)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":true}}
 def _nonlinear_2eq_order1_type4(x, y, t, eq):
     r"""
     Equation:
@@ -3747,7 +4012,10 @@ def _nonlinear_2eq_order1_type4(x, y, t, eq):
     return set(sol)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_nonlinear_2eq_order1_type5(fun), clairaut system of odes) over {Any | isinstance(func_, list)} ║
+# ║ Path(_nonlinear_2eq_order1_type5(func, t, eq), <unspecified:_nonlinear_2eq_order1_type5>) over {Any | isinstance(func_, list)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _nonlinear_2eq_order1_type5 : {Any | isinstance(func_...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -3759,9 +4027,12 @@ def _nonlinear_2eq_order1_type4(x, y, t, eq):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 2.5ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 41066a60...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.ode._nonlinear_2eq_order1_type5","kind":"function","src_hash":"6f3b372e642f969e","in":{"base":"Any","pred":"isinstance(func_, list)"},"out":{"base":"Any"},"spec":{"lhs":"_nonlinear_2eq_order1_type5(fun)","rhs":"clairaut system of odes","over":{"base":"Any","pred":"isinstance(func_, list)"},"name":"_nonlinear_2eq_order1_type5_correct"},"guarantee":"clairaut system of odes","fibers":[{"name":"list","pred":"isinstance(func_, list)","path":{"lhs":"_nonlinear_2eq_order1_type5(x)","rhs":"clairaut system of odes","over":{"base":"list","pred":"isinstance(func_, list)"},"name":"_nonlinear_2eq_order1_type5_list_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.ode._nonlinear_2eq_order1_type5_list_correct","statement":"_nonlinear_2eq_order1_type5 satisfies spec on list inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"41066a60a5ecee8d"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.ode._nonlinear_2eq_order1_type5","kind":"function","src_hash":"6f3b372e642f969e","in":{"base":"Any","pred":"isinstance(func_, list)"},"out":{"base":"Any"},"spec":{"lhs":"_nonlinear_2eq_order1_type5(func, t, eq)","rhs":"<unspecified:_nonlinear_2eq_order1_type5>","over":{"base":"Any","pred":"isinstance(func_, list)"},"name":"_nonlinear_2eq_order1_type5_correct"},"guarantee":"clairaut system of odes","fibers":[{"name":"list","pred":"isinstance(func_, list)","path":{"lhs":"_nonlinear_2eq_order1_type5(x)","rhs":"clairaut system of odes","over":{"base":"list","pred":"isinstance(func_, list)"},"name":"_nonlinear_2eq_order1_type5_list_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.ode._nonlinear_2eq_order1_type5_list_correct","statement":"_nonlinear_2eq_order1_type5 satisfies spec on list inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"41066a60a5ecee8d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.5,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(func_, list)'}, fibers={'list'})"]}}
 def _nonlinear_2eq_order1_type5(func, t, eq):
     r"""
     Clairaut system of ODEs
@@ -3812,16 +4083,22 @@ def _nonlinear_2eq_order1_type5(func, t, eq):
     return {Eq(x(t), C1*t + r1[f].subs(x1,C1).subs(y1,C2)), Eq(y(t), C2*t + r2[g].subs(x1,C1).subs(y1,C2))}
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sysode_nonlinear_3eq_order1(mat), sysode_nonlinear_3eq_order1 produces the expected output) over Any ║
+# ║ Path(sysode_nonlinear_3eq_order1(match_), <unspecified:sysode_nonlinear_3eq_order1>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ sysode_nonlinear_3eq_order1 : Any → Any                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 454a54774b03448b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.ode.sysode_nonlinear_3eq_order1","kind":"function","src_hash":"532e65c6f7d90161","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sysode_nonlinear_3eq_order1(mat)","rhs":"sysode_nonlinear_3eq_order1 produces the expected output","over":{"base":"Any"},"name":"sysode_nonlinear_3eq_order1_correct"},"guarantee":"sysode_nonlinear_3eq_order1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.ode.sysode_nonlinear_3eq_order1_correct","statement":"Path(sysode_nonlinear_3eq_order1(x), sysode_nonlinear_3eq_order1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"454a54774b03448b"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.ode.sysode_nonlinear_3eq_order1","kind":"function","src_hash":"532e65c6f7d90161","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sysode_nonlinear_3eq_order1(match_)","rhs":"<unspecified:sysode_nonlinear_3eq_order1>","over":{"base":"Any"},"name":"sysode_nonlinear_3eq_order1_correct"},"guarantee":"sysode_nonlinear_3eq_order1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.ode.sysode_nonlinear_3eq_order1_correct","statement":"Path(sysode_nonlinear_3eq_order1(x), sysode_nonlinear_3eq_order1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"454a54774b03448b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def sysode_nonlinear_3eq_order1(match_):
     x = match_['func'][0].func
     y = match_['func'][1].func
@@ -3841,16 +4118,22 @@ def sysode_nonlinear_3eq_order1(match_):
     return sol
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_nonlinear_3eq_order1_type1(x, ), equations:) over Any ║
+# ║ Path(_nonlinear_3eq_order1_type1(x, y, z), [sol1, sol2, sol3]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [sol1, sol2, sol3]                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _nonlinear_3eq_order1_type1 : Any → Any                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c76f749aa5e25d3f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.9ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 79e855b44958a287  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.ode._nonlinear_3eq_order1_type1","kind":"function","src_hash":"bcd98a6de1d7c378","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_nonlinear_3eq_order1_type1(x, )","rhs":"equations:","over":{"base":"Any"},"name":"_nonlinear_3eq_order1_type1_correct"},"guarantee":"equations:","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.ode._nonlinear_3eq_order1_type1_correct","statement":"Path(_nonlinear_3eq_order1_type1(x), equations:)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c76f749aa5e25d3f"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.ode._nonlinear_3eq_order1_type1","kind":"function","src_hash":"bcd98a6de1d7c378","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_nonlinear_3eq_order1_type1(x, y, z)","rhs":"[sol1, sol2, sol3]","over":{"base":"Any"},"name":"_nonlinear_3eq_order1_type1_correct"},"guarantee":"returns [sol1, sol2, sol3]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.ode._nonlinear_3eq_order1_type1_correct","statement":"Path(_nonlinear_3eq_order1_type1(x), returns [sol1, sol2, sol3])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"79e855b44958a287","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[sol1, sol2, sol3]","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.9,"verdict_class":"assumed","binding":true}}
 def _nonlinear_3eq_order1_type1(x, y, z, t, eq):
     r"""
     Equations:
@@ -3902,16 +4185,22 @@ def _nonlinear_3eq_order1_type1(x, y, z, t, eq):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_nonlinear_3eq_order1_type2(x, ), equations:) over Any ║
+# ║ Path(_nonlinear_3eq_order1_type2(x, y, z), [sol1, sol2, sol3]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [sol1, sol2, sol3]                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _nonlinear_3eq_order1_type2 : Any → Any                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f50befc02f2af595  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.9ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3b38f9075e03b27c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.ode._nonlinear_3eq_order1_type2","kind":"function","src_hash":"263615f611a7e4f9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_nonlinear_3eq_order1_type2(x, )","rhs":"equations:","over":{"base":"Any"},"name":"_nonlinear_3eq_order1_type2_correct"},"guarantee":"equations:","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.ode._nonlinear_3eq_order1_type2_correct","statement":"Path(_nonlinear_3eq_order1_type2(x), equations:)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f50befc02f2af595"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.ode._nonlinear_3eq_order1_type2","kind":"function","src_hash":"263615f611a7e4f9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_nonlinear_3eq_order1_type2(x, y, z)","rhs":"[sol1, sol2, sol3]","over":{"base":"Any"},"name":"_nonlinear_3eq_order1_type2_correct"},"guarantee":"returns [sol1, sol2, sol3]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.ode._nonlinear_3eq_order1_type2_correct","statement":"Path(_nonlinear_3eq_order1_type2(x), returns [sol1, sol2, sol3])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3b38f9075e03b27c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[sol1, sol2, sol3]","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.9,"verdict_class":"assumed","binding":true}}
 def _nonlinear_3eq_order1_type2(x, y, z, t, eq):
     r"""
     Equations:
@@ -3968,16 +4257,22 @@ def _nonlinear_3eq_order1_type2(x, y, z, t, eq):
     return [sol1, sol2, sol3]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_nonlinear_3eq_order1_type3(x, ), equations:) over Any ║
+# ║ Path(_nonlinear_3eq_order1_type3(x, y, z), [sol1, sol2, sol3]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [sol1, sol2, sol3]                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _nonlinear_3eq_order1_type3 : Any → Any                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 12640dd1e6ee8f04  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2ea46c55233239ab  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.ode._nonlinear_3eq_order1_type3","kind":"function","src_hash":"ca6fb61830ebb4c7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_nonlinear_3eq_order1_type3(x, )","rhs":"equations:","over":{"base":"Any"},"name":"_nonlinear_3eq_order1_type3_correct"},"guarantee":"equations:","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.ode._nonlinear_3eq_order1_type3_correct","statement":"Path(_nonlinear_3eq_order1_type3(x), equations:)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"12640dd1e6ee8f04"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.ode._nonlinear_3eq_order1_type3","kind":"function","src_hash":"ca6fb61830ebb4c7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_nonlinear_3eq_order1_type3(x, y, z)","rhs":"[sol1, sol2, sol3]","over":{"base":"Any"},"name":"_nonlinear_3eq_order1_type3_correct"},"guarantee":"returns [sol1, sol2, sol3]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.ode._nonlinear_3eq_order1_type3_correct","statement":"Path(_nonlinear_3eq_order1_type3(x), returns [sol1, sol2, sol3])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2ea46c55233239ab","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[sol1, sol2, sol3]","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.2,"verdict_class":"assumed","binding":true}}
 def _nonlinear_3eq_order1_type3(x, y, z, t, eq):
     r"""
     Equations:
@@ -4039,16 +4334,22 @@ def _nonlinear_3eq_order1_type3(x, y, z, t, eq):
     return [sol1, sol2, sol3]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_nonlinear_3eq_order1_type4(x, ), equations:) over Any ║
+# ║ Path(_nonlinear_3eq_order1_type4(x, y, z), [sol1, sol2, sol3]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [sol1, sol2, sol3]                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _nonlinear_3eq_order1_type4 : Any → Any                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c45504d500007649  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a94453f0f4929589  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.ode._nonlinear_3eq_order1_type4","kind":"function","src_hash":"5b4591aa53a20b0d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_nonlinear_3eq_order1_type4(x, )","rhs":"equations:","over":{"base":"Any"},"name":"_nonlinear_3eq_order1_type4_correct"},"guarantee":"equations:","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.ode._nonlinear_3eq_order1_type4_correct","statement":"Path(_nonlinear_3eq_order1_type4(x), equations:)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c45504d500007649"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.ode._nonlinear_3eq_order1_type4","kind":"function","src_hash":"5b4591aa53a20b0d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_nonlinear_3eq_order1_type4(x, y, z)","rhs":"[sol1, sol2, sol3]","over":{"base":"Any"},"name":"_nonlinear_3eq_order1_type4_correct"},"guarantee":"returns [sol1, sol2, sol3]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.ode._nonlinear_3eq_order1_type4_correct","statement":"Path(_nonlinear_3eq_order1_type4(x), returns [sol1, sol2, sol3])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a94453f0f4929589","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[sol1, sol2, sol3]","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.3,"verdict_class":"assumed","binding":true}}
 def _nonlinear_3eq_order1_type4(x, y, z, t, eq):
     r"""
     Equations:
@@ -4109,16 +4410,22 @@ def _nonlinear_3eq_order1_type4(x, y, z, t, eq):
     return [sol1, sol2, sol3]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_nonlinear_3eq_order1_type5(x, ), expected__nonlinear_3eq_order1_type5) over Any ║
+# ║ Path(_nonlinear_3eq_order1_type5(x, y, z), [sol1, sol2, sol3]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [sol1, sol2, sol3]                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _nonlinear_3eq_order1_type5 : Any → Any                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bc91b3a05ca7cf2c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 37986a0b1c36e635  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.ode._nonlinear_3eq_order1_type5","kind":"function","src_hash":"c7b02d900e8b8584","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_nonlinear_3eq_order1_type5(x, )","rhs":"expected__nonlinear_3eq_order1_type5","over":{"base":"Any"},"name":"_nonlinear_3eq_order1_type5_correct"},"guarantee":"","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.ode._nonlinear_3eq_order1_type5_correct","statement":"Path(_nonlinear_3eq_order1_type5(x), )"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bc91b3a05ca7cf2c"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.ode._nonlinear_3eq_order1_type5","kind":"function","src_hash":"c7b02d900e8b8584","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_nonlinear_3eq_order1_type5(x, y, z)","rhs":"[sol1, sol2, sol3]","over":{"base":"Any"},"name":"_nonlinear_3eq_order1_type5_correct"},"guarantee":"returns [sol1, sol2, sol3]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.ode._nonlinear_3eq_order1_type5_correct","statement":"Path(_nonlinear_3eq_order1_type5(x), returns [sol1, sol2, sol3])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"37986a0b1c36e635","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[sol1, sol2, sol3]","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.2,"verdict_class":"assumed","binding":true}}
 def _nonlinear_3eq_order1_type5(x, y, z, t, eq):
     r"""
     .. math:: x' = x (c F_2 - b F_3), \enspace y' = y (a F_3 - c F_1), \enspace z' = z (b F_1 - a F_2)

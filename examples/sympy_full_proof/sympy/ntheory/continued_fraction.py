@@ -26,16 +26,25 @@ from sympy.utilities.misc import as_int
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(continued_fraction(a), return the continued fraction representation of a rational or quadratic irrational) over Any ║
+# ║ Path(continued_fraction(a), <unspecified:continued_fraction>) over {Any | hasattr(a, 'q') and hasattr(a, 'p') and hasattr(a, 'is_Integer')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ continued_fraction : Any → list                            ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(a, 'q')                                ║
+# ║   requires: hasattr(a, 'p')                                ║
+# ║   requires: hasattr(a, 'is_Integer')                       ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ continued_fraction : {Any | hasattr(a, 'q') and hasat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 57d83942f19f0c54  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.continued_fraction.continued_fraction","kind":"function","src_hash":"dbd13ea156b5ca02","in":{"base":"Any"},"out":{"base":"list"},"spec":{"lhs":"continued_fraction(a)","rhs":"return the continued fraction representation of a rational or quadratic irrational","over":{"base":"Any"},"name":"continued_fraction_correct"},"guarantee":"return the continued fraction representation of a rational or quadratic irrational","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.continued_fraction.continued_fraction_correct","statement":"Path(continued_fraction(x), return the continued fraction representation of a rational or quadratic irrational)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"57d83942f19f0c54"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.continued_fraction.continued_fraction","kind":"function","src_hash":"dbd13ea156b5ca02","in":{"base":"Any","pred":"hasattr(a, 'q') and hasattr(a, 'p') and hasattr(a, 'is_Integer')"},"out":{"base":"list"},"spec":{"lhs":"continued_fraction(a)","rhs":"<unspecified:continued_fraction>","over":{"base":"Any","pred":"hasattr(a, 'q') and hasattr(a, 'p') and hasattr(a, 'is_Integer')"},"name":"continued_fraction_correct"},"guarantee":"return the continued fraction representation of a rational or quadratic irrational","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.continued_fraction.continued_fraction_correct","statement":"Path(continued_fraction(x), return the continued fraction representation of a rational or quadratic irrational)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"57d83942f19f0c54","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(a, 'q')","hasattr(a, 'p')","hasattr(a, 'is_Integer')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["a.is_Integer","a.p","a.q"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def continued_fraction(a) -> list:
     """Return the continued fraction representation of a Rational or
     quadratic irrational.
@@ -102,16 +111,24 @@ def continued_fraction(a) -> list:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(continued_fraction_periodic(p, ), id) over Any        ║
+# ║ Path(continued_fraction_periodic(p, q, d), id) over {Any | not (d < 0) and not (q == 0)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ continued_fraction_periodic : Any → list                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (d < 0)                                    ║
+# ║   requires: not (q == 0)                                   ║
+# ║   ensures:  len(terms) == old_len_terms + 1                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ continued_fraction_periodic : {Any | not (d < 0) and ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 6b3bc4fb871e3cc5   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.continued_fraction.continued_fraction_periodic","kind":"function","src_hash":"0c69d4e49cd76d38","in":{"base":"Any"},"out":{"base":"list"},"spec":{"lhs":"continued_fraction_periodic(p, )","rhs":"find the periodic continued fraction expansion of a quadratic irrational","over":{"base":"Any"},"name":"continued_fraction_periodic_correct","kind":"composition"},"guarantee":"find the periodic continued fraction expansion of a quadratic irrational","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"list","by":"library_axiom"},{"fn":"continued_fraction_iterator","by":"library_axiom"},{"fn":"Rational","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6b3bc4fb871e3cc5"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.continued_fraction.continued_fraction_periodic","kind":"function","src_hash":"0c69d4e49cd76d38","in":{"base":"Any","pred":"not (d < 0) and not (q == 0)"},"out":{"base":"list","pred":"result satisfies: len(terms) == old_len_terms + 1"},"spec":{"lhs":"continued_fraction_periodic(p, q, d)","rhs":"len(terms) == old_len_terms + 1","over":{"base":"Any","pred":"not (d < 0) and not (q == 0)"},"name":"continued_fraction_periodic_correct","kind":"composition"},"guarantee":"len(terms) == old_len_terms + 1","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"list","by":"library_axiom"},{"fn":"continued_fraction_iterator","by":"library_axiom"},{"fn":"Rational","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6b3bc4fb871e3cc5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (d < 0)","not (q == 0)"],"ensures":["len(terms) == old_len_terms + 1"],"pure":false,"effects":{"effect_type":"reads_state","calls_mutating":["terms.append"],"raises":["ValueError"]},"state_contract":{"modifies":["terms.*"],"old_bindings":{"old_len_terms":"len(terms)"},"post_ensures":["len(terms) == old_len_terms + 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def continued_fraction_periodic(p, q, d=0, s=1) -> list:
     r"""
     Find the periodic continued fraction expansion of a quadratic irrational.
@@ -222,7 +239,10 @@ def continued_fraction_periodic(p, q, d=0, s=1) -> list:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(continued_fraction_reduce(cf), reduce a continued fraction to a rational or quadratic irrational) over {Any | isinstance(nxt, list)} ║
+# ║ Path(continued_fraction_reduce(cf), # HINT: continued_fraction_reduce may be idempotent: continued_fraction_reduce(continued_fraction_reduce(x)) == continued_fraction_reduce(x)) over {Any | isinstance(nxt, list)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  # HINT: continued_fraction_reduce may be ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ continued_fraction_reduce : {Any | isinstance(nxt, li...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -234,9 +254,12 @@ def continued_fraction_periodic(p, q, d=0, s=1) -> list:
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.6ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 326c35ee...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.continued_fraction.continued_fraction_reduce","kind":"function","src_hash":"538e48096ca9c191","in":{"base":"Any","pred":"isinstance(nxt, list)"},"out":{"base":"Any"},"spec":{"lhs":"continued_fraction_reduce(cf)","rhs":"reduce a continued fraction to a rational or quadratic irrational","over":{"base":"Any","pred":"isinstance(nxt, list)"},"name":"continued_fraction_reduce_correct"},"guarantee":"reduce a continued fraction to a rational or quadratic irrational","fibers":[{"name":"list","pred":"isinstance(nxt, list)","path":{"lhs":"continued_fraction_reduce(x)","rhs":"reduce a continued fraction to a rational or quadratic irrational","over":{"base":"list","pred":"isinstance(nxt, list)"},"name":"continued_fraction_reduce_list_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.continued_fraction.continued_fraction_reduce_list_correct","statement":"continued_fraction_reduce satisfies spec on list inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"326c35ee86ac1042"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.continued_fraction.continued_fraction_reduce","kind":"function","src_hash":"538e48096ca9c191","in":{"base":"Any","pred":"isinstance(nxt, list)"},"out":{"base":"Any","pred":"result satisfies: # HINT: continued_fraction_reduce may be idempotent: continued_fraction_reduce(continued_fraction_reduce(x)) == continued_fraction_reduce(x)"},"spec":{"lhs":"continued_fraction_reduce(cf)","rhs":"# HINT: continued_fraction_reduce may be idempotent: continued_fraction_reduce(continued_fraction_reduce(x)) == continued_fraction_reduce(x)","over":{"base":"Any","pred":"isinstance(nxt, list)"},"name":"continued_fraction_reduce_correct"},"guarantee":"# HINT: continued_fraction_reduce may be idempotent: continued_fraction_reduce(continued_fraction_reduce(x)) == continued_fraction_reduce(x)","fibers":[{"name":"list","pred":"isinstance(nxt, list)","path":{"lhs":"continued_fraction_reduce(x)","rhs":"# HINT: continued_fraction_reduce may be idempotent: continued_fraction_reduce(continued_fraction_reduce(x)) == continued_fraction_reduce(x)","over":{"base":"list","pred":"isinstance(nxt, list)"},"name":"continued_fraction_reduce_list_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.continued_fraction.continued_fraction_reduce_list_correct","statement":"continued_fraction_reduce satisfies spec on list inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"326c35ee86ac1042","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["# HINT: continued_fraction_reduce may be idempotent: continued_fraction_reduce(continued_fraction_reduce(x)) == continued_fraction_reduce(x)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.6,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'rv.is_Mul and rv.args[0] == -1', 'isinstance(nxt, list)'}, fibers={'list'})"]}}
 def continued_fraction_reduce(cf):
     """
     Reduce a continued fraction to a rational or quadratic irrational.
@@ -313,16 +336,22 @@ def continued_fraction_reduce(cf):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(continued_fraction_iterator(x), return continued fraction expansion of x as iterator) over Any ║
+# ║ Path(continued_fraction_iterator(x), <unspecified:continued_fraction_iterator>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ continued_fraction_iterator : Any → Any                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c77c0997ca98cc6b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.continued_fraction.continued_fraction_iterator","kind":"function","src_hash":"d77b33a0d82f9bb3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"continued_fraction_iterator(x)","rhs":"return continued fraction expansion of x as iterator","over":{"base":"Any"},"name":"continued_fraction_iterator_correct"},"guarantee":"return continued fraction expansion of x as iterator","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.continued_fraction.continued_fraction_iterator_correct","statement":"Path(continued_fraction_iterator(x), return continued fraction expansion of x as iterator)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c77c0997ca98cc6b"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.continued_fraction.continued_fraction_iterator","kind":"function","src_hash":"d77b33a0d82f9bb3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"continued_fraction_iterator(x)","rhs":"<unspecified:continued_fraction_iterator>","over":{"base":"Any"},"name":"continued_fraction_iterator_correct"},"guarantee":"return continued fraction expansion of x as iterator","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.continued_fraction.continued_fraction_iterator_correct","statement":"Path(continued_fraction_iterator(x), return continued fraction expansion of x as iterator)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c77c0997ca98cc6b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def continued_fraction_iterator(x):
     """
     Return continued fraction expansion of x as iterator.
@@ -368,7 +397,10 @@ def continued_fraction_iterator(x):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(continued_fraction_convergents(cf), return an iterator over the convergents of a continued fraction (cf)) over {Any | isinstance(cf, list)} ║
+# ║ Path(continued_fraction_convergents(cf), <unspecified:continued_fraction_convergents>) over {Any | isinstance(cf, list)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ continued_fraction_convergents : {Any | isinstance(cf...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -380,9 +412,12 @@ def continued_fraction_iterator(x):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.5ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 7d44a6dd...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.continued_fraction.continued_fraction_convergents","kind":"function","src_hash":"7ac9cdac24dda011","in":{"base":"Any","pred":"isinstance(cf, list)"},"out":{"base":"Any"},"spec":{"lhs":"continued_fraction_convergents(cf)","rhs":"return an iterator over the convergents of a continued fraction (cf)","over":{"base":"Any","pred":"isinstance(cf, list)"},"name":"continued_fraction_convergents_correct"},"guarantee":"return an iterator over the convergents of a continued fraction (cf)","fibers":[{"name":"list","pred":"isinstance(cf, list)","path":{"lhs":"continued_fraction_convergents(x)","rhs":"return an iterator over the convergents of a continued fraction (cf)","over":{"base":"list","pred":"isinstance(cf, list)"},"name":"continued_fraction_convergents_list_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.continued_fraction.continued_fraction_convergents_list_correct","statement":"continued_fraction_convergents satisfies spec on list inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"7d44a6dd2e780fa0"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.continued_fraction.continued_fraction_convergents","kind":"function","src_hash":"7ac9cdac24dda011","in":{"base":"Any","pred":"isinstance(cf, list)"},"out":{"base":"Any"},"spec":{"lhs":"continued_fraction_convergents(cf)","rhs":"<unspecified:continued_fraction_convergents>","over":{"base":"Any","pred":"isinstance(cf, list)"},"name":"continued_fraction_convergents_correct"},"guarantee":"return an iterator over the convergents of a continued fraction (cf)","fibers":[{"name":"list","pred":"isinstance(cf, list)","path":{"lhs":"continued_fraction_convergents(x)","rhs":"return an iterator over the convergents of a continued fraction (cf)","over":{"base":"list","pred":"isinstance(cf, list)"},"name":"continued_fraction_convergents_list_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.continued_fraction.continued_fraction_convergents_list_correct","statement":"continued_fraction_convergents satisfies spec on list inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"7d44a6dd2e780fa0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.5,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(cf, list) and isinstance(cf[-1], list)'}, fibers={'list'})"]}}
 def continued_fraction_convergents(cf):
     """
     Return an iterator over the convergents of a continued fraction (cf).

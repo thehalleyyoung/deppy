@@ -34,14 +34,20 @@ from sympy.ntheory.factor_ import core
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(ImplicitRegion(*args), correctly constructs a ImplicitRegion instance) over {Any | isinstance(equation, Eq) and isinstance(point, Point) and isinstance(variables, Tuple)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Basic)                        ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ ImplicitRegion : {Any | isinstance(equation, Eq) and ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 3.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8c89abc9941adce7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.implicitregion.ImplicitRegion","kind":"class","src_hash":"5f637a8eb6d99f40","in":{"base":"Any","pred":"isinstance(equation, Eq) and isinstance(point, Point) and isinstance(variables, Tuple)"},"out":{"base":"Any"},"spec":{"lhs":"ImplicitRegion(*args)","rhs":"correctly constructs a ImplicitRegion instance","over":{"base":"Any","pred":"isinstance(equation, Eq) and isinstance(point, Point) and isinstance(variables, Tuple)"},"name":"ImplicitRegion_class_invariant"},"guarantee":"correctly constructs a ImplicitRegion instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8c89abc9941adce7"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.implicitregion.ImplicitRegion","kind":"class","src_hash":"5f637a8eb6d99f40","in":{"base":"Any","pred":"isinstance(equation, Eq) and isinstance(point, Point) and isinstance(variables, Tuple)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Basic)"},"spec":{"lhs":"ImplicitRegion(*args)","rhs":"correctly constructs a ImplicitRegion instance","over":{"base":"Any","pred":"isinstance(equation, Eq) and isinstance(point, Point) and isinstance(variables, Tuple)"},"name":"ImplicitRegion_class_invariant"},"guarantee":"isinstance(self, Basic)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8c89abc9941adce7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Basic)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":3.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function ImplicitRegion not found in source"]}}
 class ImplicitRegion(Basic):
     """
     Represents an implicit region in space.
@@ -83,16 +89,24 @@ class ImplicitRegion(Basic):
 
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, variables, equation), super().__new__(cls, variables, equation)) over {Any | hasattr(equation, 'lhs') and hasattr(equation, 'rhs')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(equation, 'lhs')                       ║
+# ║   requires: hasattr(equation, 'rhs')                       ║
+# ║   returns:  super().__new__(cls, variables, equation)      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | hasattr(equation, 'lhs') and hasattr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d8bbf8297e3299c9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.implicitregion.ImplicitRegion.__new__","kind":"method","src_hash":"f176ff8bdb2008b2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d8bbf8297e3299c9"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.implicitregion.ImplicitRegion.__new__","kind":"method","src_hash":"f176ff8bdb2008b2","in":{"base":"Any","pred":"hasattr(equation, 'lhs') and hasattr(equation, 'rhs')"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, variables, equation)","rhs":"super().__new__(cls, variables, equation)","over":{"base":"Any","pred":"hasattr(equation, 'lhs') and hasattr(equation, 'rhs')"},"name":"__new___correct"},"guarantee":"returns super().__new__(cls, variables, equation)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d8bbf8297e3299c9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(equation, 'lhs')","hasattr(equation, 'rhs')"],"returns_expr":"super().__new__(cls, variables, equation)","pure":false,"effects":{"effect_type":"reads_state","reads":["equation.lhs","equation.rhs"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, variables, equation):
         if not isinstance(variables, Tuple):
             variables = Tuple(*variables)
@@ -104,60 +118,85 @@ class ImplicitRegion(Basic):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(variables(), returns the variables attribute) over Any ║
+# ║ Path(variables(), self.args[0]) over Any                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ variables : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 650cff263ff52a3f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.implicitregion.ImplicitRegion.variables","kind":"property","src_hash":"b77ff5e9e31e2eea","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"variables()","rhs":"returns the variables attribute","over":{"base":"Any"},"name":"variables_correct"},"guarantee":"returns the variables attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"650cff263ff52a3f"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.implicitregion.ImplicitRegion.variables","kind":"property","src_hash":"b77ff5e9e31e2eea","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"variables()","rhs":"self.args[0]","over":{"base":"Any"},"name":"variables_correct"},"guarantee":"returns self.args[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"650cff263ff52a3f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def variables(self):
         return self.args[0]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(equation(), returns the equation attribute) over Any  ║
+# ║ Path(equation(), self.args[1]) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[1]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ equation : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 25b4f2aba885faef           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.implicitregion.ImplicitRegion.equation","kind":"property","src_hash":"f17ef588e33f541f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"equation()","rhs":"returns the equation attribute","over":{"base":"Any"},"name":"equation_correct"},"guarantee":"returns the equation attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"25b4f2aba885faef"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.implicitregion.ImplicitRegion.equation","kind":"property","src_hash":"f17ef588e33f541f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"equation()","rhs":"self.args[1]","over":{"base":"Any"},"name":"equation_correct"},"guarantee":"returns self.args[1]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"25b4f2aba885faef","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[1]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def equation(self):
         return self.args[1]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(degree(), returns the degree attribute) over Any      ║
+# ║ Path(degree(), total_degree(self.equation)) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  total_degree(self.equation)                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ degree : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e94b26d05c9ba4a3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.implicitregion.ImplicitRegion.degree","kind":"property","src_hash":"ecd80923b0e918eb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"degree()","rhs":"returns the degree attribute","over":{"base":"Any"},"name":"degree_correct"},"guarantee":"returns the degree attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e94b26d05c9ba4a3"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.implicitregion.ImplicitRegion.degree","kind":"property","src_hash":"ecd80923b0e918eb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"degree()","rhs":"total_degree(self.equation)","over":{"base":"Any"},"name":"degree_correct"},"guarantee":"returns total_degree(self.equation)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e94b26d05c9ba4a3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"total_degree(self.equation)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.equation"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def degree(self):
         return total_degree(self.equation)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(regular_point(), id) over Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: len(self.variables) == 1 => (list(so...   ║
+# ║   fiber[case_1]: len(self.variables) == 2                  ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ regular_point : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 0f6eed58803e75ec   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.implicitregion.ImplicitRegion.regular_point","kind":"method","src_hash":"b92f711a0980661b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"regular_point()","rhs":"returns a point on the implicit region","over":{"base":"Any"},"name":"regular_point_correct","kind":"composition"},"guarantee":"returns a point on the implicit region","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"list","by":"library_axiom"},{"fn":"solveset","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0f6eed58803e75ec"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.implicitregion.ImplicitRegion.regular_point","kind":"method","src_hash":"b92f711a0980661b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"regular_point()","rhs":"<unspecified:regular_point>","over":{"base":"Any"},"name":"regular_point_correct","kind":"composition"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"list","by":"library_axiom"},{"fn":"solveset","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0f6eed58803e75ec","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"len(self.variables) == 1","ensures":["result == (list(solveset(equation, self.variables[0], domain=S.Reals))[0],)"],"decidability":"z3","returns_expr":"(list(solveset(equation, self.variables[0], domain=S.Reals))[0],)"},{"name":"case_1","guard":"len(self.variables) == 2","ensures":[],"decidability":"z3"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._regular_point_ellipse","self._regular_point_parabola","self.degree","self.equation","self.singular_points","self.variables"],"raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def regular_point(self):
         """
         Returns a point on the implicit region.
@@ -214,16 +253,23 @@ class ImplicitRegion(Basic):
         raise NotImplementedError()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_regular_point_parabola(a, ), internal helper behaves correctly) over Any ║
+# ║ Path(_regular_point_parabola(a, b, c), (x_reg, y_reg)) over {Any | ok} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _regular_point_parabola : Any → Any                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: ok                                             ║
+# ║   returns:  (x_reg, y_reg)                                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _regular_point_parabola : {Any | ok} → Any                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d16c82138960401a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d6ef970c7ecf33a8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.implicitregion.ImplicitRegion._regular_point_parabola","kind":"method","src_hash":"95d6f7447dbc7261","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_regular_point_parabola(a, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_regular_point_parabola_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.implicitregion.ImplicitRegion._regular_point_parabola_correct","statement":"Path(_regular_point_parabola(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d16c82138960401a"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.implicitregion.ImplicitRegion._regular_point_parabola","kind":"method","src_hash":"95d6f7447dbc7261","in":{"base":"Any","pred":"ok"},"out":{"base":"Any"},"spec":{"lhs":"_regular_point_parabola(a, b, c)","rhs":"(x_reg, y_reg)","over":{"base":"Any","pred":"ok"},"name":"_regular_point_parabola_correct"},"guarantee":"returns (x_reg, y_reg)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.implicitregion.ImplicitRegion._regular_point_parabola_correct","statement":"Path(_regular_point_parabola(x), returns (x_reg, y_reg))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d6ef970c7ecf33a8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["ok"],"returns_expr":"(x_reg, y_reg)","pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _regular_point_parabola(self, a, b, c, d, e, f):
             ok = (a, d) != (0, 0) and (c, e) != (0, 0) and b**2 == 4*a*c and (a, c) != (0, 0)
 
@@ -251,16 +297,23 @@ class ImplicitRegion(Basic):
                 raise ValueError("Rational Point on the conic does not exist")
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_regular_point_ellipse(a, ), internal helper behaves correctly) over Any ║
+# ║ Path(_regular_point_ellipse(a, b, c), (x_reg, y_reg)) over {Any | ok} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _regular_point_ellipse : Any → Any                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: ok                                             ║
+# ║   returns:  (x_reg, y_reg)                                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _regular_point_ellipse : {Any | ok} → Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | efd57ea3eaaf76eb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9d5a5b7d728b14b9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.implicitregion.ImplicitRegion._regular_point_ellipse","kind":"method","src_hash":"57d2aaa833f2db09","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_regular_point_ellipse(a, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_regular_point_ellipse_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.implicitregion.ImplicitRegion._regular_point_ellipse_correct","statement":"Path(_regular_point_ellipse(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"efd57ea3eaaf76eb"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.implicitregion.ImplicitRegion._regular_point_ellipse","kind":"method","src_hash":"57d2aaa833f2db09","in":{"base":"Any","pred":"ok"},"out":{"base":"Any"},"spec":{"lhs":"_regular_point_ellipse(a, b, c)","rhs":"(x_reg, y_reg)","over":{"base":"Any","pred":"ok"},"name":"_regular_point_ellipse_correct"},"guarantee":"returns (x_reg, y_reg)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.implicitregion.ImplicitRegion._regular_point_ellipse_correct","statement":"Path(_regular_point_ellipse(x), returns (x_reg, y_reg))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9d5a5b7d728b14b9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["ok"],"returns_expr":"(x_reg, y_reg)","pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _regular_point_ellipse(self, a, b, c, d, e, f):
             D = 4*a*c - b**2
             ok = D
@@ -388,14 +441,20 @@ class ImplicitRegion(Basic):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(singular_points(), id) over Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  nonlinsolve(eq_list, list(self.variables))     ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ singular_points : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | f0a56c0293c69796   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.implicitregion.ImplicitRegion.singular_points","kind":"method","src_hash":"e8344b723904c4d3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"singular_points()","rhs":"returns a set of singular points of the region","over":{"base":"Any"},"name":"singular_points_correct","kind":"composition"},"guarantee":"returns a set of singular points of the region","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"nonlinsolve","by":"library_axiom"},{"fn":"list","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f0a56c0293c69796"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.implicitregion.ImplicitRegion.singular_points","kind":"method","src_hash":"e8344b723904c4d3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"singular_points()","rhs":"nonlinsolve(eq_list, list(self.variables))","over":{"base":"Any"},"name":"singular_points_correct","kind":"composition"},"guarantee":"returns nonlinsolve(eq_list, list(self.variables))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"nonlinsolve","by":"library_axiom"},{"fn":"list","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f0a56c0293c69796","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"nonlinsolve(eq_list, list(self.variables))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.equation","self.variables"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def singular_points(self):
         """
         Returns a set of singular points of the region.
@@ -420,16 +479,23 @@ class ImplicitRegion(Basic):
         return nonlinsolve(eq_list, list(self.variables))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(multiplicity(poi), returns the multiplicity of a singular point on the region) over Any ║
+# ║ Path(multiplicity(point), <unspecified:multiplicity>) over {Any | hasattr(point, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ multiplicity : Any → Any                                   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(point, 'args')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ multiplicity : {Any | hasattr(point, 'args')} → Any        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6def416cdf3bdd6e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.implicitregion.ImplicitRegion.multiplicity","kind":"method","src_hash":"aa2b78d339683c91","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"multiplicity(poi)","rhs":"returns the multiplicity of a singular point on the region","over":{"base":"Any"},"name":"multiplicity_correct"},"guarantee":"returns the multiplicity of a singular point on the region","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.implicitregion.ImplicitRegion.multiplicity_correct","statement":"Path(multiplicity(x), returns the multiplicity of a singular point on the region)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6def416cdf3bdd6e"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.implicitregion.ImplicitRegion.multiplicity","kind":"method","src_hash":"aa2b78d339683c91","in":{"base":"Any","pred":"hasattr(point, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"multiplicity(point)","rhs":"<unspecified:multiplicity>","over":{"base":"Any","pred":"hasattr(point, 'args')"},"name":"multiplicity_correct"},"guarantee":"returns the multiplicity of a singular point on the region","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.implicitregion.ImplicitRegion.multiplicity_correct","statement":"Path(multiplicity(x), returns the multiplicity of a singular point on the region)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6def416cdf3bdd6e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(point, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["point.args","self.equation","self.variables"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def multiplicity(self, point):
         """
         Returns the multiplicity of a singular point on the region.
@@ -468,16 +534,22 @@ class ImplicitRegion(Basic):
         return m
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rational_parametrization(par), returns the rational parametrization of implicit region) over Any ║
+# ║ Path(rational_parametrization(parameters, reg_point), <unspecified:rational_parametrization>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ rational_parametrization : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 378ef7a91b590f47  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.implicitregion.ImplicitRegion.rational_parametrization","kind":"method","src_hash":"658222cd8180adb0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rational_parametrization(par)","rhs":"returns the rational parametrization of implicit region","over":{"base":"Any"},"name":"rational_parametrization_correct"},"guarantee":"returns the rational parametrization of implicit region","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.implicitregion.ImplicitRegion.rational_parametrization_correct","statement":"Path(rational_parametrization(x), returns the rational parametrization of implicit region)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"378ef7a91b590f47"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.implicitregion.ImplicitRegion.rational_parametrization","kind":"method","src_hash":"658222cd8180adb0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rational_parametrization(parameters, reg_point)","rhs":"<unspecified:rational_parametrization>","over":{"base":"Any"},"name":"rational_parametrization_correct"},"guarantee":"returns the rational parametrization of implicit region","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.implicitregion.ImplicitRegion.rational_parametrization_correct","statement":"Path(rational_parametrization(x), returns the rational parametrization of implicit region)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"378ef7a91b590f47","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.degree","self.equation","self.multiplicity","self.regular_point","self.singular_points","self.variables"],"raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def rational_parametrization(self, parameters=('t', 's'), reg_point=None):
         """
         Returns the rational parametrization of implicit region.
@@ -629,16 +701,24 @@ class ImplicitRegion(Basic):
         raise NotImplementedError()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(conic_coeff(var), conic_coeff produces the expected output) over Any ║
+# ║ Path(conic_coeff(variables, equation), (a, b, c, d, e, f)) over {Any | not (total_degree(equation) != 2) and hasattr(equation, 'coeff')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ conic_coeff : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (total_degree(equation) != 2)              ║
+# ║   requires: hasattr(equation, 'coeff')                     ║
+# ║   returns:  (a, b, c, d, e, f)                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ conic_coeff : {Any | not (total_degree(equation) != 2...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cba70527311e3add  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 24b1c5ca819cc864  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.implicitregion.conic_coeff","kind":"function","src_hash":"75599b0f4d07373d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"conic_coeff(var)","rhs":"conic_coeff produces the expected output","over":{"base":"Any"},"name":"conic_coeff_correct"},"guarantee":"conic_coeff produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.implicitregion.conic_coeff_correct","statement":"Path(conic_coeff(x), conic_coeff produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cba70527311e3add"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.implicitregion.conic_coeff","kind":"function","src_hash":"75599b0f4d07373d","in":{"base":"Any","pred":"not (total_degree(equation) != 2) and hasattr(equation, 'coeff')"},"out":{"base":"Any"},"spec":{"lhs":"conic_coeff(variables, equation)","rhs":"(a, b, c, d, e, f)","over":{"base":"Any","pred":"not (total_degree(equation) != 2) and hasattr(equation, 'coeff')"},"name":"conic_coeff_correct"},"guarantee":"returns (a, b, c, d, e, f)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.implicitregion.conic_coeff_correct","statement":"Path(conic_coeff(x), returns (a, b, c, d, e, f))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"24b1c5ca819cc864","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (total_degree(equation) != 2)","hasattr(equation, 'coeff')"],"returns_expr":"(a, b, c, d, e, f)","pure":false,"effects":{"effect_type":"reads_state","reads":["equation.coeff"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def conic_coeff(variables, equation):
     if total_degree(equation) != 2:
         raise ValueError()

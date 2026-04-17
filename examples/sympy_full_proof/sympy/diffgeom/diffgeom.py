@@ -50,14 +50,20 @@ from sympy.tensor.array import ImmutableDenseNDimArray
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Manifold(*args), correctly constructs a Manifold instance) over {Any | isinstance(name, Str)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Manifold : {Any | isinstance(name, Str)} → Any             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Basic)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Manifold : {Any | isinstance(name, Str)} → {Any | res...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2a0c758515ffd497  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.Manifold","kind":"class","src_hash":"33541d71e5c6815e","in":{"base":"Any","pred":"isinstance(name, Str)"},"out":{"base":"Any"},"spec":{"lhs":"Manifold(*args)","rhs":"correctly constructs a Manifold instance","over":{"base":"Any","pred":"isinstance(name, Str)"},"name":"Manifold_class_invariant"},"guarantee":"correctly constructs a Manifold instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2a0c758515ffd497"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.Manifold","kind":"class","src_hash":"33541d71e5c6815e","in":{"base":"Any","pred":"isinstance(name, Str)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Basic)"},"spec":{"lhs":"Manifold(*args)","rhs":"correctly constructs a Manifold instance","over":{"base":"Any","pred":"isinstance(name, Str)"},"name":"Manifold_class_invariant"},"guarantee":"isinstance(self, Basic)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2a0c758515ffd497","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Basic)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function Manifold not found in source"]}}
 class Manifold(Basic):
     """
     A mathematical manifold.
@@ -96,16 +102,22 @@ class Manifold(Basic):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, name, dim), <unspecified:__new__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7dcfc6bc08ee1dd9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.Manifold.__new__","kind":"method","src_hash":"3f464c3049535c75","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7dcfc6bc08ee1dd9"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.Manifold.__new__","kind":"method","src_hash":"3f464c3049535c75","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, name, dim)","rhs":"<unspecified:__new__>","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7dcfc6bc08ee1dd9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, name, dim, **kwargs):
         if not isinstance(name, Str):
             name = Str(name)
@@ -122,31 +134,43 @@ class Manifold(Basic):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(name(), returns the name attribute) over Any          ║
+# ║ Path(name(), self.args[0]) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ name : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e3993db9f8f615ee           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.Manifold.name","kind":"property","src_hash":"77621fd9d22e97ea","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"name()","rhs":"returns the name attribute","over":{"base":"Any"},"name":"name_correct"},"guarantee":"returns the name attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e3993db9f8f615ee"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.Manifold.name","kind":"property","src_hash":"77621fd9d22e97ea","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"name()","rhs":"self.args[0]","over":{"base":"Any"},"name":"name_correct"},"guarantee":"returns self.args[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e3993db9f8f615ee","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def name(self):
         return self.args[0]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dim(), returns the dim attribute) over Any            ║
+# ║ Path(dim(), self.args[1]) over Any                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[1]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dim : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3e8993f525c7547a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.Manifold.dim","kind":"property","src_hash":"de9c813b00bb2de8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dim()","rhs":"returns the dim attribute","over":{"base":"Any"},"name":"dim_correct"},"guarantee":"returns the dim attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3e8993f525c7547a"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.Manifold.dim","kind":"property","src_hash":"de9c813b00bb2de8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dim()","rhs":"self.args[1]","over":{"base":"Any"},"name":"dim_correct"},"guarantee":"returns self.args[1]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3e8993f525c7547a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[1]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dim(self):
         return self.args[1]
 
@@ -154,14 +178,20 @@ class Manifold(Basic):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Patch(*args), correctly constructs a Patch instance) over {Any | isinstance(name, Str)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Patch : {Any | isinstance(name, Str)} → Any                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Basic)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Patch : {Any | isinstance(name, Str)} → {Any | result...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ca18a518ebdec5aa  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.Patch","kind":"class","src_hash":"93deb29cd19a9f6d","in":{"base":"Any","pred":"isinstance(name, Str)"},"out":{"base":"Any"},"spec":{"lhs":"Patch(*args)","rhs":"correctly constructs a Patch instance","over":{"base":"Any","pred":"isinstance(name, Str)"},"name":"Patch_class_invariant"},"guarantee":"correctly constructs a Patch instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ca18a518ebdec5aa"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.Patch","kind":"class","src_hash":"93deb29cd19a9f6d","in":{"base":"Any","pred":"isinstance(name, Str)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Basic)"},"spec":{"lhs":"Patch(*args)","rhs":"correctly constructs a Patch instance","over":{"base":"Any","pred":"isinstance(name, Str)"},"name":"Patch_class_invariant"},"guarantee":"isinstance(self, Basic)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ca18a518ebdec5aa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Basic)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function Patch not found in source"]}}
 class Patch(Basic):
     """
     A patch on a manifold.
@@ -206,16 +236,22 @@ class Patch(Basic):
 
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, name, manifold), <unspecified:__new__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d561a5280c132566           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.Patch.__new__","kind":"method","src_hash":"7ea23aa727cb3851","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d561a5280c132566"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.Patch.__new__","kind":"method","src_hash":"7ea23aa727cb3851","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, name, manifold)","rhs":"<unspecified:__new__>","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d561a5280c132566","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, name, manifold, **kwargs):
         if not isinstance(name, Str):
             name = Str(name)
@@ -232,46 +268,64 @@ class Patch(Basic):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(name(), returns the name attribute) over Any          ║
+# ║ Path(name(), self.args[0]) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ name : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 368f9964b35fead9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.Patch.name","kind":"property","src_hash":"77621fd9d22e97ea","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"name()","rhs":"returns the name attribute","over":{"base":"Any"},"name":"name_correct"},"guarantee":"returns the name attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"368f9964b35fead9"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.Patch.name","kind":"property","src_hash":"77621fd9d22e97ea","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"name()","rhs":"self.args[0]","over":{"base":"Any"},"name":"name_correct"},"guarantee":"returns self.args[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"368f9964b35fead9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def name(self):
         return self.args[0]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(manifold(), returns the manifold attribute) over Any  ║
+# ║ Path(manifold(), self.args[1]) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[1]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ manifold : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 03e9006ad5c3d957           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.Patch.manifold","kind":"property","src_hash":"811ae6cd95ec8389","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"manifold()","rhs":"returns the manifold attribute","over":{"base":"Any"},"name":"manifold_correct"},"guarantee":"returns the manifold attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"03e9006ad5c3d957"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.Patch.manifold","kind":"property","src_hash":"811ae6cd95ec8389","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"manifold()","rhs":"self.args[1]","over":{"base":"Any"},"name":"manifold_correct"},"guarantee":"returns self.args[1]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"03e9006ad5c3d957","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[1]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def manifold(self):
         return self.args[1]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dim(), returns the dim attribute) over Any            ║
+# ║ Path(dim(), self.manifold.dim) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.manifold.dim                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dim : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3e17b350cc976d76           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.Patch.dim","kind":"property","src_hash":"4d2417e1333b7dc6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dim()","rhs":"returns the dim attribute","over":{"base":"Any"},"name":"dim_correct"},"guarantee":"returns the dim attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3e17b350cc976d76"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.Patch.dim","kind":"property","src_hash":"4d2417e1333b7dc6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dim()","rhs":"self.manifold.dim","over":{"base":"Any"},"name":"dim_correct"},"guarantee":"returns self.manifold.dim","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3e17b350cc976d76","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.manifold.dim","pure":false,"effects":{"effect_type":"reads_state","reads":["self.manifold"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dim(self):
         return self.manifold.dim
 
@@ -279,14 +333,20 @@ class Patch(Basic):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(CoordSystem(*args), correctly constructs a CoordSystem instance) over {Any | isinstance(name, Str) and isinstance(v, Lambda) and isinstance(s, Symbol)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Basic)                        ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ CoordSystem : {Any | isinstance(name, Str) and isinst...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 2.7ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3ce0c4d775def8d5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.CoordSystem","kind":"class","src_hash":"9860c273c84a067e","in":{"base":"Any","pred":"isinstance(name, Str) and isinstance(v, Lambda) and isinstance(s, Symbol)"},"out":{"base":"Any"},"spec":{"lhs":"CoordSystem(*args)","rhs":"correctly constructs a CoordSystem instance","over":{"base":"Any","pred":"isinstance(name, Str) and isinstance(v, Lambda) and isinstance(s, Symbol)"},"name":"CoordSystem_class_invariant"},"guarantee":"correctly constructs a CoordSystem instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3ce0c4d775def8d5"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.CoordSystem","kind":"class","src_hash":"9860c273c84a067e","in":{"base":"Any","pred":"isinstance(name, Str) and isinstance(v, Lambda) and isinstance(s, Symbol)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Basic)"},"spec":{"lhs":"CoordSystem(*args)","rhs":"correctly constructs a CoordSystem instance","over":{"base":"Any","pred":"isinstance(name, Str) and isinstance(v, Lambda) and isinstance(s, Symbol)"},"name":"CoordSystem_class_invariant"},"guarantee":"isinstance(self, Basic)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3ce0c4d775def8d5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Basic)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.7,"verdict_class":"assumed","binding":false,"binding_errors":["Function CoordSystem not found in source"]}}
 class CoordSystem(Basic):
     """
     A coordinate system defined on the patch.
@@ -398,16 +458,22 @@ class CoordSystem(Basic):
 
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, name, patch), <unspecified:__new__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | cdbe086b28ab70c2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.CoordSystem.__new__","kind":"method","src_hash":"889b8f8e5b64a9c9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cdbe086b28ab70c2"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.CoordSystem.__new__","kind":"method","src_hash":"889b8f8e5b64a9c9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, name, patch)","rhs":"<unspecified:__new__>","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cdbe086b28ab70c2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial"},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, name, patch, symbols=None, relations={}, **kwargs):
         if not isinstance(name, Str):
             name = Str(name)
@@ -496,92 +562,128 @@ That is, replace {s} with Symbol({s!r}, real=True).
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(name(), returns the name attribute) over Any          ║
+# ║ Path(name(), self.args[0]) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ name : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9957e7b96b30abf5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.CoordSystem.name","kind":"property","src_hash":"77621fd9d22e97ea","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"name()","rhs":"returns the name attribute","over":{"base":"Any"},"name":"name_correct"},"guarantee":"returns the name attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9957e7b96b30abf5"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.CoordSystem.name","kind":"property","src_hash":"77621fd9d22e97ea","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"name()","rhs":"self.args[0]","over":{"base":"Any"},"name":"name_correct"},"guarantee":"returns self.args[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9957e7b96b30abf5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def name(self):
         return self.args[0]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(patch(), returns the patch attribute) over Any        ║
+# ║ Path(patch(), self.args[1]) over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[1]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ patch : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 516d5d84095539e5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.CoordSystem.patch","kind":"property","src_hash":"bda4c7b21314cd30","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"patch()","rhs":"returns the patch attribute","over":{"base":"Any"},"name":"patch_correct"},"guarantee":"returns the patch attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"516d5d84095539e5"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.CoordSystem.patch","kind":"property","src_hash":"bda4c7b21314cd30","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"patch()","rhs":"self.args[1]","over":{"base":"Any"},"name":"patch_correct"},"guarantee":"returns self.args[1]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"516d5d84095539e5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[1]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def patch(self):
         return self.args[1]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(manifold(), returns the manifold attribute) over Any  ║
+# ║ Path(manifold(), self.patch.manifold) over Any             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.patch.manifold                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ manifold : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7af01b794a4e5100           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.CoordSystem.manifold","kind":"property","src_hash":"78b5600649c7c6be","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"manifold()","rhs":"returns the manifold attribute","over":{"base":"Any"},"name":"manifold_correct"},"guarantee":"returns the manifold attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7af01b794a4e5100"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.CoordSystem.manifold","kind":"property","src_hash":"78b5600649c7c6be","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"manifold()","rhs":"self.patch.manifold","over":{"base":"Any"},"name":"manifold_correct"},"guarantee":"returns self.patch.manifold","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7af01b794a4e5100","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.patch.manifold","pure":false,"effects":{"effect_type":"reads_state","reads":["self.patch"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def manifold(self):
         return self.patch.manifold
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(symbols(), returns the symbols attribute) over Any    ║
+# ║ Path(symbols(), tuple((CoordinateSymbol(self, i, **s._assumptions.generator) for i, s in enumerate(self.args[2])))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  tuple((CoordinateSymbol(self, i, **s._ass...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ symbols : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 065da4f28e079454           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.CoordSystem.symbols","kind":"property","src_hash":"1a51faca7d55d143","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"symbols()","rhs":"returns the symbols attribute","over":{"base":"Any"},"name":"symbols_correct"},"guarantee":"returns the symbols attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"065da4f28e079454"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.CoordSystem.symbols","kind":"property","src_hash":"1a51faca7d55d143","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"symbols()","rhs":"tuple((CoordinateSymbol(self, i, **s._assumptions.generator) for i, s in enumerate(self.args[2])))","over":{"base":"Any"},"name":"symbols_correct"},"guarantee":"returns tuple((CoordinateSymbol(self, i, **s._assumptions.generator) for i, s in enumerate(self.args[2])))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"065da4f28e079454","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"tuple((CoordinateSymbol(self, i, **s._assumptions.generator) for i, s in enumerate(self.args[2])))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def symbols(self):
         return tuple(CoordinateSymbol(self, i, **s._assumptions.generator)
             for i,s in enumerate(self.args[2]))
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(relations(), returns the relations attribute) over Any ║
+# ║ Path(relations(), self.args[3]) over Any                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[3]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ relations : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9333e3235e3ff3ae           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.CoordSystem.relations","kind":"property","src_hash":"eedf83c52a966e9a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"relations()","rhs":"returns the relations attribute","over":{"base":"Any"},"name":"relations_correct"},"guarantee":"returns the relations attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9333e3235e3ff3ae"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.CoordSystem.relations","kind":"property","src_hash":"eedf83c52a966e9a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"relations()","rhs":"self.args[3]","over":{"base":"Any"},"name":"relations_correct"},"guarantee":"returns self.args[3]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9333e3235e3ff3ae","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[3]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def relations(self):
         return self.args[3]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dim(), returns the dim attribute) over Any            ║
+# ║ Path(dim(), self.patch.dim) over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.patch.dim                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dim : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 72a6445cc8dfae38           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.CoordSystem.dim","kind":"property","src_hash":"60b75c6f76b11acd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dim()","rhs":"returns the dim attribute","over":{"base":"Any"},"name":"dim_correct"},"guarantee":"returns the dim attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"72a6445cc8dfae38"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.CoordSystem.dim","kind":"property","src_hash":"60b75c6f76b11acd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dim()","rhs":"self.patch.dim","over":{"base":"Any"},"name":"dim_correct"},"guarantee":"returns self.patch.dim","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"72a6445cc8dfae38","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.patch.dim","pure":false,"effects":{"effect_type":"reads_state","reads":["self.patch"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dim(self):
         return self.patch.dim
 
@@ -590,16 +692,23 @@ That is, replace {s} with Symbol({s!r}, real=True).
     ##########################################################################
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(transformation(sys), return coordinate transformation function from *self* to *sys*) over Any ║
+# ║ Path(transformation(sys), Lambda(signature, expr)) over {Any | hasattr(sys, 'name')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ transformation : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(sys, 'name')                           ║
+# ║   returns:  Lambda(signature, expr)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ transformation : {Any | hasattr(sys, 'name')} → Any        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ac0bce1ee72663c3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 32c3fe47d828367c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.CoordSystem.transformation","kind":"method","src_hash":"8723e036ad0cc643","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"transformation(sys)","rhs":"return coordinate transformation function from *self* to *sys*","over":{"base":"Any"},"name":"transformation_correct"},"guarantee":"return coordinate transformation function from *self* to *sys*","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.diffgeom.diffgeom.CoordSystem.transformation_correct","statement":"Path(transformation(x), return coordinate transformation function from *self* to *sys*)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ac0bce1ee72663c3"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.CoordSystem.transformation","kind":"method","src_hash":"8723e036ad0cc643","in":{"base":"Any","pred":"hasattr(sys, 'name')"},"out":{"base":"Any"},"spec":{"lhs":"transformation(sys)","rhs":"Lambda(signature, expr)","over":{"base":"Any","pred":"hasattr(sys, 'name')"},"name":"transformation_correct"},"guarantee":"returns Lambda(signature, expr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.diffgeom.diffgeom.CoordSystem.transformation_correct","statement":"Path(transformation(x), returns Lambda(signature, expr))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"32c3fe47d828367c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(sys, 'name')"],"returns_expr":"Lambda(signature, expr)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._indirect_transformation","self._inverse_transformation","self.args","self.name","self.relations","self.symbols","sys.name"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def transformation(self, sys):
         """
         Return coordinate transformation function from *self* to *sys*.
@@ -639,16 +748,22 @@ That is, replace {s} with Symbol({s!r}, real=True).
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_solve_inverse(sym), internal helper behaves correctly) over Any ║
+# ║ Path(_solve_inverse(sym1, sym2, exprs), ret[0]) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  ret[0]                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _solve_inverse : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6bada2dabefab7b3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 89afd6976b22f191  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.CoordSystem._solve_inverse","kind":"staticmethod","src_hash":"baceaa409f501746","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_solve_inverse(sym)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_solve_inverse_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.diffgeom.diffgeom.CoordSystem._solve_inverse_correct","statement":"Path(_solve_inverse(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6bada2dabefab7b3"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.CoordSystem._solve_inverse","kind":"staticmethod","src_hash":"baceaa409f501746","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_solve_inverse(sym1, sym2, exprs)","rhs":"ret[0]","over":{"base":"Any"},"name":"_solve_inverse_correct"},"guarantee":"returns ret[0]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.diffgeom.diffgeom.CoordSystem._solve_inverse_correct","statement":"Path(_solve_inverse(x), returns ret[0])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"89afd6976b22f191","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"ret[0]","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError","ValueError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _solve_inverse(sym1, sym2, exprs, sys1_name, sys2_name):
         ret = solve(
             [t[0] - t[1] for t in zip(sym2, exprs)],
@@ -665,16 +780,25 @@ That is, replace {s} with Symbol({s!r}, real=True).
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_inverse_transformation(cls), internal helper behaves correctly) over Any ║
+# ║ Path(_inverse_transformation(cls, sys1, sys2), [inv_results[s] for s in signature]) over {Any | hasattr(sys1, 'transform') and hasattr(sys1, 'symbols') and hasattr(sys2, 'symbols') and hasattr(sys1, 'name') and hasattr(sys2, 'name')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _inverse_transformation : Any → Any                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(sys1, 'transform')                     ║
+# ║   requires: hasattr(sys1, 'symbols')                       ║
+# ║   requires: hasattr(sys2, 'symbols')                       ║
+# ║   returns:  [inv_results[s] for s in signature]            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _inverse_transformation : {Any | hasattr(sys1, 'trans...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4c0184307e62c916  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e24fdc848a990409  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.CoordSystem._inverse_transformation","kind":"classmethod","src_hash":"3ca1daafb38334f0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_inverse_transformation(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_inverse_transformation_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.diffgeom.diffgeom.CoordSystem._inverse_transformation_correct","statement":"Path(_inverse_transformation(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4c0184307e62c916"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.CoordSystem._inverse_transformation","kind":"classmethod","src_hash":"3ca1daafb38334f0","in":{"base":"Any","pred":"hasattr(sys1, 'transform') and hasattr(sys1, 'symbols') and hasattr(sys2, 'symbols') and hasattr(sys1, 'name') and hasattr(sys2, 'name')"},"out":{"base":"Any"},"spec":{"lhs":"_inverse_transformation(cls, sys1, sys2)","rhs":"[inv_results[s] for s in signature]","over":{"base":"Any","pred":"hasattr(sys1, 'transform') and hasattr(sys1, 'symbols') and hasattr(sys2, 'symbols') and hasattr(sys1, 'name') and hasattr(sys2, 'name')"},"name":"_inverse_transformation_correct"},"guarantee":"returns [inv_results[s] for s in signature]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.diffgeom.diffgeom.CoordSystem._inverse_transformation_correct","statement":"Path(_inverse_transformation(x), returns [inv_results[s] for s in signature])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e24fdc848a990409","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(sys1, 'transform')","hasattr(sys1, 'symbols')","hasattr(sys2, 'symbols')","hasattr(sys1, 'name')","hasattr(sys2, 'name')"],"returns_expr":"[inv_results[s] for s in signature]","pure":false,"effects":{"effect_type":"reads_state","reads":["cls._solve_inverse","sys1.name","sys1.symbols","sys1.transform","sys2.name","sys2.symbols"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _inverse_transformation(cls, sys1, sys2):
         # Find the transformation relation from sys2 to sys1
         forward = sys1.transform(sys2)
@@ -686,16 +810,24 @@ That is, replace {s} with Symbol({s!r}, real=True).
     @classmethod
     @cacheit
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_indirect_transformation(cls), internal helper behaves correctly) over Any ║
+# ║ Path(_indirect_transformation(cls, sys1, sys2), <unspecified:_indirect_transformation>) over {Any | hasattr(sys1, 'relations') and hasattr(sys1, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _indirect_transformation : Any → Any                       ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(sys1, 'relations')                     ║
+# ║   requires: hasattr(sys1, 'args')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _indirect_transformation : {Any | hasattr(sys1, 'rela...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | db1f8a827e6bf5eb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.CoordSystem._indirect_transformation","kind":"classmethod","src_hash":"7ddf483be34cf2f5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_indirect_transformation(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_indirect_transformation_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.diffgeom.diffgeom.CoordSystem._indirect_transformation_correct","statement":"Path(_indirect_transformation(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"db1f8a827e6bf5eb"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.CoordSystem._indirect_transformation","kind":"classmethod","src_hash":"7ddf483be34cf2f5","in":{"base":"Any","pred":"hasattr(sys1, 'relations') and hasattr(sys1, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_indirect_transformation(cls, sys1, sys2)","rhs":"<unspecified:_indirect_transformation>","over":{"base":"Any","pred":"hasattr(sys1, 'relations') and hasattr(sys1, 'args')"},"name":"_indirect_transformation_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.diffgeom.diffgeom.CoordSystem._indirect_transformation_correct","statement":"Path(_indirect_transformation(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"db1f8a827e6bf5eb","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(sys1, 'relations')","hasattr(sys1, 'args')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _indirect_transformation(cls, sys1, sys2):
         # Find the transformation relation between two indirectly connected
         # coordinate systems
@@ -720,16 +852,25 @@ That is, replace {s} with Symbol({s!r}, real=True).
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_dijkstra(sys), internal helper behaves correctly) over Any ║
+# ║ Path(_dijkstra(sys1, sys2), len(result) == old_len_result + 1) over {Any | hasattr(sys1, 'relations') and hasattr(sys1, 'name') and hasattr(sys2, 'name')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _dijkstra : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(sys1, 'relations')                     ║
+# ║   requires: hasattr(sys1, 'name')                          ║
+# ║   requires: hasattr(sys2, 'name')                          ║
+# ║   ensures:  len(result) == old_len_result + 1              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _dijkstra : {Any | hasattr(sys1, 'relations') and has...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c494da93e47e0fd6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a3d09f7d3d0902e1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.CoordSystem._dijkstra","kind":"staticmethod","src_hash":"bcd9dc54f784ded4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_dijkstra(sys)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_dijkstra_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.diffgeom.diffgeom.CoordSystem._dijkstra_correct","statement":"Path(_dijkstra(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c494da93e47e0fd6"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.CoordSystem._dijkstra","kind":"staticmethod","src_hash":"bcd9dc54f784ded4","in":{"base":"Any","pred":"hasattr(sys1, 'relations') and hasattr(sys1, 'name') and hasattr(sys2, 'name')"},"out":{"base":"Any","pred":"result satisfies: len(result) == old_len_result + 1"},"spec":{"lhs":"_dijkstra(sys1, sys2)","rhs":"len(result) == old_len_result + 1","over":{"base":"Any","pred":"hasattr(sys1, 'relations') and hasattr(sys1, 'name') and hasattr(sys2, 'name')"},"name":"_dijkstra_correct"},"guarantee":"len(result) == old_len_result + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.diffgeom.diffgeom.CoordSystem._dijkstra_correct","statement":"Path(_dijkstra(x), len(result) == old_len_result + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a3d09f7d3d0902e1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(sys1, 'relations')","hasattr(sys1, 'name')","hasattr(sys2, 'name')"],"ensures":["len(result) == old_len_result + 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["sys1.name","sys1.relations","sys2.name"],"calls_mutating":["result.append"],"raises":["KeyError"]},"state_contract":{"modifies":["result.*"],"old_bindings":{"old_len_result":"len(result)"},"post_ensures":["len(result) == old_len_result + 1"],"exceptional_post":{"KeyError":["isinstance(raised, KeyError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _dijkstra(sys1, sys2):
         # Use Dijkstra algorithm to find the shortest path between two indirectly-connected
         # coordinate systems
@@ -778,16 +919,23 @@ That is, replace {s} with Symbol({s!r}, real=True).
         return result
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(connect_to(to_), connect_to produces the expected output) over Any ║
+# ║ Path(connect_to(to_sys, from_coords, to_exprs), <unspecified:connect_to>) over {Any | hasattr(to_sys, 'transforms')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ connect_to : Any → Any                                     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(to_sys, 'transforms')                  ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ connect_to : {Any | hasattr(to_sys, 'transforms')} → Any   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2b708005606a3cfe  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.CoordSystem.connect_to","kind":"method","src_hash":"cdb8f0b8017d7e52","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"connect_to(to_)","rhs":"connect_to produces the expected output","over":{"base":"Any"},"name":"connect_to_correct"},"guarantee":"connect_to produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.diffgeom.diffgeom.CoordSystem.connect_to_correct","statement":"Path(connect_to(x), connect_to produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2b708005606a3cfe"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.CoordSystem.connect_to","kind":"method","src_hash":"cdb8f0b8017d7e52","in":{"base":"Any","pred":"hasattr(to_sys, 'transforms')"},"out":{"base":"Any"},"spec":{"lhs":"connect_to(to_sys, from_coords, to_exprs)","rhs":"<unspecified:connect_to>","over":{"base":"Any","pred":"hasattr(to_sys, 'transforms')"},"name":"connect_to_correct"},"guarantee":"connect_to produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.diffgeom.diffgeom.CoordSystem.connect_to_correct","statement":"Path(connect_to(x), connect_to produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2b708005606a3cfe","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(to_sys, 'transforms')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._fill_gaps_in_transformations","self._inv_transf","self.transforms","to_sys.transforms"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def connect_to(self, to_sys, from_coords, to_exprs, inverse=True, fill_in_gaps=False):
         sympy_deprecation_warning(
             """
@@ -810,16 +958,22 @@ That is, replace {s} with Symbol({s!r}, real=True).
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_inv_transf(fro), id) over Any                        ║
+# ║ Path(_inv_transf(from_coords, to_exprs), id) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (Matrix(inv_from), Matrix(inv_to))             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _inv_transf : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | baf587bce51e7d32   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.CoordSystem._inv_transf","kind":"staticmethod","src_hash":"88dd49063c320c39","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_inv_transf(fro)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_inv_transf_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Matrix","by":"library_axiom"},{"fn":"Matrix","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"baf587bce51e7d32"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.CoordSystem._inv_transf","kind":"staticmethod","src_hash":"88dd49063c320c39","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_inv_transf(from_coords, to_exprs)","rhs":"(Matrix(inv_from), Matrix(inv_to))","over":{"base":"Any"},"name":"_inv_transf_correct","kind":"composition"},"guarantee":"returns (Matrix(inv_from), Matrix(inv_to))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Matrix","by":"library_axiom"},{"fn":"Matrix","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"baf587bce51e7d32","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(Matrix(inv_from), Matrix(inv_to))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _inv_transf(from_coords, to_exprs):
         # Will be removed when connect_to is removed
         inv_from = [i.as_dummy() for i in from_coords]
@@ -831,16 +985,22 @@ That is, replace {s} with Symbol({s!r}, real=True).
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_fill_gaps_in_transformations(), internal helper behaves correctly) over Any ║
+# ║ Path(_fill_gaps_in_transformations(), <unspecified:_fill_gaps_in_transformations>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _fill_gaps_in_transformations : Any → Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 692de7403b0e9a1d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.CoordSystem._fill_gaps_in_transformations","kind":"staticmethod","src_hash":"ac0ffdc5758659b9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_fill_gaps_in_transformations()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_fill_gaps_in_transformations_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"692de7403b0e9a1d"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.CoordSystem._fill_gaps_in_transformations","kind":"staticmethod","src_hash":"ac0ffdc5758659b9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_fill_gaps_in_transformations()","rhs":"<unspecified:_fill_gaps_in_transformations>","over":{"base":"Any"},"name":"_fill_gaps_in_transformations_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"692de7403b0e9a1d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _fill_gaps_in_transformations():
         # Will be removed when connect_to is removed
         raise NotImplementedError
@@ -850,16 +1010,23 @@ That is, replace {s} with Symbol({s!r}, real=True).
     ##########################################################################
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(transform(sys), return the result of coordinate transformation from *self* to *sys*. if coordinates are not given, coordinate symbols of *self* are used) over Any ║
+# ║ Path(transform(sys, coordinates), coordinates) over Any    ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ transform : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == coordinates                          ║
+# ║   returns:  coordinates                                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ transform : Any → {Any | result satisfies: result == ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4ba829dc0f9e248e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 700547014211fe43  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.CoordSystem.transform","kind":"method","src_hash":"723b897df9a37523","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"transform(sys)","rhs":"return the result of coordinate transformation from *self* to *sys*. if coordinates are not given, coordinate symbols of *self* are used","over":{"base":"Any"},"name":"transform_correct"},"guarantee":"return the result of coordinate transformation from *self* to *sys*. if coordinates are not given, coordinate symbols of *self* are used","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.diffgeom.diffgeom.CoordSystem.transform_correct","statement":"Path(transform(x), return the result of coordinate transformation from *self* to *sys*. if coordinates are not given, coordinate symbols of *self* are used)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4ba829dc0f9e248e"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.CoordSystem.transform","kind":"method","src_hash":"723b897df9a37523","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (coordinates)"},"spec":{"lhs":"transform(sys, coordinates)","rhs":"coordinates","over":{"base":"Any"},"name":"transform_correct"},"guarantee":"returns coordinates; result == coordinates","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.diffgeom.diffgeom.CoordSystem.transform_correct","statement":"Path(transform(x), returns coordinates; result == coordinates)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"700547014211fe43","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == coordinates"],"returns_expr":"coordinates","pure":false,"effects":{"effect_type":"reads_state","reads":["self.symbols","self.transformation"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def transform(self, sys, coordinates=None):
         """
         Return the result of coordinate transformation from *self* to *sys*.
@@ -901,16 +1068,23 @@ That is, replace {s} with Symbol({s!r}, real=True).
         return coordinates
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(coord_tuple_transform_to(to_), transform ``coords`` to coord system ``to_sys``) over Any ║
+# ║ Path(coord_tuple_transform_to(to_sys, coords), coords) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ coord_tuple_transform_to : Any → Any                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == coords                               ║
+# ║   returns:  coords                                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ coord_tuple_transform_to : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a19ad1a89062e5b8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5c30766ccc2d1521  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.CoordSystem.coord_tuple_transform_to","kind":"method","src_hash":"b274554ba18f32f9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"coord_tuple_transform_to(to_)","rhs":"transform ``coords`` to coord system ``to_sys``","over":{"base":"Any"},"name":"coord_tuple_transform_to_correct"},"guarantee":"transform ``coords`` to coord system ``to_sys``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.diffgeom.diffgeom.CoordSystem.coord_tuple_transform_to_correct","statement":"Path(coord_tuple_transform_to(x), transform ``coords`` to coord system ``to_sys``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a19ad1a89062e5b8"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.CoordSystem.coord_tuple_transform_to","kind":"method","src_hash":"b274554ba18f32f9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (coords)"},"spec":{"lhs":"coord_tuple_transform_to(to_sys, coords)","rhs":"coords","over":{"base":"Any"},"name":"coord_tuple_transform_to_correct"},"guarantee":"returns coords; result == coords","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.diffgeom.diffgeom.CoordSystem.coord_tuple_transform_to_correct","statement":"Path(coord_tuple_transform_to(x), returns coords; result == coords)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5c30766ccc2d1521","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == coords"],"returns_expr":"coords","pure":false,"effects":{"effect_type":"reads_state","reads":["self.transforms"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def coord_tuple_transform_to(self, to_sys, coords):
         """Transform ``coords`` to coord system ``to_sys``."""
         sympy_deprecation_warning(
@@ -930,16 +1104,22 @@ That is, replace {s} with Symbol({s!r}, real=True).
         return coords
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(jacobian(sys), return the jacobian matrix of a transformation on given coordinates. if coordinates are not given, coordinate symbols of *self* are used) over Any ║
+# ║ Path(jacobian(sys, coordinates), <unspecified:jacobian>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ jacobian : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | be8416d687040298  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.CoordSystem.jacobian","kind":"method","src_hash":"c96ca035cccca070","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"jacobian(sys)","rhs":"return the jacobian matrix of a transformation on given coordinates. if coordinates are not given, coordinate symbols of *self* are used","over":{"base":"Any"},"name":"jacobian_correct"},"guarantee":"return the jacobian matrix of a transformation on given coordinates. if coordinates are not given, coordinate symbols of *self* are used","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.diffgeom.diffgeom.CoordSystem.jacobian_correct","statement":"Path(jacobian(x), return the jacobian matrix of a transformation on given coordinates. if coordinates are not given, coordinate symbols of *self* are used)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"be8416d687040298"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.CoordSystem.jacobian","kind":"method","src_hash":"c96ca035cccca070","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"jacobian(sys, coordinates)","rhs":"<unspecified:jacobian>","over":{"base":"Any"},"name":"jacobian_correct"},"guarantee":"return the jacobian matrix of a transformation on given coordinates. if coordinates are not given, coordinate symbols of *self* are used","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.diffgeom.diffgeom.CoordSystem.jacobian_correct","statement":"Path(jacobian(x), return the jacobian matrix of a transformation on given coordinates. if coordinates are not given, coordinate symbols of *self* are used)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"be8416d687040298","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.symbols","self.transform"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def jacobian(self, sys, coordinates=None):
         """
         Return the jacobian matrix of a transformation on given coordinates.
@@ -978,16 +1158,22 @@ That is, replace {s} with Symbol({s!r}, real=True).
     jacobian_matrix = jacobian
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(jacobian_determinant(sys), return the jacobian determinant of a transformation on given coordinates) over Any ║
+# ║ Path(jacobian_determinant(sys, coordinates), self.jacobian(sys, coordinates).det()) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.jacobian(sys, coordinates).det()          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ jacobian_determinant : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c1c3ca19ce9e49fe           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.CoordSystem.jacobian_determinant","kind":"method","src_hash":"9aba7cd5a5abc9aa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"jacobian_determinant(sys)","rhs":"return the jacobian determinant of a transformation on given coordinates","over":{"base":"Any"},"name":"jacobian_determinant_correct"},"guarantee":"return the jacobian determinant of a transformation on given coordinates","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c1c3ca19ce9e49fe"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.CoordSystem.jacobian_determinant","kind":"method","src_hash":"9aba7cd5a5abc9aa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"jacobian_determinant(sys, coordinates)","rhs":"self.jacobian(sys, coordinates).det()","over":{"base":"Any"},"name":"jacobian_determinant_correct"},"guarantee":"returns self.jacobian(sys, coordinates).det()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c1c3ca19ce9e49fe","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.jacobian(sys, coordinates).det()","pure":false,"effects":{"effect_type":"reads_state","reads":["self.jacobian"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def jacobian_determinant(self, sys, coordinates=None):
         """
         Return the jacobian determinant of a transformation on given
@@ -1024,31 +1210,44 @@ That is, replace {s} with Symbol({s!r}, real=True).
     ##########################################################################
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(point(coo), create a ``point`` with coordinates given in this coord system) over Any ║
+# ║ Path(point(coords), Point(self, coords)) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Point(self, coords)                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ point : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 67c1c38e932df422           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.CoordSystem.point","kind":"method","src_hash":"11c2e8e17f5cbb5f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"point(coo)","rhs":"create a ``point`` with coordinates given in this coord system","over":{"base":"Any"},"name":"point_correct"},"guarantee":"create a ``point`` with coordinates given in this coord system","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"67c1c38e932df422"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.CoordSystem.point","kind":"method","src_hash":"11c2e8e17f5cbb5f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"point(coords)","rhs":"Point(self, coords)","over":{"base":"Any"},"name":"point_correct"},"guarantee":"returns Point(self, coords)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"67c1c38e932df422","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Point(self, coords)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def point(self, coords):
         """Create a ``Point`` with coordinates given in this coord system."""
         return Point(self, coords)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(point_to_coords(poi), calculate the coordinates of a point in this coord system) over Any ║
+# ║ Path(point_to_coords(point), point.coords(self)) over {Any | hasattr(point, 'coords')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ point_to_coords : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(point, 'coords')                       ║
+# ║   returns:  point.coords(self)                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ point_to_coords : {Any | hasattr(point, 'coords')} → Any   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8d9d554eeb549e5d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.CoordSystem.point_to_coords","kind":"method","src_hash":"f4f56f68e31c179d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"point_to_coords(poi)","rhs":"calculate the coordinates of a point in this coord system","over":{"base":"Any"},"name":"point_to_coords_correct"},"guarantee":"calculate the coordinates of a point in this coord system","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8d9d554eeb549e5d"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.CoordSystem.point_to_coords","kind":"method","src_hash":"f4f56f68e31c179d","in":{"base":"Any","pred":"hasattr(point, 'coords')"},"out":{"base":"Any"},"spec":{"lhs":"point_to_coords(point)","rhs":"point.coords(self)","over":{"base":"Any","pred":"hasattr(point, 'coords')"},"name":"point_to_coords_correct"},"guarantee":"returns point.coords(self)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8d9d554eeb549e5d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(point, 'coords')"],"returns_expr":"point.coords(self)","pure":false,"effects":{"effect_type":"reads_state","reads":["point.coords"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def point_to_coords(self, point):
         """Calculate the coordinates of a point in this coord system."""
         return point.coords(self)
@@ -1058,32 +1257,44 @@ That is, replace {s} with Symbol({s!r}, real=True).
     ##########################################################################
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(base_scalar(coo), return ``basescalarfield`` that takes a point and returns one of the coordinates) over Any ║
+# ║ Path(base_scalar(coord_index), BaseScalarField(self, coord_index)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  BaseScalarField(self, coord_index)             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ base_scalar : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 757c1cc8284952ef           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.CoordSystem.base_scalar","kind":"method","src_hash":"3b94719e7db843b6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"base_scalar(coo)","rhs":"return ``basescalarfield`` that takes a point and returns one of the coordinates","over":{"base":"Any"},"name":"base_scalar_correct"},"guarantee":"return ``basescalarfield`` that takes a point and returns one of the coordinates","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"757c1cc8284952ef"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.CoordSystem.base_scalar","kind":"method","src_hash":"3b94719e7db843b6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"base_scalar(coord_index)","rhs":"BaseScalarField(self, coord_index)","over":{"base":"Any"},"name":"base_scalar_correct"},"guarantee":"returns BaseScalarField(self, coord_index)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"757c1cc8284952ef","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"BaseScalarField(self, coord_index)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def base_scalar(self, coord_index):
         """Return ``BaseScalarField`` that takes a point and returns one of the coordinates."""
         return BaseScalarField(self, coord_index)
     coord_function = base_scalar
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(base_scalars(), returns a list of all coordinate functions. for more details see the ``base_scalar`` method of this class) over Any ║
+# ║ Path(base_scalars(), [self.base_scalar(i) for i in range(self.dim)]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [self.base_scalar(i) for i in range(self....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ base_scalars : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 91d48d027cbc792b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.CoordSystem.base_scalars","kind":"method","src_hash":"67d146e7c273c08e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"base_scalars()","rhs":"returns a list of all coordinate functions. for more details see the ``base_scalar`` method of this class","over":{"base":"Any"},"name":"base_scalars_correct"},"guarantee":"returns a list of all coordinate functions. for more details see the ``base_scalar`` method of this class","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"91d48d027cbc792b"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.CoordSystem.base_scalars","kind":"method","src_hash":"67d146e7c273c08e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"base_scalars()","rhs":"[self.base_scalar(i) for i in range(self.dim)]","over":{"base":"Any"},"name":"base_scalars_correct"},"guarantee":"returns [self.base_scalar(i) for i in range(self.dim)]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"91d48d027cbc792b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[self.base_scalar(i) for i in range(self.dim)]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.base_scalar","self.dim"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def base_scalars(self):
         """Returns a list of all coordinate functions.
         For more details see the ``base_scalar`` method of this class."""
@@ -1091,16 +1302,22 @@ That is, replace {s} with Symbol({s!r}, real=True).
     coord_functions = base_scalars
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(base_vector(coo), return a basis vector field. the basis vector field for this coordinate system) over Any ║
+# ║ Path(base_vector(coord_index), BaseVectorField(self, coord_index)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  BaseVectorField(self, coord_index)             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ base_vector : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | cf0834c81456f94a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.CoordSystem.base_vector","kind":"method","src_hash":"ba203ddb9f1f8f8a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"base_vector(coo)","rhs":"return a basis vector field. the basis vector field for this coordinate system","over":{"base":"Any"},"name":"base_vector_correct"},"guarantee":"return a basis vector field. the basis vector field for this coordinate system","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cf0834c81456f94a"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.CoordSystem.base_vector","kind":"method","src_hash":"ba203ddb9f1f8f8a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"base_vector(coord_index)","rhs":"BaseVectorField(self, coord_index)","over":{"base":"Any"},"name":"base_vector_correct"},"guarantee":"returns BaseVectorField(self, coord_index)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cf0834c81456f94a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"BaseVectorField(self, coord_index)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def base_vector(self, coord_index):
         """Return a basis vector field.
         The basis vector field for this coordinate system. It is also an
@@ -1108,32 +1325,44 @@ That is, replace {s} with Symbol({s!r}, real=True).
         return BaseVectorField(self, coord_index)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(base_vectors(), returns a list of all base vectors. for more details see the ``base_vector`` method of this class) over Any ║
+# ║ Path(base_vectors(), [self.base_vector(i) for i in range(self.dim)]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [self.base_vector(i) for i in range(self....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ base_vectors : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0732bb3a093e2f23           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.CoordSystem.base_vectors","kind":"method","src_hash":"71b80d5a47dbd99c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"base_vectors()","rhs":"returns a list of all base vectors. for more details see the ``base_vector`` method of this class","over":{"base":"Any"},"name":"base_vectors_correct"},"guarantee":"returns a list of all base vectors. for more details see the ``base_vector`` method of this class","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0732bb3a093e2f23"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.CoordSystem.base_vectors","kind":"method","src_hash":"71b80d5a47dbd99c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"base_vectors()","rhs":"[self.base_vector(i) for i in range(self.dim)]","over":{"base":"Any"},"name":"base_vectors_correct"},"guarantee":"returns [self.base_vector(i) for i in range(self.dim)]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0732bb3a093e2f23","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[self.base_vector(i) for i in range(self.dim)]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.base_vector","self.dim"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def base_vectors(self):
         """Returns a list of all base vectors.
         For more details see the ``base_vector`` method of this class."""
         return [self.base_vector(i) for i in range(self.dim)]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(base_oneform(coo), return a basis 1-form field. the basis one-form field for this coordinate system) over Any ║
+# ║ Path(base_oneform(coord_index), Differential(self.coord_function(coord_index))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Differential(self.coord_function(coord_in...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ base_oneform : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9dfd24efdc667b7f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.CoordSystem.base_oneform","kind":"method","src_hash":"927bf16c3e9adf00","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"base_oneform(coo)","rhs":"return a basis 1-form field. the basis one-form field for this coordinate system","over":{"base":"Any"},"name":"base_oneform_correct"},"guarantee":"return a basis 1-form field. the basis one-form field for this coordinate system","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9dfd24efdc667b7f"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.CoordSystem.base_oneform","kind":"method","src_hash":"927bf16c3e9adf00","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"base_oneform(coord_index)","rhs":"Differential(self.coord_function(coord_index))","over":{"base":"Any"},"name":"base_oneform_correct"},"guarantee":"returns Differential(self.coord_function(coord_index))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9dfd24efdc667b7f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Differential(self.coord_function(coord_index))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.coord_function"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def base_oneform(self, coord_index):
         """Return a basis 1-form field.
         The basis one-form field for this coordinate system. It is also an
@@ -1141,16 +1370,22 @@ That is, replace {s} with Symbol({s!r}, real=True).
         return Differential(self.coord_function(coord_index))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(base_oneforms(), returns a list of all base oneforms. for more details see the ``base_oneform`` method of this class) over Any ║
+# ║ Path(base_oneforms(), [self.base_oneform(i) for i in range(self.dim)]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [self.base_oneform(i) for i in range(self...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ base_oneforms : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 79f6a8f711a014e3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.CoordSystem.base_oneforms","kind":"method","src_hash":"0bf94d4cbae29979","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"base_oneforms()","rhs":"returns a list of all base oneforms. for more details see the ``base_oneform`` method of this class","over":{"base":"Any"},"name":"base_oneforms_correct"},"guarantee":"returns a list of all base oneforms. for more details see the ``base_oneform`` method of this class","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"79f6a8f711a014e3"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.CoordSystem.base_oneforms","kind":"method","src_hash":"0bf94d4cbae29979","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"base_oneforms()","rhs":"[self.base_oneform(i) for i in range(self.dim)]","over":{"base":"Any"},"name":"base_oneforms_correct"},"guarantee":"returns [self.base_oneform(i) for i in range(self.dim)]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"79f6a8f711a014e3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[self.base_oneform(i) for i in range(self.dim)]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.base_oneform","self.dim"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def base_oneforms(self):
         """Returns a list of all base oneforms.
         For more details see the ``base_oneform`` method of this class."""
@@ -1160,14 +1395,20 @@ That is, replace {s} with Symbol({s!r}, real=True).
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(CoordinateSymbol(*args), correctly constructs a CoordinateSymbol instance) over {Any | isinstance(rule, CoordSystem)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Symbol)                       ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ CoordinateSymbol : {Any | isinstance(rule, CoordSyste...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ca85c9ef9fbc3e77  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.CoordinateSymbol","kind":"class","src_hash":"84aec6342edd8006","in":{"base":"Any","pred":"isinstance(rule, CoordSystem)"},"out":{"base":"Any"},"spec":{"lhs":"CoordinateSymbol(*args)","rhs":"correctly constructs a CoordinateSymbol instance","over":{"base":"Any","pred":"isinstance(rule, CoordSystem)"},"name":"CoordinateSymbol_class_invariant"},"guarantee":"correctly constructs a CoordinateSymbol instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ca85c9ef9fbc3e77"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.CoordinateSymbol","kind":"class","src_hash":"84aec6342edd8006","in":{"base":"Any","pred":"isinstance(rule, CoordSystem)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Symbol)"},"spec":{"lhs":"CoordinateSymbol(*args)","rhs":"correctly constructs a CoordinateSymbol instance","over":{"base":"Any","pred":"isinstance(rule, CoordSystem)"},"name":"CoordinateSymbol_class_invariant"},"guarantee":"isinstance(self, Symbol)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ca85c9ef9fbc3e77","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Symbol)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function CoordinateSymbol not found in source"]}}
 class CoordinateSymbol(Symbol):
     """A symbol which denotes an abstract value of i-th coordinate of
     the coordinate system with given context.
@@ -1226,16 +1467,23 @@ class CoordinateSymbol(Symbol):
 
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, coord_sys, index), <unspecified:__new__>) over {Any | hasattr(coord_sys, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(coord_sys, 'args')                     ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | hasattr(coord_sys, 'args')} → Any         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1c8238883fada02d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.CoordinateSymbol.__new__","kind":"method","src_hash":"f1dddf98ea0c0907","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1c8238883fada02d"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.CoordinateSymbol.__new__","kind":"method","src_hash":"f1dddf98ea0c0907","in":{"base":"Any","pred":"hasattr(coord_sys, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, coord_sys, index)","rhs":"<unspecified:__new__>","over":{"base":"Any","pred":"hasattr(coord_sys, 'args')"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1c8238883fada02d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(coord_sys, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["coord_sys.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, coord_sys, index, **assumptions):
         name = coord_sys.args[2][index].name
         obj = super().__new__(cls, name, **assumptions)
@@ -1244,46 +1492,65 @@ class CoordinateSymbol(Symbol):
         return obj
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__getnewargs__(), internal helper behaves correctly) over Any ║
+# ║ Path(__getnewargs__(), (self.coord_sys, self.index)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (self.coord_sys, self.index)                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __getnewargs__ : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9b8f43e2ac73eedb           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.CoordinateSymbol.__getnewargs__","kind":"method","src_hash":"994a997f59742ea4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getnewargs__()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__getnewargs___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9b8f43e2ac73eedb"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.CoordinateSymbol.__getnewargs__","kind":"method","src_hash":"994a997f59742ea4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getnewargs__()","rhs":"(self.coord_sys, self.index)","over":{"base":"Any"},"name":"__getnewargs___correct"},"guarantee":"returns (self.coord_sys, self.index)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9b8f43e2ac73eedb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(self.coord_sys, self.index)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.coord_sys","self.index"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __getnewargs__(self):
         return (self.coord_sys, self.index)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_hashable_content(), internal helper behaves correctly) over Any ║
+# ║ Path(_hashable_content(), (self.coord_sys, self.index) + tuple(sorted(self.assumptions0.items()))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (self.coord_sys, self.index) + tuple(sort...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _hashable_content : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1b6d7a7dc5375a3f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3061a2bad8b566cd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.CoordinateSymbol._hashable_content","kind":"method","src_hash":"dbe8ceb8589b711d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_hashable_content()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_hashable_content_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.diffgeom.diffgeom.CoordinateSymbol._hashable_content_correct","statement":"Path(_hashable_content(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1b6d7a7dc5375a3f"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.CoordinateSymbol._hashable_content","kind":"method","src_hash":"dbe8ceb8589b711d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_hashable_content()","rhs":"(self.coord_sys, self.index) + tuple(sorted(self.assumptions0.items()))","over":{"base":"Any"},"name":"_hashable_content_correct"},"guarantee":"returns (self.coord_sys, self.index) + tuple(sorted(self.assumptions0.items()))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.diffgeom.diffgeom.CoordinateSymbol._hashable_content_correct","statement":"Path(_hashable_content(x), returns (self.coord_sys, self.index) + tuple(sorted(self.assumptions0.items())))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3061a2bad8b566cd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(self.coord_sys, self.index) + tuple(sorted(self.assumptions0.items()))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.assumptions0","self.coord_sys","self.index"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _hashable_content(self):
         return (
             self.coord_sys, self.index
         ) + tuple(sorted(self.assumptions0.items()))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite(rul), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite(rule, args, **hints), <unspecified:_eval_rewrite>) over {Any | hasattr(rule, 'transform')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_rewrite : Any → Any                                  ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(rule, 'transform')                     ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_rewrite : {Any | hasattr(rule, 'transform')} → Any   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 98cdcea4a9823567  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.CoordinateSymbol._eval_rewrite","kind":"method","src_hash":"aab1411dc27296ba","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite(rul)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.diffgeom.diffgeom.CoordinateSymbol._eval_rewrite_correct","statement":"Path(_eval_rewrite(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"98cdcea4a9823567"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.CoordinateSymbol._eval_rewrite","kind":"method","src_hash":"aab1411dc27296ba","in":{"base":"Any","pred":"hasattr(rule, 'transform')"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite(rule, args, **hints)","rhs":"<unspecified:_eval_rewrite>","over":{"base":"Any","pred":"hasattr(rule, 'transform')"},"name":"_eval_rewrite_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.diffgeom.diffgeom.CoordinateSymbol._eval_rewrite_correct","statement":"Path(_eval_rewrite(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"98cdcea4a9823567","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(rule, 'transform')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["rule.transform","self.coord_sys","self.index"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite(self, rule, args, **hints):
         if isinstance(rule, CoordSystem):
             return rule.transform(self.coord_sys)[self.index]
@@ -1293,14 +1560,20 @@ class CoordinateSymbol(Symbol):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Point(*args), correctly constructs a Point instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Point : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Basic)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Point : Any → {Any | result satisfies: isinstance(sel...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b75851ae80d5659e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.Point","kind":"class","src_hash":"48a6c1e7cdc4b457","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Point(*args)","rhs":"correctly constructs a Point instance","over":{"base":"Any"},"name":"Point_class_invariant"},"guarantee":"correctly constructs a Point instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b75851ae80d5659e"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.Point","kind":"class","src_hash":"48a6c1e7cdc4b457","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Basic)"},"spec":{"lhs":"Point(*args)","rhs":"correctly constructs a Point instance","over":{"base":"Any"},"name":"Point_class_invariant"},"guarantee":"isinstance(self, Basic)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b75851ae80d5659e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Basic)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function Point not found in source"]}}
 class Point(Basic):
     """Point defined in a coordinate system.
 
@@ -1350,16 +1623,22 @@ class Point(Basic):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, coord_sys, coords), <unspecified:__new__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b3a06a85567105b0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.Point.__new__","kind":"method","src_hash":"da51308c1cc06e54","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b3a06a85567105b0"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.Point.__new__","kind":"method","src_hash":"da51308c1cc06e54","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, coord_sys, coords)","rhs":"<unspecified:__new__>","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b3a06a85567105b0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, coord_sys, coords, **kwargs):
         coords = Matrix(coords)
         obj = super().__new__(cls, coord_sys, coords)
@@ -1369,60 +1648,87 @@ class Point(Basic):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(patch(), returns the patch attribute) over Any        ║
+# ║ Path(patch(), self._coord_sys.patch) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._coord_sys.patch                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ patch : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7ef60545bb8897e9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.Point.patch","kind":"property","src_hash":"923197d8fe299da9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"patch()","rhs":"returns the patch attribute","over":{"base":"Any"},"name":"patch_correct"},"guarantee":"returns the patch attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7ef60545bb8897e9"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.Point.patch","kind":"property","src_hash":"923197d8fe299da9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"patch()","rhs":"self._coord_sys.patch","over":{"base":"Any"},"name":"patch_correct"},"guarantee":"returns self._coord_sys.patch","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7ef60545bb8897e9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._coord_sys.patch","pure":false,"effects":{"effect_type":"reads_state","reads":["self._coord_sys"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def patch(self):
         return self._coord_sys.patch
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(manifold(), returns the manifold attribute) over Any  ║
+# ║ Path(manifold(), self._coord_sys.manifold) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._coord_sys.manifold                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ manifold : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ff6e79eb2c8c4b63           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.Point.manifold","kind":"property","src_hash":"7660e9f33059e8c8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"manifold()","rhs":"returns the manifold attribute","over":{"base":"Any"},"name":"manifold_correct"},"guarantee":"returns the manifold attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ff6e79eb2c8c4b63"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.Point.manifold","kind":"property","src_hash":"7660e9f33059e8c8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"manifold()","rhs":"self._coord_sys.manifold","over":{"base":"Any"},"name":"manifold_correct"},"guarantee":"returns self._coord_sys.manifold","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ff6e79eb2c8c4b63","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._coord_sys.manifold","pure":false,"effects":{"effect_type":"reads_state","reads":["self._coord_sys"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def manifold(self):
         return self._coord_sys.manifold
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dim(), returns the dim attribute) over Any            ║
+# ║ Path(dim(), self.manifold.dim) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.manifold.dim                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dim : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 88d6e60b924a34dd           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.Point.dim","kind":"property","src_hash":"4d2417e1333b7dc6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dim()","rhs":"returns the dim attribute","over":{"base":"Any"},"name":"dim_correct"},"guarantee":"returns the dim attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"88d6e60b924a34dd"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.Point.dim","kind":"property","src_hash":"4d2417e1333b7dc6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dim()","rhs":"self.manifold.dim","over":{"base":"Any"},"name":"dim_correct"},"guarantee":"returns self.manifold.dim","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"88d6e60b924a34dd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.manifold.dim","pure":false,"effects":{"effect_type":"reads_state","reads":["self.manifold"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dim(self):
         return self.manifold.dim
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(coords(sys), coordinates of the point in given coordinate system) over Any ║
+# ║ Path(coords(sys), result == (self._coords if sys is None else self._coord_sys.transform(sys, self._coords)) and result == self._coords or result == self._coord_sys.transform(sys, self._coords)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ coords : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (self._coords if sys is None el...   ║
+# ║   ensures:  result == self._coords or result == self....   ║
+# ║   fiber[zero_or_none]: sys is None => self._coords         ║
+# ║   fiber[zero_or_none]: not (sys is None) => self._coo...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ coords : Any → {Any | result satisfies: result == (se...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1a7cdde0ed355f36  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | edc757bda8efeb4c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.Point.coords","kind":"method","src_hash":"ecb079b2bed23817","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"coords(sys)","rhs":"coordinates of the point in given coordinate system","over":{"base":"Any"},"name":"coords_correct"},"guarantee":"coordinates of the point in given coordinate system","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.diffgeom.diffgeom.Point.coords_correct","statement":"Path(coords(x), coordinates of the point in given coordinate system)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1a7cdde0ed355f36"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.Point.coords","kind":"method","src_hash":"ecb079b2bed23817","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (self._coords if sys is None else self._coord_sys.transform(sys, self._coords)) and result == self._coords or result == self._coord_sys.transform(sys, self._coords)"},"spec":{"lhs":"coords(sys)","rhs":"result == (self._coords if sys is None else self._coord_sys.transform(sys, self._coords)) and result == self._coords or result == self._coord_sys.transform(sys, self._coords)","over":{"base":"Any"},"name":"coords_correct"},"guarantee":"result == (self._coords if sys is None else self._coord_sys.transform(sys, self._coords)); result == self._coords or result == self._coord_sys.transform(sys, self._coords); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.diffgeom.diffgeom.Point.coords_correct","statement":"Path(coords(x), result == (self._coords if sys is None else self._coord_sys.transform(sys, self._coords)); result == self._coords or result == self._coord_sys.transform(sys, self._coords); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"edc757bda8efeb4c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (self._coords if sys is None else self._coord_sys.transform(sys, self._coords))","result == self._coords or result == self._coord_sys.transform(sys, self._coords)"],"fibers":[{"name":"zero_or_none","guard":"sys is None","ensures":["result == self._coords"],"decidability":"structural","returns_expr":"self._coords"},{"name":"zero_or_none","guard":"not (sys is None)","ensures":["result == self._coord_sys.transform(sys, self._coords)"],"decidability":"structural","returns_expr":"self._coord_sys.transform(sys, self._coords)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._coord_sys","self._coords"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def coords(self, sys=None):
         """
         Coordinates of the point in given coordinate system. If coordinate system
@@ -1436,16 +1742,22 @@ class Point(Basic):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(free_symbols(), returns the free_symbols attribute) over Any ║
+# ║ Path(free_symbols(), self._coords.free_symbols) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._coords.free_symbols                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ free_symbols : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9f3dccb545438c0c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.Point.free_symbols","kind":"property","src_hash":"c81e7a32c0a3190b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"free_symbols()","rhs":"returns the free_symbols attribute","over":{"base":"Any"},"name":"free_symbols_correct"},"guarantee":"returns the free_symbols attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9f3dccb545438c0c"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.Point.free_symbols","kind":"property","src_hash":"c81e7a32c0a3190b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"free_symbols()","rhs":"self._coords.free_symbols","over":{"base":"Any"},"name":"free_symbols_correct"},"guarantee":"returns self._coords.free_symbols","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9f3dccb545438c0c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._coords.free_symbols","pure":false,"effects":{"effect_type":"reads_state","reads":["self._coords"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def free_symbols(self):
         return self._coords.free_symbols
 
@@ -1453,14 +1765,20 @@ class Point(Basic):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(BaseScalarField(*args), correctly constructs a BaseScalarField instance) over {Any | isinstance(point, Point)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ BaseScalarField : {Any | isinstance(point, Point)} → Any   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Expr)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ BaseScalarField : {Any | isinstance(point, Point)} → ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e6a9693b6e2e2b55  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.BaseScalarField","kind":"class","src_hash":"fe97a9cfa9cc210b","in":{"base":"Any","pred":"isinstance(point, Point)"},"out":{"base":"Any"},"spec":{"lhs":"BaseScalarField(*args)","rhs":"correctly constructs a BaseScalarField instance","over":{"base":"Any","pred":"isinstance(point, Point)"},"name":"BaseScalarField_class_invariant"},"guarantee":"correctly constructs a BaseScalarField instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e6a9693b6e2e2b55"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.BaseScalarField","kind":"class","src_hash":"fe97a9cfa9cc210b","in":{"base":"Any","pred":"isinstance(point, Point)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Expr)"},"spec":{"lhs":"BaseScalarField(*args)","rhs":"correctly constructs a BaseScalarField instance","over":{"base":"Any","pred":"isinstance(point, Point)"},"name":"BaseScalarField_class_invariant"},"guarantee":"isinstance(self, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e6a9693b6e2e2b55","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Expr)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function BaseScalarField not found in source"]}}
 class BaseScalarField(Expr):
     """Base scalar field over a manifold for a given coordinate system.
 
@@ -1517,16 +1835,22 @@ class BaseScalarField(Expr):
     is_commutative = True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, coord_sys, index), <unspecified:__new__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6edebd0bf027af8b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.BaseScalarField.__new__","kind":"method","src_hash":"06b4315b563f3200","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6edebd0bf027af8b"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.BaseScalarField.__new__","kind":"method","src_hash":"06b4315b563f3200","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, coord_sys, index)","rhs":"<unspecified:__new__>","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6edebd0bf027af8b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, coord_sys, index, **kwargs):
         index = _sympify(index)
         obj = super().__new__(cls, coord_sys, index)
@@ -1536,90 +1860,126 @@ class BaseScalarField(Expr):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(coord_sys(), returns the coord_sys attribute) over Any ║
+# ║ Path(coord_sys(), self.args[0]) over Any                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ coord_sys : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7daae7019596fc68           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.BaseScalarField.coord_sys","kind":"property","src_hash":"4aa906c9f589e9e0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"coord_sys()","rhs":"returns the coord_sys attribute","over":{"base":"Any"},"name":"coord_sys_correct"},"guarantee":"returns the coord_sys attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7daae7019596fc68"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.BaseScalarField.coord_sys","kind":"property","src_hash":"4aa906c9f589e9e0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"coord_sys()","rhs":"self.args[0]","over":{"base":"Any"},"name":"coord_sys_correct"},"guarantee":"returns self.args[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7daae7019596fc68","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def coord_sys(self):
         return self.args[0]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(index(), returns the index attribute) over Any        ║
+# ║ Path(index(), self.args[1]) over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[1]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ index : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7f31eaf36947faf9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.BaseScalarField.index","kind":"property","src_hash":"96b27e856fc94ac3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"index()","rhs":"returns the index attribute","over":{"base":"Any"},"name":"index_correct"},"guarantee":"returns the index attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7f31eaf36947faf9"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.BaseScalarField.index","kind":"property","src_hash":"96b27e856fc94ac3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"index()","rhs":"self.args[1]","over":{"base":"Any"},"name":"index_correct"},"guarantee":"returns self.args[1]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7f31eaf36947faf9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[1]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def index(self):
         return self.args[1]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(patch(), returns the patch attribute) over Any        ║
+# ║ Path(patch(), self.coord_sys.patch) over Any               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.coord_sys.patch                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ patch : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | fc2f847723b05639           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.BaseScalarField.patch","kind":"property","src_hash":"3ded2b52f9c1edb8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"patch()","rhs":"returns the patch attribute","over":{"base":"Any"},"name":"patch_correct"},"guarantee":"returns the patch attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fc2f847723b05639"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.BaseScalarField.patch","kind":"property","src_hash":"3ded2b52f9c1edb8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"patch()","rhs":"self.coord_sys.patch","over":{"base":"Any"},"name":"patch_correct"},"guarantee":"returns self.coord_sys.patch","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fc2f847723b05639","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.coord_sys.patch","pure":false,"effects":{"effect_type":"reads_state","reads":["self.coord_sys"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def patch(self):
         return self.coord_sys.patch
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(manifold(), returns the manifold attribute) over Any  ║
+# ║ Path(manifold(), self.coord_sys.manifold) over Any         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.coord_sys.manifold                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ manifold : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 18dfa83d578ef5c5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.BaseScalarField.manifold","kind":"property","src_hash":"8fdcd89752c21c16","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"manifold()","rhs":"returns the manifold attribute","over":{"base":"Any"},"name":"manifold_correct"},"guarantee":"returns the manifold attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"18dfa83d578ef5c5"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.BaseScalarField.manifold","kind":"property","src_hash":"8fdcd89752c21c16","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"manifold()","rhs":"self.coord_sys.manifold","over":{"base":"Any"},"name":"manifold_correct"},"guarantee":"returns self.coord_sys.manifold","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"18dfa83d578ef5c5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.coord_sys.manifold","pure":false,"effects":{"effect_type":"reads_state","reads":["self.coord_sys"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def manifold(self):
         return self.coord_sys.manifold
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dim(), returns the dim attribute) over Any            ║
+# ║ Path(dim(), self.manifold.dim) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.manifold.dim                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dim : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d0ba29a475d17b5f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.BaseScalarField.dim","kind":"property","src_hash":"4d2417e1333b7dc6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dim()","rhs":"returns the dim attribute","over":{"base":"Any"},"name":"dim_correct"},"guarantee":"returns the dim attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d0ba29a475d17b5f"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.BaseScalarField.dim","kind":"property","src_hash":"4d2417e1333b7dc6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dim()","rhs":"self.manifold.dim","over":{"base":"Any"},"name":"dim_correct"},"guarantee":"returns self.manifold.dim","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d0ba29a475d17b5f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.manifold.dim","pure":false,"effects":{"effect_type":"reads_state","reads":["self.manifold"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dim(self):
         return self.manifold.dim
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__call__(*ar), correctly applies the callable) over Any ║
+# ║ Path(__call__(*args), <unspecified:__call__>) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __call__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c126deaf3c7d8bbc           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.BaseScalarField.__call__","kind":"method","src_hash":"8285c556fefadca5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__call__(*ar)","rhs":"correctly applies the callable","over":{"base":"Any"},"name":"__call___correct"},"guarantee":"correctly applies the callable","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c126deaf3c7d8bbc"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.BaseScalarField.__call__","kind":"method","src_hash":"8285c556fefadca5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__call__(*args)","rhs":"<unspecified:__call__>","over":{"base":"Any"},"name":"__call___correct"},"guarantee":"correctly applies the callable","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c126deaf3c7d8bbc","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._coord_sys","self._index"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __call__(self, *args):
         """Evaluating the field at a point or doing nothing.
         If the argument is a ``Point`` instance, the field is evaluated at that
@@ -1642,14 +2002,20 @@ class BaseScalarField(Expr):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(BaseVectorField(*args), correctly constructs a BaseVectorField instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ BaseVectorField : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Expr)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ BaseVectorField : Any → {Any | result satisfies: isin...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1751e143fd992625  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.BaseVectorField","kind":"class","src_hash":"ed4dca5109753b01","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"BaseVectorField(*args)","rhs":"correctly constructs a BaseVectorField instance","over":{"base":"Any"},"name":"BaseVectorField_class_invariant"},"guarantee":"correctly constructs a BaseVectorField instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1751e143fd992625"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.BaseVectorField","kind":"class","src_hash":"ed4dca5109753b01","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Expr)"},"spec":{"lhs":"BaseVectorField(*args)","rhs":"correctly constructs a BaseVectorField instance","over":{"base":"Any"},"name":"BaseVectorField_class_invariant"},"guarantee":"isinstance(self, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1751e143fd992625","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Expr)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":false,"binding_errors":["Function BaseVectorField not found in source"]}}
 class BaseVectorField(Expr):
     r"""Base vector field over a manifold for a given coordinate system.
 
@@ -1711,16 +2077,22 @@ class BaseVectorField(Expr):
     is_commutative = False
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, coord_sys, index), <unspecified:__new__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 77d8f3a5463c723b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.BaseVectorField.__new__","kind":"method","src_hash":"06b4315b563f3200","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"77d8f3a5463c723b"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.BaseVectorField.__new__","kind":"method","src_hash":"06b4315b563f3200","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, coord_sys, index)","rhs":"<unspecified:__new__>","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"77d8f3a5463c723b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, coord_sys, index, **kwargs):
         index = _sympify(index)
         obj = super().__new__(cls, coord_sys, index)
@@ -1730,90 +2102,129 @@ class BaseVectorField(Expr):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(coord_sys(), returns the coord_sys attribute) over Any ║
+# ║ Path(coord_sys(), self.args[0]) over Any                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ coord_sys : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9819ac8feb0f4495           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.BaseVectorField.coord_sys","kind":"property","src_hash":"4aa906c9f589e9e0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"coord_sys()","rhs":"returns the coord_sys attribute","over":{"base":"Any"},"name":"coord_sys_correct"},"guarantee":"returns the coord_sys attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9819ac8feb0f4495"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.BaseVectorField.coord_sys","kind":"property","src_hash":"4aa906c9f589e9e0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"coord_sys()","rhs":"self.args[0]","over":{"base":"Any"},"name":"coord_sys_correct"},"guarantee":"returns self.args[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9819ac8feb0f4495","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def coord_sys(self):
         return self.args[0]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(index(), returns the index attribute) over Any        ║
+# ║ Path(index(), self.args[1]) over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[1]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ index : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 71b3a99cb02513cb           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.BaseVectorField.index","kind":"property","src_hash":"96b27e856fc94ac3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"index()","rhs":"returns the index attribute","over":{"base":"Any"},"name":"index_correct"},"guarantee":"returns the index attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"71b3a99cb02513cb"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.BaseVectorField.index","kind":"property","src_hash":"96b27e856fc94ac3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"index()","rhs":"self.args[1]","over":{"base":"Any"},"name":"index_correct"},"guarantee":"returns self.args[1]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"71b3a99cb02513cb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[1]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def index(self):
         return self.args[1]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(patch(), returns the patch attribute) over Any        ║
+# ║ Path(patch(), self.coord_sys.patch) over Any               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.coord_sys.patch                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ patch : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 03b3daa86694cbc2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.BaseVectorField.patch","kind":"property","src_hash":"3ded2b52f9c1edb8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"patch()","rhs":"returns the patch attribute","over":{"base":"Any"},"name":"patch_correct"},"guarantee":"returns the patch attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"03b3daa86694cbc2"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.BaseVectorField.patch","kind":"property","src_hash":"3ded2b52f9c1edb8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"patch()","rhs":"self.coord_sys.patch","over":{"base":"Any"},"name":"patch_correct"},"guarantee":"returns self.coord_sys.patch","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"03b3daa86694cbc2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.coord_sys.patch","pure":false,"effects":{"effect_type":"reads_state","reads":["self.coord_sys"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def patch(self):
         return self.coord_sys.patch
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(manifold(), returns the manifold attribute) over Any  ║
+# ║ Path(manifold(), self.coord_sys.manifold) over Any         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.coord_sys.manifold                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ manifold : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2b1b8b7cc0c45f33           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.BaseVectorField.manifold","kind":"property","src_hash":"8fdcd89752c21c16","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"manifold()","rhs":"returns the manifold attribute","over":{"base":"Any"},"name":"manifold_correct"},"guarantee":"returns the manifold attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2b1b8b7cc0c45f33"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.BaseVectorField.manifold","kind":"property","src_hash":"8fdcd89752c21c16","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"manifold()","rhs":"self.coord_sys.manifold","over":{"base":"Any"},"name":"manifold_correct"},"guarantee":"returns self.coord_sys.manifold","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2b1b8b7cc0c45f33","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.coord_sys.manifold","pure":false,"effects":{"effect_type":"reads_state","reads":["self.coord_sys"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def manifold(self):
         return self.coord_sys.manifold
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dim(), returns the dim attribute) over Any            ║
+# ║ Path(dim(), self.manifold.dim) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.manifold.dim                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dim : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7d2d9cef099d0f1b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.BaseVectorField.dim","kind":"property","src_hash":"4d2417e1333b7dc6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dim()","rhs":"returns the dim attribute","over":{"base":"Any"},"name":"dim_correct"},"guarantee":"returns the dim attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7d2d9cef099d0f1b"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.BaseVectorField.dim","kind":"property","src_hash":"4d2417e1333b7dc6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dim()","rhs":"self.manifold.dim","over":{"base":"Any"},"name":"dim_correct"},"guarantee":"returns self.manifold.dim","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7d2d9cef099d0f1b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.manifold.dim","pure":false,"effects":{"effect_type":"reads_state","reads":["self.manifold"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dim(self):
         return self.manifold.dim
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__call__(sca), correctly applies the callable) over Any ║
+# ║ Path(__call__(scalar_field), len(d_funcs_deriv_sub) == old_len_d_funcs_deriv_sub + 1) over {Any | not (covariant_order(scalar_field) or contravariant_order(scalar_field)) and hasattr(scalar_field, 'subs') and hasattr(scalar_field, 'atoms')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __call__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (covariant_order(scalar_field) or con...   ║
+# ║   requires: hasattr(scalar_field, 'subs')                  ║
+# ║   requires: hasattr(scalar_field, 'atoms')                 ║
+# ║   ensures:  len(d_funcs_deriv_sub) == old_len_d_funcs...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __call__ : {Any | not (covariant_order(scalar_field) ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e33d3058fcc23a91           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.BaseVectorField.__call__","kind":"method","src_hash":"651cf9ee83925248","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__call__(sca)","rhs":"correctly applies the callable","over":{"base":"Any"},"name":"__call___correct"},"guarantee":"correctly applies the callable","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e33d3058fcc23a91"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.BaseVectorField.__call__","kind":"method","src_hash":"651cf9ee83925248","in":{"base":"Any","pred":"not (covariant_order(scalar_field) or contravariant_order(scalar_field)) and hasattr(scalar_field, 'subs') and hasattr(scalar_field, 'atoms')"},"out":{"base":"Any","pred":"result satisfies: len(d_funcs_deriv_sub) == old_len_d_funcs_deriv_sub + 1"},"spec":{"lhs":"__call__(scalar_field)","rhs":"len(d_funcs_deriv_sub) == old_len_d_funcs_deriv_sub + 1","over":{"base":"Any","pred":"not (covariant_order(scalar_field) or contravariant_order(scalar_field)) and hasattr(scalar_field, 'subs') and hasattr(scalar_field, 'atoms')"},"name":"__call___correct"},"guarantee":"len(d_funcs_deriv_sub) == old_len_d_funcs_deriv_sub + 1","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e33d3058fcc23a91","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (covariant_order(scalar_field) or contravariant_order(scalar_field))","hasattr(scalar_field, 'subs')","hasattr(scalar_field, 'atoms')"],"ensures":["len(d_funcs_deriv_sub) == old_len_d_funcs_deriv_sub + 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["scalar_field.atoms","scalar_field.subs","self._coord_sys","self._index"],"calls_mutating":["d_funcs_deriv_sub.append"],"raises":["ValueError"]},"state_contract":{"modifies":["d_funcs_deriv_sub.*"],"old_bindings":{"old_len_d_funcs_deriv_sub":"len(d_funcs_deriv_sub)"},"post_ensures":["len(d_funcs_deriv_sub) == old_len_d_funcs_deriv_sub + 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __call__(self, scalar_field):
         """Apply on a scalar field.
         The action of a vector field on a scalar field is a directional
@@ -1852,16 +2263,23 @@ class BaseVectorField(Expr):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_find_coords(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_find_coords(expr), {f._coord_sys for f in fields}) over {Any | hasattr(expr, 'atoms')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _find_coords : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'atoms')                         ║
+# ║   returns:  {f._coord_sys for f in fields}                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _find_coords : {Any | hasattr(expr, 'atoms')} → Any        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5cf7d3c72e2258fb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6da8910b62d702fd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom._find_coords","kind":"function","src_hash":"cf3386fc1f686e36","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_find_coords(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_find_coords_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.diffgeom.diffgeom._find_coords_correct","statement":"Path(_find_coords(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5cf7d3c72e2258fb"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom._find_coords","kind":"function","src_hash":"cf3386fc1f686e36","in":{"base":"Any","pred":"hasattr(expr, 'atoms')"},"out":{"base":"Any"},"spec":{"lhs":"_find_coords(expr)","rhs":"{f._coord_sys for f in fields}","over":{"base":"Any","pred":"hasattr(expr, 'atoms')"},"name":"_find_coords_correct"},"guarantee":"returns {f._coord_sys for f in fields}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.diffgeom.diffgeom._find_coords_correct","statement":"Path(_find_coords(x), returns {f._coord_sys for f in fields})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6da8910b62d702fd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'atoms')"],"returns_expr":"{f._coord_sys for f in fields}","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.atoms"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def _find_coords(expr):
     # Finds CoordinateSystems existing in expr
     fields = expr.atoms(BaseScalarField, BaseVectorField)
@@ -1871,14 +2289,20 @@ def _find_coords(expr):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Commutator(*args), correctly constructs a Commutator instance) over {Any | isinstance(v, BaseVectorField)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Expr)                         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ Commutator : {Any | isinstance(v, BaseVectorField)} →...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b270874f6f717573  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.Commutator","kind":"class","src_hash":"7090093a500592fa","in":{"base":"Any","pred":"isinstance(v, BaseVectorField)"},"out":{"base":"Any"},"spec":{"lhs":"Commutator(*args)","rhs":"correctly constructs a Commutator instance","over":{"base":"Any","pred":"isinstance(v, BaseVectorField)"},"name":"Commutator_class_invariant"},"guarantee":"correctly constructs a Commutator instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b270874f6f717573"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.Commutator","kind":"class","src_hash":"7090093a500592fa","in":{"base":"Any","pred":"isinstance(v, BaseVectorField)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Expr)"},"spec":{"lhs":"Commutator(*args)","rhs":"correctly constructs a Commutator instance","over":{"base":"Any","pred":"isinstance(v, BaseVectorField)"},"name":"Commutator_class_invariant"},"guarantee":"isinstance(self, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b270874f6f717573","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Expr)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function Commutator not found in source"]}}
 class Commutator(Expr):
     r"""Commutator of two vector fields.
 
@@ -1915,16 +2339,25 @@ class Commutator(Expr):
 
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, v1, v2), <unspecified:__new__>) over {Any | not (covariant_order(v1) or contravariant_order(v1) != 1 or covariant_order(v2) or (contravariant_order(v2) != 1)) and hasattr(v1, 'expand') and hasattr(v2, 'expand')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (covariant_order(v1) or contravariant...   ║
+# ║   requires: hasattr(v1, 'expand')                          ║
+# ║   requires: hasattr(v2, 'expand')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | not (covariant_order(v1) or contrava...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b445ae32aacdb0e0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.Commutator.__new__","kind":"method","src_hash":"e27bf5dfcd51b6fc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b445ae32aacdb0e0"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.Commutator.__new__","kind":"method","src_hash":"e27bf5dfcd51b6fc","in":{"base":"Any","pred":"not (covariant_order(v1) or contravariant_order(v1) != 1 or covariant_order(v2) or (contravariant_order(v2) != 1)) and hasattr(v1, 'expand') and hasattr(v2, 'expand')"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, v1, v2)","rhs":"<unspecified:__new__>","over":{"base":"Any","pred":"not (covariant_order(v1) or contravariant_order(v1) != 1 or covariant_order(v2) or (contravariant_order(v2) != 1)) and hasattr(v1, 'expand') and hasattr(v2, 'expand')"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b445ae32aacdb0e0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (covariant_order(v1) or contravariant_order(v1) != 1 or covariant_order(v2) or (contravariant_order(v2) != 1))","hasattr(v1, 'expand')","hasattr(v2, 'expand')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["v1.expand","v2.expand"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, v1, v2):
         if (covariant_order(v1) or contravariant_order(v1) != 1
                 or covariant_order(v2) or contravariant_order(v2) != 1):
@@ -1955,45 +2388,63 @@ class Commutator(Expr):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(v1(), returns the v1 attribute) over Any              ║
+# ║ Path(v1(), self.args[0]) over Any                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ v1 : Any → Any                                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | cebf47b67c4c6e0e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.Commutator.v1","kind":"property","src_hash":"bbfd7cee9ac7f370","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"v1()","rhs":"returns the v1 attribute","over":{"base":"Any"},"name":"v1_correct"},"guarantee":"returns the v1 attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cebf47b67c4c6e0e"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.Commutator.v1","kind":"property","src_hash":"bbfd7cee9ac7f370","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"v1()","rhs":"self.args[0]","over":{"base":"Any"},"name":"v1_correct"},"guarantee":"returns self.args[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cebf47b67c4c6e0e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def v1(self):
         return self.args[0]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(v2(), returns the v2 attribute) over Any              ║
+# ║ Path(v2(), self.args[1]) over Any                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[1]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ v2 : Any → Any                                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6903d6b8bc5de503           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.Commutator.v2","kind":"property","src_hash":"552b01971d8bd7ae","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"v2()","rhs":"returns the v2 attribute","over":{"base":"Any"},"name":"v2_correct"},"guarantee":"returns the v2 attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6903d6b8bc5de503"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.Commutator.v2","kind":"property","src_hash":"552b01971d8bd7ae","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"v2()","rhs":"self.args[1]","over":{"base":"Any"},"name":"v2_correct"},"guarantee":"returns self.args[1]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6903d6b8bc5de503","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[1]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def v2(self):
         return self.args[1]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__call__(sca), correctly applies the callable) over Any ║
+# ║ Path(__call__(scalar_field), self.v1(self.v2(scalar_field)) - self.v2(self.v1(scalar_field))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.v1(self.v2(scalar_field)) - self.v2(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __call__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | af97539441d4be01           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.Commutator.__call__","kind":"method","src_hash":"4b86db98e64a3acb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__call__(sca)","rhs":"correctly applies the callable","over":{"base":"Any"},"name":"__call___correct"},"guarantee":"correctly applies the callable","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"af97539441d4be01"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.Commutator.__call__","kind":"method","src_hash":"4b86db98e64a3acb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__call__(scalar_field)","rhs":"self.v1(self.v2(scalar_field)) - self.v2(self.v1(scalar_field))","over":{"base":"Any"},"name":"__call___correct"},"guarantee":"returns self.v1(self.v2(scalar_field)) - self.v2(self.v1(scalar_field))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"af97539441d4be01","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.v1(self.v2(scalar_field)) - self.v2(self.v1(scalar_field))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.v1","self.v2"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __call__(self, scalar_field):
         """Apply on a scalar field.
         If the argument is not a scalar field an error is raised.
@@ -2004,14 +2455,20 @@ class Commutator(Expr):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Differential(*args), correctly constructs a Differential instance) over {Any | isinstance(form_field, Differential)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Expr)                         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ Differential : {Any | isinstance(form_field, Differen...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a7834445a41e7ef3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.Differential","kind":"class","src_hash":"4fe27888c4c505ce","in":{"base":"Any","pred":"isinstance(form_field, Differential)"},"out":{"base":"Any"},"spec":{"lhs":"Differential(*args)","rhs":"correctly constructs a Differential instance","over":{"base":"Any","pred":"isinstance(form_field, Differential)"},"name":"Differential_class_invariant"},"guarantee":"correctly constructs a Differential instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a7834445a41e7ef3"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.Differential","kind":"class","src_hash":"4fe27888c4c505ce","in":{"base":"Any","pred":"isinstance(form_field, Differential)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Expr)"},"spec":{"lhs":"Differential(*args)","rhs":"correctly constructs a Differential instance","over":{"base":"Any","pred":"isinstance(form_field, Differential)"},"name":"Differential_class_invariant"},"guarantee":"isinstance(self, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a7834445a41e7ef3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Expr)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function Differential not found in source"]}}
 class Differential(Expr):
     r"""Return the differential (exterior derivative) of a form field.
 
@@ -2057,16 +2514,23 @@ class Differential(Expr):
     is_commutative = False
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, form_field), <unspecified:__new__>) over {Any | not (contravariant_order(form_field))} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (contravariant_order(form_field))          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | not (contravariant_order(form_field)...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8079797130ebdd44           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.Differential.__new__","kind":"method","src_hash":"c6e75a7d85d7c5b7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8079797130ebdd44"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.Differential.__new__","kind":"method","src_hash":"c6e75a7d85d7c5b7","in":{"base":"Any","pred":"not (contravariant_order(form_field))"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, form_field)","rhs":"<unspecified:__new__>","over":{"base":"Any","pred":"not (contravariant_order(form_field))"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8079797130ebdd44","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (contravariant_order(form_field))"],"pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, form_field):
         if contravariant_order(form_field):
             raise ValueError(
@@ -2080,30 +2544,43 @@ class Differential(Expr):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(form_field(), returns the form_field attribute) over Any ║
+# ║ Path(form_field(), self.args[0]) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ form_field : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f4ffcbd37d938e34           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.Differential.form_field","kind":"property","src_hash":"ee5abe5b7424a531","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"form_field()","rhs":"returns the form_field attribute","over":{"base":"Any"},"name":"form_field_correct"},"guarantee":"returns the form_field attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f4ffcbd37d938e34"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.Differential.form_field","kind":"property","src_hash":"ee5abe5b7424a531","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"form_field()","rhs":"self.args[0]","over":{"base":"Any"},"name":"form_field_correct"},"guarantee":"returns self.args[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f4ffcbd37d938e34","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def form_field(self):
         return self.args[0]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__call__(*ve), correctly applies the callable) over Any ║
+# ║ Path(__call__(*vector_fields), <unspecified:__call__>) over {Any | not (any(((contravariant_order(a) != 1 or covariant_order(a)) and a is not None for a in vector_fields)))} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __call__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (any(((contravariant_order(a) != 1 or...   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __call__ : {Any | not (any(((contravariant_order(a) !...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3d9752a7e94ca6f4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.Differential.__call__","kind":"method","src_hash":"48929fce26120b6f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__call__(*ve)","rhs":"correctly applies the callable","over":{"base":"Any"},"name":"__call___correct"},"guarantee":"correctly applies the callable","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3d9752a7e94ca6f4"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.Differential.__call__","kind":"method","src_hash":"48929fce26120b6f","in":{"base":"Any","pred":"not (any(((contravariant_order(a) != 1 or covariant_order(a)) and a is not None for a in vector_fields)))"},"out":{"base":"Any"},"spec":{"lhs":"__call__(*vector_fields)","rhs":"<unspecified:__call__>","over":{"base":"Any","pred":"not (any(((contravariant_order(a) != 1 or covariant_order(a)) and a is not None for a in vector_fields)))"},"name":"__call___correct"},"guarantee":"correctly applies the callable","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3d9752a7e94ca6f4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (any(((contravariant_order(a) != 1 or covariant_order(a)) and a is not None for a in vector_fields)))"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._form_field"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __call__(self, *vector_fields):
         """Apply on a list of vector_fields.
 
@@ -2158,14 +2635,20 @@ class Differential(Expr):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(TensorProduct(*args), correctly constructs a TensorProduct instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ TensorProduct : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Expr)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ TensorProduct : Any → {Any | result satisfies: isinst...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d829c8acad6c8789  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.TensorProduct","kind":"class","src_hash":"e38e91f44e99ac60","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"TensorProduct(*args)","rhs":"correctly constructs a TensorProduct instance","over":{"base":"Any"},"name":"TensorProduct_class_invariant"},"guarantee":"correctly constructs a TensorProduct instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d829c8acad6c8789"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.TensorProduct","kind":"class","src_hash":"e38e91f44e99ac60","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Expr)"},"spec":{"lhs":"TensorProduct(*args)","rhs":"correctly constructs a TensorProduct instance","over":{"base":"Any"},"name":"TensorProduct_class_invariant"},"guarantee":"isinstance(self, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d829c8acad6c8789","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Expr)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function TensorProduct not found in source"]}}
 class TensorProduct(Expr):
     """Tensor product of forms.
 
@@ -2221,16 +2704,25 @@ class TensorProduct(Expr):
 
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, *args), result == (scalar * super().__new__(cls, *multifields) if multifields else scalar) and result == scalar * super().__new__(cls, *multifields) or result == scalar) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (scalar * super().__new__(cls, ...   ║
+# ║   ensures:  result == scalar * super().__new__(cls, *...   ║
+# ║   fiber[case_0]: multifields => scalar * super().__ne...   ║
+# ║   fiber[case_1]: not (multifields) => scalar               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : Any → {Any | result satisfies: result == (s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5bc7b50bea4107c0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.TensorProduct.__new__","kind":"method","src_hash":"faf557482fa0b23a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5bc7b50bea4107c0"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.TensorProduct.__new__","kind":"method","src_hash":"faf557482fa0b23a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (scalar * super().__new__(cls, *multifields) if multifields else scalar) and result == scalar * super().__new__(cls, *multifields) or result == scalar"},"spec":{"lhs":"__new__(cls, *args)","rhs":"result == (scalar * super().__new__(cls, *multifields) if multifields else scalar) and result == scalar * super().__new__(cls, *multifields) or result == scalar","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"result == (scalar * super().__new__(cls, *multifields) if multifields else scalar); result == scalar * super().__new__(cls, *multifields) or result == scalar; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5bc7b50bea4107c0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (scalar * super().__new__(cls, *multifields) if multifields else scalar)","result == scalar * super().__new__(cls, *multifields) or result == scalar"],"fibers":[{"name":"case_0","guard":"multifields","ensures":["result == scalar * super().__new__(cls, *multifields)"],"decidability":"library","returns_expr":"scalar * super().__new__(cls, *multifields)"},{"name":"case_1","guard":"not (multifields)","ensures":["result == scalar"],"decidability":"library","returns_expr":"scalar"}],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, *args):
         scalar = Mul(*[m for m in args if covariant_order(m) + contravariant_order(m) == 0])
         multifields = [m for m in args if covariant_order(m) + contravariant_order(m)]
@@ -2242,16 +2734,22 @@ class TensorProduct(Expr):
             return scalar
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__call__(*fi), correctly applies the callable) over Any ║
+# ║ Path(__call__(*fields), TensorProduct(*multipliers)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  TensorProduct(*multipliers)                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __call__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7190e7dc8cc466a3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.TensorProduct.__call__","kind":"method","src_hash":"48fc8ffd83a81555","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__call__(*fi)","rhs":"correctly applies the callable","over":{"base":"Any"},"name":"__call___correct"},"guarantee":"correctly applies the callable","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7190e7dc8cc466a3"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.TensorProduct.__call__","kind":"method","src_hash":"48fc8ffd83a81555","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__call__(*fields)","rhs":"TensorProduct(*multipliers)","over":{"base":"Any"},"name":"__call___correct"},"guarantee":"returns TensorProduct(*multipliers)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7190e7dc8cc466a3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"TensorProduct(*multipliers)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __call__(self, *fields):
         """Apply on a list of fields.
 
@@ -2278,14 +2776,20 @@ class TensorProduct(Expr):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(WedgeProduct(*args), correctly constructs a WedgeProduct instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ WedgeProduct : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, TensorProduct)                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ WedgeProduct : Any → {Any | result satisfies: isinsta...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 24967dfd187caab7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.WedgeProduct","kind":"class","src_hash":"eedaed121e648f98","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"WedgeProduct(*args)","rhs":"correctly constructs a WedgeProduct instance","over":{"base":"Any"},"name":"WedgeProduct_class_invariant"},"guarantee":"correctly constructs a WedgeProduct instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"24967dfd187caab7"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.WedgeProduct","kind":"class","src_hash":"eedaed121e648f98","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, TensorProduct)"},"spec":{"lhs":"WedgeProduct(*args)","rhs":"correctly constructs a WedgeProduct instance","over":{"base":"Any"},"name":"WedgeProduct_class_invariant"},"guarantee":"isinstance(self, TensorProduct)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"24967dfd187caab7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, TensorProduct)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function WedgeProduct not found in source"]}}
 class WedgeProduct(TensorProduct):
     """Wedge product of forms.
 
@@ -2324,16 +2828,22 @@ class WedgeProduct(TensorProduct):
     # TODO the calculation of signatures is slow
     # TODO you do not need all these permutations (neither the prefactor)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__call__(*fi), correctly applies the callable) over Any ║
+# ║ Path(__call__(*fields), mul * Add(*[tensor_prod(*p[0]) * p[1] for p in zip(perms, perms_par)])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  mul * Add(*[tensor_prod(*p[0]) * p[1] for...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __call__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 05acddd245ca0e77           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.WedgeProduct.__call__","kind":"method","src_hash":"4d21bd12d2534338","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__call__(*fi)","rhs":"correctly applies the callable","over":{"base":"Any"},"name":"__call___correct"},"guarantee":"correctly applies the callable","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"05acddd245ca0e77"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.WedgeProduct.__call__","kind":"method","src_hash":"4d21bd12d2534338","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__call__(*fields)","rhs":"mul * Add(*[tensor_prod(*p[0]) * p[1] for p in zip(perms, perms_par)])","over":{"base":"Any"},"name":"__call___correct"},"guarantee":"returns mul * Add(*[tensor_prod(*p[0]) * p[1] for p in zip(perms, perms_par)])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"05acddd245ca0e77","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"mul * Add(*[tensor_prod(*p[0]) * p[1] for p in zip(perms, perms_par)])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __call__(self, *fields):
         """Apply on a list of vector_fields.
         The expression is rewritten internally in terms of tensor products and evaluated."""
@@ -2349,14 +2859,20 @@ class WedgeProduct(TensorProduct):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(LieDerivative(*args), correctly constructs a LieDerivative instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ LieDerivative : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Expr)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ LieDerivative : Any → {Any | result satisfies: isinst...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 38948c9ceca0acb6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.LieDerivative","kind":"class","src_hash":"96889d41264e911e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"LieDerivative(*args)","rhs":"correctly constructs a LieDerivative instance","over":{"base":"Any"},"name":"LieDerivative_class_invariant"},"guarantee":"correctly constructs a LieDerivative instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"38948c9ceca0acb6"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.LieDerivative","kind":"class","src_hash":"96889d41264e911e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Expr)"},"spec":{"lhs":"LieDerivative(*args)","rhs":"correctly constructs a LieDerivative instance","over":{"base":"Any"},"name":"LieDerivative_class_invariant"},"guarantee":"isinstance(self, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"38948c9ceca0acb6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Expr)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function LieDerivative not found in source"]}}
 class LieDerivative(Expr):
     """Lie derivative with respect to a vector field.
 
@@ -2401,16 +2917,25 @@ class LieDerivative(Expr):
 
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, v_field, expr), <unspecified:__new__>) over {Any | not (contravariant_order(v_field) != 1 or covariant_order(v_field)) and hasattr(expr, 'atoms') and hasattr(v_field, 'rcall')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (contravariant_order(v_field) != 1 or...   ║
+# ║   requires: hasattr(expr, 'atoms')                         ║
+# ║   requires: hasattr(v_field, 'rcall')                      ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | not (contravariant_order(v_field) !=...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d4c95057e8ced5a8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.LieDerivative.__new__","kind":"method","src_hash":"70acfe6642e85da4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d4c95057e8ced5a8"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.LieDerivative.__new__","kind":"method","src_hash":"70acfe6642e85da4","in":{"base":"Any","pred":"not (contravariant_order(v_field) != 1 or covariant_order(v_field)) and hasattr(expr, 'atoms') and hasattr(v_field, 'rcall')"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, v_field, expr)","rhs":"<unspecified:__new__>","over":{"base":"Any","pred":"not (contravariant_order(v_field) != 1 or covariant_order(v_field)) and hasattr(expr, 'atoms') and hasattr(v_field, 'rcall')"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d4c95057e8ced5a8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (contravariant_order(v_field) != 1 or covariant_order(v_field))","hasattr(expr, 'atoms')","hasattr(v_field, 'rcall')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.atoms","v_field.rcall"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, v_field, expr):
         expr_form_ord = covariant_order(expr)
         if contravariant_order(v_field) != 1 or covariant_order(v_field):
@@ -2430,45 +2955,63 @@ class LieDerivative(Expr):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(v_field(), returns the v_field attribute) over Any    ║
+# ║ Path(v_field(), self.args[0]) over Any                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ v_field : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 59559813b7df94c0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.LieDerivative.v_field","kind":"property","src_hash":"896e6a5571f41bea","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"v_field()","rhs":"returns the v_field attribute","over":{"base":"Any"},"name":"v_field_correct"},"guarantee":"returns the v_field attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"59559813b7df94c0"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.LieDerivative.v_field","kind":"property","src_hash":"896e6a5571f41bea","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"v_field()","rhs":"self.args[0]","over":{"base":"Any"},"name":"v_field_correct"},"guarantee":"returns self.args[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"59559813b7df94c0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def v_field(self):
         return self.args[0]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(expr(), returns the expr attribute) over Any          ║
+# ║ Path(expr(), self.args[1]) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[1]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ expr : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | fe633d77019a7342           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.LieDerivative.expr","kind":"property","src_hash":"284af1497ea82254","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"expr()","rhs":"returns the expr attribute","over":{"base":"Any"},"name":"expr_correct"},"guarantee":"returns the expr attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fe633d77019a7342"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.LieDerivative.expr","kind":"property","src_hash":"284af1497ea82254","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"expr()","rhs":"self.args[1]","over":{"base":"Any"},"name":"expr_correct"},"guarantee":"returns self.args[1]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fe633d77019a7342","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[1]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def expr(self):
         return self.args[1]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__call__(*ar), correctly applies the callable) over Any ║
+# ║ Path(__call__(*args), lead_term - rest) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  lead_term - rest                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __call__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d444de0c345e4ccc           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.LieDerivative.__call__","kind":"method","src_hash":"6edc8307a0025523","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__call__(*ar)","rhs":"correctly applies the callable","over":{"base":"Any"},"name":"__call___correct"},"guarantee":"correctly applies the callable","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d444de0c345e4ccc"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.LieDerivative.__call__","kind":"method","src_hash":"6edc8307a0025523","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__call__(*args)","rhs":"lead_term - rest","over":{"base":"Any"},"name":"__call___correct"},"guarantee":"returns lead_term - rest","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d444de0c345e4ccc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"lead_term - rest","pure":false,"effects":{"effect_type":"reads_state","reads":["self.expr","self.v_field"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __call__(self, *args):
         v = self.v_field
         expr = self.expr
@@ -2481,14 +3024,20 @@ class LieDerivative(Expr):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(BaseCovarDerivativeOp(*args), correctly constructs a BaseCovarDerivativeOp instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ BaseCovarDerivativeOp : Any → Any                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Expr)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ BaseCovarDerivativeOp : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f01f8d228475c1bd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.BaseCovarDerivativeOp","kind":"class","src_hash":"06ab70f5df85ca73","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"BaseCovarDerivativeOp(*args)","rhs":"correctly constructs a BaseCovarDerivativeOp instance","over":{"base":"Any"},"name":"BaseCovarDerivativeOp_class_invariant"},"guarantee":"correctly constructs a BaseCovarDerivativeOp instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f01f8d228475c1bd"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.BaseCovarDerivativeOp","kind":"class","src_hash":"06ab70f5df85ca73","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Expr)"},"spec":{"lhs":"BaseCovarDerivativeOp(*args)","rhs":"correctly constructs a BaseCovarDerivativeOp instance","over":{"base":"Any"},"name":"BaseCovarDerivativeOp_class_invariant"},"guarantee":"isinstance(self, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f01f8d228475c1bd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Expr)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":false,"binding_errors":["Function BaseCovarDerivativeOp not found in source"]}}
 class BaseCovarDerivativeOp(Expr):
     """Covariant derivative operator with respect to a base vector.
 
@@ -2515,16 +3064,22 @@ class BaseCovarDerivativeOp(Expr):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, coord_sys, index), <unspecified:__new__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c5d87db30c357031           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.BaseCovarDerivativeOp.__new__","kind":"method","src_hash":"e3ba7fd2a521f8c1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c5d87db30c357031"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.BaseCovarDerivativeOp.__new__","kind":"method","src_hash":"e3ba7fd2a521f8c1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, coord_sys, index)","rhs":"<unspecified:__new__>","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c5d87db30c357031","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, coord_sys, index, christoffel):
         index = _sympify(index)
         christoffel = ImmutableDenseNDimArray(christoffel)
@@ -2537,60 +3092,88 @@ class BaseCovarDerivativeOp(Expr):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(coord_sys(), returns the coord_sys attribute) over Any ║
+# ║ Path(coord_sys(), self.args[0]) over Any                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ coord_sys : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c26d58dbf05ab9af           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.BaseCovarDerivativeOp.coord_sys","kind":"property","src_hash":"4aa906c9f589e9e0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"coord_sys()","rhs":"returns the coord_sys attribute","over":{"base":"Any"},"name":"coord_sys_correct"},"guarantee":"returns the coord_sys attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c26d58dbf05ab9af"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.BaseCovarDerivativeOp.coord_sys","kind":"property","src_hash":"4aa906c9f589e9e0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"coord_sys()","rhs":"self.args[0]","over":{"base":"Any"},"name":"coord_sys_correct"},"guarantee":"returns self.args[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c26d58dbf05ab9af","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def coord_sys(self):
         return self.args[0]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(index(), returns the index attribute) over Any        ║
+# ║ Path(index(), self.args[1]) over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[1]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ index : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3a9184ab01653ad9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.BaseCovarDerivativeOp.index","kind":"property","src_hash":"96b27e856fc94ac3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"index()","rhs":"returns the index attribute","over":{"base":"Any"},"name":"index_correct"},"guarantee":"returns the index attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3a9184ab01653ad9"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.BaseCovarDerivativeOp.index","kind":"property","src_hash":"96b27e856fc94ac3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"index()","rhs":"self.args[1]","over":{"base":"Any"},"name":"index_correct"},"guarantee":"returns self.args[1]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3a9184ab01653ad9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[1]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def index(self):
         return self.args[1]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(christoffel(), returns the christoffel attribute) over Any ║
+# ║ Path(christoffel(), self.args[2]) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[2]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ christoffel : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c7e98cb9f5f882dc           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.BaseCovarDerivativeOp.christoffel","kind":"property","src_hash":"377fca3e359edce9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"christoffel()","rhs":"returns the christoffel attribute","over":{"base":"Any"},"name":"christoffel_correct"},"guarantee":"returns the christoffel attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c7e98cb9f5f882dc"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.BaseCovarDerivativeOp.christoffel","kind":"property","src_hash":"377fca3e359edce9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"christoffel()","rhs":"self.args[2]","over":{"base":"Any"},"name":"christoffel_correct"},"guarantee":"returns self.args[2]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c7e98cb9f5f882dc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[2]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def christoffel(self):
         return self.args[2]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__call__(fie), correctly applies the callable) over Any ║
+# ║ Path(__call__(field), result.doit()) over {Any | not (covariant_order(field) != 0) and hasattr(field, 'subs') and hasattr(field, 'atoms')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __call__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (covariant_order(field) != 0)              ║
+# ║   requires: hasattr(field, 'subs')                         ║
+# ║   requires: hasattr(field, 'atoms')                        ║
+# ║   ensures:  len(derivs) == old_len_derivs + 1              ║
+# ║   returns:  result.doit()                                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __call__ : {Any | not (covariant_order(field) != 0) a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 14d87f05e0064526           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.BaseCovarDerivativeOp.__call__","kind":"method","src_hash":"f3c12b21ec076828","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__call__(fie)","rhs":"correctly applies the callable","over":{"base":"Any"},"name":"__call___correct"},"guarantee":"correctly applies the callable","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"14d87f05e0064526"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.BaseCovarDerivativeOp.__call__","kind":"method","src_hash":"f3c12b21ec076828","in":{"base":"Any","pred":"not (covariant_order(field) != 0) and hasattr(field, 'subs') and hasattr(field, 'atoms')"},"out":{"base":"Any","pred":"result satisfies: result == (result.doit())"},"spec":{"lhs":"__call__(field)","rhs":"result.doit()","over":{"base":"Any","pred":"not (covariant_order(field) != 0) and hasattr(field, 'subs') and hasattr(field, 'atoms')"},"name":"__call___correct"},"guarantee":"returns result.doit(); len(derivs) == old_len_derivs + 1","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"14d87f05e0064526","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (covariant_order(field) != 0)","hasattr(field, 'subs')","hasattr(field, 'atoms')"],"ensures":["len(derivs) == old_len_derivs + 1"],"returns_expr":"result.doit()","pure":false,"effects":{"effect_type":"reads_state","reads":["field.atoms","field.subs","self._christoffel","self._coord_sys","self._index"],"calls_mutating":["derivs.append"],"raises":["NotImplementedError"]},"state_contract":{"modifies":["derivs.*"],"old_bindings":{"old_len_derivs":"len(derivs)"},"post_ensures":["len(derivs) == old_len_derivs + 1"],"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __call__(self, field):
         """Apply on a scalar field.
 
@@ -2638,14 +3221,20 @@ class BaseCovarDerivativeOp(Expr):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(CovarDerivativeOp(*args), correctly constructs a CovarDerivativeOp instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ CovarDerivativeOp : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Expr)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ CovarDerivativeOp : Any → {Any | result satisfies: is...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fc80eddd9b70bd81  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.CovarDerivativeOp","kind":"class","src_hash":"fa25e7c3151122e6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"CovarDerivativeOp(*args)","rhs":"correctly constructs a CovarDerivativeOp instance","over":{"base":"Any"},"name":"CovarDerivativeOp_class_invariant"},"guarantee":"correctly constructs a CovarDerivativeOp instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fc80eddd9b70bd81"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.CovarDerivativeOp","kind":"class","src_hash":"fa25e7c3151122e6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Expr)"},"spec":{"lhs":"CovarDerivativeOp(*args)","rhs":"correctly constructs a CovarDerivativeOp instance","over":{"base":"Any"},"name":"CovarDerivativeOp_class_invariant"},"guarantee":"isinstance(self, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fc80eddd9b70bd81","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Expr)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function CovarDerivativeOp not found in source"]}}
 class CovarDerivativeOp(Expr):
     """Covariant derivative operator.
 
@@ -2672,16 +3261,25 @@ class CovarDerivativeOp(Expr):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, wrt, christoffel), <unspecified:__new__>) over {Any | not (len({v._coord_sys for v in wrt.atoms(BaseVectorField)}) > 1) and not (contravariant_order(wrt) != 1 or covariant_order(wrt)) and hasattr(wrt, 'atoms')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (len({v._coord_sys for v in wrt.atoms...   ║
+# ║   requires: not (contravariant_order(wrt) != 1 or cov...   ║
+# ║   requires: hasattr(wrt, 'atoms')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | not (len({v._coord_sys for v in wrt....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f91d80b78a1ea643           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.CovarDerivativeOp.__new__","kind":"method","src_hash":"e87e32cb6b740760","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f91d80b78a1ea643"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.CovarDerivativeOp.__new__","kind":"method","src_hash":"e87e32cb6b740760","in":{"base":"Any","pred":"not (len({v._coord_sys for v in wrt.atoms(BaseVectorField)}) > 1) and not (contravariant_order(wrt) != 1 or covariant_order(wrt)) and hasattr(wrt, 'atoms')"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, wrt, christoffel)","rhs":"<unspecified:__new__>","over":{"base":"Any","pred":"not (len({v._coord_sys for v in wrt.atoms(BaseVectorField)}) > 1) and not (contravariant_order(wrt) != 1 or covariant_order(wrt)) and hasattr(wrt, 'atoms')"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f91d80b78a1ea643","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (len({v._coord_sys for v in wrt.atoms(BaseVectorField)}) > 1)","not (contravariant_order(wrt) != 1 or covariant_order(wrt))","hasattr(wrt, 'atoms')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["wrt.atoms"],"raises":["NotImplementedError","ValueError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, wrt, christoffel):
         if len({v._coord_sys for v in wrt.atoms(BaseVectorField)}) > 1:
             raise NotImplementedError()
@@ -2698,45 +3296,63 @@ class CovarDerivativeOp(Expr):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(wrt(), returns the wrt attribute) over Any            ║
+# ║ Path(wrt(), self.args[0]) over Any                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ wrt : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 407c5ae7c41acfb3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.CovarDerivativeOp.wrt","kind":"property","src_hash":"4a1cede8d243e64f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"wrt()","rhs":"returns the wrt attribute","over":{"base":"Any"},"name":"wrt_correct"},"guarantee":"returns the wrt attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"407c5ae7c41acfb3"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.CovarDerivativeOp.wrt","kind":"property","src_hash":"4a1cede8d243e64f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"wrt()","rhs":"self.args[0]","over":{"base":"Any"},"name":"wrt_correct"},"guarantee":"returns self.args[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"407c5ae7c41acfb3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def wrt(self):
         return self.args[0]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(christoffel(), returns the christoffel attribute) over Any ║
+# ║ Path(christoffel(), self.args[1]) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[1]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ christoffel : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c18b8b160ea2b2e2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.CovarDerivativeOp.christoffel","kind":"property","src_hash":"83088eac6eb3304d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"christoffel()","rhs":"returns the christoffel attribute","over":{"base":"Any"},"name":"christoffel_correct"},"guarantee":"returns the christoffel attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c18b8b160ea2b2e2"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.CovarDerivativeOp.christoffel","kind":"property","src_hash":"83088eac6eb3304d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"christoffel()","rhs":"self.args[1]","over":{"base":"Any"},"name":"christoffel_correct"},"guarantee":"returns self.args[1]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c18b8b160ea2b2e2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[1]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def christoffel(self):
         return self.args[1]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__call__(fie), correctly applies the callable) over Any ║
+# ║ Path(__call__(field), self._wrt.subs(list(zip(vectors, base_ops))).rcall(field)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._wrt.subs(list(zip(vectors, base_ops...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __call__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 854d68d86ac16143           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.CovarDerivativeOp.__call__","kind":"method","src_hash":"b59ed1ca56964489","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__call__(fie)","rhs":"correctly applies the callable","over":{"base":"Any"},"name":"__call___correct"},"guarantee":"correctly applies the callable","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"854d68d86ac16143"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.CovarDerivativeOp.__call__","kind":"method","src_hash":"b59ed1ca56964489","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__call__(field)","rhs":"self._wrt.subs(list(zip(vectors, base_ops))).rcall(field)","over":{"base":"Any"},"name":"__call___correct"},"guarantee":"returns self._wrt.subs(list(zip(vectors, base_ops))).rcall(field)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"854d68d86ac16143","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._wrt.subs(list(zip(vectors, base_ops))).rcall(field)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._christoffel","self._wrt"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __call__(self, field):
         vectors = list(self._wrt.atoms(BaseVectorField))
         base_ops = [BaseCovarDerivativeOp(v._coord_sys, v._index, self._christoffel)
@@ -2748,16 +3364,25 @@ class CovarDerivativeOp(Expr):
 # Integral curves on vector fields
 ###############################################################################
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(intcurve_series(vec), return the series expansion for an integral curve of the field) over Any ║
+# ║ Path(intcurve_series(vector_field, param, start_point), <unspecified:intcurve_series>) over {Any | not (contravariant_order(vector_field) != 1 or covariant_order(vector_field)) and hasattr(start_point, '_coord_sys') and hasattr(coord_sys, 'coord_functions')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ intcurve_series : Any → Any                                ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (contravariant_order(vector_field) !=...   ║
+# ║   requires: hasattr(start_point, '_coord_sys')             ║
+# ║   requires: hasattr(coord_sys, 'coord_functions')          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ intcurve_series : {Any | not (contravariant_order(vec...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f52512d6a4f88842  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.intcurve_series","kind":"function","src_hash":"86af9408e3ec3f82","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"intcurve_series(vec)","rhs":"return the series expansion for an integral curve of the field","over":{"base":"Any"},"name":"intcurve_series_correct"},"guarantee":"return the series expansion for an integral curve of the field","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.diffgeom.diffgeom.intcurve_series_correct","statement":"Path(intcurve_series(x), return the series expansion for an integral curve of the field)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f52512d6a4f88842"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.intcurve_series","kind":"function","src_hash":"86af9408e3ec3f82","in":{"base":"Any","pred":"not (contravariant_order(vector_field) != 1 or covariant_order(vector_field)) and hasattr(start_point, '_coord_sys') and hasattr(coord_sys, 'coord_functions')"},"out":{"base":"Any"},"spec":{"lhs":"intcurve_series(vector_field, param, start_point)","rhs":"<unspecified:intcurve_series>","over":{"base":"Any","pred":"not (contravariant_order(vector_field) != 1 or covariant_order(vector_field)) and hasattr(start_point, '_coord_sys') and hasattr(coord_sys, 'coord_functions')"},"name":"intcurve_series_correct"},"guarantee":"return the series expansion for an integral curve of the field","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.diffgeom.diffgeom.intcurve_series_correct","statement":"Path(intcurve_series(x), return the series expansion for an integral curve of the field)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f52512d6a4f88842","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (contravariant_order(vector_field) != 1 or covariant_order(vector_field))","hasattr(start_point, '_coord_sys')","hasattr(coord_sys, 'coord_functions')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["coord_sys.coord_functions","start_point._coord_sys"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def intcurve_series(vector_field, param, start_point, n=6, coord_sys=None, coeffs=False):
     r"""Return the series expansion for an integral curve of the field.
 
@@ -2880,16 +3505,25 @@ def intcurve_series(vector_field, param, start_point, n=6, coord_sys=None, coeff
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(intcurve_diffequ(vec), return the differential equation for an integral curve of the field) over Any ║
+# ║ Path(intcurve_diffequ(vector_field, param, start_point), (equations, init_cond)) over {Any | not (contravariant_order(vector_field) != 1 or covariant_order(vector_field)) and hasattr(start_point, '_coord_sys') and hasattr(coord_sys, 'coord_functions') and hasattr(vector_field, 'rcall')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ intcurve_diffequ : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (contravariant_order(vector_field) !=...   ║
+# ║   requires: hasattr(start_point, '_coord_sys')             ║
+# ║   requires: hasattr(coord_sys, 'coord_functions')          ║
+# ║   returns:  (equations, init_cond)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ intcurve_diffequ : {Any | not (contravariant_order(ve...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6e005d01f58d53cf  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5d229fff033d37d5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.intcurve_diffequ","kind":"function","src_hash":"3b0ff6a3db130916","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"intcurve_diffequ(vec)","rhs":"return the differential equation for an integral curve of the field","over":{"base":"Any"},"name":"intcurve_diffequ_correct"},"guarantee":"return the differential equation for an integral curve of the field","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.diffgeom.diffgeom.intcurve_diffequ_correct","statement":"Path(intcurve_diffequ(x), return the differential equation for an integral curve of the field)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6e005d01f58d53cf"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.intcurve_diffequ","kind":"function","src_hash":"3b0ff6a3db130916","in":{"base":"Any","pred":"not (contravariant_order(vector_field) != 1 or covariant_order(vector_field)) and hasattr(start_point, '_coord_sys') and hasattr(coord_sys, 'coord_functions') and hasattr(vector_field, 'rcall')"},"out":{"base":"Any"},"spec":{"lhs":"intcurve_diffequ(vector_field, param, start_point)","rhs":"(equations, init_cond)","over":{"base":"Any","pred":"not (contravariant_order(vector_field) != 1 or covariant_order(vector_field)) and hasattr(start_point, '_coord_sys') and hasattr(coord_sys, 'coord_functions') and hasattr(vector_field, 'rcall')"},"name":"intcurve_diffequ_correct"},"guarantee":"returns (equations, init_cond)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.diffgeom.diffgeom.intcurve_diffequ_correct","statement":"Path(intcurve_diffequ(x), returns (equations, init_cond))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5d229fff033d37d5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (contravariant_order(vector_field) != 1 or covariant_order(vector_field))","hasattr(start_point, '_coord_sys')","hasattr(coord_sys, 'coord_functions')","hasattr(vector_field, 'rcall')"],"returns_expr":"(equations, init_cond)","pure":false,"effects":{"effect_type":"reads_state","reads":["coord_sys.coord_functions","start_point._coord_sys","vector_field.rcall"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def intcurve_diffequ(vector_field, param, start_point, coord_sys=None):
     r"""Return the differential equation for an integral curve of the field.
 
@@ -2984,16 +3618,22 @@ def intcurve_diffequ(vector_field, param, start_point, coord_sys=None):
 # Helpers
 ###############################################################################
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dummyfy(arg), dummyfy produces the expected output) over Any ║
+# ║ Path(dummyfy(args, exprs), (d_args, d_exprs)) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (d_args, d_exprs)                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dummyfy : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 327fe7a9e00f2444  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3e855739423ccc99  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.dummyfy","kind":"function","src_hash":"5a44d2df17ac5407","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dummyfy(arg)","rhs":"dummyfy produces the expected output","over":{"base":"Any"},"name":"dummyfy_correct"},"guarantee":"dummyfy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.diffgeom.diffgeom.dummyfy_correct","statement":"Path(dummyfy(x), dummyfy produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"327fe7a9e00f2444"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.dummyfy","kind":"function","src_hash":"5a44d2df17ac5407","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dummyfy(args, exprs)","rhs":"(d_args, d_exprs)","over":{"base":"Any"},"name":"dummyfy_correct"},"guarantee":"returns (d_args, d_exprs)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.diffgeom.diffgeom.dummyfy_correct","statement":"Path(dummyfy(x), returns (d_args, d_exprs))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3e855739423ccc99","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(d_args, d_exprs)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def dummyfy(args, exprs):
     # TODO Is this a good idea?
     d_args = Matrix([s.as_dummy() for s in args])
@@ -3005,7 +3645,15 @@ def dummyfy(args, exprs):
 # Helpers
 ###############################################################################
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(contravariant_order(exp), return the contravariant order of an expression) over {Any | isinstance(expr, Add) and isinstance(expr, Mul) and isinstance(expr, Pow)} ║
+# ║ Path(contravariant_order(expr, _strict), <unspecified:contravariant_order>) over {Any | isinstance(expr, Add) and isinstance(expr, Mul) and isinstance(expr, Pow) and hasattr(expr, 'args') and hasattr(expr, 'base') and hasattr(expr, 'exp') and hasattr(expr, 'atoms')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   requires: hasattr(expr, 'base')                          ║
+# ║   requires: hasattr(expr, 'exp')                           ║
+# ║   fiber[Add]: isinstance(expr, Add) => orders[0]           ║
+# ║   fiber[Mul]: isinstance(expr, Mul) => 0 if not not_z...   ║
+# ║   fiber[Pow]: isinstance(expr, Pow) => 0                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ contravariant_order : {Any | isinstance(expr, Add) an...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -3021,9 +3669,12 @@ def dummyfy(args, exprs):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓11 ?5 ✗1 VCs | 6.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 9464b9d2...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.contravariant_order","kind":"function","src_hash":"ea5cecdd7ff62ba2","in":{"base":"Any","pred":"isinstance(expr, Add) and isinstance(expr, Mul) and isinstance(expr, Pow)"},"out":{"base":"Any"},"spec":{"lhs":"contravariant_order(exp)","rhs":"return the contravariant order of an expression","over":{"base":"Any","pred":"isinstance(expr, Add) and isinstance(expr, Mul) and isinstance(expr, Pow)"},"name":"contravariant_order_correct"},"guarantee":"return the contravariant order of an expression","fibers":[{"name":"Add","pred":"isinstance(expr, Add)","path":{"lhs":"contravariant_order(x)","rhs":"return the contravariant order of an expression","over":{"base":"Add","pred":"isinstance(expr, Add)"},"name":"contravariant_order_Add_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.diffgeom.diffgeom.contravariant_order_Add_correct","statement":"contravariant_order satisfies spec on Add inputs"},"trust":"LIBRARY"},{"name":"Mul","pred":"isinstance(expr, Mul)","path":{"lhs":"contravariant_order(x)","rhs":"return the contravariant order of an expression","over":{"base":"Mul","pred":"isinstance(expr, Mul)"},"name":"contravariant_order_Mul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.diffgeom.diffgeom.contravariant_order_Mul_correct","statement":"contravariant_order satisfies spec on Mul inputs"},"trust":"LIBRARY"},{"name":"Pow","pred":"isinstance(expr, Pow)","path":{"lhs":"contravariant_order(x)","rhs":"return the contravariant order of an expression","over":{"base":"Pow","pred":"isinstance(expr, Pow)"},"name":"contravariant_order_Pow_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.diffgeom.diffgeom.contravariant_order_Pow_correct","statement":"contravariant_order satisfies spec on Pow inputs"},"trust":"LIBRARY"},{"name":"BaseVectorField","pred":"isinstance(expr, BaseVectorField)","path":{"lhs":"contravariant_order(x)","rhs":"return the contravariant order of an expression","over":{"base":"BaseVectorField","pred":"isinstance(expr, BaseVectorField)"},"name":"contravariant_order_BaseVectorField_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.diffgeom.diffgeom.contravariant_order_BaseVectorField_correct","statement":"contravariant_order satisfies spec on BaseVectorField inputs"},"trust":"LIBRARY"},{"name":"TensorProduct","pred":"isinstance(expr, TensorProduct)","path":{"lhs":"contravariant_order(x)","rhs":"return the contravariant order of an expression","over":{"base":"TensorProduct","pred":"isinstance(expr, TensorProduct)"},"name":"contravariant_order_TensorProduct_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.diffgeom.diffgeom.contravariant_order_TensorProduct_correct","statement":"contravariant_order satisfies spec on TensorProduct inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":5,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"9464b9d2859709d3"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.contravariant_order","kind":"function","src_hash":"ea5cecdd7ff62ba2","in":{"base":"Any","pred":"isinstance(expr, Add) and isinstance(expr, Mul) and isinstance(expr, Pow) and hasattr(expr, 'args') and hasattr(expr, 'base') and hasattr(expr, 'exp') and hasattr(expr, 'atoms')"},"out":{"base":"Any"},"spec":{"lhs":"contravariant_order(expr, _strict)","rhs":"<unspecified:contravariant_order>","over":{"base":"Any","pred":"isinstance(expr, Add) and isinstance(expr, Mul) and isinstance(expr, Pow) and hasattr(expr, 'args') and hasattr(expr, 'base') and hasattr(expr, 'exp') and hasattr(expr, 'atoms')"},"name":"contravariant_order_correct"},"guarantee":"7-fiber decomposition","fibers":[{"name":"Add","pred":"isinstance(expr, Add)","path":{"lhs":"contravariant_order(x)","rhs":"7-fiber decomposition","over":{"base":"Add","pred":"isinstance(expr, Add)"},"name":"contravariant_order_Add_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.diffgeom.diffgeom.contravariant_order_Add_correct","statement":"contravariant_order satisfies spec on Add inputs"},"trust":"LIBRARY"},{"name":"Mul","pred":"isinstance(expr, Mul)","path":{"lhs":"contravariant_order(x)","rhs":"7-fiber decomposition","over":{"base":"Mul","pred":"isinstance(expr, Mul)"},"name":"contravariant_order_Mul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.diffgeom.diffgeom.contravariant_order_Mul_correct","statement":"contravariant_order satisfies spec on Mul inputs"},"trust":"LIBRARY"},{"name":"Pow","pred":"isinstance(expr, Pow)","path":{"lhs":"contravariant_order(x)","rhs":"7-fiber decomposition","over":{"base":"Pow","pred":"isinstance(expr, Pow)"},"name":"contravariant_order_Pow_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.diffgeom.diffgeom.contravariant_order_Pow_correct","statement":"contravariant_order satisfies spec on Pow inputs"},"trust":"LIBRARY"},{"name":"BaseVectorField","pred":"isinstance(expr, BaseVectorField)","path":{"lhs":"contravariant_order(x)","rhs":"7-fiber decomposition","over":{"base":"BaseVectorField","pred":"isinstance(expr, BaseVectorField)"},"name":"contravariant_order_BaseVectorField_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.diffgeom.diffgeom.contravariant_order_BaseVectorField_correct","statement":"contravariant_order satisfies spec on BaseVectorField inputs"},"trust":"LIBRARY"},{"name":"TensorProduct","pred":"isinstance(expr, TensorProduct)","path":{"lhs":"contravariant_order(x)","rhs":"7-fiber decomposition","over":{"base":"TensorProduct","pred":"isinstance(expr, TensorProduct)"},"name":"contravariant_order_TensorProduct_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.diffgeom.diffgeom.contravariant_order_TensorProduct_correct","statement":"contravariant_order satisfies spec on TensorProduct inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":5,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"9464b9d2859709d3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'args')","hasattr(expr, 'base')","hasattr(expr, 'exp')","hasattr(expr, 'atoms')"],"fibers":[{"name":"Add","guard":"isinstance(expr, Add)","ensures":["result == orders[0]"],"decidability":"structural","returns_expr":"orders[0]"},{"name":"Mul","guard":"isinstance(expr, Mul)","ensures":["result == 0 if not not_zero else not_zero[0]"],"decidability":"structural","returns_expr":"0 if not not_zero else not_zero[0]"},{"name":"Pow","guard":"isinstance(expr, Pow)","ensures":["result == 0"],"decidability":"structural","returns_expr":"0"},{"name":"BaseVectorField","guard":"isinstance(expr, BaseVectorField)","ensures":["result == 1"],"decidability":"structural","returns_expr":"1"},{"name":"TensorProduct","guard":"isinstance(expr, TensorProduct)","ensures":["result == sum((contravariant_order(a) for a in expr.args))"],"decidability":"structural","returns_expr":"sum((contravariant_order(a) for a in expr.args))"},{"name":"case_5","guard":"not _strict or expr.atoms(BaseScalarField)","ensures":["result == 0"],"decidability":"library","returns_expr":"0"},{"name":"Add","guard":"not (isinstance(expr, Add)) and not (isinstance(expr, Mul)) and not (isinstance(expr, Pow)) and not (isinstance(expr, BaseVectorField)) and not (isinstance(expr, TensorProduct)) and not (not _strict or expr.atoms(BaseScalarField))","ensures":["result == -1"],"decidability":"structural","returns_expr":"-1"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","expr.atoms","expr.base","expr.exp"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":17,"n_verified":11,"n_assumed":5,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":6.4,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(expr, Pow)', 'isinstance(expr, TensorProduct)', 'len(not_zero) > 1', 'isinstance(expr, Add)', 'len(set(orders)) != 1', 'isinstance(expr, BaseVectorField)', 'isinstance(expr, Mul)'}, fibers={'TensorProduct', 'BaseVectorField', 'Pow', 'Mul', 'Add'})"]}}
 def contravariant_order(expr, _strict=False):
     """Return the contravariant order of an expression.
 
@@ -3071,7 +3722,15 @@ def contravariant_order(expr, _strict=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(covariant_order(exp), return the covariant order of an expression) over {Any | isinstance(expr, Add) and isinstance(expr, Mul) and isinstance(expr, Pow)} ║
+# ║ Path(covariant_order(expr, _strict), <unspecified:covariant_order>) over {Any | isinstance(expr, Add) and isinstance(expr, Mul) and isinstance(expr, Pow) and hasattr(expr, 'args') and hasattr(expr, 'base') and hasattr(expr, 'exp') and hasattr(expr, 'atoms')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   requires: hasattr(expr, 'base')                          ║
+# ║   requires: hasattr(expr, 'exp')                           ║
+# ║   fiber[Add]: isinstance(expr, Add) => orders[0]           ║
+# ║   fiber[Mul]: isinstance(expr, Mul) => 0 if not not_z...   ║
+# ║   fiber[Pow]: isinstance(expr, Pow) => 0                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ covariant_order : {Any | isinstance(expr, Add) and is...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -3087,9 +3746,12 @@ def contravariant_order(expr, _strict=False):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓11 ?5 ✗1 VCs | 6.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 3a8fffde...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.covariant_order","kind":"function","src_hash":"aec59f112146924a","in":{"base":"Any","pred":"isinstance(expr, Add) and isinstance(expr, Mul) and isinstance(expr, Pow)"},"out":{"base":"Any"},"spec":{"lhs":"covariant_order(exp)","rhs":"return the covariant order of an expression","over":{"base":"Any","pred":"isinstance(expr, Add) and isinstance(expr, Mul) and isinstance(expr, Pow)"},"name":"covariant_order_correct"},"guarantee":"return the covariant order of an expression","fibers":[{"name":"Add","pred":"isinstance(expr, Add)","path":{"lhs":"covariant_order(x)","rhs":"return the covariant order of an expression","over":{"base":"Add","pred":"isinstance(expr, Add)"},"name":"covariant_order_Add_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.diffgeom.diffgeom.covariant_order_Add_correct","statement":"covariant_order satisfies spec on Add inputs"},"trust":"LIBRARY"},{"name":"Mul","pred":"isinstance(expr, Mul)","path":{"lhs":"covariant_order(x)","rhs":"return the covariant order of an expression","over":{"base":"Mul","pred":"isinstance(expr, Mul)"},"name":"covariant_order_Mul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.diffgeom.diffgeom.covariant_order_Mul_correct","statement":"covariant_order satisfies spec on Mul inputs"},"trust":"LIBRARY"},{"name":"Pow","pred":"isinstance(expr, Pow)","path":{"lhs":"covariant_order(x)","rhs":"return the covariant order of an expression","over":{"base":"Pow","pred":"isinstance(expr, Pow)"},"name":"covariant_order_Pow_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.diffgeom.diffgeom.covariant_order_Pow_correct","statement":"covariant_order satisfies spec on Pow inputs"},"trust":"LIBRARY"},{"name":"Differential","pred":"isinstance(expr, Differential)","path":{"lhs":"covariant_order(x)","rhs":"return the covariant order of an expression","over":{"base":"Differential","pred":"isinstance(expr, Differential)"},"name":"covariant_order_Differential_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.diffgeom.diffgeom.covariant_order_Differential_correct","statement":"covariant_order satisfies spec on Differential inputs"},"trust":"LIBRARY"},{"name":"TensorProduct","pred":"isinstance(expr, TensorProduct)","path":{"lhs":"covariant_order(x)","rhs":"return the covariant order of an expression","over":{"base":"TensorProduct","pred":"isinstance(expr, TensorProduct)"},"name":"covariant_order_TensorProduct_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.diffgeom.diffgeom.covariant_order_TensorProduct_correct","statement":"covariant_order satisfies spec on TensorProduct inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":5,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"3a8fffde5548343f"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.covariant_order","kind":"function","src_hash":"aec59f112146924a","in":{"base":"Any","pred":"isinstance(expr, Add) and isinstance(expr, Mul) and isinstance(expr, Pow) and hasattr(expr, 'args') and hasattr(expr, 'base') and hasattr(expr, 'exp') and hasattr(expr, 'atoms')"},"out":{"base":"Any"},"spec":{"lhs":"covariant_order(expr, _strict)","rhs":"<unspecified:covariant_order>","over":{"base":"Any","pred":"isinstance(expr, Add) and isinstance(expr, Mul) and isinstance(expr, Pow) and hasattr(expr, 'args') and hasattr(expr, 'base') and hasattr(expr, 'exp') and hasattr(expr, 'atoms')"},"name":"covariant_order_correct"},"guarantee":"7-fiber decomposition","fibers":[{"name":"Add","pred":"isinstance(expr, Add)","path":{"lhs":"covariant_order(x)","rhs":"7-fiber decomposition","over":{"base":"Add","pred":"isinstance(expr, Add)"},"name":"covariant_order_Add_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.diffgeom.diffgeom.covariant_order_Add_correct","statement":"covariant_order satisfies spec on Add inputs"},"trust":"LIBRARY"},{"name":"Mul","pred":"isinstance(expr, Mul)","path":{"lhs":"covariant_order(x)","rhs":"7-fiber decomposition","over":{"base":"Mul","pred":"isinstance(expr, Mul)"},"name":"covariant_order_Mul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.diffgeom.diffgeom.covariant_order_Mul_correct","statement":"covariant_order satisfies spec on Mul inputs"},"trust":"LIBRARY"},{"name":"Pow","pred":"isinstance(expr, Pow)","path":{"lhs":"covariant_order(x)","rhs":"7-fiber decomposition","over":{"base":"Pow","pred":"isinstance(expr, Pow)"},"name":"covariant_order_Pow_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.diffgeom.diffgeom.covariant_order_Pow_correct","statement":"covariant_order satisfies spec on Pow inputs"},"trust":"LIBRARY"},{"name":"Differential","pred":"isinstance(expr, Differential)","path":{"lhs":"covariant_order(x)","rhs":"7-fiber decomposition","over":{"base":"Differential","pred":"isinstance(expr, Differential)"},"name":"covariant_order_Differential_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.diffgeom.diffgeom.covariant_order_Differential_correct","statement":"covariant_order satisfies spec on Differential inputs"},"trust":"LIBRARY"},{"name":"TensorProduct","pred":"isinstance(expr, TensorProduct)","path":{"lhs":"covariant_order(x)","rhs":"7-fiber decomposition","over":{"base":"TensorProduct","pred":"isinstance(expr, TensorProduct)"},"name":"covariant_order_TensorProduct_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.diffgeom.diffgeom.covariant_order_TensorProduct_correct","statement":"covariant_order satisfies spec on TensorProduct inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":5,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"3a8fffde5548343f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'args')","hasattr(expr, 'base')","hasattr(expr, 'exp')","hasattr(expr, 'atoms')"],"fibers":[{"name":"Add","guard":"isinstance(expr, Add)","ensures":["result == orders[0]"],"decidability":"structural","returns_expr":"orders[0]"},{"name":"Mul","guard":"isinstance(expr, Mul)","ensures":["result == 0 if not not_zero else not_zero[0]"],"decidability":"structural","returns_expr":"0 if not not_zero else not_zero[0]"},{"name":"Pow","guard":"isinstance(expr, Pow)","ensures":["result == 0"],"decidability":"structural","returns_expr":"0"},{"name":"Differential","guard":"isinstance(expr, Differential)","ensures":["result == covariant_order(*expr.args) + 1"],"decidability":"structural","returns_expr":"covariant_order(*expr.args) + 1"},{"name":"TensorProduct","guard":"isinstance(expr, TensorProduct)","ensures":["result == sum((covariant_order(a) for a in expr.args))"],"decidability":"structural","returns_expr":"sum((covariant_order(a) for a in expr.args))"},{"name":"case_5","guard":"not _strict or expr.atoms(BaseScalarField)","ensures":["result == 0"],"decidability":"library","returns_expr":"0"},{"name":"Add","guard":"not (isinstance(expr, Add)) and not (isinstance(expr, Mul)) and not (isinstance(expr, Pow)) and not (isinstance(expr, Differential)) and not (isinstance(expr, TensorProduct)) and not (not _strict or expr.atoms(BaseScalarField))","ensures":["result == -1"],"decidability":"structural","returns_expr":"-1"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","expr.atoms","expr.base","expr.exp"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":17,"n_verified":11,"n_assumed":5,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":6.1,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(expr, Pow)', 'isinstance(expr, TensorProduct)', 'len(not_zero) > 1', 'isinstance(expr, Add)', 'len(set(orders)) != 1', 'isinstance(expr, Mul)', 'isinstance(expr, Differential)'}, fibers={'TensorProduct', 'Pow', 'Differential', 'Mul', 'Add'})"]}}
 def covariant_order(expr, _strict=False):
     """Return the covariant order of an expression.
 
@@ -3140,16 +3802,25 @@ def covariant_order(expr, _strict=False):
 # Coordinate transformation functions
 ###############################################################################
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(vectors_in_basis(exp), id) over Any                   ║
+# ║ Path(vectors_in_basis(expr, to_sys), id) over {Any | hasattr(expr, 'subs') and hasattr(expr, 'atoms') and hasattr(to_sys, 'base_vectors')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ vectors_in_basis : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'subs')                          ║
+# ║   requires: hasattr(expr, 'atoms')                         ║
+# ║   requires: hasattr(to_sys, 'base_vectors')                ║
+# ║   returns:  expr.subs(list(zip(vectors, new_vectors)))     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ vectors_in_basis : {Any | hasattr(expr, 'subs') and h...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 1b4dcba4ee0b2926   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.vectors_in_basis","kind":"function","src_hash":"de1b59a4dcf9e8bb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"vectors_in_basis(exp)","rhs":"transform all base vectors in base vectors of a specified coord basis. while the new base vectors are in the new coordinate system basis, any coefficients are kept in the old system","over":{"base":"Any"},"name":"vectors_in_basis_correct","kind":"composition"},"guarantee":"transform all base vectors in base vectors of a specified coord basis. while the new base vectors are in the new coordinate system basis, any coefficients are kept in the old system","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"subs","by":"library_axiom"},{"fn":"list","by":"library_axiom"},{"fn":"zip","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1b4dcba4ee0b2926"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.vectors_in_basis","kind":"function","src_hash":"de1b59a4dcf9e8bb","in":{"base":"Any","pred":"hasattr(expr, 'subs') and hasattr(expr, 'atoms') and hasattr(to_sys, 'base_vectors')"},"out":{"base":"Any"},"spec":{"lhs":"vectors_in_basis(expr, to_sys)","rhs":"expr.subs(list(zip(vectors, new_vectors)))","over":{"base":"Any","pred":"hasattr(expr, 'subs') and hasattr(expr, 'atoms') and hasattr(to_sys, 'base_vectors')"},"name":"vectors_in_basis_correct","kind":"composition"},"guarantee":"returns expr.subs(list(zip(vectors, new_vectors)))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"subs","by":"library_axiom"},{"fn":"list","by":"library_axiom"},{"fn":"zip","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1b4dcba4ee0b2926","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'subs')","hasattr(expr, 'atoms')","hasattr(to_sys, 'base_vectors')"],"returns_expr":"expr.subs(list(zip(vectors, new_vectors)))","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def vectors_in_basis(expr, to_sys):
     """Transform all base vectors in base vectors of a specified coord basis.
     While the new base vectors are in the new coordinate system basis, any
@@ -3181,16 +3852,26 @@ def vectors_in_basis(expr, to_sys):
 # Coordinate-dependent functions
 ###############################################################################
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(twoform_to_matrix(exp), return the matrix representing the twoform) over Any ║
+# ║ Path(twoform_to_matrix(expr), Matrix(matrix_content)) over {Any | not (covariant_order(expr) != 2 or contravariant_order(expr)) and not (len(coord_sys) != 1) and hasattr(expr, 'expand') and hasattr(expr, 'rcall') and len(coord_sys) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ twoform_to_matrix : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (covariant_order(expr) != 2 or contra...   ║
+# ║   requires: not (len(coord_sys) != 1)                      ║
+# ║   requires: hasattr(expr, 'expand')                        ║
+# ║   ensures:  len(coord_sys) == old_len_coord_sys - 1        ║
+# ║   returns:  Matrix(matrix_content)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ twoform_to_matrix : {Any | not (covariant_order(expr)...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 52bcb338e8eb7905  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 296f0a67912d6654  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.twoform_to_matrix","kind":"function","src_hash":"72c6eeb604481883","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"twoform_to_matrix(exp)","rhs":"return the matrix representing the twoform","over":{"base":"Any"},"name":"twoform_to_matrix_correct"},"guarantee":"return the matrix representing the twoform","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.diffgeom.diffgeom.twoform_to_matrix_correct","statement":"Path(twoform_to_matrix(x), return the matrix representing the twoform)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"52bcb338e8eb7905"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.twoform_to_matrix","kind":"function","src_hash":"72c6eeb604481883","in":{"base":"Any","pred":"not (covariant_order(expr) != 2 or contravariant_order(expr)) and not (len(coord_sys) != 1) and hasattr(expr, 'expand') and hasattr(expr, 'rcall') and len(coord_sys) > 0"},"out":{"base":"Any","pred":"result satisfies: result == (Matrix(matrix_content))"},"spec":{"lhs":"twoform_to_matrix(expr)","rhs":"Matrix(matrix_content)","over":{"base":"Any","pred":"not (covariant_order(expr) != 2 or contravariant_order(expr)) and not (len(coord_sys) != 1) and hasattr(expr, 'expand') and hasattr(expr, 'rcall') and len(coord_sys) > 0"},"name":"twoform_to_matrix_correct"},"guarantee":"returns Matrix(matrix_content); len(coord_sys) == old_len_coord_sys - 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.diffgeom.diffgeom.twoform_to_matrix_correct","statement":"Path(twoform_to_matrix(x), returns Matrix(matrix_content); len(coord_sys) == old_len_coord_sys - 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"296f0a67912d6654","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (covariant_order(expr) != 2 or contravariant_order(expr))","not (len(coord_sys) != 1)","hasattr(expr, 'expand')","hasattr(expr, 'rcall')","len(coord_sys) > 0"],"ensures":["len(coord_sys) == old_len_coord_sys - 1"],"returns_expr":"Matrix(matrix_content)","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.expand","expr.rcall"],"calls_mutating":["coord_sys.pop"],"raises":["ValueError"]},"state_contract":{"modifies":["coord_sys.*"],"old_bindings":{"old_len_coord_sys":"len(coord_sys)"},"pre_requires":["len(coord_sys) > 0"],"post_ensures":["len(coord_sys) == old_len_coord_sys - 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def twoform_to_matrix(expr):
     """Return the matrix representing the twoform.
 
@@ -3235,16 +3916,23 @@ def twoform_to_matrix(expr):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(metric_to_Christoffel_1st(exp), return the nested list of christoffel symbols for the given metric. this returns the christoffel symbol of first kind that represents the levi-civita connection for the given metric) over Any ║
+# ║ Path(metric_to_Christoffel_1st(expr), ImmutableDenseNDimArray(christoffel)) over {Any | matrix.is_symmetric()} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ metric_to_Christoffel_1st : Any → Any                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: matrix.is_symmetric()                          ║
+# ║   returns:  ImmutableDenseNDimArray(christoffel)           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ metric_to_Christoffel_1st : {Any | matrix.is_symmetri...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aa6e3943b055f07c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | afb5aebb82072fc4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.metric_to_Christoffel_1st","kind":"function","src_hash":"3edfba6d6b528c52","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"metric_to_Christoffel_1st(exp)","rhs":"return the nested list of christoffel symbols for the given metric. this returns the christoffel symbol of first kind that represents the levi-civita connection for the given metric","over":{"base":"Any"},"name":"metric_to_Christoffel_1st_correct"},"guarantee":"return the nested list of christoffel symbols for the given metric. this returns the christoffel symbol of first kind that represents the levi-civita connection for the given metric","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.diffgeom.diffgeom.metric_to_Christoffel_1st_correct","statement":"Path(metric_to_Christoffel_1st(x), return the nested list of christoffel symbols for the given metric. this returns the christoffel symbol of first kind that represents the levi-civita connection for the given metric)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aa6e3943b055f07c"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.metric_to_Christoffel_1st","kind":"function","src_hash":"3edfba6d6b528c52","in":{"base":"Any","pred":"matrix.is_symmetric()"},"out":{"base":"Any"},"spec":{"lhs":"metric_to_Christoffel_1st(expr)","rhs":"ImmutableDenseNDimArray(christoffel)","over":{"base":"Any","pred":"matrix.is_symmetric()"},"name":"metric_to_Christoffel_1st_correct"},"guarantee":"returns ImmutableDenseNDimArray(christoffel)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.diffgeom.diffgeom.metric_to_Christoffel_1st_correct","statement":"Path(metric_to_Christoffel_1st(x), returns ImmutableDenseNDimArray(christoffel))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"afb5aebb82072fc4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["matrix.is_symmetric()"],"returns_expr":"ImmutableDenseNDimArray(christoffel)","pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def metric_to_Christoffel_1st(expr):
     """Return the nested list of Christoffel symbols for the given metric.
     This returns the Christoffel symbol of first kind that represents the
@@ -3278,16 +3966,22 @@ def metric_to_Christoffel_1st(expr):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(metric_to_Christoffel_2nd(exp), return the nested list of christoffel symbols for the given metric. this returns the christoffel symbol of second kind that represents the levi-civita connection for the given metric) over Any ║
+# ║ Path(metric_to_Christoffel_2nd(expr), ImmutableDenseNDimArray(christoffel)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  ImmutableDenseNDimArray(christoffel)           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ metric_to_Christoffel_2nd : Any → Any                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f854e4e15dcf2111  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bc250f36776dfbf6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.metric_to_Christoffel_2nd","kind":"function","src_hash":"24c437d396da80bf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"metric_to_Christoffel_2nd(exp)","rhs":"return the nested list of christoffel symbols for the given metric. this returns the christoffel symbol of second kind that represents the levi-civita connection for the given metric","over":{"base":"Any"},"name":"metric_to_Christoffel_2nd_correct"},"guarantee":"return the nested list of christoffel symbols for the given metric. this returns the christoffel symbol of second kind that represents the levi-civita connection for the given metric","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.diffgeom.diffgeom.metric_to_Christoffel_2nd_correct","statement":"Path(metric_to_Christoffel_2nd(x), return the nested list of christoffel symbols for the given metric. this returns the christoffel symbol of second kind that represents the levi-civita connection for the given metric)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f854e4e15dcf2111"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.metric_to_Christoffel_2nd","kind":"function","src_hash":"24c437d396da80bf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"metric_to_Christoffel_2nd(expr)","rhs":"ImmutableDenseNDimArray(christoffel)","over":{"base":"Any"},"name":"metric_to_Christoffel_2nd_correct"},"guarantee":"returns ImmutableDenseNDimArray(christoffel)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.diffgeom.diffgeom.metric_to_Christoffel_2nd_correct","statement":"Path(metric_to_Christoffel_2nd(x), returns ImmutableDenseNDimArray(christoffel))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bc250f36776dfbf6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"ImmutableDenseNDimArray(christoffel)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def metric_to_Christoffel_2nd(expr):
     """Return the nested list of Christoffel symbols for the given metric.
     This returns the Christoffel symbol of second kind that represents the
@@ -3328,16 +4022,22 @@ def metric_to_Christoffel_2nd(expr):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(metric_to_Riemann_components(exp), return the components of the riemann tensor expressed in a given basis) over Any ║
+# ║ Path(metric_to_Riemann_components(expr), ImmutableDenseNDimArray(riemann)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  ImmutableDenseNDimArray(riemann)               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ metric_to_Riemann_components : Any → Any                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2093e3492a70c844  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b9e416634eac93ae  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.metric_to_Riemann_components","kind":"function","src_hash":"37c33477b31315bc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"metric_to_Riemann_components(exp)","rhs":"return the components of the riemann tensor expressed in a given basis","over":{"base":"Any"},"name":"metric_to_Riemann_components_correct"},"guarantee":"return the components of the riemann tensor expressed in a given basis","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.diffgeom.diffgeom.metric_to_Riemann_components_correct","statement":"Path(metric_to_Riemann_components(x), return the components of the riemann tensor expressed in a given basis)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2093e3492a70c844"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.metric_to_Riemann_components","kind":"function","src_hash":"37c33477b31315bc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"metric_to_Riemann_components(expr)","rhs":"ImmutableDenseNDimArray(riemann)","over":{"base":"Any"},"name":"metric_to_Riemann_components_correct"},"guarantee":"returns ImmutableDenseNDimArray(riemann)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.diffgeom.diffgeom.metric_to_Riemann_components_correct","statement":"Path(metric_to_Riemann_components(x), returns ImmutableDenseNDimArray(riemann))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b9e416634eac93ae","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"ImmutableDenseNDimArray(riemann)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def metric_to_Riemann_components(expr):
     """Return the components of the Riemann tensor expressed in a given basis.
 
@@ -3393,16 +4093,22 @@ def metric_to_Riemann_components(expr):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(metric_to_Ricci_components(exp), return the components of the ricci tensor expressed in a given basis) over Any ║
+# ║ Path(metric_to_Ricci_components(expr), ImmutableDenseNDimArray(ricci)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  ImmutableDenseNDimArray(ricci)                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ metric_to_Ricci_components : Any → Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 12d3da387084547f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 565809dd0ca1ddc5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.metric_to_Ricci_components","kind":"function","src_hash":"750e57e34dba3920","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"metric_to_Ricci_components(exp)","rhs":"return the components of the ricci tensor expressed in a given basis","over":{"base":"Any"},"name":"metric_to_Ricci_components_correct"},"guarantee":"return the components of the ricci tensor expressed in a given basis","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.diffgeom.diffgeom.metric_to_Ricci_components_correct","statement":"Path(metric_to_Ricci_components(x), return the components of the ricci tensor expressed in a given basis)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"12d3da387084547f"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom.metric_to_Ricci_components","kind":"function","src_hash":"750e57e34dba3920","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"metric_to_Ricci_components(expr)","rhs":"ImmutableDenseNDimArray(ricci)","over":{"base":"Any"},"name":"metric_to_Ricci_components_correct"},"guarantee":"returns ImmutableDenseNDimArray(ricci)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.diffgeom.diffgeom.metric_to_Ricci_components_correct","statement":"Path(metric_to_Ricci_components(x), returns ImmutableDenseNDimArray(ricci))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"565809dd0ca1ddc5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"ImmutableDenseNDimArray(ricci)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def metric_to_Ricci_components(expr):
 
     """Return the components of the Ricci tensor expressed in a given basis.
@@ -3444,44 +4150,61 @@ def metric_to_Ricci_components(expr):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a _deprecated_container instance) preserved by _deprecated_container(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ _deprecated_container : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2f9cb25d6746302c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom._deprecated_container","kind":"class","src_hash":"61299a40f76ee64f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_deprecated_container(*args)","rhs":"correctly constructs a _deprecated_container instance","over":{"base":"Any"},"name":"_deprecated_container_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a _deprecated_container instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'message')","kind":"class","induction":"structural on message"}],"methods_preserving":["__init__","warn","__iter__","__getitem__","__contains__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2f9cb25d6746302c"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom._deprecated_container","kind":"class","src_hash":"61299a40f76ee64f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_deprecated_container(*args)","rhs":"correctly constructs a _deprecated_container instance","over":{"base":"Any"},"name":"_deprecated_container_class_invariant","kind":"invariant"},"guarantee":"preserves 1 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'message')","kind":"class","induction":"structural on message"}],"methods_preserving":["__init__","warn","__iter__","__getitem__","__contains__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2f9cb25d6746302c","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, 'message')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function _deprecated_container not found in source"]}}
 class _deprecated_container:
     # This class gives deprecation warning.
     # When deprecated features are completely deleted, this should be removed as well.
     # See https://github.com/sympy/sympy/pull/19368
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(mes), initializes the instance correctly) over Any ║
+# ║ Path(__init__(message, data), self.message == message) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  self.message == message                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : Any → {Any | result satisfies: self.messag...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | afc0799d56f7d864           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom._deprecated_container.__init__","kind":"method","src_hash":"aa44278fb3af91ee","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(mes)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"afc0799d56f7d864"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom._deprecated_container.__init__","kind":"method","src_hash":"aa44278fb3af91ee","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: self.message == message"},"spec":{"lhs":"__init__(message, data)","rhs":"self.message == message","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"self.message == message","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"afc0799d56f7d864","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["self.message == message"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, message, data):
         super().__init__(data)
         self.message = message
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(warn(), warn produces the expected output) over Any   ║
+# ║ Path(warn(), <unspecified:warn>) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ warn : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 67bd2519c58caac1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom._deprecated_container.warn","kind":"method","src_hash":"b7b361301105690c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"warn()","rhs":"warn produces the expected output","over":{"base":"Any"},"name":"warn_correct"},"guarantee":"warn produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.diffgeom.diffgeom._deprecated_container.warn_correct","statement":"Path(warn(x), warn produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"67bd2519c58caac1"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom._deprecated_container.warn","kind":"method","src_hash":"b7b361301105690c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"warn()","rhs":"<unspecified:warn>","over":{"base":"Any"},"name":"warn_correct"},"guarantee":"warn produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.diffgeom.diffgeom._deprecated_container.warn_correct","statement":"Path(warn(x), warn produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"67bd2519c58caac1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.message"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def warn(self):
         sympy_deprecation_warning(
             self.message,
@@ -3491,77 +4214,109 @@ class _deprecated_container:
         )
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__iter__(), yields all elements in order) over Any    ║
+# ║ Path(__iter__(), super().__iter__()) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  super().__iter__()                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __iter__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 915dd41a53ef0567           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom._deprecated_container.__iter__","kind":"method","src_hash":"a04ce7c2f64206d8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__iter__()","rhs":"yields all elements in order","over":{"base":"Any"},"name":"__iter___correct"},"guarantee":"yields all elements in order","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"915dd41a53ef0567"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom._deprecated_container.__iter__","kind":"method","src_hash":"a04ce7c2f64206d8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__iter__()","rhs":"super().__iter__()","over":{"base":"Any"},"name":"__iter___correct"},"guarantee":"returns super().__iter__()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"915dd41a53ef0567","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"super().__iter__()","pure":false,"effects":{"effect_type":"reads_state","reads":["self.warn"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __iter__(self):
         self.warn()
         return super().__iter__()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__getitem__(key), returns the element at the given index) over Any ║
+# ║ Path(__getitem__(key), super().__getitem__(key)) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  super().__getitem__(key)                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __getitem__ : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e915654b365e1d21           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom._deprecated_container.__getitem__","kind":"method","src_hash":"ffd84424dffc9eeb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getitem__(key)","rhs":"returns the element at the given index","over":{"base":"Any"},"name":"__getitem___correct"},"guarantee":"returns the element at the given index","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e915654b365e1d21"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom._deprecated_container.__getitem__","kind":"method","src_hash":"ffd84424dffc9eeb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getitem__(key)","rhs":"super().__getitem__(key)","over":{"base":"Any"},"name":"__getitem___correct"},"guarantee":"returns super().__getitem__(key)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e915654b365e1d21","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"super().__getitem__(key)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.warn"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __getitem__(self, key):
         self.warn()
         return super().__getitem__(key)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__contains__(key), correctly tests membership) over Any ║
+# ║ Path(__contains__(key), super().__contains__(key)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  super().__contains__(key)                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __contains__ : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 573062d8d5243332           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom._deprecated_container.__contains__","kind":"method","src_hash":"adbed0cb51416133","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__contains__(key)","rhs":"correctly tests membership","over":{"base":"Any"},"name":"__contains___correct"},"guarantee":"correctly tests membership","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"573062d8d5243332"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom._deprecated_container.__contains__","kind":"method","src_hash":"adbed0cb51416133","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__contains__(key)","rhs":"super().__contains__(key)","over":{"base":"Any"},"name":"__contains___correct"},"guarantee":"returns super().__contains__(key)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"573062d8d5243332","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"super().__contains__(key)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.warn"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __contains__(self, key):
         self.warn()
         return super().__contains__(key)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_deprecated_list(), correctly constructs a _deprecated_list instance) over Any ║
+# ║ Path(_deprecated_list(), isinstance(self, _deprecated_container) and isinstance(self, list)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _deprecated_list : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, _deprecated_container)        ║
+# ║   ensures:  isinstance(self, list)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _deprecated_list : Any → {Any | result satisfies: isi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d418a2a85057d564           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom._deprecated_list","kind":"class","src_hash":"a237d8953e7c6337","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_deprecated_list()","rhs":"correctly constructs a _deprecated_list instance","over":{"base":"Any"},"name":"_deprecated_list_correct"},"guarantee":"correctly constructs a _deprecated_list instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d418a2a85057d564"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom._deprecated_list","kind":"class","src_hash":"a237d8953e7c6337","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, _deprecated_container) and isinstance(self, list)"},"spec":{"lhs":"_deprecated_list()","rhs":"isinstance(self, _deprecated_container) and isinstance(self, list)","over":{"base":"Any"},"name":"_deprecated_list_correct"},"guarantee":"isinstance(self, _deprecated_container); isinstance(self, list)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d418a2a85057d564","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, _deprecated_container)","isinstance(self, list)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function _deprecated_list not found in source"]}}
 class _deprecated_list(_deprecated_container, list):
     pass
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_deprecated_dict(), correctly constructs a _deprecated_dict instance) over Any ║
+# ║ Path(_deprecated_dict(), isinstance(self, _deprecated_container) and isinstance(self, dict)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _deprecated_dict : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, _deprecated_container)        ║
+# ║   ensures:  isinstance(self, dict)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _deprecated_dict : Any → {Any | result satisfies: isi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | fb627538546bb16f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom._deprecated_dict","kind":"class","src_hash":"2757aaf374542a93","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_deprecated_dict()","rhs":"correctly constructs a _deprecated_dict instance","over":{"base":"Any"},"name":"_deprecated_dict_correct"},"guarantee":"correctly constructs a _deprecated_dict instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fb627538546bb16f"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.diffgeom._deprecated_dict","kind":"class","src_hash":"2757aaf374542a93","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, _deprecated_container) and isinstance(self, dict)"},"spec":{"lhs":"_deprecated_dict()","rhs":"isinstance(self, _deprecated_container) and isinstance(self, dict)","over":{"base":"Any"},"name":"_deprecated_dict_correct"},"guarantee":"isinstance(self, _deprecated_container); isinstance(self, dict)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fb627538546bb16f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, _deprecated_container)","isinstance(self, dict)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function _deprecated_dict not found in source"]}}
 class _deprecated_dict(_deprecated_container, dict):
     pass
 

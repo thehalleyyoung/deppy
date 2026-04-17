@@ -120,7 +120,15 @@ NULLSPACE_EXAMPLES = [
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_to_DM(A, ), convert the answer to domainmatrix) over {Any | isinstance(A, DomainMatrix) and isinstance(A, DDM) and isinstance(A, SDM)} ║
+# ║ Path(_to_DM(A, ans), <unspecified:_to_DM>) over {Any | isinstance(A, DomainMatrix) and isinstance(A, DDM) and isinstance(A, SDM) and hasattr(A, 'to_dense') and hasattr(A, 'shape') and hasattr(A, 'domain')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(A, 'to_dense')                         ║
+# ║   requires: hasattr(A, 'shape')                            ║
+# ║   requires: hasattr(A, 'domain')                           ║
+# ║   fiber[DomainMatrix]: isinstance(A, DomainMatrix) =>...   ║
+# ║   fiber[DDM]: isinstance(A, DDM) => DomainMatrix(list...   ║
+# ║   fiber[SDM]: isinstance(A, SDM) => DomainMatrix(dict...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _to_DM : {Any | isinstance(A, DomainMatrix) and isins...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -134,9 +142,12 @@ NULLSPACE_EXAMPLES = [
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓4 ?3 ✗1 VCs | 2.9ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 31160e80...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_nullspace._to_DM","kind":"function","src_hash":"e62ef7acff2afbcb","in":{"base":"Any","pred":"isinstance(A, DomainMatrix) and isinstance(A, DDM) and isinstance(A, SDM)"},"out":{"base":"Any","pred":"False"},"spec":{"lhs":"_to_DM(A, )","rhs":"convert the answer to domainmatrix","over":{"base":"Any","pred":"isinstance(A, DomainMatrix) and isinstance(A, DDM) and isinstance(A, SDM)"},"name":"_to_DM_correct"},"guarantee":"convert the answer to domainmatrix","fibers":[{"name":"DomainMatrix","pred":"isinstance(A, DomainMatrix)","path":{"lhs":"_to_DM(x)","rhs":"convert the answer to domainmatrix","over":{"base":"DomainMatrix","pred":"isinstance(A, DomainMatrix)"},"name":"_to_DM_DomainMatrix_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_nullspace._to_DM_DomainMatrix_correct","statement":"_to_DM satisfies spec on DomainMatrix inputs"},"trust":"LIBRARY"},{"name":"DDM","pred":"isinstance(A, DDM)","path":{"lhs":"_to_DM(x)","rhs":"convert the answer to domainmatrix","over":{"base":"DDM","pred":"isinstance(A, DDM)"},"name":"_to_DM_DDM_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_nullspace._to_DM_DDM_correct","statement":"_to_DM satisfies spec on DDM inputs"},"trust":"LIBRARY"},{"name":"SDM","pred":"isinstance(A, SDM)","path":{"lhs":"_to_DM(x)","rhs":"convert the answer to domainmatrix","over":{"base":"SDM","pred":"isinstance(A, SDM)"},"name":"_to_DM_SDM_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_nullspace._to_DM_SDM_correct","statement":"_to_DM satisfies spec on SDM inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":3,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"31160e80b9c4e3e8"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_nullspace._to_DM","kind":"function","src_hash":"e62ef7acff2afbcb","in":{"base":"Any","pred":"isinstance(A, DomainMatrix) and isinstance(A, DDM) and isinstance(A, SDM) and hasattr(A, 'to_dense') and hasattr(A, 'shape') and hasattr(A, 'domain')"},"out":{"base":"Any","pred":"False"},"spec":{"lhs":"_to_DM(A, ans)","rhs":"<unspecified:_to_DM>","over":{"base":"Any","pred":"isinstance(A, DomainMatrix) and isinstance(A, DDM) and isinstance(A, SDM) and hasattr(A, 'to_dense') and hasattr(A, 'shape') and hasattr(A, 'domain')"},"name":"_to_DM_correct"},"guarantee":"4-fiber decomposition","fibers":[{"name":"DomainMatrix","pred":"isinstance(A, DomainMatrix)","path":{"lhs":"_to_DM(x)","rhs":"4-fiber decomposition","over":{"base":"DomainMatrix","pred":"isinstance(A, DomainMatrix)"},"name":"_to_DM_DomainMatrix_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_nullspace._to_DM_DomainMatrix_correct","statement":"_to_DM satisfies spec on DomainMatrix inputs"},"trust":"LIBRARY"},{"name":"DDM","pred":"isinstance(A, DDM)","path":{"lhs":"_to_DM(x)","rhs":"4-fiber decomposition","over":{"base":"DDM","pred":"isinstance(A, DDM)"},"name":"_to_DM_DDM_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_nullspace._to_DM_DDM_correct","statement":"_to_DM satisfies spec on DDM inputs"},"trust":"LIBRARY"},{"name":"SDM","pred":"isinstance(A, SDM)","path":{"lhs":"_to_DM(x)","rhs":"4-fiber decomposition","over":{"base":"SDM","pred":"isinstance(A, SDM)"},"name":"_to_DM_SDM_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_nullspace._to_DM_SDM_correct","statement":"_to_DM satisfies spec on SDM inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":3,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"31160e80b9c4e3e8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(A, 'to_dense')","hasattr(A, 'shape')","hasattr(A, 'domain')"],"fibers":[{"name":"DomainMatrix","guard":"isinstance(A, DomainMatrix)","ensures":["result == A.to_dense()"],"decidability":"structural","returns_expr":"A.to_dense()"},{"name":"DDM","guard":"isinstance(A, DDM)","ensures":["result == DomainMatrix(list(A), A.shape, A.domain).to_dense()"],"decidability":"structural","returns_expr":"DomainMatrix(list(A), A.shape, A.domain).to_dense()"},{"name":"SDM","guard":"isinstance(A, SDM)","ensures":["result == DomainMatrix(dict(A), A.shape, A.domain).to_dense()"],"decidability":"structural","returns_expr":"DomainMatrix(dict(A), A.shape, A.domain).to_dense()"},{"name":"DomainMatrix","guard":"not (isinstance(A, DomainMatrix)) and not (isinstance(A, DDM)) and not (isinstance(A, SDM))","ensures":[],"decidability":"structural"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["A.domain","A.shape","A.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":8,"n_verified":4,"n_assumed":3,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.9,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(A, DomainMatrix)', 'isinstance(A, SDM)', 'isinstance(A, DDM)'}, fibers={'SDM', 'DomainMatrix', 'DDM'})"]}}
 def _to_DM(A, ans):
     """Convert the answer to DomainMatrix."""
     if isinstance(A, DomainMatrix):
@@ -150,16 +161,25 @@ def _to_DM(A, ans):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_divide_last(nul), normalize the nullspace by the rightmost non-zero entry) over Any ║
+# ║ Path(_divide_last(null), <unspecified:_divide_last>) over {Any | hasattr(null, 'is_zero_matrix') and hasattr(null, 'to_field') and hasattr(null, 'shape')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _divide_last : Any → {Any | False}                         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(null, 'is_zero_matrix')                ║
+# ║   requires: hasattr(null, 'to_field')                      ║
+# ║   requires: hasattr(null, 'shape')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _divide_last : {Any | hasattr(null, 'is_zero_matrix')...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f5896be1823a4f03  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_nullspace._divide_last","kind":"function","src_hash":"b914f302962fe140","in":{"base":"Any"},"out":{"base":"Any","pred":"False"},"spec":{"lhs":"_divide_last(nul)","rhs":"normalize the nullspace by the rightmost non-zero entry","over":{"base":"Any"},"name":"_divide_last_correct"},"guarantee":"normalize the nullspace by the rightmost non-zero entry","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_nullspace._divide_last_correct","statement":"Path(_divide_last(x), normalize the nullspace by the rightmost non-zero entry)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f5896be1823a4f03"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_nullspace._divide_last","kind":"function","src_hash":"b914f302962fe140","in":{"base":"Any","pred":"hasattr(null, 'is_zero_matrix') and hasattr(null, 'to_field') and hasattr(null, 'shape')"},"out":{"base":"Any","pred":"False"},"spec":{"lhs":"_divide_last(null)","rhs":"<unspecified:_divide_last>","over":{"base":"Any","pred":"hasattr(null, 'is_zero_matrix') and hasattr(null, 'to_field') and hasattr(null, 'shape')"},"name":"_divide_last_correct"},"guarantee":"normalize the nullspace by the rightmost non-zero entry","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_nullspace._divide_last_correct","statement":"Path(_divide_last(x), normalize the nullspace by the rightmost non-zero entry)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f5896be1823a4f03","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(null, 'is_zero_matrix')","hasattr(null, 'to_field')","hasattr(null, 'shape')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _divide_last(null):
     """Normalize the nullspace by the rightmost non-zero entry."""
     null = null.to_field()
@@ -180,16 +200,23 @@ def _divide_last(null):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_check_primitive(nul), check that the primitive of the answer matches) over Any ║
+# ║ Path(_check_primitive(null, null_ans), null_prim == null_ans) over {Any | hasattr(null, 'primitive')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _check_primitive : Any → {Any | null_prim == null_ans}     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(null, 'primitive')                     ║
+# ║   ensures:  null_prim == null_ans                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _check_primitive : {Any | hasattr(null, 'primitive')}...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bfb06bc9020c7db0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 82f2ef57ee889d3f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_nullspace._check_primitive","kind":"function","src_hash":"c5a2e0808a4857a3","in":{"base":"Any"},"out":{"base":"Any","pred":"null_prim == null_ans"},"spec":{"lhs":"_check_primitive(nul)","rhs":"check that the primitive of the answer matches","over":{"base":"Any"},"name":"_check_primitive_correct"},"guarantee":"check that the primitive of the answer matches","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_nullspace._check_primitive_correct","statement":"Path(_check_primitive(x), check that the primitive of the answer matches)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bfb06bc9020c7db0"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_nullspace._check_primitive","kind":"function","src_hash":"c5a2e0808a4857a3","in":{"base":"Any","pred":"hasattr(null, 'primitive')"},"out":{"base":"Any","pred":"result satisfies: null_prim == null_ans"},"spec":{"lhs":"_check_primitive(null, null_ans)","rhs":"null_prim == null_ans","over":{"base":"Any","pred":"hasattr(null, 'primitive')"},"name":"_check_primitive_correct"},"guarantee":"null_prim == null_ans","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_nullspace._check_primitive_correct","statement":"Path(_check_primitive(x), null_prim == null_ans)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"82f2ef57ee889d3f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(null, 'primitive')"],"ensures":["null_prim == null_ans"],"pure":false,"effects":{"effect_type":"reads_state","reads":["null.primitive"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _check_primitive(null, null_ans):
     """Check that the primitive of the answer matches."""
     null = _to_DM(null, null_ans)
@@ -198,16 +225,22 @@ def _check_primitive(null, null_ans):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_check_divided(nul), check the divided answer) over Any ║
+# ║ Path(_check_divided(null, null_ans), null == null_ans_norm) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _check_divided : Any → {Any | null == null_ans_norm}       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  null == null_ans_norm                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _check_divided : Any → {Any | result satisfies: null ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 45ccbb7dfba371d8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2ca78018d9c793b5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_nullspace._check_divided","kind":"function","src_hash":"8b16debd93f56e79","in":{"base":"Any"},"out":{"base":"Any","pred":"null == null_ans_norm"},"spec":{"lhs":"_check_divided(nul)","rhs":"check the divided answer","over":{"base":"Any"},"name":"_check_divided_correct"},"guarantee":"check the divided answer","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_nullspace._check_divided_correct","statement":"Path(_check_divided(x), check the divided answer)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"45ccbb7dfba371d8"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_nullspace._check_divided","kind":"function","src_hash":"8b16debd93f56e79","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: null == null_ans_norm"},"spec":{"lhs":"_check_divided(null, null_ans)","rhs":"null == null_ans_norm","over":{"base":"Any"},"name":"_check_divided_correct"},"guarantee":"null == null_ans_norm","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_nullspace._check_divided_correct","statement":"Path(_check_divided(x), null == null_ans_norm)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2ca78018d9c793b5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["null == null_ans_norm"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def _check_divided(null, null_ans):
     """Check the divided answer."""
     null = _to_DM(null, null_ans)
@@ -217,16 +250,25 @@ def _check_divided(null, null_ans):
 
 @pytest.mark.parametrize('name, A, A_null', NULLSPACE_EXAMPLES)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Matrix_nullspace(nam), test_Matrix_nullspace produces the expected output) over Any ║
+# ║ Path(test_Matrix_nullspace(name, A, A_null), <unspecified:test_Matrix_nullspace>) over {Any | hasattr(A, 'to_Matrix') and hasattr(A, 'nullspace') and hasattr(A, 'cols')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Matrix_nullspace : Any → Any                          ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(A, 'to_Matrix')                        ║
+# ║   requires: hasattr(A, 'nullspace')                        ║
+# ║   requires: hasattr(A, 'cols')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Matrix_nullspace : {Any | hasattr(A, 'to_Matrix'...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5161a0d2442fffcf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_nullspace.test_Matrix_nullspace","kind":"function","src_hash":"022abac9a4890677","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_Matrix_nullspace(nam)","rhs":"test_Matrix_nullspace produces the expected output","over":{"base":"Any"},"name":"test_Matrix_nullspace_correct"},"guarantee":"test_Matrix_nullspace produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_nullspace.test_Matrix_nullspace_correct","statement":"Path(test_Matrix_nullspace(x), test_Matrix_nullspace produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5161a0d2442fffcf"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_nullspace.test_Matrix_nullspace","kind":"function","src_hash":"022abac9a4890677","in":{"base":"Any","pred":"hasattr(A, 'to_Matrix') and hasattr(A, 'nullspace') and hasattr(A, 'cols')"},"out":{"base":"Any"},"spec":{"lhs":"test_Matrix_nullspace(name, A, A_null)","rhs":"<unspecified:test_Matrix_nullspace>","over":{"base":"Any","pred":"hasattr(A, 'to_Matrix') and hasattr(A, 'nullspace') and hasattr(A, 'cols')"},"name":"test_Matrix_nullspace_correct"},"guarantee":"test_Matrix_nullspace produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_nullspace.test_Matrix_nullspace_correct","statement":"Path(test_Matrix_nullspace(x), test_Matrix_nullspace produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5161a0d2442fffcf","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(A, 'to_Matrix')","hasattr(A, 'nullspace')","hasattr(A, 'cols')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["A.cols","A.nullspace","A.to_Matrix"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Matrix_nullspace(name, A, A_null):
     A = A.to_Matrix()
 
@@ -248,16 +290,24 @@ def test_Matrix_nullspace(name, A, A_null):
 
 @pytest.mark.parametrize('name, A, A_null', NULLSPACE_EXAMPLES)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dm_dense_nullspace(nam), test_dm_dense_nullspace produces the expected output) over Any ║
+# ║ Path(test_dm_dense_nullspace(name, A, A_null), <unspecified:test_dm_dense_nullspace>) over {Any | hasattr(A, 'nullspace') and hasattr(A, 'to_field')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dm_dense_nullspace : Any → Any                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(A, 'nullspace')                        ║
+# ║   requires: hasattr(A, 'to_field')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dm_dense_nullspace : {Any | hasattr(A, 'nullspac...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 448a35a31930c0c8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_nullspace.test_dm_dense_nullspace","kind":"function","src_hash":"30cd506b91b9d014","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_dm_dense_nullspace(nam)","rhs":"test_dm_dense_nullspace produces the expected output","over":{"base":"Any"},"name":"test_dm_dense_nullspace_correct"},"guarantee":"test_dm_dense_nullspace produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_nullspace.test_dm_dense_nullspace_correct","statement":"Path(test_dm_dense_nullspace(x), test_dm_dense_nullspace produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"448a35a31930c0c8"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_nullspace.test_dm_dense_nullspace","kind":"function","src_hash":"30cd506b91b9d014","in":{"base":"Any","pred":"hasattr(A, 'nullspace') and hasattr(A, 'to_field')"},"out":{"base":"Any"},"spec":{"lhs":"test_dm_dense_nullspace(name, A, A_null)","rhs":"<unspecified:test_dm_dense_nullspace>","over":{"base":"Any","pred":"hasattr(A, 'nullspace') and hasattr(A, 'to_field')"},"name":"test_dm_dense_nullspace_correct"},"guarantee":"test_dm_dense_nullspace produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_nullspace.test_dm_dense_nullspace_correct","statement":"Path(test_dm_dense_nullspace(x), test_dm_dense_nullspace produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"448a35a31930c0c8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(A, 'nullspace')","hasattr(A, 'to_field')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["A.nullspace","A.to_field"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_dm_dense_nullspace(name, A, A_null):
     A = A.to_field().to_dense()
     A_null_found = A.nullspace(divide_last=True)
@@ -266,16 +316,24 @@ def test_dm_dense_nullspace(name, A, A_null):
 
 @pytest.mark.parametrize('name, A, A_null', NULLSPACE_EXAMPLES)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dm_sparse_nullspace(nam), test_dm_sparse_nullspace produces the expected output) over Any ║
+# ║ Path(test_dm_sparse_nullspace(name, A, A_null), <unspecified:test_dm_sparse_nullspace>) over {Any | hasattr(A, 'nullspace') and hasattr(A, 'to_field')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dm_sparse_nullspace : Any → Any                       ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(A, 'nullspace')                        ║
+# ║   requires: hasattr(A, 'to_field')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dm_sparse_nullspace : {Any | hasattr(A, 'nullspa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5ca0cc816b6d3297  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_nullspace.test_dm_sparse_nullspace","kind":"function","src_hash":"abd71844e7c90f20","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_dm_sparse_nullspace(nam)","rhs":"test_dm_sparse_nullspace produces the expected output","over":{"base":"Any"},"name":"test_dm_sparse_nullspace_correct"},"guarantee":"test_dm_sparse_nullspace produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_nullspace.test_dm_sparse_nullspace_correct","statement":"Path(test_dm_sparse_nullspace(x), test_dm_sparse_nullspace produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5ca0cc816b6d3297"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_nullspace.test_dm_sparse_nullspace","kind":"function","src_hash":"abd71844e7c90f20","in":{"base":"Any","pred":"hasattr(A, 'nullspace') and hasattr(A, 'to_field')"},"out":{"base":"Any"},"spec":{"lhs":"test_dm_sparse_nullspace(name, A, A_null)","rhs":"<unspecified:test_dm_sparse_nullspace>","over":{"base":"Any","pred":"hasattr(A, 'nullspace') and hasattr(A, 'to_field')"},"name":"test_dm_sparse_nullspace_correct"},"guarantee":"test_dm_sparse_nullspace produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_nullspace.test_dm_sparse_nullspace_correct","statement":"Path(test_dm_sparse_nullspace(x), test_dm_sparse_nullspace produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5ca0cc816b6d3297","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(A, 'nullspace')","hasattr(A, 'to_field')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["A.nullspace","A.to_field"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_dm_sparse_nullspace(name, A, A_null):
     A = A.to_field().to_sparse()
     A_null_found = A.nullspace(divide_last=True)
@@ -284,16 +342,24 @@ def test_dm_sparse_nullspace(name, A, A_null):
 
 @pytest.mark.parametrize('name, A, A_null', NULLSPACE_EXAMPLES)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_ddm_nullspace(nam), test_ddm_nullspace produces the expected output) over Any ║
+# ║ Path(test_ddm_nullspace(name, A, A_null), <unspecified:test_ddm_nullspace>) over {Any | hasattr(A, 'nullspace') and hasattr(A, 'to_field')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_ddm_nullspace : Any → Any                             ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(A, 'nullspace')                        ║
+# ║   requires: hasattr(A, 'to_field')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_ddm_nullspace : {Any | hasattr(A, 'nullspace') a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0c6363e5fa729a82  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_nullspace.test_ddm_nullspace","kind":"function","src_hash":"998a176f8474a008","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_ddm_nullspace(nam)","rhs":"test_ddm_nullspace produces the expected output","over":{"base":"Any"},"name":"test_ddm_nullspace_correct"},"guarantee":"test_ddm_nullspace produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_nullspace.test_ddm_nullspace_correct","statement":"Path(test_ddm_nullspace(x), test_ddm_nullspace produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0c6363e5fa729a82"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_nullspace.test_ddm_nullspace","kind":"function","src_hash":"998a176f8474a008","in":{"base":"Any","pred":"hasattr(A, 'nullspace') and hasattr(A, 'to_field')"},"out":{"base":"Any"},"spec":{"lhs":"test_ddm_nullspace(name, A, A_null)","rhs":"<unspecified:test_ddm_nullspace>","over":{"base":"Any","pred":"hasattr(A, 'nullspace') and hasattr(A, 'to_field')"},"name":"test_ddm_nullspace_correct"},"guarantee":"test_ddm_nullspace produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_nullspace.test_ddm_nullspace_correct","statement":"Path(test_ddm_nullspace(x), test_ddm_nullspace produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0c6363e5fa729a82","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(A, 'nullspace')","hasattr(A, 'to_field')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["A.nullspace","A.to_field"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_ddm_nullspace(name, A, A_null):
     A = A.to_field().to_ddm()
     A_null_found, _ = A.nullspace()
@@ -302,16 +368,24 @@ def test_ddm_nullspace(name, A, A_null):
 
 @pytest.mark.parametrize('name, A, A_null', NULLSPACE_EXAMPLES)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_sdm_nullspace(nam), test_sdm_nullspace produces the expected output) over Any ║
+# ║ Path(test_sdm_nullspace(name, A, A_null), <unspecified:test_sdm_nullspace>) over {Any | hasattr(A, 'nullspace') and hasattr(A, 'to_field')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_sdm_nullspace : Any → Any                             ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(A, 'nullspace')                        ║
+# ║   requires: hasattr(A, 'to_field')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_sdm_nullspace : {Any | hasattr(A, 'nullspace') a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3bf0527de2735f3b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_nullspace.test_sdm_nullspace","kind":"function","src_hash":"9cd49985db2fad1e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_sdm_nullspace(nam)","rhs":"test_sdm_nullspace produces the expected output","over":{"base":"Any"},"name":"test_sdm_nullspace_correct"},"guarantee":"test_sdm_nullspace produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_nullspace.test_sdm_nullspace_correct","statement":"Path(test_sdm_nullspace(x), test_sdm_nullspace produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3bf0527de2735f3b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_nullspace.test_sdm_nullspace","kind":"function","src_hash":"9cd49985db2fad1e","in":{"base":"Any","pred":"hasattr(A, 'nullspace') and hasattr(A, 'to_field')"},"out":{"base":"Any"},"spec":{"lhs":"test_sdm_nullspace(name, A, A_null)","rhs":"<unspecified:test_sdm_nullspace>","over":{"base":"Any","pred":"hasattr(A, 'nullspace') and hasattr(A, 'to_field')"},"name":"test_sdm_nullspace_correct"},"guarantee":"test_sdm_nullspace produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_nullspace.test_sdm_nullspace_correct","statement":"Path(test_sdm_nullspace(x), test_sdm_nullspace produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3bf0527de2735f3b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(A, 'nullspace')","hasattr(A, 'to_field')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["A.nullspace","A.to_field"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_sdm_nullspace(name, A, A_null):
     A = A.to_field().to_sdm()
     A_null_found, _ = A.nullspace()
@@ -320,16 +394,24 @@ def test_sdm_nullspace(name, A, A_null):
 
 @pytest.mark.parametrize('name, A, A_null', NULLSPACE_EXAMPLES)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dm_dense_nullspace_fracfree(nam), test_dm_dense_nullspace_fracfree produces the expected output) over Any ║
+# ║ Path(test_dm_dense_nullspace_fracfree(name, A, A_null), <unspecified:test_dm_dense_nullspace_fracfree>) over {Any | hasattr(A, 'to_dense') and hasattr(A, 'nullspace')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dm_dense_nullspace_fracfree : Any → Any               ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(A, 'to_dense')                         ║
+# ║   requires: hasattr(A, 'nullspace')                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dm_dense_nullspace_fracfree : {Any | hasattr(A, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 59fcc5b0ede9a8f1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_nullspace.test_dm_dense_nullspace_fracfree","kind":"function","src_hash":"54e62f8361b680f8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_dm_dense_nullspace_fracfree(nam)","rhs":"test_dm_dense_nullspace_fracfree produces the expected output","over":{"base":"Any"},"name":"test_dm_dense_nullspace_fracfree_correct"},"guarantee":"test_dm_dense_nullspace_fracfree produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_nullspace.test_dm_dense_nullspace_fracfree_correct","statement":"Path(test_dm_dense_nullspace_fracfree(x), test_dm_dense_nullspace_fracfree produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"59fcc5b0ede9a8f1"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_nullspace.test_dm_dense_nullspace_fracfree","kind":"function","src_hash":"54e62f8361b680f8","in":{"base":"Any","pred":"hasattr(A, 'to_dense') and hasattr(A, 'nullspace')"},"out":{"base":"Any"},"spec":{"lhs":"test_dm_dense_nullspace_fracfree(name, A, A_null)","rhs":"<unspecified:test_dm_dense_nullspace_fracfree>","over":{"base":"Any","pred":"hasattr(A, 'to_dense') and hasattr(A, 'nullspace')"},"name":"test_dm_dense_nullspace_fracfree_correct"},"guarantee":"test_dm_dense_nullspace_fracfree produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_nullspace.test_dm_dense_nullspace_fracfree_correct","statement":"Path(test_dm_dense_nullspace_fracfree(x), test_dm_dense_nullspace_fracfree produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"59fcc5b0ede9a8f1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(A, 'to_dense')","hasattr(A, 'nullspace')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["A.nullspace","A.to_dense"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_dm_dense_nullspace_fracfree(name, A, A_null):
     A = A.to_dense()
     A_null_found = A.nullspace()
@@ -338,16 +420,24 @@ def test_dm_dense_nullspace_fracfree(name, A, A_null):
 
 @pytest.mark.parametrize('name, A, A_null', NULLSPACE_EXAMPLES)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dm_sparse_nullspace_fracfree(nam), test_dm_sparse_nullspace_fracfree produces the expected output) over Any ║
+# ║ Path(test_dm_sparse_nullspace_fracfree(name, A, A_null), <unspecified:test_dm_sparse_nullspace_fracfree>) over {Any | hasattr(A, 'to_sparse') and hasattr(A, 'nullspace')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dm_sparse_nullspace_fracfree : Any → Any              ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(A, 'to_sparse')                        ║
+# ║   requires: hasattr(A, 'nullspace')                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dm_sparse_nullspace_fracfree : {Any | hasattr(A,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a158ebec7dcd3026  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_nullspace.test_dm_sparse_nullspace_fracfree","kind":"function","src_hash":"ee0b3ad616721716","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_dm_sparse_nullspace_fracfree(nam)","rhs":"test_dm_sparse_nullspace_fracfree produces the expected output","over":{"base":"Any"},"name":"test_dm_sparse_nullspace_fracfree_correct"},"guarantee":"test_dm_sparse_nullspace_fracfree produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_nullspace.test_dm_sparse_nullspace_fracfree_correct","statement":"Path(test_dm_sparse_nullspace_fracfree(x), test_dm_sparse_nullspace_fracfree produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a158ebec7dcd3026"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_nullspace.test_dm_sparse_nullspace_fracfree","kind":"function","src_hash":"ee0b3ad616721716","in":{"base":"Any","pred":"hasattr(A, 'to_sparse') and hasattr(A, 'nullspace')"},"out":{"base":"Any"},"spec":{"lhs":"test_dm_sparse_nullspace_fracfree(name, A, A_null)","rhs":"<unspecified:test_dm_sparse_nullspace_fracfree>","over":{"base":"Any","pred":"hasattr(A, 'to_sparse') and hasattr(A, 'nullspace')"},"name":"test_dm_sparse_nullspace_fracfree_correct"},"guarantee":"test_dm_sparse_nullspace_fracfree produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_nullspace.test_dm_sparse_nullspace_fracfree_correct","statement":"Path(test_dm_sparse_nullspace_fracfree(x), test_dm_sparse_nullspace_fracfree produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a158ebec7dcd3026","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(A, 'to_sparse')","hasattr(A, 'nullspace')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["A.nullspace","A.to_sparse"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_dm_sparse_nullspace_fracfree(name, A, A_null):
     A = A.to_sparse()
     A_null_found = A.nullspace()

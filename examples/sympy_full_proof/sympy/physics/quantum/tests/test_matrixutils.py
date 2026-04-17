@@ -32,31 +32,44 @@ m = Matrix([[1, 2], [3, 4]])
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_sympy_to_sympy(), test_sympy_to_sympy produces the expected output) over Any ║
+# ║ Path(test_sympy_to_sympy(), to_sympy(m) == m) over Any     ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_sympy_to_sympy : Any → {Any | to_sympy(m) == m}       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  to_sympy(m) == m                               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_sympy_to_sympy : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b3556005a2b7a6d7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1abb026b5d7ce97e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_matrixutils.test_sympy_to_sympy","kind":"function","src_hash":"ce93d7febda2595a","in":{"base":"Any"},"out":{"base":"Any","pred":"to_sympy(m) == m"},"spec":{"lhs":"test_sympy_to_sympy()","rhs":"test_sympy_to_sympy produces the expected output","over":{"base":"Any"},"name":"test_sympy_to_sympy_correct"},"guarantee":"test_sympy_to_sympy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_matrixutils.test_sympy_to_sympy_correct","statement":"Path(test_sympy_to_sympy(x), test_sympy_to_sympy produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b3556005a2b7a6d7"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_matrixutils.test_sympy_to_sympy","kind":"function","src_hash":"ce93d7febda2595a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: to_sympy(m) == m"},"spec":{"lhs":"test_sympy_to_sympy()","rhs":"to_sympy(m) == m","over":{"base":"Any"},"name":"test_sympy_to_sympy_correct"},"guarantee":"to_sympy(m) == m","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_matrixutils.test_sympy_to_sympy_correct","statement":"Path(test_sympy_to_sympy(x), to_sympy(m) == m)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1abb026b5d7ce97e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["to_sympy(m) == m"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_sympy_to_sympy():
     assert to_sympy(m) == m
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_matrix_to_zero(), test_matrix_to_zero produces the expected output) over Any ║
+# ║ Path(test_matrix_to_zero(), matrix_to_zero(m) == m and matrix_to_zero(Matrix([[0, 0], [0, 0]])) == Integer(0)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_matrix_to_zero : Any → {Any | matrix_to_zero(m) ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  matrix_to_zero(m) == m                         ║
+# ║   ensures:  matrix_to_zero(Matrix([[0, 0], [0, 0]])) ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_matrix_to_zero : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5b17f23d508c940f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9133ea97e0659709  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_matrixutils.test_matrix_to_zero","kind":"function","src_hash":"8abcc0f0a8124735","in":{"base":"Any"},"out":{"base":"Any","pred":"matrix_to_zero(m) == m and matrix_to_zero(Matrix([[0, 0], [0, 0]])) == Integer(0)"},"spec":{"lhs":"test_matrix_to_zero()","rhs":"test_matrix_to_zero produces the expected output","over":{"base":"Any"},"name":"test_matrix_to_zero_correct"},"guarantee":"test_matrix_to_zero produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_matrixutils.test_matrix_to_zero_correct","statement":"Path(test_matrix_to_zero(x), test_matrix_to_zero produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5b17f23d508c940f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_matrixutils.test_matrix_to_zero","kind":"function","src_hash":"8abcc0f0a8124735","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: matrix_to_zero(m) == m and matrix_to_zero(Matrix([[0, 0], [0, 0]])) == Integer(0)"},"spec":{"lhs":"test_matrix_to_zero()","rhs":"matrix_to_zero(m) == m and matrix_to_zero(Matrix([[0, 0], [0, 0]])) == Integer(0)","over":{"base":"Any"},"name":"test_matrix_to_zero_correct"},"guarantee":"matrix_to_zero(m) == m; matrix_to_zero(Matrix([[0, 0], [0, 0]])) == Integer(0)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_matrixutils.test_matrix_to_zero_correct","statement":"Path(test_matrix_to_zero(x), matrix_to_zero(m) == m; matrix_to_zero(Matrix([[0, 0], [0, 0]])) == Integer(0))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9133ea97e0659709","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["matrix_to_zero(m) == m","matrix_to_zero(Matrix([[0, 0], [0, 0]])) == Integer(0)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_matrix_to_zero():
     assert matrix_to_zero(m) == m
     assert matrix_to_zero(Matrix([[0, 0], [0, 0]])) == Integer(0)
@@ -65,16 +78,22 @@ np = import_module('numpy')
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_to_numpy(), test_to_numpy produces the expected output) over Any ║
+# ║ Path(test_to_numpy(), (to_numpy(m) == result).all()) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_to_numpy : Any → {Any | (to_numpy(m) == result)....   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (to_numpy(m) == result).all()                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_to_numpy : Any → {Any | result satisfies: (to_nu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 61b5c59ac47578a7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 21d17ea030bbe956  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_matrixutils.test_to_numpy","kind":"function","src_hash":"ed5267b01d1c91b8","in":{"base":"Any"},"out":{"base":"Any","pred":"(to_numpy(m) == result).all()"},"spec":{"lhs":"test_to_numpy()","rhs":"test_to_numpy produces the expected output","over":{"base":"Any"},"name":"test_to_numpy_correct"},"guarantee":"test_to_numpy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_matrixutils.test_to_numpy_correct","statement":"Path(test_to_numpy(x), test_to_numpy produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"61b5c59ac47578a7"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_matrixutils.test_to_numpy","kind":"function","src_hash":"ed5267b01d1c91b8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (to_numpy(m) == result).all()"},"spec":{"lhs":"test_to_numpy()","rhs":"(to_numpy(m) == result).all()","over":{"base":"Any"},"name":"test_to_numpy_correct"},"guarantee":"(to_numpy(m) == result).all()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_matrixutils.test_to_numpy_correct","statement":"Path(test_to_numpy(x), (to_numpy(m) == result).all())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"21d17ea030bbe956","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(to_numpy(m) == result).all()"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_to_numpy():
     if not np:
         skip("numpy not installed.")
@@ -84,16 +103,23 @@ def test_to_numpy():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_matrix_tensor_product(), test_matrix_tensor_product produces the expected output) over Any ║
+# ║ Path(test_matrix_tensor_product(), numpy_product.tolist() == sympy_product.tolist() and not (sympy_product - Matrix(numpy_product.tolist())).tolist() > (ones(sympy_product.rows, sympy_product.cols) * epsilon).tolist()) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_matrix_tensor_product : Any → {Any | numpy_produ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  numpy_product.tolist() == sympy_product.t...   ║
+# ║   ensures:  not (sympy_product - Matrix(numpy_product...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_matrix_tensor_product : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 88065120fd3f6f97  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a4b0f3680bf0116c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_matrixutils.test_matrix_tensor_product","kind":"function","src_hash":"99a420b41e505cfc","in":{"base":"Any"},"out":{"base":"Any","pred":"numpy_product.tolist() == sympy_product.tolist() and numpy_product.tolist() == sympy_product.tolist() and numpy_product.tolist() == sympy_product.tolist() and numpy_product.tolist() == sympy_product.tolist() and numpy_product.tolist() == sympy_product.tolist() and numpy_product.tolist() == sympy_product.tolist() and numpy_product.tolist() == sympy_product.tolist()"},"spec":{"lhs":"test_matrix_tensor_product()","rhs":"test_matrix_tensor_product produces the expected output","over":{"base":"Any"},"name":"test_matrix_tensor_product_correct"},"guarantee":"test_matrix_tensor_product produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_matrixutils.test_matrix_tensor_product_correct","statement":"Path(test_matrix_tensor_product(x), test_matrix_tensor_product produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"88065120fd3f6f97"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_matrixutils.test_matrix_tensor_product","kind":"function","src_hash":"99a420b41e505cfc","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: numpy_product.tolist() == sympy_product.tolist() and not (sympy_product - Matrix(numpy_product.tolist())).tolist() > (ones(sympy_product.rows, sympy_product.cols) * epsilon).tolist()"},"spec":{"lhs":"test_matrix_tensor_product()","rhs":"numpy_product.tolist() == sympy_product.tolist() and not (sympy_product - Matrix(numpy_product.tolist())).tolist() > (ones(sympy_product.rows, sympy_product.cols) * epsilon).tolist()","over":{"base":"Any"},"name":"test_matrix_tensor_product_correct"},"guarantee":"numpy_product.tolist() == sympy_product.tolist(); not (sympy_product - Matrix(numpy_product.tolist())).tolist() > (ones(sympy_product.rows, sympy_product.cols) * epsilon).tolist()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_matrixutils.test_matrix_tensor_product_correct","statement":"Path(test_matrix_tensor_product(x), numpy_product.tolist() == sympy_product.tolist(); not (sympy_product - Matrix(numpy_product.tolist())).tolist() > (ones(sympy_product.rows, sympy_product.cols) * epsilon).tolist())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a4b0f3680bf0116c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["numpy_product.tolist() == sympy_product.tolist()","not (sympy_product - Matrix(numpy_product.tolist())).tolist() > (ones(sympy_product.rows, sympy_product.cols) * epsilon).tolist()"],"pure":false,"effects":{"effect_type":"nondeterministic","nondeterministic_sources":["randint"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def test_matrix_tensor_product():
     if not np:
         skip("numpy not installed.")
@@ -163,16 +189,22 @@ scipy = import_module('scipy', import_kwargs={'fromlist': ['sparse']})
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_to_scipy_sparse(), test_to_scipy_sparse produces the expected output) over Any ║
+# ║ Path(test_to_scipy_sparse(), np.linalg.norm((to_scipy_sparse(m) - result).todense()) == 0.0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_to_scipy_sparse : Any → {Any | np.linalg.norm((t...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  np.linalg.norm((to_scipy_sparse(m) - resu...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_to_scipy_sparse : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 87adb79a745335a3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f0db485295883f1c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_matrixutils.test_to_scipy_sparse","kind":"function","src_hash":"bbed0a8ad718ffbc","in":{"base":"Any"},"out":{"base":"Any","pred":"np.linalg.norm((to_scipy_sparse(m) - result).todense()) == 0.0"},"spec":{"lhs":"test_to_scipy_sparse()","rhs":"test_to_scipy_sparse produces the expected output","over":{"base":"Any"},"name":"test_to_scipy_sparse_correct"},"guarantee":"test_to_scipy_sparse produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_matrixutils.test_to_scipy_sparse_correct","statement":"Path(test_to_scipy_sparse(x), test_to_scipy_sparse produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"87adb79a745335a3"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_matrixutils.test_to_scipy_sparse","kind":"function","src_hash":"bbed0a8ad718ffbc","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: np.linalg.norm((to_scipy_sparse(m) - result).todense()) == 0.0"},"spec":{"lhs":"test_to_scipy_sparse()","rhs":"np.linalg.norm((to_scipy_sparse(m) - result).todense()) == 0.0","over":{"base":"Any"},"name":"test_to_scipy_sparse_correct"},"guarantee":"np.linalg.norm((to_scipy_sparse(m) - result).todense()) == 0.0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_matrixutils.test_to_scipy_sparse_correct","statement":"Path(test_to_scipy_sparse(x), np.linalg.norm((to_scipy_sparse(m) - result).todense()) == 0.0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f0db485295883f1c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["np.linalg.norm((to_scipy_sparse(m) - result).todense()) == 0.0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_to_scipy_sparse():
     if not np:
         skip("numpy not installed.")
@@ -188,7 +220,10 @@ epsilon = .000001
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_matrix_zeros_sympy(), test_matrix_zeros_sympy produces the expected output) over {Any | isinstance(sym, Matrix)} ║
+# ║ Path(test_matrix_zeros_sympy(), isinstance(sym, Matrix)) over {Any | isinstance(sym, Matrix)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(sym, Matrix)                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_matrix_zeros_sympy : {Any | isinstance(sym, Matr...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -200,15 +235,21 @@ epsilon = .000001
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.2ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 1819600e...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_matrixutils.test_matrix_zeros_sympy","kind":"function","src_hash":"71d5f9f5383297f3","in":{"base":"Any","pred":"isinstance(sym, Matrix)"},"out":{"base":"Any","pred":"isinstance(sym, Matrix)"},"spec":{"lhs":"test_matrix_zeros_sympy()","rhs":"test_matrix_zeros_sympy produces the expected output","over":{"base":"Any","pred":"isinstance(sym, Matrix)"},"name":"test_matrix_zeros_sympy_correct"},"guarantee":"test_matrix_zeros_sympy produces the expected output","fibers":[{"name":"Matrix","pred":"isinstance(sym, Matrix)","path":{"lhs":"test_matrix_zeros_sympy(x)","rhs":"test_matrix_zeros_sympy produces the expected output","over":{"base":"Matrix","pred":"isinstance(sym, Matrix)"},"name":"test_matrix_zeros_sympy_Matrix_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_matrixutils.test_matrix_zeros_sympy_Matrix_correct","statement":"test_matrix_zeros_sympy satisfies spec on Matrix inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"1819600e677b3bc7"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_matrixutils.test_matrix_zeros_sympy","kind":"function","src_hash":"71d5f9f5383297f3","in":{"base":"Any","pred":"isinstance(sym, Matrix)"},"out":{"base":"Any","pred":"result satisfies: isinstance(sym, Matrix)"},"spec":{"lhs":"test_matrix_zeros_sympy()","rhs":"isinstance(sym, Matrix)","over":{"base":"Any","pred":"isinstance(sym, Matrix)"},"name":"test_matrix_zeros_sympy_correct"},"guarantee":"isinstance(sym, Matrix)","fibers":[{"name":"Matrix","pred":"isinstance(sym, Matrix)","path":{"lhs":"test_matrix_zeros_sympy(x)","rhs":"isinstance(sym, Matrix)","over":{"base":"Matrix","pred":"isinstance(sym, Matrix)"},"name":"test_matrix_zeros_sympy_Matrix_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_matrixutils.test_matrix_zeros_sympy_Matrix_correct","statement":"test_matrix_zeros_sympy satisfies spec on Matrix inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"1819600e677b3bc7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(sym, Matrix)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.2,"verdict_class":"failed","binding":true}}
 def test_matrix_zeros_sympy():
     sym = matrix_zeros(4, 4, format='sympy')
     assert isinstance(sym, Matrix)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_matrix_zeros_numpy(), test_matrix_zeros_numpy produces the expected output) over {Any | isinstance(num, numpy_ndarray)} ║
+# ║ Path(test_matrix_zeros_numpy(), isinstance(num, numpy_ndarray)) over {Any | isinstance(num, numpy_ndarray)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(num, numpy_ndarray)                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_matrix_zeros_numpy : {Any | isinstance(num, nump...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -220,9 +261,12 @@ def test_matrix_zeros_sympy():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 274e2581...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_matrixutils.test_matrix_zeros_numpy","kind":"function","src_hash":"36ed4722ae95d688","in":{"base":"Any","pred":"isinstance(num, numpy_ndarray)"},"out":{"base":"Any","pred":"isinstance(num, numpy_ndarray)"},"spec":{"lhs":"test_matrix_zeros_numpy()","rhs":"test_matrix_zeros_numpy produces the expected output","over":{"base":"Any","pred":"isinstance(num, numpy_ndarray)"},"name":"test_matrix_zeros_numpy_correct"},"guarantee":"test_matrix_zeros_numpy produces the expected output","fibers":[{"name":"numpy_ndarray","pred":"isinstance(num, numpy_ndarray)","path":{"lhs":"test_matrix_zeros_numpy(x)","rhs":"test_matrix_zeros_numpy produces the expected output","over":{"base":"numpy_ndarray","pred":"isinstance(num, numpy_ndarray)"},"name":"test_matrix_zeros_numpy_numpy_ndarray_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_matrixutils.test_matrix_zeros_numpy_numpy_ndarray_correct","statement":"test_matrix_zeros_numpy satisfies spec on numpy_ndarray inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"274e258114cef251"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_matrixutils.test_matrix_zeros_numpy","kind":"function","src_hash":"36ed4722ae95d688","in":{"base":"Any","pred":"isinstance(num, numpy_ndarray)"},"out":{"base":"Any","pred":"result satisfies: isinstance(num, numpy_ndarray)"},"spec":{"lhs":"test_matrix_zeros_numpy()","rhs":"isinstance(num, numpy_ndarray)","over":{"base":"Any","pred":"isinstance(num, numpy_ndarray)"},"name":"test_matrix_zeros_numpy_correct"},"guarantee":"isinstance(num, numpy_ndarray)","fibers":[{"name":"numpy_ndarray","pred":"isinstance(num, numpy_ndarray)","path":{"lhs":"test_matrix_zeros_numpy(x)","rhs":"isinstance(num, numpy_ndarray)","over":{"base":"numpy_ndarray","pred":"isinstance(num, numpy_ndarray)"},"name":"test_matrix_zeros_numpy_numpy_ndarray_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_matrixutils.test_matrix_zeros_numpy_numpy_ndarray_correct","statement":"test_matrix_zeros_numpy satisfies spec on numpy_ndarray inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"274e258114cef251","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(num, numpy_ndarray)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"failed","binding":true}}
 def test_matrix_zeros_numpy():
     if not np:
         skip("numpy not installed.")
@@ -231,7 +275,10 @@ def test_matrix_zeros_numpy():
     assert isinstance(num, numpy_ndarray)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_matrix_zeros_scipy(), test_matrix_zeros_scipy produces the expected output) over {Any | isinstance(sci, scipy_sparse_matrix)} ║
+# ║ Path(test_matrix_zeros_scipy(), isinstance(sci, scipy_sparse_matrix)) over {Any | isinstance(sci, scipy_sparse_matrix)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(sci, scipy_sparse_matrix)           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_matrix_zeros_scipy : {Any | isinstance(sci, scip...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -243,9 +290,12 @@ def test_matrix_zeros_numpy():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 0.9ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 08a4e69d...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_matrixutils.test_matrix_zeros_scipy","kind":"function","src_hash":"7ccc687e302c6b66","in":{"base":"Any","pred":"isinstance(sci, scipy_sparse_matrix)"},"out":{"base":"Any","pred":"isinstance(sci, scipy_sparse_matrix)"},"spec":{"lhs":"test_matrix_zeros_scipy()","rhs":"test_matrix_zeros_scipy produces the expected output","over":{"base":"Any","pred":"isinstance(sci, scipy_sparse_matrix)"},"name":"test_matrix_zeros_scipy_correct"},"guarantee":"test_matrix_zeros_scipy produces the expected output","fibers":[{"name":"scipy_sparse_matrix","pred":"isinstance(sci, scipy_sparse_matrix)","path":{"lhs":"test_matrix_zeros_scipy(x)","rhs":"test_matrix_zeros_scipy produces the expected output","over":{"base":"scipy_sparse_matrix","pred":"isinstance(sci, scipy_sparse_matrix)"},"name":"test_matrix_zeros_scipy_scipy_sparse_matrix_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_matrixutils.test_matrix_zeros_scipy_scipy_sparse_matrix_correct","statement":"test_matrix_zeros_scipy satisfies spec on scipy_sparse_matrix inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"08a4e69d9f6f3a9c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_matrixutils.test_matrix_zeros_scipy","kind":"function","src_hash":"7ccc687e302c6b66","in":{"base":"Any","pred":"isinstance(sci, scipy_sparse_matrix)"},"out":{"base":"Any","pred":"result satisfies: isinstance(sci, scipy_sparse_matrix)"},"spec":{"lhs":"test_matrix_zeros_scipy()","rhs":"isinstance(sci, scipy_sparse_matrix)","over":{"base":"Any","pred":"isinstance(sci, scipy_sparse_matrix)"},"name":"test_matrix_zeros_scipy_correct"},"guarantee":"isinstance(sci, scipy_sparse_matrix)","fibers":[{"name":"scipy_sparse_matrix","pred":"isinstance(sci, scipy_sparse_matrix)","path":{"lhs":"test_matrix_zeros_scipy(x)","rhs":"isinstance(sci, scipy_sparse_matrix)","over":{"base":"scipy_sparse_matrix","pred":"isinstance(sci, scipy_sparse_matrix)"},"name":"test_matrix_zeros_scipy_scipy_sparse_matrix_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_matrixutils.test_matrix_zeros_scipy_scipy_sparse_matrix_correct","statement":"test_matrix_zeros_scipy satisfies spec on scipy_sparse_matrix inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"08a4e69d9f6f3a9c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(sci, scipy_sparse_matrix)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.9,"verdict_class":"failed","binding":true}}
 def test_matrix_zeros_scipy():
     if not np:
         skip("numpy not installed.")

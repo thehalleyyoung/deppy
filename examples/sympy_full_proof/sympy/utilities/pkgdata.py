@@ -33,16 +33,23 @@ from sympy.utilities.decorator import deprecated
     active_deprecations_target="pkgdata",
 )
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_resource(ide), id) over Any                       ║
+# ║ Path(get_resource(identifier, pkgname), id) over {Any | not (fn is None)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ get_resource : Any → Any                                   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (fn is None)                               ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ get_resource : {Any | not (fn is None)} → Any              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 97d895efbd852378   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.pkgdata.get_resource","kind":"function","src_hash":"be427aca8958f9e9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_resource(ide)","rhs":"get_resource produces the expected output","over":{"base":"Any"},"name":"get_resource_correct","kind":"composition"},"guarantee":"get_resource produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"StringIO","by":"library_axiom"},{"fn":"decode","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"97d895efbd852378"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.pkgdata.get_resource","kind":"function","src_hash":"be427aca8958f9e9","in":{"base":"Any","pred":"not (fn is None)"},"out":{"base":"Any"},"spec":{"lhs":"get_resource(identifier, pkgname)","rhs":"<unspecified:get_resource>","over":{"base":"Any","pred":"not (fn is None)"},"name":"get_resource_correct","kind":"composition"},"guarantee":"get_resource produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"StringIO","by":"library_axiom"},{"fn":"decode","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"97d895efbd852378","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (fn is None)"],"pure":false,"effects":{"effect_type":"io","raises":["OSError"],"io_operations":["open"]},"state_contract":{"exceptional_post":{"OSError":["isinstance(raised, OSError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def get_resource(identifier, pkgname=__name__):
 
     mod = sys.modules[pkgname]

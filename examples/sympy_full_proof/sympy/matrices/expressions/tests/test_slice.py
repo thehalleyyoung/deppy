@@ -27,31 +27,45 @@ X = MatrixSymbol('X', n, m)
 Y = MatrixSymbol('Y', m, k)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_shape(), test_shape produces the expected output) over Any ║
+# ║ Path(test_shape(), B.shape == (b - a, d - c)) over Any     ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_shape : Any → {Any | B.shape == (b - a, d - c)}       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  B.shape == (b - a, d - c)                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_shape : Any → {Any | result satisfies: B.shape =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4550774d8441d319  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b95f9a55233557b5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_slice.test_shape","kind":"function","src_hash":"4d6aff6216b7f6e6","in":{"base":"Any"},"out":{"base":"Any","pred":"B.shape == (b - a, d - c)"},"spec":{"lhs":"test_shape()","rhs":"test_shape produces the expected output","over":{"base":"Any"},"name":"test_shape_correct"},"guarantee":"test_shape produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_slice.test_shape_correct","statement":"Path(test_shape(x), test_shape produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4550774d8441d319"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_slice.test_shape","kind":"function","src_hash":"4d6aff6216b7f6e6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: B.shape == (b - a, d - c)"},"spec":{"lhs":"test_shape()","rhs":"B.shape == (b - a, d - c)","over":{"base":"Any"},"name":"test_shape_correct"},"guarantee":"B.shape == (b - a, d - c)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_slice.test_shape_correct","statement":"Path(test_shape(x), B.shape == (b - a, d - c))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b95f9a55233557b5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["B.shape == (b - a, d - c)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_shape():
     B = MatrixSlice(X, (a, b), (c, d))
     assert B.shape == (b - a, d - c)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_entry(), test_entry produces the expected output) over Any ║
+# ║ Path(test_entry(), B[0, 0] == X[a, c] and B[k, l] == X[a + k, c + l] and X[1::2, :][1, 3] == X[1 + 2, 3] and X[:, 1::2][3, 1] == X[3, 1 + 2]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_entry : Any → {Any | B[0, 0] == X[a, c] and B[k,...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  B[0, 0] == X[a, c]                             ║
+# ║   ensures:  B[k, l] == X[a + k, c + l]                     ║
+# ║   ensures:  X[1::2, :][1, 3] == X[1 + 2, 3]                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_entry : Any → {Any | result satisfies: B[0, 0] =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3f7b18281c34b0f1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6bc32bc511a73856  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_slice.test_entry","kind":"function","src_hash":"27a2bafd5f711e0e","in":{"base":"Any"},"out":{"base":"Any","pred":"B[0, 0] == X[a, c] and B[k, l] == X[a + k, c + l] and X[1::2, :][1, 3] == X[1 + 2, 3] and X[:, 1::2][3, 1] == X[3, 1 + 2]"},"spec":{"lhs":"test_entry()","rhs":"test_entry produces the expected output","over":{"base":"Any"},"name":"test_entry_correct"},"guarantee":"test_entry produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_slice.test_entry_correct","statement":"Path(test_entry(x), test_entry produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3f7b18281c34b0f1"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_slice.test_entry","kind":"function","src_hash":"27a2bafd5f711e0e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: B[0, 0] == X[a, c] and B[k, l] == X[a + k, c + l] and X[1::2, :][1, 3] == X[1 + 2, 3] and X[:, 1::2][3, 1] == X[3, 1 + 2]"},"spec":{"lhs":"test_entry()","rhs":"B[0, 0] == X[a, c] and B[k, l] == X[a + k, c + l] and X[1::2, :][1, 3] == X[1 + 2, 3] and X[:, 1::2][3, 1] == X[3, 1 + 2]","over":{"base":"Any"},"name":"test_entry_correct"},"guarantee":"B[0, 0] == X[a, c]; B[k, l] == X[a + k, c + l]; X[1::2, :][1, 3] == X[1 + 2, 3]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_slice.test_entry_correct","statement":"Path(test_entry(x), B[0, 0] == X[a, c]; B[k, l] == X[a + k, c + l]; X[1::2, :][1, 3] == X[1 + 2, 3])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6bc32bc511a73856","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["B[0, 0] == X[a, c]","B[k, l] == X[a + k, c + l]","X[1::2, :][1, 3] == X[1 + 2, 3]","X[:, 1::2][3, 1] == X[3, 1 + 2]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_entry():
     B = MatrixSlice(X, (a, b), (c, d))
     assert B[0,0] == X[a, c]
@@ -62,46 +76,68 @@ def test_entry():
     assert X[:, 1::2][3, 1] == X[3, 1+2]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_on_diag(), test_on_diag produces the expected output) over Any ║
+# ║ Path(test_on_diag(), not MatrixSlice(X, (a, b), (c, d)).on_diag and MatrixSlice(X, (a, b), (a, b)).on_diag) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_on_diag : Any → {Any | not MatrixSlice(X, (a, b)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  not MatrixSlice(X, (a, b), (c, d)).on_diag     ║
+# ║   ensures:  MatrixSlice(X, (a, b), (a, b)).on_diag         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_on_diag : Any → {Any | result satisfies: not Mat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9852eed6e452d771  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 40110c6666fc777f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_slice.test_on_diag","kind":"function","src_hash":"6d29444f6da1ef46","in":{"base":"Any"},"out":{"base":"Any","pred":"not MatrixSlice(X, (a, b), (c, d)).on_diag and MatrixSlice(X, (a, b), (a, b)).on_diag"},"spec":{"lhs":"test_on_diag()","rhs":"test_on_diag produces the expected output","over":{"base":"Any"},"name":"test_on_diag_correct"},"guarantee":"test_on_diag produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_slice.test_on_diag_correct","statement":"Path(test_on_diag(x), test_on_diag produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9852eed6e452d771"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_slice.test_on_diag","kind":"function","src_hash":"6d29444f6da1ef46","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: not MatrixSlice(X, (a, b), (c, d)).on_diag and MatrixSlice(X, (a, b), (a, b)).on_diag"},"spec":{"lhs":"test_on_diag()","rhs":"not MatrixSlice(X, (a, b), (c, d)).on_diag and MatrixSlice(X, (a, b), (a, b)).on_diag","over":{"base":"Any"},"name":"test_on_diag_correct"},"guarantee":"not MatrixSlice(X, (a, b), (c, d)).on_diag; MatrixSlice(X, (a, b), (a, b)).on_diag","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_slice.test_on_diag_correct","statement":"Path(test_on_diag(x), not MatrixSlice(X, (a, b), (c, d)).on_diag; MatrixSlice(X, (a, b), (a, b)).on_diag)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"40110c6666fc777f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["not MatrixSlice(X, (a, b), (c, d)).on_diag","MatrixSlice(X, (a, b), (a, b)).on_diag"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_on_diag():
     assert not MatrixSlice(X, (a, b), (c, d)).on_diag
     assert MatrixSlice(X, (a, b), (a, b)).on_diag
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_inputs(), test_inputs produces the expected output) over Any ║
+# ║ Path(test_inputs(), MatrixSlice(X, 1, (2, 5)) == MatrixSlice(X, (1, 2), (2, 5)) and MatrixSlice(X, 1, (2, 5)).shape == (1, 3)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_inputs : Any → {Any | MatrixSlice(X, 1, (2, 5)) ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  MatrixSlice(X, 1, (2, 5)) == MatrixSlice(...   ║
+# ║   ensures:  MatrixSlice(X, 1, (2, 5)).shape == (1, 3)      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_inputs : Any → {Any | result satisfies: MatrixSl...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4913d9af2a1d1af9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 906c67b079822cdd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_slice.test_inputs","kind":"function","src_hash":"c1ac94135e25ae01","in":{"base":"Any"},"out":{"base":"Any","pred":"MatrixSlice(X, 1, (2, 5)) == MatrixSlice(X, (1, 2), (2, 5)) and MatrixSlice(X, 1, (2, 5)).shape == (1, 3)"},"spec":{"lhs":"test_inputs()","rhs":"test_inputs produces the expected output","over":{"base":"Any"},"name":"test_inputs_correct"},"guarantee":"test_inputs produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_slice.test_inputs_correct","statement":"Path(test_inputs(x), test_inputs produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4913d9af2a1d1af9"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_slice.test_inputs","kind":"function","src_hash":"c1ac94135e25ae01","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: MatrixSlice(X, 1, (2, 5)) == MatrixSlice(X, (1, 2), (2, 5)) and MatrixSlice(X, 1, (2, 5)).shape == (1, 3)"},"spec":{"lhs":"test_inputs()","rhs":"MatrixSlice(X, 1, (2, 5)) == MatrixSlice(X, (1, 2), (2, 5)) and MatrixSlice(X, 1, (2, 5)).shape == (1, 3)","over":{"base":"Any"},"name":"test_inputs_correct"},"guarantee":"MatrixSlice(X, 1, (2, 5)) == MatrixSlice(X, (1, 2), (2, 5)); MatrixSlice(X, 1, (2, 5)).shape == (1, 3)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_slice.test_inputs_correct","statement":"Path(test_inputs(x), MatrixSlice(X, 1, (2, 5)) == MatrixSlice(X, (1, 2), (2, 5)); MatrixSlice(X, 1, (2, 5)).shape == (1, 3))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"906c67b079822cdd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["MatrixSlice(X, 1, (2, 5)) == MatrixSlice(X, (1, 2), (2, 5))","MatrixSlice(X, 1, (2, 5)).shape == (1, 3)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_inputs():
     assert MatrixSlice(X, 1, (2, 5)) == MatrixSlice(X, (1, 2), (2, 5))
     assert MatrixSlice(X, 1, (2, 5)).shape == (1, 3)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_slicing(), test_slicing produces the expected output) over Any ║
+# ║ Path(test_slicing(), X[1:5, 2:4] == MatrixSlice(X, (1, 5), (2, 4)) and X[1, 2:4] == MatrixSlice(X, 1, (2, 4)) and X[1:5, :].shape == (4, X.shape[1]) and X[:, 1:5].shape == (X.shape[0], 4) and X[::2, ::2].shape == (floor(n / 2), floor(m / 2)) and X[2, :] == MatrixSlice(X, 2, (0, m)) and X[k, :] == MatrixSlice(X, k, (0, m))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_slicing : Any → {Any | X[1:5, 2:4] == MatrixSlic...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  X[1:5, 2:4] == MatrixSlice(X, (1, 5), (2,...   ║
+# ║   ensures:  X[1, 2:4] == MatrixSlice(X, 1, (2, 4))         ║
+# ║   ensures:  X[1:5, :].shape == (4, X.shape[1])             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_slicing : Any → {Any | result satisfies: X[1:5, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6a76085813bf4a48  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 60103f6e93d941d1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_slice.test_slicing","kind":"function","src_hash":"a69cf9d438d8c11b","in":{"base":"Any"},"out":{"base":"Any","pred":"X[1:5, 2:4] == MatrixSlice(X, (1, 5), (2, 4)) and X[1, 2:4] == MatrixSlice(X, 1, (2, 4)) and X[1:5, :].shape == (4, X.shape[1]) and X[:, 1:5].shape == (X.shape[0], 4) and X[::2, ::2].shape == (floor(n / 2), floor(m / 2)) and X[2, :] == MatrixSlice(X, 2, (0, m)) and X[k, :] == MatrixSlice(X, k, (0, m))"},"spec":{"lhs":"test_slicing()","rhs":"test_slicing produces the expected output","over":{"base":"Any"},"name":"test_slicing_correct"},"guarantee":"test_slicing produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_slice.test_slicing_correct","statement":"Path(test_slicing(x), test_slicing produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6a76085813bf4a48"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_slice.test_slicing","kind":"function","src_hash":"a69cf9d438d8c11b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: X[1:5, 2:4] == MatrixSlice(X, (1, 5), (2, 4)) and X[1, 2:4] == MatrixSlice(X, 1, (2, 4)) and X[1:5, :].shape == (4, X.shape[1]) and X[:, 1:5].shape == (X.shape[0], 4) and X[::2, ::2].shape == (floor(n / 2), floor(m / 2)) and X[2, :] == MatrixSlice(X, 2, (0, m)) and X[k, :] == MatrixSlice(X, k, (0, m))"},"spec":{"lhs":"test_slicing()","rhs":"X[1:5, 2:4] == MatrixSlice(X, (1, 5), (2, 4)) and X[1, 2:4] == MatrixSlice(X, 1, (2, 4)) and X[1:5, :].shape == (4, X.shape[1]) and X[:, 1:5].shape == (X.shape[0], 4) and X[::2, ::2].shape == (floor(n / 2), floor(m / 2)) and X[2, :] == MatrixSlice(X, 2, (0, m)) and X[k, :] == MatrixSlice(X, k, (0, m))","over":{"base":"Any"},"name":"test_slicing_correct"},"guarantee":"X[1:5, 2:4] == MatrixSlice(X, (1, 5), (2, 4)); X[1, 2:4] == MatrixSlice(X, 1, (2, 4)); X[1:5, :].shape == (4, X.shape[1])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_slice.test_slicing_correct","statement":"Path(test_slicing(x), X[1:5, 2:4] == MatrixSlice(X, (1, 5), (2, 4)); X[1, 2:4] == MatrixSlice(X, 1, (2, 4)); X[1:5, :].shape == (4, X.shape[1]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"60103f6e93d941d1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["X[1:5, 2:4] == MatrixSlice(X, (1, 5), (2, 4))","X[1, 2:4] == MatrixSlice(X, 1, (2, 4))","X[1:5, :].shape == (4, X.shape[1])","X[:, 1:5].shape == (X.shape[0], 4)","X[::2, ::2].shape == (floor(n / 2), floor(m / 2))","X[2, :] == MatrixSlice(X, 2, (0, m))","X[k, :] == MatrixSlice(X, k, (0, m))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_slicing():
     assert X[1:5, 2:4] == MatrixSlice(X, (1, 5), (2, 4))
     assert X[1, 2:4] == MatrixSlice(X, 1, (2, 4))
@@ -113,16 +149,22 @@ def test_slicing():
     assert X[k, :] == MatrixSlice(X, k, (0, m))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_exceptions(), test_exceptions produces the expected output) over Any ║
+# ║ Path(test_exceptions(), <unspecified:test_exceptions>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_exceptions : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1e4cfee57b732ddd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_slice.test_exceptions","kind":"function","src_hash":"ff4b1c175a0c0980","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_exceptions()","rhs":"test_exceptions produces the expected output","over":{"base":"Any"},"name":"test_exceptions_correct"},"guarantee":"test_exceptions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_slice.test_exceptions_correct","statement":"Path(test_exceptions(x), test_exceptions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1e4cfee57b732ddd"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_slice.test_exceptions","kind":"function","src_hash":"ff4b1c175a0c0980","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_exceptions()","rhs":"<unspecified:test_exceptions>","over":{"base":"Any"},"name":"test_exceptions_correct"},"guarantee":"test_exceptions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_slice.test_exceptions_correct","statement":"Path(test_exceptions(x), test_exceptions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1e4cfee57b732ddd","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_exceptions():
     X = MatrixSymbol('x', 10, 20)
     raises(IndexError, lambda: X[0:12, 2])
@@ -131,16 +173,22 @@ def test_exceptions():
 
 @XFAIL
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_symmetry(), test_symmetry produces the expected output) over Any ║
+# ║ Path(test_symmetry(), <unspecified:test_symmetry>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_symmetry : Any → {Any | Y.T == X[5:, :5]}             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e9ec5c273f7729e9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_slice.test_symmetry","kind":"function","src_hash":"2a200d020d9b7dbd","in":{"base":"Any"},"out":{"base":"Any","pred":"Y.T == X[5:, :5]"},"spec":{"lhs":"test_symmetry()","rhs":"test_symmetry produces the expected output","over":{"base":"Any"},"name":"test_symmetry_correct"},"guarantee":"test_symmetry produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_slice.test_symmetry_correct","statement":"Path(test_symmetry(x), test_symmetry produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e9ec5c273f7729e9"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_slice.test_symmetry","kind":"function","src_hash":"2a200d020d9b7dbd","in":{"base":"Any"},"out":{"base":"Any","pred":"Y.T == X[5:, :5]"},"spec":{"lhs":"test_symmetry()","rhs":"<unspecified:test_symmetry>","over":{"base":"Any"},"name":"test_symmetry_correct"},"guarantee":"test_symmetry produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_slice.test_symmetry_correct","statement":"Path(test_symmetry(x), test_symmetry produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e9ec5c273f7729e9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_symmetry():
     X = MatrixSymbol('x', 10, 10)
     Y = X[:5, 5:]
@@ -148,16 +196,24 @@ def test_symmetry():
         assert Y.T == X[5:, :5]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_slice_of_slice(), test_slice_of_slice produces the expected output) over Any ║
+# ║ Path(test_slice_of_slice(), X[2, :][:, 3][0, 0] == X[2, 3] and X[:5, :5][:4, :4] == X[:4, :4] and X[1:5, 2:6][1:3, 2] == X[2:4, 4] and X[1:9:2, 2:6][1:3, 2] == X[3:7:2, 4]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_slice_of_slice : Any → {Any | X[2, :][:, 3][0, 0...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  X[2, :][:, 3][0, 0] == X[2, 3]                 ║
+# ║   ensures:  X[:5, :5][:4, :4] == X[:4, :4]                 ║
+# ║   ensures:  X[1:5, 2:6][1:3, 2] == X[2:4, 4]               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_slice_of_slice : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 73260633efce6905  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1b0ccfc75cf41dc1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_slice.test_slice_of_slice","kind":"function","src_hash":"d1bb3840bd3bc62c","in":{"base":"Any"},"out":{"base":"Any","pred":"X[2, :][:, 3][0, 0] == X[2, 3] and X[:5, :5][:4, :4] == X[:4, :4] and X[1:5, 2:6][1:3, 2] == X[2:4, 4] and X[1:9:2, 2:6][1:3, 2] == X[3:7:2, 4]"},"spec":{"lhs":"test_slice_of_slice()","rhs":"test_slice_of_slice produces the expected output","over":{"base":"Any"},"name":"test_slice_of_slice_correct"},"guarantee":"test_slice_of_slice produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_slice.test_slice_of_slice_correct","statement":"Path(test_slice_of_slice(x), test_slice_of_slice produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"73260633efce6905"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_slice.test_slice_of_slice","kind":"function","src_hash":"d1bb3840bd3bc62c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: X[2, :][:, 3][0, 0] == X[2, 3] and X[:5, :5][:4, :4] == X[:4, :4] and X[1:5, 2:6][1:3, 2] == X[2:4, 4] and X[1:9:2, 2:6][1:3, 2] == X[3:7:2, 4]"},"spec":{"lhs":"test_slice_of_slice()","rhs":"X[2, :][:, 3][0, 0] == X[2, 3] and X[:5, :5][:4, :4] == X[:4, :4] and X[1:5, 2:6][1:3, 2] == X[2:4, 4] and X[1:9:2, 2:6][1:3, 2] == X[3:7:2, 4]","over":{"base":"Any"},"name":"test_slice_of_slice_correct"},"guarantee":"X[2, :][:, 3][0, 0] == X[2, 3]; X[:5, :5][:4, :4] == X[:4, :4]; X[1:5, 2:6][1:3, 2] == X[2:4, 4]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_slice.test_slice_of_slice_correct","statement":"Path(test_slice_of_slice(x), X[2, :][:, 3][0, 0] == X[2, 3]; X[:5, :5][:4, :4] == X[:4, :4]; X[1:5, 2:6][1:3, 2] == X[2:4, 4])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1b0ccfc75cf41dc1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["X[2, :][:, 3][0, 0] == X[2, 3]","X[:5, :5][:4, :4] == X[:4, :4]","X[1:5, 2:6][1:3, 2] == X[2:4, 4]","X[1:9:2, 2:6][1:3, 2] == X[3:7:2, 4]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_slice_of_slice():
     X = MatrixSymbol('x', 10, 10)
     assert X[2, :][:, 3][0, 0] == X[2, 3]
@@ -166,16 +222,22 @@ def test_slice_of_slice():
     assert X[1:9:2, 2:6][1:3, 2] == X[3:7:2, 4]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_negative_index(), test_negative_index produces the expected output) over Any ║
+# ║ Path(test_negative_index(), X[-1, :] == X[9, :]) over Any  ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_negative_index : Any → {Any | X[-1, :] == X[9, :]}    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  X[-1, :] == X[9, :]                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_negative_index : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5c167610c796476b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a50f2065104a68f6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_slice.test_negative_index","kind":"function","src_hash":"3061a5ca9353f292","in":{"base":"Any"},"out":{"base":"Any","pred":"X[-1, :] == X[9, :]"},"spec":{"lhs":"test_negative_index()","rhs":"test_negative_index produces the expected output","over":{"base":"Any"},"name":"test_negative_index_correct"},"guarantee":"test_negative_index produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_slice.test_negative_index_correct","statement":"Path(test_negative_index(x), test_negative_index produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5c167610c796476b"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_slice.test_negative_index","kind":"function","src_hash":"3061a5ca9353f292","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: X[-1, :] == X[9, :]"},"spec":{"lhs":"test_negative_index()","rhs":"X[-1, :] == X[9, :]","over":{"base":"Any"},"name":"test_negative_index_correct"},"guarantee":"X[-1, :] == X[9, :]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_slice.test_negative_index_correct","statement":"Path(test_negative_index(x), X[-1, :] == X[9, :])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a50f2065104a68f6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["X[-1, :] == X[9, :]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_negative_index():
     X = MatrixSymbol('x', 10, 10)
     assert X[-1, :] == X[9, :]

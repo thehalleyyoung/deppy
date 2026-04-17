@@ -35,16 +35,22 @@ from sympy.utilities import public
 
 @public
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(find_simple_recurrence_vector(l), this function is used internally by other functions from the sympy.concrete.guess module) over Any ║
+# ║ Path(find_simple_recurrence_vector(l), <unspecified:find_simple_recurrence_vector>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ find_simple_recurrence_vector : Any → Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3c2f23d7c66ef66e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.guess.find_simple_recurrence_vector","kind":"function","src_hash":"9b1bf89bc2a9a987","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"find_simple_recurrence_vector(l)","rhs":"this function is used internally by other functions from the sympy.concrete.guess module","over":{"base":"Any"},"name":"find_simple_recurrence_vector_correct"},"guarantee":"this function is used internally by other functions from the sympy.concrete.guess module","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.guess.find_simple_recurrence_vector_correct","statement":"Path(find_simple_recurrence_vector(x), this function is used internally by other functions from the sympy.concrete.guess module)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3c2f23d7c66ef66e"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.guess.find_simple_recurrence_vector","kind":"function","src_hash":"9b1bf89bc2a9a987","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"find_simple_recurrence_vector(l)","rhs":"<unspecified:find_simple_recurrence_vector>","over":{"base":"Any"},"name":"find_simple_recurrence_vector_correct"},"guarantee":"this function is used internally by other functions from the sympy.concrete.guess module","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.guess.find_simple_recurrence_vector_correct","statement":"Path(find_simple_recurrence_vector(x), this function is used internally by other functions from the sympy.concrete.guess module)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3c2f23d7c66ef66e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def find_simple_recurrence_vector(l):
     """
     This function is used internally by other functions from the
@@ -111,16 +117,22 @@ def find_simple_recurrence_vector(l):
 
 @public
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(find_simple_recurrence(v, ), detects and returns a recurrence relation from a sequence of several integer (or rational) terms) over Any ║
+# ║ Path(find_simple_recurrence(v, A, N), <unspecified:find_simple_recurrence>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ find_simple_recurrence : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 14e85ad2633572f5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.guess.find_simple_recurrence","kind":"function","src_hash":"7a76a5e924b34129","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"find_simple_recurrence(v, )","rhs":"detects and returns a recurrence relation from a sequence of several integer (or rational) terms","over":{"base":"Any"},"name":"find_simple_recurrence_correct"},"guarantee":"detects and returns a recurrence relation from a sequence of several integer (or rational) terms","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.guess.find_simple_recurrence_correct","statement":"Path(find_simple_recurrence(x), detects and returns a recurrence relation from a sequence of several integer (or rational) terms)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"14e85ad2633572f5"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.guess.find_simple_recurrence","kind":"function","src_hash":"7a76a5e924b34129","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"find_simple_recurrence(v, A, N)","rhs":"<unspecified:find_simple_recurrence>","over":{"base":"Any"},"name":"find_simple_recurrence_correct"},"guarantee":"detects and returns a recurrence relation from a sequence of several integer (or rational) terms","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.guess.find_simple_recurrence_correct","statement":"Path(find_simple_recurrence(x), detects and returns a recurrence relation from a sequence of several integer (or rational) terms)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"14e85ad2633572f5","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def find_simple_recurrence(v, A=Function('a'), N=Symbol('n')):
     """
     Detects and returns a recurrence relation from a sequence of several integer
@@ -152,16 +164,22 @@ def find_simple_recurrence(v, A=Function('a'), N=Symbol('n')):
 
 @public
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rationalize(x, ), helps identifying a rational number from a float (or mpmath.mpf) value by using a continued fraction) over Any ║
+# ║ Path(rationalize(x, maxcoeff), sympify(p) / q) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  sympify(p) / q                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ rationalize : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2578042dc138df00  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d4d3c30868c52c61  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.guess.rationalize","kind":"function","src_hash":"bf078fd886edbedb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rationalize(x, )","rhs":"helps identifying a rational number from a float (or mpmath.mpf) value by using a continued fraction","over":{"base":"Any"},"name":"rationalize_correct"},"guarantee":"helps identifying a rational number from a float (or mpmath.mpf) value by using a continued fraction","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.guess.rationalize_correct","statement":"Path(rationalize(x), helps identifying a rational number from a float (or mpmath.mpf) value by using a continued fraction)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2578042dc138df00"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.guess.rationalize","kind":"function","src_hash":"bf078fd886edbedb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rationalize(x, maxcoeff)","rhs":"sympify(p) / q","over":{"base":"Any"},"name":"rationalize_correct"},"guarantee":"returns sympify(p) / q","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.guess.rationalize_correct","statement":"Path(rationalize(x), returns sympify(p) / q)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d4d3c30868c52c61","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"sympify(p) / q","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def rationalize(x, maxcoeff=10000):
     """
     Helps identifying a rational number from a float (or mpmath.mpf) value by
@@ -225,16 +243,22 @@ def rationalize(x, maxcoeff=10000):
 
 @public
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(guess_generating_function_rational(v, ), tries to "guess" a rational generating function for a sequence of rational numbers v) over Any ║
+# ║ Path(guess_generating_function_rational(v, X), <unspecified:guess_generating_function_rational>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ guess_generating_function_rational : Any → Any             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d726fb5f7f5a26ff  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.guess.guess_generating_function_rational","kind":"function","src_hash":"07dc3a3961404590","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"guess_generating_function_rational(v, )","rhs":"tries to \"guess\" a rational generating function for a sequence of rational numbers v","over":{"base":"Any"},"name":"guess_generating_function_rational_correct"},"guarantee":"tries to \"guess\" a rational generating function for a sequence of rational numbers v","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.guess.guess_generating_function_rational_correct","statement":"Path(guess_generating_function_rational(x), tries to \"guess\" a rational generating function for a sequence of rational numbers v)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d726fb5f7f5a26ff"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.guess.guess_generating_function_rational","kind":"function","src_hash":"07dc3a3961404590","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"guess_generating_function_rational(v, X)","rhs":"<unspecified:guess_generating_function_rational>","over":{"base":"Any"},"name":"guess_generating_function_rational_correct"},"guarantee":"tries to \"guess\" a rational generating function for a sequence of rational numbers v","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.guess.guess_generating_function_rational_correct","statement":"Path(guess_generating_function_rational(x), tries to \"guess\" a rational generating function for a sequence of rational numbers v)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d726fb5f7f5a26ff","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def guess_generating_function_rational(v, X=Symbol('x')):
     """
     Tries to "guess" a rational generating function for a sequence of rational
@@ -269,16 +293,22 @@ def guess_generating_function_rational(v, X=Symbol('x')):
 
 @public
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(guess_generating_function(v, ), tries to "guess" a generating function for a sequence of rational numbers v. only a few patterns are implemented yet) over Any ║
+# ║ Path(guess_generating_function(v, X, types), <unspecified:guess_generating_function>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ guess_generating_function : Any → Any                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 26b2c32084ce0451  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.guess.guess_generating_function","kind":"function","src_hash":"029cc06851c2dff5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"guess_generating_function(v, )","rhs":"tries to \"guess\" a generating function for a sequence of rational numbers v. only a few patterns are implemented yet","over":{"base":"Any"},"name":"guess_generating_function_correct"},"guarantee":"tries to \"guess\" a generating function for a sequence of rational numbers v. only a few patterns are implemented yet","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.guess.guess_generating_function_correct","statement":"Path(guess_generating_function(x), tries to \"guess\" a generating function for a sequence of rational numbers v. only a few patterns are implemented yet)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"26b2c32084ce0451"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.guess.guess_generating_function","kind":"function","src_hash":"029cc06851c2dff5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"guess_generating_function(v, X, types)","rhs":"<unspecified:guess_generating_function>","over":{"base":"Any"},"name":"guess_generating_function_correct"},"guarantee":"tries to \"guess\" a generating function for a sequence of rational numbers v. only a few patterns are implemented yet","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.guess.guess_generating_function_correct","statement":"Path(guess_generating_function(x), tries to \"guess\" a generating function for a sequence of rational numbers v. only a few patterns are implemented yet)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"26b2c32084ce0451","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.3,"verdict_class":"assumed","binding":true}}
 def guess_generating_function(v, X=Symbol('x'), types=['all'], maxsqrtn=2):
     """
     Tries to "guess" a generating function for a sequence of rational numbers v.
@@ -466,16 +496,22 @@ def guess_generating_function(v, X=Symbol('x'), types=['all'], maxsqrtn=2):
 
 @public
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(guess(l, ), this function is adapted from the rate.m package for mathematica written by christian krattenthaler. it tries to guess a formula from a given sequence of rational numbers) over Any ║
+# ║ Path(guess(l, all, evaluate), <unspecified:guess>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ guess : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 77e14f0ecbc6dfcf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.guess.guess","kind":"function","src_hash":"09e7143fee35937b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"guess(l, )","rhs":"this function is adapted from the rate.m package for mathematica written by christian krattenthaler. it tries to guess a formula from a given sequence of rational numbers","over":{"base":"Any"},"name":"guess_correct"},"guarantee":"this function is adapted from the rate.m package for mathematica written by christian krattenthaler. it tries to guess a formula from a given sequence of rational numbers","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.guess.guess_correct","statement":"Path(guess(x), this function is adapted from the rate.m package for mathematica written by christian krattenthaler. it tries to guess a formula from a given sequence of rational numbers)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"77e14f0ecbc6dfcf"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.guess.guess","kind":"function","src_hash":"09e7143fee35937b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"guess(l, all, evaluate)","rhs":"<unspecified:guess>","over":{"base":"Any"},"name":"guess_correct"},"guarantee":"this function is adapted from the rate.m package for mathematica written by christian krattenthaler. it tries to guess a formula from a given sequence of rational numbers","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.guess.guess_correct","statement":"Path(guess(x), this function is adapted from the rate.m package for mathematica written by christian krattenthaler. it tries to guess a formula from a given sequence of rational numbers)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"77e14f0ecbc6dfcf","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def guess(l, all=False, evaluate=True, niter=2, variables=None):
     """
     This function is adapted from the Rate.m package for Mathematica

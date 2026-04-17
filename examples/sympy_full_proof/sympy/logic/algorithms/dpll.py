@@ -33,9 +33,13 @@ from sympy.logic.inference import pl_true, literal_symbol
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dpll_satisfiable(exp), check satisfiability of a propositional sentence. it returns a model rather than true when it succeeds) over {Any | isinstance(expr, CNF)} ║
+# ║ Path(dpll_satisfiable(expr), <unspecified:dpll_satisfiable>) over {Any | isinstance(expr, CNF) and hasattr(expr, 'clauses')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dpll_satisfiable : {Any | isinstance(expr, CNF)} → Any     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'clauses')                       ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dpll_satisfiable : {Any | isinstance(expr, CNF) and h...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   CNF: {isinstance(expr, CNF)} → library_axiom             ║
@@ -45,9 +49,12 @@ from sympy.logic.inference import pl_true, literal_symbol
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.4ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 19cb08f6...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.dpll.dpll_satisfiable","kind":"function","src_hash":"83264edcfcc0384a","in":{"base":"Any","pred":"isinstance(expr, CNF)"},"out":{"base":"Any"},"spec":{"lhs":"dpll_satisfiable(exp)","rhs":"check satisfiability of a propositional sentence. it returns a model rather than true when it succeeds","over":{"base":"Any","pred":"isinstance(expr, CNF)"},"name":"dpll_satisfiable_correct"},"guarantee":"check satisfiability of a propositional sentence. it returns a model rather than true when it succeeds","fibers":[{"name":"CNF","pred":"isinstance(expr, CNF)","path":{"lhs":"dpll_satisfiable(x)","rhs":"check satisfiability of a propositional sentence. it returns a model rather than true when it succeeds","over":{"base":"CNF","pred":"isinstance(expr, CNF)"},"name":"dpll_satisfiable_CNF_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.algorithms.dpll.dpll_satisfiable_CNF_correct","statement":"dpll_satisfiable satisfies spec on CNF inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"19cb08f6e15f9174"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.dpll.dpll_satisfiable","kind":"function","src_hash":"83264edcfcc0384a","in":{"base":"Any","pred":"isinstance(expr, CNF) and hasattr(expr, 'clauses')"},"out":{"base":"Any"},"spec":{"lhs":"dpll_satisfiable(expr)","rhs":"<unspecified:dpll_satisfiable>","over":{"base":"Any","pred":"isinstance(expr, CNF) and hasattr(expr, 'clauses')"},"name":"dpll_satisfiable_correct"},"guarantee":"check satisfiability of a propositional sentence. it returns a model rather than true when it succeeds","fibers":[{"name":"CNF","pred":"isinstance(expr, CNF)","path":{"lhs":"dpll_satisfiable(x)","rhs":"check satisfiability of a propositional sentence. it returns a model rather than true when it succeeds","over":{"base":"CNF","pred":"isinstance(expr, CNF)"},"name":"dpll_satisfiable_CNF_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.algorithms.dpll.dpll_satisfiable_CNF_correct","statement":"dpll_satisfiable satisfies spec on CNF inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"19cb08f6e15f9174","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'clauses')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.4,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'not isinstance(expr, CNF)'}, fibers={'CNF'})"]}}
 def dpll_satisfiable(expr):
     """
     Check satisfiability of a propositional sentence.
@@ -80,16 +87,26 @@ def dpll_satisfiable(expr):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dpll(cla), compute satisfiability in a partial model. clauses is an array of conjuncts) over Any ║
+# ║ Path(dpll(clauses, symbols, model), len(symbols) == old_len_symbols - 1 and len(unknown_clauses) == old_len_unknown_clauses + 1) over {Any | hasattr(symbols, 'pop') and hasattr(model, 'copy') and hasattr(model, 'update') and hasattr(symbols, 'remove') and len(symbols) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dpll : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(symbols, 'pop')                        ║
+# ║   requires: hasattr(model, 'copy')                         ║
+# ║   requires: hasattr(model, 'update')                       ║
+# ║   ensures:  len(symbols) == old_len_symbols - 1            ║
+# ║   ensures:  len(unknown_clauses) == old_len_unknown_c...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dpll : {Any | hasattr(symbols, 'pop') and hasattr(mod...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0175a6dbface90ed  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 27c7d112d0af7ed0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.dpll.dpll","kind":"function","src_hash":"4c2a5c855717c5f5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dpll(cla)","rhs":"compute satisfiability in a partial model. clauses is an array of conjuncts","over":{"base":"Any"},"name":"dpll_correct"},"guarantee":"compute satisfiability in a partial model. clauses is an array of conjuncts","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.algorithms.dpll.dpll_correct","statement":"Path(dpll(x), compute satisfiability in a partial model. clauses is an array of conjuncts)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0175a6dbface90ed"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.dpll.dpll","kind":"function","src_hash":"4c2a5c855717c5f5","in":{"base":"Any","pred":"hasattr(symbols, 'pop') and hasattr(model, 'copy') and hasattr(model, 'update') and hasattr(symbols, 'remove') and len(symbols) > 0"},"out":{"base":"Any","pred":"result satisfies: len(symbols) == old_len_symbols - 1 and len(unknown_clauses) == old_len_unknown_clauses + 1"},"spec":{"lhs":"dpll(clauses, symbols, model)","rhs":"len(symbols) == old_len_symbols - 1 and len(unknown_clauses) == old_len_unknown_clauses + 1","over":{"base":"Any","pred":"hasattr(symbols, 'pop') and hasattr(model, 'copy') and hasattr(model, 'update') and hasattr(symbols, 'remove') and len(symbols) > 0"},"name":"dpll_correct"},"guarantee":"len(symbols) == old_len_symbols - 1; len(unknown_clauses) == old_len_unknown_clauses + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.algorithms.dpll.dpll_correct","statement":"Path(dpll(x), len(symbols) == old_len_symbols - 1; len(unknown_clauses) == old_len_unknown_clauses + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"27c7d112d0af7ed0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(symbols, 'pop')","hasattr(model, 'copy')","hasattr(model, 'update')","hasattr(symbols, 'remove')","len(symbols) > 0"],"ensures":["len(symbols) == old_len_symbols - 1","len(unknown_clauses) == old_len_unknown_clauses + 1"],"pure":false,"effects":{"effect_type":"mutates_args","reads":["model.copy","model.update","symbols.pop","symbols.remove"],"calls_mutating":["model.update","model_copy.update","symbols.pop","symbols.remove","unknown_clauses.append"]},"state_contract":{"modifies":["model.*","model_copy.*","symbols.*","unknown_clauses.*"],"old_bindings":{"old_len_model":"len(model)","old_len_model_copy":"len(model_copy)","old_len_symbols":"len(symbols)","old_len_unknown_clauses":"len(unknown_clauses)"},"pre_requires":["len(symbols) > 0"],"post_ensures":["len(symbols) == old_len_symbols - 1","len(unknown_clauses) == old_len_unknown_clauses + 1"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def dpll(clauses, symbols, model):
     """
     Compute satisfiability in a partial model.
@@ -140,16 +157,26 @@ def dpll(clauses, symbols, model):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dpll_int_repr(cla), compute satisfiability in a partial model. arguments are expected to be in integer representation) over Any ║
+# ║ Path(dpll_int_repr(clauses, symbols, model), len(symbols) == old_len_symbols - 1 and len(unknown_clauses) == old_len_unknown_clauses + 1) over {Any | hasattr(symbols, 'pop') and hasattr(model, 'copy') and hasattr(model, 'update') and hasattr(symbols, 'copy') and hasattr(symbols, 'remove') and len(symbols) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dpll_int_repr : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(symbols, 'pop')                        ║
+# ║   requires: hasattr(model, 'copy')                         ║
+# ║   requires: hasattr(model, 'update')                       ║
+# ║   ensures:  len(symbols) == old_len_symbols - 1            ║
+# ║   ensures:  len(unknown_clauses) == old_len_unknown_c...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dpll_int_repr : {Any | hasattr(symbols, 'pop') and ha...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 96e62260edfd14bf  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7d3f1340e40606c6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.dpll.dpll_int_repr","kind":"function","src_hash":"56d512527c14e668","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dpll_int_repr(cla)","rhs":"compute satisfiability in a partial model. arguments are expected to be in integer representation","over":{"base":"Any"},"name":"dpll_int_repr_correct"},"guarantee":"compute satisfiability in a partial model. arguments are expected to be in integer representation","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.algorithms.dpll.dpll_int_repr_correct","statement":"Path(dpll_int_repr(x), compute satisfiability in a partial model. arguments are expected to be in integer representation)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"96e62260edfd14bf"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.dpll.dpll_int_repr","kind":"function","src_hash":"56d512527c14e668","in":{"base":"Any","pred":"hasattr(symbols, 'pop') and hasattr(model, 'copy') and hasattr(model, 'update') and hasattr(symbols, 'copy') and hasattr(symbols, 'remove') and len(symbols) > 0"},"out":{"base":"Any","pred":"result satisfies: len(symbols) == old_len_symbols - 1 and len(unknown_clauses) == old_len_unknown_clauses + 1"},"spec":{"lhs":"dpll_int_repr(clauses, symbols, model)","rhs":"len(symbols) == old_len_symbols - 1 and len(unknown_clauses) == old_len_unknown_clauses + 1","over":{"base":"Any","pred":"hasattr(symbols, 'pop') and hasattr(model, 'copy') and hasattr(model, 'update') and hasattr(symbols, 'copy') and hasattr(symbols, 'remove') and len(symbols) > 0"},"name":"dpll_int_repr_correct"},"guarantee":"len(symbols) == old_len_symbols - 1; len(unknown_clauses) == old_len_unknown_clauses + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.algorithms.dpll.dpll_int_repr_correct","statement":"Path(dpll_int_repr(x), len(symbols) == old_len_symbols - 1; len(unknown_clauses) == old_len_unknown_clauses + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7d3f1340e40606c6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(symbols, 'pop')","hasattr(model, 'copy')","hasattr(model, 'update')","hasattr(symbols, 'copy')","hasattr(symbols, 'remove')","len(symbols) > 0"],"ensures":["len(symbols) == old_len_symbols - 1","len(unknown_clauses) == old_len_unknown_clauses + 1"],"pure":false,"effects":{"effect_type":"mutates_args","reads":["model.copy","model.update","symbols.copy","symbols.pop","symbols.remove"],"calls_mutating":["model.update","model_copy.update","symbols.pop","symbols.remove","unknown_clauses.append"]},"state_contract":{"modifies":["model.*","model_copy.*","symbols.*","unknown_clauses.*"],"old_bindings":{"old_len_model":"len(model)","old_len_model_copy":"len(model_copy)","old_len_symbols":"len(symbols)","old_len_unknown_clauses":"len(unknown_clauses)"},"pre_requires":["len(symbols) > 0"],"post_ensures":["len(symbols) == old_len_symbols - 1","len(unknown_clauses) == old_len_unknown_clauses + 1"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def dpll_int_repr(clauses, symbols, model):
     """
     Compute satisfiability in a partial model.
@@ -199,16 +226,23 @@ def dpll_int_repr(clauses, symbols, model):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(pl_true_int_repr(cla), lightweight version of pl_true. argument clause represents the set of args of an or clause) over Any ║
+# ║ Path(pl_true_int_repr(clause, model), <unspecified:pl_true_int_repr>) over {Any | hasattr(model, 'get')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ pl_true_int_repr : Any → Any                               ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(model, 'get')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ pl_true_int_repr : {Any | hasattr(model, 'get')} → Any     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1a48de0200e23393  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.dpll.pl_true_int_repr","kind":"function","src_hash":"da5740001b6fcdc5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pl_true_int_repr(cla)","rhs":"lightweight version of pl_true. argument clause represents the set of args of an or clause","over":{"base":"Any"},"name":"pl_true_int_repr_correct"},"guarantee":"lightweight version of pl_true. argument clause represents the set of args of an or clause","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.algorithms.dpll.pl_true_int_repr_correct","statement":"Path(pl_true_int_repr(x), lightweight version of pl_true. argument clause represents the set of args of an or clause)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1a48de0200e23393"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.dpll.pl_true_int_repr","kind":"function","src_hash":"da5740001b6fcdc5","in":{"base":"Any","pred":"hasattr(model, 'get')"},"out":{"base":"Any"},"spec":{"lhs":"pl_true_int_repr(clause, model)","rhs":"<unspecified:pl_true_int_repr>","over":{"base":"Any","pred":"hasattr(model, 'get')"},"name":"pl_true_int_repr_correct"},"guarantee":"lightweight version of pl_true. argument clause represents the set of args of an or clause","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.algorithms.dpll.pl_true_int_repr_correct","statement":"Path(pl_true_int_repr(x), lightweight version of pl_true. argument clause represents the set of args of an or clause)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1a48de0200e23393","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(model, 'get')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["model.get"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def pl_true_int_repr(clause, model={}):
     """
     Lightweight version of pl_true.
@@ -237,16 +271,22 @@ def pl_true_int_repr(clause, model={}):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(unit_propagate(cla), returns an equivalent set of clauses if a set of clauses contains the unit clause l, the other clauses are simplified by the application of the two following rules:) over Any ║
+# ║ Path(unit_propagate(clauses, symbol), <unspecified:unit_propagate>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ unit_propagate : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e33a4eb4432d53cc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.dpll.unit_propagate","kind":"function","src_hash":"6c14865ee23a0f71","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"unit_propagate(cla)","rhs":"returns an equivalent set of clauses if a set of clauses contains the unit clause l, the other clauses are simplified by the application of the two following rules:","over":{"base":"Any"},"name":"unit_propagate_correct"},"guarantee":"returns an equivalent set of clauses if a set of clauses contains the unit clause l, the other clauses are simplified by the application of the two following rules:","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.algorithms.dpll.unit_propagate_correct","statement":"Path(unit_propagate(x), returns an equivalent set of clauses if a set of clauses contains the unit clause l, the other clauses are simplified by the application of the two following rules:)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e33a4eb4432d53cc"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.dpll.unit_propagate","kind":"function","src_hash":"6c14865ee23a0f71","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"unit_propagate(clauses, symbol)","rhs":"<unspecified:unit_propagate>","over":{"base":"Any"},"name":"unit_propagate_correct"},"guarantee":"returns an equivalent set of clauses if a set of clauses contains the unit clause l, the other clauses are simplified by the application of the two following rules:","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.algorithms.dpll.unit_propagate_correct","statement":"Path(unit_propagate(x), returns an equivalent set of clauses if a set of clauses contains the unit clause l, the other clauses are simplified by the application of the two following rules:)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e33a4eb4432d53cc","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def unit_propagate(clauses, symbol):
     """
     Returns an equivalent set of clauses
@@ -281,16 +321,22 @@ def unit_propagate(clauses, symbol):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(unit_propagate_int_repr(cla), same as unit_propagate, but arguments are expected to be in integer representation) over Any ║
+# ║ Path(unit_propagate_int_repr(clauses, s), [clause - negated for clause in clauses if s not in clause]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [clause - negated for clause in clauses i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ unit_propagate_int_repr : Any → Any                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bccfa42bf50d35b2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4f4cf0ac86e5e8e2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.dpll.unit_propagate_int_repr","kind":"function","src_hash":"0d1a39508bbb5ae5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"unit_propagate_int_repr(cla)","rhs":"same as unit_propagate, but arguments are expected to be in integer representation","over":{"base":"Any"},"name":"unit_propagate_int_repr_correct"},"guarantee":"same as unit_propagate, but arguments are expected to be in integer representation","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.algorithms.dpll.unit_propagate_int_repr_correct","statement":"Path(unit_propagate_int_repr(x), same as unit_propagate, but arguments are expected to be in integer representation)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bccfa42bf50d35b2"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.dpll.unit_propagate_int_repr","kind":"function","src_hash":"0d1a39508bbb5ae5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"unit_propagate_int_repr(clauses, s)","rhs":"[clause - negated for clause in clauses if s not in clause]","over":{"base":"Any"},"name":"unit_propagate_int_repr_correct"},"guarantee":"returns [clause - negated for clause in clauses if s not in clause]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.algorithms.dpll.unit_propagate_int_repr_correct","statement":"Path(unit_propagate_int_repr(x), returns [clause - negated for clause in clauses if s not in clause])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4f4cf0ac86e5e8e2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[clause - negated for clause in clauses if s not in clause]","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def unit_propagate_int_repr(clauses, s):
     """
     Same as unit_propagate, but arguments are expected to be in integer
@@ -306,16 +352,22 @@ def unit_propagate_int_repr(clauses, s):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(find_pure_symbol(sym), find a symbol and its value if it appears only as a positive literal (or only as a negative) in clauses) over Any ║
+# ║ Path(find_pure_symbol(symbols, unknown_clauses), <unspecified:find_pure_symbol>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ find_pure_symbol : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 00902b43b53413bf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.dpll.find_pure_symbol","kind":"function","src_hash":"645eef525f3ef73e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"find_pure_symbol(sym)","rhs":"find a symbol and its value if it appears only as a positive literal (or only as a negative) in clauses","over":{"base":"Any"},"name":"find_pure_symbol_correct"},"guarantee":"find a symbol and its value if it appears only as a positive literal (or only as a negative) in clauses","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.algorithms.dpll.find_pure_symbol_correct","statement":"Path(find_pure_symbol(x), find a symbol and its value if it appears only as a positive literal (or only as a negative) in clauses)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"00902b43b53413bf"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.dpll.find_pure_symbol","kind":"function","src_hash":"645eef525f3ef73e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"find_pure_symbol(symbols, unknown_clauses)","rhs":"<unspecified:find_pure_symbol>","over":{"base":"Any"},"name":"find_pure_symbol_correct"},"guarantee":"find a symbol and its value if it appears only as a positive literal (or only as a negative) in clauses","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.algorithms.dpll.find_pure_symbol_correct","statement":"Path(find_pure_symbol(x), find a symbol and its value if it appears only as a positive literal (or only as a negative) in clauses)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"00902b43b53413bf","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def find_pure_symbol(symbols, unknown_clauses):
     """
     Find a symbol and its value if it appears only as a positive literal
@@ -340,16 +392,22 @@ def find_pure_symbol(symbols, unknown_clauses):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(find_pure_symbol_int_repr(sym), same as find_pure_symbol, but arguments are expected to be in integer representation) over Any ║
+# ║ Path(find_pure_symbol_int_repr(symbols, unknown_clauses), <unspecified:find_pure_symbol_int_repr>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ find_pure_symbol_int_repr : Any → Any                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 64fa1cb59dced235  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.dpll.find_pure_symbol_int_repr","kind":"function","src_hash":"2a16055bac86cfc6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"find_pure_symbol_int_repr(sym)","rhs":"same as find_pure_symbol, but arguments are expected to be in integer representation","over":{"base":"Any"},"name":"find_pure_symbol_int_repr_correct"},"guarantee":"same as find_pure_symbol, but arguments are expected to be in integer representation","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.algorithms.dpll.find_pure_symbol_int_repr_correct","statement":"Path(find_pure_symbol_int_repr(x), same as find_pure_symbol, but arguments are expected to be in integer representation)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"64fa1cb59dced235"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.dpll.find_pure_symbol_int_repr","kind":"function","src_hash":"2a16055bac86cfc6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"find_pure_symbol_int_repr(symbols, unknown_clauses)","rhs":"<unspecified:find_pure_symbol_int_repr>","over":{"base":"Any"},"name":"find_pure_symbol_int_repr_correct"},"guarantee":"same as find_pure_symbol, but arguments are expected to be in integer representation","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.algorithms.dpll.find_pure_symbol_int_repr_correct","statement":"Path(find_pure_symbol_int_repr(x), same as find_pure_symbol, but arguments are expected to be in integer representation)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"64fa1cb59dced235","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def find_pure_symbol_int_repr(symbols, unknown_clauses):
     """
     Same as find_pure_symbol, but arguments are expected
@@ -374,7 +432,10 @@ def find_pure_symbol_int_repr(symbols, unknown_clauses):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(find_unit_clause(cla), a unit clause has only 1 variable that is not bound in the model) over {Any | isinstance(literal, Not)} ║
+# ║ Path(find_unit_clause(clauses, model), <unspecified:find_unit_clause>) over {Any | isinstance(literal, Not)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ find_unit_clause : {Any | isinstance(literal, Not)} →...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -386,9 +447,12 @@ def find_pure_symbol_int_repr(symbols, unknown_clauses):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 84727d1d...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.dpll.find_unit_clause","kind":"function","src_hash":"45ce9576500c1dc2","in":{"base":"Any","pred":"isinstance(literal, Not)"},"out":{"base":"Any"},"spec":{"lhs":"find_unit_clause(cla)","rhs":"a unit clause has only 1 variable that is not bound in the model","over":{"base":"Any","pred":"isinstance(literal, Not)"},"name":"find_unit_clause_correct"},"guarantee":"a unit clause has only 1 variable that is not bound in the model","fibers":[{"name":"Not","pred":"isinstance(literal, Not)","path":{"lhs":"find_unit_clause(x)","rhs":"a unit clause has only 1 variable that is not bound in the model","over":{"base":"Not","pred":"isinstance(literal, Not)"},"name":"find_unit_clause_Not_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.algorithms.dpll.find_unit_clause_Not_correct","statement":"find_unit_clause satisfies spec on Not inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"84727d1d3d9bef8f"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.dpll.find_unit_clause","kind":"function","src_hash":"45ce9576500c1dc2","in":{"base":"Any","pred":"isinstance(literal, Not)"},"out":{"base":"Any"},"spec":{"lhs":"find_unit_clause(clauses, model)","rhs":"<unspecified:find_unit_clause>","over":{"base":"Any","pred":"isinstance(literal, Not)"},"name":"find_unit_clause_correct"},"guarantee":"a unit clause has only 1 variable that is not bound in the model","fibers":[{"name":"Not","pred":"isinstance(literal, Not)","path":{"lhs":"find_unit_clause(x)","rhs":"a unit clause has only 1 variable that is not bound in the model","over":{"base":"Not","pred":"isinstance(literal, Not)"},"name":"find_unit_clause_Not_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.algorithms.dpll.find_unit_clause_Not_correct","statement":"find_unit_clause satisfies spec on Not inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"84727d1d3d9bef8f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.1,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'num_not_in_model == 1'}, fibers={'Not'})"]}}
 def find_unit_clause(clauses, model):
     """
     A unit clause has only 1 variable that is not bound in the model.
@@ -412,16 +476,22 @@ def find_unit_clause(clauses, model):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(find_unit_clause_int_repr(cla), same as find_unit_clause, but arguments are expected to be in integer representation) over Any ║
+# ║ Path(find_unit_clause_int_repr(clauses, model), <unspecified:find_unit_clause_int_repr>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ find_unit_clause_int_repr : Any → Any                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 94f50f12558bf592  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.dpll.find_unit_clause_int_repr","kind":"function","src_hash":"f22a98a352115acd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"find_unit_clause_int_repr(cla)","rhs":"same as find_unit_clause, but arguments are expected to be in integer representation","over":{"base":"Any"},"name":"find_unit_clause_int_repr_correct"},"guarantee":"same as find_unit_clause, but arguments are expected to be in integer representation","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.algorithms.dpll.find_unit_clause_int_repr_correct","statement":"Path(find_unit_clause_int_repr(x), same as find_unit_clause, but arguments are expected to be in integer representation)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"94f50f12558bf592"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.dpll.find_unit_clause_int_repr","kind":"function","src_hash":"f22a98a352115acd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"find_unit_clause_int_repr(clauses, model)","rhs":"<unspecified:find_unit_clause_int_repr>","over":{"base":"Any"},"name":"find_unit_clause_int_repr_correct"},"guarantee":"same as find_unit_clause, but arguments are expected to be in integer representation","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.algorithms.dpll.find_unit_clause_int_repr_correct","statement":"Path(find_unit_clause_int_repr(x), same as find_unit_clause, but arguments are expected to be in integer representation)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"94f50f12558bf592","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def find_unit_clause_int_repr(clauses, model):
     """
     Same as find_unit_clause, but arguments are expected to be in

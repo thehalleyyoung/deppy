@@ -90,16 +90,23 @@ END_DELIM_REPR = {fr"{END_AMS_MAT}{IGNORE_R}\\right\)": "\\end{matrix}\\right)",
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(check_matrix_delimiters(lat), report mismatched, excess, or missing matrix delimiters) over Any ║
+# ║ Path(check_matrix_delimiters(latex_str), len(spans) == old_len_spans + 1 and len(spans) == old_len_spans) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ check_matrix_delimiters : Any → Any                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(spans) == old_len_spans + 1                ║
+# ║   ensures:  len(spans) == old_len_spans                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ check_matrix_delimiters : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ce77271680862b1b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 751d8bc7e5aec304  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.latex.check_matrix_delimiters","kind":"function","src_hash":"61f0166ff478b934","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"check_matrix_delimiters(lat)","rhs":"report mismatched, excess, or missing matrix delimiters","over":{"base":"Any"},"name":"check_matrix_delimiters_correct"},"guarantee":"report mismatched, excess, or missing matrix delimiters","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.latex.check_matrix_delimiters_correct","statement":"Path(check_matrix_delimiters(x), report mismatched, excess, or missing matrix delimiters)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ce77271680862b1b"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.latex.check_matrix_delimiters","kind":"function","src_hash":"61f0166ff478b934","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(spans) == old_len_spans + 1 and len(spans) == old_len_spans"},"spec":{"lhs":"check_matrix_delimiters(latex_str)","rhs":"len(spans) == old_len_spans + 1 and len(spans) == old_len_spans","over":{"base":"Any"},"name":"check_matrix_delimiters_correct"},"guarantee":"len(spans) == old_len_spans + 1; len(spans) == old_len_spans","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.latex.check_matrix_delimiters_correct","statement":"Path(check_matrix_delimiters(x), len(spans) == old_len_spans + 1; len(spans) == old_len_spans)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"751d8bc7e5aec304","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(spans) == old_len_spans + 1","len(spans) == old_len_spans"],"pure":false,"effects":{"effect_type":"reads_state","calls_mutating":["spans.append","spans.extend","spans.sort"],"raises":["LaTeXParsingError"]},"state_contract":{"modifies":["spans.*"],"old_bindings":{"old_len_spans":"len(spans)"},"post_ensures":["len(spans) == old_len_spans + 1","len(spans) == old_len_spans"],"exceptional_post":{"LaTeXParsingError":["isinstance(raised, LaTeXParsingError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def check_matrix_delimiters(latex_str):
     """Report mismatched, excess, or missing matrix delimiters."""
     spans = []
@@ -175,16 +182,24 @@ __doctest_requires__ = {('parse_latex',): ['antlr4', 'lark']}
 
 @doctest_depends_on(modules=('antlr4', 'lark'))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(parse_latex(s, ), converts the input latex string ``s`` to a sympy ``expr``) over Any ║
+# ║ Path(parse_latex(s, strict, backend), <unspecified:parse_latex>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: backend == 'antlr'                        ║
+# ║   fiber[case_1]: backend == 'lark' => parse_latex_lar...   ║
+# ║   fiber[case_2]: not (backend == 'antlr') and not (ba...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ parse_latex : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f109e64ce037aa34  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 94821fafbe8e8fd7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.latex.parse_latex","kind":"function","src_hash":"74a6a348319c4e75","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"parse_latex(s, )","rhs":"converts the input latex string ``s`` to a sympy ``expr``","over":{"base":"Any"},"name":"parse_latex_correct"},"guarantee":"converts the input latex string ``s`` to a sympy ``expr``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.latex.parse_latex_correct","statement":"Path(parse_latex(x), converts the input latex string ``s`` to a sympy ``expr``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f109e64ce037aa34"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.latex.parse_latex","kind":"function","src_hash":"74a6a348319c4e75","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"parse_latex(s, strict, backend)","rhs":"<unspecified:parse_latex>","over":{"base":"Any"},"name":"parse_latex_correct"},"guarantee":"3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.latex.parse_latex_correct","statement":"Path(parse_latex(x), 3-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"94821fafbe8e8fd7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"backend == 'antlr'","ensures":[],"decidability":"z3"},{"name":"case_1","guard":"backend == 'lark'","ensures":["result == parse_latex_lark(s)"],"decidability":"z3","returns_expr":"parse_latex_lark(s)"},{"name":"case_2","guard":"not (backend == 'antlr') and not (backend == 'lark')","ensures":[],"decidability":"z3"}],"pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def parse_latex(s, strict=False, backend="antlr"):
     r"""Converts the input LaTeX string ``s`` to a SymPy ``Expr``.
 

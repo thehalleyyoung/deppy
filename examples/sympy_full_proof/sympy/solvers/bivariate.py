@@ -34,16 +34,23 @@ from sympy.utilities.iterables import uniq
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_filtered_gens(pol), process the generators of ``poly``, returning the set of generators that have ``symbol``) over Any ║
+# ║ Path(_filtered_gens(poly, symbol), <unspecified:_filtered_gens>) over {Any | hasattr(poly, 'gens')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _filtered_gens : Any → Any                                 ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(poly, 'gens')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _filtered_gens : {Any | hasattr(poly, 'gens')} → Any       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 065397c1ba5ae134  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.bivariate._filtered_gens","kind":"function","src_hash":"163ddfdf964a9091","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_filtered_gens(pol)","rhs":"process the generators of ``poly``, returning the set of generators that have ``symbol``","over":{"base":"Any"},"name":"_filtered_gens_correct"},"guarantee":"process the generators of ``poly``, returning the set of generators that have ``symbol``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.bivariate._filtered_gens_correct","statement":"Path(_filtered_gens(x), process the generators of ``poly``, returning the set of generators that have ``symbol``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"065397c1ba5ae134"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.bivariate._filtered_gens","kind":"function","src_hash":"163ddfdf964a9091","in":{"base":"Any","pred":"hasattr(poly, 'gens')"},"out":{"base":"Any"},"spec":{"lhs":"_filtered_gens(poly, symbol)","rhs":"<unspecified:_filtered_gens>","over":{"base":"Any","pred":"hasattr(poly, 'gens')"},"name":"_filtered_gens_correct"},"guarantee":"process the generators of ``poly``, returning the set of generators that have ``symbol``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.bivariate._filtered_gens_correct","statement":"Path(_filtered_gens(x), process the generators of ``poly``, returning the set of generators that have ``symbol``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"065397c1ba5ae134","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(poly, 'gens')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _filtered_gens(poly, symbol):
     """process the generators of ``poly``, returning the set of generators that
     have ``symbol``.  If there are two generators that are inverses of each other,
@@ -73,16 +80,27 @@ def _filtered_gens(poly, symbol):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_mostfunc(lhs), returns the term in lhs which contains the most of the func-type things e.g) over Any ║
+# ║ Path(_mostfunc(lhs, func, X), result == (fterms[0] if len(fterms) == 1 else max(list(ordered(fterms)), key=lambda x: x.count(func))) and result == fterms[0] or result == max(list(ordered(fterms)), key=lambda x: x.count(func))) over {Any | hasattr(lhs, 'atoms') and hasattr(X, 'is_Symbol')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _mostfunc : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(lhs, 'atoms')                          ║
+# ║   requires: hasattr(X, 'is_Symbol')                        ║
+# ║   ensures:  result == (fterms[0] if len(fterms) == 1 ...   ║
+# ║   ensures:  result == fterms[0] or result == max(list...   ║
+# ║   fiber[case_0]: len(fterms) == 1 => fterms[0]             ║
+# ║   fiber[case_1]: fterms => max(list(ordered(fterms)),...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _mostfunc : {Any | hasattr(lhs, 'atoms') and hasattr(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ee7b2b70e3455306  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e077b05a2a605e85  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.bivariate._mostfunc","kind":"function","src_hash":"9cbb8c887e9dc7f6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_mostfunc(lhs)","rhs":"returns the term in lhs which contains the most of the func-type things e.g","over":{"base":"Any"},"name":"_mostfunc_correct"},"guarantee":"returns the term in lhs which contains the most of the func-type things e.g","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.bivariate._mostfunc_correct","statement":"Path(_mostfunc(x), returns the term in lhs which contains the most of the func-type things e.g)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ee7b2b70e3455306"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.bivariate._mostfunc","kind":"function","src_hash":"9cbb8c887e9dc7f6","in":{"base":"Any","pred":"hasattr(lhs, 'atoms') and hasattr(X, 'is_Symbol')"},"out":{"base":"Any","pred":"result satisfies: result == (fterms[0] if len(fterms) == 1 else max(list(ordered(fterms)), key=lambda x: x.count(func))) and result == fterms[0] or result == max(list(ordered(fterms)), key=lambda x: x.count(func))"},"spec":{"lhs":"_mostfunc(lhs, func, X)","rhs":"result == (fterms[0] if len(fterms) == 1 else max(list(ordered(fterms)), key=lambda x: x.count(func))) and result == fterms[0] or result == max(list(ordered(fterms)), key=lambda x: x.count(func))","over":{"base":"Any","pred":"hasattr(lhs, 'atoms') and hasattr(X, 'is_Symbol')"},"name":"_mostfunc_correct"},"guarantee":"result == (fterms[0] if len(fterms) == 1 else max(list(ordered(fterms)), key=lambda x: x.count(func))); result == fterms[0] or result == max(list(ordered(fterms)), key=lambda x: x.count(func)); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.bivariate._mostfunc_correct","statement":"Path(_mostfunc(x), result == (fterms[0] if len(fterms) == 1 else max(list(ordered(fterms)), key=lambda x: x.count(func))); result == fterms[0] or result == max(list(ordered(fterms)), key=lambda x: x.count(func)); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e077b05a2a605e85","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(lhs, 'atoms')","hasattr(X, 'is_Symbol')"],"ensures":["result == (fterms[0] if len(fterms) == 1 else max(list(ordered(fterms)), key=lambda x: x.count(func)))","result == fterms[0] or result == max(list(ordered(fterms)), key=lambda x: x.count(func))"],"fibers":[{"name":"case_0","guard":"len(fterms) == 1","ensures":["result == fterms[0]"],"decidability":"z3","returns_expr":"fterms[0]"},{"name":"case_1","guard":"fterms","ensures":["result == max(list(ordered(fterms)), key=lambda x: x.count(func))"],"decidability":"library","returns_expr":"max(list(ordered(fterms)), key=lambda x: x.count(func))"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["X.is_Symbol","lhs.atoms"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _mostfunc(lhs, func, X=None):
     """Returns the term in lhs which contains the most of the
     func-type things e.g. log(log(x)) wins over log(x) if both terms appear.
@@ -121,16 +139,25 @@ def _mostfunc(lhs, func, X=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_linab(arg), return ``a, b, x`` assuming ``arg`` can be written as ``a*x + b`` where ``x`` is a symbol-dependent factor and ``a`` and ``b`` are independent of ``symbol``) over Any ║
+# ║ Path(_linab(arg, symbol), # HINT: _linab may be idempotent: _linab(_linab(x)) == _linab(x)) over {Any | hasattr(arg, 'as_independent') and hasattr(arg, 'is_Mul') and hasattr(arg, 'is_Add') and hasattr(arg, 'expand')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _linab : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(arg, 'as_independent')                 ║
+# ║   requires: hasattr(arg, 'is_Mul')                         ║
+# ║   requires: hasattr(arg, 'is_Add')                         ║
+# ║   ensures:  # HINT: _linab may be idempotent: _linab(...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _linab : {Any | hasattr(arg, 'as_independent') and ha...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 848776d03c26cb44  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7bb300efbd31628d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.bivariate._linab","kind":"function","src_hash":"1f4b8b82b47a7042","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_linab(arg)","rhs":"return ``a, b, x`` assuming ``arg`` can be written as ``a*x + b`` where ``x`` is a symbol-dependent factor and ``a`` and ``b`` are independent of ``symbol``","over":{"base":"Any"},"name":"_linab_correct"},"guarantee":"return ``a, b, x`` assuming ``arg`` can be written as ``a*x + b`` where ``x`` is a symbol-dependent factor and ``a`` and ``b`` are independent of ``symbol``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.bivariate._linab_correct","statement":"Path(_linab(x), return ``a, b, x`` assuming ``arg`` can be written as ``a*x + b`` where ``x`` is a symbol-dependent factor and ``a`` and ``b`` are independent of ``symbol``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"848776d03c26cb44"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.bivariate._linab","kind":"function","src_hash":"1f4b8b82b47a7042","in":{"base":"Any","pred":"hasattr(arg, 'as_independent') and hasattr(arg, 'is_Mul') and hasattr(arg, 'is_Add') and hasattr(arg, 'expand')"},"out":{"base":"Any","pred":"result satisfies: # HINT: _linab may be idempotent: _linab(_linab(x)) == _linab(x)"},"spec":{"lhs":"_linab(arg, symbol)","rhs":"# HINT: _linab may be idempotent: _linab(_linab(x)) == _linab(x)","over":{"base":"Any","pred":"hasattr(arg, 'as_independent') and hasattr(arg, 'is_Mul') and hasattr(arg, 'is_Add') and hasattr(arg, 'expand')"},"name":"_linab_correct"},"guarantee":"# HINT: _linab may be idempotent: _linab(_linab(x)) == _linab(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.bivariate._linab_correct","statement":"Path(_linab(x), # HINT: _linab may be idempotent: _linab(_linab(x)) == _linab(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7bb300efbd31628d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(arg, 'as_independent')","hasattr(arg, 'is_Mul')","hasattr(arg, 'is_Add')","hasattr(arg, 'expand')"],"ensures":["# HINT: _linab may be idempotent: _linab(_linab(x)) == _linab(x)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["arg.as_independent","arg.expand","arg.is_Add","arg.is_Mul"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _linab(arg, symbol):
     """Return ``a, b, X`` assuming ``arg`` can be written as ``a*X + b``
     where ``X`` is a symbol-dependent factor and ``a`` and ``b`` are
@@ -169,9 +196,13 @@ def _linab(arg, symbol):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_lambert(eq,), given an expression assumed to be in the form ``f(x, a..f) = a*log(b*x + c) + d*x + f = 0`` where x = g(x) and x = g^-1(x), return the lambert solution, ``x = g^-1(-c/b + (a/d)*w(d/(a*b)*exp(c*d/a/b)*) over {Any | isinstance(-other, log)} ║
+# ║ Path(_lambert(eq, x), <unspecified:_lambert>) over {Any | isinstance(-other, log) and hasattr(eq, 'subs')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _lambert : {Any | isinstance(-other, log)} → Any           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(eq, 'subs')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _lambert : {Any | isinstance(-other, log) and hasattr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   log: {isinstance(-other, log)} → library_axiom           ║
@@ -181,9 +212,12 @@ def _linab(arg, symbol):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 2.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 3e3feeb0...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.bivariate._lambert","kind":"function","src_hash":"1e45fb343297597c","in":{"base":"Any","pred":"isinstance(-other, log)"},"out":{"base":"Any"},"spec":{"lhs":"_lambert(eq,)","rhs":"given an expression assumed to be in the form ``f(x, a..f) = a*log(b*x + c) + d*x + f = 0`` where x = g(x) and x = g^-1(x), return the lambert solution, ``x = g^-1(-c/b + (a/d)*w(d/(a*b)*exp(c*d/a/b)*","over":{"base":"Any","pred":"isinstance(-other, log)"},"name":"_lambert_correct"},"guarantee":"given an expression assumed to be in the form ``f(x, a..f) = a*log(b*x + c) + d*x + f = 0`` where x = g(x) and x = g^-1(x), return the lambert solution, ``x = g^-1(-c/b + (a/d)*w(d/(a*b)*exp(c*d/a/b)*","fibers":[{"name":"log","pred":"isinstance(-other, log)","path":{"lhs":"_lambert(x)","rhs":"given an expression assumed to be in the form ``f(x, a..f) = a*log(b*x + c) + d*x + f = 0`` where x = g(x) and x = g^-1(x), return the lambert solution, ``x = g^-1(-c/b + (a/d)*w(d/(a*b)*exp(c*d/a/b)*","over":{"base":"log","pred":"isinstance(-other, log)"},"name":"_lambert_log_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.bivariate._lambert_log_correct","statement":"_lambert satisfies spec on log inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"3e3feeb011478759"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.bivariate._lambert","kind":"function","src_hash":"1e45fb343297597c","in":{"base":"Any","pred":"isinstance(-other, log) and hasattr(eq, 'subs')"},"out":{"base":"Any"},"spec":{"lhs":"_lambert(eq, x)","rhs":"<unspecified:_lambert>","over":{"base":"Any","pred":"isinstance(-other, log) and hasattr(eq, 'subs')"},"name":"_lambert_correct"},"guarantee":"given an expression assumed to be in the form ``f(x, a..f) = a*log(b*x + c) + d*x + f = 0`` where x = g(x) and x = g^-1(x), return the lambert solution, ``x = g^-1(-c/b + (a/d)*w(d/(a*b)*exp(c*d/a/b)*","fibers":[{"name":"log","pred":"isinstance(-other, log)","path":{"lhs":"_lambert(x)","rhs":"given an expression assumed to be in the form ``f(x, a..f) = a*log(b*x + c) + d*x + f = 0`` where x = g(x) and x = g^-1(x), return the lambert solution, ``x = g^-1(-c/b + (a/d)*w(d/(a*b)*exp(c*d/a/b)*","over":{"base":"log","pred":"isinstance(-other, log)"},"name":"_lambert_log_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.bivariate._lambert_log_correct","statement":"_lambert satisfies spec on log inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"3e3feeb011478759","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(eq, 'subs')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.1,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(-other, log)', 'not isinstance(mainlog, log)', 'X1 != X2', 'a is None or x in a.free_symbols'}, fibers={'log'})"]}}
 def _lambert(eq, x):
     """
     Given an expression assumed to be in the form
@@ -257,16 +291,25 @@ def _lambert(eq, x):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_solve_lambert(f, ), return solution to ``f`` if it is a lambert-type expression else raise notimplementederror) over Any ║
+# ║ Path(_solve_lambert(f, symbol, gens), # HINT: _solve_lambert may be idempotent: _solve_lambert(_solve_lambert(x)) == _solve_lambert(x)) over {Any | lamcheck and hasattr(f, 'as_independent') and hasattr(symbol, 'assumptions0')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _solve_lambert : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: lamcheck                                       ║
+# ║   requires: hasattr(f, 'as_independent')                   ║
+# ║   requires: hasattr(symbol, 'assumptions0')                ║
+# ║   ensures:  # HINT: _solve_lambert may be idempotent:...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _solve_lambert : {Any | lamcheck and hasattr(f, 'as_i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 610b3ec0f5c75d20  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5b5dabf458cfd752  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.bivariate._solve_lambert","kind":"function","src_hash":"d291f526300945ca","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_solve_lambert(f, )","rhs":"return solution to ``f`` if it is a lambert-type expression else raise notimplementederror","over":{"base":"Any"},"name":"_solve_lambert_correct"},"guarantee":"return solution to ``f`` if it is a lambert-type expression else raise notimplementederror","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.bivariate._solve_lambert_correct","statement":"Path(_solve_lambert(x), return solution to ``f`` if it is a lambert-type expression else raise notimplementederror)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"610b3ec0f5c75d20"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.bivariate._solve_lambert","kind":"function","src_hash":"d291f526300945ca","in":{"base":"Any","pred":"lamcheck and hasattr(f, 'as_independent') and hasattr(symbol, 'assumptions0')"},"out":{"base":"Any","pred":"result satisfies: # HINT: _solve_lambert may be idempotent: _solve_lambert(_solve_lambert(x)) == _solve_lambert(x)"},"spec":{"lhs":"_solve_lambert(f, symbol, gens)","rhs":"# HINT: _solve_lambert may be idempotent: _solve_lambert(_solve_lambert(x)) == _solve_lambert(x)","over":{"base":"Any","pred":"lamcheck and hasattr(f, 'as_independent') and hasattr(symbol, 'assumptions0')"},"name":"_solve_lambert_correct"},"guarantee":"# HINT: _solve_lambert may be idempotent: _solve_lambert(_solve_lambert(x)) == _solve_lambert(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.bivariate._solve_lambert_correct","statement":"Path(_solve_lambert(x), # HINT: _solve_lambert may be idempotent: _solve_lambert(_solve_lambert(x)) == _solve_lambert(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5b5dabf458cfd752","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["lamcheck","hasattr(f, 'as_independent')","hasattr(symbol, 'assumptions0')"],"ensures":["# HINT: _solve_lambert may be idempotent: _solve_lambert(_solve_lambert(x)) == _solve_lambert(x)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["f.as_independent","symbol.assumptions0"],"calls_mutating":["sols.extend"],"raises":["NotImplementedError"]},"state_contract":{"modifies":["sols.*"],"old_bindings":{"old_len_sols":"len(sols)"},"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"assumed","binding":true}}
 def _solve_lambert(f, symbol, gens):
     """Return solution to ``f`` if it is a Lambert-type expression
     else raise NotImplementedError.
@@ -492,16 +535,23 @@ def _solve_lambert(f, symbol, gens):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(bivariate_type(f, ), id) over Any                     ║
+# ║ Path(bivariate_type(f, x, y), id) over {Any | hasattr(f, 'subs')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ bivariate_type : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'subs')                             ║
+# ║   ensures:  # HINT: bivariate_type may be idempotent:...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ bivariate_type : {Any | hasattr(f, 'subs')} → {Any | ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 09f37e7845e685f9   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.bivariate.bivariate_type","kind":"function","src_hash":"9afbafa983dabfbb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bivariate_type(f, )","rhs":"given an expression, f, 3 tests will be done to see what type of composite bivariate it might be, options for u(x, y) are::","over":{"base":"Any"},"name":"bivariate_type_correct","kind":"composition"},"guarantee":"given an expression, f, 3 tests will be done to see what type of composite bivariate it might be, options for u(x, y) are::","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"xreplace","by":"library_axiom"},{"fn":"xreplace","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"09f37e7845e685f9"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.bivariate.bivariate_type","kind":"function","src_hash":"9afbafa983dabfbb","in":{"base":"Any","pred":"hasattr(f, 'subs')"},"out":{"base":"Any","pred":"result satisfies: # HINT: bivariate_type may be idempotent: bivariate_type(bivariate_type(x)) == bivariate_type(x)"},"spec":{"lhs":"bivariate_type(f, x, y)","rhs":"# HINT: bivariate_type may be idempotent: bivariate_type(bivariate_type(x)) == bivariate_type(x)","over":{"base":"Any","pred":"hasattr(f, 'subs')"},"name":"bivariate_type_correct","kind":"composition"},"guarantee":"# HINT: bivariate_type may be idempotent: bivariate_type(bivariate_type(x)) == bivariate_type(x)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"xreplace","by":"library_axiom"},{"fn":"xreplace","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"09f37e7845e685f9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'subs')"],"ensures":["# HINT: bivariate_type may be idempotent: bivariate_type(bivariate_type(x)) == bivariate_type(x)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['f', 'x', 'y'], spec=['f', 'x', 'y', 'first']"]}}
 def bivariate_type(f, x, y, *, first=True):
     """Given an expression, f, 3 tests will be done to see what type
     of composite bivariate it might be, options for u(x, y) are::

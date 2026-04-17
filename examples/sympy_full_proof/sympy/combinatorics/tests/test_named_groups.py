@@ -22,16 +22,24 @@ from sympy.testing.pytest import raises
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_SymmetricGroup(), test_SymmetricGroup produces the expected output) over Any ║
+# ║ Path(test_SymmetricGroup(), G.generators[0].size == 5 and len(elements) == 120 and G.is_solvable is False and G.is_abelian is False and G.is_nilpotent is False and G.is_transitive() is True and H.order() == 1 and L.order() == 2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_SymmetricGroup : Any → {Any | G.generators[0].si...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  G.generators[0].size == 5                      ║
+# ║   ensures:  len(elements) == 120                           ║
+# ║   ensures:  G.is_solvable is False                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_SymmetricGroup : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 048240d45cc3734e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d8487f496a1c1e68  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_named_groups.test_SymmetricGroup","kind":"function","src_hash":"33998832e8e54019","in":{"base":"Any"},"out":{"base":"Any","pred":"G.generators[0].size == 5 and len(elements) == 120 and G.is_solvable is False and G.is_abelian is False and G.is_nilpotent is False and G.is_transitive() is True and H.order() == 1 and L.order() == 2"},"spec":{"lhs":"test_SymmetricGroup()","rhs":"test_SymmetricGroup produces the expected output","over":{"base":"Any"},"name":"test_SymmetricGroup_correct"},"guarantee":"test_SymmetricGroup produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_named_groups.test_SymmetricGroup_correct","statement":"Path(test_SymmetricGroup(x), test_SymmetricGroup produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"048240d45cc3734e"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_named_groups.test_SymmetricGroup","kind":"function","src_hash":"33998832e8e54019","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: G.generators[0].size == 5 and len(elements) == 120 and G.is_solvable is False and G.is_abelian is False and G.is_nilpotent is False and G.is_transitive() is True and H.order() == 1 and L.order() == 2"},"spec":{"lhs":"test_SymmetricGroup()","rhs":"G.generators[0].size == 5 and len(elements) == 120 and G.is_solvable is False and G.is_abelian is False and G.is_nilpotent is False and G.is_transitive() is True and H.order() == 1 and L.order() == 2","over":{"base":"Any"},"name":"test_SymmetricGroup_correct"},"guarantee":"G.generators[0].size == 5; len(elements) == 120; G.is_solvable is False","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_named_groups.test_SymmetricGroup_correct","statement":"Path(test_SymmetricGroup(x), G.generators[0].size == 5; len(elements) == 120; G.is_solvable is False)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d8487f496a1c1e68","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["G.generators[0].size == 5","len(elements) == 120","G.is_solvable is False","G.is_abelian is False","G.is_nilpotent is False","G.is_transitive() is True","H.order() == 1","L.order() == 2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_SymmetricGroup():
     G = SymmetricGroup(5)
     elements = list(G.generate())
@@ -48,16 +56,24 @@ def test_SymmetricGroup():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_CyclicGroup(), test_CyclicGroup produces the expected output) over Any ║
+# ║ Path(test_CyclicGroup(), len(elements) == 10 and G.derived_subgroup().order() == 1 and G.is_abelian is True and G.is_solvable is True and G.is_nilpotent is True and H.order() == 1 and L.order() == 2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_CyclicGroup : Any → {Any | len(elements) == 10 a...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(elements) == 10                            ║
+# ║   ensures:  G.derived_subgroup().order() == 1              ║
+# ║   ensures:  G.is_abelian is True                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_CyclicGroup : Any → {Any | result satisfies: len...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cc9fc0185ef48b0e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 81e3811e94ffbdc9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_named_groups.test_CyclicGroup","kind":"function","src_hash":"8583477770b8a507","in":{"base":"Any"},"out":{"base":"Any","pred":"len(elements) == 10 and G.derived_subgroup().order() == 1 and G.is_abelian is True and G.is_solvable is True and G.is_nilpotent is True and H.order() == 1 and L.order() == 2"},"spec":{"lhs":"test_CyclicGroup()","rhs":"test_CyclicGroup produces the expected output","over":{"base":"Any"},"name":"test_CyclicGroup_correct"},"guarantee":"test_CyclicGroup produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_named_groups.test_CyclicGroup_correct","statement":"Path(test_CyclicGroup(x), test_CyclicGroup produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cc9fc0185ef48b0e"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_named_groups.test_CyclicGroup","kind":"function","src_hash":"8583477770b8a507","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(elements) == 10 and G.derived_subgroup().order() == 1 and G.is_abelian is True and G.is_solvable is True and G.is_nilpotent is True and H.order() == 1 and L.order() == 2"},"spec":{"lhs":"test_CyclicGroup()","rhs":"len(elements) == 10 and G.derived_subgroup().order() == 1 and G.is_abelian is True and G.is_solvable is True and G.is_nilpotent is True and H.order() == 1 and L.order() == 2","over":{"base":"Any"},"name":"test_CyclicGroup_correct"},"guarantee":"len(elements) == 10; G.derived_subgroup().order() == 1; G.is_abelian is True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_named_groups.test_CyclicGroup_correct","statement":"Path(test_CyclicGroup(x), len(elements) == 10; G.derived_subgroup().order() == 1; G.is_abelian is True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"81e3811e94ffbdc9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(elements) == 10","G.derived_subgroup().order() == 1","G.is_abelian is True","G.is_solvable is True","G.is_nilpotent is True","H.order() == 1","L.order() == 2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_CyclicGroup():
     G = CyclicGroup(10)
     elements = list(G.generate())
@@ -73,16 +89,24 @@ def test_CyclicGroup():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DihedralGroup(), test_DihedralGroup produces the expected output) over Any ║
+# ║ Path(test_DihedralGroup(), len(elements) == 12 and G.is_transitive() is True and G.is_abelian is False and G.is_solvable is True and G.is_nilpotent is False and H.order() == 2 and L.order() == 4 and L.is_abelian is True and L.is_nilpotent is True) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DihedralGroup : Any → {Any | len(elements) == 12...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(elements) == 12                            ║
+# ║   ensures:  G.is_transitive() is True                      ║
+# ║   ensures:  G.is_abelian is False                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DihedralGroup : Any → {Any | result satisfies: l...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 98419330b2390b28  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e52ddc8faf914b74  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_named_groups.test_DihedralGroup","kind":"function","src_hash":"f81e738114ae2e7d","in":{"base":"Any"},"out":{"base":"Any","pred":"len(elements) == 12 and G.is_transitive() is True and G.is_abelian is False and G.is_solvable is True and G.is_nilpotent is False and H.order() == 2 and L.order() == 4 and L.is_abelian is True and L.is_nilpotent is True"},"spec":{"lhs":"test_DihedralGroup()","rhs":"test_DihedralGroup produces the expected output","over":{"base":"Any"},"name":"test_DihedralGroup_correct"},"guarantee":"test_DihedralGroup produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_named_groups.test_DihedralGroup_correct","statement":"Path(test_DihedralGroup(x), test_DihedralGroup produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"98419330b2390b28"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_named_groups.test_DihedralGroup","kind":"function","src_hash":"f81e738114ae2e7d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(elements) == 12 and G.is_transitive() is True and G.is_abelian is False and G.is_solvable is True and G.is_nilpotent is False and H.order() == 2 and L.order() == 4 and L.is_abelian is True and L.is_nilpotent is True"},"spec":{"lhs":"test_DihedralGroup()","rhs":"len(elements) == 12 and G.is_transitive() is True and G.is_abelian is False and G.is_solvable is True and G.is_nilpotent is False and H.order() == 2 and L.order() == 4 and L.is_abelian is True and L.is_nilpotent is True","over":{"base":"Any"},"name":"test_DihedralGroup_correct"},"guarantee":"len(elements) == 12; G.is_transitive() is True; G.is_abelian is False","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_named_groups.test_DihedralGroup_correct","statement":"Path(test_DihedralGroup(x), len(elements) == 12; G.is_transitive() is True; G.is_abelian is False)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e52ddc8faf914b74","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(elements) == 12","G.is_transitive() is True","G.is_abelian is False","G.is_solvable is True","G.is_nilpotent is False","H.order() == 2","L.order() == 4","L.is_abelian is True","L.is_nilpotent is True"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_DihedralGroup():
     G = DihedralGroup(6)
     elements = list(G.generate())
@@ -100,16 +124,24 @@ def test_DihedralGroup():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_AlternatingGroup(), test_AlternatingGroup produces the expected output) over Any ║
+# ║ Path(test_AlternatingGroup(), len(elements) == 60 and [perm.is_even for perm in elements] == [True] * 60 and H.order() == 1 and L.order() == 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_AlternatingGroup : Any → {Any | len(elements) ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(elements) == 60                            ║
+# ║   ensures:  [perm.is_even for perm in elements] == [T...   ║
+# ║   ensures:  H.order() == 1                                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_AlternatingGroup : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 82e6b84cb3e7810f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 03f6f61b25305673  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_named_groups.test_AlternatingGroup","kind":"function","src_hash":"fbc95d542c506c55","in":{"base":"Any"},"out":{"base":"Any","pred":"len(elements) == 60 and [perm.is_even for perm in elements] == [True] * 60 and H.order() == 1 and L.order() == 1"},"spec":{"lhs":"test_AlternatingGroup()","rhs":"test_AlternatingGroup produces the expected output","over":{"base":"Any"},"name":"test_AlternatingGroup_correct"},"guarantee":"test_AlternatingGroup produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_named_groups.test_AlternatingGroup_correct","statement":"Path(test_AlternatingGroup(x), test_AlternatingGroup produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"82e6b84cb3e7810f"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_named_groups.test_AlternatingGroup","kind":"function","src_hash":"fbc95d542c506c55","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(elements) == 60 and [perm.is_even for perm in elements] == [True] * 60 and H.order() == 1 and L.order() == 1"},"spec":{"lhs":"test_AlternatingGroup()","rhs":"len(elements) == 60 and [perm.is_even for perm in elements] == [True] * 60 and H.order() == 1 and L.order() == 1","over":{"base":"Any"},"name":"test_AlternatingGroup_correct"},"guarantee":"len(elements) == 60; [perm.is_even for perm in elements] == [True] * 60; H.order() == 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_named_groups.test_AlternatingGroup_correct","statement":"Path(test_AlternatingGroup(x), len(elements) == 60; [perm.is_even for perm in elements] == [True] * 60; H.order() == 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"03f6f61b25305673","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(elements) == 60","[perm.is_even for perm in elements] == [True] * 60","H.order() == 1","L.order() == 1"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_AlternatingGroup():
     G = AlternatingGroup(5)
     elements = list(G.generate())
@@ -122,16 +154,23 @@ def test_AlternatingGroup():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_AbelianGroup(), test_AbelianGroup produces the expected output) over Any ║
+# ║ Path(test_AbelianGroup(), A.order() == 27 and A.is_abelian is True) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_AbelianGroup : Any → {Any | A.order() == 27 and ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A.order() == 27                                ║
+# ║   ensures:  A.is_abelian is True                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_AbelianGroup : Any → {Any | result satisfies: A....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 29b2dde328fb93dd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a51aaccaf5860d8f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_named_groups.test_AbelianGroup","kind":"function","src_hash":"1110a91126ab8540","in":{"base":"Any"},"out":{"base":"Any","pred":"A.order() == 27 and A.is_abelian is True"},"spec":{"lhs":"test_AbelianGroup()","rhs":"test_AbelianGroup produces the expected output","over":{"base":"Any"},"name":"test_AbelianGroup_correct"},"guarantee":"test_AbelianGroup produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_named_groups.test_AbelianGroup_correct","statement":"Path(test_AbelianGroup(x), test_AbelianGroup produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"29b2dde328fb93dd"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_named_groups.test_AbelianGroup","kind":"function","src_hash":"1110a91126ab8540","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A.order() == 27 and A.is_abelian is True"},"spec":{"lhs":"test_AbelianGroup()","rhs":"A.order() == 27 and A.is_abelian is True","over":{"base":"Any"},"name":"test_AbelianGroup_correct"},"guarantee":"A.order() == 27; A.is_abelian is True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_named_groups.test_AbelianGroup_correct","statement":"Path(test_AbelianGroup(x), A.order() == 27; A.is_abelian is True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a51aaccaf5860d8f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A.order() == 27","A.is_abelian is True"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_AbelianGroup():
     A = AbelianGroup(3, 3, 3)
     assert A.order() == 27
@@ -139,15 +178,21 @@ def test_AbelianGroup():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_RubikGroup(), test_RubikGroup produces the expected output) over Any ║
+# ║ Path(test_RubikGroup(), <unspecified:test_RubikGroup>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_RubikGroup : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 651cce1f36006ea8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_named_groups.test_RubikGroup","kind":"function","src_hash":"f83ee85ba638c861","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_RubikGroup()","rhs":"test_RubikGroup produces the expected output","over":{"base":"Any"},"name":"test_RubikGroup_correct"},"guarantee":"test_RubikGroup produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_named_groups.test_RubikGroup_correct","statement":"Path(test_RubikGroup(x), test_RubikGroup produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"651cce1f36006ea8"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_named_groups.test_RubikGroup","kind":"function","src_hash":"f83ee85ba638c861","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_RubikGroup()","rhs":"<unspecified:test_RubikGroup>","over":{"base":"Any"},"name":"test_RubikGroup_correct"},"guarantee":"test_RubikGroup produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_named_groups.test_RubikGroup_correct","statement":"Path(test_RubikGroup(x), test_RubikGroup produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"651cce1f36006ea8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_RubikGroup():
     raises(ValueError, lambda: RubikGroup(1))

@@ -47,14 +47,20 @@ pprint_try_use_unicode = pretty_try_use_unicode
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(PrettyPrinter(*args), correctly constructs a PrettyPrinter instance) over {Any | isinstance(expr.sys1, TransferFunctionMatrix) and isinstance(expr, Vector) and isinstance(self._settings['imaginary_unit'], str)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Printer)                      ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ PrettyPrinter : {Any | isinstance(expr.sys1, Transfer...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 27.2ms                        ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 359cde4aa5d7fdda  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter","kind":"class","src_hash":"4a425274ddbec76c","in":{"base":"Any","pred":"isinstance(expr.sys1, TransferFunctionMatrix) and isinstance(expr, Vector) and isinstance(self._settings['imaginary_unit'], str)"},"out":{"base":"Any","pred":"s.width() <= maxw[j] and p.width() <= maxw[j]"},"spec":{"lhs":"PrettyPrinter(*args)","rhs":"correctly constructs a PrettyPrinter instance","over":{"base":"Any","pred":"isinstance(expr.sys1, TransferFunctionMatrix) and isinstance(expr, Vector) and isinstance(self._settings['imaginary_unit'], str)"},"name":"PrettyPrinter_class_invariant"},"guarantee":"correctly constructs a PrettyPrinter instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"359cde4aa5d7fdda"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter","kind":"class","src_hash":"4a425274ddbec76c","in":{"base":"Any","pred":"isinstance(expr.sys1, TransferFunctionMatrix) and isinstance(expr, Vector) and isinstance(self._settings['imaginary_unit'], str)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Printer)"},"spec":{"lhs":"PrettyPrinter(*args)","rhs":"correctly constructs a PrettyPrinter instance","over":{"base":"Any","pred":"isinstance(expr.sys1, TransferFunctionMatrix) and isinstance(expr, Vector) and isinstance(self._settings['imaginary_unit'], str)"},"name":"PrettyPrinter_class_invariant"},"guarantee":"isinstance(self, Printer)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"359cde4aa5d7fdda","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Printer)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":27.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function PrettyPrinter not found in source"]}}
 class PrettyPrinter(Printer):
     """Printer, which converts an expression into 2D ASCII-art figure."""
     printmethod = "_pretty"
@@ -73,16 +79,23 @@ class PrettyPrinter(Printer):
     }
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(set), initializes the instance correctly) over Any ║
+# ║ Path(__init__(settings), <unspecified:__init__>) over {Any | isinstance(self._settings['imaginary_unit'], str)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(self._settings['imaginary_unit...   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : {Any | isinstance(self._settings['imaginar...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e2be126dbb9096db           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter.__init__","kind":"method","src_hash":"826b547cb3956994","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(set)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e2be126dbb9096db"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter.__init__","kind":"method","src_hash":"826b547cb3956994","in":{"base":"Any","pred":"isinstance(self._settings['imaginary_unit'], str)"},"out":{"base":"Any"},"spec":{"lhs":"__init__(settings)","rhs":"<unspecified:__init__>","over":{"base":"Any","pred":"isinstance(self._settings['imaginary_unit'], str)"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e2be126dbb9096db","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(self._settings['imaginary_unit'], str)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._settings"],"raises":["TypeError","ValueError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, settings=None):
         Printer.__init__(self, settings)
 
@@ -92,31 +105,46 @@ class PrettyPrinter(Printer):
             raise ValueError("'imaginary_unit' must be either 'i' or 'j', not '{}'".format(self._settings['imaginary_unit']))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(emptyPrinter(exp), emptyPrinter produces the expected output) over Any ║
+# ║ Path(emptyPrinter(expr), prettyForm(str(expr))) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  prettyForm(str(expr))                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ emptyPrinter : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0a6fffbcebb09a50           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter.emptyPrinter","kind":"method","src_hash":"d6097e21f90f6d24","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"emptyPrinter(exp)","rhs":"emptyPrinter produces the expected output","over":{"base":"Any"},"name":"emptyPrinter_correct"},"guarantee":"emptyPrinter produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0a6fffbcebb09a50"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter.emptyPrinter","kind":"method","src_hash":"d6097e21f90f6d24","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"emptyPrinter(expr)","rhs":"prettyForm(str(expr))","over":{"base":"Any"},"name":"emptyPrinter_correct"},"guarantee":"returns prettyForm(str(expr))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0a6fffbcebb09a50","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"prettyForm(str(expr))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def emptyPrinter(self, expr):
         return prettyForm(str(expr))
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_use_unicode(), returns the _use_unicode attribute) over Any ║
+# ║ Path(_use_unicode(), result == (True if self._settings['use_unicode'] else pretty_use_unicode()) and result == True or result == pretty_use_unicode()) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _use_unicode : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (True if self._settings['use_un...   ║
+# ║   ensures:  result == True or result == pretty_use_un...   ║
+# ║   fiber[case_0]: self._settings['use_unicode'] => True     ║
+# ║   fiber[case_1]: not (self._settings['use_unicode']) ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _use_unicode : Any → {Any | result satisfies: result ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | aaa492470403977e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._use_unicode","kind":"property","src_hash":"046f23b3f6dd38ba","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_use_unicode()","rhs":"returns the _use_unicode attribute","over":{"base":"Any"},"name":"_use_unicode_correct"},"guarantee":"returns the _use_unicode attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"aaa492470403977e"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._use_unicode","kind":"property","src_hash":"046f23b3f6dd38ba","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (True if self._settings['use_unicode'] else pretty_use_unicode()) and result == True or result == pretty_use_unicode()"},"spec":{"lhs":"_use_unicode()","rhs":"result == (True if self._settings['use_unicode'] else pretty_use_unicode()) and result == True or result == pretty_use_unicode()","over":{"base":"Any"},"name":"_use_unicode_correct"},"guarantee":"result == (True if self._settings['use_unicode'] else pretty_use_unicode()); result == True or result == pretty_use_unicode(); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"aaa492470403977e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (True if self._settings['use_unicode'] else pretty_use_unicode())","result == True or result == pretty_use_unicode()"],"fibers":[{"name":"case_0","guard":"self._settings['use_unicode']","ensures":["result == True"],"decidability":"library","returns_expr":"True"},{"name":"case_1","guard":"not (self._settings['use_unicode'])","ensures":["result == pretty_use_unicode()"],"decidability":"library","returns_expr":"pretty_use_unicode()"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._settings"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _use_unicode(self):
         if self._settings['use_unicode']:
             return True
@@ -124,104 +152,149 @@ class PrettyPrinter(Printer):
             return pretty_use_unicode()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(doprint(exp), doprint produces the expected output) over Any ║
+# ║ Path(doprint(expr), self._print(expr).render(**self._settings)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._print(expr).render(**self._settings)     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ doprint : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b18ea3775002fd82           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter.doprint","kind":"method","src_hash":"b332a1aa64ebb9ad","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"doprint(exp)","rhs":"doprint produces the expected output","over":{"base":"Any"},"name":"doprint_correct"},"guarantee":"doprint produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b18ea3775002fd82"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter.doprint","kind":"method","src_hash":"b332a1aa64ebb9ad","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"doprint(expr)","rhs":"self._print(expr).render(**self._settings)","over":{"base":"Any"},"name":"doprint_correct"},"guarantee":"returns self._print(expr).render(**self._settings)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b18ea3775002fd82","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._print(expr).render(**self._settings)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._print","self._settings"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def doprint(self, expr):
         return self._print(expr).render(**self._settings)
 
     # empty op so _print(stringPict) returns the same
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_stringPict(e), internal helper behaves correctly) over Any ║
+# ║ Path(_print_stringPict(e), e) over Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_stringPict : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == e                                    ║
+# ║   returns:  e                                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_stringPict : Any → {Any | result satisfies: re...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 882437848edd682d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_stringPict","kind":"method","src_hash":"61cfa6d8eea03c65","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_stringPict(e)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_stringPict_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"882437848edd682d"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_stringPict","kind":"method","src_hash":"61cfa6d8eea03c65","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (e)"},"spec":{"lhs":"_print_stringPict(e)","rhs":"e","over":{"base":"Any"},"name":"_print_stringPict_correct"},"guarantee":"returns e; result == e","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"882437848edd682d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == e"],"returns_expr":"e","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_stringPict(self, e):
         return e
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_basestring(e), internal helper behaves correctly) over Any ║
+# ║ Path(_print_basestring(e), prettyForm(e)) over Any         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  prettyForm(e)                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_basestring : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9e7bff94a1651ba3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_basestring","kind":"method","src_hash":"59269e696dbf3bb9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_basestring(e)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_basestring_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9e7bff94a1651ba3"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_basestring","kind":"method","src_hash":"59269e696dbf3bb9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_basestring(e)","rhs":"prettyForm(e)","over":{"base":"Any"},"name":"_print_basestring_correct"},"guarantee":"returns prettyForm(e)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9e7bff94a1651ba3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"prettyForm(e)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_basestring(self, e):
         return prettyForm(e)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_atan2(e), internal helper behaves correctly) over Any ║
+# ║ Path(_print_atan2(e), <unspecified:_print_atan2>) over {Any | hasattr(e, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_atan2 : Any → Any                                   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(e, 'args')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_atan2 : {Any | hasattr(e, 'args')} → Any            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f90eea27c997f0b3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_atan2","kind":"method","src_hash":"b6918d8f902622d0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_atan2(e)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_atan2_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_atan2_correct","statement":"Path(_print_atan2(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f90eea27c997f0b3"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_atan2","kind":"method","src_hash":"b6918d8f902622d0","in":{"base":"Any","pred":"hasattr(e, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_print_atan2(e)","rhs":"<unspecified:_print_atan2>","over":{"base":"Any","pred":"hasattr(e, 'args')"},"name":"_print_atan2_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_atan2_correct","statement":"Path(_print_atan2(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f90eea27c997f0b3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(e, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["e.args","self._print_seq"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_atan2(self, e):
         pform = prettyForm(*self._print_seq(e.args).parens())
         pform = prettyForm(*pform.left('atan2'))
         return pform
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Symbol(e, ), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Symbol(e, bold_name), prettyForm(symb)) over {Any | hasattr(e, 'name')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Symbol : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(e, 'name')                             ║
+# ║   returns:  prettyForm(symb)                               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Symbol : {Any | hasattr(e, 'name')} → Any           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b934b890cd71fc0e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 86df5f3c06965b16  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Symbol","kind":"method","src_hash":"1ccaad11b9bb8b88","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Symbol(e, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Symbol_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_Symbol_correct","statement":"Path(_print_Symbol(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b934b890cd71fc0e"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Symbol","kind":"method","src_hash":"1ccaad11b9bb8b88","in":{"base":"Any","pred":"hasattr(e, 'name')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Symbol(e, bold_name)","rhs":"prettyForm(symb)","over":{"base":"Any","pred":"hasattr(e, 'name')"},"name":"_print_Symbol_correct"},"guarantee":"returns prettyForm(symb)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_Symbol_correct","statement":"Path(_print_Symbol(x), returns prettyForm(symb))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"86df5f3c06965b16","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(e, 'name')"],"returns_expr":"prettyForm(symb)","pure":false,"effects":{"effect_type":"reads_state","reads":["e.name"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Symbol(self, e, bold_name=False):
         symb = pretty_symbol(e.name, bold_name)
         return prettyForm(symb)
     _print_RandomSymbol = _print_Symbol
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_MatrixSymbol(e), internal helper behaves correctly) over Any ║
+# ║ Path(_print_MatrixSymbol(e), self._print_Symbol(e, self._settings['mat_symbol_style'] == 'bold')) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._print_Symbol(e, self._settings['mat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_MatrixSymbol : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 169b2aa6aa58d1d4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_MatrixSymbol","kind":"method","src_hash":"2e0d351de09ffc6a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_MatrixSymbol(e)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_MatrixSymbol_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"169b2aa6aa58d1d4"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_MatrixSymbol","kind":"method","src_hash":"2e0d351de09ffc6a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_MatrixSymbol(e)","rhs":"self._print_Symbol(e, self._settings['mat_symbol_style'] == 'bold')","over":{"base":"Any"},"name":"_print_MatrixSymbol_correct"},"guarantee":"returns self._print_Symbol(e, self._settings['mat_symbol_style'] == 'bold')","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"169b2aa6aa58d1d4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._print_Symbol(e, self._settings['mat_symbol_style'] == 'bold')","pure":false,"effects":{"effect_type":"reads_state","reads":["self._print_Symbol","self._settings"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_MatrixSymbol(self, e):
         return self._print_Symbol(e, self._settings['mat_symbol_style'] == "bold")
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(_print_Float(e), id) over Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  prettyForm(sstr(e, full_prec=full_prec))       ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ _print_Float : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | c2c4c444e430f505   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Float","kind":"method","src_hash":"b3b379d3e2438dbb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Float(e)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Float_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"prettyForm","by":"library_axiom"},{"fn":"sstr","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c2c4c444e430f505"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Float","kind":"method","src_hash":"b3b379d3e2438dbb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Float(e)","rhs":"prettyForm(sstr(e, full_prec=full_prec))","over":{"base":"Any"},"name":"_print_Float_correct","kind":"composition"},"guarantee":"returns prettyForm(sstr(e, full_prec=full_prec))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"prettyForm","by":"library_axiom"},{"fn":"sstr","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c2c4c444e430f505","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"prettyForm(sstr(e, full_prec=full_prec))","pure":false,"effects":{"effect_type":"reads_state","reads":["self._print_level","self._settings"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Float(self, e):
         # we will use StrPrinter's Float printer, but we need to handle the
         # full_prec ourselves, according to the self._print_level
@@ -231,16 +304,24 @@ class PrettyPrinter(Printer):
         return prettyForm(sstr(e, full_prec=full_prec))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Cross(e), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Cross(e), <unspecified:_print_Cross>) over {Any | hasattr(e, '_expr1') and hasattr(e, '_expr2')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Cross : Any → Any                                   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(e, '_expr1')                           ║
+# ║   requires: hasattr(e, '_expr2')                           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Cross : {Any | hasattr(e, '_expr1') and hasatt...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ebb8dbded6e6e7da  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Cross","kind":"method","src_hash":"4d013cf278a2a47d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Cross(e)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Cross_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_Cross_correct","statement":"Path(_print_Cross(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ebb8dbded6e6e7da"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Cross","kind":"method","src_hash":"4d013cf278a2a47d","in":{"base":"Any","pred":"hasattr(e, '_expr1') and hasattr(e, '_expr2')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Cross(e)","rhs":"<unspecified:_print_Cross>","over":{"base":"Any","pred":"hasattr(e, '_expr1') and hasattr(e, '_expr2')"},"name":"_print_Cross_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_Cross_correct","statement":"Path(_print_Cross(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ebb8dbded6e6e7da","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(e, '_expr1')","hasattr(e, '_expr2')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["e._expr1","e._expr2","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Cross(self, e):
         vec1 = e._expr1
         vec2 = e._expr2
@@ -254,16 +335,23 @@ class PrettyPrinter(Printer):
         return pform
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Curl(e), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Curl(e), <unspecified:_print_Curl>) over {Any | hasattr(e, '_expr')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Curl : Any → Any                                    ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(e, '_expr')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Curl : {Any | hasattr(e, '_expr')} → Any            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c9fd0512b4339a52  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Curl","kind":"method","src_hash":"c13b3349f3a8250c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Curl(e)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Curl_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_Curl_correct","statement":"Path(_print_Curl(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c9fd0512b4339a52"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Curl","kind":"method","src_hash":"c13b3349f3a8250c","in":{"base":"Any","pred":"hasattr(e, '_expr')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Curl(e)","rhs":"<unspecified:_print_Curl>","over":{"base":"Any","pred":"hasattr(e, '_expr')"},"name":"_print_Curl_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_Curl_correct","statement":"Path(_print_Curl(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c9fd0512b4339a52","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(e, '_expr')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["e._expr","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Curl(self, e):
         vec = e._expr
         pform = self._print(vec)
@@ -274,16 +362,23 @@ class PrettyPrinter(Printer):
         return pform
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Divergence(e), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Divergence(e), <unspecified:_print_Divergence>) over {Any | hasattr(e, '_expr')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Divergence : Any → Any                              ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(e, '_expr')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Divergence : {Any | hasattr(e, '_expr')} → Any      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1cc54d3c83758730  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Divergence","kind":"method","src_hash":"25d14315aec9f3d5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Divergence(e)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Divergence_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_Divergence_correct","statement":"Path(_print_Divergence(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1cc54d3c83758730"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Divergence","kind":"method","src_hash":"25d14315aec9f3d5","in":{"base":"Any","pred":"hasattr(e, '_expr')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Divergence(e)","rhs":"<unspecified:_print_Divergence>","over":{"base":"Any","pred":"hasattr(e, '_expr')"},"name":"_print_Divergence_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_Divergence_correct","statement":"Path(_print_Divergence(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1cc54d3c83758730","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(e, '_expr')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["e._expr","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Divergence(self, e):
         vec = e._expr
         pform = self._print(vec)
@@ -294,16 +389,24 @@ class PrettyPrinter(Printer):
         return pform
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Dot(e), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Dot(e), <unspecified:_print_Dot>) over {Any | hasattr(e, '_expr1') and hasattr(e, '_expr2')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Dot : Any → Any                                     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(e, '_expr1')                           ║
+# ║   requires: hasattr(e, '_expr2')                           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Dot : {Any | hasattr(e, '_expr1') and hasattr(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bb471f17d561dcaa  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Dot","kind":"method","src_hash":"eccfdf816a77639d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Dot(e)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Dot_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_Dot_correct","statement":"Path(_print_Dot(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bb471f17d561dcaa"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Dot","kind":"method","src_hash":"eccfdf816a77639d","in":{"base":"Any","pred":"hasattr(e, '_expr1') and hasattr(e, '_expr2')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Dot(e)","rhs":"<unspecified:_print_Dot>","over":{"base":"Any","pred":"hasattr(e, '_expr1') and hasattr(e, '_expr2')"},"name":"_print_Dot_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_Dot_correct","statement":"Path(_print_Dot(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bb471f17d561dcaa","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(e, '_expr1')","hasattr(e, '_expr2')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["e._expr1","e._expr2","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Dot(self, e):
         vec1 = e._expr1
         vec2 = e._expr2
@@ -317,16 +420,23 @@ class PrettyPrinter(Printer):
         return pform
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Gradient(e), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Gradient(e), <unspecified:_print_Gradient>) over {Any | hasattr(e, '_expr')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Gradient : Any → Any                                ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(e, '_expr')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Gradient : {Any | hasattr(e, '_expr')} → Any        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a68d937562687f20  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Gradient","kind":"method","src_hash":"886a57dcd0b5237b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Gradient(e)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Gradient_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_Gradient_correct","statement":"Path(_print_Gradient(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a68d937562687f20"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Gradient","kind":"method","src_hash":"886a57dcd0b5237b","in":{"base":"Any","pred":"hasattr(e, '_expr')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Gradient(e)","rhs":"<unspecified:_print_Gradient>","over":{"base":"Any","pred":"hasattr(e, '_expr')"},"name":"_print_Gradient_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_Gradient_correct","statement":"Path(_print_Gradient(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a68d937562687f20","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(e, '_expr')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["e._expr","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Gradient(self, e):
         func = e._expr
         pform = self._print(func)
@@ -336,16 +446,23 @@ class PrettyPrinter(Printer):
         return pform
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Laplacian(e), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Laplacian(e), <unspecified:_print_Laplacian>) over {Any | hasattr(e, '_expr')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Laplacian : Any → Any                               ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(e, '_expr')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Laplacian : {Any | hasattr(e, '_expr')} → Any       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aa72a37827977d54  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Laplacian","kind":"method","src_hash":"14d2545aef1c431e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Laplacian(e)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Laplacian_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_Laplacian_correct","statement":"Path(_print_Laplacian(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aa72a37827977d54"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Laplacian","kind":"method","src_hash":"14d2545aef1c431e","in":{"base":"Any","pred":"hasattr(e, '_expr')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Laplacian(e)","rhs":"<unspecified:_print_Laplacian>","over":{"base":"Any","pred":"hasattr(e, '_expr')"},"name":"_print_Laplacian_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_Laplacian_correct","statement":"Path(_print_Laplacian(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aa72a37827977d54","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(e, '_expr')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["e._expr","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Laplacian(self, e):
         func = e._expr
         pform = self._print(func)
@@ -357,14 +474,20 @@ class PrettyPrinter(Printer):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(_print_Atom(e), id) over Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ _print_Atom : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 99a24c80d988418a   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Atom","kind":"method","src_hash":"c5bf55fcbe6c351a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Atom(e)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Atom_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"prettyForm","by":"library_axiom"},{"fn":"pretty_atom","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"99a24c80d988418a"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Atom","kind":"method","src_hash":"c5bf55fcbe6c351a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Atom(e)","rhs":"<unspecified:_print_Atom>","over":{"base":"Any"},"name":"_print_Atom_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"prettyForm","by":"library_axiom"},{"fn":"pretty_atom","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"99a24c80d988418a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","e.__class__","self.emptyPrinter"],"catches":["KeyError"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Atom(self, e):
         try:
             # print atoms like Exp1 or Pi
@@ -385,16 +508,25 @@ class PrettyPrinter(Printer):
     _print_EmptySequence = _print_Atom
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Reals(e), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Reals(e), result == (self._print_Atom(e) if self._use_unicode else self._print_seq(inf_list, '(', ')')) and result == self._print_Atom(e) or result == self._print_seq(inf_list, '(', ')')) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Reals : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (self._print_Atom(e) if self._u...   ║
+# ║   ensures:  result == self._print_Atom(e) or result =...   ║
+# ║   fiber[case_0]: self._use_unicode => self._print_Ato...   ║
+# ║   fiber[case_1]: not (self._use_unicode) => self._pri...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Reals : Any → {Any | result satisfies: result ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6166eda73693b99c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 908565f776f21b9c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Reals","kind":"method","src_hash":"d5f1fe95cf7eff4d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Reals(e)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Reals_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_Reals_correct","statement":"Path(_print_Reals(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6166eda73693b99c"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Reals","kind":"method","src_hash":"d5f1fe95cf7eff4d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (self._print_Atom(e) if self._use_unicode else self._print_seq(inf_list, '(', ')')) and result == self._print_Atom(e) or result == self._print_seq(inf_list, '(', ')')"},"spec":{"lhs":"_print_Reals(e)","rhs":"result == (self._print_Atom(e) if self._use_unicode else self._print_seq(inf_list, '(', ')')) and result == self._print_Atom(e) or result == self._print_seq(inf_list, '(', ')')","over":{"base":"Any"},"name":"_print_Reals_correct"},"guarantee":"result == (self._print_Atom(e) if self._use_unicode else self._print_seq(inf_list, '(', ')')); result == self._print_Atom(e) or result == self._print_seq(inf_list, '(', ')'); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_Reals_correct","statement":"Path(_print_Reals(x), result == (self._print_Atom(e) if self._use_unicode else self._print_seq(inf_list, '(', ')')); result == self._print_Atom(e) or result == self._print_seq(inf_list, '(', ')'); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"908565f776f21b9c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (self._print_Atom(e) if self._use_unicode else self._print_seq(inf_list, '(', ')'))","result == self._print_Atom(e) or result == self._print_seq(inf_list, '(', ')')"],"fibers":[{"name":"case_0","guard":"self._use_unicode","ensures":["result == self._print_Atom(e)"],"decidability":"library","returns_expr":"self._print_Atom(e)"},{"name":"case_1","guard":"not (self._use_unicode)","ensures":["result == self._print_seq(inf_list, '(', ')')"],"decidability":"library","returns_expr":"self._print_seq(inf_list, '(', ')')"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._print_Atom","self._print_seq","self._use_unicode"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Reals(self, e):
         if self._use_unicode:
             return self._print_Atom(e)
@@ -403,16 +535,23 @@ class PrettyPrinter(Printer):
             return self._print_seq(inf_list, '(', ')')
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_subfactorial(e), internal helper behaves correctly) over Any ║
+# ║ Path(_print_subfactorial(e), <unspecified:_print_subfactorial>) over {Any | hasattr(e, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_subfactorial : Any → Any                            ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(e, 'args')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_subfactorial : {Any | hasattr(e, 'args')} → Any     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6d9940b044a5efd2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_subfactorial","kind":"method","src_hash":"15cbf0f83bc11f8a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_subfactorial(e)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_subfactorial_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_subfactorial_correct","statement":"Path(_print_subfactorial(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6d9940b044a5efd2"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_subfactorial","kind":"method","src_hash":"15cbf0f83bc11f8a","in":{"base":"Any","pred":"hasattr(e, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_print_subfactorial(e)","rhs":"<unspecified:_print_subfactorial>","over":{"base":"Any","pred":"hasattr(e, 'args')"},"name":"_print_subfactorial_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_subfactorial_correct","statement":"Path(_print_subfactorial(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6d9940b044a5efd2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(e, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["e.args","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_subfactorial(self, e):
         x = e.args[0]
         pform = self._print(x)
@@ -423,16 +562,23 @@ class PrettyPrinter(Printer):
         return pform
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_factorial(e), internal helper behaves correctly) over Any ║
+# ║ Path(_print_factorial(e), <unspecified:_print_factorial>) over {Any | hasattr(e, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_factorial : Any → Any                               ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(e, 'args')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_factorial : {Any | hasattr(e, 'args')} → Any        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7daab64c8009ca79  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_factorial","kind":"method","src_hash":"543563c86331ce09","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_factorial(e)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_factorial_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_factorial_correct","statement":"Path(_print_factorial(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7daab64c8009ca79"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_factorial","kind":"method","src_hash":"543563c86331ce09","in":{"base":"Any","pred":"hasattr(e, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_print_factorial(e)","rhs":"<unspecified:_print_factorial>","over":{"base":"Any","pred":"hasattr(e, 'args')"},"name":"_print_factorial_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_factorial_correct","statement":"Path(_print_factorial(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7daab64c8009ca79","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(e, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["e.args","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_factorial(self, e):
         x = e.args[0]
         pform = self._print(x)
@@ -443,16 +589,23 @@ class PrettyPrinter(Printer):
         return pform
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_factorial2(e), internal helper behaves correctly) over Any ║
+# ║ Path(_print_factorial2(e), <unspecified:_print_factorial2>) over {Any | hasattr(e, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_factorial2 : Any → Any                              ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(e, 'args')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_factorial2 : {Any | hasattr(e, 'args')} → Any       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ab37b65c497fcfed  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_factorial2","kind":"method","src_hash":"f5ac72b28217a23a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_factorial2(e)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_factorial2_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_factorial2_correct","statement":"Path(_print_factorial2(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ab37b65c497fcfed"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_factorial2","kind":"method","src_hash":"f5ac72b28217a23a","in":{"base":"Any","pred":"hasattr(e, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_print_factorial2(e)","rhs":"<unspecified:_print_factorial2>","over":{"base":"Any","pred":"hasattr(e, 'args')"},"name":"_print_factorial2_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_factorial2_correct","statement":"Path(_print_factorial2(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ab37b65c497fcfed","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(e, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["e.args","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_factorial2(self, e):
         x = e.args[0]
         pform = self._print(x)
@@ -463,16 +616,23 @@ class PrettyPrinter(Printer):
         return pform
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_binomial(e), internal helper behaves correctly) over Any ║
+# ║ Path(_print_binomial(e), <unspecified:_print_binomial>) over {Any | hasattr(e, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_binomial : Any → Any                                ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(e, 'args')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_binomial : {Any | hasattr(e, 'args')} → Any         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8daa7cd95e6a7ac8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_binomial","kind":"method","src_hash":"92a13ee08bf352f3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_binomial(e)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_binomial_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_binomial_correct","statement":"Path(_print_binomial(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8daa7cd95e6a7ac8"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_binomial","kind":"method","src_hash":"92a13ee08bf352f3","in":{"base":"Any","pred":"hasattr(e, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_print_binomial(e)","rhs":"<unspecified:_print_binomial>","over":{"base":"Any","pred":"hasattr(e, 'args')"},"name":"_print_binomial_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_binomial_correct","statement":"Path(_print_binomial(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8daa7cd95e6a7ac8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(e, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["e.args","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_binomial(self, e):
         n, k = e.args
 
@@ -490,16 +650,25 @@ class PrettyPrinter(Printer):
         return pform
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Relational(e), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Relational(e), <unspecified:_print_Relational>) over {Any | hasattr(e, 'lhs') and hasattr(e, 'rhs') and hasattr(e, 'rel_op')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Relational : Any → Any                              ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(e, 'lhs')                              ║
+# ║   requires: hasattr(e, 'rhs')                              ║
+# ║   requires: hasattr(e, 'rel_op')                           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Relational : {Any | hasattr(e, 'lhs') and hasa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e38ed270f48a9381  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Relational","kind":"method","src_hash":"479d7a86bc65e193","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Relational(e)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Relational_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_Relational_correct","statement":"Path(_print_Relational(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e38ed270f48a9381"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Relational","kind":"method","src_hash":"479d7a86bc65e193","in":{"base":"Any","pred":"hasattr(e, 'lhs') and hasattr(e, 'rhs') and hasattr(e, 'rel_op')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Relational(e)","rhs":"<unspecified:_print_Relational>","over":{"base":"Any","pred":"hasattr(e, 'lhs') and hasattr(e, 'rhs') and hasattr(e, 'rel_op')"},"name":"_print_Relational_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_Relational_correct","statement":"Path(_print_Relational(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e38ed270f48a9381","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(e, 'lhs')","hasattr(e, 'rhs')","hasattr(e, 'rel_op')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["e.lhs","e.rel_op","e.rhs","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Relational(self, e):
         op = prettyForm(' ' + xsym(e.rel_op) + ' ')
 
@@ -509,16 +678,26 @@ class PrettyPrinter(Printer):
         return pform
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Not(e), id) over Any                           ║
+# ║ Path(_print_Not(e), id) over {Any | hasattr(e, 'args')}    ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Not : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(e, 'args')                             ║
+# ║   ensures:  result == (prettyForm(*pform.left(pretty_...   ║
+# ║   ensures:  result == prettyForm(*pform.left(pretty_a...   ║
+# ║   fiber[case_0]: self._use_unicode => prettyForm(*pfo...   ║
+# ║   fiber[case_1]: not (self._use_unicode) => self._pri...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Not : {Any | hasattr(e, 'args')} → {Any | resu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 5a7181ba0ed7eada   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Not","kind":"method","src_hash":"d31b6e2009f0671a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Not(e)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Not_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"_print_Equivalent","by":"library_axiom"},{"fn":"pretty_atom","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5a7181ba0ed7eada"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Not","kind":"method","src_hash":"d31b6e2009f0671a","in":{"base":"Any","pred":"hasattr(e, 'args')"},"out":{"base":"Any","pred":"result satisfies: result == (prettyForm(*pform.left(pretty_atom('Not'))) if self._use_unicode else self._print_Function(e)) and result == prettyForm(*pform.left(pretty_atom('Not'))) or result == self._print_Function(e)"},"spec":{"lhs":"_print_Not(e)","rhs":"result == (prettyForm(*pform.left(pretty_atom('Not'))) if self._use_unicode else self._print_Function(e)) and result == prettyForm(*pform.left(pretty_atom('Not'))) or result == self._print_Function(e)","over":{"base":"Any","pred":"hasattr(e, 'args')"},"name":"_print_Not_correct","kind":"composition"},"guarantee":"result == (prettyForm(*pform.left(pretty_atom('Not'))) if self._use_unicode else self._print_Function(e)); result == prettyForm(*pform.left(pretty_atom('Not'))) or result == self._print_Function(e); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"_print_Equivalent","by":"library_axiom"},{"fn":"pretty_atom","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5a7181ba0ed7eada","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(e, 'args')"],"ensures":["result == (prettyForm(*pform.left(pretty_atom('Not'))) if self._use_unicode else self._print_Function(e))","result == prettyForm(*pform.left(pretty_atom('Not'))) or result == self._print_Function(e)"],"fibers":[{"name":"case_0","guard":"self._use_unicode","ensures":["result == prettyForm(*pform.left(pretty_atom('Not')))"],"decidability":"library","returns_expr":"prettyForm(*pform.left(pretty_atom('Not')))"},{"name":"case_1","guard":"not (self._use_unicode)","ensures":["result == self._print_Function(e)"],"decidability":"library","returns_expr":"self._print_Function(e)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["e.args","self._print","self._print_Equivalent","self._print_Function","self._print_Implies","self._use_unicode"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Not(self, e):
         from sympy.logic.boolalg import (Equivalent, Implies)
         if self._use_unicode:
@@ -537,16 +716,23 @@ class PrettyPrinter(Printer):
             return self._print_Function(e)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__print_Boolean(e, ), internal helper behaves correctly) over Any ║
+# ║ Path(__print_Boolean(e, char, sort), <unspecified:__print_Boolean>) over {Any | hasattr(e, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __print_Boolean : Any → Any                                ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(e, 'args')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __print_Boolean : {Any | hasattr(e, 'args')} → Any         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 676bcb0cbb4b8eec           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter.__print_Boolean","kind":"method","src_hash":"d2c5f70ef18bc931","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__print_Boolean(e, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__print_Boolean_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"676bcb0cbb4b8eec"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter.__print_Boolean","kind":"method","src_hash":"d2c5f70ef18bc931","in":{"base":"Any","pred":"hasattr(e, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"__print_Boolean(e, char, sort)","rhs":"<unspecified:__print_Boolean>","over":{"base":"Any","pred":"hasattr(e, 'args')"},"name":"__print_Boolean_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"676bcb0cbb4b8eec","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(e, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["e.args","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __print_Boolean(self, e, char, sort=True):
         args = e.args
         if sort:
@@ -571,14 +757,23 @@ class PrettyPrinter(Printer):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(_print_And(e), id) over Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_And : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (self.__print_Boolean(e, pretty...   ║
+# ║   ensures:  result == self.__print_Boolean(e, pretty_...   ║
+# ║   fiber[case_0]: self._use_unicode => self.__print_Bo...   ║
+# ║   fiber[case_1]: not (self._use_unicode) => self._pri...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_And : Any → {Any | result satisfies: result ==...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 97a8d464ad875d70   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_And","kind":"method","src_hash":"e0eaf44d16948700","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_And(e)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_And_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"__print_Boolean","by":"library_axiom"},{"fn":"pretty_atom","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"97a8d464ad875d70"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_And","kind":"method","src_hash":"e0eaf44d16948700","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (self.__print_Boolean(e, pretty_atom('And')) if self._use_unicode else self._print_Function(e, sort=True)) and result == self.__print_Boolean(e, pretty_atom('And')) or result == self._print_Function(e, sort=True)"},"spec":{"lhs":"_print_And(e)","rhs":"result == (self.__print_Boolean(e, pretty_atom('And')) if self._use_unicode else self._print_Function(e, sort=True)) and result == self.__print_Boolean(e, pretty_atom('And')) or result == self._print_Function(e, sort=True)","over":{"base":"Any"},"name":"_print_And_correct","kind":"composition"},"guarantee":"result == (self.__print_Boolean(e, pretty_atom('And')) if self._use_unicode else self._print_Function(e, sort=True)); result == self.__print_Boolean(e, pretty_atom('And')) or result == self._print_Function(e, sort=True); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"__print_Boolean","by":"library_axiom"},{"fn":"pretty_atom","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"97a8d464ad875d70","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (self.__print_Boolean(e, pretty_atom('And')) if self._use_unicode else self._print_Function(e, sort=True))","result == self.__print_Boolean(e, pretty_atom('And')) or result == self._print_Function(e, sort=True)"],"fibers":[{"name":"case_0","guard":"self._use_unicode","ensures":["result == self.__print_Boolean(e, pretty_atom('And'))"],"decidability":"library","returns_expr":"self.__print_Boolean(e, pretty_atom('And'))"},{"name":"case_1","guard":"not (self._use_unicode)","ensures":["result == self._print_Function(e, sort=True)"],"decidability":"library","returns_expr":"self._print_Function(e, sort=True)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.__print_Boolean","self._print_Function","self._use_unicode"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_And(self, e):
         if self._use_unicode:
             return self.__print_Boolean(e, pretty_atom('And'))
@@ -588,14 +783,23 @@ class PrettyPrinter(Printer):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(_print_Or(e), id) over Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Or : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (self.__print_Boolean(e, pretty...   ║
+# ║   ensures:  result == self.__print_Boolean(e, pretty_...   ║
+# ║   fiber[case_0]: self._use_unicode => self.__print_Bo...   ║
+# ║   fiber[case_1]: not (self._use_unicode) => self._pri...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Or : Any → {Any | result satisfies: result == ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 9de70d58343b4cfe   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Or","kind":"method","src_hash":"b4183f86974e6194","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Or(e)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Or_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"__print_Boolean","by":"library_axiom"},{"fn":"pretty_atom","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9de70d58343b4cfe"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Or","kind":"method","src_hash":"b4183f86974e6194","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (self.__print_Boolean(e, pretty_atom('Or')) if self._use_unicode else self._print_Function(e, sort=True)) and result == self.__print_Boolean(e, pretty_atom('Or')) or result == self._print_Function(e, sort=True)"},"spec":{"lhs":"_print_Or(e)","rhs":"result == (self.__print_Boolean(e, pretty_atom('Or')) if self._use_unicode else self._print_Function(e, sort=True)) and result == self.__print_Boolean(e, pretty_atom('Or')) or result == self._print_Function(e, sort=True)","over":{"base":"Any"},"name":"_print_Or_correct","kind":"composition"},"guarantee":"result == (self.__print_Boolean(e, pretty_atom('Or')) if self._use_unicode else self._print_Function(e, sort=True)); result == self.__print_Boolean(e, pretty_atom('Or')) or result == self._print_Function(e, sort=True); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"__print_Boolean","by":"library_axiom"},{"fn":"pretty_atom","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9de70d58343b4cfe","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (self.__print_Boolean(e, pretty_atom('Or')) if self._use_unicode else self._print_Function(e, sort=True))","result == self.__print_Boolean(e, pretty_atom('Or')) or result == self._print_Function(e, sort=True)"],"fibers":[{"name":"case_0","guard":"self._use_unicode","ensures":["result == self.__print_Boolean(e, pretty_atom('Or'))"],"decidability":"library","returns_expr":"self.__print_Boolean(e, pretty_atom('Or'))"},{"name":"case_1","guard":"not (self._use_unicode)","ensures":["result == self._print_Function(e, sort=True)"],"decidability":"library","returns_expr":"self._print_Function(e, sort=True)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.__print_Boolean","self._print_Function","self._use_unicode"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Or(self, e):
         if self._use_unicode:
             return self.__print_Boolean(e, pretty_atom('Or'))
@@ -605,14 +809,23 @@ class PrettyPrinter(Printer):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(_print_Xor(e), id) over Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Xor : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (self.__print_Boolean(e, pretty...   ║
+# ║   ensures:  result == self.__print_Boolean(e, pretty_...   ║
+# ║   fiber[case_0]: self._use_unicode => self.__print_Bo...   ║
+# ║   fiber[case_1]: not (self._use_unicode) => self._pri...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Xor : Any → {Any | result satisfies: result ==...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 67de0ad98666c6bf   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Xor","kind":"method","src_hash":"53d5afe294f3b9b7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Xor(e)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Xor_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"__print_Boolean","by":"library_axiom"},{"fn":"pretty_atom","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"67de0ad98666c6bf"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Xor","kind":"method","src_hash":"53d5afe294f3b9b7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (self.__print_Boolean(e, pretty_atom('Xor')) if self._use_unicode else self._print_Function(e, sort=True)) and result == self.__print_Boolean(e, pretty_atom('Xor')) or result == self._print_Function(e, sort=True)"},"spec":{"lhs":"_print_Xor(e)","rhs":"result == (self.__print_Boolean(e, pretty_atom('Xor')) if self._use_unicode else self._print_Function(e, sort=True)) and result == self.__print_Boolean(e, pretty_atom('Xor')) or result == self._print_Function(e, sort=True)","over":{"base":"Any"},"name":"_print_Xor_correct","kind":"composition"},"guarantee":"result == (self.__print_Boolean(e, pretty_atom('Xor')) if self._use_unicode else self._print_Function(e, sort=True)); result == self.__print_Boolean(e, pretty_atom('Xor')) or result == self._print_Function(e, sort=True); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"__print_Boolean","by":"library_axiom"},{"fn":"pretty_atom","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"67de0ad98666c6bf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (self.__print_Boolean(e, pretty_atom('Xor')) if self._use_unicode else self._print_Function(e, sort=True))","result == self.__print_Boolean(e, pretty_atom('Xor')) or result == self._print_Function(e, sort=True)"],"fibers":[{"name":"case_0","guard":"self._use_unicode","ensures":["result == self.__print_Boolean(e, pretty_atom('Xor'))"],"decidability":"library","returns_expr":"self.__print_Boolean(e, pretty_atom('Xor'))"},{"name":"case_1","guard":"not (self._use_unicode)","ensures":["result == self._print_Function(e, sort=True)"],"decidability":"library","returns_expr":"self._print_Function(e, sort=True)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.__print_Boolean","self._print_Function","self._use_unicode"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Xor(self, e):
         if self._use_unicode:
             return self.__print_Boolean(e, pretty_atom("Xor"))
@@ -622,14 +835,23 @@ class PrettyPrinter(Printer):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(_print_Nand(e), id) over Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Nand : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (self.__print_Boolean(e, pretty...   ║
+# ║   ensures:  result == self.__print_Boolean(e, pretty_...   ║
+# ║   fiber[case_0]: self._use_unicode => self.__print_Bo...   ║
+# ║   fiber[case_1]: not (self._use_unicode) => self._pri...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Nand : Any → {Any | result satisfies: result =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | bde501bd53b7d1fb   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Nand","kind":"method","src_hash":"febc0990eeebf942","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Nand(e)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Nand_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"__print_Boolean","by":"library_axiom"},{"fn":"pretty_atom","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bde501bd53b7d1fb"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Nand","kind":"method","src_hash":"febc0990eeebf942","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (self.__print_Boolean(e, pretty_atom('Nand')) if self._use_unicode else self._print_Function(e, sort=True)) and result == self.__print_Boolean(e, pretty_atom('Nand')) or result == self._print_Function(e, sort=True)"},"spec":{"lhs":"_print_Nand(e)","rhs":"result == (self.__print_Boolean(e, pretty_atom('Nand')) if self._use_unicode else self._print_Function(e, sort=True)) and result == self.__print_Boolean(e, pretty_atom('Nand')) or result == self._print_Function(e, sort=True)","over":{"base":"Any"},"name":"_print_Nand_correct","kind":"composition"},"guarantee":"result == (self.__print_Boolean(e, pretty_atom('Nand')) if self._use_unicode else self._print_Function(e, sort=True)); result == self.__print_Boolean(e, pretty_atom('Nand')) or result == self._print_Function(e, sort=True); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"__print_Boolean","by":"library_axiom"},{"fn":"pretty_atom","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bde501bd53b7d1fb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (self.__print_Boolean(e, pretty_atom('Nand')) if self._use_unicode else self._print_Function(e, sort=True))","result == self.__print_Boolean(e, pretty_atom('Nand')) or result == self._print_Function(e, sort=True)"],"fibers":[{"name":"case_0","guard":"self._use_unicode","ensures":["result == self.__print_Boolean(e, pretty_atom('Nand'))"],"decidability":"library","returns_expr":"self.__print_Boolean(e, pretty_atom('Nand'))"},{"name":"case_1","guard":"not (self._use_unicode)","ensures":["result == self._print_Function(e, sort=True)"],"decidability":"library","returns_expr":"self._print_Function(e, sort=True)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.__print_Boolean","self._print_Function","self._use_unicode"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Nand(self, e):
         if self._use_unicode:
             return self.__print_Boolean(e, pretty_atom('Nand'))
@@ -639,14 +861,23 @@ class PrettyPrinter(Printer):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(_print_Nor(e), id) over Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Nor : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (self.__print_Boolean(e, pretty...   ║
+# ║   ensures:  result == self.__print_Boolean(e, pretty_...   ║
+# ║   fiber[case_0]: self._use_unicode => self.__print_Bo...   ║
+# ║   fiber[case_1]: not (self._use_unicode) => self._pri...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Nor : Any → {Any | result satisfies: result ==...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | b3c3c0f4992f6176   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Nor","kind":"method","src_hash":"ca76baf95cc96090","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Nor(e)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Nor_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"__print_Boolean","by":"library_axiom"},{"fn":"pretty_atom","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b3c3c0f4992f6176"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Nor","kind":"method","src_hash":"ca76baf95cc96090","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (self.__print_Boolean(e, pretty_atom('Nor')) if self._use_unicode else self._print_Function(e, sort=True)) and result == self.__print_Boolean(e, pretty_atom('Nor')) or result == self._print_Function(e, sort=True)"},"spec":{"lhs":"_print_Nor(e)","rhs":"result == (self.__print_Boolean(e, pretty_atom('Nor')) if self._use_unicode else self._print_Function(e, sort=True)) and result == self.__print_Boolean(e, pretty_atom('Nor')) or result == self._print_Function(e, sort=True)","over":{"base":"Any"},"name":"_print_Nor_correct","kind":"composition"},"guarantee":"result == (self.__print_Boolean(e, pretty_atom('Nor')) if self._use_unicode else self._print_Function(e, sort=True)); result == self.__print_Boolean(e, pretty_atom('Nor')) or result == self._print_Function(e, sort=True); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"__print_Boolean","by":"library_axiom"},{"fn":"pretty_atom","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b3c3c0f4992f6176","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (self.__print_Boolean(e, pretty_atom('Nor')) if self._use_unicode else self._print_Function(e, sort=True))","result == self.__print_Boolean(e, pretty_atom('Nor')) or result == self._print_Function(e, sort=True)"],"fibers":[{"name":"case_0","guard":"self._use_unicode","ensures":["result == self.__print_Boolean(e, pretty_atom('Nor'))"],"decidability":"library","returns_expr":"self.__print_Boolean(e, pretty_atom('Nor'))"},{"name":"case_1","guard":"not (self._use_unicode)","ensures":["result == self._print_Function(e, sort=True)"],"decidability":"library","returns_expr":"self._print_Function(e, sort=True)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.__print_Boolean","self._print_Function","self._use_unicode"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Nor(self, e):
         if self._use_unicode:
             return self.__print_Boolean(e, pretty_atom('Nor'))
@@ -654,16 +885,25 @@ class PrettyPrinter(Printer):
             return self._print_Function(e, sort=True)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Implies(e, ), id) over Any                     ║
+# ║ Path(_print_Implies(e, altchar), id) over Any              ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Implies : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (self.__print_Boolean(e, altcha...   ║
+# ║   ensures:  result == self.__print_Boolean(e, altchar...   ║
+# ║   fiber[case_0]: self._use_unicode => self.__print_Bo...   ║
+# ║   fiber[case_1]: not (self._use_unicode) => self._pri...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Implies : Any → {Any | result satisfies: resul...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 95d0cd3c208ecdc0   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Implies","kind":"method","src_hash":"925e1f0f6e69d801","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Implies(e, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Implies_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"__print_Boolean","by":"library_axiom"},{"fn":"pretty_atom","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"95d0cd3c208ecdc0"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Implies","kind":"method","src_hash":"925e1f0f6e69d801","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (self.__print_Boolean(e, altchar or pretty_atom('Arrow'), sort=False) if self._use_unicode else self._print_Function(e)) and result == self.__print_Boolean(e, altchar or pretty_atom('Arrow'), sort=False) or result == self._print_Function(e)"},"spec":{"lhs":"_print_Implies(e, altchar)","rhs":"result == (self.__print_Boolean(e, altchar or pretty_atom('Arrow'), sort=False) if self._use_unicode else self._print_Function(e)) and result == self.__print_Boolean(e, altchar or pretty_atom('Arrow'), sort=False) or result == self._print_Function(e)","over":{"base":"Any"},"name":"_print_Implies_correct","kind":"composition"},"guarantee":"result == (self.__print_Boolean(e, altchar or pretty_atom('Arrow'), sort=False) if self._use_unicode else self._print_Function(e)); result == self.__print_Boolean(e, altchar or pretty_atom('Arrow'), sort=False) or result == self._print_Function(e); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"__print_Boolean","by":"library_axiom"},{"fn":"pretty_atom","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"95d0cd3c208ecdc0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (self.__print_Boolean(e, altchar or pretty_atom('Arrow'), sort=False) if self._use_unicode else self._print_Function(e))","result == self.__print_Boolean(e, altchar or pretty_atom('Arrow'), sort=False) or result == self._print_Function(e)"],"fibers":[{"name":"case_0","guard":"self._use_unicode","ensures":["result == self.__print_Boolean(e, altchar or pretty_atom('Arrow'), sort=False)"],"decidability":"library","returns_expr":"self.__print_Boolean(e, altchar or pretty_atom('Arrow'), sort=False)"},{"name":"case_1","guard":"not (self._use_unicode)","ensures":["result == self._print_Function(e)"],"decidability":"library","returns_expr":"self._print_Function(e)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.__print_Boolean","self._print_Function","self._use_unicode"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Implies(self, e, altchar=None):
         if self._use_unicode:
             return self.__print_Boolean(e, altchar or pretty_atom('Arrow'), sort=False)
@@ -671,16 +911,25 @@ class PrettyPrinter(Printer):
             return self._print_Function(e)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Equivalent(e, ), id) over Any                  ║
+# ║ Path(_print_Equivalent(e, altchar), id) over Any           ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Equivalent : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (self.__print_Boolean(e, altcha...   ║
+# ║   ensures:  result == self.__print_Boolean(e, altchar...   ║
+# ║   fiber[case_0]: self._use_unicode => self.__print_Bo...   ║
+# ║   fiber[case_1]: not (self._use_unicode) => self._pri...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Equivalent : Any → {Any | result satisfies: re...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | f46c6ec4b255f10d   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Equivalent","kind":"method","src_hash":"2ecb25a16d403f0b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Equivalent(e, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Equivalent_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"__print_Boolean","by":"library_axiom"},{"fn":"pretty_atom","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f46c6ec4b255f10d"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Equivalent","kind":"method","src_hash":"2ecb25a16d403f0b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (self.__print_Boolean(e, altchar or pretty_atom('Equiv')) if self._use_unicode else self._print_Function(e, sort=True)) and result == self.__print_Boolean(e, altchar or pretty_atom('Equiv')) or result == self._print_Function(e, sort=True)"},"spec":{"lhs":"_print_Equivalent(e, altchar)","rhs":"result == (self.__print_Boolean(e, altchar or pretty_atom('Equiv')) if self._use_unicode else self._print_Function(e, sort=True)) and result == self.__print_Boolean(e, altchar or pretty_atom('Equiv')) or result == self._print_Function(e, sort=True)","over":{"base":"Any"},"name":"_print_Equivalent_correct","kind":"composition"},"guarantee":"result == (self.__print_Boolean(e, altchar or pretty_atom('Equiv')) if self._use_unicode else self._print_Function(e, sort=True)); result == self.__print_Boolean(e, altchar or pretty_atom('Equiv')) or result == self._print_Function(e, sort=True); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"__print_Boolean","by":"library_axiom"},{"fn":"pretty_atom","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f46c6ec4b255f10d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (self.__print_Boolean(e, altchar or pretty_atom('Equiv')) if self._use_unicode else self._print_Function(e, sort=True))","result == self.__print_Boolean(e, altchar or pretty_atom('Equiv')) or result == self._print_Function(e, sort=True)"],"fibers":[{"name":"case_0","guard":"self._use_unicode","ensures":["result == self.__print_Boolean(e, altchar or pretty_atom('Equiv'))"],"decidability":"library","returns_expr":"self.__print_Boolean(e, altchar or pretty_atom('Equiv'))"},{"name":"case_1","guard":"not (self._use_unicode)","ensures":["result == self._print_Function(e, sort=True)"],"decidability":"library","returns_expr":"self._print_Function(e, sort=True)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.__print_Boolean","self._print_Function","self._use_unicode"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Equivalent(self, e, altchar=None):
         if self._use_unicode:
             return self.__print_Boolean(e, altchar or pretty_atom('Equiv'))
@@ -688,47 +937,71 @@ class PrettyPrinter(Printer):
             return self._print_Function(e, sort=True)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_conjugate(e), id) over Any                     ║
+# ║ Path(_print_conjugate(e), id) over {Any | hasattr(e, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_conjugate : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(e, 'args')                             ║
+# ║   returns:  prettyForm(*pform.above(hobj('_', pform.w...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_conjugate : {Any | hasattr(e, 'args')} → Any        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | b300f4b293945a92   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_conjugate","kind":"method","src_hash":"d959de75ff9107d0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_conjugate(e)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_conjugate_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"prettyForm","by":"library_axiom"},{"fn":"above","by":"library_axiom"},{"fn":"hobj","by":"library_axiom"},{"fn":"width","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b300f4b293945a92"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_conjugate","kind":"method","src_hash":"d959de75ff9107d0","in":{"base":"Any","pred":"hasattr(e, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_print_conjugate(e)","rhs":"prettyForm(*pform.above(hobj('_', pform.width())))","over":{"base":"Any","pred":"hasattr(e, 'args')"},"name":"_print_conjugate_correct","kind":"composition"},"guarantee":"returns prettyForm(*pform.above(hobj('_', pform.width())))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"prettyForm","by":"library_axiom"},{"fn":"above","by":"library_axiom"},{"fn":"hobj","by":"library_axiom"},{"fn":"width","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b300f4b293945a92","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(e, 'args')"],"returns_expr":"prettyForm(*pform.above(hobj('_', pform.width())))","pure":false,"effects":{"effect_type":"reads_state","reads":["e.args","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_conjugate(self, e):
         pform = self._print(e.args[0])
         return prettyForm( *pform.above( hobj('_', pform.width())) )
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Abs(e), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Abs(e), <unspecified:_print_Abs>) over {Any | hasattr(e, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Abs : Any → Any                                     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(e, 'args')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Abs : {Any | hasattr(e, 'args')} → Any              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a37eb15021f1beb3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Abs","kind":"method","src_hash":"62c873ce6f55d494","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Abs(e)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Abs_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_Abs_correct","statement":"Path(_print_Abs(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a37eb15021f1beb3"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Abs","kind":"method","src_hash":"62c873ce6f55d494","in":{"base":"Any","pred":"hasattr(e, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Abs(e)","rhs":"<unspecified:_print_Abs>","over":{"base":"Any","pred":"hasattr(e, 'args')"},"name":"_print_Abs_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_Abs_correct","statement":"Path(_print_Abs(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a37eb15021f1beb3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(e, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["e.args","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Abs(self, e):
         pform = self._print(e.args[0])
         pform = prettyForm(*pform.parens('|', '|'))
         return pform
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_floor(e), internal helper behaves correctly) over Any ║
+# ║ Path(_print_floor(e), result == (pform if self._use_unicode else self._print_Function(e)) and result == pform or result == self._print_Function(e)) over {Any | hasattr(e, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_floor : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(e, 'args')                             ║
+# ║   ensures:  result == (pform if self._use_unicode els...   ║
+# ║   ensures:  result == pform or result == self._print_...   ║
+# ║   fiber[case_0]: self._use_unicode => pform                ║
+# ║   fiber[case_1]: not (self._use_unicode) => self._pri...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_floor : {Any | hasattr(e, 'args')} → {Any | re...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f249f9b1f3454c9d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7055da512d6a428c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_floor","kind":"method","src_hash":"a84eb9939ae42f00","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_floor(e)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_floor_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_floor_correct","statement":"Path(_print_floor(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f249f9b1f3454c9d"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_floor","kind":"method","src_hash":"a84eb9939ae42f00","in":{"base":"Any","pred":"hasattr(e, 'args')"},"out":{"base":"Any","pred":"result satisfies: result == (pform if self._use_unicode else self._print_Function(e)) and result == pform or result == self._print_Function(e)"},"spec":{"lhs":"_print_floor(e)","rhs":"result == (pform if self._use_unicode else self._print_Function(e)) and result == pform or result == self._print_Function(e)","over":{"base":"Any","pred":"hasattr(e, 'args')"},"name":"_print_floor_correct"},"guarantee":"result == (pform if self._use_unicode else self._print_Function(e)); result == pform or result == self._print_Function(e); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_floor_correct","statement":"Path(_print_floor(x), result == (pform if self._use_unicode else self._print_Function(e)); result == pform or result == self._print_Function(e); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7055da512d6a428c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(e, 'args')"],"ensures":["result == (pform if self._use_unicode else self._print_Function(e))","result == pform or result == self._print_Function(e)"],"fibers":[{"name":"case_0","guard":"self._use_unicode","ensures":["result == pform"],"decidability":"library","returns_expr":"pform"},{"name":"case_1","guard":"not (self._use_unicode)","ensures":["result == self._print_Function(e)"],"decidability":"library","returns_expr":"self._print_Function(e)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["e.args","self._print","self._print_Function","self._use_unicode"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_floor(self, e):
         if self._use_unicode:
             pform = self._print(e.args[0])
@@ -738,16 +1011,26 @@ class PrettyPrinter(Printer):
             return self._print_Function(e)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_ceiling(e), internal helper behaves correctly) over Any ║
+# ║ Path(_print_ceiling(e), result == (pform if self._use_unicode else self._print_Function(e)) and result == pform or result == self._print_Function(e)) over {Any | hasattr(e, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_ceiling : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(e, 'args')                             ║
+# ║   ensures:  result == (pform if self._use_unicode els...   ║
+# ║   ensures:  result == pform or result == self._print_...   ║
+# ║   fiber[case_0]: self._use_unicode => pform                ║
+# ║   fiber[case_1]: not (self._use_unicode) => self._pri...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_ceiling : {Any | hasattr(e, 'args')} → {Any | ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e6ec3a63db1908bc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 44f7972919e9cd56  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_ceiling","kind":"method","src_hash":"241409c538a3a14a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_ceiling(e)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_ceiling_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_ceiling_correct","statement":"Path(_print_ceiling(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e6ec3a63db1908bc"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_ceiling","kind":"method","src_hash":"241409c538a3a14a","in":{"base":"Any","pred":"hasattr(e, 'args')"},"out":{"base":"Any","pred":"result satisfies: result == (pform if self._use_unicode else self._print_Function(e)) and result == pform or result == self._print_Function(e)"},"spec":{"lhs":"_print_ceiling(e)","rhs":"result == (pform if self._use_unicode else self._print_Function(e)) and result == pform or result == self._print_Function(e)","over":{"base":"Any","pred":"hasattr(e, 'args')"},"name":"_print_ceiling_correct"},"guarantee":"result == (pform if self._use_unicode else self._print_Function(e)); result == pform or result == self._print_Function(e); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_ceiling_correct","statement":"Path(_print_ceiling(x), result == (pform if self._use_unicode else self._print_Function(e)); result == pform or result == self._print_Function(e); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"44f7972919e9cd56","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(e, 'args')"],"ensures":["result == (pform if self._use_unicode else self._print_Function(e))","result == pform or result == self._print_Function(e)"],"fibers":[{"name":"case_0","guard":"self._use_unicode","ensures":["result == pform"],"decidability":"library","returns_expr":"pform"},{"name":"case_1","guard":"not (self._use_unicode)","ensures":["result == self._print_Function(e)"],"decidability":"library","returns_expr":"self._print_Function(e)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["e.args","self._print","self._print_Function","self._use_unicode"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_ceiling(self, e):
         if self._use_unicode:
             pform = self._print(e.args[0])
@@ -757,16 +1040,24 @@ class PrettyPrinter(Printer):
             return self._print_Function(e)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Derivative(der), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Derivative(deriv), <unspecified:_print_Derivative>) over {Any | hasattr(deriv, 'variable_count') and hasattr(deriv, 'expr')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Derivative : Any → Any                              ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(deriv, 'variable_count')               ║
+# ║   requires: hasattr(deriv, 'expr')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Derivative : {Any | hasattr(deriv, 'variable_c...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a673946d5f27b6ca  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Derivative","kind":"method","src_hash":"1dcfac22713fde20","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Derivative(der)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Derivative_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_Derivative_correct","statement":"Path(_print_Derivative(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a673946d5f27b6ca"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Derivative","kind":"method","src_hash":"1dcfac22713fde20","in":{"base":"Any","pred":"hasattr(deriv, 'variable_count') and hasattr(deriv, 'expr')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Derivative(deriv)","rhs":"<unspecified:_print_Derivative>","over":{"base":"Any","pred":"hasattr(deriv, 'variable_count') and hasattr(deriv, 'expr')"},"name":"_print_Derivative_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_Derivative_correct","statement":"Path(_print_Derivative(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a673946d5f27b6ca","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(deriv, 'variable_count')","hasattr(deriv, 'expr')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["deriv.expr","deriv.variable_count","self._print","self._use_unicode"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Derivative(self, deriv):
         if requires_partial(deriv.expr) and self._use_unicode:
             deriv_symbol = U('PARTIAL DIFFERENTIAL')
@@ -805,16 +1096,24 @@ class PrettyPrinter(Printer):
         return pform
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Cycle(dc), id) over Any                        ║
+# ║ Path(_print_Cycle(dc), id) over {Any | hasattr(dc, 'list') and hasattr(dc, 'size')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Cycle : Any → Any                                   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(dc, 'list')                            ║
+# ║   requires: hasattr(dc, 'size')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Cycle : {Any | hasattr(dc, 'list') and hasattr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 07012d2253df972c   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Cycle","kind":"method","src_hash":"957b380773a0eb72","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Cycle(dc)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Cycle_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"prettyForm","by":"library_axiom"},{"fn":"parens","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"07012d2253df972c"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Cycle","kind":"method","src_hash":"957b380773a0eb72","in":{"base":"Any","pred":"hasattr(dc, 'list') and hasattr(dc, 'size')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Cycle(dc)","rhs":"<unspecified:_print_Cycle>","over":{"base":"Any","pred":"hasattr(dc, 'list') and hasattr(dc, 'size')"},"name":"_print_Cycle_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"prettyForm","by":"library_axiom"},{"fn":"parens","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"07012d2253df972c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(dc, 'list')","hasattr(dc, 'size')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["dc.list","dc.size","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Cycle(self, dc):
         from sympy.combinatorics.permutations import Permutation, Cycle
         # for Empty Cycle
@@ -835,16 +1134,23 @@ class PrettyPrinter(Printer):
         return cyc
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Permutation(exp), id) over Any                 ║
+# ║ Path(_print_Permutation(expr), id) over {Any | hasattr(expr, 'array_form')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Permutation : Any → Any                             ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'array_form')                    ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Permutation : {Any | hasattr(expr, 'array_form...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | a465a5e942cc16c4   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Permutation","kind":"method","src_hash":"ff233e4da9ebfab2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Permutation(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Permutation_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"_print_Cycle","by":"library_axiom"},{"fn":"Cycle","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a465a5e942cc16c4"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Permutation","kind":"method","src_hash":"ff233e4da9ebfab2","in":{"base":"Any","pred":"hasattr(expr, 'array_form')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Permutation(expr)","rhs":"<unspecified:_print_Permutation>","over":{"base":"Any","pred":"hasattr(expr, 'array_form')"},"name":"_print_Permutation_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"_print_Cycle","by":"library_axiom"},{"fn":"Cycle","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a465a5e942cc16c4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'array_form')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.array_form","self._print","self._print_Cycle","self._settings"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Permutation(self, expr):
         from sympy.combinatorics.permutations import Permutation, Cycle
 
@@ -883,16 +1189,24 @@ class PrettyPrinter(Printer):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Integral(int), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Integral(integral), <unspecified:_print_Integral>) over {Any | hasattr(integral, 'function') and hasattr(integral, 'limits')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Integral : Any → Any                                ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(integral, 'function')                  ║
+# ║   requires: hasattr(integral, 'limits')                    ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Integral : {Any | hasattr(integral, 'function'...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ba8d0ae04d45c367  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Integral","kind":"method","src_hash":"d481106c55fb7afb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Integral(int)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Integral_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_Integral_correct","statement":"Path(_print_Integral(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ba8d0ae04d45c367"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Integral","kind":"method","src_hash":"d481106c55fb7afb","in":{"base":"Any","pred":"hasattr(integral, 'function') and hasattr(integral, 'limits')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Integral(integral)","rhs":"<unspecified:_print_Integral>","over":{"base":"Any","pred":"hasattr(integral, 'function') and hasattr(integral, 'limits')"},"name":"_print_Integral_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_Integral_correct","statement":"Path(_print_Integral(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ba8d0ae04d45c367","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(integral, 'function')","hasattr(integral, 'limits')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["integral.function","integral.limits","self._print","self._use_unicode"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Integral(self, integral):
         f = integral.function
 
@@ -969,16 +1283,24 @@ class PrettyPrinter(Printer):
         return pform
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Product(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Product(expr), <unspecified:_print_Product>) over {Any | hasattr(expr, 'term') and hasattr(expr, 'limits')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Product : Any → Any                                 ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'term')                          ║
+# ║   requires: hasattr(expr, 'limits')                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Product : {Any | hasattr(expr, 'term') and has...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3d23aea8cb9c8c18  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Product","kind":"method","src_hash":"45a4ad94c80b012b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Product(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Product_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_Product_correct","statement":"Path(_print_Product(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3d23aea8cb9c8c18"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Product","kind":"method","src_hash":"45a4ad94c80b012b","in":{"base":"Any","pred":"hasattr(expr, 'term') and hasattr(expr, 'limits')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Product(expr)","rhs":"<unspecified:_print_Product>","over":{"base":"Any","pred":"hasattr(expr, 'term') and hasattr(expr, 'limits')"},"name":"_print_Product_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_Product_correct","statement":"Path(_print_Product(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3d23aea8cb9c8c18","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'term')","hasattr(expr, 'limits')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Product(self, expr):
         func = expr.term
         pretty_func = self._print(func)
@@ -1034,16 +1356,22 @@ class PrettyPrinter(Printer):
         return pretty_func
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__print_SumProduct_Limits(lim), internal helper behaves correctly) over Any ║
+# ║ Path(__print_SumProduct_Limits(lim), <unspecified:__print_SumProduct_Limits>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __print_SumProduct_Limits : Any → Any                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c421865ec88be515           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter.__print_SumProduct_Limits","kind":"method","src_hash":"d7129aee70392c35","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__print_SumProduct_Limits(lim)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__print_SumProduct_Limits_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c421865ec88be515"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter.__print_SumProduct_Limits","kind":"method","src_hash":"d7129aee70392c35","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__print_SumProduct_Limits(lim)","rhs":"<unspecified:__print_SumProduct_Limits>","over":{"base":"Any"},"name":"__print_SumProduct_Limits_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c421865ec88be515","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __print_SumProduct_Limits(self, lim):
         def print_start(lhs, rhs):
             op = prettyForm(' ' + xsym("==") + ' ')
@@ -1057,16 +1385,24 @@ class PrettyPrinter(Printer):
         return prettyLower, prettyUpper
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Sum(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Sum(expr), <unspecified:_print_Sum>) over {Any | hasattr(expr, 'function') and hasattr(expr, 'limits')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Sum : Any → Any                                     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'function')                      ║
+# ║   requires: hasattr(expr, 'limits')                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Sum : {Any | hasattr(expr, 'function') and has...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a13257cd3ae17da9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Sum","kind":"method","src_hash":"01bea99e4a4ccaf5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Sum(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Sum_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_Sum_correct","statement":"Path(_print_Sum(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a13257cd3ae17da9"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Sum","kind":"method","src_hash":"01bea99e4a4ccaf5","in":{"base":"Any","pred":"hasattr(expr, 'function') and hasattr(expr, 'limits')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Sum(expr)","rhs":"<unspecified:_print_Sum>","over":{"base":"Any","pred":"hasattr(expr, 'function') and hasattr(expr, 'limits')"},"name":"_print_Sum_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_Sum_correct","statement":"Path(_print_Sum(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a13257cd3ae17da9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'function')","hasattr(expr, 'limits')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Sum(self, expr):
         ascii_mode = not self._use_unicode
 
@@ -1165,16 +1501,23 @@ class PrettyPrinter(Printer):
         return prettyF
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Limit(l), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Limit(l), <unspecified:_print_Limit>) over {Any | hasattr(l, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Limit : Any → Any                                   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(l, 'args')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Limit : {Any | hasattr(l, 'args')} → Any            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 08a18ae1e921c9fc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Limit","kind":"method","src_hash":"f2cdc3017c2a1d2e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Limit(l)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Limit_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_Limit_correct","statement":"Path(_print_Limit(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"08a18ae1e921c9fc"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Limit","kind":"method","src_hash":"f2cdc3017c2a1d2e","in":{"base":"Any","pred":"hasattr(l, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Limit(l)","rhs":"<unspecified:_print_Limit>","over":{"base":"Any","pred":"hasattr(l, 'args')"},"name":"_print_Limit_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_Limit_correct","statement":"Path(_print_Limit(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"08a18ae1e921c9fc","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(l, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["l.args","self._print","self._use_unicode"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Limit(self, l):
         e, z, z0, dir = l.args
 
@@ -1204,16 +1547,22 @@ class PrettyPrinter(Printer):
         return Lim
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_matrix_contents(e), this method factors out what is essentially grid printing) over Any ║
+# ║ Path(_print_matrix_contents(e), <unspecified:_print_matrix_contents>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_matrix_contents : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 54a3ccaac161d893  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_matrix_contents","kind":"method","src_hash":"a5883266f22c8bcc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_matrix_contents(e)","rhs":"this method factors out what is essentially grid printing","over":{"base":"Any"},"name":"_print_matrix_contents_correct"},"guarantee":"this method factors out what is essentially grid printing","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_matrix_contents_correct","statement":"Path(_print_matrix_contents(x), this method factors out what is essentially grid printing)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"54a3ccaac161d893"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_matrix_contents","kind":"method","src_hash":"a5883266f22c8bcc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_matrix_contents(e)","rhs":"<unspecified:_print_matrix_contents>","over":{"base":"Any"},"name":"_print_matrix_contents_correct"},"guarantee":"this method factors out what is essentially grid printing","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_matrix_contents_correct","statement":"Path(_print_matrix_contents(x), this method factors out what is essentially grid printing)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"54a3ccaac161d893","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_matrix_contents(self, e):
         """
         This method factors out what is essentially grid printing.
@@ -1282,16 +1631,22 @@ class PrettyPrinter(Printer):
         return D
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_MatrixBase(e, ), internal helper behaves correctly) over Any ║
+# ║ Path(_print_MatrixBase(e, lparens, rparens), <unspecified:_print_MatrixBase>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_MatrixBase : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 925fb2f4255a2993  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_MatrixBase","kind":"method","src_hash":"c21e18faed2f84e9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_MatrixBase(e, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_MatrixBase_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_MatrixBase_correct","statement":"Path(_print_MatrixBase(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"925fb2f4255a2993"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_MatrixBase","kind":"method","src_hash":"c21e18faed2f84e9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_MatrixBase(e, lparens, rparens)","rhs":"<unspecified:_print_MatrixBase>","over":{"base":"Any"},"name":"_print_MatrixBase_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_MatrixBase_correct","statement":"Path(_print_MatrixBase(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"925fb2f4255a2993","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._print_matrix_contents"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_MatrixBase(self, e, lparens='[', rparens=']'):
         D = self._print_matrix_contents(e)
         D.baseline = D.height()//2
@@ -1299,16 +1654,26 @@ class PrettyPrinter(Printer):
         return D
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Determinant(e), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Determinant(e), result == (prettyForm(*D.parens('|', '|')) if mat.is_MatrixExpr else self._print_MatrixBase(mat, lparens='|', rparens='|')) and result == prettyForm(*D.parens('|', '|')) or result == self._print_MatrixBase(mat, lparens='|', rparens='|')) over {Any | hasattr(e, 'arg')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Determinant : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(e, 'arg')                              ║
+# ║   ensures:  result == (prettyForm(*D.parens('|', '|')...   ║
+# ║   ensures:  result == prettyForm(*D.parens('|', '|'))...   ║
+# ║   fiber[case_0]: mat.is_MatrixExpr => prettyForm(*D.p...   ║
+# ║   fiber[case_1]: not (mat.is_MatrixExpr) => self._pri...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Determinant : {Any | hasattr(e, 'arg')} → {Any...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7d329ed6f894b8a4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 55fd1a69e6255db9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Determinant","kind":"method","src_hash":"f62cc339a57af1dc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Determinant(e)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Determinant_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_Determinant_correct","statement":"Path(_print_Determinant(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7d329ed6f894b8a4"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Determinant","kind":"method","src_hash":"f62cc339a57af1dc","in":{"base":"Any","pred":"hasattr(e, 'arg')"},"out":{"base":"Any","pred":"result satisfies: result == (prettyForm(*D.parens('|', '|')) if mat.is_MatrixExpr else self._print_MatrixBase(mat, lparens='|', rparens='|')) and result == prettyForm(*D.parens('|', '|')) or result == self._print_MatrixBase(mat, lparens='|', rparens='|')"},"spec":{"lhs":"_print_Determinant(e)","rhs":"result == (prettyForm(*D.parens('|', '|')) if mat.is_MatrixExpr else self._print_MatrixBase(mat, lparens='|', rparens='|')) and result == prettyForm(*D.parens('|', '|')) or result == self._print_MatrixBase(mat, lparens='|', rparens='|')","over":{"base":"Any","pred":"hasattr(e, 'arg')"},"name":"_print_Determinant_correct"},"guarantee":"result == (prettyForm(*D.parens('|', '|')) if mat.is_MatrixExpr else self._print_MatrixBase(mat, lparens='|', rparens='|')); result == prettyForm(*D.parens('|', '|')) or result == self._print_MatrixBase(mat, lparens='|', rparens='|'); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_Determinant_correct","statement":"Path(_print_Determinant(x), result == (prettyForm(*D.parens('|', '|')) if mat.is_MatrixExpr else self._print_MatrixBase(mat, lparens='|', rparens='|')); result == prettyForm(*D.parens('|', '|')) or result == self._print_MatrixBase(mat, lparens='|', rparens='|'); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"55fd1a69e6255db9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(e, 'arg')"],"ensures":["result == (prettyForm(*D.parens('|', '|')) if mat.is_MatrixExpr else self._print_MatrixBase(mat, lparens='|', rparens='|'))","result == prettyForm(*D.parens('|', '|')) or result == self._print_MatrixBase(mat, lparens='|', rparens='|')"],"fibers":[{"name":"case_0","guard":"mat.is_MatrixExpr","ensures":["result == prettyForm(*D.parens('|', '|'))"],"decidability":"library","returns_expr":"prettyForm(*D.parens('|', '|'))"},{"name":"case_1","guard":"not (mat.is_MatrixExpr)","ensures":["result == self._print_MatrixBase(mat, lparens='|', rparens='|')"],"decidability":"library","returns_expr":"self._print_MatrixBase(mat, lparens='|', rparens='|')"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["e.arg","self._print","self._print_MatrixBase"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Determinant(self, e):
         mat = e.arg
         if mat.is_MatrixExpr:
@@ -1322,16 +1687,23 @@ class PrettyPrinter(Printer):
             return self._print_MatrixBase(mat, lparens='|', rparens='|')
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_TensorProduct(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_TensorProduct(expr), self._print_seq(expr.args, None, None, circled_times, parenthesize=lambda x: precedence_traditional(x) <= PRECEDENCE['Mul'])) over {Any | hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_TensorProduct : Any → Any                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   returns:  self._print_seq(expr.args, None, None, ci...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_TensorProduct : {Any | hasattr(expr, 'args')} ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f6f12f65b30f3517  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 45bb58530c8e57de  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_TensorProduct","kind":"method","src_hash":"794d9b6927986b2c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_TensorProduct(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_TensorProduct_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_TensorProduct_correct","statement":"Path(_print_TensorProduct(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f6f12f65b30f3517"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_TensorProduct","kind":"method","src_hash":"794d9b6927986b2c","in":{"base":"Any","pred":"hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_print_TensorProduct(expr)","rhs":"self._print_seq(expr.args, None, None, circled_times, parenthesize=lambda x: precedence_traditional(x) <= PRECEDENCE['Mul'])","over":{"base":"Any","pred":"hasattr(expr, 'args')"},"name":"_print_TensorProduct_correct"},"guarantee":"returns self._print_seq(expr.args, None, None, circled_times, parenthesize=lambda x: precedence_traditional(x) <= PRECEDENCE['Mul'])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_TensorProduct_correct","statement":"Path(_print_TensorProduct(x), returns self._print_seq(expr.args, None, None, circled_times, parenthesize=lambda x: precedence_traditional(x) <= PRECEDENCE['Mul']))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"45bb58530c8e57de","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'args')"],"returns_expr":"self._print_seq(expr.args, None, None, circled_times, parenthesize=lambda x: precedence_traditional(x) <= PRECEDENCE['Mul'])","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","self._print_seq","self._use_unicode"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_TensorProduct(self, expr):
         # This should somehow share the code with _print_WedgeProduct:
         if self._use_unicode:
@@ -1342,16 +1714,23 @@ class PrettyPrinter(Printer):
             parenthesize=lambda x: precedence_traditional(x) <= PRECEDENCE["Mul"])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_WedgeProduct(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_WedgeProduct(expr), self._print_seq(expr.args, None, None, wedge_symbol, parenthesize=lambda x: precedence_traditional(x) <= PRECEDENCE['Mul'])) over {Any | hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_WedgeProduct : Any → Any                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   returns:  self._print_seq(expr.args, None, None, we...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_WedgeProduct : {Any | hasattr(expr, 'args')} →...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4db9975864941281  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | febc508bca5353e6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_WedgeProduct","kind":"method","src_hash":"3f77a411bc094a6c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_WedgeProduct(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_WedgeProduct_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_WedgeProduct_correct","statement":"Path(_print_WedgeProduct(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4db9975864941281"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_WedgeProduct","kind":"method","src_hash":"3f77a411bc094a6c","in":{"base":"Any","pred":"hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_print_WedgeProduct(expr)","rhs":"self._print_seq(expr.args, None, None, wedge_symbol, parenthesize=lambda x: precedence_traditional(x) <= PRECEDENCE['Mul'])","over":{"base":"Any","pred":"hasattr(expr, 'args')"},"name":"_print_WedgeProduct_correct"},"guarantee":"returns self._print_seq(expr.args, None, None, wedge_symbol, parenthesize=lambda x: precedence_traditional(x) <= PRECEDENCE['Mul'])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_WedgeProduct_correct","statement":"Path(_print_WedgeProduct(x), returns self._print_seq(expr.args, None, None, wedge_symbol, parenthesize=lambda x: precedence_traditional(x) <= PRECEDENCE['Mul']))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"febc508bca5353e6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'args')"],"returns_expr":"self._print_seq(expr.args, None, None, wedge_symbol, parenthesize=lambda x: precedence_traditional(x) <= PRECEDENCE['Mul'])","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","self._print_seq","self._use_unicode"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_WedgeProduct(self, expr):
         # This should somehow share the code with _print_TensorProduct:
         if self._use_unicode:
@@ -1362,16 +1741,23 @@ class PrettyPrinter(Printer):
             parenthesize=lambda x: precedence_traditional(x) <= PRECEDENCE["Mul"])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Trace(e), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Trace(e), <unspecified:_print_Trace>) over {Any | hasattr(e, 'arg')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Trace : Any → Any                                   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(e, 'arg')                              ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Trace : {Any | hasattr(e, 'arg')} → Any             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a496f03a27784150  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Trace","kind":"method","src_hash":"1e03c3fea6c47778","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Trace(e)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Trace_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_Trace_correct","statement":"Path(_print_Trace(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a496f03a27784150"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Trace","kind":"method","src_hash":"1e03c3fea6c47778","in":{"base":"Any","pred":"hasattr(e, 'arg')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Trace(e)","rhs":"<unspecified:_print_Trace>","over":{"base":"Any","pred":"hasattr(e, 'arg')"},"name":"_print_Trace_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_Trace_correct","statement":"Path(_print_Trace(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a496f03a27784150","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(e, 'arg')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["e.arg","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Trace(self, e):
         D = self._print(e.arg)
         D = prettyForm(*D.parens('(',')'))
@@ -1381,16 +1767,28 @@ class PrettyPrinter(Printer):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_MatrixElement(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_MatrixElement(expr), result == (self._print(Symbol(expr.parent.name + '_%d%d' % (expr.i, expr.j))) if isinstance(expr.parent, MatrixSymbol) and expr.i.is_number and expr.j.is_number else pform) and result == self._print(Symbol(expr.parent.name + '_%d%d' % (expr.i, expr.j))) or result == pform) over {Any | hasattr(expr, 'parent') and hasattr(expr, 'i') and hasattr(expr, 'j')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_MatrixElement : Any → Any                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'parent')                        ║
+# ║   requires: hasattr(expr, 'i')                             ║
+# ║   requires: hasattr(expr, 'j')                             ║
+# ║   ensures:  result == (self._print(Symbol(expr.parent...   ║
+# ║   ensures:  result == self._print(Symbol(expr.parent....   ║
+# ║   fiber[case_0]: isinstance(expr.parent, MatrixSymbol...   ║
+# ║   fiber[case_1]: not (isinstance(expr.parent, MatrixS...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_MatrixElement : {Any | hasattr(expr, 'parent')...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5ccaa5aa2abd32f3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8582cb9a984c91de  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_MatrixElement","kind":"method","src_hash":"86005b0093ba0140","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_MatrixElement(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_MatrixElement_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_MatrixElement_correct","statement":"Path(_print_MatrixElement(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5ccaa5aa2abd32f3"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_MatrixElement","kind":"method","src_hash":"86005b0093ba0140","in":{"base":"Any","pred":"hasattr(expr, 'parent') and hasattr(expr, 'i') and hasattr(expr, 'j')"},"out":{"base":"Any","pred":"result satisfies: result == (self._print(Symbol(expr.parent.name + '_%d%d' % (expr.i, expr.j))) if isinstance(expr.parent, MatrixSymbol) and expr.i.is_number and expr.j.is_number else pform) and result == self._print(Symbol(expr.parent.name + '_%d%d' % (expr.i, expr.j))) or result == pform"},"spec":{"lhs":"_print_MatrixElement(expr)","rhs":"result == (self._print(Symbol(expr.parent.name + '_%d%d' % (expr.i, expr.j))) if isinstance(expr.parent, MatrixSymbol) and expr.i.is_number and expr.j.is_number else pform) and result == self._print(Symbol(expr.parent.name + '_%d%d' % (expr.i, expr.j))) or result == pform","over":{"base":"Any","pred":"hasattr(expr, 'parent') and hasattr(expr, 'i') and hasattr(expr, 'j')"},"name":"_print_MatrixElement_correct"},"guarantee":"result == (self._print(Symbol(expr.parent.name + '_%d%d' % (expr.i, expr.j))) if isinstance(expr.parent, MatrixSymbol) and expr.i.is_number and expr.j.is_number else pform); result == self._print(Symbol(expr.parent.name + '_%d%d' % (expr.i, expr.j))) or result == pform; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_MatrixElement_correct","statement":"Path(_print_MatrixElement(x), result == (self._print(Symbol(expr.parent.name + '_%d%d' % (expr.i, expr.j))) if isinstance(expr.parent, MatrixSymbol) and expr.i.is_number and expr.j.is_number else pform); result == self._print(Symbol(expr.parent.name + '_%d%d' % (expr.i, expr.j))) or result == pform; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8582cb9a984c91de","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'parent')","hasattr(expr, 'i')","hasattr(expr, 'j')"],"ensures":["result == (self._print(Symbol(expr.parent.name + '_%d%d' % (expr.i, expr.j))) if isinstance(expr.parent, MatrixSymbol) and expr.i.is_number and expr.j.is_number else pform)","result == self._print(Symbol(expr.parent.name + '_%d%d' % (expr.i, expr.j))) or result == pform"],"fibers":[{"name":"case_0","guard":"isinstance(expr.parent, MatrixSymbol) and expr.i.is_number and expr.j.is_number","ensures":["result == self._print(Symbol(expr.parent.name + '_%d%d' % (expr.i, expr.j)))"],"decidability":"structural","returns_expr":"self._print(Symbol(expr.parent.name + '_%d%d' % (expr.i, expr.j)))"},{"name":"case_1","guard":"not (isinstance(expr.parent, MatrixSymbol) and expr.i.is_number and expr.j.is_number)","ensures":["result == pform"],"decidability":"structural","returns_expr":"pform"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.i","expr.j","expr.parent","self._print","self._print_seq"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_MatrixElement(self, expr):
         from sympy.matrices import MatrixSymbol
         if (isinstance(expr.parent, MatrixSymbol)
@@ -1413,16 +1811,25 @@ class PrettyPrinter(Printer):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_MatrixSlice(m), id) over Any                   ║
+# ║ Path(_print_MatrixSlice(m), id) over {Any | hasattr(m, 'parent') and hasattr(m, 'rowslice') and hasattr(m, 'colslice')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_MatrixSlice : Any → Any                             ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(m, 'parent')                           ║
+# ║   requires: hasattr(m, 'rowslice')                         ║
+# ║   requires: hasattr(m, 'colslice')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_MatrixSlice : {Any | hasattr(m, 'parent') and ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 8a30815d97f2aa82   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_MatrixSlice","kind":"method","src_hash":"318fa14eb7385def","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_MatrixSlice(m)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_MatrixSlice_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"prettyForm","by":"library_axiom"},{"fn":"_print_seq","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8a30815d97f2aa82"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_MatrixSlice","kind":"method","src_hash":"318fa14eb7385def","in":{"base":"Any","pred":"hasattr(m, 'parent') and hasattr(m, 'rowslice') and hasattr(m, 'colslice')"},"out":{"base":"Any"},"spec":{"lhs":"_print_MatrixSlice(m)","rhs":"<unspecified:_print_MatrixSlice>","over":{"base":"Any","pred":"hasattr(m, 'parent') and hasattr(m, 'rowslice') and hasattr(m, 'colslice')"},"name":"_print_MatrixSlice_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"prettyForm","by":"library_axiom"},{"fn":"_print_seq","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8a30815d97f2aa82","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(m, 'parent')","hasattr(m, 'rowslice')","hasattr(m, 'colslice')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["m.colslice","m.parent","m.rowslice","self._print","self._print_seq"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_MatrixSlice(self, m):
         # XXX works only for applied functions
         from sympy.matrices import MatrixSymbol
@@ -1451,16 +1858,23 @@ class PrettyPrinter(Printer):
         return pform
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Transpose(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Transpose(expr), <unspecified:_print_Transpose>) over {Any | hasattr(expr, 'arg')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Transpose : Any → Any                               ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'arg')                           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Transpose : {Any | hasattr(expr, 'arg')} → Any      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 38b6313a66ff3067  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Transpose","kind":"method","src_hash":"fa73b73d3e1850eb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Transpose(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Transpose_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_Transpose_correct","statement":"Path(_print_Transpose(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"38b6313a66ff3067"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Transpose","kind":"method","src_hash":"fa73b73d3e1850eb","in":{"base":"Any","pred":"hasattr(expr, 'arg')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Transpose(expr)","rhs":"<unspecified:_print_Transpose>","over":{"base":"Any","pred":"hasattr(expr, 'arg')"},"name":"_print_Transpose_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_Transpose_correct","statement":"Path(_print_Transpose(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"38b6313a66ff3067","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'arg')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.arg","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Transpose(self, expr):
         mat = expr.arg
         pform = self._print(mat)
@@ -1472,16 +1886,23 @@ class PrettyPrinter(Printer):
         return pform
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Adjoint(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Adjoint(expr), <unspecified:_print_Adjoint>) over {Any | hasattr(expr, 'arg')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Adjoint : Any → Any                                 ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'arg')                           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Adjoint : {Any | hasattr(expr, 'arg')} → Any        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | af7f5f50cd446401  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Adjoint","kind":"method","src_hash":"f5613aa24337389b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Adjoint(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Adjoint_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_Adjoint_correct","statement":"Path(_print_Adjoint(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"af7f5f50cd446401"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Adjoint","kind":"method","src_hash":"f5613aa24337389b","in":{"base":"Any","pred":"hasattr(expr, 'arg')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Adjoint(expr)","rhs":"<unspecified:_print_Adjoint>","over":{"base":"Any","pred":"hasattr(expr, 'arg')"},"name":"_print_Adjoint_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_Adjoint_correct","statement":"Path(_print_Adjoint(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"af7f5f50cd446401","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'arg')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.arg","self._print","self._use_unicode"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Adjoint(self, expr):
         mat = expr.arg
         pform = self._print(mat)
@@ -1497,32 +1918,46 @@ class PrettyPrinter(Printer):
         return pform
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_BlockMatrix(B), internal helper behaves correctly) over Any ║
+# ║ Path(_print_BlockMatrix(B), <unspecified:_print_BlockMatrix>) over {Any | hasattr(B, 'blocks')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_BlockMatrix : Any → Any                             ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(B, 'blocks')                           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_BlockMatrix : {Any | hasattr(B, 'blocks')} → Any    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2fcf16447d1be582  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_BlockMatrix","kind":"method","src_hash":"1bf38a8d25706d95","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_BlockMatrix(B)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_BlockMatrix_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_BlockMatrix_correct","statement":"Path(_print_BlockMatrix(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2fcf16447d1be582"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_BlockMatrix","kind":"method","src_hash":"1bf38a8d25706d95","in":{"base":"Any","pred":"hasattr(B, 'blocks')"},"out":{"base":"Any"},"spec":{"lhs":"_print_BlockMatrix(B)","rhs":"<unspecified:_print_BlockMatrix>","over":{"base":"Any","pred":"hasattr(B, 'blocks')"},"name":"_print_BlockMatrix_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_BlockMatrix_correct","statement":"Path(_print_BlockMatrix(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2fcf16447d1be582","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(B, 'blocks')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["B.blocks","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_BlockMatrix(self, B):
         if B.blocks.shape == (1, 1):
             return self._print(B.blocks[0, 0])
         return self._print(B.blocks)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_MatAdd(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_MatAdd(expr), <unspecified:_print_MatAdd>) over {Any | hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_MatAdd : Any → Any                                  ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_MatAdd : {Any | hasattr(expr, 'args')} → Any        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 99c7980f3d943952  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_MatAdd","kind":"method","src_hash":"96562f2ad349ab20","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_MatAdd(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_MatAdd_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_MatAdd_correct","statement":"Path(_print_MatAdd(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"99c7980f3d943952"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_MatAdd","kind":"method","src_hash":"96562f2ad349ab20","in":{"base":"Any","pred":"hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_print_MatAdd(expr)","rhs":"<unspecified:_print_MatAdd>","over":{"base":"Any","pred":"hasattr(expr, 'args')"},"name":"_print_MatAdd_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_MatAdd_correct","statement":"Path(_print_MatAdd(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"99c7980f3d943952","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_MatAdd(self, expr):
         s = None
         for item in expr.args:
@@ -1541,16 +1976,23 @@ class PrettyPrinter(Printer):
         return s
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_MatMul(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_MatMul(expr), prettyForm.__mul__(*args)) over {Any | hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_MatMul : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   returns:  prettyForm.__mul__(*args)                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_MatMul : {Any | hasattr(expr, 'args')} → Any        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b273e6916ac573ff  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 396587e4aaa65881  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_MatMul","kind":"method","src_hash":"8d72ec4b69fe35b7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_MatMul(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_MatMul_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_MatMul_correct","statement":"Path(_print_MatMul(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b273e6916ac573ff"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_MatMul","kind":"method","src_hash":"8d72ec4b69fe35b7","in":{"base":"Any","pred":"hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_print_MatMul(expr)","rhs":"prettyForm.__mul__(*args)","over":{"base":"Any","pred":"hasattr(expr, 'args')"},"name":"_print_MatMul_correct"},"guarantee":"returns prettyForm.__mul__(*args)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_MatMul_correct","statement":"Path(_print_MatMul(x), returns prettyForm.__mul__(*args))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"396587e4aaa65881","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'args')"],"returns_expr":"prettyForm.__mul__(*args)","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_MatMul(self, expr):
         args = list(expr.args)
         from sympy.matrices.expressions.hadamard import HadamardProduct
@@ -1566,16 +2008,25 @@ class PrettyPrinter(Printer):
         return prettyForm.__mul__(*args)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Identity(exp), id) over Any                    ║
+# ║ Path(_print_Identity(expr), id) over Any                   ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Identity : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (prettyForm(pretty_atom('Identi...   ║
+# ║   ensures:  result == prettyForm(pretty_atom('Identit...   ║
+# ║   fiber[case_0]: self._use_unicode => prettyForm(pret...   ║
+# ║   fiber[case_1]: not (self._use_unicode) => prettyFor...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Identity : Any → {Any | result satisfies: resu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 76e9c1b178c4a651   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Identity","kind":"method","src_hash":"8513fb3ceab5d580","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Identity(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Identity_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"prettyForm","by":"library_axiom"},{"fn":"pretty_atom","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"76e9c1b178c4a651"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Identity","kind":"method","src_hash":"8513fb3ceab5d580","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (prettyForm(pretty_atom('IdentityMatrix')) if self._use_unicode else prettyForm('I')) and result == prettyForm(pretty_atom('IdentityMatrix')) or result == prettyForm('I')"},"spec":{"lhs":"_print_Identity(expr)","rhs":"result == (prettyForm(pretty_atom('IdentityMatrix')) if self._use_unicode else prettyForm('I')) and result == prettyForm(pretty_atom('IdentityMatrix')) or result == prettyForm('I')","over":{"base":"Any"},"name":"_print_Identity_correct","kind":"composition"},"guarantee":"result == (prettyForm(pretty_atom('IdentityMatrix')) if self._use_unicode else prettyForm('I')); result == prettyForm(pretty_atom('IdentityMatrix')) or result == prettyForm('I'); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"prettyForm","by":"library_axiom"},{"fn":"pretty_atom","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"76e9c1b178c4a651","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (prettyForm(pretty_atom('IdentityMatrix')) if self._use_unicode else prettyForm('I'))","result == prettyForm(pretty_atom('IdentityMatrix')) or result == prettyForm('I')"],"fibers":[{"name":"case_0","guard":"self._use_unicode","ensures":["result == prettyForm(pretty_atom('IdentityMatrix'))"],"decidability":"library","returns_expr":"prettyForm(pretty_atom('IdentityMatrix'))"},{"name":"case_1","guard":"not (self._use_unicode)","ensures":["result == prettyForm('I')"],"decidability":"library","returns_expr":"prettyForm('I')"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._use_unicode"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Identity(self, expr):
         if self._use_unicode:
             return prettyForm(pretty_atom('IdentityMatrix'))
@@ -1583,16 +2034,25 @@ class PrettyPrinter(Printer):
             return prettyForm('I')
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_ZeroMatrix(exp), id) over Any                  ║
+# ║ Path(_print_ZeroMatrix(expr), id) over Any                 ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_ZeroMatrix : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (prettyForm(pretty_atom('ZeroMa...   ║
+# ║   ensures:  result == prettyForm(pretty_atom('ZeroMat...   ║
+# ║   fiber[case_0]: self._use_unicode => prettyForm(pret...   ║
+# ║   fiber[case_1]: not (self._use_unicode) => prettyFor...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_ZeroMatrix : Any → {Any | result satisfies: re...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | d6a8b0c423fae07e   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_ZeroMatrix","kind":"method","src_hash":"26d617a9ed40b394","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_ZeroMatrix(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_ZeroMatrix_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"prettyForm","by":"library_axiom"},{"fn":"pretty_atom","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d6a8b0c423fae07e"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_ZeroMatrix","kind":"method","src_hash":"26d617a9ed40b394","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (prettyForm(pretty_atom('ZeroMatrix')) if self._use_unicode else prettyForm('0')) and result == prettyForm(pretty_atom('ZeroMatrix')) or result == prettyForm('0')"},"spec":{"lhs":"_print_ZeroMatrix(expr)","rhs":"result == (prettyForm(pretty_atom('ZeroMatrix')) if self._use_unicode else prettyForm('0')) and result == prettyForm(pretty_atom('ZeroMatrix')) or result == prettyForm('0')","over":{"base":"Any"},"name":"_print_ZeroMatrix_correct","kind":"composition"},"guarantee":"result == (prettyForm(pretty_atom('ZeroMatrix')) if self._use_unicode else prettyForm('0')); result == prettyForm(pretty_atom('ZeroMatrix')) or result == prettyForm('0'); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"prettyForm","by":"library_axiom"},{"fn":"pretty_atom","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d6a8b0c423fae07e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (prettyForm(pretty_atom('ZeroMatrix')) if self._use_unicode else prettyForm('0'))","result == prettyForm(pretty_atom('ZeroMatrix')) or result == prettyForm('0')"],"fibers":[{"name":"case_0","guard":"self._use_unicode","ensures":["result == prettyForm(pretty_atom('ZeroMatrix'))"],"decidability":"library","returns_expr":"prettyForm(pretty_atom('ZeroMatrix'))"},{"name":"case_1","guard":"not (self._use_unicode)","ensures":["result == prettyForm('0')"],"decidability":"library","returns_expr":"prettyForm('0')"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._use_unicode"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_ZeroMatrix(self, expr):
         if self._use_unicode:
             return prettyForm(pretty_atom('ZeroMatrix'))
@@ -1600,16 +2060,25 @@ class PrettyPrinter(Printer):
             return prettyForm('0')
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_OneMatrix(exp), id) over Any                   ║
+# ║ Path(_print_OneMatrix(expr), id) over Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_OneMatrix : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (prettyForm(pretty_atom('OneMat...   ║
+# ║   ensures:  result == prettyForm(pretty_atom('OneMatr...   ║
+# ║   fiber[case_0]: self._use_unicode => prettyForm(pret...   ║
+# ║   fiber[case_1]: not (self._use_unicode) => prettyFor...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_OneMatrix : Any → {Any | result satisfies: res...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | feb3c61bf85012a8   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_OneMatrix","kind":"method","src_hash":"f89a7a29c8f1b201","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_OneMatrix(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_OneMatrix_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"prettyForm","by":"library_axiom"},{"fn":"pretty_atom","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"feb3c61bf85012a8"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_OneMatrix","kind":"method","src_hash":"f89a7a29c8f1b201","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (prettyForm(pretty_atom('OneMatrix')) if self._use_unicode else prettyForm('1')) and result == prettyForm(pretty_atom('OneMatrix')) or result == prettyForm('1')"},"spec":{"lhs":"_print_OneMatrix(expr)","rhs":"result == (prettyForm(pretty_atom('OneMatrix')) if self._use_unicode else prettyForm('1')) and result == prettyForm(pretty_atom('OneMatrix')) or result == prettyForm('1')","over":{"base":"Any"},"name":"_print_OneMatrix_correct","kind":"composition"},"guarantee":"result == (prettyForm(pretty_atom('OneMatrix')) if self._use_unicode else prettyForm('1')); result == prettyForm(pretty_atom('OneMatrix')) or result == prettyForm('1'); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"prettyForm","by":"library_axiom"},{"fn":"pretty_atom","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"feb3c61bf85012a8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (prettyForm(pretty_atom('OneMatrix')) if self._use_unicode else prettyForm('1'))","result == prettyForm(pretty_atom('OneMatrix')) or result == prettyForm('1')"],"fibers":[{"name":"case_0","guard":"self._use_unicode","ensures":["result == prettyForm(pretty_atom('OneMatrix'))"],"decidability":"library","returns_expr":"prettyForm(pretty_atom('OneMatrix'))"},{"name":"case_1","guard":"not (self._use_unicode)","ensures":["result == prettyForm('1')"],"decidability":"library","returns_expr":"prettyForm('1')"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._use_unicode"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_OneMatrix(self, expr):
         if self._use_unicode:
             return prettyForm(pretty_atom("OneMatrix"))
@@ -1617,16 +2086,23 @@ class PrettyPrinter(Printer):
             return prettyForm('1')
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_DotProduct(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_DotProduct(expr), prettyForm.__mul__(*args)) over {Any | hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_DotProduct : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   returns:  prettyForm.__mul__(*args)                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_DotProduct : {Any | hasattr(expr, 'args')} → Any    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 50eb7398a2d3e5b4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | db15256bf40cda91  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_DotProduct","kind":"method","src_hash":"e05e562d2e5d092f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_DotProduct(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_DotProduct_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_DotProduct_correct","statement":"Path(_print_DotProduct(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"50eb7398a2d3e5b4"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_DotProduct","kind":"method","src_hash":"e05e562d2e5d092f","in":{"base":"Any","pred":"hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_print_DotProduct(expr)","rhs":"prettyForm.__mul__(*args)","over":{"base":"Any","pred":"hasattr(expr, 'args')"},"name":"_print_DotProduct_correct"},"guarantee":"returns prettyForm.__mul__(*args)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_DotProduct_correct","statement":"Path(_print_DotProduct(x), returns prettyForm.__mul__(*args))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"db15256bf40cda91","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'args')"],"returns_expr":"prettyForm.__mul__(*args)","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_DotProduct(self, expr):
         args = list(expr.args)
 
@@ -1635,16 +2111,24 @@ class PrettyPrinter(Printer):
         return prettyForm.__mul__(*args)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_MatPow(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_MatPow(expr), <unspecified:_print_MatPow>) over {Any | hasattr(expr, 'base') and hasattr(expr, 'exp')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_MatPow : Any → Any                                  ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'base')                          ║
+# ║   requires: hasattr(expr, 'exp')                           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_MatPow : {Any | hasattr(expr, 'base') and hasa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f68185efbe45e01c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_MatPow","kind":"method","src_hash":"55bc440eec7cf21f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_MatPow(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_MatPow_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_MatPow_correct","statement":"Path(_print_MatPow(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f68185efbe45e01c"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_MatPow","kind":"method","src_hash":"55bc440eec7cf21f","in":{"base":"Any","pred":"hasattr(expr, 'base') and hasattr(expr, 'exp')"},"out":{"base":"Any"},"spec":{"lhs":"_print_MatPow(expr)","rhs":"<unspecified:_print_MatPow>","over":{"base":"Any","pred":"hasattr(expr, 'base') and hasattr(expr, 'exp')"},"name":"_print_MatPow_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_MatPow_correct","statement":"Path(_print_MatPow(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f68185efbe45e01c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'base')","hasattr(expr, 'exp')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.base","expr.exp","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_MatPow(self, expr):
         pform = self._print(expr.base)
         from sympy.matrices import MatrixSymbol
@@ -1654,16 +2138,23 @@ class PrettyPrinter(Printer):
         return pform
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_HadamardProduct(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_HadamardProduct(expr), self._print_seq(expr.args, None, None, delim, parenthesize=lambda x: isinstance(x, (MatAdd, MatMul, HadamardProduct)))) over {Any | hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_HadamardProduct : Any → Any                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   returns:  self._print_seq(expr.args, None, None, de...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_HadamardProduct : {Any | hasattr(expr, 'args')...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9cf8389d7673aa38  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c7c29e9d61225a94  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_HadamardProduct","kind":"method","src_hash":"0fa2122ba019fa19","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_HadamardProduct(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_HadamardProduct_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_HadamardProduct_correct","statement":"Path(_print_HadamardProduct(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9cf8389d7673aa38"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_HadamardProduct","kind":"method","src_hash":"0fa2122ba019fa19","in":{"base":"Any","pred":"hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_print_HadamardProduct(expr)","rhs":"self._print_seq(expr.args, None, None, delim, parenthesize=lambda x: isinstance(x, (MatAdd, MatMul, HadamardProduct)))","over":{"base":"Any","pred":"hasattr(expr, 'args')"},"name":"_print_HadamardProduct_correct"},"guarantee":"returns self._print_seq(expr.args, None, None, delim, parenthesize=lambda x: isinstance(x, (MatAdd, MatMul, HadamardProduct)))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_HadamardProduct_correct","statement":"Path(_print_HadamardProduct(x), returns self._print_seq(expr.args, None, None, delim, parenthesize=lambda x: isinstance(x, (MatAdd, MatMul, HadamardProduct))))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c7c29e9d61225a94","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'args')"],"returns_expr":"self._print_seq(expr.args, None, None, delim, parenthesize=lambda x: isinstance(x, (MatAdd, MatMul, HadamardProduct)))","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","self._print_seq","self._use_unicode"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_HadamardProduct(self, expr):
         from sympy.matrices.expressions.hadamard import HadamardProduct
         from sympy.matrices.expressions.matadd import MatAdd
@@ -1676,16 +2167,24 @@ class PrettyPrinter(Printer):
                 parenthesize=lambda x: isinstance(x, (MatAdd, MatMul, HadamardProduct)))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_HadamardPower(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_HadamardPower(expr), pretty_base ** pretty_circ_exp) over {Any | hasattr(expr, 'base') and hasattr(expr, 'exp')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_HadamardPower : Any → Any                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'base')                          ║
+# ║   requires: hasattr(expr, 'exp')                           ║
+# ║   returns:  pretty_base ** pretty_circ_exp                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_HadamardPower : {Any | hasattr(expr, 'base') a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e89edd23bf777c33  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0764261231ae1bc8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_HadamardPower","kind":"method","src_hash":"8d482f9078e96dd8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_HadamardPower(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_HadamardPower_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_HadamardPower_correct","statement":"Path(_print_HadamardPower(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e89edd23bf777c33"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_HadamardPower","kind":"method","src_hash":"8d482f9078e96dd8","in":{"base":"Any","pred":"hasattr(expr, 'base') and hasattr(expr, 'exp')"},"out":{"base":"Any"},"spec":{"lhs":"_print_HadamardPower(expr)","rhs":"pretty_base ** pretty_circ_exp","over":{"base":"Any","pred":"hasattr(expr, 'base') and hasattr(expr, 'exp')"},"name":"_print_HadamardPower_correct"},"guarantee":"returns pretty_base ** pretty_circ_exp","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_HadamardPower_correct","statement":"Path(_print_HadamardPower(x), returns pretty_base ** pretty_circ_exp)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0764261231ae1bc8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'base')","hasattr(expr, 'exp')"],"returns_expr":"pretty_base ** pretty_circ_exp","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.base","expr.exp","self._print","self._use_unicode"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_HadamardPower(self, expr):
         # from sympy import MatAdd, MatMul
         if self._use_unicode:
@@ -1703,16 +2202,23 @@ class PrettyPrinter(Printer):
         return pretty_base**pretty_circ_exp
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_KroneckerProduct(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_KroneckerProduct(expr), self._print_seq(expr.args, None, None, delim, parenthesize=lambda x: isinstance(x, (MatAdd, MatMul)))) over {Any | hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_KroneckerProduct : Any → Any                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   returns:  self._print_seq(expr.args, None, None, de...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_KroneckerProduct : {Any | hasattr(expr, 'args'...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bfaa208c22afa4c7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0829acd19f25b0c3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_KroneckerProduct","kind":"method","src_hash":"47d1878b66068aee","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_KroneckerProduct(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_KroneckerProduct_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_KroneckerProduct_correct","statement":"Path(_print_KroneckerProduct(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bfaa208c22afa4c7"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_KroneckerProduct","kind":"method","src_hash":"47d1878b66068aee","in":{"base":"Any","pred":"hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_print_KroneckerProduct(expr)","rhs":"self._print_seq(expr.args, None, None, delim, parenthesize=lambda x: isinstance(x, (MatAdd, MatMul)))","over":{"base":"Any","pred":"hasattr(expr, 'args')"},"name":"_print_KroneckerProduct_correct"},"guarantee":"returns self._print_seq(expr.args, None, None, delim, parenthesize=lambda x: isinstance(x, (MatAdd, MatMul)))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_KroneckerProduct_correct","statement":"Path(_print_KroneckerProduct(x), returns self._print_seq(expr.args, None, None, delim, parenthesize=lambda x: isinstance(x, (MatAdd, MatMul))))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0829acd19f25b0c3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'args')"],"returns_expr":"self._print_seq(expr.args, None, None, delim, parenthesize=lambda x: isinstance(x, (MatAdd, MatMul)))","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","self._print_seq","self._use_unicode"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_KroneckerProduct(self, expr):
         from sympy.matrices.expressions.matadd import MatAdd
         from sympy.matrices.expressions.matmul import MatMul
@@ -1724,32 +2230,50 @@ class PrettyPrinter(Printer):
                 parenthesize=lambda x: isinstance(x, (MatAdd, MatMul)))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_FunctionMatrix(X), internal helper behaves correctly) over Any ║
+# ║ Path(_print_FunctionMatrix(X), <unspecified:_print_FunctionMatrix>) over {Any | hasattr(X, 'lamda')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_FunctionMatrix : Any → Any                          ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(X, 'lamda')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_FunctionMatrix : {Any | hasattr(X, 'lamda')} →...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b2a5b2b2572e9339  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_FunctionMatrix","kind":"method","src_hash":"970ead0a481e7939","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_FunctionMatrix(X)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_FunctionMatrix_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_FunctionMatrix_correct","statement":"Path(_print_FunctionMatrix(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b2a5b2b2572e9339"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_FunctionMatrix","kind":"method","src_hash":"970ead0a481e7939","in":{"base":"Any","pred":"hasattr(X, 'lamda')"},"out":{"base":"Any"},"spec":{"lhs":"_print_FunctionMatrix(X)","rhs":"<unspecified:_print_FunctionMatrix>","over":{"base":"Any","pred":"hasattr(X, 'lamda')"},"name":"_print_FunctionMatrix_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_FunctionMatrix_correct","statement":"Path(_print_FunctionMatrix(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b2a5b2b2572e9339","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(X, 'lamda')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["X.lamda","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_FunctionMatrix(self, X):
         D = self._print(X.lamda.expr)
         D = prettyForm(*D.parens('[', ']'))
         return D
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_TransferFunction(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_TransferFunction(expr), result == (self._print_Mul(res) if not expr.num == 1 else self._print(1) / self._print(expr.den)) and result == self._print_Mul(res) or result == self._print(1) / self._print(expr.den)) over {Any | hasattr(expr, 'num') and hasattr(expr, 'den')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_TransferFunction : Any → Any                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'num')                           ║
+# ║   requires: hasattr(expr, 'den')                           ║
+# ║   ensures:  result == (self._print_Mul(res) if not ex...   ║
+# ║   ensures:  result == self._print_Mul(res) or result ...   ║
+# ║   fiber[case_0]: not expr.num == 1 => self._print_Mul...   ║
+# ║   fiber[case_1]: not (not expr.num == 1) => self._pri...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_TransferFunction : {Any | hasattr(expr, 'num')...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5c6b50ae34fe979e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | af9ebfe423bbaee1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_TransferFunction","kind":"method","src_hash":"56c724b81225cded","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_TransferFunction(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_TransferFunction_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_TransferFunction_correct","statement":"Path(_print_TransferFunction(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5c6b50ae34fe979e"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_TransferFunction","kind":"method","src_hash":"56c724b81225cded","in":{"base":"Any","pred":"hasattr(expr, 'num') and hasattr(expr, 'den')"},"out":{"base":"Any","pred":"result satisfies: result == (self._print_Mul(res) if not expr.num == 1 else self._print(1) / self._print(expr.den)) and result == self._print_Mul(res) or result == self._print(1) / self._print(expr.den)"},"spec":{"lhs":"_print_TransferFunction(expr)","rhs":"result == (self._print_Mul(res) if not expr.num == 1 else self._print(1) / self._print(expr.den)) and result == self._print_Mul(res) or result == self._print(1) / self._print(expr.den)","over":{"base":"Any","pred":"hasattr(expr, 'num') and hasattr(expr, 'den')"},"name":"_print_TransferFunction_correct"},"guarantee":"result == (self._print_Mul(res) if not expr.num == 1 else self._print(1) / self._print(expr.den)); result == self._print_Mul(res) or result == self._print(1) / self._print(expr.den); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_TransferFunction_correct","statement":"Path(_print_TransferFunction(x), result == (self._print_Mul(res) if not expr.num == 1 else self._print(1) / self._print(expr.den)); result == self._print_Mul(res) or result == self._print(1) / self._print(expr.den); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"af9ebfe423bbaee1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'num')","hasattr(expr, 'den')"],"ensures":["result == (self._print_Mul(res) if not expr.num == 1 else self._print(1) / self._print(expr.den))","result == self._print_Mul(res) or result == self._print(1) / self._print(expr.den)"],"fibers":[{"name":"case_0","guard":"not expr.num == 1","ensures":["result == self._print_Mul(res)"],"decidability":"z3","returns_expr":"self._print_Mul(res)"},{"name":"case_1","guard":"not (not expr.num == 1)","ensures":["result == self._print(1) / self._print(expr.den)"],"decidability":"z3","returns_expr":"self._print(1) / self._print(expr.den)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.den","expr.num","self._print","self._print_Mul"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_TransferFunction(self, expr):
         if not expr.num == 1:
             num, den = expr.num, expr.den
@@ -1759,16 +2283,23 @@ class PrettyPrinter(Printer):
             return self._print(1)/self._print(expr.den)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Series(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Series(expr), prettyForm.__mul__(*args)) over {Any | hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Series : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   returns:  prettyForm.__mul__(*args)                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Series : {Any | hasattr(expr, 'args')} → Any        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 39d71f34909694fe  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2664c123f3ccef49  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Series","kind":"method","src_hash":"ad16bbef9a426634","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Series(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Series_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_Series_correct","statement":"Path(_print_Series(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"39d71f34909694fe"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Series","kind":"method","src_hash":"ad16bbef9a426634","in":{"base":"Any","pred":"hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Series(expr)","rhs":"prettyForm.__mul__(*args)","over":{"base":"Any","pred":"hasattr(expr, 'args')"},"name":"_print_Series_correct"},"guarantee":"returns prettyForm.__mul__(*args)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_Series_correct","statement":"Path(_print_Series(x), returns prettyForm.__mul__(*args))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2664c123f3ccef49","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'args')"],"returns_expr":"prettyForm.__mul__(*args)","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Series(self, expr):
         args = list(expr.args)
         for i, a in enumerate(expr.args):
@@ -1776,16 +2307,23 @@ class PrettyPrinter(Printer):
         return prettyForm.__mul__(*args)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_MIMOSeries(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_MIMOSeries(expr), prettyForm.__mul__(*pretty_args)) over {Any | hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_MIMOSeries : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   returns:  prettyForm.__mul__(*pretty_args)               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_MIMOSeries : {Any | hasattr(expr, 'args')} → Any    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 48b6e5946855bd65  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bb4ba7bb9535d0e0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_MIMOSeries","kind":"method","src_hash":"e34567c522bbc2d7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_MIMOSeries(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_MIMOSeries_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_MIMOSeries_correct","statement":"Path(_print_MIMOSeries(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"48b6e5946855bd65"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_MIMOSeries","kind":"method","src_hash":"e34567c522bbc2d7","in":{"base":"Any","pred":"hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_print_MIMOSeries(expr)","rhs":"prettyForm.__mul__(*pretty_args)","over":{"base":"Any","pred":"hasattr(expr, 'args')"},"name":"_print_MIMOSeries_correct"},"guarantee":"returns prettyForm.__mul__(*pretty_args)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_MIMOSeries_correct","statement":"Path(_print_MIMOSeries(x), returns prettyForm.__mul__(*pretty_args))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bb4ba7bb9535d0e0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'args')"],"returns_expr":"prettyForm.__mul__(*pretty_args)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_MIMOSeries(self, expr):
         from sympy.physics.control.lti import MIMOParallel
         args = list(expr.args)
@@ -1802,16 +2340,23 @@ class PrettyPrinter(Printer):
         return prettyForm.__mul__(*pretty_args)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Parallel(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Parallel(expr), <unspecified:_print_Parallel>) over {Any | hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Parallel : Any → Any                                ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Parallel : {Any | hasattr(expr, 'args')} → Any      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 712ef79e48c45772  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Parallel","kind":"method","src_hash":"d94d0a49901db6fc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Parallel(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Parallel_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_Parallel_correct","statement":"Path(_print_Parallel(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"712ef79e48c45772"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Parallel","kind":"method","src_hash":"d94d0a49901db6fc","in":{"base":"Any","pred":"hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Parallel(expr)","rhs":"<unspecified:_print_Parallel>","over":{"base":"Any","pred":"hasattr(expr, 'args')"},"name":"_print_Parallel_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_Parallel_correct","statement":"Path(_print_Parallel(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"712ef79e48c45772","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Parallel(self, expr):
         s = None
         for item in expr.args:
@@ -1826,16 +2371,23 @@ class PrettyPrinter(Printer):
         return s
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_MIMOParallel(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_MIMOParallel(expr), <unspecified:_print_MIMOParallel>) over {Any | hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_MIMOParallel : Any → Any                            ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_MIMOParallel : {Any | hasattr(expr, 'args')} →...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c9de867b323f70c2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_MIMOParallel","kind":"method","src_hash":"0d55cd21662dc92f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_MIMOParallel(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_MIMOParallel_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_MIMOParallel_correct","statement":"Path(_print_MIMOParallel(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c9de867b323f70c2"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_MIMOParallel","kind":"method","src_hash":"0d55cd21662dc92f","in":{"base":"Any","pred":"hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_print_MIMOParallel(expr)","rhs":"<unspecified:_print_MIMOParallel>","over":{"base":"Any","pred":"hasattr(expr, 'args')"},"name":"_print_MIMOParallel_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_MIMOParallel_correct","statement":"Path(_print_MIMOParallel(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c9de867b323f70c2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_MIMOParallel(self, expr):
         from sympy.physics.control.lti import TransferFunctionMatrix
         s = None
@@ -1854,16 +2406,25 @@ class PrettyPrinter(Printer):
         return s
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Feedback(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Feedback(expr), self._print(num) / denom) over {Any | hasattr(expr, 'sys1') and hasattr(expr, 'var') and hasattr(expr, 'sys2') and hasattr(expr, 'sign')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Feedback : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'sys1')                          ║
+# ║   requires: hasattr(expr, 'var')                           ║
+# ║   requires: hasattr(expr, 'sys2')                          ║
+# ║   returns:  self._print(num) / denom                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Feedback : {Any | hasattr(expr, 'sys1') and ha...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c1640a363fa70d32  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fa19e75b75ec6877  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Feedback","kind":"method","src_hash":"37e8f8882fdd528b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Feedback(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Feedback_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_Feedback_correct","statement":"Path(_print_Feedback(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c1640a363fa70d32"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Feedback","kind":"method","src_hash":"37e8f8882fdd528b","in":{"base":"Any","pred":"hasattr(expr, 'sys1') and hasattr(expr, 'var') and hasattr(expr, 'sys2') and hasattr(expr, 'sign')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Feedback(expr)","rhs":"self._print(num) / denom","over":{"base":"Any","pred":"hasattr(expr, 'sys1') and hasattr(expr, 'var') and hasattr(expr, 'sys2') and hasattr(expr, 'sign')"},"name":"_print_Feedback_correct"},"guarantee":"returns self._print(num) / denom","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_Feedback_correct","statement":"Path(_print_Feedback(x), returns self._print(num) / denom)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fa19e75b75ec6877","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'sys1')","hasattr(expr, 'var')","hasattr(expr, 'sys2')","hasattr(expr, 'sign')"],"returns_expr":"self._print(num) / denom","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.sign","expr.sys1","expr.sys2","expr.var","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Feedback(self, expr):
         from sympy.physics.control import TransferFunction, Series
 
@@ -1901,16 +2462,25 @@ class PrettyPrinter(Printer):
         return self._print(num)/denom
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_MIMOFeedback(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_MIMOFeedback(expr), <unspecified:_print_MIMOFeedback>) over {Any | hasattr(expr, 'sys1') and hasattr(expr, 'sys2') and hasattr(expr, 'sign')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_MIMOFeedback : Any → Any                            ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'sys1')                          ║
+# ║   requires: hasattr(expr, 'sys2')                          ║
+# ║   requires: hasattr(expr, 'sign')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_MIMOFeedback : {Any | hasattr(expr, 'sys1') an...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a19fa77385ba19aa  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_MIMOFeedback","kind":"method","src_hash":"45a1008511fbb345","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_MIMOFeedback(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_MIMOFeedback_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_MIMOFeedback_correct","statement":"Path(_print_MIMOFeedback(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a19fa77385ba19aa"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_MIMOFeedback","kind":"method","src_hash":"45a1008511fbb345","in":{"base":"Any","pred":"hasattr(expr, 'sys1') and hasattr(expr, 'sys2') and hasattr(expr, 'sign')"},"out":{"base":"Any"},"spec":{"lhs":"_print_MIMOFeedback(expr)","rhs":"<unspecified:_print_MIMOFeedback>","over":{"base":"Any","pred":"hasattr(expr, 'sys1') and hasattr(expr, 'sys2') and hasattr(expr, 'sign')"},"name":"_print_MIMOFeedback_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_MIMOFeedback_correct","statement":"Path(_print_MIMOFeedback(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a19fa77385ba19aa","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'sys1')","hasattr(expr, 'sys2')","hasattr(expr, 'sign')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.sign","expr.sys1","expr.sys2","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_MIMOFeedback(self, expr):
         from sympy.physics.control import MIMOSeries, TransferFunctionMatrix
 
@@ -1930,16 +2500,23 @@ class PrettyPrinter(Printer):
         return _feedback
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_TransferFunctionMatrix(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_TransferFunctionMatrix(expr), <unspecified:_print_TransferFunctionMatrix>) over {Any | hasattr(expr, '_expr_mat')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_TransferFunctionMatrix : Any → Any                  ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, '_expr_mat')                     ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_TransferFunctionMatrix : {Any | hasattr(expr, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e3f9d6d29d5bfc65  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_TransferFunctionMatrix","kind":"method","src_hash":"be424eb1cf46f716","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_TransferFunctionMatrix(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_TransferFunctionMatrix_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_TransferFunctionMatrix_correct","statement":"Path(_print_TransferFunctionMatrix(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e3f9d6d29d5bfc65"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_TransferFunctionMatrix","kind":"method","src_hash":"be424eb1cf46f716","in":{"base":"Any","pred":"hasattr(expr, '_expr_mat')"},"out":{"base":"Any"},"spec":{"lhs":"_print_TransferFunctionMatrix(expr)","rhs":"<unspecified:_print_TransferFunctionMatrix>","over":{"base":"Any","pred":"hasattr(expr, '_expr_mat')"},"name":"_print_TransferFunctionMatrix_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_TransferFunctionMatrix_correct","statement":"Path(_print_TransferFunctionMatrix(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e3f9d6d29d5bfc65","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, '_expr_mat')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr._expr_mat","self._print","self._use_unicode"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_TransferFunctionMatrix(self, expr):
         mat = self._print(expr._expr_mat)
         mat.baseline = mat.height() - 1
@@ -1948,16 +2525,25 @@ class PrettyPrinter(Printer):
         return mat
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_StateSpace(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_StateSpace(expr), self._print(mat.blocks)) over {Any | hasattr(expr, '_A') and hasattr(expr, '_B') and hasattr(expr, '_C') and hasattr(expr, '_D')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_StateSpace : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, '_A')                            ║
+# ║   requires: hasattr(expr, '_B')                            ║
+# ║   requires: hasattr(expr, '_C')                            ║
+# ║   returns:  self._print(mat.blocks)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_StateSpace : {Any | hasattr(expr, '_A') and ha...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d3437590e35e675a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0f04c637135484e5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_StateSpace","kind":"method","src_hash":"099222bc72aad841","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_StateSpace(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_StateSpace_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_StateSpace_correct","statement":"Path(_print_StateSpace(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d3437590e35e675a"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_StateSpace","kind":"method","src_hash":"099222bc72aad841","in":{"base":"Any","pred":"hasattr(expr, '_A') and hasattr(expr, '_B') and hasattr(expr, '_C') and hasattr(expr, '_D')"},"out":{"base":"Any"},"spec":{"lhs":"_print_StateSpace(expr)","rhs":"self._print(mat.blocks)","over":{"base":"Any","pred":"hasattr(expr, '_A') and hasattr(expr, '_B') and hasattr(expr, '_C') and hasattr(expr, '_D')"},"name":"_print_StateSpace_correct"},"guarantee":"returns self._print(mat.blocks)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_StateSpace_correct","statement":"Path(_print_StateSpace(x), returns self._print(mat.blocks))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0f04c637135484e5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, '_A')","hasattr(expr, '_B')","hasattr(expr, '_C')","hasattr(expr, '_D')"],"returns_expr":"self._print(mat.blocks)","pure":false,"effects":{"effect_type":"reads_state","reads":["expr._A","expr._B","expr._C","expr._D","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_StateSpace(self, expr):
         from sympy.matrices.expressions.blockmatrix import BlockMatrix
         A = expr._A
@@ -1968,16 +2554,27 @@ class PrettyPrinter(Printer):
         return self._print(mat.blocks)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_BasisDependent(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_BasisDependent(expr), len(flag) == old_len_flag + 1 and len(inneritems) == old_len_inneritems and len(lengths) == old_len_lengths + 1 and len(o1) == old_len_o1 + 1 and len(strs) == old_len_strs + 1 and len(vectstrs) == old_len_vectstrs + 1) over {Any | self._use_unicode and hasattr(expr, 'zero') and hasattr(expr, 'separate')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_BasisDependent : Any → Any                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: self._use_unicode                              ║
+# ║   requires: hasattr(expr, 'zero')                          ║
+# ║   requires: hasattr(expr, 'separate')                      ║
+# ║   ensures:  len(flag) == old_len_flag + 1                  ║
+# ║   ensures:  len(inneritems) == old_len_inneritems          ║
+# ║   ensures:  len(lengths) == old_len_lengths + 1            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_BasisDependent : {Any | self._use_unicode and ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7725742bc65a3eca  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 07fc6b3552352519  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_BasisDependent","kind":"method","src_hash":"403db97c9e7a405d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_BasisDependent(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_BasisDependent_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_BasisDependent_correct","statement":"Path(_print_BasisDependent(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7725742bc65a3eca"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_BasisDependent","kind":"method","src_hash":"403db97c9e7a405d","in":{"base":"Any","pred":"self._use_unicode and hasattr(expr, 'zero') and hasattr(expr, 'separate')"},"out":{"base":"Any","pred":"result satisfies: len(flag) == old_len_flag + 1 and len(inneritems) == old_len_inneritems and len(lengths) == old_len_lengths + 1 and len(o1) == old_len_o1 + 1 and len(strs) == old_len_strs + 1 and len(vectstrs) == old_len_vectstrs + 1"},"spec":{"lhs":"_print_BasisDependent(expr)","rhs":"len(flag) == old_len_flag + 1 and len(inneritems) == old_len_inneritems and len(lengths) == old_len_lengths + 1 and len(o1) == old_len_o1 + 1 and len(strs) == old_len_strs + 1 and len(vectstrs) == old_len_vectstrs + 1","over":{"base":"Any","pred":"self._use_unicode and hasattr(expr, 'zero') and hasattr(expr, 'separate')"},"name":"_print_BasisDependent_correct"},"guarantee":"len(flag) == old_len_flag + 1; len(inneritems) == old_len_inneritems; len(lengths) == old_len_lengths + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_BasisDependent_correct","statement":"Path(_print_BasisDependent(x), len(flag) == old_len_flag + 1; len(inneritems) == old_len_inneritems; len(lengths) == old_len_lengths + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"07fc6b3552352519","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["self._use_unicode","hasattr(expr, 'zero')","hasattr(expr, 'separate')"],"ensures":["len(flag) == old_len_flag + 1","len(inneritems) == old_len_inneritems","len(lengths) == old_len_lengths + 1","len(o1) == old_len_o1 + 1","len(strs) == old_len_strs + 1","len(vectstrs) == old_len_vectstrs + 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.separate","expr.zero","self._print","self._use_unicode"],"calls_mutating":["flag.append","inneritems.sort","lengths.append","o1.append","parts.insert","strs.append","vectstrs.append"],"raises":["NotImplementedError"]},"state_contract":{"modifies":["flag.*","inneritems.*","lengths.*","o1.*","parts.*","strs.*","vectstrs.*"],"old_bindings":{"old_len_flag":"len(flag)","old_len_inneritems":"len(inneritems)","old_len_lengths":"len(lengths)","old_len_o1":"len(o1)","old_len_strs":"len(strs)","old_len_vectstrs":"len(vectstrs)"},"post_ensures":["len(flag) == old_len_flag + 1","len(inneritems) == old_len_inneritems","len(lengths) == old_len_lengths + 1","len(o1) == old_len_o1 + 1","len(strs) == old_len_strs + 1","len(vectstrs) == old_len_vectstrs + 1"],"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_BasisDependent(self, expr):
         from sympy.vector import Vector
 
@@ -2081,16 +2678,24 @@ class PrettyPrinter(Printer):
         return prettyForm('\n'.join([s[:-3] for s in strs]))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_NDimArray(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_NDimArray(expr), <unspecified:_print_NDimArray>) over {Any | hasattr(expr, 'rank') and hasattr(expr, 'shape')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_NDimArray : Any → Any                               ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'rank')                          ║
+# ║   requires: hasattr(expr, 'shape')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_NDimArray : {Any | hasattr(expr, 'rank') and h...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7ba87fb77f06b37c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_NDimArray","kind":"method","src_hash":"338e2773a7acdae7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_NDimArray(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_NDimArray_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_NDimArray_correct","statement":"Path(_print_NDimArray(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7ba87fb77f06b37c"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_NDimArray","kind":"method","src_hash":"338e2773a7acdae7","in":{"base":"Any","pred":"hasattr(expr, 'rank') and hasattr(expr, 'shape')"},"out":{"base":"Any"},"spec":{"lhs":"_print_NDimArray(expr)","rhs":"<unspecified:_print_NDimArray>","over":{"base":"Any","pred":"hasattr(expr, 'rank') and hasattr(expr, 'shape')"},"name":"_print_NDimArray_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_NDimArray_correct","statement":"Path(_print_NDimArray(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7ba87fb77f06b37c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'rank')","hasattr(expr, 'shape')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.rank","expr.shape","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_NDimArray(self, expr):
         from sympy.matrices.immutable import ImmutableMatrix
 
@@ -2125,16 +2730,22 @@ class PrettyPrinter(Printer):
         return self._print(out_expr)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_printer_tensor_indices(nam), internal helper behaves correctly) over Any ║
+# ║ Path(_printer_tensor_indices(name, indices, index_map), <unspecified:_printer_tensor_indices>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _printer_tensor_indices : Any → Any                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a2f69384af345c7a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._printer_tensor_indices","kind":"method","src_hash":"20e5481a93ee9ade","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_printer_tensor_indices(nam)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_printer_tensor_indices_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._printer_tensor_indices_correct","statement":"Path(_printer_tensor_indices(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a2f69384af345c7a"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._printer_tensor_indices","kind":"method","src_hash":"20e5481a93ee9ade","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_printer_tensor_indices(name, indices, index_map)","rhs":"<unspecified:_printer_tensor_indices>","over":{"base":"Any"},"name":"_printer_tensor_indices_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._printer_tensor_indices_correct","statement":"Path(_printer_tensor_indices(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a2f69384af345c7a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _printer_tensor_indices(self, name, indices, index_map={}):
         center = stringPict(name)
         top = stringPict(" "*center.width())
@@ -2171,32 +2782,48 @@ class PrettyPrinter(Printer):
         return pict
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Tensor(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Tensor(expr), self._printer_tensor_indices(name, indices)) over {Any | hasattr(expr, 'get_indices') and hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Tensor : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'get_indices')                   ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   returns:  self._printer_tensor_indices(name, indices)    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Tensor : {Any | hasattr(expr, 'get_indices') a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b289531d9d916117  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 28c71bf431ef4c57  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Tensor","kind":"method","src_hash":"42e24b86db3c517b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Tensor(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Tensor_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_Tensor_correct","statement":"Path(_print_Tensor(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b289531d9d916117"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Tensor","kind":"method","src_hash":"42e24b86db3c517b","in":{"base":"Any","pred":"hasattr(expr, 'get_indices') and hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Tensor(expr)","rhs":"self._printer_tensor_indices(name, indices)","over":{"base":"Any","pred":"hasattr(expr, 'get_indices') and hasattr(expr, 'args')"},"name":"_print_Tensor_correct"},"guarantee":"returns self._printer_tensor_indices(name, indices)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_Tensor_correct","statement":"Path(_print_Tensor(x), returns self._printer_tensor_indices(name, indices))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"28c71bf431ef4c57","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'get_indices')","hasattr(expr, 'args')"],"returns_expr":"self._printer_tensor_indices(name, indices)","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","expr.get_indices","self._printer_tensor_indices"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Tensor(self, expr):
         name = expr.args[0].name
         indices = expr.get_indices()
         return self._printer_tensor_indices(name, indices)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_TensorElement(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_TensorElement(expr), self._printer_tensor_indices(name, indices, index_map)) over {Any | hasattr(expr, 'index_map') and hasattr(expr, 'expr')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_TensorElement : Any → Any                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'index_map')                     ║
+# ║   requires: hasattr(expr, 'expr')                          ║
+# ║   returns:  self._printer_tensor_indices(name, indice...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_TensorElement : {Any | hasattr(expr, 'index_ma...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3a4920c16173ca26  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 68374d15ffa17023  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_TensorElement","kind":"method","src_hash":"6cbbbf0562601b70","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_TensorElement(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_TensorElement_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_TensorElement_correct","statement":"Path(_print_TensorElement(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3a4920c16173ca26"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_TensorElement","kind":"method","src_hash":"6cbbbf0562601b70","in":{"base":"Any","pred":"hasattr(expr, 'index_map') and hasattr(expr, 'expr')"},"out":{"base":"Any"},"spec":{"lhs":"_print_TensorElement(expr)","rhs":"self._printer_tensor_indices(name, indices, index_map)","over":{"base":"Any","pred":"hasattr(expr, 'index_map') and hasattr(expr, 'expr')"},"name":"_print_TensorElement_correct"},"guarantee":"returns self._printer_tensor_indices(name, indices, index_map)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_TensorElement_correct","statement":"Path(_print_TensorElement(x), returns self._printer_tensor_indices(name, indices, index_map))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"68374d15ffa17023","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'index_map')","hasattr(expr, 'expr')"],"returns_expr":"self._printer_tensor_indices(name, indices, index_map)","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.expr","expr.index_map","self._printer_tensor_indices"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_TensorElement(self, expr):
         name = expr.expr.args[0].name
         indices = expr.expr.get_indices()
@@ -2204,16 +2831,26 @@ class PrettyPrinter(Printer):
         return self._printer_tensor_indices(name, indices, index_map)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_TensMul(exp), id) over Any                     ║
+# ║ Path(_print_TensMul(expr), id) over {Any | hasattr(expr, '_get_args_for_traditional_printer')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_TensMul : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, '_get_args_for_traditional_...   ║
+# ║   ensures:  result == (prettyForm(*pform.left(sign)) ...   ║
+# ║   ensures:  result == prettyForm(*pform.left(sign)) o...   ║
+# ║   fiber[case_0]: sign => prettyForm(*pform.left(sign))     ║
+# ║   fiber[case_1]: not (sign) => pform                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_TensMul : {Any | hasattr(expr, '_get_args_for_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | ed7c8f82673baed0   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_TensMul","kind":"method","src_hash":"aeead97b2f8cde51","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_TensMul(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_TensMul_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"prettyForm","by":"library_axiom"},{"fn":"left","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ed7c8f82673baed0"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_TensMul","kind":"method","src_hash":"aeead97b2f8cde51","in":{"base":"Any","pred":"hasattr(expr, '_get_args_for_traditional_printer')"},"out":{"base":"Any","pred":"result satisfies: result == (prettyForm(*pform.left(sign)) if sign else pform) and result == prettyForm(*pform.left(sign)) or result == pform"},"spec":{"lhs":"_print_TensMul(expr)","rhs":"result == (prettyForm(*pform.left(sign)) if sign else pform) and result == prettyForm(*pform.left(sign)) or result == pform","over":{"base":"Any","pred":"hasattr(expr, '_get_args_for_traditional_printer')"},"name":"_print_TensMul_correct","kind":"composition"},"guarantee":"result == (prettyForm(*pform.left(sign)) if sign else pform); result == prettyForm(*pform.left(sign)) or result == pform; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"prettyForm","by":"library_axiom"},{"fn":"left","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ed7c8f82673baed0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, '_get_args_for_traditional_printer')"],"ensures":["result == (prettyForm(*pform.left(sign)) if sign else pform)","result == prettyForm(*pform.left(sign)) or result == pform"],"fibers":[{"name":"case_0","guard":"sign","ensures":["result == prettyForm(*pform.left(sign))"],"decidability":"library","returns_expr":"prettyForm(*pform.left(sign))"},{"name":"case_1","guard":"not (sign)","ensures":["result == pform"],"decidability":"library","returns_expr":"pform"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr._get_args_for_traditional_printer","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_TensMul(self, expr):
         sign, args = expr._get_args_for_traditional_printer()
         args = [
@@ -2228,16 +2865,23 @@ class PrettyPrinter(Printer):
             return pform
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_TensAdd(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_TensAdd(expr), prettyForm.__add__(*args)) over {Any | hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_TensAdd : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   returns:  prettyForm.__add__(*args)                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_TensAdd : {Any | hasattr(expr, 'args')} → Any       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 82c3812501724c30  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b5fe637b25c3fed7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_TensAdd","kind":"method","src_hash":"dc1b6a2a0a70f2b5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_TensAdd(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_TensAdd_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_TensAdd_correct","statement":"Path(_print_TensAdd(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"82c3812501724c30"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_TensAdd","kind":"method","src_hash":"dc1b6a2a0a70f2b5","in":{"base":"Any","pred":"hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_print_TensAdd(expr)","rhs":"prettyForm.__add__(*args)","over":{"base":"Any","pred":"hasattr(expr, 'args')"},"name":"_print_TensAdd_correct"},"guarantee":"returns prettyForm.__add__(*args)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_TensAdd_correct","statement":"Path(_print_TensAdd(x), returns prettyForm.__add__(*args))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b5fe637b25c3fed7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'args')"],"returns_expr":"prettyForm.__add__(*args)","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_TensAdd(self, expr):
         args = [
             prettyForm(*self._print(i).parens()) if
@@ -2247,16 +2891,24 @@ class PrettyPrinter(Printer):
         return prettyForm.__add__(*args)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_TensorIndex(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_TensorIndex(expr), self._print(sym)) over {Any | hasattr(expr, 'args') and hasattr(expr, 'is_up')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_TensorIndex : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   requires: hasattr(expr, 'is_up')                         ║
+# ║   returns:  self._print(sym)                               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_TensorIndex : {Any | hasattr(expr, 'args') and...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4a257d22eedf788c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 112dcfc52741fd8e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_TensorIndex","kind":"method","src_hash":"f99b29b3667b2680","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_TensorIndex(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_TensorIndex_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_TensorIndex_correct","statement":"Path(_print_TensorIndex(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4a257d22eedf788c"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_TensorIndex","kind":"method","src_hash":"f99b29b3667b2680","in":{"base":"Any","pred":"hasattr(expr, 'args') and hasattr(expr, 'is_up')"},"out":{"base":"Any"},"spec":{"lhs":"_print_TensorIndex(expr)","rhs":"self._print(sym)","over":{"base":"Any","pred":"hasattr(expr, 'args') and hasattr(expr, 'is_up')"},"name":"_print_TensorIndex_correct"},"guarantee":"returns self._print(sym)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_TensorIndex_correct","statement":"Path(_print_TensorIndex(x), returns self._print(sym))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"112dcfc52741fd8e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'args')","hasattr(expr, 'is_up')"],"returns_expr":"self._print(sym)","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","expr.is_up","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_TensorIndex(self, expr):
         sym = expr.args[0]
         if not expr.is_up:
@@ -2264,16 +2916,24 @@ class PrettyPrinter(Printer):
         return self._print(sym)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_PartialDerivative(der), internal helper behaves correctly) over Any ║
+# ║ Path(_print_PartialDerivative(deriv), <unspecified:_print_PartialDerivative>) over {Any | hasattr(deriv, 'variables') and hasattr(deriv, 'expr')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_PartialDerivative : Any → Any                       ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(deriv, 'variables')                    ║
+# ║   requires: hasattr(deriv, 'expr')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_PartialDerivative : {Any | hasattr(deriv, 'var...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6acc3a3c7e85fd3a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_PartialDerivative","kind":"method","src_hash":"0f65e9ddf75a5e2d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_PartialDerivative(der)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_PartialDerivative_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_PartialDerivative_correct","statement":"Path(_print_PartialDerivative(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6acc3a3c7e85fd3a"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_PartialDerivative","kind":"method","src_hash":"0f65e9ddf75a5e2d","in":{"base":"Any","pred":"hasattr(deriv, 'variables') and hasattr(deriv, 'expr')"},"out":{"base":"Any"},"spec":{"lhs":"_print_PartialDerivative(deriv)","rhs":"<unspecified:_print_PartialDerivative>","over":{"base":"Any","pred":"hasattr(deriv, 'variables') and hasattr(deriv, 'expr')"},"name":"_print_PartialDerivative_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_PartialDerivative_correct","statement":"Path(_print_PartialDerivative(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6acc3a3c7e85fd3a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(deriv, 'variables')","hasattr(deriv, 'expr')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["deriv.expr","deriv.variables","self._print","self._use_unicode"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_PartialDerivative(self, deriv):
         if self._use_unicode:
             deriv_symbol = U('PARTIAL DIFFERENTIAL')
@@ -2307,16 +2967,23 @@ class PrettyPrinter(Printer):
         return pform
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Piecewise(pex), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Piecewise(pexpr), <unspecified:_print_Piecewise>) over {Any | hasattr(pexpr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Piecewise : Any → Any                               ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(pexpr, 'args')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Piecewise : {Any | hasattr(pexpr, 'args')} → Any    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 14c96bf308c0d3ea  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Piecewise","kind":"method","src_hash":"cb81c90ee942e461","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Piecewise(pex)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Piecewise_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_Piecewise_correct","statement":"Path(_print_Piecewise(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"14c96bf308c0d3ea"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Piecewise","kind":"method","src_hash":"cb81c90ee942e461","in":{"base":"Any","pred":"hasattr(pexpr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Piecewise(pexpr)","rhs":"<unspecified:_print_Piecewise>","over":{"base":"Any","pred":"hasattr(pexpr, 'args')"},"name":"_print_Piecewise_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_Piecewise_correct","statement":"Path(_print_Piecewise(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"14c96bf308c0d3ea","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(pexpr, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["pexpr.args","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Piecewise(self, pexpr):
 
         P = {}
@@ -2374,31 +3041,44 @@ class PrettyPrinter(Printer):
         return D
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_ITE(ite), id) over Any                         ║
+# ║ Path(_print_ITE(ite), id) over {Any | hasattr(ite, 'rewrite')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_ITE : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(ite, 'rewrite')                        ║
+# ║   returns:  self._print(ite.rewrite(Piecewise))            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_ITE : {Any | hasattr(ite, 'rewrite')} → Any         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 5d99b7fd59e1ee4c   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_ITE","kind":"method","src_hash":"398a10de2192d7bd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_ITE(ite)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_ITE_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"_print","by":"library_axiom"},{"fn":"rewrite","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5d99b7fd59e1ee4c"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_ITE","kind":"method","src_hash":"398a10de2192d7bd","in":{"base":"Any","pred":"hasattr(ite, 'rewrite')"},"out":{"base":"Any"},"spec":{"lhs":"_print_ITE(ite)","rhs":"self._print(ite.rewrite(Piecewise))","over":{"base":"Any","pred":"hasattr(ite, 'rewrite')"},"name":"_print_ITE_correct","kind":"composition"},"guarantee":"returns self._print(ite.rewrite(Piecewise))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"_print","by":"library_axiom"},{"fn":"rewrite","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5d99b7fd59e1ee4c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(ite, 'rewrite')"],"returns_expr":"self._print(ite.rewrite(Piecewise))","pure":false,"effects":{"effect_type":"reads_state","reads":["ite.rewrite","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_ITE(self, ite):
         from sympy.functions.elementary.piecewise import Piecewise
         return self._print(ite.rewrite(Piecewise))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_hprint_vec(v), internal helper behaves correctly) over Any ║
+# ║ Path(_hprint_vec(v), <unspecified:_hprint_vec>) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _hprint_vec : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 17c5ac227fd37eb3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._hprint_vec","kind":"method","src_hash":"8be69020f2c478c4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_hprint_vec(v)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_hprint_vec_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._hprint_vec_correct","statement":"Path(_hprint_vec(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"17c5ac227fd37eb3"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._hprint_vec","kind":"method","src_hash":"8be69020f2c478c4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_hprint_vec(v)","rhs":"<unspecified:_hprint_vec>","over":{"base":"Any"},"name":"_hprint_vec_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._hprint_vec_correct","statement":"Path(_hprint_vec(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"17c5ac227fd37eb3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _hprint_vec(self, v):
         D = None
 
@@ -2415,16 +3095,22 @@ class PrettyPrinter(Printer):
         return D
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_hprint_vseparator(p1,), internal helper behaves correctly) over Any ║
+# ║ Path(_hprint_vseparator(p1, p2, left), <unspecified:_hprint_vseparator>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _hprint_vseparator : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a15ecaa59df389f4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._hprint_vseparator","kind":"method","src_hash":"ae5be5150e84366d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_hprint_vseparator(p1,)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_hprint_vseparator_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._hprint_vseparator_correct","statement":"Path(_hprint_vseparator(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a15ecaa59df389f4"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._hprint_vseparator","kind":"method","src_hash":"ae5be5150e84366d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_hprint_vseparator(p1, p2, left)","rhs":"<unspecified:_hprint_vseparator>","over":{"base":"Any"},"name":"_hprint_vseparator_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._hprint_vseparator_correct","statement":"Path(_hprint_vseparator(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a15ecaa59df389f4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._print_seq","self._use_unicode"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _hprint_vseparator(self, p1, p2, left=None, right=None, delimiter='', ifascii_nougly=False):
         if ifascii_nougly and not self._use_unicode:
             return self._print_seq((p1, '|', p2), left=left, right=right,
@@ -2435,16 +3121,25 @@ class PrettyPrinter(Printer):
                                delimiter=delimiter)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_hyper(e), internal helper behaves correctly) over Any ║
+# ║ Path(_print_hyper(e), <unspecified:_print_hyper>) over {Any | hasattr(e, 'argument') and hasattr(e, 'ap') and hasattr(e, 'bq')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_hyper : Any → Any                                   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(e, 'argument')                         ║
+# ║   requires: hasattr(e, 'ap')                               ║
+# ║   requires: hasattr(e, 'bq')                               ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_hyper : {Any | hasattr(e, 'argument') and hasa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 660a13ed5683ce3e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_hyper","kind":"method","src_hash":"750582a92cd41957","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_hyper(e)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_hyper_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_hyper_correct","statement":"Path(_print_hyper(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"660a13ed5683ce3e"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_hyper","kind":"method","src_hash":"750582a92cd41957","in":{"base":"Any","pred":"hasattr(e, 'argument') and hasattr(e, 'ap') and hasattr(e, 'bq')"},"out":{"base":"Any"},"spec":{"lhs":"_print_hyper(e)","rhs":"<unspecified:_print_hyper>","over":{"base":"Any","pred":"hasattr(e, 'argument') and hasattr(e, 'ap') and hasattr(e, 'bq')"},"name":"_print_hyper_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_hyper_correct","statement":"Path(_print_hyper(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"660a13ed5683ce3e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(e, 'argument')","hasattr(e, 'ap')","hasattr(e, 'bq')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["e.ap","e.argument","e.bq","self._hprint_vec","self._hprint_vseparator","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_hyper(self, e):
         # FIXME refactor Matrix, Piecewise, and this into a tabular environment
         ap = [self._print(a) for a in e.ap]
@@ -2494,16 +3189,25 @@ class PrettyPrinter(Printer):
         return D
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_meijerg(e), internal helper behaves correctly) over Any ║
+# ║ Path(_print_meijerg(e), <unspecified:_print_meijerg>) over {Any | hasattr(e, 'argument') and hasattr(e, 'an') and hasattr(e, 'aother') and hasattr(e, 'bm') and hasattr(e, 'bother') and hasattr(e, 'ap') and hasattr(e, 'bq')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_meijerg : Any → Any                                 ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(e, 'argument')                         ║
+# ║   requires: hasattr(e, 'an')                               ║
+# ║   requires: hasattr(e, 'aother')                           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_meijerg : {Any | hasattr(e, 'argument') and ha...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b781c3eb9754e6c2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_meijerg","kind":"method","src_hash":"fb1156d7b23a5dcb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_meijerg(e)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_meijerg_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_meijerg_correct","statement":"Path(_print_meijerg(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b781c3eb9754e6c2"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_meijerg","kind":"method","src_hash":"fb1156d7b23a5dcb","in":{"base":"Any","pred":"hasattr(e, 'argument') and hasattr(e, 'an') and hasattr(e, 'aother') and hasattr(e, 'bm') and hasattr(e, 'bother') and hasattr(e, 'ap') and hasattr(e, 'bq')"},"out":{"base":"Any"},"spec":{"lhs":"_print_meijerg(e)","rhs":"<unspecified:_print_meijerg>","over":{"base":"Any","pred":"hasattr(e, 'argument') and hasattr(e, 'an') and hasattr(e, 'aother') and hasattr(e, 'bm') and hasattr(e, 'bother') and hasattr(e, 'ap') and hasattr(e, 'bq')"},"name":"_print_meijerg_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_meijerg_correct","statement":"Path(_print_meijerg(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b781c3eb9754e6c2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(e, 'argument')","hasattr(e, 'an')","hasattr(e, 'aother')","hasattr(e, 'bm')","hasattr(e, 'bother')","hasattr(e, 'ap')","hasattr(e, 'bq')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["e.an","e.aother","e.ap","e.argument","e.bm","e.bother","e.bq","self._hprint_vec","self._hprint_vseparator","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_meijerg(self, e):
         # FIXME refactor Matrix, Piecewise, and this into a tabular environment
 
@@ -2589,16 +3293,23 @@ class PrettyPrinter(Printer):
         return D
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_ExpBase(e), internal helper behaves correctly) over Any ║
+# ║ Path(_print_ExpBase(e), base ** self._print(e.args[0])) over {Any | hasattr(e, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_ExpBase : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(e, 'args')                             ║
+# ║   returns:  base ** self._print(e.args[0])                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_ExpBase : {Any | hasattr(e, 'args')} → Any          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3bf569f0b1f7f140  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bfefafb078b4956d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_ExpBase","kind":"method","src_hash":"2083c3a6a099de9b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_ExpBase(e)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_ExpBase_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_ExpBase_correct","statement":"Path(_print_ExpBase(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3bf569f0b1f7f140"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_ExpBase","kind":"method","src_hash":"2083c3a6a099de9b","in":{"base":"Any","pred":"hasattr(e, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_print_ExpBase(e)","rhs":"base ** self._print(e.args[0])","over":{"base":"Any","pred":"hasattr(e, 'args')"},"name":"_print_ExpBase_correct"},"guarantee":"returns base ** self._print(e.args[0])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_ExpBase_correct","statement":"Path(_print_ExpBase(x), returns base ** self._print(e.args[0]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bfefafb078b4956d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(e, 'args')"],"returns_expr":"base ** self._print(e.args[0])","pure":false,"effects":{"effect_type":"reads_state","reads":["e.args","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_ExpBase(self, e):
         # TODO should exp_polar be printed differently?
         #      what about exp_polar(0), exp_polar(1)?
@@ -2606,30 +3317,44 @@ class PrettyPrinter(Printer):
         return base ** self._print(e.args[0])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Exp1(e), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Exp1(e), prettyForm(pretty_atom('Exp1', 'e'))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  prettyForm(pretty_atom('Exp1', 'e'))           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_Exp1 : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 830a84fd0a40b089           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Exp1","kind":"method","src_hash":"91810d9e60f7a48c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Exp1(e)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Exp1_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"830a84fd0a40b089"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Exp1","kind":"method","src_hash":"91810d9e60f7a48c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Exp1(e)","rhs":"prettyForm(pretty_atom('Exp1', 'e'))","over":{"base":"Any"},"name":"_print_Exp1_correct"},"guarantee":"returns prettyForm(pretty_atom('Exp1', 'e'))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"830a84fd0a40b089","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"prettyForm(pretty_atom('Exp1', 'e'))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Exp1(self, e):
         return prettyForm(pretty_atom('Exp1', 'e'))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Function(e, ), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Function(e, sort, func_name), self._helper_print_function(e.func, e.args, sort=sort, func_name=func_name, left=left, right=right)) over {Any | hasattr(e, 'func') and hasattr(e, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Function : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(e, 'func')                             ║
+# ║   requires: hasattr(e, 'args')                             ║
+# ║   returns:  self._helper_print_function(e.func, e.arg...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Function : {Any | hasattr(e, 'func') and hasat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a18fe908f1572769  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4e8bd672d3568b49  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Function","kind":"method","src_hash":"639fd6ec00628228","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Function(e, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Function_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_Function_correct","statement":"Path(_print_Function(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a18fe908f1572769"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Function","kind":"method","src_hash":"639fd6ec00628228","in":{"base":"Any","pred":"hasattr(e, 'func') and hasattr(e, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Function(e, sort, func_name)","rhs":"self._helper_print_function(e.func, e.args, sort=sort, func_name=func_name, left=left, right=right)","over":{"base":"Any","pred":"hasattr(e, 'func') and hasattr(e, 'args')"},"name":"_print_Function_correct"},"guarantee":"returns self._helper_print_function(e.func, e.args, sort=sort, func_name=func_name, left=left, right=right)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_Function_correct","statement":"Path(_print_Function(x), returns self._helper_print_function(e.func, e.args, sort=sort, func_name=func_name, left=left, right=right))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4e8bd672d3568b49","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(e, 'func')","hasattr(e, 'args')"],"returns_expr":"self._helper_print_function(e.func, e.args, sort=sort, func_name=func_name, left=left, right=right)","pure":false,"effects":{"effect_type":"reads_state","reads":["e.args","e.func","self._helper_print_function"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Function(self, e, sort=False, func_name=None, left='(',
                         right=')'):
         # optional argument func_name for supplying custom names
@@ -2637,72 +3362,102 @@ class PrettyPrinter(Printer):
         return self._helper_print_function(e.func, e.args, sort=sort, func_name=func_name, left=left, right=right)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_mathieuc(e), internal helper behaves correctly) over Any ║
+# ║ Path(_print_mathieuc(e), self._print_Function(e, func_name='C')) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._print_Function(e, func_name='C')         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_mathieuc : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1a31d0bff869b328           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_mathieuc","kind":"method","src_hash":"6209a9254c6de282","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_mathieuc(e)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_mathieuc_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1a31d0bff869b328"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_mathieuc","kind":"method","src_hash":"6209a9254c6de282","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_mathieuc(e)","rhs":"self._print_Function(e, func_name='C')","over":{"base":"Any"},"name":"_print_mathieuc_correct"},"guarantee":"returns self._print_Function(e, func_name='C')","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1a31d0bff869b328","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._print_Function(e, func_name='C')","pure":false,"effects":{"effect_type":"reads_state","reads":["self._print_Function"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_mathieuc(self, e):
         return self._print_Function(e, func_name='C')
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_mathieus(e), internal helper behaves correctly) over Any ║
+# ║ Path(_print_mathieus(e), self._print_Function(e, func_name='S')) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._print_Function(e, func_name='S')         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_mathieus : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8c9e94259f84e860           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_mathieus","kind":"method","src_hash":"842773f327808885","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_mathieus(e)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_mathieus_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8c9e94259f84e860"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_mathieus","kind":"method","src_hash":"842773f327808885","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_mathieus(e)","rhs":"self._print_Function(e, func_name='S')","over":{"base":"Any"},"name":"_print_mathieus_correct"},"guarantee":"returns self._print_Function(e, func_name='S')","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8c9e94259f84e860","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._print_Function(e, func_name='S')","pure":false,"effects":{"effect_type":"reads_state","reads":["self._print_Function"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_mathieus(self, e):
         return self._print_Function(e, func_name='S')
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_mathieucprime(e), internal helper behaves correctly) over Any ║
+# ║ Path(_print_mathieucprime(e), self._print_Function(e, func_name="C'")) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._print_Function(e, func_name="C'")        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_mathieucprime : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f01640658a06067a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_mathieucprime","kind":"method","src_hash":"eb4df7ca5024d025","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_mathieucprime(e)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_mathieucprime_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f01640658a06067a"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_mathieucprime","kind":"method","src_hash":"eb4df7ca5024d025","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_mathieucprime(e)","rhs":"self._print_Function(e, func_name=\"C'\")","over":{"base":"Any"},"name":"_print_mathieucprime_correct"},"guarantee":"returns self._print_Function(e, func_name=\"C'\")","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f01640658a06067a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._print_Function(e, func_name=\"C'\")","pure":false,"effects":{"effect_type":"reads_state","reads":["self._print_Function"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_mathieucprime(self, e):
         return self._print_Function(e, func_name="C'")
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_mathieusprime(e), internal helper behaves correctly) over Any ║
+# ║ Path(_print_mathieusprime(e), self._print_Function(e, func_name="S'")) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._print_Function(e, func_name="S'")        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_mathieusprime : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 194359f7642905ad           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_mathieusprime","kind":"method","src_hash":"e69b2a01ba3718e0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_mathieusprime(e)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_mathieusprime_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"194359f7642905ad"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_mathieusprime","kind":"method","src_hash":"e69b2a01ba3718e0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_mathieusprime(e)","rhs":"self._print_Function(e, func_name=\"S'\")","over":{"base":"Any"},"name":"_print_mathieusprime_correct"},"guarantee":"returns self._print_Function(e, func_name=\"S'\")","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"194359f7642905ad","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._print_Function(e, func_name=\"S'\")","pure":false,"effects":{"effect_type":"reads_state","reads":["self._print_Function"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_mathieusprime(self, e):
         return self._print_Function(e, func_name="S'")
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_helper_print_function(fun), internal helper behaves correctly) over Any ║
+# ║ Path(_helper_print_function(func, args, sort), <unspecified:_helper_print_function>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _helper_print_function : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 880e90eddcac898c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._helper_print_function","kind":"method","src_hash":"f8ef458cf78939a9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_helper_print_function(fun)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_helper_print_function_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._helper_print_function_correct","statement":"Path(_helper_print_function(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"880e90eddcac898c"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._helper_print_function","kind":"method","src_hash":"f8ef458cf78939a9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_helper_print_function(func, args, sort)","rhs":"<unspecified:_helper_print_function>","over":{"base":"Any"},"name":"_helper_print_function_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._helper_print_function_correct","statement":"Path(_helper_print_function(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"880e90eddcac898c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["func.__name__","self._print","self._print_seq","self._use_unicode"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _helper_print_function(self, func, args, sort=False, func_name=None,
                                delimiter=', ', elementwise=False, left='(',
                                right=')'):
@@ -2741,16 +3496,24 @@ class PrettyPrinter(Printer):
         return pform
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_ElementwiseApplyFunction(e), internal helper behaves correctly) over Any ║
+# ║ Path(_print_ElementwiseApplyFunction(e), self._helper_print_function(func, args, delimiter='', elementwise=True)) over {Any | hasattr(e, 'function') and hasattr(e, 'expr')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_ElementwiseApplyFunction : Any → Any                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(e, 'function')                         ║
+# ║   requires: hasattr(e, 'expr')                             ║
+# ║   returns:  self._helper_print_function(func, args, d...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_ElementwiseApplyFunction : {Any | hasattr(e, '...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 38aac948f1ce3685  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5b79d7896492c5b9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_ElementwiseApplyFunction","kind":"method","src_hash":"ada4bebe852e38e7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_ElementwiseApplyFunction(e)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_ElementwiseApplyFunction_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_ElementwiseApplyFunction_correct","statement":"Path(_print_ElementwiseApplyFunction(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"38aac948f1ce3685"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_ElementwiseApplyFunction","kind":"method","src_hash":"ada4bebe852e38e7","in":{"base":"Any","pred":"hasattr(e, 'function') and hasattr(e, 'expr')"},"out":{"base":"Any"},"spec":{"lhs":"_print_ElementwiseApplyFunction(e)","rhs":"self._helper_print_function(func, args, delimiter='', elementwise=True)","over":{"base":"Any","pred":"hasattr(e, 'function') and hasattr(e, 'expr')"},"name":"_print_ElementwiseApplyFunction_correct"},"guarantee":"returns self._helper_print_function(func, args, delimiter='', elementwise=True)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_ElementwiseApplyFunction_correct","statement":"Path(_print_ElementwiseApplyFunction(x), returns self._helper_print_function(func, args, delimiter='', elementwise=True))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5b79d7896492c5b9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(e, 'function')","hasattr(e, 'expr')"],"returns_expr":"self._helper_print_function(func, args, delimiter='', elementwise=True)","pure":false,"effects":{"effect_type":"reads_state","reads":["e.expr","e.function","self._helper_print_function"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_ElementwiseApplyFunction(self, e):
         func = e.function
         arg = e.expr
@@ -2759,16 +3522,22 @@ class PrettyPrinter(Printer):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_special_function_classes(), returns the _special_function_classes attribute) over Any ║
+# ║ Path(_special_function_classes(), <unspecified:_special_function_classes>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _special_function_classes : Any → Any                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3113b065c70b04c9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._special_function_classes","kind":"property","src_hash":"055870e6fe45b579","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_special_function_classes()","rhs":"returns the _special_function_classes attribute","over":{"base":"Any"},"name":"_special_function_classes_correct"},"guarantee":"returns the _special_function_classes attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3113b065c70b04c9"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._special_function_classes","kind":"property","src_hash":"055870e6fe45b579","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_special_function_classes()","rhs":"<unspecified:_special_function_classes>","over":{"base":"Any"},"name":"_special_function_classes_correct"},"guarantee":"returns the _special_function_classes attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3113b065c70b04c9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _special_function_classes(self):
         from sympy.functions.special.tensor_functions import KroneckerDelta
         from sympy.functions.special.gamma_functions import gamma, lowergamma
@@ -2785,16 +3554,22 @@ class PrettyPrinter(Printer):
                 Chi: ['Chi', 'Chi']}
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_FunctionClass(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_FunctionClass(expr), <unspecified:_print_FunctionClass>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_FunctionClass : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 604194c7579789ac  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_FunctionClass","kind":"method","src_hash":"ce587b1984edd8b2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_FunctionClass(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_FunctionClass_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_FunctionClass_correct","statement":"Path(_print_FunctionClass(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"604194c7579789ac"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_FunctionClass","kind":"method","src_hash":"ce587b1984edd8b2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_FunctionClass(expr)","rhs":"<unspecified:_print_FunctionClass>","over":{"base":"Any"},"name":"_print_FunctionClass_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_FunctionClass_correct","statement":"Path(_print_FunctionClass(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"604194c7579789ac","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.__name__","self._special_function_classes","self._use_unicode"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_FunctionClass(self, expr):
         for cls in self._special_function_classes:
             if issubclass(expr, cls) and expr.__name__ == cls.__name__:
@@ -2806,31 +3581,44 @@ class PrettyPrinter(Printer):
         return prettyForm(pretty_symbol(func_name))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_GeometryEntity(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_GeometryEntity(expr), self.emptyPrinter(expr)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.emptyPrinter(expr)                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_GeometryEntity : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 549f4f95fedba2e8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_GeometryEntity","kind":"method","src_hash":"25c6cb486ef9b5fd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_GeometryEntity(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_GeometryEntity_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"549f4f95fedba2e8"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_GeometryEntity","kind":"method","src_hash":"25c6cb486ef9b5fd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_GeometryEntity(expr)","rhs":"self.emptyPrinter(expr)","over":{"base":"Any"},"name":"_print_GeometryEntity_correct"},"guarantee":"returns self.emptyPrinter(expr)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"549f4f95fedba2e8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.emptyPrinter(expr)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.emptyPrinter"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_GeometryEntity(self, expr):
         # GeometryEntity is based on Tuple but should not print like a Tuple
         return self.emptyPrinter(expr)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_polylog(e), id) over Any                       ║
+# ║ Path(_print_polylog(e), id) over {Any | hasattr(e, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_polylog : Any → Any                                 ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(e, 'args')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_polylog : {Any | hasattr(e, 'args')} → Any          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | ced4817200059667   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_polylog","kind":"method","src_hash":"db43db489890a267","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_polylog(e)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_polylog_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"_print_Function","by":"library_axiom"},{"fn":"Function","by":"library_axiom"},{"fn":"subscript","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ced4817200059667"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_polylog","kind":"method","src_hash":"db43db489890a267","in":{"base":"Any","pred":"hasattr(e, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_print_polylog(e)","rhs":"<unspecified:_print_polylog>","over":{"base":"Any","pred":"hasattr(e, 'args')"},"name":"_print_polylog_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"_print_Function","by":"library_axiom"},{"fn":"Function","by":"library_axiom"},{"fn":"subscript","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ced4817200059667","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(e, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["e.args","self._print","self._print_Function","self._use_unicode"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_polylog(self, e):
         subscript = self._print(e.args[0])
         if self._use_unicode and is_subscriptable_in_unicode(subscript):
@@ -2838,46 +3626,68 @@ class PrettyPrinter(Printer):
         return self._print_Function(e)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_lerchphi(e), internal helper behaves correctly) over Any ║
+# ║ Path(_print_lerchphi(e), self._print_Function(e, func_name=func_name)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._print_Function(e, func_name=func_name)   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_lerchphi : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 00c6ca0f90588093  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0300d4777105beda  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_lerchphi","kind":"method","src_hash":"1205251f84831754","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_lerchphi(e)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_lerchphi_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_lerchphi_correct","statement":"Path(_print_lerchphi(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"00c6ca0f90588093"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_lerchphi","kind":"method","src_hash":"1205251f84831754","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_lerchphi(e)","rhs":"self._print_Function(e, func_name=func_name)","over":{"base":"Any"},"name":"_print_lerchphi_correct"},"guarantee":"returns self._print_Function(e, func_name=func_name)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_lerchphi_correct","statement":"Path(_print_lerchphi(x), returns self._print_Function(e, func_name=func_name))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0300d4777105beda","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._print_Function(e, func_name=func_name)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._print_Function","self._use_unicode"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_lerchphi(self, e):
         func_name = greek_unicode['Phi'] if self._use_unicode else 'lerchphi'
         return self._print_Function(e, func_name=func_name)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_dirichlet_eta(e), internal helper behaves correctly) over Any ║
+# ║ Path(_print_dirichlet_eta(e), self._print_Function(e, func_name=func_name)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._print_Function(e, func_name=func_name)   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_dirichlet_eta : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4bf5a51493ec63af  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3c1ba1e8c7ab2a38  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_dirichlet_eta","kind":"method","src_hash":"1fc48f37a45d62ff","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_dirichlet_eta(e)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_dirichlet_eta_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_dirichlet_eta_correct","statement":"Path(_print_dirichlet_eta(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4bf5a51493ec63af"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_dirichlet_eta","kind":"method","src_hash":"1fc48f37a45d62ff","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_dirichlet_eta(e)","rhs":"self._print_Function(e, func_name=func_name)","over":{"base":"Any"},"name":"_print_dirichlet_eta_correct"},"guarantee":"returns self._print_Function(e, func_name=func_name)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_dirichlet_eta_correct","statement":"Path(_print_dirichlet_eta(x), returns self._print_Function(e, func_name=func_name))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3c1ba1e8c7ab2a38","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._print_Function(e, func_name=func_name)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._print_Function","self._use_unicode"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_dirichlet_eta(self, e):
         func_name = greek_unicode['eta'] if self._use_unicode else 'dirichlet_eta'
         return self._print_Function(e, func_name=func_name)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Heaviside(e), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Heaviside(e), result == (pform if e.args[1] is S.Half else self._print_Function(e, func_name=func_name)) and result == pform or result == self._print_Function(e, func_name=func_name)) over {Any | hasattr(e, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Heaviside : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(e, 'args')                             ║
+# ║   ensures:  result == (pform if e.args[1] is S.Half e...   ║
+# ║   ensures:  result == pform or result == self._print_...   ║
+# ║   fiber[case_0]: e.args[1] is S.Half => pform              ║
+# ║   fiber[case_1]: not (e.args[1] is S.Half) => self._p...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Heaviside : {Any | hasattr(e, 'args')} → {Any ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c87ac6fbaeb89dbd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4f5f51c1c9d801e9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Heaviside","kind":"method","src_hash":"d489b9d35250ce03","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Heaviside(e)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Heaviside_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_Heaviside_correct","statement":"Path(_print_Heaviside(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c87ac6fbaeb89dbd"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Heaviside","kind":"method","src_hash":"d489b9d35250ce03","in":{"base":"Any","pred":"hasattr(e, 'args')"},"out":{"base":"Any","pred":"result satisfies: result == (pform if e.args[1] is S.Half else self._print_Function(e, func_name=func_name)) and result == pform or result == self._print_Function(e, func_name=func_name)"},"spec":{"lhs":"_print_Heaviside(e)","rhs":"result == (pform if e.args[1] is S.Half else self._print_Function(e, func_name=func_name)) and result == pform or result == self._print_Function(e, func_name=func_name)","over":{"base":"Any","pred":"hasattr(e, 'args')"},"name":"_print_Heaviside_correct"},"guarantee":"result == (pform if e.args[1] is S.Half else self._print_Function(e, func_name=func_name)); result == pform or result == self._print_Function(e, func_name=func_name); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_Heaviside_correct","statement":"Path(_print_Heaviside(x), result == (pform if e.args[1] is S.Half else self._print_Function(e, func_name=func_name)); result == pform or result == self._print_Function(e, func_name=func_name); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4f5f51c1c9d801e9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(e, 'args')"],"ensures":["result == (pform if e.args[1] is S.Half else self._print_Function(e, func_name=func_name))","result == pform or result == self._print_Function(e, func_name=func_name)"],"fibers":[{"name":"case_0","guard":"e.args[1] is S.Half","ensures":["result == pform"],"decidability":"library","returns_expr":"pform"},{"name":"case_1","guard":"not (e.args[1] is S.Half)","ensures":["result == self._print_Function(e, func_name=func_name)"],"decidability":"library","returns_expr":"self._print_Function(e, func_name=func_name)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["e.args","self._print","self._print_Function","self._use_unicode"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Heaviside(self, e):
         func_name = greek_unicode['theta'] if self._use_unicode else 'Heaviside'
         if e.args[1] is S.Half:
@@ -2888,170 +3698,244 @@ class PrettyPrinter(Printer):
             return self._print_Function(e, func_name=func_name)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_fresnels(e), internal helper behaves correctly) over Any ║
+# ║ Path(_print_fresnels(e), self._print_Function(e, func_name='S')) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._print_Function(e, func_name='S')         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_fresnels : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b171cd36cb0b6e47           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_fresnels","kind":"method","src_hash":"72a6c11a19f9ab10","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_fresnels(e)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_fresnels_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b171cd36cb0b6e47"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_fresnels","kind":"method","src_hash":"72a6c11a19f9ab10","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_fresnels(e)","rhs":"self._print_Function(e, func_name='S')","over":{"base":"Any"},"name":"_print_fresnels_correct"},"guarantee":"returns self._print_Function(e, func_name='S')","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b171cd36cb0b6e47","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._print_Function(e, func_name='S')","pure":false,"effects":{"effect_type":"reads_state","reads":["self._print_Function"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_fresnels(self, e):
         return self._print_Function(e, func_name="S")
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_fresnelc(e), internal helper behaves correctly) over Any ║
+# ║ Path(_print_fresnelc(e), self._print_Function(e, func_name='C')) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._print_Function(e, func_name='C')         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_fresnelc : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2f161bb9076345ce           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_fresnelc","kind":"method","src_hash":"905baec1a0e4cea9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_fresnelc(e)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_fresnelc_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2f161bb9076345ce"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_fresnelc","kind":"method","src_hash":"905baec1a0e4cea9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_fresnelc(e)","rhs":"self._print_Function(e, func_name='C')","over":{"base":"Any"},"name":"_print_fresnelc_correct"},"guarantee":"returns self._print_Function(e, func_name='C')","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2f161bb9076345ce","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._print_Function(e, func_name='C')","pure":false,"effects":{"effect_type":"reads_state","reads":["self._print_Function"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_fresnelc(self, e):
         return self._print_Function(e, func_name="C")
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_airyai(e), internal helper behaves correctly) over Any ║
+# ║ Path(_print_airyai(e), self._print_Function(e, func_name='Ai')) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._print_Function(e, func_name='Ai')        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_airyai : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 878c9a15fc4ad3f1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_airyai","kind":"method","src_hash":"0c86d9836b8243a4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_airyai(e)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_airyai_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"878c9a15fc4ad3f1"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_airyai","kind":"method","src_hash":"0c86d9836b8243a4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_airyai(e)","rhs":"self._print_Function(e, func_name='Ai')","over":{"base":"Any"},"name":"_print_airyai_correct"},"guarantee":"returns self._print_Function(e, func_name='Ai')","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"878c9a15fc4ad3f1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._print_Function(e, func_name='Ai')","pure":false,"effects":{"effect_type":"reads_state","reads":["self._print_Function"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_airyai(self, e):
         return self._print_Function(e, func_name="Ai")
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_airybi(e), internal helper behaves correctly) over Any ║
+# ║ Path(_print_airybi(e), self._print_Function(e, func_name='Bi')) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._print_Function(e, func_name='Bi')        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_airybi : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0c87e363bfe69332           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_airybi","kind":"method","src_hash":"7a8e2506dd22f04c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_airybi(e)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_airybi_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0c87e363bfe69332"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_airybi","kind":"method","src_hash":"7a8e2506dd22f04c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_airybi(e)","rhs":"self._print_Function(e, func_name='Bi')","over":{"base":"Any"},"name":"_print_airybi_correct"},"guarantee":"returns self._print_Function(e, func_name='Bi')","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0c87e363bfe69332","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._print_Function(e, func_name='Bi')","pure":false,"effects":{"effect_type":"reads_state","reads":["self._print_Function"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_airybi(self, e):
         return self._print_Function(e, func_name="Bi")
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_airyaiprime(e), internal helper behaves correctly) over Any ║
+# ║ Path(_print_airyaiprime(e), self._print_Function(e, func_name="Ai'")) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._print_Function(e, func_name="Ai'")       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_airyaiprime : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b9ddd39f0c2aac89           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_airyaiprime","kind":"method","src_hash":"2c11b4cf454d2c37","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_airyaiprime(e)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_airyaiprime_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b9ddd39f0c2aac89"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_airyaiprime","kind":"method","src_hash":"2c11b4cf454d2c37","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_airyaiprime(e)","rhs":"self._print_Function(e, func_name=\"Ai'\")","over":{"base":"Any"},"name":"_print_airyaiprime_correct"},"guarantee":"returns self._print_Function(e, func_name=\"Ai'\")","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b9ddd39f0c2aac89","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._print_Function(e, func_name=\"Ai'\")","pure":false,"effects":{"effect_type":"reads_state","reads":["self._print_Function"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_airyaiprime(self, e):
         return self._print_Function(e, func_name="Ai'")
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_airybiprime(e), internal helper behaves correctly) over Any ║
+# ║ Path(_print_airybiprime(e), self._print_Function(e, func_name="Bi'")) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._print_Function(e, func_name="Bi'")       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_airybiprime : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1cf1c9f47d4acde5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_airybiprime","kind":"method","src_hash":"5d3fd7dff2511727","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_airybiprime(e)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_airybiprime_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1cf1c9f47d4acde5"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_airybiprime","kind":"method","src_hash":"5d3fd7dff2511727","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_airybiprime(e)","rhs":"self._print_Function(e, func_name=\"Bi'\")","over":{"base":"Any"},"name":"_print_airybiprime_correct"},"guarantee":"returns self._print_Function(e, func_name=\"Bi'\")","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1cf1c9f47d4acde5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._print_Function(e, func_name=\"Bi'\")","pure":false,"effects":{"effect_type":"reads_state","reads":["self._print_Function"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_airybiprime(self, e):
         return self._print_Function(e, func_name="Bi'")
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_LambertW(e), internal helper behaves correctly) over Any ║
+# ║ Path(_print_LambertW(e), self._print_Function(e, func_name='W')) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._print_Function(e, func_name='W')         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_LambertW : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7190c5a73042efc5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_LambertW","kind":"method","src_hash":"78926d86b2967939","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_LambertW(e)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_LambertW_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7190c5a73042efc5"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_LambertW","kind":"method","src_hash":"78926d86b2967939","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_LambertW(e)","rhs":"self._print_Function(e, func_name='W')","over":{"base":"Any"},"name":"_print_LambertW_correct"},"guarantee":"returns self._print_Function(e, func_name='W')","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7190c5a73042efc5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._print_Function(e, func_name='W')","pure":false,"effects":{"effect_type":"reads_state","reads":["self._print_Function"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_LambertW(self, e):
         return self._print_Function(e, func_name="W")
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Covariance(e), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Covariance(e), self._print_Function(e, func_name='Cov')) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._print_Function(e, func_name='Cov')       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_Covariance : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ac449c85d4987858           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Covariance","kind":"method","src_hash":"f084570b39345431","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Covariance(e)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Covariance_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ac449c85d4987858"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Covariance","kind":"method","src_hash":"f084570b39345431","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Covariance(e)","rhs":"self._print_Function(e, func_name='Cov')","over":{"base":"Any"},"name":"_print_Covariance_correct"},"guarantee":"returns self._print_Function(e, func_name='Cov')","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ac449c85d4987858","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._print_Function(e, func_name='Cov')","pure":false,"effects":{"effect_type":"reads_state","reads":["self._print_Function"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Covariance(self, e):
         return self._print_Function(e, func_name="Cov")
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Variance(e), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Variance(e), self._print_Function(e, func_name='Var')) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._print_Function(e, func_name='Var')       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_Variance : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2df5f4eef2040008           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Variance","kind":"method","src_hash":"5f2e22f804e171c4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Variance(e)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Variance_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2df5f4eef2040008"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Variance","kind":"method","src_hash":"5f2e22f804e171c4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Variance(e)","rhs":"self._print_Function(e, func_name='Var')","over":{"base":"Any"},"name":"_print_Variance_correct"},"guarantee":"returns self._print_Function(e, func_name='Var')","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2df5f4eef2040008","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._print_Function(e, func_name='Var')","pure":false,"effects":{"effect_type":"reads_state","reads":["self._print_Function"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Variance(self, e):
         return self._print_Function(e, func_name="Var")
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Probability(e), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Probability(e), self._print_Function(e, func_name='P')) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._print_Function(e, func_name='P')         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_Probability : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c1c295744d410570           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Probability","kind":"method","src_hash":"bf6f245574f701b2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Probability(e)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Probability_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c1c295744d410570"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Probability","kind":"method","src_hash":"bf6f245574f701b2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Probability(e)","rhs":"self._print_Function(e, func_name='P')","over":{"base":"Any"},"name":"_print_Probability_correct"},"guarantee":"returns self._print_Function(e, func_name='P')","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c1c295744d410570","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._print_Function(e, func_name='P')","pure":false,"effects":{"effect_type":"reads_state","reads":["self._print_Function"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Probability(self, e):
         return self._print_Function(e, func_name="P")
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Expectation(e), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Expectation(e), self._print_Function(e, func_name='E', left='[', right=']')) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._print_Function(e, func_name='E', le...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_Expectation : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e6f969f0f1f0b10d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Expectation","kind":"method","src_hash":"d72d8c106cf47b51","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Expectation(e)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Expectation_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e6f969f0f1f0b10d"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Expectation","kind":"method","src_hash":"d72d8c106cf47b51","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Expectation(e)","rhs":"self._print_Function(e, func_name='E', left='[', right=']')","over":{"base":"Any"},"name":"_print_Expectation_correct"},"guarantee":"returns self._print_Function(e, func_name='E', left='[', right=']')","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e6f969f0f1f0b10d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._print_Function(e, func_name='E', left='[', right=']')","pure":false,"effects":{"effect_type":"reads_state","reads":["self._print_Function"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Expectation(self, e):
         return self._print_Function(e, func_name="E", left='[', right=']')
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Lambda(e), id) over Any                        ║
+# ║ Path(_print_Lambda(e), id) over {Any | hasattr(e, 'expr') and hasattr(e, 'signature')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Lambda : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(e, 'expr')                             ║
+# ║   requires: hasattr(e, 'signature')                        ║
+# ║   returns:  prettyForm(*stringPict.next(var_form, arr...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Lambda : {Any | hasattr(e, 'expr') and hasattr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | cbbce4a1d239f8c9   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Lambda","kind":"method","src_hash":"11169755a530e8d4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Lambda(e)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Lambda_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"prettyForm","by":"library_axiom"},{"fn":"next","by":"library_axiom"},{"fn":"_print","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cbbce4a1d239f8c9"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Lambda","kind":"method","src_hash":"11169755a530e8d4","in":{"base":"Any","pred":"hasattr(e, 'expr') and hasattr(e, 'signature')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Lambda(e)","rhs":"prettyForm(*stringPict.next(var_form, arrow, self._print(expr)), binding=8)","over":{"base":"Any","pred":"hasattr(e, 'expr') and hasattr(e, 'signature')"},"name":"_print_Lambda_correct","kind":"composition"},"guarantee":"returns prettyForm(*stringPict.next(var_form, arrow, self._print(expr)), binding=8)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"prettyForm","by":"library_axiom"},{"fn":"next","by":"library_axiom"},{"fn":"_print","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cbbce4a1d239f8c9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(e, 'expr')","hasattr(e, 'signature')"],"returns_expr":"prettyForm(*stringPict.next(var_form, arrow, self._print(expr)), binding=8)","pure":false,"effects":{"effect_type":"reads_state","reads":["e.expr","e.signature","self._print","self._use_unicode"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Lambda(self, e):
         expr = e.expr
         sig = e.signature
@@ -3066,16 +3950,25 @@ class PrettyPrinter(Printer):
         return prettyForm(*stringPict.next(var_form, arrow, self._print(expr)), binding=8)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Order(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Order(expr), <unspecified:_print_Order>) over {Any | hasattr(expr, 'expr') and hasattr(expr, 'point') and hasattr(expr, 'variables')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Order : Any → Any                                   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'expr')                          ║
+# ║   requires: hasattr(expr, 'point')                         ║
+# ║   requires: hasattr(expr, 'variables')                     ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Order : {Any | hasattr(expr, 'expr') and hasat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 76a1925a526e12f8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Order","kind":"method","src_hash":"f01ffa3d30170882","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Order(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Order_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_Order_correct","statement":"Path(_print_Order(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"76a1925a526e12f8"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Order","kind":"method","src_hash":"f01ffa3d30170882","in":{"base":"Any","pred":"hasattr(expr, 'expr') and hasattr(expr, 'point') and hasattr(expr, 'variables')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Order(expr)","rhs":"<unspecified:_print_Order>","over":{"base":"Any","pred":"hasattr(expr, 'expr') and hasattr(expr, 'point') and hasattr(expr, 'variables')"},"name":"_print_Order_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_Order_correct","statement":"Path(_print_Order(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"76a1925a526e12f8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'expr')","hasattr(expr, 'point')","hasattr(expr, 'variables')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.expr","expr.point","expr.variables","self._print","self._use_unicode"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Order(self, expr):
         pform = self._print(expr.expr)
         if (expr.point and any(p != S.Zero for p in expr.point)) or \
@@ -3098,16 +3991,26 @@ class PrettyPrinter(Printer):
         return pform
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_SingularityFunction(e), internal helper behaves correctly) over Any ║
+# ║ Path(_print_SingularityFunction(e), result == (pform if self._use_unicode else base ** n) and result == pform or result == base ** n) over {Any | hasattr(e, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_SingularityFunction : Any → Any                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(e, 'args')                             ║
+# ║   ensures:  result == (pform if self._use_unicode els...   ║
+# ║   ensures:  result == pform or result == base ** n         ║
+# ║   fiber[case_0]: self._use_unicode => pform                ║
+# ║   fiber[case_1]: not (self._use_unicode) => base ** n      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_SingularityFunction : {Any | hasattr(e, 'args'...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 28631f19c1e0dff8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 84f2cbf099c171ac  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_SingularityFunction","kind":"method","src_hash":"e9a7c766b5910e86","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_SingularityFunction(e)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_SingularityFunction_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_SingularityFunction_correct","statement":"Path(_print_SingularityFunction(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"28631f19c1e0dff8"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_SingularityFunction","kind":"method","src_hash":"e9a7c766b5910e86","in":{"base":"Any","pred":"hasattr(e, 'args')"},"out":{"base":"Any","pred":"result satisfies: result == (pform if self._use_unicode else base ** n) and result == pform or result == base ** n"},"spec":{"lhs":"_print_SingularityFunction(e)","rhs":"result == (pform if self._use_unicode else base ** n) and result == pform or result == base ** n","over":{"base":"Any","pred":"hasattr(e, 'args')"},"name":"_print_SingularityFunction_correct"},"guarantee":"result == (pform if self._use_unicode else base ** n); result == pform or result == base ** n; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_SingularityFunction_correct","statement":"Path(_print_SingularityFunction(x), result == (pform if self._use_unicode else base ** n); result == pform or result == base ** n; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"84f2cbf099c171ac","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(e, 'args')"],"ensures":["result == (pform if self._use_unicode else base ** n)","result == pform or result == base ** n"],"fibers":[{"name":"case_0","guard":"self._use_unicode","ensures":["result == pform"],"decidability":"library","returns_expr":"pform"},{"name":"case_1","guard":"not (self._use_unicode)","ensures":["result == base ** n"],"decidability":"library","returns_expr":"base ** n"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["e.args","self._print","self._print_seq","self._use_unicode"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_SingularityFunction(self, e):
         if self._use_unicode:
             shift = self._print(e.args[0]-e.args[1])
@@ -3124,106 +4027,152 @@ class PrettyPrinter(Printer):
             return base**n
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_beta(e), internal helper behaves correctly) over Any ║
+# ║ Path(_print_beta(e), self._print_Function(e, func_name=func_name)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._print_Function(e, func_name=func_name)   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_beta : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c5e9c38e292049b5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 98f94401e59181f5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_beta","kind":"method","src_hash":"d7ab60bd357b2937","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_beta(e)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_beta_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_beta_correct","statement":"Path(_print_beta(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c5e9c38e292049b5"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_beta","kind":"method","src_hash":"d7ab60bd357b2937","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_beta(e)","rhs":"self._print_Function(e, func_name=func_name)","over":{"base":"Any"},"name":"_print_beta_correct"},"guarantee":"returns self._print_Function(e, func_name=func_name)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_beta_correct","statement":"Path(_print_beta(x), returns self._print_Function(e, func_name=func_name))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"98f94401e59181f5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._print_Function(e, func_name=func_name)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._print_Function","self._use_unicode"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_beta(self, e):
         func_name = greek_unicode['Beta'] if self._use_unicode else 'B'
         return self._print_Function(e, func_name=func_name)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_betainc(e), internal helper behaves correctly) over Any ║
+# ║ Path(_print_betainc(e), self._print_Function(e, func_name=func_name)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._print_Function(e, func_name=func_name)   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_betainc : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 67dcdba15643573e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 247083fc7265281f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_betainc","kind":"method","src_hash":"881aaab253ee0ea1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_betainc(e)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_betainc_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_betainc_correct","statement":"Path(_print_betainc(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"67dcdba15643573e"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_betainc","kind":"method","src_hash":"881aaab253ee0ea1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_betainc(e)","rhs":"self._print_Function(e, func_name=func_name)","over":{"base":"Any"},"name":"_print_betainc_correct"},"guarantee":"returns self._print_Function(e, func_name=func_name)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_betainc_correct","statement":"Path(_print_betainc(x), returns self._print_Function(e, func_name=func_name))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"247083fc7265281f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._print_Function(e, func_name=func_name)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._print_Function"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_betainc(self, e):
         func_name = "B'"
         return self._print_Function(e, func_name=func_name)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_betainc_regularized(e), internal helper behaves correctly) over Any ║
+# ║ Path(_print_betainc_regularized(e), self._print_Function(e, func_name=func_name)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._print_Function(e, func_name=func_name)   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_betainc_regularized : Any → Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7d494daecbdce638  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cc92cb188abf3d64  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_betainc_regularized","kind":"method","src_hash":"1f9b06e4bb384a9d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_betainc_regularized(e)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_betainc_regularized_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_betainc_regularized_correct","statement":"Path(_print_betainc_regularized(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7d494daecbdce638"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_betainc_regularized","kind":"method","src_hash":"1f9b06e4bb384a9d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_betainc_regularized(e)","rhs":"self._print_Function(e, func_name=func_name)","over":{"base":"Any"},"name":"_print_betainc_regularized_correct"},"guarantee":"returns self._print_Function(e, func_name=func_name)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_betainc_regularized_correct","statement":"Path(_print_betainc_regularized(x), returns self._print_Function(e, func_name=func_name))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cc92cb188abf3d64","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._print_Function(e, func_name=func_name)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._print_Function"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_betainc_regularized(self, e):
         func_name = 'I'
         return self._print_Function(e, func_name=func_name)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_gamma(e), internal helper behaves correctly) over Any ║
+# ║ Path(_print_gamma(e), self._print_Function(e, func_name=func_name)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._print_Function(e, func_name=func_name)   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_gamma : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 59d68f70f166cc60  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 92971c349232a2d0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_gamma","kind":"method","src_hash":"748187abbbaae404","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_gamma(e)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_gamma_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_gamma_correct","statement":"Path(_print_gamma(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"59d68f70f166cc60"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_gamma","kind":"method","src_hash":"748187abbbaae404","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_gamma(e)","rhs":"self._print_Function(e, func_name=func_name)","over":{"base":"Any"},"name":"_print_gamma_correct"},"guarantee":"returns self._print_Function(e, func_name=func_name)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_gamma_correct","statement":"Path(_print_gamma(x), returns self._print_Function(e, func_name=func_name))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"92971c349232a2d0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._print_Function(e, func_name=func_name)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._print_Function","self._use_unicode"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_gamma(self, e):
         func_name = greek_unicode['Gamma'] if self._use_unicode else 'Gamma'
         return self._print_Function(e, func_name=func_name)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_uppergamma(e), internal helper behaves correctly) over Any ║
+# ║ Path(_print_uppergamma(e), self._print_Function(e, func_name=func_name)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._print_Function(e, func_name=func_name)   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_uppergamma : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dc107b0e086630e7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c5f1ba92164b5e3b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_uppergamma","kind":"method","src_hash":"15a02cba150eda81","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_uppergamma(e)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_uppergamma_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_uppergamma_correct","statement":"Path(_print_uppergamma(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dc107b0e086630e7"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_uppergamma","kind":"method","src_hash":"15a02cba150eda81","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_uppergamma(e)","rhs":"self._print_Function(e, func_name=func_name)","over":{"base":"Any"},"name":"_print_uppergamma_correct"},"guarantee":"returns self._print_Function(e, func_name=func_name)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_uppergamma_correct","statement":"Path(_print_uppergamma(x), returns self._print_Function(e, func_name=func_name))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c5f1ba92164b5e3b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._print_Function(e, func_name=func_name)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._print_Function","self._use_unicode"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_uppergamma(self, e):
         func_name = greek_unicode['Gamma'] if self._use_unicode else 'Gamma'
         return self._print_Function(e, func_name=func_name)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_lowergamma(e), internal helper behaves correctly) over Any ║
+# ║ Path(_print_lowergamma(e), self._print_Function(e, func_name=func_name)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._print_Function(e, func_name=func_name)   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_lowergamma : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 08676c929f9a6de2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5a2e1ec2d4bb7a6b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_lowergamma","kind":"method","src_hash":"c9e68705577ffd1c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_lowergamma(e)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_lowergamma_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_lowergamma_correct","statement":"Path(_print_lowergamma(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"08676c929f9a6de2"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_lowergamma","kind":"method","src_hash":"c9e68705577ffd1c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_lowergamma(e)","rhs":"self._print_Function(e, func_name=func_name)","over":{"base":"Any"},"name":"_print_lowergamma_correct"},"guarantee":"returns self._print_Function(e, func_name=func_name)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_lowergamma_correct","statement":"Path(_print_lowergamma(x), returns self._print_Function(e, func_name=func_name))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5a2e1ec2d4bb7a6b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._print_Function(e, func_name=func_name)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._print_Function","self._use_unicode"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_lowergamma(self, e):
         func_name = greek_unicode['gamma'] if self._use_unicode else 'lowergamma'
         return self._print_Function(e, func_name=func_name)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_DiracDelta(e), internal helper behaves correctly) over Any ║
+# ║ Path(_print_DiracDelta(e), result == (pform if self._use_unicode else self._print_Function(e)) and result == pform or result == self._print_Function(e)) over {Any | hasattr(e, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_DiracDelta : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(e, 'args')                             ║
+# ║   ensures:  result == (pform if self._use_unicode els...   ║
+# ║   ensures:  result == pform or result == self._print_...   ║
+# ║   fiber[case_0]: self._use_unicode => pform                ║
+# ║   fiber[case_1]: not (self._use_unicode) => self._pri...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_DiracDelta : {Any | hasattr(e, 'args')} → {Any...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 66f22799df8d43fd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0a8f75353e00142b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_DiracDelta","kind":"method","src_hash":"9dacbe4ca69816a5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_DiracDelta(e)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_DiracDelta_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_DiracDelta_correct","statement":"Path(_print_DiracDelta(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"66f22799df8d43fd"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_DiracDelta","kind":"method","src_hash":"9dacbe4ca69816a5","in":{"base":"Any","pred":"hasattr(e, 'args')"},"out":{"base":"Any","pred":"result satisfies: result == (pform if self._use_unicode else self._print_Function(e)) and result == pform or result == self._print_Function(e)"},"spec":{"lhs":"_print_DiracDelta(e)","rhs":"result == (pform if self._use_unicode else self._print_Function(e)) and result == pform or result == self._print_Function(e)","over":{"base":"Any","pred":"hasattr(e, 'args')"},"name":"_print_DiracDelta_correct"},"guarantee":"result == (pform if self._use_unicode else self._print_Function(e)); result == pform or result == self._print_Function(e); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_DiracDelta_correct","statement":"Path(_print_DiracDelta(x), result == (pform if self._use_unicode else self._print_Function(e)); result == pform or result == self._print_Function(e); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0a8f75353e00142b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(e, 'args')"],"ensures":["result == (pform if self._use_unicode else self._print_Function(e))","result == pform or result == self._print_Function(e)"],"fibers":[{"name":"case_0","guard":"self._use_unicode","ensures":["result == pform"],"decidability":"library","returns_expr":"pform"},{"name":"case_1","guard":"not (self._use_unicode)","ensures":["result == self._print_Function(e)"],"decidability":"library","returns_expr":"self._print_Function(e)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["e.args","self._print","self._print_Function","self._use_unicode"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_DiracDelta(self, e):
         if self._use_unicode:
             if len(e.args) == 2:
@@ -3244,16 +4193,23 @@ class PrettyPrinter(Printer):
             return self._print_Function(e)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_expint(e), id) over Any                        ║
+# ║ Path(_print_expint(e), id) over {Any | hasattr(e, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_expint : Any → Any                                  ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(e, 'args')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_expint : {Any | hasattr(e, 'args')} → Any           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 5c03df8c311e737e   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_expint","kind":"method","src_hash":"cd03167a920e74b2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_expint(e)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_expint_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"_print_Function","by":"library_axiom"},{"fn":"Function","by":"library_axiom"},{"fn":"subscript","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5c03df8c311e737e"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_expint","kind":"method","src_hash":"cd03167a920e74b2","in":{"base":"Any","pred":"hasattr(e, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_print_expint(e)","rhs":"<unspecified:_print_expint>","over":{"base":"Any","pred":"hasattr(e, 'args')"},"name":"_print_expint_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"_print_Function","by":"library_axiom"},{"fn":"Function","by":"library_axiom"},{"fn":"subscript","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5c03df8c311e737e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(e, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["e.args","self._print","self._print_Function","self._use_unicode"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_expint(self, e):
         subscript = self._print(e.args[0])
         if self._use_unicode and is_subscriptable_in_unicode(subscript):
@@ -3261,16 +4217,23 @@ class PrettyPrinter(Printer):
         return self._print_Function(e)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Chi(e), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Chi(e), <unspecified:_print_Chi>) over {Any | hasattr(e, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Chi : Any → Any                                     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(e, 'args')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Chi : {Any | hasattr(e, 'args')} → Any              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c8ba1ebef18e6687  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Chi","kind":"method","src_hash":"4ff0b7fa14cf73c8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Chi(e)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Chi_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_Chi_correct","statement":"Path(_print_Chi(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c8ba1ebef18e6687"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Chi","kind":"method","src_hash":"4ff0b7fa14cf73c8","in":{"base":"Any","pred":"hasattr(e, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Chi(e)","rhs":"<unspecified:_print_Chi>","over":{"base":"Any","pred":"hasattr(e, 'args')"},"name":"_print_Chi_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_Chi_correct","statement":"Path(_print_Chi(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c8ba1ebef18e6687","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(e, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["e.args","self._print_seq"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Chi(self, e):
         # This needs a special case since otherwise it comes out as greek
         # letter chi...
@@ -3287,16 +4250,23 @@ class PrettyPrinter(Printer):
         return pform
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_elliptic_e(e), internal helper behaves correctly) over Any ║
+# ║ Path(_print_elliptic_e(e), <unspecified:_print_elliptic_e>) over {Any | hasattr(e, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_elliptic_e : Any → Any                              ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(e, 'args')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_elliptic_e : {Any | hasattr(e, 'args')} → Any       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e0e749950a2294e4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_elliptic_e","kind":"method","src_hash":"637792a183326fb9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_elliptic_e(e)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_elliptic_e_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_elliptic_e_correct","statement":"Path(_print_elliptic_e(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e0e749950a2294e4"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_elliptic_e","kind":"method","src_hash":"637792a183326fb9","in":{"base":"Any","pred":"hasattr(e, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_print_elliptic_e(e)","rhs":"<unspecified:_print_elliptic_e>","over":{"base":"Any","pred":"hasattr(e, 'args')"},"name":"_print_elliptic_e_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_elliptic_e_correct","statement":"Path(_print_elliptic_e(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e0e749950a2294e4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(e, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["e.args","self._hprint_vseparator","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_elliptic_e(self, e):
         pforma0 = self._print(e.args[0])
         if len(e.args) == 1:
@@ -3309,16 +4279,23 @@ class PrettyPrinter(Printer):
         return pform
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_elliptic_k(e), internal helper behaves correctly) over Any ║
+# ║ Path(_print_elliptic_k(e), <unspecified:_print_elliptic_k>) over {Any | hasattr(e, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_elliptic_k : Any → Any                              ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(e, 'args')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_elliptic_k : {Any | hasattr(e, 'args')} → Any       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6be0ba84e6793565  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_elliptic_k","kind":"method","src_hash":"697f2a4bbdf32098","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_elliptic_k(e)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_elliptic_k_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_elliptic_k_correct","statement":"Path(_print_elliptic_k(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6be0ba84e6793565"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_elliptic_k","kind":"method","src_hash":"697f2a4bbdf32098","in":{"base":"Any","pred":"hasattr(e, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_print_elliptic_k(e)","rhs":"<unspecified:_print_elliptic_k>","over":{"base":"Any","pred":"hasattr(e, 'args')"},"name":"_print_elliptic_k_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_elliptic_k_correct","statement":"Path(_print_elliptic_k(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6be0ba84e6793565","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(e, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["e.args","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_elliptic_k(self, e):
         pform = self._print(e.args[0])
         pform = prettyForm(*pform.parens())
@@ -3326,16 +4303,23 @@ class PrettyPrinter(Printer):
         return pform
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_elliptic_f(e), internal helper behaves correctly) over Any ║
+# ║ Path(_print_elliptic_f(e), <unspecified:_print_elliptic_f>) over {Any | hasattr(e, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_elliptic_f : Any → Any                              ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(e, 'args')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_elliptic_f : {Any | hasattr(e, 'args')} → Any       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 65e91f1741ef72ef  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_elliptic_f","kind":"method","src_hash":"7d8492fad26a90aa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_elliptic_f(e)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_elliptic_f_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_elliptic_f_correct","statement":"Path(_print_elliptic_f(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"65e91f1741ef72ef"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_elliptic_f","kind":"method","src_hash":"7d8492fad26a90aa","in":{"base":"Any","pred":"hasattr(e, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_print_elliptic_f(e)","rhs":"<unspecified:_print_elliptic_f>","over":{"base":"Any","pred":"hasattr(e, 'args')"},"name":"_print_elliptic_f_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_elliptic_f_correct","statement":"Path(_print_elliptic_f(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"65e91f1741ef72ef","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(e, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["e.args","self._hprint_vseparator","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_elliptic_f(self, e):
         pforma0 = self._print(e.args[0])
         pforma1 = self._print(e.args[1])
@@ -3345,16 +4329,23 @@ class PrettyPrinter(Printer):
         return pform
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_elliptic_pi(e), internal helper behaves correctly) over Any ║
+# ║ Path(_print_elliptic_pi(e), <unspecified:_print_elliptic_pi>) over {Any | hasattr(e, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_elliptic_pi : Any → Any                             ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(e, 'args')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_elliptic_pi : {Any | hasattr(e, 'args')} → Any      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d54aee594a2601a6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_elliptic_pi","kind":"method","src_hash":"77768af66b4dbf11","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_elliptic_pi(e)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_elliptic_pi_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_elliptic_pi_correct","statement":"Path(_print_elliptic_pi(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d54aee594a2601a6"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_elliptic_pi","kind":"method","src_hash":"77768af66b4dbf11","in":{"base":"Any","pred":"hasattr(e, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_print_elliptic_pi(e)","rhs":"<unspecified:_print_elliptic_pi>","over":{"base":"Any","pred":"hasattr(e, 'args')"},"name":"_print_elliptic_pi_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_elliptic_pi_correct","statement":"Path(_print_elliptic_pi(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d54aee594a2601a6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(e, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["e.args","self._hprint_vseparator","self._print","self._use_unicode"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_elliptic_pi(self, e):
         name = greek_unicode['Pi'] if self._use_unicode else 'Pi'
         pforma0 = self._print(e.args[0])
@@ -3371,62 +4362,87 @@ class PrettyPrinter(Printer):
         return pform
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_GoldenRatio(exp), id) over Any                 ║
+# ║ Path(_print_GoldenRatio(expr), id) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_GoldenRatio : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 2c4bc117f082045b   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_GoldenRatio","kind":"method","src_hash":"f7f0f6519ebd670a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_GoldenRatio(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_GoldenRatio_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"prettyForm","by":"library_axiom"},{"fn":"pretty_symbol","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2c4bc117f082045b"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_GoldenRatio","kind":"method","src_hash":"f7f0f6519ebd670a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_GoldenRatio(expr)","rhs":"<unspecified:_print_GoldenRatio>","over":{"base":"Any"},"name":"_print_GoldenRatio_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"prettyForm","by":"library_axiom"},{"fn":"pretty_symbol","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2c4bc117f082045b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._print","self._use_unicode"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_GoldenRatio(self, expr):
         if self._use_unicode:
             return prettyForm(pretty_symbol('phi'))
         return self._print(Symbol("GoldenRatio"))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_EulerGamma(exp), id) over Any                  ║
+# ║ Path(_print_EulerGamma(expr), id) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_EulerGamma : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 44f35bd47c3a3338   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_EulerGamma","kind":"method","src_hash":"da15805b82e58ad9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_EulerGamma(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_EulerGamma_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"prettyForm","by":"library_axiom"},{"fn":"pretty_symbol","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"44f35bd47c3a3338"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_EulerGamma","kind":"method","src_hash":"da15805b82e58ad9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_EulerGamma(expr)","rhs":"<unspecified:_print_EulerGamma>","over":{"base":"Any"},"name":"_print_EulerGamma_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"prettyForm","by":"library_axiom"},{"fn":"pretty_symbol","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"44f35bd47c3a3338","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._print","self._use_unicode"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_EulerGamma(self, expr):
         if self._use_unicode:
             return prettyForm(pretty_symbol('gamma'))
         return self._print(Symbol("EulerGamma"))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Catalan(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Catalan(expr), self._print(Symbol('G'))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._print(Symbol('G'))                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_Catalan : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1ca011ffae0634c4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Catalan","kind":"method","src_hash":"8ea6162c47a3c1fb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Catalan(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Catalan_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1ca011ffae0634c4"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Catalan","kind":"method","src_hash":"8ea6162c47a3c1fb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Catalan(expr)","rhs":"self._print(Symbol('G'))","over":{"base":"Any"},"name":"_print_Catalan_correct"},"guarantee":"returns self._print(Symbol('G'))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1ca011ffae0634c4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._print(Symbol('G'))","pure":false,"effects":{"effect_type":"reads_state","reads":["self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Catalan(self, expr):
         return self._print(Symbol("G"))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Mod(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Mod(expr), <unspecified:_print_Mod>) over {Any | hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Mod : Any → Any                                     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Mod : {Any | hasattr(expr, 'args')} → Any           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7efbbaba1ab922f4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Mod","kind":"method","src_hash":"df23341696f18db2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Mod(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Mod_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_Mod_correct","statement":"Path(_print_Mod(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7efbbaba1ab922f4"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Mod","kind":"method","src_hash":"df23341696f18db2","in":{"base":"Any","pred":"hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Mod(expr)","rhs":"<unspecified:_print_Mod>","over":{"base":"Any","pred":"hasattr(expr, 'args')"},"name":"_print_Mod_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_Mod_correct","statement":"Path(_print_Mod(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7efbbaba1ab922f4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Mod(self, expr):
         pform = self._print(expr.args[0])
         if pform.binding > prettyForm.MUL:
@@ -3437,16 +4453,22 @@ class PrettyPrinter(Printer):
         return pform
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Add(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Add(expr, order), <unspecified:_print_Add>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_Add : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1dbfcde3778bf41e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Add","kind":"method","src_hash":"b2d1536834c39663","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Add(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Add_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_Add_correct","statement":"Path(_print_Add(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1dbfcde3778bf41e"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Add","kind":"method","src_hash":"b2d1536834c39663","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Add(expr, order)","rhs":"<unspecified:_print_Add>","over":{"base":"Any"},"name":"_print_Add_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_Add_correct","statement":"Path(_print_Add(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1dbfcde3778bf41e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Add(self, expr, order=None):
         terms = self._as_ordered_terms(expr, order=order)
         pforms, indices = [], []
@@ -3520,16 +4542,24 @@ class PrettyPrinter(Printer):
         return prettyForm.__add__(*pforms)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Mul(pro), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Mul(product), <unspecified:_print_Mul>) over {Any | hasattr(product, 'args') and hasattr(product, 'as_ordered_factors')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Mul : Any → Any                                     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(product, 'args')                       ║
+# ║   requires: hasattr(product, 'as_ordered_factors')         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Mul : {Any | hasattr(product, 'args') and hasa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d52ed3d000107a64  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Mul","kind":"method","src_hash":"941268f06febdc55","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Mul(pro)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Mul_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_Mul_correct","statement":"Path(_print_Mul(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d52ed3d000107a64"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Mul","kind":"method","src_hash":"941268f06febdc55","in":{"base":"Any","pred":"hasattr(product, 'args') and hasattr(product, 'as_ordered_factors')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Mul(product)","rhs":"<unspecified:_print_Mul>","over":{"base":"Any","pred":"hasattr(product, 'args') and hasattr(product, 'as_ordered_factors')"},"name":"_print_Mul_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_Mul_correct","statement":"Path(_print_Mul(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d52ed3d000107a64","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(product, 'args')","hasattr(product, 'as_ordered_factors')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Mul(self, product):
         from sympy.physics.units import Quantity
 
@@ -3592,16 +4622,24 @@ class PrettyPrinter(Printer):
 
     # A helper function for _print_Pow to print x**(1/n)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_nth_root(bas), id) over Any                    ║
+# ║ Path(_print_nth_root(base, root), id) over {Any | hasattr(base, 'is_Integer') and hasattr(base, 'is_nonnegative')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_nth_root : Any → Any                                ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(base, 'is_Integer')                    ║
+# ║   requires: hasattr(base, 'is_nonnegative')                ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_nth_root : {Any | hasattr(base, 'is_Integer') ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 65e0f8859f3f61f6   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_nth_root","kind":"method","src_hash":"fbcf6f71c033ee64","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_nth_root(bas)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_nth_root_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"prettyForm","by":"library_axiom"},{"fn":"left","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"65e0f8859f3f61f6"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_nth_root","kind":"method","src_hash":"fbcf6f71c033ee64","in":{"base":"Any","pred":"hasattr(base, 'is_Integer') and hasattr(base, 'is_nonnegative')"},"out":{"base":"Any"},"spec":{"lhs":"_print_nth_root(base, root)","rhs":"<unspecified:_print_nth_root>","over":{"base":"Any","pred":"hasattr(base, 'is_Integer') and hasattr(base, 'is_nonnegative')"},"name":"_print_nth_root_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"prettyForm","by":"library_axiom"},{"fn":"left","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"65e0f8859f3f61f6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(base, 'is_Integer')","hasattr(base, 'is_nonnegative')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["base.is_Integer","base.is_nonnegative","self._print","self._settings","self._use_unicode"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_nth_root(self, base, root):
         bpretty = self._print(base)
 
@@ -3647,16 +4685,24 @@ class PrettyPrinter(Printer):
         return s
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Pow(pow), id) over Any                         ║
+# ║ Path(_print_Pow(power), id) over {Any | hasattr(power, 'is_commutative') and hasattr(power, 'as_base_exp')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Pow : Any → Any                                     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(power, 'is_commutative')               ║
+# ║   requires: hasattr(power, 'as_base_exp')                  ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Pow : {Any | hasattr(power, 'is_commutative') ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 6eedaae6937fa977   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Pow","kind":"method","src_hash":"7ee5a3a1ca3e6941","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Pow(pow)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Pow_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"prettyForm","by":"library_axiom"},{"fn":"_print","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6eedaae6937fa977"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Pow","kind":"method","src_hash":"7ee5a3a1ca3e6941","in":{"base":"Any","pred":"hasattr(power, 'is_commutative') and hasattr(power, 'as_base_exp')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Pow(power)","rhs":"<unspecified:_print_Pow>","over":{"base":"Any","pred":"hasattr(power, 'is_commutative') and hasattr(power, 'as_base_exp')"},"name":"_print_Pow_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"prettyForm","by":"library_axiom"},{"fn":"_print","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6eedaae6937fa977","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(power, 'is_commutative')","hasattr(power, 'as_base_exp')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["power.as_base_exp","power.is_commutative","self._print","self._print_nth_root","self._settings"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Pow(self, power):
         from sympy.simplify.simplify import fraction
         b, e = power.as_base_exp()
@@ -3676,30 +4722,45 @@ class PrettyPrinter(Printer):
         return self._print(b)**self._print(e)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_UnevaluatedExpr(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_UnevaluatedExpr(expr), self._print(expr.args[0])) over {Any | hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_UnevaluatedExpr : Any → Any                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   returns:  self._print(expr.args[0])                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_UnevaluatedExpr : {Any | hasattr(expr, 'args')...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a74176eafb1f8c60           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_UnevaluatedExpr","kind":"method","src_hash":"c6414b67b6dc2b48","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_UnevaluatedExpr(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_UnevaluatedExpr_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a74176eafb1f8c60"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_UnevaluatedExpr","kind":"method","src_hash":"c6414b67b6dc2b48","in":{"base":"Any","pred":"hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_print_UnevaluatedExpr(expr)","rhs":"self._print(expr.args[0])","over":{"base":"Any","pred":"hasattr(expr, 'args')"},"name":"_print_UnevaluatedExpr_correct"},"guarantee":"returns self._print(expr.args[0])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a74176eafb1f8c60","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'args')"],"returns_expr":"self._print(expr.args[0])","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_UnevaluatedExpr(self, expr):
         return self._print(expr.args[0])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__print_numer_denom(p, ), internal helper behaves correctly) over Any ║
+# ║ Path(__print_numer_denom(p, q), <unspecified:__print_numer_denom>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: q == 1                                    ║
+# ║   fiber[positive]: abs(p) >= 10 and abs(q) >= 10           ║
+# ║   fiber[positive]: not (q == 1) and not (abs(p) >= 10...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __print_numer_denom : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 28845ea0d412d4d2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter.__print_numer_denom","kind":"method","src_hash":"35574a72e6a163e5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__print_numer_denom(p, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__print_numer_denom_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"28845ea0d412d4d2"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter.__print_numer_denom","kind":"method","src_hash":"35574a72e6a163e5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__print_numer_denom(p, q)","rhs":"<unspecified:__print_numer_denom>","over":{"base":"Any"},"name":"__print_numer_denom_correct"},"guarantee":"3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"28845ea0d412d4d2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"q == 1","ensures":[],"decidability":"z3"},{"name":"positive","guard":"abs(p) >= 10 and abs(q) >= 10","ensures":[],"decidability":"z3"},{"name":"positive","guard":"not (q == 1) and not (abs(p) >= 10 and abs(q) >= 10)","ensures":["result == None"],"decidability":"z3","returns_expr":"None"}],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __print_numer_denom(self, p, q):
         if q == 1:
             if p < 0:
@@ -3719,16 +4780,27 @@ class PrettyPrinter(Printer):
             return None
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Rational(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Rational(expr), result == (result if result is not None else self.emptyPrinter(expr)) and result == result or result == self.emptyPrinter(expr)) over {Any | hasattr(expr, 'p') and hasattr(expr, 'q')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Rational : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'p')                             ║
+# ║   requires: hasattr(expr, 'q')                             ║
+# ║   ensures:  result == (result if result is not None e...   ║
+# ║   ensures:  result == result or result == self.emptyP...   ║
+# ║   fiber[case_0]: result is not None => result              ║
+# ║   fiber[case_1]: not (result is not None) => self.emp...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Rational : {Any | hasattr(expr, 'p') and hasat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0a461887ff89f99c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c2a7fe7178479d12  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Rational","kind":"method","src_hash":"47bd82c1e8e508d4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Rational(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Rational_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_Rational_correct","statement":"Path(_print_Rational(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0a461887ff89f99c"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Rational","kind":"method","src_hash":"47bd82c1e8e508d4","in":{"base":"Any","pred":"hasattr(expr, 'p') and hasattr(expr, 'q')"},"out":{"base":"Any","pred":"result satisfies: result == (result if result is not None else self.emptyPrinter(expr)) and result == result or result == self.emptyPrinter(expr)"},"spec":{"lhs":"_print_Rational(expr)","rhs":"result == (result if result is not None else self.emptyPrinter(expr)) and result == result or result == self.emptyPrinter(expr)","over":{"base":"Any","pred":"hasattr(expr, 'p') and hasattr(expr, 'q')"},"name":"_print_Rational_correct"},"guarantee":"result == (result if result is not None else self.emptyPrinter(expr)); result == result or result == self.emptyPrinter(expr); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_Rational_correct","statement":"Path(_print_Rational(x), result == (result if result is not None else self.emptyPrinter(expr)); result == result or result == self.emptyPrinter(expr); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c2a7fe7178479d12","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'p')","hasattr(expr, 'q')"],"ensures":["result == (result if result is not None else self.emptyPrinter(expr))","result == result or result == self.emptyPrinter(expr)"],"fibers":[{"name":"case_0","guard":"result is not None","ensures":["result == result"],"decidability":"library","returns_expr":"result"},{"name":"case_1","guard":"not (result is not None)","ensures":["result == self.emptyPrinter(expr)"],"decidability":"library","returns_expr":"self.emptyPrinter(expr)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.p","expr.q","self.__print_numer_denom","self.emptyPrinter"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Rational(self, expr):
         result = self.__print_numer_denom(expr.p, expr.q)
 
@@ -3738,16 +4810,27 @@ class PrettyPrinter(Printer):
             return self.emptyPrinter(expr)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Fraction(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Fraction(expr), result == (result if result is not None else self.emptyPrinter(expr)) and result == result or result == self.emptyPrinter(expr)) over {Any | hasattr(expr, 'numerator') and hasattr(expr, 'denominator')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Fraction : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'numerator')                     ║
+# ║   requires: hasattr(expr, 'denominator')                   ║
+# ║   ensures:  result == (result if result is not None e...   ║
+# ║   ensures:  result == result or result == self.emptyP...   ║
+# ║   fiber[case_0]: result is not None => result              ║
+# ║   fiber[case_1]: not (result is not None) => self.emp...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Fraction : {Any | hasattr(expr, 'numerator') a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0541ff68980b6568  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 46a2c5d2b354ba8a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Fraction","kind":"method","src_hash":"6f256b79883a02d0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Fraction(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Fraction_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_Fraction_correct","statement":"Path(_print_Fraction(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0541ff68980b6568"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Fraction","kind":"method","src_hash":"6f256b79883a02d0","in":{"base":"Any","pred":"hasattr(expr, 'numerator') and hasattr(expr, 'denominator')"},"out":{"base":"Any","pred":"result satisfies: result == (result if result is not None else self.emptyPrinter(expr)) and result == result or result == self.emptyPrinter(expr)"},"spec":{"lhs":"_print_Fraction(expr)","rhs":"result == (result if result is not None else self.emptyPrinter(expr)) and result == result or result == self.emptyPrinter(expr)","over":{"base":"Any","pred":"hasattr(expr, 'numerator') and hasattr(expr, 'denominator')"},"name":"_print_Fraction_correct"},"guarantee":"result == (result if result is not None else self.emptyPrinter(expr)); result == result or result == self.emptyPrinter(expr); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_Fraction_correct","statement":"Path(_print_Fraction(x), result == (result if result is not None else self.emptyPrinter(expr)); result == result or result == self.emptyPrinter(expr); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"46a2c5d2b354ba8a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'numerator')","hasattr(expr, 'denominator')"],"ensures":["result == (result if result is not None else self.emptyPrinter(expr))","result == result or result == self.emptyPrinter(expr)"],"fibers":[{"name":"case_0","guard":"result is not None","ensures":["result == result"],"decidability":"library","returns_expr":"result"},{"name":"case_1","guard":"not (result is not None)","ensures":["result == self.emptyPrinter(expr)"],"decidability":"library","returns_expr":"self.emptyPrinter(expr)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.denominator","expr.numerator","self.__print_numer_denom","self.emptyPrinter"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Fraction(self, expr):
         result = self.__print_numer_denom(expr.numerator, expr.denominator)
 
@@ -3757,16 +4840,26 @@ class PrettyPrinter(Printer):
             return self.emptyPrinter(expr)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_ProductSet(p), id) over Any                    ║
+# ║ Path(_print_ProductSet(p), id) over {Any | hasattr(p, 'sets')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_ProductSet : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(p, 'sets')                             ║
+# ║   ensures:  result == (self._print(p.sets[0]) ** self...   ║
+# ║   ensures:  result == self._print(p.sets[0]) ** self....   ║
+# ║   fiber[positive]: len(p.sets) >= 1 and (not has_vari...   ║
+# ║   fiber[positive]: not (len(p.sets) >= 1 and (not has...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_ProductSet : {Any | hasattr(p, 'sets')} → {Any...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 1387ef8ede8a48d0   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_ProductSet","kind":"method","src_hash":"9fabd7a00bbdf7a5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_ProductSet(p)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_ProductSet_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"_print","by":"library_axiom"},{"fn":"_print","by":"library_axiom"},{"fn":"len","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1387ef8ede8a48d0"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_ProductSet","kind":"method","src_hash":"9fabd7a00bbdf7a5","in":{"base":"Any","pred":"hasattr(p, 'sets')"},"out":{"base":"Any","pred":"result satisfies: result == (self._print(p.sets[0]) ** self._print(len(p.sets)) if len(p.sets) >= 1 and (not has_variety(p.sets)) else self._print_seq(p.sets, None, None, ' %s ' % prod_char, parenthesize=lambda set: set.is_Union or set.is_Intersection or set.is_ProductSet)) and result == self._print(p.sets[0]) ** self._print(len(p.sets)) or result == self._print_seq(p.sets, None, None, ' %s ' % prod_char, parenthesize=lambda set: set.is_Union or set.is_Intersection or set.is_ProductSet)"},"spec":{"lhs":"_print_ProductSet(p)","rhs":"result == (self._print(p.sets[0]) ** self._print(len(p.sets)) if len(p.sets) >= 1 and (not has_variety(p.sets)) else self._print_seq(p.sets, None, None, ' %s ' % prod_char, parenthesize=lambda set: set.is_Union or set.is_Intersection or set.is_ProductSet)) and result == self._print(p.sets[0]) ** self._print(len(p.sets)) or result == self._print_seq(p.sets, None, None, ' %s ' % prod_char, parenthesize=lambda set: set.is_Union or set.is_Intersection or set.is_ProductSet)","over":{"base":"Any","pred":"hasattr(p, 'sets')"},"name":"_print_ProductSet_correct","kind":"composition"},"guarantee":"result == (self._print(p.sets[0]) ** self._print(len(p.sets)) if len(p.sets) >= 1 and (not has_variety(p.sets)) else self._print_seq(p.sets, None, None, ' %s ' % prod_char, parenthesize=lambda set: set.is_Union or set.is_Intersection or set.is_ProductSet)); result == self._print(p.sets[0]) ** self._print(len(p.sets)) or result == self._print_seq(p.sets, None, None, ' %s ' % prod_char, parenthesize=lambda set: set.is_Union or set.is_Intersection or set.is_ProductSet); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"_print","by":"library_axiom"},{"fn":"_print","by":"library_axiom"},{"fn":"len","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1387ef8ede8a48d0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(p, 'sets')"],"ensures":["result == (self._print(p.sets[0]) ** self._print(len(p.sets)) if len(p.sets) >= 1 and (not has_variety(p.sets)) else self._print_seq(p.sets, None, None, ' %s ' % prod_char, parenthesize=lambda set: set.is_Union or set.is_Intersection or set.is_ProductSet))","result == self._print(p.sets[0]) ** self._print(len(p.sets)) or result == self._print_seq(p.sets, None, None, ' %s ' % prod_char, parenthesize=lambda set: set.is_Union or set.is_Intersection or set.is_ProductSet)"],"fibers":[{"name":"positive","guard":"len(p.sets) >= 1 and (not has_variety(p.sets))","ensures":["result == self._print(p.sets[0]) ** self._print(len(p.sets))"],"decidability":"z3","returns_expr":"self._print(p.sets[0]) ** self._print(len(p.sets))"},{"name":"positive","guard":"not (len(p.sets) >= 1 and (not has_variety(p.sets)))","ensures":["result == self._print_seq(p.sets, None, None, ' %s ' % prod_char, parenthesize=lambda set: set.is_Union or set.is_Intersection or set.is_ProductSet)"],"decidability":"z3","returns_expr":"self._print_seq(p.sets, None, None, ' %s ' % prod_char, parenthesize=lambda set: set.is_Union or set.is_Intersection or set.is_ProductSet)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["p.sets","self._print","self._print_seq","self._use_unicode"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_ProductSet(self, p):
         if len(p.sets) >= 1 and not has_variety(p.sets):
             return self._print(p.sets[0]) ** self._print(len(p.sets))
@@ -3777,31 +4870,47 @@ class PrettyPrinter(Printer):
                                    set.is_Intersection or set.is_ProductSet)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_FiniteSet(s), internal helper behaves correctly) over Any ║
+# ║ Path(_print_FiniteSet(s), self._print_seq(items, '{', '}', ', ')) over {Any | hasattr(s, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_FiniteSet : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(s, 'args')                             ║
+# ║   returns:  self._print_seq(items, '{', '}', ', ')         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_FiniteSet : {Any | hasattr(s, 'args')} → Any        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b3ae59e5c0ac41c0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b9d33eee02e3f7ae  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_FiniteSet","kind":"method","src_hash":"0556b661ab2cf89e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_FiniteSet(s)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_FiniteSet_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_FiniteSet_correct","statement":"Path(_print_FiniteSet(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b3ae59e5c0ac41c0"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_FiniteSet","kind":"method","src_hash":"0556b661ab2cf89e","in":{"base":"Any","pred":"hasattr(s, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_print_FiniteSet(s)","rhs":"self._print_seq(items, '{', '}', ', ')","over":{"base":"Any","pred":"hasattr(s, 'args')"},"name":"_print_FiniteSet_correct"},"guarantee":"returns self._print_seq(items, '{', '}', ', ')","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_FiniteSet_correct","statement":"Path(_print_FiniteSet(x), returns self._print_seq(items, '{', '}', ', '))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b9d33eee02e3f7ae","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(s, 'args')"],"returns_expr":"self._print_seq(items, '{', '}', ', ')","pure":false,"effects":{"effect_type":"reads_state","reads":["s.args","self._print_seq"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_FiniteSet(self, s):
         items = sorted(s.args, key=default_sort_key)
         return self._print_seq(items, '{', '}', ', ' )
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Range(s), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Range(s), self._print_seq(printset, '{', '}', ', ')) over {Any | hasattr(s, 'start') and hasattr(s, 'stop') and hasattr(s, 'step')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Range : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(s, 'start')                            ║
+# ║   requires: hasattr(s, 'stop')                             ║
+# ║   requires: hasattr(s, 'step')                             ║
+# ║   returns:  self._print_seq(printset, '{', '}', ', ')      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Range : {Any | hasattr(s, 'start') and hasattr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bcbc452421c69b43  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9adc5a8d7b969f4c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Range","kind":"method","src_hash":"3101d2dcd4e5032f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Range(s)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Range_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_Range_correct","statement":"Path(_print_Range(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bcbc452421c69b43"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Range","kind":"method","src_hash":"3101d2dcd4e5032f","in":{"base":"Any","pred":"hasattr(s, 'start') and hasattr(s, 'stop') and hasattr(s, 'step')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Range(s)","rhs":"self._print_seq(printset, '{', '}', ', ')","over":{"base":"Any","pred":"hasattr(s, 'start') and hasattr(s, 'stop') and hasattr(s, 'step')"},"name":"_print_Range_correct"},"guarantee":"returns self._print_seq(printset, '{', '}', ', ')","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_Range_correct","statement":"Path(_print_Range(x), returns self._print_seq(printset, '{', '}', ', '))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9adc5a8d7b969f4c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(s, 'start')","hasattr(s, 'stop')","hasattr(s, 'step')"],"returns_expr":"self._print_seq(printset, '{', '}', ', ')","pure":false,"effects":{"effect_type":"reads_state","reads":["s.start","s.step","s.stop","self._print_seq","self._use_unicode"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Range(self, s):
 
         if self._use_unicode:
@@ -3828,16 +4937,28 @@ class PrettyPrinter(Printer):
         return self._print_seq(printset, '{', '}', ', ' )
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Interval(i), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Interval(i), result == (self._print_seq(i.args[:1], '{', '}') if i.start == i.end else self._print_seq(i.args[:2], left, right)) and result == self._print_seq(i.args[:1], '{', '}') or result == self._print_seq(i.args[:2], left, right)) over {Any | hasattr(i, 'start') and hasattr(i, 'end') and hasattr(i, 'left_open') and hasattr(i, 'right_open') and hasattr(i, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Interval : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(i, 'start')                            ║
+# ║   requires: hasattr(i, 'end')                              ║
+# ║   requires: hasattr(i, 'left_open')                        ║
+# ║   ensures:  result == (self._print_seq(i.args[:1], '{...   ║
+# ║   ensures:  result == self._print_seq(i.args[:1], '{'...   ║
+# ║   fiber[case_0]: i.start == i.end => self._print_seq(...   ║
+# ║   fiber[case_1]: not (i.start == i.end) => self._prin...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Interval : {Any | hasattr(i, 'start') and hasa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 64a18efbe33fd241  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e07c23e6817f28a6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Interval","kind":"method","src_hash":"92b92710faead023","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Interval(i)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Interval_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_Interval_correct","statement":"Path(_print_Interval(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"64a18efbe33fd241"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Interval","kind":"method","src_hash":"92b92710faead023","in":{"base":"Any","pred":"hasattr(i, 'start') and hasattr(i, 'end') and hasattr(i, 'left_open') and hasattr(i, 'right_open') and hasattr(i, 'args')"},"out":{"base":"Any","pred":"result satisfies: result == (self._print_seq(i.args[:1], '{', '}') if i.start == i.end else self._print_seq(i.args[:2], left, right)) and result == self._print_seq(i.args[:1], '{', '}') or result == self._print_seq(i.args[:2], left, right)"},"spec":{"lhs":"_print_Interval(i)","rhs":"result == (self._print_seq(i.args[:1], '{', '}') if i.start == i.end else self._print_seq(i.args[:2], left, right)) and result == self._print_seq(i.args[:1], '{', '}') or result == self._print_seq(i.args[:2], left, right)","over":{"base":"Any","pred":"hasattr(i, 'start') and hasattr(i, 'end') and hasattr(i, 'left_open') and hasattr(i, 'right_open') and hasattr(i, 'args')"},"name":"_print_Interval_correct"},"guarantee":"result == (self._print_seq(i.args[:1], '{', '}') if i.start == i.end else self._print_seq(i.args[:2], left, right)); result == self._print_seq(i.args[:1], '{', '}') or result == self._print_seq(i.args[:2], left, right); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_Interval_correct","statement":"Path(_print_Interval(x), result == (self._print_seq(i.args[:1], '{', '}') if i.start == i.end else self._print_seq(i.args[:2], left, right)); result == self._print_seq(i.args[:1], '{', '}') or result == self._print_seq(i.args[:2], left, right); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e07c23e6817f28a6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(i, 'start')","hasattr(i, 'end')","hasattr(i, 'left_open')","hasattr(i, 'right_open')","hasattr(i, 'args')"],"ensures":["result == (self._print_seq(i.args[:1], '{', '}') if i.start == i.end else self._print_seq(i.args[:2], left, right))","result == self._print_seq(i.args[:1], '{', '}') or result == self._print_seq(i.args[:2], left, right)"],"fibers":[{"name":"case_0","guard":"i.start == i.end","ensures":["result == self._print_seq(i.args[:1], '{', '}')"],"decidability":"z3","returns_expr":"self._print_seq(i.args[:1], '{', '}')"},{"name":"case_1","guard":"not (i.start == i.end)","ensures":["result == self._print_seq(i.args[:2], left, right)"],"decidability":"z3","returns_expr":"self._print_seq(i.args[:2], left, right)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["i.args","i.end","i.left_open","i.right_open","i.start","self._print_seq"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Interval(self, i):
         if i.start == i.end:
             return self._print_seq(i.args[:1], '{', '}')
@@ -3856,16 +4977,23 @@ class PrettyPrinter(Printer):
             return self._print_seq(i.args[:2], left, right)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_AccumulationBounds(i), internal helper behaves correctly) over Any ║
+# ║ Path(_print_AccumulationBounds(i), self._print_seq(i.args[:2], left, right)) over {Any | hasattr(i, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_AccumulationBounds : Any → Any                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(i, 'args')                             ║
+# ║   returns:  self._print_seq(i.args[:2], left, right)       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_AccumulationBounds : {Any | hasattr(i, 'args')...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e733176318976e32  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cb252bde1912ca87  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_AccumulationBounds","kind":"method","src_hash":"c79bcc4bed1b7583","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_AccumulationBounds(i)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_AccumulationBounds_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_AccumulationBounds_correct","statement":"Path(_print_AccumulationBounds(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e733176318976e32"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_AccumulationBounds","kind":"method","src_hash":"c79bcc4bed1b7583","in":{"base":"Any","pred":"hasattr(i, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_print_AccumulationBounds(i)","rhs":"self._print_seq(i.args[:2], left, right)","over":{"base":"Any","pred":"hasattr(i, 'args')"},"name":"_print_AccumulationBounds_correct"},"guarantee":"returns self._print_seq(i.args[:2], left, right)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_AccumulationBounds_correct","statement":"Path(_print_AccumulationBounds(x), returns self._print_seq(i.args[:2], left, right))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cb252bde1912ca87","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(i, 'args')"],"returns_expr":"self._print_seq(i.args[:2], left, right)","pure":false,"effects":{"effect_type":"reads_state","reads":["i.args","self._print_seq"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_AccumulationBounds(self, i):
         left = '<'
         right = '>'
@@ -3873,16 +5001,23 @@ class PrettyPrinter(Printer):
         return self._print_seq(i.args[:2], left, right)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Intersection(u), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Intersection(u), self._print_seq(u.args, None, None, delimiter, parenthesize=lambda set: set.is_ProductSet or set.is_Union or set.is_Complement)) over {Any | hasattr(u, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Intersection : Any → Any                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(u, 'args')                             ║
+# ║   returns:  self._print_seq(u.args, None, None, delim...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Intersection : {Any | hasattr(u, 'args')} → Any     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0874d044bc472e61  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e455f37d1e9183fb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Intersection","kind":"method","src_hash":"c6281119d0aef60a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Intersection(u)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Intersection_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_Intersection_correct","statement":"Path(_print_Intersection(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0874d044bc472e61"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Intersection","kind":"method","src_hash":"c6281119d0aef60a","in":{"base":"Any","pred":"hasattr(u, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Intersection(u)","rhs":"self._print_seq(u.args, None, None, delimiter, parenthesize=lambda set: set.is_ProductSet or set.is_Union or set.is_Complement)","over":{"base":"Any","pred":"hasattr(u, 'args')"},"name":"_print_Intersection_correct"},"guarantee":"returns self._print_seq(u.args, None, None, delimiter, parenthesize=lambda set: set.is_ProductSet or set.is_Union or set.is_Complement)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_Intersection_correct","statement":"Path(_print_Intersection(x), returns self._print_seq(u.args, None, None, delimiter, parenthesize=lambda set: set.is_ProductSet or set.is_Union or set.is_Complement))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e455f37d1e9183fb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(u, 'args')"],"returns_expr":"self._print_seq(u.args, None, None, delimiter, parenthesize=lambda set: set.is_ProductSet or set.is_Union or set.is_Complement)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._print_seq","u.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Intersection(self, u):
 
         delimiter = ' %s ' % pretty_atom('Intersection', 'n')
@@ -3892,16 +5027,23 @@ class PrettyPrinter(Printer):
                                set.is_Union or set.is_Complement)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Union(u), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Union(u), self._print_seq(u.args, None, None, union_delimiter, parenthesize=lambda set: set.is_ProductSet or set.is_Intersection or set.is_Complement)) over {Any | hasattr(u, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Union : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(u, 'args')                             ║
+# ║   returns:  self._print_seq(u.args, None, None, union...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Union : {Any | hasattr(u, 'args')} → Any            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e3d873875349fa28  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6ca80d0abac21909  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Union","kind":"method","src_hash":"754bc5d236301c3e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Union(u)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Union_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_Union_correct","statement":"Path(_print_Union(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e3d873875349fa28"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Union","kind":"method","src_hash":"754bc5d236301c3e","in":{"base":"Any","pred":"hasattr(u, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Union(u)","rhs":"self._print_seq(u.args, None, None, union_delimiter, parenthesize=lambda set: set.is_ProductSet or set.is_Intersection or set.is_Complement)","over":{"base":"Any","pred":"hasattr(u, 'args')"},"name":"_print_Union_correct"},"guarantee":"returns self._print_seq(u.args, None, None, union_delimiter, parenthesize=lambda set: set.is_ProductSet or set.is_Intersection or set.is_Complement)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_Union_correct","statement":"Path(_print_Union(x), returns self._print_seq(u.args, None, None, union_delimiter, parenthesize=lambda set: set.is_ProductSet or set.is_Intersection or set.is_Complement))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6ca80d0abac21909","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(u, 'args')"],"returns_expr":"self._print_seq(u.args, None, None, union_delimiter, parenthesize=lambda set: set.is_ProductSet or set.is_Intersection or set.is_Complement)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._print_seq","u.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Union(self, u):
 
         union_delimiter = ' %s ' % pretty_atom('Union', 'U')
@@ -3911,16 +5053,24 @@ class PrettyPrinter(Printer):
                                set.is_Intersection or set.is_Complement)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_SymmetricDifference(u), internal helper behaves correctly) over Any ║
+# ║ Path(_print_SymmetricDifference(u), self._print_seq(u.args, None, None, sym_delimeter)) over {Any | self._use_unicode and hasattr(u, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_SymmetricDifference : Any → Any                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: self._use_unicode                              ║
+# ║   requires: hasattr(u, 'args')                             ║
+# ║   returns:  self._print_seq(u.args, None, None, sym_d...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_SymmetricDifference : {Any | self._use_unicode...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e68df21875c59be7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2ddfbbe8ec44e924  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_SymmetricDifference","kind":"method","src_hash":"16f3216481ca33e5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_SymmetricDifference(u)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_SymmetricDifference_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_SymmetricDifference_correct","statement":"Path(_print_SymmetricDifference(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e68df21875c59be7"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_SymmetricDifference","kind":"method","src_hash":"16f3216481ca33e5","in":{"base":"Any","pred":"self._use_unicode and hasattr(u, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_print_SymmetricDifference(u)","rhs":"self._print_seq(u.args, None, None, sym_delimeter)","over":{"base":"Any","pred":"self._use_unicode and hasattr(u, 'args')"},"name":"_print_SymmetricDifference_correct"},"guarantee":"returns self._print_seq(u.args, None, None, sym_delimeter)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_SymmetricDifference_correct","statement":"Path(_print_SymmetricDifference(x), returns self._print_seq(u.args, None, None, sym_delimeter))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2ddfbbe8ec44e924","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["self._use_unicode","hasattr(u, 'args')"],"returns_expr":"self._print_seq(u.args, None, None, sym_delimeter)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._print_seq","self._use_unicode","u.args"],"raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_SymmetricDifference(self, u):
         if not self._use_unicode:
             raise NotImplementedError("ASCII pretty printing of SymmetricDifference is not implemented")
@@ -3930,16 +5080,23 @@ class PrettyPrinter(Printer):
         return self._print_seq(u.args, None, None, sym_delimeter)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Complement(u), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Complement(u), self._print_seq(u.args, None, None, delimiter, parenthesize=lambda set: set.is_ProductSet or set.is_Intersection or set.is_Union)) over {Any | hasattr(u, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Complement : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(u, 'args')                             ║
+# ║   returns:  self._print_seq(u.args, None, None, delim...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Complement : {Any | hasattr(u, 'args')} → Any       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a2c47965a3a43c7e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 23ef7817a88862e1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Complement","kind":"method","src_hash":"4d94048d79468f4c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Complement(u)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Complement_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_Complement_correct","statement":"Path(_print_Complement(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a2c47965a3a43c7e"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Complement","kind":"method","src_hash":"4d94048d79468f4c","in":{"base":"Any","pred":"hasattr(u, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Complement(u)","rhs":"self._print_seq(u.args, None, None, delimiter, parenthesize=lambda set: set.is_ProductSet or set.is_Intersection or set.is_Union)","over":{"base":"Any","pred":"hasattr(u, 'args')"},"name":"_print_Complement_correct"},"guarantee":"returns self._print_seq(u.args, None, None, delimiter, parenthesize=lambda set: set.is_ProductSet or set.is_Intersection or set.is_Union)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_Complement_correct","statement":"Path(_print_Complement(x), returns self._print_seq(u.args, None, None, delimiter, parenthesize=lambda set: set.is_ProductSet or set.is_Intersection or set.is_Union))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"23ef7817a88862e1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(u, 'args')"],"returns_expr":"self._print_seq(u.args, None, None, delimiter, parenthesize=lambda set: set.is_ProductSet or set.is_Intersection or set.is_Union)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._print_seq","u.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Complement(self, u):
 
         delimiter = r' \ '
@@ -3949,16 +5106,24 @@ class PrettyPrinter(Printer):
                                or set.is_Union)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_ImageSet(ts), internal helper behaves correctly) over Any ║
+# ║ Path(_print_ImageSet(ts), <unspecified:_print_ImageSet>) over {Any | hasattr(ts, 'lamda') and hasattr(ts, 'base_sets')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_ImageSet : Any → Any                                ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(ts, 'lamda')                           ║
+# ║   requires: hasattr(ts, 'base_sets')                       ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_ImageSet : {Any | hasattr(ts, 'lamda') and has...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a70642138d3c7c0c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_ImageSet","kind":"method","src_hash":"bd93240c7340e36c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_ImageSet(ts)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_ImageSet_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_ImageSet_correct","statement":"Path(_print_ImageSet(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a70642138d3c7c0c"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_ImageSet","kind":"method","src_hash":"bd93240c7340e36c","in":{"base":"Any","pred":"hasattr(ts, 'lamda') and hasattr(ts, 'base_sets')"},"out":{"base":"Any"},"spec":{"lhs":"_print_ImageSet(ts)","rhs":"<unspecified:_print_ImageSet>","over":{"base":"Any","pred":"hasattr(ts, 'lamda') and hasattr(ts, 'base_sets')"},"name":"_print_ImageSet_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_ImageSet_correct","statement":"Path(_print_ImageSet(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a70642138d3c7c0c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(ts, 'lamda')","hasattr(ts, 'base_sets')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._hprint_vseparator","self._print","self._print_seq","self._use_unicode","ts.base_sets","ts.lamda"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_ImageSet(self, ts):
         if self._use_unicode:
             inn = pretty_atom("SmallElementOf")
@@ -3989,16 +5154,25 @@ class PrettyPrinter(Printer):
                                            ifascii_nougly=True, delimiter=' ')
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_ConditionSet(ts), internal helper behaves correctly) over Any ║
+# ║ Path(_print_ConditionSet(ts), <unspecified:_print_ConditionSet>) over {Any | hasattr(ts, 'condition') and hasattr(ts, 'base_set') and hasattr(ts, 'sym')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_ConditionSet : Any → Any                            ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(ts, 'condition')                       ║
+# ║   requires: hasattr(ts, 'base_set')                        ║
+# ║   requires: hasattr(ts, 'sym')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_ConditionSet : {Any | hasattr(ts, 'condition')...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ecb41ba4438b9ab9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_ConditionSet","kind":"method","src_hash":"a12e9cad1e47505a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_ConditionSet(ts)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_ConditionSet_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_ConditionSet_correct","statement":"Path(_print_ConditionSet(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ecb41ba4438b9ab9"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_ConditionSet","kind":"method","src_hash":"a12e9cad1e47505a","in":{"base":"Any","pred":"hasattr(ts, 'condition') and hasattr(ts, 'base_set') and hasattr(ts, 'sym')"},"out":{"base":"Any"},"spec":{"lhs":"_print_ConditionSet(ts)","rhs":"<unspecified:_print_ConditionSet>","over":{"base":"Any","pred":"hasattr(ts, 'condition') and hasattr(ts, 'base_set') and hasattr(ts, 'sym')"},"name":"_print_ConditionSet_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_ConditionSet_correct","statement":"Path(_print_ConditionSet(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ecb41ba4438b9ab9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(ts, 'condition')","hasattr(ts, 'base_set')","hasattr(ts, 'sym')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._hprint_vseparator","self._print","self._print_seq","self._use_unicode","ts.base_set","ts.condition","ts.sym"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_ConditionSet(self, ts):
         if self._use_unicode:
             inn = pretty_atom('SmallElementOf')
@@ -4031,16 +5205,25 @@ class PrettyPrinter(Printer):
                                        ifascii_nougly=True, delimiter=' ')
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_ComplexRegion(ts), internal helper behaves correctly) over Any ║
+# ║ Path(_print_ComplexRegion(ts), self._hprint_vseparator(expr, C, left='{', right='}', ifascii_nougly=True, delimiter=' ')) over {Any | hasattr(ts, 'variables') and hasattr(ts, 'expr') and hasattr(ts, 'sets')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_ComplexRegion : Any → Any                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(ts, 'variables')                       ║
+# ║   requires: hasattr(ts, 'expr')                            ║
+# ║   requires: hasattr(ts, 'sets')                            ║
+# ║   returns:  self._hprint_vseparator(expr, C, left='{'...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_ComplexRegion : {Any | hasattr(ts, 'variables'...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c68280291731572f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 92a76f1d1ca0b60a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_ComplexRegion","kind":"method","src_hash":"50d3e09ec5016722","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_ComplexRegion(ts)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_ComplexRegion_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_ComplexRegion_correct","statement":"Path(_print_ComplexRegion(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c68280291731572f"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_ComplexRegion","kind":"method","src_hash":"50d3e09ec5016722","in":{"base":"Any","pred":"hasattr(ts, 'variables') and hasattr(ts, 'expr') and hasattr(ts, 'sets')"},"out":{"base":"Any"},"spec":{"lhs":"_print_ComplexRegion(ts)","rhs":"self._hprint_vseparator(expr, C, left='{', right='}', ifascii_nougly=True, delimiter=' ')","over":{"base":"Any","pred":"hasattr(ts, 'variables') and hasattr(ts, 'expr') and hasattr(ts, 'sets')"},"name":"_print_ComplexRegion_correct"},"guarantee":"returns self._hprint_vseparator(expr, C, left='{', right='}', ifascii_nougly=True, delimiter=' ')","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_ComplexRegion_correct","statement":"Path(_print_ComplexRegion(x), returns self._hprint_vseparator(expr, C, left='{', right='}', ifascii_nougly=True, delimiter=' '))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"92a76f1d1ca0b60a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(ts, 'variables')","hasattr(ts, 'expr')","hasattr(ts, 'sets')"],"returns_expr":"self._hprint_vseparator(expr, C, left='{', right='}', ifascii_nougly=True, delimiter=' ')","pure":false,"effects":{"effect_type":"reads_state","reads":["self._hprint_vseparator","self._print","self._print_seq","self._use_unicode","ts.expr","ts.sets","ts.variables"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_ComplexRegion(self, ts):
         if self._use_unicode:
             inn = pretty_atom('SmallElementOf')
@@ -4056,16 +5239,26 @@ class PrettyPrinter(Printer):
                                        ifascii_nougly=True, delimiter=' ')
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Contains(e), id) over Any                      ║
+# ║ Path(_print_Contains(e), id) over {Any | hasattr(e, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Contains : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(e, 'args')                             ║
+# ║   ensures:  result == (prettyForm(*stringPict.next(se...   ║
+# ║   ensures:  result == prettyForm(*stringPict.next(sel...   ║
+# ║   fiber[case_0]: self._use_unicode => prettyForm(*str...   ║
+# ║   fiber[case_1]: not (self._use_unicode) => prettyFor...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Contains : {Any | hasattr(e, 'args')} → {Any |...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | b8292006c0d06e31   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Contains","kind":"method","src_hash":"975d85c0687e5a3f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Contains(e)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Contains_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"prettyForm","by":"library_axiom"},{"fn":"next","by":"library_axiom"},{"fn":"_print","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b8292006c0d06e31"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Contains","kind":"method","src_hash":"975d85c0687e5a3f","in":{"base":"Any","pred":"hasattr(e, 'args')"},"out":{"base":"Any","pred":"result satisfies: result == (prettyForm(*stringPict.next(self._print(var), el, self._print(set)), binding=8) if self._use_unicode else prettyForm(sstr(e))) and result == prettyForm(*stringPict.next(self._print(var), el, self._print(set)), binding=8) or result == prettyForm(sstr(e))"},"spec":{"lhs":"_print_Contains(e)","rhs":"result == (prettyForm(*stringPict.next(self._print(var), el, self._print(set)), binding=8) if self._use_unicode else prettyForm(sstr(e))) and result == prettyForm(*stringPict.next(self._print(var), el, self._print(set)), binding=8) or result == prettyForm(sstr(e))","over":{"base":"Any","pred":"hasattr(e, 'args')"},"name":"_print_Contains_correct","kind":"composition"},"guarantee":"result == (prettyForm(*stringPict.next(self._print(var), el, self._print(set)), binding=8) if self._use_unicode else prettyForm(sstr(e))); result == prettyForm(*stringPict.next(self._print(var), el, self._print(set)), binding=8) or result == prettyForm(sstr(e)); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"prettyForm","by":"library_axiom"},{"fn":"next","by":"library_axiom"},{"fn":"_print","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b8292006c0d06e31","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(e, 'args')"],"ensures":["result == (prettyForm(*stringPict.next(self._print(var), el, self._print(set)), binding=8) if self._use_unicode else prettyForm(sstr(e)))","result == prettyForm(*stringPict.next(self._print(var), el, self._print(set)), binding=8) or result == prettyForm(sstr(e))"],"fibers":[{"name":"case_0","guard":"self._use_unicode","ensures":["result == prettyForm(*stringPict.next(self._print(var), el, self._print(set)), binding=8)"],"decidability":"library","returns_expr":"prettyForm(*stringPict.next(self._print(var), el, self._print(set)), binding=8)"},{"name":"case_1","guard":"not (self._use_unicode)","ensures":["result == prettyForm(sstr(e))"],"decidability":"library","returns_expr":"prettyForm(sstr(e))"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["e.args","self._print","self._use_unicode"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Contains(self, e):
         var, set = e.args
         if self._use_unicode:
@@ -4076,16 +5269,25 @@ class PrettyPrinter(Printer):
             return prettyForm(sstr(e))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_FourierSeries(s), internal helper behaves correctly) over Any ║
+# ║ Path(_print_FourierSeries(s), <unspecified:_print_FourierSeries>) over {Any | hasattr(s, 'a0') and hasattr(s, 'an') and hasattr(s, 'bn') and hasattr(s, 'truncate')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_FourierSeries : Any → Any                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(s, 'a0')                               ║
+# ║   requires: hasattr(s, 'an')                               ║
+# ║   requires: hasattr(s, 'bn')                               ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_FourierSeries : {Any | hasattr(s, 'a0') and ha...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a8652619fdb2b091  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_FourierSeries","kind":"method","src_hash":"6ec1ddd9b1778596","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_FourierSeries(s)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_FourierSeries_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_FourierSeries_correct","statement":"Path(_print_FourierSeries(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a8652619fdb2b091"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_FourierSeries","kind":"method","src_hash":"6ec1ddd9b1778596","in":{"base":"Any","pred":"hasattr(s, 'a0') and hasattr(s, 'an') and hasattr(s, 'bn') and hasattr(s, 'truncate')"},"out":{"base":"Any"},"spec":{"lhs":"_print_FourierSeries(s)","rhs":"<unspecified:_print_FourierSeries>","over":{"base":"Any","pred":"hasattr(s, 'a0') and hasattr(s, 'an') and hasattr(s, 'bn') and hasattr(s, 'truncate')"},"name":"_print_FourierSeries_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_FourierSeries_correct","statement":"Path(_print_FourierSeries(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a8652619fdb2b091","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(s, 'a0')","hasattr(s, 'an')","hasattr(s, 'bn')","hasattr(s, 'truncate')"],"pure":false,"effects":{"effect_type":"io","reads":["s.a0","s.an","s.bn","s.truncate","self._print","self._print_Add","self._use_unicode"],"calls_mutating":["s.truncate"],"io_operations":["s.truncate"]},"state_contract":{"modifies":["s.*"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_FourierSeries(self, s):
         if s.an.formula is S.Zero and s.bn.formula is S.Zero:
             return self._print(s.a0)
@@ -4096,46 +5298,70 @@ class PrettyPrinter(Printer):
         return self._print_Add(s.truncate()) + self._print(dots)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_FormalPowerSeries(s), internal helper behaves correctly) over Any ║
+# ║ Path(_print_FormalPowerSeries(s), self._print_Add(s.infinite)) over {Any | hasattr(s, 'infinite')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_FormalPowerSeries : Any → Any                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(s, 'infinite')                         ║
+# ║   returns:  self._print_Add(s.infinite)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_FormalPowerSeries : {Any | hasattr(s, 'infinit...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e84dc1a57bbe8f89           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_FormalPowerSeries","kind":"method","src_hash":"07a8dbb2ecfec378","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_FormalPowerSeries(s)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_FormalPowerSeries_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e84dc1a57bbe8f89"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_FormalPowerSeries","kind":"method","src_hash":"07a8dbb2ecfec378","in":{"base":"Any","pred":"hasattr(s, 'infinite')"},"out":{"base":"Any"},"spec":{"lhs":"_print_FormalPowerSeries(s)","rhs":"self._print_Add(s.infinite)","over":{"base":"Any","pred":"hasattr(s, 'infinite')"},"name":"_print_FormalPowerSeries_correct"},"guarantee":"returns self._print_Add(s.infinite)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e84dc1a57bbe8f89","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(s, 'infinite')"],"returns_expr":"self._print_Add(s.infinite)","pure":false,"effects":{"effect_type":"reads_state","reads":["s.infinite","self._print_Add"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_FormalPowerSeries(self, s):
         return self._print_Add(s.infinite)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_SetExpr(se), id) over Any                      ║
+# ║ Path(_print_SetExpr(se), id) over {Any | hasattr(se, 'set')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_SetExpr : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(se, 'set')                             ║
+# ║   returns:  prettyForm(*pretty_name.right(pretty_set))     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_SetExpr : {Any | hasattr(se, 'set')} → Any          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 18d114d23911dc43   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_SetExpr","kind":"method","src_hash":"9ddaeb583f43d488","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_SetExpr(se)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_SetExpr_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"prettyForm","by":"library_axiom"},{"fn":"right","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"18d114d23911dc43"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_SetExpr","kind":"method","src_hash":"9ddaeb583f43d488","in":{"base":"Any","pred":"hasattr(se, 'set')"},"out":{"base":"Any"},"spec":{"lhs":"_print_SetExpr(se)","rhs":"prettyForm(*pretty_name.right(pretty_set))","over":{"base":"Any","pred":"hasattr(se, 'set')"},"name":"_print_SetExpr_correct","kind":"composition"},"guarantee":"returns prettyForm(*pretty_name.right(pretty_set))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"prettyForm","by":"library_axiom"},{"fn":"right","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"18d114d23911dc43","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(se, 'set')"],"returns_expr":"prettyForm(*pretty_name.right(pretty_set))","pure":false,"effects":{"effect_type":"reads_state","reads":["se.set","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_SetExpr(self, se):
         pretty_set = prettyForm(*self._print(se.set).parens())
         pretty_name = self._print(Symbol("SetExpr"))
         return prettyForm(*pretty_name.right(pretty_set))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_SeqFormula(s), internal helper behaves correctly) over Any ║
+# ║ Path(_print_SeqFormula(s), self._print_list(printset)) over {Any | not (len(s.start.free_symbols) > 0 or len(s.stop.free_symbols) > 0) and hasattr(s, 'start') and hasattr(s, 'stop') and hasattr(s, 'coeff') and hasattr(s, 'length')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_SeqFormula : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (len(s.start.free_symbols) > 0 or len...   ║
+# ║   requires: hasattr(s, 'start')                            ║
+# ║   requires: hasattr(s, 'stop')                             ║
+# ║   ensures:  len(printset) == old_len_printset + 1          ║
+# ║   returns:  self._print_list(printset)                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_SeqFormula : {Any | not (len(s.start.free_symb...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ae6dc5b39ba67208  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cbf10da3107a68c7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_SeqFormula","kind":"method","src_hash":"0c090688266c2077","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_SeqFormula(s)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_SeqFormula_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_SeqFormula_correct","statement":"Path(_print_SeqFormula(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ae6dc5b39ba67208"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_SeqFormula","kind":"method","src_hash":"0c090688266c2077","in":{"base":"Any","pred":"not (len(s.start.free_symbols) > 0 or len(s.stop.free_symbols) > 0) and hasattr(s, 'start') and hasattr(s, 'stop') and hasattr(s, 'coeff') and hasattr(s, 'length')"},"out":{"base":"Any","pred":"result satisfies: result == (self._print_list(printset))"},"spec":{"lhs":"_print_SeqFormula(s)","rhs":"self._print_list(printset)","over":{"base":"Any","pred":"not (len(s.start.free_symbols) > 0 or len(s.stop.free_symbols) > 0) and hasattr(s, 'start') and hasattr(s, 'stop') and hasattr(s, 'coeff') and hasattr(s, 'length')"},"name":"_print_SeqFormula_correct"},"guarantee":"returns self._print_list(printset); len(printset) == old_len_printset + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_SeqFormula_correct","statement":"Path(_print_SeqFormula(x), returns self._print_list(printset); len(printset) == old_len_printset + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cbf10da3107a68c7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (len(s.start.free_symbols) > 0 or len(s.stop.free_symbols) > 0)","hasattr(s, 'start')","hasattr(s, 'stop')","hasattr(s, 'coeff')","hasattr(s, 'length')"],"ensures":["len(printset) == old_len_printset + 1"],"returns_expr":"self._print_list(printset)","pure":false,"effects":{"effect_type":"reads_state","reads":["s.coeff","s.length","s.start","s.stop","self._print_list","self._use_unicode"],"calls_mutating":["printset.append"],"raises":["NotImplementedError"]},"state_contract":{"modifies":["printset.*"],"old_bindings":{"old_len_printset":"len(printset)"},"post_ensures":["len(printset) == old_len_printset + 1"],"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_SeqFormula(self, s):
         if self._use_unicode:
             dots = pretty_atom('Dots')
@@ -4162,16 +5388,22 @@ class PrettyPrinter(Printer):
     _print_SeqMul = _print_SeqFormula
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_seq(seq), internal helper behaves correctly) over Any ║
+# ║ Path(_print_seq(seq, left, right), <unspecified:_print_seq>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_seq : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 65312b2ec174b818  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_seq","kind":"method","src_hash":"fe49d46c3dfa39f5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_seq(seq)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_seq_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_seq_correct","statement":"Path(_print_seq(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"65312b2ec174b818"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_seq","kind":"method","src_hash":"fe49d46c3dfa39f5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_seq(seq, left, right)","rhs":"<unspecified:_print_seq>","over":{"base":"Any"},"name":"_print_seq_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_seq_correct","statement":"Path(_print_seq(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"65312b2ec174b818","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_seq(self, seq, left=None, right=None, delimiter=', ',
             parenthesize=lambda x: False, ifascii_nougly=True):
 
@@ -4193,16 +5425,25 @@ class PrettyPrinter(Printer):
         return s
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(join(del), join produces the expected output) over Any ║
+# ║ Path(join(delimiter, args), result == (prettyForm('') if pform is None else pform) and result == prettyForm('') or result == pform) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ join : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (prettyForm('') if pform is Non...   ║
+# ║   ensures:  result == prettyForm('') or result == pform    ║
+# ║   fiber[zero_or_none]: pform is None => prettyForm('')     ║
+# ║   fiber[zero_or_none]: not (pform is None) => pform        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ join : Any → {Any | result satisfies: result == (pret...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a41761d0f3de64f1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8178c14a90e057aa  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter.join","kind":"method","src_hash":"400e5f03ddbde5d3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"join(del)","rhs":"join produces the expected output","over":{"base":"Any"},"name":"join_correct"},"guarantee":"join produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter.join_correct","statement":"Path(join(x), join produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a41761d0f3de64f1"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter.join","kind":"method","src_hash":"400e5f03ddbde5d3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (prettyForm('') if pform is None else pform) and result == prettyForm('') or result == pform"},"spec":{"lhs":"join(delimiter, args)","rhs":"result == (prettyForm('') if pform is None else pform) and result == prettyForm('') or result == pform","over":{"base":"Any"},"name":"join_correct"},"guarantee":"result == (prettyForm('') if pform is None else pform); result == prettyForm('') or result == pform; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter.join_correct","statement":"Path(join(x), result == (prettyForm('') if pform is None else pform); result == prettyForm('') or result == pform; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8178c14a90e057aa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (prettyForm('') if pform is None else pform)","result == prettyForm('') or result == pform"],"fibers":[{"name":"zero_or_none","guard":"pform is None","ensures":["result == prettyForm('')"],"decidability":"structural","returns_expr":"prettyForm('')"},{"name":"zero_or_none","guard":"not (pform is None)","ensures":["result == pform"],"decidability":"structural","returns_expr":"pform"}],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def join(self, delimiter, args):
         pform = None
 
@@ -4219,30 +5460,45 @@ class PrettyPrinter(Printer):
             return pform
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_list(l), internal helper behaves correctly) over Any ║
+# ║ Path(_print_list(l), self._print_seq(l, '[', ']')) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._print_seq(l, '[', ']')                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_list : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c9651782661e62a0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_list","kind":"method","src_hash":"572f9f60140c432e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_list(l)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_list_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c9651782661e62a0"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_list","kind":"method","src_hash":"572f9f60140c432e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_list(l)","rhs":"self._print_seq(l, '[', ']')","over":{"base":"Any"},"name":"_print_list_correct"},"guarantee":"returns self._print_seq(l, '[', ']')","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c9651782661e62a0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._print_seq(l, '[', ']')","pure":false,"effects":{"effect_type":"reads_state","reads":["self._print_seq"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_list(self, l):
         return self._print_seq(l, '[', ']')
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(_print_tuple(t), id) over Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_tuple : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (prettyForm(*ptuple.parens('(',...   ║
+# ║   ensures:  result == prettyForm(*ptuple.parens('(', ...   ║
+# ║   fiber[case_0]: len(t) == 1 => prettyForm(*ptuple.pa...   ║
+# ║   fiber[case_1]: not (len(t) == 1) => self._print_seq...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_tuple : Any → {Any | result satisfies: result ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 2201b5954185d954   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_tuple","kind":"method","src_hash":"48b407d34483f98b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_tuple(t)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_tuple_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"prettyForm","by":"library_axiom"},{"fn":"parens","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2201b5954185d954"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_tuple","kind":"method","src_hash":"48b407d34483f98b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (prettyForm(*ptuple.parens('(', ')', ifascii_nougly=True)) if len(t) == 1 else self._print_seq(t, '(', ')')) and result == prettyForm(*ptuple.parens('(', ')', ifascii_nougly=True)) or result == self._print_seq(t, '(', ')')"},"spec":{"lhs":"_print_tuple(t)","rhs":"result == (prettyForm(*ptuple.parens('(', ')', ifascii_nougly=True)) if len(t) == 1 else self._print_seq(t, '(', ')')) and result == prettyForm(*ptuple.parens('(', ')', ifascii_nougly=True)) or result == self._print_seq(t, '(', ')')","over":{"base":"Any"},"name":"_print_tuple_correct","kind":"composition"},"guarantee":"result == (prettyForm(*ptuple.parens('(', ')', ifascii_nougly=True)) if len(t) == 1 else self._print_seq(t, '(', ')')); result == prettyForm(*ptuple.parens('(', ')', ifascii_nougly=True)) or result == self._print_seq(t, '(', ')'); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"prettyForm","by":"library_axiom"},{"fn":"parens","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2201b5954185d954","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (prettyForm(*ptuple.parens('(', ')', ifascii_nougly=True)) if len(t) == 1 else self._print_seq(t, '(', ')'))","result == prettyForm(*ptuple.parens('(', ')', ifascii_nougly=True)) or result == self._print_seq(t, '(', ')')"],"fibers":[{"name":"case_0","guard":"len(t) == 1","ensures":["result == prettyForm(*ptuple.parens('(', ')', ifascii_nougly=True))"],"decidability":"z3","returns_expr":"prettyForm(*ptuple.parens('(', ')', ifascii_nougly=True))"},{"name":"case_1","guard":"not (len(t) == 1)","ensures":["result == self._print_seq(t, '(', ')')"],"decidability":"z3","returns_expr":"self._print_seq(t, '(', ')')"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._print","self._print_seq"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_tuple(self, t):
         if len(t) == 1:
             ptuple = prettyForm(*stringPict.next(self._print(t[0]), ','))
@@ -4251,30 +5507,43 @@ class PrettyPrinter(Printer):
             return self._print_seq(t, '(', ')')
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Tuple(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Tuple(expr), self._print_tuple(expr)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._print_tuple(expr)                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_Tuple : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 26f72bcdd5436cd9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Tuple","kind":"method","src_hash":"ebdf233f2b51f6a2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Tuple(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Tuple_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"26f72bcdd5436cd9"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Tuple","kind":"method","src_hash":"ebdf233f2b51f6a2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Tuple(expr)","rhs":"self._print_tuple(expr)","over":{"base":"Any"},"name":"_print_Tuple_correct"},"guarantee":"returns self._print_tuple(expr)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"26f72bcdd5436cd9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._print_tuple(expr)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._print_tuple"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Tuple(self, expr):
         return self._print_tuple(expr)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_dict(d), internal helper behaves correctly) over Any ║
+# ║ Path(_print_dict(d), self._print_seq(items, '{', '}')) over {Any | hasattr(d, 'keys')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_dict : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(d, 'keys')                             ║
+# ║   returns:  self._print_seq(items, '{', '}')               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_dict : {Any | hasattr(d, 'keys')} → Any             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d6ea5ffaeaba4fb8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 61820653a33311f2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_dict","kind":"method","src_hash":"13e481e79db0c445","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_dict(d)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_dict_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_dict_correct","statement":"Path(_print_dict(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d6ea5ffaeaba4fb8"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_dict","kind":"method","src_hash":"13e481e79db0c445","in":{"base":"Any","pred":"hasattr(d, 'keys')"},"out":{"base":"Any"},"spec":{"lhs":"_print_dict(d)","rhs":"self._print_seq(items, '{', '}')","over":{"base":"Any","pred":"hasattr(d, 'keys')"},"name":"_print_dict_correct"},"guarantee":"returns self._print_seq(items, '{', '}')","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_dict_correct","statement":"Path(_print_dict(x), returns self._print_seq(items, '{', '}'))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"61820653a33311f2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(d, 'keys')"],"returns_expr":"self._print_seq(items, '{', '}')","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_dict(self, d):
         keys = sorted(d.keys(), key=default_sort_key)
         items = []
@@ -4289,30 +5558,42 @@ class PrettyPrinter(Printer):
         return self._print_seq(items, '{', '}')
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Dict(d), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Dict(d), self._print_dict(d)) over Any         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._print_dict(d)                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_Dict : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 508a9aee52c10e63           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Dict","kind":"method","src_hash":"c31811b109395e88","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Dict(d)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Dict_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"508a9aee52c10e63"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Dict","kind":"method","src_hash":"c31811b109395e88","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Dict(d)","rhs":"self._print_dict(d)","over":{"base":"Any"},"name":"_print_Dict_correct"},"guarantee":"returns self._print_dict(d)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"508a9aee52c10e63","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._print_dict(d)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._print_dict"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Dict(self, d):
         return self._print_dict(d)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(_print_set(s), id) over Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ _print_set : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | c85cf413702e1cb4   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_set","kind":"method","src_hash":"6a95c59a233cdb27","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_set(s)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_set_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"prettyForm","by":"library_axiom"},{"fn":"set","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c85cf413702e1cb4"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_set","kind":"method","src_hash":"6a95c59a233cdb27","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_set(s)","rhs":"<unspecified:_print_set>","over":{"base":"Any"},"name":"_print_set_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"prettyForm","by":"library_axiom"},{"fn":"set","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c85cf413702e1cb4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._print_seq"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_set(self, s):
         if not s:
             return prettyForm('set()')
@@ -4324,14 +5605,20 @@ class PrettyPrinter(Printer):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(_print_frozenset(s), id) over Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ _print_frozenset : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 3d58648c26284a85   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_frozenset","kind":"method","src_hash":"58cceb2947211e2d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_frozenset(s)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_frozenset_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"prettyForm","by":"library_axiom"},{"fn":"frozenset","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3d58648c26284a85"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_frozenset","kind":"method","src_hash":"58cceb2947211e2d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_frozenset(s)","rhs":"<unspecified:_print_frozenset>","over":{"base":"Any"},"name":"_print_frozenset_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"prettyForm","by":"library_axiom"},{"fn":"frozenset","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3d58648c26284a85","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._print_seq"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_frozenset(self, s):
         if not s:
             return prettyForm('frozenset()')
@@ -4345,14 +5632,23 @@ class PrettyPrinter(Printer):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(_print_UniversalSet(s), id) over Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_UniversalSet : Any → Any                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (prettyForm(pretty_atom('Univer...   ║
+# ║   ensures:  result == prettyForm(pretty_atom('Univers...   ║
+# ║   fiber[case_0]: self._use_unicode => prettyForm(pret...   ║
+# ║   fiber[case_1]: not (self._use_unicode) => prettyFor...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_UniversalSet : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | f21692d05a847174   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_UniversalSet","kind":"method","src_hash":"478af460e18f9670","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_UniversalSet(s)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_UniversalSet_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"prettyForm","by":"library_axiom"},{"fn":"pretty_atom","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f21692d05a847174"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_UniversalSet","kind":"method","src_hash":"478af460e18f9670","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (prettyForm(pretty_atom('Universe')) if self._use_unicode else prettyForm('UniversalSet')) and result == prettyForm(pretty_atom('Universe')) or result == prettyForm('UniversalSet')"},"spec":{"lhs":"_print_UniversalSet(s)","rhs":"result == (prettyForm(pretty_atom('Universe')) if self._use_unicode else prettyForm('UniversalSet')) and result == prettyForm(pretty_atom('Universe')) or result == prettyForm('UniversalSet')","over":{"base":"Any"},"name":"_print_UniversalSet_correct","kind":"composition"},"guarantee":"result == (prettyForm(pretty_atom('Universe')) if self._use_unicode else prettyForm('UniversalSet')); result == prettyForm(pretty_atom('Universe')) or result == prettyForm('UniversalSet'); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"prettyForm","by":"library_axiom"},{"fn":"pretty_atom","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f21692d05a847174","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (prettyForm(pretty_atom('Universe')) if self._use_unicode else prettyForm('UniversalSet'))","result == prettyForm(pretty_atom('Universe')) or result == prettyForm('UniversalSet')"],"fibers":[{"name":"case_0","guard":"self._use_unicode","ensures":["result == prettyForm(pretty_atom('Universe'))"],"decidability":"library","returns_expr":"prettyForm(pretty_atom('Universe'))"},{"name":"case_1","guard":"not (self._use_unicode)","ensures":["result == prettyForm('UniversalSet')"],"decidability":"library","returns_expr":"prettyForm('UniversalSet')"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._use_unicode"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_UniversalSet(self, s):
         if self._use_unicode:
             return prettyForm(pretty_atom('Universe'))
@@ -4360,86 +5656,128 @@ class PrettyPrinter(Printer):
             return prettyForm('UniversalSet')
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_PolyRing(rin), internal helper behaves correctly) over Any ║
+# ║ Path(_print_PolyRing(ring), prettyForm(sstr(ring))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  prettyForm(sstr(ring))                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_PolyRing : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 67668463d2edf4b0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_PolyRing","kind":"method","src_hash":"0a02f70cbb1cf62d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_PolyRing(rin)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_PolyRing_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"67668463d2edf4b0"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_PolyRing","kind":"method","src_hash":"0a02f70cbb1cf62d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_PolyRing(ring)","rhs":"prettyForm(sstr(ring))","over":{"base":"Any"},"name":"_print_PolyRing_correct"},"guarantee":"returns prettyForm(sstr(ring))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"67668463d2edf4b0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"prettyForm(sstr(ring))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_PolyRing(self, ring):
         return prettyForm(sstr(ring))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_FracField(fie), internal helper behaves correctly) over Any ║
+# ║ Path(_print_FracField(field), prettyForm(sstr(field))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  prettyForm(sstr(field))                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_FracField : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 63683d256e49bcb5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_FracField","kind":"method","src_hash":"6ad49ff754f0037b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_FracField(fie)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_FracField_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"63683d256e49bcb5"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_FracField","kind":"method","src_hash":"6ad49ff754f0037b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_FracField(field)","rhs":"prettyForm(sstr(field))","over":{"base":"Any"},"name":"_print_FracField_correct"},"guarantee":"returns prettyForm(sstr(field))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"63683d256e49bcb5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"prettyForm(sstr(field))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_FracField(self, field):
         return prettyForm(sstr(field))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_FreeGroupElement(elm), internal helper behaves correctly) over Any ║
+# ║ Path(_print_FreeGroupElement(elm), prettyForm(str(elm))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  prettyForm(str(elm))                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_FreeGroupElement : Any → Any                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | cf4ad314e5058793           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_FreeGroupElement","kind":"method","src_hash":"093f968fa6cf1789","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_FreeGroupElement(elm)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_FreeGroupElement_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cf4ad314e5058793"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_FreeGroupElement","kind":"method","src_hash":"093f968fa6cf1789","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_FreeGroupElement(elm)","rhs":"prettyForm(str(elm))","over":{"base":"Any"},"name":"_print_FreeGroupElement_correct"},"guarantee":"returns prettyForm(str(elm))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cf4ad314e5058793","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"prettyForm(str(elm))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_FreeGroupElement(self, elm):
         return prettyForm(str(elm))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_PolyElement(pol), internal helper behaves correctly) over Any ║
+# ║ Path(_print_PolyElement(poly), prettyForm(sstr(poly))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  prettyForm(sstr(poly))                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_PolyElement : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ac7e59dbc5e18f7c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_PolyElement","kind":"method","src_hash":"6bb5a23bab548198","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_PolyElement(pol)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_PolyElement_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ac7e59dbc5e18f7c"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_PolyElement","kind":"method","src_hash":"6bb5a23bab548198","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_PolyElement(poly)","rhs":"prettyForm(sstr(poly))","over":{"base":"Any"},"name":"_print_PolyElement_correct"},"guarantee":"returns prettyForm(sstr(poly))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ac7e59dbc5e18f7c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"prettyForm(sstr(poly))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_PolyElement(self, poly):
         return prettyForm(sstr(poly))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_FracElement(fra), internal helper behaves correctly) over Any ║
+# ║ Path(_print_FracElement(frac), prettyForm(sstr(frac))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  prettyForm(sstr(frac))                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_FracElement : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ed907026f4a7c204           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_FracElement","kind":"method","src_hash":"5fb5f6ee662fb920","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_FracElement(fra)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_FracElement_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ed907026f4a7c204"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_FracElement","kind":"method","src_hash":"5fb5f6ee662fb920","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_FracElement(frac)","rhs":"prettyForm(sstr(frac))","over":{"base":"Any"},"name":"_print_FracElement_correct"},"guarantee":"returns prettyForm(sstr(frac))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ed907026f4a7c204","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"prettyForm(sstr(frac))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_FracElement(self, frac):
         return prettyForm(sstr(frac))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_AlgebraicNumber(exp), id) over Any             ║
+# ║ Path(_print_AlgebraicNumber(expr), id) over {Any | hasattr(expr, 'is_aliased') and hasattr(expr, 'as_expr') and hasattr(expr, 'as_poly')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_AlgebraicNumber : Any → Any                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'is_aliased')                    ║
+# ║   requires: hasattr(expr, 'as_expr')                       ║
+# ║   requires: hasattr(expr, 'as_poly')                       ║
+# ║   ensures:  result == (self._print(expr.as_poly().as_...   ║
+# ║   ensures:  result == self._print(expr.as_poly().as_e...   ║
+# ║   fiber[case_0]: expr.is_aliased => self._print(expr....   ║
+# ║   fiber[case_1]: not (expr.is_aliased) => self._print...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_AlgebraicNumber : {Any | hasattr(expr, 'is_ali...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | ed47391f4eccf71d   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_AlgebraicNumber","kind":"method","src_hash":"343c0668654530c1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_AlgebraicNumber(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_AlgebraicNumber_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"_print","by":"library_axiom"},{"fn":"as_poly","by":"library_axiom"},{"fn":"as_expr","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ed47391f4eccf71d"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_AlgebraicNumber","kind":"method","src_hash":"343c0668654530c1","in":{"base":"Any","pred":"hasattr(expr, 'is_aliased') and hasattr(expr, 'as_expr') and hasattr(expr, 'as_poly')"},"out":{"base":"Any","pred":"result satisfies: result == (self._print(expr.as_poly().as_expr()) if expr.is_aliased else self._print(expr.as_expr())) and result == self._print(expr.as_poly().as_expr()) or result == self._print(expr.as_expr())"},"spec":{"lhs":"_print_AlgebraicNumber(expr)","rhs":"result == (self._print(expr.as_poly().as_expr()) if expr.is_aliased else self._print(expr.as_expr())) and result == self._print(expr.as_poly().as_expr()) or result == self._print(expr.as_expr())","over":{"base":"Any","pred":"hasattr(expr, 'is_aliased') and hasattr(expr, 'as_expr') and hasattr(expr, 'as_poly')"},"name":"_print_AlgebraicNumber_correct","kind":"composition"},"guarantee":"result == (self._print(expr.as_poly().as_expr()) if expr.is_aliased else self._print(expr.as_expr())); result == self._print(expr.as_poly().as_expr()) or result == self._print(expr.as_expr()); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"_print","by":"library_axiom"},{"fn":"as_poly","by":"library_axiom"},{"fn":"as_expr","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ed47391f4eccf71d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'is_aliased')","hasattr(expr, 'as_expr')","hasattr(expr, 'as_poly')"],"ensures":["result == (self._print(expr.as_poly().as_expr()) if expr.is_aliased else self._print(expr.as_expr()))","result == self._print(expr.as_poly().as_expr()) or result == self._print(expr.as_expr())"],"fibers":[{"name":"case_0","guard":"expr.is_aliased","ensures":["result == self._print(expr.as_poly().as_expr())"],"decidability":"library","returns_expr":"self._print(expr.as_poly().as_expr())"},{"name":"case_1","guard":"not (expr.is_aliased)","ensures":["result == self._print(expr.as_expr())"],"decidability":"library","returns_expr":"self._print(expr.as_expr())"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.as_expr","expr.as_poly","expr.is_aliased","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_AlgebraicNumber(self, expr):
         if expr.is_aliased:
             return self._print(expr.as_poly().as_expr())
@@ -4447,16 +5785,24 @@ class PrettyPrinter(Printer):
             return self._print(expr.as_expr())
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_ComplexRootOf(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_ComplexRootOf(expr), <unspecified:_print_ComplexRootOf>) over {Any | hasattr(expr, 'index') and hasattr(expr, 'expr')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_ComplexRootOf : Any → Any                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'index')                         ║
+# ║   requires: hasattr(expr, 'expr')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_ComplexRootOf : {Any | hasattr(expr, 'index') ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0c69dabafd88a4f8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_ComplexRootOf","kind":"method","src_hash":"e82c4a3a5139bfae","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_ComplexRootOf(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_ComplexRootOf_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_ComplexRootOf_correct","statement":"Path(_print_ComplexRootOf(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0c69dabafd88a4f8"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_ComplexRootOf","kind":"method","src_hash":"e82c4a3a5139bfae","in":{"base":"Any","pred":"hasattr(expr, 'index') and hasattr(expr, 'expr')"},"out":{"base":"Any"},"spec":{"lhs":"_print_ComplexRootOf(expr)","rhs":"<unspecified:_print_ComplexRootOf>","over":{"base":"Any","pred":"hasattr(expr, 'index') and hasattr(expr, 'expr')"},"name":"_print_ComplexRootOf_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_ComplexRootOf_correct","statement":"Path(_print_ComplexRootOf(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0c69dabafd88a4f8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'index')","hasattr(expr, 'expr')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.expr","expr.index","self._print_Add","self._print_seq"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_ComplexRootOf(self, expr):
         args = [self._print_Add(expr.expr, order='lex'), expr.index]
         pform = prettyForm(*self._print_seq(args).parens())
@@ -4464,16 +5810,24 @@ class PrettyPrinter(Printer):
         return pform
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_RootSum(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_RootSum(expr), <unspecified:_print_RootSum>) over {Any | hasattr(expr, 'fun') and hasattr(expr, 'expr')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_RootSum : Any → Any                                 ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'fun')                           ║
+# ║   requires: hasattr(expr, 'expr')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_RootSum : {Any | hasattr(expr, 'fun') and hasa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5d64db26f3fea575  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_RootSum","kind":"method","src_hash":"5a6d19c7deb41106","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_RootSum(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_RootSum_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_RootSum_correct","statement":"Path(_print_RootSum(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5d64db26f3fea575"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_RootSum","kind":"method","src_hash":"5a6d19c7deb41106","in":{"base":"Any","pred":"hasattr(expr, 'fun') and hasattr(expr, 'expr')"},"out":{"base":"Any"},"spec":{"lhs":"_print_RootSum(expr)","rhs":"<unspecified:_print_RootSum>","over":{"base":"Any","pred":"hasattr(expr, 'fun') and hasattr(expr, 'expr')"},"name":"_print_RootSum_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_RootSum_correct","statement":"Path(_print_RootSum(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5d64db26f3fea575","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'fun')","hasattr(expr, 'expr')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_RootSum(self, expr):
         args = [self._print_Add(expr.expr, order='lex')]
 
@@ -4486,16 +5840,23 @@ class PrettyPrinter(Printer):
         return pform
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_FiniteField(exp), id) over Any                 ║
+# ║ Path(_print_FiniteField(expr), id) over {Any | hasattr(expr, 'mod')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_FiniteField : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'mod')                           ║
+# ║   returns:  prettyForm(pretty_symbol(form % expr.mod))     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_FiniteField : {Any | hasattr(expr, 'mod')} → Any    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | e742e4768c222f3a   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_FiniteField","kind":"method","src_hash":"9247ab38d2ab35c6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_FiniteField(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_FiniteField_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"prettyForm","by":"library_axiom"},{"fn":"pretty_symbol","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e742e4768c222f3a"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_FiniteField","kind":"method","src_hash":"9247ab38d2ab35c6","in":{"base":"Any","pred":"hasattr(expr, 'mod')"},"out":{"base":"Any"},"spec":{"lhs":"_print_FiniteField(expr)","rhs":"prettyForm(pretty_symbol(form % expr.mod))","over":{"base":"Any","pred":"hasattr(expr, 'mod')"},"name":"_print_FiniteField_correct","kind":"composition"},"guarantee":"returns prettyForm(pretty_symbol(form % expr.mod))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"prettyForm","by":"library_axiom"},{"fn":"pretty_symbol","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e742e4768c222f3a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'mod')"],"returns_expr":"prettyForm(pretty_symbol(form % expr.mod))","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.mod","self._use_unicode"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_FiniteField(self, expr):
         if self._use_unicode:
             form = f"{pretty_atom('Integers')}_%d"
@@ -4505,16 +5866,25 @@ class PrettyPrinter(Printer):
         return prettyForm(pretty_symbol(form % expr.mod))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_IntegerRing(exp), id) over Any                 ║
+# ║ Path(_print_IntegerRing(expr), id) over Any                ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_IntegerRing : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (prettyForm(pretty_atom('Intege...   ║
+# ║   ensures:  result == prettyForm(pretty_atom('Integer...   ║
+# ║   fiber[case_0]: self._use_unicode => prettyForm(pret...   ║
+# ║   fiber[case_1]: not (self._use_unicode) => prettyFor...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_IntegerRing : Any → {Any | result satisfies: r...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 535fda96116d2343   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_IntegerRing","kind":"method","src_hash":"5e7a20b7643af48a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_IntegerRing(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_IntegerRing_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"prettyForm","by":"library_axiom"},{"fn":"pretty_atom","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"535fda96116d2343"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_IntegerRing","kind":"method","src_hash":"5e7a20b7643af48a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (prettyForm(pretty_atom('Integers')) if self._use_unicode else prettyForm('ZZ')) and result == prettyForm(pretty_atom('Integers')) or result == prettyForm('ZZ')"},"spec":{"lhs":"_print_IntegerRing(expr)","rhs":"result == (prettyForm(pretty_atom('Integers')) if self._use_unicode else prettyForm('ZZ')) and result == prettyForm(pretty_atom('Integers')) or result == prettyForm('ZZ')","over":{"base":"Any"},"name":"_print_IntegerRing_correct","kind":"composition"},"guarantee":"result == (prettyForm(pretty_atom('Integers')) if self._use_unicode else prettyForm('ZZ')); result == prettyForm(pretty_atom('Integers')) or result == prettyForm('ZZ'); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"prettyForm","by":"library_axiom"},{"fn":"pretty_atom","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"535fda96116d2343","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (prettyForm(pretty_atom('Integers')) if self._use_unicode else prettyForm('ZZ'))","result == prettyForm(pretty_atom('Integers')) or result == prettyForm('ZZ')"],"fibers":[{"name":"case_0","guard":"self._use_unicode","ensures":["result == prettyForm(pretty_atom('Integers'))"],"decidability":"library","returns_expr":"prettyForm(pretty_atom('Integers'))"},{"name":"case_1","guard":"not (self._use_unicode)","ensures":["result == prettyForm('ZZ')"],"decidability":"library","returns_expr":"prettyForm('ZZ')"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._use_unicode"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_IntegerRing(self, expr):
         if self._use_unicode:
             return prettyForm(pretty_atom('Integers'))
@@ -4522,16 +5892,25 @@ class PrettyPrinter(Printer):
             return prettyForm('ZZ')
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_RationalField(exp), id) over Any               ║
+# ║ Path(_print_RationalField(expr), id) over Any              ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_RationalField : Any → Any                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (prettyForm(pretty_atom('Ration...   ║
+# ║   ensures:  result == prettyForm(pretty_atom('Rationa...   ║
+# ║   fiber[case_0]: self._use_unicode => prettyForm(pret...   ║
+# ║   fiber[case_1]: not (self._use_unicode) => prettyFor...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_RationalField : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 88db8f80506dec95   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_RationalField","kind":"method","src_hash":"c4765bd1d358d574","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_RationalField(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_RationalField_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"prettyForm","by":"library_axiom"},{"fn":"pretty_atom","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"88db8f80506dec95"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_RationalField","kind":"method","src_hash":"c4765bd1d358d574","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (prettyForm(pretty_atom('Rationals')) if self._use_unicode else prettyForm('QQ')) and result == prettyForm(pretty_atom('Rationals')) or result == prettyForm('QQ')"},"spec":{"lhs":"_print_RationalField(expr)","rhs":"result == (prettyForm(pretty_atom('Rationals')) if self._use_unicode else prettyForm('QQ')) and result == prettyForm(pretty_atom('Rationals')) or result == prettyForm('QQ')","over":{"base":"Any"},"name":"_print_RationalField_correct","kind":"composition"},"guarantee":"result == (prettyForm(pretty_atom('Rationals')) if self._use_unicode else prettyForm('QQ')); result == prettyForm(pretty_atom('Rationals')) or result == prettyForm('QQ'); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"prettyForm","by":"library_axiom"},{"fn":"pretty_atom","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"88db8f80506dec95","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (prettyForm(pretty_atom('Rationals')) if self._use_unicode else prettyForm('QQ'))","result == prettyForm(pretty_atom('Rationals')) or result == prettyForm('QQ')"],"fibers":[{"name":"case_0","guard":"self._use_unicode","ensures":["result == prettyForm(pretty_atom('Rationals'))"],"decidability":"library","returns_expr":"prettyForm(pretty_atom('Rationals'))"},{"name":"case_1","guard":"not (self._use_unicode)","ensures":["result == prettyForm('QQ')"],"decidability":"library","returns_expr":"prettyForm('QQ')"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._use_unicode"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_RationalField(self, expr):
         if self._use_unicode:
             return prettyForm(pretty_atom('Rationals'))
@@ -4539,16 +5918,24 @@ class PrettyPrinter(Printer):
             return prettyForm('QQ')
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_RealField(dom), internal helper behaves correctly) over Any ║
+# ║ Path(_print_RealField(domain), <unspecified:_print_RealField>) over {Any | hasattr(domain, 'has_default_precision') and hasattr(domain, 'precision')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_RealField : Any → Any                               ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(domain, 'has_default_precision')       ║
+# ║   requires: hasattr(domain, 'precision')                   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_RealField : {Any | hasattr(domain, 'has_defaul...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1c64502d0fdefa3c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_RealField","kind":"method","src_hash":"b7e170564eb7e932","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_RealField(dom)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_RealField_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_RealField_correct","statement":"Path(_print_RealField(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1c64502d0fdefa3c"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_RealField","kind":"method","src_hash":"b7e170564eb7e932","in":{"base":"Any","pred":"hasattr(domain, 'has_default_precision') and hasattr(domain, 'precision')"},"out":{"base":"Any"},"spec":{"lhs":"_print_RealField(domain)","rhs":"<unspecified:_print_RealField>","over":{"base":"Any","pred":"hasattr(domain, 'has_default_precision') and hasattr(domain, 'precision')"},"name":"_print_RealField_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_RealField_correct","statement":"Path(_print_RealField(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1c64502d0fdefa3c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(domain, 'has_default_precision')","hasattr(domain, 'precision')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["domain.has_default_precision","domain.precision","self._print","self._use_unicode"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_RealField(self, domain):
         if self._use_unicode:
             prefix = pretty_atom("Reals")
@@ -4561,16 +5948,24 @@ class PrettyPrinter(Printer):
             return self._print(pretty_symbol(prefix + "_" + str(domain.precision)))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_ComplexField(dom), internal helper behaves correctly) over Any ║
+# ║ Path(_print_ComplexField(domain), <unspecified:_print_ComplexField>) over {Any | hasattr(domain, 'has_default_precision') and hasattr(domain, 'precision')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_ComplexField : Any → Any                            ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(domain, 'has_default_precision')       ║
+# ║   requires: hasattr(domain, 'precision')                   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_ComplexField : {Any | hasattr(domain, 'has_def...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9164106f18360323  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_ComplexField","kind":"method","src_hash":"7f8243007d575865","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_ComplexField(dom)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_ComplexField_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_ComplexField_correct","statement":"Path(_print_ComplexField(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9164106f18360323"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_ComplexField","kind":"method","src_hash":"7f8243007d575865","in":{"base":"Any","pred":"hasattr(domain, 'has_default_precision') and hasattr(domain, 'precision')"},"out":{"base":"Any"},"spec":{"lhs":"_print_ComplexField(domain)","rhs":"<unspecified:_print_ComplexField>","over":{"base":"Any","pred":"hasattr(domain, 'has_default_precision') and hasattr(domain, 'precision')"},"name":"_print_ComplexField_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_ComplexField_correct","statement":"Path(_print_ComplexField(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9164106f18360323","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(domain, 'has_default_precision')","hasattr(domain, 'precision')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["domain.has_default_precision","domain.precision","self._print","self._use_unicode"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_ComplexField(self, domain):
         if self._use_unicode:
             prefix = pretty_atom('Complexes')
@@ -4583,16 +5978,25 @@ class PrettyPrinter(Printer):
             return self._print(pretty_symbol(prefix + "_" + str(domain.precision)))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_PolynomialRing(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_PolynomialRing(expr), <unspecified:_print_PolynomialRing>) over {Any | hasattr(expr, 'symbols') and hasattr(expr, 'order') and hasattr(expr, 'domain')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_PolynomialRing : Any → Any                          ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'symbols')                       ║
+# ║   requires: hasattr(expr, 'order')                         ║
+# ║   requires: hasattr(expr, 'domain')                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_PolynomialRing : {Any | hasattr(expr, 'symbols...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ee01455845c395ca  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_PolynomialRing","kind":"method","src_hash":"7b19fca5506ba880","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_PolynomialRing(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_PolynomialRing_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_PolynomialRing_correct","statement":"Path(_print_PolynomialRing(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ee01455845c395ca"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_PolynomialRing","kind":"method","src_hash":"7b19fca5506ba880","in":{"base":"Any","pred":"hasattr(expr, 'symbols') and hasattr(expr, 'order') and hasattr(expr, 'domain')"},"out":{"base":"Any"},"spec":{"lhs":"_print_PolynomialRing(expr)","rhs":"<unspecified:_print_PolynomialRing>","over":{"base":"Any","pred":"hasattr(expr, 'symbols') and hasattr(expr, 'order') and hasattr(expr, 'domain')"},"name":"_print_PolynomialRing_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_PolynomialRing_correct","statement":"Path(_print_PolynomialRing(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ee01455845c395ca","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'symbols')","hasattr(expr, 'order')","hasattr(expr, 'domain')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_PolynomialRing(self, expr):
         args = list(expr.symbols)
 
@@ -4606,16 +6010,25 @@ class PrettyPrinter(Printer):
         return pform
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_FractionField(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_FractionField(expr), <unspecified:_print_FractionField>) over {Any | hasattr(expr, 'symbols') and hasattr(expr, 'order') and hasattr(expr, 'domain')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_FractionField : Any → Any                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'symbols')                       ║
+# ║   requires: hasattr(expr, 'order')                         ║
+# ║   requires: hasattr(expr, 'domain')                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_FractionField : {Any | hasattr(expr, 'symbols'...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2536ce020497d551  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_FractionField","kind":"method","src_hash":"7bcd3dcd9a366268","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_FractionField(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_FractionField_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_FractionField_correct","statement":"Path(_print_FractionField(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2536ce020497d551"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_FractionField","kind":"method","src_hash":"7bcd3dcd9a366268","in":{"base":"Any","pred":"hasattr(expr, 'symbols') and hasattr(expr, 'order') and hasattr(expr, 'domain')"},"out":{"base":"Any"},"spec":{"lhs":"_print_FractionField(expr)","rhs":"<unspecified:_print_FractionField>","over":{"base":"Any","pred":"hasattr(expr, 'symbols') and hasattr(expr, 'order') and hasattr(expr, 'domain')"},"name":"_print_FractionField_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_FractionField_correct","statement":"Path(_print_FractionField(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2536ce020497d551","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'symbols')","hasattr(expr, 'order')","hasattr(expr, 'domain')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_FractionField(self, expr):
         args = list(expr.symbols)
 
@@ -4629,16 +6042,25 @@ class PrettyPrinter(Printer):
         return pform
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_PolynomialRingBase(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_PolynomialRingBase(expr), <unspecified:_print_PolynomialRingBase>) over {Any | hasattr(expr, 'symbols') and hasattr(expr, 'order') and hasattr(expr, 'default_order') and hasattr(expr, 'domain')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_PolynomialRingBase : Any → Any                      ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'symbols')                       ║
+# ║   requires: hasattr(expr, 'order')                         ║
+# ║   requires: hasattr(expr, 'default_order')                 ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_PolynomialRingBase : {Any | hasattr(expr, 'sym...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 93a4086203834061  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_PolynomialRingBase","kind":"method","src_hash":"9a1e56d46746c500","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_PolynomialRingBase(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_PolynomialRingBase_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_PolynomialRingBase_correct","statement":"Path(_print_PolynomialRingBase(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"93a4086203834061"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_PolynomialRingBase","kind":"method","src_hash":"9a1e56d46746c500","in":{"base":"Any","pred":"hasattr(expr, 'symbols') and hasattr(expr, 'order') and hasattr(expr, 'default_order') and hasattr(expr, 'domain')"},"out":{"base":"Any"},"spec":{"lhs":"_print_PolynomialRingBase(expr)","rhs":"<unspecified:_print_PolynomialRingBase>","over":{"base":"Any","pred":"hasattr(expr, 'symbols') and hasattr(expr, 'order') and hasattr(expr, 'default_order') and hasattr(expr, 'domain')"},"name":"_print_PolynomialRingBase_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_PolynomialRingBase_correct","statement":"Path(_print_PolynomialRingBase(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"93a4086203834061","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'symbols')","hasattr(expr, 'order')","hasattr(expr, 'default_order')","hasattr(expr, 'domain')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.default_order","expr.domain","expr.order","expr.symbols","self._print","self._print_seq"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_PolynomialRingBase(self, expr):
         g = expr.symbols
         if str(expr.order) != str(expr.default_order):
@@ -4649,16 +6071,25 @@ class PrettyPrinter(Printer):
         return pform
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_GroebnerBasis(bas), internal helper behaves correctly) over Any ║
+# ║ Path(_print_GroebnerBasis(basis), <unspecified:_print_GroebnerBasis>) over {Any | hasattr(basis, 'exprs') and hasattr(basis, 'gens') and hasattr(basis, 'order') and hasattr(basis, 'domain')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_GroebnerBasis : Any → Any                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(basis, 'exprs')                        ║
+# ║   requires: hasattr(basis, 'gens')                         ║
+# ║   requires: hasattr(basis, 'order')                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_GroebnerBasis : {Any | hasattr(basis, 'exprs')...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c42c9d2ee216971e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_GroebnerBasis","kind":"method","src_hash":"2427df6afa176292","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_GroebnerBasis(bas)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_GroebnerBasis_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_GroebnerBasis_correct","statement":"Path(_print_GroebnerBasis(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c42c9d2ee216971e"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_GroebnerBasis","kind":"method","src_hash":"2427df6afa176292","in":{"base":"Any","pred":"hasattr(basis, 'exprs') and hasattr(basis, 'gens') and hasattr(basis, 'order') and hasattr(basis, 'domain')"},"out":{"base":"Any"},"spec":{"lhs":"_print_GroebnerBasis(basis)","rhs":"<unspecified:_print_GroebnerBasis>","over":{"base":"Any","pred":"hasattr(basis, 'exprs') and hasattr(basis, 'gens') and hasattr(basis, 'order') and hasattr(basis, 'domain')"},"name":"_print_GroebnerBasis_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_GroebnerBasis_correct","statement":"Path(_print_GroebnerBasis(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c42c9d2ee216971e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(basis, 'exprs')","hasattr(basis, 'gens')","hasattr(basis, 'order')","hasattr(basis, 'domain')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","basis.__class__","basis.domain","basis.exprs","basis.gens","basis.order","self._print","self._print_Add","self.join"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_GroebnerBasis(self, basis):
         exprs = [ self._print_Add(arg, order=basis.order)
                   for arg in basis.exprs ]
@@ -4679,16 +6110,25 @@ class PrettyPrinter(Printer):
         return pform
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Subs(e), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Subs(e), <unspecified:_print_Subs>) over {Any | hasattr(e, 'expr') and hasattr(e, 'variables') and hasattr(e, 'point')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Subs : Any → Any                                    ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(e, 'expr')                             ║
+# ║   requires: hasattr(e, 'variables')                        ║
+# ║   requires: hasattr(e, 'point')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Subs : {Any | hasattr(e, 'expr') and hasattr(e...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fcc7b6ad4ec98754  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Subs","kind":"method","src_hash":"c22fb41b8c89d647","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Subs(e)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Subs_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_Subs_correct","statement":"Path(_print_Subs(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fcc7b6ad4ec98754"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Subs","kind":"method","src_hash":"c22fb41b8c89d647","in":{"base":"Any","pred":"hasattr(e, 'expr') and hasattr(e, 'variables') and hasattr(e, 'point')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Subs(e)","rhs":"<unspecified:_print_Subs>","over":{"base":"Any","pred":"hasattr(e, 'expr') and hasattr(e, 'variables') and hasattr(e, 'point')"},"name":"_print_Subs_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_Subs_correct","statement":"Path(_print_Subs(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fcc7b6ad4ec98754","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(e, 'expr')","hasattr(e, 'variables')","hasattr(e, 'point')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["e.expr","e.point","e.variables","self._print","self._print_seq"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Subs(self, e):
         pform = self._print(e.expr)
         pform = prettyForm(*pform.parens())
@@ -4707,16 +6147,23 @@ class PrettyPrinter(Printer):
         return pform
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_number_function(e, ), internal helper behaves correctly) over Any ║
+# ║ Path(_print_number_function(e, name), <unspecified:_print_number_function>) over {Any | hasattr(e, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_number_function : Any → Any                         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(e, 'args')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_number_function : {Any | hasattr(e, 'args')} →...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 19c405ca56948a9e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_number_function","kind":"method","src_hash":"dc3768c4e8ad387d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_number_function(e, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_number_function_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_number_function_correct","statement":"Path(_print_number_function(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"19c405ca56948a9e"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_number_function","kind":"method","src_hash":"dc3768c4e8ad387d","in":{"base":"Any","pred":"hasattr(e, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_print_number_function(e, name)","rhs":"<unspecified:_print_number_function>","over":{"base":"Any","pred":"hasattr(e, 'args')"},"name":"_print_number_function_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_number_function_correct","statement":"Path(_print_number_function(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"19c405ca56948a9e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(e, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["e.args","self._print","self._print_seq"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_number_function(self, e, name):
         # Print name_arg[0] for one argument or name_arg[0](arg[1])
         # for more than one argument
@@ -4738,102 +6185,147 @@ class PrettyPrinter(Printer):
         return pform
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_euler(e), internal helper behaves correctly) over Any ║
+# ║ Path(_print_euler(e), self._print_number_function(e, 'E')) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._print_number_function(e, 'E')            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_euler : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 956c5e85ef695ac6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_euler","kind":"method","src_hash":"e403090d85be7003","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_euler(e)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_euler_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"956c5e85ef695ac6"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_euler","kind":"method","src_hash":"e403090d85be7003","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_euler(e)","rhs":"self._print_number_function(e, 'E')","over":{"base":"Any"},"name":"_print_euler_correct"},"guarantee":"returns self._print_number_function(e, 'E')","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"956c5e85ef695ac6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._print_number_function(e, 'E')","pure":false,"effects":{"effect_type":"reads_state","reads":["self._print_number_function"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_euler(self, e):
         return self._print_number_function(e, "E")
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_catalan(e), internal helper behaves correctly) over Any ║
+# ║ Path(_print_catalan(e), self._print_number_function(e, 'C')) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._print_number_function(e, 'C')            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_catalan : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ce358a54496f0478           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_catalan","kind":"method","src_hash":"e031fbdb143add04","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_catalan(e)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_catalan_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ce358a54496f0478"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_catalan","kind":"method","src_hash":"e031fbdb143add04","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_catalan(e)","rhs":"self._print_number_function(e, 'C')","over":{"base":"Any"},"name":"_print_catalan_correct"},"guarantee":"returns self._print_number_function(e, 'C')","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ce358a54496f0478","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._print_number_function(e, 'C')","pure":false,"effects":{"effect_type":"reads_state","reads":["self._print_number_function"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_catalan(self, e):
         return self._print_number_function(e, "C")
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_bernoulli(e), internal helper behaves correctly) over Any ║
+# ║ Path(_print_bernoulli(e), self._print_number_function(e, 'B')) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._print_number_function(e, 'B')            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_bernoulli : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c56c5c1168ff29b4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_bernoulli","kind":"method","src_hash":"b9f6c01f404c7747","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_bernoulli(e)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_bernoulli_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c56c5c1168ff29b4"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_bernoulli","kind":"method","src_hash":"b9f6c01f404c7747","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_bernoulli(e)","rhs":"self._print_number_function(e, 'B')","over":{"base":"Any"},"name":"_print_bernoulli_correct"},"guarantee":"returns self._print_number_function(e, 'B')","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c56c5c1168ff29b4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._print_number_function(e, 'B')","pure":false,"effects":{"effect_type":"reads_state","reads":["self._print_number_function"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_bernoulli(self, e):
         return self._print_number_function(e, "B")
 
     _print_bell = _print_bernoulli
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_lucas(e), internal helper behaves correctly) over Any ║
+# ║ Path(_print_lucas(e), self._print_number_function(e, 'L')) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._print_number_function(e, 'L')            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_lucas : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 31e7bbbaf2c54766           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_lucas","kind":"method","src_hash":"8741b095d776965f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_lucas(e)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_lucas_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"31e7bbbaf2c54766"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_lucas","kind":"method","src_hash":"8741b095d776965f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_lucas(e)","rhs":"self._print_number_function(e, 'L')","over":{"base":"Any"},"name":"_print_lucas_correct"},"guarantee":"returns self._print_number_function(e, 'L')","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"31e7bbbaf2c54766","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._print_number_function(e, 'L')","pure":false,"effects":{"effect_type":"reads_state","reads":["self._print_number_function"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_lucas(self, e):
         return self._print_number_function(e, "L")
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_fibonacci(e), internal helper behaves correctly) over Any ║
+# ║ Path(_print_fibonacci(e), self._print_number_function(e, 'F')) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._print_number_function(e, 'F')            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_fibonacci : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | cfdb0dbb2ae791bc           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_fibonacci","kind":"method","src_hash":"cf5bd24b6d7518ce","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_fibonacci(e)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_fibonacci_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cfdb0dbb2ae791bc"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_fibonacci","kind":"method","src_hash":"cf5bd24b6d7518ce","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_fibonacci(e)","rhs":"self._print_number_function(e, 'F')","over":{"base":"Any"},"name":"_print_fibonacci_correct"},"guarantee":"returns self._print_number_function(e, 'F')","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cfdb0dbb2ae791bc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._print_number_function(e, 'F')","pure":false,"effects":{"effect_type":"reads_state","reads":["self._print_number_function"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_fibonacci(self, e):
         return self._print_number_function(e, "F")
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_tribonacci(e), internal helper behaves correctly) over Any ║
+# ║ Path(_print_tribonacci(e), self._print_number_function(e, 'T')) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._print_number_function(e, 'T')            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_tribonacci : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 77025da20fe12f77           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_tribonacci","kind":"method","src_hash":"5e08727aea351664","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_tribonacci(e)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_tribonacci_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"77025da20fe12f77"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_tribonacci","kind":"method","src_hash":"5e08727aea351664","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_tribonacci(e)","rhs":"self._print_number_function(e, 'T')","over":{"base":"Any"},"name":"_print_tribonacci_correct"},"guarantee":"returns self._print_number_function(e, 'T')","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"77025da20fe12f77","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._print_number_function(e, 'T')","pure":false,"effects":{"effect_type":"reads_state","reads":["self._print_number_function"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_tribonacci(self, e):
         return self._print_number_function(e, "T")
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_stieltjes(e), internal helper behaves correctly) over Any ║
+# ║ Path(_print_stieltjes(e), result == (self._print_number_function(e, greek_unicode['gamma']) if self._use_unicode else self._print_number_function(e, 'stieltjes')) and result == self._print_number_function(e, greek_unicode['gamma']) or result == self._print_number_function(e, 'stieltjes')) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_stieltjes : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (self._print_number_function(e,...   ║
+# ║   ensures:  result == self._print_number_function(e, ...   ║
+# ║   fiber[case_0]: self._use_unicode => self._print_num...   ║
+# ║   fiber[case_1]: not (self._use_unicode) => self._pri...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_stieltjes : Any → {Any | result satisfies: res...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d23729f2f3995108  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 54dcba1eafdf1d2b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_stieltjes","kind":"method","src_hash":"59906bb68c267788","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_stieltjes(e)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_stieltjes_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_stieltjes_correct","statement":"Path(_print_stieltjes(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d23729f2f3995108"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_stieltjes","kind":"method","src_hash":"59906bb68c267788","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (self._print_number_function(e, greek_unicode['gamma']) if self._use_unicode else self._print_number_function(e, 'stieltjes')) and result == self._print_number_function(e, greek_unicode['gamma']) or result == self._print_number_function(e, 'stieltjes')"},"spec":{"lhs":"_print_stieltjes(e)","rhs":"result == (self._print_number_function(e, greek_unicode['gamma']) if self._use_unicode else self._print_number_function(e, 'stieltjes')) and result == self._print_number_function(e, greek_unicode['gamma']) or result == self._print_number_function(e, 'stieltjes')","over":{"base":"Any"},"name":"_print_stieltjes_correct"},"guarantee":"result == (self._print_number_function(e, greek_unicode['gamma']) if self._use_unicode else self._print_number_function(e, 'stieltjes')); result == self._print_number_function(e, greek_unicode['gamma']) or result == self._print_number_function(e, 'stieltjes'); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_stieltjes_correct","statement":"Path(_print_stieltjes(x), result == (self._print_number_function(e, greek_unicode['gamma']) if self._use_unicode else self._print_number_function(e, 'stieltjes')); result == self._print_number_function(e, greek_unicode['gamma']) or result == self._print_number_function(e, 'stieltjes'); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"54dcba1eafdf1d2b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (self._print_number_function(e, greek_unicode['gamma']) if self._use_unicode else self._print_number_function(e, 'stieltjes'))","result == self._print_number_function(e, greek_unicode['gamma']) or result == self._print_number_function(e, 'stieltjes')"],"fibers":[{"name":"case_0","guard":"self._use_unicode","ensures":["result == self._print_number_function(e, greek_unicode['gamma'])"],"decidability":"library","returns_expr":"self._print_number_function(e, greek_unicode['gamma'])"},{"name":"case_1","guard":"not (self._use_unicode)","ensures":["result == self._print_number_function(e, 'stieltjes')"],"decidability":"library","returns_expr":"self._print_number_function(e, 'stieltjes')"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._print_number_function","self._use_unicode"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_stieltjes(self, e):
         if self._use_unicode:
             return self._print_number_function(e, greek_unicode['gamma'])
@@ -4841,16 +6333,23 @@ class PrettyPrinter(Printer):
             return self._print_number_function(e, "stieltjes")
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_KroneckerDelta(e), id) over Any                ║
+# ║ Path(_print_KroneckerDelta(e), id) over {Any | hasattr(e, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_KroneckerDelta : Any → Any                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(e, 'args')                             ║
+# ║   returns:  prettyForm(*bot.below(top), binding=prett...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_KroneckerDelta : {Any | hasattr(e, 'args')} → Any   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | eea1973c45ff3deb   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_KroneckerDelta","kind":"method","src_hash":"2634983769dc4add","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_KroneckerDelta(e)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_KroneckerDelta_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"prettyForm","by":"library_axiom"},{"fn":"below","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eea1973c45ff3deb"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_KroneckerDelta","kind":"method","src_hash":"2634983769dc4add","in":{"base":"Any","pred":"hasattr(e, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_print_KroneckerDelta(e)","rhs":"prettyForm(*bot.below(top), binding=prettyForm.POW)","over":{"base":"Any","pred":"hasattr(e, 'args')"},"name":"_print_KroneckerDelta_correct","kind":"composition"},"guarantee":"returns prettyForm(*bot.below(top), binding=prettyForm.POW)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"prettyForm","by":"library_axiom"},{"fn":"below","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eea1973c45ff3deb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(e, 'args')"],"returns_expr":"prettyForm(*bot.below(top), binding=prettyForm.POW)","pure":false,"effects":{"effect_type":"reads_state","reads":["e.args","self._print","self._use_unicode"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_KroneckerDelta(self, e):
         pform = self._print(e.args[0])
         pform = prettyForm(*pform.right(prettyForm(',')))
@@ -4865,16 +6364,29 @@ class PrettyPrinter(Printer):
         return prettyForm(binding=prettyForm.POW, *bot.below(top))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_RandomDomain(d), internal helper behaves correctly) over Any ║
+# ║ Path(_print_RandomDomain(d), result == (pform if hasattr(d, 'as_boolean') else pform if hasattr(d, 'set') else pform if hasattr(d, 'symbols') else self._print(None)) and result == pform or result == self._print(None)) over {Any | hasattr(d, 'as_boolean') and hasattr(d, 'symbols') and hasattr(d, 'set')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_RandomDomain : Any → Any                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(d, 'as_boolean')                       ║
+# ║   requires: hasattr(d, 'symbols')                          ║
+# ║   requires: hasattr(d, 'set')                              ║
+# ║   ensures:  result == (pform if hasattr(d, 'as_boolea...   ║
+# ║   ensures:  result == pform or result == self._print(...   ║
+# ║   fiber[case_0]: hasattr(d, 'as_boolean') => pform         ║
+# ║   fiber[case_1]: hasattr(d, 'set') => pform                ║
+# ║   fiber[case_2]: hasattr(d, 'symbols') => pform            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_RandomDomain : {Any | hasattr(d, 'as_boolean')...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e0a209a524a65d56  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 47bfea881da3e316  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_RandomDomain","kind":"method","src_hash":"6c2fd731115e4a5a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_RandomDomain(d)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_RandomDomain_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_RandomDomain_correct","statement":"Path(_print_RandomDomain(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e0a209a524a65d56"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_RandomDomain","kind":"method","src_hash":"6c2fd731115e4a5a","in":{"base":"Any","pred":"hasattr(d, 'as_boolean') and hasattr(d, 'symbols') and hasattr(d, 'set')"},"out":{"base":"Any","pred":"result satisfies: result == (pform if hasattr(d, 'as_boolean') else pform if hasattr(d, 'set') else pform if hasattr(d, 'symbols') else self._print(None)) and result == pform or result == self._print(None)"},"spec":{"lhs":"_print_RandomDomain(d)","rhs":"result == (pform if hasattr(d, 'as_boolean') else pform if hasattr(d, 'set') else pform if hasattr(d, 'symbols') else self._print(None)) and result == pform or result == self._print(None)","over":{"base":"Any","pred":"hasattr(d, 'as_boolean') and hasattr(d, 'symbols') and hasattr(d, 'set')"},"name":"_print_RandomDomain_correct"},"guarantee":"result == (pform if hasattr(d, 'as_boolean') else pform if hasattr(d, 'set') else pform if hasattr(d, 'symbols') else self._print(None)); result == pform or result == self._print(None); 4-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_RandomDomain_correct","statement":"Path(_print_RandomDomain(x), result == (pform if hasattr(d, 'as_boolean') else pform if hasattr(d, 'set') else pform if hasattr(d, 'symbols') else self._print(None)); result == pform or result == self._print(None); 4-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"47bfea881da3e316","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(d, 'as_boolean')","hasattr(d, 'symbols')","hasattr(d, 'set')"],"ensures":["result == (pform if hasattr(d, 'as_boolean') else pform if hasattr(d, 'set') else pform if hasattr(d, 'symbols') else self._print(None))","result == pform or result == self._print(None)"],"fibers":[{"name":"case_0","guard":"hasattr(d, 'as_boolean')","ensures":["result == pform"],"decidability":"structural","returns_expr":"pform"},{"name":"case_1","guard":"hasattr(d, 'set')","ensures":["result == pform"],"decidability":"structural","returns_expr":"pform"},{"name":"case_2","guard":"hasattr(d, 'symbols')","ensures":["result == pform"],"decidability":"structural","returns_expr":"pform"},{"name":"case_3","guard":"not (hasattr(d, 'as_boolean')) and not (hasattr(d, 'set')) and not (hasattr(d, 'symbols'))","ensures":["result == self._print(None)"],"decidability":"structural","returns_expr":"self._print(None)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["d.as_boolean","d.set","d.symbols","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_RandomDomain(self, d):
         if hasattr(d, 'as_boolean'):
             pform = self._print('Domain: ')
@@ -4894,16 +6406,23 @@ class PrettyPrinter(Printer):
             return self._print(None)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_DMP(p), id) over Any                           ║
+# ║ Path(_print_DMP(p), id) over {Any | hasattr(p, 'ring')}    ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_DMP : Any → Any                                     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(p, 'ring')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_DMP : {Any | hasattr(p, 'ring')} → Any              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 455e643cd92b23b9   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_DMP","kind":"method","src_hash":"21e5b485391f5810","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_DMP(p)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_DMP_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"_print","by":"library_axiom"},{"fn":"to_sympy","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"455e643cd92b23b9"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_DMP","kind":"method","src_hash":"21e5b485391f5810","in":{"base":"Any","pred":"hasattr(p, 'ring')"},"out":{"base":"Any"},"spec":{"lhs":"_print_DMP(p)","rhs":"<unspecified:_print_DMP>","over":{"base":"Any","pred":"hasattr(p, 'ring')"},"name":"_print_DMP_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"_print","by":"library_axiom"},{"fn":"to_sympy","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"455e643cd92b23b9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(p, 'ring')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["p.ring","self._print"],"catches":["SympifyError"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_DMP(self, p):
         try:
             if p.ring is not None:
@@ -4914,44 +6433,65 @@ class PrettyPrinter(Printer):
         return self._print(repr(p))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_DMF(p), internal helper behaves correctly) over Any ║
+# ║ Path(_print_DMF(p), self._print_DMP(p)) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._print_DMP(p)                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_DMF : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7ab01dd77215733d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_DMF","kind":"method","src_hash":"6caff63df8e74f0d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_DMF(p)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_DMF_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7ab01dd77215733d"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_DMF","kind":"method","src_hash":"6caff63df8e74f0d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_DMF(p)","rhs":"self._print_DMP(p)","over":{"base":"Any"},"name":"_print_DMF_correct"},"guarantee":"returns self._print_DMP(p)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7ab01dd77215733d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._print_DMP(p)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._print_DMP"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_DMF(self, p):
         return self._print_DMP(p)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Object(obj), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Object(object), self._print(pretty_symbol(object.name))) over {Any | hasattr(object, 'name')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Object : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(object, 'name')                        ║
+# ║   returns:  self._print(pretty_symbol(object.name))        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Object : {Any | hasattr(object, 'name')} → Any      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 77631ddf81c21f48           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Object","kind":"method","src_hash":"e53f6c7ad6a98620","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Object(obj)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Object_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"77631ddf81c21f48"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Object","kind":"method","src_hash":"e53f6c7ad6a98620","in":{"base":"Any","pred":"hasattr(object, 'name')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Object(object)","rhs":"self._print(pretty_symbol(object.name))","over":{"base":"Any","pred":"hasattr(object, 'name')"},"name":"_print_Object_correct"},"guarantee":"returns self._print(pretty_symbol(object.name))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"77631ddf81c21f48","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(object, 'name')"],"returns_expr":"self._print(pretty_symbol(object.name))","pure":false,"effects":{"effect_type":"reads_state","reads":["object.name","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Object(self, object):
         return self._print(pretty_symbol(object.name))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Morphism(mor), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Morphism(morphism), prettyForm(tail)) over {Any | hasattr(morphism, 'domain') and hasattr(morphism, 'codomain')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Morphism : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(morphism, 'domain')                    ║
+# ║   requires: hasattr(morphism, 'codomain')                  ║
+# ║   returns:  prettyForm(tail)                               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Morphism : {Any | hasattr(morphism, 'domain') ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4d649c3d5c4d26df  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dbda443caf7d5f7a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Morphism","kind":"method","src_hash":"37c34643195c5aac","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Morphism(mor)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Morphism_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_Morphism_correct","statement":"Path(_print_Morphism(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4d649c3d5c4d26df"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Morphism","kind":"method","src_hash":"37c34643195c5aac","in":{"base":"Any","pred":"hasattr(morphism, 'domain') and hasattr(morphism, 'codomain')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Morphism(morphism)","rhs":"prettyForm(tail)","over":{"base":"Any","pred":"hasattr(morphism, 'domain') and hasattr(morphism, 'codomain')"},"name":"_print_Morphism_correct"},"guarantee":"returns prettyForm(tail)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_Morphism_correct","statement":"Path(_print_Morphism(x), returns prettyForm(tail))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dbda443caf7d5f7a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(morphism, 'domain')","hasattr(morphism, 'codomain')"],"returns_expr":"prettyForm(tail)","pure":false,"effects":{"effect_type":"reads_state","reads":["morphism.codomain","morphism.domain","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Morphism(self, morphism):
         arrow = xsym("-->")
 
@@ -4962,48 +6502,70 @@ class PrettyPrinter(Printer):
         return prettyForm(tail)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_NamedMorphism(mor), id) over Any               ║
+# ║ Path(_print_NamedMorphism(morphism), id) over {Any | hasattr(morphism, 'name')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_NamedMorphism : Any → Any                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(morphism, 'name')                      ║
+# ║   returns:  prettyForm(pretty_name.right(':', pretty_...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_NamedMorphism : {Any | hasattr(morphism, 'name...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 28482ea361228159   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_NamedMorphism","kind":"method","src_hash":"737e6e20b4cd0f14","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_NamedMorphism(mor)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_NamedMorphism_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"prettyForm","by":"library_axiom"},{"fn":"right","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"28482ea361228159"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_NamedMorphism","kind":"method","src_hash":"737e6e20b4cd0f14","in":{"base":"Any","pred":"hasattr(morphism, 'name')"},"out":{"base":"Any"},"spec":{"lhs":"_print_NamedMorphism(morphism)","rhs":"prettyForm(pretty_name.right(':', pretty_morphism)[0])","over":{"base":"Any","pred":"hasattr(morphism, 'name')"},"name":"_print_NamedMorphism_correct","kind":"composition"},"guarantee":"returns prettyForm(pretty_name.right(':', pretty_morphism)[0])","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"prettyForm","by":"library_axiom"},{"fn":"right","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"28482ea361228159","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(morphism, 'name')"],"returns_expr":"prettyForm(pretty_name.right(':', pretty_morphism)[0])","pure":false,"effects":{"effect_type":"reads_state","reads":["morphism.name","self._print","self._print_Morphism"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_NamedMorphism(self, morphism):
         pretty_name = self._print(pretty_symbol(morphism.name))
         pretty_morphism = self._print_Morphism(morphism)
         return prettyForm(pretty_name.right(":", pretty_morphism)[0])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_IdentityMorphism(mor), internal helper behaves correctly) over Any ║
+# ║ Path(_print_IdentityMorphism(morphism), self._print_NamedMorphism(NamedMorphism(morphism.domain, morphism.codomain, 'id'))) over {Any | hasattr(morphism, 'domain') and hasattr(morphism, 'codomain')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_IdentityMorphism : Any → Any                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(morphism, 'domain')                    ║
+# ║   requires: hasattr(morphism, 'codomain')                  ║
+# ║   returns:  self._print_NamedMorphism(NamedMorphism(m...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_IdentityMorphism : {Any | hasattr(morphism, 'd...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 41949d9241977420  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 675c25fd0077c3c6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_IdentityMorphism","kind":"method","src_hash":"664c038f002e3ed0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_IdentityMorphism(mor)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_IdentityMorphism_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_IdentityMorphism_correct","statement":"Path(_print_IdentityMorphism(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"41949d9241977420"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_IdentityMorphism","kind":"method","src_hash":"664c038f002e3ed0","in":{"base":"Any","pred":"hasattr(morphism, 'domain') and hasattr(morphism, 'codomain')"},"out":{"base":"Any"},"spec":{"lhs":"_print_IdentityMorphism(morphism)","rhs":"self._print_NamedMorphism(NamedMorphism(morphism.domain, morphism.codomain, 'id'))","over":{"base":"Any","pred":"hasattr(morphism, 'domain') and hasattr(morphism, 'codomain')"},"name":"_print_IdentityMorphism_correct"},"guarantee":"returns self._print_NamedMorphism(NamedMorphism(morphism.domain, morphism.codomain, 'id'))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_IdentityMorphism_correct","statement":"Path(_print_IdentityMorphism(x), returns self._print_NamedMorphism(NamedMorphism(morphism.domain, morphism.codomain, 'id')))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"675c25fd0077c3c6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(morphism, 'domain')","hasattr(morphism, 'codomain')"],"returns_expr":"self._print_NamedMorphism(NamedMorphism(morphism.domain, morphism.codomain, 'id'))","pure":false,"effects":{"effect_type":"reads_state","reads":["morphism.codomain","morphism.domain","self._print_NamedMorphism"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_IdentityMorphism(self, morphism):
         from sympy.categories import NamedMorphism
         return self._print_NamedMorphism(
             NamedMorphism(morphism.domain, morphism.codomain, "id"))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_CompositeMorphism(mor), id) over Any           ║
+# ║ Path(_print_CompositeMorphism(morphism), id) over {Any | hasattr(morphism, 'components')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_CompositeMorphism : Any → Any                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(morphism, 'components')                ║
+# ║   returns:  prettyForm(pretty_name.right(pretty_morph...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_CompositeMorphism : {Any | hasattr(morphism, '...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | ee2d4b01e34bb552   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_CompositeMorphism","kind":"method","src_hash":"d9cea531b3d9e3da","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_CompositeMorphism(mor)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_CompositeMorphism_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"prettyForm","by":"library_axiom"},{"fn":"right","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ee2d4b01e34bb552"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_CompositeMorphism","kind":"method","src_hash":"d9cea531b3d9e3da","in":{"base":"Any","pred":"hasattr(morphism, 'components')"},"out":{"base":"Any"},"spec":{"lhs":"_print_CompositeMorphism(morphism)","rhs":"prettyForm(pretty_name.right(pretty_morphism)[0])","over":{"base":"Any","pred":"hasattr(morphism, 'components')"},"name":"_print_CompositeMorphism_correct","kind":"composition"},"guarantee":"returns prettyForm(pretty_name.right(pretty_morphism)[0])","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"prettyForm","by":"library_axiom"},{"fn":"right","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ee2d4b01e34bb552","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(morphism, 'components')"],"returns_expr":"prettyForm(pretty_name.right(pretty_morphism)[0])","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_CompositeMorphism(self, morphism):
 
         circle = xsym(".")
@@ -5020,30 +6582,45 @@ class PrettyPrinter(Printer):
         return prettyForm(pretty_name.right(pretty_morphism)[0])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Category(cat), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Category(category), self._print(pretty_symbol(category.name))) over {Any | hasattr(category, 'name')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Category : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(category, 'name')                      ║
+# ║   returns:  self._print(pretty_symbol(category.name))      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Category : {Any | hasattr(category, 'name')} →...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2757149f02d63193           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Category","kind":"method","src_hash":"8d6b8c8ff6af852c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Category(cat)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Category_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2757149f02d63193"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Category","kind":"method","src_hash":"8d6b8c8ff6af852c","in":{"base":"Any","pred":"hasattr(category, 'name')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Category(category)","rhs":"self._print(pretty_symbol(category.name))","over":{"base":"Any","pred":"hasattr(category, 'name')"},"name":"_print_Category_correct"},"guarantee":"returns self._print(pretty_symbol(category.name))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2757149f02d63193","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(category, 'name')"],"returns_expr":"self._print(pretty_symbol(category.name))","pure":false,"effects":{"effect_type":"reads_state","reads":["category.name","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Category(self, category):
         return self._print(pretty_symbol(category.name))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Diagram(dia), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Diagram(diagram), <unspecified:_print_Diagram>) over {Any | hasattr(diagram, 'conclusions') and hasattr(diagram, 'premises')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Diagram : Any → Any                                 ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(diagram, 'conclusions')                ║
+# ║   requires: hasattr(diagram, 'premises')                   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Diagram : {Any | hasattr(diagram, 'conclusions...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0268beba3d6faec6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Diagram","kind":"method","src_hash":"b9cc74c111ba371b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Diagram(dia)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Diagram_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_Diagram_correct","statement":"Path(_print_Diagram(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0268beba3d6faec6"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Diagram","kind":"method","src_hash":"b9cc74c111ba371b","in":{"base":"Any","pred":"hasattr(diagram, 'conclusions') and hasattr(diagram, 'premises')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Diagram(diagram)","rhs":"<unspecified:_print_Diagram>","over":{"base":"Any","pred":"hasattr(diagram, 'conclusions') and hasattr(diagram, 'premises')"},"name":"_print_Diagram_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_Diagram_correct","statement":"Path(_print_Diagram(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0268beba3d6faec6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(diagram, 'conclusions')","hasattr(diagram, 'premises')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["diagram.conclusions","diagram.premises","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Diagram(self, diagram):
         if not diagram.premises:
             # This is an empty diagram.
@@ -5060,16 +6637,24 @@ class PrettyPrinter(Printer):
         return prettyForm(pretty_result[0])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_DiagramGrid(gri), internal helper behaves correctly) over Any ║
+# ║ Path(_print_DiagramGrid(grid), self._print_matrix_contents(matrix)) over {Any | hasattr(grid, 'height') and hasattr(grid, 'width')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_DiagramGrid : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(grid, 'height')                        ║
+# ║   requires: hasattr(grid, 'width')                         ║
+# ║   returns:  self._print_matrix_contents(matrix)            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_DiagramGrid : {Any | hasattr(grid, 'height') a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5d984c427e75b8e4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4929fc3f7f78d3c1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_DiagramGrid","kind":"method","src_hash":"20f98240dca844fa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_DiagramGrid(gri)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_DiagramGrid_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_DiagramGrid_correct","statement":"Path(_print_DiagramGrid(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5d984c427e75b8e4"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_DiagramGrid","kind":"method","src_hash":"20f98240dca844fa","in":{"base":"Any","pred":"hasattr(grid, 'height') and hasattr(grid, 'width')"},"out":{"base":"Any"},"spec":{"lhs":"_print_DiagramGrid(grid)","rhs":"self._print_matrix_contents(matrix)","over":{"base":"Any","pred":"hasattr(grid, 'height') and hasattr(grid, 'width')"},"name":"_print_DiagramGrid_correct"},"guarantee":"returns self._print_matrix_contents(matrix)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_DiagramGrid_correct","statement":"Path(_print_DiagramGrid(x), returns self._print_matrix_contents(matrix))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4929fc3f7f78d3c1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(grid, 'height')","hasattr(grid, 'width')"],"returns_expr":"self._print_matrix_contents(matrix)","pure":false,"effects":{"effect_type":"reads_state","reads":["grid.height","grid.width","self._print_matrix_contents"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_DiagramGrid(self, grid):
         from sympy.matrices import Matrix
         matrix = Matrix([[grid[i, j] if grid[i, j] else Symbol(" ")
@@ -5078,131 +6663,201 @@ class PrettyPrinter(Printer):
         return self._print_matrix_contents(matrix)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_FreeModuleElement(m), internal helper behaves correctly) over Any ║
+# ║ Path(_print_FreeModuleElement(m), self._print_seq(m, '[', ']')) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._print_seq(m, '[', ']')                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_FreeModuleElement : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c60a8d0aae7d1808           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_FreeModuleElement","kind":"method","src_hash":"951de83614eeebb9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_FreeModuleElement(m)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_FreeModuleElement_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c60a8d0aae7d1808"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_FreeModuleElement","kind":"method","src_hash":"951de83614eeebb9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_FreeModuleElement(m)","rhs":"self._print_seq(m, '[', ']')","over":{"base":"Any"},"name":"_print_FreeModuleElement_correct"},"guarantee":"returns self._print_seq(m, '[', ']')","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c60a8d0aae7d1808","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._print_seq(m, '[', ']')","pure":false,"effects":{"effect_type":"reads_state","reads":["self._print_seq"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_FreeModuleElement(self, m):
         # Print as row vector for convenience, for now.
         return self._print_seq(m, '[', ']')
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_SubModule(M), internal helper behaves correctly) over Any ║
+# ║ Path(_print_SubModule(M), self._print_seq(gens, '<', '>')) over {Any | hasattr(M, 'gens') and hasattr(M, 'ring')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_SubModule : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(M, 'gens')                             ║
+# ║   requires: hasattr(M, 'ring')                             ║
+# ║   returns:  self._print_seq(gens, '<', '>')                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_SubModule : {Any | hasattr(M, 'gens') and hasa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4d7d734230b8fd6a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e9ee59162696d959  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_SubModule","kind":"method","src_hash":"79b9d99f380db3fe","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_SubModule(M)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_SubModule_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_SubModule_correct","statement":"Path(_print_SubModule(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4d7d734230b8fd6a"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_SubModule","kind":"method","src_hash":"79b9d99f380db3fe","in":{"base":"Any","pred":"hasattr(M, 'gens') and hasattr(M, 'ring')"},"out":{"base":"Any"},"spec":{"lhs":"_print_SubModule(M)","rhs":"self._print_seq(gens, '<', '>')","over":{"base":"Any","pred":"hasattr(M, 'gens') and hasattr(M, 'ring')"},"name":"_print_SubModule_correct"},"guarantee":"returns self._print_seq(gens, '<', '>')","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_SubModule_correct","statement":"Path(_print_SubModule(x), returns self._print_seq(gens, '<', '>'))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e9ee59162696d959","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(M, 'gens')","hasattr(M, 'ring')"],"returns_expr":"self._print_seq(gens, '<', '>')","pure":false,"effects":{"effect_type":"reads_state","reads":["M.gens","M.ring","self._print_seq"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_SubModule(self, M):
         gens = [[M.ring.to_sympy(g) for g in gen] for gen in M.gens]
         return self._print_seq(gens, '<', '>')
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_FreeModule(M), internal helper behaves correctly) over Any ║
+# ║ Path(_print_FreeModule(M), self._print(M.ring) ** self._print(M.rank)) over {Any | hasattr(M, 'ring') and hasattr(M, 'rank')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_FreeModule : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(M, 'ring')                             ║
+# ║   requires: hasattr(M, 'rank')                             ║
+# ║   returns:  self._print(M.ring) ** self._print(M.rank)     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_FreeModule : {Any | hasattr(M, 'ring') and has...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a690ab6c3cec8221           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_FreeModule","kind":"method","src_hash":"75f23d2eafb38fef","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_FreeModule(M)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_FreeModule_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a690ab6c3cec8221"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_FreeModule","kind":"method","src_hash":"75f23d2eafb38fef","in":{"base":"Any","pred":"hasattr(M, 'ring') and hasattr(M, 'rank')"},"out":{"base":"Any"},"spec":{"lhs":"_print_FreeModule(M)","rhs":"self._print(M.ring) ** self._print(M.rank)","over":{"base":"Any","pred":"hasattr(M, 'ring') and hasattr(M, 'rank')"},"name":"_print_FreeModule_correct"},"guarantee":"returns self._print(M.ring) ** self._print(M.rank)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a690ab6c3cec8221","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(M, 'ring')","hasattr(M, 'rank')"],"returns_expr":"self._print(M.ring) ** self._print(M.rank)","pure":false,"effects":{"effect_type":"reads_state","reads":["M.rank","M.ring","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_FreeModule(self, M):
         return self._print(M.ring)**self._print(M.rank)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_ModuleImplementedIdeal(M), id) over Any        ║
+# ║ Path(_print_ModuleImplementedIdeal(M), id) over {Any | hasattr(M, 'ring') and hasattr(M, '_module')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_ModuleImplementedIdeal : Any → Any                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(M, 'ring')                             ║
+# ║   requires: hasattr(M, '_module')                          ║
+# ║   returns:  self._print_seq([sym(x) for [x] in M._mod...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_ModuleImplementedIdeal : {Any | hasattr(M, 'ri...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 187d833da98c77ff   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_ModuleImplementedIdeal","kind":"method","src_hash":"5ebf7089e87cb1e5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_ModuleImplementedIdeal(M)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_ModuleImplementedIdeal_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"_print_seq","by":"library_axiom"},{"fn":"sym","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"187d833da98c77ff"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_ModuleImplementedIdeal","kind":"method","src_hash":"5ebf7089e87cb1e5","in":{"base":"Any","pred":"hasattr(M, 'ring') and hasattr(M, '_module')"},"out":{"base":"Any"},"spec":{"lhs":"_print_ModuleImplementedIdeal(M)","rhs":"self._print_seq([sym(x) for [x] in M._module.gens], '<', '>')","over":{"base":"Any","pred":"hasattr(M, 'ring') and hasattr(M, '_module')"},"name":"_print_ModuleImplementedIdeal_correct","kind":"composition"},"guarantee":"returns self._print_seq([sym(x) for [x] in M._module.gens], '<', '>')","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"_print_seq","by":"library_axiom"},{"fn":"sym","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"187d833da98c77ff","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(M, 'ring')","hasattr(M, '_module')"],"returns_expr":"self._print_seq([sym(x) for [x] in M._module.gens], '<', '>')","pure":false,"effects":{"effect_type":"reads_state","reads":["M._module","M.ring","self._print_seq"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_ModuleImplementedIdeal(self, M):
         sym = M.ring.to_sympy
         return self._print_seq([sym(x) for [x] in M._module.gens], '<', '>')
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_QuotientRing(R), internal helper behaves correctly) over Any ║
+# ║ Path(_print_QuotientRing(R), self._print(R.ring) / self._print(R.base_ideal)) over {Any | hasattr(R, 'ring') and hasattr(R, 'base_ideal')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_QuotientRing : Any → Any                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(R, 'ring')                             ║
+# ║   requires: hasattr(R, 'base_ideal')                       ║
+# ║   returns:  self._print(R.ring) / self._print(R.base_...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_QuotientRing : {Any | hasattr(R, 'ring') and h...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | efe8c4593c24ff7d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_QuotientRing","kind":"method","src_hash":"5546a837d6eb377f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_QuotientRing(R)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_QuotientRing_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"efe8c4593c24ff7d"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_QuotientRing","kind":"method","src_hash":"5546a837d6eb377f","in":{"base":"Any","pred":"hasattr(R, 'ring') and hasattr(R, 'base_ideal')"},"out":{"base":"Any"},"spec":{"lhs":"_print_QuotientRing(R)","rhs":"self._print(R.ring) / self._print(R.base_ideal)","over":{"base":"Any","pred":"hasattr(R, 'ring') and hasattr(R, 'base_ideal')"},"name":"_print_QuotientRing_correct"},"guarantee":"returns self._print(R.ring) / self._print(R.base_ideal)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"efe8c4593c24ff7d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(R, 'ring')","hasattr(R, 'base_ideal')"],"returns_expr":"self._print(R.ring) / self._print(R.base_ideal)","pure":false,"effects":{"effect_type":"reads_state","reads":["R.base_ideal","R.ring","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_QuotientRing(self, R):
         return self._print(R.ring) / self._print(R.base_ideal)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_QuotientRingElement(R), internal helper behaves correctly) over Any ║
+# ║ Path(_print_QuotientRingElement(R), self._print(R.ring.to_sympy(R)) + self._print(R.ring.base_ideal)) over {Any | hasattr(R, 'ring')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_QuotientRingElement : Any → Any                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(R, 'ring')                             ║
+# ║   returns:  self._print(R.ring.to_sympy(R)) + self._p...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_QuotientRingElement : {Any | hasattr(R, 'ring'...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | dcd5f7b0f209212b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_QuotientRingElement","kind":"method","src_hash":"e55d231509424fff","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_QuotientRingElement(R)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_QuotientRingElement_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"dcd5f7b0f209212b"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_QuotientRingElement","kind":"method","src_hash":"e55d231509424fff","in":{"base":"Any","pred":"hasattr(R, 'ring')"},"out":{"base":"Any"},"spec":{"lhs":"_print_QuotientRingElement(R)","rhs":"self._print(R.ring.to_sympy(R)) + self._print(R.ring.base_ideal)","over":{"base":"Any","pred":"hasattr(R, 'ring')"},"name":"_print_QuotientRingElement_correct"},"guarantee":"returns self._print(R.ring.to_sympy(R)) + self._print(R.ring.base_ideal)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"dcd5f7b0f209212b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(R, 'ring')"],"returns_expr":"self._print(R.ring.to_sympy(R)) + self._print(R.ring.base_ideal)","pure":false,"effects":{"effect_type":"reads_state","reads":["R.ring","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_QuotientRingElement(self, R):
         return self._print(R.ring.to_sympy(R)) + self._print(R.ring.base_ideal)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_QuotientModuleElement(m), internal helper behaves correctly) over Any ║
+# ║ Path(_print_QuotientModuleElement(m), self._print(m.data) + self._print(m.module.killed_module)) over {Any | hasattr(m, 'data') and hasattr(m, 'module')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_QuotientModuleElement : Any → Any                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(m, 'data')                             ║
+# ║   requires: hasattr(m, 'module')                           ║
+# ║   returns:  self._print(m.data) + self._print(m.modul...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_QuotientModuleElement : {Any | hasattr(m, 'dat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | cebd07e4171d0c78           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_QuotientModuleElement","kind":"method","src_hash":"e759e833af536023","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_QuotientModuleElement(m)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_QuotientModuleElement_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cebd07e4171d0c78"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_QuotientModuleElement","kind":"method","src_hash":"e759e833af536023","in":{"base":"Any","pred":"hasattr(m, 'data') and hasattr(m, 'module')"},"out":{"base":"Any"},"spec":{"lhs":"_print_QuotientModuleElement(m)","rhs":"self._print(m.data) + self._print(m.module.killed_module)","over":{"base":"Any","pred":"hasattr(m, 'data') and hasattr(m, 'module')"},"name":"_print_QuotientModuleElement_correct"},"guarantee":"returns self._print(m.data) + self._print(m.module.killed_module)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cebd07e4171d0c78","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(m, 'data')","hasattr(m, 'module')"],"returns_expr":"self._print(m.data) + self._print(m.module.killed_module)","pure":false,"effects":{"effect_type":"reads_state","reads":["m.data","m.module","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_QuotientModuleElement(self, m):
         return self._print(m.data) + self._print(m.module.killed_module)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_QuotientModule(M), internal helper behaves correctly) over Any ║
+# ║ Path(_print_QuotientModule(M), self._print(M.base) / self._print(M.killed_module)) over {Any | hasattr(M, 'base') and hasattr(M, 'killed_module')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_QuotientModule : Any → Any                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(M, 'base')                             ║
+# ║   requires: hasattr(M, 'killed_module')                    ║
+# ║   returns:  self._print(M.base) / self._print(M.kille...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_QuotientModule : {Any | hasattr(M, 'base') and...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9133abf4ac966745           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_QuotientModule","kind":"method","src_hash":"417ed45c5a0d225d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_QuotientModule(M)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_QuotientModule_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9133abf4ac966745"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_QuotientModule","kind":"method","src_hash":"417ed45c5a0d225d","in":{"base":"Any","pred":"hasattr(M, 'base') and hasattr(M, 'killed_module')"},"out":{"base":"Any"},"spec":{"lhs":"_print_QuotientModule(M)","rhs":"self._print(M.base) / self._print(M.killed_module)","over":{"base":"Any","pred":"hasattr(M, 'base') and hasattr(M, 'killed_module')"},"name":"_print_QuotientModule_correct"},"guarantee":"returns self._print(M.base) / self._print(M.killed_module)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9133abf4ac966745","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(M, 'base')","hasattr(M, 'killed_module')"],"returns_expr":"self._print(M.base) / self._print(M.killed_module)","pure":false,"effects":{"effect_type":"reads_state","reads":["M.base","M.killed_module","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_QuotientModule(self, M):
         return self._print(M.base) / self._print(M.killed_module)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_MatrixHomomorphism(h), internal helper behaves correctly) over Any ║
+# ║ Path(_print_MatrixHomomorphism(h), <unspecified:_print_MatrixHomomorphism>) over {Any | hasattr(h, '_sympy_matrix') and hasattr(h, 'domain') and hasattr(h, 'codomain')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_MatrixHomomorphism : Any → Any                      ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(h, '_sympy_matrix')                    ║
+# ║   requires: hasattr(h, 'domain')                           ║
+# ║   requires: hasattr(h, 'codomain')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_MatrixHomomorphism : {Any | hasattr(h, '_sympy...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 46be634c5b69c49d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_MatrixHomomorphism","kind":"method","src_hash":"ae328569d67f77db","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_MatrixHomomorphism(h)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_MatrixHomomorphism_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_MatrixHomomorphism_correct","statement":"Path(_print_MatrixHomomorphism(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"46be634c5b69c49d"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_MatrixHomomorphism","kind":"method","src_hash":"ae328569d67f77db","in":{"base":"Any","pred":"hasattr(h, '_sympy_matrix') and hasattr(h, 'domain') and hasattr(h, 'codomain')"},"out":{"base":"Any"},"spec":{"lhs":"_print_MatrixHomomorphism(h)","rhs":"<unspecified:_print_MatrixHomomorphism>","over":{"base":"Any","pred":"hasattr(h, '_sympy_matrix') and hasattr(h, 'domain') and hasattr(h, 'codomain')"},"name":"_print_MatrixHomomorphism_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_MatrixHomomorphism_correct","statement":"Path(_print_MatrixHomomorphism(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"46be634c5b69c49d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(h, '_sympy_matrix')","hasattr(h, 'domain')","hasattr(h, 'codomain')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["h._sympy_matrix","h.codomain","h.domain","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_MatrixHomomorphism(self, h):
         matrix = self._print(h._sympy_matrix())
         matrix.baseline = matrix.height() // 2
@@ -5211,88 +6866,132 @@ class PrettyPrinter(Printer):
         return pform
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Manifold(man), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Manifold(manifold), self._print(manifold.name)) over {Any | hasattr(manifold, 'name')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Manifold : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(manifold, 'name')                      ║
+# ║   returns:  self._print(manifold.name)                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Manifold : {Any | hasattr(manifold, 'name')} →...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3928035179b09b2f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Manifold","kind":"method","src_hash":"961cf1137774138a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Manifold(man)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Manifold_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3928035179b09b2f"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Manifold","kind":"method","src_hash":"961cf1137774138a","in":{"base":"Any","pred":"hasattr(manifold, 'name')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Manifold(manifold)","rhs":"self._print(manifold.name)","over":{"base":"Any","pred":"hasattr(manifold, 'name')"},"name":"_print_Manifold_correct"},"guarantee":"returns self._print(manifold.name)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3928035179b09b2f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(manifold, 'name')"],"returns_expr":"self._print(manifold.name)","pure":false,"effects":{"effect_type":"reads_state","reads":["manifold.name","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Manifold(self, manifold):
         return self._print(manifold.name)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Patch(pat), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Patch(patch), self._print(patch.name)) over {Any | hasattr(patch, 'name')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Patch : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(patch, 'name')                         ║
+# ║   returns:  self._print(patch.name)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Patch : {Any | hasattr(patch, 'name')} → Any        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | fe0c1237194a010f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Patch","kind":"method","src_hash":"c5146d0d50129381","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Patch(pat)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Patch_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fe0c1237194a010f"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Patch","kind":"method","src_hash":"c5146d0d50129381","in":{"base":"Any","pred":"hasattr(patch, 'name')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Patch(patch)","rhs":"self._print(patch.name)","over":{"base":"Any","pred":"hasattr(patch, 'name')"},"name":"_print_Patch_correct"},"guarantee":"returns self._print(patch.name)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fe0c1237194a010f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(patch, 'name')"],"returns_expr":"self._print(patch.name)","pure":false,"effects":{"effect_type":"reads_state","reads":["patch.name","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Patch(self, patch):
         return self._print(patch.name)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_CoordSystem(coo), internal helper behaves correctly) over Any ║
+# ║ Path(_print_CoordSystem(coords), self._print(coords.name)) over {Any | hasattr(coords, 'name')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_CoordSystem : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(coords, 'name')                        ║
+# ║   returns:  self._print(coords.name)                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_CoordSystem : {Any | hasattr(coords, 'name')} ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d19f1ff063b93dce           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_CoordSystem","kind":"method","src_hash":"61b8945d9b910672","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_CoordSystem(coo)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_CoordSystem_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d19f1ff063b93dce"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_CoordSystem","kind":"method","src_hash":"61b8945d9b910672","in":{"base":"Any","pred":"hasattr(coords, 'name')"},"out":{"base":"Any"},"spec":{"lhs":"_print_CoordSystem(coords)","rhs":"self._print(coords.name)","over":{"base":"Any","pred":"hasattr(coords, 'name')"},"name":"_print_CoordSystem_correct"},"guarantee":"returns self._print(coords.name)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d19f1ff063b93dce","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(coords, 'name')"],"returns_expr":"self._print(coords.name)","pure":false,"effects":{"effect_type":"reads_state","reads":["coords.name","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_CoordSystem(self, coords):
         return self._print(coords.name)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_BaseScalarField(fie), id) over Any             ║
+# ║ Path(_print_BaseScalarField(field), id) over {Any | hasattr(field, '_index') and hasattr(field, '_coord_sys')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_BaseScalarField : Any → Any                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(field, '_index')                       ║
+# ║   requires: hasattr(field, '_coord_sys')                   ║
+# ║   returns:  self._print(pretty_symbol(string))             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_BaseScalarField : {Any | hasattr(field, '_inde...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 277241f6f5da74a0   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_BaseScalarField","kind":"method","src_hash":"c664ee884f3f1b46","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_BaseScalarField(fie)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_BaseScalarField_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"_print","by":"library_axiom"},{"fn":"pretty_symbol","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"277241f6f5da74a0"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_BaseScalarField","kind":"method","src_hash":"c664ee884f3f1b46","in":{"base":"Any","pred":"hasattr(field, '_index') and hasattr(field, '_coord_sys')"},"out":{"base":"Any"},"spec":{"lhs":"_print_BaseScalarField(field)","rhs":"self._print(pretty_symbol(string))","over":{"base":"Any","pred":"hasattr(field, '_index') and hasattr(field, '_coord_sys')"},"name":"_print_BaseScalarField_correct","kind":"composition"},"guarantee":"returns self._print(pretty_symbol(string))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"_print","by":"library_axiom"},{"fn":"pretty_symbol","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"277241f6f5da74a0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(field, '_index')","hasattr(field, '_coord_sys')"],"returns_expr":"self._print(pretty_symbol(string))","pure":false,"effects":{"effect_type":"reads_state","reads":["field._coord_sys","field._index","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_BaseScalarField(self, field):
         string = field._coord_sys.symbols[field._index].name
         return self._print(pretty_symbol(string))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_BaseVectorField(fie), id) over Any             ║
+# ║ Path(_print_BaseVectorField(field), id) over {Any | hasattr(field, '_index') and hasattr(field, '_coord_sys')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_BaseVectorField : Any → Any                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(field, '_index')                       ║
+# ║   requires: hasattr(field, '_coord_sys')                   ║
+# ║   returns:  self._print(pretty_symbol(s))                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_BaseVectorField : {Any | hasattr(field, '_inde...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 135ebeb3a148fb65   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_BaseVectorField","kind":"method","src_hash":"0ebd405e4e232cd2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_BaseVectorField(fie)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_BaseVectorField_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"_print","by":"library_axiom"},{"fn":"pretty_symbol","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"135ebeb3a148fb65"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_BaseVectorField","kind":"method","src_hash":"0ebd405e4e232cd2","in":{"base":"Any","pred":"hasattr(field, '_index') and hasattr(field, '_coord_sys')"},"out":{"base":"Any"},"spec":{"lhs":"_print_BaseVectorField(field)","rhs":"self._print(pretty_symbol(s))","over":{"base":"Any","pred":"hasattr(field, '_index') and hasattr(field, '_coord_sys')"},"name":"_print_BaseVectorField_correct","kind":"composition"},"guarantee":"returns self._print(pretty_symbol(s))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"_print","by":"library_axiom"},{"fn":"pretty_symbol","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"135ebeb3a148fb65","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(field, '_index')","hasattr(field, '_coord_sys')"],"returns_expr":"self._print(pretty_symbol(s))","pure":false,"effects":{"effect_type":"reads_state","reads":["field._coord_sys","field._index","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_BaseVectorField(self, field):
         s = U('PARTIAL DIFFERENTIAL') + '_' + field._coord_sys.symbols[field._index].name
         return self._print(pretty_symbol(s))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Differential(dif), id) over Any                ║
+# ║ Path(_print_Differential(diff), id) over {Any | hasattr(diff, '_form_field')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Differential : Any → Any                            ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(diff, '_form_field')                   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Differential : {Any | hasattr(diff, '_form_fie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 2ad5b389fe8b7944   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Differential","kind":"method","src_hash":"0f94851bb6c60038","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Differential(dif)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Differential_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"_print","by":"library_axiom"},{"fn":"pretty_symbol","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2ad5b389fe8b7944"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Differential","kind":"method","src_hash":"0f94851bb6c60038","in":{"base":"Any","pred":"hasattr(diff, '_form_field')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Differential(diff)","rhs":"<unspecified:_print_Differential>","over":{"base":"Any","pred":"hasattr(diff, '_form_field')"},"name":"_print_Differential_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"_print","by":"library_axiom"},{"fn":"pretty_symbol","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2ad5b389fe8b7944","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(diff, '_form_field')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["diff._form_field","self._print","self._use_unicode"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Differential(self, diff):
         if self._use_unicode:
             d = pretty_atom('Differential')
@@ -5308,16 +7007,23 @@ class PrettyPrinter(Printer):
             return prettyForm(*pform.left(d))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Tr(p), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Tr(p), <unspecified:_print_Tr>) over {Any | hasattr(p, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Tr : Any → Any                                      ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(p, 'args')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Tr : {Any | hasattr(p, 'args')} → Any               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1909ddd45d58bc9a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Tr","kind":"method","src_hash":"4e8d4304cdcb8723","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Tr(p)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Tr_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_Tr_correct","statement":"Path(_print_Tr(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1909ddd45d58bc9a"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Tr","kind":"method","src_hash":"4e8d4304cdcb8723","in":{"base":"Any","pred":"hasattr(p, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Tr(p)","rhs":"<unspecified:_print_Tr>","over":{"base":"Any","pred":"hasattr(p, 'args')"},"name":"_print_Tr_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_Tr_correct","statement":"Path(_print_Tr(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1909ddd45d58bc9a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(p, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","p.__class__","p.args","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Tr(self, p):
         #TODO: Handle indices
         pform = self._print(p.args[0])
@@ -5326,16 +7032,23 @@ class PrettyPrinter(Printer):
         return pform
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_primenu(e), internal helper behaves correctly) over Any ║
+# ║ Path(_print_primenu(e), <unspecified:_print_primenu>) over {Any | hasattr(e, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_primenu : Any → Any                                 ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(e, 'args')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_primenu : {Any | hasattr(e, 'args')} → Any          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eae8fb1119958ea9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_primenu","kind":"method","src_hash":"0c2a778a4b60a3f5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_primenu(e)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_primenu_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_primenu_correct","statement":"Path(_print_primenu(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eae8fb1119958ea9"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_primenu","kind":"method","src_hash":"0c2a778a4b60a3f5","in":{"base":"Any","pred":"hasattr(e, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_print_primenu(e)","rhs":"<unspecified:_print_primenu>","over":{"base":"Any","pred":"hasattr(e, 'args')"},"name":"_print_primenu_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_primenu_correct","statement":"Path(_print_primenu(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eae8fb1119958ea9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(e, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["e.args","self._print","self._use_unicode"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_primenu(self, e):
         pform = self._print(e.args[0])
         pform = prettyForm(*pform.parens())
@@ -5346,16 +7059,23 @@ class PrettyPrinter(Printer):
         return pform
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_primeomega(e), internal helper behaves correctly) over Any ║
+# ║ Path(_print_primeomega(e), <unspecified:_print_primeomega>) over {Any | hasattr(e, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_primeomega : Any → Any                              ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(e, 'args')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_primeomega : {Any | hasattr(e, 'args')} → Any       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 77901f4f292a7711  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_primeomega","kind":"method","src_hash":"ec76c9cb98a92da3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_primeomega(e)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_primeomega_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_primeomega_correct","statement":"Path(_print_primeomega(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"77901f4f292a7711"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_primeomega","kind":"method","src_hash":"ec76c9cb98a92da3","in":{"base":"Any","pred":"hasattr(e, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_print_primeomega(e)","rhs":"<unspecified:_print_primeomega>","over":{"base":"Any","pred":"hasattr(e, 'args')"},"name":"_print_primeomega_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_primeomega_correct","statement":"Path(_print_primeomega(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"77901f4f292a7711","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(e, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["e.args","self._print","self._use_unicode"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_primeomega(self, e):
         pform = self._print(e.args[0])
         pform = prettyForm(*pform.parens())
@@ -5366,16 +7086,26 @@ class PrettyPrinter(Printer):
         return pform
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Quantity(e), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Quantity(e), result == (pform if e.name.name == 'degree' else self.emptyPrinter(e)) and result == pform or result == self.emptyPrinter(e)) over {Any | hasattr(e, 'name')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Quantity : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(e, 'name')                             ║
+# ║   ensures:  result == (pform if e.name.name == 'degre...   ║
+# ║   ensures:  result == pform or result == self.emptyPr...   ║
+# ║   fiber[case_0]: e.name.name == 'degree' => pform          ║
+# ║   fiber[case_1]: not (e.name.name == 'degree') => sel...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Quantity : {Any | hasattr(e, 'name')} → {Any |...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b3548c712b14c2c0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d69ba5ff1bd93d34  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Quantity","kind":"method","src_hash":"c2198c45db74fa53","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Quantity(e)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Quantity_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_Quantity_correct","statement":"Path(_print_Quantity(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b3548c712b14c2c0"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Quantity","kind":"method","src_hash":"c2198c45db74fa53","in":{"base":"Any","pred":"hasattr(e, 'name')"},"out":{"base":"Any","pred":"result satisfies: result == (pform if e.name.name == 'degree' else self.emptyPrinter(e)) and result == pform or result == self.emptyPrinter(e)"},"spec":{"lhs":"_print_Quantity(e)","rhs":"result == (pform if e.name.name == 'degree' else self.emptyPrinter(e)) and result == pform or result == self.emptyPrinter(e)","over":{"base":"Any","pred":"hasattr(e, 'name')"},"name":"_print_Quantity_correct"},"guarantee":"result == (pform if e.name.name == 'degree' else self.emptyPrinter(e)); result == pform or result == self.emptyPrinter(e); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_Quantity_correct","statement":"Path(_print_Quantity(x), result == (pform if e.name.name == 'degree' else self.emptyPrinter(e)); result == pform or result == self.emptyPrinter(e); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d69ba5ff1bd93d34","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(e, 'name')"],"ensures":["result == (pform if e.name.name == 'degree' else self.emptyPrinter(e))","result == pform or result == self.emptyPrinter(e)"],"fibers":[{"name":"case_0","guard":"e.name.name == 'degree'","ensures":["result == pform"],"decidability":"z3","returns_expr":"pform"},{"name":"case_1","guard":"not (e.name.name == 'degree')","ensures":["result == self.emptyPrinter(e)"],"decidability":"z3","returns_expr":"self.emptyPrinter(e)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["e.name","self._print","self._use_unicode","self.emptyPrinter"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Quantity(self, e):
         if e.name.name == 'degree':
             if self._use_unicode:
@@ -5387,16 +7117,25 @@ class PrettyPrinter(Printer):
             return self.emptyPrinter(e)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_AssignmentBase(e), internal helper behaves correctly) over Any ║
+# ║ Path(_print_AssignmentBase(e), <unspecified:_print_AssignmentBase>) over {Any | hasattr(e, 'lhs') and hasattr(e, 'rhs') and hasattr(e, 'op')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_AssignmentBase : Any → Any                          ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(e, 'lhs')                              ║
+# ║   requires: hasattr(e, 'rhs')                              ║
+# ║   requires: hasattr(e, 'op')                               ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_AssignmentBase : {Any | hasattr(e, 'lhs') and ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 760ff3392e5ca08a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_AssignmentBase","kind":"method","src_hash":"e0928556da32678f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_AssignmentBase(e)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_AssignmentBase_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_AssignmentBase_correct","statement":"Path(_print_AssignmentBase(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"760ff3392e5ca08a"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_AssignmentBase","kind":"method","src_hash":"e0928556da32678f","in":{"base":"Any","pred":"hasattr(e, 'lhs') and hasattr(e, 'rhs') and hasattr(e, 'op')"},"out":{"base":"Any"},"spec":{"lhs":"_print_AssignmentBase(e)","rhs":"<unspecified:_print_AssignmentBase>","over":{"base":"Any","pred":"hasattr(e, 'lhs') and hasattr(e, 'rhs') and hasattr(e, 'op')"},"name":"_print_AssignmentBase_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.PrettyPrinter._print_AssignmentBase_correct","statement":"Path(_print_AssignmentBase(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"760ff3392e5ca08a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(e, 'lhs')","hasattr(e, 'rhs')","hasattr(e, 'op')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["e.lhs","e.op","e.rhs","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_AssignmentBase(self, e):
 
         op = prettyForm(' ' + xsym(e.op) + ' ')
@@ -5407,32 +7146,45 @@ class PrettyPrinter(Printer):
         return pform
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Str(s), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Str(s), self._print(s.name)) over {Any | hasattr(s, 'name')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Str : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(s, 'name')                             ║
+# ║   returns:  self._print(s.name)                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Str : {Any | hasattr(s, 'name')} → Any              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 674be49883001b59           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Str","kind":"method","src_hash":"7afe007ac54f41ed","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Str(s)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Str_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"674be49883001b59"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.PrettyPrinter._print_Str","kind":"method","src_hash":"7afe007ac54f41ed","in":{"base":"Any","pred":"hasattr(s, 'name')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Str(s)","rhs":"self._print(s.name)","over":{"base":"Any","pred":"hasattr(s, 'name')"},"name":"_print_Str_correct"},"guarantee":"returns self._print(s.name)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"674be49883001b59","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(s, 'name')"],"returns_expr":"self._print(s.name)","pure":false,"effects":{"effect_type":"reads_state","reads":["s.name","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Str(self, s):
         return self._print(s.name)
 
 
 @print_function(PrettyPrinter)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(pretty(exp), returns a string containing the prettified form of expr) over Any ║
+# ║ Path(pretty(expr, **settings), pp.doprint(expr)) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  pp.doprint(expr)                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ pretty : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7938aff01be59337  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ec8aec4159ce5277  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.pretty","kind":"function","src_hash":"ff7f4fc255bf4567","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pretty(exp)","rhs":"returns a string containing the prettified form of expr","over":{"base":"Any"},"name":"pretty_correct"},"guarantee":"returns a string containing the prettified form of expr","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.pretty_correct","statement":"Path(pretty(x), returns a string containing the prettified form of expr)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7938aff01be59337"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.pretty","kind":"function","src_hash":"ff7f4fc255bf4567","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pretty(expr, **settings)","rhs":"pp.doprint(expr)","over":{"base":"Any"},"name":"pretty_correct"},"guarantee":"returns pp.doprint(expr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.pretty_correct","statement":"Path(pretty(x), returns pp.doprint(expr))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ec8aec4159ce5277","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"pp.doprint(expr)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['expr'], spec=['expr', '**settings']"]}}
 def pretty(expr, **settings):
     """Returns a string containing the prettified form of expr.
 
@@ -5452,16 +7204,22 @@ def pretty(expr, **settings):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(pretty_print(exp), prints expr in pretty form) over Any ║
+# ║ Path(pretty_print(expr, **kwargs), <unspecified:pretty_print>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ pretty_print : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5c39e4de8bfcc9e1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.pretty_print","kind":"function","src_hash":"6f243d31ae2723e6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pretty_print(exp)","rhs":"prints expr in pretty form","over":{"base":"Any"},"name":"pretty_print_correct"},"guarantee":"prints expr in pretty form","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.pretty_print_correct","statement":"Path(pretty_print(x), prints expr in pretty form)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5c39e4de8bfcc9e1"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.pretty_print","kind":"function","src_hash":"6f243d31ae2723e6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pretty_print(expr, **kwargs)","rhs":"<unspecified:pretty_print>","over":{"base":"Any"},"name":"pretty_print_correct"},"guarantee":"prints expr in pretty form","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.pretty_print_correct","statement":"Path(pretty_print(x), prints expr in pretty form)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5c39e4de8bfcc9e1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"io","io_operations":["print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['expr'], spec=['expr', '**kwargs']"]}}
 def pretty_print(expr, **kwargs):
     """Prints expr in pretty form.
 
@@ -5511,7 +7269,10 @@ pprint = pretty_print
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(pager_print(exp), prints expr using the pager, in pretty form) over Any ║
+# ║ Path(pager_print(expr, **settings), <unspecified:pager_print>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ pager_print : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -5519,9 +7280,12 @@ pprint = pretty_print
 # ║   locale.__module__                                        ║
 # ║   pydoc.__module__                                         ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟡 LIBRARY | library_axiom | Compiled: ✓ | da9bbe678cfa...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.pager_print","kind":"function","src_hash":"33ebf0a6e0a68f0b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pager_print(exp)","rhs":"prints expr using the pager, in pretty form","over":{"base":"Any"},"name":"pager_print_correct"},"guarantee":"prints expr using the pager, in pretty form","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.pager_print_correct","statement":"Path(pager_print(x), prints expr using the pager, in pretty form)"},"assumes":[],"trust":["locale.__module__","pydoc.__module__"],"compiled":true,"vhash":"da9bbe678cfa94b4"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.pretty.pretty.pager_print","kind":"function","src_hash":"33ebf0a6e0a68f0b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pager_print(expr, **settings)","rhs":"<unspecified:pager_print>","over":{"base":"Any"},"name":"pager_print_correct"},"guarantee":"prints expr using the pager, in pretty form","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.pretty.pretty.pager_print_correct","statement":"Path(pager_print(x), prints expr using the pager, in pretty form)"},"assumes":[],"trust":["locale.__module__","pydoc.__module__"],"compiled":true,"vhash":"da9bbe678cfa94b4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['expr'], spec=['expr', '**settings']"]}}
 def pager_print(expr, **settings):
     """Prints expr using the pager, in pretty form.
 

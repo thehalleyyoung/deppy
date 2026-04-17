@@ -32,61 +32,88 @@ _set_div = Dispatcher('_set_div')
 
 @_set_mul.register(Basic, Basic)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(x, ), internal helper behaves correctly) over Any   ║
+# ║ Path(_(x, y), None) over Any                               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  None                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _ : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b1393c16fc3bec91           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.handlers.mul._","kind":"function","src_hash":"b761f2fe32ab2ca6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b1393c16fc3bec91"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.handlers.mul._","kind":"function","src_hash":"b761f2fe32ab2ca6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(x, y)","rhs":"None","over":{"base":"Any"},"name":"__correct"},"guarantee":"returns None","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b1393c16fc3bec91","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"None","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _(x, y):
     return None
 
 @_set_mul.register(Set, Set)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(x, ), internal helper behaves correctly) over Any   ║
+# ║ Path(_(x, y), None) over Any                               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  None                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _ : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b1393c16fc3bec91           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.handlers.mul._","kind":"function","src_hash":"b761f2fe32ab2ca6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b1393c16fc3bec91"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.handlers.mul._","kind":"function","src_hash":"b761f2fe32ab2ca6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(x, y)","rhs":"None","over":{"base":"Any"},"name":"__correct"},"guarantee":"returns None","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b1393c16fc3bec91","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"None","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _(x, y):
     return None
 
 @_set_mul.register(Expr, Expr)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(x, ), internal helper behaves correctly) over Any   ║
+# ║ Path(_(x, y), x * y) over Any                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  x * y                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _ : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 35a0abd01d4fd3ca           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.handlers.mul._","kind":"function","src_hash":"8d401e9d26dab166","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"35a0abd01d4fd3ca"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.handlers.mul._","kind":"function","src_hash":"8d401e9d26dab166","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(x, y)","rhs":"x * y","over":{"base":"Any"},"name":"__correct"},"guarantee":"returns x * y","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"35a0abd01d4fd3ca","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"x * y","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _(x, y):
     return x*y
 
 @_set_mul.register(Interval, Interval)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(x, ), multiplications in interval arithmetic https://en.wikipedia.org/wiki/interval_arithmetic) over Any ║
+# ║ Path(_(x, y), Interval(minval, maxval, minopen, maxopen)) over {Any | hasattr(x, 'start') and hasattr(y, 'start') and hasattr(y, 'end') and hasattr(x, 'end') and hasattr(x, 'left_open') and hasattr(y, 'left_open') and hasattr(y, 'right_open') and hasattr(x, 'right_open')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : Any → Any                                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(x, 'start')                            ║
+# ║   requires: hasattr(y, 'start')                            ║
+# ║   requires: hasattr(y, 'end')                              ║
+# ║   returns:  Interval(minval, maxval, minopen, maxopen)     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {Any | hasattr(x, 'start') and hasattr(y, 'start'...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4c45bd508fd322cd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 63684fdc6bb737ad  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.handlers.mul._","kind":"function","src_hash":"35ca3e589f339570","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(x, )","rhs":"multiplications in interval arithmetic https://en.wikipedia.org/wiki/interval_arithmetic","over":{"base":"Any"},"name":"__correct"},"guarantee":"multiplications in interval arithmetic https://en.wikipedia.org/wiki/interval_arithmetic","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.handlers.mul.__correct","statement":"Path(_(x), multiplications in interval arithmetic https://en.wikipedia.org/wiki/interval_arithmetic)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4c45bd508fd322cd"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.handlers.mul._","kind":"function","src_hash":"35ca3e589f339570","in":{"base":"Any","pred":"hasattr(x, 'start') and hasattr(y, 'start') and hasattr(y, 'end') and hasattr(x, 'end') and hasattr(x, 'left_open') and hasattr(y, 'left_open') and hasattr(y, 'right_open') and hasattr(x, 'right_open')"},"out":{"base":"Any"},"spec":{"lhs":"_(x, y)","rhs":"Interval(minval, maxval, minopen, maxopen)","over":{"base":"Any","pred":"hasattr(x, 'start') and hasattr(y, 'start') and hasattr(y, 'end') and hasattr(x, 'end') and hasattr(x, 'left_open') and hasattr(y, 'left_open') and hasattr(y, 'right_open') and hasattr(x, 'right_open')"},"name":"__correct"},"guarantee":"returns Interval(minval, maxval, minopen, maxopen)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.handlers.mul.__correct","statement":"Path(_(x), returns Interval(minval, maxval, minopen, maxopen))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"63684fdc6bb737ad","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(x, 'start')","hasattr(y, 'start')","hasattr(y, 'end')","hasattr(x, 'end')","hasattr(x, 'left_open')","hasattr(y, 'left_open')","hasattr(y, 'right_open')","hasattr(x, 'right_open')"],"returns_expr":"Interval(minval, maxval, minopen, maxopen)","pure":false,"effects":{"effect_type":"reads_state","reads":["x.end","x.left_open","x.right_open","x.start","y.end","y.left_open","y.right_open","y.start"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _(x, y):
     """
     Multiplications in interval arithmetic
@@ -111,61 +138,88 @@ def _(x, y):
 
 @_set_div.register(Basic, Basic)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(x, ), internal helper behaves correctly) over Any   ║
+# ║ Path(_(x, y), None) over Any                               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  None                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _ : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b1393c16fc3bec91           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.handlers.mul._","kind":"function","src_hash":"b761f2fe32ab2ca6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b1393c16fc3bec91"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.handlers.mul._","kind":"function","src_hash":"b761f2fe32ab2ca6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(x, y)","rhs":"None","over":{"base":"Any"},"name":"__correct"},"guarantee":"returns None","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b1393c16fc3bec91","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"None","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _(x, y):
     return None
 
 @_set_div.register(Expr, Expr)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(x, ), internal helper behaves correctly) over Any   ║
+# ║ Path(_(x, y), x / y) over Any                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  x / y                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _ : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4c31e02e35b5c853           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.handlers.mul._","kind":"function","src_hash":"6be8c200dcdda654","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4c31e02e35b5c853"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.handlers.mul._","kind":"function","src_hash":"6be8c200dcdda654","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(x, y)","rhs":"x / y","over":{"base":"Any"},"name":"__correct"},"guarantee":"returns x / y","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4c31e02e35b5c853","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"x / y","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _(x, y):
     return x/y
 
 @_set_div.register(Set, Set)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(x, ), internal helper behaves correctly) over Any   ║
+# ║ Path(_(x, y), None) over Any                               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  None                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _ : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b1393c16fc3bec91           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.handlers.mul._","kind":"function","src_hash":"b761f2fe32ab2ca6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b1393c16fc3bec91"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.handlers.mul._","kind":"function","src_hash":"b761f2fe32ab2ca6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(x, y)","rhs":"None","over":{"base":"Any"},"name":"__correct"},"guarantee":"returns None","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b1393c16fc3bec91","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"None","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _(x, y):
     return None
 
 @_set_div.register(Interval, Interval)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(x, ), divisions in interval arithmetic https://en.wikipedia.org/wiki/interval_arithmetic) over Any ║
+# ║ Path(_(x, y), <unspecified:_>) over {Any | hasattr(y, 'start') and hasattr(y, 'end') and hasattr(y, 'right_open') and hasattr(y, 'left_open')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : Any → Any                                              ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(y, 'start')                            ║
+# ║   requires: hasattr(y, 'end')                              ║
+# ║   requires: hasattr(y, 'right_open')                       ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {Any | hasattr(y, 'start') and hasattr(y, 'end') ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5422708932bbcd05  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.handlers.mul._","kind":"function","src_hash":"eb7ce9b2b4cce135","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(x, )","rhs":"divisions in interval arithmetic https://en.wikipedia.org/wiki/interval_arithmetic","over":{"base":"Any"},"name":"__correct"},"guarantee":"divisions in interval arithmetic https://en.wikipedia.org/wiki/interval_arithmetic","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.handlers.mul.__correct","statement":"Path(_(x), divisions in interval arithmetic https://en.wikipedia.org/wiki/interval_arithmetic)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5422708932bbcd05"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.handlers.mul._","kind":"function","src_hash":"eb7ce9b2b4cce135","in":{"base":"Any","pred":"hasattr(y, 'start') and hasattr(y, 'end') and hasattr(y, 'right_open') and hasattr(y, 'left_open')"},"out":{"base":"Any"},"spec":{"lhs":"_(x, y)","rhs":"<unspecified:_>","over":{"base":"Any","pred":"hasattr(y, 'start') and hasattr(y, 'end') and hasattr(y, 'right_open') and hasattr(y, 'left_open')"},"name":"__correct"},"guarantee":"divisions in interval arithmetic https://en.wikipedia.org/wiki/interval_arithmetic","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.handlers.mul.__correct","statement":"Path(_(x), divisions in interval arithmetic https://en.wikipedia.org/wiki/interval_arithmetic)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5422708932bbcd05","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(y, 'start')","hasattr(y, 'end')","hasattr(y, 'right_open')","hasattr(y, 'left_open')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["y.end","y.left_open","y.right_open","y.start"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _(x, y):
     """
     Divisions in interval arithmetic

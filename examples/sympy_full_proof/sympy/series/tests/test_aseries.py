@@ -27,16 +27,24 @@ from sympy.abc import x
 from sympy.testing.pytest import raises
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_simple(), test_simple produces the expected output) over Any ║
+# ║ Path(test_simple(), e.aseries(x) == (1 / (24 * x ** 4) - 1 / (2 * x ** 2) + 1 + O(x ** (-6), (x, oo))) * exp(-x) and e.aseries(x, n=4) == 1 / (6 * x ** 3) + 1 / (2 * x ** 2) + 1 / x + 1 + O(x ** (-4), (x, oo)) and e.aseries(x) == exp(exp(x) / (1 - 1 / x)) and e.aseries(x, n=4) == (-1 / (2 * x ** 3) + 1 / x + 1 + O(x ** (-4), (x, oo))) * exp(-exp(x)) and e.aseries(x, n=3) == 1 + exp(2 * x + 2 * exp(x)) * exp(-2 * exp(exp(x))) / 2 - exp(2 * x + exp(x)) * exp(-2 * exp(exp(x))) / 2 - exp(x + exp(x)) * exp(-2 * exp(exp(x))) / 2 + exp(x + exp(x)) * exp(-exp(exp(x))) + O(exp(-3 * exp(exp(x))), (x, oo)) and e.aseries(x, n=4) == -1 / (2 * x ** 3) + 1 / x + 1 + O(x ** (-4), (x, oo)) and e.aseries(n) == exp(exp(sqrt(log(log(n))) * log(log(log(n))) ** 3) * sqrt(log(n)) * log(log(n)) ** 2) * log(n) ** 2 / sqrt(n)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_simple : Any → {Any | e.aseries(x) == exp(exp(x)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  e.aseries(x) == (1 / (24 * x ** 4) - 1 / ...   ║
+# ║   ensures:  e.aseries(x, n=4) == 1 / (6 * x ** 3) + 1...   ║
+# ║   ensures:  e.aseries(x) == exp(exp(x) / (1 - 1 / x))      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_simple : Any → {Any | result satisfies: e.aserie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 52abab329fbaf741  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.9ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9cc621d47cac9ba8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_aseries.test_simple","kind":"function","src_hash":"fcadf118d7045ffa","in":{"base":"Any"},"out":{"base":"Any","pred":"e.aseries(x) == exp(exp(x) / (1 - 1 / x)) and e.aseries(x, n=4) == -1 / (2 * x ** 3) + 1 / x + 1 + O(x ** (-4), (x, oo))"},"spec":{"lhs":"test_simple()","rhs":"test_simple produces the expected output","over":{"base":"Any"},"name":"test_simple_correct"},"guarantee":"test_simple produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_aseries.test_simple_correct","statement":"Path(test_simple(x), test_simple produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"52abab329fbaf741"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_aseries.test_simple","kind":"function","src_hash":"fcadf118d7045ffa","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: e.aseries(x) == (1 / (24 * x ** 4) - 1 / (2 * x ** 2) + 1 + O(x ** (-6), (x, oo))) * exp(-x) and e.aseries(x, n=4) == 1 / (6 * x ** 3) + 1 / (2 * x ** 2) + 1 / x + 1 + O(x ** (-4), (x, oo)) and e.aseries(x) == exp(exp(x) / (1 - 1 / x)) and e.aseries(x, n=4) == (-1 / (2 * x ** 3) + 1 / x + 1 + O(x ** (-4), (x, oo))) * exp(-exp(x)) and e.aseries(x, n=3) == 1 + exp(2 * x + 2 * exp(x)) * exp(-2 * exp(exp(x))) / 2 - exp(2 * x + exp(x)) * exp(-2 * exp(exp(x))) / 2 - exp(x + exp(x)) * exp(-2 * exp(exp(x))) / 2 + exp(x + exp(x)) * exp(-exp(exp(x))) + O(exp(-3 * exp(exp(x))), (x, oo)) and e.aseries(x, n=4) == -1 / (2 * x ** 3) + 1 / x + 1 + O(x ** (-4), (x, oo)) and e.aseries(n) == exp(exp(sqrt(log(log(n))) * log(log(log(n))) ** 3) * sqrt(log(n)) * log(log(n)) ** 2) * log(n) ** 2 / sqrt(n)"},"spec":{"lhs":"test_simple()","rhs":"e.aseries(x) == (1 / (24 * x ** 4) - 1 / (2 * x ** 2) + 1 + O(x ** (-6), (x, oo))) * exp(-x) and e.aseries(x, n=4) == 1 / (6 * x ** 3) + 1 / (2 * x ** 2) + 1 / x + 1 + O(x ** (-4), (x, oo)) and e.aseries(x) == exp(exp(x) / (1 - 1 / x)) and e.aseries(x, n=4) == (-1 / (2 * x ** 3) + 1 / x + 1 + O(x ** (-4), (x, oo))) * exp(-exp(x)) and e.aseries(x, n=3) == 1 + exp(2 * x + 2 * exp(x)) * exp(-2 * exp(exp(x))) / 2 - exp(2 * x + exp(x)) * exp(-2 * exp(exp(x))) / 2 - exp(x + exp(x)) * exp(-2 * exp(exp(x))) / 2 + exp(x + exp(x)) * exp(-exp(exp(x))) + O(exp(-3 * exp(exp(x))), (x, oo)) and e.aseries(x, n=4) == -1 / (2 * x ** 3) + 1 / x + 1 + O(x ** (-4), (x, oo)) and e.aseries(n) == exp(exp(sqrt(log(log(n))) * log(log(log(n))) ** 3) * sqrt(log(n)) * log(log(n)) ** 2) * log(n) ** 2 / sqrt(n)","over":{"base":"Any"},"name":"test_simple_correct"},"guarantee":"e.aseries(x) == (1 / (24 * x ** 4) - 1 / (2 * x ** 2) + 1 + O(x ** (-6), (x, oo))) * exp(-x); e.aseries(x, n=4) == 1 / (6 * x ** 3) + 1 / (2 * x ** 2) + 1 / x + 1 + O(x ** (-4), (x, oo)); e.aseries(x) == exp(exp(x) / (1 - 1 / x))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_aseries.test_simple_correct","statement":"Path(test_simple(x), e.aseries(x) == (1 / (24 * x ** 4) - 1 / (2 * x ** 2) + 1 + O(x ** (-6), (x, oo))) * exp(-x); e.aseries(x, n=4) == 1 / (6 * x ** 3) + 1 / (2 * x ** 2) + 1 / x + 1 + O(x ** (-4), (x, oo)); e.aseries(x) == exp(exp(x) / (1 - 1 / x)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9cc621d47cac9ba8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["e.aseries(x) == (1 / (24 * x ** 4) - 1 / (2 * x ** 2) + 1 + O(x ** (-6), (x, oo))) * exp(-x)","e.aseries(x, n=4) == 1 / (6 * x ** 3) + 1 / (2 * x ** 2) + 1 / x + 1 + O(x ** (-4), (x, oo))","e.aseries(x) == exp(exp(x) / (1 - 1 / x))","e.aseries(x, n=4) == (-1 / (2 * x ** 3) + 1 / x + 1 + O(x ** (-4), (x, oo))) * exp(-exp(x))","e.aseries(x, n=3) == 1 + exp(2 * x + 2 * exp(x)) * exp(-2 * exp(exp(x))) / 2 - exp(2 * x + exp(x)) * exp(-2 * exp(exp(x))) / 2 - exp(x + exp(x)) * exp(-2 * exp(exp(x))) / 2 + exp(x + exp(x)) * exp(-exp(exp(x))) + O(exp(-3 * exp(exp(x))), (x, oo))","e.aseries(x, n=4) == -1 / (2 * x ** 3) + 1 / x + 1 + O(x ** (-4), (x, oo))","e.aseries(n) == exp(exp(sqrt(log(log(n))) * log(log(log(n))) ** 3) * sqrt(log(n)) * log(log(n)) ** 2) * log(n) ** 2 / sqrt(n)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.9,"verdict_class":"assumed","binding":true}}
 def test_simple():
     # Gruntz' theses pp. 91 to 96
     # 6.6
@@ -73,16 +81,23 @@ def test_simple():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_hierarchical(), test_hierarchical produces the expected output) over Any ║
+# ║ Path(test_hierarchical(), e.aseries(x, n=3, hir=True) == -exp(-2 * x) * sin(1 / x) / 2 + exp(-x) * cos(1 / x) + sin(1 / x) + O(exp(-3 * x), (x, oo)) and e.aseries(x, hir=True) == exp(-4 * x) * sin(x) / 24 - exp(-2 * x) * sin(x) / 2 + sin(x) + O(exp(-6 * x), (x, oo))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_hierarchical : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  e.aseries(x, n=3, hir=True) == -exp(-2 * ...   ║
+# ║   ensures:  e.aseries(x, hir=True) == exp(-4 * x) * s...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_hierarchical : Any → {Any | result satisfies: e....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9255ea60fb885491  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 68909d99f6f1760b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_aseries.test_hierarchical","kind":"function","src_hash":"7e2aa3228284c7b0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_hierarchical()","rhs":"test_hierarchical produces the expected output","over":{"base":"Any"},"name":"test_hierarchical_correct"},"guarantee":"test_hierarchical produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_aseries.test_hierarchical_correct","statement":"Path(test_hierarchical(x), test_hierarchical produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9255ea60fb885491"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_aseries.test_hierarchical","kind":"function","src_hash":"7e2aa3228284c7b0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: e.aseries(x, n=3, hir=True) == -exp(-2 * x) * sin(1 / x) / 2 + exp(-x) * cos(1 / x) + sin(1 / x) + O(exp(-3 * x), (x, oo)) and e.aseries(x, hir=True) == exp(-4 * x) * sin(x) / 24 - exp(-2 * x) * sin(x) / 2 + sin(x) + O(exp(-6 * x), (x, oo))"},"spec":{"lhs":"test_hierarchical()","rhs":"e.aseries(x, n=3, hir=True) == -exp(-2 * x) * sin(1 / x) / 2 + exp(-x) * cos(1 / x) + sin(1 / x) + O(exp(-3 * x), (x, oo)) and e.aseries(x, hir=True) == exp(-4 * x) * sin(x) / 24 - exp(-2 * x) * sin(x) / 2 + sin(x) + O(exp(-6 * x), (x, oo))","over":{"base":"Any"},"name":"test_hierarchical_correct"},"guarantee":"e.aseries(x, n=3, hir=True) == -exp(-2 * x) * sin(1 / x) / 2 + exp(-x) * cos(1 / x) + sin(1 / x) + O(exp(-3 * x), (x, oo)); e.aseries(x, hir=True) == exp(-4 * x) * sin(x) / 24 - exp(-2 * x) * sin(x) / 2 + sin(x) + O(exp(-6 * x), (x, oo))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_aseries.test_hierarchical_correct","statement":"Path(test_hierarchical(x), e.aseries(x, n=3, hir=True) == -exp(-2 * x) * sin(1 / x) / 2 + exp(-x) * cos(1 / x) + sin(1 / x) + O(exp(-3 * x), (x, oo)); e.aseries(x, hir=True) == exp(-4 * x) * sin(x) / 24 - exp(-2 * x) * sin(x) / 2 + sin(x) + O(exp(-6 * x), (x, oo)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"68909d99f6f1760b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["e.aseries(x, n=3, hir=True) == -exp(-2 * x) * sin(1 / x) / 2 + exp(-x) * cos(1 / x) + sin(1 / x) + O(exp(-3 * x), (x, oo))","e.aseries(x, hir=True) == exp(-4 * x) * sin(x) / 24 - exp(-2 * x) * sin(x) / 2 + sin(x) + O(exp(-6 * x), (x, oo))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_hierarchical():
     e = sin(1/x + exp(-x))
     assert e.aseries(x, n=3, hir=True) == -exp(-2*x)*sin(1/x)/2 + \

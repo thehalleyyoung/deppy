@@ -76,9 +76,14 @@ PRECEDENCE_VALUES = {
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(precedence_Mul(ite), precedence_Mul produces the expected output) over {Any | isinstance(arg, Function)} ║
+# ║ Path(precedence_Mul(item), <unspecified:precedence_Mul>) over {Any | isinstance(arg, Function) and hasattr(item, 'could_extract_minus_sign') and hasattr(item, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ precedence_Mul : {Any | isinstance(arg, Function)} → Any   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(item, 'could_extract_minus_sign')      ║
+# ║   requires: hasattr(item, 'args')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ precedence_Mul : {Any | isinstance(arg, Function) and...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   Function: {isinstance(arg, Function)} → library_axiom    ║
@@ -88,9 +93,12 @@ PRECEDENCE_VALUES = {
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.5ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 9c004c87...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.precedence.precedence_Mul","kind":"function","src_hash":"0119c71f433a7111","in":{"base":"Any","pred":"isinstance(arg, Function)"},"out":{"base":"Any"},"spec":{"lhs":"precedence_Mul(ite)","rhs":"precedence_Mul produces the expected output","over":{"base":"Any","pred":"isinstance(arg, Function)"},"name":"precedence_Mul_correct"},"guarantee":"precedence_Mul produces the expected output","fibers":[{"name":"Function","pred":"isinstance(arg, Function)","path":{"lhs":"precedence_Mul(x)","rhs":"precedence_Mul produces the expected output","over":{"base":"Function","pred":"isinstance(arg, Function)"},"name":"precedence_Mul_Function_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.precedence.precedence_Mul_Function_correct","statement":"precedence_Mul satisfies spec on Function inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"9c004c87d4550106"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.precedence.precedence_Mul","kind":"function","src_hash":"0119c71f433a7111","in":{"base":"Any","pred":"isinstance(arg, Function) and hasattr(item, 'could_extract_minus_sign') and hasattr(item, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"precedence_Mul(item)","rhs":"<unspecified:precedence_Mul>","over":{"base":"Any","pred":"isinstance(arg, Function) and hasattr(item, 'could_extract_minus_sign') and hasattr(item, 'args')"},"name":"precedence_Mul_correct"},"guarantee":"precedence_Mul produces the expected output","fibers":[{"name":"Function","pred":"isinstance(arg, Function)","path":{"lhs":"precedence_Mul(x)","rhs":"precedence_Mul produces the expected output","over":{"base":"Function","pred":"isinstance(arg, Function)"},"name":"precedence_Mul_Function_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.precedence.precedence_Mul_Function_correct","statement":"precedence_Mul satisfies spec on Function inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"9c004c87d4550106","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(item, 'could_extract_minus_sign')","hasattr(item, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["item.args","item.could_extract_minus_sign"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.5,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={\"any((hasattr(arg, 'precedence') and isinstance(arg, Function) and (arg.precedence < PRECEDENCE['Mul']) for arg in item.args))\"}, fibers={'Function'})"]}}
 def precedence_Mul(item):
     from sympy.core.function import Function
     if any(hasattr(arg, 'precedence') and isinstance(arg, Function) and
@@ -103,16 +111,23 @@ def precedence_Mul(item):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(precedence_Rational(ite), precedence_Rational produces the expected output) over Any ║
+# ║ Path(precedence_Rational(item), <unspecified:precedence_Rational>) over {Any | hasattr(item, 'p')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ precedence_Rational : Any → Any                            ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(item, 'p')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ precedence_Rational : {Any | hasattr(item, 'p')} → Any     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 68463e1e0a37e15a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.precedence.precedence_Rational","kind":"function","src_hash":"fbe857e2fd18f010","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"precedence_Rational(ite)","rhs":"precedence_Rational produces the expected output","over":{"base":"Any"},"name":"precedence_Rational_correct"},"guarantee":"precedence_Rational produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.precedence.precedence_Rational_correct","statement":"Path(precedence_Rational(x), precedence_Rational produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"68463e1e0a37e15a"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.precedence.precedence_Rational","kind":"function","src_hash":"fbe857e2fd18f010","in":{"base":"Any","pred":"hasattr(item, 'p')"},"out":{"base":"Any"},"spec":{"lhs":"precedence_Rational(item)","rhs":"<unspecified:precedence_Rational>","over":{"base":"Any","pred":"hasattr(item, 'p')"},"name":"precedence_Rational_correct"},"guarantee":"precedence_Rational produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.precedence.precedence_Rational_correct","statement":"Path(precedence_Rational(x), precedence_Rational produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"68463e1e0a37e15a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(item, 'p')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["item.p"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def precedence_Rational(item):
     if item.p < 0:
         return PRECEDENCE["Add"]
@@ -120,16 +135,23 @@ def precedence_Rational(item):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(precedence_Integer(ite), precedence_Integer produces the expected output) over Any ║
+# ║ Path(precedence_Integer(item), <unspecified:precedence_Integer>) over {Any | hasattr(item, 'p')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ precedence_Integer : Any → Any                             ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(item, 'p')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ precedence_Integer : {Any | hasattr(item, 'p')} → Any      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 855e397c264361a7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.precedence.precedence_Integer","kind":"function","src_hash":"ef53733bb34b6ca9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"precedence_Integer(ite)","rhs":"precedence_Integer produces the expected output","over":{"base":"Any"},"name":"precedence_Integer_correct"},"guarantee":"precedence_Integer produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.precedence.precedence_Integer_correct","statement":"Path(precedence_Integer(x), precedence_Integer produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"855e397c264361a7"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.precedence.precedence_Integer","kind":"function","src_hash":"ef53733bb34b6ca9","in":{"base":"Any","pred":"hasattr(item, 'p')"},"out":{"base":"Any"},"spec":{"lhs":"precedence_Integer(item)","rhs":"<unspecified:precedence_Integer>","over":{"base":"Any","pred":"hasattr(item, 'p')"},"name":"precedence_Integer_correct"},"guarantee":"precedence_Integer produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.precedence.precedence_Integer_correct","statement":"Path(precedence_Integer(x), precedence_Integer produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"855e397c264361a7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(item, 'p')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["item.p"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def precedence_Integer(item):
     if item.p < 0:
         return PRECEDENCE["Add"]
@@ -137,16 +159,22 @@ def precedence_Integer(item):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(precedence_Float(ite), precedence_Float produces the expected output) over Any ║
+# ║ Path(precedence_Float(item), <unspecified:precedence_Float>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ precedence_Float : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 69fee09464a32e3d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.precedence.precedence_Float","kind":"function","src_hash":"927cddf546d1259c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"precedence_Float(ite)","rhs":"precedence_Float produces the expected output","over":{"base":"Any"},"name":"precedence_Float_correct"},"guarantee":"precedence_Float produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.precedence.precedence_Float_correct","statement":"Path(precedence_Float(x), precedence_Float produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"69fee09464a32e3d"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.precedence.precedence_Float","kind":"function","src_hash":"927cddf546d1259c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"precedence_Float(item)","rhs":"<unspecified:precedence_Float>","over":{"base":"Any"},"name":"precedence_Float_correct"},"guarantee":"precedence_Float produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.precedence.precedence_Float_correct","statement":"Path(precedence_Float(x), precedence_Float produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"69fee09464a32e3d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def precedence_Float(item):
     if item < 0:
         return PRECEDENCE["Add"]
@@ -154,16 +182,29 @@ def precedence_Float(item):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(precedence_PolyElement(ite), precedence_PolyElement produces the expected output) over Any ║
+# ║ Path(precedence_PolyElement(item), result == (PRECEDENCE['Atom'] if item.is_generator else precedence(item.coeff(1)) if item.is_ground else PRECEDENCE['Mul'] if item.is_term else PRECEDENCE['Add']) and result == PRECEDENCE['Atom'] or result == precedence(item.coeff(1)) or result == PRECEDENCE['Mul'] or result == PRECEDENCE['Add']) over {Any | hasattr(item, 'is_generator') and hasattr(item, 'is_ground') and hasattr(item, 'is_term') and hasattr(item, 'coeff')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ precedence_PolyElement : Any → Any                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(item, 'is_generator')                  ║
+# ║   requires: hasattr(item, 'is_ground')                     ║
+# ║   requires: hasattr(item, 'is_term')                       ║
+# ║   ensures:  result == (PRECEDENCE['Atom'] if item.is_...   ║
+# ║   ensures:  result == PRECEDENCE['Atom'] or result ==...   ║
+# ║   fiber[case_0]: item.is_generator => PRECEDENCE['Atom']   ║
+# ║   fiber[case_1]: item.is_ground => precedence(item.co...   ║
+# ║   fiber[case_2]: item.is_term => PRECEDENCE['Mul']         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ precedence_PolyElement : {Any | hasattr(item, 'is_gen...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4a8c2106193d94d4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 17c5ad959dd11fd7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.precedence.precedence_PolyElement","kind":"function","src_hash":"7de00106184cf05a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"precedence_PolyElement(ite)","rhs":"precedence_PolyElement produces the expected output","over":{"base":"Any"},"name":"precedence_PolyElement_correct"},"guarantee":"precedence_PolyElement produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.precedence.precedence_PolyElement_correct","statement":"Path(precedence_PolyElement(x), precedence_PolyElement produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4a8c2106193d94d4"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.precedence.precedence_PolyElement","kind":"function","src_hash":"7de00106184cf05a","in":{"base":"Any","pred":"hasattr(item, 'is_generator') and hasattr(item, 'is_ground') and hasattr(item, 'is_term') and hasattr(item, 'coeff')"},"out":{"base":"Any","pred":"result satisfies: result == (PRECEDENCE['Atom'] if item.is_generator else precedence(item.coeff(1)) if item.is_ground else PRECEDENCE['Mul'] if item.is_term else PRECEDENCE['Add']) and result == PRECEDENCE['Atom'] or result == precedence(item.coeff(1)) or result == PRECEDENCE['Mul'] or result == PRECEDENCE['Add']"},"spec":{"lhs":"precedence_PolyElement(item)","rhs":"result == (PRECEDENCE['Atom'] if item.is_generator else precedence(item.coeff(1)) if item.is_ground else PRECEDENCE['Mul'] if item.is_term else PRECEDENCE['Add']) and result == PRECEDENCE['Atom'] or result == precedence(item.coeff(1)) or result == PRECEDENCE['Mul'] or result == PRECEDENCE['Add']","over":{"base":"Any","pred":"hasattr(item, 'is_generator') and hasattr(item, 'is_ground') and hasattr(item, 'is_term') and hasattr(item, 'coeff')"},"name":"precedence_PolyElement_correct"},"guarantee":"result == (PRECEDENCE['Atom'] if item.is_generator else precedence(item.coeff(1)) if item.is_ground else PRECEDENCE['Mul'] if item.is_term else PRECEDENCE['Add']); result == PRECEDENCE['Atom'] or result == precedence(item.coeff(1)) or result == PRECEDENCE['Mul'] or result == PRECEDENCE['Add']; 4-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.precedence.precedence_PolyElement_correct","statement":"Path(precedence_PolyElement(x), result == (PRECEDENCE['Atom'] if item.is_generator else precedence(item.coeff(1)) if item.is_ground else PRECEDENCE['Mul'] if item.is_term else PRECEDENCE['Add']); result == PRECEDENCE['Atom'] or result == precedence(item.coeff(1)) or result == PRECEDENCE['Mul'] or result == PRECEDENCE['Add']; 4-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"17c5ad959dd11fd7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(item, 'is_generator')","hasattr(item, 'is_ground')","hasattr(item, 'is_term')","hasattr(item, 'coeff')"],"ensures":["result == (PRECEDENCE['Atom'] if item.is_generator else precedence(item.coeff(1)) if item.is_ground else PRECEDENCE['Mul'] if item.is_term else PRECEDENCE['Add'])","result == PRECEDENCE['Atom'] or result == precedence(item.coeff(1)) or result == PRECEDENCE['Mul'] or result == PRECEDENCE['Add']"],"fibers":[{"name":"case_0","guard":"item.is_generator","ensures":["result == PRECEDENCE['Atom']"],"decidability":"library","returns_expr":"PRECEDENCE['Atom']"},{"name":"case_1","guard":"item.is_ground","ensures":["result == precedence(item.coeff(1))"],"decidability":"library","returns_expr":"precedence(item.coeff(1))"},{"name":"case_2","guard":"item.is_term","ensures":["result == PRECEDENCE['Mul']"],"decidability":"library","returns_expr":"PRECEDENCE['Mul']"},{"name":"case_3","guard":"not (item.is_generator) and not (item.is_ground) and not (item.is_term)","ensures":["result == PRECEDENCE['Add']"],"decidability":"library","returns_expr":"PRECEDENCE['Add']"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["item.coeff","item.is_generator","item.is_ground","item.is_term"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def precedence_PolyElement(item):
     if item.is_generator:
         return PRECEDENCE["Atom"]
@@ -176,16 +217,27 @@ def precedence_PolyElement(item):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(precedence_FracElement(ite), precedence_FracElement produces the expected output) over Any ║
+# ║ Path(precedence_FracElement(item), result == (precedence_PolyElement(item.numer) if item.denom == 1 else PRECEDENCE['Mul']) and result == precedence_PolyElement(item.numer) or result == PRECEDENCE['Mul']) over {Any | hasattr(item, 'denom') and hasattr(item, 'numer')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ precedence_FracElement : Any → Any                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(item, 'denom')                         ║
+# ║   requires: hasattr(item, 'numer')                         ║
+# ║   ensures:  result == (precedence_PolyElement(item.nu...   ║
+# ║   ensures:  result == precedence_PolyElement(item.num...   ║
+# ║   fiber[case_0]: item.denom == 1 => precedence_PolyEl...   ║
+# ║   fiber[case_1]: not (item.denom == 1) => PRECEDENCE[...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ precedence_FracElement : {Any | hasattr(item, 'denom'...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f347eb2fa52e8d04  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 75be00f0ca36a302  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.precedence.precedence_FracElement","kind":"function","src_hash":"bc099cf988218be6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"precedence_FracElement(ite)","rhs":"precedence_FracElement produces the expected output","over":{"base":"Any"},"name":"precedence_FracElement_correct"},"guarantee":"precedence_FracElement produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.precedence.precedence_FracElement_correct","statement":"Path(precedence_FracElement(x), precedence_FracElement produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f347eb2fa52e8d04"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.precedence.precedence_FracElement","kind":"function","src_hash":"bc099cf988218be6","in":{"base":"Any","pred":"hasattr(item, 'denom') and hasattr(item, 'numer')"},"out":{"base":"Any","pred":"result satisfies: result == (precedence_PolyElement(item.numer) if item.denom == 1 else PRECEDENCE['Mul']) and result == precedence_PolyElement(item.numer) or result == PRECEDENCE['Mul']"},"spec":{"lhs":"precedence_FracElement(item)","rhs":"result == (precedence_PolyElement(item.numer) if item.denom == 1 else PRECEDENCE['Mul']) and result == precedence_PolyElement(item.numer) or result == PRECEDENCE['Mul']","over":{"base":"Any","pred":"hasattr(item, 'denom') and hasattr(item, 'numer')"},"name":"precedence_FracElement_correct"},"guarantee":"result == (precedence_PolyElement(item.numer) if item.denom == 1 else PRECEDENCE['Mul']); result == precedence_PolyElement(item.numer) or result == PRECEDENCE['Mul']; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.precedence.precedence_FracElement_correct","statement":"Path(precedence_FracElement(x), result == (precedence_PolyElement(item.numer) if item.denom == 1 else PRECEDENCE['Mul']); result == precedence_PolyElement(item.numer) or result == PRECEDENCE['Mul']; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"75be00f0ca36a302","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(item, 'denom')","hasattr(item, 'numer')"],"ensures":["result == (precedence_PolyElement(item.numer) if item.denom == 1 else PRECEDENCE['Mul'])","result == precedence_PolyElement(item.numer) or result == PRECEDENCE['Mul']"],"fibers":[{"name":"case_0","guard":"item.denom == 1","ensures":["result == precedence_PolyElement(item.numer)"],"decidability":"z3","returns_expr":"precedence_PolyElement(item.numer)"},{"name":"case_1","guard":"not (item.denom == 1)","ensures":["result == PRECEDENCE['Mul']"],"decidability":"z3","returns_expr":"PRECEDENCE['Mul']"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["item.denom","item.numer"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def precedence_FracElement(item):
     if item.denom == 1:
         return precedence_PolyElement(item.numer)
@@ -194,16 +246,23 @@ def precedence_FracElement(item):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(precedence_UnevaluatedExpr(ite), precedence_UnevaluatedExpr produces the expected output) over Any ║
+# ║ Path(precedence_UnevaluatedExpr(item), precedence(item.args[0]) - 0.5) over {Any | hasattr(item, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ precedence_UnevaluatedExpr : Any → Any                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(item, 'args')                          ║
+# ║   returns:  precedence(item.args[0]) - 0.5                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ precedence_UnevaluatedExpr : {Any | hasattr(item, 'ar...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c7d2220a80366a41           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.precedence.precedence_UnevaluatedExpr","kind":"function","src_hash":"c63cbcaf41dbfd0e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"precedence_UnevaluatedExpr(ite)","rhs":"precedence_UnevaluatedExpr produces the expected output","over":{"base":"Any"},"name":"precedence_UnevaluatedExpr_correct"},"guarantee":"precedence_UnevaluatedExpr produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c7d2220a80366a41"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.precedence.precedence_UnevaluatedExpr","kind":"function","src_hash":"c63cbcaf41dbfd0e","in":{"base":"Any","pred":"hasattr(item, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"precedence_UnevaluatedExpr(item)","rhs":"precedence(item.args[0]) - 0.5","over":{"base":"Any","pred":"hasattr(item, 'args')"},"name":"precedence_UnevaluatedExpr_correct"},"guarantee":"returns precedence(item.args[0]) - 0.5","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c7d2220a80366a41","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(item, 'args')"],"returns_expr":"precedence(item.args[0]) - 0.5","pure":false,"effects":{"effect_type":"reads_state","reads":["item.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def precedence_UnevaluatedExpr(item):
     return precedence(item.args[0]) - 0.5
 
@@ -220,9 +279,13 @@ PRECEDENCE_FUNCTIONS = {
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(precedence(ite), returns the precedence of a given object) over {Any | isinstance(item, type)} ║
+# ║ Path(precedence(item), <unspecified:precedence>) over {Any | isinstance(item, type) and hasattr(item, 'precedence')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ precedence : {Any | isinstance(item, type)} → Any          ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(item, 'precedence')                    ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ precedence : {Any | isinstance(item, type) and hasatt...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   type: {isinstance(item, type)} → library_axiom           ║
@@ -232,9 +295,12 @@ PRECEDENCE_FUNCTIONS = {
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 095a5a1f...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.precedence.precedence","kind":"function","src_hash":"be24907e20c44ed8","in":{"base":"Any","pred":"isinstance(item, type)"},"out":{"base":"Any"},"spec":{"lhs":"precedence(ite)","rhs":"returns the precedence of a given object","over":{"base":"Any","pred":"isinstance(item, type)"},"name":"precedence_correct"},"guarantee":"returns the precedence of a given object","fibers":[{"name":"type","pred":"isinstance(item, type)","path":{"lhs":"precedence(x)","rhs":"returns the precedence of a given object","over":{"base":"type","pred":"isinstance(item, type)"},"name":"precedence_type_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.precedence.precedence_type_correct","statement":"precedence satisfies spec on type inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"095a5a1f8e4ab635"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.precedence.precedence","kind":"function","src_hash":"be24907e20c44ed8","in":{"base":"Any","pred":"isinstance(item, type) and hasattr(item, 'precedence')"},"out":{"base":"Any"},"spec":{"lhs":"precedence(item)","rhs":"<unspecified:precedence>","over":{"base":"Any","pred":"isinstance(item, type) and hasattr(item, 'precedence')"},"name":"precedence_correct"},"guarantee":"returns the precedence of a given object","fibers":[{"name":"type","pred":"isinstance(item, type)","path":{"lhs":"precedence(x)","rhs":"returns the precedence of a given object","over":{"base":"type","pred":"isinstance(item, type)"},"name":"precedence_type_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.precedence.precedence_type_correct","statement":"precedence satisfies spec on type inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"095a5a1f8e4ab635","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(item, 'precedence')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["item.precedence"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.1,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'not isinstance(item, type)'}, fibers={'type'})"]}}
 def precedence(item):
     """Returns the precedence of a given object.
 
@@ -276,7 +342,11 @@ PRECEDENCE_TRADITIONAL['DotProduct'] = PRECEDENCE_TRADITIONAL['Dot']
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(precedence_traditional(ite), returns the precedence of a given object according to the traditional rules of mathematics) over {Any | isinstance(item, UnevaluatedExpr)} ║
+# ║ Path(precedence_traditional(item), # HINT: precedence_traditional may be idempotent: precedence_traditional(precedence_traditional(x)) == precedence_traditional(x)) over {Any | isinstance(item, UnevaluatedExpr) and hasattr(item, 'args')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(item, 'args')                          ║
+# ║   ensures:  # HINT: precedence_traditional may be ide...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ precedence_traditional : {Any | isinstance(item, Unev...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -288,9 +358,12 @@ PRECEDENCE_TRADITIONAL['DotProduct'] = PRECEDENCE_TRADITIONAL['Dot']
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 0.9ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | f3dfe774...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.precedence.precedence_traditional","kind":"function","src_hash":"cd64d8325688e8f5","in":{"base":"Any","pred":"isinstance(item, UnevaluatedExpr)"},"out":{"base":"Any"},"spec":{"lhs":"precedence_traditional(ite)","rhs":"returns the precedence of a given object according to the traditional rules of mathematics","over":{"base":"Any","pred":"isinstance(item, UnevaluatedExpr)"},"name":"precedence_traditional_correct"},"guarantee":"returns the precedence of a given object according to the traditional rules of mathematics","fibers":[{"name":"UnevaluatedExpr","pred":"isinstance(item, UnevaluatedExpr)","path":{"lhs":"precedence_traditional(x)","rhs":"returns the precedence of a given object according to the traditional rules of mathematics","over":{"base":"UnevaluatedExpr","pred":"isinstance(item, UnevaluatedExpr)"},"name":"precedence_traditional_UnevaluatedExpr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.precedence.precedence_traditional_UnevaluatedExpr_correct","statement":"precedence_traditional satisfies spec on UnevaluatedExpr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"f3dfe774653b7edd"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.precedence.precedence_traditional","kind":"function","src_hash":"cd64d8325688e8f5","in":{"base":"Any","pred":"isinstance(item, UnevaluatedExpr) and hasattr(item, 'args')"},"out":{"base":"Any","pred":"result satisfies: # HINT: precedence_traditional may be idempotent: precedence_traditional(precedence_traditional(x)) == precedence_traditional(x)"},"spec":{"lhs":"precedence_traditional(item)","rhs":"# HINT: precedence_traditional may be idempotent: precedence_traditional(precedence_traditional(x)) == precedence_traditional(x)","over":{"base":"Any","pred":"isinstance(item, UnevaluatedExpr) and hasattr(item, 'args')"},"name":"precedence_traditional_correct"},"guarantee":"# HINT: precedence_traditional may be idempotent: precedence_traditional(precedence_traditional(x)) == precedence_traditional(x)","fibers":[{"name":"UnevaluatedExpr","pred":"isinstance(item, UnevaluatedExpr)","path":{"lhs":"precedence_traditional(x)","rhs":"# HINT: precedence_traditional may be idempotent: precedence_traditional(precedence_traditional(x)) == precedence_traditional(x)","over":{"base":"UnevaluatedExpr","pred":"isinstance(item, UnevaluatedExpr)"},"name":"precedence_traditional_UnevaluatedExpr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.precedence.precedence_traditional_UnevaluatedExpr_correct","statement":"precedence_traditional satisfies spec on UnevaluatedExpr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"f3dfe774653b7edd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(item, 'args')"],"ensures":["# HINT: precedence_traditional may be idempotent: precedence_traditional(precedence_traditional(x)) == precedence_traditional(x)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","item.__class__","item.args"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.9,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(item, UnevaluatedExpr)'}, fibers={'UnevaluatedExpr'})"]}}
 def precedence_traditional(item):
     """Returns the precedence of a given object according to the
     traditional rules of mathematics.

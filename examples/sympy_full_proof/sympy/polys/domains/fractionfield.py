@@ -27,14 +27,21 @@ from sympy.utilities import public
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a FractionField instance) preserved by FractionField(*args) over {Any | isinstance(domain_or_field, FracField) and isinstance(other, FractionField)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Field)                        ║
+# ║   ensures:  isinstance(self, CompositeDomain)              ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ FractionField : {Any | isinstance(domain_or_field, Fr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 75bc97a1b243a3c0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.fractionfield.FractionField","kind":"class","src_hash":"bc9b16fe461f80bc","in":{"base":"Any","pred":"isinstance(domain_or_field, FracField) and isinstance(other, FractionField)"},"out":{"base":"Any"},"spec":{"lhs":"FractionField(*args)","rhs":"correctly constructs a FractionField instance","over":{"base":"Any","pred":"isinstance(domain_or_field, FracField) and isinstance(other, FractionField)"},"name":"FractionField_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a FractionField instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'field') and hasattr(self, 'dtype') and hasattr(self, 'gens') and hasattr(self, 'ngens') and hasattr(self, 'symbols') and hasattr(self, 'domain') and hasattr(self, 'dom')","kind":"class","induction":"structural on field, dtype, gens, ngens"}],"methods_preserving":["__init__","new","of_type","zero","one","order","__str__","__hash__","__eq__","to_sympy","from_sympy","get_ring","is_positive","is_negative","is_nonpositive","is_nonnegative","numer","denom","factorial"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"75bc97a1b243a3c0"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.fractionfield.FractionField","kind":"class","src_hash":"bc9b16fe461f80bc","in":{"base":"Any","pred":"isinstance(domain_or_field, FracField) and isinstance(other, FractionField)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Field) and isinstance(self, CompositeDomain)"},"spec":{"lhs":"FractionField(*args)","rhs":"correctly constructs a FractionField instance","over":{"base":"Any","pred":"isinstance(domain_or_field, FracField) and isinstance(other, FractionField)"},"name":"FractionField_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, Field); isinstance(self, CompositeDomain); preserves 7 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'field') and hasattr(self, 'dtype') and hasattr(self, 'gens') and hasattr(self, 'ngens') and hasattr(self, 'symbols') and hasattr(self, 'domain') and hasattr(self, 'dom')","kind":"class","induction":"structural on field, dtype, gens, ngens"}],"methods_preserving":["__init__","new","of_type","zero","one","order","__str__","__hash__","__eq__","to_sympy","from_sympy","get_ring","is_positive","is_negative","is_nonpositive","is_nonnegative","numer","denom","factorial"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"75bc97a1b243a3c0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Field)","isinstance(self, CompositeDomain)"],"invariants":["hasattr(self, 'field')","hasattr(self, 'dtype')","hasattr(self, 'gens')","hasattr(self, 'ngens')","hasattr(self, 'symbols')","hasattr(self, 'domain')","hasattr(self, 'dom')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function FractionField not found in source"]}}
 class FractionField(Field, CompositeDomain):
     """A class for representing multivariate rational function fields. """
 
@@ -44,16 +51,22 @@ class FractionField(Field, CompositeDomain):
     has_assoc_Field = True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(dom), initializes the instance correctly) over Any ║
+# ║ Path(__init__(domain_or_field, symbols, order), <unspecified:__init__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __init__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 92ccac82fcbd50dc           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.fractionfield.FractionField.__init__","kind":"method","src_hash":"a9b44da666b05036","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(dom)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"92ccac82fcbd50dc"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.fractionfield.FractionField.__init__","kind":"method","src_hash":"a9b44da666b05036","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(domain_or_field, symbols, order)","rhs":"<unspecified:__init__>","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"92ccac82fcbd50dc","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, domain_or_field, symbols=None, order=None):
         from sympy.polys.fields import FracField
 
@@ -74,118 +87,167 @@ class FractionField(Field, CompositeDomain):
         self.dom = self.domain
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(new(ele), new produces the expected output) over Any  ║
+# ║ Path(new(element), self.field.field_new(element)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.field.field_new(element)                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ new : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7695fb56df5bad7b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.fractionfield.FractionField.new","kind":"method","src_hash":"44d0bf7cb6792b71","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"new(ele)","rhs":"new produces the expected output","over":{"base":"Any"},"name":"new_correct"},"guarantee":"new produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7695fb56df5bad7b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.fractionfield.FractionField.new","kind":"method","src_hash":"44d0bf7cb6792b71","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"new(element)","rhs":"self.field.field_new(element)","over":{"base":"Any"},"name":"new_correct"},"guarantee":"returns self.field.field_new(element)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7695fb56df5bad7b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.field.field_new(element)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.field"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def new(self, element):
         return self.field.field_new(element)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(of_type(ele), check if ``a`` is of type ``dtype``) over Any ║
+# ║ Path(of_type(element), self.field.is_element(element)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.field.is_element(element)                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ of_type : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 41033c99e1c27ae5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.fractionfield.FractionField.of_type","kind":"method","src_hash":"d1c626cef116c121","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"of_type(ele)","rhs":"check if ``a`` is of type ``dtype``","over":{"base":"Any"},"name":"of_type_correct"},"guarantee":"check if ``a`` is of type ``dtype``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"41033c99e1c27ae5"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.fractionfield.FractionField.of_type","kind":"method","src_hash":"d1c626cef116c121","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"of_type(element)","rhs":"self.field.is_element(element)","over":{"base":"Any"},"name":"of_type_correct"},"guarantee":"returns self.field.is_element(element)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"41033c99e1c27ae5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.field.is_element(element)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.field"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def of_type(self, element):
         """Check if ``a`` is of type ``dtype``. """
         return self.field.is_element(element)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(zero(), returns the zero attribute) over Any          ║
+# ║ Path(zero(), self.field.zero) over Any                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.field.zero                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ zero : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0d50b4ada4bb09a9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.fractionfield.FractionField.zero","kind":"property","src_hash":"aa0b85a9f04aa026","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"zero()","rhs":"returns the zero attribute","over":{"base":"Any"},"name":"zero_correct"},"guarantee":"returns the zero attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0d50b4ada4bb09a9"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.fractionfield.FractionField.zero","kind":"property","src_hash":"aa0b85a9f04aa026","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"zero()","rhs":"self.field.zero","over":{"base":"Any"},"name":"zero_correct"},"guarantee":"returns self.field.zero","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0d50b4ada4bb09a9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.field.zero","pure":false,"effects":{"effect_type":"reads_state","reads":["self.field"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def zero(self):
         return self.field.zero
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(one(), returns the one attribute) over Any            ║
+# ║ Path(one(), self.field.one) over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.field.one                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ one : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 97f5079e12541432           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.fractionfield.FractionField.one","kind":"property","src_hash":"d292d1dd29d913fd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"one()","rhs":"returns the one attribute","over":{"base":"Any"},"name":"one_correct"},"guarantee":"returns the one attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"97f5079e12541432"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.fractionfield.FractionField.one","kind":"property","src_hash":"d292d1dd29d913fd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"one()","rhs":"self.field.one","over":{"base":"Any"},"name":"one_correct"},"guarantee":"returns self.field.one","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"97f5079e12541432","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.field.one","pure":false,"effects":{"effect_type":"reads_state","reads":["self.field"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def one(self):
         return self.field.one
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(order(), returns the order attribute) over Any        ║
+# ║ Path(order(), self.field.order) over Any                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.field.order                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ order : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 77a3e5eb8be115ce           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.fractionfield.FractionField.order","kind":"property","src_hash":"d2e8b5bc2099421c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"order()","rhs":"returns the order attribute","over":{"base":"Any"},"name":"order_correct"},"guarantee":"returns the order attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"77a3e5eb8be115ce"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.fractionfield.FractionField.order","kind":"property","src_hash":"d2e8b5bc2099421c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"order()","rhs":"self.field.order","over":{"base":"Any"},"name":"order_correct"},"guarantee":"returns self.field.order","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"77a3e5eb8be115ce","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.field.order","pure":false,"effects":{"effect_type":"reads_state","reads":["self.field"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def order(self):
         return self.field.order
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__str__(), returns a human-readable string) over Any  ║
+# ║ Path(__str__(), str(self.domain) + '(' + ','.join(map(str, self.symbols)) + ')') over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  str(self.domain) + '(' + ','.join(map(str...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __str__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 96cfbed3c1f10bae           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.fractionfield.FractionField.__str__","kind":"method","src_hash":"9e1c7a6180ad9baa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"returns a human-readable string","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"96cfbed3c1f10bae"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.fractionfield.FractionField.__str__","kind":"method","src_hash":"9e1c7a6180ad9baa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"str(self.domain) + '(' + ','.join(map(str, self.symbols)) + ')'","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns str(self.domain) + '(' + ','.join(map(str, self.symbols)) + ')'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"96cfbed3c1f10bae","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"str(self.domain) + '(' + ','.join(map(str, self.symbols)) + ')'","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.symbols"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __str__(self):
         return str(self.domain) + '(' + ','.join(map(str, self.symbols)) + ')'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__hash__(), returns a consistent hash value) over Any ║
+# ║ Path(__hash__(), hash((self.__class__.__name__, self.field, self.domain, self.symbols))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  hash((self.__class__.__name__, self.field...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __hash__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9ca76e4f776420fa           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.fractionfield.FractionField.__hash__","kind":"method","src_hash":"c121daa71935b1bc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__hash__()","rhs":"returns a consistent hash value","over":{"base":"Any"},"name":"__hash___correct"},"guarantee":"returns a consistent hash value","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9ca76e4f776420fa"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.fractionfield.FractionField.__hash__","kind":"method","src_hash":"c121daa71935b1bc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__hash__()","rhs":"hash((self.__class__.__name__, self.field, self.domain, self.symbols))","over":{"base":"Any"},"name":"__hash___correct"},"guarantee":"returns hash((self.__class__.__name__, self.field, self.domain, self.symbols))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9ca76e4f776420fa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"hash((self.__class__.__name__, self.field, self.domain, self.symbols))","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","self.__class__","self.domain","self.field","self.symbols"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __hash__(self):
         return hash((self.__class__.__name__, self.field, self.domain, self.symbols))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__eq__(oth), correctly determines equality) over Any  ║
+# ║ Path(__eq__(other), <unspecified:__eq__>) over {Any | hasattr(other, 'field')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __eq__ : Any → Any                                         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, 'field')                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __eq__ : {Any | hasattr(other, 'field')} → Any             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ea447eef943c1901           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.fractionfield.FractionField.__eq__","kind":"method","src_hash":"b26dfe3a2dfa47fd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(oth)","rhs":"correctly determines equality","over":{"base":"Any"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ea447eef943c1901"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.fractionfield.FractionField.__eq__","kind":"method","src_hash":"b26dfe3a2dfa47fd","in":{"base":"Any","pred":"hasattr(other, 'field')"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(other)","rhs":"<unspecified:__eq__>","over":{"base":"Any","pred":"hasattr(other, 'field')"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ea447eef943c1901","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, 'field')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.field","self.field"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __eq__(self, other):
         """Returns ``True`` if two domains are equivalent. """
         if not isinstance(other, FractionField):
@@ -193,76 +255,115 @@ class FractionField(Field, CompositeDomain):
         return self.field == other.field
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(to_sympy(a), convert ``a`` to a sympy object) over Any ║
+# ║ Path(to_sympy(a), a.as_expr()) over {Any | hasattr(a, 'as_expr')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ to_sympy : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(a, 'as_expr')                          ║
+# ║   returns:  a.as_expr()                                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ to_sympy : {Any | hasattr(a, 'as_expr')} → Any             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e3c2835d600fef5b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.fractionfield.FractionField.to_sympy","kind":"method","src_hash":"04a2a60ca2c33ae8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_sympy(a)","rhs":"convert ``a`` to a sympy object","over":{"base":"Any"},"name":"to_sympy_correct"},"guarantee":"convert ``a`` to a sympy object","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e3c2835d600fef5b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.fractionfield.FractionField.to_sympy","kind":"method","src_hash":"04a2a60ca2c33ae8","in":{"base":"Any","pred":"hasattr(a, 'as_expr')"},"out":{"base":"Any"},"spec":{"lhs":"to_sympy(a)","rhs":"a.as_expr()","over":{"base":"Any","pred":"hasattr(a, 'as_expr')"},"name":"to_sympy_correct"},"guarantee":"returns a.as_expr()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e3c2835d600fef5b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(a, 'as_expr')"],"returns_expr":"a.as_expr()","pure":false,"effects":{"effect_type":"reads_state","reads":["a.as_expr"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def to_sympy(self, a):
         """Convert ``a`` to a SymPy object. """
         return a.as_expr()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_sympy(a), convert sympy's expression to ``dtype``) over Any ║
+# ║ Path(from_sympy(a), self.field.from_expr(a)) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.field.from_expr(a)                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ from_sympy : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | fbe124c4f825e980           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.fractionfield.FractionField.from_sympy","kind":"method","src_hash":"a2921b477d20218d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_sympy(a)","rhs":"convert sympy's expression to ``dtype``","over":{"base":"Any"},"name":"from_sympy_correct"},"guarantee":"convert sympy's expression to ``dtype``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fbe124c4f825e980"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.fractionfield.FractionField.from_sympy","kind":"method","src_hash":"a2921b477d20218d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_sympy(a)","rhs":"self.field.from_expr(a)","over":{"base":"Any"},"name":"from_sympy_correct"},"guarantee":"returns self.field.from_expr(a)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fbe124c4f825e980","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.field.from_expr(a)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.field"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_sympy(self, a):
         """Convert SymPy's expression to ``dtype``. """
         return self.field.from_expr(a)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_ZZ(K1,), convert a python ``int`` object to ``dtype``) over Any ║
+# ║ Path(from_ZZ(K1, a, K0), K1(K1.domain.convert(a, K0))) over {Any | hasattr(K1, 'domain')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_ZZ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(K1, 'domain')                          ║
+# ║   returns:  K1(K1.domain.convert(a, K0))                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_ZZ : {Any | hasattr(K1, 'domain')} → Any              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4748f9180ef9690d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.fractionfield.FractionField.from_ZZ","kind":"method","src_hash":"87f1e90ba0a9ea1c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_ZZ(K1,)","rhs":"convert a python ``int`` object to ``dtype``","over":{"base":"Any"},"name":"from_ZZ_correct"},"guarantee":"convert a python ``int`` object to ``dtype``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4748f9180ef9690d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.fractionfield.FractionField.from_ZZ","kind":"method","src_hash":"87f1e90ba0a9ea1c","in":{"base":"Any","pred":"hasattr(K1, 'domain')"},"out":{"base":"Any"},"spec":{"lhs":"from_ZZ(K1, a, K0)","rhs":"K1(K1.domain.convert(a, K0))","over":{"base":"Any","pred":"hasattr(K1, 'domain')"},"name":"from_ZZ_correct"},"guarantee":"returns K1(K1.domain.convert(a, K0))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4748f9180ef9690d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(K1, 'domain')"],"returns_expr":"K1(K1.domain.convert(a, K0))","pure":false,"effects":{"effect_type":"reads_state","reads":["K1.domain"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_ZZ(K1, a, K0):
         """Convert a Python ``int`` object to ``dtype``. """
         return K1(K1.domain.convert(a, K0))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_ZZ_python(K1,), convert a python ``int`` object to ``dtype``) over Any ║
+# ║ Path(from_ZZ_python(K1, a, K0), K1(K1.domain.convert(a, K0))) over {Any | hasattr(K1, 'domain')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_ZZ_python : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(K1, 'domain')                          ║
+# ║   returns:  K1(K1.domain.convert(a, K0))                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_ZZ_python : {Any | hasattr(K1, 'domain')} → Any       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 453d1848fee88fb6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.fractionfield.FractionField.from_ZZ_python","kind":"method","src_hash":"a3c7889e734a5b62","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_ZZ_python(K1,)","rhs":"convert a python ``int`` object to ``dtype``","over":{"base":"Any"},"name":"from_ZZ_python_correct"},"guarantee":"convert a python ``int`` object to ``dtype``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"453d1848fee88fb6"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.fractionfield.FractionField.from_ZZ_python","kind":"method","src_hash":"a3c7889e734a5b62","in":{"base":"Any","pred":"hasattr(K1, 'domain')"},"out":{"base":"Any"},"spec":{"lhs":"from_ZZ_python(K1, a, K0)","rhs":"K1(K1.domain.convert(a, K0))","over":{"base":"Any","pred":"hasattr(K1, 'domain')"},"name":"from_ZZ_python_correct"},"guarantee":"returns K1(K1.domain.convert(a, K0))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"453d1848fee88fb6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(K1, 'domain')"],"returns_expr":"K1(K1.domain.convert(a, K0))","pure":false,"effects":{"effect_type":"reads_state","reads":["K1.domain"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_ZZ_python(K1, a, K0):
         """Convert a Python ``int`` object to ``dtype``. """
         return K1(K1.domain.convert(a, K0))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_QQ(K1,), id) over Any                            ║
+# ║ Path(from_QQ(K1, a, K0), id) over {Any | hasattr(K1, 'domain') and hasattr(K0, 'numer') and hasattr(K0, 'denom')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_QQ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(K1, 'domain')                          ║
+# ║   requires: hasattr(K0, 'numer')                           ║
+# ║   requires: hasattr(K0, 'denom')                           ║
+# ║   ensures:  result == (K1(conv(K0.numer(a), K0)) / K1...   ║
+# ║   ensures:  result == K1(conv(K0.numer(a), K0)) / K1(...   ║
+# ║   fiber[case_0]: dom.is_ZZ => K1(conv(K0.numer(a), K0...   ║
+# ║   fiber[case_1]: not (dom.is_ZZ) => K1(conv(a, K0))        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_QQ : {Any | hasattr(K1, 'domain') and hasattr(K0...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | f738206190150824   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.fractionfield.FractionField.from_QQ","kind":"method","src_hash":"531a21f52bef1ada","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_QQ(K1,)","rhs":"convert a python ``fraction`` object to ``dtype``","over":{"base":"Any"},"name":"from_QQ_correct","kind":"composition"},"guarantee":"convert a python ``fraction`` object to ``dtype``","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"K1","by":"library_axiom"},{"fn":"conv","by":"library_axiom"},{"fn":"numer","by":"library_axiom"},{"fn":"K1","by":"library_axiom"},{"fn":"conv","by":"library_axiom"},{"fn":"denom","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f738206190150824"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.fractionfield.FractionField.from_QQ","kind":"method","src_hash":"531a21f52bef1ada","in":{"base":"Any","pred":"hasattr(K1, 'domain') and hasattr(K0, 'numer') and hasattr(K0, 'denom')"},"out":{"base":"Any","pred":"result satisfies: result == (K1(conv(K0.numer(a), K0)) / K1(conv(K0.denom(a), K0)) if dom.is_ZZ else K1(conv(a, K0))) and result == K1(conv(K0.numer(a), K0)) / K1(conv(K0.denom(a), K0)) or result == K1(conv(a, K0))"},"spec":{"lhs":"from_QQ(K1, a, K0)","rhs":"result == (K1(conv(K0.numer(a), K0)) / K1(conv(K0.denom(a), K0)) if dom.is_ZZ else K1(conv(a, K0))) and result == K1(conv(K0.numer(a), K0)) / K1(conv(K0.denom(a), K0)) or result == K1(conv(a, K0))","over":{"base":"Any","pred":"hasattr(K1, 'domain') and hasattr(K0, 'numer') and hasattr(K0, 'denom')"},"name":"from_QQ_correct","kind":"composition"},"guarantee":"result == (K1(conv(K0.numer(a), K0)) / K1(conv(K0.denom(a), K0)) if dom.is_ZZ else K1(conv(a, K0))); result == K1(conv(K0.numer(a), K0)) / K1(conv(K0.denom(a), K0)) or result == K1(conv(a, K0)); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"K1","by":"library_axiom"},{"fn":"conv","by":"library_axiom"},{"fn":"numer","by":"library_axiom"},{"fn":"K1","by":"library_axiom"},{"fn":"conv","by":"library_axiom"},{"fn":"denom","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f738206190150824","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(K1, 'domain')","hasattr(K0, 'numer')","hasattr(K0, 'denom')"],"ensures":["result == (K1(conv(K0.numer(a), K0)) / K1(conv(K0.denom(a), K0)) if dom.is_ZZ else K1(conv(a, K0)))","result == K1(conv(K0.numer(a), K0)) / K1(conv(K0.denom(a), K0)) or result == K1(conv(a, K0))"],"fibers":[{"name":"case_0","guard":"dom.is_ZZ","ensures":["result == K1(conv(K0.numer(a), K0)) / K1(conv(K0.denom(a), K0))"],"decidability":"library","returns_expr":"K1(conv(K0.numer(a), K0)) / K1(conv(K0.denom(a), K0))"},{"name":"case_1","guard":"not (dom.is_ZZ)","ensures":["result == K1(conv(a, K0))"],"decidability":"library","returns_expr":"K1(conv(a, K0))"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["K0.denom","K0.numer","K1.domain"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_QQ(K1, a, K0):
         """Convert a Python ``Fraction`` object to ``dtype``. """
         dom = K1.domain
@@ -273,121 +374,178 @@ class FractionField(Field, CompositeDomain):
             return K1(conv(a, K0))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_QQ_python(K1,), convert a python ``fraction`` object to ``dtype``) over Any ║
+# ║ Path(from_QQ_python(K1, a, K0), K1(K1.domain.convert(a, K0))) over {Any | hasattr(K1, 'domain')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_QQ_python : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(K1, 'domain')                          ║
+# ║   returns:  K1(K1.domain.convert(a, K0))                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_QQ_python : {Any | hasattr(K1, 'domain')} → Any       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5a4b569253e6230a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.fractionfield.FractionField.from_QQ_python","kind":"method","src_hash":"08bc2d81ebdb8507","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_QQ_python(K1,)","rhs":"convert a python ``fraction`` object to ``dtype``","over":{"base":"Any"},"name":"from_QQ_python_correct"},"guarantee":"convert a python ``fraction`` object to ``dtype``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5a4b569253e6230a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.fractionfield.FractionField.from_QQ_python","kind":"method","src_hash":"08bc2d81ebdb8507","in":{"base":"Any","pred":"hasattr(K1, 'domain')"},"out":{"base":"Any"},"spec":{"lhs":"from_QQ_python(K1, a, K0)","rhs":"K1(K1.domain.convert(a, K0))","over":{"base":"Any","pred":"hasattr(K1, 'domain')"},"name":"from_QQ_python_correct"},"guarantee":"returns K1(K1.domain.convert(a, K0))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5a4b569253e6230a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(K1, 'domain')"],"returns_expr":"K1(K1.domain.convert(a, K0))","pure":false,"effects":{"effect_type":"reads_state","reads":["K1.domain"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_QQ_python(K1, a, K0):
         """Convert a Python ``Fraction`` object to ``dtype``. """
         return K1(K1.domain.convert(a, K0))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_ZZ_gmpy(K1,), convert a gmpy ``mpz`` object to ``dtype``) over Any ║
+# ║ Path(from_ZZ_gmpy(K1, a, K0), K1(K1.domain.convert(a, K0))) over {Any | hasattr(K1, 'domain')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_ZZ_gmpy : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(K1, 'domain')                          ║
+# ║   returns:  K1(K1.domain.convert(a, K0))                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_ZZ_gmpy : {Any | hasattr(K1, 'domain')} → Any         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6867ba2fc4d3a6fc           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.fractionfield.FractionField.from_ZZ_gmpy","kind":"method","src_hash":"667a4d5b126e5480","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_ZZ_gmpy(K1,)","rhs":"convert a gmpy ``mpz`` object to ``dtype``","over":{"base":"Any"},"name":"from_ZZ_gmpy_correct"},"guarantee":"convert a gmpy ``mpz`` object to ``dtype``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6867ba2fc4d3a6fc"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.fractionfield.FractionField.from_ZZ_gmpy","kind":"method","src_hash":"667a4d5b126e5480","in":{"base":"Any","pred":"hasattr(K1, 'domain')"},"out":{"base":"Any"},"spec":{"lhs":"from_ZZ_gmpy(K1, a, K0)","rhs":"K1(K1.domain.convert(a, K0))","over":{"base":"Any","pred":"hasattr(K1, 'domain')"},"name":"from_ZZ_gmpy_correct"},"guarantee":"returns K1(K1.domain.convert(a, K0))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6867ba2fc4d3a6fc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(K1, 'domain')"],"returns_expr":"K1(K1.domain.convert(a, K0))","pure":false,"effects":{"effect_type":"reads_state","reads":["K1.domain"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_ZZ_gmpy(K1, a, K0):
         """Convert a GMPY ``mpz`` object to ``dtype``. """
         return K1(K1.domain.convert(a, K0))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_QQ_gmpy(K1,), convert a gmpy ``mpq`` object to ``dtype``) over Any ║
+# ║ Path(from_QQ_gmpy(K1, a, K0), K1(K1.domain.convert(a, K0))) over {Any | hasattr(K1, 'domain')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_QQ_gmpy : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(K1, 'domain')                          ║
+# ║   returns:  K1(K1.domain.convert(a, K0))                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_QQ_gmpy : {Any | hasattr(K1, 'domain')} → Any         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7d54b6fe2e84965a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.fractionfield.FractionField.from_QQ_gmpy","kind":"method","src_hash":"1dc09a3fc887846d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_QQ_gmpy(K1,)","rhs":"convert a gmpy ``mpq`` object to ``dtype``","over":{"base":"Any"},"name":"from_QQ_gmpy_correct"},"guarantee":"convert a gmpy ``mpq`` object to ``dtype``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7d54b6fe2e84965a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.fractionfield.FractionField.from_QQ_gmpy","kind":"method","src_hash":"1dc09a3fc887846d","in":{"base":"Any","pred":"hasattr(K1, 'domain')"},"out":{"base":"Any"},"spec":{"lhs":"from_QQ_gmpy(K1, a, K0)","rhs":"K1(K1.domain.convert(a, K0))","over":{"base":"Any","pred":"hasattr(K1, 'domain')"},"name":"from_QQ_gmpy_correct"},"guarantee":"returns K1(K1.domain.convert(a, K0))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7d54b6fe2e84965a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(K1, 'domain')"],"returns_expr":"K1(K1.domain.convert(a, K0))","pure":false,"effects":{"effect_type":"reads_state","reads":["K1.domain"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_QQ_gmpy(K1, a, K0):
         """Convert a GMPY ``mpq`` object to ``dtype``. """
         return K1(K1.domain.convert(a, K0))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_GaussianRationalField(K1,), convert a ``gaussianrational`` object to ``dtype``) over Any ║
+# ║ Path(from_GaussianRationalField(K1, a, K0), K1(K1.domain.convert(a, K0))) over {Any | hasattr(K1, 'domain')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_GaussianRationalField : Any → Any                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(K1, 'domain')                          ║
+# ║   returns:  K1(K1.domain.convert(a, K0))                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_GaussianRationalField : {Any | hasattr(K1, 'doma...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d303d4b929ac094c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.fractionfield.FractionField.from_GaussianRationalField","kind":"method","src_hash":"e2842c3b034e0129","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_GaussianRationalField(K1,)","rhs":"convert a ``gaussianrational`` object to ``dtype``","over":{"base":"Any"},"name":"from_GaussianRationalField_correct"},"guarantee":"convert a ``gaussianrational`` object to ``dtype``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d303d4b929ac094c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.fractionfield.FractionField.from_GaussianRationalField","kind":"method","src_hash":"e2842c3b034e0129","in":{"base":"Any","pred":"hasattr(K1, 'domain')"},"out":{"base":"Any"},"spec":{"lhs":"from_GaussianRationalField(K1, a, K0)","rhs":"K1(K1.domain.convert(a, K0))","over":{"base":"Any","pred":"hasattr(K1, 'domain')"},"name":"from_GaussianRationalField_correct"},"guarantee":"returns K1(K1.domain.convert(a, K0))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d303d4b929ac094c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(K1, 'domain')"],"returns_expr":"K1(K1.domain.convert(a, K0))","pure":false,"effects":{"effect_type":"reads_state","reads":["K1.domain"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_GaussianRationalField(K1, a, K0):
         """Convert a ``GaussianRational`` object to ``dtype``. """
         return K1(K1.domain.convert(a, K0))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_GaussianIntegerRing(K1,), convert a ``gaussianinteger`` object to ``dtype``) over Any ║
+# ║ Path(from_GaussianIntegerRing(K1, a, K0), K1(K1.domain.convert(a, K0))) over {Any | hasattr(K1, 'domain')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_GaussianIntegerRing : Any → Any                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(K1, 'domain')                          ║
+# ║   returns:  K1(K1.domain.convert(a, K0))                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_GaussianIntegerRing : {Any | hasattr(K1, 'domain...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8d11bd5a72b5b6c7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.fractionfield.FractionField.from_GaussianIntegerRing","kind":"method","src_hash":"cb63ddb366df3b4b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_GaussianIntegerRing(K1,)","rhs":"convert a ``gaussianinteger`` object to ``dtype``","over":{"base":"Any"},"name":"from_GaussianIntegerRing_correct"},"guarantee":"convert a ``gaussianinteger`` object to ``dtype``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8d11bd5a72b5b6c7"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.fractionfield.FractionField.from_GaussianIntegerRing","kind":"method","src_hash":"cb63ddb366df3b4b","in":{"base":"Any","pred":"hasattr(K1, 'domain')"},"out":{"base":"Any"},"spec":{"lhs":"from_GaussianIntegerRing(K1, a, K0)","rhs":"K1(K1.domain.convert(a, K0))","over":{"base":"Any","pred":"hasattr(K1, 'domain')"},"name":"from_GaussianIntegerRing_correct"},"guarantee":"returns K1(K1.domain.convert(a, K0))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8d11bd5a72b5b6c7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(K1, 'domain')"],"returns_expr":"K1(K1.domain.convert(a, K0))","pure":false,"effects":{"effect_type":"reads_state","reads":["K1.domain"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_GaussianIntegerRing(K1, a, K0):
         """Convert a ``GaussianInteger`` object to ``dtype``. """
         return K1(K1.domain.convert(a, K0))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_RealField(K1,), convert a mpmath ``mpf`` object to ``dtype``) over Any ║
+# ║ Path(from_RealField(K1, a, K0), K1(K1.domain.convert(a, K0))) over {Any | hasattr(K1, 'domain')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_RealField : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(K1, 'domain')                          ║
+# ║   returns:  K1(K1.domain.convert(a, K0))                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_RealField : {Any | hasattr(K1, 'domain')} → Any       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ef311bb683469a98           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.fractionfield.FractionField.from_RealField","kind":"method","src_hash":"19dd8c5b7cc679ab","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_RealField(K1,)","rhs":"convert a mpmath ``mpf`` object to ``dtype``","over":{"base":"Any"},"name":"from_RealField_correct"},"guarantee":"convert a mpmath ``mpf`` object to ``dtype``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ef311bb683469a98"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.fractionfield.FractionField.from_RealField","kind":"method","src_hash":"19dd8c5b7cc679ab","in":{"base":"Any","pred":"hasattr(K1, 'domain')"},"out":{"base":"Any"},"spec":{"lhs":"from_RealField(K1, a, K0)","rhs":"K1(K1.domain.convert(a, K0))","over":{"base":"Any","pred":"hasattr(K1, 'domain')"},"name":"from_RealField_correct"},"guarantee":"returns K1(K1.domain.convert(a, K0))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ef311bb683469a98","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(K1, 'domain')"],"returns_expr":"K1(K1.domain.convert(a, K0))","pure":false,"effects":{"effect_type":"reads_state","reads":["K1.domain"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_RealField(K1, a, K0):
         """Convert a mpmath ``mpf`` object to ``dtype``. """
         return K1(K1.domain.convert(a, K0))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_ComplexField(K1,), convert a mpmath ``mpf`` object to ``dtype``) over Any ║
+# ║ Path(from_ComplexField(K1, a, K0), K1(K1.domain.convert(a, K0))) over {Any | hasattr(K1, 'domain')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_ComplexField : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(K1, 'domain')                          ║
+# ║   returns:  K1(K1.domain.convert(a, K0))                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_ComplexField : {Any | hasattr(K1, 'domain')} → Any    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 60b55658e3c2b491           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.fractionfield.FractionField.from_ComplexField","kind":"method","src_hash":"a3ff3ab0b12a5543","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_ComplexField(K1,)","rhs":"convert a mpmath ``mpf`` object to ``dtype``","over":{"base":"Any"},"name":"from_ComplexField_correct"},"guarantee":"convert a mpmath ``mpf`` object to ``dtype``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"60b55658e3c2b491"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.fractionfield.FractionField.from_ComplexField","kind":"method","src_hash":"a3ff3ab0b12a5543","in":{"base":"Any","pred":"hasattr(K1, 'domain')"},"out":{"base":"Any"},"spec":{"lhs":"from_ComplexField(K1, a, K0)","rhs":"K1(K1.domain.convert(a, K0))","over":{"base":"Any","pred":"hasattr(K1, 'domain')"},"name":"from_ComplexField_correct"},"guarantee":"returns K1(K1.domain.convert(a, K0))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"60b55658e3c2b491","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(K1, 'domain')"],"returns_expr":"K1(K1.domain.convert(a, K0))","pure":false,"effects":{"effect_type":"reads_state","reads":["K1.domain"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_ComplexField(K1, a, K0):
         """Convert a mpmath ``mpf`` object to ``dtype``. """
         return K1(K1.domain.convert(a, K0))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_AlgebraicField(K1,), convert an algebraic number to ``dtype``) over Any ║
+# ║ Path(from_AlgebraicField(K1, a, K0), K1.new(a)) over {Any | hasattr(K1, 'domain') and hasattr(K1, 'new')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_AlgebraicField : Any → Any                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(K1, 'domain')                          ║
+# ║   requires: hasattr(K1, 'new')                             ║
+# ║   returns:  K1.new(a)                                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_AlgebraicField : {Any | hasattr(K1, 'domain') an...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8a2f81d558602d6e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6152790dbcac8786  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.fractionfield.FractionField.from_AlgebraicField","kind":"method","src_hash":"59308362666d8387","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_AlgebraicField(K1,)","rhs":"convert an algebraic number to ``dtype``","over":{"base":"Any"},"name":"from_AlgebraicField_correct"},"guarantee":"convert an algebraic number to ``dtype``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.fractionfield.FractionField.from_AlgebraicField_correct","statement":"Path(from_AlgebraicField(x), convert an algebraic number to ``dtype``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8a2f81d558602d6e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.fractionfield.FractionField.from_AlgebraicField","kind":"method","src_hash":"59308362666d8387","in":{"base":"Any","pred":"hasattr(K1, 'domain') and hasattr(K1, 'new')"},"out":{"base":"Any"},"spec":{"lhs":"from_AlgebraicField(K1, a, K0)","rhs":"K1.new(a)","over":{"base":"Any","pred":"hasattr(K1, 'domain') and hasattr(K1, 'new')"},"name":"from_AlgebraicField_correct"},"guarantee":"returns K1.new(a)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.fractionfield.FractionField.from_AlgebraicField_correct","statement":"Path(from_AlgebraicField(x), returns K1.new(a))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6152790dbcac8786","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(K1, 'domain')","hasattr(K1, 'new')"],"returns_expr":"K1.new(a)","pure":false,"effects":{"effect_type":"reads_state","reads":["K1.domain","K1.new"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_AlgebraicField(K1, a, K0):
         """Convert an algebraic number to ``dtype``. """
         if K1.domain != K0:
@@ -396,16 +554,25 @@ class FractionField(Field, CompositeDomain):
             return K1.new(a)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_PolynomialRing(K1,), id) over Any                ║
+# ║ Path(from_PolynomialRing(K1, a, K0), id) over {Any | hasattr(a, 'is_ground') and hasattr(K1, 'convert_from') and hasattr(K0, 'domain') and hasattr(K1, 'new') and hasattr(a, 'coeff') and hasattr(a, 'set_ring') and hasattr(K1, 'field')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_PolynomialRing : Any → Any                            ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(a, 'is_ground')                        ║
+# ║   requires: hasattr(K1, 'convert_from')                    ║
+# ║   requires: hasattr(K0, 'domain')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_PolynomialRing : {Any | hasattr(a, 'is_ground') ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | d265289740f5308e   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.fractionfield.FractionField.from_PolynomialRing","kind":"method","src_hash":"8fb387bc97b290aa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_PolynomialRing(K1,)","rhs":"convert a polynomial to ``dtype``","over":{"base":"Any"},"name":"from_PolynomialRing_correct","kind":"composition"},"guarantee":"convert a polynomial to ``dtype``","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"convert_from","by":"library_axiom"},{"fn":"coeff","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d265289740f5308e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.fractionfield.FractionField.from_PolynomialRing","kind":"method","src_hash":"8fb387bc97b290aa","in":{"base":"Any","pred":"hasattr(a, 'is_ground') and hasattr(K1, 'convert_from') and hasattr(K0, 'domain') and hasattr(K1, 'new') and hasattr(a, 'coeff') and hasattr(a, 'set_ring') and hasattr(K1, 'field')"},"out":{"base":"Any"},"spec":{"lhs":"from_PolynomialRing(K1, a, K0)","rhs":"<unspecified:from_PolynomialRing>","over":{"base":"Any","pred":"hasattr(a, 'is_ground') and hasattr(K1, 'convert_from') and hasattr(K0, 'domain') and hasattr(K1, 'new') and hasattr(a, 'coeff') and hasattr(a, 'set_ring') and hasattr(K1, 'field')"},"name":"from_PolynomialRing_correct","kind":"composition"},"guarantee":"convert a polynomial to ``dtype``","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"convert_from","by":"library_axiom"},{"fn":"coeff","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d265289740f5308e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(a, 'is_ground')","hasattr(K1, 'convert_from')","hasattr(K0, 'domain')","hasattr(K1, 'new')","hasattr(a, 'coeff')","hasattr(a, 'set_ring')","hasattr(K1, 'field')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["K0.domain","K1.convert_from","K1.field","K1.new","a.coeff","a.is_ground","a.set_ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_PolynomialRing(K1, a, K0):
         """Convert a polynomial to ``dtype``. """
         if a.is_ground:
@@ -423,16 +590,24 @@ class FractionField(Field, CompositeDomain):
                 return None
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_FractionField(K1,), convert a rational function to ``dtype``) over Any ║
+# ║ Path(from_FractionField(K1, a, K0), <unspecified:from_FractionField>) over {Any | hasattr(a, 'set_field') and hasattr(K1, 'field')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_FractionField : Any → Any                             ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(a, 'set_field')                        ║
+# ║   requires: hasattr(K1, 'field')                           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_FractionField : {Any | hasattr(a, 'set_field') a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2a22649e3c207b7b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.fractionfield.FractionField.from_FractionField","kind":"method","src_hash":"24932722cc937e2e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_FractionField(K1,)","rhs":"convert a rational function to ``dtype``","over":{"base":"Any"},"name":"from_FractionField_correct"},"guarantee":"convert a rational function to ``dtype``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.fractionfield.FractionField.from_FractionField_correct","statement":"Path(from_FractionField(x), convert a rational function to ``dtype``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2a22649e3c207b7b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.fractionfield.FractionField.from_FractionField","kind":"method","src_hash":"24932722cc937e2e","in":{"base":"Any","pred":"hasattr(a, 'set_field') and hasattr(K1, 'field')"},"out":{"base":"Any"},"spec":{"lhs":"from_FractionField(K1, a, K0)","rhs":"<unspecified:from_FractionField>","over":{"base":"Any","pred":"hasattr(a, 'set_field') and hasattr(K1, 'field')"},"name":"from_FractionField_correct"},"guarantee":"convert a rational function to ``dtype``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.fractionfield.FractionField.from_FractionField_correct","statement":"Path(from_FractionField(x), convert a rational function to ``dtype``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2a22649e3c207b7b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(a, 'set_field')","hasattr(K1, 'field')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["K1.field","a.set_field"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_FractionField(K1, a, K0):
         """Convert a rational function to ``dtype``. """
         try:
@@ -441,121 +616,175 @@ class FractionField(Field, CompositeDomain):
             return None
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_ring(), returns a field associated with ``self``) over Any ║
+# ║ Path(get_ring(), self.field.to_ring().to_domain()) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.field.to_ring().to_domain()               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ get_ring : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | bd913ab190425efa           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.fractionfield.FractionField.get_ring","kind":"method","src_hash":"0a69a59b3aad7848","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_ring()","rhs":"returns a field associated with ``self``","over":{"base":"Any"},"name":"get_ring_correct"},"guarantee":"returns a field associated with ``self``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bd913ab190425efa"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.fractionfield.FractionField.get_ring","kind":"method","src_hash":"0a69a59b3aad7848","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_ring()","rhs":"self.field.to_ring().to_domain()","over":{"base":"Any"},"name":"get_ring_correct"},"guarantee":"returns self.field.to_ring().to_domain()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bd913ab190425efa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.field.to_ring().to_domain()","pure":false,"effects":{"effect_type":"reads_state","reads":["self.field"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def get_ring(self):
         """Returns a field associated with ``self``. """
         return self.field.to_ring().to_domain()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_positive(a), returns true if ``lc(a)`` is positive) over Any ║
+# ║ Path(is_positive(a), self.domain.is_positive(a.numer.LC)) over {Any | hasattr(a, 'numer')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ is_positive : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(a, 'numer')                            ║
+# ║   returns:  self.domain.is_positive(a.numer.LC)            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ is_positive : {Any | hasattr(a, 'numer')} → Any            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1c3c73d2c3069f6f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.fractionfield.FractionField.is_positive","kind":"method","src_hash":"dbbe5cba88b6026a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_positive(a)","rhs":"returns true if ``lc(a)`` is positive","over":{"base":"Any"},"name":"is_positive_correct"},"guarantee":"returns true if ``lc(a)`` is positive","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1c3c73d2c3069f6f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.fractionfield.FractionField.is_positive","kind":"method","src_hash":"dbbe5cba88b6026a","in":{"base":"Any","pred":"hasattr(a, 'numer')"},"out":{"base":"Any"},"spec":{"lhs":"is_positive(a)","rhs":"self.domain.is_positive(a.numer.LC)","over":{"base":"Any","pred":"hasattr(a, 'numer')"},"name":"is_positive_correct"},"guarantee":"returns self.domain.is_positive(a.numer.LC)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1c3c73d2c3069f6f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(a, 'numer')"],"returns_expr":"self.domain.is_positive(a.numer.LC)","pure":false,"effects":{"effect_type":"reads_state","reads":["a.numer","self.domain"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_positive(self, a):
         """Returns True if ``LC(a)`` is positive. """
         return self.domain.is_positive(a.numer.LC)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_negative(a), returns true if ``lc(a)`` is negative) over Any ║
+# ║ Path(is_negative(a), self.domain.is_negative(a.numer.LC)) over {Any | hasattr(a, 'numer')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ is_negative : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(a, 'numer')                            ║
+# ║   returns:  self.domain.is_negative(a.numer.LC)            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ is_negative : {Any | hasattr(a, 'numer')} → Any            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1a43d3cb3ada33a4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.fractionfield.FractionField.is_negative","kind":"method","src_hash":"8a871545757b8333","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_negative(a)","rhs":"returns true if ``lc(a)`` is negative","over":{"base":"Any"},"name":"is_negative_correct"},"guarantee":"returns true if ``lc(a)`` is negative","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1a43d3cb3ada33a4"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.fractionfield.FractionField.is_negative","kind":"method","src_hash":"8a871545757b8333","in":{"base":"Any","pred":"hasattr(a, 'numer')"},"out":{"base":"Any"},"spec":{"lhs":"is_negative(a)","rhs":"self.domain.is_negative(a.numer.LC)","over":{"base":"Any","pred":"hasattr(a, 'numer')"},"name":"is_negative_correct"},"guarantee":"returns self.domain.is_negative(a.numer.LC)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1a43d3cb3ada33a4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(a, 'numer')"],"returns_expr":"self.domain.is_negative(a.numer.LC)","pure":false,"effects":{"effect_type":"reads_state","reads":["a.numer","self.domain"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_negative(self, a):
         """Returns True if ``LC(a)`` is negative. """
         return self.domain.is_negative(a.numer.LC)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_nonpositive(a), returns true if ``lc(a)`` is non-positive) over Any ║
+# ║ Path(is_nonpositive(a), self.domain.is_nonpositive(a.numer.LC)) over {Any | hasattr(a, 'numer')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ is_nonpositive : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(a, 'numer')                            ║
+# ║   returns:  self.domain.is_nonpositive(a.numer.LC)         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ is_nonpositive : {Any | hasattr(a, 'numer')} → Any         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2b57d59cbc2fadb7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.fractionfield.FractionField.is_nonpositive","kind":"method","src_hash":"b7ed88ebba82e5b3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_nonpositive(a)","rhs":"returns true if ``lc(a)`` is non-positive","over":{"base":"Any"},"name":"is_nonpositive_correct"},"guarantee":"returns true if ``lc(a)`` is non-positive","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2b57d59cbc2fadb7"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.fractionfield.FractionField.is_nonpositive","kind":"method","src_hash":"b7ed88ebba82e5b3","in":{"base":"Any","pred":"hasattr(a, 'numer')"},"out":{"base":"Any"},"spec":{"lhs":"is_nonpositive(a)","rhs":"self.domain.is_nonpositive(a.numer.LC)","over":{"base":"Any","pred":"hasattr(a, 'numer')"},"name":"is_nonpositive_correct"},"guarantee":"returns self.domain.is_nonpositive(a.numer.LC)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2b57d59cbc2fadb7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(a, 'numer')"],"returns_expr":"self.domain.is_nonpositive(a.numer.LC)","pure":false,"effects":{"effect_type":"reads_state","reads":["a.numer","self.domain"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_nonpositive(self, a):
         """Returns True if ``LC(a)`` is non-positive. """
         return self.domain.is_nonpositive(a.numer.LC)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_nonnegative(a), returns true if ``lc(a)`` is non-negative) over Any ║
+# ║ Path(is_nonnegative(a), self.domain.is_nonnegative(a.numer.LC)) over {Any | hasattr(a, 'numer')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ is_nonnegative : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(a, 'numer')                            ║
+# ║   returns:  self.domain.is_nonnegative(a.numer.LC)         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ is_nonnegative : {Any | hasattr(a, 'numer')} → Any         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f239b1c05ac0ff0c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.fractionfield.FractionField.is_nonnegative","kind":"method","src_hash":"d9fa29c4122dfcfa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_nonnegative(a)","rhs":"returns true if ``lc(a)`` is non-negative","over":{"base":"Any"},"name":"is_nonnegative_correct"},"guarantee":"returns true if ``lc(a)`` is non-negative","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f239b1c05ac0ff0c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.fractionfield.FractionField.is_nonnegative","kind":"method","src_hash":"d9fa29c4122dfcfa","in":{"base":"Any","pred":"hasattr(a, 'numer')"},"out":{"base":"Any"},"spec":{"lhs":"is_nonnegative(a)","rhs":"self.domain.is_nonnegative(a.numer.LC)","over":{"base":"Any","pred":"hasattr(a, 'numer')"},"name":"is_nonnegative_correct"},"guarantee":"returns self.domain.is_nonnegative(a.numer.LC)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f239b1c05ac0ff0c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(a, 'numer')"],"returns_expr":"self.domain.is_nonnegative(a.numer.LC)","pure":false,"effects":{"effect_type":"reads_state","reads":["a.numer","self.domain"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_nonnegative(self, a):
         """Returns True if ``LC(a)`` is non-negative. """
         return self.domain.is_nonnegative(a.numer.LC)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(numer(a), returns numerator of ``a``) over Any        ║
+# ║ Path(numer(a), a.numer) over {Any | hasattr(a, 'numer')}   ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ numer : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(a, 'numer')                            ║
+# ║   returns:  a.numer                                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ numer : {Any | hasattr(a, 'numer')} → Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ced3bdff7120b560           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.fractionfield.FractionField.numer","kind":"method","src_hash":"b539d96372972037","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"numer(a)","rhs":"returns numerator of ``a``","over":{"base":"Any"},"name":"numer_correct"},"guarantee":"returns numerator of ``a``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ced3bdff7120b560"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.fractionfield.FractionField.numer","kind":"method","src_hash":"b539d96372972037","in":{"base":"Any","pred":"hasattr(a, 'numer')"},"out":{"base":"Any"},"spec":{"lhs":"numer(a)","rhs":"a.numer","over":{"base":"Any","pred":"hasattr(a, 'numer')"},"name":"numer_correct"},"guarantee":"returns a.numer","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ced3bdff7120b560","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(a, 'numer')"],"returns_expr":"a.numer","pure":false,"effects":{"effect_type":"reads_state","reads":["a.numer"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def numer(self, a):
         """Returns numerator of ``a``. """
         return a.numer
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(denom(a), returns denominator of ``a``) over Any      ║
+# ║ Path(denom(a), a.denom) over {Any | hasattr(a, 'denom')}   ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ denom : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(a, 'denom')                            ║
+# ║   returns:  a.denom                                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ denom : {Any | hasattr(a, 'denom')} → Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 084359b78ba0b7b5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.fractionfield.FractionField.denom","kind":"method","src_hash":"b2e27ede758f0ddb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"denom(a)","rhs":"returns denominator of ``a``","over":{"base":"Any"},"name":"denom_correct"},"guarantee":"returns denominator of ``a``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"084359b78ba0b7b5"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.fractionfield.FractionField.denom","kind":"method","src_hash":"b2e27ede758f0ddb","in":{"base":"Any","pred":"hasattr(a, 'denom')"},"out":{"base":"Any"},"spec":{"lhs":"denom(a)","rhs":"a.denom","over":{"base":"Any","pred":"hasattr(a, 'denom')"},"name":"denom_correct"},"guarantee":"returns a.denom","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"084359b78ba0b7b5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(a, 'denom')"],"returns_expr":"a.denom","pure":false,"effects":{"effect_type":"reads_state","reads":["a.denom"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def denom(self, a):
         """Returns denominator of ``a``. """
         return a.denom
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(factorial(a), returns factorial of ``a``) over Any    ║
+# ║ Path(factorial(a), self.dtype(self.domain.factorial(a))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.dtype(self.domain.factorial(a))           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ factorial : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a5b143a8bb2b42f8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.fractionfield.FractionField.factorial","kind":"method","src_hash":"d3d5b6dbba835538","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"factorial(a)","rhs":"returns factorial of ``a``","over":{"base":"Any"},"name":"factorial_correct"},"guarantee":"returns factorial of ``a``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a5b143a8bb2b42f8"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.fractionfield.FractionField.factorial","kind":"method","src_hash":"d3d5b6dbba835538","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"factorial(a)","rhs":"self.dtype(self.domain.factorial(a))","over":{"base":"Any"},"name":"factorial_correct"},"guarantee":"returns self.dtype(self.domain.factorial(a))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a5b143a8bb2b42f8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.dtype(self.domain.factorial(a))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.dtype"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def factorial(self, a):
         """Returns factorial of ``a``. """
         return self.dtype(self.domain.factorial(a))

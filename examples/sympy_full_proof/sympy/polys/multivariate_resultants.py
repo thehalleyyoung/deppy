@@ -42,14 +42,19 @@ from sympy.utilities.exceptions import sympy_deprecation_warning
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a DixonResultant instance) preserved by DixonResultant(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ DixonResultant : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0445c47e9aeb81d8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.multivariate_resultants.DixonResultant","kind":"class","src_hash":"7a174c67a96580de","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"DixonResultant(*args)","rhs":"correctly constructs a DixonResultant instance","over":{"base":"Any"},"name":"DixonResultant_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a DixonResultant instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'polynomials') and hasattr(self, 'variables') and hasattr(self, 'n') and hasattr(self, 'm') and hasattr(self, 'dummy_variables') and hasattr(self, '_max_degrees')","kind":"class","induction":"structural on polynomials, variables, n, m"}],"methods_preserving":["__init__","max_degrees","get_dixon_polynomial","get_upper_degree","get_max_degrees","get_dixon_matrix","KSY_precondition","delete_zero_rows_and_columns","product_leading_entries","get_KSY_Dixon_resultant"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0445c47e9aeb81d8"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.multivariate_resultants.DixonResultant","kind":"class","src_hash":"7a174c67a96580de","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"DixonResultant(*args)","rhs":"correctly constructs a DixonResultant instance","over":{"base":"Any"},"name":"DixonResultant_class_invariant","kind":"invariant"},"guarantee":"preserves 6 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'polynomials') and hasattr(self, 'variables') and hasattr(self, 'n') and hasattr(self, 'm') and hasattr(self, 'dummy_variables') and hasattr(self, '_max_degrees')","kind":"class","induction":"structural on polynomials, variables, n, m"}],"methods_preserving":["__init__","max_degrees","get_dixon_polynomial","get_upper_degree","get_max_degrees","get_dixon_matrix","KSY_precondition","delete_zero_rows_and_columns","product_leading_entries","get_KSY_Dixon_resultant"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0445c47e9aeb81d8","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, 'polynomials')","hasattr(self, 'variables')","hasattr(self, 'n')","hasattr(self, 'm')","hasattr(self, 'dummy_variables')","hasattr(self, '_max_degrees')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function DixonResultant not found in source"]}}
 class DixonResultant():
     """
     A class for retrieving the Dixon's resultant of a multivariate
@@ -94,16 +99,23 @@ class DixonResultant():
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(pol), initializes the instance correctly) over Any ║
+# ║ Path(__init__(polynomials, variables), self.polynomials == polynomials and self.variables == variables) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  self.polynomials == polynomials                ║
+# ║   ensures:  self.variables == variables                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : Any → {Any | result satisfies: self.polyno...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c3d4a194aeb730d7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.multivariate_resultants.DixonResultant.__init__","kind":"method","src_hash":"64e28b14d3145855","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(pol)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c3d4a194aeb730d7"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.multivariate_resultants.DixonResultant.__init__","kind":"method","src_hash":"64e28b14d3145855","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: self.polynomials == polynomials and self.variables == variables"},"spec":{"lhs":"__init__(polynomials, variables)","rhs":"self.polynomials == polynomials and self.variables == variables","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"self.polynomials == polynomials; self.variables == variables","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c3d4a194aeb730d7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["self.polynomials == polynomials","self.variables == variables"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, polynomials, variables):
         """
         A class that takes two lists, a list of polynomials and list of
@@ -132,16 +144,22 @@ class DixonResultant():
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(max_degrees(), returns the max_degrees attribute) over Any ║
+# ║ Path(max_degrees(), self._max_degrees) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._max_degrees                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ max_degrees : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | fa98c15dba44dfea           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.multivariate_resultants.DixonResultant.max_degrees","kind":"property","src_hash":"0fbc132474614243","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"max_degrees()","rhs":"returns the max_degrees attribute","over":{"base":"Any"},"name":"max_degrees_correct"},"guarantee":"returns the max_degrees attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fa98c15dba44dfea"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.multivariate_resultants.DixonResultant.max_degrees","kind":"property","src_hash":"0fbc132474614243","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"max_degrees()","rhs":"self._max_degrees","over":{"base":"Any"},"name":"max_degrees_correct"},"guarantee":"returns self._max_degrees","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fa98c15dba44dfea","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._max_degrees","pure":false,"effects":{"effect_type":"reads_state","reads":["self._max_degrees"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def max_degrees(self):
         sympy_deprecation_warning(
             """
@@ -153,16 +171,24 @@ class DixonResultant():
         return self._max_degrees
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_dixon_polynomial(), returns =======) over Any     ║
+# ║ Path(get_dixon_polynomial(), poly_from_expr(dixon_polynomial, self.dummy_variables)[0]) over {Any | not (self.m != self.n + 1)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ get_dixon_polynomial : Any → Any                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (self.m != self.n + 1)                     ║
+# ║   ensures:  len(rows) == old_len_rows + 1                  ║
+# ║   returns:  poly_from_expr(dixon_polynomial, self.dum...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ get_dixon_polynomial : {Any | not (self.m != self.n +...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2d5f55983cd6ada9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2e689b5f2ea081b2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.multivariate_resultants.DixonResultant.get_dixon_polynomial","kind":"method","src_hash":"f1932f3951d3e22d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_dixon_polynomial()","rhs":"returns =======","over":{"base":"Any"},"name":"get_dixon_polynomial_correct"},"guarantee":"returns =======","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.multivariate_resultants.DixonResultant.get_dixon_polynomial_correct","statement":"Path(get_dixon_polynomial(x), returns =======)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2d5f55983cd6ada9"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.multivariate_resultants.DixonResultant.get_dixon_polynomial","kind":"method","src_hash":"f1932f3951d3e22d","in":{"base":"Any","pred":"not (self.m != self.n + 1)"},"out":{"base":"Any","pred":"result satisfies: result == (poly_from_expr(dixon_polynomial, self.dummy_variables)[0])"},"spec":{"lhs":"get_dixon_polynomial()","rhs":"poly_from_expr(dixon_polynomial, self.dummy_variables)[0]","over":{"base":"Any","pred":"not (self.m != self.n + 1)"},"name":"get_dixon_polynomial_correct"},"guarantee":"returns poly_from_expr(dixon_polynomial, self.dummy_variables)[0]; len(rows) == old_len_rows + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.multivariate_resultants.DixonResultant.get_dixon_polynomial_correct","statement":"Path(get_dixon_polynomial(x), returns poly_from_expr(dixon_polynomial, self.dummy_variables)[0]; len(rows) == old_len_rows + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2e689b5f2ea081b2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (self.m != self.n + 1)"],"ensures":["len(rows) == old_len_rows + 1"],"returns_expr":"poly_from_expr(dixon_polynomial, self.dummy_variables)[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.dummy_variables","self.m","self.n","self.polynomials","self.variables"],"calls_mutating":["rows.append"],"raises":["ValueError"]},"state_contract":{"modifies":["rows.*"],"old_bindings":{"old_len_rows":"len(rows)"},"post_ensures":["len(rows) == old_len_rows + 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def get_dixon_polynomial(self):
         r"""
         Returns
@@ -200,16 +226,22 @@ class DixonResultant():
         return poly_from_expr(dixon_polynomial, self.dummy_variables)[0]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_upper_degree(), get_upper_degree produces the expected output) over Any ║
+# ║ Path(get_upper_degree(), monomial_deg(*product)) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  monomial_deg(*product)                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ get_upper_degree : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3fb0986cb1ddb5eb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 81d4f4af64f31fbe  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.multivariate_resultants.DixonResultant.get_upper_degree","kind":"method","src_hash":"98ac293881204ba4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_upper_degree()","rhs":"get_upper_degree produces the expected output","over":{"base":"Any"},"name":"get_upper_degree_correct"},"guarantee":"get_upper_degree produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.multivariate_resultants.DixonResultant.get_upper_degree_correct","statement":"Path(get_upper_degree(x), get_upper_degree produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3fb0986cb1ddb5eb"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.multivariate_resultants.DixonResultant.get_upper_degree","kind":"method","src_hash":"98ac293881204ba4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_upper_degree()","rhs":"monomial_deg(*product)","over":{"base":"Any"},"name":"get_upper_degree_correct"},"guarantee":"returns monomial_deg(*product)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.multivariate_resultants.DixonResultant.get_upper_degree_correct","statement":"Path(get_upper_degree(x), returns monomial_deg(*product))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"81d4f4af64f31fbe","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"monomial_deg(*product)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._max_degrees","self.n","self.variables"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def get_upper_degree(self):
         sympy_deprecation_warning(
             """
@@ -227,16 +259,23 @@ class DixonResultant():
         return monomial_deg(*product)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_max_degrees(pol), returns a list of the maximum degree of each variable appearing in the coefficients of the dixon polynomial) over Any ║
+# ║ Path(get_max_degrees(polynomial), <unspecified:get_max_degrees>) over {Any | hasattr(polynomial, 'coeffs')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ get_max_degrees : Any → Any                                ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(polynomial, 'coeffs')                  ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ get_max_degrees : {Any | hasattr(polynomial, 'coeffs'...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9a6ce0d7f092c3be  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.multivariate_resultants.DixonResultant.get_max_degrees","kind":"method","src_hash":"e1f2795bd534dff0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_max_degrees(pol)","rhs":"returns a list of the maximum degree of each variable appearing in the coefficients of the dixon polynomial","over":{"base":"Any"},"name":"get_max_degrees_correct"},"guarantee":"returns a list of the maximum degree of each variable appearing in the coefficients of the dixon polynomial","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.multivariate_resultants.DixonResultant.get_max_degrees_correct","statement":"Path(get_max_degrees(x), returns a list of the maximum degree of each variable appearing in the coefficients of the dixon polynomial)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9a6ce0d7f092c3be"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.multivariate_resultants.DixonResultant.get_max_degrees","kind":"method","src_hash":"e1f2795bd534dff0","in":{"base":"Any","pred":"hasattr(polynomial, 'coeffs')"},"out":{"base":"Any"},"spec":{"lhs":"get_max_degrees(polynomial)","rhs":"<unspecified:get_max_degrees>","over":{"base":"Any","pred":"hasattr(polynomial, 'coeffs')"},"name":"get_max_degrees_correct"},"guarantee":"returns a list of the maximum degree of each variable appearing in the coefficients of the dixon polynomial","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.multivariate_resultants.DixonResultant.get_max_degrees_correct","statement":"Path(get_max_degrees(x), returns a list of the maximum degree of each variable appearing in the coefficients of the dixon polynomial)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9a6ce0d7f092c3be","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(polynomial, 'coeffs')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["polynomial.coeffs","self.variables"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def get_max_degrees(self, polynomial):
         r"""
         Returns a list of the maximum degree of each variable appearing
@@ -251,16 +290,23 @@ class DixonResultant():
         return max_degrees
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_dixon_matrix(pol), construct the dixon matrix from the coefficients of polynomial \alpha) over Any ║
+# ║ Path(get_dixon_matrix(polynomial), <unspecified:get_dixon_matrix>) over {Any | hasattr(polynomial, 'coeffs')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ get_dixon_matrix : Any → Any                               ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(polynomial, 'coeffs')                  ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ get_dixon_matrix : {Any | hasattr(polynomial, 'coeffs...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 589786b163094af1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.multivariate_resultants.DixonResultant.get_dixon_matrix","kind":"method","src_hash":"a58ed69973df4997","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_dixon_matrix(pol)","rhs":"construct the dixon matrix from the coefficients of polynomial \\alpha","over":{"base":"Any"},"name":"get_dixon_matrix_correct"},"guarantee":"construct the dixon matrix from the coefficients of polynomial \\alpha","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.multivariate_resultants.DixonResultant.get_dixon_matrix_correct","statement":"Path(get_dixon_matrix(x), construct the dixon matrix from the coefficients of polynomial \\alpha)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"589786b163094af1"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.multivariate_resultants.DixonResultant.get_dixon_matrix","kind":"method","src_hash":"a58ed69973df4997","in":{"base":"Any","pred":"hasattr(polynomial, 'coeffs')"},"out":{"base":"Any"},"spec":{"lhs":"get_dixon_matrix(polynomial)","rhs":"<unspecified:get_dixon_matrix>","over":{"base":"Any","pred":"hasattr(polynomial, 'coeffs')"},"name":"get_dixon_matrix_correct"},"guarantee":"construct the dixon matrix from the coefficients of polynomial \\alpha","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.multivariate_resultants.DixonResultant.get_dixon_matrix_correct","statement":"Path(get_dixon_matrix(x), construct the dixon matrix from the coefficients of polynomial \\alpha)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"589786b163094af1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(polynomial, 'coeffs')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["polynomial.coeffs","self.get_max_degrees","self.variables"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def get_dixon_matrix(self, polynomial):
         r"""
         Construct the Dixon matrix from the coefficients of polynomial
@@ -290,16 +336,25 @@ class DixonResultant():
         return dixon_matrix
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(KSY_precondition(mat), test for the validity of the kapur-saxena-yang precondition) over Any ║
+# ║ Path(KSY_precondition(matrix), <unspecified:KSY_precondition>) over {Any | hasattr(matrix, 'is_zero_matrix') and hasattr(matrix, 'shape') and hasattr(matrix, 'rref')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ KSY_precondition : Any → Any                               ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(matrix, 'is_zero_matrix')              ║
+# ║   requires: hasattr(matrix, 'shape')                       ║
+# ║   requires: hasattr(matrix, 'rref')                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ KSY_precondition : {Any | hasattr(matrix, 'is_zero_ma...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9b42e0192efde082  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.multivariate_resultants.DixonResultant.KSY_precondition","kind":"method","src_hash":"2d795d2c9d8d4cb8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"KSY_precondition(mat)","rhs":"test for the validity of the kapur-saxena-yang precondition","over":{"base":"Any"},"name":"KSY_precondition_correct"},"guarantee":"test for the validity of the kapur-saxena-yang precondition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.multivariate_resultants.DixonResultant.KSY_precondition_correct","statement":"Path(KSY_precondition(x), test for the validity of the kapur-saxena-yang precondition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9b42e0192efde082"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.multivariate_resultants.DixonResultant.KSY_precondition","kind":"method","src_hash":"2d795d2c9d8d4cb8","in":{"base":"Any","pred":"hasattr(matrix, 'is_zero_matrix') and hasattr(matrix, 'shape') and hasattr(matrix, 'rref')"},"out":{"base":"Any"},"spec":{"lhs":"KSY_precondition(matrix)","rhs":"<unspecified:KSY_precondition>","over":{"base":"Any","pred":"hasattr(matrix, 'is_zero_matrix') and hasattr(matrix, 'shape') and hasattr(matrix, 'rref')"},"name":"KSY_precondition_correct"},"guarantee":"test for the validity of the kapur-saxena-yang precondition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.multivariate_resultants.DixonResultant.KSY_precondition_correct","statement":"Path(KSY_precondition(x), test for the validity of the kapur-saxena-yang precondition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9b42e0192efde082","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(matrix, 'is_zero_matrix')","hasattr(matrix, 'shape')","hasattr(matrix, 'rref')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["matrix.is_zero_matrix","matrix.rref","matrix.shape"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def KSY_precondition(self, matrix):
         """
         Test for the validity of the Kapur-Saxena-Yang precondition.
@@ -328,16 +383,25 @@ class DixonResultant():
             return False
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(delete_zero_rows_and_columns(mat), remove the zero rows and columns of the matrix) over Any ║
+# ║ Path(delete_zero_rows_and_columns(matrix), matrix[rows, cols]) over {Any | hasattr(matrix, 'rows') and hasattr(matrix, 'cols') and hasattr(matrix, 'row') and hasattr(matrix, 'col')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ delete_zero_rows_and_columns : Any → Any                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(matrix, 'rows')                        ║
+# ║   requires: hasattr(matrix, 'cols')                        ║
+# ║   requires: hasattr(matrix, 'row')                         ║
+# ║   returns:  matrix[rows, cols]                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ delete_zero_rows_and_columns : {Any | hasattr(matrix,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1cc9cc15032f9a3e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e5a1be11dd1afcc0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.multivariate_resultants.DixonResultant.delete_zero_rows_and_columns","kind":"method","src_hash":"8bb117ef7efaef97","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"delete_zero_rows_and_columns(mat)","rhs":"remove the zero rows and columns of the matrix","over":{"base":"Any"},"name":"delete_zero_rows_and_columns_correct"},"guarantee":"remove the zero rows and columns of the matrix","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.multivariate_resultants.DixonResultant.delete_zero_rows_and_columns_correct","statement":"Path(delete_zero_rows_and_columns(x), remove the zero rows and columns of the matrix)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1cc9cc15032f9a3e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.multivariate_resultants.DixonResultant.delete_zero_rows_and_columns","kind":"method","src_hash":"8bb117ef7efaef97","in":{"base":"Any","pred":"hasattr(matrix, 'rows') and hasattr(matrix, 'cols') and hasattr(matrix, 'row') and hasattr(matrix, 'col')"},"out":{"base":"Any"},"spec":{"lhs":"delete_zero_rows_and_columns(matrix)","rhs":"matrix[rows, cols]","over":{"base":"Any","pred":"hasattr(matrix, 'rows') and hasattr(matrix, 'cols') and hasattr(matrix, 'row') and hasattr(matrix, 'col')"},"name":"delete_zero_rows_and_columns_correct"},"guarantee":"returns matrix[rows, cols]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.multivariate_resultants.DixonResultant.delete_zero_rows_and_columns_correct","statement":"Path(delete_zero_rows_and_columns(x), returns matrix[rows, cols])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e5a1be11dd1afcc0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(matrix, 'rows')","hasattr(matrix, 'cols')","hasattr(matrix, 'row')","hasattr(matrix, 'col')"],"returns_expr":"matrix[rows, cols]","pure":false,"effects":{"effect_type":"reads_state","reads":["matrix.col","matrix.cols","matrix.row","matrix.rows"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def delete_zero_rows_and_columns(self, matrix):
         """Remove the zero rows and columns of the matrix."""
         rows = [
@@ -348,16 +412,24 @@ class DixonResultant():
         return matrix[rows, cols]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(product_leading_entries(mat), calculate the product of the leading entries of the matrix) over Any ║
+# ║ Path(product_leading_entries(matrix), <unspecified:product_leading_entries>) over {Any | hasattr(matrix, 'rows') and hasattr(matrix, 'row')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ product_leading_entries : Any → Any                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(matrix, 'rows')                        ║
+# ║   requires: hasattr(matrix, 'row')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ product_leading_entries : {Any | hasattr(matrix, 'row...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1227d2f12dc51099  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.multivariate_resultants.DixonResultant.product_leading_entries","kind":"method","src_hash":"893977271c8fd376","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"product_leading_entries(mat)","rhs":"calculate the product of the leading entries of the matrix","over":{"base":"Any"},"name":"product_leading_entries_correct"},"guarantee":"calculate the product of the leading entries of the matrix","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.multivariate_resultants.DixonResultant.product_leading_entries_correct","statement":"Path(product_leading_entries(x), calculate the product of the leading entries of the matrix)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1227d2f12dc51099"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.multivariate_resultants.DixonResultant.product_leading_entries","kind":"method","src_hash":"893977271c8fd376","in":{"base":"Any","pred":"hasattr(matrix, 'rows') and hasattr(matrix, 'row')"},"out":{"base":"Any"},"spec":{"lhs":"product_leading_entries(matrix)","rhs":"<unspecified:product_leading_entries>","over":{"base":"Any","pred":"hasattr(matrix, 'rows') and hasattr(matrix, 'row')"},"name":"product_leading_entries_correct"},"guarantee":"calculate the product of the leading entries of the matrix","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.multivariate_resultants.DixonResultant.product_leading_entries_correct","statement":"Path(product_leading_entries(x), calculate the product of the leading entries of the matrix)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1227d2f12dc51099","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(matrix, 'rows')","hasattr(matrix, 'row')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["matrix.row","matrix.rows"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def product_leading_entries(self, matrix):
         """Calculate the product of the leading entries of the matrix."""
         res = 1
@@ -369,16 +441,23 @@ class DixonResultant():
         return res
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_KSY_Dixon_resultant(mat), calculate the kapur-saxena-yang approach to the dixon resultant) over Any ║
+# ║ Path(get_KSY_Dixon_resultant(matrix), self.product_leading_entries(matrix)) over {Any | hasattr(matrix, 'LUdecomposition')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ get_KSY_Dixon_resultant : Any → Any                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(matrix, 'LUdecomposition')             ║
+# ║   returns:  self.product_leading_entries(matrix)           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ get_KSY_Dixon_resultant : {Any | hasattr(matrix, 'LUd...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ef055e10231878e3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ec939774ed1b4f75  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.multivariate_resultants.DixonResultant.get_KSY_Dixon_resultant","kind":"method","src_hash":"fec12ba795bc6287","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_KSY_Dixon_resultant(mat)","rhs":"calculate the kapur-saxena-yang approach to the dixon resultant","over":{"base":"Any"},"name":"get_KSY_Dixon_resultant_correct"},"guarantee":"calculate the kapur-saxena-yang approach to the dixon resultant","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.multivariate_resultants.DixonResultant.get_KSY_Dixon_resultant_correct","statement":"Path(get_KSY_Dixon_resultant(x), calculate the kapur-saxena-yang approach to the dixon resultant)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ef055e10231878e3"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.multivariate_resultants.DixonResultant.get_KSY_Dixon_resultant","kind":"method","src_hash":"fec12ba795bc6287","in":{"base":"Any","pred":"hasattr(matrix, 'LUdecomposition')"},"out":{"base":"Any"},"spec":{"lhs":"get_KSY_Dixon_resultant(matrix)","rhs":"self.product_leading_entries(matrix)","over":{"base":"Any","pred":"hasattr(matrix, 'LUdecomposition')"},"name":"get_KSY_Dixon_resultant_correct"},"guarantee":"returns self.product_leading_entries(matrix)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.multivariate_resultants.DixonResultant.get_KSY_Dixon_resultant_correct","statement":"Path(get_KSY_Dixon_resultant(x), returns self.product_leading_entries(matrix))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ec939774ed1b4f75","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(matrix, 'LUdecomposition')"],"returns_expr":"self.product_leading_entries(matrix)","pure":false,"effects":{"effect_type":"reads_state","reads":["matrix.LUdecomposition","self.delete_zero_rows_and_columns","self.product_leading_entries"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def get_KSY_Dixon_resultant(self, matrix):
         """Calculate the Kapur-Saxena-Yang approach to the Dixon Resultant."""
         matrix = self.delete_zero_rows_and_columns(matrix)
@@ -390,14 +469,19 @@ class DixonResultant():
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a MacaulayResultant instance) preserved by MacaulayResultant(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ MacaulayResultant : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.9ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ae66969c14f7df1f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.multivariate_resultants.MacaulayResultant","kind":"class","src_hash":"6da7b384bf5521c2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"MacaulayResultant(*args)","rhs":"correctly constructs a MacaulayResultant instance","over":{"base":"Any"},"name":"MacaulayResultant_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a MacaulayResultant instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'polynomials') and hasattr(self, 'variables') and hasattr(self, 'n') and hasattr(self, 'degrees') and hasattr(self, 'degree_m') and hasattr(self, 'monomials_size') and hasattr(self, 'monomial_set')","kind":"class","induction":"structural on polynomials, variables, n, degrees"}],"methods_preserving":["__init__","_get_degree_m","get_size","get_monomials_of_certain_degree","get_row_coefficients","get_matrix","get_reduced_nonreduced","get_submatrix"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ae66969c14f7df1f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.multivariate_resultants.MacaulayResultant","kind":"class","src_hash":"6da7b384bf5521c2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"MacaulayResultant(*args)","rhs":"correctly constructs a MacaulayResultant instance","over":{"base":"Any"},"name":"MacaulayResultant_class_invariant","kind":"invariant"},"guarantee":"preserves 7 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'polynomials') and hasattr(self, 'variables') and hasattr(self, 'n') and hasattr(self, 'degrees') and hasattr(self, 'degree_m') and hasattr(self, 'monomials_size') and hasattr(self, 'monomial_set')","kind":"class","induction":"structural on polynomials, variables, n, degrees"}],"methods_preserving":["__init__","_get_degree_m","get_size","get_monomials_of_certain_degree","get_row_coefficients","get_matrix","get_reduced_nonreduced","get_submatrix"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ae66969c14f7df1f","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, 'polynomials')","hasattr(self, 'variables')","hasattr(self, 'n')","hasattr(self, 'degrees')","hasattr(self, 'degree_m')","hasattr(self, 'monomials_size')","hasattr(self, 'monomial_set')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.9,"verdict_class":"assumed","binding":false,"binding_errors":["Function MacaulayResultant not found in source"]}}
 class MacaulayResultant():
     """
     A class for calculating the Macaulay resultant. Note that the
@@ -446,16 +530,23 @@ class MacaulayResultant():
 
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(pol), initializes the instance correctly) over Any ║
+# ║ Path(__init__(polynomials, variables), self.polynomials == polynomials and self.variables == variables) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  self.polynomials == polynomials                ║
+# ║   ensures:  self.variables == variables                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : Any → {Any | result satisfies: self.polyno...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ee895becfc9d552f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.multivariate_resultants.MacaulayResultant.__init__","kind":"method","src_hash":"366e4031c352acb0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(pol)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ee895becfc9d552f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.multivariate_resultants.MacaulayResultant.__init__","kind":"method","src_hash":"366e4031c352acb0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: self.polynomials == polynomials and self.variables == variables"},"spec":{"lhs":"__init__(polynomials, variables)","rhs":"self.polynomials == polynomials and self.variables == variables","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"self.polynomials == polynomials; self.variables == variables","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ee895becfc9d552f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["self.polynomials == polynomials","self.variables == variables"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, polynomials, variables):
         """
         Parameters
@@ -481,16 +572,22 @@ class MacaulayResultant():
         self.monomial_set = self.get_monomials_of_certain_degree(self.degree_m)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_degree_m(), returns =======) over Any            ║
+# ║ Path(_get_degree_m(), 1 + sum((d - 1 for d in self.degrees))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  1 + sum((d - 1 for d in self.degrees))         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_degree_m : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f334d45d5a100c5e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.multivariate_resultants.MacaulayResultant._get_degree_m","kind":"method","src_hash":"69f81f80a724118a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_degree_m()","rhs":"returns =======","over":{"base":"Any"},"name":"_get_degree_m_correct"},"guarantee":"returns =======","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f334d45d5a100c5e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.multivariate_resultants.MacaulayResultant._get_degree_m","kind":"method","src_hash":"69f81f80a724118a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_degree_m()","rhs":"1 + sum((d - 1 for d in self.degrees))","over":{"base":"Any"},"name":"_get_degree_m_correct"},"guarantee":"returns 1 + sum((d - 1 for d in self.degrees))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f334d45d5a100c5e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"1 + sum((d - 1 for d in self.degrees))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.degrees"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_degree_m(self):
         r"""
         Returns
@@ -503,16 +600,22 @@ class MacaulayResultant():
         return 1 + sum(d - 1 for d in self.degrees)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_size(), returns =======) over Any                 ║
+# ║ Path(get_size(), binomial(self.degree_m + self.n - 1, self.n - 1)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  binomial(self.degree_m + self.n - 1, self...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ get_size : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2097b8f4015a7d4c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.multivariate_resultants.MacaulayResultant.get_size","kind":"method","src_hash":"1d5e3023bb7712cb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_size()","rhs":"returns =======","over":{"base":"Any"},"name":"get_size_correct"},"guarantee":"returns =======","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2097b8f4015a7d4c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.multivariate_resultants.MacaulayResultant.get_size","kind":"method","src_hash":"1d5e3023bb7712cb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_size()","rhs":"binomial(self.degree_m + self.n - 1, self.n - 1)","over":{"base":"Any"},"name":"get_size_correct"},"guarantee":"returns binomial(self.degree_m + self.n - 1, self.n - 1)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2097b8f4015a7d4c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"binomial(self.degree_m + self.n - 1, self.n - 1)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.degree_m","self.n"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def get_size(self):
         r"""
         Returns
@@ -526,16 +629,22 @@ class MacaulayResultant():
         return binomial(self.degree_m + self.n - 1, self.n - 1)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_monomials_of_certain_degree(deg), returns =======) over Any ║
+# ║ Path(get_monomials_of_certain_degree(degree), sorted(monomials, reverse=True, key=monomial_key('lex', self.variables))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  sorted(monomials, reverse=True, key=monom...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ get_monomials_of_certain_degree : Any → Any                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a6d9d0d260fea7e2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fadb662db4112c07  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.multivariate_resultants.MacaulayResultant.get_monomials_of_certain_degree","kind":"method","src_hash":"2affa2f5ea63d2a8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_monomials_of_certain_degree(deg)","rhs":"returns =======","over":{"base":"Any"},"name":"get_monomials_of_certain_degree_correct"},"guarantee":"returns =======","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.multivariate_resultants.MacaulayResultant.get_monomials_of_certain_degree_correct","statement":"Path(get_monomials_of_certain_degree(x), returns =======)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a6d9d0d260fea7e2"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.multivariate_resultants.MacaulayResultant.get_monomials_of_certain_degree","kind":"method","src_hash":"2affa2f5ea63d2a8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_monomials_of_certain_degree(degree)","rhs":"sorted(monomials, reverse=True, key=monomial_key('lex', self.variables))","over":{"base":"Any"},"name":"get_monomials_of_certain_degree_correct"},"guarantee":"returns sorted(monomials, reverse=True, key=monomial_key('lex', self.variables))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.multivariate_resultants.MacaulayResultant.get_monomials_of_certain_degree_correct","statement":"Path(get_monomials_of_certain_degree(x), returns sorted(monomials, reverse=True, key=monomial_key('lex', self.variables)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fadb662db4112c07","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"sorted(monomials, reverse=True, key=monomial_key('lex', self.variables))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.variables"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def get_monomials_of_certain_degree(self, degree):
         """
         Returns
@@ -552,16 +661,22 @@ class MacaulayResultant():
                       key=monomial_key('lex', self.variables))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_row_coefficients(), returns =======) over Any     ║
+# ║ Path(get_row_coefficients(), <unspecified:get_row_coefficients>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ get_row_coefficients : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c921fe2243e3b8b0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.multivariate_resultants.MacaulayResultant.get_row_coefficients","kind":"method","src_hash":"0bef26b9fc0a99d6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_row_coefficients()","rhs":"returns =======","over":{"base":"Any"},"name":"get_row_coefficients_correct"},"guarantee":"returns =======","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.multivariate_resultants.MacaulayResultant.get_row_coefficients_correct","statement":"Path(get_row_coefficients(x), returns =======)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c921fe2243e3b8b0"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.multivariate_resultants.MacaulayResultant.get_row_coefficients","kind":"method","src_hash":"0bef26b9fc0a99d6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_row_coefficients()","rhs":"<unspecified:get_row_coefficients>","over":{"base":"Any"},"name":"get_row_coefficients_correct"},"guarantee":"returns =======","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.multivariate_resultants.MacaulayResultant.get_row_coefficients_correct","statement":"Path(get_row_coefficients(x), returns =======)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c921fe2243e3b8b0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def get_row_coefficients(self):
         """
         Returns
@@ -591,16 +706,22 @@ class MacaulayResultant():
         return row_coefficients
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_matrix(), returns =======) over Any               ║
+# ║ Path(get_matrix(), <unspecified:get_matrix>) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ get_matrix : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eca46d1ff275f5e9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.multivariate_resultants.MacaulayResultant.get_matrix","kind":"method","src_hash":"95e925b8b5604b5b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_matrix()","rhs":"returns =======","over":{"base":"Any"},"name":"get_matrix_correct"},"guarantee":"returns =======","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.multivariate_resultants.MacaulayResultant.get_matrix_correct","statement":"Path(get_matrix(x), returns =======)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eca46d1ff275f5e9"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.multivariate_resultants.MacaulayResultant.get_matrix","kind":"method","src_hash":"95e925b8b5604b5b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_matrix()","rhs":"<unspecified:get_matrix>","over":{"base":"Any"},"name":"get_matrix_correct"},"guarantee":"returns =======","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.multivariate_resultants.MacaulayResultant.get_matrix_correct","statement":"Path(get_matrix(x), returns =======)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eca46d1ff275f5e9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def get_matrix(self):
         """
         Returns
@@ -625,16 +746,22 @@ class MacaulayResultant():
         return macaulay_matrix
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_reduced_nonreduced(), returns =======) over Any   ║
+# ║ Path(get_reduced_nonreduced(), (reduced, non_reduced)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (reduced, non_reduced)                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ get_reduced_nonreduced : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e37eb00f4380fc3f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 66f86ab5168ac0d6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.multivariate_resultants.MacaulayResultant.get_reduced_nonreduced","kind":"method","src_hash":"0c7647194b305ce8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_reduced_nonreduced()","rhs":"returns =======","over":{"base":"Any"},"name":"get_reduced_nonreduced_correct"},"guarantee":"returns =======","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.multivariate_resultants.MacaulayResultant.get_reduced_nonreduced_correct","statement":"Path(get_reduced_nonreduced(x), returns =======)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e37eb00f4380fc3f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.multivariate_resultants.MacaulayResultant.get_reduced_nonreduced","kind":"method","src_hash":"0c7647194b305ce8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_reduced_nonreduced()","rhs":"(reduced, non_reduced)","over":{"base":"Any"},"name":"get_reduced_nonreduced_correct"},"guarantee":"returns (reduced, non_reduced)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.multivariate_resultants.MacaulayResultant.get_reduced_nonreduced_correct","statement":"Path(get_reduced_nonreduced(x), returns (reduced, non_reduced))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"66f86ab5168ac0d6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(reduced, non_reduced)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def get_reduced_nonreduced(self):
         r"""
         Returns
@@ -667,16 +794,22 @@ class MacaulayResultant():
         return reduced, non_reduced
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_submatrix(mat), returns =======) over Any         ║
+# ║ Path(get_submatrix(matrix), <unspecified:get_submatrix>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ get_submatrix : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d9acd3f2052f3f00  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.multivariate_resultants.MacaulayResultant.get_submatrix","kind":"method","src_hash":"538faa8f8ce65f01","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_submatrix(mat)","rhs":"returns =======","over":{"base":"Any"},"name":"get_submatrix_correct"},"guarantee":"returns =======","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.multivariate_resultants.MacaulayResultant.get_submatrix_correct","statement":"Path(get_submatrix(x), returns =======)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d9acd3f2052f3f00"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.multivariate_resultants.MacaulayResultant.get_submatrix","kind":"method","src_hash":"538faa8f8ce65f01","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_submatrix(matrix)","rhs":"<unspecified:get_submatrix>","over":{"base":"Any"},"name":"get_submatrix_correct"},"guarantee":"returns =======","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.multivariate_resultants.MacaulayResultant.get_submatrix_correct","statement":"Path(get_submatrix(x), returns =======)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d9acd3f2052f3f00","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def get_submatrix(self, matrix):
         r"""
         Returns

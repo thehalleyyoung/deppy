@@ -25,16 +25,24 @@ from sympy.polys.polyerrors import DomainError
 from sympy.polys.polyconfig import query
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(groebner(seq), computes groebner basis for a set of polynomials in `k[x]`) over Any ║
+# ║ Path(groebner(seq, ring, method), <unspecified:groebner>) over {Any | hasattr(ring, 'domain') and hasattr(ring, 'clone')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ groebner : Any → Any                                       ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(ring, 'domain')                        ║
+# ║   requires: hasattr(ring, 'clone')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ groebner : {Any | hasattr(ring, 'domain') and hasattr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 07b1394421f5819b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.groebnertools.groebner","kind":"function","src_hash":"e4dcd69780f7e044","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"groebner(seq)","rhs":"computes groebner basis for a set of polynomials in `k[x]`","over":{"base":"Any"},"name":"groebner_correct"},"guarantee":"computes groebner basis for a set of polynomials in `k[x]`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.groebnertools.groebner_correct","statement":"Path(groebner(x), computes groebner basis for a set of polynomials in `k[x]`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"07b1394421f5819b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.groebnertools.groebner","kind":"function","src_hash":"e4dcd69780f7e044","in":{"base":"Any","pred":"hasattr(ring, 'domain') and hasattr(ring, 'clone')"},"out":{"base":"Any"},"spec":{"lhs":"groebner(seq, ring, method)","rhs":"<unspecified:groebner>","over":{"base":"Any","pred":"hasattr(ring, 'domain') and hasattr(ring, 'clone')"},"name":"groebner_correct"},"guarantee":"computes groebner basis for a set of polynomials in `k[x]`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.groebnertools.groebner_correct","statement":"Path(groebner(x), computes groebner basis for a set of polynomials in `k[x]`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"07b1394421f5819b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(ring, 'domain')","hasattr(ring, 'clone')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["ring.clone","ring.domain"],"raises":["DomainError","ValueError"],"catches":["DomainError","KeyError"]},"state_contract":{"exceptional_post":{"DomainError":["isinstance(raised, DomainError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def groebner(seq, ring, method=None):
     """
     Computes Groebner basis for a set of polynomials in `K[X]`.
@@ -76,16 +84,27 @@ def groebner(seq, ring, method=None):
     return G
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_buchberger(f, ), computes groebner basis for a set of polynomials in `k[x]`) over Any ║
+# ║ Path(_buchberger(f, ring), len(B) == old_len_B - 1 and len(C) == old_len_C - 1 and len(D) == old_len_D - 1 and len(G) == old_len_G - 1 and len(f) == old_len_f + 1 and len(f1) == old_len_f1 + 1) over {Any | hasattr(ring, 'order') and hasattr(ring, 'monomial_mul') and hasattr(ring, 'monomial_div') and hasattr(ring, 'monomial_lcm') and hasattr(f, 'append') and hasattr(f, 'LM') and len(B) > 0 and len(C) > 0 and len(D) > 0 and len(G) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _buchberger : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(ring, 'order')                         ║
+# ║   requires: hasattr(ring, 'monomial_mul')                  ║
+# ║   requires: hasattr(ring, 'monomial_div')                  ║
+# ║   ensures:  len(B) == old_len_B - 1                        ║
+# ║   ensures:  len(C) == old_len_C - 1                        ║
+# ║   ensures:  len(D) == old_len_D - 1                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _buchberger : {Any | hasattr(ring, 'order') and hasat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 277cf16d042679a9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c651ac542cb50192  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.groebnertools._buchberger","kind":"function","src_hash":"09a4470ef8b05d93","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_buchberger(f, )","rhs":"computes groebner basis for a set of polynomials in `k[x]`","over":{"base":"Any"},"name":"_buchberger_correct"},"guarantee":"computes groebner basis for a set of polynomials in `k[x]`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.groebnertools._buchberger_correct","statement":"Path(_buchberger(x), computes groebner basis for a set of polynomials in `k[x]`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"277cf16d042679a9"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.groebnertools._buchberger","kind":"function","src_hash":"09a4470ef8b05d93","in":{"base":"Any","pred":"hasattr(ring, 'order') and hasattr(ring, 'monomial_mul') and hasattr(ring, 'monomial_div') and hasattr(ring, 'monomial_lcm') and hasattr(f, 'append') and hasattr(f, 'LM') and len(B) > 0 and len(C) > 0 and len(D) > 0 and len(G) > 0"},"out":{"base":"Any","pred":"result satisfies: len(B) == old_len_B - 1 and len(C) == old_len_C - 1 and len(D) == old_len_D - 1 and len(G) == old_len_G - 1 and len(f) == old_len_f + 1 and len(f1) == old_len_f1 + 1"},"spec":{"lhs":"_buchberger(f, ring)","rhs":"len(B) == old_len_B - 1 and len(C) == old_len_C - 1 and len(D) == old_len_D - 1 and len(G) == old_len_G - 1 and len(f) == old_len_f + 1 and len(f1) == old_len_f1 + 1","over":{"base":"Any","pred":"hasattr(ring, 'order') and hasattr(ring, 'monomial_mul') and hasattr(ring, 'monomial_div') and hasattr(ring, 'monomial_lcm') and hasattr(f, 'append') and hasattr(f, 'LM') and len(B) > 0 and len(C) > 0 and len(D) > 0 and len(G) > 0"},"name":"_buchberger_correct"},"guarantee":"len(B) == old_len_B - 1; len(C) == old_len_C - 1; len(D) == old_len_D - 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.groebnertools._buchberger_correct","statement":"Path(_buchberger(x), len(B) == old_len_B - 1; len(C) == old_len_C - 1; len(D) == old_len_D - 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c651ac542cb50192","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(ring, 'order')","hasattr(ring, 'monomial_mul')","hasattr(ring, 'monomial_div')","hasattr(ring, 'monomial_lcm')","hasattr(f, 'append')","hasattr(f, 'LM')","len(B) > 0","len(C) > 0","len(D) > 0","len(G) > 0"],"ensures":["len(B) == old_len_B - 1","len(C) == old_len_C - 1","len(D) == old_len_D - 1","len(G) == old_len_G - 1","len(f) == old_len_f + 1","len(f1) == old_len_f1 + 1"],"pure":false,"effects":{"effect_type":"mutates_args","reads":["f.LM","f.append","ring.monomial_div","ring.monomial_lcm","ring.monomial_mul","ring.order"],"calls_mutating":["B.pop","B_new.add","C.pop","CP.remove","D.add","D.pop","E.add","F.add","F.remove","G.pop","G_new.add","Gr.add","f.append","f1.append"]},"state_contract":{"modifies":["B.*","B_new.*","C.*","CP.*","D.*","E.*","F.*","G.*","G_new.*","Gr.*","f.*","f1.*"],"old_bindings":{"old_len_B":"len(B)","old_len_C":"len(C)","old_len_D":"len(D)","old_len_G":"len(G)","old_len_f":"len(f)","old_len_f1":"len(f1)"},"pre_requires":["len(B) > 0","len(C) > 0","len(D) > 0","len(G) > 0"],"post_ensures":["len(B) == old_len_B - 1","len(C) == old_len_C - 1","len(D) == old_len_D - 1","len(G) == old_len_G - 1","len(f) == old_len_f + 1","len(f1) == old_len_f1 + 1"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"assumed","binding":true}}
 def _buchberger(f, ring):
     """
     Computes Groebner basis for a set of polynomials in `K[X]`.
@@ -299,16 +318,25 @@ def _buchberger(f, ring):
     return Gr
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(spoly(p1,), compute lcm(lm(p1), lm(p2))/lm(p1)*p1 - lcm(lm(p1), lm(p2))/lm(p2)*p2 this is the s-poly provided p1 and p2 are monic) over Any ║
+# ║ Path(spoly(p1, p2, ring), <unspecified:spoly>) over {Any | hasattr(p1, 'LM') and hasattr(p2, 'LM') and hasattr(ring, 'monomial_lcm') and hasattr(ring, 'monomial_div') and hasattr(p1, 'mul_monom') and hasattr(p2, 'mul_monom')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ spoly : Any → Any                                          ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(p1, 'LM')                              ║
+# ║   requires: hasattr(p2, 'LM')                              ║
+# ║   requires: hasattr(ring, 'monomial_lcm')                  ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ spoly : {Any | hasattr(p1, 'LM') and hasattr(p2, 'LM'...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4aa2df1544deb059  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.groebnertools.spoly","kind":"function","src_hash":"3e8d05b4781b6cff","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"spoly(p1,)","rhs":"compute lcm(lm(p1), lm(p2))/lm(p1)*p1 - lcm(lm(p1), lm(p2))/lm(p2)*p2 this is the s-poly provided p1 and p2 are monic","over":{"base":"Any"},"name":"spoly_correct"},"guarantee":"compute lcm(lm(p1), lm(p2))/lm(p1)*p1 - lcm(lm(p1), lm(p2))/lm(p2)*p2 this is the s-poly provided p1 and p2 are monic","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.groebnertools.spoly_correct","statement":"Path(spoly(x), compute lcm(lm(p1), lm(p2))/lm(p1)*p1 - lcm(lm(p1), lm(p2))/lm(p2)*p2 this is the s-poly provided p1 and p2 are monic)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4aa2df1544deb059"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.groebnertools.spoly","kind":"function","src_hash":"3e8d05b4781b6cff","in":{"base":"Any","pred":"hasattr(p1, 'LM') and hasattr(p2, 'LM') and hasattr(ring, 'monomial_lcm') and hasattr(ring, 'monomial_div') and hasattr(p1, 'mul_monom') and hasattr(p2, 'mul_monom')"},"out":{"base":"Any"},"spec":{"lhs":"spoly(p1, p2, ring)","rhs":"<unspecified:spoly>","over":{"base":"Any","pred":"hasattr(p1, 'LM') and hasattr(p2, 'LM') and hasattr(ring, 'monomial_lcm') and hasattr(ring, 'monomial_div') and hasattr(p1, 'mul_monom') and hasattr(p2, 'mul_monom')"},"name":"spoly_correct"},"guarantee":"compute lcm(lm(p1), lm(p2))/lm(p1)*p1 - lcm(lm(p1), lm(p2))/lm(p2)*p2 this is the s-poly provided p1 and p2 are monic","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.groebnertools.spoly_correct","statement":"Path(spoly(x), compute lcm(lm(p1), lm(p2))/lm(p1)*p1 - lcm(lm(p1), lm(p2))/lm(p2)*p2 this is the s-poly provided p1 and p2 are monic)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4aa2df1544deb059","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(p1, 'LM')","hasattr(p2, 'LM')","hasattr(ring, 'monomial_lcm')","hasattr(ring, 'monomial_div')","hasattr(p1, 'mul_monom')","hasattr(p2, 'mul_monom')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["p1.LM","p1.mul_monom","p2.LM","p2.mul_monom","ring.monomial_div","ring.monomial_lcm"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def spoly(p1, p2, ring):
     """
     Compute LCM(LM(p1), LM(p2))/LM(p1)*p1 - LCM(LM(p1), LM(p2))/LM(p2)*p2
@@ -330,76 +358,106 @@ def spoly(p1, p2, ring):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(Sign(f), Sign produces the expected output) over Any  ║
+# ║ Path(Sign(f), f[0]) over Any                               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  f[0]                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Sign : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7d2e0dba5f5d8f0e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.groebnertools.Sign","kind":"function","src_hash":"285340a92aa72c1f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Sign(f)","rhs":"Sign produces the expected output","over":{"base":"Any"},"name":"Sign_correct"},"guarantee":"Sign produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7d2e0dba5f5d8f0e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.groebnertools.Sign","kind":"function","src_hash":"285340a92aa72c1f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Sign(f)","rhs":"f[0]","over":{"base":"Any"},"name":"Sign_correct"},"guarantee":"returns f[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7d2e0dba5f5d8f0e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"f[0]","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def Sign(f):
     return f[0]
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(Polyn(f), Polyn produces the expected output) over Any ║
+# ║ Path(Polyn(f), f[1]) over Any                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  f[1]                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Polyn : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c78f3c6596d75ca6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.groebnertools.Polyn","kind":"function","src_hash":"063f073b0e27d3ac","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Polyn(f)","rhs":"Polyn produces the expected output","over":{"base":"Any"},"name":"Polyn_correct"},"guarantee":"Polyn produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c78f3c6596d75ca6"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.groebnertools.Polyn","kind":"function","src_hash":"063f073b0e27d3ac","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Polyn(f)","rhs":"f[1]","over":{"base":"Any"},"name":"Polyn_correct"},"guarantee":"returns f[1]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c78f3c6596d75ca6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"f[1]","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def Polyn(f):
     return f[1]
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(Num(f), Num produces the expected output) over Any    ║
+# ║ Path(Num(f), f[2]) over Any                                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  f[2]                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Num : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | eb685ba27a9cf1d6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.groebnertools.Num","kind":"function","src_hash":"d873e57aa488c8c1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Num(f)","rhs":"Num produces the expected output","over":{"base":"Any"},"name":"Num_correct"},"guarantee":"Num produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"eb685ba27a9cf1d6"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.groebnertools.Num","kind":"function","src_hash":"d873e57aa488c8c1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Num(f)","rhs":"f[2]","over":{"base":"Any"},"name":"Num_correct"},"guarantee":"returns f[2]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"eb685ba27a9cf1d6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"f[2]","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def Num(f):
     return f[2]
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sig(mon), sig produces the expected output) over Any  ║
+# ║ Path(sig(monomial, index), (monomial, index)) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (monomial, index)                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ sig : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e2f5639fb8882776           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.groebnertools.sig","kind":"function","src_hash":"857ca88b951159cf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sig(mon)","rhs":"sig produces the expected output","over":{"base":"Any"},"name":"sig_correct"},"guarantee":"sig produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e2f5639fb8882776"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.groebnertools.sig","kind":"function","src_hash":"857ca88b951159cf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sig(monomial, index)","rhs":"(monomial, index)","over":{"base":"Any"},"name":"sig_correct"},"guarantee":"returns (monomial, index)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e2f5639fb8882776","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(monomial, index)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def sig(monomial, index):
     return (monomial, index)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(lbp(sig), lbp produces the expected output) over Any  ║
+# ║ Path(lbp(signature, polynomial, number), (signature, polynomial, number)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (signature, polynomial, number)                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ lbp : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 81576503eeb07d0a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.groebnertools.lbp","kind":"function","src_hash":"4ac7878debf059a6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"lbp(sig)","rhs":"lbp produces the expected output","over":{"base":"Any"},"name":"lbp_correct"},"guarantee":"lbp produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"81576503eeb07d0a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.groebnertools.lbp","kind":"function","src_hash":"4ac7878debf059a6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"lbp(signature, polynomial, number)","rhs":"(signature, polynomial, number)","over":{"base":"Any"},"name":"lbp_correct"},"guarantee":"returns (signature, polynomial, number)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"81576503eeb07d0a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(signature, polynomial, number)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def lbp(signature, polynomial, number):
     return (signature, polynomial, number)
 
@@ -407,16 +465,22 @@ def lbp(signature, polynomial, number):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sig_cmp(u, ), compare two signatures by extending the term order to k[x]^n) over Any ║
+# ║ Path(sig_cmp(u, v, order), <unspecified:sig_cmp>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ sig_cmp : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3521b7b5a5b7082b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.groebnertools.sig_cmp","kind":"function","src_hash":"67d739ca22a38d46","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sig_cmp(u, )","rhs":"compare two signatures by extending the term order to k[x]^n","over":{"base":"Any"},"name":"sig_cmp_correct"},"guarantee":"compare two signatures by extending the term order to k[x]^n","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.groebnertools.sig_cmp_correct","statement":"Path(sig_cmp(x), compare two signatures by extending the term order to k[x]^n)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3521b7b5a5b7082b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.groebnertools.sig_cmp","kind":"function","src_hash":"67d739ca22a38d46","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sig_cmp(u, v, order)","rhs":"<unspecified:sig_cmp>","over":{"base":"Any"},"name":"sig_cmp_correct"},"guarantee":"compare two signatures by extending the term order to k[x]^n","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.groebnertools.sig_cmp_correct","statement":"Path(sig_cmp(x), compare two signatures by extending the term order to k[x]^n)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3521b7b5a5b7082b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def sig_cmp(u, v, order):
     """
     Compare two signatures by extending the term order to K[X]^n.
@@ -439,16 +503,22 @@ def sig_cmp(u, v, order):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sig_key(s, ), key for comparing two signatures) over Any ║
+# ║ Path(sig_key(s, order), (-s[1], order(s[0]))) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (-s[1], order(s[0]))                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ sig_key : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4a1bf3d7a1de22f5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.groebnertools.sig_key","kind":"function","src_hash":"1748cc0bcbec5c78","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sig_key(s, )","rhs":"key for comparing two signatures","over":{"base":"Any"},"name":"sig_key_correct"},"guarantee":"key for comparing two signatures","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4a1bf3d7a1de22f5"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.groebnertools.sig_key","kind":"function","src_hash":"1748cc0bcbec5c78","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sig_key(s, order)","rhs":"(-s[1], order(s[0]))","over":{"base":"Any"},"name":"sig_key_correct"},"guarantee":"returns (-s[1], order(s[0]))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4a1bf3d7a1de22f5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(-s[1], order(s[0]))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def sig_key(s, order):
     """
     Key for comparing two signatures.
@@ -462,16 +532,22 @@ def sig_key(s, order):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sig_mult(s, ), multiply a signature by a monomial) over Any ║
+# ║ Path(sig_mult(s, m), sig(monomial_mul(s[0], m), s[1])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  sig(monomial_mul(s[0], m), s[1])               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ sig_mult : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7e3d3f17013640c7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.groebnertools.sig_mult","kind":"function","src_hash":"9e9adc58b2658c0f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sig_mult(s, )","rhs":"multiply a signature by a monomial","over":{"base":"Any"},"name":"sig_mult_correct"},"guarantee":"multiply a signature by a monomial","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7e3d3f17013640c7"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.groebnertools.sig_mult","kind":"function","src_hash":"9e9adc58b2658c0f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sig_mult(s, m)","rhs":"sig(monomial_mul(s[0], m), s[1])","over":{"base":"Any"},"name":"sig_mult_correct"},"guarantee":"returns sig(monomial_mul(s[0], m), s[1])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7e3d3f17013640c7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"sig(monomial_mul(s[0], m), s[1])","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def sig_mult(s, m):
     """
     Multiply a signature by a monomial.
@@ -485,16 +561,22 @@ def sig_mult(s, m):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(lbp_sub(f, ), id) over Any                            ║
+# ║ Path(lbp_sub(f, g), id) over Any                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  lbp(Sign(max_poly), ret, Num(max_poly))        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ lbp_sub : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 9d67e2be7670caed   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.groebnertools.lbp_sub","kind":"function","src_hash":"b6865c76a3bc7e1a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"lbp_sub(f, )","rhs":"subtract labeled polynomial g from f","over":{"base":"Any"},"name":"lbp_sub_correct","kind":"composition"},"guarantee":"subtract labeled polynomial g from f","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"lbp","by":"library_axiom"},{"fn":"Sign","by":"library_axiom"},{"fn":"Num","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9d67e2be7670caed"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.groebnertools.lbp_sub","kind":"function","src_hash":"b6865c76a3bc7e1a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"lbp_sub(f, g)","rhs":"lbp(Sign(max_poly), ret, Num(max_poly))","over":{"base":"Any"},"name":"lbp_sub_correct","kind":"composition"},"guarantee":"returns lbp(Sign(max_poly), ret, Num(max_poly))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"lbp","by":"library_axiom"},{"fn":"Sign","by":"library_axiom"},{"fn":"Num","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9d67e2be7670caed","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"lbp(Sign(max_poly), ret, Num(max_poly))","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def lbp_sub(f, g):
     """
     Subtract labeled polynomial g from f.
@@ -513,16 +595,22 @@ def lbp_sub(f, g):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(lbp_mul_term(f, ), multiply a labeled polynomial with a term) over Any ║
+# ║ Path(lbp_mul_term(f, cx), lbp(sig_mult(Sign(f), cx[0]), Polyn(f).mul_term(cx), Num(f))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  lbp(sig_mult(Sign(f), cx[0]), Polyn(f).mu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ lbp_mul_term : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f96689eaf2e62ba0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.groebnertools.lbp_mul_term","kind":"function","src_hash":"77dbce21935af699","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"lbp_mul_term(f, )","rhs":"multiply a labeled polynomial with a term","over":{"base":"Any"},"name":"lbp_mul_term_correct"},"guarantee":"multiply a labeled polynomial with a term","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f96689eaf2e62ba0"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.groebnertools.lbp_mul_term","kind":"function","src_hash":"77dbce21935af699","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"lbp_mul_term(f, cx)","rhs":"lbp(sig_mult(Sign(f), cx[0]), Polyn(f).mul_term(cx), Num(f))","over":{"base":"Any"},"name":"lbp_mul_term_correct"},"guarantee":"returns lbp(sig_mult(Sign(f), cx[0]), Polyn(f).mul_term(cx), Num(f))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f96689eaf2e62ba0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"lbp(sig_mult(Sign(f), cx[0]), Polyn(f).mul_term(cx), Num(f))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":true}}
 def lbp_mul_term(f, cx):
     """
     Multiply a labeled polynomial with a term.
@@ -534,16 +622,22 @@ def lbp_mul_term(f, cx):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(lbp_cmp(f, ), compare two labeled polynomials) over Any ║
+# ║ Path(lbp_cmp(f, g), <unspecified:lbp_cmp>) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ lbp_cmp : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 860a65585cfd0435  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.groebnertools.lbp_cmp","kind":"function","src_hash":"818587280c5f4689","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"lbp_cmp(f, )","rhs":"compare two labeled polynomials","over":{"base":"Any"},"name":"lbp_cmp_correct"},"guarantee":"compare two labeled polynomials","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.groebnertools.lbp_cmp_correct","statement":"Path(lbp_cmp(x), compare two labeled polynomials)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"860a65585cfd0435"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.groebnertools.lbp_cmp","kind":"function","src_hash":"818587280c5f4689","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"lbp_cmp(f, g)","rhs":"<unspecified:lbp_cmp>","over":{"base":"Any"},"name":"lbp_cmp_correct"},"guarantee":"compare two labeled polynomials","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.groebnertools.lbp_cmp_correct","statement":"Path(lbp_cmp(x), compare two labeled polynomials)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"860a65585cfd0435","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def lbp_cmp(f, g):
     """
     Compare two labeled polynomials.
@@ -566,16 +660,22 @@ def lbp_cmp(f, g):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(lbp_key(f), key for comparing two labeled polynomials) over Any ║
+# ║ Path(lbp_key(f), (sig_key(Sign(f), Polyn(f).ring.order), -Num(f))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (sig_key(Sign(f), Polyn(f).ring.order), -...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ lbp_key : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6a5c4fa987aab80c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.groebnertools.lbp_key","kind":"function","src_hash":"468bb41199298d6a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"lbp_key(f)","rhs":"key for comparing two labeled polynomials","over":{"base":"Any"},"name":"lbp_key_correct"},"guarantee":"key for comparing two labeled polynomials","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6a5c4fa987aab80c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.groebnertools.lbp_key","kind":"function","src_hash":"468bb41199298d6a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"lbp_key(f)","rhs":"(sig_key(Sign(f), Polyn(f).ring.order), -Num(f))","over":{"base":"Any"},"name":"lbp_key_correct"},"guarantee":"returns (sig_key(Sign(f), Polyn(f).ring.order), -Num(f))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6a5c4fa987aab80c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(sig_key(Sign(f), Polyn(f).ring.order), -Num(f))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":true}}
 def lbp_key(f):
     """
     Key for comparing two labeled polynomials.
@@ -586,16 +686,26 @@ def lbp_key(f):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(critical_pair(f, ), compute the critical pair corresponding to two labeled polynomials) over Any ║
+# ║ Path(critical_pair(f, g, ring), result == ((Sign(gr), vm, g, Sign(fr), um, f) if lbp_cmp(fr, gr) == -1 else (Sign(fr), um, f, Sign(gr), vm, g)) and result == (Sign(gr), vm, g, Sign(fr), um, f) or result == (Sign(fr), um, f, Sign(gr), vm, g)) over {Any | hasattr(ring, 'domain')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ critical_pair : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(ring, 'domain')                        ║
+# ║   ensures:  result == ((Sign(gr), vm, g, Sign(fr), um...   ║
+# ║   ensures:  result == (Sign(gr), vm, g, Sign(fr), um,...   ║
+# ║   fiber[case_0]: lbp_cmp(fr, gr) == -1 => (Sign(gr), ...   ║
+# ║   fiber[case_1]: not (lbp_cmp(fr, gr) == -1) => (Sign...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ critical_pair : {Any | hasattr(ring, 'domain')} → {An...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 95d3b28631f2b1b0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 49fd88999d1d6cfa  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.groebnertools.critical_pair","kind":"function","src_hash":"340e51e6dce208c5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"critical_pair(f, )","rhs":"compute the critical pair corresponding to two labeled polynomials","over":{"base":"Any"},"name":"critical_pair_correct"},"guarantee":"compute the critical pair corresponding to two labeled polynomials","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.groebnertools.critical_pair_correct","statement":"Path(critical_pair(x), compute the critical pair corresponding to two labeled polynomials)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"95d3b28631f2b1b0"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.groebnertools.critical_pair","kind":"function","src_hash":"340e51e6dce208c5","in":{"base":"Any","pred":"hasattr(ring, 'domain')"},"out":{"base":"Any","pred":"result satisfies: result == ((Sign(gr), vm, g, Sign(fr), um, f) if lbp_cmp(fr, gr) == -1 else (Sign(fr), um, f, Sign(gr), vm, g)) and result == (Sign(gr), vm, g, Sign(fr), um, f) or result == (Sign(fr), um, f, Sign(gr), vm, g)"},"spec":{"lhs":"critical_pair(f, g, ring)","rhs":"result == ((Sign(gr), vm, g, Sign(fr), um, f) if lbp_cmp(fr, gr) == -1 else (Sign(fr), um, f, Sign(gr), vm, g)) and result == (Sign(gr), vm, g, Sign(fr), um, f) or result == (Sign(fr), um, f, Sign(gr), vm, g)","over":{"base":"Any","pred":"hasattr(ring, 'domain')"},"name":"critical_pair_correct"},"guarantee":"result == ((Sign(gr), vm, g, Sign(fr), um, f) if lbp_cmp(fr, gr) == -1 else (Sign(fr), um, f, Sign(gr), vm, g)); result == (Sign(gr), vm, g, Sign(fr), um, f) or result == (Sign(fr), um, f, Sign(gr), vm, g); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.groebnertools.critical_pair_correct","statement":"Path(critical_pair(x), result == ((Sign(gr), vm, g, Sign(fr), um, f) if lbp_cmp(fr, gr) == -1 else (Sign(fr), um, f, Sign(gr), vm, g)); result == (Sign(gr), vm, g, Sign(fr), um, f) or result == (Sign(fr), um, f, Sign(gr), vm, g); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"49fd88999d1d6cfa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(ring, 'domain')"],"ensures":["result == ((Sign(gr), vm, g, Sign(fr), um, f) if lbp_cmp(fr, gr) == -1 else (Sign(fr), um, f, Sign(gr), vm, g))","result == (Sign(gr), vm, g, Sign(fr), um, f) or result == (Sign(fr), um, f, Sign(gr), vm, g)"],"fibers":[{"name":"case_0","guard":"lbp_cmp(fr, gr) == -1","ensures":["result == (Sign(gr), vm, g, Sign(fr), um, f)"],"decidability":"z3","returns_expr":"(Sign(gr), vm, g, Sign(fr), um, f)"},{"name":"case_1","guard":"not (lbp_cmp(fr, gr) == -1)","ensures":["result == (Sign(fr), um, f, Sign(gr), vm, g)"],"decidability":"z3","returns_expr":"(Sign(fr), um, f, Sign(gr), vm, g)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["ring.domain"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def critical_pair(f, g, ring):
     """
     Compute the critical pair corresponding to two labeled polynomials.
@@ -632,16 +742,22 @@ def critical_pair(f, g, ring):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(cp_cmp(c, ), compare two critical pairs c and d) over Any ║
+# ║ Path(cp_cmp(c, d), <unspecified:cp_cmp>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ cp_cmp : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f8f01e4641b8f337  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.groebnertools.cp_cmp","kind":"function","src_hash":"e7fa9f42dd97af2c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"cp_cmp(c, )","rhs":"compare two critical pairs c and d","over":{"base":"Any"},"name":"cp_cmp_correct"},"guarantee":"compare two critical pairs c and d","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.groebnertools.cp_cmp_correct","statement":"Path(cp_cmp(x), compare two critical pairs c and d)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f8f01e4641b8f337"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.groebnertools.cp_cmp","kind":"function","src_hash":"e7fa9f42dd97af2c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"cp_cmp(c, d)","rhs":"<unspecified:cp_cmp>","over":{"base":"Any"},"name":"cp_cmp_correct"},"guarantee":"compare two critical pairs c and d","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.groebnertools.cp_cmp_correct","statement":"Path(cp_cmp(x), compare two critical pairs c and d)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f8f01e4641b8f337","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def cp_cmp(c, d):
     """
     Compare two critical pairs c and d.
@@ -679,16 +795,23 @@ def cp_cmp(c, d):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(cp_key(c, ), key for comparing critical pairs) over Any ║
+# ║ Path(cp_key(c, ring), (lbp_key(lbp(c[0], ring.zero, Num(c[2]))), lbp_key(lbp(c[3], ring.zero, Num(c[5]))))) over {Any | hasattr(ring, 'zero')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ cp_key : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(ring, 'zero')                          ║
+# ║   returns:  (lbp_key(lbp(c[0], ring.zero, Num(c[2])))...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ cp_key : {Any | hasattr(ring, 'zero')} → Any               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a31207e8e30e9581           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.groebnertools.cp_key","kind":"function","src_hash":"d5acf278caa929e9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"cp_key(c, )","rhs":"key for comparing critical pairs","over":{"base":"Any"},"name":"cp_key_correct"},"guarantee":"key for comparing critical pairs","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a31207e8e30e9581"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.groebnertools.cp_key","kind":"function","src_hash":"d5acf278caa929e9","in":{"base":"Any","pred":"hasattr(ring, 'zero')"},"out":{"base":"Any"},"spec":{"lhs":"cp_key(c, ring)","rhs":"(lbp_key(lbp(c[0], ring.zero, Num(c[2]))), lbp_key(lbp(c[3], ring.zero, Num(c[5]))))","over":{"base":"Any","pred":"hasattr(ring, 'zero')"},"name":"cp_key_correct"},"guarantee":"returns (lbp_key(lbp(c[0], ring.zero, Num(c[2]))), lbp_key(lbp(c[3], ring.zero, Num(c[5]))))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a31207e8e30e9581","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(ring, 'zero')"],"returns_expr":"(lbp_key(lbp(c[0], ring.zero, Num(c[2]))), lbp_key(lbp(c[3], ring.zero, Num(c[5]))))","pure":false,"effects":{"effect_type":"reads_state","reads":["ring.zero"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":true}}
 def cp_key(c, ring):
     """
     Key for comparing critical pairs.
@@ -697,16 +820,22 @@ def cp_key(c, ring):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(s_poly(cp), compute the s-polynomial of a critical pair) over Any ║
+# ║ Path(s_poly(cp), lbp_sub(lbp_mul_term(cp[2], cp[1]), lbp_mul_term(cp[5], cp[4]))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  lbp_sub(lbp_mul_term(cp[2], cp[1]), lbp_m...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ s_poly : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 64d203824aea04f5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.groebnertools.s_poly","kind":"function","src_hash":"fef4f2c13e8b75a8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"s_poly(cp)","rhs":"compute the s-polynomial of a critical pair","over":{"base":"Any"},"name":"s_poly_correct"},"guarantee":"compute the s-polynomial of a critical pair","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"64d203824aea04f5"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.groebnertools.s_poly","kind":"function","src_hash":"fef4f2c13e8b75a8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"s_poly(cp)","rhs":"lbp_sub(lbp_mul_term(cp[2], cp[1]), lbp_mul_term(cp[5], cp[4]))","over":{"base":"Any"},"name":"s_poly_correct"},"guarantee":"returns lbp_sub(lbp_mul_term(cp[2], cp[1]), lbp_mul_term(cp[5], cp[4]))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"64d203824aea04f5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"lbp_sub(lbp_mul_term(cp[2], cp[1]), lbp_mul_term(cp[5], cp[4]))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":true}}
 def s_poly(cp):
     """
     Compute the S-polynomial of a critical pair.
@@ -717,16 +846,22 @@ def s_poly(cp):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_rewritable_or_comparable(sig), check if a labeled polynomial is redundant by checking if its signature and number imply rewritability or comparability) over Any ║
+# ║ Path(is_rewritable_or_comparable(sign, num, B), <unspecified:is_rewritable_or_comparable>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_rewritable_or_comparable : Any → Any                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 87edeee97773adf8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.groebnertools.is_rewritable_or_comparable","kind":"function","src_hash":"27d2821374f18aa3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_rewritable_or_comparable(sig)","rhs":"check if a labeled polynomial is redundant by checking if its signature and number imply rewritability or comparability","over":{"base":"Any"},"name":"is_rewritable_or_comparable_correct"},"guarantee":"check if a labeled polynomial is redundant by checking if its signature and number imply rewritability or comparability","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.groebnertools.is_rewritable_or_comparable_correct","statement":"Path(is_rewritable_or_comparable(x), check if a labeled polynomial is redundant by checking if its signature and number imply rewritability or comparability)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"87edeee97773adf8"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.groebnertools.is_rewritable_or_comparable","kind":"function","src_hash":"27d2821374f18aa3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_rewritable_or_comparable(sign, num, B)","rhs":"<unspecified:is_rewritable_or_comparable>","over":{"base":"Any"},"name":"is_rewritable_or_comparable_correct"},"guarantee":"check if a labeled polynomial is redundant by checking if its signature and number imply rewritability or comparability","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.groebnertools.is_rewritable_or_comparable_correct","statement":"Path(is_rewritable_or_comparable(x), check if a labeled polynomial is redundant by checking if its signature and number imply rewritability or comparability)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"87edeee97773adf8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def is_rewritable_or_comparable(sign, num, B):
     """
     Check if a labeled polynomial is redundant by checking if its
@@ -755,16 +890,22 @@ def is_rewritable_or_comparable(sign, num, B):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(f5_reduce(f, ), f5-reduce a labeled polynomial f by b) over Any ║
+# ║ Path(f5_reduce(f, B), <unspecified:f5_reduce>) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ f5_reduce : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 87648ead230aa84c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.groebnertools.f5_reduce","kind":"function","src_hash":"da3bc1744cbdb91a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"f5_reduce(f, )","rhs":"f5-reduce a labeled polynomial f by b","over":{"base":"Any"},"name":"f5_reduce_correct"},"guarantee":"f5-reduce a labeled polynomial f by b","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.groebnertools.f5_reduce_correct","statement":"Path(f5_reduce(x), f5-reduce a labeled polynomial f by b)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"87648ead230aa84c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.groebnertools.f5_reduce","kind":"function","src_hash":"da3bc1744cbdb91a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"f5_reduce(f, B)","rhs":"<unspecified:f5_reduce>","over":{"base":"Any"},"name":"f5_reduce_correct"},"guarantee":"f5-reduce a labeled polynomial f by b","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.groebnertools.f5_reduce_correct","statement":"Path(f5_reduce(x), f5-reduce a labeled polynomial f by b)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"87648ead230aa84c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def f5_reduce(f, B):
     """
     F5-reduce a labeled polynomial f by B.
@@ -817,16 +958,24 @@ def f5_reduce(f, B):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_f5b(F, ), id) over Any                               ║
+# ║ Path(_f5b(F, ring), id) over {Any | hasattr(ring, 'order') and hasattr(ring, 'zero_monom')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _f5b : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(ring, 'order')                         ║
+# ║   requires: hasattr(ring, 'zero_monom')                    ║
+# ║   returns:  sorted(H, key=lambda f: order(f.LM), reve...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _f5b : {Any | hasattr(ring, 'order') and hasattr(ring...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 4d8da19e8937984d   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.groebnertools._f5b","kind":"function","src_hash":"c29cd0554051ba32","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_f5b(F, )","rhs":"computes a reduced groebner basis for the ideal generated by f","over":{"base":"Any"},"name":"_f5b_correct","kind":"composition"},"guarantee":"computes a reduced groebner basis for the ideal generated by f","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sorted","by":"library_axiom"},{"fn":"order","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4d8da19e8937984d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.groebnertools._f5b","kind":"function","src_hash":"c29cd0554051ba32","in":{"base":"Any","pred":"hasattr(ring, 'order') and hasattr(ring, 'zero_monom')"},"out":{"base":"Any"},"spec":{"lhs":"_f5b(F, ring)","rhs":"sorted(H, key=lambda f: order(f.LM), reverse=True)","over":{"base":"Any","pred":"hasattr(ring, 'order') and hasattr(ring, 'zero_monom')"},"name":"_f5b_correct","kind":"composition"},"guarantee":"returns sorted(H, key=lambda f: order(f.LM), reverse=True)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sorted","by":"library_axiom"},{"fn":"order","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4d8da19e8937984d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(ring, 'order')","hasattr(ring, 'zero_monom')"],"returns_expr":"sorted(H, key=lambda f: order(f.LM), reverse=True)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":true}}
 def _f5b(F, ring):
     """
     Computes a reduced Groebner basis for the ideal generated by F.
@@ -956,16 +1105,22 @@ def _f5b(F, ring):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(red_groebner(G, ), compute reduced groebner basis, from beckerweispfenning93, p) over Any ║
+# ║ Path(red_groebner(G, ring), <unspecified:red_groebner>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ red_groebner : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8a39b0ab11f29a01  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.groebnertools.red_groebner","kind":"function","src_hash":"aab3be0b03cd4ee4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"red_groebner(G, )","rhs":"compute reduced groebner basis, from beckerweispfenning93, p","over":{"base":"Any"},"name":"red_groebner_correct"},"guarantee":"compute reduced groebner basis, from beckerweispfenning93, p","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.groebnertools.red_groebner_correct","statement":"Path(red_groebner(x), compute reduced groebner basis, from beckerweispfenning93, p)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8a39b0ab11f29a01"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.groebnertools.red_groebner","kind":"function","src_hash":"aab3be0b03cd4ee4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"red_groebner(G, ring)","rhs":"<unspecified:red_groebner>","over":{"base":"Any"},"name":"red_groebner_correct"},"guarantee":"compute reduced groebner basis, from beckerweispfenning93, p","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.groebnertools.red_groebner_correct","statement":"Path(red_groebner(x), compute reduced groebner basis, from beckerweispfenning93, p)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8a39b0ab11f29a01","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def red_groebner(G, ring):
     """
     Compute reduced Groebner basis, from BeckerWeispfenning93, p. 216
@@ -999,16 +1154,22 @@ def red_groebner(G, ring):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_groebner(G, ), check if g is a groebner basis) over Any ║
+# ║ Path(is_groebner(G, ring), <unspecified:is_groebner>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_groebner : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0b3cc6486a23a482  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.groebnertools.is_groebner","kind":"function","src_hash":"8629ba65de32d8c2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_groebner(G, )","rhs":"check if g is a groebner basis","over":{"base":"Any"},"name":"is_groebner_correct"},"guarantee":"check if g is a groebner basis","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.groebnertools.is_groebner_correct","statement":"Path(is_groebner(x), check if g is a groebner basis)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0b3cc6486a23a482"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.groebnertools.is_groebner","kind":"function","src_hash":"8629ba65de32d8c2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_groebner(G, ring)","rhs":"<unspecified:is_groebner>","over":{"base":"Any"},"name":"is_groebner_correct"},"guarantee":"check if g is a groebner basis","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.groebnertools.is_groebner_correct","statement":"Path(is_groebner(x), check if g is a groebner basis)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0b3cc6486a23a482","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def is_groebner(G, ring):
     """
     Check if G is a Groebner basis.
@@ -1024,16 +1185,25 @@ def is_groebner(G, ring):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_minimal(G, ), checks if g is a minimal groebner basis) over Any ║
+# ║ Path(is_minimal(G, ring), len(G) == old_len_G) over {Any | hasattr(ring, 'order') and hasattr(ring, 'domain') and hasattr(G, 'sort')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ is_minimal : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(ring, 'order')                         ║
+# ║   requires: hasattr(ring, 'domain')                        ║
+# ║   requires: hasattr(G, 'sort')                             ║
+# ║   ensures:  len(G) == old_len_G                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ is_minimal : {Any | hasattr(ring, 'order') and hasatt...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 94e83c414373ed52  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d05f2ed3b7394403  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.groebnertools.is_minimal","kind":"function","src_hash":"ae2063f0a445c02a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_minimal(G, )","rhs":"checks if g is a minimal groebner basis","over":{"base":"Any"},"name":"is_minimal_correct"},"guarantee":"checks if g is a minimal groebner basis","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.groebnertools.is_minimal_correct","statement":"Path(is_minimal(x), checks if g is a minimal groebner basis)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"94e83c414373ed52"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.groebnertools.is_minimal","kind":"function","src_hash":"ae2063f0a445c02a","in":{"base":"Any","pred":"hasattr(ring, 'order') and hasattr(ring, 'domain') and hasattr(G, 'sort')"},"out":{"base":"Any","pred":"result satisfies: len(G) == old_len_G"},"spec":{"lhs":"is_minimal(G, ring)","rhs":"len(G) == old_len_G","over":{"base":"Any","pred":"hasattr(ring, 'order') and hasattr(ring, 'domain') and hasattr(G, 'sort')"},"name":"is_minimal_correct"},"guarantee":"len(G) == old_len_G","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.groebnertools.is_minimal_correct","statement":"Path(is_minimal(x), len(G) == old_len_G)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d05f2ed3b7394403","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(ring, 'order')","hasattr(ring, 'domain')","hasattr(G, 'sort')"],"ensures":["len(G) == old_len_G"],"pure":false,"effects":{"effect_type":"mutates_args","reads":["G.sort","ring.domain","ring.order"],"calls_mutating":["G.sort"]},"state_contract":{"modifies":["G.*"],"old_bindings":{"old_len_G":"len(G)"},"post_ensures":["len(G) == old_len_G"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def is_minimal(G, ring):
     """
     Checks if G is a minimal Groebner basis.
@@ -1055,16 +1225,25 @@ def is_minimal(G, ring):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_reduced(G, ), checks if g is a reduced groebner basis) over Any ║
+# ║ Path(is_reduced(G, ring), len(G) == old_len_G) over {Any | hasattr(ring, 'order') and hasattr(ring, 'domain') and hasattr(G, 'sort')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ is_reduced : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(ring, 'order')                         ║
+# ║   requires: hasattr(ring, 'domain')                        ║
+# ║   requires: hasattr(G, 'sort')                             ║
+# ║   ensures:  len(G) == old_len_G                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ is_reduced : {Any | hasattr(ring, 'order') and hasatt...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a96e78197d0175db  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 431a2de4693b398a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.groebnertools.is_reduced","kind":"function","src_hash":"d8c8fe0d558c5955","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_reduced(G, )","rhs":"checks if g is a reduced groebner basis","over":{"base":"Any"},"name":"is_reduced_correct"},"guarantee":"checks if g is a reduced groebner basis","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.groebnertools.is_reduced_correct","statement":"Path(is_reduced(x), checks if g is a reduced groebner basis)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a96e78197d0175db"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.groebnertools.is_reduced","kind":"function","src_hash":"d8c8fe0d558c5955","in":{"base":"Any","pred":"hasattr(ring, 'order') and hasattr(ring, 'domain') and hasattr(G, 'sort')"},"out":{"base":"Any","pred":"result satisfies: len(G) == old_len_G"},"spec":{"lhs":"is_reduced(G, ring)","rhs":"len(G) == old_len_G","over":{"base":"Any","pred":"hasattr(ring, 'order') and hasattr(ring, 'domain') and hasattr(G, 'sort')"},"name":"is_reduced_correct"},"guarantee":"len(G) == old_len_G","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.groebnertools.is_reduced_correct","statement":"Path(is_reduced(x), len(G) == old_len_G)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"431a2de4693b398a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(ring, 'order')","hasattr(ring, 'domain')","hasattr(G, 'sort')"],"ensures":["len(G) == old_len_G"],"pure":false,"effects":{"effect_type":"mutates_args","reads":["G.sort","ring.domain","ring.order"],"calls_mutating":["G.sort"]},"state_contract":{"modifies":["G.*"],"old_bindings":{"old_len_G":"len(G)"},"post_ensures":["len(G) == old_len_G"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def is_reduced(G, ring):
     """
     Checks if G is a reduced Groebner basis.
@@ -1086,16 +1265,25 @@ def is_reduced(G, ring):
     return True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(groebner_lcm(f, ), computes lcm of two polynomials using groebner bases) over Any ║
+# ║ Path(groebner_lcm(f, g), <unspecified:groebner_lcm>) over {Any | not (f.ring != g.ring) and hasattr(f, 'ring') and hasattr(g, 'ring') and hasattr(f, 'primitive') and hasattr(g, 'primitive') and hasattr(f, 'LM') and hasattr(g, 'LM') and hasattr(f, 'LC') and hasattr(g, 'LC') and hasattr(f, 'terms') and hasattr(g, 'terms')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ groebner_lcm : Any → Any                                   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (f.ring != g.ring)                         ║
+# ║   requires: hasattr(f, 'ring')                             ║
+# ║   requires: hasattr(g, 'ring')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ groebner_lcm : {Any | not (f.ring != g.ring) and hasa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b7ec543a3c2b1e85  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.groebnertools.groebner_lcm","kind":"function","src_hash":"fb18b4637f804957","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"groebner_lcm(f, )","rhs":"computes lcm of two polynomials using groebner bases","over":{"base":"Any"},"name":"groebner_lcm_correct"},"guarantee":"computes lcm of two polynomials using groebner bases","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.groebnertools.groebner_lcm_correct","statement":"Path(groebner_lcm(x), computes lcm of two polynomials using groebner bases)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b7ec543a3c2b1e85"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.groebnertools.groebner_lcm","kind":"function","src_hash":"fb18b4637f804957","in":{"base":"Any","pred":"not (f.ring != g.ring) and hasattr(f, 'ring') and hasattr(g, 'ring') and hasattr(f, 'primitive') and hasattr(g, 'primitive') and hasattr(f, 'LM') and hasattr(g, 'LM') and hasattr(f, 'LC') and hasattr(g, 'LC') and hasattr(f, 'terms') and hasattr(g, 'terms')"},"out":{"base":"Any"},"spec":{"lhs":"groebner_lcm(f, g)","rhs":"<unspecified:groebner_lcm>","over":{"base":"Any","pred":"not (f.ring != g.ring) and hasattr(f, 'ring') and hasattr(g, 'ring') and hasattr(f, 'primitive') and hasattr(g, 'primitive') and hasattr(f, 'LM') and hasattr(g, 'LM') and hasattr(f, 'LC') and hasattr(g, 'LC') and hasattr(f, 'terms') and hasattr(g, 'terms')"},"name":"groebner_lcm_correct"},"guarantee":"computes lcm of two polynomials using groebner bases","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.groebnertools.groebner_lcm_correct","statement":"Path(groebner_lcm(x), computes lcm of two polynomials using groebner bases)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b7ec543a3c2b1e85","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (f.ring != g.ring)","hasattr(f, 'ring')","hasattr(g, 'ring')","hasattr(f, 'primitive')","hasattr(g, 'primitive')","hasattr(f, 'LM')","hasattr(g, 'LM')","hasattr(f, 'LC')","hasattr(g, 'LC')","hasattr(f, 'terms')","hasattr(g, 'terms')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["f.LC","f.LM","f.primitive","f.ring","f.terms","g.LC","g.LM","g.primitive","g.ring","g.terms"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def groebner_lcm(f, g):
     """
     Computes LCM of two polynomials using Groebner bases.
@@ -1154,16 +1342,25 @@ def groebner_lcm(f, g):
     return h
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(groebner_gcd(f, ), computes gcd of two polynomials using groebner bases) over Any ║
+# ║ Path(groebner_gcd(f, g), <unspecified:groebner_gcd>) over {Any | not (f.ring != g.ring) and not (len(H) != 1) and hasattr(f, 'ring') and hasattr(g, 'ring') and hasattr(f, 'primitive') and hasattr(g, 'primitive')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ groebner_gcd : Any → Any                                   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (f.ring != g.ring)                         ║
+# ║   requires: not (len(H) != 1)                              ║
+# ║   requires: hasattr(f, 'ring')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ groebner_gcd : {Any | not (f.ring != g.ring) and not ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 86abfd183666e9d9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.groebnertools.groebner_gcd","kind":"function","src_hash":"e76f9169a563356b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"groebner_gcd(f, )","rhs":"computes gcd of two polynomials using groebner bases","over":{"base":"Any"},"name":"groebner_gcd_correct"},"guarantee":"computes gcd of two polynomials using groebner bases","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.groebnertools.groebner_gcd_correct","statement":"Path(groebner_gcd(x), computes gcd of two polynomials using groebner bases)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"86abfd183666e9d9"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.groebnertools.groebner_gcd","kind":"function","src_hash":"e76f9169a563356b","in":{"base":"Any","pred":"not (f.ring != g.ring) and not (len(H) != 1) and hasattr(f, 'ring') and hasattr(g, 'ring') and hasattr(f, 'primitive') and hasattr(g, 'primitive')"},"out":{"base":"Any"},"spec":{"lhs":"groebner_gcd(f, g)","rhs":"<unspecified:groebner_gcd>","over":{"base":"Any","pred":"not (f.ring != g.ring) and not (len(H) != 1) and hasattr(f, 'ring') and hasattr(g, 'ring') and hasattr(f, 'primitive') and hasattr(g, 'primitive')"},"name":"groebner_gcd_correct"},"guarantee":"computes gcd of two polynomials using groebner bases","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.groebnertools.groebner_gcd_correct","statement":"Path(groebner_gcd(x), computes gcd of two polynomials using groebner bases)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"86abfd183666e9d9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (f.ring != g.ring)","not (len(H) != 1)","hasattr(f, 'ring')","hasattr(g, 'ring')","hasattr(f, 'primitive')","hasattr(g, 'primitive')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["f.primitive","f.ring","g.primitive","g.ring"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def groebner_gcd(f, g):
     """Computes GCD of two polynomials using Groebner bases. """
     if f.ring != g.ring:

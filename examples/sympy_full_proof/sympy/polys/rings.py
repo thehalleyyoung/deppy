@@ -52,16 +52,23 @@ from sympy.utilities.magic import pollute
 
 @public
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ring(sym), construct a polynomial ring returning ``(ring, x_1, ..., x_n)``) over Any ║
+# ║ Path(ring(symbols, domain, order), (_ring,) + _ring.gens) over {Any | isinstance(order, MonomialOrder | str)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ ring : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(order, MonomialOrder | str)         ║
+# ║   returns:  (_ring,) + _ring.gens                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ ring : {Any | isinstance(order, MonomialOrder | str)}...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 55580280a9f12261  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0efebd668a306fbc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.ring","kind":"function","src_hash":"f52c8f3e750f8296","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ring(sym)","rhs":"construct a polynomial ring returning ``(ring, x_1, ..., x_n)``","over":{"base":"Any"},"name":"ring_correct"},"guarantee":"construct a polynomial ring returning ``(ring, x_1, ..., x_n)``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.ring_correct","statement":"Path(ring(x), construct a polynomial ring returning ``(ring, x_1, ..., x_n)``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"55580280a9f12261"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.ring","kind":"function","src_hash":"f52c8f3e750f8296","in":{"base":"Any","pred":"isinstance(order, MonomialOrder | str)"},"out":{"base":"Any"},"spec":{"lhs":"ring(symbols, domain, order)","rhs":"(_ring,) + _ring.gens","over":{"base":"Any","pred":"isinstance(order, MonomialOrder | str)"},"name":"ring_correct"},"guarantee":"returns (_ring,) + _ring.gens","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.ring_correct","statement":"Path(ring(x), returns (_ring,) + _ring.gens)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0efebd668a306fbc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(order, MonomialOrder | str)"],"returns_expr":"(_ring,) + _ring.gens","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def ring(symbols, domain, order: MonomialOrder|str = lex):
     """Construct a polynomial ring returning ``(ring, x_1, ..., x_n)``.
 
@@ -94,16 +101,22 @@ def ring(symbols, domain, order: MonomialOrder|str = lex):
 
 @public
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(xring(sym), construct a polynomial ring returning ``(ring, (x_1, ..., x_n))``) over Any ║
+# ║ Path(xring(symbols, domain, order), (_ring, _ring.gens)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (_ring, _ring.gens)                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ xring : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3c95edc29fc3bab9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9805f7eca696cd5e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.xring","kind":"function","src_hash":"e7d0ab2677fb484e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"xring(sym)","rhs":"construct a polynomial ring returning ``(ring, (x_1, ..., x_n))``","over":{"base":"Any"},"name":"xring_correct"},"guarantee":"construct a polynomial ring returning ``(ring, (x_1, ..., x_n))``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.xring_correct","statement":"Path(xring(x), construct a polynomial ring returning ``(ring, (x_1, ..., x_n))``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3c95edc29fc3bab9"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.xring","kind":"function","src_hash":"e7d0ab2677fb484e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"xring(symbols, domain, order)","rhs":"(_ring, _ring.gens)","over":{"base":"Any"},"name":"xring_correct"},"guarantee":"returns (_ring, _ring.gens)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.xring_correct","statement":"Path(xring(x), returns (_ring, _ring.gens))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9805f7eca696cd5e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(_ring, _ring.gens)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def xring(symbols, domain, order=lex):
     """Construct a polynomial ring returning ``(ring, (x_1, ..., x_n))``.
 
@@ -136,16 +149,22 @@ def xring(symbols, domain, order=lex):
 
 @public
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(vring(sym), construct a polynomial ring and inject ``x_1, ..., x_n`` into the global namespace) over Any ║
+# ║ Path(vring(symbols, domain, order), <unspecified:vring>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ vring : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b1164a531cf8f9c2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.vring","kind":"function","src_hash":"dcd162deeeb0e428","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"vring(sym)","rhs":"construct a polynomial ring and inject ``x_1, ..., x_n`` into the global namespace","over":{"base":"Any"},"name":"vring_correct"},"guarantee":"construct a polynomial ring and inject ``x_1, ..., x_n`` into the global namespace","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.vring_correct","statement":"Path(vring(x), construct a polynomial ring and inject ``x_1, ..., x_n`` into the global namespace)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b1164a531cf8f9c2"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.vring","kind":"function","src_hash":"dcd162deeeb0e428","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"vring(symbols, domain, order)","rhs":"<unspecified:vring>","over":{"base":"Any"},"name":"vring_correct"},"guarantee":"construct a polynomial ring and inject ``x_1, ..., x_n`` into the global namespace","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.vring_correct","statement":"Path(vring(x), construct a polynomial ring and inject ``x_1, ..., x_n`` into the global namespace)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b1164a531cf8f9c2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def vring(symbols, domain, order=lex):
     """Construct a polynomial ring and inject ``x_1, ..., x_n`` into the global namespace.
 
@@ -178,16 +197,22 @@ def vring(symbols, domain, order=lex):
 
 @public
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sring(exp), construct a ring deriving generators and domain from options and input expressions) over Any ║
+# ║ Path(sring(exprs, *symbols, **options), <unspecified:sring>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ sring : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5abf99cf1474ab8d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.sring","kind":"function","src_hash":"592387388063f2e4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sring(exp)","rhs":"construct a ring deriving generators and domain from options and input expressions","over":{"base":"Any"},"name":"sring_correct"},"guarantee":"construct a ring deriving generators and domain from options and input expressions","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.sring_correct","statement":"Path(sring(x), construct a ring deriving generators and domain from options and input expressions)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5abf99cf1474ab8d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.sring","kind":"function","src_hash":"592387388063f2e4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sring(exprs, *symbols, **options)","rhs":"<unspecified:sring>","over":{"base":"Any"},"name":"sring_correct"},"guarantee":"construct a ring deriving generators and domain from options and input expressions","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.sring_correct","statement":"Path(sring(x), construct a ring deriving generators and domain from options and input expressions)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5abf99cf1474ab8d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['exprs'], spec=['exprs', '*symbols', '**options']"]}}
 def sring(exprs, *symbols, **options):
     """Construct a ring deriving generators and domain from options and input expressions.
 
@@ -241,7 +266,12 @@ def sring(exprs, *symbols, **options):
         return (_ring, polys)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_parse_symbols(sym), internal helper behaves correctly) over {Any | isinstance(symbols, str) and isinstance(symbols, Expr)} ║
+# ║ Path(_parse_symbols(symbols), <unspecified:_parse_symbols>) over {Any | isinstance(symbols, str) and isinstance(symbols, Expr)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[str]: isinstance(symbols, str) => _symbols(sy...   ║
+# ║   fiber[Expr]: isinstance(symbols, Expr) => (symbols,)     ║
+# ║   fiber[case_2]: is_sequence(symbols)                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _parse_symbols : {Any | isinstance(symbols, str) and ...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -254,9 +284,12 @@ def sring(exprs, *symbols, **options):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?2 ✗1 VCs | 1.8ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 8a4b8b21...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings._parse_symbols","kind":"function","src_hash":"bd476ae4ebbc68b5","in":{"base":"Any","pred":"isinstance(symbols, str) and isinstance(symbols, Expr)"},"out":{"base":"Any"},"spec":{"lhs":"_parse_symbols(sym)","rhs":"internal helper behaves correctly","over":{"base":"Any","pred":"isinstance(symbols, str) and isinstance(symbols, Expr)"},"name":"_parse_symbols_correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"str","pred":"isinstance(symbols, str)","path":{"lhs":"_parse_symbols(x)","rhs":"internal helper behaves correctly","over":{"base":"str","pred":"isinstance(symbols, str)"},"name":"_parse_symbols_str_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings._parse_symbols_str_correct","statement":"_parse_symbols satisfies spec on str inputs"},"trust":"LIBRARY"},{"name":"Expr","pred":"isinstance(symbols, Expr)","path":{"lhs":"_parse_symbols(x)","rhs":"internal helper behaves correctly","over":{"base":"Expr","pred":"isinstance(symbols, Expr)"},"name":"_parse_symbols_Expr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings._parse_symbols_Expr_correct","statement":"_parse_symbols satisfies spec on Expr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"8a4b8b2190e33962"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings._parse_symbols","kind":"function","src_hash":"bd476ae4ebbc68b5","in":{"base":"Any","pred":"isinstance(symbols, str) and isinstance(symbols, Expr)"},"out":{"base":"Any"},"spec":{"lhs":"_parse_symbols(symbols)","rhs":"<unspecified:_parse_symbols>","over":{"base":"Any","pred":"isinstance(symbols, str) and isinstance(symbols, Expr)"},"name":"_parse_symbols_correct"},"guarantee":"3-fiber decomposition","fibers":[{"name":"str","pred":"isinstance(symbols, str)","path":{"lhs":"_parse_symbols(x)","rhs":"3-fiber decomposition","over":{"base":"str","pred":"isinstance(symbols, str)"},"name":"_parse_symbols_str_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings._parse_symbols_str_correct","statement":"_parse_symbols satisfies spec on str inputs"},"trust":"LIBRARY"},{"name":"Expr","pred":"isinstance(symbols, Expr)","path":{"lhs":"_parse_symbols(x)","rhs":"3-fiber decomposition","over":{"base":"Expr","pred":"isinstance(symbols, Expr)"},"name":"_parse_symbols_Expr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings._parse_symbols_Expr_correct","statement":"_parse_symbols satisfies spec on Expr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"8a4b8b2190e33962","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"str","guard":"isinstance(symbols, str)","ensures":["result == _symbols(symbols, seq=True) if symbols else ()"],"decidability":"structural","returns_expr":"_symbols(symbols, seq=True) if symbols else ()"},{"name":"Expr","guard":"isinstance(symbols, Expr)","ensures":["result == (symbols,)"],"decidability":"structural","returns_expr":"(symbols,)"},{"name":"case_2","guard":"is_sequence(symbols)","ensures":[],"decidability":"library"}],"pure":false,"effects":{"effect_type":"reads_state","raises":["GeneratorsError"]},"state_contract":{"exceptional_post":{"GeneratorsError":["isinstance(raised, GeneratorsError)"]}}},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":2,"n_assumed":2,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.8,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'all((isinstance(s, str) for s in symbols))', 'isinstance(symbols, str)', 'isinstance(symbols, Expr)', 'all((isinstance(s, Expr) for s in symbols))'}, fibers={'str', 'Expr'})"]}}
 def _parse_symbols(symbols):
     if isinstance(symbols, str):
         return _symbols(symbols, seq=True) if symbols else ()
@@ -274,14 +307,21 @@ def _parse_symbols(symbols):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a PolyRing instance) preserved by PolyRing(*args) over {Any | isinstance(element, PolyElement) and isinstance(symbol, Symbol) and isinstance(other, PolyRing)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DefaultPrinting)              ║
+# ║   ensures:  isinstance(self, IPolys)                       ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ PolyRing : {Any | isinstance(element, PolyElement) an...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 2.5ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 92923f8cf692d5d3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyRing","kind":"class","src_hash":"2835e9599b48efa8","in":{"base":"Any","pred":"isinstance(element, PolyElement) and isinstance(symbol, Symbol) and isinstance(other, PolyRing)"},"out":{"base":"Any"},"spec":{"lhs":"PolyRing(*args)","rhs":"correctly constructs a PolyRing instance","over":{"base":"Any","pred":"isinstance(element, PolyElement) and isinstance(symbol, Symbol) and isinstance(other, PolyRing)"},"name":"PolyRing_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a PolyRing instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_univariate","pred":"self.is_univariate","kind":"class"},{"name":"is_multivariate","pred":"self.is_multivariate","kind":"class"}],"methods_preserving":["_gens","__getnewargs__","__getstate__","__hash__","__eq__","__ne__","clone","_clone","monomial_basis","zero","one","is_element","domain_new","ground_new","term_new","ring_new","from_dict","from_terms","from_list","_rebuild_expr","from_expr","index","drop","__getitem__","to_ground","to_domain","to_field","is_univariate","is_multivariate","add","mul","drop_to_ground","compose","add_gens","symmetric_poly"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"92923f8cf692d5d3"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyRing","kind":"class","src_hash":"2835e9599b48efa8","in":{"base":"Any","pred":"isinstance(element, PolyElement) and isinstance(symbol, Symbol) and isinstance(other, PolyRing)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DefaultPrinting) and isinstance(self, IPolys)"},"spec":{"lhs":"PolyRing(*args)","rhs":"correctly constructs a PolyRing instance","over":{"base":"Any","pred":"isinstance(element, PolyElement) and isinstance(symbol, Symbol) and isinstance(other, PolyRing)"},"name":"PolyRing_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, DefaultPrinting); isinstance(self, IPolys)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_univariate","pred":"self.is_univariate","kind":"class"},{"name":"is_multivariate","pred":"self.is_multivariate","kind":"class"}],"methods_preserving":["_gens","__getnewargs__","__getstate__","__hash__","__eq__","__ne__","clone","_clone","monomial_basis","zero","one","is_element","domain_new","ground_new","term_new","ring_new","from_dict","from_terms","from_list","_rebuild_expr","from_expr","index","drop","__getitem__","to_ground","to_domain","to_field","is_univariate","is_multivariate","add","mul","drop_to_ground","compose","add_gens","symmetric_poly"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"92923f8cf692d5d3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DefaultPrinting)","isinstance(self, IPolys)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.5,"verdict_class":"assumed","binding":false,"binding_errors":["Function PolyRing not found in source"]}}
 class PolyRing(DefaultPrinting, IPolys):
     """Multivariate distributed polynomial ring. """
 
@@ -292,16 +332,25 @@ class PolyRing(DefaultPrinting, IPolys):
     order: MonomialOrder
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, symbols, domain), <unspecified:__new__>) over {Any | hasattr(domain, 'is_Composite') and hasattr(domain, 'one') and hasattr(domain, 'symbols')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(domain, 'is_Composite')                ║
+# ║   requires: hasattr(domain, 'one')                         ║
+# ║   requires: hasattr(domain, 'symbols')                     ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | hasattr(domain, 'is_Composite') and ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 81a3548e745c25d0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyRing.__new__","kind":"method","src_hash":"e8307e7bec3529fe","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"81a3548e745c25d0"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyRing.__new__","kind":"method","src_hash":"e8307e7bec3529fe","in":{"base":"Any","pred":"hasattr(domain, 'is_Composite') and hasattr(domain, 'one') and hasattr(domain, 'symbols')"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, symbols, domain)","rhs":"<unspecified:__new__>","over":{"base":"Any","pred":"hasattr(domain, 'is_Composite') and hasattr(domain, 'one') and hasattr(domain, 'symbols')"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"81a3548e745c25d0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(domain, 'is_Composite')","hasattr(domain, 'one')","hasattr(domain, 'symbols')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["cls.__name__","domain.is_Composite","domain.one","domain.symbols"],"raises":["GeneratorsError"]},"state_contract":{"exceptional_post":{"GeneratorsError":["isinstance(raised, GeneratorsError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, symbols, domain, order=lex):
         symbols = tuple(_parse_symbols(symbols))
         ngens = len(symbols)
@@ -365,16 +414,22 @@ class PolyRing(DefaultPrinting, IPolys):
         return obj
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_gens(), return a list of polynomial generators) over Any ║
+# ║ Path(_gens(), tuple(_gens)) over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  tuple(_gens)                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _gens : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f2c7fa6ea3a7ded2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 405b00da6d7e6ffe  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyRing._gens","kind":"method","src_hash":"57e885c4f0c9f3ef","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_gens()","rhs":"return a list of polynomial generators","over":{"base":"Any"},"name":"_gens_correct"},"guarantee":"return a list of polynomial generators","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyRing._gens_correct","statement":"Path(_gens(x), return a list of polynomial generators)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f2c7fa6ea3a7ded2"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyRing._gens","kind":"method","src_hash":"57e885c4f0c9f3ef","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_gens()","rhs":"tuple(_gens)","over":{"base":"Any"},"name":"_gens_correct"},"guarantee":"returns tuple(_gens)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyRing._gens_correct","statement":"Path(_gens(x), returns tuple(_gens))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"405b00da6d7e6ffe","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"tuple(_gens)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _gens(self):
         """Return a list of polynomial generators. """
         one = self.domain.one
@@ -387,30 +442,42 @@ class PolyRing(DefaultPrinting, IPolys):
         return tuple(_gens)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__getnewargs__(), internal helper behaves correctly) over Any ║
+# ║ Path(__getnewargs__(), (self.symbols, self.domain, self.order)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (self.symbols, self.domain, self.order)        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __getnewargs__ : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | bf8a116045a3febd           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyRing.__getnewargs__","kind":"method","src_hash":"adea29ad578682ff","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getnewargs__()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__getnewargs___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bf8a116045a3febd"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyRing.__getnewargs__","kind":"method","src_hash":"adea29ad578682ff","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getnewargs__()","rhs":"(self.symbols, self.domain, self.order)","over":{"base":"Any"},"name":"__getnewargs___correct"},"guarantee":"returns (self.symbols, self.domain, self.order)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bf8a116045a3febd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(self.symbols, self.domain, self.order)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.order","self.symbols"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __getnewargs__(self):
         return (self.symbols, self.domain, self.order)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__getstate__(), internal helper behaves correctly) over Any ║
+# ║ Path(__getstate__(), <unspecified:__getstate__>) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __getstate__ : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 567bb9198bc8f5b0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyRing.__getstate__","kind":"method","src_hash":"9b783f5da5655ddf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getstate__()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__getstate___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"567bb9198bc8f5b0"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyRing.__getstate__","kind":"method","src_hash":"9b783f5da5655ddf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getstate__()","rhs":"<unspecified:__getstate__>","over":{"base":"Any"},"name":"__getstate___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"567bb9198bc8f5b0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__dict__","self.__dict__"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __getstate__(self):
         state = self.__dict__.copy()
         del state["leading_expv"]
@@ -422,60 +489,87 @@ class PolyRing(DefaultPrinting, IPolys):
         return state
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__hash__(), returns a consistent hash value) over Any ║
+# ║ Path(__hash__(), self._hash) over Any                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._hash                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __hash__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 49465b375bf29ad6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyRing.__hash__","kind":"method","src_hash":"96f49e4531c3bb98","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__hash__()","rhs":"returns a consistent hash value","over":{"base":"Any"},"name":"__hash___correct"},"guarantee":"returns a consistent hash value","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"49465b375bf29ad6"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyRing.__hash__","kind":"method","src_hash":"96f49e4531c3bb98","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__hash__()","rhs":"self._hash","over":{"base":"Any"},"name":"__hash___correct"},"guarantee":"returns self._hash","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"49465b375bf29ad6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._hash","pure":false,"effects":{"effect_type":"reads_state","reads":["self._hash"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __hash__(self):
         return self._hash
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__eq__(oth), correctly determines equality) over Any  ║
+# ║ Path(__eq__(other), isinstance(other, PolyRing) and (self.symbols, self.domain, self.ngens, self.order) == (other.symbols, other.domain, other.ngens, other.order)) over {Any | hasattr(other, 'symbols') and hasattr(other, 'domain') and hasattr(other, 'ngens') and hasattr(other, 'order')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __eq__ : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, 'symbols')                      ║
+# ║   requires: hasattr(other, 'domain')                       ║
+# ║   requires: hasattr(other, 'ngens')                        ║
+# ║   returns:  isinstance(other, PolyRing) and (self.sym...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __eq__ : {Any | hasattr(other, 'symbols') and hasattr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9d7dc85c046a05bd           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyRing.__eq__","kind":"method","src_hash":"1bd07e039d23a013","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(oth)","rhs":"correctly determines equality","over":{"base":"Any"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9d7dc85c046a05bd"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyRing.__eq__","kind":"method","src_hash":"1bd07e039d23a013","in":{"base":"Any","pred":"hasattr(other, 'symbols') and hasattr(other, 'domain') and hasattr(other, 'ngens') and hasattr(other, 'order')"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(other)","rhs":"isinstance(other, PolyRing) and (self.symbols, self.domain, self.ngens, self.order) == (other.symbols, other.domain, other.ngens, other.order)","over":{"base":"Any","pred":"hasattr(other, 'symbols') and hasattr(other, 'domain') and hasattr(other, 'ngens') and hasattr(other, 'order')"},"name":"__eq___correct"},"guarantee":"returns isinstance(other, PolyRing) and (self.symbols, self.domain, self.ngens, self.order) == (other.symbols, other.domain, other.ngens, other.order)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9d7dc85c046a05bd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, 'symbols')","hasattr(other, 'domain')","hasattr(other, 'ngens')","hasattr(other, 'order')"],"returns_expr":"isinstance(other, PolyRing) and (self.symbols, self.domain, self.ngens, self.order) == (other.symbols, other.domain, other.ngens, other.order)","pure":false,"effects":{"effect_type":"reads_state","reads":["other.domain","other.ngens","other.order","other.symbols","self.domain","self.ngens","self.order","self.symbols"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __eq__(self, other):
         return isinstance(other, PolyRing) and \
             (self.symbols, self.domain, self.ngens, self.order) == \
             (other.symbols, other.domain, other.ngens, other.order)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__ne__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__ne__(other), not self == other) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  not self == other                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __ne__ : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 95fe3d98d4d4f52d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyRing.__ne__","kind":"method","src_hash":"3c9a6691f5a0eb67","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__ne__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__ne___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"95fe3d98d4d4f52d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyRing.__ne__","kind":"method","src_hash":"3c9a6691f5a0eb67","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__ne__(other)","rhs":"not self == other","over":{"base":"Any"},"name":"__ne___correct"},"guarantee":"returns not self == other","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"95fe3d98d4d4f52d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"not self == other","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __ne__(self, other):
         return not self == other
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(clone(sym), clone produces the expected output) over Any ║
+# ║ Path(clone(symbols, domain, order), self._clone(symbols, domain, order)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._clone(symbols, domain, order)            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ clone : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eeb542c24874c1e5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 591e1c05997d99b9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyRing.clone","kind":"method","src_hash":"d58e5d90f2276010","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"clone(sym)","rhs":"clone produces the expected output","over":{"base":"Any"},"name":"clone_correct"},"guarantee":"clone produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyRing.clone_correct","statement":"Path(clone(x), clone produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eeb542c24874c1e5"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyRing.clone","kind":"method","src_hash":"d58e5d90f2276010","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"clone(symbols, domain, order)","rhs":"self._clone(symbols, domain, order)","over":{"base":"Any"},"name":"clone_correct"},"guarantee":"returns self._clone(symbols, domain, order)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyRing.clone_correct","statement":"Path(clone(x), returns self._clone(symbols, domain, order))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"591e1c05997d99b9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._clone(symbols, domain, order)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._clone"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def clone(self, symbols=None, domain=None, order=None):
         # Need a hashable tuple for cacheit to work
         if symbols is not None and isinstance(symbols, list):
@@ -484,30 +578,42 @@ class PolyRing(DefaultPrinting, IPolys):
 
     @cacheit
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_clone(sym), internal helper behaves correctly) over Any ║
+# ║ Path(_clone(symbols, domain, order), self.__class__(symbols or self.symbols, domain or self.domain, order or self.order)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.__class__(symbols or self.symbols, d...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _clone : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e32cb5de486db54a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyRing._clone","kind":"method","src_hash":"f87428fcc5c58454","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_clone(sym)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_clone_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e32cb5de486db54a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyRing._clone","kind":"method","src_hash":"f87428fcc5c58454","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_clone(symbols, domain, order)","rhs":"self.__class__(symbols or self.symbols, domain or self.domain, order or self.order)","over":{"base":"Any"},"name":"_clone_correct"},"guarantee":"returns self.__class__(symbols or self.symbols, domain or self.domain, order or self.order)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e32cb5de486db54a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.__class__(symbols or self.symbols, domain or self.domain, order or self.order)","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","self.__class__","self.domain","self.order","self.symbols"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _clone(self, symbols, domain, order):
         return self.__class__(symbols or self.symbols, domain or self.domain, order or self.order)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(monomial_basis(i), return the ith-basis element) over Any ║
+# ║ Path(monomial_basis(i), tuple(basis)) over Any             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  tuple(basis)                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ monomial_basis : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | de85c5a9fd951fac  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 32ef0bdf1a0ef668  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyRing.monomial_basis","kind":"method","src_hash":"b69b170ebd522555","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"monomial_basis(i)","rhs":"return the ith-basis element","over":{"base":"Any"},"name":"monomial_basis_correct"},"guarantee":"return the ith-basis element","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyRing.monomial_basis_correct","statement":"Path(monomial_basis(x), return the ith-basis element)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"de85c5a9fd951fac"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyRing.monomial_basis","kind":"method","src_hash":"b69b170ebd522555","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"monomial_basis(i)","rhs":"tuple(basis)","over":{"base":"Any"},"name":"monomial_basis_correct"},"guarantee":"returns tuple(basis)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyRing.monomial_basis_correct","statement":"Path(monomial_basis(x), returns tuple(basis))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"32ef0bdf1a0ef668","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"tuple(basis)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.ngens"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def monomial_basis(self, i):
         """Return the ith-basis element. """
         basis = [0]*self.ngens
@@ -516,88 +622,125 @@ class PolyRing(DefaultPrinting, IPolys):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(zero(), returns the zero attribute) over Any          ║
+# ║ Path(zero(), self.dtype([])) over Any                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.dtype([])                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ zero : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 72f7b62b219f8acc           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyRing.zero","kind":"property","src_hash":"b9b78afdfa413e88","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"zero()","rhs":"returns the zero attribute","over":{"base":"Any"},"name":"zero_correct"},"guarantee":"returns the zero attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"72f7b62b219f8acc"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyRing.zero","kind":"property","src_hash":"b9b78afdfa413e88","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"zero()","rhs":"self.dtype([])","over":{"base":"Any"},"name":"zero_correct"},"guarantee":"returns self.dtype([])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"72f7b62b219f8acc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.dtype([])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.dtype"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def zero(self):
         return self.dtype([])
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(one(), returns the one attribute) over Any            ║
+# ║ Path(one(), self.dtype(self._one)) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.dtype(self._one)                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ one : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e1b932b4ba1594b7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyRing.one","kind":"property","src_hash":"6d2589e1ab165571","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"one()","rhs":"returns the one attribute","over":{"base":"Any"},"name":"one_correct"},"guarantee":"returns the one attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e1b932b4ba1594b7"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyRing.one","kind":"property","src_hash":"6d2589e1ab165571","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"one()","rhs":"self.dtype(self._one)","over":{"base":"Any"},"name":"one_correct"},"guarantee":"returns self.dtype(self._one)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e1b932b4ba1594b7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.dtype(self._one)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._one","self.dtype"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def one(self):
         return self.dtype(self._one)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_element(ele), true if ``element`` is an element of this ring) over Any ║
+# ║ Path(is_element(element), isinstance(element, PolyElement) and element.ring == self) over {Any | hasattr(element, 'ring')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ is_element : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(element, 'ring')                       ║
+# ║   returns:  isinstance(element, PolyElement) and elem...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ is_element : {Any | hasattr(element, 'ring')} → Any        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0507d679a2e23bc0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyRing.is_element","kind":"method","src_hash":"c9ddb84283c50889","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_element(ele)","rhs":"true if ``element`` is an element of this ring","over":{"base":"Any"},"name":"is_element_correct"},"guarantee":"true if ``element`` is an element of this ring","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0507d679a2e23bc0"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyRing.is_element","kind":"method","src_hash":"c9ddb84283c50889","in":{"base":"Any","pred":"hasattr(element, 'ring')"},"out":{"base":"Any"},"spec":{"lhs":"is_element(element)","rhs":"isinstance(element, PolyElement) and element.ring == self","over":{"base":"Any","pred":"hasattr(element, 'ring')"},"name":"is_element_correct"},"guarantee":"returns isinstance(element, PolyElement) and element.ring == self","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0507d679a2e23bc0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(element, 'ring')"],"returns_expr":"isinstance(element, PolyElement) and element.ring == self","pure":false,"effects":{"effect_type":"reads_state","reads":["element.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_element(self, element):
         """True if ``element`` is an element of this ring. False otherwise. """
         return isinstance(element, PolyElement) and element.ring == self
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(domain_new(ele), domain_new produces the expected output) over Any ║
+# ║ Path(domain_new(element, orig_domain), self.domain.convert(element, orig_domain)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.domain.convert(element, orig_domain)      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ domain_new : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3469cbbabc515032           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyRing.domain_new","kind":"method","src_hash":"60a135cd473eb0f6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"domain_new(ele)","rhs":"domain_new produces the expected output","over":{"base":"Any"},"name":"domain_new_correct"},"guarantee":"domain_new produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3469cbbabc515032"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyRing.domain_new","kind":"method","src_hash":"60a135cd473eb0f6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"domain_new(element, orig_domain)","rhs":"self.domain.convert(element, orig_domain)","over":{"base":"Any"},"name":"domain_new_correct"},"guarantee":"returns self.domain.convert(element, orig_domain)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3469cbbabc515032","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.domain.convert(element, orig_domain)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def domain_new(self, element, orig_domain=None):
         return self.domain.convert(element, orig_domain)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ground_new(coe), ground_new produces the expected output) over Any ║
+# ║ Path(ground_new(coeff), self.term_new(self.zero_monom, coeff)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.term_new(self.zero_monom, coeff)          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ ground_new : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4c30767a6f40b424           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyRing.ground_new","kind":"method","src_hash":"2dcd4456c48b9e5e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ground_new(coe)","rhs":"ground_new produces the expected output","over":{"base":"Any"},"name":"ground_new_correct"},"guarantee":"ground_new produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4c30767a6f40b424"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyRing.ground_new","kind":"method","src_hash":"2dcd4456c48b9e5e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ground_new(coeff)","rhs":"self.term_new(self.zero_monom, coeff)","over":{"base":"Any"},"name":"ground_new_correct"},"guarantee":"returns self.term_new(self.zero_monom, coeff)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4c30767a6f40b424","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.term_new(self.zero_monom, coeff)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.term_new","self.zero_monom"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def ground_new(self, coeff):
         return self.term_new(self.zero_monom, coeff)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(term_new(mon), term_new produces the expected output) over Any ║
+# ║ Path(term_new(monom, coeff), <unspecified:term_new>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ term_new : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 66d67523cf44ad65  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyRing.term_new","kind":"method","src_hash":"568b7e321022f20e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"term_new(mon)","rhs":"term_new produces the expected output","over":{"base":"Any"},"name":"term_new_correct"},"guarantee":"term_new produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyRing.term_new_correct","statement":"Path(term_new(x), term_new produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"66d67523cf44ad65"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyRing.term_new","kind":"method","src_hash":"568b7e321022f20e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"term_new(monom, coeff)","rhs":"<unspecified:term_new>","over":{"base":"Any"},"name":"term_new_correct"},"guarantee":"term_new produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyRing.term_new_correct","statement":"Path(term_new(x), term_new produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"66d67523cf44ad65","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain_new","self.zero"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def term_new(self, monom, coeff):
         coeff = self.domain_new(coeff)
         poly = self.zero
@@ -606,16 +749,25 @@ class PolyRing(DefaultPrinting, IPolys):
         return poly
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ring_new(ele), ring_new produces the expected output) over Any ║
+# ║ Path(ring_new(element), <unspecified:ring_new>) over {Any | hasattr(element, 'ring')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ ring_new : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(element, 'ring')                       ║
+# ║   fiber[PolyElement]: isinstance(element, PolyElement)     ║
+# ║   fiber[str]: isinstance(element, str)                     ║
+# ║   fiber[dict]: isinstance(element, dict) => self.from...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ ring_new : {Any | hasattr(element, 'ring')} → Any          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1fbb9a9f18806141  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 36d0bc7f573fcff1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyRing.ring_new","kind":"method","src_hash":"b391bd009209e80c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ring_new(ele)","rhs":"ring_new produces the expected output","over":{"base":"Any"},"name":"ring_new_correct"},"guarantee":"ring_new produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyRing.ring_new_correct","statement":"Path(ring_new(x), ring_new produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1fbb9a9f18806141"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyRing.ring_new","kind":"method","src_hash":"b391bd009209e80c","in":{"base":"Any","pred":"hasattr(element, 'ring')"},"out":{"base":"Any"},"spec":{"lhs":"ring_new(element)","rhs":"<unspecified:ring_new>","over":{"base":"Any","pred":"hasattr(element, 'ring')"},"name":"ring_new_correct"},"guarantee":"6-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyRing.ring_new_correct","statement":"Path(ring_new(x), 6-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"36d0bc7f573fcff1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(element, 'ring')"],"fibers":[{"name":"PolyElement","guard":"isinstance(element, PolyElement)","ensures":[],"decidability":"structural"},{"name":"str","guard":"isinstance(element, str)","ensures":[],"decidability":"structural"},{"name":"dict","guard":"isinstance(element, dict)","ensures":["result == self.from_dict(element)"],"decidability":"structural","returns_expr":"self.from_dict(element)"},{"name":"list","guard":"isinstance(element, list)","ensures":[],"decidability":"structural"},{"name":"Expr","guard":"isinstance(element, Expr)","ensures":["result == self.from_expr(element)"],"decidability":"structural","returns_expr":"self.from_expr(element)"},{"name":"PolyElement","guard":"not (isinstance(element, PolyElement)) and not (isinstance(element, str)) and not (isinstance(element, dict)) and not (isinstance(element, list)) and not (isinstance(element, Expr))","ensures":["result == self.ground_new(element)"],"decidability":"structural","returns_expr":"self.ground_new(element)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["element.ring","self.domain","self.from_dict","self.from_expr","self.from_list","self.from_terms","self.ground_new"],"raises":["NotImplementedError"],"catches":["ValueError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def ring_new(self, element):
         if isinstance(element, PolyElement):
             if self == element.ring:
@@ -641,16 +793,23 @@ class PolyRing(DefaultPrinting, IPolys):
     __call__ = ring_new
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_dict(ele), from_dict produces the expected output) over Any ║
+# ║ Path(from_dict(element, orig_domain), <unspecified:from_dict>) over {Any | hasattr(element, 'items')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_dict : Any → Any                                      ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(element, 'items')                      ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_dict : {Any | hasattr(element, 'items')} → Any        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5e7edf7cf9308b9d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyRing.from_dict","kind":"method","src_hash":"82ee78a5278b0805","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_dict(ele)","rhs":"from_dict produces the expected output","over":{"base":"Any"},"name":"from_dict_correct"},"guarantee":"from_dict produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyRing.from_dict_correct","statement":"Path(from_dict(x), from_dict produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5e7edf7cf9308b9d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyRing.from_dict","kind":"method","src_hash":"82ee78a5278b0805","in":{"base":"Any","pred":"hasattr(element, 'items')"},"out":{"base":"Any"},"spec":{"lhs":"from_dict(element, orig_domain)","rhs":"<unspecified:from_dict>","over":{"base":"Any","pred":"hasattr(element, 'items')"},"name":"from_dict_correct"},"guarantee":"from_dict produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyRing.from_dict_correct","statement":"Path(from_dict(x), from_dict produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5e7edf7cf9308b9d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(element, 'items')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["element.items","self.domain_new","self.zero"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_dict(self, element, orig_domain=None):
         domain_new = self.domain_new
         poly = self.zero
@@ -663,44 +822,65 @@ class PolyRing(DefaultPrinting, IPolys):
         return poly
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_terms(ele), from_terms produces the expected output) over Any ║
+# ║ Path(from_terms(element, orig_domain), self.from_dict(dict(element), orig_domain)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_dict(dict(element), orig_domain)     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ from_terms : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ba580c5ffece270a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyRing.from_terms","kind":"method","src_hash":"3b78df9c850a90ec","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_terms(ele)","rhs":"from_terms produces the expected output","over":{"base":"Any"},"name":"from_terms_correct"},"guarantee":"from_terms produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ba580c5ffece270a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyRing.from_terms","kind":"method","src_hash":"3b78df9c850a90ec","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_terms(element, orig_domain)","rhs":"self.from_dict(dict(element), orig_domain)","over":{"base":"Any"},"name":"from_terms_correct"},"guarantee":"returns self.from_dict(dict(element), orig_domain)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ba580c5ffece270a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_dict(dict(element), orig_domain)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.from_dict"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_terms(self, element, orig_domain=None):
         return self.from_dict(dict(element), orig_domain)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_list(ele), from_list produces the expected output) over Any ║
+# ║ Path(from_list(element), self.from_dict(dmp_to_dict(element, self.ngens - 1, self.domain))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_dict(dmp_to_dict(element, self....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ from_list : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f0e201d76f1e84ba           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyRing.from_list","kind":"method","src_hash":"18f5f08cd342d243","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_list(ele)","rhs":"from_list produces the expected output","over":{"base":"Any"},"name":"from_list_correct"},"guarantee":"from_list produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f0e201d76f1e84ba"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyRing.from_list","kind":"method","src_hash":"18f5f08cd342d243","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_list(element)","rhs":"self.from_dict(dmp_to_dict(element, self.ngens - 1, self.domain))","over":{"base":"Any"},"name":"from_list_correct"},"guarantee":"returns self.from_dict(dmp_to_dict(element, self.ngens - 1, self.domain))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f0e201d76f1e84ba","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_dict(dmp_to_dict(element, self.ngens - 1, self.domain))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dict","self.ngens"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_list(self, element):
         return self.from_dict(dmp_to_dict(element, self.ngens-1, self.domain))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_rebuild_expr(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_rebuild_expr(expr, mapping), <unspecified:_rebuild_expr>) over {Any | hasattr(mapping, 'get') and hasattr(expr, 'is_Add') and hasattr(expr, 'is_Mul') and hasattr(expr, 'as_base_exp') and hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _rebuild_expr : Any → Any                                  ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(mapping, 'get')                        ║
+# ║   requires: hasattr(expr, 'is_Add')                        ║
+# ║   requires: hasattr(expr, 'is_Mul')                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _rebuild_expr : {Any | hasattr(mapping, 'get') and ha...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1fd7a10cf91b3f91  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyRing._rebuild_expr","kind":"method","src_hash":"85925be40f9d73a7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_rebuild_expr(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_rebuild_expr_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyRing._rebuild_expr_correct","statement":"Path(_rebuild_expr(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1fd7a10cf91b3f91"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyRing._rebuild_expr","kind":"method","src_hash":"85925be40f9d73a7","in":{"base":"Any","pred":"hasattr(mapping, 'get') and hasattr(expr, 'is_Add') and hasattr(expr, 'is_Mul') and hasattr(expr, 'as_base_exp') and hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_rebuild_expr(expr, mapping)","rhs":"<unspecified:_rebuild_expr>","over":{"base":"Any","pred":"hasattr(mapping, 'get') and hasattr(expr, 'is_Add') and hasattr(expr, 'is_Mul') and hasattr(expr, 'as_base_exp') and hasattr(expr, 'args')"},"name":"_rebuild_expr_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyRing._rebuild_expr_correct","statement":"Path(_rebuild_expr(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1fd7a10cf91b3f91","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(mapping, 'get')","hasattr(expr, 'is_Add')","hasattr(expr, 'is_Mul')","hasattr(expr, 'as_base_exp')","hasattr(expr, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","expr.as_base_exp","expr.is_Add","expr.is_Mul","mapping.get","self.domain","self.ground_new"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _rebuild_expr(self, expr, mapping):
         domain = self.domain
 
@@ -725,16 +905,22 @@ class PolyRing(DefaultPrinting, IPolys):
         return _rebuild(sympify(expr))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_expr(exp), from_expr produces the expected output) over Any ║
+# ║ Path(from_expr(expr), self.ring_new(poly)) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.ring_new(poly)                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ from_expr : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c249814a8aa1fcf3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dfdda138831f8048  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyRing.from_expr","kind":"method","src_hash":"fdb00d71e8e298db","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_expr(exp)","rhs":"from_expr produces the expected output","over":{"base":"Any"},"name":"from_expr_correct"},"guarantee":"from_expr produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyRing.from_expr_correct","statement":"Path(from_expr(x), from_expr produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c249814a8aa1fcf3"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyRing.from_expr","kind":"method","src_hash":"fdb00d71e8e298db","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_expr(expr)","rhs":"self.ring_new(poly)","over":{"base":"Any"},"name":"from_expr_correct"},"guarantee":"returns self.ring_new(poly)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyRing.from_expr_correct","statement":"Path(from_expr(x), returns self.ring_new(poly))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dfdda138831f8048","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.ring_new(poly)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._rebuild_expr","self.gens","self.ring_new","self.symbols"],"raises":["ValueError"],"catches":["CoercionFailed"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_expr(self, expr):
         mapping = dict(list(zip(self.symbols, self.gens)))
 
@@ -746,16 +932,22 @@ class PolyRing(DefaultPrinting, IPolys):
             return self.ring_new(poly)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(index(gen), compute index of ``gen`` in ``self.gens``) over Any ║
+# ║ Path(index(gen), <unspecified:index>) over Any             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ index : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5a91c6828176bc9f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyRing.index","kind":"method","src_hash":"4a5ccb92883ad713","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"index(gen)","rhs":"compute index of ``gen`` in ``self.gens``","over":{"base":"Any"},"name":"index_correct"},"guarantee":"compute index of ``gen`` in ``self.gens``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyRing.index_correct","statement":"Path(index(x), compute index of ``gen`` in ``self.gens``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5a91c6828176bc9f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyRing.index","kind":"method","src_hash":"4a5ccb92883ad713","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"index(gen)","rhs":"<unspecified:index>","over":{"base":"Any"},"name":"index_correct"},"guarantee":"compute index of ``gen`` in ``self.gens``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyRing.index_correct","statement":"Path(index(x), compute index of ``gen`` in ``self.gens``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5a91c6828176bc9f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.gens","self.is_element","self.ngens","self.symbols"],"raises":["ValueError"],"catches":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def index(self, gen):
         """Compute index of ``gen`` in ``self.gens``. """
         if gen is None:
@@ -788,16 +980,25 @@ class PolyRing(DefaultPrinting, IPolys):
         return i
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(drop(*ge), remove specified generators from this ring) over Any ║
+# ║ Path(drop(*gens), result == (self.domain if not symbols else self.clone(symbols=symbols)) and result == self.domain or result == self.clone(symbols=symbols)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ drop : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (self.domain if not symbols els...   ║
+# ║   ensures:  result == self.domain or result == self.c...   ║
+# ║   fiber[case_0]: not symbols => self.domain                ║
+# ║   fiber[case_1]: not (not symbols) => self.clone(symb...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ drop : Any → {Any | result satisfies: result == (self...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 73e7cb86b870c6cb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8464729353618467  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyRing.drop","kind":"method","src_hash":"3834a9964d77dd58","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"drop(*ge)","rhs":"remove specified generators from this ring","over":{"base":"Any"},"name":"drop_correct"},"guarantee":"remove specified generators from this ring","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyRing.drop_correct","statement":"Path(drop(x), remove specified generators from this ring)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"73e7cb86b870c6cb"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyRing.drop","kind":"method","src_hash":"3834a9964d77dd58","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (self.domain if not symbols else self.clone(symbols=symbols)) and result == self.domain or result == self.clone(symbols=symbols)"},"spec":{"lhs":"drop(*gens)","rhs":"result == (self.domain if not symbols else self.clone(symbols=symbols)) and result == self.domain or result == self.clone(symbols=symbols)","over":{"base":"Any"},"name":"drop_correct"},"guarantee":"result == (self.domain if not symbols else self.clone(symbols=symbols)); result == self.domain or result == self.clone(symbols=symbols); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyRing.drop_correct","statement":"Path(drop(x), result == (self.domain if not symbols else self.clone(symbols=symbols)); result == self.domain or result == self.clone(symbols=symbols); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8464729353618467","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (self.domain if not symbols else self.clone(symbols=symbols))","result == self.domain or result == self.clone(symbols=symbols)"],"fibers":[{"name":"case_0","guard":"not symbols","ensures":["result == self.domain"],"decidability":"library","returns_expr":"self.domain"},{"name":"case_1","guard":"not (not symbols)","ensures":["result == self.clone(symbols=symbols)"],"decidability":"library","returns_expr":"self.clone(symbols=symbols)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.clone","self.domain","self.index","self.symbols"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def drop(self, *gens):
         """Remove specified generators from this ring. """
         indices = set(map(self.index, gens))
@@ -809,16 +1010,25 @@ class PolyRing(DefaultPrinting, IPolys):
             return self.clone(symbols=symbols)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__getitem__(key), returns the element at the given index) over Any ║
+# ║ Path(__getitem__(key), result == (self.domain if not symbols else self.clone(symbols=symbols)) and result == self.domain or result == self.clone(symbols=symbols)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __getitem__ : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (self.domain if not symbols els...   ║
+# ║   ensures:  result == self.domain or result == self.c...   ║
+# ║   fiber[case_0]: not symbols => self.domain                ║
+# ║   fiber[case_1]: not (not symbols) => self.clone(symb...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __getitem__ : Any → {Any | result satisfies: result =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e74e23f4227cee86           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyRing.__getitem__","kind":"method","src_hash":"f65aa841a4a4f4d5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getitem__(key)","rhs":"returns the element at the given index","over":{"base":"Any"},"name":"__getitem___correct"},"guarantee":"returns the element at the given index","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e74e23f4227cee86"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyRing.__getitem__","kind":"method","src_hash":"f65aa841a4a4f4d5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (self.domain if not symbols else self.clone(symbols=symbols)) and result == self.domain or result == self.clone(symbols=symbols)"},"spec":{"lhs":"__getitem__(key)","rhs":"result == (self.domain if not symbols else self.clone(symbols=symbols)) and result == self.domain or result == self.clone(symbols=symbols)","over":{"base":"Any"},"name":"__getitem___correct"},"guarantee":"result == (self.domain if not symbols else self.clone(symbols=symbols)); result == self.domain or result == self.clone(symbols=symbols); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e74e23f4227cee86","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (self.domain if not symbols else self.clone(symbols=symbols))","result == self.domain or result == self.clone(symbols=symbols)"],"fibers":[{"name":"case_0","guard":"not symbols","ensures":["result == self.domain"],"decidability":"library","returns_expr":"self.domain"},{"name":"case_1","guard":"not (not symbols)","ensures":["result == self.clone(symbols=symbols)"],"decidability":"library","returns_expr":"self.clone(symbols=symbols)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.clone","self.domain","self.symbols"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __getitem__(self, key):
         symbols = self.symbols[key]
 
@@ -828,16 +1038,23 @@ class PolyRing(DefaultPrinting, IPolys):
             return self.clone(symbols=symbols)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(to_ground(), to_ground produces the expected output) over Any ║
+# ║ Path(to_ground(), <unspecified:to_ground>) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: self.domain.is_Composite or hasattr(...   ║
+# ║   fiber[case_1]: not (self.domain.is_Composite or has...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ to_ground : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 982d420c7fc47afc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9c58dedc36af816a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyRing.to_ground","kind":"method","src_hash":"f56a0098e2144691","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_ground()","rhs":"to_ground produces the expected output","over":{"base":"Any"},"name":"to_ground_correct"},"guarantee":"to_ground produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyRing.to_ground_correct","statement":"Path(to_ground(x), to_ground produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"982d420c7fc47afc"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyRing.to_ground","kind":"method","src_hash":"f56a0098e2144691","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_ground()","rhs":"<unspecified:to_ground>","over":{"base":"Any"},"name":"to_ground_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyRing.to_ground_correct","statement":"Path(to_ground(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9c58dedc36af816a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"self.domain.is_Composite or hasattr(self.domain, 'domain')","ensures":["result == self.clone(domain=self.domain.domain)"],"decidability":"structural","returns_expr":"self.clone(domain=self.domain.domain)"},{"name":"case_1","guard":"not (self.domain.is_Composite or hasattr(self.domain, 'domain'))","ensures":[],"decidability":"structural"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.clone","self.domain"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def to_ground(self):
         # TODO: should AlgebraicField be a Composite domain?
         if self.domain.is_Composite or hasattr(self.domain, 'domain'):
@@ -846,75 +1063,105 @@ class PolyRing(DefaultPrinting, IPolys):
             raise ValueError("%s is not a composite domain" % self.domain)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(to_domain(), to_domain produces the expected output) over Any ║
+# ║ Path(to_domain(), PolynomialRing(self)) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  PolynomialRing(self)                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ to_domain : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 10e1a1d3130d8e66           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyRing.to_domain","kind":"method","src_hash":"2ef7ce7a238b4bab","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_domain()","rhs":"to_domain produces the expected output","over":{"base":"Any"},"name":"to_domain_correct"},"guarantee":"to_domain produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"10e1a1d3130d8e66"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyRing.to_domain","kind":"method","src_hash":"2ef7ce7a238b4bab","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_domain()","rhs":"PolynomialRing(self)","over":{"base":"Any"},"name":"to_domain_correct"},"guarantee":"returns PolynomialRing(self)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"10e1a1d3130d8e66","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"PolynomialRing(self)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def to_domain(self):
         return PolynomialRing(self)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(to_field(), to_field produces the expected output) over Any ║
+# ║ Path(to_field(), FracField(self.symbols, self.domain, self.order)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  FracField(self.symbols, self.domain, self...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ to_field : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fc75d4a6b303dba6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c7a99707edee39b4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyRing.to_field","kind":"method","src_hash":"1c4a2711567f9a14","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_field()","rhs":"to_field produces the expected output","over":{"base":"Any"},"name":"to_field_correct"},"guarantee":"to_field produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyRing.to_field_correct","statement":"Path(to_field(x), to_field produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fc75d4a6b303dba6"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyRing.to_field","kind":"method","src_hash":"1c4a2711567f9a14","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_field()","rhs":"FracField(self.symbols, self.domain, self.order)","over":{"base":"Any"},"name":"to_field_correct"},"guarantee":"returns FracField(self.symbols, self.domain, self.order)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyRing.to_field_correct","statement":"Path(to_field(x), returns FracField(self.symbols, self.domain, self.order))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c7a99707edee39b4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"FracField(self.symbols, self.domain, self.order)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.order","self.symbols"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def to_field(self):
         from sympy.polys.fields import FracField
         return FracField(self.symbols, self.domain, self.order)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_univariate(), returns the is_univariate attribute) over Any ║
+# ║ Path(is_univariate(), len(self.gens) == 1) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  len(self.gens) == 1                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_univariate : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3285f505cb76db4b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyRing.is_univariate","kind":"property","src_hash":"ab479eb9c49b5b30","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_univariate()","rhs":"returns the is_univariate attribute","over":{"base":"Any"},"name":"is_univariate_correct"},"guarantee":"returns the is_univariate attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3285f505cb76db4b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyRing.is_univariate","kind":"property","src_hash":"ab479eb9c49b5b30","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_univariate()","rhs":"len(self.gens) == 1","over":{"base":"Any"},"name":"is_univariate_correct"},"guarantee":"returns len(self.gens) == 1","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3285f505cb76db4b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"len(self.gens) == 1","pure":false,"effects":{"effect_type":"reads_state","reads":["self.gens"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_univariate(self):
         return len(self.gens) == 1
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_multivariate(), returns the is_multivariate attribute) over Any ║
+# ║ Path(is_multivariate(), len(self.gens) > 1) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  len(self.gens) > 1                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_multivariate : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e13e2da0cbcc0aba           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyRing.is_multivariate","kind":"property","src_hash":"e09a29c1c0d435f2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_multivariate()","rhs":"returns the is_multivariate attribute","over":{"base":"Any"},"name":"is_multivariate_correct"},"guarantee":"returns the is_multivariate attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e13e2da0cbcc0aba"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyRing.is_multivariate","kind":"property","src_hash":"e09a29c1c0d435f2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_multivariate()","rhs":"len(self.gens) > 1","over":{"base":"Any"},"name":"is_multivariate_correct"},"guarantee":"returns len(self.gens) > 1","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e13e2da0cbcc0aba","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"len(self.gens) > 1","pure":false,"effects":{"effect_type":"reads_state","reads":["self.gens"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_multivariate(self):
         return len(self.gens) > 1
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(add(*ob), add a sequence of polynomials or containers of polynomials) over Any ║
+# ║ Path(add(*objs), <unspecified:add>) over Any               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ add : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2eea9d0909499e79  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyRing.add","kind":"method","src_hash":"5e38f97f939c9b57","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"add(*ob)","rhs":"add a sequence of polynomials or containers of polynomials","over":{"base":"Any"},"name":"add_correct"},"guarantee":"add a sequence of polynomials or containers of polynomials","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyRing.add_correct","statement":"Path(add(x), add a sequence of polynomials or containers of polynomials)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2eea9d0909499e79"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyRing.add","kind":"method","src_hash":"5e38f97f939c9b57","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"add(*objs)","rhs":"<unspecified:add>","over":{"base":"Any"},"name":"add_correct"},"guarantee":"add a sequence of polynomials or containers of polynomials","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyRing.add_correct","statement":"Path(add(x), add a sequence of polynomials or containers of polynomials)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2eea9d0909499e79","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self.add","self.zero"],"calls_mutating":["self.add"]},"state_contract":{"modifies":["self.*"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def add(self, *objs):
         """
         Add a sequence of polynomials or containers of polynomials.
@@ -943,16 +1190,22 @@ class PolyRing(DefaultPrinting, IPolys):
         return p
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(mul(*ob), multiply a sequence of polynomials or containers of polynomials) over Any ║
+# ║ Path(mul(*objs), <unspecified:mul>) over Any               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ mul : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bb606c382c7abee3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyRing.mul","kind":"method","src_hash":"3e6510eb75895683","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"mul(*ob)","rhs":"multiply a sequence of polynomials or containers of polynomials","over":{"base":"Any"},"name":"mul_correct"},"guarantee":"multiply a sequence of polynomials or containers of polynomials","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyRing.mul_correct","statement":"Path(mul(x), multiply a sequence of polynomials or containers of polynomials)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bb606c382c7abee3"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyRing.mul","kind":"method","src_hash":"3e6510eb75895683","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"mul(*objs)","rhs":"<unspecified:mul>","over":{"base":"Any"},"name":"mul_correct"},"guarantee":"multiply a sequence of polynomials or containers of polynomials","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyRing.mul_correct","statement":"Path(mul(x), multiply a sequence of polynomials or containers of polynomials)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bb606c382c7abee3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.mul","self.one"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def mul(self, *objs):
         """
         Multiply a sequence of polynomials or containers of polynomials.
@@ -981,16 +1234,25 @@ class PolyRing(DefaultPrinting, IPolys):
         return p
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(drop_to_ground(*ge), remove specified generators from the ring and inject them into its domain) over Any ║
+# ║ Path(drop_to_ground(*gens), result == (self if not symbols else self.clone(symbols=symbols, domain=self.drop(*gens))) and result == self or result == self.clone(symbols=symbols, domain=self.drop(*gens))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ drop_to_ground : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (self if not symbols else self....   ║
+# ║   ensures:  result == self or result == self.clone(sy...   ║
+# ║   fiber[case_0]: not symbols => self                       ║
+# ║   fiber[case_1]: not (not symbols) => self.clone(symb...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ drop_to_ground : Any → {Any | result satisfies: resul...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0a676859cb7d01de  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2dcb8b08517e7ac4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyRing.drop_to_ground","kind":"method","src_hash":"164a9cd0dc4c6d60","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"drop_to_ground(*ge)","rhs":"remove specified generators from the ring and inject them into its domain","over":{"base":"Any"},"name":"drop_to_ground_correct"},"guarantee":"remove specified generators from the ring and inject them into its domain","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyRing.drop_to_ground_correct","statement":"Path(drop_to_ground(x), remove specified generators from the ring and inject them into its domain)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0a676859cb7d01de"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyRing.drop_to_ground","kind":"method","src_hash":"164a9cd0dc4c6d60","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (self if not symbols else self.clone(symbols=symbols, domain=self.drop(*gens))) and result == self or result == self.clone(symbols=symbols, domain=self.drop(*gens))"},"spec":{"lhs":"drop_to_ground(*gens)","rhs":"result == (self if not symbols else self.clone(symbols=symbols, domain=self.drop(*gens))) and result == self or result == self.clone(symbols=symbols, domain=self.drop(*gens))","over":{"base":"Any"},"name":"drop_to_ground_correct"},"guarantee":"result == (self if not symbols else self.clone(symbols=symbols, domain=self.drop(*gens))); result == self or result == self.clone(symbols=symbols, domain=self.drop(*gens)); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyRing.drop_to_ground_correct","statement":"Path(drop_to_ground(x), result == (self if not symbols else self.clone(symbols=symbols, domain=self.drop(*gens))); result == self or result == self.clone(symbols=symbols, domain=self.drop(*gens)); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2dcb8b08517e7ac4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (self if not symbols else self.clone(symbols=symbols, domain=self.drop(*gens)))","result == self or result == self.clone(symbols=symbols, domain=self.drop(*gens))"],"fibers":[{"name":"case_0","guard":"not symbols","ensures":["result == self"],"decidability":"library","returns_expr":"self"},{"name":"case_1","guard":"not (not symbols)","ensures":["result == self.clone(symbols=symbols, domain=self.drop(*gens))"],"decidability":"library","returns_expr":"self.clone(symbols=symbols, domain=self.drop(*gens))"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.clone","self.drop","self.gens","self.index","self.symbols"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def drop_to_ground(self, *gens):
         r"""
         Remove specified generators from the ring and inject them into
@@ -1006,16 +1268,26 @@ class PolyRing(DefaultPrinting, IPolys):
             return self.clone(symbols=symbols, domain=self.drop(*gens))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(compose(oth), id) over Any                            ║
+# ║ Path(compose(other), id) over {Any | hasattr(other, 'symbols')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ compose : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, 'symbols')                      ║
+# ║   ensures:  result == (self.clone(symbols=list(syms))...   ║
+# ║   ensures:  result == self.clone(symbols=list(syms)) ...   ║
+# ║   fiber[case_0]: self != other => self.clone(symbols=...   ║
+# ║   fiber[case_1]: not (self != other) => self               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ compose : {Any | hasattr(other, 'symbols')} → {Any | ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 4b0f52a8c53173ca   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyRing.compose","kind":"method","src_hash":"fbe0143907106a8f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"compose(oth)","rhs":"add the generators of ``other`` to ``self``","over":{"base":"Any"},"name":"compose_correct","kind":"composition"},"guarantee":"add the generators of ``other`` to ``self``","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"clone","by":"library_axiom"},{"fn":"list","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4b0f52a8c53173ca"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyRing.compose","kind":"method","src_hash":"fbe0143907106a8f","in":{"base":"Any","pred":"hasattr(other, 'symbols')"},"out":{"base":"Any","pred":"result satisfies: result == (self.clone(symbols=list(syms)) if self != other else self) and result == self.clone(symbols=list(syms)) or result == self"},"spec":{"lhs":"compose(other)","rhs":"result == (self.clone(symbols=list(syms)) if self != other else self) and result == self.clone(symbols=list(syms)) or result == self","over":{"base":"Any","pred":"hasattr(other, 'symbols')"},"name":"compose_correct","kind":"composition"},"guarantee":"result == (self.clone(symbols=list(syms)) if self != other else self); result == self.clone(symbols=list(syms)) or result == self; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"clone","by":"library_axiom"},{"fn":"list","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4b0f52a8c53173ca","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, 'symbols')"],"ensures":["result == (self.clone(symbols=list(syms)) if self != other else self)","result == self.clone(symbols=list(syms)) or result == self"],"fibers":[{"name":"case_0","guard":"self != other","ensures":["result == self.clone(symbols=list(syms))"],"decidability":"z3","returns_expr":"self.clone(symbols=list(syms))"},{"name":"case_1","guard":"not (self != other)","ensures":["result == self"],"decidability":"z3","returns_expr":"self"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.symbols","self.clone","self.symbols"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def compose(self, other):
         """Add the generators of ``other`` to ``self``"""
         if self != other:
@@ -1025,32 +1297,47 @@ class PolyRing(DefaultPrinting, IPolys):
             return self
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(add_gens(sym), id) over Any                           ║
+# ║ Path(add_gens(symbols), id) over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.clone(symbols=list(syms))                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ add_gens : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 1529a4f140195d23   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyRing.add_gens","kind":"method","src_hash":"88506f600ac0fade","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"add_gens(sym)","rhs":"add the elements of ``symbols`` as generators to ``self``","over":{"base":"Any"},"name":"add_gens_correct","kind":"composition"},"guarantee":"add the elements of ``symbols`` as generators to ``self``","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"clone","by":"library_axiom"},{"fn":"list","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1529a4f140195d23"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyRing.add_gens","kind":"method","src_hash":"88506f600ac0fade","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"add_gens(symbols)","rhs":"self.clone(symbols=list(syms))","over":{"base":"Any"},"name":"add_gens_correct","kind":"composition"},"guarantee":"returns self.clone(symbols=list(syms))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"clone","by":"library_axiom"},{"fn":"list","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1529a4f140195d23","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.clone(symbols=list(syms))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.clone","self.symbols"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def add_gens(self, symbols):
         """Add the elements of ``symbols`` as generators to ``self``"""
         syms = set(self.symbols).union(set(symbols))
         return self.clone(symbols=list(syms))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(symmetric_poly(n), return the elementary symmetric polynomial of degree *n* over this ring's generators) over Any ║
+# ║ Path(symmetric_poly(n), <unspecified:symmetric_poly>) over {Any | not (n < 0 or n > self.ngens)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ symmetric_poly : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (n < 0 or n > self.ngens)                  ║
+# ║   fiber[negative]: n < 0 or n > self.ngens                 ║
+# ║   fiber[case_1]: not n => self.one                         ║
+# ║   fiber[negative]: not (n < 0 or n > self.ngens) and ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ symmetric_poly : {Any | not (n < 0 or n > self.ngens)...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b56bf4cb0b20d80a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e6f006fb13e0eeb8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyRing.symmetric_poly","kind":"method","src_hash":"8e2a199db12beafd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"symmetric_poly(n)","rhs":"return the elementary symmetric polynomial of degree *n* over this ring's generators","over":{"base":"Any"},"name":"symmetric_poly_correct"},"guarantee":"return the elementary symmetric polynomial of degree *n* over this ring's generators","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyRing.symmetric_poly_correct","statement":"Path(symmetric_poly(x), return the elementary symmetric polynomial of degree *n* over this ring's generators)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b56bf4cb0b20d80a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyRing.symmetric_poly","kind":"method","src_hash":"8e2a199db12beafd","in":{"base":"Any","pred":"not (n < 0 or n > self.ngens)"},"out":{"base":"Any"},"spec":{"lhs":"symmetric_poly(n)","rhs":"<unspecified:symmetric_poly>","over":{"base":"Any","pred":"not (n < 0 or n > self.ngens)"},"name":"symmetric_poly_correct"},"guarantee":"3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyRing.symmetric_poly_correct","statement":"Path(symmetric_poly(x), 3-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e6f006fb13e0eeb8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (n < 0 or n > self.ngens)"],"fibers":[{"name":"negative","guard":"n < 0 or n > self.ngens","ensures":[],"decidability":"z3"},{"name":"case_1","guard":"not n","ensures":["result == self.one"],"decidability":"library","returns_expr":"self.one"},{"name":"negative","guard":"not (n < 0 or n > self.ngens) and not (not n)","ensures":["result == poly"],"decidability":"z3","returns_expr":"poly"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.gens","self.ngens","self.one","self.term_new","self.zero"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def symmetric_poly(self, n):
         """
         Return the elementary symmetric polynomial of degree *n* over
@@ -1071,28 +1358,42 @@ class PolyRing(DefaultPrinting, IPolys):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a PolyElement instance) preserved by PolyElement(*args) over {Any | isinstance(self, PolyElement) and isinstance(self.ring, PolyRing) and isinstance(dom, Domain)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DomainElement)                ║
+# ║   ensures:  isinstance(self, DefaultPrinting)              ║
+# ║   ensures:  isinstance(self, CantSympify)                  ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ PolyElement : {Any | isinstance(self, PolyElement) an...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 14.0ms                        ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2c7fac25ac4b2eff  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement","kind":"class","src_hash":"8f4c4eab4da87d8c","in":{"base":"Any","pred":"isinstance(self, PolyElement) and isinstance(self.ring, PolyRing) and isinstance(dom, Domain)"},"out":{"base":"Any","pred":"isinstance(self, PolyElement) and isinstance(self.ring, PolyRing) and isinstance(dom, Domain) and dom.of_type(coeff) and len(monom) == self.ring.ngens and all((isinstance(exp, int) and exp >= 0 for exp in monom))"},"spec":{"lhs":"PolyElement(*args)","rhs":"correctly constructs a PolyElement instance","over":{"base":"Any","pred":"isinstance(self, PolyElement) and isinstance(self.ring, PolyRing) and isinstance(dom, Domain)"},"name":"PolyElement_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a PolyElement instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_generator","pred":"self.is_generator","kind":"class"},{"name":"is_ground","pred":"self.is_ground","kind":"class"},{"name":"is_monomial","pred":"self.is_monomial","kind":"class"},{"name":"is_term","pred":"self.is_term","kind":"class"},{"name":"is_negative","pred":"self.is_negative","kind":"class"},{"name":"is_positive","pred":"self.is_positive","kind":"class"},{"name":"is_nonnegative","pred":"self.is_nonnegative","kind":"class"},{"name":"is_nonpositive","pred":"self.is_nonpositive","kind":"class"},{"name":"is_zero","pred":"self.is_zero","kind":"class"},{"name":"is_one","pred":"self.is_one","kind":"class"},{"name":"is_monic","pred":"self.is_monic","kind":"class"},{"name":"is_primitive","pred":"self.is_primitive","kind":"class"},{"name":"is_linear","pred":"self.is_linear","kind":"class"},{"name":"is_quadratic","pred":"self.is_quadratic","kind":"class"},{"name":"is_squarefree","pred":"self.is_squarefree","kind":"class"},{"name":"is_irreducible","pred":"self.is_irreducible","kind":"class"},{"name":"is_cyclotomic","pred":"self.is_cyclotomic","kind":"class"},{"name":"representation","pred":"hasattr(self, 'ring')","kind":"class","induction":"structural on ring"}],"methods_preserving":["__init__","_check","new","parent","__getnewargs__","__hash__","copy","set_ring","as_expr","as_expr_dict","clear_denoms","strip_zero","sort_key","_drop","drop","_drop_to_ground","drop_to_ground","to_dense","to_dict","str","is_generator","is_ground","is_monomial","is_term","is_negative","is_positive","is_nonnegative","is_nonpositive","__neg__","__pos__","__pow__","_pow_generic","_pow_multinomial","square","_term_div","div","rem","_iadd_monom","_iadd_poly_monom","leading_expv","_get_coeff","coeff","const","LC","LM","leading_monom","LT","leading_term","_sorted","coeffs","monoms","terms","itercoeffs","itermonoms","iterterms","listcoeffs","listmonoms","listterms","extract_ground","lcm","_gcd_QQ","cancel","evaluate","subs","symmetrize","coeff_wrt","prem","pdiv","pquo","pexquo","subresultants"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2c7fac25ac4b2eff"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement","kind":"class","src_hash":"8f4c4eab4da87d8c","in":{"base":"Any","pred":"isinstance(self, PolyElement) and isinstance(self.ring, PolyRing) and isinstance(dom, Domain)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DomainElement) and isinstance(self, DefaultPrinting) and isinstance(self, CantSympify) and isinstance(self, dict)"},"spec":{"lhs":"PolyElement(*args)","rhs":"correctly constructs a PolyElement instance","over":{"base":"Any","pred":"isinstance(self, PolyElement) and isinstance(self.ring, PolyRing) and isinstance(dom, Domain)"},"name":"PolyElement_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, DomainElement); isinstance(self, DefaultPrinting); isinstance(self, CantSympify); preserves 1 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_generator","pred":"self.is_generator","kind":"class"},{"name":"is_ground","pred":"self.is_ground","kind":"class"},{"name":"is_monomial","pred":"self.is_monomial","kind":"class"},{"name":"is_term","pred":"self.is_term","kind":"class"},{"name":"is_negative","pred":"self.is_negative","kind":"class"},{"name":"is_positive","pred":"self.is_positive","kind":"class"},{"name":"is_nonnegative","pred":"self.is_nonnegative","kind":"class"},{"name":"is_nonpositive","pred":"self.is_nonpositive","kind":"class"},{"name":"is_zero","pred":"self.is_zero","kind":"class"},{"name":"is_one","pred":"self.is_one","kind":"class"},{"name":"is_monic","pred":"self.is_monic","kind":"class"},{"name":"is_primitive","pred":"self.is_primitive","kind":"class"},{"name":"is_linear","pred":"self.is_linear","kind":"class"},{"name":"is_quadratic","pred":"self.is_quadratic","kind":"class"},{"name":"is_squarefree","pred":"self.is_squarefree","kind":"class"},{"name":"is_irreducible","pred":"self.is_irreducible","kind":"class"},{"name":"is_cyclotomic","pred":"self.is_cyclotomic","kind":"class"},{"name":"representation","pred":"hasattr(self, 'ring')","kind":"class","induction":"structural on ring"}],"methods_preserving":["__init__","_check","new","parent","__getnewargs__","__hash__","copy","set_ring","as_expr","as_expr_dict","clear_denoms","strip_zero","sort_key","_drop","drop","_drop_to_ground","drop_to_ground","to_dense","to_dict","str","is_generator","is_ground","is_monomial","is_term","is_negative","is_positive","is_nonnegative","is_nonpositive","__neg__","__pos__","__pow__","_pow_generic","_pow_multinomial","square","_term_div","div","rem","_iadd_monom","_iadd_poly_monom","leading_expv","_get_coeff","coeff","const","LC","LM","leading_monom","LT","leading_term","_sorted","coeffs","monoms","terms","itercoeffs","itermonoms","iterterms","listcoeffs","listmonoms","listterms","extract_ground","lcm","_gcd_QQ","cancel","evaluate","subs","symmetrize","coeff_wrt","prem","pdiv","pquo","pexquo","subresultants"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2c7fac25ac4b2eff","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DomainElement)","isinstance(self, DefaultPrinting)","isinstance(self, CantSympify)","isinstance(self, dict)"],"invariants":["hasattr(self, 'ring')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":14.0,"verdict_class":"assumed","binding":false,"binding_errors":["Function PolyElement not found in source"]}}
 class PolyElement(DomainElement, DefaultPrinting, CantSympify, dict):
     """Element of multivariate distributed polynomial ring. """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(rin), initializes the instance correctly) over Any ║
+# ║ Path(__init__(ring, init), self.ring == ring) over Any     ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  self.ring == ring                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : Any → {Any | result satisfies: self.ring =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7de44955da0e17ee           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.__init__","kind":"method","src_hash":"8c9974d864ddd891","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(rin)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7de44955da0e17ee"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.__init__","kind":"method","src_hash":"8c9974d864ddd891","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: self.ring == ring"},"spec":{"lhs":"__init__(ring, init)","rhs":"self.ring == ring","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"self.ring == ring","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7de44955da0e17ee","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["self.ring == ring"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, ring, init):
         super().__init__(init)
         self.ring = ring
@@ -1100,16 +1401,24 @@ class PolyElement(DomainElement, DefaultPrinting, CantSympify, dict):
         # self._check()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_check(), internal helper behaves correctly) over Any ║
+# ║ Path(_check(), isinstance(self, PolyElement) and isinstance(self.ring, PolyRing) and isinstance(dom, Domain)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _check : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, PolyElement)                  ║
+# ║   ensures:  isinstance(self.ring, PolyRing)                ║
+# ║   ensures:  isinstance(dom, Domain)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _check : Any → {Any | result satisfies: isinstance(se...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5035c574778f9e1a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3fb1fbdbce12bd75  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement._check","kind":"method","src_hash":"1839339094a97a92","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_check()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_check_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement._check_correct","statement":"Path(_check(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5035c574778f9e1a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement._check","kind":"method","src_hash":"1839339094a97a92","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, PolyElement) and isinstance(self.ring, PolyRing) and isinstance(dom, Domain)"},"spec":{"lhs":"_check()","rhs":"isinstance(self, PolyElement) and isinstance(self.ring, PolyRing) and isinstance(dom, Domain)","over":{"base":"Any"},"name":"_check_correct"},"guarantee":"isinstance(self, PolyElement); isinstance(self.ring, PolyRing); isinstance(dom, Domain)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement._check_correct","statement":"Path(_check(x), isinstance(self, PolyElement); isinstance(self.ring, PolyRing); isinstance(dom, Domain))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3fb1fbdbce12bd75","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, PolyElement)","isinstance(self.ring, PolyRing)","isinstance(dom, Domain)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.items","self.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _check(self):
         assert isinstance(self, PolyElement)
         assert isinstance(self.ring, PolyRing)
@@ -1121,60 +1430,84 @@ class PolyElement(DomainElement, DefaultPrinting, CantSympify, dict):
             assert all(isinstance(exp, int) and exp >= 0 for exp in monom)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(new(ini), new produces the expected output) over Any  ║
+# ║ Path(new(init), self.__class__(self.ring, init)) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.__class__(self.ring, init)                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ new : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2016e43e0fa603bf           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.new","kind":"method","src_hash":"91957e4cb6a0c32d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"new(ini)","rhs":"new produces the expected output","over":{"base":"Any"},"name":"new_correct"},"guarantee":"new produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2016e43e0fa603bf"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.new","kind":"method","src_hash":"91957e4cb6a0c32d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"new(init)","rhs":"self.__class__(self.ring, init)","over":{"base":"Any"},"name":"new_correct"},"guarantee":"returns self.__class__(self.ring, init)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2016e43e0fa603bf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.__class__(self.ring, init)","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","self.__class__","self.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def new(self, init):
         return self.__class__(self.ring, init)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(parent(), parent produces the expected output) over Any ║
+# ║ Path(parent(), self.ring.to_domain()) over Any             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.ring.to_domain()                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ parent : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ea409a560d875645           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.parent","kind":"method","src_hash":"d8b1e91e8dbe4537","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"parent()","rhs":"parent produces the expected output","over":{"base":"Any"},"name":"parent_correct"},"guarantee":"parent produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ea409a560d875645"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.parent","kind":"method","src_hash":"d8b1e91e8dbe4537","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"parent()","rhs":"self.ring.to_domain()","over":{"base":"Any"},"name":"parent_correct"},"guarantee":"returns self.ring.to_domain()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ea409a560d875645","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.ring.to_domain()","pure":false,"effects":{"effect_type":"reads_state","reads":["self.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def parent(self):
         return self.ring.to_domain()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__getnewargs__(), internal helper behaves correctly) over Any ║
+# ║ Path(__getnewargs__(), (self.ring, list(self.iterterms()))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (self.ring, list(self.iterterms()))            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __getnewargs__ : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5ce57d4d6b220d6d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.__getnewargs__","kind":"method","src_hash":"6d3cdf20d9f90d55","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getnewargs__()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__getnewargs___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5ce57d4d6b220d6d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.__getnewargs__","kind":"method","src_hash":"6d3cdf20d9f90d55","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getnewargs__()","rhs":"(self.ring, list(self.iterterms()))","over":{"base":"Any"},"name":"__getnewargs___correct"},"guarantee":"returns (self.ring, list(self.iterterms()))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5ce57d4d6b220d6d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(self.ring, list(self.iterterms()))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.iterterms","self.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __getnewargs__(self):
         return (self.ring, list(self.iterterms()))
 
     _hash = None
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__hash__(), returns a consistent hash value) over Any ║
+# ║ Path(__hash__(), <unspecified:__hash__>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __hash__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 42608773ead075c2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.__hash__","kind":"method","src_hash":"1dde00e120f5af3d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__hash__()","rhs":"returns a consistent hash value","over":{"base":"Any"},"name":"__hash___correct"},"guarantee":"returns a consistent hash value","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"42608773ead075c2"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.__hash__","kind":"method","src_hash":"1dde00e120f5af3d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__hash__()","rhs":"<unspecified:__hash__>","over":{"base":"Any"},"name":"__hash___correct"},"guarantee":"returns a consistent hash value","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"42608773ead075c2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._hash","self.items","self.ring"],"writes":["self._hash"]},"state_contract":{"modifies":["self._hash"],"old_bindings":{"old_self__hash":"self._hash"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __hash__(self):
         # XXX: This computes a hash of a dictionary, but currently we don't
         # protect dictionary from being changed so any use site modifications
@@ -1187,16 +1520,22 @@ class PolyElement(DomainElement, DefaultPrinting, CantSympify, dict):
         return _hash
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(copy(), return a copy of polynomial self) over Any    ║
+# ║ Path(copy(), self.new(self)) over Any                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.new(self)                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ copy : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0cadf4ffd7594cb6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.copy","kind":"method","src_hash":"6c7fbe75e2f782b4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"copy()","rhs":"return a copy of polynomial self","over":{"base":"Any"},"name":"copy_correct"},"guarantee":"return a copy of polynomial self","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0cadf4ffd7594cb6"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.copy","kind":"method","src_hash":"6c7fbe75e2f782b4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"copy()","rhs":"self.new(self)","over":{"base":"Any"},"name":"copy_correct"},"guarantee":"returns self.new(self)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0cadf4ffd7594cb6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.new(self)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.new"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def copy(self):
         """Return a copy of polynomial self.
 
@@ -1226,16 +1565,29 @@ class PolyElement(DomainElement, DefaultPrinting, CantSympify, dict):
         return self.new(self)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(set_ring(new), set_ring produces the expected output) over Any ║
+# ║ Path(set_ring(new_ring), result == (self if self.ring == new_ring else new_ring.from_terms(terms, self.ring.domain) if self.ring.symbols != new_ring.symbols else new_ring.from_dict(self, self.ring.domain)) and result == self or result == new_ring.from_terms(terms, self.ring.domain) or result == new_ring.from_dict(self, self.ring.domain)) over {Any | hasattr(new_ring, 'symbols') and hasattr(new_ring, 'from_terms') and hasattr(new_ring, 'from_dict')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ set_ring : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(new_ring, 'symbols')                   ║
+# ║   requires: hasattr(new_ring, 'from_terms')                ║
+# ║   requires: hasattr(new_ring, 'from_dict')                 ║
+# ║   ensures:  result == (self if self.ring == new_ring ...   ║
+# ║   ensures:  result == self or result == new_ring.from...   ║
+# ║   fiber[case_0]: self.ring == new_ring => self             ║
+# ║   fiber[case_1]: self.ring.symbols != new_ring.symbol...   ║
+# ║   fiber[case_2]: not (self.ring == new_ring) and not ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ set_ring : {Any | hasattr(new_ring, 'symbols') and ha...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bd99707edcbf0eb4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | db8f1b790e8079aa  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.set_ring","kind":"method","src_hash":"bb5c3f9a91d8b468","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"set_ring(new)","rhs":"set_ring produces the expected output","over":{"base":"Any"},"name":"set_ring_correct"},"guarantee":"set_ring produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement.set_ring_correct","statement":"Path(set_ring(x), set_ring produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bd99707edcbf0eb4"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.set_ring","kind":"method","src_hash":"bb5c3f9a91d8b468","in":{"base":"Any","pred":"hasattr(new_ring, 'symbols') and hasattr(new_ring, 'from_terms') and hasattr(new_ring, 'from_dict')"},"out":{"base":"Any","pred":"result satisfies: result == (self if self.ring == new_ring else new_ring.from_terms(terms, self.ring.domain) if self.ring.symbols != new_ring.symbols else new_ring.from_dict(self, self.ring.domain)) and result == self or result == new_ring.from_terms(terms, self.ring.domain) or result == new_ring.from_dict(self, self.ring.domain)"},"spec":{"lhs":"set_ring(new_ring)","rhs":"result == (self if self.ring == new_ring else new_ring.from_terms(terms, self.ring.domain) if self.ring.symbols != new_ring.symbols else new_ring.from_dict(self, self.ring.domain)) and result == self or result == new_ring.from_terms(terms, self.ring.domain) or result == new_ring.from_dict(self, self.ring.domain)","over":{"base":"Any","pred":"hasattr(new_ring, 'symbols') and hasattr(new_ring, 'from_terms') and hasattr(new_ring, 'from_dict')"},"name":"set_ring_correct"},"guarantee":"result == (self if self.ring == new_ring else new_ring.from_terms(terms, self.ring.domain) if self.ring.symbols != new_ring.symbols else new_ring.from_dict(self, self.ring.domain)); result == self or result == new_ring.from_terms(terms, self.ring.domain) or result == new_ring.from_dict(self, self.ring.domain); 3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement.set_ring_correct","statement":"Path(set_ring(x), result == (self if self.ring == new_ring else new_ring.from_terms(terms, self.ring.domain) if self.ring.symbols != new_ring.symbols else new_ring.from_dict(self, self.ring.domain)); result == self or result == new_ring.from_terms(terms, self.ring.domain) or result == new_ring.from_dict(self, self.ring.domain); 3-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"db8f1b790e8079aa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(new_ring, 'symbols')","hasattr(new_ring, 'from_terms')","hasattr(new_ring, 'from_dict')"],"ensures":["result == (self if self.ring == new_ring else new_ring.from_terms(terms, self.ring.domain) if self.ring.symbols != new_ring.symbols else new_ring.from_dict(self, self.ring.domain))","result == self or result == new_ring.from_terms(terms, self.ring.domain) or result == new_ring.from_dict(self, self.ring.domain)"],"fibers":[{"name":"case_0","guard":"self.ring == new_ring","ensures":["result == self"],"decidability":"z3","returns_expr":"self"},{"name":"case_1","guard":"self.ring.symbols != new_ring.symbols","ensures":["result == new_ring.from_terms(terms, self.ring.domain)"],"decidability":"z3","returns_expr":"new_ring.from_terms(terms, self.ring.domain)"},{"name":"case_2","guard":"not (self.ring == new_ring) and not (self.ring.symbols != new_ring.symbols)","ensures":["result == new_ring.from_dict(self, self.ring.domain)"],"decidability":"z3","returns_expr":"new_ring.from_dict(self, self.ring.domain)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["new_ring.from_dict","new_ring.from_terms","new_ring.symbols","self.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def set_ring(self, new_ring):
         if self.ring == new_ring:
             return self
@@ -1246,16 +1598,22 @@ class PolyElement(DomainElement, DefaultPrinting, CantSympify, dict):
             return new_ring.from_dict(self, self.ring.domain)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(as_expr(*sy), id) over Any                            ║
+# ║ Path(as_expr(*symbols), id) over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  expr_from_dict(self.as_expr_dict(), *symb...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ as_expr : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | b5f9006076d2b846   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.as_expr","kind":"method","src_hash":"436ccfdcfb6390d3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_expr(*sy)","rhs":"as_expr produces the expected output","over":{"base":"Any"},"name":"as_expr_correct","kind":"composition"},"guarantee":"as_expr produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"expr_from_dict","by":"library_axiom"},{"fn":"as_expr_dict","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b5f9006076d2b846"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.as_expr","kind":"method","src_hash":"436ccfdcfb6390d3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_expr(*symbols)","rhs":"expr_from_dict(self.as_expr_dict(), *symbols)","over":{"base":"Any"},"name":"as_expr_correct","kind":"composition"},"guarantee":"returns expr_from_dict(self.as_expr_dict(), *symbols)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"expr_from_dict","by":"library_axiom"},{"fn":"as_expr_dict","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b5f9006076d2b846","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"expr_from_dict(self.as_expr_dict(), *symbols)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.as_expr_dict","self.ring"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def as_expr(self, *symbols):
         if not symbols:
             symbols = self.ring.symbols
@@ -1270,29 +1628,41 @@ class PolyElement(DomainElement, DefaultPrinting, CantSympify, dict):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(as_expr_dict(), id) over Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  {monom: to_sympy(coeff) for monom, coeff ...   ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ as_expr_dict : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | af6f08b043e7421a   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.as_expr_dict","kind":"method","src_hash":"4bbe6cf1e31c2f44","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_expr_dict()","rhs":"as_expr_dict produces the expected output","over":{"base":"Any"},"name":"as_expr_dict_correct","kind":"composition"},"guarantee":"as_expr_dict produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"to_sympy","by":"library_axiom"},{"fn":"iterterms","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"af6f08b043e7421a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.as_expr_dict","kind":"method","src_hash":"4bbe6cf1e31c2f44","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_expr_dict()","rhs":"{monom: to_sympy(coeff) for monom, coeff in self.iterterms()}","over":{"base":"Any"},"name":"as_expr_dict_correct","kind":"composition"},"guarantee":"returns {monom: to_sympy(coeff) for monom, coeff in self.iterterms()}","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"to_sympy","by":"library_axiom"},{"fn":"iterterms","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"af6f08b043e7421a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"{monom: to_sympy(coeff) for monom, coeff in self.iterterms()}","pure":false,"effects":{"effect_type":"reads_state","reads":["self.iterterms","self.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def as_expr_dict(self):
         to_sympy = self.ring.domain.to_sympy
         return {monom: to_sympy(coeff) for monom, coeff in self.iterterms()}
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(clear_denoms(), clear_denoms produces the expected output) over Any ║
+# ║ Path(clear_denoms(), <unspecified:clear_denoms>) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ clear_denoms : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bddd4ebca35c4790  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.clear_denoms","kind":"method","src_hash":"48fbc0c511848b96","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"clear_denoms()","rhs":"clear_denoms produces the expected output","over":{"base":"Any"},"name":"clear_denoms_correct"},"guarantee":"clear_denoms produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement.clear_denoms_correct","statement":"Path(clear_denoms(x), clear_denoms produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bddd4ebca35c4790"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.clear_denoms","kind":"method","src_hash":"48fbc0c511848b96","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"clear_denoms()","rhs":"<unspecified:clear_denoms>","over":{"base":"Any"},"name":"clear_denoms_correct"},"guarantee":"clear_denoms produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement.clear_denoms_correct","statement":"Path(clear_denoms(x), clear_denoms produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bddd4ebca35c4790","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.items","self.new","self.ring","self.values"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def clear_denoms(self):
         domain = self.ring.domain
 
@@ -1311,16 +1681,22 @@ class PolyElement(DomainElement, DefaultPrinting, CantSympify, dict):
         return common, poly
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(strip_zero(), eliminate monomials with zero coefficient) over Any ║
+# ║ Path(strip_zero(), <unspecified:strip_zero>) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ strip_zero : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 06b83082ac1a9abd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.strip_zero","kind":"method","src_hash":"06493dc2fcc78b2c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"strip_zero()","rhs":"eliminate monomials with zero coefficient","over":{"base":"Any"},"name":"strip_zero_correct"},"guarantee":"eliminate monomials with zero coefficient","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement.strip_zero_correct","statement":"Path(strip_zero(x), eliminate monomials with zero coefficient)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"06b83082ac1a9abd"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.strip_zero","kind":"method","src_hash":"06493dc2fcc78b2c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"strip_zero()","rhs":"<unspecified:strip_zero>","over":{"base":"Any"},"name":"strip_zero_correct"},"guarantee":"eliminate monomials with zero coefficient","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement.strip_zero_correct","statement":"Path(strip_zero(x), eliminate monomials with zero coefficient)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"06b83082ac1a9abd","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self.items"],"writes":["self[*]"]},"state_contract":{"modifies":["self[*]"],"old_bindings":{"old_self_star":"self[*]"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def strip_zero(self):
         """Eliminate monomials with zero coefficient. """
         for k, v in list(self.items()):
@@ -1328,16 +1704,28 @@ class PolyElement(DomainElement, DefaultPrinting, CantSympify, dict):
                 del self[k]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__eq__(p1,), correctly determines equality) over Any  ║
+# ║ Path(__eq__(p1, p2), result == (not p1 if not p2 else dict.__eq__(p1, p2) if p1.ring.is_element(p2) else False if len(p1) > 1 else p1.get(p1.ring.zero_monom) == p2) and result == not p1 or result == dict.__eq__(p1, p2) or result == False or result == p1.get(p1.ring.zero_monom) == p2) over {Any | hasattr(p1, 'ring') and hasattr(p1, 'get')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __eq__ : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(p1, 'ring')                            ║
+# ║   requires: hasattr(p1, 'get')                             ║
+# ║   ensures:  result == (not p1 if not p2 else dict.__e...   ║
+# ║   ensures:  result == not p1 or result == dict.__eq__...   ║
+# ║   fiber[case_0]: not p2 => not p1                          ║
+# ║   fiber[case_1]: p1.ring.is_element(p2) => dict.__eq_...   ║
+# ║   fiber[case_2]: len(p1) > 1 => False                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __eq__ : {Any | hasattr(p1, 'ring') and hasattr(p1, '...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | df62c27b500a09d7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.__eq__","kind":"method","src_hash":"f926a5a945810d3b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(p1,)","rhs":"correctly determines equality","over":{"base":"Any"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"df62c27b500a09d7"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.__eq__","kind":"method","src_hash":"f926a5a945810d3b","in":{"base":"Any","pred":"hasattr(p1, 'ring') and hasattr(p1, 'get')"},"out":{"base":"Any","pred":"result satisfies: result == (not p1 if not p2 else dict.__eq__(p1, p2) if p1.ring.is_element(p2) else False if len(p1) > 1 else p1.get(p1.ring.zero_monom) == p2) and result == not p1 or result == dict.__eq__(p1, p2) or result == False or result == p1.get(p1.ring.zero_monom) == p2"},"spec":{"lhs":"__eq__(p1, p2)","rhs":"result == (not p1 if not p2 else dict.__eq__(p1, p2) if p1.ring.is_element(p2) else False if len(p1) > 1 else p1.get(p1.ring.zero_monom) == p2) and result == not p1 or result == dict.__eq__(p1, p2) or result == False or result == p1.get(p1.ring.zero_monom) == p2","over":{"base":"Any","pred":"hasattr(p1, 'ring') and hasattr(p1, 'get')"},"name":"__eq___correct"},"guarantee":"result == (not p1 if not p2 else dict.__eq__(p1, p2) if p1.ring.is_element(p2) else False if len(p1) > 1 else p1.get(p1.ring.zero_monom) == p2); result == not p1 or result == dict.__eq__(p1, p2) or result == False or result == p1.get(p1.ring.zero_monom) == p2; 4-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"df62c27b500a09d7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(p1, 'ring')","hasattr(p1, 'get')"],"ensures":["result == (not p1 if not p2 else dict.__eq__(p1, p2) if p1.ring.is_element(p2) else False if len(p1) > 1 else p1.get(p1.ring.zero_monom) == p2)","result == not p1 or result == dict.__eq__(p1, p2) or result == False or result == p1.get(p1.ring.zero_monom) == p2"],"fibers":[{"name":"case_0","guard":"not p2","ensures":["result == not p1"],"decidability":"library","returns_expr":"not p1"},{"name":"case_1","guard":"p1.ring.is_element(p2)","ensures":["result == dict.__eq__(p1, p2)"],"decidability":"library","returns_expr":"dict.__eq__(p1, p2)"},{"name":"case_2","guard":"len(p1) > 1","ensures":["result == False"],"decidability":"z3","returns_expr":"False"},{"name":"case_3","guard":"not (not p2) and not (p1.ring.is_element(p2)) and not (len(p1) > 1)","ensures":["result == p1.get(p1.ring.zero_monom) == p2"],"decidability":"z3","returns_expr":"p1.get(p1.ring.zero_monom) == p2"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["p1.get","p1.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __eq__(p1, p2):
         """Equality test for polynomials.
 
@@ -1365,30 +1753,47 @@ class PolyElement(DomainElement, DefaultPrinting, CantSympify, dict):
             return p1.get(p1.ring.zero_monom) == p2
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__ne__(p1,), internal helper behaves correctly) over Any ║
+# ║ Path(__ne__(p1, p2), not p1 == p2) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  not p1 == p2                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __ne__ : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f9f0b23905a4e344           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.__ne__","kind":"method","src_hash":"e3d29f7bd0b724b2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__ne__(p1,)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__ne___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f9f0b23905a4e344"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.__ne__","kind":"method","src_hash":"e3d29f7bd0b724b2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__ne__(p1, p2)","rhs":"not p1 == p2","over":{"base":"Any"},"name":"__ne___correct"},"guarantee":"returns not p1 == p2","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f9f0b23905a4e344","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"not p1 == p2","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __ne__(p1, p2):
         return not p1 == p2
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(almosteq(p1,), approximate equality test for polynomials) over Any ║
+# ║ Path(almosteq(p1, p2, tolerance), <unspecified:almosteq>) over {Any | hasattr(p1, 'ring') and hasattr(p1, 'keys') and hasattr(p2, 'keys') and hasattr(p1, 'const')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ almosteq : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(p1, 'ring')                            ║
+# ║   requires: hasattr(p1, 'keys')                            ║
+# ║   requires: hasattr(p2, 'keys')                            ║
+# ║   fiber[case_0]: ring.is_element(p2) => True               ║
+# ║   fiber[case_1]: len(p1) > 1 => False                      ║
+# ║   fiber[case_2]: not (ring.is_element(p2)) and not (l...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ almosteq : {Any | hasattr(p1, 'ring') and hasattr(p1,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | efacb360c2256ee7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a997917691aa59a9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.almosteq","kind":"method","src_hash":"575592314b35b1a7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"almosteq(p1,)","rhs":"approximate equality test for polynomials","over":{"base":"Any"},"name":"almosteq_correct"},"guarantee":"approximate equality test for polynomials","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement.almosteq_correct","statement":"Path(almosteq(x), approximate equality test for polynomials)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"efacb360c2256ee7"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.almosteq","kind":"method","src_hash":"575592314b35b1a7","in":{"base":"Any","pred":"hasattr(p1, 'ring') and hasattr(p1, 'keys') and hasattr(p2, 'keys') and hasattr(p1, 'const')"},"out":{"base":"Any"},"spec":{"lhs":"almosteq(p1, p2, tolerance)","rhs":"<unspecified:almosteq>","over":{"base":"Any","pred":"hasattr(p1, 'ring') and hasattr(p1, 'keys') and hasattr(p2, 'keys') and hasattr(p1, 'const')"},"name":"almosteq_correct"},"guarantee":"3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement.almosteq_correct","statement":"Path(almosteq(x), 3-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a997917691aa59a9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(p1, 'ring')","hasattr(p1, 'keys')","hasattr(p2, 'keys')","hasattr(p1, 'const')"],"fibers":[{"name":"case_0","guard":"ring.is_element(p2)","ensures":["result == True"],"decidability":"library","returns_expr":"True"},{"name":"case_1","guard":"len(p1) > 1","ensures":["result == False"],"decidability":"z3","returns_expr":"False"},{"name":"case_2","guard":"not (ring.is_element(p2)) and not (len(p1) > 1)","ensures":[],"decidability":"z3"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["p1.const","p1.keys","p1.ring","p2.keys"],"catches":["CoercionFailed"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def almosteq(p1, p2, tolerance=None):
         """Approximate equality test for polynomials. """
         ring = p1.ring
@@ -1414,30 +1819,48 @@ class PolyElement(DomainElement, DefaultPrinting, CantSympify, dict):
                 return ring.domain.almosteq(p1.const(), p2, tolerance)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sort_key(), sort_key produces the expected output) over Any ║
+# ║ Path(sort_key(), (len(self), self.terms())) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (len(self), self.terms())                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ sort_key : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1d2b729c56204656           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.sort_key","kind":"method","src_hash":"11ddf4864f773ad6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sort_key()","rhs":"sort_key produces the expected output","over":{"base":"Any"},"name":"sort_key_correct"},"guarantee":"sort_key produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1d2b729c56204656"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.sort_key","kind":"method","src_hash":"11ddf4864f773ad6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sort_key()","rhs":"(len(self), self.terms())","over":{"base":"Any"},"name":"sort_key_correct"},"guarantee":"returns (len(self), self.terms())","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1d2b729c56204656","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(len(self), self.terms())","pure":false,"effects":{"effect_type":"reads_state","reads":["self.terms"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def sort_key(self):
         return (len(self), self.terms())
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_cmp(p1,), id) over Any                               ║
+# ║ Path(_cmp(p1, p2, op), id) over {Any | hasattr(p1, 'ring') and hasattr(p1, 'sort_key') and hasattr(p2, 'sort_key')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _cmp : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(p1, 'ring')                            ║
+# ║   requires: hasattr(p1, 'sort_key')                        ║
+# ║   requires: hasattr(p2, 'sort_key')                        ║
+# ║   ensures:  result == (op(p1.sort_key(), p2.sort_key(...   ║
+# ║   ensures:  result == op(p1.sort_key(), p2.sort_key()...   ║
+# ║   fiber[case_0]: p1.ring.is_element(p2) => op(p1.sort...   ║
+# ║   fiber[case_1]: not (p1.ring.is_element(p2)) => NotI...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _cmp : {Any | hasattr(p1, 'ring') and hasattr(p1, 'so...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 167e9e37c793e1a9   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement._cmp","kind":"method","src_hash":"591388b3dd287e43","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_cmp(p1,)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_cmp_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"op","by":"library_axiom"},{"fn":"sort_key","by":"library_axiom"},{"fn":"sort_key","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"167e9e37c793e1a9"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement._cmp","kind":"method","src_hash":"591388b3dd287e43","in":{"base":"Any","pred":"hasattr(p1, 'ring') and hasattr(p1, 'sort_key') and hasattr(p2, 'sort_key')"},"out":{"base":"Any","pred":"result satisfies: result == (op(p1.sort_key(), p2.sort_key()) if p1.ring.is_element(p2) else NotImplemented) and result == op(p1.sort_key(), p2.sort_key()) or result == NotImplemented"},"spec":{"lhs":"_cmp(p1, p2, op)","rhs":"result == (op(p1.sort_key(), p2.sort_key()) if p1.ring.is_element(p2) else NotImplemented) and result == op(p1.sort_key(), p2.sort_key()) or result == NotImplemented","over":{"base":"Any","pred":"hasattr(p1, 'ring') and hasattr(p1, 'sort_key') and hasattr(p2, 'sort_key')"},"name":"_cmp_correct","kind":"composition"},"guarantee":"result == (op(p1.sort_key(), p2.sort_key()) if p1.ring.is_element(p2) else NotImplemented); result == op(p1.sort_key(), p2.sort_key()) or result == NotImplemented; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"op","by":"library_axiom"},{"fn":"sort_key","by":"library_axiom"},{"fn":"sort_key","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"167e9e37c793e1a9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(p1, 'ring')","hasattr(p1, 'sort_key')","hasattr(p2, 'sort_key')"],"ensures":["result == (op(p1.sort_key(), p2.sort_key()) if p1.ring.is_element(p2) else NotImplemented)","result == op(p1.sort_key(), p2.sort_key()) or result == NotImplemented"],"fibers":[{"name":"case_0","guard":"p1.ring.is_element(p2)","ensures":["result == op(p1.sort_key(), p2.sort_key())"],"decidability":"library","returns_expr":"op(p1.sort_key(), p2.sort_key())"},{"name":"case_1","guard":"not (p1.ring.is_element(p2))","ensures":["result == NotImplemented"],"decidability":"library","returns_expr":"NotImplemented"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["p1.ring","p1.sort_key","p2.sort_key"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _cmp(p1, p2, op):
         if p1.ring.is_element(p2):
             return op(p1.sort_key(), p2.sort_key())
@@ -1445,69 +1868,106 @@ class PolyElement(DomainElement, DefaultPrinting, CantSympify, dict):
             return NotImplemented
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__lt__(p1,), internal helper behaves correctly) over Any ║
+# ║ Path(__lt__(p1, p2), p1._cmp(p2, lt)) over {Any | hasattr(p1, '_cmp')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __lt__ : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(p1, '_cmp')                            ║
+# ║   returns:  p1._cmp(p2, lt)                                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __lt__ : {Any | hasattr(p1, '_cmp')} → Any                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f252cd2efaaf9430           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.__lt__","kind":"method","src_hash":"8b0a9e48018ebb0b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__lt__(p1,)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__lt___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f252cd2efaaf9430"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.__lt__","kind":"method","src_hash":"8b0a9e48018ebb0b","in":{"base":"Any","pred":"hasattr(p1, '_cmp')"},"out":{"base":"Any"},"spec":{"lhs":"__lt__(p1, p2)","rhs":"p1._cmp(p2, lt)","over":{"base":"Any","pred":"hasattr(p1, '_cmp')"},"name":"__lt___correct"},"guarantee":"returns p1._cmp(p2, lt)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f252cd2efaaf9430","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(p1, '_cmp')"],"returns_expr":"p1._cmp(p2, lt)","pure":false,"effects":{"effect_type":"reads_state","reads":["p1._cmp"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __lt__(p1, p2):
         return p1._cmp(p2, lt)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__le__(p1,), internal helper behaves correctly) over Any ║
+# ║ Path(__le__(p1, p2), p1._cmp(p2, le)) over {Any | hasattr(p1, '_cmp')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __le__ : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(p1, '_cmp')                            ║
+# ║   returns:  p1._cmp(p2, le)                                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __le__ : {Any | hasattr(p1, '_cmp')} → Any                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | dd34c38f1ae720ba           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.__le__","kind":"method","src_hash":"c4ecec4656c176d8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__le__(p1,)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__le___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"dd34c38f1ae720ba"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.__le__","kind":"method","src_hash":"c4ecec4656c176d8","in":{"base":"Any","pred":"hasattr(p1, '_cmp')"},"out":{"base":"Any"},"spec":{"lhs":"__le__(p1, p2)","rhs":"p1._cmp(p2, le)","over":{"base":"Any","pred":"hasattr(p1, '_cmp')"},"name":"__le___correct"},"guarantee":"returns p1._cmp(p2, le)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"dd34c38f1ae720ba","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(p1, '_cmp')"],"returns_expr":"p1._cmp(p2, le)","pure":false,"effects":{"effect_type":"reads_state","reads":["p1._cmp"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __le__(p1, p2):
         return p1._cmp(p2, le)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__gt__(p1,), internal helper behaves correctly) over Any ║
+# ║ Path(__gt__(p1, p2), p1._cmp(p2, gt)) over {Any | hasattr(p1, '_cmp')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __gt__ : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(p1, '_cmp')                            ║
+# ║   returns:  p1._cmp(p2, gt)                                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __gt__ : {Any | hasattr(p1, '_cmp')} → Any                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | abaafa97d10c3536           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.__gt__","kind":"method","src_hash":"07ecc077c426b0b6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__gt__(p1,)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__gt___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"abaafa97d10c3536"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.__gt__","kind":"method","src_hash":"07ecc077c426b0b6","in":{"base":"Any","pred":"hasattr(p1, '_cmp')"},"out":{"base":"Any"},"spec":{"lhs":"__gt__(p1, p2)","rhs":"p1._cmp(p2, gt)","over":{"base":"Any","pred":"hasattr(p1, '_cmp')"},"name":"__gt___correct"},"guarantee":"returns p1._cmp(p2, gt)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"abaafa97d10c3536","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(p1, '_cmp')"],"returns_expr":"p1._cmp(p2, gt)","pure":false,"effects":{"effect_type":"reads_state","reads":["p1._cmp"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __gt__(p1, p2):
         return p1._cmp(p2, gt)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__ge__(p1,), internal helper behaves correctly) over Any ║
+# ║ Path(__ge__(p1, p2), p1._cmp(p2, ge)) over {Any | hasattr(p1, '_cmp')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __ge__ : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(p1, '_cmp')                            ║
+# ║   returns:  p1._cmp(p2, ge)                                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __ge__ : {Any | hasattr(p1, '_cmp')} → Any                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5658a6509a728dd5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.__ge__","kind":"method","src_hash":"0b1b672af80503be","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__ge__(p1,)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__ge___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5658a6509a728dd5"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.__ge__","kind":"method","src_hash":"0b1b672af80503be","in":{"base":"Any","pred":"hasattr(p1, '_cmp')"},"out":{"base":"Any"},"spec":{"lhs":"__ge__(p1, p2)","rhs":"p1._cmp(p2, ge)","over":{"base":"Any","pred":"hasattr(p1, '_cmp')"},"name":"__ge___correct"},"guarantee":"returns p1._cmp(p2, ge)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5658a6509a728dd5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(p1, '_cmp')"],"returns_expr":"p1._cmp(p2, ge)","pure":false,"effects":{"effect_type":"reads_state","reads":["p1._cmp"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __ge__(p1, p2):
         return p1._cmp(p2, ge)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_drop(gen), internal helper behaves correctly) over Any ║
+# ║ Path(_drop(gen), result == ((i, ring.domain) if ring.ngens == 1 else (i, ring.clone(symbols=symbols))) and result == (i, ring.domain) or result == (i, ring.clone(symbols=symbols))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _drop : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == ((i, ring.domain) if ring.ngens...   ║
+# ║   ensures:  result == (i, ring.domain) or result == (...   ║
+# ║   fiber[case_0]: ring.ngens == 1 => (i, ring.domain)       ║
+# ║   fiber[case_1]: not (ring.ngens == 1) => (i, ring.cl...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _drop : Any → {Any | result satisfies: result == ((i,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2837978dd6040f9e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 379c6ba1d8fb6162  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement._drop","kind":"method","src_hash":"e227c2798e4fe8bb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_drop(gen)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_drop_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement._drop_correct","statement":"Path(_drop(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2837978dd6040f9e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement._drop","kind":"method","src_hash":"e227c2798e4fe8bb","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == ((i, ring.domain) if ring.ngens == 1 else (i, ring.clone(symbols=symbols))) and result == (i, ring.domain) or result == (i, ring.clone(symbols=symbols))"},"spec":{"lhs":"_drop(gen)","rhs":"result == ((i, ring.domain) if ring.ngens == 1 else (i, ring.clone(symbols=symbols))) and result == (i, ring.domain) or result == (i, ring.clone(symbols=symbols))","over":{"base":"Any"},"name":"_drop_correct"},"guarantee":"result == ((i, ring.domain) if ring.ngens == 1 else (i, ring.clone(symbols=symbols))); result == (i, ring.domain) or result == (i, ring.clone(symbols=symbols)); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement._drop_correct","statement":"Path(_drop(x), result == ((i, ring.domain) if ring.ngens == 1 else (i, ring.clone(symbols=symbols))); result == (i, ring.domain) or result == (i, ring.clone(symbols=symbols)); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"379c6ba1d8fb6162","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == ((i, ring.domain) if ring.ngens == 1 else (i, ring.clone(symbols=symbols)))","result == (i, ring.domain) or result == (i, ring.clone(symbols=symbols))"],"fibers":[{"name":"case_0","guard":"ring.ngens == 1","ensures":["result == (i, ring.domain)"],"decidability":"z3","returns_expr":"(i, ring.domain)"},{"name":"case_1","guard":"not (ring.ngens == 1)","ensures":["result == (i, ring.clone(symbols=symbols))"],"decidability":"z3","returns_expr":"(i, ring.clone(symbols=symbols))"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _drop(self, gen):
         ring = self.ring
         i = ring.index(gen)
@@ -1520,16 +1980,23 @@ class PolyElement(DomainElement, DefaultPrinting, CantSympify, dict):
             return i, ring.clone(symbols=symbols)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(drop(gen), drop produces the expected output) over Any ║
+# ║ Path(drop(gen), <unspecified:drop>) over Any               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: self.ring.ngens == 1                      ║
+# ║   fiber[case_1]: not (self.ring.ngens == 1) => poly        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ drop : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 89b2c21cf71e3dc7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c45b8c94842c0ec2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.drop","kind":"method","src_hash":"5c1ffe35c4264ec3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"drop(gen)","rhs":"drop produces the expected output","over":{"base":"Any"},"name":"drop_correct"},"guarantee":"drop produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement.drop_correct","statement":"Path(drop(x), drop produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"89b2c21cf71e3dc7"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.drop","kind":"method","src_hash":"5c1ffe35c4264ec3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"drop(gen)","rhs":"<unspecified:drop>","over":{"base":"Any"},"name":"drop_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement.drop_correct","statement":"Path(drop(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c45b8c94842c0ec2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"self.ring.ngens == 1","ensures":[],"decidability":"z3"},{"name":"case_1","guard":"not (self.ring.ngens == 1)","ensures":["result == poly"],"decidability":"z3","returns_expr":"poly"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._drop","self.coeff","self.is_ground","self.items","self.ring"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def drop(self, gen):
         i, ring = self._drop(gen)
 
@@ -1552,16 +2019,22 @@ class PolyElement(DomainElement, DefaultPrinting, CantSympify, dict):
             return poly
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_drop_to_ground(gen), internal helper behaves correctly) over Any ║
+# ║ Path(_drop_to_ground(gen), (i, ring.clone(symbols=symbols, domain=ring[i]))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (i, ring.clone(symbols=symbols, domain=ri...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _drop_to_ground : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f044ffcc4cc3a6c7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1727415cf808c8a1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement._drop_to_ground","kind":"method","src_hash":"542de4151abdfb86","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_drop_to_ground(gen)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_drop_to_ground_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement._drop_to_ground_correct","statement":"Path(_drop_to_ground(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f044ffcc4cc3a6c7"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement._drop_to_ground","kind":"method","src_hash":"542de4151abdfb86","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_drop_to_ground(gen)","rhs":"(i, ring.clone(symbols=symbols, domain=ring[i]))","over":{"base":"Any"},"name":"_drop_to_ground_correct"},"guarantee":"returns (i, ring.clone(symbols=symbols, domain=ring[i]))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement._drop_to_ground_correct","statement":"Path(_drop_to_ground(x), returns (i, ring.clone(symbols=symbols, domain=ring[i])))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1727415cf808c8a1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(i, ring.clone(symbols=symbols, domain=ring[i]))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _drop_to_ground(self, gen):
         ring = self.ring
         i = ring.index(gen)
@@ -1571,16 +2044,23 @@ class PolyElement(DomainElement, DefaultPrinting, CantSympify, dict):
         return i, ring.clone(symbols=symbols, domain=ring[i])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(drop_to_ground(gen), drop_to_ground produces the expected output) over Any ║
+# ║ Path(drop_to_ground(gen), <unspecified:drop_to_ground>) over {Any | not (self.ring.ngens == 1)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ drop_to_ground : Any → Any                                 ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (self.ring.ngens == 1)                     ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ drop_to_ground : {Any | not (self.ring.ngens == 1)} →...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e44b8e83296fe6b5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.drop_to_ground","kind":"method","src_hash":"b325b4f8eace2fec","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"drop_to_ground(gen)","rhs":"drop_to_ground produces the expected output","over":{"base":"Any"},"name":"drop_to_ground_correct"},"guarantee":"drop_to_ground produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement.drop_to_ground_correct","statement":"Path(drop_to_ground(x), drop_to_ground produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e44b8e83296fe6b5"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.drop_to_ground","kind":"method","src_hash":"b325b4f8eace2fec","in":{"base":"Any","pred":"not (self.ring.ngens == 1)"},"out":{"base":"Any"},"spec":{"lhs":"drop_to_ground(gen)","rhs":"<unspecified:drop_to_ground>","over":{"base":"Any","pred":"not (self.ring.ngens == 1)"},"name":"drop_to_ground_correct"},"guarantee":"drop_to_ground produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement.drop_to_ground_correct","statement":"Path(drop_to_ground(x), drop_to_ground produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e44b8e83296fe6b5","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (self.ring.ngens == 1)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._drop_to_ground","self.iterterms","self.ring"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def drop_to_ground(self, gen):
         if self.ring.ngens == 1:
             raise ValueError("Cannot drop only generator to ground")
@@ -1599,44 +2079,65 @@ class PolyElement(DomainElement, DefaultPrinting, CantSympify, dict):
         return poly
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(to_dense(), to_dense produces the expected output) over Any ║
+# ║ Path(to_dense(), dmp_from_dict(self, self.ring.ngens - 1, self.ring.domain)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  dmp_from_dict(self, self.ring.ngens - 1, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ to_dense : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 301c0fdaa907adb6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.to_dense","kind":"method","src_hash":"7f0672d7028e79f8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_dense()","rhs":"to_dense produces the expected output","over":{"base":"Any"},"name":"to_dense_correct"},"guarantee":"to_dense produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"301c0fdaa907adb6"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.to_dense","kind":"method","src_hash":"7f0672d7028e79f8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_dense()","rhs":"dmp_from_dict(self, self.ring.ngens - 1, self.ring.domain)","over":{"base":"Any"},"name":"to_dense_correct"},"guarantee":"returns dmp_from_dict(self, self.ring.ngens - 1, self.ring.domain)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"301c0fdaa907adb6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"dmp_from_dict(self, self.ring.ngens - 1, self.ring.domain)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def to_dense(self):
         return dmp_from_dict(self, self.ring.ngens-1, self.ring.domain)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(to_dict(), to_dict produces the expected output) over Any ║
+# ║ Path(to_dict(), dict(self)) over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  dict(self)                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ to_dict : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 45048138f96a8c58           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.to_dict","kind":"method","src_hash":"d4a58fe723b75e31","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_dict()","rhs":"to_dict produces the expected output","over":{"base":"Any"},"name":"to_dict_correct"},"guarantee":"to_dict produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"45048138f96a8c58"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.to_dict","kind":"method","src_hash":"d4a58fe723b75e31","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_dict()","rhs":"dict(self)","over":{"base":"Any"},"name":"to_dict_correct"},"guarantee":"returns dict(self)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"45048138f96a8c58","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"dict(self)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def to_dict(self):
         return dict(self)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(str(pri), str produces the expected output) over Any  ║
+# ║ Path(str(printer, precedence, exp_pattern), <unspecified:str>) over {Any | hasattr(printer, '_print') and hasattr(printer, 'parenthesize') and hasattr(mul_symbol, 'join')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ str : Any → Any                                            ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(printer, '_print')                     ║
+# ║   requires: hasattr(printer, 'parenthesize')               ║
+# ║   requires: hasattr(mul_symbol, 'join')                    ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ str : {Any | hasattr(printer, '_print') and hasattr(p...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 899e54770822f816  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.str","kind":"method","src_hash":"d9e84a2863a90e2d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"str(pri)","rhs":"str produces the expected output","over":{"base":"Any"},"name":"str_correct"},"guarantee":"str produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement.str_correct","statement":"Path(str(x), str produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"899e54770822f816"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.str","kind":"method","src_hash":"d9e84a2863a90e2d","in":{"base":"Any","pred":"hasattr(printer, '_print') and hasattr(printer, 'parenthesize') and hasattr(mul_symbol, 'join')"},"out":{"base":"Any"},"spec":{"lhs":"str(printer, precedence, exp_pattern)","rhs":"<unspecified:str>","over":{"base":"Any","pred":"hasattr(printer, '_print') and hasattr(printer, 'parenthesize') and hasattr(mul_symbol, 'join')"},"name":"str_correct"},"guarantee":"str produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement.str_correct","statement":"Path(str(x), str produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"899e54770822f816","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(printer, '_print')","hasattr(printer, 'parenthesize')","hasattr(mul_symbol, 'join')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def str(self, printer, precedence, exp_pattern, mul_symbol):
         if not self:
             return printer._print(self.ring.domain.zero)
@@ -1687,226 +2188,324 @@ class PolyElement(DomainElement, DefaultPrinting, CantSympify, dict):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_generator(), returns the is_generator attribute) over Any ║
+# ║ Path(is_generator(), self in self.ring._gens_set) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self in self.ring._gens_set                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_generator : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ed7068d71fccf4e6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.is_generator","kind":"property","src_hash":"1272de79de3eb8af","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_generator()","rhs":"returns the is_generator attribute","over":{"base":"Any"},"name":"is_generator_correct"},"guarantee":"returns the is_generator attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ed7068d71fccf4e6"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.is_generator","kind":"property","src_hash":"1272de79de3eb8af","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_generator()","rhs":"self in self.ring._gens_set","over":{"base":"Any"},"name":"is_generator_correct"},"guarantee":"returns self in self.ring._gens_set","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ed7068d71fccf4e6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self in self.ring._gens_set","pure":false,"effects":{"effect_type":"reads_state","reads":["self.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_generator(self):
         return self in self.ring._gens_set
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_ground(), returns the is_ground attribute) over Any ║
+# ║ Path(is_ground(), not self or (len(self) == 1 and self.ring.zero_monom in self)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  not self or (len(self) == 1 and self.ring...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_ground : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | df639ba1ce565c08           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.is_ground","kind":"property","src_hash":"7e207c6d2ec6d844","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_ground()","rhs":"returns the is_ground attribute","over":{"base":"Any"},"name":"is_ground_correct"},"guarantee":"returns the is_ground attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"df639ba1ce565c08"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.is_ground","kind":"property","src_hash":"7e207c6d2ec6d844","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_ground()","rhs":"not self or (len(self) == 1 and self.ring.zero_monom in self)","over":{"base":"Any"},"name":"is_ground_correct"},"guarantee":"returns not self or (len(self) == 1 and self.ring.zero_monom in self)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"df639ba1ce565c08","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"not self or (len(self) == 1 and self.ring.zero_monom in self)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_ground(self):
         return not self or (len(self) == 1 and self.ring.zero_monom in self)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_monomial(), returns the is_monomial attribute) over Any ║
+# ║ Path(is_monomial(), not self or (len(self) == 1 and self.LC == 1)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  not self or (len(self) == 1 and self.LC =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_monomial : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6d855bda471e465b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.is_monomial","kind":"property","src_hash":"f2ecb2ddcb14f1c1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_monomial()","rhs":"returns the is_monomial attribute","over":{"base":"Any"},"name":"is_monomial_correct"},"guarantee":"returns the is_monomial attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6d855bda471e465b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.is_monomial","kind":"property","src_hash":"f2ecb2ddcb14f1c1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_monomial()","rhs":"not self or (len(self) == 1 and self.LC == 1)","over":{"base":"Any"},"name":"is_monomial_correct"},"guarantee":"returns not self or (len(self) == 1 and self.LC == 1)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6d855bda471e465b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"not self or (len(self) == 1 and self.LC == 1)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.LC"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_monomial(self):
         return not self or (len(self) == 1 and self.LC == 1)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_term(), returns the is_term attribute) over Any    ║
+# ║ Path(is_term(), len(self) <= 1) over Any                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  len(self) <= 1                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_term : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 25459305435fffbe           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.is_term","kind":"property","src_hash":"a77bd8fa777fedce","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_term()","rhs":"returns the is_term attribute","over":{"base":"Any"},"name":"is_term_correct"},"guarantee":"returns the is_term attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"25459305435fffbe"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.is_term","kind":"property","src_hash":"a77bd8fa777fedce","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_term()","rhs":"len(self) <= 1","over":{"base":"Any"},"name":"is_term_correct"},"guarantee":"returns len(self) <= 1","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"25459305435fffbe","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"len(self) <= 1","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_term(self):
         return len(self) <= 1
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_negative(), returns the is_negative attribute) over Any ║
+# ║ Path(is_negative(), self.ring.domain.is_negative(self.LC)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.ring.domain.is_negative(self.LC)          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_negative : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | bd6017a74bdde24d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.is_negative","kind":"property","src_hash":"81b6c25951187e3f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_negative()","rhs":"returns the is_negative attribute","over":{"base":"Any"},"name":"is_negative_correct"},"guarantee":"returns the is_negative attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bd6017a74bdde24d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.is_negative","kind":"property","src_hash":"81b6c25951187e3f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_negative()","rhs":"self.ring.domain.is_negative(self.LC)","over":{"base":"Any"},"name":"is_negative_correct"},"guarantee":"returns self.ring.domain.is_negative(self.LC)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bd6017a74bdde24d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.ring.domain.is_negative(self.LC)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.LC","self.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_negative(self):
         return self.ring.domain.is_negative(self.LC)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_positive(), returns the is_positive attribute) over Any ║
+# ║ Path(is_positive(), self.ring.domain.is_positive(self.LC)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.ring.domain.is_positive(self.LC)          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_positive : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8e485b12e2402104           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.is_positive","kind":"property","src_hash":"9126318f5a72deeb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_positive()","rhs":"returns the is_positive attribute","over":{"base":"Any"},"name":"is_positive_correct"},"guarantee":"returns the is_positive attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8e485b12e2402104"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.is_positive","kind":"property","src_hash":"9126318f5a72deeb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_positive()","rhs":"self.ring.domain.is_positive(self.LC)","over":{"base":"Any"},"name":"is_positive_correct"},"guarantee":"returns self.ring.domain.is_positive(self.LC)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8e485b12e2402104","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.ring.domain.is_positive(self.LC)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.LC","self.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_positive(self):
         return self.ring.domain.is_positive(self.LC)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_nonnegative(), returns the is_nonnegative attribute) over Any ║
+# ║ Path(is_nonnegative(), self.ring.domain.is_nonnegative(self.LC)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.ring.domain.is_nonnegative(self.LC)       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_nonnegative : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5ef03b4e5b04105b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.is_nonnegative","kind":"property","src_hash":"780b70175655d2b5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_nonnegative()","rhs":"returns the is_nonnegative attribute","over":{"base":"Any"},"name":"is_nonnegative_correct"},"guarantee":"returns the is_nonnegative attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5ef03b4e5b04105b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.is_nonnegative","kind":"property","src_hash":"780b70175655d2b5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_nonnegative()","rhs":"self.ring.domain.is_nonnegative(self.LC)","over":{"base":"Any"},"name":"is_nonnegative_correct"},"guarantee":"returns self.ring.domain.is_nonnegative(self.LC)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5ef03b4e5b04105b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.ring.domain.is_nonnegative(self.LC)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.LC","self.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_nonnegative(self):
         return self.ring.domain.is_nonnegative(self.LC)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_nonpositive(), returns the is_nonpositive attribute) over Any ║
+# ║ Path(is_nonpositive(), self.ring.domain.is_nonpositive(self.LC)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.ring.domain.is_nonpositive(self.LC)       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_nonpositive : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e86acfe491dde087           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.is_nonpositive","kind":"property","src_hash":"38ea7374748d41c8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_nonpositive()","rhs":"returns the is_nonpositive attribute","over":{"base":"Any"},"name":"is_nonpositive_correct"},"guarantee":"returns the is_nonpositive attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e86acfe491dde087"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.is_nonpositive","kind":"property","src_hash":"38ea7374748d41c8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_nonpositive()","rhs":"self.ring.domain.is_nonpositive(self.LC)","over":{"base":"Any"},"name":"is_nonpositive_correct"},"guarantee":"returns self.ring.domain.is_nonpositive(self.LC)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e86acfe491dde087","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.ring.domain.is_nonpositive(self.LC)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.LC","self.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_nonpositive(self):
         return self.ring.domain.is_nonpositive(self.LC)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_zero(f), returns the is_zero attribute) over Any   ║
+# ║ Path(is_zero(f), not f) over Any                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  not f                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_zero : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 03b5419c19926e7a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.is_zero","kind":"property","src_hash":"ec4236e021b2e9d1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_zero(f)","rhs":"returns the is_zero attribute","over":{"base":"Any"},"name":"is_zero_correct"},"guarantee":"returns the is_zero attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"03b5419c19926e7a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.is_zero","kind":"property","src_hash":"ec4236e021b2e9d1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_zero(f)","rhs":"not f","over":{"base":"Any"},"name":"is_zero_correct"},"guarantee":"returns not f","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"03b5419c19926e7a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"not f","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_zero(f):
         return not f
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_one(f), returns the is_one attribute) over Any     ║
+# ║ Path(is_one(f), f == f.ring.one) over {Any | hasattr(f, 'ring')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ is_one : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'ring')                             ║
+# ║   returns:  f == f.ring.one                                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ is_one : {Any | hasattr(f, 'ring')} → Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 50dd56d328c29213           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.is_one","kind":"property","src_hash":"45d5431b4180f960","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_one(f)","rhs":"returns the is_one attribute","over":{"base":"Any"},"name":"is_one_correct"},"guarantee":"returns the is_one attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"50dd56d328c29213"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.is_one","kind":"property","src_hash":"45d5431b4180f960","in":{"base":"Any","pred":"hasattr(f, 'ring')"},"out":{"base":"Any"},"spec":{"lhs":"is_one(f)","rhs":"f == f.ring.one","over":{"base":"Any","pred":"hasattr(f, 'ring')"},"name":"is_one_correct"},"guarantee":"returns f == f.ring.one","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"50dd56d328c29213","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'ring')"],"returns_expr":"f == f.ring.one","pure":false,"effects":{"effect_type":"reads_state","reads":["f.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_one(f):
         return f == f.ring.one
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_monic(f), returns the is_monic attribute) over Any ║
+# ║ Path(is_monic(f), f.ring.domain.is_one(f.LC)) over {Any | hasattr(f, 'LC') and hasattr(f, 'ring')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ is_monic : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'LC')                               ║
+# ║   requires: hasattr(f, 'ring')                             ║
+# ║   returns:  f.ring.domain.is_one(f.LC)                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ is_monic : {Any | hasattr(f, 'LC') and hasattr(f, 'ri...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 96544c71759b1949           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.is_monic","kind":"property","src_hash":"79775da3d05981c2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_monic(f)","rhs":"returns the is_monic attribute","over":{"base":"Any"},"name":"is_monic_correct"},"guarantee":"returns the is_monic attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"96544c71759b1949"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.is_monic","kind":"property","src_hash":"79775da3d05981c2","in":{"base":"Any","pred":"hasattr(f, 'LC') and hasattr(f, 'ring')"},"out":{"base":"Any"},"spec":{"lhs":"is_monic(f)","rhs":"f.ring.domain.is_one(f.LC)","over":{"base":"Any","pred":"hasattr(f, 'LC') and hasattr(f, 'ring')"},"name":"is_monic_correct"},"guarantee":"returns f.ring.domain.is_one(f.LC)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"96544c71759b1949","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'LC')","hasattr(f, 'ring')"],"returns_expr":"f.ring.domain.is_one(f.LC)","pure":false,"effects":{"effect_type":"reads_state","reads":["f.LC","f.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_monic(f):
         return f.ring.domain.is_one(f.LC)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_primitive(f), returns the is_primitive attribute) over Any ║
+# ║ Path(is_primitive(f), f.ring.domain.is_one(f.content())) over {Any | hasattr(f, 'content') and hasattr(f, 'ring')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ is_primitive : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'content')                          ║
+# ║   requires: hasattr(f, 'ring')                             ║
+# ║   returns:  f.ring.domain.is_one(f.content())              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ is_primitive : {Any | hasattr(f, 'content') and hasat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8e979f4157671b8c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.is_primitive","kind":"property","src_hash":"d881b352eeab769c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_primitive(f)","rhs":"returns the is_primitive attribute","over":{"base":"Any"},"name":"is_primitive_correct"},"guarantee":"returns the is_primitive attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8e979f4157671b8c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.is_primitive","kind":"property","src_hash":"d881b352eeab769c","in":{"base":"Any","pred":"hasattr(f, 'content') and hasattr(f, 'ring')"},"out":{"base":"Any"},"spec":{"lhs":"is_primitive(f)","rhs":"f.ring.domain.is_one(f.content())","over":{"base":"Any","pred":"hasattr(f, 'content') and hasattr(f, 'ring')"},"name":"is_primitive_correct"},"guarantee":"returns f.ring.domain.is_one(f.content())","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8e979f4157671b8c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'content')","hasattr(f, 'ring')"],"returns_expr":"f.ring.domain.is_one(f.content())","pure":false,"effects":{"effect_type":"reads_state","reads":["f.content","f.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_primitive(f):
         return f.ring.domain.is_one(f.content())
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_linear(f), returns the is_linear attribute) over Any ║
+# ║ Path(is_linear(f), all((sum(monom) <= 1 for monom in f.itermonoms()))) over {Any | hasattr(f, 'itermonoms')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ is_linear : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'itermonoms')                       ║
+# ║   returns:  all((sum(monom) <= 1 for monom in f.iterm...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ is_linear : {Any | hasattr(f, 'itermonoms')} → Any         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ddb17dcd1ca1e2db           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.is_linear","kind":"property","src_hash":"3d0efe078aebbed9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_linear(f)","rhs":"returns the is_linear attribute","over":{"base":"Any"},"name":"is_linear_correct"},"guarantee":"returns the is_linear attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ddb17dcd1ca1e2db"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.is_linear","kind":"property","src_hash":"3d0efe078aebbed9","in":{"base":"Any","pred":"hasattr(f, 'itermonoms')"},"out":{"base":"Any"},"spec":{"lhs":"is_linear(f)","rhs":"all((sum(monom) <= 1 for monom in f.itermonoms()))","over":{"base":"Any","pred":"hasattr(f, 'itermonoms')"},"name":"is_linear_correct"},"guarantee":"returns all((sum(monom) <= 1 for monom in f.itermonoms()))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ddb17dcd1ca1e2db","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'itermonoms')"],"returns_expr":"all((sum(monom) <= 1 for monom in f.itermonoms()))","pure":false,"effects":{"effect_type":"reads_state","reads":["f.itermonoms"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_linear(f):
         return all(sum(monom) <= 1 for monom in f.itermonoms())
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_quadratic(f), returns the is_quadratic attribute) over Any ║
+# ║ Path(is_quadratic(f), all((sum(monom) <= 2 for monom in f.itermonoms()))) over {Any | hasattr(f, 'itermonoms')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ is_quadratic : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'itermonoms')                       ║
+# ║   returns:  all((sum(monom) <= 2 for monom in f.iterm...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ is_quadratic : {Any | hasattr(f, 'itermonoms')} → Any      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 752367a6a2320f15           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.is_quadratic","kind":"property","src_hash":"289a4029906aca11","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_quadratic(f)","rhs":"returns the is_quadratic attribute","over":{"base":"Any"},"name":"is_quadratic_correct"},"guarantee":"returns the is_quadratic attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"752367a6a2320f15"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.is_quadratic","kind":"property","src_hash":"289a4029906aca11","in":{"base":"Any","pred":"hasattr(f, 'itermonoms')"},"out":{"base":"Any"},"spec":{"lhs":"is_quadratic(f)","rhs":"all((sum(monom) <= 2 for monom in f.itermonoms()))","over":{"base":"Any","pred":"hasattr(f, 'itermonoms')"},"name":"is_quadratic_correct"},"guarantee":"returns all((sum(monom) <= 2 for monom in f.itermonoms()))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"752367a6a2320f15","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'itermonoms')"],"returns_expr":"all((sum(monom) <= 2 for monom in f.itermonoms()))","pure":false,"effects":{"effect_type":"reads_state","reads":["f.itermonoms"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_quadratic(f):
         return all(sum(monom) <= 2 for monom in f.itermonoms())
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_squarefree(f), returns the is_squarefree attribute) over Any ║
+# ║ Path(is_squarefree(f), <unspecified:is_squarefree>) over {Any | hasattr(f, 'ring')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ is_squarefree : Any → Any                                  ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(f, 'ring')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ is_squarefree : {Any | hasattr(f, 'ring')} → Any           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2739979a6e9ca253           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.is_squarefree","kind":"property","src_hash":"48fa82cd1700a918","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_squarefree(f)","rhs":"returns the is_squarefree attribute","over":{"base":"Any"},"name":"is_squarefree_correct"},"guarantee":"returns the is_squarefree attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2739979a6e9ca253"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.is_squarefree","kind":"property","src_hash":"48fa82cd1700a918","in":{"base":"Any","pred":"hasattr(f, 'ring')"},"out":{"base":"Any"},"spec":{"lhs":"is_squarefree(f)","rhs":"<unspecified:is_squarefree>","over":{"base":"Any","pred":"hasattr(f, 'ring')"},"name":"is_squarefree_correct"},"guarantee":"returns the is_squarefree attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2739979a6e9ca253","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(f, 'ring')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["f.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_squarefree(f):
         if not f.ring.ngens:
             return True
@@ -1914,16 +2513,23 @@ class PolyElement(DomainElement, DefaultPrinting, CantSympify, dict):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_irreducible(f), returns the is_irreducible attribute) over Any ║
+# ║ Path(is_irreducible(f), <unspecified:is_irreducible>) over {Any | hasattr(f, 'ring')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ is_irreducible : Any → Any                                 ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(f, 'ring')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ is_irreducible : {Any | hasattr(f, 'ring')} → Any          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8d114878386a0ed0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.is_irreducible","kind":"property","src_hash":"02660b082d7b4f26","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_irreducible(f)","rhs":"returns the is_irreducible attribute","over":{"base":"Any"},"name":"is_irreducible_correct"},"guarantee":"returns the is_irreducible attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8d114878386a0ed0"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.is_irreducible","kind":"property","src_hash":"02660b082d7b4f26","in":{"base":"Any","pred":"hasattr(f, 'ring')"},"out":{"base":"Any"},"spec":{"lhs":"is_irreducible(f)","rhs":"<unspecified:is_irreducible>","over":{"base":"Any","pred":"hasattr(f, 'ring')"},"name":"is_irreducible_correct"},"guarantee":"returns the is_irreducible attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8d114878386a0ed0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(f, 'ring')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["f.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_irreducible(f):
         if not f.ring.ngens:
             return True
@@ -1931,16 +2537,24 @@ class PolyElement(DomainElement, DefaultPrinting, CantSympify, dict):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_cyclotomic(f), returns the is_cyclotomic attribute) over Any ║
+# ║ Path(is_cyclotomic(f), <unspecified:is_cyclotomic>) over {Any | hasattr(f, 'ring')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ is_cyclotomic : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'ring')                             ║
+# ║   fiber[case_0]: f.ring.is_univariate => f.ring.dup_c...   ║
+# ║   fiber[case_1]: not (f.ring.is_univariate)                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ is_cyclotomic : {Any | hasattr(f, 'ring')} → Any           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3e90b38509ac1836           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.is_cyclotomic","kind":"property","src_hash":"62a7b6309204e893","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_cyclotomic(f)","rhs":"returns the is_cyclotomic attribute","over":{"base":"Any"},"name":"is_cyclotomic_correct"},"guarantee":"returns the is_cyclotomic attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3e90b38509ac1836"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.is_cyclotomic","kind":"property","src_hash":"62a7b6309204e893","in":{"base":"Any","pred":"hasattr(f, 'ring')"},"out":{"base":"Any"},"spec":{"lhs":"is_cyclotomic(f)","rhs":"<unspecified:is_cyclotomic>","over":{"base":"Any","pred":"hasattr(f, 'ring')"},"name":"is_cyclotomic_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3e90b38509ac1836","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'ring')"],"fibers":[{"name":"case_0","guard":"f.ring.is_univariate","ensures":["result == f.ring.dup_cyclotomic_p(f)"],"decidability":"library","returns_expr":"f.ring.dup_cyclotomic_p(f)"},{"name":"case_1","guard":"not (f.ring.is_univariate)","ensures":[],"decidability":"library"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["f.ring"],"raises":["MultivariatePolynomialError"]},"state_contract":{"exceptional_post":{"MultivariatePolynomialError":["isinstance(raised, MultivariatePolynomialError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_cyclotomic(f):
         if f.ring.is_univariate:
             return f.ring.dup_cyclotomic_p(f)
@@ -1948,44 +2562,66 @@ class PolyElement(DomainElement, DefaultPrinting, CantSympify, dict):
             raise MultivariatePolynomialError("cyclotomic polynomial")
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__neg__(), returns the additive inverse) over Any     ║
+# ║ Path(__neg__(), self.new([(monom, -coeff) for monom, coeff in self.iterterms()])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.new([(monom, -coeff) for monom, coef...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __neg__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1a7e2b552575a653           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.__neg__","kind":"method","src_hash":"1be1f516ba9e96ae","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__neg__()","rhs":"returns the additive inverse","over":{"base":"Any"},"name":"__neg___correct"},"guarantee":"returns the additive inverse","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1a7e2b552575a653"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.__neg__","kind":"method","src_hash":"1be1f516ba9e96ae","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__neg__()","rhs":"self.new([(monom, -coeff) for monom, coeff in self.iterterms()])","over":{"base":"Any"},"name":"__neg___correct"},"guarantee":"returns self.new([(monom, -coeff) for monom, coeff in self.iterterms()])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1a7e2b552575a653","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.new([(monom, -coeff) for monom, coeff in self.iterterms()])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.iterterms","self.new"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __neg__(self):
         return self.new([ (monom, -coeff) for monom, coeff in self.iterterms() ])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__pos__(), internal helper behaves correctly) over Any ║
+# ║ Path(__pos__(), self) over Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __pos__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == self                                 ║
+# ║   returns:  self                                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __pos__ : Any → {Any | result satisfies: result == (s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | cc89cd221cc4c399           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.__pos__","kind":"method","src_hash":"913556acb5d4e4a2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__pos__()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__pos___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cc89cd221cc4c399"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.__pos__","kind":"method","src_hash":"913556acb5d4e4a2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (self)"},"spec":{"lhs":"__pos__()","rhs":"self","over":{"base":"Any"},"name":"__pos___correct"},"guarantee":"returns self; result == self","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cc89cd221cc4c399","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == self"],"returns_expr":"self","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __pos__(self):
         return self
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__add__(p1,), returns the sum/concatenation) over Any ║
+# ║ Path(__add__(p1, p2), <unspecified:__add__>) over {Any | hasattr(p1, 'ring') and hasattr(p1, 'copy') and hasattr(p2, 'items') and hasattr(p1, 'keys') and hasattr(p2, 'ring') and hasattr(p2, '__radd__')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __add__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(p1, 'ring')                            ║
+# ║   requires: hasattr(p1, 'copy')                            ║
+# ║   requires: hasattr(p2, 'items')                           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __add__ : {Any | hasattr(p1, 'ring') and hasattr(p1, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 119fb879e38d0080           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.__add__","kind":"method","src_hash":"97523934907adc7c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__add__(p1,)","rhs":"returns the sum/concatenation","over":{"base":"Any"},"name":"__add___correct"},"guarantee":"returns the sum/concatenation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"119fb879e38d0080"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.__add__","kind":"method","src_hash":"97523934907adc7c","in":{"base":"Any","pred":"hasattr(p1, 'ring') and hasattr(p1, 'copy') and hasattr(p2, 'items') and hasattr(p1, 'keys') and hasattr(p2, 'ring') and hasattr(p2, '__radd__')"},"out":{"base":"Any"},"spec":{"lhs":"__add__(p1, p2)","rhs":"<unspecified:__add__>","over":{"base":"Any","pred":"hasattr(p1, 'ring') and hasattr(p1, 'copy') and hasattr(p2, 'items') and hasattr(p1, 'keys') and hasattr(p2, 'ring') and hasattr(p2, '__radd__')"},"name":"__add___correct"},"guarantee":"returns the sum/concatenation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"119fb879e38d0080","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(p1, 'ring')","hasattr(p1, 'copy')","hasattr(p2, 'items')","hasattr(p1, 'keys')","hasattr(p2, 'ring')","hasattr(p2, '__radd__')"],"pure":false,"effects":{"effect_type":"io","reads":["p1.copy","p1.keys","p1.ring","p2.__radd__","p2.items","p2.ring"],"catches":["CoercionFailed"],"io_operations":["get"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __add__(p1, p2):
         """Add two polynomials.
 
@@ -2041,16 +2677,25 @@ class PolyElement(DomainElement, DefaultPrinting, CantSympify, dict):
             return p
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__radd__(p1,), internal helper behaves correctly) over Any ║
+# ║ Path(__radd__(p1, n), <unspecified:__radd__>) over {Any | hasattr(p1, 'ring') and hasattr(p1, 'copy') and hasattr(p1, 'keys')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __radd__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(p1, 'ring')                            ║
+# ║   requires: hasattr(p1, 'copy')                            ║
+# ║   requires: hasattr(p1, 'keys')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __radd__ : {Any | hasattr(p1, 'ring') and hasattr(p1,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d3da476f2a2c573b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.__radd__","kind":"method","src_hash":"f9e957548741a07a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__radd__(p1,)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__radd___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d3da476f2a2c573b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.__radd__","kind":"method","src_hash":"f9e957548741a07a","in":{"base":"Any","pred":"hasattr(p1, 'ring') and hasattr(p1, 'copy') and hasattr(p1, 'keys')"},"out":{"base":"Any"},"spec":{"lhs":"__radd__(p1, n)","rhs":"<unspecified:__radd__>","over":{"base":"Any","pred":"hasattr(p1, 'ring') and hasattr(p1, 'copy') and hasattr(p1, 'keys')"},"name":"__radd___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d3da476f2a2c573b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(p1, 'ring')","hasattr(p1, 'copy')","hasattr(p1, 'keys')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["p1.copy","p1.keys","p1.ring"],"catches":["CoercionFailed"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __radd__(p1, n):
         p = p1.copy()
         if not n:
@@ -2072,16 +2717,25 @@ class PolyElement(DomainElement, DefaultPrinting, CantSympify, dict):
             return p
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__sub__(p1,), subtract polynomial p2 from p1) over Any ║
+# ║ Path(__sub__(p1, p2), <unspecified:__sub__>) over {Any | hasattr(p1, 'ring') and hasattr(p1, 'copy') and hasattr(p2, 'items') and hasattr(p1, 'keys') and hasattr(p2, 'ring') and hasattr(p2, '__rsub__')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __sub__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(p1, 'ring')                            ║
+# ║   requires: hasattr(p1, 'copy')                            ║
+# ║   requires: hasattr(p2, 'items')                           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __sub__ : {Any | hasattr(p1, 'ring') and hasattr(p1, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | faf179ed68e9376c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.__sub__","kind":"method","src_hash":"f73cc601a6ca7749","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__sub__(p1,)","rhs":"subtract polynomial p2 from p1","over":{"base":"Any"},"name":"__sub___correct"},"guarantee":"subtract polynomial p2 from p1","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"faf179ed68e9376c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.__sub__","kind":"method","src_hash":"f73cc601a6ca7749","in":{"base":"Any","pred":"hasattr(p1, 'ring') and hasattr(p1, 'copy') and hasattr(p2, 'items') and hasattr(p1, 'keys') and hasattr(p2, 'ring') and hasattr(p2, '__rsub__')"},"out":{"base":"Any"},"spec":{"lhs":"__sub__(p1, p2)","rhs":"<unspecified:__sub__>","over":{"base":"Any","pred":"hasattr(p1, 'ring') and hasattr(p1, 'copy') and hasattr(p2, 'items') and hasattr(p1, 'keys') and hasattr(p2, 'ring') and hasattr(p2, '__rsub__')"},"name":"__sub___correct"},"guarantee":"subtract polynomial p2 from p1","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"faf179ed68e9376c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(p1, 'ring')","hasattr(p1, 'copy')","hasattr(p2, 'items')","hasattr(p1, 'keys')","hasattr(p2, 'ring')","hasattr(p2, '__rsub__')"],"pure":false,"effects":{"effect_type":"io","reads":["p1.copy","p1.keys","p1.ring","p2.__rsub__","p2.items","p2.ring"],"catches":["CoercionFailed"],"io_operations":["get"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __sub__(p1, p2):
         """Subtract polynomial p2 from p1.
 
@@ -2137,16 +2791,23 @@ class PolyElement(DomainElement, DefaultPrinting, CantSympify, dict):
             return p
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__rsub__(p1,), n - p1 with n convertible to the coefficient domain) over Any ║
+# ║ Path(__rsub__(p1, n), <unspecified:__rsub__>) over {Any | hasattr(p1, 'ring')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __rsub__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(p1, 'ring')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __rsub__ : {Any | hasattr(p1, 'ring')} → Any               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 96d156659ef5d6f9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.__rsub__","kind":"method","src_hash":"1920895f8679eff3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rsub__(p1,)","rhs":"n - p1 with n convertible to the coefficient domain","over":{"base":"Any"},"name":"__rsub___correct"},"guarantee":"n - p1 with n convertible to the coefficient domain","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"96d156659ef5d6f9"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.__rsub__","kind":"method","src_hash":"1920895f8679eff3","in":{"base":"Any","pred":"hasattr(p1, 'ring')"},"out":{"base":"Any"},"spec":{"lhs":"__rsub__(p1, n)","rhs":"<unspecified:__rsub__>","over":{"base":"Any","pred":"hasattr(p1, 'ring')"},"name":"__rsub___correct"},"guarantee":"n - p1 with n convertible to the coefficient domain","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"96d156659ef5d6f9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(p1, 'ring')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["p1.ring"],"catches":["CoercionFailed"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __rsub__(p1, n):
         """n - p1 with n convertible to the coefficient domain.
 
@@ -2176,16 +2837,27 @@ class PolyElement(DomainElement, DefaultPrinting, CantSympify, dict):
             return p
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__mul__(p1,), returns the product) over Any           ║
+# ║ Path(__mul__(p1, p2), <unspecified:__mul__>) over {Any | hasattr(p1, 'ring') and hasattr(p1, 'items') and hasattr(p2, 'items') and hasattr(p2, 'ring') and hasattr(p2, '__rmul__')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __mul__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(p1, 'ring')                            ║
+# ║   requires: hasattr(p1, 'items')                           ║
+# ║   requires: hasattr(p2, 'items')                           ║
+# ║   fiber[case_0]: not p1 or not p2 => p                     ║
+# ║   fiber[case_1]: ring.is_element(p2) => p                  ║
+# ║   fiber[PolyElement]: isinstance(p2, PolyElement)          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __mul__ : {Any | hasattr(p1, 'ring') and hasattr(p1, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | fbeda2cc40048519           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.__mul__","kind":"method","src_hash":"138323994f9a2521","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__mul__(p1,)","rhs":"returns the product","over":{"base":"Any"},"name":"__mul___correct"},"guarantee":"returns the product","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fbeda2cc40048519"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.__mul__","kind":"method","src_hash":"138323994f9a2521","in":{"base":"Any","pred":"hasattr(p1, 'ring') and hasattr(p1, 'items') and hasattr(p2, 'items') and hasattr(p2, 'ring') and hasattr(p2, '__rmul__')"},"out":{"base":"Any"},"spec":{"lhs":"__mul__(p1, p2)","rhs":"<unspecified:__mul__>","over":{"base":"Any","pred":"hasattr(p1, 'ring') and hasattr(p1, 'items') and hasattr(p2, 'items') and hasattr(p2, 'ring') and hasattr(p2, '__rmul__')"},"name":"__mul___correct"},"guarantee":"3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fbeda2cc40048519","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(p1, 'ring')","hasattr(p1, 'items')","hasattr(p2, 'items')","hasattr(p2, 'ring')","hasattr(p2, '__rmul__')"],"fibers":[{"name":"case_0","guard":"not p1 or not p2","ensures":["result == p"],"decidability":"library","returns_expr":"p"},{"name":"case_1","guard":"ring.is_element(p2)","ensures":["result == p"],"decidability":"library","returns_expr":"p"},{"name":"PolyElement","guard":"isinstance(p2, PolyElement)","ensures":[],"decidability":"structural"}],"pure":false,"effects":{"effect_type":"io","reads":["p1.items","p1.ring","p2.__rmul__","p2.items","p2.ring"],"catches":["CoercionFailed"],"io_operations":["get"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __mul__(p1, p2):
         """Multiply two polynomials.
 
@@ -2239,16 +2911,24 @@ class PolyElement(DomainElement, DefaultPrinting, CantSympify, dict):
             return p
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__rmul__(p1,), p2 * p1 with p2 in the coefficient domain of p1) over Any ║
+# ║ Path(__rmul__(p1, p2), <unspecified:__rmul__>) over {Any | hasattr(p1, 'ring') and hasattr(p1, 'items')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __rmul__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(p1, 'ring')                            ║
+# ║   requires: hasattr(p1, 'items')                           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __rmul__ : {Any | hasattr(p1, 'ring') and hasattr(p1,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a7e0dc4d86122de0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.__rmul__","kind":"method","src_hash":"b2cdf77d5e9cf9cf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rmul__(p1,)","rhs":"p2 * p1 with p2 in the coefficient domain of p1","over":{"base":"Any"},"name":"__rmul___correct"},"guarantee":"p2 * p1 with p2 in the coefficient domain of p1","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a7e0dc4d86122de0"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.__rmul__","kind":"method","src_hash":"b2cdf77d5e9cf9cf","in":{"base":"Any","pred":"hasattr(p1, 'ring') and hasattr(p1, 'items')"},"out":{"base":"Any"},"spec":{"lhs":"__rmul__(p1, p2)","rhs":"<unspecified:__rmul__>","over":{"base":"Any","pred":"hasattr(p1, 'ring') and hasattr(p1, 'items')"},"name":"__rmul___correct"},"guarantee":"p2 * p1 with p2 in the coefficient domain of p1","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a7e0dc4d86122de0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(p1, 'ring')","hasattr(p1, 'items')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["p1.items","p1.ring"],"catches":["CoercionFailed"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __rmul__(p1, p2):
         """p2 * p1 with p2 in the coefficient domain of p1.
 
@@ -2279,16 +2959,24 @@ class PolyElement(DomainElement, DefaultPrinting, CantSympify, dict):
             return p
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__pow__(n), raise polynomial to power `n`) over Any   ║
+# ║ Path(__pow__(n), <unspecified:__pow__>) over {Any | isinstance(n, int) and not (n < 0)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __pow__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(n, int)                             ║
+# ║   requires: not (n < 0)                                    ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __pow__ : {Any | isinstance(n, int) and not (n < 0)} ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 867f4576ed7ef1d7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.__pow__","kind":"method","src_hash":"885a4d6bfda4d080","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__pow__(n)","rhs":"raise polynomial to power `n`","over":{"base":"Any"},"name":"__pow___correct"},"guarantee":"raise polynomial to power `n`","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"867f4576ed7ef1d7"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.__pow__","kind":"method","src_hash":"885a4d6bfda4d080","in":{"base":"Any","pred":"isinstance(n, int) and not (n < 0)"},"out":{"base":"Any"},"spec":{"lhs":"__pow__(n)","rhs":"<unspecified:__pow__>","over":{"base":"Any","pred":"isinstance(n, int) and not (n < 0)"},"name":"__pow___correct"},"guarantee":"raise polynomial to power `n`","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"867f4576ed7ef1d7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(n, int)","not (n < 0)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._pow_generic","self._pow_multinomial","self.copy","self.items","self.ring","self.square"],"raises":["TypeError","ValueError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __pow__(self, n):
         """raise polynomial to power `n`
 
@@ -2344,16 +3032,22 @@ class PolyElement(DomainElement, DefaultPrinting, CantSympify, dict):
             return self._pow_generic(n)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_pow_generic(n), internal helper behaves correctly) over Any ║
+# ║ Path(_pow_generic(n), <unspecified:_pow_generic>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _pow_generic : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f56e470566eaf96a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement._pow_generic","kind":"method","src_hash":"d16ac94eeb3ac57d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_pow_generic(n)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_pow_generic_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement._pow_generic_correct","statement":"Path(_pow_generic(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f56e470566eaf96a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement._pow_generic","kind":"method","src_hash":"d16ac94eeb3ac57d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_pow_generic(n)","rhs":"<unspecified:_pow_generic>","over":{"base":"Any"},"name":"_pow_generic_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement._pow_generic_correct","statement":"Path(_pow_generic(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f56e470566eaf96a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _pow_generic(self, n):
         p = self.ring.one
         c = self
@@ -2371,16 +3065,22 @@ class PolyElement(DomainElement, DefaultPrinting, CantSympify, dict):
         return p
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_pow_multinomial(n), internal helper behaves correctly) over Any ║
+# ║ Path(_pow_multinomial(n), <unspecified:_pow_multinomial>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _pow_multinomial : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d98af35a81a67b46  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement._pow_multinomial","kind":"method","src_hash":"5bb522ddc87ebd73","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_pow_multinomial(n)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_pow_multinomial_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement._pow_multinomial_correct","statement":"Path(_pow_multinomial(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d98af35a81a67b46"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement._pow_multinomial","kind":"method","src_hash":"5bb522ddc87ebd73","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_pow_multinomial(n)","rhs":"<unspecified:_pow_multinomial>","over":{"base":"Any"},"name":"_pow_multinomial_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement._pow_multinomial_correct","statement":"Path(_pow_multinomial(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d98af35a81a67b46","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.items","self.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _pow_multinomial(self, n):
         multinomials = multinomial_coefficients(len(self), n).items()
         monomial_mulpow = self.ring.monomial_mulpow
@@ -2411,16 +3111,22 @@ class PolyElement(DomainElement, DefaultPrinting, CantSympify, dict):
         return poly
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(square(), square of a polynomial) over Any            ║
+# ║ Path(square(), <unspecified:square>) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ square : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8d70a17e770801b2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.square","kind":"method","src_hash":"d34beb86a754b269","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"square()","rhs":"square of a polynomial","over":{"base":"Any"},"name":"square_correct"},"guarantee":"square of a polynomial","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement.square_correct","statement":"Path(square(x), square of a polynomial)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8d70a17e770801b2"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.square","kind":"method","src_hash":"d34beb86a754b269","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"square()","rhs":"<unspecified:square>","over":{"base":"Any"},"name":"square_correct"},"guarantee":"square of a polynomial","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement.square_correct","statement":"Path(square(x), square of a polynomial)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8d70a17e770801b2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"io","reads":["self.items","self.keys","self.ring"],"io_operations":["get"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def square(self):
         """square of a polynomial
 
@@ -2459,16 +3165,27 @@ class PolyElement(DomainElement, DefaultPrinting, CantSympify, dict):
         return p
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__divmod__(p1,), internal helper behaves correctly) over Any ║
+# ║ Path(__divmod__(p1, p2), <unspecified:__divmod__>) over {Any | p2 and hasattr(p1, 'ring') and hasattr(p1, 'div') and hasattr(p1, 'quo_ground') and hasattr(p1, 'rem_ground') and hasattr(p2, 'ring') and hasattr(p2, '__rdivmod__')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __divmod__ : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: p2                                             ║
+# ║   requires: hasattr(p1, 'ring')                            ║
+# ║   requires: hasattr(p1, 'div')                             ║
+# ║   fiber[case_0]: not p2                                    ║
+# ║   fiber[case_1]: ring.is_element(p2) => p1.div(p2)         ║
+# ║   fiber[PolyElement]: isinstance(p2, PolyElement)          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __divmod__ : {Any | p2 and hasattr(p1, 'ring') and ha...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6e60b918a28f17c2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.__divmod__","kind":"method","src_hash":"68f864567a9f4495","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__divmod__(p1,)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__divmod___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6e60b918a28f17c2"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.__divmod__","kind":"method","src_hash":"68f864567a9f4495","in":{"base":"Any","pred":"p2 and hasattr(p1, 'ring') and hasattr(p1, 'div') and hasattr(p1, 'quo_ground') and hasattr(p1, 'rem_ground') and hasattr(p2, 'ring') and hasattr(p2, '__rdivmod__')"},"out":{"base":"Any"},"spec":{"lhs":"__divmod__(p1, p2)","rhs":"<unspecified:__divmod__>","over":{"base":"Any","pred":"p2 and hasattr(p1, 'ring') and hasattr(p1, 'div') and hasattr(p1, 'quo_ground') and hasattr(p1, 'rem_ground') and hasattr(p2, 'ring') and hasattr(p2, '__rdivmod__')"},"name":"__divmod___correct"},"guarantee":"3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6e60b918a28f17c2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["p2","hasattr(p1, 'ring')","hasattr(p1, 'div')","hasattr(p1, 'quo_ground')","hasattr(p1, 'rem_ground')","hasattr(p2, 'ring')","hasattr(p2, '__rdivmod__')"],"fibers":[{"name":"case_0","guard":"not p2","ensures":[],"decidability":"library"},{"name":"case_1","guard":"ring.is_element(p2)","ensures":["result == p1.div(p2)"],"decidability":"library","returns_expr":"p1.div(p2)"},{"name":"PolyElement","guard":"isinstance(p2, PolyElement)","ensures":[],"decidability":"structural"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["p1.div","p1.quo_ground","p1.rem_ground","p1.ring","p2.__rdivmod__","p2.ring"],"raises":["ZeroDivisionError"],"catches":["CoercionFailed"]},"state_contract":{"exceptional_post":{"ZeroDivisionError":["isinstance(raised, ZeroDivisionError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __divmod__(p1, p2):
         ring = p1.ring
 
@@ -2492,16 +3209,24 @@ class PolyElement(DomainElement, DefaultPrinting, CantSympify, dict):
             return (p1.quo_ground(p2), p1.rem_ground(p2))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__rdivmod__(p1,), internal helper behaves correctly) over Any ║
+# ║ Path(__rdivmod__(p1, p2), <unspecified:__rdivmod__>) over {Any | hasattr(p1, 'ring') and hasattr(p2, 'div')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __rdivmod__ : Any → Any                                    ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(p1, 'ring')                            ║
+# ║   requires: hasattr(p2, 'div')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __rdivmod__ : {Any | hasattr(p1, 'ring') and hasattr(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5e3e922bf7b5d866           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.__rdivmod__","kind":"method","src_hash":"cc6cea818feadd06","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rdivmod__(p1,)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__rdivmod___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5e3e922bf7b5d866"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.__rdivmod__","kind":"method","src_hash":"cc6cea818feadd06","in":{"base":"Any","pred":"hasattr(p1, 'ring') and hasattr(p2, 'div')"},"out":{"base":"Any"},"spec":{"lhs":"__rdivmod__(p1, p2)","rhs":"<unspecified:__rdivmod__>","over":{"base":"Any","pred":"hasattr(p1, 'ring') and hasattr(p2, 'div')"},"name":"__rdivmod___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5e3e922bf7b5d866","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(p1, 'ring')","hasattr(p2, 'div')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["p1.ring","p2.div"],"catches":["CoercionFailed"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __rdivmod__(p1, p2):
         ring = p1.ring
         try:
@@ -2512,16 +3237,27 @@ class PolyElement(DomainElement, DefaultPrinting, CantSympify, dict):
             return p2.div(p1)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__mod__(p1,), internal helper behaves correctly) over Any ║
+# ║ Path(__mod__(p1, p2), <unspecified:__mod__>) over {Any | p2 and hasattr(p1, 'ring') and hasattr(p1, 'rem_ground') and hasattr(p1, 'rem') and hasattr(p2, 'ring') and hasattr(p2, '__rmod__')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __mod__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: p2                                             ║
+# ║   requires: hasattr(p1, 'ring')                            ║
+# ║   requires: hasattr(p1, 'rem_ground')                      ║
+# ║   fiber[case_0]: not p2                                    ║
+# ║   fiber[case_1]: ring.is_element(p2) => p1.rem(p2)         ║
+# ║   fiber[PolyElement]: isinstance(p2, PolyElement)          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __mod__ : {Any | p2 and hasattr(p1, 'ring') and hasat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | aacb3ca8e576be1b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.__mod__","kind":"method","src_hash":"093e1f1e9c1e7d2a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__mod__(p1,)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__mod___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"aacb3ca8e576be1b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.__mod__","kind":"method","src_hash":"093e1f1e9c1e7d2a","in":{"base":"Any","pred":"p2 and hasattr(p1, 'ring') and hasattr(p1, 'rem_ground') and hasattr(p1, 'rem') and hasattr(p2, 'ring') and hasattr(p2, '__rmod__')"},"out":{"base":"Any"},"spec":{"lhs":"__mod__(p1, p2)","rhs":"<unspecified:__mod__>","over":{"base":"Any","pred":"p2 and hasattr(p1, 'ring') and hasattr(p1, 'rem_ground') and hasattr(p1, 'rem') and hasattr(p2, 'ring') and hasattr(p2, '__rmod__')"},"name":"__mod___correct"},"guarantee":"3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"aacb3ca8e576be1b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["p2","hasattr(p1, 'ring')","hasattr(p1, 'rem_ground')","hasattr(p1, 'rem')","hasattr(p2, 'ring')","hasattr(p2, '__rmod__')"],"fibers":[{"name":"case_0","guard":"not p2","ensures":[],"decidability":"library"},{"name":"case_1","guard":"ring.is_element(p2)","ensures":["result == p1.rem(p2)"],"decidability":"library","returns_expr":"p1.rem(p2)"},{"name":"PolyElement","guard":"isinstance(p2, PolyElement)","ensures":[],"decidability":"structural"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["p1.rem","p1.rem_ground","p1.ring","p2.__rmod__","p2.ring"],"raises":["ZeroDivisionError"],"catches":["CoercionFailed"]},"state_contract":{"exceptional_post":{"ZeroDivisionError":["isinstance(raised, ZeroDivisionError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __mod__(p1, p2):
         ring = p1.ring
 
@@ -2545,16 +3281,24 @@ class PolyElement(DomainElement, DefaultPrinting, CantSympify, dict):
             return p1.rem_ground(p2)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__rmod__(p1,), internal helper behaves correctly) over Any ║
+# ║ Path(__rmod__(p1, p2), <unspecified:__rmod__>) over {Any | hasattr(p1, 'ring') and hasattr(p2, 'rem')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __rmod__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(p1, 'ring')                            ║
+# ║   requires: hasattr(p2, 'rem')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __rmod__ : {Any | hasattr(p1, 'ring') and hasattr(p2,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a1e730c96bb4a766           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.__rmod__","kind":"method","src_hash":"ded42a086c229cf8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rmod__(p1,)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__rmod___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a1e730c96bb4a766"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.__rmod__","kind":"method","src_hash":"ded42a086c229cf8","in":{"base":"Any","pred":"hasattr(p1, 'ring') and hasattr(p2, 'rem')"},"out":{"base":"Any"},"spec":{"lhs":"__rmod__(p1, p2)","rhs":"<unspecified:__rmod__>","over":{"base":"Any","pred":"hasattr(p1, 'ring') and hasattr(p2, 'rem')"},"name":"__rmod___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a1e730c96bb4a766","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(p1, 'ring')","hasattr(p2, 'rem')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["p1.ring","p2.rem"],"catches":["CoercionFailed"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __rmod__(p1, p2):
         ring = p1.ring
         try:
@@ -2565,16 +3309,27 @@ class PolyElement(DomainElement, DefaultPrinting, CantSympify, dict):
             return p2.rem(p1)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__floordiv__(p1,), internal helper behaves correctly) over Any ║
+# ║ Path(__floordiv__(p1, p2), <unspecified:__floordiv__>) over {Any | p2 and hasattr(p1, 'ring') and hasattr(p1, 'quo_ground') and hasattr(p1, 'quo') and hasattr(p2, 'ring') and hasattr(p2, '__rtruediv__')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __floordiv__ : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: p2                                             ║
+# ║   requires: hasattr(p1, 'ring')                            ║
+# ║   requires: hasattr(p1, 'quo_ground')                      ║
+# ║   fiber[case_0]: not p2                                    ║
+# ║   fiber[case_1]: ring.is_element(p2) => p1.quo(p2)         ║
+# ║   fiber[PolyElement]: isinstance(p2, PolyElement)          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __floordiv__ : {Any | p2 and hasattr(p1, 'ring') and ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 927571314cdddf37           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.__floordiv__","kind":"method","src_hash":"5ea20c80d4595f26","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__floordiv__(p1,)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__floordiv___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"927571314cdddf37"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.__floordiv__","kind":"method","src_hash":"5ea20c80d4595f26","in":{"base":"Any","pred":"p2 and hasattr(p1, 'ring') and hasattr(p1, 'quo_ground') and hasattr(p1, 'quo') and hasattr(p2, 'ring') and hasattr(p2, '__rtruediv__')"},"out":{"base":"Any"},"spec":{"lhs":"__floordiv__(p1, p2)","rhs":"<unspecified:__floordiv__>","over":{"base":"Any","pred":"p2 and hasattr(p1, 'ring') and hasattr(p1, 'quo_ground') and hasattr(p1, 'quo') and hasattr(p2, 'ring') and hasattr(p2, '__rtruediv__')"},"name":"__floordiv___correct"},"guarantee":"3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"927571314cdddf37","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["p2","hasattr(p1, 'ring')","hasattr(p1, 'quo_ground')","hasattr(p1, 'quo')","hasattr(p2, 'ring')","hasattr(p2, '__rtruediv__')"],"fibers":[{"name":"case_0","guard":"not p2","ensures":[],"decidability":"library"},{"name":"case_1","guard":"ring.is_element(p2)","ensures":["result == p1.quo(p2)"],"decidability":"library","returns_expr":"p1.quo(p2)"},{"name":"PolyElement","guard":"isinstance(p2, PolyElement)","ensures":[],"decidability":"structural"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["p1.quo","p1.quo_ground","p1.ring","p2.__rtruediv__","p2.ring"],"raises":["ZeroDivisionError"],"catches":["CoercionFailed"]},"state_contract":{"exceptional_post":{"ZeroDivisionError":["isinstance(raised, ZeroDivisionError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __floordiv__(p1, p2):
         ring = p1.ring
 
@@ -2598,16 +3353,24 @@ class PolyElement(DomainElement, DefaultPrinting, CantSympify, dict):
             return p1.quo_ground(p2)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__rfloordiv__(p1,), internal helper behaves correctly) over Any ║
+# ║ Path(__rfloordiv__(p1, p2), <unspecified:__rfloordiv__>) over {Any | hasattr(p1, 'ring') and hasattr(p2, 'quo')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __rfloordiv__ : Any → Any                                  ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(p1, 'ring')                            ║
+# ║   requires: hasattr(p2, 'quo')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __rfloordiv__ : {Any | hasattr(p1, 'ring') and hasatt...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7b8a3f5ac6d9c995           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.__rfloordiv__","kind":"method","src_hash":"c9661e7098574dc9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rfloordiv__(p1,)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__rfloordiv___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7b8a3f5ac6d9c995"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.__rfloordiv__","kind":"method","src_hash":"c9661e7098574dc9","in":{"base":"Any","pred":"hasattr(p1, 'ring') and hasattr(p2, 'quo')"},"out":{"base":"Any"},"spec":{"lhs":"__rfloordiv__(p1, p2)","rhs":"<unspecified:__rfloordiv__>","over":{"base":"Any","pred":"hasattr(p1, 'ring') and hasattr(p2, 'quo')"},"name":"__rfloordiv___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7b8a3f5ac6d9c995","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(p1, 'ring')","hasattr(p2, 'quo')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["p1.ring","p2.quo"],"catches":["CoercionFailed"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __rfloordiv__(p1, p2):
         ring = p1.ring
         try:
@@ -2618,16 +3381,27 @@ class PolyElement(DomainElement, DefaultPrinting, CantSympify, dict):
             return p2.quo(p1)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__truediv__(p1,), internal helper behaves correctly) over Any ║
+# ║ Path(__truediv__(p1, p2), <unspecified:__truediv__>) over {Any | p2 and hasattr(p1, 'ring') and hasattr(p1, 'quo_ground') and hasattr(p1, 'exquo') and hasattr(p2, 'ring') and hasattr(p2, '__rtruediv__')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __truediv__ : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: p2                                             ║
+# ║   requires: hasattr(p1, 'ring')                            ║
+# ║   requires: hasattr(p1, 'quo_ground')                      ║
+# ║   fiber[case_0]: not p2                                    ║
+# ║   fiber[case_1]: ring.is_element(p2) => p1.exquo(p2)       ║
+# ║   fiber[PolyElement]: isinstance(p2, PolyElement)          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __truediv__ : {Any | p2 and hasattr(p1, 'ring') and h...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6af0142412b73793           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.__truediv__","kind":"method","src_hash":"98dd710902613429","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__truediv__(p1,)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__truediv___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6af0142412b73793"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.__truediv__","kind":"method","src_hash":"98dd710902613429","in":{"base":"Any","pred":"p2 and hasattr(p1, 'ring') and hasattr(p1, 'quo_ground') and hasattr(p1, 'exquo') and hasattr(p2, 'ring') and hasattr(p2, '__rtruediv__')"},"out":{"base":"Any"},"spec":{"lhs":"__truediv__(p1, p2)","rhs":"<unspecified:__truediv__>","over":{"base":"Any","pred":"p2 and hasattr(p1, 'ring') and hasattr(p1, 'quo_ground') and hasattr(p1, 'exquo') and hasattr(p2, 'ring') and hasattr(p2, '__rtruediv__')"},"name":"__truediv___correct"},"guarantee":"3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6af0142412b73793","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["p2","hasattr(p1, 'ring')","hasattr(p1, 'quo_ground')","hasattr(p1, 'exquo')","hasattr(p2, 'ring')","hasattr(p2, '__rtruediv__')"],"fibers":[{"name":"case_0","guard":"not p2","ensures":[],"decidability":"library"},{"name":"case_1","guard":"ring.is_element(p2)","ensures":["result == p1.exquo(p2)"],"decidability":"library","returns_expr":"p1.exquo(p2)"},{"name":"PolyElement","guard":"isinstance(p2, PolyElement)","ensures":[],"decidability":"structural"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["p1.exquo","p1.quo_ground","p1.ring","p2.__rtruediv__","p2.ring"],"raises":["ZeroDivisionError"],"catches":["CoercionFailed"]},"state_contract":{"exceptional_post":{"ZeroDivisionError":["isinstance(raised, ZeroDivisionError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __truediv__(p1, p2):
         ring = p1.ring
 
@@ -2651,16 +3425,24 @@ class PolyElement(DomainElement, DefaultPrinting, CantSympify, dict):
             return p1.quo_ground(p2)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__rtruediv__(p1,), internal helper behaves correctly) over Any ║
+# ║ Path(__rtruediv__(p1, p2), <unspecified:__rtruediv__>) over {Any | hasattr(p1, 'ring') and hasattr(p2, 'exquo')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __rtruediv__ : Any → Any                                   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(p1, 'ring')                            ║
+# ║   requires: hasattr(p2, 'exquo')                           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __rtruediv__ : {Any | hasattr(p1, 'ring') and hasattr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f41475b2bc638170           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.__rtruediv__","kind":"method","src_hash":"3f92ccdbfdf563a0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rtruediv__(p1,)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__rtruediv___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f41475b2bc638170"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.__rtruediv__","kind":"method","src_hash":"3f92ccdbfdf563a0","in":{"base":"Any","pred":"hasattr(p1, 'ring') and hasattr(p2, 'exquo')"},"out":{"base":"Any"},"spec":{"lhs":"__rtruediv__(p1, p2)","rhs":"<unspecified:__rtruediv__>","over":{"base":"Any","pred":"hasattr(p1, 'ring') and hasattr(p2, 'exquo')"},"name":"__rtruediv___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f41475b2bc638170","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(p1, 'ring')","hasattr(p2, 'exquo')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["p1.ring","p2.exquo"],"catches":["CoercionFailed"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __rtruediv__(p1, p2):
         ring = p1.ring
         try:
@@ -2671,16 +3453,22 @@ class PolyElement(DomainElement, DefaultPrinting, CantSympify, dict):
             return p2.exquo(p1)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_term_div(), internal helper behaves correctly) over Any ║
+# ║ Path(_term_div(), <unspecified:_term_div>) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _term_div : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7a81d77fa5309c95  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement._term_div","kind":"method","src_hash":"6fddf86055b95a87","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_term_div()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_term_div_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement._term_div_correct","statement":"Path(_term_div(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7a81d77fa5309c95"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement._term_div","kind":"method","src_hash":"6fddf86055b95a87","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_term_div()","rhs":"<unspecified:_term_div>","over":{"base":"Any"},"name":"_term_div_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement._term_div_correct","statement":"Path(_term_div(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7a81d77fa5309c95","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _term_div(self):
         zm = self.ring.zero_monom
         domain = self.ring.domain
@@ -2715,16 +3503,23 @@ class PolyElement(DomainElement, DefaultPrinting, CantSympify, dict):
         return term_div
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(div(fv), division algorithm, see [clo] p64) over Any  ║
+# ║ Path(div(fv), <unspecified:div>) over {Any | all(fv)}      ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ div : Any → Any                                            ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: all(fv)                                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ div : {Any | all(fv)} → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3b93ebab20833757  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.div","kind":"method","src_hash":"99a9cfae6fd50022","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"div(fv)","rhs":"division algorithm, see [clo] p64","over":{"base":"Any"},"name":"div_correct"},"guarantee":"division algorithm, see [clo] p64","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement.div_correct","statement":"Path(div(x), division algorithm, see [clo] p64)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3b93ebab20833757"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.div","kind":"method","src_hash":"99a9cfae6fd50022","in":{"base":"Any","pred":"all(fv)"},"out":{"base":"Any"},"spec":{"lhs":"div(fv)","rhs":"<unspecified:div>","over":{"base":"Any","pred":"all(fv)"},"name":"div_correct"},"guarantee":"division algorithm, see [clo] p64","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement.div_correct","statement":"Path(div(x), division algorithm, see [clo] p64)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3b93ebab20833757","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["all(fv)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._term_div","self.copy","self.ring"],"raises":["ValueError","ZeroDivisionError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"],"ZeroDivisionError":["isinstance(raised, ZeroDivisionError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def div(self, fv):
         """Division algorithm, see [CLO] p64.
 
@@ -2802,16 +3597,23 @@ class PolyElement(DomainElement, DefaultPrinting, CantSympify, dict):
             return qv, r
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rem(G), rem produces the expected output) over Any    ║
+# ║ Path(rem(G), <unspecified:rem>) over {Any | all(G)}        ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ rem : Any → Any                                            ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: all(G)                                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ rem : {Any | all(G)} → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b4e8bf7d8be09977  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.rem","kind":"method","src_hash":"2550d6dec9f9f654","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rem(G)","rhs":"rem produces the expected output","over":{"base":"Any"},"name":"rem_correct"},"guarantee":"rem produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement.rem_correct","statement":"Path(rem(x), rem produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b4e8bf7d8be09977"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.rem","kind":"method","src_hash":"2550d6dec9f9f654","in":{"base":"Any","pred":"all(G)"},"out":{"base":"Any"},"spec":{"lhs":"rem(G)","rhs":"<unspecified:rem>","over":{"base":"Any","pred":"all(G)"},"name":"rem_correct"},"guarantee":"rem produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement.rem_correct","statement":"Path(rem(x), rem produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b4e8bf7d8be09977","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["all(G)"],"pure":false,"effects":{"effect_type":"io","raises":["ZeroDivisionError"],"io_operations":["get"]},"state_contract":{"exceptional_post":{"ZeroDivisionError":["isinstance(raised, ZeroDivisionError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def rem(self, G):
         f = self
         if isinstance(G, PolyElement):
@@ -2858,30 +3660,45 @@ class PolyElement(DomainElement, DefaultPrinting, CantSympify, dict):
         return r
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(quo(f, ), quo produces the expected output) over Any  ║
+# ║ Path(quo(f, G), f.div(G)[0]) over {Any | hasattr(f, 'div')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ quo : Any → Any                                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'div')                              ║
+# ║   returns:  f.div(G)[0]                                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ quo : {Any | hasattr(f, 'div')} → Any                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a5806127e2219746           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.quo","kind":"method","src_hash":"df2bd588dccb8d3c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"quo(f, )","rhs":"quo produces the expected output","over":{"base":"Any"},"name":"quo_correct"},"guarantee":"quo produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a5806127e2219746"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.quo","kind":"method","src_hash":"df2bd588dccb8d3c","in":{"base":"Any","pred":"hasattr(f, 'div')"},"out":{"base":"Any"},"spec":{"lhs":"quo(f, G)","rhs":"f.div(G)[0]","over":{"base":"Any","pred":"hasattr(f, 'div')"},"name":"quo_correct"},"guarantee":"returns f.div(G)[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a5806127e2219746","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'div')"],"returns_expr":"f.div(G)[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["f.div"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def quo(f, G):
         return f.div(G)[0]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(exquo(f, ), exquo produces the expected output) over Any ║
+# ║ Path(exquo(f, G), <unspecified:exquo>) over {Any | hasattr(f, 'div')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ exquo : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'div')                              ║
+# ║   fiber[case_0]: not r => q                                ║
+# ║   fiber[case_1]: not (not r)                               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ exquo : {Any | hasattr(f, 'div')} → Any                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4f7ceedef2803c0a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9423b0265d85f25e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.exquo","kind":"method","src_hash":"85d2196f5c6ad955","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"exquo(f, )","rhs":"exquo produces the expected output","over":{"base":"Any"},"name":"exquo_correct"},"guarantee":"exquo produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement.exquo_correct","statement":"Path(exquo(x), exquo produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4f7ceedef2803c0a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.exquo","kind":"method","src_hash":"85d2196f5c6ad955","in":{"base":"Any","pred":"hasattr(f, 'div')"},"out":{"base":"Any"},"spec":{"lhs":"exquo(f, G)","rhs":"<unspecified:exquo>","over":{"base":"Any","pred":"hasattr(f, 'div')"},"name":"exquo_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement.exquo_correct","statement":"Path(exquo(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9423b0265d85f25e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'div')"],"fibers":[{"name":"case_0","guard":"not r","ensures":["result == q"],"decidability":"library","returns_expr":"q"},{"name":"case_1","guard":"not (not r)","ensures":[],"decidability":"library"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["f.div"],"raises":["ExactQuotientFailed"]},"state_contract":{"exceptional_post":{"ExactQuotientFailed":["isinstance(raised, ExactQuotientFailed)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def exquo(f, G):
         q, r = f.div(G)
 
@@ -2891,16 +3708,22 @@ class PolyElement(DomainElement, DefaultPrinting, CantSympify, dict):
             raise ExactQuotientFailed(f, G)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_iadd_monom(mc), add to self the monomial coeff*x0**i0*x1**i1*... unless self is a generator -- then just return the sum of the two) over Any ║
+# ║ Path(_iadd_monom(mc), <unspecified:_iadd_monom>) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _iadd_monom : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7da0d2e84beee13d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement._iadd_monom","kind":"method","src_hash":"7dbf4154eedb87fc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_iadd_monom(mc)","rhs":"add to self the monomial coeff*x0**i0*x1**i1*... unless self is a generator -- then just return the sum of the two","over":{"base":"Any"},"name":"_iadd_monom_correct"},"guarantee":"add to self the monomial coeff*x0**i0*x1**i1*... unless self is a generator -- then just return the sum of the two","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement._iadd_monom_correct","statement":"Path(_iadd_monom(x), add to self the monomial coeff*x0**i0*x1**i1*... unless self is a generator -- then just return the sum of the two)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7da0d2e84beee13d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement._iadd_monom","kind":"method","src_hash":"7dbf4154eedb87fc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_iadd_monom(mc)","rhs":"<unspecified:_iadd_monom>","over":{"base":"Any"},"name":"_iadd_monom_correct"},"guarantee":"add to self the monomial coeff*x0**i0*x1**i1*... unless self is a generator -- then just return the sum of the two","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement._iadd_monom_correct","statement":"Path(_iadd_monom(x), add to self the monomial coeff*x0**i0*x1**i1*... unless self is a generator -- then just return the sum of the two)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7da0d2e84beee13d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.copy","self.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _iadd_monom(self, mc):
         """add to self the monomial coeff*x0**i0*x1**i1*...
         unless self is a generator -- then just return the sum of the two.
@@ -2946,16 +3769,23 @@ class PolyElement(DomainElement, DefaultPrinting, CantSympify, dict):
         return cpself
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_iadd_poly_monom(p2,), add to self the product of (p)*(coeff*x0**i0*x1**i1*...) unless self is a generator -- then just return the sum of the two) over Any ║
+# ║ Path(_iadd_poly_monom(p2, mc), <unspecified:_iadd_poly_monom>) over {Any | hasattr(p2, 'items')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _iadd_poly_monom : Any → Any                               ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(p2, 'items')                           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _iadd_poly_monom : {Any | hasattr(p2, 'items')} → Any      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 40e9cfbd834d3f8c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement._iadd_poly_monom","kind":"method","src_hash":"376a2516bb034457","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_iadd_poly_monom(p2,)","rhs":"add to self the product of (p)*(coeff*x0**i0*x1**i1*...) unless self is a generator -- then just return the sum of the two","over":{"base":"Any"},"name":"_iadd_poly_monom_correct"},"guarantee":"add to self the product of (p)*(coeff*x0**i0*x1**i1*...) unless self is a generator -- then just return the sum of the two","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement._iadd_poly_monom_correct","statement":"Path(_iadd_poly_monom(x), add to self the product of (p)*(coeff*x0**i0*x1**i1*...) unless self is a generator -- then just return the sum of the two)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"40e9cfbd834d3f8c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement._iadd_poly_monom","kind":"method","src_hash":"376a2516bb034457","in":{"base":"Any","pred":"hasattr(p2, 'items')"},"out":{"base":"Any"},"spec":{"lhs":"_iadd_poly_monom(p2, mc)","rhs":"<unspecified:_iadd_poly_monom>","over":{"base":"Any","pred":"hasattr(p2, 'items')"},"name":"_iadd_poly_monom_correct"},"guarantee":"add to self the product of (p)*(coeff*x0**i0*x1**i1*...) unless self is a generator -- then just return the sum of the two","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement._iadd_poly_monom_correct","statement":"Path(_iadd_poly_monom(x), add to self the product of (p)*(coeff*x0**i0*x1**i1*...) unless self is a generator -- then just return the sum of the two)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"40e9cfbd834d3f8c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(p2, 'items')"],"pure":false,"effects":{"effect_type":"io","reads":["p2.items"],"io_operations":["get"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _iadd_poly_monom(self, p2, mc):
         """add to self the product of (p)*(coeff*x0**i0*x1**i1*...)
         unless self is a generator -- then just return the sum of the two.
@@ -2994,16 +3824,28 @@ class PolyElement(DomainElement, DefaultPrinting, CantSympify, dict):
         return p1
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(degree(f, ), the leading degree in ``x`` or the main variable) over Any ║
+# ║ Path(degree(f, x), result == (ninf if not f else 0 if i < 0 else max((monom[i] for monom in f.itermonoms()))) and result == ninf or result == 0 or result == max((monom[i] for monom in f.itermonoms()))) over {Any | hasattr(f, 'ring') and hasattr(f, 'itermonoms')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ degree : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'ring')                             ║
+# ║   requires: hasattr(f, 'itermonoms')                       ║
+# ║   ensures:  result == (ninf if not f else 0 if i < 0 ...   ║
+# ║   ensures:  result == ninf or result == 0 or result =...   ║
+# ║   fiber[case_0]: not f => ninf                             ║
+# ║   fiber[negative]: i < 0 => 0                              ║
+# ║   fiber[negative]: not (not f) and not (i < 0) => max...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ degree : {Any | hasattr(f, 'ring') and hasattr(f, 'it...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b994918685033ef4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 531188a03d5eedec  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.degree","kind":"method","src_hash":"b0913904b42ece72","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"degree(f, )","rhs":"the leading degree in ``x`` or the main variable","over":{"base":"Any"},"name":"degree_correct"},"guarantee":"the leading degree in ``x`` or the main variable","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement.degree_correct","statement":"Path(degree(x), the leading degree in ``x`` or the main variable)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b994918685033ef4"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.degree","kind":"method","src_hash":"b0913904b42ece72","in":{"base":"Any","pred":"hasattr(f, 'ring') and hasattr(f, 'itermonoms')"},"out":{"base":"Any","pred":"result satisfies: result == (ninf if not f else 0 if i < 0 else max((monom[i] for monom in f.itermonoms()))) and result == ninf or result == 0 or result == max((monom[i] for monom in f.itermonoms()))"},"spec":{"lhs":"degree(f, x)","rhs":"result == (ninf if not f else 0 if i < 0 else max((monom[i] for monom in f.itermonoms()))) and result == ninf or result == 0 or result == max((monom[i] for monom in f.itermonoms()))","over":{"base":"Any","pred":"hasattr(f, 'ring') and hasattr(f, 'itermonoms')"},"name":"degree_correct"},"guarantee":"result == (ninf if not f else 0 if i < 0 else max((monom[i] for monom in f.itermonoms()))); result == ninf or result == 0 or result == max((monom[i] for monom in f.itermonoms())); 3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement.degree_correct","statement":"Path(degree(x), result == (ninf if not f else 0 if i < 0 else max((monom[i] for monom in f.itermonoms()))); result == ninf or result == 0 or result == max((monom[i] for monom in f.itermonoms())); 3-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"531188a03d5eedec","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'ring')","hasattr(f, 'itermonoms')"],"ensures":["result == (ninf if not f else 0 if i < 0 else max((monom[i] for monom in f.itermonoms())))","result == ninf or result == 0 or result == max((monom[i] for monom in f.itermonoms()))"],"fibers":[{"name":"case_0","guard":"not f","ensures":["result == ninf"],"decidability":"library","returns_expr":"ninf"},{"name":"negative","guard":"i < 0","ensures":["result == 0"],"decidability":"z3","returns_expr":"0"},{"name":"negative","guard":"not (not f) and not (i < 0)","ensures":["result == max((monom[i] for monom in f.itermonoms()))"],"decidability":"z3","returns_expr":"max((monom[i] for monom in f.itermonoms()))"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["f.itermonoms","f.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def degree(f, x=None):
         """
         The leading degree in ``x`` or the main variable.
@@ -3021,16 +3863,27 @@ class PolyElement(DomainElement, DefaultPrinting, CantSympify, dict):
             return max(monom[i] for monom in f.itermonoms())
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(degrees(f), a tuple containing leading degrees in all variables) over Any ║
+# ║ Path(degrees(f), result == ((ninf,) * f.ring.ngens if not f else tuple(map(max, list(zip(*f.itermonoms()))))) and result == (ninf,) * f.ring.ngens or result == tuple(map(max, list(zip(*f.itermonoms()))))) over {Any | hasattr(f, 'ring') and hasattr(f, 'itermonoms')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ degrees : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'ring')                             ║
+# ║   requires: hasattr(f, 'itermonoms')                       ║
+# ║   ensures:  result == ((ninf,) * f.ring.ngens if not ...   ║
+# ║   ensures:  result == (ninf,) * f.ring.ngens or resul...   ║
+# ║   fiber[case_0]: not f => (ninf,) * f.ring.ngens           ║
+# ║   fiber[case_1]: not (not f) => tuple(map(max, list(z...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ degrees : {Any | hasattr(f, 'ring') and hasattr(f, 'i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2e6eb766fbb05048  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c64e0919df02a373  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.degrees","kind":"method","src_hash":"da142840c4e4b297","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"degrees(f)","rhs":"a tuple containing leading degrees in all variables","over":{"base":"Any"},"name":"degrees_correct"},"guarantee":"a tuple containing leading degrees in all variables","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement.degrees_correct","statement":"Path(degrees(x), a tuple containing leading degrees in all variables)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2e6eb766fbb05048"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.degrees","kind":"method","src_hash":"da142840c4e4b297","in":{"base":"Any","pred":"hasattr(f, 'ring') and hasattr(f, 'itermonoms')"},"out":{"base":"Any","pred":"result satisfies: result == ((ninf,) * f.ring.ngens if not f else tuple(map(max, list(zip(*f.itermonoms()))))) and result == (ninf,) * f.ring.ngens or result == tuple(map(max, list(zip(*f.itermonoms()))))"},"spec":{"lhs":"degrees(f)","rhs":"result == ((ninf,) * f.ring.ngens if not f else tuple(map(max, list(zip(*f.itermonoms()))))) and result == (ninf,) * f.ring.ngens or result == tuple(map(max, list(zip(*f.itermonoms()))))","over":{"base":"Any","pred":"hasattr(f, 'ring') and hasattr(f, 'itermonoms')"},"name":"degrees_correct"},"guarantee":"result == ((ninf,) * f.ring.ngens if not f else tuple(map(max, list(zip(*f.itermonoms()))))); result == (ninf,) * f.ring.ngens or result == tuple(map(max, list(zip(*f.itermonoms())))); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement.degrees_correct","statement":"Path(degrees(x), result == ((ninf,) * f.ring.ngens if not f else tuple(map(max, list(zip(*f.itermonoms()))))); result == (ninf,) * f.ring.ngens or result == tuple(map(max, list(zip(*f.itermonoms())))); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c64e0919df02a373","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'ring')","hasattr(f, 'itermonoms')"],"ensures":["result == ((ninf,) * f.ring.ngens if not f else tuple(map(max, list(zip(*f.itermonoms())))))","result == (ninf,) * f.ring.ngens or result == tuple(map(max, list(zip(*f.itermonoms()))))"],"fibers":[{"name":"case_0","guard":"not f","ensures":["result == (ninf,) * f.ring.ngens"],"decidability":"library","returns_expr":"(ninf,) * f.ring.ngens"},{"name":"case_1","guard":"not (not f)","ensures":["result == tuple(map(max, list(zip(*f.itermonoms()))))"],"decidability":"library","returns_expr":"tuple(map(max, list(zip(*f.itermonoms()))))"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["f.itermonoms","f.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def degrees(f):
         """
         A tuple containing leading degrees in all variables.
@@ -3044,16 +3897,28 @@ class PolyElement(DomainElement, DefaultPrinting, CantSympify, dict):
             return tuple(map(max, list(zip(*f.itermonoms()))))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(tail_degree(f, ), the tail degree in ``x`` or the main variable) over Any ║
+# ║ Path(tail_degree(f, x), result == (ninf if not f else 0 if i < 0 else min((monom[i] for monom in f.itermonoms()))) and result == ninf or result == 0 or result == min((monom[i] for monom in f.itermonoms()))) over {Any | hasattr(f, 'ring') and hasattr(f, 'itermonoms')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ tail_degree : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'ring')                             ║
+# ║   requires: hasattr(f, 'itermonoms')                       ║
+# ║   ensures:  result == (ninf if not f else 0 if i < 0 ...   ║
+# ║   ensures:  result == ninf or result == 0 or result =...   ║
+# ║   fiber[case_0]: not f => ninf                             ║
+# ║   fiber[negative]: i < 0 => 0                              ║
+# ║   fiber[negative]: not (not f) and not (i < 0) => min...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ tail_degree : {Any | hasattr(f, 'ring') and hasattr(f...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d013965518a33563  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | af97226aa2d9538f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.tail_degree","kind":"method","src_hash":"4e33c9facfe74dbb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"tail_degree(f, )","rhs":"the tail degree in ``x`` or the main variable","over":{"base":"Any"},"name":"tail_degree_correct"},"guarantee":"the tail degree in ``x`` or the main variable","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement.tail_degree_correct","statement":"Path(tail_degree(x), the tail degree in ``x`` or the main variable)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d013965518a33563"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.tail_degree","kind":"method","src_hash":"4e33c9facfe74dbb","in":{"base":"Any","pred":"hasattr(f, 'ring') and hasattr(f, 'itermonoms')"},"out":{"base":"Any","pred":"result satisfies: result == (ninf if not f else 0 if i < 0 else min((monom[i] for monom in f.itermonoms()))) and result == ninf or result == 0 or result == min((monom[i] for monom in f.itermonoms()))"},"spec":{"lhs":"tail_degree(f, x)","rhs":"result == (ninf if not f else 0 if i < 0 else min((monom[i] for monom in f.itermonoms()))) and result == ninf or result == 0 or result == min((monom[i] for monom in f.itermonoms()))","over":{"base":"Any","pred":"hasattr(f, 'ring') and hasattr(f, 'itermonoms')"},"name":"tail_degree_correct"},"guarantee":"result == (ninf if not f else 0 if i < 0 else min((monom[i] for monom in f.itermonoms()))); result == ninf or result == 0 or result == min((monom[i] for monom in f.itermonoms())); 3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement.tail_degree_correct","statement":"Path(tail_degree(x), result == (ninf if not f else 0 if i < 0 else min((monom[i] for monom in f.itermonoms()))); result == ninf or result == 0 or result == min((monom[i] for monom in f.itermonoms())); 3-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"af97226aa2d9538f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'ring')","hasattr(f, 'itermonoms')"],"ensures":["result == (ninf if not f else 0 if i < 0 else min((monom[i] for monom in f.itermonoms())))","result == ninf or result == 0 or result == min((monom[i] for monom in f.itermonoms()))"],"fibers":[{"name":"case_0","guard":"not f","ensures":["result == ninf"],"decidability":"library","returns_expr":"ninf"},{"name":"negative","guard":"i < 0","ensures":["result == 0"],"decidability":"z3","returns_expr":"0"},{"name":"negative","guard":"not (not f) and not (i < 0)","ensures":["result == min((monom[i] for monom in f.itermonoms()))"],"decidability":"z3","returns_expr":"min((monom[i] for monom in f.itermonoms()))"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["f.itermonoms","f.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def tail_degree(f, x=None):
         """
         The tail degree in ``x`` or the main variable.
@@ -3071,16 +3936,27 @@ class PolyElement(DomainElement, DefaultPrinting, CantSympify, dict):
             return min(monom[i] for monom in f.itermonoms())
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(tail_degrees(f), a tuple containing tail degrees in all variables) over Any ║
+# ║ Path(tail_degrees(f), result == ((ninf,) * f.ring.ngens if not f else tuple(map(min, list(zip(*f.itermonoms()))))) and result == (ninf,) * f.ring.ngens or result == tuple(map(min, list(zip(*f.itermonoms()))))) over {Any | hasattr(f, 'ring') and hasattr(f, 'itermonoms')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ tail_degrees : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'ring')                             ║
+# ║   requires: hasattr(f, 'itermonoms')                       ║
+# ║   ensures:  result == ((ninf,) * f.ring.ngens if not ...   ║
+# ║   ensures:  result == (ninf,) * f.ring.ngens or resul...   ║
+# ║   fiber[case_0]: not f => (ninf,) * f.ring.ngens           ║
+# ║   fiber[case_1]: not (not f) => tuple(map(min, list(z...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ tail_degrees : {Any | hasattr(f, 'ring') and hasattr(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 48cd9a8117b5b943  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 842e2117c9776844  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.tail_degrees","kind":"method","src_hash":"09d4fc4a07f985ff","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"tail_degrees(f)","rhs":"a tuple containing tail degrees in all variables","over":{"base":"Any"},"name":"tail_degrees_correct"},"guarantee":"a tuple containing tail degrees in all variables","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement.tail_degrees_correct","statement":"Path(tail_degrees(x), a tuple containing tail degrees in all variables)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"48cd9a8117b5b943"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.tail_degrees","kind":"method","src_hash":"09d4fc4a07f985ff","in":{"base":"Any","pred":"hasattr(f, 'ring') and hasattr(f, 'itermonoms')"},"out":{"base":"Any","pred":"result satisfies: result == ((ninf,) * f.ring.ngens if not f else tuple(map(min, list(zip(*f.itermonoms()))))) and result == (ninf,) * f.ring.ngens or result == tuple(map(min, list(zip(*f.itermonoms()))))"},"spec":{"lhs":"tail_degrees(f)","rhs":"result == ((ninf,) * f.ring.ngens if not f else tuple(map(min, list(zip(*f.itermonoms()))))) and result == (ninf,) * f.ring.ngens or result == tuple(map(min, list(zip(*f.itermonoms()))))","over":{"base":"Any","pred":"hasattr(f, 'ring') and hasattr(f, 'itermonoms')"},"name":"tail_degrees_correct"},"guarantee":"result == ((ninf,) * f.ring.ngens if not f else tuple(map(min, list(zip(*f.itermonoms()))))); result == (ninf,) * f.ring.ngens or result == tuple(map(min, list(zip(*f.itermonoms())))); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement.tail_degrees_correct","statement":"Path(tail_degrees(x), result == ((ninf,) * f.ring.ngens if not f else tuple(map(min, list(zip(*f.itermonoms()))))); result == (ninf,) * f.ring.ngens or result == tuple(map(min, list(zip(*f.itermonoms())))); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"842e2117c9776844","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'ring')","hasattr(f, 'itermonoms')"],"ensures":["result == ((ninf,) * f.ring.ngens if not f else tuple(map(min, list(zip(*f.itermonoms())))))","result == (ninf,) * f.ring.ngens or result == tuple(map(min, list(zip(*f.itermonoms()))))"],"fibers":[{"name":"case_0","guard":"not f","ensures":["result == (ninf,) * f.ring.ngens"],"decidability":"library","returns_expr":"(ninf,) * f.ring.ngens"},{"name":"case_1","guard":"not (not f)","ensures":["result == tuple(map(min, list(zip(*f.itermonoms()))))"],"decidability":"library","returns_expr":"tuple(map(min, list(zip(*f.itermonoms()))))"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["f.itermonoms","f.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def tail_degrees(f):
         """
         A tuple containing tail degrees in all variables.
@@ -3094,16 +3970,25 @@ class PolyElement(DomainElement, DefaultPrinting, CantSympify, dict):
             return tuple(map(min, list(zip(*f.itermonoms()))))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(leading_expv(), leading monomial tuple according to the monomial ordering) over Any ║
+# ║ Path(leading_expv(), result == (self.ring.leading_expv(self) if self else None) and result == self.ring.leading_expv(self) or result == None) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ leading_expv : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (self.ring.leading_expv(self) i...   ║
+# ║   ensures:  result == self.ring.leading_expv(self) or...   ║
+# ║   fiber[case_0]: self => self.ring.leading_expv(self)      ║
+# ║   fiber[case_1]: not (self) => None                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ leading_expv : Any → {Any | result satisfies: result ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bb17d3e16c344883  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 59fc32c106b38202  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.leading_expv","kind":"method","src_hash":"a3c872d3444ed55f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"leading_expv()","rhs":"leading monomial tuple according to the monomial ordering","over":{"base":"Any"},"name":"leading_expv_correct"},"guarantee":"leading monomial tuple according to the monomial ordering","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement.leading_expv_correct","statement":"Path(leading_expv(x), leading monomial tuple according to the monomial ordering)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bb17d3e16c344883"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.leading_expv","kind":"method","src_hash":"a3c872d3444ed55f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (self.ring.leading_expv(self) if self else None) and result == self.ring.leading_expv(self) or result == None"},"spec":{"lhs":"leading_expv()","rhs":"result == (self.ring.leading_expv(self) if self else None) and result == self.ring.leading_expv(self) or result == None","over":{"base":"Any"},"name":"leading_expv_correct"},"guarantee":"result == (self.ring.leading_expv(self) if self else None); result == self.ring.leading_expv(self) or result == None; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement.leading_expv_correct","statement":"Path(leading_expv(x), result == (self.ring.leading_expv(self) if self else None); result == self.ring.leading_expv(self) or result == None; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"59fc32c106b38202","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (self.ring.leading_expv(self) if self else None)","result == self.ring.leading_expv(self) or result == None"],"fibers":[{"name":"case_0","guard":"self","ensures":["result == self.ring.leading_expv(self)"],"decidability":"library","returns_expr":"self.ring.leading_expv(self)"},{"name":"case_1","guard":"not (self)","ensures":["result == None"],"decidability":"library","returns_expr":"None"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def leading_expv(self):
         """Leading monomial tuple according to the monomial ordering.
 
@@ -3125,30 +4010,44 @@ class PolyElement(DomainElement, DefaultPrinting, CantSympify, dict):
             return None
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_coeff(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_get_coeff(expv), self.get(expv, self.ring.domain.zero)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.get(expv, self.ring.domain.zero)          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_coeff : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7022b5de4aa7b740           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement._get_coeff","kind":"method","src_hash":"8b712fa0147c0bbe","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_coeff(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_coeff_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7022b5de4aa7b740"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement._get_coeff","kind":"method","src_hash":"8b712fa0147c0bbe","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_coeff(expv)","rhs":"self.get(expv, self.ring.domain.zero)","over":{"base":"Any"},"name":"_get_coeff_correct"},"guarantee":"returns self.get(expv, self.ring.domain.zero)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7022b5de4aa7b740","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.get(expv, self.ring.domain.zero)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.get","self.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_coeff(self, expv):
         return self.get(expv, self.ring.domain.zero)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(coeff(ele), returns the coefficient that stands next to the given monomial) over Any ║
+# ║ Path(coeff(element), <unspecified:coeff>) over {Any | hasattr(element, 'iterterms')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ coeff : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(element, 'iterterms')                  ║
+# ║   fiber[case_0]: element == 1 => self._get_coeff(self...   ║
+# ║   fiber[case_1]: self.ring.is_element(element)             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ coeff : {Any | hasattr(element, 'iterterms')} → Any        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4719f1df2d34abe9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9a256d06510ca2db  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.coeff","kind":"method","src_hash":"d51ee7400308f5cd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"coeff(ele)","rhs":"returns the coefficient that stands next to the given monomial","over":{"base":"Any"},"name":"coeff_correct"},"guarantee":"returns the coefficient that stands next to the given monomial","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement.coeff_correct","statement":"Path(coeff(x), returns the coefficient that stands next to the given monomial)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4719f1df2d34abe9"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.coeff","kind":"method","src_hash":"d51ee7400308f5cd","in":{"base":"Any","pred":"hasattr(element, 'iterterms')"},"out":{"base":"Any"},"spec":{"lhs":"coeff(element)","rhs":"<unspecified:coeff>","over":{"base":"Any","pred":"hasattr(element, 'iterterms')"},"name":"coeff_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement.coeff_correct","statement":"Path(coeff(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9a256d06510ca2db","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(element, 'iterterms')"],"fibers":[{"name":"case_0","guard":"element == 1","ensures":["result == self._get_coeff(self.ring.zero_monom)"],"decidability":"z3","returns_expr":"self._get_coeff(self.ring.zero_monom)"},{"name":"case_1","guard":"self.ring.is_element(element)","ensures":[],"decidability":"library"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["element.iterterms","self._get_coeff","self.ring"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def coeff(self, element):
         """
         Returns the coefficient that stands next to the given monomial.
@@ -3187,47 +4086,68 @@ class PolyElement(DomainElement, DefaultPrinting, CantSympify, dict):
         raise ValueError("expected a monomial, got %s" % element)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(const(), returns the constant coefficient) over Any   ║
+# ║ Path(const(), self._get_coeff(self.ring.zero_monom)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._get_coeff(self.ring.zero_monom)          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ const : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9c5bee87618e5a48           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.const","kind":"method","src_hash":"c274cfb573b2919d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"const()","rhs":"returns the constant coefficient","over":{"base":"Any"},"name":"const_correct"},"guarantee":"returns the constant coefficient","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9c5bee87618e5a48"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.const","kind":"method","src_hash":"c274cfb573b2919d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"const()","rhs":"self._get_coeff(self.ring.zero_monom)","over":{"base":"Any"},"name":"const_correct"},"guarantee":"returns self._get_coeff(self.ring.zero_monom)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9c5bee87618e5a48","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._get_coeff(self.ring.zero_monom)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._get_coeff","self.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def const(self):
         """Returns the constant coefficient. """
         return self._get_coeff(self.ring.zero_monom)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(LC(), returns the LC attribute) over Any              ║
+# ║ Path(LC(), self._get_coeff(self.leading_expv())) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._get_coeff(self.leading_expv())           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ LC : Any → Any                                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | dc81906fba0a8f73           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.LC","kind":"property","src_hash":"d70a902cecaa7464","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"LC()","rhs":"returns the LC attribute","over":{"base":"Any"},"name":"LC_correct"},"guarantee":"returns the LC attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"dc81906fba0a8f73"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.LC","kind":"property","src_hash":"d70a902cecaa7464","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"LC()","rhs":"self._get_coeff(self.leading_expv())","over":{"base":"Any"},"name":"LC_correct"},"guarantee":"returns self._get_coeff(self.leading_expv())","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"dc81906fba0a8f73","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._get_coeff(self.leading_expv())","pure":false,"effects":{"effect_type":"reads_state","reads":["self._get_coeff","self.leading_expv"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def LC(self):
         return self._get_coeff(self.leading_expv())
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(LM(), returns the LM attribute) over Any              ║
+# ║ Path(LM(), result == (self.ring.zero_monom if expv is None else expv) and result == self.ring.zero_monom or result == expv) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ LM : Any → Any                                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (self.ring.zero_monom if expv i...   ║
+# ║   ensures:  result == self.ring.zero_monom or result ...   ║
+# ║   fiber[zero_or_none]: expv is None => self.ring.zero...   ║
+# ║   fiber[zero_or_none]: not (expv is None) => expv          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ LM : Any → {Any | result satisfies: result == (self.r...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 440b1a191c42ce93           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.LM","kind":"property","src_hash":"714e910c327b97a9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"LM()","rhs":"returns the LM attribute","over":{"base":"Any"},"name":"LM_correct"},"guarantee":"returns the LM attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"440b1a191c42ce93"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.LM","kind":"property","src_hash":"714e910c327b97a9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (self.ring.zero_monom if expv is None else expv) and result == self.ring.zero_monom or result == expv"},"spec":{"lhs":"LM()","rhs":"result == (self.ring.zero_monom if expv is None else expv) and result == self.ring.zero_monom or result == expv","over":{"base":"Any"},"name":"LM_correct"},"guarantee":"result == (self.ring.zero_monom if expv is None else expv); result == self.ring.zero_monom or result == expv; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"440b1a191c42ce93","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (self.ring.zero_monom if expv is None else expv)","result == self.ring.zero_monom or result == expv"],"fibers":[{"name":"zero_or_none","guard":"expv is None","ensures":["result == self.ring.zero_monom"],"decidability":"structural","returns_expr":"self.ring.zero_monom"},{"name":"zero_or_none","guard":"not (expv is None)","ensures":["result == expv"],"decidability":"structural","returns_expr":"expv"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.leading_expv","self.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def LM(self):
         expv = self.leading_expv()
         if expv is None:
@@ -3236,16 +4156,22 @@ class PolyElement(DomainElement, DefaultPrinting, CantSympify, dict):
             return expv
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(leading_monom(), leading monomial as a polynomial element) over Any ║
+# ║ Path(leading_monom(), <unspecified:leading_monom>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ leading_monom : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7e1cc60986e651d2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.leading_monom","kind":"method","src_hash":"edcce13b3d8fba6d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"leading_monom()","rhs":"leading monomial as a polynomial element","over":{"base":"Any"},"name":"leading_monom_correct"},"guarantee":"leading monomial as a polynomial element","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement.leading_monom_correct","statement":"Path(leading_monom(x), leading monomial as a polynomial element)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7e1cc60986e651d2"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.leading_monom","kind":"method","src_hash":"edcce13b3d8fba6d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"leading_monom()","rhs":"<unspecified:leading_monom>","over":{"base":"Any"},"name":"leading_monom_correct"},"guarantee":"leading monomial as a polynomial element","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement.leading_monom_correct","statement":"Path(leading_monom(x), leading monomial as a polynomial element)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7e1cc60986e651d2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.leading_expv","self.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def leading_monom(self):
         """
         Leading monomial as a polynomial element.
@@ -3269,16 +4195,25 @@ class PolyElement(DomainElement, DefaultPrinting, CantSympify, dict):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(LT(), returns the LT attribute) over Any              ║
+# ║ Path(LT(), result == ((self.ring.zero_monom, self.ring.domain.zero) if expv is None else (expv, self._get_coeff(expv))) and result == (self.ring.zero_monom, self.ring.domain.zero) or result == (expv, self._get_coeff(expv))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ LT : Any → Any                                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == ((self.ring.zero_monom, self.ri...   ║
+# ║   ensures:  result == (self.ring.zero_monom, self.rin...   ║
+# ║   fiber[zero_or_none]: expv is None => (self.ring.zer...   ║
+# ║   fiber[zero_or_none]: not (expv is None) => (expv, s...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ LT : Any → {Any | result satisfies: result == ((self....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 173e127a58a31006           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.LT","kind":"property","src_hash":"36f7cc1c81d3101d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"LT()","rhs":"returns the LT attribute","over":{"base":"Any"},"name":"LT_correct"},"guarantee":"returns the LT attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"173e127a58a31006"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.LT","kind":"property","src_hash":"36f7cc1c81d3101d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == ((self.ring.zero_monom, self.ring.domain.zero) if expv is None else (expv, self._get_coeff(expv))) and result == (self.ring.zero_monom, self.ring.domain.zero) or result == (expv, self._get_coeff(expv))"},"spec":{"lhs":"LT()","rhs":"result == ((self.ring.zero_monom, self.ring.domain.zero) if expv is None else (expv, self._get_coeff(expv))) and result == (self.ring.zero_monom, self.ring.domain.zero) or result == (expv, self._get_coeff(expv))","over":{"base":"Any"},"name":"LT_correct"},"guarantee":"result == ((self.ring.zero_monom, self.ring.domain.zero) if expv is None else (expv, self._get_coeff(expv))); result == (self.ring.zero_monom, self.ring.domain.zero) or result == (expv, self._get_coeff(expv)); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"173e127a58a31006","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == ((self.ring.zero_monom, self.ring.domain.zero) if expv is None else (expv, self._get_coeff(expv)))","result == (self.ring.zero_monom, self.ring.domain.zero) or result == (expv, self._get_coeff(expv))"],"fibers":[{"name":"zero_or_none","guard":"expv is None","ensures":["result == (self.ring.zero_monom, self.ring.domain.zero)"],"decidability":"structural","returns_expr":"(self.ring.zero_monom, self.ring.domain.zero)"},{"name":"zero_or_none","guard":"not (expv is None)","ensures":["result == (expv, self._get_coeff(expv))"],"decidability":"structural","returns_expr":"(expv, self._get_coeff(expv))"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._get_coeff","self.leading_expv","self.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def LT(self):
         expv = self.leading_expv()
         if expv is None:
@@ -3287,16 +4222,22 @@ class PolyElement(DomainElement, DefaultPrinting, CantSympify, dict):
             return (expv, self._get_coeff(expv))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(leading_term(), leading term as a polynomial element) over Any ║
+# ║ Path(leading_term(), <unspecified:leading_term>) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ leading_term : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 94f14af258d3ec2d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.leading_term","kind":"method","src_hash":"588aeccbfac3d7d0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"leading_term()","rhs":"leading term as a polynomial element","over":{"base":"Any"},"name":"leading_term_correct"},"guarantee":"leading term as a polynomial element","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement.leading_term_correct","statement":"Path(leading_term(x), leading term as a polynomial element)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"94f14af258d3ec2d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.leading_term","kind":"method","src_hash":"588aeccbfac3d7d0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"leading_term()","rhs":"<unspecified:leading_term>","over":{"base":"Any"},"name":"leading_term_correct"},"guarantee":"leading term as a polynomial element","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement.leading_term_correct","statement":"Path(leading_term(x), leading term as a polynomial element)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"94f14af258d3ec2d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.leading_expv","self.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def leading_term(self):
         """Leading term as a polynomial element.
 
@@ -3318,16 +4259,22 @@ class PolyElement(DomainElement, DefaultPrinting, CantSympify, dict):
         return p
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_sorted(seq), internal helper behaves correctly) over Any ║
+# ║ Path(_sorted(seq, order), <unspecified:_sorted>) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _sorted : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 795d6e8896d51586  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement._sorted","kind":"method","src_hash":"134ea4a67916f0e7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sorted(seq)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_sorted_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement._sorted_correct","statement":"Path(_sorted(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"795d6e8896d51586"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement._sorted","kind":"method","src_hash":"134ea4a67916f0e7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sorted(seq, order)","rhs":"<unspecified:_sorted>","over":{"base":"Any"},"name":"_sorted_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement._sorted_correct","statement":"Path(_sorted(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"795d6e8896d51586","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _sorted(self, seq, order):
         if order is None:
             order = self.ring.order
@@ -3340,16 +4287,22 @@ class PolyElement(DomainElement, DefaultPrinting, CantSympify, dict):
             return sorted(seq, key=lambda monom: order(monom[0]), reverse=True)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(coeffs(ord), ordered list of polynomial coefficients) over Any ║
+# ║ Path(coeffs(order), [coeff for _, coeff in self.terms(order)]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [coeff for _, coeff in self.terms(order)]      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ coeffs : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8710a25b54a92b86           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.coeffs","kind":"method","src_hash":"9f467bec504fd63c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"coeffs(ord)","rhs":"ordered list of polynomial coefficients","over":{"base":"Any"},"name":"coeffs_correct"},"guarantee":"ordered list of polynomial coefficients","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8710a25b54a92b86"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.coeffs","kind":"method","src_hash":"9f467bec504fd63c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"coeffs(order)","rhs":"[coeff for _, coeff in self.terms(order)]","over":{"base":"Any"},"name":"coeffs_correct"},"guarantee":"returns [coeff for _, coeff in self.terms(order)]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8710a25b54a92b86","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[coeff for _, coeff in self.terms(order)]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.terms"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def coeffs(self, order=None):
         """Ordered list of polynomial coefficients.
 
@@ -3377,16 +4330,22 @@ class PolyElement(DomainElement, DefaultPrinting, CantSympify, dict):
         return [ coeff for _, coeff in self.terms(order) ]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(monoms(ord), ordered list of polynomial monomials) over Any ║
+# ║ Path(monoms(order), [monom for monom, _ in self.terms(order)]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [monom for monom, _ in self.terms(order)]      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ monoms : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6b1fa4803b7cd509           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.monoms","kind":"method","src_hash":"ea1c0729c50e6a74","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"monoms(ord)","rhs":"ordered list of polynomial monomials","over":{"base":"Any"},"name":"monoms_correct"},"guarantee":"ordered list of polynomial monomials","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6b1fa4803b7cd509"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.monoms","kind":"method","src_hash":"ea1c0729c50e6a74","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"monoms(order)","rhs":"[monom for monom, _ in self.terms(order)]","over":{"base":"Any"},"name":"monoms_correct"},"guarantee":"returns [monom for monom, _ in self.terms(order)]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6b1fa4803b7cd509","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[monom for monom, _ in self.terms(order)]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.terms"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def monoms(self, order=None):
         """Ordered list of polynomial monomials.
 
@@ -3414,16 +4373,22 @@ class PolyElement(DomainElement, DefaultPrinting, CantSympify, dict):
         return [ monom for monom, _ in self.terms(order) ]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(terms(ord), ordered list of polynomial terms) over Any ║
+# ║ Path(terms(order), self._sorted(list(self.items()), order)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._sorted(list(self.items()), order)        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ terms : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b9cc5f26c7f731f6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.terms","kind":"method","src_hash":"adae6de2899b23f7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"terms(ord)","rhs":"ordered list of polynomial terms","over":{"base":"Any"},"name":"terms_correct"},"guarantee":"ordered list of polynomial terms","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b9cc5f26c7f731f6"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.terms","kind":"method","src_hash":"adae6de2899b23f7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"terms(order)","rhs":"self._sorted(list(self.items()), order)","over":{"base":"Any"},"name":"terms_correct"},"guarantee":"returns self._sorted(list(self.items()), order)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b9cc5f26c7f731f6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._sorted(list(self.items()), order)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._sorted","self.items"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def terms(self, order=None):
         """Ordered list of polynomial terms.
 
@@ -3451,106 +4416,150 @@ class PolyElement(DomainElement, DefaultPrinting, CantSympify, dict):
         return self._sorted(list(self.items()), order)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(itercoeffs(), iterator over coefficients of a polynomial) over Any ║
+# ║ Path(itercoeffs(), iter(self.values())) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  iter(self.values())                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ itercoeffs : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4f40fad7d3e72d62           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.itercoeffs","kind":"method","src_hash":"ccaaf1f76ebeaed9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"itercoeffs()","rhs":"iterator over coefficients of a polynomial","over":{"base":"Any"},"name":"itercoeffs_correct"},"guarantee":"iterator over coefficients of a polynomial","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4f40fad7d3e72d62"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.itercoeffs","kind":"method","src_hash":"ccaaf1f76ebeaed9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"itercoeffs()","rhs":"iter(self.values())","over":{"base":"Any"},"name":"itercoeffs_correct"},"guarantee":"returns iter(self.values())","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4f40fad7d3e72d62","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"iter(self.values())","pure":false,"effects":{"effect_type":"reads_state","reads":["self.values"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def itercoeffs(self):
         """Iterator over coefficients of a polynomial. """
         return iter(self.values())
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(itermonoms(), iterator over monomials of a polynomial) over Any ║
+# ║ Path(itermonoms(), iter(self.keys())) over Any             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  iter(self.keys())                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ itermonoms : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4b401e81d23c2ee0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.itermonoms","kind":"method","src_hash":"5c11d60ee9c21952","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"itermonoms()","rhs":"iterator over monomials of a polynomial","over":{"base":"Any"},"name":"itermonoms_correct"},"guarantee":"iterator over monomials of a polynomial","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4b401e81d23c2ee0"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.itermonoms","kind":"method","src_hash":"5c11d60ee9c21952","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"itermonoms()","rhs":"iter(self.keys())","over":{"base":"Any"},"name":"itermonoms_correct"},"guarantee":"returns iter(self.keys())","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4b401e81d23c2ee0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"iter(self.keys())","pure":false,"effects":{"effect_type":"reads_state","reads":["self.keys"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def itermonoms(self):
         """Iterator over monomials of a polynomial. """
         return iter(self.keys())
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(iterterms(), iterator over terms of a polynomial) over Any ║
+# ║ Path(iterterms(), iter(self.items())) over Any             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  iter(self.items())                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ iterterms : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2bafe690832e3e61           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.iterterms","kind":"method","src_hash":"97f082fd845c9d7a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"iterterms()","rhs":"iterator over terms of a polynomial","over":{"base":"Any"},"name":"iterterms_correct"},"guarantee":"iterator over terms of a polynomial","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2bafe690832e3e61"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.iterterms","kind":"method","src_hash":"97f082fd845c9d7a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"iterterms()","rhs":"iter(self.items())","over":{"base":"Any"},"name":"iterterms_correct"},"guarantee":"returns iter(self.items())","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2bafe690832e3e61","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"iter(self.items())","pure":false,"effects":{"effect_type":"reads_state","reads":["self.items"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def iterterms(self):
         """Iterator over terms of a polynomial. """
         return iter(self.items())
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(listcoeffs(), unordered list of polynomial coefficients) over Any ║
+# ║ Path(listcoeffs(), list(self.values())) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  list(self.values())                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ listcoeffs : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a36c38556d612a31           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.listcoeffs","kind":"method","src_hash":"885bfb4148344092","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"listcoeffs()","rhs":"unordered list of polynomial coefficients","over":{"base":"Any"},"name":"listcoeffs_correct"},"guarantee":"unordered list of polynomial coefficients","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a36c38556d612a31"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.listcoeffs","kind":"method","src_hash":"885bfb4148344092","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"listcoeffs()","rhs":"list(self.values())","over":{"base":"Any"},"name":"listcoeffs_correct"},"guarantee":"returns list(self.values())","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a36c38556d612a31","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"list(self.values())","pure":false,"effects":{"effect_type":"reads_state","reads":["self.values"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def listcoeffs(self):
         """Unordered list of polynomial coefficients. """
         return list(self.values())
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(listmonoms(), unordered list of polynomial monomials) over Any ║
+# ║ Path(listmonoms(), list(self.keys())) over Any             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  list(self.keys())                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ listmonoms : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8638f182ebc82f39           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.listmonoms","kind":"method","src_hash":"eb6a4878dbbf6fa1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"listmonoms()","rhs":"unordered list of polynomial monomials","over":{"base":"Any"},"name":"listmonoms_correct"},"guarantee":"unordered list of polynomial monomials","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8638f182ebc82f39"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.listmonoms","kind":"method","src_hash":"eb6a4878dbbf6fa1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"listmonoms()","rhs":"list(self.keys())","over":{"base":"Any"},"name":"listmonoms_correct"},"guarantee":"returns list(self.keys())","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8638f182ebc82f39","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"list(self.keys())","pure":false,"effects":{"effect_type":"reads_state","reads":["self.keys"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def listmonoms(self):
         """Unordered list of polynomial monomials. """
         return list(self.keys())
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(listterms(), unordered list of polynomial terms) over Any ║
+# ║ Path(listterms(), list(self.items())) over Any             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  list(self.items())                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ listterms : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ed974481adcea5a8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.listterms","kind":"method","src_hash":"cbfc6c67e3bfc11e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"listterms()","rhs":"unordered list of polynomial terms","over":{"base":"Any"},"name":"listterms_correct"},"guarantee":"unordered list of polynomial terms","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ed974481adcea5a8"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.listterms","kind":"method","src_hash":"cbfc6c67e3bfc11e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"listterms()","rhs":"list(self.items())","over":{"base":"Any"},"name":"listterms_correct"},"guarantee":"returns list(self.items())","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ed974481adcea5a8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"list(self.items())","pure":false,"effects":{"effect_type":"reads_state","reads":["self.items"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def listterms(self):
         """Unordered list of polynomial terms. """
         return list(self.items())
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(imul_num(p, ), multiply inplace the polynomial p by an element in the coefficient ring, provided p is not one of the generators; else multiply not inplace) over Any ║
+# ║ Path(imul_num(p, c), len(p) == 0) over {Any | hasattr(p, 'ring') and hasattr(p, 'clear')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ imul_num : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(p, 'ring')                             ║
+# ║   requires: hasattr(p, 'clear')                            ║
+# ║   ensures:  len(p) == 0                                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ imul_num : {Any | hasattr(p, 'ring') and hasattr(p, '...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c73fc0bc3592f793  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c8c8ffd7c6323cd2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.imul_num","kind":"method","src_hash":"5d6757eb4f148a37","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"imul_num(p, )","rhs":"multiply inplace the polynomial p by an element in the coefficient ring, provided p is not one of the generators; else multiply not inplace","over":{"base":"Any"},"name":"imul_num_correct"},"guarantee":"multiply inplace the polynomial p by an element in the coefficient ring, provided p is not one of the generators; else multiply not inplace","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement.imul_num_correct","statement":"Path(imul_num(x), multiply inplace the polynomial p by an element in the coefficient ring, provided p is not one of the generators; else multiply not inplace)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c73fc0bc3592f793"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.imul_num","kind":"method","src_hash":"5d6757eb4f148a37","in":{"base":"Any","pred":"hasattr(p, 'ring') and hasattr(p, 'clear')"},"out":{"base":"Any","pred":"result satisfies: len(p) == 0"},"spec":{"lhs":"imul_num(p, c)","rhs":"len(p) == 0","over":{"base":"Any","pred":"hasattr(p, 'ring') and hasattr(p, 'clear')"},"name":"imul_num_correct"},"guarantee":"len(p) == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement.imul_num_correct","statement":"Path(imul_num(x), len(p) == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c8c8ffd7c6323cd2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(p, 'ring')","hasattr(p, 'clear')"],"ensures":["len(p) == 0"],"pure":false,"effects":{"effect_type":"mutates_args","reads":["p.clear","p.ring"],"writes":["p[*]"],"calls_mutating":["p.clear"]},"state_contract":{"modifies":["p.*","p[*]"],"old_bindings":{"old_p_star":"p[*]"},"post_ensures":["len(p) == 0"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def imul_num(p, c):
         """multiply inplace the polynomial p by an element in the
         coefficient ring, provided p is not one of the generators;
@@ -3587,16 +4596,24 @@ class PolyElement(DomainElement, DefaultPrinting, CantSympify, dict):
         return p
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(content(f), returns gcd of polynomial's coefficients) over Any ║
+# ║ Path(content(f), <unspecified:content>) over {Any | hasattr(f, 'ring') and hasattr(f, 'itercoeffs')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ content : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(f, 'ring')                             ║
+# ║   requires: hasattr(f, 'itercoeffs')                       ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ content : {Any | hasattr(f, 'ring') and hasattr(f, 'i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 411c432f994b809d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.content","kind":"method","src_hash":"e511f729f4074e97","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"content(f)","rhs":"returns gcd of polynomial's coefficients","over":{"base":"Any"},"name":"content_correct"},"guarantee":"returns gcd of polynomial's coefficients","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement.content_correct","statement":"Path(content(x), returns gcd of polynomial's coefficients)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"411c432f994b809d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.content","kind":"method","src_hash":"e511f729f4074e97","in":{"base":"Any","pred":"hasattr(f, 'ring') and hasattr(f, 'itercoeffs')"},"out":{"base":"Any"},"spec":{"lhs":"content(f)","rhs":"<unspecified:content>","over":{"base":"Any","pred":"hasattr(f, 'ring') and hasattr(f, 'itercoeffs')"},"name":"content_correct"},"guarantee":"returns gcd of polynomial's coefficients","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement.content_correct","statement":"Path(content(x), returns gcd of polynomial's coefficients)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"411c432f994b809d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(f, 'ring')","hasattr(f, 'itercoeffs')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["f.itercoeffs","f.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def content(f):
         """Returns GCD of polynomial's coefficients. """
         domain = f.ring.domain
@@ -3609,16 +4626,25 @@ class PolyElement(DomainElement, DefaultPrinting, CantSympify, dict):
         return cont
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(primitive(f), returns content and a primitive polynomial) over Any ║
+# ║ Path(primitive(f), <unspecified:primitive>) over {Any | hasattr(f, 'content') and hasattr(f, 'quo_ground') and hasattr(f, 'ring')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ primitive : Any → Any                                      ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(f, 'content')                          ║
+# ║   requires: hasattr(f, 'quo_ground')                       ║
+# ║   requires: hasattr(f, 'ring')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ primitive : {Any | hasattr(f, 'content') and hasattr(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dfcbbd9343572224  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.primitive","kind":"method","src_hash":"9b247fb10ca7ec66","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"primitive(f)","rhs":"returns content and a primitive polynomial","over":{"base":"Any"},"name":"primitive_correct"},"guarantee":"returns content and a primitive polynomial","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement.primitive_correct","statement":"Path(primitive(x), returns content and a primitive polynomial)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dfcbbd9343572224"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.primitive","kind":"method","src_hash":"9b247fb10ca7ec66","in":{"base":"Any","pred":"hasattr(f, 'content') and hasattr(f, 'quo_ground') and hasattr(f, 'ring')"},"out":{"base":"Any"},"spec":{"lhs":"primitive(f)","rhs":"<unspecified:primitive>","over":{"base":"Any","pred":"hasattr(f, 'content') and hasattr(f, 'quo_ground') and hasattr(f, 'ring')"},"name":"primitive_correct"},"guarantee":"returns content and a primitive polynomial","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement.primitive_correct","statement":"Path(primitive(x), returns content and a primitive polynomial)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dfcbbd9343572224","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(f, 'content')","hasattr(f, 'quo_ground')","hasattr(f, 'ring')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["f.content","f.quo_ground","f.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def primitive(f):
         """Returns content and a primitive polynomial. """
         cont = f.content()
@@ -3627,16 +4653,27 @@ class PolyElement(DomainElement, DefaultPrinting, CantSympify, dict):
         return cont, f.quo_ground(cont)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(monic(f), divides all coefficients by the leading coefficient) over Any ║
+# ║ Path(monic(f), result == (f if not f else f.quo_ground(f.LC)) and result == f or result == f.quo_ground(f.LC)) over {Any | hasattr(f, 'quo_ground') and hasattr(f, 'LC')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ monic : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'quo_ground')                       ║
+# ║   requires: hasattr(f, 'LC')                               ║
+# ║   ensures:  result == (f if not f else f.quo_ground(f...   ║
+# ║   ensures:  result == f or result == f.quo_ground(f.LC)    ║
+# ║   fiber[case_0]: not f => f                                ║
+# ║   fiber[case_1]: not (not f) => f.quo_ground(f.LC)         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ monic : {Any | hasattr(f, 'quo_ground') and hasattr(f...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 425535ffbb6033e3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 25d882844b4e844e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.monic","kind":"method","src_hash":"576044c88698111f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"monic(f)","rhs":"divides all coefficients by the leading coefficient","over":{"base":"Any"},"name":"monic_correct"},"guarantee":"divides all coefficients by the leading coefficient","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement.monic_correct","statement":"Path(monic(x), divides all coefficients by the leading coefficient)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"425535ffbb6033e3"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.monic","kind":"method","src_hash":"576044c88698111f","in":{"base":"Any","pred":"hasattr(f, 'quo_ground') and hasattr(f, 'LC')"},"out":{"base":"Any","pred":"result satisfies: result == (f if not f else f.quo_ground(f.LC)) and result == f or result == f.quo_ground(f.LC)"},"spec":{"lhs":"monic(f)","rhs":"result == (f if not f else f.quo_ground(f.LC)) and result == f or result == f.quo_ground(f.LC)","over":{"base":"Any","pred":"hasattr(f, 'quo_ground') and hasattr(f, 'LC')"},"name":"monic_correct"},"guarantee":"result == (f if not f else f.quo_ground(f.LC)); result == f or result == f.quo_ground(f.LC); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement.monic_correct","statement":"Path(monic(x), result == (f if not f else f.quo_ground(f.LC)); result == f or result == f.quo_ground(f.LC); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"25d882844b4e844e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'quo_ground')","hasattr(f, 'LC')"],"ensures":["result == (f if not f else f.quo_ground(f.LC))","result == f or result == f.quo_ground(f.LC)"],"fibers":[{"name":"case_0","guard":"not f","ensures":["result == f"],"decidability":"library","returns_expr":"f"},{"name":"case_1","guard":"not (not f)","ensures":["result == f.quo_ground(f.LC)"],"decidability":"library","returns_expr":"f.quo_ground(f.LC)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["f.LC","f.quo_ground"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def monic(f):
         """Divides all coefficients by the leading coefficient. """
         if not f:
@@ -3645,16 +4682,25 @@ class PolyElement(DomainElement, DefaultPrinting, CantSympify, dict):
             return f.quo_ground(f.LC)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(mul_ground(f, ), mul_ground produces the expected output) over Any ║
+# ║ Path(mul_ground(f, x), <unspecified:mul_ground>) over {Any | hasattr(f, 'new') and hasattr(f, 'ring') and hasattr(f, 'iterterms')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ mul_ground : Any → Any                                     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(f, 'new')                              ║
+# ║   requires: hasattr(f, 'ring')                             ║
+# ║   requires: hasattr(f, 'iterterms')                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ mul_ground : {Any | hasattr(f, 'new') and hasattr(f, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b5b4da7bbc1d62cd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.mul_ground","kind":"method","src_hash":"1f425ef26f3f3648","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"mul_ground(f, )","rhs":"mul_ground produces the expected output","over":{"base":"Any"},"name":"mul_ground_correct"},"guarantee":"mul_ground produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement.mul_ground_correct","statement":"Path(mul_ground(x), mul_ground produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b5b4da7bbc1d62cd"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.mul_ground","kind":"method","src_hash":"1f425ef26f3f3648","in":{"base":"Any","pred":"hasattr(f, 'new') and hasattr(f, 'ring') and hasattr(f, 'iterterms')"},"out":{"base":"Any"},"spec":{"lhs":"mul_ground(f, x)","rhs":"<unspecified:mul_ground>","over":{"base":"Any","pred":"hasattr(f, 'new') and hasattr(f, 'ring') and hasattr(f, 'iterterms')"},"name":"mul_ground_correct"},"guarantee":"mul_ground produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement.mul_ground_correct","statement":"Path(mul_ground(x), mul_ground produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b5b4da7bbc1d62cd","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(f, 'new')","hasattr(f, 'ring')","hasattr(f, 'iterterms')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["f.iterterms","f.new","f.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def mul_ground(f, x):
         if not x:
             return f.ring.zero
@@ -3663,32 +4709,53 @@ class PolyElement(DomainElement, DefaultPrinting, CantSympify, dict):
         return f.new(terms)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(mul_monom(f, ), mul_monom produces the expected output) over Any ║
+# ║ Path(mul_monom(f, monom), f.new(terms)) over {Any | hasattr(f, 'ring') and hasattr(f, 'new') and hasattr(f, 'items')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ mul_monom : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'ring')                             ║
+# ║   requires: hasattr(f, 'new')                              ║
+# ║   requires: hasattr(f, 'items')                            ║
+# ║   returns:  f.new(terms)                                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ mul_monom : {Any | hasattr(f, 'ring') and hasattr(f, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f01693398c792fea  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 274c0f1d191ee4ae  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.mul_monom","kind":"method","src_hash":"091d0c1228fec779","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"mul_monom(f, )","rhs":"mul_monom produces the expected output","over":{"base":"Any"},"name":"mul_monom_correct"},"guarantee":"mul_monom produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement.mul_monom_correct","statement":"Path(mul_monom(x), mul_monom produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f01693398c792fea"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.mul_monom","kind":"method","src_hash":"091d0c1228fec779","in":{"base":"Any","pred":"hasattr(f, 'ring') and hasattr(f, 'new') and hasattr(f, 'items')"},"out":{"base":"Any"},"spec":{"lhs":"mul_monom(f, monom)","rhs":"f.new(terms)","over":{"base":"Any","pred":"hasattr(f, 'ring') and hasattr(f, 'new') and hasattr(f, 'items')"},"name":"mul_monom_correct"},"guarantee":"returns f.new(terms)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement.mul_monom_correct","statement":"Path(mul_monom(x), returns f.new(terms))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"274c0f1d191ee4ae","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'ring')","hasattr(f, 'new')","hasattr(f, 'items')"],"returns_expr":"f.new(terms)","pure":false,"effects":{"effect_type":"reads_state","reads":["f.items","f.new","f.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def mul_monom(f, monom):
         monomial_mul = f.ring.monomial_mul
         terms = [ (monomial_mul(f_monom, monom), f_coeff) for f_monom, f_coeff in f.items() ]
         return f.new(terms)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(mul_term(f, ), mul_term produces the expected output) over Any ║
+# ║ Path(mul_term(f, term), result == (f.ring.zero if not f or not coeff else f.mul_ground(coeff)) and result == f.ring.zero or result == f.mul_ground(coeff)) over {Any | hasattr(f, 'ring') and hasattr(f, 'new') and hasattr(f, 'mul_ground') and hasattr(f, 'items')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ mul_term : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'ring')                             ║
+# ║   requires: hasattr(f, 'new')                              ║
+# ║   requires: hasattr(f, 'mul_ground')                       ║
+# ║   ensures:  result == (f.ring.zero if not f or not co...   ║
+# ║   ensures:  result == f.ring.zero or result == f.mul_...   ║
+# ║   fiber[case_0]: not f or not coeff => f.ring.zero         ║
+# ║   fiber[case_1]: monom == f.ring.zero_monom => f.mul_...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ mul_term : {Any | hasattr(f, 'ring') and hasattr(f, '...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5239442a509fc521  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 92d219ffb4b9acc7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.mul_term","kind":"method","src_hash":"ed7b9f39dfc2099e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"mul_term(f, )","rhs":"mul_term produces the expected output","over":{"base":"Any"},"name":"mul_term_correct"},"guarantee":"mul_term produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement.mul_term_correct","statement":"Path(mul_term(x), mul_term produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5239442a509fc521"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.mul_term","kind":"method","src_hash":"ed7b9f39dfc2099e","in":{"base":"Any","pred":"hasattr(f, 'ring') and hasattr(f, 'new') and hasattr(f, 'mul_ground') and hasattr(f, 'items')"},"out":{"base":"Any","pred":"result satisfies: result == (f.ring.zero if not f or not coeff else f.mul_ground(coeff)) and result == f.ring.zero or result == f.mul_ground(coeff)"},"spec":{"lhs":"mul_term(f, term)","rhs":"result == (f.ring.zero if not f or not coeff else f.mul_ground(coeff)) and result == f.ring.zero or result == f.mul_ground(coeff)","over":{"base":"Any","pred":"hasattr(f, 'ring') and hasattr(f, 'new') and hasattr(f, 'mul_ground') and hasattr(f, 'items')"},"name":"mul_term_correct"},"guarantee":"result == (f.ring.zero if not f or not coeff else f.mul_ground(coeff)); result == f.ring.zero or result == f.mul_ground(coeff); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement.mul_term_correct","statement":"Path(mul_term(x), result == (f.ring.zero if not f or not coeff else f.mul_ground(coeff)); result == f.ring.zero or result == f.mul_ground(coeff); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"92d219ffb4b9acc7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'ring')","hasattr(f, 'new')","hasattr(f, 'mul_ground')","hasattr(f, 'items')"],"ensures":["result == (f.ring.zero if not f or not coeff else f.mul_ground(coeff))","result == f.ring.zero or result == f.mul_ground(coeff)"],"fibers":[{"name":"case_0","guard":"not f or not coeff","ensures":["result == f.ring.zero"],"decidability":"library","returns_expr":"f.ring.zero"},{"name":"case_1","guard":"monom == f.ring.zero_monom","ensures":["result == f.mul_ground(coeff)"],"decidability":"z3","returns_expr":"f.mul_ground(coeff)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["f.items","f.mul_ground","f.new","f.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def mul_term(f, term):
         monom, coeff = term
 
@@ -3702,16 +4769,25 @@ class PolyElement(DomainElement, DefaultPrinting, CantSympify, dict):
         return f.new(terms)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(quo_ground(f, ), quo_ground produces the expected output) over Any ║
+# ║ Path(quo_ground(f, x), <unspecified:quo_ground>) over {Any | x and hasattr(f, 'ring') and hasattr(f, 'new') and hasattr(f, 'iterterms')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ quo_ground : Any → Any                                     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: x                                              ║
+# ║   requires: hasattr(f, 'ring')                             ║
+# ║   requires: hasattr(f, 'new')                              ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ quo_ground : {Any | x and hasattr(f, 'ring') and hasa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2bc0af1db8e56523  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.quo_ground","kind":"method","src_hash":"ff87ec8f6485c2c5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"quo_ground(f, )","rhs":"quo_ground produces the expected output","over":{"base":"Any"},"name":"quo_ground_correct"},"guarantee":"quo_ground produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement.quo_ground_correct","statement":"Path(quo_ground(x), quo_ground produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2bc0af1db8e56523"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.quo_ground","kind":"method","src_hash":"ff87ec8f6485c2c5","in":{"base":"Any","pred":"x and hasattr(f, 'ring') and hasattr(f, 'new') and hasattr(f, 'iterterms')"},"out":{"base":"Any"},"spec":{"lhs":"quo_ground(f, x)","rhs":"<unspecified:quo_ground>","over":{"base":"Any","pred":"x and hasattr(f, 'ring') and hasattr(f, 'new') and hasattr(f, 'iterterms')"},"name":"quo_ground_correct"},"guarantee":"quo_ground produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement.quo_ground_correct","statement":"Path(quo_ground(x), quo_ground produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2bc0af1db8e56523","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["x","hasattr(f, 'ring')","hasattr(f, 'new')","hasattr(f, 'iterterms')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["f.iterterms","f.new","f.ring"],"raises":["ZeroDivisionError"]},"state_contract":{"exceptional_post":{"ZeroDivisionError":["isinstance(raised, ZeroDivisionError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def quo_ground(f, x):
         domain = f.ring.domain
 
@@ -3729,16 +4805,27 @@ class PolyElement(DomainElement, DefaultPrinting, CantSympify, dict):
         return f.new(terms)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(quo_term(f, ), quo_term produces the expected output) over Any ║
+# ║ Path(quo_term(f, term), <unspecified:quo_term>) over {Any | coeff and hasattr(f, '_term_div') and hasattr(f, 'new') and hasattr(f, 'ring') and hasattr(f, 'iterterms') and hasattr(f, 'quo_ground')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ quo_term : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: coeff                                          ║
+# ║   requires: hasattr(f, '_term_div')                        ║
+# ║   requires: hasattr(f, 'new')                              ║
+# ║   fiber[case_0]: not coeff                                 ║
+# ║   fiber[case_1]: not f => f.ring.zero                      ║
+# ║   fiber[case_2]: monom == f.ring.zero_monom => f.quo_...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ quo_term : {Any | coeff and hasattr(f, '_term_div') a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5b269ec597323e1d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a95db0ff1ed7411c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.quo_term","kind":"method","src_hash":"e47dce83a31fa883","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"quo_term(f, )","rhs":"quo_term produces the expected output","over":{"base":"Any"},"name":"quo_term_correct"},"guarantee":"quo_term produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement.quo_term_correct","statement":"Path(quo_term(x), quo_term produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5b269ec597323e1d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.quo_term","kind":"method","src_hash":"e47dce83a31fa883","in":{"base":"Any","pred":"coeff and hasattr(f, '_term_div') and hasattr(f, 'new') and hasattr(f, 'ring') and hasattr(f, 'iterterms') and hasattr(f, 'quo_ground')"},"out":{"base":"Any"},"spec":{"lhs":"quo_term(f, term)","rhs":"<unspecified:quo_term>","over":{"base":"Any","pred":"coeff and hasattr(f, '_term_div') and hasattr(f, 'new') and hasattr(f, 'ring') and hasattr(f, 'iterterms') and hasattr(f, 'quo_ground')"},"name":"quo_term_correct"},"guarantee":"3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement.quo_term_correct","statement":"Path(quo_term(x), 3-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a95db0ff1ed7411c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["coeff","hasattr(f, '_term_div')","hasattr(f, 'new')","hasattr(f, 'ring')","hasattr(f, 'iterterms')","hasattr(f, 'quo_ground')"],"fibers":[{"name":"case_0","guard":"not coeff","ensures":[],"decidability":"library"},{"name":"case_1","guard":"not f","ensures":["result == f.ring.zero"],"decidability":"library","returns_expr":"f.ring.zero"},{"name":"case_2","guard":"monom == f.ring.zero_monom","ensures":["result == f.quo_ground(coeff)"],"decidability":"z3","returns_expr":"f.quo_ground(coeff)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["f._term_div","f.iterterms","f.new","f.quo_ground","f.ring"],"raises":["ZeroDivisionError"]},"state_contract":{"exceptional_post":{"ZeroDivisionError":["isinstance(raised, ZeroDivisionError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def quo_term(f, term):
         monom, coeff = term
 
@@ -3755,16 +4842,25 @@ class PolyElement(DomainElement, DefaultPrinting, CantSympify, dict):
         return f.new([ t for t in terms if t is not None ])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(trunc_ground(f, ), trunc_ground produces the expected output) over Any ║
+# ║ Path(trunc_ground(f, p), <unspecified:trunc_ground>) over {Any | hasattr(f, 'new') and hasattr(f, 'ring') and hasattr(f, 'iterterms')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ trunc_ground : Any → Any                                   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(f, 'new')                              ║
+# ║   requires: hasattr(f, 'ring')                             ║
+# ║   requires: hasattr(f, 'iterterms')                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ trunc_ground : {Any | hasattr(f, 'new') and hasattr(f...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 738c811f6086115e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.trunc_ground","kind":"method","src_hash":"6a45e45e1a6f4b7c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"trunc_ground(f, )","rhs":"trunc_ground produces the expected output","over":{"base":"Any"},"name":"trunc_ground_correct"},"guarantee":"trunc_ground produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement.trunc_ground_correct","statement":"Path(trunc_ground(x), trunc_ground produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"738c811f6086115e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.trunc_ground","kind":"method","src_hash":"6a45e45e1a6f4b7c","in":{"base":"Any","pred":"hasattr(f, 'new') and hasattr(f, 'ring') and hasattr(f, 'iterterms')"},"out":{"base":"Any"},"spec":{"lhs":"trunc_ground(f, p)","rhs":"<unspecified:trunc_ground>","over":{"base":"Any","pred":"hasattr(f, 'new') and hasattr(f, 'ring') and hasattr(f, 'iterterms')"},"name":"trunc_ground_correct"},"guarantee":"trunc_ground produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement.trunc_ground_correct","statement":"Path(trunc_ground(x), trunc_ground produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"738c811f6086115e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(f, 'new')","hasattr(f, 'ring')","hasattr(f, 'iterterms')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def trunc_ground(f, p):
         if f.ring.domain.is_ZZ:
             terms = []
@@ -3786,16 +4882,24 @@ class PolyElement(DomainElement, DefaultPrinting, CantSympify, dict):
     rem_ground = trunc_ground
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(extract_ground(g), extract_ground produces the expected output) over Any ║
+# ║ Path(extract_ground(g), (gcd, f, g)) over {Any | hasattr(g, 'content') and hasattr(g, 'quo_ground')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ extract_ground : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(g, 'content')                          ║
+# ║   requires: hasattr(g, 'quo_ground')                       ║
+# ║   returns:  (gcd, f, g)                                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ extract_ground : {Any | hasattr(g, 'content') and has...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8a51f494b7bb6c7a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e2c2c4ab27356271  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.extract_ground","kind":"method","src_hash":"fb51a9cff6304186","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"extract_ground(g)","rhs":"extract_ground produces the expected output","over":{"base":"Any"},"name":"extract_ground_correct"},"guarantee":"extract_ground produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement.extract_ground_correct","statement":"Path(extract_ground(x), extract_ground produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8a51f494b7bb6c7a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.extract_ground","kind":"method","src_hash":"fb51a9cff6304186","in":{"base":"Any","pred":"hasattr(g, 'content') and hasattr(g, 'quo_ground')"},"out":{"base":"Any"},"spec":{"lhs":"extract_ground(g)","rhs":"(gcd, f, g)","over":{"base":"Any","pred":"hasattr(g, 'content') and hasattr(g, 'quo_ground')"},"name":"extract_ground_correct"},"guarantee":"returns (gcd, f, g)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement.extract_ground_correct","statement":"Path(extract_ground(x), returns (gcd, f, g))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e2c2c4ab27356271","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(g, 'content')","hasattr(g, 'quo_ground')"],"returns_expr":"(gcd, f, g)","pure":false,"effects":{"effect_type":"reads_state","reads":["g.content","g.quo_ground"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def extract_ground(self, g):
         f = self
         fc = f.content()
@@ -3809,16 +4913,27 @@ class PolyElement(DomainElement, DefaultPrinting, CantSympify, dict):
         return gcd, f, g
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_norm(f, ), internal helper behaves correctly) over Any ║
+# ║ Path(_norm(f, norm_func), result == (f.ring.domain.zero if not f else norm_func([ground_abs(coeff) for coeff in f.itercoeffs()])) and result == f.ring.domain.zero or result == norm_func([ground_abs(coeff) for coeff in f.itercoeffs()])) over {Any | hasattr(f, 'ring') and hasattr(f, 'itercoeffs')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _norm : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'ring')                             ║
+# ║   requires: hasattr(f, 'itercoeffs')                       ║
+# ║   ensures:  result == (f.ring.domain.zero if not f el...   ║
+# ║   ensures:  result == f.ring.domain.zero or result ==...   ║
+# ║   fiber[case_0]: not f => f.ring.domain.zero               ║
+# ║   fiber[case_1]: not (not f) => norm_func([ground_abs...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _norm : {Any | hasattr(f, 'ring') and hasattr(f, 'ite...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1c6c73e35d3b6a9b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0eba312ab9ae9d62  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement._norm","kind":"method","src_hash":"988958237afd72c7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_norm(f, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_norm_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement._norm_correct","statement":"Path(_norm(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1c6c73e35d3b6a9b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement._norm","kind":"method","src_hash":"988958237afd72c7","in":{"base":"Any","pred":"hasattr(f, 'ring') and hasattr(f, 'itercoeffs')"},"out":{"base":"Any","pred":"result satisfies: result == (f.ring.domain.zero if not f else norm_func([ground_abs(coeff) for coeff in f.itercoeffs()])) and result == f.ring.domain.zero or result == norm_func([ground_abs(coeff) for coeff in f.itercoeffs()])"},"spec":{"lhs":"_norm(f, norm_func)","rhs":"result == (f.ring.domain.zero if not f else norm_func([ground_abs(coeff) for coeff in f.itercoeffs()])) and result == f.ring.domain.zero or result == norm_func([ground_abs(coeff) for coeff in f.itercoeffs()])","over":{"base":"Any","pred":"hasattr(f, 'ring') and hasattr(f, 'itercoeffs')"},"name":"_norm_correct"},"guarantee":"result == (f.ring.domain.zero if not f else norm_func([ground_abs(coeff) for coeff in f.itercoeffs()])); result == f.ring.domain.zero or result == norm_func([ground_abs(coeff) for coeff in f.itercoeffs()]); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement._norm_correct","statement":"Path(_norm(x), result == (f.ring.domain.zero if not f else norm_func([ground_abs(coeff) for coeff in f.itercoeffs()])); result == f.ring.domain.zero or result == norm_func([ground_abs(coeff) for coeff in f.itercoeffs()]); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0eba312ab9ae9d62","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'ring')","hasattr(f, 'itercoeffs')"],"ensures":["result == (f.ring.domain.zero if not f else norm_func([ground_abs(coeff) for coeff in f.itercoeffs()]))","result == f.ring.domain.zero or result == norm_func([ground_abs(coeff) for coeff in f.itercoeffs()])"],"fibers":[{"name":"case_0","guard":"not f","ensures":["result == f.ring.domain.zero"],"decidability":"library","returns_expr":"f.ring.domain.zero"},{"name":"case_1","guard":"not (not f)","ensures":["result == norm_func([ground_abs(coeff) for coeff in f.itercoeffs()])"],"decidability":"library","returns_expr":"norm_func([ground_abs(coeff) for coeff in f.itercoeffs()])"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["f.itercoeffs","f.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _norm(f, norm_func):
         if not f:
             return f.ring.domain.zero
@@ -3827,44 +4942,65 @@ class PolyElement(DomainElement, DefaultPrinting, CantSympify, dict):
             return norm_func([ ground_abs(coeff) for coeff in f.itercoeffs() ])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(max_norm(f), max_norm produces the expected output) over Any ║
+# ║ Path(max_norm(f), f._norm(max)) over {Any | hasattr(f, '_norm')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ max_norm : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, '_norm')                            ║
+# ║   returns:  f._norm(max)                                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ max_norm : {Any | hasattr(f, '_norm')} → Any               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 037dae8a24ab92bf           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.max_norm","kind":"method","src_hash":"8fb133d632fa4b4b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"max_norm(f)","rhs":"max_norm produces the expected output","over":{"base":"Any"},"name":"max_norm_correct"},"guarantee":"max_norm produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"037dae8a24ab92bf"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.max_norm","kind":"method","src_hash":"8fb133d632fa4b4b","in":{"base":"Any","pred":"hasattr(f, '_norm')"},"out":{"base":"Any"},"spec":{"lhs":"max_norm(f)","rhs":"f._norm(max)","over":{"base":"Any","pred":"hasattr(f, '_norm')"},"name":"max_norm_correct"},"guarantee":"returns f._norm(max)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"037dae8a24ab92bf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, '_norm')"],"returns_expr":"f._norm(max)","pure":false,"effects":{"effect_type":"reads_state","reads":["f._norm"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def max_norm(f):
         return f._norm(max)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(l1_norm(f), l1_norm produces the expected output) over Any ║
+# ║ Path(l1_norm(f), f._norm(sum)) over {Any | hasattr(f, '_norm')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ l1_norm : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, '_norm')                            ║
+# ║   returns:  f._norm(sum)                                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ l1_norm : {Any | hasattr(f, '_norm')} → Any                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d652527284e63810           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.l1_norm","kind":"method","src_hash":"52adf81e07fc5ad8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"l1_norm(f)","rhs":"l1_norm produces the expected output","over":{"base":"Any"},"name":"l1_norm_correct"},"guarantee":"l1_norm produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d652527284e63810"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.l1_norm","kind":"method","src_hash":"52adf81e07fc5ad8","in":{"base":"Any","pred":"hasattr(f, '_norm')"},"out":{"base":"Any"},"spec":{"lhs":"l1_norm(f)","rhs":"f._norm(sum)","over":{"base":"Any","pred":"hasattr(f, '_norm')"},"name":"l1_norm_correct"},"guarantee":"returns f._norm(sum)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d652527284e63810","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, '_norm')"],"returns_expr":"f._norm(sum)","pure":false,"effects":{"effect_type":"reads_state","reads":["f._norm"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def l1_norm(f):
         return f._norm(sum)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(deflate(f, ), deflate produces the expected output) over Any ║
+# ║ Path(deflate(f, *G), <unspecified:deflate>) over {Any | hasattr(f, 'ring')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ deflate : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(f, 'ring')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ deflate : {Any | hasattr(f, 'ring')} → Any                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b5e9ee4d89ca7423  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.deflate","kind":"method","src_hash":"12b64607126e1afb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"deflate(f, )","rhs":"deflate produces the expected output","over":{"base":"Any"},"name":"deflate_correct"},"guarantee":"deflate produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement.deflate_correct","statement":"Path(deflate(x), deflate produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b5e9ee4d89ca7423"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.deflate","kind":"method","src_hash":"12b64607126e1afb","in":{"base":"Any","pred":"hasattr(f, 'ring')"},"out":{"base":"Any"},"spec":{"lhs":"deflate(f, *G)","rhs":"<unspecified:deflate>","over":{"base":"Any","pred":"hasattr(f, 'ring')"},"name":"deflate_correct"},"guarantee":"deflate produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement.deflate_correct","statement":"Path(deflate(x), deflate produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b5e9ee4d89ca7423","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(f, 'ring')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def deflate(f, *G):
         ring = f.ring
         polys = [f] + list(G)
@@ -3899,16 +5035,24 @@ class PolyElement(DomainElement, DefaultPrinting, CantSympify, dict):
         return J, H
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(inflate(f, ), inflate produces the expected output) over Any ║
+# ║ Path(inflate(f, J), <unspecified:inflate>) over {Any | hasattr(f, 'ring') and hasattr(f, 'iterterms')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ inflate : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(f, 'ring')                             ║
+# ║   requires: hasattr(f, 'iterterms')                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ inflate : {Any | hasattr(f, 'ring') and hasattr(f, 'i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1826fa0a305e6923  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.inflate","kind":"method","src_hash":"07e1397ac1673ec0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"inflate(f, )","rhs":"inflate produces the expected output","over":{"base":"Any"},"name":"inflate_correct"},"guarantee":"inflate produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement.inflate_correct","statement":"Path(inflate(x), inflate produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1826fa0a305e6923"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.inflate","kind":"method","src_hash":"07e1397ac1673ec0","in":{"base":"Any","pred":"hasattr(f, 'ring') and hasattr(f, 'iterterms')"},"out":{"base":"Any"},"spec":{"lhs":"inflate(f, J)","rhs":"<unspecified:inflate>","over":{"base":"Any","pred":"hasattr(f, 'ring') and hasattr(f, 'iterterms')"},"name":"inflate_correct"},"guarantee":"inflate produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement.inflate_correct","statement":"Path(inflate(x), inflate produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1826fa0a305e6923","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(f, 'ring')","hasattr(f, 'iterterms')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["f.iterterms","f.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def inflate(f, J):
         poly = f.ring.zero
 
@@ -3919,16 +5063,23 @@ class PolyElement(DomainElement, DefaultPrinting, CantSympify, dict):
         return poly
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(lcm(g), lcm produces the expected output) over Any    ║
+# ║ Path(lcm(g), <unspecified:lcm>) over {Any | hasattr(g, 'primitive')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ lcm : Any → Any                                            ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(g, 'primitive')                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ lcm : {Any | hasattr(g, 'primitive')} → Any                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9d6c52d52921ce49  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.lcm","kind":"method","src_hash":"1539330d64768adb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"lcm(g)","rhs":"lcm produces the expected output","over":{"base":"Any"},"name":"lcm_correct"},"guarantee":"lcm produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement.lcm_correct","statement":"Path(lcm(x), lcm produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9d6c52d52921ce49"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.lcm","kind":"method","src_hash":"1539330d64768adb","in":{"base":"Any","pred":"hasattr(g, 'primitive')"},"out":{"base":"Any"},"spec":{"lhs":"lcm(g)","rhs":"<unspecified:lcm>","over":{"base":"Any","pred":"hasattr(g, 'primitive')"},"name":"lcm_correct"},"guarantee":"lcm produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement.lcm_correct","statement":"Path(lcm(x), lcm produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9d6c52d52921ce49","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(g, 'primitive')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["g.primitive"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def lcm(self, g):
         f = self
         domain = f.ring.domain
@@ -3946,30 +5097,49 @@ class PolyElement(DomainElement, DefaultPrinting, CantSympify, dict):
             return h.monic()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gcd(f, ), gcd produces the expected output) over Any  ║
+# ║ Path(gcd(f, g), f.cofactors(g)[0]) over {Any | hasattr(f, 'cofactors')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ gcd : Any → Any                                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'cofactors')                        ║
+# ║   returns:  f.cofactors(g)[0]                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ gcd : {Any | hasattr(f, 'cofactors')} → Any                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f01f9732418aebf1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.gcd","kind":"method","src_hash":"d8b4e1a94a4062d7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gcd(f, )","rhs":"gcd produces the expected output","over":{"base":"Any"},"name":"gcd_correct"},"guarantee":"gcd produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f01f9732418aebf1"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.gcd","kind":"method","src_hash":"d8b4e1a94a4062d7","in":{"base":"Any","pred":"hasattr(f, 'cofactors')"},"out":{"base":"Any"},"spec":{"lhs":"gcd(f, g)","rhs":"f.cofactors(g)[0]","over":{"base":"Any","pred":"hasattr(f, 'cofactors')"},"name":"gcd_correct"},"guarantee":"returns f.cofactors(g)[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f01f9732418aebf1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'cofactors')"],"returns_expr":"f.cofactors(g)[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["f.cofactors"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def gcd(f, g):
         return f.cofactors(g)[0]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(cofactors(f, ), cofactors produces the expected output) over Any ║
+# ║ Path(cofactors(f, g), result == ((zero, zero, zero) if not f and (not g) else (h, cff, cfg) if not f else (h, cff, cfg) if not g else (h, cff, cfg) if len(f) == 1 else (h, cff, cfg))) over {Any | hasattr(f, 'deflate') and hasattr(f, '_gcd') and hasattr(f, 'ring') and hasattr(f, '_gcd_zero') and hasattr(g, '_gcd_zero') and hasattr(f, '_gcd_monom') and hasattr(g, '_gcd_monom')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ cofactors : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'deflate')                          ║
+# ║   requires: hasattr(f, '_gcd')                             ║
+# ║   requires: hasattr(f, 'ring')                             ║
+# ║   ensures:  result == ((zero, zero, zero) if not f an...   ║
+# ║   fiber[case_0]: not f and (not g) => (zero, zero, zero)   ║
+# ║   fiber[case_1]: not f => (h, cff, cfg)                    ║
+# ║   fiber[case_2]: not g => (h, cff, cfg)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ cofactors : {Any | hasattr(f, 'deflate') and hasattr(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9e00219e989f155b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6986fba84ac42af8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.cofactors","kind":"method","src_hash":"7fae8679f2b89b87","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"cofactors(f, )","rhs":"cofactors produces the expected output","over":{"base":"Any"},"name":"cofactors_correct"},"guarantee":"cofactors produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement.cofactors_correct","statement":"Path(cofactors(x), cofactors produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9e00219e989f155b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.cofactors","kind":"method","src_hash":"7fae8679f2b89b87","in":{"base":"Any","pred":"hasattr(f, 'deflate') and hasattr(f, '_gcd') and hasattr(f, 'ring') and hasattr(f, '_gcd_zero') and hasattr(g, '_gcd_zero') and hasattr(f, '_gcd_monom') and hasattr(g, '_gcd_monom')"},"out":{"base":"Any","pred":"result satisfies: result == ((zero, zero, zero) if not f and (not g) else (h, cff, cfg) if not f else (h, cff, cfg) if not g else (h, cff, cfg) if len(f) == 1 else (h, cff, cfg))"},"spec":{"lhs":"cofactors(f, g)","rhs":"result == ((zero, zero, zero) if not f and (not g) else (h, cff, cfg) if not f else (h, cff, cfg) if not g else (h, cff, cfg) if len(f) == 1 else (h, cff, cfg))","over":{"base":"Any","pred":"hasattr(f, 'deflate') and hasattr(f, '_gcd') and hasattr(f, 'ring') and hasattr(f, '_gcd_zero') and hasattr(g, '_gcd_zero') and hasattr(f, '_gcd_monom') and hasattr(g, '_gcd_monom')"},"name":"cofactors_correct"},"guarantee":"result == ((zero, zero, zero) if not f and (not g) else (h, cff, cfg) if not f else (h, cff, cfg) if not g else (h, cff, cfg) if len(f) == 1 else (h, cff, cfg)); 5-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement.cofactors_correct","statement":"Path(cofactors(x), result == ((zero, zero, zero) if not f and (not g) else (h, cff, cfg) if not f else (h, cff, cfg) if not g else (h, cff, cfg) if len(f) == 1 else (h, cff, cfg)); 5-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6986fba84ac42af8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'deflate')","hasattr(f, '_gcd')","hasattr(f, 'ring')","hasattr(f, '_gcd_zero')","hasattr(g, '_gcd_zero')","hasattr(f, '_gcd_monom')","hasattr(g, '_gcd_monom')"],"ensures":["result == ((zero, zero, zero) if not f and (not g) else (h, cff, cfg) if not f else (h, cff, cfg) if not g else (h, cff, cfg) if len(f) == 1 else (h, cff, cfg))"],"fibers":[{"name":"case_0","guard":"not f and (not g)","ensures":["result == (zero, zero, zero)"],"decidability":"library","returns_expr":"(zero, zero, zero)"},{"name":"case_1","guard":"not f","ensures":["result == (h, cff, cfg)"],"decidability":"library","returns_expr":"(h, cff, cfg)"},{"name":"case_2","guard":"not g","ensures":["result == (h, cff, cfg)"],"decidability":"library","returns_expr":"(h, cff, cfg)"},{"name":"case_3","guard":"len(f) == 1","ensures":["result == (h, cff, cfg)"],"decidability":"z3","returns_expr":"(h, cff, cfg)"},{"name":"case_4","guard":"len(g) == 1","ensures":["result == (h, cff, cfg)"],"decidability":"z3","returns_expr":"(h, cff, cfg)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["f._gcd","f._gcd_monom","f._gcd_zero","f.deflate","f.ring","g._gcd_monom","g._gcd_zero"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def cofactors(f, g):
         if not f and not g:
             zero = f.ring.zero
@@ -3993,16 +5163,27 @@ class PolyElement(DomainElement, DefaultPrinting, CantSympify, dict):
         return (h.inflate(J), cff.inflate(J), cfg.inflate(J))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_gcd_zero(f, ), internal helper behaves correctly) over Any ║
+# ║ Path(_gcd_zero(f, g), result == ((g, zero, one) if g.is_nonnegative else (-g, zero, -one)) and result == (g, zero, one) or result == (-g, zero, -one)) over {Any | hasattr(g, 'is_nonnegative') and hasattr(f, 'ring')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _gcd_zero : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(g, 'is_nonnegative')                   ║
+# ║   requires: hasattr(f, 'ring')                             ║
+# ║   ensures:  result == ((g, zero, one) if g.is_nonnega...   ║
+# ║   ensures:  result == (g, zero, one) or result == (-g...   ║
+# ║   fiber[case_0]: g.is_nonnegative => (g, zero, one)        ║
+# ║   fiber[case_1]: not (g.is_nonnegative) => (-g, zero,...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _gcd_zero : {Any | hasattr(g, 'is_nonnegative') and h...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8269cb7a0ce60611  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d0810beeeafbfffd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement._gcd_zero","kind":"method","src_hash":"299a96aa2a54938a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_gcd_zero(f, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_gcd_zero_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement._gcd_zero_correct","statement":"Path(_gcd_zero(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8269cb7a0ce60611"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement._gcd_zero","kind":"method","src_hash":"299a96aa2a54938a","in":{"base":"Any","pred":"hasattr(g, 'is_nonnegative') and hasattr(f, 'ring')"},"out":{"base":"Any","pred":"result satisfies: result == ((g, zero, one) if g.is_nonnegative else (-g, zero, -one)) and result == (g, zero, one) or result == (-g, zero, -one)"},"spec":{"lhs":"_gcd_zero(f, g)","rhs":"result == ((g, zero, one) if g.is_nonnegative else (-g, zero, -one)) and result == (g, zero, one) or result == (-g, zero, -one)","over":{"base":"Any","pred":"hasattr(g, 'is_nonnegative') and hasattr(f, 'ring')"},"name":"_gcd_zero_correct"},"guarantee":"result == ((g, zero, one) if g.is_nonnegative else (-g, zero, -one)); result == (g, zero, one) or result == (-g, zero, -one); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement._gcd_zero_correct","statement":"Path(_gcd_zero(x), result == ((g, zero, one) if g.is_nonnegative else (-g, zero, -one)); result == (g, zero, one) or result == (-g, zero, -one); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d0810beeeafbfffd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(g, 'is_nonnegative')","hasattr(f, 'ring')"],"ensures":["result == ((g, zero, one) if g.is_nonnegative else (-g, zero, -one))","result == (g, zero, one) or result == (-g, zero, -one)"],"fibers":[{"name":"case_0","guard":"g.is_nonnegative","ensures":["result == (g, zero, one)"],"decidability":"library","returns_expr":"(g, zero, one)"},{"name":"case_1","guard":"not (g.is_nonnegative)","ensures":["result == (-g, zero, -one)"],"decidability":"library","returns_expr":"(-g, zero, -one)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["f.ring","g.is_nonnegative"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _gcd_zero(f, g):
         one, zero = f.ring.one, f.ring.zero
         if g.is_nonnegative:
@@ -4011,16 +5192,25 @@ class PolyElement(DomainElement, DefaultPrinting, CantSympify, dict):
             return -g, zero, -one
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_gcd_monom(f, ), internal helper behaves correctly) over Any ║
+# ║ Path(_gcd_monom(f, g), (h, cff, cfg)) over {Any | hasattr(f, 'ring') and hasattr(g, 'iterterms') and hasattr(f, 'new') and hasattr(f, 'iterterms')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _gcd_monom : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'ring')                             ║
+# ║   requires: hasattr(g, 'iterterms')                        ║
+# ║   requires: hasattr(f, 'new')                              ║
+# ║   returns:  (h, cff, cfg)                                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _gcd_monom : {Any | hasattr(f, 'ring') and hasattr(g,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a77b88f2d716f837  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8bbc3012b8314ed1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement._gcd_monom","kind":"method","src_hash":"17217ec67c0d0ec1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_gcd_monom(f, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_gcd_monom_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement._gcd_monom_correct","statement":"Path(_gcd_monom(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a77b88f2d716f837"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement._gcd_monom","kind":"method","src_hash":"17217ec67c0d0ec1","in":{"base":"Any","pred":"hasattr(f, 'ring') and hasattr(g, 'iterterms') and hasattr(f, 'new') and hasattr(f, 'iterterms')"},"out":{"base":"Any"},"spec":{"lhs":"_gcd_monom(f, g)","rhs":"(h, cff, cfg)","over":{"base":"Any","pred":"hasattr(f, 'ring') and hasattr(g, 'iterterms') and hasattr(f, 'new') and hasattr(f, 'iterterms')"},"name":"_gcd_monom_correct"},"guarantee":"returns (h, cff, cfg)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement._gcd_monom_correct","statement":"Path(_gcd_monom(x), returns (h, cff, cfg))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8bbc3012b8314ed1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'ring')","hasattr(g, 'iterterms')","hasattr(f, 'new')","hasattr(f, 'iterterms')"],"returns_expr":"(h, cff, cfg)","pure":false,"effects":{"effect_type":"reads_state","reads":["f.iterterms","f.new","f.ring","g.iterterms"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _gcd_monom(f, g):
         ring = f.ring
         ground_gcd = ring.domain.gcd
@@ -4038,16 +5228,29 @@ class PolyElement(DomainElement, DefaultPrinting, CantSympify, dict):
         return h, cff, cfg
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_gcd(f, ), internal helper behaves correctly) over Any ║
+# ║ Path(_gcd(f, g), result == (f._gcd_QQ(g) if ring.domain.is_QQ else f._gcd_ZZ(g) if ring.domain.is_ZZ else ring.dmp_inner_gcd(f, g)) and result == f._gcd_QQ(g) or result == f._gcd_ZZ(g) or result == ring.dmp_inner_gcd(f, g)) over {Any | hasattr(f, 'ring') and hasattr(f, '_gcd_QQ') and hasattr(f, '_gcd_ZZ')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _gcd : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'ring')                             ║
+# ║   requires: hasattr(f, '_gcd_QQ')                          ║
+# ║   requires: hasattr(f, '_gcd_ZZ')                          ║
+# ║   ensures:  result == (f._gcd_QQ(g) if ring.domain.is...   ║
+# ║   ensures:  result == f._gcd_QQ(g) or result == f._gc...   ║
+# ║   fiber[case_0]: ring.domain.is_QQ => f._gcd_QQ(g)         ║
+# ║   fiber[case_1]: ring.domain.is_ZZ => f._gcd_ZZ(g)         ║
+# ║   fiber[case_2]: not (ring.domain.is_QQ) and not (rin...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _gcd : {Any | hasattr(f, 'ring') and hasattr(f, '_gcd...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 602f00c3d728f294  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 491269e12116747b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement._gcd","kind":"method","src_hash":"ebded662c9d8e1bf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_gcd(f, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_gcd_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement._gcd_correct","statement":"Path(_gcd(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"602f00c3d728f294"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement._gcd","kind":"method","src_hash":"ebded662c9d8e1bf","in":{"base":"Any","pred":"hasattr(f, 'ring') and hasattr(f, '_gcd_QQ') and hasattr(f, '_gcd_ZZ')"},"out":{"base":"Any","pred":"result satisfies: result == (f._gcd_QQ(g) if ring.domain.is_QQ else f._gcd_ZZ(g) if ring.domain.is_ZZ else ring.dmp_inner_gcd(f, g)) and result == f._gcd_QQ(g) or result == f._gcd_ZZ(g) or result == ring.dmp_inner_gcd(f, g)"},"spec":{"lhs":"_gcd(f, g)","rhs":"result == (f._gcd_QQ(g) if ring.domain.is_QQ else f._gcd_ZZ(g) if ring.domain.is_ZZ else ring.dmp_inner_gcd(f, g)) and result == f._gcd_QQ(g) or result == f._gcd_ZZ(g) or result == ring.dmp_inner_gcd(f, g)","over":{"base":"Any","pred":"hasattr(f, 'ring') and hasattr(f, '_gcd_QQ') and hasattr(f, '_gcd_ZZ')"},"name":"_gcd_correct"},"guarantee":"result == (f._gcd_QQ(g) if ring.domain.is_QQ else f._gcd_ZZ(g) if ring.domain.is_ZZ else ring.dmp_inner_gcd(f, g)); result == f._gcd_QQ(g) or result == f._gcd_ZZ(g) or result == ring.dmp_inner_gcd(f, g); 3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement._gcd_correct","statement":"Path(_gcd(x), result == (f._gcd_QQ(g) if ring.domain.is_QQ else f._gcd_ZZ(g) if ring.domain.is_ZZ else ring.dmp_inner_gcd(f, g)); result == f._gcd_QQ(g) or result == f._gcd_ZZ(g) or result == ring.dmp_inner_gcd(f, g); 3-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"491269e12116747b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'ring')","hasattr(f, '_gcd_QQ')","hasattr(f, '_gcd_ZZ')"],"ensures":["result == (f._gcd_QQ(g) if ring.domain.is_QQ else f._gcd_ZZ(g) if ring.domain.is_ZZ else ring.dmp_inner_gcd(f, g))","result == f._gcd_QQ(g) or result == f._gcd_ZZ(g) or result == ring.dmp_inner_gcd(f, g)"],"fibers":[{"name":"case_0","guard":"ring.domain.is_QQ","ensures":["result == f._gcd_QQ(g)"],"decidability":"library","returns_expr":"f._gcd_QQ(g)"},{"name":"case_1","guard":"ring.domain.is_ZZ","ensures":["result == f._gcd_ZZ(g)"],"decidability":"library","returns_expr":"f._gcd_ZZ(g)"},{"name":"case_2","guard":"not (ring.domain.is_QQ) and not (ring.domain.is_ZZ)","ensures":["result == ring.dmp_inner_gcd(f, g)"],"decidability":"library","returns_expr":"ring.dmp_inner_gcd(f, g)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["f._gcd_QQ","f._gcd_ZZ","f.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _gcd(f, g):
         ring = f.ring
 
@@ -4059,30 +5262,44 @@ class PolyElement(DomainElement, DefaultPrinting, CantSympify, dict):
             return ring.dmp_inner_gcd(f, g)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_gcd_ZZ(f, ), internal helper behaves correctly) over Any ║
+# ║ Path(_gcd_ZZ(f, g), heugcd(f, g)) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  heugcd(f, g)                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _gcd_ZZ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 991c4bbfc2e5eba0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement._gcd_ZZ","kind":"method","src_hash":"4519748036a699b2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_gcd_ZZ(f, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_gcd_ZZ_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"991c4bbfc2e5eba0"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement._gcd_ZZ","kind":"method","src_hash":"4519748036a699b2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_gcd_ZZ(f, g)","rhs":"heugcd(f, g)","over":{"base":"Any"},"name":"_gcd_ZZ_correct"},"guarantee":"returns heugcd(f, g)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"991c4bbfc2e5eba0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"heugcd(f, g)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _gcd_ZZ(f, g):
         return heugcd(f, g)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_gcd_QQ(g), internal helper behaves correctly) over Any ║
+# ║ Path(_gcd_QQ(g), (h, cff, cfg)) over {Any | hasattr(g, 'clear_denoms') and hasattr(g, 'set_ring')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _gcd_QQ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(g, 'clear_denoms')                     ║
+# ║   requires: hasattr(g, 'set_ring')                         ║
+# ║   returns:  (h, cff, cfg)                                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _gcd_QQ : {Any | hasattr(g, 'clear_denoms') and hasat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 80c4e7069f6cdf36  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 60e3ceed4261fabd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement._gcd_QQ","kind":"method","src_hash":"dc0b8cbb8d35e447","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_gcd_QQ(g)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_gcd_QQ_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement._gcd_QQ_correct","statement":"Path(_gcd_QQ(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"80c4e7069f6cdf36"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement._gcd_QQ","kind":"method","src_hash":"dc0b8cbb8d35e447","in":{"base":"Any","pred":"hasattr(g, 'clear_denoms') and hasattr(g, 'set_ring')"},"out":{"base":"Any"},"spec":{"lhs":"_gcd_QQ(g)","rhs":"(h, cff, cfg)","over":{"base":"Any","pred":"hasattr(g, 'clear_denoms') and hasattr(g, 'set_ring')"},"name":"_gcd_QQ_correct"},"guarantee":"returns (h, cff, cfg)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement._gcd_QQ_correct","statement":"Path(_gcd_QQ(x), returns (h, cff, cfg))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"60e3ceed4261fabd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(g, 'clear_denoms')","hasattr(g, 'set_ring')"],"returns_expr":"(h, cff, cfg)","pure":false,"effects":{"effect_type":"reads_state","reads":["g.clear_denoms","g.set_ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _gcd_QQ(self, g):
         f = self
         ring = f.ring
@@ -4105,16 +5322,24 @@ class PolyElement(DomainElement, DefaultPrinting, CantSympify, dict):
         return h, cff, cfg
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(cancel(g), cancel common factors in a rational function ``f/g``) over Any ║
+# ║ Path(cancel(g), <unspecified:cancel>) over {Any | hasattr(g, 'clear_denoms') and hasattr(g, 'set_ring')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ cancel : Any → Any                                         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(g, 'clear_denoms')                     ║
+# ║   requires: hasattr(g, 'set_ring')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ cancel : {Any | hasattr(g, 'clear_denoms') and hasatt...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | efa266014cf3afe7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.cancel","kind":"method","src_hash":"d24e666b6e57912f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"cancel(g)","rhs":"cancel common factors in a rational function ``f/g``","over":{"base":"Any"},"name":"cancel_correct"},"guarantee":"cancel common factors in a rational function ``f/g``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement.cancel_correct","statement":"Path(cancel(x), cancel common factors in a rational function ``f/g``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"efa266014cf3afe7"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.cancel","kind":"method","src_hash":"d24e666b6e57912f","in":{"base":"Any","pred":"hasattr(g, 'clear_denoms') and hasattr(g, 'set_ring')"},"out":{"base":"Any"},"spec":{"lhs":"cancel(g)","rhs":"<unspecified:cancel>","over":{"base":"Any","pred":"hasattr(g, 'clear_denoms') and hasattr(g, 'set_ring')"},"name":"cancel_correct"},"guarantee":"cancel common factors in a rational function ``f/g``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement.cancel_correct","statement":"Path(cancel(x), cancel common factors in a rational function ``f/g``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"efa266014cf3afe7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(g, 'clear_denoms')","hasattr(g, 'set_ring')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["g.clear_denoms","g.set_ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def cancel(self, g):
         """
         Cancel common factors in a rational function ``f/g``.
@@ -4172,31 +5397,47 @@ class PolyElement(DomainElement, DefaultPrinting, CantSympify, dict):
         return p, q
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(canonical_unit(f), canonical_unit produces the expected output) over Any ║
+# ║ Path(canonical_unit(f), domain.canonical_unit(f.LC)) over {Any | hasattr(f, 'ring') and hasattr(f, 'LC')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ canonical_unit : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'ring')                             ║
+# ║   requires: hasattr(f, 'LC')                               ║
+# ║   returns:  domain.canonical_unit(f.LC)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ canonical_unit : {Any | hasattr(f, 'ring') and hasatt...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8a67954889b22143  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3572273cffd4e734  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.canonical_unit","kind":"method","src_hash":"011a1697f2fe1a50","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"canonical_unit(f)","rhs":"canonical_unit produces the expected output","over":{"base":"Any"},"name":"canonical_unit_correct"},"guarantee":"canonical_unit produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement.canonical_unit_correct","statement":"Path(canonical_unit(x), canonical_unit produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8a67954889b22143"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.canonical_unit","kind":"method","src_hash":"011a1697f2fe1a50","in":{"base":"Any","pred":"hasattr(f, 'ring') and hasattr(f, 'LC')"},"out":{"base":"Any"},"spec":{"lhs":"canonical_unit(f)","rhs":"domain.canonical_unit(f.LC)","over":{"base":"Any","pred":"hasattr(f, 'ring') and hasattr(f, 'LC')"},"name":"canonical_unit_correct"},"guarantee":"returns domain.canonical_unit(f.LC)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement.canonical_unit_correct","statement":"Path(canonical_unit(x), returns domain.canonical_unit(f.LC))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3572273cffd4e734","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'ring')","hasattr(f, 'LC')"],"returns_expr":"domain.canonical_unit(f.LC)","pure":false,"effects":{"effect_type":"reads_state","reads":["f.LC","f.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def canonical_unit(f):
         domain = f.ring.domain
         return domain.canonical_unit(f.LC)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(diff(f, ), computes partial derivative in ``x``) over Any ║
+# ║ Path(diff(f, x), <unspecified:diff>) over {Any | hasattr(f, 'ring') and hasattr(f, 'iterterms')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ diff : Any → Any                                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(f, 'ring')                             ║
+# ║   requires: hasattr(f, 'iterterms')                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ diff : {Any | hasattr(f, 'ring') and hasattr(f, 'iter...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2d232fcbb4d40dee  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.diff","kind":"method","src_hash":"43eb482abfb41b7d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"diff(f, )","rhs":"computes partial derivative in ``x``","over":{"base":"Any"},"name":"diff_correct"},"guarantee":"computes partial derivative in ``x``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement.diff_correct","statement":"Path(diff(x), computes partial derivative in ``x``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2d232fcbb4d40dee"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.diff","kind":"method","src_hash":"43eb482abfb41b7d","in":{"base":"Any","pred":"hasattr(f, 'ring') and hasattr(f, 'iterterms')"},"out":{"base":"Any"},"spec":{"lhs":"diff(f, x)","rhs":"<unspecified:diff>","over":{"base":"Any","pred":"hasattr(f, 'ring') and hasattr(f, 'iterterms')"},"name":"diff_correct"},"guarantee":"computes partial derivative in ``x``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement.diff_correct","statement":"Path(diff(x), computes partial derivative in ``x``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2d232fcbb4d40dee","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(f, 'ring')","hasattr(f, 'iterterms')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["f.iterterms","f.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def diff(f, x):
         """Computes partial derivative in ``x``.
 
@@ -4223,16 +5464,25 @@ class PolyElement(DomainElement, DefaultPrinting, CantSympify, dict):
         return g
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__call__(f, ), correctly applies the callable) over Any ║
+# ║ Path(__call__(f, *values), <unspecified:__call__>) over {Any | hasattr(f, 'ring') and hasattr(f, 'evaluate')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __call__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'ring')                             ║
+# ║   requires: hasattr(f, 'evaluate')                         ║
+# ║   fiber[case_0]: 0 < len(values) <= f.ring.ngens => f...   ║
+# ║   fiber[case_1]: not (0 < len(values) <= f.ring.ngens)     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __call__ : {Any | hasattr(f, 'ring') and hasattr(f, '...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 58a7662c35a6b3f8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.__call__","kind":"method","src_hash":"bb6ef6af12f86b3a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__call__(f, )","rhs":"correctly applies the callable","over":{"base":"Any"},"name":"__call___correct"},"guarantee":"correctly applies the callable","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"58a7662c35a6b3f8"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.__call__","kind":"method","src_hash":"bb6ef6af12f86b3a","in":{"base":"Any","pred":"hasattr(f, 'ring') and hasattr(f, 'evaluate')"},"out":{"base":"Any"},"spec":{"lhs":"__call__(f, *values)","rhs":"<unspecified:__call__>","over":{"base":"Any","pred":"hasattr(f, 'ring') and hasattr(f, 'evaluate')"},"name":"__call___correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"58a7662c35a6b3f8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'ring')","hasattr(f, 'evaluate')"],"fibers":[{"name":"case_0","guard":"0 < len(values) <= f.ring.ngens","ensures":["result == f.evaluate(list(zip(f.ring.gens, values)))"],"decidability":"z3","returns_expr":"f.evaluate(list(zip(f.ring.gens, values)))"},{"name":"case_1","guard":"not (0 < len(values) <= f.ring.ngens)","ensures":[],"decidability":"z3"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["f.evaluate","f.ring"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __call__(f, *values):
         if 0 < len(values) <= f.ring.ngens:
             return f.evaluate(list(zip(f.ring.gens, values)))
@@ -4240,16 +5490,22 @@ class PolyElement(DomainElement, DefaultPrinting, CantSympify, dict):
             raise ValueError("expected at least 1 and at most %s values, got %s" % (f.ring.ngens, len(values)))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(evaluate(x, ), evaluate produces the expected output) over Any ║
+# ║ Path(evaluate(x, a), <unspecified:evaluate>) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ evaluate : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | df95745cb30accdd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.evaluate","kind":"method","src_hash":"bce069a09050637c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"evaluate(x, )","rhs":"evaluate produces the expected output","over":{"base":"Any"},"name":"evaluate_correct"},"guarantee":"evaluate produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement.evaluate_correct","statement":"Path(evaluate(x), evaluate produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"df95745cb30accdd"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.evaluate","kind":"method","src_hash":"bce069a09050637c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"evaluate(x, a)","rhs":"<unspecified:evaluate>","over":{"base":"Any"},"name":"evaluate_correct"},"guarantee":"evaluate produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement.evaluate_correct","statement":"Path(evaluate(x), evaluate produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"df95745cb30accdd","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def evaluate(self, x, a=None):
         f = self
 
@@ -4295,16 +5551,22 @@ class PolyElement(DomainElement, DefaultPrinting, CantSympify, dict):
             return poly
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(subs(x, ), subs produces the expected output) over Any ║
+# ║ Path(subs(x, a), <unspecified:subs>) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ subs : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f221c29de5fe65da  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.subs","kind":"method","src_hash":"97d3d246b4d58e5d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"subs(x, )","rhs":"subs produces the expected output","over":{"base":"Any"},"name":"subs_correct"},"guarantee":"subs produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement.subs_correct","statement":"Path(subs(x), subs produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f221c29de5fe65da"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.subs","kind":"method","src_hash":"97d3d246b4d58e5d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"subs(x, a)","rhs":"<unspecified:subs>","over":{"base":"Any"},"name":"subs_correct"},"guarantee":"subs produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement.subs_correct","statement":"Path(subs(x), subs produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f221c29de5fe65da","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def subs(self, x, a=None):
         f = self
 
@@ -4345,16 +5607,22 @@ class PolyElement(DomainElement, DefaultPrinting, CantSympify, dict):
             return poly
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(symmetrize(), rewrite *self* in terms of elementary symmetric polynomials) over Any ║
+# ║ Path(symmetrize(), <unspecified:symmetrize>) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ symmetrize : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b1dbad107c570db3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.symmetrize","kind":"method","src_hash":"c51f20aaf7a5b421","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"symmetrize()","rhs":"rewrite *self* in terms of elementary symmetric polynomials","over":{"base":"Any"},"name":"symmetrize_correct"},"guarantee":"rewrite *self* in terms of elementary symmetric polynomials","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement.symmetrize_correct","statement":"Path(symmetrize(x), rewrite *self* in terms of elementary symmetric polynomials)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b1dbad107c570db3"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.symmetrize","kind":"method","src_hash":"c51f20aaf7a5b421","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"symmetrize()","rhs":"<unspecified:symmetrize>","over":{"base":"Any"},"name":"symmetrize_correct"},"guarantee":"rewrite *self* in terms of elementary symmetric polynomials","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement.symmetrize_correct","statement":"Path(symmetrize(x), rewrite *self* in terms of elementary symmetric polynomials)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b1dbad107c570db3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def symmetrize(self):
         r"""
         Rewrite *self* in terms of elementary symmetric polynomials.
@@ -4465,16 +5733,25 @@ class PolyElement(DomainElement, DefaultPrinting, CantSympify, dict):
         return symmetric, f, mapping
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(compose(f, ), compose produces the expected output) over Any ║
+# ║ Path(compose(f, x, a), <unspecified:compose>) over {Any | hasattr(f, 'ring') and hasattr(f, 'iterterms') and hasattr(x, 'items')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ compose : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(f, 'ring')                             ║
+# ║   requires: hasattr(f, 'iterterms')                        ║
+# ║   requires: hasattr(x, 'items')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ compose : {Any | hasattr(f, 'ring') and hasattr(f, 'i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1b5812172030d18f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.compose","kind":"method","src_hash":"4c6f6682d7a4493b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"compose(f, )","rhs":"compose produces the expected output","over":{"base":"Any"},"name":"compose_correct"},"guarantee":"compose produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement.compose_correct","statement":"Path(compose(x), compose produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1b5812172030d18f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.compose","kind":"method","src_hash":"4c6f6682d7a4493b","in":{"base":"Any","pred":"hasattr(f, 'ring') and hasattr(f, 'iterterms') and hasattr(x, 'items')"},"out":{"base":"Any"},"spec":{"lhs":"compose(f, x, a)","rhs":"<unspecified:compose>","over":{"base":"Any","pred":"hasattr(f, 'ring') and hasattr(f, 'iterterms') and hasattr(x, 'items')"},"name":"compose_correct"},"guarantee":"compose produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement.compose_correct","statement":"Path(compose(x), compose produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1b5812172030d18f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(f, 'ring')","hasattr(f, 'iterterms')","hasattr(x, 'items')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["f.iterterms","f.ring","x.items"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def compose(f, x, a=None):
         ring = f.ring
         poly = ring.zero
@@ -4508,16 +5785,22 @@ class PolyElement(DomainElement, DefaultPrinting, CantSympify, dict):
         return poly
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(coeff_wrt(x, ), coefficient of ``self`` with respect to ``x**deg``) over Any ║
+# ║ Path(coeff_wrt(x, deg), <unspecified:coeff_wrt>) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ coeff_wrt : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1bc2b3a4877438ef  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.coeff_wrt","kind":"method","src_hash":"72dde64e079636fd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"coeff_wrt(x, )","rhs":"coefficient of ``self`` with respect to ``x**deg``","over":{"base":"Any"},"name":"coeff_wrt_correct"},"guarantee":"coefficient of ``self`` with respect to ``x**deg``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement.coeff_wrt_correct","statement":"Path(coeff_wrt(x), coefficient of ``self`` with respect to ``x**deg``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1bc2b3a4877438ef"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.coeff_wrt","kind":"method","src_hash":"72dde64e079636fd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"coeff_wrt(x, deg)","rhs":"<unspecified:coeff_wrt>","over":{"base":"Any"},"name":"coeff_wrt_correct"},"guarantee":"coefficient of ``self`` with respect to ``x**deg``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement.coeff_wrt_correct","statement":"Path(coeff_wrt(x), coefficient of ``self`` with respect to ``x**deg``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1bc2b3a4877438ef","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def coeff_wrt(self, x, deg):
         """
         Coefficient of ``self`` with respect to ``x**deg``.
@@ -4572,16 +5855,25 @@ class PolyElement(DomainElement, DefaultPrinting, CantSympify, dict):
         return p.ring.from_dict(dict(zip(monoms, coeffs)))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(prem(g, ), pseudo-remainder of the polynomial ``self`` with respect to ``g``) over Any ║
+# ║ Path(prem(g, x), <unspecified:prem>) over {Any | not (dg < 0) and hasattr(g, 'degree') and hasattr(g, 'coeff_wrt')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ prem : Any → Any                                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (dg < 0)                                   ║
+# ║   requires: hasattr(g, 'degree')                           ║
+# ║   requires: hasattr(g, 'coeff_wrt')                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ prem : {Any | not (dg < 0) and hasattr(g, 'degree') a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6e2b1d159ae587d0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.prem","kind":"method","src_hash":"ae053b695a4a2a40","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"prem(g, )","rhs":"pseudo-remainder of the polynomial ``self`` with respect to ``g``","over":{"base":"Any"},"name":"prem_correct"},"guarantee":"pseudo-remainder of the polynomial ``self`` with respect to ``g``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement.prem_correct","statement":"Path(prem(x), pseudo-remainder of the polynomial ``self`` with respect to ``g``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6e2b1d159ae587d0"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.prem","kind":"method","src_hash":"ae053b695a4a2a40","in":{"base":"Any","pred":"not (dg < 0) and hasattr(g, 'degree') and hasattr(g, 'coeff_wrt')"},"out":{"base":"Any"},"spec":{"lhs":"prem(g, x)","rhs":"<unspecified:prem>","over":{"base":"Any","pred":"not (dg < 0) and hasattr(g, 'degree') and hasattr(g, 'coeff_wrt')"},"name":"prem_correct"},"guarantee":"pseudo-remainder of the polynomial ``self`` with respect to ``g``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement.prem_correct","statement":"Path(prem(x), pseudo-remainder of the polynomial ``self`` with respect to ``g``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6e2b1d159ae587d0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (dg < 0)","hasattr(g, 'degree')","hasattr(g, 'coeff_wrt')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["g.coeff_wrt","g.degree"],"raises":["ZeroDivisionError"]},"state_contract":{"exceptional_post":{"ZeroDivisionError":["isinstance(raised, ZeroDivisionError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def prem(self, g, x=None):
         """
         Pseudo-remainder of the polynomial ``self`` with respect to ``g``.
@@ -4674,16 +5966,25 @@ class PolyElement(DomainElement, DefaultPrinting, CantSympify, dict):
         return r * c
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(pdiv(g, ), computes the pseudo-division of the polynomial ``self`` with respect to ``g``) over Any ║
+# ║ Path(pdiv(g, x), <unspecified:pdiv>) over {Any | not (dg < 0) and hasattr(g, 'degree') and hasattr(g, 'coeff_wrt')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ pdiv : Any → Any                                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (dg < 0)                                   ║
+# ║   requires: hasattr(g, 'degree')                           ║
+# ║   requires: hasattr(g, 'coeff_wrt')                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ pdiv : {Any | not (dg < 0) and hasattr(g, 'degree') a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bbe0476f0d0e7204  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.pdiv","kind":"method","src_hash":"f291714f692645e2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pdiv(g, )","rhs":"computes the pseudo-division of the polynomial ``self`` with respect to ``g``","over":{"base":"Any"},"name":"pdiv_correct"},"guarantee":"computes the pseudo-division of the polynomial ``self`` with respect to ``g``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement.pdiv_correct","statement":"Path(pdiv(x), computes the pseudo-division of the polynomial ``self`` with respect to ``g``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bbe0476f0d0e7204"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.pdiv","kind":"method","src_hash":"f291714f692645e2","in":{"base":"Any","pred":"not (dg < 0) and hasattr(g, 'degree') and hasattr(g, 'coeff_wrt')"},"out":{"base":"Any"},"spec":{"lhs":"pdiv(g, x)","rhs":"<unspecified:pdiv>","over":{"base":"Any","pred":"not (dg < 0) and hasattr(g, 'degree') and hasattr(g, 'coeff_wrt')"},"name":"pdiv_correct"},"guarantee":"computes the pseudo-division of the polynomial ``self`` with respect to ``g``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement.pdiv_correct","statement":"Path(pdiv(x), computes the pseudo-division of the polynomial ``self`` with respect to ``g``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bbe0476f0d0e7204","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (dg < 0)","hasattr(g, 'degree')","hasattr(g, 'coeff_wrt')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["g.coeff_wrt","g.degree"],"raises":["ZeroDivisionError"]},"state_contract":{"exceptional_post":{"ZeroDivisionError":["isinstance(raised, ZeroDivisionError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def pdiv(self, g, x=None):
         """
         Computes the pseudo-division of the polynomial ``self`` with respect to ``g``.
@@ -4811,16 +6112,22 @@ class PolyElement(DomainElement, DefaultPrinting, CantSympify, dict):
         return q, r
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(pquo(g, ), polynomial pseudo-quotient in multivariate polynomial ring) over Any ║
+# ║ Path(pquo(g, x), f.pdiv(g, x)[0]) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  f.pdiv(g, x)[0]                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ pquo : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d5abecdd06dc8ae4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8856e3cf7651723f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.pquo","kind":"method","src_hash":"97a5616c1d6e3f00","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pquo(g, )","rhs":"polynomial pseudo-quotient in multivariate polynomial ring","over":{"base":"Any"},"name":"pquo_correct"},"guarantee":"polynomial pseudo-quotient in multivariate polynomial ring","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement.pquo_correct","statement":"Path(pquo(x), polynomial pseudo-quotient in multivariate polynomial ring)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d5abecdd06dc8ae4"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.pquo","kind":"method","src_hash":"97a5616c1d6e3f00","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pquo(g, x)","rhs":"f.pdiv(g, x)[0]","over":{"base":"Any"},"name":"pquo_correct"},"guarantee":"returns f.pdiv(g, x)[0]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement.pquo_correct","statement":"Path(pquo(x), returns f.pdiv(g, x)[0])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8856e3cf7651723f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"f.pdiv(g, x)[0]","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def pquo(self, g, x=None):
         """
         Polynomial pseudo-quotient in multivariate polynomial ring.
@@ -4852,16 +6159,23 @@ class PolyElement(DomainElement, DefaultPrinting, CantSympify, dict):
         return f.pdiv(g, x)[0]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(pexquo(g, ), polynomial exact pseudo-quotient in multivariate polynomial ring) over Any ║
+# ║ Path(pexquo(g, x), <unspecified:pexquo>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: r.is_zero => q                            ║
+# ║   fiber[case_1]: not (r.is_zero)                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ pexquo : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cebd311ee045125b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dfb72feecc67b541  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.pexquo","kind":"method","src_hash":"b1a1e96058f752db","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pexquo(g, )","rhs":"polynomial exact pseudo-quotient in multivariate polynomial ring","over":{"base":"Any"},"name":"pexquo_correct"},"guarantee":"polynomial exact pseudo-quotient in multivariate polynomial ring","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement.pexquo_correct","statement":"Path(pexquo(x), polynomial exact pseudo-quotient in multivariate polynomial ring)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cebd311ee045125b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.pexquo","kind":"method","src_hash":"b1a1e96058f752db","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pexquo(g, x)","rhs":"<unspecified:pexquo>","over":{"base":"Any"},"name":"pexquo_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement.pexquo_correct","statement":"Path(pexquo(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dfb72feecc67b541","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"r.is_zero","ensures":["result == q"],"decidability":"library","returns_expr":"q"},{"name":"case_1","guard":"not (r.is_zero)","ensures":[],"decidability":"library"}],"pure":false,"effects":{"effect_type":"reads_state","raises":["ExactQuotientFailed"]},"state_contract":{"exceptional_post":{"ExactQuotientFailed":["isinstance(raised, ExactQuotientFailed)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def pexquo(self, g, x=None):
         """
         Polynomial exact pseudo-quotient in multivariate polynomial ring.
@@ -4900,16 +6214,24 @@ class PolyElement(DomainElement, DefaultPrinting, CantSympify, dict):
             raise ExactQuotientFailed(f, g)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(subresultants(g, ), computes the subresultant prs of two polynomials ``self`` and ``g``) over Any ║
+# ║ Path(subresultants(g, x), <unspecified:subresultants>) over {Any | hasattr(g, 'degree') and hasattr(g, 'coeff_wrt')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ subresultants : Any → Any                                  ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(g, 'degree')                           ║
+# ║   requires: hasattr(g, 'coeff_wrt')                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ subresultants : {Any | hasattr(g, 'degree') and hasat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aa5ba82b02eb1ae9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.subresultants","kind":"method","src_hash":"9742dd16c5f90f88","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"subresultants(g, )","rhs":"computes the subresultant prs of two polynomials ``self`` and ``g``","over":{"base":"Any"},"name":"subresultants_correct"},"guarantee":"computes the subresultant prs of two polynomials ``self`` and ``g``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement.subresultants_correct","statement":"Path(subresultants(x), computes the subresultant prs of two polynomials ``self`` and ``g``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aa5ba82b02eb1ae9"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.subresultants","kind":"method","src_hash":"9742dd16c5f90f88","in":{"base":"Any","pred":"hasattr(g, 'degree') and hasattr(g, 'coeff_wrt')"},"out":{"base":"Any"},"spec":{"lhs":"subresultants(g, x)","rhs":"<unspecified:subresultants>","over":{"base":"Any","pred":"hasattr(g, 'degree') and hasattr(g, 'coeff_wrt')"},"name":"subresultants_correct"},"guarantee":"computes the subresultant prs of two polynomials ``self`` and ``g``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement.subresultants_correct","statement":"Path(subresultants(x), computes the subresultant prs of two polynomials ``self`` and ``g``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aa5ba82b02eb1ae9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(g, 'degree')","hasattr(g, 'coeff_wrt')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def subresultants(self, g, x=None):
         """
         Computes the subresultant PRS of two polynomials ``self`` and ``g``.
@@ -5004,72 +6326,108 @@ class PolyElement(DomainElement, DefaultPrinting, CantSympify, dict):
     # representation independent algorithm implementations.
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(half_gcdex(f, ), half_gcdex produces the expected output) over Any ║
+# ║ Path(half_gcdex(f, g), f.ring.dmp_half_gcdex(f, g)) over {Any | hasattr(f, 'ring')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ half_gcdex : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'ring')                             ║
+# ║   returns:  f.ring.dmp_half_gcdex(f, g)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ half_gcdex : {Any | hasattr(f, 'ring')} → Any              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f4c227fb1ad849e1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.half_gcdex","kind":"method","src_hash":"624da54fa7c64ec0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"half_gcdex(f, )","rhs":"half_gcdex produces the expected output","over":{"base":"Any"},"name":"half_gcdex_correct"},"guarantee":"half_gcdex produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f4c227fb1ad849e1"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.half_gcdex","kind":"method","src_hash":"624da54fa7c64ec0","in":{"base":"Any","pred":"hasattr(f, 'ring')"},"out":{"base":"Any"},"spec":{"lhs":"half_gcdex(f, g)","rhs":"f.ring.dmp_half_gcdex(f, g)","over":{"base":"Any","pred":"hasattr(f, 'ring')"},"name":"half_gcdex_correct"},"guarantee":"returns f.ring.dmp_half_gcdex(f, g)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f4c227fb1ad849e1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'ring')"],"returns_expr":"f.ring.dmp_half_gcdex(f, g)","pure":false,"effects":{"effect_type":"reads_state","reads":["f.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def half_gcdex(f, g):
         return f.ring.dmp_half_gcdex(f, g)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gcdex(f, ), gcdex produces the expected output) over Any ║
+# ║ Path(gcdex(f, g), f.ring.dmp_gcdex(f, g)) over {Any | hasattr(f, 'ring')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ gcdex : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'ring')                             ║
+# ║   returns:  f.ring.dmp_gcdex(f, g)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ gcdex : {Any | hasattr(f, 'ring')} → Any                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 279ef76e82822bae           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.gcdex","kind":"method","src_hash":"2ef14f86840d99e8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gcdex(f, )","rhs":"gcdex produces the expected output","over":{"base":"Any"},"name":"gcdex_correct"},"guarantee":"gcdex produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"279ef76e82822bae"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.gcdex","kind":"method","src_hash":"2ef14f86840d99e8","in":{"base":"Any","pred":"hasattr(f, 'ring')"},"out":{"base":"Any"},"spec":{"lhs":"gcdex(f, g)","rhs":"f.ring.dmp_gcdex(f, g)","over":{"base":"Any","pred":"hasattr(f, 'ring')"},"name":"gcdex_correct"},"guarantee":"returns f.ring.dmp_gcdex(f, g)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"279ef76e82822bae","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'ring')"],"returns_expr":"f.ring.dmp_gcdex(f, g)","pure":false,"effects":{"effect_type":"reads_state","reads":["f.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def gcdex(f, g):
         return f.ring.dmp_gcdex(f, g)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(resultant(f, ), resultant produces the expected output) over Any ║
+# ║ Path(resultant(f, g), f.ring.dmp_resultant(f, g)) over {Any | hasattr(f, 'ring')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ resultant : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'ring')                             ║
+# ║   returns:  f.ring.dmp_resultant(f, g)                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ resultant : {Any | hasattr(f, 'ring')} → Any               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 97947a6d296b3f84           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.resultant","kind":"method","src_hash":"0e69f3082feadbe1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"resultant(f, )","rhs":"resultant produces the expected output","over":{"base":"Any"},"name":"resultant_correct"},"guarantee":"resultant produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"97947a6d296b3f84"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.resultant","kind":"method","src_hash":"0e69f3082feadbe1","in":{"base":"Any","pred":"hasattr(f, 'ring')"},"out":{"base":"Any"},"spec":{"lhs":"resultant(f, g)","rhs":"f.ring.dmp_resultant(f, g)","over":{"base":"Any","pred":"hasattr(f, 'ring')"},"name":"resultant_correct"},"guarantee":"returns f.ring.dmp_resultant(f, g)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"97947a6d296b3f84","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'ring')"],"returns_expr":"f.ring.dmp_resultant(f, g)","pure":false,"effects":{"effect_type":"reads_state","reads":["f.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def resultant(f, g):
         return f.ring.dmp_resultant(f, g)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(discriminant(f), discriminant produces the expected output) over Any ║
+# ║ Path(discriminant(f), f.ring.dmp_discriminant(f)) over {Any | hasattr(f, 'ring')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ discriminant : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'ring')                             ║
+# ║   returns:  f.ring.dmp_discriminant(f)                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ discriminant : {Any | hasattr(f, 'ring')} → Any            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 221fdd8d1069264a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.discriminant","kind":"method","src_hash":"b16d2f0ea8699bc5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"discriminant(f)","rhs":"discriminant produces the expected output","over":{"base":"Any"},"name":"discriminant_correct"},"guarantee":"discriminant produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"221fdd8d1069264a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.discriminant","kind":"method","src_hash":"b16d2f0ea8699bc5","in":{"base":"Any","pred":"hasattr(f, 'ring')"},"out":{"base":"Any"},"spec":{"lhs":"discriminant(f)","rhs":"f.ring.dmp_discriminant(f)","over":{"base":"Any","pred":"hasattr(f, 'ring')"},"name":"discriminant_correct"},"guarantee":"returns f.ring.dmp_discriminant(f)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"221fdd8d1069264a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'ring')"],"returns_expr":"f.ring.dmp_discriminant(f)","pure":false,"effects":{"effect_type":"reads_state","reads":["f.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def discriminant(f):
         return f.ring.dmp_discriminant(f)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(decompose(f), decompose produces the expected output) over Any ║
+# ║ Path(decompose(f), <unspecified:decompose>) over {Any | hasattr(f, 'ring')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ decompose : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'ring')                             ║
+# ║   fiber[case_0]: f.ring.is_univariate => f.ring.dup_d...   ║
+# ║   fiber[case_1]: not (f.ring.is_univariate)                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ decompose : {Any | hasattr(f, 'ring')} → Any               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3d2c013ca3ca2434  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ef5ebf727054dc8d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.decompose","kind":"method","src_hash":"8dcc2d5dbc73ff03","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"decompose(f)","rhs":"decompose produces the expected output","over":{"base":"Any"},"name":"decompose_correct"},"guarantee":"decompose produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement.decompose_correct","statement":"Path(decompose(x), decompose produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3d2c013ca3ca2434"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.decompose","kind":"method","src_hash":"8dcc2d5dbc73ff03","in":{"base":"Any","pred":"hasattr(f, 'ring')"},"out":{"base":"Any"},"spec":{"lhs":"decompose(f)","rhs":"<unspecified:decompose>","over":{"base":"Any","pred":"hasattr(f, 'ring')"},"name":"decompose_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement.decompose_correct","statement":"Path(decompose(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ef5ebf727054dc8d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'ring')"],"fibers":[{"name":"case_0","guard":"f.ring.is_univariate","ensures":["result == f.ring.dup_decompose(f)"],"decidability":"library","returns_expr":"f.ring.dup_decompose(f)"},{"name":"case_1","guard":"not (f.ring.is_univariate)","ensures":[],"decidability":"library"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["f.ring"],"raises":["MultivariatePolynomialError"]},"state_contract":{"exceptional_post":{"MultivariatePolynomialError":["isinstance(raised, MultivariatePolynomialError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def decompose(f):
         if f.ring.is_univariate:
             return f.ring.dup_decompose(f)
@@ -5077,16 +6435,24 @@ class PolyElement(DomainElement, DefaultPrinting, CantSympify, dict):
             raise MultivariatePolynomialError("polynomial decomposition")
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(shift(f, ), shift produces the expected output) over Any ║
+# ║ Path(shift(f, a), <unspecified:shift>) over {Any | hasattr(f, 'ring')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ shift : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'ring')                             ║
+# ║   fiber[case_0]: f.ring.is_univariate => f.ring.dup_s...   ║
+# ║   fiber[case_1]: not (f.ring.is_univariate)                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ shift : {Any | hasattr(f, 'ring')} → Any                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6f6c57b2f4dc74f3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6e84e6926811c63d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.shift","kind":"method","src_hash":"8afee417fbef0e5f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"shift(f, )","rhs":"shift produces the expected output","over":{"base":"Any"},"name":"shift_correct"},"guarantee":"shift produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement.shift_correct","statement":"Path(shift(x), shift produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6f6c57b2f4dc74f3"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.shift","kind":"method","src_hash":"8afee417fbef0e5f","in":{"base":"Any","pred":"hasattr(f, 'ring')"},"out":{"base":"Any"},"spec":{"lhs":"shift(f, a)","rhs":"<unspecified:shift>","over":{"base":"Any","pred":"hasattr(f, 'ring')"},"name":"shift_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement.shift_correct","statement":"Path(shift(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6e84e6926811c63d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'ring')"],"fibers":[{"name":"case_0","guard":"f.ring.is_univariate","ensures":["result == f.ring.dup_shift(f, a)"],"decidability":"library","returns_expr":"f.ring.dup_shift(f, a)"},{"name":"case_1","guard":"not (f.ring.is_univariate)","ensures":[],"decidability":"library"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["f.ring"],"raises":["MultivariatePolynomialError"]},"state_contract":{"exceptional_post":{"MultivariatePolynomialError":["isinstance(raised, MultivariatePolynomialError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def shift(f, a):
         if f.ring.is_univariate:
             return f.ring.dup_shift(f, a)
@@ -5094,30 +6460,45 @@ class PolyElement(DomainElement, DefaultPrinting, CantSympify, dict):
             raise MultivariatePolynomialError("shift: use shift_list instead")
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(shift_list(f, ), shift_list produces the expected output) over Any ║
+# ║ Path(shift_list(f, a), f.ring.dmp_shift(f, a)) over {Any | hasattr(f, 'ring')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ shift_list : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'ring')                             ║
+# ║   returns:  f.ring.dmp_shift(f, a)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ shift_list : {Any | hasattr(f, 'ring')} → Any              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 840c9d6fc439046c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.shift_list","kind":"method","src_hash":"79cfcd5c4ea093fe","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"shift_list(f, )","rhs":"shift_list produces the expected output","over":{"base":"Any"},"name":"shift_list_correct"},"guarantee":"shift_list produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"840c9d6fc439046c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.shift_list","kind":"method","src_hash":"79cfcd5c4ea093fe","in":{"base":"Any","pred":"hasattr(f, 'ring')"},"out":{"base":"Any"},"spec":{"lhs":"shift_list(f, a)","rhs":"f.ring.dmp_shift(f, a)","over":{"base":"Any","pred":"hasattr(f, 'ring')"},"name":"shift_list_correct"},"guarantee":"returns f.ring.dmp_shift(f, a)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"840c9d6fc439046c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'ring')"],"returns_expr":"f.ring.dmp_shift(f, a)","pure":false,"effects":{"effect_type":"reads_state","reads":["f.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def shift_list(f, a):
         return f.ring.dmp_shift(f, a)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sturm(f), sturm produces the expected output) over Any ║
+# ║ Path(sturm(f), <unspecified:sturm>) over {Any | hasattr(f, 'ring')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ sturm : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'ring')                             ║
+# ║   fiber[case_0]: f.ring.is_univariate => f.ring.dup_s...   ║
+# ║   fiber[case_1]: not (f.ring.is_univariate)                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ sturm : {Any | hasattr(f, 'ring')} → Any                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0a20f78b7fb7f7f2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2ec8915fc45283ff  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.sturm","kind":"method","src_hash":"f6f1e14544c103cb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sturm(f)","rhs":"sturm produces the expected output","over":{"base":"Any"},"name":"sturm_correct"},"guarantee":"sturm produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement.sturm_correct","statement":"Path(sturm(x), sturm produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0a20f78b7fb7f7f2"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.sturm","kind":"method","src_hash":"f6f1e14544c103cb","in":{"base":"Any","pred":"hasattr(f, 'ring')"},"out":{"base":"Any"},"spec":{"lhs":"sturm(f)","rhs":"<unspecified:sturm>","over":{"base":"Any","pred":"hasattr(f, 'ring')"},"name":"sturm_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rings.PolyElement.sturm_correct","statement":"Path(sturm(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2ec8915fc45283ff","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'ring')"],"fibers":[{"name":"case_0","guard":"f.ring.is_univariate","ensures":["result == f.ring.dup_sturm(f)"],"decidability":"library","returns_expr":"f.ring.dup_sturm(f)"},{"name":"case_1","guard":"not (f.ring.is_univariate)","ensures":[],"decidability":"library"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["f.ring"],"raises":["MultivariatePolynomialError"]},"state_contract":{"exceptional_post":{"MultivariatePolynomialError":["isinstance(raised, MultivariatePolynomialError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def sturm(f):
         if f.ring.is_univariate:
             return f.ring.dup_sturm(f)
@@ -5125,85 +6506,127 @@ class PolyElement(DomainElement, DefaultPrinting, CantSympify, dict):
             raise MultivariatePolynomialError("sturm sequence")
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gff_list(f), gff_list produces the expected output) over Any ║
+# ║ Path(gff_list(f), f.ring.dmp_gff_list(f)) over {Any | hasattr(f, 'ring')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ gff_list : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'ring')                             ║
+# ║   returns:  f.ring.dmp_gff_list(f)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ gff_list : {Any | hasattr(f, 'ring')} → Any                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7f77a78acbcf0025           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.gff_list","kind":"method","src_hash":"139a4341373c92e3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gff_list(f)","rhs":"gff_list produces the expected output","over":{"base":"Any"},"name":"gff_list_correct"},"guarantee":"gff_list produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7f77a78acbcf0025"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.gff_list","kind":"method","src_hash":"139a4341373c92e3","in":{"base":"Any","pred":"hasattr(f, 'ring')"},"out":{"base":"Any"},"spec":{"lhs":"gff_list(f)","rhs":"f.ring.dmp_gff_list(f)","over":{"base":"Any","pred":"hasattr(f, 'ring')"},"name":"gff_list_correct"},"guarantee":"returns f.ring.dmp_gff_list(f)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7f77a78acbcf0025","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'ring')"],"returns_expr":"f.ring.dmp_gff_list(f)","pure":false,"effects":{"effect_type":"reads_state","reads":["f.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def gff_list(f):
         return f.ring.dmp_gff_list(f)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(norm(f), norm produces the expected output) over Any  ║
+# ║ Path(norm(f), f.ring.dmp_norm(f)) over {Any | hasattr(f, 'ring')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ norm : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'ring')                             ║
+# ║   returns:  f.ring.dmp_norm(f)                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ norm : {Any | hasattr(f, 'ring')} → Any                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a85bfd495c7b441f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.norm","kind":"method","src_hash":"f3ba61f9f96a197f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"norm(f)","rhs":"norm produces the expected output","over":{"base":"Any"},"name":"norm_correct"},"guarantee":"norm produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a85bfd495c7b441f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.norm","kind":"method","src_hash":"f3ba61f9f96a197f","in":{"base":"Any","pred":"hasattr(f, 'ring')"},"out":{"base":"Any"},"spec":{"lhs":"norm(f)","rhs":"f.ring.dmp_norm(f)","over":{"base":"Any","pred":"hasattr(f, 'ring')"},"name":"norm_correct"},"guarantee":"returns f.ring.dmp_norm(f)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a85bfd495c7b441f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'ring')"],"returns_expr":"f.ring.dmp_norm(f)","pure":false,"effects":{"effect_type":"reads_state","reads":["f.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def norm(f):
         return f.ring.dmp_norm(f)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sqf_norm(f), sqf_norm produces the expected output) over Any ║
+# ║ Path(sqf_norm(f), f.ring.dmp_sqf_norm(f)) over {Any | hasattr(f, 'ring')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ sqf_norm : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'ring')                             ║
+# ║   returns:  f.ring.dmp_sqf_norm(f)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ sqf_norm : {Any | hasattr(f, 'ring')} → Any                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5acacd6b289c00c4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.sqf_norm","kind":"method","src_hash":"c085a666a2761b2c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sqf_norm(f)","rhs":"sqf_norm produces the expected output","over":{"base":"Any"},"name":"sqf_norm_correct"},"guarantee":"sqf_norm produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5acacd6b289c00c4"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.sqf_norm","kind":"method","src_hash":"c085a666a2761b2c","in":{"base":"Any","pred":"hasattr(f, 'ring')"},"out":{"base":"Any"},"spec":{"lhs":"sqf_norm(f)","rhs":"f.ring.dmp_sqf_norm(f)","over":{"base":"Any","pred":"hasattr(f, 'ring')"},"name":"sqf_norm_correct"},"guarantee":"returns f.ring.dmp_sqf_norm(f)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5acacd6b289c00c4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'ring')"],"returns_expr":"f.ring.dmp_sqf_norm(f)","pure":false,"effects":{"effect_type":"reads_state","reads":["f.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def sqf_norm(f):
         return f.ring.dmp_sqf_norm(f)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sqf_part(f), sqf_part produces the expected output) over Any ║
+# ║ Path(sqf_part(f), f.ring.dmp_sqf_part(f)) over {Any | hasattr(f, 'ring')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ sqf_part : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'ring')                             ║
+# ║   returns:  f.ring.dmp_sqf_part(f)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ sqf_part : {Any | hasattr(f, 'ring')} → Any                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 129fd3ccf63c932d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.sqf_part","kind":"method","src_hash":"78a3aa232241ae21","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sqf_part(f)","rhs":"sqf_part produces the expected output","over":{"base":"Any"},"name":"sqf_part_correct"},"guarantee":"sqf_part produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"129fd3ccf63c932d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.sqf_part","kind":"method","src_hash":"78a3aa232241ae21","in":{"base":"Any","pred":"hasattr(f, 'ring')"},"out":{"base":"Any"},"spec":{"lhs":"sqf_part(f)","rhs":"f.ring.dmp_sqf_part(f)","over":{"base":"Any","pred":"hasattr(f, 'ring')"},"name":"sqf_part_correct"},"guarantee":"returns f.ring.dmp_sqf_part(f)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"129fd3ccf63c932d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'ring')"],"returns_expr":"f.ring.dmp_sqf_part(f)","pure":false,"effects":{"effect_type":"reads_state","reads":["f.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def sqf_part(f):
         return f.ring.dmp_sqf_part(f)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sqf_list(f, ), sqf_list produces the expected output) over Any ║
+# ║ Path(sqf_list(f, all), f.ring.dmp_sqf_list(f, all=all)) over {Any | hasattr(f, 'ring')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ sqf_list : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'ring')                             ║
+# ║   returns:  f.ring.dmp_sqf_list(f, all=all)                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ sqf_list : {Any | hasattr(f, 'ring')} → Any                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5626d4d70f6bbcd9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.sqf_list","kind":"method","src_hash":"fcb93ffa00a06a78","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sqf_list(f, )","rhs":"sqf_list produces the expected output","over":{"base":"Any"},"name":"sqf_list_correct"},"guarantee":"sqf_list produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5626d4d70f6bbcd9"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.sqf_list","kind":"method","src_hash":"fcb93ffa00a06a78","in":{"base":"Any","pred":"hasattr(f, 'ring')"},"out":{"base":"Any"},"spec":{"lhs":"sqf_list(f, all)","rhs":"f.ring.dmp_sqf_list(f, all=all)","over":{"base":"Any","pred":"hasattr(f, 'ring')"},"name":"sqf_list_correct"},"guarantee":"returns f.ring.dmp_sqf_list(f, all=all)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5626d4d70f6bbcd9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'ring')"],"returns_expr":"f.ring.dmp_sqf_list(f, all=all)","pure":false,"effects":{"effect_type":"reads_state","reads":["f.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def sqf_list(f, all=False):
         return f.ring.dmp_sqf_list(f, all=all)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(factor_list(f), factor_list produces the expected output) over Any ║
+# ║ Path(factor_list(f), f.ring.dmp_factor_list(f)) over {Any | hasattr(f, 'ring')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ factor_list : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'ring')                             ║
+# ║   returns:  f.ring.dmp_factor_list(f)                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ factor_list : {Any | hasattr(f, 'ring')} → Any             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d1ebba754733c30e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.factor_list","kind":"method","src_hash":"161202a0c9f1aa13","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"factor_list(f)","rhs":"factor_list produces the expected output","over":{"base":"Any"},"name":"factor_list_correct"},"guarantee":"factor_list produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d1ebba754733c30e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rings.PolyElement.factor_list","kind":"method","src_hash":"161202a0c9f1aa13","in":{"base":"Any","pred":"hasattr(f, 'ring')"},"out":{"base":"Any"},"spec":{"lhs":"factor_list(f)","rhs":"f.ring.dmp_factor_list(f)","over":{"base":"Any","pred":"hasattr(f, 'ring')"},"name":"factor_list_correct"},"guarantee":"returns f.ring.dmp_factor_list(f)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d1ebba754733c30e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'ring')"],"returns_expr":"f.ring.dmp_factor_list(f)","pure":false,"effects":{"effect_type":"reads_state","reads":["f.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def factor_list(f):
         return f.ring.dmp_factor_list(f)

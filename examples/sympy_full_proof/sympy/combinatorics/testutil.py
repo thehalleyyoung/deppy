@@ -22,16 +22,22 @@ rmul = Permutation.rmul
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_cmp_perm_lists(fir), compare two lists of permutations as sets) over Any ║
+# ║ Path(_cmp_perm_lists(first, second), {tuple(a) for a in first} == {tuple(a) for a in second}) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  {tuple(a) for a in first} == {tuple(a) fo...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _cmp_perm_lists : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3d37814a66d55683  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 768b3137981189cb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.testutil._cmp_perm_lists","kind":"function","src_hash":"4c9832e44075ca4f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_cmp_perm_lists(fir)","rhs":"compare two lists of permutations as sets","over":{"base":"Any"},"name":"_cmp_perm_lists_correct"},"guarantee":"compare two lists of permutations as sets","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.testutil._cmp_perm_lists_correct","statement":"Path(_cmp_perm_lists(x), compare two lists of permutations as sets)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3d37814a66d55683"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.testutil._cmp_perm_lists","kind":"function","src_hash":"4c9832e44075ca4f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_cmp_perm_lists(first, second)","rhs":"{tuple(a) for a in first} == {tuple(a) for a in second}","over":{"base":"Any"},"name":"_cmp_perm_lists_correct"},"guarantee":"returns {tuple(a) for a in first} == {tuple(a) for a in second}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.testutil._cmp_perm_lists_correct","statement":"Path(_cmp_perm_lists(x), returns {tuple(a) for a in first} == {tuple(a) for a in second})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"768b3137981189cb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"{tuple(a) for a in first} == {tuple(a) for a in second}","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _cmp_perm_lists(first, second):
     """
     Compare two lists of permutations as sets.
@@ -62,16 +68,27 @@ def _cmp_perm_lists(first, second):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_naive_list_centralizer(oth), internal helper behaves correctly) over Any ║
+# ║ Path(_naive_list_centralizer(other, af), result == (centralizer_list if hasattr(other, 'generators') else _naive_list_centralizer(self, PermutationGroup(other), af) if hasattr(other, 'getitem') else _naive_list_centralizer(self, PermutationGroup([other]), af)) and result == centralizer_list or result == _naive_list_centralizer(self, PermutationGroup(other), af) or result == _naive_list_centralizer(self, PermutationGroup([other]), af)) over {Any | hasattr(other, 'generators')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _naive_list_centralizer : Any → Any                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, 'generators')                   ║
+# ║   ensures:  result == (centralizer_list if hasattr(ot...   ║
+# ║   ensures:  result == centralizer_list or result == _...   ║
+# ║   fiber[case_0]: hasattr(other, 'generators') => cent...   ║
+# ║   fiber[case_1]: hasattr(other, 'getitem') => _naive_...   ║
+# ║   fiber[case_2]: hasattr(other, 'array_form') => _nai...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _naive_list_centralizer : {Any | hasattr(other, 'gene...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aaa5effd1dc35ed0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0888d1a12c2ebb33  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.testutil._naive_list_centralizer","kind":"function","src_hash":"359c8f5866a19e6d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_naive_list_centralizer(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_naive_list_centralizer_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.testutil._naive_list_centralizer_correct","statement":"Path(_naive_list_centralizer(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aaa5effd1dc35ed0"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.testutil._naive_list_centralizer","kind":"function","src_hash":"359c8f5866a19e6d","in":{"base":"Any","pred":"hasattr(other, 'generators')"},"out":{"base":"Any","pred":"result satisfies: result == (centralizer_list if hasattr(other, 'generators') else _naive_list_centralizer(self, PermutationGroup(other), af) if hasattr(other, 'getitem') else _naive_list_centralizer(self, PermutationGroup([other]), af)) and result == centralizer_list or result == _naive_list_centralizer(self, PermutationGroup(other), af) or result == _naive_list_centralizer(self, PermutationGroup([other]), af)"},"spec":{"lhs":"_naive_list_centralizer(other, af)","rhs":"result == (centralizer_list if hasattr(other, 'generators') else _naive_list_centralizer(self, PermutationGroup(other), af) if hasattr(other, 'getitem') else _naive_list_centralizer(self, PermutationGroup([other]), af)) and result == centralizer_list or result == _naive_list_centralizer(self, PermutationGroup(other), af) or result == _naive_list_centralizer(self, PermutationGroup([other]), af)","over":{"base":"Any","pred":"hasattr(other, 'generators')"},"name":"_naive_list_centralizer_correct"},"guarantee":"result == (centralizer_list if hasattr(other, 'generators') else _naive_list_centralizer(self, PermutationGroup(other), af) if hasattr(other, 'getitem') else _naive_list_centralizer(self, PermutationGroup([other]), af)); result == centralizer_list or result == _naive_list_centralizer(self, PermutationGroup(other), af) or result == _naive_list_centralizer(self, PermutationGroup([other]), af); 3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.testutil._naive_list_centralizer_correct","statement":"Path(_naive_list_centralizer(x), result == (centralizer_list if hasattr(other, 'generators') else _naive_list_centralizer(self, PermutationGroup(other), af) if hasattr(other, 'getitem') else _naive_list_centralizer(self, PermutationGroup([other]), af)); result == centralizer_list or result == _naive_list_centralizer(self, PermutationGroup(other), af) or result == _naive_list_centralizer(self, PermutationGroup([other]), af); 3-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0888d1a12c2ebb33","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, 'generators')"],"ensures":["result == (centralizer_list if hasattr(other, 'generators') else _naive_list_centralizer(self, PermutationGroup(other), af) if hasattr(other, 'getitem') else _naive_list_centralizer(self, PermutationGroup([other]), af))","result == centralizer_list or result == _naive_list_centralizer(self, PermutationGroup(other), af) or result == _naive_list_centralizer(self, PermutationGroup([other]), af)"],"fibers":[{"name":"case_0","guard":"hasattr(other, 'generators')","ensures":["result == centralizer_list"],"decidability":"structural","returns_expr":"centralizer_list"},{"name":"case_1","guard":"hasattr(other, 'getitem')","ensures":["result == _naive_list_centralizer(self, PermutationGroup(other), af)"],"decidability":"structural","returns_expr":"_naive_list_centralizer(self, PermutationGroup(other), af)"},{"name":"case_2","guard":"hasattr(other, 'array_form')","ensures":["result == _naive_list_centralizer(self, PermutationGroup([other]), af)"],"decidability":"structural","returns_expr":"_naive_list_centralizer(self, PermutationGroup([other]), af)"}],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _naive_list_centralizer(self, other, af=False):
     from sympy.combinatorics.perm_groups import PermutationGroup
     """
@@ -121,16 +138,22 @@ def _naive_list_centralizer(self, other, af=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_verify_bsgs(gro), verify the correctness of a base and strong generating set) over Any ║
+# ║ Path(_verify_bsgs(group, base, gens), <unspecified:_verify_bsgs>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _verify_bsgs : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7312cc7ce29ca555  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.testutil._verify_bsgs","kind":"function","src_hash":"cc92bc34ab92a622","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_verify_bsgs(gro)","rhs":"verify the correctness of a base and strong generating set","over":{"base":"Any"},"name":"_verify_bsgs_correct"},"guarantee":"verify the correctness of a base and strong generating set","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.testutil._verify_bsgs_correct","statement":"Path(_verify_bsgs(x), verify the correctness of a base and strong generating set)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7312cc7ce29ca555"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.testutil._verify_bsgs","kind":"function","src_hash":"cc92bc34ab92a622","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_verify_bsgs(group, base, gens)","rhs":"<unspecified:_verify_bsgs>","over":{"base":"Any"},"name":"_verify_bsgs_correct"},"guarantee":"verify the correctness of a base and strong generating set","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.testutil._verify_bsgs_correct","statement":"Path(_verify_bsgs(x), verify the correctness of a base and strong generating set)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7312cc7ce29ca555","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _verify_bsgs(group, base, gens):
     """
     Verify the correctness of a base and strong generating set.
@@ -173,16 +196,24 @@ def _verify_bsgs(group, base, gens):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_verify_centralizer(gro), verify the centralizer of a group/set/element inside another group) over Any ║
+# ║ Path(_verify_centralizer(group, arg, centr), _cmp_perm_lists(centr_list, centr_list_naive)) over {Any | hasattr(group, 'centralizer') and hasattr(centr, 'generate_dimino')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _verify_centralizer : Any → Any                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(group, 'centralizer')                  ║
+# ║   requires: hasattr(centr, 'generate_dimino')              ║
+# ║   returns:  _cmp_perm_lists(centr_list, centr_list_na...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _verify_centralizer : {Any | hasattr(group, 'centrali...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 084fb85c95831e62  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9ac84e5591163007  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.testutil._verify_centralizer","kind":"function","src_hash":"de83af9b3d12f5b4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_verify_centralizer(gro)","rhs":"verify the centralizer of a group/set/element inside another group","over":{"base":"Any"},"name":"_verify_centralizer_correct"},"guarantee":"verify the centralizer of a group/set/element inside another group","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.testutil._verify_centralizer_correct","statement":"Path(_verify_centralizer(x), verify the centralizer of a group/set/element inside another group)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"084fb85c95831e62"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.testutil._verify_centralizer","kind":"function","src_hash":"de83af9b3d12f5b4","in":{"base":"Any","pred":"hasattr(group, 'centralizer') and hasattr(centr, 'generate_dimino')"},"out":{"base":"Any"},"spec":{"lhs":"_verify_centralizer(group, arg, centr)","rhs":"_cmp_perm_lists(centr_list, centr_list_naive)","over":{"base":"Any","pred":"hasattr(group, 'centralizer') and hasattr(centr, 'generate_dimino')"},"name":"_verify_centralizer_correct"},"guarantee":"returns _cmp_perm_lists(centr_list, centr_list_naive)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.testutil._verify_centralizer_correct","statement":"Path(_verify_centralizer(x), returns _cmp_perm_lists(centr_list, centr_list_naive))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9ac84e5591163007","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(group, 'centralizer')","hasattr(centr, 'generate_dimino')"],"returns_expr":"_cmp_perm_lists(centr_list, centr_list_naive)","pure":false,"effects":{"effect_type":"reads_state","reads":["centr.generate_dimino","group.centralizer"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _verify_centralizer(group, arg, centr=None):
     """
     Verify the centralizer of a group/set/element inside another group.
@@ -220,16 +251,25 @@ def _verify_centralizer(group, arg, centr=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_verify_normal_closure(gro), internal helper behaves correctly) over Any ║
+# ║ Path(_verify_normal_closure(group, arg, closure), closure.is_subgroup(naive_closure)) over {Any | hasattr(arg, 'generators') and hasattr(group, 'generate_dimino') and hasattr(closure, 'is_subgroup') and hasattr(group, 'normal_closure')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _verify_normal_closure : Any → Any                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(arg, 'generators')                     ║
+# ║   requires: hasattr(group, 'generate_dimino')              ║
+# ║   requires: hasattr(closure, 'is_subgroup')                ║
+# ║   returns:  closure.is_subgroup(naive_closure)             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _verify_normal_closure : {Any | hasattr(arg, 'generat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4fc93bdc9890c2db  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7e0d2d3c178f5205  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.testutil._verify_normal_closure","kind":"function","src_hash":"f7cc93b1ecee85b7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_verify_normal_closure(gro)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_verify_normal_closure_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.testutil._verify_normal_closure_correct","statement":"Path(_verify_normal_closure(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4fc93bdc9890c2db"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.testutil._verify_normal_closure","kind":"function","src_hash":"f7cc93b1ecee85b7","in":{"base":"Any","pred":"hasattr(arg, 'generators') and hasattr(group, 'generate_dimino') and hasattr(closure, 'is_subgroup') and hasattr(group, 'normal_closure')"},"out":{"base":"Any"},"spec":{"lhs":"_verify_normal_closure(group, arg, closure)","rhs":"closure.is_subgroup(naive_closure)","over":{"base":"Any","pred":"hasattr(arg, 'generators') and hasattr(group, 'generate_dimino') and hasattr(closure, 'is_subgroup') and hasattr(group, 'normal_closure')"},"name":"_verify_normal_closure_correct"},"guarantee":"returns closure.is_subgroup(naive_closure)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.testutil._verify_normal_closure_correct","statement":"Path(_verify_normal_closure(x), returns closure.is_subgroup(naive_closure))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7e0d2d3c178f5205","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(arg, 'generators')","hasattr(group, 'generate_dimino')","hasattr(closure, 'is_subgroup')","hasattr(group, 'normal_closure')"],"returns_expr":"closure.is_subgroup(naive_closure)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _verify_normal_closure(group, arg, closure=None):
     from sympy.combinatorics.perm_groups import PermutationGroup
     """
@@ -271,9 +311,13 @@ def _verify_normal_closure(group, arg, closure=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(canonicalize_naive(g, ), canonicalize tensor formed by tensors of the different types) over {Any | isinstance(sym, int)} ║
+# ║ Path(canonicalize_naive(g, dummies, sym), <unspecified:canonicalize_naive>) over {Any | isinstance(sym, int) and hasattr(g, 'array_form')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ canonicalize_naive : {Any | isinstance(sym, int)} → Any    ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(g, 'array_form')                       ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ canonicalize_naive : {Any | isinstance(sym, int) and ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   int: {isinstance(sym, int)} → library_axiom              ║
@@ -283,9 +327,12 @@ def _verify_normal_closure(group, arg, closure=None):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 2.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 7efa4503...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.testutil.canonicalize_naive","kind":"function","src_hash":"a882b19e5bd5bcd9","in":{"base":"Any","pred":"isinstance(sym, int)"},"out":{"base":"Any"},"spec":{"lhs":"canonicalize_naive(g, )","rhs":"canonicalize tensor formed by tensors of the different types","over":{"base":"Any","pred":"isinstance(sym, int)"},"name":"canonicalize_naive_correct"},"guarantee":"canonicalize tensor formed by tensors of the different types","fibers":[{"name":"int","pred":"isinstance(sym, int)","path":{"lhs":"canonicalize_naive(x)","rhs":"canonicalize tensor formed by tensors of the different types","over":{"base":"int","pred":"isinstance(sym, int)"},"name":"canonicalize_naive_int_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.testutil.canonicalize_naive_int_correct","statement":"canonicalize_naive satisfies spec on int inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"7efa4503abac67ba"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.testutil.canonicalize_naive","kind":"function","src_hash":"a882b19e5bd5bcd9","in":{"base":"Any","pred":"isinstance(sym, int) and hasattr(g, 'array_form')"},"out":{"base":"Any"},"spec":{"lhs":"canonicalize_naive(g, dummies, sym)","rhs":"<unspecified:canonicalize_naive>","over":{"base":"Any","pred":"isinstance(sym, int) and hasattr(g, 'array_form')"},"name":"canonicalize_naive_correct"},"guarantee":"canonicalize tensor formed by tensors of the different types","fibers":[{"name":"int","pred":"isinstance(sym, int)","path":{"lhs":"canonicalize_naive(x)","rhs":"canonicalize tensor formed by tensors of the different types","over":{"base":"int","pred":"isinstance(sym, int)"},"name":"canonicalize_naive_int_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.testutil.canonicalize_naive_int_correct","statement":"canonicalize_naive satisfies spec on int inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"7efa4503abac67ba","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(g, 'array_form')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.0,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['g', 'dummies', 'sym'], spec=['g', 'dummies', 'sym', '*v']","Poor branch-fiber coverage: 0% (branches={'h[-1] != prev[-1]', 'h[:-2] == prev[:-2]', 'isinstance(sym, int)'}, fibers={'int'})"]}}
 def canonicalize_naive(g, dummies, sym, *v):
     """
     Canonicalize tensor formed by tensors of the different types.
@@ -365,16 +412,24 @@ def canonicalize_naive(g, dummies, sym, *v):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(graph_certificate(gr), return a certificate for the graph) over Any ║
+# ║ Path(graph_certificate(gr), len(g) == num_indices and sorted(g) == list(range(size))) over {Any | hasattr(gr, 'items')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ graph_certificate : Any → {Any | len(g) == num_indice...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(gr, 'items')                           ║
+# ║   ensures:  len(g) == num_indices                          ║
+# ║   ensures:  sorted(g) == list(range(size))                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ graph_certificate : {Any | hasattr(gr, 'items')} → {A...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e0538357ee32e2bd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1bbade732b7f4158  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.testutil.graph_certificate","kind":"function","src_hash":"8f9b6d7ca9d8b9a0","in":{"base":"Any"},"out":{"base":"Any","pred":"len(g) == num_indices and sorted(g) == list(range(size))"},"spec":{"lhs":"graph_certificate(gr)","rhs":"return a certificate for the graph","over":{"base":"Any"},"name":"graph_certificate_correct"},"guarantee":"return a certificate for the graph","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.testutil.graph_certificate_correct","statement":"Path(graph_certificate(x), return a certificate for the graph)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e0538357ee32e2bd"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.testutil.graph_certificate","kind":"function","src_hash":"8f9b6d7ca9d8b9a0","in":{"base":"Any","pred":"hasattr(gr, 'items')"},"out":{"base":"Any","pred":"result satisfies: len(g) == num_indices and sorted(g) == list(range(size))"},"spec":{"lhs":"graph_certificate(gr)","rhs":"len(g) == num_indices and sorted(g) == list(range(size))","over":{"base":"Any","pred":"hasattr(gr, 'items')"},"name":"graph_certificate_correct"},"guarantee":"len(g) == num_indices; sorted(g) == list(range(size))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.testutil.graph_certificate_correct","statement":"Path(graph_certificate(x), len(g) == num_indices; sorted(g) == list(range(size)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1bbade732b7f4158","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(gr, 'items')"],"ensures":["len(g) == num_indices","sorted(g) == list(range(size))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def graph_certificate(gr):
     """
     Return a certificate for the graph

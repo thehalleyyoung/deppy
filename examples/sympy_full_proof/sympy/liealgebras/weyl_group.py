@@ -25,14 +25,20 @@ from sympy.core.basic import Atom
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(WeylGroup(*args), correctly constructs a WeylGroup instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ WeylGroup : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Atom)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ WeylGroup : Any → {Any | result satisfies: isinstance...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 3.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 41ef83b1e2fd8d59  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.liealgebras.weyl_group.WeylGroup","kind":"class","src_hash":"c219a0bcd5560713","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"WeylGroup(*args)","rhs":"correctly constructs a WeylGroup instance","over":{"base":"Any"},"name":"WeylGroup_class_invariant"},"guarantee":"correctly constructs a WeylGroup instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"41ef83b1e2fd8d59"}
+# @cctt_verify {"v":2,"sym":"sympy.liealgebras.weyl_group.WeylGroup","kind":"class","src_hash":"c219a0bcd5560713","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Atom)"},"spec":{"lhs":"WeylGroup(*args)","rhs":"correctly constructs a WeylGroup instance","over":{"base":"Any"},"name":"WeylGroup_class_invariant"},"guarantee":"isinstance(self, Atom)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"41ef83b1e2fd8d59","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Atom)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":3.0,"verdict_class":"assumed","binding":false,"binding_errors":["Function WeylGroup not found in source"]}}
 class WeylGroup(Atom):
 
     """
@@ -45,32 +51,44 @@ class WeylGroup(Atom):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, cartantype), <unspecified:__new__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | dd80bb1a21f33b07           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.liealgebras.weyl_group.WeylGroup.__new__","kind":"method","src_hash":"5cbd88466a9e9fe8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"dd80bb1a21f33b07"}
+# @cctt_verify {"v":2,"sym":"sympy.liealgebras.weyl_group.WeylGroup.__new__","kind":"method","src_hash":"5cbd88466a9e9fe8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, cartantype)","rhs":"<unspecified:__new__>","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"dd80bb1a21f33b07","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, cartantype):
         obj = Atom.__new__(cls)
         obj.cartan_type = CartanType(cartantype)
         return obj
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(generators(), this method creates the generating reflections of the weyl group for a given lie algebra) over Any ║
+# ║ Path(generators(), <unspecified:generators>) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ generators : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 842a93ed1fcaf6ac  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.liealgebras.weyl_group.WeylGroup.generators","kind":"method","src_hash":"eb51dfdc5a9c0d37","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"generators()","rhs":"this method creates the generating reflections of the weyl group for a given lie algebra","over":{"base":"Any"},"name":"generators_correct"},"guarantee":"this method creates the generating reflections of the weyl group for a given lie algebra","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.liealgebras.weyl_group.WeylGroup.generators_correct","statement":"Path(generators(x), this method creates the generating reflections of the weyl group for a given lie algebra)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"842a93ed1fcaf6ac"}
+# @cctt_verify {"v":2,"sym":"sympy.liealgebras.weyl_group.WeylGroup.generators","kind":"method","src_hash":"eb51dfdc5a9c0d37","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"generators()","rhs":"<unspecified:generators>","over":{"base":"Any"},"name":"generators_correct"},"guarantee":"this method creates the generating reflections of the weyl group for a given lie algebra","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.liealgebras.weyl_group.WeylGroup.generators_correct","statement":"Path(generators(x), this method creates the generating reflections of the weyl group for a given lie algebra)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"842a93ed1fcaf6ac","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def generators(self):
         """
         This method creates the generating reflections of the Weyl group for
@@ -94,16 +112,22 @@ class WeylGroup(Atom):
         return generators
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(group_order(), this method returns the order of the weyl group. for types a, b, c, d, and e the order depends on the rank of the lie algebra) over Any ║
+# ║ Path(group_order(), <unspecified:group_order>) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ group_order : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2e226deea6ad722d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.liealgebras.weyl_group.WeylGroup.group_order","kind":"method","src_hash":"c331d9cc2668769e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"group_order()","rhs":"this method returns the order of the weyl group. for types a, b, c, d, and e the order depends on the rank of the lie algebra","over":{"base":"Any"},"name":"group_order_correct"},"guarantee":"this method returns the order of the weyl group. for types a, b, c, d, and e the order depends on the rank of the lie algebra","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.liealgebras.weyl_group.WeylGroup.group_order_correct","statement":"Path(group_order(x), this method returns the order of the weyl group. for types a, b, c, d, and e the order depends on the rank of the lie algebra)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2e226deea6ad722d"}
+# @cctt_verify {"v":2,"sym":"sympy.liealgebras.weyl_group.WeylGroup.group_order","kind":"method","src_hash":"c331d9cc2668769e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"group_order()","rhs":"<unspecified:group_order>","over":{"base":"Any"},"name":"group_order_correct"},"guarantee":"this method returns the order of the weyl group. for types a, b, c, d, and e the order depends on the rank of the lie algebra","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.liealgebras.weyl_group.WeylGroup.group_order_correct","statement":"Path(group_order(x), this method returns the order of the weyl group. for types a, b, c, d, and e the order depends on the rank of the lie algebra)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2e226deea6ad722d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.cartan_type"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def group_order(self):
         """
         This method returns the order of the Weyl group.
@@ -145,14 +169,20 @@ class WeylGroup(Atom):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(group_name(), id) over Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ group_name : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 96a786a0b8c609a0   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.liealgebras.weyl_group.WeylGroup.group_name","kind":"method","src_hash":"ddefe6206dc30410","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"group_name()","rhs":"this method returns some general information about the weyl group for a given lie algebra","over":{"base":"Any"},"name":"group_name_correct","kind":"composition"},"guarantee":"this method returns some general information about the weyl group for a given lie algebra","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"str","by":"library_axiom"},{"fn":"str","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"96a786a0b8c609a0"}
+# @cctt_verify {"v":2,"sym":"sympy.liealgebras.weyl_group.WeylGroup.group_name","kind":"method","src_hash":"ddefe6206dc30410","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"group_name()","rhs":"<unspecified:group_name>","over":{"base":"Any"},"name":"group_name_correct","kind":"composition"},"guarantee":"this method returns some general information about the weyl group for a given lie algebra","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"str","by":"library_axiom"},{"fn":"str","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"96a786a0b8c609a0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.cartan_type"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def group_name(self):
         """
         This method returns some general information about the Weyl group for
@@ -186,16 +216,22 @@ class WeylGroup(Atom):
             return "D6, the dihedral group of order 12, and symmetry group of the hexagon."
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(element_order(wey), this method returns the order of a given weyl group element, which should be specified by the user in the form of products of the generating reflections, i.e) over Any ║
+# ║ Path(element_order(weylelt), <unspecified:element_order>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ element_order : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fe6b373317ce6cd0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.liealgebras.weyl_group.WeylGroup.element_order","kind":"method","src_hash":"eddda0116aa45ee9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"element_order(wey)","rhs":"this method returns the order of a given weyl group element, which should be specified by the user in the form of products of the generating reflections, i.e","over":{"base":"Any"},"name":"element_order_correct"},"guarantee":"this method returns the order of a given weyl group element, which should be specified by the user in the form of products of the generating reflections, i.e","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.liealgebras.weyl_group.WeylGroup.element_order_correct","statement":"Path(element_order(x), this method returns the order of a given weyl group element, which should be specified by the user in the form of products of the generating reflections, i.e)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fe6b373317ce6cd0"}
+# @cctt_verify {"v":2,"sym":"sympy.liealgebras.weyl_group.WeylGroup.element_order","kind":"method","src_hash":"eddda0116aa45ee9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"element_order(weylelt)","rhs":"<unspecified:element_order>","over":{"base":"Any"},"name":"element_order_correct"},"guarantee":"this method returns the order of a given weyl group element, which should be specified by the user in the form of products of the generating reflections, i.e","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.liealgebras.weyl_group.WeylGroup.element_order_correct","statement":"Path(element_order(x), this method returns the order of a given weyl group element, which should be specified by the user in the form of products of the generating reflections, i.e)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fe6b373317ce6cd0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.cartan_type","self.delete_doubles","self.matrix_form"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def element_order(self, weylelt):
         """
         This method returns the order of a given Weyl group element, which should
@@ -280,16 +316,22 @@ class WeylGroup(Atom):
             return order
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(delete_doubles(ref), this is a helper method for determining the order of an element in the weyl group of g2) over Any ║
+# ║ Path(delete_doubles(reflections), <unspecified:delete_doubles>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ delete_doubles : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eb9b6c140477a81b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.liealgebras.weyl_group.WeylGroup.delete_doubles","kind":"method","src_hash":"052f8524ccde56f9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"delete_doubles(ref)","rhs":"this is a helper method for determining the order of an element in the weyl group of g2","over":{"base":"Any"},"name":"delete_doubles_correct"},"guarantee":"this is a helper method for determining the order of an element in the weyl group of g2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.liealgebras.weyl_group.WeylGroup.delete_doubles_correct","statement":"Path(delete_doubles(x), this is a helper method for determining the order of an element in the weyl group of g2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eb9b6c140477a81b"}
+# @cctt_verify {"v":2,"sym":"sympy.liealgebras.weyl_group.WeylGroup.delete_doubles","kind":"method","src_hash":"052f8524ccde56f9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"delete_doubles(reflections)","rhs":"<unspecified:delete_doubles>","over":{"base":"Any"},"name":"delete_doubles_correct"},"guarantee":"this is a helper method for determining the order of an element in the weyl group of g2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.liealgebras.weyl_group.WeylGroup.delete_doubles_correct","statement":"Path(delete_doubles(x), this is a helper method for determining the order of an element in the weyl group of g2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eb9b6c140477a81b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def delete_doubles(self, reflections):
         """
         This is a helper method for determining the order of an element in the
@@ -310,16 +352,22 @@ class WeylGroup(Atom):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(matrix_form(wey), this method takes input from the user in the form of products of the generating reflections, and returns the matrix corresponding to the element of the weyl group) over Any ║
+# ║ Path(matrix_form(weylelt), <unspecified:matrix_form>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ matrix_form : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 698d4e285b1bf0c6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.liealgebras.weyl_group.WeylGroup.matrix_form","kind":"method","src_hash":"3e33fb998060ac5b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"matrix_form(wey)","rhs":"this method takes input from the user in the form of products of the generating reflections, and returns the matrix corresponding to the element of the weyl group","over":{"base":"Any"},"name":"matrix_form_correct"},"guarantee":"this method takes input from the user in the form of products of the generating reflections, and returns the matrix corresponding to the element of the weyl group","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.liealgebras.weyl_group.WeylGroup.matrix_form_correct","statement":"Path(matrix_form(x), this method takes input from the user in the form of products of the generating reflections, and returns the matrix corresponding to the element of the weyl group)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"698d4e285b1bf0c6"}
+# @cctt_verify {"v":2,"sym":"sympy.liealgebras.weyl_group.WeylGroup.matrix_form","kind":"method","src_hash":"3e33fb998060ac5b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"matrix_form(weylelt)","rhs":"<unspecified:matrix_form>","over":{"base":"Any"},"name":"matrix_form_correct"},"guarantee":"this method takes input from the user in the form of products of the generating reflections, and returns the matrix corresponding to the element of the weyl group","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.liealgebras.weyl_group.WeylGroup.matrix_form_correct","statement":"Path(matrix_form(x), this method takes input from the user in the form of products of the generating reflections, and returns the matrix corresponding to the element of the weyl group)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"698d4e285b1bf0c6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.cartan_type"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def matrix_form(self, weylelt):
         """
         This method takes input from the user in the form of products of the
@@ -470,16 +518,22 @@ class WeylGroup(Atom):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(coxeter_diagram(), this method returns the coxeter diagram corresponding to a weyl group. the coxeter diagram can be obtained from a lie algebra's dynkin diagram by deleting all arrows; the coxeter diagram is the undire) over Any ║
+# ║ Path(coxeter_diagram(), <unspecified:coxeter_diagram>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ coxeter_diagram : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 233986bfb64fd4fd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.liealgebras.weyl_group.WeylGroup.coxeter_diagram","kind":"method","src_hash":"8651f1886226f8a2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"coxeter_diagram()","rhs":"this method returns the coxeter diagram corresponding to a weyl group. the coxeter diagram can be obtained from a lie algebra's dynkin diagram by deleting all arrows; the coxeter diagram is the undire","over":{"base":"Any"},"name":"coxeter_diagram_correct"},"guarantee":"this method returns the coxeter diagram corresponding to a weyl group. the coxeter diagram can be obtained from a lie algebra's dynkin diagram by deleting all arrows; the coxeter diagram is the undire","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.liealgebras.weyl_group.WeylGroup.coxeter_diagram_correct","statement":"Path(coxeter_diagram(x), this method returns the coxeter diagram corresponding to a weyl group. the coxeter diagram can be obtained from a lie algebra's dynkin diagram by deleting all arrows; the coxeter diagram is the undire)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"233986bfb64fd4fd"}
+# @cctt_verify {"v":2,"sym":"sympy.liealgebras.weyl_group.WeylGroup.coxeter_diagram","kind":"method","src_hash":"8651f1886226f8a2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"coxeter_diagram()","rhs":"<unspecified:coxeter_diagram>","over":{"base":"Any"},"name":"coxeter_diagram_correct"},"guarantee":"this method returns the coxeter diagram corresponding to a weyl group. the coxeter diagram can be obtained from a lie algebra's dynkin diagram by deleting all arrows; the coxeter diagram is the undire","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.liealgebras.weyl_group.WeylGroup.coxeter_diagram_correct","statement":"Path(coxeter_diagram(x), this method returns the coxeter diagram corresponding to a weyl group. the coxeter diagram can be obtained from a lie algebra's dynkin diagram by deleting all arrows; the coxeter diagram is the undire)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"233986bfb64fd4fd","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.cartan_type"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def coxeter_diagram(self):
         """
         This method returns the Coxeter diagram corresponding to a Weyl group.

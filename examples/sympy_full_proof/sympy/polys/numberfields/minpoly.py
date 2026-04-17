@@ -55,7 +55,12 @@ from sympy.utilities import (
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_choose_factor(fac), return a factor having root ``v`` it is assumed that one of the factors has root ``v``) over {Any | isinstance(factors[0], tuple)} ║
+# ║ Path(_choose_factor(factors, x, v), <unspecified:_choose_factor>) over {Any | isinstance(factors[0], tuple) and hasattr(dom, 'symbols') and hasattr(v, 'is_number')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(dom, 'symbols')                        ║
+# ║   requires: hasattr(v, 'is_number')                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _choose_factor : {Any | isinstance(factors[0], tuple)...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -67,9 +72,12 @@ from sympy.utilities import (
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 0.7ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 9168bbdd...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.minpoly._choose_factor","kind":"function","src_hash":"e71d0c9397e6e74d","in":{"base":"Any","pred":"isinstance(factors[0], tuple)"},"out":{"base":"Any"},"spec":{"lhs":"_choose_factor(fac)","rhs":"return a factor having root ``v`` it is assumed that one of the factors has root ``v``","over":{"base":"Any","pred":"isinstance(factors[0], tuple)"},"name":"_choose_factor_correct"},"guarantee":"return a factor having root ``v`` it is assumed that one of the factors has root ``v``","fibers":[{"name":"tuple","pred":"isinstance(factors[0], tuple)","path":{"lhs":"_choose_factor(x)","rhs":"return a factor having root ``v`` it is assumed that one of the factors has root ``v``","over":{"base":"tuple","pred":"isinstance(factors[0], tuple)"},"name":"_choose_factor_tuple_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.minpoly._choose_factor_tuple_correct","statement":"_choose_factor satisfies spec on tuple inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"9168bbdd3a2fc814"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.minpoly._choose_factor","kind":"function","src_hash":"e71d0c9397e6e74d","in":{"base":"Any","pred":"isinstance(factors[0], tuple) and hasattr(dom, 'symbols') and hasattr(v, 'is_number')"},"out":{"base":"Any"},"spec":{"lhs":"_choose_factor(factors, x, v)","rhs":"<unspecified:_choose_factor>","over":{"base":"Any","pred":"isinstance(factors[0], tuple) and hasattr(dom, 'symbols') and hasattr(v, 'is_number')"},"name":"_choose_factor_correct"},"guarantee":"return a factor having root ``v`` it is assumed that one of the factors has root ``v``","fibers":[{"name":"tuple","pred":"isinstance(factors[0], tuple)","path":{"lhs":"_choose_factor(x)","rhs":"return a factor having root ``v`` it is assumed that one of the factors has root ``v``","over":{"base":"tuple","pred":"isinstance(factors[0], tuple)"},"name":"_choose_factor_tuple_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.minpoly._choose_factor_tuple_correct","statement":"_choose_factor satisfies spec on tuple inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"9168bbdd3a2fc814","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(dom, 'symbols')","hasattr(v, 'is_number')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["dom.symbols","v.is_number"],"raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(factors[0], tuple)', 'len(factors) == 1', 'b > a * 10 ** 6'}, fibers={'tuple'})"]}}
 def _choose_factor(factors, x, v, dom=QQ, prec=200, bound=5):
     """
     Return a factor having root ``v``
@@ -119,16 +127,22 @@ def _choose_factor(factors, x, v, dom=QQ, prec=200, bound=5):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_is_sum_surds(p), internal helper behaves correctly) over Any ║
+# ║ Path(_is_sum_surds(p), all((f.is_Rational or (f.is_Pow and f.base.is_Rational and (2 * f.exp).is_Integer and f.is_extended_real) for t in Add.make_args(p) for f in Mul.make_args(t)))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  all((f.is_Rational or (f.is_Pow and f.bas...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _is_sum_surds : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 41a544f52751bfc7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 13b5136b9c8c32b1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.minpoly._is_sum_surds","kind":"function","src_hash":"8b9f0582d001247e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_is_sum_surds(p)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_is_sum_surds_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.minpoly._is_sum_surds_correct","statement":"Path(_is_sum_surds(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"41a544f52751bfc7"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.minpoly._is_sum_surds","kind":"function","src_hash":"8b9f0582d001247e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_is_sum_surds(p)","rhs":"all((f.is_Rational or (f.is_Pow and f.base.is_Rational and (2 * f.exp).is_Integer and f.is_extended_real) for t in Add.make_args(p) for f in Mul.make_args(t)))","over":{"base":"Any"},"name":"_is_sum_surds_correct"},"guarantee":"returns all((f.is_Rational or (f.is_Pow and f.base.is_Rational and (2 * f.exp).is_Integer and f.is_extended_real) for t in Add.make_args(p) for f in Mul.make_args(t)))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.minpoly._is_sum_surds_correct","statement":"Path(_is_sum_surds(x), returns all((f.is_Rational or (f.is_Pow and f.base.is_Rational and (2 * f.exp).is_Integer and f.is_extended_real) for t in Add.make_args(p) for f in Mul.make_args(t))))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"13b5136b9c8c32b1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"all((f.is_Rational or (f.is_Pow and f.base.is_Rational and (2 * f.exp).is_Integer and f.is_extended_real) for t in Add.make_args(p) for f in Mul.make_args(t)))","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _is_sum_surds(p):
     return all(f.is_Rational or f.is_Pow and
         f.base.is_Rational and (2*f.exp).is_Integer and f.is_extended_real
@@ -136,16 +150,25 @@ def _is_sum_surds(p):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_separate_sq(p), helper function for ``_minimal_polynomial_sq``) over Any ║
+# ║ Path(_separate_sq(p), len(a) == old_len_a + 1 and len(a) == old_len_a and len(a1) == old_len_a1 + 1 and len(a2) == old_len_a2 + 1) over {Any | hasattr(p, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _separate_sq : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(p, 'args')                             ║
+# ║   ensures:  len(a) == old_len_a + 1                        ║
+# ║   ensures:  len(a) == old_len_a                            ║
+# ║   ensures:  len(a1) == old_len_a1 + 1                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _separate_sq : {Any | hasattr(p, 'args')} → {Any | re...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cdf9e4d26540a34e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fee1cefd7c383679  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.minpoly._separate_sq","kind":"function","src_hash":"a1786af992766aa5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_separate_sq(p)","rhs":"helper function for ``_minimal_polynomial_sq``","over":{"base":"Any"},"name":"_separate_sq_correct"},"guarantee":"helper function for ``_minimal_polynomial_sq``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.minpoly._separate_sq_correct","statement":"Path(_separate_sq(x), helper function for ``_minimal_polynomial_sq``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cdf9e4d26540a34e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.minpoly._separate_sq","kind":"function","src_hash":"a1786af992766aa5","in":{"base":"Any","pred":"hasattr(p, 'args')"},"out":{"base":"Any","pred":"result satisfies: len(a) == old_len_a + 1 and len(a) == old_len_a and len(a1) == old_len_a1 + 1 and len(a2) == old_len_a2 + 1"},"spec":{"lhs":"_separate_sq(p)","rhs":"len(a) == old_len_a + 1 and len(a) == old_len_a and len(a1) == old_len_a1 + 1 and len(a2) == old_len_a2 + 1","over":{"base":"Any","pred":"hasattr(p, 'args')"},"name":"_separate_sq_correct"},"guarantee":"len(a) == old_len_a + 1; len(a) == old_len_a; len(a1) == old_len_a1 + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.minpoly._separate_sq_correct","statement":"Path(_separate_sq(x), len(a) == old_len_a + 1; len(a) == old_len_a; len(a1) == old_len_a1 + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fee1cefd7c383679","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(p, 'args')"],"ensures":["len(a) == old_len_a + 1","len(a) == old_len_a","len(a1) == old_len_a1 + 1","len(a2) == old_len_a2 + 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["p.args"],"calls_mutating":["a.append","a.sort","a1.append","a2.append"],"raises":["NotImplementedError"]},"state_contract":{"modifies":["a.*","a1.*","a2.*"],"old_bindings":{"old_len_a":"len(a)","old_len_a1":"len(a1)","old_len_a2":"len(a2)"},"post_ensures":["len(a) == old_len_a + 1","len(a) == old_len_a","len(a1) == old_len_a1 + 1","len(a2) == old_len_a2 + 1"],"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def _separate_sq(p):
     """
     helper function for ``_minimal_polynomial_sq``
@@ -212,16 +235,25 @@ def _separate_sq(p):
     return p
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_minimal_polynomial_sq(p, ), returns the minimal polynomial for the ``nth-root`` of a sum of surds or ``none`` if it fails) over Any ║
+# ║ Path(_minimal_polynomial_sq(p, n, x), <unspecified:_minimal_polynomial_sq>) over {Any | hasattr(n, 'is_Integer') and hasattr(p, 'coeff') and hasattr(p, 'primitive')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _minimal_polynomial_sq : Any → Any                         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(n, 'is_Integer')                       ║
+# ║   requires: hasattr(p, 'coeff')                            ║
+# ║   requires: hasattr(p, 'primitive')                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _minimal_polynomial_sq : {Any | hasattr(n, 'is_Intege...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1b7eee61fcfbbf67  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.minpoly._minimal_polynomial_sq","kind":"function","src_hash":"b4a1238cf77c6b91","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_minimal_polynomial_sq(p, )","rhs":"returns the minimal polynomial for the ``nth-root`` of a sum of surds or ``none`` if it fails","over":{"base":"Any"},"name":"_minimal_polynomial_sq_correct"},"guarantee":"returns the minimal polynomial for the ``nth-root`` of a sum of surds or ``none`` if it fails","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.minpoly._minimal_polynomial_sq_correct","statement":"Path(_minimal_polynomial_sq(x), returns the minimal polynomial for the ``nth-root`` of a sum of surds or ``none`` if it fails)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1b7eee61fcfbbf67"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.minpoly._minimal_polynomial_sq","kind":"function","src_hash":"b4a1238cf77c6b91","in":{"base":"Any","pred":"hasattr(n, 'is_Integer') and hasattr(p, 'coeff') and hasattr(p, 'primitive')"},"out":{"base":"Any"},"spec":{"lhs":"_minimal_polynomial_sq(p, n, x)","rhs":"<unspecified:_minimal_polynomial_sq>","over":{"base":"Any","pred":"hasattr(n, 'is_Integer') and hasattr(p, 'coeff') and hasattr(p, 'primitive')"},"name":"_minimal_polynomial_sq_correct"},"guarantee":"returns the minimal polynomial for the ``nth-root`` of a sum of surds or ``none`` if it fails","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.minpoly._minimal_polynomial_sq_correct","statement":"Path(_minimal_polynomial_sq(x), returns the minimal polynomial for the ``nth-root`` of a sum of surds or ``none`` if it fails)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1b7eee61fcfbbf67","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(n, 'is_Integer')","hasattr(p, 'coeff')","hasattr(p, 'primitive')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["n.is_Integer","p.coeff","p.primitive"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _minimal_polynomial_sq(p, n, x):
     """
     Returns the minimal polynomial for the ``nth-root`` of a sum of surds
@@ -277,16 +309,22 @@ def _minimal_polynomial_sq(p, n, x):
     return result
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_minpoly_op_algebraic_element(op,), return the minimal polynomial for ``op(ex1, ex2)``) over Any ║
+# ║ Path(_minpoly_op_algebraic_element(op, ex1, ex2), <unspecified:_minpoly_op_algebraic_element>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _minpoly_op_algebraic_element : Any → Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 877c9db47b77757f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.minpoly._minpoly_op_algebraic_element","kind":"function","src_hash":"8386b2ab7f633ed1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_minpoly_op_algebraic_element(op,)","rhs":"return the minimal polynomial for ``op(ex1, ex2)``","over":{"base":"Any"},"name":"_minpoly_op_algebraic_element_correct"},"guarantee":"return the minimal polynomial for ``op(ex1, ex2)``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.minpoly._minpoly_op_algebraic_element_correct","statement":"Path(_minpoly_op_algebraic_element(x), return the minimal polynomial for ``op(ex1, ex2)``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"877c9db47b77757f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.minpoly._minpoly_op_algebraic_element","kind":"function","src_hash":"8386b2ab7f633ed1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_minpoly_op_algebraic_element(op, ex1, ex2)","rhs":"<unspecified:_minpoly_op_algebraic_element>","over":{"base":"Any"},"name":"_minpoly_op_algebraic_element_correct"},"guarantee":"return the minimal polynomial for ``op(ex1, ex2)``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.minpoly._minpoly_op_algebraic_element_correct","statement":"Path(_minpoly_op_algebraic_element(x), return the minimal polynomial for ``op(ex1, ex2)``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"877c9db47b77757f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["mp2.subs"],"raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def _minpoly_op_algebraic_element(op, ex1, ex2, x, dom, mp1=None, mp2=None):
     """
     return the minimal polynomial for ``op(ex1, ex2)``
@@ -367,16 +405,22 @@ def _minpoly_op_algebraic_element(op, ex1, ex2, x, dom, mp1=None, mp2=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_invertx(p, ), returns ``expand_mul(x**degree(p, x)*p.subs(x, 1/x))``) over Any ║
+# ║ Path(_invertx(p, x), Add(*a)) over Any                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Add(*a)                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _invertx : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 80f20f510daf0310  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 258449f15fb6c273  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.minpoly._invertx","kind":"function","src_hash":"5076714ba9be004d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_invertx(p, )","rhs":"returns ``expand_mul(x**degree(p, x)*p.subs(x, 1/x))``","over":{"base":"Any"},"name":"_invertx_correct"},"guarantee":"returns ``expand_mul(x**degree(p, x)*p.subs(x, 1/x))``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.minpoly._invertx_correct","statement":"Path(_invertx(x), returns ``expand_mul(x**degree(p, x)*p.subs(x, 1/x))``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"80f20f510daf0310"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.minpoly._invertx","kind":"function","src_hash":"5076714ba9be004d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_invertx(p, x)","rhs":"Add(*a)","over":{"base":"Any"},"name":"_invertx_correct"},"guarantee":"returns Add(*a)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.minpoly._invertx_correct","statement":"Path(_invertx(x), returns Add(*a))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"258449f15fb6c273","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Add(*a)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _invertx(p, x):
     """
     Returns ``expand_mul(x**degree(p, x)*p.subs(x, 1/x))``
@@ -389,16 +433,22 @@ def _invertx(p, x):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_muly(p, ), returns ``_mexpand(y**deg*p.subs({x:x / y}))``) over Any ║
+# ║ Path(_muly(p, x, y), Add(*a)) over Any                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Add(*a)                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _muly : Any → {Any | result satisfies: x / y}))``}         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9d8d9ac7afc7d568  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7c677b8d2555b155  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.minpoly._muly","kind":"function","src_hash":"77fb2c981142f299","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: x / y}))``"},"spec":{"lhs":"_muly(p, )","rhs":"returns ``_mexpand(y**deg*p.subs({x:x / y}))``","over":{"base":"Any"},"name":"_muly_correct"},"guarantee":"returns ``_mexpand(y**deg*p.subs({x:x / y}))``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.minpoly._muly_correct","statement":"Path(_muly(x), returns ``_mexpand(y**deg*p.subs({x:x / y}))``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9d8d9ac7afc7d568"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.minpoly._muly","kind":"function","src_hash":"77fb2c981142f299","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: x / y}))``"},"spec":{"lhs":"_muly(p, x, y)","rhs":"Add(*a)","over":{"base":"Any"},"name":"_muly_correct"},"guarantee":"returns Add(*a)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.minpoly._muly_correct","statement":"Path(_muly(x), returns Add(*a))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7c677b8d2555b155","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Add(*a)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _muly(p, x, y):
     """
     Returns ``_mexpand(y**deg*p.subs({x:x / y}))``
@@ -411,16 +461,25 @@ def _muly(p, x, y):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_minpoly_pow(ex,), returns ``minpoly(ex**pw, x)``) over Any ║
+# ║ Path(_minpoly_pow(ex, pw, x), <unspecified:_minpoly_pow>) over {Any | pw.is_rational and hasattr(pw, 'is_rational') and hasattr(mp, 'subs') and hasattr(pw, 'as_numer_denom')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _minpoly_pow : Any → Any                                   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: pw.is_rational                                 ║
+# ║   requires: hasattr(pw, 'is_rational')                     ║
+# ║   requires: hasattr(mp, 'subs')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _minpoly_pow : {Any | pw.is_rational and hasattr(pw, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9cf312b41b616b1c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.minpoly._minpoly_pow","kind":"function","src_hash":"2918efcf7e47d09b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_minpoly_pow(ex,)","rhs":"returns ``minpoly(ex**pw, x)``","over":{"base":"Any"},"name":"_minpoly_pow_correct"},"guarantee":"returns ``minpoly(ex**pw, x)``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.minpoly._minpoly_pow_correct","statement":"Path(_minpoly_pow(x), returns ``minpoly(ex**pw, x)``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9cf312b41b616b1c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.minpoly._minpoly_pow","kind":"function","src_hash":"2918efcf7e47d09b","in":{"base":"Any","pred":"pw.is_rational and hasattr(pw, 'is_rational') and hasattr(mp, 'subs') and hasattr(pw, 'as_numer_denom')"},"out":{"base":"Any"},"spec":{"lhs":"_minpoly_pow(ex, pw, x)","rhs":"<unspecified:_minpoly_pow>","over":{"base":"Any","pred":"pw.is_rational and hasattr(pw, 'is_rational') and hasattr(mp, 'subs') and hasattr(pw, 'as_numer_denom')"},"name":"_minpoly_pow_correct"},"guarantee":"returns ``minpoly(ex**pw, x)``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.minpoly._minpoly_pow_correct","statement":"Path(_minpoly_pow(x), returns ``minpoly(ex**pw, x)``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9cf312b41b616b1c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["pw.is_rational","hasattr(pw, 'is_rational')","hasattr(mp, 'subs')","hasattr(pw, 'as_numer_denom')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["mp.subs","pw.as_numer_denom","pw.is_rational"],"raises":["NotAlgebraic","ZeroDivisionError"]},"state_contract":{"exceptional_post":{"NotAlgebraic":["isinstance(raised, NotAlgebraic)"],"ZeroDivisionError":["isinstance(raised, ZeroDivisionError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def _minpoly_pow(ex, pw, x, dom, mp=None):
     """
     Returns ``minpoly(ex**pw, x)``
@@ -475,16 +534,22 @@ def _minpoly_pow(ex, pw, x, dom, mp=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_minpoly_add(x, ), returns ``minpoly(add(*a), dom, x)``) over Any ║
+# ║ Path(_minpoly_add(x, dom, *a), <unspecified:_minpoly_add>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _minpoly_add : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0eeb622c7435e8f5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.minpoly._minpoly_add","kind":"function","src_hash":"8d11ca6e97cb33f4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_minpoly_add(x, )","rhs":"returns ``minpoly(add(*a), dom, x)``","over":{"base":"Any"},"name":"_minpoly_add_correct"},"guarantee":"returns ``minpoly(add(*a), dom, x)``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.minpoly._minpoly_add_correct","statement":"Path(_minpoly_add(x), returns ``minpoly(add(*a), dom, x)``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0eeb622c7435e8f5"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.minpoly._minpoly_add","kind":"function","src_hash":"8d11ca6e97cb33f4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_minpoly_add(x, dom, *a)","rhs":"<unspecified:_minpoly_add>","over":{"base":"Any"},"name":"_minpoly_add_correct"},"guarantee":"returns ``minpoly(add(*a), dom, x)``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.minpoly._minpoly_add_correct","statement":"Path(_minpoly_add(x), returns ``minpoly(add(*a), dom, x)``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0eeb622c7435e8f5","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['x', 'dom'], spec=['x', 'dom', '*a']"]}}
 def _minpoly_add(x, dom, *a):
     """
     returns ``minpoly(Add(*a), dom, x)``
@@ -498,16 +563,22 @@ def _minpoly_add(x, dom, *a):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_minpoly_mul(x, ), returns ``minpoly(mul(*a), dom, x)``) over Any ║
+# ║ Path(_minpoly_mul(x, dom, *a), <unspecified:_minpoly_mul>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _minpoly_mul : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ae4d8f41276d0156  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.minpoly._minpoly_mul","kind":"function","src_hash":"2981ea7f1dd52ead","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_minpoly_mul(x, )","rhs":"returns ``minpoly(mul(*a), dom, x)``","over":{"base":"Any"},"name":"_minpoly_mul_correct"},"guarantee":"returns ``minpoly(mul(*a), dom, x)``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.minpoly._minpoly_mul_correct","statement":"Path(_minpoly_mul(x), returns ``minpoly(mul(*a), dom, x)``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ae4d8f41276d0156"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.minpoly._minpoly_mul","kind":"function","src_hash":"2981ea7f1dd52ead","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_minpoly_mul(x, dom, *a)","rhs":"<unspecified:_minpoly_mul>","over":{"base":"Any"},"name":"_minpoly_mul_correct"},"guarantee":"returns ``minpoly(mul(*a), dom, x)``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.minpoly._minpoly_mul_correct","statement":"Path(_minpoly_mul(x), returns ``minpoly(mul(*a), dom, x)``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ae4d8f41276d0156","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['x', 'dom'], spec=['x', 'dom', '*a']"]}}
 def _minpoly_mul(x, dom, *a):
     """
     returns ``minpoly(Mul(*a), dom, x)``
@@ -521,16 +592,23 @@ def _minpoly_mul(x, dom, *a):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_minpoly_sin(ex,), id) over Any                       ║
+# ║ Path(_minpoly_sin(ex, x), id) over {Any | hasattr(ex, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _minpoly_sin : Any → Any                                   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(ex, 'args')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _minpoly_sin : {Any | hasattr(ex, 'args')} → Any           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 2dbe148902d5db56   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.minpoly._minpoly_sin","kind":"function","src_hash":"91d04cabbe703c90","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_minpoly_sin(ex,)","rhs":"returns the minimal polynomial of ``sin(ex)`` see https://mathworld.wolfram.com/trigonometryangles.html","over":{"base":"Any"},"name":"_minpoly_sin_correct","kind":"composition"},"guarantee":"returns the minimal polynomial of ``sin(ex)`` see https://mathworld.wolfram.com/trigonometryangles.html","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Add","by":"library_axiom"},{"fn":"range","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2dbe148902d5db56"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.minpoly._minpoly_sin","kind":"function","src_hash":"91d04cabbe703c90","in":{"base":"Any","pred":"hasattr(ex, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_minpoly_sin(ex, x)","rhs":"<unspecified:_minpoly_sin>","over":{"base":"Any","pred":"hasattr(ex, 'args')"},"name":"_minpoly_sin_correct","kind":"composition"},"guarantee":"returns the minimal polynomial of ``sin(ex)`` see https://mathworld.wolfram.com/trigonometryangles.html","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Add","by":"library_axiom"},{"fn":"range","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2dbe148902d5db56","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(ex, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["ex.args"],"raises":["NotAlgebraic"]},"state_contract":{"exceptional_post":{"NotAlgebraic":["isinstance(raised, NotAlgebraic)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def _minpoly_sin(ex, x):
     """
     Returns the minimal polynomial of ``sin(ex)``
@@ -570,16 +648,23 @@ def _minpoly_sin(ex, x):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_minpoly_cos(ex,), returns the minimal polynomial of ``cos(ex)`` see https://mathworld.wolfram.com/trigonometryangles.html) over Any ║
+# ║ Path(_minpoly_cos(ex, x), <unspecified:_minpoly_cos>) over {Any | hasattr(ex, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _minpoly_cos : Any → Any                                   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(ex, 'args')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _minpoly_cos : {Any | hasattr(ex, 'args')} → Any           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 97d3fd465b3e18c4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.minpoly._minpoly_cos","kind":"function","src_hash":"e2bfbb9dfbf1c29d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_minpoly_cos(ex,)","rhs":"returns the minimal polynomial of ``cos(ex)`` see https://mathworld.wolfram.com/trigonometryangles.html","over":{"base":"Any"},"name":"_minpoly_cos_correct"},"guarantee":"returns the minimal polynomial of ``cos(ex)`` see https://mathworld.wolfram.com/trigonometryangles.html","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.minpoly._minpoly_cos_correct","statement":"Path(_minpoly_cos(x), returns the minimal polynomial of ``cos(ex)`` see https://mathworld.wolfram.com/trigonometryangles.html)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"97d3fd465b3e18c4"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.minpoly._minpoly_cos","kind":"function","src_hash":"e2bfbb9dfbf1c29d","in":{"base":"Any","pred":"hasattr(ex, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_minpoly_cos(ex, x)","rhs":"<unspecified:_minpoly_cos>","over":{"base":"Any","pred":"hasattr(ex, 'args')"},"name":"_minpoly_cos_correct"},"guarantee":"returns the minimal polynomial of ``cos(ex)`` see https://mathworld.wolfram.com/trigonometryangles.html","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.minpoly._minpoly_cos_correct","statement":"Path(_minpoly_cos(x), returns the minimal polynomial of ``cos(ex)`` see https://mathworld.wolfram.com/trigonometryangles.html)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"97d3fd465b3e18c4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(ex, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["ex.args"],"raises":["NotAlgebraic"]},"state_contract":{"exceptional_post":{"NotAlgebraic":["isinstance(raised, NotAlgebraic)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def _minpoly_cos(ex, x):
     """
     Returns the minimal polynomial of ``cos(ex)``
@@ -612,16 +697,23 @@ def _minpoly_cos(ex, x):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_minpoly_tan(ex,), returns the minimal polynomial of ``tan(ex)`` see https://github.com/sympy/sympy/issues/21430) over Any ║
+# ║ Path(_minpoly_tan(ex, x), len(terms) == old_len_terms + 1) over {Any | hasattr(ex, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _minpoly_tan : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(ex, 'args')                            ║
+# ║   ensures:  len(terms) == old_len_terms + 1                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _minpoly_tan : {Any | hasattr(ex, 'args')} → {Any | r...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 32b6f83e742183c9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c16641deaf275566  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.minpoly._minpoly_tan","kind":"function","src_hash":"e994d1038761ee4c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_minpoly_tan(ex,)","rhs":"returns the minimal polynomial of ``tan(ex)`` see https://github.com/sympy/sympy/issues/21430","over":{"base":"Any"},"name":"_minpoly_tan_correct"},"guarantee":"returns the minimal polynomial of ``tan(ex)`` see https://github.com/sympy/sympy/issues/21430","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.minpoly._minpoly_tan_correct","statement":"Path(_minpoly_tan(x), returns the minimal polynomial of ``tan(ex)`` see https://github.com/sympy/sympy/issues/21430)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"32b6f83e742183c9"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.minpoly._minpoly_tan","kind":"function","src_hash":"e994d1038761ee4c","in":{"base":"Any","pred":"hasattr(ex, 'args')"},"out":{"base":"Any","pred":"result satisfies: len(terms) == old_len_terms + 1"},"spec":{"lhs":"_minpoly_tan(ex, x)","rhs":"len(terms) == old_len_terms + 1","over":{"base":"Any","pred":"hasattr(ex, 'args')"},"name":"_minpoly_tan_correct"},"guarantee":"len(terms) == old_len_terms + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.minpoly._minpoly_tan_correct","statement":"Path(_minpoly_tan(x), len(terms) == old_len_terms + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c16641deaf275566","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(ex, 'args')"],"ensures":["len(terms) == old_len_terms + 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["ex.args"],"calls_mutating":["terms.append"],"raises":["NotAlgebraic"]},"state_contract":{"modifies":["terms.*"],"old_bindings":{"old_len_terms":"len(terms)"},"post_ensures":["len(terms) == old_len_terms + 1"],"exceptional_post":{"NotAlgebraic":["isinstance(raised, NotAlgebraic)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _minpoly_tan(ex, x):
     """
     Returns the minimal polynomial of ``tan(ex)``
@@ -647,16 +739,23 @@ def _minpoly_tan(ex, x):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_minpoly_exp(ex,), returns the minimal polynomial of ``exp(ex)``) over Any ║
+# ║ Path(_minpoly_exp(ex, x), <unspecified:_minpoly_exp>) over {Any | hasattr(ex, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _minpoly_exp : Any → Any                                   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(ex, 'args')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _minpoly_exp : {Any | hasattr(ex, 'args')} → Any           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c9971b2de1ca8136  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.minpoly._minpoly_exp","kind":"function","src_hash":"dd9b50620c386316","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_minpoly_exp(ex,)","rhs":"returns the minimal polynomial of ``exp(ex)``","over":{"base":"Any"},"name":"_minpoly_exp_correct"},"guarantee":"returns the minimal polynomial of ``exp(ex)``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.minpoly._minpoly_exp_correct","statement":"Path(_minpoly_exp(x), returns the minimal polynomial of ``exp(ex)``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c9971b2de1ca8136"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.minpoly._minpoly_exp","kind":"function","src_hash":"dd9b50620c386316","in":{"base":"Any","pred":"hasattr(ex, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_minpoly_exp(ex, x)","rhs":"<unspecified:_minpoly_exp>","over":{"base":"Any","pred":"hasattr(ex, 'args')"},"name":"_minpoly_exp_correct"},"guarantee":"returns the minimal polynomial of ``exp(ex)``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.minpoly._minpoly_exp_correct","statement":"Path(_minpoly_exp(x), returns the minimal polynomial of ``exp(ex)``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c9971b2de1ca8136","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(ex, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["ex.args"],"raises":["NotAlgebraic"]},"state_contract":{"exceptional_post":{"NotAlgebraic":["isinstance(raised, NotAlgebraic)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def _minpoly_exp(ex, x):
     """
     Returns the minimal polynomial of ``exp(ex)``
@@ -694,16 +793,24 @@ def _minpoly_exp(ex, x):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_minpoly_rootof(ex,), returns the minimal polynomial of a ``crootof`` object) over Any ║
+# ║ Path(_minpoly_rootof(ex, x), <unspecified:_minpoly_rootof>) over {Any | hasattr(ex, 'expr') and hasattr(ex, 'poly')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _minpoly_rootof : Any → Any                                ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(ex, 'expr')                            ║
+# ║   requires: hasattr(ex, 'poly')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _minpoly_rootof : {Any | hasattr(ex, 'expr') and hasa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 19ac7663d4815fc6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.minpoly._minpoly_rootof","kind":"function","src_hash":"3438359f15ba0d9b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_minpoly_rootof(ex,)","rhs":"returns the minimal polynomial of a ``crootof`` object","over":{"base":"Any"},"name":"_minpoly_rootof_correct"},"guarantee":"returns the minimal polynomial of a ``crootof`` object","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.minpoly._minpoly_rootof_correct","statement":"Path(_minpoly_rootof(x), returns the minimal polynomial of a ``crootof`` object)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"19ac7663d4815fc6"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.minpoly._minpoly_rootof","kind":"function","src_hash":"3438359f15ba0d9b","in":{"base":"Any","pred":"hasattr(ex, 'expr') and hasattr(ex, 'poly')"},"out":{"base":"Any"},"spec":{"lhs":"_minpoly_rootof(ex, x)","rhs":"<unspecified:_minpoly_rootof>","over":{"base":"Any","pred":"hasattr(ex, 'expr') and hasattr(ex, 'poly')"},"name":"_minpoly_rootof_correct"},"guarantee":"returns the minimal polynomial of a ``crootof`` object","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.minpoly._minpoly_rootof_correct","statement":"Path(_minpoly_rootof(x), returns the minimal polynomial of a ``crootof`` object)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"19ac7663d4815fc6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(ex, 'expr')","hasattr(ex, 'poly')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["ex.expr","ex.poly"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _minpoly_rootof(ex, x):
     """
     Returns the minimal polynomial of a ``CRootOf`` object.
@@ -716,16 +823,25 @@ def _minpoly_rootof(ex, x):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_minpoly_compose(ex,), computes the minimal polynomial of an algebraic element using operations on minimal polynomials) over Any ║
+# ║ Path(_minpoly_compose(ex, x, dom), len(r1) == old_len_r1 - 1) over {Any | hasattr(ex, 'is_Rational') and hasattr(ex, 'is_Add') and hasattr(dom, 'is_QQ') and hasattr(ex, 'is_Mul') and hasattr(ex, 'p') and hasattr(dom, 'symbols') and hasattr(ex, 'is_Pow') and hasattr(ex, 'q') and hasattr(ex, 'args') and hasattr(ex, 'base') and hasattr(ex, 'exp') and len(r1) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _minpoly_compose : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(ex, 'is_Rational')                     ║
+# ║   requires: hasattr(ex, 'is_Add')                          ║
+# ║   requires: hasattr(dom, 'is_QQ')                          ║
+# ║   ensures:  len(r1) == old_len_r1 - 1                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _minpoly_compose : {Any | hasattr(ex, 'is_Rational') ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e1a728d89e04fcaf  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.9ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 73868eab09502b61  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.minpoly._minpoly_compose","kind":"function","src_hash":"ca4d4095f604375f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_minpoly_compose(ex,)","rhs":"computes the minimal polynomial of an algebraic element using operations on minimal polynomials","over":{"base":"Any"},"name":"_minpoly_compose_correct"},"guarantee":"computes the minimal polynomial of an algebraic element using operations on minimal polynomials","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.minpoly._minpoly_compose_correct","statement":"Path(_minpoly_compose(x), computes the minimal polynomial of an algebraic element using operations on minimal polynomials)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e1a728d89e04fcaf"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.minpoly._minpoly_compose","kind":"function","src_hash":"ca4d4095f604375f","in":{"base":"Any","pred":"hasattr(ex, 'is_Rational') and hasattr(ex, 'is_Add') and hasattr(dom, 'is_QQ') and hasattr(ex, 'is_Mul') and hasattr(ex, 'p') and hasattr(dom, 'symbols') and hasattr(ex, 'is_Pow') and hasattr(ex, 'q') and hasattr(ex, 'args') and hasattr(ex, 'base') and hasattr(ex, 'exp') and len(r1) > 0"},"out":{"base":"Any","pred":"result satisfies: len(r1) == old_len_r1 - 1"},"spec":{"lhs":"_minpoly_compose(ex, x, dom)","rhs":"len(r1) == old_len_r1 - 1","over":{"base":"Any","pred":"hasattr(ex, 'is_Rational') and hasattr(ex, 'is_Add') and hasattr(dom, 'is_QQ') and hasattr(ex, 'is_Mul') and hasattr(ex, 'p') and hasattr(dom, 'symbols') and hasattr(ex, 'is_Pow') and hasattr(ex, 'q') and hasattr(ex, 'args') and hasattr(ex, 'base') and hasattr(ex, 'exp') and len(r1) > 0"},"name":"_minpoly_compose_correct"},"guarantee":"len(r1) == old_len_r1 - 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.minpoly._minpoly_compose_correct","statement":"Path(_minpoly_compose(x), len(r1) == old_len_r1 - 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"73868eab09502b61","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(ex, 'is_Rational')","hasattr(ex, 'is_Add')","hasattr(dom, 'is_QQ')","hasattr(ex, 'is_Mul')","hasattr(ex, 'p')","hasattr(dom, 'symbols')","hasattr(ex, 'is_Pow')","hasattr(ex, 'q')","hasattr(ex, 'args')","hasattr(ex, 'base')","hasattr(ex, 'exp')","len(r1) > 0"],"ensures":["len(r1) == old_len_r1 - 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","dom.is_QQ","dom.symbols","ex.__class__","ex.args","ex.base","ex.exp","ex.is_Add","ex.is_Mul","ex.is_Pow","ex.is_Rational","ex.p","ex.q"],"calls_mutating":["r1.pop"],"raises":["NotAlgebraic"]},"state_contract":{"modifies":["r1.*"],"old_bindings":{"old_len_r1":"len(r1)"},"pre_requires":["len(r1) > 0"],"post_ensures":["len(r1) == old_len_r1 - 1"],"exceptional_post":{"NotAlgebraic":["isinstance(raised, NotAlgebraic)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.9,"verdict_class":"assumed","binding":true}}
 def _minpoly_compose(ex, x, dom):
     """
     Computes the minimal polynomial of an algebraic element
@@ -821,16 +937,25 @@ def _minpoly_compose(ex, x, dom):
 
 @public
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(minimal_polynomial(ex,), id) over Any                 ║
+# ║ Path(minimal_polynomial(ex, x, compose), id) over {Any | hasattr(ex, 'is_number') and hasattr(ex, 'free_symbols') and hasattr(domain, 'is_QQ') and hasattr(domain, 'symbols')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ minimal_polynomial : Any → Any                             ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(ex, 'is_number')                       ║
+# ║   requires: hasattr(ex, 'free_symbols')                    ║
+# ║   requires: hasattr(domain, 'is_QQ')                       ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ minimal_polynomial : {Any | hasattr(ex, 'is_number') ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 3308835b27ce99eb   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.minpoly.minimal_polynomial","kind":"function","src_hash":"e3042adfd19d5d01","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"minimal_polynomial(ex,)","rhs":"computes the minimal polynomial of an algebraic element","over":{"base":"Any"},"name":"minimal_polynomial_correct","kind":"composition"},"guarantee":"computes the minimal polynomial of an algebraic element","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"cls","by":"library_axiom"},{"fn":"collect","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3308835b27ce99eb"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.minpoly.minimal_polynomial","kind":"function","src_hash":"e3042adfd19d5d01","in":{"base":"Any","pred":"hasattr(ex, 'is_number') and hasattr(ex, 'free_symbols') and hasattr(domain, 'is_QQ') and hasattr(domain, 'symbols')"},"out":{"base":"Any"},"spec":{"lhs":"minimal_polynomial(ex, x, compose)","rhs":"<unspecified:minimal_polynomial>","over":{"base":"Any","pred":"hasattr(ex, 'is_number') and hasattr(ex, 'free_symbols') and hasattr(domain, 'is_QQ') and hasattr(domain, 'symbols')"},"name":"minimal_polynomial_correct","kind":"composition"},"guarantee":"computes the minimal polynomial of an algebraic element","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"cls","by":"library_axiom"},{"fn":"collect","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3308835b27ce99eb","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(ex, 'is_number')","hasattr(ex, 'free_symbols')","hasattr(domain, 'is_QQ')","hasattr(domain, 'symbols')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["domain.is_QQ","domain.symbols","ex.free_symbols","ex.is_number"],"raises":["GeneratorsError","NotImplementedError"]},"state_contract":{"exceptional_post":{"GeneratorsError":["isinstance(raised, GeneratorsError)"],"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def minimal_polynomial(ex, x=None, compose=True, polys=False, domain=None):
     """
     Computes the minimal polynomial of an algebraic element.
@@ -924,16 +1049,27 @@ def minimal_polynomial(ex, x=None, compose=True, polys=False, domain=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_minpoly_groebner(ex,), computes the minimal polynomial of an algebraic number using groebner bases) over Any ║
+# ║ Path(_minpoly_groebner(ex, x, cls), <unspecified:_minpoly_groebner>) over {Any | hasattr(ex, 'is_AlgebraicNumber') and hasattr(ex, 'is_Atom') and hasattr(ex, 'is_Pow') and hasattr(ex, 'is_Mul') and hasattr(ex, 'is_Rational') and hasattr(ex, 'is_Add') and hasattr(ex, 'args') and hasattr(ex, 'p') and hasattr(ex, 'exp') and hasattr(ex, 'base') and hasattr(ex, 'minpoly_of_element') and hasattr(ex, 'q')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _minpoly_groebner : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(ex, 'is_AlgebraicNumber')              ║
+# ║   requires: hasattr(ex, 'is_Atom')                         ║
+# ║   requires: hasattr(ex, 'is_Pow')                          ║
+# ║   fiber[case_0]: ex.is_AlgebraicNumber => ex.minpoly_...   ║
+# ║   fiber[case_1]: ex.is_Rational                            ║
+# ║   fiber[case_2]: not (ex.is_AlgebraicNumber) and not ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _minpoly_groebner : {Any | hasattr(ex, 'is_AlgebraicN...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 35b1be5bb1efac3a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.9ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3d9f45fd70d9269a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.minpoly._minpoly_groebner","kind":"function","src_hash":"87028c46069e7433","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_minpoly_groebner(ex,)","rhs":"computes the minimal polynomial of an algebraic number using groebner bases","over":{"base":"Any"},"name":"_minpoly_groebner_correct"},"guarantee":"computes the minimal polynomial of an algebraic number using groebner bases","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.minpoly._minpoly_groebner_correct","statement":"Path(_minpoly_groebner(x), computes the minimal polynomial of an algebraic number using groebner bases)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"35b1be5bb1efac3a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.minpoly._minpoly_groebner","kind":"function","src_hash":"87028c46069e7433","in":{"base":"Any","pred":"hasattr(ex, 'is_AlgebraicNumber') and hasattr(ex, 'is_Atom') and hasattr(ex, 'is_Pow') and hasattr(ex, 'is_Mul') and hasattr(ex, 'is_Rational') and hasattr(ex, 'is_Add') and hasattr(ex, 'args') and hasattr(ex, 'p') and hasattr(ex, 'exp') and hasattr(ex, 'base') and hasattr(ex, 'minpoly_of_element') and hasattr(ex, 'q')"},"out":{"base":"Any"},"spec":{"lhs":"_minpoly_groebner(ex, x, cls)","rhs":"<unspecified:_minpoly_groebner>","over":{"base":"Any","pred":"hasattr(ex, 'is_AlgebraicNumber') and hasattr(ex, 'is_Atom') and hasattr(ex, 'is_Pow') and hasattr(ex, 'is_Mul') and hasattr(ex, 'is_Rational') and hasattr(ex, 'is_Add') and hasattr(ex, 'args') and hasattr(ex, 'p') and hasattr(ex, 'exp') and hasattr(ex, 'base') and hasattr(ex, 'minpoly_of_element') and hasattr(ex, 'q')"},"name":"_minpoly_groebner_correct"},"guarantee":"3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.minpoly._minpoly_groebner_correct","statement":"Path(_minpoly_groebner(x), 3-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3d9f45fd70d9269a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(ex, 'is_AlgebraicNumber')","hasattr(ex, 'is_Atom')","hasattr(ex, 'is_Pow')","hasattr(ex, 'is_Mul')","hasattr(ex, 'is_Rational')","hasattr(ex, 'is_Add')","hasattr(ex, 'args')","hasattr(ex, 'p')","hasattr(ex, 'exp')","hasattr(ex, 'base')","hasattr(ex, 'minpoly_of_element')","hasattr(ex, 'q')"],"fibers":[{"name":"case_0","guard":"ex.is_AlgebraicNumber","ensures":["result == ex.minpoly_of_element().as_expr(x)"],"decidability":"library","returns_expr":"ex.minpoly_of_element().as_expr(x)"},{"name":"case_1","guard":"ex.is_Rational","ensures":[],"decidability":"library"},{"name":"case_2","guard":"not (ex.is_AlgebraicNumber) and not (ex.is_Rational)","ensures":[],"decidability":"library"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["ex.args","ex.base","ex.exp","ex.is_Add","ex.is_AlgebraicNumber","ex.is_Atom","ex.is_Mul","ex.is_Pow","ex.is_Rational","ex.minpoly_of_element","ex.p","ex.q"],"raises":["NotAlgebraic"]},"state_contract":{"exceptional_post":{"NotAlgebraic":["isinstance(raised, NotAlgebraic)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.9,"verdict_class":"assumed","binding":true}}
 def _minpoly_groebner(ex, x, cls):
     """
     Computes the minimal polynomial of an algebraic number
@@ -1098,16 +1234,22 @@ def _minpoly_groebner(ex, x, cls):
 
 @public
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(minpoly(ex,), this is a synonym for :py:func:`~.minimal_polynomial`) over Any ║
+# ║ Path(minpoly(ex, x, compose), minimal_polynomial(ex, x=x, compose=compose, polys=polys, domain=domain)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  minimal_polynomial(ex, x=x, compose=compo...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ minpoly : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 84aced96f1f81534           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.minpoly.minpoly","kind":"function","src_hash":"19755219dd1f91e5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"minpoly(ex,)","rhs":"this is a synonym for :py:func:`~.minimal_polynomial`","over":{"base":"Any"},"name":"minpoly_correct"},"guarantee":"this is a synonym for :py:func:`~.minimal_polynomial`","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"84aced96f1f81534"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.minpoly.minpoly","kind":"function","src_hash":"19755219dd1f91e5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"minpoly(ex, x, compose)","rhs":"minimal_polynomial(ex, x=x, compose=compose, polys=polys, domain=domain)","over":{"base":"Any"},"name":"minpoly_correct"},"guarantee":"returns minimal_polynomial(ex, x=x, compose=compose, polys=polys, domain=domain)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"84aced96f1f81534","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"minimal_polynomial(ex, x=x, compose=compose, polys=polys, domain=domain)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":true}}
 def minpoly(ex, x=None, compose=True, polys=False, domain=None):
     """This is a synonym for :py:func:`~.minimal_polynomial`."""
     return minimal_polynomial(ex, x=x, compose=compose, polys=polys, domain=domain)

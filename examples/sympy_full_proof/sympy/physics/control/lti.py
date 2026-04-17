@@ -49,16 +49,22 @@ __all__ = ['TransferFunction', 'PIDController', 'Series', 'MIMOSeries', 'Paralle
     'phase_margin', 'gain_margin']
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_roots(pol), like roots, but works on higher-order polynomials) over Any ║
+# ║ Path(_roots(poly, var), <unspecified:_roots>) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _roots : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 37d1b97f2844bbe0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti._roots","kind":"function","src_hash":"c1ce68c3f499a2a9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_roots(pol)","rhs":"like roots, but works on higher-order polynomials","over":{"base":"Any"},"name":"_roots_correct"},"guarantee":"like roots, but works on higher-order polynomials","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.lti._roots_correct","statement":"Path(_roots(x), like roots, but works on higher-order polynomials)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"37d1b97f2844bbe0"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti._roots","kind":"function","src_hash":"c1ce68c3f499a2a9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_roots(poly, var)","rhs":"<unspecified:_roots>","over":{"base":"Any"},"name":"_roots_correct"},"guarantee":"like roots, but works on higher-order polynomials","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.lti._roots_correct","statement":"Path(_roots(x), like roots, but works on higher-order polynomials)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"37d1b97f2844bbe0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _roots(poly, var):
     """ like roots, but works on higher-order polynomials. """
     r = roots(poly, var, multiple=True)
@@ -68,16 +74,25 @@ def _roots(poly, var):
     return r
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gbt(tf,), returns falling coefficients of h(z) from numerator and denominator) over Any ║
+# ║ Path(gbt(tf, sample_per, alpha), (num_coefs, den_coefs)) over {Any | tf.is_SISO and hasattr(tf, 'var') and hasattr(tf, 'is_SISO') and hasattr(tf, 'num') and hasattr(tf, 'den')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ gbt : Any → Any                                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: tf.is_SISO                                     ║
+# ║   requires: hasattr(tf, 'var')                             ║
+# ║   requires: hasattr(tf, 'is_SISO')                         ║
+# ║   returns:  (num_coefs, den_coefs)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ gbt : {Any | tf.is_SISO and hasattr(tf, 'var') and ha...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cebcd55ffec040df  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 112d909a9669e984  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.gbt","kind":"function","src_hash":"301799bda70b0326","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gbt(tf,)","rhs":"returns falling coefficients of h(z) from numerator and denominator","over":{"base":"Any"},"name":"gbt_correct"},"guarantee":"returns falling coefficients of h(z) from numerator and denominator","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.lti.gbt_correct","statement":"Path(gbt(x), returns falling coefficients of h(z) from numerator and denominator)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cebcd55ffec040df"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.gbt","kind":"function","src_hash":"301799bda70b0326","in":{"base":"Any","pred":"tf.is_SISO and hasattr(tf, 'var') and hasattr(tf, 'is_SISO') and hasattr(tf, 'num') and hasattr(tf, 'den')"},"out":{"base":"Any"},"spec":{"lhs":"gbt(tf, sample_per, alpha)","rhs":"(num_coefs, den_coefs)","over":{"base":"Any","pred":"tf.is_SISO and hasattr(tf, 'var') and hasattr(tf, 'is_SISO') and hasattr(tf, 'num') and hasattr(tf, 'den')"},"name":"gbt_correct"},"guarantee":"returns (num_coefs, den_coefs)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.lti.gbt_correct","statement":"Path(gbt(x), returns (num_coefs, den_coefs))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"112d909a9669e984","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["tf.is_SISO","hasattr(tf, 'var')","hasattr(tf, 'is_SISO')","hasattr(tf, 'num')","hasattr(tf, 'den')"],"returns_expr":"(num_coefs, den_coefs)","pure":false,"effects":{"effect_type":"reads_state","reads":["tf.den","tf.is_SISO","tf.num","tf.var"],"raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def gbt(tf, sample_per, alpha):
     r"""
     Returns falling coefficients of H(z) from numerator and denominator.
@@ -155,16 +170,22 @@ def gbt(tf, sample_per, alpha):
     return num_coefs, den_coefs
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(bilinear(tf,), returns falling coefficients of h(z) from numerator and denominator) over Any ║
+# ║ Path(bilinear(tf, sample_per), gbt(tf, sample_per, S.Half)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  gbt(tf, sample_per, S.Half)                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ bilinear : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4141efb55884d921           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.bilinear","kind":"function","src_hash":"4752bd2185b1a727","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bilinear(tf,)","rhs":"returns falling coefficients of h(z) from numerator and denominator","over":{"base":"Any"},"name":"bilinear_correct"},"guarantee":"returns falling coefficients of h(z) from numerator and denominator","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4141efb55884d921"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.bilinear","kind":"function","src_hash":"4752bd2185b1a727","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bilinear(tf, sample_per)","rhs":"gbt(tf, sample_per, S.Half)","over":{"base":"Any"},"name":"bilinear_correct"},"guarantee":"returns gbt(tf, sample_per, S.Half)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4141efb55884d921","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"gbt(tf, sample_per, S.Half)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def bilinear(tf, sample_per):
     r"""
     Returns falling coefficients of H(z) from numerator and denominator.
@@ -196,16 +217,22 @@ def bilinear(tf, sample_per):
     return gbt(tf, sample_per, S.Half)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(forward_diff(tf,), returns falling coefficients of h(z) from numerator and denominator) over Any ║
+# ║ Path(forward_diff(tf, sample_per), gbt(tf, sample_per, S.Zero)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  gbt(tf, sample_per, S.Zero)                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ forward_diff : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2ae70d47ce329782           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.forward_diff","kind":"function","src_hash":"f52da31ee343aa05","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"forward_diff(tf,)","rhs":"returns falling coefficients of h(z) from numerator and denominator","over":{"base":"Any"},"name":"forward_diff_correct"},"guarantee":"returns falling coefficients of h(z) from numerator and denominator","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2ae70d47ce329782"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.forward_diff","kind":"function","src_hash":"f52da31ee343aa05","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"forward_diff(tf, sample_per)","rhs":"gbt(tf, sample_per, S.Zero)","over":{"base":"Any"},"name":"forward_diff_correct"},"guarantee":"returns gbt(tf, sample_per, S.Zero)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2ae70d47ce329782","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"gbt(tf, sample_per, S.Zero)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def forward_diff(tf, sample_per):
     r"""
     Returns falling coefficients of H(z) from numerator and denominator.
@@ -237,16 +264,22 @@ def forward_diff(tf, sample_per):
     return gbt(tf, sample_per, S.Zero)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(backward_diff(tf,), returns falling coefficients of h(z) from numerator and denominator) over Any ║
+# ║ Path(backward_diff(tf, sample_per), gbt(tf, sample_per, S.One)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  gbt(tf, sample_per, S.One)                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ backward_diff : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2bd5dfdd514be66f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.backward_diff","kind":"function","src_hash":"fc6e6c360984c5fe","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"backward_diff(tf,)","rhs":"returns falling coefficients of h(z) from numerator and denominator","over":{"base":"Any"},"name":"backward_diff_correct"},"guarantee":"returns falling coefficients of h(z) from numerator and denominator","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2bd5dfdd514be66f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.backward_diff","kind":"function","src_hash":"fc6e6c360984c5fe","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"backward_diff(tf, sample_per)","rhs":"gbt(tf, sample_per, S.One)","over":{"base":"Any"},"name":"backward_diff_correct"},"guarantee":"returns gbt(tf, sample_per, S.One)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2bd5dfdd514be66f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"gbt(tf, sample_per, S.One)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def backward_diff(tf, sample_per):
     r"""
     Returns falling coefficients of H(z) from numerator and denominator.
@@ -278,7 +311,13 @@ def backward_diff(tf, sample_per):
     return gbt(tf, sample_per, S.One)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(phase_margin(sys), returns the phase margin of a continuous time system. only applicable to transfer functions which can generate valid bode plots) over {Any | isinstance(system, SISOLinearTimeInvariant)} ║
+# ║ Path(phase_margin(system), <unspecified:phase_margin>) over {Any | isinstance(system, SISOLinearTimeInvariant) and isinstance(system, SISOLinearTimeInvariant) and hasattr(system, 'to_expr') and hasattr(system, 'var')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(system, SISOLinearTimeInvariant)    ║
+# ║   requires: hasattr(system, 'to_expr')                     ║
+# ║   requires: hasattr(system, 'var')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ phase_margin : {Any | isinstance(system, SISOLinearTi...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -290,9 +329,12 @@ def backward_diff(tf, sample_per):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.8ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 34cf7f49...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.phase_margin","kind":"function","src_hash":"aa06197986deb9da","in":{"base":"Any","pred":"isinstance(system, SISOLinearTimeInvariant)"},"out":{"base":"Any"},"spec":{"lhs":"phase_margin(sys)","rhs":"returns the phase margin of a continuous time system. only applicable to transfer functions which can generate valid bode plots","over":{"base":"Any","pred":"isinstance(system, SISOLinearTimeInvariant)"},"name":"phase_margin_correct"},"guarantee":"returns the phase margin of a continuous time system. only applicable to transfer functions which can generate valid bode plots","fibers":[{"name":"SISOLinearTimeInvariant","pred":"isinstance(system, SISOLinearTimeInvariant)","path":{"lhs":"phase_margin(x)","rhs":"returns the phase margin of a continuous time system. only applicable to transfer functions which can generate valid bode plots","over":{"base":"SISOLinearTimeInvariant","pred":"isinstance(system, SISOLinearTimeInvariant)"},"name":"phase_margin_SISOLinearTimeInvariant_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.lti.phase_margin_SISOLinearTimeInvariant_correct","statement":"phase_margin satisfies spec on SISOLinearTimeInvariant inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"34cf7f49684b2a1c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.phase_margin","kind":"function","src_hash":"aa06197986deb9da","in":{"base":"Any","pred":"isinstance(system, SISOLinearTimeInvariant) and isinstance(system, SISOLinearTimeInvariant) and hasattr(system, 'to_expr') and hasattr(system, 'var')"},"out":{"base":"Any"},"spec":{"lhs":"phase_margin(system)","rhs":"<unspecified:phase_margin>","over":{"base":"Any","pred":"isinstance(system, SISOLinearTimeInvariant) and isinstance(system, SISOLinearTimeInvariant) and hasattr(system, 'to_expr') and hasattr(system, 'var')"},"name":"phase_margin_correct"},"guarantee":"returns the phase margin of a continuous time system. only applicable to transfer functions which can generate valid bode plots","fibers":[{"name":"SISOLinearTimeInvariant","pred":"isinstance(system, SISOLinearTimeInvariant)","path":{"lhs":"phase_margin(x)","rhs":"returns the phase margin of a continuous time system. only applicable to transfer functions which can generate valid bode plots","over":{"base":"SISOLinearTimeInvariant","pred":"isinstance(system, SISOLinearTimeInvariant)"},"name":"phase_margin_SISOLinearTimeInvariant_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.lti.phase_margin_SISOLinearTimeInvariant_correct","statement":"phase_margin satisfies spec on SISOLinearTimeInvariant inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"34cf7f49684b2a1c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(system, SISOLinearTimeInvariant)","hasattr(system, 'to_expr')","hasattr(system, 'var')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["system.to_expr","system.var"],"raises":["NotImplementedError","ValueError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.8,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'pm >= 180', 'len(mag_sol) == 0', 'not isinstance(system, SISOLinearTimeInvariant)', 'len_free_symbols > 1'}, fibers={'SISOLinearTimeInvariant'})"]}}
 def phase_margin(system):
     r"""
     Returns the phase margin of a continuous time system.
@@ -377,7 +419,13 @@ def phase_margin(system):
     return pm
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gain_margin(sys), returns the gain margin of a continuous time system. only applicable to transfer functions which can generate valid bode plots) over {Any | isinstance(system, SISOLinearTimeInvariant)} ║
+# ║ Path(gain_margin(system), <unspecified:gain_margin>) over {Any | isinstance(system, SISOLinearTimeInvariant) and isinstance(system, SISOLinearTimeInvariant) and hasattr(system, 'to_expr') and hasattr(system, 'var')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(system, SISOLinearTimeInvariant)    ║
+# ║   requires: hasattr(system, 'to_expr')                     ║
+# ║   requires: hasattr(system, 'var')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gain_margin : {Any | isinstance(system, SISOLinearTim...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -389,9 +437,12 @@ def phase_margin(system):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.4ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 1202266b...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.gain_margin","kind":"function","src_hash":"20a1631805d7b384","in":{"base":"Any","pred":"isinstance(system, SISOLinearTimeInvariant)"},"out":{"base":"Any"},"spec":{"lhs":"gain_margin(sys)","rhs":"returns the gain margin of a continuous time system. only applicable to transfer functions which can generate valid bode plots","over":{"base":"Any","pred":"isinstance(system, SISOLinearTimeInvariant)"},"name":"gain_margin_correct"},"guarantee":"returns the gain margin of a continuous time system. only applicable to transfer functions which can generate valid bode plots","fibers":[{"name":"SISOLinearTimeInvariant","pred":"isinstance(system, SISOLinearTimeInvariant)","path":{"lhs":"gain_margin(x)","rhs":"returns the gain margin of a continuous time system. only applicable to transfer functions which can generate valid bode plots","over":{"base":"SISOLinearTimeInvariant","pred":"isinstance(system, SISOLinearTimeInvariant)"},"name":"gain_margin_SISOLinearTimeInvariant_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.lti.gain_margin_SISOLinearTimeInvariant_correct","statement":"gain_margin satisfies spec on SISOLinearTimeInvariant inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"1202266ba0497f22"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.gain_margin","kind":"function","src_hash":"20a1631805d7b384","in":{"base":"Any","pred":"isinstance(system, SISOLinearTimeInvariant) and isinstance(system, SISOLinearTimeInvariant) and hasattr(system, 'to_expr') and hasattr(system, 'var')"},"out":{"base":"Any"},"spec":{"lhs":"gain_margin(system)","rhs":"<unspecified:gain_margin>","over":{"base":"Any","pred":"isinstance(system, SISOLinearTimeInvariant) and isinstance(system, SISOLinearTimeInvariant) and hasattr(system, 'to_expr') and hasattr(system, 'var')"},"name":"gain_margin_correct"},"guarantee":"returns the gain margin of a continuous time system. only applicable to transfer functions which can generate valid bode plots","fibers":[{"name":"SISOLinearTimeInvariant","pred":"isinstance(system, SISOLinearTimeInvariant)","path":{"lhs":"gain_margin(x)","rhs":"returns the gain margin of a continuous time system. only applicable to transfer functions which can generate valid bode plots","over":{"base":"SISOLinearTimeInvariant","pred":"isinstance(system, SISOLinearTimeInvariant)"},"name":"gain_margin_SISOLinearTimeInvariant_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.lti.gain_margin_SISOLinearTimeInvariant_correct","statement":"gain_margin satisfies spec on SISOLinearTimeInvariant inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"1202266ba0497f22","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(system, SISOLinearTimeInvariant)","hasattr(system, 'to_expr')","hasattr(system, 'var')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["system.to_expr","system.var"],"raises":["NotImplementedError","ValueError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.4,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'len(phase_sol) == 0', 'not isinstance(system, SISOLinearTimeInvariant)', 'len_free_symbols > 1'}, fibers={'SISOLinearTimeInvariant'})"]}}
 def gain_margin(system):
     r"""
     Returns the gain margin of a continuous time system.
@@ -468,14 +519,21 @@ def gain_margin(system):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a LinearTimeInvariant instance) preserved by LinearTimeInvariant(*args) over {Any | isinstance(arg, cls._clstype)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Basic)                        ║
+# ║   ensures:  isinstance(self, EvalfMixin)                   ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ LinearTimeInvariant : {Any | isinstance(arg, cls._cls...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 714e541667e23046  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.LinearTimeInvariant","kind":"class","src_hash":"0105745ac5b98acf","in":{"base":"Any","pred":"isinstance(arg, cls._clstype)"},"out":{"base":"Any"},"spec":{"lhs":"LinearTimeInvariant(*args)","rhs":"correctly constructs a LinearTimeInvariant instance","over":{"base":"Any","pred":"isinstance(arg, cls._clstype)"},"name":"LinearTimeInvariant_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a LinearTimeInvariant instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_SISO","pred":"self.is_SISO","kind":"class"}],"methods_preserving":["is_SISO"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"714e541667e23046"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.LinearTimeInvariant","kind":"class","src_hash":"0105745ac5b98acf","in":{"base":"Any","pred":"isinstance(arg, cls._clstype)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Basic) and isinstance(self, EvalfMixin)"},"spec":{"lhs":"LinearTimeInvariant(*args)","rhs":"correctly constructs a LinearTimeInvariant instance","over":{"base":"Any","pred":"isinstance(arg, cls._clstype)"},"name":"LinearTimeInvariant_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, Basic); isinstance(self, EvalfMixin)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_SISO","pred":"self.is_SISO","kind":"class"}],"methods_preserving":["is_SISO"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"714e541667e23046","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Basic)","isinstance(self, EvalfMixin)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function LinearTimeInvariant not found in source"]}}
 class LinearTimeInvariant(Basic, EvalfMixin):
     """A common class for all the Linear Time-Invariant Dynamical Systems."""
 
@@ -483,16 +541,23 @@ class LinearTimeInvariant(Basic, EvalfMixin):
 
     # Users should not directly interact with this class.
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, *system, **kwargs), super(LinearTimeInvariant, cls).__new__(cls, *system, **kwargs)) over {Any | not (cls is LinearTimeInvariant)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (cls is LinearTimeInvariant)               ║
+# ║   returns:  super(LinearTimeInvariant, cls).__new__(c...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | not (cls is LinearTimeInvariant)} → Any   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9580ca9e0089ea77           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.LinearTimeInvariant.__new__","kind":"method","src_hash":"3a0264dc6f70bdd8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9580ca9e0089ea77"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.LinearTimeInvariant.__new__","kind":"method","src_hash":"3a0264dc6f70bdd8","in":{"base":"Any","pred":"not (cls is LinearTimeInvariant)"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, *system, **kwargs)","rhs":"super(LinearTimeInvariant, cls).__new__(cls, *system, **kwargs)","over":{"base":"Any","pred":"not (cls is LinearTimeInvariant)"},"name":"__new___correct"},"guarantee":"returns super(LinearTimeInvariant, cls).__new__(cls, *system, **kwargs)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9580ca9e0089ea77","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (cls is LinearTimeInvariant)"],"returns_expr":"super(LinearTimeInvariant, cls).__new__(cls, *system, **kwargs)","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, *system, **kwargs):
         if cls is LinearTimeInvariant:
             raise NotImplementedError('The LTICommon class is not meant to be used directly.')
@@ -500,16 +565,25 @@ class LinearTimeInvariant(Basic, EvalfMixin):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_check_args(cls), internal helper behaves correctly) over Any ║
+# ║ Path(_check_args(cls, args), <unspecified:_check_args>) over {Any | args and all((isinstance(arg, cls._clstype) for arg in args)) and not (len(var_set) != 1)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _check_args : Any → Any                                    ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: args                                           ║
+# ║   requires: all((isinstance(arg, cls._clstype) for ar...   ║
+# ║   requires: not (len(var_set) != 1)                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _check_args : {Any | args and all((isinstance(arg, cl...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aee21f39b0f49ed9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.LinearTimeInvariant._check_args","kind":"classmethod","src_hash":"0c777ec611ed7dd8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_check_args(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_check_args_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.lti.LinearTimeInvariant._check_args_correct","statement":"Path(_check_args(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aee21f39b0f49ed9"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.LinearTimeInvariant._check_args","kind":"classmethod","src_hash":"0c777ec611ed7dd8","in":{"base":"Any","pred":"args and all((isinstance(arg, cls._clstype) for arg in args)) and not (len(var_set) != 1)"},"out":{"base":"Any"},"spec":{"lhs":"_check_args(cls, args)","rhs":"<unspecified:_check_args>","over":{"base":"Any","pred":"args and all((isinstance(arg, cls._clstype) for arg in args)) and not (len(var_set) != 1)"},"name":"_check_args_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.lti.LinearTimeInvariant._check_args_correct","statement":"Path(_check_args(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aee21f39b0f49ed9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["args","all((isinstance(arg, cls._clstype) for arg in args))","not (len(var_set) != 1)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["cls._clstype"],"raises":["TypeError","ValueError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _check_args(cls, args):
         if not args:
             raise ValueError("At least 1 argument must be passed.")
@@ -524,16 +598,22 @@ class LinearTimeInvariant(Basic, EvalfMixin):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_SISO(), returns the is_SISO attribute) over Any    ║
+# ║ Path(is_SISO(), self._is_SISO) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._is_SISO                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_SISO : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 116f7d681663fca8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.LinearTimeInvariant.is_SISO","kind":"property","src_hash":"e21f30be20c5a7db","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_SISO()","rhs":"returns the is_SISO attribute","over":{"base":"Any"},"name":"is_SISO_correct"},"guarantee":"returns the is_SISO attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"116f7d681663fca8"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.LinearTimeInvariant.is_SISO","kind":"property","src_hash":"e21f30be20c5a7db","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_SISO()","rhs":"self._is_SISO","over":{"base":"Any"},"name":"is_SISO_correct"},"guarantee":"returns self._is_SISO","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"116f7d681663fca8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._is_SISO","pure":false,"effects":{"effect_type":"reads_state","reads":["self._is_SISO"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_SISO(self):
         """Returns `True` if the passed LTI system is SISO else returns False."""
         return self._is_SISO
@@ -542,46 +622,64 @@ class LinearTimeInvariant(Basic, EvalfMixin):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(SISOLinearTimeInvariant(*args), correctly constructs a SISOLinearTimeInvariant instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ SISOLinearTimeInvariant : Any → Any                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, LinearTimeInvariant)          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ SISOLinearTimeInvariant : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e15dc1dee23fdea3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.SISOLinearTimeInvariant","kind":"class","src_hash":"e2fc7f9c69c2c724","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"SISOLinearTimeInvariant(*args)","rhs":"correctly constructs a SISOLinearTimeInvariant instance","over":{"base":"Any"},"name":"SISOLinearTimeInvariant_class_invariant"},"guarantee":"correctly constructs a SISOLinearTimeInvariant instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e15dc1dee23fdea3"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.SISOLinearTimeInvariant","kind":"class","src_hash":"e2fc7f9c69c2c724","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, LinearTimeInvariant)"},"spec":{"lhs":"SISOLinearTimeInvariant(*args)","rhs":"correctly constructs a SISOLinearTimeInvariant instance","over":{"base":"Any"},"name":"SISOLinearTimeInvariant_class_invariant"},"guarantee":"isinstance(self, LinearTimeInvariant)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e15dc1dee23fdea3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, LinearTimeInvariant)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function SISOLinearTimeInvariant not found in source"]}}
 class SISOLinearTimeInvariant(LinearTimeInvariant):
     """A common class for all the SISO Linear Time-Invariant Dynamical Systems."""
     # Users should not directly interact with this class.
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(num_inputs(), returns the num_inputs attribute) over Any ║
+# ║ Path(num_inputs(), 1) over Any                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  1                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ num_inputs : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d0453db1f7657e81           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.SISOLinearTimeInvariant.num_inputs","kind":"property","src_hash":"6285245c7c1ff60c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"num_inputs()","rhs":"returns the num_inputs attribute","over":{"base":"Any"},"name":"num_inputs_correct"},"guarantee":"returns the num_inputs attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d0453db1f7657e81"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.SISOLinearTimeInvariant.num_inputs","kind":"property","src_hash":"6285245c7c1ff60c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"num_inputs()","rhs":"1","over":{"base":"Any"},"name":"num_inputs_correct"},"guarantee":"returns 1","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d0453db1f7657e81","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"1","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def num_inputs(self):
         """Return the number of inputs for SISOLinearTimeInvariant."""
         return 1
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(num_outputs(), returns the num_outputs attribute) over Any ║
+# ║ Path(num_outputs(), 1) over Any                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  1                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ num_outputs : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d3c8f62a210bee66           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.SISOLinearTimeInvariant.num_outputs","kind":"property","src_hash":"d71599b5234ce3b5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"num_outputs()","rhs":"returns the num_outputs attribute","over":{"base":"Any"},"name":"num_outputs_correct"},"guarantee":"returns the num_outputs attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d3c8f62a210bee66"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.SISOLinearTimeInvariant.num_outputs","kind":"property","src_hash":"d71599b5234ce3b5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"num_outputs()","rhs":"1","over":{"base":"Any"},"name":"num_outputs_correct"},"guarantee":"returns 1","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d3c8f62a210bee66","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"1","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def num_outputs(self):
         """Return the number of outputs for SISOLinearTimeInvariant."""
         return 1
@@ -590,16 +688,22 @@ class SISOLinearTimeInvariant(LinearTimeInvariant):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(MIMOLinearTimeInvariant(), correctly constructs a MIMOLinearTimeInvariant instance) over Any ║
+# ║ Path(MIMOLinearTimeInvariant(), isinstance(self, LinearTimeInvariant)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ MIMOLinearTimeInvariant : Any → Any                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, LinearTimeInvariant)          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ MIMOLinearTimeInvariant : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 318af433c0f65665           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.MIMOLinearTimeInvariant","kind":"class","src_hash":"4647d6d7d6ad7065","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"MIMOLinearTimeInvariant()","rhs":"correctly constructs a MIMOLinearTimeInvariant instance","over":{"base":"Any"},"name":"MIMOLinearTimeInvariant_correct"},"guarantee":"correctly constructs a MIMOLinearTimeInvariant instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"318af433c0f65665"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.MIMOLinearTimeInvariant","kind":"class","src_hash":"4647d6d7d6ad7065","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, LinearTimeInvariant)"},"spec":{"lhs":"MIMOLinearTimeInvariant()","rhs":"isinstance(self, LinearTimeInvariant)","over":{"base":"Any"},"name":"MIMOLinearTimeInvariant_correct"},"guarantee":"isinstance(self, LinearTimeInvariant)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"318af433c0f65665","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, LinearTimeInvariant)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function MIMOLinearTimeInvariant not found in source"]}}
 class MIMOLinearTimeInvariant(LinearTimeInvariant):
     """A common class for all the MIMO Linear Time-Invariant Dynamical Systems."""
     # Users should not directly interact with this class.
@@ -611,7 +715,10 @@ MIMOLinearTimeInvariant._clstype = MIMOLinearTimeInvariant
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_check_other_SISO(fun), internal helper behaves correctly) over {Any | isinstance(args[-1], SISOLinearTimeInvariant)} ║
+# ║ Path(_check_other_SISO(func), <unspecified:_check_other_SISO>) over {Any | isinstance(args[-1], SISOLinearTimeInvariant)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _check_other_SISO : {Any | isinstance(args[-1], SISOL...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -623,9 +730,12 @@ MIMOLinearTimeInvariant._clstype = MIMOLinearTimeInvariant
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 0.2ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | a4adfd78...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti._check_other_SISO","kind":"function","src_hash":"7d5893f0934d150a","in":{"base":"Any","pred":"isinstance(args[-1], SISOLinearTimeInvariant)"},"out":{"base":"Any"},"spec":{"lhs":"_check_other_SISO(fun)","rhs":"internal helper behaves correctly","over":{"base":"Any","pred":"isinstance(args[-1], SISOLinearTimeInvariant)"},"name":"_check_other_SISO_correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"SISOLinearTimeInvariant","pred":"isinstance(args[-1], SISOLinearTimeInvariant)","path":{"lhs":"_check_other_SISO(x)","rhs":"internal helper behaves correctly","over":{"base":"SISOLinearTimeInvariant","pred":"isinstance(args[-1], SISOLinearTimeInvariant)"},"name":"_check_other_SISO_SISOLinearTimeInvariant_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.lti._check_other_SISO_SISOLinearTimeInvariant_correct","statement":"_check_other_SISO satisfies spec on SISOLinearTimeInvariant inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"a4adfd7869834fb5"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti._check_other_SISO","kind":"function","src_hash":"7d5893f0934d150a","in":{"base":"Any","pred":"isinstance(args[-1], SISOLinearTimeInvariant)"},"out":{"base":"Any"},"spec":{"lhs":"_check_other_SISO(func)","rhs":"<unspecified:_check_other_SISO>","over":{"base":"Any","pred":"isinstance(args[-1], SISOLinearTimeInvariant)"},"name":"_check_other_SISO_correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"SISOLinearTimeInvariant","pred":"isinstance(args[-1], SISOLinearTimeInvariant)","path":{"lhs":"_check_other_SISO(x)","rhs":"internal helper behaves correctly","over":{"base":"SISOLinearTimeInvariant","pred":"isinstance(args[-1], SISOLinearTimeInvariant)"},"name":"_check_other_SISO_SISOLinearTimeInvariant_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.lti._check_other_SISO_SISOLinearTimeInvariant_correct","statement":"_check_other_SISO satisfies spec on SISOLinearTimeInvariant inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"a4adfd7869834fb5","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'not isinstance(args[-1], SISOLinearTimeInvariant)'}, fibers={'SISOLinearTimeInvariant'})"]}}
 def _check_other_SISO(func):
     def wrapper(*args, **kwargs):
         if not isinstance(args[-1], SISOLinearTimeInvariant):
@@ -636,7 +746,10 @@ def _check_other_SISO(func):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_check_other_MIMO(fun), internal helper behaves correctly) over {Any | isinstance(args[-1], MIMOLinearTimeInvariant)} ║
+# ║ Path(_check_other_MIMO(func), <unspecified:_check_other_MIMO>) over {Any | isinstance(args[-1], MIMOLinearTimeInvariant)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _check_other_MIMO : {Any | isinstance(args[-1], MIMOL...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -648,9 +761,12 @@ def _check_other_SISO(func):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 0.2ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 450c1245...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti._check_other_MIMO","kind":"function","src_hash":"924586ee0302f3f3","in":{"base":"Any","pred":"isinstance(args[-1], MIMOLinearTimeInvariant)"},"out":{"base":"Any"},"spec":{"lhs":"_check_other_MIMO(fun)","rhs":"internal helper behaves correctly","over":{"base":"Any","pred":"isinstance(args[-1], MIMOLinearTimeInvariant)"},"name":"_check_other_MIMO_correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"MIMOLinearTimeInvariant","pred":"isinstance(args[-1], MIMOLinearTimeInvariant)","path":{"lhs":"_check_other_MIMO(x)","rhs":"internal helper behaves correctly","over":{"base":"MIMOLinearTimeInvariant","pred":"isinstance(args[-1], MIMOLinearTimeInvariant)"},"name":"_check_other_MIMO_MIMOLinearTimeInvariant_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.lti._check_other_MIMO_MIMOLinearTimeInvariant_correct","statement":"_check_other_MIMO satisfies spec on MIMOLinearTimeInvariant inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"450c1245ca9ccade"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti._check_other_MIMO","kind":"function","src_hash":"924586ee0302f3f3","in":{"base":"Any","pred":"isinstance(args[-1], MIMOLinearTimeInvariant)"},"out":{"base":"Any"},"spec":{"lhs":"_check_other_MIMO(func)","rhs":"<unspecified:_check_other_MIMO>","over":{"base":"Any","pred":"isinstance(args[-1], MIMOLinearTimeInvariant)"},"name":"_check_other_MIMO_correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"MIMOLinearTimeInvariant","pred":"isinstance(args[-1], MIMOLinearTimeInvariant)","path":{"lhs":"_check_other_MIMO(x)","rhs":"internal helper behaves correctly","over":{"base":"MIMOLinearTimeInvariant","pred":"isinstance(args[-1], MIMOLinearTimeInvariant)"},"name":"_check_other_MIMO_MIMOLinearTimeInvariant_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.lti._check_other_MIMO_MIMOLinearTimeInvariant_correct","statement":"_check_other_MIMO satisfies spec on MIMOLinearTimeInvariant inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"450c1245ca9ccade","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'not isinstance(args[-1], MIMOLinearTimeInvariant)'}, fibers={'MIMOLinearTimeInvariant'})"]}}
 def _check_other_MIMO(func):
     def wrapper(*args, **kwargs):
         if not isinstance(args[-1], MIMOLinearTimeInvariant):
@@ -663,14 +779,20 @@ def _check_other_MIMO(func):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a TransferFunction instance) preserved by TransferFunction(*args) over {Any | isinstance(other, TransferFunction) and isinstance(var, Symbol) and isinstance(other, (TransferFunction, Series, Feedback))} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, SISOLinearTimeInvariant)      ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ TransferFunction : {Any | isinstance(other, TransferF...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 2.7ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5f7c4baeb3473e4c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.TransferFunction","kind":"class","src_hash":"7a6b2939d88187ce","in":{"base":"Any","pred":"isinstance(other, TransferFunction) and isinstance(var, Symbol) and isinstance(other, (TransferFunction, Series, Feedback))"},"out":{"base":"Any"},"spec":{"lhs":"TransferFunction(*args)","rhs":"correctly constructs a TransferFunction instance","over":{"base":"Any","pred":"isinstance(other, TransferFunction) and isinstance(var, Symbol) and isinstance(other, (TransferFunction, Series, Feedback))"},"name":"TransferFunction_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a TransferFunction instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_proper","pred":"self.is_proper","kind":"class"},{"name":"is_strictly_proper","pred":"self.is_strictly_proper","kind":"class"},{"name":"is_biproper","pred":"self.is_biproper","kind":"class"}],"methods_preserving":["num","den","var","_eval_subs","_eval_evalf","_eval_simplify","_eval_rewrite_as_StateSpace","expand","dc_gain","poles","zeros","eval_frequency","is_stable","__add__","__radd__","__sub__","__rsub__","__mul__","__truediv__","__pow__","__neg__","is_proper","is_strictly_proper","is_biproper","to_expr"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5f7c4baeb3473e4c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.TransferFunction","kind":"class","src_hash":"7a6b2939d88187ce","in":{"base":"Any","pred":"isinstance(other, TransferFunction) and isinstance(var, Symbol) and isinstance(other, (TransferFunction, Series, Feedback))"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, SISOLinearTimeInvariant)"},"spec":{"lhs":"TransferFunction(*args)","rhs":"correctly constructs a TransferFunction instance","over":{"base":"Any","pred":"isinstance(other, TransferFunction) and isinstance(var, Symbol) and isinstance(other, (TransferFunction, Series, Feedback))"},"name":"TransferFunction_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, SISOLinearTimeInvariant)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_proper","pred":"self.is_proper","kind":"class"},{"name":"is_strictly_proper","pred":"self.is_strictly_proper","kind":"class"},{"name":"is_biproper","pred":"self.is_biproper","kind":"class"}],"methods_preserving":["num","den","var","_eval_subs","_eval_evalf","_eval_simplify","_eval_rewrite_as_StateSpace","expand","dc_gain","poles","zeros","eval_frequency","is_stable","__add__","__radd__","__sub__","__rsub__","__mul__","__truediv__","__pow__","__neg__","is_proper","is_strictly_proper","is_biproper","to_expr"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5f7c4baeb3473e4c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, SISOLinearTimeInvariant)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.7,"verdict_class":"assumed","binding":false,"binding_errors":["Function TransferFunction not found in source"]}}
 class TransferFunction(SISOLinearTimeInvariant):
     r"""
     A class for representing LTI (Linear, time-invariant) systems that can be strictly described
@@ -858,16 +980,25 @@ class TransferFunction(SISOLinearTimeInvariant):
 
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, num, den), super(TransferFunction, cls).__new__(cls, num, den, var)) over {Any | isinstance(var, Symbol) and not (den == 0) and hasattr(num, 'is_number') and hasattr(den, 'is_number') and hasattr(num, 'has') and hasattr(den, 'has')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(var, Symbol)                        ║
+# ║   requires: not (den == 0)                                 ║
+# ║   requires: hasattr(num, 'is_number')                      ║
+# ║   returns:  super(TransferFunction, cls).__new__(cls,...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | isinstance(var, Symbol) and not (den...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e737ba1bbf0a044f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.TransferFunction.__new__","kind":"method","src_hash":"b7609e528d21762e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e737ba1bbf0a044f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.TransferFunction.__new__","kind":"method","src_hash":"b7609e528d21762e","in":{"base":"Any","pred":"isinstance(var, Symbol) and not (den == 0) and hasattr(num, 'is_number') and hasattr(den, 'is_number') and hasattr(num, 'has') and hasattr(den, 'has')"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, num, den)","rhs":"super(TransferFunction, cls).__new__(cls, num, den, var)","over":{"base":"Any","pred":"isinstance(var, Symbol) and not (den == 0) and hasattr(num, 'is_number') and hasattr(den, 'is_number') and hasattr(num, 'has') and hasattr(den, 'has')"},"name":"__new___correct"},"guarantee":"returns super(TransferFunction, cls).__new__(cls, num, den, var)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e737ba1bbf0a044f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(var, Symbol)","not (den == 0)","hasattr(num, 'is_number')","hasattr(den, 'is_number')","hasattr(num, 'has')","hasattr(den, 'has')"],"returns_expr":"super(TransferFunction, cls).__new__(cls, num, den, var)","pure":false,"effects":{"effect_type":"mutates_args","reads":["den.has","den.is_number","num.has","num.is_number"],"writes":["cls.is_StateSpace_object"],"raises":["TypeError","ValueError"]},"state_contract":{"modifies":["cls.is_StateSpace_object"],"old_bindings":{"old_cls_is_StateSpace_object":"cls.is_StateSpace_object"},"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, num, den, var):
         num, den = _sympify(num), _sympify(den)
 
@@ -887,16 +1018,25 @@ class TransferFunction(SISOLinearTimeInvariant):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_rational_expression(cls), creates a new ``transferfunction`` efficiently from a rational expression) over Any ║
+# ║ Path(from_rational_expression(cls, expr, var), cls(_num, _den, var)) over {Any | not (_den == 0 or _num.has(S.ComplexInfinity)) and hasattr(expr, 'free_symbols') and hasattr(expr, 'as_numer_denom')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_rational_expression : Any → Any                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (_den == 0 or _num.has(S.ComplexInfin...   ║
+# ║   requires: hasattr(expr, 'free_symbols')                  ║
+# ║   requires: hasattr(expr, 'as_numer_denom')                ║
+# ║   returns:  cls(_num, _den, var)                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_rational_expression : {Any | not (_den == 0 or _...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c8b67d78b3994bdb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1779a711d3483efd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.TransferFunction.from_rational_expression","kind":"classmethod","src_hash":"84a71ba431d22ac2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_rational_expression(cls)","rhs":"creates a new ``transferfunction`` efficiently from a rational expression","over":{"base":"Any"},"name":"from_rational_expression_correct"},"guarantee":"creates a new ``transferfunction`` efficiently from a rational expression","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.lti.TransferFunction.from_rational_expression_correct","statement":"Path(from_rational_expression(x), creates a new ``transferfunction`` efficiently from a rational expression)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c8b67d78b3994bdb"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.TransferFunction.from_rational_expression","kind":"classmethod","src_hash":"84a71ba431d22ac2","in":{"base":"Any","pred":"not (_den == 0 or _num.has(S.ComplexInfinity)) and hasattr(expr, 'free_symbols') and hasattr(expr, 'as_numer_denom')"},"out":{"base":"Any"},"spec":{"lhs":"from_rational_expression(cls, expr, var)","rhs":"cls(_num, _den, var)","over":{"base":"Any","pred":"not (_den == 0 or _num.has(S.ComplexInfinity)) and hasattr(expr, 'free_symbols') and hasattr(expr, 'as_numer_denom')"},"name":"from_rational_expression_correct"},"guarantee":"returns cls(_num, _den, var)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.lti.TransferFunction.from_rational_expression_correct","statement":"Path(from_rational_expression(x), returns cls(_num, _den, var))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1779a711d3483efd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (_den == 0 or _num.has(S.ComplexInfinity))","hasattr(expr, 'free_symbols')","hasattr(expr, 'as_numer_denom')"],"returns_expr":"cls(_num, _den, var)","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.as_numer_denom","expr.free_symbols"],"raises":["ValueError","ZeroDivisionError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"],"ZeroDivisionError":["isinstance(raised, ZeroDivisionError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_rational_expression(cls, expr, var=None):
         r"""
         Creates a new ``TransferFunction`` efficiently from a rational expression.
@@ -980,16 +1120,22 @@ class TransferFunction(SISOLinearTimeInvariant):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_coeff_lists(cls), creates a new ``transferfunction`` efficiently from a list of coefficients) over Any ║
+# ║ Path(from_coeff_lists(cls, num_list, den_list), cls(_num, _den, var)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  cls(_num, _den, var)                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ from_coeff_lists : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 69c96c2c179adcf5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 21c5321b2803f739  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.TransferFunction.from_coeff_lists","kind":"classmethod","src_hash":"751ac50748858d99","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_coeff_lists(cls)","rhs":"creates a new ``transferfunction`` efficiently from a list of coefficients","over":{"base":"Any"},"name":"from_coeff_lists_correct"},"guarantee":"creates a new ``transferfunction`` efficiently from a list of coefficients","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.lti.TransferFunction.from_coeff_lists_correct","statement":"Path(from_coeff_lists(x), creates a new ``transferfunction`` efficiently from a list of coefficients)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"69c96c2c179adcf5"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.TransferFunction.from_coeff_lists","kind":"classmethod","src_hash":"751ac50748858d99","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_coeff_lists(cls, num_list, den_list)","rhs":"cls(_num, _den, var)","over":{"base":"Any"},"name":"from_coeff_lists_correct"},"guarantee":"returns cls(_num, _den, var)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.lti.TransferFunction.from_coeff_lists_correct","statement":"Path(from_coeff_lists(x), returns cls(_num, _den, var))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"21c5321b2803f739","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"cls(_num, _den, var)","pure":false,"effects":{"effect_type":"reads_state","raises":["ZeroDivisionError"]},"state_contract":{"exceptional_post":{"ZeroDivisionError":["isinstance(raised, ZeroDivisionError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_coeff_lists(cls, num_list, den_list, var):
         r"""
         Creates a new ``TransferFunction`` efficiently from a list of coefficients.
@@ -1042,16 +1188,22 @@ class TransferFunction(SISOLinearTimeInvariant):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_zpk(cls), creates a new ``transferfunction`` from given zeros, poles and gain) over Any ║
+# ║ Path(from_zpk(cls, zeros, poles), cls(gain * num_poly, den_poly, var)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  cls(gain * num_poly, den_poly, var)            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ from_zpk : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 348cc92a3cd0c1bd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cce6bfdc728d149d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.TransferFunction.from_zpk","kind":"classmethod","src_hash":"40b9583c7e07e393","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_zpk(cls)","rhs":"creates a new ``transferfunction`` from given zeros, poles and gain","over":{"base":"Any"},"name":"from_zpk_correct"},"guarantee":"creates a new ``transferfunction`` from given zeros, poles and gain","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.lti.TransferFunction.from_zpk_correct","statement":"Path(from_zpk(x), creates a new ``transferfunction`` from given zeros, poles and gain)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"348cc92a3cd0c1bd"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.TransferFunction.from_zpk","kind":"classmethod","src_hash":"40b9583c7e07e393","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_zpk(cls, zeros, poles)","rhs":"cls(gain * num_poly, den_poly, var)","over":{"base":"Any"},"name":"from_zpk_correct"},"guarantee":"returns cls(gain * num_poly, den_poly, var)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.lti.TransferFunction.from_zpk_correct","statement":"Path(from_zpk(x), returns cls(gain * num_poly, den_poly, var))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cce6bfdc728d149d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"cls(gain * num_poly, den_poly, var)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_zpk(cls, zeros, poles, gain, var):
         r"""
         Creates a new ``TransferFunction`` from given zeros, poles and gain.
@@ -1101,16 +1253,22 @@ class TransferFunction(SISOLinearTimeInvariant):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(num(), returns the num attribute) over Any            ║
+# ║ Path(num(), self.args[0]) over Any                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ num : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0a7bad4aebbad85d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.TransferFunction.num","kind":"property","src_hash":"8a7d6cafd451d44f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"num()","rhs":"returns the num attribute","over":{"base":"Any"},"name":"num_correct"},"guarantee":"returns the num attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0a7bad4aebbad85d"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.TransferFunction.num","kind":"property","src_hash":"8a7d6cafd451d44f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"num()","rhs":"self.args[0]","over":{"base":"Any"},"name":"num_correct"},"guarantee":"returns self.args[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0a7bad4aebbad85d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def num(self):
         """
         Returns the numerator polynomial of the transfer function.
@@ -1132,16 +1290,22 @@ class TransferFunction(SISOLinearTimeInvariant):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(den(), returns the den attribute) over Any            ║
+# ║ Path(den(), self.args[1]) over Any                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[1]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ den : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 40c694e3f177d409           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.TransferFunction.den","kind":"property","src_hash":"fd7068b211072137","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"den()","rhs":"returns the den attribute","over":{"base":"Any"},"name":"den_correct"},"guarantee":"returns the den attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"40c694e3f177d409"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.TransferFunction.den","kind":"property","src_hash":"fd7068b211072137","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"den()","rhs":"self.args[1]","over":{"base":"Any"},"name":"den_correct"},"guarantee":"returns self.args[1]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"40c694e3f177d409","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[1]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def den(self):
         """
         Returns the denominator polynomial of the transfer function.
@@ -1163,16 +1327,22 @@ class TransferFunction(SISOLinearTimeInvariant):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(var(), returns the var attribute) over Any            ║
+# ║ Path(var(), self.args[2]) over Any                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[2]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ var : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9a739bb44e170c70           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.TransferFunction.var","kind":"property","src_hash":"48569effe83276ef","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"var()","rhs":"returns the var attribute","over":{"base":"Any"},"name":"var_correct"},"guarantee":"returns the var attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9a739bb44e170c70"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.TransferFunction.var","kind":"property","src_hash":"48569effe83276ef","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"var()","rhs":"self.args[2]","over":{"base":"Any"},"name":"var_correct"},"guarantee":"returns self.args[2]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9a739bb44e170c70","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[2]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def var(self):
         """
         Returns the complex variable of the Laplace transform used by the polynomials of
@@ -1194,16 +1364,22 @@ class TransferFunction(SISOLinearTimeInvariant):
         return self.args[2]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_subs(old), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_subs(old, new), self if old == self.var else argnew) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self if old == self.var else argnew            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_subs : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1d86481a27fb9466  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b5ea45726e8d6dbd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.TransferFunction._eval_subs","kind":"method","src_hash":"0e7d3a2feb4156c9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_subs(old)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_subs_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.lti.TransferFunction._eval_subs_correct","statement":"Path(_eval_subs(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1d86481a27fb9466"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.TransferFunction._eval_subs","kind":"method","src_hash":"0e7d3a2feb4156c9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_subs(old, new)","rhs":"self if old == self.var else argnew","over":{"base":"Any"},"name":"_eval_subs_correct"},"guarantee":"returns self if old == self.var else argnew","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.lti.TransferFunction._eval_subs_correct","statement":"Path(_eval_subs(x), returns self if old == self.var else argnew)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b5ea45726e8d6dbd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self if old == self.var else argnew","pure":false,"effects":{"effect_type":"reads_state","reads":["self.den","self.num","self.var"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_subs(self, old, new):
         arg_num = self.num.subs(old, new)
         arg_den = self.den.subs(old, new)
@@ -1211,16 +1387,22 @@ class TransferFunction(SISOLinearTimeInvariant):
         return self if old == self.var else argnew
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_evalf(pre), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_evalf(prec), TransferFunction(self.num._eval_evalf(prec), self.den._eval_evalf(prec), self.var)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  TransferFunction(self.num._eval_evalf(pre...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_evalf : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 82ae9cad85a9bc0c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3c285553da2d8e3a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.TransferFunction._eval_evalf","kind":"method","src_hash":"f752ae49436a4932","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_evalf(pre)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_evalf_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.lti.TransferFunction._eval_evalf_correct","statement":"Path(_eval_evalf(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"82ae9cad85a9bc0c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.TransferFunction._eval_evalf","kind":"method","src_hash":"f752ae49436a4932","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_evalf(prec)","rhs":"TransferFunction(self.num._eval_evalf(prec), self.den._eval_evalf(prec), self.var)","over":{"base":"Any"},"name":"_eval_evalf_correct"},"guarantee":"returns TransferFunction(self.num._eval_evalf(prec), self.den._eval_evalf(prec), self.var)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.lti.TransferFunction._eval_evalf_correct","statement":"Path(_eval_evalf(x), returns TransferFunction(self.num._eval_evalf(prec), self.den._eval_evalf(prec), self.var))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3c285553da2d8e3a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"TransferFunction(self.num._eval_evalf(prec), self.den._eval_evalf(prec), self.var)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.den","self.num","self.var"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_evalf(self, prec):
         return TransferFunction(
             self.num._eval_evalf(prec),
@@ -1228,32 +1410,46 @@ class TransferFunction(SISOLinearTimeInvariant):
             self.var)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_simplify(**k), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_simplify(**kwargs), TransferFunction(num_, den_, self.var)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  TransferFunction(num_, den_, self.var)         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_simplify : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 84e37fc8abdb612e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fad92f30eeb0a782  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.TransferFunction._eval_simplify","kind":"method","src_hash":"01d0b85cc7b103e7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_simplify(**k)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_simplify_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.lti.TransferFunction._eval_simplify_correct","statement":"Path(_eval_simplify(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"84e37fc8abdb612e"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.TransferFunction._eval_simplify","kind":"method","src_hash":"01d0b85cc7b103e7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_simplify(**kwargs)","rhs":"TransferFunction(num_, den_, self.var)","over":{"base":"Any"},"name":"_eval_simplify_correct"},"guarantee":"returns TransferFunction(num_, den_, self.var)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.lti.TransferFunction._eval_simplify_correct","statement":"Path(_eval_simplify(x), returns TransferFunction(num_, den_, self.var))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fad92f30eeb0a782","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"TransferFunction(num_, den_, self.var)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.den","self.num","self.var"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_simplify(self, **kwargs):
         tf = cancel(Mul(self.num, 1/self.den, evaluate=False), expand=False).as_numer_denom()
         num_, den_ = tf[0], tf[1]
         return TransferFunction(num_, den_, self.var)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_StateSpace(*ar), returns the equivalent space model of the transfer function model. the state space model will be returned in the controllable canonical form) over Any ║
+# ║ Path(_eval_rewrite_as_StateSpace(*args), StateSpace(A, B, C, D)) over {Any | self.is_proper} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_rewrite_as_StateSpace : Any → Any                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: self.is_proper                                 ║
+# ║   ensures:  len(C) == old_len_C + 1                        ║
+# ║   returns:  StateSpace(A, B, C, D)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_rewrite_as_StateSpace : {Any | self.is_proper} ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1492ffbf2eed5de0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8e61ecbd49b41aa2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.TransferFunction._eval_rewrite_as_StateSpace","kind":"method","src_hash":"ff163300b1b2c994","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_StateSpace(*ar)","rhs":"returns the equivalent space model of the transfer function model. the state space model will be returned in the controllable canonical form","over":{"base":"Any"},"name":"_eval_rewrite_as_StateSpace_correct"},"guarantee":"returns the equivalent space model of the transfer function model. the state space model will be returned in the controllable canonical form","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.lti.TransferFunction._eval_rewrite_as_StateSpace_correct","statement":"Path(_eval_rewrite_as_StateSpace(x), returns the equivalent space model of the transfer function model. the state space model will be returned in the controllable canonical form)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1492ffbf2eed5de0"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.TransferFunction._eval_rewrite_as_StateSpace","kind":"method","src_hash":"ff163300b1b2c994","in":{"base":"Any","pred":"self.is_proper"},"out":{"base":"Any","pred":"result satisfies: result == (StateSpace(A, B, C, D))"},"spec":{"lhs":"_eval_rewrite_as_StateSpace(*args)","rhs":"StateSpace(A, B, C, D)","over":{"base":"Any","pred":"self.is_proper"},"name":"_eval_rewrite_as_StateSpace_correct"},"guarantee":"returns StateSpace(A, B, C, D); len(C) == old_len_C + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.lti.TransferFunction._eval_rewrite_as_StateSpace_correct","statement":"Path(_eval_rewrite_as_StateSpace(x), returns StateSpace(A, B, C, D); len(C) == old_len_C + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8e61ecbd49b41aa2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["self.is_proper"],"ensures":["len(C) == old_len_C + 1"],"returns_expr":"StateSpace(A, B, C, D)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.den","self.is_proper","self.num","self.var"],"calls_mutating":["C.append"],"raises":["ValueError"]},"state_contract":{"modifies":["C.*"],"old_bindings":{"old_len_C":"len(C)"},"post_ensures":["len(C) == old_len_C + 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_StateSpace(self, *args):
         """
         Returns the equivalent space model of the transfer function model.
@@ -1313,16 +1509,22 @@ class TransferFunction(SISOLinearTimeInvariant):
         return StateSpace(A, B, C, D)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(expand(), returns the transfer function with numerator and denominator in expanded form) over Any ║
+# ║ Path(expand(), TransferFunction(expand(self.num), expand(self.den), self.var)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  TransferFunction(expand(self.num), expand...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ expand : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9a4b2c35bc8adc64           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.TransferFunction.expand","kind":"method","src_hash":"ccb03e51bdc5b0e1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"expand()","rhs":"returns the transfer function with numerator and denominator in expanded form","over":{"base":"Any"},"name":"expand_correct"},"guarantee":"returns the transfer function with numerator and denominator in expanded form","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9a4b2c35bc8adc64"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.TransferFunction.expand","kind":"method","src_hash":"ccb03e51bdc5b0e1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"expand()","rhs":"TransferFunction(expand(self.num), expand(self.den), self.var)","over":{"base":"Any"},"name":"expand_correct"},"guarantee":"returns TransferFunction(expand(self.num), expand(self.den), self.var)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9a4b2c35bc8adc64","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"TransferFunction(expand(self.num), expand(self.den), self.var)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.den","self.num","self.var"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def expand(self):
         """
         Returns the transfer function with numerator and denominator
@@ -1344,16 +1546,22 @@ class TransferFunction(SISOLinearTimeInvariant):
         return TransferFunction(expand(self.num), expand(self.den), self.var)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dc_gain(), computes the gain of the response as the frequency approaches zero) over Any ║
+# ║ Path(dc_gain(), limit(m, self.var, 0)) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  limit(m, self.var, 0)                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dc_gain : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 28ad9af8f9966b43  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1e547b6da088a251  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.TransferFunction.dc_gain","kind":"method","src_hash":"44d044557f8601c7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dc_gain()","rhs":"computes the gain of the response as the frequency approaches zero","over":{"base":"Any"},"name":"dc_gain_correct"},"guarantee":"computes the gain of the response as the frequency approaches zero","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.lti.TransferFunction.dc_gain_correct","statement":"Path(dc_gain(x), computes the gain of the response as the frequency approaches zero)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"28ad9af8f9966b43"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.TransferFunction.dc_gain","kind":"method","src_hash":"44d044557f8601c7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dc_gain()","rhs":"limit(m, self.var, 0)","over":{"base":"Any"},"name":"dc_gain_correct"},"guarantee":"returns limit(m, self.var, 0)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.lti.TransferFunction.dc_gain_correct","statement":"Path(dc_gain(x), returns limit(m, self.var, 0))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1e547b6da088a251","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"limit(m, self.var, 0)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.den","self.num","self.var"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dc_gain(self):
         """
         Computes the gain of the response as the frequency approaches zero.
@@ -1383,16 +1591,22 @@ class TransferFunction(SISOLinearTimeInvariant):
         return limit(m, self.var, 0)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(poles(), returns the poles of a transfer function) over Any ║
+# ║ Path(poles(), _roots(Poly(self.den, self.var), self.var)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _roots(Poly(self.den, self.var), self.var)     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ poles : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ec93321fd9f59ad2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.TransferFunction.poles","kind":"method","src_hash":"5f5614d5f4659624","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"poles()","rhs":"returns the poles of a transfer function","over":{"base":"Any"},"name":"poles_correct"},"guarantee":"returns the poles of a transfer function","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ec93321fd9f59ad2"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.TransferFunction.poles","kind":"method","src_hash":"5f5614d5f4659624","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"poles()","rhs":"_roots(Poly(self.den, self.var), self.var)","over":{"base":"Any"},"name":"poles_correct"},"guarantee":"returns _roots(Poly(self.den, self.var), self.var)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ec93321fd9f59ad2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_roots(Poly(self.den, self.var), self.var)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.den","self.var"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def poles(self):
         """
         Returns the poles of a transfer function.
@@ -1416,16 +1630,22 @@ class TransferFunction(SISOLinearTimeInvariant):
         return _roots(Poly(self.den, self.var), self.var)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(zeros(), returns the zeros of a transfer function) over Any ║
+# ║ Path(zeros(), _roots(Poly(self.num, self.var), self.var)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _roots(Poly(self.num, self.var), self.var)     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ zeros : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | fcc0920d83496862           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.TransferFunction.zeros","kind":"method","src_hash":"7bee07b16385dabd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"zeros()","rhs":"returns the zeros of a transfer function","over":{"base":"Any"},"name":"zeros_correct"},"guarantee":"returns the zeros of a transfer function","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fcc0920d83496862"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.TransferFunction.zeros","kind":"method","src_hash":"7bee07b16385dabd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"zeros()","rhs":"_roots(Poly(self.num, self.var), self.var)","over":{"base":"Any"},"name":"zeros_correct"},"guarantee":"returns _roots(Poly(self.num, self.var), self.var)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fcc0920d83496862","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_roots(Poly(self.num, self.var), self.var)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.num","self.var"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def zeros(self):
         """
         Returns the zeros of a transfer function.
@@ -1449,16 +1669,22 @@ class TransferFunction(SISOLinearTimeInvariant):
         return _roots(Poly(self.num, self.var), self.var)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval_frequency(oth), returns the system response at any point in the real or complex plane) over Any ║
+# ║ Path(eval_frequency(other), argnew.expand()) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  argnew.expand()                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ eval_frequency : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 982117142d5146d7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4bae01eb2e4c1ffa  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.TransferFunction.eval_frequency","kind":"method","src_hash":"cdac0390119c04e2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval_frequency(oth)","rhs":"returns the system response at any point in the real or complex plane","over":{"base":"Any"},"name":"eval_frequency_correct"},"guarantee":"returns the system response at any point in the real or complex plane","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.lti.TransferFunction.eval_frequency_correct","statement":"Path(eval_frequency(x), returns the system response at any point in the real or complex plane)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"982117142d5146d7"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.TransferFunction.eval_frequency","kind":"method","src_hash":"cdac0390119c04e2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval_frequency(other)","rhs":"argnew.expand()","over":{"base":"Any"},"name":"eval_frequency_correct"},"guarantee":"returns argnew.expand()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.lti.TransferFunction.eval_frequency_correct","statement":"Path(eval_frequency(x), returns argnew.expand())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4bae01eb2e4c1ffa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"argnew.expand()","pure":false,"effects":{"effect_type":"reads_state","reads":["self.den","self.num","self.var"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval_frequency(self, other):
         """
         Returns the system response at any point in the real or complex plane.
@@ -1485,16 +1711,22 @@ class TransferFunction(SISOLinearTimeInvariant):
         return argnew.expand()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_stable(), returns true if the transfer function is asymptotically stable; else false) over Any ║
+# ║ Path(is_stable(), fuzzy_and((pole.as_real_imag()[0].is_negative for pole in self.poles()))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  fuzzy_and((pole.as_real_imag()[0].is_nega...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_stable : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 37d1d6928473fd42           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.TransferFunction.is_stable","kind":"method","src_hash":"6776f6be7b6aac9e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_stable()","rhs":"returns true if the transfer function is asymptotically stable; else false","over":{"base":"Any"},"name":"is_stable_correct"},"guarantee":"returns true if the transfer function is asymptotically stable; else false","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"37d1d6928473fd42"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.TransferFunction.is_stable","kind":"method","src_hash":"6776f6be7b6aac9e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_stable()","rhs":"fuzzy_and((pole.as_real_imag()[0].is_negative for pole in self.poles()))","over":{"base":"Any"},"name":"is_stable_correct"},"guarantee":"returns fuzzy_and((pole.as_real_imag()[0].is_negative for pole in self.poles()))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"37d1d6928473fd42","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"fuzzy_and((pole.as_real_imag()[0].is_negative for pole in self.poles()))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.poles"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_stable(self):
         """
         Returns True if the transfer function is asymptotically stable; else False.
@@ -1525,16 +1757,27 @@ class TransferFunction(SISOLinearTimeInvariant):
         return fuzzy_and(pole.as_real_imag()[0].is_negative for pole in self.poles())
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__add__(oth), returns the sum/concatenation) over Any ║
+# ║ Path(__add__(other), <unspecified:__add__>) over {Any | hasattr(other, 'is_StateSpace_object') and hasattr(other, 'var') and hasattr(other, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __add__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, 'is_StateSpace_object')         ║
+# ║   requires: hasattr(other, 'var')                          ║
+# ║   requires: hasattr(other, 'args')                         ║
+# ║   fiber[case_0]: hasattr(other, 'is_StateSpace_object...   ║
+# ║   fiber[case_1]: isinstance(other, (TransferFunction,...   ║
+# ║   fiber[Parallel]: isinstance(other, Parallel) => Par...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __add__ : {Any | hasattr(other, 'is_StateSpace_object...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ef7a167ed872f7bf           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.TransferFunction.__add__","kind":"method","src_hash":"29204bda909d382b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__add__(oth)","rhs":"returns the sum/concatenation","over":{"base":"Any"},"name":"__add___correct"},"guarantee":"returns the sum/concatenation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ef7a167ed872f7bf"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.TransferFunction.__add__","kind":"method","src_hash":"29204bda909d382b","in":{"base":"Any","pred":"hasattr(other, 'is_StateSpace_object') and hasattr(other, 'var') and hasattr(other, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"__add__(other)","rhs":"<unspecified:__add__>","over":{"base":"Any","pred":"hasattr(other, 'is_StateSpace_object') and hasattr(other, 'var') and hasattr(other, 'args')"},"name":"__add___correct"},"guarantee":"4-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ef7a167ed872f7bf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, 'is_StateSpace_object')","hasattr(other, 'var')","hasattr(other, 'args')"],"fibers":[{"name":"case_0","guard":"hasattr(other, 'is_StateSpace_object') and other.is_StateSpace_object","ensures":["result == Parallel(self, other)"],"decidability":"structural","returns_expr":"Parallel(self, other)"},{"name":"case_1","guard":"isinstance(other, (TransferFunction, Series, Feedback))","ensures":["result == Parallel(self, other)"],"decidability":"structural","returns_expr":"Parallel(self, other)"},{"name":"Parallel","guard":"isinstance(other, Parallel)","ensures":["result == Parallel(self, *arg_list)"],"decidability":"structural","returns_expr":"Parallel(self, *arg_list)"},{"name":"Parallel","guard":"not (hasattr(other, 'is_StateSpace_object') and other.is_StateSpace_object) and not (isinstance(other, (TransferFunction, Series, Feedback))) and not (isinstance(other, Parallel))","ensures":[],"decidability":"structural"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.args","other.is_StateSpace_object","other.var","self.var"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __add__(self, other):
         if hasattr(other, "is_StateSpace_object") and other.is_StateSpace_object:
             return Parallel(self, other)
@@ -1556,30 +1799,47 @@ class TransferFunction(SISOLinearTimeInvariant):
                 format(type(other)))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__radd__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__radd__(other), self + other) over Any               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self + other                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __radd__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1a62ecdd200f883a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.TransferFunction.__radd__","kind":"method","src_hash":"a0cbb64515a501dd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__radd__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__radd___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1a62ecdd200f883a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.TransferFunction.__radd__","kind":"method","src_hash":"a0cbb64515a501dd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__radd__(other)","rhs":"self + other","over":{"base":"Any"},"name":"__radd___correct"},"guarantee":"returns self + other","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1a62ecdd200f883a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self + other","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __radd__(self, other):
         return self + other
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__sub__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__sub__(other), <unspecified:__sub__>) over {Any | hasattr(other, 'is_StateSpace_object') and hasattr(other, 'var') and hasattr(other, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __sub__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, 'is_StateSpace_object')         ║
+# ║   requires: hasattr(other, 'var')                          ║
+# ║   requires: hasattr(other, 'args')                         ║
+# ║   fiber[case_0]: hasattr(other, 'is_StateSpace_object...   ║
+# ║   fiber[case_1]: isinstance(other, (TransferFunction,...   ║
+# ║   fiber[Parallel]: isinstance(other, Parallel) => Par...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __sub__ : {Any | hasattr(other, 'is_StateSpace_object...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f4abf731d82babaf           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.TransferFunction.__sub__","kind":"method","src_hash":"4f856865ec7cc390","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__sub__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__sub___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f4abf731d82babaf"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.TransferFunction.__sub__","kind":"method","src_hash":"4f856865ec7cc390","in":{"base":"Any","pred":"hasattr(other, 'is_StateSpace_object') and hasattr(other, 'var') and hasattr(other, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"__sub__(other)","rhs":"<unspecified:__sub__>","over":{"base":"Any","pred":"hasattr(other, 'is_StateSpace_object') and hasattr(other, 'var') and hasattr(other, 'args')"},"name":"__sub___correct"},"guarantee":"4-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f4abf731d82babaf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, 'is_StateSpace_object')","hasattr(other, 'var')","hasattr(other, 'args')"],"fibers":[{"name":"case_0","guard":"hasattr(other, 'is_StateSpace_object') and other.is_StateSpace_object","ensures":["result == Parallel(self, -other)"],"decidability":"structural","returns_expr":"Parallel(self, -other)"},{"name":"case_1","guard":"isinstance(other, (TransferFunction, Series))","ensures":["result == Parallel(self, -other)"],"decidability":"structural","returns_expr":"Parallel(self, -other)"},{"name":"Parallel","guard":"isinstance(other, Parallel)","ensures":["result == Parallel(self, *arg_list)"],"decidability":"structural","returns_expr":"Parallel(self, *arg_list)"},{"name":"Parallel","guard":"not (hasattr(other, 'is_StateSpace_object') and other.is_StateSpace_object) and not (isinstance(other, (TransferFunction, Series))) and not (isinstance(other, Parallel))","ensures":[],"decidability":"structural"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.args","other.is_StateSpace_object","other.var","self.var"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __sub__(self, other):
         if hasattr(other, "is_StateSpace_object") and other.is_StateSpace_object:
             return Parallel(self, -other)
@@ -1601,30 +1861,47 @@ class TransferFunction(SISOLinearTimeInvariant):
                 .format(type(other)))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__rsub__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__rsub__(other), -self + other) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  -self + other                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __rsub__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | acbc3aeda39f753b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.TransferFunction.__rsub__","kind":"method","src_hash":"0a24ca03b5d6d42c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rsub__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__rsub___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"acbc3aeda39f753b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.TransferFunction.__rsub__","kind":"method","src_hash":"0a24ca03b5d6d42c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rsub__(other)","rhs":"-self + other","over":{"base":"Any"},"name":"__rsub___correct"},"guarantee":"returns -self + other","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"acbc3aeda39f753b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"-self + other","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __rsub__(self, other):
         return -self + other
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__mul__(oth), returns the product) over Any           ║
+# ║ Path(__mul__(other), <unspecified:__mul__>) over {Any | hasattr(other, 'is_StateSpace_object') and hasattr(other, 'var') and hasattr(other, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __mul__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, 'is_StateSpace_object')         ║
+# ║   requires: hasattr(other, 'var')                          ║
+# ║   requires: hasattr(other, 'args')                         ║
+# ║   fiber[case_0]: hasattr(other, 'is_StateSpace_object...   ║
+# ║   fiber[case_1]: isinstance(other, (TransferFunction,...   ║
+# ║   fiber[Series]: isinstance(other, Series) => Series(...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __mul__ : {Any | hasattr(other, 'is_StateSpace_object...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e7dfea1987519bfa           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.TransferFunction.__mul__","kind":"method","src_hash":"e5cade4c4c180837","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__mul__(oth)","rhs":"returns the product","over":{"base":"Any"},"name":"__mul___correct"},"guarantee":"returns the product","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e7dfea1987519bfa"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.TransferFunction.__mul__","kind":"method","src_hash":"e5cade4c4c180837","in":{"base":"Any","pred":"hasattr(other, 'is_StateSpace_object') and hasattr(other, 'var') and hasattr(other, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"__mul__(other)","rhs":"<unspecified:__mul__>","over":{"base":"Any","pred":"hasattr(other, 'is_StateSpace_object') and hasattr(other, 'var') and hasattr(other, 'args')"},"name":"__mul___correct"},"guarantee":"4-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e7dfea1987519bfa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, 'is_StateSpace_object')","hasattr(other, 'var')","hasattr(other, 'args')"],"fibers":[{"name":"case_0","guard":"hasattr(other, 'is_StateSpace_object') and other.is_StateSpace_object","ensures":["result == Series(self, other)"],"decidability":"structural","returns_expr":"Series(self, other)"},{"name":"case_1","guard":"isinstance(other, (TransferFunction, Parallel, Feedback))","ensures":["result == Series(self, other)"],"decidability":"structural","returns_expr":"Series(self, other)"},{"name":"Series","guard":"isinstance(other, Series)","ensures":["result == Series(self, *arg_list)"],"decidability":"structural","returns_expr":"Series(self, *arg_list)"},{"name":"Series","guard":"not (hasattr(other, 'is_StateSpace_object') and other.is_StateSpace_object) and not (isinstance(other, (TransferFunction, Parallel, Feedback))) and not (isinstance(other, Series))","ensures":[],"decidability":"structural"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.args","other.is_StateSpace_object","other.var","self.var"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __mul__(self, other):
         if hasattr(other, "is_StateSpace_object") and other.is_StateSpace_object:
             return Series(self, other)
@@ -1648,16 +1925,27 @@ class TransferFunction(SISOLinearTimeInvariant):
     __rmul__ = __mul__
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__truediv__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__truediv__(other), <unspecified:__truediv__>) over {Any | hasattr(other, 'var') and hasattr(other, 'den') and hasattr(other, 'num') and hasattr(other, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __truediv__ : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, 'var')                          ║
+# ║   requires: hasattr(other, 'den')                          ║
+# ║   requires: hasattr(other, 'num')                          ║
+# ║   fiber[TransferFunction]: isinstance(other, Transfer...   ║
+# ║   fiber[Parallel]: isinstance(other, Parallel) and le...   ║
+# ║   fiber[TransferFunction]: not (isinstance(other, Tra...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __truediv__ : {Any | hasattr(other, 'var') and hasatt...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 907344601bd73ae3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.TransferFunction.__truediv__","kind":"method","src_hash":"2166022d6ddbb628","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__truediv__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__truediv___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"907344601bd73ae3"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.TransferFunction.__truediv__","kind":"method","src_hash":"2166022d6ddbb628","in":{"base":"Any","pred":"hasattr(other, 'var') and hasattr(other, 'den') and hasattr(other, 'num') and hasattr(other, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"__truediv__(other)","rhs":"<unspecified:__truediv__>","over":{"base":"Any","pred":"hasattr(other, 'var') and hasattr(other, 'den') and hasattr(other, 'num') and hasattr(other, 'args')"},"name":"__truediv___correct"},"guarantee":"3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"907344601bd73ae3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, 'var')","hasattr(other, 'den')","hasattr(other, 'num')","hasattr(other, 'args')"],"fibers":[{"name":"TransferFunction","guard":"isinstance(other, TransferFunction)","ensures":["result == Series(self, TransferFunction(other.den, other.num, self.var))"],"decidability":"structural","returns_expr":"Series(self, TransferFunction(other.den, other.num, self.var))"},{"name":"Parallel","guard":"isinstance(other, Parallel) and len(other.args) == 2 and isinstance(other.args[0], TransferFunction) and isinstance(other.args[1], (Series, TransferFunction))","ensures":[],"decidability":"structural"},{"name":"TransferFunction","guard":"not (isinstance(other, TransferFunction)) and not (isinstance(other, Parallel) and len(other.args) == 2 and isinstance(other.args[0], TransferFunction) and isinstance(other.args[1], (Series, TransferFunction)))","ensures":[],"decidability":"structural"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.args","other.den","other.num","other.var","self.var"],"calls_mutating":["other_arg_list.remove"],"raises":["ValueError"]},"state_contract":{"modifies":["other_arg_list.*"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __truediv__(self, other):
         if isinstance(other, TransferFunction):
             if not self.var == other.var:
@@ -1696,16 +1984,24 @@ class TransferFunction(SISOLinearTimeInvariant):
     __rtruediv__ = __truediv__
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__pow__(p), internal helper behaves correctly) over Any ║
+# ║ Path(__pow__(p), <unspecified:__pow__>) over {Any | p.is_Integer and hasattr(p, 'is_Integer')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __pow__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: p.is_Integer                                   ║
+# ║   requires: hasattr(p, 'is_Integer')                       ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __pow__ : {Any | p.is_Integer and hasattr(p, 'is_Inte...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 276f9255e37ac806           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.TransferFunction.__pow__","kind":"method","src_hash":"92258cf4ab0d9b83","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__pow__(p)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__pow___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"276f9255e37ac806"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.TransferFunction.__pow__","kind":"method","src_hash":"92258cf4ab0d9b83","in":{"base":"Any","pred":"p.is_Integer and hasattr(p, 'is_Integer')"},"out":{"base":"Any"},"spec":{"lhs":"__pow__(p)","rhs":"<unspecified:__pow__>","over":{"base":"Any","pred":"p.is_Integer and hasattr(p, 'is_Integer')"},"name":"__pow___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"276f9255e37ac806","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["p.is_Integer","hasattr(p, 'is_Integer')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["p.is_Integer","self.den","self.num","self.var"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __pow__(self, p):
         p = sympify(p)
         if not p.is_Integer:
@@ -1721,31 +2017,43 @@ class TransferFunction(SISOLinearTimeInvariant):
         return TransferFunction(num_, den_, self.var)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__neg__(), returns the additive inverse) over Any     ║
+# ║ Path(__neg__(), TransferFunction(-self.num, self.den, self.var)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  TransferFunction(-self.num, self.den, sel...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __neg__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f20aab8da354287b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.TransferFunction.__neg__","kind":"method","src_hash":"344cdc8f7f850072","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__neg__()","rhs":"returns the additive inverse","over":{"base":"Any"},"name":"__neg___correct"},"guarantee":"returns the additive inverse","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f20aab8da354287b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.TransferFunction.__neg__","kind":"method","src_hash":"344cdc8f7f850072","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__neg__()","rhs":"TransferFunction(-self.num, self.den, self.var)","over":{"base":"Any"},"name":"__neg___correct"},"guarantee":"returns TransferFunction(-self.num, self.den, self.var)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f20aab8da354287b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"TransferFunction(-self.num, self.den, self.var)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.den","self.num","self.var"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __neg__(self):
         return TransferFunction(-self.num, self.den, self.var)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_proper(), returns the is_proper attribute) over Any ║
+# ║ Path(is_proper(), degree(self.num, self.var) <= degree(self.den, self.var)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  degree(self.num, self.var) <= degree(self...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_proper : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4f9ab115a552bd87           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.TransferFunction.is_proper","kind":"property","src_hash":"2c1ed80c598266d0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_proper()","rhs":"returns the is_proper attribute","over":{"base":"Any"},"name":"is_proper_correct"},"guarantee":"returns the is_proper attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4f9ab115a552bd87"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.TransferFunction.is_proper","kind":"property","src_hash":"2c1ed80c598266d0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_proper()","rhs":"degree(self.num, self.var) <= degree(self.den, self.var)","over":{"base":"Any"},"name":"is_proper_correct"},"guarantee":"returns degree(self.num, self.var) <= degree(self.den, self.var)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4f9ab115a552bd87","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"degree(self.num, self.var) <= degree(self.den, self.var)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.den","self.num","self.var"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_proper(self):
         """
         Returns True if degree of the numerator polynomial is less than
@@ -1768,16 +2076,22 @@ class TransferFunction(SISOLinearTimeInvariant):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_strictly_proper(), returns the is_strictly_proper attribute) over Any ║
+# ║ Path(is_strictly_proper(), degree(self.num, self.var) < degree(self.den, self.var)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  degree(self.num, self.var) < degree(self....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_strictly_proper : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3a4fe2c99680e25e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.TransferFunction.is_strictly_proper","kind":"property","src_hash":"afb86dc56fa4a4b4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_strictly_proper()","rhs":"returns the is_strictly_proper attribute","over":{"base":"Any"},"name":"is_strictly_proper_correct"},"guarantee":"returns the is_strictly_proper attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3a4fe2c99680e25e"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.TransferFunction.is_strictly_proper","kind":"property","src_hash":"afb86dc56fa4a4b4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_strictly_proper()","rhs":"degree(self.num, self.var) < degree(self.den, self.var)","over":{"base":"Any"},"name":"is_strictly_proper_correct"},"guarantee":"returns degree(self.num, self.var) < degree(self.den, self.var)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3a4fe2c99680e25e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"degree(self.num, self.var) < degree(self.den, self.var)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.den","self.num","self.var"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_strictly_proper(self):
         """
         Returns True if degree of the numerator polynomial is strictly less
@@ -1800,16 +2114,22 @@ class TransferFunction(SISOLinearTimeInvariant):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_biproper(), returns the is_biproper attribute) over Any ║
+# ║ Path(is_biproper(), degree(self.num, self.var) == degree(self.den, self.var)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  degree(self.num, self.var) == degree(self...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_biproper : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | fd3d33cf095c09d1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.TransferFunction.is_biproper","kind":"property","src_hash":"6a0cd6cf0d2d414b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_biproper()","rhs":"returns the is_biproper attribute","over":{"base":"Any"},"name":"is_biproper_correct"},"guarantee":"returns the is_biproper attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fd3d33cf095c09d1"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.TransferFunction.is_biproper","kind":"property","src_hash":"6a0cd6cf0d2d414b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_biproper()","rhs":"degree(self.num, self.var) == degree(self.den, self.var)","over":{"base":"Any"},"name":"is_biproper_correct"},"guarantee":"returns degree(self.num, self.var) == degree(self.den, self.var)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fd3d33cf095c09d1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"degree(self.num, self.var) == degree(self.den, self.var)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.den","self.num","self.var"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_biproper(self):
         """
         Returns True if degree of the numerator polynomial is equal to
@@ -1833,14 +2153,23 @@ class TransferFunction(SISOLinearTimeInvariant):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(to_expr(), id) over Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ to_expr : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (Mul(self.num, Pow(self.den, -1...   ║
+# ║   ensures:  result == Mul(self.num, Pow(self.den, -1,...   ║
+# ║   fiber[case_0]: self.num != 1 => Mul(self.num, Pow(s...   ║
+# ║   fiber[case_1]: not (self.num != 1) => Pow(self.den,...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ to_expr : Any → {Any | result satisfies: result == (M...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 3101aee94d177635   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.TransferFunction.to_expr","kind":"method","src_hash":"ab975bad305b29f6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_expr()","rhs":"converts a ``transferfunction`` object to sympy expr","over":{"base":"Any"},"name":"to_expr_correct","kind":"composition"},"guarantee":"converts a ``transferfunction`` object to sympy expr","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Mul","by":"library_axiom"},{"fn":"Pow","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3101aee94d177635"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.TransferFunction.to_expr","kind":"method","src_hash":"ab975bad305b29f6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (Mul(self.num, Pow(self.den, -1, evaluate=False), evaluate=False) if self.num != 1 else Pow(self.den, -1, evaluate=False)) and result == Mul(self.num, Pow(self.den, -1, evaluate=False), evaluate=False) or result == Pow(self.den, -1, evaluate=False)"},"spec":{"lhs":"to_expr()","rhs":"result == (Mul(self.num, Pow(self.den, -1, evaluate=False), evaluate=False) if self.num != 1 else Pow(self.den, -1, evaluate=False)) and result == Mul(self.num, Pow(self.den, -1, evaluate=False), evaluate=False) or result == Pow(self.den, -1, evaluate=False)","over":{"base":"Any"},"name":"to_expr_correct","kind":"composition"},"guarantee":"result == (Mul(self.num, Pow(self.den, -1, evaluate=False), evaluate=False) if self.num != 1 else Pow(self.den, -1, evaluate=False)); result == Mul(self.num, Pow(self.den, -1, evaluate=False), evaluate=False) or result == Pow(self.den, -1, evaluate=False); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Mul","by":"library_axiom"},{"fn":"Pow","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3101aee94d177635","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (Mul(self.num, Pow(self.den, -1, evaluate=False), evaluate=False) if self.num != 1 else Pow(self.den, -1, evaluate=False))","result == Mul(self.num, Pow(self.den, -1, evaluate=False), evaluate=False) or result == Pow(self.den, -1, evaluate=False)"],"fibers":[{"name":"case_0","guard":"self.num != 1","ensures":["result == Mul(self.num, Pow(self.den, -1, evaluate=False), evaluate=False)"],"decidability":"z3","returns_expr":"Mul(self.num, Pow(self.den, -1, evaluate=False), evaluate=False)"},{"name":"case_1","guard":"not (self.num != 1)","ensures":["result == Pow(self.den, -1, evaluate=False)"],"decidability":"z3","returns_expr":"Pow(self.den, -1, evaluate=False)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.den","self.num"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def to_expr(self):
         """
         Converts a ``TransferFunction`` object to SymPy Expr.
@@ -1874,14 +2203,20 @@ class TransferFunction(SISOLinearTimeInvariant):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(PIDController(*args), correctly constructs a PIDController instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ PIDController : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, TransferFunction)             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ PIDController : Any → {Any | result satisfies: isinst...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6c78a5cab8a79989  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.PIDController","kind":"class","src_hash":"db8eeb08c382e728","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"PIDController(*args)","rhs":"correctly constructs a PIDController instance","over":{"base":"Any"},"name":"PIDController_class_invariant"},"guarantee":"correctly constructs a PIDController instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6c78a5cab8a79989"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.PIDController","kind":"class","src_hash":"db8eeb08c382e728","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, TransferFunction)"},"spec":{"lhs":"PIDController(*args)","rhs":"correctly constructs a PIDController instance","over":{"base":"Any"},"name":"PIDController_class_invariant"},"guarantee":"isinstance(self, TransferFunction)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6c78a5cab8a79989","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, TransferFunction)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function PIDController not found in source"]}}
 class PIDController(TransferFunction):
     r"""
     A class for representing PID (Proportional-Integral-Derivative)
@@ -1945,16 +2280,22 @@ class PIDController(TransferFunction):
 
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, kp, ki), <unspecified:__new__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8ebe547c60d7991c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.PIDController.__new__","kind":"method","src_hash":"0e4397e5a90201fb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8ebe547c60d7991c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.PIDController.__new__","kind":"method","src_hash":"0e4397e5a90201fb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, kp, ki)","rhs":"<unspecified:__new__>","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8ebe547c60d7991c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, kp=Symbol('kp'), ki=Symbol('ki'), kd=Symbol('kd'), tf=0, var=Symbol('s')):
         kp, ki, kd, tf = _sympify(kp), _sympify(ki), _sympify(kd), _sympify(tf)
         num = kp*tf*var**2 + kp*var + ki*tf*var + ki + kd*var**2
@@ -1964,16 +2305,22 @@ class PIDController(TransferFunction):
         return obj
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__repr__(), returns a faithful string representation) over Any ║
+# ║ Path(__repr__(), f'PIDController({self.kp}, {self.ki}, {self.kd}, {self.tf}, {self.var})') over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  f'PIDController({self.kp}, {self.ki}, {se...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __repr__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2b49a1144968b868           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.PIDController.__repr__","kind":"method","src_hash":"088f62bb8c3d71dc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"returns a faithful string representation","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns a faithful string representation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2b49a1144968b868"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.PIDController.__repr__","kind":"method","src_hash":"088f62bb8c3d71dc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"f'PIDController({self.kp}, {self.ki}, {self.kd}, {self.tf}, {self.var})'","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns f'PIDController({self.kp}, {self.ki}, {self.kd}, {self.tf}, {self.var})'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2b49a1144968b868","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"f'PIDController({self.kp}, {self.ki}, {self.kd}, {self.tf}, {self.var})'","pure":false,"effects":{"effect_type":"reads_state","reads":["self.kd","self.ki","self.kp","self.tf","self.var"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __repr__(self):
         return f"PIDController({self.kp}, {self.ki}, {self.kd}, {self.tf}, {self.var})"
 
@@ -1981,16 +2328,22 @@ class PIDController(TransferFunction):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(kp(), returns the kp attribute) over Any              ║
+# ║ Path(kp(), self._kp) over Any                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._kp                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ kp : Any → Any                                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3153b84ec0fa2a3c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.PIDController.kp","kind":"property","src_hash":"72ce99cf628bbc63","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"kp()","rhs":"returns the kp attribute","over":{"base":"Any"},"name":"kp_correct"},"guarantee":"returns the kp attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3153b84ec0fa2a3c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.PIDController.kp","kind":"property","src_hash":"72ce99cf628bbc63","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"kp()","rhs":"self._kp","over":{"base":"Any"},"name":"kp_correct"},"guarantee":"returns self._kp","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3153b84ec0fa2a3c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._kp","pure":false,"effects":{"effect_type":"reads_state","reads":["self._kp"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def kp(self):
         """
         Returns the Proportional gain (kp) of the PIDController.
@@ -1999,16 +2352,22 @@ class PIDController(TransferFunction):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ki(), returns the ki attribute) over Any              ║
+# ║ Path(ki(), self._ki) over Any                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._ki                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ ki : Any → Any                                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 68544e88587c12b9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.PIDController.ki","kind":"property","src_hash":"0656e4d231322b76","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ki()","rhs":"returns the ki attribute","over":{"base":"Any"},"name":"ki_correct"},"guarantee":"returns the ki attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"68544e88587c12b9"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.PIDController.ki","kind":"property","src_hash":"0656e4d231322b76","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ki()","rhs":"self._ki","over":{"base":"Any"},"name":"ki_correct"},"guarantee":"returns self._ki","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"68544e88587c12b9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._ki","pure":false,"effects":{"effect_type":"reads_state","reads":["self._ki"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def ki(self):
         """
         Returns the Integral gain (ki) of the PIDController.
@@ -2017,16 +2376,22 @@ class PIDController(TransferFunction):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(kd(), returns the kd attribute) over Any              ║
+# ║ Path(kd(), self._kd) over Any                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._kd                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ kd : Any → Any                                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0bcafda78eb5268c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.PIDController.kd","kind":"property","src_hash":"09088f73aaea82a5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"kd()","rhs":"returns the kd attribute","over":{"base":"Any"},"name":"kd_correct"},"guarantee":"returns the kd attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0bcafda78eb5268c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.PIDController.kd","kind":"property","src_hash":"09088f73aaea82a5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"kd()","rhs":"self._kd","over":{"base":"Any"},"name":"kd_correct"},"guarantee":"returns self._kd","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0bcafda78eb5268c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._kd","pure":false,"effects":{"effect_type":"reads_state","reads":["self._kd"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def kd(self):
         """
         Returns the Derivative gain (kd) of the PIDController.
@@ -2035,16 +2400,22 @@ class PIDController(TransferFunction):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(tf(), returns the tf attribute) over Any              ║
+# ║ Path(tf(), self._tf) over Any                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._tf                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ tf : Any → Any                                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ac72c7597080cf62           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.PIDController.tf","kind":"property","src_hash":"6ab1649aade2558d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"tf()","rhs":"returns the tf attribute","over":{"base":"Any"},"name":"tf_correct"},"guarantee":"returns the tf attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ac72c7597080cf62"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.PIDController.tf","kind":"property","src_hash":"6ab1649aade2558d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"tf()","rhs":"self._tf","over":{"base":"Any"},"name":"tf_correct"},"guarantee":"returns self._tf","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ac72c7597080cf62","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._tf","pure":false,"effects":{"effect_type":"reads_state","reads":["self._tf"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def tf(self):
         """
         Returns the Derivative filter time constant (tf) of the PIDController.
@@ -2052,16 +2423,22 @@ class PIDController(TransferFunction):
         return self._tf
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(doit(), convert the pidcontroller into transferfunction) over Any ║
+# ║ Path(doit(), TransferFunction(self.num, self.den, self.var)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  TransferFunction(self.num, self.den, self...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ doit : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9bac8e1a7bec8123           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.PIDController.doit","kind":"method","src_hash":"d3b9d6d1b1c0e61e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"doit()","rhs":"convert the pidcontroller into transferfunction","over":{"base":"Any"},"name":"doit_correct"},"guarantee":"convert the pidcontroller into transferfunction","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9bac8e1a7bec8123"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.PIDController.doit","kind":"method","src_hash":"d3b9d6d1b1c0e61e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"doit()","rhs":"TransferFunction(self.num, self.den, self.var)","over":{"base":"Any"},"name":"doit_correct"},"guarantee":"returns TransferFunction(self.num, self.den, self.var)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9bac8e1a7bec8123","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"TransferFunction(self.num, self.den, self.var)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.den","self.num","self.var"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def doit(self):
         """
         Convert the PIDController into TransferFunction.
@@ -2070,7 +2447,10 @@ class PIDController(TransferFunction):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_flatten_args(arg), internal helper behaves correctly) over {Any | isinstance(arg, _cls)} ║
+# ║ Path(_flatten_args(args, _cls), tuple(temp_args)) over {Any | isinstance(arg, _cls)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  tuple(temp_args)                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _flatten_args : {Any | isinstance(arg, _cls)} → Any        ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -2082,9 +2462,12 @@ class PIDController(TransferFunction):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.4ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 1537c1da...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti._flatten_args","kind":"function","src_hash":"557654a865d54a64","in":{"base":"Any","pred":"isinstance(arg, _cls)"},"out":{"base":"Any"},"spec":{"lhs":"_flatten_args(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any","pred":"isinstance(arg, _cls)"},"name":"_flatten_args_correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"_cls","pred":"isinstance(arg, _cls)","path":{"lhs":"_flatten_args(x)","rhs":"internal helper behaves correctly","over":{"base":"_cls","pred":"isinstance(arg, _cls)"},"name":"_flatten_args__cls_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.lti._flatten_args__cls_correct","statement":"_flatten_args satisfies spec on _cls inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"1537c1dad9c6caa2"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti._flatten_args","kind":"function","src_hash":"557654a865d54a64","in":{"base":"Any","pred":"isinstance(arg, _cls)"},"out":{"base":"Any"},"spec":{"lhs":"_flatten_args(args, _cls)","rhs":"tuple(temp_args)","over":{"base":"Any","pred":"isinstance(arg, _cls)"},"name":"_flatten_args_correct"},"guarantee":"returns tuple(temp_args)","fibers":[{"name":"_cls","pred":"isinstance(arg, _cls)","path":{"lhs":"_flatten_args(x)","rhs":"returns tuple(temp_args)","over":{"base":"_cls","pred":"isinstance(arg, _cls)"},"name":"_flatten_args__cls_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.lti._flatten_args__cls_correct","statement":"_flatten_args satisfies spec on _cls inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"1537c1dad9c6caa2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"tuple(temp_args)","pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.4,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(arg, _cls)'}, fibers={'_cls'})"]}}
 def _flatten_args(args, _cls):
     temp_args = []
     for arg in args:
@@ -2096,16 +2479,22 @@ def _flatten_args(args, _cls):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_dummify_args(_ar), internal helper behaves correctly) over Any ║
+# ║ Path(_dummify_args(_arg, var), (dummy_arg_list, dummy_dict)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (dummy_arg_list, dummy_dict)                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _dummify_args : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 08f2bc0306453525  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ece10426f5812e04  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti._dummify_args","kind":"function","src_hash":"ac7cc1ad9f9161b4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_dummify_args(_ar)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_dummify_args_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.lti._dummify_args_correct","statement":"Path(_dummify_args(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"08f2bc0306453525"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti._dummify_args","kind":"function","src_hash":"ac7cc1ad9f9161b4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_dummify_args(_arg, var)","rhs":"(dummy_arg_list, dummy_dict)","over":{"base":"Any"},"name":"_dummify_args_correct"},"guarantee":"returns (dummy_arg_list, dummy_dict)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.lti._dummify_args_correct","statement":"Path(_dummify_args(x), returns (dummy_arg_list, dummy_dict))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ece10426f5812e04","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(dummy_arg_list, dummy_dict)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _dummify_args(_arg, var):
     dummy_dict = {}
     dummy_arg_list = []
@@ -2122,14 +2511,20 @@ def _dummify_args(_arg, var):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a Series instance) preserved by Series(*args) over {Any | isinstance(other, Parallel) and isinstance(other, TransferFunction) and isinstance(other, Series)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, SISOLinearTimeInvariant)      ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ Series : {Any | isinstance(other, Parallel) and isins...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e3372fa1df9124e3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.Series","kind":"class","src_hash":"20e30a4bb8f05843","in":{"base":"Any","pred":"isinstance(other, Parallel) and isinstance(other, TransferFunction) and isinstance(other, Series)"},"out":{"base":"Any"},"spec":{"lhs":"Series(*args)","rhs":"correctly constructs a Series instance","over":{"base":"Any","pred":"isinstance(other, Parallel) and isinstance(other, TransferFunction) and isinstance(other, Series)"},"name":"Series_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a Series instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_proper","pred":"self.is_proper","kind":"class"},{"name":"is_strictly_proper","pred":"self.is_strictly_proper","kind":"class"},{"name":"is_biproper","pred":"self.is_biproper","kind":"class"},{"name":"is_StateSpace_object","pred":"self.is_StateSpace_object","kind":"class"}],"methods_preserving":["__repr__","var","doit","_eval_rewrite_as_TransferFunction","__add__","__sub__","__rsub__","__mul__","__truediv__","__neg__","to_expr","is_proper","is_strictly_proper","is_biproper","is_StateSpace_object"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e3372fa1df9124e3"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.Series","kind":"class","src_hash":"20e30a4bb8f05843","in":{"base":"Any","pred":"isinstance(other, Parallel) and isinstance(other, TransferFunction) and isinstance(other, Series)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, SISOLinearTimeInvariant)"},"spec":{"lhs":"Series(*args)","rhs":"correctly constructs a Series instance","over":{"base":"Any","pred":"isinstance(other, Parallel) and isinstance(other, TransferFunction) and isinstance(other, Series)"},"name":"Series_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, SISOLinearTimeInvariant)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_proper","pred":"self.is_proper","kind":"class"},{"name":"is_strictly_proper","pred":"self.is_strictly_proper","kind":"class"},{"name":"is_biproper","pred":"self.is_biproper","kind":"class"},{"name":"is_StateSpace_object","pred":"self.is_StateSpace_object","kind":"class"}],"methods_preserving":["__repr__","var","doit","_eval_rewrite_as_TransferFunction","__add__","__sub__","__rsub__","__mul__","__truediv__","__neg__","to_expr","is_proper","is_strictly_proper","is_biproper","is_StateSpace_object"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e3372fa1df9124e3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, SISOLinearTimeInvariant)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function Series not found in source"]}}
 class Series(SISOLinearTimeInvariant):
     r"""
     A class for representing a series configuration of SISO systems.
@@ -2226,16 +2621,22 @@ class Series(SISOLinearTimeInvariant):
 
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, *args, evaluate), obj.doit() if evaluate else obj) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  obj.doit() if evaluate else obj                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 726247440cd9d8e1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.Series.__new__","kind":"method","src_hash":"1b0fdb66cb1cbcf5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"726247440cd9d8e1"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.Series.__new__","kind":"method","src_hash":"1b0fdb66cb1cbcf5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, *args, evaluate)","rhs":"obj.doit() if evaluate else obj","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"returns obj.doit() if evaluate else obj","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"726247440cd9d8e1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"obj.doit() if evaluate else obj","pure":false,"effects":{"effect_type":"mutates_args","reads":["cls._check_args"],"writes":["cls._is_series_StateSpace"],"raises":["ValueError"]},"state_contract":{"modifies":["cls._is_series_StateSpace"],"old_bindings":{"old_cls__is_series_StateSpace":"cls._is_series_StateSpace"},"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, *args, evaluate=False):
 
         args = _flatten_args(args, Series)
@@ -2261,16 +2662,22 @@ class Series(SISOLinearTimeInvariant):
         return obj.doit() if evaluate else obj
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__repr__(), returns a faithful string representation) over Any ║
+# ║ Path(__repr__(), f'Series({systems_repr})') over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  f'Series({systems_repr})'                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __repr__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d6c287670afd6d1f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.Series.__repr__","kind":"method","src_hash":"28bb65c858028aa7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"returns a faithful string representation","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns a faithful string representation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d6c287670afd6d1f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.Series.__repr__","kind":"method","src_hash":"28bb65c858028aa7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"f'Series({systems_repr})'","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns f'Series({systems_repr})'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d6c287670afd6d1f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"f'Series({systems_repr})'","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __repr__(self):
         systems_repr = ', '.join(repr(system) for system in self.args)
         return f"Series({systems_repr})"
@@ -2279,16 +2686,22 @@ class Series(SISOLinearTimeInvariant):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(var(), returns the var attribute) over Any            ║
+# ║ Path(var(), self.args[0].var) over Any                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0].var                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ var : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 238fa24f294ded71           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.Series.var","kind":"property","src_hash":"d2cb54985f194e15","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"var()","rhs":"returns the var attribute","over":{"base":"Any"},"name":"var_correct"},"guarantee":"returns the var attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"238fa24f294ded71"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.Series.var","kind":"property","src_hash":"d2cb54985f194e15","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"var()","rhs":"self.args[0].var","over":{"base":"Any"},"name":"var_correct"},"guarantee":"returns self.args[0].var","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"238fa24f294ded71","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0].var","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def var(self):
         """
         Returns the complex variable used by all the transfer functions.
@@ -2310,16 +2723,22 @@ class Series(SISOLinearTimeInvariant):
         return self.args[0].var
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(doit(**h), returns the resultant transfer function or statespace obtained after evaluating the series interconnection) over Any ║
+# ║ Path(doit(**hints), <unspecified:doit>) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ doit : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3af92c027cf3e543  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.Series.doit","kind":"method","src_hash":"5afe1cfd1fc2cee6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"doit(**h)","rhs":"returns the resultant transfer function or statespace obtained after evaluating the series interconnection","over":{"base":"Any"},"name":"doit_correct"},"guarantee":"returns the resultant transfer function or statespace obtained after evaluating the series interconnection","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.lti.Series.doit_correct","statement":"Path(doit(x), returns the resultant transfer function or statespace obtained after evaluating the series interconnection)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3af92c027cf3e543"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.Series.doit","kind":"method","src_hash":"5afe1cfd1fc2cee6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"doit(**hints)","rhs":"<unspecified:doit>","over":{"base":"Any"},"name":"doit_correct"},"guarantee":"returns the resultant transfer function or statespace obtained after evaluating the series interconnection","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.lti.Series.doit_correct","statement":"Path(doit(x), returns the resultant transfer function or statespace obtained after evaluating the series interconnection)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3af92c027cf3e543","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._is_series_StateSpace","self.args","self.var"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def doit(self, **hints):
         """
         Returns the resultant transfer function or StateSpace obtained after evaluating
@@ -2367,16 +2786,22 @@ class Series(SISOLinearTimeInvariant):
         return TransferFunction(res_num, res_den, self.var)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_TransferFunction(*ar), id) over Any  ║
+# ║ Path(_eval_rewrite_as_TransferFunction(*args, **kwargs), id) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_TransferFunction : Any → Any              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 1eeba2a1903a314a   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.Series._eval_rewrite_as_TransferFunction","kind":"method","src_hash":"d852fbffe6faf578","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_TransferFunction(*ar)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_TransferFunction_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"doit","by":"library_axiom"},{"fn":"rewrite","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1eeba2a1903a314a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.Series._eval_rewrite_as_TransferFunction","kind":"method","src_hash":"d852fbffe6faf578","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_TransferFunction(*args, **kwargs)","rhs":"<unspecified:_eval_rewrite_as_TransferFunction>","over":{"base":"Any"},"name":"_eval_rewrite_as_TransferFunction_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"doit","by":"library_axiom"},{"fn":"rewrite","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1eeba2a1903a314a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._is_series_StateSpace","self.doit"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_TransferFunction(self, *args, **kwargs):
         if self._is_series_StateSpace:
             return self.doit().rewrite(TransferFunction)[0][0]
@@ -2384,16 +2809,23 @@ class Series(SISOLinearTimeInvariant):
 
     @_check_other_SISO
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__add__(oth), returns the sum/concatenation) over Any ║
+# ║ Path(__add__(other), <unspecified:__add__>) over {Any | hasattr(other, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __add__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, 'args')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __add__ : {Any | hasattr(other, 'args')} → Any             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | beac149c501a0abf           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.Series.__add__","kind":"method","src_hash":"aea48ffa36d91341","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__add__(oth)","rhs":"returns the sum/concatenation","over":{"base":"Any"},"name":"__add___correct"},"guarantee":"returns the sum/concatenation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"beac149c501a0abf"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.Series.__add__","kind":"method","src_hash":"aea48ffa36d91341","in":{"base":"Any","pred":"hasattr(other, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"__add__(other)","rhs":"<unspecified:__add__>","over":{"base":"Any","pred":"hasattr(other, 'args')"},"name":"__add___correct"},"guarantee":"returns the sum/concatenation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"beac149c501a0abf","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __add__(self, other):
 
         if isinstance(other, Parallel):
@@ -2406,61 +2838,90 @@ class Series(SISOLinearTimeInvariant):
 
     @_check_other_SISO
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__sub__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__sub__(other), self + -other) over Any               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self + -other                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __sub__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a5945b029dd0bdb5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.Series.__sub__","kind":"method","src_hash":"cdf5df0568ae9be1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__sub__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__sub___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a5945b029dd0bdb5"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.Series.__sub__","kind":"method","src_hash":"cdf5df0568ae9be1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__sub__(other)","rhs":"self + -other","over":{"base":"Any"},"name":"__sub___correct"},"guarantee":"returns self + -other","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a5945b029dd0bdb5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self + -other","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __sub__(self, other):
         return self + (-other)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__rsub__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__rsub__(other), -self + other) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  -self + other                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __rsub__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b3c1f96713078ceb           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.Series.__rsub__","kind":"method","src_hash":"0a24ca03b5d6d42c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rsub__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__rsub___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b3c1f96713078ceb"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.Series.__rsub__","kind":"method","src_hash":"0a24ca03b5d6d42c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rsub__(other)","rhs":"-self + other","over":{"base":"Any"},"name":"__rsub___correct"},"guarantee":"returns -self + other","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b3c1f96713078ceb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"-self + other","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __rsub__(self, other):
         return -self + other
 
     @_check_other_SISO
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__mul__(oth), returns the product) over Any           ║
+# ║ Path(__mul__(other), Series(*arg_list, other)) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Series(*arg_list, other)                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __mul__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8f093776dc99b5da           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.Series.__mul__","kind":"method","src_hash":"59a9dc5d1ba3c8f6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__mul__(oth)","rhs":"returns the product","over":{"base":"Any"},"name":"__mul___correct"},"guarantee":"returns the product","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8f093776dc99b5da"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.Series.__mul__","kind":"method","src_hash":"59a9dc5d1ba3c8f6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__mul__(other)","rhs":"Series(*arg_list, other)","over":{"base":"Any"},"name":"__mul___correct"},"guarantee":"returns Series(*arg_list, other)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8f093776dc99b5da","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Series(*arg_list, other)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __mul__(self, other):
 
         arg_list = list(self.args)
         return Series(*arg_list, other)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__truediv__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__truediv__(other), <unspecified:__truediv__>) over {Any | hasattr(other, 'den') and hasattr(other, 'num') and hasattr(other, 'var') and hasattr(other, 'rewrite') and hasattr(other, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __truediv__ : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, 'den')                          ║
+# ║   requires: hasattr(other, 'num')                          ║
+# ║   requires: hasattr(other, 'var')                          ║
+# ║   fiber[TransferFunction]: isinstance(other, Transfer...   ║
+# ║   fiber[Series]: isinstance(other, Series) => tf_self...   ║
+# ║   fiber[Parallel]: isinstance(other, Parallel) and le...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __truediv__ : {Any | hasattr(other, 'den') and hasatt...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c4dddfd570df8dbe           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.Series.__truediv__","kind":"method","src_hash":"a6c2de1442d1de4c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__truediv__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__truediv___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c4dddfd570df8dbe"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.Series.__truediv__","kind":"method","src_hash":"a6c2de1442d1de4c","in":{"base":"Any","pred":"hasattr(other, 'den') and hasattr(other, 'num') and hasattr(other, 'var') and hasattr(other, 'rewrite') and hasattr(other, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"__truediv__(other)","rhs":"<unspecified:__truediv__>","over":{"base":"Any","pred":"hasattr(other, 'den') and hasattr(other, 'num') and hasattr(other, 'var') and hasattr(other, 'rewrite') and hasattr(other, 'args')"},"name":"__truediv___correct"},"guarantee":"4-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c4dddfd570df8dbe","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, 'den')","hasattr(other, 'num')","hasattr(other, 'var')","hasattr(other, 'rewrite')","hasattr(other, 'args')"],"fibers":[{"name":"TransferFunction","guard":"isinstance(other, TransferFunction)","ensures":["result == Series(*self.args, TransferFunction(other.den, other.num, other.var))"],"decidability":"structural","returns_expr":"Series(*self.args, TransferFunction(other.den, other.num, other.var))"},{"name":"Series","guard":"isinstance(other, Series)","ensures":["result == tf_self / tf_other"],"decidability":"structural","returns_expr":"tf_self / tf_other"},{"name":"Parallel","guard":"isinstance(other, Parallel) and len(other.args) == 2 and isinstance(other.args[0], TransferFunction) and isinstance(other.args[1], Series)","ensures":[],"decidability":"structural"},{"name":"TransferFunction","guard":"not (isinstance(other, TransferFunction)) and not (isinstance(other, Series)) and not (isinstance(other, Parallel) and len(other.args) == 2 and isinstance(other.args[0], TransferFunction) and isinstance(other.args[1], Series))","ensures":[],"decidability":"structural"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.args","other.den","other.num","other.rewrite","other.var","self.args","self.rewrite","self.var"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __truediv__(self, other):
         if isinstance(other, TransferFunction):
             return Series(*self.args, TransferFunction(other.den, other.num, other.var))
@@ -2488,46 +2949,64 @@ class Series(SISOLinearTimeInvariant):
             raise ValueError("This transfer function expression is invalid.")
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__neg__(), returns the additive inverse) over Any     ║
+# ║ Path(__neg__(), Series(TransferFunction(-1, 1, self.var), self)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Series(TransferFunction(-1, 1, self.var),...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __neg__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b1742addfc88768b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.Series.__neg__","kind":"method","src_hash":"7ac6935e7e31ad83","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__neg__()","rhs":"returns the additive inverse","over":{"base":"Any"},"name":"__neg___correct"},"guarantee":"returns the additive inverse","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b1742addfc88768b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.Series.__neg__","kind":"method","src_hash":"7ac6935e7e31ad83","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__neg__()","rhs":"Series(TransferFunction(-1, 1, self.var), self)","over":{"base":"Any"},"name":"__neg___correct"},"guarantee":"returns Series(TransferFunction(-1, 1, self.var), self)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b1742addfc88768b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Series(TransferFunction(-1, 1, self.var), self)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.var"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __neg__(self):
         return Series(TransferFunction(-1, 1, self.var), self)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(to_expr(), returns the equivalent ``expr`` object) over Any ║
+# ║ Path(to_expr(), Mul(*(arg.to_expr() for arg in self.args), evaluate=False)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Mul(*(arg.to_expr() for arg in self.args)...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ to_expr : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d41708b92feea771           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.Series.to_expr","kind":"method","src_hash":"301a3fd32e88b239","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_expr()","rhs":"returns the equivalent ``expr`` object","over":{"base":"Any"},"name":"to_expr_correct"},"guarantee":"returns the equivalent ``expr`` object","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d41708b92feea771"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.Series.to_expr","kind":"method","src_hash":"301a3fd32e88b239","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_expr()","rhs":"Mul(*(arg.to_expr() for arg in self.args), evaluate=False)","over":{"base":"Any"},"name":"to_expr_correct"},"guarantee":"returns Mul(*(arg.to_expr() for arg in self.args), evaluate=False)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d41708b92feea771","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Mul(*(arg.to_expr() for arg in self.args), evaluate=False)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def to_expr(self):
         """Returns the equivalent ``Expr`` object."""
         return Mul(*(arg.to_expr() for arg in self.args), evaluate=False)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_proper(), returns the is_proper attribute) over Any ║
+# ║ Path(is_proper(), self.doit().is_proper) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.doit().is_proper                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_proper : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 06ad62b2bc18dd8c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.Series.is_proper","kind":"property","src_hash":"d30d8502124adcf5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_proper()","rhs":"returns the is_proper attribute","over":{"base":"Any"},"name":"is_proper_correct"},"guarantee":"returns the is_proper attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"06ad62b2bc18dd8c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.Series.is_proper","kind":"property","src_hash":"d30d8502124adcf5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_proper()","rhs":"self.doit().is_proper","over":{"base":"Any"},"name":"is_proper_correct"},"guarantee":"returns self.doit().is_proper","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"06ad62b2bc18dd8c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.doit().is_proper","pure":false,"effects":{"effect_type":"reads_state","reads":["self.doit"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_proper(self):
         """
         Returns True if degree of the numerator polynomial of the resultant transfer
@@ -2554,16 +3033,22 @@ class Series(SISOLinearTimeInvariant):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_strictly_proper(), returns the is_strictly_proper attribute) over Any ║
+# ║ Path(is_strictly_proper(), self.doit().is_strictly_proper) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.doit().is_strictly_proper                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_strictly_proper : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c4943f1df39a120c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.Series.is_strictly_proper","kind":"property","src_hash":"d384d22898064cf9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_strictly_proper()","rhs":"returns the is_strictly_proper attribute","over":{"base":"Any"},"name":"is_strictly_proper_correct"},"guarantee":"returns the is_strictly_proper attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c4943f1df39a120c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.Series.is_strictly_proper","kind":"property","src_hash":"d384d22898064cf9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_strictly_proper()","rhs":"self.doit().is_strictly_proper","over":{"base":"Any"},"name":"is_strictly_proper_correct"},"guarantee":"returns self.doit().is_strictly_proper","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c4943f1df39a120c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.doit().is_strictly_proper","pure":false,"effects":{"effect_type":"reads_state","reads":["self.doit"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_strictly_proper(self):
         """
         Returns True if degree of the numerator polynomial of the resultant transfer
@@ -2590,16 +3075,22 @@ class Series(SISOLinearTimeInvariant):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_biproper(), returns the is_biproper attribute) over Any ║
+# ║ Path(is_biproper(), self.doit().is_biproper) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.doit().is_biproper                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_biproper : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ac5b5e73a404c1b4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.Series.is_biproper","kind":"property","src_hash":"acf8a23745158065","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_biproper()","rhs":"returns the is_biproper attribute","over":{"base":"Any"},"name":"is_biproper_correct"},"guarantee":"returns the is_biproper attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ac5b5e73a404c1b4"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.Series.is_biproper","kind":"property","src_hash":"acf8a23745158065","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_biproper()","rhs":"self.doit().is_biproper","over":{"base":"Any"},"name":"is_biproper_correct"},"guarantee":"returns self.doit().is_biproper","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ac5b5e73a404c1b4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.doit().is_biproper","pure":false,"effects":{"effect_type":"reads_state","reads":["self.doit"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_biproper(self):
         r"""
         Returns True if degree of the numerator polynomial of the resultant transfer
@@ -2626,30 +3117,42 @@ class Series(SISOLinearTimeInvariant):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_StateSpace_object(), returns the is_StateSpace_object attribute) over Any ║
+# ║ Path(is_StateSpace_object(), self._is_series_StateSpace) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._is_series_StateSpace                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_StateSpace_object : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1470260aad99e818           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.Series.is_StateSpace_object","kind":"property","src_hash":"f805f4b022268496","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_StateSpace_object()","rhs":"returns the is_StateSpace_object attribute","over":{"base":"Any"},"name":"is_StateSpace_object_correct"},"guarantee":"returns the is_StateSpace_object attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1470260aad99e818"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.Series.is_StateSpace_object","kind":"property","src_hash":"f805f4b022268496","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_StateSpace_object()","rhs":"self._is_series_StateSpace","over":{"base":"Any"},"name":"is_StateSpace_object_correct"},"guarantee":"returns self._is_series_StateSpace","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1470260aad99e818","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._is_series_StateSpace","pure":false,"effects":{"effect_type":"reads_state","reads":["self._is_series_StateSpace"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_StateSpace_object(self):
         return self._is_series_StateSpace
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_mat_mul_compatible(*ar), to check whether shapes are compatible for matrix mul) over Any ║
+# ║ Path(_mat_mul_compatible(*args), all((args[i].num_outputs == args[i + 1].num_inputs for i in range(len(args) - 1)))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  all((args[i].num_outputs == args[i + 1].n...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _mat_mul_compatible : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 441b17b1303cc159           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti._mat_mul_compatible","kind":"function","src_hash":"3005fbba521a9aea","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_mat_mul_compatible(*ar)","rhs":"to check whether shapes are compatible for matrix mul","over":{"base":"Any"},"name":"_mat_mul_compatible_correct"},"guarantee":"to check whether shapes are compatible for matrix mul","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"441b17b1303cc159"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti._mat_mul_compatible","kind":"function","src_hash":"3005fbba521a9aea","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_mat_mul_compatible(*args)","rhs":"all((args[i].num_outputs == args[i + 1].num_inputs for i in range(len(args) - 1)))","over":{"base":"Any"},"name":"_mat_mul_compatible_correct"},"guarantee":"returns all((args[i].num_outputs == args[i + 1].num_inputs for i in range(len(args) - 1)))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"441b17b1303cc159","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"all((args[i].num_outputs == args[i + 1].num_inputs for i in range(len(args) - 1)))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=[], spec=['*args']"]}}
 def _mat_mul_compatible(*args):
     """To check whether shapes are compatible for matrix mul."""
     return all(args[i].num_outputs == args[i+1].num_inputs for i in range(len(args)-1))
@@ -2658,14 +3161,20 @@ def _mat_mul_compatible(*args):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a MIMOSeries instance) preserved by MIMOSeries(*args) over {Any | isinstance(other, MIMOParallel) and isinstance(other, MIMOSeries) and isinstance(res, StateSpace)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, MIMOLinearTimeInvariant)      ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ MIMOSeries : {Any | isinstance(other, MIMOParallel) a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.9ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bc9e60d6ec725bd7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.MIMOSeries","kind":"class","src_hash":"8a46fea353836339","in":{"base":"Any","pred":"isinstance(other, MIMOParallel) and isinstance(other, MIMOSeries) and isinstance(res, StateSpace)"},"out":{"base":"Any"},"spec":{"lhs":"MIMOSeries(*args)","rhs":"correctly constructs a MIMOSeries instance","over":{"base":"Any","pred":"isinstance(other, MIMOParallel) and isinstance(other, MIMOSeries) and isinstance(res, StateSpace)"},"name":"MIMOSeries_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a MIMOSeries instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_StateSpace_object","pred":"self.is_StateSpace_object","kind":"class"}],"methods_preserving":["var","num_inputs","num_outputs","shape","is_StateSpace_object","doit","_eval_rewrite_as_TransferFunctionMatrix","__add__","__sub__","__rsub__","__mul__","__neg__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bc9e60d6ec725bd7"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.MIMOSeries","kind":"class","src_hash":"8a46fea353836339","in":{"base":"Any","pred":"isinstance(other, MIMOParallel) and isinstance(other, MIMOSeries) and isinstance(res, StateSpace)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, MIMOLinearTimeInvariant)"},"spec":{"lhs":"MIMOSeries(*args)","rhs":"correctly constructs a MIMOSeries instance","over":{"base":"Any","pred":"isinstance(other, MIMOParallel) and isinstance(other, MIMOSeries) and isinstance(res, StateSpace)"},"name":"MIMOSeries_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, MIMOLinearTimeInvariant)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_StateSpace_object","pred":"self.is_StateSpace_object","kind":"class"}],"methods_preserving":["var","num_inputs","num_outputs","shape","is_StateSpace_object","doit","_eval_rewrite_as_TransferFunctionMatrix","__add__","__sub__","__rsub__","__mul__","__neg__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bc9e60d6ec725bd7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, MIMOLinearTimeInvariant)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.9,"verdict_class":"assumed","binding":false,"binding_errors":["Function MIMOSeries not found in source"]}}
 class MIMOSeries(MIMOLinearTimeInvariant):
     r"""
     A class for representing a series configuration of MIMO systems.
@@ -2795,16 +3304,22 @@ class MIMOSeries(MIMOLinearTimeInvariant):
 
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, *args, evaluate), obj.doit() if evaluate else obj) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  obj.doit() if evaluate else obj                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d7574f7fd4d903b6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.MIMOSeries.__new__","kind":"method","src_hash":"689e2ef09f7ea6a2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d7574f7fd4d903b6"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.MIMOSeries.__new__","kind":"method","src_hash":"689e2ef09f7ea6a2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, *args, evaluate)","rhs":"obj.doit() if evaluate else obj","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"returns obj.doit() if evaluate else obj","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d7574f7fd4d903b6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"obj.doit() if evaluate else obj","pure":false,"effects":{"effect_type":"mutates_args","reads":["cls._check_args"],"writes":["cls._is_series_StateSpace"],"raises":["ValueError"]},"state_contract":{"modifies":["cls._is_series_StateSpace"],"old_bindings":{"old_cls__is_series_StateSpace":"cls._is_series_StateSpace"},"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, *args, evaluate=False):
 
         if args and any(isinstance(arg, StateSpace) or (hasattr(arg, 'is_StateSpace_object')
@@ -2832,16 +3347,22 @@ class MIMOSeries(MIMOLinearTimeInvariant):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(var(), returns the var attribute) over Any            ║
+# ║ Path(var(), self.args[0].var) over Any                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0].var                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ var : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ca6255a580c54edb           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.MIMOSeries.var","kind":"property","src_hash":"cf1c2961b2b8c68c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"var()","rhs":"returns the var attribute","over":{"base":"Any"},"name":"var_correct"},"guarantee":"returns the var attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ca6255a580c54edb"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.MIMOSeries.var","kind":"property","src_hash":"cf1c2961b2b8c68c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"var()","rhs":"self.args[0].var","over":{"base":"Any"},"name":"var_correct"},"guarantee":"returns self.args[0].var","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ca6255a580c54edb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0].var","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def var(self):
         """
         Returns the complex variable used by all the transfer functions.
@@ -2864,78 +3385,108 @@ class MIMOSeries(MIMOLinearTimeInvariant):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(num_inputs(), returns the num_inputs attribute) over Any ║
+# ║ Path(num_inputs(), self.args[0].num_inputs) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0].num_inputs                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ num_inputs : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a36236754194708e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.MIMOSeries.num_inputs","kind":"property","src_hash":"bd07b2f437572396","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"num_inputs()","rhs":"returns the num_inputs attribute","over":{"base":"Any"},"name":"num_inputs_correct"},"guarantee":"returns the num_inputs attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a36236754194708e"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.MIMOSeries.num_inputs","kind":"property","src_hash":"bd07b2f437572396","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"num_inputs()","rhs":"self.args[0].num_inputs","over":{"base":"Any"},"name":"num_inputs_correct"},"guarantee":"returns self.args[0].num_inputs","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a36236754194708e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0].num_inputs","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def num_inputs(self):
         """Returns the number of input signals of the series system."""
         return self.args[0].num_inputs
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(num_outputs(), returns the num_outputs attribute) over Any ║
+# ║ Path(num_outputs(), self.args[-1].num_outputs) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[-1].num_outputs                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ num_outputs : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 279788cede304531           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.MIMOSeries.num_outputs","kind":"property","src_hash":"9898a4eed5a6da5c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"num_outputs()","rhs":"returns the num_outputs attribute","over":{"base":"Any"},"name":"num_outputs_correct"},"guarantee":"returns the num_outputs attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"279788cede304531"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.MIMOSeries.num_outputs","kind":"property","src_hash":"9898a4eed5a6da5c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"num_outputs()","rhs":"self.args[-1].num_outputs","over":{"base":"Any"},"name":"num_outputs_correct"},"guarantee":"returns self.args[-1].num_outputs","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"279788cede304531","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[-1].num_outputs","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def num_outputs(self):
         """Returns the number of output signals of the series system."""
         return self.args[-1].num_outputs
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(shape(), returns the shape attribute) over Any        ║
+# ║ Path(shape(), (self.num_outputs, self.num_inputs)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (self.num_outputs, self.num_inputs)            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ shape : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 25d0cbc4bbe23db8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.MIMOSeries.shape","kind":"property","src_hash":"75ee80a1c6eed5fc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"shape()","rhs":"returns the shape attribute","over":{"base":"Any"},"name":"shape_correct"},"guarantee":"returns the shape attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"25d0cbc4bbe23db8"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.MIMOSeries.shape","kind":"property","src_hash":"75ee80a1c6eed5fc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"shape()","rhs":"(self.num_outputs, self.num_inputs)","over":{"base":"Any"},"name":"shape_correct"},"guarantee":"returns (self.num_outputs, self.num_inputs)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"25d0cbc4bbe23db8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(self.num_outputs, self.num_inputs)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.num_inputs","self.num_outputs"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def shape(self):
         """Returns the shape of the equivalent MIMO system."""
         return self.num_outputs, self.num_inputs
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_StateSpace_object(), returns the is_StateSpace_object attribute) over Any ║
+# ║ Path(is_StateSpace_object(), self._is_series_StateSpace) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._is_series_StateSpace                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_StateSpace_object : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 58625cf518d254cb           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.MIMOSeries.is_StateSpace_object","kind":"property","src_hash":"f805f4b022268496","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_StateSpace_object()","rhs":"returns the is_StateSpace_object attribute","over":{"base":"Any"},"name":"is_StateSpace_object_correct"},"guarantee":"returns the is_StateSpace_object attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"58625cf518d254cb"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.MIMOSeries.is_StateSpace_object","kind":"property","src_hash":"f805f4b022268496","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_StateSpace_object()","rhs":"self._is_series_StateSpace","over":{"base":"Any"},"name":"is_StateSpace_object_correct"},"guarantee":"returns self._is_series_StateSpace","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"58625cf518d254cb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._is_series_StateSpace","pure":false,"effects":{"effect_type":"reads_state","reads":["self._is_series_StateSpace"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_StateSpace_object(self):
         return self._is_series_StateSpace
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(doit(can), returns the resultant obtained after evaluating the mimo systems arranged in a series configuration) over Any ║
+# ║ Path(doit(cancel, **kwargs), <unspecified:doit>) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ doit : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2750d98bb78a5485  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.MIMOSeries.doit","kind":"method","src_hash":"866776beabb8e563","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"doit(can)","rhs":"returns the resultant obtained after evaluating the mimo systems arranged in a series configuration","over":{"base":"Any"},"name":"doit_correct"},"guarantee":"returns the resultant obtained after evaluating the mimo systems arranged in a series configuration","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.lti.MIMOSeries.doit_correct","statement":"Path(doit(x), returns the resultant obtained after evaluating the mimo systems arranged in a series configuration)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2750d98bb78a5485"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.MIMOSeries.doit","kind":"method","src_hash":"866776beabb8e563","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"doit(cancel, **kwargs)","rhs":"<unspecified:doit>","over":{"base":"Any"},"name":"doit_correct"},"guarantee":"returns the resultant obtained after evaluating the mimo systems arranged in a series configuration","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.lti.MIMOSeries.doit_correct","statement":"Path(doit(x), returns the resultant obtained after evaluating the mimo systems arranged in a series configuration)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2750d98bb78a5485","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._is_series_StateSpace","self.args","self.var"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def doit(self, cancel=False, **kwargs):
         """
         Returns the resultant obtained after evaluating the MIMO systems arranged
@@ -2980,16 +3531,22 @@ class MIMOSeries(MIMOLinearTimeInvariant):
         return temp_tfm.subs(_dummy_dict)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_TransferFunctionMatrix(*ar), id) over Any ║
+# ║ Path(_eval_rewrite_as_TransferFunctionMatrix(*args, **kwargs), id) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_TransferFunctionMatrix : Any → Any        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 74e84d91cb0890a0   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.MIMOSeries._eval_rewrite_as_TransferFunctionMatrix","kind":"method","src_hash":"a201d5e82eb44118","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_TransferFunctionMatrix(*ar)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_TransferFunctionMatrix_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"doit","by":"library_axiom"},{"fn":"rewrite","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"74e84d91cb0890a0"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.MIMOSeries._eval_rewrite_as_TransferFunctionMatrix","kind":"method","src_hash":"a201d5e82eb44118","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_TransferFunctionMatrix(*args, **kwargs)","rhs":"<unspecified:_eval_rewrite_as_TransferFunctionMatrix>","over":{"base":"Any"},"name":"_eval_rewrite_as_TransferFunctionMatrix_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"doit","by":"library_axiom"},{"fn":"rewrite","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"74e84d91cb0890a0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._is_series_StateSpace","self.doit"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_TransferFunctionMatrix(self, *args, **kwargs):
         if self._is_series_StateSpace:
             return self.doit().rewrite(TransferFunction)
@@ -2997,16 +3554,23 @@ class MIMOSeries(MIMOLinearTimeInvariant):
 
     @_check_other_MIMO
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__add__(oth), returns the sum/concatenation) over Any ║
+# ║ Path(__add__(other), <unspecified:__add__>) over {Any | hasattr(other, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __add__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, 'args')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __add__ : {Any | hasattr(other, 'args')} → Any             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b9e733a15c2b3464           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.MIMOSeries.__add__","kind":"method","src_hash":"5b7a30d3c7b1b406","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__add__(oth)","rhs":"returns the sum/concatenation","over":{"base":"Any"},"name":"__add___correct"},"guarantee":"returns the sum/concatenation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b9e733a15c2b3464"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.MIMOSeries.__add__","kind":"method","src_hash":"5b7a30d3c7b1b406","in":{"base":"Any","pred":"hasattr(other, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"__add__(other)","rhs":"<unspecified:__add__>","over":{"base":"Any","pred":"hasattr(other, 'args')"},"name":"__add___correct"},"guarantee":"returns the sum/concatenation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b9e733a15c2b3464","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __add__(self, other):
 
         if isinstance(other, MIMOParallel):
@@ -3019,45 +3583,64 @@ class MIMOSeries(MIMOLinearTimeInvariant):
 
     @_check_other_MIMO
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__sub__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__sub__(other), self + -other) over Any               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self + -other                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __sub__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 79a749a5a2ee5600           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.MIMOSeries.__sub__","kind":"method","src_hash":"cdf5df0568ae9be1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__sub__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__sub___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"79a749a5a2ee5600"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.MIMOSeries.__sub__","kind":"method","src_hash":"cdf5df0568ae9be1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__sub__(other)","rhs":"self + -other","over":{"base":"Any"},"name":"__sub___correct"},"guarantee":"returns self + -other","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"79a749a5a2ee5600","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self + -other","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __sub__(self, other):
         return self + (-other)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__rsub__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__rsub__(other), -self + other) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  -self + other                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __rsub__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 50e9efbd1068d47f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.MIMOSeries.__rsub__","kind":"method","src_hash":"0a24ca03b5d6d42c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rsub__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__rsub___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"50e9efbd1068d47f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.MIMOSeries.__rsub__","kind":"method","src_hash":"0a24ca03b5d6d42c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rsub__(other)","rhs":"-self + other","over":{"base":"Any"},"name":"__rsub___correct"},"guarantee":"returns -self + other","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"50e9efbd1068d47f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"-self + other","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __rsub__(self, other):
         return -self + other
 
     @_check_other_MIMO
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__mul__(oth), returns the product) over Any           ║
+# ║ Path(__mul__(other), <unspecified:__mul__>) over {Any | hasattr(other, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __mul__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, 'args')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __mul__ : {Any | hasattr(other, 'args')} → Any             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8d3d3405a6c15459           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.MIMOSeries.__mul__","kind":"method","src_hash":"9676e9263c822c08","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__mul__(oth)","rhs":"returns the product","over":{"base":"Any"},"name":"__mul___correct"},"guarantee":"returns the product","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8d3d3405a6c15459"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.MIMOSeries.__mul__","kind":"method","src_hash":"9676e9263c822c08","in":{"base":"Any","pred":"hasattr(other, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"__mul__(other)","rhs":"<unspecified:__mul__>","over":{"base":"Any","pred":"hasattr(other, 'args')"},"name":"__mul___correct"},"guarantee":"returns the product","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8d3d3405a6c15459","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.args","self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __mul__(self, other):
 
         if isinstance(other, MIMOSeries):
@@ -3069,16 +3652,22 @@ class MIMOSeries(MIMOLinearTimeInvariant):
         return MIMOSeries(other, *arg_list)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__neg__(), returns the additive inverse) over Any     ║
+# ║ Path(__neg__(), MIMOSeries(*arg_list)) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  MIMOSeries(*arg_list)                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __neg__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6ae276d2c90c11e1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.MIMOSeries.__neg__","kind":"method","src_hash":"905fb35ca7ac1ae2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__neg__()","rhs":"returns the additive inverse","over":{"base":"Any"},"name":"__neg___correct"},"guarantee":"returns the additive inverse","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6ae276d2c90c11e1"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.MIMOSeries.__neg__","kind":"method","src_hash":"905fb35ca7ac1ae2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__neg__()","rhs":"MIMOSeries(*arg_list)","over":{"base":"Any"},"name":"__neg___correct"},"guarantee":"returns MIMOSeries(*arg_list)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6ae276d2c90c11e1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"MIMOSeries(*arg_list)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __neg__(self):
         arg_list = list(self.args)
         arg_list[0] = -arg_list[0]
@@ -3088,14 +3677,20 @@ class MIMOSeries(MIMOLinearTimeInvariant):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a Parallel instance) preserved by Parallel(*args) over {Any | isinstance(other, Series) and isinstance(res, StateSpace)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, SISOLinearTimeInvariant)      ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ Parallel : {Any | isinstance(other, Series) and isins...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d92e65c9428d950d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.Parallel","kind":"class","src_hash":"8d7df49e16444826","in":{"base":"Any","pred":"isinstance(other, Series) and isinstance(res, StateSpace)"},"out":{"base":"Any"},"spec":{"lhs":"Parallel(*args)","rhs":"correctly constructs a Parallel instance","over":{"base":"Any","pred":"isinstance(other, Series) and isinstance(res, StateSpace)"},"name":"Parallel_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a Parallel instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_proper","pred":"self.is_proper","kind":"class"},{"name":"is_strictly_proper","pred":"self.is_strictly_proper","kind":"class"},{"name":"is_biproper","pred":"self.is_biproper","kind":"class"},{"name":"is_StateSpace_object","pred":"self.is_StateSpace_object","kind":"class"}],"methods_preserving":["__repr__","var","doit","_eval_rewrite_as_TransferFunction","__add__","__sub__","__rsub__","__mul__","__neg__","to_expr","is_proper","is_strictly_proper","is_biproper","is_StateSpace_object"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d92e65c9428d950d"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.Parallel","kind":"class","src_hash":"8d7df49e16444826","in":{"base":"Any","pred":"isinstance(other, Series) and isinstance(res, StateSpace)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, SISOLinearTimeInvariant)"},"spec":{"lhs":"Parallel(*args)","rhs":"correctly constructs a Parallel instance","over":{"base":"Any","pred":"isinstance(other, Series) and isinstance(res, StateSpace)"},"name":"Parallel_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, SISOLinearTimeInvariant)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_proper","pred":"self.is_proper","kind":"class"},{"name":"is_strictly_proper","pred":"self.is_strictly_proper","kind":"class"},{"name":"is_biproper","pred":"self.is_biproper","kind":"class"},{"name":"is_StateSpace_object","pred":"self.is_StateSpace_object","kind":"class"}],"methods_preserving":["__repr__","var","doit","_eval_rewrite_as_TransferFunction","__add__","__sub__","__rsub__","__mul__","__neg__","to_expr","is_proper","is_strictly_proper","is_biproper","is_StateSpace_object"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d92e65c9428d950d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, SISOLinearTimeInvariant)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":false,"binding_errors":["Function Parallel not found in source"]}}
 class Parallel(SISOLinearTimeInvariant):
     r"""
     A class for representing a parallel configuration of SISO systems.
@@ -3196,16 +3791,22 @@ class Parallel(SISOLinearTimeInvariant):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, *args, evaluate), obj.doit() if evaluate else obj) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  obj.doit() if evaluate else obj                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ffb0aa7287bb55b5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.Parallel.__new__","kind":"method","src_hash":"598dd11bedfc0d13","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ffb0aa7287bb55b5"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.Parallel.__new__","kind":"method","src_hash":"598dd11bedfc0d13","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, *args, evaluate)","rhs":"obj.doit() if evaluate else obj","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"returns obj.doit() if evaluate else obj","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ffb0aa7287bb55b5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"obj.doit() if evaluate else obj","pure":false,"effects":{"effect_type":"mutates_args","reads":["cls._check_args"],"writes":["cls._is_parallel_StateSpace"],"raises":["ValueError"]},"state_contract":{"modifies":["cls._is_parallel_StateSpace"],"old_bindings":{"old_cls__is_parallel_StateSpace":"cls._is_parallel_StateSpace"},"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, *args, evaluate=False):
 
         args = _flatten_args(args, Parallel)
@@ -3225,16 +3826,22 @@ class Parallel(SISOLinearTimeInvariant):
         return obj.doit() if evaluate else obj
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__repr__(), returns a faithful string representation) over Any ║
+# ║ Path(__repr__(), f'Parallel({systems_repr})') over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  f'Parallel({systems_repr})'                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __repr__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d0fb654720363ae0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.Parallel.__repr__","kind":"method","src_hash":"421c1aea1b3ebd66","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"returns a faithful string representation","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns a faithful string representation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d0fb654720363ae0"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.Parallel.__repr__","kind":"method","src_hash":"421c1aea1b3ebd66","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"f'Parallel({systems_repr})'","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns f'Parallel({systems_repr})'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d0fb654720363ae0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"f'Parallel({systems_repr})'","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __repr__(self):
         systems_repr = ', '.join(repr(system) for system in self.args)
         return f"Parallel({systems_repr})"
@@ -3243,16 +3850,22 @@ class Parallel(SISOLinearTimeInvariant):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(var(), returns the var attribute) over Any            ║
+# ║ Path(var(), self.args[0].var) over Any                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0].var                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ var : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7b466b2246c31de0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.Parallel.var","kind":"property","src_hash":"102ceac0b78e3441","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"var()","rhs":"returns the var attribute","over":{"base":"Any"},"name":"var_correct"},"guarantee":"returns the var attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7b466b2246c31de0"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.Parallel.var","kind":"property","src_hash":"102ceac0b78e3441","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"var()","rhs":"self.args[0].var","over":{"base":"Any"},"name":"var_correct"},"guarantee":"returns self.args[0].var","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7b466b2246c31de0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0].var","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def var(self):
         """
         Returns the complex variable used by all the transfer functions.
@@ -3274,16 +3887,22 @@ class Parallel(SISOLinearTimeInvariant):
         return self.args[0].var
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(doit(**h), returns the resultant transfer function or state space obtained by parallel connection of transfer functions or state space objects) over Any ║
+# ║ Path(doit(**hints), <unspecified:doit>) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ doit : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 53528c2d1c06c615  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.Parallel.doit","kind":"method","src_hash":"7e20c27ac56e055a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"doit(**h)","rhs":"returns the resultant transfer function or state space obtained by parallel connection of transfer functions or state space objects","over":{"base":"Any"},"name":"doit_correct"},"guarantee":"returns the resultant transfer function or state space obtained by parallel connection of transfer functions or state space objects","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.lti.Parallel.doit_correct","statement":"Path(doit(x), returns the resultant transfer function or state space obtained by parallel connection of transfer functions or state space objects)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"53528c2d1c06c615"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.Parallel.doit","kind":"method","src_hash":"7e20c27ac56e055a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"doit(**hints)","rhs":"<unspecified:doit>","over":{"base":"Any"},"name":"doit_correct"},"guarantee":"returns the resultant transfer function or state space obtained by parallel connection of transfer functions or state space objects","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.lti.Parallel.doit_correct","statement":"Path(doit(x), returns the resultant transfer function or state space obtained by parallel connection of transfer functions or state space objects)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"53528c2d1c06c615","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._is_parallel_StateSpace","self.args","self.var"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def doit(self, **hints):
         """
         Returns the resultant transfer function or state space obtained by
@@ -3318,16 +3937,22 @@ class Parallel(SISOLinearTimeInvariant):
         return TransferFunction(*res, self.var)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_TransferFunction(*ar), id) over Any  ║
+# ║ Path(_eval_rewrite_as_TransferFunction(*args, **kwargs), id) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_TransferFunction : Any → Any              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 0616d1ff56de7d9a   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.Parallel._eval_rewrite_as_TransferFunction","kind":"method","src_hash":"ee5a97c4c1225942","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_TransferFunction(*ar)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_TransferFunction_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"doit","by":"library_axiom"},{"fn":"rewrite","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0616d1ff56de7d9a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.Parallel._eval_rewrite_as_TransferFunction","kind":"method","src_hash":"ee5a97c4c1225942","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_TransferFunction(*args, **kwargs)","rhs":"<unspecified:_eval_rewrite_as_TransferFunction>","over":{"base":"Any"},"name":"_eval_rewrite_as_TransferFunction_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"doit","by":"library_axiom"},{"fn":"rewrite","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0616d1ff56de7d9a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._is_parallel_StateSpace","self.doit"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_TransferFunction(self, *args, **kwargs):
         if self._is_parallel_StateSpace:
             return self.doit().rewrite(TransferFunction)[0][0]
@@ -3335,16 +3960,22 @@ class Parallel(SISOLinearTimeInvariant):
 
     @_check_other_SISO
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__add__(oth), returns the sum/concatenation) over Any ║
+# ║ Path(__add__(other), Parallel(*self_arg_list, other)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Parallel(*self_arg_list, other)                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __add__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ff3775208447b9a1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.Parallel.__add__","kind":"method","src_hash":"48f9b50d8881d34e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__add__(oth)","rhs":"returns the sum/concatenation","over":{"base":"Any"},"name":"__add___correct"},"guarantee":"returns the sum/concatenation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ff3775208447b9a1"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.Parallel.__add__","kind":"method","src_hash":"48f9b50d8881d34e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__add__(other)","rhs":"Parallel(*self_arg_list, other)","over":{"base":"Any"},"name":"__add___correct"},"guarantee":"returns Parallel(*self_arg_list, other)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ff3775208447b9a1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Parallel(*self_arg_list, other)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __add__(self, other):
 
         self_arg_list = list(self.args)
@@ -3354,45 +3985,64 @@ class Parallel(SISOLinearTimeInvariant):
 
     @_check_other_SISO
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__sub__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__sub__(other), self + -other) over Any               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self + -other                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __sub__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 953d0cc5b47756fc           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.Parallel.__sub__","kind":"method","src_hash":"cdf5df0568ae9be1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__sub__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__sub___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"953d0cc5b47756fc"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.Parallel.__sub__","kind":"method","src_hash":"cdf5df0568ae9be1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__sub__(other)","rhs":"self + -other","over":{"base":"Any"},"name":"__sub___correct"},"guarantee":"returns self + -other","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"953d0cc5b47756fc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self + -other","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __sub__(self, other):
         return self + (-other)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__rsub__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__rsub__(other), -self + other) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  -self + other                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __rsub__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 97d681cbc08fcb47           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.Parallel.__rsub__","kind":"method","src_hash":"0a24ca03b5d6d42c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rsub__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__rsub___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"97d681cbc08fcb47"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.Parallel.__rsub__","kind":"method","src_hash":"0a24ca03b5d6d42c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rsub__(other)","rhs":"-self + other","over":{"base":"Any"},"name":"__rsub___correct"},"guarantee":"returns -self + other","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"97d681cbc08fcb47","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"-self + other","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __rsub__(self, other):
         return -self + other
 
     @_check_other_SISO
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__mul__(oth), returns the product) over Any           ║
+# ║ Path(__mul__(other), <unspecified:__mul__>) over {Any | hasattr(other, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __mul__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, 'args')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __mul__ : {Any | hasattr(other, 'args')} → Any             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 05b0c906f0d8e370           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.Parallel.__mul__","kind":"method","src_hash":"c8ad27ff8a612576","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__mul__(oth)","rhs":"returns the product","over":{"base":"Any"},"name":"__mul___correct"},"guarantee":"returns the product","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"05b0c906f0d8e370"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.Parallel.__mul__","kind":"method","src_hash":"c8ad27ff8a612576","in":{"base":"Any","pred":"hasattr(other, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"__mul__(other)","rhs":"<unspecified:__mul__>","over":{"base":"Any","pred":"hasattr(other, 'args')"},"name":"__mul___correct"},"guarantee":"returns the product","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"05b0c906f0d8e370","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __mul__(self, other):
 
         if isinstance(other, Series):
@@ -3402,46 +4052,64 @@ class Parallel(SISOLinearTimeInvariant):
         return Series(self, other)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__neg__(), returns the additive inverse) over Any     ║
+# ║ Path(__neg__(), Series(TransferFunction(-1, 1, self.var), self)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Series(TransferFunction(-1, 1, self.var),...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __neg__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | cf2ec0188343c641           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.Parallel.__neg__","kind":"method","src_hash":"7ac6935e7e31ad83","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__neg__()","rhs":"returns the additive inverse","over":{"base":"Any"},"name":"__neg___correct"},"guarantee":"returns the additive inverse","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cf2ec0188343c641"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.Parallel.__neg__","kind":"method","src_hash":"7ac6935e7e31ad83","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__neg__()","rhs":"Series(TransferFunction(-1, 1, self.var), self)","over":{"base":"Any"},"name":"__neg___correct"},"guarantee":"returns Series(TransferFunction(-1, 1, self.var), self)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cf2ec0188343c641","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Series(TransferFunction(-1, 1, self.var), self)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.var"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __neg__(self):
         return Series(TransferFunction(-1, 1, self.var), self)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(to_expr(), returns the equivalent ``expr`` object) over Any ║
+# ║ Path(to_expr(), Add(*(arg.to_expr() for arg in self.args), evaluate=False)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Add(*(arg.to_expr() for arg in self.args)...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ to_expr : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 93969bbcd1e5b6cb           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.Parallel.to_expr","kind":"method","src_hash":"a3e762e1912a7e83","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_expr()","rhs":"returns the equivalent ``expr`` object","over":{"base":"Any"},"name":"to_expr_correct"},"guarantee":"returns the equivalent ``expr`` object","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"93969bbcd1e5b6cb"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.Parallel.to_expr","kind":"method","src_hash":"a3e762e1912a7e83","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_expr()","rhs":"Add(*(arg.to_expr() for arg in self.args), evaluate=False)","over":{"base":"Any"},"name":"to_expr_correct"},"guarantee":"returns Add(*(arg.to_expr() for arg in self.args), evaluate=False)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"93969bbcd1e5b6cb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Add(*(arg.to_expr() for arg in self.args), evaluate=False)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def to_expr(self):
         """Returns the equivalent ``Expr`` object."""
         return Add(*(arg.to_expr() for arg in self.args), evaluate=False)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_proper(), returns the is_proper attribute) over Any ║
+# ║ Path(is_proper(), self.doit().is_proper) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.doit().is_proper                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_proper : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f85726927ce9c708           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.Parallel.is_proper","kind":"property","src_hash":"80b9ed3441b5598e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_proper()","rhs":"returns the is_proper attribute","over":{"base":"Any"},"name":"is_proper_correct"},"guarantee":"returns the is_proper attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f85726927ce9c708"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.Parallel.is_proper","kind":"property","src_hash":"80b9ed3441b5598e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_proper()","rhs":"self.doit().is_proper","over":{"base":"Any"},"name":"is_proper_correct"},"guarantee":"returns self.doit().is_proper","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f85726927ce9c708","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.doit().is_proper","pure":false,"effects":{"effect_type":"reads_state","reads":["self.doit"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_proper(self):
         """
         Returns True if degree of the numerator polynomial of the resultant transfer
@@ -3468,16 +4136,22 @@ class Parallel(SISOLinearTimeInvariant):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_strictly_proper(), returns the is_strictly_proper attribute) over Any ║
+# ║ Path(is_strictly_proper(), self.doit().is_strictly_proper) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.doit().is_strictly_proper                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_strictly_proper : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1f6385954339c94a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.Parallel.is_strictly_proper","kind":"property","src_hash":"d5f5268f7f68bde2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_strictly_proper()","rhs":"returns the is_strictly_proper attribute","over":{"base":"Any"},"name":"is_strictly_proper_correct"},"guarantee":"returns the is_strictly_proper attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1f6385954339c94a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.Parallel.is_strictly_proper","kind":"property","src_hash":"d5f5268f7f68bde2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_strictly_proper()","rhs":"self.doit().is_strictly_proper","over":{"base":"Any"},"name":"is_strictly_proper_correct"},"guarantee":"returns self.doit().is_strictly_proper","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1f6385954339c94a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.doit().is_strictly_proper","pure":false,"effects":{"effect_type":"reads_state","reads":["self.doit"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_strictly_proper(self):
         """
         Returns True if degree of the numerator polynomial of the resultant transfer
@@ -3504,16 +4178,22 @@ class Parallel(SISOLinearTimeInvariant):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_biproper(), returns the is_biproper attribute) over Any ║
+# ║ Path(is_biproper(), self.doit().is_biproper) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.doit().is_biproper                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_biproper : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 52bbb71082e393bc           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.Parallel.is_biproper","kind":"property","src_hash":"e7af2159798b9cbb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_biproper()","rhs":"returns the is_biproper attribute","over":{"base":"Any"},"name":"is_biproper_correct"},"guarantee":"returns the is_biproper attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"52bbb71082e393bc"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.Parallel.is_biproper","kind":"property","src_hash":"e7af2159798b9cbb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_biproper()","rhs":"self.doit().is_biproper","over":{"base":"Any"},"name":"is_biproper_correct"},"guarantee":"returns self.doit().is_biproper","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"52bbb71082e393bc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.doit().is_biproper","pure":false,"effects":{"effect_type":"reads_state","reads":["self.doit"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_biproper(self):
         """
         Returns True if degree of the numerator polynomial of the resultant transfer
@@ -3540,16 +4220,22 @@ class Parallel(SISOLinearTimeInvariant):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_StateSpace_object(), returns the is_StateSpace_object attribute) over Any ║
+# ║ Path(is_StateSpace_object(), self._is_parallel_StateSpace) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._is_parallel_StateSpace                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_StateSpace_object : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e6fe0327040a7690           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.Parallel.is_StateSpace_object","kind":"property","src_hash":"53b35d969dde2ad8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_StateSpace_object()","rhs":"returns the is_StateSpace_object attribute","over":{"base":"Any"},"name":"is_StateSpace_object_correct"},"guarantee":"returns the is_StateSpace_object attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e6fe0327040a7690"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.Parallel.is_StateSpace_object","kind":"property","src_hash":"53b35d969dde2ad8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_StateSpace_object()","rhs":"self._is_parallel_StateSpace","over":{"base":"Any"},"name":"is_StateSpace_object_correct"},"guarantee":"returns self._is_parallel_StateSpace","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e6fe0327040a7690","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._is_parallel_StateSpace","pure":false,"effects":{"effect_type":"reads_state","reads":["self._is_parallel_StateSpace"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_StateSpace_object(self):
         return self._is_parallel_StateSpace
 
@@ -3557,14 +4243,20 @@ class Parallel(SISOLinearTimeInvariant):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a MIMOParallel instance) preserved by MIMOParallel(*args) over {Any | isinstance(other, MIMOSeries) and isinstance(res, StateSpace)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, MIMOLinearTimeInvariant)      ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ MIMOParallel : {Any | isinstance(other, MIMOSeries) a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4b0b95d60450dda6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.MIMOParallel","kind":"class","src_hash":"83ecf879757560bb","in":{"base":"Any","pred":"isinstance(other, MIMOSeries) and isinstance(res, StateSpace)"},"out":{"base":"Any"},"spec":{"lhs":"MIMOParallel(*args)","rhs":"correctly constructs a MIMOParallel instance","over":{"base":"Any","pred":"isinstance(other, MIMOSeries) and isinstance(res, StateSpace)"},"name":"MIMOParallel_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a MIMOParallel instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_StateSpace_object","pred":"self.is_StateSpace_object","kind":"class"}],"methods_preserving":["var","num_inputs","num_outputs","shape","is_StateSpace_object","doit","_eval_rewrite_as_TransferFunctionMatrix","__add__","__sub__","__rsub__","__mul__","__neg__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4b0b95d60450dda6"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.MIMOParallel","kind":"class","src_hash":"83ecf879757560bb","in":{"base":"Any","pred":"isinstance(other, MIMOSeries) and isinstance(res, StateSpace)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, MIMOLinearTimeInvariant)"},"spec":{"lhs":"MIMOParallel(*args)","rhs":"correctly constructs a MIMOParallel instance","over":{"base":"Any","pred":"isinstance(other, MIMOSeries) and isinstance(res, StateSpace)"},"name":"MIMOParallel_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, MIMOLinearTimeInvariant)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_StateSpace_object","pred":"self.is_StateSpace_object","kind":"class"}],"methods_preserving":["var","num_inputs","num_outputs","shape","is_StateSpace_object","doit","_eval_rewrite_as_TransferFunctionMatrix","__add__","__sub__","__rsub__","__mul__","__neg__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4b0b95d60450dda6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, MIMOLinearTimeInvariant)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":false,"binding_errors":["Function MIMOParallel not found in source"]}}
 class MIMOParallel(MIMOLinearTimeInvariant):
     r"""
     A class for representing a parallel configuration of MIMO systems.
@@ -3701,16 +4393,22 @@ class MIMOParallel(MIMOLinearTimeInvariant):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, *args, evaluate), obj.doit() if evaluate else obj) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  obj.doit() if evaluate else obj                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ee85ec9516707669           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.MIMOParallel.__new__","kind":"method","src_hash":"8d7f4bf20856fc6e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ee85ec9516707669"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.MIMOParallel.__new__","kind":"method","src_hash":"8d7f4bf20856fc6e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, *args, evaluate)","rhs":"obj.doit() if evaluate else obj","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"returns obj.doit() if evaluate else obj","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ee85ec9516707669","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"obj.doit() if evaluate else obj","pure":false,"effects":{"effect_type":"mutates_args","reads":["cls._check_args"],"writes":["cls._is_parallel_StateSpace"],"raises":["ShapeError","TypeError"]},"state_contract":{"modifies":["cls._is_parallel_StateSpace"],"old_bindings":{"old_cls__is_parallel_StateSpace":"cls._is_parallel_StateSpace"},"exceptional_post":{"ShapeError":["isinstance(raised, ShapeError)"],"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, *args, evaluate=False):
 
         args = _flatten_args(args, MIMOParallel)
@@ -3734,16 +4432,22 @@ class MIMOParallel(MIMOLinearTimeInvariant):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(var(), returns the var attribute) over Any            ║
+# ║ Path(var(), self.args[0].var) over Any                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0].var                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ var : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d1ace8be4c77d696           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.MIMOParallel.var","kind":"property","src_hash":"a16db0a5c1961146","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"var()","rhs":"returns the var attribute","over":{"base":"Any"},"name":"var_correct"},"guarantee":"returns the var attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d1ace8be4c77d696"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.MIMOParallel.var","kind":"property","src_hash":"a16db0a5c1961146","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"var()","rhs":"self.args[0].var","over":{"base":"Any"},"name":"var_correct"},"guarantee":"returns self.args[0].var","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d1ace8be4c77d696","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0].var","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def var(self):
         """
         Returns the complex variable used by all the systems.
@@ -3767,78 +4471,108 @@ class MIMOParallel(MIMOLinearTimeInvariant):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(num_inputs(), returns the num_inputs attribute) over Any ║
+# ║ Path(num_inputs(), self.args[0].num_inputs) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0].num_inputs                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ num_inputs : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0ce0df0c39752088           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.MIMOParallel.num_inputs","kind":"property","src_hash":"97b26cfbd5cd1661","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"num_inputs()","rhs":"returns the num_inputs attribute","over":{"base":"Any"},"name":"num_inputs_correct"},"guarantee":"returns the num_inputs attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0ce0df0c39752088"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.MIMOParallel.num_inputs","kind":"property","src_hash":"97b26cfbd5cd1661","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"num_inputs()","rhs":"self.args[0].num_inputs","over":{"base":"Any"},"name":"num_inputs_correct"},"guarantee":"returns self.args[0].num_inputs","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0ce0df0c39752088","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0].num_inputs","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def num_inputs(self):
         """Returns the number of input signals of the parallel system."""
         return self.args[0].num_inputs
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(num_outputs(), returns the num_outputs attribute) over Any ║
+# ║ Path(num_outputs(), self.args[0].num_outputs) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0].num_outputs                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ num_outputs : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 80ea74a608d57fcf           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.MIMOParallel.num_outputs","kind":"property","src_hash":"c6a38b8a3ee05da8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"num_outputs()","rhs":"returns the num_outputs attribute","over":{"base":"Any"},"name":"num_outputs_correct"},"guarantee":"returns the num_outputs attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"80ea74a608d57fcf"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.MIMOParallel.num_outputs","kind":"property","src_hash":"c6a38b8a3ee05da8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"num_outputs()","rhs":"self.args[0].num_outputs","over":{"base":"Any"},"name":"num_outputs_correct"},"guarantee":"returns self.args[0].num_outputs","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"80ea74a608d57fcf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0].num_outputs","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def num_outputs(self):
         """Returns the number of output signals of the parallel system."""
         return self.args[0].num_outputs
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(shape(), returns the shape attribute) over Any        ║
+# ║ Path(shape(), (self.num_outputs, self.num_inputs)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (self.num_outputs, self.num_inputs)            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ shape : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0e4335fbd7c6ce07           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.MIMOParallel.shape","kind":"property","src_hash":"75ee80a1c6eed5fc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"shape()","rhs":"returns the shape attribute","over":{"base":"Any"},"name":"shape_correct"},"guarantee":"returns the shape attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0e4335fbd7c6ce07"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.MIMOParallel.shape","kind":"property","src_hash":"75ee80a1c6eed5fc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"shape()","rhs":"(self.num_outputs, self.num_inputs)","over":{"base":"Any"},"name":"shape_correct"},"guarantee":"returns (self.num_outputs, self.num_inputs)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0e4335fbd7c6ce07","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(self.num_outputs, self.num_inputs)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.num_inputs","self.num_outputs"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def shape(self):
         """Returns the shape of the equivalent MIMO system."""
         return self.num_outputs, self.num_inputs
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_StateSpace_object(), returns the is_StateSpace_object attribute) over Any ║
+# ║ Path(is_StateSpace_object(), self._is_parallel_StateSpace) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._is_parallel_StateSpace                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_StateSpace_object : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5b74b48d2fea664b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.MIMOParallel.is_StateSpace_object","kind":"property","src_hash":"53b35d969dde2ad8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_StateSpace_object()","rhs":"returns the is_StateSpace_object attribute","over":{"base":"Any"},"name":"is_StateSpace_object_correct"},"guarantee":"returns the is_StateSpace_object attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5b74b48d2fea664b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.MIMOParallel.is_StateSpace_object","kind":"property","src_hash":"53b35d969dde2ad8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_StateSpace_object()","rhs":"self._is_parallel_StateSpace","over":{"base":"Any"},"name":"is_StateSpace_object_correct"},"guarantee":"returns self._is_parallel_StateSpace","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5b74b48d2fea664b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._is_parallel_StateSpace","pure":false,"effects":{"effect_type":"reads_state","reads":["self._is_parallel_StateSpace"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_StateSpace_object(self):
         return self._is_parallel_StateSpace
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(doit(**h), returns the resultant transfer function matrix or statespace obtained after evaluating the mimo systems arranged in a parallel configuration) over Any ║
+# ║ Path(doit(**hints), <unspecified:doit>) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ doit : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b47bdfcc34a48626  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.MIMOParallel.doit","kind":"method","src_hash":"d8dc206ebe46d760","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"doit(**h)","rhs":"returns the resultant transfer function matrix or statespace obtained after evaluating the mimo systems arranged in a parallel configuration","over":{"base":"Any"},"name":"doit_correct"},"guarantee":"returns the resultant transfer function matrix or statespace obtained after evaluating the mimo systems arranged in a parallel configuration","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.lti.MIMOParallel.doit_correct","statement":"Path(doit(x), returns the resultant transfer function matrix or statespace obtained after evaluating the mimo systems arranged in a parallel configuration)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b47bdfcc34a48626"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.MIMOParallel.doit","kind":"method","src_hash":"d8dc206ebe46d760","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"doit(**hints)","rhs":"<unspecified:doit>","over":{"base":"Any"},"name":"doit_correct"},"guarantee":"returns the resultant transfer function matrix or statespace obtained after evaluating the mimo systems arranged in a parallel configuration","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.lti.MIMOParallel.doit_correct","statement":"Path(doit(x), returns the resultant transfer function matrix or statespace obtained after evaluating the mimo systems arranged in a parallel configuration)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b47bdfcc34a48626","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._is_parallel_StateSpace","self.args","self.var"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def doit(self, **hints):
         """
         Returns the resultant transfer function matrix or StateSpace obtained after evaluating
@@ -3874,16 +4608,22 @@ class MIMOParallel(MIMOLinearTimeInvariant):
         return TransferFunctionMatrix.from_Matrix(res, self.var)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_TransferFunctionMatrix(*ar), id) over Any ║
+# ║ Path(_eval_rewrite_as_TransferFunctionMatrix(*args, **kwargs), id) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_TransferFunctionMatrix : Any → Any        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 26e0718c6e9fdee0   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.MIMOParallel._eval_rewrite_as_TransferFunctionMatrix","kind":"method","src_hash":"954dbd0092621378","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_TransferFunctionMatrix(*ar)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_TransferFunctionMatrix_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"doit","by":"library_axiom"},{"fn":"rewrite","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"26e0718c6e9fdee0"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.MIMOParallel._eval_rewrite_as_TransferFunctionMatrix","kind":"method","src_hash":"954dbd0092621378","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_TransferFunctionMatrix(*args, **kwargs)","rhs":"<unspecified:_eval_rewrite_as_TransferFunctionMatrix>","over":{"base":"Any"},"name":"_eval_rewrite_as_TransferFunctionMatrix_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"doit","by":"library_axiom"},{"fn":"rewrite","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"26e0718c6e9fdee0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._is_parallel_StateSpace","self.doit"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_TransferFunctionMatrix(self, *args, **kwargs):
         if self._is_parallel_StateSpace:
             return self.doit().rewrite(TransferFunction)
@@ -3891,16 +4631,22 @@ class MIMOParallel(MIMOLinearTimeInvariant):
 
     @_check_other_MIMO
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__add__(oth), returns the sum/concatenation) over Any ║
+# ║ Path(__add__(other), MIMOParallel(*self_arg_list, other)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  MIMOParallel(*self_arg_list, other)            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __add__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 43a1b0456c6d5adf           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.MIMOParallel.__add__","kind":"method","src_hash":"af7d32a884472a09","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__add__(oth)","rhs":"returns the sum/concatenation","over":{"base":"Any"},"name":"__add___correct"},"guarantee":"returns the sum/concatenation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"43a1b0456c6d5adf"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.MIMOParallel.__add__","kind":"method","src_hash":"af7d32a884472a09","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__add__(other)","rhs":"MIMOParallel(*self_arg_list, other)","over":{"base":"Any"},"name":"__add___correct"},"guarantee":"returns MIMOParallel(*self_arg_list, other)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"43a1b0456c6d5adf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"MIMOParallel(*self_arg_list, other)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __add__(self, other):
 
         self_arg_list = list(self.args)
@@ -3910,45 +4656,64 @@ class MIMOParallel(MIMOLinearTimeInvariant):
 
     @_check_other_MIMO
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__sub__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__sub__(other), self + -other) over Any               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self + -other                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __sub__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1cc4ac0659849b37           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.MIMOParallel.__sub__","kind":"method","src_hash":"cdf5df0568ae9be1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__sub__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__sub___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1cc4ac0659849b37"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.MIMOParallel.__sub__","kind":"method","src_hash":"cdf5df0568ae9be1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__sub__(other)","rhs":"self + -other","over":{"base":"Any"},"name":"__sub___correct"},"guarantee":"returns self + -other","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1cc4ac0659849b37","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self + -other","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __sub__(self, other):
         return self + (-other)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__rsub__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__rsub__(other), -self + other) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  -self + other                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __rsub__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e510bb05e0ef4589           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.MIMOParallel.__rsub__","kind":"method","src_hash":"0a24ca03b5d6d42c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rsub__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__rsub___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e510bb05e0ef4589"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.MIMOParallel.__rsub__","kind":"method","src_hash":"0a24ca03b5d6d42c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rsub__(other)","rhs":"-self + other","over":{"base":"Any"},"name":"__rsub___correct"},"guarantee":"returns -self + other","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e510bb05e0ef4589","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"-self + other","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __rsub__(self, other):
         return -self + other
 
     @_check_other_MIMO
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__mul__(oth), returns the product) over Any           ║
+# ║ Path(__mul__(other), <unspecified:__mul__>) over {Any | hasattr(other, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __mul__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, 'args')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __mul__ : {Any | hasattr(other, 'args')} → Any             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0a3a0ddd815d4f8b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.MIMOParallel.__mul__","kind":"method","src_hash":"9a47cbdf7a69d629","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__mul__(oth)","rhs":"returns the product","over":{"base":"Any"},"name":"__mul___correct"},"guarantee":"returns the product","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0a3a0ddd815d4f8b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.MIMOParallel.__mul__","kind":"method","src_hash":"9a47cbdf7a69d629","in":{"base":"Any","pred":"hasattr(other, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"__mul__(other)","rhs":"<unspecified:__mul__>","over":{"base":"Any","pred":"hasattr(other, 'args')"},"name":"__mul___correct"},"guarantee":"returns the product","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0a3a0ddd815d4f8b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __mul__(self, other):
 
         if isinstance(other, MIMOSeries):
@@ -3958,16 +4723,22 @@ class MIMOParallel(MIMOLinearTimeInvariant):
         return MIMOSeries(other, self)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__neg__(), returns the additive inverse) over Any     ║
+# ║ Path(__neg__(), MIMOParallel(*arg_list)) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  MIMOParallel(*arg_list)                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __neg__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c43a4db50dde0330           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.MIMOParallel.__neg__","kind":"method","src_hash":"3d9bef83356dfef7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__neg__()","rhs":"returns the additive inverse","over":{"base":"Any"},"name":"__neg___correct"},"guarantee":"returns the additive inverse","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c43a4db50dde0330"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.MIMOParallel.__neg__","kind":"method","src_hash":"3d9bef83356dfef7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__neg__()","rhs":"MIMOParallel(*arg_list)","over":{"base":"Any"},"name":"__neg___correct"},"guarantee":"returns MIMOParallel(*arg_list)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c43a4db50dde0330","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"MIMOParallel(*arg_list)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __neg__(self):
         arg_list = [-arg for arg in list(self.args)]
         return MIMOParallel(*arg_list)
@@ -3976,14 +4747,20 @@ class MIMOParallel(MIMOLinearTimeInvariant):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Feedback(*args), correctly constructs a Feedback instance) over {Any | isinstance(sys1, (TransferFunction, Series, StateSpace, Feedback)) and isinstance(self.sys1, Series)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, SISOLinearTimeInvariant)      ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ Feedback : {Any | isinstance(sys1, (TransferFunction,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 002ef5bb335104a2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.Feedback","kind":"class","src_hash":"83ca2c0021aa3c90","in":{"base":"Any","pred":"isinstance(sys1, (TransferFunction, Series, StateSpace, Feedback)) and isinstance(self.sys1, Series)"},"out":{"base":"Any"},"spec":{"lhs":"Feedback(*args)","rhs":"correctly constructs a Feedback instance","over":{"base":"Any","pred":"isinstance(sys1, (TransferFunction, Series, StateSpace, Feedback)) and isinstance(self.sys1, Series)"},"name":"Feedback_class_invariant"},"guarantee":"correctly constructs a Feedback instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"002ef5bb335104a2"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.Feedback","kind":"class","src_hash":"83ca2c0021aa3c90","in":{"base":"Any","pred":"isinstance(sys1, (TransferFunction, Series, StateSpace, Feedback)) and isinstance(self.sys1, Series)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, SISOLinearTimeInvariant)"},"spec":{"lhs":"Feedback(*args)","rhs":"correctly constructs a Feedback instance","over":{"base":"Any","pred":"isinstance(sys1, (TransferFunction, Series, StateSpace, Feedback)) and isinstance(self.sys1, Series)"},"name":"Feedback_class_invariant"},"guarantee":"isinstance(self, SISOLinearTimeInvariant)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"002ef5bb335104a2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, SISOLinearTimeInvariant)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function Feedback not found in source"]}}
 class Feedback(SISOLinearTimeInvariant):
     r"""
     A class for representing closed-loop feedback interconnection between two
@@ -4103,16 +4880,25 @@ class Feedback(SISOLinearTimeInvariant):
 
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, sys1, sys2), super(SISOLinearTimeInvariant, cls).__new__(cls, sys1, sys2, _sympify(sign))) over {Any | isinstance(sys1, (TransferFunction, Series, StateSpace, Feedback)) and isinstance(sys2, (TransferFunction, Series, StateSpace, Feedback)) and sys1.num_inputs == sys1.num_outputs == sys2.num_inputs == sys2.num_outputs == 1 and not (sign not in [-1, 1]) and hasattr(sys1, 'is_StateSpace_object') and hasattr(sys2, 'is_StateSpace_object') and hasattr(sys1, 'var') and hasattr(sys1, 'num_inputs') and hasattr(sys1, 'num_outputs') and hasattr(sys2, 'num_inputs') and hasattr(sys2, 'num_outputs') and hasattr(sys2, 'var') and hasattr(sys1, 'to_expr') and hasattr(sys2, 'to_expr')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(sys1, (TransferFunction, Serie...   ║
+# ║   requires: isinstance(sys2, (TransferFunction, Serie...   ║
+# ║   requires: sys1.num_inputs == sys1.num_outputs == sy...   ║
+# ║   returns:  super(SISOLinearTimeInvariant, cls).__new...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | isinstance(sys1, (TransferFunction, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c16377b921cb78f0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.Feedback.__new__","kind":"method","src_hash":"353e4eebe3a02408","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c16377b921cb78f0"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.Feedback.__new__","kind":"method","src_hash":"353e4eebe3a02408","in":{"base":"Any","pred":"isinstance(sys1, (TransferFunction, Series, StateSpace, Feedback)) and isinstance(sys2, (TransferFunction, Series, StateSpace, Feedback)) and sys1.num_inputs == sys1.num_outputs == sys2.num_inputs == sys2.num_outputs == 1 and not (sign not in [-1, 1]) and hasattr(sys1, 'is_StateSpace_object') and hasattr(sys2, 'is_StateSpace_object') and hasattr(sys1, 'var') and hasattr(sys1, 'num_inputs') and hasattr(sys1, 'num_outputs') and hasattr(sys2, 'num_inputs') and hasattr(sys2, 'num_outputs') and hasattr(sys2, 'var') and hasattr(sys1, 'to_expr') and hasattr(sys2, 'to_expr')"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, sys1, sys2)","rhs":"super(SISOLinearTimeInvariant, cls).__new__(cls, sys1, sys2, _sympify(sign))","over":{"base":"Any","pred":"isinstance(sys1, (TransferFunction, Series, StateSpace, Feedback)) and isinstance(sys2, (TransferFunction, Series, StateSpace, Feedback)) and sys1.num_inputs == sys1.num_outputs == sys2.num_inputs == sys2.num_outputs == 1 and not (sign not in [-1, 1]) and hasattr(sys1, 'is_StateSpace_object') and hasattr(sys2, 'is_StateSpace_object') and hasattr(sys1, 'var') and hasattr(sys1, 'num_inputs') and hasattr(sys1, 'num_outputs') and hasattr(sys2, 'num_inputs') and hasattr(sys2, 'num_outputs') and hasattr(sys2, 'var') and hasattr(sys1, 'to_expr') and hasattr(sys2, 'to_expr')"},"name":"__new___correct"},"guarantee":"returns super(SISOLinearTimeInvariant, cls).__new__(cls, sys1, sys2, _sympify(sign))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c16377b921cb78f0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(sys1, (TransferFunction, Series, StateSpace, Feedback))","isinstance(sys2, (TransferFunction, Series, StateSpace, Feedback))","sys1.num_inputs == sys1.num_outputs == sys2.num_inputs == sys2.num_outputs == 1","not (sign not in [-1, 1])","hasattr(sys1, 'is_StateSpace_object')","hasattr(sys2, 'is_StateSpace_object')","hasattr(sys1, 'var')","hasattr(sys1, 'num_inputs')","hasattr(sys1, 'num_outputs')","hasattr(sys2, 'num_inputs')","hasattr(sys2, 'num_outputs')","hasattr(sys2, 'var')","hasattr(sys1, 'to_expr')","hasattr(sys2, 'to_expr')"],"returns_expr":"super(SISOLinearTimeInvariant, cls).__new__(cls, sys1, sys2, _sympify(sign))","pure":false,"effects":{"effect_type":"mutates_args","reads":["sys1.is_StateSpace_object","sys1.num_inputs","sys1.num_outputs","sys1.to_expr","sys1.var","sys2.is_StateSpace_object","sys2.num_inputs","sys2.num_outputs","sys2.to_expr","sys2.var"],"writes":["cls.is_StateSpace_object"],"raises":["TypeError","ValueError"]},"state_contract":{"modifies":["cls.is_StateSpace_object"],"old_bindings":{"old_cls_is_StateSpace_object":"cls.is_StateSpace_object"},"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, sys1, sys2=None, sign=-1):
         if not sys2:
             sys2 = TransferFunction(1, 1, sys1.var)
@@ -4147,16 +4933,22 @@ class Feedback(SISOLinearTimeInvariant):
         return super(SISOLinearTimeInvariant, cls).__new__(cls, sys1, sys2, _sympify(sign))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__repr__(), returns a faithful string representation) over Any ║
+# ║ Path(__repr__(), f'Feedback({self.sys1}, {self.sys2}, {self.sign})') over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  f'Feedback({self.sys1}, {self.sys2}, {sel...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __repr__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e3666954a8129e7c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.Feedback.__repr__","kind":"method","src_hash":"2ff004c3b671e98e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"returns a faithful string representation","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns a faithful string representation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e3666954a8129e7c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.Feedback.__repr__","kind":"method","src_hash":"2ff004c3b671e98e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"f'Feedback({self.sys1}, {self.sys2}, {self.sign})'","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns f'Feedback({self.sys1}, {self.sys2}, {self.sign})'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e3666954a8129e7c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"f'Feedback({self.sys1}, {self.sys2}, {self.sign})'","pure":false,"effects":{"effect_type":"reads_state","reads":["self.sign","self.sys1","self.sys2"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __repr__(self):
         return f"Feedback({self.sys1}, {self.sys2}, {self.sign})"
 
@@ -4164,16 +4956,22 @@ class Feedback(SISOLinearTimeInvariant):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sys1(), returns the sys1 attribute) over Any          ║
+# ║ Path(sys1(), self.args[0]) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ sys1 : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b143ee71c5a87f10           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.Feedback.sys1","kind":"property","src_hash":"e3f042ef227cb664","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sys1()","rhs":"returns the sys1 attribute","over":{"base":"Any"},"name":"sys1_correct"},"guarantee":"returns the sys1 attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b143ee71c5a87f10"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.Feedback.sys1","kind":"property","src_hash":"e3f042ef227cb664","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sys1()","rhs":"self.args[0]","over":{"base":"Any"},"name":"sys1_correct"},"guarantee":"returns self.args[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b143ee71c5a87f10","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def sys1(self):
         """
         Returns the feedforward system of the feedback interconnection.
@@ -4200,16 +4998,22 @@ class Feedback(SISOLinearTimeInvariant):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sys2(), returns the sys2 attribute) over Any          ║
+# ║ Path(sys2(), self.args[1]) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[1]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ sys2 : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3df3ba845b3401f6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.Feedback.sys2","kind":"property","src_hash":"dc3b49fbc3282eb8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sys2()","rhs":"returns the sys2 attribute","over":{"base":"Any"},"name":"sys2_correct"},"guarantee":"returns the sys2 attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3df3ba845b3401f6"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.Feedback.sys2","kind":"property","src_hash":"dc3b49fbc3282eb8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sys2()","rhs":"self.args[1]","over":{"base":"Any"},"name":"sys2_correct"},"guarantee":"returns self.args[1]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3df3ba845b3401f6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[1]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def sys2(self):
         """
         Returns the feedback controller of the feedback interconnection.
@@ -4236,16 +5040,22 @@ class Feedback(SISOLinearTimeInvariant):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(var(), returns the var attribute) over Any            ║
+# ║ Path(var(), self.sys1.var) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.sys1.var                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ var : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 38939b83d7b5acd5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.Feedback.var","kind":"property","src_hash":"96cb1cadcfb781dd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"var()","rhs":"returns the var attribute","over":{"base":"Any"},"name":"var_correct"},"guarantee":"returns the var attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"38939b83d7b5acd5"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.Feedback.var","kind":"property","src_hash":"96cb1cadcfb781dd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"var()","rhs":"self.sys1.var","over":{"base":"Any"},"name":"var_correct"},"guarantee":"returns self.sys1.var","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"38939b83d7b5acd5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.sys1.var","pure":false,"effects":{"effect_type":"reads_state","reads":["self.sys1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def var(self):
         """
         Returns the complex variable of the Laplace transform used by all
@@ -4273,16 +5083,22 @@ class Feedback(SISOLinearTimeInvariant):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sign(), returns the sign attribute) over Any          ║
+# ║ Path(sign(), self.args[2]) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[2]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ sign : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d5d20abfc68679f6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.Feedback.sign","kind":"property","src_hash":"fae1a4321cdb507d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sign()","rhs":"returns the sign attribute","over":{"base":"Any"},"name":"sign_correct"},"guarantee":"returns the sign attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d5d20abfc68679f6"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.Feedback.sign","kind":"property","src_hash":"fae1a4321cdb507d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sign()","rhs":"self.args[2]","over":{"base":"Any"},"name":"sign_correct"},"guarantee":"returns self.args[2]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d5d20abfc68679f6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[2]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def sign(self):
         """
         Returns the type of MIMO Feedback model. ``1``
@@ -4292,16 +5108,22 @@ class Feedback(SISOLinearTimeInvariant):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(num(), returns the num attribute) over Any            ║
+# ║ Path(num(), self.sys1) over Any                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.sys1                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ num : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f9c73611fb91bbc3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.Feedback.num","kind":"property","src_hash":"5197db62bb594828","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"num()","rhs":"returns the num attribute","over":{"base":"Any"},"name":"num_correct"},"guarantee":"returns the num attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f9c73611fb91bbc3"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.Feedback.num","kind":"property","src_hash":"5197db62bb594828","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"num()","rhs":"self.sys1","over":{"base":"Any"},"name":"num_correct"},"guarantee":"returns self.sys1","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f9c73611fb91bbc3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.sys1","pure":false,"effects":{"effect_type":"reads_state","reads":["self.sys1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def num(self):
         """
         Returns the numerator of the closed loop feedback system.
@@ -4310,16 +5132,22 @@ class Feedback(SISOLinearTimeInvariant):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(den(), returns the den attribute) over Any            ║
+# ║ Path(den(), <unspecified:den>) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ den : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0b33eb01f79ca0dd           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.Feedback.den","kind":"property","src_hash":"98c02cea21c0bf2a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"den()","rhs":"returns the den attribute","over":{"base":"Any"},"name":"den_correct"},"guarantee":"returns the den attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0b33eb01f79ca0dd"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.Feedback.den","kind":"property","src_hash":"98c02cea21c0bf2a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"den()","rhs":"<unspecified:den>","over":{"base":"Any"},"name":"den_correct"},"guarantee":"returns the den attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0b33eb01f79ca0dd","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.sign","self.sys1","self.sys2","self.var"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def den(self):
         """
         Returns the denominator of the closed loop feedback model.
@@ -4332,16 +5160,22 @@ class Feedback(SISOLinearTimeInvariant):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sensitivity(), returns the sensitivity attribute) over Any ║
+# ║ Path(sensitivity(), 1 / (1 - self.sign * self.sys1.to_expr() * self.sys2.to_expr())) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  1 / (1 - self.sign * self.sys1.to_expr() ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ sensitivity : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a73cfa7b970736bb           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.Feedback.sensitivity","kind":"property","src_hash":"862ba16f69140f81","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sensitivity()","rhs":"returns the sensitivity attribute","over":{"base":"Any"},"name":"sensitivity_correct"},"guarantee":"returns the sensitivity attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a73cfa7b970736bb"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.Feedback.sensitivity","kind":"property","src_hash":"862ba16f69140f81","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sensitivity()","rhs":"1 / (1 - self.sign * self.sys1.to_expr() * self.sys2.to_expr())","over":{"base":"Any"},"name":"sensitivity_correct"},"guarantee":"returns 1 / (1 - self.sign * self.sys1.to_expr() * self.sys2.to_expr())","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a73cfa7b970736bb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"1 / (1 - self.sign * self.sys1.to_expr() * self.sys2.to_expr())","pure":false,"effects":{"effect_type":"reads_state","reads":["self.sign","self.sys1","self.sys2"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def sensitivity(self):
         """
         Returns the sensitivity function of the feedback loop.
@@ -4370,16 +5204,22 @@ class Feedback(SISOLinearTimeInvariant):
         return 1/(1 - self.sign*self.sys1.to_expr()*self.sys2.to_expr())
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(doit(can), returns the resultant transfer function or state space obtained by feedback connection of transfer functions or state space objects) over Any ║
+# ║ Path(doit(cancel, expand, **hints), <unspecified:doit>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ doit : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6c063292049b08f6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.Feedback.doit","kind":"method","src_hash":"00b62550c1f0a252","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"doit(can)","rhs":"returns the resultant transfer function or state space obtained by feedback connection of transfer functions or state space objects","over":{"base":"Any"},"name":"doit_correct"},"guarantee":"returns the resultant transfer function or state space obtained by feedback connection of transfer functions or state space objects","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.lti.Feedback.doit_correct","statement":"Path(doit(x), returns the resultant transfer function or state space obtained by feedback connection of transfer functions or state space objects)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6c063292049b08f6"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.Feedback.doit","kind":"method","src_hash":"00b62550c1f0a252","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"doit(cancel, expand, **hints)","rhs":"<unspecified:doit>","over":{"base":"Any"},"name":"doit_correct"},"guarantee":"returns the resultant transfer function or state space obtained by feedback connection of transfer functions or state space objects","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.lti.Feedback.doit_correct","statement":"Path(doit(x), returns the resultant transfer function or state space obtained by feedback connection of transfer functions or state space objects)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6c063292049b08f6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.is_StateSpace_object","self.num_inputs","self.num_outputs","self.sign","self.sys1","self.sys2"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def doit(self, cancel=False, expand=False, **hints):
         """
         Returns the resultant transfer function or state space obtained by
@@ -4481,32 +5321,44 @@ class Feedback(SISOLinearTimeInvariant):
         return _resultant_tf
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_TransferFunction(num), id) over Any  ║
+# ║ Path(_eval_rewrite_as_TransferFunction(num, den, sign), id) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_TransferFunction : Any → Any              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 8426661cf21d7253   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.Feedback._eval_rewrite_as_TransferFunction","kind":"method","src_hash":"f42bd6c481d23c70","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_TransferFunction(num)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_TransferFunction_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"doit","by":"library_axiom"},{"fn":"rewrite","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8426661cf21d7253"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.Feedback._eval_rewrite_as_TransferFunction","kind":"method","src_hash":"f42bd6c481d23c70","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_TransferFunction(num, den, sign)","rhs":"<unspecified:_eval_rewrite_as_TransferFunction>","over":{"base":"Any"},"name":"_eval_rewrite_as_TransferFunction_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"doit","by":"library_axiom"},{"fn":"rewrite","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8426661cf21d7253","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.doit","self.is_StateSpace_object"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_TransferFunction(self, num, den, sign, **kwargs):
         if self.is_StateSpace_object:
             return self.doit().rewrite(TransferFunction)[0][0]
         return self.doit()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(to_expr(), converts a ``feedback`` object to sympy expr) over Any ║
+# ║ Path(to_expr(), self.doit().to_expr()) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.doit().to_expr()                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ to_expr : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 76c5e3ecba209d64           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.Feedback.to_expr","kind":"method","src_hash":"4c12dec017bcfa4e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_expr()","rhs":"converts a ``feedback`` object to sympy expr","over":{"base":"Any"},"name":"to_expr_correct"},"guarantee":"converts a ``feedback`` object to sympy expr","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"76c5e3ecba209d64"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.Feedback.to_expr","kind":"method","src_hash":"4c12dec017bcfa4e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_expr()","rhs":"self.doit().to_expr()","over":{"base":"Any"},"name":"to_expr_correct"},"guarantee":"returns self.doit().to_expr()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"76c5e3ecba209d64","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.doit().to_expr()","pure":false,"effects":{"effect_type":"reads_state","reads":["self.doit"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def to_expr(self):
         """
         Converts a ``Feedback`` object to SymPy Expr.
@@ -4529,31 +5381,46 @@ class Feedback(SISOLinearTimeInvariant):
         return self.doit().to_expr()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__neg__(), returns the additive inverse) over Any     ║
+# ║ Path(__neg__(), Feedback(-self.sys1, -self.sys2, self.sign)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Feedback(-self.sys1, -self.sys2, self.sign)    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __neg__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | eace19e2be183c01           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.Feedback.__neg__","kind":"method","src_hash":"22d4192e89e751f7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__neg__()","rhs":"returns the additive inverse","over":{"base":"Any"},"name":"__neg___correct"},"guarantee":"returns the additive inverse","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"eace19e2be183c01"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.Feedback.__neg__","kind":"method","src_hash":"22d4192e89e751f7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__neg__()","rhs":"Feedback(-self.sys1, -self.sys2, self.sign)","over":{"base":"Any"},"name":"__neg___correct"},"guarantee":"returns Feedback(-self.sys1, -self.sys2, self.sign)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"eace19e2be183c01","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Feedback(-self.sys1, -self.sys2, self.sign)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.sign","self.sys1","self.sys2"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __neg__(self):
         return Feedback(-self.sys1, -self.sys2, self.sign)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_is_invertible(a, ), checks whether a given pair of mimo systems passed is invertible or not) over Any ║
+# ║ Path(_is_invertible(a, b, sign), _det != 0) over {Any | hasattr(a, 'num_outputs') and hasattr(b, 'doit') and hasattr(a, 'doit')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _is_invertible : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(a, 'num_outputs')                      ║
+# ║   requires: hasattr(b, 'doit')                             ║
+# ║   requires: hasattr(a, 'doit')                             ║
+# ║   returns:  _det != 0                                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _is_invertible : {Any | hasattr(a, 'num_outputs') and...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f02bd47f709cca02  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d8a50c1b23c62445  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti._is_invertible","kind":"function","src_hash":"2b7a04b7ebb14557","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_is_invertible(a, )","rhs":"checks whether a given pair of mimo systems passed is invertible or not","over":{"base":"Any"},"name":"_is_invertible_correct"},"guarantee":"checks whether a given pair of mimo systems passed is invertible or not","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.lti._is_invertible_correct","statement":"Path(_is_invertible(x), checks whether a given pair of mimo systems passed is invertible or not)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f02bd47f709cca02"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti._is_invertible","kind":"function","src_hash":"2b7a04b7ebb14557","in":{"base":"Any","pred":"hasattr(a, 'num_outputs') and hasattr(b, 'doit') and hasattr(a, 'doit')"},"out":{"base":"Any"},"spec":{"lhs":"_is_invertible(a, b, sign)","rhs":"_det != 0","over":{"base":"Any","pred":"hasattr(a, 'num_outputs') and hasattr(b, 'doit') and hasattr(a, 'doit')"},"name":"_is_invertible_correct"},"guarantee":"returns _det != 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.lti._is_invertible_correct","statement":"Path(_is_invertible(x), returns _det != 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d8a50c1b23c62445","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(a, 'num_outputs')","hasattr(b, 'doit')","hasattr(a, 'doit')"],"returns_expr":"_det != 0","pure":false,"effects":{"effect_type":"reads_state","reads":["a.doit","a.num_outputs","b.doit"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _is_invertible(a, b, sign):
     """
     Checks whether a given pair of MIMO
@@ -4568,14 +5435,20 @@ def _is_invertible(a, b, sign):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(MIMOFeedback(*args), correctly constructs a MIMOFeedback instance) over {Any | isinstance(sys1, (TransferFunctionMatrix, MIMOSeries, StateSpace))} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, MIMOLinearTimeInvariant)      ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ MIMOFeedback : {Any | isinstance(sys1, (TransferFunct...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.9ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 82f52a636f61866a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.MIMOFeedback","kind":"class","src_hash":"c32db1f36a60059e","in":{"base":"Any","pred":"isinstance(sys1, (TransferFunctionMatrix, MIMOSeries, StateSpace))"},"out":{"base":"Any"},"spec":{"lhs":"MIMOFeedback(*args)","rhs":"correctly constructs a MIMOFeedback instance","over":{"base":"Any","pred":"isinstance(sys1, (TransferFunctionMatrix, MIMOSeries, StateSpace))"},"name":"MIMOFeedback_class_invariant"},"guarantee":"correctly constructs a MIMOFeedback instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"82f52a636f61866a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.MIMOFeedback","kind":"class","src_hash":"c32db1f36a60059e","in":{"base":"Any","pred":"isinstance(sys1, (TransferFunctionMatrix, MIMOSeries, StateSpace))"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, MIMOLinearTimeInvariant)"},"spec":{"lhs":"MIMOFeedback(*args)","rhs":"correctly constructs a MIMOFeedback instance","over":{"base":"Any","pred":"isinstance(sys1, (TransferFunctionMatrix, MIMOSeries, StateSpace))"},"name":"MIMOFeedback_class_invariant"},"guarantee":"isinstance(self, MIMOLinearTimeInvariant)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"82f52a636f61866a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, MIMOLinearTimeInvariant)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.9,"verdict_class":"assumed","binding":false,"binding_errors":["Function MIMOFeedback not found in source"]}}
 class MIMOFeedback(MIMOLinearTimeInvariant):
     r"""
     A class for representing closed-loop feedback interconnection between two
@@ -4715,16 +5588,25 @@ class MIMOFeedback(MIMOLinearTimeInvariant):
 
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, sys1, sys2), super().__new__(cls, sys1, sys2, _sympify(sign))) over {Any | isinstance(sys1, (TransferFunctionMatrix, MIMOSeries, StateSpace)) and isinstance(sys2, (TransferFunctionMatrix, MIMOSeries, StateSpace)) and not (sys1.num_inputs != sys2.num_outputs or sys1.num_outputs != sys2.num_inputs) and not (sign not in (-1, 1)) and hasattr(sys1, 'is_StateSpace_object') and hasattr(sys2, 'is_StateSpace_object') and hasattr(sys1, 'num_inputs') and hasattr(sys2, 'num_outputs') and hasattr(sys1, 'num_outputs') and hasattr(sys2, 'num_inputs') and hasattr(sys1, 'var') and hasattr(sys2, 'var')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(sys1, (TransferFunctionMatrix,...   ║
+# ║   requires: isinstance(sys2, (TransferFunctionMatrix,...   ║
+# ║   requires: not (sys1.num_inputs != sys2.num_outputs ...   ║
+# ║   returns:  super().__new__(cls, sys1, sys2, _sympify...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | isinstance(sys1, (TransferFunctionMa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 63017083b5eb7ab9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.MIMOFeedback.__new__","kind":"method","src_hash":"c15b6a025f37eaf9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"63017083b5eb7ab9"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.MIMOFeedback.__new__","kind":"method","src_hash":"c15b6a025f37eaf9","in":{"base":"Any","pred":"isinstance(sys1, (TransferFunctionMatrix, MIMOSeries, StateSpace)) and isinstance(sys2, (TransferFunctionMatrix, MIMOSeries, StateSpace)) and not (sys1.num_inputs != sys2.num_outputs or sys1.num_outputs != sys2.num_inputs) and not (sign not in (-1, 1)) and hasattr(sys1, 'is_StateSpace_object') and hasattr(sys2, 'is_StateSpace_object') and hasattr(sys1, 'num_inputs') and hasattr(sys2, 'num_outputs') and hasattr(sys1, 'num_outputs') and hasattr(sys2, 'num_inputs') and hasattr(sys1, 'var') and hasattr(sys2, 'var')"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, sys1, sys2)","rhs":"super().__new__(cls, sys1, sys2, _sympify(sign))","over":{"base":"Any","pred":"isinstance(sys1, (TransferFunctionMatrix, MIMOSeries, StateSpace)) and isinstance(sys2, (TransferFunctionMatrix, MIMOSeries, StateSpace)) and not (sys1.num_inputs != sys2.num_outputs or sys1.num_outputs != sys2.num_inputs) and not (sign not in (-1, 1)) and hasattr(sys1, 'is_StateSpace_object') and hasattr(sys2, 'is_StateSpace_object') and hasattr(sys1, 'num_inputs') and hasattr(sys2, 'num_outputs') and hasattr(sys1, 'num_outputs') and hasattr(sys2, 'num_inputs') and hasattr(sys1, 'var') and hasattr(sys2, 'var')"},"name":"__new___correct"},"guarantee":"returns super().__new__(cls, sys1, sys2, _sympify(sign))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"63017083b5eb7ab9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(sys1, (TransferFunctionMatrix, MIMOSeries, StateSpace))","isinstance(sys2, (TransferFunctionMatrix, MIMOSeries, StateSpace))","not (sys1.num_inputs != sys2.num_outputs or sys1.num_outputs != sys2.num_inputs)","not (sign not in (-1, 1))","hasattr(sys1, 'is_StateSpace_object')","hasattr(sys2, 'is_StateSpace_object')","hasattr(sys1, 'num_inputs')","hasattr(sys2, 'num_outputs')","hasattr(sys1, 'num_outputs')","hasattr(sys2, 'num_inputs')","hasattr(sys1, 'var')","hasattr(sys2, 'var')"],"returns_expr":"super().__new__(cls, sys1, sys2, _sympify(sign))","pure":false,"effects":{"effect_type":"mutates_args","reads":["cls.is_StateSpace_object","sys1.is_StateSpace_object","sys1.num_inputs","sys1.num_outputs","sys1.var","sys2.is_StateSpace_object","sys2.num_inputs","sys2.num_outputs","sys2.var"],"writes":["cls.is_StateSpace_object"],"raises":["TypeError","ValueError"]},"state_contract":{"modifies":["cls.is_StateSpace_object"],"old_bindings":{"old_cls_is_StateSpace_object":"cls.is_StateSpace_object"},"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, sys1, sys2, sign=-1):
         if not isinstance(sys1, (TransferFunctionMatrix, MIMOSeries, StateSpace)):
             raise TypeError("Unsupported type for `sys1` in MIMO Feedback.")
@@ -4760,16 +5642,22 @@ class MIMOFeedback(MIMOLinearTimeInvariant):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sys1(), returns the sys1 attribute) over Any          ║
+# ║ Path(sys1(), self.args[0]) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ sys1 : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a841672c220d0b96           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.MIMOFeedback.sys1","kind":"property","src_hash":"716e474833b3cae8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sys1()","rhs":"returns the sys1 attribute","over":{"base":"Any"},"name":"sys1_correct"},"guarantee":"returns the sys1 attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a841672c220d0b96"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.MIMOFeedback.sys1","kind":"property","src_hash":"716e474833b3cae8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sys1()","rhs":"self.args[0]","over":{"base":"Any"},"name":"sys1_correct"},"guarantee":"returns self.args[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a841672c220d0b96","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def sys1(self):
         r"""
         Returns the system placed on the feedforward path of the MIMO feedback interconnection.
@@ -4806,16 +5694,22 @@ class MIMOFeedback(MIMOLinearTimeInvariant):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sys2(), returns the sys2 attribute) over Any          ║
+# ║ Path(sys2(), self.args[1]) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[1]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ sys2 : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 728ffc47a3a9c90c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.MIMOFeedback.sys2","kind":"property","src_hash":"04eec79ba2147b88","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sys2()","rhs":"returns the sys2 attribute","over":{"base":"Any"},"name":"sys2_correct"},"guarantee":"returns the sys2 attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"728ffc47a3a9c90c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.MIMOFeedback.sys2","kind":"property","src_hash":"04eec79ba2147b88","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sys2()","rhs":"self.args[1]","over":{"base":"Any"},"name":"sys2_correct"},"guarantee":"returns self.args[1]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"728ffc47a3a9c90c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[1]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def sys2(self):
         r"""
         Returns the feedback controller of the MIMO feedback interconnection.
@@ -4850,16 +5744,22 @@ class MIMOFeedback(MIMOLinearTimeInvariant):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(var(), returns the var attribute) over Any            ║
+# ║ Path(var(), self.sys1.var) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.sys1.var                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ var : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 277419da0bc6ddf7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.MIMOFeedback.var","kind":"property","src_hash":"7971025367ed64e2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"var()","rhs":"returns the var attribute","over":{"base":"Any"},"name":"var_correct"},"guarantee":"returns the var attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"277419da0bc6ddf7"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.MIMOFeedback.var","kind":"property","src_hash":"7971025367ed64e2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"var()","rhs":"self.sys1.var","over":{"base":"Any"},"name":"var_correct"},"guarantee":"returns self.sys1.var","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"277419da0bc6ddf7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.sys1.var","pure":false,"effects":{"effect_type":"reads_state","reads":["self.sys1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def var(self):
         r"""
         Returns the complex variable of the Laplace transform used by all
@@ -4884,16 +5784,22 @@ class MIMOFeedback(MIMOLinearTimeInvariant):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sign(), returns the sign attribute) over Any          ║
+# ║ Path(sign(), self.args[2]) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[2]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ sign : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 42dc20253959b12b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.MIMOFeedback.sign","kind":"property","src_hash":"b77e5c8ec6044488","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sign()","rhs":"returns the sign attribute","over":{"base":"Any"},"name":"sign_correct"},"guarantee":"returns the sign attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"42dc20253959b12b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.MIMOFeedback.sign","kind":"property","src_hash":"b77e5c8ec6044488","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sign()","rhs":"self.args[2]","over":{"base":"Any"},"name":"sign_correct"},"guarantee":"returns self.args[2]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"42dc20253959b12b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[2]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def sign(self):
         r"""
         Returns the type of feedback interconnection of two models. ``1``
@@ -4903,16 +5809,22 @@ class MIMOFeedback(MIMOLinearTimeInvariant):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sensitivity(), returns the sensitivity attribute) over Any ║
+# ║ Path(sensitivity(), (eye(self.sys1.num_inputs) - self.sign * _sys1_mat * _sys2_mat).inv()) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (eye(self.sys1.num_inputs) - self.sign * ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ sensitivity : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0c25ff2efa337e84           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.MIMOFeedback.sensitivity","kind":"property","src_hash":"1ee3e88eb92bcba5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sensitivity()","rhs":"returns the sensitivity attribute","over":{"base":"Any"},"name":"sensitivity_correct"},"guarantee":"returns the sensitivity attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0c25ff2efa337e84"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.MIMOFeedback.sensitivity","kind":"property","src_hash":"1ee3e88eb92bcba5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sensitivity()","rhs":"(eye(self.sys1.num_inputs) - self.sign * _sys1_mat * _sys2_mat).inv()","over":{"base":"Any"},"name":"sensitivity_correct"},"guarantee":"returns (eye(self.sys1.num_inputs) - self.sign * _sys1_mat * _sys2_mat).inv()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0c25ff2efa337e84","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(eye(self.sys1.num_inputs) - self.sign * _sys1_mat * _sys2_mat).inv()","pure":false,"effects":{"effect_type":"reads_state","reads":["self.sign","self.sys1","self.sys2"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def sensitivity(self):
         r"""
         Returns the sensitivity function matrix of the feedback loop.
@@ -4971,47 +5883,65 @@ class MIMOFeedback(MIMOLinearTimeInvariant):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(num_inputs(), returns the num_inputs attribute) over Any ║
+# ║ Path(num_inputs(), self.sys1.num_inputs) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.sys1.num_inputs                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ num_inputs : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 674c49c464e1c991           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.MIMOFeedback.num_inputs","kind":"property","src_hash":"ede26831c7349fd5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"num_inputs()","rhs":"returns the num_inputs attribute","over":{"base":"Any"},"name":"num_inputs_correct"},"guarantee":"returns the num_inputs attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"674c49c464e1c991"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.MIMOFeedback.num_inputs","kind":"property","src_hash":"ede26831c7349fd5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"num_inputs()","rhs":"self.sys1.num_inputs","over":{"base":"Any"},"name":"num_inputs_correct"},"guarantee":"returns self.sys1.num_inputs","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"674c49c464e1c991","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.sys1.num_inputs","pure":false,"effects":{"effect_type":"reads_state","reads":["self.sys1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def num_inputs(self):
         """Returns the number of inputs of the system."""
         return self.sys1.num_inputs
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(num_outputs(), returns the num_outputs attribute) over Any ║
+# ║ Path(num_outputs(), self.sys1.num_outputs) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.sys1.num_outputs                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ num_outputs : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 414ed8cb2177d908           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.MIMOFeedback.num_outputs","kind":"property","src_hash":"871cad210f3b05e2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"num_outputs()","rhs":"returns the num_outputs attribute","over":{"base":"Any"},"name":"num_outputs_correct"},"guarantee":"returns the num_outputs attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"414ed8cb2177d908"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.MIMOFeedback.num_outputs","kind":"property","src_hash":"871cad210f3b05e2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"num_outputs()","rhs":"self.sys1.num_outputs","over":{"base":"Any"},"name":"num_outputs_correct"},"guarantee":"returns self.sys1.num_outputs","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"414ed8cb2177d908","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.sys1.num_outputs","pure":false,"effects":{"effect_type":"reads_state","reads":["self.sys1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def num_outputs(self):
         """Returns the number of outputs of the system."""
         return self.sys1.num_outputs
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(doit(can), returns the resultant transfer function matrix obtained by the feedback interconnection) over Any ║
+# ║ Path(doit(cancel, expand, **hints), <unspecified:doit>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ doit : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7f0c3d338e3f083f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.MIMOFeedback.doit","kind":"method","src_hash":"d1c66b124d432f31","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"doit(can)","rhs":"returns the resultant transfer function matrix obtained by the feedback interconnection","over":{"base":"Any"},"name":"doit_correct"},"guarantee":"returns the resultant transfer function matrix obtained by the feedback interconnection","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.lti.MIMOFeedback.doit_correct","statement":"Path(doit(x), returns the resultant transfer function matrix obtained by the feedback interconnection)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7f0c3d338e3f083f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.MIMOFeedback.doit","kind":"method","src_hash":"d1c66b124d432f31","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"doit(cancel, expand, **hints)","rhs":"<unspecified:doit>","over":{"base":"Any"},"name":"doit_correct"},"guarantee":"returns the resultant transfer function matrix obtained by the feedback interconnection","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.lti.MIMOFeedback.doit_correct","statement":"Path(doit(x), returns the resultant transfer function matrix obtained by the feedback interconnection)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7f0c3d338e3f083f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.is_StateSpace_object","self.num_inputs","self.num_outputs","self.sensitivity","self.sign","self.sys1","self.sys2","self.var"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def doit(self, cancel=True, expand=False, **hints):
         r"""
         Returns the resultant transfer function matrix obtained by the
@@ -5118,45 +6048,64 @@ class MIMOFeedback(MIMOLinearTimeInvariant):
         return _resultant_tfm
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_TransferFunctionMatrix(sys), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_TransferFunctionMatrix(sys1, sys2, sign), self.doit()) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.doit()                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_TransferFunctionMatrix : Any → Any        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2d5206fecb84d6a3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.MIMOFeedback._eval_rewrite_as_TransferFunctionMatrix","kind":"method","src_hash":"0bd9f3c4cbacd6cf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_TransferFunctionMatrix(sys)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_TransferFunctionMatrix_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2d5206fecb84d6a3"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.MIMOFeedback._eval_rewrite_as_TransferFunctionMatrix","kind":"method","src_hash":"0bd9f3c4cbacd6cf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_TransferFunctionMatrix(sys1, sys2, sign)","rhs":"self.doit()","over":{"base":"Any"},"name":"_eval_rewrite_as_TransferFunctionMatrix_correct"},"guarantee":"returns self.doit()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2d5206fecb84d6a3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.doit()","pure":false,"effects":{"effect_type":"reads_state","reads":["self.doit"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_TransferFunctionMatrix(self, sys1, sys2, sign, **kwargs):
         return self.doit()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__neg__(), returns the additive inverse) over Any     ║
+# ║ Path(__neg__(), MIMOFeedback(-self.sys1, -self.sys2, self.sign)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  MIMOFeedback(-self.sys1, -self.sys2, self...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __neg__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f22f345be1fa76ad           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.MIMOFeedback.__neg__","kind":"method","src_hash":"a9c65356a9122c0b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__neg__()","rhs":"returns the additive inverse","over":{"base":"Any"},"name":"__neg___correct"},"guarantee":"returns the additive inverse","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f22f345be1fa76ad"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.MIMOFeedback.__neg__","kind":"method","src_hash":"a9c65356a9122c0b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__neg__()","rhs":"MIMOFeedback(-self.sys1, -self.sys2, self.sign)","over":{"base":"Any"},"name":"__neg___correct"},"guarantee":"returns MIMOFeedback(-self.sys1, -self.sys2, self.sign)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f22f345be1fa76ad","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"MIMOFeedback(-self.sys1, -self.sys2, self.sign)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.sign","self.sys1","self.sys2"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __neg__(self):
         return MIMOFeedback(-self.sys1, -self.sys2, self.sign)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_to_TFM(mat), private method to convert immutablematrix to transferfunctionmatrix efficiently) over Any ║
+# ║ Path(_to_TFM(mat, var), TransferFunctionMatrix(arg)) over {Any | hasattr(mat, 'tolist')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _to_TFM : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(mat, 'tolist')                         ║
+# ║   returns:  TransferFunctionMatrix(arg)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _to_TFM : {Any | hasattr(mat, 'tolist')} → Any             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a3216357ef851008  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e06e60ffd52c0d2d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti._to_TFM","kind":"function","src_hash":"070b52b6d8428c5d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_to_TFM(mat)","rhs":"private method to convert immutablematrix to transferfunctionmatrix efficiently","over":{"base":"Any"},"name":"_to_TFM_correct"},"guarantee":"private method to convert immutablematrix to transferfunctionmatrix efficiently","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.lti._to_TFM_correct","statement":"Path(_to_TFM(x), private method to convert immutablematrix to transferfunctionmatrix efficiently)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a3216357ef851008"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti._to_TFM","kind":"function","src_hash":"070b52b6d8428c5d","in":{"base":"Any","pred":"hasattr(mat, 'tolist')"},"out":{"base":"Any"},"spec":{"lhs":"_to_TFM(mat, var)","rhs":"TransferFunctionMatrix(arg)","over":{"base":"Any","pred":"hasattr(mat, 'tolist')"},"name":"_to_TFM_correct"},"guarantee":"returns TransferFunctionMatrix(arg)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.lti._to_TFM_correct","statement":"Path(_to_TFM(x), returns TransferFunctionMatrix(arg))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e06e60ffd52c0d2d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(mat, 'tolist')"],"returns_expr":"TransferFunctionMatrix(arg)","pure":false,"effects":{"effect_type":"reads_state","reads":["mat.tolist"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _to_TFM(mat, var):
     """Private method to convert ImmutableMatrix to TransferFunctionMatrix efficiently"""
     to_tf = lambda expr: TransferFunction.from_rational_expression(expr, var)
@@ -5167,14 +6116,20 @@ def _to_TFM(mat, var):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(TransferFunctionMatrix(*args), correctly constructs a TransferFunctionMatrix instance) over {Any | isinstance(arg, (tuple, list, Tuple)) and isinstance(trunc, ImmutableMatrix) and isinstance(other, MIMOParallel)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, MIMOLinearTimeInvariant)      ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ TransferFunctionMatrix : {Any | isinstance(arg, (tupl...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 880763346f6af41f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.TransferFunctionMatrix","kind":"class","src_hash":"1dcf22582042d091","in":{"base":"Any","pred":"isinstance(arg, (tuple, list, Tuple)) and isinstance(trunc, ImmutableMatrix) and isinstance(other, MIMOParallel)"},"out":{"base":"Any"},"spec":{"lhs":"TransferFunctionMatrix(*args)","rhs":"correctly constructs a TransferFunctionMatrix instance","over":{"base":"Any","pred":"isinstance(arg, (tuple, list, Tuple)) and isinstance(trunc, ImmutableMatrix) and isinstance(other, MIMOParallel)"},"name":"TransferFunctionMatrix_class_invariant"},"guarantee":"correctly constructs a TransferFunctionMatrix instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"880763346f6af41f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.TransferFunctionMatrix","kind":"class","src_hash":"1dcf22582042d091","in":{"base":"Any","pred":"isinstance(arg, (tuple, list, Tuple)) and isinstance(trunc, ImmutableMatrix) and isinstance(other, MIMOParallel)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, MIMOLinearTimeInvariant)"},"spec":{"lhs":"TransferFunctionMatrix(*args)","rhs":"correctly constructs a TransferFunctionMatrix instance","over":{"base":"Any","pred":"isinstance(arg, (tuple, list, Tuple)) and isinstance(trunc, ImmutableMatrix) and isinstance(other, MIMOParallel)"},"name":"TransferFunctionMatrix_class_invariant"},"guarantee":"isinstance(self, MIMOLinearTimeInvariant)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"880763346f6af41f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, MIMOLinearTimeInvariant)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"assumed","binding":false,"binding_errors":["Function TransferFunctionMatrix not found in source"]}}
 class TransferFunctionMatrix(MIMOLinearTimeInvariant):
     r"""
     A class for representing the MIMO (multiple-input and multiple-output)
@@ -5531,16 +6486,23 @@ class TransferFunctionMatrix(MIMOLinearTimeInvariant):
 
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, arg), len(expr_mat_arg) == old_len_expr_mat_arg + 1 and len(temp) == old_len_temp + 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(expr_mat_arg) == old_len_expr_mat_arg...   ║
+# ║   ensures:  len(temp) == old_len_temp + 1                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : Any → {Any | result satisfies: len(expr_mat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f1171785e6e4fcf1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.TransferFunctionMatrix.__new__","kind":"method","src_hash":"7b93559e2c1362a4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f1171785e6e4fcf1"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.TransferFunctionMatrix.__new__","kind":"method","src_hash":"7b93559e2c1362a4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(expr_mat_arg) == old_len_expr_mat_arg + 1 and len(temp) == old_len_temp + 1"},"spec":{"lhs":"__new__(cls, arg)","rhs":"len(expr_mat_arg) == old_len_expr_mat_arg + 1 and len(temp) == old_len_temp + 1","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"len(expr_mat_arg) == old_len_expr_mat_arg + 1; len(temp) == old_len_temp + 1","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f1171785e6e4fcf1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(expr_mat_arg) == old_len_expr_mat_arg + 1","len(temp) == old_len_temp + 1"],"pure":false,"effects":{"effect_type":"reads_state","calls_mutating":["expr_mat_arg.append","temp.append"],"raises":["TypeError","ValueError"],"catches":["TypeError"]},"state_contract":{"modifies":["expr_mat_arg.*","temp.*"],"old_bindings":{"old_len_expr_mat_arg":"len(expr_mat_arg)","old_len_temp":"len(temp)"},"post_ensures":["len(expr_mat_arg) == old_len_expr_mat_arg + 1","len(temp) == old_len_temp + 1"],"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, arg):
 
         expr_mat_arg = []
@@ -5579,16 +6541,22 @@ class TransferFunctionMatrix(MIMOLinearTimeInvariant):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_Matrix(cls), creates a new ``transferfunctionmatrix`` efficiently from a sympy matrix of ``expr`` objects) over Any ║
+# ║ Path(from_Matrix(cls, matrix, var), _to_TFM(matrix, var)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _to_TFM(matrix, var)                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ from_Matrix : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ca03c5b6c6565019           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.TransferFunctionMatrix.from_Matrix","kind":"classmethod","src_hash":"987dd19696ad28eb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_Matrix(cls)","rhs":"creates a new ``transferfunctionmatrix`` efficiently from a sympy matrix of ``expr`` objects","over":{"base":"Any"},"name":"from_Matrix_correct"},"guarantee":"creates a new ``transferfunctionmatrix`` efficiently from a sympy matrix of ``expr`` objects","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ca03c5b6c6565019"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.TransferFunctionMatrix.from_Matrix","kind":"classmethod","src_hash":"987dd19696ad28eb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_Matrix(cls, matrix, var)","rhs":"_to_TFM(matrix, var)","over":{"base":"Any"},"name":"from_Matrix_correct"},"guarantee":"returns _to_TFM(matrix, var)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ca03c5b6c6565019","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_to_TFM(matrix, var)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_Matrix(cls, matrix, var):
         """
         Creates a new ``TransferFunctionMatrix`` efficiently from a SymPy Matrix of ``Expr`` objects.
@@ -5627,16 +6595,22 @@ class TransferFunctionMatrix(MIMOLinearTimeInvariant):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(var(), returns the var attribute) over Any            ║
+# ║ Path(var(), self.args[0][0][0].var) over Any               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0][0][0].var                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ var : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d09ff3b687051d67           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.TransferFunctionMatrix.var","kind":"property","src_hash":"dafe21372bc60986","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"var()","rhs":"returns the var attribute","over":{"base":"Any"},"name":"var_correct"},"guarantee":"returns the var attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d09ff3b687051d67"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.TransferFunctionMatrix.var","kind":"property","src_hash":"dafe21372bc60986","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"var()","rhs":"self.args[0][0][0].var","over":{"base":"Any"},"name":"var_correct"},"guarantee":"returns self.args[0][0][0].var","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d09ff3b687051d67","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0][0][0].var","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def var(self):
         """
         Returns the complex variable used by all the transfer functions or
@@ -5668,16 +6642,22 @@ class TransferFunctionMatrix(MIMOLinearTimeInvariant):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(num_inputs(), returns the num_inputs attribute) over Any ║
+# ║ Path(num_inputs(), self._expr_mat.shape[1]) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._expr_mat.shape[1]                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ num_inputs : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6275df6fc7fac05a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.TransferFunctionMatrix.num_inputs","kind":"property","src_hash":"06e70cf99ff07f47","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"num_inputs()","rhs":"returns the num_inputs attribute","over":{"base":"Any"},"name":"num_inputs_correct"},"guarantee":"returns the num_inputs attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6275df6fc7fac05a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.TransferFunctionMatrix.num_inputs","kind":"property","src_hash":"06e70cf99ff07f47","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"num_inputs()","rhs":"self._expr_mat.shape[1]","over":{"base":"Any"},"name":"num_inputs_correct"},"guarantee":"returns self._expr_mat.shape[1]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6275df6fc7fac05a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._expr_mat.shape[1]","pure":false,"effects":{"effect_type":"reads_state","reads":["self._expr_mat"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def num_inputs(self):
         """
         Returns the number of inputs of the system.
@@ -5704,16 +6684,22 @@ class TransferFunctionMatrix(MIMOLinearTimeInvariant):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(num_outputs(), returns the num_outputs attribute) over Any ║
+# ║ Path(num_outputs(), self._expr_mat.shape[0]) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._expr_mat.shape[0]                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ num_outputs : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e7faf5f4cc647c87           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.TransferFunctionMatrix.num_outputs","kind":"property","src_hash":"efd8b6bb3885820c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"num_outputs()","rhs":"returns the num_outputs attribute","over":{"base":"Any"},"name":"num_outputs_correct"},"guarantee":"returns the num_outputs attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e7faf5f4cc647c87"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.TransferFunctionMatrix.num_outputs","kind":"property","src_hash":"efd8b6bb3885820c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"num_outputs()","rhs":"self._expr_mat.shape[0]","over":{"base":"Any"},"name":"num_outputs_correct"},"guarantee":"returns self._expr_mat.shape[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e7faf5f4cc647c87","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._expr_mat.shape[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self._expr_mat"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def num_outputs(self):
         """
         Returns the number of outputs of the system.
@@ -5741,16 +6727,22 @@ class TransferFunctionMatrix(MIMOLinearTimeInvariant):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(shape(), returns the shape attribute) over Any        ║
+# ║ Path(shape(), self._expr_mat.shape) over Any               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._expr_mat.shape                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ shape : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | daa1b5e491aad761           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.TransferFunctionMatrix.shape","kind":"property","src_hash":"fa39b3ab73ad8004","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"shape()","rhs":"returns the shape attribute","over":{"base":"Any"},"name":"shape_correct"},"guarantee":"returns the shape attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"daa1b5e491aad761"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.TransferFunctionMatrix.shape","kind":"property","src_hash":"fa39b3ab73ad8004","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"shape()","rhs":"self._expr_mat.shape","over":{"base":"Any"},"name":"shape_correct"},"guarantee":"returns self._expr_mat.shape","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"daa1b5e491aad761","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._expr_mat.shape","pure":false,"effects":{"effect_type":"reads_state","reads":["self._expr_mat"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def shape(self):
         """
         Returns the shape of the transfer function matrix, that is, ``(# of outputs, # of inputs)``.
@@ -5774,32 +6766,45 @@ class TransferFunctionMatrix(MIMOLinearTimeInvariant):
         return self._expr_mat.shape
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__neg__(), returns the additive inverse) over Any     ║
+# ║ Path(__neg__(), _to_TFM(neg, self.var)) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _to_TFM(neg, self.var)                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __neg__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1f3482219d7911f6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.TransferFunctionMatrix.__neg__","kind":"method","src_hash":"485a5ff1db490131","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__neg__()","rhs":"returns the additive inverse","over":{"base":"Any"},"name":"__neg___correct"},"guarantee":"returns the additive inverse","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1f3482219d7911f6"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.TransferFunctionMatrix.__neg__","kind":"method","src_hash":"485a5ff1db490131","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__neg__()","rhs":"_to_TFM(neg, self.var)","over":{"base":"Any"},"name":"__neg___correct"},"guarantee":"returns _to_TFM(neg, self.var)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1f3482219d7911f6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_to_TFM(neg, self.var)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._expr_mat","self.var"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __neg__(self):
         neg = -self._expr_mat
         return _to_TFM(neg, self.var)
 
     @_check_other_MIMO
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__add__(oth), returns the sum/concatenation) over Any ║
+# ║ Path(__add__(other), <unspecified:__add__>) over {Any | hasattr(other, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __add__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, 'args')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __add__ : {Any | hasattr(other, 'args')} → Any             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 46bac2eee6cdf70a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.TransferFunctionMatrix.__add__","kind":"method","src_hash":"6eddd251d7e02d06","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__add__(oth)","rhs":"returns the sum/concatenation","over":{"base":"Any"},"name":"__add___correct"},"guarantee":"returns the sum/concatenation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"46bac2eee6cdf70a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.TransferFunctionMatrix.__add__","kind":"method","src_hash":"6eddd251d7e02d06","in":{"base":"Any","pred":"hasattr(other, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"__add__(other)","rhs":"<unspecified:__add__>","over":{"base":"Any","pred":"hasattr(other, 'args')"},"name":"__add___correct"},"guarantee":"returns the sum/concatenation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"46bac2eee6cdf70a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __add__(self, other):
 
         if not isinstance(other, MIMOParallel):
@@ -5809,31 +6814,44 @@ class TransferFunctionMatrix(MIMOLinearTimeInvariant):
 
     @_check_other_MIMO
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__sub__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__sub__(other), self + -other) over Any               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self + -other                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __sub__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9fbe284bf449cc05           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.TransferFunctionMatrix.__sub__","kind":"method","src_hash":"cdf5df0568ae9be1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__sub__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__sub___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9fbe284bf449cc05"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.TransferFunctionMatrix.__sub__","kind":"method","src_hash":"cdf5df0568ae9be1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__sub__(other)","rhs":"self + -other","over":{"base":"Any"},"name":"__sub___correct"},"guarantee":"returns self + -other","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9fbe284bf449cc05","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self + -other","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __sub__(self, other):
         return self + (-other)
 
     @_check_other_MIMO
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__mul__(oth), returns the product) over Any           ║
+# ║ Path(__mul__(other), <unspecified:__mul__>) over {Any | hasattr(other, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __mul__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, 'args')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __mul__ : {Any | hasattr(other, 'args')} → Any             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9b0f241c509c16c1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.TransferFunctionMatrix.__mul__","kind":"method","src_hash":"d16fa1eff4e7b8a8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__mul__(oth)","rhs":"returns the product","over":{"base":"Any"},"name":"__mul___correct"},"guarantee":"returns the product","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9b0f241c509c16c1"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.TransferFunctionMatrix.__mul__","kind":"method","src_hash":"d16fa1eff4e7b8a8","in":{"base":"Any","pred":"hasattr(other, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"__mul__(other)","rhs":"<unspecified:__mul__>","over":{"base":"Any","pred":"hasattr(other, 'args')"},"name":"__mul___correct"},"guarantee":"returns the product","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9b0f241c509c16c1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __mul__(self, other):
 
         if not isinstance(other, MIMOSeries):
@@ -5842,16 +6860,22 @@ class TransferFunctionMatrix(MIMOLinearTimeInvariant):
         return MIMOSeries(*other_arg_list, self)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__getitem__(key), returns the element at the given index) over Any ║
+# ║ Path(__getitem__(key), <unspecified:__getitem__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __getitem__ : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 031cc6fbf2ea9888           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.TransferFunctionMatrix.__getitem__","kind":"method","src_hash":"00ce1cbeefd78eb7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getitem__(key)","rhs":"returns the element at the given index","over":{"base":"Any"},"name":"__getitem___correct"},"guarantee":"returns the element at the given index","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"031cc6fbf2ea9888"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.TransferFunctionMatrix.__getitem__","kind":"method","src_hash":"00ce1cbeefd78eb7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getitem__(key)","rhs":"<unspecified:__getitem__>","over":{"base":"Any"},"name":"__getitem___correct"},"guarantee":"returns the element at the given index","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"031cc6fbf2ea9888","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._expr_mat","self.var"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __getitem__(self, key):
         trunc = self._expr_mat.__getitem__(key)
         if isinstance(trunc, ImmutableMatrix):
@@ -5859,32 +6883,44 @@ class TransferFunctionMatrix(MIMOLinearTimeInvariant):
         return TransferFunction.from_rational_expression(trunc, self.var)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(transpose(), returns the transpose of the ``transferfunctionmatrix`` (switched input and output layers)) over Any ║
+# ║ Path(transpose(), _to_TFM(transposed_mat, self.var)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _to_TFM(transposed_mat, self.var)              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ transpose : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3a778096ba24ad35  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a8700165c8739b98  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.TransferFunctionMatrix.transpose","kind":"method","src_hash":"089377998d54e878","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"transpose()","rhs":"returns the transpose of the ``transferfunctionmatrix`` (switched input and output layers)","over":{"base":"Any"},"name":"transpose_correct"},"guarantee":"returns the transpose of the ``transferfunctionmatrix`` (switched input and output layers)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.lti.TransferFunctionMatrix.transpose_correct","statement":"Path(transpose(x), returns the transpose of the ``transferfunctionmatrix`` (switched input and output layers))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3a778096ba24ad35"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.TransferFunctionMatrix.transpose","kind":"method","src_hash":"089377998d54e878","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"transpose()","rhs":"_to_TFM(transposed_mat, self.var)","over":{"base":"Any"},"name":"transpose_correct"},"guarantee":"returns _to_TFM(transposed_mat, self.var)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.lti.TransferFunctionMatrix.transpose_correct","statement":"Path(transpose(x), returns _to_TFM(transposed_mat, self.var))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a8700165c8739b98","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_to_TFM(transposed_mat, self.var)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._expr_mat","self.var"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def transpose(self):
         """Returns the transpose of the ``TransferFunctionMatrix`` (switched input and output layers)."""
         transposed_mat = self._expr_mat.transpose()
         return _to_TFM(transposed_mat, self.var)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(elem_poles(), returns the poles of each element of the ``transferfunctionmatrix``) over Any ║
+# ║ Path(elem_poles(), [[element.poles() for element in row] for row in self.doit().args[0]]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [[element.poles() for element in row] for...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ elem_poles : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 93e308bcd1e3244f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.TransferFunctionMatrix.elem_poles","kind":"method","src_hash":"a24b182af7849ef7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"elem_poles()","rhs":"returns the poles of each element of the ``transferfunctionmatrix``","over":{"base":"Any"},"name":"elem_poles_correct"},"guarantee":"returns the poles of each element of the ``transferfunctionmatrix``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"93e308bcd1e3244f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.TransferFunctionMatrix.elem_poles","kind":"method","src_hash":"a24b182af7849ef7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"elem_poles()","rhs":"[[element.poles() for element in row] for row in self.doit().args[0]]","over":{"base":"Any"},"name":"elem_poles_correct"},"guarantee":"returns [[element.poles() for element in row] for row in self.doit().args[0]]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"93e308bcd1e3244f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[[element.poles() for element in row] for row in self.doit().args[0]]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.doit"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def elem_poles(self):
         """
         Returns the poles of each element of the ``TransferFunctionMatrix``.
@@ -5916,16 +6952,22 @@ class TransferFunctionMatrix(MIMOLinearTimeInvariant):
         return [[element.poles() for element in row] for row in self.doit().args[0]]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(elem_zeros(), returns the zeros of each element of the ``transferfunctionmatrix``) over Any ║
+# ║ Path(elem_zeros(), [[element.zeros() for element in row] for row in self.doit().args[0]]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [[element.zeros() for element in row] for...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ elem_zeros : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7929ce5c131eade4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.TransferFunctionMatrix.elem_zeros","kind":"method","src_hash":"f0cdb12839371ec4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"elem_zeros()","rhs":"returns the zeros of each element of the ``transferfunctionmatrix``","over":{"base":"Any"},"name":"elem_zeros_correct"},"guarantee":"returns the zeros of each element of the ``transferfunctionmatrix``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7929ce5c131eade4"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.TransferFunctionMatrix.elem_zeros","kind":"method","src_hash":"f0cdb12839371ec4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"elem_zeros()","rhs":"[[element.zeros() for element in row] for row in self.doit().args[0]]","over":{"base":"Any"},"name":"elem_zeros_correct"},"guarantee":"returns [[element.zeros() for element in row] for row in self.doit().args[0]]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7929ce5c131eade4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[[element.zeros() for element in row] for row in self.doit().args[0]]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.doit"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def elem_zeros(self):
         """
         Returns the zeros of each element of the ``TransferFunctionMatrix``.
@@ -5957,16 +6999,22 @@ class TransferFunctionMatrix(MIMOLinearTimeInvariant):
         return [[element.zeros() for element in row] for row in self.doit().args[0]]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval_frequency(oth), evaluates system response of each transfer function in the ``transferfunctionmatrix`` at any point in the real or complex plane) over Any ║
+# ║ Path(eval_frequency(other), mat.expand()) over Any         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  mat.expand()                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ eval_frequency : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2a9e22b4e9b895c2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b9acc2e02d1d0d0c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.TransferFunctionMatrix.eval_frequency","kind":"method","src_hash":"c319646a63969325","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval_frequency(oth)","rhs":"evaluates system response of each transfer function in the ``transferfunctionmatrix`` at any point in the real or complex plane","over":{"base":"Any"},"name":"eval_frequency_correct"},"guarantee":"evaluates system response of each transfer function in the ``transferfunctionmatrix`` at any point in the real or complex plane","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.lti.TransferFunctionMatrix.eval_frequency_correct","statement":"Path(eval_frequency(x), evaluates system response of each transfer function in the ``transferfunctionmatrix`` at any point in the real or complex plane)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2a9e22b4e9b895c2"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.TransferFunctionMatrix.eval_frequency","kind":"method","src_hash":"c319646a63969325","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval_frequency(other)","rhs":"mat.expand()","over":{"base":"Any"},"name":"eval_frequency_correct"},"guarantee":"returns mat.expand()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.lti.TransferFunctionMatrix.eval_frequency_correct","statement":"Path(eval_frequency(x), returns mat.expand())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b9acc2e02d1d0d0c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"mat.expand()","pure":false,"effects":{"effect_type":"reads_state","reads":["self._expr_mat","self.var"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval_frequency(self, other):
         """
         Evaluates system response of each transfer function in the ``TransferFunctionMatrix`` at any point in the real or complex plane.
@@ -5997,31 +7045,43 @@ class TransferFunctionMatrix(MIMOLinearTimeInvariant):
         return mat.expand()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_flat(), returns flattened list of args in transferfunctionmatrix) over Any ║
+# ║ Path(_flat(), [elem for tup in self.args[0] for elem in tup]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [elem for tup in self.args[0] for elem in...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _flat : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e81ccf3a3d9ebebc           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.TransferFunctionMatrix._flat","kind":"method","src_hash":"765ba757ab4abf7d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_flat()","rhs":"returns flattened list of args in transferfunctionmatrix","over":{"base":"Any"},"name":"_flat_correct"},"guarantee":"returns flattened list of args in transferfunctionmatrix","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e81ccf3a3d9ebebc"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.TransferFunctionMatrix._flat","kind":"method","src_hash":"765ba757ab4abf7d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_flat()","rhs":"[elem for tup in self.args[0] for elem in tup]","over":{"base":"Any"},"name":"_flat_correct"},"guarantee":"returns [elem for tup in self.args[0] for elem in tup]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e81ccf3a3d9ebebc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[elem for tup in self.args[0] for elem in tup]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _flat(self):
         """Returns flattened list of args in TransferFunctionMatrix"""
         return [elem for tup in self.args[0] for elem in tup]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_evalf(pre), calls evalf() on each transfer function in the transfer function matrix) over Any ║
+# ║ Path(_eval_evalf(prec), _to_TFM(mat, self.var)) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _to_TFM(mat, self.var)                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_evalf : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e410f59bf9241f08  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9a43f1f383fab551  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.TransferFunctionMatrix._eval_evalf","kind":"method","src_hash":"54e0fb20cb7a1d99","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_evalf(pre)","rhs":"calls evalf() on each transfer function in the transfer function matrix","over":{"base":"Any"},"name":"_eval_evalf_correct"},"guarantee":"calls evalf() on each transfer function in the transfer function matrix","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.lti.TransferFunctionMatrix._eval_evalf_correct","statement":"Path(_eval_evalf(x), calls evalf() on each transfer function in the transfer function matrix)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e410f59bf9241f08"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.TransferFunctionMatrix._eval_evalf","kind":"method","src_hash":"54e0fb20cb7a1d99","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_evalf(prec)","rhs":"_to_TFM(mat, self.var)","over":{"base":"Any"},"name":"_eval_evalf_correct"},"guarantee":"returns _to_TFM(mat, self.var)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.lti.TransferFunctionMatrix._eval_evalf_correct","statement":"Path(_eval_evalf(x), returns _to_TFM(mat, self.var))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9a43f1f383fab551","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_to_TFM(mat, self.var)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._expr_mat","self.var"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_evalf(self, prec):
         """Calls evalf() on each transfer function in the transfer function matrix"""
         dps = prec_to_dps(prec)
@@ -6029,32 +7089,44 @@ class TransferFunctionMatrix(MIMOLinearTimeInvariant):
         return _to_TFM(mat, self.var)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_simplify(**k), simplifies the transfer function matrix) over Any ║
+# ║ Path(_eval_simplify(**kwargs), _to_TFM(simp_mat, self.var)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _to_TFM(simp_mat, self.var)                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_simplify : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 860e20964e0dbfff  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8f6ad245982a1459  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.TransferFunctionMatrix._eval_simplify","kind":"method","src_hash":"a19cfb016dea7545","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_simplify(**k)","rhs":"simplifies the transfer function matrix","over":{"base":"Any"},"name":"_eval_simplify_correct"},"guarantee":"simplifies the transfer function matrix","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.lti.TransferFunctionMatrix._eval_simplify_correct","statement":"Path(_eval_simplify(x), simplifies the transfer function matrix)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"860e20964e0dbfff"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.TransferFunctionMatrix._eval_simplify","kind":"method","src_hash":"a19cfb016dea7545","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_simplify(**kwargs)","rhs":"_to_TFM(simp_mat, self.var)","over":{"base":"Any"},"name":"_eval_simplify_correct"},"guarantee":"returns _to_TFM(simp_mat, self.var)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.lti.TransferFunctionMatrix._eval_simplify_correct","statement":"Path(_eval_simplify(x), returns _to_TFM(simp_mat, self.var))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8f6ad245982a1459","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_to_TFM(simp_mat, self.var)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._expr_mat","self.var"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_simplify(self, **kwargs):
         """Simplifies the transfer function matrix"""
         simp_mat = self._expr_mat.applyfunc(lambda a: cancel(a, expand=False))
         return _to_TFM(simp_mat, self.var)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(expand(**h), expands the transfer function matrix) over Any ║
+# ║ Path(expand(**hints), _to_TFM(expand_mat, self.var)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _to_TFM(expand_mat, self.var)                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ expand : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b97481c06d49bc79  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 97f25373b33d4dd8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.TransferFunctionMatrix.expand","kind":"method","src_hash":"e8a17635c7afd47b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"expand(**h)","rhs":"expands the transfer function matrix","over":{"base":"Any"},"name":"expand_correct"},"guarantee":"expands the transfer function matrix","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.lti.TransferFunctionMatrix.expand_correct","statement":"Path(expand(x), expands the transfer function matrix)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b97481c06d49bc79"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.TransferFunctionMatrix.expand","kind":"method","src_hash":"e8a17635c7afd47b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"expand(**hints)","rhs":"_to_TFM(expand_mat, self.var)","over":{"base":"Any"},"name":"expand_correct"},"guarantee":"returns _to_TFM(expand_mat, self.var)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.lti.TransferFunctionMatrix.expand_correct","statement":"Path(expand(x), returns _to_TFM(expand_mat, self.var))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"97f25373b33d4dd8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_to_TFM(expand_mat, self.var)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._expr_mat","self.var"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def expand(self, **hints):
         """Expands the transfer function matrix"""
         expand_mat = self._expr_mat.expand(**hints)
@@ -6063,14 +7135,20 @@ class TransferFunctionMatrix(MIMOLinearTimeInvariant):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(StateSpace(*args), correctly constructs a StateSpace instance) over {Any | isinstance(other, (int, float, complex, Symbol)) and isinstance(A, ImmutableDenseMatrix) and isinstance(var, Symbol)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, LinearTimeInvariant)          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ StateSpace : {Any | isinstance(other, (int, float, co...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 2.5ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bb27661011600248  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.StateSpace","kind":"class","src_hash":"73a62bbcbc1d613b","in":{"base":"Any","pred":"isinstance(other, (int, float, complex, Symbol)) and isinstance(A, ImmutableDenseMatrix) and isinstance(var, Symbol)"},"out":{"base":"Any"},"spec":{"lhs":"StateSpace(*args)","rhs":"correctly constructs a StateSpace instance","over":{"base":"Any","pred":"isinstance(other, (int, float, complex, Symbol)) and isinstance(A, ImmutableDenseMatrix) and isinstance(var, Symbol)"},"name":"StateSpace_class_invariant"},"guarantee":"correctly constructs a StateSpace instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bb27661011600248"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.StateSpace","kind":"class","src_hash":"73a62bbcbc1d613b","in":{"base":"Any","pred":"isinstance(other, (int, float, complex, Symbol)) and isinstance(A, ImmutableDenseMatrix) and isinstance(var, Symbol)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, LinearTimeInvariant)"},"spec":{"lhs":"StateSpace(*args)","rhs":"correctly constructs a StateSpace instance","over":{"base":"Any","pred":"isinstance(other, (int, float, complex, Symbol)) and isinstance(A, ImmutableDenseMatrix) and isinstance(var, Symbol)"},"name":"StateSpace_class_invariant"},"guarantee":"isinstance(self, LinearTimeInvariant)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bb27661011600248","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, LinearTimeInvariant)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.5,"verdict_class":"assumed","binding":false,"binding_errors":["Function StateSpace not found in source"]}}
 class StateSpace(LinearTimeInvariant):
     r"""
     State space model (ssm) of a linear, time invariant control system.
@@ -6136,16 +7214,25 @@ class StateSpace(LinearTimeInvariant):
 
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, A, B), <unspecified:__new__>) over {Any | hasattr(D, 'rows') and hasattr(D, 'cols') and hasattr(A, 'rows') and hasattr(A, 'cols') and hasattr(C, 'rows') and hasattr(B, 'cols') and hasattr(B, 'rows') and hasattr(C, 'cols')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(D, 'rows')                             ║
+# ║   requires: hasattr(D, 'cols')                             ║
+# ║   requires: hasattr(A, 'rows')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | hasattr(D, 'rows') and hasattr(D, 'c...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4b4c91d97f1f54a3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.StateSpace.__new__","kind":"method","src_hash":"fad355deb551b18e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4b4c91d97f1f54a3"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.StateSpace.__new__","kind":"method","src_hash":"fad355deb551b18e","in":{"base":"Any","pred":"hasattr(D, 'rows') and hasattr(D, 'cols') and hasattr(A, 'rows') and hasattr(A, 'cols') and hasattr(C, 'rows') and hasattr(B, 'cols') and hasattr(B, 'rows') and hasattr(C, 'cols')"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, A, B)","rhs":"<unspecified:__new__>","over":{"base":"Any","pred":"hasattr(D, 'rows') and hasattr(D, 'cols') and hasattr(A, 'rows') and hasattr(A, 'cols') and hasattr(C, 'rows') and hasattr(B, 'cols') and hasattr(B, 'rows') and hasattr(C, 'cols')"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4b4c91d97f1f54a3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(D, 'rows')","hasattr(D, 'cols')","hasattr(A, 'rows')","hasattr(A, 'cols')","hasattr(C, 'rows')","hasattr(B, 'cols')","hasattr(B, 'rows')","hasattr(C, 'cols')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["A.cols","A.rows","B.cols","B.rows","C.cols","C.rows","D.cols","D.rows"],"raises":["ShapeError","TypeError"]},"state_contract":{"exceptional_post":{"ShapeError":["isinstance(raised, ShapeError)"],"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, A=None, B=None, C=None, D=None):
         if A is None:
             A = zeros(1)
@@ -6206,16 +7293,22 @@ class StateSpace(LinearTimeInvariant):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(state_matrix(), returns the state_matrix attribute) over Any ║
+# ║ Path(state_matrix(), self._A) over Any                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._A                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ state_matrix : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 89bdae5209960414           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.StateSpace.state_matrix","kind":"property","src_hash":"89e4a4f049c66441","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"state_matrix()","rhs":"returns the state_matrix attribute","over":{"base":"Any"},"name":"state_matrix_correct"},"guarantee":"returns the state_matrix attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"89bdae5209960414"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.StateSpace.state_matrix","kind":"property","src_hash":"89e4a4f049c66441","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"state_matrix()","rhs":"self._A","over":{"base":"Any"},"name":"state_matrix_correct"},"guarantee":"returns self._A","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"89bdae5209960414","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._A","pure":false,"effects":{"effect_type":"reads_state","reads":["self._A"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def state_matrix(self):
         """
         Returns the state matrix of the model.
@@ -6240,16 +7333,22 @@ class StateSpace(LinearTimeInvariant):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(input_matrix(), returns the input_matrix attribute) over Any ║
+# ║ Path(input_matrix(), self._B) over Any                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._B                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ input_matrix : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c11bd8320d95faa4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.StateSpace.input_matrix","kind":"property","src_hash":"adc68b429a9a09ea","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"input_matrix()","rhs":"returns the input_matrix attribute","over":{"base":"Any"},"name":"input_matrix_correct"},"guarantee":"returns the input_matrix attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c11bd8320d95faa4"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.StateSpace.input_matrix","kind":"property","src_hash":"adc68b429a9a09ea","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"input_matrix()","rhs":"self._B","over":{"base":"Any"},"name":"input_matrix_correct"},"guarantee":"returns self._B","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c11bd8320d95faa4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._B","pure":false,"effects":{"effect_type":"reads_state","reads":["self._B"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def input_matrix(self):
         """
         Returns the input matrix of the model.
@@ -6274,16 +7373,22 @@ class StateSpace(LinearTimeInvariant):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(output_matrix(), returns the output_matrix attribute) over Any ║
+# ║ Path(output_matrix(), self._C) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._C                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ output_matrix : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9623fda91b94dc6e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.StateSpace.output_matrix","kind":"property","src_hash":"0662763374cc0a56","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"output_matrix()","rhs":"returns the output_matrix attribute","over":{"base":"Any"},"name":"output_matrix_correct"},"guarantee":"returns the output_matrix attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9623fda91b94dc6e"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.StateSpace.output_matrix","kind":"property","src_hash":"0662763374cc0a56","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"output_matrix()","rhs":"self._C","over":{"base":"Any"},"name":"output_matrix_correct"},"guarantee":"returns self._C","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9623fda91b94dc6e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._C","pure":false,"effects":{"effect_type":"reads_state","reads":["self._C"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def output_matrix(self):
         """
         Returns the output matrix of the model.
@@ -6306,16 +7411,22 @@ class StateSpace(LinearTimeInvariant):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(feedforward_matrix(), returns the feedforward_matrix attribute) over Any ║
+# ║ Path(feedforward_matrix(), self._D) over Any               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._D                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ feedforward_matrix : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 36825daa5dcca7b6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.StateSpace.feedforward_matrix","kind":"property","src_hash":"9eb3a73f1f1bd467","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"feedforward_matrix()","rhs":"returns the feedforward_matrix attribute","over":{"base":"Any"},"name":"feedforward_matrix_correct"},"guarantee":"returns the feedforward_matrix attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"36825daa5dcca7b6"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.StateSpace.feedforward_matrix","kind":"property","src_hash":"9eb3a73f1f1bd467","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"feedforward_matrix()","rhs":"self._D","over":{"base":"Any"},"name":"feedforward_matrix_correct"},"guarantee":"returns self._D","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"36825daa5dcca7b6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._D","pure":false,"effects":{"effect_type":"reads_state","reads":["self._D"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def feedforward_matrix(self):
         """
         Returns the feedforward matrix of the model.
@@ -6343,16 +7454,22 @@ class StateSpace(LinearTimeInvariant):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(num_states(), returns the num_states attribute) over Any ║
+# ║ Path(num_states(), self._A.rows) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._A.rows                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ num_states : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 64c763eeedb9bfa1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.StateSpace.num_states","kind":"property","src_hash":"991600555fb9e602","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"num_states()","rhs":"returns the num_states attribute","over":{"base":"Any"},"name":"num_states_correct"},"guarantee":"returns the num_states attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"64c763eeedb9bfa1"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.StateSpace.num_states","kind":"property","src_hash":"991600555fb9e602","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"num_states()","rhs":"self._A.rows","over":{"base":"Any"},"name":"num_states_correct"},"guarantee":"returns self._A.rows","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"64c763eeedb9bfa1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._A.rows","pure":false,"effects":{"effect_type":"reads_state","reads":["self._A"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def num_states(self):
         """
         Returns the number of states of the model.
@@ -6375,16 +7492,22 @@ class StateSpace(LinearTimeInvariant):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(num_inputs(), returns the num_inputs attribute) over Any ║
+# ║ Path(num_inputs(), self._D.cols) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._D.cols                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ num_inputs : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f9ad2b1ab2bd851b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.StateSpace.num_inputs","kind":"property","src_hash":"8bb9cf509e1b694e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"num_inputs()","rhs":"returns the num_inputs attribute","over":{"base":"Any"},"name":"num_inputs_correct"},"guarantee":"returns the num_inputs attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f9ad2b1ab2bd851b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.StateSpace.num_inputs","kind":"property","src_hash":"8bb9cf509e1b694e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"num_inputs()","rhs":"self._D.cols","over":{"base":"Any"},"name":"num_inputs_correct"},"guarantee":"returns self._D.cols","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f9ad2b1ab2bd851b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._D.cols","pure":false,"effects":{"effect_type":"reads_state","reads":["self._D"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def num_inputs(self):
         """
         Returns the number of inputs of the model.
@@ -6407,16 +7530,22 @@ class StateSpace(LinearTimeInvariant):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(num_outputs(), returns the num_outputs attribute) over Any ║
+# ║ Path(num_outputs(), self._D.rows) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._D.rows                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ num_outputs : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4639ebd7efe1d6a5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.StateSpace.num_outputs","kind":"property","src_hash":"aaae56b513bdcd74","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"num_outputs()","rhs":"returns the num_outputs attribute","over":{"base":"Any"},"name":"num_outputs_correct"},"guarantee":"returns the num_outputs attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4639ebd7efe1d6a5"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.StateSpace.num_outputs","kind":"property","src_hash":"aaae56b513bdcd74","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"num_outputs()","rhs":"self._D.rows","over":{"base":"Any"},"name":"num_outputs_correct"},"guarantee":"returns self._D.rows","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4639ebd7efe1d6a5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._D.rows","pure":false,"effects":{"effect_type":"reads_state","reads":["self._D"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def num_outputs(self):
         """
         Returns the number of outputs of the model.
@@ -6440,31 +7569,46 @@ class StateSpace(LinearTimeInvariant):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(shape(), returns the shape attribute) over Any        ║
+# ║ Path(shape(), (self.num_outputs, self.num_inputs)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (self.num_outputs, self.num_inputs)            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ shape : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1cb5d241dab47246           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.StateSpace.shape","kind":"property","src_hash":"693d51335519e1a3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"shape()","rhs":"returns the shape attribute","over":{"base":"Any"},"name":"shape_correct"},"guarantee":"returns the shape attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1cb5d241dab47246"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.StateSpace.shape","kind":"property","src_hash":"693d51335519e1a3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"shape()","rhs":"(self.num_outputs, self.num_inputs)","over":{"base":"Any"},"name":"shape_correct"},"guarantee":"returns (self.num_outputs, self.num_inputs)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1cb5d241dab47246","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(self.num_outputs, self.num_inputs)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.num_inputs","self.num_outputs"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def shape(self):
         """Returns the shape of the equivalent StateSpace system."""
         return self.num_outputs, self.num_inputs
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dsolve(ini), returns `y(t)` or output of statespace given by the solution of equations: x'(t) = a * x(t) + b * u(t) y(t) = c * x(t) + d * u(t)) over Any ║
+# ║ Path(dsolve(initial_conditions, input_vector, var), <unspecified:dsolve>) over {Any | isinstance(var, Symbol) and hasattr(input_vector, 'free_symbols') and hasattr(initial_conditions, 'shape') and hasattr(input_vector, 'shape')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dsolve : Any → Any                                         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(var, Symbol)                        ║
+# ║   requires: hasattr(input_vector, 'free_symbols')          ║
+# ║   requires: hasattr(initial_conditions, 'shape')           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dsolve : {Any | isinstance(var, Symbol) and hasattr(i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5a4a44b9fb0c0c36  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.StateSpace.dsolve","kind":"method","src_hash":"d3b5ef0fe0cf7da0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dsolve(ini)","rhs":"returns `y(t)` or output of statespace given by the solution of equations: x'(t) = a * x(t) + b * u(t) y(t) = c * x(t) + d * u(t)","over":{"base":"Any"},"name":"dsolve_correct"},"guarantee":"returns `y(t)` or output of statespace given by the solution of equations: x'(t) = a * x(t) + b * u(t) y(t) = c * x(t) + d * u(t)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.lti.StateSpace.dsolve_correct","statement":"Path(dsolve(x), returns `y(t)` or output of statespace given by the solution of equations: x'(t) = a * x(t) + b * u(t) y(t) = c * x(t) + d * u(t))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5a4a44b9fb0c0c36"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.StateSpace.dsolve","kind":"method","src_hash":"d3b5ef0fe0cf7da0","in":{"base":"Any","pred":"isinstance(var, Symbol) and hasattr(input_vector, 'free_symbols') and hasattr(initial_conditions, 'shape') and hasattr(input_vector, 'shape')"},"out":{"base":"Any"},"spec":{"lhs":"dsolve(initial_conditions, input_vector, var)","rhs":"<unspecified:dsolve>","over":{"base":"Any","pred":"isinstance(var, Symbol) and hasattr(input_vector, 'free_symbols') and hasattr(initial_conditions, 'shape') and hasattr(input_vector, 'shape')"},"name":"dsolve_correct"},"guarantee":"returns `y(t)` or output of statespace given by the solution of equations: x'(t) = a * x(t) + b * u(t) y(t) = c * x(t) + d * u(t)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.lti.StateSpace.dsolve_correct","statement":"Path(dsolve(x), returns `y(t)` or output of statespace given by the solution of equations: x'(t) = a * x(t) + b * u(t) y(t) = c * x(t) + d * u(t))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5a4a44b9fb0c0c36","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(var, Symbol)","hasattr(input_vector, 'free_symbols')","hasattr(initial_conditions, 'shape')","hasattr(input_vector, 'shape')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["initial_conditions.shape","input_vector.free_symbols","input_vector.shape","self._A","self._B","self._C","self._D"],"raises":["ShapeError","ValueError"]},"state_contract":{"exceptional_post":{"ShapeError":["isinstance(raised, ShapeError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dsolve(self, initial_conditions=None, input_vector=None, var=Symbol('t')):
         r"""
         Returns `y(t)` or output of StateSpace given by the solution of equations:
@@ -6536,16 +7680,22 @@ class StateSpace(LinearTimeInvariant):
         return res
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_evalf(pre), returns state space model where numerical expressions are evaluated into floating point numbers) over Any ║
+# ║ Path(_eval_evalf(prec), StateSpace(self._A.evalf(n=dps), self._B.evalf(n=dps), self._C.evalf(n=dps), self._D.evalf(n=dps))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  StateSpace(self._A.evalf(n=dps), self._B....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_evalf : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f6a0e435a1e34873  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0654278431a7957a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.StateSpace._eval_evalf","kind":"method","src_hash":"3312ee89bafd650c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_evalf(pre)","rhs":"returns state space model where numerical expressions are evaluated into floating point numbers","over":{"base":"Any"},"name":"_eval_evalf_correct"},"guarantee":"returns state space model where numerical expressions are evaluated into floating point numbers","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.lti.StateSpace._eval_evalf_correct","statement":"Path(_eval_evalf(x), returns state space model where numerical expressions are evaluated into floating point numbers)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f6a0e435a1e34873"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.StateSpace._eval_evalf","kind":"method","src_hash":"3312ee89bafd650c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_evalf(prec)","rhs":"StateSpace(self._A.evalf(n=dps), self._B.evalf(n=dps), self._C.evalf(n=dps), self._D.evalf(n=dps))","over":{"base":"Any"},"name":"_eval_evalf_correct"},"guarantee":"returns StateSpace(self._A.evalf(n=dps), self._B.evalf(n=dps), self._C.evalf(n=dps), self._D.evalf(n=dps))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.lti.StateSpace._eval_evalf_correct","statement":"Path(_eval_evalf(x), returns StateSpace(self._A.evalf(n=dps), self._B.evalf(n=dps), self._C.evalf(n=dps), self._D.evalf(n=dps)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0654278431a7957a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"StateSpace(self._A.evalf(n=dps), self._B.evalf(n=dps), self._C.evalf(n=dps), self._D.evalf(n=dps))","pure":false,"effects":{"effect_type":"reads_state","reads":["self._A","self._B","self._C","self._D"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_evalf(self, prec):
         """
         Returns state space model where numerical expressions are evaluated into floating point numbers.
@@ -6558,16 +7708,22 @@ class StateSpace(LinearTimeInvariant):
             self._D.evalf(n = dps))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_TransferFunction(*ar), returns the equivalent transfer function of the state space model) over Any ║
+# ║ Path(_eval_rewrite_as_TransferFunction(*args), <unspecified:_eval_rewrite_as_TransferFunction>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_TransferFunction : Any → Any              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dd50b42942287202  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.StateSpace._eval_rewrite_as_TransferFunction","kind":"method","src_hash":"c0452f2471aa842a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_TransferFunction(*ar)","rhs":"returns the equivalent transfer function of the state space model","over":{"base":"Any"},"name":"_eval_rewrite_as_TransferFunction_correct"},"guarantee":"returns the equivalent transfer function of the state space model","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.lti.StateSpace._eval_rewrite_as_TransferFunction_correct","statement":"Path(_eval_rewrite_as_TransferFunction(x), returns the equivalent transfer function of the state space model)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dd50b42942287202"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.StateSpace._eval_rewrite_as_TransferFunction","kind":"method","src_hash":"c0452f2471aa842a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_TransferFunction(*args)","rhs":"<unspecified:_eval_rewrite_as_TransferFunction>","over":{"base":"Any"},"name":"_eval_rewrite_as_TransferFunction_correct"},"guarantee":"returns the equivalent transfer function of the state space model","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.lti.StateSpace._eval_rewrite_as_TransferFunction_correct","statement":"Path(_eval_rewrite_as_TransferFunction(x), returns the equivalent transfer function of the state space model)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dd50b42942287202","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._A","self._B","self._C","self._D"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_TransferFunction(self, *args):
         """
         Returns the equivalent Transfer Function of the state space model.
@@ -6596,16 +7752,25 @@ class StateSpace(LinearTimeInvariant):
         return tf_mat
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__add__(oth), returns the sum/concatenation) over Any ║
+# ║ Path(__add__(other), StateSpace(A, B, C, D)) over {Any | hasattr(other, '_A') and hasattr(other, '_B') and hasattr(other, '_C') and hasattr(other, '_D') and hasattr(other, 'num_inputs') and hasattr(other, 'num_outputs')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __add__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, '_A')                           ║
+# ║   requires: hasattr(other, '_B')                           ║
+# ║   requires: hasattr(other, '_C')                           ║
+# ║   returns:  StateSpace(A, B, C, D)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __add__ : {Any | hasattr(other, '_A') and hasattr(oth...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6ed8aeb20ea47671           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.StateSpace.__add__","kind":"method","src_hash":"62603e28f42969fb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__add__(oth)","rhs":"returns the sum/concatenation","over":{"base":"Any"},"name":"__add___correct"},"guarantee":"returns the sum/concatenation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6ed8aeb20ea47671"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.StateSpace.__add__","kind":"method","src_hash":"62603e28f42969fb","in":{"base":"Any","pred":"hasattr(other, '_A') and hasattr(other, '_B') and hasattr(other, '_C') and hasattr(other, '_D') and hasattr(other, 'num_inputs') and hasattr(other, 'num_outputs')"},"out":{"base":"Any"},"spec":{"lhs":"__add__(other)","rhs":"StateSpace(A, B, C, D)","over":{"base":"Any","pred":"hasattr(other, '_A') and hasattr(other, '_B') and hasattr(other, '_C') and hasattr(other, '_D') and hasattr(other, 'num_inputs') and hasattr(other, 'num_outputs')"},"name":"__add___correct"},"guarantee":"returns StateSpace(A, B, C, D)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6ed8aeb20ea47671","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, '_A')","hasattr(other, '_B')","hasattr(other, '_C')","hasattr(other, '_D')","hasattr(other, 'num_inputs')","hasattr(other, 'num_outputs')"],"returns_expr":"StateSpace(A, B, C, D)","pure":false,"effects":{"effect_type":"reads_state","reads":["other._A","other._B","other._C","other._D","other.num_inputs","other.num_outputs","self._A","self._B","self._C","self._D","self.num_inputs","self.num_outputs"],"raises":["ShapeError","ValueError"]},"state_contract":{"exceptional_post":{"ShapeError":["isinstance(raised, ShapeError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __add__(self, other):
         """
         Add two State Space systems (parallel connection).
@@ -6659,16 +7824,22 @@ class StateSpace(LinearTimeInvariant):
         return StateSpace(A, B, C, D)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__radd__(oth), right add two state space systems) over Any ║
+# ║ Path(__radd__(other), self + other) over Any               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self + other                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __radd__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f23ebee4cc3652bf           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.StateSpace.__radd__","kind":"method","src_hash":"921f8cf237be7f6c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__radd__(oth)","rhs":"right add two state space systems","over":{"base":"Any"},"name":"__radd___correct"},"guarantee":"right add two state space systems","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f23ebee4cc3652bf"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.StateSpace.__radd__","kind":"method","src_hash":"921f8cf237be7f6c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__radd__(other)","rhs":"self + other","over":{"base":"Any"},"name":"__radd___correct"},"guarantee":"returns self + other","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f23ebee4cc3652bf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self + other","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __radd__(self, other):
         """
         Right add two State Space systems.
@@ -6685,16 +7856,22 @@ class StateSpace(LinearTimeInvariant):
         return self + other
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__sub__(oth), subtract two state space systems) over Any ║
+# ║ Path(__sub__(other), self + -other) over Any               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self + -other                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __sub__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 115ec5c5a1d82435           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.StateSpace.__sub__","kind":"method","src_hash":"72b66ad1ecaa648e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__sub__(oth)","rhs":"subtract two state space systems","over":{"base":"Any"},"name":"__sub___correct"},"guarantee":"subtract two state space systems","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"115ec5c5a1d82435"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.StateSpace.__sub__","kind":"method","src_hash":"72b66ad1ecaa648e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__sub__(other)","rhs":"self + -other","over":{"base":"Any"},"name":"__sub___correct"},"guarantee":"returns self + -other","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"115ec5c5a1d82435","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self + -other","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __sub__(self, other):
         """
         Subtract two State Space systems.
@@ -6725,16 +7902,22 @@ class StateSpace(LinearTimeInvariant):
         return self + (-other)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__rsub__(oth), right subtract two tate space systems) over Any ║
+# ║ Path(__rsub__(other), other + -self) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  other + -self                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __rsub__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6e0dcf36a191a95e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.StateSpace.__rsub__","kind":"method","src_hash":"074b5034af44717f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rsub__(oth)","rhs":"right subtract two tate space systems","over":{"base":"Any"},"name":"__rsub___correct"},"guarantee":"right subtract two tate space systems","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6e0dcf36a191a95e"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.StateSpace.__rsub__","kind":"method","src_hash":"074b5034af44717f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rsub__(other)","rhs":"other + -self","over":{"base":"Any"},"name":"__rsub___correct"},"guarantee":"returns other + -self","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6e0dcf36a191a95e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"other + -self","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __rsub__(self, other):
         """
         Right subtract two tate Space systems.
@@ -6751,16 +7934,22 @@ class StateSpace(LinearTimeInvariant):
         return other + (-self)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__neg__(), returns the additive inverse) over Any     ║
+# ║ Path(__neg__(), StateSpace(self._A, self._B, -self._C, -self._D)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  StateSpace(self._A, self._B, -self._C, -s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __neg__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8791285c6bdbfa76           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.StateSpace.__neg__","kind":"method","src_hash":"8d2ab425e8b6c4fe","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__neg__()","rhs":"returns the additive inverse","over":{"base":"Any"},"name":"__neg___correct"},"guarantee":"returns the additive inverse","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8791285c6bdbfa76"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.StateSpace.__neg__","kind":"method","src_hash":"8d2ab425e8b6c4fe","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__neg__()","rhs":"StateSpace(self._A, self._B, -self._C, -self._D)","over":{"base":"Any"},"name":"__neg___correct"},"guarantee":"returns StateSpace(self._A, self._B, -self._C, -self._D)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8791285c6bdbfa76","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"StateSpace(self._A, self._B, -self._C, -self._D)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._A","self._B","self._C","self._D"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __neg__(self):
         """
         Returns the negation of the state space model.
@@ -6786,16 +7975,25 @@ class StateSpace(LinearTimeInvariant):
         return StateSpace(self._A, self._B, -self._C, -self._D)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__mul__(oth), returns the product) over Any           ║
+# ║ Path(__mul__(other), StateSpace(A, B, C, D)) over {Any | hasattr(other, '_D') and hasattr(other, 'num_outputs') and hasattr(other, '_A') and hasattr(other, '_B') and hasattr(other, '_C')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __mul__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, '_D')                           ║
+# ║   requires: hasattr(other, 'num_outputs')                  ║
+# ║   requires: hasattr(other, '_A')                           ║
+# ║   returns:  StateSpace(A, B, C, D)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __mul__ : {Any | hasattr(other, '_D') and hasattr(oth...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 032734b898e0d90d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.StateSpace.__mul__","kind":"method","src_hash":"7603455182dc5073","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__mul__(oth)","rhs":"returns the product","over":{"base":"Any"},"name":"__mul___correct"},"guarantee":"returns the product","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"032734b898e0d90d"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.StateSpace.__mul__","kind":"method","src_hash":"7603455182dc5073","in":{"base":"Any","pred":"hasattr(other, '_D') and hasattr(other, 'num_outputs') and hasattr(other, '_A') and hasattr(other, '_B') and hasattr(other, '_C')"},"out":{"base":"Any"},"spec":{"lhs":"__mul__(other)","rhs":"StateSpace(A, B, C, D)","over":{"base":"Any","pred":"hasattr(other, '_D') and hasattr(other, 'num_outputs') and hasattr(other, '_A') and hasattr(other, '_B') and hasattr(other, '_C')"},"name":"__mul___correct"},"guarantee":"returns StateSpace(A, B, C, D)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"032734b898e0d90d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, '_D')","hasattr(other, 'num_outputs')","hasattr(other, '_A')","hasattr(other, '_B')","hasattr(other, '_C')"],"returns_expr":"StateSpace(A, B, C, D)","pure":false,"effects":{"effect_type":"reads_state","reads":["other._A","other._B","other._C","other._D","other.num_outputs","self._A","self._B","self._C","self._D","self.num_inputs"],"raises":["ShapeError","ValueError"]},"state_contract":{"exceptional_post":{"ShapeError":["isinstance(raised, ShapeError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __mul__(self, other):
         """
         Multiplication of two State Space systems (serial connection).
@@ -6844,16 +8042,25 @@ class StateSpace(LinearTimeInvariant):
         return StateSpace(A, B, C, D)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__rmul__(oth), right multiply two tate space systems) over Any ║
+# ║ Path(__rmul__(other), result == (StateSpace(A, B, C, D) if isinstance(other, (int, float, complex, Symbol)) else self * other) and result == StateSpace(A, B, C, D) or result == self * other) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __rmul__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (StateSpace(A, B, C, D) if isin...   ║
+# ║   ensures:  result == StateSpace(A, B, C, D) or resul...   ║
+# ║   fiber[case_0]: isinstance(other, (int, float, compl...   ║
+# ║   fiber[case_1]: not (isinstance(other, (int, float, ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __rmul__ : Any → {Any | result satisfies: result == (...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f9e159a1e7ab0d36           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.StateSpace.__rmul__","kind":"method","src_hash":"6fddca0e18a3a4d9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rmul__(oth)","rhs":"right multiply two tate space systems","over":{"base":"Any"},"name":"__rmul___correct"},"guarantee":"right multiply two tate space systems","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f9e159a1e7ab0d36"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.StateSpace.__rmul__","kind":"method","src_hash":"6fddca0e18a3a4d9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (StateSpace(A, B, C, D) if isinstance(other, (int, float, complex, Symbol)) else self * other) and result == StateSpace(A, B, C, D) or result == self * other"},"spec":{"lhs":"__rmul__(other)","rhs":"result == (StateSpace(A, B, C, D) if isinstance(other, (int, float, complex, Symbol)) else self * other) and result == StateSpace(A, B, C, D) or result == self * other","over":{"base":"Any"},"name":"__rmul___correct"},"guarantee":"result == (StateSpace(A, B, C, D) if isinstance(other, (int, float, complex, Symbol)) else self * other); result == StateSpace(A, B, C, D) or result == self * other; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f9e159a1e7ab0d36","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (StateSpace(A, B, C, D) if isinstance(other, (int, float, complex, Symbol)) else self * other)","result == StateSpace(A, B, C, D) or result == self * other"],"fibers":[{"name":"case_0","guard":"isinstance(other, (int, float, complex, Symbol))","ensures":["result == StateSpace(A, B, C, D)"],"decidability":"structural","returns_expr":"StateSpace(A, B, C, D)"},{"name":"case_1","guard":"not (isinstance(other, (int, float, complex, Symbol)))","ensures":["result == self * other"],"decidability":"structural","returns_expr":"self * other"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._A","self._B","self._C","self._D"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __rmul__(self, other):
         """
         Right multiply two tate Space systems.
@@ -6886,16 +8093,22 @@ class StateSpace(LinearTimeInvariant):
             return self*other
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__repr__(), returns a faithful string representation) over Any ║
+# ║ Path(__repr__(), f'StateSpace(\n{A_str},\n\n{B_str},\n\n{C_str},\n\n{D_str})') over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  f'StateSpace(\n{A_str},\n\n{B_str},\n\n{C...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __repr__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1d8e7f7a7605f5e2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.StateSpace.__repr__","kind":"method","src_hash":"7a26b7c878f8910d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"returns a faithful string representation","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns a faithful string representation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1d8e7f7a7605f5e2"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.StateSpace.__repr__","kind":"method","src_hash":"7a26b7c878f8910d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"f'StateSpace(\\n{A_str},\\n\\n{B_str},\\n\\n{C_str},\\n\\n{D_str})'","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns f'StateSpace(\\n{A_str},\\n\\n{B_str},\\n\\n{C_str},\\n\\n{D_str})'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1d8e7f7a7605f5e2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"f'StateSpace(\\n{A_str},\\n\\n{B_str},\\n\\n{C_str},\\n\\n{D_str})'","pure":false,"effects":{"effect_type":"reads_state","reads":["self._A","self._B","self._C","self._D"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __repr__(self):
         A_str = self._A.__repr__()
         B_str = self._B.__repr__()
@@ -6906,16 +8119,25 @@ class StateSpace(LinearTimeInvariant):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(append(oth), returns the first model appended with the second model) over Any ║
+# ║ Path(append(other), StateSpace(A, B, C, D)) over {Any | hasattr(other, '_A') and hasattr(other, '_B') and hasattr(other, '_C') and hasattr(other, '_D') and hasattr(other, 'num_states') and hasattr(other, 'num_inputs') and hasattr(other, 'num_outputs')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ append : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, '_A')                           ║
+# ║   requires: hasattr(other, '_B')                           ║
+# ║   requires: hasattr(other, '_C')                           ║
+# ║   returns:  StateSpace(A, B, C, D)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ append : {Any | hasattr(other, '_A') and hasattr(othe...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4fd4f09a27c8b03f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a06166610791fab2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.StateSpace.append","kind":"method","src_hash":"afa4f8fa30852ba1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"append(oth)","rhs":"returns the first model appended with the second model","over":{"base":"Any"},"name":"append_correct"},"guarantee":"returns the first model appended with the second model","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.lti.StateSpace.append_correct","statement":"Path(append(x), returns the first model appended with the second model)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4fd4f09a27c8b03f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.StateSpace.append","kind":"method","src_hash":"afa4f8fa30852ba1","in":{"base":"Any","pred":"hasattr(other, '_A') and hasattr(other, '_B') and hasattr(other, '_C') and hasattr(other, '_D') and hasattr(other, 'num_states') and hasattr(other, 'num_inputs') and hasattr(other, 'num_outputs')"},"out":{"base":"Any"},"spec":{"lhs":"append(other)","rhs":"StateSpace(A, B, C, D)","over":{"base":"Any","pred":"hasattr(other, '_A') and hasattr(other, '_B') and hasattr(other, '_C') and hasattr(other, '_D') and hasattr(other, 'num_states') and hasattr(other, 'num_inputs') and hasattr(other, 'num_outputs')"},"name":"append_correct"},"guarantee":"returns StateSpace(A, B, C, D)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.lti.StateSpace.append_correct","statement":"Path(append(x), returns StateSpace(A, B, C, D))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a06166610791fab2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, '_A')","hasattr(other, '_B')","hasattr(other, '_C')","hasattr(other, '_D')","hasattr(other, 'num_states')","hasattr(other, 'num_inputs')","hasattr(other, 'num_outputs')"],"returns_expr":"StateSpace(A, B, C, D)","pure":false,"effects":{"effect_type":"reads_state","reads":["other._A","other._B","other._C","other._D","other.num_inputs","other.num_outputs","other.num_states","self._A","self._B","self._C","self._D","self.num_inputs","self.num_outputs","self.num_states"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def append(self, other):
         """
         Returns the first model appended with the second model. The order is preserved.
@@ -6967,16 +8189,22 @@ class StateSpace(LinearTimeInvariant):
         return StateSpace(A, B, C, D)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(observability_matrix(), returns the observability matrix of the state space model: [c, c * a^1, c * a^2, ) over Any ║
+# ║ Path(observability_matrix(), <unspecified:observability_matrix>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ observability_matrix : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8691ae278187de77  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.StateSpace.observability_matrix","kind":"method","src_hash":"9ec0b0267da75bd5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"observability_matrix()","rhs":"returns the observability matrix of the state space model: [c, c * a^1, c * a^2, ","over":{"base":"Any"},"name":"observability_matrix_correct"},"guarantee":"returns the observability matrix of the state space model: [c, c * a^1, c * a^2, ","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.lti.StateSpace.observability_matrix_correct","statement":"Path(observability_matrix(x), returns the observability matrix of the state space model: [c, c * a^1, c * a^2, )"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8691ae278187de77"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.StateSpace.observability_matrix","kind":"method","src_hash":"9ec0b0267da75bd5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"observability_matrix()","rhs":"<unspecified:observability_matrix>","over":{"base":"Any"},"name":"observability_matrix_correct"},"guarantee":"returns the observability matrix of the state space model: [c, c * a^1, c * a^2, ","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.lti.StateSpace.observability_matrix_correct","statement":"Path(observability_matrix(x), returns the observability matrix of the state space model: [c, c * a^1, c * a^2, )"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8691ae278187de77","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._A","self._C","self.num_states"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def observability_matrix(self):
         """
         Returns the observability matrix of the state space model:
@@ -7011,16 +8239,22 @@ class StateSpace(LinearTimeInvariant):
         return ob
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(observable_subspace(), returns the observable subspace of the state space model) over Any ║
+# ║ Path(observable_subspace(), self.observability_matrix().columnspace()) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.observability_matrix().columnspace()      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ observable_subspace : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2b4aea5ae1e1a238           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.StateSpace.observable_subspace","kind":"method","src_hash":"4df2c1ad11a70124","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"observable_subspace()","rhs":"returns the observable subspace of the state space model","over":{"base":"Any"},"name":"observable_subspace_correct"},"guarantee":"returns the observable subspace of the state space model","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2b4aea5ae1e1a238"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.StateSpace.observable_subspace","kind":"method","src_hash":"4df2c1ad11a70124","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"observable_subspace()","rhs":"self.observability_matrix().columnspace()","over":{"base":"Any"},"name":"observable_subspace_correct"},"guarantee":"returns self.observability_matrix().columnspace()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2b4aea5ae1e1a238","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.observability_matrix().columnspace()","pure":false,"effects":{"effect_type":"reads_state","reads":["self.observability_matrix"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def observable_subspace(self):
         """
         Returns the observable subspace of the state space model.
@@ -7047,16 +8281,22 @@ class StateSpace(LinearTimeInvariant):
         return self.observability_matrix().columnspace()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_observable(), returns if the state space model is observable) over Any ║
+# ║ Path(is_observable(), self.observability_matrix().rank() == self.num_states) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.observability_matrix().rank() == sel...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_observable : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0402adfdc46e0abd           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.StateSpace.is_observable","kind":"method","src_hash":"8173d6090a746f69","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_observable()","rhs":"returns if the state space model is observable","over":{"base":"Any"},"name":"is_observable_correct"},"guarantee":"returns if the state space model is observable","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0402adfdc46e0abd"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.StateSpace.is_observable","kind":"method","src_hash":"8173d6090a746f69","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_observable()","rhs":"self.observability_matrix().rank() == self.num_states","over":{"base":"Any"},"name":"is_observable_correct"},"guarantee":"returns self.observability_matrix().rank() == self.num_states","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0402adfdc46e0abd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.observability_matrix().rank() == self.num_states","pure":false,"effects":{"effect_type":"reads_state","reads":["self.num_states","self.observability_matrix"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_observable(self):
         """
         Returns if the state space model is observable.
@@ -7078,16 +8318,22 @@ class StateSpace(LinearTimeInvariant):
         return self.observability_matrix().rank() == self.num_states
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(controllability_matrix(), returns the controllability matrix of the system: [b, a * b, a^2 * b, ) over Any ║
+# ║ Path(controllability_matrix(), <unspecified:controllability_matrix>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ controllability_matrix : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2b29b68dfd4a1506  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.StateSpace.controllability_matrix","kind":"method","src_hash":"710b929091760d98","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"controllability_matrix()","rhs":"returns the controllability matrix of the system: [b, a * b, a^2 * b, ","over":{"base":"Any"},"name":"controllability_matrix_correct"},"guarantee":"returns the controllability matrix of the system: [b, a * b, a^2 * b, ","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.lti.StateSpace.controllability_matrix_correct","statement":"Path(controllability_matrix(x), returns the controllability matrix of the system: [b, a * b, a^2 * b, )"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2b29b68dfd4a1506"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.StateSpace.controllability_matrix","kind":"method","src_hash":"710b929091760d98","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"controllability_matrix()","rhs":"<unspecified:controllability_matrix>","over":{"base":"Any"},"name":"controllability_matrix_correct"},"guarantee":"returns the controllability matrix of the system: [b, a * b, a^2 * b, ","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.control.lti.StateSpace.controllability_matrix_correct","statement":"Path(controllability_matrix(x), returns the controllability matrix of the system: [b, a * b, a^2 * b, )"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2b29b68dfd4a1506","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._A","self._B"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def controllability_matrix(self):
         """
         Returns the controllability matrix of the system:
@@ -7121,16 +8367,22 @@ class StateSpace(LinearTimeInvariant):
         return co
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(controllable_subspace(), returns the controllable subspace of the state space model) over Any ║
+# ║ Path(controllable_subspace(), self.controllability_matrix().columnspace()) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.controllability_matrix().columnspace()    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ controllable_subspace : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 71edc57f248c1467           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.StateSpace.controllable_subspace","kind":"method","src_hash":"3078edf362ede4ba","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"controllable_subspace()","rhs":"returns the controllable subspace of the state space model","over":{"base":"Any"},"name":"controllable_subspace_correct"},"guarantee":"returns the controllable subspace of the state space model","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"71edc57f248c1467"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.StateSpace.controllable_subspace","kind":"method","src_hash":"3078edf362ede4ba","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"controllable_subspace()","rhs":"self.controllability_matrix().columnspace()","over":{"base":"Any"},"name":"controllable_subspace_correct"},"guarantee":"returns self.controllability_matrix().columnspace()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"71edc57f248c1467","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.controllability_matrix().columnspace()","pure":false,"effects":{"effect_type":"reads_state","reads":["self.controllability_matrix"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def controllable_subspace(self):
         """
         Returns the controllable subspace of the state space model.
@@ -7157,16 +8409,22 @@ class StateSpace(LinearTimeInvariant):
         return self.controllability_matrix().columnspace()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_controllable(), returns if the state space model is controllable) over Any ║
+# ║ Path(is_controllable(), self.controllability_matrix().rank() == self.num_states) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.controllability_matrix().rank() == s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_controllable : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 561aab8724305ca2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.StateSpace.is_controllable","kind":"method","src_hash":"7091ab5f09d71b7b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_controllable()","rhs":"returns if the state space model is controllable","over":{"base":"Any"},"name":"is_controllable_correct"},"guarantee":"returns if the state space model is controllable","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"561aab8724305ca2"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.control.lti.StateSpace.is_controllable","kind":"method","src_hash":"7091ab5f09d71b7b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_controllable()","rhs":"self.controllability_matrix().rank() == self.num_states","over":{"base":"Any"},"name":"is_controllable_correct"},"guarantee":"returns self.controllability_matrix().rank() == self.num_states","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"561aab8724305ca2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.controllability_matrix().rank() == self.num_states","pure":false,"effects":{"effect_type":"reads_state","reads":["self.controllability_matrix","self.num_states"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_controllable(self):
         """
         Returns if the state space model is controllable.

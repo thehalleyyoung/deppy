@@ -49,16 +49,22 @@ __all__ = [
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(HilbertSpaceError(), correctly constructs a HilbertSpaceError instance) over Any ║
+# ║ Path(HilbertSpaceError(), isinstance(self, QuantumError)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ HilbertSpaceError : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, QuantumError)                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ HilbertSpaceError : Any → {Any | result satisfies: is...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | bb2a05ab57058498           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.HilbertSpaceError","kind":"class","src_hash":"d7c82d8b96fa2cdd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"HilbertSpaceError()","rhs":"correctly constructs a HilbertSpaceError instance","over":{"base":"Any"},"name":"HilbertSpaceError_correct"},"guarantee":"correctly constructs a HilbertSpaceError instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bb2a05ab57058498"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.HilbertSpaceError","kind":"class","src_hash":"d7c82d8b96fa2cdd","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, QuantumError)"},"spec":{"lhs":"HilbertSpaceError()","rhs":"isinstance(self, QuantumError)","over":{"base":"Any"},"name":"HilbertSpaceError_correct"},"guarantee":"isinstance(self, QuantumError)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bb2a05ab57058498","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, QuantumError)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Function HilbertSpaceError not found in source"]}}
 class HilbertSpaceError(QuantumError):
     pass
 
@@ -70,14 +76,20 @@ class HilbertSpaceError(QuantumError):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(HilbertSpace(*args), correctly constructs a HilbertSpace instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ HilbertSpace : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Basic)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ HilbertSpace : Any → {Any | result satisfies: isinsta...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2bba16bf9d9e9352  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.HilbertSpace","kind":"class","src_hash":"e91dab1277e716cb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"HilbertSpace(*args)","rhs":"correctly constructs a HilbertSpace instance","over":{"base":"Any"},"name":"HilbertSpace_class_invariant"},"guarantee":"correctly constructs a HilbertSpace instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2bba16bf9d9e9352"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.HilbertSpace","kind":"class","src_hash":"e91dab1277e716cb","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Basic)"},"spec":{"lhs":"HilbertSpace(*args)","rhs":"correctly constructs a HilbertSpace instance","over":{"base":"Any"},"name":"HilbertSpace_class_invariant"},"guarantee":"isinstance(self, Basic)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2bba16bf9d9e9352","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Basic)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function HilbertSpace not found in source"]}}
 class HilbertSpace(Basic):
     """An abstract Hilbert space for quantum mechanics.
 
@@ -99,103 +111,146 @@ class HilbertSpace(Basic):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls), <unspecified:__new__>) over Any         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1b3c83c3bb0af20b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.HilbertSpace.__new__","kind":"method","src_hash":"ebed4b34db6bc5c7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1b3c83c3bb0af20b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.HilbertSpace.__new__","kind":"method","src_hash":"ebed4b34db6bc5c7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"<unspecified:__new__>","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1b3c83c3bb0af20b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls):
         obj = Basic.__new__(cls)
         return obj
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dimension(), returns the dimension attribute) over Any ║
+# ║ Path(dimension(), <unspecified:dimension>) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dimension : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9ba2501db4b48f80           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.HilbertSpace.dimension","kind":"property","src_hash":"93f1a63d05b4ec9b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dimension()","rhs":"returns the dimension attribute","over":{"base":"Any"},"name":"dimension_correct"},"guarantee":"returns the dimension attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9ba2501db4b48f80"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.HilbertSpace.dimension","kind":"property","src_hash":"93f1a63d05b4ec9b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dimension()","rhs":"<unspecified:dimension>","over":{"base":"Any"},"name":"dimension_correct"},"guarantee":"returns the dimension attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9ba2501db4b48f80","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dimension(self):
         """Return the Hilbert dimension of the space."""
         raise NotImplementedError('This Hilbert space has no dimension.')
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__add__(oth), returns the sum/concatenation) over Any ║
+# ║ Path(__add__(other), DirectSumHilbertSpace(self, other)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  DirectSumHilbertSpace(self, other)             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __add__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b18adc80dfaaad97           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.HilbertSpace.__add__","kind":"method","src_hash":"7e368153e83080b8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__add__(oth)","rhs":"returns the sum/concatenation","over":{"base":"Any"},"name":"__add___correct"},"guarantee":"returns the sum/concatenation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b18adc80dfaaad97"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.HilbertSpace.__add__","kind":"method","src_hash":"7e368153e83080b8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__add__(other)","rhs":"DirectSumHilbertSpace(self, other)","over":{"base":"Any"},"name":"__add___correct"},"guarantee":"returns DirectSumHilbertSpace(self, other)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b18adc80dfaaad97","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"DirectSumHilbertSpace(self, other)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __add__(self, other):
         return DirectSumHilbertSpace(self, other)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__radd__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__radd__(other), DirectSumHilbertSpace(other, self)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  DirectSumHilbertSpace(other, self)             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __radd__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b1c0631834c583ff           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.HilbertSpace.__radd__","kind":"method","src_hash":"619e5f9822497f1d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__radd__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__radd___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b1c0631834c583ff"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.HilbertSpace.__radd__","kind":"method","src_hash":"619e5f9822497f1d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__radd__(other)","rhs":"DirectSumHilbertSpace(other, self)","over":{"base":"Any"},"name":"__radd___correct"},"guarantee":"returns DirectSumHilbertSpace(other, self)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b1c0631834c583ff","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"DirectSumHilbertSpace(other, self)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __radd__(self, other):
         return DirectSumHilbertSpace(other, self)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__mul__(oth), returns the product) over Any           ║
+# ║ Path(__mul__(other), TensorProductHilbertSpace(self, other)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  TensorProductHilbertSpace(self, other)         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __mul__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 63e49e4c77514363           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.HilbertSpace.__mul__","kind":"method","src_hash":"26b21429e9c9fc96","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__mul__(oth)","rhs":"returns the product","over":{"base":"Any"},"name":"__mul___correct"},"guarantee":"returns the product","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"63e49e4c77514363"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.HilbertSpace.__mul__","kind":"method","src_hash":"26b21429e9c9fc96","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__mul__(other)","rhs":"TensorProductHilbertSpace(self, other)","over":{"base":"Any"},"name":"__mul___correct"},"guarantee":"returns TensorProductHilbertSpace(self, other)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"63e49e4c77514363","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"TensorProductHilbertSpace(self, other)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __mul__(self, other):
         return TensorProductHilbertSpace(self, other)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__rmul__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__rmul__(other), TensorProductHilbertSpace(other, self)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  TensorProductHilbertSpace(other, self)         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __rmul__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e3411cf68c64b28d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.HilbertSpace.__rmul__","kind":"method","src_hash":"4696c124287fb0d5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rmul__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__rmul___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e3411cf68c64b28d"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.HilbertSpace.__rmul__","kind":"method","src_hash":"4696c124287fb0d5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rmul__(other)","rhs":"TensorProductHilbertSpace(other, self)","over":{"base":"Any"},"name":"__rmul___correct"},"guarantee":"returns TensorProductHilbertSpace(other, self)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e3411cf68c64b28d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"TensorProductHilbertSpace(other, self)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __rmul__(self, other):
         return TensorProductHilbertSpace(other, self)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__pow__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__pow__(other, mod), TensorPowerHilbertSpace(self, other)) over {Any | not (mod is not None)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __pow__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (mod is not None)                          ║
+# ║   returns:  TensorPowerHilbertSpace(self, other)           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __pow__ : {Any | not (mod is not None)} → Any              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | cf3dd62bd1d097e2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.HilbertSpace.__pow__","kind":"method","src_hash":"eebeddfe62fc4858","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__pow__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__pow___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cf3dd62bd1d097e2"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.HilbertSpace.__pow__","kind":"method","src_hash":"eebeddfe62fc4858","in":{"base":"Any","pred":"not (mod is not None)"},"out":{"base":"Any"},"spec":{"lhs":"__pow__(other, mod)","rhs":"TensorPowerHilbertSpace(self, other)","over":{"base":"Any","pred":"not (mod is not None)"},"name":"__pow___correct"},"guarantee":"returns TensorPowerHilbertSpace(self, other)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cf3dd62bd1d097e2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (mod is not None)"],"returns_expr":"TensorPowerHilbertSpace(self, other)","pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __pow__(self, other, mod=None):
         if mod is not None:
             raise ValueError('The third argument to __pow__ is not supported \
@@ -203,16 +258,26 @@ class HilbertSpace(Basic):
         return TensorPowerHilbertSpace(self, other)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__contains__(oth), correctly tests membership) over Any ║
+# ║ Path(__contains__(other), result == (True if other.hilbert_space.__class__ == self.__class__ else False) and result == True or result == False) over {Any | hasattr(other, 'hilbert_space')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __contains__ : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, 'hilbert_space')                ║
+# ║   ensures:  result == (True if other.hilbert_space.__...   ║
+# ║   ensures:  result == True or result == False              ║
+# ║   fiber[case_0]: other.hilbert_space.__class__ == sel...   ║
+# ║   fiber[case_1]: not (other.hilbert_space.__class__ =...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __contains__ : {Any | hasattr(other, 'hilbert_space')...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f42ce81aee74dd3f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.HilbertSpace.__contains__","kind":"method","src_hash":"ee3c9c172484e458","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__contains__(oth)","rhs":"correctly tests membership","over":{"base":"Any"},"name":"__contains___correct"},"guarantee":"correctly tests membership","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f42ce81aee74dd3f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.HilbertSpace.__contains__","kind":"method","src_hash":"ee3c9c172484e458","in":{"base":"Any","pred":"hasattr(other, 'hilbert_space')"},"out":{"base":"Any","pred":"result satisfies: result == (True if other.hilbert_space.__class__ == self.__class__ else False) and result == True or result == False"},"spec":{"lhs":"__contains__(other)","rhs":"result == (True if other.hilbert_space.__class__ == self.__class__ else False) and result == True or result == False","over":{"base":"Any","pred":"hasattr(other, 'hilbert_space')"},"name":"__contains___correct"},"guarantee":"result == (True if other.hilbert_space.__class__ == self.__class__ else False); result == True or result == False; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f42ce81aee74dd3f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, 'hilbert_space')"],"ensures":["result == (True if other.hilbert_space.__class__ == self.__class__ else False)","result == True or result == False"],"fibers":[{"name":"case_0","guard":"other.hilbert_space.__class__ == self.__class__","ensures":["result == True"],"decidability":"z3","returns_expr":"True"},{"name":"case_1","guard":"not (other.hilbert_space.__class__ == self.__class__)","ensures":["result == False"],"decidability":"z3","returns_expr":"False"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","other.hilbert_space","self.__class__"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __contains__(self, other):
         """Is the operator or state in this Hilbert space.
 
@@ -226,45 +291,63 @@ class HilbertSpace(Basic):
             return False
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_sympystr(pri), internal helper behaves correctly) over Any ║
+# ║ Path(_sympystr(printer, *args), 'H') over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  'H'                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _sympystr : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | db638f4a27ef2384           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.HilbertSpace._sympystr","kind":"method","src_hash":"5ae9fc62631bdca4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sympystr(pri)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_sympystr_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"db638f4a27ef2384"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.HilbertSpace._sympystr","kind":"method","src_hash":"5ae9fc62631bdca4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sympystr(printer, *args)","rhs":"'H'","over":{"base":"Any"},"name":"_sympystr_correct"},"guarantee":"returns 'H'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"db638f4a27ef2384","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'H'","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _sympystr(self, printer, *args):
         return 'H'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_pretty(pri), internal helper behaves correctly) over Any ║
+# ║ Path(_pretty(printer, *args), prettyForm(ustr)) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  prettyForm(ustr)                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _pretty : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0e84b6b1f35f168d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2353e30ff6a15725  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.HilbertSpace._pretty","kind":"method","src_hash":"81ca0f38983cbf21","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_pretty(pri)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_pretty_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.hilbert.HilbertSpace._pretty_correct","statement":"Path(_pretty(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0e84b6b1f35f168d"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.HilbertSpace._pretty","kind":"method","src_hash":"81ca0f38983cbf21","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_pretty(printer, *args)","rhs":"prettyForm(ustr)","over":{"base":"Any"},"name":"_pretty_correct"},"guarantee":"returns prettyForm(ustr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.hilbert.HilbertSpace._pretty_correct","statement":"Path(_pretty(x), returns prettyForm(ustr))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2353e30ff6a15725","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"prettyForm(ustr)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _pretty(self, printer, *args):
         ustr = '\N{LATIN CAPITAL LETTER H}'
         return prettyForm(ustr)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_latex(pri), internal helper behaves correctly) over Any ║
+# ║ Path(_latex(printer, *args), '\\mathcal{H}') over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  '\\mathcal{H}'                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _latex : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6e6ea45396eead01           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.HilbertSpace._latex","kind":"method","src_hash":"1416b8d2d92a4218","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_latex(pri)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_latex_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6e6ea45396eead01"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.HilbertSpace._latex","kind":"method","src_hash":"1416b8d2d92a4218","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_latex(printer, *args)","rhs":"'\\\\mathcal{H}'","over":{"base":"Any"},"name":"_latex_correct"},"guarantee":"returns '\\\\mathcal{H}'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6e6ea45396eead01","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'\\\\mathcal{H}'","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _latex(self, printer, *args):
         return r'\mathcal{H}'
 
@@ -272,14 +355,20 @@ class HilbertSpace(Basic):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(ComplexSpace(*args), correctly constructs a ComplexSpace instance) over {Any | isinstance(r, Basic)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ ComplexSpace : {Any | isinstance(r, Basic)} → Any          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, HilbertSpace)                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ ComplexSpace : {Any | isinstance(r, Basic)} → {Any | ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7f77558758e310b7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.ComplexSpace","kind":"class","src_hash":"b7d0b2a8c14d0fb5","in":{"base":"Any","pred":"isinstance(r, Basic)"},"out":{"base":"Any"},"spec":{"lhs":"ComplexSpace(*args)","rhs":"correctly constructs a ComplexSpace instance","over":{"base":"Any","pred":"isinstance(r, Basic)"},"name":"ComplexSpace_class_invariant"},"guarantee":"correctly constructs a ComplexSpace instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7f77558758e310b7"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.ComplexSpace","kind":"class","src_hash":"b7d0b2a8c14d0fb5","in":{"base":"Any","pred":"isinstance(r, Basic)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, HilbertSpace)"},"spec":{"lhs":"ComplexSpace(*args)","rhs":"correctly constructs a ComplexSpace instance","over":{"base":"Any","pred":"isinstance(r, Basic)"},"name":"ComplexSpace_class_invariant"},"guarantee":"isinstance(self, HilbertSpace)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7f77558758e310b7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, HilbertSpace)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function ComplexSpace not found in source"]}}
 class ComplexSpace(HilbertSpace):
     """Finite dimensional Hilbert space of complex vectors.
 
@@ -313,16 +402,22 @@ class ComplexSpace(HilbertSpace):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, dimension), <unspecified:__new__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2f2310f67bc5b1b3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.ComplexSpace.__new__","kind":"method","src_hash":"b785e5c1717098a1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2f2310f67bc5b1b3"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.ComplexSpace.__new__","kind":"method","src_hash":"b785e5c1717098a1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, dimension)","rhs":"<unspecified:__new__>","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2f2310f67bc5b1b3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["cls.eval"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, dimension):
         dimension = sympify(dimension)
         r = cls.eval(dimension)
@@ -333,16 +428,25 @@ class ComplexSpace(HilbertSpace):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), eval produces the expected output) over Any ║
+# ║ Path(eval(cls, dimension), <unspecified:eval>) over {Any | hasattr(dimension, 'atoms') and hasattr(dimension, 'is_Symbol') and hasattr(dimension, 'is_Integer')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Any                                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(dimension, 'atoms')                    ║
+# ║   requires: hasattr(dimension, 'is_Symbol')                ║
+# ║   requires: hasattr(dimension, 'is_Integer')               ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : {Any | hasattr(dimension, 'atoms') and hasattr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 81f45025ab972d91  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.ComplexSpace.eval","kind":"classmethod","src_hash":"77da2dc7d90d1a1f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.hilbert.ComplexSpace.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"81f45025ab972d91"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.ComplexSpace.eval","kind":"classmethod","src_hash":"77da2dc7d90d1a1f","in":{"base":"Any","pred":"hasattr(dimension, 'atoms') and hasattr(dimension, 'is_Symbol') and hasattr(dimension, 'is_Integer')"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls, dimension)","rhs":"<unspecified:eval>","over":{"base":"Any","pred":"hasattr(dimension, 'atoms') and hasattr(dimension, 'is_Symbol') and hasattr(dimension, 'is_Integer')"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.hilbert.ComplexSpace.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"81f45025ab972d91","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(dimension, 'atoms')","hasattr(dimension, 'is_Symbol')","hasattr(dimension, 'is_Integer')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["dimension.atoms","dimension.is_Integer","dimension.is_Symbol"],"raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, dimension):
         if len(dimension.atoms()) == 1:
             if not (dimension.is_Integer and dimension > 0 or dimension is S.Infinity
@@ -359,59 +463,86 @@ class ComplexSpace(HilbertSpace):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dimension(), returns the dimension attribute) over Any ║
+# ║ Path(dimension(), self.args[0]) over Any                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dimension : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4d8363ba169c744e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.ComplexSpace.dimension","kind":"property","src_hash":"867d5d3fcd15b31a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dimension()","rhs":"returns the dimension attribute","over":{"base":"Any"},"name":"dimension_correct"},"guarantee":"returns the dimension attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4d8363ba169c744e"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.ComplexSpace.dimension","kind":"property","src_hash":"867d5d3fcd15b31a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dimension()","rhs":"self.args[0]","over":{"base":"Any"},"name":"dimension_correct"},"guarantee":"returns self.args[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4d8363ba169c744e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dimension(self):
         return self.args[0]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_sympyrepr(pri), internal helper behaves correctly) over Any ║
+# ║ Path(_sympyrepr(printer, *args), '%s(%s)' % (self.__class__.__name__, printer._print(self.dimension, *args))) over {Any | hasattr(printer, '_print')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _sympyrepr : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(printer, '_print')                     ║
+# ║   returns:  '%s(%s)' % (self.__class__.__name__, prin...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _sympyrepr : {Any | hasattr(printer, '_print')} → Any      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6f11c61fc0918fa7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 64929543a202a408  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.ComplexSpace._sympyrepr","kind":"method","src_hash":"fc4b5eab1d6b5bc8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sympyrepr(pri)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_sympyrepr_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.hilbert.ComplexSpace._sympyrepr_correct","statement":"Path(_sympyrepr(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6f11c61fc0918fa7"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.ComplexSpace._sympyrepr","kind":"method","src_hash":"fc4b5eab1d6b5bc8","in":{"base":"Any","pred":"hasattr(printer, '_print')"},"out":{"base":"Any"},"spec":{"lhs":"_sympyrepr(printer, *args)","rhs":"'%s(%s)' % (self.__class__.__name__, printer._print(self.dimension, *args))","over":{"base":"Any","pred":"hasattr(printer, '_print')"},"name":"_sympyrepr_correct"},"guarantee":"returns '%s(%s)' % (self.__class__.__name__, printer._print(self.dimension, *args))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.hilbert.ComplexSpace._sympyrepr_correct","statement":"Path(_sympyrepr(x), returns '%s(%s)' % (self.__class__.__name__, printer._print(self.dimension, *args)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"64929543a202a408","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(printer, '_print')"],"returns_expr":"'%s(%s)' % (self.__class__.__name__, printer._print(self.dimension, *args))","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","printer._print","self.__class__","self.dimension"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _sympyrepr(self, printer, *args):
         return "%s(%s)" % (self.__class__.__name__,
                            printer._print(self.dimension, *args))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_sympystr(pri), internal helper behaves correctly) over Any ║
+# ║ Path(_sympystr(printer, *args), 'C(%s)' % printer._print(self.dimension, *args)) over {Any | hasattr(printer, '_print')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _sympystr : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(printer, '_print')                     ║
+# ║   returns:  'C(%s)' % printer._print(self.dimension, ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _sympystr : {Any | hasattr(printer, '_print')} → Any       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7a84c6b9dd5fcba3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.ComplexSpace._sympystr","kind":"method","src_hash":"bf425eb2f591437f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sympystr(pri)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_sympystr_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7a84c6b9dd5fcba3"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.ComplexSpace._sympystr","kind":"method","src_hash":"bf425eb2f591437f","in":{"base":"Any","pred":"hasattr(printer, '_print')"},"out":{"base":"Any"},"spec":{"lhs":"_sympystr(printer, *args)","rhs":"'C(%s)' % printer._print(self.dimension, *args)","over":{"base":"Any","pred":"hasattr(printer, '_print')"},"name":"_sympystr_correct"},"guarantee":"returns 'C(%s)' % printer._print(self.dimension, *args)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7a84c6b9dd5fcba3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(printer, '_print')"],"returns_expr":"'C(%s)' % printer._print(self.dimension, *args)","pure":false,"effects":{"effect_type":"reads_state","reads":["printer._print","self.dimension"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _sympystr(self, printer, *args):
         return "C(%s)" % printer._print(self.dimension, *args)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_pretty(pri), internal helper behaves correctly) over Any ║
+# ║ Path(_pretty(printer, *args), pform_base ** pform_exp) over {Any | hasattr(printer, '_print')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _pretty : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(printer, '_print')                     ║
+# ║   returns:  pform_base ** pform_exp                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _pretty : {Any | hasattr(printer, '_print')} → Any         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 26a59eb72ddc42f4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fa5eeaeaeaff3437  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.ComplexSpace._pretty","kind":"method","src_hash":"1c241bf995b36d5f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_pretty(pri)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_pretty_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.hilbert.ComplexSpace._pretty_correct","statement":"Path(_pretty(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"26a59eb72ddc42f4"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.ComplexSpace._pretty","kind":"method","src_hash":"1c241bf995b36d5f","in":{"base":"Any","pred":"hasattr(printer, '_print')"},"out":{"base":"Any"},"spec":{"lhs":"_pretty(printer, *args)","rhs":"pform_base ** pform_exp","over":{"base":"Any","pred":"hasattr(printer, '_print')"},"name":"_pretty_correct"},"guarantee":"returns pform_base ** pform_exp","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.hilbert.ComplexSpace._pretty_correct","statement":"Path(_pretty(x), returns pform_base ** pform_exp)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fa5eeaeaeaff3437","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(printer, '_print')"],"returns_expr":"pform_base ** pform_exp","pure":false,"effects":{"effect_type":"reads_state","reads":["printer._print","self.dimension"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _pretty(self, printer, *args):
         ustr = '\N{LATIN CAPITAL LETTER C}'
         pform_exp = printer._print(self.dimension, *args)
@@ -419,16 +550,23 @@ class ComplexSpace(HilbertSpace):
         return pform_base**pform_exp
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_latex(pri), internal helper behaves correctly) over Any ║
+# ║ Path(_latex(printer, *args), '\\mathcal{C}^{%s}' % printer._print(self.dimension, *args)) over {Any | hasattr(printer, '_print')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _latex : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(printer, '_print')                     ║
+# ║   returns:  '\\mathcal{C}^{%s}' % printer._print(self...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _latex : {Any | hasattr(printer, '_print')} → Any          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d70d1eb93a1ed1de           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.ComplexSpace._latex","kind":"method","src_hash":"6265acd6d4838270","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_latex(pri)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_latex_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d70d1eb93a1ed1de"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.ComplexSpace._latex","kind":"method","src_hash":"6265acd6d4838270","in":{"base":"Any","pred":"hasattr(printer, '_print')"},"out":{"base":"Any"},"spec":{"lhs":"_latex(printer, *args)","rhs":"'\\\\mathcal{C}^{%s}' % printer._print(self.dimension, *args)","over":{"base":"Any","pred":"hasattr(printer, '_print')"},"name":"_latex_correct"},"guarantee":"returns '\\\\mathcal{C}^{%s}' % printer._print(self.dimension, *args)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d70d1eb93a1ed1de","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(printer, '_print')"],"returns_expr":"'\\\\mathcal{C}^{%s}' % printer._print(self.dimension, *args)","pure":false,"effects":{"effect_type":"reads_state","reads":["printer._print","self.dimension"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _latex(self, printer, *args):
         return r'\mathcal{C}^{%s}' % printer._print(self.dimension, *args)
 
@@ -436,14 +574,20 @@ class ComplexSpace(HilbertSpace):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(L2(*args), correctly constructs a L2 instance) over {Any | isinstance(interval, Interval)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ L2 : {Any | isinstance(interval, Interval)} → Any          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, HilbertSpace)                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ L2 : {Any | isinstance(interval, Interval)} → {Any | ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c2ea4d3505e28414  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.L2","kind":"class","src_hash":"dc482b9c02f9180c","in":{"base":"Any","pred":"isinstance(interval, Interval)"},"out":{"base":"Any"},"spec":{"lhs":"L2(*args)","rhs":"correctly constructs a L2 instance","over":{"base":"Any","pred":"isinstance(interval, Interval)"},"name":"L2_class_invariant"},"guarantee":"correctly constructs a L2 instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c2ea4d3505e28414"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.L2","kind":"class","src_hash":"dc482b9c02f9180c","in":{"base":"Any","pred":"isinstance(interval, Interval)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, HilbertSpace)"},"spec":{"lhs":"L2(*args)","rhs":"correctly constructs a L2 instance","over":{"base":"Any","pred":"isinstance(interval, Interval)"},"name":"L2_class_invariant"},"guarantee":"isinstance(self, HilbertSpace)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c2ea4d3505e28414","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, HilbertSpace)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function L2 not found in source"]}}
 class L2(HilbertSpace):
     """The Hilbert space of square integrable functions on an interval.
 
@@ -466,16 +610,23 @@ class L2(HilbertSpace):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, interval), <unspecified:__new__>) over {Any | isinstance(interval, Interval)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(interval, Interval)                 ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | isinstance(interval, Interval)} → Any     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 826276eea91aaa14           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.L2.__new__","kind":"method","src_hash":"ac6f690141997bcd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"826276eea91aaa14"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.L2.__new__","kind":"method","src_hash":"ac6f690141997bcd","in":{"base":"Any","pred":"isinstance(interval, Interval)"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, interval)","rhs":"<unspecified:__new__>","over":{"base":"Any","pred":"isinstance(interval, Interval)"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"826276eea91aaa14","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(interval, Interval)"],"pure":false,"effects":{"effect_type":"reads_state","raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, interval):
         if not isinstance(interval, Interval):
             raise TypeError('L2 interval must be an Interval instance: %r'
@@ -485,89 +636,128 @@ class L2(HilbertSpace):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dimension(), returns the dimension attribute) over Any ║
+# ║ Path(dimension(), S.Infinity) over Any                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  S.Infinity                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dimension : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0d9ad113de063235           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.L2.dimension","kind":"property","src_hash":"ab5aa5d022a81b22","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dimension()","rhs":"returns the dimension attribute","over":{"base":"Any"},"name":"dimension_correct"},"guarantee":"returns the dimension attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0d9ad113de063235"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.L2.dimension","kind":"property","src_hash":"ab5aa5d022a81b22","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dimension()","rhs":"S.Infinity","over":{"base":"Any"},"name":"dimension_correct"},"guarantee":"returns S.Infinity","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0d9ad113de063235","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"S.Infinity","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dimension(self):
         return S.Infinity
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(interval(), returns the interval attribute) over Any  ║
+# ║ Path(interval(), self.args[0]) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ interval : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e37c87ca6a2063d5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.L2.interval","kind":"property","src_hash":"f5a0e16e06933de9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"interval()","rhs":"returns the interval attribute","over":{"base":"Any"},"name":"interval_correct"},"guarantee":"returns the interval attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e37c87ca6a2063d5"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.L2.interval","kind":"property","src_hash":"f5a0e16e06933de9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"interval()","rhs":"self.args[0]","over":{"base":"Any"},"name":"interval_correct"},"guarantee":"returns self.args[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e37c87ca6a2063d5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def interval(self):
         return self.args[0]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_sympyrepr(pri), internal helper behaves correctly) over Any ║
+# ║ Path(_sympyrepr(printer, *args), 'L2(%s)' % printer._print(self.interval, *args)) over {Any | hasattr(printer, '_print')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _sympyrepr : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(printer, '_print')                     ║
+# ║   returns:  'L2(%s)' % printer._print(self.interval, ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _sympyrepr : {Any | hasattr(printer, '_print')} → Any      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 477ca3c9400dc6a3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.L2._sympyrepr","kind":"method","src_hash":"16821aa018a6a41f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sympyrepr(pri)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_sympyrepr_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"477ca3c9400dc6a3"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.L2._sympyrepr","kind":"method","src_hash":"16821aa018a6a41f","in":{"base":"Any","pred":"hasattr(printer, '_print')"},"out":{"base":"Any"},"spec":{"lhs":"_sympyrepr(printer, *args)","rhs":"'L2(%s)' % printer._print(self.interval, *args)","over":{"base":"Any","pred":"hasattr(printer, '_print')"},"name":"_sympyrepr_correct"},"guarantee":"returns 'L2(%s)' % printer._print(self.interval, *args)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"477ca3c9400dc6a3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(printer, '_print')"],"returns_expr":"'L2(%s)' % printer._print(self.interval, *args)","pure":false,"effects":{"effect_type":"reads_state","reads":["printer._print","self.interval"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _sympyrepr(self, printer, *args):
         return "L2(%s)" % printer._print(self.interval, *args)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_sympystr(pri), internal helper behaves correctly) over Any ║
+# ║ Path(_sympystr(printer, *args), 'L2(%s)' % printer._print(self.interval, *args)) over {Any | hasattr(printer, '_print')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _sympystr : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(printer, '_print')                     ║
+# ║   returns:  'L2(%s)' % printer._print(self.interval, ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _sympystr : {Any | hasattr(printer, '_print')} → Any       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8cf5208e1383f1cf           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.L2._sympystr","kind":"method","src_hash":"5f32d945f8fe4ad6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sympystr(pri)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_sympystr_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8cf5208e1383f1cf"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.L2._sympystr","kind":"method","src_hash":"5f32d945f8fe4ad6","in":{"base":"Any","pred":"hasattr(printer, '_print')"},"out":{"base":"Any"},"spec":{"lhs":"_sympystr(printer, *args)","rhs":"'L2(%s)' % printer._print(self.interval, *args)","over":{"base":"Any","pred":"hasattr(printer, '_print')"},"name":"_sympystr_correct"},"guarantee":"returns 'L2(%s)' % printer._print(self.interval, *args)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8cf5208e1383f1cf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(printer, '_print')"],"returns_expr":"'L2(%s)' % printer._print(self.interval, *args)","pure":false,"effects":{"effect_type":"reads_state","reads":["printer._print","self.interval"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _sympystr(self, printer, *args):
         return "L2(%s)" % printer._print(self.interval, *args)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_pretty(pri), internal helper behaves correctly) over Any ║
+# ║ Path(_pretty(printer, *args), pform_base ** pform_exp) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  pform_base ** pform_exp                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _pretty : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 214c9e794eefb168  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2db90ea2ef71be46  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.L2._pretty","kind":"method","src_hash":"c78858d9a80adf21","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_pretty(pri)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_pretty_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.hilbert.L2._pretty_correct","statement":"Path(_pretty(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"214c9e794eefb168"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.L2._pretty","kind":"method","src_hash":"c78858d9a80adf21","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_pretty(printer, *args)","rhs":"pform_base ** pform_exp","over":{"base":"Any"},"name":"_pretty_correct"},"guarantee":"returns pform_base ** pform_exp","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.hilbert.L2._pretty_correct","statement":"Path(_pretty(x), returns pform_base ** pform_exp)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2db90ea2ef71be46","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"pform_base ** pform_exp","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _pretty(self, printer, *args):
         pform_exp = prettyForm('2')
         pform_base = prettyForm('L')
         return pform_base**pform_exp
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_latex(pri), internal helper behaves correctly) over Any ║
+# ║ Path(_latex(printer, *args), '{\\mathcal{L}^2}\\left( %s \\right)' % interval) over {Any | hasattr(printer, '_print')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _latex : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(printer, '_print')                     ║
+# ║   returns:  '{\\mathcal{L}^2}\\left( %s \\right)' % i...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _latex : {Any | hasattr(printer, '_print')} → Any          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e5606226dc71cca1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c4eb14d5b7b42234  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.L2._latex","kind":"method","src_hash":"28f1ec6a2484cf07","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_latex(pri)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_latex_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.hilbert.L2._latex_correct","statement":"Path(_latex(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e5606226dc71cca1"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.L2._latex","kind":"method","src_hash":"28f1ec6a2484cf07","in":{"base":"Any","pred":"hasattr(printer, '_print')"},"out":{"base":"Any"},"spec":{"lhs":"_latex(printer, *args)","rhs":"'{\\\\mathcal{L}^2}\\\\left( %s \\\\right)' % interval","over":{"base":"Any","pred":"hasattr(printer, '_print')"},"name":"_latex_correct"},"guarantee":"returns '{\\\\mathcal{L}^2}\\\\left( %s \\\\right)' % interval","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.hilbert.L2._latex_correct","statement":"Path(_latex(x), returns '{\\\\mathcal{L}^2}\\\\left( %s \\\\right)' % interval)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c4eb14d5b7b42234","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(printer, '_print')"],"returns_expr":"'{\\\\mathcal{L}^2}\\\\left( %s \\\\right)' % interval","pure":false,"effects":{"effect_type":"reads_state","reads":["printer._print","self.interval"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _latex(self, printer, *args):
         interval = printer._print(self.interval, *args)
         return r'{\mathcal{L}^2}\left( %s \right)' % interval
@@ -576,14 +766,20 @@ class L2(HilbertSpace):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(FockSpace(*args), correctly constructs a FockSpace instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ FockSpace : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, HilbertSpace)                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ FockSpace : Any → {Any | result satisfies: isinstance...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b1706bd4a0bd4051  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.FockSpace","kind":"class","src_hash":"146a1e6362de299a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"FockSpace(*args)","rhs":"correctly constructs a FockSpace instance","over":{"base":"Any"},"name":"FockSpace_class_invariant"},"guarantee":"correctly constructs a FockSpace instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b1706bd4a0bd4051"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.FockSpace","kind":"class","src_hash":"146a1e6362de299a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, HilbertSpace)"},"spec":{"lhs":"FockSpace(*args)","rhs":"correctly constructs a FockSpace instance","over":{"base":"Any"},"name":"FockSpace_class_invariant"},"guarantee":"isinstance(self, HilbertSpace)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b1706bd4a0bd4051","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, HilbertSpace)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function FockSpace not found in source"]}}
 class FockSpace(HilbertSpace):
     """The Hilbert space for second quantization.
 
@@ -608,89 +804,125 @@ class FockSpace(HilbertSpace):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls), <unspecified:__new__>) over Any         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b0b662e7b779e328           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.FockSpace.__new__","kind":"method","src_hash":"ebed4b34db6bc5c7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b0b662e7b779e328"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.FockSpace.__new__","kind":"method","src_hash":"ebed4b34db6bc5c7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"<unspecified:__new__>","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b0b662e7b779e328","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls):
         obj = Basic.__new__(cls)
         return obj
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dimension(), returns the dimension attribute) over Any ║
+# ║ Path(dimension(), S.Infinity) over Any                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  S.Infinity                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dimension : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 99030f848193df57           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.FockSpace.dimension","kind":"property","src_hash":"ab5aa5d022a81b22","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dimension()","rhs":"returns the dimension attribute","over":{"base":"Any"},"name":"dimension_correct"},"guarantee":"returns the dimension attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"99030f848193df57"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.FockSpace.dimension","kind":"property","src_hash":"ab5aa5d022a81b22","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dimension()","rhs":"S.Infinity","over":{"base":"Any"},"name":"dimension_correct"},"guarantee":"returns S.Infinity","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"99030f848193df57","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"S.Infinity","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dimension(self):
         return S.Infinity
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_sympyrepr(pri), internal helper behaves correctly) over Any ║
+# ║ Path(_sympyrepr(printer, *args), 'FockSpace()') over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  'FockSpace()'                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _sympyrepr : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5056f8cd0fdae366           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.FockSpace._sympyrepr","kind":"method","src_hash":"bbd48e71b1d3462c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sympyrepr(pri)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_sympyrepr_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5056f8cd0fdae366"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.FockSpace._sympyrepr","kind":"method","src_hash":"bbd48e71b1d3462c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sympyrepr(printer, *args)","rhs":"'FockSpace()'","over":{"base":"Any"},"name":"_sympyrepr_correct"},"guarantee":"returns 'FockSpace()'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5056f8cd0fdae366","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'FockSpace()'","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _sympyrepr(self, printer, *args):
         return "FockSpace()"
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_sympystr(pri), internal helper behaves correctly) over Any ║
+# ║ Path(_sympystr(printer, *args), 'F') over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  'F'                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _sympystr : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5f7e153c4c2aa3a6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.FockSpace._sympystr","kind":"method","src_hash":"b3a448fe7aec672a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sympystr(pri)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_sympystr_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5f7e153c4c2aa3a6"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.FockSpace._sympystr","kind":"method","src_hash":"b3a448fe7aec672a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sympystr(printer, *args)","rhs":"'F'","over":{"base":"Any"},"name":"_sympystr_correct"},"guarantee":"returns 'F'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5f7e153c4c2aa3a6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'F'","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _sympystr(self, printer, *args):
         return "F"
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_pretty(pri), internal helper behaves correctly) over Any ║
+# ║ Path(_pretty(printer, *args), prettyForm(ustr)) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  prettyForm(ustr)                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _pretty : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | abcf27fada919ece  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e81a951a84d052bb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.FockSpace._pretty","kind":"method","src_hash":"645e884bef0887f0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_pretty(pri)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_pretty_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.hilbert.FockSpace._pretty_correct","statement":"Path(_pretty(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"abcf27fada919ece"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.FockSpace._pretty","kind":"method","src_hash":"645e884bef0887f0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_pretty(printer, *args)","rhs":"prettyForm(ustr)","over":{"base":"Any"},"name":"_pretty_correct"},"guarantee":"returns prettyForm(ustr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.hilbert.FockSpace._pretty_correct","statement":"Path(_pretty(x), returns prettyForm(ustr))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e81a951a84d052bb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"prettyForm(ustr)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _pretty(self, printer, *args):
         ustr = '\N{LATIN CAPITAL LETTER F}'
         return prettyForm(ustr)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_latex(pri), internal helper behaves correctly) over Any ║
+# ║ Path(_latex(printer, *args), '\\mathcal{F}') over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  '\\mathcal{F}'                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _latex : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3a4d74d9e1541f88           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.FockSpace._latex","kind":"method","src_hash":"e2a7a2568ca85583","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_latex(pri)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_latex_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3a4d74d9e1541f88"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.FockSpace._latex","kind":"method","src_hash":"e2a7a2568ca85583","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_latex(printer, *args)","rhs":"'\\\\mathcal{F}'","over":{"base":"Any"},"name":"_latex_correct"},"guarantee":"returns '\\\\mathcal{F}'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3a4d74d9e1541f88","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'\\\\mathcal{F}'","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _latex(self, printer, *args):
         return r'\mathcal{F}'
 
@@ -698,14 +930,20 @@ class FockSpace(HilbertSpace):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(TensorProductHilbertSpace(*args), correctly constructs a TensorProductHilbertSpace instance) over {Any | isinstance(r, Basic) and isinstance(arg, TensorProductHilbertSpace) and isinstance(arg, DirectSumHilbertSpace)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, HilbertSpace)                 ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ TensorProductHilbertSpace : {Any | isinstance(r, Basi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 65739c802fddd4d6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.TensorProductHilbertSpace","kind":"class","src_hash":"719ac264ec2a2d91","in":{"base":"Any","pred":"isinstance(r, Basic) and isinstance(arg, TensorProductHilbertSpace) and isinstance(arg, DirectSumHilbertSpace)"},"out":{"base":"Any"},"spec":{"lhs":"TensorProductHilbertSpace(*args)","rhs":"correctly constructs a TensorProductHilbertSpace instance","over":{"base":"Any","pred":"isinstance(r, Basic) and isinstance(arg, TensorProductHilbertSpace) and isinstance(arg, DirectSumHilbertSpace)"},"name":"TensorProductHilbertSpace_class_invariant"},"guarantee":"correctly constructs a TensorProductHilbertSpace instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"65739c802fddd4d6"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.TensorProductHilbertSpace","kind":"class","src_hash":"719ac264ec2a2d91","in":{"base":"Any","pred":"isinstance(r, Basic) and isinstance(arg, TensorProductHilbertSpace) and isinstance(arg, DirectSumHilbertSpace)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, HilbertSpace)"},"spec":{"lhs":"TensorProductHilbertSpace(*args)","rhs":"correctly constructs a TensorProductHilbertSpace instance","over":{"base":"Any","pred":"isinstance(r, Basic) and isinstance(arg, TensorProductHilbertSpace) and isinstance(arg, DirectSumHilbertSpace)"},"name":"TensorProductHilbertSpace_class_invariant"},"guarantee":"isinstance(self, HilbertSpace)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"65739c802fddd4d6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, HilbertSpace)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"assumed","binding":false,"binding_errors":["Function TensorProductHilbertSpace not found in source"]}}
 class TensorProductHilbertSpace(HilbertSpace):
     """A tensor product of Hilbert spaces [1]_.
 
@@ -750,16 +988,22 @@ class TensorProductHilbertSpace(HilbertSpace):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, *args), <unspecified:__new__>) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8c40ceba2882d898           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.TensorProductHilbertSpace.__new__","kind":"method","src_hash":"e0b5cef53327b7c5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8c40ceba2882d898"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.TensorProductHilbertSpace.__new__","kind":"method","src_hash":"e0b5cef53327b7c5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, *args)","rhs":"<unspecified:__new__>","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8c40ceba2882d898","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["cls.eval"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, *args):
         r = cls.eval(args)
         if isinstance(r, Basic):
@@ -769,16 +1013,27 @@ class TensorProductHilbertSpace(HilbertSpace):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), evaluates the direct product) over Any     ║
+# ║ Path(eval(cls, args), len(comb_args) == old_len_comb_args + 1 and len(new_args) == old_len_new_args + 1 and result == (TensorProductHilbertSpace(*comb_args) if recall else TensorPowerHilbertSpace(comb_args[0].base, comb_args[0].exp) if len(comb_args) == 1 else None) and result == TensorProductHilbertSpace(*comb_args) or result == TensorPowerHilbertSpace(comb_args[0].base, comb_args[0].exp) or result == None) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(comb_args) == old_len_comb_args + 1        ║
+# ║   ensures:  len(new_args) == old_len_new_args + 1          ║
+# ║   ensures:  result == (TensorProductHilbertSpace(*com...   ║
+# ║   fiber[case_0]: recall => TensorProductHilbertSpace(...   ║
+# ║   fiber[case_1]: len(comb_args) == 1 => TensorPowerHi...   ║
+# ║   fiber[case_2]: not (recall) and not (len(comb_args)...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : Any → {Any | result satisfies: len(comb_args) ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c836a0d068d47575  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 77102af4e1a4e30a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.TensorProductHilbertSpace.eval","kind":"classmethod","src_hash":"16789e28470225f0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"evaluates the direct product","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"evaluates the direct product","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.hilbert.TensorProductHilbertSpace.eval_correct","statement":"Path(eval(x), evaluates the direct product)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c836a0d068d47575"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.TensorProductHilbertSpace.eval","kind":"classmethod","src_hash":"16789e28470225f0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(comb_args) == old_len_comb_args + 1 and len(new_args) == old_len_new_args + 1 and result == (TensorProductHilbertSpace(*comb_args) if recall else TensorPowerHilbertSpace(comb_args[0].base, comb_args[0].exp) if len(comb_args) == 1 else None) and result == TensorProductHilbertSpace(*comb_args) or result == TensorPowerHilbertSpace(comb_args[0].base, comb_args[0].exp) or result == None"},"spec":{"lhs":"eval(cls, args)","rhs":"len(comb_args) == old_len_comb_args + 1 and len(new_args) == old_len_new_args + 1 and result == (TensorProductHilbertSpace(*comb_args) if recall else TensorPowerHilbertSpace(comb_args[0].base, comb_args[0].exp) if len(comb_args) == 1 else None) and result == TensorProductHilbertSpace(*comb_args) or result == TensorPowerHilbertSpace(comb_args[0].base, comb_args[0].exp) or result == None","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"len(comb_args) == old_len_comb_args + 1; len(new_args) == old_len_new_args + 1; result == (TensorProductHilbertSpace(*comb_args) if recall else TensorPowerHilbertSpace(comb_args[0].base, comb_args[0].exp) if len(comb_args) == 1 else None); 3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.hilbert.TensorProductHilbertSpace.eval_correct","statement":"Path(eval(x), len(comb_args) == old_len_comb_args + 1; len(new_args) == old_len_new_args + 1; result == (TensorProductHilbertSpace(*comb_args) if recall else TensorPowerHilbertSpace(comb_args[0].base, comb_args[0].exp) if len(comb_args) == 1 else None); 3-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"77102af4e1a4e30a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(comb_args) == old_len_comb_args + 1","len(new_args) == old_len_new_args + 1","result == (TensorProductHilbertSpace(*comb_args) if recall else TensorPowerHilbertSpace(comb_args[0].base, comb_args[0].exp) if len(comb_args) == 1 else None)","result == TensorProductHilbertSpace(*comb_args) or result == TensorPowerHilbertSpace(comb_args[0].base, comb_args[0].exp) or result == None"],"fibers":[{"name":"case_0","guard":"recall","ensures":["result == TensorProductHilbertSpace(*comb_args)"],"decidability":"library","returns_expr":"TensorProductHilbertSpace(*comb_args)"},{"name":"case_1","guard":"len(comb_args) == 1","ensures":["result == TensorPowerHilbertSpace(comb_args[0].base, comb_args[0].exp)"],"decidability":"z3","returns_expr":"TensorPowerHilbertSpace(comb_args[0].base, comb_args[0].exp)"},{"name":"case_2","guard":"not (recall) and not (len(comb_args) == 1)","ensures":["result == None"],"decidability":"z3","returns_expr":"None"}],"pure":false,"effects":{"effect_type":"reads_state","calls_mutating":["comb_args.append","new_args.append","new_args.extend"],"raises":["TypeError"]},"state_contract":{"modifies":["comb_args.*","new_args.*"],"old_bindings":{"old_len_comb_args":"len(comb_args)","old_len_new_args":"len(new_args)"},"post_ensures":["len(comb_args) == old_len_comb_args + 1","len(new_args) == old_len_new_args + 1"],"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, args):
         """Evaluates the direct product."""
         new_args = []
@@ -825,16 +1080,25 @@ class TensorProductHilbertSpace(HilbertSpace):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dimension(), returns the dimension attribute) over Any ║
+# ║ Path(dimension(), result == (S.Infinity if S.Infinity in arg_list else reduce(lambda x, y: x * y, arg_list)) and result == S.Infinity or result == reduce(lambda x, y: x * y, arg_list)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dimension : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (S.Infinity if S.Infinity in ar...   ║
+# ║   ensures:  result == S.Infinity or result == reduce(...   ║
+# ║   fiber[case_0]: S.Infinity in arg_list => S.Infinity      ║
+# ║   fiber[case_1]: not (S.Infinity in arg_list) => redu...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dimension : Any → {Any | result satisfies: result == ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9d1f9243f8356a47           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.TensorProductHilbertSpace.dimension","kind":"property","src_hash":"c17f670c65d0bc7b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dimension()","rhs":"returns the dimension attribute","over":{"base":"Any"},"name":"dimension_correct"},"guarantee":"returns the dimension attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9d1f9243f8356a47"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.TensorProductHilbertSpace.dimension","kind":"property","src_hash":"c17f670c65d0bc7b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (S.Infinity if S.Infinity in arg_list else reduce(lambda x, y: x * y, arg_list)) and result == S.Infinity or result == reduce(lambda x, y: x * y, arg_list)"},"spec":{"lhs":"dimension()","rhs":"result == (S.Infinity if S.Infinity in arg_list else reduce(lambda x, y: x * y, arg_list)) and result == S.Infinity or result == reduce(lambda x, y: x * y, arg_list)","over":{"base":"Any"},"name":"dimension_correct"},"guarantee":"result == (S.Infinity if S.Infinity in arg_list else reduce(lambda x, y: x * y, arg_list)); result == S.Infinity or result == reduce(lambda x, y: x * y, arg_list); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9d1f9243f8356a47","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (S.Infinity if S.Infinity in arg_list else reduce(lambda x, y: x * y, arg_list))","result == S.Infinity or result == reduce(lambda x, y: x * y, arg_list)"],"fibers":[{"name":"case_0","guard":"S.Infinity in arg_list","ensures":["result == S.Infinity"],"decidability":"library","returns_expr":"S.Infinity"},{"name":"case_1","guard":"not (S.Infinity in arg_list)","ensures":["result == reduce(lambda x, y: x * y, arg_list)"],"decidability":"library","returns_expr":"reduce(lambda x, y: x * y, arg_list)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dimension(self):
         arg_list = [arg.dimension for arg in self.args]
         if S.Infinity in arg_list:
@@ -844,31 +1108,44 @@ class TensorProductHilbertSpace(HilbertSpace):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(spaces(), returns the spaces attribute) over Any      ║
+# ║ Path(spaces(), self.args) over Any                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ spaces : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ec454eae08276dbf           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.TensorProductHilbertSpace.spaces","kind":"property","src_hash":"5b6e89ee0f20de4c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"spaces()","rhs":"returns the spaces attribute","over":{"base":"Any"},"name":"spaces_correct"},"guarantee":"returns the spaces attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ec454eae08276dbf"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.TensorProductHilbertSpace.spaces","kind":"property","src_hash":"5b6e89ee0f20de4c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"spaces()","rhs":"self.args","over":{"base":"Any"},"name":"spaces_correct"},"guarantee":"returns self.args","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ec454eae08276dbf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def spaces(self):
         """A tuple of the Hilbert spaces in this tensor product."""
         return self.args
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_spaces_printer(pri), internal helper behaves correctly) over Any ║
+# ║ Path(_spaces_printer(printer, *args), <unspecified:_spaces_printer>) over {Any | hasattr(printer, '_print')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _spaces_printer : Any → Any                                ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(printer, '_print')                     ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _spaces_printer : {Any | hasattr(printer, '_print')} ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7282cb9693fc522e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.TensorProductHilbertSpace._spaces_printer","kind":"method","src_hash":"67bf419fa0b0eb8e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_spaces_printer(pri)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_spaces_printer_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.hilbert.TensorProductHilbertSpace._spaces_printer_correct","statement":"Path(_spaces_printer(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7282cb9693fc522e"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.TensorProductHilbertSpace._spaces_printer","kind":"method","src_hash":"67bf419fa0b0eb8e","in":{"base":"Any","pred":"hasattr(printer, '_print')"},"out":{"base":"Any"},"spec":{"lhs":"_spaces_printer(printer, *args)","rhs":"<unspecified:_spaces_printer>","over":{"base":"Any","pred":"hasattr(printer, '_print')"},"name":"_spaces_printer_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.hilbert.TensorProductHilbertSpace._spaces_printer_correct","statement":"Path(_spaces_printer(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7282cb9693fc522e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(printer, '_print')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _spaces_printer(self, printer, *args):
         spaces_strs = []
         for arg in self.args:
@@ -879,46 +1156,66 @@ class TensorProductHilbertSpace(HilbertSpace):
         return spaces_strs
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_sympyrepr(pri), id) over Any                         ║
+# ║ Path(_sympyrepr(printer, *args), id) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  'TensorProductHilbertSpace(%s)' % ','.joi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _sympyrepr : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 5a1d8d7dcdf1fe60   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.TensorProductHilbertSpace._sympyrepr","kind":"method","src_hash":"1598f60aa89db612","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sympyrepr(pri)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_sympyrepr_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"TensorProductHilbertSpace","by":"library_axiom"},{"fn":"join","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5a1d8d7dcdf1fe60"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.TensorProductHilbertSpace._sympyrepr","kind":"method","src_hash":"1598f60aa89db612","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sympyrepr(printer, *args)","rhs":"'TensorProductHilbertSpace(%s)' % ','.join(spaces_reprs)","over":{"base":"Any"},"name":"_sympyrepr_correct","kind":"composition"},"guarantee":"returns 'TensorProductHilbertSpace(%s)' % ','.join(spaces_reprs)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"TensorProductHilbertSpace","by":"library_axiom"},{"fn":"join","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5a1d8d7dcdf1fe60","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'TensorProductHilbertSpace(%s)' % ','.join(spaces_reprs)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._spaces_printer"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _sympyrepr(self, printer, *args):
         spaces_reprs = self._spaces_printer(printer, *args)
         return "TensorProductHilbertSpace(%s)" % ','.join(spaces_reprs)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_sympystr(pri), internal helper behaves correctly) over Any ║
+# ║ Path(_sympystr(printer, *args), '*'.join(spaces_strs)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  '*'.join(spaces_strs)                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _sympystr : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c06a1f36fbaabcb5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | acb92029769c423c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.TensorProductHilbertSpace._sympystr","kind":"method","src_hash":"d71aa560ac3ddd93","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sympystr(pri)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_sympystr_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.hilbert.TensorProductHilbertSpace._sympystr_correct","statement":"Path(_sympystr(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c06a1f36fbaabcb5"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.TensorProductHilbertSpace._sympystr","kind":"method","src_hash":"d71aa560ac3ddd93","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sympystr(printer, *args)","rhs":"'*'.join(spaces_strs)","over":{"base":"Any"},"name":"_sympystr_correct"},"guarantee":"returns '*'.join(spaces_strs)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.hilbert.TensorProductHilbertSpace._sympystr_correct","statement":"Path(_sympystr(x), returns '*'.join(spaces_strs))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"acb92029769c423c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'*'.join(spaces_strs)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._spaces_printer"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _sympystr(self, printer, *args):
         spaces_strs = self._spaces_printer(printer, *args)
         return '*'.join(spaces_strs)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_pretty(pri), internal helper behaves correctly) over Any ║
+# ║ Path(_pretty(printer, *args), <unspecified:_pretty>) over {Any | hasattr(printer, '_print') and hasattr(printer, '_use_unicode')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _pretty : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(printer, '_print')                     ║
+# ║   requires: hasattr(printer, '_use_unicode')               ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _pretty : {Any | hasattr(printer, '_print') and hasat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b81476089afc725a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.TensorProductHilbertSpace._pretty","kind":"method","src_hash":"c0c81257660cbac1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_pretty(pri)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_pretty_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.hilbert.TensorProductHilbertSpace._pretty_correct","statement":"Path(_pretty(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b81476089afc725a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.TensorProductHilbertSpace._pretty","kind":"method","src_hash":"c0c81257660cbac1","in":{"base":"Any","pred":"hasattr(printer, '_print') and hasattr(printer, '_use_unicode')"},"out":{"base":"Any"},"spec":{"lhs":"_pretty(printer, *args)","rhs":"<unspecified:_pretty>","over":{"base":"Any","pred":"hasattr(printer, '_print') and hasattr(printer, '_use_unicode')"},"name":"_pretty_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.hilbert.TensorProductHilbertSpace._pretty_correct","statement":"Path(_pretty(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b81476089afc725a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(printer, '_print')","hasattr(printer, '_use_unicode')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["printer._print","printer._use_unicode","self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _pretty(self, printer, *args):
         length = len(self.args)
         pform = printer._print('', *args)
@@ -938,16 +1235,23 @@ class TensorProductHilbertSpace(HilbertSpace):
         return pform
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_latex(pri), internal helper behaves correctly) over Any ║
+# ║ Path(_latex(printer, *args), <unspecified:_latex>) over {Any | hasattr(printer, '_print')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _latex : Any → Any                                         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(printer, '_print')                     ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _latex : {Any | hasattr(printer, '_print')} → Any          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0dde410a1f0f6019  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.TensorProductHilbertSpace._latex","kind":"method","src_hash":"61e42630732095e3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_latex(pri)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_latex_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.hilbert.TensorProductHilbertSpace._latex_correct","statement":"Path(_latex(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0dde410a1f0f6019"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.TensorProductHilbertSpace._latex","kind":"method","src_hash":"61e42630732095e3","in":{"base":"Any","pred":"hasattr(printer, '_print')"},"out":{"base":"Any"},"spec":{"lhs":"_latex(printer, *args)","rhs":"<unspecified:_latex>","over":{"base":"Any","pred":"hasattr(printer, '_print')"},"name":"_latex_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.hilbert.TensorProductHilbertSpace._latex_correct","statement":"Path(_latex(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0dde410a1f0f6019","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(printer, '_print')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["printer._print","self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _latex(self, printer, *args):
         length = len(self.args)
         s = ''
@@ -965,14 +1269,20 @@ class TensorProductHilbertSpace(HilbertSpace):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(DirectSumHilbertSpace(*args), correctly constructs a DirectSumHilbertSpace instance) over {Any | isinstance(r, Basic) and isinstance(arg, DirectSumHilbertSpace) and isinstance(self.args[i], (DirectSumHilbertSpace, TensorProductHilbertSpace))} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, HilbertSpace)                 ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ DirectSumHilbertSpace : {Any | isinstance(r, Basic) a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ab2749b393d454e6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.DirectSumHilbertSpace","kind":"class","src_hash":"9f23b70a52c295a5","in":{"base":"Any","pred":"isinstance(r, Basic) and isinstance(arg, DirectSumHilbertSpace) and isinstance(self.args[i], (DirectSumHilbertSpace, TensorProductHilbertSpace))"},"out":{"base":"Any"},"spec":{"lhs":"DirectSumHilbertSpace(*args)","rhs":"correctly constructs a DirectSumHilbertSpace instance","over":{"base":"Any","pred":"isinstance(r, Basic) and isinstance(arg, DirectSumHilbertSpace) and isinstance(self.args[i], (DirectSumHilbertSpace, TensorProductHilbertSpace))"},"name":"DirectSumHilbertSpace_class_invariant"},"guarantee":"correctly constructs a DirectSumHilbertSpace instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ab2749b393d454e6"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.DirectSumHilbertSpace","kind":"class","src_hash":"9f23b70a52c295a5","in":{"base":"Any","pred":"isinstance(r, Basic) and isinstance(arg, DirectSumHilbertSpace) and isinstance(self.args[i], (DirectSumHilbertSpace, TensorProductHilbertSpace))"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, HilbertSpace)"},"spec":{"lhs":"DirectSumHilbertSpace(*args)","rhs":"correctly constructs a DirectSumHilbertSpace instance","over":{"base":"Any","pred":"isinstance(r, Basic) and isinstance(arg, DirectSumHilbertSpace) and isinstance(self.args[i], (DirectSumHilbertSpace, TensorProductHilbertSpace))"},"name":"DirectSumHilbertSpace_class_invariant"},"guarantee":"isinstance(self, HilbertSpace)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ab2749b393d454e6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, HilbertSpace)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":false,"binding_errors":["Function DirectSumHilbertSpace not found in source"]}}
 class DirectSumHilbertSpace(HilbertSpace):
     """A direct sum of Hilbert spaces [1]_.
 
@@ -1004,16 +1314,22 @@ class DirectSumHilbertSpace(HilbertSpace):
     .. [1] https://en.wikipedia.org/wiki/Hilbert_space#Direct_sums
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, *args), <unspecified:__new__>) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a9b89ae9cdd6a8ec           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.DirectSumHilbertSpace.__new__","kind":"method","src_hash":"e0b5cef53327b7c5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a9b89ae9cdd6a8ec"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.DirectSumHilbertSpace.__new__","kind":"method","src_hash":"e0b5cef53327b7c5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, *args)","rhs":"<unspecified:__new__>","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a9b89ae9cdd6a8ec","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["cls.eval"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, *args):
         r = cls.eval(args)
         if isinstance(r, Basic):
@@ -1023,16 +1339,26 @@ class DirectSumHilbertSpace(HilbertSpace):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), evaluates the direct product) over Any     ║
+# ║ Path(eval(cls, args), len(new_args) == old_len_new_args + 1 and result == (DirectSumHilbertSpace(*new_args) if recall else None) and result == DirectSumHilbertSpace(*new_args) or result == None) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(new_args) == old_len_new_args + 1          ║
+# ║   ensures:  result == (DirectSumHilbertSpace(*new_arg...   ║
+# ║   ensures:  result == DirectSumHilbertSpace(*new_args...   ║
+# ║   fiber[case_0]: recall => DirectSumHilbertSpace(*new...   ║
+# ║   fiber[case_1]: not (recall) => None                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : Any → {Any | result satisfies: len(new_args) =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d13550c03aedadb3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d2082cbfaa0a4449  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.DirectSumHilbertSpace.eval","kind":"classmethod","src_hash":"dc188714c5588053","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"evaluates the direct product","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"evaluates the direct product","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.hilbert.DirectSumHilbertSpace.eval_correct","statement":"Path(eval(x), evaluates the direct product)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d13550c03aedadb3"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.DirectSumHilbertSpace.eval","kind":"classmethod","src_hash":"dc188714c5588053","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(new_args) == old_len_new_args + 1 and result == (DirectSumHilbertSpace(*new_args) if recall else None) and result == DirectSumHilbertSpace(*new_args) or result == None"},"spec":{"lhs":"eval(cls, args)","rhs":"len(new_args) == old_len_new_args + 1 and result == (DirectSumHilbertSpace(*new_args) if recall else None) and result == DirectSumHilbertSpace(*new_args) or result == None","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"len(new_args) == old_len_new_args + 1; result == (DirectSumHilbertSpace(*new_args) if recall else None); result == DirectSumHilbertSpace(*new_args) or result == None; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.hilbert.DirectSumHilbertSpace.eval_correct","statement":"Path(eval(x), len(new_args) == old_len_new_args + 1; result == (DirectSumHilbertSpace(*new_args) if recall else None); result == DirectSumHilbertSpace(*new_args) or result == None; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d2082cbfaa0a4449","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(new_args) == old_len_new_args + 1","result == (DirectSumHilbertSpace(*new_args) if recall else None)","result == DirectSumHilbertSpace(*new_args) or result == None"],"fibers":[{"name":"case_0","guard":"recall","ensures":["result == DirectSumHilbertSpace(*new_args)"],"decidability":"library","returns_expr":"DirectSumHilbertSpace(*new_args)"},{"name":"case_1","guard":"not (recall)","ensures":["result == None"],"decidability":"library","returns_expr":"None"}],"pure":false,"effects":{"effect_type":"reads_state","calls_mutating":["new_args.append","new_args.extend"],"raises":["TypeError"]},"state_contract":{"modifies":["new_args.*"],"old_bindings":{"old_len_new_args":"len(new_args)"},"post_ensures":["len(new_args) == old_len_new_args + 1"],"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, args):
         """Evaluates the direct product."""
         new_args = []
@@ -1054,16 +1380,25 @@ class DirectSumHilbertSpace(HilbertSpace):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dimension(), returns the dimension attribute) over Any ║
+# ║ Path(dimension(), result == (S.Infinity if S.Infinity in arg_list else reduce(lambda x, y: x + y, arg_list)) and result == S.Infinity or result == reduce(lambda x, y: x + y, arg_list)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dimension : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (S.Infinity if S.Infinity in ar...   ║
+# ║   ensures:  result == S.Infinity or result == reduce(...   ║
+# ║   fiber[case_0]: S.Infinity in arg_list => S.Infinity      ║
+# ║   fiber[case_1]: not (S.Infinity in arg_list) => redu...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dimension : Any → {Any | result satisfies: result == ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 42d66bb0b8e3eee3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.DirectSumHilbertSpace.dimension","kind":"property","src_hash":"20f102ca10a5bcb4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dimension()","rhs":"returns the dimension attribute","over":{"base":"Any"},"name":"dimension_correct"},"guarantee":"returns the dimension attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"42d66bb0b8e3eee3"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.DirectSumHilbertSpace.dimension","kind":"property","src_hash":"20f102ca10a5bcb4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (S.Infinity if S.Infinity in arg_list else reduce(lambda x, y: x + y, arg_list)) and result == S.Infinity or result == reduce(lambda x, y: x + y, arg_list)"},"spec":{"lhs":"dimension()","rhs":"result == (S.Infinity if S.Infinity in arg_list else reduce(lambda x, y: x + y, arg_list)) and result == S.Infinity or result == reduce(lambda x, y: x + y, arg_list)","over":{"base":"Any"},"name":"dimension_correct"},"guarantee":"result == (S.Infinity if S.Infinity in arg_list else reduce(lambda x, y: x + y, arg_list)); result == S.Infinity or result == reduce(lambda x, y: x + y, arg_list); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"42d66bb0b8e3eee3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (S.Infinity if S.Infinity in arg_list else reduce(lambda x, y: x + y, arg_list))","result == S.Infinity or result == reduce(lambda x, y: x + y, arg_list)"],"fibers":[{"name":"case_0","guard":"S.Infinity in arg_list","ensures":["result == S.Infinity"],"decidability":"library","returns_expr":"S.Infinity"},{"name":"case_1","guard":"not (S.Infinity in arg_list)","ensures":["result == reduce(lambda x, y: x + y, arg_list)"],"decidability":"library","returns_expr":"reduce(lambda x, y: x + y, arg_list)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dimension(self):
         arg_list = [arg.dimension for arg in self.args]
         if S.Infinity in arg_list:
@@ -1073,61 +1408,89 @@ class DirectSumHilbertSpace(HilbertSpace):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(spaces(), returns the spaces attribute) over Any      ║
+# ║ Path(spaces(), self.args) over Any                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ spaces : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1b5f581de7e00652           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.DirectSumHilbertSpace.spaces","kind":"property","src_hash":"2174bc01f6d4c1c1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"spaces()","rhs":"returns the spaces attribute","over":{"base":"Any"},"name":"spaces_correct"},"guarantee":"returns the spaces attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1b5f581de7e00652"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.DirectSumHilbertSpace.spaces","kind":"property","src_hash":"2174bc01f6d4c1c1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"spaces()","rhs":"self.args","over":{"base":"Any"},"name":"spaces_correct"},"guarantee":"returns self.args","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1b5f581de7e00652","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def spaces(self):
         """A tuple of the Hilbert spaces in this direct sum."""
         return self.args
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_sympyrepr(pri), id) over Any                         ║
+# ║ Path(_sympyrepr(printer, *args), id) over {Any | hasattr(printer, '_print')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _sympyrepr : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(printer, '_print')                     ║
+# ║   returns:  'DirectSumHilbertSpace(%s)' % ','.join(sp...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _sympyrepr : {Any | hasattr(printer, '_print')} → Any      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 6ccdd210c1d33323   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.DirectSumHilbertSpace._sympyrepr","kind":"method","src_hash":"8ab0ab8bbca4ba18","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sympyrepr(pri)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_sympyrepr_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"DirectSumHilbertSpace","by":"library_axiom"},{"fn":"join","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6ccdd210c1d33323"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.DirectSumHilbertSpace._sympyrepr","kind":"method","src_hash":"8ab0ab8bbca4ba18","in":{"base":"Any","pred":"hasattr(printer, '_print')"},"out":{"base":"Any"},"spec":{"lhs":"_sympyrepr(printer, *args)","rhs":"'DirectSumHilbertSpace(%s)' % ','.join(spaces_reprs)","over":{"base":"Any","pred":"hasattr(printer, '_print')"},"name":"_sympyrepr_correct","kind":"composition"},"guarantee":"returns 'DirectSumHilbertSpace(%s)' % ','.join(spaces_reprs)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"DirectSumHilbertSpace","by":"library_axiom"},{"fn":"join","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6ccdd210c1d33323","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(printer, '_print')"],"returns_expr":"'DirectSumHilbertSpace(%s)' % ','.join(spaces_reprs)","pure":false,"effects":{"effect_type":"reads_state","reads":["printer._print","self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _sympyrepr(self, printer, *args):
         spaces_reprs = [printer._print(arg, *args) for arg in self.args]
         return "DirectSumHilbertSpace(%s)" % ','.join(spaces_reprs)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_sympystr(pri), internal helper behaves correctly) over Any ║
+# ║ Path(_sympystr(printer, *args), '+'.join(spaces_strs)) over {Any | hasattr(printer, '_print')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _sympystr : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(printer, '_print')                     ║
+# ║   returns:  '+'.join(spaces_strs)                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _sympystr : {Any | hasattr(printer, '_print')} → Any       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 55065334a2a4589c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 24b58f78585e9643  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.DirectSumHilbertSpace._sympystr","kind":"method","src_hash":"e9cba27b7f1f8f6c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sympystr(pri)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_sympystr_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.hilbert.DirectSumHilbertSpace._sympystr_correct","statement":"Path(_sympystr(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"55065334a2a4589c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.DirectSumHilbertSpace._sympystr","kind":"method","src_hash":"e9cba27b7f1f8f6c","in":{"base":"Any","pred":"hasattr(printer, '_print')"},"out":{"base":"Any"},"spec":{"lhs":"_sympystr(printer, *args)","rhs":"'+'.join(spaces_strs)","over":{"base":"Any","pred":"hasattr(printer, '_print')"},"name":"_sympystr_correct"},"guarantee":"returns '+'.join(spaces_strs)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.hilbert.DirectSumHilbertSpace._sympystr_correct","statement":"Path(_sympystr(x), returns '+'.join(spaces_strs))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"24b58f78585e9643","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(printer, '_print')"],"returns_expr":"'+'.join(spaces_strs)","pure":false,"effects":{"effect_type":"reads_state","reads":["printer._print","self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _sympystr(self, printer, *args):
         spaces_strs = [printer._print(arg, *args) for arg in self.args]
         return '+'.join(spaces_strs)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_pretty(pri), internal helper behaves correctly) over Any ║
+# ║ Path(_pretty(printer, *args), <unspecified:_pretty>) over {Any | hasattr(printer, '_print') and hasattr(printer, '_use_unicode')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _pretty : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(printer, '_print')                     ║
+# ║   requires: hasattr(printer, '_use_unicode')               ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _pretty : {Any | hasattr(printer, '_print') and hasat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d42a29d5ae9f901f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.DirectSumHilbertSpace._pretty","kind":"method","src_hash":"b2a7776a14334fd8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_pretty(pri)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_pretty_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.hilbert.DirectSumHilbertSpace._pretty_correct","statement":"Path(_pretty(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d42a29d5ae9f901f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.DirectSumHilbertSpace._pretty","kind":"method","src_hash":"b2a7776a14334fd8","in":{"base":"Any","pred":"hasattr(printer, '_print') and hasattr(printer, '_use_unicode')"},"out":{"base":"Any"},"spec":{"lhs":"_pretty(printer, *args)","rhs":"<unspecified:_pretty>","over":{"base":"Any","pred":"hasattr(printer, '_print') and hasattr(printer, '_use_unicode')"},"name":"_pretty_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.hilbert.DirectSumHilbertSpace._pretty_correct","statement":"Path(_pretty(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d42a29d5ae9f901f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(printer, '_print')","hasattr(printer, '_use_unicode')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["printer._print","printer._use_unicode","self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _pretty(self, printer, *args):
         length = len(self.args)
         pform = printer._print('', *args)
@@ -1147,16 +1510,23 @@ class DirectSumHilbertSpace(HilbertSpace):
         return pform
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_latex(pri), internal helper behaves correctly) over Any ║
+# ║ Path(_latex(printer, *args), <unspecified:_latex>) over {Any | hasattr(printer, '_print')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _latex : Any → Any                                         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(printer, '_print')                     ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _latex : {Any | hasattr(printer, '_print')} → Any          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5de84a6a28248d9d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.DirectSumHilbertSpace._latex","kind":"method","src_hash":"e7dc4042f65dcc00","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_latex(pri)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_latex_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.hilbert.DirectSumHilbertSpace._latex_correct","statement":"Path(_latex(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5de84a6a28248d9d"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.DirectSumHilbertSpace._latex","kind":"method","src_hash":"e7dc4042f65dcc00","in":{"base":"Any","pred":"hasattr(printer, '_print')"},"out":{"base":"Any"},"spec":{"lhs":"_latex(printer, *args)","rhs":"<unspecified:_latex>","over":{"base":"Any","pred":"hasattr(printer, '_print')"},"name":"_latex_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.hilbert.DirectSumHilbertSpace._latex_correct","statement":"Path(_latex(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5de84a6a28248d9d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(printer, '_print')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["printer._print","self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _latex(self, printer, *args):
         length = len(self.args)
         s = ''
@@ -1174,14 +1544,20 @@ class DirectSumHilbertSpace(HilbertSpace):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(TensorPowerHilbertSpace(*args), correctly constructs a TensorPowerHilbertSpace instance) over {Any | isinstance(r, Basic)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, HilbertSpace)                 ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ TensorPowerHilbertSpace : {Any | isinstance(r, Basic)...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8bea29769109fbea  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.TensorPowerHilbertSpace","kind":"class","src_hash":"a7b44ecf1c05015d","in":{"base":"Any","pred":"isinstance(r, Basic)"},"out":{"base":"Any"},"spec":{"lhs":"TensorPowerHilbertSpace(*args)","rhs":"correctly constructs a TensorPowerHilbertSpace instance","over":{"base":"Any","pred":"isinstance(r, Basic)"},"name":"TensorPowerHilbertSpace_class_invariant"},"guarantee":"correctly constructs a TensorPowerHilbertSpace instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8bea29769109fbea"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.TensorPowerHilbertSpace","kind":"class","src_hash":"a7b44ecf1c05015d","in":{"base":"Any","pred":"isinstance(r, Basic)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, HilbertSpace)"},"spec":{"lhs":"TensorPowerHilbertSpace(*args)","rhs":"correctly constructs a TensorPowerHilbertSpace instance","over":{"base":"Any","pred":"isinstance(r, Basic)"},"name":"TensorPowerHilbertSpace_class_invariant"},"guarantee":"isinstance(self, HilbertSpace)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8bea29769109fbea","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, HilbertSpace)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":false,"binding_errors":["Function TensorPowerHilbertSpace not found in source"]}}
 class TensorPowerHilbertSpace(HilbertSpace):
     """An exponentiated Hilbert space [1]_.
 
@@ -1221,16 +1597,22 @@ class TensorPowerHilbertSpace(HilbertSpace):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, *args), <unspecified:__new__>) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a908d721c4beda69           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.TensorPowerHilbertSpace.__new__","kind":"method","src_hash":"558ff23905cb3ee9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a908d721c4beda69"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.TensorPowerHilbertSpace.__new__","kind":"method","src_hash":"558ff23905cb3ee9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, *args)","rhs":"<unspecified:__new__>","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a908d721c4beda69","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["cls.eval"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, *args):
         r = cls.eval(args)
         if isinstance(r, Basic):
@@ -1239,16 +1621,22 @@ class TensorPowerHilbertSpace(HilbertSpace):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), eval produces the expected output) over Any ║
+# ║ Path(eval(cls, args), <unspecified:eval>) over Any         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ eval : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f647d9f42df1b685  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.TensorPowerHilbertSpace.eval","kind":"classmethod","src_hash":"1f1a09f78c68bf47","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.hilbert.TensorPowerHilbertSpace.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f647d9f42df1b685"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.TensorPowerHilbertSpace.eval","kind":"classmethod","src_hash":"1f1a09f78c68bf47","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls, args)","rhs":"<unspecified:eval>","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.hilbert.TensorPowerHilbertSpace.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f647d9f42df1b685","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, args):
         new_args = args[0], sympify(args[1])
         exp = new_args[1]
@@ -1272,46 +1660,67 @@ class TensorPowerHilbertSpace(HilbertSpace):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(base(), returns the base attribute) over Any          ║
+# ║ Path(base(), self.args[0]) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ base : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2eabd1951dc97fac           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.TensorPowerHilbertSpace.base","kind":"property","src_hash":"1f189749af565c51","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"base()","rhs":"returns the base attribute","over":{"base":"Any"},"name":"base_correct"},"guarantee":"returns the base attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2eabd1951dc97fac"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.TensorPowerHilbertSpace.base","kind":"property","src_hash":"1f189749af565c51","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"base()","rhs":"self.args[0]","over":{"base":"Any"},"name":"base_correct"},"guarantee":"returns self.args[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2eabd1951dc97fac","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def base(self):
         return self.args[0]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(exp(), returns the exp attribute) over Any            ║
+# ║ Path(exp(), self.args[1]) over Any                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[1]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ exp : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5a0e663d330f32c3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.TensorPowerHilbertSpace.exp","kind":"property","src_hash":"0cf65548f62e84f9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"exp()","rhs":"returns the exp attribute","over":{"base":"Any"},"name":"exp_correct"},"guarantee":"returns the exp attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5a0e663d330f32c3"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.TensorPowerHilbertSpace.exp","kind":"property","src_hash":"0cf65548f62e84f9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"exp()","rhs":"self.args[1]","over":{"base":"Any"},"name":"exp_correct"},"guarantee":"returns self.args[1]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5a0e663d330f32c3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[1]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def exp(self):
         return self.args[1]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dimension(), returns the dimension attribute) over Any ║
+# ║ Path(dimension(), result == (S.Infinity if self.base.dimension is S.Infinity else self.base.dimension ** self.exp) and result == S.Infinity or result == self.base.dimension ** self.exp) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dimension : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (S.Infinity if self.base.dimens...   ║
+# ║   ensures:  result == S.Infinity or result == self.ba...   ║
+# ║   fiber[case_0]: self.base.dimension is S.Infinity =>...   ║
+# ║   fiber[case_1]: not (self.base.dimension is S.Infini...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dimension : Any → {Any | result satisfies: result == ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0b3dfc2ba8d2804f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.TensorPowerHilbertSpace.dimension","kind":"property","src_hash":"fce3fc1c57c545fd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dimension()","rhs":"returns the dimension attribute","over":{"base":"Any"},"name":"dimension_correct"},"guarantee":"returns the dimension attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0b3dfc2ba8d2804f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.TensorPowerHilbertSpace.dimension","kind":"property","src_hash":"fce3fc1c57c545fd","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (S.Infinity if self.base.dimension is S.Infinity else self.base.dimension ** self.exp) and result == S.Infinity or result == self.base.dimension ** self.exp"},"spec":{"lhs":"dimension()","rhs":"result == (S.Infinity if self.base.dimension is S.Infinity else self.base.dimension ** self.exp) and result == S.Infinity or result == self.base.dimension ** self.exp","over":{"base":"Any"},"name":"dimension_correct"},"guarantee":"result == (S.Infinity if self.base.dimension is S.Infinity else self.base.dimension ** self.exp); result == S.Infinity or result == self.base.dimension ** self.exp; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0b3dfc2ba8d2804f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (S.Infinity if self.base.dimension is S.Infinity else self.base.dimension ** self.exp)","result == S.Infinity or result == self.base.dimension ** self.exp"],"fibers":[{"name":"case_0","guard":"self.base.dimension is S.Infinity","ensures":["result == S.Infinity"],"decidability":"library","returns_expr":"S.Infinity"},{"name":"case_1","guard":"not (self.base.dimension is S.Infinity)","ensures":["result == self.base.dimension ** self.exp"],"decidability":"library","returns_expr":"self.base.dimension ** self.exp"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.base","self.exp"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dimension(self):
         if self.base.dimension is S.Infinity:
             return S.Infinity
@@ -1319,46 +1728,68 @@ class TensorPowerHilbertSpace(HilbertSpace):
             return self.base.dimension**self.exp
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_sympyrepr(pri), id) over Any                         ║
+# ║ Path(_sympyrepr(printer, *args), id) over {Any | hasattr(printer, '_print')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _sympyrepr : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(printer, '_print')                     ║
+# ║   returns:  'TensorPowerHilbertSpace(%s,%s)' % (print...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _sympyrepr : {Any | hasattr(printer, '_print')} → Any      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | d5a913e7f6871089   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.TensorPowerHilbertSpace._sympyrepr","kind":"method","src_hash":"5cf715faa1e76403","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sympyrepr(pri)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_sympyrepr_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"TensorPowerHilbertSpace","by":"library_axiom"},{"fn":"_print","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d5a913e7f6871089"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.TensorPowerHilbertSpace._sympyrepr","kind":"method","src_hash":"5cf715faa1e76403","in":{"base":"Any","pred":"hasattr(printer, '_print')"},"out":{"base":"Any"},"spec":{"lhs":"_sympyrepr(printer, *args)","rhs":"'TensorPowerHilbertSpace(%s,%s)' % (printer._print(self.base, *args), printer._print(self.exp, *args))","over":{"base":"Any","pred":"hasattr(printer, '_print')"},"name":"_sympyrepr_correct","kind":"composition"},"guarantee":"returns 'TensorPowerHilbertSpace(%s,%s)' % (printer._print(self.base, *args), printer._print(self.exp, *args))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"TensorPowerHilbertSpace","by":"library_axiom"},{"fn":"_print","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d5a913e7f6871089","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(printer, '_print')"],"returns_expr":"'TensorPowerHilbertSpace(%s,%s)' % (printer._print(self.base, *args), printer._print(self.exp, *args))","pure":false,"effects":{"effect_type":"reads_state","reads":["printer._print","self.base","self.exp"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _sympyrepr(self, printer, *args):
         return "TensorPowerHilbertSpace(%s,%s)" % (printer._print(self.base,
         *args), printer._print(self.exp, *args))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_sympystr(pri), internal helper behaves correctly) over Any ║
+# ║ Path(_sympystr(printer, *args), '%s**%s' % (printer._print(self.base, *args), printer._print(self.exp, *args))) over {Any | hasattr(printer, '_print')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _sympystr : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(printer, '_print')                     ║
+# ║   returns:  '%s**%s' % (printer._print(self.base, *ar...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _sympystr : {Any | hasattr(printer, '_print')} → Any       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9887cc1e3b17bebf  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 541b71c23dab0f15  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.TensorPowerHilbertSpace._sympystr","kind":"method","src_hash":"d3dbae146a2ba858","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sympystr(pri)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_sympystr_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.hilbert.TensorPowerHilbertSpace._sympystr_correct","statement":"Path(_sympystr(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9887cc1e3b17bebf"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.TensorPowerHilbertSpace._sympystr","kind":"method","src_hash":"d3dbae146a2ba858","in":{"base":"Any","pred":"hasattr(printer, '_print')"},"out":{"base":"Any"},"spec":{"lhs":"_sympystr(printer, *args)","rhs":"'%s**%s' % (printer._print(self.base, *args), printer._print(self.exp, *args))","over":{"base":"Any","pred":"hasattr(printer, '_print')"},"name":"_sympystr_correct"},"guarantee":"returns '%s**%s' % (printer._print(self.base, *args), printer._print(self.exp, *args))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.hilbert.TensorPowerHilbertSpace._sympystr_correct","statement":"Path(_sympystr(x), returns '%s**%s' % (printer._print(self.base, *args), printer._print(self.exp, *args)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"541b71c23dab0f15","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(printer, '_print')"],"returns_expr":"'%s**%s' % (printer._print(self.base, *args), printer._print(self.exp, *args))","pure":false,"effects":{"effect_type":"reads_state","reads":["printer._print","self.base","self.exp"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _sympystr(self, printer, *args):
         return "%s**%s" % (printer._print(self.base, *args),
         printer._print(self.exp, *args))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_pretty(pri), internal helper behaves correctly) over Any ║
+# ║ Path(_pretty(printer, *args), pform_base ** pform_exp) over {Any | hasattr(printer, '_use_unicode') and hasattr(printer, '_print')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _pretty : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(printer, '_use_unicode')               ║
+# ║   requires: hasattr(printer, '_print')                     ║
+# ║   returns:  pform_base ** pform_exp                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _pretty : {Any | hasattr(printer, '_use_unicode') and...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 320d282d1602dc12  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b1742e652b44937f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.TensorPowerHilbertSpace._pretty","kind":"method","src_hash":"96f4f288f2ce8299","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_pretty(pri)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_pretty_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.hilbert.TensorPowerHilbertSpace._pretty_correct","statement":"Path(_pretty(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"320d282d1602dc12"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.TensorPowerHilbertSpace._pretty","kind":"method","src_hash":"96f4f288f2ce8299","in":{"base":"Any","pred":"hasattr(printer, '_use_unicode') and hasattr(printer, '_print')"},"out":{"base":"Any"},"spec":{"lhs":"_pretty(printer, *args)","rhs":"pform_base ** pform_exp","over":{"base":"Any","pred":"hasattr(printer, '_use_unicode') and hasattr(printer, '_print')"},"name":"_pretty_correct"},"guarantee":"returns pform_base ** pform_exp","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.hilbert.TensorPowerHilbertSpace._pretty_correct","statement":"Path(_pretty(x), returns pform_base ** pform_exp)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b1742e652b44937f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(printer, '_use_unicode')","hasattr(printer, '_print')"],"returns_expr":"pform_base ** pform_exp","pure":false,"effects":{"effect_type":"reads_state","reads":["printer._print","printer._use_unicode","self.base","self.exp"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _pretty(self, printer, *args):
         pform_exp = printer._print(self.exp, *args)
         if printer._use_unicode:
@@ -1369,16 +1800,23 @@ class TensorPowerHilbertSpace(HilbertSpace):
         return pform_base**pform_exp
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_latex(pri), internal helper behaves correctly) over Any ║
+# ║ Path(_latex(printer, *args), '{%s}^{\\otimes %s}' % (base, exp)) over {Any | hasattr(printer, '_print')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _latex : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(printer, '_print')                     ║
+# ║   returns:  '{%s}^{\\otimes %s}' % (base, exp)             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _latex : {Any | hasattr(printer, '_print')} → Any          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2b324ba2173e6a59  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7e58956420b6ab12  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.TensorPowerHilbertSpace._latex","kind":"method","src_hash":"654f1ae9502fbc12","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_latex(pri)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_latex_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.hilbert.TensorPowerHilbertSpace._latex_correct","statement":"Path(_latex(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2b324ba2173e6a59"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.hilbert.TensorPowerHilbertSpace._latex","kind":"method","src_hash":"654f1ae9502fbc12","in":{"base":"Any","pred":"hasattr(printer, '_print')"},"out":{"base":"Any"},"spec":{"lhs":"_latex(printer, *args)","rhs":"'{%s}^{\\\\otimes %s}' % (base, exp)","over":{"base":"Any","pred":"hasattr(printer, '_print')"},"name":"_latex_correct"},"guarantee":"returns '{%s}^{\\\\otimes %s}' % (base, exp)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.hilbert.TensorPowerHilbertSpace._latex_correct","statement":"Path(_latex(x), returns '{%s}^{\\\\otimes %s}' % (base, exp))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7e58956420b6ab12","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(printer, '_print')"],"returns_expr":"'{%s}^{\\\\otimes %s}' % (base, exp)","pure":false,"effects":{"effect_type":"reads_state","reads":["printer._print","self.base","self.exp"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _latex(self, printer, *args):
         base = printer._print(self.base, *args)
         exp = printer._print(self.exp, *args)

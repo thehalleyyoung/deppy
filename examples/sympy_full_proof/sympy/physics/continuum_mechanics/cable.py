@@ -31,14 +31,19 @@ from sympy.plotting import plot
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a Cable instance) preserved by Cable(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ Cable : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 5.7ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0642615c81a5289e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.cable.Cable","kind":"class","src_hash":"a07414f8d4d4dd51","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Cable(*args)","rhs":"correctly constructs a Cable instance","over":{"base":"Any"},"name":"Cable_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a Cable instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, '_left_support') and hasattr(self, '_right_support') and hasattr(self, '_supports') and hasattr(self, '_support_labels') and hasattr(self, '_loads') and hasattr(self, '_loads_position') and hasattr(self, '_length') and hasattr(self, '_reaction_loads')","kind":"class","induction":"structural on _left_support, _right_support, _supports, _support_labels"}],"methods_preserving":["__init__","supports","left_support","right_support","loads","loads_position","length","reaction_loads","tension","tension_at","apply_length","change_support","apply_load","remove_loads","solve","draw","_draw_supports","_draw_cable","_draw_loads","plot_tension"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0642615c81a5289e"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.cable.Cable","kind":"class","src_hash":"a07414f8d4d4dd51","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Cable(*args)","rhs":"correctly constructs a Cable instance","over":{"base":"Any"},"name":"Cable_class_invariant","kind":"invariant"},"guarantee":"preserves 13 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, '_left_support') and hasattr(self, '_right_support') and hasattr(self, '_supports') and hasattr(self, '_support_labels') and hasattr(self, '_loads') and hasattr(self, '_loads_position') and hasattr(self, '_length') and hasattr(self, '_reaction_loads')","kind":"class","induction":"structural on _left_support, _right_support, _supports, _support_labels"}],"methods_preserving":["__init__","supports","left_support","right_support","loads","loads_position","length","reaction_loads","tension","tension_at","apply_length","change_support","apply_load","remove_loads","solve","draw","_draw_supports","_draw_cable","_draw_loads","plot_tension"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0642615c81a5289e","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, '_left_support')","hasattr(self, '_right_support')","hasattr(self, '_supports')","hasattr(self, '_support_labels')","hasattr(self, '_loads')","hasattr(self, '_loads_position')","hasattr(self, '_length')","hasattr(self, '_reaction_loads')","hasattr(self, '_tension')","hasattr(self, '_lowest_x_global')","hasattr(self, '_lowest_y_global')","hasattr(self, '_cable_eqn')","hasattr(self, '_tension_func')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":5.7,"verdict_class":"assumed","binding":false,"binding_errors":["Function Cable not found in source"]}}
 class Cable:
     """
     Cables are structures in engineering that support
@@ -67,16 +72,22 @@ class Cable:
     {'P': [2, 7], 'Q': [6, 4]}
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(sup), initializes the instance correctly) over Any ║
+# ║ Path(__init__(support_1, support_2), len(self) == old_len_self + 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(self) == old_len_self + 1                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : Any → {Any | result satisfies: len(self) =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | cfba0f39bdf074c8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.cable.Cable.__init__","kind":"method","src_hash":"f8e407e923bde985","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(sup)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cfba0f39bdf074c8"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.cable.Cable.__init__","kind":"method","src_hash":"f8e407e923bde985","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(self) == old_len_self + 1"},"spec":{"lhs":"__init__(support_1, support_2)","rhs":"len(self) == old_len_self + 1","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"len(self) == old_len_self + 1","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cfba0f39bdf074c8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(self) == old_len_self + 1"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self._left_support","self._reaction_loads","self._right_support","self._support_labels","self._supports"],"writes":["self._cable_eqn","self._left_support","self._length","self._loads","self._loads_position","self._lowest_x_global","self._lowest_y_global","self._reaction_loads","self._right_support","self._support_labels","self._supports","self._tension","self._tension_func"],"calls_mutating":["self._left_support.append","self._right_support.append","self._support_labels.append"],"raises":["ValueError"]},"state_contract":{"modifies":["self.*","self._cable_eqn","self._left_support","self._length","self._loads","self._loads_position","self._lowest_x_global","self._lowest_y_global","self._reaction_loads","self._right_support","self._support_labels","self._supports","self._tension","self._tension_func"],"old_bindings":{"old_self__cable_eqn":"self._cable_eqn","old_self__left_support":"self._left_support","old_self__length":"self._length","old_self__loads":"self._loads","old_self__loads_position":"self._loads_position","old_self__lowest_x_global":"self._lowest_x_global","old_self__lowest_y_global":"self._lowest_y_global","old_self__reaction_loads":"self._reaction_loads","old_self__right_support":"self._right_support","old_self__support_labels":"self._support_labels","old_self__supports":"self._supports","old_self__tension":"self._tension","old_self__tension_func":"self._tension_func","old_len_self":"len(self)"},"post_ensures":["len(self) == old_len_self + 1","len(self) == old_len_self + 1","len(self) == old_len_self + 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, support_1, support_2):
         """
         Initializes the class.
@@ -145,16 +156,22 @@ class Cable:
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(supports(), returns the supports attribute) over Any  ║
+# ║ Path(supports(), self._supports) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._supports                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ supports : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 72313304f154efb4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.cable.Cable.supports","kind":"property","src_hash":"b883013411c06d4b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"supports()","rhs":"returns the supports attribute","over":{"base":"Any"},"name":"supports_correct"},"guarantee":"returns the supports attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"72313304f154efb4"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.cable.Cable.supports","kind":"property","src_hash":"b883013411c06d4b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"supports()","rhs":"self._supports","over":{"base":"Any"},"name":"supports_correct"},"guarantee":"returns self._supports","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"72313304f154efb4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._supports","pure":false,"effects":{"effect_type":"reads_state","reads":["self._supports"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def supports(self):
         """
         Returns the supports of the cable along with their
@@ -164,16 +181,22 @@ class Cable:
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(left_support(), returns the left_support attribute) over Any ║
+# ║ Path(left_support(), self._left_support) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._left_support                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ left_support : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 35922f0b6b60f370           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.cable.Cable.left_support","kind":"property","src_hash":"bc9913d3dc1c4b92","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"left_support()","rhs":"returns the left_support attribute","over":{"base":"Any"},"name":"left_support_correct"},"guarantee":"returns the left_support attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"35922f0b6b60f370"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.cable.Cable.left_support","kind":"property","src_hash":"bc9913d3dc1c4b92","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"left_support()","rhs":"self._left_support","over":{"base":"Any"},"name":"left_support_correct"},"guarantee":"returns self._left_support","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"35922f0b6b60f370","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._left_support","pure":false,"effects":{"effect_type":"reads_state","reads":["self._left_support"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def left_support(self):
         """
         Returns the position of the left support.
@@ -182,16 +205,22 @@ class Cable:
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(right_support(), returns the right_support attribute) over Any ║
+# ║ Path(right_support(), self._right_support) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._right_support                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ right_support : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 277565673990a29d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.cable.Cable.right_support","kind":"property","src_hash":"ba433ef46b4b782c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"right_support()","rhs":"returns the right_support attribute","over":{"base":"Any"},"name":"right_support_correct"},"guarantee":"returns the right_support attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"277565673990a29d"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.cable.Cable.right_support","kind":"property","src_hash":"ba433ef46b4b782c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"right_support()","rhs":"self._right_support","over":{"base":"Any"},"name":"right_support_correct"},"guarantee":"returns self._right_support","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"277565673990a29d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._right_support","pure":false,"effects":{"effect_type":"reads_state","reads":["self._right_support"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def right_support(self):
         """
         Returns the position of the right support.
@@ -200,16 +229,22 @@ class Cable:
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(loads(), returns the loads attribute) over Any        ║
+# ║ Path(loads(), self._loads) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._loads                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ loads : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | beb405cbd3105e55           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.cable.Cable.loads","kind":"property","src_hash":"5fb49cee439be3f7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"loads()","rhs":"returns the loads attribute","over":{"base":"Any"},"name":"loads_correct"},"guarantee":"returns the loads attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"beb405cbd3105e55"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.cable.Cable.loads","kind":"property","src_hash":"5fb49cee439be3f7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"loads()","rhs":"self._loads","over":{"base":"Any"},"name":"loads_correct"},"guarantee":"returns self._loads","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"beb405cbd3105e55","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._loads","pure":false,"effects":{"effect_type":"reads_state","reads":["self._loads"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def loads(self):
         """
         Returns the magnitude and direction of the loads
@@ -219,16 +254,22 @@ class Cable:
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(loads_position(), returns the loads_position attribute) over Any ║
+# ║ Path(loads_position(), self._loads_position) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._loads_position                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ loads_position : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c318a24d82f3256b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.cable.Cable.loads_position","kind":"property","src_hash":"56fa448b2a782e4a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"loads_position()","rhs":"returns the loads_position attribute","over":{"base":"Any"},"name":"loads_position_correct"},"guarantee":"returns the loads_position attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c318a24d82f3256b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.cable.Cable.loads_position","kind":"property","src_hash":"56fa448b2a782e4a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"loads_position()","rhs":"self._loads_position","over":{"base":"Any"},"name":"loads_position_correct"},"guarantee":"returns self._loads_position","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c318a24d82f3256b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._loads_position","pure":false,"effects":{"effect_type":"reads_state","reads":["self._loads_position"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def loads_position(self):
         """
         Returns the position of the point loads acting on the
@@ -238,16 +279,22 @@ class Cable:
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(length(), returns the length attribute) over Any      ║
+# ║ Path(length(), self._length) over Any                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._length                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ length : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6c49ec32687020e0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.cable.Cable.length","kind":"property","src_hash":"ea0c7fcf3cab29dd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"length()","rhs":"returns the length attribute","over":{"base":"Any"},"name":"length_correct"},"guarantee":"returns the length attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6c49ec32687020e0"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.cable.Cable.length","kind":"property","src_hash":"ea0c7fcf3cab29dd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"length()","rhs":"self._length","over":{"base":"Any"},"name":"length_correct"},"guarantee":"returns self._length","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6c49ec32687020e0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._length","pure":false,"effects":{"effect_type":"reads_state","reads":["self._length"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def length(self):
         """
         Returns the length of the cable.
@@ -256,16 +303,22 @@ class Cable:
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(reaction_loads(), returns the reaction_loads attribute) over Any ║
+# ║ Path(reaction_loads(), self._reaction_loads) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._reaction_loads                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ reaction_loads : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ba76f6e242979dad           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.cable.Cable.reaction_loads","kind":"property","src_hash":"1f3b44937490f895","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"reaction_loads()","rhs":"returns the reaction_loads attribute","over":{"base":"Any"},"name":"reaction_loads_correct"},"guarantee":"returns the reaction_loads attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ba76f6e242979dad"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.cable.Cable.reaction_loads","kind":"property","src_hash":"1f3b44937490f895","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"reaction_loads()","rhs":"self._reaction_loads","over":{"base":"Any"},"name":"reaction_loads_correct"},"guarantee":"returns self._reaction_loads","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ba76f6e242979dad","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._reaction_loads","pure":false,"effects":{"effect_type":"reads_state","reads":["self._reaction_loads"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def reaction_loads(self):
         """
         Returns the reaction forces at the supports, which are
@@ -275,16 +328,22 @@ class Cable:
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(tension(), returns the tension attribute) over Any    ║
+# ║ Path(tension(), self._tension) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._tension                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ tension : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4f641826a1a5a17e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.cable.Cable.tension","kind":"property","src_hash":"85481ac6cd396bd8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"tension()","rhs":"returns the tension attribute","over":{"base":"Any"},"name":"tension_correct"},"guarantee":"returns the tension attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4f641826a1a5a17e"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.cable.Cable.tension","kind":"property","src_hash":"85481ac6cd396bd8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"tension()","rhs":"self._tension","over":{"base":"Any"},"name":"tension_correct"},"guarantee":"returns self._tension","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4f641826a1a5a17e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._tension","pure":false,"effects":{"effect_type":"reads_state","reads":["self._tension"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def tension(self):
         """
         Returns the tension developed in the cable due to the loads
@@ -293,16 +352,24 @@ class Cable:
         return self._tension
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(tension_at(x), returns the tension at a given value of x developed due to distributed load) over Any ║
+# ║ Path(tension_at(x), A.subs({X: x - self._lowest_x_global})) over {Any | not ('distributed' not in self._tension.keys()) and not (x > self._right_support[0] or x < self._left_support[0])} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ tension_at : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not ('distributed' not in self._tension.k...   ║
+# ║   requires: not (x > self._right_support[0] or x < se...   ║
+# ║   returns:  A.subs({X: x - self._lowest_x_global})         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ tension_at : {Any | not ('distributed' not in self._t...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | daf688fec1d18c16  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 324a4086ad5c5aa3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.cable.Cable.tension_at","kind":"method","src_hash":"af657aba9aa615e0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"tension_at(x)","rhs":"returns the tension at a given value of x developed due to distributed load","over":{"base":"Any"},"name":"tension_at_correct"},"guarantee":"returns the tension at a given value of x developed due to distributed load","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.cable.Cable.tension_at_correct","statement":"Path(tension_at(x), returns the tension at a given value of x developed due to distributed load)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"daf688fec1d18c16"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.cable.Cable.tension_at","kind":"method","src_hash":"af657aba9aa615e0","in":{"base":"Any","pred":"not ('distributed' not in self._tension.keys()) and not (x > self._right_support[0] or x < self._left_support[0])"},"out":{"base":"Any"},"spec":{"lhs":"tension_at(x)","rhs":"A.subs({X: x - self._lowest_x_global})","over":{"base":"Any","pred":"not ('distributed' not in self._tension.keys()) and not (x > self._right_support[0] or x < self._left_support[0])"},"name":"tension_at_correct"},"guarantee":"returns A.subs({X: x - self._lowest_x_global})","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.cable.Cable.tension_at_correct","statement":"Path(tension_at(x), returns A.subs({X: x - self._lowest_x_global}))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"324a4086ad5c5aa3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not ('distributed' not in self._tension.keys())","not (x > self._right_support[0] or x < self._left_support[0])"],"returns_expr":"A.subs({X: x - self._lowest_x_global})","pure":false,"effects":{"effect_type":"reads_state","reads":["self._left_support","self._lowest_x_global","self._right_support","self._tension"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def tension_at(self, x):
         """
         Returns the tension at a given value of x developed due to
@@ -320,16 +387,23 @@ class Cable:
         return A.subs({X:(x-self._lowest_x_global)})
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(apply_length(len), this method specifies the length of the cable) over Any ║
+# ║ Path(apply_length(length), <unspecified:apply_length>) over {Any | not (length < dist)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ apply_length : Any → Any                                   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (length < dist)                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ apply_length : {Any | not (length < dist)} → Any           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e0c2b92863732fe2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.cable.Cable.apply_length","kind":"method","src_hash":"86716b251353078c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"apply_length(len)","rhs":"this method specifies the length of the cable","over":{"base":"Any"},"name":"apply_length_correct"},"guarantee":"this method specifies the length of the cable","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.cable.Cable.apply_length_correct","statement":"Path(apply_length(x), this method specifies the length of the cable)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e0c2b92863732fe2"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.cable.Cable.apply_length","kind":"method","src_hash":"86716b251353078c","in":{"base":"Any","pred":"not (length < dist)"},"out":{"base":"Any"},"spec":{"lhs":"apply_length(length)","rhs":"<unspecified:apply_length>","over":{"base":"Any","pred":"not (length < dist)"},"name":"apply_length_correct"},"guarantee":"this method specifies the length of the cable","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.cable.Cable.apply_length_correct","statement":"Path(apply_length(x), this method specifies the length of the cable)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e0c2b92863732fe2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (length < dist)"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self._left_support","self._right_support"],"writes":["self._length"],"raises":["ValueError"]},"state_contract":{"modifies":["self._length"],"old_bindings":{"old_self__length":"self._length"},"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def apply_length(self, length):
         """
         This method specifies the length of the cable
@@ -358,16 +432,26 @@ class Cable:
         self._length = length
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(change_support(lab), this method changes the mentioned support with a new support) over Any ║
+# ║ Path(change_support(label, new_support), len(self) == old_len_self + 1 and len(self) == 0 and len(self) == old_len_self - 1) over {Any | not (label not in self._supports) and len(self) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ change_support : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (label not in self._supports)              ║
+# ║   requires: len(self) > 0                                  ║
+# ║   ensures:  len(self) == old_len_self + 1                  ║
+# ║   ensures:  len(self) == 0                                 ║
+# ║   ensures:  len(self) == old_len_self - 1                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ change_support : {Any | not (label not in self._suppo...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d1d1d84e40edd883  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2a03a6b1dfeb5fcb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.cable.Cable.change_support","kind":"method","src_hash":"a2694a8dce9acdc2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"change_support(lab)","rhs":"this method changes the mentioned support with a new support","over":{"base":"Any"},"name":"change_support_correct"},"guarantee":"this method changes the mentioned support with a new support","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.cable.Cable.change_support_correct","statement":"Path(change_support(x), this method changes the mentioned support with a new support)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d1d1d84e40edd883"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.cable.Cable.change_support","kind":"method","src_hash":"a2694a8dce9acdc2","in":{"base":"Any","pred":"not (label not in self._supports) and len(self) > 0"},"out":{"base":"Any","pred":"result satisfies: len(self) == old_len_self + 1 and len(self) == 0 and len(self) == old_len_self - 1"},"spec":{"lhs":"change_support(label, new_support)","rhs":"len(self) == old_len_self + 1 and len(self) == 0 and len(self) == old_len_self - 1","over":{"base":"Any","pred":"not (label not in self._supports) and len(self) > 0"},"name":"change_support_correct"},"guarantee":"len(self) == old_len_self + 1; len(self) == 0; len(self) == old_len_self - 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.cable.Cable.change_support_correct","statement":"Path(change_support(x), len(self) == old_len_self + 1; len(self) == 0; len(self) == old_len_self - 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2a03a6b1dfeb5fcb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (label not in self._supports)","len(self) > 0"],"ensures":["len(self) == old_len_self + 1","len(self) == 0","len(self) == old_len_self - 1"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self._left_support","self._loads_position","self._reaction_loads","self._right_support","self._support_labels","self._supports"],"calls_mutating":["self._left_support.append","self._left_support.clear","self._reaction_loads.clear","self._right_support.append","self._right_support.clear","self._support_labels.append","self._support_labels.insert","self._support_labels.remove","self._supports.pop"],"raises":["ValueError"]},"state_contract":{"modifies":["self.*"],"old_bindings":{"old_len_self":"len(self)"},"pre_requires":["len(self) > 0"],"post_ensures":["len(self) == old_len_self + 1","len(self) == 0","len(self) == 0","len(self) == old_len_self + 1","len(self) == 0","len(self) == old_len_self + 1","len(self) == old_len_self - 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def change_support(self, label, new_support):
         """
         This method changes the mentioned support with a new support.
@@ -440,16 +524,22 @@ class Cable:
             self._reaction_loads[Symbol("R_"+ i +"_y")] = 0
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(apply_load(ord), this method adds load to the cable) over Any ║
+# ║ Path(apply_load(order, load), <unspecified:apply_load>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ apply_load : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 30cabbd0b89d3600  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.cable.Cable.apply_load","kind":"method","src_hash":"675929b0721b7b95","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"apply_load(ord)","rhs":"this method adds load to the cable","over":{"base":"Any"},"name":"apply_load_correct"},"guarantee":"this method adds load to the cable","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.cable.Cable.apply_load_correct","statement":"Path(apply_load(x), this method adds load to the cable)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"30cabbd0b89d3600"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.cable.Cable.apply_load","kind":"method","src_hash":"675929b0721b7b95","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"apply_load(order, load)","rhs":"<unspecified:apply_load>","over":{"base":"Any"},"name":"apply_load_correct"},"guarantee":"this method adds load to the cable","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.cable.Cable.apply_load_correct","statement":"Path(apply_load(x), this method adds load to the cable)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"30cabbd0b89d3600","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._left_support","self._loads","self._loads_position","self._right_support"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def apply_load(self, order, load):
         """
         This method adds load to the cable.
@@ -551,16 +641,23 @@ class Cable:
             raise ValueError("Order should be either -1 or 0")
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(remove_loads(*ar), this methods removes the specified loads) over Any ║
+# ║ Path(remove_loads(*args), len(self) == old_len_self - 1) over {Any | len(self) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ remove_loads : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: len(self) > 0                                  ║
+# ║   ensures:  len(self) == old_len_self - 1                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ remove_loads : {Any | len(self) > 0} → {Any | result ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 86ee2cb0bbb19011  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e6505e6ce9d4e9a0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.cable.Cable.remove_loads","kind":"method","src_hash":"83e924d178055e30","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"remove_loads(*ar)","rhs":"this methods removes the specified loads","over":{"base":"Any"},"name":"remove_loads_correct"},"guarantee":"this methods removes the specified loads","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.cable.Cable.remove_loads_correct","statement":"Path(remove_loads(x), this methods removes the specified loads)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"86ee2cb0bbb19011"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.cable.Cable.remove_loads","kind":"method","src_hash":"83e924d178055e30","in":{"base":"Any","pred":"len(self) > 0"},"out":{"base":"Any","pred":"result satisfies: len(self) == old_len_self - 1"},"spec":{"lhs":"remove_loads(*args)","rhs":"len(self) == old_len_self - 1","over":{"base":"Any","pred":"len(self) > 0"},"name":"remove_loads_correct"},"guarantee":"len(self) == old_len_self - 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.cable.Cable.remove_loads_correct","statement":"Path(remove_loads(x), len(self) == old_len_self - 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e6505e6ce9d4e9a0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["len(self) > 0"],"ensures":["len(self) == old_len_self - 1"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self._loads","self._loads_position"],"calls_mutating":["self._loads_position.pop"],"raises":["ValueError"]},"state_contract":{"modifies":["self.*"],"old_bindings":{"old_len_self":"len(self)"},"pre_requires":["len(self) > 0"],"post_ensures":["len(self) == old_len_self - 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def remove_loads(self, *args):
         """
         This methods removes the specified loads.
@@ -600,16 +697,24 @@ class Cable:
                     self._loads_position.pop(i)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(solve(*ar), this method solves for the reaction forces at the supports, the tension developed in the cable, and updates the length of the cable) over Any ║
+# ║ Path(solve(*args), len(self) == 0 and len(sorted_position) == old_len_sorted_position + 1 and len(tension_func) == old_len_tension_func + 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ solve : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(self) == 0                                 ║
+# ║   ensures:  len(sorted_position) == old_len_sorted_po...   ║
+# ║   ensures:  len(tension_func) == old_len_tension_func...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ solve : Any → {Any | result satisfies: len(self) == 0...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3e4fa3adc3a03a14  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d5b50d83a3bf85be  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.cable.Cable.solve","kind":"method","src_hash":"8004c1c7bb70681e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"solve(*ar)","rhs":"this method solves for the reaction forces at the supports, the tension developed in the cable, and updates the length of the cable","over":{"base":"Any"},"name":"solve_correct"},"guarantee":"this method solves for the reaction forces at the supports, the tension developed in the cable, and updates the length of the cable","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.cable.Cable.solve_correct","statement":"Path(solve(x), this method solves for the reaction forces at the supports, the tension developed in the cable, and updates the length of the cable)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3e4fa3adc3a03a14"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.cable.Cable.solve","kind":"method","src_hash":"8004c1c7bb70681e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(self) == 0 and len(sorted_position) == old_len_sorted_position + 1 and len(tension_func) == old_len_tension_func + 1"},"spec":{"lhs":"solve(*args)","rhs":"len(self) == 0 and len(sorted_position) == old_len_sorted_position + 1 and len(tension_func) == old_len_tension_func + 1","over":{"base":"Any"},"name":"solve_correct"},"guarantee":"len(self) == 0; len(sorted_position) == old_len_sorted_position + 1; len(tension_func) == old_len_tension_func + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.cable.Cable.solve_correct","statement":"Path(solve(x), len(self) == 0; len(sorted_position) == old_len_sorted_position + 1; len(tension_func) == old_len_tension_func + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d5b50d83a3bf85be","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(self) == 0","len(sorted_position) == old_len_sorted_position + 1","len(tension_func) == old_len_tension_func + 1"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self._left_support","self._loads","self._loads_position","self._lowest_y_global","self._reaction_loads","self._right_support","self._support_labels","self._tension","self.tension_at"],"writes":["self._length","self._lowest_x_global","self._lowest_y_global","self._tension_func"],"calls_mutating":["self._tension.clear","sorted_position.append","sorted_position.insert","tension_func.append","tension_func.insert"],"raises":["ValueError"]},"state_contract":{"modifies":["self.*","self._length","self._lowest_x_global","self._lowest_y_global","self._tension_func","sorted_position.*","tension_func.*"],"old_bindings":{"old_self__length":"self._length","old_self__lowest_x_global":"self._lowest_x_global","old_self__lowest_y_global":"self._lowest_y_global","old_self__tension_func":"self._tension_func","old_len_sorted_position":"len(sorted_position)","old_len_tension_func":"len(tension_func)"},"post_ensures":["len(self) == 0","len(sorted_position) == old_len_sorted_position + 1","len(tension_func) == old_len_tension_func + 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def solve(self, *args):
         """
         This method solves for the reaction forces at the supports, the tension developed in
@@ -783,16 +888,22 @@ class Cable:
             self._reaction_loads[Symbol("R_"+label+"_y")] = self.tension_at(self._left_support[0]) * sin(atan(tangent_slope_to_curve.subs(X, self._right_support[0] - lowest_x)))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(draw(), this method is used to obtain a plot for the specified cable with its supports, shape and loads) over Any ║
+# ║ Path(draw(), <unspecified:draw>) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ draw : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8c8bedceef061640  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.cable.Cable.draw","kind":"method","src_hash":"f525ddd574a57c80","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"draw()","rhs":"this method is used to obtain a plot for the specified cable with its supports, shape and loads","over":{"base":"Any"},"name":"draw_correct"},"guarantee":"this method is used to obtain a plot for the specified cable with its supports, shape and loads","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.cable.Cable.draw_correct","statement":"Path(draw(x), this method is used to obtain a plot for the specified cable with its supports, shape and loads)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8c8bedceef061640"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.cable.Cable.draw","kind":"method","src_hash":"f525ddd574a57c80","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"draw()","rhs":"<unspecified:draw>","over":{"base":"Any"},"name":"draw_correct"},"guarantee":"this method is used to obtain a plot for the specified cable with its supports, shape and loads","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.cable.Cable.draw_correct","statement":"Path(draw(x), this method is used to obtain a plot for the specified cable with its supports, shape and loads)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8c8bedceef061640","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._cable_eqn","self._draw_cable","self._draw_loads","self._draw_supports","self._left_support","self._loads","self._loads_position","self._lowest_y_global","self._right_support"],"writes":["self._cable_eqn"],"raises":["ValueError"]},"state_contract":{"modifies":["self._cable_eqn"],"old_bindings":{"old_self__cable_eqn":"self._cable_eqn"},"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def draw(self):
         """
         This method is used to obtain a plot for the specified cable with its supports,
@@ -855,16 +966,22 @@ class Cable:
         return cab_plot
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_draw_supports(), internal helper behaves correctly) over Any ║
+# ║ Path(_draw_supports(), <unspecified:_draw_supports>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _draw_supports : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 808c3bfc92f00c24  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.cable.Cable._draw_supports","kind":"method","src_hash":"f0fd0ed1cdb9a01e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_draw_supports()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_draw_supports_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.cable.Cable._draw_supports_correct","statement":"Path(_draw_supports(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"808c3bfc92f00c24"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.cable.Cable._draw_supports","kind":"method","src_hash":"f0fd0ed1cdb9a01e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_draw_supports()","rhs":"<unspecified:_draw_supports>","over":{"base":"Any"},"name":"_draw_supports_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.cable.Cable._draw_supports_correct","statement":"Path(_draw_supports(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"808c3bfc92f00c24","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _draw_supports(self):
         member_rectangles = []
         xy_min = min(self._left_support[0],self._lowest_y_global)
@@ -896,16 +1013,25 @@ class Cable:
         return member_rectangles
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_draw_cable(ord), internal helper behaves correctly) over Any ║
+# ║ Path(_draw_cable(order), result == ([Piecewise(*line_func)] if order == -1 else [parabola_eqn, self._lowest_y_global - diff_force_height]) and result == [Piecewise(*line_func)] or result == [parabola_eqn, self._lowest_y_global - diff_force_height]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _draw_cable : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == ([Piecewise(*line_func)] if ord...   ║
+# ║   ensures:  result == [Piecewise(*line_func)] or resu...   ║
+# ║   fiber[case_0]: order == -1 => [Piecewise(*line_func)]    ║
+# ║   fiber[zero_or_none]: order == 0 => [parabola_eqn, s...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _draw_cable : Any → {Any | result satisfies: result =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ebaae6d48529cc50  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f647a2eda2e4ac65  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.cable.Cable._draw_cable","kind":"method","src_hash":"739f634b84799ba8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_draw_cable(ord)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_draw_cable_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.cable.Cable._draw_cable_correct","statement":"Path(_draw_cable(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ebaae6d48529cc50"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.cable.Cable._draw_cable","kind":"method","src_hash":"739f634b84799ba8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == ([Piecewise(*line_func)] if order == -1 else [parabola_eqn, self._lowest_y_global - diff_force_height]) and result == [Piecewise(*line_func)] or result == [parabola_eqn, self._lowest_y_global - diff_force_height]"},"spec":{"lhs":"_draw_cable(order)","rhs":"result == ([Piecewise(*line_func)] if order == -1 else [parabola_eqn, self._lowest_y_global - diff_force_height]) and result == [Piecewise(*line_func)] or result == [parabola_eqn, self._lowest_y_global - diff_force_height]","over":{"base":"Any"},"name":"_draw_cable_correct"},"guarantee":"result == ([Piecewise(*line_func)] if order == -1 else [parabola_eqn, self._lowest_y_global - diff_force_height]); result == [Piecewise(*line_func)] or result == [parabola_eqn, self._lowest_y_global - diff_force_height]; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.cable.Cable._draw_cable_correct","statement":"Path(_draw_cable(x), result == ([Piecewise(*line_func)] if order == -1 else [parabola_eqn, self._lowest_y_global - diff_force_height]); result == [Piecewise(*line_func)] or result == [parabola_eqn, self._lowest_y_global - diff_force_height]; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f647a2eda2e4ac65","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == ([Piecewise(*line_func)] if order == -1 else [parabola_eqn, self._lowest_y_global - diff_force_height])","result == [Piecewise(*line_func)] or result == [parabola_eqn, self._lowest_y_global - diff_force_height]"],"fibers":[{"name":"case_0","guard":"order == -1","ensures":["result == [Piecewise(*line_func)]"],"decidability":"z3","returns_expr":"[Piecewise(*line_func)]"},{"name":"zero_or_none","guard":"order == 0","ensures":["result == [parabola_eqn, self._lowest_y_global - diff_force_height]"],"decidability":"z3","returns_expr":"[parabola_eqn, self._lowest_y_global - diff_force_height]"}],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _draw_cable(self,order):
         xy_min = min(self._left_support[0],self._lowest_y_global)
         xy_max = max(self._right_support[0], max(self._right_support[1],self._left_support[1]))
@@ -942,16 +1068,25 @@ class Cable:
             return [parabola_eqn, self._lowest_y_global - diff_force_height]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_draw_loads(ord), internal helper behaves correctly) over Any ║
+# ║ Path(_draw_loads(order), result == (force_arrows if order == -1 else force_arrows) and result == force_arrows) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _draw_loads : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (force_arrows if order == -1 el...   ║
+# ║   ensures:  result == force_arrows                         ║
+# ║   fiber[case_0]: order == -1 => force_arrows               ║
+# ║   fiber[zero_or_none]: order == 0 => force_arrows          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _draw_loads : Any → {Any | result satisfies: result =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 567957808c2bc4b0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4bcf9595e8af8411  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.cable.Cable._draw_loads","kind":"method","src_hash":"bd5d213bf02be545","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_draw_loads(ord)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_draw_loads_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.cable.Cable._draw_loads_correct","statement":"Path(_draw_loads(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"567957808c2bc4b0"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.cable.Cable._draw_loads","kind":"method","src_hash":"bd5d213bf02be545","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (force_arrows if order == -1 else force_arrows) and result == force_arrows"},"spec":{"lhs":"_draw_loads(order)","rhs":"result == (force_arrows if order == -1 else force_arrows) and result == force_arrows","over":{"base":"Any"},"name":"_draw_loads_correct"},"guarantee":"result == (force_arrows if order == -1 else force_arrows); result == force_arrows; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.cable.Cable._draw_loads_correct","statement":"Path(_draw_loads(x), result == (force_arrows if order == -1 else force_arrows); result == force_arrows; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4bcf9595e8af8411","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (force_arrows if order == -1 else force_arrows)","result == force_arrows"],"fibers":[{"name":"case_0","guard":"order == -1","ensures":["result == force_arrows"],"decidability":"z3","returns_expr":"force_arrows"},{"name":"zero_or_none","guard":"order == 0","ensures":["result == force_arrows"],"decidability":"z3","returns_expr":"force_arrows"}],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _draw_loads(self,order):
         xy_min = min(self._left_support[0],self._lowest_y_global)
         xy_max = max(self._right_support[0], max(self._right_support[1],self._left_support[1]))
@@ -1011,16 +1146,22 @@ class Cable:
             return force_arrows
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(plot_tension(), returns the diagram/plot of the tension generated in the cable at various points) over Any ║
+# ║ Path(plot_tension(), <unspecified:plot_tension>) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ plot_tension : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ed0c260dd92cd658  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.cable.Cable.plot_tension","kind":"method","src_hash":"ecc52b67f01f55c2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"plot_tension()","rhs":"returns the diagram/plot of the tension generated in the cable at various points","over":{"base":"Any"},"name":"plot_tension_correct"},"guarantee":"returns the diagram/plot of the tension generated in the cable at various points","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.cable.Cable.plot_tension_correct","statement":"Path(plot_tension(x), returns the diagram/plot of the tension generated in the cable at various points)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ed0c260dd92cd658"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.cable.Cable.plot_tension","kind":"method","src_hash":"ecc52b67f01f55c2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"plot_tension()","rhs":"<unspecified:plot_tension>","over":{"base":"Any"},"name":"plot_tension_correct"},"guarantee":"returns the diagram/plot of the tension generated in the cable at various points","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.cable.Cable.plot_tension_correct","statement":"Path(plot_tension(x), returns the diagram/plot of the tension generated in the cable at various points)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ed0c260dd92cd658","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._left_support","self._loads_position","self._right_support","self._tension","self._tension_func"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def plot_tension(self):
         """
         Returns the diagram/plot of the tension generated in the cable at various points.

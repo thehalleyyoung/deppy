@@ -35,32 +35,46 @@ from sympy.functions.elementary.exponential import exp
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_find_simple_recurrence_vector(), test_find_simple_recurrence_vector produces the expected output) over Any ║
+# ║ Path(test_find_simple_recurrence_vector(), find_simple_recurrence_vector([fibonacci(k) for k in range(12)]) == [1, -1, -1]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_find_simple_recurrence_vector : Any → {Any | fin...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  find_simple_recurrence_vector([fibonacci(...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_find_simple_recurrence_vector : Any → {Any | res...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 09c6725edf16dd33  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 16845f090d2d718d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.tests.test_guess.test_find_simple_recurrence_vector","kind":"function","src_hash":"757951a63d1f825a","in":{"base":"Any"},"out":{"base":"Any","pred":"find_simple_recurrence_vector([fibonacci(k) for k in range(12)]) == [1, -1, -1]"},"spec":{"lhs":"test_find_simple_recurrence_vector()","rhs":"test_find_simple_recurrence_vector produces the expected output","over":{"base":"Any"},"name":"test_find_simple_recurrence_vector_correct"},"guarantee":"test_find_simple_recurrence_vector produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.tests.test_guess.test_find_simple_recurrence_vector_correct","statement":"Path(test_find_simple_recurrence_vector(x), test_find_simple_recurrence_vector produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"09c6725edf16dd33"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.tests.test_guess.test_find_simple_recurrence_vector","kind":"function","src_hash":"757951a63d1f825a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: find_simple_recurrence_vector([fibonacci(k) for k in range(12)]) == [1, -1, -1]"},"spec":{"lhs":"test_find_simple_recurrence_vector()","rhs":"find_simple_recurrence_vector([fibonacci(k) for k in range(12)]) == [1, -1, -1]","over":{"base":"Any"},"name":"test_find_simple_recurrence_vector_correct"},"guarantee":"find_simple_recurrence_vector([fibonacci(k) for k in range(12)]) == [1, -1, -1]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.tests.test_guess.test_find_simple_recurrence_vector_correct","statement":"Path(test_find_simple_recurrence_vector(x), find_simple_recurrence_vector([fibonacci(k) for k in range(12)]) == [1, -1, -1])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"16845f090d2d718d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["find_simple_recurrence_vector([fibonacci(k) for k in range(12)]) == [1, -1, -1]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_find_simple_recurrence_vector():
     assert find_simple_recurrence_vector(
             [fibonacci(k) for k in range(12)]) == [1, -1, -1]
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_find_simple_recurrence(), test_find_simple_recurrence produces the expected output) over Any ║
+# ║ Path(test_find_simple_recurrence(), find_simple_recurrence([fibonacci(k) for k in range(12)]) == -a(n) - a(n + 1) + a(n + 2) and find_simple_recurrence(a, A=f, N=i) == -8 * f(i) + 3 * f(i + 1) - 5 * f(i + 2) + f(i + 3) and find_simple_recurrence([0, 2, 15, 74, 12, 3, 0, 1, 2, 85, 4, 5, 63]) == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_find_simple_recurrence : Any → {Any | find_simpl...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  find_simple_recurrence([fibonacci(k) for ...   ║
+# ║   ensures:  find_simple_recurrence(a, A=f, N=i) == -8...   ║
+# ║   ensures:  find_simple_recurrence([0, 2, 15, 74, 12,...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_find_simple_recurrence : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3e8dba7e7b78f1d5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2030db2097aab0dd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.tests.test_guess.test_find_simple_recurrence","kind":"function","src_hash":"f031bcf42015587a","in":{"base":"Any"},"out":{"base":"Any","pred":"find_simple_recurrence([0, 2, 15, 74, 12, 3, 0, 1, 2, 85, 4, 5, 63]) == 0"},"spec":{"lhs":"test_find_simple_recurrence()","rhs":"test_find_simple_recurrence produces the expected output","over":{"base":"Any"},"name":"test_find_simple_recurrence_correct"},"guarantee":"test_find_simple_recurrence produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.tests.test_guess.test_find_simple_recurrence_correct","statement":"Path(test_find_simple_recurrence(x), test_find_simple_recurrence produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3e8dba7e7b78f1d5"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.tests.test_guess.test_find_simple_recurrence","kind":"function","src_hash":"f031bcf42015587a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: find_simple_recurrence([fibonacci(k) for k in range(12)]) == -a(n) - a(n + 1) + a(n + 2) and find_simple_recurrence(a, A=f, N=i) == -8 * f(i) + 3 * f(i + 1) - 5 * f(i + 2) + f(i + 3) and find_simple_recurrence([0, 2, 15, 74, 12, 3, 0, 1, 2, 85, 4, 5, 63]) == 0"},"spec":{"lhs":"test_find_simple_recurrence()","rhs":"find_simple_recurrence([fibonacci(k) for k in range(12)]) == -a(n) - a(n + 1) + a(n + 2) and find_simple_recurrence(a, A=f, N=i) == -8 * f(i) + 3 * f(i + 1) - 5 * f(i + 2) + f(i + 3) and find_simple_recurrence([0, 2, 15, 74, 12, 3, 0, 1, 2, 85, 4, 5, 63]) == 0","over":{"base":"Any"},"name":"test_find_simple_recurrence_correct"},"guarantee":"find_simple_recurrence([fibonacci(k) for k in range(12)]) == -a(n) - a(n + 1) + a(n + 2); find_simple_recurrence(a, A=f, N=i) == -8 * f(i) + 3 * f(i + 1) - 5 * f(i + 2) + f(i + 3); find_simple_recurrence([0, 2, 15, 74, 12, 3, 0, 1, 2, 85, 4, 5, 63]) == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.tests.test_guess.test_find_simple_recurrence_correct","statement":"Path(test_find_simple_recurrence(x), find_simple_recurrence([fibonacci(k) for k in range(12)]) == -a(n) - a(n + 1) + a(n + 2); find_simple_recurrence(a, A=f, N=i) == -8 * f(i) + 3 * f(i + 1) - 5 * f(i + 2) + f(i + 3); find_simple_recurrence([0, 2, 15, 74, 12, 3, 0, 1, 2, 85, 4, 5, 63]) == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2030db2097aab0dd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["find_simple_recurrence([fibonacci(k) for k in range(12)]) == -a(n) - a(n + 1) + a(n + 2)","find_simple_recurrence(a, A=f, N=i) == -8 * f(i) + 3 * f(i + 1) - 5 * f(i + 2) + f(i + 3)","find_simple_recurrence([0, 2, 15, 74, 12, 3, 0, 1, 2, 85, 4, 5, 63]) == 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_find_simple_recurrence():
     a = Function('a')
     n = Symbol('n')
@@ -78,16 +92,24 @@ def test_find_simple_recurrence():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_rationalize(), test_rationalize produces the expected output) over Any ║
+# ║ Path(test_rationalize(), rationalize(cos(pi / 3)) == S.Half and rationalize(mpf('0.333333333333333')) == Rational(1, 3) and rationalize(mpf('-0.333333333333333')) == Rational(-1, 3) and rationalize(pi, maxcoeff=250) == Rational(355, 113)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_rationalize : Any → {Any | rationalize(cos(pi / ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  rationalize(cos(pi / 3)) == S.Half             ║
+# ║   ensures:  rationalize(mpf('0.333333333333333')) == ...   ║
+# ║   ensures:  rationalize(mpf('-0.333333333333333')) ==...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_rationalize : Any → {Any | result satisfies: rat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   mpmath.__module__                                        ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟡 LIBRARY | library_axiom | Compiled: ✓ | 170f3bea7f43...  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟡 LIBRARY | library_axiom | Compiled: ✓ | c6c712e80c5e...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.tests.test_guess.test_rationalize","kind":"function","src_hash":"f8abfbc24f1d0bd8","in":{"base":"Any"},"out":{"base":"Any","pred":"rationalize(cos(pi / 3)) == S.Half and rationalize(mpf('0.333333333333333')) == Rational(1, 3) and rationalize(mpf('-0.333333333333333')) == Rational(-1, 3) and rationalize(pi, maxcoeff=250) == Rational(355, 113)"},"spec":{"lhs":"test_rationalize()","rhs":"test_rationalize produces the expected output","over":{"base":"Any"},"name":"test_rationalize_correct"},"guarantee":"test_rationalize produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.tests.test_guess.test_rationalize_correct","statement":"Path(test_rationalize(x), test_rationalize produces the expected output)"},"assumes":[],"trust":["mpmath.__module__"],"compiled":true,"vhash":"170f3bea7f433b3a"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.tests.test_guess.test_rationalize","kind":"function","src_hash":"f8abfbc24f1d0bd8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: rationalize(cos(pi / 3)) == S.Half and rationalize(mpf('0.333333333333333')) == Rational(1, 3) and rationalize(mpf('-0.333333333333333')) == Rational(-1, 3) and rationalize(pi, maxcoeff=250) == Rational(355, 113)"},"spec":{"lhs":"test_rationalize()","rhs":"rationalize(cos(pi / 3)) == S.Half and rationalize(mpf('0.333333333333333')) == Rational(1, 3) and rationalize(mpf('-0.333333333333333')) == Rational(-1, 3) and rationalize(pi, maxcoeff=250) == Rational(355, 113)","over":{"base":"Any"},"name":"test_rationalize_correct"},"guarantee":"rationalize(cos(pi / 3)) == S.Half; rationalize(mpf('0.333333333333333')) == Rational(1, 3); rationalize(mpf('-0.333333333333333')) == Rational(-1, 3)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.tests.test_guess.test_rationalize_correct","statement":"Path(test_rationalize(x), rationalize(cos(pi / 3)) == S.Half; rationalize(mpf('0.333333333333333')) == Rational(1, 3); rationalize(mpf('-0.333333333333333')) == Rational(-1, 3))"},"assumes":[],"trust":["mpmath.__module__"],"compiled":true,"vhash":"c6c712e80c5e8591","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["rationalize(cos(pi / 3)) == S.Half","rationalize(mpf('0.333333333333333')) == Rational(1, 3)","rationalize(mpf('-0.333333333333333')) == Rational(-1, 3)","rationalize(pi, maxcoeff=250) == Rational(355, 113)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_rationalize():
     from mpmath import cos, pi, mpf
     assert rationalize(cos(pi/3)) == S.Half
@@ -97,16 +119,22 @@ def test_rationalize():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_guess_generating_function_rational(), test_guess_generating_function_rational produces the expected output) over Any ║
+# ║ Path(test_guess_generating_function_rational(), guess_generating_function_rational([fibonacci(k) for k in range(5, 15)]) == (3 * x + 5) / (-x ** 2 - x + 1)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_guess_generating_function_rational : Any → Any        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  guess_generating_function_rational([fibon...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_guess_generating_function_rational : Any → {Any ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 660fa374652e2491  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 32149dd3ecf46bcc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.tests.test_guess.test_guess_generating_function_rational","kind":"function","src_hash":"d6095431ee52d53c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_guess_generating_function_rational()","rhs":"test_guess_generating_function_rational produces the expected output","over":{"base":"Any"},"name":"test_guess_generating_function_rational_correct"},"guarantee":"test_guess_generating_function_rational produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.tests.test_guess.test_guess_generating_function_rational_correct","statement":"Path(test_guess_generating_function_rational(x), test_guess_generating_function_rational produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"660fa374652e2491"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.tests.test_guess.test_guess_generating_function_rational","kind":"function","src_hash":"d6095431ee52d53c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: guess_generating_function_rational([fibonacci(k) for k in range(5, 15)]) == (3 * x + 5) / (-x ** 2 - x + 1)"},"spec":{"lhs":"test_guess_generating_function_rational()","rhs":"guess_generating_function_rational([fibonacci(k) for k in range(5, 15)]) == (3 * x + 5) / (-x ** 2 - x + 1)","over":{"base":"Any"},"name":"test_guess_generating_function_rational_correct"},"guarantee":"guess_generating_function_rational([fibonacci(k) for k in range(5, 15)]) == (3 * x + 5) / (-x ** 2 - x + 1)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.tests.test_guess.test_guess_generating_function_rational_correct","statement":"Path(test_guess_generating_function_rational(x), guess_generating_function_rational([fibonacci(k) for k in range(5, 15)]) == (3 * x + 5) / (-x ** 2 - x + 1))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"32149dd3ecf46bcc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["guess_generating_function_rational([fibonacci(k) for k in range(5, 15)]) == (3 * x + 5) / (-x ** 2 - x + 1)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_guess_generating_function_rational():
     x = Symbol('x')
     assert guess_generating_function_rational([fibonacci(k)
@@ -114,16 +142,24 @@ def test_guess_generating_function_rational():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_guess_generating_function(), test_guess_generating_function produces the expected output) over Any ║
+# ║ Path(test_guess_generating_function(), guess_generating_function([fibonacci(k) for k in range(5, 15)])['ogf'] == (3 * x + 5) / (-x ** 2 - x + 1) and guess_generating_function([1, 2, 5, 14, 41, 124, 383, 1200, 3799, 12122, 38919])['ogf'] == (1 / (x ** 4 + 2 * x ** 2 - 4 * x + 1)) ** S.Half and guess_generating_function(sympify('[3/2, 11/2, 0, -121/2, -363/2, 121, 4719/2, 11495/2, -8712, -178717/2]'))['ogf'] == (x + Rational(3, 2)) / (11 * x ** 2 - 3 * x + 1) and guess_generating_function([factorial(k) for k in range(12)], types=['egf'])['egf'] == 1 / (-x + 1) and guess_generating_function([k + 1 for k in range(12)], types=['egf']) == {'egf': (x + 1) * exp(x), 'lgdegf': (x + 2) / (x + 1)}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_guess_generating_function : Any → Any                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  guess_generating_function([fibonacci(k) f...   ║
+# ║   ensures:  guess_generating_function([1, 2, 5, 14, 4...   ║
+# ║   ensures:  guess_generating_function(sympify('[3/2, ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_guess_generating_function : Any → {Any | result ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ad19f198c4d76dc4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 823867aac406eb42  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.tests.test_guess.test_guess_generating_function","kind":"function","src_hash":"4200528b19ce6895","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_guess_generating_function()","rhs":"test_guess_generating_function produces the expected output","over":{"base":"Any"},"name":"test_guess_generating_function_correct"},"guarantee":"test_guess_generating_function produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.tests.test_guess.test_guess_generating_function_correct","statement":"Path(test_guess_generating_function(x), test_guess_generating_function produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ad19f198c4d76dc4"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.tests.test_guess.test_guess_generating_function","kind":"function","src_hash":"4200528b19ce6895","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: guess_generating_function([fibonacci(k) for k in range(5, 15)])['ogf'] == (3 * x + 5) / (-x ** 2 - x + 1) and guess_generating_function([1, 2, 5, 14, 41, 124, 383, 1200, 3799, 12122, 38919])['ogf'] == (1 / (x ** 4 + 2 * x ** 2 - 4 * x + 1)) ** S.Half and guess_generating_function(sympify('[3/2, 11/2, 0, -121/2, -363/2, 121, 4719/2, 11495/2, -8712, -178717/2]'))['ogf'] == (x + Rational(3, 2)) / (11 * x ** 2 - 3 * x + 1) and guess_generating_function([factorial(k) for k in range(12)], types=['egf'])['egf'] == 1 / (-x + 1) and guess_generating_function([k + 1 for k in range(12)], types=['egf']) == {'egf': (x + 1) * exp(x), 'lgdegf': (x + 2) / (x + 1)}"},"spec":{"lhs":"test_guess_generating_function()","rhs":"guess_generating_function([fibonacci(k) for k in range(5, 15)])['ogf'] == (3 * x + 5) / (-x ** 2 - x + 1) and guess_generating_function([1, 2, 5, 14, 41, 124, 383, 1200, 3799, 12122, 38919])['ogf'] == (1 / (x ** 4 + 2 * x ** 2 - 4 * x + 1)) ** S.Half and guess_generating_function(sympify('[3/2, 11/2, 0, -121/2, -363/2, 121, 4719/2, 11495/2, -8712, -178717/2]'))['ogf'] == (x + Rational(3, 2)) / (11 * x ** 2 - 3 * x + 1) and guess_generating_function([factorial(k) for k in range(12)], types=['egf'])['egf'] == 1 / (-x + 1) and guess_generating_function([k + 1 for k in range(12)], types=['egf']) == {'egf': (x + 1) * exp(x), 'lgdegf': (x + 2) / (x + 1)}","over":{"base":"Any"},"name":"test_guess_generating_function_correct"},"guarantee":"guess_generating_function([fibonacci(k) for k in range(5, 15)])['ogf'] == (3 * x + 5) / (-x ** 2 - x + 1); guess_generating_function([1, 2, 5, 14, 41, 124, 383, 1200, 3799, 12122, 38919])['ogf'] == (1 / (x ** 4 + 2 * x ** 2 - 4 * x + 1)) ** S.Half; guess_generating_function(sympify('[3/2, 11/2, 0, -121/2, -363/2, 121, 4719/2, 11495/2, -8712, -178717/2]'))['ogf'] == (x + Rational(3, 2)) / (11 * x ** 2 - 3 * x + 1)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.tests.test_guess.test_guess_generating_function_correct","statement":"Path(test_guess_generating_function(x), guess_generating_function([fibonacci(k) for k in range(5, 15)])['ogf'] == (3 * x + 5) / (-x ** 2 - x + 1); guess_generating_function([1, 2, 5, 14, 41, 124, 383, 1200, 3799, 12122, 38919])['ogf'] == (1 / (x ** 4 + 2 * x ** 2 - 4 * x + 1)) ** S.Half; guess_generating_function(sympify('[3/2, 11/2, 0, -121/2, -363/2, 121, 4719/2, 11495/2, -8712, -178717/2]'))['ogf'] == (x + Rational(3, 2)) / (11 * x ** 2 - 3 * x + 1))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"823867aac406eb42","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["guess_generating_function([fibonacci(k) for k in range(5, 15)])['ogf'] == (3 * x + 5) / (-x ** 2 - x + 1)","guess_generating_function([1, 2, 5, 14, 41, 124, 383, 1200, 3799, 12122, 38919])['ogf'] == (1 / (x ** 4 + 2 * x ** 2 - 4 * x + 1)) ** S.Half","guess_generating_function(sympify('[3/2, 11/2, 0, -121/2, -363/2, 121, 4719/2, 11495/2, -8712, -178717/2]'))['ogf'] == (x + Rational(3, 2)) / (11 * x ** 2 - 3 * x + 1)","guess_generating_function([factorial(k) for k in range(12)], types=['egf'])['egf'] == 1 / (-x + 1)","guess_generating_function([k + 1 for k in range(12)], types=['egf']) == {'egf': (x + 1) * exp(x), 'lgdegf': (x + 2) / (x + 1)}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_guess_generating_function():
     x = Symbol('x')
     assert guess_generating_function([fibonacci(k)
@@ -141,16 +177,24 @@ def test_guess_generating_function():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_guess(), test_guess produces the expected output) over Any ║
+# ║ Path(test_guess(), guess([1, 2, 6, 24, 120], evaluate=False) == [Product(i1 + 1, (i1, 1, i0 - 1))] and guess([1, 2, 6, 24, 120]) == [RisingFactorial(2, i0 - 1)] and guess([1, 2, 7, 42, 429, 7436, 218348, 10850216], niter=4) == [2 ** (i0 - 1) * Rational(27, 16) ** (i0 ** 2 / 2 - 3 * i0 / 2 + 1) * Product(RisingFactorial(Rational(5, 3), i1 - 1) * RisingFactorial(Rational(7, 3), i1 - 1) / (RisingFactorial(Rational(3, 2), i1 - 1) * RisingFactorial(Rational(5, 2), i1 - 1)), (i1, 1, i0 - 1))] and guess([1, 0, 2]) == [] and guess([1, 2, 6, 24, 120], variables=[x, y]) == [RisingFactorial(2, x - 1)]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_guess : Any → {Any | guess([1, 2, 6, 24, 120], e...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  guess([1, 2, 6, 24, 120], evaluate=False)...   ║
+# ║   ensures:  guess([1, 2, 6, 24, 120]) == [RisingFacto...   ║
+# ║   ensures:  guess([1, 2, 7, 42, 429, 7436, 218348, 10...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_guess : Any → {Any | result satisfies: guess([1,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 757235d83a4073dc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1cf97196e970c514  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.tests.test_guess.test_guess","kind":"function","src_hash":"f5dff45a40924fc2","in":{"base":"Any"},"out":{"base":"Any","pred":"guess([1, 2, 6, 24, 120], evaluate=False) == [Product(i1 + 1, (i1, 1, i0 - 1))] and guess([1, 2, 6, 24, 120]) == [RisingFactorial(2, i0 - 1)] and guess([1, 0, 2]) == [] and guess([1, 2, 6, 24, 120], variables=[x, y]) == [RisingFactorial(2, x - 1)]"},"spec":{"lhs":"test_guess()","rhs":"test_guess produces the expected output","over":{"base":"Any"},"name":"test_guess_correct"},"guarantee":"test_guess produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.tests.test_guess.test_guess_correct","statement":"Path(test_guess(x), test_guess produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"757235d83a4073dc"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.tests.test_guess.test_guess","kind":"function","src_hash":"f5dff45a40924fc2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: guess([1, 2, 6, 24, 120], evaluate=False) == [Product(i1 + 1, (i1, 1, i0 - 1))] and guess([1, 2, 6, 24, 120]) == [RisingFactorial(2, i0 - 1)] and guess([1, 2, 7, 42, 429, 7436, 218348, 10850216], niter=4) == [2 ** (i0 - 1) * Rational(27, 16) ** (i0 ** 2 / 2 - 3 * i0 / 2 + 1) * Product(RisingFactorial(Rational(5, 3), i1 - 1) * RisingFactorial(Rational(7, 3), i1 - 1) / (RisingFactorial(Rational(3, 2), i1 - 1) * RisingFactorial(Rational(5, 2), i1 - 1)), (i1, 1, i0 - 1))] and guess([1, 0, 2]) == [] and guess([1, 2, 6, 24, 120], variables=[x, y]) == [RisingFactorial(2, x - 1)]"},"spec":{"lhs":"test_guess()","rhs":"guess([1, 2, 6, 24, 120], evaluate=False) == [Product(i1 + 1, (i1, 1, i0 - 1))] and guess([1, 2, 6, 24, 120]) == [RisingFactorial(2, i0 - 1)] and guess([1, 2, 7, 42, 429, 7436, 218348, 10850216], niter=4) == [2 ** (i0 - 1) * Rational(27, 16) ** (i0 ** 2 / 2 - 3 * i0 / 2 + 1) * Product(RisingFactorial(Rational(5, 3), i1 - 1) * RisingFactorial(Rational(7, 3), i1 - 1) / (RisingFactorial(Rational(3, 2), i1 - 1) * RisingFactorial(Rational(5, 2), i1 - 1)), (i1, 1, i0 - 1))] and guess([1, 0, 2]) == [] and guess([1, 2, 6, 24, 120], variables=[x, y]) == [RisingFactorial(2, x - 1)]","over":{"base":"Any"},"name":"test_guess_correct"},"guarantee":"guess([1, 2, 6, 24, 120], evaluate=False) == [Product(i1 + 1, (i1, 1, i0 - 1))]; guess([1, 2, 6, 24, 120]) == [RisingFactorial(2, i0 - 1)]; guess([1, 2, 7, 42, 429, 7436, 218348, 10850216], niter=4) == [2 ** (i0 - 1) * Rational(27, 16) ** (i0 ** 2 / 2 - 3 * i0 / 2 + 1) * Product(RisingFactorial(Rational(5, 3), i1 - 1) * RisingFactorial(Rational(7, 3), i1 - 1) / (RisingFactorial(Rational(3, 2), i1 - 1) * RisingFactorial(Rational(5, 2), i1 - 1)), (i1, 1, i0 - 1))]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.tests.test_guess.test_guess_correct","statement":"Path(test_guess(x), guess([1, 2, 6, 24, 120], evaluate=False) == [Product(i1 + 1, (i1, 1, i0 - 1))]; guess([1, 2, 6, 24, 120]) == [RisingFactorial(2, i0 - 1)]; guess([1, 2, 7, 42, 429, 7436, 218348, 10850216], niter=4) == [2 ** (i0 - 1) * Rational(27, 16) ** (i0 ** 2 / 2 - 3 * i0 / 2 + 1) * Product(RisingFactorial(Rational(5, 3), i1 - 1) * RisingFactorial(Rational(7, 3), i1 - 1) / (RisingFactorial(Rational(3, 2), i1 - 1) * RisingFactorial(Rational(5, 2), i1 - 1)), (i1, 1, i0 - 1))])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1cf97196e970c514","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["guess([1, 2, 6, 24, 120], evaluate=False) == [Product(i1 + 1, (i1, 1, i0 - 1))]","guess([1, 2, 6, 24, 120]) == [RisingFactorial(2, i0 - 1)]","guess([1, 2, 7, 42, 429, 7436, 218348, 10850216], niter=4) == [2 ** (i0 - 1) * Rational(27, 16) ** (i0 ** 2 / 2 - 3 * i0 / 2 + 1) * Product(RisingFactorial(Rational(5, 3), i1 - 1) * RisingFactorial(Rational(7, 3), i1 - 1) / (RisingFactorial(Rational(3, 2), i1 - 1) * RisingFactorial(Rational(5, 2), i1 - 1)), (i1, 1, i0 - 1))]","guess([1, 0, 2]) == []","guess([1, 2, 6, 24, 120], variables=[x, y]) == [RisingFactorial(2, x - 1)]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_guess():
     i0, i1 = symbols('i0 i1')
     assert guess([1, 2, 6, 24, 120], evaluate=False) == [Product(i1 + 1, (i1, 1, i0 - 1))]

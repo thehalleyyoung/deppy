@@ -27,16 +27,23 @@ from sympy.assumptions import Q
 p, q = Symbol('p'), Symbol('q')
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_simple(), test_simple produces the expected output) over Any ║
+# ║ Path(test_simple(), list(rl(Basic(S(3), S(1)))) == [Basic(S(3), S(2))] and list(rl(expr)) == [x ** 3]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_simple : Any → {Any | list(rl(Basic(S(3), S(1)))...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  list(rl(Basic(S(3), S(1)))) == [Basic(S(3...   ║
+# ║   ensures:  list(rl(expr)) == [x ** 3]                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_simple : Any → {Any | result satisfies: list(rl(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b9dae146735e399a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d15bbad99d5ef5ce  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.unify.tests.test_rewrite.test_simple","kind":"function","src_hash":"0d39f9d177f6590f","in":{"base":"Any"},"out":{"base":"Any","pred":"list(rl(Basic(S(3), S(1)))) == [Basic(S(3), S(2))] and list(rl(expr)) == [x ** 3]"},"spec":{"lhs":"test_simple()","rhs":"test_simple produces the expected output","over":{"base":"Any"},"name":"test_simple_correct"},"guarantee":"test_simple produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.unify.tests.test_rewrite.test_simple_correct","statement":"Path(test_simple(x), test_simple produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b9dae146735e399a"}
+# @cctt_verify {"v":2,"sym":"sympy.unify.tests.test_rewrite.test_simple","kind":"function","src_hash":"0d39f9d177f6590f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: list(rl(Basic(S(3), S(1)))) == [Basic(S(3), S(2))] and list(rl(expr)) == [x ** 3]"},"spec":{"lhs":"test_simple()","rhs":"list(rl(Basic(S(3), S(1)))) == [Basic(S(3), S(2))] and list(rl(expr)) == [x ** 3]","over":{"base":"Any"},"name":"test_simple_correct"},"guarantee":"list(rl(Basic(S(3), S(1)))) == [Basic(S(3), S(2))]; list(rl(expr)) == [x ** 3]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.unify.tests.test_rewrite.test_simple_correct","statement":"Path(test_simple(x), list(rl(Basic(S(3), S(1)))) == [Basic(S(3), S(2))]; list(rl(expr)) == [x ** 3])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d15bbad99d5ef5ce","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["list(rl(Basic(S(3), S(1)))) == [Basic(S(3), S(2))]","list(rl(expr)) == [x ** 3]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_simple():
     rl = rewriterule(Basic(p, S(1)), Basic(p, S(2)), variables=(p,))
     assert list(rl(Basic(S(3), S(1)))) == [Basic(S(3), S(2))]
@@ -49,16 +56,23 @@ def test_simple():
     assert list(rl(expr)) == [x**3]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_simple_variables(), test_simple_variables produces the expected output) over Any ║
+# ║ Path(test_simple_variables(), list(rl(Basic(S(3), S(1)))) == [Basic(S(3), S(2))] and list(rl(y ** 2)) == [y ** 3]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_simple_variables : Any → {Any | list(rl(Basic(S(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  list(rl(Basic(S(3), S(1)))) == [Basic(S(3...   ║
+# ║   ensures:  list(rl(y ** 2)) == [y ** 3]                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_simple_variables : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8cff7625766cc427  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 37608c3d56acf636  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.unify.tests.test_rewrite.test_simple_variables","kind":"function","src_hash":"53fa62fe7191d9da","in":{"base":"Any"},"out":{"base":"Any","pred":"list(rl(Basic(S(3), S(1)))) == [Basic(S(3), S(2))] and list(rl(y ** 2)) == [y ** 3]"},"spec":{"lhs":"test_simple_variables()","rhs":"test_simple_variables produces the expected output","over":{"base":"Any"},"name":"test_simple_variables_correct"},"guarantee":"test_simple_variables produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.unify.tests.test_rewrite.test_simple_variables_correct","statement":"Path(test_simple_variables(x), test_simple_variables produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8cff7625766cc427"}
+# @cctt_verify {"v":2,"sym":"sympy.unify.tests.test_rewrite.test_simple_variables","kind":"function","src_hash":"53fa62fe7191d9da","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: list(rl(Basic(S(3), S(1)))) == [Basic(S(3), S(2))] and list(rl(y ** 2)) == [y ** 3]"},"spec":{"lhs":"test_simple_variables()","rhs":"list(rl(Basic(S(3), S(1)))) == [Basic(S(3), S(2))] and list(rl(y ** 2)) == [y ** 3]","over":{"base":"Any"},"name":"test_simple_variables_correct"},"guarantee":"list(rl(Basic(S(3), S(1)))) == [Basic(S(3), S(2))]; list(rl(y ** 2)) == [y ** 3]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.unify.tests.test_rewrite.test_simple_variables_correct","statement":"Path(test_simple_variables(x), list(rl(Basic(S(3), S(1)))) == [Basic(S(3), S(2))]; list(rl(y ** 2)) == [y ** 3])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"37608c3d56acf636","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["list(rl(Basic(S(3), S(1)))) == [Basic(S(3), S(2))]","list(rl(y ** 2)) == [y ** 3]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_simple_variables():
     rl = rewriterule(Basic(x, S(1)), Basic(x, S(2)), variables=(x,))
     assert list(rl(Basic(S(3), S(1)))) == [Basic(S(3), S(2))]
@@ -67,16 +81,22 @@ def test_simple_variables():
     assert list(rl(y**2)) == [y**3]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_moderate(), test_moderate produces the expected output) over Any ║
+# ║ Path(test_moderate(), list(rl(expr)) == [(x * y) ** 4]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_moderate : Any → {Any | list(rl(expr)) == [(x * ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  list(rl(expr)) == [(x * y) ** 4]               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_moderate : Any → {Any | result satisfies: list(r...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bda008809bef61f9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fed47001d7c8169d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.unify.tests.test_rewrite.test_moderate","kind":"function","src_hash":"71aea6859fcb4dac","in":{"base":"Any"},"out":{"base":"Any","pred":"list(rl(expr)) == [(x * y) ** 4]"},"spec":{"lhs":"test_moderate()","rhs":"test_moderate produces the expected output","over":{"base":"Any"},"name":"test_moderate_correct"},"guarantee":"test_moderate produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.unify.tests.test_rewrite.test_moderate_correct","statement":"Path(test_moderate(x), test_moderate produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bda008809bef61f9"}
+# @cctt_verify {"v":2,"sym":"sympy.unify.tests.test_rewrite.test_moderate","kind":"function","src_hash":"71aea6859fcb4dac","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: list(rl(expr)) == [(x * y) ** 4]"},"spec":{"lhs":"test_moderate()","rhs":"list(rl(expr)) == [(x * y) ** 4]","over":{"base":"Any"},"name":"test_moderate_correct"},"guarantee":"list(rl(expr)) == [(x * y) ** 4]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.unify.tests.test_rewrite.test_moderate_correct","statement":"Path(test_moderate(x), list(rl(expr)) == [(x * y) ** 4])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fed47001d7c8169d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["list(rl(expr)) == [(x * y) ** 4]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_moderate():
     p1 = p**2 + q**3
     p2 = (p*q)**4
@@ -86,16 +106,23 @@ def test_moderate():
     assert list(rl(expr)) == [(x*y)**4]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_sincos(), test_sincos produces the expected output) over Any ║
+# ║ Path(test_sincos(), list(rl(sin(x) ** 2 + sin(x) ** 2)) == [1] and list(rl(sin(y) ** 2 + sin(y) ** 2)) == [1]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_sincos : Any → {Any | list(rl(sin(x) ** 2 + sin(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  list(rl(sin(x) ** 2 + sin(x) ** 2)) == [1]     ║
+# ║   ensures:  list(rl(sin(y) ** 2 + sin(y) ** 2)) == [1]     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_sincos : Any → {Any | result satisfies: list(rl(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a19dc2d7b0ded311  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cd6fdbee455e910e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.unify.tests.test_rewrite.test_sincos","kind":"function","src_hash":"723a1c672b9927a2","in":{"base":"Any"},"out":{"base":"Any","pred":"list(rl(sin(x) ** 2 + sin(x) ** 2)) == [1] and list(rl(sin(y) ** 2 + sin(y) ** 2)) == [1]"},"spec":{"lhs":"test_sincos()","rhs":"test_sincos produces the expected output","over":{"base":"Any"},"name":"test_sincos_correct"},"guarantee":"test_sincos produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.unify.tests.test_rewrite.test_sincos_correct","statement":"Path(test_sincos(x), test_sincos produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a19dc2d7b0ded311"}
+# @cctt_verify {"v":2,"sym":"sympy.unify.tests.test_rewrite.test_sincos","kind":"function","src_hash":"723a1c672b9927a2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: list(rl(sin(x) ** 2 + sin(x) ** 2)) == [1] and list(rl(sin(y) ** 2 + sin(y) ** 2)) == [1]"},"spec":{"lhs":"test_sincos()","rhs":"list(rl(sin(x) ** 2 + sin(x) ** 2)) == [1] and list(rl(sin(y) ** 2 + sin(y) ** 2)) == [1]","over":{"base":"Any"},"name":"test_sincos_correct"},"guarantee":"list(rl(sin(x) ** 2 + sin(x) ** 2)) == [1]; list(rl(sin(y) ** 2 + sin(y) ** 2)) == [1]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.unify.tests.test_rewrite.test_sincos_correct","statement":"Path(test_sincos(x), list(rl(sin(x) ** 2 + sin(x) ** 2)) == [1]; list(rl(sin(y) ** 2 + sin(y) ** 2)) == [1])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cd6fdbee455e910e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["list(rl(sin(x) ** 2 + sin(x) ** 2)) == [1]","list(rl(sin(y) ** 2 + sin(y) ** 2)) == [1]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_sincos():
     p1 = sin(p)**2 + sin(p)**2
     p2 = 1
@@ -105,32 +132,45 @@ def test_sincos():
     assert list(rl(sin(y)**2 + sin(y)**2)) == [1]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Exprs_ok(), test_Exprs_ok produces the expected output) over Any ║
+# ║ Path(test_Exprs_ok(), <unspecified:test_Exprs_ok>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_Exprs_ok : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e42f7211c33cd485  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.unify.tests.test_rewrite.test_Exprs_ok","kind":"function","src_hash":"5daaf589e4c16d24","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_Exprs_ok()","rhs":"test_Exprs_ok produces the expected output","over":{"base":"Any"},"name":"test_Exprs_ok_correct"},"guarantee":"test_Exprs_ok produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.unify.tests.test_rewrite.test_Exprs_ok_correct","statement":"Path(test_Exprs_ok(x), test_Exprs_ok produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e42f7211c33cd485"}
+# @cctt_verify {"v":2,"sym":"sympy.unify.tests.test_rewrite.test_Exprs_ok","kind":"function","src_hash":"5daaf589e4c16d24","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_Exprs_ok()","rhs":"<unspecified:test_Exprs_ok>","over":{"base":"Any"},"name":"test_Exprs_ok_correct"},"guarantee":"test_Exprs_ok produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.unify.tests.test_rewrite.test_Exprs_ok_correct","statement":"Path(test_Exprs_ok(x), test_Exprs_ok produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e42f7211c33cd485","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Exprs_ok():
     rl = rewriterule(p+q, q+p, (p, q))
     next(rl(x+y)).is_commutative
     str(next(rl(x+y)))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_condition_simple(), test_condition_simple produces the expected output) over Any ║
+# ║ Path(test_condition_simple(), not list(rl(S(15))) and rebuild(next(rl(S(5)))) == 6) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_condition_simple : Any → {Any | not list(rl(S(15...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  not list(rl(S(15)))                            ║
+# ║   ensures:  rebuild(next(rl(S(5)))) == 6                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_condition_simple : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0e914418f80a9ae5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bc5dce644def27cc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.unify.tests.test_rewrite.test_condition_simple","kind":"function","src_hash":"99d6d515424c2e8f","in":{"base":"Any"},"out":{"base":"Any","pred":"not list(rl(S(15))) and rebuild(next(rl(S(5)))) == 6"},"spec":{"lhs":"test_condition_simple()","rhs":"test_condition_simple produces the expected output","over":{"base":"Any"},"name":"test_condition_simple_correct"},"guarantee":"test_condition_simple produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.unify.tests.test_rewrite.test_condition_simple_correct","statement":"Path(test_condition_simple(x), test_condition_simple produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0e914418f80a9ae5"}
+# @cctt_verify {"v":2,"sym":"sympy.unify.tests.test_rewrite.test_condition_simple","kind":"function","src_hash":"99d6d515424c2e8f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: not list(rl(S(15))) and rebuild(next(rl(S(5)))) == 6"},"spec":{"lhs":"test_condition_simple()","rhs":"not list(rl(S(15))) and rebuild(next(rl(S(5)))) == 6","over":{"base":"Any"},"name":"test_condition_simple_correct"},"guarantee":"not list(rl(S(15))); rebuild(next(rl(S(5)))) == 6","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.unify.tests.test_rewrite.test_condition_simple_correct","statement":"Path(test_condition_simple(x), not list(rl(S(15))); rebuild(next(rl(S(5)))) == 6)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bc5dce644def27cc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["not list(rl(S(15)))","rebuild(next(rl(S(5)))) == 6"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_condition_simple():
     rl = rewriterule(x, x+1, [x], lambda x: x < 10)
     assert not list(rl(S(15)))
@@ -138,16 +178,23 @@ def test_condition_simple():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_condition_multiple(), test_condition_multiple produces the expected output) over Any ║
+# ║ Path(test_condition_multiple(), list(rl(expr)) == [b ** a] and set(rl(c + d)) == {c ** d, d ** c}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_condition_multiple : Any → {Any | list(rl(expr))...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  list(rl(expr)) == [b ** a]                     ║
+# ║   ensures:  set(rl(c + d)) == {c ** d, d ** c}             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_condition_multiple : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1e7f75f05e4ad5d1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c696db80e626d6d6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.unify.tests.test_rewrite.test_condition_multiple","kind":"function","src_hash":"9289bbbba458b9f6","in":{"base":"Any"},"out":{"base":"Any","pred":"list(rl(expr)) == [b ** a] and set(rl(c + d)) == {c ** d, d ** c}"},"spec":{"lhs":"test_condition_multiple()","rhs":"test_condition_multiple produces the expected output","over":{"base":"Any"},"name":"test_condition_multiple_correct"},"guarantee":"test_condition_multiple produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.unify.tests.test_rewrite.test_condition_multiple_correct","statement":"Path(test_condition_multiple(x), test_condition_multiple produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1e7f75f05e4ad5d1"}
+# @cctt_verify {"v":2,"sym":"sympy.unify.tests.test_rewrite.test_condition_multiple","kind":"function","src_hash":"9289bbbba458b9f6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: list(rl(expr)) == [b ** a] and set(rl(c + d)) == {c ** d, d ** c}"},"spec":{"lhs":"test_condition_multiple()","rhs":"list(rl(expr)) == [b ** a] and set(rl(c + d)) == {c ** d, d ** c}","over":{"base":"Any"},"name":"test_condition_multiple_correct"},"guarantee":"list(rl(expr)) == [b ** a]; set(rl(c + d)) == {c ** d, d ** c}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.unify.tests.test_rewrite.test_condition_multiple_correct","statement":"Path(test_condition_multiple(x), list(rl(expr)) == [b ** a]; set(rl(c + d)) == {c ** d, d ** c})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c696db80e626d6d6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["list(rl(expr)) == [b ** a]","set(rl(c + d)) == {c ** d, d ** c}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_condition_multiple():
     rl = rewriterule(x + y, x**y, [x,y], lambda x, y: x.is_integer)
 
@@ -161,16 +208,22 @@ def test_condition_multiple():
     assert set(rl(c + d)) == {c**d, d**c}
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_assumptions(), test_assumptions produces the expected output) over Any ║
+# ║ Path(test_assumptions(), list(rl(expr, Q.integer(b))) == [b ** a]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_assumptions : Any → {Any | list(rl(expr, Q.integ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  list(rl(expr, Q.integer(b))) == [b ** a]       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_assumptions : Any → {Any | result satisfies: lis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a6b9aec6d3499a5e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 03aa3dc6b80f0d96  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.unify.tests.test_rewrite.test_assumptions","kind":"function","src_hash":"17059f37a16c3508","in":{"base":"Any"},"out":{"base":"Any","pred":"list(rl(expr, Q.integer(b))) == [b ** a]"},"spec":{"lhs":"test_assumptions()","rhs":"test_assumptions produces the expected output","over":{"base":"Any"},"name":"test_assumptions_correct"},"guarantee":"test_assumptions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.unify.tests.test_rewrite.test_assumptions_correct","statement":"Path(test_assumptions(x), test_assumptions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a6b9aec6d3499a5e"}
+# @cctt_verify {"v":2,"sym":"sympy.unify.tests.test_rewrite.test_assumptions","kind":"function","src_hash":"17059f37a16c3508","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: list(rl(expr, Q.integer(b))) == [b ** a]"},"spec":{"lhs":"test_assumptions()","rhs":"list(rl(expr, Q.integer(b))) == [b ** a]","over":{"base":"Any"},"name":"test_assumptions_correct"},"guarantee":"list(rl(expr, Q.integer(b))) == [b ** a]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.unify.tests.test_rewrite.test_assumptions_correct","statement":"Path(test_assumptions(x), list(rl(expr, Q.integer(b))) == [b ** a])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"03aa3dc6b80f0d96","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["list(rl(expr, Q.integer(b))) == [b ** a]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_assumptions():
     rl = rewriterule(x + y, x**y, [x, y], assume=Q.integer(x))
 

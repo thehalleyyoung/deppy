@@ -23,7 +23,13 @@ from sympy.testing.pytest import raises, warns_deprecated_sympy
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_trace_new(), test_trace_new produces the expected output) over {Any | isinstance(Tr(A), Tr)} ║
+# ║ Path(test_trace_new(), 1) over {Any | isinstance(Tr(A), Tr)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Tr(a + b) == a + b                             ║
+# ║   ensures:  Tr(A + B) == Tr(A) + Tr(B)                     ║
+# ║   ensures:  Tr(C * D * A * B).args[0].args == (C, D, ...   ║
+# ║   returns:  1                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_trace_new : {Any | isinstance(Tr(A), Tr)} → {Any...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -35,9 +41,12 @@ from sympy.testing.pytest import raises, warns_deprecated_sympy
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 2.3ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 4b1cff41...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_trace.test_trace_new","kind":"function","src_hash":"6c1c3b3302ce3af9","in":{"base":"Any","pred":"isinstance(Tr(A), Tr)"},"out":{"base":"Any","pred":"Tr(a + b) == a + b and Tr(A + B) == Tr(A) + Tr(B) and Tr(C * D * A * B).args[0].args == (C, D, A, B) and Tr(a * b + c * d) == a * b + c * d and Tr(a * A) == a * Tr(A) and Tr(a * A * B * b) == a * b * Tr(A * B) and isinstance(Tr(A), Tr) and Tr(pow(a, b)) == a ** b and isinstance(Tr(pow(A, a)), Tr) and Tr(M) == 3 and t.args[1] == Tuple() and t.args[1] == Tuple(0) and t.args[1] == Tuple(0) and t.args[1] == Tuple(0, 1, 2) and t.args[1] == Tuple(0) and t.args[1] == Tuple(1, 2) and t.args[0].args[1] == Tuple(2) and t.args[1].args[1] == Tuple(2) and t.args[1].args[1] == Tuple(2, 3) and Tr(Foo()) == 1"},"spec":{"lhs":"test_trace_new()","rhs":"test_trace_new produces the expected output","over":{"base":"Any","pred":"isinstance(Tr(A), Tr)"},"name":"test_trace_new_correct"},"guarantee":"test_trace_new produces the expected output","fibers":[{"name":"Tr","pred":"isinstance(Tr(A), Tr)","path":{"lhs":"test_trace_new(x)","rhs":"test_trace_new produces the expected output","over":{"base":"Tr","pred":"isinstance(Tr(A), Tr)"},"name":"test_trace_new_Tr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_trace.test_trace_new_Tr_correct","statement":"test_trace_new satisfies spec on Tr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"4b1cff4131c72ccc"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_trace.test_trace_new","kind":"function","src_hash":"6c1c3b3302ce3af9","in":{"base":"Any","pred":"isinstance(Tr(A), Tr)"},"out":{"base":"Any","pred":"result satisfies: result == (1)"},"spec":{"lhs":"test_trace_new()","rhs":"1","over":{"base":"Any","pred":"isinstance(Tr(A), Tr)"},"name":"test_trace_new_correct"},"guarantee":"returns 1; Tr(a + b) == a + b; Tr(A + B) == Tr(A) + Tr(B); Tr(C * D * A * B).args[0].args == (C, D, A, B)","fibers":[{"name":"Tr","pred":"isinstance(Tr(A), Tr)","path":{"lhs":"test_trace_new(x)","rhs":"returns 1; Tr(a + b) == a + b; Tr(A + B) == Tr(A) + Tr(B); Tr(C * D * A * B).args[0].args == (C, D, A, B)","over":{"base":"Tr","pred":"isinstance(Tr(A), Tr)"},"name":"test_trace_new_Tr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_trace.test_trace_new_Tr_correct","statement":"test_trace_new satisfies spec on Tr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"4b1cff4131c72ccc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Tr(a + b) == a + b","Tr(A + B) == Tr(A) + Tr(B)","Tr(C * D * A * B).args[0].args == (C, D, A, B)","Tr(a * b + c * d) == a * b + c * d","Tr(a * A) == a * Tr(A)","Tr(a * A * B * b) == a * b * Tr(A * B)","isinstance(Tr(A), Tr)","Tr(pow(a, b)) == a ** b","isinstance(Tr(pow(A, a)), Tr)","Tr(M) == 3","t.args[1] == Tuple()","t.args[1] == Tuple(0)","t.args[1] == Tuple(0, 1, 2)","t.args[1] == Tuple(1, 2)","t.args[0].args[1] == Tuple(2) and t.args[1].args[1] == Tuple(2)","t.args[1].args[1] == Tuple(2, 3)","Tr(Foo()) == 1"],"returns_expr":"1","pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.3,"verdict_class":"failed","binding":true}}
 def test_trace_new():
     a, b, c, d, Y = symbols('a b c d Y')
     A, B, C, D = symbols('A B C D', commutative=False)
@@ -109,16 +118,22 @@ def test_trace_new():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_trace_doit(), test_trace_doit produces the expected output) over Any ║
+# ║ Path(test_trace_doit(), <unspecified:test_trace_doit>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_trace_doit : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bf78a8170981492a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_trace.test_trace_doit","kind":"function","src_hash":"6dd658ccbe7248ec","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_trace_doit()","rhs":"test_trace_doit produces the expected output","over":{"base":"Any"},"name":"test_trace_doit_correct"},"guarantee":"test_trace_doit produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_trace.test_trace_doit_correct","statement":"Path(test_trace_doit(x), test_trace_doit produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bf78a8170981492a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_trace.test_trace_doit","kind":"function","src_hash":"6dd658ccbe7248ec","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_trace_doit()","rhs":"<unspecified:test_trace_doit>","over":{"base":"Any"},"name":"test_trace_doit_correct"},"guarantee":"test_trace_doit produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_trace.test_trace_doit_correct","statement":"Path(test_trace_doit(x), test_trace_doit produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bf78a8170981492a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_trace_doit():
     a, b, c, d = symbols('a b c d')
     A, B, C, D = symbols('A B C D', commutative=False)
@@ -127,16 +142,24 @@ def test_trace_doit():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_permute(), test_permute produces the expected output) over Any ║
+# ║ Path(test_permute(), t.permute(0).args[0].args == (A, B, C, D, E, F, G) and t.permute(2).args[0].args == (F, G, A, B, C, D, E) and t.permute(4).args[0].args == (D, E, F, G, A, B, C) and t.permute(6).args[0].args == (B, C, D, E, F, G, A) and t.permute(8).args[0].args == t.permute(1).args[0].args and t.permute(-1).args[0].args == (B, C, D, E, F, G, A) and t.permute(-3).args[0].args == (D, E, F, G, A, B, C) and t.permute(-5).args[0].args == (F, G, A, B, C, D, E) and t.permute(-8).args[0].args == t.permute(-1).args[0].args and t.permute(2).args[0].args == (C, D, A + B, B ** 2) and id(t1) != id(t2) and t1 == t2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_permute : Any → {Any | t.permute(0).args[0].args...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  t.permute(0).args[0].args == (A, B, C, D,...   ║
+# ║   ensures:  t.permute(2).args[0].args == (F, G, A, B,...   ║
+# ║   ensures:  t.permute(4).args[0].args == (D, E, F, G,...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_permute : Any → {Any | result satisfies: t.permu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 56885d8b8c253f77  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4bf1fbc99a82b744  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_trace.test_permute","kind":"function","src_hash":"71b4f4aeafe3cf2f","in":{"base":"Any"},"out":{"base":"Any","pred":"t.permute(0).args[0].args == (A, B, C, D, E, F, G) and t.permute(2).args[0].args == (F, G, A, B, C, D, E) and t.permute(4).args[0].args == (D, E, F, G, A, B, C) and t.permute(6).args[0].args == (B, C, D, E, F, G, A) and t.permute(8).args[0].args == t.permute(1).args[0].args and t.permute(-1).args[0].args == (B, C, D, E, F, G, A) and t.permute(-3).args[0].args == (D, E, F, G, A, B, C) and t.permute(-5).args[0].args == (F, G, A, B, C, D, E) and t.permute(-8).args[0].args == t.permute(-1).args[0].args and t.permute(2).args[0].args == (C, D, A + B, B ** 2) and id(t1) != id(t2) and t1 == t2"},"spec":{"lhs":"test_permute()","rhs":"test_permute produces the expected output","over":{"base":"Any"},"name":"test_permute_correct"},"guarantee":"test_permute produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_trace.test_permute_correct","statement":"Path(test_permute(x), test_permute produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"56885d8b8c253f77"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_trace.test_permute","kind":"function","src_hash":"71b4f4aeafe3cf2f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: t.permute(0).args[0].args == (A, B, C, D, E, F, G) and t.permute(2).args[0].args == (F, G, A, B, C, D, E) and t.permute(4).args[0].args == (D, E, F, G, A, B, C) and t.permute(6).args[0].args == (B, C, D, E, F, G, A) and t.permute(8).args[0].args == t.permute(1).args[0].args and t.permute(-1).args[0].args == (B, C, D, E, F, G, A) and t.permute(-3).args[0].args == (D, E, F, G, A, B, C) and t.permute(-5).args[0].args == (F, G, A, B, C, D, E) and t.permute(-8).args[0].args == t.permute(-1).args[0].args and t.permute(2).args[0].args == (C, D, A + B, B ** 2) and id(t1) != id(t2) and t1 == t2"},"spec":{"lhs":"test_permute()","rhs":"t.permute(0).args[0].args == (A, B, C, D, E, F, G) and t.permute(2).args[0].args == (F, G, A, B, C, D, E) and t.permute(4).args[0].args == (D, E, F, G, A, B, C) and t.permute(6).args[0].args == (B, C, D, E, F, G, A) and t.permute(8).args[0].args == t.permute(1).args[0].args and t.permute(-1).args[0].args == (B, C, D, E, F, G, A) and t.permute(-3).args[0].args == (D, E, F, G, A, B, C) and t.permute(-5).args[0].args == (F, G, A, B, C, D, E) and t.permute(-8).args[0].args == t.permute(-1).args[0].args and t.permute(2).args[0].args == (C, D, A + B, B ** 2) and id(t1) != id(t2) and t1 == t2","over":{"base":"Any"},"name":"test_permute_correct"},"guarantee":"t.permute(0).args[0].args == (A, B, C, D, E, F, G); t.permute(2).args[0].args == (F, G, A, B, C, D, E); t.permute(4).args[0].args == (D, E, F, G, A, B, C)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_trace.test_permute_correct","statement":"Path(test_permute(x), t.permute(0).args[0].args == (A, B, C, D, E, F, G); t.permute(2).args[0].args == (F, G, A, B, C, D, E); t.permute(4).args[0].args == (D, E, F, G, A, B, C))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4bf1fbc99a82b744","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["t.permute(0).args[0].args == (A, B, C, D, E, F, G)","t.permute(2).args[0].args == (F, G, A, B, C, D, E)","t.permute(4).args[0].args == (D, E, F, G, A, B, C)","t.permute(6).args[0].args == (B, C, D, E, F, G, A)","t.permute(8).args[0].args == t.permute(1).args[0].args","t.permute(-1).args[0].args == (B, C, D, E, F, G, A)","t.permute(-3).args[0].args == (D, E, F, G, A, B, C)","t.permute(-5).args[0].args == (F, G, A, B, C, D, E)","t.permute(-8).args[0].args == t.permute(-1).args[0].args","t.permute(2).args[0].args == (C, D, A + B, B ** 2)","id(t1) != id(t2) and t1 == t2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_permute():
     A, B, C, D, E, F, G = symbols('A B C D E F G', commutative=False)
     t = Tr(A*B*C*D*E*F*G)
@@ -160,16 +183,22 @@ def test_permute():
     assert id(t1) != id(t2) and t1 == t2
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_deprecated_core_trace(), test_deprecated_core_trace produces the expected output) over Any ║
+# ║ Path(test_deprecated_core_trace(), <unspecified:test_deprecated_core_trace>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_deprecated_core_trace : Any → Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 23f0ef9369312af5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_trace.test_deprecated_core_trace","kind":"function","src_hash":"474e399c6a117537","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_deprecated_core_trace()","rhs":"test_deprecated_core_trace produces the expected output","over":{"base":"Any"},"name":"test_deprecated_core_trace_correct"},"guarantee":"test_deprecated_core_trace produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_trace.test_deprecated_core_trace_correct","statement":"Path(test_deprecated_core_trace(x), test_deprecated_core_trace produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"23f0ef9369312af5"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_trace.test_deprecated_core_trace","kind":"function","src_hash":"474e399c6a117537","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_deprecated_core_trace()","rhs":"<unspecified:test_deprecated_core_trace>","over":{"base":"Any"},"name":"test_deprecated_core_trace_correct"},"guarantee":"test_deprecated_core_trace produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_trace.test_deprecated_core_trace_correct","statement":"Path(test_deprecated_core_trace(x), test_deprecated_core_trace produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"23f0ef9369312af5","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_deprecated_core_trace():
     with warns_deprecated_sympy():
         from sympy.core.trace import Tr # noqa:F401

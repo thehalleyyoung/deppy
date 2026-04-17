@@ -24,16 +24,25 @@ from sympy.functions.elementary.complexes import conjugate
 
 # See mpmath #569 and SymPy #20569
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(betainc_mpmath_fix(a, ), betainc_mpmath_fix produces the expected output) over Any ║
+# ║ Path(betainc_mpmath_fix(a, b, x1), result == (mpf(0) if x1 == x2 else betainc(a, b, x1, x2, reg)) and result == mpf(0) or result == betainc(a, b, x1, x2, reg)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ betainc_mpmath_fix : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (mpf(0) if x1 == x2 else betain...   ║
+# ║   ensures:  result == mpf(0) or result == betainc(a, ...   ║
+# ║   fiber[case_0]: x1 == x2 => mpf(0)                        ║
+# ║   fiber[case_1]: not (x1 == x2) => betainc(a, b, x1, ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ betainc_mpmath_fix : Any → {Any | result satisfies: r...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   mpmath.__module__                                        ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟡 LIBRARY | library_axiom | Compiled: ✓ | ced8329638a9...  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟡 LIBRARY | library_axiom | Compiled: ✓ | cdea7880bb4b...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.beta_functions.betainc_mpmath_fix","kind":"function","src_hash":"39d6a9201e8d7853","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"betainc_mpmath_fix(a, )","rhs":"betainc_mpmath_fix produces the expected output","over":{"base":"Any"},"name":"betainc_mpmath_fix_correct"},"guarantee":"betainc_mpmath_fix produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.beta_functions.betainc_mpmath_fix_correct","statement":"Path(betainc_mpmath_fix(x), betainc_mpmath_fix produces the expected output)"},"assumes":[],"trust":["mpmath.__module__"],"compiled":true,"vhash":"ced8329638a9dda8"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.beta_functions.betainc_mpmath_fix","kind":"function","src_hash":"39d6a9201e8d7853","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (mpf(0) if x1 == x2 else betainc(a, b, x1, x2, reg)) and result == mpf(0) or result == betainc(a, b, x1, x2, reg)"},"spec":{"lhs":"betainc_mpmath_fix(a, b, x1)","rhs":"result == (mpf(0) if x1 == x2 else betainc(a, b, x1, x2, reg)) and result == mpf(0) or result == betainc(a, b, x1, x2, reg)","over":{"base":"Any"},"name":"betainc_mpmath_fix_correct"},"guarantee":"result == (mpf(0) if x1 == x2 else betainc(a, b, x1, x2, reg)); result == mpf(0) or result == betainc(a, b, x1, x2, reg); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.beta_functions.betainc_mpmath_fix_correct","statement":"Path(betainc_mpmath_fix(x), result == (mpf(0) if x1 == x2 else betainc(a, b, x1, x2, reg)); result == mpf(0) or result == betainc(a, b, x1, x2, reg); 2-fiber decomposition)"},"assumes":[],"trust":["mpmath.__module__"],"compiled":true,"vhash":"cdea7880bb4bfba4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (mpf(0) if x1 == x2 else betainc(a, b, x1, x2, reg))","result == mpf(0) or result == betainc(a, b, x1, x2, reg)"],"fibers":[{"name":"case_0","guard":"x1 == x2","ensures":["result == mpf(0)"],"decidability":"z3","returns_expr":"mpf(0)"},{"name":"case_1","guard":"not (x1 == x2)","ensures":["result == betainc(a, b, x1, x2, reg)"],"decidability":"z3","returns_expr":"betainc(a, b, x1, x2, reg)"}],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def betainc_mpmath_fix(a, b, x1, x2, reg=0):
     from mpmath import betainc, mpf
     if x1 == x2:
@@ -48,14 +57,20 @@ def betainc_mpmath_fix(a, b, x1, x2, reg=0):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(beta(*args), correctly constructs a beta instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ beta : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DefinedFunction)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ beta : Any → {Any | result satisfies: isinstance(self...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 02f1ef48a0c15591  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.beta_functions.beta","kind":"class","src_hash":"14954f11f1badc2c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"beta(*args)","rhs":"correctly constructs a beta instance","over":{"base":"Any"},"name":"beta_class_invariant"},"guarantee":"correctly constructs a beta instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"02f1ef48a0c15591"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.beta_functions.beta","kind":"class","src_hash":"14954f11f1badc2c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DefinedFunction)"},"spec":{"lhs":"beta(*args)","rhs":"correctly constructs a beta instance","over":{"base":"Any"},"name":"beta_class_invariant"},"guarantee":"isinstance(self, DefinedFunction)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"02f1ef48a0c15591","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DefinedFunction)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":false,"binding_errors":["Function beta not found in source"]}}
 class beta(DefinedFunction):
     r"""
     The beta integral is called the Eulerian integral of the first kind by
@@ -146,16 +161,24 @@ class beta(DefinedFunction):
     unbranched = True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(fdiff(arg), id) over Any                              ║
+# ║ Path(fdiff(argindex), id) over Any                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: argindex == 1 => beta(x, y) * (digam...   ║
+# ║   fiber[case_1]: argindex == 2 => beta(x, y) * (digam...   ║
+# ║   fiber[case_2]: not (argindex == 1) and not (arginde...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ fdiff : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 9bc6d924b36d3e7c   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.beta_functions.beta.fdiff","kind":"method","src_hash":"e1352fd7016f9ac2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(arg)","rhs":"fdiff produces the expected output","over":{"base":"Any"},"name":"fdiff_correct","kind":"composition"},"guarantee":"fdiff produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"beta","by":"library_axiom"},{"fn":"digamma","by":"library_axiom"},{"fn":"digamma","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9bc6d924b36d3e7c"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.beta_functions.beta.fdiff","kind":"method","src_hash":"e1352fd7016f9ac2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(argindex)","rhs":"<unspecified:fdiff>","over":{"base":"Any"},"name":"fdiff_correct","kind":"composition"},"guarantee":"3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"beta","by":"library_axiom"},{"fn":"digamma","by":"library_axiom"},{"fn":"digamma","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9bc6d924b36d3e7c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"argindex == 1","ensures":["result == beta(x, y) * (digamma(x) - digamma(x + y))"],"decidability":"z3","returns_expr":"beta(x, y) * (digamma(x) - digamma(x + y))"},{"name":"case_1","guard":"argindex == 2","ensures":["result == beta(x, y) * (digamma(y) - digamma(x + y))"],"decidability":"z3","returns_expr":"beta(x, y) * (digamma(y) - digamma(x + y))"},{"name":"case_2","guard":"not (argindex == 1) and not (argindex == 2)","ensures":[],"decidability":"z3"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"],"raises":["ArgumentIndexError"]},"state_contract":{"exceptional_post":{"ArgumentIndexError":["isinstance(raised, ArgumentIndexError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def fdiff(self, argindex):
         x, y = self.args
         if argindex == 1:
@@ -169,16 +192,24 @@ class beta(DefinedFunction):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), eval produces the expected output) over Any ║
+# ║ Path(eval(cls, x, y), <unspecified:eval>) over {Any | hasattr(x, 'is_Number') and hasattr(y, 'is_Number')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Any                                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(x, 'is_Number')                        ║
+# ║   requires: hasattr(y, 'is_Number')                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : {Any | hasattr(x, 'is_Number') and hasattr(y, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 36041d3adccbc613  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.beta_functions.beta.eval","kind":"classmethod","src_hash":"fe9f5bbc8d354016","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.beta_functions.beta.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"36041d3adccbc613"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.beta_functions.beta.eval","kind":"classmethod","src_hash":"fe9f5bbc8d354016","in":{"base":"Any","pred":"hasattr(x, 'is_Number') and hasattr(y, 'is_Number')"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls, x, y)","rhs":"<unspecified:eval>","over":{"base":"Any","pred":"hasattr(x, 'is_Number') and hasattr(y, 'is_Number')"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.beta_functions.beta.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"36041d3adccbc613","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(x, 'is_Number')","hasattr(y, 'is_Number')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["x.is_Number","y.is_Number"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, x, y=None):
         if y is None:
             return beta(x, x)
@@ -186,16 +217,22 @@ class beta(DefinedFunction):
             return beta(x, y, evaluate=False).doit()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(doit(**h), doit produces the expected output) over Any ║
+# ║ Path(doit(**hints), <unspecified:doit>) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ doit : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | da5672fb366a4a07  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.beta_functions.beta.doit","kind":"method","src_hash":"d50b2026c5ef27b3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"doit(**h)","rhs":"doit produces the expected output","over":{"base":"Any"},"name":"doit_correct"},"guarantee":"doit produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.beta_functions.beta.doit_correct","statement":"Path(doit(x), doit produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"da5672fb366a4a07"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.beta_functions.beta.doit","kind":"method","src_hash":"d50b2026c5ef27b3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"doit(**hints)","rhs":"<unspecified:doit>","over":{"base":"Any"},"name":"doit_correct"},"guarantee":"doit produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.beta_functions.beta.doit_correct","statement":"Path(doit(x), doit produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"da5672fb366a4a07","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def doit(self, **hints):
         x = xold = self.args[0]
         # Deal with unevaluated single argument beta
@@ -221,73 +258,103 @@ class beta(DefinedFunction):
         return beta(x, y)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_expand_func(**h), id) over Any                  ║
+# ║ Path(_eval_expand_func(**hints), id) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  gamma(x) * gamma(y) / gamma(x + y)             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_expand_func : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 4c1fb2795a6523a9   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.beta_functions.beta._eval_expand_func","kind":"method","src_hash":"d620c1596c884696","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_expand_func(**h)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_expand_func_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"gamma","by":"library_axiom"},{"fn":"gamma","by":"library_axiom"},{"fn":"gamma","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4c1fb2795a6523a9"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.beta_functions.beta._eval_expand_func","kind":"method","src_hash":"d620c1596c884696","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_expand_func(**hints)","rhs":"gamma(x) * gamma(y) / gamma(x + y)","over":{"base":"Any"},"name":"_eval_expand_func_correct","kind":"composition"},"guarantee":"returns gamma(x) * gamma(y) / gamma(x + y)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"gamma","by":"library_axiom"},{"fn":"gamma","by":"library_axiom"},{"fn":"gamma","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4c1fb2795a6523a9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"gamma(x) * gamma(y) / gamma(x + y)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_expand_func(self, **hints):
         x, y = self.args
         return gamma(x)*gamma(y) / gamma(x + y)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_real(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_real(), self.args[0].is_real and self.args[1].is_real) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0].is_real and self.args[1].is_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_real : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e9600c405706d0aa           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.beta_functions.beta._eval_is_real","kind":"method","src_hash":"9fb617a5a79c0b00","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_real()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_real_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e9600c405706d0aa"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.beta_functions.beta._eval_is_real","kind":"method","src_hash":"9fb617a5a79c0b00","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_real()","rhs":"self.args[0].is_real and self.args[1].is_real","over":{"base":"Any"},"name":"_eval_is_real_correct"},"guarantee":"returns self.args[0].is_real and self.args[1].is_real","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e9600c405706d0aa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0].is_real and self.args[1].is_real","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_real(self):
         return self.args[0].is_real and self.args[1].is_real
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_conjugate(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_conjugate(), self.func(self.args[0].conjugate(), self.args[1].conjugate())) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.func(self.args[0].conjugate(), self....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_conjugate : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 87dd6067f7bf8f7b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.beta_functions.beta._eval_conjugate","kind":"method","src_hash":"50f20b58292ce7d1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_conjugate()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_conjugate_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"87dd6067f7bf8f7b"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.beta_functions.beta._eval_conjugate","kind":"method","src_hash":"50f20b58292ce7d1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_conjugate()","rhs":"self.func(self.args[0].conjugate(), self.args[1].conjugate())","over":{"base":"Any"},"name":"_eval_conjugate_correct"},"guarantee":"returns self.func(self.args[0].conjugate(), self.args[1].conjugate())","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"87dd6067f7bf8f7b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.func(self.args[0].conjugate(), self.args[1].conjugate())","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.func"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_conjugate(self):
         return self.func(self.args[0].conjugate(), self.args[1].conjugate())
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_gamma(x, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_gamma(x, y, piecewise), self._eval_expand_func(**kwargs)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._eval_expand_func(**kwargs)               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_gamma : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7172884cff9874e4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.beta_functions.beta._eval_rewrite_as_gamma","kind":"method","src_hash":"ac6ab1af1bd828f7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_gamma(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_gamma_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7172884cff9874e4"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.beta_functions.beta._eval_rewrite_as_gamma","kind":"method","src_hash":"ac6ab1af1bd828f7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_gamma(x, y, piecewise)","rhs":"self._eval_expand_func(**kwargs)","over":{"base":"Any"},"name":"_eval_rewrite_as_gamma_correct"},"guarantee":"returns self._eval_expand_func(**kwargs)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7172884cff9874e4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._eval_expand_func(**kwargs)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._eval_expand_func"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_gamma(self, x, y, piecewise=True, **kwargs):
         return self._eval_expand_func(**kwargs)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_Integral(x, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_Integral(x, y, **kwargs), Integral(t ** (x - 1) * (1 - t) ** (y - 1), (t, 0, 1))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Integral(t ** (x - 1) * (1 - t) ** (y - 1...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_Integral : Any → Any                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 59a4799671296b71  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3c490f067af9f6aa  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.beta_functions.beta._eval_rewrite_as_Integral","kind":"method","src_hash":"b721854dd631a844","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_Integral(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_Integral_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.beta_functions.beta._eval_rewrite_as_Integral_correct","statement":"Path(_eval_rewrite_as_Integral(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"59a4799671296b71"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.beta_functions.beta._eval_rewrite_as_Integral","kind":"method","src_hash":"b721854dd631a844","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_Integral(x, y, **kwargs)","rhs":"Integral(t ** (x - 1) * (1 - t) ** (y - 1), (t, 0, 1))","over":{"base":"Any"},"name":"_eval_rewrite_as_Integral_correct"},"guarantee":"returns Integral(t ** (x - 1) * (1 - t) ** (y - 1), (t, 0, 1))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.beta_functions.beta._eval_rewrite_as_Integral_correct","statement":"Path(_eval_rewrite_as_Integral(x), returns Integral(t ** (x - 1) * (1 - t) ** (y - 1), (t, 0, 1)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3c490f067af9f6aa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Integral(t ** (x - 1) * (1 - t) ** (y - 1), (t, 0, 1))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_Integral(self, x, y, **kwargs):
         from sympy.integrals.integrals import Integral
         t = Dummy(uniquely_named_symbol('t', [x, y]).name)
@@ -300,14 +367,20 @@ class beta(DefinedFunction):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(betainc(*args), correctly constructs a betainc instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ betainc : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DefinedFunction)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ betainc : Any → {Any | result satisfies: isinstance(s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b12bdcc16b8f14fd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.beta_functions.betainc","kind":"class","src_hash":"86b3019ae286bebc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"betainc(*args)","rhs":"correctly constructs a betainc instance","over":{"base":"Any"},"name":"betainc_class_invariant"},"guarantee":"correctly constructs a betainc instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b12bdcc16b8f14fd"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.beta_functions.betainc","kind":"class","src_hash":"86b3019ae286bebc","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DefinedFunction)"},"spec":{"lhs":"betainc(*args)","rhs":"correctly constructs a betainc instance","over":{"base":"Any"},"name":"betainc_class_invariant"},"guarantee":"isinstance(self, DefinedFunction)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b12bdcc16b8f14fd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DefinedFunction)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function betainc not found in source"]}}
 class betainc(DefinedFunction):
     r"""
     The Generalized Incomplete Beta function is defined as
@@ -384,16 +457,24 @@ class betainc(DefinedFunction):
     unbranched = True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(fdiff(arg), fdiff produces the expected output) over Any ║
+# ║ Path(fdiff(argindex), <unspecified:fdiff>) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: argindex == 3 => -(1 - x1) ** (b - 1...   ║
+# ║   fiber[case_1]: argindex == 4 => (1 - x2) ** (b - 1)...   ║
+# ║   fiber[case_2]: not (argindex == 3) and not (arginde...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ fdiff : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 53ccf6676f26ba7a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 27f90bbb5f90dc1b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.beta_functions.betainc.fdiff","kind":"method","src_hash":"a80b1086728b7f1a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(arg)","rhs":"fdiff produces the expected output","over":{"base":"Any"},"name":"fdiff_correct"},"guarantee":"fdiff produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.beta_functions.betainc.fdiff_correct","statement":"Path(fdiff(x), fdiff produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"53ccf6676f26ba7a"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.beta_functions.betainc.fdiff","kind":"method","src_hash":"a80b1086728b7f1a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(argindex)","rhs":"<unspecified:fdiff>","over":{"base":"Any"},"name":"fdiff_correct"},"guarantee":"3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.beta_functions.betainc.fdiff_correct","statement":"Path(fdiff(x), 3-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"27f90bbb5f90dc1b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"argindex == 3","ensures":["result == -(1 - x1) ** (b - 1) * x1 ** (a - 1)"],"decidability":"z3","returns_expr":"-(1 - x1) ** (b - 1) * x1 ** (a - 1)"},{"name":"case_1","guard":"argindex == 4","ensures":["result == (1 - x2) ** (b - 1) * x2 ** (a - 1)"],"decidability":"z3","returns_expr":"(1 - x2) ** (b - 1) * x2 ** (a - 1)"},{"name":"case_2","guard":"not (argindex == 3) and not (argindex == 4)","ensures":[],"decidability":"z3"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"],"raises":["ArgumentIndexError"]},"state_contract":{"exceptional_post":{"ArgumentIndexError":["isinstance(raised, ArgumentIndexError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def fdiff(self, argindex):
         a, b, x1, x2 = self.args
         if argindex == 3:
@@ -406,75 +487,105 @@ class betainc(DefinedFunction):
             raise ArgumentIndexError(self, argindex)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_mpmath(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_mpmath(), (betainc_mpmath_fix, self.args)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (betainc_mpmath_fix, self.args)                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_mpmath : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5f90ca1318747de5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.beta_functions.betainc._eval_mpmath","kind":"method","src_hash":"ce372cb005782fba","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_mpmath()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_mpmath_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5f90ca1318747de5"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.beta_functions.betainc._eval_mpmath","kind":"method","src_hash":"ce372cb005782fba","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_mpmath()","rhs":"(betainc_mpmath_fix, self.args)","over":{"base":"Any"},"name":"_eval_mpmath_correct"},"guarantee":"returns (betainc_mpmath_fix, self.args)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5f90ca1318747de5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(betainc_mpmath_fix, self.args)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_mpmath(self):
         return betainc_mpmath_fix, self.args
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_real(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_real(), True) over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  True                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_real : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 80c1d707ee8ea4e3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dda2aaf396900a61  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.beta_functions.betainc._eval_is_real","kind":"method","src_hash":"55c8764ffa38e796","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_real()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_real_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.beta_functions.betainc._eval_is_real_correct","statement":"Path(_eval_is_real(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"80c1d707ee8ea4e3"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.beta_functions.betainc._eval_is_real","kind":"method","src_hash":"55c8764ffa38e796","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_real()","rhs":"True","over":{"base":"Any"},"name":"_eval_is_real_correct"},"guarantee":"returns True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.beta_functions.betainc._eval_is_real_correct","statement":"Path(_eval_is_real(x), returns True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dda2aaf396900a61","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"True","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_real(self):
         if all(arg.is_real for arg in self.args):
             return True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_conjugate(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_conjugate(), self.func(*map(conjugate, self.args))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.func(*map(conjugate, self.args))          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_conjugate : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1463e2ce8e5362e9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.beta_functions.betainc._eval_conjugate","kind":"method","src_hash":"3036720cda186c5f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_conjugate()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_conjugate_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1463e2ce8e5362e9"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.beta_functions.betainc._eval_conjugate","kind":"method","src_hash":"3036720cda186c5f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_conjugate()","rhs":"self.func(*map(conjugate, self.args))","over":{"base":"Any"},"name":"_eval_conjugate_correct"},"guarantee":"returns self.func(*map(conjugate, self.args))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1463e2ce8e5362e9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.func(*map(conjugate, self.args))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.func"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_conjugate(self):
         return self.func(*map(conjugate, self.args))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_Integral(a, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_Integral(a, b, x1), Integral(t ** (a - 1) * (1 - t) ** (b - 1), (t, x1, x2))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Integral(t ** (a - 1) * (1 - t) ** (b - 1...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_Integral : Any → Any                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a71b87307c3c3e8e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f3a82713f5cfcf90  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.beta_functions.betainc._eval_rewrite_as_Integral","kind":"method","src_hash":"c3510232f39267ac","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_Integral(a, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_Integral_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.beta_functions.betainc._eval_rewrite_as_Integral_correct","statement":"Path(_eval_rewrite_as_Integral(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a71b87307c3c3e8e"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.beta_functions.betainc._eval_rewrite_as_Integral","kind":"method","src_hash":"c3510232f39267ac","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_Integral(a, b, x1)","rhs":"Integral(t ** (a - 1) * (1 - t) ** (b - 1), (t, x1, x2))","over":{"base":"Any"},"name":"_eval_rewrite_as_Integral_correct"},"guarantee":"returns Integral(t ** (a - 1) * (1 - t) ** (b - 1), (t, x1, x2))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.beta_functions.betainc._eval_rewrite_as_Integral_correct","statement":"Path(_eval_rewrite_as_Integral(x), returns Integral(t ** (a - 1) * (1 - t) ** (b - 1), (t, x1, x2)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f3a82713f5cfcf90","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Integral(t ** (a - 1) * (1 - t) ** (b - 1), (t, x1, x2))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_Integral(self, a, b, x1, x2, **kwargs):
         from sympy.integrals.integrals import Integral
         t = Dummy(uniquely_named_symbol('t', [a, b, x1, x2]).name)
         return Integral(t**(a - 1)*(1 - t)**(b - 1), (t, x1, x2))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_hyper(a, ), id) over Any             ║
+# ║ Path(_eval_rewrite_as_hyper(a, b, x1), id) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (x2 ** a * hyper((a, 1 - b), (a + 1,), x2...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_hyper : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 7bb19f44adfa2a5c   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.beta_functions.betainc._eval_rewrite_as_hyper","kind":"method","src_hash":"f4bc1e5af677bca6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_hyper(a, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_hyper_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"hyper","by":"library_axiom"},{"fn":"hyper","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7bb19f44adfa2a5c"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.beta_functions.betainc._eval_rewrite_as_hyper","kind":"method","src_hash":"f4bc1e5af677bca6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_hyper(a, b, x1)","rhs":"(x2 ** a * hyper((a, 1 - b), (a + 1,), x2) - x1 ** a * hyper((a, 1 - b), (a + 1,), x1)) / a","over":{"base":"Any"},"name":"_eval_rewrite_as_hyper_correct","kind":"composition"},"guarantee":"returns (x2 ** a * hyper((a, 1 - b), (a + 1,), x2) - x1 ** a * hyper((a, 1 - b), (a + 1,), x1)) / a","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"hyper","by":"library_axiom"},{"fn":"hyper","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7bb19f44adfa2a5c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(x2 ** a * hyper((a, 1 - b), (a + 1,), x2) - x1 ** a * hyper((a, 1 - b), (a + 1,), x1)) / a","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_hyper(self, a, b, x1, x2, **kwargs):
         from sympy.functions.special.hyper import hyper
         return (x2**a * hyper((a, 1 - b), (a + 1,), x2) - x1**a * hyper((a, 1 - b), (a + 1,), x1)) / a
@@ -486,14 +597,20 @@ class betainc(DefinedFunction):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(betainc_regularized(*args), correctly constructs a betainc_regularized instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ betainc_regularized : Any → Any                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DefinedFunction)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ betainc_regularized : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 81bb490628302ed5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.beta_functions.betainc_regularized","kind":"class","src_hash":"c946901582fed4ee","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"betainc_regularized(*args)","rhs":"correctly constructs a betainc_regularized instance","over":{"base":"Any"},"name":"betainc_regularized_class_invariant"},"guarantee":"correctly constructs a betainc_regularized instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"81bb490628302ed5"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.beta_functions.betainc_regularized","kind":"class","src_hash":"c946901582fed4ee","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DefinedFunction)"},"spec":{"lhs":"betainc_regularized(*args)","rhs":"correctly constructs a betainc_regularized instance","over":{"base":"Any"},"name":"betainc_regularized_class_invariant"},"guarantee":"isinstance(self, DefinedFunction)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"81bb490628302ed5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DefinedFunction)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":false,"binding_errors":["Function betainc_regularized not found in source"]}}
 class betainc_regularized(DefinedFunction):
     r"""
     The Generalized Regularized Incomplete Beta function is given by
@@ -568,44 +685,64 @@ class betainc_regularized(DefinedFunction):
     unbranched = True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, a, b), super().__new__(cls, a, b, x1, x2)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  super().__new__(cls, a, b, x1, x2)             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5137855c8fe54b0d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.beta_functions.betainc_regularized.__new__","kind":"method","src_hash":"4d2d7015499c5c84","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5137855c8fe54b0d"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.beta_functions.betainc_regularized.__new__","kind":"method","src_hash":"4d2d7015499c5c84","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, a, b)","rhs":"super().__new__(cls, a, b, x1, x2)","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"returns super().__new__(cls, a, b, x1, x2)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5137855c8fe54b0d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"super().__new__(cls, a, b, x1, x2)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, a, b, x1, x2):
         return super().__new__(cls, a, b, x1, x2)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_mpmath(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_mpmath(), (betainc_mpmath_fix, (*self.args, S(1)))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (betainc_mpmath_fix, (*self.args, S(1)))       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_mpmath : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4d733e598e3590d7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.beta_functions.betainc_regularized._eval_mpmath","kind":"method","src_hash":"896f48d5c88df2ea","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_mpmath()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_mpmath_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4d733e598e3590d7"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.beta_functions.betainc_regularized._eval_mpmath","kind":"method","src_hash":"896f48d5c88df2ea","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_mpmath()","rhs":"(betainc_mpmath_fix, (*self.args, S(1)))","over":{"base":"Any"},"name":"_eval_mpmath_correct"},"guarantee":"returns (betainc_mpmath_fix, (*self.args, S(1)))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4d733e598e3590d7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(betainc_mpmath_fix, (*self.args, S(1)))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_mpmath(self):
         return betainc_mpmath_fix, (*self.args, S(1))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(fdiff(arg), fdiff produces the expected output) over Any ║
+# ║ Path(fdiff(argindex), <unspecified:fdiff>) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: argindex == 3 => -(1 - x1) ** (b - 1...   ║
+# ║   fiber[case_1]: argindex == 4 => (1 - x2) ** (b - 1)...   ║
+# ║   fiber[case_2]: not (argindex == 3) and not (arginde...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ fdiff : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 37525b0ccc3b85f8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f8c3fb1695a4f777  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.beta_functions.betainc_regularized.fdiff","kind":"method","src_hash":"a586517da71fe731","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(arg)","rhs":"fdiff produces the expected output","over":{"base":"Any"},"name":"fdiff_correct"},"guarantee":"fdiff produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.beta_functions.betainc_regularized.fdiff_correct","statement":"Path(fdiff(x), fdiff produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"37525b0ccc3b85f8"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.beta_functions.betainc_regularized.fdiff","kind":"method","src_hash":"a586517da71fe731","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(argindex)","rhs":"<unspecified:fdiff>","over":{"base":"Any"},"name":"fdiff_correct"},"guarantee":"3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.beta_functions.betainc_regularized.fdiff_correct","statement":"Path(fdiff(x), 3-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f8c3fb1695a4f777","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"argindex == 3","ensures":["result == -(1 - x1) ** (b - 1) * x1 ** (a - 1) / beta(a, b)"],"decidability":"z3","returns_expr":"-(1 - x1) ** (b - 1) * x1 ** (a - 1) / beta(a, b)"},{"name":"case_1","guard":"argindex == 4","ensures":["result == (1 - x2) ** (b - 1) * x2 ** (a - 1) / beta(a, b)"],"decidability":"z3","returns_expr":"(1 - x2) ** (b - 1) * x2 ** (a - 1) / beta(a, b)"},{"name":"case_2","guard":"not (argindex == 3) and not (argindex == 4)","ensures":[],"decidability":"z3"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"],"raises":["ArgumentIndexError"]},"state_contract":{"exceptional_post":{"ArgumentIndexError":["isinstance(raised, ArgumentIndexError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def fdiff(self, argindex):
         a, b, x1, x2 = self.args
         if argindex == 3:
@@ -618,45 +755,63 @@ class betainc_regularized(DefinedFunction):
             raise ArgumentIndexError(self, argindex)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_real(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_real(), True) over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  True                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_real : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fdd720c994166510  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4dc7d2da4b742224  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.beta_functions.betainc_regularized._eval_is_real","kind":"method","src_hash":"55c8764ffa38e796","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_real()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_real_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.beta_functions.betainc_regularized._eval_is_real_correct","statement":"Path(_eval_is_real(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fdd720c994166510"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.beta_functions.betainc_regularized._eval_is_real","kind":"method","src_hash":"55c8764ffa38e796","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_real()","rhs":"True","over":{"base":"Any"},"name":"_eval_is_real_correct"},"guarantee":"returns True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.beta_functions.betainc_regularized._eval_is_real_correct","statement":"Path(_eval_is_real(x), returns True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4dc7d2da4b742224","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"True","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_real(self):
         if all(arg.is_real for arg in self.args):
             return True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_conjugate(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_conjugate(), self.func(*map(conjugate, self.args))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.func(*map(conjugate, self.args))          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_conjugate : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2bb129e1e707e9e2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.beta_functions.betainc_regularized._eval_conjugate","kind":"method","src_hash":"3036720cda186c5f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_conjugate()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_conjugate_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2bb129e1e707e9e2"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.beta_functions.betainc_regularized._eval_conjugate","kind":"method","src_hash":"3036720cda186c5f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_conjugate()","rhs":"self.func(*map(conjugate, self.args))","over":{"base":"Any"},"name":"_eval_conjugate_correct"},"guarantee":"returns self.func(*map(conjugate, self.args))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2bb129e1e707e9e2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.func(*map(conjugate, self.args))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.func"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_conjugate(self):
         return self.func(*map(conjugate, self.args))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_Integral(a, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_Integral(a, b, x1), expr / Integral(integrand, (t, 0, 1))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  expr / Integral(integrand, (t, 0, 1))          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_Integral : Any → Any                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 55880ddab37e7421  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9ece3f6f0534e6cc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.beta_functions.betainc_regularized._eval_rewrite_as_Integral","kind":"method","src_hash":"3a0eec8ab2ca2c9c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_Integral(a, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_Integral_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.beta_functions.betainc_regularized._eval_rewrite_as_Integral_correct","statement":"Path(_eval_rewrite_as_Integral(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"55880ddab37e7421"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.beta_functions.betainc_regularized._eval_rewrite_as_Integral","kind":"method","src_hash":"3a0eec8ab2ca2c9c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_Integral(a, b, x1)","rhs":"expr / Integral(integrand, (t, 0, 1))","over":{"base":"Any"},"name":"_eval_rewrite_as_Integral_correct"},"guarantee":"returns expr / Integral(integrand, (t, 0, 1))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.beta_functions.betainc_regularized._eval_rewrite_as_Integral_correct","statement":"Path(_eval_rewrite_as_Integral(x), returns expr / Integral(integrand, (t, 0, 1)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9ece3f6f0534e6cc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"expr / Integral(integrand, (t, 0, 1))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_Integral(self, a, b, x1, x2, **kwargs):
         from sympy.integrals.integrals import Integral
         t = Dummy(uniquely_named_symbol('t', [a, b, x1, x2]).name)
@@ -665,16 +820,22 @@ class betainc_regularized(DefinedFunction):
         return expr / Integral(integrand, (t, 0, 1))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_hyper(a, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_hyper(a, b, x1), expr / beta(a, b)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  expr / beta(a, b)                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_hyper : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 39daf22f730a817b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8257a8934d67b27c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.beta_functions.betainc_regularized._eval_rewrite_as_hyper","kind":"method","src_hash":"45afd17f535d7ee0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_hyper(a, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_hyper_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.beta_functions.betainc_regularized._eval_rewrite_as_hyper_correct","statement":"Path(_eval_rewrite_as_hyper(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"39daf22f730a817b"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.beta_functions.betainc_regularized._eval_rewrite_as_hyper","kind":"method","src_hash":"45afd17f535d7ee0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_hyper(a, b, x1)","rhs":"expr / beta(a, b)","over":{"base":"Any"},"name":"_eval_rewrite_as_hyper_correct"},"guarantee":"returns expr / beta(a, b)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.beta_functions.betainc_regularized._eval_rewrite_as_hyper_correct","statement":"Path(_eval_rewrite_as_hyper(x), returns expr / beta(a, b))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8257a8934d67b27c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"expr / beta(a, b)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_hyper(self, a, b, x1, x2, **kwargs):
         from sympy.functions.special.hyper import hyper
         expr = (x2**a * hyper((a, 1 - b), (a + 1,), x2) - x1**a * hyper((a, 1 - b), (a + 1,), x1)) / a

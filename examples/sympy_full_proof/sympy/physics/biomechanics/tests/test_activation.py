@@ -37,28 +37,42 @@ from sympy.simplify.simplify import simplify
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(TestZerothOrderActivation(*args), correctly constructs a TestZerothOrderActivation instance) over {Any | isinstance(instance, ZerothOrderActivation) and isinstance(self.instance.x, Matrix)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ TestZerothOrderActivation : {Any | isinstance(instanc...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4e7092dee4c051a0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_activation.TestZerothOrderActivation","kind":"class","src_hash":"28e3360124607082","in":{"base":"Any","pred":"isinstance(instance, ZerothOrderActivation) and isinstance(self.instance.x, Matrix)"},"out":{"base":"Any","pred":"issubclass(ZerothOrderActivation, ActivationBase) and issubclass(ZerothOrderActivation, _NamedMixin) and ZerothOrderActivation.__name__ == 'ZerothOrderActivation' and isinstance(instance, ZerothOrderActivation) and isinstance(instance, ZerothOrderActivation) and instance == ZerothOrderActivation(self.name) and hasattr(self.instance, 'name') and self.instance.name == self.name and hasattr(self.instance, 'order') and self.instance.order == 0 and hasattr(self.instance, 'e') and hasattr(self.instance, 'excitation') and self.instance.e == e_expected and self.instance.excitation == e_expected and self.instance.e is self.instance.excitation and hasattr(self.instance, 'a') and hasattr(self.instance, 'activation') and self.instance.a == a_expected and self.instance.activation == a_expected and self.instance.a is self.instance.activation is self.instance.e and hasattr(self.instance, 'x') and hasattr(self.instance, 'state_vars') and self.instance.x == self.instance.state_vars and self.instance.x == x_expected and self.instance.state_vars == x_expected and isinstance(self.instance.x, Matrix) and isinstance(self.instance.state_vars, Matrix) and self.instance.x.shape == (0, 1) and self.instance.state_vars.shape == (0, 1) and hasattr(self.instance, 'r') and hasattr(self.instance, 'input_vars') and self.instance.r == self.instance.input_vars and self.instance.r == r_expected and self.instance.input_vars == r_expected and isinstance(self.instance.r, Matrix) and isinstance(self.instance.input_vars, Matrix) and self.instance.r.shape == (1, 1) and self.instance.input_vars.shape == (1, 1) and hasattr(self.instance, 'p') and hasattr(self.instance, 'constants') and self.instance.p == self.instance.constants and self.instance.p == p_expected and self.instance.constants == p_expected and isinstance(self.instance.p, Matrix) and isinstance(self.instance.constants, Matrix) and self.instance.p.shape == (0, 1) and self.instance.constants.shape == (0, 1) and hasattr(self.instance, 'M') and self.instance.M == M_expected and isinstance(self.instance.M, Matrix) and self.instance.M.shape == (0, 0) and hasattr(self.instance, 'F') and self.instance.F == F_expected and isinstance(self.instance.F, Matrix) and self.instance.F.shape == (0, 1) and hasattr(self.instance, 'rhs') and rhs == rhs_expected and isinstance(rhs, Matrix) and rhs.shape == (0, 1) and repr(self.instance) == expected"},"spec":{"lhs":"TestZerothOrderActivation(*args)","rhs":"correctly constructs a TestZerothOrderActivation instance","over":{"base":"Any","pred":"isinstance(instance, ZerothOrderActivation) and isinstance(self.instance.x, Matrix)"},"name":"TestZerothOrderActivation_class_invariant"},"guarantee":"correctly constructs a TestZerothOrderActivation instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4e7092dee4c051a0"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_activation.TestZerothOrderActivation","kind":"class","src_hash":"28e3360124607082","in":{"base":"Any","pred":"isinstance(instance, ZerothOrderActivation) and isinstance(self.instance.x, Matrix)"},"out":{"base":"Any","pred":"issubclass(ZerothOrderActivation, ActivationBase) and issubclass(ZerothOrderActivation, _NamedMixin) and ZerothOrderActivation.__name__ == 'ZerothOrderActivation' and isinstance(instance, ZerothOrderActivation) and isinstance(instance, ZerothOrderActivation) and instance == ZerothOrderActivation(self.name) and hasattr(self.instance, 'name') and self.instance.name == self.name and hasattr(self.instance, 'order') and self.instance.order == 0 and hasattr(self.instance, 'e') and hasattr(self.instance, 'excitation') and self.instance.e == e_expected and self.instance.excitation == e_expected and self.instance.e is self.instance.excitation and hasattr(self.instance, 'a') and hasattr(self.instance, 'activation') and self.instance.a == a_expected and self.instance.activation == a_expected and self.instance.a is self.instance.activation is self.instance.e and hasattr(self.instance, 'x') and hasattr(self.instance, 'state_vars') and self.instance.x == self.instance.state_vars and self.instance.x == x_expected and self.instance.state_vars == x_expected and isinstance(self.instance.x, Matrix) and isinstance(self.instance.state_vars, Matrix) and self.instance.x.shape == (0, 1) and self.instance.state_vars.shape == (0, 1) and hasattr(self.instance, 'r') and hasattr(self.instance, 'input_vars') and self.instance.r == self.instance.input_vars and self.instance.r == r_expected and self.instance.input_vars == r_expected and isinstance(self.instance.r, Matrix) and isinstance(self.instance.input_vars, Matrix) and self.instance.r.shape == (1, 1) and self.instance.input_vars.shape == (1, 1) and hasattr(self.instance, 'p') and hasattr(self.instance, 'constants') and self.instance.p == self.instance.constants and self.instance.p == p_expected and self.instance.constants == p_expected and isinstance(self.instance.p, Matrix) and isinstance(self.instance.constants, Matrix) and self.instance.p.shape == (0, 1) and self.instance.constants.shape == (0, 1) and hasattr(self.instance, 'M') and self.instance.M == M_expected and isinstance(self.instance.M, Matrix) and self.instance.M.shape == (0, 0) and hasattr(self.instance, 'F') and self.instance.F == F_expected and isinstance(self.instance.F, Matrix) and self.instance.F.shape == (0, 1) and hasattr(self.instance, 'rhs') and rhs == rhs_expected and isinstance(rhs, Matrix) and rhs.shape == (0, 1) and repr(self.instance) == expected"},"spec":{"lhs":"TestZerothOrderActivation(*args)","rhs":"correctly constructs a TestZerothOrderActivation instance","over":{"base":"Any","pred":"isinstance(instance, ZerothOrderActivation) and isinstance(self.instance.x, Matrix)"},"name":"TestZerothOrderActivation_class_invariant"},"guarantee":"correctly constructs a TestZerothOrderActivation instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4e7092dee4c051a0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial"},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"assumed","binding":false,"binding_errors":["Function TestZerothOrderActivation not found in source"]}}
 class TestZerothOrderActivation:
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_class(), test_class produces the expected output) over Any ║
+# ║ Path(test_class(), issubclass(ZerothOrderActivation, ActivationBase) and issubclass(ZerothOrderActivation, _NamedMixin) and ZerothOrderActivation.__name__ == 'ZerothOrderActivation') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_class : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  issubclass(ZerothOrderActivation, Activat...   ║
+# ║   ensures:  issubclass(ZerothOrderActivation, _NamedM...   ║
+# ║   ensures:  ZerothOrderActivation.__name__ == 'Zeroth...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_class : Any → {Any | result satisfies: issubclas...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 522d8c2c2c889978  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eb6122bb3b4ad19d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_activation.TestZerothOrderActivation.test_class","kind":"staticmethod","src_hash":"d87f4c87f7197ebd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_class()","rhs":"test_class produces the expected output","over":{"base":"Any"},"name":"test_class_correct"},"guarantee":"test_class produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_activation.TestZerothOrderActivation.test_class_correct","statement":"Path(test_class(x), test_class produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"522d8c2c2c889978"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_activation.TestZerothOrderActivation.test_class","kind":"staticmethod","src_hash":"d87f4c87f7197ebd","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: issubclass(ZerothOrderActivation, ActivationBase) and issubclass(ZerothOrderActivation, _NamedMixin) and ZerothOrderActivation.__name__ == 'ZerothOrderActivation'"},"spec":{"lhs":"test_class()","rhs":"issubclass(ZerothOrderActivation, ActivationBase) and issubclass(ZerothOrderActivation, _NamedMixin) and ZerothOrderActivation.__name__ == 'ZerothOrderActivation'","over":{"base":"Any"},"name":"test_class_correct"},"guarantee":"issubclass(ZerothOrderActivation, ActivationBase); issubclass(ZerothOrderActivation, _NamedMixin); ZerothOrderActivation.__name__ == 'ZerothOrderActivation'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_activation.TestZerothOrderActivation.test_class_correct","statement":"Path(test_class(x), issubclass(ZerothOrderActivation, ActivationBase); issubclass(ZerothOrderActivation, _NamedMixin); ZerothOrderActivation.__name__ == 'ZerothOrderActivation')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eb6122bb3b4ad19d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["issubclass(ZerothOrderActivation, ActivationBase)","issubclass(ZerothOrderActivation, _NamedMixin)","ZerothOrderActivation.__name__ == 'ZerothOrderActivation'"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_class():
         assert issubclass(ZerothOrderActivation, ActivationBase)
         assert issubclass(ZerothOrderActivation, _NamedMixin)
@@ -66,93 +80,135 @@ class TestZerothOrderActivation:
 
     @pytest.fixture(autouse=True)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_zeroth_order_activation_fixture(), internal helper behaves correctly) over Any ║
+# ║ Path(_zeroth_order_activation_fixture(), <unspecified:_zeroth_order_activation_fixture>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _zeroth_order_activation_fixture : Any → Any               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cb472603a51dffb0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_activation.TestZerothOrderActivation._zeroth_order_activation_fixture","kind":"method","src_hash":"a30c86187a968cdd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_zeroth_order_activation_fixture()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_zeroth_order_activation_fixture_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_activation.TestZerothOrderActivation._zeroth_order_activation_fixture_correct","statement":"Path(_zeroth_order_activation_fixture(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cb472603a51dffb0"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_activation.TestZerothOrderActivation._zeroth_order_activation_fixture","kind":"method","src_hash":"a30c86187a968cdd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_zeroth_order_activation_fixture()","rhs":"<unspecified:_zeroth_order_activation_fixture>","over":{"base":"Any"},"name":"_zeroth_order_activation_fixture_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_activation.TestZerothOrderActivation._zeroth_order_activation_fixture_correct","statement":"Path(_zeroth_order_activation_fixture(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cb472603a51dffb0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self.name"],"writes":["self.e","self.instance","self.name"]},"state_contract":{"modifies":["self.e","self.instance","self.name"],"old_bindings":{"old_self_e":"self.e","old_self_instance":"self.instance","old_self_name":"self.name"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _zeroth_order_activation_fixture(self):
         self.name = 'name'
         self.e = dynamicsymbols('e_name')
         self.instance = ZerothOrderActivation(self.name)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_instance(), test_instance produces the expected output) over Any ║
+# ║ Path(test_instance(), isinstance(instance, ZerothOrderActivation)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_instance : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(instance, ZerothOrderActivation)    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_instance : Any → {Any | result satisfies: isinst...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 71e4475eae82999c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6e6d3f68b189f797  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_activation.TestZerothOrderActivation.test_instance","kind":"method","src_hash":"6ae67a7cda9369ac","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_instance()","rhs":"test_instance produces the expected output","over":{"base":"Any"},"name":"test_instance_correct"},"guarantee":"test_instance produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_activation.TestZerothOrderActivation.test_instance_correct","statement":"Path(test_instance(x), test_instance produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"71e4475eae82999c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_activation.TestZerothOrderActivation.test_instance","kind":"method","src_hash":"6ae67a7cda9369ac","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(instance, ZerothOrderActivation)"},"spec":{"lhs":"test_instance()","rhs":"isinstance(instance, ZerothOrderActivation)","over":{"base":"Any"},"name":"test_instance_correct"},"guarantee":"isinstance(instance, ZerothOrderActivation)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_activation.TestZerothOrderActivation.test_instance_correct","statement":"Path(test_instance(x), isinstance(instance, ZerothOrderActivation))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6e6d3f68b189f797","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(instance, ZerothOrderActivation)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.name"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_instance(self):
         instance = ZerothOrderActivation(self.name)
         assert isinstance(instance, ZerothOrderActivation)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_with_defaults(), test_with_defaults produces the expected output) over Any ║
+# ║ Path(test_with_defaults(), isinstance(instance, ZerothOrderActivation) and instance == ZerothOrderActivation(self.name)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_with_defaults : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(instance, ZerothOrderActivation)    ║
+# ║   ensures:  instance == ZerothOrderActivation(self.name)   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_with_defaults : Any → {Any | result satisfies: i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8c91f977af5ad8ea  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 21a40306e01f4d00  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_activation.TestZerothOrderActivation.test_with_defaults","kind":"method","src_hash":"0e35dd9286bf8b86","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_with_defaults()","rhs":"test_with_defaults produces the expected output","over":{"base":"Any"},"name":"test_with_defaults_correct"},"guarantee":"test_with_defaults produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_activation.TestZerothOrderActivation.test_with_defaults_correct","statement":"Path(test_with_defaults(x), test_with_defaults produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8c91f977af5ad8ea"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_activation.TestZerothOrderActivation.test_with_defaults","kind":"method","src_hash":"0e35dd9286bf8b86","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(instance, ZerothOrderActivation) and instance == ZerothOrderActivation(self.name)"},"spec":{"lhs":"test_with_defaults()","rhs":"isinstance(instance, ZerothOrderActivation) and instance == ZerothOrderActivation(self.name)","over":{"base":"Any"},"name":"test_with_defaults_correct"},"guarantee":"isinstance(instance, ZerothOrderActivation); instance == ZerothOrderActivation(self.name)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_activation.TestZerothOrderActivation.test_with_defaults_correct","statement":"Path(test_with_defaults(x), isinstance(instance, ZerothOrderActivation); instance == ZerothOrderActivation(self.name))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"21a40306e01f4d00","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(instance, ZerothOrderActivation)","instance == ZerothOrderActivation(self.name)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.name"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_with_defaults(self):
         instance = ZerothOrderActivation.with_defaults(self.name)
         assert isinstance(instance, ZerothOrderActivation)
         assert instance == ZerothOrderActivation(self.name)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_name(), test_name produces the expected output) over Any ║
+# ║ Path(test_name(), hasattr(self.instance, 'name')) over {Any | self.instance.name == self.name} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_name : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: self.instance.name == self.name                ║
+# ║   ensures:  hasattr(self.instance, 'name')                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_name : {Any | self.instance.name == self.name} →...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 06db2dcea82f0ff4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c6a9d899b5c0ba2d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_activation.TestZerothOrderActivation.test_name","kind":"method","src_hash":"af47d4629f2c2fe7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_name()","rhs":"test_name produces the expected output","over":{"base":"Any"},"name":"test_name_correct"},"guarantee":"test_name produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_activation.TestZerothOrderActivation.test_name_correct","statement":"Path(test_name(x), test_name produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"06db2dcea82f0ff4"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_activation.TestZerothOrderActivation.test_name","kind":"method","src_hash":"af47d4629f2c2fe7","in":{"base":"Any","pred":"self.instance.name == self.name"},"out":{"base":"Any","pred":"result satisfies: hasattr(self.instance, 'name')"},"spec":{"lhs":"test_name()","rhs":"hasattr(self.instance, 'name')","over":{"base":"Any","pred":"self.instance.name == self.name"},"name":"test_name_correct"},"guarantee":"hasattr(self.instance, 'name')","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_activation.TestZerothOrderActivation.test_name_correct","statement":"Path(test_name(x), hasattr(self.instance, 'name'))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c6a9d899b5c0ba2d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["self.instance.name == self.name"],"ensures":["hasattr(self.instance, 'name')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.instance","self.name"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_name(self):
         assert hasattr(self.instance, 'name')
         assert self.instance.name == self.name
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_order(), test_order produces the expected output) over Any ║
+# ║ Path(test_order(), hasattr(self.instance, 'order')) over {Any | self.instance.order == 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_order : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: self.instance.order == 0                       ║
+# ║   ensures:  hasattr(self.instance, 'order')                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_order : {Any | self.instance.order == 0} → {Any ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 479e357f427604b9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a1e6804675b86450  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_activation.TestZerothOrderActivation.test_order","kind":"method","src_hash":"24795180c1adc153","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_order()","rhs":"test_order produces the expected output","over":{"base":"Any"},"name":"test_order_correct"},"guarantee":"test_order produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_activation.TestZerothOrderActivation.test_order_correct","statement":"Path(test_order(x), test_order produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"479e357f427604b9"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_activation.TestZerothOrderActivation.test_order","kind":"method","src_hash":"24795180c1adc153","in":{"base":"Any","pred":"self.instance.order == 0"},"out":{"base":"Any","pred":"result satisfies: hasattr(self.instance, 'order')"},"spec":{"lhs":"test_order()","rhs":"hasattr(self.instance, 'order')","over":{"base":"Any","pred":"self.instance.order == 0"},"name":"test_order_correct"},"guarantee":"hasattr(self.instance, 'order')","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_activation.TestZerothOrderActivation.test_order_correct","statement":"Path(test_order(x), hasattr(self.instance, 'order'))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a1e6804675b86450","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["self.instance.order == 0"],"ensures":["hasattr(self.instance, 'order')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.instance"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_order(self):
         assert hasattr(self.instance, 'order')
         assert self.instance.order == 0
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_excitation_attribute(), test_excitation_attribute produces the expected output) over Any ║
+# ║ Path(test_excitation_attribute(), hasattr(self.instance, 'e') and hasattr(self.instance, 'excitation') and self.instance.e == e_expected and self.instance.excitation == e_expected) over {Any | self.instance.e is self.instance.excitation} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_excitation_attribute : Any → Any                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: self.instance.e is self.instance.excitation    ║
+# ║   ensures:  hasattr(self.instance, 'e')                    ║
+# ║   ensures:  hasattr(self.instance, 'excitation')           ║
+# ║   ensures:  self.instance.e == e_expected                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_excitation_attribute : {Any | self.instance.e is...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1f3ebdc4a3823561  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4e5db66887f59f67  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_activation.TestZerothOrderActivation.test_excitation_attribute","kind":"method","src_hash":"e0a7d426f25f9367","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_excitation_attribute()","rhs":"test_excitation_attribute produces the expected output","over":{"base":"Any"},"name":"test_excitation_attribute_correct"},"guarantee":"test_excitation_attribute produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_activation.TestZerothOrderActivation.test_excitation_attribute_correct","statement":"Path(test_excitation_attribute(x), test_excitation_attribute produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1f3ebdc4a3823561"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_activation.TestZerothOrderActivation.test_excitation_attribute","kind":"method","src_hash":"e0a7d426f25f9367","in":{"base":"Any","pred":"self.instance.e is self.instance.excitation"},"out":{"base":"Any","pred":"result satisfies: hasattr(self.instance, 'e') and hasattr(self.instance, 'excitation') and self.instance.e == e_expected and self.instance.excitation == e_expected"},"spec":{"lhs":"test_excitation_attribute()","rhs":"hasattr(self.instance, 'e') and hasattr(self.instance, 'excitation') and self.instance.e == e_expected and self.instance.excitation == e_expected","over":{"base":"Any","pred":"self.instance.e is self.instance.excitation"},"name":"test_excitation_attribute_correct"},"guarantee":"hasattr(self.instance, 'e'); hasattr(self.instance, 'excitation'); self.instance.e == e_expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_activation.TestZerothOrderActivation.test_excitation_attribute_correct","statement":"Path(test_excitation_attribute(x), hasattr(self.instance, 'e'); hasattr(self.instance, 'excitation'); self.instance.e == e_expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4e5db66887f59f67","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["self.instance.e is self.instance.excitation"],"ensures":["hasattr(self.instance, 'e')","hasattr(self.instance, 'excitation')","self.instance.e == e_expected","self.instance.excitation == e_expected"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.instance"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_excitation_attribute(self):
         assert hasattr(self.instance, 'e')
         assert hasattr(self.instance, 'excitation')
@@ -162,16 +218,25 @@ class TestZerothOrderActivation:
         assert self.instance.e is self.instance.excitation
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_activation_attribute(), test_activation_attribute produces the expected output) over Any ║
+# ║ Path(test_activation_attribute(), hasattr(self.instance, 'a') and hasattr(self.instance, 'activation') and self.instance.a == a_expected and self.instance.activation == a_expected) over {Any | self.instance.a is self.instance.activation is self.instance.e} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_activation_attribute : Any → Any                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: self.instance.a is self.instance.activati...   ║
+# ║   ensures:  hasattr(self.instance, 'a')                    ║
+# ║   ensures:  hasattr(self.instance, 'activation')           ║
+# ║   ensures:  self.instance.a == a_expected                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_activation_attribute : {Any | self.instance.a is...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5f6ce6c3f12ef3b2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5592ad6ff3496279  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_activation.TestZerothOrderActivation.test_activation_attribute","kind":"method","src_hash":"33c1b2e559371d23","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_activation_attribute()","rhs":"test_activation_attribute produces the expected output","over":{"base":"Any"},"name":"test_activation_attribute_correct"},"guarantee":"test_activation_attribute produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_activation.TestZerothOrderActivation.test_activation_attribute_correct","statement":"Path(test_activation_attribute(x), test_activation_attribute produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5f6ce6c3f12ef3b2"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_activation.TestZerothOrderActivation.test_activation_attribute","kind":"method","src_hash":"33c1b2e559371d23","in":{"base":"Any","pred":"self.instance.a is self.instance.activation is self.instance.e"},"out":{"base":"Any","pred":"result satisfies: hasattr(self.instance, 'a') and hasattr(self.instance, 'activation') and self.instance.a == a_expected and self.instance.activation == a_expected"},"spec":{"lhs":"test_activation_attribute()","rhs":"hasattr(self.instance, 'a') and hasattr(self.instance, 'activation') and self.instance.a == a_expected and self.instance.activation == a_expected","over":{"base":"Any","pred":"self.instance.a is self.instance.activation is self.instance.e"},"name":"test_activation_attribute_correct"},"guarantee":"hasattr(self.instance, 'a'); hasattr(self.instance, 'activation'); self.instance.a == a_expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_activation.TestZerothOrderActivation.test_activation_attribute_correct","statement":"Path(test_activation_attribute(x), hasattr(self.instance, 'a'); hasattr(self.instance, 'activation'); self.instance.a == a_expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5592ad6ff3496279","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["self.instance.a is self.instance.activation is self.instance.e"],"ensures":["hasattr(self.instance, 'a')","hasattr(self.instance, 'activation')","self.instance.a == a_expected","self.instance.activation == a_expected"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.instance"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_activation_attribute(self):
         assert hasattr(self.instance, 'a')
         assert hasattr(self.instance, 'activation')
@@ -181,16 +246,27 @@ class TestZerothOrderActivation:
         assert self.instance.a is self.instance.activation is self.instance.e
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_state_vars_attribute(), test_state_vars_attribute produces the expected output) over Any ║
+# ║ Path(test_state_vars_attribute(), hasattr(self.instance, 'x') and hasattr(self.instance, 'state_vars') and self.instance.x == x_expected and self.instance.state_vars == x_expected and isinstance(self.instance.x, Matrix) and isinstance(self.instance.state_vars, Matrix)) over {Any | self.instance.x == self.instance.state_vars and self.instance.x.shape == (0, 1) and self.instance.state_vars.shape == (0, 1)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_state_vars_attribute : Any → Any                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: self.instance.x == self.instance.state_vars    ║
+# ║   requires: self.instance.x.shape == (0, 1)                ║
+# ║   requires: self.instance.state_vars.shape == (0, 1)       ║
+# ║   ensures:  hasattr(self.instance, 'x')                    ║
+# ║   ensures:  hasattr(self.instance, 'state_vars')           ║
+# ║   ensures:  self.instance.x == x_expected                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_state_vars_attribute : {Any | self.instance.x ==...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d58c4b8d7715d09f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f105220c5c351743  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_activation.TestZerothOrderActivation.test_state_vars_attribute","kind":"method","src_hash":"c54de97f568d40ad","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_state_vars_attribute()","rhs":"test_state_vars_attribute produces the expected output","over":{"base":"Any"},"name":"test_state_vars_attribute_correct"},"guarantee":"test_state_vars_attribute produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_activation.TestZerothOrderActivation.test_state_vars_attribute_correct","statement":"Path(test_state_vars_attribute(x), test_state_vars_attribute produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d58c4b8d7715d09f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_activation.TestZerothOrderActivation.test_state_vars_attribute","kind":"method","src_hash":"c54de97f568d40ad","in":{"base":"Any","pred":"self.instance.x == self.instance.state_vars and self.instance.x.shape == (0, 1) and self.instance.state_vars.shape == (0, 1)"},"out":{"base":"Any","pred":"result satisfies: hasattr(self.instance, 'x') and hasattr(self.instance, 'state_vars') and self.instance.x == x_expected and self.instance.state_vars == x_expected and isinstance(self.instance.x, Matrix) and isinstance(self.instance.state_vars, Matrix)"},"spec":{"lhs":"test_state_vars_attribute()","rhs":"hasattr(self.instance, 'x') and hasattr(self.instance, 'state_vars') and self.instance.x == x_expected and self.instance.state_vars == x_expected and isinstance(self.instance.x, Matrix) and isinstance(self.instance.state_vars, Matrix)","over":{"base":"Any","pred":"self.instance.x == self.instance.state_vars and self.instance.x.shape == (0, 1) and self.instance.state_vars.shape == (0, 1)"},"name":"test_state_vars_attribute_correct"},"guarantee":"hasattr(self.instance, 'x'); hasattr(self.instance, 'state_vars'); self.instance.x == x_expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_activation.TestZerothOrderActivation.test_state_vars_attribute_correct","statement":"Path(test_state_vars_attribute(x), hasattr(self.instance, 'x'); hasattr(self.instance, 'state_vars'); self.instance.x == x_expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f105220c5c351743","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["self.instance.x == self.instance.state_vars","self.instance.x.shape == (0, 1)","self.instance.state_vars.shape == (0, 1)"],"ensures":["hasattr(self.instance, 'x')","hasattr(self.instance, 'state_vars')","self.instance.x == x_expected","self.instance.state_vars == x_expected","isinstance(self.instance.x, Matrix)","isinstance(self.instance.state_vars, Matrix)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.instance"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_state_vars_attribute(self):
         assert hasattr(self.instance, 'x')
         assert hasattr(self.instance, 'state_vars')
@@ -204,16 +280,27 @@ class TestZerothOrderActivation:
         assert self.instance.state_vars.shape == (0, 1)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_input_vars_attribute(), test_input_vars_attribute produces the expected output) over Any ║
+# ║ Path(test_input_vars_attribute(), hasattr(self.instance, 'r') and hasattr(self.instance, 'input_vars') and self.instance.r == r_expected and self.instance.input_vars == r_expected and isinstance(self.instance.r, Matrix) and isinstance(self.instance.input_vars, Matrix)) over {Any | self.instance.r == self.instance.input_vars and self.instance.r.shape == (1, 1) and self.instance.input_vars.shape == (1, 1)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_input_vars_attribute : Any → Any                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: self.instance.r == self.instance.input_vars    ║
+# ║   requires: self.instance.r.shape == (1, 1)                ║
+# ║   requires: self.instance.input_vars.shape == (1, 1)       ║
+# ║   ensures:  hasattr(self.instance, 'r')                    ║
+# ║   ensures:  hasattr(self.instance, 'input_vars')           ║
+# ║   ensures:  self.instance.r == r_expected                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_input_vars_attribute : {Any | self.instance.r ==...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f31315fac1d2c8ca  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f4d5d618e3488ff6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_activation.TestZerothOrderActivation.test_input_vars_attribute","kind":"method","src_hash":"37be1dbbdc26824b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_input_vars_attribute()","rhs":"test_input_vars_attribute produces the expected output","over":{"base":"Any"},"name":"test_input_vars_attribute_correct"},"guarantee":"test_input_vars_attribute produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_activation.TestZerothOrderActivation.test_input_vars_attribute_correct","statement":"Path(test_input_vars_attribute(x), test_input_vars_attribute produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f31315fac1d2c8ca"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_activation.TestZerothOrderActivation.test_input_vars_attribute","kind":"method","src_hash":"37be1dbbdc26824b","in":{"base":"Any","pred":"self.instance.r == self.instance.input_vars and self.instance.r.shape == (1, 1) and self.instance.input_vars.shape == (1, 1)"},"out":{"base":"Any","pred":"result satisfies: hasattr(self.instance, 'r') and hasattr(self.instance, 'input_vars') and self.instance.r == r_expected and self.instance.input_vars == r_expected and isinstance(self.instance.r, Matrix) and isinstance(self.instance.input_vars, Matrix)"},"spec":{"lhs":"test_input_vars_attribute()","rhs":"hasattr(self.instance, 'r') and hasattr(self.instance, 'input_vars') and self.instance.r == r_expected and self.instance.input_vars == r_expected and isinstance(self.instance.r, Matrix) and isinstance(self.instance.input_vars, Matrix)","over":{"base":"Any","pred":"self.instance.r == self.instance.input_vars and self.instance.r.shape == (1, 1) and self.instance.input_vars.shape == (1, 1)"},"name":"test_input_vars_attribute_correct"},"guarantee":"hasattr(self.instance, 'r'); hasattr(self.instance, 'input_vars'); self.instance.r == r_expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_activation.TestZerothOrderActivation.test_input_vars_attribute_correct","statement":"Path(test_input_vars_attribute(x), hasattr(self.instance, 'r'); hasattr(self.instance, 'input_vars'); self.instance.r == r_expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f4d5d618e3488ff6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["self.instance.r == self.instance.input_vars","self.instance.r.shape == (1, 1)","self.instance.input_vars.shape == (1, 1)"],"ensures":["hasattr(self.instance, 'r')","hasattr(self.instance, 'input_vars')","self.instance.r == r_expected","self.instance.input_vars == r_expected","isinstance(self.instance.r, Matrix)","isinstance(self.instance.input_vars, Matrix)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.e","self.instance"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_input_vars_attribute(self):
         assert hasattr(self.instance, 'r')
         assert hasattr(self.instance, 'input_vars')
@@ -227,16 +314,27 @@ class TestZerothOrderActivation:
         assert self.instance.input_vars.shape == (1, 1)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_constants_attribute(), test_constants_attribute produces the expected output) over Any ║
+# ║ Path(test_constants_attribute(), hasattr(self.instance, 'p') and hasattr(self.instance, 'constants') and self.instance.p == p_expected and self.instance.constants == p_expected and isinstance(self.instance.p, Matrix) and isinstance(self.instance.constants, Matrix)) over {Any | self.instance.p == self.instance.constants and self.instance.p.shape == (0, 1) and self.instance.constants.shape == (0, 1)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_constants_attribute : Any → Any                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: self.instance.p == self.instance.constants     ║
+# ║   requires: self.instance.p.shape == (0, 1)                ║
+# ║   requires: self.instance.constants.shape == (0, 1)        ║
+# ║   ensures:  hasattr(self.instance, 'p')                    ║
+# ║   ensures:  hasattr(self.instance, 'constants')            ║
+# ║   ensures:  self.instance.p == p_expected                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_constants_attribute : {Any | self.instance.p == ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 63ec6c098a415d04  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c00c100994408424  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_activation.TestZerothOrderActivation.test_constants_attribute","kind":"method","src_hash":"f4db2598ddddbdf7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_constants_attribute()","rhs":"test_constants_attribute produces the expected output","over":{"base":"Any"},"name":"test_constants_attribute_correct"},"guarantee":"test_constants_attribute produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_activation.TestZerothOrderActivation.test_constants_attribute_correct","statement":"Path(test_constants_attribute(x), test_constants_attribute produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"63ec6c098a415d04"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_activation.TestZerothOrderActivation.test_constants_attribute","kind":"method","src_hash":"f4db2598ddddbdf7","in":{"base":"Any","pred":"self.instance.p == self.instance.constants and self.instance.p.shape == (0, 1) and self.instance.constants.shape == (0, 1)"},"out":{"base":"Any","pred":"result satisfies: hasattr(self.instance, 'p') and hasattr(self.instance, 'constants') and self.instance.p == p_expected and self.instance.constants == p_expected and isinstance(self.instance.p, Matrix) and isinstance(self.instance.constants, Matrix)"},"spec":{"lhs":"test_constants_attribute()","rhs":"hasattr(self.instance, 'p') and hasattr(self.instance, 'constants') and self.instance.p == p_expected and self.instance.constants == p_expected and isinstance(self.instance.p, Matrix) and isinstance(self.instance.constants, Matrix)","over":{"base":"Any","pred":"self.instance.p == self.instance.constants and self.instance.p.shape == (0, 1) and self.instance.constants.shape == (0, 1)"},"name":"test_constants_attribute_correct"},"guarantee":"hasattr(self.instance, 'p'); hasattr(self.instance, 'constants'); self.instance.p == p_expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_activation.TestZerothOrderActivation.test_constants_attribute_correct","statement":"Path(test_constants_attribute(x), hasattr(self.instance, 'p'); hasattr(self.instance, 'constants'); self.instance.p == p_expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c00c100994408424","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["self.instance.p == self.instance.constants","self.instance.p.shape == (0, 1)","self.instance.constants.shape == (0, 1)"],"ensures":["hasattr(self.instance, 'p')","hasattr(self.instance, 'constants')","self.instance.p == p_expected","self.instance.constants == p_expected","isinstance(self.instance.p, Matrix)","isinstance(self.instance.constants, Matrix)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.instance"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_constants_attribute(self):
         assert hasattr(self.instance, 'p')
         assert hasattr(self.instance, 'constants')
@@ -250,16 +348,25 @@ class TestZerothOrderActivation:
         assert self.instance.constants.shape == (0, 1)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_M_attribute(), test_M_attribute produces the expected output) over Any ║
+# ║ Path(test_M_attribute(), hasattr(self.instance, 'M') and self.instance.M == M_expected and isinstance(self.instance.M, Matrix)) over {Any | self.instance.M.shape == (0, 0)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_M_attribute : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: self.instance.M.shape == (0, 0)                ║
+# ║   ensures:  hasattr(self.instance, 'M')                    ║
+# ║   ensures:  self.instance.M == M_expected                  ║
+# ║   ensures:  isinstance(self.instance.M, Matrix)            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_M_attribute : {Any | self.instance.M.shape == (0...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fc81a223fb637614  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b1f9a119ed3bd081  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_activation.TestZerothOrderActivation.test_M_attribute","kind":"method","src_hash":"087687f87cdfc36b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_M_attribute()","rhs":"test_M_attribute produces the expected output","over":{"base":"Any"},"name":"test_M_attribute_correct"},"guarantee":"test_M_attribute produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_activation.TestZerothOrderActivation.test_M_attribute_correct","statement":"Path(test_M_attribute(x), test_M_attribute produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fc81a223fb637614"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_activation.TestZerothOrderActivation.test_M_attribute","kind":"method","src_hash":"087687f87cdfc36b","in":{"base":"Any","pred":"self.instance.M.shape == (0, 0)"},"out":{"base":"Any","pred":"result satisfies: hasattr(self.instance, 'M') and self.instance.M == M_expected and isinstance(self.instance.M, Matrix)"},"spec":{"lhs":"test_M_attribute()","rhs":"hasattr(self.instance, 'M') and self.instance.M == M_expected and isinstance(self.instance.M, Matrix)","over":{"base":"Any","pred":"self.instance.M.shape == (0, 0)"},"name":"test_M_attribute_correct"},"guarantee":"hasattr(self.instance, 'M'); self.instance.M == M_expected; isinstance(self.instance.M, Matrix)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_activation.TestZerothOrderActivation.test_M_attribute_correct","statement":"Path(test_M_attribute(x), hasattr(self.instance, 'M'); self.instance.M == M_expected; isinstance(self.instance.M, Matrix))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b1f9a119ed3bd081","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["self.instance.M.shape == (0, 0)"],"ensures":["hasattr(self.instance, 'M')","self.instance.M == M_expected","isinstance(self.instance.M, Matrix)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.instance"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_M_attribute(self):
         assert hasattr(self.instance, 'M')
         M_expected = Matrix([])
@@ -268,16 +375,25 @@ class TestZerothOrderActivation:
         assert self.instance.M.shape == (0, 0)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_F(), test_F produces the expected output) over Any ║
+# ║ Path(test_F(), hasattr(self.instance, 'F') and self.instance.F == F_expected and isinstance(self.instance.F, Matrix)) over {Any | self.instance.F.shape == (0, 1)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_F : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: self.instance.F.shape == (0, 1)                ║
+# ║   ensures:  hasattr(self.instance, 'F')                    ║
+# ║   ensures:  self.instance.F == F_expected                  ║
+# ║   ensures:  isinstance(self.instance.F, Matrix)            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_F : {Any | self.instance.F.shape == (0, 1)} → {A...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4b23ceca56035f23  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 09cd82b60720a06b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_activation.TestZerothOrderActivation.test_F","kind":"method","src_hash":"e6224ff6640046f5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_F()","rhs":"test_F produces the expected output","over":{"base":"Any"},"name":"test_F_correct"},"guarantee":"test_F produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_activation.TestZerothOrderActivation.test_F_correct","statement":"Path(test_F(x), test_F produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4b23ceca56035f23"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_activation.TestZerothOrderActivation.test_F","kind":"method","src_hash":"e6224ff6640046f5","in":{"base":"Any","pred":"self.instance.F.shape == (0, 1)"},"out":{"base":"Any","pred":"result satisfies: hasattr(self.instance, 'F') and self.instance.F == F_expected and isinstance(self.instance.F, Matrix)"},"spec":{"lhs":"test_F()","rhs":"hasattr(self.instance, 'F') and self.instance.F == F_expected and isinstance(self.instance.F, Matrix)","over":{"base":"Any","pred":"self.instance.F.shape == (0, 1)"},"name":"test_F_correct"},"guarantee":"hasattr(self.instance, 'F'); self.instance.F == F_expected; isinstance(self.instance.F, Matrix)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_activation.TestZerothOrderActivation.test_F_correct","statement":"Path(test_F(x), hasattr(self.instance, 'F'); self.instance.F == F_expected; isinstance(self.instance.F, Matrix))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"09cd82b60720a06b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["self.instance.F.shape == (0, 1)"],"ensures":["hasattr(self.instance, 'F')","self.instance.F == F_expected","isinstance(self.instance.F, Matrix)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.instance"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_F(self):
         assert hasattr(self.instance, 'F')
         F_expected = zeros(0, 1)
@@ -286,16 +402,24 @@ class TestZerothOrderActivation:
         assert self.instance.F.shape == (0, 1)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_rhs(), test_rhs produces the expected output) over Any ║
+# ║ Path(test_rhs(), hasattr(self.instance, 'rhs') and rhs == rhs_expected and isinstance(rhs, Matrix) and rhs.shape == (0, 1)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_rhs : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  hasattr(self.instance, 'rhs')                  ║
+# ║   ensures:  rhs == rhs_expected                            ║
+# ║   ensures:  isinstance(rhs, Matrix)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_rhs : Any → {Any | result satisfies: hasattr(sel...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 769e38dcfd057fd9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e6ff1b3e109f8b09  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_activation.TestZerothOrderActivation.test_rhs","kind":"method","src_hash":"1523265a6547e2c5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_rhs()","rhs":"test_rhs produces the expected output","over":{"base":"Any"},"name":"test_rhs_correct"},"guarantee":"test_rhs produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_activation.TestZerothOrderActivation.test_rhs_correct","statement":"Path(test_rhs(x), test_rhs produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"769e38dcfd057fd9"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_activation.TestZerothOrderActivation.test_rhs","kind":"method","src_hash":"1523265a6547e2c5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: hasattr(self.instance, 'rhs') and rhs == rhs_expected and isinstance(rhs, Matrix) and rhs.shape == (0, 1)"},"spec":{"lhs":"test_rhs()","rhs":"hasattr(self.instance, 'rhs') and rhs == rhs_expected and isinstance(rhs, Matrix) and rhs.shape == (0, 1)","over":{"base":"Any"},"name":"test_rhs_correct"},"guarantee":"hasattr(self.instance, 'rhs'); rhs == rhs_expected; isinstance(rhs, Matrix)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_activation.TestZerothOrderActivation.test_rhs_correct","statement":"Path(test_rhs(x), hasattr(self.instance, 'rhs'); rhs == rhs_expected; isinstance(rhs, Matrix))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e6ff1b3e109f8b09","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["hasattr(self.instance, 'rhs')","rhs == rhs_expected","isinstance(rhs, Matrix)","rhs.shape == (0, 1)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.instance"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_rhs(self):
         assert hasattr(self.instance, 'rhs')
         rhs_expected = zeros(0, 1)
@@ -305,16 +429,22 @@ class TestZerothOrderActivation:
         assert rhs.shape == (0, 1)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_repr(), test_repr produces the expected output) over Any ║
+# ║ Path(test_repr(), repr(self.instance) == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_repr : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  repr(self.instance) == expected                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_repr : Any → {Any | result satisfies: repr(self....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1246be665c30d340  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f540e214159ba127  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_activation.TestZerothOrderActivation.test_repr","kind":"method","src_hash":"83fd603b7fac4a66","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_repr()","rhs":"test_repr produces the expected output","over":{"base":"Any"},"name":"test_repr_correct"},"guarantee":"test_repr produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_activation.TestZerothOrderActivation.test_repr_correct","statement":"Path(test_repr(x), test_repr produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1246be665c30d340"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_activation.TestZerothOrderActivation.test_repr","kind":"method","src_hash":"83fd603b7fac4a66","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: repr(self.instance) == expected"},"spec":{"lhs":"test_repr()","rhs":"repr(self.instance) == expected","over":{"base":"Any"},"name":"test_repr_correct"},"guarantee":"repr(self.instance) == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_activation.TestZerothOrderActivation.test_repr_correct","statement":"Path(test_repr(x), repr(self.instance) == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f540e214159ba127","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["repr(self.instance) == expected"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.instance"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_repr(self):
         expected = 'ZerothOrderActivation(\'name\')'
         assert repr(self.instance) == expected
@@ -323,28 +453,42 @@ class TestZerothOrderActivation:
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(TestFirstOrderActivationDeGroote2016(*args), correctly constructs a TestFirstOrderActivationDeGroote2016 instance) over {Any | isinstance(instance, FirstOrderActivationDeGroote2016) and isinstance(self.instance.x, Matrix)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ TestFirstOrderActivationDeGroote2016 : {Any | isinsta...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 2.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 05ec6bad1c3b1707  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_activation.TestFirstOrderActivationDeGroote2016","kind":"class","src_hash":"20169fc58e54b678","in":{"base":"Any","pred":"isinstance(instance, FirstOrderActivationDeGroote2016) and isinstance(self.instance.x, Matrix)"},"out":{"base":"Any","pred":"issubclass(FirstOrderActivationDeGroote2016, ActivationBase) and issubclass(FirstOrderActivationDeGroote2016, _NamedMixin) and FirstOrderActivationDeGroote2016.__name__ == 'FirstOrderActivationDeGroote2016' and isinstance(instance, FirstOrderActivationDeGroote2016) and isinstance(instance, FirstOrderActivationDeGroote2016) and instance.tau_a == Float('0.015') and instance.activation_time_constant == Float('0.015') and instance.tau_d == Float('0.060') and instance.deactivation_time_constant == Float('0.060') and instance.b == Float('10.0') and instance.smoothing_rate == Float('10.0') and hasattr(self.instance, 'name') and self.instance.name == self.name and hasattr(self.instance, 'order') and self.instance.order == 1 and hasattr(self.instance, 'e') and hasattr(self.instance, 'excitation') and self.instance.e == e_expected and self.instance.excitation == e_expected and self.instance.e is self.instance.excitation and hasattr(self.instance, 'a') and hasattr(self.instance, 'activation') and self.instance.a == a_expected and self.instance.activation == a_expected and instance.tau_a == expected and instance.activation_time_constant == expected and instance.tau_a is instance.activation_time_constant and instance.tau_d == expected and instance.deactivation_time_constant == expected and instance.tau_d is instance.deactivation_time_constant and instance.b == expected and instance.smoothing_rate == expected and instance.b is instance.smoothing_rate and hasattr(self.instance, 'x') and hasattr(self.instance, 'state_vars') and self.instance.x == self.instance.state_vars and self.instance.x == x_expected and self.instance.state_vars == x_expected and isinstance(self.instance.x, Matrix) and isinstance(self.instance.state_vars, Matrix) and self.instance.x.shape == (1, 1) and self.instance.state_vars.shape == (1, 1) and hasattr(self.instance, 'r') and hasattr(self.instance, 'input_vars') and self.instance.r == self.instance.input_vars and self.instance.r == r_expected and self.instance.input_vars == r_expected and isinstance(self.instance.r, Matrix) and isinstance(self.instance.input_vars, Matrix) and self.instance.r.shape == (1, 1) and self.instance.input_vars.shape == (1, 1) and hasattr(self.instance, 'p') and hasattr(self.instance, 'constants') and self.instance.p == self.instance.constants and self.instance.p == p_expected and self.instance.constants == p_expected and isinstance(self.instance.p, Matrix) and isinstance(self.instance.constants, Matrix) and self.instance.p.shape == (3, 1) and self.instance.constants.shape == (3, 1) and hasattr(self.instance, 'M') and self.instance.M == M_expected and isinstance(self.instance.M, Matrix) and self.instance.M.shape == (1, 1) and hasattr(self.instance, 'F') and self.instance.F == F_expected and isinstance(self.instance.F, Matrix) and self.instance.F.shape == (1, 1) and hasattr(self.instance, 'rhs') and rhs == rhs_expected and isinstance(rhs, Matrix) and rhs.shape == (1, 1) and simplify(self.instance.M.solve(self.instance.F) - rhs) == zeros(1) and repr(self.instance) == expected"},"spec":{"lhs":"TestFirstOrderActivationDeGroote2016(*args)","rhs":"correctly constructs a TestFirstOrderActivationDeGroote2016 instance","over":{"base":"Any","pred":"isinstance(instance, FirstOrderActivationDeGroote2016) and isinstance(self.instance.x, Matrix)"},"name":"TestFirstOrderActivationDeGroote2016_class_invariant"},"guarantee":"correctly constructs a TestFirstOrderActivationDeGroote2016 instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"05ec6bad1c3b1707"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_activation.TestFirstOrderActivationDeGroote2016","kind":"class","src_hash":"20169fc58e54b678","in":{"base":"Any","pred":"isinstance(instance, FirstOrderActivationDeGroote2016) and isinstance(self.instance.x, Matrix)"},"out":{"base":"Any","pred":"issubclass(FirstOrderActivationDeGroote2016, ActivationBase) and issubclass(FirstOrderActivationDeGroote2016, _NamedMixin) and FirstOrderActivationDeGroote2016.__name__ == 'FirstOrderActivationDeGroote2016' and isinstance(instance, FirstOrderActivationDeGroote2016) and isinstance(instance, FirstOrderActivationDeGroote2016) and instance.tau_a == Float('0.015') and instance.activation_time_constant == Float('0.015') and instance.tau_d == Float('0.060') and instance.deactivation_time_constant == Float('0.060') and instance.b == Float('10.0') and instance.smoothing_rate == Float('10.0') and hasattr(self.instance, 'name') and self.instance.name == self.name and hasattr(self.instance, 'order') and self.instance.order == 1 and hasattr(self.instance, 'e') and hasattr(self.instance, 'excitation') and self.instance.e == e_expected and self.instance.excitation == e_expected and self.instance.e is self.instance.excitation and hasattr(self.instance, 'a') and hasattr(self.instance, 'activation') and self.instance.a == a_expected and self.instance.activation == a_expected and instance.tau_a == expected and instance.activation_time_constant == expected and instance.tau_a is instance.activation_time_constant and instance.tau_d == expected and instance.deactivation_time_constant == expected and instance.tau_d is instance.deactivation_time_constant and instance.b == expected and instance.smoothing_rate == expected and instance.b is instance.smoothing_rate and hasattr(self.instance, 'x') and hasattr(self.instance, 'state_vars') and self.instance.x == self.instance.state_vars and self.instance.x == x_expected and self.instance.state_vars == x_expected and isinstance(self.instance.x, Matrix) and isinstance(self.instance.state_vars, Matrix) and self.instance.x.shape == (1, 1) and self.instance.state_vars.shape == (1, 1) and hasattr(self.instance, 'r') and hasattr(self.instance, 'input_vars') and self.instance.r == self.instance.input_vars and self.instance.r == r_expected and self.instance.input_vars == r_expected and isinstance(self.instance.r, Matrix) and isinstance(self.instance.input_vars, Matrix) and self.instance.r.shape == (1, 1) and self.instance.input_vars.shape == (1, 1) and hasattr(self.instance, 'p') and hasattr(self.instance, 'constants') and self.instance.p == self.instance.constants and self.instance.p == p_expected and self.instance.constants == p_expected and isinstance(self.instance.p, Matrix) and isinstance(self.instance.constants, Matrix) and self.instance.p.shape == (3, 1) and self.instance.constants.shape == (3, 1) and hasattr(self.instance, 'M') and self.instance.M == M_expected and isinstance(self.instance.M, Matrix) and self.instance.M.shape == (1, 1) and hasattr(self.instance, 'F') and self.instance.F == F_expected and isinstance(self.instance.F, Matrix) and self.instance.F.shape == (1, 1) and hasattr(self.instance, 'rhs') and rhs == rhs_expected and isinstance(rhs, Matrix) and rhs.shape == (1, 1) and simplify(self.instance.M.solve(self.instance.F) - rhs) == zeros(1) and repr(self.instance) == expected"},"spec":{"lhs":"TestFirstOrderActivationDeGroote2016(*args)","rhs":"correctly constructs a TestFirstOrderActivationDeGroote2016 instance","over":{"base":"Any","pred":"isinstance(instance, FirstOrderActivationDeGroote2016) and isinstance(self.instance.x, Matrix)"},"name":"TestFirstOrderActivationDeGroote2016_class_invariant"},"guarantee":"correctly constructs a TestFirstOrderActivationDeGroote2016 instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"05ec6bad1c3b1707","spec_source":"static","formal_spec":{"source":"static","strength":"trivial"},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.0,"verdict_class":"assumed","binding":false,"binding_errors":["Function TestFirstOrderActivationDeGroote2016 not found in source"]}}
 class TestFirstOrderActivationDeGroote2016:
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_class(), test_class produces the expected output) over Any ║
+# ║ Path(test_class(), issubclass(FirstOrderActivationDeGroote2016, ActivationBase) and issubclass(FirstOrderActivationDeGroote2016, _NamedMixin) and FirstOrderActivationDeGroote2016.__name__ == 'FirstOrderActivationDeGroote2016') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_class : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  issubclass(FirstOrderActivationDeGroote20...   ║
+# ║   ensures:  issubclass(FirstOrderActivationDeGroote20...   ║
+# ║   ensures:  FirstOrderActivationDeGroote2016.__name__...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_class : Any → {Any | result satisfies: issubclas...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 05ec689545837005  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fe538fb9627b5bf0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_activation.TestFirstOrderActivationDeGroote2016.test_class","kind":"staticmethod","src_hash":"64c9d3108be4c209","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_class()","rhs":"test_class produces the expected output","over":{"base":"Any"},"name":"test_class_correct"},"guarantee":"test_class produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_activation.TestFirstOrderActivationDeGroote2016.test_class_correct","statement":"Path(test_class(x), test_class produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"05ec689545837005"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_activation.TestFirstOrderActivationDeGroote2016.test_class","kind":"staticmethod","src_hash":"64c9d3108be4c209","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: issubclass(FirstOrderActivationDeGroote2016, ActivationBase) and issubclass(FirstOrderActivationDeGroote2016, _NamedMixin) and FirstOrderActivationDeGroote2016.__name__ == 'FirstOrderActivationDeGroote2016'"},"spec":{"lhs":"test_class()","rhs":"issubclass(FirstOrderActivationDeGroote2016, ActivationBase) and issubclass(FirstOrderActivationDeGroote2016, _NamedMixin) and FirstOrderActivationDeGroote2016.__name__ == 'FirstOrderActivationDeGroote2016'","over":{"base":"Any"},"name":"test_class_correct"},"guarantee":"issubclass(FirstOrderActivationDeGroote2016, ActivationBase); issubclass(FirstOrderActivationDeGroote2016, _NamedMixin); FirstOrderActivationDeGroote2016.__name__ == 'FirstOrderActivationDeGroote2016'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_activation.TestFirstOrderActivationDeGroote2016.test_class_correct","statement":"Path(test_class(x), issubclass(FirstOrderActivationDeGroote2016, ActivationBase); issubclass(FirstOrderActivationDeGroote2016, _NamedMixin); FirstOrderActivationDeGroote2016.__name__ == 'FirstOrderActivationDeGroote2016')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fe538fb9627b5bf0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["issubclass(FirstOrderActivationDeGroote2016, ActivationBase)","issubclass(FirstOrderActivationDeGroote2016, _NamedMixin)","FirstOrderActivationDeGroote2016.__name__ == 'FirstOrderActivationDeGroote2016'"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_class():
         assert issubclass(FirstOrderActivationDeGroote2016, ActivationBase)
         assert issubclass(FirstOrderActivationDeGroote2016, _NamedMixin)
@@ -352,16 +496,22 @@ class TestFirstOrderActivationDeGroote2016:
 
     @pytest.fixture(autouse=True)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_first_order_activation_de_groote_2016_fixture(), internal helper behaves correctly) over Any ║
+# ║ Path(_first_order_activation_de_groote_2016_fixture(), <unspecified:_first_order_activation_de_groote_2016_fixture>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _first_order_activation_de_groote_2016_fixture : Any ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d4c97da04e08c50e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_activation.TestFirstOrderActivationDeGroote2016._first_order_activation_de_groote_2016_fixture","kind":"method","src_hash":"b1a968fc0f291041","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_first_order_activation_de_groote_2016_fixture()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_first_order_activation_de_groote_2016_fixture_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_activation.TestFirstOrderActivationDeGroote2016._first_order_activation_de_groote_2016_fixture_correct","statement":"Path(_first_order_activation_de_groote_2016_fixture(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d4c97da04e08c50e"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_activation.TestFirstOrderActivationDeGroote2016._first_order_activation_de_groote_2016_fixture","kind":"method","src_hash":"b1a968fc0f291041","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_first_order_activation_de_groote_2016_fixture()","rhs":"<unspecified:_first_order_activation_de_groote_2016_fixture>","over":{"base":"Any"},"name":"_first_order_activation_de_groote_2016_fixture_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_activation.TestFirstOrderActivationDeGroote2016._first_order_activation_de_groote_2016_fixture_correct","statement":"Path(_first_order_activation_de_groote_2016_fixture(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d4c97da04e08c50e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self.b","self.name","self.tau_a","self.tau_d"],"writes":["self.a","self.b","self.e","self.instance","self.name","self.tau_a","self.tau_d"]},"state_contract":{"modifies":["self.a","self.b","self.e","self.instance","self.name","self.tau_a","self.tau_d"],"old_bindings":{"old_self_a":"self.a","old_self_b":"self.b","old_self_e":"self.e","old_self_instance":"self.instance","old_self_name":"self.name","old_self_tau_a":"self.tau_a","old_self_tau_d":"self.tau_d"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _first_order_activation_de_groote_2016_fixture(self):
         self.name = 'name'
         self.e = dynamicsymbols('e_name')
@@ -377,31 +527,45 @@ class TestFirstOrderActivationDeGroote2016:
         )
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_instance(), test_instance produces the expected output) over Any ║
+# ║ Path(test_instance(), isinstance(instance, FirstOrderActivationDeGroote2016)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_instance : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(instance, FirstOrderActivation...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_instance : Any → {Any | result satisfies: isinst...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2e5374c7a83d337e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 99fd6d21f96d87f4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_activation.TestFirstOrderActivationDeGroote2016.test_instance","kind":"method","src_hash":"e9a8fe7e26da00f2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_instance()","rhs":"test_instance produces the expected output","over":{"base":"Any"},"name":"test_instance_correct"},"guarantee":"test_instance produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_activation.TestFirstOrderActivationDeGroote2016.test_instance_correct","statement":"Path(test_instance(x), test_instance produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2e5374c7a83d337e"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_activation.TestFirstOrderActivationDeGroote2016.test_instance","kind":"method","src_hash":"e9a8fe7e26da00f2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(instance, FirstOrderActivationDeGroote2016)"},"spec":{"lhs":"test_instance()","rhs":"isinstance(instance, FirstOrderActivationDeGroote2016)","over":{"base":"Any"},"name":"test_instance_correct"},"guarantee":"isinstance(instance, FirstOrderActivationDeGroote2016)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_activation.TestFirstOrderActivationDeGroote2016.test_instance_correct","statement":"Path(test_instance(x), isinstance(instance, FirstOrderActivationDeGroote2016))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"99fd6d21f96d87f4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(instance, FirstOrderActivationDeGroote2016)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.name"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_instance(self):
         instance = FirstOrderActivationDeGroote2016(self.name)
         assert isinstance(instance, FirstOrderActivationDeGroote2016)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_with_defaults(), test_with_defaults produces the expected output) over Any ║
+# ║ Path(test_with_defaults(), isinstance(instance, FirstOrderActivationDeGroote2016) and instance.tau_a == Float('0.015') and instance.activation_time_constant == Float('0.015') and instance.tau_d == Float('0.060') and instance.deactivation_time_constant == Float('0.060') and instance.b == Float('10.0') and instance.smoothing_rate == Float('10.0')) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_with_defaults : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(instance, FirstOrderActivation...   ║
+# ║   ensures:  instance.tau_a == Float('0.015')               ║
+# ║   ensures:  instance.activation_time_constant == Floa...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_with_defaults : Any → {Any | result satisfies: i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2063ec90402a7ca4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f515ab7ef20da933  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_activation.TestFirstOrderActivationDeGroote2016.test_with_defaults","kind":"method","src_hash":"b35037e4b960fd37","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_with_defaults()","rhs":"test_with_defaults produces the expected output","over":{"base":"Any"},"name":"test_with_defaults_correct"},"guarantee":"test_with_defaults produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_activation.TestFirstOrderActivationDeGroote2016.test_with_defaults_correct","statement":"Path(test_with_defaults(x), test_with_defaults produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2063ec90402a7ca4"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_activation.TestFirstOrderActivationDeGroote2016.test_with_defaults","kind":"method","src_hash":"b35037e4b960fd37","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(instance, FirstOrderActivationDeGroote2016) and instance.tau_a == Float('0.015') and instance.activation_time_constant == Float('0.015') and instance.tau_d == Float('0.060') and instance.deactivation_time_constant == Float('0.060') and instance.b == Float('10.0') and instance.smoothing_rate == Float('10.0')"},"spec":{"lhs":"test_with_defaults()","rhs":"isinstance(instance, FirstOrderActivationDeGroote2016) and instance.tau_a == Float('0.015') and instance.activation_time_constant == Float('0.015') and instance.tau_d == Float('0.060') and instance.deactivation_time_constant == Float('0.060') and instance.b == Float('10.0') and instance.smoothing_rate == Float('10.0')","over":{"base":"Any"},"name":"test_with_defaults_correct"},"guarantee":"isinstance(instance, FirstOrderActivationDeGroote2016); instance.tau_a == Float('0.015'); instance.activation_time_constant == Float('0.015')","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_activation.TestFirstOrderActivationDeGroote2016.test_with_defaults_correct","statement":"Path(test_with_defaults(x), isinstance(instance, FirstOrderActivationDeGroote2016); instance.tau_a == Float('0.015'); instance.activation_time_constant == Float('0.015'))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f515ab7ef20da933","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(instance, FirstOrderActivationDeGroote2016)","instance.tau_a == Float('0.015')","instance.activation_time_constant == Float('0.015')","instance.tau_d == Float('0.060')","instance.deactivation_time_constant == Float('0.060')","instance.b == Float('10.0')","instance.smoothing_rate == Float('10.0')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.name"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_with_defaults(self):
         instance = FirstOrderActivationDeGroote2016.with_defaults(self.name)
         assert isinstance(instance, FirstOrderActivationDeGroote2016)
@@ -413,46 +577,69 @@ class TestFirstOrderActivationDeGroote2016:
         assert instance.smoothing_rate == Float('10.0')
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_name(), test_name produces the expected output) over Any ║
+# ║ Path(test_name(), hasattr(self.instance, 'name')) over {Any | self.instance.name == self.name} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_name : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: self.instance.name == self.name                ║
+# ║   ensures:  hasattr(self.instance, 'name')                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_name : {Any | self.instance.name == self.name} →...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 351314a15393e468  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 43bd19f7e7df4245  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_activation.TestFirstOrderActivationDeGroote2016.test_name","kind":"method","src_hash":"af47d4629f2c2fe7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_name()","rhs":"test_name produces the expected output","over":{"base":"Any"},"name":"test_name_correct"},"guarantee":"test_name produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_activation.TestFirstOrderActivationDeGroote2016.test_name_correct","statement":"Path(test_name(x), test_name produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"351314a15393e468"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_activation.TestFirstOrderActivationDeGroote2016.test_name","kind":"method","src_hash":"af47d4629f2c2fe7","in":{"base":"Any","pred":"self.instance.name == self.name"},"out":{"base":"Any","pred":"result satisfies: hasattr(self.instance, 'name')"},"spec":{"lhs":"test_name()","rhs":"hasattr(self.instance, 'name')","over":{"base":"Any","pred":"self.instance.name == self.name"},"name":"test_name_correct"},"guarantee":"hasattr(self.instance, 'name')","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_activation.TestFirstOrderActivationDeGroote2016.test_name_correct","statement":"Path(test_name(x), hasattr(self.instance, 'name'))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"43bd19f7e7df4245","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["self.instance.name == self.name"],"ensures":["hasattr(self.instance, 'name')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.instance","self.name"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_name(self):
         assert hasattr(self.instance, 'name')
         assert self.instance.name == self.name
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_order(), test_order produces the expected output) over Any ║
+# ║ Path(test_order(), hasattr(self.instance, 'order')) over {Any | self.instance.order == 1} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_order : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: self.instance.order == 1                       ║
+# ║   ensures:  hasattr(self.instance, 'order')                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_order : {Any | self.instance.order == 1} → {Any ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 81bc590769933d76  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1e3779bd4fdadd9b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_activation.TestFirstOrderActivationDeGroote2016.test_order","kind":"method","src_hash":"3fdf52aa1826462f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_order()","rhs":"test_order produces the expected output","over":{"base":"Any"},"name":"test_order_correct"},"guarantee":"test_order produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_activation.TestFirstOrderActivationDeGroote2016.test_order_correct","statement":"Path(test_order(x), test_order produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"81bc590769933d76"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_activation.TestFirstOrderActivationDeGroote2016.test_order","kind":"method","src_hash":"3fdf52aa1826462f","in":{"base":"Any","pred":"self.instance.order == 1"},"out":{"base":"Any","pred":"result satisfies: hasattr(self.instance, 'order')"},"spec":{"lhs":"test_order()","rhs":"hasattr(self.instance, 'order')","over":{"base":"Any","pred":"self.instance.order == 1"},"name":"test_order_correct"},"guarantee":"hasattr(self.instance, 'order')","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_activation.TestFirstOrderActivationDeGroote2016.test_order_correct","statement":"Path(test_order(x), hasattr(self.instance, 'order'))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1e3779bd4fdadd9b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["self.instance.order == 1"],"ensures":["hasattr(self.instance, 'order')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.instance"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_order(self):
         assert hasattr(self.instance, 'order')
         assert self.instance.order == 1
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_excitation(), test_excitation produces the expected output) over Any ║
+# ║ Path(test_excitation(), hasattr(self.instance, 'e') and hasattr(self.instance, 'excitation') and self.instance.e == e_expected and self.instance.excitation == e_expected) over {Any | self.instance.e is self.instance.excitation} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_excitation : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: self.instance.e is self.instance.excitation    ║
+# ║   ensures:  hasattr(self.instance, 'e')                    ║
+# ║   ensures:  hasattr(self.instance, 'excitation')           ║
+# ║   ensures:  self.instance.e == e_expected                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_excitation : {Any | self.instance.e is self.inst...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4ee99c5727744e90  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6869aa538d9f0ed0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_activation.TestFirstOrderActivationDeGroote2016.test_excitation","kind":"method","src_hash":"b9981a305fbd0d15","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_excitation()","rhs":"test_excitation produces the expected output","over":{"base":"Any"},"name":"test_excitation_correct"},"guarantee":"test_excitation produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_activation.TestFirstOrderActivationDeGroote2016.test_excitation_correct","statement":"Path(test_excitation(x), test_excitation produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4ee99c5727744e90"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_activation.TestFirstOrderActivationDeGroote2016.test_excitation","kind":"method","src_hash":"b9981a305fbd0d15","in":{"base":"Any","pred":"self.instance.e is self.instance.excitation"},"out":{"base":"Any","pred":"result satisfies: hasattr(self.instance, 'e') and hasattr(self.instance, 'excitation') and self.instance.e == e_expected and self.instance.excitation == e_expected"},"spec":{"lhs":"test_excitation()","rhs":"hasattr(self.instance, 'e') and hasattr(self.instance, 'excitation') and self.instance.e == e_expected and self.instance.excitation == e_expected","over":{"base":"Any","pred":"self.instance.e is self.instance.excitation"},"name":"test_excitation_correct"},"guarantee":"hasattr(self.instance, 'e'); hasattr(self.instance, 'excitation'); self.instance.e == e_expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_activation.TestFirstOrderActivationDeGroote2016.test_excitation_correct","statement":"Path(test_excitation(x), hasattr(self.instance, 'e'); hasattr(self.instance, 'excitation'); self.instance.e == e_expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6869aa538d9f0ed0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["self.instance.e is self.instance.excitation"],"ensures":["hasattr(self.instance, 'e')","hasattr(self.instance, 'excitation')","self.instance.e == e_expected","self.instance.excitation == e_expected"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.instance"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_excitation(self):
         assert hasattr(self.instance, 'e')
         assert hasattr(self.instance, 'excitation')
@@ -462,16 +649,22 @@ class TestFirstOrderActivationDeGroote2016:
         assert self.instance.e is self.instance.excitation
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_excitation_is_immutable(), test_excitation_is_immutable produces the expected output) over Any ║
+# ║ Path(test_excitation_is_immutable(), <unspecified:test_excitation_is_immutable>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_excitation_is_immutable : Any → Any                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dfcfe33d488c0ace  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_activation.TestFirstOrderActivationDeGroote2016.test_excitation_is_immutable","kind":"method","src_hash":"91d6611b141808dd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_excitation_is_immutable()","rhs":"test_excitation_is_immutable produces the expected output","over":{"base":"Any"},"name":"test_excitation_is_immutable_correct"},"guarantee":"test_excitation_is_immutable produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_activation.TestFirstOrderActivationDeGroote2016.test_excitation_is_immutable_correct","statement":"Path(test_excitation_is_immutable(x), test_excitation_is_immutable produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dfcfe33d488c0ace"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_activation.TestFirstOrderActivationDeGroote2016.test_excitation_is_immutable","kind":"method","src_hash":"91d6611b141808dd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_excitation_is_immutable()","rhs":"<unspecified:test_excitation_is_immutable>","over":{"base":"Any"},"name":"test_excitation_is_immutable_correct"},"guarantee":"test_excitation_is_immutable produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_activation.TestFirstOrderActivationDeGroote2016.test_excitation_is_immutable_correct","statement":"Path(test_excitation_is_immutable(x), test_excitation_is_immutable produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dfcfe33d488c0ace","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.instance"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_excitation_is_immutable(self):
         with pytest.raises(AttributeError):
             self.instance.e = None
@@ -479,16 +672,24 @@ class TestFirstOrderActivationDeGroote2016:
             self.instance.excitation = None
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_activation(), test_activation produces the expected output) over Any ║
+# ║ Path(test_activation(), hasattr(self.instance, 'a') and hasattr(self.instance, 'activation') and self.instance.a == a_expected and self.instance.activation == a_expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_activation : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  hasattr(self.instance, 'a')                    ║
+# ║   ensures:  hasattr(self.instance, 'activation')           ║
+# ║   ensures:  self.instance.a == a_expected                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_activation : Any → {Any | result satisfies: hasa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d4efdf07b4a4e5a9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5bbc077a39dbe7e7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_activation.TestFirstOrderActivationDeGroote2016.test_activation","kind":"method","src_hash":"9fa73502d77c9350","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_activation()","rhs":"test_activation produces the expected output","over":{"base":"Any"},"name":"test_activation_correct"},"guarantee":"test_activation produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_activation.TestFirstOrderActivationDeGroote2016.test_activation_correct","statement":"Path(test_activation(x), test_activation produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d4efdf07b4a4e5a9"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_activation.TestFirstOrderActivationDeGroote2016.test_activation","kind":"method","src_hash":"9fa73502d77c9350","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: hasattr(self.instance, 'a') and hasattr(self.instance, 'activation') and self.instance.a == a_expected and self.instance.activation == a_expected"},"spec":{"lhs":"test_activation()","rhs":"hasattr(self.instance, 'a') and hasattr(self.instance, 'activation') and self.instance.a == a_expected and self.instance.activation == a_expected","over":{"base":"Any"},"name":"test_activation_correct"},"guarantee":"hasattr(self.instance, 'a'); hasattr(self.instance, 'activation'); self.instance.a == a_expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_activation.TestFirstOrderActivationDeGroote2016.test_activation_correct","statement":"Path(test_activation(x), hasattr(self.instance, 'a'); hasattr(self.instance, 'activation'); self.instance.a == a_expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5bbc077a39dbe7e7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["hasattr(self.instance, 'a')","hasattr(self.instance, 'activation')","self.instance.a == a_expected","self.instance.activation == a_expected"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.instance"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_activation(self):
         assert hasattr(self.instance, 'a')
         assert hasattr(self.instance, 'activation')
@@ -497,16 +698,22 @@ class TestFirstOrderActivationDeGroote2016:
         assert self.instance.activation == a_expected
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_activation_is_immutable(), test_activation_is_immutable produces the expected output) over Any ║
+# ║ Path(test_activation_is_immutable(), <unspecified:test_activation_is_immutable>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_activation_is_immutable : Any → Any                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c7822a17325d1c4c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_activation.TestFirstOrderActivationDeGroote2016.test_activation_is_immutable","kind":"method","src_hash":"0b4cf89ede0fafad","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_activation_is_immutable()","rhs":"test_activation_is_immutable produces the expected output","over":{"base":"Any"},"name":"test_activation_is_immutable_correct"},"guarantee":"test_activation_is_immutable produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_activation.TestFirstOrderActivationDeGroote2016.test_activation_is_immutable_correct","statement":"Path(test_activation_is_immutable(x), test_activation_is_immutable produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c7822a17325d1c4c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_activation.TestFirstOrderActivationDeGroote2016.test_activation_is_immutable","kind":"method","src_hash":"0b4cf89ede0fafad","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_activation_is_immutable()","rhs":"<unspecified:test_activation_is_immutable>","over":{"base":"Any"},"name":"test_activation_is_immutable_correct"},"guarantee":"test_activation_is_immutable produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_activation.TestFirstOrderActivationDeGroote2016.test_activation_is_immutable_correct","statement":"Path(test_activation_is_immutable(x), test_activation_is_immutable produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c7822a17325d1c4c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.instance"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_activation_is_immutable(self):
         with pytest.raises(AttributeError):
             self.instance.a = None
@@ -522,16 +729,24 @@ class TestFirstOrderActivationDeGroote2016:
         ]
     )
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_activation_time_constant(tau), test_activation_time_constant produces the expected output) over Any ║
+# ║ Path(test_activation_time_constant(tau_a, expected), instance.tau_a == expected and instance.activation_time_constant == expected and instance.tau_a is instance.activation_time_constant) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_activation_time_constant : Any → Any                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  instance.tau_a == expected                     ║
+# ║   ensures:  instance.activation_time_constant == expe...   ║
+# ║   ensures:  instance.tau_a is instance.activation_tim...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_activation_time_constant : Any → {Any | result s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 240386dc10cf8bd2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f6675d1a367844f4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_activation.TestFirstOrderActivationDeGroote2016.test_activation_time_constant","kind":"method","src_hash":"ceb988d2dbb251a5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_activation_time_constant(tau)","rhs":"test_activation_time_constant produces the expected output","over":{"base":"Any"},"name":"test_activation_time_constant_correct"},"guarantee":"test_activation_time_constant produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_activation.TestFirstOrderActivationDeGroote2016.test_activation_time_constant_correct","statement":"Path(test_activation_time_constant(x), test_activation_time_constant produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"240386dc10cf8bd2"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_activation.TestFirstOrderActivationDeGroote2016.test_activation_time_constant","kind":"method","src_hash":"ceb988d2dbb251a5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: instance.tau_a == expected and instance.activation_time_constant == expected and instance.tau_a is instance.activation_time_constant"},"spec":{"lhs":"test_activation_time_constant(tau_a, expected)","rhs":"instance.tau_a == expected and instance.activation_time_constant == expected and instance.tau_a is instance.activation_time_constant","over":{"base":"Any"},"name":"test_activation_time_constant_correct"},"guarantee":"instance.tau_a == expected; instance.activation_time_constant == expected; instance.tau_a is instance.activation_time_constant","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_activation.TestFirstOrderActivationDeGroote2016.test_activation_time_constant_correct","statement":"Path(test_activation_time_constant(x), instance.tau_a == expected; instance.activation_time_constant == expected; instance.tau_a is instance.activation_time_constant)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f6675d1a367844f4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["instance.tau_a == expected","instance.activation_time_constant == expected","instance.tau_a is instance.activation_time_constant"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_activation_time_constant(self, tau_a, expected):
         instance = FirstOrderActivationDeGroote2016(
             'name', activation_time_constant=tau_a,
@@ -541,16 +756,22 @@ class TestFirstOrderActivationDeGroote2016:
         assert instance.tau_a is instance.activation_time_constant
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_activation_time_constant_is_immutable(), test_activation_time_constant_is_immutable produces the expected output) over Any ║
+# ║ Path(test_activation_time_constant_is_immutable(), <unspecified:test_activation_time_constant_is_immutable>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_activation_time_constant_is_immutable : Any → Any     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f12c5745cd065e3b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_activation.TestFirstOrderActivationDeGroote2016.test_activation_time_constant_is_immutable","kind":"method","src_hash":"a0f6318386371de7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_activation_time_constant_is_immutable()","rhs":"test_activation_time_constant_is_immutable produces the expected output","over":{"base":"Any"},"name":"test_activation_time_constant_is_immutable_correct"},"guarantee":"test_activation_time_constant_is_immutable produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_activation.TestFirstOrderActivationDeGroote2016.test_activation_time_constant_is_immutable_correct","statement":"Path(test_activation_time_constant_is_immutable(x), test_activation_time_constant_is_immutable produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f12c5745cd065e3b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_activation.TestFirstOrderActivationDeGroote2016.test_activation_time_constant_is_immutable","kind":"method","src_hash":"a0f6318386371de7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_activation_time_constant_is_immutable()","rhs":"<unspecified:test_activation_time_constant_is_immutable>","over":{"base":"Any"},"name":"test_activation_time_constant_is_immutable_correct"},"guarantee":"test_activation_time_constant_is_immutable produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_activation.TestFirstOrderActivationDeGroote2016.test_activation_time_constant_is_immutable_correct","statement":"Path(test_activation_time_constant_is_immutable(x), test_activation_time_constant_is_immutable produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f12c5745cd065e3b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.instance"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_activation_time_constant_is_immutable(self):
         with pytest.raises(AttributeError):
             self.instance.tau_a = None
@@ -566,16 +787,24 @@ class TestFirstOrderActivationDeGroote2016:
         ]
     )
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_deactivation_time_constant(tau), test_deactivation_time_constant produces the expected output) over Any ║
+# ║ Path(test_deactivation_time_constant(tau_d, expected), instance.tau_d == expected and instance.deactivation_time_constant == expected and instance.tau_d is instance.deactivation_time_constant) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_deactivation_time_constant : Any → Any                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  instance.tau_d == expected                     ║
+# ║   ensures:  instance.deactivation_time_constant == ex...   ║
+# ║   ensures:  instance.tau_d is instance.deactivation_t...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_deactivation_time_constant : Any → {Any | result...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a1cda3b20087a72e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 00c810e18be2c5c5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_activation.TestFirstOrderActivationDeGroote2016.test_deactivation_time_constant","kind":"method","src_hash":"72f33e08d16b33e4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_deactivation_time_constant(tau)","rhs":"test_deactivation_time_constant produces the expected output","over":{"base":"Any"},"name":"test_deactivation_time_constant_correct"},"guarantee":"test_deactivation_time_constant produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_activation.TestFirstOrderActivationDeGroote2016.test_deactivation_time_constant_correct","statement":"Path(test_deactivation_time_constant(x), test_deactivation_time_constant produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a1cda3b20087a72e"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_activation.TestFirstOrderActivationDeGroote2016.test_deactivation_time_constant","kind":"method","src_hash":"72f33e08d16b33e4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: instance.tau_d == expected and instance.deactivation_time_constant == expected and instance.tau_d is instance.deactivation_time_constant"},"spec":{"lhs":"test_deactivation_time_constant(tau_d, expected)","rhs":"instance.tau_d == expected and instance.deactivation_time_constant == expected and instance.tau_d is instance.deactivation_time_constant","over":{"base":"Any"},"name":"test_deactivation_time_constant_correct"},"guarantee":"instance.tau_d == expected; instance.deactivation_time_constant == expected; instance.tau_d is instance.deactivation_time_constant","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_activation.TestFirstOrderActivationDeGroote2016.test_deactivation_time_constant_correct","statement":"Path(test_deactivation_time_constant(x), instance.tau_d == expected; instance.deactivation_time_constant == expected; instance.tau_d is instance.deactivation_time_constant)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"00c810e18be2c5c5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["instance.tau_d == expected","instance.deactivation_time_constant == expected","instance.tau_d is instance.deactivation_time_constant"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_deactivation_time_constant(self, tau_d, expected):
         instance = FirstOrderActivationDeGroote2016(
             'name', deactivation_time_constant=tau_d,
@@ -585,16 +814,22 @@ class TestFirstOrderActivationDeGroote2016:
         assert instance.tau_d is instance.deactivation_time_constant
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_deactivation_time_constant_is_immutable(), test_deactivation_time_constant_is_immutable produces the expected output) over Any ║
+# ║ Path(test_deactivation_time_constant_is_immutable(), <unspecified:test_deactivation_time_constant_is_immutable>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_deactivation_time_constant_is_immutable : Any → Any   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 68b8952e143cb2c1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_activation.TestFirstOrderActivationDeGroote2016.test_deactivation_time_constant_is_immutable","kind":"method","src_hash":"6f48c1c507760ba2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_deactivation_time_constant_is_immutable()","rhs":"test_deactivation_time_constant_is_immutable produces the expected output","over":{"base":"Any"},"name":"test_deactivation_time_constant_is_immutable_correct"},"guarantee":"test_deactivation_time_constant_is_immutable produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_activation.TestFirstOrderActivationDeGroote2016.test_deactivation_time_constant_is_immutable_correct","statement":"Path(test_deactivation_time_constant_is_immutable(x), test_deactivation_time_constant_is_immutable produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"68b8952e143cb2c1"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_activation.TestFirstOrderActivationDeGroote2016.test_deactivation_time_constant_is_immutable","kind":"method","src_hash":"6f48c1c507760ba2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_deactivation_time_constant_is_immutable()","rhs":"<unspecified:test_deactivation_time_constant_is_immutable>","over":{"base":"Any"},"name":"test_deactivation_time_constant_is_immutable_correct"},"guarantee":"test_deactivation_time_constant_is_immutable produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_activation.TestFirstOrderActivationDeGroote2016.test_deactivation_time_constant_is_immutable_correct","statement":"Path(test_deactivation_time_constant_is_immutable(x), test_deactivation_time_constant_is_immutable produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"68b8952e143cb2c1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.instance"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_deactivation_time_constant_is_immutable(self):
         with pytest.raises(AttributeError):
             self.instance.tau_d = None
@@ -610,16 +845,24 @@ class TestFirstOrderActivationDeGroote2016:
         ]
     )
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_smoothing_rate(b, ), test_smoothing_rate produces the expected output) over Any ║
+# ║ Path(test_smoothing_rate(b, expected), instance.b == expected and instance.smoothing_rate == expected and instance.b is instance.smoothing_rate) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_smoothing_rate : Any → Any                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  instance.b == expected                         ║
+# ║   ensures:  instance.smoothing_rate == expected            ║
+# ║   ensures:  instance.b is instance.smoothing_rate          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_smoothing_rate : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1154590fbd0bda64  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4e45ece63549dad8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_activation.TestFirstOrderActivationDeGroote2016.test_smoothing_rate","kind":"method","src_hash":"752f8f78bd47b089","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_smoothing_rate(b, )","rhs":"test_smoothing_rate produces the expected output","over":{"base":"Any"},"name":"test_smoothing_rate_correct"},"guarantee":"test_smoothing_rate produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_activation.TestFirstOrderActivationDeGroote2016.test_smoothing_rate_correct","statement":"Path(test_smoothing_rate(x), test_smoothing_rate produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1154590fbd0bda64"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_activation.TestFirstOrderActivationDeGroote2016.test_smoothing_rate","kind":"method","src_hash":"752f8f78bd47b089","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: instance.b == expected and instance.smoothing_rate == expected and instance.b is instance.smoothing_rate"},"spec":{"lhs":"test_smoothing_rate(b, expected)","rhs":"instance.b == expected and instance.smoothing_rate == expected and instance.b is instance.smoothing_rate","over":{"base":"Any"},"name":"test_smoothing_rate_correct"},"guarantee":"instance.b == expected; instance.smoothing_rate == expected; instance.b is instance.smoothing_rate","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_activation.TestFirstOrderActivationDeGroote2016.test_smoothing_rate_correct","statement":"Path(test_smoothing_rate(x), instance.b == expected; instance.smoothing_rate == expected; instance.b is instance.smoothing_rate)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4e45ece63549dad8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["instance.b == expected","instance.smoothing_rate == expected","instance.b is instance.smoothing_rate"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_smoothing_rate(self, b, expected):
         instance = FirstOrderActivationDeGroote2016(
             'name', smoothing_rate=b,
@@ -629,16 +872,22 @@ class TestFirstOrderActivationDeGroote2016:
         assert instance.b is instance.smoothing_rate
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_smoothing_rate_is_immutable(), test_smoothing_rate_is_immutable produces the expected output) over Any ║
+# ║ Path(test_smoothing_rate_is_immutable(), <unspecified:test_smoothing_rate_is_immutable>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_smoothing_rate_is_immutable : Any → Any               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8a807fdf0a55d657  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_activation.TestFirstOrderActivationDeGroote2016.test_smoothing_rate_is_immutable","kind":"method","src_hash":"30b5e33002bf9ba7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_smoothing_rate_is_immutable()","rhs":"test_smoothing_rate_is_immutable produces the expected output","over":{"base":"Any"},"name":"test_smoothing_rate_is_immutable_correct"},"guarantee":"test_smoothing_rate_is_immutable produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_activation.TestFirstOrderActivationDeGroote2016.test_smoothing_rate_is_immutable_correct","statement":"Path(test_smoothing_rate_is_immutable(x), test_smoothing_rate_is_immutable produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8a807fdf0a55d657"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_activation.TestFirstOrderActivationDeGroote2016.test_smoothing_rate_is_immutable","kind":"method","src_hash":"30b5e33002bf9ba7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_smoothing_rate_is_immutable()","rhs":"<unspecified:test_smoothing_rate_is_immutable>","over":{"base":"Any"},"name":"test_smoothing_rate_is_immutable_correct"},"guarantee":"test_smoothing_rate_is_immutable produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_activation.TestFirstOrderActivationDeGroote2016.test_smoothing_rate_is_immutable_correct","statement":"Path(test_smoothing_rate_is_immutable(x), test_smoothing_rate_is_immutable produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8a807fdf0a55d657","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.instance"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_smoothing_rate_is_immutable(self):
         with pytest.raises(AttributeError):
             self.instance.b = None
@@ -646,16 +895,27 @@ class TestFirstOrderActivationDeGroote2016:
             self.instance.smoothing_rate = None
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_state_vars(), test_state_vars produces the expected output) over Any ║
+# ║ Path(test_state_vars(), hasattr(self.instance, 'x') and hasattr(self.instance, 'state_vars') and self.instance.x == x_expected and self.instance.state_vars == x_expected and isinstance(self.instance.x, Matrix) and isinstance(self.instance.state_vars, Matrix)) over {Any | self.instance.x == self.instance.state_vars and self.instance.x.shape == (1, 1) and self.instance.state_vars.shape == (1, 1)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_state_vars : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: self.instance.x == self.instance.state_vars    ║
+# ║   requires: self.instance.x.shape == (1, 1)                ║
+# ║   requires: self.instance.state_vars.shape == (1, 1)       ║
+# ║   ensures:  hasattr(self.instance, 'x')                    ║
+# ║   ensures:  hasattr(self.instance, 'state_vars')           ║
+# ║   ensures:  self.instance.x == x_expected                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_state_vars : {Any | self.instance.x == self.inst...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 446522ac4936a2ef  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0e414456176c5010  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_activation.TestFirstOrderActivationDeGroote2016.test_state_vars","kind":"method","src_hash":"2a259a29030a2cfe","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_state_vars()","rhs":"test_state_vars produces the expected output","over":{"base":"Any"},"name":"test_state_vars_correct"},"guarantee":"test_state_vars produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_activation.TestFirstOrderActivationDeGroote2016.test_state_vars_correct","statement":"Path(test_state_vars(x), test_state_vars produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"446522ac4936a2ef"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_activation.TestFirstOrderActivationDeGroote2016.test_state_vars","kind":"method","src_hash":"2a259a29030a2cfe","in":{"base":"Any","pred":"self.instance.x == self.instance.state_vars and self.instance.x.shape == (1, 1) and self.instance.state_vars.shape == (1, 1)"},"out":{"base":"Any","pred":"result satisfies: hasattr(self.instance, 'x') and hasattr(self.instance, 'state_vars') and self.instance.x == x_expected and self.instance.state_vars == x_expected and isinstance(self.instance.x, Matrix) and isinstance(self.instance.state_vars, Matrix)"},"spec":{"lhs":"test_state_vars()","rhs":"hasattr(self.instance, 'x') and hasattr(self.instance, 'state_vars') and self.instance.x == x_expected and self.instance.state_vars == x_expected and isinstance(self.instance.x, Matrix) and isinstance(self.instance.state_vars, Matrix)","over":{"base":"Any","pred":"self.instance.x == self.instance.state_vars and self.instance.x.shape == (1, 1) and self.instance.state_vars.shape == (1, 1)"},"name":"test_state_vars_correct"},"guarantee":"hasattr(self.instance, 'x'); hasattr(self.instance, 'state_vars'); self.instance.x == x_expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_activation.TestFirstOrderActivationDeGroote2016.test_state_vars_correct","statement":"Path(test_state_vars(x), hasattr(self.instance, 'x'); hasattr(self.instance, 'state_vars'); self.instance.x == x_expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0e414456176c5010","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["self.instance.x == self.instance.state_vars","self.instance.x.shape == (1, 1)","self.instance.state_vars.shape == (1, 1)"],"ensures":["hasattr(self.instance, 'x')","hasattr(self.instance, 'state_vars')","self.instance.x == x_expected","self.instance.state_vars == x_expected","isinstance(self.instance.x, Matrix)","isinstance(self.instance.state_vars, Matrix)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.a","self.instance"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_state_vars(self):
         assert hasattr(self.instance, 'x')
         assert hasattr(self.instance, 'state_vars')
@@ -669,16 +929,27 @@ class TestFirstOrderActivationDeGroote2016:
         assert self.instance.state_vars.shape == (1, 1)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_input_vars(), test_input_vars produces the expected output) over Any ║
+# ║ Path(test_input_vars(), hasattr(self.instance, 'r') and hasattr(self.instance, 'input_vars') and self.instance.r == r_expected and self.instance.input_vars == r_expected and isinstance(self.instance.r, Matrix) and isinstance(self.instance.input_vars, Matrix)) over {Any | self.instance.r == self.instance.input_vars and self.instance.r.shape == (1, 1) and self.instance.input_vars.shape == (1, 1)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_input_vars : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: self.instance.r == self.instance.input_vars    ║
+# ║   requires: self.instance.r.shape == (1, 1)                ║
+# ║   requires: self.instance.input_vars.shape == (1, 1)       ║
+# ║   ensures:  hasattr(self.instance, 'r')                    ║
+# ║   ensures:  hasattr(self.instance, 'input_vars')           ║
+# ║   ensures:  self.instance.r == r_expected                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_input_vars : {Any | self.instance.r == self.inst...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7fa42e0e2f4f3d0d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d9c66f1c760fd3ca  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_activation.TestFirstOrderActivationDeGroote2016.test_input_vars","kind":"method","src_hash":"63f02ea4979c209b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_input_vars()","rhs":"test_input_vars produces the expected output","over":{"base":"Any"},"name":"test_input_vars_correct"},"guarantee":"test_input_vars produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_activation.TestFirstOrderActivationDeGroote2016.test_input_vars_correct","statement":"Path(test_input_vars(x), test_input_vars produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7fa42e0e2f4f3d0d"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_activation.TestFirstOrderActivationDeGroote2016.test_input_vars","kind":"method","src_hash":"63f02ea4979c209b","in":{"base":"Any","pred":"self.instance.r == self.instance.input_vars and self.instance.r.shape == (1, 1) and self.instance.input_vars.shape == (1, 1)"},"out":{"base":"Any","pred":"result satisfies: hasattr(self.instance, 'r') and hasattr(self.instance, 'input_vars') and self.instance.r == r_expected and self.instance.input_vars == r_expected and isinstance(self.instance.r, Matrix) and isinstance(self.instance.input_vars, Matrix)"},"spec":{"lhs":"test_input_vars()","rhs":"hasattr(self.instance, 'r') and hasattr(self.instance, 'input_vars') and self.instance.r == r_expected and self.instance.input_vars == r_expected and isinstance(self.instance.r, Matrix) and isinstance(self.instance.input_vars, Matrix)","over":{"base":"Any","pred":"self.instance.r == self.instance.input_vars and self.instance.r.shape == (1, 1) and self.instance.input_vars.shape == (1, 1)"},"name":"test_input_vars_correct"},"guarantee":"hasattr(self.instance, 'r'); hasattr(self.instance, 'input_vars'); self.instance.r == r_expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_activation.TestFirstOrderActivationDeGroote2016.test_input_vars_correct","statement":"Path(test_input_vars(x), hasattr(self.instance, 'r'); hasattr(self.instance, 'input_vars'); self.instance.r == r_expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d9c66f1c760fd3ca","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["self.instance.r == self.instance.input_vars","self.instance.r.shape == (1, 1)","self.instance.input_vars.shape == (1, 1)"],"ensures":["hasattr(self.instance, 'r')","hasattr(self.instance, 'input_vars')","self.instance.r == r_expected","self.instance.input_vars == r_expected","isinstance(self.instance.r, Matrix)","isinstance(self.instance.input_vars, Matrix)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.e","self.instance"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_input_vars(self):
         assert hasattr(self.instance, 'r')
         assert hasattr(self.instance, 'input_vars')
@@ -692,16 +963,27 @@ class TestFirstOrderActivationDeGroote2016:
         assert self.instance.input_vars.shape == (1, 1)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_constants(), test_constants produces the expected output) over Any ║
+# ║ Path(test_constants(), hasattr(self.instance, 'p') and hasattr(self.instance, 'constants') and self.instance.p == p_expected and self.instance.constants == p_expected and isinstance(self.instance.p, Matrix) and isinstance(self.instance.constants, Matrix)) over {Any | self.instance.p == self.instance.constants and self.instance.p.shape == (3, 1) and self.instance.constants.shape == (3, 1)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_constants : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: self.instance.p == self.instance.constants     ║
+# ║   requires: self.instance.p.shape == (3, 1)                ║
+# ║   requires: self.instance.constants.shape == (3, 1)        ║
+# ║   ensures:  hasattr(self.instance, 'p')                    ║
+# ║   ensures:  hasattr(self.instance, 'constants')            ║
+# ║   ensures:  self.instance.p == p_expected                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_constants : {Any | self.instance.p == self.insta...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b90531e47ee9e335  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7f8e6204895cc6b4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_activation.TestFirstOrderActivationDeGroote2016.test_constants","kind":"method","src_hash":"3c7dd580e80c503b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_constants()","rhs":"test_constants produces the expected output","over":{"base":"Any"},"name":"test_constants_correct"},"guarantee":"test_constants produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_activation.TestFirstOrderActivationDeGroote2016.test_constants_correct","statement":"Path(test_constants(x), test_constants produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b90531e47ee9e335"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_activation.TestFirstOrderActivationDeGroote2016.test_constants","kind":"method","src_hash":"3c7dd580e80c503b","in":{"base":"Any","pred":"self.instance.p == self.instance.constants and self.instance.p.shape == (3, 1) and self.instance.constants.shape == (3, 1)"},"out":{"base":"Any","pred":"result satisfies: hasattr(self.instance, 'p') and hasattr(self.instance, 'constants') and self.instance.p == p_expected and self.instance.constants == p_expected and isinstance(self.instance.p, Matrix) and isinstance(self.instance.constants, Matrix)"},"spec":{"lhs":"test_constants()","rhs":"hasattr(self.instance, 'p') and hasattr(self.instance, 'constants') and self.instance.p == p_expected and self.instance.constants == p_expected and isinstance(self.instance.p, Matrix) and isinstance(self.instance.constants, Matrix)","over":{"base":"Any","pred":"self.instance.p == self.instance.constants and self.instance.p.shape == (3, 1) and self.instance.constants.shape == (3, 1)"},"name":"test_constants_correct"},"guarantee":"hasattr(self.instance, 'p'); hasattr(self.instance, 'constants'); self.instance.p == p_expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_activation.TestFirstOrderActivationDeGroote2016.test_constants_correct","statement":"Path(test_constants(x), hasattr(self.instance, 'p'); hasattr(self.instance, 'constants'); self.instance.p == p_expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7f8e6204895cc6b4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["self.instance.p == self.instance.constants","self.instance.p.shape == (3, 1)","self.instance.constants.shape == (3, 1)"],"ensures":["hasattr(self.instance, 'p')","hasattr(self.instance, 'constants')","self.instance.p == p_expected","self.instance.constants == p_expected","isinstance(self.instance.p, Matrix)","isinstance(self.instance.constants, Matrix)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.b","self.instance","self.tau_a","self.tau_d"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_constants(self):
         assert hasattr(self.instance, 'p')
         assert hasattr(self.instance, 'constants')
@@ -715,16 +997,25 @@ class TestFirstOrderActivationDeGroote2016:
         assert self.instance.constants.shape == (3, 1)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_M(), test_M produces the expected output) over Any ║
+# ║ Path(test_M(), hasattr(self.instance, 'M') and self.instance.M == M_expected and isinstance(self.instance.M, Matrix)) over {Any | self.instance.M.shape == (1, 1)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_M : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: self.instance.M.shape == (1, 1)                ║
+# ║   ensures:  hasattr(self.instance, 'M')                    ║
+# ║   ensures:  self.instance.M == M_expected                  ║
+# ║   ensures:  isinstance(self.instance.M, Matrix)            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_M : {Any | self.instance.M.shape == (1, 1)} → {A...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7659d0e3f0a37686  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | de85c5532de67cdd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_activation.TestFirstOrderActivationDeGroote2016.test_M","kind":"method","src_hash":"9d6206c09c740040","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_M()","rhs":"test_M produces the expected output","over":{"base":"Any"},"name":"test_M_correct"},"guarantee":"test_M produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_activation.TestFirstOrderActivationDeGroote2016.test_M_correct","statement":"Path(test_M(x), test_M produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7659d0e3f0a37686"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_activation.TestFirstOrderActivationDeGroote2016.test_M","kind":"method","src_hash":"9d6206c09c740040","in":{"base":"Any","pred":"self.instance.M.shape == (1, 1)"},"out":{"base":"Any","pred":"result satisfies: hasattr(self.instance, 'M') and self.instance.M == M_expected and isinstance(self.instance.M, Matrix)"},"spec":{"lhs":"test_M()","rhs":"hasattr(self.instance, 'M') and self.instance.M == M_expected and isinstance(self.instance.M, Matrix)","over":{"base":"Any","pred":"self.instance.M.shape == (1, 1)"},"name":"test_M_correct"},"guarantee":"hasattr(self.instance, 'M'); self.instance.M == M_expected; isinstance(self.instance.M, Matrix)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_activation.TestFirstOrderActivationDeGroote2016.test_M_correct","statement":"Path(test_M(x), hasattr(self.instance, 'M'); self.instance.M == M_expected; isinstance(self.instance.M, Matrix))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"de85c5532de67cdd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["self.instance.M.shape == (1, 1)"],"ensures":["hasattr(self.instance, 'M')","self.instance.M == M_expected","isinstance(self.instance.M, Matrix)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.instance"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_M(self):
         assert hasattr(self.instance, 'M')
         M_expected = Matrix([1])
@@ -733,16 +1024,25 @@ class TestFirstOrderActivationDeGroote2016:
         assert self.instance.M.shape == (1, 1)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_F(), test_F produces the expected output) over Any ║
+# ║ Path(test_F(), hasattr(self.instance, 'F') and self.instance.F == F_expected and isinstance(self.instance.F, Matrix)) over {Any | self.instance.F.shape == (1, 1)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_F : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: self.instance.F.shape == (1, 1)                ║
+# ║   ensures:  hasattr(self.instance, 'F')                    ║
+# ║   ensures:  self.instance.F == F_expected                  ║
+# ║   ensures:  isinstance(self.instance.F, Matrix)            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_F : {Any | self.instance.F.shape == (1, 1)} → {A...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 58ae579100e8f8cd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 439fddb23c502af9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_activation.TestFirstOrderActivationDeGroote2016.test_F","kind":"method","src_hash":"7ffff3583587b243","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_F()","rhs":"test_F produces the expected output","over":{"base":"Any"},"name":"test_F_correct"},"guarantee":"test_F produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_activation.TestFirstOrderActivationDeGroote2016.test_F_correct","statement":"Path(test_F(x), test_F produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"58ae579100e8f8cd"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_activation.TestFirstOrderActivationDeGroote2016.test_F","kind":"method","src_hash":"7ffff3583587b243","in":{"base":"Any","pred":"self.instance.F.shape == (1, 1)"},"out":{"base":"Any","pred":"result satisfies: hasattr(self.instance, 'F') and self.instance.F == F_expected and isinstance(self.instance.F, Matrix)"},"spec":{"lhs":"test_F()","rhs":"hasattr(self.instance, 'F') and self.instance.F == F_expected and isinstance(self.instance.F, Matrix)","over":{"base":"Any","pred":"self.instance.F.shape == (1, 1)"},"name":"test_F_correct"},"guarantee":"hasattr(self.instance, 'F'); self.instance.F == F_expected; isinstance(self.instance.F, Matrix)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_activation.TestFirstOrderActivationDeGroote2016.test_F_correct","statement":"Path(test_F(x), hasattr(self.instance, 'F'); self.instance.F == F_expected; isinstance(self.instance.F, Matrix))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"439fddb23c502af9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["self.instance.F.shape == (1, 1)"],"ensures":["hasattr(self.instance, 'F')","self.instance.F == F_expected","isinstance(self.instance.F, Matrix)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.a","self.b","self.e","self.instance","self.tau_a","self.tau_d"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_F(self):
         assert hasattr(self.instance, 'F')
         da_expr = (
@@ -758,16 +1058,24 @@ class TestFirstOrderActivationDeGroote2016:
         assert self.instance.F.shape == (1, 1)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_rhs(), test_rhs produces the expected output) over Any ║
+# ║ Path(test_rhs(), hasattr(self.instance, 'rhs') and rhs == rhs_expected and isinstance(rhs, Matrix) and rhs.shape == (1, 1) and simplify(self.instance.M.solve(self.instance.F) - rhs) == zeros(1)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_rhs : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  hasattr(self.instance, 'rhs')                  ║
+# ║   ensures:  rhs == rhs_expected                            ║
+# ║   ensures:  isinstance(rhs, Matrix)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_rhs : Any → {Any | result satisfies: hasattr(sel...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c9142c77da9aa1b5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 473f7c881da67c0e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_activation.TestFirstOrderActivationDeGroote2016.test_rhs","kind":"method","src_hash":"be1af8a9b2db9087","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_rhs()","rhs":"test_rhs produces the expected output","over":{"base":"Any"},"name":"test_rhs_correct"},"guarantee":"test_rhs produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_activation.TestFirstOrderActivationDeGroote2016.test_rhs_correct","statement":"Path(test_rhs(x), test_rhs produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c9142c77da9aa1b5"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_activation.TestFirstOrderActivationDeGroote2016.test_rhs","kind":"method","src_hash":"be1af8a9b2db9087","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: hasattr(self.instance, 'rhs') and rhs == rhs_expected and isinstance(rhs, Matrix) and rhs.shape == (1, 1) and simplify(self.instance.M.solve(self.instance.F) - rhs) == zeros(1)"},"spec":{"lhs":"test_rhs()","rhs":"hasattr(self.instance, 'rhs') and rhs == rhs_expected and isinstance(rhs, Matrix) and rhs.shape == (1, 1) and simplify(self.instance.M.solve(self.instance.F) - rhs) == zeros(1)","over":{"base":"Any"},"name":"test_rhs_correct"},"guarantee":"hasattr(self.instance, 'rhs'); rhs == rhs_expected; isinstance(rhs, Matrix)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_activation.TestFirstOrderActivationDeGroote2016.test_rhs_correct","statement":"Path(test_rhs(x), hasattr(self.instance, 'rhs'); rhs == rhs_expected; isinstance(rhs, Matrix))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"473f7c881da67c0e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["hasattr(self.instance, 'rhs')","rhs == rhs_expected","isinstance(rhs, Matrix)","rhs.shape == (1, 1)","simplify(self.instance.M.solve(self.instance.F) - rhs) == zeros(1)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.a","self.b","self.e","self.instance","self.tau_a","self.tau_d"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_rhs(self):
         assert hasattr(self.instance, 'rhs')
         da_expr = (
@@ -785,16 +1093,22 @@ class TestFirstOrderActivationDeGroote2016:
         assert simplify(self.instance.M.solve(self.instance.F) - rhs) == zeros(1)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_repr(), test_repr produces the expected output) over Any ║
+# ║ Path(test_repr(), repr(self.instance) == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_repr : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  repr(self.instance) == expected                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_repr : Any → {Any | result satisfies: repr(self....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c856503c4a010f30  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 719a883a9228c811  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_activation.TestFirstOrderActivationDeGroote2016.test_repr","kind":"method","src_hash":"1333c9ea6cefdbe0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_repr()","rhs":"test_repr produces the expected output","over":{"base":"Any"},"name":"test_repr_correct"},"guarantee":"test_repr produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_activation.TestFirstOrderActivationDeGroote2016.test_repr_correct","statement":"Path(test_repr(x), test_repr produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c856503c4a010f30"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.biomechanics.tests.test_activation.TestFirstOrderActivationDeGroote2016.test_repr","kind":"method","src_hash":"1333c9ea6cefdbe0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: repr(self.instance) == expected"},"spec":{"lhs":"test_repr()","rhs":"repr(self.instance) == expected","over":{"base":"Any"},"name":"test_repr_correct"},"guarantee":"repr(self.instance) == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.biomechanics.tests.test_activation.TestFirstOrderActivationDeGroote2016.test_repr_correct","statement":"Path(test_repr(x), repr(self.instance) == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"719a883a9228c811","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["repr(self.instance) == expected"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.instance"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_repr(self):
         expected = (
             'FirstOrderActivationDeGroote2016(\'name\', '

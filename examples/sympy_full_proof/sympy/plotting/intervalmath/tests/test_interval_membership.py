@@ -23,16 +23,22 @@ from sympy.testing.pytest import raises
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_creation(), test_creation produces the expected output) over Any ║
+# ║ Path(test_creation(), intervalMembership(True, True)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_creation : Any → {Any | intervalMembership(True,...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  intervalMembership(True, True)                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_creation : Any → {Any | result satisfies: interv...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 506e89b74d87d23c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fa0999b66c786ed2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.tests.test_interval_membership.test_creation","kind":"function","src_hash":"9207ee8686a6874e","in":{"base":"Any"},"out":{"base":"Any","pred":"intervalMembership(True, True)"},"spec":{"lhs":"test_creation()","rhs":"test_creation produces the expected output","over":{"base":"Any"},"name":"test_creation_correct"},"guarantee":"test_creation produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.tests.test_interval_membership.test_creation_correct","statement":"Path(test_creation(x), test_creation produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"506e89b74d87d23c"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.tests.test_interval_membership.test_creation","kind":"function","src_hash":"9207ee8686a6874e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: intervalMembership(True, True)"},"spec":{"lhs":"test_creation()","rhs":"intervalMembership(True, True)","over":{"base":"Any"},"name":"test_creation_correct"},"guarantee":"intervalMembership(True, True)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.tests.test_interval_membership.test_creation_correct","statement":"Path(test_creation(x), intervalMembership(True, True))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fa0999b66c786ed2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["intervalMembership(True, True)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_creation():
     assert intervalMembership(True, True)
     raises(TypeError, lambda: intervalMembership(True))
@@ -40,16 +46,23 @@ def test_creation():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_getitem(), test_getitem produces the expected output) over Any ║
+# ║ Path(test_getitem(), a[0] is True and a[1] is False) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_getitem : Any → {Any | a[0] is True and a[1] is ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  a[0] is True                                   ║
+# ║   ensures:  a[1] is False                                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_getitem : Any → {Any | result satisfies: a[0] is...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d3224713c162e84d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b5e6c8803e63b390  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.tests.test_interval_membership.test_getitem","kind":"function","src_hash":"5ca32223a535cd36","in":{"base":"Any"},"out":{"base":"Any","pred":"a[0] is True and a[1] is False"},"spec":{"lhs":"test_getitem()","rhs":"test_getitem produces the expected output","over":{"base":"Any"},"name":"test_getitem_correct"},"guarantee":"test_getitem produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.tests.test_interval_membership.test_getitem_correct","statement":"Path(test_getitem(x), test_getitem produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d3224713c162e84d"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.tests.test_interval_membership.test_getitem","kind":"function","src_hash":"5ca32223a535cd36","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: a[0] is True and a[1] is False"},"spec":{"lhs":"test_getitem()","rhs":"a[0] is True and a[1] is False","over":{"base":"Any"},"name":"test_getitem_correct"},"guarantee":"a[0] is True; a[1] is False","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.tests.test_interval_membership.test_getitem_correct","statement":"Path(test_getitem(x), a[0] is True; a[1] is False)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b5e6c8803e63b390","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["a[0] is True","a[1] is False"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_getitem():
     a = intervalMembership(True, False)
     assert a[0] is True
@@ -58,16 +71,23 @@ def test_getitem():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_str(), test_str produces the expected output) over Any ║
+# ║ Path(test_str(), str(a) == 'intervalMembership(True, False)' and repr(a) == 'intervalMembership(True, False)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_str : Any → {Any | str(a) == 'intervalMembership...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(a) == 'intervalMembership(True, False)'    ║
+# ║   ensures:  repr(a) == 'intervalMembership(True, False)'   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_str : Any → {Any | result satisfies: str(a) == '...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6ba4dff446c1ef51  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | feb3eba8b9792781  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.tests.test_interval_membership.test_str","kind":"function","src_hash":"99504d4aefbb6942","in":{"base":"Any"},"out":{"base":"Any","pred":"str(a) == 'intervalMembership(True, False)' and repr(a) == 'intervalMembership(True, False)'"},"spec":{"lhs":"test_str()","rhs":"test_str produces the expected output","over":{"base":"Any"},"name":"test_str_correct"},"guarantee":"test_str produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.tests.test_interval_membership.test_str_correct","statement":"Path(test_str(x), test_str produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6ba4dff446c1ef51"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.tests.test_interval_membership.test_str","kind":"function","src_hash":"99504d4aefbb6942","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(a) == 'intervalMembership(True, False)' and repr(a) == 'intervalMembership(True, False)'"},"spec":{"lhs":"test_str()","rhs":"str(a) == 'intervalMembership(True, False)' and repr(a) == 'intervalMembership(True, False)'","over":{"base":"Any"},"name":"test_str_correct"},"guarantee":"str(a) == 'intervalMembership(True, False)'; repr(a) == 'intervalMembership(True, False)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.tests.test_interval_membership.test_str_correct","statement":"Path(test_str(x), str(a) == 'intervalMembership(True, False)'; repr(a) == 'intervalMembership(True, False)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"feb3eba8b9792781","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(a) == 'intervalMembership(True, False)'","repr(a) == 'intervalMembership(True, False)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_str():
     a = intervalMembership(True, False)
     assert str(a) == 'intervalMembership(True, False)'
@@ -75,16 +95,24 @@ def test_str():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_equivalence(), test_equivalence produces the expected output) over Any ║
+# ║ Path(test_equivalence(), (a == b) is False and (a != b) is True and (a == b) is True and (a != b) is False) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_equivalence : Any → {Any | (a == b) is False and...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (a == b) is False                              ║
+# ║   ensures:  (a != b) is True                               ║
+# ║   ensures:  (a == b) is True                               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_equivalence : Any → {Any | result satisfies: (a ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4ade3d6c63f67258  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c75c829b60b2803f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.tests.test_interval_membership.test_equivalence","kind":"function","src_hash":"157e0409fab6936c","in":{"base":"Any"},"out":{"base":"Any","pred":"(a == b) is False and (a != b) is True and (a == b) is True and (a != b) is False"},"spec":{"lhs":"test_equivalence()","rhs":"test_equivalence produces the expected output","over":{"base":"Any"},"name":"test_equivalence_correct"},"guarantee":"test_equivalence produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.tests.test_interval_membership.test_equivalence_correct","statement":"Path(test_equivalence(x), test_equivalence produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4ade3d6c63f67258"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.tests.test_interval_membership.test_equivalence","kind":"function","src_hash":"157e0409fab6936c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (a == b) is False and (a != b) is True and (a == b) is True and (a != b) is False"},"spec":{"lhs":"test_equivalence()","rhs":"(a == b) is False and (a != b) is True and (a == b) is True and (a != b) is False","over":{"base":"Any"},"name":"test_equivalence_correct"},"guarantee":"(a == b) is False; (a != b) is True; (a == b) is True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.tests.test_interval_membership.test_equivalence_correct","statement":"Path(test_equivalence(x), (a == b) is False; (a != b) is True; (a == b) is True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c75c829b60b2803f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(a == b) is False","(a != b) is True","(a == b) is True","(a != b) is False"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_equivalence():
     a = intervalMembership(True, True)
     b = intervalMembership(True, False)
@@ -98,16 +126,24 @@ def test_equivalence():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_not(), test_not produces the expected output) over Any ║
+# ║ Path(test_not(), f1(tt) == ~f2(tt) and f1(tn) == ~f2(tn) and f1(tf) == ~f2(tf) and f1(nt) == ~f2(nt) and f1(nn) == ~f2(nn) and f1(nf) == ~f2(nf) and f1(ft) == ~f2(ft) and f1(fn) == ~f2(fn) and f1(ff) == ~f2(ff)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_not : Any → {Any | f1(tt) == ~f2(tt) and f1(tn) ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f1(tt) == ~f2(tt)                              ║
+# ║   ensures:  f1(tn) == ~f2(tn)                              ║
+# ║   ensures:  f1(tf) == ~f2(tf)                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_not : Any → {Any | result satisfies: f1(tt) == ~...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5917440b4d226c70  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4c735abb59a08c9b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.tests.test_interval_membership.test_not","kind":"function","src_hash":"b8a880eb2a9ee76d","in":{"base":"Any"},"out":{"base":"Any","pred":"f1(tt) == ~f2(tt) and f1(tn) == ~f2(tn) and f1(tf) == ~f2(tf) and f1(nt) == ~f2(nt) and f1(nn) == ~f2(nn) and f1(nf) == ~f2(nf) and f1(ft) == ~f2(ft) and f1(fn) == ~f2(fn) and f1(ff) == ~f2(ff)"},"spec":{"lhs":"test_not()","rhs":"test_not produces the expected output","over":{"base":"Any"},"name":"test_not_correct"},"guarantee":"test_not produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.tests.test_interval_membership.test_not_correct","statement":"Path(test_not(x), test_not produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5917440b4d226c70"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.tests.test_interval_membership.test_not","kind":"function","src_hash":"b8a880eb2a9ee76d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f1(tt) == ~f2(tt) and f1(tn) == ~f2(tn) and f1(tf) == ~f2(tf) and f1(nt) == ~f2(nt) and f1(nn) == ~f2(nn) and f1(nf) == ~f2(nf) and f1(ft) == ~f2(ft) and f1(fn) == ~f2(fn) and f1(ff) == ~f2(ff)"},"spec":{"lhs":"test_not()","rhs":"f1(tt) == ~f2(tt) and f1(tn) == ~f2(tn) and f1(tf) == ~f2(tf) and f1(nt) == ~f2(nt) and f1(nn) == ~f2(nn) and f1(nf) == ~f2(nf) and f1(ft) == ~f2(ft) and f1(fn) == ~f2(fn) and f1(ff) == ~f2(ff)","over":{"base":"Any"},"name":"test_not_correct"},"guarantee":"f1(tt) == ~f2(tt); f1(tn) == ~f2(tn); f1(tf) == ~f2(tf)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.tests.test_interval_membership.test_not_correct","statement":"Path(test_not(x), f1(tt) == ~f2(tt); f1(tn) == ~f2(tn); f1(tf) == ~f2(tf))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4c735abb59a08c9b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f1(tt) == ~f2(tt)","f1(tn) == ~f2(tn)","f1(tf) == ~f2(tf)","f1(nt) == ~f2(nt)","f1(nn) == ~f2(nn)","f1(nf) == ~f2(nf)","f1(ft) == ~f2(ft)","f1(fn) == ~f2(fn)","f1(ff) == ~f2(ff)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_not():
     x = Symbol('x')
 
@@ -145,16 +181,22 @@ def test_not():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_boolean(), test_boolean produces the expected output) over Any ║
+# ║ Path(test_boolean(), <unspecified:test_boolean>) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_boolean : Any → {Any | ~s[i] == next(a1_iter) an...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 015cba871a0b62f2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.tests.test_interval_membership.test_boolean","kind":"function","src_hash":"57fb628d7780539d","in":{"base":"Any"},"out":{"base":"Any","pred":"~s[i] == next(a1_iter) and s[i] & s[j] == next(a1_iter) and s[i] | s[j] == next(a1_iter) and s[i] ^ s[j] == next(a1_iter)"},"spec":{"lhs":"test_boolean()","rhs":"test_boolean produces the expected output","over":{"base":"Any"},"name":"test_boolean_correct"},"guarantee":"test_boolean produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.tests.test_interval_membership.test_boolean_correct","statement":"Path(test_boolean(x), test_boolean produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"015cba871a0b62f2"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.tests.test_interval_membership.test_boolean","kind":"function","src_hash":"57fb628d7780539d","in":{"base":"Any"},"out":{"base":"Any","pred":"~s[i] == next(a1_iter) and s[i] & s[j] == next(a1_iter) and s[i] | s[j] == next(a1_iter) and s[i] ^ s[j] == next(a1_iter)"},"spec":{"lhs":"test_boolean()","rhs":"<unspecified:test_boolean>","over":{"base":"Any"},"name":"test_boolean_correct"},"guarantee":"test_boolean produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.tests.test_interval_membership.test_boolean_correct","statement":"Path(test_boolean(x), test_boolean produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"015cba871a0b62f2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_boolean():
     # There can be 9*9 test cases in full mapping of the cartesian product.
     # But we only consider 3*3 cases for simplicity.
@@ -227,16 +269,22 @@ def test_boolean():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_boolean_errors(), test_boolean_errors produces the expected output) over Any ║
+# ║ Path(test_boolean_errors(), <unspecified:test_boolean_errors>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_boolean_errors : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c56a2c4f4a3250a4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.tests.test_interval_membership.test_boolean_errors","kind":"function","src_hash":"30dd48c9aac77eb7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_boolean_errors()","rhs":"test_boolean_errors produces the expected output","over":{"base":"Any"},"name":"test_boolean_errors_correct"},"guarantee":"test_boolean_errors produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.tests.test_interval_membership.test_boolean_errors_correct","statement":"Path(test_boolean_errors(x), test_boolean_errors produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c56a2c4f4a3250a4"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.tests.test_interval_membership.test_boolean_errors","kind":"function","src_hash":"30dd48c9aac77eb7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_boolean_errors()","rhs":"<unspecified:test_boolean_errors>","over":{"base":"Any"},"name":"test_boolean_errors_correct"},"guarantee":"test_boolean_errors produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.tests.test_interval_membership.test_boolean_errors_correct","statement":"Path(test_boolean_errors(x), test_boolean_errors produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c56a2c4f4a3250a4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_boolean_errors():
     a = intervalMembership(True, True)
     raises(ValueError, lambda: a & 1)

@@ -23,16 +23,22 @@ from sympy.utilities.iterables import is_sequence
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gosper_normal(f, ), compute the gosper's normal form of ``f`` and ``g``) over Any ║
+# ║ Path(gosper_normal(f, g, n), (A, B, C)) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (A, B, C)                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gosper_normal : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f24b577ab26b539f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 771670e97387ff5d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.gosper.gosper_normal","kind":"function","src_hash":"f4efdfe8c5f8e18c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gosper_normal(f, )","rhs":"compute the gosper's normal form of ``f`` and ``g``","over":{"base":"Any"},"name":"gosper_normal_correct"},"guarantee":"compute the gosper's normal form of ``f`` and ``g``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.gosper.gosper_normal_correct","statement":"Path(gosper_normal(x), compute the gosper's normal form of ``f`` and ``g``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f24b577ab26b539f"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.gosper.gosper_normal","kind":"function","src_hash":"f4efdfe8c5f8e18c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gosper_normal(f, g, n)","rhs":"(A, B, C)","over":{"base":"Any"},"name":"gosper_normal_correct"},"guarantee":"returns (A, B, C)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.gosper.gosper_normal_correct","statement":"Path(gosper_normal(x), returns (A, B, C))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"771670e97387ff5d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(A, B, C)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def gosper_normal(f, g, n, polys=True):
     r"""
     Compute the Gosper's normal form of ``f`` and ``g``.
@@ -104,16 +110,22 @@ def gosper_normal(f, g, n, polys=True):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gosper_term(f, ), compute gosper's hypergeometric term for ``f``) over Any ║
+# ║ Path(gosper_term(f, n), <unspecified:gosper_term>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gosper_term : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9b9c16e09ea08de9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.gosper.gosper_term","kind":"function","src_hash":"bc1045927a398200","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gosper_term(f, )","rhs":"compute gosper's hypergeometric term for ``f``","over":{"base":"Any"},"name":"gosper_term_correct"},"guarantee":"compute gosper's hypergeometric term for ``f``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.gosper.gosper_term_correct","statement":"Path(gosper_term(x), compute gosper's hypergeometric term for ``f``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9b9c16e09ea08de9"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.gosper.gosper_term","kind":"function","src_hash":"bc1045927a398200","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gosper_term(f, n)","rhs":"<unspecified:gosper_term>","over":{"base":"Any"},"name":"gosper_term_correct"},"guarantee":"compute gosper's hypergeometric term for ``f``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.gosper.gosper_term_correct","statement":"Path(gosper_term(x), compute gosper's hypergeometric term for ``f``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9b9c16e09ea08de9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def gosper_term(f, n):
     r"""
     Compute Gosper's hypergeometric term for ``f``.
@@ -196,16 +208,22 @@ def gosper_term(f, n):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gosper_sum(f, ), gosper's hypergeometric summation algorithm) over Any ║
+# ║ Path(gosper_sum(f, k), <unspecified:gosper_sum>) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gosper_sum : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 743f58d5643c00b3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.gosper.gosper_sum","kind":"function","src_hash":"3410730d1eda3ab5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gosper_sum(f, )","rhs":"gosper's hypergeometric summation algorithm","over":{"base":"Any"},"name":"gosper_sum_correct"},"guarantee":"gosper's hypergeometric summation algorithm","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.gosper.gosper_sum_correct","statement":"Path(gosper_sum(x), gosper's hypergeometric summation algorithm)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"743f58d5643c00b3"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.gosper.gosper_sum","kind":"function","src_hash":"3410730d1eda3ab5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gosper_sum(f, k)","rhs":"<unspecified:gosper_sum>","over":{"base":"Any"},"name":"gosper_sum_correct"},"guarantee":"gosper's hypergeometric summation algorithm","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.gosper.gosper_sum_correct","statement":"Path(gosper_sum(x), gosper's hypergeometric summation algorithm)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"743f58d5643c00b3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def gosper_sum(f, k):
     r"""
     Gosper's hypergeometric summation algorithm.

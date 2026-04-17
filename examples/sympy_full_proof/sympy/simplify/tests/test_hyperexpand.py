@@ -50,16 +50,23 @@ from sympy.functions.special.gamma_functions import (gamma, lowergamma)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_branch_bug(), test_branch_bug produces the expected output) over Any ║
+# ║ Path(test_branch_bug(), hyperexpand(hyper((Rational(-1, 3), S.Half), (Rational(2, 3), Rational(3, 2)), -z)) == -z ** S('1/3') * lowergamma(exp_polar(I * pi) / 3, z) / 5 + sqrt(pi) * erf(sqrt(z)) / (5 * sqrt(z)) and hyperexpand(meijerg([Rational(7, 6), 1], [], [Rational(2, 3)], [Rational(1, 6), 0], z)) == 2 * z ** S('2/3') * (2 * sqrt(pi) * erf(sqrt(z)) / sqrt(z) - 2 * lowergamma(Rational(2, 3), z) / z ** S('2/3')) * gamma(Rational(2, 3)) / gamma(Rational(5, 3))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_branch_bug : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  hyperexpand(hyper((Rational(-1, 3), S.Hal...   ║
+# ║   ensures:  hyperexpand(meijerg([Rational(7, 6), 1], ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_branch_bug : Any → {Any | result satisfies: hype...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a8869655dc9674d3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eb18c19d32ea8936  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_hyperexpand.test_branch_bug","kind":"function","src_hash":"47f75e29009e4e7e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_branch_bug()","rhs":"test_branch_bug produces the expected output","over":{"base":"Any"},"name":"test_branch_bug_correct"},"guarantee":"test_branch_bug produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_hyperexpand.test_branch_bug_correct","statement":"Path(test_branch_bug(x), test_branch_bug produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a8869655dc9674d3"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_hyperexpand.test_branch_bug","kind":"function","src_hash":"47f75e29009e4e7e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: hyperexpand(hyper((Rational(-1, 3), S.Half), (Rational(2, 3), Rational(3, 2)), -z)) == -z ** S('1/3') * lowergamma(exp_polar(I * pi) / 3, z) / 5 + sqrt(pi) * erf(sqrt(z)) / (5 * sqrt(z)) and hyperexpand(meijerg([Rational(7, 6), 1], [], [Rational(2, 3)], [Rational(1, 6), 0], z)) == 2 * z ** S('2/3') * (2 * sqrt(pi) * erf(sqrt(z)) / sqrt(z) - 2 * lowergamma(Rational(2, 3), z) / z ** S('2/3')) * gamma(Rational(2, 3)) / gamma(Rational(5, 3))"},"spec":{"lhs":"test_branch_bug()","rhs":"hyperexpand(hyper((Rational(-1, 3), S.Half), (Rational(2, 3), Rational(3, 2)), -z)) == -z ** S('1/3') * lowergamma(exp_polar(I * pi) / 3, z) / 5 + sqrt(pi) * erf(sqrt(z)) / (5 * sqrt(z)) and hyperexpand(meijerg([Rational(7, 6), 1], [], [Rational(2, 3)], [Rational(1, 6), 0], z)) == 2 * z ** S('2/3') * (2 * sqrt(pi) * erf(sqrt(z)) / sqrt(z) - 2 * lowergamma(Rational(2, 3), z) / z ** S('2/3')) * gamma(Rational(2, 3)) / gamma(Rational(5, 3))","over":{"base":"Any"},"name":"test_branch_bug_correct"},"guarantee":"hyperexpand(hyper((Rational(-1, 3), S.Half), (Rational(2, 3), Rational(3, 2)), -z)) == -z ** S('1/3') * lowergamma(exp_polar(I * pi) / 3, z) / 5 + sqrt(pi) * erf(sqrt(z)) / (5 * sqrt(z)); hyperexpand(meijerg([Rational(7, 6), 1], [], [Rational(2, 3)], [Rational(1, 6), 0], z)) == 2 * z ** S('2/3') * (2 * sqrt(pi) * erf(sqrt(z)) / sqrt(z) - 2 * lowergamma(Rational(2, 3), z) / z ** S('2/3')) * gamma(Rational(2, 3)) / gamma(Rational(5, 3))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_hyperexpand.test_branch_bug_correct","statement":"Path(test_branch_bug(x), hyperexpand(hyper((Rational(-1, 3), S.Half), (Rational(2, 3), Rational(3, 2)), -z)) == -z ** S('1/3') * lowergamma(exp_polar(I * pi) / 3, z) / 5 + sqrt(pi) * erf(sqrt(z)) / (5 * sqrt(z)); hyperexpand(meijerg([Rational(7, 6), 1], [], [Rational(2, 3)], [Rational(1, 6), 0], z)) == 2 * z ** S('2/3') * (2 * sqrt(pi) * erf(sqrt(z)) / sqrt(z) - 2 * lowergamma(Rational(2, 3), z) / z ** S('2/3')) * gamma(Rational(2, 3)) / gamma(Rational(5, 3)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eb18c19d32ea8936","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["hyperexpand(hyper((Rational(-1, 3), S.Half), (Rational(2, 3), Rational(3, 2)), -z)) == -z ** S('1/3') * lowergamma(exp_polar(I * pi) / 3, z) / 5 + sqrt(pi) * erf(sqrt(z)) / (5 * sqrt(z))","hyperexpand(meijerg([Rational(7, 6), 1], [], [Rational(2, 3)], [Rational(1, 6), 0], z)) == 2 * z ** S('2/3') * (2 * sqrt(pi) * erf(sqrt(z)) / sqrt(z) - 2 * lowergamma(Rational(2, 3), z) / z ** S('2/3')) * gamma(Rational(2, 3)) / gamma(Rational(5, 3))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_branch_bug():
     assert hyperexpand(hyper((Rational(-1, 3), S.Half), (Rational(2, 3), Rational(3, 2)), -z)) == \
         -z**S('1/3')*lowergamma(exp_polar(I*pi)/3, z)/5 \
@@ -70,7 +77,12 @@ def test_branch_bug():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_hyperexpand(), test_hyperexpand produces the expected output) over {Any | isinstance(Sum(binomial(2, z) * z ** 2, (z, 0, a)).doit(), Expr)} ║
+# ║ Path(test_hyperexpand(), hyperexpand(hyper([], [], z)) == exp(z) and hyperexpand(hyper([1, 1], [2], -z) * z) == log(1 + z) and hyperexpand(hyper([], [S.Half], -z ** 2 / 4)) == cos(z) and hyperexpand(z * hyper([], [S('3/2')], -z ** 2 / 4)) == sin(z) and hyperexpand(hyper([S('1/2'), S('1/2')], [S('3/2')], z ** 2) * z) == asin(z) and isinstance(Sum(binomial(2, z) * z ** 2, (z, 0, a)).doit(), Expr)) over {Any | isinstance(Sum(binomial(2, z) * z ** 2, (z, 0, a)).doit(), Expr)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  hyperexpand(hyper([], [], z)) == exp(z)        ║
+# ║   ensures:  hyperexpand(hyper([1, 1], [2], -z) * z) =...   ║
+# ║   ensures:  hyperexpand(hyper([], [S.Half], -z ** 2 /...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_hyperexpand : {Any | isinstance(Sum(binomial(2, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -82,9 +94,12 @@ def test_branch_bug():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 0.7ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 92bbd5cb...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_hyperexpand.test_hyperexpand","kind":"function","src_hash":"bb3956e2bb0517e0","in":{"base":"Any","pred":"isinstance(Sum(binomial(2, z) * z ** 2, (z, 0, a)).doit(), Expr)"},"out":{"base":"Any","pred":"hyperexpand(hyper([], [], z)) == exp(z) and hyperexpand(hyper([1, 1], [2], -z) * z) == log(1 + z) and hyperexpand(hyper([], [S.Half], -z ** 2 / 4)) == cos(z) and hyperexpand(z * hyper([], [S('3/2')], -z ** 2 / 4)) == sin(z) and hyperexpand(hyper([S('1/2'), S('1/2')], [S('3/2')], z ** 2) * z) == asin(z) and isinstance(Sum(binomial(2, z) * z ** 2, (z, 0, a)).doit(), Expr)"},"spec":{"lhs":"test_hyperexpand()","rhs":"test_hyperexpand produces the expected output","over":{"base":"Any","pred":"isinstance(Sum(binomial(2, z) * z ** 2, (z, 0, a)).doit(), Expr)"},"name":"test_hyperexpand_correct"},"guarantee":"test_hyperexpand produces the expected output","fibers":[{"name":"z) * z ** 2","pred":"isinstance(Sum(binomial(2, z) * z ** 2, (z, 0, a)).doit(), Expr)","path":{"lhs":"test_hyperexpand(x)","rhs":"test_hyperexpand produces the expected output","over":{"base":"z) * z ** 2","pred":"isinstance(Sum(binomial(2, z) * z ** 2, (z, 0, a)).doit(), Expr)"},"name":"test_hyperexpand_z) * z ** 2_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_hyperexpand.test_hyperexpand_z) * z ** 2_correct","statement":"test_hyperexpand satisfies spec on z) * z ** 2 inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"92bbd5cb37e9c8f0"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_hyperexpand.test_hyperexpand","kind":"function","src_hash":"bb3956e2bb0517e0","in":{"base":"Any","pred":"isinstance(Sum(binomial(2, z) * z ** 2, (z, 0, a)).doit(), Expr)"},"out":{"base":"Any","pred":"result satisfies: hyperexpand(hyper([], [], z)) == exp(z) and hyperexpand(hyper([1, 1], [2], -z) * z) == log(1 + z) and hyperexpand(hyper([], [S.Half], -z ** 2 / 4)) == cos(z) and hyperexpand(z * hyper([], [S('3/2')], -z ** 2 / 4)) == sin(z) and hyperexpand(hyper([S('1/2'), S('1/2')], [S('3/2')], z ** 2) * z) == asin(z) and isinstance(Sum(binomial(2, z) * z ** 2, (z, 0, a)).doit(), Expr)"},"spec":{"lhs":"test_hyperexpand()","rhs":"hyperexpand(hyper([], [], z)) == exp(z) and hyperexpand(hyper([1, 1], [2], -z) * z) == log(1 + z) and hyperexpand(hyper([], [S.Half], -z ** 2 / 4)) == cos(z) and hyperexpand(z * hyper([], [S('3/2')], -z ** 2 / 4)) == sin(z) and hyperexpand(hyper([S('1/2'), S('1/2')], [S('3/2')], z ** 2) * z) == asin(z) and isinstance(Sum(binomial(2, z) * z ** 2, (z, 0, a)).doit(), Expr)","over":{"base":"Any","pred":"isinstance(Sum(binomial(2, z) * z ** 2, (z, 0, a)).doit(), Expr)"},"name":"test_hyperexpand_correct"},"guarantee":"hyperexpand(hyper([], [], z)) == exp(z); hyperexpand(hyper([1, 1], [2], -z) * z) == log(1 + z); hyperexpand(hyper([], [S.Half], -z ** 2 / 4)) == cos(z)","fibers":[{"name":"z) * z ** 2","pred":"isinstance(Sum(binomial(2, z) * z ** 2, (z, 0, a)).doit(), Expr)","path":{"lhs":"test_hyperexpand(x)","rhs":"hyperexpand(hyper([], [], z)) == exp(z); hyperexpand(hyper([1, 1], [2], -z) * z) == log(1 + z); hyperexpand(hyper([], [S.Half], -z ** 2 / 4)) == cos(z)","over":{"base":"z) * z ** 2","pred":"isinstance(Sum(binomial(2, z) * z ** 2, (z, 0, a)).doit(), Expr)"},"name":"test_hyperexpand_z) * z ** 2_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_hyperexpand.test_hyperexpand_z) * z ** 2_correct","statement":"test_hyperexpand satisfies spec on z) * z ** 2 inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"92bbd5cb37e9c8f0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["hyperexpand(hyper([], [], z)) == exp(z)","hyperexpand(hyper([1, 1], [2], -z) * z) == log(1 + z)","hyperexpand(hyper([], [S.Half], -z ** 2 / 4)) == cos(z)","hyperexpand(z * hyper([], [S('3/2')], -z ** 2 / 4)) == sin(z)","hyperexpand(hyper([S('1/2'), S('1/2')], [S('3/2')], z ** 2) * z) == asin(z)","isinstance(Sum(binomial(2, z) * z ** 2, (z, 0, a)).doit(), Expr)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"failed","binding":true}}
 def test_hyperexpand():
     # Luke, Y. L. (1969), The Special Functions and Their Approximations,
     # Volume 1, section 6.2
@@ -99,16 +114,22 @@ def test_hyperexpand():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(can_do(ap,), can_do produces the expected output) over Any ║
+# ║ Path(can_do(ap, bq, numerical), <unspecified:can_do>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ can_do : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b43f1ad2288b7e76  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_hyperexpand.can_do","kind":"function","src_hash":"ffbdcdf9f8af8569","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"can_do(ap,)","rhs":"can_do produces the expected output","over":{"base":"Any"},"name":"can_do_correct"},"guarantee":"can_do produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_hyperexpand.can_do_correct","statement":"Path(can_do(x), can_do produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b43f1ad2288b7e76"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_hyperexpand.can_do","kind":"function","src_hash":"ffbdcdf9f8af8569","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"can_do(ap, bq, numerical)","rhs":"<unspecified:can_do>","over":{"base":"Any"},"name":"can_do_correct"},"guarantee":"can_do produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_hyperexpand.can_do_correct","statement":"Path(can_do(x), can_do produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b43f1ad2288b7e76","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def can_do(ap, bq, numerical=True, div=1, lowerplane=False):
     r = hyperexpand(hyper(ap, bq, z))
     if r.has(hyper):
@@ -133,16 +154,24 @@ def can_do(ap, bq, numerical=True, div=1, lowerplane=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_roach(), test_roach produces the expected output) over Any ║
+# ║ Path(test_roach(), can_do([S.Half], [Rational(9, 2)]) and can_do([], [1, Rational(5, 2), 4]) and can_do([Rational(-1, 2), 1, 2], [3, 4]) and can_do([Rational(1, 3)], [Rational(-2, 3), Rational(-1, 2), S.Half, 1]) and can_do([Rational(-3, 2), Rational(-1, 2)], [Rational(-5, 2), 1]) and can_do([Rational(-3, 2)], [Rational(-1, 2), S.Half]) and can_do([Rational(-3, 2), Rational(-1, 2)], [2])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_roach : Any → {Any | can_do([S.Half], [Rational(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  can_do([S.Half], [Rational(9, 2)])             ║
+# ║   ensures:  can_do([], [1, Rational(5, 2), 4])             ║
+# ║   ensures:  can_do([Rational(-1, 2), 1, 2], [3, 4])        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_roach : Any → {Any | result satisfies: can_do([S...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6681163fb42f829b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 23e304e3b59cda07  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_hyperexpand.test_roach","kind":"function","src_hash":"3b90a920bb787a6b","in":{"base":"Any"},"out":{"base":"Any","pred":"can_do([S.Half], [Rational(9, 2)]) and can_do([], [1, Rational(5, 2), 4]) and can_do([Rational(-1, 2), 1, 2], [3, 4]) and can_do([Rational(1, 3)], [Rational(-2, 3), Rational(-1, 2), S.Half, 1]) and can_do([Rational(-3, 2), Rational(-1, 2)], [Rational(-5, 2), 1]) and can_do([Rational(-3, 2)], [Rational(-1, 2), S.Half]) and can_do([Rational(-3, 2), Rational(-1, 2)], [2])"},"spec":{"lhs":"test_roach()","rhs":"test_roach produces the expected output","over":{"base":"Any"},"name":"test_roach_correct"},"guarantee":"test_roach produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_hyperexpand.test_roach_correct","statement":"Path(test_roach(x), test_roach produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6681163fb42f829b"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_hyperexpand.test_roach","kind":"function","src_hash":"3b90a920bb787a6b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: can_do([S.Half], [Rational(9, 2)]) and can_do([], [1, Rational(5, 2), 4]) and can_do([Rational(-1, 2), 1, 2], [3, 4]) and can_do([Rational(1, 3)], [Rational(-2, 3), Rational(-1, 2), S.Half, 1]) and can_do([Rational(-3, 2), Rational(-1, 2)], [Rational(-5, 2), 1]) and can_do([Rational(-3, 2)], [Rational(-1, 2), S.Half]) and can_do([Rational(-3, 2), Rational(-1, 2)], [2])"},"spec":{"lhs":"test_roach()","rhs":"can_do([S.Half], [Rational(9, 2)]) and can_do([], [1, Rational(5, 2), 4]) and can_do([Rational(-1, 2), 1, 2], [3, 4]) and can_do([Rational(1, 3)], [Rational(-2, 3), Rational(-1, 2), S.Half, 1]) and can_do([Rational(-3, 2), Rational(-1, 2)], [Rational(-5, 2), 1]) and can_do([Rational(-3, 2)], [Rational(-1, 2), S.Half]) and can_do([Rational(-3, 2), Rational(-1, 2)], [2])","over":{"base":"Any"},"name":"test_roach_correct"},"guarantee":"can_do([S.Half], [Rational(9, 2)]); can_do([], [1, Rational(5, 2), 4]); can_do([Rational(-1, 2), 1, 2], [3, 4])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_hyperexpand.test_roach_correct","statement":"Path(test_roach(x), can_do([S.Half], [Rational(9, 2)]); can_do([], [1, Rational(5, 2), 4]); can_do([Rational(-1, 2), 1, 2], [3, 4]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"23e304e3b59cda07","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["can_do([S.Half], [Rational(9, 2)])","can_do([], [1, Rational(5, 2), 4])","can_do([Rational(-1, 2), 1, 2], [3, 4])","can_do([Rational(1, 3)], [Rational(-2, 3), Rational(-1, 2), S.Half, 1])","can_do([Rational(-3, 2), Rational(-1, 2)], [Rational(-5, 2), 1])","can_do([Rational(-3, 2)], [Rational(-1, 2), S.Half])","can_do([Rational(-3, 2), Rational(-1, 2)], [2])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_roach():
     # Kelly B. Roach.  Meijer G Function Representations.
     # Section "Gallery"
@@ -157,16 +186,24 @@ def test_roach():
 
 @XFAIL
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_roach_fail(), test_roach_fail produces the expected output) over Any ║
+# ║ Path(test_roach_fail(), can_do([Rational(-1, 2), 1], [Rational(1, 4), S.Half, Rational(3, 4)]) and can_do([Rational(3, 2)], [Rational(5, 2), 5]) and can_do([Rational(-1, 2), S.Half, 1], [Rational(3, 2), Rational(5, 2)]) and can_do([1, 2, 3], [S.Half, 4]) and can_do([S.Half], [Rational(-1, 3), Rational(-1, 2), Rational(-2, 3)])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_roach_fail : Any → {Any | can_do([Rational(-1, 2...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  can_do([Rational(-1, 2), 1], [Rational(1,...   ║
+# ║   ensures:  can_do([Rational(3, 2)], [Rational(5, 2),...   ║
+# ║   ensures:  can_do([Rational(-1, 2), S.Half, 1], [Rat...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_roach_fail : Any → {Any | result satisfies: can_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b0297b70913e927e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 692aa94f92c6175f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_hyperexpand.test_roach_fail","kind":"function","src_hash":"ea6f4e99f397be60","in":{"base":"Any"},"out":{"base":"Any","pred":"can_do([Rational(-1, 2), 1], [Rational(1, 4), S.Half, Rational(3, 4)]) and can_do([Rational(3, 2)], [Rational(5, 2), 5]) and can_do([Rational(-1, 2), S.Half, 1], [Rational(3, 2), Rational(5, 2)]) and can_do([1, 2, 3], [S.Half, 4]) and can_do([S.Half], [Rational(-1, 3), Rational(-1, 2), Rational(-2, 3)])"},"spec":{"lhs":"test_roach_fail()","rhs":"test_roach_fail produces the expected output","over":{"base":"Any"},"name":"test_roach_fail_correct"},"guarantee":"test_roach_fail produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_hyperexpand.test_roach_fail_correct","statement":"Path(test_roach_fail(x), test_roach_fail produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b0297b70913e927e"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_hyperexpand.test_roach_fail","kind":"function","src_hash":"ea6f4e99f397be60","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: can_do([Rational(-1, 2), 1], [Rational(1, 4), S.Half, Rational(3, 4)]) and can_do([Rational(3, 2)], [Rational(5, 2), 5]) and can_do([Rational(-1, 2), S.Half, 1], [Rational(3, 2), Rational(5, 2)]) and can_do([1, 2, 3], [S.Half, 4]) and can_do([S.Half], [Rational(-1, 3), Rational(-1, 2), Rational(-2, 3)])"},"spec":{"lhs":"test_roach_fail()","rhs":"can_do([Rational(-1, 2), 1], [Rational(1, 4), S.Half, Rational(3, 4)]) and can_do([Rational(3, 2)], [Rational(5, 2), 5]) and can_do([Rational(-1, 2), S.Half, 1], [Rational(3, 2), Rational(5, 2)]) and can_do([1, 2, 3], [S.Half, 4]) and can_do([S.Half], [Rational(-1, 3), Rational(-1, 2), Rational(-2, 3)])","over":{"base":"Any"},"name":"test_roach_fail_correct"},"guarantee":"can_do([Rational(-1, 2), 1], [Rational(1, 4), S.Half, Rational(3, 4)]); can_do([Rational(3, 2)], [Rational(5, 2), 5]); can_do([Rational(-1, 2), S.Half, 1], [Rational(3, 2), Rational(5, 2)])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_hyperexpand.test_roach_fail_correct","statement":"Path(test_roach_fail(x), can_do([Rational(-1, 2), 1], [Rational(1, 4), S.Half, Rational(3, 4)]); can_do([Rational(3, 2)], [Rational(5, 2), 5]); can_do([Rational(-1, 2), S.Half, 1], [Rational(3, 2), Rational(5, 2)]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"692aa94f92c6175f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["can_do([Rational(-1, 2), 1], [Rational(1, 4), S.Half, Rational(3, 4)])","can_do([Rational(3, 2)], [Rational(5, 2), 5])","can_do([Rational(-1, 2), S.Half, 1], [Rational(3, 2), Rational(5, 2)])","can_do([1, 2, 3], [S.Half, 4])","can_do([S.Half], [Rational(-1, 3), Rational(-1, 2), Rational(-2, 3)])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_roach_fail():
     assert can_do([Rational(-1, 2), 1], [Rational(1, 4), S.Half, Rational(3, 4)])  # PFDD
     assert can_do([Rational(3, 2)], [Rational(5, 2), 5])  # struve function
@@ -178,16 +215,24 @@ def test_roach_fail():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_polynomial(), test_polynomial produces the expected output) over Any ║
+# ║ Path(test_polynomial(), hyperexpand(hyper([], [-1], z)) is oo and hyperexpand(hyper([-2], [-1], z)) is oo and hyperexpand(hyper([0, 0], [-1], z)) == 1 and can_do([-5, -2, randcplx(), randcplx()], [-10, randcplx()]) and hyperexpand(hyper((-1, 1), (-2,), z)) == 1 + z / 2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_polynomial : Any → {Any | hyperexpand(hyper([], ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  hyperexpand(hyper([], [-1], z)) is oo          ║
+# ║   ensures:  hyperexpand(hyper([-2], [-1], z)) is oo        ║
+# ║   ensures:  hyperexpand(hyper([0, 0], [-1], z)) == 1       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_polynomial : Any → {Any | result satisfies: hype...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 82ac39d9c66e270f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f6b845697025c578  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_hyperexpand.test_polynomial","kind":"function","src_hash":"baa88e3b54ff7934","in":{"base":"Any"},"out":{"base":"Any","pred":"hyperexpand(hyper([], [-1], z)) is oo and hyperexpand(hyper([-2], [-1], z)) is oo and hyperexpand(hyper([0, 0], [-1], z)) == 1 and can_do([-5, -2, randcplx(), randcplx()], [-10, randcplx()]) and hyperexpand(hyper((-1, 1), (-2,), z)) == 1 + z / 2"},"spec":{"lhs":"test_polynomial()","rhs":"test_polynomial produces the expected output","over":{"base":"Any"},"name":"test_polynomial_correct"},"guarantee":"test_polynomial produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_hyperexpand.test_polynomial_correct","statement":"Path(test_polynomial(x), test_polynomial produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"82ac39d9c66e270f"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_hyperexpand.test_polynomial","kind":"function","src_hash":"baa88e3b54ff7934","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: hyperexpand(hyper([], [-1], z)) is oo and hyperexpand(hyper([-2], [-1], z)) is oo and hyperexpand(hyper([0, 0], [-1], z)) == 1 and can_do([-5, -2, randcplx(), randcplx()], [-10, randcplx()]) and hyperexpand(hyper((-1, 1), (-2,), z)) == 1 + z / 2"},"spec":{"lhs":"test_polynomial()","rhs":"hyperexpand(hyper([], [-1], z)) is oo and hyperexpand(hyper([-2], [-1], z)) is oo and hyperexpand(hyper([0, 0], [-1], z)) == 1 and can_do([-5, -2, randcplx(), randcplx()], [-10, randcplx()]) and hyperexpand(hyper((-1, 1), (-2,), z)) == 1 + z / 2","over":{"base":"Any"},"name":"test_polynomial_correct"},"guarantee":"hyperexpand(hyper([], [-1], z)) is oo; hyperexpand(hyper([-2], [-1], z)) is oo; hyperexpand(hyper([0, 0], [-1], z)) == 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_hyperexpand.test_polynomial_correct","statement":"Path(test_polynomial(x), hyperexpand(hyper([], [-1], z)) is oo; hyperexpand(hyper([-2], [-1], z)) is oo; hyperexpand(hyper([0, 0], [-1], z)) == 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f6b845697025c578","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["hyperexpand(hyper([], [-1], z)) is oo","hyperexpand(hyper([-2], [-1], z)) is oo","hyperexpand(hyper([0, 0], [-1], z)) == 1","can_do([-5, -2, randcplx(), randcplx()], [-10, randcplx()])","hyperexpand(hyper((-1, 1), (-2,), z)) == 1 + z / 2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_polynomial():
     from sympy.core.numbers import oo
     assert hyperexpand(hyper([], [-1], z)) is oo
@@ -198,16 +243,24 @@ def test_polynomial():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_hyperexpand_bases(), test_hyperexpand_bases produces the expected output) over Any ║
+# ║ Path(test_hyperexpand_bases(), hyperexpand(hyper([2], [a], z)) == a + z ** (-a + 1) * (-a ** 2 + 3 * a + z * (a - 1) - 2) * exp(z) * lowergamma(a - 1, z) - 1 and hyperexpand(hyper([1, 2], [3], z)) == -2 / z - 2 * log(-z + 1) / z ** 2 and hyperexpand(hyper([S.Half, 2], [Rational(3, 2)], z)) == -1 / (2 * z - 2) + atanh(sqrt(z)) / sqrt(z) / 2 and hyperexpand(hyper([S.Half, S.Half], [Rational(5, 2)], z)) == (-3 * z + 3) / 4 / (z * sqrt(-z + 1)) + (6 * z - 3) * asin(sqrt(z)) / (4 * z ** Rational(3, 2)) and hyperexpand(hyper([1, 2], [Rational(3, 2)], z)) == -1 / (2 * z - 2) - asin(sqrt(z)) / (sqrt(z) * (2 * z - 2) * sqrt(-z + 1)) and hyperexpand(hyper([Rational(-1, 2) - 1, 1, 2], [S.Half, 3], z)) == sqrt(z) * (z * Rational(6, 7) - Rational(6, 5)) * atanh(sqrt(z)) + (-30 * z ** 2 + 32 * z - 6) / 35 / z - 6 * log(-z + 1) / (35 * z ** 2) and hyperexpand(hyper([1 + S.Half, 1, 1], [2, 2], z)) == -4 * log(sqrt(-z + 1) / 2 + S.Half) / z and hyperexpand(hyper([2], [b, 1], z)) == z ** (-b / 2 + S.Half) * besseli(b - 1, 2 * sqrt(z)) * gamma(b) + z ** (-b / 2 + 1) * besseli(b, 2 * sqrt(z)) * gamma(b)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_hyperexpand_bases : Any → {Any | hyperexpand(hyp...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  hyperexpand(hyper([2], [a], z)) == a + z ...   ║
+# ║   ensures:  hyperexpand(hyper([1, 2], [3], z)) == -2 ...   ║
+# ║   ensures:  hyperexpand(hyper([S.Half, 2], [Rational(...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_hyperexpand_bases : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b64528d5b83a1bd1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e5c372c0b3ff7324  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_hyperexpand.test_hyperexpand_bases","kind":"function","src_hash":"a1eedd1c6bff9cf5","in":{"base":"Any"},"out":{"base":"Any","pred":"hyperexpand(hyper([1, 2], [3], z)) == -2 / z - 2 * log(-z + 1) / z ** 2"},"spec":{"lhs":"test_hyperexpand_bases()","rhs":"test_hyperexpand_bases produces the expected output","over":{"base":"Any"},"name":"test_hyperexpand_bases_correct"},"guarantee":"test_hyperexpand_bases produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_hyperexpand.test_hyperexpand_bases_correct","statement":"Path(test_hyperexpand_bases(x), test_hyperexpand_bases produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b64528d5b83a1bd1"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_hyperexpand.test_hyperexpand_bases","kind":"function","src_hash":"a1eedd1c6bff9cf5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: hyperexpand(hyper([2], [a], z)) == a + z ** (-a + 1) * (-a ** 2 + 3 * a + z * (a - 1) - 2) * exp(z) * lowergamma(a - 1, z) - 1 and hyperexpand(hyper([1, 2], [3], z)) == -2 / z - 2 * log(-z + 1) / z ** 2 and hyperexpand(hyper([S.Half, 2], [Rational(3, 2)], z)) == -1 / (2 * z - 2) + atanh(sqrt(z)) / sqrt(z) / 2 and hyperexpand(hyper([S.Half, S.Half], [Rational(5, 2)], z)) == (-3 * z + 3) / 4 / (z * sqrt(-z + 1)) + (6 * z - 3) * asin(sqrt(z)) / (4 * z ** Rational(3, 2)) and hyperexpand(hyper([1, 2], [Rational(3, 2)], z)) == -1 / (2 * z - 2) - asin(sqrt(z)) / (sqrt(z) * (2 * z - 2) * sqrt(-z + 1)) and hyperexpand(hyper([Rational(-1, 2) - 1, 1, 2], [S.Half, 3], z)) == sqrt(z) * (z * Rational(6, 7) - Rational(6, 5)) * atanh(sqrt(z)) + (-30 * z ** 2 + 32 * z - 6) / 35 / z - 6 * log(-z + 1) / (35 * z ** 2) and hyperexpand(hyper([1 + S.Half, 1, 1], [2, 2], z)) == -4 * log(sqrt(-z + 1) / 2 + S.Half) / z and hyperexpand(hyper([2], [b, 1], z)) == z ** (-b / 2 + S.Half) * besseli(b - 1, 2 * sqrt(z)) * gamma(b) + z ** (-b / 2 + 1) * besseli(b, 2 * sqrt(z)) * gamma(b)"},"spec":{"lhs":"test_hyperexpand_bases()","rhs":"hyperexpand(hyper([2], [a], z)) == a + z ** (-a + 1) * (-a ** 2 + 3 * a + z * (a - 1) - 2) * exp(z) * lowergamma(a - 1, z) - 1 and hyperexpand(hyper([1, 2], [3], z)) == -2 / z - 2 * log(-z + 1) / z ** 2 and hyperexpand(hyper([S.Half, 2], [Rational(3, 2)], z)) == -1 / (2 * z - 2) + atanh(sqrt(z)) / sqrt(z) / 2 and hyperexpand(hyper([S.Half, S.Half], [Rational(5, 2)], z)) == (-3 * z + 3) / 4 / (z * sqrt(-z + 1)) + (6 * z - 3) * asin(sqrt(z)) / (4 * z ** Rational(3, 2)) and hyperexpand(hyper([1, 2], [Rational(3, 2)], z)) == -1 / (2 * z - 2) - asin(sqrt(z)) / (sqrt(z) * (2 * z - 2) * sqrt(-z + 1)) and hyperexpand(hyper([Rational(-1, 2) - 1, 1, 2], [S.Half, 3], z)) == sqrt(z) * (z * Rational(6, 7) - Rational(6, 5)) * atanh(sqrt(z)) + (-30 * z ** 2 + 32 * z - 6) / 35 / z - 6 * log(-z + 1) / (35 * z ** 2) and hyperexpand(hyper([1 + S.Half, 1, 1], [2, 2], z)) == -4 * log(sqrt(-z + 1) / 2 + S.Half) / z and hyperexpand(hyper([2], [b, 1], z)) == z ** (-b / 2 + S.Half) * besseli(b - 1, 2 * sqrt(z)) * gamma(b) + z ** (-b / 2 + 1) * besseli(b, 2 * sqrt(z)) * gamma(b)","over":{"base":"Any"},"name":"test_hyperexpand_bases_correct"},"guarantee":"hyperexpand(hyper([2], [a], z)) == a + z ** (-a + 1) * (-a ** 2 + 3 * a + z * (a - 1) - 2) * exp(z) * lowergamma(a - 1, z) - 1; hyperexpand(hyper([1, 2], [3], z)) == -2 / z - 2 * log(-z + 1) / z ** 2; hyperexpand(hyper([S.Half, 2], [Rational(3, 2)], z)) == -1 / (2 * z - 2) + atanh(sqrt(z)) / sqrt(z) / 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_hyperexpand.test_hyperexpand_bases_correct","statement":"Path(test_hyperexpand_bases(x), hyperexpand(hyper([2], [a], z)) == a + z ** (-a + 1) * (-a ** 2 + 3 * a + z * (a - 1) - 2) * exp(z) * lowergamma(a - 1, z) - 1; hyperexpand(hyper([1, 2], [3], z)) == -2 / z - 2 * log(-z + 1) / z ** 2; hyperexpand(hyper([S.Half, 2], [Rational(3, 2)], z)) == -1 / (2 * z - 2) + atanh(sqrt(z)) / sqrt(z) / 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e5c372c0b3ff7324","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["hyperexpand(hyper([2], [a], z)) == a + z ** (-a + 1) * (-a ** 2 + 3 * a + z * (a - 1) - 2) * exp(z) * lowergamma(a - 1, z) - 1","hyperexpand(hyper([1, 2], [3], z)) == -2 / z - 2 * log(-z + 1) / z ** 2","hyperexpand(hyper([S.Half, 2], [Rational(3, 2)], z)) == -1 / (2 * z - 2) + atanh(sqrt(z)) / sqrt(z) / 2","hyperexpand(hyper([S.Half, S.Half], [Rational(5, 2)], z)) == (-3 * z + 3) / 4 / (z * sqrt(-z + 1)) + (6 * z - 3) * asin(sqrt(z)) / (4 * z ** Rational(3, 2))","hyperexpand(hyper([1, 2], [Rational(3, 2)], z)) == -1 / (2 * z - 2) - asin(sqrt(z)) / (sqrt(z) * (2 * z - 2) * sqrt(-z + 1))","hyperexpand(hyper([Rational(-1, 2) - 1, 1, 2], [S.Half, 3], z)) == sqrt(z) * (z * Rational(6, 7) - Rational(6, 5)) * atanh(sqrt(z)) + (-30 * z ** 2 + 32 * z - 6) / 35 / z - 6 * log(-z + 1) / (35 * z ** 2)","hyperexpand(hyper([1 + S.Half, 1, 1], [2, 2], z)) == -4 * log(sqrt(-z + 1) / 2 + S.Half) / z","hyperexpand(hyper([2], [b, 1], z)) == z ** (-b / 2 + S.Half) * besseli(b - 1, 2 * sqrt(z)) * gamma(b) + z ** (-b / 2 + 1) * besseli(b, 2 * sqrt(z)) * gamma(b)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def test_hyperexpand_bases():
     assert hyperexpand(hyper([2], [a], z)) == \
         a + z**(-a + 1)*(-a**2 + 3*a + z*(a - 1) - 2)*exp(z)* \
@@ -235,16 +288,23 @@ def test_hyperexpand_bases():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_hyperexpand_parametric(), test_hyperexpand_parametric produces the expected output) over Any ║
+# ║ Path(test_hyperexpand_parametric(), hyperexpand(hyper([a, S.Half + a], [S.Half], z)) == (1 + sqrt(z)) ** (-2 * a) / 2 + (1 - sqrt(z)) ** (-2 * a) / 2 and hyperexpand(hyper([a, Rational(-1, 2) + a], [2 * a], z)) == 2 ** (2 * a - 1) * ((-z + 1) ** S.Half + 1) ** (-2 * a + 1)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_hyperexpand_parametric : Any → Any                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  hyperexpand(hyper([a, S.Half + a], [S.Hal...   ║
+# ║   ensures:  hyperexpand(hyper([a, Rational(-1, 2) + a...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_hyperexpand_parametric : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | df1a8619ef563fe3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 209b4bc9a502d169  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_hyperexpand.test_hyperexpand_parametric","kind":"function","src_hash":"61d0eb6c5ed73a8a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_hyperexpand_parametric()","rhs":"test_hyperexpand_parametric produces the expected output","over":{"base":"Any"},"name":"test_hyperexpand_parametric_correct"},"guarantee":"test_hyperexpand_parametric produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_hyperexpand.test_hyperexpand_parametric_correct","statement":"Path(test_hyperexpand_parametric(x), test_hyperexpand_parametric produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"df1a8619ef563fe3"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_hyperexpand.test_hyperexpand_parametric","kind":"function","src_hash":"61d0eb6c5ed73a8a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: hyperexpand(hyper([a, S.Half + a], [S.Half], z)) == (1 + sqrt(z)) ** (-2 * a) / 2 + (1 - sqrt(z)) ** (-2 * a) / 2 and hyperexpand(hyper([a, Rational(-1, 2) + a], [2 * a], z)) == 2 ** (2 * a - 1) * ((-z + 1) ** S.Half + 1) ** (-2 * a + 1)"},"spec":{"lhs":"test_hyperexpand_parametric()","rhs":"hyperexpand(hyper([a, S.Half + a], [S.Half], z)) == (1 + sqrt(z)) ** (-2 * a) / 2 + (1 - sqrt(z)) ** (-2 * a) / 2 and hyperexpand(hyper([a, Rational(-1, 2) + a], [2 * a], z)) == 2 ** (2 * a - 1) * ((-z + 1) ** S.Half + 1) ** (-2 * a + 1)","over":{"base":"Any"},"name":"test_hyperexpand_parametric_correct"},"guarantee":"hyperexpand(hyper([a, S.Half + a], [S.Half], z)) == (1 + sqrt(z)) ** (-2 * a) / 2 + (1 - sqrt(z)) ** (-2 * a) / 2; hyperexpand(hyper([a, Rational(-1, 2) + a], [2 * a], z)) == 2 ** (2 * a - 1) * ((-z + 1) ** S.Half + 1) ** (-2 * a + 1)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_hyperexpand.test_hyperexpand_parametric_correct","statement":"Path(test_hyperexpand_parametric(x), hyperexpand(hyper([a, S.Half + a], [S.Half], z)) == (1 + sqrt(z)) ** (-2 * a) / 2 + (1 - sqrt(z)) ** (-2 * a) / 2; hyperexpand(hyper([a, Rational(-1, 2) + a], [2 * a], z)) == 2 ** (2 * a - 1) * ((-z + 1) ** S.Half + 1) ** (-2 * a + 1))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"209b4bc9a502d169","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["hyperexpand(hyper([a, S.Half + a], [S.Half], z)) == (1 + sqrt(z)) ** (-2 * a) / 2 + (1 - sqrt(z)) ** (-2 * a) / 2","hyperexpand(hyper([a, Rational(-1, 2) + a], [2 * a], z)) == 2 ** (2 * a - 1) * ((-z + 1) ** S.Half + 1) ** (-2 * a + 1)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_hyperexpand_parametric():
     assert hyperexpand(hyper([a, S.Half + a], [S.Half], z)) \
         == (1 + sqrt(z))**(-2*a)/2 + (1 - sqrt(z))**(-2*a)/2
@@ -253,16 +313,22 @@ def test_hyperexpand_parametric():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_shifted_sum(), test_shifted_sum produces the expected output) over Any ║
+# ║ Path(test_shifted_sum(), simplify(hyperexpand(z ** 4 * hyper([2], [3, S('3/2')], -z ** 2))) == z * sin(2 * z) + (-z ** 2 + S.Half) * cos(2 * z) - S.Half) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_shifted_sum : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  simplify(hyperexpand(z ** 4 * hyper([2], ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_shifted_sum : Any → {Any | result satisfies: sim...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4ceab20b59bca7c0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8d6e9885683e5ac2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_hyperexpand.test_shifted_sum","kind":"function","src_hash":"d3866601157637af","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_shifted_sum()","rhs":"test_shifted_sum produces the expected output","over":{"base":"Any"},"name":"test_shifted_sum_correct"},"guarantee":"test_shifted_sum produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_hyperexpand.test_shifted_sum_correct","statement":"Path(test_shifted_sum(x), test_shifted_sum produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4ceab20b59bca7c0"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_hyperexpand.test_shifted_sum","kind":"function","src_hash":"d3866601157637af","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: simplify(hyperexpand(z ** 4 * hyper([2], [3, S('3/2')], -z ** 2))) == z * sin(2 * z) + (-z ** 2 + S.Half) * cos(2 * z) - S.Half"},"spec":{"lhs":"test_shifted_sum()","rhs":"simplify(hyperexpand(z ** 4 * hyper([2], [3, S('3/2')], -z ** 2))) == z * sin(2 * z) + (-z ** 2 + S.Half) * cos(2 * z) - S.Half","over":{"base":"Any"},"name":"test_shifted_sum_correct"},"guarantee":"simplify(hyperexpand(z ** 4 * hyper([2], [3, S('3/2')], -z ** 2))) == z * sin(2 * z) + (-z ** 2 + S.Half) * cos(2 * z) - S.Half","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_hyperexpand.test_shifted_sum_correct","statement":"Path(test_shifted_sum(x), simplify(hyperexpand(z ** 4 * hyper([2], [3, S('3/2')], -z ** 2))) == z * sin(2 * z) + (-z ** 2 + S.Half) * cos(2 * z) - S.Half)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8d6e9885683e5ac2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["simplify(hyperexpand(z ** 4 * hyper([2], [3, S('3/2')], -z ** 2))) == z * sin(2 * z) + (-z ** 2 + S.Half) * cos(2 * z) - S.Half"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_shifted_sum():
     from sympy.simplify.simplify import simplify
     assert simplify(hyperexpand(z**4*hyper([2], [3, S('3/2')], -z**2))) \
@@ -270,32 +336,44 @@ def test_shifted_sum():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_randrat(), steer clear of integers) over Any         ║
+# ║ Path(_randrat(), S(randrange(25) + 10) / 50) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  S(randrange(25) + 10) / 50                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _randrat : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 680389ead3968a84           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_hyperexpand._randrat","kind":"function","src_hash":"9a52047c54cf79df","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_randrat()","rhs":"steer clear of integers","over":{"base":"Any"},"name":"_randrat_correct"},"guarantee":"steer clear of integers","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"680389ead3968a84"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_hyperexpand._randrat","kind":"function","src_hash":"9a52047c54cf79df","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_randrat()","rhs":"S(randrange(25) + 10) / 50","over":{"base":"Any"},"name":"_randrat_correct"},"guarantee":"returns S(randrange(25) + 10) / 50","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"680389ead3968a84","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"S(randrange(25) + 10) / 50","pure":false,"effects":{"effect_type":"nondeterministic","nondeterministic_sources":["randrange"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _randrat():
     """ Steer clear of integers. """
     return S(randrange(25) + 10)/50
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(randcplx(off), polys is not good with real coefficients) over Any ║
+# ║ Path(randcplx(offset), _randrat() + I * _randrat() + I * (1 + offset)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _randrat() + I * _randrat() + I * (1 + of...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ randcplx : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d4feeb8b7329fb23           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_hyperexpand.randcplx","kind":"function","src_hash":"aa55288bbb3627df","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"randcplx(off)","rhs":"polys is not good with real coefficients","over":{"base":"Any"},"name":"randcplx_correct"},"guarantee":"polys is not good with real coefficients","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d4feeb8b7329fb23"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_hyperexpand.randcplx","kind":"function","src_hash":"aa55288bbb3627df","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"randcplx(offset)","rhs":"_randrat() + I * _randrat() + I * (1 + offset)","over":{"base":"Any"},"name":"randcplx_correct"},"guarantee":"returns _randrat() + I * _randrat() + I * (1 + offset)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d4feeb8b7329fb23","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_randrat() + I * _randrat() + I * (1 + offset)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def randcplx(offset=-1):
     """ Polys is not good with real coefficients. """
     return _randrat() + I*_randrat() + I*(1 + offset)
@@ -303,16 +381,22 @@ def randcplx(offset=-1):
 
 @slow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_formulae(), test_formulae produces the expected output) over Any ║
+# ║ Path(test_formulae(), <unspecified:test_formulae>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_formulae : Any → {Any | tn(h, closed_form.replac...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 515177164fb9f3a1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_hyperexpand.test_formulae","kind":"function","src_hash":"a3328e418f794463","in":{"base":"Any"},"out":{"base":"Any","pred":"tn(h, closed_form.replace(exp_polar, exp), z) and tn(closed_form.replace(exp_polar, exp), cl.replace(exp_polar, exp), z)"},"spec":{"lhs":"test_formulae()","rhs":"test_formulae produces the expected output","over":{"base":"Any"},"name":"test_formulae_correct"},"guarantee":"test_formulae produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_hyperexpand.test_formulae_correct","statement":"Path(test_formulae(x), test_formulae produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"515177164fb9f3a1"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_hyperexpand.test_formulae","kind":"function","src_hash":"a3328e418f794463","in":{"base":"Any"},"out":{"base":"Any","pred":"tn(h, closed_form.replace(exp_polar, exp), z) and tn(closed_form.replace(exp_polar, exp), cl.replace(exp_polar, exp), z)"},"spec":{"lhs":"test_formulae()","rhs":"<unspecified:test_formulae>","over":{"base":"Any"},"name":"test_formulae_correct"},"guarantee":"test_formulae produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_hyperexpand.test_formulae_correct","statement":"Path(test_formulae(x), test_formulae produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"515177164fb9f3a1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_formulae():
     from sympy.simplify.hyperexpand import FormulaCollection
     formulae = FormulaCollection().formulae
@@ -346,16 +430,22 @@ def test_formulae():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_meijerg_formulae(), test_meijerg_formulae produces the expected output) over Any ║
+# ║ Path(test_meijerg_formulae(), <unspecified:test_meijerg_formulae>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_meijerg_formulae : Any → {Any | tn(g, closed_for...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b4550d9590d5f10d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_hyperexpand.test_meijerg_formulae","kind":"function","src_hash":"9e223966a3df9ed2","in":{"base":"Any"},"out":{"base":"Any","pred":"tn(g, closed_form, z) and tn(closed_form, cl, z) and tn(d1.subs(rep), d2.subs(rep), z)"},"spec":{"lhs":"test_meijerg_formulae()","rhs":"test_meijerg_formulae produces the expected output","over":{"base":"Any"},"name":"test_meijerg_formulae_correct"},"guarantee":"test_meijerg_formulae produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_hyperexpand.test_meijerg_formulae_correct","statement":"Path(test_meijerg_formulae(x), test_meijerg_formulae produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b4550d9590d5f10d"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_hyperexpand.test_meijerg_formulae","kind":"function","src_hash":"9e223966a3df9ed2","in":{"base":"Any"},"out":{"base":"Any","pred":"tn(g, closed_form, z) and tn(closed_form, cl, z) and tn(d1.subs(rep), d2.subs(rep), z)"},"spec":{"lhs":"test_meijerg_formulae()","rhs":"<unspecified:test_meijerg_formulae>","over":{"base":"Any"},"name":"test_meijerg_formulae_correct"},"guarantee":"test_meijerg_formulae produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_hyperexpand.test_meijerg_formulae_correct","statement":"Path(test_meijerg_formulae(x), test_meijerg_formulae produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b4550d9590d5f10d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_meijerg_formulae():
     from sympy.simplify.hyperexpand import MeijerFormulaCollection
     formulae = MeijerFormulaCollection().formulae
@@ -384,31 +474,46 @@ def test_meijerg_formulae():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(op(f), op produces the expected output) over Any      ║
+# ║ Path(op(f), z * f.diff(z)) over {Any | hasattr(f, 'diff')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ op : Any → Any                                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'diff')                             ║
+# ║   returns:  z * f.diff(z)                                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ op : {Any | hasattr(f, 'diff')} → Any                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2521a72b339f60ee           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_hyperexpand.op","kind":"function","src_hash":"766f6876fe01e8ae","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"op(f)","rhs":"op produces the expected output","over":{"base":"Any"},"name":"op_correct"},"guarantee":"op produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2521a72b339f60ee"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_hyperexpand.op","kind":"function","src_hash":"766f6876fe01e8ae","in":{"base":"Any","pred":"hasattr(f, 'diff')"},"out":{"base":"Any"},"spec":{"lhs":"op(f)","rhs":"z * f.diff(z)","over":{"base":"Any","pred":"hasattr(f, 'diff')"},"name":"op_correct"},"guarantee":"returns z * f.diff(z)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2521a72b339f60ee","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'diff')"],"returns_expr":"z * f.diff(z)","pure":false,"effects":{"effect_type":"reads_state","reads":["f.diff"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def op(f):
     return z*f.diff(z)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_plan(), test_plan produces the expected output) over Any ║
+# ║ Path(test_plan(), devise_plan(Hyper_Function([0], ()), Hyper_Function([0], ()), z) == [] and tn(apply_operators(h, devise_plan(Hyper_Function((a1 + 1, a2), [b1]), Hyper_Function((a1, a2), [b1]), z), op), h2, z) and tn(apply_operators(h, devise_plan(Hyper_Function((a1 + 1, a2 - 1), [b1]), Hyper_Function((a1, a2), [b1]), z), op), h2, z)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_plan : Any → {Any | devise_plan(Hyper_Function([...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  devise_plan(Hyper_Function([0], ()), Hype...   ║
+# ║   ensures:  tn(apply_operators(h, devise_plan(Hyper_F...   ║
+# ║   ensures:  tn(apply_operators(h, devise_plan(Hyper_F...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_plan : Any → {Any | result satisfies: devise_pla...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7c230eedfb695b14  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f3ac95e1cc2a4cbe  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_hyperexpand.test_plan","kind":"function","src_hash":"48c7eea564ac9009","in":{"base":"Any"},"out":{"base":"Any","pred":"devise_plan(Hyper_Function([0], ()), Hyper_Function([0], ()), z) == []"},"spec":{"lhs":"test_plan()","rhs":"test_plan produces the expected output","over":{"base":"Any"},"name":"test_plan_correct"},"guarantee":"test_plan produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_hyperexpand.test_plan_correct","statement":"Path(test_plan(x), test_plan produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7c230eedfb695b14"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_hyperexpand.test_plan","kind":"function","src_hash":"48c7eea564ac9009","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: devise_plan(Hyper_Function([0], ()), Hyper_Function([0], ()), z) == [] and tn(apply_operators(h, devise_plan(Hyper_Function((a1 + 1, a2), [b1]), Hyper_Function((a1, a2), [b1]), z), op), h2, z) and tn(apply_operators(h, devise_plan(Hyper_Function((a1 + 1, a2 - 1), [b1]), Hyper_Function((a1, a2), [b1]), z), op), h2, z)"},"spec":{"lhs":"test_plan()","rhs":"devise_plan(Hyper_Function([0], ()), Hyper_Function([0], ()), z) == [] and tn(apply_operators(h, devise_plan(Hyper_Function((a1 + 1, a2), [b1]), Hyper_Function((a1, a2), [b1]), z), op), h2, z) and tn(apply_operators(h, devise_plan(Hyper_Function((a1 + 1, a2 - 1), [b1]), Hyper_Function((a1, a2), [b1]), z), op), h2, z)","over":{"base":"Any"},"name":"test_plan_correct"},"guarantee":"devise_plan(Hyper_Function([0], ()), Hyper_Function([0], ()), z) == []; tn(apply_operators(h, devise_plan(Hyper_Function((a1 + 1, a2), [b1]), Hyper_Function((a1, a2), [b1]), z), op), h2, z); tn(apply_operators(h, devise_plan(Hyper_Function((a1 + 1, a2 - 1), [b1]), Hyper_Function((a1, a2), [b1]), z), op), h2, z)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_hyperexpand.test_plan_correct","statement":"Path(test_plan(x), devise_plan(Hyper_Function([0], ()), Hyper_Function([0], ()), z) == []; tn(apply_operators(h, devise_plan(Hyper_Function((a1 + 1, a2), [b1]), Hyper_Function((a1, a2), [b1]), z), op), h2, z); tn(apply_operators(h, devise_plan(Hyper_Function((a1 + 1, a2 - 1), [b1]), Hyper_Function((a1, a2), [b1]), z), op), h2, z))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f3ac95e1cc2a4cbe","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["devise_plan(Hyper_Function([0], ()), Hyper_Function([0], ()), z) == []","tn(apply_operators(h, devise_plan(Hyper_Function((a1 + 1, a2), [b1]), Hyper_Function((a1, a2), [b1]), z), op), h2, z)","tn(apply_operators(h, devise_plan(Hyper_Function((a1 + 1, a2 - 1), [b1]), Hyper_Function((a1, a2), [b1]), z), op), h2, z)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_plan():
     assert devise_plan(Hyper_Function([0], ()),
             Hyper_Function([0], ()), z) == []
@@ -438,16 +543,22 @@ def test_plan():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_plan_derivatives(), test_plan_derivatives produces the expected output) over Any ║
+# ║ Path(test_plan_derivatives(), tn((apply_operators(f.C, ops, deriv) * f.B)[0], h2(z), z)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_plan_derivatives : Any → {Any | tn((apply_operat...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  tn((apply_operators(f.C, ops, deriv) * f....   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_plan_derivatives : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 82c5a7a557804956  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0123eede8a850d88  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_hyperexpand.test_plan_derivatives","kind":"function","src_hash":"b5a631c6d9c274c7","in":{"base":"Any"},"out":{"base":"Any","pred":"tn((apply_operators(f.C, ops, deriv) * f.B)[0], h2(z), z) and tn((apply_operators(f.C, ops, deriv) * f.B)[0], h2(z), z)"},"spec":{"lhs":"test_plan_derivatives()","rhs":"test_plan_derivatives produces the expected output","over":{"base":"Any"},"name":"test_plan_derivatives_correct"},"guarantee":"test_plan_derivatives produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_hyperexpand.test_plan_derivatives_correct","statement":"Path(test_plan_derivatives(x), test_plan_derivatives produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"82c5a7a557804956"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_hyperexpand.test_plan_derivatives","kind":"function","src_hash":"b5a631c6d9c274c7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: tn((apply_operators(f.C, ops, deriv) * f.B)[0], h2(z), z)"},"spec":{"lhs":"test_plan_derivatives()","rhs":"tn((apply_operators(f.C, ops, deriv) * f.B)[0], h2(z), z)","over":{"base":"Any"},"name":"test_plan_derivatives_correct"},"guarantee":"tn((apply_operators(f.C, ops, deriv) * f.B)[0], h2(z), z)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_hyperexpand.test_plan_derivatives_correct","statement":"Path(test_plan_derivatives(x), tn((apply_operators(f.C, ops, deriv) * f.B)[0], h2(z), z))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0123eede8a850d88","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["tn((apply_operators(f.C, ops, deriv) * f.B)[0], h2(z), z)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_plan_derivatives():
     a1, a2, a3 = 1, 2, S('1/2')
     b1, b2 = 3, S('5/2')
@@ -464,16 +575,24 @@ def test_plan_derivatives():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_reduction_operators(), test_reduction_operators produces the expected output) over Any ║
+# ║ Path(test_reduction_operators(), ReduceOrder(2, 0) is None and ReduceOrder(2, -1) is None and ReduceOrder(1, S('1/2')) is None and tn(ReduceOrder(a2, a2).apply(h, op), h2, z) and tn(ReduceOrder(a2 + 1, a2).apply(h, op), h2, z) and tn(ReduceOrder(a2 + 4, a2).apply(h, op), h2, z) and func.ap == (a1,) and func.bq == (b1,) and tn(apply_operators(h, ops, op), hyper(ap, bq, z), z)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_reduction_operators : Any → {Any | ReduceOrder(2...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  ReduceOrder(2, 0) is None                      ║
+# ║   ensures:  ReduceOrder(2, -1) is None                     ║
+# ║   ensures:  ReduceOrder(1, S('1/2')) is None               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_reduction_operators : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b4fe558dd635f56f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 241abe1e6314d1d5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_hyperexpand.test_reduction_operators","kind":"function","src_hash":"3cb5bb350ec9782d","in":{"base":"Any"},"out":{"base":"Any","pred":"ReduceOrder(2, 0) is None and ReduceOrder(2, -1) is None and ReduceOrder(1, S('1/2')) is None and tn(ReduceOrder(a2, a2).apply(h, op), h2, z) and tn(ReduceOrder(a2 + 1, a2).apply(h, op), h2, z) and tn(ReduceOrder(a2 + 4, a2).apply(h, op), h2, z) and func.ap == (a1,) and func.bq == (b1,) and tn(apply_operators(h, ops, op), hyper(ap, bq, z), z)"},"spec":{"lhs":"test_reduction_operators()","rhs":"test_reduction_operators produces the expected output","over":{"base":"Any"},"name":"test_reduction_operators_correct"},"guarantee":"test_reduction_operators produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_hyperexpand.test_reduction_operators_correct","statement":"Path(test_reduction_operators(x), test_reduction_operators produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b4fe558dd635f56f"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_hyperexpand.test_reduction_operators","kind":"function","src_hash":"3cb5bb350ec9782d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: ReduceOrder(2, 0) is None and ReduceOrder(2, -1) is None and ReduceOrder(1, S('1/2')) is None and tn(ReduceOrder(a2, a2).apply(h, op), h2, z) and tn(ReduceOrder(a2 + 1, a2).apply(h, op), h2, z) and tn(ReduceOrder(a2 + 4, a2).apply(h, op), h2, z) and func.ap == (a1,) and func.bq == (b1,) and tn(apply_operators(h, ops, op), hyper(ap, bq, z), z)"},"spec":{"lhs":"test_reduction_operators()","rhs":"ReduceOrder(2, 0) is None and ReduceOrder(2, -1) is None and ReduceOrder(1, S('1/2')) is None and tn(ReduceOrder(a2, a2).apply(h, op), h2, z) and tn(ReduceOrder(a2 + 1, a2).apply(h, op), h2, z) and tn(ReduceOrder(a2 + 4, a2).apply(h, op), h2, z) and func.ap == (a1,) and func.bq == (b1,) and tn(apply_operators(h, ops, op), hyper(ap, bq, z), z)","over":{"base":"Any"},"name":"test_reduction_operators_correct"},"guarantee":"ReduceOrder(2, 0) is None; ReduceOrder(2, -1) is None; ReduceOrder(1, S('1/2')) is None","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_hyperexpand.test_reduction_operators_correct","statement":"Path(test_reduction_operators(x), ReduceOrder(2, 0) is None; ReduceOrder(2, -1) is None; ReduceOrder(1, S('1/2')) is None)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"241abe1e6314d1d5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["ReduceOrder(2, 0) is None","ReduceOrder(2, -1) is None","ReduceOrder(1, S('1/2')) is None","tn(ReduceOrder(a2, a2).apply(h, op), h2, z)","tn(ReduceOrder(a2 + 1, a2).apply(h, op), h2, z)","tn(ReduceOrder(a2 + 4, a2).apply(h, op), h2, z)","func.ap == (a1,)","func.bq == (b1,)","tn(apply_operators(h, ops, op), hyper(ap, bq, z), z)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_reduction_operators():
     a1, a2, b1 = (randcplx(n) for n in range(3))
     h = hyper([a1], [b1], z)
@@ -501,16 +620,24 @@ def test_reduction_operators():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_shift_operators(), test_shift_operators produces the expected output) over Any ║
+# ║ Path(test_shift_operators(), tn(ShiftA(a1).apply(h, op), hyper((a1 + 1, a2), (b1, b2, b3), z), z) and tn(ShiftA(a2).apply(h, op), hyper((a1, a2 + 1), (b1, b2, b3), z), z) and tn(ShiftB(b1).apply(h, op), hyper((a1, a2), (b1 - 1, b2, b3), z), z) and tn(ShiftB(b2).apply(h, op), hyper((a1, a2), (b1, b2 - 1, b3), z), z) and tn(ShiftB(b3).apply(h, op), hyper((a1, a2), (b1, b2, b3 - 1), z), z)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_shift_operators : Any → {Any | tn(ShiftA(a1).app...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  tn(ShiftA(a1).apply(h, op), hyper((a1 + 1...   ║
+# ║   ensures:  tn(ShiftA(a2).apply(h, op), hyper((a1, a2...   ║
+# ║   ensures:  tn(ShiftB(b1).apply(h, op), hyper((a1, a2...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_shift_operators : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 763788c1054b2eb7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f98a2b7d70dde7d8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_hyperexpand.test_shift_operators","kind":"function","src_hash":"f585bce89fd20e96","in":{"base":"Any"},"out":{"base":"Any","pred":"tn(ShiftA(a1).apply(h, op), hyper((a1 + 1, a2), (b1, b2, b3), z), z) and tn(ShiftA(a2).apply(h, op), hyper((a1, a2 + 1), (b1, b2, b3), z), z) and tn(ShiftB(b1).apply(h, op), hyper((a1, a2), (b1 - 1, b2, b3), z), z) and tn(ShiftB(b2).apply(h, op), hyper((a1, a2), (b1, b2 - 1, b3), z), z) and tn(ShiftB(b3).apply(h, op), hyper((a1, a2), (b1, b2, b3 - 1), z), z)"},"spec":{"lhs":"test_shift_operators()","rhs":"test_shift_operators produces the expected output","over":{"base":"Any"},"name":"test_shift_operators_correct"},"guarantee":"test_shift_operators produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_hyperexpand.test_shift_operators_correct","statement":"Path(test_shift_operators(x), test_shift_operators produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"763788c1054b2eb7"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_hyperexpand.test_shift_operators","kind":"function","src_hash":"f585bce89fd20e96","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: tn(ShiftA(a1).apply(h, op), hyper((a1 + 1, a2), (b1, b2, b3), z), z) and tn(ShiftA(a2).apply(h, op), hyper((a1, a2 + 1), (b1, b2, b3), z), z) and tn(ShiftB(b1).apply(h, op), hyper((a1, a2), (b1 - 1, b2, b3), z), z) and tn(ShiftB(b2).apply(h, op), hyper((a1, a2), (b1, b2 - 1, b3), z), z) and tn(ShiftB(b3).apply(h, op), hyper((a1, a2), (b1, b2, b3 - 1), z), z)"},"spec":{"lhs":"test_shift_operators()","rhs":"tn(ShiftA(a1).apply(h, op), hyper((a1 + 1, a2), (b1, b2, b3), z), z) and tn(ShiftA(a2).apply(h, op), hyper((a1, a2 + 1), (b1, b2, b3), z), z) and tn(ShiftB(b1).apply(h, op), hyper((a1, a2), (b1 - 1, b2, b3), z), z) and tn(ShiftB(b2).apply(h, op), hyper((a1, a2), (b1, b2 - 1, b3), z), z) and tn(ShiftB(b3).apply(h, op), hyper((a1, a2), (b1, b2, b3 - 1), z), z)","over":{"base":"Any"},"name":"test_shift_operators_correct"},"guarantee":"tn(ShiftA(a1).apply(h, op), hyper((a1 + 1, a2), (b1, b2, b3), z), z); tn(ShiftA(a2).apply(h, op), hyper((a1, a2 + 1), (b1, b2, b3), z), z); tn(ShiftB(b1).apply(h, op), hyper((a1, a2), (b1 - 1, b2, b3), z), z)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_hyperexpand.test_shift_operators_correct","statement":"Path(test_shift_operators(x), tn(ShiftA(a1).apply(h, op), hyper((a1 + 1, a2), (b1, b2, b3), z), z); tn(ShiftA(a2).apply(h, op), hyper((a1, a2 + 1), (b1, b2, b3), z), z); tn(ShiftB(b1).apply(h, op), hyper((a1, a2), (b1 - 1, b2, b3), z), z))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f98a2b7d70dde7d8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["tn(ShiftA(a1).apply(h, op), hyper((a1 + 1, a2), (b1, b2, b3), z), z)","tn(ShiftA(a2).apply(h, op), hyper((a1, a2 + 1), (b1, b2, b3), z), z)","tn(ShiftB(b1).apply(h, op), hyper((a1, a2), (b1 - 1, b2, b3), z), z)","tn(ShiftB(b2).apply(h, op), hyper((a1, a2), (b1, b2 - 1, b3), z), z)","tn(ShiftB(b3).apply(h, op), hyper((a1, a2), (b1, b2, b3 - 1), z), z)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_shift_operators():
     a1, a2, b1, b2, b3 = (randcplx(n) for n in range(5))
     h = hyper((a1, a2), (b1, b2, b3), z)
@@ -526,16 +653,24 @@ def test_shift_operators():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_ushift_operators(), test_ushift_operators produces the expected output) over Any ║
+# ║ Path(test_ushift_operators(), tn(s.apply(h, op), hyper((a1 - 1, a2), (b1, b2, b3), z), z) and tn(s.apply(h, op), hyper((a1, a2 - 1), (b1, b2, b3), z), z) and tn(s.apply(h, op), hyper((a1, a2), (b1 + 1, b2, b3), z), z) and tn(s.apply(h, op), hyper((a1, a2), (b1, b2 + 1, b3), z), z) and tn(s.apply(h, op), hyper((a1, a2), (b1, b2, b3 + 1), z), z)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_ushift_operators : Any → {Any | tn(s.apply(h, op...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  tn(s.apply(h, op), hyper((a1 - 1, a2), (b...   ║
+# ║   ensures:  tn(s.apply(h, op), hyper((a1, a2 - 1), (b...   ║
+# ║   ensures:  tn(s.apply(h, op), hyper((a1, a2), (b1 + ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_ushift_operators : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2b380c027b0614c8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ee20d8cabd3db91f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_hyperexpand.test_ushift_operators","kind":"function","src_hash":"52df12bdc72af8ee","in":{"base":"Any"},"out":{"base":"Any","pred":"tn(s.apply(h, op), hyper((a1 - 1, a2), (b1, b2, b3), z), z) and tn(s.apply(h, op), hyper((a1, a2 - 1), (b1, b2, b3), z), z) and tn(s.apply(h, op), hyper((a1, a2), (b1 + 1, b2, b3), z), z) and tn(s.apply(h, op), hyper((a1, a2), (b1, b2 + 1, b3), z), z) and tn(s.apply(h, op), hyper((a1, a2), (b1, b2, b3 + 1), z), z)"},"spec":{"lhs":"test_ushift_operators()","rhs":"test_ushift_operators produces the expected output","over":{"base":"Any"},"name":"test_ushift_operators_correct"},"guarantee":"test_ushift_operators produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_hyperexpand.test_ushift_operators_correct","statement":"Path(test_ushift_operators(x), test_ushift_operators produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2b380c027b0614c8"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_hyperexpand.test_ushift_operators","kind":"function","src_hash":"52df12bdc72af8ee","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: tn(s.apply(h, op), hyper((a1 - 1, a2), (b1, b2, b3), z), z) and tn(s.apply(h, op), hyper((a1, a2 - 1), (b1, b2, b3), z), z) and tn(s.apply(h, op), hyper((a1, a2), (b1 + 1, b2, b3), z), z) and tn(s.apply(h, op), hyper((a1, a2), (b1, b2 + 1, b3), z), z) and tn(s.apply(h, op), hyper((a1, a2), (b1, b2, b3 + 1), z), z)"},"spec":{"lhs":"test_ushift_operators()","rhs":"tn(s.apply(h, op), hyper((a1 - 1, a2), (b1, b2, b3), z), z) and tn(s.apply(h, op), hyper((a1, a2 - 1), (b1, b2, b3), z), z) and tn(s.apply(h, op), hyper((a1, a2), (b1 + 1, b2, b3), z), z) and tn(s.apply(h, op), hyper((a1, a2), (b1, b2 + 1, b3), z), z) and tn(s.apply(h, op), hyper((a1, a2), (b1, b2, b3 + 1), z), z)","over":{"base":"Any"},"name":"test_ushift_operators_correct"},"guarantee":"tn(s.apply(h, op), hyper((a1 - 1, a2), (b1, b2, b3), z), z); tn(s.apply(h, op), hyper((a1, a2 - 1), (b1, b2, b3), z), z); tn(s.apply(h, op), hyper((a1, a2), (b1 + 1, b2, b3), z), z)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_hyperexpand.test_ushift_operators_correct","statement":"Path(test_ushift_operators(x), tn(s.apply(h, op), hyper((a1 - 1, a2), (b1, b2, b3), z), z); tn(s.apply(h, op), hyper((a1, a2 - 1), (b1, b2, b3), z), z); tn(s.apply(h, op), hyper((a1, a2), (b1 + 1, b2, b3), z), z))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ee20d8cabd3db91f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["tn(s.apply(h, op), hyper((a1 - 1, a2), (b1, b2, b3), z), z)","tn(s.apply(h, op), hyper((a1, a2 - 1), (b1, b2, b3), z), z)","tn(s.apply(h, op), hyper((a1, a2), (b1 + 1, b2, b3), z), z)","tn(s.apply(h, op), hyper((a1, a2), (b1, b2 + 1, b3), z), z)","tn(s.apply(h, op), hyper((a1, a2), (b1, b2, b3 + 1), z), z)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_ushift_operators():
     a1, a2, b1, b2, b3 = (randcplx(n) for n in range(5))
     h = hyper((a1, a2), (b1, b2, b3), z)
@@ -559,16 +694,22 @@ def test_ushift_operators():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(can_do_meijer(a1,), this helper function tries to hyperexpand() the meijer g-function corresponding to the parameters a1, a2, b1, b2. it returns false if this expansion still contains g-functions. if numeric is true, it ) over Any ║
+# ║ Path(can_do_meijer(a1, a2, b1), <unspecified:can_do_meijer>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ can_do_meijer : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4e3ac0511ccab24b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_hyperexpand.can_do_meijer","kind":"function","src_hash":"c77fff2f6662b29a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"can_do_meijer(a1,)","rhs":"this helper function tries to hyperexpand() the meijer g-function corresponding to the parameters a1, a2, b1, b2. it returns false if this expansion still contains g-functions. if numeric is true, it ","over":{"base":"Any"},"name":"can_do_meijer_correct"},"guarantee":"this helper function tries to hyperexpand() the meijer g-function corresponding to the parameters a1, a2, b1, b2. it returns false if this expansion still contains g-functions. if numeric is true, it ","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_hyperexpand.can_do_meijer_correct","statement":"Path(can_do_meijer(x), this helper function tries to hyperexpand() the meijer g-function corresponding to the parameters a1, a2, b1, b2. it returns false if this expansion still contains g-functions. if numeric is true, it )"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4e3ac0511ccab24b"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_hyperexpand.can_do_meijer","kind":"function","src_hash":"c77fff2f6662b29a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"can_do_meijer(a1, a2, b1)","rhs":"<unspecified:can_do_meijer>","over":{"base":"Any"},"name":"can_do_meijer_correct"},"guarantee":"this helper function tries to hyperexpand() the meijer g-function corresponding to the parameters a1, a2, b1, b2. it returns false if this expansion still contains g-functions. if numeric is true, it ","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_hyperexpand.can_do_meijer_correct","statement":"Path(can_do_meijer(x), this helper function tries to hyperexpand() the meijer g-function corresponding to the parameters a1, a2, b1, b2. it returns false if this expansion still contains g-functions. if numeric is true, it )"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4e3ac0511ccab24b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def can_do_meijer(a1, a2, b1, b2, numeric=True):
     """
     This helper function tries to hyperexpand() the meijer g-function
@@ -602,16 +743,24 @@ def can_do_meijer(a1, a2, b1, b2, numeric=True):
 
 @slow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_meijerg_expand(), test_meijerg_expand produces the expected output) over Any ║
+# ║ Path(test_meijerg_expand(), hyperexpand(meijerg([[], []], [[0], []], -z)) == exp(z) and hyperexpand(meijerg([[1, 1], []], [[1], [0]], z)) == log(z + 1) and hyperexpand(meijerg([[1, 1], []], [[1], [1]], z)) == z / (z + 1) and hyperexpand(meijerg([[], []], [[S.Half], [0]], (z / 2) ** 2)) == sin(z) / sqrt(pi) and hyperexpand(meijerg([[], []], [[0], [S.Half]], (z / 2) ** 2)) == cos(z) / sqrt(pi) and can_do_meijer([], [a], [a - 1, a - S.Half], []) and can_do_meijer([], [], [a / 2], [-a / 2], False) and can_do_meijer([a], [b], [a], [b, a - 1]) and hyperexpand(meijerg([1], [], [], [0], z)) == Piecewise((0, abs(z) < 1), (1, abs(1 / z) < 1), (meijerg([1], [], [], [0], z), True)) and hyperexpand(meijerg([], [1], [0], [], z)) == Piecewise((1, abs(z) < 1), (0, abs(1 / z) < 1), (meijerg([], [1], [0], [], z), True)) and can_do_meijer([], [], [a + b / 2], [a, a - b / 2, a + S.Half]) and can_do_meijer([], [], [a], [b], False) and can_do_meijer([], [S.Half], [a], [-a]) and can_do_meijer([], [], [a, b], []) and can_do_meijer([], [], [a, a + S.Half], [b, b + S.Half]) and can_do_meijer([], [], [a, -a], [0, S.Half], False) and can_do_meijer([], [], [a, a + S.Half, b, b + S.Half], []) and can_do_meijer([S.Half], [], [0], [a, -a]) and can_do_meijer([S.Half], [], [a], [0, -a], False) and can_do_meijer([], [a - S.Half], [a, b], [a - S.Half], False) and can_do_meijer([], [a + S.Half], [a + b, a - b, a], [], False) and can_do_meijer([a + S.Half], [], [b, 2 * a - b, a], [], False) and can_do_meijer([], [], [], [a, b]) and hyperexpand(meijerg([0, 2], [], [], [-1, 1], z)) == Piecewise((0, abs(z) < 1), (z * (1 - 1 / z ** 2) / 2, abs(1 / z) < 1), (meijerg([0, 2], [], [], [-1, 1], z), True)) and gammasimp(simplify(hyperexpand(meijerg([1], [1 - a], [-a / 2, -a / 2 + S.Half], [], 1 / z)))) == -2 * sqrt(pi) * (sqrt(z + 1) + 1) ** a / a and hyperexpand(meijerg([1], [], [a], [0, 0], z)) == hyper((a,), (a + 1, a + 1), z * exp_polar(I * pi)) * z ** a * gamma(a) / gamma(a + 1) ** 2 and hyperexpand(f) == sqrt(pi) / sqrt(1 + z ** (-2)) and hyperexpand(f, place=0) == sqrt(pi) * z / sqrt(z ** 2 + 1)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_meijerg_expand : Any → {Any | hyperexpand(meijer...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  hyperexpand(meijerg([[], []], [[0], []], ...   ║
+# ║   ensures:  hyperexpand(meijerg([[1, 1], []], [[1], [...   ║
+# ║   ensures:  hyperexpand(meijerg([[1, 1], []], [[1], [...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_meijerg_expand : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 105b58cd8e96b306  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c50ab0a3f9be6aa7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_hyperexpand.test_meijerg_expand","kind":"function","src_hash":"68c0e34e8828552a","in":{"base":"Any"},"out":{"base":"Any","pred":"hyperexpand(meijerg([[], []], [[0], []], -z)) == exp(z) and hyperexpand(meijerg([[1, 1], []], [[1], [0]], z)) == log(z + 1) and hyperexpand(meijerg([[1, 1], []], [[1], [1]], z)) == z / (z + 1) and can_do_meijer([], [a], [a - 1, a - S.Half], []) and can_do_meijer([], [], [a / 2], [-a / 2], False) and can_do_meijer([a], [b], [a], [b, a - 1]) and can_do_meijer([], [], [a + b / 2], [a, a - b / 2, a + S.Half]) and can_do_meijer([], [], [a], [b], False) and can_do_meijer([], [S.Half], [a], [-a]) and can_do_meijer([], [], [a, b], []) and can_do_meijer([], [], [a, b], []) and can_do_meijer([], [], [a, a + S.Half], [b, b + S.Half]) and can_do_meijer([], [], [a, -a], [0, S.Half], False) and can_do_meijer([], [], [a, a + S.Half, b, b + S.Half], []) and can_do_meijer([S.Half], [], [0], [a, -a]) and can_do_meijer([S.Half], [], [a], [0, -a], False) and can_do_meijer([], [a - S.Half], [a, b], [a - S.Half], False) and can_do_meijer([], [a + S.Half], [a + b, a - b, a], [], False) and can_do_meijer([a + S.Half], [], [b, 2 * a - b, a], [], False) and can_do_meijer([], [], [], [a, b]) and hyperexpand(f) == sqrt(pi) / sqrt(1 + z ** (-2)) and hyperexpand(f, place=0) == sqrt(pi) * z / sqrt(z ** 2 + 1)"},"spec":{"lhs":"test_meijerg_expand()","rhs":"test_meijerg_expand produces the expected output","over":{"base":"Any"},"name":"test_meijerg_expand_correct"},"guarantee":"test_meijerg_expand produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_hyperexpand.test_meijerg_expand_correct","statement":"Path(test_meijerg_expand(x), test_meijerg_expand produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"105b58cd8e96b306"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_hyperexpand.test_meijerg_expand","kind":"function","src_hash":"68c0e34e8828552a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: hyperexpand(meijerg([[], []], [[0], []], -z)) == exp(z) and hyperexpand(meijerg([[1, 1], []], [[1], [0]], z)) == log(z + 1) and hyperexpand(meijerg([[1, 1], []], [[1], [1]], z)) == z / (z + 1) and hyperexpand(meijerg([[], []], [[S.Half], [0]], (z / 2) ** 2)) == sin(z) / sqrt(pi) and hyperexpand(meijerg([[], []], [[0], [S.Half]], (z / 2) ** 2)) == cos(z) / sqrt(pi) and can_do_meijer([], [a], [a - 1, a - S.Half], []) and can_do_meijer([], [], [a / 2], [-a / 2], False) and can_do_meijer([a], [b], [a], [b, a - 1]) and hyperexpand(meijerg([1], [], [], [0], z)) == Piecewise((0, abs(z) < 1), (1, abs(1 / z) < 1), (meijerg([1], [], [], [0], z), True)) and hyperexpand(meijerg([], [1], [0], [], z)) == Piecewise((1, abs(z) < 1), (0, abs(1 / z) < 1), (meijerg([], [1], [0], [], z), True)) and can_do_meijer([], [], [a + b / 2], [a, a - b / 2, a + S.Half]) and can_do_meijer([], [], [a], [b], False) and can_do_meijer([], [S.Half], [a], [-a]) and can_do_meijer([], [], [a, b], []) and can_do_meijer([], [], [a, a + S.Half], [b, b + S.Half]) and can_do_meijer([], [], [a, -a], [0, S.Half], False) and can_do_meijer([], [], [a, a + S.Half, b, b + S.Half], []) and can_do_meijer([S.Half], [], [0], [a, -a]) and can_do_meijer([S.Half], [], [a], [0, -a], False) and can_do_meijer([], [a - S.Half], [a, b], [a - S.Half], False) and can_do_meijer([], [a + S.Half], [a + b, a - b, a], [], False) and can_do_meijer([a + S.Half], [], [b, 2 * a - b, a], [], False) and can_do_meijer([], [], [], [a, b]) and hyperexpand(meijerg([0, 2], [], [], [-1, 1], z)) == Piecewise((0, abs(z) < 1), (z * (1 - 1 / z ** 2) / 2, abs(1 / z) < 1), (meijerg([0, 2], [], [], [-1, 1], z), True)) and gammasimp(simplify(hyperexpand(meijerg([1], [1 - a], [-a / 2, -a / 2 + S.Half], [], 1 / z)))) == -2 * sqrt(pi) * (sqrt(z + 1) + 1) ** a / a and hyperexpand(meijerg([1], [], [a], [0, 0], z)) == hyper((a,), (a + 1, a + 1), z * exp_polar(I * pi)) * z ** a * gamma(a) / gamma(a + 1) ** 2 and hyperexpand(f) == sqrt(pi) / sqrt(1 + z ** (-2)) and hyperexpand(f, place=0) == sqrt(pi) * z / sqrt(z ** 2 + 1)"},"spec":{"lhs":"test_meijerg_expand()","rhs":"hyperexpand(meijerg([[], []], [[0], []], -z)) == exp(z) and hyperexpand(meijerg([[1, 1], []], [[1], [0]], z)) == log(z + 1) and hyperexpand(meijerg([[1, 1], []], [[1], [1]], z)) == z / (z + 1) and hyperexpand(meijerg([[], []], [[S.Half], [0]], (z / 2) ** 2)) == sin(z) / sqrt(pi) and hyperexpand(meijerg([[], []], [[0], [S.Half]], (z / 2) ** 2)) == cos(z) / sqrt(pi) and can_do_meijer([], [a], [a - 1, a - S.Half], []) and can_do_meijer([], [], [a / 2], [-a / 2], False) and can_do_meijer([a], [b], [a], [b, a - 1]) and hyperexpand(meijerg([1], [], [], [0], z)) == Piecewise((0, abs(z) < 1), (1, abs(1 / z) < 1), (meijerg([1], [], [], [0], z), True)) and hyperexpand(meijerg([], [1], [0], [], z)) == Piecewise((1, abs(z) < 1), (0, abs(1 / z) < 1), (meijerg([], [1], [0], [], z), True)) and can_do_meijer([], [], [a + b / 2], [a, a - b / 2, a + S.Half]) and can_do_meijer([], [], [a], [b], False) and can_do_meijer([], [S.Half], [a], [-a]) and can_do_meijer([], [], [a, b], []) and can_do_meijer([], [], [a, a + S.Half], [b, b + S.Half]) and can_do_meijer([], [], [a, -a], [0, S.Half], False) and can_do_meijer([], [], [a, a + S.Half, b, b + S.Half], []) and can_do_meijer([S.Half], [], [0], [a, -a]) and can_do_meijer([S.Half], [], [a], [0, -a], False) and can_do_meijer([], [a - S.Half], [a, b], [a - S.Half], False) and can_do_meijer([], [a + S.Half], [a + b, a - b, a], [], False) and can_do_meijer([a + S.Half], [], [b, 2 * a - b, a], [], False) and can_do_meijer([], [], [], [a, b]) and hyperexpand(meijerg([0, 2], [], [], [-1, 1], z)) == Piecewise((0, abs(z) < 1), (z * (1 - 1 / z ** 2) / 2, abs(1 / z) < 1), (meijerg([0, 2], [], [], [-1, 1], z), True)) and gammasimp(simplify(hyperexpand(meijerg([1], [1 - a], [-a / 2, -a / 2 + S.Half], [], 1 / z)))) == -2 * sqrt(pi) * (sqrt(z + 1) + 1) ** a / a and hyperexpand(meijerg([1], [], [a], [0, 0], z)) == hyper((a,), (a + 1, a + 1), z * exp_polar(I * pi)) * z ** a * gamma(a) / gamma(a + 1) ** 2 and hyperexpand(f) == sqrt(pi) / sqrt(1 + z ** (-2)) and hyperexpand(f, place=0) == sqrt(pi) * z / sqrt(z ** 2 + 1)","over":{"base":"Any"},"name":"test_meijerg_expand_correct"},"guarantee":"hyperexpand(meijerg([[], []], [[0], []], -z)) == exp(z); hyperexpand(meijerg([[1, 1], []], [[1], [0]], z)) == log(z + 1); hyperexpand(meijerg([[1, 1], []], [[1], [1]], z)) == z / (z + 1)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_hyperexpand.test_meijerg_expand_correct","statement":"Path(test_meijerg_expand(x), hyperexpand(meijerg([[], []], [[0], []], -z)) == exp(z); hyperexpand(meijerg([[1, 1], []], [[1], [0]], z)) == log(z + 1); hyperexpand(meijerg([[1, 1], []], [[1], [1]], z)) == z / (z + 1))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c50ab0a3f9be6aa7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["hyperexpand(meijerg([[], []], [[0], []], -z)) == exp(z)","hyperexpand(meijerg([[1, 1], []], [[1], [0]], z)) == log(z + 1)","hyperexpand(meijerg([[1, 1], []], [[1], [1]], z)) == z / (z + 1)","hyperexpand(meijerg([[], []], [[S.Half], [0]], (z / 2) ** 2)) == sin(z) / sqrt(pi)","hyperexpand(meijerg([[], []], [[0], [S.Half]], (z / 2) ** 2)) == cos(z) / sqrt(pi)","can_do_meijer([], [a], [a - 1, a - S.Half], [])","can_do_meijer([], [], [a / 2], [-a / 2], False)","can_do_meijer([a], [b], [a], [b, a - 1])","hyperexpand(meijerg([1], [], [], [0], z)) == Piecewise((0, abs(z) < 1), (1, abs(1 / z) < 1), (meijerg([1], [], [], [0], z), True))","hyperexpand(meijerg([], [1], [0], [], z)) == Piecewise((1, abs(z) < 1), (0, abs(1 / z) < 1), (meijerg([], [1], [0], [], z), True))","can_do_meijer([], [], [a + b / 2], [a, a - b / 2, a + S.Half])","can_do_meijer([], [], [a], [b], False)","can_do_meijer([], [S.Half], [a], [-a])","can_do_meijer([], [], [a, b], [])","can_do_meijer([], [], [a, a + S.Half], [b, b + S.Half])","can_do_meijer([], [], [a, -a], [0, S.Half], False)","can_do_meijer([], [], [a, a + S.Half, b, b + S.Half], [])","can_do_meijer([S.Half], [], [0], [a, -a])","can_do_meijer([S.Half], [], [a], [0, -a], False)","can_do_meijer([], [a - S.Half], [a, b], [a - S.Half], False)","can_do_meijer([], [a + S.Half], [a + b, a - b, a], [], False)","can_do_meijer([a + S.Half], [], [b, 2 * a - b, a], [], False)","can_do_meijer([], [], [], [a, b])","hyperexpand(meijerg([0, 2], [], [], [-1, 1], z)) == Piecewise((0, abs(z) < 1), (z * (1 - 1 / z ** 2) / 2, abs(1 / z) < 1), (meijerg([0, 2], [], [], [-1, 1], z), True))","gammasimp(simplify(hyperexpand(meijerg([1], [1 - a], [-a / 2, -a / 2 + S.Half], [], 1 / z)))) == -2 * sqrt(pi) * (sqrt(z + 1) + 1) ** a / a","hyperexpand(meijerg([1], [], [a], [0, 0], z)) == hyper((a,), (a + 1, a + 1), z * exp_polar(I * pi)) * z ** a * gamma(a) / gamma(a + 1) ** 2","hyperexpand(f) == sqrt(pi) / sqrt(1 + z ** (-2))","hyperexpand(f, place=0) == sqrt(pi) * z / sqrt(z ** 2 + 1)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.2,"verdict_class":"assumed","binding":true}}
 def test_meijerg_expand():
     from sympy.simplify.gammasimp import gammasimp
     from sympy.simplify.simplify import simplify
@@ -679,16 +828,24 @@ def test_meijerg_expand():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_meijerg_lookup(), test_meijerg_lookup produces the expected output) over Any ║
+# ║ Path(test_meijerg_lookup(), hyperexpand(meijerg([a], [], [b, a], [], z)) == z ** b * exp(z) * gamma(-a + b + 1) * uppergamma(a - b, z) and hyperexpand(meijerg([0], [], [0, 0], [], z)) == exp(z) * uppergamma(0, z) and can_do_meijer([a], [], [b, a + 1], []) and can_do_meijer([a], [], [b + 2, a], []) and can_do_meijer([a], [], [b - 2, a], []) and hyperexpand(meijerg([a], [], [a, a, a - S.Half], [], z)) == -sqrt(pi) * z ** (a - S.Half) * (2 * cos(2 * sqrt(z)) * (Si(2 * sqrt(z)) - pi / 2) - 2 * sin(2 * sqrt(z)) * Ci(2 * sqrt(z))) == hyperexpand(meijerg([a], [], [a, a - S.Half, a], [], z)) == hyperexpand(meijerg([a], [], [a - S.Half, a, a], [], z)) and can_do_meijer([a - 1], [], [a + 2, a - Rational(3, 2), a + 1], [])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_meijerg_lookup : Any → {Any | hyperexpand(meijer...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  hyperexpand(meijerg([a], [], [b, a], [], ...   ║
+# ║   ensures:  hyperexpand(meijerg([0], [], [0, 0], [], ...   ║
+# ║   ensures:  can_do_meijer([a], [], [b, a + 1], [])         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_meijerg_lookup : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b93ebaa4c9cbd512  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e802050fdb7a7e4e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_hyperexpand.test_meijerg_lookup","kind":"function","src_hash":"1f3214efa86efbc4","in":{"base":"Any"},"out":{"base":"Any","pred":"hyperexpand(meijerg([0], [], [0, 0], [], z)) == exp(z) * uppergamma(0, z) and can_do_meijer([a], [], [b, a + 1], []) and can_do_meijer([a], [], [b + 2, a], []) and can_do_meijer([a], [], [b - 2, a], []) and can_do_meijer([a - 1], [], [a + 2, a - Rational(3, 2), a + 1], [])"},"spec":{"lhs":"test_meijerg_lookup()","rhs":"test_meijerg_lookup produces the expected output","over":{"base":"Any"},"name":"test_meijerg_lookup_correct"},"guarantee":"test_meijerg_lookup produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_hyperexpand.test_meijerg_lookup_correct","statement":"Path(test_meijerg_lookup(x), test_meijerg_lookup produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b93ebaa4c9cbd512"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_hyperexpand.test_meijerg_lookup","kind":"function","src_hash":"1f3214efa86efbc4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: hyperexpand(meijerg([a], [], [b, a], [], z)) == z ** b * exp(z) * gamma(-a + b + 1) * uppergamma(a - b, z) and hyperexpand(meijerg([0], [], [0, 0], [], z)) == exp(z) * uppergamma(0, z) and can_do_meijer([a], [], [b, a + 1], []) and can_do_meijer([a], [], [b + 2, a], []) and can_do_meijer([a], [], [b - 2, a], []) and hyperexpand(meijerg([a], [], [a, a, a - S.Half], [], z)) == -sqrt(pi) * z ** (a - S.Half) * (2 * cos(2 * sqrt(z)) * (Si(2 * sqrt(z)) - pi / 2) - 2 * sin(2 * sqrt(z)) * Ci(2 * sqrt(z))) == hyperexpand(meijerg([a], [], [a, a - S.Half, a], [], z)) == hyperexpand(meijerg([a], [], [a - S.Half, a, a], [], z)) and can_do_meijer([a - 1], [], [a + 2, a - Rational(3, 2), a + 1], [])"},"spec":{"lhs":"test_meijerg_lookup()","rhs":"hyperexpand(meijerg([a], [], [b, a], [], z)) == z ** b * exp(z) * gamma(-a + b + 1) * uppergamma(a - b, z) and hyperexpand(meijerg([0], [], [0, 0], [], z)) == exp(z) * uppergamma(0, z) and can_do_meijer([a], [], [b, a + 1], []) and can_do_meijer([a], [], [b + 2, a], []) and can_do_meijer([a], [], [b - 2, a], []) and hyperexpand(meijerg([a], [], [a, a, a - S.Half], [], z)) == -sqrt(pi) * z ** (a - S.Half) * (2 * cos(2 * sqrt(z)) * (Si(2 * sqrt(z)) - pi / 2) - 2 * sin(2 * sqrt(z)) * Ci(2 * sqrt(z))) == hyperexpand(meijerg([a], [], [a, a - S.Half, a], [], z)) == hyperexpand(meijerg([a], [], [a - S.Half, a, a], [], z)) and can_do_meijer([a - 1], [], [a + 2, a - Rational(3, 2), a + 1], [])","over":{"base":"Any"},"name":"test_meijerg_lookup_correct"},"guarantee":"hyperexpand(meijerg([a], [], [b, a], [], z)) == z ** b * exp(z) * gamma(-a + b + 1) * uppergamma(a - b, z); hyperexpand(meijerg([0], [], [0, 0], [], z)) == exp(z) * uppergamma(0, z); can_do_meijer([a], [], [b, a + 1], [])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_hyperexpand.test_meijerg_lookup_correct","statement":"Path(test_meijerg_lookup(x), hyperexpand(meijerg([a], [], [b, a], [], z)) == z ** b * exp(z) * gamma(-a + b + 1) * uppergamma(a - b, z); hyperexpand(meijerg([0], [], [0, 0], [], z)) == exp(z) * uppergamma(0, z); can_do_meijer([a], [], [b, a + 1], []))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e802050fdb7a7e4e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["hyperexpand(meijerg([a], [], [b, a], [], z)) == z ** b * exp(z) * gamma(-a + b + 1) * uppergamma(a - b, z)","hyperexpand(meijerg([0], [], [0, 0], [], z)) == exp(z) * uppergamma(0, z)","can_do_meijer([a], [], [b, a + 1], [])","can_do_meijer([a], [], [b + 2, a], [])","can_do_meijer([a], [], [b - 2, a], [])","hyperexpand(meijerg([a], [], [a, a, a - S.Half], [], z)) == -sqrt(pi) * z ** (a - S.Half) * (2 * cos(2 * sqrt(z)) * (Si(2 * sqrt(z)) - pi / 2) - 2 * sin(2 * sqrt(z)) * Ci(2 * sqrt(z))) == hyperexpand(meijerg([a], [], [a, a - S.Half, a], [], z)) == hyperexpand(meijerg([a], [], [a - S.Half, a, a], [], z))","can_do_meijer([a - 1], [], [a + 2, a - Rational(3, 2), a + 1], [])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_meijerg_lookup():
     from sympy.functions.special.error_functions import (Ci, Si)
     from sympy.functions.special.gamma_functions import uppergamma
@@ -710,16 +867,24 @@ def test_meijerg_lookup():
 
 @XFAIL
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_meijerg_expand_fail(), test_meijerg_expand_fail produces the expected output) over Any ║
+# ║ Path(test_meijerg_expand_fail(), can_do_meijer([], [], [a + S.Half], [a, a - b / 2, a + b / 2]) and can_do_meijer([], [], [0, S.Half], [a, -a]) and can_do_meijer([], [], [3 * a - S.Half, a, -a - S.Half], [a - S.Half]) and can_do_meijer([], [], [0, a - S.Half, -a - S.Half], [S.Half]) and can_do_meijer([], [], [a, b + S.Half, b], [2 * b - a]) and can_do_meijer([], [], [a, b + S.Half, b, 2 * b - a]) and can_do_meijer([S.Half], [], [-a, a], [0])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_meijerg_expand_fail : Any → {Any | can_do_meijer...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  can_do_meijer([], [], [a + S.Half], [a, a...   ║
+# ║   ensures:  can_do_meijer([], [], [0, S.Half], [a, -a])    ║
+# ║   ensures:  can_do_meijer([], [], [3 * a - S.Half, a,...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_meijerg_expand_fail : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e9c715dbe734decb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d60b77c7b6d2e703  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_hyperexpand.test_meijerg_expand_fail","kind":"function","src_hash":"3b6926d49f3f66fe","in":{"base":"Any"},"out":{"base":"Any","pred":"can_do_meijer([], [], [a + S.Half], [a, a - b / 2, a + b / 2]) and can_do_meijer([], [], [0, S.Half], [a, -a]) and can_do_meijer([], [], [3 * a - S.Half, a, -a - S.Half], [a - S.Half]) and can_do_meijer([], [], [0, a - S.Half, -a - S.Half], [S.Half]) and can_do_meijer([], [], [a, b + S.Half, b], [2 * b - a]) and can_do_meijer([], [], [a, b + S.Half, b, 2 * b - a]) and can_do_meijer([S.Half], [], [-a, a], [0])"},"spec":{"lhs":"test_meijerg_expand_fail()","rhs":"test_meijerg_expand_fail produces the expected output","over":{"base":"Any"},"name":"test_meijerg_expand_fail_correct"},"guarantee":"test_meijerg_expand_fail produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_hyperexpand.test_meijerg_expand_fail_correct","statement":"Path(test_meijerg_expand_fail(x), test_meijerg_expand_fail produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e9c715dbe734decb"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_hyperexpand.test_meijerg_expand_fail","kind":"function","src_hash":"3b6926d49f3f66fe","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: can_do_meijer([], [], [a + S.Half], [a, a - b / 2, a + b / 2]) and can_do_meijer([], [], [0, S.Half], [a, -a]) and can_do_meijer([], [], [3 * a - S.Half, a, -a - S.Half], [a - S.Half]) and can_do_meijer([], [], [0, a - S.Half, -a - S.Half], [S.Half]) and can_do_meijer([], [], [a, b + S.Half, b], [2 * b - a]) and can_do_meijer([], [], [a, b + S.Half, b, 2 * b - a]) and can_do_meijer([S.Half], [], [-a, a], [0])"},"spec":{"lhs":"test_meijerg_expand_fail()","rhs":"can_do_meijer([], [], [a + S.Half], [a, a - b / 2, a + b / 2]) and can_do_meijer([], [], [0, S.Half], [a, -a]) and can_do_meijer([], [], [3 * a - S.Half, a, -a - S.Half], [a - S.Half]) and can_do_meijer([], [], [0, a - S.Half, -a - S.Half], [S.Half]) and can_do_meijer([], [], [a, b + S.Half, b], [2 * b - a]) and can_do_meijer([], [], [a, b + S.Half, b, 2 * b - a]) and can_do_meijer([S.Half], [], [-a, a], [0])","over":{"base":"Any"},"name":"test_meijerg_expand_fail_correct"},"guarantee":"can_do_meijer([], [], [a + S.Half], [a, a - b / 2, a + b / 2]); can_do_meijer([], [], [0, S.Half], [a, -a]); can_do_meijer([], [], [3 * a - S.Half, a, -a - S.Half], [a - S.Half])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_hyperexpand.test_meijerg_expand_fail_correct","statement":"Path(test_meijerg_expand_fail(x), can_do_meijer([], [], [a + S.Half], [a, a - b / 2, a + b / 2]); can_do_meijer([], [], [0, S.Half], [a, -a]); can_do_meijer([], [], [3 * a - S.Half, a, -a - S.Half], [a - S.Half]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d60b77c7b6d2e703","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["can_do_meijer([], [], [a + S.Half], [a, a - b / 2, a + b / 2])","can_do_meijer([], [], [0, S.Half], [a, -a])","can_do_meijer([], [], [3 * a - S.Half, a, -a - S.Half], [a - S.Half])","can_do_meijer([], [], [0, a - S.Half, -a - S.Half], [S.Half])","can_do_meijer([], [], [a, b + S.Half, b], [2 * b - a])","can_do_meijer([], [], [a, b + S.Half, b, 2 * b - a])","can_do_meijer([S.Half], [], [-a, a], [0])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_meijerg_expand_fail():
     # These basically test hyper([], [1/2 - a, 1/2 + 1, 1/2], z),
     # which is *very* messy. But since the meijer g actually yields a
@@ -736,16 +901,24 @@ def test_meijerg_expand_fail():
 
 @slow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_meijerg(), test_meijerg produces the expected output) over Any ║
+# ║ Path(test_meijerg(), ReduceOrder.meijer_minus(3, 4) is None and ReduceOrder.meijer_plus(4, 3) is None and tn(ReduceOrder.meijer_plus(a2, a2).apply(g, op), g2, z) and tn(ReduceOrder.meijer_plus(a2, a2 + 1).apply(g, op), g2, z) and tn(ReduceOrder.meijer_plus(a2 - 1, a2 + 2).apply(g, op), g2, z) and tn(ReduceOrder.meijer_minus(b2 + 2, b2 - 1).apply(g, op), g2, z, tol=1e-06) and niq.an == (a1,) and set(niq.ap) == {a3, a4} and niq.bm == (b1,) and set(niq.bq) == {b3, b4} and tn(apply_operators(g, ops, op), meijerg(an, ap, bm, bq, z), z)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_meijerg : Any → {Any | ReduceOrder.meijer_minus(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  ReduceOrder.meijer_minus(3, 4) is None         ║
+# ║   ensures:  ReduceOrder.meijer_plus(4, 3) is None          ║
+# ║   ensures:  tn(ReduceOrder.meijer_plus(a2, a2).apply(...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_meijerg : Any → {Any | result satisfies: ReduceO...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b4d3035946167362  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e735a7be05e13f24  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_hyperexpand.test_meijerg","kind":"function","src_hash":"82704d460dbfa943","in":{"base":"Any"},"out":{"base":"Any","pred":"ReduceOrder.meijer_minus(3, 4) is None and ReduceOrder.meijer_plus(4, 3) is None and tn(ReduceOrder.meijer_plus(a2, a2).apply(g, op), g2, z) and tn(ReduceOrder.meijer_plus(a2, a2 + 1).apply(g, op), g2, z) and tn(ReduceOrder.meijer_plus(a2 - 1, a2 + 2).apply(g, op), g2, z) and tn(ReduceOrder.meijer_minus(b2 + 2, b2 - 1).apply(g, op), g2, z, tol=1e-06) and niq.an == (a1,) and set(niq.ap) == {a3, a4} and niq.bm == (b1,) and set(niq.bq) == {b3, b4} and tn(apply_operators(g, ops, op), meijerg(an, ap, bm, bq, z), z)"},"spec":{"lhs":"test_meijerg()","rhs":"test_meijerg produces the expected output","over":{"base":"Any"},"name":"test_meijerg_correct"},"guarantee":"test_meijerg produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_hyperexpand.test_meijerg_correct","statement":"Path(test_meijerg(x), test_meijerg produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b4d3035946167362"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_hyperexpand.test_meijerg","kind":"function","src_hash":"82704d460dbfa943","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: ReduceOrder.meijer_minus(3, 4) is None and ReduceOrder.meijer_plus(4, 3) is None and tn(ReduceOrder.meijer_plus(a2, a2).apply(g, op), g2, z) and tn(ReduceOrder.meijer_plus(a2, a2 + 1).apply(g, op), g2, z) and tn(ReduceOrder.meijer_plus(a2 - 1, a2 + 2).apply(g, op), g2, z) and tn(ReduceOrder.meijer_minus(b2 + 2, b2 - 1).apply(g, op), g2, z, tol=1e-06) and niq.an == (a1,) and set(niq.ap) == {a3, a4} and niq.bm == (b1,) and set(niq.bq) == {b3, b4} and tn(apply_operators(g, ops, op), meijerg(an, ap, bm, bq, z), z)"},"spec":{"lhs":"test_meijerg()","rhs":"ReduceOrder.meijer_minus(3, 4) is None and ReduceOrder.meijer_plus(4, 3) is None and tn(ReduceOrder.meijer_plus(a2, a2).apply(g, op), g2, z) and tn(ReduceOrder.meijer_plus(a2, a2 + 1).apply(g, op), g2, z) and tn(ReduceOrder.meijer_plus(a2 - 1, a2 + 2).apply(g, op), g2, z) and tn(ReduceOrder.meijer_minus(b2 + 2, b2 - 1).apply(g, op), g2, z, tol=1e-06) and niq.an == (a1,) and set(niq.ap) == {a3, a4} and niq.bm == (b1,) and set(niq.bq) == {b3, b4} and tn(apply_operators(g, ops, op), meijerg(an, ap, bm, bq, z), z)","over":{"base":"Any"},"name":"test_meijerg_correct"},"guarantee":"ReduceOrder.meijer_minus(3, 4) is None; ReduceOrder.meijer_plus(4, 3) is None; tn(ReduceOrder.meijer_plus(a2, a2).apply(g, op), g2, z)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_hyperexpand.test_meijerg_correct","statement":"Path(test_meijerg(x), ReduceOrder.meijer_minus(3, 4) is None; ReduceOrder.meijer_plus(4, 3) is None; tn(ReduceOrder.meijer_plus(a2, a2).apply(g, op), g2, z))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e735a7be05e13f24","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["ReduceOrder.meijer_minus(3, 4) is None","ReduceOrder.meijer_plus(4, 3) is None","tn(ReduceOrder.meijer_plus(a2, a2).apply(g, op), g2, z)","tn(ReduceOrder.meijer_plus(a2, a2 + 1).apply(g, op), g2, z)","tn(ReduceOrder.meijer_plus(a2 - 1, a2 + 2).apply(g, op), g2, z)","tn(ReduceOrder.meijer_minus(b2 + 2, b2 - 1).apply(g, op), g2, z, tol=1e-06)","niq.an == (a1,)","set(niq.ap) == {a3, a4}","niq.bm == (b1,)","set(niq.bq) == {b3, b4}","tn(apply_operators(g, ops, op), meijerg(an, ap, bm, bq, z), z)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def test_meijerg():
     # carefully set up the parameters.
     # NOTE: this used to fail sometimes. I believe it is fixed, but if you
@@ -785,16 +958,24 @@ def test_meijerg():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_meijerg_shift_operators(), test_meijerg_shift_operators produces the expected output) over Any ║
+# ║ Path(test_meijerg_shift_operators(), tn(MeijerShiftA(b1).apply(g, op), meijerg([a1], [a3, a4], [b1 + 1], [b3, b4], z), z) and tn(MeijerShiftB(a1).apply(g, op), meijerg([a1 - 1], [a3, a4], [b1], [b3, b4], z), z) and tn(MeijerShiftC(b3).apply(g, op), meijerg([a1], [a3, a4], [b1], [b3 + 1, b4], z), z) and tn(MeijerShiftD(a3).apply(g, op), meijerg([a1], [a3 - 1, a4], [b1], [b3, b4], z), z) and tn(s.apply(g, op), meijerg([a1], [a3, a4], [b1 - 1], [b3, b4], z), z) and tn(s.apply(g, op), meijerg([a1], [a3, a4], [b1], [b3 - 1, b4], z), z) and tn(s.apply(g, op), meijerg([a1 + 1], [a3, a4], [b1], [b3, b4], z), z) and tn(s.apply(g, op), meijerg([a1], [a3 + 1, a4], [b1], [b3, b4], z), z)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_meijerg_shift_operators : Any → {Any | tn(s.appl...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  tn(MeijerShiftA(b1).apply(g, op), meijerg...   ║
+# ║   ensures:  tn(MeijerShiftB(a1).apply(g, op), meijerg...   ║
+# ║   ensures:  tn(MeijerShiftC(b3).apply(g, op), meijerg...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_meijerg_shift_operators : Any → {Any | result sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0fb064c842b62f31  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c479ff23be761703  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_hyperexpand.test_meijerg_shift_operators","kind":"function","src_hash":"4e356b9a7a372267","in":{"base":"Any"},"out":{"base":"Any","pred":"tn(s.apply(g, op), meijerg([a1], [a3, a4], [b1 - 1], [b3, b4], z), z) and tn(s.apply(g, op), meijerg([a1], [a3, a4], [b1], [b3 - 1, b4], z), z) and tn(s.apply(g, op), meijerg([a1 + 1], [a3, a4], [b1], [b3, b4], z), z) and tn(s.apply(g, op), meijerg([a1], [a3 + 1, a4], [b1], [b3, b4], z), z)"},"spec":{"lhs":"test_meijerg_shift_operators()","rhs":"test_meijerg_shift_operators produces the expected output","over":{"base":"Any"},"name":"test_meijerg_shift_operators_correct"},"guarantee":"test_meijerg_shift_operators produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_hyperexpand.test_meijerg_shift_operators_correct","statement":"Path(test_meijerg_shift_operators(x), test_meijerg_shift_operators produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0fb064c842b62f31"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_hyperexpand.test_meijerg_shift_operators","kind":"function","src_hash":"4e356b9a7a372267","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: tn(MeijerShiftA(b1).apply(g, op), meijerg([a1], [a3, a4], [b1 + 1], [b3, b4], z), z) and tn(MeijerShiftB(a1).apply(g, op), meijerg([a1 - 1], [a3, a4], [b1], [b3, b4], z), z) and tn(MeijerShiftC(b3).apply(g, op), meijerg([a1], [a3, a4], [b1], [b3 + 1, b4], z), z) and tn(MeijerShiftD(a3).apply(g, op), meijerg([a1], [a3 - 1, a4], [b1], [b3, b4], z), z) and tn(s.apply(g, op), meijerg([a1], [a3, a4], [b1 - 1], [b3, b4], z), z) and tn(s.apply(g, op), meijerg([a1], [a3, a4], [b1], [b3 - 1, b4], z), z) and tn(s.apply(g, op), meijerg([a1 + 1], [a3, a4], [b1], [b3, b4], z), z) and tn(s.apply(g, op), meijerg([a1], [a3 + 1, a4], [b1], [b3, b4], z), z)"},"spec":{"lhs":"test_meijerg_shift_operators()","rhs":"tn(MeijerShiftA(b1).apply(g, op), meijerg([a1], [a3, a4], [b1 + 1], [b3, b4], z), z) and tn(MeijerShiftB(a1).apply(g, op), meijerg([a1 - 1], [a3, a4], [b1], [b3, b4], z), z) and tn(MeijerShiftC(b3).apply(g, op), meijerg([a1], [a3, a4], [b1], [b3 + 1, b4], z), z) and tn(MeijerShiftD(a3).apply(g, op), meijerg([a1], [a3 - 1, a4], [b1], [b3, b4], z), z) and tn(s.apply(g, op), meijerg([a1], [a3, a4], [b1 - 1], [b3, b4], z), z) and tn(s.apply(g, op), meijerg([a1], [a3, a4], [b1], [b3 - 1, b4], z), z) and tn(s.apply(g, op), meijerg([a1 + 1], [a3, a4], [b1], [b3, b4], z), z) and tn(s.apply(g, op), meijerg([a1], [a3 + 1, a4], [b1], [b3, b4], z), z)","over":{"base":"Any"},"name":"test_meijerg_shift_operators_correct"},"guarantee":"tn(MeijerShiftA(b1).apply(g, op), meijerg([a1], [a3, a4], [b1 + 1], [b3, b4], z), z); tn(MeijerShiftB(a1).apply(g, op), meijerg([a1 - 1], [a3, a4], [b1], [b3, b4], z), z); tn(MeijerShiftC(b3).apply(g, op), meijerg([a1], [a3, a4], [b1], [b3 + 1, b4], z), z)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_hyperexpand.test_meijerg_shift_operators_correct","statement":"Path(test_meijerg_shift_operators(x), tn(MeijerShiftA(b1).apply(g, op), meijerg([a1], [a3, a4], [b1 + 1], [b3, b4], z), z); tn(MeijerShiftB(a1).apply(g, op), meijerg([a1 - 1], [a3, a4], [b1], [b3, b4], z), z); tn(MeijerShiftC(b3).apply(g, op), meijerg([a1], [a3, a4], [b1], [b3 + 1, b4], z), z))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c479ff23be761703","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["tn(MeijerShiftA(b1).apply(g, op), meijerg([a1], [a3, a4], [b1 + 1], [b3, b4], z), z)","tn(MeijerShiftB(a1).apply(g, op), meijerg([a1 - 1], [a3, a4], [b1], [b3, b4], z), z)","tn(MeijerShiftC(b3).apply(g, op), meijerg([a1], [a3, a4], [b1], [b3 + 1, b4], z), z)","tn(MeijerShiftD(a3).apply(g, op), meijerg([a1], [a3 - 1, a4], [b1], [b3, b4], z), z)","tn(s.apply(g, op), meijerg([a1], [a3, a4], [b1 - 1], [b3, b4], z), z)","tn(s.apply(g, op), meijerg([a1], [a3, a4], [b1], [b3 - 1, b4], z), z)","tn(s.apply(g, op), meijerg([a1 + 1], [a3, a4], [b1], [b3, b4], z), z)","tn(s.apply(g, op), meijerg([a1], [a3 + 1, a4], [b1], [b3, b4], z), z)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def test_meijerg_shift_operators():
     # carefully set up the parameters. XXX this still fails sometimes
     a1, a2, a3, a4, a5, b1, b2, b3, b4, b5 = (randcplx(n) for n in range(10))
@@ -828,16 +1009,24 @@ def test_meijerg_shift_operators():
 
 @slow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_meijerg_confluence(), test_meijerg_confluence produces the expected output) over Any ║
+# ║ Path(test_meijerg_confluence(), t(meijerg([], [1, 1], [0, 0], [], z), -log(z), 0) and t(meijerg([], [3, 1], [0, 0], [], z), -z ** 2 / 4 + z - log(z) / 2 - Rational(3, 4), 0) and t(meijerg([], [3, 1], [-1, 0], [], z), z ** 2 / 12 - z / 2 + log(z) / 2 + Rational(1, 4) + 1 / (6 * z), 0) and t(meijerg([], [1, 1, 1, 1], [0, 0, 0, 0], [], z), -log(z) ** 3 / 6, 0) and t(meijerg([1, 1], [], [], [0, 0], z), 0, -log(1 / z)) and t(meijerg([1, 1], [2, 2], [1, 1], [0, 0], z), -z * log(z) + 2 * z, -log(1 / z) + 2) and t(meijerg([S.Half], [1, 1], [0, 0], [Rational(3, 2)], z), log(z) / 2 - 1, 0) and u([], [1], [0, 0], []) and u([1, 1], [], [], [0]) and u([1, 1], [2, 2, 5], [1, 1, 6], [0, 0]) and u([1, 1], [2, 2, 5], [1, 1, 6], [0])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_meijerg_confluence : Any → {Any | t(meijerg([], ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  t(meijerg([], [1, 1], [0, 0], [], z), -lo...   ║
+# ║   ensures:  t(meijerg([], [3, 1], [0, 0], [], z), -z ...   ║
+# ║   ensures:  t(meijerg([], [3, 1], [-1, 0], [], z), z ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_meijerg_confluence : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fdb5c840e544b9e5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.8ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c0c23d133fa3b808  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_hyperexpand.test_meijerg_confluence","kind":"function","src_hash":"c2022f61c239385b","in":{"base":"Any"},"out":{"base":"Any","pred":"t(meijerg([], [1, 1], [0, 0], [], z), -log(z), 0) and t(meijerg([], [1, 1, 1, 1], [0, 0, 0, 0], [], z), -log(z) ** 3 / 6, 0) and t(meijerg([1, 1], [], [], [0, 0], z), 0, -log(1 / z)) and t(meijerg([S.Half], [1, 1], [0, 0], [Rational(3, 2)], z), log(z) / 2 - 1, 0) and u([], [1], [0, 0], []) and u([1, 1], [], [], [0]) and u([1, 1], [2, 2, 5], [1, 1, 6], [0, 0]) and u([1, 1], [2, 2, 5], [1, 1, 6], [0])"},"spec":{"lhs":"test_meijerg_confluence()","rhs":"test_meijerg_confluence produces the expected output","over":{"base":"Any"},"name":"test_meijerg_confluence_correct"},"guarantee":"test_meijerg_confluence produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_hyperexpand.test_meijerg_confluence_correct","statement":"Path(test_meijerg_confluence(x), test_meijerg_confluence produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fdb5c840e544b9e5"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_hyperexpand.test_meijerg_confluence","kind":"function","src_hash":"c2022f61c239385b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: t(meijerg([], [1, 1], [0, 0], [], z), -log(z), 0) and t(meijerg([], [3, 1], [0, 0], [], z), -z ** 2 / 4 + z - log(z) / 2 - Rational(3, 4), 0) and t(meijerg([], [3, 1], [-1, 0], [], z), z ** 2 / 12 - z / 2 + log(z) / 2 + Rational(1, 4) + 1 / (6 * z), 0) and t(meijerg([], [1, 1, 1, 1], [0, 0, 0, 0], [], z), -log(z) ** 3 / 6, 0) and t(meijerg([1, 1], [], [], [0, 0], z), 0, -log(1 / z)) and t(meijerg([1, 1], [2, 2], [1, 1], [0, 0], z), -z * log(z) + 2 * z, -log(1 / z) + 2) and t(meijerg([S.Half], [1, 1], [0, 0], [Rational(3, 2)], z), log(z) / 2 - 1, 0) and u([], [1], [0, 0], []) and u([1, 1], [], [], [0]) and u([1, 1], [2, 2, 5], [1, 1, 6], [0, 0]) and u([1, 1], [2, 2, 5], [1, 1, 6], [0])"},"spec":{"lhs":"test_meijerg_confluence()","rhs":"t(meijerg([], [1, 1], [0, 0], [], z), -log(z), 0) and t(meijerg([], [3, 1], [0, 0], [], z), -z ** 2 / 4 + z - log(z) / 2 - Rational(3, 4), 0) and t(meijerg([], [3, 1], [-1, 0], [], z), z ** 2 / 12 - z / 2 + log(z) / 2 + Rational(1, 4) + 1 / (6 * z), 0) and t(meijerg([], [1, 1, 1, 1], [0, 0, 0, 0], [], z), -log(z) ** 3 / 6, 0) and t(meijerg([1, 1], [], [], [0, 0], z), 0, -log(1 / z)) and t(meijerg([1, 1], [2, 2], [1, 1], [0, 0], z), -z * log(z) + 2 * z, -log(1 / z) + 2) and t(meijerg([S.Half], [1, 1], [0, 0], [Rational(3, 2)], z), log(z) / 2 - 1, 0) and u([], [1], [0, 0], []) and u([1, 1], [], [], [0]) and u([1, 1], [2, 2, 5], [1, 1, 6], [0, 0]) and u([1, 1], [2, 2, 5], [1, 1, 6], [0])","over":{"base":"Any"},"name":"test_meijerg_confluence_correct"},"guarantee":"t(meijerg([], [1, 1], [0, 0], [], z), -log(z), 0); t(meijerg([], [3, 1], [0, 0], [], z), -z ** 2 / 4 + z - log(z) / 2 - Rational(3, 4), 0); t(meijerg([], [3, 1], [-1, 0], [], z), z ** 2 / 12 - z / 2 + log(z) / 2 + Rational(1, 4) + 1 / (6 * z), 0)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_hyperexpand.test_meijerg_confluence_correct","statement":"Path(test_meijerg_confluence(x), t(meijerg([], [1, 1], [0, 0], [], z), -log(z), 0); t(meijerg([], [3, 1], [0, 0], [], z), -z ** 2 / 4 + z - log(z) / 2 - Rational(3, 4), 0); t(meijerg([], [3, 1], [-1, 0], [], z), z ** 2 / 12 - z / 2 + log(z) / 2 + Rational(1, 4) + 1 / (6 * z), 0))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c0c23d133fa3b808","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["t(meijerg([], [1, 1], [0, 0], [], z), -log(z), 0)","t(meijerg([], [3, 1], [0, 0], [], z), -z ** 2 / 4 + z - log(z) / 2 - Rational(3, 4), 0)","t(meijerg([], [3, 1], [-1, 0], [], z), z ** 2 / 12 - z / 2 + log(z) / 2 + Rational(1, 4) + 1 / (6 * z), 0)","t(meijerg([], [1, 1, 1, 1], [0, 0, 0, 0], [], z), -log(z) ** 3 / 6, 0)","t(meijerg([1, 1], [], [], [0, 0], z), 0, -log(1 / z))","t(meijerg([1, 1], [2, 2], [1, 1], [0, 0], z), -z * log(z) + 2 * z, -log(1 / z) + 2)","t(meijerg([S.Half], [1, 1], [0, 0], [Rational(3, 2)], z), log(z) / 2 - 1, 0)","u([], [1], [0, 0], [])","u([1, 1], [], [], [0])","u([1, 1], [2, 2, 5], [1, 1, 6], [0, 0])","u([1, 1], [2, 2, 5], [1, 1, 6], [0])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"assumed","binding":true}}
 def test_meijerg_confluence():
     def t(m, a, b):
         from sympy.core.sympify import sympify
@@ -879,16 +1068,22 @@ def test_meijerg_confluence():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_meijerg_with_Floats(), test_meijerg_with_Floats produces the expected output) over Any ║
+# ║ Path(test_meijerg_with_Floats(), RR.almosteq((hyperexpand(f) / g).n(), 1.0, 1e-12)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_meijerg_with_Floats : Any → {Any | RR.almosteq((...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  RR.almosteq((hyperexpand(f) / g).n(), 1.0...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_meijerg_with_Floats : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 429bc8ddc28f68b0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ab097afce7935707  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_hyperexpand.test_meijerg_with_Floats","kind":"function","src_hash":"51e9dee7c3b1b9b8","in":{"base":"Any"},"out":{"base":"Any","pred":"RR.almosteq((hyperexpand(f) / g).n(), 1.0, 1e-12)"},"spec":{"lhs":"test_meijerg_with_Floats()","rhs":"test_meijerg_with_Floats produces the expected output","over":{"base":"Any"},"name":"test_meijerg_with_Floats_correct"},"guarantee":"test_meijerg_with_Floats produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_hyperexpand.test_meijerg_with_Floats_correct","statement":"Path(test_meijerg_with_Floats(x), test_meijerg_with_Floats produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"429bc8ddc28f68b0"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_hyperexpand.test_meijerg_with_Floats","kind":"function","src_hash":"51e9dee7c3b1b9b8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: RR.almosteq((hyperexpand(f) / g).n(), 1.0, 1e-12)"},"spec":{"lhs":"test_meijerg_with_Floats()","rhs":"RR.almosteq((hyperexpand(f) / g).n(), 1.0, 1e-12)","over":{"base":"Any"},"name":"test_meijerg_with_Floats_correct"},"guarantee":"RR.almosteq((hyperexpand(f) / g).n(), 1.0, 1e-12)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_hyperexpand.test_meijerg_with_Floats_correct","statement":"Path(test_meijerg_with_Floats(x), RR.almosteq((hyperexpand(f) / g).n(), 1.0, 1e-12))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ab097afce7935707","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["RR.almosteq((hyperexpand(f) / g).n(), 1.0, 1e-12)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_meijerg_with_Floats():
     # see issue #10681
     from sympy.polys.domains.realfield import RR
@@ -899,16 +1094,24 @@ def test_meijerg_with_Floats():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_lerchphi(), test_lerchphi produces the expected output) over Any ║
+# ║ Path(test_lerchphi(), hyperexpand(hyper([1, a], [a + 1], z) / a) == lerchphi(z, 1, a) and hyperexpand(hyper([1, a, a], [a + 1, a + 1], z) / a ** 2) == lerchphi(z, 2, a) and hyperexpand(hyper([1, a, a, a], [a + 1, a + 1, a + 1], z) / a ** 3) == lerchphi(z, 3, a) and hyperexpand(hyper([1] + [a] * 10, [a + 1] * 10, z) / a ** 10) == lerchphi(z, 10, a) and gammasimp(hyperexpand(meijerg([0, 1 - a], [], [0], [-a], exp_polar(-I * pi) * z))) == lerchphi(z, 1, a) and gammasimp(hyperexpand(meijerg([0, 1 - a, 1 - a], [], [0], [-a, -a], exp_polar(-I * pi) * z))) == lerchphi(z, 2, a) and gammasimp(hyperexpand(meijerg([0, 1 - a, 1 - a, 1 - a], [], [0], [-a, -a, -a], exp_polar(-I * pi) * z))) == lerchphi(z, 3, a) and hyperexpand(z * hyper([1, 1], [2], z)) == -log(1 + -z) and hyperexpand(z * hyper([1, 1, 1], [2, 2], z)) == polylog(2, z) and hyperexpand(z * hyper([1, 1, 1, 1], [2, 2, 2], z)) == polylog(3, z) and hyperexpand(hyper([1, a, 1 + S.Half], [a + 1, S.Half], z)) == -2 * a / (z - 1) + (-2 * a ** 2 + a) * lerchphi(z, 1, a) and can_do([2, 2, 2], [1, 1]) and can_do([1, 1, 1, b + 5], [2, 2, b], div=10) and can_do([1, a, a, a, b + 5], [a + 1, a + 1, a + 1, b], numerical=False) and hyperexpand(hyper([S.Half, S.Half, S.Half, 1], [Rational(3, 2), Rational(3, 2), Rational(3, 2)], Rational(1, 4))) == Abs(-polylog(3, exp_polar(I * pi) / 2) + polylog(3, S.Half))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_lerchphi : Any → {Any | hyperexpand(hyper([1, a]...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  hyperexpand(hyper([1, a], [a + 1], z) / a...   ║
+# ║   ensures:  hyperexpand(hyper([1, a, a], [a + 1, a + ...   ║
+# ║   ensures:  hyperexpand(hyper([1, a, a, a], [a + 1, a...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_lerchphi : Any → {Any | result satisfies: hypere...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4b2917ccfaa64888  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6be9b41654190e9c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_hyperexpand.test_lerchphi","kind":"function","src_hash":"3c218c22456721cc","in":{"base":"Any"},"out":{"base":"Any","pred":"hyperexpand(hyper([1, a], [a + 1], z) / a) == lerchphi(z, 1, a) and hyperexpand(hyper([1, a, a], [a + 1, a + 1], z) / a ** 2) == lerchphi(z, 2, a) and hyperexpand(z * hyper([1, 1], [2], z)) == -log(1 + -z) and hyperexpand(z * hyper([1, 1, 1], [2, 2], z)) == polylog(2, z) and hyperexpand(z * hyper([1, 1, 1, 1], [2, 2, 2], z)) == polylog(3, z) and can_do([2, 2, 2], [1, 1]) and can_do([1, 1, 1, b + 5], [2, 2, b], div=10) and can_do([1, a, a, a, b + 5], [a + 1, a + 1, a + 1, b], numerical=False)"},"spec":{"lhs":"test_lerchphi()","rhs":"test_lerchphi produces the expected output","over":{"base":"Any"},"name":"test_lerchphi_correct"},"guarantee":"test_lerchphi produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_hyperexpand.test_lerchphi_correct","statement":"Path(test_lerchphi(x), test_lerchphi produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4b2917ccfaa64888"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_hyperexpand.test_lerchphi","kind":"function","src_hash":"3c218c22456721cc","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: hyperexpand(hyper([1, a], [a + 1], z) / a) == lerchphi(z, 1, a) and hyperexpand(hyper([1, a, a], [a + 1, a + 1], z) / a ** 2) == lerchphi(z, 2, a) and hyperexpand(hyper([1, a, a, a], [a + 1, a + 1, a + 1], z) / a ** 3) == lerchphi(z, 3, a) and hyperexpand(hyper([1] + [a] * 10, [a + 1] * 10, z) / a ** 10) == lerchphi(z, 10, a) and gammasimp(hyperexpand(meijerg([0, 1 - a], [], [0], [-a], exp_polar(-I * pi) * z))) == lerchphi(z, 1, a) and gammasimp(hyperexpand(meijerg([0, 1 - a, 1 - a], [], [0], [-a, -a], exp_polar(-I * pi) * z))) == lerchphi(z, 2, a) and gammasimp(hyperexpand(meijerg([0, 1 - a, 1 - a, 1 - a], [], [0], [-a, -a, -a], exp_polar(-I * pi) * z))) == lerchphi(z, 3, a) and hyperexpand(z * hyper([1, 1], [2], z)) == -log(1 + -z) and hyperexpand(z * hyper([1, 1, 1], [2, 2], z)) == polylog(2, z) and hyperexpand(z * hyper([1, 1, 1, 1], [2, 2, 2], z)) == polylog(3, z) and hyperexpand(hyper([1, a, 1 + S.Half], [a + 1, S.Half], z)) == -2 * a / (z - 1) + (-2 * a ** 2 + a) * lerchphi(z, 1, a) and can_do([2, 2, 2], [1, 1]) and can_do([1, 1, 1, b + 5], [2, 2, b], div=10) and can_do([1, a, a, a, b + 5], [a + 1, a + 1, a + 1, b], numerical=False) and hyperexpand(hyper([S.Half, S.Half, S.Half, 1], [Rational(3, 2), Rational(3, 2), Rational(3, 2)], Rational(1, 4))) == Abs(-polylog(3, exp_polar(I * pi) / 2) + polylog(3, S.Half))"},"spec":{"lhs":"test_lerchphi()","rhs":"hyperexpand(hyper([1, a], [a + 1], z) / a) == lerchphi(z, 1, a) and hyperexpand(hyper([1, a, a], [a + 1, a + 1], z) / a ** 2) == lerchphi(z, 2, a) and hyperexpand(hyper([1, a, a, a], [a + 1, a + 1, a + 1], z) / a ** 3) == lerchphi(z, 3, a) and hyperexpand(hyper([1] + [a] * 10, [a + 1] * 10, z) / a ** 10) == lerchphi(z, 10, a) and gammasimp(hyperexpand(meijerg([0, 1 - a], [], [0], [-a], exp_polar(-I * pi) * z))) == lerchphi(z, 1, a) and gammasimp(hyperexpand(meijerg([0, 1 - a, 1 - a], [], [0], [-a, -a], exp_polar(-I * pi) * z))) == lerchphi(z, 2, a) and gammasimp(hyperexpand(meijerg([0, 1 - a, 1 - a, 1 - a], [], [0], [-a, -a, -a], exp_polar(-I * pi) * z))) == lerchphi(z, 3, a) and hyperexpand(z * hyper([1, 1], [2], z)) == -log(1 + -z) and hyperexpand(z * hyper([1, 1, 1], [2, 2], z)) == polylog(2, z) and hyperexpand(z * hyper([1, 1, 1, 1], [2, 2, 2], z)) == polylog(3, z) and hyperexpand(hyper([1, a, 1 + S.Half], [a + 1, S.Half], z)) == -2 * a / (z - 1) + (-2 * a ** 2 + a) * lerchphi(z, 1, a) and can_do([2, 2, 2], [1, 1]) and can_do([1, 1, 1, b + 5], [2, 2, b], div=10) and can_do([1, a, a, a, b + 5], [a + 1, a + 1, a + 1, b], numerical=False) and hyperexpand(hyper([S.Half, S.Half, S.Half, 1], [Rational(3, 2), Rational(3, 2), Rational(3, 2)], Rational(1, 4))) == Abs(-polylog(3, exp_polar(I * pi) / 2) + polylog(3, S.Half))","over":{"base":"Any"},"name":"test_lerchphi_correct"},"guarantee":"hyperexpand(hyper([1, a], [a + 1], z) / a) == lerchphi(z, 1, a); hyperexpand(hyper([1, a, a], [a + 1, a + 1], z) / a ** 2) == lerchphi(z, 2, a); hyperexpand(hyper([1, a, a, a], [a + 1, a + 1, a + 1], z) / a ** 3) == lerchphi(z, 3, a)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_hyperexpand.test_lerchphi_correct","statement":"Path(test_lerchphi(x), hyperexpand(hyper([1, a], [a + 1], z) / a) == lerchphi(z, 1, a); hyperexpand(hyper([1, a, a], [a + 1, a + 1], z) / a ** 2) == lerchphi(z, 2, a); hyperexpand(hyper([1, a, a, a], [a + 1, a + 1, a + 1], z) / a ** 3) == lerchphi(z, 3, a))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6be9b41654190e9c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["hyperexpand(hyper([1, a], [a + 1], z) / a) == lerchphi(z, 1, a)","hyperexpand(hyper([1, a, a], [a + 1, a + 1], z) / a ** 2) == lerchphi(z, 2, a)","hyperexpand(hyper([1, a, a, a], [a + 1, a + 1, a + 1], z) / a ** 3) == lerchphi(z, 3, a)","hyperexpand(hyper([1] + [a] * 10, [a + 1] * 10, z) / a ** 10) == lerchphi(z, 10, a)","gammasimp(hyperexpand(meijerg([0, 1 - a], [], [0], [-a], exp_polar(-I * pi) * z))) == lerchphi(z, 1, a)","gammasimp(hyperexpand(meijerg([0, 1 - a, 1 - a], [], [0], [-a, -a], exp_polar(-I * pi) * z))) == lerchphi(z, 2, a)","gammasimp(hyperexpand(meijerg([0, 1 - a, 1 - a, 1 - a], [], [0], [-a, -a, -a], exp_polar(-I * pi) * z))) == lerchphi(z, 3, a)","hyperexpand(z * hyper([1, 1], [2], z)) == -log(1 + -z)","hyperexpand(z * hyper([1, 1, 1], [2, 2], z)) == polylog(2, z)","hyperexpand(z * hyper([1, 1, 1, 1], [2, 2, 2], z)) == polylog(3, z)","hyperexpand(hyper([1, a, 1 + S.Half], [a + 1, S.Half], z)) == -2 * a / (z - 1) + (-2 * a ** 2 + a) * lerchphi(z, 1, a)","can_do([2, 2, 2], [1, 1])","can_do([1, 1, 1, b + 5], [2, 2, b], div=10)","can_do([1, a, a, a, b + 5], [a + 1, a + 1, a + 1, b], numerical=False)","hyperexpand(hyper([S.Half, S.Half, S.Half, 1], [Rational(3, 2), Rational(3, 2), Rational(3, 2)], Rational(1, 4))) == Abs(-polylog(3, exp_polar(I * pi) / 2) + polylog(3, S.Half))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":true}}
 def test_lerchphi():
     from sympy.functions.special.zeta_functions import (lerchphi, polylog)
     from sympy.simplify.gammasimp import gammasimp
@@ -956,16 +1159,24 @@ def test_lerchphi():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_partial_simp(), test_partial_simp produces the expected output) over Any ║
+# ║ Path(test_partial_simp(), hyperexpand(hyper([3, a], [1, b], z)) == (-a * b / 2 + a * z / 2 + 2 * a) * hyper([a + 1], [b], z) + (a * b / 2 - 2 * a + 1) * hyper([a], [b], z) and tn(hyperexpand(hyper([3, d], [1, e], z)), hyper([3, d], [1, e], z), z) and hyperexpand(hyper([3], [1, a, b], z)) == hyper((), (a, b), z) + z * hyper((), (a + 1, b), z) / (2 * a) - z * (b - 4) * hyper((), (a + 1, b + 1), z) / (2 * a * b) and tn(hyperexpand(hyper([3], [1, d, e], z)), hyper([3], [1, d, e], z), z)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_partial_simp : Any → {Any | tn(hyperexpand(hyper...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  hyperexpand(hyper([3, a], [1, b], z)) == ...   ║
+# ║   ensures:  tn(hyperexpand(hyper([3, d], [1, e], z)),...   ║
+# ║   ensures:  hyperexpand(hyper([3], [1, a, b], z)) == ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_partial_simp : Any → {Any | result satisfies: hy...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0ee4fb7c9ab76138  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 44838fbc7d728d45  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_hyperexpand.test_partial_simp","kind":"function","src_hash":"c38435cef6b9f178","in":{"base":"Any"},"out":{"base":"Any","pred":"tn(hyperexpand(hyper([3, d], [1, e], z)), hyper([3, d], [1, e], z), z) and tn(hyperexpand(hyper([3], [1, d, e], z)), hyper([3], [1, d, e], z), z) and f.closed_form == func(z) and tn(func1, func2, z)"},"spec":{"lhs":"test_partial_simp()","rhs":"test_partial_simp produces the expected output","over":{"base":"Any"},"name":"test_partial_simp_correct"},"guarantee":"test_partial_simp produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_hyperexpand.test_partial_simp_correct","statement":"Path(test_partial_simp(x), test_partial_simp produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0ee4fb7c9ab76138"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_hyperexpand.test_partial_simp","kind":"function","src_hash":"c38435cef6b9f178","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: hyperexpand(hyper([3, a], [1, b], z)) == (-a * b / 2 + a * z / 2 + 2 * a) * hyper([a + 1], [b], z) + (a * b / 2 - 2 * a + 1) * hyper([a], [b], z) and tn(hyperexpand(hyper([3, d], [1, e], z)), hyper([3, d], [1, e], z), z) and hyperexpand(hyper([3], [1, a, b], z)) == hyper((), (a, b), z) + z * hyper((), (a + 1, b), z) / (2 * a) - z * (b - 4) * hyper((), (a + 1, b + 1), z) / (2 * a * b) and tn(hyperexpand(hyper([3], [1, d, e], z)), hyper([3], [1, d, e], z), z)"},"spec":{"lhs":"test_partial_simp()","rhs":"hyperexpand(hyper([3, a], [1, b], z)) == (-a * b / 2 + a * z / 2 + 2 * a) * hyper([a + 1], [b], z) + (a * b / 2 - 2 * a + 1) * hyper([a], [b], z) and tn(hyperexpand(hyper([3, d], [1, e], z)), hyper([3, d], [1, e], z), z) and hyperexpand(hyper([3], [1, a, b], z)) == hyper((), (a, b), z) + z * hyper((), (a + 1, b), z) / (2 * a) - z * (b - 4) * hyper((), (a + 1, b + 1), z) / (2 * a * b) and tn(hyperexpand(hyper([3], [1, d, e], z)), hyper([3], [1, d, e], z), z)","over":{"base":"Any"},"name":"test_partial_simp_correct"},"guarantee":"hyperexpand(hyper([3, a], [1, b], z)) == (-a * b / 2 + a * z / 2 + 2 * a) * hyper([a + 1], [b], z) + (a * b / 2 - 2 * a + 1) * hyper([a], [b], z); tn(hyperexpand(hyper([3, d], [1, e], z)), hyper([3, d], [1, e], z), z); hyperexpand(hyper([3], [1, a, b], z)) == hyper((), (a, b), z) + z * hyper((), (a + 1, b), z) / (2 * a) - z * (b - 4) * hyper((), (a + 1, b + 1), z) / (2 * a * b)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_hyperexpand.test_partial_simp_correct","statement":"Path(test_partial_simp(x), hyperexpand(hyper([3, a], [1, b], z)) == (-a * b / 2 + a * z / 2 + 2 * a) * hyper([a + 1], [b], z) + (a * b / 2 - 2 * a + 1) * hyper([a], [b], z); tn(hyperexpand(hyper([3, d], [1, e], z)), hyper([3, d], [1, e], z), z); hyperexpand(hyper([3], [1, a, b], z)) == hyper((), (a, b), z) + z * hyper((), (a + 1, b), z) / (2 * a) - z * (b - 4) * hyper((), (a + 1, b + 1), z) / (2 * a * b))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"44838fbc7d728d45","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["hyperexpand(hyper([3, a], [1, b], z)) == (-a * b / 2 + a * z / 2 + 2 * a) * hyper([a + 1], [b], z) + (a * b / 2 - 2 * a + 1) * hyper([a], [b], z)","tn(hyperexpand(hyper([3, d], [1, e], z)), hyper([3, d], [1, e], z), z)","hyperexpand(hyper([3], [1, a, b], z)) == hyper((), (a, b), z) + z * hyper((), (a + 1, b), z) / (2 * a) - z * (b - 4) * hyper((), (a + 1, b + 1), z) / (2 * a * b)","tn(hyperexpand(hyper([3], [1, d, e], z)), hyper([3], [1, d, e], z), z)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_partial_simp():
     # First test that hypergeometric function formulae work.
     a, b, c, d, e = (randcplx() for _ in range(5))
@@ -995,16 +1206,24 @@ def test_partial_simp():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_hyperexpand_special(), test_hyperexpand_special produces the expected output) over Any ║
+# ║ Path(test_hyperexpand_special(), hyperexpand(hyper([a, b], [c], 1)) == gamma(c) * gamma(c - a - b) / gamma(c - a) / gamma(c - b) and hyperexpand(hyper([a, b], [1 + a - b], -1)) == gamma(1 + a / 2) * gamma(1 + a - b) / gamma(1 + a) / gamma(1 + a / 2 - b) and hyperexpand(hyper([a, b], [1 + b - a], -1)) == gamma(1 + b / 2) * gamma(1 + b - a) / gamma(1 + b) / gamma(1 + b / 2 - a) and hyperexpand(meijerg([1 - z - a / 2], [1 - z + a / 2], [b / 2], [-b / 2], 1)) == gamma(1 - 2 * z) * gamma(z + a / 2 + b / 2) / gamma(1 - z + a / 2 - b / 2) / gamma(1 - z - a / 2 + b / 2) / gamma(1 - z + a / 2 + b / 2) and hyperexpand(hyper([a], [b], 0)) == 1 and hyper([a], [b], 0) != 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_hyperexpand_special : Any → {Any | hyperexpand(h...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  hyperexpand(hyper([a, b], [c], 1)) == gam...   ║
+# ║   ensures:  hyperexpand(hyper([a, b], [1 + a - b], -1...   ║
+# ║   ensures:  hyperexpand(hyper([a, b], [1 + b - a], -1...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_hyperexpand_special : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4cb9db7222294e0e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d65da78aa1fe6b2b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_hyperexpand.test_hyperexpand_special","kind":"function","src_hash":"a962b02c436c4b1c","in":{"base":"Any"},"out":{"base":"Any","pred":"hyperexpand(hyper([a], [b], 0)) == 1 and hyper([a], [b], 0) != 0"},"spec":{"lhs":"test_hyperexpand_special()","rhs":"test_hyperexpand_special produces the expected output","over":{"base":"Any"},"name":"test_hyperexpand_special_correct"},"guarantee":"test_hyperexpand_special produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_hyperexpand.test_hyperexpand_special_correct","statement":"Path(test_hyperexpand_special(x), test_hyperexpand_special produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4cb9db7222294e0e"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_hyperexpand.test_hyperexpand_special","kind":"function","src_hash":"a962b02c436c4b1c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: hyperexpand(hyper([a, b], [c], 1)) == gamma(c) * gamma(c - a - b) / gamma(c - a) / gamma(c - b) and hyperexpand(hyper([a, b], [1 + a - b], -1)) == gamma(1 + a / 2) * gamma(1 + a - b) / gamma(1 + a) / gamma(1 + a / 2 - b) and hyperexpand(hyper([a, b], [1 + b - a], -1)) == gamma(1 + b / 2) * gamma(1 + b - a) / gamma(1 + b) / gamma(1 + b / 2 - a) and hyperexpand(meijerg([1 - z - a / 2], [1 - z + a / 2], [b / 2], [-b / 2], 1)) == gamma(1 - 2 * z) * gamma(z + a / 2 + b / 2) / gamma(1 - z + a / 2 - b / 2) / gamma(1 - z - a / 2 + b / 2) / gamma(1 - z + a / 2 + b / 2) and hyperexpand(hyper([a], [b], 0)) == 1 and hyper([a], [b], 0) != 0"},"spec":{"lhs":"test_hyperexpand_special()","rhs":"hyperexpand(hyper([a, b], [c], 1)) == gamma(c) * gamma(c - a - b) / gamma(c - a) / gamma(c - b) and hyperexpand(hyper([a, b], [1 + a - b], -1)) == gamma(1 + a / 2) * gamma(1 + a - b) / gamma(1 + a) / gamma(1 + a / 2 - b) and hyperexpand(hyper([a, b], [1 + b - a], -1)) == gamma(1 + b / 2) * gamma(1 + b - a) / gamma(1 + b) / gamma(1 + b / 2 - a) and hyperexpand(meijerg([1 - z - a / 2], [1 - z + a / 2], [b / 2], [-b / 2], 1)) == gamma(1 - 2 * z) * gamma(z + a / 2 + b / 2) / gamma(1 - z + a / 2 - b / 2) / gamma(1 - z - a / 2 + b / 2) / gamma(1 - z + a / 2 + b / 2) and hyperexpand(hyper([a], [b], 0)) == 1 and hyper([a], [b], 0) != 0","over":{"base":"Any"},"name":"test_hyperexpand_special_correct"},"guarantee":"hyperexpand(hyper([a, b], [c], 1)) == gamma(c) * gamma(c - a - b) / gamma(c - a) / gamma(c - b); hyperexpand(hyper([a, b], [1 + a - b], -1)) == gamma(1 + a / 2) * gamma(1 + a - b) / gamma(1 + a) / gamma(1 + a / 2 - b); hyperexpand(hyper([a, b], [1 + b - a], -1)) == gamma(1 + b / 2) * gamma(1 + b - a) / gamma(1 + b) / gamma(1 + b / 2 - a)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_hyperexpand.test_hyperexpand_special_correct","statement":"Path(test_hyperexpand_special(x), hyperexpand(hyper([a, b], [c], 1)) == gamma(c) * gamma(c - a - b) / gamma(c - a) / gamma(c - b); hyperexpand(hyper([a, b], [1 + a - b], -1)) == gamma(1 + a / 2) * gamma(1 + a - b) / gamma(1 + a) / gamma(1 + a / 2 - b); hyperexpand(hyper([a, b], [1 + b - a], -1)) == gamma(1 + b / 2) * gamma(1 + b - a) / gamma(1 + b) / gamma(1 + b / 2 - a))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d65da78aa1fe6b2b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["hyperexpand(hyper([a, b], [c], 1)) == gamma(c) * gamma(c - a - b) / gamma(c - a) / gamma(c - b)","hyperexpand(hyper([a, b], [1 + a - b], -1)) == gamma(1 + a / 2) * gamma(1 + a - b) / gamma(1 + a) / gamma(1 + a / 2 - b)","hyperexpand(hyper([a, b], [1 + b - a], -1)) == gamma(1 + b / 2) * gamma(1 + b - a) / gamma(1 + b) / gamma(1 + b / 2 - a)","hyperexpand(meijerg([1 - z - a / 2], [1 - z + a / 2], [b / 2], [-b / 2], 1)) == gamma(1 - 2 * z) * gamma(z + a / 2 + b / 2) / gamma(1 - z + a / 2 - b / 2) / gamma(1 - z - a / 2 + b / 2) / gamma(1 - z + a / 2 + b / 2)","hyperexpand(hyper([a], [b], 0)) == 1","hyper([a], [b], 0) != 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_hyperexpand_special():
     assert hyperexpand(hyper([a, b], [c], 1)) == \
         gamma(c)*gamma(c - a - b)/gamma(c - a)/gamma(c - b)
@@ -1020,16 +1239,22 @@ def test_hyperexpand_special():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Mod1_behavior(), test_Mod1_behavior produces the expected output) over Any ║
+# ║ Path(test_Mod1_behavior(), simplify(hyperexpand(meijerg([1], [], [n + 1], [0], z))) == lowergamma(n + 1, z)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Mod1_behavior : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  simplify(hyperexpand(meijerg([1], [], [n ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Mod1_behavior : Any → {Any | result satisfies: s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c5196cff09ed0552  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8eec07f30ebfcbb5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_hyperexpand.test_Mod1_behavior","kind":"function","src_hash":"dcb844a42776bb62","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_Mod1_behavior()","rhs":"test_Mod1_behavior produces the expected output","over":{"base":"Any"},"name":"test_Mod1_behavior_correct"},"guarantee":"test_Mod1_behavior produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_hyperexpand.test_Mod1_behavior_correct","statement":"Path(test_Mod1_behavior(x), test_Mod1_behavior produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c5196cff09ed0552"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_hyperexpand.test_Mod1_behavior","kind":"function","src_hash":"dcb844a42776bb62","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: simplify(hyperexpand(meijerg([1], [], [n + 1], [0], z))) == lowergamma(n + 1, z)"},"spec":{"lhs":"test_Mod1_behavior()","rhs":"simplify(hyperexpand(meijerg([1], [], [n + 1], [0], z))) == lowergamma(n + 1, z)","over":{"base":"Any"},"name":"test_Mod1_behavior_correct"},"guarantee":"simplify(hyperexpand(meijerg([1], [], [n + 1], [0], z))) == lowergamma(n + 1, z)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_hyperexpand.test_Mod1_behavior_correct","statement":"Path(test_Mod1_behavior(x), simplify(hyperexpand(meijerg([1], [], [n + 1], [0], z))) == lowergamma(n + 1, z))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8eec07f30ebfcbb5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["simplify(hyperexpand(meijerg([1], [], [n + 1], [0], z))) == lowergamma(n + 1, z)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Mod1_behavior():
     from sympy.core.symbol import Symbol
     from sympy.simplify.simplify import simplify
@@ -1041,16 +1266,24 @@ def test_Mod1_behavior():
 
 @slow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_prudnikov_misc(), test_prudnikov_misc produces the expected output) over Any ║
+# ║ Path(test_prudnikov_misc(), can_do([1, (3 + I) / 2, (3 - I) / 2], [Rational(3, 2), 2]) and can_do([S.Half, a - 1], [Rational(3, 2), a + 1], lowerplane=True) and can_do([], [b + 1]) and can_do([a], [a - 1, b + 1]) and can_do([a], [a - S.Half, 2 * a]) and can_do([a], [a - S.Half, 2 * a + 1]) and can_do([a], [a - S.Half, 2 * a - 1]) and can_do([a], [a + S.Half, 2 * a]) and can_do([a], [a + S.Half, 2 * a + 1]) and can_do([a], [a + S.Half, 2 * a - 1]) and can_do([S.Half], [b, 2 - b]) and can_do([S.Half], [b, 3 - b]) and can_do([1], [2, b]) and can_do([a, a + S.Half], [2 * a, b, 2 * a - b + 1]) and can_do([a, a + S.Half], [S.Half, 2 * a, 2 * a + S.Half]) and can_do([a], [a + 1], lowerplane=True)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_prudnikov_misc : Any → {Any | can_do([1, (3 + I)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  can_do([1, (3 + I) / 2, (3 - I) / 2], [Ra...   ║
+# ║   ensures:  can_do([S.Half, a - 1], [Rational(3, 2), ...   ║
+# ║   ensures:  can_do([], [b + 1])                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_prudnikov_misc : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1dd4aea49f402dfe  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f3053f47e5b7898f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_hyperexpand.test_prudnikov_misc","kind":"function","src_hash":"dee396f227809fd0","in":{"base":"Any"},"out":{"base":"Any","pred":"can_do([1, (3 + I) / 2, (3 - I) / 2], [Rational(3, 2), 2]) and can_do([S.Half, a - 1], [Rational(3, 2), a + 1], lowerplane=True) and can_do([], [b + 1]) and can_do([a], [a - 1, b + 1]) and can_do([a], [a - S.Half, 2 * a]) and can_do([a], [a - S.Half, 2 * a + 1]) and can_do([a], [a - S.Half, 2 * a - 1]) and can_do([a], [a + S.Half, 2 * a]) and can_do([a], [a + S.Half, 2 * a + 1]) and can_do([a], [a + S.Half, 2 * a - 1]) and can_do([S.Half], [b, 2 - b]) and can_do([S.Half], [b, 3 - b]) and can_do([1], [2, b]) and can_do([a, a + S.Half], [2 * a, b, 2 * a - b + 1]) and can_do([a, a + S.Half], [S.Half, 2 * a, 2 * a + S.Half]) and can_do([a], [a + 1], lowerplane=True)"},"spec":{"lhs":"test_prudnikov_misc()","rhs":"test_prudnikov_misc produces the expected output","over":{"base":"Any"},"name":"test_prudnikov_misc_correct"},"guarantee":"test_prudnikov_misc produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_hyperexpand.test_prudnikov_misc_correct","statement":"Path(test_prudnikov_misc(x), test_prudnikov_misc produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1dd4aea49f402dfe"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_hyperexpand.test_prudnikov_misc","kind":"function","src_hash":"dee396f227809fd0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: can_do([1, (3 + I) / 2, (3 - I) / 2], [Rational(3, 2), 2]) and can_do([S.Half, a - 1], [Rational(3, 2), a + 1], lowerplane=True) and can_do([], [b + 1]) and can_do([a], [a - 1, b + 1]) and can_do([a], [a - S.Half, 2 * a]) and can_do([a], [a - S.Half, 2 * a + 1]) and can_do([a], [a - S.Half, 2 * a - 1]) and can_do([a], [a + S.Half, 2 * a]) and can_do([a], [a + S.Half, 2 * a + 1]) and can_do([a], [a + S.Half, 2 * a - 1]) and can_do([S.Half], [b, 2 - b]) and can_do([S.Half], [b, 3 - b]) and can_do([1], [2, b]) and can_do([a, a + S.Half], [2 * a, b, 2 * a - b + 1]) and can_do([a, a + S.Half], [S.Half, 2 * a, 2 * a + S.Half]) and can_do([a], [a + 1], lowerplane=True)"},"spec":{"lhs":"test_prudnikov_misc()","rhs":"can_do([1, (3 + I) / 2, (3 - I) / 2], [Rational(3, 2), 2]) and can_do([S.Half, a - 1], [Rational(3, 2), a + 1], lowerplane=True) and can_do([], [b + 1]) and can_do([a], [a - 1, b + 1]) and can_do([a], [a - S.Half, 2 * a]) and can_do([a], [a - S.Half, 2 * a + 1]) and can_do([a], [a - S.Half, 2 * a - 1]) and can_do([a], [a + S.Half, 2 * a]) and can_do([a], [a + S.Half, 2 * a + 1]) and can_do([a], [a + S.Half, 2 * a - 1]) and can_do([S.Half], [b, 2 - b]) and can_do([S.Half], [b, 3 - b]) and can_do([1], [2, b]) and can_do([a, a + S.Half], [2 * a, b, 2 * a - b + 1]) and can_do([a, a + S.Half], [S.Half, 2 * a, 2 * a + S.Half]) and can_do([a], [a + 1], lowerplane=True)","over":{"base":"Any"},"name":"test_prudnikov_misc_correct"},"guarantee":"can_do([1, (3 + I) / 2, (3 - I) / 2], [Rational(3, 2), 2]); can_do([S.Half, a - 1], [Rational(3, 2), a + 1], lowerplane=True); can_do([], [b + 1])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_hyperexpand.test_prudnikov_misc_correct","statement":"Path(test_prudnikov_misc(x), can_do([1, (3 + I) / 2, (3 - I) / 2], [Rational(3, 2), 2]); can_do([S.Half, a - 1], [Rational(3, 2), a + 1], lowerplane=True); can_do([], [b + 1]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f3053f47e5b7898f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["can_do([1, (3 + I) / 2, (3 - I) / 2], [Rational(3, 2), 2])","can_do([S.Half, a - 1], [Rational(3, 2), a + 1], lowerplane=True)","can_do([], [b + 1])","can_do([a], [a - 1, b + 1])","can_do([a], [a - S.Half, 2 * a])","can_do([a], [a - S.Half, 2 * a + 1])","can_do([a], [a - S.Half, 2 * a - 1])","can_do([a], [a + S.Half, 2 * a])","can_do([a], [a + S.Half, 2 * a + 1])","can_do([a], [a + S.Half, 2 * a - 1])","can_do([S.Half], [b, 2 - b])","can_do([S.Half], [b, 3 - b])","can_do([1], [2, b])","can_do([a, a + S.Half], [2 * a, b, 2 * a - b + 1])","can_do([a, a + S.Half], [S.Half, 2 * a, 2 * a + S.Half])","can_do([a], [a + 1], lowerplane=True)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_prudnikov_misc():
     assert can_do([1, (3 + I)/2, (3 - I)/2], [Rational(3, 2), 2])
     assert can_do([S.Half, a - 1], [Rational(3, 2), a + 1], lowerplane=True)
@@ -1073,16 +1306,24 @@ def test_prudnikov_misc():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_prudnikov_1(), test_prudnikov_1 produces the expected output) over Any ║
+# ║ Path(test_prudnikov_1(), can_do([a, -a], [S.Half]) and can_do([a, 1 - a], [S.Half]) and can_do([a, 1 - a], [Rational(3, 2)]) and can_do([a, 2 - a], [S.Half]) and can_do([a, 2 - a], [Rational(3, 2)]) and can_do([a, a + S.Half], [2 * a - 1]) and can_do([a, a + S.Half], [2 * a]) and can_do([a, a + S.Half], [2 * a + 1]) and can_do([a, a + S.Half], [S.Half]) and can_do([a, a + S.Half], [Rational(3, 2)]) and can_do([a, a / 2 + 1], [a / 2]) and can_do([1, b], [2]) and can_do([1, b], [b + 1], numerical=False) and can_do([a], [2 * a]) and can_do([a], [2 * a + 1]) and can_do([a], [2 * a - 1])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_prudnikov_1 : Any → {Any | can_do([a, -a], [S.Ha...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  can_do([a, -a], [S.Half])                      ║
+# ║   ensures:  can_do([a, 1 - a], [S.Half])                   ║
+# ║   ensures:  can_do([a, 1 - a], [Rational(3, 2)])           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_prudnikov_1 : Any → {Any | result satisfies: can...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 97858a3e1cdcb254  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6940e93f6acb5cc3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_hyperexpand.test_prudnikov_1","kind":"function","src_hash":"512d1b9df92ea57e","in":{"base":"Any"},"out":{"base":"Any","pred":"can_do([a, -a], [S.Half]) and can_do([a, 1 - a], [S.Half]) and can_do([a, 1 - a], [Rational(3, 2)]) and can_do([a, 2 - a], [S.Half]) and can_do([a, 2 - a], [Rational(3, 2)]) and can_do([a, 2 - a], [Rational(3, 2)]) and can_do([a, a + S.Half], [2 * a - 1]) and can_do([a, a + S.Half], [2 * a]) and can_do([a, a + S.Half], [2 * a + 1]) and can_do([a, a + S.Half], [S.Half]) and can_do([a, a + S.Half], [Rational(3, 2)]) and can_do([a, a / 2 + 1], [a / 2]) and can_do([1, b], [2]) and can_do([1, b], [b + 1], numerical=False) and can_do([a], [2 * a]) and can_do([a], [2 * a + 1]) and can_do([a], [2 * a - 1])"},"spec":{"lhs":"test_prudnikov_1()","rhs":"test_prudnikov_1 produces the expected output","over":{"base":"Any"},"name":"test_prudnikov_1_correct"},"guarantee":"test_prudnikov_1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_hyperexpand.test_prudnikov_1_correct","statement":"Path(test_prudnikov_1(x), test_prudnikov_1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"97858a3e1cdcb254"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_hyperexpand.test_prudnikov_1","kind":"function","src_hash":"512d1b9df92ea57e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: can_do([a, -a], [S.Half]) and can_do([a, 1 - a], [S.Half]) and can_do([a, 1 - a], [Rational(3, 2)]) and can_do([a, 2 - a], [S.Half]) and can_do([a, 2 - a], [Rational(3, 2)]) and can_do([a, a + S.Half], [2 * a - 1]) and can_do([a, a + S.Half], [2 * a]) and can_do([a, a + S.Half], [2 * a + 1]) and can_do([a, a + S.Half], [S.Half]) and can_do([a, a + S.Half], [Rational(3, 2)]) and can_do([a, a / 2 + 1], [a / 2]) and can_do([1, b], [2]) and can_do([1, b], [b + 1], numerical=False) and can_do([a], [2 * a]) and can_do([a], [2 * a + 1]) and can_do([a], [2 * a - 1])"},"spec":{"lhs":"test_prudnikov_1()","rhs":"can_do([a, -a], [S.Half]) and can_do([a, 1 - a], [S.Half]) and can_do([a, 1 - a], [Rational(3, 2)]) and can_do([a, 2 - a], [S.Half]) and can_do([a, 2 - a], [Rational(3, 2)]) and can_do([a, a + S.Half], [2 * a - 1]) and can_do([a, a + S.Half], [2 * a]) and can_do([a, a + S.Half], [2 * a + 1]) and can_do([a, a + S.Half], [S.Half]) and can_do([a, a + S.Half], [Rational(3, 2)]) and can_do([a, a / 2 + 1], [a / 2]) and can_do([1, b], [2]) and can_do([1, b], [b + 1], numerical=False) and can_do([a], [2 * a]) and can_do([a], [2 * a + 1]) and can_do([a], [2 * a - 1])","over":{"base":"Any"},"name":"test_prudnikov_1_correct"},"guarantee":"can_do([a, -a], [S.Half]); can_do([a, 1 - a], [S.Half]); can_do([a, 1 - a], [Rational(3, 2)])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_hyperexpand.test_prudnikov_1_correct","statement":"Path(test_prudnikov_1(x), can_do([a, -a], [S.Half]); can_do([a, 1 - a], [S.Half]); can_do([a, 1 - a], [Rational(3, 2)]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6940e93f6acb5cc3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["can_do([a, -a], [S.Half])","can_do([a, 1 - a], [S.Half])","can_do([a, 1 - a], [Rational(3, 2)])","can_do([a, 2 - a], [S.Half])","can_do([a, 2 - a], [Rational(3, 2)])","can_do([a, a + S.Half], [2 * a - 1])","can_do([a, a + S.Half], [2 * a])","can_do([a, a + S.Half], [2 * a + 1])","can_do([a, a + S.Half], [S.Half])","can_do([a, a + S.Half], [Rational(3, 2)])","can_do([a, a / 2 + 1], [a / 2])","can_do([1, b], [2])","can_do([1, b], [b + 1], numerical=False)","can_do([a], [2 * a])","can_do([a], [2 * a + 1])","can_do([a], [2 * a - 1])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_prudnikov_1():
     # A. P. Prudnikov, Yu. A. Brychkov and O. I. Marichev (1990).
     # Integrals and Series: More Special Functions, Vol. 3,.
@@ -1112,16 +1353,24 @@ def test_prudnikov_1():
 
 @slow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_prudnikov_2(), test_prudnikov_2 produces the expected output) over Any ║
+# ║ Path(test_prudnikov_2(), can_do([-h, -h], [h]) and can_do([-h, h], [3 * h]) and can_do([-h, h], [5 * h]) and can_do([-h, h], [7 * h]) and can_do([-h, 1], [h])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_prudnikov_2 : Any → {Any | can_do([-h, -h], [h])...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  can_do([-h, -h], [h])                          ║
+# ║   ensures:  can_do([-h, h], [3 * h])                       ║
+# ║   ensures:  can_do([-h, h], [5 * h])                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_prudnikov_2 : Any → {Any | result satisfies: can...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6ca6bbc5bccfc2ea  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 64bf00af6cbc2292  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_hyperexpand.test_prudnikov_2","kind":"function","src_hash":"9efcc3df7b715ef7","in":{"base":"Any"},"out":{"base":"Any","pred":"can_do([-h, -h], [h]) and can_do([-h, h], [3 * h]) and can_do([-h, h], [5 * h]) and can_do([-h, h], [7 * h]) and can_do([-h, 1], [h]) and can_do([p, n], [m]) and can_do([p, n], [m])"},"spec":{"lhs":"test_prudnikov_2()","rhs":"test_prudnikov_2 produces the expected output","over":{"base":"Any"},"name":"test_prudnikov_2_correct"},"guarantee":"test_prudnikov_2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_hyperexpand.test_prudnikov_2_correct","statement":"Path(test_prudnikov_2(x), test_prudnikov_2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6ca6bbc5bccfc2ea"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_hyperexpand.test_prudnikov_2","kind":"function","src_hash":"9efcc3df7b715ef7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: can_do([-h, -h], [h]) and can_do([-h, h], [3 * h]) and can_do([-h, h], [5 * h]) and can_do([-h, h], [7 * h]) and can_do([-h, 1], [h])"},"spec":{"lhs":"test_prudnikov_2()","rhs":"can_do([-h, -h], [h]) and can_do([-h, h], [3 * h]) and can_do([-h, h], [5 * h]) and can_do([-h, h], [7 * h]) and can_do([-h, 1], [h])","over":{"base":"Any"},"name":"test_prudnikov_2_correct"},"guarantee":"can_do([-h, -h], [h]); can_do([-h, h], [3 * h]); can_do([-h, h], [5 * h])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_hyperexpand.test_prudnikov_2_correct","statement":"Path(test_prudnikov_2(x), can_do([-h, -h], [h]); can_do([-h, h], [3 * h]); can_do([-h, h], [5 * h]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"64bf00af6cbc2292","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["can_do([-h, -h], [h])","can_do([-h, h], [3 * h])","can_do([-h, h], [5 * h])","can_do([-h, h], [7 * h])","can_do([-h, 1], [h])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_prudnikov_2():
     h = S.Half
     assert can_do([-h, -h], [h])
@@ -1140,16 +1389,24 @@ def test_prudnikov_2():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_prudnikov_3(), test_prudnikov_3 produces the expected output) over Any ║
+# ║ Path(test_prudnikov_3(), can_do([Rational(1, 4), Rational(3, 4)], [h]) and can_do([Rational(1, 4), Rational(3, 4)], [3 * h]) and can_do([Rational(1, 3), Rational(2, 3)], [3 * h]) and can_do([Rational(3, 4), Rational(5, 4)], [h]) and can_do([Rational(3, 4), Rational(5, 4)], [3 * h])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_prudnikov_3 : Any → {Any | can_do([Rational(1, 4...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  can_do([Rational(1, 4), Rational(3, 4)], ...   ║
+# ║   ensures:  can_do([Rational(1, 4), Rational(3, 4)], ...   ║
+# ║   ensures:  can_do([Rational(1, 3), Rational(2, 3)], ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_prudnikov_3 : Any → {Any | result satisfies: can...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 84d56a20e6cbdf06  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 96b0ac5b25763f76  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_hyperexpand.test_prudnikov_3","kind":"function","src_hash":"1e2e63cfe2a93391","in":{"base":"Any"},"out":{"base":"Any","pred":"can_do([Rational(1, 4), Rational(3, 4)], [h]) and can_do([Rational(1, 4), Rational(3, 4)], [3 * h]) and can_do([Rational(1, 3), Rational(2, 3)], [3 * h]) and can_do([Rational(3, 4), Rational(5, 4)], [h]) and can_do([Rational(3, 4), Rational(5, 4)], [3 * h])"},"spec":{"lhs":"test_prudnikov_3()","rhs":"test_prudnikov_3 produces the expected output","over":{"base":"Any"},"name":"test_prudnikov_3_correct"},"guarantee":"test_prudnikov_3 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_hyperexpand.test_prudnikov_3_correct","statement":"Path(test_prudnikov_3(x), test_prudnikov_3 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"84d56a20e6cbdf06"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_hyperexpand.test_prudnikov_3","kind":"function","src_hash":"1e2e63cfe2a93391","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: can_do([Rational(1, 4), Rational(3, 4)], [h]) and can_do([Rational(1, 4), Rational(3, 4)], [3 * h]) and can_do([Rational(1, 3), Rational(2, 3)], [3 * h]) and can_do([Rational(3, 4), Rational(5, 4)], [h]) and can_do([Rational(3, 4), Rational(5, 4)], [3 * h])"},"spec":{"lhs":"test_prudnikov_3()","rhs":"can_do([Rational(1, 4), Rational(3, 4)], [h]) and can_do([Rational(1, 4), Rational(3, 4)], [3 * h]) and can_do([Rational(1, 3), Rational(2, 3)], [3 * h]) and can_do([Rational(3, 4), Rational(5, 4)], [h]) and can_do([Rational(3, 4), Rational(5, 4)], [3 * h])","over":{"base":"Any"},"name":"test_prudnikov_3_correct"},"guarantee":"can_do([Rational(1, 4), Rational(3, 4)], [h]); can_do([Rational(1, 4), Rational(3, 4)], [3 * h]); can_do([Rational(1, 3), Rational(2, 3)], [3 * h])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_hyperexpand.test_prudnikov_3_correct","statement":"Path(test_prudnikov_3(x), can_do([Rational(1, 4), Rational(3, 4)], [h]); can_do([Rational(1, 4), Rational(3, 4)], [3 * h]); can_do([Rational(1, 3), Rational(2, 3)], [3 * h]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"96b0ac5b25763f76","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["can_do([Rational(1, 4), Rational(3, 4)], [h])","can_do([Rational(1, 4), Rational(3, 4)], [3 * h])","can_do([Rational(1, 3), Rational(2, 3)], [3 * h])","can_do([Rational(3, 4), Rational(5, 4)], [h])","can_do([Rational(3, 4), Rational(5, 4)], [3 * h])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_prudnikov_3():
     h = S.Half
     assert can_do([Rational(1, 4), Rational(3, 4)], [h])
@@ -1161,16 +1418,22 @@ def test_prudnikov_3():
 
 @tooslow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_prudnikov_3_slow(), test_prudnikov_3_slow produces the expected output) over Any ║
+# ║ Path(test_prudnikov_3_slow(), <unspecified:test_prudnikov_3_slow>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_prudnikov_3_slow : Any → {Any | can_do([p, m], [...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b34e0da291c946a0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_hyperexpand.test_prudnikov_3_slow","kind":"function","src_hash":"361b71435842f365","in":{"base":"Any"},"out":{"base":"Any","pred":"can_do([p, m], [n])"},"spec":{"lhs":"test_prudnikov_3_slow()","rhs":"test_prudnikov_3_slow produces the expected output","over":{"base":"Any"},"name":"test_prudnikov_3_slow_correct"},"guarantee":"test_prudnikov_3_slow produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_hyperexpand.test_prudnikov_3_slow_correct","statement":"Path(test_prudnikov_3_slow(x), test_prudnikov_3_slow produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b34e0da291c946a0"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_hyperexpand.test_prudnikov_3_slow","kind":"function","src_hash":"361b71435842f365","in":{"base":"Any"},"out":{"base":"Any","pred":"can_do([p, m], [n])"},"spec":{"lhs":"test_prudnikov_3_slow()","rhs":"<unspecified:test_prudnikov_3_slow>","over":{"base":"Any"},"name":"test_prudnikov_3_slow_correct"},"guarantee":"test_prudnikov_3_slow produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_hyperexpand.test_prudnikov_3_slow_correct","statement":"Path(test_prudnikov_3_slow(x), test_prudnikov_3_slow produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b34e0da291c946a0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_prudnikov_3_slow():
     # XXX: This is marked as tooslow and hence skipped in CI. None of the
     # individual cases below fails or hangs. Some cases are slow and the loops
@@ -1185,16 +1448,22 @@ def test_prudnikov_3_slow():
 
 @slow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_prudnikov_4(), test_prudnikov_4 produces the expected output) over Any ║
+# ║ Path(test_prudnikov_4(), <unspecified:test_prudnikov_4>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_prudnikov_4 : Any → {Any | can_do([p, m], [n]) a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3b276e475d0e9e08  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_hyperexpand.test_prudnikov_4","kind":"function","src_hash":"d90da4b5e2f3982e","in":{"base":"Any"},"out":{"base":"Any","pred":"can_do([p, m], [n]) and can_do([p, m], [n])"},"spec":{"lhs":"test_prudnikov_4()","rhs":"test_prudnikov_4 produces the expected output","over":{"base":"Any"},"name":"test_prudnikov_4_correct"},"guarantee":"test_prudnikov_4 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_hyperexpand.test_prudnikov_4_correct","statement":"Path(test_prudnikov_4(x), test_prudnikov_4 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3b276e475d0e9e08"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_hyperexpand.test_prudnikov_4","kind":"function","src_hash":"d90da4b5e2f3982e","in":{"base":"Any"},"out":{"base":"Any","pred":"can_do([p, m], [n]) and can_do([p, m], [n])"},"spec":{"lhs":"test_prudnikov_4()","rhs":"<unspecified:test_prudnikov_4>","over":{"base":"Any"},"name":"test_prudnikov_4_correct"},"guarantee":"test_prudnikov_4 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_hyperexpand.test_prudnikov_4_correct","statement":"Path(test_prudnikov_4(x), test_prudnikov_4 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3b276e475d0e9e08","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_prudnikov_4():
     h = S.Half
     for p in [3*h, 5*h, 7*h]:
@@ -1208,16 +1477,22 @@ def test_prudnikov_4():
 
 @slow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_prudnikov_5(), test_prudnikov_5 produces the expected output) over Any ║
+# ║ Path(test_prudnikov_5(), <unspecified:test_prudnikov_5>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_prudnikov_5 : Any → {Any | can_do([-h, p, q], [r...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | faf554d4bcbeab3c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_hyperexpand.test_prudnikov_5","kind":"function","src_hash":"5f43f6d2945fc053","in":{"base":"Any"},"out":{"base":"Any","pred":"can_do([-h, p, q], [r, s]) and can_do([-h, p, q], [r, s]) and can_do([-h, p, q], [r, s])"},"spec":{"lhs":"test_prudnikov_5()","rhs":"test_prudnikov_5 produces the expected output","over":{"base":"Any"},"name":"test_prudnikov_5_correct"},"guarantee":"test_prudnikov_5 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_hyperexpand.test_prudnikov_5_correct","statement":"Path(test_prudnikov_5(x), test_prudnikov_5 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"faf554d4bcbeab3c"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_hyperexpand.test_prudnikov_5","kind":"function","src_hash":"5f43f6d2945fc053","in":{"base":"Any"},"out":{"base":"Any","pred":"can_do([-h, p, q], [r, s]) and can_do([-h, p, q], [r, s]) and can_do([-h, p, q], [r, s])"},"spec":{"lhs":"test_prudnikov_5()","rhs":"<unspecified:test_prudnikov_5>","over":{"base":"Any"},"name":"test_prudnikov_5_correct"},"guarantee":"test_prudnikov_5 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_hyperexpand.test_prudnikov_5_correct","statement":"Path(test_prudnikov_5(x), test_prudnikov_5 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"faf554d4bcbeab3c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_prudnikov_5():
     h = S.Half
 
@@ -1243,16 +1518,24 @@ def test_prudnikov_5():
 
 @slow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_prudnikov_6(), test_prudnikov_6 produces the expected output) over Any ║
+# ║ Path(test_prudnikov_6(), can_do([h, h, 5 * h], [3 * h, 3 * h]) and can_do([h, 1, 5 * h], [3 * h, 3 * h]) and can_do([h, 2, 2], [1, 3])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_prudnikov_6 : Any → {Any | can_do([h, h, 5 * h],...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  can_do([h, h, 5 * h], [3 * h, 3 * h])          ║
+# ║   ensures:  can_do([h, 1, 5 * h], [3 * h, 3 * h])          ║
+# ║   ensures:  can_do([h, 2, 2], [1, 3])                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_prudnikov_6 : Any → {Any | result satisfies: can...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 745ae28db57c3d2b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 921628110fecc8a0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_hyperexpand.test_prudnikov_6","kind":"function","src_hash":"b4f9d3f61ff883a1","in":{"base":"Any"},"out":{"base":"Any","pred":"can_do([h, h, 5 * h], [3 * h, 3 * h]) and can_do([h, 1, 5 * h], [3 * h, 3 * h]) and can_do([h, 2, 2], [1, 3]) and can_do([h, q, p], [m, n]) and can_do([h, q, p], [m, n]) and can_do([h, q, p], [m, n])"},"spec":{"lhs":"test_prudnikov_6()","rhs":"test_prudnikov_6 produces the expected output","over":{"base":"Any"},"name":"test_prudnikov_6_correct"},"guarantee":"test_prudnikov_6 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_hyperexpand.test_prudnikov_6_correct","statement":"Path(test_prudnikov_6(x), test_prudnikov_6 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"745ae28db57c3d2b"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_hyperexpand.test_prudnikov_6","kind":"function","src_hash":"b4f9d3f61ff883a1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: can_do([h, h, 5 * h], [3 * h, 3 * h]) and can_do([h, 1, 5 * h], [3 * h, 3 * h]) and can_do([h, 2, 2], [1, 3])"},"spec":{"lhs":"test_prudnikov_6()","rhs":"can_do([h, h, 5 * h], [3 * h, 3 * h]) and can_do([h, 1, 5 * h], [3 * h, 3 * h]) and can_do([h, 2, 2], [1, 3])","over":{"base":"Any"},"name":"test_prudnikov_6_correct"},"guarantee":"can_do([h, h, 5 * h], [3 * h, 3 * h]); can_do([h, 1, 5 * h], [3 * h, 3 * h]); can_do([h, 2, 2], [1, 3])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_hyperexpand.test_prudnikov_6_correct","statement":"Path(test_prudnikov_6(x), can_do([h, h, 5 * h], [3 * h, 3 * h]); can_do([h, 1, 5 * h], [3 * h, 3 * h]); can_do([h, 2, 2], [1, 3]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"921628110fecc8a0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["can_do([h, h, 5 * h], [3 * h, 3 * h])","can_do([h, 1, 5 * h], [3 * h, 3 * h])","can_do([h, 2, 2], [1, 3])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_prudnikov_6():
     h = S.Half
 
@@ -1280,16 +1563,22 @@ def test_prudnikov_6():
 
 @slow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_prudnikov_7(), test_prudnikov_7 produces the expected output) over Any ║
+# ║ Path(test_prudnikov_7(), can_do([3], [6])) over Any        ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_prudnikov_7 : Any → {Any | can_do([3], [6]) and ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  can_do([3], [6])                               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_prudnikov_7 : Any → {Any | result satisfies: can...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 072020761bdfe50d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4db51c98ea342e1f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_hyperexpand.test_prudnikov_7","kind":"function","src_hash":"87d94ac503fd7ffe","in":{"base":"Any"},"out":{"base":"Any","pred":"can_do([3], [6]) and can_do([-h], [n]) and can_do([m], [n])"},"spec":{"lhs":"test_prudnikov_7()","rhs":"test_prudnikov_7 produces the expected output","over":{"base":"Any"},"name":"test_prudnikov_7_correct"},"guarantee":"test_prudnikov_7 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_hyperexpand.test_prudnikov_7_correct","statement":"Path(test_prudnikov_7(x), test_prudnikov_7 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"072020761bdfe50d"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_hyperexpand.test_prudnikov_7","kind":"function","src_hash":"87d94ac503fd7ffe","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: can_do([3], [6])"},"spec":{"lhs":"test_prudnikov_7()","rhs":"can_do([3], [6])","over":{"base":"Any"},"name":"test_prudnikov_7_correct"},"guarantee":"can_do([3], [6])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_hyperexpand.test_prudnikov_7_correct","statement":"Path(test_prudnikov_7(x), can_do([3], [6]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4db51c98ea342e1f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["can_do([3], [6])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_prudnikov_7():
     assert can_do([3], [6])
 
@@ -1303,16 +1592,22 @@ def test_prudnikov_7():
 
 @slow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_prudnikov_8(), test_prudnikov_8 produces the expected output) over Any ║
+# ║ Path(test_prudnikov_8(), <unspecified:test_prudnikov_8>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_prudnikov_8 : Any → {Any | can_do([ai, bi], [ci,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3d4063931a207d2d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_hyperexpand.test_prudnikov_8","kind":"function","src_hash":"223aee856ee9138a","in":{"base":"Any"},"out":{"base":"Any","pred":"can_do([ai, bi], [ci, di]) and can_do([ai, bi], [ci, di]) and can_do([ai, bi], [ci, di]) and can_do([ai, bi], [ci, di])"},"spec":{"lhs":"test_prudnikov_8()","rhs":"test_prudnikov_8 produces the expected output","over":{"base":"Any"},"name":"test_prudnikov_8_correct"},"guarantee":"test_prudnikov_8 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_hyperexpand.test_prudnikov_8_correct","statement":"Path(test_prudnikov_8(x), test_prudnikov_8 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3d4063931a207d2d"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_hyperexpand.test_prudnikov_8","kind":"function","src_hash":"223aee856ee9138a","in":{"base":"Any"},"out":{"base":"Any","pred":"can_do([ai, bi], [ci, di]) and can_do([ai, bi], [ci, di]) and can_do([ai, bi], [ci, di]) and can_do([ai, bi], [ci, di])"},"spec":{"lhs":"test_prudnikov_8()","rhs":"<unspecified:test_prudnikov_8>","over":{"base":"Any"},"name":"test_prudnikov_8_correct"},"guarantee":"test_prudnikov_8 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_hyperexpand.test_prudnikov_8_correct","statement":"Path(test_prudnikov_8(x), test_prudnikov_8 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3d4063931a207d2d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_prudnikov_8():
     h = S.Half
 
@@ -1340,16 +1635,22 @@ def test_prudnikov_8():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_prudnikov_9(), test_prudnikov_9 produces the expected output) over Any ║
+# ║ Path(test_prudnikov_9(), <unspecified:test_prudnikov_9>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_prudnikov_9 : Any → {Any | can_do([], [(S(i) + 1...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 574bdda82577591c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_hyperexpand.test_prudnikov_9","kind":"function","src_hash":"3ad111ca005d41e4","in":{"base":"Any"},"out":{"base":"Any","pred":"can_do([], [(S(i) + 1) / 2]) and can_do([], [-(2 * S(i) + 1) / 2])"},"spec":{"lhs":"test_prudnikov_9()","rhs":"test_prudnikov_9 produces the expected output","over":{"base":"Any"},"name":"test_prudnikov_9_correct"},"guarantee":"test_prudnikov_9 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_hyperexpand.test_prudnikov_9_correct","statement":"Path(test_prudnikov_9(x), test_prudnikov_9 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"574bdda82577591c"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_hyperexpand.test_prudnikov_9","kind":"function","src_hash":"3ad111ca005d41e4","in":{"base":"Any"},"out":{"base":"Any","pred":"can_do([], [(S(i) + 1) / 2]) and can_do([], [-(2 * S(i) + 1) / 2])"},"spec":{"lhs":"test_prudnikov_9()","rhs":"<unspecified:test_prudnikov_9>","over":{"base":"Any"},"name":"test_prudnikov_9_correct"},"guarantee":"test_prudnikov_9 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_hyperexpand.test_prudnikov_9_correct","statement":"Path(test_prudnikov_9(x), test_prudnikov_9 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"574bdda82577591c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_prudnikov_9():
     # 7.13.1 [we have a general formula ... so this is a bit pointless]
     for i in range(9):
@@ -1360,16 +1661,22 @@ def test_prudnikov_9():
 
 @slow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_prudnikov_10(), test_prudnikov_10 produces the expected output) over Any ║
+# ║ Path(test_prudnikov_10(), can_do([Rational(-1, 2)], [S.Half, S.Half])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_prudnikov_10 : Any → {Any | can_do([Rational(-1,...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  can_do([Rational(-1, 2)], [S.Half, S.Half])    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_prudnikov_10 : Any → {Any | result satisfies: ca...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eef865575858c66e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 62848a5db2efb69f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_hyperexpand.test_prudnikov_10","kind":"function","src_hash":"a5a95bc52b6efcbe","in":{"base":"Any"},"out":{"base":"Any","pred":"can_do([Rational(-1, 2)], [S.Half, S.Half]) and can_do([7 * h], [5 * h, m]) and can_do([p], [h, m]) and can_do([p], [3 * h, m]) and can_do([p], [m, n]) and can_do([p], [n, m])"},"spec":{"lhs":"test_prudnikov_10()","rhs":"test_prudnikov_10 produces the expected output","over":{"base":"Any"},"name":"test_prudnikov_10_correct"},"guarantee":"test_prudnikov_10 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_hyperexpand.test_prudnikov_10_correct","statement":"Path(test_prudnikov_10(x), test_prudnikov_10 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eef865575858c66e"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_hyperexpand.test_prudnikov_10","kind":"function","src_hash":"a5a95bc52b6efcbe","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: can_do([Rational(-1, 2)], [S.Half, S.Half])"},"spec":{"lhs":"test_prudnikov_10()","rhs":"can_do([Rational(-1, 2)], [S.Half, S.Half])","over":{"base":"Any"},"name":"test_prudnikov_10_correct"},"guarantee":"can_do([Rational(-1, 2)], [S.Half, S.Half])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_hyperexpand.test_prudnikov_10_correct","statement":"Path(test_prudnikov_10(x), can_do([Rational(-1, 2)], [S.Half, S.Half]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"62848a5db2efb69f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["can_do([Rational(-1, 2)], [S.Half, S.Half])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_prudnikov_10():
     # 7.14.2
     h = S.Half
@@ -1395,16 +1702,24 @@ def test_prudnikov_10():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_prudnikov_11(), test_prudnikov_11 produces the expected output) over Any ║
+# ║ Path(test_prudnikov_11(), can_do([a, a + S.Half], [2 * a, b, 2 * a - b]) and can_do([a, a + S.Half], [Rational(3, 2), 2 * a, 2 * a - S.Half]) and can_do([Rational(1, 4), Rational(3, 4)], [S.Half, S.Half, 1]) and can_do([Rational(5, 4), Rational(3, 4)], [Rational(3, 2), S.Half, 2]) and can_do([Rational(5, 4), Rational(3, 4)], [Rational(3, 2), Rational(3, 2), 1]) and can_do([Rational(5, 4), Rational(7, 4)], [Rational(3, 2), Rational(5, 2), 2]) and can_do([1, 1], [Rational(3, 2), 2, 2])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_prudnikov_11 : Any → {Any | can_do([a, a + S.Hal...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  can_do([a, a + S.Half], [2 * a, b, 2 * a ...   ║
+# ║   ensures:  can_do([a, a + S.Half], [Rational(3, 2), ...   ║
+# ║   ensures:  can_do([Rational(1, 4), Rational(3, 4)], ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_prudnikov_11 : Any → {Any | result satisfies: ca...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e09fbb485b3ee686  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 176e3bca6347179a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_hyperexpand.test_prudnikov_11","kind":"function","src_hash":"1e33a6dd71e87c43","in":{"base":"Any"},"out":{"base":"Any","pred":"can_do([a, a + S.Half], [2 * a, b, 2 * a - b]) and can_do([a, a + S.Half], [Rational(3, 2), 2 * a, 2 * a - S.Half]) and can_do([Rational(1, 4), Rational(3, 4)], [S.Half, S.Half, 1]) and can_do([Rational(5, 4), Rational(3, 4)], [Rational(3, 2), S.Half, 2]) and can_do([Rational(5, 4), Rational(3, 4)], [Rational(3, 2), Rational(3, 2), 1]) and can_do([Rational(5, 4), Rational(7, 4)], [Rational(3, 2), Rational(5, 2), 2]) and can_do([1, 1], [Rational(3, 2), 2, 2])"},"spec":{"lhs":"test_prudnikov_11()","rhs":"test_prudnikov_11 produces the expected output","over":{"base":"Any"},"name":"test_prudnikov_11_correct"},"guarantee":"test_prudnikov_11 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_hyperexpand.test_prudnikov_11_correct","statement":"Path(test_prudnikov_11(x), test_prudnikov_11 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e09fbb485b3ee686"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_hyperexpand.test_prudnikov_11","kind":"function","src_hash":"1e33a6dd71e87c43","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: can_do([a, a + S.Half], [2 * a, b, 2 * a - b]) and can_do([a, a + S.Half], [Rational(3, 2), 2 * a, 2 * a - S.Half]) and can_do([Rational(1, 4), Rational(3, 4)], [S.Half, S.Half, 1]) and can_do([Rational(5, 4), Rational(3, 4)], [Rational(3, 2), S.Half, 2]) and can_do([Rational(5, 4), Rational(3, 4)], [Rational(3, 2), Rational(3, 2), 1]) and can_do([Rational(5, 4), Rational(7, 4)], [Rational(3, 2), Rational(5, 2), 2]) and can_do([1, 1], [Rational(3, 2), 2, 2])"},"spec":{"lhs":"test_prudnikov_11()","rhs":"can_do([a, a + S.Half], [2 * a, b, 2 * a - b]) and can_do([a, a + S.Half], [Rational(3, 2), 2 * a, 2 * a - S.Half]) and can_do([Rational(1, 4), Rational(3, 4)], [S.Half, S.Half, 1]) and can_do([Rational(5, 4), Rational(3, 4)], [Rational(3, 2), S.Half, 2]) and can_do([Rational(5, 4), Rational(3, 4)], [Rational(3, 2), Rational(3, 2), 1]) and can_do([Rational(5, 4), Rational(7, 4)], [Rational(3, 2), Rational(5, 2), 2]) and can_do([1, 1], [Rational(3, 2), 2, 2])","over":{"base":"Any"},"name":"test_prudnikov_11_correct"},"guarantee":"can_do([a, a + S.Half], [2 * a, b, 2 * a - b]); can_do([a, a + S.Half], [Rational(3, 2), 2 * a, 2 * a - S.Half]); can_do([Rational(1, 4), Rational(3, 4)], [S.Half, S.Half, 1])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_hyperexpand.test_prudnikov_11_correct","statement":"Path(test_prudnikov_11(x), can_do([a, a + S.Half], [2 * a, b, 2 * a - b]); can_do([a, a + S.Half], [Rational(3, 2), 2 * a, 2 * a - S.Half]); can_do([Rational(1, 4), Rational(3, 4)], [S.Half, S.Half, 1]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"176e3bca6347179a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["can_do([a, a + S.Half], [2 * a, b, 2 * a - b])","can_do([a, a + S.Half], [Rational(3, 2), 2 * a, 2 * a - S.Half])","can_do([Rational(1, 4), Rational(3, 4)], [S.Half, S.Half, 1])","can_do([Rational(5, 4), Rational(3, 4)], [Rational(3, 2), S.Half, 2])","can_do([Rational(5, 4), Rational(3, 4)], [Rational(3, 2), Rational(3, 2), 1])","can_do([Rational(5, 4), Rational(7, 4)], [Rational(3, 2), Rational(5, 2), 2])","can_do([1, 1], [Rational(3, 2), 2, 2])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_prudnikov_11():
     # 7.15
     assert can_do([a, a + S.Half], [2*a, b, 2*a - b])
@@ -1419,16 +1734,24 @@ def test_prudnikov_11():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_prudnikov_12(), test_prudnikov_12 produces the expected output) over Any ║
+# ║ Path(test_prudnikov_12(), can_do([], [a, a + S.Half, 2 * a], False) and can_do([], [a, a + S.Half, 2 * a + 1], False) and can_do([], [S.Half, a, a + S.Half]) and can_do([], [Rational(3, 2), a, a + S.Half]) and can_do([], [Rational(1, 4), S.Half, Rational(3, 4)]) and can_do([], [S.Half, S.Half, 1]) and can_do([], [S.Half, Rational(3, 2), 1]) and can_do([], [Rational(3, 4), Rational(3, 2), Rational(5, 4)]) and can_do([], [1, 1, Rational(3, 2)]) and can_do([], [1, 2, Rational(3, 2)]) and can_do([], [1, Rational(3, 2), Rational(3, 2)]) and can_do([], [Rational(5, 4), Rational(3, 2), Rational(7, 4)]) and can_do([], [2, Rational(3, 2), Rational(3, 2)])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_prudnikov_12 : Any → {Any | can_do([], [a, a + S...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  can_do([], [a, a + S.Half, 2 * a], False)      ║
+# ║   ensures:  can_do([], [a, a + S.Half, 2 * a + 1], Fa...   ║
+# ║   ensures:  can_do([], [S.Half, a, a + S.Half])            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_prudnikov_12 : Any → {Any | result satisfies: ca...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d07cc8de911c9ce7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 45a40f8cb895c22b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_hyperexpand.test_prudnikov_12","kind":"function","src_hash":"3a55572e94f97b36","in":{"base":"Any"},"out":{"base":"Any","pred":"can_do([], [a, a + S.Half, 2 * a], False) and can_do([], [a, a + S.Half, 2 * a + 1], False) and can_do([], [S.Half, a, a + S.Half]) and can_do([], [Rational(3, 2), a, a + S.Half]) and can_do([], [Rational(1, 4), S.Half, Rational(3, 4)]) and can_do([], [S.Half, S.Half, 1]) and can_do([], [S.Half, Rational(3, 2), 1]) and can_do([], [Rational(3, 4), Rational(3, 2), Rational(5, 4)]) and can_do([], [1, 1, Rational(3, 2)]) and can_do([], [1, 2, Rational(3, 2)]) and can_do([], [1, Rational(3, 2), Rational(3, 2)]) and can_do([], [Rational(5, 4), Rational(3, 2), Rational(7, 4)]) and can_do([], [2, Rational(3, 2), Rational(3, 2)])"},"spec":{"lhs":"test_prudnikov_12()","rhs":"test_prudnikov_12 produces the expected output","over":{"base":"Any"},"name":"test_prudnikov_12_correct"},"guarantee":"test_prudnikov_12 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_hyperexpand.test_prudnikov_12_correct","statement":"Path(test_prudnikov_12(x), test_prudnikov_12 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d07cc8de911c9ce7"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_hyperexpand.test_prudnikov_12","kind":"function","src_hash":"3a55572e94f97b36","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: can_do([], [a, a + S.Half, 2 * a], False) and can_do([], [a, a + S.Half, 2 * a + 1], False) and can_do([], [S.Half, a, a + S.Half]) and can_do([], [Rational(3, 2), a, a + S.Half]) and can_do([], [Rational(1, 4), S.Half, Rational(3, 4)]) and can_do([], [S.Half, S.Half, 1]) and can_do([], [S.Half, Rational(3, 2), 1]) and can_do([], [Rational(3, 4), Rational(3, 2), Rational(5, 4)]) and can_do([], [1, 1, Rational(3, 2)]) and can_do([], [1, 2, Rational(3, 2)]) and can_do([], [1, Rational(3, 2), Rational(3, 2)]) and can_do([], [Rational(5, 4), Rational(3, 2), Rational(7, 4)]) and can_do([], [2, Rational(3, 2), Rational(3, 2)])"},"spec":{"lhs":"test_prudnikov_12()","rhs":"can_do([], [a, a + S.Half, 2 * a], False) and can_do([], [a, a + S.Half, 2 * a + 1], False) and can_do([], [S.Half, a, a + S.Half]) and can_do([], [Rational(3, 2), a, a + S.Half]) and can_do([], [Rational(1, 4), S.Half, Rational(3, 4)]) and can_do([], [S.Half, S.Half, 1]) and can_do([], [S.Half, Rational(3, 2), 1]) and can_do([], [Rational(3, 4), Rational(3, 2), Rational(5, 4)]) and can_do([], [1, 1, Rational(3, 2)]) and can_do([], [1, 2, Rational(3, 2)]) and can_do([], [1, Rational(3, 2), Rational(3, 2)]) and can_do([], [Rational(5, 4), Rational(3, 2), Rational(7, 4)]) and can_do([], [2, Rational(3, 2), Rational(3, 2)])","over":{"base":"Any"},"name":"test_prudnikov_12_correct"},"guarantee":"can_do([], [a, a + S.Half, 2 * a], False); can_do([], [a, a + S.Half, 2 * a + 1], False); can_do([], [S.Half, a, a + S.Half])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_hyperexpand.test_prudnikov_12_correct","statement":"Path(test_prudnikov_12(x), can_do([], [a, a + S.Half, 2 * a], False); can_do([], [a, a + S.Half, 2 * a + 1], False); can_do([], [S.Half, a, a + S.Half]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"45a40f8cb895c22b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["can_do([], [a, a + S.Half, 2 * a], False)","can_do([], [a, a + S.Half, 2 * a + 1], False)","can_do([], [S.Half, a, a + S.Half])","can_do([], [Rational(3, 2), a, a + S.Half])","can_do([], [Rational(1, 4), S.Half, Rational(3, 4)])","can_do([], [S.Half, S.Half, 1])","can_do([], [S.Half, Rational(3, 2), 1])","can_do([], [Rational(3, 4), Rational(3, 2), Rational(5, 4)])","can_do([], [1, 1, Rational(3, 2)])","can_do([], [1, 2, Rational(3, 2)])","can_do([], [1, Rational(3, 2), Rational(3, 2)])","can_do([], [Rational(5, 4), Rational(3, 2), Rational(7, 4)])","can_do([], [2, Rational(3, 2), Rational(3, 2)])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_prudnikov_12():
     # 7.16
     assert can_do(
@@ -1450,16 +1773,22 @@ def test_prudnikov_12():
 
 @slow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_prudnikov_2F1(), test_prudnikov_2F1 produces the expected output) over Any ║
+# ║ Path(test_prudnikov_2F1(), <unspecified:test_prudnikov_2F1>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_prudnikov_2F1 : Any → {Any | can_do([p, m], [n])}     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dccb8c321da652ec  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_hyperexpand.test_prudnikov_2F1","kind":"function","src_hash":"aacde74f705bd771","in":{"base":"Any"},"out":{"base":"Any","pred":"can_do([p, m], [n])"},"spec":{"lhs":"test_prudnikov_2F1()","rhs":"test_prudnikov_2F1 produces the expected output","over":{"base":"Any"},"name":"test_prudnikov_2F1_correct"},"guarantee":"test_prudnikov_2F1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_hyperexpand.test_prudnikov_2F1_correct","statement":"Path(test_prudnikov_2F1(x), test_prudnikov_2F1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dccb8c321da652ec"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_hyperexpand.test_prudnikov_2F1","kind":"function","src_hash":"aacde74f705bd771","in":{"base":"Any"},"out":{"base":"Any","pred":"can_do([p, m], [n])"},"spec":{"lhs":"test_prudnikov_2F1()","rhs":"<unspecified:test_prudnikov_2F1>","over":{"base":"Any"},"name":"test_prudnikov_2F1_correct"},"guarantee":"test_prudnikov_2F1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_hyperexpand.test_prudnikov_2F1_correct","statement":"Path(test_prudnikov_2F1(x), test_prudnikov_2F1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dccb8c321da652ec","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_prudnikov_2F1():
     h = S.Half
     # Elliptic integrals
@@ -1471,16 +1800,24 @@ def test_prudnikov_2F1():
 
 @XFAIL
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_prudnikov_fail_2F1(), test_prudnikov_fail_2F1 produces the expected output) over Any ║
+# ║ Path(test_prudnikov_fail_2F1(), can_do([a, b], [b + 1]) and can_do([-1, b], [c]) and can_do([a, b], [a + b + S.Half]) and can_do([a, b], [a + b - S.Half]) and can_do([a, b], [a + b + Rational(3, 2)]) and can_do([a, b], [(a + b + 1) / 2]) and can_do([a, b], [(a + b) / 2 + 1]) and can_do([a, b], [a - b + 1]) and can_do([a, b], [a - b + 2]) and can_do([a, b], [2 * b]) and can_do([a, b], [S.Half]) and can_do([a, b], [Rational(3, 2)]) and can_do([a, 1 - a], [c]) and can_do([a, 2 - a], [c]) and can_do([a, 3 - a], [c]) and can_do([a, a + S.Half], [c]) and can_do([1, b], [c]) and can_do([1, b], [Rational(3, 2)]) and can_do([Rational(1, 4), Rational(3, 4)], [1]) and can_do([o / 8, 1], [o / 8 * 9]) and can_do([o / 6, 1], [o / 6 * 7]) and can_do([o / 6, 1], [o / 6 * 13]) and can_do([o / 5, 1], [o / 5 * 6]) and can_do([o / 5, 1], [o / 5 * 11]) and can_do([o / 4, 1], [o / 4 * 5]) and can_do([o / 4, 1], [o / 4 * 9]) and can_do([o / 3, 1], [o / 3 * 4]) and can_do([o / 3, 1], [o / 3 * 7]) and can_do([o / 8 * 3, 1], [o / 8 * 11]) and can_do([o / 5 * 2, 1], [o / 5 * 7]) and can_do([o / 5 * 2, 1], [o / 5 * 12]) and can_do([o / 5 * 3, 1], [o / 5 * 8]) and can_do([o / 5 * 3, 1], [o / 5 * 13]) and can_do([o / 8 * 5, 1], [o / 8 * 13]) and can_do([o / 4 * 3, 1], [o / 4 * 7]) and can_do([o / 4 * 3, 1], [o / 4 * 11]) and can_do([o / 3 * 2, 1], [o / 3 * 5]) and can_do([o / 3 * 2, 1], [o / 3 * 8]) and can_do([o / 5 * 4, 1], [o / 5 * 9]) and can_do([o / 5 * 4, 1], [o / 5 * 14]) and can_do([o / 6 * 5, 1], [o / 6 * 11]) and can_do([o / 6 * 5, 1], [o / 6 * 17]) and can_do([o / 8 * 7, 1], [o / 8 * 15])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_prudnikov_fail_2F1 : Any → {Any | can_do([a, b],...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  can_do([a, b], [b + 1])                        ║
+# ║   ensures:  can_do([-1, b], [c])                           ║
+# ║   ensures:  can_do([a, b], [a + b + S.Half])               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_prudnikov_fail_2F1 : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9445602f268eb4f8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 538986471c62f975  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_hyperexpand.test_prudnikov_fail_2F1","kind":"function","src_hash":"3fdf0585c7e7b3d9","in":{"base":"Any"},"out":{"base":"Any","pred":"can_do([a, b], [b + 1]) and can_do([-1, b], [c]) and can_do([a, b], [a + b + S.Half]) and can_do([a, b], [a + b - S.Half]) and can_do([a, b], [a + b + Rational(3, 2)]) and can_do([a, b], [(a + b + 1) / 2]) and can_do([a, b], [(a + b) / 2 + 1]) and can_do([a, b], [a - b + 1]) and can_do([a, b], [a - b + 2]) and can_do([a, b], [2 * b]) and can_do([a, b], [S.Half]) and can_do([a, b], [Rational(3, 2)]) and can_do([a, 1 - a], [c]) and can_do([a, 2 - a], [c]) and can_do([a, 3 - a], [c]) and can_do([a, a + S.Half], [c]) and can_do([1, b], [c]) and can_do([1, b], [Rational(3, 2)]) and can_do([Rational(1, 4), Rational(3, 4)], [1]) and can_do([o / 8, 1], [o / 8 * 9]) and can_do([o / 6, 1], [o / 6 * 7]) and can_do([o / 6, 1], [o / 6 * 13]) and can_do([o / 5, 1], [o / 5 * 6]) and can_do([o / 5, 1], [o / 5 * 11]) and can_do([o / 4, 1], [o / 4 * 5]) and can_do([o / 4, 1], [o / 4 * 9]) and can_do([o / 3, 1], [o / 3 * 4]) and can_do([o / 3, 1], [o / 3 * 7]) and can_do([o / 8 * 3, 1], [o / 8 * 11]) and can_do([o / 5 * 2, 1], [o / 5 * 7]) and can_do([o / 5 * 2, 1], [o / 5 * 12]) and can_do([o / 5 * 3, 1], [o / 5 * 8]) and can_do([o / 5 * 3, 1], [o / 5 * 13]) and can_do([o / 8 * 5, 1], [o / 8 * 13]) and can_do([o / 4 * 3, 1], [o / 4 * 7]) and can_do([o / 4 * 3, 1], [o / 4 * 11]) and can_do([o / 3 * 2, 1], [o / 3 * 5]) and can_do([o / 3 * 2, 1], [o / 3 * 8]) and can_do([o / 5 * 4, 1], [o / 5 * 9]) and can_do([o / 5 * 4, 1], [o / 5 * 14]) and can_do([o / 6 * 5, 1], [o / 6 * 11]) and can_do([o / 6 * 5, 1], [o / 6 * 17]) and can_do([o / 8 * 7, 1], [o / 8 * 15])"},"spec":{"lhs":"test_prudnikov_fail_2F1()","rhs":"test_prudnikov_fail_2F1 produces the expected output","over":{"base":"Any"},"name":"test_prudnikov_fail_2F1_correct"},"guarantee":"test_prudnikov_fail_2F1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_hyperexpand.test_prudnikov_fail_2F1_correct","statement":"Path(test_prudnikov_fail_2F1(x), test_prudnikov_fail_2F1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9445602f268eb4f8"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_hyperexpand.test_prudnikov_fail_2F1","kind":"function","src_hash":"3fdf0585c7e7b3d9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: can_do([a, b], [b + 1]) and can_do([-1, b], [c]) and can_do([a, b], [a + b + S.Half]) and can_do([a, b], [a + b - S.Half]) and can_do([a, b], [a + b + Rational(3, 2)]) and can_do([a, b], [(a + b + 1) / 2]) and can_do([a, b], [(a + b) / 2 + 1]) and can_do([a, b], [a - b + 1]) and can_do([a, b], [a - b + 2]) and can_do([a, b], [2 * b]) and can_do([a, b], [S.Half]) and can_do([a, b], [Rational(3, 2)]) and can_do([a, 1 - a], [c]) and can_do([a, 2 - a], [c]) and can_do([a, 3 - a], [c]) and can_do([a, a + S.Half], [c]) and can_do([1, b], [c]) and can_do([1, b], [Rational(3, 2)]) and can_do([Rational(1, 4), Rational(3, 4)], [1]) and can_do([o / 8, 1], [o / 8 * 9]) and can_do([o / 6, 1], [o / 6 * 7]) and can_do([o / 6, 1], [o / 6 * 13]) and can_do([o / 5, 1], [o / 5 * 6]) and can_do([o / 5, 1], [o / 5 * 11]) and can_do([o / 4, 1], [o / 4 * 5]) and can_do([o / 4, 1], [o / 4 * 9]) and can_do([o / 3, 1], [o / 3 * 4]) and can_do([o / 3, 1], [o / 3 * 7]) and can_do([o / 8 * 3, 1], [o / 8 * 11]) and can_do([o / 5 * 2, 1], [o / 5 * 7]) and can_do([o / 5 * 2, 1], [o / 5 * 12]) and can_do([o / 5 * 3, 1], [o / 5 * 8]) and can_do([o / 5 * 3, 1], [o / 5 * 13]) and can_do([o / 8 * 5, 1], [o / 8 * 13]) and can_do([o / 4 * 3, 1], [o / 4 * 7]) and can_do([o / 4 * 3, 1], [o / 4 * 11]) and can_do([o / 3 * 2, 1], [o / 3 * 5]) and can_do([o / 3 * 2, 1], [o / 3 * 8]) and can_do([o / 5 * 4, 1], [o / 5 * 9]) and can_do([o / 5 * 4, 1], [o / 5 * 14]) and can_do([o / 6 * 5, 1], [o / 6 * 11]) and can_do([o / 6 * 5, 1], [o / 6 * 17]) and can_do([o / 8 * 7, 1], [o / 8 * 15])"},"spec":{"lhs":"test_prudnikov_fail_2F1()","rhs":"can_do([a, b], [b + 1]) and can_do([-1, b], [c]) and can_do([a, b], [a + b + S.Half]) and can_do([a, b], [a + b - S.Half]) and can_do([a, b], [a + b + Rational(3, 2)]) and can_do([a, b], [(a + b + 1) / 2]) and can_do([a, b], [(a + b) / 2 + 1]) and can_do([a, b], [a - b + 1]) and can_do([a, b], [a - b + 2]) and can_do([a, b], [2 * b]) and can_do([a, b], [S.Half]) and can_do([a, b], [Rational(3, 2)]) and can_do([a, 1 - a], [c]) and can_do([a, 2 - a], [c]) and can_do([a, 3 - a], [c]) and can_do([a, a + S.Half], [c]) and can_do([1, b], [c]) and can_do([1, b], [Rational(3, 2)]) and can_do([Rational(1, 4), Rational(3, 4)], [1]) and can_do([o / 8, 1], [o / 8 * 9]) and can_do([o / 6, 1], [o / 6 * 7]) and can_do([o / 6, 1], [o / 6 * 13]) and can_do([o / 5, 1], [o / 5 * 6]) and can_do([o / 5, 1], [o / 5 * 11]) and can_do([o / 4, 1], [o / 4 * 5]) and can_do([o / 4, 1], [o / 4 * 9]) and can_do([o / 3, 1], [o / 3 * 4]) and can_do([o / 3, 1], [o / 3 * 7]) and can_do([o / 8 * 3, 1], [o / 8 * 11]) and can_do([o / 5 * 2, 1], [o / 5 * 7]) and can_do([o / 5 * 2, 1], [o / 5 * 12]) and can_do([o / 5 * 3, 1], [o / 5 * 8]) and can_do([o / 5 * 3, 1], [o / 5 * 13]) and can_do([o / 8 * 5, 1], [o / 8 * 13]) and can_do([o / 4 * 3, 1], [o / 4 * 7]) and can_do([o / 4 * 3, 1], [o / 4 * 11]) and can_do([o / 3 * 2, 1], [o / 3 * 5]) and can_do([o / 3 * 2, 1], [o / 3 * 8]) and can_do([o / 5 * 4, 1], [o / 5 * 9]) and can_do([o / 5 * 4, 1], [o / 5 * 14]) and can_do([o / 6 * 5, 1], [o / 6 * 11]) and can_do([o / 6 * 5, 1], [o / 6 * 17]) and can_do([o / 8 * 7, 1], [o / 8 * 15])","over":{"base":"Any"},"name":"test_prudnikov_fail_2F1_correct"},"guarantee":"can_do([a, b], [b + 1]); can_do([-1, b], [c]); can_do([a, b], [a + b + S.Half])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_hyperexpand.test_prudnikov_fail_2F1_correct","statement":"Path(test_prudnikov_fail_2F1(x), can_do([a, b], [b + 1]); can_do([-1, b], [c]); can_do([a, b], [a + b + S.Half]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"538986471c62f975","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["can_do([a, b], [b + 1])","can_do([-1, b], [c])","can_do([a, b], [a + b + S.Half])","can_do([a, b], [a + b - S.Half])","can_do([a, b], [a + b + Rational(3, 2)])","can_do([a, b], [(a + b + 1) / 2])","can_do([a, b], [(a + b) / 2 + 1])","can_do([a, b], [a - b + 1])","can_do([a, b], [a - b + 2])","can_do([a, b], [2 * b])","can_do([a, b], [S.Half])","can_do([a, b], [Rational(3, 2)])","can_do([a, 1 - a], [c])","can_do([a, 2 - a], [c])","can_do([a, 3 - a], [c])","can_do([a, a + S.Half], [c])","can_do([1, b], [c])","can_do([1, b], [Rational(3, 2)])","can_do([Rational(1, 4), Rational(3, 4)], [1])","can_do([o / 8, 1], [o / 8 * 9])","can_do([o / 6, 1], [o / 6 * 7])","can_do([o / 6, 1], [o / 6 * 13])","can_do([o / 5, 1], [o / 5 * 6])","can_do([o / 5, 1], [o / 5 * 11])","can_do([o / 4, 1], [o / 4 * 5])","can_do([o / 4, 1], [o / 4 * 9])","can_do([o / 3, 1], [o / 3 * 4])","can_do([o / 3, 1], [o / 3 * 7])","can_do([o / 8 * 3, 1], [o / 8 * 11])","can_do([o / 5 * 2, 1], [o / 5 * 7])","can_do([o / 5 * 2, 1], [o / 5 * 12])","can_do([o / 5 * 3, 1], [o / 5 * 8])","can_do([o / 5 * 3, 1], [o / 5 * 13])","can_do([o / 8 * 5, 1], [o / 8 * 13])","can_do([o / 4 * 3, 1], [o / 4 * 7])","can_do([o / 4 * 3, 1], [o / 4 * 11])","can_do([o / 3 * 2, 1], [o / 3 * 5])","can_do([o / 3 * 2, 1], [o / 3 * 8])","can_do([o / 5 * 4, 1], [o / 5 * 9])","can_do([o / 5 * 4, 1], [o / 5 * 14])","can_do([o / 6 * 5, 1], [o / 6 * 11])","can_do([o / 6 * 5, 1], [o / 6 * 17])","can_do([o / 8 * 7, 1], [o / 8 * 15])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.1,"verdict_class":"assumed","binding":true}}
 def test_prudnikov_fail_2F1():
     assert can_do([a, b], [b + 1])  # incomplete beta function
     assert can_do([-1, b], [c])    # Poly. also -2, -3 etc
@@ -1537,16 +1874,24 @@ def test_prudnikov_fail_2F1():
 
 @XFAIL
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_prudnikov_fail_3F2(), test_prudnikov_fail_3F2 produces the expected output) over Any ║
+# ║ Path(test_prudnikov_fail_3F2(), can_do([a, a + Rational(1, 3), a + Rational(2, 3)], [Rational(1, 3), Rational(2, 3)]) and can_do([a, a + Rational(1, 3), a + Rational(2, 3)], [Rational(2, 3), Rational(4, 3)]) and can_do([a, a + Rational(1, 3), a + Rational(2, 3)], [Rational(4, 3), Rational(5, 3)]) and can_do([a, a + Rational(1, 3), a + Rational(2, 3)], [a * Rational(3, 2), (3 * a + 1) / 2]) and can_do([Rational(-1, 2), S.Half, S.Half], [1, 1]) and can_do([Rational(-1, 2), S.Half, 1], [Rational(3, 2), Rational(3, 2)]) and can_do([Rational(1, 8), Rational(3, 8), 1], [Rational(9, 8), Rational(11, 8)]) and can_do([Rational(1, 8), Rational(5, 8), 1], [Rational(9, 8), Rational(13, 8)]) and can_do([Rational(1, 8), Rational(7, 8), 1], [Rational(9, 8), Rational(15, 8)]) and can_do([Rational(1, 6), Rational(1, 3), 1], [Rational(7, 6), Rational(4, 3)]) and can_do([Rational(1, 6), Rational(2, 3), 1], [Rational(7, 6), Rational(5, 3)]) and can_do([Rational(1, 6), Rational(2, 3), 1], [Rational(5, 3), Rational(13, 6)]) and can_do([S.Half, 1, 1], [Rational(1, 4), Rational(3, 4)])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_prudnikov_fail_3F2 : Any → {Any | can_do([Ration...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  can_do([a, a + Rational(1, 3), a + Ration...   ║
+# ║   ensures:  can_do([a, a + Rational(1, 3), a + Ration...   ║
+# ║   ensures:  can_do([a, a + Rational(1, 3), a + Ration...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_prudnikov_fail_3F2 : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 07ffd3fb4b8210c8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7565014790d855b3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_hyperexpand.test_prudnikov_fail_3F2","kind":"function","src_hash":"2d6624152c43d567","in":{"base":"Any"},"out":{"base":"Any","pred":"can_do([Rational(-1, 2), S.Half, S.Half], [1, 1]) and can_do([Rational(-1, 2), S.Half, 1], [Rational(3, 2), Rational(3, 2)]) and can_do([Rational(1, 8), Rational(3, 8), 1], [Rational(9, 8), Rational(11, 8)]) and can_do([Rational(1, 8), Rational(5, 8), 1], [Rational(9, 8), Rational(13, 8)]) and can_do([Rational(1, 8), Rational(7, 8), 1], [Rational(9, 8), Rational(15, 8)]) and can_do([Rational(1, 6), Rational(1, 3), 1], [Rational(7, 6), Rational(4, 3)]) and can_do([Rational(1, 6), Rational(2, 3), 1], [Rational(7, 6), Rational(5, 3)]) and can_do([Rational(1, 6), Rational(2, 3), 1], [Rational(5, 3), Rational(13, 6)]) and can_do([S.Half, 1, 1], [Rational(1, 4), Rational(3, 4)])"},"spec":{"lhs":"test_prudnikov_fail_3F2()","rhs":"test_prudnikov_fail_3F2 produces the expected output","over":{"base":"Any"},"name":"test_prudnikov_fail_3F2_correct"},"guarantee":"test_prudnikov_fail_3F2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_hyperexpand.test_prudnikov_fail_3F2_correct","statement":"Path(test_prudnikov_fail_3F2(x), test_prudnikov_fail_3F2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"07ffd3fb4b8210c8"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_hyperexpand.test_prudnikov_fail_3F2","kind":"function","src_hash":"2d6624152c43d567","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: can_do([a, a + Rational(1, 3), a + Rational(2, 3)], [Rational(1, 3), Rational(2, 3)]) and can_do([a, a + Rational(1, 3), a + Rational(2, 3)], [Rational(2, 3), Rational(4, 3)]) and can_do([a, a + Rational(1, 3), a + Rational(2, 3)], [Rational(4, 3), Rational(5, 3)]) and can_do([a, a + Rational(1, 3), a + Rational(2, 3)], [a * Rational(3, 2), (3 * a + 1) / 2]) and can_do([Rational(-1, 2), S.Half, S.Half], [1, 1]) and can_do([Rational(-1, 2), S.Half, 1], [Rational(3, 2), Rational(3, 2)]) and can_do([Rational(1, 8), Rational(3, 8), 1], [Rational(9, 8), Rational(11, 8)]) and can_do([Rational(1, 8), Rational(5, 8), 1], [Rational(9, 8), Rational(13, 8)]) and can_do([Rational(1, 8), Rational(7, 8), 1], [Rational(9, 8), Rational(15, 8)]) and can_do([Rational(1, 6), Rational(1, 3), 1], [Rational(7, 6), Rational(4, 3)]) and can_do([Rational(1, 6), Rational(2, 3), 1], [Rational(7, 6), Rational(5, 3)]) and can_do([Rational(1, 6), Rational(2, 3), 1], [Rational(5, 3), Rational(13, 6)]) and can_do([S.Half, 1, 1], [Rational(1, 4), Rational(3, 4)])"},"spec":{"lhs":"test_prudnikov_fail_3F2()","rhs":"can_do([a, a + Rational(1, 3), a + Rational(2, 3)], [Rational(1, 3), Rational(2, 3)]) and can_do([a, a + Rational(1, 3), a + Rational(2, 3)], [Rational(2, 3), Rational(4, 3)]) and can_do([a, a + Rational(1, 3), a + Rational(2, 3)], [Rational(4, 3), Rational(5, 3)]) and can_do([a, a + Rational(1, 3), a + Rational(2, 3)], [a * Rational(3, 2), (3 * a + 1) / 2]) and can_do([Rational(-1, 2), S.Half, S.Half], [1, 1]) and can_do([Rational(-1, 2), S.Half, 1], [Rational(3, 2), Rational(3, 2)]) and can_do([Rational(1, 8), Rational(3, 8), 1], [Rational(9, 8), Rational(11, 8)]) and can_do([Rational(1, 8), Rational(5, 8), 1], [Rational(9, 8), Rational(13, 8)]) and can_do([Rational(1, 8), Rational(7, 8), 1], [Rational(9, 8), Rational(15, 8)]) and can_do([Rational(1, 6), Rational(1, 3), 1], [Rational(7, 6), Rational(4, 3)]) and can_do([Rational(1, 6), Rational(2, 3), 1], [Rational(7, 6), Rational(5, 3)]) and can_do([Rational(1, 6), Rational(2, 3), 1], [Rational(5, 3), Rational(13, 6)]) and can_do([S.Half, 1, 1], [Rational(1, 4), Rational(3, 4)])","over":{"base":"Any"},"name":"test_prudnikov_fail_3F2_correct"},"guarantee":"can_do([a, a + Rational(1, 3), a + Rational(2, 3)], [Rational(1, 3), Rational(2, 3)]); can_do([a, a + Rational(1, 3), a + Rational(2, 3)], [Rational(2, 3), Rational(4, 3)]); can_do([a, a + Rational(1, 3), a + Rational(2, 3)], [Rational(4, 3), Rational(5, 3)])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_hyperexpand.test_prudnikov_fail_3F2_correct","statement":"Path(test_prudnikov_fail_3F2(x), can_do([a, a + Rational(1, 3), a + Rational(2, 3)], [Rational(1, 3), Rational(2, 3)]); can_do([a, a + Rational(1, 3), a + Rational(2, 3)], [Rational(2, 3), Rational(4, 3)]); can_do([a, a + Rational(1, 3), a + Rational(2, 3)], [Rational(4, 3), Rational(5, 3)]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7565014790d855b3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["can_do([a, a + Rational(1, 3), a + Rational(2, 3)], [Rational(1, 3), Rational(2, 3)])","can_do([a, a + Rational(1, 3), a + Rational(2, 3)], [Rational(2, 3), Rational(4, 3)])","can_do([a, a + Rational(1, 3), a + Rational(2, 3)], [Rational(4, 3), Rational(5, 3)])","can_do([a, a + Rational(1, 3), a + Rational(2, 3)], [a * Rational(3, 2), (3 * a + 1) / 2])","can_do([Rational(-1, 2), S.Half, S.Half], [1, 1])","can_do([Rational(-1, 2), S.Half, 1], [Rational(3, 2), Rational(3, 2)])","can_do([Rational(1, 8), Rational(3, 8), 1], [Rational(9, 8), Rational(11, 8)])","can_do([Rational(1, 8), Rational(5, 8), 1], [Rational(9, 8), Rational(13, 8)])","can_do([Rational(1, 8), Rational(7, 8), 1], [Rational(9, 8), Rational(15, 8)])","can_do([Rational(1, 6), Rational(1, 3), 1], [Rational(7, 6), Rational(4, 3)])","can_do([Rational(1, 6), Rational(2, 3), 1], [Rational(7, 6), Rational(5, 3)])","can_do([Rational(1, 6), Rational(2, 3), 1], [Rational(5, 3), Rational(13, 6)])","can_do([S.Half, 1, 1], [Rational(1, 4), Rational(3, 4)])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_prudnikov_fail_3F2():
     assert can_do([a, a + Rational(1, 3), a + Rational(2, 3)], [Rational(1, 3), Rational(2, 3)])
     assert can_do([a, a + Rational(1, 3), a + Rational(2, 3)], [Rational(2, 3), Rational(4, 3)])
@@ -1573,16 +1918,24 @@ def test_prudnikov_fail_3F2():
 
 @XFAIL
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_prudnikov_fail_other(), test_prudnikov_fail_other produces the expected output) over Any ║
+# ║ Path(test_prudnikov_fail_other(), can_do([1, a], [b, 1 - 2 * a + b]) and can_do([Rational(-1, 2)], [S.Half, 1]) and can_do([1], [S.Half, S.Half]) and can_do([Rational(1, 4)], [S.Half, Rational(5, 4)]) and can_do([Rational(3, 4)], [Rational(3, 2), Rational(7, 4)]) and can_do([1], [Rational(1, 4), Rational(3, 4)]) and can_do([1], [Rational(3, 4), Rational(5, 4)]) and can_do([1], [Rational(5, 4), Rational(7, 4)]) and can_do([S.Half, 1], [Rational(3, 4), Rational(5, 4), Rational(3, 2)]) and can_do([S.Half, 1], [Rational(7, 4), Rational(5, 4), Rational(3, 2)]) and can_do([], [Rational(1, 3), S(2 / 3)]) and can_do([], [Rational(2, 3), S(4 / 3)]) and can_do([], [Rational(5, 3), S(4 / 3)]) and can_do([], [a, a + S.Half, 2 * a - 1])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_prudnikov_fail_other : Any → {Any | can_do([1, a...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  can_do([1, a], [b, 1 - 2 * a + b])             ║
+# ║   ensures:  can_do([Rational(-1, 2)], [S.Half, 1])         ║
+# ║   ensures:  can_do([1], [S.Half, S.Half])                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_prudnikov_fail_other : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f41346e37beca42c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 973f70c8d4274d4b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_hyperexpand.test_prudnikov_fail_other","kind":"function","src_hash":"1c7b44152e46c704","in":{"base":"Any"},"out":{"base":"Any","pred":"can_do([1, a], [b, 1 - 2 * a + b]) and can_do([Rational(-1, 2)], [S.Half, 1]) and can_do([1], [S.Half, S.Half]) and can_do([Rational(1, 4)], [S.Half, Rational(5, 4)]) and can_do([Rational(3, 4)], [Rational(3, 2), Rational(7, 4)]) and can_do([1], [Rational(1, 4), Rational(3, 4)]) and can_do([1], [Rational(3, 4), Rational(5, 4)]) and can_do([1], [Rational(5, 4), Rational(7, 4)]) and can_do([S.Half, 1], [Rational(3, 4), Rational(5, 4), Rational(3, 2)]) and can_do([S.Half, 1], [Rational(7, 4), Rational(5, 4), Rational(3, 2)]) and can_do([], [Rational(1, 3), S(2 / 3)]) and can_do([], [Rational(2, 3), S(4 / 3)]) and can_do([], [Rational(5, 3), S(4 / 3)]) and can_do([], [a, a + S.Half, 2 * a - 1])"},"spec":{"lhs":"test_prudnikov_fail_other()","rhs":"test_prudnikov_fail_other produces the expected output","over":{"base":"Any"},"name":"test_prudnikov_fail_other_correct"},"guarantee":"test_prudnikov_fail_other produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_hyperexpand.test_prudnikov_fail_other_correct","statement":"Path(test_prudnikov_fail_other(x), test_prudnikov_fail_other produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f41346e37beca42c"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_hyperexpand.test_prudnikov_fail_other","kind":"function","src_hash":"1c7b44152e46c704","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: can_do([1, a], [b, 1 - 2 * a + b]) and can_do([Rational(-1, 2)], [S.Half, 1]) and can_do([1], [S.Half, S.Half]) and can_do([Rational(1, 4)], [S.Half, Rational(5, 4)]) and can_do([Rational(3, 4)], [Rational(3, 2), Rational(7, 4)]) and can_do([1], [Rational(1, 4), Rational(3, 4)]) and can_do([1], [Rational(3, 4), Rational(5, 4)]) and can_do([1], [Rational(5, 4), Rational(7, 4)]) and can_do([S.Half, 1], [Rational(3, 4), Rational(5, 4), Rational(3, 2)]) and can_do([S.Half, 1], [Rational(7, 4), Rational(5, 4), Rational(3, 2)]) and can_do([], [Rational(1, 3), S(2 / 3)]) and can_do([], [Rational(2, 3), S(4 / 3)]) and can_do([], [Rational(5, 3), S(4 / 3)]) and can_do([], [a, a + S.Half, 2 * a - 1])"},"spec":{"lhs":"test_prudnikov_fail_other()","rhs":"can_do([1, a], [b, 1 - 2 * a + b]) and can_do([Rational(-1, 2)], [S.Half, 1]) and can_do([1], [S.Half, S.Half]) and can_do([Rational(1, 4)], [S.Half, Rational(5, 4)]) and can_do([Rational(3, 4)], [Rational(3, 2), Rational(7, 4)]) and can_do([1], [Rational(1, 4), Rational(3, 4)]) and can_do([1], [Rational(3, 4), Rational(5, 4)]) and can_do([1], [Rational(5, 4), Rational(7, 4)]) and can_do([S.Half, 1], [Rational(3, 4), Rational(5, 4), Rational(3, 2)]) and can_do([S.Half, 1], [Rational(7, 4), Rational(5, 4), Rational(3, 2)]) and can_do([], [Rational(1, 3), S(2 / 3)]) and can_do([], [Rational(2, 3), S(4 / 3)]) and can_do([], [Rational(5, 3), S(4 / 3)]) and can_do([], [a, a + S.Half, 2 * a - 1])","over":{"base":"Any"},"name":"test_prudnikov_fail_other_correct"},"guarantee":"can_do([1, a], [b, 1 - 2 * a + b]); can_do([Rational(-1, 2)], [S.Half, 1]); can_do([1], [S.Half, S.Half])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_hyperexpand.test_prudnikov_fail_other_correct","statement":"Path(test_prudnikov_fail_other(x), can_do([1, a], [b, 1 - 2 * a + b]); can_do([Rational(-1, 2)], [S.Half, 1]); can_do([1], [S.Half, S.Half]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"973f70c8d4274d4b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["can_do([1, a], [b, 1 - 2 * a + b])","can_do([Rational(-1, 2)], [S.Half, 1])","can_do([1], [S.Half, S.Half])","can_do([Rational(1, 4)], [S.Half, Rational(5, 4)])","can_do([Rational(3, 4)], [Rational(3, 2), Rational(7, 4)])","can_do([1], [Rational(1, 4), Rational(3, 4)])","can_do([1], [Rational(3, 4), Rational(5, 4)])","can_do([1], [Rational(5, 4), Rational(7, 4)])","can_do([S.Half, 1], [Rational(3, 4), Rational(5, 4), Rational(3, 2)])","can_do([S.Half, 1], [Rational(7, 4), Rational(5, 4), Rational(3, 2)])","can_do([], [Rational(1, 3), S(2 / 3)])","can_do([], [Rational(2, 3), S(4 / 3)])","can_do([], [Rational(5, 3), S(4 / 3)])","can_do([], [a, a + S.Half, 2 * a - 1])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_prudnikov_fail_other():
     # 7.11.2
 
@@ -1613,32 +1966,45 @@ def test_prudnikov_fail_other():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_bug(), test_bug produces the expected output) over Any ║
+# ║ Path(test_bug(), hyperexpand(h) == (z + 1) / z) over Any   ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_bug : Any → {Any | hyperexpand(h) == (z + 1) / z}     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  hyperexpand(h) == (z + 1) / z                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_bug : Any → {Any | result satisfies: hyperexpand...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 808a8230e3710f52  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 73810ac374d784f9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_hyperexpand.test_bug","kind":"function","src_hash":"dc6ed58c55edc873","in":{"base":"Any"},"out":{"base":"Any","pred":"hyperexpand(h) == (z + 1) / z"},"spec":{"lhs":"test_bug()","rhs":"test_bug produces the expected output","over":{"base":"Any"},"name":"test_bug_correct"},"guarantee":"test_bug produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_hyperexpand.test_bug_correct","statement":"Path(test_bug(x), test_bug produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"808a8230e3710f52"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_hyperexpand.test_bug","kind":"function","src_hash":"dc6ed58c55edc873","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: hyperexpand(h) == (z + 1) / z"},"spec":{"lhs":"test_bug()","rhs":"hyperexpand(h) == (z + 1) / z","over":{"base":"Any"},"name":"test_bug_correct"},"guarantee":"hyperexpand(h) == (z + 1) / z","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_hyperexpand.test_bug_correct","statement":"Path(test_bug(x), hyperexpand(h) == (z + 1) / z)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"73810ac374d784f9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["hyperexpand(h) == (z + 1) / z"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_bug():
     h = hyper([-1, 1], [z], -1)
     assert hyperexpand(h) == (z + 1)/z
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_omgissue_203(), test_omgissue_203 produces the expected output) over Any ║
+# ║ Path(test_omgissue_203(), hyperexpand(h) == Rational(1, 30) and hyperexpand(h) == Rational(-1, 6)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_omgissue_203 : Any → {Any | hyperexpand(h) == Ra...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  hyperexpand(h) == Rational(1, 30)              ║
+# ║   ensures:  hyperexpand(h) == Rational(-1, 6)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_omgissue_203 : Any → {Any | result satisfies: hy...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b01e77ff47682ec9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ef5cf651042c5b8b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_hyperexpand.test_omgissue_203","kind":"function","src_hash":"1dcaa9679656bb86","in":{"base":"Any"},"out":{"base":"Any","pred":"hyperexpand(h) == Rational(1, 30) and hyperexpand(h) == Rational(-1, 6)"},"spec":{"lhs":"test_omgissue_203()","rhs":"test_omgissue_203 produces the expected output","over":{"base":"Any"},"name":"test_omgissue_203_correct"},"guarantee":"test_omgissue_203 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_hyperexpand.test_omgissue_203_correct","statement":"Path(test_omgissue_203(x), test_omgissue_203 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b01e77ff47682ec9"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_hyperexpand.test_omgissue_203","kind":"function","src_hash":"1dcaa9679656bb86","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: hyperexpand(h) == Rational(1, 30) and hyperexpand(h) == Rational(-1, 6)"},"spec":{"lhs":"test_omgissue_203()","rhs":"hyperexpand(h) == Rational(1, 30) and hyperexpand(h) == Rational(-1, 6)","over":{"base":"Any"},"name":"test_omgissue_203_correct"},"guarantee":"hyperexpand(h) == Rational(1, 30); hyperexpand(h) == Rational(-1, 6)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_hyperexpand.test_omgissue_203_correct","statement":"Path(test_omgissue_203(x), hyperexpand(h) == Rational(1, 30); hyperexpand(h) == Rational(-1, 6))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ef5cf651042c5b8b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["hyperexpand(h) == Rational(1, 30)","hyperexpand(h) == Rational(-1, 6)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_omgissue_203():
     h = hyper((-5, -3, -4), (-6, -6), 1)
     assert hyperexpand(h) == Rational(1, 30)

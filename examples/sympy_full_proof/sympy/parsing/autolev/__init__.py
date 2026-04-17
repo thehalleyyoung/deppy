@@ -20,16 +20,22 @@ from sympy.utilities.decorator import doctest_depends_on
 
 @doctest_depends_on(modules=('antlr4',))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(parse_autolev(aut), parses autolev code (version 4.1) to sympy code) over Any ║
+# ║ Path(parse_autolev(autolev_code, include_numeric), _autolev.parse_autolev(autolev_code, include_numeric)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _autolev.parse_autolev(autolev_code, incl...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ parse_autolev : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5ad748c259bfa70c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 489c37f15684928e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.autolev.parse_autolev","kind":"function","src_hash":"b9f2481de4b43428","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"parse_autolev(aut)","rhs":"parses autolev code (version 4.1) to sympy code","over":{"base":"Any"},"name":"parse_autolev_correct"},"guarantee":"parses autolev code (version 4.1) to sympy code","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.autolev.parse_autolev_correct","statement":"Path(parse_autolev(x), parses autolev code (version 4.1) to sympy code)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5ad748c259bfa70c"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.autolev.parse_autolev","kind":"function","src_hash":"b9f2481de4b43428","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"parse_autolev(autolev_code, include_numeric)","rhs":"_autolev.parse_autolev(autolev_code, include_numeric)","over":{"base":"Any"},"name":"parse_autolev_correct"},"guarantee":"returns _autolev.parse_autolev(autolev_code, include_numeric)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.autolev.parse_autolev_correct","statement":"Path(parse_autolev(x), returns _autolev.parse_autolev(autolev_code, include_numeric))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"489c37f15684928e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_autolev.parse_autolev(autolev_code, include_numeric)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def parse_autolev(autolev_code, include_numeric=False):
     """Parses Autolev code (version 4.1) to SymPy code.
 

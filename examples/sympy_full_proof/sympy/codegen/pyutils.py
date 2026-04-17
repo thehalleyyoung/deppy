@@ -21,16 +21,22 @@ from sympy.printing.pycode import PythonCodePrinter
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(render_as_module(con), renders python code as a module (with the required imports)) over Any ║
+# ║ Path(render_as_module(content, standard), module_imports_str + '\n\n' + pystr) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  module_imports_str + '\n\n' + pystr            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ render_as_module : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ac67a34125b2c5a3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ef4a939a250d773a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegenutils.render_as_module","kind":"function","src_hash":"005a659eea1dfa47","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"render_as_module(con)","rhs":"renders python code as a module (with the required imports)","over":{"base":"Any"},"name":"render_as_module_correct"},"guarantee":"renders python code as a module (with the required imports)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegenutils.render_as_module_correct","statement":"Path(render_as_module(x), renders python code as a module (with the required imports))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ac67a34125b2c5a3"}
+# @cctt_verify {"v":2,"sym":"sympy.codegenutils.render_as_module","kind":"function","src_hash":"005a659eea1dfa47","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"render_as_module(content, standard)","rhs":"module_imports_str + '\\n\\n' + pystr","over":{"base":"Any"},"name":"render_as_module_correct"},"guarantee":"returns module_imports_str + '\\n\\n' + pystr","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegenutils.render_as_module_correct","statement":"Path(render_as_module(x), returns module_imports_str + '\\n\\n' + pystr)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ef4a939a250d773a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"module_imports_str + '\\n\\n' + pystr","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def render_as_module(content, standard='python3'):
     """Renders Python code as a module (with the required imports).
 

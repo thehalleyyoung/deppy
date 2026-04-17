@@ -50,31 +50,46 @@ from sympy.utilities import public
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(MaxTriesException(), correctly constructs a MaxTriesException instance) over Any ║
+# ║ Path(MaxTriesException(), isinstance(self, GaloisGroupException)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ MaxTriesException : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, GaloisGroupException)         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ MaxTriesException : Any → {Any | result satisfies: is...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d1402834b57a045b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.galoisgroups.MaxTriesException","kind":"class","src_hash":"c2cff1578eeeba48","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"MaxTriesException()","rhs":"correctly constructs a MaxTriesException instance","over":{"base":"Any"},"name":"MaxTriesException_correct"},"guarantee":"correctly constructs a MaxTriesException instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d1402834b57a045b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.galoisgroups.MaxTriesException","kind":"class","src_hash":"c2cff1578eeeba48","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, GaloisGroupException)"},"spec":{"lhs":"MaxTriesException()","rhs":"isinstance(self, GaloisGroupException)","over":{"base":"Any"},"name":"MaxTriesException_correct"},"guarantee":"isinstance(self, GaloisGroupException)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d1402834b57a045b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, GaloisGroupException)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Function MaxTriesException not found in source"]}}
 class MaxTriesException(GaloisGroupException):
     ...
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(tschirnhausen_transformation(T, ), given a univariate, monic, irreducible polynomial over the integers, find another such polynomial defining the same number field) over Any ║
+# ║ Path(tschirnhausen_transformation(T, max_coeff, max_tries), <unspecified:tschirnhausen_transformation>) over {Any | hasattr(T, 'degree') and hasattr(history, 'add') and hasattr(T, 'rep') and hasattr(T, 'gen') and hasattr(T, 'resultant')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ tschirnhausen_transformation : Any → Any                   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(T, 'degree')                           ║
+# ║   requires: hasattr(history, 'add')                        ║
+# ║   requires: hasattr(T, 'rep')                              ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ tschirnhausen_transformation : {Any | hasattr(T, 'deg...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 46ce60a28b1f2768  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.galoisgroups.tschirnhausen_transformation","kind":"function","src_hash":"c3a5a96533de931a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"tschirnhausen_transformation(T, )","rhs":"given a univariate, monic, irreducible polynomial over the integers, find another such polynomial defining the same number field","over":{"base":"Any"},"name":"tschirnhausen_transformation_correct"},"guarantee":"given a univariate, monic, irreducible polynomial over the integers, find another such polynomial defining the same number field","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.galoisgroups.tschirnhausen_transformation_correct","statement":"Path(tschirnhausen_transformation(x), given a univariate, monic, irreducible polynomial over the integers, find another such polynomial defining the same number field)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"46ce60a28b1f2768"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.galoisgroups.tschirnhausen_transformation","kind":"function","src_hash":"c3a5a96533de931a","in":{"base":"Any","pred":"hasattr(T, 'degree') and hasattr(history, 'add') and hasattr(T, 'rep') and hasattr(T, 'gen') and hasattr(T, 'resultant')"},"out":{"base":"Any"},"spec":{"lhs":"tschirnhausen_transformation(T, max_coeff, max_tries)","rhs":"<unspecified:tschirnhausen_transformation>","over":{"base":"Any","pred":"hasattr(T, 'degree') and hasattr(history, 'add') and hasattr(T, 'rep') and hasattr(T, 'gen') and hasattr(T, 'resultant')"},"name":"tschirnhausen_transformation_correct"},"guarantee":"given a univariate, monic, irreducible polynomial over the integers, find another such polynomial defining the same number field","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.galoisgroups.tschirnhausen_transformation_correct","statement":"Path(tschirnhausen_transformation(x), given a univariate, monic, irreducible polynomial over the integers, find another such polynomial defining the same number field)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"46ce60a28b1f2768","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(T, 'degree')","hasattr(history, 'add')","hasattr(T, 'rep')","hasattr(T, 'gen')","hasattr(T, 'resultant')"],"pure":false,"effects":{"effect_type":"nondeterministic","reads":["T.degree","T.gen","T.rep","T.resultant","history.add"],"calls_mutating":["history.add"],"raises":["MaxTriesException"],"nondeterministic_sources":["random.randint"]},"state_contract":{"modifies":["history.*"],"exceptional_post":{"MaxTriesException":["isinstance(raised, MaxTriesException)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def tschirnhausen_transformation(T, max_coeff=10, max_tries=30, history=None,
                                  fixed_order=True):
     r"""
@@ -183,9 +198,13 @@ def tschirnhausen_transformation(T, max_coeff=10, max_tries=30, history=None,
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(has_square_disc(T), convenience to check if a poly or dup has square discriminant) over {Any | isinstance(T, Poly)} ║
+# ║ Path(has_square_disc(T), is_square(d)) over {Any | isinstance(T, Poly) and hasattr(T, 'discriminant')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ has_square_disc : {Any | isinstance(T, Poly)} → Any        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(T, 'discriminant')                     ║
+# ║   returns:  is_square(d)                                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ has_square_disc : {Any | isinstance(T, Poly) and hasa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   Poly: {isinstance(T, Poly)} → library_axiom              ║
@@ -195,9 +214,12 @@ def tschirnhausen_transformation(T, max_coeff=10, max_tries=30, history=None,
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.2ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 35a863b8...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.galoisgroups.has_square_disc","kind":"function","src_hash":"2a47921427eeba81","in":{"base":"Any","pred":"isinstance(T, Poly)"},"out":{"base":"Any"},"spec":{"lhs":"has_square_disc(T)","rhs":"convenience to check if a poly or dup has square discriminant","over":{"base":"Any","pred":"isinstance(T, Poly)"},"name":"has_square_disc_correct"},"guarantee":"convenience to check if a poly or dup has square discriminant","fibers":[{"name":"Poly","pred":"isinstance(T, Poly)","path":{"lhs":"has_square_disc(x)","rhs":"convenience to check if a poly or dup has square discriminant","over":{"base":"Poly","pred":"isinstance(T, Poly)"},"name":"has_square_disc_Poly_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.galoisgroups.has_square_disc_Poly_correct","statement":"has_square_disc satisfies spec on Poly inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"35a863b8185362af"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.galoisgroups.has_square_disc","kind":"function","src_hash":"2a47921427eeba81","in":{"base":"Any","pred":"isinstance(T, Poly) and hasattr(T, 'discriminant')"},"out":{"base":"Any"},"spec":{"lhs":"has_square_disc(T)","rhs":"is_square(d)","over":{"base":"Any","pred":"isinstance(T, Poly) and hasattr(T, 'discriminant')"},"name":"has_square_disc_correct"},"guarantee":"returns is_square(d)","fibers":[{"name":"Poly","pred":"isinstance(T, Poly)","path":{"lhs":"has_square_disc(x)","rhs":"returns is_square(d)","over":{"base":"Poly","pred":"isinstance(T, Poly)"},"name":"has_square_disc_Poly_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.galoisgroups.has_square_disc_Poly_correct","statement":"has_square_disc satisfies spec on Poly inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"35a863b8185362af","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(T, 'discriminant')"],"returns_expr":"is_square(d)","pure":false,"effects":{"effect_type":"reads_state","reads":["T.discriminant"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.2,"verdict_class":"failed","binding":true}}
 def has_square_disc(T):
     """Convenience to check if a Poly or dup has square discriminant. """
     d = T.discriminant() if isinstance(T, Poly) else dup_discriminant(T, ZZ)
@@ -205,16 +227,22 @@ def has_square_disc(T):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_galois_group_degree_3(T, ), compute the galois group of a polynomial of degree 3) over Any ║
+# ║ Path(_galois_group_degree_3(T, max_tries, randomize), (S3TransitiveSubgroups.A3, True) if has_square_disc(T) else (S3TransitiveSubgroups.S3, False)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (S3TransitiveSubgroups.A3, True) if has_s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _galois_group_degree_3 : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aee5aa3f0d1d7332  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5bbf7ecdb1d35a73  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.galoisgroups._galois_group_degree_3","kind":"function","src_hash":"cbb16f533d2245a0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_galois_group_degree_3(T, )","rhs":"compute the galois group of a polynomial of degree 3","over":{"base":"Any"},"name":"_galois_group_degree_3_correct"},"guarantee":"compute the galois group of a polynomial of degree 3","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.galoisgroups._galois_group_degree_3_correct","statement":"Path(_galois_group_degree_3(x), compute the galois group of a polynomial of degree 3)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aee5aa3f0d1d7332"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.galoisgroups._galois_group_degree_3","kind":"function","src_hash":"cbb16f533d2245a0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_galois_group_degree_3(T, max_tries, randomize)","rhs":"(S3TransitiveSubgroups.A3, True) if has_square_disc(T) else (S3TransitiveSubgroups.S3, False)","over":{"base":"Any"},"name":"_galois_group_degree_3_correct"},"guarantee":"returns (S3TransitiveSubgroups.A3, True) if has_square_disc(T) else (S3TransitiveSubgroups.S3, False)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.galoisgroups._galois_group_degree_3_correct","statement":"Path(_galois_group_degree_3(x), returns (S3TransitiveSubgroups.A3, True) if has_square_disc(T) else (S3TransitiveSubgroups.S3, False))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5bbf7ecdb1d35a73","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(S3TransitiveSubgroups.A3, True) if has_square_disc(T) else (S3TransitiveSubgroups.S3, False)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _galois_group_degree_3(T, max_tries=30, randomize=False):
     r"""
     Compute the Galois group of a polynomial of degree 3.
@@ -231,16 +259,22 @@ def _galois_group_degree_3(T, max_tries=30, randomize=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_galois_group_degree_4_root_approx(T, ), compute the galois group of a polynomial of degree 4) over Any ║
+# ║ Path(_galois_group_degree_4_root_approx(T, max_tries, randomize), <unspecified:_galois_group_degree_4_root_approx>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _galois_group_degree_4_root_approx : Any → Any             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1ff377458f7b1d12  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.galoisgroups._galois_group_degree_4_root_approx","kind":"function","src_hash":"4c8dc28e2e712920","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_galois_group_degree_4_root_approx(T, )","rhs":"compute the galois group of a polynomial of degree 4","over":{"base":"Any"},"name":"_galois_group_degree_4_root_approx_correct"},"guarantee":"compute the galois group of a polynomial of degree 4","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.galoisgroups._galois_group_degree_4_root_approx_correct","statement":"Path(_galois_group_degree_4_root_approx(x), compute the galois group of a polynomial of degree 4)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1ff377458f7b1d12"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.galoisgroups._galois_group_degree_4_root_approx","kind":"function","src_hash":"4c8dc28e2e712920","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_galois_group_degree_4_root_approx(T, max_tries, randomize)","rhs":"<unspecified:_galois_group_degree_4_root_approx>","over":{"base":"Any"},"name":"_galois_group_degree_4_root_approx_correct"},"guarantee":"compute the galois group of a polynomial of degree 4","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.galoisgroups._galois_group_degree_4_root_approx_correct","statement":"Path(_galois_group_degree_4_root_approx(x), compute the galois group of a polynomial of degree 4)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1ff377458f7b1d12","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["MaxTriesException"]},"state_contract":{"exceptional_post":{"MaxTriesException":["isinstance(raised, MaxTriesException)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def _galois_group_degree_4_root_approx(T, max_tries=30, randomize=False):
     r"""
     Compute the Galois group of a polynomial of degree 4.
@@ -329,16 +363,22 @@ def _galois_group_degree_4_root_approx(T, max_tries=30, randomize=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_galois_group_degree_4_lookup(T, ), compute the galois group of a polynomial of degree 4) over Any ║
+# ║ Path(_galois_group_degree_4_lookup(T, max_tries, randomize), L == [2, 4]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _galois_group_degree_4_lookup : Any → {Any | L == [2,...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  L == [2, 4]                                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _galois_group_degree_4_lookup : Any → {Any | result s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b94af1280dd8f430  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b3cdd0271059af7b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.galoisgroups._galois_group_degree_4_lookup","kind":"function","src_hash":"b218f702f84d75fd","in":{"base":"Any"},"out":{"base":"Any","pred":"L == [2, 4]"},"spec":{"lhs":"_galois_group_degree_4_lookup(T, )","rhs":"compute the galois group of a polynomial of degree 4","over":{"base":"Any"},"name":"_galois_group_degree_4_lookup_correct"},"guarantee":"compute the galois group of a polynomial of degree 4","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.galoisgroups._galois_group_degree_4_lookup_correct","statement":"Path(_galois_group_degree_4_lookup(x), compute the galois group of a polynomial of degree 4)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b94af1280dd8f430"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.galoisgroups._galois_group_degree_4_lookup","kind":"function","src_hash":"b218f702f84d75fd","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: L == [2, 4]"},"spec":{"lhs":"_galois_group_degree_4_lookup(T, max_tries, randomize)","rhs":"L == [2, 4]","over":{"base":"Any"},"name":"_galois_group_degree_4_lookup_correct"},"guarantee":"L == [2, 4]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.galoisgroups._galois_group_degree_4_lookup_correct","statement":"Path(_galois_group_degree_4_lookup(x), L == [2, 4])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b3cdd0271059af7b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["L == [2, 4]"],"pure":false,"effects":{"effect_type":"reads_state","raises":["MaxTriesException"]},"state_contract":{"exceptional_post":{"MaxTriesException":["isinstance(raised, MaxTriesException)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _galois_group_degree_4_lookup(T, max_tries=30, randomize=False):
     r"""
     Compute the Galois group of a polynomial of degree 4.
@@ -383,16 +423,22 @@ def _galois_group_degree_4_lookup(T, max_tries=30, randomize=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_galois_group_degree_5_hybrid(T, ), compute the galois group of a polynomial of degree 5) over Any ║
+# ║ Path(_galois_group_degree_5_hybrid(T, max_tries, randomize), <unspecified:_galois_group_degree_5_hybrid>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _galois_group_degree_5_hybrid : Any → Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 57636c7a6e10be5e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.galoisgroups._galois_group_degree_5_hybrid","kind":"function","src_hash":"adc065b0c99961e4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_galois_group_degree_5_hybrid(T, )","rhs":"compute the galois group of a polynomial of degree 5","over":{"base":"Any"},"name":"_galois_group_degree_5_hybrid_correct"},"guarantee":"compute the galois group of a polynomial of degree 5","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.galoisgroups._galois_group_degree_5_hybrid_correct","statement":"Path(_galois_group_degree_5_hybrid(x), compute the galois group of a polynomial of degree 5)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"57636c7a6e10be5e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.galoisgroups._galois_group_degree_5_hybrid","kind":"function","src_hash":"adc065b0c99961e4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_galois_group_degree_5_hybrid(T, max_tries, randomize)","rhs":"<unspecified:_galois_group_degree_5_hybrid>","over":{"base":"Any"},"name":"_galois_group_degree_5_hybrid_correct"},"guarantee":"compute the galois group of a polynomial of degree 5","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.galoisgroups._galois_group_degree_5_hybrid_correct","statement":"Path(_galois_group_degree_5_hybrid(x), compute the galois group of a polynomial of degree 5)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"57636c7a6e10be5e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["MaxTriesException"]},"state_contract":{"exceptional_post":{"MaxTriesException":["isinstance(raised, MaxTriesException)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def _galois_group_degree_5_hybrid(T, max_tries=30, randomize=False):
     r"""
     Compute the Galois group of a polynomial of degree 5.
@@ -475,16 +521,22 @@ def _galois_group_degree_5_hybrid(T, max_tries=30, randomize=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_galois_group_degree_5_lookup_ext_factor(T, ), compute the galois group of a polynomial of degree 5) over Any ║
+# ║ Path(_galois_group_degree_5_lookup_ext_factor(T, max_tries, randomize), <unspecified:_galois_group_degree_5_lookup_ext_factor>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _galois_group_degree_5_lookup_ext_factor : Any → Any       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c9325f9e72135a5e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.galoisgroups._galois_group_degree_5_lookup_ext_factor","kind":"function","src_hash":"99a04666fe26e4df","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_galois_group_degree_5_lookup_ext_factor(T, )","rhs":"compute the galois group of a polynomial of degree 5","over":{"base":"Any"},"name":"_galois_group_degree_5_lookup_ext_factor_correct"},"guarantee":"compute the galois group of a polynomial of degree 5","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.galoisgroups._galois_group_degree_5_lookup_ext_factor_correct","statement":"Path(_galois_group_degree_5_lookup_ext_factor(x), compute the galois group of a polynomial of degree 5)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c9325f9e72135a5e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.galoisgroups._galois_group_degree_5_lookup_ext_factor","kind":"function","src_hash":"99a04666fe26e4df","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_galois_group_degree_5_lookup_ext_factor(T, max_tries, randomize)","rhs":"<unspecified:_galois_group_degree_5_lookup_ext_factor>","over":{"base":"Any"},"name":"_galois_group_degree_5_lookup_ext_factor_correct"},"guarantee":"compute the galois group of a polynomial of degree 5","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.galoisgroups._galois_group_degree_5_lookup_ext_factor_correct","statement":"Path(_galois_group_degree_5_lookup_ext_factor(x), compute the galois group of a polynomial of degree 5)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c9325f9e72135a5e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["MaxTriesException"]},"state_contract":{"exceptional_post":{"MaxTriesException":["isinstance(raised, MaxTriesException)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _galois_group_degree_5_lookup_ext_factor(T, max_tries=30, randomize=False):
     r"""
     Compute the Galois group of a polynomial of degree 5.
@@ -531,16 +583,25 @@ def _galois_group_degree_5_lookup_ext_factor(T, max_tries=30, randomize=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_galois_group_degree_6_lookup(T, ), compute the galois group of a polynomial of degree 6) over Any ║
+# ║ Path(_galois_group_degree_6_lookup(T, max_tries, randomize), L == [6]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _galois_group_degree_6_lookup : Any → {Any | L == [6]}     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  L == [6]                                       ║
+# ║   fiber[case_0]: L == [1, 2, 3] => (S6TransitiveSubgr...   ║
+# ║   fiber[case_1]: L == [3, 3] => (S6TransitiveSubgroup...   ║
+# ║   fiber[case_2]: L == [2, 4]                               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _galois_group_degree_6_lookup : Any → {Any | result s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 15d25fd73554974c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f6eecf31d1d2a38f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.galoisgroups._galois_group_degree_6_lookup","kind":"function","src_hash":"95b8d6ddbbaed3bf","in":{"base":"Any"},"out":{"base":"Any","pred":"L == [6]"},"spec":{"lhs":"_galois_group_degree_6_lookup(T, )","rhs":"compute the galois group of a polynomial of degree 6","over":{"base":"Any"},"name":"_galois_group_degree_6_lookup_correct"},"guarantee":"compute the galois group of a polynomial of degree 6","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.galoisgroups._galois_group_degree_6_lookup_correct","statement":"Path(_galois_group_degree_6_lookup(x), compute the galois group of a polynomial of degree 6)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"15d25fd73554974c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.galoisgroups._galois_group_degree_6_lookup","kind":"function","src_hash":"95b8d6ddbbaed3bf","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: L == [6]"},"spec":{"lhs":"_galois_group_degree_6_lookup(T, max_tries, randomize)","rhs":"L == [6]","over":{"base":"Any"},"name":"_galois_group_degree_6_lookup_correct"},"guarantee":"L == [6]; 6-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.galoisgroups._galois_group_degree_6_lookup_correct","statement":"Path(_galois_group_degree_6_lookup(x), L == [6]; 6-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f6eecf31d1d2a38f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["L == [6]"],"fibers":[{"name":"case_0","guard":"L == [1, 2, 3]","ensures":["result == (S6TransitiveSubgroups.C6, False) if has_square_disc(f1) else (S6TransitiveSubgroups.D6, False)"],"decidability":"z3","returns_expr":"(S6TransitiveSubgroups.C6, False) if has_square_disc(f1) else (S6TransitiveSubgroups.D6, False)"},{"name":"case_1","guard":"L == [3, 3]","ensures":["result == (S6TransitiveSubgroups.G18, False) if any_square else (S6TransitiveSubgroups.G36m, False)"],"decidability":"z3","returns_expr":"(S6TransitiveSubgroups.G18, False) if any_square else (S6TransitiveSubgroups.G36m, False)"},{"name":"case_2","guard":"L == [2, 4]","ensures":[],"decidability":"z3"},{"name":"case_3","guard":"L == [1, 1, 4]","ensures":["result == (S6TransitiveSubgroups.A4, True) if T_has_sq_disc else (S6TransitiveSubgroups.S4m, False)"],"decidability":"z3","returns_expr":"(S6TransitiveSubgroups.A4, True) if T_has_sq_disc else (S6TransitiveSubgroups.S4m, False)"},{"name":"case_4","guard":"L == [1, 5]","ensures":["result == (S6TransitiveSubgroups.PSL2F5, True) if T_has_sq_disc else (S6TransitiveSubgroups.PGL2F5, False)"],"decidability":"z3","returns_expr":"(S6TransitiveSubgroups.PSL2F5, True) if T_has_sq_disc else (S6TransitiveSubgroups.PGL2F5, False)"},{"name":"case_5","guard":"L == [1, 1, 1, 3]","ensures":["result == (S6TransitiveSubgroups.S3, False)"],"decidability":"z3","returns_expr":"(S6TransitiveSubgroups.S3, False)"}],"pure":false,"effects":{"effect_type":"reads_state","raises":["MaxTriesException"]},"state_contract":{"exceptional_post":{"MaxTriesException":["isinstance(raised, MaxTriesException)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def _galois_group_degree_6_lookup(T, max_tries=30, randomize=False):
     r"""
     Compute the Galois group of a polynomial of degree 6.
@@ -636,16 +697,22 @@ def _galois_group_degree_6_lookup(T, max_tries=30, randomize=False):
 
 @public
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(galois_group(f, ), compute the galois group for polynomials *f* up to degree 6) over Any ║
+# ║ Path(galois_group(f, *gens, by_name), F.galois_group(by_name=by_name, max_tries=max_tries, randomize=randomize)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  F.galois_group(by_name=by_name, max_tries...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ galois_group : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1f423cd838588085  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9942aac1b78112ec  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.galoisgroups.galois_group","kind":"function","src_hash":"d59979855cf49a64","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"galois_group(f, )","rhs":"compute the galois group for polynomials *f* up to degree 6","over":{"base":"Any"},"name":"galois_group_correct"},"guarantee":"compute the galois group for polynomials *f* up to degree 6","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.galoisgroups.galois_group_correct","statement":"Path(galois_group(x), compute the galois group for polynomials *f* up to degree 6)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1f423cd838588085"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.galoisgroups.galois_group","kind":"function","src_hash":"d59979855cf49a64","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"galois_group(f, *gens, by_name)","rhs":"F.galois_group(by_name=by_name, max_tries=max_tries, randomize=randomize)","over":{"base":"Any"},"name":"galois_group_correct"},"guarantee":"returns F.galois_group(by_name=by_name, max_tries=max_tries, randomize=randomize)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.galoisgroups.galois_group_correct","statement":"Path(galois_group(x), returns F.galois_group(by_name=by_name, max_tries=max_tries, randomize=randomize))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9942aac1b78112ec","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"F.galois_group(by_name=by_name, max_tries=max_tries, randomize=randomize)","pure":false,"effects":{"effect_type":"reads_state","raises":["ComputationFailed"],"catches":["PolificationFailed"]},"state_contract":{"exceptional_post":{"ComputationFailed":["isinstance(raised, ComputationFailed)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['f'], spec=['f', '*gens', 'by_name', 'max_tries', 'randomize', '**args']"]}}
 def galois_group(f, *gens, by_name=False, max_tries=30, randomize=False, **args):
     r"""
     Compute the Galois group for polynomials *f* up to degree 6.

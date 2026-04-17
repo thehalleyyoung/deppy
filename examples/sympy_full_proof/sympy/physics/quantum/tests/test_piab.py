@@ -31,16 +31,23 @@ i, j, n, x = symbols('i j n x')
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_H(), test_H produces the expected output) over Any ║
+# ║ Path(test_H(), PIABHamiltonian('H').hilbert_space == L2(Interval(S.NegativeInfinity, S.Infinity)) and qapply(PIABHamiltonian('H') * PIABKet(n)) == n ** 2 * pi ** 2 * hbar ** 2 / (2 * m * L ** 2) * PIABKet(n)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_H : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  PIABHamiltonian('H').hilbert_space == L2(...   ║
+# ║   ensures:  qapply(PIABHamiltonian('H') * PIABKet(n))...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_H : Any → {Any | result satisfies: PIABHamiltoni...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2edfbca0fee6df23  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 55ce823cef1ea016  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_piab.test_H","kind":"function","src_hash":"d10174052d4ebd06","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_H()","rhs":"test_H produces the expected output","over":{"base":"Any"},"name":"test_H_correct"},"guarantee":"test_H produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_piab.test_H_correct","statement":"Path(test_H(x), test_H produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2edfbca0fee6df23"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_piab.test_H","kind":"function","src_hash":"d10174052d4ebd06","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: PIABHamiltonian('H').hilbert_space == L2(Interval(S.NegativeInfinity, S.Infinity)) and qapply(PIABHamiltonian('H') * PIABKet(n)) == n ** 2 * pi ** 2 * hbar ** 2 / (2 * m * L ** 2) * PIABKet(n)"},"spec":{"lhs":"test_H()","rhs":"PIABHamiltonian('H').hilbert_space == L2(Interval(S.NegativeInfinity, S.Infinity)) and qapply(PIABHamiltonian('H') * PIABKet(n)) == n ** 2 * pi ** 2 * hbar ** 2 / (2 * m * L ** 2) * PIABKet(n)","over":{"base":"Any"},"name":"test_H_correct"},"guarantee":"PIABHamiltonian('H').hilbert_space == L2(Interval(S.NegativeInfinity, S.Infinity)); qapply(PIABHamiltonian('H') * PIABKet(n)) == n ** 2 * pi ** 2 * hbar ** 2 / (2 * m * L ** 2) * PIABKet(n)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_piab.test_H_correct","statement":"Path(test_H(x), PIABHamiltonian('H').hilbert_space == L2(Interval(S.NegativeInfinity, S.Infinity)); qapply(PIABHamiltonian('H') * PIABKet(n)) == n ** 2 * pi ** 2 * hbar ** 2 / (2 * m * L ** 2) * PIABKet(n))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"55ce823cef1ea016","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["PIABHamiltonian('H').hilbert_space == L2(Interval(S.NegativeInfinity, S.Infinity))","qapply(PIABHamiltonian('H') * PIABKet(n)) == n ** 2 * pi ** 2 * hbar ** 2 / (2 * m * L ** 2) * PIABKet(n)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_H():
     assert PIABHamiltonian('H').hilbert_space == \
         L2(Interval(S.NegativeInfinity, S.Infinity))
@@ -49,16 +56,24 @@ def test_H():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_states(), test_states produces the expected output) over Any ║
+# ║ Path(test_states(), PIABKet(n).dual_class() == PIABBra and PIABKet(n).hilbert_space == L2(Interval(S.NegativeInfinity, S.Infinity)) and represent(PIABKet(n)) == sqrt(2 / L) * sin(n * pi * x / L) and (PIABBra(i) * PIABKet(j)).doit() == KroneckerDelta(i, j) and PIABBra(n).dual_class() == PIABKet) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_states : Any → {Any | PIABKet(n).dual_class() ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  PIABKet(n).dual_class() == PIABBra             ║
+# ║   ensures:  PIABKet(n).hilbert_space == L2(Interval(S...   ║
+# ║   ensures:  represent(PIABKet(n)) == sqrt(2 / L) * si...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_states : Any → {Any | result satisfies: PIABKet(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 35c20fe09739fe4a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0e139ae00f6ea8d9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_piab.test_states","kind":"function","src_hash":"3e747b8f85fb9fe3","in":{"base":"Any"},"out":{"base":"Any","pred":"PIABKet(n).dual_class() == PIABBra and PIABKet(n).hilbert_space == L2(Interval(S.NegativeInfinity, S.Infinity)) and represent(PIABKet(n)) == sqrt(2 / L) * sin(n * pi * x / L) and (PIABBra(i) * PIABKet(j)).doit() == KroneckerDelta(i, j) and PIABBra(n).dual_class() == PIABKet"},"spec":{"lhs":"test_states()","rhs":"test_states produces the expected output","over":{"base":"Any"},"name":"test_states_correct"},"guarantee":"test_states produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_piab.test_states_correct","statement":"Path(test_states(x), test_states produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"35c20fe09739fe4a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_piab.test_states","kind":"function","src_hash":"3e747b8f85fb9fe3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: PIABKet(n).dual_class() == PIABBra and PIABKet(n).hilbert_space == L2(Interval(S.NegativeInfinity, S.Infinity)) and represent(PIABKet(n)) == sqrt(2 / L) * sin(n * pi * x / L) and (PIABBra(i) * PIABKet(j)).doit() == KroneckerDelta(i, j) and PIABBra(n).dual_class() == PIABKet"},"spec":{"lhs":"test_states()","rhs":"PIABKet(n).dual_class() == PIABBra and PIABKet(n).hilbert_space == L2(Interval(S.NegativeInfinity, S.Infinity)) and represent(PIABKet(n)) == sqrt(2 / L) * sin(n * pi * x / L) and (PIABBra(i) * PIABKet(j)).doit() == KroneckerDelta(i, j) and PIABBra(n).dual_class() == PIABKet","over":{"base":"Any"},"name":"test_states_correct"},"guarantee":"PIABKet(n).dual_class() == PIABBra; PIABKet(n).hilbert_space == L2(Interval(S.NegativeInfinity, S.Infinity)); represent(PIABKet(n)) == sqrt(2 / L) * sin(n * pi * x / L)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_piab.test_states_correct","statement":"Path(test_states(x), PIABKet(n).dual_class() == PIABBra; PIABKet(n).hilbert_space == L2(Interval(S.NegativeInfinity, S.Infinity)); represent(PIABKet(n)) == sqrt(2 / L) * sin(n * pi * x / L))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0e139ae00f6ea8d9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["PIABKet(n).dual_class() == PIABBra","PIABKet(n).hilbert_space == L2(Interval(S.NegativeInfinity, S.Infinity))","represent(PIABKet(n)) == sqrt(2 / L) * sin(n * pi * x / L)","(PIABBra(i) * PIABKet(j)).doit() == KroneckerDelta(i, j)","PIABBra(n).dual_class() == PIABKet"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_states():
     assert PIABKet(n).dual_class() == PIABBra
     assert PIABKet(n).hilbert_space == \

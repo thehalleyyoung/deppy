@@ -90,103 +90,148 @@ from sympy.utilities.misc import debug
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Rule(*args), correctly constructs a Rule instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Rule : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, ABC)                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Rule : Any → {Any | result satisfies: isinstance(self...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b8e2cbc15a50c28f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.Rule","kind":"class","src_hash":"9b70e1c8280fbdc5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Rule(*args)","rhs":"correctly constructs a Rule instance","over":{"base":"Any"},"name":"Rule_class_invariant"},"guarantee":"correctly constructs a Rule instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b8e2cbc15a50c28f"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.Rule","kind":"class","src_hash":"9b70e1c8280fbdc5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, ABC)"},"spec":{"lhs":"Rule(*args)","rhs":"correctly constructs a Rule instance","over":{"base":"Any"},"name":"Rule_class_invariant"},"guarantee":"isinstance(self, ABC)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b8e2cbc15a50c28f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, ABC)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function Rule not found in source"]}}
 class Rule(ABC):
     integrand: Expr
     variable: Symbol
 
     @abstractmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(), eval produces the expected output) over Any   ║
+# ║ Path(eval(), isinstance(result, Expr)) over Any            ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Expr                                          ║
+# ║ C4 Spec [static] strength=partial                          ║
+# ║   ensures:  isinstance(result, Expr)                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : Any → {Expr | result satisfies: isinstance(res...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d95af2e82b3fcad7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.Rule.eval","kind":"method","src_hash":"360218cb8b41716b","in":{"base":"Any"},"out":{"base":"Expr"},"spec":{"lhs":"eval()","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d95af2e82b3fcad7"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.Rule.eval","kind":"method","src_hash":"360218cb8b41716b","in":{"base":"Any"},"out":{"base":"Expr","pred":"result satisfies: isinstance(result, Expr)"},"spec":{"lhs":"eval()","rhs":"isinstance(result, Expr)","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"isinstance(result, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d95af2e82b3fcad7","spec_source":"static","formal_spec":{"source":"static","strength":"partial","ensures":["isinstance(result, Expr)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(self) -> Expr:
         pass
 
     @abstractmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(contains_dont_know(), contains_dont_know produces the expected output) over Any ║
+# ║ Path(contains_dont_know(), isinstance(result, bool)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ contains_dont_know : Any → bool                            ║
+# ║ C4 Spec [static] strength=partial                          ║
+# ║   ensures:  isinstance(result, bool)                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ contains_dont_know : Any → {bool | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6a4001c3fc64c600           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.Rule.contains_dont_know","kind":"method","src_hash":"abcd826f7b9d3386","in":{"base":"Any"},"out":{"base":"bool"},"spec":{"lhs":"contains_dont_know()","rhs":"contains_dont_know produces the expected output","over":{"base":"Any"},"name":"contains_dont_know_correct"},"guarantee":"contains_dont_know produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6a4001c3fc64c600"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.Rule.contains_dont_know","kind":"method","src_hash":"abcd826f7b9d3386","in":{"base":"Any"},"out":{"base":"bool","pred":"result satisfies: isinstance(result, bool)"},"spec":{"lhs":"contains_dont_know()","rhs":"isinstance(result, bool)","over":{"base":"Any"},"name":"contains_dont_know_correct"},"guarantee":"isinstance(result, bool)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6a4001c3fc64c600","spec_source":"static","formal_spec":{"source":"static","strength":"partial","ensures":["isinstance(result, bool)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def contains_dont_know(self) -> bool:
         pass
 
 
 @dataclass
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(AtomicRule(), correctly constructs a AtomicRule instance) over Any ║
+# ║ Path(AtomicRule(), isinstance(self, Rule) and isinstance(self, ABC)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ AtomicRule : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Rule)                         ║
+# ║   ensures:  isinstance(self, ABC)                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ AtomicRule : Any → {Any | result satisfies: isinstanc...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f95586fe88921d9b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.AtomicRule","kind":"class","src_hash":"fd0047a2e17ff1ac","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"AtomicRule()","rhs":"correctly constructs a AtomicRule instance","over":{"base":"Any"},"name":"AtomicRule_correct"},"guarantee":"correctly constructs a AtomicRule instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f95586fe88921d9b"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.AtomicRule","kind":"class","src_hash":"fd0047a2e17ff1ac","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Rule) and isinstance(self, ABC)"},"spec":{"lhs":"AtomicRule()","rhs":"isinstance(self, Rule) and isinstance(self, ABC)","over":{"base":"Any"},"name":"AtomicRule_correct"},"guarantee":"isinstance(self, Rule); isinstance(self, ABC)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f95586fe88921d9b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Rule)","isinstance(self, ABC)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function AtomicRule not found in source"]}}
 class AtomicRule(Rule, ABC):
     """A simple rule that does not depend on other rules"""
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(contains_dont_know(), contains_dont_know produces the expected output) over Any ║
+# ║ Path(contains_dont_know(), False) over Any                 ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ contains_dont_know : Any → bool                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, bool)                       ║
+# ║   returns:  False                                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ contains_dont_know : Any → {bool | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f1e70656bd1e5c0b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.AtomicRule.contains_dont_know","kind":"method","src_hash":"b931cbe8602449f2","in":{"base":"Any"},"out":{"base":"bool"},"spec":{"lhs":"contains_dont_know()","rhs":"contains_dont_know produces the expected output","over":{"base":"Any"},"name":"contains_dont_know_correct"},"guarantee":"contains_dont_know produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f1e70656bd1e5c0b"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.AtomicRule.contains_dont_know","kind":"method","src_hash":"b931cbe8602449f2","in":{"base":"Any"},"out":{"base":"bool","pred":"result satisfies: result == (False)"},"spec":{"lhs":"contains_dont_know()","rhs":"False","over":{"base":"Any"},"name":"contains_dont_know_correct"},"guarantee":"returns False; isinstance(result, bool)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f1e70656bd1e5c0b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, bool)"],"returns_expr":"False","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def contains_dont_know(self) -> bool:
         return False
 
 
 @dataclass
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ConstantRule(), correctly constructs a ConstantRule instance) over Any ║
+# ║ Path(ConstantRule(), isinstance(self, AtomicRule)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ ConstantRule : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, AtomicRule)                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ ConstantRule : Any → {Any | result satisfies: isinsta...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b8c685dfcdd631ef           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.ConstantRule","kind":"class","src_hash":"ec78a829a3c704d2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ConstantRule()","rhs":"correctly constructs a ConstantRule instance","over":{"base":"Any"},"name":"ConstantRule_correct"},"guarantee":"correctly constructs a ConstantRule instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b8c685dfcdd631ef"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.ConstantRule","kind":"class","src_hash":"ec78a829a3c704d2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, AtomicRule)"},"spec":{"lhs":"ConstantRule()","rhs":"isinstance(self, AtomicRule)","over":{"base":"Any"},"name":"ConstantRule_correct"},"guarantee":"isinstance(self, AtomicRule)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b8c685dfcdd631ef","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, AtomicRule)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Function ConstantRule not found in source"]}}
 class ConstantRule(AtomicRule):
     """integrate(a, x)  ->  a*x"""
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(), eval produces the expected output) over Any   ║
+# ║ Path(eval(), self.integrand * self.variable) over Any      ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Expr                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, Expr)                       ║
+# ║   returns:  self.integrand * self.variable                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : Any → {Expr | result satisfies: result == (sel...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 63766bab0fef601b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.ConstantRule.eval","kind":"method","src_hash":"1965ee7df7ec80b3","in":{"base":"Any"},"out":{"base":"Expr"},"spec":{"lhs":"eval()","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"63766bab0fef601b"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.ConstantRule.eval","kind":"method","src_hash":"1965ee7df7ec80b3","in":{"base":"Any"},"out":{"base":"Expr","pred":"result satisfies: result == (self.integrand * self.variable)"},"spec":{"lhs":"eval()","rhs":"self.integrand * self.variable","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"returns self.integrand * self.variable; isinstance(result, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"63766bab0fef601b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, Expr)"],"returns_expr":"self.integrand * self.variable","pure":false,"effects":{"effect_type":"reads_state","reads":["self.integrand","self.variable"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(self) -> Expr:
         return self.integrand * self.variable
 
@@ -195,14 +240,20 @@ class ConstantRule(AtomicRule):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(ConstantTimesRule(*args), correctly constructs a ConstantTimesRule instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ ConstantTimesRule : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Rule)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ ConstantTimesRule : Any → {Any | result satisfies: is...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5fc8061cd68002c1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.ConstantTimesRule","kind":"class","src_hash":"8c32eebfd22650e0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ConstantTimesRule(*args)","rhs":"correctly constructs a ConstantTimesRule instance","over":{"base":"Any"},"name":"ConstantTimesRule_class_invariant"},"guarantee":"correctly constructs a ConstantTimesRule instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5fc8061cd68002c1"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.ConstantTimesRule","kind":"class","src_hash":"8c32eebfd22650e0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Rule)"},"spec":{"lhs":"ConstantTimesRule(*args)","rhs":"correctly constructs a ConstantTimesRule instance","over":{"base":"Any"},"name":"ConstantTimesRule_class_invariant"},"guarantee":"isinstance(self, Rule)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5fc8061cd68002c1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Rule)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function ConstantTimesRule not found in source"]}}
 class ConstantTimesRule(Rule):
     """integrate(a*f(x), x)  ->  a*integrate(f(x), x)"""
     constant: Expr
@@ -210,30 +261,44 @@ class ConstantTimesRule(Rule):
     substep: Rule
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(), eval produces the expected output) over Any   ║
+# ║ Path(eval(), self.constant * self.substep.eval()) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Expr                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, Expr)                       ║
+# ║   returns:  self.constant * self.substep.eval()            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : Any → {Expr | result satisfies: result == (sel...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b492f5995fa6dbe2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.ConstantTimesRule.eval","kind":"method","src_hash":"abc96ad22125a3f3","in":{"base":"Any"},"out":{"base":"Expr"},"spec":{"lhs":"eval()","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b492f5995fa6dbe2"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.ConstantTimesRule.eval","kind":"method","src_hash":"abc96ad22125a3f3","in":{"base":"Any"},"out":{"base":"Expr","pred":"result satisfies: result == (self.constant * self.substep.eval())"},"spec":{"lhs":"eval()","rhs":"self.constant * self.substep.eval()","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"returns self.constant * self.substep.eval(); isinstance(result, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b492f5995fa6dbe2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, Expr)"],"returns_expr":"self.constant * self.substep.eval()","pure":false,"effects":{"effect_type":"reads_state","reads":["self.constant","self.substep"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(self) -> Expr:
         return self.constant * self.substep.eval()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(contains_dont_know(), contains_dont_know produces the expected output) over Any ║
+# ║ Path(contains_dont_know(), self.substep.contains_dont_know()) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ contains_dont_know : Any → bool                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, bool)                       ║
+# ║   returns:  self.substep.contains_dont_know()              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ contains_dont_know : Any → {bool | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 69832f28ddb57def           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.ConstantTimesRule.contains_dont_know","kind":"method","src_hash":"8e4f22a17807fc6e","in":{"base":"Any"},"out":{"base":"bool"},"spec":{"lhs":"contains_dont_know()","rhs":"contains_dont_know produces the expected output","over":{"base":"Any"},"name":"contains_dont_know_correct"},"guarantee":"contains_dont_know produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"69832f28ddb57def"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.ConstantTimesRule.contains_dont_know","kind":"method","src_hash":"8e4f22a17807fc6e","in":{"base":"Any"},"out":{"base":"bool","pred":"result satisfies: result == (self.substep.contains_dont_know())"},"spec":{"lhs":"contains_dont_know()","rhs":"self.substep.contains_dont_know()","over":{"base":"Any"},"name":"contains_dont_know_correct"},"guarantee":"returns self.substep.contains_dont_know(); isinstance(result, bool)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"69832f28ddb57def","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, bool)"],"returns_expr":"self.substep.contains_dont_know()","pure":false,"effects":{"effect_type":"reads_state","reads":["self.substep"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def contains_dont_know(self) -> bool:
         return self.substep.contains_dont_know()
 
@@ -242,30 +307,43 @@ class ConstantTimesRule(Rule):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(PowerRule(*args), correctly constructs a PowerRule instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ PowerRule : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, AtomicRule)                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ PowerRule : Any → {Any | result satisfies: isinstance...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2dee8dd7e5b29285  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.PowerRule","kind":"class","src_hash":"0279098fb90ff3d7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"PowerRule(*args)","rhs":"correctly constructs a PowerRule instance","over":{"base":"Any"},"name":"PowerRule_class_invariant"},"guarantee":"correctly constructs a PowerRule instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2dee8dd7e5b29285"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.PowerRule","kind":"class","src_hash":"0279098fb90ff3d7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, AtomicRule)"},"spec":{"lhs":"PowerRule(*args)","rhs":"correctly constructs a PowerRule instance","over":{"base":"Any"},"name":"PowerRule_class_invariant"},"guarantee":"isinstance(self, AtomicRule)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2dee8dd7e5b29285","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, AtomicRule)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function PowerRule not found in source"]}}
 class PowerRule(AtomicRule):
     """integrate(x**a, x)"""
     base: Expr
     exp: Expr
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(), eval produces the expected output) over Any   ║
+# ║ Path(eval(), Piecewise((self.base ** (self.exp + 1) / (self.exp + 1), Ne(self.exp, -1)), (log(self.base), True))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Expr                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, Expr)                       ║
+# ║   returns:  Piecewise((self.base ** (self.exp + 1) / ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : Any → {Expr | result satisfies: result == (Pie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d9f493aef24f0eb7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d9d5a7da5da87eef  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.PowerRule.eval","kind":"method","src_hash":"d1d6b489eac25e1d","in":{"base":"Any"},"out":{"base":"Expr"},"spec":{"lhs":"eval()","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.PowerRule.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d9f493aef24f0eb7"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.PowerRule.eval","kind":"method","src_hash":"d1d6b489eac25e1d","in":{"base":"Any"},"out":{"base":"Expr","pred":"result satisfies: result == (Piecewise((self.base ** (self.exp + 1) / (self.exp + 1), Ne(self.exp, -1)), (log(self.base), True)))"},"spec":{"lhs":"eval()","rhs":"Piecewise((self.base ** (self.exp + 1) / (self.exp + 1), Ne(self.exp, -1)), (log(self.base), True))","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"returns Piecewise((self.base ** (self.exp + 1) / (self.exp + 1), Ne(self.exp, -1)), (log(self.base), True)); isinstance(result, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.PowerRule.eval_correct","statement":"Path(eval(x), returns Piecewise((self.base ** (self.exp + 1) / (self.exp + 1), Ne(self.exp, -1)), (log(self.base), True)); isinstance(result, Expr))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d9d5a7da5da87eef","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, Expr)"],"returns_expr":"Piecewise((self.base ** (self.exp + 1) / (self.exp + 1), Ne(self.exp, -1)), (log(self.base), True))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.base","self.exp"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(self) -> Expr:
         return Piecewise(
             ((self.base**(self.exp + 1))/(self.exp + 1), Ne(self.exp, -1)),
@@ -277,14 +355,20 @@ class PowerRule(AtomicRule):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(NestedPowRule(*args), correctly constructs a NestedPowRule instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ NestedPowRule : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, AtomicRule)                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ NestedPowRule : Any → {Any | result satisfies: isinst...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 69ba76a7da4e7976  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.NestedPowRule","kind":"class","src_hash":"c762a28bb0749a65","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"NestedPowRule(*args)","rhs":"correctly constructs a NestedPowRule instance","over":{"base":"Any"},"name":"NestedPowRule_class_invariant"},"guarantee":"correctly constructs a NestedPowRule instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"69ba76a7da4e7976"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.NestedPowRule","kind":"class","src_hash":"c762a28bb0749a65","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, AtomicRule)"},"spec":{"lhs":"NestedPowRule(*args)","rhs":"correctly constructs a NestedPowRule instance","over":{"base":"Any"},"name":"NestedPowRule_class_invariant"},"guarantee":"isinstance(self, AtomicRule)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"69ba76a7da4e7976","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, AtomicRule)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function NestedPowRule not found in source"]}}
 class NestedPowRule(AtomicRule):
     """integrate((x**a)**b, x)"""
     base: Expr
@@ -293,14 +377,21 @@ class NestedPowRule(AtomicRule):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(eval(), id) over Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Expr                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, Expr)                       ║
+# ║   returns:  Piecewise((m / (self.exp + 1), Ne(self.ex...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : Any → {Expr | result satisfies: result == (Pie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 5abcf663cf15514f   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.NestedPowRule.eval","kind":"method","src_hash":"0491dd72185debd3","in":{"base":"Any"},"out":{"base":"Expr"},"spec":{"lhs":"eval()","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct","kind":"composition"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Piecewise","by":"library_axiom"},{"fn":"Ne","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5abcf663cf15514f"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.NestedPowRule.eval","kind":"method","src_hash":"0491dd72185debd3","in":{"base":"Any"},"out":{"base":"Expr","pred":"result satisfies: result == (Piecewise((m / (self.exp + 1), Ne(self.exp, -1)), (m * log(self.base), True)))"},"spec":{"lhs":"eval()","rhs":"Piecewise((m / (self.exp + 1), Ne(self.exp, -1)), (m * log(self.base), True))","over":{"base":"Any"},"name":"eval_correct","kind":"composition"},"guarantee":"returns Piecewise((m / (self.exp + 1), Ne(self.exp, -1)), (m * log(self.base), True)); isinstance(result, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Piecewise","by":"library_axiom"},{"fn":"Ne","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5abcf663cf15514f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, Expr)"],"returns_expr":"Piecewise((m / (self.exp + 1), Ne(self.exp, -1)), (m * log(self.base), True))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.base","self.exp","self.integrand"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(self) -> Expr:
         m = self.base * self.integrand
         return Piecewise((m / (self.exp + 1), Ne(self.exp, -1)),
@@ -311,43 +402,63 @@ class NestedPowRule(AtomicRule):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(AddRule(*args), correctly constructs a AddRule instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ AddRule : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Rule)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ AddRule : Any → {Any | result satisfies: isinstance(s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4f795dfa87190813  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.AddRule","kind":"class","src_hash":"2ca65f53afb1d8e1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"AddRule(*args)","rhs":"correctly constructs a AddRule instance","over":{"base":"Any"},"name":"AddRule_class_invariant"},"guarantee":"correctly constructs a AddRule instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4f795dfa87190813"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.AddRule","kind":"class","src_hash":"2ca65f53afb1d8e1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Rule)"},"spec":{"lhs":"AddRule(*args)","rhs":"correctly constructs a AddRule instance","over":{"base":"Any"},"name":"AddRule_class_invariant"},"guarantee":"isinstance(self, Rule)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4f795dfa87190813","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Rule)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function AddRule not found in source"]}}
 class AddRule(Rule):
     """integrate(f(x) + g(x), x) -> integrate(f(x), x) + integrate(g(x), x)"""
     substeps: list[Rule]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(), eval produces the expected output) over Any   ║
+# ║ Path(eval(), Add(*(substep.eval() for substep in self.substeps))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Expr                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, Expr)                       ║
+# ║   returns:  Add(*(substep.eval() for substep in self....   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : Any → {Expr | result satisfies: result == (Add...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7604d12bd5005de7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.AddRule.eval","kind":"method","src_hash":"5e4732ed4f77b996","in":{"base":"Any"},"out":{"base":"Expr"},"spec":{"lhs":"eval()","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7604d12bd5005de7"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.AddRule.eval","kind":"method","src_hash":"5e4732ed4f77b996","in":{"base":"Any"},"out":{"base":"Expr","pred":"result satisfies: result == (Add(*(substep.eval() for substep in self.substeps)))"},"spec":{"lhs":"eval()","rhs":"Add(*(substep.eval() for substep in self.substeps))","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"returns Add(*(substep.eval() for substep in self.substeps)); isinstance(result, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7604d12bd5005de7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, Expr)"],"returns_expr":"Add(*(substep.eval() for substep in self.substeps))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.substeps"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(self) -> Expr:
         return Add(*(substep.eval() for substep in self.substeps))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(contains_dont_know(), contains_dont_know produces the expected output) over Any ║
+# ║ Path(contains_dont_know(), any((substep.contains_dont_know() for substep in self.substeps))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ contains_dont_know : Any → bool                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, bool)                       ║
+# ║   returns:  any((substep.contains_dont_know() for sub...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ contains_dont_know : Any → {bool | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8a57fc333b4aabf6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.AddRule.contains_dont_know","kind":"method","src_hash":"1b56c25b3a9c64ab","in":{"base":"Any"},"out":{"base":"bool"},"spec":{"lhs":"contains_dont_know()","rhs":"contains_dont_know produces the expected output","over":{"base":"Any"},"name":"contains_dont_know_correct"},"guarantee":"contains_dont_know produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8a57fc333b4aabf6"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.AddRule.contains_dont_know","kind":"method","src_hash":"1b56c25b3a9c64ab","in":{"base":"Any"},"out":{"base":"bool","pred":"result satisfies: result == (any((substep.contains_dont_know() for substep in self.substeps)))"},"spec":{"lhs":"contains_dont_know()","rhs":"any((substep.contains_dont_know() for substep in self.substeps))","over":{"base":"Any"},"name":"contains_dont_know_correct"},"guarantee":"returns any((substep.contains_dont_know() for substep in self.substeps)); isinstance(result, bool)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8a57fc333b4aabf6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, bool)"],"returns_expr":"any((substep.contains_dont_know() for substep in self.substeps))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.substeps"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def contains_dont_know(self) -> bool:
         return any(substep.contains_dont_know() for substep in self.substeps)
 
@@ -356,14 +467,20 @@ class AddRule(Rule):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(URule(*args), correctly constructs a URule instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ URule : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Rule)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ URule : Any → {Any | result satisfies: isinstance(sel...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7eb6bd58d41ee97f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.URule","kind":"class","src_hash":"cd98156c310b5b4a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"URule(*args)","rhs":"correctly constructs a URule instance","over":{"base":"Any"},"name":"URule_class_invariant"},"guarantee":"correctly constructs a URule instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7eb6bd58d41ee97f"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.URule","kind":"class","src_hash":"cd98156c310b5b4a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Rule)"},"spec":{"lhs":"URule(*args)","rhs":"correctly constructs a URule instance","over":{"base":"Any"},"name":"URule_class_invariant"},"guarantee":"isinstance(self, Rule)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7eb6bd58d41ee97f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Rule)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function URule not found in source"]}}
 class URule(Rule):
     """integrate(f(g(x))*g'(x), x) -> integrate(f(u), u), u = g(x)"""
     u_var: Symbol
@@ -371,16 +488,23 @@ class URule(Rule):
     substep: Rule
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(), eval produces the expected output) over Any   ║
+# ║ Path(eval(), result.subs(self.u_var, self.u_func)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Expr                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, Expr)                       ║
+# ║   returns:  result.subs(self.u_var, self.u_func)           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : Any → {Expr | result satisfies: result == (res...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3f63f936f1c66ad0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4429b76929ee3be2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.URule.eval","kind":"method","src_hash":"6a2b03c6d4637882","in":{"base":"Any"},"out":{"base":"Expr"},"spec":{"lhs":"eval()","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.URule.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3f63f936f1c66ad0"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.URule.eval","kind":"method","src_hash":"6a2b03c6d4637882","in":{"base":"Any"},"out":{"base":"Expr","pred":"result satisfies: result == (result.subs(self.u_var, self.u_func))"},"spec":{"lhs":"eval()","rhs":"result.subs(self.u_var, self.u_func)","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"returns result.subs(self.u_var, self.u_func); isinstance(result, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.URule.eval_correct","statement":"Path(eval(x), returns result.subs(self.u_var, self.u_func); isinstance(result, Expr))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4429b76929ee3be2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, Expr)"],"returns_expr":"result.subs(self.u_var, self.u_func)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.substep","self.u_func","self.u_var"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(self) -> Expr:
         result = self.substep.eval()
         if self.u_func.is_Pow:
@@ -391,16 +515,23 @@ class URule(Rule):
         return result.subs(self.u_var, self.u_func)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(contains_dont_know(), contains_dont_know produces the expected output) over Any ║
+# ║ Path(contains_dont_know(), self.substep.contains_dont_know()) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ contains_dont_know : Any → bool                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, bool)                       ║
+# ║   returns:  self.substep.contains_dont_know()              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ contains_dont_know : Any → {bool | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3d745e6807735ddb           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.URule.contains_dont_know","kind":"method","src_hash":"8e4f22a17807fc6e","in":{"base":"Any"},"out":{"base":"bool"},"spec":{"lhs":"contains_dont_know()","rhs":"contains_dont_know produces the expected output","over":{"base":"Any"},"name":"contains_dont_know_correct"},"guarantee":"contains_dont_know produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3d745e6807735ddb"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.URule.contains_dont_know","kind":"method","src_hash":"8e4f22a17807fc6e","in":{"base":"Any"},"out":{"base":"bool","pred":"result satisfies: result == (self.substep.contains_dont_know())"},"spec":{"lhs":"contains_dont_know()","rhs":"self.substep.contains_dont_know()","over":{"base":"Any"},"name":"contains_dont_know_correct"},"guarantee":"returns self.substep.contains_dont_know(); isinstance(result, bool)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3d745e6807735ddb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, bool)"],"returns_expr":"self.substep.contains_dont_know()","pure":false,"effects":{"effect_type":"reads_state","reads":["self.substep"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def contains_dont_know(self) -> bool:
         return self.substep.contains_dont_know()
 
@@ -409,14 +540,20 @@ class URule(Rule):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(PartsRule(*args), correctly constructs a PartsRule instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ PartsRule : Any → {Any | self.second_step is not None}     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Rule)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ PartsRule : Any → {Any | result satisfies: isinstance...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 99258719c9787419  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.PartsRule","kind":"class","src_hash":"11454d63cce1b3e8","in":{"base":"Any"},"out":{"base":"Any","pred":"self.second_step is not None"},"spec":{"lhs":"PartsRule(*args)","rhs":"correctly constructs a PartsRule instance","over":{"base":"Any"},"name":"PartsRule_class_invariant"},"guarantee":"correctly constructs a PartsRule instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"99258719c9787419"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.PartsRule","kind":"class","src_hash":"11454d63cce1b3e8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Rule)"},"spec":{"lhs":"PartsRule(*args)","rhs":"correctly constructs a PartsRule instance","over":{"base":"Any"},"name":"PartsRule_class_invariant"},"guarantee":"isinstance(self, Rule)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"99258719c9787419","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Rule)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function PartsRule not found in source"]}}
 class PartsRule(Rule):
     """integrate(u(x)*v'(x), x) -> u(x)*v(x) - integrate(u'(x)*v(x), x)"""
     u: Symbol
@@ -425,32 +562,47 @@ class PartsRule(Rule):
     second_step: Rule | None  # None when is a substep of CyclicPartsRule
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(), eval produces the expected output) over Any   ║
+# ║ Path(eval(), self.u * v - self.second_step.eval()) over {Any | self.second_step is not None} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Expr                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: self.second_step is not None                   ║
+# ║   ensures:  isinstance(result, Expr)                       ║
+# ║   returns:  self.u * v - self.second_step.eval()           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : {Any | self.second_step is not None} → {Expr |...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d821d3a0f87686fb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 621e8259a4cf1c98  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.PartsRule.eval","kind":"method","src_hash":"72d647dae5df5405","in":{"base":"Any"},"out":{"base":"Expr"},"spec":{"lhs":"eval()","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.PartsRule.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d821d3a0f87686fb"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.PartsRule.eval","kind":"method","src_hash":"72d647dae5df5405","in":{"base":"Any","pred":"self.second_step is not None"},"out":{"base":"Expr","pred":"result satisfies: result == (self.u * v - self.second_step.eval())"},"spec":{"lhs":"eval()","rhs":"self.u * v - self.second_step.eval()","over":{"base":"Any","pred":"self.second_step is not None"},"name":"eval_correct"},"guarantee":"returns self.u * v - self.second_step.eval(); isinstance(result, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.PartsRule.eval_correct","statement":"Path(eval(x), returns self.u * v - self.second_step.eval(); isinstance(result, Expr))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"621e8259a4cf1c98","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["self.second_step is not None"],"ensures":["isinstance(result, Expr)"],"returns_expr":"self.u * v - self.second_step.eval()","pure":false,"effects":{"effect_type":"reads_state","reads":["self.second_step","self.u","self.v_step"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(self) -> Expr:
         assert self.second_step is not None
         v = self.v_step.eval()
         return self.u * v - self.second_step.eval()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(contains_dont_know(), contains_dont_know produces the expected output) over Any ║
+# ║ Path(contains_dont_know(), self.v_step.contains_dont_know() or (self.second_step is not None and self.second_step.contains_dont_know())) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ contains_dont_know : Any → bool                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, bool)                       ║
+# ║   returns:  self.v_step.contains_dont_know() or (self...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ contains_dont_know : Any → {bool | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e26c753c4d70e6e6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 70a5908c2d24a25e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.PartsRule.contains_dont_know","kind":"method","src_hash":"04832d146bf4c898","in":{"base":"Any"},"out":{"base":"bool"},"spec":{"lhs":"contains_dont_know()","rhs":"contains_dont_know produces the expected output","over":{"base":"Any"},"name":"contains_dont_know_correct"},"guarantee":"contains_dont_know produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.PartsRule.contains_dont_know_correct","statement":"Path(contains_dont_know(x), contains_dont_know produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e26c753c4d70e6e6"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.PartsRule.contains_dont_know","kind":"method","src_hash":"04832d146bf4c898","in":{"base":"Any"},"out":{"base":"bool","pred":"result satisfies: result == (self.v_step.contains_dont_know() or (self.second_step is not None and self.second_step.contains_dont_know()))"},"spec":{"lhs":"contains_dont_know()","rhs":"self.v_step.contains_dont_know() or (self.second_step is not None and self.second_step.contains_dont_know())","over":{"base":"Any"},"name":"contains_dont_know_correct"},"guarantee":"returns self.v_step.contains_dont_know() or (self.second_step is not None and self.second_step.contains_dont_know()); isinstance(result, bool)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.PartsRule.contains_dont_know_correct","statement":"Path(contains_dont_know(x), returns self.v_step.contains_dont_know() or (self.second_step is not None and self.second_step.contains_dont_know()); isinstance(result, bool))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"70a5908c2d24a25e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, bool)"],"returns_expr":"self.v_step.contains_dont_know() or (self.second_step is not None and self.second_step.contains_dont_know())","pure":false,"effects":{"effect_type":"reads_state","reads":["self.second_step","self.v_step"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def contains_dont_know(self) -> bool:
         return self.v_step.contains_dont_know() or (
             self.second_step is not None and self.second_step.contains_dont_know())
@@ -460,30 +612,43 @@ class PartsRule(Rule):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(CyclicPartsRule(*args), correctly constructs a CyclicPartsRule instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ CyclicPartsRule : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Rule)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ CyclicPartsRule : Any → {Any | result satisfies: isin...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5f67a52aaefe456e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.CyclicPartsRule","kind":"class","src_hash":"578e50281aac3b9a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"CyclicPartsRule(*args)","rhs":"correctly constructs a CyclicPartsRule instance","over":{"base":"Any"},"name":"CyclicPartsRule_class_invariant"},"guarantee":"correctly constructs a CyclicPartsRule instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5f67a52aaefe456e"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.CyclicPartsRule","kind":"class","src_hash":"578e50281aac3b9a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Rule)"},"spec":{"lhs":"CyclicPartsRule(*args)","rhs":"correctly constructs a CyclicPartsRule instance","over":{"base":"Any"},"name":"CyclicPartsRule_class_invariant"},"guarantee":"isinstance(self, Rule)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5f67a52aaefe456e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Rule)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function CyclicPartsRule not found in source"]}}
 class CyclicPartsRule(Rule):
     """Apply PartsRule multiple times to integrate exp(x)*sin(x)"""
     parts_rules: list[PartsRule]
     coefficient: Expr
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(), eval produces the expected output) over Any   ║
+# ║ Path(eval(), Add(*result) / (1 - self.coefficient)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Expr                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, Expr)                       ║
+# ║   returns:  Add(*result) / (1 - self.coefficient)          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : Any → {Expr | result satisfies: result == (Add...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 047b5f5ddef818d7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 03769695582a2073  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.CyclicPartsRule.eval","kind":"method","src_hash":"3b6fff56d3a45e2e","in":{"base":"Any"},"out":{"base":"Expr"},"spec":{"lhs":"eval()","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.CyclicPartsRule.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"047b5f5ddef818d7"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.CyclicPartsRule.eval","kind":"method","src_hash":"3b6fff56d3a45e2e","in":{"base":"Any"},"out":{"base":"Expr","pred":"result satisfies: result == (Add(*result) / (1 - self.coefficient))"},"spec":{"lhs":"eval()","rhs":"Add(*result) / (1 - self.coefficient)","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"returns Add(*result) / (1 - self.coefficient); isinstance(result, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.CyclicPartsRule.eval_correct","statement":"Path(eval(x), returns Add(*result) / (1 - self.coefficient); isinstance(result, Expr))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"03769695582a2073","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, Expr)"],"returns_expr":"Add(*result) / (1 - self.coefficient)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(self) -> Expr:
         result = []
         sign = 1
@@ -493,401 +658,577 @@ class CyclicPartsRule(Rule):
         return Add(*result) / (1 - self.coefficient)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(contains_dont_know(), contains_dont_know produces the expected output) over Any ║
+# ║ Path(contains_dont_know(), any((substep.contains_dont_know() for substep in self.parts_rules))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ contains_dont_know : Any → bool                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, bool)                       ║
+# ║   returns:  any((substep.contains_dont_know() for sub...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ contains_dont_know : Any → {bool | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d4b4575d20c4955d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.CyclicPartsRule.contains_dont_know","kind":"method","src_hash":"b9a6f443987bac73","in":{"base":"Any"},"out":{"base":"bool"},"spec":{"lhs":"contains_dont_know()","rhs":"contains_dont_know produces the expected output","over":{"base":"Any"},"name":"contains_dont_know_correct"},"guarantee":"contains_dont_know produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d4b4575d20c4955d"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.CyclicPartsRule.contains_dont_know","kind":"method","src_hash":"b9a6f443987bac73","in":{"base":"Any"},"out":{"base":"bool","pred":"result satisfies: result == (any((substep.contains_dont_know() for substep in self.parts_rules)))"},"spec":{"lhs":"contains_dont_know()","rhs":"any((substep.contains_dont_know() for substep in self.parts_rules))","over":{"base":"Any"},"name":"contains_dont_know_correct"},"guarantee":"returns any((substep.contains_dont_know() for substep in self.parts_rules)); isinstance(result, bool)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d4b4575d20c4955d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, bool)"],"returns_expr":"any((substep.contains_dont_know() for substep in self.parts_rules))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.parts_rules"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def contains_dont_know(self) -> bool:
         return any(substep.contains_dont_know() for substep in self.parts_rules)
 
 
 @dataclass
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(TrigRule(), correctly constructs a TrigRule instance) over Any ║
+# ║ Path(TrigRule(), isinstance(self, AtomicRule) and isinstance(self, ABC)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ TrigRule : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, AtomicRule)                   ║
+# ║   ensures:  isinstance(self, ABC)                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ TrigRule : Any → {Any | result satisfies: isinstance(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9faf16f523a26e8a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.TrigRule","kind":"class","src_hash":"738bac110ad07250","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"TrigRule()","rhs":"correctly constructs a TrigRule instance","over":{"base":"Any"},"name":"TrigRule_correct"},"guarantee":"correctly constructs a TrigRule instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9faf16f523a26e8a"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.TrigRule","kind":"class","src_hash":"738bac110ad07250","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, AtomicRule) and isinstance(self, ABC)"},"spec":{"lhs":"TrigRule()","rhs":"isinstance(self, AtomicRule) and isinstance(self, ABC)","over":{"base":"Any"},"name":"TrigRule_correct"},"guarantee":"isinstance(self, AtomicRule); isinstance(self, ABC)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9faf16f523a26e8a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, AtomicRule)","isinstance(self, ABC)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function TrigRule not found in source"]}}
 class TrigRule(AtomicRule, ABC):
     pass
 
 
 @dataclass
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(SinRule(), correctly constructs a SinRule instance) over Any ║
+# ║ Path(SinRule(), isinstance(self, TrigRule)) over Any       ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ SinRule : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, TrigRule)                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ SinRule : Any → {Any | result satisfies: isinstance(s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 35275ff1cc3239f8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.SinRule","kind":"class","src_hash":"be649c5b6a7a62d1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"SinRule()","rhs":"correctly constructs a SinRule instance","over":{"base":"Any"},"name":"SinRule_correct"},"guarantee":"correctly constructs a SinRule instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"35275ff1cc3239f8"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.SinRule","kind":"class","src_hash":"be649c5b6a7a62d1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, TrigRule)"},"spec":{"lhs":"SinRule()","rhs":"isinstance(self, TrigRule)","over":{"base":"Any"},"name":"SinRule_correct"},"guarantee":"isinstance(self, TrigRule)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"35275ff1cc3239f8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, TrigRule)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function SinRule not found in source"]}}
 class SinRule(TrigRule):
     """integrate(sin(x), x) -> -cos(x)"""
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(), eval produces the expected output) over Any   ║
+# ║ Path(eval(), -cos(self.variable)) over Any                 ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Expr                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, Expr)                       ║
+# ║   returns:  -cos(self.variable)                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : Any → {Expr | result satisfies: result == (-co...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5bbba8e2bb3199ec           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.SinRule.eval","kind":"method","src_hash":"eb1604a9e8a28c0c","in":{"base":"Any"},"out":{"base":"Expr"},"spec":{"lhs":"eval()","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5bbba8e2bb3199ec"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.SinRule.eval","kind":"method","src_hash":"eb1604a9e8a28c0c","in":{"base":"Any"},"out":{"base":"Expr","pred":"result satisfies: result == (-cos(self.variable))"},"spec":{"lhs":"eval()","rhs":"-cos(self.variable)","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"returns -cos(self.variable); isinstance(result, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5bbba8e2bb3199ec","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, Expr)"],"returns_expr":"-cos(self.variable)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.variable"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(self) -> Expr:
         return -cos(self.variable)
 
 
 @dataclass
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(CosRule(), correctly constructs a CosRule instance) over Any ║
+# ║ Path(CosRule(), isinstance(self, TrigRule)) over Any       ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ CosRule : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, TrigRule)                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ CosRule : Any → {Any | result satisfies: isinstance(s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 69ce67ea751785ad           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.CosRule","kind":"class","src_hash":"eb6c94890e50b152","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"CosRule()","rhs":"correctly constructs a CosRule instance","over":{"base":"Any"},"name":"CosRule_correct"},"guarantee":"correctly constructs a CosRule instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"69ce67ea751785ad"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.CosRule","kind":"class","src_hash":"eb6c94890e50b152","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, TrigRule)"},"spec":{"lhs":"CosRule()","rhs":"isinstance(self, TrigRule)","over":{"base":"Any"},"name":"CosRule_correct"},"guarantee":"isinstance(self, TrigRule)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"69ce67ea751785ad","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, TrigRule)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function CosRule not found in source"]}}
 class CosRule(TrigRule):
     """integrate(cos(x), x) -> sin(x)"""
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(), eval produces the expected output) over Any   ║
+# ║ Path(eval(), sin(self.variable)) over Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Expr                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, Expr)                       ║
+# ║   returns:  sin(self.variable)                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : Any → {Expr | result satisfies: result == (sin...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b6cf77be0d6d0b2b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.CosRule.eval","kind":"method","src_hash":"0f880b2f5d867487","in":{"base":"Any"},"out":{"base":"Expr"},"spec":{"lhs":"eval()","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b6cf77be0d6d0b2b"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.CosRule.eval","kind":"method","src_hash":"0f880b2f5d867487","in":{"base":"Any"},"out":{"base":"Expr","pred":"result satisfies: result == (sin(self.variable))"},"spec":{"lhs":"eval()","rhs":"sin(self.variable)","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"returns sin(self.variable); isinstance(result, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b6cf77be0d6d0b2b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, Expr)"],"returns_expr":"sin(self.variable)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.variable"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(self) -> Expr:
         return sin(self.variable)
 
 
 @dataclass
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(SecTanRule(), correctly constructs a SecTanRule instance) over Any ║
+# ║ Path(SecTanRule(), isinstance(self, TrigRule)) over Any    ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ SecTanRule : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, TrigRule)                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ SecTanRule : Any → {Any | result satisfies: isinstanc...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | abf67f4f27380d3a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.SecTanRule","kind":"class","src_hash":"5925e7b9c16884ad","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"SecTanRule()","rhs":"correctly constructs a SecTanRule instance","over":{"base":"Any"},"name":"SecTanRule_correct"},"guarantee":"correctly constructs a SecTanRule instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"abf67f4f27380d3a"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.SecTanRule","kind":"class","src_hash":"5925e7b9c16884ad","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, TrigRule)"},"spec":{"lhs":"SecTanRule()","rhs":"isinstance(self, TrigRule)","over":{"base":"Any"},"name":"SecTanRule_correct"},"guarantee":"isinstance(self, TrigRule)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"abf67f4f27380d3a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, TrigRule)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function SecTanRule not found in source"]}}
 class SecTanRule(TrigRule):
     """integrate(sec(x)*tan(x), x) -> sec(x)"""
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(), eval produces the expected output) over Any   ║
+# ║ Path(eval(), sec(self.variable)) over Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Expr                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, Expr)                       ║
+# ║   returns:  sec(self.variable)                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : Any → {Expr | result satisfies: result == (sec...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 011764e6600bf98f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.SecTanRule.eval","kind":"method","src_hash":"36fa503149eec51e","in":{"base":"Any"},"out":{"base":"Expr"},"spec":{"lhs":"eval()","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"011764e6600bf98f"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.SecTanRule.eval","kind":"method","src_hash":"36fa503149eec51e","in":{"base":"Any"},"out":{"base":"Expr","pred":"result satisfies: result == (sec(self.variable))"},"spec":{"lhs":"eval()","rhs":"sec(self.variable)","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"returns sec(self.variable); isinstance(result, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"011764e6600bf98f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, Expr)"],"returns_expr":"sec(self.variable)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.variable"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(self) -> Expr:
         return sec(self.variable)
 
 
 @dataclass
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(CscCotRule(), correctly constructs a CscCotRule instance) over Any ║
+# ║ Path(CscCotRule(), isinstance(self, TrigRule)) over Any    ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ CscCotRule : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, TrigRule)                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ CscCotRule : Any → {Any | result satisfies: isinstanc...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 17d6edd454f2ca45           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.CscCotRule","kind":"class","src_hash":"81794ca9e6dcabbd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"CscCotRule()","rhs":"correctly constructs a CscCotRule instance","over":{"base":"Any"},"name":"CscCotRule_correct"},"guarantee":"correctly constructs a CscCotRule instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"17d6edd454f2ca45"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.CscCotRule","kind":"class","src_hash":"81794ca9e6dcabbd","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, TrigRule)"},"spec":{"lhs":"CscCotRule()","rhs":"isinstance(self, TrigRule)","over":{"base":"Any"},"name":"CscCotRule_correct"},"guarantee":"isinstance(self, TrigRule)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"17d6edd454f2ca45","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, TrigRule)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Function CscCotRule not found in source"]}}
 class CscCotRule(TrigRule):
     """integrate(csc(x)*cot(x), x) -> -csc(x)"""
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(), eval produces the expected output) over Any   ║
+# ║ Path(eval(), -csc(self.variable)) over Any                 ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Expr                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, Expr)                       ║
+# ║   returns:  -csc(self.variable)                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : Any → {Expr | result satisfies: result == (-cs...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5d54cdedbe5e1086           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.CscCotRule.eval","kind":"method","src_hash":"08bdf700f60b63fa","in":{"base":"Any"},"out":{"base":"Expr"},"spec":{"lhs":"eval()","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5d54cdedbe5e1086"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.CscCotRule.eval","kind":"method","src_hash":"08bdf700f60b63fa","in":{"base":"Any"},"out":{"base":"Expr","pred":"result satisfies: result == (-csc(self.variable))"},"spec":{"lhs":"eval()","rhs":"-csc(self.variable)","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"returns -csc(self.variable); isinstance(result, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5d54cdedbe5e1086","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, Expr)"],"returns_expr":"-csc(self.variable)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.variable"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(self) -> Expr:
         return -csc(self.variable)
 
 
 @dataclass
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(Sec2Rule(), correctly constructs a Sec2Rule instance) over Any ║
+# ║ Path(Sec2Rule(), isinstance(self, TrigRule)) over Any      ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Sec2Rule : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, TrigRule)                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Sec2Rule : Any → {Any | result satisfies: isinstance(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 026fd06c28830b42           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.Sec2Rule","kind":"class","src_hash":"937082e2e7452cd2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Sec2Rule()","rhs":"correctly constructs a Sec2Rule instance","over":{"base":"Any"},"name":"Sec2Rule_correct"},"guarantee":"correctly constructs a Sec2Rule instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"026fd06c28830b42"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.Sec2Rule","kind":"class","src_hash":"937082e2e7452cd2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, TrigRule)"},"spec":{"lhs":"Sec2Rule()","rhs":"isinstance(self, TrigRule)","over":{"base":"Any"},"name":"Sec2Rule_correct"},"guarantee":"isinstance(self, TrigRule)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"026fd06c28830b42","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, TrigRule)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function Sec2Rule not found in source"]}}
 class Sec2Rule(TrigRule):
     """integrate(sec(x)**2, x) -> tan(x)"""
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(), eval produces the expected output) over Any   ║
+# ║ Path(eval(), tan(self.variable)) over Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Expr                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, Expr)                       ║
+# ║   returns:  tan(self.variable)                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : Any → {Expr | result satisfies: result == (tan...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a117a5fb44301cd0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.Sec2Rule.eval","kind":"method","src_hash":"10bf349d3e660a89","in":{"base":"Any"},"out":{"base":"Expr"},"spec":{"lhs":"eval()","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a117a5fb44301cd0"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.Sec2Rule.eval","kind":"method","src_hash":"10bf349d3e660a89","in":{"base":"Any"},"out":{"base":"Expr","pred":"result satisfies: result == (tan(self.variable))"},"spec":{"lhs":"eval()","rhs":"tan(self.variable)","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"returns tan(self.variable); isinstance(result, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a117a5fb44301cd0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, Expr)"],"returns_expr":"tan(self.variable)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.variable"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(self) -> Expr:
         return tan(self.variable)
 
 
 @dataclass
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(Csc2Rule(), correctly constructs a Csc2Rule instance) over Any ║
+# ║ Path(Csc2Rule(), isinstance(self, TrigRule)) over Any      ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Csc2Rule : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, TrigRule)                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Csc2Rule : Any → {Any | result satisfies: isinstance(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 16a24c21773c959a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.Csc2Rule","kind":"class","src_hash":"219d4a63d47d33d0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Csc2Rule()","rhs":"correctly constructs a Csc2Rule instance","over":{"base":"Any"},"name":"Csc2Rule_correct"},"guarantee":"correctly constructs a Csc2Rule instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"16a24c21773c959a"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.Csc2Rule","kind":"class","src_hash":"219d4a63d47d33d0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, TrigRule)"},"spec":{"lhs":"Csc2Rule()","rhs":"isinstance(self, TrigRule)","over":{"base":"Any"},"name":"Csc2Rule_correct"},"guarantee":"isinstance(self, TrigRule)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"16a24c21773c959a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, TrigRule)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function Csc2Rule not found in source"]}}
 class Csc2Rule(TrigRule):
     """integrate(csc(x)**2, x) -> -cot(x)"""
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(), eval produces the expected output) over Any   ║
+# ║ Path(eval(), -cot(self.variable)) over Any                 ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Expr                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, Expr)                       ║
+# ║   returns:  -cot(self.variable)                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : Any → {Expr | result satisfies: result == (-co...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f58b76759d10233a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.Csc2Rule.eval","kind":"method","src_hash":"6b6dc5bd3bdac92e","in":{"base":"Any"},"out":{"base":"Expr"},"spec":{"lhs":"eval()","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f58b76759d10233a"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.Csc2Rule.eval","kind":"method","src_hash":"6b6dc5bd3bdac92e","in":{"base":"Any"},"out":{"base":"Expr","pred":"result satisfies: result == (-cot(self.variable))"},"spec":{"lhs":"eval()","rhs":"-cot(self.variable)","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"returns -cot(self.variable); isinstance(result, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f58b76759d10233a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, Expr)"],"returns_expr":"-cot(self.variable)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.variable"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(self) -> Expr:
         return -cot(self.variable)
 
 
 @dataclass
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(HyperbolicRule(), correctly constructs a HyperbolicRule instance) over Any ║
+# ║ Path(HyperbolicRule(), isinstance(self, AtomicRule) and isinstance(self, ABC)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ HyperbolicRule : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, AtomicRule)                   ║
+# ║   ensures:  isinstance(self, ABC)                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ HyperbolicRule : Any → {Any | result satisfies: isins...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 15f143e43b950e94           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.HyperbolicRule","kind":"class","src_hash":"28c57628d7ab9ae1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"HyperbolicRule()","rhs":"correctly constructs a HyperbolicRule instance","over":{"base":"Any"},"name":"HyperbolicRule_correct"},"guarantee":"correctly constructs a HyperbolicRule instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"15f143e43b950e94"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.HyperbolicRule","kind":"class","src_hash":"28c57628d7ab9ae1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, AtomicRule) and isinstance(self, ABC)"},"spec":{"lhs":"HyperbolicRule()","rhs":"isinstance(self, AtomicRule) and isinstance(self, ABC)","over":{"base":"Any"},"name":"HyperbolicRule_correct"},"guarantee":"isinstance(self, AtomicRule); isinstance(self, ABC)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"15f143e43b950e94","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, AtomicRule)","isinstance(self, ABC)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function HyperbolicRule not found in source"]}}
 class HyperbolicRule(AtomicRule, ABC):
     pass
 
 
 @dataclass
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(SinhRule(), correctly constructs a SinhRule instance) over Any ║
+# ║ Path(SinhRule(), isinstance(self, HyperbolicRule)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ SinhRule : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, HyperbolicRule)               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ SinhRule : Any → {Any | result satisfies: isinstance(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e43a94a61e1320fc           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.SinhRule","kind":"class","src_hash":"27e048ee1cbad173","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"SinhRule()","rhs":"correctly constructs a SinhRule instance","over":{"base":"Any"},"name":"SinhRule_correct"},"guarantee":"correctly constructs a SinhRule instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e43a94a61e1320fc"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.SinhRule","kind":"class","src_hash":"27e048ee1cbad173","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, HyperbolicRule)"},"spec":{"lhs":"SinhRule()","rhs":"isinstance(self, HyperbolicRule)","over":{"base":"Any"},"name":"SinhRule_correct"},"guarantee":"isinstance(self, HyperbolicRule)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e43a94a61e1320fc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, HyperbolicRule)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function SinhRule not found in source"]}}
 class SinhRule(HyperbolicRule):
     """integrate(sinh(x), x) -> cosh(x)"""
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(), eval produces the expected output) over Any   ║
+# ║ Path(eval(), cosh(self.variable)) over Any                 ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Expr                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, Expr)                       ║
+# ║   returns:  cosh(self.variable)                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : Any → {Expr | result satisfies: result == (cos...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 47328a6a66a0e395           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.SinhRule.eval","kind":"method","src_hash":"753b52fdfeeaad45","in":{"base":"Any"},"out":{"base":"Expr"},"spec":{"lhs":"eval()","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"47328a6a66a0e395"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.SinhRule.eval","kind":"method","src_hash":"753b52fdfeeaad45","in":{"base":"Any"},"out":{"base":"Expr","pred":"result satisfies: result == (cosh(self.variable))"},"spec":{"lhs":"eval()","rhs":"cosh(self.variable)","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"returns cosh(self.variable); isinstance(result, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"47328a6a66a0e395","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, Expr)"],"returns_expr":"cosh(self.variable)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.variable"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(self) -> Expr:
         return cosh(self.variable)
 
 
 @dataclass
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(CoshRule(), correctly constructs a CoshRule instance) over Any ║
+# ║ Path(CoshRule(), isinstance(self, HyperbolicRule)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ CoshRule : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, HyperbolicRule)               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ CoshRule : Any → {Any | result satisfies: isinstance(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 208e300e09f022d2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.CoshRule","kind":"class","src_hash":"ffa45ed881f51afd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"CoshRule()","rhs":"correctly constructs a CoshRule instance","over":{"base":"Any"},"name":"CoshRule_correct"},"guarantee":"correctly constructs a CoshRule instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"208e300e09f022d2"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.CoshRule","kind":"class","src_hash":"ffa45ed881f51afd","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, HyperbolicRule)"},"spec":{"lhs":"CoshRule()","rhs":"isinstance(self, HyperbolicRule)","over":{"base":"Any"},"name":"CoshRule_correct"},"guarantee":"isinstance(self, HyperbolicRule)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"208e300e09f022d2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, HyperbolicRule)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function CoshRule not found in source"]}}
 class CoshRule(HyperbolicRule):
     """integrate(cosh(x), x) -> sinh(x)"""
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(), eval produces the expected output) over Any   ║
+# ║ Path(eval(), sinh(self.variable)) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  sinh(self.variable)                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ eval : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b2acac03d192ce8e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.CoshRule.eval","kind":"method","src_hash":"b21af4ef7f794326","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval()","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b2acac03d192ce8e"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.CoshRule.eval","kind":"method","src_hash":"b21af4ef7f794326","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval()","rhs":"sinh(self.variable)","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"returns sinh(self.variable)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b2acac03d192ce8e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"sinh(self.variable)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.variable"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(self):
         return sinh(self.variable)
 
 
 @dataclass
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ExpRule(), correctly constructs a ExpRule instance) over Any ║
+# ║ Path(ExpRule(), isinstance(self, AtomicRule)) over Any     ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ ExpRule : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, AtomicRule)                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ ExpRule : Any → {Any | result satisfies: isinstance(s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 18a05dd537e272bc           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.ExpRule","kind":"class","src_hash":"9e8703b2bf199b83","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ExpRule()","rhs":"correctly constructs a ExpRule instance","over":{"base":"Any"},"name":"ExpRule_correct"},"guarantee":"correctly constructs a ExpRule instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"18a05dd537e272bc"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.ExpRule","kind":"class","src_hash":"9e8703b2bf199b83","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, AtomicRule)"},"spec":{"lhs":"ExpRule()","rhs":"isinstance(self, AtomicRule)","over":{"base":"Any"},"name":"ExpRule_correct"},"guarantee":"isinstance(self, AtomicRule)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"18a05dd537e272bc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, AtomicRule)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Function ExpRule not found in source"]}}
 class ExpRule(AtomicRule):
     """integrate(a**x, x) -> a**x/ln(a)"""
     base: Expr
     exp: Expr
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(), eval produces the expected output) over Any   ║
+# ║ Path(eval(), self.integrand / log(self.base)) over Any     ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Expr                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, Expr)                       ║
+# ║   returns:  self.integrand / log(self.base)                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : Any → {Expr | result satisfies: result == (sel...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1fdbd39b854ef30a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.ExpRule.eval","kind":"method","src_hash":"668523d9a9a15fff","in":{"base":"Any"},"out":{"base":"Expr"},"spec":{"lhs":"eval()","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1fdbd39b854ef30a"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.ExpRule.eval","kind":"method","src_hash":"668523d9a9a15fff","in":{"base":"Any"},"out":{"base":"Expr","pred":"result satisfies: result == (self.integrand / log(self.base))"},"spec":{"lhs":"eval()","rhs":"self.integrand / log(self.base)","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"returns self.integrand / log(self.base); isinstance(result, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1fdbd39b854ef30a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, Expr)"],"returns_expr":"self.integrand / log(self.base)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.base","self.integrand"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(self) -> Expr:
         return self.integrand / log(self.base)
 
 
 @dataclass
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ReciprocalRule(), correctly constructs a ReciprocalRule instance) over Any ║
+# ║ Path(ReciprocalRule(), isinstance(self, AtomicRule)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ ReciprocalRule : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, AtomicRule)                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ ReciprocalRule : Any → {Any | result satisfies: isins...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 13443431c3fb3471           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.ReciprocalRule","kind":"class","src_hash":"66abba77c0ea3d5f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ReciprocalRule()","rhs":"correctly constructs a ReciprocalRule instance","over":{"base":"Any"},"name":"ReciprocalRule_correct"},"guarantee":"correctly constructs a ReciprocalRule instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"13443431c3fb3471"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.ReciprocalRule","kind":"class","src_hash":"66abba77c0ea3d5f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, AtomicRule)"},"spec":{"lhs":"ReciprocalRule()","rhs":"isinstance(self, AtomicRule)","over":{"base":"Any"},"name":"ReciprocalRule_correct"},"guarantee":"isinstance(self, AtomicRule)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"13443431c3fb3471","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, AtomicRule)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Function ReciprocalRule not found in source"]}}
 class ReciprocalRule(AtomicRule):
     """integrate(1/x, x) -> ln(x)"""
     base: Expr
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(), eval produces the expected output) over Any   ║
+# ║ Path(eval(), log(self.base)) over Any                      ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Expr                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, Expr)                       ║
+# ║   returns:  log(self.base)                                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : Any → {Expr | result satisfies: result == (log...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8e8fb913ef40436e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.ReciprocalRule.eval","kind":"method","src_hash":"ccf9053f3cd85305","in":{"base":"Any"},"out":{"base":"Expr"},"spec":{"lhs":"eval()","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8e8fb913ef40436e"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.ReciprocalRule.eval","kind":"method","src_hash":"ccf9053f3cd85305","in":{"base":"Any"},"out":{"base":"Expr","pred":"result satisfies: result == (log(self.base))"},"spec":{"lhs":"eval()","rhs":"log(self.base)","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"returns log(self.base); isinstance(result, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8e8fb913ef40436e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, Expr)"],"returns_expr":"log(self.base)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.base"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(self) -> Expr:
         return log(self.base)
 
 
 @dataclass
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ArcsinRule(), correctly constructs a ArcsinRule instance) over Any ║
+# ║ Path(ArcsinRule(), isinstance(self, AtomicRule)) over Any  ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ ArcsinRule : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, AtomicRule)                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ ArcsinRule : Any → {Any | result satisfies: isinstanc...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0d6c4327ab772e2a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.ArcsinRule","kind":"class","src_hash":"49264b12b58d0253","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ArcsinRule()","rhs":"correctly constructs a ArcsinRule instance","over":{"base":"Any"},"name":"ArcsinRule_correct"},"guarantee":"correctly constructs a ArcsinRule instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0d6c4327ab772e2a"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.ArcsinRule","kind":"class","src_hash":"49264b12b58d0253","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, AtomicRule)"},"spec":{"lhs":"ArcsinRule()","rhs":"isinstance(self, AtomicRule)","over":{"base":"Any"},"name":"ArcsinRule_correct"},"guarantee":"isinstance(self, AtomicRule)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0d6c4327ab772e2a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, AtomicRule)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function ArcsinRule not found in source"]}}
 class ArcsinRule(AtomicRule):
     """integrate(1/sqrt(1-x**2), x) -> asin(x)"""
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(), eval produces the expected output) over Any   ║
+# ║ Path(eval(), asin(self.variable)) over Any                 ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Expr                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, Expr)                       ║
+# ║   returns:  asin(self.variable)                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : Any → {Expr | result satisfies: result == (asi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 559f47e2a78738eb           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.ArcsinRule.eval","kind":"method","src_hash":"2dbfa98587b6f061","in":{"base":"Any"},"out":{"base":"Expr"},"spec":{"lhs":"eval()","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"559f47e2a78738eb"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.ArcsinRule.eval","kind":"method","src_hash":"2dbfa98587b6f061","in":{"base":"Any"},"out":{"base":"Expr","pred":"result satisfies: result == (asin(self.variable))"},"spec":{"lhs":"eval()","rhs":"asin(self.variable)","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"returns asin(self.variable); isinstance(result, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"559f47e2a78738eb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, Expr)"],"returns_expr":"asin(self.variable)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.variable"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(self) -> Expr:
         return asin(self.variable)
 
 
 @dataclass
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ArcsinhRule(), correctly constructs a ArcsinhRule instance) over Any ║
+# ║ Path(ArcsinhRule(), isinstance(self, AtomicRule)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ ArcsinhRule : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, AtomicRule)                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ ArcsinhRule : Any → {Any | result satisfies: isinstan...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d745939466f0953b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.ArcsinhRule","kind":"class","src_hash":"4472795f437c9666","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ArcsinhRule()","rhs":"correctly constructs a ArcsinhRule instance","over":{"base":"Any"},"name":"ArcsinhRule_correct"},"guarantee":"correctly constructs a ArcsinhRule instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d745939466f0953b"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.ArcsinhRule","kind":"class","src_hash":"4472795f437c9666","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, AtomicRule)"},"spec":{"lhs":"ArcsinhRule()","rhs":"isinstance(self, AtomicRule)","over":{"base":"Any"},"name":"ArcsinhRule_correct"},"guarantee":"isinstance(self, AtomicRule)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d745939466f0953b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, AtomicRule)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function ArcsinhRule not found in source"]}}
 class ArcsinhRule(AtomicRule):
     """integrate(1/sqrt(1+x**2), x) -> asin(x)"""
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(), eval produces the expected output) over Any   ║
+# ║ Path(eval(), asinh(self.variable)) over Any                ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Expr                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, Expr)                       ║
+# ║   returns:  asinh(self.variable)                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : Any → {Expr | result satisfies: result == (asi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1213fb1dae9ff749           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.ArcsinhRule.eval","kind":"method","src_hash":"de974628ff6bb01f","in":{"base":"Any"},"out":{"base":"Expr"},"spec":{"lhs":"eval()","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1213fb1dae9ff749"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.ArcsinhRule.eval","kind":"method","src_hash":"de974628ff6bb01f","in":{"base":"Any"},"out":{"base":"Expr","pred":"result satisfies: result == (asinh(self.variable))"},"spec":{"lhs":"eval()","rhs":"asinh(self.variable)","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"returns asinh(self.variable); isinstance(result, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1213fb1dae9ff749","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, Expr)"],"returns_expr":"asinh(self.variable)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.variable"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(self) -> Expr:
         return asinh(self.variable)
 
@@ -896,14 +1237,20 @@ class ArcsinhRule(AtomicRule):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(ReciprocalSqrtQuadraticRule(*args), correctly constructs a ReciprocalSqrtQuadraticRule instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ ReciprocalSqrtQuadraticRule : Any → Any                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, AtomicRule)                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ ReciprocalSqrtQuadraticRule : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eb40aa711cf94624  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.ReciprocalSqrtQuadraticRule","kind":"class","src_hash":"ea24b87b9b26956c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ReciprocalSqrtQuadraticRule(*args)","rhs":"correctly constructs a ReciprocalSqrtQuadraticRule instance","over":{"base":"Any"},"name":"ReciprocalSqrtQuadraticRule_class_invariant"},"guarantee":"correctly constructs a ReciprocalSqrtQuadraticRule instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eb40aa711cf94624"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.ReciprocalSqrtQuadraticRule","kind":"class","src_hash":"ea24b87b9b26956c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, AtomicRule)"},"spec":{"lhs":"ReciprocalSqrtQuadraticRule(*args)","rhs":"correctly constructs a ReciprocalSqrtQuadraticRule instance","over":{"base":"Any"},"name":"ReciprocalSqrtQuadraticRule_class_invariant"},"guarantee":"isinstance(self, AtomicRule)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eb40aa711cf94624","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, AtomicRule)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function ReciprocalSqrtQuadraticRule not found in source"]}}
 class ReciprocalSqrtQuadraticRule(AtomicRule):
     """integrate(1/sqrt(a+b*x+c*x**2), x) -> log(2*sqrt(c)*sqrt(a+b*x+c*x**2)+b+2*c*x)/sqrt(c)"""
     a: Expr
@@ -913,14 +1260,21 @@ class ReciprocalSqrtQuadraticRule(AtomicRule):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(eval(), id) over Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Expr                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, Expr)                       ║
+# ║   returns:  log(2 * sqrt(c) * sqrt(a + b * x + c * x ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : Any → {Expr | result satisfies: result == (log...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | c30f8f2c8ff57dd1   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.ReciprocalSqrtQuadraticRule.eval","kind":"method","src_hash":"e5997f01207bb4f3","in":{"base":"Any"},"out":{"base":"Expr"},"spec":{"lhs":"eval()","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct","kind":"composition"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"log","by":"library_axiom"},{"fn":"sqrt","by":"library_axiom"},{"fn":"sqrt","by":"library_axiom"},{"fn":"sqrt","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c30f8f2c8ff57dd1"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.ReciprocalSqrtQuadraticRule.eval","kind":"method","src_hash":"e5997f01207bb4f3","in":{"base":"Any"},"out":{"base":"Expr","pred":"result satisfies: result == (log(2 * sqrt(c) * sqrt(a + b * x + c * x ** 2) + b + 2 * c * x) / sqrt(c))"},"spec":{"lhs":"eval()","rhs":"log(2 * sqrt(c) * sqrt(a + b * x + c * x ** 2) + b + 2 * c * x) / sqrt(c)","over":{"base":"Any"},"name":"eval_correct","kind":"composition"},"guarantee":"returns log(2 * sqrt(c) * sqrt(a + b * x + c * x ** 2) + b + 2 * c * x) / sqrt(c); isinstance(result, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"log","by":"library_axiom"},{"fn":"sqrt","by":"library_axiom"},{"fn":"sqrt","by":"library_axiom"},{"fn":"sqrt","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c30f8f2c8ff57dd1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, Expr)"],"returns_expr":"log(2 * sqrt(c) * sqrt(a + b * x + c * x ** 2) + b + 2 * c * x) / sqrt(c)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.a","self.b","self.c","self.variable"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(self) -> Expr:
         a, b, c, x = self.a, self.b, self.c, self.variable
         return log(2*sqrt(c)*sqrt(a+b*x+c*x**2)+b+2*c*x)/sqrt(c)
@@ -930,14 +1284,20 @@ class ReciprocalSqrtQuadraticRule(AtomicRule):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(SqrtQuadraticDenomRule(*args), correctly constructs a SqrtQuadraticDenomRule instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ SqrtQuadraticDenomRule : Any → Any                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, AtomicRule)                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ SqrtQuadraticDenomRule : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 83dc2b5b8c8671b6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.SqrtQuadraticDenomRule","kind":"class","src_hash":"13d07461b0ff58e4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"SqrtQuadraticDenomRule(*args)","rhs":"correctly constructs a SqrtQuadraticDenomRule instance","over":{"base":"Any"},"name":"SqrtQuadraticDenomRule_class_invariant"},"guarantee":"correctly constructs a SqrtQuadraticDenomRule instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"83dc2b5b8c8671b6"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.SqrtQuadraticDenomRule","kind":"class","src_hash":"13d07461b0ff58e4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, AtomicRule)"},"spec":{"lhs":"SqrtQuadraticDenomRule(*args)","rhs":"correctly constructs a SqrtQuadraticDenomRule instance","over":{"base":"Any"},"name":"SqrtQuadraticDenomRule_class_invariant"},"guarantee":"isinstance(self, AtomicRule)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"83dc2b5b8c8671b6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, AtomicRule)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function SqrtQuadraticDenomRule not found in source"]}}
 class SqrtQuadraticDenomRule(AtomicRule):
     """integrate(poly(x)/sqrt(a+b*x+c*x**2), x)"""
     a: Expr
@@ -948,14 +1308,21 @@ class SqrtQuadraticDenomRule(AtomicRule):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(eval(), id) over Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Expr                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, Expr)                       ║
+# ║   returns:  Add(*(result_coeffs[i] * x ** (len(coeffs...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : Any → {Expr | result satisfies: result == (Add...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | dafe1ac96d83426e   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.SqrtQuadraticDenomRule.eval","kind":"method","src_hash":"0efe5a3bba5e7fdb","in":{"base":"Any"},"out":{"base":"Expr"},"spec":{"lhs":"eval()","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct","kind":"composition"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Add","by":"library_axiom"},{"fn":"len","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dafe1ac96d83426e"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.SqrtQuadraticDenomRule.eval","kind":"method","src_hash":"0efe5a3bba5e7fdb","in":{"base":"Any"},"out":{"base":"Expr","pred":"result satisfies: result == (Add(*(result_coeffs[i] * x ** (len(coeffs) - 2 - i) for i in range(len(result_coeffs))), e / c) * s + I0)"},"spec":{"lhs":"eval()","rhs":"Add(*(result_coeffs[i] * x ** (len(coeffs) - 2 - i) for i in range(len(result_coeffs))), e / c) * s + I0","over":{"base":"Any"},"name":"eval_correct","kind":"composition"},"guarantee":"returns Add(*(result_coeffs[i] * x ** (len(coeffs) - 2 - i) for i in range(len(result_coeffs))), e / c) * s + I0; isinstance(result, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Add","by":"library_axiom"},{"fn":"len","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dafe1ac96d83426e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, Expr)"],"returns_expr":"Add(*(result_coeffs[i] * x ** (len(coeffs) - 2 - i) for i in range(len(result_coeffs))), e / c) * s + I0","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(self) -> Expr:
         a, b, c, coeffs, x = self.a, self.b, self.c, self.coeffs.copy(), self.variable
         # Integrate poly/sqrt(a+b*x+c*x**2) using recursion.
@@ -988,14 +1355,20 @@ class SqrtQuadraticDenomRule(AtomicRule):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(SqrtQuadraticRule(*args), correctly constructs a SqrtQuadraticRule instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ SqrtQuadraticRule : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, AtomicRule)                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ SqrtQuadraticRule : Any → {Any | result satisfies: is...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5b061b546d5e0be1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.SqrtQuadraticRule","kind":"class","src_hash":"43355f24abd3f565","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"SqrtQuadraticRule(*args)","rhs":"correctly constructs a SqrtQuadraticRule instance","over":{"base":"Any"},"name":"SqrtQuadraticRule_class_invariant"},"guarantee":"correctly constructs a SqrtQuadraticRule instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5b061b546d5e0be1"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.SqrtQuadraticRule","kind":"class","src_hash":"43355f24abd3f565","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, AtomicRule)"},"spec":{"lhs":"SqrtQuadraticRule(*args)","rhs":"correctly constructs a SqrtQuadraticRule instance","over":{"base":"Any"},"name":"SqrtQuadraticRule_class_invariant"},"guarantee":"isinstance(self, AtomicRule)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5b061b546d5e0be1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, AtomicRule)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function SqrtQuadraticRule not found in source"]}}
 class SqrtQuadraticRule(AtomicRule):
     """integrate(sqrt(a+b*x+c*x**2), x)"""
     a: Expr
@@ -1003,16 +1376,23 @@ class SqrtQuadraticRule(AtomicRule):
     c: Expr
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(), eval produces the expected output) over Any   ║
+# ║ Path(eval(), step.eval()) over Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Expr                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, Expr)                       ║
+# ║   returns:  step.eval()                                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : Any → {Expr | result satisfies: result == (ste...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 701f2e9f02a0bbae  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 691c4007db13f2fe  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.SqrtQuadraticRule.eval","kind":"method","src_hash":"590a4991a09d5caa","in":{"base":"Any"},"out":{"base":"Expr"},"spec":{"lhs":"eval()","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.SqrtQuadraticRule.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"701f2e9f02a0bbae"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.SqrtQuadraticRule.eval","kind":"method","src_hash":"590a4991a09d5caa","in":{"base":"Any"},"out":{"base":"Expr","pred":"result satisfies: result == (step.eval())"},"spec":{"lhs":"eval()","rhs":"step.eval()","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"returns step.eval(); isinstance(result, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.SqrtQuadraticRule.eval_correct","statement":"Path(eval(x), returns step.eval(); isinstance(result, Expr))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"691c4007db13f2fe","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, Expr)"],"returns_expr":"step.eval()","pure":false,"effects":{"effect_type":"reads_state","reads":["self.integrand","self.variable"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(self) -> Expr:
         step = sqrt_quadratic_rule(IntegralInfo(self.integrand, self.variable), degenerate=False)
         return step.eval()
@@ -1022,43 +1402,63 @@ class SqrtQuadraticRule(AtomicRule):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(AlternativeRule(*args), correctly constructs a AlternativeRule instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ AlternativeRule : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Rule)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ AlternativeRule : Any → {Any | result satisfies: isin...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | adde61f861b19fae  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.AlternativeRule","kind":"class","src_hash":"13299cbf290ae1bb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"AlternativeRule(*args)","rhs":"correctly constructs a AlternativeRule instance","over":{"base":"Any"},"name":"AlternativeRule_class_invariant"},"guarantee":"correctly constructs a AlternativeRule instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"adde61f861b19fae"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.AlternativeRule","kind":"class","src_hash":"13299cbf290ae1bb","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Rule)"},"spec":{"lhs":"AlternativeRule(*args)","rhs":"correctly constructs a AlternativeRule instance","over":{"base":"Any"},"name":"AlternativeRule_class_invariant"},"guarantee":"isinstance(self, Rule)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"adde61f861b19fae","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Rule)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function AlternativeRule not found in source"]}}
 class AlternativeRule(Rule):
     """Multiple ways to do integration."""
     alternatives: list[Rule]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(), eval produces the expected output) over Any   ║
+# ║ Path(eval(), self.alternatives[0].eval()) over Any         ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Expr                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, Expr)                       ║
+# ║   returns:  self.alternatives[0].eval()                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : Any → {Expr | result satisfies: result == (sel...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3252f677bbf25bd8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.AlternativeRule.eval","kind":"method","src_hash":"29576006095391dd","in":{"base":"Any"},"out":{"base":"Expr"},"spec":{"lhs":"eval()","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3252f677bbf25bd8"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.AlternativeRule.eval","kind":"method","src_hash":"29576006095391dd","in":{"base":"Any"},"out":{"base":"Expr","pred":"result satisfies: result == (self.alternatives[0].eval())"},"spec":{"lhs":"eval()","rhs":"self.alternatives[0].eval()","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"returns self.alternatives[0].eval(); isinstance(result, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3252f677bbf25bd8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, Expr)"],"returns_expr":"self.alternatives[0].eval()","pure":false,"effects":{"effect_type":"reads_state","reads":["self.alternatives"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(self) -> Expr:
         return self.alternatives[0].eval()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(contains_dont_know(), contains_dont_know produces the expected output) over Any ║
+# ║ Path(contains_dont_know(), any((substep.contains_dont_know() for substep in self.alternatives))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ contains_dont_know : Any → bool                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, bool)                       ║
+# ║   returns:  any((substep.contains_dont_know() for sub...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ contains_dont_know : Any → {bool | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b011d08a1024824e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.AlternativeRule.contains_dont_know","kind":"method","src_hash":"fef41e32f2ac9bdc","in":{"base":"Any"},"out":{"base":"bool"},"spec":{"lhs":"contains_dont_know()","rhs":"contains_dont_know produces the expected output","over":{"base":"Any"},"name":"contains_dont_know_correct"},"guarantee":"contains_dont_know produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b011d08a1024824e"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.AlternativeRule.contains_dont_know","kind":"method","src_hash":"fef41e32f2ac9bdc","in":{"base":"Any"},"out":{"base":"bool","pred":"result satisfies: result == (any((substep.contains_dont_know() for substep in self.alternatives)))"},"spec":{"lhs":"contains_dont_know()","rhs":"any((substep.contains_dont_know() for substep in self.alternatives))","over":{"base":"Any"},"name":"contains_dont_know_correct"},"guarantee":"returns any((substep.contains_dont_know() for substep in self.alternatives)); isinstance(result, bool)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b011d08a1024824e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, bool)"],"returns_expr":"any((substep.contains_dont_know() for substep in self.alternatives))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.alternatives"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def contains_dont_know(self) -> bool:
         return any(substep.contains_dont_know() for substep in self.alternatives)
 
@@ -1067,41 +1467,61 @@ class AlternativeRule(Rule):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(DontKnowRule(*args), correctly constructs a DontKnowRule instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ DontKnowRule : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Rule)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ DontKnowRule : Any → {Any | result satisfies: isinsta...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8b6dbdc767bbb9f9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.DontKnowRule","kind":"class","src_hash":"5fb136b887214322","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"DontKnowRule(*args)","rhs":"correctly constructs a DontKnowRule instance","over":{"base":"Any"},"name":"DontKnowRule_class_invariant"},"guarantee":"correctly constructs a DontKnowRule instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8b6dbdc767bbb9f9"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.DontKnowRule","kind":"class","src_hash":"5fb136b887214322","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Rule)"},"spec":{"lhs":"DontKnowRule(*args)","rhs":"correctly constructs a DontKnowRule instance","over":{"base":"Any"},"name":"DontKnowRule_class_invariant"},"guarantee":"isinstance(self, Rule)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8b6dbdc767bbb9f9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Rule)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function DontKnowRule not found in source"]}}
 class DontKnowRule(Rule):
     """Leave the integral as is."""
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(), eval produces the expected output) over Any   ║
+# ║ Path(eval(), Integral(self.integrand, self.variable)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Expr                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, Expr)                       ║
+# ║   returns:  Integral(self.integrand, self.variable)        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : Any → {Expr | result satisfies: result == (Int...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b5c1b406e3fa9275           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.DontKnowRule.eval","kind":"method","src_hash":"ea03f1755168a1f4","in":{"base":"Any"},"out":{"base":"Expr"},"spec":{"lhs":"eval()","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b5c1b406e3fa9275"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.DontKnowRule.eval","kind":"method","src_hash":"ea03f1755168a1f4","in":{"base":"Any"},"out":{"base":"Expr","pred":"result satisfies: result == (Integral(self.integrand, self.variable))"},"spec":{"lhs":"eval()","rhs":"Integral(self.integrand, self.variable)","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"returns Integral(self.integrand, self.variable); isinstance(result, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b5c1b406e3fa9275","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, Expr)"],"returns_expr":"Integral(self.integrand, self.variable)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.integrand","self.variable"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(self) -> Expr:
         return Integral(self.integrand, self.variable)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(contains_dont_know(), contains_dont_know produces the expected output) over Any ║
+# ║ Path(contains_dont_know(), True) over Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ contains_dont_know : Any → bool                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, bool)                       ║
+# ║   returns:  True                                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ contains_dont_know : Any → {bool | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9cf7a13044b65dd6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.DontKnowRule.contains_dont_know","kind":"method","src_hash":"fe9af984749250a6","in":{"base":"Any"},"out":{"base":"bool"},"spec":{"lhs":"contains_dont_know()","rhs":"contains_dont_know produces the expected output","over":{"base":"Any"},"name":"contains_dont_know_correct"},"guarantee":"contains_dont_know produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9cf7a13044b65dd6"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.DontKnowRule.contains_dont_know","kind":"method","src_hash":"fe9af984749250a6","in":{"base":"Any"},"out":{"base":"bool","pred":"result satisfies: result == (True)"},"spec":{"lhs":"contains_dont_know()","rhs":"True","over":{"base":"Any"},"name":"contains_dont_know_correct"},"guarantee":"returns True; isinstance(result, bool)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9cf7a13044b65dd6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, bool)"],"returns_expr":"True","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def contains_dont_know(self) -> bool:
         return True
 
@@ -1110,27 +1530,41 @@ class DontKnowRule(Rule):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(DerivativeRule(*args), correctly constructs a DerivativeRule instance) over {Any | isinstance(self.integrand, Derivative)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, AtomicRule)                   ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ DerivativeRule : {Any | isinstance(self.integrand, De...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ac902a0ac40d6874  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.DerivativeRule","kind":"class","src_hash":"d409159efd77686d","in":{"base":"Any","pred":"isinstance(self.integrand, Derivative)"},"out":{"base":"Any","pred":"isinstance(self.integrand, Derivative)"},"spec":{"lhs":"DerivativeRule(*args)","rhs":"correctly constructs a DerivativeRule instance","over":{"base":"Any","pred":"isinstance(self.integrand, Derivative)"},"name":"DerivativeRule_class_invariant"},"guarantee":"correctly constructs a DerivativeRule instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ac902a0ac40d6874"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.DerivativeRule","kind":"class","src_hash":"d409159efd77686d","in":{"base":"Any","pred":"isinstance(self.integrand, Derivative)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, AtomicRule)"},"spec":{"lhs":"DerivativeRule(*args)","rhs":"correctly constructs a DerivativeRule instance","over":{"base":"Any","pred":"isinstance(self.integrand, Derivative)"},"name":"DerivativeRule_class_invariant"},"guarantee":"isinstance(self, AtomicRule)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ac902a0ac40d6874","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, AtomicRule)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function DerivativeRule not found in source"]}}
 class DerivativeRule(AtomicRule):
     """integrate(f'(x), x) -> f(x)"""
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(), eval produces the expected output) over Any   ║
+# ║ Path(eval(), Derivative(self.integrand.expr, *variable_count)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Expr                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, Expr)                       ║
+# ║   ensures:  isinstance(self.integrand, Derivative)         ║
+# ║   returns:  Derivative(self.integrand.expr, *variable...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : Any → {Expr | result satisfies: result == (Der...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 723ee0da7b1b830c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7ddd903420589955  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.DerivativeRule.eval","kind":"method","src_hash":"7a0473a61e469959","in":{"base":"Any"},"out":{"base":"Expr"},"spec":{"lhs":"eval()","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.DerivativeRule.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"723ee0da7b1b830c"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.DerivativeRule.eval","kind":"method","src_hash":"7a0473a61e469959","in":{"base":"Any"},"out":{"base":"Expr","pred":"result satisfies: result == (Derivative(self.integrand.expr, *variable_count))"},"spec":{"lhs":"eval()","rhs":"Derivative(self.integrand.expr, *variable_count)","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"returns Derivative(self.integrand.expr, *variable_count); isinstance(result, Expr); isinstance(self.integrand, Derivative)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.DerivativeRule.eval_correct","statement":"Path(eval(x), returns Derivative(self.integrand.expr, *variable_count); isinstance(result, Expr); isinstance(self.integrand, Derivative))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7ddd903420589955","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, Expr)","isinstance(self.integrand, Derivative)"],"returns_expr":"Derivative(self.integrand.expr, *variable_count)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.integrand","self.variable"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(self) -> Expr:
         assert isinstance(self.integrand, Derivative)
         variable_count = list(self.integrand.variable_count)
@@ -1145,60 +1579,86 @@ class DerivativeRule(AtomicRule):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(RewriteRule(*args), correctly constructs a RewriteRule instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ RewriteRule : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Rule)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ RewriteRule : Any → {Any | result satisfies: isinstan...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a50d98e4c7265631  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.RewriteRule","kind":"class","src_hash":"cb65bfee5885c7f5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"RewriteRule(*args)","rhs":"correctly constructs a RewriteRule instance","over":{"base":"Any"},"name":"RewriteRule_class_invariant"},"guarantee":"correctly constructs a RewriteRule instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a50d98e4c7265631"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.RewriteRule","kind":"class","src_hash":"cb65bfee5885c7f5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Rule)"},"spec":{"lhs":"RewriteRule(*args)","rhs":"correctly constructs a RewriteRule instance","over":{"base":"Any"},"name":"RewriteRule_class_invariant"},"guarantee":"isinstance(self, Rule)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a50d98e4c7265631","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Rule)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function RewriteRule not found in source"]}}
 class RewriteRule(Rule):
     """Rewrite integrand to another form that is easier to handle."""
     rewritten: Expr
     substep: Rule
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(), eval produces the expected output) over Any   ║
+# ║ Path(eval(), self.substep.eval()) over Any                 ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Expr                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, Expr)                       ║
+# ║   returns:  self.substep.eval()                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : Any → {Expr | result satisfies: result == (sel...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f8fbadab28a0f6dd           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.RewriteRule.eval","kind":"method","src_hash":"b3f56834af252732","in":{"base":"Any"},"out":{"base":"Expr"},"spec":{"lhs":"eval()","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f8fbadab28a0f6dd"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.RewriteRule.eval","kind":"method","src_hash":"b3f56834af252732","in":{"base":"Any"},"out":{"base":"Expr","pred":"result satisfies: result == (self.substep.eval())"},"spec":{"lhs":"eval()","rhs":"self.substep.eval()","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"returns self.substep.eval(); isinstance(result, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f8fbadab28a0f6dd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, Expr)"],"returns_expr":"self.substep.eval()","pure":false,"effects":{"effect_type":"reads_state","reads":["self.substep"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(self) -> Expr:
         return self.substep.eval()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(contains_dont_know(), contains_dont_know produces the expected output) over Any ║
+# ║ Path(contains_dont_know(), self.substep.contains_dont_know()) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ contains_dont_know : Any → bool                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, bool)                       ║
+# ║   returns:  self.substep.contains_dont_know()              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ contains_dont_know : Any → {bool | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 27863db652ff3b14           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.RewriteRule.contains_dont_know","kind":"method","src_hash":"8e4f22a17807fc6e","in":{"base":"Any"},"out":{"base":"bool"},"spec":{"lhs":"contains_dont_know()","rhs":"contains_dont_know produces the expected output","over":{"base":"Any"},"name":"contains_dont_know_correct"},"guarantee":"contains_dont_know produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"27863db652ff3b14"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.RewriteRule.contains_dont_know","kind":"method","src_hash":"8e4f22a17807fc6e","in":{"base":"Any"},"out":{"base":"bool","pred":"result satisfies: result == (self.substep.contains_dont_know())"},"spec":{"lhs":"contains_dont_know()","rhs":"self.substep.contains_dont_know()","over":{"base":"Any"},"name":"contains_dont_know_correct"},"guarantee":"returns self.substep.contains_dont_know(); isinstance(result, bool)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"27863db652ff3b14","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, bool)"],"returns_expr":"self.substep.contains_dont_know()","pure":false,"effects":{"effect_type":"reads_state","reads":["self.substep"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def contains_dont_know(self) -> bool:
         return self.substep.contains_dont_know()
 
 
 @dataclass
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(CompleteSquareRule(), correctly constructs a CompleteSquareRule instance) over Any ║
+# ║ Path(CompleteSquareRule(), isinstance(self, RewriteRule)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ CompleteSquareRule : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, RewriteRule)                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ CompleteSquareRule : Any → {Any | result satisfies: i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 18a225b624a7a670           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.CompleteSquareRule","kind":"class","src_hash":"fdc6f2a79f193dec","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"CompleteSquareRule()","rhs":"correctly constructs a CompleteSquareRule instance","over":{"base":"Any"},"name":"CompleteSquareRule_correct"},"guarantee":"correctly constructs a CompleteSquareRule instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"18a225b624a7a670"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.CompleteSquareRule","kind":"class","src_hash":"fdc6f2a79f193dec","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, RewriteRule)"},"spec":{"lhs":"CompleteSquareRule()","rhs":"isinstance(self, RewriteRule)","over":{"base":"Any"},"name":"CompleteSquareRule_correct"},"guarantee":"isinstance(self, RewriteRule)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"18a225b624a7a670","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, RewriteRule)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function CompleteSquareRule not found in source"]}}
 class CompleteSquareRule(RewriteRule):
     """Rewrite a+b*x+c*x**2 to a-b**2/(4*c) + c*(x+b/(2*c))**2"""
     pass
@@ -1208,43 +1668,63 @@ class CompleteSquareRule(RewriteRule):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(PiecewiseRule(*args), correctly constructs a PiecewiseRule instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ PiecewiseRule : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Rule)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ PiecewiseRule : Any → {Any | result satisfies: isinst...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 92adb8c1e2b3e643  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.PiecewiseRule","kind":"class","src_hash":"5ed3b7b154a00c23","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"PiecewiseRule(*args)","rhs":"correctly constructs a PiecewiseRule instance","over":{"base":"Any"},"name":"PiecewiseRule_class_invariant"},"guarantee":"correctly constructs a PiecewiseRule instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"92adb8c1e2b3e643"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.PiecewiseRule","kind":"class","src_hash":"5ed3b7b154a00c23","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Rule)"},"spec":{"lhs":"PiecewiseRule(*args)","rhs":"correctly constructs a PiecewiseRule instance","over":{"base":"Any"},"name":"PiecewiseRule_class_invariant"},"guarantee":"isinstance(self, Rule)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"92adb8c1e2b3e643","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Rule)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function PiecewiseRule not found in source"]}}
 class PiecewiseRule(Rule):
     subfunctions: Sequence[tuple[Rule, bool | Boolean]]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(eval(), id) over Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Expr                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, Expr)                       ║
+# ║   returns:  Piecewise(*[(substep.eval(), cond) for su...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : Any → {Expr | result satisfies: result == (Pie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | c7b462391cc9180f   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.PiecewiseRule.eval","kind":"method","src_hash":"30af0eed6d6d13ad","in":{"base":"Any"},"out":{"base":"Expr"},"spec":{"lhs":"eval()","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct","kind":"composition"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Piecewise","by":"library_axiom"},{"fn":"eval","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c7b462391cc9180f"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.PiecewiseRule.eval","kind":"method","src_hash":"30af0eed6d6d13ad","in":{"base":"Any"},"out":{"base":"Expr","pred":"result satisfies: result == (Piecewise(*[(substep.eval(), cond) for substep, cond in self.subfunctions]))"},"spec":{"lhs":"eval()","rhs":"Piecewise(*[(substep.eval(), cond) for substep, cond in self.subfunctions])","over":{"base":"Any"},"name":"eval_correct","kind":"composition"},"guarantee":"returns Piecewise(*[(substep.eval(), cond) for substep, cond in self.subfunctions]); isinstance(result, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Piecewise","by":"library_axiom"},{"fn":"eval","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c7b462391cc9180f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, Expr)"],"returns_expr":"Piecewise(*[(substep.eval(), cond) for substep, cond in self.subfunctions])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.subfunctions"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(self) -> Expr:
         return Piecewise(*[(substep.eval(), cond)
                            for substep, cond in self.subfunctions])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(contains_dont_know(), contains_dont_know produces the expected output) over Any ║
+# ║ Path(contains_dont_know(), any((substep.contains_dont_know() for substep, _ in self.subfunctions))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ contains_dont_know : Any → bool                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, bool)                       ║
+# ║   returns:  any((substep.contains_dont_know() for sub...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ contains_dont_know : Any → {bool | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8a122cbc04c816c3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.PiecewiseRule.contains_dont_know","kind":"method","src_hash":"186d2b510e24ea93","in":{"base":"Any"},"out":{"base":"bool"},"spec":{"lhs":"contains_dont_know()","rhs":"contains_dont_know produces the expected output","over":{"base":"Any"},"name":"contains_dont_know_correct"},"guarantee":"contains_dont_know produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8a122cbc04c816c3"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.PiecewiseRule.contains_dont_know","kind":"method","src_hash":"186d2b510e24ea93","in":{"base":"Any"},"out":{"base":"bool","pred":"result satisfies: result == (any((substep.contains_dont_know() for substep, _ in self.subfunctions)))"},"spec":{"lhs":"contains_dont_know()","rhs":"any((substep.contains_dont_know() for substep, _ in self.subfunctions))","over":{"base":"Any"},"name":"contains_dont_know_correct"},"guarantee":"returns any((substep.contains_dont_know() for substep, _ in self.subfunctions)); isinstance(result, bool)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8a122cbc04c816c3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, bool)"],"returns_expr":"any((substep.contains_dont_know() for substep, _ in self.subfunctions))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.subfunctions"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def contains_dont_know(self) -> bool:
         return any(substep.contains_dont_know() for substep, _ in self.subfunctions)
 
@@ -1253,14 +1733,20 @@ class PiecewiseRule(Rule):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(HeavisideRule(*args), correctly constructs a HeavisideRule instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ HeavisideRule : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Rule)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ HeavisideRule : Any → {Any | result satisfies: isinst...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0ab03aac2a2b2991  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.HeavisideRule","kind":"class","src_hash":"670d9d10ac3f7624","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"HeavisideRule(*args)","rhs":"correctly constructs a HeavisideRule instance","over":{"base":"Any"},"name":"HeavisideRule_class_invariant"},"guarantee":"correctly constructs a HeavisideRule instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0ab03aac2a2b2991"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.HeavisideRule","kind":"class","src_hash":"670d9d10ac3f7624","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Rule)"},"spec":{"lhs":"HeavisideRule(*args)","rhs":"correctly constructs a HeavisideRule instance","over":{"base":"Any"},"name":"HeavisideRule_class_invariant"},"guarantee":"isinstance(self, Rule)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0ab03aac2a2b2991","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Rule)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function HeavisideRule not found in source"]}}
 class HeavisideRule(Rule):
     harg: Expr
     ibnd: Expr
@@ -1269,14 +1755,21 @@ class HeavisideRule(Rule):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(eval(), id) over Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Expr                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, Expr)                       ║
+# ║   returns:  Heaviside(self.harg) * (result - result.s...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : Any → {Expr | result satisfies: result == (Hea...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 8800b45249cc3755   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.HeavisideRule.eval","kind":"method","src_hash":"a357c48ae34034c7","in":{"base":"Any"},"out":{"base":"Expr"},"spec":{"lhs":"eval()","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct","kind":"composition"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Heaviside","by":"library_axiom"},{"fn":"subs","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8800b45249cc3755"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.HeavisideRule.eval","kind":"method","src_hash":"a357c48ae34034c7","in":{"base":"Any"},"out":{"base":"Expr","pred":"result satisfies: result == (Heaviside(self.harg) * (result - result.subs(self.variable, self.ibnd)))"},"spec":{"lhs":"eval()","rhs":"Heaviside(self.harg) * (result - result.subs(self.variable, self.ibnd))","over":{"base":"Any"},"name":"eval_correct","kind":"composition"},"guarantee":"returns Heaviside(self.harg) * (result - result.subs(self.variable, self.ibnd)); isinstance(result, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Heaviside","by":"library_axiom"},{"fn":"subs","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8800b45249cc3755","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, Expr)"],"returns_expr":"Heaviside(self.harg) * (result - result.subs(self.variable, self.ibnd))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.harg","self.ibnd","self.substep","self.variable"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(self) -> Expr:
         # If we are integrating over x and the integrand has the form
         #       Heaviside(m*x+b)*g(x) == Heaviside(harg)*g(symbol)
@@ -1286,16 +1779,23 @@ class HeavisideRule(Rule):
         return Heaviside(self.harg) * (result - result.subs(self.variable, self.ibnd))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(contains_dont_know(), contains_dont_know produces the expected output) over Any ║
+# ║ Path(contains_dont_know(), self.substep.contains_dont_know()) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ contains_dont_know : Any → bool                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, bool)                       ║
+# ║   returns:  self.substep.contains_dont_know()              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ contains_dont_know : Any → {bool | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 10c91132b67e47b1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.HeavisideRule.contains_dont_know","kind":"method","src_hash":"8e4f22a17807fc6e","in":{"base":"Any"},"out":{"base":"bool"},"spec":{"lhs":"contains_dont_know()","rhs":"contains_dont_know produces the expected output","over":{"base":"Any"},"name":"contains_dont_know_correct"},"guarantee":"contains_dont_know produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"10c91132b67e47b1"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.HeavisideRule.contains_dont_know","kind":"method","src_hash":"8e4f22a17807fc6e","in":{"base":"Any"},"out":{"base":"bool","pred":"result satisfies: result == (self.substep.contains_dont_know())"},"spec":{"lhs":"contains_dont_know()","rhs":"self.substep.contains_dont_know()","over":{"base":"Any"},"name":"contains_dont_know_correct"},"guarantee":"returns self.substep.contains_dont_know(); isinstance(result, bool)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"10c91132b67e47b1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, bool)"],"returns_expr":"self.substep.contains_dont_know()","pure":false,"effects":{"effect_type":"reads_state","reads":["self.substep"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def contains_dont_know(self) -> bool:
         return self.substep.contains_dont_know()
 
@@ -1304,30 +1804,42 @@ class HeavisideRule(Rule):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(DiracDeltaRule(*args), correctly constructs a DiracDeltaRule instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ DiracDeltaRule : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, AtomicRule)                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ DiracDeltaRule : Any → {Any | result satisfies: isins...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 76504e589ee2cea5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.DiracDeltaRule","kind":"class","src_hash":"2945e053e63899b2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"DiracDeltaRule(*args)","rhs":"correctly constructs a DiracDeltaRule instance","over":{"base":"Any"},"name":"DiracDeltaRule_class_invariant"},"guarantee":"correctly constructs a DiracDeltaRule instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"76504e589ee2cea5"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.DiracDeltaRule","kind":"class","src_hash":"2945e053e63899b2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, AtomicRule)"},"spec":{"lhs":"DiracDeltaRule(*args)","rhs":"correctly constructs a DiracDeltaRule instance","over":{"base":"Any"},"name":"DiracDeltaRule_class_invariant"},"guarantee":"isinstance(self, AtomicRule)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"76504e589ee2cea5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, AtomicRule)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function DiracDeltaRule not found in source"]}}
 class DiracDeltaRule(AtomicRule):
     n: Expr
     a: Expr
     b: Expr
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(), eval produces the expected output) over Any   ║
+# ║ Path(eval(), isinstance(result, Expr)) over Any            ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Expr                                          ║
+# ║ C4 Spec [static] strength=partial                          ║
+# ║   ensures:  isinstance(result, Expr)                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : Any → {Expr | result satisfies: isinstance(res...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7286ee121332ae1c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dbf943550660163e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.DiracDeltaRule.eval","kind":"method","src_hash":"699b7bcd7c87e9c6","in":{"base":"Any"},"out":{"base":"Expr"},"spec":{"lhs":"eval()","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.DiracDeltaRule.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7286ee121332ae1c"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.DiracDeltaRule.eval","kind":"method","src_hash":"699b7bcd7c87e9c6","in":{"base":"Any"},"out":{"base":"Expr","pred":"result satisfies: isinstance(result, Expr)"},"spec":{"lhs":"eval()","rhs":"isinstance(result, Expr)","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"isinstance(result, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.DiracDeltaRule.eval_correct","statement":"Path(eval(x), isinstance(result, Expr))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dbf943550660163e","spec_source":"static","formal_spec":{"source":"static","strength":"partial","ensures":["isinstance(result, Expr)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.a","self.b","self.n","self.variable"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(self) -> Expr:
         n, a, b, x = self.n, self.a, self.b, self.variable
         if n == 0:
@@ -1339,14 +1851,20 @@ class DiracDeltaRule(AtomicRule):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(TrigSubstitutionRule(*args), correctly constructs a TrigSubstitutionRule instance) over {Any | isinstance(trig_function, sin) and isinstance(trig_function, cos)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Rule)                         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ TrigSubstitutionRule : {Any | isinstance(trig_functio...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | db103e1eef358a8b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.TrigSubstitutionRule","kind":"class","src_hash":"9c48613b6149c305","in":{"base":"Any","pred":"isinstance(trig_function, sin) and isinstance(trig_function, cos)"},"out":{"base":"Any","pred":"len(trig_function) == 1 and len(relation) == 1"},"spec":{"lhs":"TrigSubstitutionRule(*args)","rhs":"correctly constructs a TrigSubstitutionRule instance","over":{"base":"Any","pred":"isinstance(trig_function, sin) and isinstance(trig_function, cos)"},"name":"TrigSubstitutionRule_class_invariant"},"guarantee":"correctly constructs a TrigSubstitutionRule instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"db103e1eef358a8b"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.TrigSubstitutionRule","kind":"class","src_hash":"9c48613b6149c305","in":{"base":"Any","pred":"isinstance(trig_function, sin) and isinstance(trig_function, cos)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Rule)"},"spec":{"lhs":"TrigSubstitutionRule(*args)","rhs":"correctly constructs a TrigSubstitutionRule instance","over":{"base":"Any","pred":"isinstance(trig_function, sin) and isinstance(trig_function, cos)"},"name":"TrigSubstitutionRule_class_invariant"},"guarantee":"isinstance(self, Rule)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"db103e1eef358a8b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Rule)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":false,"binding_errors":["Function TrigSubstitutionRule not found in source"]}}
 class TrigSubstitutionRule(Rule):
     theta: Expr
     func: Expr
@@ -1355,16 +1873,25 @@ class TrigSubstitutionRule(Rule):
     restriction: bool | Boolean
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(), eval produces the expected output) over Any   ║
+# ║ Path(eval(), Piecewise((self.substep.eval().subs(substitution).trigsimp(), self.restriction))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Expr                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, Expr)                       ║
+# ║   ensures:  len(trig_function) == 1                        ║
+# ║   ensures:  len(relation) == 1                             ║
+# ║   returns:  Piecewise((self.substep.eval().subs(subst...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : Any → {Expr | result satisfies: result == (Pie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4bce691f04b2b03b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 23ca00a9b865b7ee  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.TrigSubstitutionRule.eval","kind":"method","src_hash":"1ff660c60c4ae5ba","in":{"base":"Any"},"out":{"base":"Expr"},"spec":{"lhs":"eval()","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.TrigSubstitutionRule.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4bce691f04b2b03b"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.TrigSubstitutionRule.eval","kind":"method","src_hash":"1ff660c60c4ae5ba","in":{"base":"Any"},"out":{"base":"Expr","pred":"result satisfies: result == (Piecewise((self.substep.eval().subs(substitution).trigsimp(), self.restriction)))"},"spec":{"lhs":"eval()","rhs":"Piecewise((self.substep.eval().subs(substitution).trigsimp(), self.restriction))","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"returns Piecewise((self.substep.eval().subs(substitution).trigsimp(), self.restriction)); isinstance(result, Expr); len(trig_function) == 1; len(relation) == 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.TrigSubstitutionRule.eval_correct","statement":"Path(eval(x), returns Piecewise((self.substep.eval().subs(substitution).trigsimp(), self.restriction)); isinstance(result, Expr); len(trig_function) == 1; len(relation) == 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"23ca00a9b865b7ee","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, Expr)","len(trig_function) == 1","len(relation) == 1"],"returns_expr":"Piecewise((self.substep.eval().subs(substitution).trigsimp(), self.restriction))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.func","self.restriction","self.substep","self.theta","self.variable"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(self) -> Expr:
         theta, func, x = self.theta, self.func, self.variable
         func = func.subs(sec(theta), 1/cos(theta))
@@ -1405,16 +1932,23 @@ class TrigSubstitutionRule(Rule):
         )
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(contains_dont_know(), contains_dont_know produces the expected output) over Any ║
+# ║ Path(contains_dont_know(), self.substep.contains_dont_know()) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ contains_dont_know : Any → bool                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, bool)                       ║
+# ║   returns:  self.substep.contains_dont_know()              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ contains_dont_know : Any → {bool | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ce929688406f9778           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.TrigSubstitutionRule.contains_dont_know","kind":"method","src_hash":"8e4f22a17807fc6e","in":{"base":"Any"},"out":{"base":"bool"},"spec":{"lhs":"contains_dont_know()","rhs":"contains_dont_know produces the expected output","over":{"base":"Any"},"name":"contains_dont_know_correct"},"guarantee":"contains_dont_know produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ce929688406f9778"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.TrigSubstitutionRule.contains_dont_know","kind":"method","src_hash":"8e4f22a17807fc6e","in":{"base":"Any"},"out":{"base":"bool","pred":"result satisfies: result == (self.substep.contains_dont_know())"},"spec":{"lhs":"contains_dont_know()","rhs":"self.substep.contains_dont_know()","over":{"base":"Any"},"name":"contains_dont_know_correct"},"guarantee":"returns self.substep.contains_dont_know(); isinstance(result, bool)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ce929688406f9778","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, bool)"],"returns_expr":"self.substep.contains_dont_know()","pure":false,"effects":{"effect_type":"reads_state","reads":["self.substep"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def contains_dont_know(self) -> bool:
         return self.substep.contains_dont_know()
 
@@ -1423,14 +1957,20 @@ class TrigSubstitutionRule(Rule):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(ArctanRule(*args), correctly constructs a ArctanRule instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ ArctanRule : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, AtomicRule)                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ ArctanRule : Any → {Any | result satisfies: isinstanc...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b3ab033d3fa3e256  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.ArctanRule","kind":"class","src_hash":"aab7a534d89300e8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ArctanRule(*args)","rhs":"correctly constructs a ArctanRule instance","over":{"base":"Any"},"name":"ArctanRule_class_invariant"},"guarantee":"correctly constructs a ArctanRule instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b3ab033d3fa3e256"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.ArctanRule","kind":"class","src_hash":"aab7a534d89300e8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, AtomicRule)"},"spec":{"lhs":"ArctanRule(*args)","rhs":"correctly constructs a ArctanRule instance","over":{"base":"Any"},"name":"ArctanRule_class_invariant"},"guarantee":"isinstance(self, AtomicRule)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b3ab033d3fa3e256","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, AtomicRule)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function ArctanRule not found in source"]}}
 class ArctanRule(AtomicRule):
     """integrate(a/(b*x**2+c), x) -> a/b / sqrt(c/b) * atan(x/sqrt(c/b))"""
     a: Expr
@@ -1440,14 +1980,21 @@ class ArctanRule(AtomicRule):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(eval(), id) over Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Expr                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, Expr)                       ║
+# ║   returns:  a / b / sqrt(c / b) * atan(x / sqrt(c / b))    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : Any → {Expr | result satisfies: result == (a /...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | ae82efb3b815e0e5   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.ArctanRule.eval","kind":"method","src_hash":"f17d616537c04459","in":{"base":"Any"},"out":{"base":"Expr"},"spec":{"lhs":"eval()","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct","kind":"composition"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sqrt","by":"library_axiom"},{"fn":"atan","by":"library_axiom"},{"fn":"sqrt","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ae82efb3b815e0e5"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.ArctanRule.eval","kind":"method","src_hash":"f17d616537c04459","in":{"base":"Any"},"out":{"base":"Expr","pred":"result satisfies: result == (a / b / sqrt(c / b) * atan(x / sqrt(c / b)))"},"spec":{"lhs":"eval()","rhs":"a / b / sqrt(c / b) * atan(x / sqrt(c / b))","over":{"base":"Any"},"name":"eval_correct","kind":"composition"},"guarantee":"returns a / b / sqrt(c / b) * atan(x / sqrt(c / b)); isinstance(result, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sqrt","by":"library_axiom"},{"fn":"atan","by":"library_axiom"},{"fn":"sqrt","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ae82efb3b815e0e5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, Expr)"],"returns_expr":"a / b / sqrt(c / b) * atan(x / sqrt(c / b))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.a","self.b","self.c","self.variable"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(self) -> Expr:
         a, b, c, x = self.a, self.b, self.c, self.variable
         return a/b / sqrt(c/b) * atan(x/sqrt(c/b))
@@ -1455,16 +2002,23 @@ class ArctanRule(AtomicRule):
 
 @dataclass
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(OrthogonalPolyRule(), correctly constructs a OrthogonalPolyRule instance) over Any ║
+# ║ Path(OrthogonalPolyRule(), isinstance(self, AtomicRule) and isinstance(self, ABC)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ OrthogonalPolyRule : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, AtomicRule)                   ║
+# ║   ensures:  isinstance(self, ABC)                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ OrthogonalPolyRule : Any → {Any | result satisfies: i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 075aaaeb07d2ac9a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.OrthogonalPolyRule","kind":"class","src_hash":"e7032c5a6b4d56ad","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"OrthogonalPolyRule()","rhs":"correctly constructs a OrthogonalPolyRule instance","over":{"base":"Any"},"name":"OrthogonalPolyRule_correct"},"guarantee":"correctly constructs a OrthogonalPolyRule instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"075aaaeb07d2ac9a"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.OrthogonalPolyRule","kind":"class","src_hash":"e7032c5a6b4d56ad","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, AtomicRule) and isinstance(self, ABC)"},"spec":{"lhs":"OrthogonalPolyRule()","rhs":"isinstance(self, AtomicRule) and isinstance(self, ABC)","over":{"base":"Any"},"name":"OrthogonalPolyRule_correct"},"guarantee":"isinstance(self, AtomicRule); isinstance(self, ABC)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"075aaaeb07d2ac9a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, AtomicRule)","isinstance(self, ABC)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function OrthogonalPolyRule not found in source"]}}
 class OrthogonalPolyRule(AtomicRule, ABC):
     n: Expr
 
@@ -1473,29 +2027,42 @@ class OrthogonalPolyRule(AtomicRule, ABC):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(JacobiRule(*args), correctly constructs a JacobiRule instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ JacobiRule : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, OrthogonalPolyRule)           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ JacobiRule : Any → {Any | result satisfies: isinstanc...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b52cfb2ed61e5ea6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.JacobiRule","kind":"class","src_hash":"9b977358083e8488","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"JacobiRule(*args)","rhs":"correctly constructs a JacobiRule instance","over":{"base":"Any"},"name":"JacobiRule_class_invariant"},"guarantee":"correctly constructs a JacobiRule instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b52cfb2ed61e5ea6"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.JacobiRule","kind":"class","src_hash":"9b977358083e8488","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, OrthogonalPolyRule)"},"spec":{"lhs":"JacobiRule(*args)","rhs":"correctly constructs a JacobiRule instance","over":{"base":"Any"},"name":"JacobiRule_class_invariant"},"guarantee":"isinstance(self, OrthogonalPolyRule)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b52cfb2ed61e5ea6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, OrthogonalPolyRule)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function JacobiRule not found in source"]}}
 class JacobiRule(OrthogonalPolyRule):
     a: Expr
     b: Expr
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(), eval produces the expected output) over Any   ║
+# ║ Path(eval(), Piecewise((2 * jacobi(n + 1, a - 1, b - 1, x) / (n + a + b), Ne(n + a + b, 0)), (x, Eq(n, 0)), ((a + b + 2) * x ** 2 / 4 + (a - b) * x / 2, Eq(n, 1)))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Expr                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, Expr)                       ║
+# ║   returns:  Piecewise((2 * jacobi(n + 1, a - 1, b - 1...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : Any → {Expr | result satisfies: result == (Pie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 55e3e399d253992b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 486698e12ae02e04  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.JacobiRule.eval","kind":"method","src_hash":"52d2ec2440eab088","in":{"base":"Any"},"out":{"base":"Expr"},"spec":{"lhs":"eval()","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.JacobiRule.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"55e3e399d253992b"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.JacobiRule.eval","kind":"method","src_hash":"52d2ec2440eab088","in":{"base":"Any"},"out":{"base":"Expr","pred":"result satisfies: result == (Piecewise((2 * jacobi(n + 1, a - 1, b - 1, x) / (n + a + b), Ne(n + a + b, 0)), (x, Eq(n, 0)), ((a + b + 2) * x ** 2 / 4 + (a - b) * x / 2, Eq(n, 1))))"},"spec":{"lhs":"eval()","rhs":"Piecewise((2 * jacobi(n + 1, a - 1, b - 1, x) / (n + a + b), Ne(n + a + b, 0)), (x, Eq(n, 0)), ((a + b + 2) * x ** 2 / 4 + (a - b) * x / 2, Eq(n, 1)))","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"returns Piecewise((2 * jacobi(n + 1, a - 1, b - 1, x) / (n + a + b), Ne(n + a + b, 0)), (x, Eq(n, 0)), ((a + b + 2) * x ** 2 / 4 + (a - b) * x / 2, Eq(n, 1))); isinstance(result, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.JacobiRule.eval_correct","statement":"Path(eval(x), returns Piecewise((2 * jacobi(n + 1, a - 1, b - 1, x) / (n + a + b), Ne(n + a + b, 0)), (x, Eq(n, 0)), ((a + b + 2) * x ** 2 / 4 + (a - b) * x / 2, Eq(n, 1))); isinstance(result, Expr))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"486698e12ae02e04","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, Expr)"],"returns_expr":"Piecewise((2 * jacobi(n + 1, a - 1, b - 1, x) / (n + a + b), Ne(n + a + b, 0)), (x, Eq(n, 0)), ((a + b + 2) * x ** 2 / 4 + (a - b) * x / 2, Eq(n, 1)))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.a","self.b","self.n","self.variable"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(self) -> Expr:
         n, a, b, x = self.n, self.a, self.b, self.variable
         return Piecewise(
@@ -1508,28 +2075,41 @@ class JacobiRule(OrthogonalPolyRule):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(GegenbauerRule(*args), correctly constructs a GegenbauerRule instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ GegenbauerRule : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, OrthogonalPolyRule)           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ GegenbauerRule : Any → {Any | result satisfies: isins...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 569286a50c7f79b6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.GegenbauerRule","kind":"class","src_hash":"6c3313ba271e222c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"GegenbauerRule(*args)","rhs":"correctly constructs a GegenbauerRule instance","over":{"base":"Any"},"name":"GegenbauerRule_class_invariant"},"guarantee":"correctly constructs a GegenbauerRule instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"569286a50c7f79b6"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.GegenbauerRule","kind":"class","src_hash":"6c3313ba271e222c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, OrthogonalPolyRule)"},"spec":{"lhs":"GegenbauerRule(*args)","rhs":"correctly constructs a GegenbauerRule instance","over":{"base":"Any"},"name":"GegenbauerRule_class_invariant"},"guarantee":"isinstance(self, OrthogonalPolyRule)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"569286a50c7f79b6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, OrthogonalPolyRule)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function GegenbauerRule not found in source"]}}
 class GegenbauerRule(OrthogonalPolyRule):
     a: Expr
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(), eval produces the expected output) over Any   ║
+# ║ Path(eval(), Piecewise((gegenbauer(n + 1, a - 1, x) / (2 * (a - 1)), Ne(a, 1)), (chebyshevt(n + 1, x) / (n + 1), Ne(n, -1)), (S.Zero, True))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Expr                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, Expr)                       ║
+# ║   returns:  Piecewise((gegenbauer(n + 1, a - 1, x) / ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : Any → {Expr | result satisfies: result == (Pie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 612781d1211280d4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 01a73608a62a451f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.GegenbauerRule.eval","kind":"method","src_hash":"592ac7f2a059097e","in":{"base":"Any"},"out":{"base":"Expr"},"spec":{"lhs":"eval()","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.GegenbauerRule.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"612781d1211280d4"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.GegenbauerRule.eval","kind":"method","src_hash":"592ac7f2a059097e","in":{"base":"Any"},"out":{"base":"Expr","pred":"result satisfies: result == (Piecewise((gegenbauer(n + 1, a - 1, x) / (2 * (a - 1)), Ne(a, 1)), (chebyshevt(n + 1, x) / (n + 1), Ne(n, -1)), (S.Zero, True)))"},"spec":{"lhs":"eval()","rhs":"Piecewise((gegenbauer(n + 1, a - 1, x) / (2 * (a - 1)), Ne(a, 1)), (chebyshevt(n + 1, x) / (n + 1), Ne(n, -1)), (S.Zero, True))","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"returns Piecewise((gegenbauer(n + 1, a - 1, x) / (2 * (a - 1)), Ne(a, 1)), (chebyshevt(n + 1, x) / (n + 1), Ne(n, -1)), (S.Zero, True)); isinstance(result, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.GegenbauerRule.eval_correct","statement":"Path(eval(x), returns Piecewise((gegenbauer(n + 1, a - 1, x) / (2 * (a - 1)), Ne(a, 1)), (chebyshevt(n + 1, x) / (n + 1), Ne(n, -1)), (S.Zero, True)); isinstance(result, Expr))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"01a73608a62a451f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, Expr)"],"returns_expr":"Piecewise((gegenbauer(n + 1, a - 1, x) / (2 * (a - 1)), Ne(a, 1)), (chebyshevt(n + 1, x) / (n + 1), Ne(n, -1)), (S.Zero, True))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.a","self.n","self.variable"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(self) -> Expr:
         n, a, x = self.n, self.a, self.variable
         return Piecewise(
@@ -1542,26 +2122,39 @@ class GegenbauerRule(OrthogonalPolyRule):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(ChebyshevTRule(*args), correctly constructs a ChebyshevTRule instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ ChebyshevTRule : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, OrthogonalPolyRule)           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ ChebyshevTRule : Any → {Any | result satisfies: isins...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9d7caf5b45db67ee  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.ChebyshevTRule","kind":"class","src_hash":"2cd688192bd08319","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ChebyshevTRule(*args)","rhs":"correctly constructs a ChebyshevTRule instance","over":{"base":"Any"},"name":"ChebyshevTRule_class_invariant"},"guarantee":"correctly constructs a ChebyshevTRule instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9d7caf5b45db67ee"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.ChebyshevTRule","kind":"class","src_hash":"2cd688192bd08319","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, OrthogonalPolyRule)"},"spec":{"lhs":"ChebyshevTRule(*args)","rhs":"correctly constructs a ChebyshevTRule instance","over":{"base":"Any"},"name":"ChebyshevTRule_class_invariant"},"guarantee":"isinstance(self, OrthogonalPolyRule)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9d7caf5b45db67ee","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, OrthogonalPolyRule)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function ChebyshevTRule not found in source"]}}
 class ChebyshevTRule(OrthogonalPolyRule):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(), eval produces the expected output) over Any   ║
+# ║ Path(eval(), Piecewise(((chebyshevt(n + 1, x) / (n + 1) - chebyshevt(n - 1, x) / (n - 1)) / 2, Ne(Abs(n), 1)), (x ** 2 / 2, True))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Expr                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, Expr)                       ║
+# ║   returns:  Piecewise(((chebyshevt(n + 1, x) / (n + 1...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : Any → {Expr | result satisfies: result == (Pie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c34b3e7e7c827f35  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d271aa411c760bec  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.ChebyshevTRule.eval","kind":"method","src_hash":"68b94abe61a55edb","in":{"base":"Any"},"out":{"base":"Expr"},"spec":{"lhs":"eval()","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.ChebyshevTRule.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c34b3e7e7c827f35"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.ChebyshevTRule.eval","kind":"method","src_hash":"68b94abe61a55edb","in":{"base":"Any"},"out":{"base":"Expr","pred":"result satisfies: result == (Piecewise(((chebyshevt(n + 1, x) / (n + 1) - chebyshevt(n - 1, x) / (n - 1)) / 2, Ne(Abs(n), 1)), (x ** 2 / 2, True)))"},"spec":{"lhs":"eval()","rhs":"Piecewise(((chebyshevt(n + 1, x) / (n + 1) - chebyshevt(n - 1, x) / (n - 1)) / 2, Ne(Abs(n), 1)), (x ** 2 / 2, True))","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"returns Piecewise(((chebyshevt(n + 1, x) / (n + 1) - chebyshevt(n - 1, x) / (n - 1)) / 2, Ne(Abs(n), 1)), (x ** 2 / 2, True)); isinstance(result, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.ChebyshevTRule.eval_correct","statement":"Path(eval(x), returns Piecewise(((chebyshevt(n + 1, x) / (n + 1) - chebyshevt(n - 1, x) / (n - 1)) / 2, Ne(Abs(n), 1)), (x ** 2 / 2, True)); isinstance(result, Expr))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d271aa411c760bec","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, Expr)"],"returns_expr":"Piecewise(((chebyshevt(n + 1, x) / (n + 1) - chebyshevt(n - 1, x) / (n - 1)) / 2, Ne(Abs(n), 1)), (x ** 2 / 2, True))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.n","self.variable"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(self) -> Expr:
         n, x = self.n, self.variable
         return Piecewise(
@@ -1574,26 +2167,39 @@ class ChebyshevTRule(OrthogonalPolyRule):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(ChebyshevURule(*args), correctly constructs a ChebyshevURule instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ ChebyshevURule : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, OrthogonalPolyRule)           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ ChebyshevURule : Any → {Any | result satisfies: isins...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 527f966136a1e17f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.ChebyshevURule","kind":"class","src_hash":"fb91d85c3c4d0903","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ChebyshevURule(*args)","rhs":"correctly constructs a ChebyshevURule instance","over":{"base":"Any"},"name":"ChebyshevURule_class_invariant"},"guarantee":"correctly constructs a ChebyshevURule instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"527f966136a1e17f"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.ChebyshevURule","kind":"class","src_hash":"fb91d85c3c4d0903","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, OrthogonalPolyRule)"},"spec":{"lhs":"ChebyshevURule(*args)","rhs":"correctly constructs a ChebyshevURule instance","over":{"base":"Any"},"name":"ChebyshevURule_class_invariant"},"guarantee":"isinstance(self, OrthogonalPolyRule)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"527f966136a1e17f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, OrthogonalPolyRule)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function ChebyshevURule not found in source"]}}
 class ChebyshevURule(OrthogonalPolyRule):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(), eval produces the expected output) over Any   ║
+# ║ Path(eval(), Piecewise((chebyshevt(n + 1, x) / (n + 1), Ne(n, -1)), (S.Zero, True))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Expr                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, Expr)                       ║
+# ║   returns:  Piecewise((chebyshevt(n + 1, x) / (n + 1)...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : Any → {Expr | result satisfies: result == (Pie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d4314820ad508c22  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0e19bbebb55e15a6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.ChebyshevURule.eval","kind":"method","src_hash":"87cf69e6e0ecc2b9","in":{"base":"Any"},"out":{"base":"Expr"},"spec":{"lhs":"eval()","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.ChebyshevURule.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d4314820ad508c22"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.ChebyshevURule.eval","kind":"method","src_hash":"87cf69e6e0ecc2b9","in":{"base":"Any"},"out":{"base":"Expr","pred":"result satisfies: result == (Piecewise((chebyshevt(n + 1, x) / (n + 1), Ne(n, -1)), (S.Zero, True)))"},"spec":{"lhs":"eval()","rhs":"Piecewise((chebyshevt(n + 1, x) / (n + 1), Ne(n, -1)), (S.Zero, True))","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"returns Piecewise((chebyshevt(n + 1, x) / (n + 1), Ne(n, -1)), (S.Zero, True)); isinstance(result, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.ChebyshevURule.eval_correct","statement":"Path(eval(x), returns Piecewise((chebyshevt(n + 1, x) / (n + 1), Ne(n, -1)), (S.Zero, True)); isinstance(result, Expr))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0e19bbebb55e15a6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, Expr)"],"returns_expr":"Piecewise((chebyshevt(n + 1, x) / (n + 1), Ne(n, -1)), (S.Zero, True))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.n","self.variable"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(self) -> Expr:
         n, x = self.n, self.variable
         return Piecewise(
@@ -1605,26 +2211,39 @@ class ChebyshevURule(OrthogonalPolyRule):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(LegendreRule(*args), correctly constructs a LegendreRule instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ LegendreRule : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, OrthogonalPolyRule)           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ LegendreRule : Any → {Any | result satisfies: isinsta...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bf26e7b44be3d501  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.LegendreRule","kind":"class","src_hash":"51788504da0ba54b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"LegendreRule(*args)","rhs":"correctly constructs a LegendreRule instance","over":{"base":"Any"},"name":"LegendreRule_class_invariant"},"guarantee":"correctly constructs a LegendreRule instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bf26e7b44be3d501"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.LegendreRule","kind":"class","src_hash":"51788504da0ba54b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, OrthogonalPolyRule)"},"spec":{"lhs":"LegendreRule(*args)","rhs":"correctly constructs a LegendreRule instance","over":{"base":"Any"},"name":"LegendreRule_class_invariant"},"guarantee":"isinstance(self, OrthogonalPolyRule)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bf26e7b44be3d501","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, OrthogonalPolyRule)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function LegendreRule not found in source"]}}
 class LegendreRule(OrthogonalPolyRule):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(), eval produces the expected output) over Any   ║
+# ║ Path(eval(), (legendre(n + 1, x) - legendre(n - 1, x)) / (2 * n + 1)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Expr                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, Expr)                       ║
+# ║   returns:  (legendre(n + 1, x) - legendre(n - 1, x))...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : Any → {Expr | result satisfies: result == ((le...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 45b4f6d8e7430440  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 00efcfbe9eaf68ff  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.LegendreRule.eval","kind":"method","src_hash":"d88573c2ef0bb4f5","in":{"base":"Any"},"out":{"base":"Expr"},"spec":{"lhs":"eval()","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.LegendreRule.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"45b4f6d8e7430440"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.LegendreRule.eval","kind":"method","src_hash":"d88573c2ef0bb4f5","in":{"base":"Any"},"out":{"base":"Expr","pred":"result satisfies: result == ((legendre(n + 1, x) - legendre(n - 1, x)) / (2 * n + 1))"},"spec":{"lhs":"eval()","rhs":"(legendre(n + 1, x) - legendre(n - 1, x)) / (2 * n + 1)","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"returns (legendre(n + 1, x) - legendre(n - 1, x)) / (2 * n + 1); isinstance(result, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.LegendreRule.eval_correct","statement":"Path(eval(x), returns (legendre(n + 1, x) - legendre(n - 1, x)) / (2 * n + 1); isinstance(result, Expr))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"00efcfbe9eaf68ff","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, Expr)"],"returns_expr":"(legendre(n + 1, x) - legendre(n - 1, x)) / (2 * n + 1)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.n","self.variable"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(self) -> Expr:
         n, x = self.n, self.variable
         return(legendre(n + 1, x) - legendre(n - 1, x))/(2*n + 1)
@@ -1634,26 +2253,39 @@ class LegendreRule(OrthogonalPolyRule):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(HermiteRule(*args), correctly constructs a HermiteRule instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ HermiteRule : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, OrthogonalPolyRule)           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ HermiteRule : Any → {Any | result satisfies: isinstan...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0269570ab172e227  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.HermiteRule","kind":"class","src_hash":"8071f1796e05fb2d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"HermiteRule(*args)","rhs":"correctly constructs a HermiteRule instance","over":{"base":"Any"},"name":"HermiteRule_class_invariant"},"guarantee":"correctly constructs a HermiteRule instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0269570ab172e227"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.HermiteRule","kind":"class","src_hash":"8071f1796e05fb2d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, OrthogonalPolyRule)"},"spec":{"lhs":"HermiteRule(*args)","rhs":"correctly constructs a HermiteRule instance","over":{"base":"Any"},"name":"HermiteRule_class_invariant"},"guarantee":"isinstance(self, OrthogonalPolyRule)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0269570ab172e227","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, OrthogonalPolyRule)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function HermiteRule not found in source"]}}
 class HermiteRule(OrthogonalPolyRule):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(), eval produces the expected output) over Any   ║
+# ║ Path(eval(), hermite(n + 1, x) / (2 * (n + 1))) over Any   ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Expr                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, Expr)                       ║
+# ║   returns:  hermite(n + 1, x) / (2 * (n + 1))              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : Any → {Expr | result satisfies: result == (her...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0f49878c6d60a52d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 661b303fb8064409  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.HermiteRule.eval","kind":"method","src_hash":"a5b3196ca6b2f229","in":{"base":"Any"},"out":{"base":"Expr"},"spec":{"lhs":"eval()","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.HermiteRule.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0f49878c6d60a52d"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.HermiteRule.eval","kind":"method","src_hash":"a5b3196ca6b2f229","in":{"base":"Any"},"out":{"base":"Expr","pred":"result satisfies: result == (hermite(n + 1, x) / (2 * (n + 1)))"},"spec":{"lhs":"eval()","rhs":"hermite(n + 1, x) / (2 * (n + 1))","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"returns hermite(n + 1, x) / (2 * (n + 1)); isinstance(result, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.HermiteRule.eval_correct","statement":"Path(eval(x), returns hermite(n + 1, x) / (2 * (n + 1)); isinstance(result, Expr))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"661b303fb8064409","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, Expr)"],"returns_expr":"hermite(n + 1, x) / (2 * (n + 1))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.n","self.variable"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(self) -> Expr:
         n, x = self.n, self.variable
         return hermite(n + 1, x)/(2*(n + 1))
@@ -1663,26 +2295,39 @@ class HermiteRule(OrthogonalPolyRule):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(LaguerreRule(*args), correctly constructs a LaguerreRule instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ LaguerreRule : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, OrthogonalPolyRule)           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ LaguerreRule : Any → {Any | result satisfies: isinsta...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 700b1dcd90c44143  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.LaguerreRule","kind":"class","src_hash":"ddca9d970b6cb231","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"LaguerreRule(*args)","rhs":"correctly constructs a LaguerreRule instance","over":{"base":"Any"},"name":"LaguerreRule_class_invariant"},"guarantee":"correctly constructs a LaguerreRule instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"700b1dcd90c44143"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.LaguerreRule","kind":"class","src_hash":"ddca9d970b6cb231","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, OrthogonalPolyRule)"},"spec":{"lhs":"LaguerreRule(*args)","rhs":"correctly constructs a LaguerreRule instance","over":{"base":"Any"},"name":"LaguerreRule_class_invariant"},"guarantee":"isinstance(self, OrthogonalPolyRule)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"700b1dcd90c44143","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, OrthogonalPolyRule)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function LaguerreRule not found in source"]}}
 class LaguerreRule(OrthogonalPolyRule):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(eval(), id) over Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Expr                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, Expr)                       ║
+# ║   returns:  laguerre(n, x) - laguerre(n + 1, x)            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : Any → {Expr | result satisfies: result == (lag...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 1f50705c5999bbcc   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.LaguerreRule.eval","kind":"method","src_hash":"df52e9a9f06bb832","in":{"base":"Any"},"out":{"base":"Expr"},"spec":{"lhs":"eval()","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct","kind":"composition"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"laguerre","by":"library_axiom"},{"fn":"laguerre","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1f50705c5999bbcc"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.LaguerreRule.eval","kind":"method","src_hash":"df52e9a9f06bb832","in":{"base":"Any"},"out":{"base":"Expr","pred":"result satisfies: result == (laguerre(n, x) - laguerre(n + 1, x))"},"spec":{"lhs":"eval()","rhs":"laguerre(n, x) - laguerre(n + 1, x)","over":{"base":"Any"},"name":"eval_correct","kind":"composition"},"guarantee":"returns laguerre(n, x) - laguerre(n + 1, x); isinstance(result, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"laguerre","by":"library_axiom"},{"fn":"laguerre","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1f50705c5999bbcc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, Expr)"],"returns_expr":"laguerre(n, x) - laguerre(n + 1, x)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.n","self.variable"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(self) -> Expr:
         n, x = self.n, self.variable
         return laguerre(n, x) - laguerre(n + 1, x)
@@ -1690,46 +2335,66 @@ class LaguerreRule(OrthogonalPolyRule):
 
 @dataclass
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(AssocLaguerreRule(), correctly constructs a AssocLaguerreRule instance) over Any ║
+# ║ Path(AssocLaguerreRule(), isinstance(self, OrthogonalPolyRule)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ AssocLaguerreRule : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, OrthogonalPolyRule)           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ AssocLaguerreRule : Any → {Any | result satisfies: is...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 514164567daf5e19           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.AssocLaguerreRule","kind":"class","src_hash":"34711bdaea4f75af","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"AssocLaguerreRule()","rhs":"correctly constructs a AssocLaguerreRule instance","over":{"base":"Any"},"name":"AssocLaguerreRule_correct"},"guarantee":"correctly constructs a AssocLaguerreRule instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"514164567daf5e19"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.AssocLaguerreRule","kind":"class","src_hash":"34711bdaea4f75af","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, OrthogonalPolyRule)"},"spec":{"lhs":"AssocLaguerreRule()","rhs":"isinstance(self, OrthogonalPolyRule)","over":{"base":"Any"},"name":"AssocLaguerreRule_correct"},"guarantee":"isinstance(self, OrthogonalPolyRule)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"514164567daf5e19","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, OrthogonalPolyRule)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Function AssocLaguerreRule not found in source"]}}
 class AssocLaguerreRule(OrthogonalPolyRule):
     a: Expr
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(), eval produces the expected output) over Any   ║
+# ║ Path(eval(), -assoc_laguerre(self.n + 1, self.a - 1, self.variable)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Expr                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, Expr)                       ║
+# ║   returns:  -assoc_laguerre(self.n + 1, self.a - 1, s...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : Any → {Expr | result satisfies: result == (-as...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a82cdf25f9722aa3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.AssocLaguerreRule.eval","kind":"method","src_hash":"082846b5bc81ca24","in":{"base":"Any"},"out":{"base":"Expr"},"spec":{"lhs":"eval()","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a82cdf25f9722aa3"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.AssocLaguerreRule.eval","kind":"method","src_hash":"082846b5bc81ca24","in":{"base":"Any"},"out":{"base":"Expr","pred":"result satisfies: result == (-assoc_laguerre(self.n + 1, self.a - 1, self.variable))"},"spec":{"lhs":"eval()","rhs":"-assoc_laguerre(self.n + 1, self.a - 1, self.variable)","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"returns -assoc_laguerre(self.n + 1, self.a - 1, self.variable); isinstance(result, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a82cdf25f9722aa3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, Expr)"],"returns_expr":"-assoc_laguerre(self.n + 1, self.a - 1, self.variable)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.a","self.n","self.variable"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(self) -> Expr:
         return -assoc_laguerre(self.n + 1, self.a - 1, self.variable)
 
 
 @dataclass
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(IRule(), correctly constructs a IRule instance) over Any ║
+# ║ Path(IRule(), isinstance(self, AtomicRule) and isinstance(self, ABC)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ IRule : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, AtomicRule)                   ║
+# ║   ensures:  isinstance(self, ABC)                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ IRule : Any → {Any | result satisfies: isinstance(sel...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 57fdd93c635d4b95           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.IRule","kind":"class","src_hash":"484444f281783f90","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"IRule()","rhs":"correctly constructs a IRule instance","over":{"base":"Any"},"name":"IRule_correct"},"guarantee":"correctly constructs a IRule instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"57fdd93c635d4b95"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.IRule","kind":"class","src_hash":"484444f281783f90","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, AtomicRule) and isinstance(self, ABC)"},"spec":{"lhs":"IRule()","rhs":"isinstance(self, AtomicRule) and isinstance(self, ABC)","over":{"base":"Any"},"name":"IRule_correct"},"guarantee":"isinstance(self, AtomicRule); isinstance(self, ABC)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"57fdd93c635d4b95","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, AtomicRule)","isinstance(self, ABC)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function IRule not found in source"]}}
 class IRule(AtomicRule, ABC):
     a: Expr
     b: Expr
@@ -1739,26 +2404,39 @@ class IRule(AtomicRule, ABC):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(CiRule(*args), correctly constructs a CiRule instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ CiRule : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, IRule)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ CiRule : Any → {Any | result satisfies: isinstance(se...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1b7d02e4a30cf5ce  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.CiRule","kind":"class","src_hash":"c3c1467f5575dd33","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"CiRule(*args)","rhs":"correctly constructs a CiRule instance","over":{"base":"Any"},"name":"CiRule_class_invariant"},"guarantee":"correctly constructs a CiRule instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1b7d02e4a30cf5ce"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.CiRule","kind":"class","src_hash":"c3c1467f5575dd33","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, IRule)"},"spec":{"lhs":"CiRule(*args)","rhs":"correctly constructs a CiRule instance","over":{"base":"Any"},"name":"CiRule_class_invariant"},"guarantee":"isinstance(self, IRule)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1b7d02e4a30cf5ce","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, IRule)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function CiRule not found in source"]}}
 class CiRule(IRule):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(eval(), id) over Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Expr                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, Expr)                       ║
+# ║   returns:  cos(b) * Ci(a * x) - sin(b) * Si(a * x)        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : Any → {Expr | result satisfies: result == (cos...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | b88f52e01a777ef3   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.CiRule.eval","kind":"method","src_hash":"53b7aefa668b02dc","in":{"base":"Any"},"out":{"base":"Expr"},"spec":{"lhs":"eval()","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct","kind":"composition"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"cos","by":"library_axiom"},{"fn":"Ci","by":"library_axiom"},{"fn":"sin","by":"library_axiom"},{"fn":"Si","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b88f52e01a777ef3"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.CiRule.eval","kind":"method","src_hash":"53b7aefa668b02dc","in":{"base":"Any"},"out":{"base":"Expr","pred":"result satisfies: result == (cos(b) * Ci(a * x) - sin(b) * Si(a * x))"},"spec":{"lhs":"eval()","rhs":"cos(b) * Ci(a * x) - sin(b) * Si(a * x)","over":{"base":"Any"},"name":"eval_correct","kind":"composition"},"guarantee":"returns cos(b) * Ci(a * x) - sin(b) * Si(a * x); isinstance(result, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"cos","by":"library_axiom"},{"fn":"Ci","by":"library_axiom"},{"fn":"sin","by":"library_axiom"},{"fn":"Si","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b88f52e01a777ef3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, Expr)"],"returns_expr":"cos(b) * Ci(a * x) - sin(b) * Si(a * x)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.a","self.b","self.variable"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(self) -> Expr:
         a, b, x = self.a, self.b, self.variable
         return cos(b)*Ci(a*x) - sin(b)*Si(a*x)
@@ -1768,26 +2446,39 @@ class CiRule(IRule):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(ChiRule(*args), correctly constructs a ChiRule instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ ChiRule : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, IRule)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ ChiRule : Any → {Any | result satisfies: isinstance(s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9078c97d8a6e48c7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.ChiRule","kind":"class","src_hash":"062e4285d45aa8fd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ChiRule(*args)","rhs":"correctly constructs a ChiRule instance","over":{"base":"Any"},"name":"ChiRule_class_invariant"},"guarantee":"correctly constructs a ChiRule instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9078c97d8a6e48c7"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.ChiRule","kind":"class","src_hash":"062e4285d45aa8fd","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, IRule)"},"spec":{"lhs":"ChiRule(*args)","rhs":"correctly constructs a ChiRule instance","over":{"base":"Any"},"name":"ChiRule_class_invariant"},"guarantee":"isinstance(self, IRule)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9078c97d8a6e48c7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, IRule)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function ChiRule not found in source"]}}
 class ChiRule(IRule):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(eval(), id) over Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Expr                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, Expr)                       ║
+# ║   returns:  cosh(b) * Chi(a * x) + sinh(b) * Shi(a * x)    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : Any → {Expr | result satisfies: result == (cos...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 10ac21bcf2d2a9f1   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.ChiRule.eval","kind":"method","src_hash":"a0f62878480f9105","in":{"base":"Any"},"out":{"base":"Expr"},"spec":{"lhs":"eval()","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct","kind":"composition"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"cosh","by":"library_axiom"},{"fn":"Chi","by":"library_axiom"},{"fn":"sinh","by":"library_axiom"},{"fn":"Shi","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"10ac21bcf2d2a9f1"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.ChiRule.eval","kind":"method","src_hash":"a0f62878480f9105","in":{"base":"Any"},"out":{"base":"Expr","pred":"result satisfies: result == (cosh(b) * Chi(a * x) + sinh(b) * Shi(a * x))"},"spec":{"lhs":"eval()","rhs":"cosh(b) * Chi(a * x) + sinh(b) * Shi(a * x)","over":{"base":"Any"},"name":"eval_correct","kind":"composition"},"guarantee":"returns cosh(b) * Chi(a * x) + sinh(b) * Shi(a * x); isinstance(result, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"cosh","by":"library_axiom"},{"fn":"Chi","by":"library_axiom"},{"fn":"sinh","by":"library_axiom"},{"fn":"Shi","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"10ac21bcf2d2a9f1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, Expr)"],"returns_expr":"cosh(b) * Chi(a * x) + sinh(b) * Shi(a * x)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.a","self.b","self.variable"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(self) -> Expr:
         a, b, x = self.a, self.b, self.variable
         return cosh(b)*Chi(a*x) + sinh(b)*Shi(a*x)
@@ -1797,26 +2488,39 @@ class ChiRule(IRule):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(EiRule(*args), correctly constructs a EiRule instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ EiRule : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, IRule)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ EiRule : Any → {Any | result satisfies: isinstance(se...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 741f0468b245b990  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.EiRule","kind":"class","src_hash":"9411232424148238","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"EiRule(*args)","rhs":"correctly constructs a EiRule instance","over":{"base":"Any"},"name":"EiRule_class_invariant"},"guarantee":"correctly constructs a EiRule instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"741f0468b245b990"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.EiRule","kind":"class","src_hash":"9411232424148238","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, IRule)"},"spec":{"lhs":"EiRule(*args)","rhs":"correctly constructs a EiRule instance","over":{"base":"Any"},"name":"EiRule_class_invariant"},"guarantee":"isinstance(self, IRule)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"741f0468b245b990","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, IRule)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function EiRule not found in source"]}}
 class EiRule(IRule):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(eval(), id) over Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Expr                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, Expr)                       ║
+# ║   returns:  exp(b) * Ei(a * x)                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : Any → {Expr | result satisfies: result == (exp...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 492c4dc0c47d3dde   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.EiRule.eval","kind":"method","src_hash":"0fc19c9d5e08102d","in":{"base":"Any"},"out":{"base":"Expr"},"spec":{"lhs":"eval()","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct","kind":"composition"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"exp","by":"library_axiom"},{"fn":"Ei","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"492c4dc0c47d3dde"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.EiRule.eval","kind":"method","src_hash":"0fc19c9d5e08102d","in":{"base":"Any"},"out":{"base":"Expr","pred":"result satisfies: result == (exp(b) * Ei(a * x))"},"spec":{"lhs":"eval()","rhs":"exp(b) * Ei(a * x)","over":{"base":"Any"},"name":"eval_correct","kind":"composition"},"guarantee":"returns exp(b) * Ei(a * x); isinstance(result, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"exp","by":"library_axiom"},{"fn":"Ei","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"492c4dc0c47d3dde","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, Expr)"],"returns_expr":"exp(b) * Ei(a * x)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.a","self.b","self.variable"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(self) -> Expr:
         a, b, x = self.a, self.b, self.variable
         return exp(b)*Ei(a*x)
@@ -1826,26 +2530,39 @@ class EiRule(IRule):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(SiRule(*args), correctly constructs a SiRule instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ SiRule : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, IRule)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ SiRule : Any → {Any | result satisfies: isinstance(se...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f3965a7cfabdbb65  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.SiRule","kind":"class","src_hash":"bb28b00c75fc0c70","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"SiRule(*args)","rhs":"correctly constructs a SiRule instance","over":{"base":"Any"},"name":"SiRule_class_invariant"},"guarantee":"correctly constructs a SiRule instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f3965a7cfabdbb65"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.SiRule","kind":"class","src_hash":"bb28b00c75fc0c70","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, IRule)"},"spec":{"lhs":"SiRule(*args)","rhs":"correctly constructs a SiRule instance","over":{"base":"Any"},"name":"SiRule_class_invariant"},"guarantee":"isinstance(self, IRule)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f3965a7cfabdbb65","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, IRule)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function SiRule not found in source"]}}
 class SiRule(IRule):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(eval(), id) over Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Expr                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, Expr)                       ║
+# ║   returns:  sin(b) * Ci(a * x) + cos(b) * Si(a * x)        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : Any → {Expr | result satisfies: result == (sin...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 7c425b5acc05813f   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.SiRule.eval","kind":"method","src_hash":"f74a6dd3faa5c2e0","in":{"base":"Any"},"out":{"base":"Expr"},"spec":{"lhs":"eval()","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct","kind":"composition"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sin","by":"library_axiom"},{"fn":"Ci","by":"library_axiom"},{"fn":"cos","by":"library_axiom"},{"fn":"Si","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7c425b5acc05813f"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.SiRule.eval","kind":"method","src_hash":"f74a6dd3faa5c2e0","in":{"base":"Any"},"out":{"base":"Expr","pred":"result satisfies: result == (sin(b) * Ci(a * x) + cos(b) * Si(a * x))"},"spec":{"lhs":"eval()","rhs":"sin(b) * Ci(a * x) + cos(b) * Si(a * x)","over":{"base":"Any"},"name":"eval_correct","kind":"composition"},"guarantee":"returns sin(b) * Ci(a * x) + cos(b) * Si(a * x); isinstance(result, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sin","by":"library_axiom"},{"fn":"Ci","by":"library_axiom"},{"fn":"cos","by":"library_axiom"},{"fn":"Si","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7c425b5acc05813f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, Expr)"],"returns_expr":"sin(b) * Ci(a * x) + cos(b) * Si(a * x)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.a","self.b","self.variable"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(self) -> Expr:
         a, b, x = self.a, self.b, self.variable
         return sin(b)*Ci(a*x) + cos(b)*Si(a*x)
@@ -1855,26 +2572,39 @@ class SiRule(IRule):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(ShiRule(*args), correctly constructs a ShiRule instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ ShiRule : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, IRule)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ ShiRule : Any → {Any | result satisfies: isinstance(s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 144850cbc6020be6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.ShiRule","kind":"class","src_hash":"4fdc706121e94616","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ShiRule(*args)","rhs":"correctly constructs a ShiRule instance","over":{"base":"Any"},"name":"ShiRule_class_invariant"},"guarantee":"correctly constructs a ShiRule instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"144850cbc6020be6"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.ShiRule","kind":"class","src_hash":"4fdc706121e94616","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, IRule)"},"spec":{"lhs":"ShiRule(*args)","rhs":"correctly constructs a ShiRule instance","over":{"base":"Any"},"name":"ShiRule_class_invariant"},"guarantee":"isinstance(self, IRule)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"144850cbc6020be6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, IRule)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function ShiRule not found in source"]}}
 class ShiRule(IRule):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(eval(), id) over Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Expr                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, Expr)                       ║
+# ║   returns:  sinh(b) * Chi(a * x) + cosh(b) * Shi(a * x)    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : Any → {Expr | result satisfies: result == (sin...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | babf6678cb99244f   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.ShiRule.eval","kind":"method","src_hash":"dd904f8d39e6da11","in":{"base":"Any"},"out":{"base":"Expr"},"spec":{"lhs":"eval()","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct","kind":"composition"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sinh","by":"library_axiom"},{"fn":"Chi","by":"library_axiom"},{"fn":"cosh","by":"library_axiom"},{"fn":"Shi","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"babf6678cb99244f"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.ShiRule.eval","kind":"method","src_hash":"dd904f8d39e6da11","in":{"base":"Any"},"out":{"base":"Expr","pred":"result satisfies: result == (sinh(b) * Chi(a * x) + cosh(b) * Shi(a * x))"},"spec":{"lhs":"eval()","rhs":"sinh(b) * Chi(a * x) + cosh(b) * Shi(a * x)","over":{"base":"Any"},"name":"eval_correct","kind":"composition"},"guarantee":"returns sinh(b) * Chi(a * x) + cosh(b) * Shi(a * x); isinstance(result, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sinh","by":"library_axiom"},{"fn":"Chi","by":"library_axiom"},{"fn":"cosh","by":"library_axiom"},{"fn":"Shi","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"babf6678cb99244f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, Expr)"],"returns_expr":"sinh(b) * Chi(a * x) + cosh(b) * Shi(a * x)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.a","self.b","self.variable"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(self) -> Expr:
         a, b, x = self.a, self.b, self.variable
         return sinh(b)*Chi(a*x) + cosh(b)*Shi(a*x)
@@ -1884,26 +2614,39 @@ class ShiRule(IRule):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(LiRule(*args), correctly constructs a LiRule instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ LiRule : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, IRule)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ LiRule : Any → {Any | result satisfies: isinstance(se...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ab402d170b24fca3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.LiRule","kind":"class","src_hash":"8ecc115144c2f1cd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"LiRule(*args)","rhs":"correctly constructs a LiRule instance","over":{"base":"Any"},"name":"LiRule_class_invariant"},"guarantee":"correctly constructs a LiRule instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ab402d170b24fca3"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.LiRule","kind":"class","src_hash":"8ecc115144c2f1cd","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, IRule)"},"spec":{"lhs":"LiRule(*args)","rhs":"correctly constructs a LiRule instance","over":{"base":"Any"},"name":"LiRule_class_invariant"},"guarantee":"isinstance(self, IRule)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ab402d170b24fca3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, IRule)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function LiRule not found in source"]}}
 class LiRule(IRule):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(), eval produces the expected output) over Any   ║
+# ║ Path(eval(), li(a * x + b) / a) over Any                   ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Expr                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, Expr)                       ║
+# ║   returns:  li(a * x + b) / a                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : Any → {Expr | result satisfies: result == (li(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f3572e472ad2f0e5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9be280c646392f62  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.LiRule.eval","kind":"method","src_hash":"ca785d8912d07312","in":{"base":"Any"},"out":{"base":"Expr"},"spec":{"lhs":"eval()","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.LiRule.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f3572e472ad2f0e5"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.LiRule.eval","kind":"method","src_hash":"ca785d8912d07312","in":{"base":"Any"},"out":{"base":"Expr","pred":"result satisfies: result == (li(a * x + b) / a)"},"spec":{"lhs":"eval()","rhs":"li(a * x + b) / a","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"returns li(a * x + b) / a; isinstance(result, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.LiRule.eval_correct","statement":"Path(eval(x), returns li(a * x + b) / a; isinstance(result, Expr))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9be280c646392f62","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, Expr)"],"returns_expr":"li(a * x + b) / a","pure":false,"effects":{"effect_type":"reads_state","reads":["self.a","self.b","self.variable"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(self) -> Expr:
         a, b, x = self.a, self.b, self.variable
         return li(a*x + b)/a
@@ -1913,30 +2656,42 @@ class LiRule(IRule):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(ErfRule(*args), correctly constructs a ErfRule instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ ErfRule : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, AtomicRule)                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ ErfRule : Any → {Any | result satisfies: isinstance(s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dc2379e727431b7b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.ErfRule","kind":"class","src_hash":"d32874c86aca2587","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ErfRule(*args)","rhs":"correctly constructs a ErfRule instance","over":{"base":"Any"},"name":"ErfRule_class_invariant"},"guarantee":"correctly constructs a ErfRule instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dc2379e727431b7b"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.ErfRule","kind":"class","src_hash":"d32874c86aca2587","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, AtomicRule)"},"spec":{"lhs":"ErfRule(*args)","rhs":"correctly constructs a ErfRule instance","over":{"base":"Any"},"name":"ErfRule_class_invariant"},"guarantee":"isinstance(self, AtomicRule)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dc2379e727431b7b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, AtomicRule)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function ErfRule not found in source"]}}
 class ErfRule(AtomicRule):
     a: Expr
     b: Expr
     c: Expr
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(), eval produces the expected output) over Any   ║
+# ║ Path(eval(), isinstance(result, Expr)) over Any            ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Expr                                          ║
+# ║ C4 Spec [static] strength=partial                          ║
+# ║   ensures:  isinstance(result, Expr)                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : Any → {Expr | result satisfies: isinstance(res...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b27c790bae113f48  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | af1d4bdf2482e519  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.ErfRule.eval","kind":"method","src_hash":"7fda8c18a3d50ad5","in":{"base":"Any"},"out":{"base":"Expr"},"spec":{"lhs":"eval()","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.ErfRule.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b27c790bae113f48"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.ErfRule.eval","kind":"method","src_hash":"7fda8c18a3d50ad5","in":{"base":"Any"},"out":{"base":"Expr","pred":"result satisfies: isinstance(result, Expr)"},"spec":{"lhs":"eval()","rhs":"isinstance(result, Expr)","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"isinstance(result, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.ErfRule.eval_correct","statement":"Path(eval(x), isinstance(result, Expr))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"af1d4bdf2482e519","spec_source":"static","formal_spec":{"source":"static","strength":"partial","ensures":["isinstance(result, Expr)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.a","self.b","self.c","self.variable"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(self) -> Expr:
         a, b, c, x = self.a, self.b, self.c, self.variable
         if a.is_extended_real:
@@ -1953,14 +2708,20 @@ class ErfRule(AtomicRule):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(FresnelCRule(*args), correctly constructs a FresnelCRule instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ FresnelCRule : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, AtomicRule)                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ FresnelCRule : Any → {Any | result satisfies: isinsta...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | be357395a1647153  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.FresnelCRule","kind":"class","src_hash":"9fb5101e8d9f51bb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"FresnelCRule(*args)","rhs":"correctly constructs a FresnelCRule instance","over":{"base":"Any"},"name":"FresnelCRule_class_invariant"},"guarantee":"correctly constructs a FresnelCRule instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"be357395a1647153"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.FresnelCRule","kind":"class","src_hash":"9fb5101e8d9f51bb","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, AtomicRule)"},"spec":{"lhs":"FresnelCRule(*args)","rhs":"correctly constructs a FresnelCRule instance","over":{"base":"Any"},"name":"FresnelCRule_class_invariant"},"guarantee":"isinstance(self, AtomicRule)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"be357395a1647153","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, AtomicRule)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function FresnelCRule not found in source"]}}
 class FresnelCRule(AtomicRule):
     a: Expr
     b: Expr
@@ -1969,14 +2730,21 @@ class FresnelCRule(AtomicRule):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(eval(), id) over Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Expr                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, Expr)                       ║
+# ║   returns:  sqrt(S.Pi) / sqrt(2 * a) * (cos(b ** 2 / ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : Any → {Expr | result satisfies: result == (sqr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 9ef27cdd14a8fa22   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.FresnelCRule.eval","kind":"method","src_hash":"c75ceac99fa69e60","in":{"base":"Any"},"out":{"base":"Expr"},"spec":{"lhs":"eval()","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct","kind":"composition"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sqrt","by":"library_axiom"},{"fn":"sqrt","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9ef27cdd14a8fa22"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.FresnelCRule.eval","kind":"method","src_hash":"c75ceac99fa69e60","in":{"base":"Any"},"out":{"base":"Expr","pred":"result satisfies: result == (sqrt(S.Pi) / sqrt(2 * a) * (cos(b ** 2 / (4 * a) - c) * fresnelc((2 * a * x + b) / sqrt(2 * a * S.Pi)) + sin(b ** 2 / (4 * a) - c) * fresnels((2 * a * x + b) / sqrt(2 * a * S.Pi))))"},"spec":{"lhs":"eval()","rhs":"sqrt(S.Pi) / sqrt(2 * a) * (cos(b ** 2 / (4 * a) - c) * fresnelc((2 * a * x + b) / sqrt(2 * a * S.Pi)) + sin(b ** 2 / (4 * a) - c) * fresnels((2 * a * x + b) / sqrt(2 * a * S.Pi)))","over":{"base":"Any"},"name":"eval_correct","kind":"composition"},"guarantee":"returns sqrt(S.Pi) / sqrt(2 * a) * (cos(b ** 2 / (4 * a) - c) * fresnelc((2 * a * x + b) / sqrt(2 * a * S.Pi)) + sin(b ** 2 / (4 * a) - c) * fresnels((2 * a * x + b) / sqrt(2 * a * S.Pi))); isinstance(result, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sqrt","by":"library_axiom"},{"fn":"sqrt","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9ef27cdd14a8fa22","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, Expr)"],"returns_expr":"sqrt(S.Pi) / sqrt(2 * a) * (cos(b ** 2 / (4 * a) - c) * fresnelc((2 * a * x + b) / sqrt(2 * a * S.Pi)) + sin(b ** 2 / (4 * a) - c) * fresnels((2 * a * x + b) / sqrt(2 * a * S.Pi)))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.a","self.b","self.c","self.variable"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(self) -> Expr:
         a, b, c, x = self.a, self.b, self.c, self.variable
         return sqrt(S.Pi)/sqrt(2*a) * (
@@ -1988,14 +2756,20 @@ class FresnelCRule(AtomicRule):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(FresnelSRule(*args), correctly constructs a FresnelSRule instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ FresnelSRule : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, AtomicRule)                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ FresnelSRule : Any → {Any | result satisfies: isinsta...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6dbb942ce41c2b65  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.FresnelSRule","kind":"class","src_hash":"b483b08b5e702c60","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"FresnelSRule(*args)","rhs":"correctly constructs a FresnelSRule instance","over":{"base":"Any"},"name":"FresnelSRule_class_invariant"},"guarantee":"correctly constructs a FresnelSRule instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6dbb942ce41c2b65"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.FresnelSRule","kind":"class","src_hash":"b483b08b5e702c60","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, AtomicRule)"},"spec":{"lhs":"FresnelSRule(*args)","rhs":"correctly constructs a FresnelSRule instance","over":{"base":"Any"},"name":"FresnelSRule_class_invariant"},"guarantee":"isinstance(self, AtomicRule)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6dbb942ce41c2b65","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, AtomicRule)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function FresnelSRule not found in source"]}}
 class FresnelSRule(AtomicRule):
     a: Expr
     b: Expr
@@ -2004,14 +2778,21 @@ class FresnelSRule(AtomicRule):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(eval(), id) over Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Expr                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, Expr)                       ║
+# ║   returns:  sqrt(S.Pi) / sqrt(2 * a) * (cos(b ** 2 / ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : Any → {Expr | result satisfies: result == (sqr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | b920aaa1b095a859   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.FresnelSRule.eval","kind":"method","src_hash":"3839f6847fb8bcd9","in":{"base":"Any"},"out":{"base":"Expr"},"spec":{"lhs":"eval()","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct","kind":"composition"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sqrt","by":"library_axiom"},{"fn":"sqrt","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b920aaa1b095a859"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.FresnelSRule.eval","kind":"method","src_hash":"3839f6847fb8bcd9","in":{"base":"Any"},"out":{"base":"Expr","pred":"result satisfies: result == (sqrt(S.Pi) / sqrt(2 * a) * (cos(b ** 2 / (4 * a) - c) * fresnels((2 * a * x + b) / sqrt(2 * a * S.Pi)) - sin(b ** 2 / (4 * a) - c) * fresnelc((2 * a * x + b) / sqrt(2 * a * S.Pi))))"},"spec":{"lhs":"eval()","rhs":"sqrt(S.Pi) / sqrt(2 * a) * (cos(b ** 2 / (4 * a) - c) * fresnels((2 * a * x + b) / sqrt(2 * a * S.Pi)) - sin(b ** 2 / (4 * a) - c) * fresnelc((2 * a * x + b) / sqrt(2 * a * S.Pi)))","over":{"base":"Any"},"name":"eval_correct","kind":"composition"},"guarantee":"returns sqrt(S.Pi) / sqrt(2 * a) * (cos(b ** 2 / (4 * a) - c) * fresnels((2 * a * x + b) / sqrt(2 * a * S.Pi)) - sin(b ** 2 / (4 * a) - c) * fresnelc((2 * a * x + b) / sqrt(2 * a * S.Pi))); isinstance(result, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sqrt","by":"library_axiom"},{"fn":"sqrt","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b920aaa1b095a859","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, Expr)"],"returns_expr":"sqrt(S.Pi) / sqrt(2 * a) * (cos(b ** 2 / (4 * a) - c) * fresnels((2 * a * x + b) / sqrt(2 * a * S.Pi)) - sin(b ** 2 / (4 * a) - c) * fresnelc((2 * a * x + b) / sqrt(2 * a * S.Pi)))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.a","self.b","self.c","self.variable"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(self) -> Expr:
         a, b, c, x = self.a, self.b, self.c, self.variable
         return sqrt(S.Pi)/sqrt(2*a) * (
@@ -2021,31 +2802,44 @@ class FresnelSRule(AtomicRule):
 
 @dataclass
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(PolylogRule(), correctly constructs a PolylogRule instance) over Any ║
+# ║ Path(PolylogRule(), isinstance(self, AtomicRule)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ PolylogRule : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, AtomicRule)                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ PolylogRule : Any → {Any | result satisfies: isinstan...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | aba7e1ab954637b8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.PolylogRule","kind":"class","src_hash":"fe14dab194a3adff","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"PolylogRule()","rhs":"correctly constructs a PolylogRule instance","over":{"base":"Any"},"name":"PolylogRule_correct"},"guarantee":"correctly constructs a PolylogRule instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"aba7e1ab954637b8"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.PolylogRule","kind":"class","src_hash":"fe14dab194a3adff","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, AtomicRule)"},"spec":{"lhs":"PolylogRule()","rhs":"isinstance(self, AtomicRule)","over":{"base":"Any"},"name":"PolylogRule_correct"},"guarantee":"isinstance(self, AtomicRule)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"aba7e1ab954637b8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, AtomicRule)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Function PolylogRule not found in source"]}}
 class PolylogRule(AtomicRule):
     a: Expr
     b: Expr
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(), eval produces the expected output) over Any   ║
+# ║ Path(eval(), polylog(self.b + 1, self.a * self.variable)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Expr                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, Expr)                       ║
+# ║   returns:  polylog(self.b + 1, self.a * self.variable)    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : Any → {Expr | result satisfies: result == (pol...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f3d18fd254e49a96           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.PolylogRule.eval","kind":"method","src_hash":"56e4bcec515447da","in":{"base":"Any"},"out":{"base":"Expr"},"spec":{"lhs":"eval()","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f3d18fd254e49a96"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.PolylogRule.eval","kind":"method","src_hash":"56e4bcec515447da","in":{"base":"Any"},"out":{"base":"Expr","pred":"result satisfies: result == (polylog(self.b + 1, self.a * self.variable))"},"spec":{"lhs":"eval()","rhs":"polylog(self.b + 1, self.a * self.variable)","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"returns polylog(self.b + 1, self.a * self.variable); isinstance(result, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f3d18fd254e49a96","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, Expr)"],"returns_expr":"polylog(self.b + 1, self.a * self.variable)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.a","self.b","self.variable"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(self) -> Expr:
         return polylog(self.b + 1, self.a * self.variable)
 
@@ -2054,29 +2848,42 @@ class PolylogRule(AtomicRule):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(UpperGammaRule(*args), correctly constructs a UpperGammaRule instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ UpperGammaRule : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, AtomicRule)                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ UpperGammaRule : Any → {Any | result satisfies: isins...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e6b1ccc57cb68971  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.UpperGammaRule","kind":"class","src_hash":"6bcd930ffb762aab","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"UpperGammaRule(*args)","rhs":"correctly constructs a UpperGammaRule instance","over":{"base":"Any"},"name":"UpperGammaRule_class_invariant"},"guarantee":"correctly constructs a UpperGammaRule instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e6b1ccc57cb68971"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.UpperGammaRule","kind":"class","src_hash":"6bcd930ffb762aab","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, AtomicRule)"},"spec":{"lhs":"UpperGammaRule(*args)","rhs":"correctly constructs a UpperGammaRule instance","over":{"base":"Any"},"name":"UpperGammaRule_class_invariant"},"guarantee":"isinstance(self, AtomicRule)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e6b1ccc57cb68971","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, AtomicRule)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function UpperGammaRule not found in source"]}}
 class UpperGammaRule(AtomicRule):
     a: Expr
     e: Expr
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(), eval produces the expected output) over Any   ║
+# ║ Path(eval(), x ** e * (-a * x) ** (-e) * uppergamma(e + 1, -a * x) / a) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Expr                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, Expr)                       ║
+# ║   returns:  x ** e * (-a * x) ** (-e) * uppergamma(e ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : Any → {Expr | result satisfies: result == (x *...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b7fcff6a52188bba  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 97a218cdebcd68b2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.UpperGammaRule.eval","kind":"method","src_hash":"10828484fa0f5a13","in":{"base":"Any"},"out":{"base":"Expr"},"spec":{"lhs":"eval()","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.UpperGammaRule.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b7fcff6a52188bba"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.UpperGammaRule.eval","kind":"method","src_hash":"10828484fa0f5a13","in":{"base":"Any"},"out":{"base":"Expr","pred":"result satisfies: result == (x ** e * (-a * x) ** (-e) * uppergamma(e + 1, -a * x) / a)"},"spec":{"lhs":"eval()","rhs":"x ** e * (-a * x) ** (-e) * uppergamma(e + 1, -a * x) / a","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"returns x ** e * (-a * x) ** (-e) * uppergamma(e + 1, -a * x) / a; isinstance(result, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.UpperGammaRule.eval_correct","statement":"Path(eval(x), returns x ** e * (-a * x) ** (-e) * uppergamma(e + 1, -a * x) / a; isinstance(result, Expr))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"97a218cdebcd68b2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, Expr)"],"returns_expr":"x ** e * (-a * x) ** (-e) * uppergamma(e + 1, -a * x) / a","pure":false,"effects":{"effect_type":"reads_state","reads":["self.a","self.e","self.variable"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(self) -> Expr:
         a, e, x = self.a, self.e, self.variable
         return x**e * (-a*x)**(-e) * uppergamma(e + 1, -a*x)/a
@@ -2084,84 +2891,121 @@ class UpperGammaRule(AtomicRule):
 
 @dataclass
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(EllipticFRule(), correctly constructs a EllipticFRule instance) over Any ║
+# ║ Path(EllipticFRule(), isinstance(self, AtomicRule)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ EllipticFRule : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, AtomicRule)                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ EllipticFRule : Any → {Any | result satisfies: isinst...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2a227c5eafe70031           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.EllipticFRule","kind":"class","src_hash":"288b5ab368b76ae5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"EllipticFRule()","rhs":"correctly constructs a EllipticFRule instance","over":{"base":"Any"},"name":"EllipticFRule_correct"},"guarantee":"correctly constructs a EllipticFRule instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2a227c5eafe70031"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.EllipticFRule","kind":"class","src_hash":"288b5ab368b76ae5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, AtomicRule)"},"spec":{"lhs":"EllipticFRule()","rhs":"isinstance(self, AtomicRule)","over":{"base":"Any"},"name":"EllipticFRule_correct"},"guarantee":"isinstance(self, AtomicRule)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2a227c5eafe70031","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, AtomicRule)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Function EllipticFRule not found in source"]}}
 class EllipticFRule(AtomicRule):
     a: Expr
     d: Expr
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(), eval produces the expected output) over Any   ║
+# ║ Path(eval(), elliptic_f(self.variable, self.d / self.a) / sqrt(self.a)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Expr                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, Expr)                       ║
+# ║   returns:  elliptic_f(self.variable, self.d / self.a...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : Any → {Expr | result satisfies: result == (ell...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0b5d8fc173f843f1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.EllipticFRule.eval","kind":"method","src_hash":"48303ec861f03ee7","in":{"base":"Any"},"out":{"base":"Expr"},"spec":{"lhs":"eval()","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0b5d8fc173f843f1"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.EllipticFRule.eval","kind":"method","src_hash":"48303ec861f03ee7","in":{"base":"Any"},"out":{"base":"Expr","pred":"result satisfies: result == (elliptic_f(self.variable, self.d / self.a) / sqrt(self.a))"},"spec":{"lhs":"eval()","rhs":"elliptic_f(self.variable, self.d / self.a) / sqrt(self.a)","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"returns elliptic_f(self.variable, self.d / self.a) / sqrt(self.a); isinstance(result, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0b5d8fc173f843f1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, Expr)"],"returns_expr":"elliptic_f(self.variable, self.d / self.a) / sqrt(self.a)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.a","self.d","self.variable"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(self) -> Expr:
         return elliptic_f(self.variable, self.d/self.a)/sqrt(self.a)
 
 
 @dataclass
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(EllipticERule(), correctly constructs a EllipticERule instance) over Any ║
+# ║ Path(EllipticERule(), isinstance(self, AtomicRule)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ EllipticERule : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, AtomicRule)                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ EllipticERule : Any → {Any | result satisfies: isinst...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 03ca15d0ef6a7655           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.EllipticERule","kind":"class","src_hash":"0d4463e233fbfa2d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"EllipticERule()","rhs":"correctly constructs a EllipticERule instance","over":{"base":"Any"},"name":"EllipticERule_correct"},"guarantee":"correctly constructs a EllipticERule instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"03ca15d0ef6a7655"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.EllipticERule","kind":"class","src_hash":"0d4463e233fbfa2d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, AtomicRule)"},"spec":{"lhs":"EllipticERule()","rhs":"isinstance(self, AtomicRule)","over":{"base":"Any"},"name":"EllipticERule_correct"},"guarantee":"isinstance(self, AtomicRule)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"03ca15d0ef6a7655","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, AtomicRule)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Function EllipticERule not found in source"]}}
 class EllipticERule(AtomicRule):
     a: Expr
     d: Expr
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(), eval produces the expected output) over Any   ║
+# ║ Path(eval(), elliptic_e(self.variable, self.d / self.a) * sqrt(self.a)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Expr                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, Expr)                       ║
+# ║   returns:  elliptic_e(self.variable, self.d / self.a...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : Any → {Expr | result satisfies: result == (ell...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | bd05de03e331fe74           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.EllipticERule.eval","kind":"method","src_hash":"b736a1b6aa07d0f9","in":{"base":"Any"},"out":{"base":"Expr"},"spec":{"lhs":"eval()","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bd05de03e331fe74"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.EllipticERule.eval","kind":"method","src_hash":"b736a1b6aa07d0f9","in":{"base":"Any"},"out":{"base":"Expr","pred":"result satisfies: result == (elliptic_e(self.variable, self.d / self.a) * sqrt(self.a))"},"spec":{"lhs":"eval()","rhs":"elliptic_e(self.variable, self.d / self.a) * sqrt(self.a)","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"returns elliptic_e(self.variable, self.d / self.a) * sqrt(self.a); isinstance(result, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bd05de03e331fe74","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, Expr)"],"returns_expr":"elliptic_e(self.variable, self.d / self.a) * sqrt(self.a)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.a","self.d","self.variable"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(self) -> Expr:
         return elliptic_e(self.variable, self.d/self.a)*sqrt(self.a)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(IntegralInfo(), correctly constructs a IntegralInfo instance) over Any ║
+# ║ Path(IntegralInfo(), isinstance(self, NamedTuple)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ IntegralInfo : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, NamedTuple)                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ IntegralInfo : Any → {Any | result satisfies: isinsta...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | bfc9ec5ee4f8e1b0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.IntegralInfo","kind":"class","src_hash":"a39ac0da2ab941e2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"IntegralInfo()","rhs":"correctly constructs a IntegralInfo instance","over":{"base":"Any"},"name":"IntegralInfo_correct"},"guarantee":"correctly constructs a IntegralInfo instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bfc9ec5ee4f8e1b0"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.IntegralInfo","kind":"class","src_hash":"a39ac0da2ab941e2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, NamedTuple)"},"spec":{"lhs":"IntegralInfo()","rhs":"isinstance(self, NamedTuple)","over":{"base":"Any"},"name":"IntegralInfo_correct"},"guarantee":"isinstance(self, NamedTuple)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bfc9ec5ee4f8e1b0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, NamedTuple)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function IntegralInfo not found in source"]}}
 class IntegralInfo(NamedTuple):
     integrand: Expr
     symbol: Symbol
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(manual_diff(f, ), derivative of f in form expected by find_substitutions) over {Any | isinstance(f, tan) and isinstance(f, cot) and isinstance(f, sec)} ║
+# ║ Path(manual_diff(f, symbol), # HINT: manual_diff may be idempotent: manual_diff(manual_diff(x)) == manual_diff(x)) over {Any | isinstance(f, tan) and isinstance(f, cot) and isinstance(f, sec) and hasattr(f, 'args') and hasattr(f, 'diff')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'args')                             ║
+# ║   requires: hasattr(f, 'diff')                             ║
+# ║   ensures:  # HINT: manual_diff may be idempotent: ma...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ manual_diff : {Any | isinstance(f, tan) and isinstanc...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -2177,9 +3021,12 @@ class IntegralInfo(NamedTuple):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓16 ?7 ✗7 VCs | 7.9ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 10308d1f...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.manual_diff","kind":"function","src_hash":"2775608b36b3bb9b","in":{"base":"Any","pred":"isinstance(f, tan) and isinstance(f, cot) and isinstance(f, sec)"},"out":{"base":"Any"},"spec":{"lhs":"manual_diff(f, )","rhs":"derivative of f in form expected by find_substitutions","over":{"base":"Any","pred":"isinstance(f, tan) and isinstance(f, cot) and isinstance(f, sec)"},"name":"manual_diff_correct"},"guarantee":"derivative of f in form expected by find_substitutions","fibers":[{"name":"tan","pred":"isinstance(f, tan)","path":{"lhs":"manual_diff(x)","rhs":"derivative of f in form expected by find_substitutions","over":{"base":"tan","pred":"isinstance(f, tan)"},"name":"manual_diff_tan_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.manual_diff_tan_correct","statement":"manual_diff satisfies spec on tan inputs"},"trust":"LIBRARY"},{"name":"cot","pred":"isinstance(f, cot)","path":{"lhs":"manual_diff(x)","rhs":"derivative of f in form expected by find_substitutions","over":{"base":"cot","pred":"isinstance(f, cot)"},"name":"manual_diff_cot_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.manual_diff_cot_correct","statement":"manual_diff satisfies spec on cot inputs"},"trust":"LIBRARY"},{"name":"sec","pred":"isinstance(f, sec)","path":{"lhs":"manual_diff(x)","rhs":"derivative of f in form expected by find_substitutions","over":{"base":"sec","pred":"isinstance(f, sec)"},"name":"manual_diff_sec_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.manual_diff_sec_correct","statement":"manual_diff satisfies spec on sec inputs"},"trust":"LIBRARY"},{"name":"csc","pred":"isinstance(f, csc)","path":{"lhs":"manual_diff(x)","rhs":"derivative of f in form expected by find_substitutions","over":{"base":"csc","pred":"isinstance(f, csc)"},"name":"manual_diff_csc_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.manual_diff_csc_correct","statement":"manual_diff satisfies spec on csc inputs"},"trust":"LIBRARY"},{"name":"Add","pred":"isinstance(f, Add)","path":{"lhs":"manual_diff(x)","rhs":"derivative of f in form expected by find_substitutions","over":{"base":"Add","pred":"isinstance(f, Add)"},"name":"manual_diff_Add_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.manual_diff_Add_correct","statement":"manual_diff satisfies spec on Add inputs"},"trust":"LIBRARY"},{"name":"Mul","pred":"isinstance(f, Mul)","path":{"lhs":"manual_diff(x)","rhs":"derivative of f in form expected by find_substitutions","over":{"base":"Mul","pred":"isinstance(f, Mul)"},"name":"manual_diff_Mul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.manual_diff_Mul_correct","statement":"manual_diff satisfies spec on Mul inputs"},"trust":"LIBRARY"},{"name":"Number","pred":"isinstance(f.args[0], Number)","path":{"lhs":"manual_diff(x)","rhs":"derivative of f in form expected by find_substitutions","over":{"base":"Number","pred":"isinstance(f.args[0], Number)"},"name":"manual_diff_Number_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.manual_diff_Number_correct","statement":"manual_diff satisfies spec on Number inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":7,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"10308d1f4b8cbbe3"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.manual_diff","kind":"function","src_hash":"2775608b36b3bb9b","in":{"base":"Any","pred":"isinstance(f, tan) and isinstance(f, cot) and isinstance(f, sec) and hasattr(f, 'args') and hasattr(f, 'diff')"},"out":{"base":"Any","pred":"result satisfies: # HINT: manual_diff may be idempotent: manual_diff(manual_diff(x)) == manual_diff(x)"},"spec":{"lhs":"manual_diff(f, symbol)","rhs":"# HINT: manual_diff may be idempotent: manual_diff(manual_diff(x)) == manual_diff(x)","over":{"base":"Any","pred":"isinstance(f, tan) and isinstance(f, cot) and isinstance(f, sec) and hasattr(f, 'args') and hasattr(f, 'diff')"},"name":"manual_diff_correct"},"guarantee":"# HINT: manual_diff may be idempotent: manual_diff(manual_diff(x)) == manual_diff(x)","fibers":[{"name":"tan","pred":"isinstance(f, tan)","path":{"lhs":"manual_diff(x)","rhs":"# HINT: manual_diff may be idempotent: manual_diff(manual_diff(x)) == manual_diff(x)","over":{"base":"tan","pred":"isinstance(f, tan)"},"name":"manual_diff_tan_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.manual_diff_tan_correct","statement":"manual_diff satisfies spec on tan inputs"},"trust":"LIBRARY"},{"name":"cot","pred":"isinstance(f, cot)","path":{"lhs":"manual_diff(x)","rhs":"# HINT: manual_diff may be idempotent: manual_diff(manual_diff(x)) == manual_diff(x)","over":{"base":"cot","pred":"isinstance(f, cot)"},"name":"manual_diff_cot_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.manual_diff_cot_correct","statement":"manual_diff satisfies spec on cot inputs"},"trust":"LIBRARY"},{"name":"sec","pred":"isinstance(f, sec)","path":{"lhs":"manual_diff(x)","rhs":"# HINT: manual_diff may be idempotent: manual_diff(manual_diff(x)) == manual_diff(x)","over":{"base":"sec","pred":"isinstance(f, sec)"},"name":"manual_diff_sec_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.manual_diff_sec_correct","statement":"manual_diff satisfies spec on sec inputs"},"trust":"LIBRARY"},{"name":"csc","pred":"isinstance(f, csc)","path":{"lhs":"manual_diff(x)","rhs":"# HINT: manual_diff may be idempotent: manual_diff(manual_diff(x)) == manual_diff(x)","over":{"base":"csc","pred":"isinstance(f, csc)"},"name":"manual_diff_csc_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.manual_diff_csc_correct","statement":"manual_diff satisfies spec on csc inputs"},"trust":"LIBRARY"},{"name":"Add","pred":"isinstance(f, Add)","path":{"lhs":"manual_diff(x)","rhs":"# HINT: manual_diff may be idempotent: manual_diff(manual_diff(x)) == manual_diff(x)","over":{"base":"Add","pred":"isinstance(f, Add)"},"name":"manual_diff_Add_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.manual_diff_Add_correct","statement":"manual_diff satisfies spec on Add inputs"},"trust":"LIBRARY"},{"name":"Mul","pred":"isinstance(f, Mul)","path":{"lhs":"manual_diff(x)","rhs":"# HINT: manual_diff may be idempotent: manual_diff(manual_diff(x)) == manual_diff(x)","over":{"base":"Mul","pred":"isinstance(f, Mul)"},"name":"manual_diff_Mul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.manual_diff_Mul_correct","statement":"manual_diff satisfies spec on Mul inputs"},"trust":"LIBRARY"},{"name":"Number","pred":"isinstance(f.args[0], Number)","path":{"lhs":"manual_diff(x)","rhs":"# HINT: manual_diff may be idempotent: manual_diff(manual_diff(x)) == manual_diff(x)","over":{"base":"Number","pred":"isinstance(f.args[0], Number)"},"name":"manual_diff_Number_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.manual_diff_Number_correct","statement":"manual_diff satisfies spec on Number inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":7,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"10308d1f4b8cbbe3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'args')","hasattr(f, 'diff')"],"ensures":["# HINT: manual_diff may be idempotent: manual_diff(manual_diff(x)) == manual_diff(x)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["f.args","f.diff"]}},"c4_verdict":{"valid":false,"n_vcs":30,"n_verified":16,"n_assumed":7,"n_failed":7,"trust_level":"LIBRARY_ASSUMED","compile_ms":7.9,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(f, Mul)', 'isinstance(f, cot)', 'isinstance(f, Add)', 'isinstance(f, csc)', 'isinstance(f, tan)', 'isinstance(f, sec)', 'len(f.args) == 2 and isinstance(f.args[0], Number)'}, fibers={'csc', 'Number', 'cot', 'tan', 'Mul', 'Add', 'sec'})"]}}
 def manual_diff(f, symbol):
     """Derivative of f in form expected by find_substitutions
 
@@ -2206,7 +3053,13 @@ def manual_diff(f, symbol):
     return f.diff(symbol)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(manual_subs(exp), a wrapper for `expr.subs(*args)` with additional logic for substitution of invertible functions) over {Any | isinstance(sequence, (Dict, Mapping)) and isinstance(old, log)} ║
+# ║ Path(manual_subs(expr, *args), expr.subs(list(sequence) + new_subs)) over {Any | isinstance(sequence, (Dict, Mapping)) and isinstance(old, log) and hasattr(expr, 'subs') and hasattr(expr, 'replace')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'subs')                          ║
+# ║   requires: hasattr(expr, 'replace')                       ║
+# ║   ensures:  len(new_subs) == old_len_new_subs + 1          ║
+# ║   returns:  expr.subs(list(sequence) + new_subs)           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ manual_subs : {Any | isinstance(sequence, (Dict, Mapp...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -2219,9 +3072,12 @@ def manual_diff(f, symbol):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?2 ✗2 VCs | 4.2ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 3c296f6a...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.manual_subs","kind":"function","src_hash":"b082b8a330b6a3a7","in":{"base":"Any","pred":"isinstance(sequence, (Dict, Mapping)) and isinstance(old, log)"},"out":{"base":"Any"},"spec":{"lhs":"manual_subs(exp)","rhs":"a wrapper for `expr.subs(*args)` with additional logic for substitution of invertible functions","over":{"base":"Any","pred":"isinstance(sequence, (Dict, Mapping)) and isinstance(old, log)"},"name":"manual_subs_correct"},"guarantee":"a wrapper for `expr.subs(*args)` with additional logic for substitution of invertible functions","fibers":[{"name":"(Dict","pred":"isinstance(sequence, (Dict, Mapping))","path":{"lhs":"manual_subs(x)","rhs":"a wrapper for `expr.subs(*args)` with additional logic for substitution of invertible functions","over":{"base":"(Dict","pred":"isinstance(sequence, (Dict, Mapping))"},"name":"manual_subs_(Dict_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.manual_subs_(Dict_correct","statement":"manual_subs satisfies spec on (Dict inputs"},"trust":"LIBRARY"},{"name":"log","pred":"isinstance(old, log)","path":{"lhs":"manual_subs(x)","rhs":"a wrapper for `expr.subs(*args)` with additional logic for substitution of invertible functions","over":{"base":"log","pred":"isinstance(old, log)"},"name":"manual_subs_log_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.manual_subs_log_correct","statement":"manual_subs satisfies spec on log inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"3c296f6a85e408e7"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.manual_subs","kind":"function","src_hash":"b082b8a330b6a3a7","in":{"base":"Any","pred":"isinstance(sequence, (Dict, Mapping)) and isinstance(old, log) and hasattr(expr, 'subs') and hasattr(expr, 'replace')"},"out":{"base":"Any","pred":"result satisfies: result == (expr.subs(list(sequence) + new_subs))"},"spec":{"lhs":"manual_subs(expr, *args)","rhs":"expr.subs(list(sequence) + new_subs)","over":{"base":"Any","pred":"isinstance(sequence, (Dict, Mapping)) and isinstance(old, log) and hasattr(expr, 'subs') and hasattr(expr, 'replace')"},"name":"manual_subs_correct"},"guarantee":"returns expr.subs(list(sequence) + new_subs); len(new_subs) == old_len_new_subs + 1","fibers":[{"name":"(Dict","pred":"isinstance(sequence, (Dict, Mapping))","path":{"lhs":"manual_subs(x)","rhs":"returns expr.subs(list(sequence) + new_subs); len(new_subs) == old_len_new_subs + 1","over":{"base":"(Dict","pred":"isinstance(sequence, (Dict, Mapping))"},"name":"manual_subs_(Dict_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.manual_subs_(Dict_correct","statement":"manual_subs satisfies spec on (Dict inputs"},"trust":"LIBRARY"},{"name":"log","pred":"isinstance(old, log)","path":{"lhs":"manual_subs(x)","rhs":"returns expr.subs(list(sequence) + new_subs); len(new_subs) == old_len_new_subs + 1","over":{"base":"log","pred":"isinstance(old, log)"},"name":"manual_subs_log_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.manual_subs_log_correct","statement":"manual_subs satisfies spec on log inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"3c296f6a85e408e7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'subs')","hasattr(expr, 'replace')"],"ensures":["len(new_subs) == old_len_new_subs + 1"],"returns_expr":"expr.subs(list(sequence) + new_subs)","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.replace","expr.subs"],"calls_mutating":["new_subs.append"],"raises":["ValueError"]},"state_contract":{"modifies":["new_subs.*"],"old_bindings":{"old_len_new_subs":"len(new_subs)"},"post_ensures":["len(new_subs) == old_len_new_subs + 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":1,"n_assumed":2,"n_failed":2,"trust_level":"LIBRARY_ASSUMED","compile_ms":4.2,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['expr'], spec=['expr', '*args']","Poor branch-fiber coverage: 0% (branches={'isinstance(old, log)', 'len(args) == 1', 'len(args) == 2', 'isinstance(sequence, (Dict, Mapping))'}, fibers={'log', '(Dict'})"]}}
 def manual_subs(expr, *args):
     """
     A wrapper for `expr.subs(*args)` with additional logic for substitution
@@ -2259,7 +3115,13 @@ inverse_trig_functions = (atan, asin, acos, acot, acsc, asec)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(find_substitutions(int), find_substitutions produces the expected output) over {Any | isinstance(term, (TrigonometricFunction, HyperbolicFunction, *inverse_trig_functions, exp, log, Heaviside)) and isinstance(term, (chebyshevt, chebyshevu, legendre, hermite, laguerre)) and isinstance(term, (gegenbauer, assoc_laguerre))} ║
+# ║ Path(find_substitutions(integrand, symbol, u_var), <unspecified:find_substitutions>) over {Any | isinstance(term, (TrigonometricFunction, HyperbolicFunction, *inverse_trig_functions, exp, log, Heaviside)) and isinstance(term, (chebyshevt, chebyshevu, legendre, hermite, laguerre)) and isinstance(term, (gegenbauer, assoc_laguerre)) and hasattr(integrand, 'is_rational_function') and hasattr(integrand, 'subs') and hasattr(integrand, 'as_numer_denom')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(integrand, 'is_rational_function')     ║
+# ║   requires: hasattr(integrand, 'subs')                     ║
+# ║   requires: hasattr(integrand, 'as_numer_denom')           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ find_substitutions : {Any | isinstance(term, (Trigono...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -2275,9 +3137,12 @@ inverse_trig_functions = (atan, asin, acos, acot, acsc, asec)
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓22 ?7 ✗1 VCs | 11.4ms                        ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 9571c396...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.find_substitutions","kind":"function","src_hash":"2024d5219280e2c7","in":{"base":"Any","pred":"isinstance(term, (TrigonometricFunction, HyperbolicFunction, *inverse_trig_functions, exp, log, Heaviside)) and isinstance(term, (chebyshevt, chebyshevu, legendre, hermite, laguerre)) and isinstance(term, (gegenbauer, assoc_laguerre))"},"out":{"base":"Any"},"spec":{"lhs":"find_substitutions(int)","rhs":"find_substitutions produces the expected output","over":{"base":"Any","pred":"isinstance(term, (TrigonometricFunction, HyperbolicFunction, *inverse_trig_functions, exp, log, Heaviside)) and isinstance(term, (chebyshevt, chebyshevu, legendre, hermite, laguerre)) and isinstance(term, (gegenbauer, assoc_laguerre))"},"name":"find_substitutions_correct"},"guarantee":"find_substitutions produces the expected output","fibers":[{"name":"(TrigonometricFunction","pred":"isinstance(term, (TrigonometricFunction, HyperbolicFunction, *inverse_trig_functions, exp, log, Heaviside))","path":{"lhs":"find_substitutions(x)","rhs":"find_substitutions produces the expected output","over":{"base":"(TrigonometricFunction","pred":"isinstance(term, (TrigonometricFunction, HyperbolicFunction, *inverse_trig_functions, exp, log, Heaviside))"},"name":"find_substitutions_(TrigonometricFunction_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.find_substitutions_(TrigonometricFunction_correct","statement":"find_substitutions satisfies spec on (TrigonometricFunction inputs"},"trust":"LIBRARY"},{"name":"(chebyshevt","pred":"isinstance(term, (chebyshevt, chebyshevu, legendre, hermite, laguerre))","path":{"lhs":"find_substitutions(x)","rhs":"find_substitutions produces the expected output","over":{"base":"(chebyshevt","pred":"isinstance(term, (chebyshevt, chebyshevu, legendre, hermite, laguerre))"},"name":"find_substitutions_(chebyshevt_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.find_substitutions_(chebyshevt_correct","statement":"find_substitutions satisfies spec on (chebyshevt inputs"},"trust":"LIBRARY"},{"name":"(gegenbauer","pred":"isinstance(term, (gegenbauer, assoc_laguerre))","path":{"lhs":"find_substitutions(x)","rhs":"find_substitutions produces the expected output","over":{"base":"(gegenbauer","pred":"isinstance(term, (gegenbauer, assoc_laguerre))"},"name":"find_substitutions_(gegenbauer_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.find_substitutions_(gegenbauer_correct","statement":"find_substitutions satisfies spec on (gegenbauer inputs"},"trust":"LIBRARY"},{"name":"jacobi","pred":"isinstance(term, jacobi)","path":{"lhs":"find_substitutions(x)","rhs":"find_substitutions produces the expected output","over":{"base":"jacobi","pred":"isinstance(term, jacobi)"},"name":"find_substitutions_jacobi_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.find_substitutions_jacobi_correct","statement":"find_substitutions satisfies spec on jacobi inputs"},"trust":"LIBRARY"},{"name":"Mul","pred":"isinstance(term, Mul)","path":{"lhs":"find_substitutions(x)","rhs":"find_substitutions produces the expected output","over":{"base":"Mul","pred":"isinstance(term, Mul)"},"name":"find_substitutions_Mul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.find_substitutions_Mul_correct","statement":"find_substitutions satisfies spec on Mul inputs"},"trust":"LIBRARY"},{"name":"Pow","pred":"isinstance(term, Pow)","path":{"lhs":"find_substitutions(x)","rhs":"find_substitutions produces the expected output","over":{"base":"Pow","pred":"isinstance(term, Pow)"},"name":"find_substitutions_Pow_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.find_substitutions_Pow_correct","statement":"find_substitutions satisfies spec on Pow inputs"},"trust":"LIBRARY"},{"name":"Add","pred":"isinstance(term, Add)","path":{"lhs":"find_substitutions(x)","rhs":"find_substitutions produces the expected output","over":{"base":"Add","pred":"isinstance(term, Add)"},"name":"find_substitutions_Add_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.find_substitutions_Add_correct","statement":"find_substitutions satisfies spec on Add inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":7,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"9571c396de23bbfe"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.find_substitutions","kind":"function","src_hash":"2024d5219280e2c7","in":{"base":"Any","pred":"isinstance(term, (TrigonometricFunction, HyperbolicFunction, *inverse_trig_functions, exp, log, Heaviside)) and isinstance(term, (chebyshevt, chebyshevu, legendre, hermite, laguerre)) and isinstance(term, (gegenbauer, assoc_laguerre)) and hasattr(integrand, 'is_rational_function') and hasattr(integrand, 'subs') and hasattr(integrand, 'as_numer_denom')"},"out":{"base":"Any"},"spec":{"lhs":"find_substitutions(integrand, symbol, u_var)","rhs":"<unspecified:find_substitutions>","over":{"base":"Any","pred":"isinstance(term, (TrigonometricFunction, HyperbolicFunction, *inverse_trig_functions, exp, log, Heaviside)) and isinstance(term, (chebyshevt, chebyshevu, legendre, hermite, laguerre)) and isinstance(term, (gegenbauer, assoc_laguerre)) and hasattr(integrand, 'is_rational_function') and hasattr(integrand, 'subs') and hasattr(integrand, 'as_numer_denom')"},"name":"find_substitutions_correct"},"guarantee":"find_substitutions produces the expected output","fibers":[{"name":"(TrigonometricFunction","pred":"isinstance(term, (TrigonometricFunction, HyperbolicFunction, *inverse_trig_functions, exp, log, Heaviside))","path":{"lhs":"find_substitutions(x)","rhs":"find_substitutions produces the expected output","over":{"base":"(TrigonometricFunction","pred":"isinstance(term, (TrigonometricFunction, HyperbolicFunction, *inverse_trig_functions, exp, log, Heaviside))"},"name":"find_substitutions_(TrigonometricFunction_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.find_substitutions_(TrigonometricFunction_correct","statement":"find_substitutions satisfies spec on (TrigonometricFunction inputs"},"trust":"LIBRARY"},{"name":"(chebyshevt","pred":"isinstance(term, (chebyshevt, chebyshevu, legendre, hermite, laguerre))","path":{"lhs":"find_substitutions(x)","rhs":"find_substitutions produces the expected output","over":{"base":"(chebyshevt","pred":"isinstance(term, (chebyshevt, chebyshevu, legendre, hermite, laguerre))"},"name":"find_substitutions_(chebyshevt_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.find_substitutions_(chebyshevt_correct","statement":"find_substitutions satisfies spec on (chebyshevt inputs"},"trust":"LIBRARY"},{"name":"(gegenbauer","pred":"isinstance(term, (gegenbauer, assoc_laguerre))","path":{"lhs":"find_substitutions(x)","rhs":"find_substitutions produces the expected output","over":{"base":"(gegenbauer","pred":"isinstance(term, (gegenbauer, assoc_laguerre))"},"name":"find_substitutions_(gegenbauer_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.find_substitutions_(gegenbauer_correct","statement":"find_substitutions satisfies spec on (gegenbauer inputs"},"trust":"LIBRARY"},{"name":"jacobi","pred":"isinstance(term, jacobi)","path":{"lhs":"find_substitutions(x)","rhs":"find_substitutions produces the expected output","over":{"base":"jacobi","pred":"isinstance(term, jacobi)"},"name":"find_substitutions_jacobi_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.find_substitutions_jacobi_correct","statement":"find_substitutions satisfies spec on jacobi inputs"},"trust":"LIBRARY"},{"name":"Mul","pred":"isinstance(term, Mul)","path":{"lhs":"find_substitutions(x)","rhs":"find_substitutions produces the expected output","over":{"base":"Mul","pred":"isinstance(term, Mul)"},"name":"find_substitutions_Mul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.find_substitutions_Mul_correct","statement":"find_substitutions satisfies spec on Mul inputs"},"trust":"LIBRARY"},{"name":"Pow","pred":"isinstance(term, Pow)","path":{"lhs":"find_substitutions(x)","rhs":"find_substitutions produces the expected output","over":{"base":"Pow","pred":"isinstance(term, Pow)"},"name":"find_substitutions_Pow_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.find_substitutions_Pow_correct","statement":"find_substitutions satisfies spec on Pow inputs"},"trust":"LIBRARY"},{"name":"Add","pred":"isinstance(term, Add)","path":{"lhs":"find_substitutions(x)","rhs":"find_substitutions produces the expected output","over":{"base":"Add","pred":"isinstance(term, Add)"},"name":"find_substitutions_Add_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.find_substitutions_Add_correct","statement":"find_substitutions satisfies spec on Add inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":7,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"9571c396de23bbfe","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(integrand, 'is_rational_function')","hasattr(integrand, 'subs')","hasattr(integrand, 'as_numer_denom')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":30,"n_verified":22,"n_assumed":7,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":11.4,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'u_diff == 0', 'isinstance(term, Mul)', 'u == symbol', 'isinstance(term, Add)', 'isinstance(term, (TrigonometricFunction, HyperbolicFunction, *inverse_trig_functions, exp, log, Heaviside))', 'isinstance(term, jacobi)', 'deg_after > deg_before', 'new_integrand == integrand.subs(symbol, u_var)', 'isinstance(term, Pow)', 'isinstance(term, (chebyshevt, chebyshevu, legendre, hermite, laguerre))', 'isinstance(term, (gegenbauer, assoc_laguerre))'}, fibers={'Pow', 'jacobi', '(TrigonometricFunction', '(chebyshevt', 'Mul', 'Add', '(gegenbauer'})"]}}
 def find_substitutions(integrand, symbol, u_var):
     results = []
 
@@ -2366,7 +3231,10 @@ def find_substitutions(integrand, symbol, u_var):
     return results
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rewriter(con), strategy that rewrites an integrand) over {Any | isinstance(substep, DontKnowRule)} ║
+# ║ Path(rewriter(condition, rewrite), <unspecified:rewriter>) over {Any | isinstance(substep, DontKnowRule)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ rewriter : {Any | isinstance(substep, DontKnowRule)} ...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -2378,9 +3246,12 @@ def find_substitutions(integrand, symbol, u_var):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 32e71110...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.rewriter","kind":"function","src_hash":"675548f0670fe73f","in":{"base":"Any","pred":"isinstance(substep, DontKnowRule)"},"out":{"base":"Any"},"spec":{"lhs":"rewriter(con)","rhs":"strategy that rewrites an integrand","over":{"base":"Any","pred":"isinstance(substep, DontKnowRule)"},"name":"rewriter_correct"},"guarantee":"strategy that rewrites an integrand","fibers":[{"name":"DontKnowRule","pred":"isinstance(substep, DontKnowRule)","path":{"lhs":"rewriter(x)","rhs":"strategy that rewrites an integrand","over":{"base":"DontKnowRule","pred":"isinstance(substep, DontKnowRule)"},"name":"rewriter_DontKnowRule_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.rewriter_DontKnowRule_correct","statement":"rewriter satisfies spec on DontKnowRule inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"32e711101f19df5a"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.rewriter","kind":"function","src_hash":"675548f0670fe73f","in":{"base":"Any","pred":"isinstance(substep, DontKnowRule)"},"out":{"base":"Any"},"spec":{"lhs":"rewriter(condition, rewrite)","rhs":"<unspecified:rewriter>","over":{"base":"Any","pred":"isinstance(substep, DontKnowRule)"},"name":"rewriter_correct"},"guarantee":"strategy that rewrites an integrand","fibers":[{"name":"DontKnowRule","pred":"isinstance(substep, DontKnowRule)","path":{"lhs":"rewriter(x)","rhs":"strategy that rewrites an integrand","over":{"base":"DontKnowRule","pred":"isinstance(substep, DontKnowRule)"},"name":"rewriter_DontKnowRule_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.rewriter_DontKnowRule_correct","statement":"rewriter satisfies spec on DontKnowRule inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"32e711101f19df5a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.1,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'rewritten != integrand', 'not isinstance(substep, DontKnowRule) and substep'}, fibers={'DontKnowRule'})"]}}
 def rewriter(condition, rewrite):
     """Strategy that rewrites an integrand."""
     def _rewriter(integral):
@@ -2395,16 +3266,22 @@ def rewriter(condition, rewrite):
     return _rewriter
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(proxy_rewriter(con), id) over Any                     ║
+# ║ Path(proxy_rewriter(condition, rewrite), id) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ proxy_rewriter : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 2d9947d29b1e87bf   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.proxy_rewriter","kind":"function","src_hash":"dc5636edad2f1248","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"proxy_rewriter(con)","rhs":"strategy that rewrites an integrand based on some other criteria","over":{"base":"Any"},"name":"proxy_rewriter_correct","kind":"composition"},"guarantee":"strategy that rewrites an integrand based on some other criteria","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"RewriteRule","by":"library_axiom"},{"fn":"integral_steps","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2d9947d29b1e87bf"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.proxy_rewriter","kind":"function","src_hash":"dc5636edad2f1248","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"proxy_rewriter(condition, rewrite)","rhs":"<unspecified:proxy_rewriter>","over":{"base":"Any"},"name":"proxy_rewriter_correct","kind":"composition"},"guarantee":"strategy that rewrites an integrand based on some other criteria","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"RewriteRule","by":"library_axiom"},{"fn":"integral_steps","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2d9947d29b1e87bf","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def proxy_rewriter(condition, rewrite):
     """Strategy that rewrites an integrand based on some other criteria."""
     def _proxy_rewriter(criteria):
@@ -2419,16 +3296,23 @@ def proxy_rewriter(condition, rewrite):
     return _proxy_rewriter
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(multiplexer(con), apply the rule that matches the condition, else none) over Any ║
+# ║ Path(multiplexer(conditions), <unspecified:multiplexer>) over {Any | hasattr(conditions, 'items')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ multiplexer : Any → Any                                    ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(conditions, 'items')                   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ multiplexer : {Any | hasattr(conditions, 'items')} → Any   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 45916eb6f01c363b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.multiplexer","kind":"function","src_hash":"ee5654c8eb6ccd41","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"multiplexer(con)","rhs":"apply the rule that matches the condition, else none","over":{"base":"Any"},"name":"multiplexer_correct"},"guarantee":"apply the rule that matches the condition, else none","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.multiplexer_correct","statement":"Path(multiplexer(x), apply the rule that matches the condition, else none)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"45916eb6f01c363b"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.multiplexer","kind":"function","src_hash":"ee5654c8eb6ccd41","in":{"base":"Any","pred":"hasattr(conditions, 'items')"},"out":{"base":"Any"},"spec":{"lhs":"multiplexer(conditions)","rhs":"<unspecified:multiplexer>","over":{"base":"Any","pred":"hasattr(conditions, 'items')"},"name":"multiplexer_correct"},"guarantee":"apply the rule that matches the condition, else none","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.multiplexer_correct","statement":"Path(multiplexer(x), apply the rule that matches the condition, else none)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"45916eb6f01c363b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(conditions, 'items')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["conditions.items"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def multiplexer(conditions):
     """Apply the rule that matches the condition, else None"""
     def multiplexer_rl(expr):
@@ -2438,7 +3322,10 @@ def multiplexer(conditions):
     return multiplexer_rl
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(alternatives(*ru), strategy that makes an alternativerule out of multiple possible results) over {Any | isinstance(result, DontKnowRule)} ║
+# ║ Path(alternatives(*rules), <unspecified:alternatives>) over {Any | isinstance(result, DontKnowRule)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ alternatives : {Any | isinstance(result, DontKnowRule...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -2450,9 +3337,12 @@ def multiplexer(conditions):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 93f92a8d...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.alternatives","kind":"function","src_hash":"242a3c38c61b33de","in":{"base":"Any","pred":"isinstance(result, DontKnowRule)"},"out":{"base":"Any"},"spec":{"lhs":"alternatives(*ru)","rhs":"strategy that makes an alternativerule out of multiple possible results","over":{"base":"Any","pred":"isinstance(result, DontKnowRule)"},"name":"alternatives_correct"},"guarantee":"strategy that makes an alternativerule out of multiple possible results","fibers":[{"name":"DontKnowRule","pred":"isinstance(result, DontKnowRule)","path":{"lhs":"alternatives(x)","rhs":"strategy that makes an alternativerule out of multiple possible results","over":{"base":"DontKnowRule","pred":"isinstance(result, DontKnowRule)"},"name":"alternatives_DontKnowRule_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.alternatives_DontKnowRule_correct","statement":"alternatives satisfies spec on DontKnowRule inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"93f92a8d57a5cc39"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.alternatives","kind":"function","src_hash":"242a3c38c61b33de","in":{"base":"Any","pred":"isinstance(result, DontKnowRule)"},"out":{"base":"Any"},"spec":{"lhs":"alternatives(*rules)","rhs":"<unspecified:alternatives>","over":{"base":"Any","pred":"isinstance(result, DontKnowRule)"},"name":"alternatives_correct"},"guarantee":"strategy that makes an alternativerule out of multiple possible results","fibers":[{"name":"DontKnowRule","pred":"isinstance(result, DontKnowRule)","path":{"lhs":"alternatives(x)","rhs":"strategy that makes an alternativerule out of multiple possible results","over":{"base":"DontKnowRule","pred":"isinstance(result, DontKnowRule)"},"name":"alternatives_DontKnowRule_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.alternatives_DontKnowRule_correct","statement":"alternatives satisfies spec on DontKnowRule inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"93f92a8d57a5cc39","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.1,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=[], spec=['*rules']","Poor branch-fiber coverage: 0% (branches={'len(alts) == 1', 'result and (not isinstance(result, DontKnowRule)) and (result != integral) and (result not in alts)'}, fibers={'DontKnowRule'})"]}}
 def alternatives(*rules):
     """Strategy that makes an AlternativeRule out of multiple possible results."""
     def _alternatives(integral):
@@ -2478,23 +3368,35 @@ def alternatives(*rules):
     return _alternatives
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(constant_rule(int), constant_rule produces the expected output) over Any ║
+# ║ Path(constant_rule(integral), ConstantRule(*integral)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  ConstantRule(*integral)                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ constant_rule : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 324964e7ba48f880           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.constant_rule","kind":"function","src_hash":"b98661b52fbef712","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"constant_rule(int)","rhs":"constant_rule produces the expected output","over":{"base":"Any"},"name":"constant_rule_correct"},"guarantee":"constant_rule produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"324964e7ba48f880"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.constant_rule","kind":"function","src_hash":"b98661b52fbef712","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"constant_rule(integral)","rhs":"ConstantRule(*integral)","over":{"base":"Any"},"name":"constant_rule_correct"},"guarantee":"returns ConstantRule(*integral)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"324964e7ba48f880","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"ConstantRule(*integral)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def constant_rule(integral):
     return ConstantRule(*integral)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(power_rule(int), power_rule produces the expected output) over {Any | isinstance(base, Symbol)} ║
+# ║ Path(power_rule(integral), result == (PowerRule(integrand, symbol, base, expt) if symbol not in expt.free_symbols and isinstance(base, Symbol) else PiecewiseRule(integrand, symbol, [(rule, Ne(log(base), 0)), (ConstantRule(1, symbol), True)])) and result == PowerRule(integrand, symbol, base, expt) or result == PiecewiseRule(integrand, symbol, [(rule, Ne(log(base), 0)), (ConstantRule(1, symbol), True)])) over {Any | isinstance(base, Symbol)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ power_rule : {Any | isinstance(base, Symbol)} → Any        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (PowerRule(integrand, symbol, b...   ║
+# ║   ensures:  result == PowerRule(integrand, symbol, ba...   ║
+# ║   fiber[Symbol]: symbol not in expt.free_symbols and ...   ║
+# ║   fiber[Symbol]: symbol not in base.free_symbols and ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ power_rule : {Any | isinstance(base, Symbol)} → {Any ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   Symbol: {isinstance(base, Symbol)} → library_axiom       ║
@@ -2504,9 +3406,12 @@ def constant_rule(integral):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 8963b036...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.power_rule","kind":"function","src_hash":"21767d3de8683096","in":{"base":"Any","pred":"isinstance(base, Symbol)"},"out":{"base":"Any"},"spec":{"lhs":"power_rule(int)","rhs":"power_rule produces the expected output","over":{"base":"Any","pred":"isinstance(base, Symbol)"},"name":"power_rule_correct"},"guarantee":"power_rule produces the expected output","fibers":[{"name":"Symbol","pred":"isinstance(base, Symbol)","path":{"lhs":"power_rule(x)","rhs":"power_rule produces the expected output","over":{"base":"Symbol","pred":"isinstance(base, Symbol)"},"name":"power_rule_Symbol_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.power_rule_Symbol_correct","statement":"power_rule satisfies spec on Symbol inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"8963b036b71dd091"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.power_rule","kind":"function","src_hash":"21767d3de8683096","in":{"base":"Any","pred":"isinstance(base, Symbol)"},"out":{"base":"Any","pred":"result satisfies: result == (PowerRule(integrand, symbol, base, expt) if symbol not in expt.free_symbols and isinstance(base, Symbol) else PiecewiseRule(integrand, symbol, [(rule, Ne(log(base), 0)), (ConstantRule(1, symbol), True)])) and result == PowerRule(integrand, symbol, base, expt) or result == PiecewiseRule(integrand, symbol, [(rule, Ne(log(base), 0)), (ConstantRule(1, symbol), True)])"},"spec":{"lhs":"power_rule(integral)","rhs":"result == (PowerRule(integrand, symbol, base, expt) if symbol not in expt.free_symbols and isinstance(base, Symbol) else PiecewiseRule(integrand, symbol, [(rule, Ne(log(base), 0)), (ConstantRule(1, symbol), True)])) and result == PowerRule(integrand, symbol, base, expt) or result == PiecewiseRule(integrand, symbol, [(rule, Ne(log(base), 0)), (ConstantRule(1, symbol), True)])","over":{"base":"Any","pred":"isinstance(base, Symbol)"},"name":"power_rule_correct"},"guarantee":"result == (PowerRule(integrand, symbol, base, expt) if symbol not in expt.free_symbols and isinstance(base, Symbol) else PiecewiseRule(integrand, symbol, [(rule, Ne(log(base), 0)), (ConstantRule(1, symbol), True)])); result == PowerRule(integrand, symbol, base, expt) or result == PiecewiseRule(integrand, symbol, [(rule, Ne(log(base), 0)), (ConstantRule(1, symbol), True)]); 2-fiber decomposition","fibers":[{"name":"Symbol","pred":"isinstance(base, Symbol)","path":{"lhs":"power_rule(x)","rhs":"result == (PowerRule(integrand, symbol, base, expt) if symbol not in expt.free_symbols and isinstance(base, Symbol) else PiecewiseRule(integrand, symbol, [(rule, Ne(log(base), 0)), (ConstantRule(1, symbol), True)])); result == PowerRule(integrand, symbol, base, expt) or result == PiecewiseRule(integrand, symbol, [(rule, Ne(log(base), 0)), (ConstantRule(1, symbol), True)]); 2-fiber decomposition","over":{"base":"Symbol","pred":"isinstance(base, Symbol)"},"name":"power_rule_Symbol_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.power_rule_Symbol_correct","statement":"power_rule satisfies spec on Symbol inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"8963b036b71dd091","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (PowerRule(integrand, symbol, base, expt) if symbol not in expt.free_symbols and isinstance(base, Symbol) else PiecewiseRule(integrand, symbol, [(rule, Ne(log(base), 0)), (ConstantRule(1, symbol), True)]))","result == PowerRule(integrand, symbol, base, expt) or result == PiecewiseRule(integrand, symbol, [(rule, Ne(log(base), 0)), (ConstantRule(1, symbol), True)])"],"fibers":[{"name":"Symbol","guard":"symbol not in expt.free_symbols and isinstance(base, Symbol)","ensures":["result == PowerRule(integrand, symbol, base, expt)"],"decidability":"structural","returns_expr":"PowerRule(integrand, symbol, base, expt)"},{"name":"Symbol","guard":"symbol not in base.free_symbols and isinstance(expt, Symbol)","ensures":["result == PiecewiseRule(integrand, symbol, [(rule, Ne(log(base), 0)), (ConstantRule(1, symbol), True)])"],"decidability":"structural","returns_expr":"PiecewiseRule(integrand, symbol, [(rule, Ne(log(base), 0)), (ConstantRule(1, symbol), True)])"}],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.1,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'symbol not in base.free_symbols and isinstance(expt, Symbol)', 'symbol not in expt.free_symbols and isinstance(base, Symbol)', 'simplify(expt + 1) == 0'}, fibers={'Symbol'})"]}}
 def power_rule(integral):
     integrand, symbol = integral
     base, expt = integrand.as_base_exp()
@@ -2529,7 +3434,10 @@ def power_rule(integral):
         ])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(exp_rule(int), exp_rule produces the expected output) over {Any | isinstance(integrand.args[0], Symbol)} ║
+# ║ Path(exp_rule(integral), ExpRule(integrand, symbol, E, integrand.args[0])) over {Any | isinstance(integrand.args[0], Symbol)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  ExpRule(integrand, symbol, E, integrand.a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ exp_rule : {Any | isinstance(integrand.args[0], Symbo...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -2541,9 +3449,12 @@ def power_rule(integral):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 0.2ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | b9cc00a0...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.exp_rule","kind":"function","src_hash":"f1e77a93df014eb5","in":{"base":"Any","pred":"isinstance(integrand.args[0], Symbol)"},"out":{"base":"Any"},"spec":{"lhs":"exp_rule(int)","rhs":"exp_rule produces the expected output","over":{"base":"Any","pred":"isinstance(integrand.args[0], Symbol)"},"name":"exp_rule_correct"},"guarantee":"exp_rule produces the expected output","fibers":[{"name":"Symbol","pred":"isinstance(integrand.args[0], Symbol)","path":{"lhs":"exp_rule(x)","rhs":"exp_rule produces the expected output","over":{"base":"Symbol","pred":"isinstance(integrand.args[0], Symbol)"},"name":"exp_rule_Symbol_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.exp_rule_Symbol_correct","statement":"exp_rule satisfies spec on Symbol inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"b9cc00a01a4b22fb"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.exp_rule","kind":"function","src_hash":"f1e77a93df014eb5","in":{"base":"Any","pred":"isinstance(integrand.args[0], Symbol)"},"out":{"base":"Any"},"spec":{"lhs":"exp_rule(integral)","rhs":"ExpRule(integrand, symbol, E, integrand.args[0])","over":{"base":"Any","pred":"isinstance(integrand.args[0], Symbol)"},"name":"exp_rule_correct"},"guarantee":"returns ExpRule(integrand, symbol, E, integrand.args[0])","fibers":[{"name":"Symbol","pred":"isinstance(integrand.args[0], Symbol)","path":{"lhs":"exp_rule(x)","rhs":"returns ExpRule(integrand, symbol, E, integrand.args[0])","over":{"base":"Symbol","pred":"isinstance(integrand.args[0], Symbol)"},"name":"exp_rule_Symbol_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.exp_rule_Symbol_correct","statement":"exp_rule satisfies spec on Symbol inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"b9cc00a01a4b22fb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"ExpRule(integrand, symbol, E, integrand.args[0])","pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(integrand.args[0], Symbol)'}, fibers={'Symbol'})"]}}
 def exp_rule(integral):
     integrand, symbol = integral
     if isinstance(integrand.args[0], Symbol):
@@ -2551,7 +3462,10 @@ def exp_rule(integral):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(orthogonal_poly_rule(int), orthogonal_poly_rule produces the expected output) over {Any | isinstance(integrand, klass)} ║
+# ║ Path(orthogonal_poly_rule(integral), orthogonal_poly_classes[klass](integrand, symbol, *integrand.args[:var_index])) over {Any | isinstance(integrand, klass)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  orthogonal_poly_classes[klass](integrand,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ orthogonal_poly_rule : {Any | isinstance(integrand, k...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -2563,9 +3477,12 @@ def exp_rule(integral):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 66a1df53...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.orthogonal_poly_rule","kind":"function","src_hash":"70d25a7a25127827","in":{"base":"Any","pred":"isinstance(integrand, klass)"},"out":{"base":"Any"},"spec":{"lhs":"orthogonal_poly_rule(int)","rhs":"orthogonal_poly_rule produces the expected output","over":{"base":"Any","pred":"isinstance(integrand, klass)"},"name":"orthogonal_poly_rule_correct"},"guarantee":"orthogonal_poly_rule produces the expected output","fibers":[{"name":"klass","pred":"isinstance(integrand, klass)","path":{"lhs":"orthogonal_poly_rule(x)","rhs":"orthogonal_poly_rule produces the expected output","over":{"base":"klass","pred":"isinstance(integrand, klass)"},"name":"orthogonal_poly_rule_klass_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.orthogonal_poly_rule_klass_correct","statement":"orthogonal_poly_rule satisfies spec on klass inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"66a1df5371ccf8bb"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.orthogonal_poly_rule","kind":"function","src_hash":"70d25a7a25127827","in":{"base":"Any","pred":"isinstance(integrand, klass)"},"out":{"base":"Any"},"spec":{"lhs":"orthogonal_poly_rule(integral)","rhs":"orthogonal_poly_classes[klass](integrand, symbol, *integrand.args[:var_index])","over":{"base":"Any","pred":"isinstance(integrand, klass)"},"name":"orthogonal_poly_rule_correct"},"guarantee":"returns orthogonal_poly_classes[klass](integrand, symbol, *integrand.args[:var_index])","fibers":[{"name":"klass","pred":"isinstance(integrand, klass)","path":{"lhs":"orthogonal_poly_rule(x)","rhs":"returns orthogonal_poly_classes[klass](integrand, symbol, *integrand.args[:var_index])","over":{"base":"klass","pred":"isinstance(integrand, klass)"},"name":"orthogonal_poly_rule_klass_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.orthogonal_poly_rule_klass_correct","statement":"orthogonal_poly_rule satisfies spec on klass inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"66a1df5371ccf8bb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"orthogonal_poly_classes[klass](integrand, symbol, *integrand.args[:var_index])","pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.1,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(integrand, klass)'}, fibers={'klass'})"]}}
 def orthogonal_poly_rule(integral):
     orthogonal_poly_classes = {
         jacobi: JacobiRule,
@@ -2597,7 +3514,10 @@ _symbol = Dummy('x')
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(special_function_rule(int), special_function_rule produces the expected output) over {Any | isinstance(_integrand, type_)} ║
+# ║ Path(special_function_rule(integral), rule(integrand, symbol, *wild_vals)) over {Any | isinstance(_integrand, type_)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  rule(integrand, symbol, *wild_vals)            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ special_function_rule : {Any | isinstance(_integrand,...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -2609,9 +3529,12 @@ _symbol = Dummy('x')
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.7ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | dd908913...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.special_function_rule","kind":"function","src_hash":"a0226f96b9b5ec5f","in":{"base":"Any","pred":"isinstance(_integrand, type_)"},"out":{"base":"Any"},"spec":{"lhs":"special_function_rule(int)","rhs":"special_function_rule produces the expected output","over":{"base":"Any","pred":"isinstance(_integrand, type_)"},"name":"special_function_rule_correct"},"guarantee":"special_function_rule produces the expected output","fibers":[{"name":"type_","pred":"isinstance(_integrand, type_)","path":{"lhs":"special_function_rule(x)","rhs":"special_function_rule produces the expected output","over":{"base":"type_","pred":"isinstance(_integrand, type_)"},"name":"special_function_rule_type__case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.special_function_rule_type__correct","statement":"special_function_rule satisfies spec on type_ inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"dd9089136e824714"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.special_function_rule","kind":"function","src_hash":"a0226f96b9b5ec5f","in":{"base":"Any","pred":"isinstance(_integrand, type_)"},"out":{"base":"Any"},"spec":{"lhs":"special_function_rule(integral)","rhs":"rule(integrand, symbol, *wild_vals)","over":{"base":"Any","pred":"isinstance(_integrand, type_)"},"name":"special_function_rule_correct"},"guarantee":"returns rule(integrand, symbol, *wild_vals)","fibers":[{"name":"type_","pred":"isinstance(_integrand, type_)","path":{"lhs":"special_function_rule(x)","rhs":"returns rule(integrand, symbol, *wild_vals)","over":{"base":"type_","pred":"isinstance(_integrand, type_)"},"name":"special_function_rule_type__case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.special_function_rule_type__correct","statement":"special_function_rule satisfies spec on type_ inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"dd9089136e824714","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"rule(integrand, symbol, *wild_vals)","pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.7,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(_integrand, type_)', 'constraint is None or constraint(*wild_vals)'}, fibers={'type_'})"]}}
 def special_function_rule(integral):
     integrand, symbol = integral
     if not _special_function_patterns:
@@ -2656,7 +3579,13 @@ def special_function_rule(integral):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_add_degenerate_step(gen), internal helper behaves correctly) over {Any | isinstance(generic_step, PiecewiseRule)} ║
+# ║ Path(_add_degenerate_step(generic_cond, generic_step, degenerate_step), isinstance(result, Rule)) over {Any | isinstance(generic_step, PiecewiseRule) and isinstance(generic_step, Rule) and isinstance(degenerate_step, Rule | None) and hasattr(degenerate_step, 'subfunctions') and hasattr(generic_step, 'integrand') and hasattr(generic_step, 'variable') and hasattr(generic_step, 'subfunctions')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ║   requires: isinstance(generic_step, Rule)                 ║
+# ║   requires: isinstance(degenerate_step, Rule | None)       ║
+# ║   requires: hasattr(degenerate_step, 'subfunctions')       ║
+# ║   ensures:  isinstance(result, Rule)                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _add_degenerate_step : {Any | isinstance(generic_step...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -2668,9 +3597,12 @@ def special_function_rule(integral):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | ee002e91...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate._add_degenerate_step","kind":"function","src_hash":"966149ed0ec07c5c","in":{"base":"Any","pred":"isinstance(generic_step, PiecewiseRule)"},"out":{"base":"Rule"},"spec":{"lhs":"_add_degenerate_step(gen)","rhs":"internal helper behaves correctly","over":{"base":"Any","pred":"isinstance(generic_step, PiecewiseRule)"},"name":"_add_degenerate_step_correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"PiecewiseRule","pred":"isinstance(generic_step, PiecewiseRule)","path":{"lhs":"_add_degenerate_step(x)","rhs":"internal helper behaves correctly","over":{"base":"PiecewiseRule","pred":"isinstance(generic_step, PiecewiseRule)"},"name":"_add_degenerate_step_PiecewiseRule_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate._add_degenerate_step_PiecewiseRule_correct","statement":"_add_degenerate_step satisfies spec on PiecewiseRule inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"ee002e91b217c9d7"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate._add_degenerate_step","kind":"function","src_hash":"966149ed0ec07c5c","in":{"base":"Any","pred":"isinstance(generic_step, PiecewiseRule) and isinstance(generic_step, Rule) and isinstance(degenerate_step, Rule | None) and hasattr(degenerate_step, 'subfunctions') and hasattr(generic_step, 'integrand') and hasattr(generic_step, 'variable') and hasattr(generic_step, 'subfunctions')"},"out":{"base":"Rule","pred":"result satisfies: isinstance(result, Rule)"},"spec":{"lhs":"_add_degenerate_step(generic_cond, generic_step, degenerate_step)","rhs":"isinstance(result, Rule)","over":{"base":"Any","pred":"isinstance(generic_step, PiecewiseRule) and isinstance(generic_step, Rule) and isinstance(degenerate_step, Rule | None) and hasattr(degenerate_step, 'subfunctions') and hasattr(generic_step, 'integrand') and hasattr(generic_step, 'variable') and hasattr(generic_step, 'subfunctions')"},"name":"_add_degenerate_step_correct"},"guarantee":"isinstance(result, Rule)","fibers":[{"name":"PiecewiseRule","pred":"isinstance(generic_step, PiecewiseRule)","path":{"lhs":"_add_degenerate_step(x)","rhs":"isinstance(result, Rule)","over":{"base":"PiecewiseRule","pred":"isinstance(generic_step, PiecewiseRule)"},"name":"_add_degenerate_step_PiecewiseRule_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate._add_degenerate_step_PiecewiseRule_correct","statement":"_add_degenerate_step satisfies spec on PiecewiseRule inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"ee002e91b217c9d7","spec_source":"static","formal_spec":{"source":"static","strength":"partial","requires":["isinstance(generic_step, Rule)","isinstance(degenerate_step, Rule | None)","hasattr(degenerate_step, 'subfunctions')","hasattr(generic_step, 'integrand')","hasattr(generic_step, 'variable')","hasattr(generic_step, 'subfunctions')"],"ensures":["isinstance(result, Rule)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'degenerate_step is None', 'isinstance(degenerate_step, PiecewiseRule)', 'isinstance(generic_step, PiecewiseRule)'}, fibers={'PiecewiseRule'})"]}}
 def _add_degenerate_step(generic_cond, generic_step: Rule, degenerate_step: Rule | None) -> Rule:
     if degenerate_step is None:
         return generic_step
@@ -2687,16 +3619,24 @@ def _add_degenerate_step(generic_cond, generic_step: Rule, degenerate_step: Rule
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(nested_pow_rule(int), nested_pow_rule produces the expected output) over IntegralInfo ║
+# ║ Path(nested_pow_rule(integral), len(bases) == old_len_bases - 1) over {IntegralInfo | isinstance(integral, IntegralInfo) and len(bases) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ nested_pow_rule : IntegralInfo → Any                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(integral, IntegralInfo)             ║
+# ║   requires: len(bases) > 0                                 ║
+# ║   ensures:  len(bases) == old_len_bases - 1                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ nested_pow_rule : {IntegralInfo | isinstance(integral...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6f576ea2fdd726cc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0158c18821c4c212  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.nested_pow_rule","kind":"function","src_hash":"e0c807dfeeeba077","in":{"base":"IntegralInfo"},"out":{"base":"Any"},"spec":{"lhs":"nested_pow_rule(int)","rhs":"nested_pow_rule produces the expected output","over":{"base":"IntegralInfo"},"name":"nested_pow_rule_correct"},"guarantee":"nested_pow_rule produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.nested_pow_rule_correct","statement":"Path(nested_pow_rule(x), nested_pow_rule produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6f576ea2fdd726cc"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.nested_pow_rule","kind":"function","src_hash":"e0c807dfeeeba077","in":{"base":"IntegralInfo","pred":"isinstance(integral, IntegralInfo) and len(bases) > 0"},"out":{"base":"Any","pred":"result satisfies: len(bases) == old_len_bases - 1"},"spec":{"lhs":"nested_pow_rule(integral)","rhs":"len(bases) == old_len_bases - 1","over":{"base":"IntegralInfo","pred":"isinstance(integral, IntegralInfo) and len(bases) > 0"},"name":"nested_pow_rule_correct"},"guarantee":"len(bases) == old_len_bases - 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.nested_pow_rule_correct","statement":"Path(nested_pow_rule(x), len(bases) == old_len_bases - 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0158c18821c4c212","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(integral, IntegralInfo)","len(bases) > 0"],"ensures":["len(bases) == old_len_bases - 1"],"pure":false,"effects":{"effect_type":"mutates_global","calls_mutating":["bases.discard","bases.pop"],"raises":["NoMatch"],"catches":["NoMatch"]},"state_contract":{"modifies":["bases.*"],"old_bindings":{"old_len_bases":"len(bases)"},"pre_requires":["len(bases) > 0"],"post_ensures":["len(bases) == old_len_bases - 1"],"exceptional_post":{"NoMatch":["isinstance(raised, NoMatch)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def nested_pow_rule(integral: IntegralInfo):
     # nested (c*(a+b*x)**d)**e
     integrand, x = integral
@@ -2751,16 +3691,23 @@ def nested_pow_rule(integral: IntegralInfo):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(inverse_trig_rule(int), set degenerate=false on recursive call where coefficient of quadratic term is assumed non-zero) over IntegralInfo ║
+# ║ Path(inverse_trig_rule(integral, degenerate), <unspecified:inverse_trig_rule>) over {IntegralInfo | isinstance(integral, IntegralInfo)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ inverse_trig_rule : IntegralInfo → Any                     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(integral, IntegralInfo)             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ inverse_trig_rule : {IntegralInfo | isinstance(integr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.8ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f3ab76272179980a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.inverse_trig_rule","kind":"function","src_hash":"bdf7f14e0c161a0a","in":{"base":"IntegralInfo"},"out":{"base":"Any"},"spec":{"lhs":"inverse_trig_rule(int)","rhs":"set degenerate=false on recursive call where coefficient of quadratic term is assumed non-zero","over":{"base":"IntegralInfo"},"name":"inverse_trig_rule_correct"},"guarantee":"set degenerate=false on recursive call where coefficient of quadratic term is assumed non-zero","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.inverse_trig_rule_correct","statement":"Path(inverse_trig_rule(x), set degenerate=false on recursive call where coefficient of quadratic term is assumed non-zero)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f3ab76272179980a"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.inverse_trig_rule","kind":"function","src_hash":"bdf7f14e0c161a0a","in":{"base":"IntegralInfo","pred":"isinstance(integral, IntegralInfo)"},"out":{"base":"Any"},"spec":{"lhs":"inverse_trig_rule(integral, degenerate)","rhs":"<unspecified:inverse_trig_rule>","over":{"base":"IntegralInfo","pred":"isinstance(integral, IntegralInfo)"},"name":"inverse_trig_rule_correct"},"guarantee":"set degenerate=false on recursive call where coefficient of quadratic term is assumed non-zero","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.inverse_trig_rule_correct","statement":"Path(inverse_trig_rule(x), set degenerate=false on recursive call where coefficient of quadratic term is assumed non-zero)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f3ab76272179980a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(integral, IntegralInfo)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"assumed","binding":true}}
 def inverse_trig_rule(integral: IntegralInfo, degenerate=True):
     """
     Set degenerate=False on recursive call where coefficient of quadratic term
@@ -2838,16 +3785,22 @@ def inverse_trig_rule(integral: IntegralInfo, degenerate=True):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(add_rule(int), add_rule produces the expected output) over Any ║
+# ║ Path(add_rule(integral), None if None in results else AddRule(integrand, symbol, results)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  None if None in results else AddRule(inte...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ add_rule : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d61f406328beed50  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 80ebf8c669a12a98  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.add_rule","kind":"function","src_hash":"9cb9f17e30a7c5d1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"add_rule(int)","rhs":"add_rule produces the expected output","over":{"base":"Any"},"name":"add_rule_correct"},"guarantee":"add_rule produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.add_rule_correct","statement":"Path(add_rule(x), add_rule produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d61f406328beed50"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.add_rule","kind":"function","src_hash":"9cb9f17e30a7c5d1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"add_rule(integral)","rhs":"None if None in results else AddRule(integrand, symbol, results)","over":{"base":"Any"},"name":"add_rule_correct"},"guarantee":"returns None if None in results else AddRule(integrand, symbol, results)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.add_rule_correct","statement":"Path(add_rule(x), returns None if None in results else AddRule(integrand, symbol, results))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"80ebf8c669a12a98","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"None if None in results else AddRule(integrand, symbol, results)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def add_rule(integral):
     integrand, symbol = integral
     results = [integral_steps(g, symbol)
@@ -2856,16 +3809,23 @@ def add_rule(integral):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(mul_rule(int), mul_rule produces the expected output) over IntegralInfo ║
+# ║ Path(mul_rule(integral), ConstantTimesRule(integrand, symbol, coeff, f, next_step)) over {IntegralInfo | isinstance(integral, IntegralInfo)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ mul_rule : IntegralInfo → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(integral, IntegralInfo)             ║
+# ║   returns:  ConstantTimesRule(integrand, symbol, coef...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ mul_rule : {IntegralInfo | isinstance(integral, Integ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | be3d3d82b45a3a8f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 65032d62fc15ef8e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.mul_rule","kind":"function","src_hash":"a640a21a67d9f190","in":{"base":"IntegralInfo"},"out":{"base":"Any"},"spec":{"lhs":"mul_rule(int)","rhs":"mul_rule produces the expected output","over":{"base":"IntegralInfo"},"name":"mul_rule_correct"},"guarantee":"mul_rule produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.mul_rule_correct","statement":"Path(mul_rule(x), mul_rule produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"be3d3d82b45a3a8f"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.mul_rule","kind":"function","src_hash":"a640a21a67d9f190","in":{"base":"IntegralInfo","pred":"isinstance(integral, IntegralInfo)"},"out":{"base":"Any"},"spec":{"lhs":"mul_rule(integral)","rhs":"ConstantTimesRule(integrand, symbol, coeff, f, next_step)","over":{"base":"IntegralInfo","pred":"isinstance(integral, IntegralInfo)"},"name":"mul_rule_correct"},"guarantee":"returns ConstantTimesRule(integrand, symbol, coeff, f, next_step)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.mul_rule_correct","statement":"Path(mul_rule(x), returns ConstantTimesRule(integrand, symbol, coeff, f, next_step))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"65032d62fc15ef8e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(integral, IntegralInfo)"],"returns_expr":"ConstantTimesRule(integrand, symbol, coeff, f, next_step)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def mul_rule(integral: IntegralInfo):
     integrand, symbol = integral
 
@@ -2878,7 +3838,13 @@ def mul_rule(integral: IntegralInfo):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_parts_rule(int), internal helper behaves correctly) over {Any | isinstance(integrand, (log, *inverse_trig_functions)) and isinstance(u, log) and isinstance(integrand, Piecewise)} ║
+# ║ Path(_parts_rule(integrand, symbol), <unspecified:_parts_rule>) over {Any | isinstance(integrand, (log, *inverse_trig_functions)) and isinstance(u, log) and isinstance(integrand, Piecewise) and hasattr(integrand, 'cancel') and hasattr(integrand, 'is_Mul') and hasattr(integrand, 'args') and hasattr(integrand, 'has')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(integrand, 'cancel')                   ║
+# ║   requires: hasattr(integrand, 'is_Mul')                   ║
+# ║   requires: hasattr(integrand, 'args')                     ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _parts_rule : {Any | isinstance(integrand, (log, *inv...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -2894,9 +3860,12 @@ def mul_rule(integral: IntegralInfo):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?6 ✗15 VCs | 37.6ms                        ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | eabe57f7...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate._parts_rule","kind":"function","src_hash":"6a0edad9f1316ca0","in":{"base":"Any","pred":"isinstance(integrand, (log, *inverse_trig_functions)) and isinstance(u, log) and isinstance(integrand, Piecewise)"},"out":{"base":"tuple[Expr, Expr, Expr, Expr, Rule] | None"},"spec":{"lhs":"_parts_rule(int)","rhs":"internal helper behaves correctly","over":{"base":"Any","pred":"isinstance(integrand, (log, *inverse_trig_functions)) and isinstance(u, log) and isinstance(integrand, Piecewise)"},"name":"_parts_rule_correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"(log","pred":"isinstance(integrand, (log, *inverse_trig_functions))","path":{"lhs":"_parts_rule(x)","rhs":"internal helper behaves correctly","over":{"base":"(log","pred":"isinstance(integrand, (log, *inverse_trig_functions))"},"name":"_parts_rule_(log_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate._parts_rule_(log_correct","statement":"_parts_rule satisfies spec on (log inputs"},"trust":"LIBRARY"},{"name":"log","pred":"isinstance(u, log)","path":{"lhs":"_parts_rule(x)","rhs":"internal helper behaves correctly","over":{"base":"log","pred":"isinstance(u, log)"},"name":"_parts_rule_log_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate._parts_rule_log_correct","statement":"_parts_rule satisfies spec on log inputs"},"trust":"LIBRARY"},{"name":"Piecewise","pred":"isinstance(integrand, Piecewise)","path":{"lhs":"_parts_rule(x)","rhs":"internal helper behaves correctly","over":{"base":"Piecewise","pred":"isinstance(integrand, Piecewise)"},"name":"_parts_rule_Piecewise_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate._parts_rule_Piecewise_correct","statement":"_parts_rule satisfies spec on Piecewise inputs"},"trust":"LIBRARY"},{"name":"OrthogonalPolynomial","pred":"isinstance(dv, OrthogonalPolynomial)","path":{"lhs":"_parts_rule(x)","rhs":"internal helper behaves correctly","over":{"base":"OrthogonalPolynomial","pred":"isinstance(dv, OrthogonalPolynomial)"},"name":"_parts_rule_OrthogonalPolynomial_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate._parts_rule_OrthogonalPolynomial_correct","statement":"_parts_rule satisfies spec on OrthogonalPolynomial inputs"},"trust":"LIBRARY"},{"name":"(sin","pred":"isinstance(a, (sin, cos, exp))","path":{"lhs":"_parts_rule(x)","rhs":"internal helper behaves correctly","over":{"base":"(sin","pred":"isinstance(a, (sin, cos, exp))"},"name":"_parts_rule_(sin_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate._parts_rule_(sin_correct","statement":"_parts_rule satisfies spec on (sin inputs"},"trust":"LIBRARY"},{"name":"cls","pred":"isinstance(arg, cls)","path":{"lhs":"_parts_rule(x)","rhs":"internal helper behaves correctly","over":{"base":"cls","pred":"isinstance(arg, cls)"},"name":"_parts_rule_cls_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate._parts_rule_cls_correct","statement":"_parts_rule satisfies spec on cls inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":6,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"eabe57f79a0be359"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate._parts_rule","kind":"function","src_hash":"6a0edad9f1316ca0","in":{"base":"Any","pred":"isinstance(integrand, (log, *inverse_trig_functions)) and isinstance(u, log) and isinstance(integrand, Piecewise) and hasattr(integrand, 'cancel') and hasattr(integrand, 'is_Mul') and hasattr(integrand, 'args') and hasattr(integrand, 'has')"},"out":{"base":"tuple[Expr, Expr, Expr, Expr, Rule] | None"},"spec":{"lhs":"_parts_rule(integrand, symbol)","rhs":"<unspecified:_parts_rule>","over":{"base":"Any","pred":"isinstance(integrand, (log, *inverse_trig_functions)) and isinstance(u, log) and isinstance(integrand, Piecewise) and hasattr(integrand, 'cancel') and hasattr(integrand, 'is_Mul') and hasattr(integrand, 'args') and hasattr(integrand, 'has')"},"name":"_parts_rule_correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"(log","pred":"isinstance(integrand, (log, *inverse_trig_functions))","path":{"lhs":"_parts_rule(x)","rhs":"internal helper behaves correctly","over":{"base":"(log","pred":"isinstance(integrand, (log, *inverse_trig_functions))"},"name":"_parts_rule_(log_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate._parts_rule_(log_correct","statement":"_parts_rule satisfies spec on (log inputs"},"trust":"LIBRARY"},{"name":"log","pred":"isinstance(u, log)","path":{"lhs":"_parts_rule(x)","rhs":"internal helper behaves correctly","over":{"base":"log","pred":"isinstance(u, log)"},"name":"_parts_rule_log_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate._parts_rule_log_correct","statement":"_parts_rule satisfies spec on log inputs"},"trust":"LIBRARY"},{"name":"Piecewise","pred":"isinstance(integrand, Piecewise)","path":{"lhs":"_parts_rule(x)","rhs":"internal helper behaves correctly","over":{"base":"Piecewise","pred":"isinstance(integrand, Piecewise)"},"name":"_parts_rule_Piecewise_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate._parts_rule_Piecewise_correct","statement":"_parts_rule satisfies spec on Piecewise inputs"},"trust":"LIBRARY"},{"name":"OrthogonalPolynomial","pred":"isinstance(dv, OrthogonalPolynomial)","path":{"lhs":"_parts_rule(x)","rhs":"internal helper behaves correctly","over":{"base":"OrthogonalPolynomial","pred":"isinstance(dv, OrthogonalPolynomial)"},"name":"_parts_rule_OrthogonalPolynomial_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate._parts_rule_OrthogonalPolynomial_correct","statement":"_parts_rule satisfies spec on OrthogonalPolynomial inputs"},"trust":"LIBRARY"},{"name":"(sin","pred":"isinstance(a, (sin, cos, exp))","path":{"lhs":"_parts_rule(x)","rhs":"internal helper behaves correctly","over":{"base":"(sin","pred":"isinstance(a, (sin, cos, exp))"},"name":"_parts_rule_(sin_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate._parts_rule_(sin_correct","statement":"_parts_rule satisfies spec on (sin inputs"},"trust":"LIBRARY"},{"name":"cls","pred":"isinstance(arg, cls)","path":{"lhs":"_parts_rule(x)","rhs":"internal helper behaves correctly","over":{"base":"cls","pred":"isinstance(arg, cls)"},"name":"_parts_rule_cls_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate._parts_rule_cls_correct","statement":"_parts_rule satisfies spec on cls inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":6,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"eabe57f79a0be359","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(integrand, 'cancel')","hasattr(integrand, 'is_Mul')","hasattr(integrand, 'args')","hasattr(integrand, 'has')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["integrand.args","integrand.cancel","integrand.has","integrand.is_Mul"]}},"c4_verdict":{"valid":false,"n_vcs":23,"n_verified":2,"n_assumed":6,"n_failed":15,"trust_level":"LIBRARY_ASSUMED","compile_ms":37.6,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(integrand, (log, *inverse_trig_functions))', 'rule == pull_out_algebraic and (not u.is_polynomial(symbol))', 'rec_dv.is_polynomial(symbol) and degree(rec_dv, symbol) == 1', 'rule == pull_out_algebraic', 'rule == pull_out_algebraic and dv.args and all((isinstance(a, (sin, cos, exp)) for a in dv.args))', 'isinstance(u, log)', 'index < 2', 'dv.is_Derivative or dv.has(TrigonometricFunction) or isinstance(dv, OrthogonalPolynomial)'}, fibers={'OrthogonalPolynomial', 'Piecewise', '(sin', '(log', 'log', 'cls'})"]}}
 def _parts_rule(integrand, symbol) -> tuple[Expr, Expr, Expr, Expr, Rule] | None:
     # LIATE rule:
     # log, inverse trig, algebraic, trigonometric, exponential
@@ -2993,7 +3962,10 @@ def _parts_rule(integrand, symbol) -> tuple[Expr, Expr, Expr, Expr, Rule] | None
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(parts_rule(int), parts_rule produces the expected output) over {Any | isinstance(v, Integral) and isinstance(u, (sin, cos, exp, sinh, cosh))} ║
+# ║ Path(parts_rule(integral), <unspecified:parts_rule>) over {Any | isinstance(v, Integral) and isinstance(u, (sin, cos, exp, sinh, cosh))} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ parts_rule : {Any | isinstance(v, Integral) and isins...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -3006,9 +3978,12 @@ def _parts_rule(integrand, symbol) -> tuple[Expr, Expr, Expr, Expr, Rule] | None
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?2 ✗2 VCs | 4.8ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | aae42388...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.parts_rule","kind":"function","src_hash":"e166b0fb4994933e","in":{"base":"Any","pred":"isinstance(v, Integral) and isinstance(u, (sin, cos, exp, sinh, cosh))"},"out":{"base":"Any"},"spec":{"lhs":"parts_rule(int)","rhs":"parts_rule produces the expected output","over":{"base":"Any","pred":"isinstance(v, Integral) and isinstance(u, (sin, cos, exp, sinh, cosh))"},"name":"parts_rule_correct"},"guarantee":"parts_rule produces the expected output","fibers":[{"name":"Integral","pred":"isinstance(v, Integral)","path":{"lhs":"parts_rule(x)","rhs":"parts_rule produces the expected output","over":{"base":"Integral","pred":"isinstance(v, Integral)"},"name":"parts_rule_Integral_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.parts_rule_Integral_correct","statement":"parts_rule satisfies spec on Integral inputs"},"trust":"LIBRARY"},{"name":"(sin","pred":"isinstance(u, (sin, cos, exp, sinh, cosh))","path":{"lhs":"parts_rule(x)","rhs":"parts_rule produces the expected output","over":{"base":"(sin","pred":"isinstance(u, (sin, cos, exp, sinh, cosh))"},"name":"parts_rule_(sin_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.parts_rule_(sin_correct","statement":"parts_rule satisfies spec on (sin inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"aae42388455d993a"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.parts_rule","kind":"function","src_hash":"e166b0fb4994933e","in":{"base":"Any","pred":"isinstance(v, Integral) and isinstance(u, (sin, cos, exp, sinh, cosh))"},"out":{"base":"Any"},"spec":{"lhs":"parts_rule(integral)","rhs":"<unspecified:parts_rule>","over":{"base":"Any","pred":"isinstance(v, Integral) and isinstance(u, (sin, cos, exp, sinh, cosh))"},"name":"parts_rule_correct"},"guarantee":"parts_rule produces the expected output","fibers":[{"name":"Integral","pred":"isinstance(v, Integral)","path":{"lhs":"parts_rule(x)","rhs":"parts_rule produces the expected output","over":{"base":"Integral","pred":"isinstance(v, Integral)"},"name":"parts_rule_Integral_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.parts_rule_Integral_correct","statement":"parts_rule satisfies spec on Integral inputs"},"trust":"LIBRARY"},{"name":"(sin","pred":"isinstance(u, (sin, cos, exp, sinh, cosh))","path":{"lhs":"parts_rule(x)","rhs":"parts_rule produces the expected output","over":{"base":"(sin","pred":"isinstance(u, (sin, cos, exp, sinh, cosh))"},"name":"parts_rule_(sin_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.parts_rule_(sin_correct","statement":"parts_rule satisfies spec on (sin inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"aae42388455d993a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":1,"n_assumed":2,"n_failed":2,"trust_level":"LIBRARY_ASSUMED","compile_ms":4.8,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'_parts_u_cache[cachekey] > 2', 'constant != 1 and rule', 'coefficient == 1', 'isinstance(u, (sin, cos, exp, sinh, cosh))', 'isinstance(v, Integral)'}, fibers={'(sin', 'Integral'})"]}}
 def parts_rule(integral):
     integrand, symbol = integral
     constant, integrand = integrand.as_coeff_Mul()
@@ -3073,7 +4048,10 @@ def parts_rule(integral):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(trig_rule(int), trig_rule produces the expected output) over {Any | isinstance(integrand, tan) and isinstance(integrand, cot) and isinstance(integrand, sec)} ║
+# ║ Path(trig_rule(integral), <unspecified:trig_rule>) over {Any | isinstance(integrand, tan) and isinstance(integrand, cot) and isinstance(integrand, sec)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ trig_rule : {Any | isinstance(integrand, tan) and isi...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -3088,9 +4066,12 @@ def parts_rule(integral):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓7 ?4 ✗1 VCs | 4.2ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 9236eacb...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.trig_rule","kind":"function","src_hash":"52b15431c4a3eaef","in":{"base":"Any","pred":"isinstance(integrand, tan) and isinstance(integrand, cot) and isinstance(integrand, sec)"},"out":{"base":"Any"},"spec":{"lhs":"trig_rule(int)","rhs":"trig_rule produces the expected output","over":{"base":"Any","pred":"isinstance(integrand, tan) and isinstance(integrand, cot) and isinstance(integrand, sec)"},"name":"trig_rule_correct"},"guarantee":"trig_rule produces the expected output","fibers":[{"name":"tan","pred":"isinstance(integrand, tan)","path":{"lhs":"trig_rule(x)","rhs":"trig_rule produces the expected output","over":{"base":"tan","pred":"isinstance(integrand, tan)"},"name":"trig_rule_tan_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.trig_rule_tan_correct","statement":"trig_rule satisfies spec on tan inputs"},"trust":"LIBRARY"},{"name":"cot","pred":"isinstance(integrand, cot)","path":{"lhs":"trig_rule(x)","rhs":"trig_rule produces the expected output","over":{"base":"cot","pred":"isinstance(integrand, cot)"},"name":"trig_rule_cot_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.trig_rule_cot_correct","statement":"trig_rule satisfies spec on cot inputs"},"trust":"LIBRARY"},{"name":"sec","pred":"isinstance(integrand, sec)","path":{"lhs":"trig_rule(x)","rhs":"trig_rule produces the expected output","over":{"base":"sec","pred":"isinstance(integrand, sec)"},"name":"trig_rule_sec_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.trig_rule_sec_correct","statement":"trig_rule satisfies spec on sec inputs"},"trust":"LIBRARY"},{"name":"csc","pred":"isinstance(integrand, csc)","path":{"lhs":"trig_rule(x)","rhs":"trig_rule produces the expected output","over":{"base":"csc","pred":"isinstance(integrand, csc)"},"name":"trig_rule_csc_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.trig_rule_csc_correct","statement":"trig_rule satisfies spec on csc inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":4,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"9236eacb0a11d43d"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.trig_rule","kind":"function","src_hash":"52b15431c4a3eaef","in":{"base":"Any","pred":"isinstance(integrand, tan) and isinstance(integrand, cot) and isinstance(integrand, sec)"},"out":{"base":"Any"},"spec":{"lhs":"trig_rule(integral)","rhs":"<unspecified:trig_rule>","over":{"base":"Any","pred":"isinstance(integrand, tan) and isinstance(integrand, cot) and isinstance(integrand, sec)"},"name":"trig_rule_correct"},"guarantee":"trig_rule produces the expected output","fibers":[{"name":"tan","pred":"isinstance(integrand, tan)","path":{"lhs":"trig_rule(x)","rhs":"trig_rule produces the expected output","over":{"base":"tan","pred":"isinstance(integrand, tan)"},"name":"trig_rule_tan_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.trig_rule_tan_correct","statement":"trig_rule satisfies spec on tan inputs"},"trust":"LIBRARY"},{"name":"cot","pred":"isinstance(integrand, cot)","path":{"lhs":"trig_rule(x)","rhs":"trig_rule produces the expected output","over":{"base":"cot","pred":"isinstance(integrand, cot)"},"name":"trig_rule_cot_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.trig_rule_cot_correct","statement":"trig_rule satisfies spec on cot inputs"},"trust":"LIBRARY"},{"name":"sec","pred":"isinstance(integrand, sec)","path":{"lhs":"trig_rule(x)","rhs":"trig_rule produces the expected output","over":{"base":"sec","pred":"isinstance(integrand, sec)"},"name":"trig_rule_sec_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.trig_rule_sec_correct","statement":"trig_rule satisfies spec on sec inputs"},"trust":"LIBRARY"},{"name":"csc","pred":"isinstance(integrand, csc)","path":{"lhs":"trig_rule(x)","rhs":"trig_rule produces the expected output","over":{"base":"csc","pred":"isinstance(integrand, csc)"},"name":"trig_rule_csc_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.trig_rule_csc_correct","statement":"trig_rule satisfies spec on csc inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":4,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"9236eacb0a11d43d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":12,"n_verified":7,"n_assumed":4,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":4.2,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(integrand, csc)', 'integrand == sec(symbol) ** 2', 'isinstance(integrand, tan)', 'isinstance(integrand, cot)', 'integrand == sin(symbol)', 'integrand == cos(symbol)', 'isinstance(integrand, sec)', 'integrand == csc(symbol) ** 2'}, fibers={'cot', 'csc', 'tan', 'sec'})"]}}
 def trig_rule(integral):
     integrand, symbol = integral
     if integrand == sin(symbol):
@@ -3120,16 +4101,23 @@ def trig_rule(integral):
     return RewriteRule(integrand, symbol, rewritten, integral_steps(rewritten, symbol))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(trig_product_rule(int), trig_product_rule produces the expected output) over IntegralInfo ║
+# ║ Path(trig_product_rule(integral), <unspecified:trig_product_rule>) over {IntegralInfo | isinstance(integral, IntegralInfo)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ trig_product_rule : IntegralInfo → Any                     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(integral, IntegralInfo)             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ trig_product_rule : {IntegralInfo | isinstance(integr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e490ecc9ffba75cc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.trig_product_rule","kind":"function","src_hash":"ea2b236d87da48f4","in":{"base":"IntegralInfo"},"out":{"base":"Any"},"spec":{"lhs":"trig_product_rule(int)","rhs":"trig_product_rule produces the expected output","over":{"base":"IntegralInfo"},"name":"trig_product_rule_correct"},"guarantee":"trig_product_rule produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.trig_product_rule_correct","statement":"Path(trig_product_rule(x), trig_product_rule produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e490ecc9ffba75cc"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.trig_product_rule","kind":"function","src_hash":"ea2b236d87da48f4","in":{"base":"IntegralInfo","pred":"isinstance(integral, IntegralInfo)"},"out":{"base":"Any"},"spec":{"lhs":"trig_product_rule(integral)","rhs":"<unspecified:trig_product_rule>","over":{"base":"IntegralInfo","pred":"isinstance(integral, IntegralInfo)"},"name":"trig_product_rule_correct"},"guarantee":"trig_product_rule produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.trig_product_rule_correct","statement":"Path(trig_product_rule(x), trig_product_rule produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e490ecc9ffba75cc","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(integral, IntegralInfo)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def trig_product_rule(integral: IntegralInfo):
     integrand, symbol = integral
     if integrand == sec(symbol) * tan(symbol):
@@ -3139,16 +4127,22 @@ def trig_product_rule(integral: IntegralInfo):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(quadratic_denom_rule(int), quadratic_denom_rule produces the expected output) over Any ║
+# ║ Path(quadratic_denom_rule(integral), <unspecified:quadratic_denom_rule>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ quadratic_denom_rule : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.9ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c3d769960049342c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.quadratic_denom_rule","kind":"function","src_hash":"8d50516825bee8d3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"quadratic_denom_rule(int)","rhs":"quadratic_denom_rule produces the expected output","over":{"base":"Any"},"name":"quadratic_denom_rule_correct"},"guarantee":"quadratic_denom_rule produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.quadratic_denom_rule_correct","statement":"Path(quadratic_denom_rule(x), quadratic_denom_rule produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c3d769960049342c"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.quadratic_denom_rule","kind":"function","src_hash":"8d50516825bee8d3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"quadratic_denom_rule(integral)","rhs":"<unspecified:quadratic_denom_rule>","over":{"base":"Any"},"name":"quadratic_denom_rule_correct"},"guarantee":"quadratic_denom_rule produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.quadratic_denom_rule_correct","statement":"Path(quadratic_denom_rule(x), quadratic_denom_rule produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c3d769960049342c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.9,"verdict_class":"assumed","binding":true}}
 def quadratic_denom_rule(integral):
     integrand, symbol = integral
     a = Wild('a', exclude=[symbol])
@@ -3227,16 +4221,23 @@ def quadratic_denom_rule(integral):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sqrt_linear_rule(int), substitute common (a+b*x)**(1/n)) over IntegralInfo ║
+# ║ Path(sqrt_linear_rule(integral), <unspecified:sqrt_linear_rule>) over {IntegralInfo | isinstance(integral, IntegralInfo)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ sqrt_linear_rule : IntegralInfo → Any                      ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(integral, IntegralInfo)             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ sqrt_linear_rule : {IntegralInfo | isinstance(integra...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9f1f6b1295cf0e4e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.sqrt_linear_rule","kind":"function","src_hash":"bf681a1051e8682f","in":{"base":"IntegralInfo"},"out":{"base":"Any"},"spec":{"lhs":"sqrt_linear_rule(int)","rhs":"substitute common (a+b*x)**(1/n)","over":{"base":"IntegralInfo"},"name":"sqrt_linear_rule_correct"},"guarantee":"substitute common (a+b*x)**(1/n)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.sqrt_linear_rule_correct","statement":"Path(sqrt_linear_rule(x), substitute common (a+b*x)**(1/n))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9f1f6b1295cf0e4e"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.sqrt_linear_rule","kind":"function","src_hash":"bf681a1051e8682f","in":{"base":"IntegralInfo","pred":"isinstance(integral, IntegralInfo)"},"out":{"base":"Any"},"spec":{"lhs":"sqrt_linear_rule(integral)","rhs":"<unspecified:sqrt_linear_rule>","over":{"base":"IntegralInfo","pred":"isinstance(integral, IntegralInfo)"},"name":"sqrt_linear_rule_correct"},"guarantee":"substitute common (a+b*x)**(1/n)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.sqrt_linear_rule_correct","statement":"Path(sqrt_linear_rule(x), substitute common (a+b*x)**(1/n))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9f1f6b1295cf0e4e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(integral, IntegralInfo)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def sqrt_linear_rule(integral: IntegralInfo):
     """
     Substitute common (a+b*x)**(1/n)
@@ -3282,16 +4283,23 @@ def sqrt_linear_rule(integral: IntegralInfo):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sqrt_quadratic_rule(int), sqrt_quadratic_rule produces the expected output) over IntegralInfo ║
+# ║ Path(sqrt_quadratic_rule(integral, degenerate), <unspecified:sqrt_quadratic_rule>) over {IntegralInfo | isinstance(integral, IntegralInfo)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ sqrt_quadratic_rule : IntegralInfo → Any                   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(integral, IntegralInfo)             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ sqrt_quadratic_rule : {IntegralInfo | isinstance(inte...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.8ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9a20d3a18fb4c825  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.sqrt_quadratic_rule","kind":"function","src_hash":"8d22f68ee57132f9","in":{"base":"IntegralInfo"},"out":{"base":"Any"},"spec":{"lhs":"sqrt_quadratic_rule(int)","rhs":"sqrt_quadratic_rule produces the expected output","over":{"base":"IntegralInfo"},"name":"sqrt_quadratic_rule_correct"},"guarantee":"sqrt_quadratic_rule produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.sqrt_quadratic_rule_correct","statement":"Path(sqrt_quadratic_rule(x), sqrt_quadratic_rule produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9a20d3a18fb4c825"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.sqrt_quadratic_rule","kind":"function","src_hash":"8d22f68ee57132f9","in":{"base":"IntegralInfo","pred":"isinstance(integral, IntegralInfo)"},"out":{"base":"Any"},"spec":{"lhs":"sqrt_quadratic_rule(integral, degenerate)","rhs":"<unspecified:sqrt_quadratic_rule>","over":{"base":"IntegralInfo","pred":"isinstance(integral, IntegralInfo)"},"name":"sqrt_quadratic_rule_correct"},"guarantee":"sqrt_quadratic_rule produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.sqrt_quadratic_rule_correct","statement":"Path(sqrt_quadratic_rule(x), sqrt_quadratic_rule produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9a20d3a18fb4c825","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(integral, IntegralInfo)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"assumed","binding":true}}
 def sqrt_quadratic_rule(integral: IntegralInfo, degenerate=True):
     integrand, x = integral
     a = Wild('a', exclude=[x])
@@ -3360,7 +4368,11 @@ def sqrt_quadratic_rule(integral: IntegralInfo, degenerate=True):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(hyperbolic_rule(int), hyperbolic_rule produces the expected output) over {tuple[Expr, Symbol] | isinstance(integrand, HyperbolicFunction)} ║
+# ║ Path(hyperbolic_rule(integral), <unspecified:hyperbolic_rule>) over {tuple[Expr, Symbol] | isinstance(integrand, HyperbolicFunction) and isinstance(integral, tuple[Expr, Symbol])} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(integral, tuple[Expr, Symbol])      ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ hyperbolic_rule : {tuple[Expr, Symbol] | isinstance(i...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -3372,9 +4384,12 @@ def sqrt_quadratic_rule(integral: IntegralInfo, degenerate=True):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.5ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 072821b8...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.hyperbolic_rule","kind":"function","src_hash":"cba34985db492bb5","in":{"base":"tuple[Expr, Symbol]","pred":"isinstance(integrand, HyperbolicFunction)"},"out":{"base":"Any"},"spec":{"lhs":"hyperbolic_rule(int)","rhs":"hyperbolic_rule produces the expected output","over":{"base":"tuple[Expr, Symbol]","pred":"isinstance(integrand, HyperbolicFunction)"},"name":"hyperbolic_rule_correct"},"guarantee":"hyperbolic_rule produces the expected output","fibers":[{"name":"HyperbolicFunction","pred":"isinstance(integrand, HyperbolicFunction)","path":{"lhs":"hyperbolic_rule(x)","rhs":"hyperbolic_rule produces the expected output","over":{"base":"HyperbolicFunction","pred":"isinstance(integrand, HyperbolicFunction)"},"name":"hyperbolic_rule_HyperbolicFunction_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.hyperbolic_rule_HyperbolicFunction_correct","statement":"hyperbolic_rule satisfies spec on HyperbolicFunction inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"072821b88582a34c"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.hyperbolic_rule","kind":"function","src_hash":"cba34985db492bb5","in":{"base":"tuple[Expr, Symbol]","pred":"isinstance(integrand, HyperbolicFunction) and isinstance(integral, tuple[Expr, Symbol])"},"out":{"base":"Any"},"spec":{"lhs":"hyperbolic_rule(integral)","rhs":"<unspecified:hyperbolic_rule>","over":{"base":"tuple[Expr, Symbol]","pred":"isinstance(integrand, HyperbolicFunction) and isinstance(integral, tuple[Expr, Symbol])"},"name":"hyperbolic_rule_correct"},"guarantee":"hyperbolic_rule produces the expected output","fibers":[{"name":"HyperbolicFunction","pred":"isinstance(integrand, HyperbolicFunction)","path":{"lhs":"hyperbolic_rule(x)","rhs":"hyperbolic_rule produces the expected output","over":{"base":"HyperbolicFunction","pred":"isinstance(integrand, HyperbolicFunction)"},"name":"hyperbolic_rule_HyperbolicFunction_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.hyperbolic_rule_HyperbolicFunction_correct","statement":"hyperbolic_rule satisfies spec on HyperbolicFunction inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"072821b88582a34c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(integral, tuple[Expr, Symbol])"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.5,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'integrand.func == tanh', 'integrand.func == cosh', 'integrand.func == sech', 'integrand.func == sinh', 'integrand.func == csch', 'integrand.func == coth', 'isinstance(integrand, HyperbolicFunction) and integrand.args[0] == symbol'}, fibers={'HyperbolicFunction'})"]}}
 def hyperbolic_rule(integral: tuple[Expr, Symbol]):
     integrand, symbol = integral
     if isinstance(integrand, HyperbolicFunction) and integrand.args[0] == symbol:
@@ -3404,7 +4419,10 @@ def hyperbolic_rule(integral: tuple[Expr, Symbol]):
 
 @cacheit
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(make_wilds(sym), make_wilds produces the expected output) over {Any | isinstance(n, Integer)} ║
+# ║ Path(make_wilds(symbol), (a, b, m, n)) over {Any | isinstance(n, Integer)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (a, b, m, n)                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ make_wilds : {Any | isinstance(n, Integer)} → Any          ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -3416,9 +4434,12 @@ def hyperbolic_rule(integral: tuple[Expr, Symbol]):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 0.9ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 46ae80f1...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.make_wilds","kind":"function","src_hash":"2edc72605e52951c","in":{"base":"Any","pred":"isinstance(n, Integer)"},"out":{"base":"Any"},"spec":{"lhs":"make_wilds(sym)","rhs":"make_wilds produces the expected output","over":{"base":"Any","pred":"isinstance(n, Integer)"},"name":"make_wilds_correct"},"guarantee":"make_wilds produces the expected output","fibers":[{"name":"Integer","pred":"isinstance(n, Integer)","path":{"lhs":"make_wilds(x)","rhs":"make_wilds produces the expected output","over":{"base":"Integer","pred":"isinstance(n, Integer)"},"name":"make_wilds_Integer_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.make_wilds_Integer_correct","statement":"make_wilds satisfies spec on Integer inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"46ae80f1a068d6df"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.make_wilds","kind":"function","src_hash":"2edc72605e52951c","in":{"base":"Any","pred":"isinstance(n, Integer)"},"out":{"base":"Any"},"spec":{"lhs":"make_wilds(symbol)","rhs":"(a, b, m, n)","over":{"base":"Any","pred":"isinstance(n, Integer)"},"name":"make_wilds_correct"},"guarantee":"returns (a, b, m, n)","fibers":[{"name":"Integer","pred":"isinstance(n, Integer)","path":{"lhs":"make_wilds(x)","rhs":"returns (a, b, m, n)","over":{"base":"Integer","pred":"isinstance(n, Integer)"},"name":"make_wilds_Integer_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.make_wilds_Integer_correct","statement":"make_wilds satisfies spec on Integer inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"46ae80f1a068d6df","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(a, b, m, n)","pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.9,"verdict_class":"failed","binding":true}}
 def make_wilds(symbol):
     a = Wild('a', exclude=[symbol])
     b = Wild('b', exclude=[symbol])
@@ -3429,16 +4450,22 @@ def make_wilds(symbol):
 
 @cacheit
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sincos_pattern(sym), sincos_pattern produces the expected output) over Any ║
+# ║ Path(sincos_pattern(symbol), (pattern, a, b, m, n)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (pattern, a, b, m, n)                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ sincos_pattern : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6fbad7e154ee5a3b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 98654ad071749700  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.sincos_pattern","kind":"function","src_hash":"04145fca8d899c8e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sincos_pattern(sym)","rhs":"sincos_pattern produces the expected output","over":{"base":"Any"},"name":"sincos_pattern_correct"},"guarantee":"sincos_pattern produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.sincos_pattern_correct","statement":"Path(sincos_pattern(x), sincos_pattern produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6fbad7e154ee5a3b"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.sincos_pattern","kind":"function","src_hash":"04145fca8d899c8e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sincos_pattern(symbol)","rhs":"(pattern, a, b, m, n)","over":{"base":"Any"},"name":"sincos_pattern_correct"},"guarantee":"returns (pattern, a, b, m, n)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.sincos_pattern_correct","statement":"Path(sincos_pattern(x), returns (pattern, a, b, m, n))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"98654ad071749700","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(pattern, a, b, m, n)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def sincos_pattern(symbol):
     a, b, m, n = make_wilds(symbol)
     pattern = sin(a*symbol)**m * cos(b*symbol)**n
@@ -3447,16 +4474,22 @@ def sincos_pattern(symbol):
 
 @cacheit
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(tansec_pattern(sym), tansec_pattern produces the expected output) over Any ║
+# ║ Path(tansec_pattern(symbol), (pattern, a, b, m, n)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (pattern, a, b, m, n)                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ tansec_pattern : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f66415b3bdacac6c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 90584502bdb2b217  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.tansec_pattern","kind":"function","src_hash":"c851b036542b5bac","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"tansec_pattern(sym)","rhs":"tansec_pattern produces the expected output","over":{"base":"Any"},"name":"tansec_pattern_correct"},"guarantee":"tansec_pattern produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.tansec_pattern_correct","statement":"Path(tansec_pattern(x), tansec_pattern produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f66415b3bdacac6c"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.tansec_pattern","kind":"function","src_hash":"c851b036542b5bac","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"tansec_pattern(symbol)","rhs":"(pattern, a, b, m, n)","over":{"base":"Any"},"name":"tansec_pattern_correct"},"guarantee":"returns (pattern, a, b, m, n)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.tansec_pattern_correct","statement":"Path(tansec_pattern(x), returns (pattern, a, b, m, n))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"90584502bdb2b217","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(pattern, a, b, m, n)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def tansec_pattern(symbol):
     a, b, m, n = make_wilds(symbol)
     pattern = tan(a*symbol)**m * sec(b*symbol)**n
@@ -3465,16 +4498,22 @@ def tansec_pattern(symbol):
 
 @cacheit
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(cotcsc_pattern(sym), cotcsc_pattern produces the expected output) over Any ║
+# ║ Path(cotcsc_pattern(symbol), (pattern, a, b, m, n)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (pattern, a, b, m, n)                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ cotcsc_pattern : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8115fd0187c85123  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4a1f020adfaae3bc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.cotcsc_pattern","kind":"function","src_hash":"34cbd12e6149b34f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"cotcsc_pattern(sym)","rhs":"cotcsc_pattern produces the expected output","over":{"base":"Any"},"name":"cotcsc_pattern_correct"},"guarantee":"cotcsc_pattern produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.cotcsc_pattern_correct","statement":"Path(cotcsc_pattern(x), cotcsc_pattern produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8115fd0187c85123"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.cotcsc_pattern","kind":"function","src_hash":"34cbd12e6149b34f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"cotcsc_pattern(symbol)","rhs":"(pattern, a, b, m, n)","over":{"base":"Any"},"name":"cotcsc_pattern_correct"},"guarantee":"returns (pattern, a, b, m, n)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.cotcsc_pattern_correct","statement":"Path(cotcsc_pattern(x), returns (pattern, a, b, m, n))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4a1f020adfaae3bc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(pattern, a, b, m, n)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def cotcsc_pattern(symbol):
     a, b, m, n = make_wilds(symbol)
     pattern = cot(a*symbol)**m * csc(b*symbol)**n
@@ -3483,16 +4522,22 @@ def cotcsc_pattern(symbol):
 
 @cacheit
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(heaviside_pattern(sym), heaviside_pattern produces the expected output) over Any ║
+# ║ Path(heaviside_pattern(symbol), (pattern, m, b, g)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (pattern, m, b, g)                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ heaviside_pattern : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4fa2374b7f6fa279  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6ff978eb3d07c75f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.heaviside_pattern","kind":"function","src_hash":"9966ebf89729f414","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"heaviside_pattern(sym)","rhs":"heaviside_pattern produces the expected output","over":{"base":"Any"},"name":"heaviside_pattern_correct"},"guarantee":"heaviside_pattern produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.heaviside_pattern_correct","statement":"Path(heaviside_pattern(x), heaviside_pattern produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4fa2374b7f6fa279"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.heaviside_pattern","kind":"function","src_hash":"9966ebf89729f414","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"heaviside_pattern(symbol)","rhs":"(pattern, m, b, g)","over":{"base":"Any"},"name":"heaviside_pattern_correct"},"guarantee":"returns (pattern, m, b, g)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.heaviside_pattern_correct","statement":"Path(heaviside_pattern(x), returns (pattern, m, b, g))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6ff978eb3d07c75f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(pattern, m, b, g)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def heaviside_pattern(symbol):
     m = Wild('m', exclude=[symbol])
     b = Wild('b', exclude=[symbol])
@@ -3502,32 +4547,44 @@ def heaviside_pattern(symbol):
     return pattern, m, b, g
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(uncurry(fun), uncurry produces the expected output) over Any ║
+# ║ Path(uncurry(func), <unspecified:uncurry>) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ uncurry : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ec2c4ed0c314d04c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.uncurry","kind":"function","src_hash":"8c8a65212eb545dd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"uncurry(fun)","rhs":"uncurry produces the expected output","over":{"base":"Any"},"name":"uncurry_correct"},"guarantee":"uncurry produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.uncurry_correct","statement":"Path(uncurry(x), uncurry produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ec2c4ed0c314d04c"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.uncurry","kind":"function","src_hash":"8c8a65212eb545dd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"uncurry(func)","rhs":"<unspecified:uncurry>","over":{"base":"Any"},"name":"uncurry_correct"},"guarantee":"uncurry produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.uncurry_correct","statement":"Path(uncurry(x), uncurry produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ec2c4ed0c314d04c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def uncurry(func):
     def uncurry_rl(args):
         return func(*args)
     return uncurry_rl
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(trig_rewriter(rew), id) over Any                      ║
+# ║ Path(trig_rewriter(rewrite), id) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ trig_rewriter : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | ac9116ce91f35d95   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.trig_rewriter","kind":"function","src_hash":"5f3dc22b11eb7a34","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"trig_rewriter(rew)","rhs":"trig_rewriter produces the expected output","over":{"base":"Any"},"name":"trig_rewriter_correct","kind":"composition"},"guarantee":"trig_rewriter produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"RewriteRule","by":"library_axiom"},{"fn":"integral_steps","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ac9116ce91f35d95"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.trig_rewriter","kind":"function","src_hash":"5f3dc22b11eb7a34","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"trig_rewriter(rewrite)","rhs":"<unspecified:trig_rewriter>","over":{"base":"Any"},"name":"trig_rewriter_correct","kind":"composition"},"guarantee":"trig_rewriter produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"RewriteRule","by":"library_axiom"},{"fn":"integral_steps","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ac9116ce91f35d95","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def trig_rewriter(rewrite):
     def trig_rewriter_rl(args):
         a, b, m, n, integrand, symbol = args
@@ -3587,16 +4644,22 @@ cotcsc_cotodd = trig_rewriter(
                                     csc(b*symbol) ** n ))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(trig_sincos_rule(int), trig_sincos_rule produces the expected output) over Any ║
+# ║ Path(trig_sincos_rule(integral), <unspecified:trig_sincos_rule>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ trig_sincos_rule : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d802bcd872a70f75  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.trig_sincos_rule","kind":"function","src_hash":"9a017ac399293e8f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"trig_sincos_rule(int)","rhs":"trig_sincos_rule produces the expected output","over":{"base":"Any"},"name":"trig_sincos_rule_correct"},"guarantee":"trig_sincos_rule produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.trig_sincos_rule_correct","statement":"Path(trig_sincos_rule(x), trig_sincos_rule produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d802bcd872a70f75"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.trig_sincos_rule","kind":"function","src_hash":"9a017ac399293e8f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"trig_sincos_rule(integral)","rhs":"<unspecified:trig_sincos_rule>","over":{"base":"Any"},"name":"trig_sincos_rule_correct"},"guarantee":"trig_sincos_rule produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.trig_sincos_rule_correct","statement":"Path(trig_sincos_rule(x), trig_sincos_rule produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d802bcd872a70f75","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def trig_sincos_rule(integral):
     integrand, symbol = integral
 
@@ -3615,16 +4678,22 @@ def trig_sincos_rule(integral):
             [integrand, symbol]))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(trig_tansec_rule(int), trig_tansec_rule produces the expected output) over Any ║
+# ║ Path(trig_tansec_rule(integral), <unspecified:trig_tansec_rule>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ trig_tansec_rule : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c532e6ffc10e7be4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.trig_tansec_rule","kind":"function","src_hash":"3bfb3140b3d81439","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"trig_tansec_rule(int)","rhs":"trig_tansec_rule produces the expected output","over":{"base":"Any"},"name":"trig_tansec_rule_correct"},"guarantee":"trig_tansec_rule produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.trig_tansec_rule_correct","statement":"Path(trig_tansec_rule(x), trig_tansec_rule produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c532e6ffc10e7be4"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.trig_tansec_rule","kind":"function","src_hash":"3bfb3140b3d81439","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"trig_tansec_rule(integral)","rhs":"<unspecified:trig_tansec_rule>","over":{"base":"Any"},"name":"trig_tansec_rule_correct"},"guarantee":"trig_tansec_rule produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.trig_tansec_rule_correct","statement":"Path(trig_tansec_rule(x), trig_tansec_rule produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c532e6ffc10e7be4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def trig_tansec_rule(integral):
     integrand, symbol = integral
 
@@ -3647,16 +4716,22 @@ def trig_tansec_rule(integral):
             [integrand, symbol]))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(trig_cotcsc_rule(int), trig_cotcsc_rule produces the expected output) over Any ║
+# ║ Path(trig_cotcsc_rule(integral), multiplexer({cotcsc_cotodd_condition: cotcsc_cotodd, cotcsc_csceven_condition: cotcsc_csceven})(tuple([match.get(i, S.Zero) for i in (a, b, m, n)] + [integrand, symbol]))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  multiplexer({cotcsc_cotodd_condition: cot...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ trig_cotcsc_rule : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 95696fda08b35060  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 404c35630cc1443e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.trig_cotcsc_rule","kind":"function","src_hash":"0f33347d0c3063a2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"trig_cotcsc_rule(int)","rhs":"trig_cotcsc_rule produces the expected output","over":{"base":"Any"},"name":"trig_cotcsc_rule_correct"},"guarantee":"trig_cotcsc_rule produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.trig_cotcsc_rule_correct","statement":"Path(trig_cotcsc_rule(x), trig_cotcsc_rule produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"95696fda08b35060"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.trig_cotcsc_rule","kind":"function","src_hash":"0f33347d0c3063a2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"trig_cotcsc_rule(integral)","rhs":"multiplexer({cotcsc_cotodd_condition: cotcsc_cotodd, cotcsc_csceven_condition: cotcsc_csceven})(tuple([match.get(i, S.Zero) for i in (a, b, m, n)] + [integrand, symbol]))","over":{"base":"Any"},"name":"trig_cotcsc_rule_correct"},"guarantee":"returns multiplexer({cotcsc_cotodd_condition: cotcsc_cotodd, cotcsc_csceven_condition: cotcsc_csceven})(tuple([match.get(i, S.Zero) for i in (a, b, m, n)] + [integrand, symbol]))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.trig_cotcsc_rule_correct","statement":"Path(trig_cotcsc_rule(x), returns multiplexer({cotcsc_cotodd_condition: cotcsc_cotodd, cotcsc_csceven_condition: cotcsc_csceven})(tuple([match.get(i, S.Zero) for i in (a, b, m, n)] + [integrand, symbol])))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"404c35630cc1443e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"multiplexer({cotcsc_cotodd_condition: cotcsc_cotodd, cotcsc_csceven_condition: cotcsc_csceven})(tuple([match.get(i, S.Zero) for i in (a, b, m, n)] + [integrand, symbol]))","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def trig_cotcsc_rule(integral):
     integrand, symbol = integral
     integrand = integrand.subs({
@@ -3679,16 +4754,22 @@ def trig_cotcsc_rule(integral):
             [integrand, symbol]))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(trig_sindouble_rule(int), trig_sindouble_rule produces the expected output) over Any ║
+# ║ Path(trig_sindouble_rule(integral), integral_steps(integrand * sin_double, symbol)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  integral_steps(integrand * sin_double, sy...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ trig_sindouble_rule : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1e3d9f0e93d0752e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aff1797cb446e0b6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.trig_sindouble_rule","kind":"function","src_hash":"2767fa547bbf6368","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"trig_sindouble_rule(int)","rhs":"trig_sindouble_rule produces the expected output","over":{"base":"Any"},"name":"trig_sindouble_rule_correct"},"guarantee":"trig_sindouble_rule produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.trig_sindouble_rule_correct","statement":"Path(trig_sindouble_rule(x), trig_sindouble_rule produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1e3d9f0e93d0752e"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.trig_sindouble_rule","kind":"function","src_hash":"2767fa547bbf6368","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"trig_sindouble_rule(integral)","rhs":"integral_steps(integrand * sin_double, symbol)","over":{"base":"Any"},"name":"trig_sindouble_rule_correct"},"guarantee":"returns integral_steps(integrand * sin_double, symbol)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.trig_sindouble_rule_correct","statement":"Path(trig_sindouble_rule(x), returns integral_steps(integrand * sin_double, symbol))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aff1797cb446e0b6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"integral_steps(integrand * sin_double, symbol)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def trig_sindouble_rule(integral):
     integrand, symbol = integral
     a = Wild('a', exclude=[sin(2*symbol)])
@@ -3698,16 +4779,22 @@ def trig_sindouble_rule(integral):
         return integral_steps(integrand * sin_double, symbol)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(trig_powers_products_rule(int), id) over Any          ║
+# ║ Path(trig_powers_products_rule(integral), id) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  do_one(null_safe(trig_sincos_rule), null_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ trig_powers_products_rule : Any → Any                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 95f9d309ebf08f35   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.trig_powers_products_rule","kind":"function","src_hash":"e8b17462688e2d0d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"trig_powers_products_rule(int)","rhs":"trig_powers_products_rule produces the expected output","over":{"base":"Any"},"name":"trig_powers_products_rule_correct","kind":"composition"},"guarantee":"trig_powers_products_rule produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"do_one","by":"library_axiom"},{"fn":"null_safe","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"95f9d309ebf08f35"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.trig_powers_products_rule","kind":"function","src_hash":"e8b17462688e2d0d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"trig_powers_products_rule(integral)","rhs":"do_one(null_safe(trig_sincos_rule), null_safe(trig_tansec_rule), null_safe(trig_cotcsc_rule), null_safe(trig_sindouble_rule))(integral)","over":{"base":"Any"},"name":"trig_powers_products_rule_correct","kind":"composition"},"guarantee":"returns do_one(null_safe(trig_sincos_rule), null_safe(trig_tansec_rule), null_safe(trig_cotcsc_rule), null_safe(trig_sindouble_rule))(integral)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"do_one","by":"library_axiom"},{"fn":"null_safe","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"95f9d309ebf08f35","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"do_one(null_safe(trig_sincos_rule), null_safe(trig_tansec_rule), null_safe(trig_cotcsc_rule), null_safe(trig_sindouble_rule))(integral)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def trig_powers_products_rule(integral):
     return do_one(null_safe(trig_sincos_rule),
                   null_safe(trig_tansec_rule),
@@ -3715,16 +4802,22 @@ def trig_powers_products_rule(integral):
                   null_safe(trig_sindouble_rule))(integral)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(trig_substitution_rule(int), trig_substitution_rule produces the expected output) over Any ║
+# ║ Path(trig_substitution_rule(integral), TrigSubstitutionRule(integrand, symbol, theta, x_func, replaced, substep, restriction)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  TrigSubstitutionRule(integrand, symbol, t...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ trig_substitution_rule : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a86759d4ab763657  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 51739d8cfb0ef949  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.trig_substitution_rule","kind":"function","src_hash":"1f28fa3eea9c1190","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"trig_substitution_rule(int)","rhs":"trig_substitution_rule produces the expected output","over":{"base":"Any"},"name":"trig_substitution_rule_correct"},"guarantee":"trig_substitution_rule produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.trig_substitution_rule_correct","statement":"Path(trig_substitution_rule(x), trig_substitution_rule produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a86759d4ab763657"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.trig_substitution_rule","kind":"function","src_hash":"1f28fa3eea9c1190","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"trig_substitution_rule(integral)","rhs":"TrigSubstitutionRule(integrand, symbol, theta, x_func, replaced, substep, restriction)","over":{"base":"Any"},"name":"trig_substitution_rule_correct"},"guarantee":"returns TrigSubstitutionRule(integrand, symbol, theta, x_func, replaced, substep, restriction)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.trig_substitution_rule_correct","statement":"Path(trig_substitution_rule(x), returns TrigSubstitutionRule(integrand, symbol, theta, x_func, replaced, substep, restriction))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"51739d8cfb0ef949","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"TrigSubstitutionRule(integrand, symbol, theta, x_func, replaced, substep, restriction)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def trig_substitution_rule(integral):
     integrand, symbol = integral
     A = Wild('a', exclude=[0, symbol])
@@ -3786,16 +4879,22 @@ def trig_substitution_rule(integral):
                         theta, x_func, replaced, substep, restriction)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(heaviside_rule(int), heaviside_rule produces the expected output) over Any ║
+# ║ Path(heaviside_rule(integral), HeavisideRule(integrand, symbol, m * symbol + b, -b / m, substep)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  HeavisideRule(integrand, symbol, m * symb...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ heaviside_rule : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 09db767dfd818e2e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1579cf7a0eaeecf9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.heaviside_rule","kind":"function","src_hash":"13f09c8335c317fd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"heaviside_rule(int)","rhs":"heaviside_rule produces the expected output","over":{"base":"Any"},"name":"heaviside_rule_correct"},"guarantee":"heaviside_rule produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.heaviside_rule_correct","statement":"Path(heaviside_rule(x), heaviside_rule produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"09db767dfd818e2e"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.heaviside_rule","kind":"function","src_hash":"13f09c8335c317fd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"heaviside_rule(integral)","rhs":"HeavisideRule(integrand, symbol, m * symbol + b, -b / m, substep)","over":{"base":"Any"},"name":"heaviside_rule_correct"},"guarantee":"returns HeavisideRule(integrand, symbol, m * symbol + b, -b / m, substep)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.heaviside_rule_correct","statement":"Path(heaviside_rule(x), returns HeavisideRule(integrand, symbol, m * symbol + b, -b / m, substep))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1579cf7a0eaeecf9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"HeavisideRule(integrand, symbol, m * symbol + b, -b / m, substep)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def heaviside_rule(integral):
     integrand, symbol = integral
     pattern, m, b, g = heaviside_pattern(symbol)
@@ -3808,16 +4907,23 @@ def heaviside_rule(integral):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dirac_delta_rule(int), id) over IntegralInfo          ║
+# ║ Path(dirac_delta_rule(integral), id) over {IntegralInfo | isinstance(integral, IntegralInfo)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dirac_delta_rule : IntegralInfo → Any                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(integral, IntegralInfo)             ║
+# ║   returns:  _add_degenerate_step(generic_cond, generi...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dirac_delta_rule : {IntegralInfo | isinstance(integra...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 351b274d6b0094d0   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.dirac_delta_rule","kind":"function","src_hash":"16c96fb125dbb98f","in":{"base":"IntegralInfo"},"out":{"base":"Any"},"spec":{"lhs":"dirac_delta_rule(int)","rhs":"dirac_delta_rule produces the expected output","over":{"base":"IntegralInfo"},"name":"dirac_delta_rule_correct","kind":"composition"},"guarantee":"dirac_delta_rule produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Wild","by":"library_axiom"},{"fn":"Wild","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"351b274d6b0094d0"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.dirac_delta_rule","kind":"function","src_hash":"16c96fb125dbb98f","in":{"base":"IntegralInfo","pred":"isinstance(integral, IntegralInfo)"},"out":{"base":"Any"},"spec":{"lhs":"dirac_delta_rule(integral)","rhs":"_add_degenerate_step(generic_cond, generic_step, degenerate_step)","over":{"base":"IntegralInfo","pred":"isinstance(integral, IntegralInfo)"},"name":"dirac_delta_rule_correct","kind":"composition"},"guarantee":"returns _add_degenerate_step(generic_cond, generic_step, degenerate_step)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Wild","by":"library_axiom"},{"fn":"Wild","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"351b274d6b0094d0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(integral, IntegralInfo)"],"returns_expr":"_add_degenerate_step(generic_cond, generic_step, degenerate_step)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def dirac_delta_rule(integral: IntegralInfo):
     integrand, x = integral
     if len(integrand.args) == 1:
@@ -3841,7 +4947,10 @@ def dirac_delta_rule(integral: IntegralInfo):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(substitution_rule(int), substitution_rule produces the expected output) over {Any | isinstance(denom, Mul)} ║
+# ║ Path(substitution_rule(integral), <unspecified:substitution_rule>) over {Any | isinstance(denom, Mul)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ substitution_rule : {Any | isinstance(denom, Mul)} → Any   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -3853,9 +4962,12 @@ def dirac_delta_rule(integral: IntegralInfo):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.5ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | d1df5b20...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.substitution_rule","kind":"function","src_hash":"c417a102d3d7097f","in":{"base":"Any","pred":"isinstance(denom, Mul)"},"out":{"base":"Any"},"spec":{"lhs":"substitution_rule(int)","rhs":"substitution_rule produces the expected output","over":{"base":"Any","pred":"isinstance(denom, Mul)"},"name":"substitution_rule_correct"},"guarantee":"substitution_rule produces the expected output","fibers":[{"name":"Mul","pred":"isinstance(denom, Mul)","path":{"lhs":"substitution_rule(x)","rhs":"substitution_rule produces the expected output","over":{"base":"Mul","pred":"isinstance(denom, Mul)"},"name":"substitution_rule_Mul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.substitution_rule_Mul_correct","statement":"substitution_rule satisfies spec on Mul inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"d1df5b20c011772a"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.substitution_rule","kind":"function","src_hash":"c417a102d3d7097f","in":{"base":"Any","pred":"isinstance(denom, Mul)"},"out":{"base":"Any"},"spec":{"lhs":"substitution_rule(integral)","rhs":"<unspecified:substitution_rule>","over":{"base":"Any","pred":"isinstance(denom, Mul)"},"name":"substitution_rule_correct"},"guarantee":"substitution_rule produces the expected output","fibers":[{"name":"Mul","pred":"isinstance(denom, Mul)","path":{"lhs":"substitution_rule(x)","rhs":"substitution_rule produces the expected output","over":{"base":"Mul","pred":"isinstance(denom, Mul)"},"name":"substitution_rule_Mul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.substitution_rule_Mul_correct","statement":"substitution_rule satisfies spec on Mul inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"d1df5b20c011772a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.5,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'len(ways) > 1', 'isinstance(denom, Mul)', 'simplify(c - 1) != 0'}, fibers={'Mul'})"]}}
 def substitution_rule(integral):
     integrand, symbol = integral
 
@@ -3929,16 +5041,24 @@ trig_expand_rule = rewriter(
     lambda integrand, symbol: integrand.expand(trig=True))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(derivative_rule(int), derivative_rule produces the expected output) over Any ║
+# ║ Path(derivative_rule(integral), <unspecified:derivative_rule>) over {Any | hasattr(integral, 'symbol')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ derivative_rule : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(integral, 'symbol')                    ║
+# ║   fiber[case_0]: integral.symbol in integrand_variables    ║
+# ║   fiber[case_1]: not (integral.symbol in integrand_va...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ derivative_rule : {Any | hasattr(integral, 'symbol')}...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 17725a793b7d1434  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b5f6067ffbbd4095  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.derivative_rule","kind":"function","src_hash":"0bf7293e3c0cc76a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"derivative_rule(int)","rhs":"derivative_rule produces the expected output","over":{"base":"Any"},"name":"derivative_rule_correct"},"guarantee":"derivative_rule produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.derivative_rule_correct","statement":"Path(derivative_rule(x), derivative_rule produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"17725a793b7d1434"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.derivative_rule","kind":"function","src_hash":"0bf7293e3c0cc76a","in":{"base":"Any","pred":"hasattr(integral, 'symbol')"},"out":{"base":"Any"},"spec":{"lhs":"derivative_rule(integral)","rhs":"<unspecified:derivative_rule>","over":{"base":"Any","pred":"hasattr(integral, 'symbol')"},"name":"derivative_rule_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.derivative_rule_correct","statement":"Path(derivative_rule(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b5f6067ffbbd4095","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(integral, 'symbol')"],"fibers":[{"name":"case_0","guard":"integral.symbol in integrand_variables","ensures":[],"decidability":"library"},{"name":"case_1","guard":"not (integral.symbol in integrand_variables)","ensures":["result == ConstantRule(*integral)"],"decidability":"library","returns_expr":"ConstantRule(*integral)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["integral.symbol"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def derivative_rule(integral):
     integrand = integral[0]
     diff_variables = integrand.variables
@@ -3954,16 +5074,22 @@ def derivative_rule(integral):
         return ConstantRule(*integral)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rewrites_rule(int), id) over Any                      ║
+# ║ Path(rewrites_rule(integral), id) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  RewriteRule(integrand, symbol, rewritten,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ rewrites_rule : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 9a8fa7730ad9de45   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.rewrites_rule","kind":"function","src_hash":"c95cc46e6ce9241f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rewrites_rule(int)","rhs":"rewrites_rule produces the expected output","over":{"base":"Any"},"name":"rewrites_rule_correct","kind":"composition"},"guarantee":"rewrites_rule produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"RewriteRule","by":"library_axiom"},{"fn":"integral_steps","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9a8fa7730ad9de45"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.rewrites_rule","kind":"function","src_hash":"c95cc46e6ce9241f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rewrites_rule(integral)","rhs":"RewriteRule(integrand, symbol, rewritten, integral_steps(rewritten, symbol))","over":{"base":"Any"},"name":"rewrites_rule_correct","kind":"composition"},"guarantee":"returns RewriteRule(integrand, symbol, rewritten, integral_steps(rewritten, symbol))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"RewriteRule","by":"library_axiom"},{"fn":"integral_steps","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9a8fa7730ad9de45","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"RewriteRule(integrand, symbol, rewritten, integral_steps(rewritten, symbol))","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def rewrites_rule(integral):
     integrand, symbol = integral
 
@@ -3972,16 +5098,22 @@ def rewrites_rule(integral):
         return RewriteRule(integrand, symbol, rewritten, integral_steps(rewritten, symbol))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(fallback_rule(int), fallback_rule produces the expected output) over Any ║
+# ║ Path(fallback_rule(integral), DontKnowRule(*integral)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  DontKnowRule(*integral)                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ fallback_rule : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e7fd9b19c2f10659           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.fallback_rule","kind":"function","src_hash":"3df1e16b9a7a1c79","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fallback_rule(int)","rhs":"fallback_rule produces the expected output","over":{"base":"Any"},"name":"fallback_rule_correct"},"guarantee":"fallback_rule produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e7fd9b19c2f10659"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.fallback_rule","kind":"function","src_hash":"3df1e16b9a7a1c79","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fallback_rule(integral)","rhs":"DontKnowRule(*integral)","over":{"base":"Any"},"name":"fallback_rule_correct"},"guarantee":"returns DontKnowRule(*integral)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e7fd9b19c2f10659","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"DontKnowRule(*integral)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def fallback_rule(integral):
     return DontKnowRule(*integral)
 
@@ -3993,9 +5125,14 @@ _parts_u_cache: dict[Expr, int] = defaultdict(int)
 _cache_dummy = Dummy("z")
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(integral_steps(int), returns the steps needed to compute an integral) over {Any | isinstance(integrand, cls)} ║
+# ║ Path(integral_steps(integrand, symbol, **options), <unspecified:integral_steps>) over {Any | isinstance(integrand, cls) and hasattr(integrand, 'xreplace') and hasattr(integrand, 'free_symbols')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ integral_steps : {Any | isinstance(integrand, cls)} →...   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(integrand, 'xreplace')                 ║
+# ║   requires: hasattr(integrand, 'free_symbols')             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ integral_steps : {Any | isinstance(integrand, cls) an...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   cls: {isinstance(integrand, cls)} → library_axiom        ║
@@ -4005,9 +5142,12 @@ _cache_dummy = Dummy("z")
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.6ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 610e21e7...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.integral_steps","kind":"function","src_hash":"bd0164afbd32bcd5","in":{"base":"Any","pred":"isinstance(integrand, cls)"},"out":{"base":"Any"},"spec":{"lhs":"integral_steps(int)","rhs":"returns the steps needed to compute an integral","over":{"base":"Any","pred":"isinstance(integrand, cls)"},"name":"integral_steps_correct"},"guarantee":"returns the steps needed to compute an integral","fibers":[{"name":"cls","pred":"isinstance(integrand, cls)","path":{"lhs":"integral_steps(x)","rhs":"returns the steps needed to compute an integral","over":{"base":"cls","pred":"isinstance(integrand, cls)"},"name":"integral_steps_cls_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.integral_steps_cls_correct","statement":"integral_steps satisfies spec on cls inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"610e21e74973bc9f"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.integral_steps","kind":"function","src_hash":"bd0164afbd32bcd5","in":{"base":"Any","pred":"isinstance(integrand, cls) and hasattr(integrand, 'xreplace') and hasattr(integrand, 'free_symbols')"},"out":{"base":"Any"},"spec":{"lhs":"integral_steps(integrand, symbol, **options)","rhs":"<unspecified:integral_steps>","over":{"base":"Any","pred":"isinstance(integrand, cls) and hasattr(integrand, 'xreplace') and hasattr(integrand, 'free_symbols')"},"name":"integral_steps_correct"},"guarantee":"returns the steps needed to compute an integral","fibers":[{"name":"cls","pred":"isinstance(integrand, cls)","path":{"lhs":"integral_steps(x)","rhs":"returns the steps needed to compute an integral","over":{"base":"cls","pred":"isinstance(integrand, cls)"},"name":"integral_steps_cls_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.integral_steps_cls_correct","statement":"integral_steps satisfies spec on cls inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"610e21e74973bc9f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(integrand, 'xreplace')","hasattr(integrand, 'free_symbols')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["integrand.free_symbols","integrand.xreplace"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.6,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['integrand', 'symbol'], spec=['integrand', 'symbol', '**options']","Poor branch-fiber coverage: 0% (branches={'isinstance(integrand, cls)', '_integral_cache[cachekey] is None'}, fibers={'cls'})"]}}
 def integral_steps(integrand, symbol, **options):
     """Returns the steps needed to compute an integral.
 
@@ -4135,7 +5275,10 @@ def integral_steps(integrand, symbol, **options):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(manualintegrate(f, ), manualintegrate(f, var)) over {Any | isinstance(result, Piecewise) and isinstance(cond, Eq)} ║
+# ║ Path(manualintegrate(f, var), <unspecified:manualintegrate>) over {Any | isinstance(result, Piecewise) and isinstance(cond, Eq)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ manualintegrate : {Any | isinstance(result, Piecewise...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -4148,9 +5291,12 @@ def integral_steps(integrand, symbol, **options):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?2 ✗2 VCs | 3.8ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | ecf7ebe6...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.manualintegrate","kind":"function","src_hash":"2ac9ab40d061266f","in":{"base":"Any","pred":"isinstance(result, Piecewise) and isinstance(cond, Eq)"},"out":{"base":"Any"},"spec":{"lhs":"manualintegrate(f, )","rhs":"manualintegrate(f, var)","over":{"base":"Any","pred":"isinstance(result, Piecewise) and isinstance(cond, Eq)"},"name":"manualintegrate_correct"},"guarantee":"manualintegrate(f, var)","fibers":[{"name":"Piecewise","pred":"isinstance(result, Piecewise)","path":{"lhs":"manualintegrate(x)","rhs":"manualintegrate(f, var)","over":{"base":"Piecewise","pred":"isinstance(result, Piecewise)"},"name":"manualintegrate_Piecewise_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.manualintegrate_Piecewise_correct","statement":"manualintegrate satisfies spec on Piecewise inputs"},"trust":"LIBRARY"},{"name":"Eq","pred":"isinstance(cond, Eq)","path":{"lhs":"manualintegrate(x)","rhs":"manualintegrate(f, var)","over":{"base":"Eq","pred":"isinstance(cond, Eq)"},"name":"manualintegrate_Eq_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.manualintegrate_Eq_correct","statement":"manualintegrate satisfies spec on Eq inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"ecf7ebe68675c9a9"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.manualintegrate.manualintegrate","kind":"function","src_hash":"2ac9ab40d061266f","in":{"base":"Any","pred":"isinstance(result, Piecewise) and isinstance(cond, Eq)"},"out":{"base":"Any"},"spec":{"lhs":"manualintegrate(f, var)","rhs":"<unspecified:manualintegrate>","over":{"base":"Any","pred":"isinstance(result, Piecewise) and isinstance(cond, Eq)"},"name":"manualintegrate_correct"},"guarantee":"manualintegrate(f, var)","fibers":[{"name":"Piecewise","pred":"isinstance(result, Piecewise)","path":{"lhs":"manualintegrate(x)","rhs":"manualintegrate(f, var)","over":{"base":"Piecewise","pred":"isinstance(result, Piecewise)"},"name":"manualintegrate_Piecewise_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.manualintegrate_Piecewise_correct","statement":"manualintegrate satisfies spec on Piecewise inputs"},"trust":"LIBRARY"},{"name":"Eq","pred":"isinstance(cond, Eq)","path":{"lhs":"manualintegrate(x)","rhs":"manualintegrate(f, var)","over":{"base":"Eq","pred":"isinstance(cond, Eq)"},"name":"manualintegrate_Eq_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.manualintegrate.manualintegrate_Eq_correct","statement":"manualintegrate satisfies spec on Eq inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"ecf7ebe68675c9a9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":1,"n_assumed":2,"n_failed":2,"trust_level":"LIBRARY_ASSUMED","compile_ms":3.8,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(cond, Eq) and result.args[1][1] == True', 'isinstance(result, Piecewise) and len(result.args) == 2'}, fibers={'Eq', 'Piecewise'})"]}}
 def manualintegrate(f, var):
     """manualintegrate(f, var)
 

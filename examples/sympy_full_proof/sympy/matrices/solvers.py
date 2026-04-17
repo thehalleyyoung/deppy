@@ -25,16 +25,25 @@ from .utilities import _get_intermediate_simp, _iszero
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_diagonal_solve(M, ), solves ``ax = b`` efficiently, where a is a diagonal matrix, with non-zero diagonal entries) over Any ║
+# ║ Path(_diagonal_solve(M, rhs), M._new(rhs.rows, rhs.cols, lambda i, j: rhs[i, j] / M[i, i])) over {Any | M.is_diagonal() and not (rhs.rows != M.rows) and hasattr(rhs, 'rows') and hasattr(M, 'rows') and hasattr(M, '_new') and hasattr(rhs, 'cols') and hasattr(M, 'is_diagonal')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _diagonal_solve : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: M.is_diagonal()                                ║
+# ║   requires: not (rhs.rows != M.rows)                       ║
+# ║   requires: hasattr(rhs, 'rows')                           ║
+# ║   returns:  M._new(rhs.rows, rhs.cols, lambda i, j: r...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _diagonal_solve : {Any | M.is_diagonal() and not (rhs...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3d693fe578303297  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c8b6e083c6a2c0f0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.solvers._diagonal_solve","kind":"function","src_hash":"e90855bf2c847f38","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_diagonal_solve(M, )","rhs":"solves ``ax = b`` efficiently, where a is a diagonal matrix, with non-zero diagonal entries","over":{"base":"Any"},"name":"_diagonal_solve_correct"},"guarantee":"solves ``ax = b`` efficiently, where a is a diagonal matrix, with non-zero diagonal entries","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.solvers._diagonal_solve_correct","statement":"Path(_diagonal_solve(x), solves ``ax = b`` efficiently, where a is a diagonal matrix, with non-zero diagonal entries)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3d693fe578303297"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.solvers._diagonal_solve","kind":"function","src_hash":"e90855bf2c847f38","in":{"base":"Any","pred":"M.is_diagonal() and not (rhs.rows != M.rows) and hasattr(rhs, 'rows') and hasattr(M, 'rows') and hasattr(M, '_new') and hasattr(rhs, 'cols') and hasattr(M, 'is_diagonal')"},"out":{"base":"Any"},"spec":{"lhs":"_diagonal_solve(M, rhs)","rhs":"M._new(rhs.rows, rhs.cols, lambda i, j: rhs[i, j] / M[i, i])","over":{"base":"Any","pred":"M.is_diagonal() and not (rhs.rows != M.rows) and hasattr(rhs, 'rows') and hasattr(M, 'rows') and hasattr(M, '_new') and hasattr(rhs, 'cols') and hasattr(M, 'is_diagonal')"},"name":"_diagonal_solve_correct"},"guarantee":"returns M._new(rhs.rows, rhs.cols, lambda i, j: rhs[i, j] / M[i, i])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.solvers._diagonal_solve_correct","statement":"Path(_diagonal_solve(x), returns M._new(rhs.rows, rhs.cols, lambda i, j: rhs[i, j] / M[i, i]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c8b6e083c6a2c0f0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["M.is_diagonal()","not (rhs.rows != M.rows)","hasattr(rhs, 'rows')","hasattr(M, 'rows')","hasattr(M, '_new')","hasattr(rhs, 'cols')","hasattr(M, 'is_diagonal')"],"returns_expr":"M._new(rhs.rows, rhs.cols, lambda i, j: rhs[i, j] / M[i, i])","pure":false,"effects":{"effect_type":"reads_state","reads":["M._new","M.is_diagonal","M.rows","rhs.cols","rhs.rows"],"raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _diagonal_solve(M, rhs):
     """Solves ``Ax = B`` efficiently, where A is a diagonal Matrix,
     with non-zero diagonal entries.
@@ -72,16 +81,25 @@ def _diagonal_solve(M, rhs):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_lower_triangular_solve(M, ), solves ``ax = b``, where a is a lower triangular matrix) over Any ║
+# ║ Path(_lower_triangular_solve(M, rhs), M._new(X)) over {Any | M.is_square and not (rhs.rows != M.rows) and M.is_lower and hasattr(M, 'is_square') and hasattr(rhs, 'rows') and hasattr(M, 'rows') and hasattr(M, 'is_lower') and hasattr(rhs, 'cols') and hasattr(M, '_new')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _lower_triangular_solve : Any → Any                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: M.is_square                                    ║
+# ║   requires: not (rhs.rows != M.rows)                       ║
+# ║   requires: M.is_lower                                     ║
+# ║   returns:  M._new(X)                                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _lower_triangular_solve : {Any | M.is_square and not ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 04917c173b0efa3c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 10986ecf3f1537cf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.solvers._lower_triangular_solve","kind":"function","src_hash":"369e626233a079ae","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_lower_triangular_solve(M, )","rhs":"solves ``ax = b``, where a is a lower triangular matrix","over":{"base":"Any"},"name":"_lower_triangular_solve_correct"},"guarantee":"solves ``ax = b``, where a is a lower triangular matrix","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.solvers._lower_triangular_solve_correct","statement":"Path(_lower_triangular_solve(x), solves ``ax = b``, where a is a lower triangular matrix)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"04917c173b0efa3c"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.solvers._lower_triangular_solve","kind":"function","src_hash":"369e626233a079ae","in":{"base":"Any","pred":"M.is_square and not (rhs.rows != M.rows) and M.is_lower and hasattr(M, 'is_square') and hasattr(rhs, 'rows') and hasattr(M, 'rows') and hasattr(M, 'is_lower') and hasattr(rhs, 'cols') and hasattr(M, '_new')"},"out":{"base":"Any"},"spec":{"lhs":"_lower_triangular_solve(M, rhs)","rhs":"M._new(X)","over":{"base":"Any","pred":"M.is_square and not (rhs.rows != M.rows) and M.is_lower and hasattr(M, 'is_square') and hasattr(rhs, 'rows') and hasattr(M, 'rows') and hasattr(M, 'is_lower') and hasattr(rhs, 'cols') and hasattr(M, '_new')"},"name":"_lower_triangular_solve_correct"},"guarantee":"returns M._new(X)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.solvers._lower_triangular_solve_correct","statement":"Path(_lower_triangular_solve(x), returns M._new(X))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"10986ecf3f1537cf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["M.is_square","not (rhs.rows != M.rows)","M.is_lower","hasattr(M, 'is_square')","hasattr(rhs, 'rows')","hasattr(M, 'rows')","hasattr(M, 'is_lower')","hasattr(rhs, 'cols')","hasattr(M, '_new')"],"returns_expr":"M._new(X)","pure":false,"effects":{"effect_type":"reads_state","reads":["M._new","M.is_lower","M.is_square","M.rows","rhs.cols","rhs.rows"],"raises":["NonSquareMatrixError","ShapeError","TypeError","ValueError"]},"state_contract":{"exceptional_post":{"NonSquareMatrixError":["isinstance(raised, NonSquareMatrixError)"],"ShapeError":["isinstance(raised, ShapeError)"],"TypeError":["isinstance(raised, TypeError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _lower_triangular_solve(M, rhs):
     """Solves ``Ax = B``, where A is a lower triangular matrix.
 
@@ -122,16 +140,25 @@ def _lower_triangular_solve(M, rhs):
     return M._new(X)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_lower_triangular_solve_sparse(M, ), solves ``ax = b``, where a is a lower triangular matrix) over Any ║
+# ║ Path(_lower_triangular_solve_sparse(M, rhs), M._new(X)) over {Any | M.is_square and not (rhs.rows != M.rows) and M.is_lower and hasattr(M, 'is_square') and hasattr(rhs, 'rows') and hasattr(M, 'rows') and hasattr(M, 'is_lower') and hasattr(M, 'row_list') and hasattr(rhs, 'as_mutable') and hasattr(rhs, 'cols') and hasattr(M, '_new')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _lower_triangular_solve_sparse : Any → Any                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: M.is_square                                    ║
+# ║   requires: not (rhs.rows != M.rows)                       ║
+# ║   requires: M.is_lower                                     ║
+# ║   returns:  M._new(X)                                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _lower_triangular_solve_sparse : {Any | M.is_square a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 40bccd7667da9a5e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 815a082c1d621149  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.solvers._lower_triangular_solve_sparse","kind":"function","src_hash":"54743cc1f61fe3a9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_lower_triangular_solve_sparse(M, )","rhs":"solves ``ax = b``, where a is a lower triangular matrix","over":{"base":"Any"},"name":"_lower_triangular_solve_sparse_correct"},"guarantee":"solves ``ax = b``, where a is a lower triangular matrix","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.solvers._lower_triangular_solve_sparse_correct","statement":"Path(_lower_triangular_solve_sparse(x), solves ``ax = b``, where a is a lower triangular matrix)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"40bccd7667da9a5e"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.solvers._lower_triangular_solve_sparse","kind":"function","src_hash":"54743cc1f61fe3a9","in":{"base":"Any","pred":"M.is_square and not (rhs.rows != M.rows) and M.is_lower and hasattr(M, 'is_square') and hasattr(rhs, 'rows') and hasattr(M, 'rows') and hasattr(M, 'is_lower') and hasattr(M, 'row_list') and hasattr(rhs, 'as_mutable') and hasattr(rhs, 'cols') and hasattr(M, '_new')"},"out":{"base":"Any"},"spec":{"lhs":"_lower_triangular_solve_sparse(M, rhs)","rhs":"M._new(X)","over":{"base":"Any","pred":"M.is_square and not (rhs.rows != M.rows) and M.is_lower and hasattr(M, 'is_square') and hasattr(rhs, 'rows') and hasattr(M, 'rows') and hasattr(M, 'is_lower') and hasattr(M, 'row_list') and hasattr(rhs, 'as_mutable') and hasattr(rhs, 'cols') and hasattr(M, '_new')"},"name":"_lower_triangular_solve_sparse_correct"},"guarantee":"returns M._new(X)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.solvers._lower_triangular_solve_sparse_correct","statement":"Path(_lower_triangular_solve_sparse(x), returns M._new(X))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"815a082c1d621149","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["M.is_square","not (rhs.rows != M.rows)","M.is_lower","hasattr(M, 'is_square')","hasattr(rhs, 'rows')","hasattr(M, 'rows')","hasattr(M, 'is_lower')","hasattr(M, 'row_list')","hasattr(rhs, 'as_mutable')","hasattr(rhs, 'cols')","hasattr(M, '_new')"],"returns_expr":"M._new(X)","pure":false,"effects":{"effect_type":"reads_state","reads":["M._new","M.is_lower","M.is_square","M.row_list","M.rows","rhs.as_mutable","rhs.cols","rhs.rows"],"raises":["NonSquareMatrixError","ShapeError","ValueError"]},"state_contract":{"exceptional_post":{"NonSquareMatrixError":["isinstance(raised, NonSquareMatrixError)"],"ShapeError":["isinstance(raised, ShapeError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _lower_triangular_solve_sparse(M, rhs):
     """Solves ``Ax = B``, where A is a lower triangular matrix.
 
@@ -176,16 +203,25 @@ def _lower_triangular_solve_sparse(M, rhs):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_upper_triangular_solve(M, ), solves ``ax = b``, where a is an upper triangular matrix) over Any ║
+# ║ Path(_upper_triangular_solve(M, rhs), M._new(X)) over {Any | M.is_square and not (rhs.rows != M.rows) and M.is_upper and hasattr(M, 'is_square') and hasattr(rhs, 'rows') and hasattr(M, 'rows') and hasattr(M, 'is_upper') and hasattr(rhs, 'cols') and hasattr(M, '_new')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _upper_triangular_solve : Any → Any                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: M.is_square                                    ║
+# ║   requires: not (rhs.rows != M.rows)                       ║
+# ║   requires: M.is_upper                                     ║
+# ║   returns:  M._new(X)                                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _upper_triangular_solve : {Any | M.is_square and not ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fff64a165b1e7a28  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7129ab96c1982806  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.solvers._upper_triangular_solve","kind":"function","src_hash":"a0b69a9c93cc4bb5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_upper_triangular_solve(M, )","rhs":"solves ``ax = b``, where a is an upper triangular matrix","over":{"base":"Any"},"name":"_upper_triangular_solve_correct"},"guarantee":"solves ``ax = b``, where a is an upper triangular matrix","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.solvers._upper_triangular_solve_correct","statement":"Path(_upper_triangular_solve(x), solves ``ax = b``, where a is an upper triangular matrix)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fff64a165b1e7a28"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.solvers._upper_triangular_solve","kind":"function","src_hash":"a0b69a9c93cc4bb5","in":{"base":"Any","pred":"M.is_square and not (rhs.rows != M.rows) and M.is_upper and hasattr(M, 'is_square') and hasattr(rhs, 'rows') and hasattr(M, 'rows') and hasattr(M, 'is_upper') and hasattr(rhs, 'cols') and hasattr(M, '_new')"},"out":{"base":"Any"},"spec":{"lhs":"_upper_triangular_solve(M, rhs)","rhs":"M._new(X)","over":{"base":"Any","pred":"M.is_square and not (rhs.rows != M.rows) and M.is_upper and hasattr(M, 'is_square') and hasattr(rhs, 'rows') and hasattr(M, 'rows') and hasattr(M, 'is_upper') and hasattr(rhs, 'cols') and hasattr(M, '_new')"},"name":"_upper_triangular_solve_correct"},"guarantee":"returns M._new(X)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.solvers._upper_triangular_solve_correct","statement":"Path(_upper_triangular_solve(x), returns M._new(X))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7129ab96c1982806","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["M.is_square","not (rhs.rows != M.rows)","M.is_upper","hasattr(M, 'is_square')","hasattr(rhs, 'rows')","hasattr(M, 'rows')","hasattr(M, 'is_upper')","hasattr(rhs, 'cols')","hasattr(M, '_new')"],"returns_expr":"M._new(X)","pure":false,"effects":{"effect_type":"reads_state","reads":["M._new","M.is_square","M.is_upper","M.rows","rhs.cols","rhs.rows"],"raises":["NonSquareMatrixError","ShapeError","TypeError","ValueError"]},"state_contract":{"exceptional_post":{"NonSquareMatrixError":["isinstance(raised, NonSquareMatrixError)"],"ShapeError":["isinstance(raised, ShapeError)"],"TypeError":["isinstance(raised, TypeError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _upper_triangular_solve(M, rhs):
     """Solves ``Ax = B``, where A is an upper triangular matrix.
 
@@ -226,16 +262,25 @@ def _upper_triangular_solve(M, rhs):
     return M._new(X)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_upper_triangular_solve_sparse(M, ), solves ``ax = b``, where a is an upper triangular matrix) over Any ║
+# ║ Path(_upper_triangular_solve_sparse(M, rhs), M._new(X)) over {Any | M.is_square and not (rhs.rows != M.rows) and M.is_upper and hasattr(M, 'is_square') and hasattr(rhs, 'rows') and hasattr(M, 'rows') and hasattr(M, 'is_upper') and hasattr(M, 'row_list') and hasattr(rhs, 'as_mutable') and hasattr(rhs, 'cols') and hasattr(M, '_new')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _upper_triangular_solve_sparse : Any → Any                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: M.is_square                                    ║
+# ║   requires: not (rhs.rows != M.rows)                       ║
+# ║   requires: M.is_upper                                     ║
+# ║   returns:  M._new(X)                                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _upper_triangular_solve_sparse : {Any | M.is_square a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0cb6634f27418c19  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 127b083d80df9eb4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.solvers._upper_triangular_solve_sparse","kind":"function","src_hash":"c448612bc945f420","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_upper_triangular_solve_sparse(M, )","rhs":"solves ``ax = b``, where a is an upper triangular matrix","over":{"base":"Any"},"name":"_upper_triangular_solve_sparse_correct"},"guarantee":"solves ``ax = b``, where a is an upper triangular matrix","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.solvers._upper_triangular_solve_sparse_correct","statement":"Path(_upper_triangular_solve_sparse(x), solves ``ax = b``, where a is an upper triangular matrix)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0cb6634f27418c19"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.solvers._upper_triangular_solve_sparse","kind":"function","src_hash":"c448612bc945f420","in":{"base":"Any","pred":"M.is_square and not (rhs.rows != M.rows) and M.is_upper and hasattr(M, 'is_square') and hasattr(rhs, 'rows') and hasattr(M, 'rows') and hasattr(M, 'is_upper') and hasattr(M, 'row_list') and hasattr(rhs, 'as_mutable') and hasattr(rhs, 'cols') and hasattr(M, '_new')"},"out":{"base":"Any"},"spec":{"lhs":"_upper_triangular_solve_sparse(M, rhs)","rhs":"M._new(X)","over":{"base":"Any","pred":"M.is_square and not (rhs.rows != M.rows) and M.is_upper and hasattr(M, 'is_square') and hasattr(rhs, 'rows') and hasattr(M, 'rows') and hasattr(M, 'is_upper') and hasattr(M, 'row_list') and hasattr(rhs, 'as_mutable') and hasattr(rhs, 'cols') and hasattr(M, '_new')"},"name":"_upper_triangular_solve_sparse_correct"},"guarantee":"returns M._new(X)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.solvers._upper_triangular_solve_sparse_correct","statement":"Path(_upper_triangular_solve_sparse(x), returns M._new(X))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"127b083d80df9eb4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["M.is_square","not (rhs.rows != M.rows)","M.is_upper","hasattr(M, 'is_square')","hasattr(rhs, 'rows')","hasattr(M, 'rows')","hasattr(M, 'is_upper')","hasattr(M, 'row_list')","hasattr(rhs, 'as_mutable')","hasattr(rhs, 'cols')","hasattr(M, '_new')"],"returns_expr":"M._new(X)","pure":false,"effects":{"effect_type":"reads_state","reads":["M._new","M.is_square","M.is_upper","M.row_list","M.rows","rhs.as_mutable","rhs.cols","rhs.rows"],"raises":["NonSquareMatrixError","ShapeError","TypeError"]},"state_contract":{"exceptional_post":{"NonSquareMatrixError":["isinstance(raised, NonSquareMatrixError)"],"ShapeError":["isinstance(raised, ShapeError)"],"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _upper_triangular_solve_sparse(M, rhs):
     """Solves ``Ax = B``, where A is an upper triangular matrix.
 
@@ -280,16 +325,25 @@ def _upper_triangular_solve_sparse(M, rhs):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_cholesky_solve(M, ), solves ``ax = b`` using cholesky decomposition, for a general square non-singular matrix. for a non-square matrix with rows > cols, the least squares solution is returned) over Any ║
+# ║ Path(_cholesky_solve(M, rhs), <unspecified:_cholesky_solve>) over {Any | not (M.rows < M.cols) and hasattr(M, 'rows') and hasattr(M, 'cols') and hasattr(M, 'is_symmetric') and hasattr(M, 'H') and hasattr(M, 'cholesky') and hasattr(M, 'is_hermitian')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _cholesky_solve : Any → Any                                ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (M.rows < M.cols)                          ║
+# ║   requires: hasattr(M, 'rows')                             ║
+# ║   requires: hasattr(M, 'cols')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _cholesky_solve : {Any | not (M.rows < M.cols) and ha...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e6981c04638427f0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.solvers._cholesky_solve","kind":"function","src_hash":"1aefef6f556f47bc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_cholesky_solve(M, )","rhs":"solves ``ax = b`` using cholesky decomposition, for a general square non-singular matrix. for a non-square matrix with rows > cols, the least squares solution is returned","over":{"base":"Any"},"name":"_cholesky_solve_correct"},"guarantee":"solves ``ax = b`` using cholesky decomposition, for a general square non-singular matrix. for a non-square matrix with rows > cols, the least squares solution is returned","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.solvers._cholesky_solve_correct","statement":"Path(_cholesky_solve(x), solves ``ax = b`` using cholesky decomposition, for a general square non-singular matrix. for a non-square matrix with rows > cols, the least squares solution is returned)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e6981c04638427f0"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.solvers._cholesky_solve","kind":"function","src_hash":"1aefef6f556f47bc","in":{"base":"Any","pred":"not (M.rows < M.cols) and hasattr(M, 'rows') and hasattr(M, 'cols') and hasattr(M, 'is_symmetric') and hasattr(M, 'H') and hasattr(M, 'cholesky') and hasattr(M, 'is_hermitian')"},"out":{"base":"Any"},"spec":{"lhs":"_cholesky_solve(M, rhs)","rhs":"<unspecified:_cholesky_solve>","over":{"base":"Any","pred":"not (M.rows < M.cols) and hasattr(M, 'rows') and hasattr(M, 'cols') and hasattr(M, 'is_symmetric') and hasattr(M, 'H') and hasattr(M, 'cholesky') and hasattr(M, 'is_hermitian')"},"name":"_cholesky_solve_correct"},"guarantee":"solves ``ax = b`` using cholesky decomposition, for a general square non-singular matrix. for a non-square matrix with rows > cols, the least squares solution is returned","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.solvers._cholesky_solve_correct","statement":"Path(_cholesky_solve(x), solves ``ax = b`` using cholesky decomposition, for a general square non-singular matrix. for a non-square matrix with rows > cols, the least squares solution is returned)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e6981c04638427f0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (M.rows < M.cols)","hasattr(M, 'rows')","hasattr(M, 'cols')","hasattr(M, 'is_symmetric')","hasattr(M, 'H')","hasattr(M, 'cholesky')","hasattr(M, 'is_hermitian')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["M.H","M.cholesky","M.cols","M.is_hermitian","M.is_symmetric","M.rows"],"raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _cholesky_solve(M, rhs):
     """Solves ``Ax = B`` using Cholesky decomposition,
     for a general square non-singular matrix.
@@ -338,16 +392,25 @@ def _cholesky_solve(M, rhs):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_LDLsolve(M, ), solves ``ax = b`` using ldl decomposition, for a general square and non-singular matrix) over Any ║
+# ║ Path(_LDLsolve(M, rhs), <unspecified:_LDLsolve>) over {Any | not (M.rows < M.cols) and hasattr(M, 'rows') and hasattr(M, 'cols') and hasattr(M, 'is_symmetric') and hasattr(M, 'H') and hasattr(M, 'LDLdecomposition') and hasattr(M, 'is_hermitian')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _LDLsolve : Any → Any                                      ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (M.rows < M.cols)                          ║
+# ║   requires: hasattr(M, 'rows')                             ║
+# ║   requires: hasattr(M, 'cols')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _LDLsolve : {Any | not (M.rows < M.cols) and hasattr(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2d64072be19d06c6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.solvers._LDLsolve","kind":"function","src_hash":"fe2d5bb39379ed95","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_LDLsolve(M, )","rhs":"solves ``ax = b`` using ldl decomposition, for a general square and non-singular matrix","over":{"base":"Any"},"name":"_LDLsolve_correct"},"guarantee":"solves ``ax = b`` using ldl decomposition, for a general square and non-singular matrix","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.solvers._LDLsolve_correct","statement":"Path(_LDLsolve(x), solves ``ax = b`` using ldl decomposition, for a general square and non-singular matrix)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2d64072be19d06c6"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.solvers._LDLsolve","kind":"function","src_hash":"fe2d5bb39379ed95","in":{"base":"Any","pred":"not (M.rows < M.cols) and hasattr(M, 'rows') and hasattr(M, 'cols') and hasattr(M, 'is_symmetric') and hasattr(M, 'H') and hasattr(M, 'LDLdecomposition') and hasattr(M, 'is_hermitian')"},"out":{"base":"Any"},"spec":{"lhs":"_LDLsolve(M, rhs)","rhs":"<unspecified:_LDLsolve>","over":{"base":"Any","pred":"not (M.rows < M.cols) and hasattr(M, 'rows') and hasattr(M, 'cols') and hasattr(M, 'is_symmetric') and hasattr(M, 'H') and hasattr(M, 'LDLdecomposition') and hasattr(M, 'is_hermitian')"},"name":"_LDLsolve_correct"},"guarantee":"solves ``ax = b`` using ldl decomposition, for a general square and non-singular matrix","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.solvers._LDLsolve_correct","statement":"Path(_LDLsolve(x), solves ``ax = b`` using ldl decomposition, for a general square and non-singular matrix)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2d64072be19d06c6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (M.rows < M.cols)","hasattr(M, 'rows')","hasattr(M, 'cols')","hasattr(M, 'is_symmetric')","hasattr(M, 'H')","hasattr(M, 'LDLdecomposition')","hasattr(M, 'is_hermitian')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["M.H","M.LDLdecomposition","M.cols","M.is_hermitian","M.is_symmetric","M.rows"],"raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _LDLsolve(M, rhs):
     """Solves ``Ax = B`` using LDL decomposition,
     for a general square and non-singular matrix.
@@ -408,16 +471,25 @@ def _LDLsolve(M, rhs):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_LUsolve(M, ), solve the linear system ``ax = rhs`` for ``x`` where ``a = m``) over Any ║
+# ║ Path(_LUsolve(M, rhs, iszerofunc), rhs.__class__(b)) over {Any | not (rhs.rows != M.rows) and not (m < n) and hasattr(M, 'rows') and hasattr(M, 'cols') and hasattr(rhs, 'rows') and hasattr(M, 'LUdecomposition_Simple') and hasattr(rhs, 'permute_rows')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _LUsolve : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (rhs.rows != M.rows)                       ║
+# ║   requires: not (m < n)                                    ║
+# ║   requires: hasattr(M, 'rows')                             ║
+# ║   returns:  rhs.__class__(b)                               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _LUsolve : {Any | not (rhs.rows != M.rows) and not (m...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0dfa2de2180425f2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ad968d14f0bc07b3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.solvers._LUsolve","kind":"function","src_hash":"5774ab5c80e1bf06","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_LUsolve(M, )","rhs":"solve the linear system ``ax = rhs`` for ``x`` where ``a = m``","over":{"base":"Any"},"name":"_LUsolve_correct"},"guarantee":"solve the linear system ``ax = rhs`` for ``x`` where ``a = m``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.solvers._LUsolve_correct","statement":"Path(_LUsolve(x), solve the linear system ``ax = rhs`` for ``x`` where ``a = m``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0dfa2de2180425f2"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.solvers._LUsolve","kind":"function","src_hash":"5774ab5c80e1bf06","in":{"base":"Any","pred":"not (rhs.rows != M.rows) and not (m < n) and hasattr(M, 'rows') and hasattr(M, 'cols') and hasattr(rhs, 'rows') and hasattr(M, 'LUdecomposition_Simple') and hasattr(rhs, 'permute_rows')"},"out":{"base":"Any"},"spec":{"lhs":"_LUsolve(M, rhs, iszerofunc)","rhs":"rhs.__class__(b)","over":{"base":"Any","pred":"not (rhs.rows != M.rows) and not (m < n) and hasattr(M, 'rows') and hasattr(M, 'cols') and hasattr(rhs, 'rows') and hasattr(M, 'LUdecomposition_Simple') and hasattr(rhs, 'permute_rows')"},"name":"_LUsolve_correct"},"guarantee":"returns rhs.__class__(b)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.solvers._LUsolve_correct","statement":"Path(_LUsolve(x), returns rhs.__class__(b))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ad968d14f0bc07b3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (rhs.rows != M.rows)","not (m < n)","hasattr(M, 'rows')","hasattr(M, 'cols')","hasattr(rhs, 'rows')","hasattr(M, 'LUdecomposition_Simple')","hasattr(rhs, 'permute_rows')"],"returns_expr":"rhs.__class__(b)","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","M.LUdecomposition_Simple","M.cols","M.rows","rhs.__class__","rhs.permute_rows","rhs.rows"],"raises":["NonInvertibleMatrixError","NotImplementedError","ShapeError","ValueError"],"catches":["ValueError"]},"state_contract":{"exceptional_post":{"NonInvertibleMatrixError":["isinstance(raised, NonInvertibleMatrixError)"],"NotImplementedError":["isinstance(raised, NotImplementedError)"],"ShapeError":["isinstance(raised, ShapeError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def _LUsolve(M, rhs, iszerofunc=_iszero):
     """Solve the linear system ``Ax = rhs`` for ``x`` where ``A = M``.
 
@@ -486,16 +558,24 @@ def _LUsolve(M, rhs, iszerofunc=_iszero):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_QRsolve(M, ), solve the linear system ``ax = b``) over Any ║
+# ║ Path(_QRsolve(M, b), M.vstack(*x[::-1])) over {Any | hasattr(M, 'QRdecomposition') and hasattr(M, 'vstack')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _QRsolve : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(M, 'QRdecomposition')                  ║
+# ║   requires: hasattr(M, 'vstack')                           ║
+# ║   returns:  M.vstack(*x[::-1])                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _QRsolve : {Any | hasattr(M, 'QRdecomposition') and h...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3c6ce7663b9f569b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a111d8b57b9540ac  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.solvers._QRsolve","kind":"function","src_hash":"e827e902f4b700b8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_QRsolve(M, )","rhs":"solve the linear system ``ax = b``","over":{"base":"Any"},"name":"_QRsolve_correct"},"guarantee":"solve the linear system ``ax = b``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.solvers._QRsolve_correct","statement":"Path(_QRsolve(x), solve the linear system ``ax = b``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3c6ce7663b9f569b"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.solvers._QRsolve","kind":"function","src_hash":"e827e902f4b700b8","in":{"base":"Any","pred":"hasattr(M, 'QRdecomposition') and hasattr(M, 'vstack')"},"out":{"base":"Any"},"spec":{"lhs":"_QRsolve(M, b)","rhs":"M.vstack(*x[::-1])","over":{"base":"Any","pred":"hasattr(M, 'QRdecomposition') and hasattr(M, 'vstack')"},"name":"_QRsolve_correct"},"guarantee":"returns M.vstack(*x[::-1])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.solvers._QRsolve_correct","statement":"Path(_QRsolve(x), returns M.vstack(*x[::-1]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a111d8b57b9540ac","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(M, 'QRdecomposition')","hasattr(M, 'vstack')"],"returns_expr":"M.vstack(*x[::-1])","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _QRsolve(M, b):
     """Solve the linear system ``Ax = b``.
 
@@ -551,16 +631,25 @@ def _QRsolve(M, b):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_gauss_jordan_solve(M, ), solves ``ax = b`` using gauss jordan elimination) over Any ║
+# ║ Path(_gauss_jordan_solve(M, B, freevar), <unspecified:_gauss_jordan_solve>) over {Any | hasattr(B, 'cols') and hasattr(M, 'hstack') and hasattr(M, 'copy') and hasattr(B, 'copy')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _gauss_jordan_solve : Any → Any                            ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(B, 'cols')                             ║
+# ║   requires: hasattr(M, 'hstack')                           ║
+# ║   requires: hasattr(M, 'copy')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _gauss_jordan_solve : {Any | hasattr(B, 'cols') and h...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | af192c8f43c0f449  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.solvers._gauss_jordan_solve","kind":"function","src_hash":"6121077dd40832c2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_gauss_jordan_solve(M, )","rhs":"solves ``ax = b`` using gauss jordan elimination","over":{"base":"Any"},"name":"_gauss_jordan_solve_correct"},"guarantee":"solves ``ax = b`` using gauss jordan elimination","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.solvers._gauss_jordan_solve_correct","statement":"Path(_gauss_jordan_solve(x), solves ``ax = b`` using gauss jordan elimination)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"af192c8f43c0f449"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.solvers._gauss_jordan_solve","kind":"function","src_hash":"6121077dd40832c2","in":{"base":"Any","pred":"hasattr(B, 'cols') and hasattr(M, 'hstack') and hasattr(M, 'copy') and hasattr(B, 'copy')"},"out":{"base":"Any"},"spec":{"lhs":"_gauss_jordan_solve(M, B, freevar)","rhs":"<unspecified:_gauss_jordan_solve>","over":{"base":"Any","pred":"hasattr(B, 'cols') and hasattr(M, 'hstack') and hasattr(M, 'copy') and hasattr(B, 'copy')"},"name":"_gauss_jordan_solve_correct"},"guarantee":"solves ``ax = b`` using gauss jordan elimination","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.solvers._gauss_jordan_solve_correct","statement":"Path(_gauss_jordan_solve(x), solves ``ax = b`` using gauss jordan elimination)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"af192c8f43c0f449","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(B, 'cols')","hasattr(M, 'hstack')","hasattr(M, 'copy')","hasattr(B, 'copy')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","B.cols","B.copy","M.__class__","M.copy","M.hstack"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def _gauss_jordan_solve(M, B, freevar=False):
     """
     Solves ``Ax = B`` using Gauss Jordan elimination.
@@ -744,16 +833,24 @@ def _gauss_jordan_solve(M, B, freevar=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_pinv_solve(M, ), solve ``ax = b`` using the moore-penrose pseudoinverse) over Any ║
+# ║ Path(_pinv_solve(M, B, arbitrary_matrix), A_pinv.multiply(B) + (eye(A.cols) - A_pinv.multiply(A)).multiply(arbitrary_matrix)) over {Any | hasattr(M, 'pinv') and hasattr(B, 'cols')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _pinv_solve : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(M, 'pinv')                             ║
+# ║   requires: hasattr(B, 'cols')                             ║
+# ║   returns:  A_pinv.multiply(B) + (eye(A.cols) - A_pin...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _pinv_solve : {Any | hasattr(M, 'pinv') and hasattr(B...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d359d71e4e6fe6cd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f8941f6a36365048  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.solvers._pinv_solve","kind":"function","src_hash":"030d51cd77ed9414","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_pinv_solve(M, )","rhs":"solve ``ax = b`` using the moore-penrose pseudoinverse","over":{"base":"Any"},"name":"_pinv_solve_correct"},"guarantee":"solve ``ax = b`` using the moore-penrose pseudoinverse","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.solvers._pinv_solve_correct","statement":"Path(_pinv_solve(x), solve ``ax = b`` using the moore-penrose pseudoinverse)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d359d71e4e6fe6cd"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.solvers._pinv_solve","kind":"function","src_hash":"030d51cd77ed9414","in":{"base":"Any","pred":"hasattr(M, 'pinv') and hasattr(B, 'cols')"},"out":{"base":"Any"},"spec":{"lhs":"_pinv_solve(M, B, arbitrary_matrix)","rhs":"A_pinv.multiply(B) + (eye(A.cols) - A_pinv.multiply(A)).multiply(arbitrary_matrix)","over":{"base":"Any","pred":"hasattr(M, 'pinv') and hasattr(B, 'cols')"},"name":"_pinv_solve_correct"},"guarantee":"returns A_pinv.multiply(B) + (eye(A.cols) - A_pinv.multiply(A)).multiply(arbitrary_matrix)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.solvers._pinv_solve_correct","statement":"Path(_pinv_solve(x), returns A_pinv.multiply(B) + (eye(A.cols) - A_pinv.multiply(A)).multiply(arbitrary_matrix))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f8941f6a36365048","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(M, 'pinv')","hasattr(B, 'cols')"],"returns_expr":"A_pinv.multiply(B) + (eye(A.cols) - A_pinv.multiply(A)).multiply(arbitrary_matrix)","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","B.cols","M.__class__","M.pinv"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _pinv_solve(M, B, arbitrary_matrix=None):
     """Solve ``Ax = B`` using the Moore-Penrose pseudoinverse.
 
@@ -847,9 +944,14 @@ def _pinv_solve(M, B, arbitrary_matrix=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_cramer_solve(M, ), solves system of linear equations using cramer's rule) over {Any | isinstance(det_method, str)} ║
+# ║ Path(_cramer_solve(M, rhs, det_method), <unspecified:_cramer_solve>) over {Any | isinstance(det_method, str) and hasattr(rhs, 'shape') and hasattr(M, 'shape')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _cramer_solve : {Any | isinstance(det_method, str)} →...   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(rhs, 'shape')                          ║
+# ║   requires: hasattr(M, 'shape')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _cramer_solve : {Any | isinstance(det_method, str) an...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   str: {isinstance(det_method, str)} → library_axiom       ║
@@ -859,9 +961,12 @@ def _pinv_solve(M, B, arbitrary_matrix=None):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.8ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 92a7f9c4...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.solvers._cramer_solve","kind":"function","src_hash":"63823cc2a3ac4463","in":{"base":"Any","pred":"isinstance(det_method, str)"},"out":{"base":"Any"},"spec":{"lhs":"_cramer_solve(M, )","rhs":"solves system of linear equations using cramer's rule","over":{"base":"Any","pred":"isinstance(det_method, str)"},"name":"_cramer_solve_correct"},"guarantee":"solves system of linear equations using cramer's rule","fibers":[{"name":"str","pred":"isinstance(det_method, str)","path":{"lhs":"_cramer_solve(x)","rhs":"solves system of linear equations using cramer's rule","over":{"base":"str","pred":"isinstance(det_method, str)"},"name":"_cramer_solve_str_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.solvers._cramer_solve_str_correct","statement":"_cramer_solve satisfies spec on str inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"92a7f9c414c5b27c"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.solvers._cramer_solve","kind":"function","src_hash":"63823cc2a3ac4463","in":{"base":"Any","pred":"isinstance(det_method, str) and hasattr(rhs, 'shape') and hasattr(M, 'shape')"},"out":{"base":"Any"},"spec":{"lhs":"_cramer_solve(M, rhs, det_method)","rhs":"<unspecified:_cramer_solve>","over":{"base":"Any","pred":"isinstance(det_method, str) and hasattr(rhs, 'shape') and hasattr(M, 'shape')"},"name":"_cramer_solve_correct"},"guarantee":"solves system of linear equations using cramer's rule","fibers":[{"name":"str","pred":"isinstance(det_method, str)","path":{"lhs":"_cramer_solve(x)","rhs":"solves system of linear equations using cramer's rule","over":{"base":"str","pred":"isinstance(det_method, str)"},"name":"_cramer_solve_str_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.solvers._cramer_solve_str_correct","statement":"_cramer_solve satisfies spec on str inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"92a7f9c414c5b27c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(rhs, 'shape')","hasattr(M, 'shape')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","M.__class__","M.shape","rhs.shape"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.8,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(det_method, str)', \"det_method == 'bird'\", \"det_method == 'laplace'\"}, fibers={'str'})"]}}
 def _cramer_solve(M, rhs, det_method="laplace"):
     """Solves system of linear equations using Cramer's rule.
 
@@ -930,16 +1035,27 @@ def _cramer_solve(M, rhs, det_method="laplace"):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_solve(M, ), solves linear equation where the unique solution exists) over Any ║
+# ║ Path(_solve(M, rhs, method), <unspecified:_solve>) over {Any | hasattr(M, 'gauss_jordan_solve') and hasattr(M, 'LUsolve') and hasattr(M, 'cholesky_solve') and hasattr(M, 'QRsolve') and hasattr(M, 'LDLsolve') and hasattr(M, 'pinv_solve') and hasattr(M, 'cramer_solve') and hasattr(M, 'inv')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _solve : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(M, 'gauss_jordan_solve')               ║
+# ║   requires: hasattr(M, 'LUsolve')                          ║
+# ║   requires: hasattr(M, 'cholesky_solve')                   ║
+# ║   fiber[case_0]: method in ('GJ', 'GE') => soln            ║
+# ║   fiber[case_1]: method == 'LU' => M.LUsolve(rhs)          ║
+# ║   fiber[case_2]: method == 'CH' => M.cholesky_solve(rhs)   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _solve : {Any | hasattr(M, 'gauss_jordan_solve') and ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a5e0f2f05cf92f7c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cc6b685220352fc2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.solvers._solve","kind":"function","src_hash":"e574a0a4d5397b85","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_solve(M, )","rhs":"solves linear equation where the unique solution exists","over":{"base":"Any"},"name":"_solve_correct"},"guarantee":"solves linear equation where the unique solution exists","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.solvers._solve_correct","statement":"Path(_solve(x), solves linear equation where the unique solution exists)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a5e0f2f05cf92f7c"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.solvers._solve","kind":"function","src_hash":"e574a0a4d5397b85","in":{"base":"Any","pred":"hasattr(M, 'gauss_jordan_solve') and hasattr(M, 'LUsolve') and hasattr(M, 'cholesky_solve') and hasattr(M, 'QRsolve') and hasattr(M, 'LDLsolve') and hasattr(M, 'pinv_solve') and hasattr(M, 'cramer_solve') and hasattr(M, 'inv')"},"out":{"base":"Any"},"spec":{"lhs":"_solve(M, rhs, method)","rhs":"<unspecified:_solve>","over":{"base":"Any","pred":"hasattr(M, 'gauss_jordan_solve') and hasattr(M, 'LUsolve') and hasattr(M, 'cholesky_solve') and hasattr(M, 'QRsolve') and hasattr(M, 'LDLsolve') and hasattr(M, 'pinv_solve') and hasattr(M, 'cramer_solve') and hasattr(M, 'inv')"},"name":"_solve_correct"},"guarantee":"8-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.solvers._solve_correct","statement":"Path(_solve(x), 8-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cc6b685220352fc2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(M, 'gauss_jordan_solve')","hasattr(M, 'LUsolve')","hasattr(M, 'cholesky_solve')","hasattr(M, 'QRsolve')","hasattr(M, 'LDLsolve')","hasattr(M, 'pinv_solve')","hasattr(M, 'cramer_solve')","hasattr(M, 'inv')"],"fibers":[{"name":"case_0","guard":"method in ('GJ', 'GE')","ensures":["result == soln"],"decidability":"library","returns_expr":"soln"},{"name":"case_1","guard":"method == 'LU'","ensures":["result == M.LUsolve(rhs)"],"decidability":"z3","returns_expr":"M.LUsolve(rhs)"},{"name":"case_2","guard":"method == 'CH'","ensures":["result == M.cholesky_solve(rhs)"],"decidability":"z3","returns_expr":"M.cholesky_solve(rhs)"},{"name":"case_3","guard":"method == 'QR'","ensures":["result == M.QRsolve(rhs)"],"decidability":"z3","returns_expr":"M.QRsolve(rhs)"},{"name":"case_4","guard":"method == 'LDL'","ensures":["result == M.LDLsolve(rhs)"],"decidability":"z3","returns_expr":"M.LDLsolve(rhs)"},{"name":"case_5","guard":"method == 'PINV'","ensures":["result == M.pinv_solve(rhs)"],"decidability":"z3","returns_expr":"M.pinv_solve(rhs)"},{"name":"case_6","guard":"method == 'CRAMER'","ensures":["result == M.cramer_solve(rhs)"],"decidability":"z3","returns_expr":"M.cramer_solve(rhs)"},{"name":"case_7","guard":"not (method in ('GJ', 'GE')) and not (method == 'LU') and not (method == 'CH') and not (method == 'QR') and not (method == 'LDL') and not (method == 'PINV') and not (method == 'CRAMER')","ensures":["result == M.inv(method=method).multiply(rhs)"],"decidability":"z3","returns_expr":"M.inv(method=method).multiply(rhs)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["M.LDLsolve","M.LUsolve","M.QRsolve","M.cholesky_solve","M.cramer_solve","M.gauss_jordan_solve","M.inv","M.pinv_solve"],"raises":["NonInvertibleMatrixError"],"catches":["ValueError"]},"state_contract":{"exceptional_post":{"NonInvertibleMatrixError":["isinstance(raised, NonInvertibleMatrixError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _solve(M, rhs, method='GJ'):
     """Solves linear equation where the unique solution exists.
 
@@ -1019,16 +1135,28 @@ def _solve(M, rhs, method='GJ'):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_solve_least_squares(M, ), return the least-square fit to the data) over Any ║
+# ║ Path(_solve_least_squares(M, rhs, method), result == (M.cholesky_solve(rhs) if method == 'CH' else M.QRsolve(rhs) if method == 'QR' else M.LDLsolve(rhs) if method == 'LDL' else M.pinv_solve(rhs) if method == 'PINV' else (t * M).solve(t * rhs, method=method))) over {Any | hasattr(M, 'cholesky_solve') and hasattr(M, 'QRsolve') and hasattr(M, 'LDLsolve') and hasattr(M, 'H') and hasattr(M, 'pinv_solve')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _solve_least_squares : Any → Any                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(M, 'cholesky_solve')                   ║
+# ║   requires: hasattr(M, 'QRsolve')                          ║
+# ║   requires: hasattr(M, 'LDLsolve')                         ║
+# ║   ensures:  result == (M.cholesky_solve(rhs) if metho...   ║
+# ║   fiber[case_0]: method == 'CH' => M.cholesky_solve(rhs)   ║
+# ║   fiber[case_1]: method == 'QR' => M.QRsolve(rhs)          ║
+# ║   fiber[case_2]: method == 'LDL' => M.LDLsolve(rhs)        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _solve_least_squares : {Any | hasattr(M, 'cholesky_so...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 440dd006b158ed5b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 00181a7881fbcfde  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.solvers._solve_least_squares","kind":"function","src_hash":"cd074aaba421ad22","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_solve_least_squares(M, )","rhs":"return the least-square fit to the data","over":{"base":"Any"},"name":"_solve_least_squares_correct"},"guarantee":"return the least-square fit to the data","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.solvers._solve_least_squares_correct","statement":"Path(_solve_least_squares(x), return the least-square fit to the data)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"440dd006b158ed5b"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.solvers._solve_least_squares","kind":"function","src_hash":"cd074aaba421ad22","in":{"base":"Any","pred":"hasattr(M, 'cholesky_solve') and hasattr(M, 'QRsolve') and hasattr(M, 'LDLsolve') and hasattr(M, 'H') and hasattr(M, 'pinv_solve')"},"out":{"base":"Any","pred":"result satisfies: result == (M.cholesky_solve(rhs) if method == 'CH' else M.QRsolve(rhs) if method == 'QR' else M.LDLsolve(rhs) if method == 'LDL' else M.pinv_solve(rhs) if method == 'PINV' else (t * M).solve(t * rhs, method=method))"},"spec":{"lhs":"_solve_least_squares(M, rhs, method)","rhs":"result == (M.cholesky_solve(rhs) if method == 'CH' else M.QRsolve(rhs) if method == 'QR' else M.LDLsolve(rhs) if method == 'LDL' else M.pinv_solve(rhs) if method == 'PINV' else (t * M).solve(t * rhs, method=method))","over":{"base":"Any","pred":"hasattr(M, 'cholesky_solve') and hasattr(M, 'QRsolve') and hasattr(M, 'LDLsolve') and hasattr(M, 'H') and hasattr(M, 'pinv_solve')"},"name":"_solve_least_squares_correct"},"guarantee":"result == (M.cholesky_solve(rhs) if method == 'CH' else M.QRsolve(rhs) if method == 'QR' else M.LDLsolve(rhs) if method == 'LDL' else M.pinv_solve(rhs) if method == 'PINV' else (t * M).solve(t * rhs, method=method)); 5-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.solvers._solve_least_squares_correct","statement":"Path(_solve_least_squares(x), result == (M.cholesky_solve(rhs) if method == 'CH' else M.QRsolve(rhs) if method == 'QR' else M.LDLsolve(rhs) if method == 'LDL' else M.pinv_solve(rhs) if method == 'PINV' else (t * M).solve(t * rhs, method=method)); 5-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"00181a7881fbcfde","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(M, 'cholesky_solve')","hasattr(M, 'QRsolve')","hasattr(M, 'LDLsolve')","hasattr(M, 'H')","hasattr(M, 'pinv_solve')"],"ensures":["result == (M.cholesky_solve(rhs) if method == 'CH' else M.QRsolve(rhs) if method == 'QR' else M.LDLsolve(rhs) if method == 'LDL' else M.pinv_solve(rhs) if method == 'PINV' else (t * M).solve(t * rhs, method=method))"],"fibers":[{"name":"case_0","guard":"method == 'CH'","ensures":["result == M.cholesky_solve(rhs)"],"decidability":"z3","returns_expr":"M.cholesky_solve(rhs)"},{"name":"case_1","guard":"method == 'QR'","ensures":["result == M.QRsolve(rhs)"],"decidability":"z3","returns_expr":"M.QRsolve(rhs)"},{"name":"case_2","guard":"method == 'LDL'","ensures":["result == M.LDLsolve(rhs)"],"decidability":"z3","returns_expr":"M.LDLsolve(rhs)"},{"name":"case_3","guard":"method == 'PINV'","ensures":["result == M.pinv_solve(rhs)"],"decidability":"z3","returns_expr":"M.pinv_solve(rhs)"},{"name":"case_4","guard":"not (method == 'CH') and not (method == 'QR') and not (method == 'LDL') and not (method == 'PINV')","ensures":["result == (t * M).solve(t * rhs, method=method)"],"decidability":"z3","returns_expr":"(t * M).solve(t * rhs, method=method)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["M.H","M.LDLsolve","M.QRsolve","M.cholesky_solve","M.pinv_solve"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _solve_least_squares(M, rhs, method='CH'):
     """Return the least-square fit to the data.
 

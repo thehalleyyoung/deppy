@@ -37,16 +37,24 @@ ph = Symbol('phi')
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_python_basic(), test_python_basic produces the expected output) over Any ║
+# ║ Path(test_python_basic(), python(-Rational(1) / 2) == 'e = Rational(-1, 2)' and python(-Rational(13) / 22) == 'e = Rational(-13, 22)' and python(oo) == 'e = oo' and python(x ** 2) == "x = Symbol('x')\ne = x**2" and python(1 / x) == "x = Symbol('x')\ne = 1/x" and python(y * x ** (-2)) == "y = Symbol('y')\nx = Symbol('x')\ne = y/x**2" and python(x ** Rational(-5, 2)) == "x = Symbol('x')\ne = x**Rational(-5, 2)" and python(x ** 2 + x + 1) in ["x = Symbol('x')\ne = 1 + x + x**2", "x = Symbol('x')\ne = x + x**2 + 1", "x = Symbol('x')\ne = x**2 + x + 1"] and python(1 - x) in ["x = Symbol('x')\ne = 1 - x", "x = Symbol('x')\ne = -x + 1"] and python(1 - 2 * x) in ["x = Symbol('x')\ne = 1 - 2*x", "x = Symbol('x')\ne = -2*x + 1"] and python(1 - Rational(3, 2) * y / x) in ["y = Symbol('y')\nx = Symbol('x')\ne = 1 - 3/2*y/x", "y = Symbol('y')\nx = Symbol('x')\ne = -3/2*y/x + 1", "y = Symbol('y')\nx = Symbol('x')\ne = 1 - 3*y/(2*x)"] and python(x / y) == "x = Symbol('x')\ny = Symbol('y')\ne = x/y" and python(-x / y) == "x = Symbol('x')\ny = Symbol('y')\ne = -x/y" and python((x + 2) / y) in ["y = Symbol('y')\nx = Symbol('x')\ne = 1/y*(2 + x)", "y = Symbol('y')\nx = Symbol('x')\ne = 1/y*(x + 2)", "x = Symbol('x')\ny = Symbol('y')\ne = 1/y*(2 + x)", "x = Symbol('x')\ny = Symbol('y')\ne = (2 + x)/y", "x = Symbol('x')\ny = Symbol('y')\ne = (x + 2)/y"] and python((1 + x) * y) in ["y = Symbol('y')\nx = Symbol('x')\ne = y*(1 + x)", "y = Symbol('y')\nx = Symbol('x')\ne = y*(x + 1)"] and python(-5 * x / (x + 10)) == "x = Symbol('x')\ne = -5*x/(x + 10)" and python(1 - Rational(3, 2) * (x + 1)) in ["x = Symbol('x')\ne = Rational(-3, 2)*x + Rational(-1, 2)", "x = Symbol('x')\ne = -3*x/2 + Rational(-1, 2)", "x = Symbol('x')\ne = -3*x/2 + Rational(-1, 2)"]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_python_basic : Any → {Any | python(-Rational(1) ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  python(-Rational(1) / 2) == 'e = Rational...   ║
+# ║   ensures:  python(-Rational(13) / 22) == 'e = Ration...   ║
+# ║   ensures:  python(oo) == 'e = oo'                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_python_basic : Any → {Any | result satisfies: py...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8e1ea1fa53393e59  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 55cbb7619a1b1a11  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_python.test_python_basic","kind":"function","src_hash":"1ef848201aca8546","in":{"base":"Any"},"out":{"base":"Any","pred":"python(-Rational(1) / 2) == 'e = Rational(-1, 2)' and python(-Rational(13) / 22) == 'e = Rational(-13, 22)' and python(oo) == 'e = oo' and python(x ** 2) == \"x = Symbol('x')\\ne = x**2\" and python(1 / x) == \"x = Symbol('x')\\ne = 1/x\" and python(y * x ** (-2)) == \"y = Symbol('y')\\nx = Symbol('x')\\ne = y/x**2\" and python(x ** Rational(-5, 2)) == \"x = Symbol('x')\\ne = x**Rational(-5, 2)\" and python(1 - x) in [\"x = Symbol('x')\\ne = 1 - x\", \"x = Symbol('x')\\ne = -x + 1\"] and python(x / y) == \"x = Symbol('x')\\ny = Symbol('y')\\ne = x/y\" and python(-x / y) == \"x = Symbol('x')\\ny = Symbol('y')\\ne = -x/y\" and python(-5 * x / (x + 10)) == \"x = Symbol('x')\\ne = -5*x/(x + 10)\""},"spec":{"lhs":"test_python_basic()","rhs":"test_python_basic produces the expected output","over":{"base":"Any"},"name":"test_python_basic_correct"},"guarantee":"test_python_basic produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_python.test_python_basic_correct","statement":"Path(test_python_basic(x), test_python_basic produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8e1ea1fa53393e59"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_python.test_python_basic","kind":"function","src_hash":"1ef848201aca8546","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: python(-Rational(1) / 2) == 'e = Rational(-1, 2)' and python(-Rational(13) / 22) == 'e = Rational(-13, 22)' and python(oo) == 'e = oo' and python(x ** 2) == \"x = Symbol('x')\\ne = x**2\" and python(1 / x) == \"x = Symbol('x')\\ne = 1/x\" and python(y * x ** (-2)) == \"y = Symbol('y')\\nx = Symbol('x')\\ne = y/x**2\" and python(x ** Rational(-5, 2)) == \"x = Symbol('x')\\ne = x**Rational(-5, 2)\" and python(x ** 2 + x + 1) in [\"x = Symbol('x')\\ne = 1 + x + x**2\", \"x = Symbol('x')\\ne = x + x**2 + 1\", \"x = Symbol('x')\\ne = x**2 + x + 1\"] and python(1 - x) in [\"x = Symbol('x')\\ne = 1 - x\", \"x = Symbol('x')\\ne = -x + 1\"] and python(1 - 2 * x) in [\"x = Symbol('x')\\ne = 1 - 2*x\", \"x = Symbol('x')\\ne = -2*x + 1\"] and python(1 - Rational(3, 2) * y / x) in [\"y = Symbol('y')\\nx = Symbol('x')\\ne = 1 - 3/2*y/x\", \"y = Symbol('y')\\nx = Symbol('x')\\ne = -3/2*y/x + 1\", \"y = Symbol('y')\\nx = Symbol('x')\\ne = 1 - 3*y/(2*x)\"] and python(x / y) == \"x = Symbol('x')\\ny = Symbol('y')\\ne = x/y\" and python(-x / y) == \"x = Symbol('x')\\ny = Symbol('y')\\ne = -x/y\" and python((x + 2) / y) in [\"y = Symbol('y')\\nx = Symbol('x')\\ne = 1/y*(2 + x)\", \"y = Symbol('y')\\nx = Symbol('x')\\ne = 1/y*(x + 2)\", \"x = Symbol('x')\\ny = Symbol('y')\\ne = 1/y*(2 + x)\", \"x = Symbol('x')\\ny = Symbol('y')\\ne = (2 + x)/y\", \"x = Symbol('x')\\ny = Symbol('y')\\ne = (x + 2)/y\"] and python((1 + x) * y) in [\"y = Symbol('y')\\nx = Symbol('x')\\ne = y*(1 + x)\", \"y = Symbol('y')\\nx = Symbol('x')\\ne = y*(x + 1)\"] and python(-5 * x / (x + 10)) == \"x = Symbol('x')\\ne = -5*x/(x + 10)\" and python(1 - Rational(3, 2) * (x + 1)) in [\"x = Symbol('x')\\ne = Rational(-3, 2)*x + Rational(-1, 2)\", \"x = Symbol('x')\\ne = -3*x/2 + Rational(-1, 2)\", \"x = Symbol('x')\\ne = -3*x/2 + Rational(-1, 2)\"]"},"spec":{"lhs":"test_python_basic()","rhs":"python(-Rational(1) / 2) == 'e = Rational(-1, 2)' and python(-Rational(13) / 22) == 'e = Rational(-13, 22)' and python(oo) == 'e = oo' and python(x ** 2) == \"x = Symbol('x')\\ne = x**2\" and python(1 / x) == \"x = Symbol('x')\\ne = 1/x\" and python(y * x ** (-2)) == \"y = Symbol('y')\\nx = Symbol('x')\\ne = y/x**2\" and python(x ** Rational(-5, 2)) == \"x = Symbol('x')\\ne = x**Rational(-5, 2)\" and python(x ** 2 + x + 1) in [\"x = Symbol('x')\\ne = 1 + x + x**2\", \"x = Symbol('x')\\ne = x + x**2 + 1\", \"x = Symbol('x')\\ne = x**2 + x + 1\"] and python(1 - x) in [\"x = Symbol('x')\\ne = 1 - x\", \"x = Symbol('x')\\ne = -x + 1\"] and python(1 - 2 * x) in [\"x = Symbol('x')\\ne = 1 - 2*x\", \"x = Symbol('x')\\ne = -2*x + 1\"] and python(1 - Rational(3, 2) * y / x) in [\"y = Symbol('y')\\nx = Symbol('x')\\ne = 1 - 3/2*y/x\", \"y = Symbol('y')\\nx = Symbol('x')\\ne = -3/2*y/x + 1\", \"y = Symbol('y')\\nx = Symbol('x')\\ne = 1 - 3*y/(2*x)\"] and python(x / y) == \"x = Symbol('x')\\ny = Symbol('y')\\ne = x/y\" and python(-x / y) == \"x = Symbol('x')\\ny = Symbol('y')\\ne = -x/y\" and python((x + 2) / y) in [\"y = Symbol('y')\\nx = Symbol('x')\\ne = 1/y*(2 + x)\", \"y = Symbol('y')\\nx = Symbol('x')\\ne = 1/y*(x + 2)\", \"x = Symbol('x')\\ny = Symbol('y')\\ne = 1/y*(2 + x)\", \"x = Symbol('x')\\ny = Symbol('y')\\ne = (2 + x)/y\", \"x = Symbol('x')\\ny = Symbol('y')\\ne = (x + 2)/y\"] and python((1 + x) * y) in [\"y = Symbol('y')\\nx = Symbol('x')\\ne = y*(1 + x)\", \"y = Symbol('y')\\nx = Symbol('x')\\ne = y*(x + 1)\"] and python(-5 * x / (x + 10)) == \"x = Symbol('x')\\ne = -5*x/(x + 10)\" and python(1 - Rational(3, 2) * (x + 1)) in [\"x = Symbol('x')\\ne = Rational(-3, 2)*x + Rational(-1, 2)\", \"x = Symbol('x')\\ne = -3*x/2 + Rational(-1, 2)\", \"x = Symbol('x')\\ne = -3*x/2 + Rational(-1, 2)\"]","over":{"base":"Any"},"name":"test_python_basic_correct"},"guarantee":"python(-Rational(1) / 2) == 'e = Rational(-1, 2)'; python(-Rational(13) / 22) == 'e = Rational(-13, 22)'; python(oo) == 'e = oo'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_python.test_python_basic_correct","statement":"Path(test_python_basic(x), python(-Rational(1) / 2) == 'e = Rational(-1, 2)'; python(-Rational(13) / 22) == 'e = Rational(-13, 22)'; python(oo) == 'e = oo')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"55cbb7619a1b1a11","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["python(-Rational(1) / 2) == 'e = Rational(-1, 2)'","python(-Rational(13) / 22) == 'e = Rational(-13, 22)'","python(oo) == 'e = oo'","python(x ** 2) == \"x = Symbol('x')\\ne = x**2\"","python(1 / x) == \"x = Symbol('x')\\ne = 1/x\"","python(y * x ** (-2)) == \"y = Symbol('y')\\nx = Symbol('x')\\ne = y/x**2\"","python(x ** Rational(-5, 2)) == \"x = Symbol('x')\\ne = x**Rational(-5, 2)\"","python(x ** 2 + x + 1) in [\"x = Symbol('x')\\ne = 1 + x + x**2\", \"x = Symbol('x')\\ne = x + x**2 + 1\", \"x = Symbol('x')\\ne = x**2 + x + 1\"]","python(1 - x) in [\"x = Symbol('x')\\ne = 1 - x\", \"x = Symbol('x')\\ne = -x + 1\"]","python(1 - 2 * x) in [\"x = Symbol('x')\\ne = 1 - 2*x\", \"x = Symbol('x')\\ne = -2*x + 1\"]","python(1 - Rational(3, 2) * y / x) in [\"y = Symbol('y')\\nx = Symbol('x')\\ne = 1 - 3/2*y/x\", \"y = Symbol('y')\\nx = Symbol('x')\\ne = -3/2*y/x + 1\", \"y = Symbol('y')\\nx = Symbol('x')\\ne = 1 - 3*y/(2*x)\"]","python(x / y) == \"x = Symbol('x')\\ny = Symbol('y')\\ne = x/y\"","python(-x / y) == \"x = Symbol('x')\\ny = Symbol('y')\\ne = -x/y\"","python((x + 2) / y) in [\"y = Symbol('y')\\nx = Symbol('x')\\ne = 1/y*(2 + x)\", \"y = Symbol('y')\\nx = Symbol('x')\\ne = 1/y*(x + 2)\", \"x = Symbol('x')\\ny = Symbol('y')\\ne = 1/y*(2 + x)\", \"x = Symbol('x')\\ny = Symbol('y')\\ne = (2 + x)/y\", \"x = Symbol('x')\\ny = Symbol('y')\\ne = (x + 2)/y\"]","python((1 + x) * y) in [\"y = Symbol('y')\\nx = Symbol('x')\\ne = y*(1 + x)\", \"y = Symbol('y')\\nx = Symbol('x')\\ne = y*(x + 1)\"]","python(-5 * x / (x + 10)) == \"x = Symbol('x')\\ne = -5*x/(x + 10)\"","python(1 - Rational(3, 2) * (x + 1)) in [\"x = Symbol('x')\\ne = Rational(-3, 2)*x + Rational(-1, 2)\", \"x = Symbol('x')\\ne = -3*x/2 + Rational(-1, 2)\", \"x = Symbol('x')\\ne = -3*x/2 + Rational(-1, 2)\"]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_python_basic():
     # Simple numbers/symbols
     assert python(-Rational(1)/2) == "e = Rational(-1, 2)"
@@ -99,16 +107,24 @@ def test_python_basic():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_python_keyword_symbol_name_escaping(), test_python_keyword_symbol_name_escaping produces the expected output) over Any ║
+# ║ Path(test_python_keyword_symbol_name_escaping(), python(5 * Symbol('lambda')) == "lambda_ = Symbol('lambda')\ne = 5*lambda_" and python(5 * Symbol('lambda') + 7 * Symbol('lambda_')) == "lambda__ = Symbol('lambda')\nlambda_ = Symbol('lambda_')\ne = 7*lambda_ + 5*lambda__" and python(5 * Symbol('for') + Function('for_')(8)) == "for__ = Symbol('for')\nfor_ = Function('for_')\ne = 5*for__ + for_(8)") over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  python(5 * Symbol('lambda')) == "lambda_ ...   ║
+# ║   ensures:  python(5 * Symbol('lambda') + 7 * Symbol(...   ║
+# ║   ensures:  python(5 * Symbol('for') + Function('for_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_python_keyword_symbol_name_escaping : Any → {Any...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e94db5d9c6ed3345  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e99718a9fc29fb1e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_python.test_python_keyword_symbol_name_escaping","kind":"function","src_hash":"b609d2482774f64c","in":{"base":"Any"},"out":{"base":"Any","pred":"python(5 * Symbol('lambda')) == \"lambda_ = Symbol('lambda')\\ne = 5*lambda_\""},"spec":{"lhs":"test_python_keyword_symbol_name_escaping()","rhs":"test_python_keyword_symbol_name_escaping produces the expected output","over":{"base":"Any"},"name":"test_python_keyword_symbol_name_escaping_correct"},"guarantee":"test_python_keyword_symbol_name_escaping produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_python.test_python_keyword_symbol_name_escaping_correct","statement":"Path(test_python_keyword_symbol_name_escaping(x), test_python_keyword_symbol_name_escaping produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e94db5d9c6ed3345"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_python.test_python_keyword_symbol_name_escaping","kind":"function","src_hash":"b609d2482774f64c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: python(5 * Symbol('lambda')) == \"lambda_ = Symbol('lambda')\\ne = 5*lambda_\" and python(5 * Symbol('lambda') + 7 * Symbol('lambda_')) == \"lambda__ = Symbol('lambda')\\nlambda_ = Symbol('lambda_')\\ne = 7*lambda_ + 5*lambda__\" and python(5 * Symbol('for') + Function('for_')(8)) == \"for__ = Symbol('for')\\nfor_ = Function('for_')\\ne = 5*for__ + for_(8)\""},"spec":{"lhs":"test_python_keyword_symbol_name_escaping()","rhs":"python(5 * Symbol('lambda')) == \"lambda_ = Symbol('lambda')\\ne = 5*lambda_\" and python(5 * Symbol('lambda') + 7 * Symbol('lambda_')) == \"lambda__ = Symbol('lambda')\\nlambda_ = Symbol('lambda_')\\ne = 7*lambda_ + 5*lambda__\" and python(5 * Symbol('for') + Function('for_')(8)) == \"for__ = Symbol('for')\\nfor_ = Function('for_')\\ne = 5*for__ + for_(8)\"","over":{"base":"Any"},"name":"test_python_keyword_symbol_name_escaping_correct"},"guarantee":"python(5 * Symbol('lambda')) == \"lambda_ = Symbol('lambda')\\ne = 5*lambda_\"; python(5 * Symbol('lambda') + 7 * Symbol('lambda_')) == \"lambda__ = Symbol('lambda')\\nlambda_ = Symbol('lambda_')\\ne = 7*lambda_ + 5*lambda__\"; python(5 * Symbol('for') + Function('for_')(8)) == \"for__ = Symbol('for')\\nfor_ = Function('for_')\\ne = 5*for__ + for_(8)\"","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_python.test_python_keyword_symbol_name_escaping_correct","statement":"Path(test_python_keyword_symbol_name_escaping(x), python(5 * Symbol('lambda')) == \"lambda_ = Symbol('lambda')\\ne = 5*lambda_\"; python(5 * Symbol('lambda') + 7 * Symbol('lambda_')) == \"lambda__ = Symbol('lambda')\\nlambda_ = Symbol('lambda_')\\ne = 7*lambda_ + 5*lambda__\"; python(5 * Symbol('for') + Function('for_')(8)) == \"for__ = Symbol('for')\\nfor_ = Function('for_')\\ne = 5*for__ + for_(8)\")"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e99718a9fc29fb1e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["python(5 * Symbol('lambda')) == \"lambda_ = Symbol('lambda')\\ne = 5*lambda_\"","python(5 * Symbol('lambda') + 7 * Symbol('lambda_')) == \"lambda__ = Symbol('lambda')\\nlambda_ = Symbol('lambda_')\\ne = 7*lambda_ + 5*lambda__\"","python(5 * Symbol('for') + Function('for_')(8)) == \"for__ = Symbol('for')\\nfor_ = Function('for_')\\ne = 5*for__ + for_(8)\""],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_python_keyword_symbol_name_escaping():
     # Check for escaping of keywords
     assert python(
@@ -120,32 +136,46 @@ def test_python_keyword_symbol_name_escaping():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_python_keyword_function_name_escaping(), test_python_keyword_function_name_escaping produces the expected output) over Any ║
+# ║ Path(test_python_keyword_function_name_escaping(), python(5 * Function('for')(8)) == "for_ = Function('for')\ne = 5*for_(8)") over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  python(5 * Function('for')(8)) == "for_ =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_python_keyword_function_name_escaping : Any → {A...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0fea177baa35ca26  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7b4cc8dca30ce124  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_python.test_python_keyword_function_name_escaping","kind":"function","src_hash":"163eef85fab9e4d2","in":{"base":"Any"},"out":{"base":"Any","pred":"python(5 * Function('for')(8)) == \"for_ = Function('for')\\ne = 5*for_(8)\""},"spec":{"lhs":"test_python_keyword_function_name_escaping()","rhs":"test_python_keyword_function_name_escaping produces the expected output","over":{"base":"Any"},"name":"test_python_keyword_function_name_escaping_correct"},"guarantee":"test_python_keyword_function_name_escaping produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_python.test_python_keyword_function_name_escaping_correct","statement":"Path(test_python_keyword_function_name_escaping(x), test_python_keyword_function_name_escaping produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0fea177baa35ca26"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_python.test_python_keyword_function_name_escaping","kind":"function","src_hash":"163eef85fab9e4d2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: python(5 * Function('for')(8)) == \"for_ = Function('for')\\ne = 5*for_(8)\""},"spec":{"lhs":"test_python_keyword_function_name_escaping()","rhs":"python(5 * Function('for')(8)) == \"for_ = Function('for')\\ne = 5*for_(8)\"","over":{"base":"Any"},"name":"test_python_keyword_function_name_escaping_correct"},"guarantee":"python(5 * Function('for')(8)) == \"for_ = Function('for')\\ne = 5*for_(8)\"","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_python.test_python_keyword_function_name_escaping_correct","statement":"Path(test_python_keyword_function_name_escaping(x), python(5 * Function('for')(8)) == \"for_ = Function('for')\\ne = 5*for_(8)\")"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7b4cc8dca30ce124","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["python(5 * Function('for')(8)) == \"for_ = Function('for')\\ne = 5*for_(8)\""],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_python_keyword_function_name_escaping():
     assert python(
         5*Function("for")(8)) == "for_ = Function('for')\ne = 5*for_(8)"
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_python_relational(), test_python_relational produces the expected output) over Any ║
+# ║ Path(test_python_relational(), python(Eq(x, y)) == "x = Symbol('x')\ny = Symbol('y')\ne = Eq(x, y)" and python(Ge(x, y)) == "x = Symbol('x')\ny = Symbol('y')\ne = x >= y" and python(Le(x, y)) == "x = Symbol('x')\ny = Symbol('y')\ne = x <= y" and python(Gt(x, y)) == "x = Symbol('x')\ny = Symbol('y')\ne = x > y" and python(Lt(x, y)) == "x = Symbol('x')\ny = Symbol('y')\ne = x < y" and python(Ne(x / (y + 1), y ** 2)) in ["x = Symbol('x')\ny = Symbol('y')\ne = Ne(x/(1 + y), y**2)", "x = Symbol('x')\ny = Symbol('y')\ne = Ne(x/(y + 1), y**2)"]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_python_relational : Any → {Any | python(Eq(x, y)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  python(Eq(x, y)) == "x = Symbol('x')\ny =...   ║
+# ║   ensures:  python(Ge(x, y)) == "x = Symbol('x')\ny =...   ║
+# ║   ensures:  python(Le(x, y)) == "x = Symbol('x')\ny =...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_python_relational : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8550c97be0e27536  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3d1339abd8fabcc4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_python.test_python_relational","kind":"function","src_hash":"cdc211c6151f55c2","in":{"base":"Any"},"out":{"base":"Any","pred":"python(Eq(x, y)) == \"x = Symbol('x')\\ny = Symbol('y')\\ne = Eq(x, y)\" and python(Ge(x, y)) == \"x = Symbol('x')\\ny = Symbol('y')\\ne = x >= y\" and python(Le(x, y)) == \"x = Symbol('x')\\ny = Symbol('y')\\ne = x <= y\" and python(Gt(x, y)) == \"x = Symbol('x')\\ny = Symbol('y')\\ne = x > y\" and python(Lt(x, y)) == \"x = Symbol('x')\\ny = Symbol('y')\\ne = x < y\""},"spec":{"lhs":"test_python_relational()","rhs":"test_python_relational produces the expected output","over":{"base":"Any"},"name":"test_python_relational_correct"},"guarantee":"test_python_relational produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_python.test_python_relational_correct","statement":"Path(test_python_relational(x), test_python_relational produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8550c97be0e27536"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_python.test_python_relational","kind":"function","src_hash":"cdc211c6151f55c2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: python(Eq(x, y)) == \"x = Symbol('x')\\ny = Symbol('y')\\ne = Eq(x, y)\" and python(Ge(x, y)) == \"x = Symbol('x')\\ny = Symbol('y')\\ne = x >= y\" and python(Le(x, y)) == \"x = Symbol('x')\\ny = Symbol('y')\\ne = x <= y\" and python(Gt(x, y)) == \"x = Symbol('x')\\ny = Symbol('y')\\ne = x > y\" and python(Lt(x, y)) == \"x = Symbol('x')\\ny = Symbol('y')\\ne = x < y\" and python(Ne(x / (y + 1), y ** 2)) in [\"x = Symbol('x')\\ny = Symbol('y')\\ne = Ne(x/(1 + y), y**2)\", \"x = Symbol('x')\\ny = Symbol('y')\\ne = Ne(x/(y + 1), y**2)\"]"},"spec":{"lhs":"test_python_relational()","rhs":"python(Eq(x, y)) == \"x = Symbol('x')\\ny = Symbol('y')\\ne = Eq(x, y)\" and python(Ge(x, y)) == \"x = Symbol('x')\\ny = Symbol('y')\\ne = x >= y\" and python(Le(x, y)) == \"x = Symbol('x')\\ny = Symbol('y')\\ne = x <= y\" and python(Gt(x, y)) == \"x = Symbol('x')\\ny = Symbol('y')\\ne = x > y\" and python(Lt(x, y)) == \"x = Symbol('x')\\ny = Symbol('y')\\ne = x < y\" and python(Ne(x / (y + 1), y ** 2)) in [\"x = Symbol('x')\\ny = Symbol('y')\\ne = Ne(x/(1 + y), y**2)\", \"x = Symbol('x')\\ny = Symbol('y')\\ne = Ne(x/(y + 1), y**2)\"]","over":{"base":"Any"},"name":"test_python_relational_correct"},"guarantee":"python(Eq(x, y)) == \"x = Symbol('x')\\ny = Symbol('y')\\ne = Eq(x, y)\"; python(Ge(x, y)) == \"x = Symbol('x')\\ny = Symbol('y')\\ne = x >= y\"; python(Le(x, y)) == \"x = Symbol('x')\\ny = Symbol('y')\\ne = x <= y\"","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_python.test_python_relational_correct","statement":"Path(test_python_relational(x), python(Eq(x, y)) == \"x = Symbol('x')\\ny = Symbol('y')\\ne = Eq(x, y)\"; python(Ge(x, y)) == \"x = Symbol('x')\\ny = Symbol('y')\\ne = x >= y\"; python(Le(x, y)) == \"x = Symbol('x')\\ny = Symbol('y')\\ne = x <= y\")"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3d1339abd8fabcc4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["python(Eq(x, y)) == \"x = Symbol('x')\\ny = Symbol('y')\\ne = Eq(x, y)\"","python(Ge(x, y)) == \"x = Symbol('x')\\ny = Symbol('y')\\ne = x >= y\"","python(Le(x, y)) == \"x = Symbol('x')\\ny = Symbol('y')\\ne = x <= y\"","python(Gt(x, y)) == \"x = Symbol('x')\\ny = Symbol('y')\\ne = x > y\"","python(Lt(x, y)) == \"x = Symbol('x')\\ny = Symbol('y')\\ne = x < y\"","python(Ne(x / (y + 1), y ** 2)) in [\"x = Symbol('x')\\ny = Symbol('y')\\ne = Ne(x/(1 + y), y**2)\", \"x = Symbol('x')\\ny = Symbol('y')\\ne = Ne(x/(y + 1), y**2)\"]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_python_relational():
     assert python(Eq(x, y)) == "x = Symbol('x')\ny = Symbol('y')\ne = Eq(x, y)"
     assert python(Ge(x, y)) == "x = Symbol('x')\ny = Symbol('y')\ne = x >= y"
@@ -158,16 +188,24 @@ def test_python_relational():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_python_functions(), test_python_functions produces the expected output) over Any ║
+# ║ Path(test_python_functions(), python(2 * x + exp(x)) in "x = Symbol('x')\ne = 2*x + exp(x)" and python(sqrt(2)) == 'e = sqrt(2)' and python(2 ** Rational(1, 3)) == 'e = 2**Rational(1, 3)' and python(sqrt(2 + pi)) == 'e = sqrt(2 + pi)' and python((2 + pi) ** Rational(1, 3)) == 'e = (2 + pi)**Rational(1, 3)' and python(2 ** Rational(1, 4)) == 'e = 2**Rational(1, 4)' and python(Abs(x)) == "x = Symbol('x')\ne = Abs(x)" and python(Abs(x / (x ** 2 + 1))) in ["x = Symbol('x')\ne = Abs(x/(1 + x**2))", "x = Symbol('x')\ne = Abs(x/(x**2 + 1))"] and python(f(x)) == "x = Symbol('x')\nf = Function('f')\ne = f(x)" and python(f(x, y)) == "x = Symbol('x')\ny = Symbol('y')\nf = Function('f')\ne = f(x, y)" and python(f(x / (y + 1), y)) in ["x = Symbol('x')\ny = Symbol('y')\nf = Function('f')\ne = f(x/(1 + y), y)", "x = Symbol('x')\ny = Symbol('y')\nf = Function('f')\ne = f(x/(y + 1), y)"] and python(sqrt(sqrt(x + 1) + 1)) in ["x = Symbol('x')\ne = sqrt(1 + sqrt(1 + x))", "x = Symbol('x')\ne = sqrt(sqrt(x + 1) + 1)"] and python(((x + 1) ** Rational(1, 3) + 1) ** Rational(1, 3)) in ["x = Symbol('x')\ne = (1 + (1 + x)**Rational(1, 3))**Rational(1, 3)", "x = Symbol('x')\ne = ((x + 1)**Rational(1, 3) + 1)**Rational(1, 3)"] and python(sin(x) ** 2) == "x = Symbol('x')\ne = sin(x)**2") over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_python_functions : Any → {Any | python(2 * x + e...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  python(2 * x + exp(x)) in "x = Symbol('x'...   ║
+# ║   ensures:  python(sqrt(2)) == 'e = sqrt(2)'               ║
+# ║   ensures:  python(2 ** Rational(1, 3)) == 'e = 2**Ra...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_python_functions : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e38cedf102e5cf94  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dbc9c4020c518620  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_python.test_python_functions","kind":"function","src_hash":"0a113c7fd6db77ae","in":{"base":"Any"},"out":{"base":"Any","pred":"python(2 * x + exp(x)) in \"x = Symbol('x')\\ne = 2*x + exp(x)\" and python(sqrt(2)) == 'e = sqrt(2)' and python(2 ** Rational(1, 3)) == 'e = 2**Rational(1, 3)' and python(sqrt(2 + pi)) == 'e = sqrt(2 + pi)' and python((2 + pi) ** Rational(1, 3)) == 'e = (2 + pi)**Rational(1, 3)' and python(2 ** Rational(1, 4)) == 'e = 2**Rational(1, 4)' and python(Abs(x)) == \"x = Symbol('x')\\ne = Abs(x)\" and python(f(x)) == \"x = Symbol('x')\\nf = Function('f')\\ne = f(x)\" and python(sin(x) ** 2) == \"x = Symbol('x')\\ne = sin(x)**2\""},"spec":{"lhs":"test_python_functions()","rhs":"test_python_functions produces the expected output","over":{"base":"Any"},"name":"test_python_functions_correct"},"guarantee":"test_python_functions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_python.test_python_functions_correct","statement":"Path(test_python_functions(x), test_python_functions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e38cedf102e5cf94"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_python.test_python_functions","kind":"function","src_hash":"0a113c7fd6db77ae","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: python(2 * x + exp(x)) in \"x = Symbol('x')\\ne = 2*x + exp(x)\" and python(sqrt(2)) == 'e = sqrt(2)' and python(2 ** Rational(1, 3)) == 'e = 2**Rational(1, 3)' and python(sqrt(2 + pi)) == 'e = sqrt(2 + pi)' and python((2 + pi) ** Rational(1, 3)) == 'e = (2 + pi)**Rational(1, 3)' and python(2 ** Rational(1, 4)) == 'e = 2**Rational(1, 4)' and python(Abs(x)) == \"x = Symbol('x')\\ne = Abs(x)\" and python(Abs(x / (x ** 2 + 1))) in [\"x = Symbol('x')\\ne = Abs(x/(1 + x**2))\", \"x = Symbol('x')\\ne = Abs(x/(x**2 + 1))\"] and python(f(x)) == \"x = Symbol('x')\\nf = Function('f')\\ne = f(x)\" and python(f(x, y)) == \"x = Symbol('x')\\ny = Symbol('y')\\nf = Function('f')\\ne = f(x, y)\" and python(f(x / (y + 1), y)) in [\"x = Symbol('x')\\ny = Symbol('y')\\nf = Function('f')\\ne = f(x/(1 + y), y)\", \"x = Symbol('x')\\ny = Symbol('y')\\nf = Function('f')\\ne = f(x/(y + 1), y)\"] and python(sqrt(sqrt(x + 1) + 1)) in [\"x = Symbol('x')\\ne = sqrt(1 + sqrt(1 + x))\", \"x = Symbol('x')\\ne = sqrt(sqrt(x + 1) + 1)\"] and python(((x + 1) ** Rational(1, 3) + 1) ** Rational(1, 3)) in [\"x = Symbol('x')\\ne = (1 + (1 + x)**Rational(1, 3))**Rational(1, 3)\", \"x = Symbol('x')\\ne = ((x + 1)**Rational(1, 3) + 1)**Rational(1, 3)\"] and python(sin(x) ** 2) == \"x = Symbol('x')\\ne = sin(x)**2\""},"spec":{"lhs":"test_python_functions()","rhs":"python(2 * x + exp(x)) in \"x = Symbol('x')\\ne = 2*x + exp(x)\" and python(sqrt(2)) == 'e = sqrt(2)' and python(2 ** Rational(1, 3)) == 'e = 2**Rational(1, 3)' and python(sqrt(2 + pi)) == 'e = sqrt(2 + pi)' and python((2 + pi) ** Rational(1, 3)) == 'e = (2 + pi)**Rational(1, 3)' and python(2 ** Rational(1, 4)) == 'e = 2**Rational(1, 4)' and python(Abs(x)) == \"x = Symbol('x')\\ne = Abs(x)\" and python(Abs(x / (x ** 2 + 1))) in [\"x = Symbol('x')\\ne = Abs(x/(1 + x**2))\", \"x = Symbol('x')\\ne = Abs(x/(x**2 + 1))\"] and python(f(x)) == \"x = Symbol('x')\\nf = Function('f')\\ne = f(x)\" and python(f(x, y)) == \"x = Symbol('x')\\ny = Symbol('y')\\nf = Function('f')\\ne = f(x, y)\" and python(f(x / (y + 1), y)) in [\"x = Symbol('x')\\ny = Symbol('y')\\nf = Function('f')\\ne = f(x/(1 + y), y)\", \"x = Symbol('x')\\ny = Symbol('y')\\nf = Function('f')\\ne = f(x/(y + 1), y)\"] and python(sqrt(sqrt(x + 1) + 1)) in [\"x = Symbol('x')\\ne = sqrt(1 + sqrt(1 + x))\", \"x = Symbol('x')\\ne = sqrt(sqrt(x + 1) + 1)\"] and python(((x + 1) ** Rational(1, 3) + 1) ** Rational(1, 3)) in [\"x = Symbol('x')\\ne = (1 + (1 + x)**Rational(1, 3))**Rational(1, 3)\", \"x = Symbol('x')\\ne = ((x + 1)**Rational(1, 3) + 1)**Rational(1, 3)\"] and python(sin(x) ** 2) == \"x = Symbol('x')\\ne = sin(x)**2\"","over":{"base":"Any"},"name":"test_python_functions_correct"},"guarantee":"python(2 * x + exp(x)) in \"x = Symbol('x')\\ne = 2*x + exp(x)\"; python(sqrt(2)) == 'e = sqrt(2)'; python(2 ** Rational(1, 3)) == 'e = 2**Rational(1, 3)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_python.test_python_functions_correct","statement":"Path(test_python_functions(x), python(2 * x + exp(x)) in \"x = Symbol('x')\\ne = 2*x + exp(x)\"; python(sqrt(2)) == 'e = sqrt(2)'; python(2 ** Rational(1, 3)) == 'e = 2**Rational(1, 3)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dbc9c4020c518620","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["python(2 * x + exp(x)) in \"x = Symbol('x')\\ne = 2*x + exp(x)\"","python(sqrt(2)) == 'e = sqrt(2)'","python(2 ** Rational(1, 3)) == 'e = 2**Rational(1, 3)'","python(sqrt(2 + pi)) == 'e = sqrt(2 + pi)'","python((2 + pi) ** Rational(1, 3)) == 'e = (2 + pi)**Rational(1, 3)'","python(2 ** Rational(1, 4)) == 'e = 2**Rational(1, 4)'","python(Abs(x)) == \"x = Symbol('x')\\ne = Abs(x)\"","python(Abs(x / (x ** 2 + 1))) in [\"x = Symbol('x')\\ne = Abs(x/(1 + x**2))\", \"x = Symbol('x')\\ne = Abs(x/(x**2 + 1))\"]","python(f(x)) == \"x = Symbol('x')\\nf = Function('f')\\ne = f(x)\"","python(f(x, y)) == \"x = Symbol('x')\\ny = Symbol('y')\\nf = Function('f')\\ne = f(x, y)\"","python(f(x / (y + 1), y)) in [\"x = Symbol('x')\\ny = Symbol('y')\\nf = Function('f')\\ne = f(x/(1 + y), y)\", \"x = Symbol('x')\\ny = Symbol('y')\\nf = Function('f')\\ne = f(x/(y + 1), y)\"]","python(sqrt(sqrt(x + 1) + 1)) in [\"x = Symbol('x')\\ne = sqrt(1 + sqrt(1 + x))\", \"x = Symbol('x')\\ne = sqrt(sqrt(x + 1) + 1)\"]","python(((x + 1) ** Rational(1, 3) + 1) ** Rational(1, 3)) in [\"x = Symbol('x')\\ne = (1 + (1 + x)**Rational(1, 3))**Rational(1, 3)\", \"x = Symbol('x')\\ne = ((x + 1)**Rational(1, 3) + 1)**Rational(1, 3)\"]","python(sin(x) ** 2) == \"x = Symbol('x')\\ne = sin(x)**2\""],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_python_functions():
     # Simple
     assert python(2*x + exp(x)) in "x = Symbol('x')\ne = 2*x + exp(x)"
@@ -205,16 +243,23 @@ def test_python_functions():
 
 @XFAIL
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_python_functions_conjugates(), test_python_functions_conjugates produces the expected output) over Any ║
+# ║ Path(test_python_functions_conjugates(), python(conjugate(a + b * I)) == '_     _\na - I*b' and python(conjugate(exp(a + b * I))) == ' _     _\n a - I*b\ne       ') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_python_functions_conjugates : Any → {Any | pytho...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  python(conjugate(a + b * I)) == '_     _\...   ║
+# ║   ensures:  python(conjugate(exp(a + b * I))) == ' _ ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_python_functions_conjugates : Any → {Any | resul...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bb8486151f9348d1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2bf12142bdc22a50  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_python.test_python_functions_conjugates","kind":"function","src_hash":"a86257be227aa7d2","in":{"base":"Any"},"out":{"base":"Any","pred":"python(conjugate(a + b * I)) == '_     _\\na - I*b' and python(conjugate(exp(a + b * I))) == ' _     _\\n a - I*b\\ne       '"},"spec":{"lhs":"test_python_functions_conjugates()","rhs":"test_python_functions_conjugates produces the expected output","over":{"base":"Any"},"name":"test_python_functions_conjugates_correct"},"guarantee":"test_python_functions_conjugates produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_python.test_python_functions_conjugates_correct","statement":"Path(test_python_functions_conjugates(x), test_python_functions_conjugates produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bb8486151f9348d1"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_python.test_python_functions_conjugates","kind":"function","src_hash":"a86257be227aa7d2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: python(conjugate(a + b * I)) == '_     _\\na - I*b' and python(conjugate(exp(a + b * I))) == ' _     _\\n a - I*b\\ne       '"},"spec":{"lhs":"test_python_functions_conjugates()","rhs":"python(conjugate(a + b * I)) == '_     _\\na - I*b' and python(conjugate(exp(a + b * I))) == ' _     _\\n a - I*b\\ne       '","over":{"base":"Any"},"name":"test_python_functions_conjugates_correct"},"guarantee":"python(conjugate(a + b * I)) == '_     _\\na - I*b'; python(conjugate(exp(a + b * I))) == ' _     _\\n a - I*b\\ne       '","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_python.test_python_functions_conjugates_correct","statement":"Path(test_python_functions_conjugates(x), python(conjugate(a + b * I)) == '_     _\\na - I*b'; python(conjugate(exp(a + b * I))) == ' _     _\\n a - I*b\\ne       ')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2bf12142bdc22a50","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["python(conjugate(a + b * I)) == '_     _\\na - I*b'","python(conjugate(exp(a + b * I))) == ' _     _\\n a - I*b\\ne       '"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_python_functions_conjugates():
     a, b = map(Symbol, 'ab')
     assert python( conjugate(a + b*I) ) == '_     _\na - I*b'
@@ -222,16 +267,24 @@ def test_python_functions_conjugates():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_python_derivatives(), test_python_derivatives produces the expected output) over Any ║
+# ║ Path(test_python_derivatives(), python(f_1) == "x = Symbol('x')\ne = Derivative(log(x), x)" and python(f_2) == "x = Symbol('x')\ne = x + Derivative(log(x), x)" and python(f_3) == "x = Symbol('x')\ny = Symbol('y')\ne = Derivative(x**2 + log(x), x, y)" and python(f_4) in ["x = Symbol('x')\ny = Symbol('y')\ne = x**2 + Derivative(2*x*y, y, x)", "x = Symbol('x')\ny = Symbol('y')\ne = Derivative(2*x*y, y, x) + x**2"]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_python_derivatives : Any → {Any | python(f_1) ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  python(f_1) == "x = Symbol('x')\ne = Deri...   ║
+# ║   ensures:  python(f_2) == "x = Symbol('x')\ne = x + ...   ║
+# ║   ensures:  python(f_3) == "x = Symbol('x')\ny = Symb...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_python_derivatives : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 431ec10032fdff3c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a55ac88d62752240  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_python.test_python_derivatives","kind":"function","src_hash":"6105dfa7f5f4ff45","in":{"base":"Any"},"out":{"base":"Any","pred":"python(f_1) == \"x = Symbol('x')\\ne = Derivative(log(x), x)\" and python(f_2) == \"x = Symbol('x')\\ne = x + Derivative(log(x), x)\""},"spec":{"lhs":"test_python_derivatives()","rhs":"test_python_derivatives produces the expected output","over":{"base":"Any"},"name":"test_python_derivatives_correct"},"guarantee":"test_python_derivatives produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_python.test_python_derivatives_correct","statement":"Path(test_python_derivatives(x), test_python_derivatives produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"431ec10032fdff3c"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_python.test_python_derivatives","kind":"function","src_hash":"6105dfa7f5f4ff45","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: python(f_1) == \"x = Symbol('x')\\ne = Derivative(log(x), x)\" and python(f_2) == \"x = Symbol('x')\\ne = x + Derivative(log(x), x)\" and python(f_3) == \"x = Symbol('x')\\ny = Symbol('y')\\ne = Derivative(x**2 + log(x), x, y)\" and python(f_4) in [\"x = Symbol('x')\\ny = Symbol('y')\\ne = x**2 + Derivative(2*x*y, y, x)\", \"x = Symbol('x')\\ny = Symbol('y')\\ne = Derivative(2*x*y, y, x) + x**2\"]"},"spec":{"lhs":"test_python_derivatives()","rhs":"python(f_1) == \"x = Symbol('x')\\ne = Derivative(log(x), x)\" and python(f_2) == \"x = Symbol('x')\\ne = x + Derivative(log(x), x)\" and python(f_3) == \"x = Symbol('x')\\ny = Symbol('y')\\ne = Derivative(x**2 + log(x), x, y)\" and python(f_4) in [\"x = Symbol('x')\\ny = Symbol('y')\\ne = x**2 + Derivative(2*x*y, y, x)\", \"x = Symbol('x')\\ny = Symbol('y')\\ne = Derivative(2*x*y, y, x) + x**2\"]","over":{"base":"Any"},"name":"test_python_derivatives_correct"},"guarantee":"python(f_1) == \"x = Symbol('x')\\ne = Derivative(log(x), x)\"; python(f_2) == \"x = Symbol('x')\\ne = x + Derivative(log(x), x)\"; python(f_3) == \"x = Symbol('x')\\ny = Symbol('y')\\ne = Derivative(x**2 + log(x), x, y)\"","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_python.test_python_derivatives_correct","statement":"Path(test_python_derivatives(x), python(f_1) == \"x = Symbol('x')\\ne = Derivative(log(x), x)\"; python(f_2) == \"x = Symbol('x')\\ne = x + Derivative(log(x), x)\"; python(f_3) == \"x = Symbol('x')\\ny = Symbol('y')\\ne = Derivative(x**2 + log(x), x, y)\")"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a55ac88d62752240","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["python(f_1) == \"x = Symbol('x')\\ne = Derivative(log(x), x)\"","python(f_2) == \"x = Symbol('x')\\ne = x + Derivative(log(x), x)\"","python(f_3) == \"x = Symbol('x')\\ny = Symbol('y')\\ne = Derivative(x**2 + log(x), x, y)\"","python(f_4) in [\"x = Symbol('x')\\ny = Symbol('y')\\ne = x**2 + Derivative(2*x*y, y, x)\", \"x = Symbol('x')\\ny = Symbol('y')\\ne = Derivative(2*x*y, y, x) + x**2\"]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_python_derivatives():
     # Simple
     f_1 = Derivative(log(x), x, evaluate=False)
@@ -252,16 +305,24 @@ def test_python_derivatives():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_python_integrals(), test_python_integrals produces the expected output) over Any ║
+# ║ Path(test_python_integrals(), python(f_1) == "x = Symbol('x')\ne = Integral(log(x), x)" and python(f_2) == "x = Symbol('x')\ne = Integral(x**2, x)" and python(f_3) == "x = Symbol('x')\ne = Integral(x**(2**x), x)" and python(f_4) == "x = Symbol('x')\ne = Integral(x**2, (x, 1, 2))" and python(f_5) == "x = Symbol('x')\ne = Integral(x**2, (x, Rational(1, 2), 10))" and python(f_6) == "x = Symbol('x')\ny = Symbol('y')\ne = Integral(x**2*y**2, x, y)") over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_python_integrals : Any → {Any | python(f_1) == "...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  python(f_1) == "x = Symbol('x')\ne = Inte...   ║
+# ║   ensures:  python(f_2) == "x = Symbol('x')\ne = Inte...   ║
+# ║   ensures:  python(f_3) == "x = Symbol('x')\ne = Inte...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_python_integrals : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | db4be4b25e291e5a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f4968554de1711fe  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_python.test_python_integrals","kind":"function","src_hash":"a39343b55dfa0854","in":{"base":"Any"},"out":{"base":"Any","pred":"python(f_1) == \"x = Symbol('x')\\ne = Integral(log(x), x)\" and python(f_2) == \"x = Symbol('x')\\ne = Integral(x**2, x)\" and python(f_3) == \"x = Symbol('x')\\ne = Integral(x**(2**x), x)\" and python(f_4) == \"x = Symbol('x')\\ne = Integral(x**2, (x, 1, 2))\" and python(f_5) == \"x = Symbol('x')\\ne = Integral(x**2, (x, Rational(1, 2), 10))\""},"spec":{"lhs":"test_python_integrals()","rhs":"test_python_integrals produces the expected output","over":{"base":"Any"},"name":"test_python_integrals_correct"},"guarantee":"test_python_integrals produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_python.test_python_integrals_correct","statement":"Path(test_python_integrals(x), test_python_integrals produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"db4be4b25e291e5a"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_python.test_python_integrals","kind":"function","src_hash":"a39343b55dfa0854","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: python(f_1) == \"x = Symbol('x')\\ne = Integral(log(x), x)\" and python(f_2) == \"x = Symbol('x')\\ne = Integral(x**2, x)\" and python(f_3) == \"x = Symbol('x')\\ne = Integral(x**(2**x), x)\" and python(f_4) == \"x = Symbol('x')\\ne = Integral(x**2, (x, 1, 2))\" and python(f_5) == \"x = Symbol('x')\\ne = Integral(x**2, (x, Rational(1, 2), 10))\" and python(f_6) == \"x = Symbol('x')\\ny = Symbol('y')\\ne = Integral(x**2*y**2, x, y)\""},"spec":{"lhs":"test_python_integrals()","rhs":"python(f_1) == \"x = Symbol('x')\\ne = Integral(log(x), x)\" and python(f_2) == \"x = Symbol('x')\\ne = Integral(x**2, x)\" and python(f_3) == \"x = Symbol('x')\\ne = Integral(x**(2**x), x)\" and python(f_4) == \"x = Symbol('x')\\ne = Integral(x**2, (x, 1, 2))\" and python(f_5) == \"x = Symbol('x')\\ne = Integral(x**2, (x, Rational(1, 2), 10))\" and python(f_6) == \"x = Symbol('x')\\ny = Symbol('y')\\ne = Integral(x**2*y**2, x, y)\"","over":{"base":"Any"},"name":"test_python_integrals_correct"},"guarantee":"python(f_1) == \"x = Symbol('x')\\ne = Integral(log(x), x)\"; python(f_2) == \"x = Symbol('x')\\ne = Integral(x**2, x)\"; python(f_3) == \"x = Symbol('x')\\ne = Integral(x**(2**x), x)\"","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_python.test_python_integrals_correct","statement":"Path(test_python_integrals(x), python(f_1) == \"x = Symbol('x')\\ne = Integral(log(x), x)\"; python(f_2) == \"x = Symbol('x')\\ne = Integral(x**2, x)\"; python(f_3) == \"x = Symbol('x')\\ne = Integral(x**(2**x), x)\")"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f4968554de1711fe","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["python(f_1) == \"x = Symbol('x')\\ne = Integral(log(x), x)\"","python(f_2) == \"x = Symbol('x')\\ne = Integral(x**2, x)\"","python(f_3) == \"x = Symbol('x')\\ne = Integral(x**(2**x), x)\"","python(f_4) == \"x = Symbol('x')\\ne = Integral(x**2, (x, 1, 2))\"","python(f_5) == \"x = Symbol('x')\\ne = Integral(x**2, (x, Rational(1, 2), 10))\"","python(f_6) == \"x = Symbol('x')\\ny = Symbol('y')\\ne = Integral(x**2*y**2, x, y)\""],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_python_integrals():
     # Simple
     f_1 = Integral(log(x), x)
@@ -288,47 +349,66 @@ def test_python_integrals():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_python_matrix(), test_python_matrix produces the expected output) over Any ║
+# ║ Path(test_python_matrix(), p == s) over Any                ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_python_matrix : Any → {Any | p == s}                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  p == s                                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_python_matrix : Any → {Any | result satisfies: p...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6b2578ba7e57a851  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2da661bf88cff8df  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_python.test_python_matrix","kind":"function","src_hash":"5253d590da211977","in":{"base":"Any"},"out":{"base":"Any","pred":"p == s"},"spec":{"lhs":"test_python_matrix()","rhs":"test_python_matrix produces the expected output","over":{"base":"Any"},"name":"test_python_matrix_correct"},"guarantee":"test_python_matrix produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_python.test_python_matrix_correct","statement":"Path(test_python_matrix(x), test_python_matrix produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6b2578ba7e57a851"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_python.test_python_matrix","kind":"function","src_hash":"5253d590da211977","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: p == s"},"spec":{"lhs":"test_python_matrix()","rhs":"p == s","over":{"base":"Any"},"name":"test_python_matrix_correct"},"guarantee":"p == s","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_python.test_python_matrix_correct","statement":"Path(test_python_matrix(x), p == s)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2da661bf88cff8df","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["p == s"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_python_matrix():
     p = python(Matrix([[x**2+1, 1], [y, x+y]]))
     s = "x = Symbol('x')\ny = Symbol('y')\ne = MutableDenseMatrix([[x**2 + 1, 1], [y, x + y]])"
     assert p == s
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_python_limits(), test_python_limits produces the expected output) over Any ║
+# ║ Path(test_python_limits(), python(limit(x, x, oo)) == 'e = oo' and python(limit(x ** 2, x, 0)) == 'e = 0') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_python_limits : Any → {Any | python(limit(x, x, ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  python(limit(x, x, oo)) == 'e = oo'            ║
+# ║   ensures:  python(limit(x ** 2, x, 0)) == 'e = 0'         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_python_limits : Any → {Any | result satisfies: p...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 16b687bc4d4cf5d1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c805a2c6ab82530f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_python.test_python_limits","kind":"function","src_hash":"9a30537947e6d5ad","in":{"base":"Any"},"out":{"base":"Any","pred":"python(limit(x, x, oo)) == 'e = oo' and python(limit(x ** 2, x, 0)) == 'e = 0'"},"spec":{"lhs":"test_python_limits()","rhs":"test_python_limits produces the expected output","over":{"base":"Any"},"name":"test_python_limits_correct"},"guarantee":"test_python_limits produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_python.test_python_limits_correct","statement":"Path(test_python_limits(x), test_python_limits produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"16b687bc4d4cf5d1"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_python.test_python_limits","kind":"function","src_hash":"9a30537947e6d5ad","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: python(limit(x, x, oo)) == 'e = oo' and python(limit(x ** 2, x, 0)) == 'e = 0'"},"spec":{"lhs":"test_python_limits()","rhs":"python(limit(x, x, oo)) == 'e = oo' and python(limit(x ** 2, x, 0)) == 'e = 0'","over":{"base":"Any"},"name":"test_python_limits_correct"},"guarantee":"python(limit(x, x, oo)) == 'e = oo'; python(limit(x ** 2, x, 0)) == 'e = 0'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_python.test_python_limits_correct","statement":"Path(test_python_limits(x), python(limit(x, x, oo)) == 'e = oo'; python(limit(x ** 2, x, 0)) == 'e = 0')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c805a2c6ab82530f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["python(limit(x, x, oo)) == 'e = oo'","python(limit(x ** 2, x, 0)) == 'e = 0'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_python_limits():
     assert python(limit(x, x, oo)) == 'e = oo'
     assert python(limit(x**2, x, 0)) == 'e = 0'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_20762(), test_issue_20762 produces the expected output) over Any ║
+# ║ Path(test_issue_20762(), python(expr) == "a_b = Symbol('a_{b}')\nb = Symbol('b')\ne = a_b*b") over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_20762 : Any → {Any | python(expr) == "a_b ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  python(expr) == "a_b = Symbol('a_{b}')\nb...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_20762 : Any → {Any | result satisfies: pyt...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f941e19be99b71b7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d2562bbcd479446d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_python.test_issue_20762","kind":"function","src_hash":"b653caf7aa31fe6b","in":{"base":"Any"},"out":{"base":"Any","pred":"python(expr) == \"a_b = Symbol('a_{b}')\\nb = Symbol('b')\\ne = a_b*b\""},"spec":{"lhs":"test_issue_20762()","rhs":"test_issue_20762 produces the expected output","over":{"base":"Any"},"name":"test_issue_20762_correct"},"guarantee":"test_issue_20762 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_python.test_issue_20762_correct","statement":"Path(test_issue_20762(x), test_issue_20762 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f941e19be99b71b7"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_python.test_issue_20762","kind":"function","src_hash":"b653caf7aa31fe6b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: python(expr) == \"a_b = Symbol('a_{b}')\\nb = Symbol('b')\\ne = a_b*b\""},"spec":{"lhs":"test_issue_20762()","rhs":"python(expr) == \"a_b = Symbol('a_{b}')\\nb = Symbol('b')\\ne = a_b*b\"","over":{"base":"Any"},"name":"test_issue_20762_correct"},"guarantee":"python(expr) == \"a_b = Symbol('a_{b}')\\nb = Symbol('b')\\ne = a_b*b\"","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_python.test_issue_20762_correct","statement":"Path(test_issue_20762(x), python(expr) == \"a_b = Symbol('a_{b}')\\nb = Symbol('b')\\ne = a_b*b\")"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d2562bbcd479446d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["python(expr) == \"a_b = Symbol('a_{b}')\\nb = Symbol('b')\\ne = a_b*b\""],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_issue_20762():
     # Make sure Python removes curly braces from subscripted variables
     a_b = Symbol('a_{b}')
@@ -338,15 +418,21 @@ def test_issue_20762():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_settings(), test_settings produces the expected output) over Any ║
+# ║ Path(test_settings(), <unspecified:test_settings>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_settings : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ef35fac4ac4ba2e1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_python.test_settings","kind":"function","src_hash":"1cc40c99612c52cc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_settings()","rhs":"test_settings produces the expected output","over":{"base":"Any"},"name":"test_settings_correct"},"guarantee":"test_settings produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_python.test_settings_correct","statement":"Path(test_settings(x), test_settings produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ef35fac4ac4ba2e1"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_python.test_settings","kind":"function","src_hash":"1cc40c99612c52cc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_settings()","rhs":"<unspecified:test_settings>","over":{"base":"Any"},"name":"test_settings_correct"},"guarantee":"test_settings produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_python.test_settings_correct","statement":"Path(test_settings(x), test_settings produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ef35fac4ac4ba2e1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_settings():
     raises(TypeError, lambda: python(x, method="garbage"))

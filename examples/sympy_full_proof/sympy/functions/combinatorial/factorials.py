@@ -34,28 +34,40 @@ from math import factorial as _factorial, prod, sqrt as _sqrt
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(CombinatorialFunction(*args), correctly constructs a CombinatorialFunction instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ CombinatorialFunction : Any → Any                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DefinedFunction)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ CombinatorialFunction : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cdcc9b065665b61f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.CombinatorialFunction","kind":"class","src_hash":"d0f3abcde8dba9a4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"CombinatorialFunction(*args)","rhs":"correctly constructs a CombinatorialFunction instance","over":{"base":"Any"},"name":"CombinatorialFunction_class_invariant"},"guarantee":"correctly constructs a CombinatorialFunction instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cdcc9b065665b61f"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.CombinatorialFunction","kind":"class","src_hash":"d0f3abcde8dba9a4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DefinedFunction)"},"spec":{"lhs":"CombinatorialFunction(*args)","rhs":"correctly constructs a CombinatorialFunction instance","over":{"base":"Any"},"name":"CombinatorialFunction_class_invariant"},"guarantee":"isinstance(self, DefinedFunction)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cdcc9b065665b61f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DefinedFunction)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function CombinatorialFunction not found in source"]}}
 class CombinatorialFunction(DefinedFunction):
     """Base class for combinatorial functions. """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_simplify(**k), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_simplify(**kwargs), <unspecified:_eval_simplify>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_simplify : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 81548c33a96b8127  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.CombinatorialFunction._eval_simplify","kind":"method","src_hash":"3676484c2cdcad88","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_simplify(**k)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_simplify_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.factorials.CombinatorialFunction._eval_simplify_correct","statement":"Path(_eval_simplify(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"81548c33a96b8127"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.CombinatorialFunction._eval_simplify","kind":"method","src_hash":"3676484c2cdcad88","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_simplify(**kwargs)","rhs":"<unspecified:_eval_simplify>","over":{"base":"Any"},"name":"_eval_simplify_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.factorials.CombinatorialFunction._eval_simplify_correct","statement":"Path(_eval_simplify(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"81548c33a96b8127","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_simplify(self, **kwargs):
         from sympy.simplify.combsimp import combsimp
         # combinatorial function with non-integer arguments is
@@ -75,14 +87,20 @@ class CombinatorialFunction(DefinedFunction):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(factorial(*args), correctly constructs a factorial instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ factorial : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, CombinatorialFunction)        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ factorial : Any → {Any | result satisfies: isinstance...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 93f3b88f11882f81  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.factorial","kind":"class","src_hash":"10f24eb137f34908","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"factorial(*args)","rhs":"correctly constructs a factorial instance","over":{"base":"Any"},"name":"factorial_class_invariant"},"guarantee":"correctly constructs a factorial instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"93f3b88f11882f81"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.factorial","kind":"class","src_hash":"10f24eb137f34908","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, CombinatorialFunction)"},"spec":{"lhs":"factorial(*args)","rhs":"correctly constructs a factorial instance","over":{"base":"Any"},"name":"factorial_class_invariant"},"guarantee":"isinstance(self, CombinatorialFunction)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"93f3b88f11882f81","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, CombinatorialFunction)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function factorial not found in source"]}}
 class factorial(CombinatorialFunction):
     r"""Implementation of factorial function over nonnegative integers.
        By convention (consistent with the gamma function and the binomial
@@ -133,16 +151,23 @@ class factorial(CombinatorialFunction):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(fdiff(arg), id) over Any                              ║
+# ║ Path(fdiff(argindex), id) over Any                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: argindex == 1 => gamma(self.args[0] ...   ║
+# ║   fiber[case_1]: not (argindex == 1)                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ fdiff : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 46c63a929c61d0de   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.factorial.fdiff","kind":"method","src_hash":"c510f27123d32b6a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(arg)","rhs":"fdiff produces the expected output","over":{"base":"Any"},"name":"fdiff_correct","kind":"composition"},"guarantee":"fdiff produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"gamma","by":"library_axiom"},{"fn":"polygamma","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"46c63a929c61d0de"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.factorial.fdiff","kind":"method","src_hash":"c510f27123d32b6a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(argindex)","rhs":"<unspecified:fdiff>","over":{"base":"Any"},"name":"fdiff_correct","kind":"composition"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"gamma","by":"library_axiom"},{"fn":"polygamma","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"46c63a929c61d0de","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"argindex == 1","ensures":["result == gamma(self.args[0] + 1) * polygamma(0, self.args[0] + 1)"],"decidability":"z3","returns_expr":"gamma(self.args[0] + 1) * polygamma(0, self.args[0] + 1)"},{"name":"case_1","guard":"not (argindex == 1)","ensures":[],"decidability":"z3"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"],"raises":["ArgumentIndexError"]},"state_contract":{"exceptional_post":{"ArgumentIndexError":["isinstance(raised, ArgumentIndexError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def fdiff(self, argindex=1):
         from sympy.functions.special.gamma_functions import (gamma, polygamma)
         if argindex == 1:
@@ -160,16 +185,25 @@ class factorial(CombinatorialFunction):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_swing(cls), internal helper behaves correctly) over Any ║
+# ║ Path(_swing(cls, n), result == (cls._small_swing[n] if n < 33 else L_product * R_product) and result == cls._small_swing[n] or result == L_product * R_product) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _swing : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (cls._small_swing[n] if n < 33 ...   ║
+# ║   ensures:  result == cls._small_swing[n] or result =...   ║
+# ║   fiber[case_0]: n < 33 => cls._small_swing[n]             ║
+# ║   fiber[case_1]: not (n < 33) => L_product * R_product     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _swing : Any → {Any | result satisfies: result == (cl...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 953819b6b26f7910  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c1e92e96cd88a1fa  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.factorial._swing","kind":"classmethod","src_hash":"0691b7ce0191c056","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_swing(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_swing_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.factorials.factorial._swing_correct","statement":"Path(_swing(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"953819b6b26f7910"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.factorial._swing","kind":"classmethod","src_hash":"0691b7ce0191c056","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (cls._small_swing[n] if n < 33 else L_product * R_product) and result == cls._small_swing[n] or result == L_product * R_product"},"spec":{"lhs":"_swing(cls, n)","rhs":"result == (cls._small_swing[n] if n < 33 else L_product * R_product) and result == cls._small_swing[n] or result == L_product * R_product","over":{"base":"Any"},"name":"_swing_correct"},"guarantee":"result == (cls._small_swing[n] if n < 33 else L_product * R_product); result == cls._small_swing[n] or result == L_product * R_product; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.factorials.factorial._swing_correct","statement":"Path(_swing(x), result == (cls._small_swing[n] if n < 33 else L_product * R_product); result == cls._small_swing[n] or result == L_product * R_product; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c1e92e96cd88a1fa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (cls._small_swing[n] if n < 33 else L_product * R_product)","result == cls._small_swing[n] or result == L_product * R_product"],"fibers":[{"name":"case_0","guard":"n < 33","ensures":["result == cls._small_swing[n]"],"decidability":"z3","returns_expr":"cls._small_swing[n]"},{"name":"case_1","guard":"not (n < 33)","ensures":["result == L_product * R_product"],"decidability":"z3","returns_expr":"L_product * R_product"}],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _swing(cls, n):
         if n < 33:
             return cls._small_swing[n]
@@ -202,16 +236,25 @@ class factorial(CombinatorialFunction):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_recursive(cls), internal helper behaves correctly) over Any ║
+# ║ Path(_recursive(cls, n), result == (1 if n < 2 else cls._recursive(n // 2) ** 2 * cls._swing(n)) and result == 1 or result == cls._recursive(n // 2) ** 2 * cls._swing(n)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _recursive : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (1 if n < 2 else cls._recursive...   ║
+# ║   ensures:  result == 1 or result == cls._recursive(n...   ║
+# ║   fiber[case_0]: n < 2 => 1                                ║
+# ║   fiber[case_1]: not (n < 2) => cls._recursive(n // 2...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _recursive : Any → {Any | result satisfies: result ==...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 248b60eb77df6220  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a458bd776f18e1e5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.factorial._recursive","kind":"classmethod","src_hash":"b800f9add00f550e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_recursive(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_recursive_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.factorials.factorial._recursive_correct","statement":"Path(_recursive(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"248b60eb77df6220"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.factorial._recursive","kind":"classmethod","src_hash":"b800f9add00f550e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (1 if n < 2 else cls._recursive(n // 2) ** 2 * cls._swing(n)) and result == 1 or result == cls._recursive(n // 2) ** 2 * cls._swing(n)"},"spec":{"lhs":"_recursive(cls, n)","rhs":"result == (1 if n < 2 else cls._recursive(n // 2) ** 2 * cls._swing(n)) and result == 1 or result == cls._recursive(n // 2) ** 2 * cls._swing(n)","over":{"base":"Any"},"name":"_recursive_correct"},"guarantee":"result == (1 if n < 2 else cls._recursive(n // 2) ** 2 * cls._swing(n)); result == 1 or result == cls._recursive(n // 2) ** 2 * cls._swing(n); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.factorials.factorial._recursive_correct","statement":"Path(_recursive(x), result == (1 if n < 2 else cls._recursive(n // 2) ** 2 * cls._swing(n)); result == 1 or result == cls._recursive(n // 2) ** 2 * cls._swing(n); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a458bd776f18e1e5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (1 if n < 2 else cls._recursive(n // 2) ** 2 * cls._swing(n))","result == 1 or result == cls._recursive(n // 2) ** 2 * cls._swing(n)"],"fibers":[{"name":"case_0","guard":"n < 2","ensures":["result == 1"],"decidability":"z3","returns_expr":"1"},{"name":"case_1","guard":"not (n < 2)","ensures":["result == cls._recursive(n // 2) ** 2 * cls._swing(n)"],"decidability":"z3","returns_expr":"cls._recursive(n // 2) ** 2 * cls._swing(n)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["cls._recursive","cls._swing"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _recursive(cls, n):
         if n < 2:
             return 1
@@ -220,16 +263,25 @@ class factorial(CombinatorialFunction):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), eval produces the expected output) over Any ║
+# ║ Path(eval(cls, n), len(cls) == old_len_cls + 1) over {Any | hasattr(n, 'is_Number') and hasattr(n, 'is_zero') and hasattr(n, 'is_Integer') and hasattr(n, 'is_negative') and hasattr(n, 'p')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(n, 'is_Number')                        ║
+# ║   requires: hasattr(n, 'is_zero')                          ║
+# ║   requires: hasattr(n, 'is_Integer')                       ║
+# ║   ensures:  len(cls) == old_len_cls + 1                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : {Any | hasattr(n, 'is_Number') and hasattr(n, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7ffb31a49be07d08  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 124379b47c5748dd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.factorial.eval","kind":"classmethod","src_hash":"6b6e376298e569c5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.factorials.factorial.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7ffb31a49be07d08"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.factorial.eval","kind":"classmethod","src_hash":"6b6e376298e569c5","in":{"base":"Any","pred":"hasattr(n, 'is_Number') and hasattr(n, 'is_zero') and hasattr(n, 'is_Integer') and hasattr(n, 'is_negative') and hasattr(n, 'p')"},"out":{"base":"Any","pred":"result satisfies: len(cls) == old_len_cls + 1"},"spec":{"lhs":"eval(cls, n)","rhs":"len(cls) == old_len_cls + 1","over":{"base":"Any","pred":"hasattr(n, 'is_Number') and hasattr(n, 'is_zero') and hasattr(n, 'is_Integer') and hasattr(n, 'is_negative') and hasattr(n, 'p')"},"name":"eval_correct"},"guarantee":"len(cls) == old_len_cls + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.factorials.factorial.eval_correct","statement":"Path(eval(x), len(cls) == old_len_cls + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"124379b47c5748dd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(n, 'is_Number')","hasattr(n, 'is_zero')","hasattr(n, 'is_Integer')","hasattr(n, 'is_negative')","hasattr(n, 'p')"],"ensures":["len(cls) == old_len_cls + 1"],"pure":false,"effects":{"effect_type":"mutates_args","reads":["cls._recursive","cls._small_factorials","n.is_Integer","n.is_Number","n.is_negative","n.is_zero","n.p"],"calls_mutating":["cls._small_factorials.append"]},"state_contract":{"modifies":["cls.*"],"old_bindings":{"old_len_cls":"len(cls)"},"post_ensures":["len(cls) == old_len_cls + 1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, n):
         n = sympify(n)
 
@@ -271,16 +323,22 @@ class factorial(CombinatorialFunction):
                     return Integer(result)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_facmod(n, ), internal helper behaves correctly) over Any ║
+# ║ Path(_facmod(n, q), <unspecified:_facmod>) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _facmod : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3be359f4f5b1023c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.factorial._facmod","kind":"method","src_hash":"cae59a7ff97f8cd8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_facmod(n, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_facmod_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.factorials.factorial._facmod_correct","statement":"Path(_facmod(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3be359f4f5b1023c"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.factorial._facmod","kind":"method","src_hash":"cae59a7ff97f8cd8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_facmod(n, q)","rhs":"<unspecified:_facmod>","over":{"base":"Any"},"name":"_facmod_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.factorials.factorial._facmod_correct","statement":"Path(_facmod(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3be359f4f5b1023c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _facmod(self, n, q):
         res, N = 1, int(_sqrt(n))
 
@@ -312,16 +370,24 @@ class factorial(CombinatorialFunction):
         return res
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_Mod(q), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_Mod(q), <unspecified:_eval_Mod>) over {Any | hasattr(q, 'is_integer') and hasattr(q, 'is_Integer')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_Mod : Any → Any                                      ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(q, 'is_integer')                       ║
+# ║   requires: hasattr(q, 'is_Integer')                       ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_Mod : {Any | hasattr(q, 'is_integer') and hasat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b1d4517171667ae4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.factorial._eval_Mod","kind":"method","src_hash":"683ca2f8ed02af63","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_Mod(q)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_Mod_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.factorials.factorial._eval_Mod_correct","statement":"Path(_eval_Mod(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b1d4517171667ae4"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.factorial._eval_Mod","kind":"method","src_hash":"683ca2f8ed02af63","in":{"base":"Any","pred":"hasattr(q, 'is_integer') and hasattr(q, 'is_Integer')"},"out":{"base":"Any"},"spec":{"lhs":"_eval_Mod(q)","rhs":"<unspecified:_eval_Mod>","over":{"base":"Any","pred":"hasattr(q, 'is_integer') and hasattr(q, 'is_Integer')"},"name":"_eval_Mod_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.factorials.factorial._eval_Mod_correct","statement":"Path(_eval_Mod(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b1d4517171667ae4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(q, 'is_integer')","hasattr(q, 'is_Integer')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["q.is_Integer","q.is_integer","self._facmod","self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_Mod(self, q):
         n = self.args[0]
         if n.is_integer and n.is_nonnegative and q.is_integer:
@@ -353,31 +419,45 @@ class factorial(CombinatorialFunction):
                     return fc % q
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_gamma(n, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_gamma(n, piecewise, **kwargs), gamma(n + 1)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  gamma(n + 1)                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_gamma : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 93946115aef77058  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0a7285b948cda7e4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.factorial._eval_rewrite_as_gamma","kind":"method","src_hash":"3f12eef489427fd5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_gamma(n, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_gamma_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.factorials.factorial._eval_rewrite_as_gamma_correct","statement":"Path(_eval_rewrite_as_gamma(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"93946115aef77058"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.factorial._eval_rewrite_as_gamma","kind":"method","src_hash":"3f12eef489427fd5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_gamma(n, piecewise, **kwargs)","rhs":"gamma(n + 1)","over":{"base":"Any"},"name":"_eval_rewrite_as_gamma_correct"},"guarantee":"returns gamma(n + 1)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.factorials.factorial._eval_rewrite_as_gamma_correct","statement":"Path(_eval_rewrite_as_gamma(x), returns gamma(n + 1))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0a7285b948cda7e4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"gamma(n + 1)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_gamma(self, n, piecewise=True, **kwargs):
         from sympy.functions.special.gamma_functions import gamma
         return gamma(n + 1)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_Product(n, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_Product(n, **kwargs), Product(i, (i, 1, n))) over {Any | hasattr(n, 'is_nonnegative') and hasattr(n, 'is_integer')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_rewrite_as_Product : Any → Any                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(n, 'is_nonnegative')                   ║
+# ║   requires: hasattr(n, 'is_integer')                       ║
+# ║   returns:  Product(i, (i, 1, n))                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_rewrite_as_Product : {Any | hasattr(n, 'is_nonn...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | db69723cec45a667  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c9a31f1b1818c195  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.factorial._eval_rewrite_as_Product","kind":"method","src_hash":"b0f2be26d09dda38","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_Product(n, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_Product_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.factorials.factorial._eval_rewrite_as_Product_correct","statement":"Path(_eval_rewrite_as_Product(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"db69723cec45a667"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.factorial._eval_rewrite_as_Product","kind":"method","src_hash":"b0f2be26d09dda38","in":{"base":"Any","pred":"hasattr(n, 'is_nonnegative') and hasattr(n, 'is_integer')"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_Product(n, **kwargs)","rhs":"Product(i, (i, 1, n))","over":{"base":"Any","pred":"hasattr(n, 'is_nonnegative') and hasattr(n, 'is_integer')"},"name":"_eval_rewrite_as_Product_correct"},"guarantee":"returns Product(i, (i, 1, n))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.factorials.factorial._eval_rewrite_as_Product_correct","statement":"Path(_eval_rewrite_as_Product(x), returns Product(i, (i, 1, n)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c9a31f1b1818c195","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(n, 'is_nonnegative')","hasattr(n, 'is_integer')"],"returns_expr":"Product(i, (i, 1, n))","pure":false,"effects":{"effect_type":"reads_state","reads":["n.is_integer","n.is_nonnegative"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_Product(self, n, **kwargs):
         from sympy.concrete.products import Product
         if n.is_nonnegative and n.is_integer:
@@ -385,94 +465,133 @@ class factorial(CombinatorialFunction):
             return Product(i, (i, 1, n))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_integer(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_integer(), True) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  True                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_integer : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fb24f0f78d9a82d7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 63cbd65b6ab9a58d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.factorial._eval_is_integer","kind":"method","src_hash":"a255f6638d80db07","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_integer()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_integer_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.factorials.factorial._eval_is_integer_correct","statement":"Path(_eval_is_integer(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fb24f0f78d9a82d7"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.factorial._eval_is_integer","kind":"method","src_hash":"a255f6638d80db07","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_integer()","rhs":"True","over":{"base":"Any"},"name":"_eval_is_integer_correct"},"guarantee":"returns True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.factorials.factorial._eval_is_integer_correct","statement":"Path(_eval_is_integer(x), returns True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"63cbd65b6ab9a58d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"True","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_integer(self):
         if self.args[0].is_integer and self.args[0].is_nonnegative:
             return True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_positive(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_positive(), True) over Any                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  True                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_positive : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e81f1fdb6f9cbe26  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ea58d4cf51ff8420  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.factorial._eval_is_positive","kind":"method","src_hash":"12a014c244533a6b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_positive()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_positive_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.factorials.factorial._eval_is_positive_correct","statement":"Path(_eval_is_positive(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e81f1fdb6f9cbe26"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.factorial._eval_is_positive","kind":"method","src_hash":"12a014c244533a6b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_positive()","rhs":"True","over":{"base":"Any"},"name":"_eval_is_positive_correct"},"guarantee":"returns True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.factorials.factorial._eval_is_positive_correct","statement":"Path(_eval_is_positive(x), returns True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ea58d4cf51ff8420","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"True","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_positive(self):
         if self.args[0].is_integer and self.args[0].is_nonnegative:
             return True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_even(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_even(), (x - 2).is_nonnegative) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (x - 2).is_nonnegative                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_even : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 946b557a1abcd986  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6bbb2a7f4dfadaa3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.factorial._eval_is_even","kind":"method","src_hash":"7a920223d9a2e07e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_even()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_even_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.factorials.factorial._eval_is_even_correct","statement":"Path(_eval_is_even(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"946b557a1abcd986"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.factorial._eval_is_even","kind":"method","src_hash":"7a920223d9a2e07e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_even()","rhs":"(x - 2).is_nonnegative","over":{"base":"Any"},"name":"_eval_is_even_correct"},"guarantee":"returns (x - 2).is_nonnegative","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.factorials.factorial._eval_is_even_correct","statement":"Path(_eval_is_even(x), returns (x - 2).is_nonnegative)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6bbb2a7f4dfadaa3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(x - 2).is_nonnegative","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_even(self):
         x = self.args[0]
         if x.is_integer and x.is_nonnegative:
             return (x - 2).is_nonnegative
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_composite(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_composite(), (x - 3).is_nonnegative) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (x - 3).is_nonnegative                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_composite : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 213404f82749615b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e5e29eca1ee51335  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.factorial._eval_is_composite","kind":"method","src_hash":"595c58d7ed4f2fb0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_composite()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_composite_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.factorials.factorial._eval_is_composite_correct","statement":"Path(_eval_is_composite(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"213404f82749615b"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.factorial._eval_is_composite","kind":"method","src_hash":"595c58d7ed4f2fb0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_composite()","rhs":"(x - 3).is_nonnegative","over":{"base":"Any"},"name":"_eval_is_composite_correct"},"guarantee":"returns (x - 3).is_nonnegative","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.factorials.factorial._eval_is_composite_correct","statement":"Path(_eval_is_composite(x), returns (x - 3).is_nonnegative)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e5e29eca1ee51335","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(x - 3).is_nonnegative","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_composite(self):
         x = self.args[0]
         if x.is_integer and x.is_nonnegative:
             return (x - 3).is_nonnegative
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_real(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_real(), True) over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  True                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_real : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 32c18467370dd633  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8f8f94d0c64e6bea  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.factorial._eval_is_real","kind":"method","src_hash":"ae0b85b253a44592","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_real()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_real_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.factorials.factorial._eval_is_real_correct","statement":"Path(_eval_is_real(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"32c18467370dd633"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.factorial._eval_is_real","kind":"method","src_hash":"ae0b85b253a44592","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_real()","rhs":"True","over":{"base":"Any"},"name":"_eval_is_real_correct"},"guarantee":"returns True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.factorials.factorial._eval_is_real_correct","statement":"Path(_eval_is_real(x), returns True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8f8f94d0c64e6bea","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"True","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_real(self):
         x = self.args[0]
         if x.is_nonnegative or x.is_noninteger:
             return True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_as_leading_term(x, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_as_leading_term(x, logx, cdir), result == (S.One if arg0.is_zero else self.func(arg)) and result == S.One or result == self.func(arg)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_as_leading_term : Any → Any                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (S.One if arg0.is_zero else sel...   ║
+# ║   ensures:  result == S.One or result == self.func(arg)    ║
+# ║   fiber[case_0]: arg0.is_zero => S.One                     ║
+# ║   fiber[case_1]: not arg0.is_infinite => self.func(arg)    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_as_leading_term : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 354a05d3ebdfdf64  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a7722272f2a42335  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.factorial._eval_as_leading_term","kind":"method","src_hash":"ae9de6a39882e168","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_as_leading_term(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_as_leading_term_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.factorials.factorial._eval_as_leading_term_correct","statement":"Path(_eval_as_leading_term(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"354a05d3ebdfdf64"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.factorial._eval_as_leading_term","kind":"method","src_hash":"ae9de6a39882e168","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (S.One if arg0.is_zero else self.func(arg)) and result == S.One or result == self.func(arg)"},"spec":{"lhs":"_eval_as_leading_term(x, logx, cdir)","rhs":"result == (S.One if arg0.is_zero else self.func(arg)) and result == S.One or result == self.func(arg)","over":{"base":"Any"},"name":"_eval_as_leading_term_correct"},"guarantee":"result == (S.One if arg0.is_zero else self.func(arg)); result == S.One or result == self.func(arg); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.factorials.factorial._eval_as_leading_term_correct","statement":"Path(_eval_as_leading_term(x), result == (S.One if arg0.is_zero else self.func(arg)); result == S.One or result == self.func(arg); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a7722272f2a42335","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (S.One if arg0.is_zero else self.func(arg))","result == S.One or result == self.func(arg)"],"fibers":[{"name":"case_0","guard":"arg0.is_zero","ensures":["result == S.One"],"decidability":"library","returns_expr":"S.One"},{"name":"case_1","guard":"not arg0.is_infinite","ensures":["result == self.func(arg)"],"decidability":"library","returns_expr":"self.func(arg)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.func"],"raises":["PoleError"]},"state_contract":{"exceptional_post":{"PoleError":["isinstance(raised, PoleError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_as_leading_term(self, x, logx, cdir):
         arg = self.args[0].as_leading_term(x)
         arg0 = arg.subs(x, 0)
@@ -483,16 +602,22 @@ class factorial(CombinatorialFunction):
         raise PoleError("Cannot expand %s around 0" % (self))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(MultiFactorial(), correctly constructs a MultiFactorial instance) over Any ║
+# ║ Path(MultiFactorial(), isinstance(self, CombinatorialFunction)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ MultiFactorial : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, CombinatorialFunction)        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ MultiFactorial : Any → {Any | result satisfies: isins...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 92fa2953fb342a96           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.MultiFactorial","kind":"class","src_hash":"eae83bc5b1514933","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"MultiFactorial()","rhs":"correctly constructs a MultiFactorial instance","over":{"base":"Any"},"name":"MultiFactorial_correct"},"guarantee":"correctly constructs a MultiFactorial instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"92fa2953fb342a96"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.MultiFactorial","kind":"class","src_hash":"eae83bc5b1514933","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, CombinatorialFunction)"},"spec":{"lhs":"MultiFactorial()","rhs":"isinstance(self, CombinatorialFunction)","over":{"base":"Any"},"name":"MultiFactorial_correct"},"guarantee":"isinstance(self, CombinatorialFunction)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"92fa2953fb342a96","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, CombinatorialFunction)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function MultiFactorial not found in source"]}}
 class MultiFactorial(CombinatorialFunction):
     pass
 
@@ -500,14 +625,20 @@ class MultiFactorial(CombinatorialFunction):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(subfactorial(*args), correctly constructs a subfactorial instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ subfactorial : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, CombinatorialFunction)        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ subfactorial : Any → {Any | result satisfies: isinsta...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e7868fbaaa6ed23e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.subfactorial","kind":"class","src_hash":"e99bddffb30d5814","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"subfactorial(*args)","rhs":"correctly constructs a subfactorial instance","over":{"base":"Any"},"name":"subfactorial_class_invariant"},"guarantee":"correctly constructs a subfactorial instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e7868fbaaa6ed23e"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.subfactorial","kind":"class","src_hash":"e99bddffb30d5814","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, CombinatorialFunction)"},"spec":{"lhs":"subfactorial(*args)","rhs":"correctly constructs a subfactorial instance","over":{"base":"Any"},"name":"subfactorial_class_invariant"},"guarantee":"isinstance(self, CombinatorialFunction)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e7868fbaaa6ed23e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, CombinatorialFunction)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":false,"binding_errors":["Function subfactorial not found in source"]}}
 class subfactorial(CombinatorialFunction):
     r"""The subfactorial counts the derangements of $n$ items and is
     defined for non-negative integers as:
@@ -553,16 +684,26 @@ class subfactorial(CombinatorialFunction):
     @classmethod
     @cacheit
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval(n), internal helper behaves correctly) over Any ║
+# ║ Path(_eval(n), result == (S.One if not n else S.Zero if n == 1 else z2) and result == S.One or result == S.Zero or result == z2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (S.One if not n else S.Zero if ...   ║
+# ║   ensures:  result == S.One or result == S.Zero or re...   ║
+# ║   fiber[case_0]: not n => S.One                            ║
+# ║   fiber[case_1]: n == 1 => S.Zero                          ║
+# ║   fiber[case_2]: not (not n) and not (n == 1) => z2        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval : Any → {Any | result satisfies: result == (S.O...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 340034912e3d8657  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9d18b9ef2ad1520b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.subfactorial._eval","kind":"classmethod","src_hash":"8be3357f8e5d1792","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval(n)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.factorials.subfactorial._eval_correct","statement":"Path(_eval(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"340034912e3d8657"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.subfactorial._eval","kind":"classmethod","src_hash":"8be3357f8e5d1792","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (S.One if not n else S.Zero if n == 1 else z2) and result == S.One or result == S.Zero or result == z2"},"spec":{"lhs":"_eval(n)","rhs":"result == (S.One if not n else S.Zero if n == 1 else z2) and result == S.One or result == S.Zero or result == z2","over":{"base":"Any"},"name":"_eval_correct"},"guarantee":"result == (S.One if not n else S.Zero if n == 1 else z2); result == S.One or result == S.Zero or result == z2; 3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.factorials.subfactorial._eval_correct","statement":"Path(_eval(x), result == (S.One if not n else S.Zero if n == 1 else z2); result == S.One or result == S.Zero or result == z2; 3-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9d18b9ef2ad1520b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (S.One if not n else S.Zero if n == 1 else z2)","result == S.One or result == S.Zero or result == z2"],"fibers":[{"name":"case_0","guard":"not n","ensures":["result == S.One"],"decidability":"library","returns_expr":"S.One"},{"name":"case_1","guard":"n == 1","ensures":["result == S.Zero"],"decidability":"z3","returns_expr":"S.Zero"},{"name":"case_2","guard":"not (not n) and not (n == 1)","ensures":["result == z2"],"decidability":"z3","returns_expr":"z2"}],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval(self, n):
         if not n:
             return S.One
@@ -576,16 +717,25 @@ class subfactorial(CombinatorialFunction):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), eval produces the expected output) over Any ║
+# ║ Path(eval(cls, arg), <unspecified:eval>) over {Any | hasattr(arg, 'is_Number') and hasattr(arg, 'is_Integer') and hasattr(arg, 'is_nonnegative')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Any                                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(arg, 'is_Number')                      ║
+# ║   requires: hasattr(arg, 'is_Integer')                     ║
+# ║   requires: hasattr(arg, 'is_nonnegative')                 ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : {Any | hasattr(arg, 'is_Number') and hasattr(a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ab5a050481ad823f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.subfactorial.eval","kind":"classmethod","src_hash":"44ae57de6c187cbf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.factorials.subfactorial.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ab5a050481ad823f"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.subfactorial.eval","kind":"classmethod","src_hash":"44ae57de6c187cbf","in":{"base":"Any","pred":"hasattr(arg, 'is_Number') and hasattr(arg, 'is_Integer') and hasattr(arg, 'is_nonnegative')"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls, arg)","rhs":"<unspecified:eval>","over":{"base":"Any","pred":"hasattr(arg, 'is_Number') and hasattr(arg, 'is_Integer') and hasattr(arg, 'is_nonnegative')"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.factorials.subfactorial.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ab5a050481ad823f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(arg, 'is_Number')","hasattr(arg, 'is_Integer')","hasattr(arg, 'is_nonnegative')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["arg.is_Integer","arg.is_Number","arg.is_nonnegative","cls._eval"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, arg):
         if arg.is_Number:
             if arg.is_Integer and arg.is_nonnegative:
@@ -596,46 +746,64 @@ class subfactorial(CombinatorialFunction):
                 return S.Infinity
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_even(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_even(), True) over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  True                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_even : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fcc7351a3a4457d5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6f77bb83c4d1e55f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.subfactorial._eval_is_even","kind":"method","src_hash":"ab02023caa57708e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_even()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_even_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.factorials.subfactorial._eval_is_even_correct","statement":"Path(_eval_is_even(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fcc7351a3a4457d5"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.subfactorial._eval_is_even","kind":"method","src_hash":"ab02023caa57708e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_even()","rhs":"True","over":{"base":"Any"},"name":"_eval_is_even_correct"},"guarantee":"returns True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.factorials.subfactorial._eval_is_even_correct","statement":"Path(_eval_is_even(x), returns True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6f77bb83c4d1e55f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"True","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_even(self):
         if self.args[0].is_odd and self.args[0].is_nonnegative:
             return True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_integer(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_integer(), True) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  True                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_integer : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dbaf9ba92250156e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f6fac9736bddae64  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.subfactorial._eval_is_integer","kind":"method","src_hash":"a255f6638d80db07","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_integer()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_integer_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.factorials.subfactorial._eval_is_integer_correct","statement":"Path(_eval_is_integer(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dbaf9ba92250156e"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.subfactorial._eval_is_integer","kind":"method","src_hash":"a255f6638d80db07","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_integer()","rhs":"True","over":{"base":"Any"},"name":"_eval_is_integer_correct"},"guarantee":"returns True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.factorials.subfactorial._eval_is_integer_correct","statement":"Path(_eval_is_integer(x), returns True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f6fac9736bddae64","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"True","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_integer(self):
         if self.args[0].is_integer and self.args[0].is_nonnegative:
             return True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_factorial(arg), id) over Any         ║
+# ║ Path(_eval_rewrite_as_factorial(arg, **kwargs), id) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  factorial(arg) * summation(f, (i, 0, arg))     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_factorial : Any → Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 8c278d777cd94553   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.subfactorial._eval_rewrite_as_factorial","kind":"method","src_hash":"a0f4bb5110cace92","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_factorial(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_factorial_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"factorial","by":"library_axiom"},{"fn":"summation","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8c278d777cd94553"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.subfactorial._eval_rewrite_as_factorial","kind":"method","src_hash":"a0f4bb5110cace92","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_factorial(arg, **kwargs)","rhs":"factorial(arg) * summation(f, (i, 0, arg))","over":{"base":"Any"},"name":"_eval_rewrite_as_factorial_correct","kind":"composition"},"guarantee":"returns factorial(arg) * summation(f, (i, 0, arg))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"factorial","by":"library_axiom"},{"fn":"summation","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8c278d777cd94553","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"factorial(arg) * summation(f, (i, 0, arg))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_factorial(self, arg, **kwargs):
         from sympy.concrete.summations import summation
         i = Dummy('i')
@@ -643,16 +811,22 @@ class subfactorial(CombinatorialFunction):
         return factorial(arg) * summation(f, (i, 0, arg))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_gamma(arg), id) over Any             ║
+# ║ Path(_eval_rewrite_as_gamma(arg, piecewise, **kwargs), id) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (S.NegativeOne ** (arg + 1) * exp(-I * pi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_gamma : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | fbed4313edb04c47   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.subfactorial._eval_rewrite_as_gamma","kind":"method","src_hash":"7931fdf3354ae8b8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_gamma(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_gamma_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"exp","by":"library_axiom"},{"fn":"lowergamma","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fbed4313edb04c47"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.subfactorial._eval_rewrite_as_gamma","kind":"method","src_hash":"7931fdf3354ae8b8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_gamma(arg, piecewise, **kwargs)","rhs":"(S.NegativeOne ** (arg + 1) * exp(-I * pi * arg) * lowergamma(arg + 1, -1) + gamma(arg + 1)) * exp(-1)","over":{"base":"Any"},"name":"_eval_rewrite_as_gamma_correct","kind":"composition"},"guarantee":"returns (S.NegativeOne ** (arg + 1) * exp(-I * pi * arg) * lowergamma(arg + 1, -1) + gamma(arg + 1)) * exp(-1)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"exp","by":"library_axiom"},{"fn":"lowergamma","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fbed4313edb04c47","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(S.NegativeOne ** (arg + 1) * exp(-I * pi * arg) * lowergamma(arg + 1, -1) + gamma(arg + 1)) * exp(-1)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_gamma(self, arg, piecewise=True, **kwargs):
         from sympy.functions.elementary.exponential import exp
         from sympy.functions.special.gamma_functions import (gamma, lowergamma)
@@ -660,46 +834,64 @@ class subfactorial(CombinatorialFunction):
                 + gamma(arg + 1))*exp(-1)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_uppergamma(arg), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_uppergamma(arg, **kwargs), uppergamma(arg + 1, -1) / S.Exp1) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  uppergamma(arg + 1, -1) / S.Exp1               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_uppergamma : Any → Any                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7c97f00373ca1f01  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a1df76e3e4f32bc3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.subfactorial._eval_rewrite_as_uppergamma","kind":"method","src_hash":"c49efcef7fddd26e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_uppergamma(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_uppergamma_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.factorials.subfactorial._eval_rewrite_as_uppergamma_correct","statement":"Path(_eval_rewrite_as_uppergamma(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7c97f00373ca1f01"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.subfactorial._eval_rewrite_as_uppergamma","kind":"method","src_hash":"c49efcef7fddd26e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_uppergamma(arg, **kwargs)","rhs":"uppergamma(arg + 1, -1) / S.Exp1","over":{"base":"Any"},"name":"_eval_rewrite_as_uppergamma_correct"},"guarantee":"returns uppergamma(arg + 1, -1) / S.Exp1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.factorials.subfactorial._eval_rewrite_as_uppergamma_correct","statement":"Path(_eval_rewrite_as_uppergamma(x), returns uppergamma(arg + 1, -1) / S.Exp1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a1df76e3e4f32bc3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"uppergamma(arg + 1, -1) / S.Exp1","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_uppergamma(self, arg, **kwargs):
         from sympy.functions.special.gamma_functions import uppergamma
         return uppergamma(arg + 1, -1)/S.Exp1
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_nonnegative(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_nonnegative(), True) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  True                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_nonnegative : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | adad30376fd76e89  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a9f2c403e4429905  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.subfactorial._eval_is_nonnegative","kind":"method","src_hash":"4c2584e099dd86af","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_nonnegative()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_nonnegative_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.factorials.subfactorial._eval_is_nonnegative_correct","statement":"Path(_eval_is_nonnegative(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"adad30376fd76e89"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.subfactorial._eval_is_nonnegative","kind":"method","src_hash":"4c2584e099dd86af","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_nonnegative()","rhs":"True","over":{"base":"Any"},"name":"_eval_is_nonnegative_correct"},"guarantee":"returns True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.factorials.subfactorial._eval_is_nonnegative_correct","statement":"Path(_eval_is_nonnegative(x), returns True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a9f2c403e4429905","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"True","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_nonnegative(self):
         if self.args[0].is_integer and self.args[0].is_nonnegative:
             return True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_odd(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_odd(), True) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  True                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_odd : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b95e3262e04d2b49  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 22232fdf2d79d3bf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.subfactorial._eval_is_odd","kind":"method","src_hash":"1251d66eb3cd4274","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_odd()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_odd_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.factorials.subfactorial._eval_is_odd_correct","statement":"Path(_eval_is_odd(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b95e3262e04d2b49"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.subfactorial._eval_is_odd","kind":"method","src_hash":"1251d66eb3cd4274","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_odd()","rhs":"True","over":{"base":"Any"},"name":"_eval_is_odd_correct"},"guarantee":"returns True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.factorials.subfactorial._eval_is_odd_correct","statement":"Path(_eval_is_odd(x), returns True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"22232fdf2d79d3bf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"True","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_odd(self):
         if self.args[0].is_even and self.args[0].is_nonnegative:
             return True
@@ -708,14 +900,20 @@ class subfactorial(CombinatorialFunction):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(factorial2(*args), correctly constructs a factorial2 instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ factorial2 : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, CombinatorialFunction)        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ factorial2 : Any → {Any | result satisfies: isinstanc...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e0702f11d14bd6b7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.factorial2","kind":"class","src_hash":"f21d292aa5e38cc3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"factorial2(*args)","rhs":"correctly constructs a factorial2 instance","over":{"base":"Any"},"name":"factorial2_class_invariant"},"guarantee":"correctly constructs a factorial2 instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e0702f11d14bd6b7"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.factorial2","kind":"class","src_hash":"f21d292aa5e38cc3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, CombinatorialFunction)"},"spec":{"lhs":"factorial2(*args)","rhs":"correctly constructs a factorial2 instance","over":{"base":"Any"},"name":"factorial2_class_invariant"},"guarantee":"isinstance(self, CombinatorialFunction)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e0702f11d14bd6b7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, CombinatorialFunction)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":false,"binding_errors":["Function factorial2 not found in source"]}}
 class factorial2(CombinatorialFunction):
     r"""The double factorial `n!!`, not to be confused with `(n!)!`
 
@@ -756,16 +954,25 @@ class factorial2(CombinatorialFunction):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), eval produces the expected output) over Any ║
+# ║ Path(eval(cls, arg), <unspecified:eval>) over {Any | hasattr(arg, 'is_Number') and hasattr(arg, 'is_nonnegative') and hasattr(arg, 'is_odd') and hasattr(arg, 'is_Integer') and hasattr(arg, 'is_even')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Any                                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(arg, 'is_Number')                      ║
+# ║   requires: hasattr(arg, 'is_nonnegative')                 ║
+# ║   requires: hasattr(arg, 'is_odd')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : {Any | hasattr(arg, 'is_Number') and hasattr(a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 576d2050a2945765  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.factorial2.eval","kind":"classmethod","src_hash":"0835e6b579be71a5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.factorials.factorial2.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"576d2050a2945765"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.factorial2.eval","kind":"classmethod","src_hash":"0835e6b579be71a5","in":{"base":"Any","pred":"hasattr(arg, 'is_Number') and hasattr(arg, 'is_nonnegative') and hasattr(arg, 'is_odd') and hasattr(arg, 'is_Integer') and hasattr(arg, 'is_even')"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls, arg)","rhs":"<unspecified:eval>","over":{"base":"Any","pred":"hasattr(arg, 'is_Number') and hasattr(arg, 'is_nonnegative') and hasattr(arg, 'is_odd') and hasattr(arg, 'is_Integer') and hasattr(arg, 'is_even')"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.factorials.factorial2.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"576d2050a2945765","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(arg, 'is_Number')","hasattr(arg, 'is_nonnegative')","hasattr(arg, 'is_odd')","hasattr(arg, 'is_Integer')","hasattr(arg, 'is_even')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["arg.is_Integer","arg.is_Number","arg.is_even","arg.is_nonnegative","arg.is_odd"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, arg):
         # TODO: extend this to complex numbers?
 
@@ -790,16 +997,22 @@ class factorial2(CombinatorialFunction):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_even(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_even(), <unspecified:_eval_is_even>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_even : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ce354a55e2ea3402  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.factorial2._eval_is_even","kind":"method","src_hash":"4af2a6e99558f3b3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_even()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_even_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.factorials.factorial2._eval_is_even_correct","statement":"Path(_eval_is_even(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ce354a55e2ea3402"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.factorial2._eval_is_even","kind":"method","src_hash":"4af2a6e99558f3b3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_even()","rhs":"<unspecified:_eval_is_even>","over":{"base":"Any"},"name":"_eval_is_even_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.factorials.factorial2._eval_is_even_correct","statement":"Path(_eval_is_even(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ce354a55e2ea3402","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_even(self):
         # Double factorial is even for every positive even input
         n = self.args[0]
@@ -813,16 +1026,22 @@ class factorial2(CombinatorialFunction):
                     return False
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_integer(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_integer(), <unspecified:_eval_is_integer>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_integer : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 46d9f951c285b6e0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.factorial2._eval_is_integer","kind":"method","src_hash":"171b8d4eb45f12d5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_integer()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_integer_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.factorials.factorial2._eval_is_integer_correct","statement":"Path(_eval_is_integer(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"46d9f951c285b6e0"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.factorial2._eval_is_integer","kind":"method","src_hash":"171b8d4eb45f12d5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_integer()","rhs":"<unspecified:_eval_is_integer>","over":{"base":"Any"},"name":"_eval_is_integer_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.factorials.factorial2._eval_is_integer_correct","statement":"Path(_eval_is_integer(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"46d9f951c285b6e0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_integer(self):
         # Double factorial is an integer for every nonnegative input, and for
         # -1 and -3
@@ -834,16 +1053,22 @@ class factorial2(CombinatorialFunction):
                 return (n + 3).is_nonnegative
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_odd(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_odd(), <unspecified:_eval_is_odd>) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_odd : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 795ae5f8d3ca58d4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.factorial2._eval_is_odd","kind":"method","src_hash":"3bb83a9d549092e1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_odd()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_odd_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.factorials.factorial2._eval_is_odd_correct","statement":"Path(_eval_is_odd(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"795ae5f8d3ca58d4"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.factorial2._eval_is_odd","kind":"method","src_hash":"3bb83a9d549092e1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_odd()","rhs":"<unspecified:_eval_is_odd>","over":{"base":"Any"},"name":"_eval_is_odd_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.factorials.factorial2._eval_is_odd_correct","statement":"Path(_eval_is_odd(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"795ae5f8d3ca58d4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_odd(self):
         # Double factorial is odd for every odd input not smaller than -3, and
         # for 0
@@ -857,16 +1082,22 @@ class factorial2(CombinatorialFunction):
                 return True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_positive(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_positive(), <unspecified:_eval_is_positive>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_positive : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 36bf6ea488dde0ba  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.factorial2._eval_is_positive","kind":"method","src_hash":"7e175c7d0a73308a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_positive()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_positive_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.factorials.factorial2._eval_is_positive_correct","statement":"Path(_eval_is_positive(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"36bf6ea488dde0ba"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.factorial2._eval_is_positive","kind":"method","src_hash":"7e175c7d0a73308a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_positive()","rhs":"<unspecified:_eval_is_positive>","over":{"base":"Any"},"name":"_eval_is_positive_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.factorials.factorial2._eval_is_positive_correct","statement":"Path(_eval_is_positive(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"36bf6ea488dde0ba","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_positive(self):
         # Double factorial is positive for every nonnegative input, and for
         # every odd negative input which is of the form -1-4k for an
@@ -879,16 +1110,22 @@ class factorial2(CombinatorialFunction):
                 return ((n + 1) / 2).is_even
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_gamma(n, ), id) over Any             ║
+# ║ Path(_eval_rewrite_as_gamma(n, piecewise, **kwargs), id) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  2 ** (n / 2) * gamma(n / 2 + 1) * Piecewi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_gamma : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 06de7f49dcf68117   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.factorial2._eval_rewrite_as_gamma","kind":"method","src_hash":"56981b81ddc003c5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_gamma(n, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_gamma_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"gamma","by":"library_axiom"},{"fn":"Piecewise","by":"library_axiom"},{"fn":"Eq","by":"library_axiom"},{"fn":"Mod","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"06de7f49dcf68117"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.factorial2._eval_rewrite_as_gamma","kind":"method","src_hash":"56981b81ddc003c5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_gamma(n, piecewise, **kwargs)","rhs":"2 ** (n / 2) * gamma(n / 2 + 1) * Piecewise((1, Eq(Mod(n, 2), 0)), (sqrt(2 / pi), Eq(Mod(n, 2), 1)))","over":{"base":"Any"},"name":"_eval_rewrite_as_gamma_correct","kind":"composition"},"guarantee":"returns 2 ** (n / 2) * gamma(n / 2 + 1) * Piecewise((1, Eq(Mod(n, 2), 0)), (sqrt(2 / pi), Eq(Mod(n, 2), 1)))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"gamma","by":"library_axiom"},{"fn":"Piecewise","by":"library_axiom"},{"fn":"Eq","by":"library_axiom"},{"fn":"Mod","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"06de7f49dcf68117","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"2 ** (n / 2) * gamma(n / 2 + 1) * Piecewise((1, Eq(Mod(n, 2), 0)), (sqrt(2 / pi), Eq(Mod(n, 2), 1)))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_gamma(self, n, piecewise=True, **kwargs):
         from sympy.functions.elementary.miscellaneous import sqrt
         from sympy.functions.elementary.piecewise import Piecewise
@@ -905,14 +1142,20 @@ class factorial2(CombinatorialFunction):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(RisingFactorial(*args), correctly constructs a RisingFactorial instance) over {Any | isinstance(x, Poly)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ RisingFactorial : {Any | isinstance(x, Poly)} → Any        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, CombinatorialFunction)        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ RisingFactorial : {Any | isinstance(x, Poly)} → {Any ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.9ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 54b21e5965e1afac  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.RisingFactorial","kind":"class","src_hash":"2f3a2e65981df247","in":{"base":"Any","pred":"isinstance(x, Poly)"},"out":{"base":"Any"},"spec":{"lhs":"RisingFactorial(*args)","rhs":"correctly constructs a RisingFactorial instance","over":{"base":"Any","pred":"isinstance(x, Poly)"},"name":"RisingFactorial_class_invariant"},"guarantee":"correctly constructs a RisingFactorial instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"54b21e5965e1afac"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.RisingFactorial","kind":"class","src_hash":"2f3a2e65981df247","in":{"base":"Any","pred":"isinstance(x, Poly)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, CombinatorialFunction)"},"spec":{"lhs":"RisingFactorial(*args)","rhs":"correctly constructs a RisingFactorial instance","over":{"base":"Any","pred":"isinstance(x, Poly)"},"name":"RisingFactorial_class_invariant"},"guarantee":"isinstance(self, CombinatorialFunction)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"54b21e5965e1afac","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, CombinatorialFunction)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.9,"verdict_class":"assumed","binding":false,"binding_errors":["Function RisingFactorial not found in source"]}}
 class RisingFactorial(CombinatorialFunction):
     r"""
     Rising factorial (also called Pochhammer symbol [1]_) is a double valued
@@ -977,16 +1220,27 @@ class RisingFactorial(CombinatorialFunction):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), eval produces the expected output) over Any ║
+# ║ Path(eval(cls, x, k), <unspecified:eval>) over {Any | hasattr(k, 'is_integer') and hasattr(k, 'is_Integer') and hasattr(x, 'is_integer') and hasattr(x, 'is_negative') and hasattr(k, 'is_zero') and hasattr(k, 'is_positive') and hasattr(k, 'is_odd') and hasattr(x, 'gens') and hasattr(x, 'shift')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(k, 'is_integer')                       ║
+# ║   requires: hasattr(k, 'is_Integer')                       ║
+# ║   requires: hasattr(x, 'is_integer')                       ║
+# ║   fiber[case_0]: x is S.NaN or k is S.NaN => S.NaN         ║
+# ║   fiber[case_1]: x is S.One => factorial(k)                ║
+# ║   fiber[case_2]: k.is_Integer                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : {Any | hasattr(k, 'is_integer') and hasattr(k,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f9f48151b70a3b37  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6a7eaeea730d2211  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.RisingFactorial.eval","kind":"classmethod","src_hash":"7900862199015162","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.factorials.RisingFactorial.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f9f48151b70a3b37"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.RisingFactorial.eval","kind":"classmethod","src_hash":"7900862199015162","in":{"base":"Any","pred":"hasattr(k, 'is_integer') and hasattr(k, 'is_Integer') and hasattr(x, 'is_integer') and hasattr(x, 'is_negative') and hasattr(k, 'is_zero') and hasattr(k, 'is_positive') and hasattr(k, 'is_odd') and hasattr(x, 'gens') and hasattr(x, 'shift')"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls, x, k)","rhs":"<unspecified:eval>","over":{"base":"Any","pred":"hasattr(k, 'is_integer') and hasattr(k, 'is_Integer') and hasattr(x, 'is_integer') and hasattr(x, 'is_negative') and hasattr(k, 'is_zero') and hasattr(k, 'is_positive') and hasattr(k, 'is_odd') and hasattr(x, 'gens') and hasattr(x, 'shift')"},"name":"eval_correct"},"guarantee":"3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.factorials.RisingFactorial.eval_correct","statement":"Path(eval(x), 3-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6a7eaeea730d2211","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(k, 'is_integer')","hasattr(k, 'is_Integer')","hasattr(x, 'is_integer')","hasattr(x, 'is_negative')","hasattr(k, 'is_zero')","hasattr(k, 'is_positive')","hasattr(k, 'is_odd')","hasattr(x, 'gens')","hasattr(x, 'shift')"],"fibers":[{"name":"case_0","guard":"x is S.NaN or k is S.NaN","ensures":["result == S.NaN"],"decidability":"library","returns_expr":"S.NaN"},{"name":"case_1","guard":"x is S.One","ensures":["result == factorial(k)"],"decidability":"library","returns_expr":"factorial(k)"},{"name":"case_2","guard":"k.is_Integer","ensures":[],"decidability":"library"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["k.is_Integer","k.is_integer","k.is_odd","k.is_positive","k.is_zero","x.gens","x.is_integer","x.is_negative","x.shift"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, x, k):
         x = sympify(x)
         k = sympify(k)
@@ -1046,16 +1300,22 @@ class RisingFactorial(CombinatorialFunction):
                 return S.Zero
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_gamma(x, ), id) over Any             ║
+# ║ Path(_eval_rewrite_as_gamma(x, k, piecewise), id) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_gamma : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | ae2516432e77e38d   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.RisingFactorial._eval_rewrite_as_gamma","kind":"method","src_hash":"6bf882cf049c7a9d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_gamma(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_gamma_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"gamma","by":"library_axiom"},{"fn":"gamma","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ae2516432e77e38d"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.RisingFactorial._eval_rewrite_as_gamma","kind":"method","src_hash":"6bf882cf049c7a9d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_gamma(x, k, piecewise)","rhs":"<unspecified:_eval_rewrite_as_gamma>","over":{"base":"Any"},"name":"_eval_rewrite_as_gamma_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"gamma","by":"library_axiom"},{"fn":"gamma","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ae2516432e77e38d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_gamma(self, x, k, piecewise=True, **kwargs):
         from sympy.functions.elementary.piecewise import Piecewise
         from sympy.functions.special.gamma_functions import gamma
@@ -1068,30 +1328,44 @@ class RisingFactorial(CombinatorialFunction):
             (S.NegativeOne**k*gamma(1 - x) / gamma(-k - x + 1), True))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_FallingFactorial(x, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_FallingFactorial(x, k, **kwargs), FallingFactorial(x + k - 1, k)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  FallingFactorial(x + k - 1, k)                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_FallingFactorial : Any → Any              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4489935733e6e1c5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.RisingFactorial._eval_rewrite_as_FallingFactorial","kind":"method","src_hash":"ee4a0f2270c746a0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_FallingFactorial(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_FallingFactorial_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4489935733e6e1c5"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.RisingFactorial._eval_rewrite_as_FallingFactorial","kind":"method","src_hash":"ee4a0f2270c746a0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_FallingFactorial(x, k, **kwargs)","rhs":"FallingFactorial(x + k - 1, k)","over":{"base":"Any"},"name":"_eval_rewrite_as_FallingFactorial_correct"},"guarantee":"returns FallingFactorial(x + k - 1, k)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4489935733e6e1c5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"FallingFactorial(x + k - 1, k)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_FallingFactorial(self, x, k, **kwargs):
         return FallingFactorial(x + k - 1, k)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_factorial(x, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_factorial(x, k, **kwargs), Piecewise((factorial(k + x - 1) / factorial(x - 1), x > 0), (S.NegativeOne ** k * factorial(-x) / factorial(-k - x), True))) over {Any | hasattr(x, 'is_integer') and hasattr(k, 'is_integer')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_rewrite_as_factorial : Any → Any                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(x, 'is_integer')                       ║
+# ║   requires: hasattr(k, 'is_integer')                       ║
+# ║   returns:  Piecewise((factorial(k + x - 1) / factori...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_rewrite_as_factorial : {Any | hasattr(x, 'is_in...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 18bb68421d31cb10  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 15c2b3e7130136ce  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.RisingFactorial._eval_rewrite_as_factorial","kind":"method","src_hash":"a2b3badeb5565651","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_factorial(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_factorial_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.factorials.RisingFactorial._eval_rewrite_as_factorial_correct","statement":"Path(_eval_rewrite_as_factorial(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"18bb68421d31cb10"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.RisingFactorial._eval_rewrite_as_factorial","kind":"method","src_hash":"a2b3badeb5565651","in":{"base":"Any","pred":"hasattr(x, 'is_integer') and hasattr(k, 'is_integer')"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_factorial(x, k, **kwargs)","rhs":"Piecewise((factorial(k + x - 1) / factorial(x - 1), x > 0), (S.NegativeOne ** k * factorial(-x) / factorial(-k - x), True))","over":{"base":"Any","pred":"hasattr(x, 'is_integer') and hasattr(k, 'is_integer')"},"name":"_eval_rewrite_as_factorial_correct"},"guarantee":"returns Piecewise((factorial(k + x - 1) / factorial(x - 1), x > 0), (S.NegativeOne ** k * factorial(-x) / factorial(-k - x), True))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.factorials.RisingFactorial._eval_rewrite_as_factorial_correct","statement":"Path(_eval_rewrite_as_factorial(x), returns Piecewise((factorial(k + x - 1) / factorial(x - 1), x > 0), (S.NegativeOne ** k * factorial(-x) / factorial(-k - x), True)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"15c2b3e7130136ce","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(x, 'is_integer')","hasattr(k, 'is_integer')"],"returns_expr":"Piecewise((factorial(k + x - 1) / factorial(x - 1), x > 0), (S.NegativeOne ** k * factorial(-x) / factorial(-k - x), True))","pure":false,"effects":{"effect_type":"reads_state","reads":["k.is_integer","x.is_integer"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_factorial(self, x, k, **kwargs):
         from sympy.functions.elementary.piecewise import Piecewise
         if x.is_integer and k.is_integer:
@@ -1100,31 +1374,45 @@ class RisingFactorial(CombinatorialFunction):
                 (S.NegativeOne**k*factorial(-x)/factorial(-k - x), True))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_binomial(x, ), id) over Any          ║
+# ║ Path(_eval_rewrite_as_binomial(x, k, **kwargs), id) over {Any | hasattr(k, 'is_integer')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_rewrite_as_binomial : Any → Any                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(k, 'is_integer')                       ║
+# ║   returns:  factorial(k) * binomial(x + k - 1, k)          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_rewrite_as_binomial : {Any | hasattr(k, 'is_int...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | c2d772dfd06c5587   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.RisingFactorial._eval_rewrite_as_binomial","kind":"method","src_hash":"7c4e32d38e0661bb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_binomial(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_binomial_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"factorial","by":"library_axiom"},{"fn":"binomial","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c2d772dfd06c5587"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.RisingFactorial._eval_rewrite_as_binomial","kind":"method","src_hash":"7c4e32d38e0661bb","in":{"base":"Any","pred":"hasattr(k, 'is_integer')"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_binomial(x, k, **kwargs)","rhs":"factorial(k) * binomial(x + k - 1, k)","over":{"base":"Any","pred":"hasattr(k, 'is_integer')"},"name":"_eval_rewrite_as_binomial_correct","kind":"composition"},"guarantee":"returns factorial(k) * binomial(x + k - 1, k)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"factorial","by":"library_axiom"},{"fn":"binomial","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c2d772dfd06c5587","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(k, 'is_integer')"],"returns_expr":"factorial(k) * binomial(x + k - 1, k)","pure":false,"effects":{"effect_type":"reads_state","reads":["k.is_integer"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_binomial(self, x, k, **kwargs):
         if k.is_integer:
             return factorial(k) * binomial(x + k - 1, k)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_tractable(x, ), id) over Any         ║
+# ║ Path(_eval_rewrite_as_tractable(x, k, limitvar), id) over {Any | hasattr(k, 'subs')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_rewrite_as_tractable : Any → Any                     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(k, 'subs')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_rewrite_as_tractable : {Any | hasattr(k, 'subs'...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | abc5e6900b258a15   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.RisingFactorial._eval_rewrite_as_tractable","kind":"method","src_hash":"6f86183c396c2e18","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_tractable(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_tractable_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"gamma","by":"library_axiom"},{"fn":"rewrite","by":"library_axiom"},{"fn":"gamma","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"abc5e6900b258a15"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.RisingFactorial._eval_rewrite_as_tractable","kind":"method","src_hash":"6f86183c396c2e18","in":{"base":"Any","pred":"hasattr(k, 'subs')"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_tractable(x, k, limitvar)","rhs":"<unspecified:_eval_rewrite_as_tractable>","over":{"base":"Any","pred":"hasattr(k, 'subs')"},"name":"_eval_rewrite_as_tractable_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"gamma","by":"library_axiom"},{"fn":"rewrite","by":"library_axiom"},{"fn":"gamma","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"abc5e6900b258a15","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(k, 'subs')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["k.subs","self.rewrite"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_tractable(self, x, k, limitvar=None, **kwargs):
         from sympy.functions.special.gamma_functions import gamma
         if limitvar:
@@ -1136,16 +1424,22 @@ class RisingFactorial(CombinatorialFunction):
         return self.rewrite(gamma).rewrite('tractable', deep=True)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_integer(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_integer(), fuzzy_and((self.args[0].is_integer, self.args[1].is_integer, self.args[1].is_nonnegative))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  fuzzy_and((self.args[0].is_integer, self....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_integer : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9a3446914249f9cf  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | abef043f9ae68823  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.RisingFactorial._eval_is_integer","kind":"method","src_hash":"53e8037b459ee10d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_integer()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_integer_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.factorials.RisingFactorial._eval_is_integer_correct","statement":"Path(_eval_is_integer(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9a3446914249f9cf"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.RisingFactorial._eval_is_integer","kind":"method","src_hash":"53e8037b459ee10d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_integer()","rhs":"fuzzy_and((self.args[0].is_integer, self.args[1].is_integer, self.args[1].is_nonnegative))","over":{"base":"Any"},"name":"_eval_is_integer_correct"},"guarantee":"returns fuzzy_and((self.args[0].is_integer, self.args[1].is_integer, self.args[1].is_nonnegative))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.factorials.RisingFactorial._eval_is_integer_correct","statement":"Path(_eval_is_integer(x), returns fuzzy_and((self.args[0].is_integer, self.args[1].is_integer, self.args[1].is_nonnegative)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"abef043f9ae68823","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"fuzzy_and((self.args[0].is_integer, self.args[1].is_integer, self.args[1].is_nonnegative))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_integer(self):
         return fuzzy_and((self.args[0].is_integer, self.args[1].is_integer,
                           self.args[1].is_nonnegative))
@@ -1154,14 +1448,20 @@ class RisingFactorial(CombinatorialFunction):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(FallingFactorial(*args), correctly constructs a FallingFactorial instance) over {Any | isinstance(x, Poly)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ FallingFactorial : {Any | isinstance(x, Poly)} → Any       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, CombinatorialFunction)        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ FallingFactorial : {Any | isinstance(x, Poly)} → {Any...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.9ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 22bc3d6ec71ece02  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.FallingFactorial","kind":"class","src_hash":"18e0d3091f498691","in":{"base":"Any","pred":"isinstance(x, Poly)"},"out":{"base":"Any"},"spec":{"lhs":"FallingFactorial(*args)","rhs":"correctly constructs a FallingFactorial instance","over":{"base":"Any","pred":"isinstance(x, Poly)"},"name":"FallingFactorial_class_invariant"},"guarantee":"correctly constructs a FallingFactorial instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"22bc3d6ec71ece02"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.FallingFactorial","kind":"class","src_hash":"18e0d3091f498691","in":{"base":"Any","pred":"isinstance(x, Poly)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, CombinatorialFunction)"},"spec":{"lhs":"FallingFactorial(*args)","rhs":"correctly constructs a FallingFactorial instance","over":{"base":"Any","pred":"isinstance(x, Poly)"},"name":"FallingFactorial_class_invariant"},"guarantee":"isinstance(self, CombinatorialFunction)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"22bc3d6ec71ece02","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, CombinatorialFunction)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.9,"verdict_class":"assumed","binding":false,"binding_errors":["Function FallingFactorial not found in source"]}}
 class FallingFactorial(CombinatorialFunction):
     r"""
     Falling factorial (related to rising factorial) is a double valued
@@ -1227,16 +1527,27 @@ class FallingFactorial(CombinatorialFunction):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), eval produces the expected output) over Any ║
+# ║ Path(eval(cls, x, k), <unspecified:eval>) over {Any | hasattr(k, 'is_integer') and hasattr(k, 'is_Integer') and hasattr(k, 'is_zero') and hasattr(k, 'is_positive') and hasattr(k, 'is_odd') and hasattr(x, 'gens') and hasattr(x, 'shift')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(k, 'is_integer')                       ║
+# ║   requires: hasattr(k, 'is_Integer')                       ║
+# ║   requires: hasattr(k, 'is_zero')                          ║
+# ║   fiber[case_0]: x is S.NaN or k is S.NaN => S.NaN         ║
+# ║   fiber[case_1]: k.is_integer and x == k => factorial(x)   ║
+# ║   fiber[case_2]: k.is_Integer                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : {Any | hasattr(k, 'is_integer') and hasattr(k,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 29b32e1ca6d169a4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b2ae9d4a214e50d9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.FallingFactorial.eval","kind":"classmethod","src_hash":"8e6191573f9df6aa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.factorials.FallingFactorial.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"29b32e1ca6d169a4"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.FallingFactorial.eval","kind":"classmethod","src_hash":"8e6191573f9df6aa","in":{"base":"Any","pred":"hasattr(k, 'is_integer') and hasattr(k, 'is_Integer') and hasattr(k, 'is_zero') and hasattr(k, 'is_positive') and hasattr(k, 'is_odd') and hasattr(x, 'gens') and hasattr(x, 'shift')"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls, x, k)","rhs":"<unspecified:eval>","over":{"base":"Any","pred":"hasattr(k, 'is_integer') and hasattr(k, 'is_Integer') and hasattr(k, 'is_zero') and hasattr(k, 'is_positive') and hasattr(k, 'is_odd') and hasattr(x, 'gens') and hasattr(x, 'shift')"},"name":"eval_correct"},"guarantee":"3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.factorials.FallingFactorial.eval_correct","statement":"Path(eval(x), 3-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b2ae9d4a214e50d9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(k, 'is_integer')","hasattr(k, 'is_Integer')","hasattr(k, 'is_zero')","hasattr(k, 'is_positive')","hasattr(k, 'is_odd')","hasattr(x, 'gens')","hasattr(x, 'shift')"],"fibers":[{"name":"case_0","guard":"x is S.NaN or k is S.NaN","ensures":["result == S.NaN"],"decidability":"library","returns_expr":"S.NaN"},{"name":"case_1","guard":"k.is_integer and x == k","ensures":["result == factorial(x)"],"decidability":"z3","returns_expr":"factorial(x)"},{"name":"case_2","guard":"k.is_Integer","ensures":[],"decidability":"library"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["k.is_Integer","k.is_integer","k.is_odd","k.is_positive","k.is_zero","x.gens","x.shift"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, x, k):
         x = sympify(x)
         k = sympify(k)
@@ -1290,16 +1601,22 @@ class FallingFactorial(CombinatorialFunction):
                                             range(1, abs(int(k)) + 1), 1)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_gamma(x, ), id) over Any             ║
+# ║ Path(_eval_rewrite_as_gamma(x, k, piecewise), id) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_gamma : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 83403aead446c5d5   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.FallingFactorial._eval_rewrite_as_gamma","kind":"method","src_hash":"8f086ea909e3d5f1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_gamma(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_gamma_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"gamma","by":"library_axiom"},{"fn":"gamma","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"83403aead446c5d5"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.FallingFactorial._eval_rewrite_as_gamma","kind":"method","src_hash":"8f086ea909e3d5f1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_gamma(x, k, piecewise)","rhs":"<unspecified:_eval_rewrite_as_gamma>","over":{"base":"Any"},"name":"_eval_rewrite_as_gamma_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"gamma","by":"library_axiom"},{"fn":"gamma","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"83403aead446c5d5","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_gamma(self, x, k, piecewise=True, **kwargs):
         from sympy.functions.elementary.piecewise import Piecewise
         from sympy.functions.special.gamma_functions import gamma
@@ -1312,45 +1629,66 @@ class FallingFactorial(CombinatorialFunction):
             (S.NegativeOne**k*gamma(k - x) / gamma(-x), True))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_RisingFactorial(x, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_RisingFactorial(x, k, **kwargs), rf(x - k + 1, k)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  rf(x - k + 1, k)                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_RisingFactorial : Any → Any               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4bea99f630cea7ad           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.FallingFactorial._eval_rewrite_as_RisingFactorial","kind":"method","src_hash":"7846e79efc47778e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_RisingFactorial(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_RisingFactorial_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4bea99f630cea7ad"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.FallingFactorial._eval_rewrite_as_RisingFactorial","kind":"method","src_hash":"7846e79efc47778e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_RisingFactorial(x, k, **kwargs)","rhs":"rf(x - k + 1, k)","over":{"base":"Any"},"name":"_eval_rewrite_as_RisingFactorial_correct"},"guarantee":"returns rf(x - k + 1, k)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4bea99f630cea7ad","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"rf(x - k + 1, k)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_RisingFactorial(self, x, k, **kwargs):
         return rf(x - k + 1, k)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_binomial(x, ), id) over Any          ║
+# ║ Path(_eval_rewrite_as_binomial(x, k, **kwargs), id) over {Any | hasattr(k, 'is_integer')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_rewrite_as_binomial : Any → Any                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(k, 'is_integer')                       ║
+# ║   returns:  factorial(k) * binomial(x, k)                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_rewrite_as_binomial : {Any | hasattr(k, 'is_int...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 6b206f823bfad240   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.FallingFactorial._eval_rewrite_as_binomial","kind":"method","src_hash":"48c7fbfa7b5ca151","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_binomial(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_binomial_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"factorial","by":"library_axiom"},{"fn":"binomial","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6b206f823bfad240"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.FallingFactorial._eval_rewrite_as_binomial","kind":"method","src_hash":"48c7fbfa7b5ca151","in":{"base":"Any","pred":"hasattr(k, 'is_integer')"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_binomial(x, k, **kwargs)","rhs":"factorial(k) * binomial(x, k)","over":{"base":"Any","pred":"hasattr(k, 'is_integer')"},"name":"_eval_rewrite_as_binomial_correct","kind":"composition"},"guarantee":"returns factorial(k) * binomial(x, k)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"factorial","by":"library_axiom"},{"fn":"binomial","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6b206f823bfad240","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(k, 'is_integer')"],"returns_expr":"factorial(k) * binomial(x, k)","pure":false,"effects":{"effect_type":"reads_state","reads":["k.is_integer"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_binomial(self, x, k, **kwargs):
         if k.is_integer:
             return factorial(k) * binomial(x, k)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_factorial(x, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_factorial(x, k, **kwargs), Piecewise((factorial(x) / factorial(-k + x), x >= 0), (S.NegativeOne ** k * factorial(k - x - 1) / factorial(-x - 1), True))) over {Any | hasattr(x, 'is_integer') and hasattr(k, 'is_integer')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_rewrite_as_factorial : Any → Any                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(x, 'is_integer')                       ║
+# ║   requires: hasattr(k, 'is_integer')                       ║
+# ║   returns:  Piecewise((factorial(x) / factorial(-k + ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_rewrite_as_factorial : {Any | hasattr(x, 'is_in...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ece1f2df62531ef0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3dbfde0145beca30  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.FallingFactorial._eval_rewrite_as_factorial","kind":"method","src_hash":"e1d81e8536a274ff","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_factorial(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_factorial_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.factorials.FallingFactorial._eval_rewrite_as_factorial_correct","statement":"Path(_eval_rewrite_as_factorial(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ece1f2df62531ef0"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.FallingFactorial._eval_rewrite_as_factorial","kind":"method","src_hash":"e1d81e8536a274ff","in":{"base":"Any","pred":"hasattr(x, 'is_integer') and hasattr(k, 'is_integer')"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_factorial(x, k, **kwargs)","rhs":"Piecewise((factorial(x) / factorial(-k + x), x >= 0), (S.NegativeOne ** k * factorial(k - x - 1) / factorial(-x - 1), True))","over":{"base":"Any","pred":"hasattr(x, 'is_integer') and hasattr(k, 'is_integer')"},"name":"_eval_rewrite_as_factorial_correct"},"guarantee":"returns Piecewise((factorial(x) / factorial(-k + x), x >= 0), (S.NegativeOne ** k * factorial(k - x - 1) / factorial(-x - 1), True))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.factorials.FallingFactorial._eval_rewrite_as_factorial_correct","statement":"Path(_eval_rewrite_as_factorial(x), returns Piecewise((factorial(x) / factorial(-k + x), x >= 0), (S.NegativeOne ** k * factorial(k - x - 1) / factorial(-x - 1), True)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3dbfde0145beca30","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(x, 'is_integer')","hasattr(k, 'is_integer')"],"returns_expr":"Piecewise((factorial(x) / factorial(-k + x), x >= 0), (S.NegativeOne ** k * factorial(k - x - 1) / factorial(-x - 1), True))","pure":false,"effects":{"effect_type":"reads_state","reads":["k.is_integer","x.is_integer"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_factorial(self, x, k, **kwargs):
         from sympy.functions.elementary.piecewise import Piecewise
         if x.is_integer and k.is_integer:
@@ -1359,16 +1697,23 @@ class FallingFactorial(CombinatorialFunction):
                 (S.NegativeOne**k*factorial(k - x - 1)/factorial(-x - 1), True))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_tractable(x, ), id) over Any         ║
+# ║ Path(_eval_rewrite_as_tractable(x, k, limitvar), id) over {Any | hasattr(k, 'subs')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_rewrite_as_tractable : Any → Any                     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(k, 'subs')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_rewrite_as_tractable : {Any | hasattr(k, 'subs'...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 873a52ba2a2734c8   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.FallingFactorial._eval_rewrite_as_tractable","kind":"method","src_hash":"197b27930c48f2fb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_tractable(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_tractable_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"gamma","by":"library_axiom"},{"fn":"rewrite","by":"library_axiom"},{"fn":"gamma","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"873a52ba2a2734c8"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.FallingFactorial._eval_rewrite_as_tractable","kind":"method","src_hash":"197b27930c48f2fb","in":{"base":"Any","pred":"hasattr(k, 'subs')"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_tractable(x, k, limitvar)","rhs":"<unspecified:_eval_rewrite_as_tractable>","over":{"base":"Any","pred":"hasattr(k, 'subs')"},"name":"_eval_rewrite_as_tractable_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"gamma","by":"library_axiom"},{"fn":"rewrite","by":"library_axiom"},{"fn":"gamma","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"873a52ba2a2734c8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(k, 'subs')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["k.subs","self.rewrite"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_tractable(self, x, k, limitvar=None, **kwargs):
         from sympy.functions.special.gamma_functions import gamma
         if limitvar:
@@ -1380,16 +1725,22 @@ class FallingFactorial(CombinatorialFunction):
         return self.rewrite(gamma).rewrite('tractable', deep=True)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_integer(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_integer(), fuzzy_and((self.args[0].is_integer, self.args[1].is_integer, self.args[1].is_nonnegative))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  fuzzy_and((self.args[0].is_integer, self....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_integer : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 53d1141f20cbd140  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1c9bd920c2792776  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.FallingFactorial._eval_is_integer","kind":"method","src_hash":"53e8037b459ee10d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_integer()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_integer_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.factorials.FallingFactorial._eval_is_integer_correct","statement":"Path(_eval_is_integer(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"53d1141f20cbd140"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.FallingFactorial._eval_is_integer","kind":"method","src_hash":"53e8037b459ee10d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_integer()","rhs":"fuzzy_and((self.args[0].is_integer, self.args[1].is_integer, self.args[1].is_nonnegative))","over":{"base":"Any"},"name":"_eval_is_integer_correct"},"guarantee":"returns fuzzy_and((self.args[0].is_integer, self.args[1].is_integer, self.args[1].is_nonnegative))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.factorials.FallingFactorial._eval_is_integer_correct","statement":"Path(_eval_is_integer(x), returns fuzzy_and((self.args[0].is_integer, self.args[1].is_integer, self.args[1].is_nonnegative)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1c9bd920c2792776","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"fuzzy_and((self.args[0].is_integer, self.args[1].is_integer, self.args[1].is_nonnegative))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_integer(self):
         return fuzzy_and((self.args[0].is_integer, self.args[1].is_integer,
                           self.args[1].is_nonnegative))
@@ -1406,14 +1757,20 @@ ff = FallingFactorial
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(binomial(*args), correctly constructs a binomial instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ binomial : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, CombinatorialFunction)        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ binomial : Any → {Any | result satisfies: isinstance(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.7ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 489f51cb7f0576c0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.binomial","kind":"class","src_hash":"26ee59f7c72d0254","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"binomial(*args)","rhs":"correctly constructs a binomial instance","over":{"base":"Any"},"name":"binomial_class_invariant"},"guarantee":"correctly constructs a binomial instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"489f51cb7f0576c0"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.binomial","kind":"class","src_hash":"26ee59f7c72d0254","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, CombinatorialFunction)"},"spec":{"lhs":"binomial(*args)","rhs":"correctly constructs a binomial instance","over":{"base":"Any"},"name":"binomial_class_invariant"},"guarantee":"isinstance(self, CombinatorialFunction)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"489f51cb7f0576c0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, CombinatorialFunction)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.7,"verdict_class":"assumed","binding":false,"binding_errors":["Function binomial not found in source"]}}
 class binomial(CombinatorialFunction):
     r"""Implementation of the binomial coefficient. It can be defined
     in two ways depending on its desired interpretation:
@@ -1509,16 +1866,24 @@ class binomial(CombinatorialFunction):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(fdiff(arg), id) over Any                              ║
+# ║ Path(fdiff(argindex), id) over Any                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: argindex == 1 => binomial(n, k) * (p...   ║
+# ║   fiber[case_1]: argindex == 2 => binomial(n, k) * (p...   ║
+# ║   fiber[case_2]: not (argindex == 1) and not (arginde...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ fdiff : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 9c760df840e081c3   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.binomial.fdiff","kind":"method","src_hash":"7515ea7f65e4599a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(arg)","rhs":"fdiff produces the expected output","over":{"base":"Any"},"name":"fdiff_correct","kind":"composition"},"guarantee":"fdiff produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"binomial","by":"library_axiom"},{"fn":"polygamma","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9c760df840e081c3"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.binomial.fdiff","kind":"method","src_hash":"7515ea7f65e4599a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(argindex)","rhs":"<unspecified:fdiff>","over":{"base":"Any"},"name":"fdiff_correct","kind":"composition"},"guarantee":"3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"binomial","by":"library_axiom"},{"fn":"polygamma","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9c760df840e081c3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"argindex == 1","ensures":["result == binomial(n, k) * (polygamma(0, n + 1) - polygamma(0, n - k + 1))"],"decidability":"z3","returns_expr":"binomial(n, k) * (polygamma(0, n + 1) - polygamma(0, n - k + 1))"},{"name":"case_1","guard":"argindex == 2","ensures":["result == binomial(n, k) * (polygamma(0, n - k + 1) - polygamma(0, k + 1))"],"decidability":"z3","returns_expr":"binomial(n, k) * (polygamma(0, n - k + 1) - polygamma(0, k + 1))"},{"name":"case_2","guard":"not (argindex == 1) and not (argindex == 2)","ensures":[],"decidability":"z3"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"],"raises":["ArgumentIndexError"]},"state_contract":{"exceptional_post":{"ArgumentIndexError":["isinstance(raised, ArgumentIndexError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def fdiff(self, argindex=1):
         from sympy.functions.special.gamma_functions import polygamma
         if argindex == 1:
@@ -1536,16 +1901,24 @@ class binomial(CombinatorialFunction):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval(n, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval(n, k), <unspecified:_eval>) over {Any | hasattr(k, 'is_Integer') and hasattr(n, 'is_Integer')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval : Any → Any                                          ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(k, 'is_Integer')                       ║
+# ║   requires: hasattr(n, 'is_Integer')                       ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval : {Any | hasattr(k, 'is_Integer') and hasattr(n...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fa13065be35719b4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.binomial._eval","kind":"classmethod","src_hash":"312e87779f0a2e92","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval(n, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.factorials.binomial._eval_correct","statement":"Path(_eval(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fa13065be35719b4"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.binomial._eval","kind":"classmethod","src_hash":"312e87779f0a2e92","in":{"base":"Any","pred":"hasattr(k, 'is_Integer') and hasattr(n, 'is_Integer')"},"out":{"base":"Any"},"spec":{"lhs":"_eval(n, k)","rhs":"<unspecified:_eval>","over":{"base":"Any","pred":"hasattr(k, 'is_Integer') and hasattr(n, 'is_Integer')"},"name":"_eval_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.factorials.binomial._eval_correct","statement":"Path(_eval(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fa13065be35719b4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(k, 'is_Integer')","hasattr(n, 'is_Integer')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["k.is_Integer","n.is_Integer"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval(self, n, k):
         # n.is_Number and k.is_Integer and k != 1 and n != k
 
@@ -1578,16 +1951,25 @@ class binomial(CombinatorialFunction):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), eval produces the expected output) over Any ║
+# ║ Path(eval(cls, n, k), <unspecified:eval>) over {Any | hasattr(k, 'is_integer') and hasattr(n, 'is_nonnegative') and hasattr(n, 'is_integer') and hasattr(k, 'is_zero') and hasattr(k, 'is_negative') and hasattr(n, 'is_number') and hasattr(k, 'is_number')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Any                                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(k, 'is_integer')                       ║
+# ║   requires: hasattr(n, 'is_nonnegative')                   ║
+# ║   requires: hasattr(n, 'is_integer')                       ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : {Any | hasattr(k, 'is_integer') and hasattr(n,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1aed027e72ca597e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.binomial.eval","kind":"classmethod","src_hash":"d986ca552245c7b2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.factorials.binomial.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1aed027e72ca597e"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.binomial.eval","kind":"classmethod","src_hash":"d986ca552245c7b2","in":{"base":"Any","pred":"hasattr(k, 'is_integer') and hasattr(n, 'is_nonnegative') and hasattr(n, 'is_integer') and hasattr(k, 'is_zero') and hasattr(k, 'is_negative') and hasattr(n, 'is_number') and hasattr(k, 'is_number')"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls, n, k)","rhs":"<unspecified:eval>","over":{"base":"Any","pred":"hasattr(k, 'is_integer') and hasattr(n, 'is_nonnegative') and hasattr(n, 'is_integer') and hasattr(k, 'is_zero') and hasattr(k, 'is_negative') and hasattr(n, 'is_number') and hasattr(k, 'is_number')"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.factorials.binomial.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1aed027e72ca597e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(k, 'is_integer')","hasattr(n, 'is_nonnegative')","hasattr(n, 'is_integer')","hasattr(k, 'is_zero')","hasattr(k, 'is_negative')","hasattr(n, 'is_number')","hasattr(k, 'is_number')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["cls._eval","k.is_integer","k.is_negative","k.is_number","k.is_zero","n.is_integer","n.is_nonnegative","n.is_number"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, n, k):
         n, k = map(sympify, (n, k))
         d = n - k
@@ -1612,16 +1994,23 @@ class binomial(CombinatorialFunction):
             return gamma(n + 1)/(gamma(k + 1)*gamma(n - k + 1))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_Mod(q), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_Mod(q), <unspecified:_eval_Mod>) over {Any | not (any((x.is_integer is False for x in (n, k, q))))} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_Mod : Any → Any                                      ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (any((x.is_integer is False for x in ...   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_Mod : {Any | not (any((x.is_integer is False fo...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 18f0a1e533180ecf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.binomial._eval_Mod","kind":"method","src_hash":"adcb5362d37df015","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_Mod(q)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_Mod_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.factorials.binomial._eval_Mod_correct","statement":"Path(_eval_Mod(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"18f0a1e533180ecf"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.binomial._eval_Mod","kind":"method","src_hash":"adcb5362d37df015","in":{"base":"Any","pred":"not (any((x.is_integer is False for x in (n, k, q))))"},"out":{"base":"Any"},"spec":{"lhs":"_eval_Mod(q)","rhs":"<unspecified:_eval_Mod>","over":{"base":"Any","pred":"not (any((x.is_integer is False for x in (n, k, q))))"},"name":"_eval_Mod_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.factorials.binomial._eval_Mod_correct","statement":"Path(_eval_Mod(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"18f0a1e533180ecf","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (any((x.is_integer is False for x in (n, k, q))))"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_Mod(self, q):
         n, k = self.args
 
@@ -1706,16 +2095,22 @@ class binomial(CombinatorialFunction):
             return S(res % q)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_expand_func(**h), function to expand binomial(n, k) when m is positive integer also, n is self.args[0] and k is self.args[1] while using binomial(n, k)) over Any ║
+# ║ Path(_eval_expand_func(**hints), <unspecified:_eval_expand_func>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_expand_func : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 361b051d9a8e0c8e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.binomial._eval_expand_func","kind":"method","src_hash":"b6c0d463a2ac25c7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_expand_func(**h)","rhs":"function to expand binomial(n, k) when m is positive integer also, n is self.args[0] and k is self.args[1] while using binomial(n, k)","over":{"base":"Any"},"name":"_eval_expand_func_correct"},"guarantee":"function to expand binomial(n, k) when m is positive integer also, n is self.args[0] and k is self.args[1] while using binomial(n, k)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.factorials.binomial._eval_expand_func_correct","statement":"Path(_eval_expand_func(x), function to expand binomial(n, k) when m is positive integer also, n is self.args[0] and k is self.args[1] while using binomial(n, k))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"361b051d9a8e0c8e"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.binomial._eval_expand_func","kind":"method","src_hash":"b6c0d463a2ac25c7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_expand_func(**hints)","rhs":"<unspecified:_eval_expand_func>","over":{"base":"Any"},"name":"_eval_expand_func_correct"},"guarantee":"function to expand binomial(n, k) when m is positive integer also, n is self.args[0] and k is self.args[1] while using binomial(n, k)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.factorials.binomial._eval_expand_func_correct","statement":"Path(_eval_expand_func(x), function to expand binomial(n, k) when m is positive integer also, n is self.args[0] and k is self.args[1] while using binomial(n, k))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"361b051d9a8e0c8e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_expand_func(self, **hints):
         """
         Function to expand binomial(n, k) when m is positive integer
@@ -1744,74 +2139,108 @@ class binomial(CombinatorialFunction):
             return binomial(*self.args)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_factorial(n, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_factorial(n, k, **kwargs), factorial(n) / (factorial(k) * factorial(n - k))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  factorial(n) / (factorial(k) * factorial(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_factorial : Any → Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1d4728be5d1f5ccf           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.binomial._eval_rewrite_as_factorial","kind":"method","src_hash":"f8e759cfc8734e7c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_factorial(n, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_factorial_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1d4728be5d1f5ccf"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.binomial._eval_rewrite_as_factorial","kind":"method","src_hash":"f8e759cfc8734e7c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_factorial(n, k, **kwargs)","rhs":"factorial(n) / (factorial(k) * factorial(n - k))","over":{"base":"Any"},"name":"_eval_rewrite_as_factorial_correct"},"guarantee":"returns factorial(n) / (factorial(k) * factorial(n - k))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1d4728be5d1f5ccf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"factorial(n) / (factorial(k) * factorial(n - k))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_factorial(self, n, k, **kwargs):
         return factorial(n)/(factorial(k)*factorial(n - k))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_gamma(n, ), id) over Any             ║
+# ║ Path(_eval_rewrite_as_gamma(n, k, piecewise), id) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  gamma(n + 1) / (gamma(k + 1) * gamma(n - ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_gamma : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | ffeffd11add81cdb   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.binomial._eval_rewrite_as_gamma","kind":"method","src_hash":"681f772dcea968ad","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_gamma(n, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_gamma_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"gamma","by":"library_axiom"},{"fn":"gamma","by":"library_axiom"},{"fn":"gamma","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ffeffd11add81cdb"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.binomial._eval_rewrite_as_gamma","kind":"method","src_hash":"681f772dcea968ad","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_gamma(n, k, piecewise)","rhs":"gamma(n + 1) / (gamma(k + 1) * gamma(n - k + 1))","over":{"base":"Any"},"name":"_eval_rewrite_as_gamma_correct","kind":"composition"},"guarantee":"returns gamma(n + 1) / (gamma(k + 1) * gamma(n - k + 1))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"gamma","by":"library_axiom"},{"fn":"gamma","by":"library_axiom"},{"fn":"gamma","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ffeffd11add81cdb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"gamma(n + 1) / (gamma(k + 1) * gamma(n - k + 1))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_gamma(self, n, k, piecewise=True, **kwargs):
         from sympy.functions.special.gamma_functions import gamma
         return gamma(n + 1)/(gamma(k + 1)*gamma(n - k + 1))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_tractable(n, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_tractable(n, k, limitvar), self._eval_rewrite_as_gamma(n, k).rewrite('tractable')) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._eval_rewrite_as_gamma(n, k).rewrite...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_tractable : Any → Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 63e8f0f721b8c66c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.binomial._eval_rewrite_as_tractable","kind":"method","src_hash":"8ec2bd431abbfeed","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_tractable(n, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_tractable_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"63e8f0f721b8c66c"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.binomial._eval_rewrite_as_tractable","kind":"method","src_hash":"8ec2bd431abbfeed","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_tractable(n, k, limitvar)","rhs":"self._eval_rewrite_as_gamma(n, k).rewrite('tractable')","over":{"base":"Any"},"name":"_eval_rewrite_as_tractable_correct"},"guarantee":"returns self._eval_rewrite_as_gamma(n, k).rewrite('tractable')","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"63e8f0f721b8c66c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._eval_rewrite_as_gamma(n, k).rewrite('tractable')","pure":false,"effects":{"effect_type":"reads_state","reads":["self._eval_rewrite_as_gamma"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_tractable(self, n, k, limitvar=None, **kwargs):
         return self._eval_rewrite_as_gamma(n, k).rewrite('tractable')
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_FallingFactorial(n, ), id) over Any  ║
+# ║ Path(_eval_rewrite_as_FallingFactorial(n, k, **kwargs), id) over {Any | hasattr(k, 'is_integer')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_rewrite_as_FallingFactorial : Any → Any              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(k, 'is_integer')                       ║
+# ║   returns:  ff(n, k) / factorial(k)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_rewrite_as_FallingFactorial : {Any | hasattr(k,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 04e0095b7103601d   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.binomial._eval_rewrite_as_FallingFactorial","kind":"method","src_hash":"d36d43bfa6f422dd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_FallingFactorial(n, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_FallingFactorial_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"ff","by":"library_axiom"},{"fn":"factorial","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"04e0095b7103601d"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.binomial._eval_rewrite_as_FallingFactorial","kind":"method","src_hash":"d36d43bfa6f422dd","in":{"base":"Any","pred":"hasattr(k, 'is_integer')"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_FallingFactorial(n, k, **kwargs)","rhs":"ff(n, k) / factorial(k)","over":{"base":"Any","pred":"hasattr(k, 'is_integer')"},"name":"_eval_rewrite_as_FallingFactorial_correct","kind":"composition"},"guarantee":"returns ff(n, k) / factorial(k)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"ff","by":"library_axiom"},{"fn":"factorial","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"04e0095b7103601d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(k, 'is_integer')"],"returns_expr":"ff(n, k) / factorial(k)","pure":false,"effects":{"effect_type":"reads_state","reads":["k.is_integer"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_FallingFactorial(self, n, k, **kwargs):
         if k.is_integer:
             return ff(n, k) / factorial(k)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_integer(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_integer(), result == (True if n.is_integer and k.is_integer else False) and result == True or result == False) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_is_integer : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (True if n.is_integer and k.is_...   ║
+# ║   ensures:  result == True or result == False              ║
+# ║   fiber[case_0]: n.is_integer and k.is_integer => True     ║
+# ║   fiber[case_1]: k.is_integer is False => False            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_is_integer : Any → {Any | result satisfies: res...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b84d39a561ee3744  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 816b3609459608af  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.binomial._eval_is_integer","kind":"method","src_hash":"c090fe07201752ef","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_integer()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_integer_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.factorials.binomial._eval_is_integer_correct","statement":"Path(_eval_is_integer(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b84d39a561ee3744"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.binomial._eval_is_integer","kind":"method","src_hash":"c090fe07201752ef","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (True if n.is_integer and k.is_integer else False) and result == True or result == False"},"spec":{"lhs":"_eval_is_integer()","rhs":"result == (True if n.is_integer and k.is_integer else False) and result == True or result == False","over":{"base":"Any"},"name":"_eval_is_integer_correct"},"guarantee":"result == (True if n.is_integer and k.is_integer else False); result == True or result == False; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.factorials.binomial._eval_is_integer_correct","statement":"Path(_eval_is_integer(x), result == (True if n.is_integer and k.is_integer else False); result == True or result == False; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"816b3609459608af","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (True if n.is_integer and k.is_integer else False)","result == True or result == False"],"fibers":[{"name":"case_0","guard":"n.is_integer and k.is_integer","ensures":["result == True"],"decidability":"library","returns_expr":"True"},{"name":"case_1","guard":"k.is_integer is False","ensures":["result == False"],"decidability":"library","returns_expr":"False"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_integer(self):
         n, k = self.args
         if n.is_integer and k.is_integer:
@@ -1820,16 +2249,22 @@ class binomial(CombinatorialFunction):
             return False
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_nonnegative(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_nonnegative(), <unspecified:_eval_is_nonnegative>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_nonnegative : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 018613fbfccd8796  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.binomial._eval_is_nonnegative","kind":"method","src_hash":"64d2415bf89357b5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_nonnegative()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_nonnegative_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.factorials.binomial._eval_is_nonnegative_correct","statement":"Path(_eval_is_nonnegative(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"018613fbfccd8796"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.binomial._eval_is_nonnegative","kind":"method","src_hash":"64d2415bf89357b5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_nonnegative()","rhs":"<unspecified:_eval_is_nonnegative>","over":{"base":"Any"},"name":"_eval_is_nonnegative_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.combinatorial.factorials.binomial._eval_is_nonnegative_correct","statement":"Path(_eval_is_nonnegative(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"018613fbfccd8796","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_nonnegative(self):
         n, k = self.args
         if n.is_integer and k.is_integer:
@@ -1839,16 +2274,22 @@ class binomial(CombinatorialFunction):
                 return  False
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_as_leading_term(x, ), id) over Any              ║
+# ║ Path(_eval_as_leading_term(x, logx, cdir), id) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.rewrite(gamma)._eval_as_leading_term...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_as_leading_term : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 07dea6e2c5e22b9d   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.binomial._eval_as_leading_term","kind":"method","src_hash":"c264fd551701acd1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_as_leading_term(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_as_leading_term_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"rewrite","by":"library_axiom"},{"fn":"_eval_as_leading_term","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"07dea6e2c5e22b9d"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.combinatorial.factorials.binomial._eval_as_leading_term","kind":"method","src_hash":"c264fd551701acd1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_as_leading_term(x, logx, cdir)","rhs":"self.rewrite(gamma)._eval_as_leading_term(x, logx=logx, cdir=cdir)","over":{"base":"Any"},"name":"_eval_as_leading_term_correct","kind":"composition"},"guarantee":"returns self.rewrite(gamma)._eval_as_leading_term(x, logx=logx, cdir=cdir)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"rewrite","by":"library_axiom"},{"fn":"_eval_as_leading_term","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"07dea6e2c5e22b9d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.rewrite(gamma)._eval_as_leading_term(x, logx=logx, cdir=cdir)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.rewrite"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_as_leading_term(self, x, logx, cdir):
         from sympy.functions.special.gamma_functions import gamma
         return self.rewrite(gamma)._eval_as_leading_term(x, logx=logx, cdir=cdir)

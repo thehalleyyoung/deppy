@@ -22,16 +22,22 @@ from sympy.utilities.decorator import doctest_depends_on
 
 @doctest_depends_on(modules=('pyglet',))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(PygletPlot(*ar), plot examples =============) over Any ║
+# ║ Path(PygletPlot(*args, **kwargs), PygletPlot(*args, **kwargs)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  PygletPlot(*args, **kwargs)                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ PygletPlot : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | da9c6db76552faa4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8ad64972976f40ec  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.PygletPlot","kind":"function","src_hash":"745e51aade5f2d00","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"PygletPlot(*ar)","rhs":"plot examples =============","over":{"base":"Any"},"name":"PygletPlot_correct"},"guarantee":"plot examples =============","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.PygletPlot_correct","statement":"Path(PygletPlot(x), plot examples =============)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"da9c6db76552faa4"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.PygletPlot","kind":"function","src_hash":"745e51aade5f2d00","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"PygletPlot(*args, **kwargs)","rhs":"PygletPlot(*args, **kwargs)","over":{"base":"Any"},"name":"PygletPlot_correct"},"guarantee":"returns PygletPlot(*args, **kwargs)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.PygletPlot_correct","statement":"Path(PygletPlot(x), returns PygletPlot(*args, **kwargs))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8ad64972976f40ec","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"PygletPlot(*args, **kwargs)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=[], spec=['*args', '**kwargs']"]}}
 def PygletPlot(*args, **kwargs):
     """
 

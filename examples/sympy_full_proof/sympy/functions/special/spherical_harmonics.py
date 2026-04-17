@@ -32,14 +32,20 @@ _x = Dummy("x")
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Ynm(*args), correctly constructs a Ynm instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Ynm : Any → Any                                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DefinedFunction)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Ynm : Any → {Any | result satisfies: isinstance(self,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 146d9e3fca3bb9ac  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.spherical_harmonics.Ynm","kind":"class","src_hash":"7e20d3eb06ab3e48","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Ynm(*args)","rhs":"correctly constructs a Ynm instance","over":{"base":"Any"},"name":"Ynm_class_invariant"},"guarantee":"correctly constructs a Ynm instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"146d9e3fca3bb9ac"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.spherical_harmonics.Ynm","kind":"class","src_hash":"7e20d3eb06ab3e48","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DefinedFunction)"},"spec":{"lhs":"Ynm(*args)","rhs":"correctly constructs a Ynm instance","over":{"base":"Any"},"name":"Ynm_class_invariant"},"guarantee":"isinstance(self, DefinedFunction)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"146d9e3fca3bb9ac","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DefinedFunction)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"assumed","binding":false,"binding_errors":["Function Ynm not found in source"]}}
 class Ynm(DefinedFunction):
     r"""
     Spherical harmonics defined as
@@ -164,16 +170,25 @@ class Ynm(DefinedFunction):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), id) over Any                               ║
+# ║ Path(eval(cls, n, m), id) over {Any | hasattr(m, 'could_extract_minus_sign') and hasattr(theta, 'could_extract_minus_sign') and hasattr(phi, 'could_extract_minus_sign')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Any                                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(m, 'could_extract_minus_sign')         ║
+# ║   requires: hasattr(theta, 'could_extract_minus_sign')     ║
+# ║   requires: hasattr(phi, 'could_extract_minus_sign')       ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : {Any | hasattr(m, 'could_extract_minus_sign') ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 124848a9a55c3400   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.spherical_harmonics.Ynm.eval","kind":"classmethod","src_hash":"8754ec6b53bc72e2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct","kind":"composition"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"exp","by":"library_axiom"},{"fn":"Ynm","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"124848a9a55c3400"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.spherical_harmonics.Ynm.eval","kind":"classmethod","src_hash":"8754ec6b53bc72e2","in":{"base":"Any","pred":"hasattr(m, 'could_extract_minus_sign') and hasattr(theta, 'could_extract_minus_sign') and hasattr(phi, 'could_extract_minus_sign')"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls, n, m)","rhs":"<unspecified:eval>","over":{"base":"Any","pred":"hasattr(m, 'could_extract_minus_sign') and hasattr(theta, 'could_extract_minus_sign') and hasattr(phi, 'could_extract_minus_sign')"},"name":"eval_correct","kind":"composition"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"exp","by":"library_axiom"},{"fn":"Ynm","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"124848a9a55c3400","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(m, 'could_extract_minus_sign')","hasattr(theta, 'could_extract_minus_sign')","hasattr(phi, 'could_extract_minus_sign')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["m.could_extract_minus_sign","phi.could_extract_minus_sign","theta.could_extract_minus_sign"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, n, m, theta, phi):
         # Handle negative index m and arguments theta, phi
         if m.could_extract_minus_sign():
@@ -189,16 +204,22 @@ class Ynm(DefinedFunction):
         # TODO Add more simplififcation here
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_expand_func(**h), id) over Any                  ║
+# ║ Path(_eval_expand_func(**hints), id) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  rv.subs(sqrt(-cos(theta) ** 2 + 1), sin(t...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_expand_func : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 5320f460c9faa035   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.spherical_harmonics.Ynm._eval_expand_func","kind":"method","src_hash":"828988a0a57dd6bf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_expand_func(**h)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_expand_func_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"subs","by":"library_axiom"},{"fn":"sqrt","by":"library_axiom"},{"fn":"cos","by":"library_axiom"},{"fn":"sin","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5320f460c9faa035"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.spherical_harmonics.Ynm._eval_expand_func","kind":"method","src_hash":"828988a0a57dd6bf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_expand_func(**hints)","rhs":"rv.subs(sqrt(-cos(theta) ** 2 + 1), sin(theta))","over":{"base":"Any"},"name":"_eval_expand_func_correct","kind":"composition"},"guarantee":"returns rv.subs(sqrt(-cos(theta) ** 2 + 1), sin(theta))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"subs","by":"library_axiom"},{"fn":"sqrt","by":"library_axiom"},{"fn":"cos","by":"library_axiom"},{"fn":"sin","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5320f460c9faa035","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"rv.subs(sqrt(-cos(theta) ** 2 + 1), sin(theta))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_expand_func(self, **hints):
         n, m, theta, phi = self.args
         rv = (sqrt((2*n + 1)/(4*pi) * factorial(n - m)/factorial(n + m)) *
@@ -207,16 +228,25 @@ class Ynm(DefinedFunction):
         return rv.subs(sqrt(-cos(theta)**2 + 1), sin(theta))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(fdiff(arg), id) over Any                              ║
+# ║ Path(fdiff(argindex), id) over {Any | not (argindex == 1)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ fdiff : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (argindex == 1)                            ║
+# ║   fiber[case_0]: argindex == 1                             ║
+# ║   fiber[case_1]: argindex == 2                             ║
+# ║   fiber[case_2]: argindex == 3 => m * cot(theta) * Yn...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ fdiff : {Any | not (argindex == 1)} → Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | ac01d22fbc4e8a65   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.spherical_harmonics.Ynm.fdiff","kind":"method","src_hash":"7f03936f9be6e402","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(arg)","rhs":"fdiff produces the expected output","over":{"base":"Any"},"name":"fdiff_correct","kind":"composition"},"guarantee":"fdiff produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"cot","by":"library_axiom"},{"fn":"Ynm","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ac01d22fbc4e8a65"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.spherical_harmonics.Ynm.fdiff","kind":"method","src_hash":"7f03936f9be6e402","in":{"base":"Any","pred":"not (argindex == 1)"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(argindex)","rhs":"<unspecified:fdiff>","over":{"base":"Any","pred":"not (argindex == 1)"},"name":"fdiff_correct","kind":"composition"},"guarantee":"5-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"cot","by":"library_axiom"},{"fn":"Ynm","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ac01d22fbc4e8a65","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (argindex == 1)"],"fibers":[{"name":"case_0","guard":"argindex == 1","ensures":[],"decidability":"z3"},{"name":"case_1","guard":"argindex == 2","ensures":[],"decidability":"z3"},{"name":"case_2","guard":"argindex == 3","ensures":["result == m * cot(theta) * Ynm(n, m, theta, phi) + sqrt((n - m) * (n + m + 1)) * exp(-I * phi) * Ynm(n, m + 1, theta, phi)"],"decidability":"z3","returns_expr":"m * cot(theta) * Ynm(n, m, theta, phi) + sqrt((n - m) * (n + m + 1)) * exp(-I * phi) * Ynm(n, m + 1, theta, phi)"},{"name":"case_3","guard":"argindex == 4","ensures":["result == I * m * Ynm(n, m, theta, phi)"],"decidability":"z3","returns_expr":"I * m * Ynm(n, m, theta, phi)"},{"name":"case_4","guard":"not (argindex == 1) and not (argindex == 2) and not (argindex == 3) and not (argindex == 4)","ensures":[],"decidability":"z3"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"],"raises":["ArgumentIndexError"]},"state_contract":{"exceptional_post":{"ArgumentIndexError":["isinstance(raised, ArgumentIndexError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def fdiff(self, argindex=4):
         if argindex == 1:
             # Diff wrt n
@@ -237,46 +267,64 @@ class Ynm(DefinedFunction):
             raise ArgumentIndexError(self, argindex)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_polynomial(n, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_polynomial(n, m, theta), self.expand(func=True)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.expand(func=True)                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_polynomial : Any → Any                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c6cad3fa0f1c1088           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.spherical_harmonics.Ynm._eval_rewrite_as_polynomial","kind":"method","src_hash":"2b9804e89591c544","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_polynomial(n, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_polynomial_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c6cad3fa0f1c1088"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.spherical_harmonics.Ynm._eval_rewrite_as_polynomial","kind":"method","src_hash":"2b9804e89591c544","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_polynomial(n, m, theta)","rhs":"self.expand(func=True)","over":{"base":"Any"},"name":"_eval_rewrite_as_polynomial_correct"},"guarantee":"returns self.expand(func=True)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c6cad3fa0f1c1088","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.expand(func=True)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.expand"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_polynomial(self, n, m, theta, phi, **kwargs):
         # TODO: Make sure n \in N
         # TODO: Assert |m| <= n ortherwise we should return 0
         return self.expand(func=True)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_sin(n, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_sin(n, m, theta), self.rewrite(cos)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.rewrite(cos)                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_sin : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | fede37df06a54395           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.spherical_harmonics.Ynm._eval_rewrite_as_sin","kind":"method","src_hash":"804261e8b31a708a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_sin(n, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_sin_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fede37df06a54395"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.spherical_harmonics.Ynm._eval_rewrite_as_sin","kind":"method","src_hash":"804261e8b31a708a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_sin(n, m, theta)","rhs":"self.rewrite(cos)","over":{"base":"Any"},"name":"_eval_rewrite_as_sin_correct"},"guarantee":"returns self.rewrite(cos)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fede37df06a54395","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.rewrite(cos)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.rewrite"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_sin(self, n, m, theta, phi, **kwargs):
         return self.rewrite(cos)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_cos(n, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_cos(n, m, theta), simplify(trigsimp(term))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  simplify(trigsimp(term))                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_cos : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8e7a9c24fa89c5a3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 917a7bc73581b7a2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.spherical_harmonics.Ynm._eval_rewrite_as_cos","kind":"method","src_hash":"3871a98b5a7cafcd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_cos(n, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_cos_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.spherical_harmonics.Ynm._eval_rewrite_as_cos_correct","statement":"Path(_eval_rewrite_as_cos(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8e7a9c24fa89c5a3"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.spherical_harmonics.Ynm._eval_rewrite_as_cos","kind":"method","src_hash":"3871a98b5a7cafcd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_cos(n, m, theta)","rhs":"simplify(trigsimp(term))","over":{"base":"Any"},"name":"_eval_rewrite_as_cos_correct"},"guarantee":"returns simplify(trigsimp(term))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.spherical_harmonics.Ynm._eval_rewrite_as_cos_correct","statement":"Path(_eval_rewrite_as_cos(x), returns simplify(trigsimp(term)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"917a7bc73581b7a2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"simplify(trigsimp(term))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.expand"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_cos(self, n, m, theta, phi, **kwargs):
         # This method can be expensive due to extensive use of simplification!
         from sympy.simplify import simplify, trigsimp
@@ -288,32 +336,44 @@ class Ynm(DefinedFunction):
         return simplify(trigsimp(term))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_conjugate(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_conjugate(), S.NegativeOne ** m * self.func(n, -m, theta, phi)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  S.NegativeOne ** m * self.func(n, -m, the...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_conjugate : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f0d10c722646cbd1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5a92223184d47978  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.spherical_harmonics.Ynm._eval_conjugate","kind":"method","src_hash":"b47315e9a932cbdc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_conjugate()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_conjugate_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.spherical_harmonics.Ynm._eval_conjugate_correct","statement":"Path(_eval_conjugate(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f0d10c722646cbd1"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.spherical_harmonics.Ynm._eval_conjugate","kind":"method","src_hash":"b47315e9a932cbdc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_conjugate()","rhs":"S.NegativeOne ** m * self.func(n, -m, theta, phi)","over":{"base":"Any"},"name":"_eval_conjugate_correct"},"guarantee":"returns S.NegativeOne ** m * self.func(n, -m, theta, phi)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.spherical_harmonics.Ynm._eval_conjugate_correct","statement":"Path(_eval_conjugate(x), returns S.NegativeOne ** m * self.func(n, -m, theta, phi))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5a92223184d47978","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"S.NegativeOne ** m * self.func(n, -m, theta, phi)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.func"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_conjugate(self):
         # TODO: Make sure theta \in R and phi \in R
         n, m, theta, phi = self.args
         return S.NegativeOne**m * self.func(n, -m, theta, phi)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(as_real_imag(dee), as_real_imag produces the expected output) over Any ║
+# ║ Path(as_real_imag(deep, **hints), (re, im)) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (re, im)                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ as_real_imag : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2ad63f2c5f28e79c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e46a29a7ecd75079  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.spherical_harmonics.Ynm.as_real_imag","kind":"method","src_hash":"d592bd384dc04945","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_real_imag(dee)","rhs":"as_real_imag produces the expected output","over":{"base":"Any"},"name":"as_real_imag_correct"},"guarantee":"as_real_imag produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.spherical_harmonics.Ynm.as_real_imag_correct","statement":"Path(as_real_imag(x), as_real_imag produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2ad63f2c5f28e79c"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.spherical_harmonics.Ynm.as_real_imag","kind":"method","src_hash":"d592bd384dc04945","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_real_imag(deep, **hints)","rhs":"(re, im)","over":{"base":"Any"},"name":"as_real_imag_correct"},"guarantee":"returns (re, im)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.spherical_harmonics.Ynm.as_real_imag_correct","statement":"Path(as_real_imag(x), returns (re, im))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e46a29a7ecd75079","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(re, im)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def as_real_imag(self, deep=True, **hints):
         # TODO: Handle deep and hints
         n, m, theta, phi = self.args
@@ -324,16 +384,22 @@ class Ynm(DefinedFunction):
         return (re, im)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_evalf(pre), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_evalf(prec), Expr._from_mpmath(res, prec)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Expr._from_mpmath(res, prec)                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_evalf : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c93d1651204adde7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7e63c8aeb18c8b30  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.spherical_harmonics.Ynm._eval_evalf","kind":"method","src_hash":"8465b16df2b86649","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_evalf(pre)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_evalf_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.spherical_harmonics.Ynm._eval_evalf_correct","statement":"Path(_eval_evalf(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c93d1651204adde7"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.spherical_harmonics.Ynm._eval_evalf","kind":"method","src_hash":"8465b16df2b86649","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_evalf(prec)","rhs":"Expr._from_mpmath(res, prec)","over":{"base":"Any"},"name":"_eval_evalf_correct"},"guarantee":"returns Expr._from_mpmath(res, prec)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.spherical_harmonics.Ynm._eval_evalf_correct","statement":"Path(_eval_evalf(x), returns Expr._from_mpmath(res, prec))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7e63c8aeb18c8b30","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Expr._from_mpmath(res, prec)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_evalf(self, prec):
         # Note: works without this function by just calling
         #       mpmath for Legendre polynomials. But using
@@ -349,16 +415,22 @@ class Ynm(DefinedFunction):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(Ynm_c(n, ), conjugate spherical harmonics defined as) over Any ║
+# ║ Path(Ynm_c(n, m, theta), conjugate(Ynm(n, m, theta, phi))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  conjugate(Ynm(n, m, theta, phi))               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Ynm_c : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ea5612a975eae90e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.spherical_harmonics.Ynm_c","kind":"function","src_hash":"7da58561acc9761d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Ynm_c(n, )","rhs":"conjugate spherical harmonics defined as","over":{"base":"Any"},"name":"Ynm_c_correct"},"guarantee":"conjugate spherical harmonics defined as","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ea5612a975eae90e"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.spherical_harmonics.Ynm_c","kind":"function","src_hash":"7da58561acc9761d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Ynm_c(n, m, theta)","rhs":"conjugate(Ynm(n, m, theta, phi))","over":{"base":"Any"},"name":"Ynm_c_correct"},"guarantee":"returns conjugate(Ynm(n, m, theta, phi))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ea5612a975eae90e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"conjugate(Ynm(n, m, theta, phi))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":true}}
 def Ynm_c(n, m, theta, phi):
     r"""
     Conjugate spherical harmonics defined as
@@ -405,14 +477,20 @@ def Ynm_c(n, m, theta, phi):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Znm(*args), correctly constructs a Znm instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Znm : Any → Any                                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DefinedFunction)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Znm : Any → {Any | result satisfies: isinstance(self,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 86fae6571959694e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.spherical_harmonics.Znm","kind":"class","src_hash":"93e7d3411251b5f1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Znm(*args)","rhs":"correctly constructs a Znm instance","over":{"base":"Any"},"name":"Znm_class_invariant"},"guarantee":"correctly constructs a Znm instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"86fae6571959694e"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.spherical_harmonics.Znm","kind":"class","src_hash":"93e7d3411251b5f1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DefinedFunction)"},"spec":{"lhs":"Znm(*args)","rhs":"correctly constructs a Znm instance","over":{"base":"Any"},"name":"Znm_class_invariant"},"guarantee":"isinstance(self, DefinedFunction)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"86fae6571959694e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DefinedFunction)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function Znm not found in source"]}}
 class Znm(DefinedFunction):
     r"""
     Real spherical harmonics defined as
@@ -473,16 +551,29 @@ class Znm(DefinedFunction):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), eval produces the expected output) over Any ║
+# ║ Path(eval(cls, n, m), result == (zz if m.is_positive else Ynm(n, m, theta, phi) if m.is_zero else zz) and result == zz or result == Ynm(n, m, theta, phi)) over {Any | hasattr(m, 'is_positive') and hasattr(m, 'is_zero') and hasattr(m, 'is_negative')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(m, 'is_positive')                      ║
+# ║   requires: hasattr(m, 'is_zero')                          ║
+# ║   requires: hasattr(m, 'is_negative')                      ║
+# ║   ensures:  result == (zz if m.is_positive else Ynm(n...   ║
+# ║   ensures:  result == zz or result == Ynm(n, m, theta...   ║
+# ║   fiber[case_0]: m.is_positive => zz                       ║
+# ║   fiber[case_1]: m.is_zero => Ynm(n, m, theta, phi)        ║
+# ║   fiber[case_2]: m.is_negative => zz                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : {Any | hasattr(m, 'is_positive') and hasattr(m...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c363ec2613011206  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b47988d8a0c66dd7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.spherical_harmonics.Znm.eval","kind":"classmethod","src_hash":"2b711af3a6836f98","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.spherical_harmonics.Znm.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c363ec2613011206"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.spherical_harmonics.Znm.eval","kind":"classmethod","src_hash":"2b711af3a6836f98","in":{"base":"Any","pred":"hasattr(m, 'is_positive') and hasattr(m, 'is_zero') and hasattr(m, 'is_negative')"},"out":{"base":"Any","pred":"result satisfies: result == (zz if m.is_positive else Ynm(n, m, theta, phi) if m.is_zero else zz) and result == zz or result == Ynm(n, m, theta, phi)"},"spec":{"lhs":"eval(cls, n, m)","rhs":"result == (zz if m.is_positive else Ynm(n, m, theta, phi) if m.is_zero else zz) and result == zz or result == Ynm(n, m, theta, phi)","over":{"base":"Any","pred":"hasattr(m, 'is_positive') and hasattr(m, 'is_zero') and hasattr(m, 'is_negative')"},"name":"eval_correct"},"guarantee":"result == (zz if m.is_positive else Ynm(n, m, theta, phi) if m.is_zero else zz); result == zz or result == Ynm(n, m, theta, phi); 3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.spherical_harmonics.Znm.eval_correct","statement":"Path(eval(x), result == (zz if m.is_positive else Ynm(n, m, theta, phi) if m.is_zero else zz); result == zz or result == Ynm(n, m, theta, phi); 3-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b47988d8a0c66dd7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(m, 'is_positive')","hasattr(m, 'is_zero')","hasattr(m, 'is_negative')"],"ensures":["result == (zz if m.is_positive else Ynm(n, m, theta, phi) if m.is_zero else zz)","result == zz or result == Ynm(n, m, theta, phi)"],"fibers":[{"name":"case_0","guard":"m.is_positive","ensures":["result == zz"],"decidability":"library","returns_expr":"zz"},{"name":"case_1","guard":"m.is_zero","ensures":["result == Ynm(n, m, theta, phi)"],"decidability":"library","returns_expr":"Ynm(n, m, theta, phi)"},{"name":"case_2","guard":"m.is_negative","ensures":["result == zz"],"decidability":"library","returns_expr":"zz"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["m.is_negative","m.is_positive","m.is_zero"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, n, m, theta, phi):
         if m.is_positive:
             zz = (Ynm(n, m, theta, phi) + Ynm_c(n, m, theta, phi)) / sqrt(2)

@@ -48,16 +48,25 @@ from sympy.abc import x, y, z, m, n
 EmptySet = S.EmptySet
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_imageset(), test_imageset produces the expected output) over Any ║
+# ║ Path(test_imageset(), cos(x)) over Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_imageset : Any → {Any | imageset(x, x - 1, S.Nat...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  imageset(x, x - 1, S.Naturals) is S.Natur...   ║
+# ║   ensures:  imageset(x, x + 1, S.Naturals0) is S.Natu...   ║
+# ║   ensures:  imageset(x, abs(x), S.Naturals0) is S.Nat...   ║
+# ║   returns:  cos(x)                                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_imageset : Any → {Any | result satisfies: result...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 10237d24901e7fc6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 607d7f964c88df9f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_imageset","kind":"function","src_hash":"210e989cb53a5398","in":{"base":"Any"},"out":{"base":"Any","pred":"imageset(x, x - 1, S.Naturals) is S.Naturals0 and imageset(x, x + 1, S.Naturals0) is S.Naturals and imageset(x, abs(x), S.Naturals0) is S.Naturals0 and imageset(x, abs(x), S.Naturals) is S.Naturals and imageset(x, abs(x), S.Integers) is S.Naturals0 and imageset(x, (x, x), S.Reals)._contains((1, r)) == None and imageset(x, (x, x), S.Reals)._contains((1, 2)) == False and (r, r) in imageset(x, (x, x), S.Reals) and 1 + I in imageset(x, x + I, S.Reals) and {1} not in imageset(x, (x,), S.Reals) and (1, 1) not in imageset(x, (x,), S.Reals) and (1, 2) in imageset(Lambda((x, y), (x, y)), ints, ints) and imageset(cos, ints) == ImageSet(Lambda(x, cos(x)), ints) and imageset(f, ints) == imageset(x, cos(x), ints) and imageset(f, ints) == ImageSet(Lambda(x, cos(x)), ints) and imageset(x, 1, ints) == FiniteSet(1) and imageset(x, y, ints) == {y} and imageset((x, y), (1, z), ints, S.Reals) == {(1, z)}"},"spec":{"lhs":"test_imageset()","rhs":"test_imageset produces the expected output","over":{"base":"Any"},"name":"test_imageset_correct"},"guarantee":"test_imageset produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_imageset_correct","statement":"Path(test_imageset(x), test_imageset produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"10237d24901e7fc6"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_imageset","kind":"function","src_hash":"210e989cb53a5398","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (cos(x))"},"spec":{"lhs":"test_imageset()","rhs":"cos(x)","over":{"base":"Any"},"name":"test_imageset_correct"},"guarantee":"returns cos(x); imageset(x, x - 1, S.Naturals) is S.Naturals0; imageset(x, x + 1, S.Naturals0) is S.Naturals; imageset(x, abs(x), S.Naturals0) is S.Naturals0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_imageset_correct","statement":"Path(test_imageset(x), returns cos(x); imageset(x, x - 1, S.Naturals) is S.Naturals0; imageset(x, x + 1, S.Naturals0) is S.Naturals; imageset(x, abs(x), S.Naturals0) is S.Naturals0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"607d7f964c88df9f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["imageset(x, x - 1, S.Naturals) is S.Naturals0","imageset(x, x + 1, S.Naturals0) is S.Naturals","imageset(x, abs(x), S.Naturals0) is S.Naturals0","imageset(x, abs(x), S.Naturals) is S.Naturals","imageset(x, abs(x), S.Integers) is S.Naturals0","imageset(x, (x, x), S.Reals)._contains((1, r)) == None","imageset(x, (x, x), S.Reals)._contains((1, 2)) == False","(r, r) in imageset(x, (x, x), S.Reals)","1 + I in imageset(x, x + I, S.Reals)","{1} not in imageset(x, (x,), S.Reals)","(1, 1) not in imageset(x, (x,), S.Reals)","(1, 2) in imageset(Lambda((x, y), (x, y)), ints, ints)","imageset(cos, ints) == ImageSet(Lambda(x, cos(x)), ints)","imageset(f, ints) == imageset(x, cos(x), ints)","imageset(f, ints) == ImageSet(Lambda(x, cos(x)), ints)","imageset(x, 1, ints) == FiniteSet(1)","imageset(x, y, ints) == {y}","imageset((x, y), (1, z), ints, S.Reals) == {(1, z)}","str(imageset(lambda x: x + clash, Interval(-2, 1)).lamda.expr) in ('x0 + x', 'x + x0')","imageset(lambda x, y: Add(x, y), Interval(1, 2), Interval(2, 3)).dummy_eq(ImageSet(Lambda((x1, x2), x1 + x2), Interval(1, 2), Interval(2, 3)))"],"returns_expr":"cos(x)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":true}}
 def test_imageset():
     ints = S.Integers
     assert imageset(x, x - 1, S.Naturals) is S.Naturals0
@@ -98,16 +107,22 @@ def test_imageset():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_is_empty(), test_is_empty produces the expected output) over Any ║
+# ║ Path(test_is_empty(), S.EmptySet.is_empty is True) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_is_empty : Any → {Any | S.EmptySet.is_empty is T...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  S.EmptySet.is_empty is True                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_is_empty : Any → {Any | result satisfies: S.Empt...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0a1ac3728d3a49bf  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f640c8600493c7e5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_is_empty","kind":"function","src_hash":"9fd52cb397f91a35","in":{"base":"Any"},"out":{"base":"Any","pred":"S.EmptySet.is_empty is True and s.is_empty is False"},"spec":{"lhs":"test_is_empty()","rhs":"test_is_empty produces the expected output","over":{"base":"Any"},"name":"test_is_empty_correct"},"guarantee":"test_is_empty produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_is_empty_correct","statement":"Path(test_is_empty(x), test_is_empty produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0a1ac3728d3a49bf"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_is_empty","kind":"function","src_hash":"9fd52cb397f91a35","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: S.EmptySet.is_empty is True"},"spec":{"lhs":"test_is_empty()","rhs":"S.EmptySet.is_empty is True","over":{"base":"Any"},"name":"test_is_empty_correct"},"guarantee":"S.EmptySet.is_empty is True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_is_empty_correct","statement":"Path(test_is_empty(x), S.EmptySet.is_empty is True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f640c8600493c7e5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["S.EmptySet.is_empty is True"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_is_empty():
     for s in [S.Naturals, S.Naturals0, S.Integers, S.Rationals, S.Reals,
             S.UniversalSet]:
@@ -117,16 +132,24 @@ def test_is_empty():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_is_finiteset(), test_is_finiteset produces the expected output) over Any ║
+# ║ Path(test_is_finiteset(), S.EmptySet.is_finite_set is True and FiniteSet(1, 2).is_finite_set is True and Interval(1, 2).is_finite_set is False and Interval(x, y).is_finite_set is None and ProductSet(FiniteSet(1), FiniteSet(2)).is_finite_set is True and ProductSet(FiniteSet(1), Interval(1, 2)).is_finite_set is False and ProductSet(FiniteSet(1), Interval(x, y)).is_finite_set is None and Union(Interval(0, 1), Interval(2, 3)).is_finite_set is False and Union(FiniteSet(1), Interval(2, 3)).is_finite_set is False and Union(FiniteSet(1), FiniteSet(2)).is_finite_set is True and Union(FiniteSet(1), Interval(x, y)).is_finite_set is None and Intersection(Interval(x, y), FiniteSet(1)).is_finite_set is True and Intersection(Interval(x, y), Interval(1, 2)).is_finite_set is None and Intersection(FiniteSet(x), FiniteSet(y)).is_finite_set is True and Complement(FiniteSet(1), Interval(x, y)).is_finite_set is True and Complement(Interval(x, y), FiniteSet(1)).is_finite_set is None and Complement(Interval(1, 2), FiniteSet(x)).is_finite_set is False and DisjointUnion(Interval(-5, 3), FiniteSet(x, y)).is_finite_set is False and DisjointUnion(S.EmptySet, FiniteSet(x, y), S.EmptySet).is_finite_set is True) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_is_finiteset : Any → {Any | S.EmptySet.is_finite...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  S.EmptySet.is_finite_set is True               ║
+# ║   ensures:  FiniteSet(1, 2).is_finite_set is True          ║
+# ║   ensures:  Interval(1, 2).is_finite_set is False          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_is_finiteset : Any → {Any | result satisfies: S....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2b0706db6b3feb15  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 38dfae5ce78cf660  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_is_finiteset","kind":"function","src_hash":"224423e845118e7c","in":{"base":"Any"},"out":{"base":"Any","pred":"S.EmptySet.is_finite_set is True and FiniteSet(1, 2).is_finite_set is True and Interval(1, 2).is_finite_set is False and Interval(x, y).is_finite_set is None and ProductSet(FiniteSet(1), FiniteSet(2)).is_finite_set is True and ProductSet(FiniteSet(1), Interval(1, 2)).is_finite_set is False and ProductSet(FiniteSet(1), Interval(x, y)).is_finite_set is None and Union(Interval(0, 1), Interval(2, 3)).is_finite_set is False and Union(FiniteSet(1), Interval(2, 3)).is_finite_set is False and Union(FiniteSet(1), FiniteSet(2)).is_finite_set is True and Union(FiniteSet(1), Interval(x, y)).is_finite_set is None and Intersection(Interval(x, y), FiniteSet(1)).is_finite_set is True and Intersection(Interval(x, y), Interval(1, 2)).is_finite_set is None and Intersection(FiniteSet(x), FiniteSet(y)).is_finite_set is True and Complement(FiniteSet(1), Interval(x, y)).is_finite_set is True and Complement(Interval(x, y), FiniteSet(1)).is_finite_set is None and Complement(Interval(1, 2), FiniteSet(x)).is_finite_set is False and DisjointUnion(Interval(-5, 3), FiniteSet(x, y)).is_finite_set is False and DisjointUnion(S.EmptySet, FiniteSet(x, y), S.EmptySet).is_finite_set is True and s.is_finite_set is False"},"spec":{"lhs":"test_is_finiteset()","rhs":"test_is_finiteset produces the expected output","over":{"base":"Any"},"name":"test_is_finiteset_correct"},"guarantee":"test_is_finiteset produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_is_finiteset_correct","statement":"Path(test_is_finiteset(x), test_is_finiteset produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2b0706db6b3feb15"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_is_finiteset","kind":"function","src_hash":"224423e845118e7c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: S.EmptySet.is_finite_set is True and FiniteSet(1, 2).is_finite_set is True and Interval(1, 2).is_finite_set is False and Interval(x, y).is_finite_set is None and ProductSet(FiniteSet(1), FiniteSet(2)).is_finite_set is True and ProductSet(FiniteSet(1), Interval(1, 2)).is_finite_set is False and ProductSet(FiniteSet(1), Interval(x, y)).is_finite_set is None and Union(Interval(0, 1), Interval(2, 3)).is_finite_set is False and Union(FiniteSet(1), Interval(2, 3)).is_finite_set is False and Union(FiniteSet(1), FiniteSet(2)).is_finite_set is True and Union(FiniteSet(1), Interval(x, y)).is_finite_set is None and Intersection(Interval(x, y), FiniteSet(1)).is_finite_set is True and Intersection(Interval(x, y), Interval(1, 2)).is_finite_set is None and Intersection(FiniteSet(x), FiniteSet(y)).is_finite_set is True and Complement(FiniteSet(1), Interval(x, y)).is_finite_set is True and Complement(Interval(x, y), FiniteSet(1)).is_finite_set is None and Complement(Interval(1, 2), FiniteSet(x)).is_finite_set is False and DisjointUnion(Interval(-5, 3), FiniteSet(x, y)).is_finite_set is False and DisjointUnion(S.EmptySet, FiniteSet(x, y), S.EmptySet).is_finite_set is True"},"spec":{"lhs":"test_is_finiteset()","rhs":"S.EmptySet.is_finite_set is True and FiniteSet(1, 2).is_finite_set is True and Interval(1, 2).is_finite_set is False and Interval(x, y).is_finite_set is None and ProductSet(FiniteSet(1), FiniteSet(2)).is_finite_set is True and ProductSet(FiniteSet(1), Interval(1, 2)).is_finite_set is False and ProductSet(FiniteSet(1), Interval(x, y)).is_finite_set is None and Union(Interval(0, 1), Interval(2, 3)).is_finite_set is False and Union(FiniteSet(1), Interval(2, 3)).is_finite_set is False and Union(FiniteSet(1), FiniteSet(2)).is_finite_set is True and Union(FiniteSet(1), Interval(x, y)).is_finite_set is None and Intersection(Interval(x, y), FiniteSet(1)).is_finite_set is True and Intersection(Interval(x, y), Interval(1, 2)).is_finite_set is None and Intersection(FiniteSet(x), FiniteSet(y)).is_finite_set is True and Complement(FiniteSet(1), Interval(x, y)).is_finite_set is True and Complement(Interval(x, y), FiniteSet(1)).is_finite_set is None and Complement(Interval(1, 2), FiniteSet(x)).is_finite_set is False and DisjointUnion(Interval(-5, 3), FiniteSet(x, y)).is_finite_set is False and DisjointUnion(S.EmptySet, FiniteSet(x, y), S.EmptySet).is_finite_set is True","over":{"base":"Any"},"name":"test_is_finiteset_correct"},"guarantee":"S.EmptySet.is_finite_set is True; FiniteSet(1, 2).is_finite_set is True; Interval(1, 2).is_finite_set is False","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_is_finiteset_correct","statement":"Path(test_is_finiteset(x), S.EmptySet.is_finite_set is True; FiniteSet(1, 2).is_finite_set is True; Interval(1, 2).is_finite_set is False)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"38dfae5ce78cf660","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["S.EmptySet.is_finite_set is True","FiniteSet(1, 2).is_finite_set is True","Interval(1, 2).is_finite_set is False","Interval(x, y).is_finite_set is None","ProductSet(FiniteSet(1), FiniteSet(2)).is_finite_set is True","ProductSet(FiniteSet(1), Interval(1, 2)).is_finite_set is False","ProductSet(FiniteSet(1), Interval(x, y)).is_finite_set is None","Union(Interval(0, 1), Interval(2, 3)).is_finite_set is False","Union(FiniteSet(1), Interval(2, 3)).is_finite_set is False","Union(FiniteSet(1), FiniteSet(2)).is_finite_set is True","Union(FiniteSet(1), Interval(x, y)).is_finite_set is None","Intersection(Interval(x, y), FiniteSet(1)).is_finite_set is True","Intersection(Interval(x, y), Interval(1, 2)).is_finite_set is None","Intersection(FiniteSet(x), FiniteSet(y)).is_finite_set is True","Complement(FiniteSet(1), Interval(x, y)).is_finite_set is True","Complement(Interval(x, y), FiniteSet(1)).is_finite_set is None","Complement(Interval(1, 2), FiniteSet(x)).is_finite_set is False","DisjointUnion(Interval(-5, 3), FiniteSet(x, y)).is_finite_set is False","DisjointUnion(S.EmptySet, FiniteSet(x, y), S.EmptySet).is_finite_set is True"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_is_finiteset():
     for s in [S.Naturals, S.Naturals0, S.Integers, S.Rationals, S.Reals,
             S.UniversalSet]:
@@ -155,16 +178,22 @@ def test_is_finiteset():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_deprecated_is_EmptySet(), test_deprecated_is_EmptySet produces the expected output) over Any ║
+# ║ Path(test_deprecated_is_EmptySet(), <unspecified:test_deprecated_is_EmptySet>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_deprecated_is_EmptySet : Any → Any                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f0566c359664f6ef  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_deprecated_is_EmptySet","kind":"function","src_hash":"a5941955d9d1546e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_deprecated_is_EmptySet()","rhs":"test_deprecated_is_EmptySet produces the expected output","over":{"base":"Any"},"name":"test_deprecated_is_EmptySet_correct"},"guarantee":"test_deprecated_is_EmptySet produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_deprecated_is_EmptySet_correct","statement":"Path(test_deprecated_is_EmptySet(x), test_deprecated_is_EmptySet produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f0566c359664f6ef"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_deprecated_is_EmptySet","kind":"function","src_hash":"a5941955d9d1546e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_deprecated_is_EmptySet()","rhs":"<unspecified:test_deprecated_is_EmptySet>","over":{"base":"Any"},"name":"test_deprecated_is_EmptySet_correct"},"guarantee":"test_deprecated_is_EmptySet produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_deprecated_is_EmptySet_correct","statement":"Path(test_deprecated_is_EmptySet(x), test_deprecated_is_EmptySet produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f0566c359664f6ef","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_deprecated_is_EmptySet():
     with warns_deprecated_sympy():
         S.EmptySet.is_EmptySet
@@ -174,7 +203,12 @@ def test_deprecated_is_EmptySet():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_interval_arguments(), test_interval_arguments produces the expected output) over {Any | isinstance(Interval(1, 1), FiniteSet) and isinstance(Interval(0, Symbol('a')), Interval)} ║
+# ║ Path(test_interval_arguments(), Interval(0, oo) == Interval(0, oo, False, True) and Interval(0, oo).right_open is true and Interval(-oo, 0) == Interval(-oo, 0, True, False) and Interval(-oo, 0).left_open is true and Interval(oo, -oo) == S.EmptySet and Interval(oo, oo) == S.EmptySet and Interval(-oo, -oo) == S.EmptySet and Interval(oo, x) == S.EmptySet and Interval(x, -oo) == S.EmptySet and Interval(x, x) == {x} and isinstance(Interval(1, 1), FiniteSet) and isinstance(Interval(e, e), FiniteSet) and Interval(1, 0) == S.EmptySet and Interval(1, 1).measure == 0 and Interval(1, 1, False, True) == S.EmptySet and Interval(1, 1, True, False) == S.EmptySet and Interval(1, 1, True, True) == S.EmptySet and isinstance(Interval(0, Symbol('a')), Interval) and Interval(Symbol('a', positive=True), 0) == S.EmptySet) over {Any | isinstance(Interval(1, 1), FiniteSet) and isinstance(Interval(0, Symbol('a')), Interval)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Interval(0, oo) == Interval(0, oo, False,...   ║
+# ║   ensures:  Interval(0, oo).right_open is true             ║
+# ║   ensures:  Interval(-oo, 0) == Interval(-oo, 0, True...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_interval_arguments : {Any | isinstance(Interval(...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -187,9 +221,12 @@ def test_deprecated_is_EmptySet():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?2 ✗2 VCs | 1.5ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 24f73dcc...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_interval_arguments","kind":"function","src_hash":"89556ebb196f1027","in":{"base":"Any","pred":"isinstance(Interval(1, 1), FiniteSet) and isinstance(Interval(0, Symbol('a')), Interval)"},"out":{"base":"Any","pred":"Interval(0, oo) == Interval(0, oo, False, True) and Interval(0, oo).right_open is true and Interval(-oo, 0) == Interval(-oo, 0, True, False) and Interval(-oo, 0).left_open is true and Interval(oo, -oo) == S.EmptySet and Interval(oo, oo) == S.EmptySet and Interval(-oo, -oo) == S.EmptySet and Interval(oo, x) == S.EmptySet and Interval(oo, oo) == S.EmptySet and Interval(x, -oo) == S.EmptySet and Interval(x, x) == {x} and isinstance(Interval(1, 1), FiniteSet) and isinstance(Interval(e, e), FiniteSet) and Interval(1, 0) == S.EmptySet and Interval(1, 1).measure == 0 and Interval(1, 1, False, True) == S.EmptySet and Interval(1, 1, True, False) == S.EmptySet and Interval(1, 1, True, True) == S.EmptySet and isinstance(Interval(0, Symbol('a')), Interval) and Interval(Symbol('a', positive=True), 0) == S.EmptySet"},"spec":{"lhs":"test_interval_arguments()","rhs":"test_interval_arguments produces the expected output","over":{"base":"Any","pred":"isinstance(Interval(1, 1), FiniteSet) and isinstance(Interval(0, Symbol('a')), Interval)"},"name":"test_interval_arguments_correct"},"guarantee":"test_interval_arguments produces the expected output","fibers":[{"name":"1","pred":"isinstance(Interval(1, 1), FiniteSet)","path":{"lhs":"test_interval_arguments(x)","rhs":"test_interval_arguments produces the expected output","over":{"base":"1","pred":"isinstance(Interval(1, 1), FiniteSet)"},"name":"test_interval_arguments_1_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_interval_arguments_1_correct","statement":"test_interval_arguments satisfies spec on 1 inputs"},"trust":"LIBRARY"},{"name":"Symbol('a'","pred":"isinstance(Interval(0, Symbol('a')), Interval)","path":{"lhs":"test_interval_arguments(x)","rhs":"test_interval_arguments produces the expected output","over":{"base":"Symbol('a'","pred":"isinstance(Interval(0, Symbol('a')), Interval)"},"name":"test_interval_arguments_Symbol('a'_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_interval_arguments_Symbol('a'_correct","statement":"test_interval_arguments satisfies spec on Symbol('a' inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"24f73dcca8327d6a"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_interval_arguments","kind":"function","src_hash":"89556ebb196f1027","in":{"base":"Any","pred":"isinstance(Interval(1, 1), FiniteSet) and isinstance(Interval(0, Symbol('a')), Interval)"},"out":{"base":"Any","pred":"result satisfies: Interval(0, oo) == Interval(0, oo, False, True) and Interval(0, oo).right_open is true and Interval(-oo, 0) == Interval(-oo, 0, True, False) and Interval(-oo, 0).left_open is true and Interval(oo, -oo) == S.EmptySet and Interval(oo, oo) == S.EmptySet and Interval(-oo, -oo) == S.EmptySet and Interval(oo, x) == S.EmptySet and Interval(x, -oo) == S.EmptySet and Interval(x, x) == {x} and isinstance(Interval(1, 1), FiniteSet) and isinstance(Interval(e, e), FiniteSet) and Interval(1, 0) == S.EmptySet and Interval(1, 1).measure == 0 and Interval(1, 1, False, True) == S.EmptySet and Interval(1, 1, True, False) == S.EmptySet and Interval(1, 1, True, True) == S.EmptySet and isinstance(Interval(0, Symbol('a')), Interval) and Interval(Symbol('a', positive=True), 0) == S.EmptySet"},"spec":{"lhs":"test_interval_arguments()","rhs":"Interval(0, oo) == Interval(0, oo, False, True) and Interval(0, oo).right_open is true and Interval(-oo, 0) == Interval(-oo, 0, True, False) and Interval(-oo, 0).left_open is true and Interval(oo, -oo) == S.EmptySet and Interval(oo, oo) == S.EmptySet and Interval(-oo, -oo) == S.EmptySet and Interval(oo, x) == S.EmptySet and Interval(x, -oo) == S.EmptySet and Interval(x, x) == {x} and isinstance(Interval(1, 1), FiniteSet) and isinstance(Interval(e, e), FiniteSet) and Interval(1, 0) == S.EmptySet and Interval(1, 1).measure == 0 and Interval(1, 1, False, True) == S.EmptySet and Interval(1, 1, True, False) == S.EmptySet and Interval(1, 1, True, True) == S.EmptySet and isinstance(Interval(0, Symbol('a')), Interval) and Interval(Symbol('a', positive=True), 0) == S.EmptySet","over":{"base":"Any","pred":"isinstance(Interval(1, 1), FiniteSet) and isinstance(Interval(0, Symbol('a')), Interval)"},"name":"test_interval_arguments_correct"},"guarantee":"Interval(0, oo) == Interval(0, oo, False, True); Interval(0, oo).right_open is true; Interval(-oo, 0) == Interval(-oo, 0, True, False)","fibers":[{"name":"1","pred":"isinstance(Interval(1, 1), FiniteSet)","path":{"lhs":"test_interval_arguments(x)","rhs":"Interval(0, oo) == Interval(0, oo, False, True); Interval(0, oo).right_open is true; Interval(-oo, 0) == Interval(-oo, 0, True, False)","over":{"base":"1","pred":"isinstance(Interval(1, 1), FiniteSet)"},"name":"test_interval_arguments_1_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_interval_arguments_1_correct","statement":"test_interval_arguments satisfies spec on 1 inputs"},"trust":"LIBRARY"},{"name":"Symbol('a'","pred":"isinstance(Interval(0, Symbol('a')), Interval)","path":{"lhs":"test_interval_arguments(x)","rhs":"Interval(0, oo) == Interval(0, oo, False, True); Interval(0, oo).right_open is true; Interval(-oo, 0) == Interval(-oo, 0, True, False)","over":{"base":"Symbol('a'","pred":"isinstance(Interval(0, Symbol('a')), Interval)"},"name":"test_interval_arguments_Symbol('a'_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_interval_arguments_Symbol('a'_correct","statement":"test_interval_arguments satisfies spec on Symbol('a' inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"24f73dcca8327d6a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Interval(0, oo) == Interval(0, oo, False, True)","Interval(0, oo).right_open is true","Interval(-oo, 0) == Interval(-oo, 0, True, False)","Interval(-oo, 0).left_open is true","Interval(oo, -oo) == S.EmptySet","Interval(oo, oo) == S.EmptySet","Interval(-oo, -oo) == S.EmptySet","Interval(oo, x) == S.EmptySet","Interval(x, -oo) == S.EmptySet","Interval(x, x) == {x}","isinstance(Interval(1, 1), FiniteSet)","isinstance(Interval(e, e), FiniteSet)","Interval(1, 0) == S.EmptySet","Interval(1, 1).measure == 0","Interval(1, 1, False, True) == S.EmptySet","Interval(1, 1, True, False) == S.EmptySet","Interval(1, 1, True, True) == S.EmptySet","isinstance(Interval(0, Symbol('a')), Interval)","Interval(Symbol('a', positive=True), 0) == S.EmptySet"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":1,"n_assumed":2,"n_failed":2,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.5,"verdict_class":"failed","binding":true}}
 def test_interval_arguments():
     assert Interval(0, oo) == Interval(0, oo, False, True)
     assert Interval(0, oo).right_open is true
@@ -227,16 +264,24 @@ def test_interval_arguments():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_interval_symbolic_end_points(), test_interval_symbolic_end_points produces the expected output) over Any ║
+# ║ Path(test_interval_symbolic_end_points(), Union(Interval(0, a), Interval(0, 3)).sup == Max(a, 3) and Union(Interval(a, 0), Interval(-3, 0)).inf == Min(-3, a) and Interval(0, a).contains(1) == LessThan(1, a)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_interval_symbolic_end_points : Any → {Any | Unio...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Union(Interval(0, a), Interval(0, 3)).sup...   ║
+# ║   ensures:  Union(Interval(a, 0), Interval(-3, 0)).in...   ║
+# ║   ensures:  Interval(0, a).contains(1) == LessThan(1, a)   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_interval_symbolic_end_points : Any → {Any | resu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dcc5ef0e87419a81  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 59898489ced0c5e1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_interval_symbolic_end_points","kind":"function","src_hash":"584fd2fddeafb17a","in":{"base":"Any"},"out":{"base":"Any","pred":"Union(Interval(0, a), Interval(0, 3)).sup == Max(a, 3) and Union(Interval(a, 0), Interval(-3, 0)).inf == Min(-3, a) and Interval(0, a).contains(1) == LessThan(1, a)"},"spec":{"lhs":"test_interval_symbolic_end_points()","rhs":"test_interval_symbolic_end_points produces the expected output","over":{"base":"Any"},"name":"test_interval_symbolic_end_points_correct"},"guarantee":"test_interval_symbolic_end_points produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_interval_symbolic_end_points_correct","statement":"Path(test_interval_symbolic_end_points(x), test_interval_symbolic_end_points produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dcc5ef0e87419a81"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_interval_symbolic_end_points","kind":"function","src_hash":"584fd2fddeafb17a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Union(Interval(0, a), Interval(0, 3)).sup == Max(a, 3) and Union(Interval(a, 0), Interval(-3, 0)).inf == Min(-3, a) and Interval(0, a).contains(1) == LessThan(1, a)"},"spec":{"lhs":"test_interval_symbolic_end_points()","rhs":"Union(Interval(0, a), Interval(0, 3)).sup == Max(a, 3) and Union(Interval(a, 0), Interval(-3, 0)).inf == Min(-3, a) and Interval(0, a).contains(1) == LessThan(1, a)","over":{"base":"Any"},"name":"test_interval_symbolic_end_points_correct"},"guarantee":"Union(Interval(0, a), Interval(0, 3)).sup == Max(a, 3); Union(Interval(a, 0), Interval(-3, 0)).inf == Min(-3, a); Interval(0, a).contains(1) == LessThan(1, a)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_interval_symbolic_end_points_correct","statement":"Path(test_interval_symbolic_end_points(x), Union(Interval(0, a), Interval(0, 3)).sup == Max(a, 3); Union(Interval(a, 0), Interval(-3, 0)).inf == Min(-3, a); Interval(0, a).contains(1) == LessThan(1, a))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"59898489ced0c5e1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Union(Interval(0, a), Interval(0, 3)).sup == Max(a, 3)","Union(Interval(a, 0), Interval(-3, 0)).inf == Min(-3, a)","Interval(0, a).contains(1) == LessThan(1, a)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_interval_symbolic_end_points():
     a = Symbol('a', real=True)
 
@@ -247,16 +292,24 @@ def test_interval_symbolic_end_points():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_interval_is_empty(), test_interval_is_empty produces the expected output) over Any ║
+# ║ Path(test_interval_is_empty(), Interval(1, 2).is_empty == False and Interval(3, 3).is_empty == False and Interval(r, r).is_empty == False and Interval(r, r + nn).is_empty == False and Interval(x, x).is_empty == False and Interval(1, oo).is_empty == False and Interval(-oo, oo).is_empty == False and Interval(-oo, 1).is_empty == False and Interval(x, y).is_empty == None and Interval(r, oo).is_empty == False and Interval(n, 0).is_empty == False and Interval(n, 0, left_open=True).is_empty == False and Interval(p, 0).is_empty == True and Interval(nn, 0).is_empty == None and Interval(n, p).is_empty == False and Interval(0, p, left_open=True).is_empty == False and Interval(0, p, right_open=True).is_empty == False and Interval(0, nn, left_open=True).is_empty == None and Interval(0, nn, right_open=True).is_empty == None) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_interval_is_empty : Any → {Any | Interval(1, 2)....   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Interval(1, 2).is_empty == False               ║
+# ║   ensures:  Interval(3, 3).is_empty == False               ║
+# ║   ensures:  Interval(r, r).is_empty == False               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_interval_is_empty : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1ccab8de896fc53e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d4d0bf9c08285beb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_interval_is_empty","kind":"function","src_hash":"18aa67daa369ec68","in":{"base":"Any"},"out":{"base":"Any","pred":"Interval(1, 2).is_empty == False and Interval(3, 3).is_empty == False and Interval(r, r).is_empty == False and Interval(r, r + nn).is_empty == False and Interval(x, x).is_empty == False and Interval(1, oo).is_empty == False and Interval(-oo, oo).is_empty == False and Interval(-oo, 1).is_empty == False and Interval(x, y).is_empty == None and Interval(r, oo).is_empty == False and Interval(n, 0).is_empty == False and Interval(n, 0, left_open=True).is_empty == False and Interval(p, 0).is_empty == True and Interval(nn, 0).is_empty == None and Interval(n, p).is_empty == False and Interval(0, p, left_open=True).is_empty == False and Interval(0, p, right_open=True).is_empty == False and Interval(0, nn, left_open=True).is_empty == None and Interval(0, nn, right_open=True).is_empty == None"},"spec":{"lhs":"test_interval_is_empty()","rhs":"test_interval_is_empty produces the expected output","over":{"base":"Any"},"name":"test_interval_is_empty_correct"},"guarantee":"test_interval_is_empty produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_interval_is_empty_correct","statement":"Path(test_interval_is_empty(x), test_interval_is_empty produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1ccab8de896fc53e"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_interval_is_empty","kind":"function","src_hash":"18aa67daa369ec68","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Interval(1, 2).is_empty == False and Interval(3, 3).is_empty == False and Interval(r, r).is_empty == False and Interval(r, r + nn).is_empty == False and Interval(x, x).is_empty == False and Interval(1, oo).is_empty == False and Interval(-oo, oo).is_empty == False and Interval(-oo, 1).is_empty == False and Interval(x, y).is_empty == None and Interval(r, oo).is_empty == False and Interval(n, 0).is_empty == False and Interval(n, 0, left_open=True).is_empty == False and Interval(p, 0).is_empty == True and Interval(nn, 0).is_empty == None and Interval(n, p).is_empty == False and Interval(0, p, left_open=True).is_empty == False and Interval(0, p, right_open=True).is_empty == False and Interval(0, nn, left_open=True).is_empty == None and Interval(0, nn, right_open=True).is_empty == None"},"spec":{"lhs":"test_interval_is_empty()","rhs":"Interval(1, 2).is_empty == False and Interval(3, 3).is_empty == False and Interval(r, r).is_empty == False and Interval(r, r + nn).is_empty == False and Interval(x, x).is_empty == False and Interval(1, oo).is_empty == False and Interval(-oo, oo).is_empty == False and Interval(-oo, 1).is_empty == False and Interval(x, y).is_empty == None and Interval(r, oo).is_empty == False and Interval(n, 0).is_empty == False and Interval(n, 0, left_open=True).is_empty == False and Interval(p, 0).is_empty == True and Interval(nn, 0).is_empty == None and Interval(n, p).is_empty == False and Interval(0, p, left_open=True).is_empty == False and Interval(0, p, right_open=True).is_empty == False and Interval(0, nn, left_open=True).is_empty == None and Interval(0, nn, right_open=True).is_empty == None","over":{"base":"Any"},"name":"test_interval_is_empty_correct"},"guarantee":"Interval(1, 2).is_empty == False; Interval(3, 3).is_empty == False; Interval(r, r).is_empty == False","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_interval_is_empty_correct","statement":"Path(test_interval_is_empty(x), Interval(1, 2).is_empty == False; Interval(3, 3).is_empty == False; Interval(r, r).is_empty == False)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d4d0bf9c08285beb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Interval(1, 2).is_empty == False","Interval(3, 3).is_empty == False","Interval(r, r).is_empty == False","Interval(r, r + nn).is_empty == False","Interval(x, x).is_empty == False","Interval(1, oo).is_empty == False","Interval(-oo, oo).is_empty == False","Interval(-oo, 1).is_empty == False","Interval(x, y).is_empty == None","Interval(r, oo).is_empty == False","Interval(n, 0).is_empty == False","Interval(n, 0, left_open=True).is_empty == False","Interval(p, 0).is_empty == True","Interval(nn, 0).is_empty == None","Interval(n, p).is_empty == False","Interval(0, p, left_open=True).is_empty == False","Interval(0, p, right_open=True).is_empty == False","Interval(0, nn, left_open=True).is_empty == None","Interval(0, nn, right_open=True).is_empty == None"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_interval_is_empty():
     x, y = symbols('x, y')
     r = Symbol('r', real=True)
@@ -285,16 +338,24 @@ def test_interval_is_empty():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_union(), test_union produces the expected output) over Any ║
+# ║ Path(test_union(), Union(Interval(1, 2), Interval(2, 3)) == Interval(1, 3) and Union(Interval(1, 2), Interval(2, 3, True)) == Interval(1, 3) and Union(Interval(1, 3), Interval(2, 4)) == Interval(1, 4) and Union(Interval(1, 2), Interval(1, 3)) == Interval(1, 3) and Union(Interval(1, 3), Interval(1, 2)) == Interval(1, 3) and Union(Interval(1, 3, False, True), Interval(1, 2)) == Interval(1, 3, False, True) and Union(Interval(1, 3), Interval(1, 2, False, True)) == Interval(1, 3) and Union(Interval(1, 2, True), Interval(1, 3)) == Interval(1, 3) and Union(Interval(1, 2, True), Interval(1, 3, True)) == Interval(1, 3, True) and Union(Interval(1, 2, True), Interval(1, 3, True, True)) == Interval(1, 3, True, True) and Union(Interval(1, 2, True, True), Interval(1, 3, True)) == Interval(1, 3, True) and Union(Interval(1, 3), Interval(2, 3)) == Interval(1, 3) and Union(Interval(1, 3, False, True), Interval(2, 3)) == Interval(1, 3) and Union(Interval(1, 2, False, True), Interval(2, 3, True)) != Interval(1, 3) and Union(Interval(1, 2), S.EmptySet) == Interval(1, 2) and Union(S.EmptySet) == S.EmptySet and Union(Interval(0, 1), *[FiniteSet(1.0 / n) for n in range(1, 10)]) == Interval(0, 1) and Union(Interval(0, 1), FiniteSet(1, x)) == Union(Interval(0, 1), FiniteSet(x)) and unchanged(Union, Interval(0, 1), FiniteSet(2, x)) and Interval(1, 2).union(Interval(2, 3)) == Interval(1, 2) + Interval(2, 3) and Interval(1, 2).union(Interval(2, 3)) == Interval(1, 3) and Union(Set()) == Set() and FiniteSet(1) + FiniteSet(2) + FiniteSet(3) == FiniteSet(1, 2, 3) and FiniteSet('ham') + FiniteSet('eggs') == FiniteSet('ham', 'eggs') and FiniteSet(1, 2, 3) + S.EmptySet == FiniteSet(1, 2, 3) and FiniteSet(1, 2, 3) & FiniteSet(2, 3, 4) == FiniteSet(2, 3) and FiniteSet(1, 2, 3) | FiniteSet(2, 3, 4) == FiniteSet(1, 2, 3, 4) and FiniteSet(1, 2, 3) & S.EmptySet == S.EmptySet and FiniteSet(1, 2, 3) | S.EmptySet == FiniteSet(1, 2, 3) and S.EmptySet | FiniteSet(x, FiniteSet(y, z)) == FiniteSet(x, FiniteSet(y, z)) and Interval(1, 3) + FiniteSet(2) == Interval(1, 3) and Interval(1, 3, True, True) + FiniteSet(3) == Interval(1, 3, True, False) and 2 in X and 3 in X and (3 in XandY) and XandY.is_subset(X) and XandY.is_subset(Y) and X.is_iterable is False and Union(S.EmptySet, FiniteSet(-sqrt(-I), sqrt(-I))) == FiniteSet(-sqrt(-I), sqrt(-I)) and Union(S.Reals, S.Integers) == S.Reals) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_union : Any → {Any | Union(Interval(1, 2), Inter...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Union(Interval(1, 2), Interval(2, 3)) == ...   ║
+# ║   ensures:  Union(Interval(1, 2), Interval(2, 3, True...   ║
+# ║   ensures:  Union(Interval(1, 3), Interval(2, 4)) == ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_union : Any → {Any | result satisfies: Union(Int...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e8bac3b4ddb53bf7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bb07dad15080ea66  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_union","kind":"function","src_hash":"1fd36e5ece36aeab","in":{"base":"Any"},"out":{"base":"Any","pred":"Union(Interval(1, 2), Interval(2, 3)) == Interval(1, 3) and Union(Interval(1, 2), Interval(2, 3, True)) == Interval(1, 3) and Union(Interval(1, 3), Interval(2, 4)) == Interval(1, 4) and Union(Interval(1, 2), Interval(1, 3)) == Interval(1, 3) and Union(Interval(1, 3), Interval(1, 2)) == Interval(1, 3) and Union(Interval(1, 3), Interval(1, 2, False, True)) == Interval(1, 3) and Union(Interval(1, 2, True), Interval(1, 3)) == Interval(1, 3) and Union(Interval(1, 2, True), Interval(1, 3, True)) == Interval(1, 3, True) and Union(Interval(1, 2, True, True), Interval(1, 3, True)) == Interval(1, 3, True) and Union(Interval(1, 3), Interval(2, 3)) == Interval(1, 3) and Union(Interval(1, 3, False, True), Interval(2, 3)) == Interval(1, 3) and Union(Interval(1, 2, False, True), Interval(2, 3, True)) != Interval(1, 3) and Union(Interval(1, 2), S.EmptySet) == Interval(1, 2) and Union(S.EmptySet) == S.EmptySet and Union(Interval(0, 1), FiniteSet(1, x)) == Union(Interval(0, 1), FiniteSet(x)) and unchanged(Union, Interval(0, 1), FiniteSet(2, x)) and Interval(1, 2).union(Interval(2, 3)) == Interval(1, 2) + Interval(2, 3) and Interval(1, 2).union(Interval(2, 3)) == Interval(1, 3) and Union(Set()) == Set() and FiniteSet(1) + FiniteSet(2) + FiniteSet(3) == FiniteSet(1, 2, 3) and FiniteSet('ham') + FiniteSet('eggs') == FiniteSet('ham', 'eggs') and FiniteSet(1, 2, 3) + S.EmptySet == FiniteSet(1, 2, 3) and FiniteSet(1, 2, 3) & FiniteSet(2, 3, 4) == FiniteSet(2, 3) and FiniteSet(1, 2, 3) | FiniteSet(2, 3, 4) == FiniteSet(1, 2, 3, 4) and FiniteSet(1, 2, 3) & S.EmptySet == S.EmptySet and FiniteSet(1, 2, 3) | S.EmptySet == FiniteSet(1, 2, 3) and S.EmptySet | FiniteSet(x, FiniteSet(y, z)) == FiniteSet(x, FiniteSet(y, z)) and Interval(1, 3) + FiniteSet(2) == Interval(1, 3) and Interval(1, 3, True, True) + FiniteSet(3) == Interval(1, 3, True, False) and 2 in X and 3 in X and (3 in XandY) and XandY.is_subset(X) and XandY.is_subset(Y) and X.is_iterable is False and Union(S.Reals, S.Integers) == S.Reals"},"spec":{"lhs":"test_union()","rhs":"test_union produces the expected output","over":{"base":"Any"},"name":"test_union_correct"},"guarantee":"test_union produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_union_correct","statement":"Path(test_union(x), test_union produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e8bac3b4ddb53bf7"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_union","kind":"function","src_hash":"1fd36e5ece36aeab","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Union(Interval(1, 2), Interval(2, 3)) == Interval(1, 3) and Union(Interval(1, 2), Interval(2, 3, True)) == Interval(1, 3) and Union(Interval(1, 3), Interval(2, 4)) == Interval(1, 4) and Union(Interval(1, 2), Interval(1, 3)) == Interval(1, 3) and Union(Interval(1, 3), Interval(1, 2)) == Interval(1, 3) and Union(Interval(1, 3, False, True), Interval(1, 2)) == Interval(1, 3, False, True) and Union(Interval(1, 3), Interval(1, 2, False, True)) == Interval(1, 3) and Union(Interval(1, 2, True), Interval(1, 3)) == Interval(1, 3) and Union(Interval(1, 2, True), Interval(1, 3, True)) == Interval(1, 3, True) and Union(Interval(1, 2, True), Interval(1, 3, True, True)) == Interval(1, 3, True, True) and Union(Interval(1, 2, True, True), Interval(1, 3, True)) == Interval(1, 3, True) and Union(Interval(1, 3), Interval(2, 3)) == Interval(1, 3) and Union(Interval(1, 3, False, True), Interval(2, 3)) == Interval(1, 3) and Union(Interval(1, 2, False, True), Interval(2, 3, True)) != Interval(1, 3) and Union(Interval(1, 2), S.EmptySet) == Interval(1, 2) and Union(S.EmptySet) == S.EmptySet and Union(Interval(0, 1), *[FiniteSet(1.0 / n) for n in range(1, 10)]) == Interval(0, 1) and Union(Interval(0, 1), FiniteSet(1, x)) == Union(Interval(0, 1), FiniteSet(x)) and unchanged(Union, Interval(0, 1), FiniteSet(2, x)) and Interval(1, 2).union(Interval(2, 3)) == Interval(1, 2) + Interval(2, 3) and Interval(1, 2).union(Interval(2, 3)) == Interval(1, 3) and Union(Set()) == Set() and FiniteSet(1) + FiniteSet(2) + FiniteSet(3) == FiniteSet(1, 2, 3) and FiniteSet('ham') + FiniteSet('eggs') == FiniteSet('ham', 'eggs') and FiniteSet(1, 2, 3) + S.EmptySet == FiniteSet(1, 2, 3) and FiniteSet(1, 2, 3) & FiniteSet(2, 3, 4) == FiniteSet(2, 3) and FiniteSet(1, 2, 3) | FiniteSet(2, 3, 4) == FiniteSet(1, 2, 3, 4) and FiniteSet(1, 2, 3) & S.EmptySet == S.EmptySet and FiniteSet(1, 2, 3) | S.EmptySet == FiniteSet(1, 2, 3) and S.EmptySet | FiniteSet(x, FiniteSet(y, z)) == FiniteSet(x, FiniteSet(y, z)) and Interval(1, 3) + FiniteSet(2) == Interval(1, 3) and Interval(1, 3, True, True) + FiniteSet(3) == Interval(1, 3, True, False) and 2 in X and 3 in X and (3 in XandY) and XandY.is_subset(X) and XandY.is_subset(Y) and X.is_iterable is False and Union(S.EmptySet, FiniteSet(-sqrt(-I), sqrt(-I))) == FiniteSet(-sqrt(-I), sqrt(-I)) and Union(S.Reals, S.Integers) == S.Reals"},"spec":{"lhs":"test_union()","rhs":"Union(Interval(1, 2), Interval(2, 3)) == Interval(1, 3) and Union(Interval(1, 2), Interval(2, 3, True)) == Interval(1, 3) and Union(Interval(1, 3), Interval(2, 4)) == Interval(1, 4) and Union(Interval(1, 2), Interval(1, 3)) == Interval(1, 3) and Union(Interval(1, 3), Interval(1, 2)) == Interval(1, 3) and Union(Interval(1, 3, False, True), Interval(1, 2)) == Interval(1, 3, False, True) and Union(Interval(1, 3), Interval(1, 2, False, True)) == Interval(1, 3) and Union(Interval(1, 2, True), Interval(1, 3)) == Interval(1, 3) and Union(Interval(1, 2, True), Interval(1, 3, True)) == Interval(1, 3, True) and Union(Interval(1, 2, True), Interval(1, 3, True, True)) == Interval(1, 3, True, True) and Union(Interval(1, 2, True, True), Interval(1, 3, True)) == Interval(1, 3, True) and Union(Interval(1, 3), Interval(2, 3)) == Interval(1, 3) and Union(Interval(1, 3, False, True), Interval(2, 3)) == Interval(1, 3) and Union(Interval(1, 2, False, True), Interval(2, 3, True)) != Interval(1, 3) and Union(Interval(1, 2), S.EmptySet) == Interval(1, 2) and Union(S.EmptySet) == S.EmptySet and Union(Interval(0, 1), *[FiniteSet(1.0 / n) for n in range(1, 10)]) == Interval(0, 1) and Union(Interval(0, 1), FiniteSet(1, x)) == Union(Interval(0, 1), FiniteSet(x)) and unchanged(Union, Interval(0, 1), FiniteSet(2, x)) and Interval(1, 2).union(Interval(2, 3)) == Interval(1, 2) + Interval(2, 3) and Interval(1, 2).union(Interval(2, 3)) == Interval(1, 3) and Union(Set()) == Set() and FiniteSet(1) + FiniteSet(2) + FiniteSet(3) == FiniteSet(1, 2, 3) and FiniteSet('ham') + FiniteSet('eggs') == FiniteSet('ham', 'eggs') and FiniteSet(1, 2, 3) + S.EmptySet == FiniteSet(1, 2, 3) and FiniteSet(1, 2, 3) & FiniteSet(2, 3, 4) == FiniteSet(2, 3) and FiniteSet(1, 2, 3) | FiniteSet(2, 3, 4) == FiniteSet(1, 2, 3, 4) and FiniteSet(1, 2, 3) & S.EmptySet == S.EmptySet and FiniteSet(1, 2, 3) | S.EmptySet == FiniteSet(1, 2, 3) and S.EmptySet | FiniteSet(x, FiniteSet(y, z)) == FiniteSet(x, FiniteSet(y, z)) and Interval(1, 3) + FiniteSet(2) == Interval(1, 3) and Interval(1, 3, True, True) + FiniteSet(3) == Interval(1, 3, True, False) and 2 in X and 3 in X and (3 in XandY) and XandY.is_subset(X) and XandY.is_subset(Y) and X.is_iterable is False and Union(S.EmptySet, FiniteSet(-sqrt(-I), sqrt(-I))) == FiniteSet(-sqrt(-I), sqrt(-I)) and Union(S.Reals, S.Integers) == S.Reals","over":{"base":"Any"},"name":"test_union_correct"},"guarantee":"Union(Interval(1, 2), Interval(2, 3)) == Interval(1, 3); Union(Interval(1, 2), Interval(2, 3, True)) == Interval(1, 3); Union(Interval(1, 3), Interval(2, 4)) == Interval(1, 4)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_union_correct","statement":"Path(test_union(x), Union(Interval(1, 2), Interval(2, 3)) == Interval(1, 3); Union(Interval(1, 2), Interval(2, 3, True)) == Interval(1, 3); Union(Interval(1, 3), Interval(2, 4)) == Interval(1, 4))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bb07dad15080ea66","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Union(Interval(1, 2), Interval(2, 3)) == Interval(1, 3)","Union(Interval(1, 2), Interval(2, 3, True)) == Interval(1, 3)","Union(Interval(1, 3), Interval(2, 4)) == Interval(1, 4)","Union(Interval(1, 2), Interval(1, 3)) == Interval(1, 3)","Union(Interval(1, 3), Interval(1, 2)) == Interval(1, 3)","Union(Interval(1, 3, False, True), Interval(1, 2)) == Interval(1, 3, False, True)","Union(Interval(1, 3), Interval(1, 2, False, True)) == Interval(1, 3)","Union(Interval(1, 2, True), Interval(1, 3)) == Interval(1, 3)","Union(Interval(1, 2, True), Interval(1, 3, True)) == Interval(1, 3, True)","Union(Interval(1, 2, True), Interval(1, 3, True, True)) == Interval(1, 3, True, True)","Union(Interval(1, 2, True, True), Interval(1, 3, True)) == Interval(1, 3, True)","Union(Interval(1, 3), Interval(2, 3)) == Interval(1, 3)","Union(Interval(1, 3, False, True), Interval(2, 3)) == Interval(1, 3)","Union(Interval(1, 2, False, True), Interval(2, 3, True)) != Interval(1, 3)","Union(Interval(1, 2), S.EmptySet) == Interval(1, 2)","Union(S.EmptySet) == S.EmptySet","Union(Interval(0, 1), *[FiniteSet(1.0 / n) for n in range(1, 10)]) == Interval(0, 1)","Union(Interval(0, 1), FiniteSet(1, x)) == Union(Interval(0, 1), FiniteSet(x))","unchanged(Union, Interval(0, 1), FiniteSet(2, x))","Interval(1, 2).union(Interval(2, 3)) == Interval(1, 2) + Interval(2, 3)","Interval(1, 2).union(Interval(2, 3)) == Interval(1, 3)","Union(Set()) == Set()","FiniteSet(1) + FiniteSet(2) + FiniteSet(3) == FiniteSet(1, 2, 3)","FiniteSet('ham') + FiniteSet('eggs') == FiniteSet('ham', 'eggs')","FiniteSet(1, 2, 3) + S.EmptySet == FiniteSet(1, 2, 3)","FiniteSet(1, 2, 3) & FiniteSet(2, 3, 4) == FiniteSet(2, 3)","FiniteSet(1, 2, 3) | FiniteSet(2, 3, 4) == FiniteSet(1, 2, 3, 4)","FiniteSet(1, 2, 3) & S.EmptySet == S.EmptySet","FiniteSet(1, 2, 3) | S.EmptySet == FiniteSet(1, 2, 3)","S.EmptySet | FiniteSet(x, FiniteSet(y, z)) == FiniteSet(x, FiniteSet(y, z))","Interval(1, 3) + FiniteSet(2) == Interval(1, 3)","Interval(1, 3, True, True) + FiniteSet(3) == Interval(1, 3, True, False)","2 in X and 3 in X and (3 in XandY)","XandY.is_subset(X) and XandY.is_subset(Y)","X.is_iterable is False","Union(S.EmptySet, FiniteSet(-sqrt(-I), sqrt(-I))) == FiniteSet(-sqrt(-I), sqrt(-I))","Union(S.Reals, S.Integers) == S.Reals"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.1,"verdict_class":"assumed","binding":true}}
 def test_union():
     assert Union(Interval(1, 2), Interval(2, 3)) == Interval(1, 3)
     assert Union(Interval(1, 2), Interval(2, 3, True)) == Interval(1, 3)
@@ -372,16 +433,22 @@ def test_union():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_union_iter(), test_union_iter produces the expected output) over Any ║
+# ║ Path(test_union_iter(), list(u) == [0, 0, 0, 1, 1, 1, 2, 2, 2, 3, 3, 4]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_union_iter : Any → {Any | list(u) == [0, 0, 0, 1...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  list(u) == [0, 0, 0, 1, 1, 1, 2, 2, 2, 3,...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_union_iter : Any → {Any | result satisfies: list...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 25619685a369da50  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8b4811a92a100994  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_union_iter","kind":"function","src_hash":"c1729297a7260670","in":{"base":"Any"},"out":{"base":"Any","pred":"list(u) == [0, 0, 0, 1, 1, 1, 2, 2, 2, 3, 3, 4]"},"spec":{"lhs":"test_union_iter()","rhs":"test_union_iter produces the expected output","over":{"base":"Any"},"name":"test_union_iter_correct"},"guarantee":"test_union_iter produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_union_iter_correct","statement":"Path(test_union_iter(x), test_union_iter produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"25619685a369da50"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_union_iter","kind":"function","src_hash":"c1729297a7260670","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: list(u) == [0, 0, 0, 1, 1, 1, 2, 2, 2, 3, 3, 4]"},"spec":{"lhs":"test_union_iter()","rhs":"list(u) == [0, 0, 0, 1, 1, 1, 2, 2, 2, 3, 3, 4]","over":{"base":"Any"},"name":"test_union_iter_correct"},"guarantee":"list(u) == [0, 0, 0, 1, 1, 1, 2, 2, 2, 3, 3, 4]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_union_iter_correct","statement":"Path(test_union_iter(x), list(u) == [0, 0, 0, 1, 1, 1, 2, 2, 2, 3, 3, 4])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8b4811a92a100994","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["list(u) == [0, 0, 0, 1, 1, 1, 2, 2, 2, 3, 3, 4]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_union_iter():
     # Use Range because it is ordered
     u = Union(Range(3), Range(5), Range(4), evaluate=False)
@@ -391,32 +458,47 @@ def test_union_iter():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_union_is_empty(), test_union_is_empty produces the expected output) over Any ║
+# ║ Path(test_union_is_empty(), (Interval(x, y) + FiniteSet(1)).is_empty == False and (Interval(x, y) + Interval(-x, y)).is_empty == None) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_union_is_empty : Any → {Any | (Interval(x, y) + ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (Interval(x, y) + FiniteSet(1)).is_empty ...   ║
+# ║   ensures:  (Interval(x, y) + Interval(-x, y)).is_emp...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_union_is_empty : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3a4b0a939052159f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 68cc0474067a5eb5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_union_is_empty","kind":"function","src_hash":"03f0f8b71b6fe8c5","in":{"base":"Any"},"out":{"base":"Any","pred":"(Interval(x, y) + FiniteSet(1)).is_empty == False and (Interval(x, y) + Interval(-x, y)).is_empty == None"},"spec":{"lhs":"test_union_is_empty()","rhs":"test_union_is_empty produces the expected output","over":{"base":"Any"},"name":"test_union_is_empty_correct"},"guarantee":"test_union_is_empty produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_union_is_empty_correct","statement":"Path(test_union_is_empty(x), test_union_is_empty produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3a4b0a939052159f"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_union_is_empty","kind":"function","src_hash":"03f0f8b71b6fe8c5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (Interval(x, y) + FiniteSet(1)).is_empty == False and (Interval(x, y) + Interval(-x, y)).is_empty == None"},"spec":{"lhs":"test_union_is_empty()","rhs":"(Interval(x, y) + FiniteSet(1)).is_empty == False and (Interval(x, y) + Interval(-x, y)).is_empty == None","over":{"base":"Any"},"name":"test_union_is_empty_correct"},"guarantee":"(Interval(x, y) + FiniteSet(1)).is_empty == False; (Interval(x, y) + Interval(-x, y)).is_empty == None","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_union_is_empty_correct","statement":"Path(test_union_is_empty(x), (Interval(x, y) + FiniteSet(1)).is_empty == False; (Interval(x, y) + Interval(-x, y)).is_empty == None)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"68cc0474067a5eb5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(Interval(x, y) + FiniteSet(1)).is_empty == False","(Interval(x, y) + Interval(-x, y)).is_empty == None"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_union_is_empty():
     assert (Interval(x, y) + FiniteSet(1)).is_empty == False
     assert (Interval(x, y) + Interval(-x, y)).is_empty == None
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_difference(), test_difference produces the expected output) over Any ║
+# ║ Path(test_difference(), Interval(1, 3) - Interval(1, 2) == Interval(2, 3, True) and Interval(1, 3) - Interval(2, 3) == Interval(1, 2, False, True) and Interval(1, 3, True) - Interval(2, 3) == Interval(1, 2, True, True) and Interval(1, 3, True) - Interval(2, 3, True) == Interval(1, 2, True, False) and Interval(0, 2) - FiniteSet(1) == Union(Interval(0, 1, False, True), Interval(1, 2, True, False)) and S.Reals - FiniteSet(I) == S.Reals and S.Reals - FiniteSet(-I, I) == S.Reals and Interval(0, 10) - FiniteSet(-I, I) == Interval(0, 10) and Interval(0, 10) - FiniteSet(1, I) == Union(Interval.Ropen(0, 1), Interval.Lopen(1, 10)) and S.Reals - FiniteSet(1, 2 + I, x, y ** 2) == Complement(Union(Interval.open(-oo, 1), Interval.open(1, oo)), FiniteSet(x, y ** 2), evaluate=False) and FiniteSet(1, 2, 3) - FiniteSet(2) == FiniteSet(1, 3) and FiniteSet('ham', 'eggs') - FiniteSet('eggs') == FiniteSet('ham') and FiniteSet(1, 2, 3, 4) - Interval(2, 10, True, False) == FiniteSet(1, 2) and FiniteSet(1, 2, 3, 4) - S.EmptySet == FiniteSet(1, 2, 3, 4) and Union(Interval(0, 2), FiniteSet(2, 3, 4)) - Interval(1, 3) == Union(Interval(0, 1, False, True), FiniteSet(4)) and -1 in S.Reals - S.Naturals) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_difference : Any → {Any | Interval(1, 3) - Inter...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Interval(1, 3) - Interval(1, 2) == Interv...   ║
+# ║   ensures:  Interval(1, 3) - Interval(2, 3) == Interv...   ║
+# ║   ensures:  Interval(1, 3, True) - Interval(2, 3) == ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_difference : Any → {Any | result satisfies: Inte...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2e973020da16e1e4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3abe276da7aa7f03  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_difference","kind":"function","src_hash":"78a1570043308854","in":{"base":"Any"},"out":{"base":"Any","pred":"Interval(1, 3) - Interval(1, 2) == Interval(2, 3, True) and Interval(1, 3) - Interval(2, 3) == Interval(1, 2, False, True) and Interval(1, 3, True) - Interval(2, 3) == Interval(1, 2, True, True) and Interval(1, 3, True) - Interval(2, 3, True) == Interval(1, 2, True, False) and S.Reals - FiniteSet(I) == S.Reals and S.Reals - FiniteSet(-I, I) == S.Reals and Interval(0, 10) - FiniteSet(-I, I) == Interval(0, 10) and FiniteSet(1, 2, 3) - FiniteSet(2) == FiniteSet(1, 3) and FiniteSet('ham', 'eggs') - FiniteSet('eggs') == FiniteSet('ham') and FiniteSet(1, 2, 3, 4) - Interval(2, 10, True, False) == FiniteSet(1, 2) and FiniteSet(1, 2, 3, 4) - S.EmptySet == FiniteSet(1, 2, 3, 4) and -1 in S.Reals - S.Naturals"},"spec":{"lhs":"test_difference()","rhs":"test_difference produces the expected output","over":{"base":"Any"},"name":"test_difference_correct"},"guarantee":"test_difference produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_difference_correct","statement":"Path(test_difference(x), test_difference produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2e973020da16e1e4"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_difference","kind":"function","src_hash":"78a1570043308854","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Interval(1, 3) - Interval(1, 2) == Interval(2, 3, True) and Interval(1, 3) - Interval(2, 3) == Interval(1, 2, False, True) and Interval(1, 3, True) - Interval(2, 3) == Interval(1, 2, True, True) and Interval(1, 3, True) - Interval(2, 3, True) == Interval(1, 2, True, False) and Interval(0, 2) - FiniteSet(1) == Union(Interval(0, 1, False, True), Interval(1, 2, True, False)) and S.Reals - FiniteSet(I) == S.Reals and S.Reals - FiniteSet(-I, I) == S.Reals and Interval(0, 10) - FiniteSet(-I, I) == Interval(0, 10) and Interval(0, 10) - FiniteSet(1, I) == Union(Interval.Ropen(0, 1), Interval.Lopen(1, 10)) and S.Reals - FiniteSet(1, 2 + I, x, y ** 2) == Complement(Union(Interval.open(-oo, 1), Interval.open(1, oo)), FiniteSet(x, y ** 2), evaluate=False) and FiniteSet(1, 2, 3) - FiniteSet(2) == FiniteSet(1, 3) and FiniteSet('ham', 'eggs') - FiniteSet('eggs') == FiniteSet('ham') and FiniteSet(1, 2, 3, 4) - Interval(2, 10, True, False) == FiniteSet(1, 2) and FiniteSet(1, 2, 3, 4) - S.EmptySet == FiniteSet(1, 2, 3, 4) and Union(Interval(0, 2), FiniteSet(2, 3, 4)) - Interval(1, 3) == Union(Interval(0, 1, False, True), FiniteSet(4)) and -1 in S.Reals - S.Naturals"},"spec":{"lhs":"test_difference()","rhs":"Interval(1, 3) - Interval(1, 2) == Interval(2, 3, True) and Interval(1, 3) - Interval(2, 3) == Interval(1, 2, False, True) and Interval(1, 3, True) - Interval(2, 3) == Interval(1, 2, True, True) and Interval(1, 3, True) - Interval(2, 3, True) == Interval(1, 2, True, False) and Interval(0, 2) - FiniteSet(1) == Union(Interval(0, 1, False, True), Interval(1, 2, True, False)) and S.Reals - FiniteSet(I) == S.Reals and S.Reals - FiniteSet(-I, I) == S.Reals and Interval(0, 10) - FiniteSet(-I, I) == Interval(0, 10) and Interval(0, 10) - FiniteSet(1, I) == Union(Interval.Ropen(0, 1), Interval.Lopen(1, 10)) and S.Reals - FiniteSet(1, 2 + I, x, y ** 2) == Complement(Union(Interval.open(-oo, 1), Interval.open(1, oo)), FiniteSet(x, y ** 2), evaluate=False) and FiniteSet(1, 2, 3) - FiniteSet(2) == FiniteSet(1, 3) and FiniteSet('ham', 'eggs') - FiniteSet('eggs') == FiniteSet('ham') and FiniteSet(1, 2, 3, 4) - Interval(2, 10, True, False) == FiniteSet(1, 2) and FiniteSet(1, 2, 3, 4) - S.EmptySet == FiniteSet(1, 2, 3, 4) and Union(Interval(0, 2), FiniteSet(2, 3, 4)) - Interval(1, 3) == Union(Interval(0, 1, False, True), FiniteSet(4)) and -1 in S.Reals - S.Naturals","over":{"base":"Any"},"name":"test_difference_correct"},"guarantee":"Interval(1, 3) - Interval(1, 2) == Interval(2, 3, True); Interval(1, 3) - Interval(2, 3) == Interval(1, 2, False, True); Interval(1, 3, True) - Interval(2, 3) == Interval(1, 2, True, True)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_difference_correct","statement":"Path(test_difference(x), Interval(1, 3) - Interval(1, 2) == Interval(2, 3, True); Interval(1, 3) - Interval(2, 3) == Interval(1, 2, False, True); Interval(1, 3, True) - Interval(2, 3) == Interval(1, 2, True, True))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3abe276da7aa7f03","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Interval(1, 3) - Interval(1, 2) == Interval(2, 3, True)","Interval(1, 3) - Interval(2, 3) == Interval(1, 2, False, True)","Interval(1, 3, True) - Interval(2, 3) == Interval(1, 2, True, True)","Interval(1, 3, True) - Interval(2, 3, True) == Interval(1, 2, True, False)","Interval(0, 2) - FiniteSet(1) == Union(Interval(0, 1, False, True), Interval(1, 2, True, False))","S.Reals - FiniteSet(I) == S.Reals","S.Reals - FiniteSet(-I, I) == S.Reals","Interval(0, 10) - FiniteSet(-I, I) == Interval(0, 10)","Interval(0, 10) - FiniteSet(1, I) == Union(Interval.Ropen(0, 1), Interval.Lopen(1, 10))","S.Reals - FiniteSet(1, 2 + I, x, y ** 2) == Complement(Union(Interval.open(-oo, 1), Interval.open(1, oo)), FiniteSet(x, y ** 2), evaluate=False)","FiniteSet(1, 2, 3) - FiniteSet(2) == FiniteSet(1, 3)","FiniteSet('ham', 'eggs') - FiniteSet('eggs') == FiniteSet('ham')","FiniteSet(1, 2, 3, 4) - Interval(2, 10, True, False) == FiniteSet(1, 2)","FiniteSet(1, 2, 3, 4) - S.EmptySet == FiniteSet(1, 2, 3, 4)","Union(Interval(0, 2), FiniteSet(2, 3, 4)) - Interval(1, 3) == Union(Interval(0, 1, False, True), FiniteSet(4))","-1 in S.Reals - S.Naturals"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_difference():
     assert Interval(1, 3) - Interval(1, 2) == Interval(2, 3, True)
     assert Interval(1, 3) - Interval(2, 3) == Interval(1, 2, False, True)
@@ -448,16 +530,24 @@ def test_difference():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Complement(), test_Complement produces the expected output) over Any ║
+# ║ Path(test_Complement(), Complement(A, B, evaluate=False).is_iterable is True and Complement(A, C, evaluate=False).is_iterable is True and Complement(C, D, evaluate=False).is_iterable is None and FiniteSet(*Complement(A, B, evaluate=False)) == FiniteSet(1) and FiniteSet(*Complement(A, C, evaluate=False)) == FiniteSet(4) and Complement(Interval(1, 3), Interval(1, 2)) == Interval(2, 3, True) and Complement(FiniteSet(1, 3, 4), FiniteSet(3, 4)) == FiniteSet(1) and Complement(Union(Interval(0, 2), FiniteSet(2, 3, 4)), Interval(1, 3)) == Union(Interval(0, 1, False, True), FiniteSet(4)) and 3 not in Complement(Interval(0, 5), Interval(1, 4), evaluate=False) and -1 in Complement(S.Reals, S.Naturals, evaluate=False) and 1 not in Complement(S.Reals, S.Naturals, evaluate=False) and Complement(S.Integers, S.UniversalSet) == EmptySet and S.UniversalSet.complement(S.Integers) == EmptySet and 0 not in S.Reals.intersect(S.Integers - FiniteSet(0)) and S.EmptySet - S.Integers == S.EmptySet and S.Integers - FiniteSet(0) - FiniteSet(1) == S.Integers - FiniteSet(0, 1) and S.Reals - Union(S.Naturals, FiniteSet(pi)) == Intersection(S.Reals - S.Naturals, S.Reals - FiniteSet(pi)) and Complement(FiniteSet(x, y, 2), Interval(-10, 10)) == Complement(FiniteSet(x, y), Interval(-10, 10)) and unchanged(Complement, ProductSet(A, A), B) and A2 - B3 == A2 and B3 - A2 == B3) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Complement : Any → {Any | Complement(A, B, evalu...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Complement(A, B, evaluate=False).is_itera...   ║
+# ║   ensures:  Complement(A, C, evaluate=False).is_itera...   ║
+# ║   ensures:  Complement(C, D, evaluate=False).is_itera...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Complement : Any → {Any | result satisfies: Comp...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 724f5816f489b3e4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8686747f2a5f811a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_Complement","kind":"function","src_hash":"1dbf0b537c3967c3","in":{"base":"Any"},"out":{"base":"Any","pred":"Complement(A, B, evaluate=False).is_iterable is True and Complement(A, C, evaluate=False).is_iterable is True and Complement(C, D, evaluate=False).is_iterable is None and FiniteSet(*Complement(A, B, evaluate=False)) == FiniteSet(1) and FiniteSet(*Complement(A, C, evaluate=False)) == FiniteSet(4) and Complement(Interval(1, 3), Interval(1, 2)) == Interval(2, 3, True) and Complement(FiniteSet(1, 3, 4), FiniteSet(3, 4)) == FiniteSet(1) and 3 not in Complement(Interval(0, 5), Interval(1, 4), evaluate=False) and -1 in Complement(S.Reals, S.Naturals, evaluate=False) and 1 not in Complement(S.Reals, S.Naturals, evaluate=False) and Complement(S.Integers, S.UniversalSet) == EmptySet and S.UniversalSet.complement(S.Integers) == EmptySet and 0 not in S.Reals.intersect(S.Integers - FiniteSet(0)) and S.EmptySet - S.Integers == S.EmptySet and S.Integers - FiniteSet(0) - FiniteSet(1) == S.Integers - FiniteSet(0, 1) and unchanged(Complement, ProductSet(A, A), B) and A2 - B3 == A2 and B3 - A2 == B3"},"spec":{"lhs":"test_Complement()","rhs":"test_Complement produces the expected output","over":{"base":"Any"},"name":"test_Complement_correct"},"guarantee":"test_Complement produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_Complement_correct","statement":"Path(test_Complement(x), test_Complement produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"724f5816f489b3e4"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_Complement","kind":"function","src_hash":"1dbf0b537c3967c3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Complement(A, B, evaluate=False).is_iterable is True and Complement(A, C, evaluate=False).is_iterable is True and Complement(C, D, evaluate=False).is_iterable is None and FiniteSet(*Complement(A, B, evaluate=False)) == FiniteSet(1) and FiniteSet(*Complement(A, C, evaluate=False)) == FiniteSet(4) and Complement(Interval(1, 3), Interval(1, 2)) == Interval(2, 3, True) and Complement(FiniteSet(1, 3, 4), FiniteSet(3, 4)) == FiniteSet(1) and Complement(Union(Interval(0, 2), FiniteSet(2, 3, 4)), Interval(1, 3)) == Union(Interval(0, 1, False, True), FiniteSet(4)) and 3 not in Complement(Interval(0, 5), Interval(1, 4), evaluate=False) and -1 in Complement(S.Reals, S.Naturals, evaluate=False) and 1 not in Complement(S.Reals, S.Naturals, evaluate=False) and Complement(S.Integers, S.UniversalSet) == EmptySet and S.UniversalSet.complement(S.Integers) == EmptySet and 0 not in S.Reals.intersect(S.Integers - FiniteSet(0)) and S.EmptySet - S.Integers == S.EmptySet and S.Integers - FiniteSet(0) - FiniteSet(1) == S.Integers - FiniteSet(0, 1) and S.Reals - Union(S.Naturals, FiniteSet(pi)) == Intersection(S.Reals - S.Naturals, S.Reals - FiniteSet(pi)) and Complement(FiniteSet(x, y, 2), Interval(-10, 10)) == Complement(FiniteSet(x, y), Interval(-10, 10)) and unchanged(Complement, ProductSet(A, A), B) and A2 - B3 == A2 and B3 - A2 == B3"},"spec":{"lhs":"test_Complement()","rhs":"Complement(A, B, evaluate=False).is_iterable is True and Complement(A, C, evaluate=False).is_iterable is True and Complement(C, D, evaluate=False).is_iterable is None and FiniteSet(*Complement(A, B, evaluate=False)) == FiniteSet(1) and FiniteSet(*Complement(A, C, evaluate=False)) == FiniteSet(4) and Complement(Interval(1, 3), Interval(1, 2)) == Interval(2, 3, True) and Complement(FiniteSet(1, 3, 4), FiniteSet(3, 4)) == FiniteSet(1) and Complement(Union(Interval(0, 2), FiniteSet(2, 3, 4)), Interval(1, 3)) == Union(Interval(0, 1, False, True), FiniteSet(4)) and 3 not in Complement(Interval(0, 5), Interval(1, 4), evaluate=False) and -1 in Complement(S.Reals, S.Naturals, evaluate=False) and 1 not in Complement(S.Reals, S.Naturals, evaluate=False) and Complement(S.Integers, S.UniversalSet) == EmptySet and S.UniversalSet.complement(S.Integers) == EmptySet and 0 not in S.Reals.intersect(S.Integers - FiniteSet(0)) and S.EmptySet - S.Integers == S.EmptySet and S.Integers - FiniteSet(0) - FiniteSet(1) == S.Integers - FiniteSet(0, 1) and S.Reals - Union(S.Naturals, FiniteSet(pi)) == Intersection(S.Reals - S.Naturals, S.Reals - FiniteSet(pi)) and Complement(FiniteSet(x, y, 2), Interval(-10, 10)) == Complement(FiniteSet(x, y), Interval(-10, 10)) and unchanged(Complement, ProductSet(A, A), B) and A2 - B3 == A2 and B3 - A2 == B3","over":{"base":"Any"},"name":"test_Complement_correct"},"guarantee":"Complement(A, B, evaluate=False).is_iterable is True; Complement(A, C, evaluate=False).is_iterable is True; Complement(C, D, evaluate=False).is_iterable is None","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_Complement_correct","statement":"Path(test_Complement(x), Complement(A, B, evaluate=False).is_iterable is True; Complement(A, C, evaluate=False).is_iterable is True; Complement(C, D, evaluate=False).is_iterable is None)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8686747f2a5f811a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Complement(A, B, evaluate=False).is_iterable is True","Complement(A, C, evaluate=False).is_iterable is True","Complement(C, D, evaluate=False).is_iterable is None","FiniteSet(*Complement(A, B, evaluate=False)) == FiniteSet(1)","FiniteSet(*Complement(A, C, evaluate=False)) == FiniteSet(4)","Complement(Interval(1, 3), Interval(1, 2)) == Interval(2, 3, True)","Complement(FiniteSet(1, 3, 4), FiniteSet(3, 4)) == FiniteSet(1)","Complement(Union(Interval(0, 2), FiniteSet(2, 3, 4)), Interval(1, 3)) == Union(Interval(0, 1, False, True), FiniteSet(4))","3 not in Complement(Interval(0, 5), Interval(1, 4), evaluate=False)","-1 in Complement(S.Reals, S.Naturals, evaluate=False)","1 not in Complement(S.Reals, S.Naturals, evaluate=False)","Complement(S.Integers, S.UniversalSet) == EmptySet","S.UniversalSet.complement(S.Integers) == EmptySet","0 not in S.Reals.intersect(S.Integers - FiniteSet(0))","S.EmptySet - S.Integers == S.EmptySet","S.Integers - FiniteSet(0) - FiniteSet(1) == S.Integers - FiniteSet(0, 1)","S.Reals - Union(S.Naturals, FiniteSet(pi)) == Intersection(S.Reals - S.Naturals, S.Reals - FiniteSet(pi))","Complement(FiniteSet(x, y, 2), Interval(-10, 10)) == Complement(FiniteSet(x, y), Interval(-10, 10))","unchanged(Complement, ProductSet(A, A), B)","A2 - B3 == A2","B3 - A2 == B3"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def test_Complement():
     A = FiniteSet(1, 3, 4)
     B = FiniteSet(3, 4)
@@ -508,16 +598,22 @@ def test_Complement():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_set_operations_nonsets(), tests that e.g) over Any ║
+# ║ Path(test_set_operations_nonsets(), <unspecified:test_set_operations_nonsets>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_set_operations_nonsets : Any → Any                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cc2c80162537b3a2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_set_operations_nonsets","kind":"function","src_hash":"6f9dcd1c0e7c0894","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_set_operations_nonsets()","rhs":"tests that e.g","over":{"base":"Any"},"name":"test_set_operations_nonsets_correct"},"guarantee":"tests that e.g","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_set_operations_nonsets_correct","statement":"Path(test_set_operations_nonsets(x), tests that e.g)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cc2c80162537b3a2"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_set_operations_nonsets","kind":"function","src_hash":"6f9dcd1c0e7c0894","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_set_operations_nonsets()","rhs":"<unspecified:test_set_operations_nonsets>","over":{"base":"Any"},"name":"test_set_operations_nonsets_correct"},"guarantee":"tests that e.g","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_set_operations_nonsets_correct","statement":"Path(test_set_operations_nonsets(x), tests that e.g)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cc2c80162537b3a2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_set_operations_nonsets():
     '''Tests that e.g. FiniteSet(1) * 2 raises TypeError'''
     ops = [
@@ -556,16 +652,24 @@ def test_set_operations_nonsets():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_complement(), test_complement produces the expected output) over Any ║
+# ║ Path(test_complement(), Complement({1, 2}, {1}) == {2} and Interval(0, 1).complement(S.Reals) == Union(Interval(-oo, 0, True, True), Interval(1, oo, True, True)) and Interval(0, 1, True, False).complement(S.Reals) == Union(Interval(-oo, 0, True, False), Interval(1, oo, True, True)) and Interval(0, 1, False, True).complement(S.Reals) == Union(Interval(-oo, 0, True, True), Interval(1, oo, False, True)) and Interval(0, 1, True, True).complement(S.Reals) == Union(Interval(-oo, 0, True, False), Interval(1, oo, False, True)) and S.UniversalSet.complement(S.EmptySet) == S.EmptySet and S.UniversalSet.complement(S.Reals) == S.EmptySet and S.UniversalSet.complement(S.UniversalSet) == S.EmptySet and S.EmptySet.complement(S.Reals) == S.Reals and Union(Interval(0, 1), Interval(2, 3)).complement(S.Reals) == Union(Interval(-oo, 0, True, True), Interval(1, 2, True, True), Interval(3, oo, True, True)) and FiniteSet(0).complement(S.Reals) == Union(Interval(-oo, 0, True, True), Interval(0, oo, True, True)) and (FiniteSet(5) + Interval(S.NegativeInfinity, 0)).complement(S.Reals) == Interval(0, 5, True, True) + Interval(5, S.Infinity, True, True) and FiniteSet(1, 2, 3).complement(S.Reals) == Interval(S.NegativeInfinity, 1, True, True) + Interval(1, 2, True, True) + Interval(2, 3, True, True) + Interval(3, S.Infinity, True, True) and FiniteSet(x).complement(S.Reals) == Complement(S.Reals, FiniteSet(x)) and FiniteSet(0, x).complement(S.Reals) == Complement(Interval(-oo, 0, True, True) + Interval(0, oo, True, True), FiniteSet(x), evaluate=False) and all((pt in square for pt in [(0, 0), (0.5, 0.5), (1, 0), (1, 1)])) and not any((pt in notsquare for pt in [(0, 0), (0.5, 0.5), (1, 0), (1, 1)])) and not any((pt in square for pt in [(-1, 0), (1.5, 0.5), (10, 10)])) and all((pt in notsquare for pt in [(-1, 0), (1.5, 0.5), (10, 10)]))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_complement : Any → {Any | Complement({1, 2}, {1}...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Complement({1, 2}, {1}) == {2}                 ║
+# ║   ensures:  Interval(0, 1).complement(S.Reals) == Uni...   ║
+# ║   ensures:  Interval(0, 1, True, False).complement(S....   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_complement : Any → {Any | result satisfies: Comp...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a1c176f331f6447d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.8ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 83ff1a59e3360524  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_complement","kind":"function","src_hash":"316656a4a53531ce","in":{"base":"Any"},"out":{"base":"Any","pred":"Complement({1, 2}, {1}) == {2} and S.UniversalSet.complement(S.EmptySet) == S.EmptySet and S.UniversalSet.complement(S.Reals) == S.EmptySet and S.UniversalSet.complement(S.UniversalSet) == S.EmptySet and S.EmptySet.complement(S.Reals) == S.Reals and FiniteSet(x).complement(S.Reals) == Complement(S.Reals, FiniteSet(x)) and all((pt in square for pt in [(0, 0), (0.5, 0.5), (1, 0), (1, 1)])) and not any((pt in notsquare for pt in [(0, 0), (0.5, 0.5), (1, 0), (1, 1)])) and not any((pt in square for pt in [(-1, 0), (1.5, 0.5), (10, 10)])) and all((pt in notsquare for pt in [(-1, 0), (1.5, 0.5), (10, 10)]))"},"spec":{"lhs":"test_complement()","rhs":"test_complement produces the expected output","over":{"base":"Any"},"name":"test_complement_correct"},"guarantee":"test_complement produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_complement_correct","statement":"Path(test_complement(x), test_complement produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a1c176f331f6447d"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_complement","kind":"function","src_hash":"316656a4a53531ce","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Complement({1, 2}, {1}) == {2} and Interval(0, 1).complement(S.Reals) == Union(Interval(-oo, 0, True, True), Interval(1, oo, True, True)) and Interval(0, 1, True, False).complement(S.Reals) == Union(Interval(-oo, 0, True, False), Interval(1, oo, True, True)) and Interval(0, 1, False, True).complement(S.Reals) == Union(Interval(-oo, 0, True, True), Interval(1, oo, False, True)) and Interval(0, 1, True, True).complement(S.Reals) == Union(Interval(-oo, 0, True, False), Interval(1, oo, False, True)) and S.UniversalSet.complement(S.EmptySet) == S.EmptySet and S.UniversalSet.complement(S.Reals) == S.EmptySet and S.UniversalSet.complement(S.UniversalSet) == S.EmptySet and S.EmptySet.complement(S.Reals) == S.Reals and Union(Interval(0, 1), Interval(2, 3)).complement(S.Reals) == Union(Interval(-oo, 0, True, True), Interval(1, 2, True, True), Interval(3, oo, True, True)) and FiniteSet(0).complement(S.Reals) == Union(Interval(-oo, 0, True, True), Interval(0, oo, True, True)) and (FiniteSet(5) + Interval(S.NegativeInfinity, 0)).complement(S.Reals) == Interval(0, 5, True, True) + Interval(5, S.Infinity, True, True) and FiniteSet(1, 2, 3).complement(S.Reals) == Interval(S.NegativeInfinity, 1, True, True) + Interval(1, 2, True, True) + Interval(2, 3, True, True) + Interval(3, S.Infinity, True, True) and FiniteSet(x).complement(S.Reals) == Complement(S.Reals, FiniteSet(x)) and FiniteSet(0, x).complement(S.Reals) == Complement(Interval(-oo, 0, True, True) + Interval(0, oo, True, True), FiniteSet(x), evaluate=False) and all((pt in square for pt in [(0, 0), (0.5, 0.5), (1, 0), (1, 1)])) and not any((pt in notsquare for pt in [(0, 0), (0.5, 0.5), (1, 0), (1, 1)])) and not any((pt in square for pt in [(-1, 0), (1.5, 0.5), (10, 10)])) and all((pt in notsquare for pt in [(-1, 0), (1.5, 0.5), (10, 10)]))"},"spec":{"lhs":"test_complement()","rhs":"Complement({1, 2}, {1}) == {2} and Interval(0, 1).complement(S.Reals) == Union(Interval(-oo, 0, True, True), Interval(1, oo, True, True)) and Interval(0, 1, True, False).complement(S.Reals) == Union(Interval(-oo, 0, True, False), Interval(1, oo, True, True)) and Interval(0, 1, False, True).complement(S.Reals) == Union(Interval(-oo, 0, True, True), Interval(1, oo, False, True)) and Interval(0, 1, True, True).complement(S.Reals) == Union(Interval(-oo, 0, True, False), Interval(1, oo, False, True)) and S.UniversalSet.complement(S.EmptySet) == S.EmptySet and S.UniversalSet.complement(S.Reals) == S.EmptySet and S.UniversalSet.complement(S.UniversalSet) == S.EmptySet and S.EmptySet.complement(S.Reals) == S.Reals and Union(Interval(0, 1), Interval(2, 3)).complement(S.Reals) == Union(Interval(-oo, 0, True, True), Interval(1, 2, True, True), Interval(3, oo, True, True)) and FiniteSet(0).complement(S.Reals) == Union(Interval(-oo, 0, True, True), Interval(0, oo, True, True)) and (FiniteSet(5) + Interval(S.NegativeInfinity, 0)).complement(S.Reals) == Interval(0, 5, True, True) + Interval(5, S.Infinity, True, True) and FiniteSet(1, 2, 3).complement(S.Reals) == Interval(S.NegativeInfinity, 1, True, True) + Interval(1, 2, True, True) + Interval(2, 3, True, True) + Interval(3, S.Infinity, True, True) and FiniteSet(x).complement(S.Reals) == Complement(S.Reals, FiniteSet(x)) and FiniteSet(0, x).complement(S.Reals) == Complement(Interval(-oo, 0, True, True) + Interval(0, oo, True, True), FiniteSet(x), evaluate=False) and all((pt in square for pt in [(0, 0), (0.5, 0.5), (1, 0), (1, 1)])) and not any((pt in notsquare for pt in [(0, 0), (0.5, 0.5), (1, 0), (1, 1)])) and not any((pt in square for pt in [(-1, 0), (1.5, 0.5), (10, 10)])) and all((pt in notsquare for pt in [(-1, 0), (1.5, 0.5), (10, 10)]))","over":{"base":"Any"},"name":"test_complement_correct"},"guarantee":"Complement({1, 2}, {1}) == {2}; Interval(0, 1).complement(S.Reals) == Union(Interval(-oo, 0, True, True), Interval(1, oo, True, True)); Interval(0, 1, True, False).complement(S.Reals) == Union(Interval(-oo, 0, True, False), Interval(1, oo, True, True))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_complement_correct","statement":"Path(test_complement(x), Complement({1, 2}, {1}) == {2}; Interval(0, 1).complement(S.Reals) == Union(Interval(-oo, 0, True, True), Interval(1, oo, True, True)); Interval(0, 1, True, False).complement(S.Reals) == Union(Interval(-oo, 0, True, False), Interval(1, oo, True, True)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"83ff1a59e3360524","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Complement({1, 2}, {1}) == {2}","Interval(0, 1).complement(S.Reals) == Union(Interval(-oo, 0, True, True), Interval(1, oo, True, True))","Interval(0, 1, True, False).complement(S.Reals) == Union(Interval(-oo, 0, True, False), Interval(1, oo, True, True))","Interval(0, 1, False, True).complement(S.Reals) == Union(Interval(-oo, 0, True, True), Interval(1, oo, False, True))","Interval(0, 1, True, True).complement(S.Reals) == Union(Interval(-oo, 0, True, False), Interval(1, oo, False, True))","S.UniversalSet.complement(S.EmptySet) == S.EmptySet","S.UniversalSet.complement(S.Reals) == S.EmptySet","S.UniversalSet.complement(S.UniversalSet) == S.EmptySet","S.EmptySet.complement(S.Reals) == S.Reals","Union(Interval(0, 1), Interval(2, 3)).complement(S.Reals) == Union(Interval(-oo, 0, True, True), Interval(1, 2, True, True), Interval(3, oo, True, True))","FiniteSet(0).complement(S.Reals) == Union(Interval(-oo, 0, True, True), Interval(0, oo, True, True))","(FiniteSet(5) + Interval(S.NegativeInfinity, 0)).complement(S.Reals) == Interval(0, 5, True, True) + Interval(5, S.Infinity, True, True)","FiniteSet(1, 2, 3).complement(S.Reals) == Interval(S.NegativeInfinity, 1, True, True) + Interval(1, 2, True, True) + Interval(2, 3, True, True) + Interval(3, S.Infinity, True, True)","FiniteSet(x).complement(S.Reals) == Complement(S.Reals, FiniteSet(x))","FiniteSet(0, x).complement(S.Reals) == Complement(Interval(-oo, 0, True, True) + Interval(0, oo, True, True), FiniteSet(x), evaluate=False)","all((pt in square for pt in [(0, 0), (0.5, 0.5), (1, 0), (1, 1)]))","not any((pt in notsquare for pt in [(0, 0), (0.5, 0.5), (1, 0), (1, 1)]))","not any((pt in square for pt in [(-1, 0), (1.5, 0.5), (10, 10)]))","all((pt in notsquare for pt in [(-1, 0), (1.5, 0.5), (10, 10)]))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"assumed","binding":true}}
 def test_complement():
     assert Complement({1, 2}, {1}) == {2}
     assert Interval(0, 1).complement(S.Reals) == \
@@ -616,16 +720,24 @@ def test_complement():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_intersect1(), test_intersect1 produces the expected output) over Any ║
+# ║ Path(test_intersect1(), all((S.Integers.intersection(i) is i for i in (S.Naturals, S.Naturals0))) and all((i.intersection(S.Integers) is i for i in (S.Naturals, S.Naturals0))) and S.Naturals.intersection(s) is S.Naturals and s.intersection(S.Naturals) is S.Naturals and Interval(0, 2).intersect(Interval(1, 2)) == Interval(1, 2) and Interval(0, 2).intersect(Interval(1, 2, True)) == Interval(1, 2, True) and Interval(0, 2, True).intersect(Interval(1, 2)) == Interval(1, 2, False, False) and Interval(0, 2, True, True).intersect(Interval(1, 2)) == Interval(1, 2, False, True) and Interval(0, 2).intersect(Union(Interval(0, 1), Interval(2, 3))) == Union(Interval(0, 1), Interval(2, 2)) and FiniteSet(1, 2).intersect(FiniteSet(1, 2, 3)) == FiniteSet(1, 2) and FiniteSet(1, 2, x).intersect(FiniteSet(x)) == FiniteSet(x) and FiniteSet('ham', 'eggs').intersect(FiniteSet('ham')) == FiniteSet('ham') and FiniteSet(1, 2, 3, 4, 5).intersect(S.EmptySet) == S.EmptySet and Interval(0, 5).intersect(FiniteSet(1, 3)) == FiniteSet(1, 3) and Interval(0, 1, True, True).intersect(FiniteSet(1)) == S.EmptySet and Union(Interval(0, 1), Interval(2, 3)).intersect(Interval(1, 2)) == Union(Interval(1, 1), Interval(2, 2)) and Union(Interval(0, 1), Interval(2, 3)).intersect(Interval(0, 2)) == Union(Interval(0, 1), Interval(2, 2)) and Union(Interval(0, 1), Interval(2, 3)).intersect(Interval(1, 2, True, True)) == S.EmptySet and Union(Interval(0, 1), Interval(2, 3)).intersect(S.EmptySet) == S.EmptySet and Union(Interval(0, 5), FiniteSet('ham')).intersect(FiniteSet(2, 3, 4, 5, 6)) == Intersection(FiniteSet(2, 3, 4, 5, 6), Union(FiniteSet('ham'), Interval(0, 5))) and Intersection(FiniteSet(1, 2, 3), Interval(2, x), Interval(3, y)) == Intersection(FiniteSet(3), Interval(2, x), Interval(3, y), evaluate=False) and Intersection(FiniteSet(1, 2), Interval(0, 3), Interval(x, y)) == Intersection({1, 2}, Interval(x, y), evaluate=False) and Intersection(FiniteSet(1, 2, 4), Interval(0, 3), Interval(x, y)) == Intersection({1, 2}, Interval(x, y), evaluate=False) and Intersection(FiniteSet(m), FiniteSet(m, n), Interval(m, m + 1)) == FiniteSet(m) and Intersection(FiniteSet(x), FiniteSet(y)) == Intersection(FiniteSet(x), FiniteSet(y), evaluate=False) and FiniteSet(x).intersect(S.Reals) == Intersection(S.Reals, FiniteSet(x), evaluate=False) and Interval(0, 5).intersection(FiniteSet(1, 3)) == FiniteSet(1, 3) and Interval(0, 1, True, True).intersection(FiniteSet(1)) == S.EmptySet and Union(Interval(0, 1), Interval(2, 3)).intersection(Interval(1, 2)) == Union(Interval(1, 1), Interval(2, 2)) and Interval(a, 4).intersection(Interval(b, 5)) == Interval(b, 4) and Interval(1, a).intersection(Interval(0, b)) == Interval(1, b)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_intersect1 : Any → {Any | all((S.Integers.inters...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  all((S.Integers.intersection(i) is i for ...   ║
+# ║   ensures:  all((i.intersection(S.Integers) is i for ...   ║
+# ║   ensures:  S.Naturals.intersection(s) is S.Naturals       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_intersect1 : Any → {Any | result satisfies: all(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 45269a620a72dbb9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 325681c9f09e07c9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_intersect1","kind":"function","src_hash":"449a45fc58f8fbdd","in":{"base":"Any"},"out":{"base":"Any","pred":"all((S.Integers.intersection(i) is i for i in (S.Naturals, S.Naturals0))) and all((i.intersection(S.Integers) is i for i in (S.Naturals, S.Naturals0))) and S.Naturals.intersection(s) is S.Naturals and s.intersection(S.Naturals) is S.Naturals and Interval(0, 2).intersect(Interval(1, 2)) == Interval(1, 2) and Interval(0, 2).intersect(Interval(1, 2, True)) == Interval(1, 2, True) and Interval(0, 2, True).intersect(Interval(1, 2)) == Interval(1, 2, False, False) and FiniteSet(1, 2).intersect(FiniteSet(1, 2, 3)) == FiniteSet(1, 2) and FiniteSet(1, 2, x).intersect(FiniteSet(x)) == FiniteSet(x) and FiniteSet('ham', 'eggs').intersect(FiniteSet('ham')) == FiniteSet('ham') and FiniteSet(1, 2, 3, 4, 5).intersect(S.EmptySet) == S.EmptySet and Interval(0, 5).intersect(FiniteSet(1, 3)) == FiniteSet(1, 3) and Interval(0, 1, True, True).intersect(FiniteSet(1)) == S.EmptySet and Union(Interval(0, 1), Interval(2, 3)).intersect(S.EmptySet) == S.EmptySet and Intersection(FiniteSet(m), FiniteSet(m, n), Interval(m, m + 1)) == FiniteSet(m) and Interval(0, 5).intersection(FiniteSet(1, 3)) == FiniteSet(1, 3) and Interval(0, 1, True, True).intersection(FiniteSet(1)) == S.EmptySet and Interval(a, 4).intersection(Interval(b, 5)) == Interval(b, 4) and Interval(1, a).intersection(Interval(0, b)) == Interval(1, b)"},"spec":{"lhs":"test_intersect1()","rhs":"test_intersect1 produces the expected output","over":{"base":"Any"},"name":"test_intersect1_correct"},"guarantee":"test_intersect1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_intersect1_correct","statement":"Path(test_intersect1(x), test_intersect1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"45269a620a72dbb9"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_intersect1","kind":"function","src_hash":"449a45fc58f8fbdd","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: all((S.Integers.intersection(i) is i for i in (S.Naturals, S.Naturals0))) and all((i.intersection(S.Integers) is i for i in (S.Naturals, S.Naturals0))) and S.Naturals.intersection(s) is S.Naturals and s.intersection(S.Naturals) is S.Naturals and Interval(0, 2).intersect(Interval(1, 2)) == Interval(1, 2) and Interval(0, 2).intersect(Interval(1, 2, True)) == Interval(1, 2, True) and Interval(0, 2, True).intersect(Interval(1, 2)) == Interval(1, 2, False, False) and Interval(0, 2, True, True).intersect(Interval(1, 2)) == Interval(1, 2, False, True) and Interval(0, 2).intersect(Union(Interval(0, 1), Interval(2, 3))) == Union(Interval(0, 1), Interval(2, 2)) and FiniteSet(1, 2).intersect(FiniteSet(1, 2, 3)) == FiniteSet(1, 2) and FiniteSet(1, 2, x).intersect(FiniteSet(x)) == FiniteSet(x) and FiniteSet('ham', 'eggs').intersect(FiniteSet('ham')) == FiniteSet('ham') and FiniteSet(1, 2, 3, 4, 5).intersect(S.EmptySet) == S.EmptySet and Interval(0, 5).intersect(FiniteSet(1, 3)) == FiniteSet(1, 3) and Interval(0, 1, True, True).intersect(FiniteSet(1)) == S.EmptySet and Union(Interval(0, 1), Interval(2, 3)).intersect(Interval(1, 2)) == Union(Interval(1, 1), Interval(2, 2)) and Union(Interval(0, 1), Interval(2, 3)).intersect(Interval(0, 2)) == Union(Interval(0, 1), Interval(2, 2)) and Union(Interval(0, 1), Interval(2, 3)).intersect(Interval(1, 2, True, True)) == S.EmptySet and Union(Interval(0, 1), Interval(2, 3)).intersect(S.EmptySet) == S.EmptySet and Union(Interval(0, 5), FiniteSet('ham')).intersect(FiniteSet(2, 3, 4, 5, 6)) == Intersection(FiniteSet(2, 3, 4, 5, 6), Union(FiniteSet('ham'), Interval(0, 5))) and Intersection(FiniteSet(1, 2, 3), Interval(2, x), Interval(3, y)) == Intersection(FiniteSet(3), Interval(2, x), Interval(3, y), evaluate=False) and Intersection(FiniteSet(1, 2), Interval(0, 3), Interval(x, y)) == Intersection({1, 2}, Interval(x, y), evaluate=False) and Intersection(FiniteSet(1, 2, 4), Interval(0, 3), Interval(x, y)) == Intersection({1, 2}, Interval(x, y), evaluate=False) and Intersection(FiniteSet(m), FiniteSet(m, n), Interval(m, m + 1)) == FiniteSet(m) and Intersection(FiniteSet(x), FiniteSet(y)) == Intersection(FiniteSet(x), FiniteSet(y), evaluate=False) and FiniteSet(x).intersect(S.Reals) == Intersection(S.Reals, FiniteSet(x), evaluate=False) and Interval(0, 5).intersection(FiniteSet(1, 3)) == FiniteSet(1, 3) and Interval(0, 1, True, True).intersection(FiniteSet(1)) == S.EmptySet and Union(Interval(0, 1), Interval(2, 3)).intersection(Interval(1, 2)) == Union(Interval(1, 1), Interval(2, 2)) and Interval(a, 4).intersection(Interval(b, 5)) == Interval(b, 4) and Interval(1, a).intersection(Interval(0, b)) == Interval(1, b)"},"spec":{"lhs":"test_intersect1()","rhs":"all((S.Integers.intersection(i) is i for i in (S.Naturals, S.Naturals0))) and all((i.intersection(S.Integers) is i for i in (S.Naturals, S.Naturals0))) and S.Naturals.intersection(s) is S.Naturals and s.intersection(S.Naturals) is S.Naturals and Interval(0, 2).intersect(Interval(1, 2)) == Interval(1, 2) and Interval(0, 2).intersect(Interval(1, 2, True)) == Interval(1, 2, True) and Interval(0, 2, True).intersect(Interval(1, 2)) == Interval(1, 2, False, False) and Interval(0, 2, True, True).intersect(Interval(1, 2)) == Interval(1, 2, False, True) and Interval(0, 2).intersect(Union(Interval(0, 1), Interval(2, 3))) == Union(Interval(0, 1), Interval(2, 2)) and FiniteSet(1, 2).intersect(FiniteSet(1, 2, 3)) == FiniteSet(1, 2) and FiniteSet(1, 2, x).intersect(FiniteSet(x)) == FiniteSet(x) and FiniteSet('ham', 'eggs').intersect(FiniteSet('ham')) == FiniteSet('ham') and FiniteSet(1, 2, 3, 4, 5).intersect(S.EmptySet) == S.EmptySet and Interval(0, 5).intersect(FiniteSet(1, 3)) == FiniteSet(1, 3) and Interval(0, 1, True, True).intersect(FiniteSet(1)) == S.EmptySet and Union(Interval(0, 1), Interval(2, 3)).intersect(Interval(1, 2)) == Union(Interval(1, 1), Interval(2, 2)) and Union(Interval(0, 1), Interval(2, 3)).intersect(Interval(0, 2)) == Union(Interval(0, 1), Interval(2, 2)) and Union(Interval(0, 1), Interval(2, 3)).intersect(Interval(1, 2, True, True)) == S.EmptySet and Union(Interval(0, 1), Interval(2, 3)).intersect(S.EmptySet) == S.EmptySet and Union(Interval(0, 5), FiniteSet('ham')).intersect(FiniteSet(2, 3, 4, 5, 6)) == Intersection(FiniteSet(2, 3, 4, 5, 6), Union(FiniteSet('ham'), Interval(0, 5))) and Intersection(FiniteSet(1, 2, 3), Interval(2, x), Interval(3, y)) == Intersection(FiniteSet(3), Interval(2, x), Interval(3, y), evaluate=False) and Intersection(FiniteSet(1, 2), Interval(0, 3), Interval(x, y)) == Intersection({1, 2}, Interval(x, y), evaluate=False) and Intersection(FiniteSet(1, 2, 4), Interval(0, 3), Interval(x, y)) == Intersection({1, 2}, Interval(x, y), evaluate=False) and Intersection(FiniteSet(m), FiniteSet(m, n), Interval(m, m + 1)) == FiniteSet(m) and Intersection(FiniteSet(x), FiniteSet(y)) == Intersection(FiniteSet(x), FiniteSet(y), evaluate=False) and FiniteSet(x).intersect(S.Reals) == Intersection(S.Reals, FiniteSet(x), evaluate=False) and Interval(0, 5).intersection(FiniteSet(1, 3)) == FiniteSet(1, 3) and Interval(0, 1, True, True).intersection(FiniteSet(1)) == S.EmptySet and Union(Interval(0, 1), Interval(2, 3)).intersection(Interval(1, 2)) == Union(Interval(1, 1), Interval(2, 2)) and Interval(a, 4).intersection(Interval(b, 5)) == Interval(b, 4) and Interval(1, a).intersection(Interval(0, b)) == Interval(1, b)","over":{"base":"Any"},"name":"test_intersect1_correct"},"guarantee":"all((S.Integers.intersection(i) is i for i in (S.Naturals, S.Naturals0))); all((i.intersection(S.Integers) is i for i in (S.Naturals, S.Naturals0))); S.Naturals.intersection(s) is S.Naturals","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_intersect1_correct","statement":"Path(test_intersect1(x), all((S.Integers.intersection(i) is i for i in (S.Naturals, S.Naturals0))); all((i.intersection(S.Integers) is i for i in (S.Naturals, S.Naturals0))); S.Naturals.intersection(s) is S.Naturals)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"325681c9f09e07c9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["all((S.Integers.intersection(i) is i for i in (S.Naturals, S.Naturals0)))","all((i.intersection(S.Integers) is i for i in (S.Naturals, S.Naturals0)))","S.Naturals.intersection(s) is S.Naturals","s.intersection(S.Naturals) is S.Naturals","Interval(0, 2).intersect(Interval(1, 2)) == Interval(1, 2)","Interval(0, 2).intersect(Interval(1, 2, True)) == Interval(1, 2, True)","Interval(0, 2, True).intersect(Interval(1, 2)) == Interval(1, 2, False, False)","Interval(0, 2, True, True).intersect(Interval(1, 2)) == Interval(1, 2, False, True)","Interval(0, 2).intersect(Union(Interval(0, 1), Interval(2, 3))) == Union(Interval(0, 1), Interval(2, 2))","FiniteSet(1, 2).intersect(FiniteSet(1, 2, 3)) == FiniteSet(1, 2)","FiniteSet(1, 2, x).intersect(FiniteSet(x)) == FiniteSet(x)","FiniteSet('ham', 'eggs').intersect(FiniteSet('ham')) == FiniteSet('ham')","FiniteSet(1, 2, 3, 4, 5).intersect(S.EmptySet) == S.EmptySet","Interval(0, 5).intersect(FiniteSet(1, 3)) == FiniteSet(1, 3)","Interval(0, 1, True, True).intersect(FiniteSet(1)) == S.EmptySet","Union(Interval(0, 1), Interval(2, 3)).intersect(Interval(1, 2)) == Union(Interval(1, 1), Interval(2, 2))","Union(Interval(0, 1), Interval(2, 3)).intersect(Interval(0, 2)) == Union(Interval(0, 1), Interval(2, 2))","Union(Interval(0, 1), Interval(2, 3)).intersect(Interval(1, 2, True, True)) == S.EmptySet","Union(Interval(0, 1), Interval(2, 3)).intersect(S.EmptySet) == S.EmptySet","Union(Interval(0, 5), FiniteSet('ham')).intersect(FiniteSet(2, 3, 4, 5, 6)) == Intersection(FiniteSet(2, 3, 4, 5, 6), Union(FiniteSet('ham'), Interval(0, 5)))","Intersection(FiniteSet(1, 2, 3), Interval(2, x), Interval(3, y)) == Intersection(FiniteSet(3), Interval(2, x), Interval(3, y), evaluate=False)","Intersection(FiniteSet(1, 2), Interval(0, 3), Interval(x, y)) == Intersection({1, 2}, Interval(x, y), evaluate=False)","Intersection(FiniteSet(1, 2, 4), Interval(0, 3), Interval(x, y)) == Intersection({1, 2}, Interval(x, y), evaluate=False)","Intersection(FiniteSet(m), FiniteSet(m, n), Interval(m, m + 1)) == FiniteSet(m)","Intersection(FiniteSet(x), FiniteSet(y)) == Intersection(FiniteSet(x), FiniteSet(y), evaluate=False)","FiniteSet(x).intersect(S.Reals) == Intersection(S.Reals, FiniteSet(x), evaluate=False)","Interval(0, 5).intersection(FiniteSet(1, 3)) == FiniteSet(1, 3)","Interval(0, 1, True, True).intersection(FiniteSet(1)) == S.EmptySet","Union(Interval(0, 1), Interval(2, 3)).intersection(Interval(1, 2)) == Union(Interval(1, 1), Interval(2, 2))","Interval(a, 4).intersection(Interval(b, 5)) == Interval(b, 4)","Interval(1, a).intersection(Interval(0, b)) == Interval(1, b)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.1,"verdict_class":"assumed","binding":true}}
 def test_intersect1():
     assert all(S.Integers.intersection(i) is i for i in
         (S.Naturals, S.Naturals0))
@@ -697,7 +809,10 @@ def test_intersect1():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_intersection_interval_float(), test_intersection_interval_float produces the expected output) over {Any | isinstance(a2, float)} ║
+# ║ Path(test_intersection_interval_float(), <unspecified:test_intersection_interval_float>) over {Any | isinstance(a2, float)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_intersection_interval_float : {Any | isinstance(...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -709,9 +824,12 @@ def test_intersect1():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.7ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | b17b223e...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_intersection_interval_float","kind":"function","src_hash":"73e5b3d1a8dbb9d8","in":{"base":"Any","pred":"isinstance(a2, float)"},"out":{"base":"Any","pred":"I1.intersect(I2) == I3"},"spec":{"lhs":"test_intersection_interval_float()","rhs":"test_intersection_interval_float produces the expected output","over":{"base":"Any","pred":"isinstance(a2, float)"},"name":"test_intersection_interval_float_correct"},"guarantee":"test_intersection_interval_float produces the expected output","fibers":[{"name":"float","pred":"isinstance(a2, float)","path":{"lhs":"test_intersection_interval_float(x)","rhs":"test_intersection_interval_float produces the expected output","over":{"base":"float","pred":"isinstance(a2, float)"},"name":"test_intersection_interval_float_float_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_intersection_interval_float_float_correct","statement":"test_intersection_interval_float satisfies spec on float inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"b17b223e429d38c0"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_intersection_interval_float","kind":"function","src_hash":"73e5b3d1a8dbb9d8","in":{"base":"Any","pred":"isinstance(a2, float)"},"out":{"base":"Any","pred":"I1.intersect(I2) == I3"},"spec":{"lhs":"test_intersection_interval_float()","rhs":"<unspecified:test_intersection_interval_float>","over":{"base":"Any","pred":"isinstance(a2, float)"},"name":"test_intersection_interval_float_correct"},"guarantee":"test_intersection_interval_float produces the expected output","fibers":[{"name":"float","pred":"isinstance(a2, float)","path":{"lhs":"test_intersection_interval_float(x)","rhs":"test_intersection_interval_float produces the expected output","over":{"base":"float","pred":"isinstance(a2, float)"},"name":"test_intersection_interval_float_float_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_intersection_interval_float_float_correct","statement":"test_intersection_interval_float satisfies spec on float inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"b17b223e429d38c0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.7,"verdict_class":"failed","binding":true}}
 def test_intersection_interval_float():
     # intersection of Intervals with mixed Rational/Float boundaries should
     # lead to Float boundaries in all cases regardless of which Interval is
@@ -741,16 +859,24 @@ def test_intersection_interval_float():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_intersection(), test_intersection produces the expected output) over Any ║
+# ║ Path(test_intersection(), i.is_iterable and set(i) == {S(2), S(3)} and (5 in i) is False and Intersection(Interval(0, 1), S.EmptySet) == S.EmptySet and Intersection(Interval(-oo, oo), Interval(-oo, x)) == Interval(-oo, x) and (2, 2) not in i and (2, 2, 2) not in i and a._argset == frozenset([Intersection(S.Naturals, S.Integers, evaluate=False), S.Reals]) and Intersection(S.Complexes, FiniteSet(S.ComplexInfinity)) == S.EmptySet and Intersection() == S.UniversalSet and Intersection({1}, {1}, {x}) == Intersection({1}, {x})) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_intersection : Any → {Any | i.is_iterable and se...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  i.is_iterable                                  ║
+# ║   ensures:  set(i) == {S(2), S(3)}                         ║
+# ║   ensures:  (5 in i) is False                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_intersection : Any → {Any | result satisfies: i....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3f7103fb2a85ffc7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 91a4317d5df9875b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_intersection","kind":"function","src_hash":"e52289170e257392","in":{"base":"Any"},"out":{"base":"Any","pred":"i.is_iterable and set(i) == {S(2), S(3)} and (5 in i) is False and Intersection(Interval(0, 1), S.EmptySet) == S.EmptySet and Intersection(Interval(-oo, oo), Interval(-oo, x)) == Interval(-oo, x) and (2, 2) not in i and (2, 2, 2) not in i and Intersection(S.Complexes, FiniteSet(S.ComplexInfinity)) == S.EmptySet and Intersection() == S.UniversalSet and Intersection({1}, {1}, {x}) == Intersection({1}, {x})"},"spec":{"lhs":"test_intersection()","rhs":"test_intersection produces the expected output","over":{"base":"Any"},"name":"test_intersection_correct"},"guarantee":"test_intersection produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_intersection_correct","statement":"Path(test_intersection(x), test_intersection produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3f7103fb2a85ffc7"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_intersection","kind":"function","src_hash":"e52289170e257392","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: i.is_iterable and set(i) == {S(2), S(3)} and (5 in i) is False and Intersection(Interval(0, 1), S.EmptySet) == S.EmptySet and Intersection(Interval(-oo, oo), Interval(-oo, x)) == Interval(-oo, x) and (2, 2) not in i and (2, 2, 2) not in i and a._argset == frozenset([Intersection(S.Naturals, S.Integers, evaluate=False), S.Reals]) and Intersection(S.Complexes, FiniteSet(S.ComplexInfinity)) == S.EmptySet and Intersection() == S.UniversalSet and Intersection({1}, {1}, {x}) == Intersection({1}, {x})"},"spec":{"lhs":"test_intersection()","rhs":"i.is_iterable and set(i) == {S(2), S(3)} and (5 in i) is False and Intersection(Interval(0, 1), S.EmptySet) == S.EmptySet and Intersection(Interval(-oo, oo), Interval(-oo, x)) == Interval(-oo, x) and (2, 2) not in i and (2, 2, 2) not in i and a._argset == frozenset([Intersection(S.Naturals, S.Integers, evaluate=False), S.Reals]) and Intersection(S.Complexes, FiniteSet(S.ComplexInfinity)) == S.EmptySet and Intersection() == S.UniversalSet and Intersection({1}, {1}, {x}) == Intersection({1}, {x})","over":{"base":"Any"},"name":"test_intersection_correct"},"guarantee":"i.is_iterable; set(i) == {S(2), S(3)}; (5 in i) is False","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_intersection_correct","statement":"Path(test_intersection(x), i.is_iterable; set(i) == {S(2), S(3)}; (5 in i) is False)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"91a4317d5df9875b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["i.is_iterable","set(i) == {S(2), S(3)}","(5 in i) is False","Intersection(Interval(0, 1), S.EmptySet) == S.EmptySet","Intersection(Interval(-oo, oo), Interval(-oo, x)) == Interval(-oo, x)","(2, 2) not in i","(2, 2, 2) not in i","a._argset == frozenset([Intersection(S.Naturals, S.Integers, evaluate=False), S.Reals])","Intersection(S.Complexes, FiniteSet(S.ComplexInfinity)) == S.EmptySet","Intersection() == S.UniversalSet","Intersection({1}, {1}, {x}) == Intersection({1}, {x})"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_intersection():
     # iterable
     i = Intersection(FiniteSet(1, 2, 3), Interval(2, 5), evaluate=False)
@@ -787,16 +913,23 @@ def test_intersection():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_9623(), test_issue_9623 produces the expected output) over Any ║
+# ║ Path(test_issue_9623(), Intersection(a, b, c) == Intersection(b, c) and Intersection(Interval(1, 2), Interval(3, 4), FiniteSet(n)) == EmptySet) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_9623 : Any → {Any | Intersection(a, b, c) ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Intersection(a, b, c) == Intersection(b, c)    ║
+# ║   ensures:  Intersection(Interval(1, 2), Interval(3, ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_9623 : Any → {Any | result satisfies: Inte...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c44f821c87df0613  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dca6190c53b4ab6f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_issue_9623","kind":"function","src_hash":"d5a30b65a5927780","in":{"base":"Any"},"out":{"base":"Any","pred":"Intersection(a, b, c) == Intersection(b, c) and Intersection(Interval(1, 2), Interval(3, 4), FiniteSet(n)) == EmptySet"},"spec":{"lhs":"test_issue_9623()","rhs":"test_issue_9623 produces the expected output","over":{"base":"Any"},"name":"test_issue_9623_correct"},"guarantee":"test_issue_9623 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_issue_9623_correct","statement":"Path(test_issue_9623(x), test_issue_9623 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c44f821c87df0613"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_issue_9623","kind":"function","src_hash":"d5a30b65a5927780","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Intersection(a, b, c) == Intersection(b, c) and Intersection(Interval(1, 2), Interval(3, 4), FiniteSet(n)) == EmptySet"},"spec":{"lhs":"test_issue_9623()","rhs":"Intersection(a, b, c) == Intersection(b, c) and Intersection(Interval(1, 2), Interval(3, 4), FiniteSet(n)) == EmptySet","over":{"base":"Any"},"name":"test_issue_9623_correct"},"guarantee":"Intersection(a, b, c) == Intersection(b, c); Intersection(Interval(1, 2), Interval(3, 4), FiniteSet(n)) == EmptySet","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_issue_9623_correct","statement":"Path(test_issue_9623(x), Intersection(a, b, c) == Intersection(b, c); Intersection(Interval(1, 2), Interval(3, 4), FiniteSet(n)) == EmptySet)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dca6190c53b4ab6f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Intersection(a, b, c) == Intersection(b, c)","Intersection(Interval(1, 2), Interval(3, 4), FiniteSet(n)) == EmptySet"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_9623():
     n = Symbol('n')
 
@@ -809,32 +942,47 @@ def test_issue_9623():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_is_disjoint(), test_is_disjoint produces the expected output) over Any ║
+# ║ Path(test_is_disjoint(), Interval(0, 2).is_disjoint(Interval(1, 2)) == False and Interval(0, 2).is_disjoint(Interval(3, 4)) == True) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_is_disjoint : Any → {Any | Interval(0, 2).is_dis...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Interval(0, 2).is_disjoint(Interval(1, 2)...   ║
+# ║   ensures:  Interval(0, 2).is_disjoint(Interval(3, 4)...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_is_disjoint : Any → {Any | result satisfies: Int...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fb63d78e92ab0bef  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3ac33a9a924a427f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_is_disjoint","kind":"function","src_hash":"cfbaa6c62f21903a","in":{"base":"Any"},"out":{"base":"Any","pred":"Interval(0, 2).is_disjoint(Interval(1, 2)) == False and Interval(0, 2).is_disjoint(Interval(3, 4)) == True"},"spec":{"lhs":"test_is_disjoint()","rhs":"test_is_disjoint produces the expected output","over":{"base":"Any"},"name":"test_is_disjoint_correct"},"guarantee":"test_is_disjoint produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_is_disjoint_correct","statement":"Path(test_is_disjoint(x), test_is_disjoint produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fb63d78e92ab0bef"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_is_disjoint","kind":"function","src_hash":"cfbaa6c62f21903a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Interval(0, 2).is_disjoint(Interval(1, 2)) == False and Interval(0, 2).is_disjoint(Interval(3, 4)) == True"},"spec":{"lhs":"test_is_disjoint()","rhs":"Interval(0, 2).is_disjoint(Interval(1, 2)) == False and Interval(0, 2).is_disjoint(Interval(3, 4)) == True","over":{"base":"Any"},"name":"test_is_disjoint_correct"},"guarantee":"Interval(0, 2).is_disjoint(Interval(1, 2)) == False; Interval(0, 2).is_disjoint(Interval(3, 4)) == True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_is_disjoint_correct","statement":"Path(test_is_disjoint(x), Interval(0, 2).is_disjoint(Interval(1, 2)) == False; Interval(0, 2).is_disjoint(Interval(3, 4)) == True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3ac33a9a924a427f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Interval(0, 2).is_disjoint(Interval(1, 2)) == False","Interval(0, 2).is_disjoint(Interval(3, 4)) == True"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_is_disjoint():
     assert Interval(0, 2).is_disjoint(Interval(1, 2)) == False
     assert Interval(0, 2).is_disjoint(Interval(3, 4)) == True
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_ProductSet__len__(), test_ProductSet__len__ produces the expected output) over Any ║
+# ║ Path(test_ProductSet__len__(), ProductSet(A).__len__() == 2 and ProductSet(A).__len__() is not S(2) and ProductSet(A, B).__len__() == 6 and ProductSet(A, B).__len__() is not S(6)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_ProductSet__len__ : Any → {Any | ProductSet(A)._...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  ProductSet(A).__len__() == 2                   ║
+# ║   ensures:  ProductSet(A).__len__() is not S(2)            ║
+# ║   ensures:  ProductSet(A, B).__len__() == 6                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_ProductSet__len__ : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ceb3e6d2e83f1549  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4fd81790b3429225  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_ProductSet__len__","kind":"function","src_hash":"a6263ce9e4a6d3e1","in":{"base":"Any"},"out":{"base":"Any","pred":"ProductSet(A).__len__() == 2 and ProductSet(A).__len__() is not S(2) and ProductSet(A, B).__len__() == 6 and ProductSet(A, B).__len__() is not S(6)"},"spec":{"lhs":"test_ProductSet__len__()","rhs":"test_ProductSet__len__ produces the expected output","over":{"base":"Any"},"name":"test_ProductSet__len___correct"},"guarantee":"test_ProductSet__len__ produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_ProductSet__len___correct","statement":"Path(test_ProductSet__len__(x), test_ProductSet__len__ produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ceb3e6d2e83f1549"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_ProductSet__len__","kind":"function","src_hash":"a6263ce9e4a6d3e1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: ProductSet(A).__len__() == 2 and ProductSet(A).__len__() is not S(2) and ProductSet(A, B).__len__() == 6 and ProductSet(A, B).__len__() is not S(6)"},"spec":{"lhs":"test_ProductSet__len__()","rhs":"ProductSet(A).__len__() == 2 and ProductSet(A).__len__() is not S(2) and ProductSet(A, B).__len__() == 6 and ProductSet(A, B).__len__() is not S(6)","over":{"base":"Any"},"name":"test_ProductSet__len___correct"},"guarantee":"ProductSet(A).__len__() == 2; ProductSet(A).__len__() is not S(2); ProductSet(A, B).__len__() == 6","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_ProductSet__len___correct","statement":"Path(test_ProductSet__len__(x), ProductSet(A).__len__() == 2; ProductSet(A).__len__() is not S(2); ProductSet(A, B).__len__() == 6)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4fd81790b3429225","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["ProductSet(A).__len__() == 2","ProductSet(A).__len__() is not S(2)","ProductSet(A, B).__len__() == 6","ProductSet(A, B).__len__() is not S(6)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_ProductSet__len__():
     A = FiniteSet(1, 2)
     B = FiniteSet(1, 2, 3)
@@ -845,16 +993,24 @@ def test_ProductSet__len__():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_ProductSet(), test_ProductSet produces the expected output) over Any ║
+# ║ Path(test_ProductSet(), ProductSet(S.Reals) == S.Reals ** 1 and ProductSet(S.Reals, S.Reals) == S.Reals ** 2 and ProductSet(S.Reals, S.Reals, S.Reals) == S.Reals ** 3 and ProductSet(S.Reals) != S.Reals and ProductSet(S.Reals, S.Reals) == S.Reals * S.Reals and ProductSet(S.Reals, S.Reals, S.Reals) != S.Reals * S.Reals * S.Reals and ProductSet(S.Reals, S.Reals, S.Reals) == (S.Reals * S.Reals * S.Reals).flatten() and 1 not in ProductSet(S.Reals) and (1,) in ProductSet(S.Reals) and 1 not in ProductSet(S.Reals, S.Reals) and (1, 2) in ProductSet(S.Reals, S.Reals) and (1, I) not in ProductSet(S.Reals, S.Reals) and (1, 2, 3) in ProductSet(S.Reals, S.Reals, S.Reals) and (1, 2, 3) in S.Reals ** 3 and (1, 2, 3) not in S.Reals * S.Reals * S.Reals and ((1, 2), 3) in S.Reals * S.Reals * S.Reals and (1, (2, 3)) not in S.Reals * S.Reals * S.Reals and (1, (2, 3)) in S.Reals * (S.Reals * S.Reals) and ProductSet() == FiniteSet(()) and ProductSet(S.Reals, S.EmptySet) == S.EmptySet and S.Reals * S.Reals * S.Reals != S.Reals * (S.Reals * S.Reals) and x1 in S1 and x2 in S2 and (x1, x2) in S1 * S2 and x3 in S3 and (x3, x3) in S3 * S3 and x3 + x3 not in S3 * S3 and S3.as_relational(x, y) == And(S1.as_relational(x), S2.as_relational(y)) == And(Or(Eq(x, 1), Eq(x, 2)), Or(Eq(y, 3), Eq(y, 4))) and Z2.contains((1, 2)) is S.true and Z2.contains((1,)) is S.false and Z2.contains(x) == Contains(x, Z2, evaluate=False) and Z2.contains(x).subs(x, 1) is S.false and Z2.contains((x, 1)).subs(x, 2) is S.true and Z2.contains((x, y)) == Contains(x, S.Integers) & Contains(y, S.Integers) and unchanged(Contains, (x, y), Z2) and Contains((1, 2), Z2) is S.true) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_ProductSet : Any → {Any | ProductSet(S.Reals) ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  ProductSet(S.Reals) == S.Reals ** 1            ║
+# ║   ensures:  ProductSet(S.Reals, S.Reals) == S.Reals ** 2   ║
+# ║   ensures:  ProductSet(S.Reals, S.Reals, S.Reals) == ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_ProductSet : Any → {Any | result satisfies: Prod...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dd6569b5a929beeb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6d6e37536388622e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_ProductSet","kind":"function","src_hash":"12fa321577281955","in":{"base":"Any"},"out":{"base":"Any","pred":"ProductSet(S.Reals) == S.Reals ** 1 and ProductSet(S.Reals, S.Reals) == S.Reals ** 2 and ProductSet(S.Reals, S.Reals, S.Reals) == S.Reals ** 3 and ProductSet(S.Reals) != S.Reals and ProductSet(S.Reals, S.Reals) == S.Reals * S.Reals and ProductSet(S.Reals, S.Reals, S.Reals) != S.Reals * S.Reals * S.Reals and 1 not in ProductSet(S.Reals) and (1,) in ProductSet(S.Reals) and 1 not in ProductSet(S.Reals, S.Reals) and (1, 2) in ProductSet(S.Reals, S.Reals) and (1, I) not in ProductSet(S.Reals, S.Reals) and (1, 2, 3) in ProductSet(S.Reals, S.Reals, S.Reals) and (1, 2, 3) in S.Reals ** 3 and (1, 2, 3) not in S.Reals * S.Reals * S.Reals and ((1, 2), 3) in S.Reals * S.Reals * S.Reals and (1, (2, 3)) not in S.Reals * S.Reals * S.Reals and (1, (2, 3)) in S.Reals * (S.Reals * S.Reals) and ProductSet() == FiniteSet(()) and ProductSet(S.Reals, S.EmptySet) == S.EmptySet and S.Reals * S.Reals * S.Reals != S.Reals * (S.Reals * S.Reals) and x1 in S1 and x2 in S2 and (x1, x2) in S1 * S2 and x3 in S3 and (x3, x3) in S3 * S3 and x3 + x3 not in S3 * S3 and Z2.contains((1, 2)) is S.true and Z2.contains((1,)) is S.false and Z2.contains(x) == Contains(x, Z2, evaluate=False) and Z2.contains(x).subs(x, 1) is S.false and Z2.contains((x, 1)).subs(x, 2) is S.true and Z2.contains((x, y)) == Contains(x, S.Integers) & Contains(y, S.Integers) and unchanged(Contains, (x, y), Z2) and Contains((1, 2), Z2) is S.true and (1,) * ni in Rn and 1 not in Rn"},"spec":{"lhs":"test_ProductSet()","rhs":"test_ProductSet produces the expected output","over":{"base":"Any"},"name":"test_ProductSet_correct"},"guarantee":"test_ProductSet produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_ProductSet_correct","statement":"Path(test_ProductSet(x), test_ProductSet produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dd6569b5a929beeb"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_ProductSet","kind":"function","src_hash":"12fa321577281955","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: ProductSet(S.Reals) == S.Reals ** 1 and ProductSet(S.Reals, S.Reals) == S.Reals ** 2 and ProductSet(S.Reals, S.Reals, S.Reals) == S.Reals ** 3 and ProductSet(S.Reals) != S.Reals and ProductSet(S.Reals, S.Reals) == S.Reals * S.Reals and ProductSet(S.Reals, S.Reals, S.Reals) != S.Reals * S.Reals * S.Reals and ProductSet(S.Reals, S.Reals, S.Reals) == (S.Reals * S.Reals * S.Reals).flatten() and 1 not in ProductSet(S.Reals) and (1,) in ProductSet(S.Reals) and 1 not in ProductSet(S.Reals, S.Reals) and (1, 2) in ProductSet(S.Reals, S.Reals) and (1, I) not in ProductSet(S.Reals, S.Reals) and (1, 2, 3) in ProductSet(S.Reals, S.Reals, S.Reals) and (1, 2, 3) in S.Reals ** 3 and (1, 2, 3) not in S.Reals * S.Reals * S.Reals and ((1, 2), 3) in S.Reals * S.Reals * S.Reals and (1, (2, 3)) not in S.Reals * S.Reals * S.Reals and (1, (2, 3)) in S.Reals * (S.Reals * S.Reals) and ProductSet() == FiniteSet(()) and ProductSet(S.Reals, S.EmptySet) == S.EmptySet and S.Reals * S.Reals * S.Reals != S.Reals * (S.Reals * S.Reals) and x1 in S1 and x2 in S2 and (x1, x2) in S1 * S2 and x3 in S3 and (x3, x3) in S3 * S3 and x3 + x3 not in S3 * S3 and S3.as_relational(x, y) == And(S1.as_relational(x), S2.as_relational(y)) == And(Or(Eq(x, 1), Eq(x, 2)), Or(Eq(y, 3), Eq(y, 4))) and Z2.contains((1, 2)) is S.true and Z2.contains((1,)) is S.false and Z2.contains(x) == Contains(x, Z2, evaluate=False) and Z2.contains(x).subs(x, 1) is S.false and Z2.contains((x, 1)).subs(x, 2) is S.true and Z2.contains((x, y)) == Contains(x, S.Integers) & Contains(y, S.Integers) and unchanged(Contains, (x, y), Z2) and Contains((1, 2), Z2) is S.true"},"spec":{"lhs":"test_ProductSet()","rhs":"ProductSet(S.Reals) == S.Reals ** 1 and ProductSet(S.Reals, S.Reals) == S.Reals ** 2 and ProductSet(S.Reals, S.Reals, S.Reals) == S.Reals ** 3 and ProductSet(S.Reals) != S.Reals and ProductSet(S.Reals, S.Reals) == S.Reals * S.Reals and ProductSet(S.Reals, S.Reals, S.Reals) != S.Reals * S.Reals * S.Reals and ProductSet(S.Reals, S.Reals, S.Reals) == (S.Reals * S.Reals * S.Reals).flatten() and 1 not in ProductSet(S.Reals) and (1,) in ProductSet(S.Reals) and 1 not in ProductSet(S.Reals, S.Reals) and (1, 2) in ProductSet(S.Reals, S.Reals) and (1, I) not in ProductSet(S.Reals, S.Reals) and (1, 2, 3) in ProductSet(S.Reals, S.Reals, S.Reals) and (1, 2, 3) in S.Reals ** 3 and (1, 2, 3) not in S.Reals * S.Reals * S.Reals and ((1, 2), 3) in S.Reals * S.Reals * S.Reals and (1, (2, 3)) not in S.Reals * S.Reals * S.Reals and (1, (2, 3)) in S.Reals * (S.Reals * S.Reals) and ProductSet() == FiniteSet(()) and ProductSet(S.Reals, S.EmptySet) == S.EmptySet and S.Reals * S.Reals * S.Reals != S.Reals * (S.Reals * S.Reals) and x1 in S1 and x2 in S2 and (x1, x2) in S1 * S2 and x3 in S3 and (x3, x3) in S3 * S3 and x3 + x3 not in S3 * S3 and S3.as_relational(x, y) == And(S1.as_relational(x), S2.as_relational(y)) == And(Or(Eq(x, 1), Eq(x, 2)), Or(Eq(y, 3), Eq(y, 4))) and Z2.contains((1, 2)) is S.true and Z2.contains((1,)) is S.false and Z2.contains(x) == Contains(x, Z2, evaluate=False) and Z2.contains(x).subs(x, 1) is S.false and Z2.contains((x, 1)).subs(x, 2) is S.true and Z2.contains((x, y)) == Contains(x, S.Integers) & Contains(y, S.Integers) and unchanged(Contains, (x, y), Z2) and Contains((1, 2), Z2) is S.true","over":{"base":"Any"},"name":"test_ProductSet_correct"},"guarantee":"ProductSet(S.Reals) == S.Reals ** 1; ProductSet(S.Reals, S.Reals) == S.Reals ** 2; ProductSet(S.Reals, S.Reals, S.Reals) == S.Reals ** 3","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_ProductSet_correct","statement":"Path(test_ProductSet(x), ProductSet(S.Reals) == S.Reals ** 1; ProductSet(S.Reals, S.Reals) == S.Reals ** 2; ProductSet(S.Reals, S.Reals, S.Reals) == S.Reals ** 3)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6d6e37536388622e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["ProductSet(S.Reals) == S.Reals ** 1","ProductSet(S.Reals, S.Reals) == S.Reals ** 2","ProductSet(S.Reals, S.Reals, S.Reals) == S.Reals ** 3","ProductSet(S.Reals) != S.Reals","ProductSet(S.Reals, S.Reals) == S.Reals * S.Reals","ProductSet(S.Reals, S.Reals, S.Reals) != S.Reals * S.Reals * S.Reals","ProductSet(S.Reals, S.Reals, S.Reals) == (S.Reals * S.Reals * S.Reals).flatten()","1 not in ProductSet(S.Reals)","(1,) in ProductSet(S.Reals)","1 not in ProductSet(S.Reals, S.Reals)","(1, 2) in ProductSet(S.Reals, S.Reals)","(1, I) not in ProductSet(S.Reals, S.Reals)","(1, 2, 3) in ProductSet(S.Reals, S.Reals, S.Reals)","(1, 2, 3) in S.Reals ** 3","(1, 2, 3) not in S.Reals * S.Reals * S.Reals","((1, 2), 3) in S.Reals * S.Reals * S.Reals","(1, (2, 3)) not in S.Reals * S.Reals * S.Reals","(1, (2, 3)) in S.Reals * (S.Reals * S.Reals)","ProductSet() == FiniteSet(())","ProductSet(S.Reals, S.EmptySet) == S.EmptySet","S.Reals * S.Reals * S.Reals != S.Reals * (S.Reals * S.Reals)","x1 in S1","x2 in S2","(x1, x2) in S1 * S2","x3 in S3","(x3, x3) in S3 * S3","x3 + x3 not in S3 * S3","S3.as_relational(x, y) == And(S1.as_relational(x), S2.as_relational(y)) == And(Or(Eq(x, 1), Eq(x, 2)), Or(Eq(y, 3), Eq(y, 4)))","Z2.contains((1, 2)) is S.true","Z2.contains((1,)) is S.false","Z2.contains(x) == Contains(x, Z2, evaluate=False)","Z2.contains(x).subs(x, 1) is S.false","Z2.contains((x, 1)).subs(x, 2) is S.true","Z2.contains((x, y)) == Contains(x, S.Integers) & Contains(y, S.Integers)","unchanged(Contains, (x, y), Z2)","Contains((1, 2), Z2) is S.true"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"assumed","binding":true}}
 def test_ProductSet():
     # ProductSet is always a set of Tuples
     assert ProductSet(S.Reals) == S.Reals ** 1
@@ -932,48 +1088,69 @@ def test_ProductSet():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_ProductSet_of_single_arg_is_not_arg(), test_ProductSet_of_single_arg_is_not_arg produces the expected output) over Any ║
+# ║ Path(test_ProductSet_of_single_arg_is_not_arg(), unchanged(ProductSet, Interval(0, 1)) and unchanged(ProductSet, ProductSet(Interval(0, 1)))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  unchanged(ProductSet, Interval(0, 1))          ║
+# ║   ensures:  unchanged(ProductSet, ProductSet(Interval...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_ProductSet_of_single_arg_is_not_arg : Any → {Any...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0354cd61c887e408  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 620abefd05d294a6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_ProductSet_of_single_arg_is_not_arg","kind":"function","src_hash":"f2157f6f7d8f476e","in":{"base":"Any"},"out":{"base":"Any","pred":"unchanged(ProductSet, Interval(0, 1)) and unchanged(ProductSet, ProductSet(Interval(0, 1)))"},"spec":{"lhs":"test_ProductSet_of_single_arg_is_not_arg()","rhs":"test_ProductSet_of_single_arg_is_not_arg produces the expected output","over":{"base":"Any"},"name":"test_ProductSet_of_single_arg_is_not_arg_correct"},"guarantee":"test_ProductSet_of_single_arg_is_not_arg produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_ProductSet_of_single_arg_is_not_arg_correct","statement":"Path(test_ProductSet_of_single_arg_is_not_arg(x), test_ProductSet_of_single_arg_is_not_arg produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0354cd61c887e408"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_ProductSet_of_single_arg_is_not_arg","kind":"function","src_hash":"f2157f6f7d8f476e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: unchanged(ProductSet, Interval(0, 1)) and unchanged(ProductSet, ProductSet(Interval(0, 1)))"},"spec":{"lhs":"test_ProductSet_of_single_arg_is_not_arg()","rhs":"unchanged(ProductSet, Interval(0, 1)) and unchanged(ProductSet, ProductSet(Interval(0, 1)))","over":{"base":"Any"},"name":"test_ProductSet_of_single_arg_is_not_arg_correct"},"guarantee":"unchanged(ProductSet, Interval(0, 1)); unchanged(ProductSet, ProductSet(Interval(0, 1)))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_ProductSet_of_single_arg_is_not_arg_correct","statement":"Path(test_ProductSet_of_single_arg_is_not_arg(x), unchanged(ProductSet, Interval(0, 1)); unchanged(ProductSet, ProductSet(Interval(0, 1))))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"620abefd05d294a6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["unchanged(ProductSet, Interval(0, 1))","unchanged(ProductSet, ProductSet(Interval(0, 1)))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_ProductSet_of_single_arg_is_not_arg():
     assert unchanged(ProductSet, Interval(0, 1))
     assert unchanged(ProductSet, ProductSet(Interval(0, 1)))
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_ProductSet_is_empty(), test_ProductSet_is_empty produces the expected output) over Any ║
+# ║ Path(test_ProductSet_is_empty(), ProductSet(S.Integers, S.Reals).is_empty == False and ProductSet(Interval(x, 1), S.Reals).is_empty == None) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_ProductSet_is_empty : Any → {Any | ProductSet(S....   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  ProductSet(S.Integers, S.Reals).is_empty ...   ║
+# ║   ensures:  ProductSet(Interval(x, 1), S.Reals).is_em...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_ProductSet_is_empty : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 145df07248443735  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 797b0761d44a138a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_ProductSet_is_empty","kind":"function","src_hash":"66a36f92d2ed8a60","in":{"base":"Any"},"out":{"base":"Any","pred":"ProductSet(S.Integers, S.Reals).is_empty == False and ProductSet(Interval(x, 1), S.Reals).is_empty == None"},"spec":{"lhs":"test_ProductSet_is_empty()","rhs":"test_ProductSet_is_empty produces the expected output","over":{"base":"Any"},"name":"test_ProductSet_is_empty_correct"},"guarantee":"test_ProductSet_is_empty produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_ProductSet_is_empty_correct","statement":"Path(test_ProductSet_is_empty(x), test_ProductSet_is_empty produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"145df07248443735"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_ProductSet_is_empty","kind":"function","src_hash":"66a36f92d2ed8a60","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: ProductSet(S.Integers, S.Reals).is_empty == False and ProductSet(Interval(x, 1), S.Reals).is_empty == None"},"spec":{"lhs":"test_ProductSet_is_empty()","rhs":"ProductSet(S.Integers, S.Reals).is_empty == False and ProductSet(Interval(x, 1), S.Reals).is_empty == None","over":{"base":"Any"},"name":"test_ProductSet_is_empty_correct"},"guarantee":"ProductSet(S.Integers, S.Reals).is_empty == False; ProductSet(Interval(x, 1), S.Reals).is_empty == None","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_ProductSet_is_empty_correct","statement":"Path(test_ProductSet_is_empty(x), ProductSet(S.Integers, S.Reals).is_empty == False; ProductSet(Interval(x, 1), S.Reals).is_empty == None)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"797b0761d44a138a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["ProductSet(S.Integers, S.Reals).is_empty == False","ProductSet(Interval(x, 1), S.Reals).is_empty == None"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_ProductSet_is_empty():
     assert ProductSet(S.Integers, S.Reals).is_empty == False
     assert ProductSet(Interval(x, 1), S.Reals).is_empty == None
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_interval_subs(), test_interval_subs produces the expected output) over Any ║
+# ║ Path(test_interval_subs(), Interval(0, a).subs(a, 2) == Interval(0, 2) and Interval(a, 0).subs(a, 2) == S.EmptySet) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_interval_subs : Any → {Any | Interval(0, a).subs...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Interval(0, a).subs(a, 2) == Interval(0, 2)    ║
+# ║   ensures:  Interval(a, 0).subs(a, 2) == S.EmptySet        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_interval_subs : Any → {Any | result satisfies: I...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f777d11792bc22dc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f09db1a1f860b54c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_interval_subs","kind":"function","src_hash":"9e121be8d87c897f","in":{"base":"Any"},"out":{"base":"Any","pred":"Interval(0, a).subs(a, 2) == Interval(0, 2) and Interval(a, 0).subs(a, 2) == S.EmptySet"},"spec":{"lhs":"test_interval_subs()","rhs":"test_interval_subs produces the expected output","over":{"base":"Any"},"name":"test_interval_subs_correct"},"guarantee":"test_interval_subs produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_interval_subs_correct","statement":"Path(test_interval_subs(x), test_interval_subs produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f777d11792bc22dc"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_interval_subs","kind":"function","src_hash":"9e121be8d87c897f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Interval(0, a).subs(a, 2) == Interval(0, 2) and Interval(a, 0).subs(a, 2) == S.EmptySet"},"spec":{"lhs":"test_interval_subs()","rhs":"Interval(0, a).subs(a, 2) == Interval(0, 2) and Interval(a, 0).subs(a, 2) == S.EmptySet","over":{"base":"Any"},"name":"test_interval_subs_correct"},"guarantee":"Interval(0, a).subs(a, 2) == Interval(0, 2); Interval(a, 0).subs(a, 2) == S.EmptySet","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_interval_subs_correct","statement":"Path(test_interval_subs(x), Interval(0, a).subs(a, 2) == Interval(0, 2); Interval(a, 0).subs(a, 2) == S.EmptySet)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f09db1a1f860b54c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Interval(0, a).subs(a, 2) == Interval(0, 2)","Interval(a, 0).subs(a, 2) == S.EmptySet"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_interval_subs():
     a = Symbol('a', real=True)
 
@@ -982,16 +1159,24 @@ def test_interval_subs():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_interval_to_mpi(), test_interval_to_mpi produces the expected output) over Any ║
+# ║ Path(test_interval_to_mpi(), Interval(0, 1).to_mpi() == mpi(0, 1) and Interval(0, 1, True, False).to_mpi() == mpi(0, 1) and type(Interval(0, 1).to_mpi()) == type(mpi(0, 1))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_interval_to_mpi : Any → {Any | Interval(0, 1).to...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Interval(0, 1).to_mpi() == mpi(0, 1)           ║
+# ║   ensures:  Interval(0, 1, True, False).to_mpi() == m...   ║
+# ║   ensures:  type(Interval(0, 1).to_mpi()) == type(mpi...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_interval_to_mpi : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0cc81b7e95419d45  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9e6f575b593d30c6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_interval_to_mpi","kind":"function","src_hash":"e833e2440efb7426","in":{"base":"Any"},"out":{"base":"Any","pred":"Interval(0, 1).to_mpi() == mpi(0, 1) and Interval(0, 1, True, False).to_mpi() == mpi(0, 1) and type(Interval(0, 1).to_mpi()) == type(mpi(0, 1))"},"spec":{"lhs":"test_interval_to_mpi()","rhs":"test_interval_to_mpi produces the expected output","over":{"base":"Any"},"name":"test_interval_to_mpi_correct"},"guarantee":"test_interval_to_mpi produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_interval_to_mpi_correct","statement":"Path(test_interval_to_mpi(x), test_interval_to_mpi produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0cc81b7e95419d45"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_interval_to_mpi","kind":"function","src_hash":"e833e2440efb7426","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Interval(0, 1).to_mpi() == mpi(0, 1) and Interval(0, 1, True, False).to_mpi() == mpi(0, 1) and type(Interval(0, 1).to_mpi()) == type(mpi(0, 1))"},"spec":{"lhs":"test_interval_to_mpi()","rhs":"Interval(0, 1).to_mpi() == mpi(0, 1) and Interval(0, 1, True, False).to_mpi() == mpi(0, 1) and type(Interval(0, 1).to_mpi()) == type(mpi(0, 1))","over":{"base":"Any"},"name":"test_interval_to_mpi_correct"},"guarantee":"Interval(0, 1).to_mpi() == mpi(0, 1); Interval(0, 1, True, False).to_mpi() == mpi(0, 1); type(Interval(0, 1).to_mpi()) == type(mpi(0, 1))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_interval_to_mpi_correct","statement":"Path(test_interval_to_mpi(x), Interval(0, 1).to_mpi() == mpi(0, 1); Interval(0, 1, True, False).to_mpi() == mpi(0, 1); type(Interval(0, 1).to_mpi()) == type(mpi(0, 1)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9e6f575b593d30c6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Interval(0, 1).to_mpi() == mpi(0, 1)","Interval(0, 1, True, False).to_mpi() == mpi(0, 1)","type(Interval(0, 1).to_mpi()) == type(mpi(0, 1))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_interval_to_mpi():
     assert Interval(0, 1).to_mpi() == mpi(0, 1)
     assert Interval(0, 1, True, False).to_mpi() == mpi(0, 1)
@@ -999,16 +1184,24 @@ def test_interval_to_mpi():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_set_evalf(), test_set_evalf produces the expected output) over Any ║
+# ║ Path(test_set_evalf(), Interval(S(11) / 64, S.Half).evalf() == Interval(Float('0.171875'), Float('0.5')) and Interval(x, S.Half, right_open=True).evalf() == Interval(x, Float('0.5'), right_open=True) and Interval(-oo, S.Half).evalf() == Interval(-oo, Float('0.5')) and FiniteSet(2, x).evalf() == FiniteSet(Float('2.0'), x)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_set_evalf : Any → {Any | Interval(-oo, S.Half).e...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Interval(S(11) / 64, S.Half).evalf() == I...   ║
+# ║   ensures:  Interval(x, S.Half, right_open=True).eval...   ║
+# ║   ensures:  Interval(-oo, S.Half).evalf() == Interval...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_set_evalf : Any → {Any | result satisfies: Inter...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 24f36c177734e3db  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5206923e7216db57  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_set_evalf","kind":"function","src_hash":"1e2bb91c7b075da0","in":{"base":"Any"},"out":{"base":"Any","pred":"Interval(-oo, S.Half).evalf() == Interval(-oo, Float('0.5')) and FiniteSet(2, x).evalf() == FiniteSet(Float('2.0'), x)"},"spec":{"lhs":"test_set_evalf()","rhs":"test_set_evalf produces the expected output","over":{"base":"Any"},"name":"test_set_evalf_correct"},"guarantee":"test_set_evalf produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_set_evalf_correct","statement":"Path(test_set_evalf(x), test_set_evalf produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"24f36c177734e3db"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_set_evalf","kind":"function","src_hash":"1e2bb91c7b075da0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Interval(S(11) / 64, S.Half).evalf() == Interval(Float('0.171875'), Float('0.5')) and Interval(x, S.Half, right_open=True).evalf() == Interval(x, Float('0.5'), right_open=True) and Interval(-oo, S.Half).evalf() == Interval(-oo, Float('0.5')) and FiniteSet(2, x).evalf() == FiniteSet(Float('2.0'), x)"},"spec":{"lhs":"test_set_evalf()","rhs":"Interval(S(11) / 64, S.Half).evalf() == Interval(Float('0.171875'), Float('0.5')) and Interval(x, S.Half, right_open=True).evalf() == Interval(x, Float('0.5'), right_open=True) and Interval(-oo, S.Half).evalf() == Interval(-oo, Float('0.5')) and FiniteSet(2, x).evalf() == FiniteSet(Float('2.0'), x)","over":{"base":"Any"},"name":"test_set_evalf_correct"},"guarantee":"Interval(S(11) / 64, S.Half).evalf() == Interval(Float('0.171875'), Float('0.5')); Interval(x, S.Half, right_open=True).evalf() == Interval(x, Float('0.5'), right_open=True); Interval(-oo, S.Half).evalf() == Interval(-oo, Float('0.5'))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_set_evalf_correct","statement":"Path(test_set_evalf(x), Interval(S(11) / 64, S.Half).evalf() == Interval(Float('0.171875'), Float('0.5')); Interval(x, S.Half, right_open=True).evalf() == Interval(x, Float('0.5'), right_open=True); Interval(-oo, S.Half).evalf() == Interval(-oo, Float('0.5')))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5206923e7216db57","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Interval(S(11) / 64, S.Half).evalf() == Interval(Float('0.171875'), Float('0.5'))","Interval(x, S.Half, right_open=True).evalf() == Interval(x, Float('0.5'), right_open=True)","Interval(-oo, S.Half).evalf() == Interval(-oo, Float('0.5'))","FiniteSet(2, x).evalf() == FiniteSet(Float('2.0'), x)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_set_evalf():
     assert Interval(S(11)/64, S.Half).evalf() == Interval(
         Float('0.171875'), Float('0.5'))
@@ -1019,16 +1212,24 @@ def test_set_evalf():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_measure(), test_measure produces the expected output) over Any ║
+# ║ Path(test_measure(), Interval(1, 3).measure == 2 and Interval(0, a).measure == a and Interval(1, a).measure == a - 1 and Union(Interval(1, 2), Interval(3, 4)).measure == 2 and Union(Interval(1, 2), Interval(3, 4), FiniteSet(5, 6, 7)).measure == 2 and FiniteSet(1, 2, oo, a, -oo, -5).measure == 0 and S.EmptySet.measure == 0 and square.measure == offsetsquare.measure == 100 and (square + offsetsquare).measure == 175 and (square - offsetsquare).measure == 75 and (square * FiniteSet(1, 2, 3)).measure == 0 and square.intersect(band).measure == 20 and (square + band).measure is oo and (band * FiniteSet(1, 2, 3)).measure is nan) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_measure : Any → {Any | Interval(1, 3).measure ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Interval(1, 3).measure == 2                    ║
+# ║   ensures:  Interval(0, a).measure == a                    ║
+# ║   ensures:  Interval(1, a).measure == a - 1                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_measure : Any → {Any | result satisfies: Interva...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 10bd5cbd2a9b8e5e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9a35bbc20193c7e3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_measure","kind":"function","src_hash":"ac9589740e6e37dc","in":{"base":"Any"},"out":{"base":"Any","pred":"Interval(1, 3).measure == 2 and Interval(0, a).measure == a and Interval(1, a).measure == a - 1 and Union(Interval(1, 2), Interval(3, 4)).measure == 2 and Union(Interval(1, 2), Interval(3, 4), FiniteSet(5, 6, 7)).measure == 2 and FiniteSet(1, 2, oo, a, -oo, -5).measure == 0 and S.EmptySet.measure == 0 and square.measure == offsetsquare.measure == 100 and (square + offsetsquare).measure == 175 and (square - offsetsquare).measure == 75 and (square * FiniteSet(1, 2, 3)).measure == 0 and square.intersect(band).measure == 20 and (square + band).measure is oo and (band * FiniteSet(1, 2, 3)).measure is nan"},"spec":{"lhs":"test_measure()","rhs":"test_measure produces the expected output","over":{"base":"Any"},"name":"test_measure_correct"},"guarantee":"test_measure produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_measure_correct","statement":"Path(test_measure(x), test_measure produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"10bd5cbd2a9b8e5e"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_measure","kind":"function","src_hash":"ac9589740e6e37dc","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Interval(1, 3).measure == 2 and Interval(0, a).measure == a and Interval(1, a).measure == a - 1 and Union(Interval(1, 2), Interval(3, 4)).measure == 2 and Union(Interval(1, 2), Interval(3, 4), FiniteSet(5, 6, 7)).measure == 2 and FiniteSet(1, 2, oo, a, -oo, -5).measure == 0 and S.EmptySet.measure == 0 and square.measure == offsetsquare.measure == 100 and (square + offsetsquare).measure == 175 and (square - offsetsquare).measure == 75 and (square * FiniteSet(1, 2, 3)).measure == 0 and square.intersect(band).measure == 20 and (square + band).measure is oo and (band * FiniteSet(1, 2, 3)).measure is nan"},"spec":{"lhs":"test_measure()","rhs":"Interval(1, 3).measure == 2 and Interval(0, a).measure == a and Interval(1, a).measure == a - 1 and Union(Interval(1, 2), Interval(3, 4)).measure == 2 and Union(Interval(1, 2), Interval(3, 4), FiniteSet(5, 6, 7)).measure == 2 and FiniteSet(1, 2, oo, a, -oo, -5).measure == 0 and S.EmptySet.measure == 0 and square.measure == offsetsquare.measure == 100 and (square + offsetsquare).measure == 175 and (square - offsetsquare).measure == 75 and (square * FiniteSet(1, 2, 3)).measure == 0 and square.intersect(band).measure == 20 and (square + band).measure is oo and (band * FiniteSet(1, 2, 3)).measure is nan","over":{"base":"Any"},"name":"test_measure_correct"},"guarantee":"Interval(1, 3).measure == 2; Interval(0, a).measure == a; Interval(1, a).measure == a - 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_measure_correct","statement":"Path(test_measure(x), Interval(1, 3).measure == 2; Interval(0, a).measure == a; Interval(1, a).measure == a - 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9a35bbc20193c7e3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Interval(1, 3).measure == 2","Interval(0, a).measure == a","Interval(1, a).measure == a - 1","Union(Interval(1, 2), Interval(3, 4)).measure == 2","Union(Interval(1, 2), Interval(3, 4), FiniteSet(5, 6, 7)).measure == 2","FiniteSet(1, 2, oo, a, -oo, -5).measure == 0","S.EmptySet.measure == 0","square.measure == offsetsquare.measure == 100","(square + offsetsquare).measure == 175","(square - offsetsquare).measure == 75","(square * FiniteSet(1, 2, 3)).measure == 0","square.intersect(band).measure == 20","(square + band).measure is oo","(band * FiniteSet(1, 2, 3)).measure is nan"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_measure():
     a = Symbol('a', real=True)
 
@@ -1058,16 +1259,24 @@ def test_measure():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_is_subset(), test_is_subset produces the expected output) over Any ║
+# ║ Path(test_is_subset(), Interval(0, 1).is_subset(Interval(0, 2)) is True and Interval(0, 3).is_subset(Interval(0, 2)) is False and Interval(0, 1).is_subset(FiniteSet(0, 1)) is False and FiniteSet(1, 2).is_subset(FiniteSet(1, 2, 3, 4)) and FiniteSet(4, 5).is_subset(FiniteSet(1, 2, 3, 4)) is False and FiniteSet(1).is_subset(Interval(0, 2)) and FiniteSet(1, 2).is_subset(Interval(0, 2, True, True)) is False and (Interval(1, 2) + FiniteSet(3)).is_subset(Interval(0, 2, False, True) + FiniteSet(2, 3)) and Interval(3, 4).is_subset(Union(Interval(0, 1), Interval(2, 5))) is True and Interval(3, 6).is_subset(Union(Interval(0, 1), Interval(2, 5))) is False and FiniteSet(1, 2, 3, 4).is_subset(Interval(0, 5)) is True and S.EmptySet.is_subset(FiniteSet(1, 2, 3)) is True and Interval(0, 1).is_subset(S.EmptySet) is False and S.EmptySet.is_subset(S.EmptySet) is True and FiniteSet(1, 2, 3, 4).issubset(Interval(0, 5)) is True and S.EmptySet.issubset(FiniteSet(1, 2, 3)) is True and S.Naturals.is_subset(S.Integers) and S.Naturals0.is_subset(S.Integers) and FiniteSet(x).is_subset(FiniteSet(y)) is None and FiniteSet(x).is_subset(FiniteSet(y).subs(y, x)) is True and FiniteSet(x).is_subset(FiniteSet(y).subs(y, x + 1)) is False and Interval(0, 1).is_subset(Interval(0, 1, left_open=True)) is False and Interval(-2, 3).is_subset(Union(Interval(-oo, -2), Interval(3, oo))) is False and Range(-3, 4, 1).is_subset(FiniteSet(-10, 10)) is False and Range(S(10) ** 100).is_subset(FiniteSet(0, 1, 2)) is False and Range(6, 0, -2).is_subset(FiniteSet(2, 4, 6)) is True and Range(1, oo).is_subset(FiniteSet(1, 2)) is False and Range(-oo, 1).is_subset(FiniteSet(1)) is False and Range(3).is_subset(FiniteSet(0, 1, n)) is None and Range(n, n + 2).is_subset(FiniteSet(n, n + 1)) is True and Range(5).is_subset(Interval(0, 4, right_open=True)) is False and imageset(Lambda(n, 1 / n), S.Integers).is_subset(S.Reals) is None) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_is_subset : Any → {Any | Interval(0, 1).is_subse...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Interval(0, 1).is_subset(Interval(0, 2)) ...   ║
+# ║   ensures:  Interval(0, 3).is_subset(Interval(0, 2)) ...   ║
+# ║   ensures:  Interval(0, 1).is_subset(FiniteSet(0, 1))...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_is_subset : Any → {Any | result satisfies: Inter...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0ef335e97da7479b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.8ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1b8c191fcbe363bb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_is_subset","kind":"function","src_hash":"4fd23f3415d2d791","in":{"base":"Any"},"out":{"base":"Any","pred":"Interval(0, 1).is_subset(Interval(0, 2)) is True and Interval(0, 3).is_subset(Interval(0, 2)) is False and Interval(0, 1).is_subset(FiniteSet(0, 1)) is False and FiniteSet(1, 2).is_subset(FiniteSet(1, 2, 3, 4)) and FiniteSet(4, 5).is_subset(FiniteSet(1, 2, 3, 4)) is False and FiniteSet(1).is_subset(Interval(0, 2)) and FiniteSet(1, 2).is_subset(Interval(0, 2, True, True)) is False and Interval(3, 4).is_subset(Union(Interval(0, 1), Interval(2, 5))) is True and Interval(3, 6).is_subset(Union(Interval(0, 1), Interval(2, 5))) is False and FiniteSet(1, 2, 3, 4).is_subset(Interval(0, 5)) is True and S.EmptySet.is_subset(FiniteSet(1, 2, 3)) is True and Interval(0, 1).is_subset(S.EmptySet) is False and S.EmptySet.is_subset(S.EmptySet) is True and FiniteSet(1, 2, 3, 4).issubset(Interval(0, 5)) is True and S.EmptySet.issubset(FiniteSet(1, 2, 3)) is True and S.Naturals.is_subset(S.Integers) and S.Naturals0.is_subset(S.Integers) and FiniteSet(x).is_subset(FiniteSet(y)) is None and FiniteSet(x).is_subset(FiniteSet(y).subs(y, x)) is True and FiniteSet(x).is_subset(FiniteSet(y).subs(y, x + 1)) is False and Interval(0, 1).is_subset(Interval(0, 1, left_open=True)) is False and Interval(-2, 3).is_subset(Union(Interval(-oo, -2), Interval(3, oo))) is False and Range(-3, 4, 1).is_subset(FiniteSet(-10, 10)) is False and Range(S(10) ** 100).is_subset(FiniteSet(0, 1, 2)) is False and Range(6, 0, -2).is_subset(FiniteSet(2, 4, 6)) is True and Range(1, oo).is_subset(FiniteSet(1, 2)) is False and Range(-oo, 1).is_subset(FiniteSet(1)) is False and Range(3).is_subset(FiniteSet(0, 1, n)) is None and Range(n, n + 2).is_subset(FiniteSet(n, n + 1)) is True and Range(5).is_subset(Interval(0, 4, right_open=True)) is False and imageset(Lambda(n, 1 / n), S.Integers).is_subset(S.Reals) is None"},"spec":{"lhs":"test_is_subset()","rhs":"test_is_subset produces the expected output","over":{"base":"Any"},"name":"test_is_subset_correct"},"guarantee":"test_is_subset produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_is_subset_correct","statement":"Path(test_is_subset(x), test_is_subset produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0ef335e97da7479b"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_is_subset","kind":"function","src_hash":"4fd23f3415d2d791","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Interval(0, 1).is_subset(Interval(0, 2)) is True and Interval(0, 3).is_subset(Interval(0, 2)) is False and Interval(0, 1).is_subset(FiniteSet(0, 1)) is False and FiniteSet(1, 2).is_subset(FiniteSet(1, 2, 3, 4)) and FiniteSet(4, 5).is_subset(FiniteSet(1, 2, 3, 4)) is False and FiniteSet(1).is_subset(Interval(0, 2)) and FiniteSet(1, 2).is_subset(Interval(0, 2, True, True)) is False and (Interval(1, 2) + FiniteSet(3)).is_subset(Interval(0, 2, False, True) + FiniteSet(2, 3)) and Interval(3, 4).is_subset(Union(Interval(0, 1), Interval(2, 5))) is True and Interval(3, 6).is_subset(Union(Interval(0, 1), Interval(2, 5))) is False and FiniteSet(1, 2, 3, 4).is_subset(Interval(0, 5)) is True and S.EmptySet.is_subset(FiniteSet(1, 2, 3)) is True and Interval(0, 1).is_subset(S.EmptySet) is False and S.EmptySet.is_subset(S.EmptySet) is True and FiniteSet(1, 2, 3, 4).issubset(Interval(0, 5)) is True and S.EmptySet.issubset(FiniteSet(1, 2, 3)) is True and S.Naturals.is_subset(S.Integers) and S.Naturals0.is_subset(S.Integers) and FiniteSet(x).is_subset(FiniteSet(y)) is None and FiniteSet(x).is_subset(FiniteSet(y).subs(y, x)) is True and FiniteSet(x).is_subset(FiniteSet(y).subs(y, x + 1)) is False and Interval(0, 1).is_subset(Interval(0, 1, left_open=True)) is False and Interval(-2, 3).is_subset(Union(Interval(-oo, -2), Interval(3, oo))) is False and Range(-3, 4, 1).is_subset(FiniteSet(-10, 10)) is False and Range(S(10) ** 100).is_subset(FiniteSet(0, 1, 2)) is False and Range(6, 0, -2).is_subset(FiniteSet(2, 4, 6)) is True and Range(1, oo).is_subset(FiniteSet(1, 2)) is False and Range(-oo, 1).is_subset(FiniteSet(1)) is False and Range(3).is_subset(FiniteSet(0, 1, n)) is None and Range(n, n + 2).is_subset(FiniteSet(n, n + 1)) is True and Range(5).is_subset(Interval(0, 4, right_open=True)) is False and imageset(Lambda(n, 1 / n), S.Integers).is_subset(S.Reals) is None"},"spec":{"lhs":"test_is_subset()","rhs":"Interval(0, 1).is_subset(Interval(0, 2)) is True and Interval(0, 3).is_subset(Interval(0, 2)) is False and Interval(0, 1).is_subset(FiniteSet(0, 1)) is False and FiniteSet(1, 2).is_subset(FiniteSet(1, 2, 3, 4)) and FiniteSet(4, 5).is_subset(FiniteSet(1, 2, 3, 4)) is False and FiniteSet(1).is_subset(Interval(0, 2)) and FiniteSet(1, 2).is_subset(Interval(0, 2, True, True)) is False and (Interval(1, 2) + FiniteSet(3)).is_subset(Interval(0, 2, False, True) + FiniteSet(2, 3)) and Interval(3, 4).is_subset(Union(Interval(0, 1), Interval(2, 5))) is True and Interval(3, 6).is_subset(Union(Interval(0, 1), Interval(2, 5))) is False and FiniteSet(1, 2, 3, 4).is_subset(Interval(0, 5)) is True and S.EmptySet.is_subset(FiniteSet(1, 2, 3)) is True and Interval(0, 1).is_subset(S.EmptySet) is False and S.EmptySet.is_subset(S.EmptySet) is True and FiniteSet(1, 2, 3, 4).issubset(Interval(0, 5)) is True and S.EmptySet.issubset(FiniteSet(1, 2, 3)) is True and S.Naturals.is_subset(S.Integers) and S.Naturals0.is_subset(S.Integers) and FiniteSet(x).is_subset(FiniteSet(y)) is None and FiniteSet(x).is_subset(FiniteSet(y).subs(y, x)) is True and FiniteSet(x).is_subset(FiniteSet(y).subs(y, x + 1)) is False and Interval(0, 1).is_subset(Interval(0, 1, left_open=True)) is False and Interval(-2, 3).is_subset(Union(Interval(-oo, -2), Interval(3, oo))) is False and Range(-3, 4, 1).is_subset(FiniteSet(-10, 10)) is False and Range(S(10) ** 100).is_subset(FiniteSet(0, 1, 2)) is False and Range(6, 0, -2).is_subset(FiniteSet(2, 4, 6)) is True and Range(1, oo).is_subset(FiniteSet(1, 2)) is False and Range(-oo, 1).is_subset(FiniteSet(1)) is False and Range(3).is_subset(FiniteSet(0, 1, n)) is None and Range(n, n + 2).is_subset(FiniteSet(n, n + 1)) is True and Range(5).is_subset(Interval(0, 4, right_open=True)) is False and imageset(Lambda(n, 1 / n), S.Integers).is_subset(S.Reals) is None","over":{"base":"Any"},"name":"test_is_subset_correct"},"guarantee":"Interval(0, 1).is_subset(Interval(0, 2)) is True; Interval(0, 3).is_subset(Interval(0, 2)) is False; Interval(0, 1).is_subset(FiniteSet(0, 1)) is False","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_is_subset_correct","statement":"Path(test_is_subset(x), Interval(0, 1).is_subset(Interval(0, 2)) is True; Interval(0, 3).is_subset(Interval(0, 2)) is False; Interval(0, 1).is_subset(FiniteSet(0, 1)) is False)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1b8c191fcbe363bb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Interval(0, 1).is_subset(Interval(0, 2)) is True","Interval(0, 3).is_subset(Interval(0, 2)) is False","Interval(0, 1).is_subset(FiniteSet(0, 1)) is False","FiniteSet(1, 2).is_subset(FiniteSet(1, 2, 3, 4))","FiniteSet(4, 5).is_subset(FiniteSet(1, 2, 3, 4)) is False","FiniteSet(1).is_subset(Interval(0, 2))","FiniteSet(1, 2).is_subset(Interval(0, 2, True, True)) is False","(Interval(1, 2) + FiniteSet(3)).is_subset(Interval(0, 2, False, True) + FiniteSet(2, 3))","Interval(3, 4).is_subset(Union(Interval(0, 1), Interval(2, 5))) is True","Interval(3, 6).is_subset(Union(Interval(0, 1), Interval(2, 5))) is False","FiniteSet(1, 2, 3, 4).is_subset(Interval(0, 5)) is True","S.EmptySet.is_subset(FiniteSet(1, 2, 3)) is True","Interval(0, 1).is_subset(S.EmptySet) is False","S.EmptySet.is_subset(S.EmptySet) is True","FiniteSet(1, 2, 3, 4).issubset(Interval(0, 5)) is True","S.EmptySet.issubset(FiniteSet(1, 2, 3)) is True","S.Naturals.is_subset(S.Integers)","S.Naturals0.is_subset(S.Integers)","FiniteSet(x).is_subset(FiniteSet(y)) is None","FiniteSet(x).is_subset(FiniteSet(y).subs(y, x)) is True","FiniteSet(x).is_subset(FiniteSet(y).subs(y, x + 1)) is False","Interval(0, 1).is_subset(Interval(0, 1, left_open=True)) is False","Interval(-2, 3).is_subset(Union(Interval(-oo, -2), Interval(3, oo))) is False","Range(-3, 4, 1).is_subset(FiniteSet(-10, 10)) is False","Range(S(10) ** 100).is_subset(FiniteSet(0, 1, 2)) is False","Range(6, 0, -2).is_subset(FiniteSet(2, 4, 6)) is True","Range(1, oo).is_subset(FiniteSet(1, 2)) is False","Range(-oo, 1).is_subset(FiniteSet(1)) is False","Range(3).is_subset(FiniteSet(0, 1, n)) is None","Range(n, n + 2).is_subset(FiniteSet(n, n + 1)) is True","Range(5).is_subset(Interval(0, 4, right_open=True)) is False","imageset(Lambda(n, 1 / n), S.Integers).is_subset(S.Reals) is None"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"assumed","binding":true}}
 def test_is_subset():
     assert Interval(0, 1).is_subset(Interval(0, 2)) is True
     assert Interval(0, 3).is_subset(Interval(0, 2)) is False
@@ -1118,16 +1327,24 @@ def test_is_subset():
     assert imageset(Lambda(n, 1/n), S.Integers).is_subset(S.Reals) is None
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_is_proper_subset(), test_is_proper_subset produces the expected output) over Any ║
+# ║ Path(test_is_proper_subset(), Interval(0, 1).is_proper_subset(Interval(0, 2)) is True and Interval(0, 3).is_proper_subset(Interval(0, 2)) is False and S.EmptySet.is_proper_subset(FiniteSet(1, 2, 3)) is True) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_is_proper_subset : Any → {Any | Interval(0, 1).i...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Interval(0, 1).is_proper_subset(Interval(...   ║
+# ║   ensures:  Interval(0, 3).is_proper_subset(Interval(...   ║
+# ║   ensures:  S.EmptySet.is_proper_subset(FiniteSet(1, ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_is_proper_subset : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8118a8d3a917a845  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 69a369161583c6cc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_is_proper_subset","kind":"function","src_hash":"220d91155ea21bc3","in":{"base":"Any"},"out":{"base":"Any","pred":"Interval(0, 1).is_proper_subset(Interval(0, 2)) is True and Interval(0, 3).is_proper_subset(Interval(0, 2)) is False and S.EmptySet.is_proper_subset(FiniteSet(1, 2, 3)) is True"},"spec":{"lhs":"test_is_proper_subset()","rhs":"test_is_proper_subset produces the expected output","over":{"base":"Any"},"name":"test_is_proper_subset_correct"},"guarantee":"test_is_proper_subset produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_is_proper_subset_correct","statement":"Path(test_is_proper_subset(x), test_is_proper_subset produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8118a8d3a917a845"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_is_proper_subset","kind":"function","src_hash":"220d91155ea21bc3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Interval(0, 1).is_proper_subset(Interval(0, 2)) is True and Interval(0, 3).is_proper_subset(Interval(0, 2)) is False and S.EmptySet.is_proper_subset(FiniteSet(1, 2, 3)) is True"},"spec":{"lhs":"test_is_proper_subset()","rhs":"Interval(0, 1).is_proper_subset(Interval(0, 2)) is True and Interval(0, 3).is_proper_subset(Interval(0, 2)) is False and S.EmptySet.is_proper_subset(FiniteSet(1, 2, 3)) is True","over":{"base":"Any"},"name":"test_is_proper_subset_correct"},"guarantee":"Interval(0, 1).is_proper_subset(Interval(0, 2)) is True; Interval(0, 3).is_proper_subset(Interval(0, 2)) is False; S.EmptySet.is_proper_subset(FiniteSet(1, 2, 3)) is True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_is_proper_subset_correct","statement":"Path(test_is_proper_subset(x), Interval(0, 1).is_proper_subset(Interval(0, 2)) is True; Interval(0, 3).is_proper_subset(Interval(0, 2)) is False; S.EmptySet.is_proper_subset(FiniteSet(1, 2, 3)) is True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"69a369161583c6cc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Interval(0, 1).is_proper_subset(Interval(0, 2)) is True","Interval(0, 3).is_proper_subset(Interval(0, 2)) is False","S.EmptySet.is_proper_subset(FiniteSet(1, 2, 3)) is True"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_is_proper_subset():
     assert Interval(0, 1).is_proper_subset(Interval(0, 2)) is True
     assert Interval(0, 3).is_proper_subset(Interval(0, 2)) is False
@@ -1137,16 +1354,24 @@ def test_is_proper_subset():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_is_superset(), test_is_superset produces the expected output) over Any ║
+# ║ Path(test_is_superset(), Interval(0, 1).is_superset(Interval(0, 2)) == False and Interval(0, 3).is_superset(Interval(0, 2)) and FiniteSet(1, 2).is_superset(FiniteSet(1, 2, 3, 4)) == False and FiniteSet(4, 5).is_superset(FiniteSet(1, 2, 3, 4)) == False and FiniteSet(1).is_superset(Interval(0, 2)) == False and FiniteSet(1, 2).is_superset(Interval(0, 2, True, True)) == False and (Interval(1, 2) + FiniteSet(3)).is_superset(Interval(0, 2, False, True) + FiniteSet(2, 3)) == False and Interval(3, 4).is_superset(Union(Interval(0, 1), Interval(2, 5))) == False and FiniteSet(1, 2, 3, 4).is_superset(Interval(0, 5)) == False and S.EmptySet.is_superset(FiniteSet(1, 2, 3)) == False and Interval(0, 1).is_superset(S.EmptySet) == True and S.EmptySet.is_superset(S.EmptySet) == True and Interval(0, 1).issuperset(S.EmptySet) == True and S.EmptySet.issuperset(S.EmptySet) == True) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_is_superset : Any → {Any | Interval(0, 1).is_sup...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Interval(0, 1).is_superset(Interval(0, 2)...   ║
+# ║   ensures:  Interval(0, 3).is_superset(Interval(0, 2))     ║
+# ║   ensures:  FiniteSet(1, 2).is_superset(FiniteSet(1, ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_is_superset : Any → {Any | result satisfies: Int...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c9a93705242956d8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fbe64138b481e1c6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_is_superset","kind":"function","src_hash":"94fc4292ec20bbb2","in":{"base":"Any"},"out":{"base":"Any","pred":"Interval(0, 1).is_superset(Interval(0, 2)) == False and Interval(0, 3).is_superset(Interval(0, 2)) and FiniteSet(1, 2).is_superset(FiniteSet(1, 2, 3, 4)) == False and FiniteSet(4, 5).is_superset(FiniteSet(1, 2, 3, 4)) == False and FiniteSet(1).is_superset(Interval(0, 2)) == False and FiniteSet(1, 2).is_superset(Interval(0, 2, True, True)) == False and Interval(3, 4).is_superset(Union(Interval(0, 1), Interval(2, 5))) == False and FiniteSet(1, 2, 3, 4).is_superset(Interval(0, 5)) == False and S.EmptySet.is_superset(FiniteSet(1, 2, 3)) == False and Interval(0, 1).is_superset(S.EmptySet) == True and S.EmptySet.is_superset(S.EmptySet) == True and Interval(0, 1).issuperset(S.EmptySet) == True and S.EmptySet.issuperset(S.EmptySet) == True"},"spec":{"lhs":"test_is_superset()","rhs":"test_is_superset produces the expected output","over":{"base":"Any"},"name":"test_is_superset_correct"},"guarantee":"test_is_superset produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_is_superset_correct","statement":"Path(test_is_superset(x), test_is_superset produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c9a93705242956d8"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_is_superset","kind":"function","src_hash":"94fc4292ec20bbb2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Interval(0, 1).is_superset(Interval(0, 2)) == False and Interval(0, 3).is_superset(Interval(0, 2)) and FiniteSet(1, 2).is_superset(FiniteSet(1, 2, 3, 4)) == False and FiniteSet(4, 5).is_superset(FiniteSet(1, 2, 3, 4)) == False and FiniteSet(1).is_superset(Interval(0, 2)) == False and FiniteSet(1, 2).is_superset(Interval(0, 2, True, True)) == False and (Interval(1, 2) + FiniteSet(3)).is_superset(Interval(0, 2, False, True) + FiniteSet(2, 3)) == False and Interval(3, 4).is_superset(Union(Interval(0, 1), Interval(2, 5))) == False and FiniteSet(1, 2, 3, 4).is_superset(Interval(0, 5)) == False and S.EmptySet.is_superset(FiniteSet(1, 2, 3)) == False and Interval(0, 1).is_superset(S.EmptySet) == True and S.EmptySet.is_superset(S.EmptySet) == True and Interval(0, 1).issuperset(S.EmptySet) == True and S.EmptySet.issuperset(S.EmptySet) == True"},"spec":{"lhs":"test_is_superset()","rhs":"Interval(0, 1).is_superset(Interval(0, 2)) == False and Interval(0, 3).is_superset(Interval(0, 2)) and FiniteSet(1, 2).is_superset(FiniteSet(1, 2, 3, 4)) == False and FiniteSet(4, 5).is_superset(FiniteSet(1, 2, 3, 4)) == False and FiniteSet(1).is_superset(Interval(0, 2)) == False and FiniteSet(1, 2).is_superset(Interval(0, 2, True, True)) == False and (Interval(1, 2) + FiniteSet(3)).is_superset(Interval(0, 2, False, True) + FiniteSet(2, 3)) == False and Interval(3, 4).is_superset(Union(Interval(0, 1), Interval(2, 5))) == False and FiniteSet(1, 2, 3, 4).is_superset(Interval(0, 5)) == False and S.EmptySet.is_superset(FiniteSet(1, 2, 3)) == False and Interval(0, 1).is_superset(S.EmptySet) == True and S.EmptySet.is_superset(S.EmptySet) == True and Interval(0, 1).issuperset(S.EmptySet) == True and S.EmptySet.issuperset(S.EmptySet) == True","over":{"base":"Any"},"name":"test_is_superset_correct"},"guarantee":"Interval(0, 1).is_superset(Interval(0, 2)) == False; Interval(0, 3).is_superset(Interval(0, 2)); FiniteSet(1, 2).is_superset(FiniteSet(1, 2, 3, 4)) == False","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_is_superset_correct","statement":"Path(test_is_superset(x), Interval(0, 1).is_superset(Interval(0, 2)) == False; Interval(0, 3).is_superset(Interval(0, 2)); FiniteSet(1, 2).is_superset(FiniteSet(1, 2, 3, 4)) == False)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fbe64138b481e1c6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Interval(0, 1).is_superset(Interval(0, 2)) == False","Interval(0, 3).is_superset(Interval(0, 2))","FiniteSet(1, 2).is_superset(FiniteSet(1, 2, 3, 4)) == False","FiniteSet(4, 5).is_superset(FiniteSet(1, 2, 3, 4)) == False","FiniteSet(1).is_superset(Interval(0, 2)) == False","FiniteSet(1, 2).is_superset(Interval(0, 2, True, True)) == False","(Interval(1, 2) + FiniteSet(3)).is_superset(Interval(0, 2, False, True) + FiniteSet(2, 3)) == False","Interval(3, 4).is_superset(Union(Interval(0, 1), Interval(2, 5))) == False","FiniteSet(1, 2, 3, 4).is_superset(Interval(0, 5)) == False","S.EmptySet.is_superset(FiniteSet(1, 2, 3)) == False","Interval(0, 1).is_superset(S.EmptySet) == True","S.EmptySet.is_superset(S.EmptySet) == True","Interval(0, 1).issuperset(S.EmptySet) == True","S.EmptySet.issuperset(S.EmptySet) == True"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_is_superset():
     assert Interval(0, 1).is_superset(Interval(0, 2)) == False
     assert Interval(0, 3).is_superset(Interval(0, 2))
@@ -1174,16 +1399,24 @@ def test_is_superset():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_is_proper_superset(), test_is_proper_superset produces the expected output) over Any ║
+# ║ Path(test_is_proper_superset(), Interval(0, 1).is_proper_superset(Interval(0, 2)) is False and Interval(0, 3).is_proper_superset(Interval(0, 2)) is True and FiniteSet(1, 2, 3).is_proper_superset(S.EmptySet) is True) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_is_proper_superset : Any → {Any | Interval(0, 1)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Interval(0, 1).is_proper_superset(Interva...   ║
+# ║   ensures:  Interval(0, 3).is_proper_superset(Interva...   ║
+# ║   ensures:  FiniteSet(1, 2, 3).is_proper_superset(S.E...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_is_proper_superset : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 685ba03270740a3f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 11e22e1820e15a87  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_is_proper_superset","kind":"function","src_hash":"f1b9f79952b1ccd4","in":{"base":"Any"},"out":{"base":"Any","pred":"Interval(0, 1).is_proper_superset(Interval(0, 2)) is False and Interval(0, 3).is_proper_superset(Interval(0, 2)) is True and FiniteSet(1, 2, 3).is_proper_superset(S.EmptySet) is True"},"spec":{"lhs":"test_is_proper_superset()","rhs":"test_is_proper_superset produces the expected output","over":{"base":"Any"},"name":"test_is_proper_superset_correct"},"guarantee":"test_is_proper_superset produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_is_proper_superset_correct","statement":"Path(test_is_proper_superset(x), test_is_proper_superset produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"685ba03270740a3f"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_is_proper_superset","kind":"function","src_hash":"f1b9f79952b1ccd4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Interval(0, 1).is_proper_superset(Interval(0, 2)) is False and Interval(0, 3).is_proper_superset(Interval(0, 2)) is True and FiniteSet(1, 2, 3).is_proper_superset(S.EmptySet) is True"},"spec":{"lhs":"test_is_proper_superset()","rhs":"Interval(0, 1).is_proper_superset(Interval(0, 2)) is False and Interval(0, 3).is_proper_superset(Interval(0, 2)) is True and FiniteSet(1, 2, 3).is_proper_superset(S.EmptySet) is True","over":{"base":"Any"},"name":"test_is_proper_superset_correct"},"guarantee":"Interval(0, 1).is_proper_superset(Interval(0, 2)) is False; Interval(0, 3).is_proper_superset(Interval(0, 2)) is True; FiniteSet(1, 2, 3).is_proper_superset(S.EmptySet) is True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_is_proper_superset_correct","statement":"Path(test_is_proper_superset(x), Interval(0, 1).is_proper_superset(Interval(0, 2)) is False; Interval(0, 3).is_proper_superset(Interval(0, 2)) is True; FiniteSet(1, 2, 3).is_proper_superset(S.EmptySet) is True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"11e22e1820e15a87","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Interval(0, 1).is_proper_superset(Interval(0, 2)) is False","Interval(0, 3).is_proper_superset(Interval(0, 2)) is True","FiniteSet(1, 2, 3).is_proper_superset(S.EmptySet) is True"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_is_proper_superset():
     assert Interval(0, 1).is_proper_superset(Interval(0, 2)) is False
     assert Interval(0, 3).is_proper_superset(Interval(0, 2)) is True
@@ -1193,16 +1426,24 @@ def test_is_proper_superset():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_contains(), test_contains produces the expected output) over Any ║
+# ║ Path(test_contains(), Interval(0, 2).contains(1) is S.true and Interval(0, 2).contains(3) is S.false and Interval(0, 2, True, False).contains(0) is S.false and Interval(0, 2, True, False).contains(2) is S.true and Interval(0, 2, False, True).contains(0) is S.true and Interval(0, 2, False, True).contains(2) is S.false and Interval(0, 2, True, True).contains(0) is S.false and Interval(0, 2, True, True).contains(2) is S.false and (Interval(0, 2) in Interval(0, 2)) is False and FiniteSet(1, 2, 3).contains(2) is S.true and FiniteSet(1, 2, Symbol('x')).contains(Symbol('x')) is S.true and FiniteSet(y)._contains(x) == Eq(y, x, evaluate=False) and FiniteSet({x, y})._contains({x}) == Eq({x, y}, {x}, evaluate=False) and FiniteSet({x, y}).subs(y, x)._contains({x}) is S.true and FiniteSet({x, y}).subs(y, x + 1)._contains({x}) is S.false and FiniteSet(b).contains(-a) == Eq(b, -a) and FiniteSet(b).contains(a) == Eq(b, a) and FiniteSet(a).contains(1) == Eq(a, 1) and s1 - s2 == S.EmptySet and all((item in fset for item in items)) and all((fset.contains(item) is S.true for item in items)) and Union(Interval(0, 1), Interval(2, 5)).contains(3) is S.true and Union(Interval(0, 1), Interval(2, 5)).contains(6) is S.false and Union(Interval(0, 1), FiniteSet(2, 5)).contains(3) is S.false and S.EmptySet.contains(1) is S.false and FiniteSet(rootof(x ** 3 + x - 1, 0)).contains(S.Infinity) is S.false and rootof(x ** 5 + x ** 3 + 1, 0) in S.Reals and not rootof(x ** 5 + x ** 3 + 1, 1) in S.Reals and Union(Interval(1, 2), Interval(3, 4)).contains(x) == Or(And(S.One <= x, x <= 2), And(S(3) <= x, x <= 4)) and Intersection(Interval(1, x), Interval(2, 3)).contains(y) == And(y <= 3, y <= x, S.One <= y, S(2) <= y) and S.Complexes.contains(S.ComplexInfinity) == S.false) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_contains : Any → {Any | Interval(0, 2).contains(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Interval(0, 2).contains(1) is S.true           ║
+# ║   ensures:  Interval(0, 2).contains(3) is S.false          ║
+# ║   ensures:  Interval(0, 2, True, False).contains(0) i...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_contains : Any → {Any | result satisfies: Interv...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | df68d9211f23dc36  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2d8b1e4bd8050bec  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_contains","kind":"function","src_hash":"a4b7b3f80223e148","in":{"base":"Any"},"out":{"base":"Any","pred":"Interval(0, 2).contains(1) is S.true and Interval(0, 2).contains(3) is S.false and Interval(0, 2, True, False).contains(0) is S.false and Interval(0, 2, True, False).contains(2) is S.true and Interval(0, 2, False, True).contains(0) is S.true and Interval(0, 2, False, True).contains(2) is S.false and Interval(0, 2, True, True).contains(0) is S.false and Interval(0, 2, True, True).contains(2) is S.false and (Interval(0, 2) in Interval(0, 2)) is False and FiniteSet(1, 2, 3).contains(2) is S.true and FiniteSet(1, 2, Symbol('x')).contains(Symbol('x')) is S.true and FiniteSet(y)._contains(x) == Eq(y, x, evaluate=False) and FiniteSet({x, y})._contains({x}) == Eq({x, y}, {x}, evaluate=False) and FiniteSet({x, y}).subs(y, x)._contains({x}) is S.true and FiniteSet({x, y}).subs(y, x + 1)._contains({x}) is S.false and FiniteSet(b).contains(-a) == Eq(b, -a) and FiniteSet(b).contains(a) == Eq(b, a) and FiniteSet(a).contains(1) == Eq(a, 1) and s1 - s2 == S.EmptySet and all((item in fset for item in items)) and all((fset.contains(item) is S.true for item in items)) and Union(Interval(0, 1), Interval(2, 5)).contains(3) is S.true and Union(Interval(0, 1), Interval(2, 5)).contains(6) is S.false and Union(Interval(0, 1), FiniteSet(2, 5)).contains(3) is S.false and S.EmptySet.contains(1) is S.false and FiniteSet(rootof(x ** 3 + x - 1, 0)).contains(S.Infinity) is S.false and rootof(x ** 5 + x ** 3 + 1, 0) in S.Reals and not rootof(x ** 5 + x ** 3 + 1, 1) in S.Reals and S.Complexes.contains(S.ComplexInfinity) == S.false"},"spec":{"lhs":"test_contains()","rhs":"test_contains produces the expected output","over":{"base":"Any"},"name":"test_contains_correct"},"guarantee":"test_contains produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_contains_correct","statement":"Path(test_contains(x), test_contains produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"df68d9211f23dc36"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_contains","kind":"function","src_hash":"a4b7b3f80223e148","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Interval(0, 2).contains(1) is S.true and Interval(0, 2).contains(3) is S.false and Interval(0, 2, True, False).contains(0) is S.false and Interval(0, 2, True, False).contains(2) is S.true and Interval(0, 2, False, True).contains(0) is S.true and Interval(0, 2, False, True).contains(2) is S.false and Interval(0, 2, True, True).contains(0) is S.false and Interval(0, 2, True, True).contains(2) is S.false and (Interval(0, 2) in Interval(0, 2)) is False and FiniteSet(1, 2, 3).contains(2) is S.true and FiniteSet(1, 2, Symbol('x')).contains(Symbol('x')) is S.true and FiniteSet(y)._contains(x) == Eq(y, x, evaluate=False) and FiniteSet({x, y})._contains({x}) == Eq({x, y}, {x}, evaluate=False) and FiniteSet({x, y}).subs(y, x)._contains({x}) is S.true and FiniteSet({x, y}).subs(y, x + 1)._contains({x}) is S.false and FiniteSet(b).contains(-a) == Eq(b, -a) and FiniteSet(b).contains(a) == Eq(b, a) and FiniteSet(a).contains(1) == Eq(a, 1) and s1 - s2 == S.EmptySet and all((item in fset for item in items)) and all((fset.contains(item) is S.true for item in items)) and Union(Interval(0, 1), Interval(2, 5)).contains(3) is S.true and Union(Interval(0, 1), Interval(2, 5)).contains(6) is S.false and Union(Interval(0, 1), FiniteSet(2, 5)).contains(3) is S.false and S.EmptySet.contains(1) is S.false and FiniteSet(rootof(x ** 3 + x - 1, 0)).contains(S.Infinity) is S.false and rootof(x ** 5 + x ** 3 + 1, 0) in S.Reals and not rootof(x ** 5 + x ** 3 + 1, 1) in S.Reals and Union(Interval(1, 2), Interval(3, 4)).contains(x) == Or(And(S.One <= x, x <= 2), And(S(3) <= x, x <= 4)) and Intersection(Interval(1, x), Interval(2, 3)).contains(y) == And(y <= 3, y <= x, S.One <= y, S(2) <= y) and S.Complexes.contains(S.ComplexInfinity) == S.false"},"spec":{"lhs":"test_contains()","rhs":"Interval(0, 2).contains(1) is S.true and Interval(0, 2).contains(3) is S.false and Interval(0, 2, True, False).contains(0) is S.false and Interval(0, 2, True, False).contains(2) is S.true and Interval(0, 2, False, True).contains(0) is S.true and Interval(0, 2, False, True).contains(2) is S.false and Interval(0, 2, True, True).contains(0) is S.false and Interval(0, 2, True, True).contains(2) is S.false and (Interval(0, 2) in Interval(0, 2)) is False and FiniteSet(1, 2, 3).contains(2) is S.true and FiniteSet(1, 2, Symbol('x')).contains(Symbol('x')) is S.true and FiniteSet(y)._contains(x) == Eq(y, x, evaluate=False) and FiniteSet({x, y})._contains({x}) == Eq({x, y}, {x}, evaluate=False) and FiniteSet({x, y}).subs(y, x)._contains({x}) is S.true and FiniteSet({x, y}).subs(y, x + 1)._contains({x}) is S.false and FiniteSet(b).contains(-a) == Eq(b, -a) and FiniteSet(b).contains(a) == Eq(b, a) and FiniteSet(a).contains(1) == Eq(a, 1) and s1 - s2 == S.EmptySet and all((item in fset for item in items)) and all((fset.contains(item) is S.true for item in items)) and Union(Interval(0, 1), Interval(2, 5)).contains(3) is S.true and Union(Interval(0, 1), Interval(2, 5)).contains(6) is S.false and Union(Interval(0, 1), FiniteSet(2, 5)).contains(3) is S.false and S.EmptySet.contains(1) is S.false and FiniteSet(rootof(x ** 3 + x - 1, 0)).contains(S.Infinity) is S.false and rootof(x ** 5 + x ** 3 + 1, 0) in S.Reals and not rootof(x ** 5 + x ** 3 + 1, 1) in S.Reals and Union(Interval(1, 2), Interval(3, 4)).contains(x) == Or(And(S.One <= x, x <= 2), And(S(3) <= x, x <= 4)) and Intersection(Interval(1, x), Interval(2, 3)).contains(y) == And(y <= 3, y <= x, S.One <= y, S(2) <= y) and S.Complexes.contains(S.ComplexInfinity) == S.false","over":{"base":"Any"},"name":"test_contains_correct"},"guarantee":"Interval(0, 2).contains(1) is S.true; Interval(0, 2).contains(3) is S.false; Interval(0, 2, True, False).contains(0) is S.false","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_contains_correct","statement":"Path(test_contains(x), Interval(0, 2).contains(1) is S.true; Interval(0, 2).contains(3) is S.false; Interval(0, 2, True, False).contains(0) is S.false)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2d8b1e4bd8050bec","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Interval(0, 2).contains(1) is S.true","Interval(0, 2).contains(3) is S.false","Interval(0, 2, True, False).contains(0) is S.false","Interval(0, 2, True, False).contains(2) is S.true","Interval(0, 2, False, True).contains(0) is S.true","Interval(0, 2, False, True).contains(2) is S.false","Interval(0, 2, True, True).contains(0) is S.false","Interval(0, 2, True, True).contains(2) is S.false","(Interval(0, 2) in Interval(0, 2)) is False","FiniteSet(1, 2, 3).contains(2) is S.true","FiniteSet(1, 2, Symbol('x')).contains(Symbol('x')) is S.true","FiniteSet(y)._contains(x) == Eq(y, x, evaluate=False)","FiniteSet({x, y})._contains({x}) == Eq({x, y}, {x}, evaluate=False)","FiniteSet({x, y}).subs(y, x)._contains({x}) is S.true","FiniteSet({x, y}).subs(y, x + 1)._contains({x}) is S.false","FiniteSet(b).contains(-a) == Eq(b, -a)","FiniteSet(b).contains(a) == Eq(b, a)","FiniteSet(a).contains(1) == Eq(a, 1)","s1 - s2 == S.EmptySet","all((item in fset for item in items))","all((fset.contains(item) is S.true for item in items))","Union(Interval(0, 1), Interval(2, 5)).contains(3) is S.true","Union(Interval(0, 1), Interval(2, 5)).contains(6) is S.false","Union(Interval(0, 1), FiniteSet(2, 5)).contains(3) is S.false","S.EmptySet.contains(1) is S.false","FiniteSet(rootof(x ** 3 + x - 1, 0)).contains(S.Infinity) is S.false","rootof(x ** 5 + x ** 3 + 1, 0) in S.Reals","not rootof(x ** 5 + x ** 3 + 1, 1) in S.Reals","Union(Interval(1, 2), Interval(3, 4)).contains(x) == Or(And(S.One <= x, x <= 2), And(S(3) <= x, x <= 4))","Intersection(Interval(1, x), Interval(2, 3)).contains(y) == And(y <= 3, y <= x, S.One <= y, S(2) <= y)","S.Complexes.contains(S.ComplexInfinity) == S.false"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"assumed","binding":true}}
 def test_contains():
     assert Interval(0, 2).contains(1) is S.true
     assert Interval(0, 2).contains(3) is S.false
@@ -1263,16 +1504,24 @@ def test_contains():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_interval_symbolic(), test_interval_symbolic produces the expected output) over Any ║
+# ║ Path(test_interval_symbolic(), e.contains(x) == And(S.Zero <= x, x <= 1) and e.contains(x) == And(S.Zero < x, x < 1) and Interval(x, x + 1).contains(c) == False and Interval(-oo, oo).contains(e) == And(S.NegativeInfinity < e, e < S.Infinity)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_interval_symbolic : Any → {Any | e.contains(x) =...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  e.contains(x) == And(S.Zero <= x, x <= 1)      ║
+# ║   ensures:  e.contains(x) == And(S.Zero < x, x < 1)        ║
+# ║   ensures:  Interval(x, x + 1).contains(c) == False        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_interval_symbolic : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 600fa3942519bad8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f38e5ae2784c4861  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_interval_symbolic","kind":"function","src_hash":"ff93a6c1685005de","in":{"base":"Any"},"out":{"base":"Any","pred":"e.contains(x) == And(S.Zero <= x, x <= 1) and e.contains(x) == And(S.Zero < x, x < 1) and Interval(x, x + 1).contains(c) == False and Interval(-oo, oo).contains(e) == And(S.NegativeInfinity < e, e < S.Infinity)"},"spec":{"lhs":"test_interval_symbolic()","rhs":"test_interval_symbolic produces the expected output","over":{"base":"Any"},"name":"test_interval_symbolic_correct"},"guarantee":"test_interval_symbolic produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_interval_symbolic_correct","statement":"Path(test_interval_symbolic(x), test_interval_symbolic produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"600fa3942519bad8"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_interval_symbolic","kind":"function","src_hash":"ff93a6c1685005de","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: e.contains(x) == And(S.Zero <= x, x <= 1) and e.contains(x) == And(S.Zero < x, x < 1) and Interval(x, x + 1).contains(c) == False and Interval(-oo, oo).contains(e) == And(S.NegativeInfinity < e, e < S.Infinity)"},"spec":{"lhs":"test_interval_symbolic()","rhs":"e.contains(x) == And(S.Zero <= x, x <= 1) and e.contains(x) == And(S.Zero < x, x < 1) and Interval(x, x + 1).contains(c) == False and Interval(-oo, oo).contains(e) == And(S.NegativeInfinity < e, e < S.Infinity)","over":{"base":"Any"},"name":"test_interval_symbolic_correct"},"guarantee":"e.contains(x) == And(S.Zero <= x, x <= 1); e.contains(x) == And(S.Zero < x, x < 1); Interval(x, x + 1).contains(c) == False","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_interval_symbolic_correct","statement":"Path(test_interval_symbolic(x), e.contains(x) == And(S.Zero <= x, x <= 1); e.contains(x) == And(S.Zero < x, x < 1); Interval(x, x + 1).contains(c) == False)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f38e5ae2784c4861","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["e.contains(x) == And(S.Zero <= x, x <= 1)","e.contains(x) == And(S.Zero < x, x < 1)","Interval(x, x + 1).contains(c) == False","Interval(-oo, oo).contains(e) == And(S.NegativeInfinity < e, e < S.Infinity)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_interval_symbolic():
     x = Symbol('x')
     e = Interval(0, 1)
@@ -1288,16 +1537,24 @@ def test_interval_symbolic():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_union_contains(), test_union_contains produces the expected output) over Any ║
+# ║ Path(test_union_contains(), i3.as_relational(x) == Or(And(S.Zero <= x, x <= 1), And(S(2) <= x, x <= 3)) and e == i3.as_relational(x) and e.subs(x, -0.5) is false and e.subs(x, 0.5) is true and e.subs(x, 1.5) is false and e.subs(x, 2.5) is true and e.subs(x, 3.5) is false and all((el not in U for el in [0, 4, -oo])) and all((el in U for el in [2, 5, 10]))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_union_contains : Any → {Any | i3.as_relational(x...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  i3.as_relational(x) == Or(And(S.Zero <= x...   ║
+# ║   ensures:  e == i3.as_relational(x)                       ║
+# ║   ensures:  e.subs(x, -0.5) is false                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_union_contains : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0cfff63a8e746961  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e1ec7cd94e4315f9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_union_contains","kind":"function","src_hash":"262e93ece9881032","in":{"base":"Any"},"out":{"base":"Any","pred":"i3.as_relational(x) == Or(And(S.Zero <= x, x <= 1), And(S(2) <= x, x <= 3)) and e == i3.as_relational(x) and e.subs(x, -0.5) is false and e.subs(x, 0.5) is true and e.subs(x, 1.5) is false and e.subs(x, 2.5) is true and e.subs(x, 3.5) is false and all((el not in U for el in [0, 4, -oo])) and all((el in U for el in [2, 5, 10]))"},"spec":{"lhs":"test_union_contains()","rhs":"test_union_contains produces the expected output","over":{"base":"Any"},"name":"test_union_contains_correct"},"guarantee":"test_union_contains produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_union_contains_correct","statement":"Path(test_union_contains(x), test_union_contains produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0cfff63a8e746961"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_union_contains","kind":"function","src_hash":"262e93ece9881032","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: i3.as_relational(x) == Or(And(S.Zero <= x, x <= 1), And(S(2) <= x, x <= 3)) and e == i3.as_relational(x) and e.subs(x, -0.5) is false and e.subs(x, 0.5) is true and e.subs(x, 1.5) is false and e.subs(x, 2.5) is true and e.subs(x, 3.5) is false and all((el not in U for el in [0, 4, -oo])) and all((el in U for el in [2, 5, 10]))"},"spec":{"lhs":"test_union_contains()","rhs":"i3.as_relational(x) == Or(And(S.Zero <= x, x <= 1), And(S(2) <= x, x <= 3)) and e == i3.as_relational(x) and e.subs(x, -0.5) is false and e.subs(x, 0.5) is true and e.subs(x, 1.5) is false and e.subs(x, 2.5) is true and e.subs(x, 3.5) is false and all((el not in U for el in [0, 4, -oo])) and all((el in U for el in [2, 5, 10]))","over":{"base":"Any"},"name":"test_union_contains_correct"},"guarantee":"i3.as_relational(x) == Or(And(S.Zero <= x, x <= 1), And(S(2) <= x, x <= 3)); e == i3.as_relational(x); e.subs(x, -0.5) is false","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_union_contains_correct","statement":"Path(test_union_contains(x), i3.as_relational(x) == Or(And(S.Zero <= x, x <= 1), And(S(2) <= x, x <= 3)); e == i3.as_relational(x); e.subs(x, -0.5) is false)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e1ec7cd94e4315f9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["i3.as_relational(x) == Or(And(S.Zero <= x, x <= 1), And(S(2) <= x, x <= 3))","e == i3.as_relational(x)","e.subs(x, -0.5) is false","e.subs(x, 0.5) is true","e.subs(x, 1.5) is false","e.subs(x, 2.5) is true","e.subs(x, 3.5) is false","all((el not in U for el in [0, 4, -oo]))","all((el in U for el in [2, 5, 10]))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_union_contains():
     x = Symbol('x')
     i1 = Interval(0, 1)
@@ -1319,32 +1576,47 @@ def test_union_contains():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_is_number(), test_is_number produces the expected output) over Any ║
+# ║ Path(test_is_number(), Interval(0, 1).is_number is False and Set().is_number is False) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_is_number : Any → {Any | Interval(0, 1).is_numbe...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Interval(0, 1).is_number is False              ║
+# ║   ensures:  Set().is_number is False                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_is_number : Any → {Any | result satisfies: Inter...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bcb58ef3ec6a0bd6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3b4f3a60aa22133f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_is_number","kind":"function","src_hash":"dfc694b8f92382ea","in":{"base":"Any"},"out":{"base":"Any","pred":"Interval(0, 1).is_number is False and Set().is_number is False"},"spec":{"lhs":"test_is_number()","rhs":"test_is_number produces the expected output","over":{"base":"Any"},"name":"test_is_number_correct"},"guarantee":"test_is_number produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_is_number_correct","statement":"Path(test_is_number(x), test_is_number produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bcb58ef3ec6a0bd6"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_is_number","kind":"function","src_hash":"dfc694b8f92382ea","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Interval(0, 1).is_number is False and Set().is_number is False"},"spec":{"lhs":"test_is_number()","rhs":"Interval(0, 1).is_number is False and Set().is_number is False","over":{"base":"Any"},"name":"test_is_number_correct"},"guarantee":"Interval(0, 1).is_number is False; Set().is_number is False","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_is_number_correct","statement":"Path(test_is_number(x), Interval(0, 1).is_number is False; Set().is_number is False)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3b4f3a60aa22133f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Interval(0, 1).is_number is False","Set().is_number is False"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_is_number():
     assert Interval(0, 1).is_number is False
     assert Set().is_number is False
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Interval_is_left_unbounded(), test_Interval_is_left_unbounded produces the expected output) over Any ║
+# ║ Path(test_Interval_is_left_unbounded(), Interval(3, 4).is_left_unbounded is False and Interval(-oo, 3).is_left_unbounded is True and Interval(Float('-inf'), 3).is_left_unbounded is True) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Interval_is_left_unbounded : Any → {Any | Interv...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Interval(3, 4).is_left_unbounded is False      ║
+# ║   ensures:  Interval(-oo, 3).is_left_unbounded is True     ║
+# ║   ensures:  Interval(Float('-inf'), 3).is_left_unboun...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Interval_is_left_unbounded : Any → {Any | result...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | db77983f70bf82f3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 04cd996447fde3e2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_Interval_is_left_unbounded","kind":"function","src_hash":"251ebda5e6d3ec7f","in":{"base":"Any"},"out":{"base":"Any","pred":"Interval(3, 4).is_left_unbounded is False and Interval(-oo, 3).is_left_unbounded is True and Interval(Float('-inf'), 3).is_left_unbounded is True"},"spec":{"lhs":"test_Interval_is_left_unbounded()","rhs":"test_Interval_is_left_unbounded produces the expected output","over":{"base":"Any"},"name":"test_Interval_is_left_unbounded_correct"},"guarantee":"test_Interval_is_left_unbounded produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_Interval_is_left_unbounded_correct","statement":"Path(test_Interval_is_left_unbounded(x), test_Interval_is_left_unbounded produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"db77983f70bf82f3"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_Interval_is_left_unbounded","kind":"function","src_hash":"251ebda5e6d3ec7f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Interval(3, 4).is_left_unbounded is False and Interval(-oo, 3).is_left_unbounded is True and Interval(Float('-inf'), 3).is_left_unbounded is True"},"spec":{"lhs":"test_Interval_is_left_unbounded()","rhs":"Interval(3, 4).is_left_unbounded is False and Interval(-oo, 3).is_left_unbounded is True and Interval(Float('-inf'), 3).is_left_unbounded is True","over":{"base":"Any"},"name":"test_Interval_is_left_unbounded_correct"},"guarantee":"Interval(3, 4).is_left_unbounded is False; Interval(-oo, 3).is_left_unbounded is True; Interval(Float('-inf'), 3).is_left_unbounded is True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_Interval_is_left_unbounded_correct","statement":"Path(test_Interval_is_left_unbounded(x), Interval(3, 4).is_left_unbounded is False; Interval(-oo, 3).is_left_unbounded is True; Interval(Float('-inf'), 3).is_left_unbounded is True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"04cd996447fde3e2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Interval(3, 4).is_left_unbounded is False","Interval(-oo, 3).is_left_unbounded is True","Interval(Float('-inf'), 3).is_left_unbounded is True"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Interval_is_left_unbounded():
     assert Interval(3, 4).is_left_unbounded is False
     assert Interval(-oo, 3).is_left_unbounded is True
@@ -1352,16 +1624,24 @@ def test_Interval_is_left_unbounded():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Interval_is_right_unbounded(), test_Interval_is_right_unbounded produces the expected output) over Any ║
+# ║ Path(test_Interval_is_right_unbounded(), Interval(3, 4).is_right_unbounded is False and Interval(3, oo).is_right_unbounded is True and Interval(3, Float('+inf')).is_right_unbounded is True) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Interval_is_right_unbounded : Any → {Any | Inter...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Interval(3, 4).is_right_unbounded is False     ║
+# ║   ensures:  Interval(3, oo).is_right_unbounded is True     ║
+# ║   ensures:  Interval(3, Float('+inf')).is_right_unbou...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Interval_is_right_unbounded : Any → {Any | resul...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bfd21270be32df05  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 45a7a57d364c3c72  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_Interval_is_right_unbounded","kind":"function","src_hash":"b0f958fbbbad5f73","in":{"base":"Any"},"out":{"base":"Any","pred":"Interval(3, 4).is_right_unbounded is False and Interval(3, oo).is_right_unbounded is True and Interval(3, Float('+inf')).is_right_unbounded is True"},"spec":{"lhs":"test_Interval_is_right_unbounded()","rhs":"test_Interval_is_right_unbounded produces the expected output","over":{"base":"Any"},"name":"test_Interval_is_right_unbounded_correct"},"guarantee":"test_Interval_is_right_unbounded produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_Interval_is_right_unbounded_correct","statement":"Path(test_Interval_is_right_unbounded(x), test_Interval_is_right_unbounded produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bfd21270be32df05"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_Interval_is_right_unbounded","kind":"function","src_hash":"b0f958fbbbad5f73","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Interval(3, 4).is_right_unbounded is False and Interval(3, oo).is_right_unbounded is True and Interval(3, Float('+inf')).is_right_unbounded is True"},"spec":{"lhs":"test_Interval_is_right_unbounded()","rhs":"Interval(3, 4).is_right_unbounded is False and Interval(3, oo).is_right_unbounded is True and Interval(3, Float('+inf')).is_right_unbounded is True","over":{"base":"Any"},"name":"test_Interval_is_right_unbounded_correct"},"guarantee":"Interval(3, 4).is_right_unbounded is False; Interval(3, oo).is_right_unbounded is True; Interval(3, Float('+inf')).is_right_unbounded is True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_Interval_is_right_unbounded_correct","statement":"Path(test_Interval_is_right_unbounded(x), Interval(3, 4).is_right_unbounded is False; Interval(3, oo).is_right_unbounded is True; Interval(3, Float('+inf')).is_right_unbounded is True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"45a7a57d364c3c72","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Interval(3, 4).is_right_unbounded is False","Interval(3, oo).is_right_unbounded is True","Interval(3, Float('+inf')).is_right_unbounded is True"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Interval_is_right_unbounded():
     assert Interval(3, 4).is_right_unbounded is False
     assert Interval(3, oo).is_right_unbounded is True
@@ -1369,16 +1649,24 @@ def test_Interval_is_right_unbounded():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Interval_as_relational(), test_Interval_as_relational produces the expected output) over Any ║
+# ║ Path(test_Interval_as_relational(), Interval(-1, 2, False, False).as_relational(x) == And(Le(-1, x), Le(x, 2)) and Interval(-1, 2, True, False).as_relational(x) == And(Lt(-1, x), Le(x, 2)) and Interval(-1, 2, False, True).as_relational(x) == And(Le(-1, x), Lt(x, 2)) and Interval(-1, 2, True, True).as_relational(x) == And(Lt(-1, x), Lt(x, 2)) and Interval(-oo, 2, right_open=False).as_relational(x) == And(Lt(-oo, x), Le(x, 2)) and Interval(-oo, 2, right_open=True).as_relational(x) == And(Lt(-oo, x), Lt(x, 2)) and Interval(-2, oo, left_open=False).as_relational(x) == And(Le(-2, x), Lt(x, oo)) and Interval(-2, oo, left_open=True).as_relational(x) == And(Lt(-2, x), Lt(x, oo)) and Interval(-oo, oo).as_relational(x) == And(Lt(-oo, x), Lt(x, oo)) and Interval(x, y).as_relational(x) == (x <= y) and Interval(y, x).as_relational(x) == (y <= x)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Interval_as_relational : Any → {Any | Interval(-...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Interval(-1, 2, False, False).as_relation...   ║
+# ║   ensures:  Interval(-1, 2, True, False).as_relationa...   ║
+# ║   ensures:  Interval(-1, 2, False, True).as_relationa...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Interval_as_relational : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f26e2c111ac4899e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a783d13c88e59492  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_Interval_as_relational","kind":"function","src_hash":"230233a3840be8e0","in":{"base":"Any"},"out":{"base":"Any","pred":"Interval(-1, 2, False, False).as_relational(x) == And(Le(-1, x), Le(x, 2)) and Interval(-1, 2, True, False).as_relational(x) == And(Lt(-1, x), Le(x, 2)) and Interval(-1, 2, False, True).as_relational(x) == And(Le(-1, x), Lt(x, 2)) and Interval(-1, 2, True, True).as_relational(x) == And(Lt(-1, x), Lt(x, 2)) and Interval(-oo, 2, right_open=True).as_relational(x) == And(Lt(-oo, x), Lt(x, 2)) and Interval(-2, oo, left_open=False).as_relational(x) == And(Le(-2, x), Lt(x, oo)) and Interval(-2, oo, left_open=True).as_relational(x) == And(Lt(-2, x), Lt(x, oo)) and Interval(-oo, oo).as_relational(x) == And(Lt(-oo, x), Lt(x, oo)) and Interval(x, y).as_relational(x) == (x <= y) and Interval(y, x).as_relational(x) == (y <= x)"},"spec":{"lhs":"test_Interval_as_relational()","rhs":"test_Interval_as_relational produces the expected output","over":{"base":"Any"},"name":"test_Interval_as_relational_correct"},"guarantee":"test_Interval_as_relational produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_Interval_as_relational_correct","statement":"Path(test_Interval_as_relational(x), test_Interval_as_relational produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f26e2c111ac4899e"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_Interval_as_relational","kind":"function","src_hash":"230233a3840be8e0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Interval(-1, 2, False, False).as_relational(x) == And(Le(-1, x), Le(x, 2)) and Interval(-1, 2, True, False).as_relational(x) == And(Lt(-1, x), Le(x, 2)) and Interval(-1, 2, False, True).as_relational(x) == And(Le(-1, x), Lt(x, 2)) and Interval(-1, 2, True, True).as_relational(x) == And(Lt(-1, x), Lt(x, 2)) and Interval(-oo, 2, right_open=False).as_relational(x) == And(Lt(-oo, x), Le(x, 2)) and Interval(-oo, 2, right_open=True).as_relational(x) == And(Lt(-oo, x), Lt(x, 2)) and Interval(-2, oo, left_open=False).as_relational(x) == And(Le(-2, x), Lt(x, oo)) and Interval(-2, oo, left_open=True).as_relational(x) == And(Lt(-2, x), Lt(x, oo)) and Interval(-oo, oo).as_relational(x) == And(Lt(-oo, x), Lt(x, oo)) and Interval(x, y).as_relational(x) == (x <= y) and Interval(y, x).as_relational(x) == (y <= x)"},"spec":{"lhs":"test_Interval_as_relational()","rhs":"Interval(-1, 2, False, False).as_relational(x) == And(Le(-1, x), Le(x, 2)) and Interval(-1, 2, True, False).as_relational(x) == And(Lt(-1, x), Le(x, 2)) and Interval(-1, 2, False, True).as_relational(x) == And(Le(-1, x), Lt(x, 2)) and Interval(-1, 2, True, True).as_relational(x) == And(Lt(-1, x), Lt(x, 2)) and Interval(-oo, 2, right_open=False).as_relational(x) == And(Lt(-oo, x), Le(x, 2)) and Interval(-oo, 2, right_open=True).as_relational(x) == And(Lt(-oo, x), Lt(x, 2)) and Interval(-2, oo, left_open=False).as_relational(x) == And(Le(-2, x), Lt(x, oo)) and Interval(-2, oo, left_open=True).as_relational(x) == And(Lt(-2, x), Lt(x, oo)) and Interval(-oo, oo).as_relational(x) == And(Lt(-oo, x), Lt(x, oo)) and Interval(x, y).as_relational(x) == (x <= y) and Interval(y, x).as_relational(x) == (y <= x)","over":{"base":"Any"},"name":"test_Interval_as_relational_correct"},"guarantee":"Interval(-1, 2, False, False).as_relational(x) == And(Le(-1, x), Le(x, 2)); Interval(-1, 2, True, False).as_relational(x) == And(Lt(-1, x), Le(x, 2)); Interval(-1, 2, False, True).as_relational(x) == And(Le(-1, x), Lt(x, 2))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_Interval_as_relational_correct","statement":"Path(test_Interval_as_relational(x), Interval(-1, 2, False, False).as_relational(x) == And(Le(-1, x), Le(x, 2)); Interval(-1, 2, True, False).as_relational(x) == And(Lt(-1, x), Le(x, 2)); Interval(-1, 2, False, True).as_relational(x) == And(Le(-1, x), Lt(x, 2)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a783d13c88e59492","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Interval(-1, 2, False, False).as_relational(x) == And(Le(-1, x), Le(x, 2))","Interval(-1, 2, True, False).as_relational(x) == And(Lt(-1, x), Le(x, 2))","Interval(-1, 2, False, True).as_relational(x) == And(Le(-1, x), Lt(x, 2))","Interval(-1, 2, True, True).as_relational(x) == And(Lt(-1, x), Lt(x, 2))","Interval(-oo, 2, right_open=False).as_relational(x) == And(Lt(-oo, x), Le(x, 2))","Interval(-oo, 2, right_open=True).as_relational(x) == And(Lt(-oo, x), Lt(x, 2))","Interval(-2, oo, left_open=False).as_relational(x) == And(Le(-2, x), Lt(x, oo))","Interval(-2, oo, left_open=True).as_relational(x) == And(Lt(-2, x), Lt(x, oo))","Interval(-oo, oo).as_relational(x) == And(Lt(-oo, x), Lt(x, oo))","Interval(x, y).as_relational(x) == (x <= y)","Interval(y, x).as_relational(x) == (y <= x)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_Interval_as_relational():
     x = Symbol('x')
 
@@ -1405,16 +1693,23 @@ def test_Interval_as_relational():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Finite_as_relational(), test_Finite_as_relational produces the expected output) over Any ║
+# ║ Path(test_Finite_as_relational(), FiniteSet(1, 2).as_relational(x) == Or(Eq(x, 1), Eq(x, 2)) and FiniteSet(y, -5).as_relational(x) == Or(Eq(x, y), Eq(x, -5))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Finite_as_relational : Any → {Any | FiniteSet(1,...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  FiniteSet(1, 2).as_relational(x) == Or(Eq...   ║
+# ║   ensures:  FiniteSet(y, -5).as_relational(x) == Or(E...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Finite_as_relational : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 225c3ce3d0027b19  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5d370af17ec0a7a3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_Finite_as_relational","kind":"function","src_hash":"715c441dfde99fa9","in":{"base":"Any"},"out":{"base":"Any","pred":"FiniteSet(1, 2).as_relational(x) == Or(Eq(x, 1), Eq(x, 2)) and FiniteSet(y, -5).as_relational(x) == Or(Eq(x, y), Eq(x, -5))"},"spec":{"lhs":"test_Finite_as_relational()","rhs":"test_Finite_as_relational produces the expected output","over":{"base":"Any"},"name":"test_Finite_as_relational_correct"},"guarantee":"test_Finite_as_relational produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_Finite_as_relational_correct","statement":"Path(test_Finite_as_relational(x), test_Finite_as_relational produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"225c3ce3d0027b19"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_Finite_as_relational","kind":"function","src_hash":"715c441dfde99fa9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: FiniteSet(1, 2).as_relational(x) == Or(Eq(x, 1), Eq(x, 2)) and FiniteSet(y, -5).as_relational(x) == Or(Eq(x, y), Eq(x, -5))"},"spec":{"lhs":"test_Finite_as_relational()","rhs":"FiniteSet(1, 2).as_relational(x) == Or(Eq(x, 1), Eq(x, 2)) and FiniteSet(y, -5).as_relational(x) == Or(Eq(x, y), Eq(x, -5))","over":{"base":"Any"},"name":"test_Finite_as_relational_correct"},"guarantee":"FiniteSet(1, 2).as_relational(x) == Or(Eq(x, 1), Eq(x, 2)); FiniteSet(y, -5).as_relational(x) == Or(Eq(x, y), Eq(x, -5))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_Finite_as_relational_correct","statement":"Path(test_Finite_as_relational(x), FiniteSet(1, 2).as_relational(x) == Or(Eq(x, 1), Eq(x, 2)); FiniteSet(y, -5).as_relational(x) == Or(Eq(x, y), Eq(x, -5)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5d370af17ec0a7a3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["FiniteSet(1, 2).as_relational(x) == Or(Eq(x, 1), Eq(x, 2))","FiniteSet(y, -5).as_relational(x) == Or(Eq(x, y), Eq(x, -5))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Finite_as_relational():
     x = Symbol('x')
     y = Symbol('y')
@@ -1424,16 +1719,24 @@ def test_Finite_as_relational():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Union_as_relational(), test_Union_as_relational produces the expected output) over Any ║
+# ║ Path(test_Union_as_relational(), (Interval(0, 1) + FiniteSet(2)).as_relational(x) == Or(And(Le(0, x), Le(x, 1)), Eq(x, 2)) and (Interval(0, 1, True, True) + FiniteSet(1)).as_relational(x) == And(Lt(0, x), Le(x, 1)) and Or(x < 0, x > 0).as_set().as_relational(x) == And(x > -oo, x < oo, Ne(x, 0)) and (Interval.Ropen(1, 3) + Interval.Lopen(3, 5)).as_relational(x) == And(Ne(x, 3), x >= 1, x <= 5)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Union_as_relational : Any → {Any | Or(x < 0, x >...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (Interval(0, 1) + FiniteSet(2)).as_relati...   ║
+# ║   ensures:  (Interval(0, 1, True, True) + FiniteSet(1...   ║
+# ║   ensures:  Or(x < 0, x > 0).as_set().as_relational(x...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Union_as_relational : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2f60f81b2186c631  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6630801a72d95f5e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_Union_as_relational","kind":"function","src_hash":"5875d3ddc1b0dc8e","in":{"base":"Any"},"out":{"base":"Any","pred":"Or(x < 0, x > 0).as_set().as_relational(x) == And(x > -oo, x < oo, Ne(x, 0))"},"spec":{"lhs":"test_Union_as_relational()","rhs":"test_Union_as_relational produces the expected output","over":{"base":"Any"},"name":"test_Union_as_relational_correct"},"guarantee":"test_Union_as_relational produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_Union_as_relational_correct","statement":"Path(test_Union_as_relational(x), test_Union_as_relational produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2f60f81b2186c631"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_Union_as_relational","kind":"function","src_hash":"5875d3ddc1b0dc8e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (Interval(0, 1) + FiniteSet(2)).as_relational(x) == Or(And(Le(0, x), Le(x, 1)), Eq(x, 2)) and (Interval(0, 1, True, True) + FiniteSet(1)).as_relational(x) == And(Lt(0, x), Le(x, 1)) and Or(x < 0, x > 0).as_set().as_relational(x) == And(x > -oo, x < oo, Ne(x, 0)) and (Interval.Ropen(1, 3) + Interval.Lopen(3, 5)).as_relational(x) == And(Ne(x, 3), x >= 1, x <= 5)"},"spec":{"lhs":"test_Union_as_relational()","rhs":"(Interval(0, 1) + FiniteSet(2)).as_relational(x) == Or(And(Le(0, x), Le(x, 1)), Eq(x, 2)) and (Interval(0, 1, True, True) + FiniteSet(1)).as_relational(x) == And(Lt(0, x), Le(x, 1)) and Or(x < 0, x > 0).as_set().as_relational(x) == And(x > -oo, x < oo, Ne(x, 0)) and (Interval.Ropen(1, 3) + Interval.Lopen(3, 5)).as_relational(x) == And(Ne(x, 3), x >= 1, x <= 5)","over":{"base":"Any"},"name":"test_Union_as_relational_correct"},"guarantee":"(Interval(0, 1) + FiniteSet(2)).as_relational(x) == Or(And(Le(0, x), Le(x, 1)), Eq(x, 2)); (Interval(0, 1, True, True) + FiniteSet(1)).as_relational(x) == And(Lt(0, x), Le(x, 1)); Or(x < 0, x > 0).as_set().as_relational(x) == And(x > -oo, x < oo, Ne(x, 0))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_Union_as_relational_correct","statement":"Path(test_Union_as_relational(x), (Interval(0, 1) + FiniteSet(2)).as_relational(x) == Or(And(Le(0, x), Le(x, 1)), Eq(x, 2)); (Interval(0, 1, True, True) + FiniteSet(1)).as_relational(x) == And(Lt(0, x), Le(x, 1)); Or(x < 0, x > 0).as_set().as_relational(x) == And(x > -oo, x < oo, Ne(x, 0)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6630801a72d95f5e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(Interval(0, 1) + FiniteSet(2)).as_relational(x) == Or(And(Le(0, x), Le(x, 1)), Eq(x, 2))","(Interval(0, 1, True, True) + FiniteSet(1)).as_relational(x) == And(Lt(0, x), Le(x, 1))","Or(x < 0, x > 0).as_set().as_relational(x) == And(x > -oo, x < oo, Ne(x, 0))","(Interval.Ropen(1, 3) + Interval.Lopen(3, 5)).as_relational(x) == And(Ne(x, 3), x >= 1, x <= 5)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_Union_as_relational():
     x = Symbol('x')
     assert (Interval(0, 1) + FiniteSet(2)).as_relational(x) == \
@@ -1447,16 +1750,22 @@ def test_Union_as_relational():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Intersection_as_relational(), test_Intersection_as_relational produces the expected output) over Any ║
+# ║ Path(test_Intersection_as_relational(), Intersection(Interval(0, 1), FiniteSet(2), evaluate=False).as_relational(x) == And(And(Le(0, x), Le(x, 1)), Eq(x, 2))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Intersection_as_relational : Any → Any                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Intersection(Interval(0, 1), FiniteSet(2)...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Intersection_as_relational : Any → {Any | result...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 07c9cefe366d8da0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ad303296095bf683  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_Intersection_as_relational","kind":"function","src_hash":"abd2cfd659ceb5ff","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_Intersection_as_relational()","rhs":"test_Intersection_as_relational produces the expected output","over":{"base":"Any"},"name":"test_Intersection_as_relational_correct"},"guarantee":"test_Intersection_as_relational produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_Intersection_as_relational_correct","statement":"Path(test_Intersection_as_relational(x), test_Intersection_as_relational produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"07c9cefe366d8da0"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_Intersection_as_relational","kind":"function","src_hash":"abd2cfd659ceb5ff","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Intersection(Interval(0, 1), FiniteSet(2), evaluate=False).as_relational(x) == And(And(Le(0, x), Le(x, 1)), Eq(x, 2))"},"spec":{"lhs":"test_Intersection_as_relational()","rhs":"Intersection(Interval(0, 1), FiniteSet(2), evaluate=False).as_relational(x) == And(And(Le(0, x), Le(x, 1)), Eq(x, 2))","over":{"base":"Any"},"name":"test_Intersection_as_relational_correct"},"guarantee":"Intersection(Interval(0, 1), FiniteSet(2), evaluate=False).as_relational(x) == And(And(Le(0, x), Le(x, 1)), Eq(x, 2))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_Intersection_as_relational_correct","statement":"Path(test_Intersection_as_relational(x), Intersection(Interval(0, 1), FiniteSet(2), evaluate=False).as_relational(x) == And(And(Le(0, x), Le(x, 1)), Eq(x, 2)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ad303296095bf683","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Intersection(Interval(0, 1), FiniteSet(2), evaluate=False).as_relational(x) == And(And(Le(0, x), Le(x, 1)), Eq(x, 2))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Intersection_as_relational():
     x = Symbol('x')
     assert (Intersection(Interval(0, 1), FiniteSet(2),
@@ -1465,16 +1774,22 @@ def test_Intersection_as_relational():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Complement_as_relational(), test_Complement_as_relational produces the expected output) over Any ║
+# ║ Path(test_Complement_as_relational(), expr.as_relational(x) == And(Le(0, x), Le(x, 1), Ne(x, 2))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Complement_as_relational : Any → {Any | expr.as_...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  expr.as_relational(x) == And(Le(0, x), Le...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Complement_as_relational : Any → {Any | result s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 61461bbcdd585813  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 560dc1176936e354  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_Complement_as_relational","kind":"function","src_hash":"29334c4923e504cc","in":{"base":"Any"},"out":{"base":"Any","pred":"expr.as_relational(x) == And(Le(0, x), Le(x, 1), Ne(x, 2))"},"spec":{"lhs":"test_Complement_as_relational()","rhs":"test_Complement_as_relational produces the expected output","over":{"base":"Any"},"name":"test_Complement_as_relational_correct"},"guarantee":"test_Complement_as_relational produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_Complement_as_relational_correct","statement":"Path(test_Complement_as_relational(x), test_Complement_as_relational produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"61461bbcdd585813"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_Complement_as_relational","kind":"function","src_hash":"29334c4923e504cc","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: expr.as_relational(x) == And(Le(0, x), Le(x, 1), Ne(x, 2))"},"spec":{"lhs":"test_Complement_as_relational()","rhs":"expr.as_relational(x) == And(Le(0, x), Le(x, 1), Ne(x, 2))","over":{"base":"Any"},"name":"test_Complement_as_relational_correct"},"guarantee":"expr.as_relational(x) == And(Le(0, x), Le(x, 1), Ne(x, 2))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_Complement_as_relational_correct","statement":"Path(test_Complement_as_relational(x), expr.as_relational(x) == And(Le(0, x), Le(x, 1), Ne(x, 2)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"560dc1176936e354","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["expr.as_relational(x) == And(Le(0, x), Le(x, 1), Ne(x, 2))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Complement_as_relational():
     x = Symbol('x')
     expr = Complement(Interval(0, 1), FiniteSet(2), evaluate=False)
@@ -1484,16 +1799,22 @@ def test_Complement_as_relational():
 
 @XFAIL
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Complement_as_relational_fail(), test_Complement_as_relational_fail produces the expected output) over Any ║
+# ║ Path(test_Complement_as_relational_fail(), expr.as_relational(x) == (0 <= x) & (x <= 1) & Ne(x, 2)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Complement_as_relational_fail : Any → {Any | exp...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  expr.as_relational(x) == (0 <= x) & (x <=...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Complement_as_relational_fail : Any → {Any | res...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 322813592bb01bd2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fa894ca3b59179ea  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_Complement_as_relational_fail","kind":"function","src_hash":"7fcb98dd6f4eee22","in":{"base":"Any"},"out":{"base":"Any","pred":"expr.as_relational(x) == (0 <= x) & (x <= 1) & Ne(x, 2)"},"spec":{"lhs":"test_Complement_as_relational_fail()","rhs":"test_Complement_as_relational_fail produces the expected output","over":{"base":"Any"},"name":"test_Complement_as_relational_fail_correct"},"guarantee":"test_Complement_as_relational_fail produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_Complement_as_relational_fail_correct","statement":"Path(test_Complement_as_relational_fail(x), test_Complement_as_relational_fail produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"322813592bb01bd2"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_Complement_as_relational_fail","kind":"function","src_hash":"7fcb98dd6f4eee22","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: expr.as_relational(x) == (0 <= x) & (x <= 1) & Ne(x, 2)"},"spec":{"lhs":"test_Complement_as_relational_fail()","rhs":"expr.as_relational(x) == (0 <= x) & (x <= 1) & Ne(x, 2)","over":{"base":"Any"},"name":"test_Complement_as_relational_fail_correct"},"guarantee":"expr.as_relational(x) == (0 <= x) & (x <= 1) & Ne(x, 2)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_Complement_as_relational_fail_correct","statement":"Path(test_Complement_as_relational_fail(x), expr.as_relational(x) == (0 <= x) & (x <= 1) & Ne(x, 2))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fa894ca3b59179ea","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["expr.as_relational(x) == (0 <= x) & (x <= 1) & Ne(x, 2)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Complement_as_relational_fail():
     x = Symbol('x')
     expr = Complement(Interval(0, 1), FiniteSet(2), evaluate=False)
@@ -1504,16 +1825,22 @@ def test_Complement_as_relational_fail():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_SymmetricDifference_as_relational(), test_SymmetricDifference_as_relational produces the expected output) over Any ║
+# ║ Path(test_SymmetricDifference_as_relational(), expr.as_relational(x) == Xor(Eq(x, 2), Le(0, x) & Le(x, 1))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  expr.as_relational(x) == Xor(Eq(x, 2), Le...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_SymmetricDifference_as_relational : Any → {Any |...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0fc7c3f07a75259b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 289896a9585a2816  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_SymmetricDifference_as_relational","kind":"function","src_hash":"573b9f24d38f73be","in":{"base":"Any"},"out":{"base":"Any","pred":"expr.as_relational(x) == Xor(Eq(x, 2), Le(0, x) & Le(x, 1))"},"spec":{"lhs":"test_SymmetricDifference_as_relational()","rhs":"test_SymmetricDifference_as_relational produces the expected output","over":{"base":"Any"},"name":"test_SymmetricDifference_as_relational_correct"},"guarantee":"test_SymmetricDifference_as_relational produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_SymmetricDifference_as_relational_correct","statement":"Path(test_SymmetricDifference_as_relational(x), test_SymmetricDifference_as_relational produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0fc7c3f07a75259b"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_SymmetricDifference_as_relational","kind":"function","src_hash":"573b9f24d38f73be","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: expr.as_relational(x) == Xor(Eq(x, 2), Le(0, x) & Le(x, 1))"},"spec":{"lhs":"test_SymmetricDifference_as_relational()","rhs":"expr.as_relational(x) == Xor(Eq(x, 2), Le(0, x) & Le(x, 1))","over":{"base":"Any"},"name":"test_SymmetricDifference_as_relational_correct"},"guarantee":"expr.as_relational(x) == Xor(Eq(x, 2), Le(0, x) & Le(x, 1))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_SymmetricDifference_as_relational_correct","statement":"Path(test_SymmetricDifference_as_relational(x), expr.as_relational(x) == Xor(Eq(x, 2), Le(0, x) & Le(x, 1)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"289896a9585a2816","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["expr.as_relational(x) == Xor(Eq(x, 2), Le(0, x) & Le(x, 1))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_SymmetricDifference_as_relational():
     x = Symbol('x')
     expr = SymmetricDifference(Interval(0, 1), FiniteSet(2), evaluate=False)
@@ -1521,16 +1848,24 @@ def test_SymmetricDifference_as_relational():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_EmptySet(), test_EmptySet produces the expected output) over Any ║
+# ║ Path(test_EmptySet(), S.EmptySet.as_relational(Symbol('x')) is S.false and S.EmptySet.intersect(S.UniversalSet) == S.EmptySet and S.EmptySet.boundary == S.EmptySet) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_EmptySet : Any → {Any | S.EmptySet.as_relational...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  S.EmptySet.as_relational(Symbol('x')) is ...   ║
+# ║   ensures:  S.EmptySet.intersect(S.UniversalSet) == S...   ║
+# ║   ensures:  S.EmptySet.boundary == S.EmptySet              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_EmptySet : Any → {Any | result satisfies: S.Empt...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 56d0eeed2d6c4901  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c140ffb40fb0fc12  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_EmptySet","kind":"function","src_hash":"92002c9cb87d1cb0","in":{"base":"Any"},"out":{"base":"Any","pred":"S.EmptySet.as_relational(Symbol('x')) is S.false and S.EmptySet.intersect(S.UniversalSet) == S.EmptySet and S.EmptySet.boundary == S.EmptySet"},"spec":{"lhs":"test_EmptySet()","rhs":"test_EmptySet produces the expected output","over":{"base":"Any"},"name":"test_EmptySet_correct"},"guarantee":"test_EmptySet produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_EmptySet_correct","statement":"Path(test_EmptySet(x), test_EmptySet produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"56d0eeed2d6c4901"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_EmptySet","kind":"function","src_hash":"92002c9cb87d1cb0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: S.EmptySet.as_relational(Symbol('x')) is S.false and S.EmptySet.intersect(S.UniversalSet) == S.EmptySet and S.EmptySet.boundary == S.EmptySet"},"spec":{"lhs":"test_EmptySet()","rhs":"S.EmptySet.as_relational(Symbol('x')) is S.false and S.EmptySet.intersect(S.UniversalSet) == S.EmptySet and S.EmptySet.boundary == S.EmptySet","over":{"base":"Any"},"name":"test_EmptySet_correct"},"guarantee":"S.EmptySet.as_relational(Symbol('x')) is S.false; S.EmptySet.intersect(S.UniversalSet) == S.EmptySet; S.EmptySet.boundary == S.EmptySet","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_EmptySet_correct","statement":"Path(test_EmptySet(x), S.EmptySet.as_relational(Symbol('x')) is S.false; S.EmptySet.intersect(S.UniversalSet) == S.EmptySet; S.EmptySet.boundary == S.EmptySet)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c140ffb40fb0fc12","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["S.EmptySet.as_relational(Symbol('x')) is S.false","S.EmptySet.intersect(S.UniversalSet) == S.EmptySet","S.EmptySet.boundary == S.EmptySet"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_EmptySet():
     assert S.EmptySet.as_relational(Symbol('x')) is S.false
     assert S.EmptySet.intersect(S.UniversalSet) == S.EmptySet
@@ -1538,16 +1873,24 @@ def test_EmptySet():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_finite_basic(), test_finite_basic produces the expected output) over Any ║
+# ║ Path(test_finite_basic(), A.is_subset(AorB) and B.is_subset(AorB) and AandB.is_subset(A) and AandB == FiniteSet(3) and A.inf == 1 and A.sup == 3 and AorB.inf == 1 and AorB.sup == 5 and FiniteSet(x, 1, 5).sup == Max(x, 5) and FiniteSet(x, 1, 5).inf == Min(x, 1) and FiniteSet(S.EmptySet) != S.EmptySet and FiniteSet(FiniteSet(1, 2, 3)) != FiniteSet(1, 2, 3) and FiniteSet((1, 2, 3)) != FiniteSet(1, 2, 3) and FiniteSet((1, 2), A, -5, x, 'eggs', x ** 2) and (A > B) is False and (A >= B) is False and (A < B) is False and (A <= B) is False and AorB > A and AorB > B and AorB >= A and AorB >= B and A >= A and A <= A and A >= AandB and B >= AandB and A > AandB and B > AandB) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_finite_basic : Any → {Any | A.is_subset(AorB) an...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A.is_subset(AorB) and B.is_subset(AorB)        ║
+# ║   ensures:  AandB.is_subset(A)                             ║
+# ║   ensures:  AandB == FiniteSet(3)                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_finite_basic : Any → {Any | result satisfies: A....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 530172fffeed351b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 954063396da7eef6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_finite_basic","kind":"function","src_hash":"3dcc19db654b0574","in":{"base":"Any"},"out":{"base":"Any","pred":"A.is_subset(AorB) and B.is_subset(AorB) and AandB.is_subset(A) and AandB == FiniteSet(3) and A.inf == 1 and A.sup == 3 and AorB.inf == 1 and AorB.sup == 5 and FiniteSet(x, 1, 5).sup == Max(x, 5) and FiniteSet(x, 1, 5).inf == Min(x, 1) and FiniteSet(S.EmptySet) != S.EmptySet and FiniteSet(FiniteSet(1, 2, 3)) != FiniteSet(1, 2, 3) and FiniteSet((1, 2, 3)) != FiniteSet(1, 2, 3) and FiniteSet((1, 2), A, -5, x, 'eggs', x ** 2) and (A > B) is False and (A >= B) is False and (A < B) is False and (A <= B) is False and AorB > A and AorB > B and AorB >= A and AorB >= B and A >= A and A <= A and A >= AandB and B >= AandB and A > AandB and B > AandB"},"spec":{"lhs":"test_finite_basic()","rhs":"test_finite_basic produces the expected output","over":{"base":"Any"},"name":"test_finite_basic_correct"},"guarantee":"test_finite_basic produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_finite_basic_correct","statement":"Path(test_finite_basic(x), test_finite_basic produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"530172fffeed351b"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_finite_basic","kind":"function","src_hash":"3dcc19db654b0574","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A.is_subset(AorB) and B.is_subset(AorB) and AandB.is_subset(A) and AandB == FiniteSet(3) and A.inf == 1 and A.sup == 3 and AorB.inf == 1 and AorB.sup == 5 and FiniteSet(x, 1, 5).sup == Max(x, 5) and FiniteSet(x, 1, 5).inf == Min(x, 1) and FiniteSet(S.EmptySet) != S.EmptySet and FiniteSet(FiniteSet(1, 2, 3)) != FiniteSet(1, 2, 3) and FiniteSet((1, 2, 3)) != FiniteSet(1, 2, 3) and FiniteSet((1, 2), A, -5, x, 'eggs', x ** 2) and (A > B) is False and (A >= B) is False and (A < B) is False and (A <= B) is False and AorB > A and AorB > B and AorB >= A and AorB >= B and A >= A and A <= A and A >= AandB and B >= AandB and A > AandB and B > AandB"},"spec":{"lhs":"test_finite_basic()","rhs":"A.is_subset(AorB) and B.is_subset(AorB) and AandB.is_subset(A) and AandB == FiniteSet(3) and A.inf == 1 and A.sup == 3 and AorB.inf == 1 and AorB.sup == 5 and FiniteSet(x, 1, 5).sup == Max(x, 5) and FiniteSet(x, 1, 5).inf == Min(x, 1) and FiniteSet(S.EmptySet) != S.EmptySet and FiniteSet(FiniteSet(1, 2, 3)) != FiniteSet(1, 2, 3) and FiniteSet((1, 2, 3)) != FiniteSet(1, 2, 3) and FiniteSet((1, 2), A, -5, x, 'eggs', x ** 2) and (A > B) is False and (A >= B) is False and (A < B) is False and (A <= B) is False and AorB > A and AorB > B and AorB >= A and AorB >= B and A >= A and A <= A and A >= AandB and B >= AandB and A > AandB and B > AandB","over":{"base":"Any"},"name":"test_finite_basic_correct"},"guarantee":"A.is_subset(AorB) and B.is_subset(AorB); AandB.is_subset(A); AandB == FiniteSet(3)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_finite_basic_correct","statement":"Path(test_finite_basic(x), A.is_subset(AorB) and B.is_subset(AorB); AandB.is_subset(A); AandB == FiniteSet(3))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"954063396da7eef6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A.is_subset(AorB) and B.is_subset(AorB)","AandB.is_subset(A)","AandB == FiniteSet(3)","A.inf == 1 and A.sup == 3","AorB.inf == 1 and AorB.sup == 5","FiniteSet(x, 1, 5).sup == Max(x, 5)","FiniteSet(x, 1, 5).inf == Min(x, 1)","FiniteSet(S.EmptySet) != S.EmptySet","FiniteSet(FiniteSet(1, 2, 3)) != FiniteSet(1, 2, 3)","FiniteSet((1, 2, 3)) != FiniteSet(1, 2, 3)","FiniteSet((1, 2), A, -5, x, 'eggs', x ** 2)","(A > B) is False","(A >= B) is False","(A < B) is False","(A <= B) is False","AorB > A and AorB > B","AorB >= A and AorB >= B","A >= A and A <= A","A >= AandB and B >= AandB","A > AandB and B > AandB"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_finite_basic():
     x = Symbol('x')
     A = FiniteSet(1, 2, 3)
@@ -1583,16 +1926,24 @@ def test_finite_basic():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_product_basic(), test_product_basic produces the expected output) over Any ║
+# ║ Path(test_product_basic(), (0, 0) in square and 0 not in square and (H, T) in coin ** 2 and (0.5, 0.5, 0.5) in (square * unit_line).flatten() and ((0.5, 0.5), 0.5) in square * unit_line and (H, 3, 3) in (coin * d6 * d6).flatten() and ((H, 3), 3) in coin * d6 * d6 and set(coin ** 2) == {(HH, HH), (HH, TT), (TT, HH), (TT, TT)} and (d4 * d4).is_subset(d6 * d6) and square.complement(Interval(-oo, oo) * Interval(-oo, oo)) == Union((Interval(-oo, 0, True, True) + Interval(1, oo, True, True)) * Interval(-oo, oo), Interval(-oo, oo) * (Interval(-oo, 0, True, True) + Interval(1, oo, True, True))) and (Interval(-5, 5) ** 3).is_subset(Interval(-10, 10) ** 3) and not (Interval(-10, 10) ** 3).is_subset(Interval(-5, 5) ** 3) and not (Interval(-5, 5) ** 2).is_subset(Interval(-10, 10) ** 3) and (Interval(0.2, 0.5) * FiniteSet(0.5)).is_subset(square) and len(coin * coin * coin) == 8 and len(S.EmptySet * S.EmptySet) == 0 and len(S.EmptySet * coin) == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_product_basic : Any → {Any | (0, 0) in square an...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (0, 0) in square                               ║
+# ║   ensures:  0 not in square                                ║
+# ║   ensures:  (H, T) in coin ** 2                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_product_basic : Any → {Any | result satisfies: (...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f1a9121373ef80b0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5be367be6bae1922  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_product_basic","kind":"function","src_hash":"4055c84ad17b11b2","in":{"base":"Any"},"out":{"base":"Any","pred":"(0, 0) in square and 0 not in square and (H, T) in coin ** 2 and (0.5, 0.5, 0.5) in (square * unit_line).flatten() and ((0.5, 0.5), 0.5) in square * unit_line and (H, 3, 3) in (coin * d6 * d6).flatten() and ((H, 3), 3) in coin * d6 * d6 and set(coin ** 2) == {(HH, HH), (HH, TT), (TT, HH), (TT, TT)} and (d4 * d4).is_subset(d6 * d6) and (Interval(-5, 5) ** 3).is_subset(Interval(-10, 10) ** 3) and not (Interval(-10, 10) ** 3).is_subset(Interval(-5, 5) ** 3) and not (Interval(-5, 5) ** 2).is_subset(Interval(-10, 10) ** 3) and (Interval(0.2, 0.5) * FiniteSet(0.5)).is_subset(square) and len(coin * coin * coin) == 8 and len(S.EmptySet * S.EmptySet) == 0 and len(S.EmptySet * coin) == 0"},"spec":{"lhs":"test_product_basic()","rhs":"test_product_basic produces the expected output","over":{"base":"Any"},"name":"test_product_basic_correct"},"guarantee":"test_product_basic produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_product_basic_correct","statement":"Path(test_product_basic(x), test_product_basic produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f1a9121373ef80b0"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_product_basic","kind":"function","src_hash":"4055c84ad17b11b2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (0, 0) in square and 0 not in square and (H, T) in coin ** 2 and (0.5, 0.5, 0.5) in (square * unit_line).flatten() and ((0.5, 0.5), 0.5) in square * unit_line and (H, 3, 3) in (coin * d6 * d6).flatten() and ((H, 3), 3) in coin * d6 * d6 and set(coin ** 2) == {(HH, HH), (HH, TT), (TT, HH), (TT, TT)} and (d4 * d4).is_subset(d6 * d6) and square.complement(Interval(-oo, oo) * Interval(-oo, oo)) == Union((Interval(-oo, 0, True, True) + Interval(1, oo, True, True)) * Interval(-oo, oo), Interval(-oo, oo) * (Interval(-oo, 0, True, True) + Interval(1, oo, True, True))) and (Interval(-5, 5) ** 3).is_subset(Interval(-10, 10) ** 3) and not (Interval(-10, 10) ** 3).is_subset(Interval(-5, 5) ** 3) and not (Interval(-5, 5) ** 2).is_subset(Interval(-10, 10) ** 3) and (Interval(0.2, 0.5) * FiniteSet(0.5)).is_subset(square) and len(coin * coin * coin) == 8 and len(S.EmptySet * S.EmptySet) == 0 and len(S.EmptySet * coin) == 0"},"spec":{"lhs":"test_product_basic()","rhs":"(0, 0) in square and 0 not in square and (H, T) in coin ** 2 and (0.5, 0.5, 0.5) in (square * unit_line).flatten() and ((0.5, 0.5), 0.5) in square * unit_line and (H, 3, 3) in (coin * d6 * d6).flatten() and ((H, 3), 3) in coin * d6 * d6 and set(coin ** 2) == {(HH, HH), (HH, TT), (TT, HH), (TT, TT)} and (d4 * d4).is_subset(d6 * d6) and square.complement(Interval(-oo, oo) * Interval(-oo, oo)) == Union((Interval(-oo, 0, True, True) + Interval(1, oo, True, True)) * Interval(-oo, oo), Interval(-oo, oo) * (Interval(-oo, 0, True, True) + Interval(1, oo, True, True))) and (Interval(-5, 5) ** 3).is_subset(Interval(-10, 10) ** 3) and not (Interval(-10, 10) ** 3).is_subset(Interval(-5, 5) ** 3) and not (Interval(-5, 5) ** 2).is_subset(Interval(-10, 10) ** 3) and (Interval(0.2, 0.5) * FiniteSet(0.5)).is_subset(square) and len(coin * coin * coin) == 8 and len(S.EmptySet * S.EmptySet) == 0 and len(S.EmptySet * coin) == 0","over":{"base":"Any"},"name":"test_product_basic_correct"},"guarantee":"(0, 0) in square; 0 not in square; (H, T) in coin ** 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_product_basic_correct","statement":"Path(test_product_basic(x), (0, 0) in square; 0 not in square; (H, T) in coin ** 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5be367be6bae1922","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(0, 0) in square","0 not in square","(H, T) in coin ** 2","(0.5, 0.5, 0.5) in (square * unit_line).flatten()","((0.5, 0.5), 0.5) in square * unit_line","(H, 3, 3) in (coin * d6 * d6).flatten()","((H, 3), 3) in coin * d6 * d6","set(coin ** 2) == {(HH, HH), (HH, TT), (TT, HH), (TT, TT)}","(d4 * d4).is_subset(d6 * d6)","square.complement(Interval(-oo, oo) * Interval(-oo, oo)) == Union((Interval(-oo, 0, True, True) + Interval(1, oo, True, True)) * Interval(-oo, oo), Interval(-oo, oo) * (Interval(-oo, 0, True, True) + Interval(1, oo, True, True)))","(Interval(-5, 5) ** 3).is_subset(Interval(-10, 10) ** 3)","not (Interval(-10, 10) ** 3).is_subset(Interval(-5, 5) ** 3)","not (Interval(-5, 5) ** 2).is_subset(Interval(-10, 10) ** 3)","(Interval(0.2, 0.5) * FiniteSet(0.5)).is_subset(square)","len(coin * coin * coin) == 8","len(S.EmptySet * S.EmptySet) == 0","len(S.EmptySet * coin) == 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_product_basic():
     H, T = 'H', 'T'
     unit_line = Interval(0, 1)
@@ -1633,16 +1984,24 @@ def test_product_basic():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_real(), test_real produces the expected output) over Any ║
+# ║ Path(test_real(), all((s.is_subset(S.Reals) for s in [I, J, A, B, C])) and not D.is_subset(S.Reals) and all(((a + b).is_subset(S.Reals) for a in [I, J, A, B, C] for b in [I, J, A, B, C])) and not any(((a + D).is_subset(S.Reals) for a in [I, J, A, B, C, D])) and not (I + A + D).is_subset(S.Reals)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_real : Any → {Any | all((s.is_subset(S.Reals) fo...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  all((s.is_subset(S.Reals) for s in [I, J,...   ║
+# ║   ensures:  not D.is_subset(S.Reals)                       ║
+# ║   ensures:  all(((a + b).is_subset(S.Reals) for a in ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_real : Any → {Any | result satisfies: all((s.is_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1c57599b99e30ac4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b6d095fbe2f7152b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_real","kind":"function","src_hash":"358aeef1d144f8d1","in":{"base":"Any"},"out":{"base":"Any","pred":"all((s.is_subset(S.Reals) for s in [I, J, A, B, C])) and not D.is_subset(S.Reals) and not any(((a + D).is_subset(S.Reals) for a in [I, J, A, B, C, D])) and not (I + A + D).is_subset(S.Reals)"},"spec":{"lhs":"test_real()","rhs":"test_real produces the expected output","over":{"base":"Any"},"name":"test_real_correct"},"guarantee":"test_real produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_real_correct","statement":"Path(test_real(x), test_real produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1c57599b99e30ac4"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_real","kind":"function","src_hash":"358aeef1d144f8d1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: all((s.is_subset(S.Reals) for s in [I, J, A, B, C])) and not D.is_subset(S.Reals) and all(((a + b).is_subset(S.Reals) for a in [I, J, A, B, C] for b in [I, J, A, B, C])) and not any(((a + D).is_subset(S.Reals) for a in [I, J, A, B, C, D])) and not (I + A + D).is_subset(S.Reals)"},"spec":{"lhs":"test_real()","rhs":"all((s.is_subset(S.Reals) for s in [I, J, A, B, C])) and not D.is_subset(S.Reals) and all(((a + b).is_subset(S.Reals) for a in [I, J, A, B, C] for b in [I, J, A, B, C])) and not any(((a + D).is_subset(S.Reals) for a in [I, J, A, B, C, D])) and not (I + A + D).is_subset(S.Reals)","over":{"base":"Any"},"name":"test_real_correct"},"guarantee":"all((s.is_subset(S.Reals) for s in [I, J, A, B, C])); not D.is_subset(S.Reals); all(((a + b).is_subset(S.Reals) for a in [I, J, A, B, C] for b in [I, J, A, B, C]))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_real_correct","statement":"Path(test_real(x), all((s.is_subset(S.Reals) for s in [I, J, A, B, C])); not D.is_subset(S.Reals); all(((a + b).is_subset(S.Reals) for a in [I, J, A, B, C] for b in [I, J, A, B, C])))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b6d095fbe2f7152b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["all((s.is_subset(S.Reals) for s in [I, J, A, B, C]))","not D.is_subset(S.Reals)","all(((a + b).is_subset(S.Reals) for a in [I, J, A, B, C] for b in [I, J, A, B, C]))","not any(((a + D).is_subset(S.Reals) for a in [I, J, A, B, C, D]))","not (I + A + D).is_subset(S.Reals)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_real():
     x = Symbol('x', real=True)
 
@@ -1662,16 +2021,24 @@ def test_real():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_supinf(), test_supinf produces the expected output) over Any ║
+# ║ Path(test_supinf(), (Interval(0, 1) + FiniteSet(2)).sup == 2 and (Interval(0, 1) + FiniteSet(2)).inf == 0 and (Interval(0, 1) + FiniteSet(x)).sup == Max(1, x) and (Interval(0, 1) + FiniteSet(x)).inf == Min(0, x) and FiniteSet(5, 1, x).sup == Max(5, x) and FiniteSet(5, 1, x).inf == Min(1, x) and FiniteSet(5, 1, x, y).sup == Max(5, x, y) and FiniteSet(5, 1, x, y).inf == Min(1, x, y) and FiniteSet(5, 1, x, y, S.Infinity, S.NegativeInfinity).sup == S.Infinity and FiniteSet(5, 1, x, y, S.Infinity, S.NegativeInfinity).inf == S.NegativeInfinity and FiniteSet('Ham', 'Eggs').sup == Max('Ham', 'Eggs')) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_supinf : Any → {Any | (Interval(0, 1) + FiniteSe...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (Interval(0, 1) + FiniteSet(2)).sup == 2       ║
+# ║   ensures:  (Interval(0, 1) + FiniteSet(2)).inf == 0       ║
+# ║   ensures:  (Interval(0, 1) + FiniteSet(x)).sup == Ma...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_supinf : Any → {Any | result satisfies: (Interva...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c6a6c3728a7f0852  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fbb9ffcc02ff2624  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_supinf","kind":"function","src_hash":"e63945cd93f991fb","in":{"base":"Any"},"out":{"base":"Any","pred":"(Interval(0, 1) + FiniteSet(2)).sup == 2 and (Interval(0, 1) + FiniteSet(2)).inf == 0 and (Interval(0, 1) + FiniteSet(x)).sup == Max(1, x) and (Interval(0, 1) + FiniteSet(x)).inf == Min(0, x) and FiniteSet(5, 1, x).sup == Max(5, x) and FiniteSet(5, 1, x).inf == Min(1, x) and FiniteSet(5, 1, x, y).sup == Max(5, x, y) and FiniteSet(5, 1, x, y).inf == Min(1, x, y) and FiniteSet(5, 1, x, y, S.Infinity, S.NegativeInfinity).sup == S.Infinity and FiniteSet(5, 1, x, y, S.Infinity, S.NegativeInfinity).inf == S.NegativeInfinity and FiniteSet('Ham', 'Eggs').sup == Max('Ham', 'Eggs')"},"spec":{"lhs":"test_supinf()","rhs":"test_supinf produces the expected output","over":{"base":"Any"},"name":"test_supinf_correct"},"guarantee":"test_supinf produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_supinf_correct","statement":"Path(test_supinf(x), test_supinf produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c6a6c3728a7f0852"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_supinf","kind":"function","src_hash":"e63945cd93f991fb","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (Interval(0, 1) + FiniteSet(2)).sup == 2 and (Interval(0, 1) + FiniteSet(2)).inf == 0 and (Interval(0, 1) + FiniteSet(x)).sup == Max(1, x) and (Interval(0, 1) + FiniteSet(x)).inf == Min(0, x) and FiniteSet(5, 1, x).sup == Max(5, x) and FiniteSet(5, 1, x).inf == Min(1, x) and FiniteSet(5, 1, x, y).sup == Max(5, x, y) and FiniteSet(5, 1, x, y).inf == Min(1, x, y) and FiniteSet(5, 1, x, y, S.Infinity, S.NegativeInfinity).sup == S.Infinity and FiniteSet(5, 1, x, y, S.Infinity, S.NegativeInfinity).inf == S.NegativeInfinity and FiniteSet('Ham', 'Eggs').sup == Max('Ham', 'Eggs')"},"spec":{"lhs":"test_supinf()","rhs":"(Interval(0, 1) + FiniteSet(2)).sup == 2 and (Interval(0, 1) + FiniteSet(2)).inf == 0 and (Interval(0, 1) + FiniteSet(x)).sup == Max(1, x) and (Interval(0, 1) + FiniteSet(x)).inf == Min(0, x) and FiniteSet(5, 1, x).sup == Max(5, x) and FiniteSet(5, 1, x).inf == Min(1, x) and FiniteSet(5, 1, x, y).sup == Max(5, x, y) and FiniteSet(5, 1, x, y).inf == Min(1, x, y) and FiniteSet(5, 1, x, y, S.Infinity, S.NegativeInfinity).sup == S.Infinity and FiniteSet(5, 1, x, y, S.Infinity, S.NegativeInfinity).inf == S.NegativeInfinity and FiniteSet('Ham', 'Eggs').sup == Max('Ham', 'Eggs')","over":{"base":"Any"},"name":"test_supinf_correct"},"guarantee":"(Interval(0, 1) + FiniteSet(2)).sup == 2; (Interval(0, 1) + FiniteSet(2)).inf == 0; (Interval(0, 1) + FiniteSet(x)).sup == Max(1, x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_supinf_correct","statement":"Path(test_supinf(x), (Interval(0, 1) + FiniteSet(2)).sup == 2; (Interval(0, 1) + FiniteSet(2)).inf == 0; (Interval(0, 1) + FiniteSet(x)).sup == Max(1, x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fbb9ffcc02ff2624","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(Interval(0, 1) + FiniteSet(2)).sup == 2","(Interval(0, 1) + FiniteSet(2)).inf == 0","(Interval(0, 1) + FiniteSet(x)).sup == Max(1, x)","(Interval(0, 1) + FiniteSet(x)).inf == Min(0, x)","FiniteSet(5, 1, x).sup == Max(5, x)","FiniteSet(5, 1, x).inf == Min(1, x)","FiniteSet(5, 1, x, y).sup == Max(5, x, y)","FiniteSet(5, 1, x, y).inf == Min(1, x, y)","FiniteSet(5, 1, x, y, S.Infinity, S.NegativeInfinity).sup == S.Infinity","FiniteSet(5, 1, x, y, S.Infinity, S.NegativeInfinity).inf == S.NegativeInfinity","FiniteSet('Ham', 'Eggs').sup == Max('Ham', 'Eggs')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_supinf():
     x = Symbol('x', real=True)
     y = Symbol('y', real=True)
@@ -1692,16 +2059,24 @@ def test_supinf():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_universalset(), test_universalset produces the expected output) over Any ║
+# ║ Path(test_universalset(), U.as_relational(x) is S.true and U.union(Interval(2, 4)) == U and U.intersect(Interval(2, 4)) == Interval(2, 4) and U.measure is S.Infinity and U.boundary == S.EmptySet and U.contains(0) is S.true) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_universalset : Any → {Any | U.as_relational(x) i...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  U.as_relational(x) is S.true                   ║
+# ║   ensures:  U.union(Interval(2, 4)) == U                   ║
+# ║   ensures:  U.intersect(Interval(2, 4)) == Interval(2...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_universalset : Any → {Any | result satisfies: U....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4330ec7a95c90e39  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4af96ec6775e1c7c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_universalset","kind":"function","src_hash":"1fd1230fbfe8bcca","in":{"base":"Any"},"out":{"base":"Any","pred":"U.as_relational(x) is S.true and U.union(Interval(2, 4)) == U and U.intersect(Interval(2, 4)) == Interval(2, 4) and U.measure is S.Infinity and U.boundary == S.EmptySet and U.contains(0) is S.true"},"spec":{"lhs":"test_universalset()","rhs":"test_universalset produces the expected output","over":{"base":"Any"},"name":"test_universalset_correct"},"guarantee":"test_universalset produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_universalset_correct","statement":"Path(test_universalset(x), test_universalset produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4330ec7a95c90e39"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_universalset","kind":"function","src_hash":"1fd1230fbfe8bcca","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: U.as_relational(x) is S.true and U.union(Interval(2, 4)) == U and U.intersect(Interval(2, 4)) == Interval(2, 4) and U.measure is S.Infinity and U.boundary == S.EmptySet and U.contains(0) is S.true"},"spec":{"lhs":"test_universalset()","rhs":"U.as_relational(x) is S.true and U.union(Interval(2, 4)) == U and U.intersect(Interval(2, 4)) == Interval(2, 4) and U.measure is S.Infinity and U.boundary == S.EmptySet and U.contains(0) is S.true","over":{"base":"Any"},"name":"test_universalset_correct"},"guarantee":"U.as_relational(x) is S.true; U.union(Interval(2, 4)) == U; U.intersect(Interval(2, 4)) == Interval(2, 4)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_universalset_correct","statement":"Path(test_universalset(x), U.as_relational(x) is S.true; U.union(Interval(2, 4)) == U; U.intersect(Interval(2, 4)) == Interval(2, 4))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4af96ec6775e1c7c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["U.as_relational(x) is S.true","U.union(Interval(2, 4)) == U","U.intersect(Interval(2, 4)) == Interval(2, 4)","U.measure is S.Infinity","U.boundary == S.EmptySet","U.contains(0) is S.true"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_universalset():
     U = S.UniversalSet
     x = Symbol('x')
@@ -1715,16 +2090,22 @@ def test_universalset():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Union_of_ProductSets_shares(), test_Union_of_ProductSets_shares produces the expected output) over Any ║
+# ║ Path(test_Union_of_ProductSets_shares(), Union(line * line, line * points) == line * line) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Union_of_ProductSets_shares : Any → {Any | Union...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Union(line * line, line * points) == line...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Union_of_ProductSets_shares : Any → {Any | resul...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fc10d0627a12ff32  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9df2db3d55567e85  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_Union_of_ProductSets_shares","kind":"function","src_hash":"c1a05cac9b5d527b","in":{"base":"Any"},"out":{"base":"Any","pred":"Union(line * line, line * points) == line * line"},"spec":{"lhs":"test_Union_of_ProductSets_shares()","rhs":"test_Union_of_ProductSets_shares produces the expected output","over":{"base":"Any"},"name":"test_Union_of_ProductSets_shares_correct"},"guarantee":"test_Union_of_ProductSets_shares produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_Union_of_ProductSets_shares_correct","statement":"Path(test_Union_of_ProductSets_shares(x), test_Union_of_ProductSets_shares produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fc10d0627a12ff32"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_Union_of_ProductSets_shares","kind":"function","src_hash":"c1a05cac9b5d527b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Union(line * line, line * points) == line * line"},"spec":{"lhs":"test_Union_of_ProductSets_shares()","rhs":"Union(line * line, line * points) == line * line","over":{"base":"Any"},"name":"test_Union_of_ProductSets_shares_correct"},"guarantee":"Union(line * line, line * points) == line * line","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_Union_of_ProductSets_shares_correct","statement":"Path(test_Union_of_ProductSets_shares(x), Union(line * line, line * points) == line * line)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9df2db3d55567e85","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Union(line * line, line * points) == line * line"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Union_of_ProductSets_shares():
     line = Interval(0, 2)
     points = FiniteSet(0, 1, 2)
@@ -1732,16 +2113,23 @@ def test_Union_of_ProductSets_shares():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Interval_free_symbols(), test_Interval_free_symbols produces the expected output) over Any ║
+# ║ Path(test_Interval_free_symbols(), Interval(0, 1).free_symbols == set() and Interval(0, x).free_symbols == {x}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Interval_free_symbols : Any → {Any | Interval(0,...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Interval(0, 1).free_symbols == set()           ║
+# ║   ensures:  Interval(0, x).free_symbols == {x}             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Interval_free_symbols : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f9cbe4e034a0de08  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1e518c609f9d630e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_Interval_free_symbols","kind":"function","src_hash":"e02fedcb075909b1","in":{"base":"Any"},"out":{"base":"Any","pred":"Interval(0, 1).free_symbols == set() and Interval(0, x).free_symbols == {x}"},"spec":{"lhs":"test_Interval_free_symbols()","rhs":"test_Interval_free_symbols produces the expected output","over":{"base":"Any"},"name":"test_Interval_free_symbols_correct"},"guarantee":"test_Interval_free_symbols produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_Interval_free_symbols_correct","statement":"Path(test_Interval_free_symbols(x), test_Interval_free_symbols produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f9cbe4e034a0de08"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_Interval_free_symbols","kind":"function","src_hash":"e02fedcb075909b1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Interval(0, 1).free_symbols == set() and Interval(0, x).free_symbols == {x}"},"spec":{"lhs":"test_Interval_free_symbols()","rhs":"Interval(0, 1).free_symbols == set() and Interval(0, x).free_symbols == {x}","over":{"base":"Any"},"name":"test_Interval_free_symbols_correct"},"guarantee":"Interval(0, 1).free_symbols == set(); Interval(0, x).free_symbols == {x}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_Interval_free_symbols_correct","statement":"Path(test_Interval_free_symbols(x), Interval(0, 1).free_symbols == set(); Interval(0, x).free_symbols == {x})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1e518c609f9d630e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Interval(0, 1).free_symbols == set()","Interval(0, x).free_symbols == {x}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Interval_free_symbols():
     # issue 6211
     assert Interval(0, 1).free_symbols == set()
@@ -1750,16 +2138,24 @@ def test_Interval_free_symbols():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_image_interval(), test_image_interval produces the expected output) over Any ║
+# ║ Path(test_image_interval(), imageset(x, 2 * x, Interval(-2, 1)) == Interval(-4, 2) and imageset(x, 2 * x, Interval(-2, 1, True, False)) == Interval(-4, 2, True, False) and imageset(x, x ** 2, Interval(-2, 1, True, False)) == Interval(0, 4, False, True) and imageset(x, x ** 2, Interval(-2, 1)) == Interval(0, 4) and imageset(x, x ** 2, Interval(-2, 1, True, True)) == Interval(0, 4, False, True) and imageset(x, (x - 2) ** 2, Interval(1, 3)) == Interval(0, 1) and imageset(x, 3 * x ** 4 - 26 * x ** 3 + 78 * x ** 2 - 90 * x, Interval(0, 4)) == Interval(-35, 0) and imageset(x, x + 1 / x, Interval(-oo, oo)) == Interval(-oo, -2) + Interval(2, oo) and imageset(x, 1 / x + 1 / (x - 1) ** 2, Interval(0, 2, True, False)) == Interval(Rational(3, 2), oo, False) and imageset(lambda x: 2 * x, Interval(-2, 1)) == Interval(-4, 2) and imageset(Lambda(x, a * x), Interval(0, 1)) == ImageSet(Lambda(x, a * x), Interval(0, 1)) and imageset(Lambda(x, sin(cos(x))), Interval(0, 1)) == ImageSet(Lambda(x, sin(cos(x))), Interval(0, 1))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_image_interval : Any → {Any | imageset(x, 2 * x,...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  imageset(x, 2 * x, Interval(-2, 1)) == In...   ║
+# ║   ensures:  imageset(x, 2 * x, Interval(-2, 1, True, ...   ║
+# ║   ensures:  imageset(x, x ** 2, Interval(-2, 1, True,...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_image_interval : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c5f001543834c379  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 013ddd2e1983d54d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_image_interval","kind":"function","src_hash":"d9c1712a31484a30","in":{"base":"Any"},"out":{"base":"Any","pred":"imageset(x, 2 * x, Interval(-2, 1)) == Interval(-4, 2) and imageset(x, x ** 2, Interval(-2, 1)) == Interval(0, 4) and imageset(x, x ** 2, Interval(-2, 1, True, True)) == Interval(0, 4, False, True) and imageset(x, (x - 2) ** 2, Interval(1, 3)) == Interval(0, 1) and imageset(lambda x: 2 * x, Interval(-2, 1)) == Interval(-4, 2)"},"spec":{"lhs":"test_image_interval()","rhs":"test_image_interval produces the expected output","over":{"base":"Any"},"name":"test_image_interval_correct"},"guarantee":"test_image_interval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_image_interval_correct","statement":"Path(test_image_interval(x), test_image_interval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c5f001543834c379"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_image_interval","kind":"function","src_hash":"d9c1712a31484a30","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: imageset(x, 2 * x, Interval(-2, 1)) == Interval(-4, 2) and imageset(x, 2 * x, Interval(-2, 1, True, False)) == Interval(-4, 2, True, False) and imageset(x, x ** 2, Interval(-2, 1, True, False)) == Interval(0, 4, False, True) and imageset(x, x ** 2, Interval(-2, 1)) == Interval(0, 4) and imageset(x, x ** 2, Interval(-2, 1, True, True)) == Interval(0, 4, False, True) and imageset(x, (x - 2) ** 2, Interval(1, 3)) == Interval(0, 1) and imageset(x, 3 * x ** 4 - 26 * x ** 3 + 78 * x ** 2 - 90 * x, Interval(0, 4)) == Interval(-35, 0) and imageset(x, x + 1 / x, Interval(-oo, oo)) == Interval(-oo, -2) + Interval(2, oo) and imageset(x, 1 / x + 1 / (x - 1) ** 2, Interval(0, 2, True, False)) == Interval(Rational(3, 2), oo, False) and imageset(lambda x: 2 * x, Interval(-2, 1)) == Interval(-4, 2) and imageset(Lambda(x, a * x), Interval(0, 1)) == ImageSet(Lambda(x, a * x), Interval(0, 1)) and imageset(Lambda(x, sin(cos(x))), Interval(0, 1)) == ImageSet(Lambda(x, sin(cos(x))), Interval(0, 1))"},"spec":{"lhs":"test_image_interval()","rhs":"imageset(x, 2 * x, Interval(-2, 1)) == Interval(-4, 2) and imageset(x, 2 * x, Interval(-2, 1, True, False)) == Interval(-4, 2, True, False) and imageset(x, x ** 2, Interval(-2, 1, True, False)) == Interval(0, 4, False, True) and imageset(x, x ** 2, Interval(-2, 1)) == Interval(0, 4) and imageset(x, x ** 2, Interval(-2, 1, True, True)) == Interval(0, 4, False, True) and imageset(x, (x - 2) ** 2, Interval(1, 3)) == Interval(0, 1) and imageset(x, 3 * x ** 4 - 26 * x ** 3 + 78 * x ** 2 - 90 * x, Interval(0, 4)) == Interval(-35, 0) and imageset(x, x + 1 / x, Interval(-oo, oo)) == Interval(-oo, -2) + Interval(2, oo) and imageset(x, 1 / x + 1 / (x - 1) ** 2, Interval(0, 2, True, False)) == Interval(Rational(3, 2), oo, False) and imageset(lambda x: 2 * x, Interval(-2, 1)) == Interval(-4, 2) and imageset(Lambda(x, a * x), Interval(0, 1)) == ImageSet(Lambda(x, a * x), Interval(0, 1)) and imageset(Lambda(x, sin(cos(x))), Interval(0, 1)) == ImageSet(Lambda(x, sin(cos(x))), Interval(0, 1))","over":{"base":"Any"},"name":"test_image_interval_correct"},"guarantee":"imageset(x, 2 * x, Interval(-2, 1)) == Interval(-4, 2); imageset(x, 2 * x, Interval(-2, 1, True, False)) == Interval(-4, 2, True, False); imageset(x, x ** 2, Interval(-2, 1, True, False)) == Interval(0, 4, False, True)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_image_interval_correct","statement":"Path(test_image_interval(x), imageset(x, 2 * x, Interval(-2, 1)) == Interval(-4, 2); imageset(x, 2 * x, Interval(-2, 1, True, False)) == Interval(-4, 2, True, False); imageset(x, x ** 2, Interval(-2, 1, True, False)) == Interval(0, 4, False, True))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"013ddd2e1983d54d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["imageset(x, 2 * x, Interval(-2, 1)) == Interval(-4, 2)","imageset(x, 2 * x, Interval(-2, 1, True, False)) == Interval(-4, 2, True, False)","imageset(x, x ** 2, Interval(-2, 1, True, False)) == Interval(0, 4, False, True)","imageset(x, x ** 2, Interval(-2, 1)) == Interval(0, 4)","imageset(x, x ** 2, Interval(-2, 1, True, True)) == Interval(0, 4, False, True)","imageset(x, (x - 2) ** 2, Interval(1, 3)) == Interval(0, 1)","imageset(x, 3 * x ** 4 - 26 * x ** 3 + 78 * x ** 2 - 90 * x, Interval(0, 4)) == Interval(-35, 0)","imageset(x, x + 1 / x, Interval(-oo, oo)) == Interval(-oo, -2) + Interval(2, oo)","imageset(x, 1 / x + 1 / (x - 1) ** 2, Interval(0, 2, True, False)) == Interval(Rational(3, 2), oo, False)","imageset(lambda x: 2 * x, Interval(-2, 1)) == Interval(-4, 2)","imageset(Lambda(x, a * x), Interval(0, 1)) == ImageSet(Lambda(x, a * x), Interval(0, 1))","imageset(Lambda(x, sin(cos(x))), Interval(0, 1)) == ImageSet(Lambda(x, sin(cos(x))), Interval(0, 1))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_image_interval():
     x = Symbol('x', real=True)
     a = Symbol('a', real=True)
@@ -1792,16 +2188,23 @@ def test_image_interval():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_image_piecewise(), test_image_piecewise produces the expected output) over Any ║
+# ║ Path(test_image_piecewise(), imageset(x, f, Interval(-5, 5)) == Union(Interval(-5, -1), Interval(Rational(1, 25), oo)) and imageset(x, f1, Interval(1, 2)) == FiniteSet(0, 1)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_image_piecewise : Any → {Any | imageset(x, f1, I...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  imageset(x, f, Interval(-5, 5)) == Union(...   ║
+# ║   ensures:  imageset(x, f1, Interval(1, 2)) == Finite...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_image_piecewise : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 245ba7ca124328cf  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1b75fca194b7dde0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_image_piecewise","kind":"function","src_hash":"38be0b567bde8c39","in":{"base":"Any"},"out":{"base":"Any","pred":"imageset(x, f1, Interval(1, 2)) == FiniteSet(0, 1)"},"spec":{"lhs":"test_image_piecewise()","rhs":"test_image_piecewise produces the expected output","over":{"base":"Any"},"name":"test_image_piecewise_correct"},"guarantee":"test_image_piecewise produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_image_piecewise_correct","statement":"Path(test_image_piecewise(x), test_image_piecewise produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"245ba7ca124328cf"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_image_piecewise","kind":"function","src_hash":"38be0b567bde8c39","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: imageset(x, f, Interval(-5, 5)) == Union(Interval(-5, -1), Interval(Rational(1, 25), oo)) and imageset(x, f1, Interval(1, 2)) == FiniteSet(0, 1)"},"spec":{"lhs":"test_image_piecewise()","rhs":"imageset(x, f, Interval(-5, 5)) == Union(Interval(-5, -1), Interval(Rational(1, 25), oo)) and imageset(x, f1, Interval(1, 2)) == FiniteSet(0, 1)","over":{"base":"Any"},"name":"test_image_piecewise_correct"},"guarantee":"imageset(x, f, Interval(-5, 5)) == Union(Interval(-5, -1), Interval(Rational(1, 25), oo)); imageset(x, f1, Interval(1, 2)) == FiniteSet(0, 1)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_image_piecewise_correct","statement":"Path(test_image_piecewise(x), imageset(x, f, Interval(-5, 5)) == Union(Interval(-5, -1), Interval(Rational(1, 25), oo)); imageset(x, f1, Interval(1, 2)) == FiniteSet(0, 1))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1b75fca194b7dde0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["imageset(x, f, Interval(-5, 5)) == Union(Interval(-5, -1), Interval(Rational(1, 25), oo))","imageset(x, f1, Interval(1, 2)) == FiniteSet(0, 1)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_image_piecewise():
     f = Piecewise((x, x <= -1), (1/x**2, x <= 5), (x**3, True))
     f1 = Piecewise((0, x <= 1), (1, x <= 2), (2, True))
@@ -1811,16 +2214,22 @@ def test_image_piecewise():
 
 @XFAIL  # See: https://github.com/sympy/sympy/pull/2723#discussion_r8659826
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_image_Intersection(), test_image_Intersection produces the expected output) over Any ║
+# ║ Path(test_image_Intersection(), imageset(x, x ** 2, Interval(-2, 0).intersect(Interval(x, y))) == Interval(0, 4).intersect(Interval(Min(x ** 2, y ** 2), Max(x ** 2, y ** 2)))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_image_Intersection : Any → Any                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  imageset(x, x ** 2, Interval(-2, 0).inter...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_image_Intersection : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 579ad806369bff69  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4270e62e210346b0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_image_Intersection","kind":"function","src_hash":"b5f35b6c4db56eda","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_image_Intersection()","rhs":"test_image_Intersection produces the expected output","over":{"base":"Any"},"name":"test_image_Intersection_correct"},"guarantee":"test_image_Intersection produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_image_Intersection_correct","statement":"Path(test_image_Intersection(x), test_image_Intersection produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"579ad806369bff69"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_image_Intersection","kind":"function","src_hash":"b5f35b6c4db56eda","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: imageset(x, x ** 2, Interval(-2, 0).intersect(Interval(x, y))) == Interval(0, 4).intersect(Interval(Min(x ** 2, y ** 2), Max(x ** 2, y ** 2)))"},"spec":{"lhs":"test_image_Intersection()","rhs":"imageset(x, x ** 2, Interval(-2, 0).intersect(Interval(x, y))) == Interval(0, 4).intersect(Interval(Min(x ** 2, y ** 2), Max(x ** 2, y ** 2)))","over":{"base":"Any"},"name":"test_image_Intersection_correct"},"guarantee":"imageset(x, x ** 2, Interval(-2, 0).intersect(Interval(x, y))) == Interval(0, 4).intersect(Interval(Min(x ** 2, y ** 2), Max(x ** 2, y ** 2)))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_image_Intersection_correct","statement":"Path(test_image_Intersection(x), imageset(x, x ** 2, Interval(-2, 0).intersect(Interval(x, y))) == Interval(0, 4).intersect(Interval(Min(x ** 2, y ** 2), Max(x ** 2, y ** 2))))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4270e62e210346b0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["imageset(x, x ** 2, Interval(-2, 0).intersect(Interval(x, y))) == Interval(0, 4).intersect(Interval(Min(x ** 2, y ** 2), Max(x ** 2, y ** 2)))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_image_Intersection():
     x = Symbol('x', real=True)
     y = Symbol('y', real=True)
@@ -1829,32 +2238,44 @@ def test_image_Intersection():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_image_FiniteSet(), test_image_FiniteSet produces the expected output) over Any ║
+# ║ Path(test_image_FiniteSet(), imageset(x, 2 * x, FiniteSet(1, 2, 3)) == FiniteSet(2, 4, 6)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_image_FiniteSet : Any → {Any | imageset(x, 2 * x...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  imageset(x, 2 * x, FiniteSet(1, 2, 3)) ==...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_image_FiniteSet : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 841fee7de69469cc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c75413264c1ef213  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_image_FiniteSet","kind":"function","src_hash":"969393d7f417547f","in":{"base":"Any"},"out":{"base":"Any","pred":"imageset(x, 2 * x, FiniteSet(1, 2, 3)) == FiniteSet(2, 4, 6)"},"spec":{"lhs":"test_image_FiniteSet()","rhs":"test_image_FiniteSet produces the expected output","over":{"base":"Any"},"name":"test_image_FiniteSet_correct"},"guarantee":"test_image_FiniteSet produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_image_FiniteSet_correct","statement":"Path(test_image_FiniteSet(x), test_image_FiniteSet produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"841fee7de69469cc"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_image_FiniteSet","kind":"function","src_hash":"969393d7f417547f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: imageset(x, 2 * x, FiniteSet(1, 2, 3)) == FiniteSet(2, 4, 6)"},"spec":{"lhs":"test_image_FiniteSet()","rhs":"imageset(x, 2 * x, FiniteSet(1, 2, 3)) == FiniteSet(2, 4, 6)","over":{"base":"Any"},"name":"test_image_FiniteSet_correct"},"guarantee":"imageset(x, 2 * x, FiniteSet(1, 2, 3)) == FiniteSet(2, 4, 6)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_image_FiniteSet_correct","statement":"Path(test_image_FiniteSet(x), imageset(x, 2 * x, FiniteSet(1, 2, 3)) == FiniteSet(2, 4, 6))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c75413264c1ef213","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["imageset(x, 2 * x, FiniteSet(1, 2, 3)) == FiniteSet(2, 4, 6)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_image_FiniteSet():
     x = Symbol('x', real=True)
     assert imageset(x, 2*x, FiniteSet(1, 2, 3)) == FiniteSet(2, 4, 6)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_image_Union(), test_image_Union produces the expected output) over Any ║
+# ║ Path(test_image_Union(), imageset(x, x ** 2, Interval(-2, 0) + FiniteSet(1, 2, 3)) == Interval(0, 4) + FiniteSet(9)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_image_Union : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  imageset(x, x ** 2, Interval(-2, 0) + Fin...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_image_Union : Any → {Any | result satisfies: ima...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1f1e046586f7b5aa  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f11a480fd9ef1b5b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_image_Union","kind":"function","src_hash":"4f3c455665f5be06","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_image_Union()","rhs":"test_image_Union produces the expected output","over":{"base":"Any"},"name":"test_image_Union_correct"},"guarantee":"test_image_Union produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_image_Union_correct","statement":"Path(test_image_Union(x), test_image_Union produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1f1e046586f7b5aa"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_image_Union","kind":"function","src_hash":"4f3c455665f5be06","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: imageset(x, x ** 2, Interval(-2, 0) + FiniteSet(1, 2, 3)) == Interval(0, 4) + FiniteSet(9)"},"spec":{"lhs":"test_image_Union()","rhs":"imageset(x, x ** 2, Interval(-2, 0) + FiniteSet(1, 2, 3)) == Interval(0, 4) + FiniteSet(9)","over":{"base":"Any"},"name":"test_image_Union_correct"},"guarantee":"imageset(x, x ** 2, Interval(-2, 0) + FiniteSet(1, 2, 3)) == Interval(0, 4) + FiniteSet(9)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_image_Union_correct","statement":"Path(test_image_Union(x), imageset(x, x ** 2, Interval(-2, 0) + FiniteSet(1, 2, 3)) == Interval(0, 4) + FiniteSet(9))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f11a480fd9ef1b5b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["imageset(x, x ** 2, Interval(-2, 0) + FiniteSet(1, 2, 3)) == Interval(0, 4) + FiniteSet(9)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_image_Union():
     x = Symbol('x', real=True)
     assert imageset(x, x**2, Interval(-2, 0) + FiniteSet(1, 2, 3)) == \
@@ -1862,48 +2283,68 @@ def test_image_Union():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_image_EmptySet(), test_image_EmptySet produces the expected output) over Any ║
+# ║ Path(test_image_EmptySet(), imageset(x, 2 * x, S.EmptySet) == S.EmptySet) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_image_EmptySet : Any → {Any | imageset(x, 2 * x,...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  imageset(x, 2 * x, S.EmptySet) == S.EmptySet   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_image_EmptySet : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a5b823f77c94143e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1ec7e8af931a18e5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_image_EmptySet","kind":"function","src_hash":"359cd98877b0e1a3","in":{"base":"Any"},"out":{"base":"Any","pred":"imageset(x, 2 * x, S.EmptySet) == S.EmptySet"},"spec":{"lhs":"test_image_EmptySet()","rhs":"test_image_EmptySet produces the expected output","over":{"base":"Any"},"name":"test_image_EmptySet_correct"},"guarantee":"test_image_EmptySet produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_image_EmptySet_correct","statement":"Path(test_image_EmptySet(x), test_image_EmptySet produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a5b823f77c94143e"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_image_EmptySet","kind":"function","src_hash":"359cd98877b0e1a3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: imageset(x, 2 * x, S.EmptySet) == S.EmptySet"},"spec":{"lhs":"test_image_EmptySet()","rhs":"imageset(x, 2 * x, S.EmptySet) == S.EmptySet","over":{"base":"Any"},"name":"test_image_EmptySet_correct"},"guarantee":"imageset(x, 2 * x, S.EmptySet) == S.EmptySet","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_image_EmptySet_correct","statement":"Path(test_image_EmptySet(x), imageset(x, 2 * x, S.EmptySet) == S.EmptySet)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1ec7e8af931a18e5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["imageset(x, 2 * x, S.EmptySet) == S.EmptySet"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_image_EmptySet():
     x = Symbol('x', real=True)
     assert imageset(x, 2*x, S.EmptySet) == S.EmptySet
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_5724_7680(), test_issue_5724_7680 produces the expected output) over Any ║
+# ║ Path(test_issue_5724_7680(), I not in S.Reals and Interval(-oo, oo).contains(I) is S.false) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_5724_7680 : Any → {Any | I not in S.Reals ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  I not in S.Reals                               ║
+# ║   ensures:  Interval(-oo, oo).contains(I) is S.false       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_5724_7680 : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 121bc75715f72856  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 052ccc40850c4078  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_issue_5724_7680","kind":"function","src_hash":"d5b5de78132030da","in":{"base":"Any"},"out":{"base":"Any","pred":"I not in S.Reals and Interval(-oo, oo).contains(I) is S.false"},"spec":{"lhs":"test_issue_5724_7680()","rhs":"test_issue_5724_7680 produces the expected output","over":{"base":"Any"},"name":"test_issue_5724_7680_correct"},"guarantee":"test_issue_5724_7680 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_issue_5724_7680_correct","statement":"Path(test_issue_5724_7680(x), test_issue_5724_7680 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"121bc75715f72856"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_issue_5724_7680","kind":"function","src_hash":"d5b5de78132030da","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: I not in S.Reals and Interval(-oo, oo).contains(I) is S.false"},"spec":{"lhs":"test_issue_5724_7680()","rhs":"I not in S.Reals and Interval(-oo, oo).contains(I) is S.false","over":{"base":"Any"},"name":"test_issue_5724_7680_correct"},"guarantee":"I not in S.Reals; Interval(-oo, oo).contains(I) is S.false","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_issue_5724_7680_correct","statement":"Path(test_issue_5724_7680(x), I not in S.Reals; Interval(-oo, oo).contains(I) is S.false)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"052ccc40850c4078","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["I not in S.Reals","Interval(-oo, oo).contains(I) is S.false"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_issue_5724_7680():
     assert I not in S.Reals  # issue 7680
     assert Interval(-oo, oo).contains(I) is S.false
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_boundary(), test_boundary produces the expected output) over Any ║
+# ║ Path(test_boundary(), FiniteSet(1).boundary == FiniteSet(1) and all((Interval(0, 1, left_open, right_open).boundary == FiniteSet(0, 1) for left_open in (true, false) for right_open in (true, false)))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_boundary : Any → {Any | FiniteSet(1).boundary ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  FiniteSet(1).boundary == FiniteSet(1)          ║
+# ║   ensures:  all((Interval(0, 1, left_open, right_open...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_boundary : Any → {Any | result satisfies: Finite...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 82cb2c10e0c07b63  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f7bb72e7cf74a5c1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_boundary","kind":"function","src_hash":"d10772cfa71129b2","in":{"base":"Any"},"out":{"base":"Any","pred":"FiniteSet(1).boundary == FiniteSet(1)"},"spec":{"lhs":"test_boundary()","rhs":"test_boundary produces the expected output","over":{"base":"Any"},"name":"test_boundary_correct"},"guarantee":"test_boundary produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_boundary_correct","statement":"Path(test_boundary(x), test_boundary produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"82cb2c10e0c07b63"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_boundary","kind":"function","src_hash":"d10772cfa71129b2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: FiniteSet(1).boundary == FiniteSet(1) and all((Interval(0, 1, left_open, right_open).boundary == FiniteSet(0, 1) for left_open in (true, false) for right_open in (true, false)))"},"spec":{"lhs":"test_boundary()","rhs":"FiniteSet(1).boundary == FiniteSet(1) and all((Interval(0, 1, left_open, right_open).boundary == FiniteSet(0, 1) for left_open in (true, false) for right_open in (true, false)))","over":{"base":"Any"},"name":"test_boundary_correct"},"guarantee":"FiniteSet(1).boundary == FiniteSet(1); all((Interval(0, 1, left_open, right_open).boundary == FiniteSet(0, 1) for left_open in (true, false) for right_open in (true, false)))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_boundary_correct","statement":"Path(test_boundary(x), FiniteSet(1).boundary == FiniteSet(1); all((Interval(0, 1, left_open, right_open).boundary == FiniteSet(0, 1) for left_open in (true, false) for right_open in (true, false))))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f7bb72e7cf74a5c1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["FiniteSet(1).boundary == FiniteSet(1)","all((Interval(0, 1, left_open, right_open).boundary == FiniteSet(0, 1) for left_open in (true, false) for right_open in (true, false)))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_boundary():
     assert FiniteSet(1).boundary == FiniteSet(1)
     assert all(Interval(0, 1, left_open, right_open).boundary == FiniteSet(0, 1)
@@ -1911,16 +2352,24 @@ def test_boundary():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_boundary_Union(), test_boundary_Union produces the expected output) over Any ║
+# ║ Path(test_boundary_Union(), (Interval(0, 1) + Interval(2, 3)).boundary == FiniteSet(0, 1, 2, 3) and (Interval(0, 1, False, True) + Interval(1, 2, True, False)).boundary == FiniteSet(0, 1, 2) and (Interval(0, 1) + FiniteSet(2)).boundary == FiniteSet(0, 1, 2) and Union(Interval(0, 10), Interval(5, 15), evaluate=False).boundary == FiniteSet(0, 15) and Union(Interval(0, 10), Interval(0, 1), evaluate=False).boundary == FiniteSet(0, 10) and Union(Interval(0, 10, True, True), Interval(10, 15, True, True), evaluate=False).boundary == FiniteSet(0, 10, 15)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_boundary_Union : Any → {Any | (Interval(0, 1) + ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (Interval(0, 1) + Interval(2, 3)).boundar...   ║
+# ║   ensures:  (Interval(0, 1, False, True) + Interval(1...   ║
+# ║   ensures:  (Interval(0, 1) + FiniteSet(2)).boundary ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_boundary_Union : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 09593cbc82016da9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d78112edf20eb528  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_boundary_Union","kind":"function","src_hash":"017225f745e5c223","in":{"base":"Any"},"out":{"base":"Any","pred":"(Interval(0, 1) + Interval(2, 3)).boundary == FiniteSet(0, 1, 2, 3) and (Interval(0, 1) + FiniteSet(2)).boundary == FiniteSet(0, 1, 2)"},"spec":{"lhs":"test_boundary_Union()","rhs":"test_boundary_Union produces the expected output","over":{"base":"Any"},"name":"test_boundary_Union_correct"},"guarantee":"test_boundary_Union produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_boundary_Union_correct","statement":"Path(test_boundary_Union(x), test_boundary_Union produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"09593cbc82016da9"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_boundary_Union","kind":"function","src_hash":"017225f745e5c223","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (Interval(0, 1) + Interval(2, 3)).boundary == FiniteSet(0, 1, 2, 3) and (Interval(0, 1, False, True) + Interval(1, 2, True, False)).boundary == FiniteSet(0, 1, 2) and (Interval(0, 1) + FiniteSet(2)).boundary == FiniteSet(0, 1, 2) and Union(Interval(0, 10), Interval(5, 15), evaluate=False).boundary == FiniteSet(0, 15) and Union(Interval(0, 10), Interval(0, 1), evaluate=False).boundary == FiniteSet(0, 10) and Union(Interval(0, 10, True, True), Interval(10, 15, True, True), evaluate=False).boundary == FiniteSet(0, 10, 15)"},"spec":{"lhs":"test_boundary_Union()","rhs":"(Interval(0, 1) + Interval(2, 3)).boundary == FiniteSet(0, 1, 2, 3) and (Interval(0, 1, False, True) + Interval(1, 2, True, False)).boundary == FiniteSet(0, 1, 2) and (Interval(0, 1) + FiniteSet(2)).boundary == FiniteSet(0, 1, 2) and Union(Interval(0, 10), Interval(5, 15), evaluate=False).boundary == FiniteSet(0, 15) and Union(Interval(0, 10), Interval(0, 1), evaluate=False).boundary == FiniteSet(0, 10) and Union(Interval(0, 10, True, True), Interval(10, 15, True, True), evaluate=False).boundary == FiniteSet(0, 10, 15)","over":{"base":"Any"},"name":"test_boundary_Union_correct"},"guarantee":"(Interval(0, 1) + Interval(2, 3)).boundary == FiniteSet(0, 1, 2, 3); (Interval(0, 1, False, True) + Interval(1, 2, True, False)).boundary == FiniteSet(0, 1, 2); (Interval(0, 1) + FiniteSet(2)).boundary == FiniteSet(0, 1, 2)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_boundary_Union_correct","statement":"Path(test_boundary_Union(x), (Interval(0, 1) + Interval(2, 3)).boundary == FiniteSet(0, 1, 2, 3); (Interval(0, 1, False, True) + Interval(1, 2, True, False)).boundary == FiniteSet(0, 1, 2); (Interval(0, 1) + FiniteSet(2)).boundary == FiniteSet(0, 1, 2))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d78112edf20eb528","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(Interval(0, 1) + Interval(2, 3)).boundary == FiniteSet(0, 1, 2, 3)","(Interval(0, 1, False, True) + Interval(1, 2, True, False)).boundary == FiniteSet(0, 1, 2)","(Interval(0, 1) + FiniteSet(2)).boundary == FiniteSet(0, 1, 2)","Union(Interval(0, 10), Interval(5, 15), evaluate=False).boundary == FiniteSet(0, 15)","Union(Interval(0, 10), Interval(0, 1), evaluate=False).boundary == FiniteSet(0, 10)","Union(Interval(0, 10, True, True), Interval(10, 15, True, True), evaluate=False).boundary == FiniteSet(0, 10, 15)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_boundary_Union():
     assert (Interval(0, 1) + Interval(2, 3)).boundary == FiniteSet(0, 1, 2, 3)
     assert ((Interval(0, 1, False, True)
@@ -1939,16 +2388,22 @@ def test_boundary_Union():
 
 @XFAIL
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_union_boundary_of_joining_sets(), testing the boundary of unions is a hard problem) over Any ║
+# ║ Path(test_union_boundary_of_joining_sets(), Union(Interval(0, 10), Interval(10, 15), evaluate=False).boundary == FiniteSet(0, 15)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_union_boundary_of_joining_sets : Any → Any            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Union(Interval(0, 10), Interval(10, 15), ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_union_boundary_of_joining_sets : Any → {Any | re...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5d0a0a180327e161  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2a49618634f1d039  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_union_boundary_of_joining_sets","kind":"function","src_hash":"2b7666d725d08372","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_union_boundary_of_joining_sets()","rhs":"testing the boundary of unions is a hard problem","over":{"base":"Any"},"name":"test_union_boundary_of_joining_sets_correct"},"guarantee":"testing the boundary of unions is a hard problem","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_union_boundary_of_joining_sets_correct","statement":"Path(test_union_boundary_of_joining_sets(x), testing the boundary of unions is a hard problem)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5d0a0a180327e161"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_union_boundary_of_joining_sets","kind":"function","src_hash":"2b7666d725d08372","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Union(Interval(0, 10), Interval(10, 15), evaluate=False).boundary == FiniteSet(0, 15)"},"spec":{"lhs":"test_union_boundary_of_joining_sets()","rhs":"Union(Interval(0, 10), Interval(10, 15), evaluate=False).boundary == FiniteSet(0, 15)","over":{"base":"Any"},"name":"test_union_boundary_of_joining_sets_correct"},"guarantee":"Union(Interval(0, 10), Interval(10, 15), evaluate=False).boundary == FiniteSet(0, 15)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_union_boundary_of_joining_sets_correct","statement":"Path(test_union_boundary_of_joining_sets(x), Union(Interval(0, 10), Interval(10, 15), evaluate=False).boundary == FiniteSet(0, 15))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2a49618634f1d039","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Union(Interval(0, 10), Interval(10, 15), evaluate=False).boundary == FiniteSet(0, 15)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_union_boundary_of_joining_sets():
     """ Testing the boundary of unions is a hard problem """
     assert Union(Interval(0, 10), Interval(10, 15), evaluate=False).boundary \
@@ -1956,16 +2411,23 @@ def test_union_boundary_of_joining_sets():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_boundary_ProductSet(), test_boundary_ProductSet produces the expected output) over Any ║
+# ║ Path(test_boundary_ProductSet(), open_square.boundary == FiniteSet(0, 1) * Interval(0, 1) + Interval(0, 1) * FiniteSet(0, 1) and (open_square + second_square).boundary == FiniteSet(0, 1) * Interval(0, 1) + FiniteSet(1, 2) * Interval(0, 1) + Interval(0, 1) * FiniteSet(0, 1) + Interval(1, 2) * FiniteSet(0, 1)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_boundary_ProductSet : Any → Any                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  open_square.boundary == FiniteSet(0, 1) *...   ║
+# ║   ensures:  (open_square + second_square).boundary ==...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_boundary_ProductSet : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b1a3ffeb2fb40a43  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a989e57a52ccf75f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_boundary_ProductSet","kind":"function","src_hash":"4a1859c20cce8c83","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_boundary_ProductSet()","rhs":"test_boundary_ProductSet produces the expected output","over":{"base":"Any"},"name":"test_boundary_ProductSet_correct"},"guarantee":"test_boundary_ProductSet produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_boundary_ProductSet_correct","statement":"Path(test_boundary_ProductSet(x), test_boundary_ProductSet produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b1a3ffeb2fb40a43"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_boundary_ProductSet","kind":"function","src_hash":"4a1859c20cce8c83","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: open_square.boundary == FiniteSet(0, 1) * Interval(0, 1) + Interval(0, 1) * FiniteSet(0, 1) and (open_square + second_square).boundary == FiniteSet(0, 1) * Interval(0, 1) + FiniteSet(1, 2) * Interval(0, 1) + Interval(0, 1) * FiniteSet(0, 1) + Interval(1, 2) * FiniteSet(0, 1)"},"spec":{"lhs":"test_boundary_ProductSet()","rhs":"open_square.boundary == FiniteSet(0, 1) * Interval(0, 1) + Interval(0, 1) * FiniteSet(0, 1) and (open_square + second_square).boundary == FiniteSet(0, 1) * Interval(0, 1) + FiniteSet(1, 2) * Interval(0, 1) + Interval(0, 1) * FiniteSet(0, 1) + Interval(1, 2) * FiniteSet(0, 1)","over":{"base":"Any"},"name":"test_boundary_ProductSet_correct"},"guarantee":"open_square.boundary == FiniteSet(0, 1) * Interval(0, 1) + Interval(0, 1) * FiniteSet(0, 1); (open_square + second_square).boundary == FiniteSet(0, 1) * Interval(0, 1) + FiniteSet(1, 2) * Interval(0, 1) + Interval(0, 1) * FiniteSet(0, 1) + Interval(1, 2) * FiniteSet(0, 1)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_boundary_ProductSet_correct","statement":"Path(test_boundary_ProductSet(x), open_square.boundary == FiniteSet(0, 1) * Interval(0, 1) + Interval(0, 1) * FiniteSet(0, 1); (open_square + second_square).boundary == FiniteSet(0, 1) * Interval(0, 1) + FiniteSet(1, 2) * Interval(0, 1) + Interval(0, 1) * FiniteSet(0, 1) + Interval(1, 2) * FiniteSet(0, 1))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a989e57a52ccf75f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["open_square.boundary == FiniteSet(0, 1) * Interval(0, 1) + Interval(0, 1) * FiniteSet(0, 1)","(open_square + second_square).boundary == FiniteSet(0, 1) * Interval(0, 1) + FiniteSet(1, 2) * Interval(0, 1) + Interval(0, 1) * FiniteSet(0, 1) + Interval(1, 2) * FiniteSet(0, 1)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_boundary_ProductSet():
     open_square = Interval(0, 1, True, True) ** 2
     assert open_square.boundary == (FiniteSet(0, 1) * Interval(0, 1)
@@ -1980,32 +2442,46 @@ def test_boundary_ProductSet():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_boundary_ProductSet_line(), test_boundary_ProductSet_line produces the expected output) over Any ║
+# ║ Path(test_boundary_ProductSet_line(), line_in_r2.boundary == line_in_r2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_boundary_ProductSet_line : Any → {Any | line_in_...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  line_in_r2.boundary == line_in_r2              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_boundary_ProductSet_line : Any → {Any | result s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 845999159c1a3079  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b38d6a09d8448e38  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_boundary_ProductSet_line","kind":"function","src_hash":"bd2129c976cb7db2","in":{"base":"Any"},"out":{"base":"Any","pred":"line_in_r2.boundary == line_in_r2"},"spec":{"lhs":"test_boundary_ProductSet_line()","rhs":"test_boundary_ProductSet_line produces the expected output","over":{"base":"Any"},"name":"test_boundary_ProductSet_line_correct"},"guarantee":"test_boundary_ProductSet_line produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_boundary_ProductSet_line_correct","statement":"Path(test_boundary_ProductSet_line(x), test_boundary_ProductSet_line produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"845999159c1a3079"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_boundary_ProductSet_line","kind":"function","src_hash":"bd2129c976cb7db2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: line_in_r2.boundary == line_in_r2"},"spec":{"lhs":"test_boundary_ProductSet_line()","rhs":"line_in_r2.boundary == line_in_r2","over":{"base":"Any"},"name":"test_boundary_ProductSet_line_correct"},"guarantee":"line_in_r2.boundary == line_in_r2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_boundary_ProductSet_line_correct","statement":"Path(test_boundary_ProductSet_line(x), line_in_r2.boundary == line_in_r2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b38d6a09d8448e38","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["line_in_r2.boundary == line_in_r2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_boundary_ProductSet_line():
     line_in_r2 = Interval(0, 1) * FiniteSet(0)
     assert line_in_r2.boundary == line_in_r2
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_is_open(), test_is_open produces the expected output) over Any ║
+# ║ Path(test_is_open(), Interval(0, 1, False, False).is_open is False and Interval(0, 1, True, False).is_open is False and Interval(0, 1, True, True).is_open is True and FiniteSet(1, 2, 3).is_open is False) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_is_open : Any → {Any | Interval(0, 1, False, Fal...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Interval(0, 1, False, False).is_open is F...   ║
+# ║   ensures:  Interval(0, 1, True, False).is_open is False   ║
+# ║   ensures:  Interval(0, 1, True, True).is_open is True     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_is_open : Any → {Any | result satisfies: Interva...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0c6610a77c7723f6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 33ae6360f7094cbd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_is_open","kind":"function","src_hash":"d2cd8ef5418367b6","in":{"base":"Any"},"out":{"base":"Any","pred":"Interval(0, 1, False, False).is_open is False and Interval(0, 1, True, False).is_open is False and Interval(0, 1, True, True).is_open is True and FiniteSet(1, 2, 3).is_open is False"},"spec":{"lhs":"test_is_open()","rhs":"test_is_open produces the expected output","over":{"base":"Any"},"name":"test_is_open_correct"},"guarantee":"test_is_open produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_is_open_correct","statement":"Path(test_is_open(x), test_is_open produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0c6610a77c7723f6"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_is_open","kind":"function","src_hash":"d2cd8ef5418367b6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Interval(0, 1, False, False).is_open is False and Interval(0, 1, True, False).is_open is False and Interval(0, 1, True, True).is_open is True and FiniteSet(1, 2, 3).is_open is False"},"spec":{"lhs":"test_is_open()","rhs":"Interval(0, 1, False, False).is_open is False and Interval(0, 1, True, False).is_open is False and Interval(0, 1, True, True).is_open is True and FiniteSet(1, 2, 3).is_open is False","over":{"base":"Any"},"name":"test_is_open_correct"},"guarantee":"Interval(0, 1, False, False).is_open is False; Interval(0, 1, True, False).is_open is False; Interval(0, 1, True, True).is_open is True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_is_open_correct","statement":"Path(test_is_open(x), Interval(0, 1, False, False).is_open is False; Interval(0, 1, True, False).is_open is False; Interval(0, 1, True, True).is_open is True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"33ae6360f7094cbd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Interval(0, 1, False, False).is_open is False","Interval(0, 1, True, False).is_open is False","Interval(0, 1, True, True).is_open is True","FiniteSet(1, 2, 3).is_open is False"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_is_open():
     assert Interval(0, 1, False, False).is_open is False
     assert Interval(0, 1, True, False).is_open is False
@@ -2014,16 +2490,24 @@ def test_is_open():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_is_closed(), test_is_closed produces the expected output) over Any ║
+# ║ Path(test_is_closed(), Interval(0, 1, False, False).is_closed is True and Interval(0, 1, True, False).is_closed is False and FiniteSet(1, 2, 3).is_closed is True) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_is_closed : Any → {Any | Interval(0, 1, False, F...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Interval(0, 1, False, False).is_closed is...   ║
+# ║   ensures:  Interval(0, 1, True, False).is_closed is ...   ║
+# ║   ensures:  FiniteSet(1, 2, 3).is_closed is True           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_is_closed : Any → {Any | result satisfies: Inter...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cd0d3d496d3d9c19  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 90aeba279630d985  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_is_closed","kind":"function","src_hash":"c090560e7aa6f86b","in":{"base":"Any"},"out":{"base":"Any","pred":"Interval(0, 1, False, False).is_closed is True and Interval(0, 1, True, False).is_closed is False and FiniteSet(1, 2, 3).is_closed is True"},"spec":{"lhs":"test_is_closed()","rhs":"test_is_closed produces the expected output","over":{"base":"Any"},"name":"test_is_closed_correct"},"guarantee":"test_is_closed produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_is_closed_correct","statement":"Path(test_is_closed(x), test_is_closed produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cd0d3d496d3d9c19"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_is_closed","kind":"function","src_hash":"c090560e7aa6f86b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Interval(0, 1, False, False).is_closed is True and Interval(0, 1, True, False).is_closed is False and FiniteSet(1, 2, 3).is_closed is True"},"spec":{"lhs":"test_is_closed()","rhs":"Interval(0, 1, False, False).is_closed is True and Interval(0, 1, True, False).is_closed is False and FiniteSet(1, 2, 3).is_closed is True","over":{"base":"Any"},"name":"test_is_closed_correct"},"guarantee":"Interval(0, 1, False, False).is_closed is True; Interval(0, 1, True, False).is_closed is False; FiniteSet(1, 2, 3).is_closed is True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_is_closed_correct","statement":"Path(test_is_closed(x), Interval(0, 1, False, False).is_closed is True; Interval(0, 1, True, False).is_closed is False; FiniteSet(1, 2, 3).is_closed is True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"90aeba279630d985","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Interval(0, 1, False, False).is_closed is True","Interval(0, 1, True, False).is_closed is False","FiniteSet(1, 2, 3).is_closed is True"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_is_closed():
     assert Interval(0, 1, False, False).is_closed is True
     assert Interval(0, 1, True, False).is_closed is False
@@ -2031,61 +2515,87 @@ def test_is_closed():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_closure(), test_closure produces the expected output) over Any ║
+# ║ Path(test_closure(), Interval(0, 1, False, True).closure == Interval(0, 1, False, False)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_closure : Any → {Any | Interval(0, 1, False, Tru...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Interval(0, 1, False, True).closure == In...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_closure : Any → {Any | result satisfies: Interva...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c696f42946b10ee3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 78197cdffb45388d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_closure","kind":"function","src_hash":"d0c2b22f02fddccf","in":{"base":"Any"},"out":{"base":"Any","pred":"Interval(0, 1, False, True).closure == Interval(0, 1, False, False)"},"spec":{"lhs":"test_closure()","rhs":"test_closure produces the expected output","over":{"base":"Any"},"name":"test_closure_correct"},"guarantee":"test_closure produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_closure_correct","statement":"Path(test_closure(x), test_closure produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c696f42946b10ee3"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_closure","kind":"function","src_hash":"d0c2b22f02fddccf","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Interval(0, 1, False, True).closure == Interval(0, 1, False, False)"},"spec":{"lhs":"test_closure()","rhs":"Interval(0, 1, False, True).closure == Interval(0, 1, False, False)","over":{"base":"Any"},"name":"test_closure_correct"},"guarantee":"Interval(0, 1, False, True).closure == Interval(0, 1, False, False)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_closure_correct","statement":"Path(test_closure(x), Interval(0, 1, False, True).closure == Interval(0, 1, False, False))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"78197cdffb45388d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Interval(0, 1, False, True).closure == Interval(0, 1, False, False)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_closure():
     assert Interval(0, 1, False, True).closure == Interval(0, 1, False, False)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_interior(), test_interior produces the expected output) over Any ║
+# ║ Path(test_interior(), Interval(0, 1, False, True).interior == Interval(0, 1, True, True)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_interior : Any → {Any | Interval(0, 1, False, Tr...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Interval(0, 1, False, True).interior == I...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_interior : Any → {Any | result satisfies: Interv...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 998f23c73dc9e81d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3eea0a6d01431fc5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_interior","kind":"function","src_hash":"9a63e85c0c45c8b5","in":{"base":"Any"},"out":{"base":"Any","pred":"Interval(0, 1, False, True).interior == Interval(0, 1, True, True)"},"spec":{"lhs":"test_interior()","rhs":"test_interior produces the expected output","over":{"base":"Any"},"name":"test_interior_correct"},"guarantee":"test_interior produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_interior_correct","statement":"Path(test_interior(x), test_interior produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"998f23c73dc9e81d"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_interior","kind":"function","src_hash":"9a63e85c0c45c8b5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Interval(0, 1, False, True).interior == Interval(0, 1, True, True)"},"spec":{"lhs":"test_interior()","rhs":"Interval(0, 1, False, True).interior == Interval(0, 1, True, True)","over":{"base":"Any"},"name":"test_interior_correct"},"guarantee":"Interval(0, 1, False, True).interior == Interval(0, 1, True, True)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_interior_correct","statement":"Path(test_interior(x), Interval(0, 1, False, True).interior == Interval(0, 1, True, True))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3eea0a6d01431fc5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Interval(0, 1, False, True).interior == Interval(0, 1, True, True)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_interior():
     assert Interval(0, 1, False, True).interior == Interval(0, 1, True, True)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_7841(), test_issue_7841 produces the expected output) over Any ║
+# ║ Path(test_issue_7841(), <unspecified:test_issue_7841>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_issue_7841 : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f1a1fa022d25fe1d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_issue_7841","kind":"function","src_hash":"ae42247027c182ae","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_issue_7841()","rhs":"test_issue_7841 produces the expected output","over":{"base":"Any"},"name":"test_issue_7841_correct"},"guarantee":"test_issue_7841 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_issue_7841_correct","statement":"Path(test_issue_7841(x), test_issue_7841 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f1a1fa022d25fe1d"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_issue_7841","kind":"function","src_hash":"ae42247027c182ae","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_issue_7841()","rhs":"<unspecified:test_issue_7841>","over":{"base":"Any"},"name":"test_issue_7841_correct"},"guarantee":"test_issue_7841 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_issue_7841_correct","statement":"Path(test_issue_7841(x), test_issue_7841 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f1a1fa022d25fe1d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_issue_7841():
     raises(TypeError, lambda: x in S.Reals)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Eq(), test_Eq produces the expected output) over Any ║
+# ║ Path(test_Eq(), Eq(Interval(0, 1), Interval(0, 1)) and Eq(Interval(0, 1), Interval(0, 2)) == False and Eq(s1, s1) and Eq(s1, s2) == False and Eq(s1 * s2, s1 * s2) and Eq(s1 * s2, s2 * s1) == False and unchanged(Eq, FiniteSet({x, y}), FiniteSet({x})) and Eq(FiniteSet({x, y}).subs(y, x), FiniteSet({x})) is S.true and Eq(FiniteSet({x, y}), FiniteSet({x})).subs(y, x) is S.true and Eq(FiniteSet({x, y}).subs(y, x + 1), FiniteSet({x})) is S.false and Eq(FiniteSet({x, y}), FiniteSet({x})).subs(y, x + 1) is S.false and Eq(ProductSet({1}, {2}), Interval(1, 2)) is S.false and Eq(ProductSet({1}), ProductSet({1}, {2})) is S.false and Eq(FiniteSet(()), FiniteSet(1)) is S.false and Eq(ProductSet(), FiniteSet(1)) is S.false and unchanged(Eq, ProductSet(i1, i1), ProductSet(i2, i2))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Eq : Any → {Any | Eq(Interval(0, 1), Interval(0,...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Eq(Interval(0, 1), Interval(0, 1))             ║
+# ║   ensures:  Eq(Interval(0, 1), Interval(0, 2)) == False    ║
+# ║   ensures:  Eq(s1, s1)                                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Eq : Any → {Any | result satisfies: Eq(Interval(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8ab565f68338deea  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 55c9ff98a334ec0e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_Eq","kind":"function","src_hash":"79684830bb2267f6","in":{"base":"Any"},"out":{"base":"Any","pred":"Eq(Interval(0, 1), Interval(0, 1)) and Eq(Interval(0, 1), Interval(0, 2)) == False and Eq(s1, s1) and Eq(s1, s2) == False and Eq(s1 * s2, s1 * s2) and Eq(s1 * s2, s2 * s1) == False and unchanged(Eq, FiniteSet({x, y}), FiniteSet({x})) and Eq(FiniteSet({x, y}).subs(y, x), FiniteSet({x})) is S.true and Eq(FiniteSet({x, y}), FiniteSet({x})).subs(y, x) is S.true and Eq(FiniteSet({x, y}).subs(y, x + 1), FiniteSet({x})) is S.false and Eq(FiniteSet({x, y}), FiniteSet({x})).subs(y, x + 1) is S.false and Eq(ProductSet({1}, {2}), Interval(1, 2)) is S.false and Eq(ProductSet({1}), ProductSet({1}, {2})) is S.false and Eq(FiniteSet(()), FiniteSet(1)) is S.false and Eq(ProductSet(), FiniteSet(1)) is S.false and unchanged(Eq, ProductSet(i1, i1), ProductSet(i2, i2))"},"spec":{"lhs":"test_Eq()","rhs":"test_Eq produces the expected output","over":{"base":"Any"},"name":"test_Eq_correct"},"guarantee":"test_Eq produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_Eq_correct","statement":"Path(test_Eq(x), test_Eq produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8ab565f68338deea"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_Eq","kind":"function","src_hash":"79684830bb2267f6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Eq(Interval(0, 1), Interval(0, 1)) and Eq(Interval(0, 1), Interval(0, 2)) == False and Eq(s1, s1) and Eq(s1, s2) == False and Eq(s1 * s2, s1 * s2) and Eq(s1 * s2, s2 * s1) == False and unchanged(Eq, FiniteSet({x, y}), FiniteSet({x})) and Eq(FiniteSet({x, y}).subs(y, x), FiniteSet({x})) is S.true and Eq(FiniteSet({x, y}), FiniteSet({x})).subs(y, x) is S.true and Eq(FiniteSet({x, y}).subs(y, x + 1), FiniteSet({x})) is S.false and Eq(FiniteSet({x, y}), FiniteSet({x})).subs(y, x + 1) is S.false and Eq(ProductSet({1}, {2}), Interval(1, 2)) is S.false and Eq(ProductSet({1}), ProductSet({1}, {2})) is S.false and Eq(FiniteSet(()), FiniteSet(1)) is S.false and Eq(ProductSet(), FiniteSet(1)) is S.false and unchanged(Eq, ProductSet(i1, i1), ProductSet(i2, i2))"},"spec":{"lhs":"test_Eq()","rhs":"Eq(Interval(0, 1), Interval(0, 1)) and Eq(Interval(0, 1), Interval(0, 2)) == False and Eq(s1, s1) and Eq(s1, s2) == False and Eq(s1 * s2, s1 * s2) and Eq(s1 * s2, s2 * s1) == False and unchanged(Eq, FiniteSet({x, y}), FiniteSet({x})) and Eq(FiniteSet({x, y}).subs(y, x), FiniteSet({x})) is S.true and Eq(FiniteSet({x, y}), FiniteSet({x})).subs(y, x) is S.true and Eq(FiniteSet({x, y}).subs(y, x + 1), FiniteSet({x})) is S.false and Eq(FiniteSet({x, y}), FiniteSet({x})).subs(y, x + 1) is S.false and Eq(ProductSet({1}, {2}), Interval(1, 2)) is S.false and Eq(ProductSet({1}), ProductSet({1}, {2})) is S.false and Eq(FiniteSet(()), FiniteSet(1)) is S.false and Eq(ProductSet(), FiniteSet(1)) is S.false and unchanged(Eq, ProductSet(i1, i1), ProductSet(i2, i2))","over":{"base":"Any"},"name":"test_Eq_correct"},"guarantee":"Eq(Interval(0, 1), Interval(0, 1)); Eq(Interval(0, 1), Interval(0, 2)) == False; Eq(s1, s1)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_Eq_correct","statement":"Path(test_Eq(x), Eq(Interval(0, 1), Interval(0, 1)); Eq(Interval(0, 1), Interval(0, 2)) == False; Eq(s1, s1))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"55c9ff98a334ec0e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Eq(Interval(0, 1), Interval(0, 1))","Eq(Interval(0, 1), Interval(0, 2)) == False","Eq(s1, s1)","Eq(s1, s2) == False","Eq(s1 * s2, s1 * s2)","Eq(s1 * s2, s2 * s1) == False","unchanged(Eq, FiniteSet({x, y}), FiniteSet({x}))","Eq(FiniteSet({x, y}).subs(y, x), FiniteSet({x})) is S.true","Eq(FiniteSet({x, y}), FiniteSet({x})).subs(y, x) is S.true","Eq(FiniteSet({x, y}).subs(y, x + 1), FiniteSet({x})) is S.false","Eq(FiniteSet({x, y}), FiniteSet({x})).subs(y, x + 1) is S.false","Eq(ProductSet({1}, {2}), Interval(1, 2)) is S.false","Eq(ProductSet({1}), ProductSet({1}, {2})) is S.false","Eq(FiniteSet(()), FiniteSet(1)) is S.false","Eq(ProductSet(), FiniteSet(1)) is S.false","unchanged(Eq, ProductSet(i1, i1), ProductSet(i2, i2))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def test_Eq():
     assert Eq(Interval(0, 1), Interval(0, 1))
     assert Eq(Interval(0, 1), Interval(0, 2)) == False
@@ -2117,16 +2627,24 @@ def test_Eq():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_SymmetricDifference(), test_SymmetricDifference produces the expected output) over Any ║
+# ║ Path(test_SymmetricDifference(), SymmetricDifference(A, B, evaluate=False).is_iterable is True and SymmetricDifference(A, C, evaluate=False).is_iterable is None and FiniteSet(*SymmetricDifference(A, B, evaluate=False)) == FiniteSet(0, 1, 3, 5, 6, 8, 10) and SymmetricDifference(FiniteSet(0, 1, 2, 3, 4, 5), FiniteSet(2, 4, 6, 8, 10)) == FiniteSet(0, 1, 3, 5, 6, 8, 10) and SymmetricDifference(FiniteSet(2, 3, 4), FiniteSet(2, 3, 4, 5)) == FiniteSet(5) and FiniteSet(1, 2, 3, 4, 5) ^ FiniteSet(1, 2, 5, 6) == FiniteSet(3, 4, 6) and Set(S(1), S(2), S(3)) ^ Set(S(2), S(3), S(4)) == Union(Set(S(1), S(2), S(3)) - Set(S(2), S(3), S(4)), Set(S(2), S(3), S(4)) - Set(S(1), S(2), S(3))) and Interval(0, 4) ^ Interval(2, 5) == Union(Interval(0, 4) - Interval(2, 5), Interval(2, 5) - Interval(0, 4))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_SymmetricDifference : Any → {Any | SymmetricDiff...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  SymmetricDifference(A, B, evaluate=False)...   ║
+# ║   ensures:  SymmetricDifference(A, C, evaluate=False)...   ║
+# ║   ensures:  FiniteSet(*SymmetricDifference(A, B, eval...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_SymmetricDifference : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e22f48a0d7a8840f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6623de9dc26a6f83  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_SymmetricDifference","kind":"function","src_hash":"4954f0eea41babb9","in":{"base":"Any"},"out":{"base":"Any","pred":"SymmetricDifference(A, B, evaluate=False).is_iterable is True and SymmetricDifference(A, C, evaluate=False).is_iterable is None and SymmetricDifference(FiniteSet(2, 3, 4), FiniteSet(2, 3, 4, 5)) == FiniteSet(5) and FiniteSet(1, 2, 3, 4, 5) ^ FiniteSet(1, 2, 5, 6) == FiniteSet(3, 4, 6)"},"spec":{"lhs":"test_SymmetricDifference()","rhs":"test_SymmetricDifference produces the expected output","over":{"base":"Any"},"name":"test_SymmetricDifference_correct"},"guarantee":"test_SymmetricDifference produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_SymmetricDifference_correct","statement":"Path(test_SymmetricDifference(x), test_SymmetricDifference produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e22f48a0d7a8840f"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_SymmetricDifference","kind":"function","src_hash":"4954f0eea41babb9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: SymmetricDifference(A, B, evaluate=False).is_iterable is True and SymmetricDifference(A, C, evaluate=False).is_iterable is None and FiniteSet(*SymmetricDifference(A, B, evaluate=False)) == FiniteSet(0, 1, 3, 5, 6, 8, 10) and SymmetricDifference(FiniteSet(0, 1, 2, 3, 4, 5), FiniteSet(2, 4, 6, 8, 10)) == FiniteSet(0, 1, 3, 5, 6, 8, 10) and SymmetricDifference(FiniteSet(2, 3, 4), FiniteSet(2, 3, 4, 5)) == FiniteSet(5) and FiniteSet(1, 2, 3, 4, 5) ^ FiniteSet(1, 2, 5, 6) == FiniteSet(3, 4, 6) and Set(S(1), S(2), S(3)) ^ Set(S(2), S(3), S(4)) == Union(Set(S(1), S(2), S(3)) - Set(S(2), S(3), S(4)), Set(S(2), S(3), S(4)) - Set(S(1), S(2), S(3))) and Interval(0, 4) ^ Interval(2, 5) == Union(Interval(0, 4) - Interval(2, 5), Interval(2, 5) - Interval(0, 4))"},"spec":{"lhs":"test_SymmetricDifference()","rhs":"SymmetricDifference(A, B, evaluate=False).is_iterable is True and SymmetricDifference(A, C, evaluate=False).is_iterable is None and FiniteSet(*SymmetricDifference(A, B, evaluate=False)) == FiniteSet(0, 1, 3, 5, 6, 8, 10) and SymmetricDifference(FiniteSet(0, 1, 2, 3, 4, 5), FiniteSet(2, 4, 6, 8, 10)) == FiniteSet(0, 1, 3, 5, 6, 8, 10) and SymmetricDifference(FiniteSet(2, 3, 4), FiniteSet(2, 3, 4, 5)) == FiniteSet(5) and FiniteSet(1, 2, 3, 4, 5) ^ FiniteSet(1, 2, 5, 6) == FiniteSet(3, 4, 6) and Set(S(1), S(2), S(3)) ^ Set(S(2), S(3), S(4)) == Union(Set(S(1), S(2), S(3)) - Set(S(2), S(3), S(4)), Set(S(2), S(3), S(4)) - Set(S(1), S(2), S(3))) and Interval(0, 4) ^ Interval(2, 5) == Union(Interval(0, 4) - Interval(2, 5), Interval(2, 5) - Interval(0, 4))","over":{"base":"Any"},"name":"test_SymmetricDifference_correct"},"guarantee":"SymmetricDifference(A, B, evaluate=False).is_iterable is True; SymmetricDifference(A, C, evaluate=False).is_iterable is None; FiniteSet(*SymmetricDifference(A, B, evaluate=False)) == FiniteSet(0, 1, 3, 5, 6, 8, 10)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_SymmetricDifference_correct","statement":"Path(test_SymmetricDifference(x), SymmetricDifference(A, B, evaluate=False).is_iterable is True; SymmetricDifference(A, C, evaluate=False).is_iterable is None; FiniteSet(*SymmetricDifference(A, B, evaluate=False)) == FiniteSet(0, 1, 3, 5, 6, 8, 10))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6623de9dc26a6f83","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["SymmetricDifference(A, B, evaluate=False).is_iterable is True","SymmetricDifference(A, C, evaluate=False).is_iterable is None","FiniteSet(*SymmetricDifference(A, B, evaluate=False)) == FiniteSet(0, 1, 3, 5, 6, 8, 10)","SymmetricDifference(FiniteSet(0, 1, 2, 3, 4, 5), FiniteSet(2, 4, 6, 8, 10)) == FiniteSet(0, 1, 3, 5, 6, 8, 10)","SymmetricDifference(FiniteSet(2, 3, 4), FiniteSet(2, 3, 4, 5)) == FiniteSet(5)","FiniteSet(1, 2, 3, 4, 5) ^ FiniteSet(1, 2, 5, 6) == FiniteSet(3, 4, 6)","Set(S(1), S(2), S(3)) ^ Set(S(2), S(3), S(4)) == Union(Set(S(1), S(2), S(3)) - Set(S(2), S(3), S(4)), Set(S(2), S(3), S(4)) - Set(S(1), S(2), S(3)))","Interval(0, 4) ^ Interval(2, 5) == Union(Interval(0, 4) - Interval(2, 5), Interval(2, 5) - Interval(0, 4))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_SymmetricDifference():
     A = FiniteSet(0, 1, 2, 3, 4, 5)
     B = FiniteSet(2, 4, 6, 8, 10)
@@ -2152,16 +2670,22 @@ def test_SymmetricDifference():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_9536(), test_issue_9536 produces the expected output) over Any ║
+# ║ Path(test_issue_9536(), FiniteSet(log(a)).intersect(S.Reals) == Intersection(S.Reals, FiniteSet(log(a)))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_9536 : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  FiniteSet(log(a)).intersect(S.Reals) == I...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_9536 : Any → {Any | result satisfies: Fini...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d120711e28c0e69b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 87aa6a66140c0aa9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_issue_9536","kind":"function","src_hash":"9990a27f413d5a26","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_issue_9536()","rhs":"test_issue_9536 produces the expected output","over":{"base":"Any"},"name":"test_issue_9536_correct"},"guarantee":"test_issue_9536 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_issue_9536_correct","statement":"Path(test_issue_9536(x), test_issue_9536 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d120711e28c0e69b"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_issue_9536","kind":"function","src_hash":"9990a27f413d5a26","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: FiniteSet(log(a)).intersect(S.Reals) == Intersection(S.Reals, FiniteSet(log(a)))"},"spec":{"lhs":"test_issue_9536()","rhs":"FiniteSet(log(a)).intersect(S.Reals) == Intersection(S.Reals, FiniteSet(log(a)))","over":{"base":"Any"},"name":"test_issue_9536_correct"},"guarantee":"FiniteSet(log(a)).intersect(S.Reals) == Intersection(S.Reals, FiniteSet(log(a)))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_issue_9536_correct","statement":"Path(test_issue_9536(x), FiniteSet(log(a)).intersect(S.Reals) == Intersection(S.Reals, FiniteSet(log(a))))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"87aa6a66140c0aa9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["FiniteSet(log(a)).intersect(S.Reals) == Intersection(S.Reals, FiniteSet(log(a)))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_9536():
     from sympy.functions.elementary.exponential import log
     a = Symbol('a', real=True)
@@ -2169,16 +2693,24 @@ def test_issue_9536():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_9637(), test_issue_9637 produces the expected output) over Any ║
+# ║ Path(test_issue_9637(), Complement(S.Reals, a) == Complement(S.Reals, a, evaluate=False) and Complement(Interval(1, 3), a) == Complement(Interval(1, 3), a, evaluate=False) and Complement(Interval(1, 3), b) == Complement(Union(Interval(1, 2, False, True), Interval(2, 3, True, False)), a) and Complement(a, S.Reals) == Complement(a, S.Reals, evaluate=False) and Complement(a, Interval(1, 3)) == Complement(a, Interval(1, 3), evaluate=False)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_9637 : Any → {Any | Complement(S.Reals, a)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Complement(S.Reals, a) == Complement(S.Re...   ║
+# ║   ensures:  Complement(Interval(1, 3), a) == Compleme...   ║
+# ║   ensures:  Complement(Interval(1, 3), b) == Compleme...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_9637 : Any → {Any | result satisfies: Comp...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3e17330f643e211d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6cd34dfa9479065d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_issue_9637","kind":"function","src_hash":"a05e6603b0432f3e","in":{"base":"Any"},"out":{"base":"Any","pred":"Complement(S.Reals, a) == Complement(S.Reals, a, evaluate=False) and Complement(Interval(1, 3), a) == Complement(Interval(1, 3), a, evaluate=False) and Complement(a, S.Reals) == Complement(a, S.Reals, evaluate=False) and Complement(a, Interval(1, 3)) == Complement(a, Interval(1, 3), evaluate=False)"},"spec":{"lhs":"test_issue_9637()","rhs":"test_issue_9637 produces the expected output","over":{"base":"Any"},"name":"test_issue_9637_correct"},"guarantee":"test_issue_9637 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_issue_9637_correct","statement":"Path(test_issue_9637(x), test_issue_9637 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3e17330f643e211d"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_issue_9637","kind":"function","src_hash":"a05e6603b0432f3e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Complement(S.Reals, a) == Complement(S.Reals, a, evaluate=False) and Complement(Interval(1, 3), a) == Complement(Interval(1, 3), a, evaluate=False) and Complement(Interval(1, 3), b) == Complement(Union(Interval(1, 2, False, True), Interval(2, 3, True, False)), a) and Complement(a, S.Reals) == Complement(a, S.Reals, evaluate=False) and Complement(a, Interval(1, 3)) == Complement(a, Interval(1, 3), evaluate=False)"},"spec":{"lhs":"test_issue_9637()","rhs":"Complement(S.Reals, a) == Complement(S.Reals, a, evaluate=False) and Complement(Interval(1, 3), a) == Complement(Interval(1, 3), a, evaluate=False) and Complement(Interval(1, 3), b) == Complement(Union(Interval(1, 2, False, True), Interval(2, 3, True, False)), a) and Complement(a, S.Reals) == Complement(a, S.Reals, evaluate=False) and Complement(a, Interval(1, 3)) == Complement(a, Interval(1, 3), evaluate=False)","over":{"base":"Any"},"name":"test_issue_9637_correct"},"guarantee":"Complement(S.Reals, a) == Complement(S.Reals, a, evaluate=False); Complement(Interval(1, 3), a) == Complement(Interval(1, 3), a, evaluate=False); Complement(Interval(1, 3), b) == Complement(Union(Interval(1, 2, False, True), Interval(2, 3, True, False)), a)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_issue_9637_correct","statement":"Path(test_issue_9637(x), Complement(S.Reals, a) == Complement(S.Reals, a, evaluate=False); Complement(Interval(1, 3), a) == Complement(Interval(1, 3), a, evaluate=False); Complement(Interval(1, 3), b) == Complement(Union(Interval(1, 2, False, True), Interval(2, 3, True, False)), a))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6cd34dfa9479065d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Complement(S.Reals, a) == Complement(S.Reals, a, evaluate=False)","Complement(Interval(1, 3), a) == Complement(Interval(1, 3), a, evaluate=False)","Complement(Interval(1, 3), b) == Complement(Union(Interval(1, 2, False, True), Interval(2, 3, True, False)), a)","Complement(a, S.Reals) == Complement(a, S.Reals, evaluate=False)","Complement(a, Interval(1, 3)) == Complement(a, Interval(1, 3), evaluate=False)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_issue_9637():
     n = Symbol('n')
     a = FiniteSet(n)
@@ -2192,16 +2724,23 @@ def test_issue_9637():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_9808(), test_issue_9808 produces the expected output) over Any ║
+# ║ Path(test_issue_9808(), Complement(FiniteSet(y), FiniteSet(1)) == Complement(FiniteSet(y), FiniteSet(1), evaluate=False) and Complement(FiniteSet(1, 2, x), FiniteSet(x, y, 2, 3)) == Complement(FiniteSet(1), FiniteSet(y), evaluate=False)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_9808 : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Complement(FiniteSet(y), FiniteSet(1)) ==...   ║
+# ║   ensures:  Complement(FiniteSet(1, 2, x), FiniteSet(...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_9808 : Any → {Any | result satisfies: Comp...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eb20e048eef15705  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6814b7e4deab687d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_issue_9808","kind":"function","src_hash":"4dc97c43bbcd8b92","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_issue_9808()","rhs":"test_issue_9808 produces the expected output","over":{"base":"Any"},"name":"test_issue_9808_correct"},"guarantee":"test_issue_9808 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_issue_9808_correct","statement":"Path(test_issue_9808(x), test_issue_9808 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eb20e048eef15705"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_issue_9808","kind":"function","src_hash":"4dc97c43bbcd8b92","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Complement(FiniteSet(y), FiniteSet(1)) == Complement(FiniteSet(y), FiniteSet(1), evaluate=False) and Complement(FiniteSet(1, 2, x), FiniteSet(x, y, 2, 3)) == Complement(FiniteSet(1), FiniteSet(y), evaluate=False)"},"spec":{"lhs":"test_issue_9808()","rhs":"Complement(FiniteSet(y), FiniteSet(1)) == Complement(FiniteSet(y), FiniteSet(1), evaluate=False) and Complement(FiniteSet(1, 2, x), FiniteSet(x, y, 2, 3)) == Complement(FiniteSet(1), FiniteSet(y), evaluate=False)","over":{"base":"Any"},"name":"test_issue_9808_correct"},"guarantee":"Complement(FiniteSet(y), FiniteSet(1)) == Complement(FiniteSet(y), FiniteSet(1), evaluate=False); Complement(FiniteSet(1, 2, x), FiniteSet(x, y, 2, 3)) == Complement(FiniteSet(1), FiniteSet(y), evaluate=False)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_issue_9808_correct","statement":"Path(test_issue_9808(x), Complement(FiniteSet(y), FiniteSet(1)) == Complement(FiniteSet(y), FiniteSet(1), evaluate=False); Complement(FiniteSet(1, 2, x), FiniteSet(x, y, 2, 3)) == Complement(FiniteSet(1), FiniteSet(y), evaluate=False))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6814b7e4deab687d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Complement(FiniteSet(y), FiniteSet(1)) == Complement(FiniteSet(y), FiniteSet(1), evaluate=False)","Complement(FiniteSet(1, 2, x), FiniteSet(x, y, 2, 3)) == Complement(FiniteSet(1), FiniteSet(y), evaluate=False)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_9808():
     # See https://github.com/sympy/sympy/issues/16342
     assert Complement(FiniteSet(y), FiniteSet(1)) == Complement(FiniteSet(y), FiniteSet(1), evaluate=False)
@@ -2210,32 +2749,47 @@ def test_issue_9808():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_9956(), test_issue_9956 produces the expected output) over Any ║
+# ║ Path(test_issue_9956(), Union(Interval(-oo, oo), FiniteSet(1)) == Interval(-oo, oo) and Interval(-oo, oo).contains(1) is S.true) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_9956 : Any → {Any | Union(Interval(-oo, oo...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Union(Interval(-oo, oo), FiniteSet(1)) ==...   ║
+# ║   ensures:  Interval(-oo, oo).contains(1) is S.true        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_9956 : Any → {Any | result satisfies: Unio...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 85bdac8db7d41ce8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7cd30a61a75ebc1f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_issue_9956","kind":"function","src_hash":"4c435054620ae1a0","in":{"base":"Any"},"out":{"base":"Any","pred":"Union(Interval(-oo, oo), FiniteSet(1)) == Interval(-oo, oo) and Interval(-oo, oo).contains(1) is S.true"},"spec":{"lhs":"test_issue_9956()","rhs":"test_issue_9956 produces the expected output","over":{"base":"Any"},"name":"test_issue_9956_correct"},"guarantee":"test_issue_9956 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_issue_9956_correct","statement":"Path(test_issue_9956(x), test_issue_9956 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"85bdac8db7d41ce8"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_issue_9956","kind":"function","src_hash":"4c435054620ae1a0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Union(Interval(-oo, oo), FiniteSet(1)) == Interval(-oo, oo) and Interval(-oo, oo).contains(1) is S.true"},"spec":{"lhs":"test_issue_9956()","rhs":"Union(Interval(-oo, oo), FiniteSet(1)) == Interval(-oo, oo) and Interval(-oo, oo).contains(1) is S.true","over":{"base":"Any"},"name":"test_issue_9956_correct"},"guarantee":"Union(Interval(-oo, oo), FiniteSet(1)) == Interval(-oo, oo); Interval(-oo, oo).contains(1) is S.true","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_issue_9956_correct","statement":"Path(test_issue_9956(x), Union(Interval(-oo, oo), FiniteSet(1)) == Interval(-oo, oo); Interval(-oo, oo).contains(1) is S.true)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7cd30a61a75ebc1f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Union(Interval(-oo, oo), FiniteSet(1)) == Interval(-oo, oo)","Interval(-oo, oo).contains(1) is S.true"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_9956():
     assert Union(Interval(-oo, oo), FiniteSet(1)) == Interval(-oo, oo)
     assert Interval(-oo, oo).contains(1) is S.true
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_Symbol_inter(), test_issue_Symbol_inter produces the expected output) over Any ║
+# ║ Path(test_issue_Symbol_inter(), Intersection(r, i, FiniteSet(m), FiniteSet(m, n)) == Intersection(i, FiniteSet(m)) and Intersection(FiniteSet(1, m, n), FiniteSet(m, n, 2), i) == Intersection(i, FiniteSet(m, n)) and Intersection(FiniteSet(m, n, x), FiniteSet(m, z), r) == Intersection(Intersection({m, z}, {m, n, x}), r) and Intersection(FiniteSet(m, n, 3), FiniteSet(m, n, x), r) == Intersection(FiniteSet(3, m, n), FiniteSet(m, n, x), r, evaluate=False) and Intersection(FiniteSet(m, n, 3), FiniteSet(m, n, 2, 3), r) == Intersection(FiniteSet(3, m, n), r) and Intersection(r, FiniteSet(mat, 2, n), FiniteSet(0, mat, n)) == Intersection(r, FiniteSet(n)) and Intersection(FiniteSet(sin(x), cos(x)), FiniteSet(sin(x), cos(x), 1), r) == Intersection(r, FiniteSet(sin(x), cos(x))) and Intersection(FiniteSet(x ** 2, 1, sin(x)), FiniteSet(x ** 2, 2, sin(x)), r) == Intersection(r, FiniteSet(x ** 2, sin(x)))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_Symbol_inter : Any → Any                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Intersection(r, i, FiniteSet(m), FiniteSe...   ║
+# ║   ensures:  Intersection(FiniteSet(1, m, n), FiniteSe...   ║
+# ║   ensures:  Intersection(FiniteSet(m, n, x), FiniteSe...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_Symbol_inter : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7fed5f56ed39f009  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c3a9820a0691413f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_issue_Symbol_inter","kind":"function","src_hash":"b29e6fe30b7c5460","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_issue_Symbol_inter()","rhs":"test_issue_Symbol_inter produces the expected output","over":{"base":"Any"},"name":"test_issue_Symbol_inter_correct"},"guarantee":"test_issue_Symbol_inter produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_issue_Symbol_inter_correct","statement":"Path(test_issue_Symbol_inter(x), test_issue_Symbol_inter produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7fed5f56ed39f009"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_issue_Symbol_inter","kind":"function","src_hash":"b29e6fe30b7c5460","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Intersection(r, i, FiniteSet(m), FiniteSet(m, n)) == Intersection(i, FiniteSet(m)) and Intersection(FiniteSet(1, m, n), FiniteSet(m, n, 2), i) == Intersection(i, FiniteSet(m, n)) and Intersection(FiniteSet(m, n, x), FiniteSet(m, z), r) == Intersection(Intersection({m, z}, {m, n, x}), r) and Intersection(FiniteSet(m, n, 3), FiniteSet(m, n, x), r) == Intersection(FiniteSet(3, m, n), FiniteSet(m, n, x), r, evaluate=False) and Intersection(FiniteSet(m, n, 3), FiniteSet(m, n, 2, 3), r) == Intersection(FiniteSet(3, m, n), r) and Intersection(r, FiniteSet(mat, 2, n), FiniteSet(0, mat, n)) == Intersection(r, FiniteSet(n)) and Intersection(FiniteSet(sin(x), cos(x)), FiniteSet(sin(x), cos(x), 1), r) == Intersection(r, FiniteSet(sin(x), cos(x))) and Intersection(FiniteSet(x ** 2, 1, sin(x)), FiniteSet(x ** 2, 2, sin(x)), r) == Intersection(r, FiniteSet(x ** 2, sin(x)))"},"spec":{"lhs":"test_issue_Symbol_inter()","rhs":"Intersection(r, i, FiniteSet(m), FiniteSet(m, n)) == Intersection(i, FiniteSet(m)) and Intersection(FiniteSet(1, m, n), FiniteSet(m, n, 2), i) == Intersection(i, FiniteSet(m, n)) and Intersection(FiniteSet(m, n, x), FiniteSet(m, z), r) == Intersection(Intersection({m, z}, {m, n, x}), r) and Intersection(FiniteSet(m, n, 3), FiniteSet(m, n, x), r) == Intersection(FiniteSet(3, m, n), FiniteSet(m, n, x), r, evaluate=False) and Intersection(FiniteSet(m, n, 3), FiniteSet(m, n, 2, 3), r) == Intersection(FiniteSet(3, m, n), r) and Intersection(r, FiniteSet(mat, 2, n), FiniteSet(0, mat, n)) == Intersection(r, FiniteSet(n)) and Intersection(FiniteSet(sin(x), cos(x)), FiniteSet(sin(x), cos(x), 1), r) == Intersection(r, FiniteSet(sin(x), cos(x))) and Intersection(FiniteSet(x ** 2, 1, sin(x)), FiniteSet(x ** 2, 2, sin(x)), r) == Intersection(r, FiniteSet(x ** 2, sin(x)))","over":{"base":"Any"},"name":"test_issue_Symbol_inter_correct"},"guarantee":"Intersection(r, i, FiniteSet(m), FiniteSet(m, n)) == Intersection(i, FiniteSet(m)); Intersection(FiniteSet(1, m, n), FiniteSet(m, n, 2), i) == Intersection(i, FiniteSet(m, n)); Intersection(FiniteSet(m, n, x), FiniteSet(m, z), r) == Intersection(Intersection({m, z}, {m, n, x}), r)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_issue_Symbol_inter_correct","statement":"Path(test_issue_Symbol_inter(x), Intersection(r, i, FiniteSet(m), FiniteSet(m, n)) == Intersection(i, FiniteSet(m)); Intersection(FiniteSet(1, m, n), FiniteSet(m, n, 2), i) == Intersection(i, FiniteSet(m, n)); Intersection(FiniteSet(m, n, x), FiniteSet(m, z), r) == Intersection(Intersection({m, z}, {m, n, x}), r))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c3a9820a0691413f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Intersection(r, i, FiniteSet(m), FiniteSet(m, n)) == Intersection(i, FiniteSet(m))","Intersection(FiniteSet(1, m, n), FiniteSet(m, n, 2), i) == Intersection(i, FiniteSet(m, n))","Intersection(FiniteSet(m, n, x), FiniteSet(m, z), r) == Intersection(Intersection({m, z}, {m, n, x}), r)","Intersection(FiniteSet(m, n, 3), FiniteSet(m, n, x), r) == Intersection(FiniteSet(3, m, n), FiniteSet(m, n, x), r, evaluate=False)","Intersection(FiniteSet(m, n, 3), FiniteSet(m, n, 2, 3), r) == Intersection(FiniteSet(3, m, n), r)","Intersection(r, FiniteSet(mat, 2, n), FiniteSet(0, mat, n)) == Intersection(r, FiniteSet(n))","Intersection(FiniteSet(sin(x), cos(x)), FiniteSet(sin(x), cos(x), 1), r) == Intersection(r, FiniteSet(sin(x), cos(x)))","Intersection(FiniteSet(x ** 2, 1, sin(x)), FiniteSet(x ** 2, 2, sin(x)), r) == Intersection(r, FiniteSet(x ** 2, sin(x)))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_issue_Symbol_inter():
     i = Interval(0, oo)
     r = S.Reals
@@ -2259,31 +2813,45 @@ def test_issue_Symbol_inter():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_11827(), test_issue_11827 produces the expected output) over Any ║
+# ║ Path(test_issue_11827(), S.Naturals0 ** 4) over Any        ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_11827 : Any → {Any | S.Naturals0 ** 4}          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  S.Naturals0 ** 4                               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_11827 : Any → {Any | result satisfies: S.N...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1cd608385339ccf5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 93b53fdad1ccfe56  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_issue_11827","kind":"function","src_hash":"2939639f9b03b4dd","in":{"base":"Any"},"out":{"base":"Any","pred":"S.Naturals0 ** 4"},"spec":{"lhs":"test_issue_11827()","rhs":"test_issue_11827 produces the expected output","over":{"base":"Any"},"name":"test_issue_11827_correct"},"guarantee":"test_issue_11827 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_issue_11827_correct","statement":"Path(test_issue_11827(x), test_issue_11827 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1cd608385339ccf5"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_issue_11827","kind":"function","src_hash":"2939639f9b03b4dd","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: S.Naturals0 ** 4"},"spec":{"lhs":"test_issue_11827()","rhs":"S.Naturals0 ** 4","over":{"base":"Any"},"name":"test_issue_11827_correct"},"guarantee":"S.Naturals0 ** 4","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_issue_11827_correct","statement":"Path(test_issue_11827(x), S.Naturals0 ** 4)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"93b53fdad1ccfe56","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["S.Naturals0 ** 4"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_issue_11827():
     assert S.Naturals0**4
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_10113(), test_issue_10113 produces the expected output) over Any ║
+# ║ Path(test_issue_10113(), imageset(x, f, S.Reals) == Union(Interval(-oo, 0), Interval(1, oo, True, True)) and imageset(x, f, Interval(-2, 2)) == Interval(-oo, 0) and imageset(x, f, Interval(-2, 3)) == Union(Interval(-oo, 0), Interval(Rational(9, 5), oo))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_10113 : Any → {Any | imageset(x, f, S.Real...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  imageset(x, f, S.Reals) == Union(Interval...   ║
+# ║   ensures:  imageset(x, f, Interval(-2, 2)) == Interv...   ║
+# ║   ensures:  imageset(x, f, Interval(-2, 3)) == Union(...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_10113 : Any → {Any | result satisfies: ima...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 818db088968e860d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aa4b020dbaa2edb2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_issue_10113","kind":"function","src_hash":"e55759f49b5a8264","in":{"base":"Any"},"out":{"base":"Any","pred":"imageset(x, f, S.Reals) == Union(Interval(-oo, 0), Interval(1, oo, True, True)) and imageset(x, f, Interval(-2, 2)) == Interval(-oo, 0)"},"spec":{"lhs":"test_issue_10113()","rhs":"test_issue_10113 produces the expected output","over":{"base":"Any"},"name":"test_issue_10113_correct"},"guarantee":"test_issue_10113 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_issue_10113_correct","statement":"Path(test_issue_10113(x), test_issue_10113 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"818db088968e860d"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_issue_10113","kind":"function","src_hash":"e55759f49b5a8264","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: imageset(x, f, S.Reals) == Union(Interval(-oo, 0), Interval(1, oo, True, True)) and imageset(x, f, Interval(-2, 2)) == Interval(-oo, 0) and imageset(x, f, Interval(-2, 3)) == Union(Interval(-oo, 0), Interval(Rational(9, 5), oo))"},"spec":{"lhs":"test_issue_10113()","rhs":"imageset(x, f, S.Reals) == Union(Interval(-oo, 0), Interval(1, oo, True, True)) and imageset(x, f, Interval(-2, 2)) == Interval(-oo, 0) and imageset(x, f, Interval(-2, 3)) == Union(Interval(-oo, 0), Interval(Rational(9, 5), oo))","over":{"base":"Any"},"name":"test_issue_10113_correct"},"guarantee":"imageset(x, f, S.Reals) == Union(Interval(-oo, 0), Interval(1, oo, True, True)); imageset(x, f, Interval(-2, 2)) == Interval(-oo, 0); imageset(x, f, Interval(-2, 3)) == Union(Interval(-oo, 0), Interval(Rational(9, 5), oo))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_issue_10113_correct","statement":"Path(test_issue_10113(x), imageset(x, f, S.Reals) == Union(Interval(-oo, 0), Interval(1, oo, True, True)); imageset(x, f, Interval(-2, 2)) == Interval(-oo, 0); imageset(x, f, Interval(-2, 3)) == Union(Interval(-oo, 0), Interval(Rational(9, 5), oo)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aa4b020dbaa2edb2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["imageset(x, f, S.Reals) == Union(Interval(-oo, 0), Interval(1, oo, True, True))","imageset(x, f, Interval(-2, 2)) == Interval(-oo, 0)","imageset(x, f, Interval(-2, 3)) == Union(Interval(-oo, 0), Interval(Rational(9, 5), oo))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_10113():
     f = x**2/(x**2 - 4)
     assert imageset(x, f, S.Reals) == Union(Interval(-oo, 0), Interval(1, oo, True, True))
@@ -2292,16 +2860,22 @@ def test_issue_10113():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_10248(), test_issue_10248 produces the expected output) over Any ║
+# ║ Path(test_issue_10248(), list(Intersection(S.Reals, FiniteSet(A))) == [A]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_10248 : Any → {Any | list(Intersection(S.R...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  list(Intersection(S.Reals, FiniteSet(A)))...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_10248 : Any → {Any | result satisfies: lis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9efd3c0726ae1fd1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 138cf1d68c6cdb7d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_issue_10248","kind":"function","src_hash":"d47b205e33567cb9","in":{"base":"Any"},"out":{"base":"Any","pred":"list(Intersection(S.Reals, FiniteSet(A))) == [A]"},"spec":{"lhs":"test_issue_10248()","rhs":"test_issue_10248 produces the expected output","over":{"base":"Any"},"name":"test_issue_10248_correct"},"guarantee":"test_issue_10248 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_issue_10248_correct","statement":"Path(test_issue_10248(x), test_issue_10248 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9efd3c0726ae1fd1"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_issue_10248","kind":"function","src_hash":"d47b205e33567cb9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: list(Intersection(S.Reals, FiniteSet(A))) == [A]"},"spec":{"lhs":"test_issue_10248()","rhs":"list(Intersection(S.Reals, FiniteSet(A))) == [A]","over":{"base":"Any"},"name":"test_issue_10248_correct"},"guarantee":"list(Intersection(S.Reals, FiniteSet(A))) == [A]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_issue_10248_correct","statement":"Path(test_issue_10248(x), list(Intersection(S.Reals, FiniteSet(A))) == [A])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"138cf1d68c6cdb7d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["list(Intersection(S.Reals, FiniteSet(A))) == [A]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_10248():
     raises(
         TypeError, lambda: list(Intersection(S.Reals, FiniteSet(x)))
@@ -2311,16 +2885,23 @@ def test_issue_10248():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_9447(), test_issue_9447 produces the expected output) over Any ║
+# ║ Path(test_issue_9447(), Complement(S.UniversalSet, a) == Complement(S.UniversalSet, Union(Interval(0, 1), Interval(2, 3)), evaluate=False) and Complement(S.Naturals, a) == Complement(S.Naturals, Union(Interval(0, 1), Interval(2, 3)), evaluate=False)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_9447 : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Complement(S.UniversalSet, a) == Compleme...   ║
+# ║   ensures:  Complement(S.Naturals, a) == Complement(S...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_9447 : Any → {Any | result satisfies: Comp...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ae744e131cc33ffa  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9c95989f26338b36  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_issue_9447","kind":"function","src_hash":"55ea4cb8c43d2dcd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_issue_9447()","rhs":"test_issue_9447 produces the expected output","over":{"base":"Any"},"name":"test_issue_9447_correct"},"guarantee":"test_issue_9447 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_issue_9447_correct","statement":"Path(test_issue_9447(x), test_issue_9447 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ae744e131cc33ffa"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_issue_9447","kind":"function","src_hash":"55ea4cb8c43d2dcd","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Complement(S.UniversalSet, a) == Complement(S.UniversalSet, Union(Interval(0, 1), Interval(2, 3)), evaluate=False) and Complement(S.Naturals, a) == Complement(S.Naturals, Union(Interval(0, 1), Interval(2, 3)), evaluate=False)"},"spec":{"lhs":"test_issue_9447()","rhs":"Complement(S.UniversalSet, a) == Complement(S.UniversalSet, Union(Interval(0, 1), Interval(2, 3)), evaluate=False) and Complement(S.Naturals, a) == Complement(S.Naturals, Union(Interval(0, 1), Interval(2, 3)), evaluate=False)","over":{"base":"Any"},"name":"test_issue_9447_correct"},"guarantee":"Complement(S.UniversalSet, a) == Complement(S.UniversalSet, Union(Interval(0, 1), Interval(2, 3)), evaluate=False); Complement(S.Naturals, a) == Complement(S.Naturals, Union(Interval(0, 1), Interval(2, 3)), evaluate=False)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_issue_9447_correct","statement":"Path(test_issue_9447(x), Complement(S.UniversalSet, a) == Complement(S.UniversalSet, Union(Interval(0, 1), Interval(2, 3)), evaluate=False); Complement(S.Naturals, a) == Complement(S.Naturals, Union(Interval(0, 1), Interval(2, 3)), evaluate=False))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9c95989f26338b36","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Complement(S.UniversalSet, a) == Complement(S.UniversalSet, Union(Interval(0, 1), Interval(2, 3)), evaluate=False)","Complement(S.Naturals, a) == Complement(S.Naturals, Union(Interval(0, 1), Interval(2, 3)), evaluate=False)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_9447():
     a = Interval(0, 1) + Interval(2, 3)
     assert Complement(S.UniversalSet, a) == Complement(
@@ -2330,16 +2911,23 @@ def test_issue_9447():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_10337(), test_issue_10337 produces the expected output) over Any ║
+# ║ Path(test_issue_10337(), (FiniteSet(2) == 3) is False and (FiniteSet(2) != 3) is True) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_10337 : Any → {Any | (FiniteSet(2) == 3) i...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (FiniteSet(2) == 3) is False                   ║
+# ║   ensures:  (FiniteSet(2) != 3) is True                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_10337 : Any → {Any | result satisfies: (Fi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3e28c6df9d98f90f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a9a50e394f779a45  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_issue_10337","kind":"function","src_hash":"566de1d4dbd403c5","in":{"base":"Any"},"out":{"base":"Any","pred":"(FiniteSet(2) == 3) is False and (FiniteSet(2) != 3) is True"},"spec":{"lhs":"test_issue_10337()","rhs":"test_issue_10337 produces the expected output","over":{"base":"Any"},"name":"test_issue_10337_correct"},"guarantee":"test_issue_10337 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_issue_10337_correct","statement":"Path(test_issue_10337(x), test_issue_10337 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3e28c6df9d98f90f"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_issue_10337","kind":"function","src_hash":"566de1d4dbd403c5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (FiniteSet(2) == 3) is False and (FiniteSet(2) != 3) is True"},"spec":{"lhs":"test_issue_10337()","rhs":"(FiniteSet(2) == 3) is False and (FiniteSet(2) != 3) is True","over":{"base":"Any"},"name":"test_issue_10337_correct"},"guarantee":"(FiniteSet(2) == 3) is False; (FiniteSet(2) != 3) is True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_issue_10337_correct","statement":"Path(test_issue_10337(x), (FiniteSet(2) == 3) is False; (FiniteSet(2) != 3) is True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a9a50e394f779a45","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(FiniteSet(2) == 3) is False","(FiniteSet(2) != 3) is True"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_10337():
     assert (FiniteSet(2) == 3) is False
     assert (FiniteSet(2) != 3) is True
@@ -2350,16 +2938,24 @@ def test_issue_10337():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_10326(), test_issue_10326 produces the expected output) over Any ║
+# ║ Path(test_issue_10326(), x + 1 in Interval(x, x + 4) and nr not in Interval(x, x + 4) and Interval(1, 2) in FiniteSet(Interval(0, 5), Interval(1, 2)) and Interval(-oo, oo).contains(oo) is S.false and Interval(-oo, oo).contains(-oo) is S.false) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_10326 : Any → {Any | x + 1 in Interval(x, ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  x + 1 in Interval(x, x + 4)                    ║
+# ║   ensures:  nr not in Interval(x, x + 4)                   ║
+# ║   ensures:  Interval(1, 2) in FiniteSet(Interval(0, 5...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_10326 : Any → {Any | result satisfies: x +...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 251fb24c6aac6473  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e20dc84f91acb752  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_issue_10326","kind":"function","src_hash":"4746a181667b06f2","in":{"base":"Any"},"out":{"base":"Any","pred":"x + 1 in Interval(x, x + 4) and nr not in Interval(x, x + 4) and Interval(1, 2) in FiniteSet(Interval(0, 5), Interval(1, 2)) and Interval(-oo, oo).contains(oo) is S.false and Interval(-oo, oo).contains(-oo) is S.false and i not in interval"},"spec":{"lhs":"test_issue_10326()","rhs":"test_issue_10326 produces the expected output","over":{"base":"Any"},"name":"test_issue_10326_correct"},"guarantee":"test_issue_10326 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_issue_10326_correct","statement":"Path(test_issue_10326(x), test_issue_10326 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"251fb24c6aac6473"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_issue_10326","kind":"function","src_hash":"4746a181667b06f2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: x + 1 in Interval(x, x + 4) and nr not in Interval(x, x + 4) and Interval(1, 2) in FiniteSet(Interval(0, 5), Interval(1, 2)) and Interval(-oo, oo).contains(oo) is S.false and Interval(-oo, oo).contains(-oo) is S.false"},"spec":{"lhs":"test_issue_10326()","rhs":"x + 1 in Interval(x, x + 4) and nr not in Interval(x, x + 4) and Interval(1, 2) in FiniteSet(Interval(0, 5), Interval(1, 2)) and Interval(-oo, oo).contains(oo) is S.false and Interval(-oo, oo).contains(-oo) is S.false","over":{"base":"Any"},"name":"test_issue_10326_correct"},"guarantee":"x + 1 in Interval(x, x + 4); nr not in Interval(x, x + 4); Interval(1, 2) in FiniteSet(Interval(0, 5), Interval(1, 2))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_issue_10326_correct","statement":"Path(test_issue_10326(x), x + 1 in Interval(x, x + 4); nr not in Interval(x, x + 4); Interval(1, 2) in FiniteSet(Interval(0, 5), Interval(1, 2)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e20dc84f91acb752","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["x + 1 in Interval(x, x + 4)","nr not in Interval(x, x + 4)","Interval(1, 2) in FiniteSet(Interval(0, 5), Interval(1, 2))","Interval(-oo, oo).contains(oo) is S.false","Interval(-oo, oo).contains(-oo) is S.false"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_issue_10326():
     bad = [
         EmptySet,
@@ -2385,16 +2981,24 @@ def test_issue_10326():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_2799(), test_issue_2799 produces the expected output) over Any ║
+# ║ Path(test_issue_2799(), U + inf_interval == inf_interval + U and U + R == R + U and R + inf_interval == inf_interval + R) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_2799 : Any → {Any | U + inf_interval == in...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  U + inf_interval == inf_interval + U           ║
+# ║   ensures:  U + R == R + U                                 ║
+# ║   ensures:  R + inf_interval == inf_interval + R           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_2799 : Any → {Any | result satisfies: U + ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fe5dd00e9317ef46  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a1a8f80debecb107  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_issue_2799","kind":"function","src_hash":"6a1960eb85178645","in":{"base":"Any"},"out":{"base":"Any","pred":"U + inf_interval == inf_interval + U and U + R == R + U and R + inf_interval == inf_interval + R"},"spec":{"lhs":"test_issue_2799()","rhs":"test_issue_2799 produces the expected output","over":{"base":"Any"},"name":"test_issue_2799_correct"},"guarantee":"test_issue_2799 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_issue_2799_correct","statement":"Path(test_issue_2799(x), test_issue_2799 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fe5dd00e9317ef46"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_issue_2799","kind":"function","src_hash":"6a1960eb85178645","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: U + inf_interval == inf_interval + U and U + R == R + U and R + inf_interval == inf_interval + R"},"spec":{"lhs":"test_issue_2799()","rhs":"U + inf_interval == inf_interval + U and U + R == R + U and R + inf_interval == inf_interval + R","over":{"base":"Any"},"name":"test_issue_2799_correct"},"guarantee":"U + inf_interval == inf_interval + U; U + R == R + U; R + inf_interval == inf_interval + R","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_issue_2799_correct","statement":"Path(test_issue_2799(x), U + inf_interval == inf_interval + U; U + R == R + U; R + inf_interval == inf_interval + R)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a1a8f80debecb107","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["U + inf_interval == inf_interval + U","U + R == R + U","R + inf_interval == inf_interval + R"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_2799():
     U = S.UniversalSet
     a = Symbol('a', real=True)
@@ -2407,16 +3011,24 @@ def test_issue_2799():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_9706(), test_issue_9706 produces the expected output) over Any ║
+# ║ Path(test_issue_9706(), Interval(-oo, 0).closure == Interval(-oo, 0, True, False) and Interval(0, oo).closure == Interval(0, oo, False, True) and Interval(-oo, oo).closure == Interval(-oo, oo)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_9706 : Any → {Any | Interval(-oo, 0).closu...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Interval(-oo, 0).closure == Interval(-oo,...   ║
+# ║   ensures:  Interval(0, oo).closure == Interval(0, oo...   ║
+# ║   ensures:  Interval(-oo, oo).closure == Interval(-oo...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_9706 : Any → {Any | result satisfies: Inte...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2829db3c4381413f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9fc063566fa20697  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_issue_9706","kind":"function","src_hash":"7d34700a685fdaa6","in":{"base":"Any"},"out":{"base":"Any","pred":"Interval(-oo, 0).closure == Interval(-oo, 0, True, False) and Interval(0, oo).closure == Interval(0, oo, False, True) and Interval(-oo, oo).closure == Interval(-oo, oo)"},"spec":{"lhs":"test_issue_9706()","rhs":"test_issue_9706 produces the expected output","over":{"base":"Any"},"name":"test_issue_9706_correct"},"guarantee":"test_issue_9706 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_issue_9706_correct","statement":"Path(test_issue_9706(x), test_issue_9706 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2829db3c4381413f"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_issue_9706","kind":"function","src_hash":"7d34700a685fdaa6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Interval(-oo, 0).closure == Interval(-oo, 0, True, False) and Interval(0, oo).closure == Interval(0, oo, False, True) and Interval(-oo, oo).closure == Interval(-oo, oo)"},"spec":{"lhs":"test_issue_9706()","rhs":"Interval(-oo, 0).closure == Interval(-oo, 0, True, False) and Interval(0, oo).closure == Interval(0, oo, False, True) and Interval(-oo, oo).closure == Interval(-oo, oo)","over":{"base":"Any"},"name":"test_issue_9706_correct"},"guarantee":"Interval(-oo, 0).closure == Interval(-oo, 0, True, False); Interval(0, oo).closure == Interval(0, oo, False, True); Interval(-oo, oo).closure == Interval(-oo, oo)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_issue_9706_correct","statement":"Path(test_issue_9706(x), Interval(-oo, 0).closure == Interval(-oo, 0, True, False); Interval(0, oo).closure == Interval(0, oo, False, True); Interval(-oo, oo).closure == Interval(-oo, oo))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9fc063566fa20697","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Interval(-oo, 0).closure == Interval(-oo, 0, True, False)","Interval(0, oo).closure == Interval(0, oo, False, True)","Interval(-oo, oo).closure == Interval(-oo, oo)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_9706():
     assert Interval(-oo, 0).closure == Interval(-oo, 0, True, False)
     assert Interval(0, oo).closure == Interval(0, oo, False, True)
@@ -2424,16 +3036,24 @@ def test_issue_9706():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_8257(), test_issue_8257 produces the expected output) over Any ║
+# ║ Path(test_issue_8257(), Interval(-oo, oo) + FiniteSet(oo) == reals_plus_infinity and FiniteSet(oo) + Interval(-oo, oo) == reals_plus_infinity and Interval(-oo, oo) + FiniteSet(-oo) == reals_plus_negativeinfinity and FiniteSet(-oo) + Interval(-oo, oo) == reals_plus_negativeinfinity) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_8257 : Any → {Any | Interval(-oo, oo) + Fi...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Interval(-oo, oo) + FiniteSet(oo) == real...   ║
+# ║   ensures:  FiniteSet(oo) + Interval(-oo, oo) == real...   ║
+# ║   ensures:  Interval(-oo, oo) + FiniteSet(-oo) == rea...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_8257 : Any → {Any | result satisfies: Inte...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3ca515fa4c5b220e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8da34bdd1f7727a7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_issue_8257","kind":"function","src_hash":"6da5b9f5c24d3d8f","in":{"base":"Any"},"out":{"base":"Any","pred":"Interval(-oo, oo) + FiniteSet(oo) == reals_plus_infinity and FiniteSet(oo) + Interval(-oo, oo) == reals_plus_infinity and Interval(-oo, oo) + FiniteSet(-oo) == reals_plus_negativeinfinity and FiniteSet(-oo) + Interval(-oo, oo) == reals_plus_negativeinfinity"},"spec":{"lhs":"test_issue_8257()","rhs":"test_issue_8257 produces the expected output","over":{"base":"Any"},"name":"test_issue_8257_correct"},"guarantee":"test_issue_8257 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_issue_8257_correct","statement":"Path(test_issue_8257(x), test_issue_8257 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3ca515fa4c5b220e"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_issue_8257","kind":"function","src_hash":"6da5b9f5c24d3d8f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Interval(-oo, oo) + FiniteSet(oo) == reals_plus_infinity and FiniteSet(oo) + Interval(-oo, oo) == reals_plus_infinity and Interval(-oo, oo) + FiniteSet(-oo) == reals_plus_negativeinfinity and FiniteSet(-oo) + Interval(-oo, oo) == reals_plus_negativeinfinity"},"spec":{"lhs":"test_issue_8257()","rhs":"Interval(-oo, oo) + FiniteSet(oo) == reals_plus_infinity and FiniteSet(oo) + Interval(-oo, oo) == reals_plus_infinity and Interval(-oo, oo) + FiniteSet(-oo) == reals_plus_negativeinfinity and FiniteSet(-oo) + Interval(-oo, oo) == reals_plus_negativeinfinity","over":{"base":"Any"},"name":"test_issue_8257_correct"},"guarantee":"Interval(-oo, oo) + FiniteSet(oo) == reals_plus_infinity; FiniteSet(oo) + Interval(-oo, oo) == reals_plus_infinity; Interval(-oo, oo) + FiniteSet(-oo) == reals_plus_negativeinfinity","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_issue_8257_correct","statement":"Path(test_issue_8257(x), Interval(-oo, oo) + FiniteSet(oo) == reals_plus_infinity; FiniteSet(oo) + Interval(-oo, oo) == reals_plus_infinity; Interval(-oo, oo) + FiniteSet(-oo) == reals_plus_negativeinfinity)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8da34bdd1f7727a7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Interval(-oo, oo) + FiniteSet(oo) == reals_plus_infinity","FiniteSet(oo) + Interval(-oo, oo) == reals_plus_infinity","Interval(-oo, oo) + FiniteSet(-oo) == reals_plus_negativeinfinity","FiniteSet(-oo) + Interval(-oo, oo) == reals_plus_negativeinfinity"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_8257():
     reals_plus_infinity = Union(Interval(-oo, oo), FiniteSet(oo))
     reals_plus_negativeinfinity = Union(Interval(-oo, oo), FiniteSet(-oo))
@@ -2444,32 +3064,46 @@ def test_issue_8257():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_10931(), test_issue_10931 produces the expected output) over Any ║
+# ║ Path(test_issue_10931(), S.Integers - S.Integers == EmptySet and S.Integers - S.Reals == EmptySet) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_10931 : Any → {Any | S.Integers - S.Intege...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  S.Integers - S.Integers == EmptySet            ║
+# ║   ensures:  S.Integers - S.Reals == EmptySet               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_10931 : Any → {Any | result satisfies: S.I...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ab240f6f4eba32a5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 83ad9891453fd9cb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_issue_10931","kind":"function","src_hash":"2d92885f024291af","in":{"base":"Any"},"out":{"base":"Any","pred":"S.Integers - S.Integers == EmptySet and S.Integers - S.Reals == EmptySet"},"spec":{"lhs":"test_issue_10931()","rhs":"test_issue_10931 produces the expected output","over":{"base":"Any"},"name":"test_issue_10931_correct"},"guarantee":"test_issue_10931 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_issue_10931_correct","statement":"Path(test_issue_10931(x), test_issue_10931 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ab240f6f4eba32a5"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_issue_10931","kind":"function","src_hash":"2d92885f024291af","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: S.Integers - S.Integers == EmptySet and S.Integers - S.Reals == EmptySet"},"spec":{"lhs":"test_issue_10931()","rhs":"S.Integers - S.Integers == EmptySet and S.Integers - S.Reals == EmptySet","over":{"base":"Any"},"name":"test_issue_10931_correct"},"guarantee":"S.Integers - S.Integers == EmptySet; S.Integers - S.Reals == EmptySet","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_issue_10931_correct","statement":"Path(test_issue_10931(x), S.Integers - S.Integers == EmptySet; S.Integers - S.Reals == EmptySet)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"83ad9891453fd9cb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["S.Integers - S.Integers == EmptySet","S.Integers - S.Reals == EmptySet"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_issue_10931():
     assert S.Integers - S.Integers == EmptySet
     assert S.Integers - S.Reals == EmptySet
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_11174(), test_issue_11174 produces the expected output) over Any ║
+# ║ Path(test_issue_11174(), Intersection(FiniteSet(-x), S.Reals) == soln and Intersection(FiniteSet(x), S.Reals) == soln) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_11174 : Any → {Any | Intersection(FiniteSe...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Intersection(FiniteSet(-x), S.Reals) == soln   ║
+# ║   ensures:  Intersection(FiniteSet(x), S.Reals) == soln    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_11174 : Any → {Any | result satisfies: Int...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e17720842707a132  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 18300efaa7d729da  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_issue_11174","kind":"function","src_hash":"d3e7d9b5499ed9b0","in":{"base":"Any"},"out":{"base":"Any","pred":"Intersection(FiniteSet(-x), S.Reals) == soln and Intersection(FiniteSet(x), S.Reals) == soln"},"spec":{"lhs":"test_issue_11174()","rhs":"test_issue_11174 produces the expected output","over":{"base":"Any"},"name":"test_issue_11174_correct"},"guarantee":"test_issue_11174 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_issue_11174_correct","statement":"Path(test_issue_11174(x), test_issue_11174 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e17720842707a132"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_issue_11174","kind":"function","src_hash":"d3e7d9b5499ed9b0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Intersection(FiniteSet(-x), S.Reals) == soln and Intersection(FiniteSet(x), S.Reals) == soln"},"spec":{"lhs":"test_issue_11174()","rhs":"Intersection(FiniteSet(-x), S.Reals) == soln and Intersection(FiniteSet(x), S.Reals) == soln","over":{"base":"Any"},"name":"test_issue_11174_correct"},"guarantee":"Intersection(FiniteSet(-x), S.Reals) == soln; Intersection(FiniteSet(x), S.Reals) == soln","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_issue_11174_correct","statement":"Path(test_issue_11174(x), Intersection(FiniteSet(-x), S.Reals) == soln; Intersection(FiniteSet(x), S.Reals) == soln)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"18300efaa7d729da","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Intersection(FiniteSet(-x), S.Reals) == soln","Intersection(FiniteSet(x), S.Reals) == soln"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_11174():
     soln = Intersection(Interval(-oo, oo), FiniteSet(-x), evaluate=False)
     assert Intersection(FiniteSet(-x), S.Reals) == soln
@@ -2479,32 +3113,46 @@ def test_issue_11174():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_18505(), test_issue_18505 produces the expected output) over Any ║
+# ║ Path(test_issue_18505(), ImageSet(Lambda(n, sqrt(pi * n / 2 - 1 + pi / 2)), S.Integers).contains(0) == Contains(0, ImageSet(Lambda(n, sqrt(pi * n / 2 - 1 + pi / 2)), S.Integers))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_18505 : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  ImageSet(Lambda(n, sqrt(pi * n / 2 - 1 + ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_18505 : Any → {Any | result satisfies: Ima...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 872e87e34a59d691  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 72a56571bbdf289d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_issue_18505","kind":"function","src_hash":"bae87664b89a8132","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_issue_18505()","rhs":"test_issue_18505 produces the expected output","over":{"base":"Any"},"name":"test_issue_18505_correct"},"guarantee":"test_issue_18505 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_issue_18505_correct","statement":"Path(test_issue_18505(x), test_issue_18505 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"872e87e34a59d691"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_issue_18505","kind":"function","src_hash":"bae87664b89a8132","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: ImageSet(Lambda(n, sqrt(pi * n / 2 - 1 + pi / 2)), S.Integers).contains(0) == Contains(0, ImageSet(Lambda(n, sqrt(pi * n / 2 - 1 + pi / 2)), S.Integers))"},"spec":{"lhs":"test_issue_18505()","rhs":"ImageSet(Lambda(n, sqrt(pi * n / 2 - 1 + pi / 2)), S.Integers).contains(0) == Contains(0, ImageSet(Lambda(n, sqrt(pi * n / 2 - 1 + pi / 2)), S.Integers))","over":{"base":"Any"},"name":"test_issue_18505_correct"},"guarantee":"ImageSet(Lambda(n, sqrt(pi * n / 2 - 1 + pi / 2)), S.Integers).contains(0) == Contains(0, ImageSet(Lambda(n, sqrt(pi * n / 2 - 1 + pi / 2)), S.Integers))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_issue_18505_correct","statement":"Path(test_issue_18505(x), ImageSet(Lambda(n, sqrt(pi * n / 2 - 1 + pi / 2)), S.Integers).contains(0) == Contains(0, ImageSet(Lambda(n, sqrt(pi * n / 2 - 1 + pi / 2)), S.Integers)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"72a56571bbdf289d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["ImageSet(Lambda(n, sqrt(pi * n / 2 - 1 + pi / 2)), S.Integers).contains(0) == Contains(0, ImageSet(Lambda(n, sqrt(pi * n / 2 - 1 + pi / 2)), S.Integers))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_18505():
     assert ImageSet(Lambda(n, sqrt(pi*n/2 - 1 + pi/2)), S.Integers).contains(0) == \
             Contains(0, ImageSet(Lambda(n, sqrt(pi*n/2 - 1 + pi/2)), S.Integers))
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_finite_set_intersection(), test_finite_set_intersection produces the expected output) over Any ║
+# ║ Path(test_finite_set_intersection(), Intersection(FiniteSet(-oo, x), FiniteSet(x)) == FiniteSet(x) and Intersection._handle_finite_sets([FiniteSet(-oo, x), FiniteSet(0, x)]) == FiniteSet(x) and Intersection._handle_finite_sets([FiniteSet(-oo, x), FiniteSet(x)]) == FiniteSet(x) and Intersection._handle_finite_sets([FiniteSet(2, 3, x, y), FiniteSet(1, 2, x)]) == Intersection._handle_finite_sets([FiniteSet(1, 2, x), FiniteSet(2, 3, x, y)]) == Intersection(FiniteSet(1, 2, x), FiniteSet(2, 3, x, y)) == Intersection(FiniteSet(1, 2, x), FiniteSet(2, x, y)) and FiniteSet(1 + x - y) & FiniteSet(1) == FiniteSet(1) & FiniteSet(1 + x - y) == Intersection(FiniteSet(1 + x - y), FiniteSet(1), evaluate=False) and FiniteSet(1) & FiniteSet(x) == FiniteSet(x) & FiniteSet(1) == Intersection(FiniteSet(1), FiniteSet(x), evaluate=False) and FiniteSet({x}) & FiniteSet({x, y}) == Intersection(FiniteSet({x}), FiniteSet({x, y}), evaluate=False)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_finite_set_intersection : Any → {Any | Intersect...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Intersection(FiniteSet(-oo, x), FiniteSet...   ║
+# ║   ensures:  Intersection._handle_finite_sets([FiniteS...   ║
+# ║   ensures:  Intersection._handle_finite_sets([FiniteS...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_finite_set_intersection : Any → {Any | result sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 08397952e4ba95ca  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ce5de1d6732b4fcf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_finite_set_intersection","kind":"function","src_hash":"963852bb425779a6","in":{"base":"Any"},"out":{"base":"Any","pred":"Intersection(FiniteSet(-oo, x), FiniteSet(x)) == FiniteSet(x)"},"spec":{"lhs":"test_finite_set_intersection()","rhs":"test_finite_set_intersection produces the expected output","over":{"base":"Any"},"name":"test_finite_set_intersection_correct"},"guarantee":"test_finite_set_intersection produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_finite_set_intersection_correct","statement":"Path(test_finite_set_intersection(x), test_finite_set_intersection produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"08397952e4ba95ca"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_finite_set_intersection","kind":"function","src_hash":"963852bb425779a6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Intersection(FiniteSet(-oo, x), FiniteSet(x)) == FiniteSet(x) and Intersection._handle_finite_sets([FiniteSet(-oo, x), FiniteSet(0, x)]) == FiniteSet(x) and Intersection._handle_finite_sets([FiniteSet(-oo, x), FiniteSet(x)]) == FiniteSet(x) and Intersection._handle_finite_sets([FiniteSet(2, 3, x, y), FiniteSet(1, 2, x)]) == Intersection._handle_finite_sets([FiniteSet(1, 2, x), FiniteSet(2, 3, x, y)]) == Intersection(FiniteSet(1, 2, x), FiniteSet(2, 3, x, y)) == Intersection(FiniteSet(1, 2, x), FiniteSet(2, x, y)) and FiniteSet(1 + x - y) & FiniteSet(1) == FiniteSet(1) & FiniteSet(1 + x - y) == Intersection(FiniteSet(1 + x - y), FiniteSet(1), evaluate=False) and FiniteSet(1) & FiniteSet(x) == FiniteSet(x) & FiniteSet(1) == Intersection(FiniteSet(1), FiniteSet(x), evaluate=False) and FiniteSet({x}) & FiniteSet({x, y}) == Intersection(FiniteSet({x}), FiniteSet({x, y}), evaluate=False)"},"spec":{"lhs":"test_finite_set_intersection()","rhs":"Intersection(FiniteSet(-oo, x), FiniteSet(x)) == FiniteSet(x) and Intersection._handle_finite_sets([FiniteSet(-oo, x), FiniteSet(0, x)]) == FiniteSet(x) and Intersection._handle_finite_sets([FiniteSet(-oo, x), FiniteSet(x)]) == FiniteSet(x) and Intersection._handle_finite_sets([FiniteSet(2, 3, x, y), FiniteSet(1, 2, x)]) == Intersection._handle_finite_sets([FiniteSet(1, 2, x), FiniteSet(2, 3, x, y)]) == Intersection(FiniteSet(1, 2, x), FiniteSet(2, 3, x, y)) == Intersection(FiniteSet(1, 2, x), FiniteSet(2, x, y)) and FiniteSet(1 + x - y) & FiniteSet(1) == FiniteSet(1) & FiniteSet(1 + x - y) == Intersection(FiniteSet(1 + x - y), FiniteSet(1), evaluate=False) and FiniteSet(1) & FiniteSet(x) == FiniteSet(x) & FiniteSet(1) == Intersection(FiniteSet(1), FiniteSet(x), evaluate=False) and FiniteSet({x}) & FiniteSet({x, y}) == Intersection(FiniteSet({x}), FiniteSet({x, y}), evaluate=False)","over":{"base":"Any"},"name":"test_finite_set_intersection_correct"},"guarantee":"Intersection(FiniteSet(-oo, x), FiniteSet(x)) == FiniteSet(x); Intersection._handle_finite_sets([FiniteSet(-oo, x), FiniteSet(0, x)]) == FiniteSet(x); Intersection._handle_finite_sets([FiniteSet(-oo, x), FiniteSet(x)]) == FiniteSet(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_finite_set_intersection_correct","statement":"Path(test_finite_set_intersection(x), Intersection(FiniteSet(-oo, x), FiniteSet(x)) == FiniteSet(x); Intersection._handle_finite_sets([FiniteSet(-oo, x), FiniteSet(0, x)]) == FiniteSet(x); Intersection._handle_finite_sets([FiniteSet(-oo, x), FiniteSet(x)]) == FiniteSet(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ce5de1d6732b4fcf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Intersection(FiniteSet(-oo, x), FiniteSet(x)) == FiniteSet(x)","Intersection._handle_finite_sets([FiniteSet(-oo, x), FiniteSet(0, x)]) == FiniteSet(x)","Intersection._handle_finite_sets([FiniteSet(-oo, x), FiniteSet(x)]) == FiniteSet(x)","Intersection._handle_finite_sets([FiniteSet(2, 3, x, y), FiniteSet(1, 2, x)]) == Intersection._handle_finite_sets([FiniteSet(1, 2, x), FiniteSet(2, 3, x, y)]) == Intersection(FiniteSet(1, 2, x), FiniteSet(2, 3, x, y)) == Intersection(FiniteSet(1, 2, x), FiniteSet(2, x, y))","FiniteSet(1 + x - y) & FiniteSet(1) == FiniteSet(1) & FiniteSet(1 + x - y) == Intersection(FiniteSet(1 + x - y), FiniteSet(1), evaluate=False)","FiniteSet(1) & FiniteSet(x) == FiniteSet(x) & FiniteSet(1) == Intersection(FiniteSet(1), FiniteSet(x), evaluate=False)","FiniteSet({x}) & FiniteSet({x, y}) == Intersection(FiniteSet({x}), FiniteSet({x, y}), evaluate=False)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_finite_set_intersection():
     # The following should not produce recursion errors
     # Note: some of these are not completely correct. See
@@ -2530,16 +3178,24 @@ def test_finite_set_intersection():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_union_intersection_constructor(), test_union_intersection_constructor produces the expected output) over Any ║
+# ║ Path(test_union_intersection_constructor(), Union(set(sets)) == FiniteSet(*sets) and Intersection(set(sets)) == FiniteSet(*sets) and Union({1}, {2}) == FiniteSet(1, 2) and Intersection({1, 2}, {2, 3}) == FiniteSet(2)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_union_intersection_constructor : Any → {Any | Un...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Union(set(sets)) == FiniteSet(*sets)           ║
+# ║   ensures:  Intersection(set(sets)) == FiniteSet(*sets)    ║
+# ║   ensures:  Union({1}, {2}) == FiniteSet(1, 2)             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_union_intersection_constructor : Any → {Any | re...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0d184455f6b07aea  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 891dd0dc402c42aa  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_union_intersection_constructor","kind":"function","src_hash":"0b9c465906146c8e","in":{"base":"Any"},"out":{"base":"Any","pred":"Union(set(sets)) == FiniteSet(*sets) and Intersection(set(sets)) == FiniteSet(*sets) and Union({1}, {2}) == FiniteSet(1, 2) and Intersection({1, 2}, {2, 3}) == FiniteSet(2)"},"spec":{"lhs":"test_union_intersection_constructor()","rhs":"test_union_intersection_constructor produces the expected output","over":{"base":"Any"},"name":"test_union_intersection_constructor_correct"},"guarantee":"test_union_intersection_constructor produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_union_intersection_constructor_correct","statement":"Path(test_union_intersection_constructor(x), test_union_intersection_constructor produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0d184455f6b07aea"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_union_intersection_constructor","kind":"function","src_hash":"0b9c465906146c8e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Union(set(sets)) == FiniteSet(*sets) and Intersection(set(sets)) == FiniteSet(*sets) and Union({1}, {2}) == FiniteSet(1, 2) and Intersection({1, 2}, {2, 3}) == FiniteSet(2)"},"spec":{"lhs":"test_union_intersection_constructor()","rhs":"Union(set(sets)) == FiniteSet(*sets) and Intersection(set(sets)) == FiniteSet(*sets) and Union({1}, {2}) == FiniteSet(1, 2) and Intersection({1, 2}, {2, 3}) == FiniteSet(2)","over":{"base":"Any"},"name":"test_union_intersection_constructor_correct"},"guarantee":"Union(set(sets)) == FiniteSet(*sets); Intersection(set(sets)) == FiniteSet(*sets); Union({1}, {2}) == FiniteSet(1, 2)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_union_intersection_constructor_correct","statement":"Path(test_union_intersection_constructor(x), Union(set(sets)) == FiniteSet(*sets); Intersection(set(sets)) == FiniteSet(*sets); Union({1}, {2}) == FiniteSet(1, 2))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"891dd0dc402c42aa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Union(set(sets)) == FiniteSet(*sets)","Intersection(set(sets)) == FiniteSet(*sets)","Union({1}, {2}) == FiniteSet(1, 2)","Intersection({1, 2}, {2, 3}) == FiniteSet(2)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_union_intersection_constructor():
     # The actual exception does not matter here, so long as these fail
     sets = [FiniteSet(1), FiniteSet(2)]
@@ -2560,16 +3216,22 @@ def test_union_intersection_constructor():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Union_contains(), test_Union_contains produces the expected output) over Any ║
+# ║ Path(test_Union_contains(), zoo not in Union(Interval.open(-oo, 0), Interval.open(0, oo))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Union_contains : Any → {Any | zoo not in Union(I...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  zoo not in Union(Interval.open(-oo, 0), I...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Union_contains : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 822cf8e80fe7b2cc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7bf9c74803a8c6cb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_Union_contains","kind":"function","src_hash":"a6da62e02acca898","in":{"base":"Any"},"out":{"base":"Any","pred":"zoo not in Union(Interval.open(-oo, 0), Interval.open(0, oo))"},"spec":{"lhs":"test_Union_contains()","rhs":"test_Union_contains produces the expected output","over":{"base":"Any"},"name":"test_Union_contains_correct"},"guarantee":"test_Union_contains produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_Union_contains_correct","statement":"Path(test_Union_contains(x), test_Union_contains produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"822cf8e80fe7b2cc"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_Union_contains","kind":"function","src_hash":"a6da62e02acca898","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: zoo not in Union(Interval.open(-oo, 0), Interval.open(0, oo))"},"spec":{"lhs":"test_Union_contains()","rhs":"zoo not in Union(Interval.open(-oo, 0), Interval.open(0, oo))","over":{"base":"Any"},"name":"test_Union_contains_correct"},"guarantee":"zoo not in Union(Interval.open(-oo, 0), Interval.open(0, oo))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_Union_contains_correct","statement":"Path(test_Union_contains(x), zoo not in Union(Interval.open(-oo, 0), Interval.open(0, oo)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7bf9c74803a8c6cb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["zoo not in Union(Interval.open(-oo, 0), Interval.open(0, oo))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_Union_contains():
     assert zoo not in Union(
         Interval.open(-oo, 0), Interval.open(0, oo))
@@ -2577,16 +3239,22 @@ def test_Union_contains():
 
 @XFAIL
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_16878b(), test_issue_16878b produces the expected output) over Any ║
+# ║ Path(test_issue_16878b(), imageset(x, (x, x), S.Reals).is_subset(S.Reals ** 2) is True) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_16878b : Any → {Any | imageset(x, (x, x), ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  imageset(x, (x, x), S.Reals).is_subset(S....   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_16878b : Any → {Any | result satisfies: im...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c7df95f792fa7e07  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b277dbbd3a27a21e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_issue_16878b","kind":"function","src_hash":"ba8ec107603a03a3","in":{"base":"Any"},"out":{"base":"Any","pred":"imageset(x, (x, x), S.Reals).is_subset(S.Reals ** 2) is True"},"spec":{"lhs":"test_issue_16878b()","rhs":"test_issue_16878b produces the expected output","over":{"base":"Any"},"name":"test_issue_16878b_correct"},"guarantee":"test_issue_16878b produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_issue_16878b_correct","statement":"Path(test_issue_16878b(x), test_issue_16878b produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c7df95f792fa7e07"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_issue_16878b","kind":"function","src_hash":"ba8ec107603a03a3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: imageset(x, (x, x), S.Reals).is_subset(S.Reals ** 2) is True"},"spec":{"lhs":"test_issue_16878b()","rhs":"imageset(x, (x, x), S.Reals).is_subset(S.Reals ** 2) is True","over":{"base":"Any"},"name":"test_issue_16878b_correct"},"guarantee":"imageset(x, (x, x), S.Reals).is_subset(S.Reals ** 2) is True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_issue_16878b_correct","statement":"Path(test_issue_16878b(x), imageset(x, (x, x), S.Reals).is_subset(S.Reals ** 2) is True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b277dbbd3a27a21e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["imageset(x, (x, x), S.Reals).is_subset(S.Reals ** 2) is True"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_issue_16878b():
     # in intersection_sets for (ImageSet, Set) there is no code
     # that handles the base_set of S.Reals like there is
@@ -2594,16 +3262,24 @@ def test_issue_16878b():
     assert imageset(x, (x, x), S.Reals).is_subset(S.Reals**2) is True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DisjointUnion(), test_DisjointUnion produces the expected output) over Any ║
+# ║ Path(test_DisjointUnion(), DisjointUnion(FiniteSet(1, 2, 3), FiniteSet(1, 2, 3), FiniteSet(1, 2, 3)).rewrite(Union) == FiniteSet(1, 2, 3) * FiniteSet(0, 1, 2) and DisjointUnion(Interval(1, 3), Interval(2, 4)).rewrite(Union) == Union(Interval(1, 3) * FiniteSet(0), Interval(2, 4) * FiniteSet(1)) and DisjointUnion(Interval(0, 5), Interval(0, 5)).rewrite(Union) == Union(Interval(0, 5) * FiniteSet(0), Interval(0, 5) * FiniteSet(1)) and DisjointUnion(Interval(-1, 2), S.EmptySet, S.EmptySet).rewrite(Union) == Interval(-1, 2) * FiniteSet(0) and DisjointUnion(Interval(-1, 2)).rewrite(Union) == Interval(-1, 2) * FiniteSet(0) and DisjointUnion(S.EmptySet, Interval(-1, 2), S.EmptySet).rewrite(Union) == Interval(-1, 2) * FiniteSet(1) and DisjointUnion(Interval(-oo, oo)).rewrite(Union) == Interval(-oo, oo) * FiniteSet(0) and DisjointUnion(S.EmptySet).rewrite(Union) == S.EmptySet and DisjointUnion().rewrite(Union) == S.EmptySet and DisjointUnion(FiniteSet(x), FiniteSet(y, z)).rewrite(Union) == FiniteSet(x) * FiniteSet(0) + FiniteSet(y, z) * FiniteSet(1)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DisjointUnion : Any → {Any | DisjointUnion(Inter...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  DisjointUnion(FiniteSet(1, 2, 3), FiniteS...   ║
+# ║   ensures:  DisjointUnion(Interval(1, 3), Interval(2,...   ║
+# ║   ensures:  DisjointUnion(Interval(0, 5), Interval(0,...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DisjointUnion : Any → {Any | result satisfies: D...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f69ddf7caf982d36  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0c2e500f639aefc6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_DisjointUnion","kind":"function","src_hash":"75310605ce153af7","in":{"base":"Any"},"out":{"base":"Any","pred":"DisjointUnion(Interval(-1, 2)).rewrite(Union) == Interval(-1, 2) * FiniteSet(0) and DisjointUnion(S.EmptySet).rewrite(Union) == S.EmptySet and DisjointUnion().rewrite(Union) == S.EmptySet"},"spec":{"lhs":"test_DisjointUnion()","rhs":"test_DisjointUnion produces the expected output","over":{"base":"Any"},"name":"test_DisjointUnion_correct"},"guarantee":"test_DisjointUnion produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_DisjointUnion_correct","statement":"Path(test_DisjointUnion(x), test_DisjointUnion produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f69ddf7caf982d36"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_DisjointUnion","kind":"function","src_hash":"75310605ce153af7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: DisjointUnion(FiniteSet(1, 2, 3), FiniteSet(1, 2, 3), FiniteSet(1, 2, 3)).rewrite(Union) == FiniteSet(1, 2, 3) * FiniteSet(0, 1, 2) and DisjointUnion(Interval(1, 3), Interval(2, 4)).rewrite(Union) == Union(Interval(1, 3) * FiniteSet(0), Interval(2, 4) * FiniteSet(1)) and DisjointUnion(Interval(0, 5), Interval(0, 5)).rewrite(Union) == Union(Interval(0, 5) * FiniteSet(0), Interval(0, 5) * FiniteSet(1)) and DisjointUnion(Interval(-1, 2), S.EmptySet, S.EmptySet).rewrite(Union) == Interval(-1, 2) * FiniteSet(0) and DisjointUnion(Interval(-1, 2)).rewrite(Union) == Interval(-1, 2) * FiniteSet(0) and DisjointUnion(S.EmptySet, Interval(-1, 2), S.EmptySet).rewrite(Union) == Interval(-1, 2) * FiniteSet(1) and DisjointUnion(Interval(-oo, oo)).rewrite(Union) == Interval(-oo, oo) * FiniteSet(0) and DisjointUnion(S.EmptySet).rewrite(Union) == S.EmptySet and DisjointUnion().rewrite(Union) == S.EmptySet and DisjointUnion(FiniteSet(x), FiniteSet(y, z)).rewrite(Union) == FiniteSet(x) * FiniteSet(0) + FiniteSet(y, z) * FiniteSet(1)"},"spec":{"lhs":"test_DisjointUnion()","rhs":"DisjointUnion(FiniteSet(1, 2, 3), FiniteSet(1, 2, 3), FiniteSet(1, 2, 3)).rewrite(Union) == FiniteSet(1, 2, 3) * FiniteSet(0, 1, 2) and DisjointUnion(Interval(1, 3), Interval(2, 4)).rewrite(Union) == Union(Interval(1, 3) * FiniteSet(0), Interval(2, 4) * FiniteSet(1)) and DisjointUnion(Interval(0, 5), Interval(0, 5)).rewrite(Union) == Union(Interval(0, 5) * FiniteSet(0), Interval(0, 5) * FiniteSet(1)) and DisjointUnion(Interval(-1, 2), S.EmptySet, S.EmptySet).rewrite(Union) == Interval(-1, 2) * FiniteSet(0) and DisjointUnion(Interval(-1, 2)).rewrite(Union) == Interval(-1, 2) * FiniteSet(0) and DisjointUnion(S.EmptySet, Interval(-1, 2), S.EmptySet).rewrite(Union) == Interval(-1, 2) * FiniteSet(1) and DisjointUnion(Interval(-oo, oo)).rewrite(Union) == Interval(-oo, oo) * FiniteSet(0) and DisjointUnion(S.EmptySet).rewrite(Union) == S.EmptySet and DisjointUnion().rewrite(Union) == S.EmptySet and DisjointUnion(FiniteSet(x), FiniteSet(y, z)).rewrite(Union) == FiniteSet(x) * FiniteSet(0) + FiniteSet(y, z) * FiniteSet(1)","over":{"base":"Any"},"name":"test_DisjointUnion_correct"},"guarantee":"DisjointUnion(FiniteSet(1, 2, 3), FiniteSet(1, 2, 3), FiniteSet(1, 2, 3)).rewrite(Union) == FiniteSet(1, 2, 3) * FiniteSet(0, 1, 2); DisjointUnion(Interval(1, 3), Interval(2, 4)).rewrite(Union) == Union(Interval(1, 3) * FiniteSet(0), Interval(2, 4) * FiniteSet(1)); DisjointUnion(Interval(0, 5), Interval(0, 5)).rewrite(Union) == Union(Interval(0, 5) * FiniteSet(0), Interval(0, 5) * FiniteSet(1))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_DisjointUnion_correct","statement":"Path(test_DisjointUnion(x), DisjointUnion(FiniteSet(1, 2, 3), FiniteSet(1, 2, 3), FiniteSet(1, 2, 3)).rewrite(Union) == FiniteSet(1, 2, 3) * FiniteSet(0, 1, 2); DisjointUnion(Interval(1, 3), Interval(2, 4)).rewrite(Union) == Union(Interval(1, 3) * FiniteSet(0), Interval(2, 4) * FiniteSet(1)); DisjointUnion(Interval(0, 5), Interval(0, 5)).rewrite(Union) == Union(Interval(0, 5) * FiniteSet(0), Interval(0, 5) * FiniteSet(1)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0c2e500f639aefc6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["DisjointUnion(FiniteSet(1, 2, 3), FiniteSet(1, 2, 3), FiniteSet(1, 2, 3)).rewrite(Union) == FiniteSet(1, 2, 3) * FiniteSet(0, 1, 2)","DisjointUnion(Interval(1, 3), Interval(2, 4)).rewrite(Union) == Union(Interval(1, 3) * FiniteSet(0), Interval(2, 4) * FiniteSet(1))","DisjointUnion(Interval(0, 5), Interval(0, 5)).rewrite(Union) == Union(Interval(0, 5) * FiniteSet(0), Interval(0, 5) * FiniteSet(1))","DisjointUnion(Interval(-1, 2), S.EmptySet, S.EmptySet).rewrite(Union) == Interval(-1, 2) * FiniteSet(0)","DisjointUnion(Interval(-1, 2)).rewrite(Union) == Interval(-1, 2) * FiniteSet(0)","DisjointUnion(S.EmptySet, Interval(-1, 2), S.EmptySet).rewrite(Union) == Interval(-1, 2) * FiniteSet(1)","DisjointUnion(Interval(-oo, oo)).rewrite(Union) == Interval(-oo, oo) * FiniteSet(0)","DisjointUnion(S.EmptySet).rewrite(Union) == S.EmptySet","DisjointUnion().rewrite(Union) == S.EmptySet","DisjointUnion(FiniteSet(x), FiniteSet(y, z)).rewrite(Union) == FiniteSet(x) * FiniteSet(0) + FiniteSet(y, z) * FiniteSet(1)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_DisjointUnion():
     assert DisjointUnion(FiniteSet(1, 2, 3), FiniteSet(1, 2, 3), FiniteSet(1, 2, 3)).rewrite(Union) == (FiniteSet(1, 2, 3) * FiniteSet(0, 1, 2))
     assert DisjointUnion(Interval(1, 3), Interval(2, 4)).rewrite(Union) == Union(Interval(1, 3) * FiniteSet(0), Interval(2, 4) * FiniteSet(1))
@@ -2622,32 +3298,48 @@ def test_DisjointUnion():
     assert DisjointUnion(FiniteSet(x), FiniteSet(y, z)).rewrite(Union) == (FiniteSet(x) * FiniteSet(0)) + (FiniteSet(y, z) * FiniteSet(1))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DisjointUnion_is_empty(), test_DisjointUnion_is_empty produces the expected output) over Any ║
+# ║ Path(test_DisjointUnion_is_empty(), DisjointUnion(S.EmptySet).is_empty is True and DisjointUnion(S.EmptySet, S.EmptySet).is_empty is True and DisjointUnion(S.EmptySet, FiniteSet(1, 2, 3)).is_empty is False) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DisjointUnion_is_empty : Any → {Any | DisjointUn...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  DisjointUnion(S.EmptySet).is_empty is True     ║
+# ║   ensures:  DisjointUnion(S.EmptySet, S.EmptySet).is_...   ║
+# ║   ensures:  DisjointUnion(S.EmptySet, FiniteSet(1, 2,...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DisjointUnion_is_empty : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 39d437dfcf667cd3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ec7dc4014914af2a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_DisjointUnion_is_empty","kind":"function","src_hash":"46b82edb9b191207","in":{"base":"Any"},"out":{"base":"Any","pred":"DisjointUnion(S.EmptySet).is_empty is True and DisjointUnion(S.EmptySet, S.EmptySet).is_empty is True and DisjointUnion(S.EmptySet, FiniteSet(1, 2, 3)).is_empty is False"},"spec":{"lhs":"test_DisjointUnion_is_empty()","rhs":"test_DisjointUnion_is_empty produces the expected output","over":{"base":"Any"},"name":"test_DisjointUnion_is_empty_correct"},"guarantee":"test_DisjointUnion_is_empty produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_DisjointUnion_is_empty_correct","statement":"Path(test_DisjointUnion_is_empty(x), test_DisjointUnion_is_empty produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"39d437dfcf667cd3"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_DisjointUnion_is_empty","kind":"function","src_hash":"46b82edb9b191207","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: DisjointUnion(S.EmptySet).is_empty is True and DisjointUnion(S.EmptySet, S.EmptySet).is_empty is True and DisjointUnion(S.EmptySet, FiniteSet(1, 2, 3)).is_empty is False"},"spec":{"lhs":"test_DisjointUnion_is_empty()","rhs":"DisjointUnion(S.EmptySet).is_empty is True and DisjointUnion(S.EmptySet, S.EmptySet).is_empty is True and DisjointUnion(S.EmptySet, FiniteSet(1, 2, 3)).is_empty is False","over":{"base":"Any"},"name":"test_DisjointUnion_is_empty_correct"},"guarantee":"DisjointUnion(S.EmptySet).is_empty is True; DisjointUnion(S.EmptySet, S.EmptySet).is_empty is True; DisjointUnion(S.EmptySet, FiniteSet(1, 2, 3)).is_empty is False","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_DisjointUnion_is_empty_correct","statement":"Path(test_DisjointUnion_is_empty(x), DisjointUnion(S.EmptySet).is_empty is True; DisjointUnion(S.EmptySet, S.EmptySet).is_empty is True; DisjointUnion(S.EmptySet, FiniteSet(1, 2, 3)).is_empty is False)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ec7dc4014914af2a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["DisjointUnion(S.EmptySet).is_empty is True","DisjointUnion(S.EmptySet, S.EmptySet).is_empty is True","DisjointUnion(S.EmptySet, FiniteSet(1, 2, 3)).is_empty is False"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_DisjointUnion_is_empty():
     assert DisjointUnion(S.EmptySet).is_empty is True
     assert DisjointUnion(S.EmptySet, S.EmptySet).is_empty is True
     assert DisjointUnion(S.EmptySet, FiniteSet(1, 2, 3)).is_empty is False
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DisjointUnion_is_iterable(), test_DisjointUnion_is_iterable produces the expected output) over Any ║
+# ║ Path(test_DisjointUnion_is_iterable(), DisjointUnion(S.Integers, S.Naturals, S.Rationals).is_iterable is True and DisjointUnion(S.EmptySet, S.Reals).is_iterable is False and DisjointUnion(FiniteSet(1, 2, 3), S.EmptySet, FiniteSet(x, y)).is_iterable is True and DisjointUnion(S.EmptySet, S.EmptySet).is_iterable is False) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DisjointUnion_is_iterable : Any → {Any | Disjoin...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  DisjointUnion(S.Integers, S.Naturals, S.R...   ║
+# ║   ensures:  DisjointUnion(S.EmptySet, S.Reals).is_ite...   ║
+# ║   ensures:  DisjointUnion(FiniteSet(1, 2, 3), S.Empty...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DisjointUnion_is_iterable : Any → {Any | result ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 82ef0513d5d8a149  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a177534f131afaf1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_DisjointUnion_is_iterable","kind":"function","src_hash":"588acf38163c62fd","in":{"base":"Any"},"out":{"base":"Any","pred":"DisjointUnion(S.Integers, S.Naturals, S.Rationals).is_iterable is True and DisjointUnion(S.EmptySet, S.Reals).is_iterable is False and DisjointUnion(S.EmptySet, S.EmptySet).is_iterable is False"},"spec":{"lhs":"test_DisjointUnion_is_iterable()","rhs":"test_DisjointUnion_is_iterable produces the expected output","over":{"base":"Any"},"name":"test_DisjointUnion_is_iterable_correct"},"guarantee":"test_DisjointUnion_is_iterable produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_DisjointUnion_is_iterable_correct","statement":"Path(test_DisjointUnion_is_iterable(x), test_DisjointUnion_is_iterable produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"82ef0513d5d8a149"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_DisjointUnion_is_iterable","kind":"function","src_hash":"588acf38163c62fd","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: DisjointUnion(S.Integers, S.Naturals, S.Rationals).is_iterable is True and DisjointUnion(S.EmptySet, S.Reals).is_iterable is False and DisjointUnion(FiniteSet(1, 2, 3), S.EmptySet, FiniteSet(x, y)).is_iterable is True and DisjointUnion(S.EmptySet, S.EmptySet).is_iterable is False"},"spec":{"lhs":"test_DisjointUnion_is_iterable()","rhs":"DisjointUnion(S.Integers, S.Naturals, S.Rationals).is_iterable is True and DisjointUnion(S.EmptySet, S.Reals).is_iterable is False and DisjointUnion(FiniteSet(1, 2, 3), S.EmptySet, FiniteSet(x, y)).is_iterable is True and DisjointUnion(S.EmptySet, S.EmptySet).is_iterable is False","over":{"base":"Any"},"name":"test_DisjointUnion_is_iterable_correct"},"guarantee":"DisjointUnion(S.Integers, S.Naturals, S.Rationals).is_iterable is True; DisjointUnion(S.EmptySet, S.Reals).is_iterable is False; DisjointUnion(FiniteSet(1, 2, 3), S.EmptySet, FiniteSet(x, y)).is_iterable is True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_DisjointUnion_is_iterable_correct","statement":"Path(test_DisjointUnion_is_iterable(x), DisjointUnion(S.Integers, S.Naturals, S.Rationals).is_iterable is True; DisjointUnion(S.EmptySet, S.Reals).is_iterable is False; DisjointUnion(FiniteSet(1, 2, 3), S.EmptySet, FiniteSet(x, y)).is_iterable is True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a177534f131afaf1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["DisjointUnion(S.Integers, S.Naturals, S.Rationals).is_iterable is True","DisjointUnion(S.EmptySet, S.Reals).is_iterable is False","DisjointUnion(FiniteSet(1, 2, 3), S.EmptySet, FiniteSet(x, y)).is_iterable is True","DisjointUnion(S.EmptySet, S.EmptySet).is_iterable is False"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_DisjointUnion_is_iterable():
     assert DisjointUnion(S.Integers, S.Naturals, S.Rationals).is_iterable is True
     assert DisjointUnion(S.EmptySet, S.Reals).is_iterable is False
@@ -2655,16 +3347,24 @@ def test_DisjointUnion_is_iterable():
     assert DisjointUnion(S.EmptySet, S.EmptySet).is_iterable is False
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DisjointUnion_contains(), test_DisjointUnion_contains produces the expected output) over Any ║
+# ║ Path(test_DisjointUnion_contains(), (0, 0) in DisjointUnion(FiniteSet(0, 1, 2), FiniteSet(0, 1, 2), FiniteSet(0, 1, 2)) and (0, 1) in DisjointUnion(FiniteSet(0, 1, 2), FiniteSet(0, 1, 2), FiniteSet(0, 1, 2)) and (0, 2) in DisjointUnion(FiniteSet(0, 1, 2), FiniteSet(0, 1, 2), FiniteSet(0, 1, 2)) and (1, 0) in DisjointUnion(FiniteSet(0, 1, 2), FiniteSet(0, 1, 2), FiniteSet(0, 1, 2)) and (1, 1) in DisjointUnion(FiniteSet(0, 1, 2), FiniteSet(0, 1, 2), FiniteSet(0, 1, 2)) and (1, 2) in DisjointUnion(FiniteSet(0, 1, 2), FiniteSet(0, 1, 2), FiniteSet(0, 1, 2)) and (2, 0) in DisjointUnion(FiniteSet(0, 1, 2), FiniteSet(0, 1, 2), FiniteSet(0, 1, 2)) and (2, 1) in DisjointUnion(FiniteSet(0, 1, 2), FiniteSet(0, 1, 2), FiniteSet(0, 1, 2)) and (2, 2) in DisjointUnion(FiniteSet(0, 1, 2), FiniteSet(0, 1, 2), FiniteSet(0, 1, 2)) and (0, 1, 2) not in DisjointUnion(FiniteSet(0, 1, 2), FiniteSet(0, 1, 2), FiniteSet(0, 1, 2)) and (0, 0.5) not in DisjointUnion(FiniteSet(0.5)) and (0, 5) not in DisjointUnion(FiniteSet(0, 1, 2), FiniteSet(0, 1, 2), FiniteSet(0, 1, 2)) and (x, 0) in DisjointUnion(FiniteSet(x, y, z), S.EmptySet, FiniteSet(y)) and (y, 0) in DisjointUnion(FiniteSet(x, y, z), S.EmptySet, FiniteSet(y)) and (z, 0) in DisjointUnion(FiniteSet(x, y, z), S.EmptySet, FiniteSet(y)) and (y, 2) in DisjointUnion(FiniteSet(x, y, z), S.EmptySet, FiniteSet(y)) and (0.5, 0) in DisjointUnion(Interval(0, 1), Interval(0, 2)) and (0.5, 1) in DisjointUnion(Interval(0, 1), Interval(0, 2)) and (1.5, 0) not in DisjointUnion(Interval(0, 1), Interval(0, 2)) and (1.5, 1) in DisjointUnion(Interval(0, 1), Interval(0, 2))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DisjointUnion_contains : Any → {Any | (0, 0.5) n...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (0, 0) in DisjointUnion(FiniteSet(0, 1, 2...   ║
+# ║   ensures:  (0, 1) in DisjointUnion(FiniteSet(0, 1, 2...   ║
+# ║   ensures:  (0, 2) in DisjointUnion(FiniteSet(0, 1, 2...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DisjointUnion_contains : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8e22c6df583bfb59  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 84b5b5de26e4b0ce  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_DisjointUnion_contains","kind":"function","src_hash":"7fbd7870e681acb8","in":{"base":"Any"},"out":{"base":"Any","pred":"(0, 0.5) not in DisjointUnion(FiniteSet(0.5)) and (x, 0) in DisjointUnion(FiniteSet(x, y, z), S.EmptySet, FiniteSet(y)) and (y, 0) in DisjointUnion(FiniteSet(x, y, z), S.EmptySet, FiniteSet(y)) and (z, 0) in DisjointUnion(FiniteSet(x, y, z), S.EmptySet, FiniteSet(y)) and (y, 2) in DisjointUnion(FiniteSet(x, y, z), S.EmptySet, FiniteSet(y)) and (0.5, 0) in DisjointUnion(Interval(0, 1), Interval(0, 2)) and (0.5, 1) in DisjointUnion(Interval(0, 1), Interval(0, 2)) and (1.5, 0) not in DisjointUnion(Interval(0, 1), Interval(0, 2)) and (1.5, 1) in DisjointUnion(Interval(0, 1), Interval(0, 2))"},"spec":{"lhs":"test_DisjointUnion_contains()","rhs":"test_DisjointUnion_contains produces the expected output","over":{"base":"Any"},"name":"test_DisjointUnion_contains_correct"},"guarantee":"test_DisjointUnion_contains produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_DisjointUnion_contains_correct","statement":"Path(test_DisjointUnion_contains(x), test_DisjointUnion_contains produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8e22c6df583bfb59"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_DisjointUnion_contains","kind":"function","src_hash":"7fbd7870e681acb8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (0, 0) in DisjointUnion(FiniteSet(0, 1, 2), FiniteSet(0, 1, 2), FiniteSet(0, 1, 2)) and (0, 1) in DisjointUnion(FiniteSet(0, 1, 2), FiniteSet(0, 1, 2), FiniteSet(0, 1, 2)) and (0, 2) in DisjointUnion(FiniteSet(0, 1, 2), FiniteSet(0, 1, 2), FiniteSet(0, 1, 2)) and (1, 0) in DisjointUnion(FiniteSet(0, 1, 2), FiniteSet(0, 1, 2), FiniteSet(0, 1, 2)) and (1, 1) in DisjointUnion(FiniteSet(0, 1, 2), FiniteSet(0, 1, 2), FiniteSet(0, 1, 2)) and (1, 2) in DisjointUnion(FiniteSet(0, 1, 2), FiniteSet(0, 1, 2), FiniteSet(0, 1, 2)) and (2, 0) in DisjointUnion(FiniteSet(0, 1, 2), FiniteSet(0, 1, 2), FiniteSet(0, 1, 2)) and (2, 1) in DisjointUnion(FiniteSet(0, 1, 2), FiniteSet(0, 1, 2), FiniteSet(0, 1, 2)) and (2, 2) in DisjointUnion(FiniteSet(0, 1, 2), FiniteSet(0, 1, 2), FiniteSet(0, 1, 2)) and (0, 1, 2) not in DisjointUnion(FiniteSet(0, 1, 2), FiniteSet(0, 1, 2), FiniteSet(0, 1, 2)) and (0, 0.5) not in DisjointUnion(FiniteSet(0.5)) and (0, 5) not in DisjointUnion(FiniteSet(0, 1, 2), FiniteSet(0, 1, 2), FiniteSet(0, 1, 2)) and (x, 0) in DisjointUnion(FiniteSet(x, y, z), S.EmptySet, FiniteSet(y)) and (y, 0) in DisjointUnion(FiniteSet(x, y, z), S.EmptySet, FiniteSet(y)) and (z, 0) in DisjointUnion(FiniteSet(x, y, z), S.EmptySet, FiniteSet(y)) and (y, 2) in DisjointUnion(FiniteSet(x, y, z), S.EmptySet, FiniteSet(y)) and (0.5, 0) in DisjointUnion(Interval(0, 1), Interval(0, 2)) and (0.5, 1) in DisjointUnion(Interval(0, 1), Interval(0, 2)) and (1.5, 0) not in DisjointUnion(Interval(0, 1), Interval(0, 2)) and (1.5, 1) in DisjointUnion(Interval(0, 1), Interval(0, 2))"},"spec":{"lhs":"test_DisjointUnion_contains()","rhs":"(0, 0) in DisjointUnion(FiniteSet(0, 1, 2), FiniteSet(0, 1, 2), FiniteSet(0, 1, 2)) and (0, 1) in DisjointUnion(FiniteSet(0, 1, 2), FiniteSet(0, 1, 2), FiniteSet(0, 1, 2)) and (0, 2) in DisjointUnion(FiniteSet(0, 1, 2), FiniteSet(0, 1, 2), FiniteSet(0, 1, 2)) and (1, 0) in DisjointUnion(FiniteSet(0, 1, 2), FiniteSet(0, 1, 2), FiniteSet(0, 1, 2)) and (1, 1) in DisjointUnion(FiniteSet(0, 1, 2), FiniteSet(0, 1, 2), FiniteSet(0, 1, 2)) and (1, 2) in DisjointUnion(FiniteSet(0, 1, 2), FiniteSet(0, 1, 2), FiniteSet(0, 1, 2)) and (2, 0) in DisjointUnion(FiniteSet(0, 1, 2), FiniteSet(0, 1, 2), FiniteSet(0, 1, 2)) and (2, 1) in DisjointUnion(FiniteSet(0, 1, 2), FiniteSet(0, 1, 2), FiniteSet(0, 1, 2)) and (2, 2) in DisjointUnion(FiniteSet(0, 1, 2), FiniteSet(0, 1, 2), FiniteSet(0, 1, 2)) and (0, 1, 2) not in DisjointUnion(FiniteSet(0, 1, 2), FiniteSet(0, 1, 2), FiniteSet(0, 1, 2)) and (0, 0.5) not in DisjointUnion(FiniteSet(0.5)) and (0, 5) not in DisjointUnion(FiniteSet(0, 1, 2), FiniteSet(0, 1, 2), FiniteSet(0, 1, 2)) and (x, 0) in DisjointUnion(FiniteSet(x, y, z), S.EmptySet, FiniteSet(y)) and (y, 0) in DisjointUnion(FiniteSet(x, y, z), S.EmptySet, FiniteSet(y)) and (z, 0) in DisjointUnion(FiniteSet(x, y, z), S.EmptySet, FiniteSet(y)) and (y, 2) in DisjointUnion(FiniteSet(x, y, z), S.EmptySet, FiniteSet(y)) and (0.5, 0) in DisjointUnion(Interval(0, 1), Interval(0, 2)) and (0.5, 1) in DisjointUnion(Interval(0, 1), Interval(0, 2)) and (1.5, 0) not in DisjointUnion(Interval(0, 1), Interval(0, 2)) and (1.5, 1) in DisjointUnion(Interval(0, 1), Interval(0, 2))","over":{"base":"Any"},"name":"test_DisjointUnion_contains_correct"},"guarantee":"(0, 0) in DisjointUnion(FiniteSet(0, 1, 2), FiniteSet(0, 1, 2), FiniteSet(0, 1, 2)); (0, 1) in DisjointUnion(FiniteSet(0, 1, 2), FiniteSet(0, 1, 2), FiniteSet(0, 1, 2)); (0, 2) in DisjointUnion(FiniteSet(0, 1, 2), FiniteSet(0, 1, 2), FiniteSet(0, 1, 2))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_DisjointUnion_contains_correct","statement":"Path(test_DisjointUnion_contains(x), (0, 0) in DisjointUnion(FiniteSet(0, 1, 2), FiniteSet(0, 1, 2), FiniteSet(0, 1, 2)); (0, 1) in DisjointUnion(FiniteSet(0, 1, 2), FiniteSet(0, 1, 2), FiniteSet(0, 1, 2)); (0, 2) in DisjointUnion(FiniteSet(0, 1, 2), FiniteSet(0, 1, 2), FiniteSet(0, 1, 2)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"84b5b5de26e4b0ce","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(0, 0) in DisjointUnion(FiniteSet(0, 1, 2), FiniteSet(0, 1, 2), FiniteSet(0, 1, 2))","(0, 1) in DisjointUnion(FiniteSet(0, 1, 2), FiniteSet(0, 1, 2), FiniteSet(0, 1, 2))","(0, 2) in DisjointUnion(FiniteSet(0, 1, 2), FiniteSet(0, 1, 2), FiniteSet(0, 1, 2))","(1, 0) in DisjointUnion(FiniteSet(0, 1, 2), FiniteSet(0, 1, 2), FiniteSet(0, 1, 2))","(1, 1) in DisjointUnion(FiniteSet(0, 1, 2), FiniteSet(0, 1, 2), FiniteSet(0, 1, 2))","(1, 2) in DisjointUnion(FiniteSet(0, 1, 2), FiniteSet(0, 1, 2), FiniteSet(0, 1, 2))","(2, 0) in DisjointUnion(FiniteSet(0, 1, 2), FiniteSet(0, 1, 2), FiniteSet(0, 1, 2))","(2, 1) in DisjointUnion(FiniteSet(0, 1, 2), FiniteSet(0, 1, 2), FiniteSet(0, 1, 2))","(2, 2) in DisjointUnion(FiniteSet(0, 1, 2), FiniteSet(0, 1, 2), FiniteSet(0, 1, 2))","(0, 1, 2) not in DisjointUnion(FiniteSet(0, 1, 2), FiniteSet(0, 1, 2), FiniteSet(0, 1, 2))","(0, 0.5) not in DisjointUnion(FiniteSet(0.5))","(0, 5) not in DisjointUnion(FiniteSet(0, 1, 2), FiniteSet(0, 1, 2), FiniteSet(0, 1, 2))","(x, 0) in DisjointUnion(FiniteSet(x, y, z), S.EmptySet, FiniteSet(y))","(y, 0) in DisjointUnion(FiniteSet(x, y, z), S.EmptySet, FiniteSet(y))","(z, 0) in DisjointUnion(FiniteSet(x, y, z), S.EmptySet, FiniteSet(y))","(y, 2) in DisjointUnion(FiniteSet(x, y, z), S.EmptySet, FiniteSet(y))","(0.5, 0) in DisjointUnion(Interval(0, 1), Interval(0, 2))","(0.5, 1) in DisjointUnion(Interval(0, 1), Interval(0, 2))","(1.5, 0) not in DisjointUnion(Interval(0, 1), Interval(0, 2))","(1.5, 1) in DisjointUnion(Interval(0, 1), Interval(0, 2))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":true}}
 def test_DisjointUnion_contains():
     assert (0, 0) in DisjointUnion(FiniteSet(0, 1, 2), FiniteSet(0, 1, 2), FiniteSet(0, 1, 2))
     assert (0, 1) in DisjointUnion(FiniteSet(0, 1, 2), FiniteSet(0, 1, 2), FiniteSet(0, 1, 2))
@@ -2688,16 +3388,23 @@ def test_DisjointUnion_contains():
     assert (1.5, 1) in DisjointUnion(Interval(0, 1), Interval(0, 2))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DisjointUnion_iter(), test_DisjointUnion_iter produces the expected output) over Any ║
+# ║ Path(test_DisjointUnion_iter(), nxt in L2 and nxt in L1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DisjointUnion_iter : Any → {Any | nxt in L2 and ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  nxt in L2                                      ║
+# ║   ensures:  nxt in L1                                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DisjointUnion_iter : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e15e44d49c8b3358  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5c00dfbb6c648c1e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_DisjointUnion_iter","kind":"function","src_hash":"72dc05fa72b75855","in":{"base":"Any"},"out":{"base":"Any","pred":"nxt in L2 and nxt in L1 and nxt in L2 and nxt in L1 and nxt in L2 and nxt in L1 and nxt in L2"},"spec":{"lhs":"test_DisjointUnion_iter()","rhs":"test_DisjointUnion_iter produces the expected output","over":{"base":"Any"},"name":"test_DisjointUnion_iter_correct"},"guarantee":"test_DisjointUnion_iter produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_DisjointUnion_iter_correct","statement":"Path(test_DisjointUnion_iter(x), test_DisjointUnion_iter produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e15e44d49c8b3358"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_DisjointUnion_iter","kind":"function","src_hash":"72dc05fa72b75855","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: nxt in L2 and nxt in L1"},"spec":{"lhs":"test_DisjointUnion_iter()","rhs":"nxt in L2 and nxt in L1","over":{"base":"Any"},"name":"test_DisjointUnion_iter_correct"},"guarantee":"nxt in L2; nxt in L1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_DisjointUnion_iter_correct","statement":"Path(test_DisjointUnion_iter(x), nxt in L2; nxt in L1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5c00dfbb6c648c1e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["nxt in L2","nxt in L1"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_DisjointUnion_iter():
     D = DisjointUnion(FiniteSet(3, 5, 7, 9), FiniteSet(x, y, z))
     it = iter(D)
@@ -2729,32 +3436,46 @@ def test_DisjointUnion_iter():
     raises(ValueError, lambda: iter(DisjointUnion(Interval(0, 1), S.EmptySet)))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DisjointUnion_len(), test_DisjointUnion_len produces the expected output) over Any ║
+# ║ Path(test_DisjointUnion_len(), len(DisjointUnion(FiniteSet(3, 5, 7, 9), FiniteSet(x, y, z))) == 7 and len(DisjointUnion(S.EmptySet, S.EmptySet, FiniteSet(x, y, z), S.EmptySet)) == 3) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DisjointUnion_len : Any → {Any | len(DisjointUni...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(DisjointUnion(FiniteSet(3, 5, 7, 9), ...   ║
+# ║   ensures:  len(DisjointUnion(S.EmptySet, S.EmptySet,...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DisjointUnion_len : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e77f6cc014f7d141  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fa9cc4a22d249f6c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_DisjointUnion_len","kind":"function","src_hash":"0bdff05e70f27e8e","in":{"base":"Any"},"out":{"base":"Any","pred":"len(DisjointUnion(FiniteSet(3, 5, 7, 9), FiniteSet(x, y, z))) == 7 and len(DisjointUnion(S.EmptySet, S.EmptySet, FiniteSet(x, y, z), S.EmptySet)) == 3"},"spec":{"lhs":"test_DisjointUnion_len()","rhs":"test_DisjointUnion_len produces the expected output","over":{"base":"Any"},"name":"test_DisjointUnion_len_correct"},"guarantee":"test_DisjointUnion_len produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_DisjointUnion_len_correct","statement":"Path(test_DisjointUnion_len(x), test_DisjointUnion_len produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e77f6cc014f7d141"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_DisjointUnion_len","kind":"function","src_hash":"0bdff05e70f27e8e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(DisjointUnion(FiniteSet(3, 5, 7, 9), FiniteSet(x, y, z))) == 7 and len(DisjointUnion(S.EmptySet, S.EmptySet, FiniteSet(x, y, z), S.EmptySet)) == 3"},"spec":{"lhs":"test_DisjointUnion_len()","rhs":"len(DisjointUnion(FiniteSet(3, 5, 7, 9), FiniteSet(x, y, z))) == 7 and len(DisjointUnion(S.EmptySet, S.EmptySet, FiniteSet(x, y, z), S.EmptySet)) == 3","over":{"base":"Any"},"name":"test_DisjointUnion_len_correct"},"guarantee":"len(DisjointUnion(FiniteSet(3, 5, 7, 9), FiniteSet(x, y, z))) == 7; len(DisjointUnion(S.EmptySet, S.EmptySet, FiniteSet(x, y, z), S.EmptySet)) == 3","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_DisjointUnion_len_correct","statement":"Path(test_DisjointUnion_len(x), len(DisjointUnion(FiniteSet(3, 5, 7, 9), FiniteSet(x, y, z))) == 7; len(DisjointUnion(S.EmptySet, S.EmptySet, FiniteSet(x, y, z), S.EmptySet)) == 3)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fa9cc4a22d249f6c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(DisjointUnion(FiniteSet(3, 5, 7, 9), FiniteSet(x, y, z))) == 7","len(DisjointUnion(S.EmptySet, S.EmptySet, FiniteSet(x, y, z), S.EmptySet)) == 3"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_DisjointUnion_len():
     assert len(DisjointUnion(FiniteSet(3, 5, 7, 9), FiniteSet(x, y, z))) == 7
     assert len(DisjointUnion(S.EmptySet, S.EmptySet, FiniteSet(x, y, z), S.EmptySet)) == 3
     raises(ValueError, lambda: len(DisjointUnion(Interval(0, 1), S.EmptySet)))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_SetKind_ProductSet(), test_SetKind_ProductSet produces the expected output) over Any ║
+# ║ Path(test_SetKind_ProductSet(), p.kind is k and ProductSet(Interval(1, 2), FiniteSet(Matrix([1, 2]))).kind is SetKind(TupleKind(NumberKind, mk))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_SetKind_ProductSet : Any → {Any | p.kind is k}        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  p.kind is k                                    ║
+# ║   ensures:  ProductSet(Interval(1, 2), FiniteSet(Matr...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_SetKind_ProductSet : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 23c89955a136985a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9898e81e63d82628  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_SetKind_ProductSet","kind":"function","src_hash":"3ef3f824d5b8e01f","in":{"base":"Any"},"out":{"base":"Any","pred":"p.kind is k"},"spec":{"lhs":"test_SetKind_ProductSet()","rhs":"test_SetKind_ProductSet produces the expected output","over":{"base":"Any"},"name":"test_SetKind_ProductSet_correct"},"guarantee":"test_SetKind_ProductSet produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_SetKind_ProductSet_correct","statement":"Path(test_SetKind_ProductSet(x), test_SetKind_ProductSet produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"23c89955a136985a"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_SetKind_ProductSet","kind":"function","src_hash":"3ef3f824d5b8e01f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: p.kind is k and ProductSet(Interval(1, 2), FiniteSet(Matrix([1, 2]))).kind is SetKind(TupleKind(NumberKind, mk))"},"spec":{"lhs":"test_SetKind_ProductSet()","rhs":"p.kind is k and ProductSet(Interval(1, 2), FiniteSet(Matrix([1, 2]))).kind is SetKind(TupleKind(NumberKind, mk))","over":{"base":"Any"},"name":"test_SetKind_ProductSet_correct"},"guarantee":"p.kind is k; ProductSet(Interval(1, 2), FiniteSet(Matrix([1, 2]))).kind is SetKind(TupleKind(NumberKind, mk))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_SetKind_ProductSet_correct","statement":"Path(test_SetKind_ProductSet(x), p.kind is k; ProductSet(Interval(1, 2), FiniteSet(Matrix([1, 2]))).kind is SetKind(TupleKind(NumberKind, mk)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9898e81e63d82628","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["p.kind is k","ProductSet(Interval(1, 2), FiniteSet(Matrix([1, 2]))).kind is SetKind(TupleKind(NumberKind, mk))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_SetKind_ProductSet():
     p = ProductSet(FiniteSet(Matrix([1, 2])), FiniteSet(Matrix([1, 2])))
     mk = MatrixKind(NumberKind)
@@ -2763,91 +3484,132 @@ def test_SetKind_ProductSet():
     assert ProductSet(Interval(1, 2), FiniteSet(Matrix([1, 2]))).kind is SetKind(TupleKind(NumberKind, mk))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_SetKind_Interval(), test_SetKind_Interval produces the expected output) over Any ║
+# ║ Path(test_SetKind_Interval(), Interval(1, 2).kind is SetKind(NumberKind)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_SetKind_Interval : Any → {Any | Interval(1, 2).k...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Interval(1, 2).kind is SetKind(NumberKind)     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_SetKind_Interval : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7904672f525ce931  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 33849e1ef660f3fc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_SetKind_Interval","kind":"function","src_hash":"6579ae7c90ac25d7","in":{"base":"Any"},"out":{"base":"Any","pred":"Interval(1, 2).kind is SetKind(NumberKind)"},"spec":{"lhs":"test_SetKind_Interval()","rhs":"test_SetKind_Interval produces the expected output","over":{"base":"Any"},"name":"test_SetKind_Interval_correct"},"guarantee":"test_SetKind_Interval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_SetKind_Interval_correct","statement":"Path(test_SetKind_Interval(x), test_SetKind_Interval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7904672f525ce931"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_SetKind_Interval","kind":"function","src_hash":"6579ae7c90ac25d7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Interval(1, 2).kind is SetKind(NumberKind)"},"spec":{"lhs":"test_SetKind_Interval()","rhs":"Interval(1, 2).kind is SetKind(NumberKind)","over":{"base":"Any"},"name":"test_SetKind_Interval_correct"},"guarantee":"Interval(1, 2).kind is SetKind(NumberKind)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_SetKind_Interval_correct","statement":"Path(test_SetKind_Interval(x), Interval(1, 2).kind is SetKind(NumberKind))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"33849e1ef660f3fc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Interval(1, 2).kind is SetKind(NumberKind)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_SetKind_Interval():
     assert Interval(1, 2).kind is SetKind(NumberKind)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_SetKind_EmptySet_UniversalSet(), test_SetKind_EmptySet_UniversalSet produces the expected output) over Any ║
+# ║ Path(test_SetKind_EmptySet_UniversalSet(), S.UniversalSet.kind is SetKind(UndefinedKind) and EmptySet.kind is SetKind()) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_SetKind_EmptySet_UniversalSet : Any → {Any | S.U...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  S.UniversalSet.kind is SetKind(UndefinedK...   ║
+# ║   ensures:  EmptySet.kind is SetKind()                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_SetKind_EmptySet_UniversalSet : Any → {Any | res...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a041e8ed7e54167b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f9dd41baedea4ab4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_SetKind_EmptySet_UniversalSet","kind":"function","src_hash":"6c9d64f871bc353c","in":{"base":"Any"},"out":{"base":"Any","pred":"S.UniversalSet.kind is SetKind(UndefinedKind) and EmptySet.kind is SetKind()"},"spec":{"lhs":"test_SetKind_EmptySet_UniversalSet()","rhs":"test_SetKind_EmptySet_UniversalSet produces the expected output","over":{"base":"Any"},"name":"test_SetKind_EmptySet_UniversalSet_correct"},"guarantee":"test_SetKind_EmptySet_UniversalSet produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_SetKind_EmptySet_UniversalSet_correct","statement":"Path(test_SetKind_EmptySet_UniversalSet(x), test_SetKind_EmptySet_UniversalSet produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a041e8ed7e54167b"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_SetKind_EmptySet_UniversalSet","kind":"function","src_hash":"6c9d64f871bc353c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: S.UniversalSet.kind is SetKind(UndefinedKind) and EmptySet.kind is SetKind()"},"spec":{"lhs":"test_SetKind_EmptySet_UniversalSet()","rhs":"S.UniversalSet.kind is SetKind(UndefinedKind) and EmptySet.kind is SetKind()","over":{"base":"Any"},"name":"test_SetKind_EmptySet_UniversalSet_correct"},"guarantee":"S.UniversalSet.kind is SetKind(UndefinedKind); EmptySet.kind is SetKind()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_SetKind_EmptySet_UniversalSet_correct","statement":"Path(test_SetKind_EmptySet_UniversalSet(x), S.UniversalSet.kind is SetKind(UndefinedKind); EmptySet.kind is SetKind())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f9dd41baedea4ab4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["S.UniversalSet.kind is SetKind(UndefinedKind)","EmptySet.kind is SetKind()"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_SetKind_EmptySet_UniversalSet():
     assert S.UniversalSet.kind is SetKind(UndefinedKind)
     assert EmptySet.kind is SetKind()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_SetKind_FiniteSet(), test_SetKind_FiniteSet produces the expected output) over Any ║
+# ║ Path(test_SetKind_FiniteSet(), FiniteSet(1, Matrix([1, 2])).kind is SetKind(UndefinedKind) and FiniteSet(1, 2).kind is SetKind(NumberKind)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_SetKind_FiniteSet : Any → {Any | FiniteSet(1, Ma...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  FiniteSet(1, Matrix([1, 2])).kind is SetK...   ║
+# ║   ensures:  FiniteSet(1, 2).kind is SetKind(NumberKind)    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_SetKind_FiniteSet : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a944b1595e767a75  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 968e3ad0e5b60868  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_SetKind_FiniteSet","kind":"function","src_hash":"e9e7c6db686ecc84","in":{"base":"Any"},"out":{"base":"Any","pred":"FiniteSet(1, Matrix([1, 2])).kind is SetKind(UndefinedKind) and FiniteSet(1, 2).kind is SetKind(NumberKind)"},"spec":{"lhs":"test_SetKind_FiniteSet()","rhs":"test_SetKind_FiniteSet produces the expected output","over":{"base":"Any"},"name":"test_SetKind_FiniteSet_correct"},"guarantee":"test_SetKind_FiniteSet produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_SetKind_FiniteSet_correct","statement":"Path(test_SetKind_FiniteSet(x), test_SetKind_FiniteSet produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a944b1595e767a75"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_SetKind_FiniteSet","kind":"function","src_hash":"e9e7c6db686ecc84","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: FiniteSet(1, Matrix([1, 2])).kind is SetKind(UndefinedKind) and FiniteSet(1, 2).kind is SetKind(NumberKind)"},"spec":{"lhs":"test_SetKind_FiniteSet()","rhs":"FiniteSet(1, Matrix([1, 2])).kind is SetKind(UndefinedKind) and FiniteSet(1, 2).kind is SetKind(NumberKind)","over":{"base":"Any"},"name":"test_SetKind_FiniteSet_correct"},"guarantee":"FiniteSet(1, Matrix([1, 2])).kind is SetKind(UndefinedKind); FiniteSet(1, 2).kind is SetKind(NumberKind)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_SetKind_FiniteSet_correct","statement":"Path(test_SetKind_FiniteSet(x), FiniteSet(1, Matrix([1, 2])).kind is SetKind(UndefinedKind); FiniteSet(1, 2).kind is SetKind(NumberKind))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"968e3ad0e5b60868","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["FiniteSet(1, Matrix([1, 2])).kind is SetKind(UndefinedKind)","FiniteSet(1, 2).kind is SetKind(NumberKind)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_SetKind_FiniteSet():
     assert FiniteSet(1, Matrix([1, 2])).kind is SetKind(UndefinedKind)
     assert FiniteSet(1, 2).kind is SetKind(NumberKind)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_SetKind_Unions(), test_SetKind_Unions produces the expected output) over Any ║
+# ║ Path(test_SetKind_Unions(), Union(FiniteSet(Matrix([1, 2])), Interval(1, 2)).kind is SetKind(UndefinedKind) and Union(Interval(1, 2), Interval(1, 7)).kind is SetKind(NumberKind)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_SetKind_Unions : Any → {Any | Union(FiniteSet(Ma...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Union(FiniteSet(Matrix([1, 2])), Interval...   ║
+# ║   ensures:  Union(Interval(1, 2), Interval(1, 7)).kin...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_SetKind_Unions : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e9e6cda549928eec  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 49d1a074f3e0c109  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_SetKind_Unions","kind":"function","src_hash":"1a33307939b46524","in":{"base":"Any"},"out":{"base":"Any","pred":"Union(FiniteSet(Matrix([1, 2])), Interval(1, 2)).kind is SetKind(UndefinedKind) and Union(Interval(1, 2), Interval(1, 7)).kind is SetKind(NumberKind)"},"spec":{"lhs":"test_SetKind_Unions()","rhs":"test_SetKind_Unions produces the expected output","over":{"base":"Any"},"name":"test_SetKind_Unions_correct"},"guarantee":"test_SetKind_Unions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_SetKind_Unions_correct","statement":"Path(test_SetKind_Unions(x), test_SetKind_Unions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e9e6cda549928eec"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_SetKind_Unions","kind":"function","src_hash":"1a33307939b46524","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Union(FiniteSet(Matrix([1, 2])), Interval(1, 2)).kind is SetKind(UndefinedKind) and Union(Interval(1, 2), Interval(1, 7)).kind is SetKind(NumberKind)"},"spec":{"lhs":"test_SetKind_Unions()","rhs":"Union(FiniteSet(Matrix([1, 2])), Interval(1, 2)).kind is SetKind(UndefinedKind) and Union(Interval(1, 2), Interval(1, 7)).kind is SetKind(NumberKind)","over":{"base":"Any"},"name":"test_SetKind_Unions_correct"},"guarantee":"Union(FiniteSet(Matrix([1, 2])), Interval(1, 2)).kind is SetKind(UndefinedKind); Union(Interval(1, 2), Interval(1, 7)).kind is SetKind(NumberKind)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_SetKind_Unions_correct","statement":"Path(test_SetKind_Unions(x), Union(FiniteSet(Matrix([1, 2])), Interval(1, 2)).kind is SetKind(UndefinedKind); Union(Interval(1, 2), Interval(1, 7)).kind is SetKind(NumberKind))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"49d1a074f3e0c109","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Union(FiniteSet(Matrix([1, 2])), Interval(1, 2)).kind is SetKind(UndefinedKind)","Union(Interval(1, 2), Interval(1, 7)).kind is SetKind(NumberKind)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_SetKind_Unions():
     assert Union(FiniteSet(Matrix([1, 2])), Interval(1, 2)).kind is SetKind(UndefinedKind)
     assert Union(Interval(1, 2), Interval(1, 7)).kind is SetKind(NumberKind)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_SetKind_DisjointUnion(), test_SetKind_DisjointUnion produces the expected output) over Any ║
+# ║ Path(test_SetKind_DisjointUnion(), DisjointUnion(A, B).kind is SetKind(NumberKind)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_SetKind_DisjointUnion : Any → {Any | DisjointUni...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  DisjointUnion(A, B).kind is SetKind(Numbe...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_SetKind_DisjointUnion : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 93bec9899210c5fb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2378c5feb1e29ce1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_SetKind_DisjointUnion","kind":"function","src_hash":"0d13d137d2bf9667","in":{"base":"Any"},"out":{"base":"Any","pred":"DisjointUnion(A, B).kind is SetKind(NumberKind)"},"spec":{"lhs":"test_SetKind_DisjointUnion()","rhs":"test_SetKind_DisjointUnion produces the expected output","over":{"base":"Any"},"name":"test_SetKind_DisjointUnion_correct"},"guarantee":"test_SetKind_DisjointUnion produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_SetKind_DisjointUnion_correct","statement":"Path(test_SetKind_DisjointUnion(x), test_SetKind_DisjointUnion produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"93bec9899210c5fb"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_SetKind_DisjointUnion","kind":"function","src_hash":"0d13d137d2bf9667","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: DisjointUnion(A, B).kind is SetKind(NumberKind)"},"spec":{"lhs":"test_SetKind_DisjointUnion()","rhs":"DisjointUnion(A, B).kind is SetKind(NumberKind)","over":{"base":"Any"},"name":"test_SetKind_DisjointUnion_correct"},"guarantee":"DisjointUnion(A, B).kind is SetKind(NumberKind)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_SetKind_DisjointUnion_correct","statement":"Path(test_SetKind_DisjointUnion(x), DisjointUnion(A, B).kind is SetKind(NumberKind))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2378c5feb1e29ce1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["DisjointUnion(A, B).kind is SetKind(NumberKind)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_SetKind_DisjointUnion():
     A = FiniteSet(1, 2, 3)
     B = Interval(0, 5)
     assert DisjointUnion(A, B).kind is SetKind(NumberKind)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_SetKind_evaluate_False(), test_SetKind_evaluate_False produces the expected output) over Any ║
+# ║ Path(test_SetKind_evaluate_False(), U({1}, EmptySet).kind is SetKind(NumberKind) and U(Interval(1, 2), EmptySet).kind is SetKind(NumberKind) and U({1}, S.UniversalSet).kind is SetKind(UndefinedKind) and U(Interval(1, 2), Interval(4, 5), FiniteSet(1)).kind is SetKind(NumberKind) and I({1}, S.UniversalSet).kind is SetKind(NumberKind) and I({1}, EmptySet).kind is SetKind() and C(S.UniversalSet, {1, 2, 4, 5}).kind is SetKind(UndefinedKind) and C({1, 2, 3, 4, 5}, EmptySet).kind is SetKind(NumberKind) and C(EmptySet, {1, 2, 3, 4, 5}).kind is SetKind()) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_SetKind_evaluate_False : Any → {Any | U({1}, Emp...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  U({1}, EmptySet).kind is SetKind(NumberKind)   ║
+# ║   ensures:  U(Interval(1, 2), EmptySet).kind is SetKi...   ║
+# ║   ensures:  U({1}, S.UniversalSet).kind is SetKind(Un...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_SetKind_evaluate_False : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4c284602a9f030a2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4f9fb95c37e48db3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_SetKind_evaluate_False","kind":"function","src_hash":"3f3f63e0b88fb400","in":{"base":"Any"},"out":{"base":"Any","pred":"U({1}, EmptySet).kind is SetKind(NumberKind) and U(Interval(1, 2), EmptySet).kind is SetKind(NumberKind) and U({1}, S.UniversalSet).kind is SetKind(UndefinedKind) and U(Interval(1, 2), Interval(4, 5), FiniteSet(1)).kind is SetKind(NumberKind) and I({1}, S.UniversalSet).kind is SetKind(NumberKind) and I({1}, EmptySet).kind is SetKind() and C(S.UniversalSet, {1, 2, 4, 5}).kind is SetKind(UndefinedKind) and C({1, 2, 3, 4, 5}, EmptySet).kind is SetKind(NumberKind) and C(EmptySet, {1, 2, 3, 4, 5}).kind is SetKind()"},"spec":{"lhs":"test_SetKind_evaluate_False()","rhs":"test_SetKind_evaluate_False produces the expected output","over":{"base":"Any"},"name":"test_SetKind_evaluate_False_correct"},"guarantee":"test_SetKind_evaluate_False produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_SetKind_evaluate_False_correct","statement":"Path(test_SetKind_evaluate_False(x), test_SetKind_evaluate_False produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4c284602a9f030a2"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_SetKind_evaluate_False","kind":"function","src_hash":"3f3f63e0b88fb400","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: U({1}, EmptySet).kind is SetKind(NumberKind) and U(Interval(1, 2), EmptySet).kind is SetKind(NumberKind) and U({1}, S.UniversalSet).kind is SetKind(UndefinedKind) and U(Interval(1, 2), Interval(4, 5), FiniteSet(1)).kind is SetKind(NumberKind) and I({1}, S.UniversalSet).kind is SetKind(NumberKind) and I({1}, EmptySet).kind is SetKind() and C(S.UniversalSet, {1, 2, 4, 5}).kind is SetKind(UndefinedKind) and C({1, 2, 3, 4, 5}, EmptySet).kind is SetKind(NumberKind) and C(EmptySet, {1, 2, 3, 4, 5}).kind is SetKind()"},"spec":{"lhs":"test_SetKind_evaluate_False()","rhs":"U({1}, EmptySet).kind is SetKind(NumberKind) and U(Interval(1, 2), EmptySet).kind is SetKind(NumberKind) and U({1}, S.UniversalSet).kind is SetKind(UndefinedKind) and U(Interval(1, 2), Interval(4, 5), FiniteSet(1)).kind is SetKind(NumberKind) and I({1}, S.UniversalSet).kind is SetKind(NumberKind) and I({1}, EmptySet).kind is SetKind() and C(S.UniversalSet, {1, 2, 4, 5}).kind is SetKind(UndefinedKind) and C({1, 2, 3, 4, 5}, EmptySet).kind is SetKind(NumberKind) and C(EmptySet, {1, 2, 3, 4, 5}).kind is SetKind()","over":{"base":"Any"},"name":"test_SetKind_evaluate_False_correct"},"guarantee":"U({1}, EmptySet).kind is SetKind(NumberKind); U(Interval(1, 2), EmptySet).kind is SetKind(NumberKind); U({1}, S.UniversalSet).kind is SetKind(UndefinedKind)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_SetKind_evaluate_False_correct","statement":"Path(test_SetKind_evaluate_False(x), U({1}, EmptySet).kind is SetKind(NumberKind); U(Interval(1, 2), EmptySet).kind is SetKind(NumberKind); U({1}, S.UniversalSet).kind is SetKind(UndefinedKind))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4f9fb95c37e48db3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["U({1}, EmptySet).kind is SetKind(NumberKind)","U(Interval(1, 2), EmptySet).kind is SetKind(NumberKind)","U({1}, S.UniversalSet).kind is SetKind(UndefinedKind)","U(Interval(1, 2), Interval(4, 5), FiniteSet(1)).kind is SetKind(NumberKind)","I({1}, S.UniversalSet).kind is SetKind(NumberKind)","I({1}, EmptySet).kind is SetKind()","C(S.UniversalSet, {1, 2, 4, 5}).kind is SetKind(UndefinedKind)","C({1, 2, 3, 4, 5}, EmptySet).kind is SetKind(NumberKind)","C(EmptySet, {1, 2, 3, 4, 5}).kind is SetKind()"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_SetKind_evaluate_False():
     U = lambda *args: Union(*args, evaluate=False)
     assert U({1}, EmptySet).kind is SetKind(NumberKind)
@@ -2864,16 +3626,24 @@ def test_SetKind_evaluate_False():
     assert C(EmptySet, {1, 2, 3, 4, 5}).kind is SetKind()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_SetKind_ImageSet_Special(), test_SetKind_ImageSet_Special produces the expected output) over Any ║
+# ║ Path(test_SetKind_ImageSet_Special(), (f - FiniteSet(3)).kind is SetKind(NumberKind) and (f + Interval(16, 17)).kind is SetKind(NumberKind) and (f + FiniteSet(17)).kind is SetKind(NumberKind)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_SetKind_ImageSet_Special : Any → {Any | (f - Fin...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (f - FiniteSet(3)).kind is SetKind(Number...   ║
+# ║   ensures:  (f + Interval(16, 17)).kind is SetKind(Nu...   ║
+# ║   ensures:  (f + FiniteSet(17)).kind is SetKind(Numbe...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_SetKind_ImageSet_Special : Any → {Any | result s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6395a9348f262555  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 44044d454c24db84  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_SetKind_ImageSet_Special","kind":"function","src_hash":"44a673e6c72a4710","in":{"base":"Any"},"out":{"base":"Any","pred":"(f - FiniteSet(3)).kind is SetKind(NumberKind) and (f + Interval(16, 17)).kind is SetKind(NumberKind) and (f + FiniteSet(17)).kind is SetKind(NumberKind)"},"spec":{"lhs":"test_SetKind_ImageSet_Special()","rhs":"test_SetKind_ImageSet_Special produces the expected output","over":{"base":"Any"},"name":"test_SetKind_ImageSet_Special_correct"},"guarantee":"test_SetKind_ImageSet_Special produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_SetKind_ImageSet_Special_correct","statement":"Path(test_SetKind_ImageSet_Special(x), test_SetKind_ImageSet_Special produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6395a9348f262555"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_SetKind_ImageSet_Special","kind":"function","src_hash":"44a673e6c72a4710","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (f - FiniteSet(3)).kind is SetKind(NumberKind) and (f + Interval(16, 17)).kind is SetKind(NumberKind) and (f + FiniteSet(17)).kind is SetKind(NumberKind)"},"spec":{"lhs":"test_SetKind_ImageSet_Special()","rhs":"(f - FiniteSet(3)).kind is SetKind(NumberKind) and (f + Interval(16, 17)).kind is SetKind(NumberKind) and (f + FiniteSet(17)).kind is SetKind(NumberKind)","over":{"base":"Any"},"name":"test_SetKind_ImageSet_Special_correct"},"guarantee":"(f - FiniteSet(3)).kind is SetKind(NumberKind); (f + Interval(16, 17)).kind is SetKind(NumberKind); (f + FiniteSet(17)).kind is SetKind(NumberKind)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_SetKind_ImageSet_Special_correct","statement":"Path(test_SetKind_ImageSet_Special(x), (f - FiniteSet(3)).kind is SetKind(NumberKind); (f + Interval(16, 17)).kind is SetKind(NumberKind); (f + FiniteSet(17)).kind is SetKind(NumberKind))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"44044d454c24db84","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(f - FiniteSet(3)).kind is SetKind(NumberKind)","(f + Interval(16, 17)).kind is SetKind(NumberKind)","(f + FiniteSet(17)).kind is SetKind(NumberKind)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_SetKind_ImageSet_Special():
     f = ImageSet(Lambda(n, n ** 2), Interval(1, 4))
     assert (f - FiniteSet(3)).kind is SetKind(NumberKind)
@@ -2881,16 +3651,24 @@ def test_SetKind_ImageSet_Special():
     assert (f + FiniteSet(17)).kind is SetKind(NumberKind)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_20089(), test_issue_20089 produces the expected output) over Any ║
+# ║ Path(test_issue_20089(), 1 not in B and 1.0 not in B and not Eq(1, FiniteSet(1, 2)) and FiniteSet(1) in B and A in B and B.issubset(B) and not A.issubset(B) and 1 in A and A.issubset(C) and B.issubset(C)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_20089 : Any → {Any | 1 not in B and 1.0 no...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  1 not in B                                     ║
+# ║   ensures:  1.0 not in B                                   ║
+# ║   ensures:  not Eq(1, FiniteSet(1, 2))                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_20089 : Any → {Any | result satisfies: 1 n...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 655daba0b6199183  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bccec654f66de79a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_issue_20089","kind":"function","src_hash":"680172eb25dc6ce6","in":{"base":"Any"},"out":{"base":"Any","pred":"1 not in B and 1.0 not in B and not Eq(1, FiniteSet(1, 2)) and FiniteSet(1) in B and A in B and B.issubset(B) and not A.issubset(B) and 1 in A and A.issubset(C) and B.issubset(C)"},"spec":{"lhs":"test_issue_20089()","rhs":"test_issue_20089 produces the expected output","over":{"base":"Any"},"name":"test_issue_20089_correct"},"guarantee":"test_issue_20089 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_issue_20089_correct","statement":"Path(test_issue_20089(x), test_issue_20089 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"655daba0b6199183"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_issue_20089","kind":"function","src_hash":"680172eb25dc6ce6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: 1 not in B and 1.0 not in B and not Eq(1, FiniteSet(1, 2)) and FiniteSet(1) in B and A in B and B.issubset(B) and not A.issubset(B) and 1 in A and A.issubset(C) and B.issubset(C)"},"spec":{"lhs":"test_issue_20089()","rhs":"1 not in B and 1.0 not in B and not Eq(1, FiniteSet(1, 2)) and FiniteSet(1) in B and A in B and B.issubset(B) and not A.issubset(B) and 1 in A and A.issubset(C) and B.issubset(C)","over":{"base":"Any"},"name":"test_issue_20089_correct"},"guarantee":"1 not in B; 1.0 not in B; not Eq(1, FiniteSet(1, 2))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_issue_20089_correct","statement":"Path(test_issue_20089(x), 1 not in B; 1.0 not in B; not Eq(1, FiniteSet(1, 2)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bccec654f66de79a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["1 not in B","1.0 not in B","not Eq(1, FiniteSet(1, 2))","FiniteSet(1) in B","A in B","B.issubset(B)","not A.issubset(B)","1 in A","A.issubset(C)","B.issubset(C)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_issue_20089():
     B = FiniteSet(FiniteSet(1, 2), FiniteSet(1))
     assert 1 not in B
@@ -2907,16 +3685,24 @@ def test_issue_20089():
     assert B.issubset(C)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_19378(), test_issue_19378 produces the expected output) over Any ║
+# ║ Path(test_issue_19378(), b.is_subset(c) is True and b.is_subset(d) is False and Eq(c, b).simplify() is S.true and Eq(a, c).simplify() is S.false and Eq({1}, {x}).simplify() == Eq({1}, {x})) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_19378 : Any → {Any | b.is_subset(c) is Tru...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  b.is_subset(c) is True                         ║
+# ║   ensures:  b.is_subset(d) is False                        ║
+# ║   ensures:  Eq(c, b).simplify() is S.true                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_19378 : Any → {Any | result satisfies: b.i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9ae176b68989237d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f8b28ce83b79fe02  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_issue_19378","kind":"function","src_hash":"a56d8d1d9834f0ad","in":{"base":"Any"},"out":{"base":"Any","pred":"b.is_subset(c) is True and b.is_subset(d) is False and Eq(c, b).simplify() is S.true and Eq(a, c).simplify() is S.false and Eq({1}, {x}).simplify() == Eq({1}, {x})"},"spec":{"lhs":"test_issue_19378()","rhs":"test_issue_19378 produces the expected output","over":{"base":"Any"},"name":"test_issue_19378_correct"},"guarantee":"test_issue_19378 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_issue_19378_correct","statement":"Path(test_issue_19378(x), test_issue_19378 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9ae176b68989237d"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_issue_19378","kind":"function","src_hash":"a56d8d1d9834f0ad","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: b.is_subset(c) is True and b.is_subset(d) is False and Eq(c, b).simplify() is S.true and Eq(a, c).simplify() is S.false and Eq({1}, {x}).simplify() == Eq({1}, {x})"},"spec":{"lhs":"test_issue_19378()","rhs":"b.is_subset(c) is True and b.is_subset(d) is False and Eq(c, b).simplify() is S.true and Eq(a, c).simplify() is S.false and Eq({1}, {x}).simplify() == Eq({1}, {x})","over":{"base":"Any"},"name":"test_issue_19378_correct"},"guarantee":"b.is_subset(c) is True; b.is_subset(d) is False; Eq(c, b).simplify() is S.true","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_issue_19378_correct","statement":"Path(test_issue_19378(x), b.is_subset(c) is True; b.is_subset(d) is False; Eq(c, b).simplify() is S.true)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f8b28ce83b79fe02","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["b.is_subset(c) is True","b.is_subset(d) is False","Eq(c, b).simplify() is S.true","Eq(a, c).simplify() is S.false","Eq({1}, {x}).simplify() == Eq({1}, {x})"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_issue_19378():
     a = FiniteSet(1, 2)
     b = ProductSet(a, a)
@@ -2929,7 +3715,12 @@ def test_issue_19378():
     assert Eq({1}, {x}).simplify() == Eq({1}, {x})
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_intersection_symbolic(), test_intersection_symbolic produces the expected output) over {Any | isinstance(Intersection(Range(n), Range(100)), Intersection)} ║
+# ║ Path(test_intersection_symbolic(), isinstance(Intersection(Range(n), Range(100)), Intersection) and isinstance(Intersection(Range(n), Interval(1, 100)), Intersection) and isinstance(Intersection(Range(100), Interval(1, n)), Intersection)) over {Any | isinstance(Intersection(Range(n), Range(100)), Intersection)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(Intersection(Range(n), Range(1...   ║
+# ║   ensures:  isinstance(Intersection(Range(n), Interva...   ║
+# ║   ensures:  isinstance(Intersection(Range(100), Inter...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_intersection_symbolic : {Any | isinstance(Inters...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -2941,9 +3732,12 @@ def test_issue_19378():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.9ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | c9b7778a...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_intersection_symbolic","kind":"function","src_hash":"85a9ff6cf9cc2554","in":{"base":"Any","pred":"isinstance(Intersection(Range(n), Range(100)), Intersection)"},"out":{"base":"Any","pred":"isinstance(Intersection(Range(n), Range(100)), Intersection) and isinstance(Intersection(Range(n), Interval(1, 100)), Intersection) and isinstance(Intersection(Range(100), Interval(1, n)), Intersection)"},"spec":{"lhs":"test_intersection_symbolic()","rhs":"test_intersection_symbolic produces the expected output","over":{"base":"Any","pred":"isinstance(Intersection(Range(n), Range(100)), Intersection)"},"name":"test_intersection_symbolic_correct"},"guarantee":"test_intersection_symbolic produces the expected output","fibers":[{"name":"Range(100","pred":"isinstance(Intersection(Range(n), Range(100)), Intersection)","path":{"lhs":"test_intersection_symbolic(x)","rhs":"test_intersection_symbolic produces the expected output","over":{"base":"Range(100","pred":"isinstance(Intersection(Range(n), Range(100)), Intersection)"},"name":"test_intersection_symbolic_Range(100_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_intersection_symbolic_Range(100_correct","statement":"test_intersection_symbolic satisfies spec on Range(100 inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"c9b7778a13c40117"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_intersection_symbolic","kind":"function","src_hash":"85a9ff6cf9cc2554","in":{"base":"Any","pred":"isinstance(Intersection(Range(n), Range(100)), Intersection)"},"out":{"base":"Any","pred":"result satisfies: isinstance(Intersection(Range(n), Range(100)), Intersection) and isinstance(Intersection(Range(n), Interval(1, 100)), Intersection) and isinstance(Intersection(Range(100), Interval(1, n)), Intersection)"},"spec":{"lhs":"test_intersection_symbolic()","rhs":"isinstance(Intersection(Range(n), Range(100)), Intersection) and isinstance(Intersection(Range(n), Interval(1, 100)), Intersection) and isinstance(Intersection(Range(100), Interval(1, n)), Intersection)","over":{"base":"Any","pred":"isinstance(Intersection(Range(n), Range(100)), Intersection)"},"name":"test_intersection_symbolic_correct"},"guarantee":"isinstance(Intersection(Range(n), Range(100)), Intersection); isinstance(Intersection(Range(n), Interval(1, 100)), Intersection); isinstance(Intersection(Range(100), Interval(1, n)), Intersection)","fibers":[{"name":"Range(100","pred":"isinstance(Intersection(Range(n), Range(100)), Intersection)","path":{"lhs":"test_intersection_symbolic(x)","rhs":"isinstance(Intersection(Range(n), Range(100)), Intersection); isinstance(Intersection(Range(n), Interval(1, 100)), Intersection); isinstance(Intersection(Range(100), Interval(1, n)), Intersection)","over":{"base":"Range(100","pred":"isinstance(Intersection(Range(n), Range(100)), Intersection)"},"name":"test_intersection_symbolic_Range(100_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_intersection_symbolic_Range(100_correct","statement":"test_intersection_symbolic satisfies spec on Range(100 inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"c9b7778a13c40117","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(Intersection(Range(n), Range(100)), Intersection)","isinstance(Intersection(Range(n), Interval(1, 100)), Intersection)","isinstance(Intersection(Range(100), Interval(1, n)), Intersection)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.9,"verdict_class":"failed","binding":true}}
 def test_intersection_symbolic():
     n = Symbol('n')
     # These should not throw an error
@@ -2954,16 +3748,23 @@ def test_intersection_symbolic():
 
 @XFAIL
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_intersection_symbolic_failing(), test_intersection_symbolic_failing produces the expected output) over Any ║
+# ║ Path(test_intersection_symbolic_failing(), Intersection(Range(10, n), Range(4, 500, 5)) == Intersection(Range(14, n), Range(14, 500, 5)) and Intersection(Interval(10, n), Range(4, 500, 5)) == Intersection(Interval(14, n), Range(14, 500, 5))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_intersection_symbolic_failing : Any → Any             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Intersection(Range(10, n), Range(4, 500, ...   ║
+# ║   ensures:  Intersection(Interval(10, n), Range(4, 50...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_intersection_symbolic_failing : Any → {Any | res...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 11d3381f9e1e5d56  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 347a357438e8d9ad  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_intersection_symbolic_failing","kind":"function","src_hash":"6495b717fa385b06","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_intersection_symbolic_failing()","rhs":"test_intersection_symbolic_failing produces the expected output","over":{"base":"Any"},"name":"test_intersection_symbolic_failing_correct"},"guarantee":"test_intersection_symbolic_failing produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_intersection_symbolic_failing_correct","statement":"Path(test_intersection_symbolic_failing(x), test_intersection_symbolic_failing produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"11d3381f9e1e5d56"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_intersection_symbolic_failing","kind":"function","src_hash":"6495b717fa385b06","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Intersection(Range(10, n), Range(4, 500, 5)) == Intersection(Range(14, n), Range(14, 500, 5)) and Intersection(Interval(10, n), Range(4, 500, 5)) == Intersection(Interval(14, n), Range(14, 500, 5))"},"spec":{"lhs":"test_intersection_symbolic_failing()","rhs":"Intersection(Range(10, n), Range(4, 500, 5)) == Intersection(Range(14, n), Range(14, 500, 5)) and Intersection(Interval(10, n), Range(4, 500, 5)) == Intersection(Interval(14, n), Range(14, 500, 5))","over":{"base":"Any"},"name":"test_intersection_symbolic_failing_correct"},"guarantee":"Intersection(Range(10, n), Range(4, 500, 5)) == Intersection(Range(14, n), Range(14, 500, 5)); Intersection(Interval(10, n), Range(4, 500, 5)) == Intersection(Interval(14, n), Range(14, 500, 5))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_intersection_symbolic_failing_correct","statement":"Path(test_intersection_symbolic_failing(x), Intersection(Range(10, n), Range(4, 500, 5)) == Intersection(Range(14, n), Range(14, 500, 5)); Intersection(Interval(10, n), Range(4, 500, 5)) == Intersection(Interval(14, n), Range(14, 500, 5)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"347a357438e8d9ad","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Intersection(Range(10, n), Range(4, 500, 5)) == Intersection(Range(14, n), Range(14, 500, 5))","Intersection(Interval(10, n), Range(4, 500, 5)) == Intersection(Interval(14, n), Range(14, 500, 5))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_intersection_symbolic_failing():
     n = Symbol('n', integer=True, positive=True)
     assert Intersection(Range(10, n), Range(4, 500, 5)) == Intersection(
@@ -2973,47 +3774,65 @@ def test_intersection_symbolic_failing():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_20379(), test_issue_20379 produces the expected output) over Any ║
+# ║ Path(test_issue_20379(), FiniteSet(x).evalf(2) == FiniteSet(Float('3.23108914886517e-15', 2))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_20379 : Any → {Any | FiniteSet(x).evalf(2)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  FiniteSet(x).evalf(2) == FiniteSet(Float(...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_20379 : Any → {Any | result satisfies: Fin...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7036c5435b12e141  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 08daa8b6e851dfcc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_issue_20379","kind":"function","src_hash":"d284379ff236c023","in":{"base":"Any"},"out":{"base":"Any","pred":"FiniteSet(x).evalf(2) == FiniteSet(Float('3.23108914886517e-15', 2))"},"spec":{"lhs":"test_issue_20379()","rhs":"test_issue_20379 produces the expected output","over":{"base":"Any"},"name":"test_issue_20379_correct"},"guarantee":"test_issue_20379 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_issue_20379_correct","statement":"Path(test_issue_20379(x), test_issue_20379 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7036c5435b12e141"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_issue_20379","kind":"function","src_hash":"d284379ff236c023","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: FiniteSet(x).evalf(2) == FiniteSet(Float('3.23108914886517e-15', 2))"},"spec":{"lhs":"test_issue_20379()","rhs":"FiniteSet(x).evalf(2) == FiniteSet(Float('3.23108914886517e-15', 2))","over":{"base":"Any"},"name":"test_issue_20379_correct"},"guarantee":"FiniteSet(x).evalf(2) == FiniteSet(Float('3.23108914886517e-15', 2))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_issue_20379_correct","statement":"Path(test_issue_20379(x), FiniteSet(x).evalf(2) == FiniteSet(Float('3.23108914886517e-15', 2)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"08daa8b6e851dfcc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["FiniteSet(x).evalf(2) == FiniteSet(Float('3.23108914886517e-15', 2))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_issue_20379():
     #https://github.com/sympy/sympy/issues/20379
     x = pi - 3.14159265358979
     assert FiniteSet(x).evalf(2) == FiniteSet(Float('3.23108914886517e-15', 2))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_finiteset_simplify(), test_finiteset_simplify produces the expected output) over Any ║
+# ║ Path(test_finiteset_simplify(), S.simplify() == {1}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_finiteset_simplify : Any → {Any | S.simplify() =...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  S.simplify() == {1}                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_finiteset_simplify : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 18cedb7b4b10c8fc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c02accb9a207565e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_finiteset_simplify","kind":"function","src_hash":"640ad9e512e656a9","in":{"base":"Any"},"out":{"base":"Any","pred":"S.simplify() == {1}"},"spec":{"lhs":"test_finiteset_simplify()","rhs":"test_finiteset_simplify produces the expected output","over":{"base":"Any"},"name":"test_finiteset_simplify_correct"},"guarantee":"test_finiteset_simplify produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_finiteset_simplify_correct","statement":"Path(test_finiteset_simplify(x), test_finiteset_simplify produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"18cedb7b4b10c8fc"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_finiteset_simplify","kind":"function","src_hash":"640ad9e512e656a9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: S.simplify() == {1}"},"spec":{"lhs":"test_finiteset_simplify()","rhs":"S.simplify() == {1}","over":{"base":"Any"},"name":"test_finiteset_simplify_correct"},"guarantee":"S.simplify() == {1}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_finiteset_simplify_correct","statement":"Path(test_finiteset_simplify(x), S.simplify() == {1})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c02accb9a207565e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["S.simplify() == {1}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_finiteset_simplify():
     S = FiniteSet(1, cos(1)**2 + sin(1)**2)
     assert S.simplify() == {1}
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_14336(), test_issue_14336 produces the expected output) over Any ║
+# ║ Path(test_issue_14336(), <unspecified:test_issue_14336>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_issue_14336 : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0ae64ea642a5c31e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_issue_14336","kind":"function","src_hash":"5975b6b55f304323","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_issue_14336()","rhs":"test_issue_14336 produces the expected output","over":{"base":"Any"},"name":"test_issue_14336_correct"},"guarantee":"test_issue_14336 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_issue_14336_correct","statement":"Path(test_issue_14336(x), test_issue_14336 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0ae64ea642a5c31e"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_issue_14336","kind":"function","src_hash":"5975b6b55f304323","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_issue_14336()","rhs":"<unspecified:test_issue_14336>","over":{"base":"Any"},"name":"test_issue_14336_correct"},"guarantee":"test_issue_14336 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_issue_14336_correct","statement":"Path(test_issue_14336(x), test_issue_14336 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0ae64ea642a5c31e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_14336():
     #https://github.com/sympy/sympy/issues/14336
     U = S.Complexes
@@ -3022,16 +3841,22 @@ def test_issue_14336():
     U -= U.intersect(S.true.as_set())
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_9855(), test_issue_9855 produces the expected output) over Any ║
+# ║ Path(test_issue_9855(), s1.is_subset(s2) == None) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_9855 : Any → {Any | s1.is_subset(s2) == None}   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  s1.is_subset(s2) == None                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_9855 : Any → {Any | result satisfies: s1.i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6a48b394a73f33f8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dd6d5fdd092d8942  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_issue_9855","kind":"function","src_hash":"9403d966467a481d","in":{"base":"Any"},"out":{"base":"Any","pred":"s1.is_subset(s2) == None"},"spec":{"lhs":"test_issue_9855()","rhs":"test_issue_9855 produces the expected output","over":{"base":"Any"},"name":"test_issue_9855_correct"},"guarantee":"test_issue_9855 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_issue_9855_correct","statement":"Path(test_issue_9855(x), test_issue_9855 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6a48b394a73f33f8"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_sets.test_issue_9855","kind":"function","src_hash":"9403d966467a481d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: s1.is_subset(s2) == None"},"spec":{"lhs":"test_issue_9855()","rhs":"s1.is_subset(s2) == None","over":{"base":"Any"},"name":"test_issue_9855_correct"},"guarantee":"s1.is_subset(s2) == None","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_sets.test_issue_9855_correct","statement":"Path(test_issue_9855(x), s1.is_subset(s2) == None)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dd6d5fdd092d8942","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["s1.is_subset(s2) == None"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_9855():
     #https://github.com/sympy/sympy/issues/9855
     x, y, z = symbols('x, y, z', real=True)

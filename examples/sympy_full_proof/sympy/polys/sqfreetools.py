@@ -49,16 +49,22 @@ from sympy.polys.polyerrors import (
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_dup_check_degrees(f, ), sanity check the degrees of a computed factorization in k[x]) over Any ║
+# ║ Path(_dup_check_degrees(f, result), deg == dup_degree(f)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _dup_check_degrees : Any → {Any | deg == dup_degree(f)}    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  deg == dup_degree(f)                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _dup_check_degrees : Any → {Any | result satisfies: d...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8258010b242c67e7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3313dabd5137ba58  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.sqfreetools._dup_check_degrees","kind":"function","src_hash":"019ace9a318f8cda","in":{"base":"Any"},"out":{"base":"Any","pred":"deg == dup_degree(f)"},"spec":{"lhs":"_dup_check_degrees(f, )","rhs":"sanity check the degrees of a computed factorization in k[x]","over":{"base":"Any"},"name":"_dup_check_degrees_correct"},"guarantee":"sanity check the degrees of a computed factorization in k[x]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.sqfreetools._dup_check_degrees_correct","statement":"Path(_dup_check_degrees(x), sanity check the degrees of a computed factorization in k[x])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8258010b242c67e7"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.sqfreetools._dup_check_degrees","kind":"function","src_hash":"019ace9a318f8cda","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: deg == dup_degree(f)"},"spec":{"lhs":"_dup_check_degrees(f, result)","rhs":"deg == dup_degree(f)","over":{"base":"Any"},"name":"_dup_check_degrees_correct"},"guarantee":"deg == dup_degree(f)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.sqfreetools._dup_check_degrees_correct","statement":"Path(_dup_check_degrees(x), deg == dup_degree(f))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3313dabd5137ba58","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["deg == dup_degree(f)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _dup_check_degrees(f, result):
     """Sanity check the degrees of a computed factorization in K[x]."""
     deg = sum(k * dup_degree(fac) for (fac, k) in result)
@@ -66,16 +72,22 @@ def _dup_check_degrees(f, result):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_dmp_check_degrees(f, ), sanity check the degrees of a computed factorization in k[x]) over Any ║
+# ║ Path(_dmp_check_degrees(f, u, result), tuple(degs) == dmp_degree_list(f, u)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _dmp_check_degrees : Any → {Any | tuple(degs) == dmp_...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  tuple(degs) == dmp_degree_list(f, u)           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _dmp_check_degrees : Any → {Any | result satisfies: t...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 280086c4729f59e1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 866a574888cf11c5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.sqfreetools._dmp_check_degrees","kind":"function","src_hash":"594dd0b33d2df36f","in":{"base":"Any"},"out":{"base":"Any","pred":"tuple(degs) == dmp_degree_list(f, u)"},"spec":{"lhs":"_dmp_check_degrees(f, )","rhs":"sanity check the degrees of a computed factorization in k[x]","over":{"base":"Any"},"name":"_dmp_check_degrees_correct"},"guarantee":"sanity check the degrees of a computed factorization in k[x]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.sqfreetools._dmp_check_degrees_correct","statement":"Path(_dmp_check_degrees(x), sanity check the degrees of a computed factorization in k[x])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"280086c4729f59e1"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.sqfreetools._dmp_check_degrees","kind":"function","src_hash":"594dd0b33d2df36f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: tuple(degs) == dmp_degree_list(f, u)"},"spec":{"lhs":"_dmp_check_degrees(f, u, result)","rhs":"tuple(degs) == dmp_degree_list(f, u)","over":{"base":"Any"},"name":"_dmp_check_degrees_correct"},"guarantee":"tuple(degs) == dmp_degree_list(f, u)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.sqfreetools._dmp_check_degrees_correct","statement":"Path(_dmp_check_degrees(x), tuple(degs) == dmp_degree_list(f, u))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"866a574888cf11c5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["tuple(degs) == dmp_degree_list(f, u)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _dmp_check_degrees(f, u, result):
     """Sanity check the degrees of a computed factorization in K[X]."""
     degs = [0] * (u + 1)
@@ -86,16 +98,25 @@ def _dmp_check_degrees(f, u, result):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_sqf_p(f, ), return ``true`` if ``f`` is a square-free polynomial in ``k[x]``) over Any ║
+# ║ Path(dup_sqf_p(f, K), result == (True if not f else not dup_degree(dup_gcd(f, dup_diff(f, 1, K), K))) and result == True or result == not dup_degree(dup_gcd(f, dup_diff(f, 1, K), K))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dup_sqf_p : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (True if not f else not dup_deg...   ║
+# ║   ensures:  result == True or result == not dup_degre...   ║
+# ║   fiber[case_0]: not f => True                             ║
+# ║   fiber[case_1]: not (not f) => not dup_degree(dup_gc...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dup_sqf_p : Any → {Any | result satisfies: result == ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7d84b7c262ef4e69  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2cd1f16410c955dd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.sqfreetools.dup_sqf_p","kind":"function","src_hash":"df6827bf2e0de34b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_sqf_p(f, )","rhs":"return ``true`` if ``f`` is a square-free polynomial in ``k[x]``","over":{"base":"Any"},"name":"dup_sqf_p_correct"},"guarantee":"return ``true`` if ``f`` is a square-free polynomial in ``k[x]``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.sqfreetools.dup_sqf_p_correct","statement":"Path(dup_sqf_p(x), return ``true`` if ``f`` is a square-free polynomial in ``k[x]``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7d84b7c262ef4e69"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.sqfreetools.dup_sqf_p","kind":"function","src_hash":"df6827bf2e0de34b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (True if not f else not dup_degree(dup_gcd(f, dup_diff(f, 1, K), K))) and result == True or result == not dup_degree(dup_gcd(f, dup_diff(f, 1, K), K))"},"spec":{"lhs":"dup_sqf_p(f, K)","rhs":"result == (True if not f else not dup_degree(dup_gcd(f, dup_diff(f, 1, K), K))) and result == True or result == not dup_degree(dup_gcd(f, dup_diff(f, 1, K), K))","over":{"base":"Any"},"name":"dup_sqf_p_correct"},"guarantee":"result == (True if not f else not dup_degree(dup_gcd(f, dup_diff(f, 1, K), K))); result == True or result == not dup_degree(dup_gcd(f, dup_diff(f, 1, K), K)); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.sqfreetools.dup_sqf_p_correct","statement":"Path(dup_sqf_p(x), result == (True if not f else not dup_degree(dup_gcd(f, dup_diff(f, 1, K), K))); result == True or result == not dup_degree(dup_gcd(f, dup_diff(f, 1, K), K)); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2cd1f16410c955dd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (True if not f else not dup_degree(dup_gcd(f, dup_diff(f, 1, K), K)))","result == True or result == not dup_degree(dup_gcd(f, dup_diff(f, 1, K), K))"],"fibers":[{"name":"case_0","guard":"not f","ensures":["result == True"],"decidability":"library","returns_expr":"True"},{"name":"case_1","guard":"not (not f)","ensures":["result == not dup_degree(dup_gcd(f, dup_diff(f, 1, K), K))"],"decidability":"library","returns_expr":"not dup_degree(dup_gcd(f, dup_diff(f, 1, K), K))"}],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def dup_sqf_p(f, K):
     """
     Return ``True`` if ``f`` is a square-free polynomial in ``K[x]``.
@@ -119,16 +140,22 @@ def dup_sqf_p(f, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_sqf_p(f, ), return ``true`` if ``f`` is a square-free polynomial in ``k[x]``) over Any ║
+# ║ Path(dmp_sqf_p(f, u, K), <unspecified:dmp_sqf_p>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_sqf_p : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ddd16aaf99b0825f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.sqfreetools.dmp_sqf_p","kind":"function","src_hash":"63f76a2f68b16ef7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_sqf_p(f, )","rhs":"return ``true`` if ``f`` is a square-free polynomial in ``k[x]``","over":{"base":"Any"},"name":"dmp_sqf_p_correct"},"guarantee":"return ``true`` if ``f`` is a square-free polynomial in ``k[x]``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.sqfreetools.dmp_sqf_p_correct","statement":"Path(dmp_sqf_p(x), return ``true`` if ``f`` is a square-free polynomial in ``k[x]``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ddd16aaf99b0825f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.sqfreetools.dmp_sqf_p","kind":"function","src_hash":"63f76a2f68b16ef7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_sqf_p(f, u, K)","rhs":"<unspecified:dmp_sqf_p>","over":{"base":"Any"},"name":"dmp_sqf_p_correct"},"guarantee":"return ``true`` if ``f`` is a square-free polynomial in ``k[x]``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.sqfreetools.dmp_sqf_p_correct","statement":"Path(dmp_sqf_p(x), return ``true`` if ``f`` is a square-free polynomial in ``k[x]``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ddd16aaf99b0825f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def dmp_sqf_p(f, u, K):
     """
     Return ``True`` if ``f`` is a square-free polynomial in ``K[X]``.
@@ -164,16 +191,25 @@ def dmp_sqf_p(f, u, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_sqf_norm(f, ), find a shift of `f` in `k[x]` that has square-free norm) over Any ║
+# ║ Path(dup_sqf_norm(f, K), (s, f, r)) over {Any | K.is_Algebraic and hasattr(K, 'is_Algebraic') and hasattr(K, 'dom') and hasattr(K, 'mod') and hasattr(K, 'unit')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dup_sqf_norm : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: K.is_Algebraic                                 ║
+# ║   requires: hasattr(K, 'is_Algebraic')                     ║
+# ║   requires: hasattr(K, 'dom')                              ║
+# ║   returns:  (s, f, r)                                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dup_sqf_norm : {Any | K.is_Algebraic and hasattr(K, '...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d2808f0821dbdd3b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aa6f0eb0f685b051  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.sqfreetools.dup_sqf_norm","kind":"function","src_hash":"afa98c45de9b1acd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_sqf_norm(f, )","rhs":"find a shift of `f` in `k[x]` that has square-free norm","over":{"base":"Any"},"name":"dup_sqf_norm_correct"},"guarantee":"find a shift of `f` in `k[x]` that has square-free norm","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.sqfreetools.dup_sqf_norm_correct","statement":"Path(dup_sqf_norm(x), find a shift of `f` in `k[x]` that has square-free norm)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d2808f0821dbdd3b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.sqfreetools.dup_sqf_norm","kind":"function","src_hash":"afa98c45de9b1acd","in":{"base":"Any","pred":"K.is_Algebraic and hasattr(K, 'is_Algebraic') and hasattr(K, 'dom') and hasattr(K, 'mod') and hasattr(K, 'unit')"},"out":{"base":"Any"},"spec":{"lhs":"dup_sqf_norm(f, K)","rhs":"(s, f, r)","over":{"base":"Any","pred":"K.is_Algebraic and hasattr(K, 'is_Algebraic') and hasattr(K, 'dom') and hasattr(K, 'mod') and hasattr(K, 'unit')"},"name":"dup_sqf_norm_correct"},"guarantee":"returns (s, f, r)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.sqfreetools.dup_sqf_norm_correct","statement":"Path(dup_sqf_norm(x), returns (s, f, r))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aa6f0eb0f685b051","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["K.is_Algebraic","hasattr(K, 'is_Algebraic')","hasattr(K, 'dom')","hasattr(K, 'mod')","hasattr(K, 'unit')"],"returns_expr":"(s, f, r)","pure":false,"effects":{"effect_type":"reads_state","reads":["K.dom","K.is_Algebraic","K.mod","K.unit"],"raises":["DomainError"]},"state_contract":{"exceptional_post":{"DomainError":["isinstance(raised, DomainError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def dup_sqf_norm(f, K):
     r"""
     Find a shift of `f` in `K[x]` that has square-free norm.
@@ -257,16 +293,23 @@ def dup_sqf_norm(f, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_dmp_sqf_norm_shifts(f, ), generate a sequence of candidate shifts for dmp_sqf_norm) over Any ║
+# ║ Path(_dmp_sqf_norm_shifts(f, u, K), <unspecified:_dmp_sqf_norm_shifts>) over {Any | hasattr(K, 'unit')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _dmp_sqf_norm_shifts : Any → Any                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(K, 'unit')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _dmp_sqf_norm_shifts : {Any | hasattr(K, 'unit')} → Any    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 063338df675a99d2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.sqfreetools._dmp_sqf_norm_shifts","kind":"function","src_hash":"5096d0c96784c87f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_dmp_sqf_norm_shifts(f, )","rhs":"generate a sequence of candidate shifts for dmp_sqf_norm","over":{"base":"Any"},"name":"_dmp_sqf_norm_shifts_correct"},"guarantee":"generate a sequence of candidate shifts for dmp_sqf_norm","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.sqfreetools._dmp_sqf_norm_shifts_correct","statement":"Path(_dmp_sqf_norm_shifts(x), generate a sequence of candidate shifts for dmp_sqf_norm)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"063338df675a99d2"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.sqfreetools._dmp_sqf_norm_shifts","kind":"function","src_hash":"5096d0c96784c87f","in":{"base":"Any","pred":"hasattr(K, 'unit')"},"out":{"base":"Any"},"spec":{"lhs":"_dmp_sqf_norm_shifts(f, u, K)","rhs":"<unspecified:_dmp_sqf_norm_shifts>","over":{"base":"Any","pred":"hasattr(K, 'unit')"},"name":"_dmp_sqf_norm_shifts_correct"},"guarantee":"generate a sequence of candidate shifts for dmp_sqf_norm","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.sqfreetools._dmp_sqf_norm_shifts_correct","statement":"Path(_dmp_sqf_norm_shifts(x), generate a sequence of candidate shifts for dmp_sqf_norm)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"063338df675a99d2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(K, 'unit')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["K.unit"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _dmp_sqf_norm_shifts(f, u, K):
     """Generate a sequence of candidate shifts for dmp_sqf_norm."""
     #
@@ -308,16 +351,25 @@ def _dmp_sqf_norm_shifts(f, u, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_sqf_norm(f, ), find a shift of ``f`` in ``k[x]`` that has square-free norm) over Any ║
+# ║ Path(dmp_sqf_norm(f, u, K), <unspecified:dmp_sqf_norm>) over {Any | K.is_Algebraic and hasattr(K, 'is_Algebraic') and hasattr(K, 'dom') and hasattr(K, 'mod')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dmp_sqf_norm : Any → Any                                   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: K.is_Algebraic                                 ║
+# ║   requires: hasattr(K, 'is_Algebraic')                     ║
+# ║   requires: hasattr(K, 'dom')                              ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dmp_sqf_norm : {Any | K.is_Algebraic and hasattr(K, '...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1c043695af30bf96  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.sqfreetools.dmp_sqf_norm","kind":"function","src_hash":"10f9f827c49411fb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_sqf_norm(f, )","rhs":"find a shift of ``f`` in ``k[x]`` that has square-free norm","over":{"base":"Any"},"name":"dmp_sqf_norm_correct"},"guarantee":"find a shift of ``f`` in ``k[x]`` that has square-free norm","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.sqfreetools.dmp_sqf_norm_correct","statement":"Path(dmp_sqf_norm(x), find a shift of ``f`` in ``k[x]`` that has square-free norm)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1c043695af30bf96"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.sqfreetools.dmp_sqf_norm","kind":"function","src_hash":"10f9f827c49411fb","in":{"base":"Any","pred":"K.is_Algebraic and hasattr(K, 'is_Algebraic') and hasattr(K, 'dom') and hasattr(K, 'mod')"},"out":{"base":"Any"},"spec":{"lhs":"dmp_sqf_norm(f, u, K)","rhs":"<unspecified:dmp_sqf_norm>","over":{"base":"Any","pred":"K.is_Algebraic and hasattr(K, 'is_Algebraic') and hasattr(K, 'dom') and hasattr(K, 'mod')"},"name":"dmp_sqf_norm_correct"},"guarantee":"find a shift of ``f`` in ``k[x]`` that has square-free norm","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.sqfreetools.dmp_sqf_norm_correct","statement":"Path(dmp_sqf_norm(x), find a shift of ``f`` in ``k[x]`` that has square-free norm)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1c043695af30bf96","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["K.is_Algebraic","hasattr(K, 'is_Algebraic')","hasattr(K, 'dom')","hasattr(K, 'mod')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["K.dom","K.is_Algebraic","K.mod"],"raises":["DomainError"]},"state_contract":{"exceptional_post":{"DomainError":["isinstance(raised, DomainError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def dmp_sqf_norm(f, u, K):
     r"""
     Find a shift of ``f`` in ``K[X]`` that has square-free norm.
@@ -405,16 +457,25 @@ def dmp_sqf_norm(f, u, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_norm(f, ), norm of ``f`` in ``k[x]``, often not square-free) over Any ║
+# ║ Path(dmp_norm(f, u, K), dmp_resultant(g, h, u + 1, K.dom)) over {Any | K.is_Algebraic and hasattr(K, 'is_Algebraic') and hasattr(K, 'dom') and hasattr(K, 'mod')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dmp_norm : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: K.is_Algebraic                                 ║
+# ║   requires: hasattr(K, 'is_Algebraic')                     ║
+# ║   requires: hasattr(K, 'dom')                              ║
+# ║   returns:  dmp_resultant(g, h, u + 1, K.dom)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dmp_norm : {Any | K.is_Algebraic and hasattr(K, 'is_A...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 09aacd39e4a81af9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cb8ebdd99e5124c3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.sqfreetools.dmp_norm","kind":"function","src_hash":"98b4f016b6d075f5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_norm(f, )","rhs":"norm of ``f`` in ``k[x]``, often not square-free","over":{"base":"Any"},"name":"dmp_norm_correct"},"guarantee":"norm of ``f`` in ``k[x]``, often not square-free","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.sqfreetools.dmp_norm_correct","statement":"Path(dmp_norm(x), norm of ``f`` in ``k[x]``, often not square-free)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"09aacd39e4a81af9"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.sqfreetools.dmp_norm","kind":"function","src_hash":"98b4f016b6d075f5","in":{"base":"Any","pred":"K.is_Algebraic and hasattr(K, 'is_Algebraic') and hasattr(K, 'dom') and hasattr(K, 'mod')"},"out":{"base":"Any"},"spec":{"lhs":"dmp_norm(f, u, K)","rhs":"dmp_resultant(g, h, u + 1, K.dom)","over":{"base":"Any","pred":"K.is_Algebraic and hasattr(K, 'is_Algebraic') and hasattr(K, 'dom') and hasattr(K, 'mod')"},"name":"dmp_norm_correct"},"guarantee":"returns dmp_resultant(g, h, u + 1, K.dom)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.sqfreetools.dmp_norm_correct","statement":"Path(dmp_norm(x), returns dmp_resultant(g, h, u + 1, K.dom))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cb8ebdd99e5124c3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["K.is_Algebraic","hasattr(K, 'is_Algebraic')","hasattr(K, 'dom')","hasattr(K, 'mod')"],"returns_expr":"dmp_resultant(g, h, u + 1, K.dom)","pure":false,"effects":{"effect_type":"reads_state","reads":["K.dom","K.is_Algebraic","K.mod"],"raises":["DomainError"]},"state_contract":{"exceptional_post":{"DomainError":["isinstance(raised, DomainError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def dmp_norm(f, u, K):
     r"""
     Norm of ``f`` in ``K[X]``, often not square-free.
@@ -497,16 +558,24 @@ def dmp_norm(f, u, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_gf_sqf_part(f, ), compute square-free part of ``f`` in ``gf(p)[x]``) over Any ║
+# ║ Path(dup_gf_sqf_part(f, K), dup_convert(g, K.dom, K)) over {Any | hasattr(K, 'dom') and hasattr(K, 'mod')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dup_gf_sqf_part : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(K, 'dom')                              ║
+# ║   requires: hasattr(K, 'mod')                              ║
+# ║   returns:  dup_convert(g, K.dom, K)                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dup_gf_sqf_part : {Any | hasattr(K, 'dom') and hasatt...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3b71d5efa6bfa820  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 33c8e5551607a9bc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.sqfreetools.dup_gf_sqf_part","kind":"function","src_hash":"9425d7a43848af79","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_gf_sqf_part(f, )","rhs":"compute square-free part of ``f`` in ``gf(p)[x]``","over":{"base":"Any"},"name":"dup_gf_sqf_part_correct"},"guarantee":"compute square-free part of ``f`` in ``gf(p)[x]``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.sqfreetools.dup_gf_sqf_part_correct","statement":"Path(dup_gf_sqf_part(x), compute square-free part of ``f`` in ``gf(p)[x]``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3b71d5efa6bfa820"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.sqfreetools.dup_gf_sqf_part","kind":"function","src_hash":"9425d7a43848af79","in":{"base":"Any","pred":"hasattr(K, 'dom') and hasattr(K, 'mod')"},"out":{"base":"Any"},"spec":{"lhs":"dup_gf_sqf_part(f, K)","rhs":"dup_convert(g, K.dom, K)","over":{"base":"Any","pred":"hasattr(K, 'dom') and hasattr(K, 'mod')"},"name":"dup_gf_sqf_part_correct"},"guarantee":"returns dup_convert(g, K.dom, K)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.sqfreetools.dup_gf_sqf_part_correct","statement":"Path(dup_gf_sqf_part(x), returns dup_convert(g, K.dom, K))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"33c8e5551607a9bc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(K, 'dom')","hasattr(K, 'mod')"],"returns_expr":"dup_convert(g, K.dom, K)","pure":false,"effects":{"effect_type":"reads_state","reads":["K.dom","K.mod"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def dup_gf_sqf_part(f, K):
     """Compute square-free part of ``f`` in ``GF(p)[x]``. """
     f = dup_convert(f, K, K.dom)
@@ -515,32 +584,47 @@ def dup_gf_sqf_part(f, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_gf_sqf_part(f, ), compute square-free part of ``f`` in ``gf(p)[x]``) over Any ║
+# ║ Path(dmp_gf_sqf_part(f, u, K), <unspecified:dmp_gf_sqf_part>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_gf_sqf_part : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | edf0e6aa57fe1338           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.sqfreetools.dmp_gf_sqf_part","kind":"function","src_hash":"dd7f65f1e6eb3088","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_gf_sqf_part(f, )","rhs":"compute square-free part of ``f`` in ``gf(p)[x]``","over":{"base":"Any"},"name":"dmp_gf_sqf_part_correct"},"guarantee":"compute square-free part of ``f`` in ``gf(p)[x]``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"edf0e6aa57fe1338"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.sqfreetools.dmp_gf_sqf_part","kind":"function","src_hash":"dd7f65f1e6eb3088","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_gf_sqf_part(f, u, K)","rhs":"<unspecified:dmp_gf_sqf_part>","over":{"base":"Any"},"name":"dmp_gf_sqf_part_correct"},"guarantee":"compute square-free part of ``f`` in ``gf(p)[x]``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"edf0e6aa57fe1338","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def dmp_gf_sqf_part(f, u, K):
     """Compute square-free part of ``f`` in ``GF(p)[X]``. """
     raise NotImplementedError('multivariate polynomials over finite fields')
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_sqf_part(f, ), returns square-free part of a polynomial in ``k[x]``) over Any ║
+# ║ Path(dup_sqf_part(f, K), <unspecified:dup_sqf_part>) over {Any | hasattr(K, 'is_FiniteField') and hasattr(K, 'is_Field') and hasattr(K, 'is_negative')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dup_sqf_part : Any → Any                                   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(K, 'is_FiniteField')                   ║
+# ║   requires: hasattr(K, 'is_Field')                         ║
+# ║   requires: hasattr(K, 'is_negative')                      ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dup_sqf_part : {Any | hasattr(K, 'is_FiniteField') an...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 503c9e514a5d6b98  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.sqfreetools.dup_sqf_part","kind":"function","src_hash":"fc39e12e9b53cb06","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_sqf_part(f, )","rhs":"returns square-free part of a polynomial in ``k[x]``","over":{"base":"Any"},"name":"dup_sqf_part_correct"},"guarantee":"returns square-free part of a polynomial in ``k[x]``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.sqfreetools.dup_sqf_part_correct","statement":"Path(dup_sqf_part(x), returns square-free part of a polynomial in ``k[x]``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"503c9e514a5d6b98"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.sqfreetools.dup_sqf_part","kind":"function","src_hash":"fc39e12e9b53cb06","in":{"base":"Any","pred":"hasattr(K, 'is_FiniteField') and hasattr(K, 'is_Field') and hasattr(K, 'is_negative')"},"out":{"base":"Any"},"spec":{"lhs":"dup_sqf_part(f, K)","rhs":"<unspecified:dup_sqf_part>","over":{"base":"Any","pred":"hasattr(K, 'is_FiniteField') and hasattr(K, 'is_Field') and hasattr(K, 'is_negative')"},"name":"dup_sqf_part_correct"},"guarantee":"returns square-free part of a polynomial in ``k[x]``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.sqfreetools.dup_sqf_part_correct","statement":"Path(dup_sqf_part(x), returns square-free part of a polynomial in ``k[x]``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"503c9e514a5d6b98","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(K, 'is_FiniteField')","hasattr(K, 'is_Field')","hasattr(K, 'is_negative')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["K.is_Field","K.is_FiniteField","K.is_negative"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def dup_sqf_part(f, K):
     """
     Returns square-free part of a polynomial in ``K[x]``.
@@ -578,16 +662,25 @@ def dup_sqf_part(f, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_sqf_part(f, ), returns square-free part of a polynomial in ``k[x]``) over Any ║
+# ║ Path(dmp_sqf_part(f, u, K), <unspecified:dmp_sqf_part>) over {Any | hasattr(K, 'is_FiniteField') and hasattr(K, 'is_Field') and hasattr(K, 'is_negative')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dmp_sqf_part : Any → Any                                   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(K, 'is_FiniteField')                   ║
+# ║   requires: hasattr(K, 'is_Field')                         ║
+# ║   requires: hasattr(K, 'is_negative')                      ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dmp_sqf_part : {Any | hasattr(K, 'is_FiniteField') an...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 812106bfdbc81a80  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.sqfreetools.dmp_sqf_part","kind":"function","src_hash":"ace1a13664cacb80","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_sqf_part(f, )","rhs":"returns square-free part of a polynomial in ``k[x]``","over":{"base":"Any"},"name":"dmp_sqf_part_correct"},"guarantee":"returns square-free part of a polynomial in ``k[x]``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.sqfreetools.dmp_sqf_part_correct","statement":"Path(dmp_sqf_part(x), returns square-free part of a polynomial in ``k[x]``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"812106bfdbc81a80"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.sqfreetools.dmp_sqf_part","kind":"function","src_hash":"ace1a13664cacb80","in":{"base":"Any","pred":"hasattr(K, 'is_FiniteField') and hasattr(K, 'is_Field') and hasattr(K, 'is_negative')"},"out":{"base":"Any"},"spec":{"lhs":"dmp_sqf_part(f, u, K)","rhs":"<unspecified:dmp_sqf_part>","over":{"base":"Any","pred":"hasattr(K, 'is_FiniteField') and hasattr(K, 'is_Field') and hasattr(K, 'is_negative')"},"name":"dmp_sqf_part_correct"},"guarantee":"returns square-free part of a polynomial in ``k[x]``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.sqfreetools.dmp_sqf_part_correct","statement":"Path(dmp_sqf_part(x), returns square-free part of a polynomial in ``k[x]``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"812106bfdbc81a80","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(K, 'is_FiniteField')","hasattr(K, 'is_Field')","hasattr(K, 'is_negative')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["K.is_Field","K.is_FiniteField","K.is_negative"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def dmp_sqf_part(f, u, K):
     """
     Returns square-free part of a polynomial in ``K[X]``.
@@ -626,16 +719,25 @@ def dmp_sqf_part(f, u, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_gf_sqf_list(f, ), compute square-free decomposition of ``f`` in ``gf(p)[x]``) over Any ║
+# ║ Path(dup_gf_sqf_list(f, K, all), (K.convert(coeff, K.dom), factors)) over {Any | hasattr(K, 'dom') and hasattr(K, 'mod') and hasattr(K, 'convert')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dup_gf_sqf_list : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(K, 'dom')                              ║
+# ║   requires: hasattr(K, 'mod')                              ║
+# ║   requires: hasattr(K, 'convert')                          ║
+# ║   returns:  (K.convert(coeff, K.dom), factors)             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dup_gf_sqf_list : {Any | hasattr(K, 'dom') and hasatt...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d0075824431dc377  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 66d8071c971ca4f7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.sqfreetools.dup_gf_sqf_list","kind":"function","src_hash":"f1f7a8d4ccd7fb81","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_gf_sqf_list(f, )","rhs":"compute square-free decomposition of ``f`` in ``gf(p)[x]``","over":{"base":"Any"},"name":"dup_gf_sqf_list_correct"},"guarantee":"compute square-free decomposition of ``f`` in ``gf(p)[x]``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.sqfreetools.dup_gf_sqf_list_correct","statement":"Path(dup_gf_sqf_list(x), compute square-free decomposition of ``f`` in ``gf(p)[x]``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d0075824431dc377"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.sqfreetools.dup_gf_sqf_list","kind":"function","src_hash":"f1f7a8d4ccd7fb81","in":{"base":"Any","pred":"hasattr(K, 'dom') and hasattr(K, 'mod') and hasattr(K, 'convert')"},"out":{"base":"Any"},"spec":{"lhs":"dup_gf_sqf_list(f, K, all)","rhs":"(K.convert(coeff, K.dom), factors)","over":{"base":"Any","pred":"hasattr(K, 'dom') and hasattr(K, 'mod') and hasattr(K, 'convert')"},"name":"dup_gf_sqf_list_correct"},"guarantee":"returns (K.convert(coeff, K.dom), factors)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.sqfreetools.dup_gf_sqf_list_correct","statement":"Path(dup_gf_sqf_list(x), returns (K.convert(coeff, K.dom), factors))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"66d8071c971ca4f7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(K, 'dom')","hasattr(K, 'mod')","hasattr(K, 'convert')"],"returns_expr":"(K.convert(coeff, K.dom), factors)","pure":false,"effects":{"effect_type":"reads_state","reads":["K.convert","K.dom","K.mod"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def dup_gf_sqf_list(f, K, all=False):
     """Compute square-free decomposition of ``f`` in ``GF(p)[x]``. """
     f_orig = f
@@ -653,32 +755,47 @@ def dup_gf_sqf_list(f, K, all=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_gf_sqf_list(f, ), compute square-free decomposition of ``f`` in ``gf(p)[x]``) over Any ║
+# ║ Path(dmp_gf_sqf_list(f, u, K), <unspecified:dmp_gf_sqf_list>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_gf_sqf_list : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | fd7b659cd01c1728           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.sqfreetools.dmp_gf_sqf_list","kind":"function","src_hash":"0b5dfb7b777d1e6d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_gf_sqf_list(f, )","rhs":"compute square-free decomposition of ``f`` in ``gf(p)[x]``","over":{"base":"Any"},"name":"dmp_gf_sqf_list_correct"},"guarantee":"compute square-free decomposition of ``f`` in ``gf(p)[x]``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fd7b659cd01c1728"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.sqfreetools.dmp_gf_sqf_list","kind":"function","src_hash":"0b5dfb7b777d1e6d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_gf_sqf_list(f, u, K)","rhs":"<unspecified:dmp_gf_sqf_list>","over":{"base":"Any"},"name":"dmp_gf_sqf_list_correct"},"guarantee":"compute square-free decomposition of ``f`` in ``gf(p)[x]``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fd7b659cd01c1728","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def dmp_gf_sqf_list(f, u, K, all=False):
     """Compute square-free decomposition of ``f`` in ``GF(p)[X]``. """
     raise NotImplementedError('multivariate polynomials over finite fields')
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_sqf_list(f, ), return square-free decomposition of a polynomial in ``k[x]``) over Any ║
+# ║ Path(dup_sqf_list(f, K, all), <unspecified:dup_sqf_list>) over {Any | hasattr(K, 'is_FiniteField') and hasattr(K, 'is_Field') and hasattr(K, 'is_negative')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dup_sqf_list : Any → Any                                   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(K, 'is_FiniteField')                   ║
+# ║   requires: hasattr(K, 'is_Field')                         ║
+# ║   requires: hasattr(K, 'is_negative')                      ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dup_sqf_list : {Any | hasattr(K, 'is_FiniteField') an...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ef1c0c7f06c20dd0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.sqfreetools.dup_sqf_list","kind":"function","src_hash":"9bc17912d9e504c5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_sqf_list(f, )","rhs":"return square-free decomposition of a polynomial in ``k[x]``","over":{"base":"Any"},"name":"dup_sqf_list_correct"},"guarantee":"return square-free decomposition of a polynomial in ``k[x]``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.sqfreetools.dup_sqf_list_correct","statement":"Path(dup_sqf_list(x), return square-free decomposition of a polynomial in ``k[x]``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ef1c0c7f06c20dd0"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.sqfreetools.dup_sqf_list","kind":"function","src_hash":"9bc17912d9e504c5","in":{"base":"Any","pred":"hasattr(K, 'is_FiniteField') and hasattr(K, 'is_Field') and hasattr(K, 'is_negative')"},"out":{"base":"Any"},"spec":{"lhs":"dup_sqf_list(f, K, all)","rhs":"<unspecified:dup_sqf_list>","over":{"base":"Any","pred":"hasattr(K, 'is_FiniteField') and hasattr(K, 'is_Field') and hasattr(K, 'is_negative')"},"name":"dup_sqf_list_correct"},"guarantee":"return square-free decomposition of a polynomial in ``k[x]``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.sqfreetools.dup_sqf_list_correct","statement":"Path(dup_sqf_list(x), return square-free decomposition of a polynomial in ``k[x]``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ef1c0c7f06c20dd0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(K, 'is_FiniteField')","hasattr(K, 'is_Field')","hasattr(K, 'is_negative')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def dup_sqf_list(f, K, all=False):
     """
     Return square-free decomposition of a polynomial in ``K[x]``.
@@ -757,16 +874,25 @@ def dup_sqf_list(f, K, all=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_sqf_list_include(f, ), return square-free decomposition of a polynomial in ``k[x]``) over Any ║
+# ║ Path(dup_sqf_list_include(f, K, all), result == ([(g, 1)] + factors[1:] if factors and factors[0][1] == 1 else [(g, 1)] + factors) and result == [(g, 1)] + factors[1:] or result == [(g, 1)] + factors) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dup_sqf_list_include : Any → Any                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == ([(g, 1)] + factors[1:] if fact...   ║
+# ║   ensures:  result == [(g, 1)] + factors[1:] or resul...   ║
+# ║   fiber[case_0]: factors and factors[0][1] == 1 => [(...   ║
+# ║   fiber[case_1]: not (factors and factors[0][1] == 1)...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dup_sqf_list_include : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5c9fbeefbf0c2af8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0b80ab0eff8e6fe5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.sqfreetools.dup_sqf_list_include","kind":"function","src_hash":"91096dff4b4e9cfe","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_sqf_list_include(f, )","rhs":"return square-free decomposition of a polynomial in ``k[x]``","over":{"base":"Any"},"name":"dup_sqf_list_include_correct"},"guarantee":"return square-free decomposition of a polynomial in ``k[x]``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.sqfreetools.dup_sqf_list_include_correct","statement":"Path(dup_sqf_list_include(x), return square-free decomposition of a polynomial in ``k[x]``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5c9fbeefbf0c2af8"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.sqfreetools.dup_sqf_list_include","kind":"function","src_hash":"91096dff4b4e9cfe","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == ([(g, 1)] + factors[1:] if factors and factors[0][1] == 1 else [(g, 1)] + factors) and result == [(g, 1)] + factors[1:] or result == [(g, 1)] + factors"},"spec":{"lhs":"dup_sqf_list_include(f, K, all)","rhs":"result == ([(g, 1)] + factors[1:] if factors and factors[0][1] == 1 else [(g, 1)] + factors) and result == [(g, 1)] + factors[1:] or result == [(g, 1)] + factors","over":{"base":"Any"},"name":"dup_sqf_list_include_correct"},"guarantee":"result == ([(g, 1)] + factors[1:] if factors and factors[0][1] == 1 else [(g, 1)] + factors); result == [(g, 1)] + factors[1:] or result == [(g, 1)] + factors; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.sqfreetools.dup_sqf_list_include_correct","statement":"Path(dup_sqf_list_include(x), result == ([(g, 1)] + factors[1:] if factors and factors[0][1] == 1 else [(g, 1)] + factors); result == [(g, 1)] + factors[1:] or result == [(g, 1)] + factors; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0b80ab0eff8e6fe5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == ([(g, 1)] + factors[1:] if factors and factors[0][1] == 1 else [(g, 1)] + factors)","result == [(g, 1)] + factors[1:] or result == [(g, 1)] + factors"],"fibers":[{"name":"case_0","guard":"factors and factors[0][1] == 1","ensures":["result == [(g, 1)] + factors[1:]"],"decidability":"z3","returns_expr":"[(g, 1)] + factors[1:]"},{"name":"case_1","guard":"not (factors and factors[0][1] == 1)","ensures":["result == [(g, 1)] + factors"],"decidability":"z3","returns_expr":"[(g, 1)] + factors"}],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def dup_sqf_list_include(f, K, all=False):
     """
     Return square-free decomposition of a polynomial in ``K[x]``.
@@ -796,16 +922,25 @@ def dup_sqf_list_include(f, K, all=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_sqf_list(f, ), return square-free decomposition of a polynomial in `k[x]`) over Any ║
+# ║ Path(dmp_sqf_list(f, u, K), # HINT: dmp_sqf_list may be idempotent: dmp_sqf_list(dmp_sqf_list(x)) == dmp_sqf_list(x)) over {Any | hasattr(K, 'is_FiniteField') and hasattr(K, 'is_Field') and hasattr(K, 'is_negative')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dmp_sqf_list : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(K, 'is_FiniteField')                   ║
+# ║   requires: hasattr(K, 'is_Field')                         ║
+# ║   requires: hasattr(K, 'is_negative')                      ║
+# ║   ensures:  # HINT: dmp_sqf_list may be idempotent: d...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dmp_sqf_list : {Any | hasattr(K, 'is_FiniteField') an...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aecd0507184b2254  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9fa7a7d40013aff4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.sqfreetools.dmp_sqf_list","kind":"function","src_hash":"181ee33eef477119","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_sqf_list(f, )","rhs":"return square-free decomposition of a polynomial in `k[x]`","over":{"base":"Any"},"name":"dmp_sqf_list_correct"},"guarantee":"return square-free decomposition of a polynomial in `k[x]`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.sqfreetools.dmp_sqf_list_correct","statement":"Path(dmp_sqf_list(x), return square-free decomposition of a polynomial in `k[x]`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aecd0507184b2254"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.sqfreetools.dmp_sqf_list","kind":"function","src_hash":"181ee33eef477119","in":{"base":"Any","pred":"hasattr(K, 'is_FiniteField') and hasattr(K, 'is_Field') and hasattr(K, 'is_negative')"},"out":{"base":"Any","pred":"result satisfies: # HINT: dmp_sqf_list may be idempotent: dmp_sqf_list(dmp_sqf_list(x)) == dmp_sqf_list(x)"},"spec":{"lhs":"dmp_sqf_list(f, u, K)","rhs":"# HINT: dmp_sqf_list may be idempotent: dmp_sqf_list(dmp_sqf_list(x)) == dmp_sqf_list(x)","over":{"base":"Any","pred":"hasattr(K, 'is_FiniteField') and hasattr(K, 'is_Field') and hasattr(K, 'is_negative')"},"name":"dmp_sqf_list_correct"},"guarantee":"# HINT: dmp_sqf_list may be idempotent: dmp_sqf_list(dmp_sqf_list(x)) == dmp_sqf_list(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.sqfreetools.dmp_sqf_list_correct","statement":"Path(dmp_sqf_list(x), # HINT: dmp_sqf_list may be idempotent: dmp_sqf_list(dmp_sqf_list(x)) == dmp_sqf_list(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9fa7a7d40013aff4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(K, 'is_FiniteField')","hasattr(K, 'is_Field')","hasattr(K, 'is_negative')"],"ensures":["# HINT: dmp_sqf_list may be idempotent: dmp_sqf_list(dmp_sqf_list(x)) == dmp_sqf_list(x)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["K.is_Field","K.is_FiniteField","K.is_negative"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def dmp_sqf_list(f, u, K, all=False):
     """
     Return square-free decomposition of a polynomial in `K[X]`.
@@ -915,16 +1050,22 @@ def dmp_sqf_list(f, u, K, all=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_sqf_list_include(f, ), return square-free decomposition of a polynomial in ``k[x]``) over Any ║
+# ║ Path(dmp_sqf_list_include(f, u, K), <unspecified:dmp_sqf_list_include>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_sqf_list_include : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d0fdf26190821938  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.sqfreetools.dmp_sqf_list_include","kind":"function","src_hash":"52a8cebc4024c0e5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_sqf_list_include(f, )","rhs":"return square-free decomposition of a polynomial in ``k[x]``","over":{"base":"Any"},"name":"dmp_sqf_list_include_correct"},"guarantee":"return square-free decomposition of a polynomial in ``k[x]``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.sqfreetools.dmp_sqf_list_include_correct","statement":"Path(dmp_sqf_list_include(x), return square-free decomposition of a polynomial in ``k[x]``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d0fdf26190821938"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.sqfreetools.dmp_sqf_list_include","kind":"function","src_hash":"52a8cebc4024c0e5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_sqf_list_include(f, u, K)","rhs":"<unspecified:dmp_sqf_list_include>","over":{"base":"Any"},"name":"dmp_sqf_list_include_correct"},"guarantee":"return square-free decomposition of a polynomial in ``k[x]``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.sqfreetools.dmp_sqf_list_include_correct","statement":"Path(dmp_sqf_list_include(x), return square-free decomposition of a polynomial in ``k[x]``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d0fdf26190821938","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def dmp_sqf_list_include(f, u, K, all=False):
     """
     Return square-free decomposition of a polynomial in ``K[x]``.
@@ -957,16 +1098,24 @@ def dmp_sqf_list_include(f, u, K, all=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_gff_list(f, ), compute greatest factorial factorization of ``f`` in ``k[x]``) over Any ║
+# ║ Path(dup_gff_list(f, K), # HINT: dup_gff_list may be idempotent: dup_gff_list(dup_gff_list(x)) == dup_gff_list(x)) over {Any | f and hasattr(K, 'one')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dup_gff_list : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: f                                              ║
+# ║   requires: hasattr(K, 'one')                              ║
+# ║   ensures:  # HINT: dup_gff_list may be idempotent: d...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dup_gff_list : {Any | f and hasattr(K, 'one')} → {Any...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 85a384cd224b5aab  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6edf1121e4c9aa2d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.sqfreetools.dup_gff_list","kind":"function","src_hash":"227a897bd43dbbb0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_gff_list(f, )","rhs":"compute greatest factorial factorization of ``f`` in ``k[x]``","over":{"base":"Any"},"name":"dup_gff_list_correct"},"guarantee":"compute greatest factorial factorization of ``f`` in ``k[x]``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.sqfreetools.dup_gff_list_correct","statement":"Path(dup_gff_list(x), compute greatest factorial factorization of ``f`` in ``k[x]``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"85a384cd224b5aab"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.sqfreetools.dup_gff_list","kind":"function","src_hash":"227a897bd43dbbb0","in":{"base":"Any","pred":"f and hasattr(K, 'one')"},"out":{"base":"Any","pred":"result satisfies: # HINT: dup_gff_list may be idempotent: dup_gff_list(dup_gff_list(x)) == dup_gff_list(x)"},"spec":{"lhs":"dup_gff_list(f, K)","rhs":"# HINT: dup_gff_list may be idempotent: dup_gff_list(dup_gff_list(x)) == dup_gff_list(x)","over":{"base":"Any","pred":"f and hasattr(K, 'one')"},"name":"dup_gff_list_correct"},"guarantee":"# HINT: dup_gff_list may be idempotent: dup_gff_list(dup_gff_list(x)) == dup_gff_list(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.sqfreetools.dup_gff_list_correct","statement":"Path(dup_gff_list(x), # HINT: dup_gff_list may be idempotent: dup_gff_list(dup_gff_list(x)) == dup_gff_list(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6edf1121e4c9aa2d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["f","hasattr(K, 'one')"],"ensures":["# HINT: dup_gff_list may be idempotent: dup_gff_list(dup_gff_list(x)) == dup_gff_list(x)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["K.one"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def dup_gff_list(f, K):
     """
     Compute greatest factorial factorization of ``f`` in ``K[x]``.
@@ -1005,16 +1154,23 @@ def dup_gff_list(f, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_gff_list(f, ), compute greatest factorial factorization of ``f`` in ``k[x]``) over Any ║
+# ║ Path(dmp_gff_list(f, u, K), <unspecified:dmp_gff_list>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: not u => dup_gff_list(f, K)               ║
+# ║   fiber[case_1]: not (not u)                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_gff_list : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8aafe8e6548431e3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 048e730d48e28d9e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.sqfreetools.dmp_gff_list","kind":"function","src_hash":"fad32cc33866e3c7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_gff_list(f, )","rhs":"compute greatest factorial factorization of ``f`` in ``k[x]``","over":{"base":"Any"},"name":"dmp_gff_list_correct"},"guarantee":"compute greatest factorial factorization of ``f`` in ``k[x]``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.sqfreetools.dmp_gff_list_correct","statement":"Path(dmp_gff_list(x), compute greatest factorial factorization of ``f`` in ``k[x]``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8aafe8e6548431e3"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.sqfreetools.dmp_gff_list","kind":"function","src_hash":"fad32cc33866e3c7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_gff_list(f, u, K)","rhs":"<unspecified:dmp_gff_list>","over":{"base":"Any"},"name":"dmp_gff_list_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.sqfreetools.dmp_gff_list_correct","statement":"Path(dmp_gff_list(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"048e730d48e28d9e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"not u","ensures":["result == dup_gff_list(f, K)"],"decidability":"library","returns_expr":"dup_gff_list(f, K)"},{"name":"case_1","guard":"not (not u)","ensures":[],"decidability":"library"}],"pure":false,"effects":{"effect_type":"reads_state","raises":["MultivariatePolynomialError"]},"state_contract":{"exceptional_post":{"MultivariatePolynomialError":["isinstance(raised, MultivariatePolynomialError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def dmp_gff_list(f, u, K):
     """
     Compute greatest factorial factorization of ``f`` in ``K[X]``.
